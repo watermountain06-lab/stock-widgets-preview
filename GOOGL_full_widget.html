@@ -491,13 +491,15 @@
         <button class="ma-toggle-btn" data-ma="ma60" style="color:var(--ma60);border-color:var(--ma60);">● MA60</button>
         <button class="ma-toggle-btn" data-ma="ma120" style="color:var(--ma120);border-color:var(--ma120);">● MA120</button>
         <button class="ma-toggle-btn" data-ma="pricelabels" style="color:var(--text2);border-color:var(--text2);margin-left:4px;">◆ 가격라벨</button>
-        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="color:#f0c040;border-color:#f0c040;margin-left:4px;">◆ 예상밴드 백테스트</button>
       </div>
     </div>
-    <div id="googlBacktestSummary" style="display:none;font-size:11px;color:var(--text2);margin:-2px 0 10px;padding:8px 10px;background:var(--bg3);border-radius:6px;line-height:1.6;"></div>
     <svg id="googlCandleSvg" viewBox="0 0 720 240" width="100%" style="display:block;background:var(--bg3);border-radius:8px 8px 0 0;padding:4px;" role="img" aria-label="GOOGL 일봉 캔들스틱 차트"></svg>
     <svg id="googlVolumeSvg" viewBox="0 0 720 70" width="100%" style="display:block;background:var(--bg3);border-radius:0 0 8px 8px;padding:0 4px 4px;" role="img" aria-label="GOOGL 거래량 차트"></svg>
     <div style="font-size:11px;color:var(--text3);margin-top:10px;" id="techRangeSummary">52주 최저 $206.20 (2025.09) → 52주 최고 $408.61 (2026.05) → 현재 $335.02</div>
+    <div style="margin-top:10px;">
+      <button class="ma-toggle-btn ma-off" data-ma="backtest" style="color:#f0c040;border-color:#f0c040;">◆ 예상밴드 백테스트</button>
+    </div>
+    <div id="googlBacktestSummary" style="display:none;font-size:11px;color:var(--text2);margin-top:8px;padding:8px 10px;background:var(--bg3);border-radius:6px;line-height:1.6;"></div>
   </div>
 
   <!-- ══════════ 2. 기술 상태 스코어카드 ══════════ -->
@@ -1405,7 +1407,7 @@ const GOOGL_BACKTEST = [{"checkpoint_date":"2023-10-25","predicted_low":98.56,"p
   });
 
   if (maToggle) {
-    maToggle.querySelectorAll('.ma-toggle-btn').forEach(btn=>{
+    document.querySelectorAll('.ma-toggle-btn').forEach(btn=>{
       btn.addEventListener('click', ()=>{
         const key = btn.dataset.ma;
         maState[key] = !maState[key];
