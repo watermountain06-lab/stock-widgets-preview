@@ -1382,11 +1382,16 @@ const GOOGL_BACKTEST = [{"checkpoint_date":"2023-10-25","predicted_low":98.56,"p
         const top = resolved.filter(cp=>cp.zone==='breached_top').length;
         const bot = resolved.filter(cp=>cp.zone==='breached_bottom').length;
         const both = resolved.filter(cp=>cp.zone==='breached_both').length;
+        const pendingCp = visibleCheckpoints.find(cp=>cp.is_open);
+        const epsCaveat = (pendingCp && pendingCp.checkpoint_date === '2026-07-23')
+          ? ' <span style="color:#f0c040;">⚠ 진행 중인 마지막 구간은 스페이스X 상장·Anthropic 지분 재평가 등 일회성 이익으로 EPS가 급등한 분기가 포함돼 있어, 예상밴드가 실제보다 비정상적으로 넓게 계산됐습니다.</span>'
+          : '';
         backtestSummaryEl.style.display = 'block';
         backtestSummaryEl.innerHTML = `<strong style="color:#f0c040;">예상밴드 백테스트</strong> — 체크포인트 ${resolved.length}개 중 `
           + `<strong style="color:#2ecc71;">적중 ${hit}개</strong> · <strong style="color:#e74c3c;">상단 이탈 ${top}개</strong> · <strong style="color:#e74c3c;">하단 이탈 ${bot}개</strong>`
           + (both ? ` · 양쪽 이탈 ${both}개` : '')
-          + `. 그 시점까지 발표된 재무제표만으로 예상 가격대를 계산해, 이후 실제 주가가 그 범위 안에 있었는지 확인한 결과다(미래 정보 미사용). 노란 점선 구간은 진행 중.`;
+          + `. 그 시점까지 발표된 재무제표만으로 예상 가격대를 계산해, 이후 실제 주가가 그 범위 안에 있었는지 확인한 결과다(미래 정보 미사용). 노란 점선 구간은 진행 중.`
+          + epsCaveat;
       } else {
         backtestSummaryEl.style.display = 'none';
       }
