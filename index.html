@@ -172,13 +172,13 @@
 (function(){
   var STAR = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9c5b3" stroke-width="1.6"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 
-  // 목업 데이터 — 아래 DATA(가격/등락률/시가총액)와 매크로 지표·스탯카드 숫자(11/7/9/6)·날짜는
-  // 전부 레이아웃 시연용 예시 값이며 실제 계산된 수치가 아님. href만 실제 카드 페이지로 연결됨.
+  // DATA(가격/등락률/시가총액)는 각 티커 카드(2026-09-01 기준)와 동일하게 실제 값으로 갱신함.
+  // 매크로 지표 스트립·스탯카드 숫자(11/7/9/6)·날짜는 아직 레이아웃 시연용 목업 값이며 실제 계산된 수치가 아님.
   var DATA = [
-    {rank:1, ticker:'NVDA', name:'엔비디아', sector:'반도체',            price:'$187.42', change:6.12,  marketCap:'$4.58T', href:'NVDA_full_widget.html'},
-    {rank:2, ticker:'AAPL', name:'애플',      sector:'하드웨어',          price:'$234.10', change:-0.87, marketCap:'$3.52T', href:'AAPL_full_widget.html'},
-    {rank:3, ticker:'GOOGL',name:'알파벳',    sector:'인터넷&middot;플랫폼',   price:'$340.72', change:-0.37, marketCap:'$4.17T', href:'GOOGL_full_widget.html'},
-    {rank:4, ticker:'MSFT', name:'마이크로소프트', sector:'소프트웨어',   price:'$499.13', change:0.56,  marketCap:'$3.71T', href:'MSFT_full_widget.html'}
+    {rank:1, ticker:'NVDA', name:'엔비디아', sector:'반도체',            price:'$217.44', change:-1.51, marketCap:'$5.31T', href:'NVDA_full_widget.html'},
+    {rank:2, ticker:'AAPL', name:'애플',      sector:'하드웨어',          price:'$325.13', change:2.61,  marketCap:'$4.76T', href:'AAPL_full_widget.html'},
+    {rank:3, ticker:'GOOGL',name:'알파벳',    sector:'인터넷&middot;플랫폼',   price:'$335.02', change:-1.28, marketCap:'$4.10T', href:'GOOGL_full_widget.html'},
+    {rank:4, ticker:'MSFT', name:'마이크로소프트', sector:'소프트웨어',   price:'$501.02', change:-1.24, marketCap:'$3.72T', href:'MSFT_full_widget.html'}
   ];
 
   document.getElementById('ticker-count').textContent = DATA.length;
