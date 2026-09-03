@@ -771,7 +771,7 @@
         </div>
       </div>
 
-      <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">North America(58%)가 여전히 매출 비중 1위이지만, 영업이익 기여는 정반대다 — North America는 매출의 58%를 차지하고도 영업이익 $9.1B(마진 7.9%)에 그치는 반면, AWS는 매출의 21%(International과 거의 동률)로 영업이익 $16.6B(마진 39.4%)를 내 세 부문 중 영업이익 기여가 가장 크다. International은 매출 21%·영업이익 $1.7B(마진 4.1%)로 세 부문 중 수익성이 가장 낮다.</div>
+      <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">매출은 North America(58%)가 가장 크지만, 이익은 정반대다. AWS는 매출 21%로 영업이익 $16.6B(마진 39.4%)를 내며 가장 크게 기여하고, North America는 매출 58%에도 이익 $9.1B(마진 7.9%)에 그친다. International 마진은 4.1%로 가장 낮다.</div>
       <div class="yoy-footnote" style="margin-top:10px;">출처: <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm" target="_blank" rel="noopener">Amazon.com Q2 2026 Earnings Release, Exhibit 99.1 (SEC EDGAR) →</a></div>
     </div>
 
@@ -791,7 +791,7 @@
           <span class="zone-val" style="color:var(--gold);">$220B</span>
         </div>
       </div>
-      <div style="margin-top:10px;font-size:11px;color:var(--text3);">아마존은 배당을 지급하지 않고, 최근 여러 분기 동안 자사주 매입도 사실상 하지 않았다(SEC 재무제표로 확인). 대신 벌어들이는 현금을 AWS·AI 인프라 확장(역대 최대 규모인 $220B 투자 계획)에 우선적으로 쓰고 있는 것으로 보인다 — 다만 이미 현금흐름 자체가 적자(-$7.6B)라 "남는 돈을 전부 투자한다"기보다는 "벌어들이는 돈 상당 부분이 그대로 투자로 나간다"는 표현이 더 정확하다. 다른 빅테크와 달리 이 카드에서 중요한 건 배당·매입 금액이 아니라, 주주에게 돈을 돌려주기보다 성장에 먼저 쓰는 전략 자체다.</div>
+      <div style="margin-top:10px;font-size:11px;color:var(--text3);">아마존은 배당도 자사주 매입도 하지 않는다. 벌어들이는 현금은 물론 그 이상을 AWS·AI 인프라 확장(FY26 $220B)에 쏟아붓고 있어 최근 1년 현금흐름은 오히려 적자(-$7.6B)다. 주주환원보다 성장 투자를 우선하는 전략이다.</div>
     </div>
   </div>
 
@@ -925,7 +925,7 @@
   <div class="card">
     <div class="card-title">종합 밸류에이션</div>
     <div class="verdict-summary-head">종합 판단 <span class="tag mixed">적정 · 조정 PER은 완만한 프리미엄</span></div>
-    <div class="verdict-summary-body">PBR·PSR·PCR·EV/EBITDA의 낮은 배수는 위에서 본 것처럼 착시에 가깝다 — 이를 걷어내고 실제 이익만 기준으로 계산한 조정 PER(39.1x)은 오히려 빅테크 평균보다 18% 비싸고, 최근 1년 현금흐름도 적자(-$7.6B)다. 4개 지표 모두 각자 다른 구조적 이유로 진짜 저평가 신호가 아니라고 카드 스스로 설명하는 만큼, 이들을 낮은 신뢰도로 반영하면 조정 PER의 완만한 프리미엄이 남아 종합 판단은 적정에 가깝다 — 뚜렷하게 싸다고 보기도, 뚜렷하게 비싸다고 보기도 어렵다.</div>
+    <div class="verdict-summary-body">PBR·PSR·PCR·EV/EBITDA가 낮은 건 착시에 가깝다 — 실제 이익 기준 조정 PER(39.1x)은 빅테크 평균보다 18% 비싸고, 최근 현금흐름도 적자(-$7.6B)다. 종합하면 뚜렷하게 싸지도 비싸지도 않은 적정 수준이다.</div>
   </div>
 </div>
 <div id="news" class="section">
@@ -1349,13 +1349,13 @@ const AMZN_BACKTEST = [{"checkpoint_date":"2023-10-27","predicted_low":113.79,"p
         const both = resolved.filter(cp=>cp.zone==='breached_both').length;
         const pendingCp = visibleCheckpoints.find(cp=>cp.is_open);
         const epsCaveat = (pendingCp && pendingCp.checkpoint_date === '2026-07-31')
-          ? ' <span style="color:#f0c040;">⚠ 진행 중인 마지막 구간은 Anthropic 지분평가이익(세전 $53.4B, 분기 세전이익의 약 66%, 2026-08-07 실적발표 공시)이 크게 반영된 분기 EPS($5.75)를 기준으로 계산돼, 예상밴드 자체가 실제보다 훨씬 넓고 높게 잡혀 있습니다. 해석에 주의하세요.</span>'
+          ? ' <span style="color:#f0c040;">⚠ 진행 중인 마지막 구간은 Anthropic 지분평가이익(세전 $53.4B)이 반영된 분기 EPS로 계산돼 밴드가 실제보다 넓게 잡혀 있다.</span>'
           : '';
         backtestSummaryEl.style.display = 'block';
         backtestSummaryEl.innerHTML = `<strong style="color:#f0c040;">예상밴드 백테스트</strong> — 체크포인트 ${resolved.length}개 중 `
           + `<strong style="color:#2ecc71;">적중 ${hit}개</strong> · <strong style="color:#e74c3c;">상단 이탈 ${top}개</strong> · <strong style="color:#e74c3c;">하단 이탈 ${bot}개</strong>`
           + (both ? ` · 양쪽 이탈 ${both}개` : '')
-          + `. 그 시점까지 발표된 재무제표만으로 예상 가격대를 계산해, 이후 실제 주가가 그 범위 안에 있었는지 확인한 결과다(미래 정보 미사용). 노란 점선 구간은 진행 중. AMZN은 이 기간 TTM EPS가 약 6배로 급증했다. 이익이 이렇게 빠르게 늘면 PER은 자연스럽게 계속 내려가는데, 이 밴드는 지난 2년간의 PER 범위를 기준으로 삼기 때문에 이익 급성장 구간에서는 실제 배수가 밴드 아래로 반복해서 빠지는 결과가 구조적으로 나온다. 즉 하단 이탈 10회는 주가가 유난히 싸졌다거나 시장이 틀렸다는 신호라기보다, 과거 범위를 기준으로 하는 이 방법 자체가 급성장기에는 한 박자 늦게 따라간다는 한계를 보여주는 사례에 가깝다.`
+          + `. 그 시점까지 발표된 재무제표만으로 예상 가격대를 계산해, 이후 실제 주가가 그 범위 안에 있었는지 확인한 결과다(미래 정보 미사용). 노란 점선 구간은 진행 중. AMZN은 이 기간 EPS가 약 6배 급증해 대부분 구간이 하단 이탈로 나온다 — 밴드가 과거 PER 범위를 기준으로 삼는 방법의 한계이지, 저평가 신호는 아니다.`
           + ` 참고로 같은 방식을 8개 대형 테크주 전체에 적용해봐도, "비싸지면 이후 수익률이 낮다"는 신호는 약했고 통계적으로 뚜렷하지 않았다.`
           + epsCaveat;
       } else {
