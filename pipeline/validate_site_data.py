@@ -224,7 +224,7 @@ def check_index_sync(data, index_html, r):
         if n != 1:
             r.err(f"index.html has {n} {marker} markers (need exactly 1)")
             return
-    if build_index.splice(index_html, build_index.render_block(data)) != index_html:
+    if build_index.splice(index_html, build_index.render_block(data, build_index.load_macro())) != index_html:
         r.err("index.html is stale - run pipeline/build_index.py")
 
 

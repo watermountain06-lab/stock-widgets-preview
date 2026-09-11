@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render site_data/stocks.json into index.html's inline DATA block.
+"""Render site_data/stocks.json (and macro.json) into index.html's inline block.
 
 Data stays inline (no fetch) so the page also works from file:// and the HTML
 can never be served out of sync with its data. Only the text between the
@@ -7,11 +7,12 @@ can never be served out of sync with its data. Only the text between the
 when each marker appears exactly once. Derived values (change %, estimated
 market cap) are computed here rather than stored in stocks.json.
 
-The block holds two globals: DATA (one slim row per ticker, what the page's
-JS renders) and META (the as-of dates shown next to the list, so the page
-never implies one date for values that come from different dates).
+The block holds three globals: DATA (one slim row per ticker, what the page's
+JS renders), META (the as-of dates shown next to the list, so the page never
+implies one date for values that come from different dates) and MACRO (the
+macro.json indicators, or null before the first macro run).
 
-Usage: python3 pipeline/build_index.py [--data PATH] [--index PATH] [--check]
+Usage: python3 pipeline/build_index.py [--data PATH] [--macro PATH] [--index PATH] [--check]
   --check   write nothing; exit 1 if index.html is not up to date
 """
 import argparse
@@ -22,6 +23,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+MACRO_PATH = ROOT / "site_data" / "macro.json"
 START = "/*STOCKS_DATA_START*/"
 END = "/*STOCKS_DATA_END*/"
 
@@ -67,15 +69,20 @@ def meta(data):
     }
 
 
+def load_macro(path=MACRO_PATH):
+    path = Path(path)
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
 def _js(obj):
     # "</" inside a <script> block would end it early; "<\/" is the same JSON string
     return json.dumps(obj, ensure_ascii=False, separators=(", ", ": ")).replace("</", "<\\/")
 
 
-def render_block(data):
+def render_block(data, macro=None):
     rows = sorted((ui_row(t) for t in data["tickers"]), key=lambda r: r["rank"])
     return (f"{START}\n  var DATA = [\n    " + ",\n    ".join(_js(r) for r in rows)
-            + f"\n  ];\n  var META = {_js(meta(data))};\n  {END}")
+            + f"\n  ];\n  var META = {_js(meta(data))};\n  var MACRO = {_js(macro)};\n  {END}")
 
 
 def splice(index_html, block):
@@ -99,6 +106,7 @@ def parse_inline_rows(index_html):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default=str(ROOT / "site_data" / "stocks.json"))
+    ap.add_argument("--macro", default=str(MACRO_PATH))
     ap.add_argument("--index", default=str(ROOT / "index.html"))
     ap.add_argument("--check", action="store_true")
     args = ap.parse_args()
@@ -106,7 +114,7 @@ def main():
     index = Path(args.index)
     data = json.loads(Path(args.data).read_text(encoding="utf-8"))
     old = index.read_text(encoding="utf-8")
-    new = splice(old, render_block(data))
+    new = splice(old, render_block(data, load_macro(args.macro)))
 
     if args.check:
         if new != old:

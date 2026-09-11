@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-09-11T12:04:14Z",
+  "priceSession": "2026-09-10",
+  "indicators": {
+    "sp500": {
+      "value": 7591.7,
+      "changePct": -0.58,
+      "asOf": "2026-09-10",
+      "status": "fresh",
+      "source": "Yahoo ^GSPC daily close"
+    },
+    "vix": {
+      "value": 17.84,
+      "changePct": 8.38,
+      "asOf": "2026-09-10",
+      "status": "fresh",
+      "source": "Yahoo ^VIX daily close"
+    },
+    "usdkrw": {
+      "value": 1348.41,
+      "changePct": 0.63,
+      "asOf": "2026-09-10",
+      "status": "fresh",
+      "source": "Yahoo KRW=X hourly bar ending 16:00 ET"
+    },
+    "fedTarget": {
+      "lower": 3.5,
+      "upper": 3.75,
+      "asOf": "2026-09-10",
+      "status": "fresh",
+      "source": "FRED DFEDTARL/DFEDTARU"
+    },
+    "unemployment": {
+      "value": 4.1,
+      "asOf": "2026-08",
+      "status": "fresh",
+      "source": "FRED UNRATE"
+    },
+    "cpiYoy": {
+      "value": 3.3,
+      "asOf": "2026-07",
+      "status": "fresh",
+      "source": "FRED CPIAUCSL, YoY computed"
+    }
+  },
+  "nextFomc": {
+    "start": "2026-09-15",
+    "end": "2026-09-16"
+  },
+  "fomcScheduleThrough": "2027-12"
+}

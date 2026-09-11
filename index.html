@@ -60,39 +60,39 @@
     </div>
   </div>
 
-  <!-- 1.5 매크로 지표 스트립 (아래 숫자·날짜 전부 목업 값, 실데이터 연동 전) -->
+  <!-- 1.5 매크로 지표 스트립 (하단 스크립트가 MACRO에서 채움. 값이 없으면 대시) -->
   <div style="border-bottom:1px solid var(--border);background:var(--panel);">
     <div class="wrap">
       <div class="box-w" style="display:grid;grid-template-columns:repeat(6,1fr);padding:14px 0;text-align:center;">
         <div style="padding-right:16px;">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">S&amp;P 500</div>
-          <div class="num" style="font-size:15px;font-weight:700;">6,449.15</div>
-          <div class="num" style="font-size:11.5px;font-weight:600;color:var(--up);">+0.42%</div>
+          <div id="mc-sp500" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
+          <div id="mc-sp500-sub" class="num" style="font-size:11.5px;font-weight:600;color:var(--text3);">&nbsp;</div>
         </div>
         <div style="padding:0 16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">VIX</div>
-          <div class="num" style="font-size:15px;font-weight:700;">14.55</div>
-          <div class="num" style="font-size:11.5px;font-weight:600;color:var(--down);">&minus;4.78%</div>
+          <div id="mc-vix" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
+          <div id="mc-vix-sub" class="num" style="font-size:11.5px;font-weight:600;color:var(--text3);">&nbsp;</div>
         </div>
         <div style="padding:0 16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">원/달러</div>
-          <div class="num" style="font-size:15px;font-weight:700;">&#8361;1,421.30</div>
-          <div class="num" style="font-size:11.5px;font-weight:600;color:var(--up);">+0.62%</div>
+          <div id="mc-usdkrw" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
+          <div id="mc-usdkrw-sub" class="num" style="font-size:11.5px;font-weight:600;color:var(--text3);">&nbsp;</div>
         </div>
         <div style="padding:0 16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">기준금리</div>
-          <div class="num" style="font-size:15px;font-weight:700;">3.63%</div>
-          <div style="font-size:11.5px;color:var(--text3);">다음 FOMC 9/15</div>
+          <div id="mc-rate" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
+          <div id="mc-rate-sub" style="font-size:11.5px;color:var(--text3);">&nbsp;</div>
         </div>
         <div style="padding:0 16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">실업률</div>
-          <div class="num" style="font-size:15px;font-weight:700;">4.1%</div>
-          <div style="font-size:11.5px;color:var(--text3);">2026.07</div>
+          <div id="mc-unemp" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
+          <div id="mc-unemp-sub" style="font-size:11.5px;color:var(--text3);">&nbsp;</div>
         </div>
         <div style="padding-left:16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">물가상승률</div>
-          <div class="num" style="font-size:15px;font-weight:700;">3.4%</div>
-          <div style="font-size:11.5px;color:var(--text3);">2026.07</div>
+          <div id="mc-cpi" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
+          <div id="mc-cpi-sub" style="font-size:11.5px;color:var(--text3);">&nbsp;</div>
         </div>
       </div>
     </div>
@@ -182,58 +182,59 @@
   // 매크로 지표 스트립·스탯카드 숫자(11/7/9/6)·날짜는 아직 레이아웃 시연용 목업 값이며 실제 계산된 수치가 아님.
   /*STOCKS_DATA_START*/
   var DATA = [
-    {"rank": 1, "ticker": "NVDA", "name": "엔비디아", "sector": "반도체", "price": 228.45, "change": 1.8, "marketCap": 5505645000000, "href": "NVDA_full_widget.html", "priceStale": true, "tier": "적정~저평가", "tierConflict": false, "score": 86.3},
-    {"rank": 2, "ticker": "AAPL", "name": "애플", "sector": "하드웨어", "price": 325.13, "change": 2.61, "marketCap": 4745005743400, "href": "AAPL_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 43.6},
-    {"rank": 3, "ticker": "GOOGL", "name": "알파벳", "sector": "인터넷·플랫폼", "price": 335.02, "change": -1.28, "marketCap": 4097294600000, "href": "GOOGL_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 69.8},
-    {"rank": 4, "ticker": "MSFT", "name": "마이크로소프트", "sector": "소프트웨어", "price": 501.02, "change": -1.24, "marketCap": 3720346801901, "href": "MSFT_full_widget.html", "priceStale": true, "tier": "적정~저평가", "tierConflict": false, "score": 80.3},
-    {"rank": 5, "ticker": "AMZN", "name": "아마존", "sector": "유통·클라우드", "price": 256.36, "change": -1.51, "marketCap": 2765179347318, "href": "AMZN_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 63.8},
-    {"rank": 6, "ticker": "TSM", "name": "TSMC", "sector": "반도체·파운드리", "price": 424.15, "change": 1.55, "marketCap": 2199856055032, "href": "TSM_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": 73.8},
-    {"rank": 7, "ticker": "SPCX", "name": "스페이스X", "sector": "우주항공·위성통신·AI", "price": 147.76, "change": 5.01, "marketCap": 1947739804673, "href": "SPCX_full_widget.html", "priceStale": true, "tier": null, "tierConflict": false, "score": null},
-    {"rank": 8, "ticker": "AVGO", "name": "브로드컴", "sector": "반도체·인프라SW", "price": 367.24, "change": -0.66, "marketCap": 1753067831623, "href": "AVGO_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 69.7},
-    {"rank": 9, "ticker": "META", "name": "메타 플랫폼스", "sector": "SNS 광고·AI", "price": 571.1, "change": -0.9, "marketCap": 1454880805098, "href": "META_full_widget.html", "priceStale": true, "tier": "저평가", "tierConflict": false, "score": 76.8},
-    {"rank": 10, "ticker": "TSLA", "name": "테슬라", "sector": "EV·자율주행", "price": 367.95, "change": 5.51, "marketCap": 1453235963622, "href": "TSLA_full_widget.html", "priceStale": true, "tier": "초고평가", "tierConflict": false, "score": 52.7},
-    {"rank": 11, "ticker": "BRKB", "name": "버크셔 해서웨이", "sector": "금융·복합기업", "price": 508.13, "change": 0.57, "marketCap": 1087759054109, "href": "BRKB_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 66.7},
-    {"rank": 12, "ticker": "MU", "name": "마이크론 테크놀로지", "sector": "반도체·메모리", "price": 958.16, "change": 0.22, "marketCap": 1082139341562, "href": "MU_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 60.4},
-    {"rank": 13, "ticker": "LLY", "name": "일라이 릴리", "sector": "헬스케어·제약(GLP-1)", "price": 1143.23, "change": -1.41, "marketCap": 1019026137420, "href": "LLY_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": true, "score": 73.4},
-    {"rank": 14, "ticker": "JPM", "name": "JP모건 체이스", "sector": "금융·대형은행", "price": 357.39, "change": -1.3, "marketCap": 950009164231, "href": "JPM_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": null},
-    {"rank": 15, "ticker": "SKHY", "name": "SK하이닉스", "sector": "반도체·메모리(HBM)", "price": 169.86, "change": 3.78, "marketCap": 1207832844300, "href": "SKHY_full_widget.html", "priceStale": true, "tier": "저평가", "tierConflict": false, "score": null},
-    {"rank": 16, "ticker": "WMT", "name": "월마트", "sector": "필수소비재·유통", "price": 107.49, "change": -0.86, "marketCap": 852798383445, "href": "WMT_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 44.3},
-    {"rank": 17, "ticker": "AMD", "name": "어드밴스드 마이크로 디바이시스", "sector": "반도체·팹리스(CPU/GPU)", "price": 477.57, "change": 4.69, "marketCap": 779621105808, "href": "AMD_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": 66.0},
-    {"rank": 18, "ticker": "V", "name": "비자", "sector": "금융·결제 네트워크", "price": 375.07, "change": -0.97, "marketCap": 705131600000, "href": "V_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": 71.8},
-    {"rank": 19, "ticker": "JNJ", "name": "존슨앤드존슨", "sector": "헬스케어·제약·메드테크", "price": 275.23, "change": -1.15, "marketCap": 663276390852, "href": "JNJ_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": 47.7},
-    {"rank": 20, "ticker": "ASML", "name": "ASML", "sector": "반도체·장비(EUV)", "price": 1714.88, "change": 4.17, "marketCap": 660945045355, "href": "ASML_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": null},
-    {"rank": 21, "ticker": "XOM", "name": "엑슨모빌", "sector": "에너지·통합 석유·가스 메이저", "price": 159.47, "change": -1.69, "marketCap": 655726600261, "href": "XOM_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": 44.2},
-    {"rank": 22, "ticker": "MA", "name": "마스터카드", "sector": "금융·결제 네트워크", "price": 579.21, "change": -1.11, "marketCap": 507393717347, "href": "MA_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 69.4},
-    {"rank": 23, "ticker": "INTC", "name": "인텔", "sector": "반도체·IDM+파운드리", "price": 95.8, "change": 4.51, "marketCap": 483215200000, "href": "INTC_full_widget.html", "priceStale": true, "tier": "저평가", "tierConflict": false, "score": 36.5},
-    {"rank": 24, "ticker": "ORCL", "name": "오라클", "sector": "소프트웨어·클라우드 인프라", "price": 158.78, "change": 3.08, "marketCap": 457361185380, "href": "ORCL_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": 77.0},
-    {"rank": 25, "ticker": "ABBV", "name": "애브비", "sector": "제약·바이오", "price": 256.46, "change": -1.44, "marketCap": 453194898911, "href": "ABBV_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": 34.1},
-    {"rank": 26, "ticker": "BAC", "name": "뱅크오브아메리카", "sector": "금융·대형 은행", "price": 62.68, "change": -0.57, "marketCap": 438305467518, "href": "BAC_full_widget.html", "priceStale": true, "tier": "적정~저평가", "tierConflict": false, "score": null},
-    {"rank": 27, "ticker": "CSCO", "name": "시스코", "sector": "네트워킹·보안·협업 솔루션", "price": 109.2, "change": 0.54, "marketCap": 430530486532, "href": "CSCO_full_widget.html", "priceStale": true, "tier": "적정~저평가", "tierConflict": false, "score": 44.7},
-    {"rank": 28, "ticker": "PLTR", "name": "팔란티어", "sector": "소프트웨어·AI/데이터 플랫폼", "price": 174.33, "change": -4.49, "marketCap": 418925184818, "href": "PLTR_full_widget.html", "priceStale": true, "tier": "초고평가", "tierConflict": false, "score": 78.5},
-    {"rank": 29, "ticker": "CVX", "name": "셰브론", "sector": "에너지·통합 석유·가스 메이저", "price": 208.6, "change": -1.29, "marketCap": 412145887756, "href": "CVX_full_widget.html", "priceStale": true, "tier": "저평가", "tierConflict": false, "score": null},
-    {"rank": 30, "ticker": "COST", "name": "코스트코", "sector": "소비재 유통·회원제 창고형", "price": 915.74, "change": -1.04, "marketCap": 406111279975, "href": "COST_full_widget.html", "priceStale": true, "tier": "초고평가", "tierConflict": false, "score": 48.2},
-    {"rank": 31, "ticker": "LRCX", "name": "램리서치", "sector": "반도체 장비·식각·증착(WFE)", "price": 307.65, "change": 5.12, "marketCap": 384968905650, "href": "LRCX_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": 62.2},
-    {"rank": 32, "ticker": "KO", "name": "코카콜라", "sector": "소비재·음료", "price": 88.07, "change": -0.83, "marketCap": 378925511831, "href": "KO_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": 53.2},
-    {"rank": 33, "ticker": "CAT", "name": "캐터필러", "sector": "건설기계·중장비", "price": 813.94, "change": 1.72, "marketCap": 374147779153, "href": "CAT_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": 44.4},
-    {"rank": 34, "ticker": "MRK", "name": "머크", "sector": "헬스케어·제약", "price": 150.33, "change": -1.32, "marketCap": 370889912341, "href": "MRK_full_widget.html", "priceStale": true, "tier": "적정~저평가", "tierConflict": false, "score": 61.3},
-    {"rank": 35, "ticker": "AMAT", "name": "어플라이드 머티어리얼즈", "sector": "반도체 장비·식각·증착·CMP", "price": 472.79, "change": 3.97, "marketCap": 375204935076, "href": "AMAT_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 58.7},
-    {"rank": 36, "ticker": "UNH", "name": "유나이티드헬스 그룹", "sector": "헬스케어·건강보험", "price": 400.84, "change": 0.93, "marketCap": 359791918471, "href": "UNH_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": 49.0},
-    {"rank": 37, "ticker": "GE", "name": "GE 에어로스페이스", "sector": "항공우주·방위산업·항공기 엔진", "price": 334.91, "change": -0.66, "marketCap": 347490061229, "href": "GE_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": 60.2},
-    {"rank": 38, "ticker": "DELL", "name": "델 테크놀로지스", "sector": "IT 인프라·서버·PC", "price": 533.88, "change": 1.86, "marketCap": 339447710970, "href": "DELL_full_widget.html", "priceStale": true, "tier": "초고평가", "tierConflict": false, "score": null},
-    {"rank": 39, "ticker": "MS", "name": "모건스탠리", "sector": "금융·투자은행·자산관리", "price": 216.24, "change": -0.68, "marketCap": 339619254982, "href": "MS_full_widget.html", "priceStale": true, "tier": "적정~저평가", "tierConflict": false, "score": null},
-    {"rank": 40, "ticker": "PG", "name": "프록터앤드갬블", "sector": "소비재·생활용품", "price": 145.58, "change": -0.59, "marketCap": 338390964875, "href": "PG_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 58.0},
-    {"rank": 41, "ticker": "NFLX", "name": "넷플릭스", "sector": "미디어·구독형 스트리밍", "price": 76.42, "change": -0.46, "marketCap": 318208270040, "href": "NFLX_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": 61.4},
-    {"rank": 42, "ticker": "HD", "name": "홈디포", "sector": "소매·주택개량", "price": 310.73, "change": -0.95, "marketCap": 310012097487, "href": "HD_full_widget.html", "priceStale": true, "tier": "적정~저평가", "tierConflict": false, "score": 50.2},
-    {"rank": 43, "ticker": "GS", "name": "골드만삭스", "sector": "금융·투자은행·트레이딩", "price": 1025.43, "change": -1.07, "marketCap": 298575896905, "href": "GS_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": null},
-    {"rank": 44, "ticker": "PM", "name": "필립모리스", "sector": "담배·니코틴 제품", "price": 186.21, "change": 0.8, "marketCap": 290229408476, "href": "PM_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": 48.6},
-    {"rank": 45, "ticker": "PANW", "name": "팔로알토 네트웍스", "sector": "사이버보안·플랫폼", "price": 334.05, "change": -0.87, "marketCap": 273252900000, "href": "PANW_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": null},
-    {"rank": 46, "ticker": "WFC", "name": "웰스파고", "sector": "금융·상업은행·소비자금융", "price": 89.67, "change": 1.94, "marketCap": 271162020459, "href": "WFC_full_widget.html", "priceStale": true, "tier": "저평가", "tierConflict": false, "score": null},
-    {"rank": 47, "ticker": "RTX", "name": "RTX", "sector": "항공우주·방위산업", "price": 197.55, "change": -0.63, "marketCap": 266249621347, "href": "RTX_full_widget.html", "priceStale": true, "tier": "적정", "tierConflict": false, "score": 40.1},
-    {"rank": 48, "ticker": "SNDK", "name": "샌디스크", "sector": "반도체·NAND 플래시 메모리", "price": 1764.17, "change": 1.51, "marketCap": 258308008994, "href": "SNDK_full_widget.html", "priceStale": true, "tier": "고평가~적정", "tierConflict": false, "score": null},
-    {"rank": 49, "ticker": "GEV", "name": "GE 버노바", "sector": "전력설비·발전·전력망", "price": 951.04, "change": -2.09, "marketCap": 253293888874, "href": "GEV_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": null},
-    {"rank": 50, "ticker": "ANET", "name": "아리스타 네트웍스", "sector": "네트워크 장비·데이터센터 스위치", "price": 192.93, "change": -1.04, "marketCap": 243328071339, "href": "ANET_full_widget.html", "priceStale": true, "tier": "고평가", "tierConflict": false, "score": null}
+    {"rank": 1, "ticker": "NVDA", "name": "엔비디아", "sector": "반도체", "price": 218.36, "change": -2.37, "marketCap": 5262476000000, "href": "NVDA_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 86.3},
+    {"rank": 2, "ticker": "AAPL", "name": "애플", "sector": "하드웨어", "price": 326.57, "change": 3.56, "marketCap": 4766021362600, "href": "AAPL_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 43.6},
+    {"rank": 3, "ticker": "GOOGL", "name": "알파벳", "sector": "인터넷·플랫폼", "price": 332.6, "change": 0.59, "marketCap": 4067698000000, "href": "GOOGL_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 69.8},
+    {"rank": 4, "ticker": "MSFT", "name": "마이크로소프트", "sector": "소프트웨어", "price": 492.44, "change": 0.16, "marketCap": 3656635621588, "href": "MSFT_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 80.3},
+    {"rank": 5, "ticker": "AMZN", "name": "아마존", "sector": "유통·클라우드", "price": 251.89, "change": -0.2, "marketCap": 2716964525651, "href": "AMZN_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 63.8},
+    {"rank": 6, "ticker": "TSM", "name": "TSMC", "sector": "반도체·파운드리", "price": 428.03, "change": -1.68, "marketCap": 2219979694059, "href": "TSM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 73.8},
+    {"rank": 7, "ticker": "SPCX", "name": "스페이스X", "sector": "우주항공·위성통신·AI", "price": 148.18, "change": 0.43, "marketCap": 1953276152250, "href": "SPCX_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": null},
+    {"rank": 8, "ticker": "AVGO", "name": "브로드컴", "sector": "반도체·인프라SW", "price": 360.83, "change": -0.97, "marketCap": 1722468864188, "href": "AVGO_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 69.7},
+    {"rank": 9, "ticker": "META", "name": "메타 플랫폼스", "sector": "SNS 광고·AI", "price": 644.38, "change": -1.42, "marketCap": 1641562061266, "href": "META_full_widget.html", "priceStale": false, "tier": "저평가", "tierConflict": false, "score": 76.8},
+    {"rank": 10, "ticker": "TSLA", "name": "테슬라", "sector": "EV·자율주행", "price": 363.56, "change": -1.16, "marketCap": 1435897450563, "href": "TSLA_full_widget.html", "priceStale": false, "tier": "초고평가", "tierConflict": false, "score": 52.7},
+    {"rank": 11, "ticker": "BRKB", "name": "버크셔 해서웨이", "sector": "금융·복합기업", "price": 507.0, "change": 0.06, "marketCap": 1085340051627, "href": "BRKB_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 66.7},
+    {"rank": 12, "ticker": "MU", "name": "마이크론 테크놀로지", "sector": "반도체·메모리", "price": 977.41, "change": -4.9, "marketCap": 1103880159719, "href": "MU_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 60.4},
+    {"rank": 13, "ticker": "LLY", "name": "일라이 릴리", "sector": "헬스케어·제약(GLP-1)", "price": 1123.0, "change": -0.11, "marketCap": 1000993983995, "href": "LLY_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": true, "score": 73.4},
+    {"rank": 14, "ticker": "JPM", "name": "JP모건 체이스", "sector": "금융·대형은행", "price": 353.56, "change": -0.32, "marketCap": 939828311104, "href": "JPM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null},
+    {"rank": 15, "ticker": "SKHY", "name": "SK하이닉스", "sector": "반도체·메모리(HBM)", "price": 188.3, "change": -5.2, "marketCap": 1338955166500, "href": "SKHY_full_widget.html", "priceStale": false, "tier": "저평가", "tierConflict": false, "score": null},
+    {"rank": 16, "ticker": "WMT", "name": "월마트", "sector": "필수소비재·유통", "price": 105.73, "change": -0.09, "marketCap": 838834990061, "href": "WMT_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 44.3},
+    {"rank": 17, "ticker": "AMD", "name": "어드밴스드 마이크로 디바이시스", "sector": "반도체·팹리스(CPU/GPU)", "price": 503.6, "change": -3.36, "marketCap": 822114431151, "href": "AMD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 66.0},
+    {"rank": 18, "ticker": "V", "name": "비자", "sector": "금융·결제 네트워크", "price": 367.21, "change": -0.05, "marketCap": 690354800000, "href": "V_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 71.8},
+    {"rank": 19, "ticker": "JNJ", "name": "존슨앤드존슨", "sector": "헬스케어·제약·메드테크", "price": 266.35, "change": -0.27, "marketCap": 641876491311, "href": "JNJ_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 47.7},
+    {"rank": 20, "ticker": "ASML", "name": "ASML", "sector": "반도체·장비(EUV)", "price": 1687.4301, "change": -2.43, "marketCap": 650365368993, "href": "ASML_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": null},
+    {"rank": 21, "ticker": "XOM", "name": "엑슨모빌", "sector": "에너지·통합 석유·가스 메이저", "price": 165.23, "change": 0.61, "marketCap": 679411213151, "href": "XOM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 44.2},
+    {"rank": 22, "ticker": "MA", "name": "마스터카드", "sector": "금융·결제 네트워크", "price": 565.37, "change": -0.38, "marketCap": 495269739778, "href": "MA_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 69.4},
+    {"rank": 23, "ticker": "INTC", "name": "인텔", "sector": "반도체·IDM+파운드리", "price": 100.32, "change": -5.57, "marketCap": 506014080000, "href": "INTC_full_widget.html", "priceStale": false, "tier": "저평가", "tierConflict": false, "score": 36.5},
+    {"rank": 24, "ticker": "ORCL", "name": "오라클", "sector": "소프트웨어·클라우드 인프라", "price": 152.94, "change": -5.38, "marketCap": 440539234740, "href": "ORCL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 77.0},
+    {"rank": 25, "ticker": "ABBV", "name": "애브비", "sector": "제약·바이오", "price": 255.0, "change": 1.63, "marketCap": 450614907675, "href": "ABBV_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 34.1},
+    {"rank": 26, "ticker": "BAC", "name": "뱅크오브아메리카", "sector": "금융·대형 은행", "price": 62.56, "change": -0.18, "marketCap": 437466337714, "href": "BAC_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": null},
+    {"rank": 27, "ticker": "CSCO", "name": "시스코", "sector": "네트워킹·보안·협업 솔루션", "price": 107.44, "change": -1.82, "marketCap": 423591533635, "href": "CSCO_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 44.7},
+    {"rank": 28, "ticker": "PLTR", "name": "팔란티어", "sector": "소프트웨어·AI/데이터 플랫폼", "price": 165.86, "change": -2.16, "marketCap": 398571279493, "href": "PLTR_full_widget.html", "priceStale": false, "tier": "초고평가", "tierConflict": false, "score": 78.5},
+    {"rank": 29, "ticker": "CVX", "name": "셰브론", "sector": "에너지·통합 석유·가스 메이저", "price": 212.76, "change": -0.49, "marketCap": 420365096256, "href": "CVX_full_widget.html", "priceStale": false, "tier": "저평가", "tierConflict": false, "score": null},
+    {"rank": 30, "ticker": "COST", "name": "코스트코", "sector": "소비재 유통·회원제 창고형", "price": 902.38, "change": -0.02, "marketCap": 400186403154, "href": "COST_full_widget.html", "priceStale": false, "tier": "초고평가", "tierConflict": false, "score": 48.2},
+    {"rank": 31, "ticker": "LRCX", "name": "램리서치", "sector": "반도체 장비·식각·증착(WFE)", "price": 298.01, "change": -5.65, "marketCap": 372906171210, "href": "LRCX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 62.2},
+    {"rank": 32, "ticker": "KO", "name": "코카콜라", "sector": "소비재·음료", "price": 87.83, "change": 0.32, "marketCap": 377892900013, "href": "KO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 53.2},
+    {"rank": 33, "ticker": "CAT", "name": "캐터필러", "sector": "건설기계·중장비", "price": 805.0, "change": -1.29, "marketCap": 370038285645, "href": "CAT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 44.4},
+    {"rank": 34, "ticker": "MRK", "name": "머크", "sector": "헬스케어·제약", "price": 144.71, "change": -1.91, "marketCap": 357024407735, "href": "MRK_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 61.3},
+    {"rank": 35, "ticker": "AMAT", "name": "어플라이드 머티어리얼즈", "sector": "반도체 장비·식각·증착·CMP", "price": 454.01, "change": -3.17, "marketCap": 360301175096, "href": "AMAT_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 58.7},
+    {"rank": 36, "ticker": "UNH", "name": "유나이티드헬스 그룹", "sector": "헬스케어·건강보험", "price": 388.28, "change": -1.22, "marketCap": 348518127193, "href": "UNH_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 49.0},
+    {"rank": 37, "ticker": "GE", "name": "GE 에어로스페이스", "sector": "항공우주·방위산업·항공기 엔진", "price": 324.15, "change": -0.39, "marketCap": 336325888589, "href": "GE_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 60.2},
+    {"rank": 38, "ticker": "DELL", "name": "델 테크놀로지스", "sector": "IT 인프라·서버·PC", "price": 506.62, "change": -5.35, "marketCap": 322115455405, "href": "DELL_full_widget.html", "priceStale": false, "tier": "초고평가", "tierConflict": false, "score": null},
+    {"rank": 39, "ticker": "MS", "name": "모건스탠리", "sector": "금융·투자은행·자산관리", "price": 212.66, "change": -1.25, "marketCap": 333996627657, "href": "MS_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": null},
+    {"rank": 40, "ticker": "PG", "name": "프록터앤드갬블", "sector": "소비재·생활용품", "price": 142.97, "change": 0.23, "marketCap": 332324194588, "href": "PG_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 58.0},
+    {"rank": 41, "ticker": "NFLX", "name": "넷플릭스", "sector": "미디어·구독형 스트리밍", "price": 76.01, "change": -0.03, "marketCap": 316501054773, "href": "NFLX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 61.4},
+    {"rank": 42, "ticker": "HD", "name": "홈디포", "sector": "소매·주택개량", "price": 305.69, "change": -1.53, "marketCap": 304983741772, "href": "HD_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 50.2},
+    {"rank": 43, "ticker": "GS", "name": "골드만삭스", "sector": "금융·투자은행·트레이딩", "price": 1019.77, "change": -0.88, "marketCap": 296927866736, "href": "GS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null},
+    {"rank": 44, "ticker": "PM", "name": "필립모리스", "sector": "담배·니코틴 제품", "price": 189.77, "change": 2.19, "marketCap": 295778072319, "href": "PM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 48.6},
+    {"rank": 45, "ticker": "PANW", "name": "팔로알토 네트웍스", "sector": "사이버보안·플랫폼", "price": 338.49, "change": 1.01, "marketCap": 276884820000, "href": "PANW_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null},
+    {"rank": 46, "ticker": "WFC", "name": "웰스파고", "sector": "금융·상업은행·소비자금융", "price": 89.45, "change": -0.25, "marketCap": 270496740605, "href": "WFC_full_widget.html", "priceStale": false, "tier": "저평가", "tierConflict": false, "score": null},
+    {"rank": 47, "ticker": "RTX", "name": "RTX", "sector": "항공우주·방위산업", "price": 198.12, "change": 0.29, "marketCap": 267017843489, "href": "RTX_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 40.1},
+    {"rank": 48, "ticker": "SNDK", "name": "샌디스크", "sector": "반도체·NAND 플래시 메모리", "price": 1692.59, "change": -4.06, "marketCap": 247827336903, "href": "SNDK_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null},
+    {"rank": 49, "ticker": "GEV", "name": "GE 버노바", "sector": "전력설비·발전·전력망", "price": 923.91, "change": -2.85, "marketCap": 246068258822, "href": "GEV_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null},
+    {"rank": 50, "ticker": "ANET", "name": "아리스타 네트웍스", "sector": "네트워크 장비·데이터센터 스위치", "price": 188.99, "change": -2.04, "marketCap": 238358846226, "href": "ANET_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null}
   ];
-  var META = {"priceSession": null, "cardAsOfMin": "2026-08-27", "cardAsOfMax": "2026-09-09", "scoreValuationAsOfMin": "2026-08-18", "scoreValuationAsOfMax": "2026-08-18", "scoreVersion": "1.0.0"};
+  var META = {"priceSession": "2026-09-10", "cardAsOfMin": "2026-08-27", "cardAsOfMax": "2026-09-09", "scoreValuationAsOfMin": "2026-08-18", "scoreValuationAsOfMax": "2026-08-18", "scoreVersion": "1.0.0"};
+  var MACRO = {"generatedAt": "2026-09-11T12:04:14Z", "priceSession": "2026-09-10", "indicators": {"sp500": {"value": 7591.7, "changePct": -0.58, "asOf": "2026-09-10", "status": "fresh", "source": "Yahoo ^GSPC daily close"}, "vix": {"value": 17.84, "changePct": 8.38, "asOf": "2026-09-10", "status": "fresh", "source": "Yahoo ^VIX daily close"}, "usdkrw": {"value": 1348.41, "changePct": 0.63, "asOf": "2026-09-10", "status": "fresh", "source": "Yahoo KRW=X hourly bar ending 16:00 ET"}, "fedTarget": {"lower": 3.5, "upper": 3.75, "asOf": "2026-09-10", "status": "fresh", "source": "FRED DFEDTARL/DFEDTARU"}, "unemployment": {"value": 4.1, "asOf": "2026-08", "status": "fresh", "source": "FRED UNRATE"}, "cpiYoy": {"value": 3.3, "asOf": "2026-07", "status": "fresh", "source": "FRED CPIAUCSL, YoY computed"}}, "nextFomc": {"start": "2026-09-15", "end": "2026-09-16"}, "fomcScheduleThrough": "2027-12"};
   /*STOCKS_DATA_END*/
 
   document.getElementById('ticker-count').textContent = DATA.length;
@@ -380,6 +381,33 @@
   document.getElementById('asof-line').textContent = priceText
     + ' · 등급 카드별 ' + cardRange
     + ' · 기본 점수 최근 회계연도(밸류에이션 축 ' + mdRange(META.scoreValuationAsOfMin, META.scoreValuationAsOfMax) + ')';
+
+  // ---- 매크로 지표 스트립: 값마다 상태(fresh/stale/unavailable)와 기준일이 따로 있다 ----
+  var MI = (MACRO && MACRO.indicators) || {};
+  function has(ind){ return ind && ind.status !== 'unavailable'; }
+  function ym(s){ return s ? s.replace('-', '.') : ''; }
+  function fmt2(x){ return x.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+  function mcSet(key, value, sub, subColor){
+    document.getElementById('mc-' + key).textContent = value;
+    var s = document.getElementById('mc-' + key + '-sub');
+    s.textContent = sub || ' ';
+    s.style.color = subColor || 'var(--text3)';
+  }
+  // 시장 지표: 당일 값이면 전일 대비 등락, 이전 값을 유지 중이면 그 날짜를 적는다
+  [['sp500', ''], ['vix', ''], ['usdkrw', '₩']].forEach(function(p){
+    var ind = MI[p[0]];
+    if(!has(ind)) return mcSet(p[0], '–');
+    if(ind.status !== 'fresh') return mcSet(p[0], p[1] + fmt2(ind.value), md(ind.asOf) + ' 기준');
+    var c = ind.changePct;
+    mcSet(p[0], p[1] + fmt2(ind.value), (c >= 0 ? '+' : '−') + Math.abs(c).toFixed(2) + '%',
+          c >= 0 ? 'var(--up)' : 'var(--down)');
+  });
+  var rate = MI.fedTarget, fomc = MACRO && MACRO.nextFomc;
+  var rateSub = !has(rate) ? '' : rate.status !== 'fresh' ? md(rate.asOf) + ' 기준'
+    : fomc ? '다음 FOMC ' + Number(fomc.start.slice(5, 7)) + '/' + Number(fomc.start.slice(8, 10)) : 'FOMC 일정 갱신 필요';
+  mcSet('rate', has(rate) ? rate.lower.toFixed(2) + '–' + rate.upper.toFixed(2) + '%' : '–', rateSub);
+  mcSet('unemp', has(MI.unemployment) ? MI.unemployment.value.toFixed(1) + '%' : '–', has(MI.unemployment) ? ym(MI.unemployment.asOf) : '');
+  mcSet('cpi', has(MI.cpiYoy) ? MI.cpiYoy.value.toFixed(1) + '%' : '–', has(MI.cpiYoy) ? ym(MI.cpiYoy.asOf) : '');
 
   // 그룹은 카드의 7단계 밸류에이션 등급, 그룹 안은 기본 점수 내림차순. 점수 없는 종목은 그룹 끝(카드 순위순)
   function renderAttract(){
