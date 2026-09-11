@@ -1,0 +1,1812 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-11T09:43:51Z",
+  "priceSession": null,
+  "scoreVersion": "1.0.0",
+  "tickers": [
+    {
+      "ticker": "NVDA",
+      "name": "엔비디아",
+      "sector": "반도체",
+      "href": "NVDA_full_widget.html",
+      "cardRank": 1,
+      "cardAsOf": "2026-09-03",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 228.45,
+        "prevClose": 224.410609,
+        "session": "2026-09-03",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 24294156271,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-03",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "AAPL",
+      "name": "애플",
+      "sector": "하드웨어",
+      "href": "AAPL_full_widget.html",
+      "cardRank": 2,
+      "cardAsOf": "2026-09-01",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 325.13,
+        "prevClose": 316.859955,
+        "session": "2026-09-01",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 14640297727,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-01",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "알파벳",
+      "sector": "인터넷·플랫폼",
+      "href": "GOOGL_full_widget.html",
+      "cardRank": 3,
+      "cardAsOf": "2026-09-01",
+      "listing": {
+        "type": "multi-class"
+      },
+      "price": {
+        "close": 335.02,
+        "prevClose": 339.363857,
+        "session": "2026-09-01",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 12238075339,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-01",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "MSFT",
+      "name": "마이크로소프트",
+      "sector": "소프트웨어",
+      "href": "MSFT_full_widget.html",
+      "cardRank": 4,
+      "cardAsOf": "2026-09-01",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 501.02,
+        "prevClose": 507.310652,
+        "session": "2026-09-01",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 7424853299,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-01",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "AMZN",
+      "name": "아마존",
+      "sector": "유통·클라우드",
+      "href": "AMZN_full_widget.html",
+      "cardRank": 5,
+      "cardAsOf": "2026-08-27",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 256.36,
+        "prevClose": 260.290385,
+        "session": "2026-08-27",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 10766110158,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-08-27",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "TSM",
+      "name": "TSMC",
+      "sector": "반도체·파운드리",
+      "href": "TSM_full_widget.html",
+      "cardRank": 6,
+      "cardAsOf": "2026-08-27",
+      "listing": {
+        "type": "adr",
+        "adrRatio": 5
+      },
+      "price": {
+        "close": 424.15,
+        "prevClose": 417.676022,
+        "session": "2026-08-27",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 5186844277,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-08-27",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "SPCX",
+      "name": "스페이스X",
+      "sector": "우주항공·위성통신·AI",
+      "href": "SPCX_full_widget.html",
+      "cardRank": 7,
+      "cardAsOf": "2026-09-03",
+      "listing": {
+        "type": "multi-class"
+      },
+      "price": {
+        "close": 147.76,
+        "prevClose": 140.710409,
+        "session": "2026-09-03",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 13197076340,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-03",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "AVGO",
+      "name": "브로드컴",
+      "sector": "반도체·인프라SW",
+      "href": "AVGO_full_widget.html",
+      "cardRank": 8,
+      "cardAsOf": "2026-09-02",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 367.24,
+        "prevClose": 369.679887,
+        "session": "2026-09-02",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 4874196711,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-02",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "META",
+      "name": "메타 플랫폼스",
+      "sector": "SNS 광고·AI",
+      "href": "META_full_widget.html",
+      "cardRank": 9,
+      "cardAsOf": "2026-08-27",
+      "listing": {
+        "type": "multi-class"
+      },
+      "price": {
+        "close": 571.1,
+        "prevClose": 576.286579,
+        "session": "2026-08-27",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 2573980039,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-08-27",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "TSLA",
+      "name": "테슬라",
+      "sector": "EV·자율주행",
+      "href": "TSLA_full_widget.html",
+      "cardRank": 10,
+      "cardAsOf": "2026-08-31",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 367.95,
+        "prevClose": 348.734717,
+        "session": "2026-08-31",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 3940752820,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-08-31",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "BRKB",
+      "yahooSymbol": "BRK-B",
+      "name": "버크셔 해서웨이",
+      "sector": "금융·복합기업",
+      "href": "BRKB_full_widget.html",
+      "cardRank": 11,
+      "cardAsOf": "2026-09-03",
+      "listing": {
+        "type": "multi-class"
+      },
+      "price": {
+        "close": 508.13,
+        "prevClose": 505.250075,
+        "session": "2026-09-03",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 2145120343,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-03",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "MU",
+      "name": "마이크론 테크놀로지",
+      "sector": "반도체·메모리",
+      "href": "MU_full_widget.html",
+      "cardRank": 12,
+      "cardAsOf": "2026-09-03",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 958.16,
+        "prevClose": 956.056675,
+        "session": "2026-09-03",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1127160391,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-03",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "LLY",
+      "name": "일라이 릴리",
+      "sector": "헬스케어·제약(GLP-1)",
+      "href": "LLY_full_widget.html",
+      "cardRank": 13,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 1143.23,
+        "prevClose": 1159.580079,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 892208917,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "JPM",
+      "name": "JP모건 체이스",
+      "sector": "금융·대형은행",
+      "href": "JPM_full_widget.html",
+      "cardRank": 14,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 357.39,
+        "prevClose": 362.097264,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 2658160553,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "SKHY",
+      "name": "SK하이닉스",
+      "sector": "반도체·메모리(HBM)",
+      "href": "SKHY_full_widget.html",
+      "cardRank": 15,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "adr",
+        "adrRatio": 0.1
+      },
+      "price": {
+        "close": 169.86,
+        "prevClose": 163.673155,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 5204285882,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "WMT",
+      "name": "월마트",
+      "sector": "필수소비재·유통",
+      "href": "WMT_full_widget.html",
+      "cardRank": 16,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 107.49,
+        "prevClose": 108.422433,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 7935621918,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "AMD",
+      "name": "어드밴스드 마이크로 디바이시스",
+      "sector": "반도체·팹리스(CPU/GPU)",
+      "href": "AMD_full_widget.html",
+      "cardRank": 17,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 477.57,
+        "prevClose": 456.175375,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1632430848,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "V",
+      "name": "비자",
+      "sector": "금융·결제 네트워크",
+      "href": "V_full_widget.html",
+      "cardRank": 18,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "multi-class"
+      },
+      "price": {
+        "close": 375.07,
+        "prevClose": 378.743815,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1835657344,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "JNJ",
+      "name": "존슨앤드존슨",
+      "sector": "헬스케어·제약·메드테크",
+      "href": "JNJ_full_widget.html",
+      "cardRank": 19,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 275.23,
+        "prevClose": 278.431968,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 2409984377,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML",
+      "sector": "반도체·장비(EUV)",
+      "href": "ASML_full_widget.html",
+      "cardRank": 20,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "ny-registry",
+        "adrRatio": 1
+      },
+      "price": {
+        "close": 1714.88,
+        "prevClose": 1646.232121,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 381950924,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "XOM",
+      "name": "엑슨모빌",
+      "sector": "에너지·통합 석유·가스 메이저",
+      "href": "XOM_full_widget.html",
+      "cardRank": 21,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 159.47,
+        "prevClose": 162.211372,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 4111745156,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "MA",
+      "name": "마스터카드",
+      "sector": "금융·결제 네트워크",
+      "href": "MA_full_widget.html",
+      "cardRank": 22,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "multi-class"
+      },
+      "price": {
+        "close": 579.21,
+        "prevClose": 585.711397,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 876020787,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "INTC",
+      "name": "인텔",
+      "sector": "반도체·IDM+파운드리",
+      "href": "INTC_full_widget.html",
+      "cardRank": 23,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 95.8,
+        "prevClose": 91.665869,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 5254697286,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "ORCL",
+      "name": "오라클",
+      "sector": "소프트웨어·클라우드 인프라",
+      "href": "ORCL_full_widget.html",
+      "cardRank": 24,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 158.78,
+        "prevClose": 154.0357,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 2880715455,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "ABBV",
+      "name": "애브비",
+      "sector": "제약·바이오",
+      "href": "ABBV_full_widget.html",
+      "cardRank": 25,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 256.46,
+        "prevClose": 260.206981,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1767137175,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "BAC",
+      "name": "뱅크오브아메리카",
+      "sector": "금융·대형 은행",
+      "href": "BAC_full_widget.html",
+      "cardRank": 26,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 62.68,
+        "prevClose": 63.039324,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 6992661136,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "CSCO",
+      "name": "시스코",
+      "sector": "네트워킹·보안·협업 솔루션",
+      "href": "CSCO_full_widget.html",
+      "cardRank": 27,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 109.2,
+        "prevClose": 108.613487,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 3942307692,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "PLTR",
+      "name": "팔란티어",
+      "sector": "소프트웨어·AI/데이터 플랫폼",
+      "href": "PLTR_full_widget.html",
+      "cardRank": 28,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "multi-class"
+      },
+      "price": {
+        "close": 174.33,
+        "prevClose": 182.52539,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 2402914014,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "CVX",
+      "name": "셰브론",
+      "sector": "에너지·통합 석유·가스 메이저",
+      "href": "CVX_full_widget.html",
+      "cardRank": 29,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 208.6,
+        "prevClose": 211.326107,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1961649089,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "COST",
+      "name": "코스트코",
+      "sector": "소비재 유통·회원제 창고형",
+      "href": "COST_full_widget.html",
+      "cardRank": 30,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 915.74,
+        "prevClose": 925.363783,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 443575687,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "LRCX",
+      "name": "램리서치",
+      "sector": "반도체 장비·식각·증착(WFE)",
+      "href": "LRCX_full_widget.html",
+      "cardRank": 31,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 307.65,
+        "prevClose": 292.665525,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1251422071,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "KO",
+      "name": "코카콜라",
+      "sector": "소비재·음료",
+      "href": "KO_full_widget.html",
+      "cardRank": 32,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 88.07,
+        "prevClose": 88.807099,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 4303395027,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "CAT",
+      "name": "캐터필러",
+      "sector": "건설기계·중장비",
+      "href": "CAT_full_widget.html",
+      "cardRank": 33,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 813.94,
+        "prevClose": 800.176956,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 459616188,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "MRK",
+      "name": "머크",
+      "sector": "헬스케어·제약",
+      "href": "MRK_full_widget.html",
+      "cardRank": 34,
+      "cardAsOf": "2026-09-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 150.33,
+        "prevClose": 152.3409,
+        "session": "2026-09-04",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 2467238741,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-04",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "AMAT",
+      "name": "어플라이드 머티어리얼즈",
+      "sector": "반도체 장비·식각·증착·CMP",
+      "href": "AMAT_full_widget.html",
+      "cardRank": 35,
+      "cardAsOf": "2026-09-08",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 472.79,
+        "prevClose": 454.736943,
+        "session": "2026-09-08",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 793587005,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-08",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "UNH",
+      "name": "유나이티드헬스 그룹",
+      "sector": "헬스케어·건강보험",
+      "href": "UNH_full_widget.html",
+      "cardRank": 36,
+      "cardAsOf": "2026-09-08",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 400.84,
+        "prevClose": 397.146537,
+        "session": "2026-09-08",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 897615008,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-08",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "GE",
+      "name": "GE 에어로스페이스",
+      "sector": "항공우주·방위산업·항공기 엔진",
+      "href": "GE_full_widget.html",
+      "cardRank": 37,
+      "cardAsOf": "2026-09-08",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 334.91,
+        "prevClose": 337.135092,
+        "session": "2026-09-08",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1037592189,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-08",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "DELL",
+      "name": "델 테크놀로지스",
+      "sector": "IT 인프라·서버·PC",
+      "href": "DELL_full_widget.html",
+      "cardRank": 38,
+      "cardAsOf": "2026-09-08",
+      "listing": {
+        "type": "multi-class"
+      },
+      "price": {
+        "close": 533.88,
+        "prevClose": 524.13116,
+        "session": "2026-09-08",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 635723384,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-08",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "MS",
+      "name": "모건스탠리",
+      "sector": "금융·투자은행·자산관리",
+      "href": "MS_full_widget.html",
+      "cardRank": 39,
+      "cardAsOf": "2026-09-08",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 216.24,
+        "prevClose": 217.720499,
+        "session": "2026-09-08",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1570477248,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-08",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "PG",
+      "name": "프록터앤드갬블",
+      "sector": "소비재·생활용품",
+      "href": "PG_full_widget.html",
+      "cardRank": 40,
+      "cardAsOf": "2026-09-08",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 145.58,
+        "prevClose": 146.44402,
+        "session": "2026-09-08",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 2324495123,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-08",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "NFLX",
+      "name": "넷플릭스",
+      "sector": "미디어·구독형 스트리밍",
+      "href": "NFLX_full_widget.html",
+      "cardRank": 41,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 76.42,
+        "prevClose": 76.773157,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 4163831458,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "HD",
+      "name": "홈디포",
+      "sector": "소매·주택개량",
+      "href": "HD_full_widget.html",
+      "cardRank": 42,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 310.73,
+        "prevClose": 313.710247,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 997650694,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "GS",
+      "name": "골드만삭스",
+      "sector": "금융·투자은행·트레이딩",
+      "href": "GS_full_widget.html",
+      "cardRank": 43,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 1025.43,
+        "prevClose": 1036.520772,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 291194913,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "PM",
+      "name": "필립모리스",
+      "sector": "담배·니코틴 제품",
+      "href": "PM_full_widget.html",
+      "cardRank": 44,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 186.21,
+        "prevClose": 184.732143,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1558455507,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "PANW",
+      "name": "팔로알토 네트웍스",
+      "sector": "사이버보안·플랫폼",
+      "href": "PANW_full_widget.html",
+      "cardRank": 45,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 334.05,
+        "prevClose": 336.981741,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 815147433,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "WFC",
+      "name": "웰스파고",
+      "sector": "금융·상업은행·소비자금융",
+      "href": "WFC_full_widget.html",
+      "cardRank": 46,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 89.67,
+        "prevClose": 87.963508,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 3024422884,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "RTX",
+      "name": "RTX",
+      "sector": "항공우주·방위산업",
+      "href": "RTX_full_widget.html",
+      "cardRank": 47,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 197.55,
+        "prevClose": 198.802455,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1348013161,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "SNDK",
+      "name": "샌디스크",
+      "sector": "반도체·NAND 플래시 메모리",
+      "href": "SNDK_full_widget.html",
+      "cardRank": 48,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 1764.17,
+        "prevClose": 1737.927298,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 146414461,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "GEV",
+      "name": "GE 버노바",
+      "sector": "전력설비·발전·전력망",
+      "href": "GEV_full_widget.html",
+      "cardRank": 49,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 951.04,
+        "prevClose": 971.341027,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 266340007,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    },
+    {
+      "ticker": "ANET",
+      "name": "아리스타 네트웍스",
+      "sector": "네트워크 장비·데이터센터 스위치",
+      "href": "ANET_full_widget.html",
+      "cardRank": 50,
+      "cardAsOf": "2026-09-09",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 192.93,
+        "prevClose": 194.957559,
+        "session": "2026-09-09",
+        "status": "stale",
+        "statusReason": "legacy-seed"
+      },
+      "shares": {
+        "usEquivalent": 1261079148,
+        "method": "manual",
+        "basis": "legacy-implied",
+        "asOf": "2026-09-09",
+        "filing": "legacy index.html marketCap / price",
+        "approximate": true,
+        "status": "unverified"
+      },
+      "tier": {
+        "value": null,
+        "raw": null,
+        "status": "missing"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "not-yet-extracted"
+      }
+    }
+  ]
+}
