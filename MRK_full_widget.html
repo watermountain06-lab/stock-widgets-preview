@@ -628,14 +628,14 @@
       <div style="font-size:10.5px;color:var(--text3);line-height:1.5;margin-bottom:14px;">※ PER은 조정 기준(가중치 0.5, 피어와 기준이 다름), 나머지 4개는 가중치 1.0으로 종합판단에 반영한다.</div>
 
       <div class="val-item" data-metric="per" onclick="selectMultiple('per')">
-        <div class="val-header"><span class="val-name">PER (조정, TTM)</span><div style="display:flex;align-items:center;gap:8px;"><span class="val-number">16.2x</span><span class="stage-badge stage-2">2단계 낮음(가중치 0.5)</span></div></div>
-        <div class="val-track"><div class="val-fill" style="width:17.7%;background:linear-gradient(90deg,#2ecc71,#27ae60);"></div></div>
+        <div class="val-header"><span class="val-name">PER (조정, TTM)</span><div style="display:flex;align-items:center;gap:8px;"><span class="val-number">16.2x</span><span class="stage-badge stage-1">1단계 매우낮음(가중치 0.5)</span></div></div>
+        <div class="val-track"><div class="val-fill" style="width:17.7%;background:linear-gradient(90deg,#27ae60,#2ecc71);"></div></div>
         <div class="val-labels"><span class="val-low">저 10x</span><span class="val-mid">적정 23.6x</span><span class="val-high">고 45x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
-        <div class="val-header"><span class="val-name">PBR</span><div style="display:flex;align-items:center;gap:8px;"><span class="val-number">8.84x</span><span class="stage-badge stage-4">4단계 높음</span></div></div>
-        <div class="val-track"><div class="val-fill" style="width:53.1%;background:linear-gradient(90deg,#e67e22,#e74c3c);"></div></div>
+        <div class="val-header"><span class="val-name">PBR</span><div style="display:flex;align-items:center;gap:8px;"><span class="val-number">8.84x</span><span class="stage-badge stage-3">3단계 적정</span></div></div>
+        <div class="val-track"><div class="val-fill" style="width:53.1%;background:linear-gradient(90deg,#f0c040,#e67e22);"></div></div>
         <div class="val-labels"><span class="val-low">저 3x</span><span class="val-mid">적정 7.8x</span><span class="val-high">고 14x</span></div>
       </div>
 
@@ -683,8 +683,8 @@
 
   <div class="card">
     <div class="card-title">종합 밸류에이션</div>
-    <div class="verdict-summary-head">종합 판단 <span class="tag mixed">적정~저평가 — 5개 지표 가중평균(PER 0.5 가중) 2.67/5단계</span></div>
-    <div class="verdict-summary-body">MRK의 밸류에이션은 지표별로 갈린다 — 조정 PER(16.2x)·PSR(5.57x)·EV/EBITDA(14.47x)는 빅파마 피어보다 뚜렷하게 낮은 반면, PBR(8.84x)만 유일하게 높은 편이다(PCR은 앵커 근처로 적정). PBR이 높은 이유는 이익 문제가 아니라 최근 두 분기 GAAP 순손실과 배당·자사주매입으로 자기자본 자체가 줄었기 때문(2025년말 $52.6B→2026년 2분기 $41.9B)이라 자산 재평가보다는 분모 축소 효과에 가깝다. 종합하면 "이익·매출·현금흐름 대비로는 피어보다 싸지만, 장부가치 대비로는 비싸다"는 결론이며, 4개 지표가 저평가~적정 쪽에 있어 전체적으로는 적정~저평가에 가깝다.</div>
+    <div class="verdict-summary-head">종합 판단 <span class="tag mixed">적정~저평가 — 5개 지표 가중평균(PER 0.5 가중) 2.33/5단계</span></div>
+    <div class="verdict-summary-body">MRK의 밸류에이션은 지표별로 갈린다 — 조정 PER(16.2x)·PSR(5.57x)·EV/EBITDA(14.47x)는 빅파마 피어보다 뚜렷하게 낮은 반면, PBR(8.84x)만 유일하게 앵커보다 높은 편이다(PCR은 앵커 근처로 적정). PBR이 높은 이유는 이익 문제가 아니라 최근 두 분기 GAAP 순손실과 배당·자사주매입으로 자기자본 자체가 줄었기 때문(2025년말 $52.6B→2026년 2분기 $41.9B)이라 자산 재평가보다는 분모 축소 효과에 가깝다. 종합하면 "이익·매출·현금흐름 대비로는 피어보다 싸지만, 장부가치 대비로는 비싸다"는 결론이며, 4개 지표가 저평가~적정 쪽에 있어 전체적으로는 적정~저평가에 가깝다.</div>
     <div class="verdict-summary-risk">⚠️ 조정 PER은 본 위젯이 자체적으로 Non-GAAP EPS에 상각을 환입해 계산한 수치로, JNJ(31.9x)·LLY(38.4x)의 "왜곡 없는 GAAP PER"이나 ABBV(23.60x)의 "조정 PER"과 정확히 같은 기준은 아니다 — 서로 다른 산출 방식을 병기했다는 점을 감안해야 한다. 이 판정은 밸류에이션 배수만 반영한 것으로, 2028년 이후 Keytruda 특허절벽 리스크(#invest 참고)는 포함하지 않는다.</div>
   </div>
 </div>
@@ -765,7 +765,7 @@
       <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>Keytruda 특허절벽:</strong> H1 2026 매출의 49.9%를 차지하는 단일품목이 2028년 이후 독점권 약화를 맞는다(상세 #fund).</span></div>
       <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>GAAP 손실 2분기 연속:</strong> Cidara·Terns 인수 IPR&amp;D 상각(합산 $13.8B)으로 TTM GAAP PER이 120.3x로 왜곡됐다(상세 #valuation).</span></div>
       <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>레버리지 상승:</strong> 연이은 대형 인수를 부채로 조달하며 부채비율 209%·차입금의존도 41.5%까지 상승했다(상세 #fund).</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>PBR만 유일하게 높음:</strong> 8.84x는 최근 손실·배당·자사주매입으로 자기자본이 줄어든 효과가 커 자산 재평가로 보기 어렵다(상세 #valuation).</span></div>
+      <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>PBR만 유일하게 앵커보다 높음:</strong> 8.84x는 최근 손실·배당·자사주매입으로 자기자본이 줄어든 효과가 커 자산 재평가로 보기 어렵다(상세 #valuation).</span></div>
       <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>Gardasil 변동성:</strong> 중국 수요 둔화로 FY2025 -39%까지 급감했다가 Q2 2026 +4%로 반등 — 지역별 수요 변동성이 지속될 수 있다(상세 #fund).</span></div>
     </div>
   </div>
@@ -824,7 +824,7 @@
     <div class="zone-list">
       <div class="zone-item"><span class="zone-label">📈 기술적 분석</span><span class="zone-val" style="color:var(--green);">기술점수 100/100 우수 — 정배열·52주 신고가권 유지, 변동성 급증 플래그</span></div>
       <div class="zone-item"><span class="zone-label">📊 기본적 분석</span><span class="zone-val" style="color:var(--gold);">Keytruda +5% 성장 지속, Cidara·Terns 상각으로 2분기 연속 GAAP 손실</span></div>
-      <div class="zone-item"><span class="zone-label">⚖️ 밸류에이션</span><span class="zone-val" style="color:var(--gold);">적정~저평가 — 조정 PER·PSR·EV/EBITDA는 낮은 편, PBR은 높은 편</span></div>
+      <div class="zone-item"><span class="zone-label">⚖️ 밸류에이션</span><span class="zone-val" style="color:var(--gold);">적정~저평가 — 조정 PER·PSR·EV/EBITDA는 낮은 편, PBR은 앵커보다 높은 편</span></div>
       <div class="zone-item"><span class="zone-label">📰 시계열 뉴스</span><span class="zone-val" style="color:var(--green);">백신 3상 성공으로 8월 급등, Q3 실적(10월 하순 추정)이 다음 분기점</span></div>
     </div>
   </div>
@@ -851,7 +851,7 @@
     <div class="stat-box" style="margin-top:12px;">
       <div class="stat-label">결론</div>
       <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
-        <div style="font-size:13px;color:var(--text);line-height:1.6;"><strong style="color:var(--accent2);">1.</strong>&nbsp; Keytruda·신제품 파이프라인이 성장을 이어가고 조정 기준 밸류에이션(PER·PSR·EV/EBITDA)도 빅파마 피어보다 낮은 편이지만, PBR만 유일하게 높아 지표별로 신호가 엇갈린다.</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6;"><strong style="color:var(--accent2);">1.</strong>&nbsp; Keytruda·신제품 파이프라인이 성장을 이어가고 조정 기준 밸류에이션(PER·PSR·EV/EBITDA)도 빅파마 피어보다 낮은 편이지만, PBR만 유일하게 앵커보다 높아 지표별로 신호가 엇갈린다.</div>
         <div style="font-size:13px;color:var(--text);line-height:1.6;"><strong style="color:var(--accent2);">2.</strong>&nbsp; Cidara·Terns 인수 관련 IPR&amp;D 비용으로 인한 2분기 연속 GAAP 손실은 경상수익성을 크게 왜곡하지만, 부채비율 209%까지 상승한 레버리지는 실제 재무 위험이며 2028년 이후 Keytruda 특허절벽 리스크도 실제로 남아있는 변수이므로 함께 확인해야 한다.</div>
       </div>
     </div>
