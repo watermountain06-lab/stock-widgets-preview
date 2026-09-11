@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-11T12:37:58Z",
+  "generatedAt": "2026-09-11T13:45:42Z",
   "priceSession": "2026-09-10",
   "indicators": {
     "sp500": {
@@ -26,24 +26,21 @@
     "fedTarget": {
       "lower": 3.5,
       "upper": 3.75,
-      "asOf": "2026-09-10",
-      "status": "stale",
-      "source": "FRED DFEDTARL/DFEDTARU",
-      "statusReason": "fetch-failed: The read operation timed out"
+      "asOf": "2026-09-11",
+      "status": "fresh",
+      "source": "FRED API DFEDTARL/DFEDTARU"
     },
     "unemployment": {
       "value": 4.1,
       "asOf": "2026-08",
-      "status": "stale",
-      "source": "FRED UNRATE",
-      "statusReason": "fetch-failed: skipped: FRED unreachable earlier in this run (The read operation timed out)"
+      "status": "fresh",
+      "source": "FRED API UNRATE"
     },
     "cpiYoy": {
-      "value": 3.3,
-      "asOf": "2026-07",
-      "status": "stale",
-      "source": "FRED CPIAUCSL, YoY computed",
-      "statusReason": "fetch-failed: skipped: FRED unreachable earlier in this run (The read operation timed out)"
+      "value": 3.4,
+      "asOf": "2026-08",
+      "status": "fresh",
+      "source": "FRED API CPIAUCSL, YoY computed"
     }
   },
   "nextFomc": {
