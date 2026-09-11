@@ -10,6 +10,7 @@
       "name": "PER (TTM GAAP)",
       "valueText": "17.47x",
       "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
       "stage0": 3,
       "width0": "44.7",
       "low": "13",
@@ -23,13 +24,22 @@
       "anchor": "17.755",
       "verdictPremium0": "-1.6",
       "anchorBasis": "formula",
-      "premiumDecimals": 1
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "17.47",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "3.19x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#8bc34a)",
       "stage0": 2,
       "width0": "39.7",
       "low": "2.0",
@@ -43,13 +53,22 @@
       "anchor": "3.53",
       "verdictPremium0": "-9.6",
       "anchorBasis": "verdict",
-      "premiumDecimals": 1
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "3.19",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (TTM)",
       "valueText": "4.35x",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -64,6 +83,7 @@
       "name": "PCR (P/OCF)",
       "valueText": "TTM 마이너스",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -78,6 +98,7 @@
       "name": "EV/EBITDA",
       "valueText": "정의 부적용",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -137,5 +158,9 @@
     "upside0": "+9.4",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#f0c040,#e67e22)",
+    "2": "linear-gradient(90deg,#27ae60,#8bc34a)"
+  }
 }

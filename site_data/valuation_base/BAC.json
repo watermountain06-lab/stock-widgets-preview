@@ -10,6 +10,7 @@
       "name": "PER (TTM GAAP)",
       "valueText": "14.44x",
       "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
       "stage0": 3,
       "width0": "49.3",
       "low": "10",
@@ -23,13 +24,22 @@
       "anchor": "14.7",
       "verdictPremium0": "-1.8",
       "anchorBasis": "verdict",
-      "premiumDecimals": 1
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "14.44",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "1.59x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#8bc34a)",
       "stage0": 2,
       "width0": "25.8",
       "low": "1.0",
@@ -40,15 +50,27 @@
       "value0": "1.59",
       "decimals": 2,
       "method": "price-ratio",
-      "anchor": null,
-      "verdictPremium0": null,
-      "verdictPremiumNote": "verdict -26.2% not reproducible from the anchor - left as is"
+      "anchor": "2.16",
+      "verdictPremium0": "-26.2",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict -26.2% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "1.59",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (TTM)",
       "valueText": "3.68x",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -63,6 +85,7 @@
       "name": "PCR (P/OCF)",
       "valueText": "4.63x",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -77,6 +100,7 @@
       "name": "EV/EBITDA",
       "valueText": "정의 부적용",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -136,5 +160,9 @@
     "upside0": "+9.7",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#f0c040,#e67e22)",
+    "2": "linear-gradient(90deg,#27ae60,#8bc34a)"
+  }
 }

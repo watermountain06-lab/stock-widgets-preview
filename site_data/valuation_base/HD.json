@@ -10,6 +10,7 @@
       "name": "PER (TTM GAAP)",
       "valueText": "21.74x",
       "badge": "3단계 보통",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
       "stage0": 3,
       "width0": "41.0",
       "low": "16",
@@ -21,13 +22,22 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "21.74",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "18.66x",
       "badge": "5단계 매우높음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 5,
       "width0": "96.9",
       "low": "8",
@@ -39,13 +49,30 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "18.66",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "310.01",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": "9억주 × "
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR",
       "valueText": "1.83x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
       "stage0": 1,
       "width0": "10.0",
       "low": "1.7",
@@ -57,13 +84,29 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "1.83",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "310.01",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (P/OCF)",
       "valueText": "16.51x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
       "stage0": 1,
       "width0": "14.8",
       "low": "14",
@@ -75,13 +118,29 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "16.51",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "310.01",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "evebitda",
       "name": "EV/EBITDA (TTM)",
       "valueText": "14.08x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
       "stage0": 1,
       "width0": "18.1",
       "low": "11",
@@ -97,7 +156,29 @@
       "evSource": "calcLine EV and market cap",
       "evChecked": true,
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "14.08",
+          "decimals": 2
+        },
+        "form": "ev",
+        "ev": {
+          "value": "356.58",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "mcap": {
+          "value": "310.01",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     }
   ],
   "targetBand": {
@@ -149,5 +230,10 @@
     "upside0": "+21.5",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#27ae60,#f0c040)",
+    "5": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "1": "linear-gradient(90deg,#2ecc71,#27ae60)"
+  }
 }

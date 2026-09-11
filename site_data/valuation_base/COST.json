@@ -10,6 +10,7 @@
       "name": "PER (TTM GAAP)",
       "valueText": "46.06x",
       "badge": "5단계 매우높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 5,
       "width0": "88.7",
       "low": "15",
@@ -23,13 +24,22 @@
       "anchor": "27.4",
       "verdictPremium0": "68",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "46.06",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "12.12x",
       "badge": "4단계 높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 4,
       "width0": "70.2",
       "low": "3",
@@ -43,13 +53,22 @@
       "anchor": "7.02",
       "verdictPremium0": "73",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "12.12",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (시총/매출 TTM)",
       "valueText": "1.38x",
       "badge": "5단계 매우높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 5,
       "width0": "83.1",
       "low": "0.3",
@@ -63,13 +82,29 @@
       "anchor": "0.84",
       "verdictPremium0": "64",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "1.38",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "406.2",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (P/OCF)",
       "valueText": "27.07x",
       "badge": "5단계 매우높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 5,
       "width0": "86.7",
       "low": "8",
@@ -83,13 +118,29 @@
       "anchor": "15.24",
       "verdictPremium0": "78",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "27.07",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "406.2",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "evebitda",
       "name": "EV/EBITDA (TTM)",
       "valueText": "28.41x",
       "badge": "5단계 매우높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 5,
       "width0": "92.8",
       "low": "8",
@@ -107,7 +158,29 @@
       "anchor": "15.67",
       "verdictPremium0": "81",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "28.41",
+          "decimals": 2
+        },
+        "form": "ev",
+        "ev": {
+          "value": "391.83",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "mcap": {
+          "value": "406.16",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     }
   ],
   "targetBand": {
@@ -159,5 +232,9 @@
     "upside0": "+17.6",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "5": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)"
+  }
 }

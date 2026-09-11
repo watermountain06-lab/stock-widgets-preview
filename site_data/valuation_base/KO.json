@@ -10,6 +10,7 @@
       "name": "PER (TTM GAAP)",
       "valueText": "26.46x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
       "stage0": 2,
       "width0": "38.2",
       "low": "15",
@@ -23,13 +24,22 @@
       "anchor": "25.5",
       "verdictPremium0": "3.8",
       "anchorBasis": "verdict",
-      "premiumDecimals": 1
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "26.46",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "10.48x",
       "badge": "5단계 매우높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 5,
       "width0": "83.1",
       "low": "3",
@@ -43,13 +53,22 @@
       "anchor": "5.14",
       "verdictPremium0": "104",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "10.48",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (시총/매출 TTM)",
       "valueText": "7.56x",
       "badge": "5단계 매우높음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 5,
       "width0": "83.1",
       "low": "0.5",
@@ -60,15 +79,34 @@
       "value0": "7.56",
       "decimals": 2,
       "method": "price-ratio",
-      "anchor": null,
-      "verdictPremium0": null,
-      "verdictPremiumNote": "verdict 264% not reproducible from the anchor - left as is"
+      "anchor": "2.08",
+      "verdictPremium0": "264",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 0,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict 264% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "7.56",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "379.0",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (P/OCF)",
       "valueText": "23.19x",
       "badge": "4단계 높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 4,
       "width0": "76.0",
       "low": "8",
@@ -82,13 +120,29 @@
       "anchor": "15.76",
       "verdictPremium0": "47",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "23.19",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "379.0",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "evebitda",
       "name": "EV/EBITDA (TTM)",
       "valueText": "25.56x",
       "badge": "5단계 매우높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 5,
       "width0": "87.8",
       "low": "8",
@@ -106,7 +160,29 @@
       "anchor": "14.04",
       "verdictPremium0": "82",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "25.56",
+          "decimals": 2
+        },
+        "form": "ev",
+        "ev": {
+          "value": "406.2",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        },
+        "mcap": {
+          "value": "379.0",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     }
   ],
   "targetBand": {
@@ -158,5 +234,10 @@
     "upside0": "+7.5",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "2": "linear-gradient(90deg,#2ecc71,#27ae60)",
+    "5": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)"
+  }
 }

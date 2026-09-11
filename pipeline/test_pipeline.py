@@ -585,7 +585,56 @@ def test_valuation_base_units():
         check(f"EBITDA divisor, not the metric's own name ({calc[:30]}…)", got is not None and abs(got - want) < 1e-6, got)
 
 
+def test_valuation_render():
+    """valuation.py on a synthetic card: numbers, badge change, verdict, calcLine, title, label;
+    re-running is a no-op and the result depends on P1 only, not on the path taken."""
+    import valuation as va
+    from decimal import Decimal as D
+    html = ('<div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 $100.00 (2026.09.09 종가) · 피어</div>\n'
+            '<div class="asof-line" style="x">가격·기술지표: 2026.09.10 종가 기준 갱신 · 분석 문장·밸류에이션: 2026.09.09 기준</div>\n'
+            '<div class="val-item" data-metric="per" onclick="x">\n<div class="val-header"><span class="val-name">PER</span>'
+            '<div style="display:flex;align-items:center;gap:8px;"><span class="val-number">50.00x</span>'
+            '<span class="stage-badge stage-3">3단계 적정(가중치 0.5)</span></div></div>\n'
+            '<div class="val-track"><div class="val-fill" style="width:57.1%;background:linear-gradient(90deg,#f0c040,#e67e22);"></div></div>\n'
+            '<div class="val-labels"><span class="val-low">저 10x</span><span class="val-mid">적정 40x</span><span class="val-high">고 80x</span></div>\n'
+            "<script>\nconst MULTIPLE_DATA = {\n  per: {\n    unit: 'PER', max: 80, tValue: 50.00,\n"
+            "    calcLine: 'PER = 주가($100.00) ÷ EPS($2.00) = 50.00x',\n"
+            "    verdict: 'T PER 50.00x는 앵커(평균 40.0x) 대비 +25.0% — 설명',\n  }\n};\n</script>")
+    base = {"p0": "100.00", "cardAsOf": "2026-09-09", "metrics": [
+        {"metric": "per", "frozen": False, "method": "price-ratio", "value0": "50.00", "decimals": 2, "low": "10", "high": "80",
+         "stage0": 3, "badge": "3단계 적정(가중치 0.5)", "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
+         "valueKey": "tValue", "anchor": "40.0", "verdictPremium0": "25.0", "premiumDecimals": 1, "verdictFirstIsValue": True,
+         "calc": {"form": "price", "result": {"value": "50.00", "decimals": 2}}}]}
+    out = va.render(html, base, D("130"), "2026-09-11", [])
+    check("valuation: multiple, width and badge follow the price",
+          ">65.00x<" in out and "width:78.6%" in out and "stage-badge stage-4\">4단계 높음(가중치 0.5)<" in out)
+    check("valuation: verdict value, premium and anchor date",
+          "T PER 65.00x는 앵커(평균 40.0x, 2026.09.09 기준) 대비 +62.5% — 설명" in out)
+    check("valuation: calcLine price and result", "PER = 주가($130.00) ÷ EPS($2.00) = 65.00x" in out and "tValue: 65.00," in out)
+    check("valuation: section title and as-of wording",
+          "현재가 $130.00 (2026.09.11 종가)" in out and "가격·기술지표·배수: " in out and "분석 문장·재무·앵커: " in out)
+    check("valuation: re-running with the same price changes nothing", va.render(out, base, D("130"), "2026-09-11", []) == out)
+    check("valuation: result depends on today's price only, not on the path",
+          va.render(out, base, D("90"), "2026-09-12", []) == va.render(html, base, D("90"), "2026-09-12", []))
+    # a card whose own label/colour for a stage isn't the standard one must get them back, whatever the path
+    odd = html.replace("3단계 적정(가중치 0.5)", "3단계 보통(가중치 0.5)").replace("#f0c040,#e67e22", "#c8a84b,#f0c040")
+    odd_base = {"p0": "100.00", "cardAsOf": "2026-09-09", "gradients": {"3": "linear-gradient(90deg,#c8a84b,#f0c040)"},
+                "metrics": [dict(base["metrics"][0], stage0=3, badge="3단계 보통(가중치 0.5)",
+                                 gradient0="linear-gradient(90deg,#c8a84b,#f0c040)")]}
+    via = va.render(va.render(odd, odd_base, D("130"), "2026-09-11", []), odd_base, D("100"), "2026-09-11", [])
+    check("valuation: back at the original stage, the card's own label and colour return",
+          via == va.render(odd, odd_base, D("100"), "2026-09-11", []) and "3단계 보통(가중치 0.5)" in via and "#c8a84b,#f0c040" in via)
+    check("valuation: a multi-word stage wording isn't mistaken for a suffix",
+          [va.badge_suffix(b) for b in ("4단계 다소 높음", "4단계 높음(가중치 0.5)", "1단계 매우낮음 · 평가보류", "5단계 매우높음")]
+          == ["", "(가중치 0.5)", " · 평가보류", ""])
+    base["metrics"][0].update(stage0=3, badge="3단계 적정(가중치 0.5)", gradient0="linear-gradient(90deg,#f0c040,#e67e22)")
+    frozen = {"p0": "100.00", "cardAsOf": "2026-09-09", "metrics": [dict(base["metrics"][0], frozen=True)]}
+    kept = va.render(html, frozen, D("130"), "2026-09-11", [])
+    check("valuation: a frozen metric is left exactly as it was", ">50.00x<" in kept and "대비 +25.0% — 설명" in kept)
+
+
 if __name__ == "__main__":
+    test_valuation_render()
     test_valuation_base_units()
     test_price_rules()
     test_macro_rules()

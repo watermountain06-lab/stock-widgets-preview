@@ -10,6 +10,7 @@
       "name": "PER (조정, TTM)",
       "valueText": "18.9x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#8bc34a)",
       "stage0": 1,
       "width0": "9.8",
       "low": "15",
@@ -23,13 +24,22 @@
       "anchor": "34.3",
       "verdictPremium0": "-45",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "18.9",
+          "decimals": 1
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "5.61x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#8bc34a)",
       "stage0": 1,
       "width0": "8.2",
       "low": "3",
@@ -43,13 +53,22 @@
       "anchor": "18.0",
       "verdictPremium0": "-69",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "5.61",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (TTM)",
       "valueText": "6.42x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#8bc34a)",
       "stage0": 2,
       "width0": "20.1",
       "low": "3",
@@ -63,13 +82,22 @@
       "anchor": "11.0",
       "verdictPremium0": "-42",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "6.42",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (P/FCF)",
       "valueText": "38.7x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#8bc34a)",
       "stage0": 2,
       "width0": "33.9",
       "low": "15",
@@ -83,13 +111,22 @@
       "anchor": "48.1",
       "verdictPremium0": "-20",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "38.7",
+          "decimals": 1
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "evebitda",
       "name": "EV/EBITDA",
       "valueText": "13.3x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#8bc34a)",
       "stage0": 1,
       "width0": "15.6",
       "low": "8",
@@ -107,7 +144,29 @@
       "anchor": "23.6",
       "verdictPremium0": "-44",
       "anchorBasis": "verdict",
-      "premiumDecimals": 0
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "13.3",
+          "decimals": 1
+        },
+        "form": "ev",
+        "ev": {
+          "value": "1,458.8",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": true
+        },
+        "mcap": {
+          "value": "1,465.4",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": true
+        }
+      },
+      "verdictFirstIsValue": true
     }
   ],
   "targetBand": {
@@ -159,5 +218,9 @@
     "upside0": "+32.2",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "1": "linear-gradient(90deg,#2ecc71,#8bc34a)",
+    "2": "linear-gradient(90deg,#27ae60,#8bc34a)"
+  }
 }

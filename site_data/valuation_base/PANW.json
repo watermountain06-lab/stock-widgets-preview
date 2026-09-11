@@ -10,6 +10,7 @@
       "name": "PER (Forward · 컨센서스)",
       "valueText": "79.73x",
       "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
       "stage0": 3,
       "width0": "41.8",
       "low": "15",
@@ -23,13 +24,22 @@
       "anchor": "97.0",
       "verdictPremium0": "-17.8",
       "anchorBasis": "verdict",
-      "premiumDecimals": 1
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "79.73",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "9.90x",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": "1.54",
@@ -44,6 +54,7 @@
       "name": "PSR (FY2026)",
       "valueText": "23.72x",
       "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
       "stage0": 3,
       "width0": "42.3",
       "low": "3",
@@ -57,13 +68,18 @@
       "anchor": "27.4",
       "verdictPremium0": "-13.4",
       "anchorBasis": "verdict",
-      "premiumDecimals": 1
+      "premiumDecimals": 1,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (P/OCF, FY2026)",
       "valueText": "59.80x",
       "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
       "stage0": 3,
       "width0": "41.8",
       "low": "8",
@@ -77,13 +93,18 @@
       "anchor": "69.7",
       "verdictPremium0": "-14.2",
       "anchorBasis": "verdict",
-      "premiumDecimals": 1
+      "premiumDecimals": 1,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "evsales",
       "name": "EV/매출 (EV/EBITDA 대체)",
       "valueText": "23.18x",
       "badge": "3단계 적정(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
       "stage0": 3,
       "width0": "42.0",
       "low": "3",
@@ -101,7 +122,29 @@
       "anchor": "26.75",
       "verdictPremium0": "-13.3",
       "anchorBasis": "formula",
-      "premiumDecimals": 1
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "23.18",
+          "decimals": 2
+        },
+        "form": "ev",
+        "ev": {
+          "value": "266.12",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "mcap": {
+          "value": "272.25",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     }
   ],
   "targetBand": {
@@ -153,5 +196,8 @@
     "upside0": "+17.1",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:31Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#f0c040,#e67e22)"
+  }
 }

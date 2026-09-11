@@ -10,6 +10,7 @@
       "name": "PER (TTM GAAP)",
       "valueText": "13.03x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
       "stage0": 2,
       "width0": "38.2",
       "low": "10.4",
@@ -20,15 +21,27 @@
       "value0": "13.03",
       "decimals": 2,
       "method": "price-ratio",
-      "anchor": null,
-      "verdictPremium0": null,
-      "verdictPremiumNote": "verdict -12.0% not reproducible from the anchor - left as is"
+      "anchor": "14.82",
+      "verdictPremium0": "-12.0",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict -12.0% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "13.03",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "1.65x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
       "stage0": 2,
       "width0": "34.4",
       "low": "1.34",
@@ -39,15 +52,23 @@
       "value0": "1.65",
       "decimals": 2,
       "method": "price-ratio",
-      "anchor": null,
-      "verdictPremium0": null,
-      "verdictPremiumNote": "verdict -22.7% not reproducible from the anchor - left as is"
+      "anchor": "2.13",
+      "verdictPremium0": "-22.7",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict -22.7% normalized to the value it states (rounding gap)",
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (TTM)",
       "valueText": "3.12x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
       "stage0": 2,
       "width0": "27.5",
       "low": "2.64",
@@ -58,15 +79,35 @@
       "value0": "3.12",
       "decimals": 2,
       "method": "price-ratio",
-      "anchor": null,
-      "verdictPremium0": null,
-      "verdictPremiumNote": "verdict -25.6% not reproducible from the anchor - left as is"
+      "anchor": "4.20",
+      "verdictPremium0": "-25.6",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict -25.6% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "3.12",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "271.16",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": " = 주가 "
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (P/OCF)",
       "valueText": "14.14x",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -81,6 +122,7 @@
       "name": "EV/EBITDA",
       "valueText": "정의 부적용",
       "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -140,5 +182,8 @@
     "upside0": "+12.2",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:31Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "2": "linear-gradient(90deg,#27ae60,#f0c040)"
+  }
 }

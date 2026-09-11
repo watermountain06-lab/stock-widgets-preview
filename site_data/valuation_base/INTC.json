@@ -10,6 +10,7 @@
       "name": "PER (TTM)",
       "valueText": "N/A",
       "badge": "적자 — 산출불가",
+      "gradient0": "rgba(231,76,60,0.35)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -24,6 +25,7 @@
       "name": "PBR",
       "valueText": "4.69x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#2ecc71)",
       "stage0": 1,
       "width0": "5.9",
       "low": "4",
@@ -35,13 +37,22 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "4.69",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (TTM)",
       "valueText": "8.83x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#2ecc71)",
       "stage0": 1,
       "width0": "14.3",
       "low": "6",
@@ -53,13 +64,29 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "8.83",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "503.4",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (P/OCF, TTM)",
       "valueText": "33.7x",
       "badge": "참고용 — 비교제외",
+      "gradient0": "rgba(154,160,184,0.35)",
       "stage0": null,
       "width0": "100",
       "low": null,
@@ -74,6 +101,7 @@
       "name": "EV/EBITDA (TTM)",
       "valueText": "41.0x",
       "badge": "2단계 다소낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
       "stage0": 2,
       "width0": "31.4",
       "low": "25",
@@ -89,7 +117,29 @@
       "evSource": "calcLine EV and market cap",
       "evChecked": true,
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "41.0",
+          "decimals": 1
+        },
+        "form": "ev",
+        "ev": {
+          "value": "504.5",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        },
+        "mcap": {
+          "value": "503.4",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     }
   ],
   "targetBand": {
@@ -141,5 +191,9 @@
     "upside0": "+20.9",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "1": "linear-gradient(90deg,#27ae60,#2ecc71)",
+    "2": "linear-gradient(90deg,#27ae60,#f0c040)"
+  }
 }

@@ -40,6 +40,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PRE_2A = "e68eda0"  # last commit before stage 2A rewrote card headers
+# the exact labels stage 2B writes - a card carrying one no longer shows its analysis-date values
+STAGE_2B_MARK = re.compile(r"(?:\((?:앵커|분석일) |, )\d{4}\.\d{2}\.\d{2} 기준(?: 계산)?\)")
 SCHEMA = 1
 
 ROW = re.compile(
@@ -154,6 +156,59 @@ def ev_parts(calc, mds, header_cap=None):
     return None, None, None
 
 
+# ---------- calcLine forms ----------
+
+MC_RE = re.compile(r"((?:시가총액|시총)\s*\(?)\$([\d,.]+)([MBT])")
+EV_RE = re.compile(r"(EV\s*\()\$([\d,.]+)([MBT]?)")
+PRICE_RE = re.compile(r"(주가\()\$([\d,.]+)(\))")
+RESULT_RE = re.compile(r"([=≈]\s*~?)([\d.]+)(x)")
+
+
+def token(m):
+    return {"value": m.group(2), "unit": m.group(3) or "B", "shownUnit": bool(m.group(3)),
+            "decimals": decimals(m.group(2)), "commas": "," in m.group(2)}
+
+
+def calc_info(rec, calc, p0):
+    """How a calcLine can follow the price: 'price' (주가 and result), 'mcap' (market cap and result),
+    'ev' (EV, market cap if stated, and result) - else 'fixed', labelled as an analysis-date calculation.
+    A formula that quotes any other multiple, or the price anywhere else, is fixed: rewriting half of it
+    would leave a stale number next to a fresh one."""
+    results = list(RESULT_RE.finditer(calc))
+    if len(results) != 1 or len(re.findall(r"[\d.]+x", calc)) != 1:
+        return {"form": "fixed"}
+    info = {"result": {"value": results[0].group(2), "decimals": decimals(results[0].group(2))}}
+    prices, mcs, evs = list(PRICE_RE.finditer(calc)), list(MC_RE.finditer(calc)), list(EV_RE.finditer(calc))
+    if rec["method"] == "price-ratio":
+        if (len(prices) == 1 and not mcs and calc.count("$" + prices[0].group(2)) == 1
+                and dec(prices[0].group(2).replace(",", "")) == p0):
+            info["form"] = "price"
+        elif not prices and len(mcs) == 1:
+            info.update(form="mcap", mcap=token(mcs[0]))
+        else:
+            return {"form": "fixed"}
+    elif len(evs) == 1 and len(mcs) <= 1 and not prices:
+        info.update(form="ev", ev=token(evs[0]))
+        if mcs:
+            info["mcap"] = token(mcs[0])
+    else:
+        return {"form": "fixed"}
+    if info["form"] in ("mcap", "ev"):
+        # a market-cap formula may quote the price too ("12.612억주 × $192.93"); remember the text just
+        # before it so it can be found again once it no longer reads P0
+        p0txt = f"${p0:,.2f}"
+        n = calc.count(p0txt)
+        if n > 1:
+            return {"form": "fixed"}
+        if n == 1:
+            i = calc.index(p0txt)
+            ctx = calc[max(0, i - 6):i]
+            if not ctx.strip() or calc.count(ctx) != 1:
+                return {"form": "fixed"}
+            info["priceContext"] = ctx
+    return info
+
+
 # ---------- target band ----------
 
 def target_band(html):
@@ -214,7 +269,11 @@ def build(entry, html):
 
     for m in ROW.finditer(html):
         g = m.groupdict()
+        grad = re.search(r'class="val-fill" style="width:[\d.]+%;background:([^;"]*)', m.group(0))
+        if grad and g["stage"]:
+            base.setdefault("gradients", {}).setdefault(g["stage"], grad.group(1))  # the card's own colour per stage
         rec = {"metric": g["metric"], "name": re.sub(r"<[^>]+>", "", g["name"]).strip(), "valueText": g["num"].strip(), "badge": g["badge"],
+               "gradient0": grad.group(1) if grad else None,
                "stage0": int(g["stage"]) if g["stage"] else None, "width0": g["width"],
                "low": str(number(g["low"])) if number(g["low"]) is not None else None,
                "high": str(number(g["high"])) if number(g["high"]) is not None else None,
@@ -282,7 +341,18 @@ def build(entry, html):
                 elif hits:
                     rec["verdictPremiumNote"] = f"verdict {shown}% fits more than one anchor - left as is"
                 else:
-                    rec["verdictPremiumNote"] = f"verdict {shown}% not reproducible from the anchor - left as is"
+                    ref = verdict_reference(body)
+                    if ref:  # user decision 2026-09-11: recompute from the value the sentence states
+                        rec.update(anchor=str(ref[0][1]), anchorBasis="verdict (normalized)", verdictPremium0=str(shown),
+                                   premiumDecimals=places, premiumNormalized=True)
+                        rec["verdictPremiumNote"] = f"verdict {shown}% normalized to the value it states (rounding gap)"
+                    else:
+                        rec["verdictPremiumNote"] = f"verdict {shown}% not reproducible from the anchor - left as is"
+            calc = re.search(r"calcLine: '([^']*)'", body)
+            rec["calc"] = calc_info(rec, calc.group(1) if calc else "", p0)
+            vt = re.search(r"verdict: '([^']*)'", body)
+            first = re.search(r"~?([\d.]+)x", vt.group(1)) if vt else None
+            rec["verdictFirstIsValue"] = bool(first and first.group(1) == rec["valueText"].lstrip("~").rstrip("x"))
             problems = baseline_test(rec)
             if problems:
                 freeze("baseline test: " + "; ".join(problems))
@@ -337,6 +407,7 @@ def main():
     ap.add_argument("--out", default=str(ROOT / "site_data" / "valuation_base"))
     ap.add_argument("--report", default=None, help="also write the audit table (markdown) here")
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--force", action="store_true", help="build even from a card stage 2B already changed")
     args = ap.parse_args()
     data = json.loads(Path(args.data).read_text(encoding="utf-8"))
     wanted = {t.strip().upper() for t in args.tickers.split(",")} if args.tickers else None
@@ -348,6 +419,9 @@ def main():
         if wanted and t not in wanted:
             continue
         html = (ROOT / entry["href"]).read_text(encoding="utf-8")
+        if STAGE_2B_MARK.search(html) and not args.force:
+            sys.exit(f"{t}: its valuation tab was already moved by stage 2B - a baseline taken from it now "
+                     "would be wrong (restore the card first; --force overrides)")
         base = build(entry, html)
         auto = [m["metric"] for m in base["metrics"] if not m["frozen"]]
         frozen = [f"{m['metric']}({m['frozenReason']})" for m in base["metrics"] if m["frozen"]]

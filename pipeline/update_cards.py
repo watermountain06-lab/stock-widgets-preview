@@ -58,6 +58,10 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import fetch_prices as fp  # noqa: E402
 from compute_breakout_signal import compute_active_breakout  # noqa: E402
 from compute_technical_score import compute_signal  # noqa: E402
+import valuation  # noqa: E402
+
+# stage 2B-2 (valuation tab) runs only on these cards until the pilot passes; None = every card with a baseline
+VALUATION_TICKERS = {"ANET", "NVDA", "AAPL", "KO"}
 
 MAX_BARS = 1255
 CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range={range}&interval=1d&events=split"
@@ -535,7 +539,7 @@ def render(html, ticker, tokens, tech, breakout, shares, card_asof, notes, ma_la
 
     # --- as-of label ---
     if 'class="asof-line"' in html:
-        html = sub1(html, r'(<div class="asof-line"[^>]*>가격·기술지표: )\d{4}\.\d{2}\.\d{2}',
+        html = sub1(html, r'(<div class="asof-line"[^>]*>가격·기술지표(?:·배수)?: )\d{4}\.\d{2}\.\d{2}',
                     lambda m: f"{m.group(1)}{dot(last[0])}", "as-of label")
     else:
         cap_part = " · 시가총액: SEC 공시 주식수 기준" if shares else ""
@@ -586,7 +590,7 @@ def node_check(html):
     return ""
 
 
-def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, breakout_config):
+def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, breakout_config, valuation_dir=None):
     ticker = entry["ticker"]
     old_html = path.read_text(encoding="utf-8")
     lines, arrays = parse_card_arrays(old_html)
@@ -645,6 +649,14 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
         notes.append("no SEC share count - market cap left as is")
     ma_last = {k: float(a["tokens"][-1]) for k, a in arrays.items() if k != "DAILY" and a["tokens"][-1] != "null"}
     html = render(html, ticker, tokens, tech, breakout, shares, entry["cardAsOf"], notes, ma_last)
+    # stage 2B-2: the valuation tab, in the same transaction - if it fails, the card isn't written at all
+    base_path = (valuation_dir or ROOT / "site_data" / "valuation_base") / f"{ticker}.json"
+    if base_path.exists() and (VALUATION_TICKERS is None or ticker in VALUATION_TICKERS):
+        try:
+            html = valuation.render(html, json.loads(base_path.read_text(encoding="utf-8")),
+                                    Decimal(str(bars[-1][4])), bars[-1][0], notes)
+        except valuation.RenderError as e:
+            raise EditError(f"valuation: {e}")
 
     if html == old_html:  # tech is still returned so a missing state file gets repaired
         return "unchanged", bars[-1][0], {"replaced": 0, "appended": 0}, notes, None, tech
@@ -674,6 +686,7 @@ def main():
     ap.add_argument("--now", default=None)
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--out-dir", default=None, help="also save updated cards here (for review diffs)")
+    ap.add_argument("--valuation-dir", default=str(ROOT / "site_data" / "valuation_base"))
     args = ap.parse_args()
 
     now_et = datetime.fromisoformat(args.now).astimezone(fp.ET) if args.now else datetime.now(fp.ET)
@@ -705,7 +718,8 @@ def main():
         else:
             try:
                 st, last, counts, notes, html, tech = update_card(path, entry, session, args.fixtures, now_et,
-                                                                  state_dir, tech_config, breakout_config)
+                                                                  state_dir, tech_config, breakout_config,
+                                                                  Path(args.valuation_dir))
                 net_failures = 0
                 if args.write:
                     commit(path, html if st == "updated" else None, state_dir / f"{t}.json", tech)

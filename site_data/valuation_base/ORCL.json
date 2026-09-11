@@ -10,6 +10,7 @@
       "name": "PER (TTM GAAP)",
       "valueText": "27.23x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#8bc34a)",
       "stage0": 2,
       "width0": "34.2",
       "low": "18",
@@ -21,13 +22,22 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "27.23",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR",
       "valueText": "10.76x",
       "badge": "4단계 다소높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
       "stage0": 4,
       "width0": "64.7",
       "low": "3",
@@ -39,13 +49,22 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "10.76",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (시총/매출 TTM)",
       "valueText": "6.79x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#8bc34a)",
       "stage0": 2,
       "width0": "31.6",
       "low": "3",
@@ -57,13 +76,29 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "6.79",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "457.4",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (P/FCF)",
       "valueText": "평가보류",
       "badge": "산출불가",
+      "gradient0": "linear-gradient(90deg,#5c6282,#5c6282)",
       "stage0": null,
       "width0": "0",
       "low": "23.69",
@@ -78,6 +113,7 @@
       "name": "EV/EBITDA (TTM)",
       "valueText": "18.58x",
       "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
       "stage0": 3,
       "width0": "42.9",
       "low": "10",
@@ -93,7 +129,29 @@
       "evSource": "calcLine EV and market cap",
       "evChecked": true,
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "18.58",
+          "decimals": 2
+        },
+        "form": "ev",
+        "ev": {
+          "value": "555.6",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        },
+        "mcap": {
+          "value": "457.4",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
     }
   ],
   "targetBand": {
@@ -145,5 +203,10 @@
     "upside0": "+52.9",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "2": "linear-gradient(90deg,#27ae60,#8bc34a)",
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "3": "linear-gradient(90deg,#f0c040,#e67e22)"
+  }
 }

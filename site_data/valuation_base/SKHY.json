@@ -10,6 +10,7 @@
       "name": "PER (ADR 기준, 조정, TTM)",
       "valueText": "16.6x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
       "stage0": 1,
       "width0": "16.4",
       "low": "10",
@@ -21,13 +22,18 @@
       "decimals": 1,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pbr",
       "name": "PBR (ADR 기준)",
       "valueText": "6.38x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
       "stage0": 2,
       "width0": "28.2",
       "low": "3",
@@ -39,13 +45,18 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "psr",
       "name": "PSR (ADR 기준, TTM)",
       "valueText": "8.85x",
       "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
       "stage0": 2,
       "width0": "39.0",
       "low": "3",
@@ -57,13 +68,30 @@
       "decimals": 2,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "8.85",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "1,207.8",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": true
+        },
+        "priceContext": "DR환산)×"
+      },
+      "verdictFirstIsValue": true
     },
     {
       "metric": "pcr",
       "name": "PCR (ADR 기준, P/FCF, TTM)",
       "valueText": "18.3x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
       "stage0": 1,
       "width0": "7.2",
       "low": "15",
@@ -75,13 +103,29 @@
       "decimals": 1,
       "method": "price-ratio",
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "18.3",
+          "decimals": 1
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "1,207.8",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": true
+        }
+      },
+      "verdictFirstIsValue": false
     },
     {
       "metric": "evebitda",
       "name": "EV/EBITDA (ADR 기준, TTM, 추정)",
       "valueText": "11.5x",
       "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
       "stage0": 1,
       "width0": "17.5",
       "low": "8",
@@ -97,7 +141,29 @@
       "evSource": "calcLine EV and market cap",
       "evChecked": false,
       "anchor": null,
-      "verdictPremium0": null
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "11.5",
+          "decimals": 1
+        },
+        "form": "ev",
+        "ev": {
+          "value": "1,201.8",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": true
+        },
+        "mcap": {
+          "value": "1,207.8",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 1,
+          "commas": true
+        }
+      },
+      "verdictFirstIsValue": true
     }
   ],
   "targetBand": {
@@ -149,5 +215,9 @@
     "upside0": "+45.6",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:07:30Z"
+  "builtAt": "2026-09-11T20:23:09Z",
+  "gradients": {
+    "1": "linear-gradient(90deg,#2ecc71,#27ae60)",
+    "2": "linear-gradient(90deg,#27ae60,#f0c040)"
+  }
 }
