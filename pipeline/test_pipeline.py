@@ -2,11 +2,14 @@
 """Offline tests for the daily pipeline: completeness and anomaly rules on
 synthetic charts, then the fetch scripts run end to end against a temporary
 copy of stocks.json with --fixtures, including forced failures (missing
-fixture, halted ticker, low-volume bar, absent macro sources). No network.
+fixture, halted ticker, low-volume bar, absent macro sources), and the card
+updater on copies of real cards. No network.
 
 Usage: python3 pipeline/test_pipeline.py
 """
 import json
+import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -357,6 +360,157 @@ def test_fred_api_mode():
           (kept["status"], kept["statusReason"], kept["value"]) == ("stale", "fetch-failed: now", 7591.7), kept)
 
 
+def card_chart(bars, splits=()):
+    """Yahoo chart JSON for [date, o, h, l, c, v] bars (session-open timestamps)."""
+    stamp = lambda d: int(datetime.combine(date.fromisoformat(d), dtime(9, 30), ET).timestamp())
+    quote = {k: [b[i + 1] for b in bars] for i, k in enumerate(("open", "high", "low", "close", "volume"))}
+    events = {str(stamp(s)): {"date": stamp(s), "numerator": 2, "denominator": 1} for s in splits}
+    return {"chart": {"result": [{"timestamp": [stamp(b[0]) for b in bars], "indicators": {"quote": [quote]},
+                                  "events": {"splits": events}}], "error": None}}
+
+
+def test_card_updater():
+    """update_cards.py on copies of real cards: append, re-sync, hold, failure, idempotency."""
+    import update_cards as uc
+    tmp = Path(tempfile.mkdtemp())
+    cards, fx, state = tmp / "cards", tmp / "fixtures", tmp / "state"
+    for p in (cards, fx, state):
+        p.mkdir()
+    data = json.loads((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"))
+    # ANET normal, NVDA mid-session bar, AAPL split, MSFT no fixture, BAC second
+    # statement after its MA120 array, KO Yahoo lagging, V stale on the homepage
+    data["tickers"] = [t for t in data["tickers"] if t["ticker"] in ("ANET", "NVDA", "AAPL", "MSFT", "BAC", "KO", "V")]
+    new_close, card_last = {}, {}
+    for t in data["tickers"]:
+        tk = t["ticker"]
+        html = (ROOT / t["href"]).read_text(encoding="utf-8")
+        (cards / t["href"]).write_text(html, encoding="utf-8")
+        if (ROOT / "site_data" / "tech_state" / f"{tk}.json").exists():
+            shutil.copy(ROOT / "site_data" / "tech_state" / f"{tk}.json", state / f"{tk}.json")
+        _, arrays = uc.parse_card_arrays(html)
+        bars = [list(uc.bar_values(x)) for x in arrays["DAILY"]["tokens"][-30:]]
+        nxt = date.fromisoformat(bars[-1][0]) + timedelta(days=1)
+        while nxt.weekday() >= 5:
+            nxt += timedelta(days=1)
+        c = round(bars[-1][4] * 1.01, 2)
+        bars.append([nxt.isoformat(), c, round(c * 1.01, 2), round(c * 0.99, 2), c, 5_000_000])
+        if tk == "NVDA":
+            bars[-2][5] += 1000  # the card's last bar was captured mid-session
+        new_close[tk] = (nxt.isoformat(), c)
+        card_last[tk] = (bars[-2][0], bars[-2][4])
+        t["price"] = {"close": c, "prevClose": bars[-2][4], "session": nxt.isoformat(),
+                      "prevSession": bars[-2][0], "status": "fresh"}
+        if tk == "V":  # the homepage kept V's previous close - the card must not run ahead of it
+            t["price"] = {"close": bars[-2][4], "prevClose": bars[-3][4], "session": bars[-2][0],
+                          "prevSession": bars[-3][0], "status": "stale", "statusReason": "fetch-failed: test"}
+        if tk != "MSFT":  # MSFT: no fixture -> fetch failure
+            splits = [bars[-5][0]] if tk == "AAPL" else ()
+            served = bars[:-1] if tk == "KO" else bars  # KO: Yahoo hasn't published the session yet
+            (fx / f"{t.get('yahooSymbol', tk)}.json").write_text(json.dumps(card_chart(served, splits)), encoding="utf-8")
+    data["priceSession"] = max(s for s, _ in new_close.values())
+    stocks = tmp / "stocks.json"
+    stocks.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    status = tmp / "card_status.json"
+    now = datetime.combine(date.fromisoformat(data["priceSession"]), dtime(18, 0), ET).isoformat()
+    args = ("--data", str(stocks), "--cards-dir", str(cards), "--state-dir", str(state),
+            "--status", str(status), "--fixtures", str(fx), "--now", now)
+    snapshot = lambda: {p.name: p.read_bytes() for p in cards.iterdir()}
+    before = snapshot()
+
+    out = run("update_cards.py", *args)
+    check("card dry run exits 0", out.returncode == 0, out.stdout + out.stderr)
+    check("card dry run writes nothing", snapshot() == before and not status.exists())
+
+    out = run("update_cards.py", *args, "--write")
+    check("card write run exits 0", out.returncode == 0, out.stdout + out.stderr)
+    st = json.loads(status.read_text(encoding="utf-8"))["cards"]
+    check("normal card is updated", st["ANET"]["status"] == "updated", st["ANET"])
+    check("card's mid-session bar is re-synced",
+          st["NVDA"]["status"] == "updated" and any(r.startswith("re-synced") for r in st["NVDA"]["reasons"]), st["NVDA"])
+    check("split in the window holds the card untouched",
+          st["AAPL"]["status"] == "held" and snapshot()["AAPL_full_widget.html"] == before["AAPL_full_widget.html"], st["AAPL"])
+    check("fetch failure leaves the card untouched",
+          st["MSFT"]["status"] == "failed" and snapshot()["MSFT_full_widget.html"] == before["MSFT_full_widget.html"], st["MSFT"])
+    for tk, q in (("ANET", "'"), ("NVDA", '"')):
+        html = (cards / f"{tk}_full_widget.html").read_text(encoding="utf-8")
+        _, arrays = uc.parse_card_arrays(html)
+        d, c = new_close[tk]
+        lens = {len(a["tokens"]) for a in arrays.values()}
+        check(f"{tk}: DAILY and MA arrays stay equal length, capped", len(lens) == 1 and max(lens) <= uc.MAX_BARS, lens)
+        check(f"{tk}: new bar written in the card's own quote style",
+              arrays["DAILY"]["tokens"][-1].startswith(f"[{q}{d}{q}"), arrays["DAILY"]["tokens"][-1])
+        check(f"{tk}: header shows the new close", f'<div class="price-main">{uc.money(c)}</div>' in html)
+        check(f"{tk}: as-of label inserted once", html.count('class="asof-line"') == 1)
+        check(f"{tk}: tech state saved for the new session",
+              json.loads((state / f"{tk}.json").read_text(encoding="utf-8"))["asOf"] == d)
+
+    check("Yahoo missing the session holds the card", st["KO"]["status"] == "held"
+          and snapshot()["KO_full_widget.html"] == before["KO_full_widget.html"], st["KO"])
+    _, v_arrays = uc.parse_card_arrays((cards / "V_full_widget.html").read_text(encoding="utf-8"))
+    check("stale homepage price caps the card at its own session",
+          uc.bar_values(v_arrays["DAILY"]["tokens"][-1])[0] == card_last["V"][0] and st["V"]["status"] != "failed", st["V"])
+    old_bac = [l for l in before["BAC_full_widget.html"].decode("utf-8").split("\n") if l.startswith("const BAC_MA120")][0]
+    new_bac = [l for l in (cards / "BAC_full_widget.html").read_text(encoding="utf-8").split("\n")
+               if l.startswith("const BAC_MA120")][0]
+    check("statement after BAC's MA120 array is kept verbatim",
+          st["BAC"]["status"] == "updated" and new_bac.split("];", 1)[1] == old_bac.split("];", 1)[1], st["BAC"])
+    for tk in ("ANET", "NVDA", "BAC"):
+        html = (cards / f"{tk}_full_widget.html").read_text(encoding="utf-8")
+        s, e = uc.tech_segment(html)
+        g = re.search(r'<div class="scorecard-grade (grade-[a-z]+)">([^<]+)</div>', html[s:e])
+        check(f"{tk}: grade colour and text come from the same grade",
+              any(uc.GRADE_CLASS[k] == g.group(1) and uc.GRADE_TEXT[k] == g.group(2) for k in uc.GRADE_CLASS), g.groups())
+
+    after = snapshot()
+    out = run("update_cards.py", *args, "--write")
+    st = json.loads(status.read_text(encoding="utf-8"))["cards"]
+    check("second card run changes nothing", snapshot() == after and st["ANET"]["status"] == "unchanged", st["ANET"])
+    status_after = status.read_bytes()
+    (state / "ANET.json").unlink()
+    run("update_cards.py", *args, "--write")
+    check("a lost tech state file comes back while the card stays as is",
+          (state / "ANET.json").exists() and snapshot() == after)
+    check("a run with no change leaves the status file alone", status.read_bytes() == status_after)
+
+
+def test_card_units():
+    """Pieces of update_cards.py that fixtures can't easily reach."""
+    import update_cards as uc
+    card = ("const X_DAILY = [['2026-09-01',10.0,11.0,9.0,10.5,100],['2026-09-02',10.5,11.5,10.0,11.0,100],"
+            "['2026-09-03',11.0,12.0,10.5,11.5,100]];\nconst X_MA5 = [null,null,null]; const OTHER = [1];")
+    _, arrays = uc.parse_card_arrays(card)
+    check("array line keeps a trailing statement as its tail", arrays["MA5"]["tail"] == "; const OTHER = [1];")
+    def held_by_sync(card_dates, yahoo_dates):
+        toks = ",".join(f"['{d}',10.0,11.0,9.0,10.5,100]" for d in card_dates)
+        _, a = uc.parse_card_arrays(f"const X_DAILY = [{toks}];")
+        try:  # update_card turns the returned card-only sessions into a hold
+            return bool(uc.sync_bars(a, [(d, 10.0, 11.0, 9.0, 10.5, 100) for d in yahoo_dates], [], [])[3])
+        except uc.Hold:
+            return True
+    days = ["2026-09-01", "2026-09-02", "2026-09-03"]
+    check("card-only session holds the card", held_by_sync(days, [days[0], days[2]]))
+    check("session missing inside the card holds it", held_by_sync([days[0], days[2]], days))
+    check("matching sessions don't hold", not held_by_sync(days, days))
+    check("every display grade has both a colour and a label", set(uc.GRADE_CLASS) == set(uc.GRADE_TEXT))
+
+    flags = '<div class="scorecard-flags">\n      <span class="risk-flag" data-tooltip="x">⚠️ 단기추세이탈</span>\n    </div>'
+    out = uc.render_flags(flags, [], [])
+    check("cleared flag shows the no-flags span", "단기추세이탈" not in out and uc.NO_FLAG_SPAN in out)
+    check("unchanged flag set leaves the block alone", uc.render_flags(flags, ["단기추세이탈"], []) == flags)
+    noflags = '<div class="scorecard-noflags">✅ 감지된 리스크 플래그 없음 — 손으로 쓴 문장</div>'
+    check("hand-written no-flags line stays while there are none", uc.render_flags(noflags, [], []) == noflags)
+    out = uc.render_flags(noflags, ["고점대비큰조정"], [])
+    check("first flag replaces the no-flags line",
+          "scorecard-noflags" not in out and '<div class="scorecard-flags">' in out and "⚠️ 고점대비큰조정" in out)
+    bare = ('<div class="detail-toggle other">\n<div class="subscores-note">n</div>\n\n    <div class="detail-toggle collapsed">'
+            '\n<div class="detail-toggle later">')  # WMT: other toggles before and after in the same block
+    out = uc.render_flags(bare, ["장기추세이탈"], [])
+    check("first flag on a card without a flag line goes before the scorecard's own toggle",
+          out.index('<div class="subscores-note">') < out.index('<div class="scorecard-flags">')
+          < out.index('<div class="detail-toggle collapsed">'))
+    check("div balance holds when a flag block is added", out.count("<div") - out.count("</div>") == bare.count("<div") - bare.count("</div>"))
+
+
 if __name__ == "__main__":
     test_price_rules()
     test_macro_rules()
@@ -364,4 +518,6 @@ if __name__ == "__main__":
     test_no_change_and_health()
     test_retries_and_breakers()
     test_fred_api_mode()
+    test_card_units()
+    test_card_updater()
     print(f"OK - {len(PASSED)} checks passed")
