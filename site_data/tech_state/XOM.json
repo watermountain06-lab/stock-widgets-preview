@@ -1,7 +1,7 @@
 {
   "ticker": "XOM",
-  "asOf": "2026-09-04",
-  "close": 159.47,
+  "asOf": "2026-09-10",
+  "close": 165.23,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,30 +18,30 @@
     }
   },
   "momentum": {
-    "score": 20,
+    "score": 30,
     "max": 40,
-    "weightedRocPct": 19.09
+    "weightedRocPct": 24.04
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 47.18,
-    "drawdownFromHighPct": 9.6,
+    "riseFromLowPct": 49.68,
+    "drawdownFromHighPct": 6.34,
     "high52w": 176.41,
-    "low52w": 108.35
+    "low52w": 110.39
   },
   "priceStructureScore": {
     "score": 60,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 80,
-  "rawGrade": "긍정적",
-  "displayGrade": "긍정적",
+  "rawScore": 90,
+  "rawGrade": "강한",
+  "displayGrade": "강한",
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.09,
-    "percentileVsOwnHistory": 42.1
+    "pctNow": 2.08,
+    "percentileVsOwnHistory": 40.9
   }
 }

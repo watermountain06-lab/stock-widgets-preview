@@ -1,7 +1,7 @@
 {
   "ticker": "ABBV",
-  "asOf": "2026-09-04",
-  "close": 256.46,
+  "asOf": "2026-09-10",
+  "close": 255.0,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 13.79
+    "weightedRocPct": 14.84
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 34.45,
-    "drawdownFromHighPct": 4.12,
+    "riseFromLowPct": 33.68,
+    "drawdownFromHighPct": 4.66,
     "high52w": 267.47,
     "low52w": 190.75
   },
@@ -41,7 +41,7 @@
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.25,
-    "percentileVsOwnHistory": 28.6
+    "pctNow": 2.14,
+    "percentileVsOwnHistory": 23.4
   }
 }

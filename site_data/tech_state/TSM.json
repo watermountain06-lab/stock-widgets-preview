@@ -1,7 +1,7 @@
 {
   "ticker": "TSM",
-  "asOf": "2026-08-27",
-  "close": 424.15,
+  "asOf": "2026-09-10",
+  "close": 428.03,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,15 +20,15 @@
   "momentum": {
     "score": 30,
     "max": 40,
-    "weightedRocPct": 27.78
+    "weightedRocPct": 28.51
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 87.98,
-    "drawdownFromHighPct": 11.45,
+    "riseFromLowPct": 66.06,
+    "drawdownFromHighPct": 10.64,
     "high52w": 479.0,
-    "low52w": 225.63
+    "low52w": 257.75
   },
   "priceStructureScore": {
     "score": 60,
@@ -41,7 +41,7 @@
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.4,
-    "percentileVsOwnHistory": 4.4
+    "pctNow": 2.35,
+    "percentileVsOwnHistory": 2.8
   }
 }

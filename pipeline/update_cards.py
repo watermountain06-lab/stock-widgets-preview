@@ -88,6 +88,7 @@ GENERIC_TIPS = {
 NO_FLAG_SPAN = ('<span class="risk-flag" style="opacity:0.75;" data-tooltip="모델이 점검하는 추세이탈·과열 플래그 중 '
                 '현재 발생한 항목이 없다는 뜻입니다. 리스크가 없다는 의미가 아니라, 가격·거래량 기준의 경고 조건에 '
                 '걸리지 않았다는 뜻입니다.">✅ 발생한 리스크 플래그 없음</span>')
+LEVELS_ASOF_STYLE = "font-size:11px;font-weight:400;color:var(--text3);margin-left:6px;"
 # sits between .header and .box-key, both max-width:1100px centred; the 16px
 # side padding lines the text up with .box-key's own
 ASOF_STYLE = ("max-width:1100px;margin:10px auto 12px;padding:0 16px;box-sizing:border-box;"
@@ -448,6 +449,14 @@ def render(html, ticker, tokens, tech, breakout, shares, card_asof, notes, ma_la
     html, n = ma_row.subn(ma_repl, html)
     if n != html.count('<div class="ma-row">'):
         raise EditError(f"MA box: {html.count('<div class=\"ma-row\">')} rows, {n} in the expected format")
+
+    # --- key-levels box: its levels are hand-picked per card, so it isn't
+    # recomputed - its title just says which day the analysis was written ---
+    levels = re.compile(r'(<div class="card-title">핵심 가격대[^<]*?)(?:<span class="levels-asof"[^>]*>[^<]*</span>)?(</div>)')
+    html, n = levels.subn(lambda m: f'{m.group(1)}<span class="levels-asof" style="{LEVELS_ASOF_STYLE}">'
+                                    f'({dot(card_asof)} 분석 기준)</span>{m.group(2)}', html)
+    if n != 1:
+        raise EditError(f"핵심 가격대 title: expected 1 match, found {n}")
 
     # --- scorecard ---
     if tech and not tech.get("insufficientHistory") and '<div class="scorecard-score">' in html:

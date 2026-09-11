@@ -1,7 +1,7 @@
 {
   "ticker": "KO",
-  "asOf": "2026-09-04",
-  "close": 88.07,
+  "asOf": "2026-09-10",
+  "close": 87.83,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 17.87
+    "weightedRocPct": 15.55
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 34.77,
-    "drawdownFromHighPct": 4.78,
+    "riseFromLowPct": 34.4,
+    "drawdownFromHighPct": 5.04,
     "high52w": 92.49,
     "low52w": 65.35
   },
@@ -41,7 +41,7 @@
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 1.64,
-    "percentileVsOwnHistory": 54.0
+    "pctNow": 1.41,
+    "percentileVsOwnHistory": 23.8
   }
 }

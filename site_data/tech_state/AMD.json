@@ -1,7 +1,7 @@
 {
   "ticker": "AMD",
-  "asOf": "2026-09-04",
-  "close": 477.57,
+  "asOf": "2026-09-10",
+  "close": 503.6,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,32 +20,28 @@
   "momentum": {
     "score": 40,
     "max": 40,
-    "weightedRocPct": 93.53
+    "weightedRocPct": 103.89
   },
   "position52w": {
-    "score": 15,
+    "score": 20,
     "max": 20,
-    "riseFromLowPct": 220.04,
-    "drawdownFromHighPct": 18.33,
+    "riseFromLowPct": 236.07,
+    "drawdownFromHighPct": 13.87,
     "high52w": 584.73,
-    "low52w": 149.22
+    "low52w": 149.85
   },
   "priceStructureScore": {
-    "score": 55,
+    "score": 60,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 95,
+  "rawScore": 100,
   "rawGrade": "강한",
   "displayGrade": "강한",
-  "riskFlags": [
-    "단기추세이탈"
-  ],
-  "riskFlagsShown": [
-    "단기추세이탈"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 3.87,
-    "percentileVsOwnHistory": 17.9
+    "pctNow": 3.72,
+    "percentileVsOwnHistory": 13.1
   }
 }

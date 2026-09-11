@@ -31,8 +31,9 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     # worst case with every provider down: prices stop after 3 tickers x 3
-    # attempts (~6 min), macro ~9 min (Yahoo 3 series + one FRED series at 60s)
-    timeout-minutes: 20
+    # attempts (~6 min), macro ~9 min (Yahoo 3 series + one FRED series at 60s),
+    # cards stop the same way as prices (~6 min); a normal run takes ~3 min
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -60,10 +61,17 @@ jobs:
           python3 pipeline/build_index.py
           python3 pipeline/validate_site_data.py | tee validate.log
 
+      # Brings each card's price, chart, moving averages, tech score and header
+      # up to the session just fetched. A card it can't update cleanly is left
+      # as is and listed in site_data/card_status.json (the health check reads it).
+      - name: Update cards
+        run: python3 pipeline/update_cards.py --write | tee cards.log
+
       - name: Commit if the data changed
         id: commit
         run: |
-          git add site_data/stocks.json site_data/macro.json index.html
+          git add site_data/stocks.json site_data/macro.json index.html \
+                  ./*_full_widget.html site_data/card_status.json site_data/tech_state
           if git diff --cached --quiet; then
             echo "No data change (e.g. a market holiday) - nothing to commit"
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -86,13 +94,13 @@ jobs:
         run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
 
       - name: Health check (fails the run, and so emails the owner, if the data is degraded)
-        run: python3 pipeline/health_check.py | tee health.log
+        run: python3 pipeline/health_check.py --cards site_data/card_status.json | tee health.log
 
       - name: Run summary
         if: always()
         run: |
           {
             echo '```'
-            cat prices.log macro.log validate.log health.log 2>/dev/null || true
+            cat prices.log macro.log validate.log cards.log health.log 2>/dev/null || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"

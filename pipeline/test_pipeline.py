@@ -441,6 +441,8 @@ def test_card_updater():
               arrays["DAILY"]["tokens"][-1].startswith(f"[{q}{d}{q}"), arrays["DAILY"]["tokens"][-1])
         check(f"{tk}: header shows the new close", f'<div class="price-main">{uc.money(c)}</div>' in html)
         check(f"{tk}: as-of label inserted once", html.count('class="asof-line"') == 1)
+        check(f"{tk}: key-levels title carries the analysis date once",
+              html.count('class="levels-asof"') == 1 and "분석 기준)</span></div>" in html)
         check(f"{tk}: tech state saved for the new session",
               json.loads((state / f"{tk}.json").read_text(encoding="utf-8"))["asOf"] == d)
 
@@ -471,6 +473,21 @@ def test_card_updater():
     check("a lost tech state file comes back while the card stays as is",
           (state / "ANET.json").exists() and snapshot() == after)
     check("a run with no change leaves the status file alone", status.read_bytes() == status_after)
+
+    macro = tmp / "macro.json"
+    macro.write_text(json.dumps({"indicators": {k: {"status": "fresh"} for k in ("sp500", "vix", "usdkrw")},
+                                 "nextFomc": {"start": "2026-09-15", "end": "2026-09-16"}}), encoding="utf-8")
+    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(status))
+    failed_part = hc.stdout.split("HEALTH CHECK FAILED")[-1]
+    check("health check fails on a failed card and a split hold, not on a late-Yahoo hold",
+          hc.returncode == 1 and "card MSFT failed" in failed_part and "card AAPL held" in failed_part
+          and "card KO" not in failed_part, hc.stdout)
+    only_ko = json.loads(status.read_text(encoding="utf-8"))
+    only_ko["cards"] = {"KO": only_ko["cards"]["KO"]}
+    ko_status = tmp / "card_status_ko.json"
+    ko_status.write_text(json.dumps(only_ko), encoding="utf-8")
+    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(ko_status))
+    check("a hold that clears by itself doesn't fail the health check", hc.returncode == 0, hc.stdout)
 
 
 def test_card_units():
