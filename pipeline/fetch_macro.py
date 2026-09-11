@@ -17,25 +17,35 @@ to the same US session as the stock prices (stocks.json priceSession):
   - nextFomc: from the Fed's published schedule below; fomcScheduleThrough
     says how far it reaches, and an exhausted schedule is reported.
 A failed source keeps its previous value marked stale (unavailable if there
-was none) - never a substituted value from another date.
+was none) - never a substituted value from another date. A value that is
+already stale keeps its first failure reason, so a repeat failure worded
+differently doesn't turn into a commit with no data change.
+
+FRED access: with FRED_API_KEY set (the workflow passes a repo secret) the
+official API at api.stlouisfed.org is used. FRED's public CSV drops
+connections from GitHub's runners (probed 2026-09-11: reset in 0.2s via
+curl, 3x60s timeouts via urllib) while the API answers from the same runner.
+Without a key - local runs - the public CSV is used. The key is only sent to
+FRED; error messages never include the request URL.
 
 Network: requests are retried like fetch_prices.py. FRED gets 60s per
-attempt (it timed out at 30s from GitHub's runners on the first workflow
-run, 2026-09-11), and once one FRED series fails on the network the other
-FRED series are skipped instead of each waiting out its own retries.
+attempt, and once one FRED series fails on the network the other FRED series
+are skipped instead of each waiting out its own retries.
 
 Usage: python3 pipeline/fetch_macro.py [--write] [--stocks PATH] [--out PATH]
                                        [--fixtures DIR] [--now ISO]
-  --fixtures DIR   read {SYMBOL}_{interval}.json and {SERIES}.csv from DIR (tests)
+  --fixtures DIR   read {SYMBOL}_{interval}.json and {SERIES}.csv (or
+                   {SERIES}.json in API mode) from DIR (tests)
 """
 import argparse
 import csv
 import io
 import json
+import os
 import sys
 import time
 import urllib.parse
-from datetime import date, datetime, time as dtime, timezone
+from datetime import date, datetime, time as dtime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -43,8 +53,11 @@ from fetch_prices import ET, completed_bars, http_get, is_network_error  # noqa:
 
 ROOT = Path(__file__).resolve().parents[1]
 YAHOO = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1mo&interval={interval}"
-FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}"
+FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}"
+FRED_API = ("https://api.stlouisfed.org/fred/series/observations"
+            "?series_id={sid}&api_key={key}&file_type=json&observation_start={start}")
 FRED_TIMEOUT = 60
+FRED_HISTORY_DAYS = 800  # CPI YoY needs 13 months of observations
 
 # federalreserve.gov/monetarypolicy/fomccalendars.htm, checked 2026-09-11
 FOMC = [
@@ -77,19 +90,38 @@ def yahoo(symbol, interval, fixtures):
     return json.loads(_get(url, f"{symbol}_{interval}.json", fixtures))
 
 
+def fred_key():
+    return os.environ.get("FRED_API_KEY", "").strip()
+
+
+def parse_fred_csv(text):
+    rows = list(csv.reader(io.StringIO(text)))
+    return [(r[0], float(r[1])) for r in rows[1:] if len(r) == 2 and r[1] not in ("", ".")]
+
+
+def parse_fred_json(text):
+    observations = json.loads(text).get("observations") or []
+    return [(o["date"], float(o["value"])) for o in observations if o.get("value") not in (None, "", ".")]
+
+
 def fred(sid, fixtures):
     """[(date, value)] oldest first; FRED marks missing observations with '.'."""
     global _fred_down
     if _fred_down is not None:
         raise RuntimeError(f"skipped: FRED unreachable earlier in this run ({_fred_down})")
+    key = fred_key()
     try:
-        text = _get(FRED.format(sid=sid), f"{sid}.csv", fixtures, timeout=FRED_TIMEOUT)
+        if key:
+            start = (date.today() - timedelta(days=FRED_HISTORY_DAYS)).isoformat()
+            url = FRED_API.format(sid=sid, key=urllib.parse.quote(key, safe=""), start=start)
+            text = _get(url, f"{sid}.json", fixtures, timeout=FRED_TIMEOUT)
+        else:
+            text = _get(FRED_CSV.format(sid=sid), f"{sid}.csv", fixtures, timeout=FRED_TIMEOUT)
     except Exception as e:
         if is_network_error(e):
             _fred_down = e
         raise
-    rows = list(csv.reader(io.StringIO(text)))
-    series = [(r[0], float(r[1])) for r in rows[1:] if len(r) == 2 and r[1] not in ("", ".")]
+    series = parse_fred_json(text) if key else parse_fred_csv(text)
     if not series:
         raise ValueError(f"FRED {sid}: no observations")
     return series
@@ -149,6 +181,8 @@ def next_fomc(today):
 
 def keep_previous(prev, key, reason):
     old = ((prev or {}).get("indicators") or {}).get(key)
+    if old and old.get("status") in ("stale", "unavailable"):
+        return dict(old)  # keep the first failure reason: no data change, no commit
     if old and (old.get("value") is not None or old.get("upper") is not None):
         return dict(old, status="stale", statusReason=reason)
     return {"status": "unavailable", "statusReason": reason}
@@ -170,6 +204,7 @@ def main():
     out = Path(args.out)
     prev = json.loads(out.read_text(encoding="utf-8")) if out.exists() else None
     fx = args.fixtures
+    via = "FRED API" if fred_key() else "FRED CSV"
     ind, prev_session = {}, None
 
     for key, symbol in (("sp500", "^GSPC"), ("vix", "^VIX")):
@@ -194,19 +229,19 @@ def main():
     try:
         lower, upper, day = target_range(fred("DFEDTARL", fx), fred("DFEDTARU", fx))
         ind["fedTarget"] = {"lower": lower, "upper": upper, "asOf": day,
-                            "status": "fresh", "source": "FRED DFEDTARL/DFEDTARU"}
+                            "status": "fresh", "source": f"{via} DFEDTARL/DFEDTARU"}
     except Exception as e:
         ind["fedTarget"] = keep_previous(prev, "fedTarget", f"fetch-failed: {str(e)[:160]}")
 
     try:
         u = fred("UNRATE", fx)
-        ind["unemployment"] = {"value": u[-1][1], "asOf": u[-1][0][:7], "status": "fresh", "source": "FRED UNRATE"}
+        ind["unemployment"] = {"value": u[-1][1], "asOf": u[-1][0][:7], "status": "fresh", "source": f"{via} UNRATE"}
     except Exception as e:
         ind["unemployment"] = keep_previous(prev, "unemployment", f"fetch-failed: {str(e)[:160]}")
 
     try:
         value, when = cpi_yoy(fred("CPIAUCSL", fx))
-        ind["cpiYoy"] = {"value": value, "asOf": when[:7], "status": "fresh", "source": "FRED CPIAUCSL, YoY computed"}
+        ind["cpiYoy"] = {"value": value, "asOf": when[:7], "status": "fresh", "source": f"{via} CPIAUCSL, YoY computed"}
     except Exception as e:
         ind["cpiYoy"] = keep_previous(prev, "cpiYoy", f"fetch-failed: {str(e)[:160]}")
 

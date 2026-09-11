@@ -314,10 +314,54 @@ def test_retries_and_breakers():
         fm._fred_down = None
 
 
+def test_fred_api_mode():
+    """Source selection by FRED_API_KEY, JSON parsing, and no reason churn - no real requests."""
+    import os
+    real_get, real_key = fm.http_get, os.environ.get("FRED_API_KEY")
+    seen = []
+    api_body = json.dumps({"observations": [{"date": "2026-09-09", "value": "3.50"},
+                                            {"date": "2026-09-10", "value": "."},
+                                            {"date": "2026-09-11", "value": "3.75"}]}).encode()
+    try:
+        fm._fred_down = None
+        fm.http_get = lambda url, timeout=30: (seen.append(url), api_body)[1]
+        os.environ["FRED_API_KEY"] = "testkey123"
+        series = fm.fred("DFEDTARU", None)
+        check("official API used when FRED_API_KEY is set",
+              "api.stlouisfed.org" in seen[0] and "api_key=testkey123" in seen[0], seen)
+        check("API JSON parsed with '.' observations dropped", series == [("2026-09-09", 3.5), ("2026-09-11", 3.75)], series)
+
+        seen.clear()
+        del os.environ["FRED_API_KEY"]
+        fm.http_get = lambda url, timeout=30: (seen.append(url), b"observation_date,DFEDTARU\n2026-09-10,3.75\n")[1]
+        series = fm.fred("DFEDTARU", None)
+        check("public CSV used without a key", series == [("2026-09-10", 3.75)] and "fredgraph.csv" in seen[0], seen)
+    finally:
+        fm.http_get = real_get
+        fm._fred_down = None
+        if real_key is None:
+            os.environ.pop("FRED_API_KEY", None)
+        else:
+            os.environ["FRED_API_KEY"] = real_key
+
+    prev = {"indicators": {
+        "cpiYoy": {"value": 3.3, "asOf": "2026-07", "status": "stale", "statusReason": "fetch-failed: first"},
+        "vix": {"status": "unavailable", "statusReason": "fetch-failed: first"},
+        "sp500": {"value": 7591.7, "asOf": "2026-09-10", "status": "fresh"}}}
+    check("already-stale value keeps its first reason",
+          fm.keep_previous(prev, "cpiYoy", "fetch-failed: second")["statusReason"] == "fetch-failed: first")
+    check("already-unavailable value keeps its first reason",
+          fm.keep_previous(prev, "vix", "fetch-failed: second")["statusReason"] == "fetch-failed: first")
+    kept = fm.keep_previous(prev, "sp500", "fetch-failed: now")
+    check("fresh value that fails becomes stale with the new reason",
+          (kept["status"], kept["statusReason"], kept["value"]) == ("stale", "fetch-failed: now", 7591.7), kept)
+
+
 if __name__ == "__main__":
     test_price_rules()
     test_macro_rules()
     test_end_to_end_with_failures()
     test_no_change_and_health()
     test_retries_and_breakers()
+    test_fred_api_mode()
     print(f"OK - {len(PASSED)} checks passed")

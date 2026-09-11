@@ -46,7 +46,13 @@ jobs:
       - name: Fetch prices
         run: python3 pipeline/fetch_prices.py --write | tee prices.log
 
+      # FRED's public CSV drops connections from GitHub's runners; its official
+      # API answers, so the key (a repo secret) is passed to this step only.
+      # Without the secret the script falls back to the CSV and keeps the
+      # previous values marked stale.
       - name: Fetch macro indicators
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python3 pipeline/fetch_macro.py --write | tee macro.log
 
       - name: Build and validate
