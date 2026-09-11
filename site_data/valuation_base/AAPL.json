@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "ticker": "AAPL",
+  "cardAsOf": "2026-09-01",
+  "p0": "325.13",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM)",
+      "valueText": "37.3x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "73.3",
+      "low": "8",
+      "high": "48",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "aaplValue",
+      "value0": "37.3",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "25.1",
+      "verdictPremium0": "49",
+      "anchorBasis": "formula",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "44.2x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "98",
+      "low": "4",
+      "high": "45",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "aaplValue",
+      "value0": "44.2",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "10.2x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "37.9",
+      "low": "3",
+      "high": "22",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "aaplValue",
+      "value0": "10.2",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (FCF)",
+      "valueText": "34.7x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "16.3",
+      "low": "20",
+      "high": "110",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "aaplValue",
+      "value0": "34.7",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "28.5x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "64.1",
+      "low": "8",
+      "high": "40",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "aaplValue",
+      "value0": "28.5",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 4790.0,
+      "mcap0": 4760.0,
+      "evSource": "calcLine EV, market cap from the card header at P0",
+      "evChecked": true,
+      "anchor": "23.4",
+      "verdictPremium0": "22",
+      "anchorBasis": "formula",
+      "premiumDecimals": 0
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "215",
+        "270"
+      ],
+      [
+        "290",
+        "345"
+      ],
+      [
+        "365",
+        "400"
+      ]
+    ],
+    "intervals": [
+      [
+        "215",
+        "270"
+      ],
+      [
+        "270",
+        "290"
+      ],
+      [
+        "290",
+        "345"
+      ],
+      [
+        "345",
+        "365"
+      ],
+      [
+        "365",
+        "400"
+      ]
+    ],
+    "segments": [
+      "29.7",
+      "10.8",
+      "29.7",
+      "10.8",
+      "18.9"
+    ],
+    "marker0": "59.5",
+    "target": "322.28",
+    "upside0": "-0.9",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

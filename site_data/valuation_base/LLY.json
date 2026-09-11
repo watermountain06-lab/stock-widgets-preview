@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "ticker": "LLY",
+  "cardAsOf": "2026-09-04",
+  "p0": "1143.23",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (GAAP, TTM)",
+      "valueText": "38.4x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "52.5",
+      "low": "20",
+      "high": "55",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "llyValue",
+      "value0": "38.4",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "30.2x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "83.9",
+      "low": "5",
+      "high": "35",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "llyValue",
+      "value0": "30.2",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (시총/매출 TTM)",
+      "valueText": "12.8x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "89.9",
+      "low": "2",
+      "high": "14",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "llyValue",
+      "value0": "12.8",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (시총/FCF TTM)",
+      "valueText": "56.0x",
+      "badge": "5단계 매우높음(신뢰도 낮음)",
+      "stage0": 5,
+      "width0": "91.2",
+      "low": "15",
+      "high": "60",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "llyValue",
+      "value0": "56.0",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "29.8x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "99.1",
+      "low": "10",
+      "high": "30",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "llyValue",
+      "value0": "29.8",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 1065.0,
+      "mcap0": 1019.0,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "745",
+        "870"
+      ],
+      [
+        "1043",
+        "1252"
+      ],
+      [
+        "1341",
+        "1639"
+      ]
+    ],
+    "intervals": [
+      [
+        "745",
+        "870"
+      ],
+      [
+        "870",
+        "1043"
+      ],
+      [
+        "1043",
+        "1252"
+      ],
+      [
+        "1252",
+        "1341"
+      ],
+      [
+        "1341",
+        "1639"
+      ]
+    ],
+    "segments": [
+      "14.0",
+      "19.4",
+      "23.4",
+      "10.0",
+      "33.3"
+    ],
+    "marker0": "44.5",
+    "target": "1315.04",
+    "upside0": "+15.0",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

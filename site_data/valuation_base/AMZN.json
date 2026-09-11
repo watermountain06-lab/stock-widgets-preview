@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "ticker": "AMZN",
+  "cardAsOf": "2026-08-27",
+  "p0": "256.36",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (조정, TTM)",
+      "valueText": "39.1x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "54.6",
+      "low": "20",
+      "high": "55",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amznValue",
+      "value0": "39.1",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "33",
+      "verdictPremium0": "18",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "5.01x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "9.1",
+      "low": "3",
+      "high": "25",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amznValue",
+      "value0": "5.01",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "21",
+      "verdictPremium0": "-76",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "3.56x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "12.0",
+      "low": "2",
+      "high": "15",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amznValue",
+      "value0": "3.56",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "13",
+      "verdictPremium0": "-73",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "17.1x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "14.2",
+      "low": "10",
+      "high": "60",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amznValue",
+      "value0": "17.1",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "16.4x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "29.1",
+      "low": "10",
+      "high": "32",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amznValue",
+      "value0": "16.4",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 2770.2,
+      "mcap0": 2764.3,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "25",
+      "verdictPremium0": "-34",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "155",
+        "197"
+      ],
+      [
+        "230",
+        "295"
+      ],
+      [
+        "315",
+        "380"
+      ]
+    ],
+    "intervals": [
+      [
+        "155",
+        "197"
+      ],
+      [
+        "197",
+        "230"
+      ],
+      [
+        "230",
+        "295"
+      ],
+      [
+        "295",
+        "315"
+      ],
+      [
+        "315",
+        "380"
+      ]
+    ],
+    "segments": [
+      "17.8",
+      "14.7",
+      "29.3",
+      "8.9",
+      "29.3"
+    ],
+    "marker0": "44.4",
+    "target": "327.00",
+    "upside0": "+27.6",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

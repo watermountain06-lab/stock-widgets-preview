@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "ticker": "MA",
+  "cardAsOf": "2026-09-04",
+  "p0": "579.21",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM, GAAP)",
+      "valueText": "31.9x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "49.1",
+      "low": "24",
+      "high": "40",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "jpmValue",
+      "value0": "31.9",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "90.4x",
+      "badge": "참고용 — 비교제외",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": null,
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "jpmValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "14.5x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "43.3",
+      "low": "11",
+      "high": "19",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "jpmValue",
+      "value0": "14.5",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "verdictPremiumNote": "verdict -7% not reproducible from the anchor - left as is"
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF, TTM)",
+      "valueText": "29.1x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "40.7",
+      "low": "23",
+      "high": "38",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "jpmValue",
+      "value0": "29.1",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "30.5",
+      "verdictPremium0": "-5",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "24.0x",
+      "badge": "4단계 다소 높음",
+      "stage0": 4,
+      "width0": "67.1",
+      "low": "18",
+      "high": "27",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "jpmValue",
+      "value0": "24.0",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 520.7,
+      "mcap0": 507.4,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "22.5",
+      "verdictPremium0": "7",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "436",
+        "491"
+      ],
+      [
+        "527",
+        "618"
+      ],
+      [
+        "654",
+        "745"
+      ]
+    ],
+    "intervals": [
+      [
+        "436",
+        "491"
+      ],
+      [
+        "491",
+        "527"
+      ],
+      [
+        "527",
+        "618"
+      ],
+      [
+        "618",
+        "654"
+      ],
+      [
+        "654",
+        "745"
+      ]
+    ],
+    "segments": [
+      "17.6",
+      "11.8",
+      "29.4",
+      "11.8",
+      "29.4"
+    ],
+    "marker0": "46.2",
+    "target": "670.92",
+    "upside0": "+15.8",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

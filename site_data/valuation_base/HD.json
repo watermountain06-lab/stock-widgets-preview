@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "ticker": "HD",
+  "cardAsOf": "2026-09-09",
+  "p0": "310.73",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "21.74x",
+      "badge": "3단계 보통",
+      "stage0": 3,
+      "width0": "41.0",
+      "low": "16",
+      "high": "30",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "hdValue",
+      "value0": "21.74",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "18.66x",
+      "badge": "5단계 매우높음(가중치 0.5)",
+      "stage0": 5,
+      "width0": "96.9",
+      "low": "8",
+      "high": "19",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "hdValue",
+      "value0": "18.66",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR",
+      "valueText": "1.83x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "10.0",
+      "low": "1.7",
+      "high": "3.0",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "hdValue",
+      "value0": "1.83",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "16.51x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "14.8",
+      "low": "14",
+      "high": "31",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "hdValue",
+      "value0": "16.51",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "14.08x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "18.1",
+      "low": "11",
+      "high": "28",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "hdValue",
+      "value0": "14.08",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 356.58,
+      "mcap0": 310.01,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "214.4",
+        "257.2"
+      ],
+      [
+        "271.5",
+        "385.8"
+      ],
+      [
+        "400.1",
+        "457.3"
+      ]
+    ],
+    "intervals": [
+      [
+        "214.4",
+        "257.2"
+      ],
+      [
+        "257.2",
+        "271.5"
+      ],
+      [
+        "271.5",
+        "385.8"
+      ],
+      [
+        "385.8",
+        "400.1"
+      ],
+      [
+        "400.1",
+        "457.3"
+      ]
+    ],
+    "segments": [
+      "17.6",
+      "5.9",
+      "47.1",
+      "5.9",
+      "23.5"
+    ],
+    "marker0": "39.7",
+    "target": "377.50",
+    "upside0": "+21.5",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

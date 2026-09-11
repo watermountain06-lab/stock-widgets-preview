@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "ticker": "NFLX",
+  "cardAsOf": "2026-09-09",
+  "p0": "76.42",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM 조정)",
+      "valueText": "28.48x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "52.8",
+      "low": "10",
+      "high": "45",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "nflxValue",
+      "value0": "28.48",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "25.39",
+      "verdictPremium0": "12.2",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "10.55x",
+      "badge": "4단계 높음(가중치 0.5)",
+      "stage0": 4,
+      "width0": "79.6",
+      "low": "1",
+      "high": "13",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "nflxValue",
+      "value0": "10.55",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "6.50",
+      "verdictPremium0": "62.3",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "psr",
+      "name": "PSR",
+      "valueText": "6.58x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "81.1",
+      "low": "0.5",
+      "high": "8",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "nflxValue",
+      "value0": "6.58",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "3.55",
+      "verdictPremium0": "85.4",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF, 조정)",
+      "valueText": "34.70x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "84.9",
+      "low": "5",
+      "high": "40",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "nflxValue",
+      "value0": "34.70",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "verdictPremiumNote": "verdict 79.2% not reproducible from the anchor - left as is"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "21.96x",
+      "badge": "3단계 적정(가중치 0.5)",
+      "stage0": 3,
+      "width0": "51.4",
+      "low": "5",
+      "high": "38",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "nflxValue",
+      "value0": "21.96",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 323.39,
+      "mcap0": 318.21,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "21.855",
+      "verdictPremium0": "0.5",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "48.3",
+        "59.1"
+      ],
+      [
+        "64.4",
+        "85.9"
+      ],
+      [
+        "91.3",
+        "112.7"
+      ]
+    ],
+    "intervals": [
+      [
+        "48.3",
+        "59.1"
+      ],
+      [
+        "59.1",
+        "64.4"
+      ],
+      [
+        "64.4",
+        "85.9"
+      ],
+      [
+        "85.9",
+        "91.3"
+      ],
+      [
+        "91.3",
+        "112.7"
+      ]
+    ],
+    "segments": [
+      "16.7",
+      "8.3",
+      "33.3",
+      "8.3",
+      "33.4"
+    ],
+    "marker0": "43.6",
+    "target": "93.66",
+    "upside0": "+22.6",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

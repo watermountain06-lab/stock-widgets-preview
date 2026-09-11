@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "ticker": "AVGO",
+  "cardAsOf": "2026-09-02",
+  "p0": "367.24",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (GAAP, TTM)",
+      "valueText": "46.8x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "24.1",
+      "low": "30",
+      "high": "100",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "avgoValue",
+      "value0": "46.8",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "57",
+      "verdictPremium0": "-17.9",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "18.0x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "65.0",
+      "low": "5",
+      "high": "25",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "avgoValue",
+      "value0": "18.0",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "10",
+      "verdictPremium0": "80.0",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "20.1x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "44.8",
+      "low": "8",
+      "high": "35",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "avgoValue",
+      "value0": "20.1",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "16",
+      "verdictPremium0": "25.6",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/FCF)",
+      "valueText": "45.5x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": "105.9",
+      "high": null,
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "avgoValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "35.5x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "14.0",
+      "low": "25",
+      "high": "100",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "avgoValue",
+      "value0": "35.5",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 1829.0,
+      "mcap0": 1793.6,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "51",
+      "verdictPremium0": "-30.4",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "275",
+        "355"
+      ],
+      [
+        "390",
+        "550"
+      ],
+      [
+        "590",
+        "745"
+      ]
+    ],
+    "intervals": [
+      [
+        "275",
+        "355"
+      ],
+      [
+        "355",
+        "390"
+      ],
+      [
+        "390",
+        "550"
+      ],
+      [
+        "550",
+        "590"
+      ],
+      [
+        "590",
+        "745"
+      ]
+    ],
+    "segments": [
+      "17.0",
+      "7.5",
+      "34.0",
+      "8.5",
+      "33.0"
+    ],
+    "marker0": "19.6",
+    "target": "533.41",
+    "upside0": "+45.2",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

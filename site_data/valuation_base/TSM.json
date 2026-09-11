@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "ticker": "TSM",
+  "cardAsOf": "2026-08-27",
+  "p0": "424.15",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM, ADR 기준)",
+      "valueText": "30.6x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "44.6",
+      "low": "15",
+      "high": "50",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tsmValue",
+      "value0": "30.6",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "27",
+      "verdictPremium0": "13",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "10.7x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "100",
+      "low": "1",
+      "high": "8",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tsmValue",
+      "value0": "10.7",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "15.4x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "100",
+      "low": "2",
+      "high": "14",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tsmValue",
+      "value0": "15.4",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/FCF)",
+      "valueText": "60.0x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "90.6",
+      "low": "12",
+      "high": "65",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tsmValue",
+      "value0": "60.0",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "20.7x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "80.6",
+      "low": "7",
+      "high": "24",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "tsmValue",
+      "value0": "20.7",
+      "decimals": 1,
+      "frozenReason": "EV/market cap not stated in a parseable form"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "277",
+        "333"
+      ],
+      [
+        "374",
+        "457"
+      ],
+      [
+        "527",
+        "624"
+      ]
+    ],
+    "intervals": [
+      [
+        "277",
+        "333"
+      ],
+      [
+        "333",
+        "374"
+      ],
+      [
+        "374",
+        "457"
+      ],
+      [
+        "457",
+        "527"
+      ],
+      [
+        "527",
+        "624"
+      ]
+    ],
+    "segments": [
+      "16.1",
+      "11.8",
+      "23.9",
+      "20.2",
+      "28.0"
+    ],
+    "marker0": "42.3",
+    "target": "554.45",
+    "upside0": "+30.7",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

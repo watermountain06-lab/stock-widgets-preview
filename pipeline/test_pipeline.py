@@ -528,7 +528,65 @@ def test_card_units():
     check("div balance holds when a flag block is added", out.count("<div") - out.count("</div>") == bare.count("<div") - bare.count("</div>"))
 
 
+def test_valuation_base_units():
+    """build_valuation_base.py's pure pieces (no git history needed - Actions checks out depth 1)."""
+    import build_valuation_base as vb
+    from decimal import Decimal as D
+    check("stage: an exact edge stays in the lower stage",
+          [vb.stage_of(D(x)) for x in ("0", "20", "20.1", "40", "60", "80", "80.1", "100")] == [1, 1, 2, 2, 3, 4, 5, 5])
+    check("width is rounded half-up and clamped",
+          (vb.width_of(D("37.3"), D(8), D(48)), vb.width_of(D(50), D(8), D(48)), vb.width_of(D(1), D(8), D(48)))
+          == (D("73.3"), D(100), D(0)))
+    check("width rounding keeps a near-edge value in its stage", vb.stage_of(vb.width_of(D("2.18"), D("1.8"), D("3.7"))) == 1)
+    band = {"intervals": [["95.1", "136.3"], ["136.3", "193.4"], ["193.4", "253.6"]], "segments": ["26", "36", "38"]}
+    check("marker: piecewise over the band's intervals", abs(vb.marker_left(band, D("192.93")) - D("61.7")) < D("0.1"))
+    check("marker: outside the band gives None", vb.marker_left(band, D(300)) is None)
+    gap = {"intervals": [["10", "20"], ["20", "25"], ["25", "40"]], "segments": ["30", "10", "60"]}
+    check("marker: a gap interval has its own segment", vb.marker_left(gap, D("22.5")) == D(35))
+    body = "anchor: { value: '54.2x', formula: '평균(CSCO 32.86x, CIEN 75.45x) = 54.16x — …', cross: null },\n    verdict: 'X 60.86x는 앵커 대비 +12.4% — …',"
+    check("anchor candidates: formula first, then displayed", vb.anchors_of(body) == [("formula", D("54.16")), ("display", D("54.2"))])
+    check("verdict premium keeps its sign and shown decimals", vb.verdict_premium(body) == (D("12.4"), 1))
+    check("negative premium with a unicode minus", vb.verdict_premium("verdict: 'Y는 앵커 대비 −16% — 저평가'")[0] == D(-16))
+    check("the verdict's own comparison value is a candidate too",
+          vb.verdict_reference("verdict: 'AMAT PCR 44.69x는 앵커(LRCX 68.45x·KLAC 59.60x 평균 64.0x) 대비 -30.2%'")
+          == [("verdict", D("64.0"))])
+    ev_cases = {
+        "EV/EBITDA = EV($406.2B, 시총 $379.0B+총차입금 $43.54B−현금 $16.37B) ÷ EBITDA($15.89B) = 25.56x": (406.2, 379.0),
+        "EV/EBITDA = EV($253,546M = 시총 $258,308M − 현금 $4,762M) ÷ EBITDA($12,538M) = 20.2x": (253.546, 258.308),
+        "EV/EBITDA = EV($1,201.8B, ADR가 기준 시총 $1,207.8B+총차입금 $13.4B−현금 $19.4B) ÷ EBITDA(…)": (1201.8, 1207.8),
+        "EV/EBITDA = (시가총액 $418.9B - 현금+투자자산 $9.41B, 무차입) ÷ TTM EBITDA($2.66B) = 153.8x": (409.49, 418.9),
+    }
+    for calc, (ev, mc) in ev_cases.items():
+        e0, m0, _ = vb.ev_parts(calc, {})
+        check(f"EV parts ({calc[:24]}…)", e0 is not None and abs(e0 - ev) < 0.01 and abs(m0 - mc) < 0.01, (e0, m0))
+    e0, m0, how = vb.ev_parts("EV/EBITDA = EV($4.79T) ÷ EBITDA($168.0B) = 28.5x", {}, header_cap=4760.0)
+    check("EV-only calcLine uses the header cap in trillions -> billions", (e0, m0) == (4790.0, 4760.0) and "header" in how)
+    check("EV-only calcLine without a cap stays unresolved", vb.ev_parts("EV/EBITDA = EV($4.79T) ÷ EBITDA($168.0B)", {})[0] is None)
+    rec = {"method": "ev-delta", "value0": "20", "ev0": 100.0, "mcap0": 80.0}
+    check("EV/EBITDA moves by the equity share of EV only", vb.value_at(rec, D("1.5")) == D(28))
+    rec = {"method": "price-ratio", "value0": "60.86"}
+    check("price-ratio multiples scale with price", vb.value_at(rec, D(2)) == D("121.72"))
+    row = ('<div class="val-item" data-metric="pbr" onclick="x"><div class="val-header"><span class="val-name">PBR '
+           '<span style="color:var(--text3);">(가중치 0.5)</span></span><div style="display:flex;align-items:center;gap:8px;">'
+           '<span class="val-number">19.29x</span><span class="stage-badge stage-5">5단계 매우높음</span></div></div>\n'
+           '<div class="val-track"><div class="val-fill" style="width:89.1%;background:x;"></div></div>\n'
+           '<div class="val-labels"><span class="val-low">저 6.7x</span><span class="val-mid">적정 6.7x</span>'
+           '<span class="val-high">고 20.8x</span></div>')
+    m = vb.ROW.search(row)
+    check("a val-name with a nested span (CAT, PANW) still parses", m is not None and "가중치 0.5" in m.group("name"))
+    ebitda = {"EV/EBITDA = EV($406.2B, 시총 $379.0B) ÷ EBITDA($15.89B, 영업이익 $14.85B+D&A $1.03B) = 25.56x": 15.89,
+              "EV/EBITDA = EV($374.7B = 시가총액 $375.2B) ÷ EBITDA TTM($9.67B = 영업이익 $9.14B) = 38.76x": 9.67,
+              "EV/EBITDA = EV($229.99B) ÷ TTM EBITDA($4.640B = 영업이익 $4.547B) = 49.57x": 4.64,
+              "EV/EBITDA = EV($357.3B) ÷ EBITDA 추정치(TTM $12.53B = 세전이익 $10.37B) = 28.52x": 12.53,
+              "EV/EBITDA(조정) = EV($244.13B) ÷ TTM 조정 EBITDA($4.12B = …) = 59.33x": 4.12,
+              "EV/EBITDA = EV($253,546M = 시총 $258,308M) ÷ EBITDA($12,538M = 영업이익 $12,389M) = 20.2x": 12.538}
+    for calc, want in ebitda.items():
+        got = vb.ebitda_of(calc)
+        check(f"EBITDA divisor, not the metric's own name ({calc[:30]}…)", got is not None and abs(got - want) < 1e-6, got)
+
+
 if __name__ == "__main__":
+    test_valuation_base_units()
     test_price_rules()
     test_macro_rules()
     test_end_to_end_with_failures()

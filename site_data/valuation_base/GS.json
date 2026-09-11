@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "ticker": "GS",
+  "cardAsOf": "2026-09-09",
+  "p0": "1025.43",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "15.83x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "53.2",
+      "low": "12.0",
+      "high": "19.2",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "gsValue",
+      "value0": "15.83",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "15.69",
+      "verdictPremium0": "0.9",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "2.79x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "64.4",
+      "low": "1.5",
+      "high": "3.5",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "gsValue",
+      "value0": "2.79",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "2.48",
+      "verdictPremium0": "12.5",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "4.51x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "39.5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "gsValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "TTM -$39.4B",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "gsValue",
+      "frozenReason": "not a positive multiple (TTM -$39.4B)"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "정의 부적용",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "gsValue",
+      "frozenReason": "not a positive multiple (정의 부적용)"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "583.1",
+        "712.7"
+      ],
+      [
+        "777.5",
+        "1244.0"
+      ],
+      [
+        "1360.6",
+        "1555.0"
+      ]
+    ],
+    "intervals": [
+      [
+        "583.1",
+        "712.7"
+      ],
+      [
+        "712.7",
+        "777.5"
+      ],
+      [
+        "777.5",
+        "1244.0"
+      ],
+      [
+        "1244.0",
+        "1360.6"
+      ],
+      [
+        "1360.6",
+        "1555.0"
+      ]
+    ],
+    "segments": [
+      "13.33",
+      "6.67",
+      "48.00",
+      "12.00",
+      "20.00"
+    ],
+    "marker0": "45.5",
+    "target": "1141.65",
+    "upside0": "+11.3",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

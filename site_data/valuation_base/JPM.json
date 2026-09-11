@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "ticker": "JPM",
+  "cardAsOf": "2026-09-04",
+  "p0": "357.39",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (조정, TTM)",
+      "valueText": "16.5x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "64.0",
+      "low": "12",
+      "high": "19",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "jpmValue",
+      "value0": "16.5",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "verdictPremiumNote": "verdict 8.2% not reproducible from the anchor - left as is"
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "2.69x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "72.1",
+      "low": "1.1",
+      "high": "3.3",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "jpmValue",
+      "value0": "2.69",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "2.01",
+      "verdictPremium0": "33.8",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "4.76x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": null,
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "jpmValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "산출불가",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": "162.5",
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "jpmValue",
+      "frozenReason": "not a positive multiple (산출불가)"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "정의 부적용",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "jpmValue",
+      "frozenReason": "not a positive multiple (정의 부적용)"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "260",
+        "304"
+      ],
+      [
+        "325",
+        "390"
+      ],
+      [
+        "412",
+        "477"
+      ]
+    ],
+    "intervals": [
+      [
+        "260",
+        "304"
+      ],
+      [
+        "304",
+        "325"
+      ],
+      [
+        "325",
+        "390"
+      ],
+      [
+        "390",
+        "412"
+      ],
+      [
+        "412",
+        "477"
+      ]
+    ],
+    "segments": [
+      "20.0",
+      "10.0",
+      "30.0",
+      "10.0",
+      "30.0"
+    ],
+    "marker0": "44.8",
+    "target": "374.57",
+    "upside0": "+4.8",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

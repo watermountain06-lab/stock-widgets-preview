@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "ticker": "LRCX",
+  "cardAsOf": "2026-09-04",
+  "p0": "307.65",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "53.41x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "67.5",
+      "low": "27.5",
+      "high": "65.9",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "lrcxValue",
+      "value0": "53.41",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "44.97",
+      "verdictPremium0": "18.8",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "30.87x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "52.7",
+      "low": "9.9",
+      "high": "49.7",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "lrcxValue",
+      "value0": "30.87",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "26.14",
+      "verdictPremium0": "18.1",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (시총/매출 TTM)",
+      "valueText": "16.57x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "55.8",
+      "low": "8.2",
+      "high": "23.2",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "lrcxValue",
+      "value0": "16.57",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "14.78",
+      "verdictPremium0": "12.1",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "65.72x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "77.4",
+      "low": "30.1",
+      "high": "76.1",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "lrcxValue",
+      "value0": "65.72",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "50.76",
+      "verdictPremium0": "29.5",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "44.33x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "71.1",
+      "low": "24.7",
+      "high": "52.3",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "lrcxValue",
+      "value0": "44.33",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 383.11,
+      "mcap0": 384.97,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "37.8",
+      "verdictPremium0": "17.3",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "172.80",
+        "218.88"
+      ],
+      [
+        "259.20",
+        "334.08"
+      ],
+      [
+        "345.60",
+        "403.20"
+      ]
+    ],
+    "intervals": [
+      [
+        "172.80",
+        "218.88"
+      ],
+      [
+        "218.88",
+        "259.20"
+      ],
+      [
+        "259.20",
+        "334.08"
+      ],
+      [
+        "334.08",
+        "345.60"
+      ],
+      [
+        "345.60",
+        "403.20"
+      ]
+    ],
+    "segments": [
+      "20.0",
+      "17.5",
+      "32.5",
+      "5.0",
+      "25.0"
+    ],
+    "marker0": "58.5",
+    "target": "370.87",
+    "upside0": "+20.6",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

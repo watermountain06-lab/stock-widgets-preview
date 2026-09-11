@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "ticker": "SKHY",
+  "cardAsOf": "2026-09-04",
+  "p0": "169.86",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (ADR 기준, 조정, TTM)",
+      "valueText": "16.6x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "16.4",
+      "low": "10",
+      "high": "50",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "skhyValue",
+      "value0": "16.6",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR (ADR 기준)",
+      "valueText": "6.38x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "28.2",
+      "low": "3",
+      "high": "15",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "skhyValue",
+      "value0": "6.38",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (ADR 기준, TTM)",
+      "valueText": "8.85x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "39.0",
+      "low": "3",
+      "high": "18",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "skhyValue",
+      "value0": "8.85",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (ADR 기준, P/FCF, TTM)",
+      "valueText": "18.3x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "7.2",
+      "low": "15",
+      "high": "60",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "skhyValue",
+      "value0": "18.3",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (ADR 기준, TTM, 추정)",
+      "valueText": "11.5x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "17.5",
+      "low": "8",
+      "high": "28",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "skhyValue",
+      "value0": "11.5",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 1201.8,
+      "mcap0": 1207.8,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": false,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "82",
+        "123"
+      ],
+      [
+        "133",
+        "205"
+      ],
+      [
+        "215",
+        "308"
+      ]
+    ],
+    "intervals": [
+      [
+        "82",
+        "123"
+      ],
+      [
+        "123",
+        "133"
+      ],
+      [
+        "133",
+        "205"
+      ],
+      [
+        "205",
+        "215"
+      ],
+      [
+        "215",
+        "308"
+      ]
+    ],
+    "segments": [
+      "18.2",
+      "4.5",
+      "31.8",
+      "4.6",
+      "40.9"
+    ],
+    "marker0": "38.9",
+    "target": "247.31",
+    "upside0": "+45.6",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

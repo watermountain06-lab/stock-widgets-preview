@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "ticker": "BRKB",
+  "cardAsOf": "2026-09-03",
+  "p0": "508.13",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (조정, TTM)",
+      "valueText": "24.9x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "52.4",
+      "low": "16",
+      "high": "33",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "brkbValue",
+      "value0": "24.9",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "23.1",
+      "verdictPremium0": "7.8",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "1.45x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "58.8",
+      "low": "0.98",
+      "high": "1.78",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "brkbValue",
+      "value0": "1.45",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "1.42",
+      "verdictPremium0": "2.1",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "2.83x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": "2021",
+      "high": "2025",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "brkbValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "23.5x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": "2023",
+      "high": "2024",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "brkbValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "~14.6x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": "12.3",
+      "high": "16.9",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "brkbValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "326",
+        "388"
+      ],
+      [
+        "408",
+        "530"
+      ],
+      [
+        "551",
+        "673"
+      ]
+    ],
+    "intervals": [
+      [
+        "326",
+        "388"
+      ],
+      [
+        "388",
+        "408"
+      ],
+      [
+        "408",
+        "530"
+      ],
+      [
+        "530",
+        "551"
+      ],
+      [
+        "551",
+        "673"
+      ]
+    ],
+    "segments": [
+      "17.6",
+      "5.9",
+      "35.3",
+      "5.9",
+      "35.3"
+    ],
+    "marker0": "52.4",
+    "target": "547.67",
+    "upside0": "+7.8",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

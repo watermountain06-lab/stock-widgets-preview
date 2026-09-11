@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "ticker": "NVDA",
+  "cardAsOf": "2026-09-03",
+  "p0": "228.45",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM)",
+      "valueText": "28.9x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "16.3",
+      "low": "15",
+      "high": "100",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "nvdaValue",
+      "value0": "28.9",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "24.2x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "29.5",
+      "low": "5",
+      "high": "70",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "nvdaValue",
+      "value0": "24.2",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "18.3x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "29.6",
+      "low": "5",
+      "high": "50",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "nvdaValue",
+      "value0": "18.3",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (FCF, TTM)",
+      "valueText": "43.7x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "38.3",
+      "low": "15",
+      "high": "90",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "nvdaValue",
+      "value0": "43.7",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "27.2x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "24.6",
+      "low": "10",
+      "high": "80",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "nvdaValue",
+      "value0": "27.2",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 5480.0,
+      "mcap0": 5550.0,
+      "evSource": "calcLine EV, market cap from the card header at P0",
+      "evChecked": true,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "160",
+        "215"
+      ],
+      [
+        "260",
+        "315"
+      ],
+      [
+        "395",
+        "515"
+      ]
+    ],
+    "intervals": [
+      [
+        "160",
+        "215"
+      ],
+      [
+        "215",
+        "260"
+      ],
+      [
+        "260",
+        "315"
+      ],
+      [
+        "315",
+        "395"
+      ],
+      [
+        "395",
+        "515"
+      ]
+    ],
+    "segments": [
+      "15.5",
+      "12.7",
+      "15.5",
+      "22.5",
+      "33.8"
+    ],
+    "marker0": "19.3",
+    "target": "325.99",
+    "upside0": "+42.7",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

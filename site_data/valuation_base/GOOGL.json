@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "ticker": "GOOGL",
+  "cardAsOf": "2026-09-01",
+  "p0": "335.02",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (조정, TTM)",
+      "valueText": "33.4x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "46",
+      "low": "15",
+      "high": "55",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "googlValue",
+      "value0": "33.4",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "30",
+      "verdictPremium0": "11",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "6.4x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "4.3",
+      "low": "5",
+      "high": "40",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "googlValue",
+      "value0": "6.4",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "9.2x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "28.9",
+      "low": "4",
+      "high": "22",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "googlValue",
+      "value0": "9.2",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "11",
+      "verdictPremium0": "-16",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/FCF)",
+      "valueText": "76.8x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "81.1",
+      "low": "20",
+      "high": "90",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "googlValue",
+      "value0": "76.8",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "49",
+      "verdictPremium0": "57",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "22.9x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "40.3",
+      "low": "10",
+      "high": "42",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "googlValue",
+      "value0": "22.9",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 3960.0,
+      "mcap0": 4100.0,
+      "evSource": "calcLine EV, market cap from the card header at P0",
+      "evChecked": true,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "260",
+        "300"
+      ],
+      [
+        "320",
+        "390"
+      ],
+      [
+        "420",
+        "500"
+      ]
+    ],
+    "intervals": [
+      [
+        "260",
+        "300"
+      ],
+      [
+        "300",
+        "320"
+      ],
+      [
+        "320",
+        "390"
+      ],
+      [
+        "390",
+        "420"
+      ],
+      [
+        "420",
+        "500"
+      ]
+    ],
+    "segments": [
+      "16.7",
+      "8.3",
+      "29.2",
+      "12.5",
+      "33.3"
+    ],
+    "marker0": "31.3",
+    "target": "428.04",
+    "upside0": "+27.8",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

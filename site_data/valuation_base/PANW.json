@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "ticker": "PANW",
+  "cardAsOf": "2026-09-09",
+  "p0": "334.05",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (Forward · 컨센서스)",
+      "valueText": "79.73x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "41.8",
+      "low": "15",
+      "high": "170",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "panwValue",
+      "value0": "79.73",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "verdictPremiumNote": "verdict -17.8% not reproducible from the anchor - left as is"
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "9.90x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": "1.54",
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "panwValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (FY2026)",
+      "valueText": "23.72x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "42.3",
+      "low": "3",
+      "high": "52",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "panwValue",
+      "value0": "23.72",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "27.4",
+      "verdictPremium0": "-13.4",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF, FY2026)",
+      "valueText": "59.80x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "41.8",
+      "low": "8",
+      "high": "132",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "panwValue",
+      "value0": "59.80",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "69.7",
+      "verdictPremium0": "-14.2",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "evsales",
+      "name": "EV/매출 (EV/EBITDA 대체)",
+      "valueText": "23.18x",
+      "badge": "3단계 적정(가중치 0.5)",
+      "stage0": 3,
+      "width0": "42.0",
+      "low": "3",
+      "high": "51",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "panwValue",
+      "value0": "23.18",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 266.12,
+      "mcap0": 272.25,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": false,
+      "anchor": "26.75",
+      "verdictPremium0": "-13.3",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "209.5",
+        "251.4"
+      ],
+      [
+        "293.3",
+        "398.1"
+      ],
+      [
+        "440.0",
+        "523.8"
+      ]
+    ],
+    "intervals": [
+      [
+        "209.5",
+        "251.4"
+      ],
+      [
+        "251.4",
+        "293.3"
+      ],
+      [
+        "293.3",
+        "398.1"
+      ],
+      [
+        "398.1",
+        "440.0"
+      ],
+      [
+        "440.0",
+        "523.8"
+      ]
+    ],
+    "segments": [
+      "13.33",
+      "13.33",
+      "33.35",
+      "13.32",
+      "26.67"
+    ],
+    "marker0": "39.6",
+    "target": "391.02",
+    "upside0": "+17.1",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

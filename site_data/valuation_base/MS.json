@@ -1,0 +1,141 @@
+{
+  "schema": 1,
+  "ticker": "MS",
+  "cardAsOf": "2026-09-08",
+  "p0": "216.24",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "17.47x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "44.7",
+      "low": "13",
+      "high": "23",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "msValue",
+      "value0": "17.47",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "17.755",
+      "verdictPremium0": "-1.6",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "3.19x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "39.7",
+      "low": "2.0",
+      "high": "5.0",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "msValue",
+      "value0": "3.19",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "3.53",
+      "verdictPremium0": "-9.6",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "4.35x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": null,
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "msValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "TTM 마이너스",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "msValue",
+      "frozenReason": "not a positive multiple (TTM 마이너스)"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "정의 부적용",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "msValue",
+      "frozenReason": "not a positive multiple (정의 부적용)"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "111.4",
+        "136.2"
+      ],
+      [
+        "160.9",
+        "284.7"
+      ],
+      [
+        "309.5",
+        "359.0"
+      ]
+    ],
+    "intervals": [
+      [
+        "111.4",
+        "136.2"
+      ],
+      [
+        "136.2",
+        "160.9"
+      ],
+      [
+        "160.9",
+        "284.7"
+      ],
+      [
+        "284.7",
+        "309.5"
+      ],
+      [
+        "309.5",
+        "359.0"
+      ]
+    ],
+    "segments": [
+      "10.00",
+      "10.00",
+      "50.00",
+      "10.00",
+      "20.00"
+    ],
+    "marker0": "42.3",
+    "target": "236.62",
+    "upside0": "+9.4",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

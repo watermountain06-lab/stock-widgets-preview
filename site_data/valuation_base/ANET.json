@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "ticker": "ANET",
+  "cardAsOf": "2026-09-09",
+  "p0": "192.93",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "60.86x",
+      "badge": "3단계 보통",
+      "stage0": 3,
+      "width0": "58.4",
+      "low": "20",
+      "high": "90",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "anetValue",
+      "value0": "60.86",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "54.16",
+      "verdictPremium0": "12.4",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "16.44x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "62.2",
+      "low": "4",
+      "high": "24",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "anetValue",
+      "value0": "16.44",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "12.14",
+      "verdictPremium0": "35.4",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "psr",
+      "name": "PSR",
+      "valueText": "23.08x",
+      "badge": "5단계 매우높음(가중치 0.5)",
+      "stage0": 5,
+      "width0": "87.8",
+      "low": "2",
+      "high": "26",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "anetValue",
+      "value0": "23.08",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "7.40",
+      "verdictPremium0": "212",
+      "anchorBasis": "formula",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "45.85x",
+      "badge": "4단계 높음",
+      "stage0": 4,
+      "width0": "70.5",
+      "low": "12",
+      "high": "60",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "anetValue",
+      "value0": "45.85",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "37.97",
+      "verdictPremium0": "20.8",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "49.57x",
+      "badge": "4단계 높음(가중치 0.5)",
+      "stage0": 4,
+      "width0": "69.6",
+      "low": "12",
+      "high": "66",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "anetValue",
+      "value0": "49.57",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 229.99,
+      "mcap0": 243.33,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "39.7",
+      "verdictPremium0": "24.9",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "95.1",
+        "136.3"
+      ],
+      [
+        "136.3",
+        "193.4"
+      ],
+      [
+        "193.4",
+        "253.6"
+      ]
+    ],
+    "intervals": [
+      [
+        "95.1",
+        "136.3"
+      ],
+      [
+        "136.3",
+        "193.4"
+      ],
+      [
+        "193.4",
+        "253.6"
+      ]
+    ],
+    "segments": [
+      "26.0",
+      "36.0",
+      "38.0"
+    ],
+    "marker0": "61.7",
+    "target": "241.04",
+    "upside0": "+24.9",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:44Z"
+}

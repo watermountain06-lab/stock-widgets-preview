@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "ticker": "XOM",
+  "cardAsOf": "2026-09-04",
+  "p0": "159.47",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM)",
+      "valueText": "20.50x",
+      "badge": "4단계 다소높음",
+      "stage0": 4,
+      "width0": "63.7",
+      "low": "15.1",
+      "high": "23.6",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "xomValue",
+      "value0": "20.50",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "2.53x",
+      "badge": "4단계 다소높음",
+      "stage0": 4,
+      "width0": "66.4",
+      "low": "1.8",
+      "high": "2.9",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "xomValue",
+      "value0": "2.53",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (시총/매출 TTM)",
+      "valueText": "1.78x",
+      "badge": "1단계 매우낮음 · 평가보류",
+      "stage0": 1,
+      "width0": "20",
+      "low": "1.5",
+      "high": "2.9",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "xomValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (시총/OCF TTM)",
+      "valueText": "10.98x",
+      "badge": "4단계 다소높음",
+      "stage0": 4,
+      "width0": "74.2",
+      "low": "6.2",
+      "high": "12.6",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "xomValue",
+      "value0": "10.98",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "9.07x",
+      "badge": "4단계 다소높음",
+      "stage0": 4,
+      "width0": "72.4",
+      "low": "5.5",
+      "high": "10.4",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "xomValue",
+      "value0": "9.07",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 687.5,
+      "mcap0": 655.7,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "116.70",
+        "132.26"
+      ],
+      [
+        "140.04",
+        "171.16"
+      ],
+      [
+        "178.94",
+        "210.06"
+      ]
+    ],
+    "intervals": [
+      [
+        "116.70",
+        "132.26"
+      ],
+      [
+        "132.26",
+        "140.04"
+      ],
+      [
+        "140.04",
+        "171.16"
+      ],
+      [
+        "171.16",
+        "178.94"
+      ],
+      [
+        "178.94",
+        "210.06"
+      ]
+    ],
+    "segments": [
+      "16.67",
+      "8.33",
+      "33.33",
+      "8.33",
+      "33.33"
+    ],
+    "marker0": "45.8",
+    "target": "169.68",
+    "upside0": "+6.4",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

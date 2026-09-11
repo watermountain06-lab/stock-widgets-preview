@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "ticker": "PLTR",
+  "cardAsOf": "2026-09-04",
+  "p0": "174.33",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "150.3x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "100",
+      "low": "44",
+      "high": "132",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "pltrValue",
+      "value0": "150.3",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "42.9x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "100",
+      "low": "13.6",
+      "high": "40.8",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "pltrValue",
+      "value0": "42.9",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "68.1x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "100",
+      "low": "12.6",
+      "high": "37.8",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "pltrValue",
+      "value0": "68.1",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "123.2x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "100",
+      "low": "33.9",
+      "high": "101.8",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "pltrValue",
+      "value0": "123.2",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "153.8x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "100",
+      "low": "25.5",
+      "high": "76.5",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "pltrValue",
+      "value0": "153.8",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 409.49,
+      "mcap0": 418.9,
+      "evSource": "market cap minus net cash",
+      "evChecked": true,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "104.40",
+        "136.88"
+      ],
+      [
+        "153.12",
+        "201.84"
+      ],
+      [
+        "218.08",
+        "266.80"
+      ]
+    ],
+    "intervals": [
+      [
+        "104.40",
+        "136.88"
+      ],
+      [
+        "136.88",
+        "153.12"
+      ],
+      [
+        "153.12",
+        "201.84"
+      ],
+      [
+        "201.84",
+        "218.08"
+      ],
+      [
+        "218.08",
+        "266.80"
+      ]
+    ],
+    "segments": [
+      "20.0",
+      "10.0",
+      "30.0",
+      "10.0",
+      "30.0"
+    ],
+    "marker0": "43.1",
+    "target": "191.68",
+    "upside0": "+10.0",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "ticker": "CSCO",
+  "cardAsOf": "2026-09-04",
+  "p0": "109.20",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM 조정)",
+      "valueText": "35.92x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "27.1",
+      "low": "26.5",
+      "high": "61.3",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "cscoValue",
+      "value0": "35.92",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "8.56x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "42.8",
+      "low": "2.6",
+      "high": "16.5",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "cscoValue",
+      "value0": "8.56",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (시총/매출 TTM)",
+      "valueText": "6.80x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "23.9",
+      "low": "1.7",
+      "high": "23.2",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "cscoValue",
+      "value0": "6.80",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/FCF)",
+      "valueText": "33.72x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "55.6",
+      "low": "16.6",
+      "high": "47.4",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "cscoValue",
+      "value0": "33.72",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "24.80x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "33.7",
+      "low": "12.1",
+      "high": "49.8",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "cscoValue",
+      "value0": "24.80",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 444.1,
+      "mcap0": 430.5,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "66.88",
+        "85.12"
+      ],
+      [
+        "88.16",
+        "121.60"
+      ],
+      [
+        "124.64",
+        "158.08"
+      ]
+    ],
+    "intervals": [
+      [
+        "66.88",
+        "85.12"
+      ],
+      [
+        "85.12",
+        "88.16"
+      ],
+      [
+        "88.16",
+        "121.60"
+      ],
+      [
+        "121.60",
+        "124.64"
+      ],
+      [
+        "124.64",
+        "158.08"
+      ]
+    ],
+    "segments": [
+      "20.0",
+      "3.3",
+      "36.7",
+      "3.3",
+      "36.7"
+    ],
+    "marker0": "46.4",
+    "target": "137.63",
+    "upside0": "+26.0",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

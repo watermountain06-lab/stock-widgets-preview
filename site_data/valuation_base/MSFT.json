@@ -1,0 +1,157 @@
+{
+  "schema": 1,
+  "ticker": "MSFT",
+  "cardAsOf": "2026-09-01",
+  "p0": "501.02",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (조정, TTM)",
+      "valueText": "29.0x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "39.7",
+      "low": "15",
+      "high": "50",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "msftValue",
+      "value0": "29.0",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": "24",
+      "verdictPremium0": "21",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "8.41x",
+      "badge": "1단계 매우낮음",
+      "stage0": 1,
+      "width0": "19.9",
+      "low": "3",
+      "high": "30",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "msftValue",
+      "value0": "8.41",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "11.21x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "48.1",
+      "low": "3",
+      "high": "20",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "msftValue",
+      "value0": "11.21",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/FCF)",
+      "valueText": "55.5x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "100",
+      "low": "5",
+      "high": "45",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "msftValue",
+      "value0": "55.5",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "19.01x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "49.7",
+      "low": "8",
+      "high": "30",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "msftValue",
+      "value0": "19.01",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 3683.4,
+      "mcap0": 3720.0,
+      "evSource": "calcLine EV, market cap from the card header at P0",
+      "evChecked": true,
+      "anchor": "16",
+      "verdictPremium0": "19",
+      "anchorBasis": "display",
+      "premiumDecimals": 0
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "345",
+        "380"
+      ],
+      [
+        "450",
+        "520"
+      ],
+      [
+        "555",
+        "620"
+      ]
+    ],
+    "intervals": [
+      [
+        "345",
+        "380"
+      ],
+      [
+        "380",
+        "450"
+      ],
+      [
+        "450",
+        "520"
+      ],
+      [
+        "520",
+        "555"
+      ],
+      [
+        "555",
+        "620"
+      ]
+    ],
+    "segments": [
+      "12.7",
+      "25.5",
+      "25.5",
+      "12.7",
+      "23.6"
+    ],
+    "marker0": "56.7",
+    "target": "569.56",
+    "upside0": "+13.7",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "ticker": "BAC",
+  "cardAsOf": "2026-09-04",
+  "p0": "62.68",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "14.44x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "49.3",
+      "low": "10",
+      "high": "19",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "bacValue",
+      "value0": "14.44",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "14.7",
+      "verdictPremium0": "-1.8",
+      "anchorBasis": "display",
+      "premiumDecimals": 1
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "1.59x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "25.8",
+      "low": "1.0",
+      "high": "3.3",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "bacValue",
+      "value0": "1.59",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "verdictPremiumNote": "verdict -26.2% not reproducible from the anchor - left as is"
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "3.68x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": null,
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "bacValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "4.63x",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "bacValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "정의 부적용",
+      "badge": "평가 보류",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "bacValue",
+      "frozenReason": "not a positive multiple (정의 부적용)"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "43.40",
+        "52.08"
+      ],
+      [
+        "56.42",
+        "69.44"
+      ],
+      [
+        "73.78",
+        "86.80"
+      ]
+    ],
+    "intervals": [
+      [
+        "43.40",
+        "52.08"
+      ],
+      [
+        "52.08",
+        "56.42"
+      ],
+      [
+        "56.42",
+        "69.44"
+      ],
+      [
+        "69.44",
+        "73.78"
+      ],
+      [
+        "73.78",
+        "86.80"
+      ]
+    ],
+    "segments": [
+      "20.0",
+      "10.0",
+      "30.0",
+      "10.0",
+      "30.0"
+    ],
+    "marker0": "44.4",
+    "target": "68.77",
+    "upside0": "+9.7",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}

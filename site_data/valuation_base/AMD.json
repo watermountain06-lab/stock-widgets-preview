@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "ticker": "AMD",
+  "cardAsOf": "2026-09-04",
+  "p0": "477.57",
+  "p0Source": "header price at git e68eda0 (before stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (조정, TTM)",
+      "valueText": "140.3x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "96.2",
+      "low": "20",
+      "high": "145",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amdValue",
+      "value0": "140.3",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "11.6x",
+      "badge": "2단계 낮음",
+      "stage0": 2,
+      "width0": "22.0",
+      "low": "5",
+      "high": "35",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amdValue",
+      "value0": "11.6",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (시총/매출 TTM)",
+      "valueText": "18.9x",
+      "badge": "3단계 적정",
+      "stage0": 3,
+      "width0": "46.3",
+      "low": "5",
+      "high": "35",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amdValue",
+      "value0": "18.9",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (시총/FCF TTM)",
+      "valueText": "92.7x",
+      "badge": "5단계 매우높음(신뢰도 참고)",
+      "stage0": 5,
+      "width0": "81.8",
+      "low": "15",
+      "high": "110",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amdValue",
+      "value0": "92.7",
+      "decimals": 1,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "80.2x",
+      "badge": "5단계 매우높음",
+      "stage0": 5,
+      "width0": "86.9",
+      "low": "15",
+      "high": "90",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amdValue",
+      "value0": "80.2",
+      "decimals": 1,
+      "method": "ev-delta",
+      "ev0": 769.7,
+      "mcap0": 779.6,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": false,
+      "anchor": null,
+      "verdictPremium0": null
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "272",
+        "340"
+      ],
+      [
+        "408",
+        "544"
+      ],
+      [
+        "578",
+        "714"
+      ]
+    ],
+    "intervals": [
+      [
+        "272",
+        "340"
+      ],
+      [
+        "340",
+        "408"
+      ],
+      [
+        "408",
+        "544"
+      ],
+      [
+        "544",
+        "578"
+      ],
+      [
+        "578",
+        "714"
+      ]
+    ],
+    "segments": [
+      "15.4",
+      "15.4",
+      "30.8",
+      "7.7",
+      "30.8"
+    ],
+    "marker0": "46.5",
+    "target": "613.84",
+    "upside0": "+28.5",
+    "frozen": false
+  },
+  "builtAt": "2026-09-11T20:06:43Z"
+}
