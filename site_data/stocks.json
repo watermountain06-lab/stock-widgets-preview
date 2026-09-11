@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-11T09:43:51Z",
+  "generatedAt": "2026-09-11T10:03:25Z",
   "priceSession": null,
   "scoreVersion": "1.0.0",
   "tickers": [
@@ -22,22 +22,27 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 24294156271,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-03",
-        "filing": "legacy index.html marketCap / price",
+        "usEquivalent": 24100000000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-21",
+        "filedAt": "2026-08-26",
+        "filing": "10-Q 0001045810-26-000075 dei",
         "approximate": true,
-        "status": "unverified"
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "no tier label found in row"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 86.3,
+        "grade": "우수",
+        "financialsAsOf": "2026-01-25",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -58,22 +63,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 14640297727,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-01",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 14594180000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0000320193-26-000020 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 43.6,
+        "grade": "보통",
+        "financialsAsOf": "2025-09-27",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -94,22 +103,43 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 12238075339,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-01",
-        "filing": "legacy index.html marketCap / price",
+        "usEquivalent": 12230000000,
+        "method": "sec-cover",
+        "basis": "sum-of-classes",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 5868000000,
+            "factor": 1
+          },
+          {
+            "class": "B",
+            "shares": 835000000,
+            "factor": 1
+          },
+          {
+            "class": "C",
+            "shares": 5527000000,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-07-15",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0001652044-26-000071 cover",
         "approximate": true,
-        "status": "unverified"
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 69.8,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -130,22 +160,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 7424853299,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-01",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 7425545491,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-23",
+        "filedAt": "2026-07-29",
+        "filing": "10-K 0001193125-26-323660 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 80.3,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -166,22 +200,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 10766110158,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-08-27",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 10786313572,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-22",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0001018724-26-000026 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 63.8,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -203,22 +241,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 5186844277,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-08-27",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 5186504904,
+        "method": "sec-annual-report",
+        "basis": "adr-equivalent",
+        "asOf": "2025-12-31",
+        "filedAt": "2026-04-16",
+        "filing": "20-F FY2025 dei 25,932,524,521 ordinary shares / 5 per ADR",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 73.8,
+        "grade": "양호",
+        "financialsAsOf": "2024-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -239,22 +281,35 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 13197076340,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-03",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 13181779945,
+        "method": "sec-cover",
+        "basis": "sum-of-classes",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 7696293669,
+            "factor": 1
+          },
+          {
+            "class": "B",
+            "shares": 5485486276,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-07-28",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0001628280-26-052535 cover",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
         "value": null,
-        "raw": null,
+        "raw": "데이터 초기 단계",
         "status": "missing"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     },
     {
@@ -275,22 +330,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 4874196711,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-02",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 4773629865,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-28",
+        "filedAt": "2026-09-10",
+        "filing": "10-Q 0001730168-26-000080 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 69.7,
+        "grade": "양호",
+        "financialsAsOf": "2025-11-02",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -311,22 +370,38 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 2573980039,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-08-27",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 2547506225,
+        "method": "sec-cover",
+        "basis": "sum-of-classes",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 2205128509,
+            "factor": 1
+          },
+          {
+            "class": "B",
+            "shares": 342377716,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-07-24",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0001628280-26-050705 cover",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "저평가",
+        "raw": "저평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 76.8,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -347,22 +422,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 3940752820,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-08-31",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 3949547394,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-16",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0001628280-26-049270 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "초고평가",
+        "raw": "초고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 52.7,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -384,22 +463,39 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 2145120343,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-03",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 2140710161,
+        "method": "sec-cover",
+        "basis": "class-b-equivalent",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 488450,
+            "factor": 1500
+          },
+          {
+            "class": "B",
+            "shares": 1408035161,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-07-29",
+        "filedAt": "2026-08-10",
+        "filing": "10-Q 0001193125-26-341032 cover",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 66.7,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18",
+        "note": "coverage partial"
       }
     },
     {
@@ -420,22 +516,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1127160391,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-03",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1129393151,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-17",
+        "filedAt": "2026-06-25",
+        "filing": "10-Q 0000723125-26-000015 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 60.4,
+        "grade": "양호",
+        "financialsAsOf": "2025-08-28",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -456,22 +556,40 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 892208917,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 891357065,
+        "method": "sec-dei",
+        "basis": "sum-of-classes",
+        "asOf": "2026-08-03",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000059478-26-000081 dei",
+        "approximate": false,
+        "status": "ok",
+        "classes": [
+          {
+            "class": "common (cover)",
+            "shares": 941357065,
+            "factor": 1
+          },
+          {
+            "class": "employee benefit trust",
+            "shares": 50000000,
+            "factor": -1
+          }
+        ],
+        "note": "10-K FY2025: employee benefit trust held 50 million shares at 2025-12-31 and 2024-12-31 (cost basis $3.0B)"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "conflict",
+        "note": "headline kept; summary says 고평가, row says 고평가"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 73.4,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -492,22 +610,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 2658160553,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 2658186195,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0001628280-26-054343 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "excluded",
+        "reason": "bank (config bank_exclude_tickers)"
       }
     },
     {
@@ -529,22 +648,24 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 5204285882,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 7110755000,
+        "method": "prospectus",
+        "basis": "adr-equivalent",
+        "asOf": "2026-07-10",
+        "filedAt": "2026-07-10",
+        "filing": "424B4 2026-07-10: 711,075,500 common shares outstanding; 1 ADS = 1/10 share",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "저평가",
+        "raw": "저평가 — 단, ADR 프리미엄은 별개 리스크",
+        "status": "normalized",
+        "note": "trailing ADR-premium caveat after the label"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     },
     {
@@ -565,22 +686,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 7935621918,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 7933746241,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-26",
+        "filedAt": "2026-08-28",
+        "filing": "10-Q 0000104169-26-000154 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 44.3,
+        "grade": "보통",
+        "financialsAsOf": "2026-01-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -601,22 +726,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1632430848,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1632475042,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-29",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000002488-26-000123 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 66.0,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-27",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -637,22 +766,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1835657344,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
+        "usEquivalent": 1880000000,
+        "method": "sec-note",
+        "basis": "as-converted",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q Note 11 as-converted class A total 1,880M (classes B-1/B-2/B-3/C and preferred converted)",
         "approximate": true,
-        "status": "unverified"
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 71.8,
+        "grade": "양호",
+        "financialsAsOf": "2025-09-30",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -673,22 +806,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 2409984377,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 2409898597,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0000200406-26-000153 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 47.7,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-28",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -710,22 +847,24 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 381950924,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 385417665,
+        "method": "sec-annual-report",
+        "basis": "ny-registry",
+        "asOf": "2025-12-31",
+        "filedAt": "2026-02-25",
+        "filing": "20-F FY2025 dei 385,417,665 shares (NY registry 1:1)",
+        "approximate": false,
+        "status": "stale",
+        "note": "quarterly counts are only published in 6-K press material, not XBRL"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     },
     {
@@ -746,22 +885,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 4111745156,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 4111911960,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-03",
+        "filing": "10-Q 0000034088-26-000093 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 44.2,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -782,22 +925,38 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 876020787,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 876009940,
+        "method": "sec-cover",
+        "basis": "sum-of-classes",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 869464115,
+            "factor": 1
+          },
+          {
+            "class": "B",
+            "shares": 6545825,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-07-27",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0001141391-26-000083 cover",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 69.4,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -818,22 +977,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 5254697286,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
+        "usEquivalent": 5044000000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-07-24",
+        "filing": "10-Q 0000050863-26-000157 dei",
         "approximate": true,
-        "status": "unverified"
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "저평가",
+        "raw": "저평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 36.5,
+        "grade": "미흡",
+        "financialsAsOf": "2025-12-27",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -854,22 +1017,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 2880715455,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 2880471000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-12",
+        "filedAt": "2026-06-22",
+        "filing": "10-K 0001193125-26-277521 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 77.0,
+        "grade": "양호",
+        "financialsAsOf": "2026-05-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -890,22 +1057,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1767137175,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1767117285,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-27",
+        "filedAt": "2026-08-03",
+        "filing": "10-Q 0001551152-26-000026 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 34.1,
+        "grade": "미흡",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -926,22 +1097,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 6992661136,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 6992748365,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-30",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0000070858-26-000394 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "excluded",
+        "reason": "bank (config bank_exclude_tickers)"
       }
     },
     {
@@ -962,22 +1134,27 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 3942307692,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 3942586873,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-27",
+        "filedAt": "2026-09-02",
+        "filing": "10-K 0000858877-26-000132 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정~저평가",
+        "raw": "저평가~적정",
+        "status": "normalized",
+        "note": "reversed range order 저평가~적정"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 44.7,
+        "grade": "보통",
+        "financialsAsOf": "2025-07-26",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -998,22 +1175,43 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 2402914014,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 2403058480,
+        "method": "sec-cover",
+        "basis": "sum-of-classes",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 2300713329,
+            "factor": 1
+          },
+          {
+            "class": "B",
+            "shares": 101340151,
+            "factor": 1
+          },
+          {
+            "class": "F",
+            "shares": 1005000,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-07-27",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0001321655-26-000041 cover",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "초고평가",
+        "raw": "초고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 78.5,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1034,22 +1232,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1961649089,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1975771274,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0000093410-26-000167 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "저평가",
+        "raw": "저평가",
+        "status": "valid"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     },
     {
@@ -1070,22 +1269,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 443575687,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 443478804,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-05-27",
+        "filedAt": "2026-06-03",
+        "filing": "10-Q 0000909832-26-000051 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "초고평가",
+        "raw": "초고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 48.2,
+        "grade": "보통",
+        "financialsAsOf": "2025-08-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1106,22 +1309,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1251422071,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1251321000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-04",
+        "filedAt": "2026-08-07",
+        "filing": "10-K 0000707549-26-000037 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 62.2,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-28",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1142,22 +1349,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 4303395027,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 4302549243,
+        "method": "sec-cover",
+        "basis": "single",
+        "asOf": "2026-07-27",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q 0001628280-26-050503 cover",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 53.2,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1178,22 +1389,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 459616188,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 459674889,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000018230-26-000046 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 44.4,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1214,22 +1429,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 2467238741,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-04",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 2467171638,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-07",
+        "filing": "10-Q 0000310158-26-000212 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 61.3,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1250,22 +1469,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 793587005,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-08",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 793597443,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-26",
+        "filedAt": "2026-08-20",
+        "filing": "10-Q 0001628280-26-058235 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 58.7,
+        "grade": "보통",
+        "financialsAsOf": "2025-10-26",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1286,22 +1509,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 897615008,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-08",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 897594847,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-10",
+        "filing": "10-Q 0000731766-26-000197 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 49.0,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1322,22 +1549,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1037592189,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-08",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1037562513,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-16",
+        "filing": "10-Q 0000040545-26-000049 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 60.2,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1358,22 +1589,40 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 635723384,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-08",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 635812750,
+        "method": "sec-cover",
+        "basis": "sum-of-classes",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 276744341,
+            "factor": 1
+          },
+          {
+            "class": "B",
+            "shares": 43635221,
+            "factor": 1
+          },
+          {
+            "class": "C",
+            "shares": 315433188,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-09-01",
+        "filedAt": "2026-09-08",
+        "filing": "10-Q 0001571996-26-000046 cover",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "초고평가",
+        "raw": "초고평가",
+        "status": "valid"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     },
     {
@@ -1394,22 +1643,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1570477248,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-08",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1570566292,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0000895421-26-000212 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "excluded",
+        "reason": "bank (config bank_exclude_tickers)"
       }
     },
     {
@@ -1430,22 +1680,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 2324495123,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-08",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 2324433060,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-04",
+        "filing": "10-K 0000080424-26-000103 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 58.0,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1466,22 +1720,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 4163831458,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 4163939676,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-17",
+        "filing": "10-Q 0001065280-26-000212 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 61.4,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1502,22 +1760,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 997650694,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 997689626,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-18",
+        "filedAt": "2026-08-25",
+        "filing": "10-Q 0001628280-26-058715 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 50.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-02-01",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1538,22 +1800,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 291194913,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 291171408,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-08-03",
+        "filing": "10-Q 0000886982-26-000297 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "excluded",
+        "reason": "bank - same rationale as bank_exclude_tickers; card built after v1.0.0 was frozen"
       }
     },
     {
@@ -1574,22 +1837,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1558455507,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1558613439,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-07-24",
+        "filing": "10-Q 0001628280-26-049493 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 48.6,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1610,22 +1877,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 815147433,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
+        "usEquivalent": 818000000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-31",
+        "filedAt": "2026-09-10",
+        "filing": "10-K 0001327567-26-000023 dei",
         "approximate": true,
-        "status": "unverified"
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     },
     {
@@ -1646,22 +1914,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 3024422884,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 3023999336,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-07-28",
+        "filing": "10-Q 0000072971-26-000302 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "저평가",
+        "raw": "저평가",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "excluded",
+        "reason": "bank - same rationale as bank_exclude_tickers; card built after v1.0.0 was frozen"
       }
     },
     {
@@ -1682,22 +1951,26 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1348013161,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1347758144,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0000101829-26-000027 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "not-yet-extracted"
+        "status": "available",
+        "total": 40.1,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-08-18"
       }
     },
     {
@@ -1718,22 +1991,24 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 146414461,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 146419001,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-07",
+        "filedAt": "2026-08-17",
+        "filing": "10-K 0001628280-26-057406 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "reversed range order 적정~고평가"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     },
     {
@@ -1754,22 +2029,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 266340007,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 266333581,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-22",
+        "filing": "10-Q 0001996810-26-000148 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     },
     {
@@ -1790,22 +2066,23 @@
         "statusReason": "legacy-seed"
       },
       "shares": {
-        "usEquivalent": 1261079148,
-        "method": "manual",
-        "basis": "legacy-implied",
-        "asOf": "2026-09-09",
-        "filing": "legacy index.html marketCap / price",
-        "approximate": true,
-        "status": "unverified"
+        "usEquivalent": 1261224648,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-30",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0001596532-26-000175 dei",
+        "approximate": false,
+        "status": "ok"
       },
       "tier": {
-        "value": null,
-        "raw": null,
-        "status": "missing"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
       },
       "score": {
         "status": "missing",
-        "reason": "not-yet-extracted"
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     }
   ]

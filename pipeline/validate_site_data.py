@@ -31,6 +31,7 @@ SHARES_METHOD = {"sec-dei", "sec-cover", "sec-note", "sec-annual-report", "prosp
 # share-seeding step must replace every occurrence (reported as a warning)
 SHARES_BASIS = {"single", "sum-of-classes", "class-b-equivalent", "as-converted",
                 "adr-equivalent", "ny-registry", "legacy-implied"}
+SHARES_STATUS = {"ok", "stale", "unverified"}
 TIER_STATUS = {"valid", "normalized", "missing", "conflict"}
 SCORE_STATUS = {"available", "missing", "excluded"}
 HISTORY_DECISIONS = {"seeded", "changed", "held-hysteresis", "held-divergence"}
@@ -111,10 +112,28 @@ def check_ticker(t, top, r):
         r.err(f"{tk}: shares.basis {s.get('basis')!r}")
     if s.get("basis") == "adr-equivalent" and lst.get("type") != "adr":
         r.err(f"{tk}: adr-equivalent shares on a non-ADR listing")
+    if s.get("status") not in SHARES_STATUS:
+        r.err(f"{tk}: shares.status {s.get('status')!r}")
     if s.get("basis") == "legacy-implied" or s.get("status") == "unverified":
         r.warn(f"{tk}: provisional share count ({s.get('basis')}, {s.get('status')})")
+    elif s.get("status") == "stale":
+        r.warn(f"{tk}: stale share count as of {s.get('asOf')} ({s.get('note', 'no note')})")
     if not is_date(s.get("asOf")):
         r.err(f"{tk}: shares.asOf not an ISO date")
+    if s.get("filedAt") is not None and not is_date(s["filedAt"]):
+        r.err(f"{tk}: shares.filedAt not an ISO date")
+    if "classes" in s:
+        cls = s["classes"]
+        well_formed = isinstance(cls, list) and cls and all(
+            isinstance(c, dict) and isinstance(c.get("class"), str) and c["class"].strip()
+            and isinstance(c.get("shares"), int)
+            and isinstance(c.get("factor"), (int, float)) for c in cls)
+        if not well_formed:
+            r.err(f"{tk}: shares.classes must be a non-empty list of {{class, shares:int, factor:number}}")
+        else:
+            total = sum(c["shares"] * c["factor"] for c in cls)
+            if total != s.get("usEquivalent"):
+                r.err(f"{tk}: shares.classes sum {total:,} != usEquivalent {s.get('usEquivalent')}")
 
     tier = t.get("tier", {})
     ts = tier.get("status")
