@@ -1,0 +1,90 @@
+name: Daily data refresh
+
+# Refreshes prices and macro indicators after each US market close and
+# commits the result straight to this repo's main (GitHub Pages serves main).
+# Runs on GitHub's servers, so it doesn't depend on any local machine.
+# The real domain (stock-widgets-redesign) is never touched here - promoting
+# data there stays a manual, approved step.
+
+on:
+  schedule:
+    # 22:00 UTC Mon-Fri = 18:00 New York (EDT) / 17:00 (EST) the same evening
+    # as the close = 07:00 KST the next morning. Always after the 16:20 ET
+    # completeness cutoff in pipeline/fetch_prices.py. GitHub may start
+    # scheduled runs some minutes late.
+    - cron: "0 22 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # commit site_data/ and index.html (repo default is read)
+  pages: write      # request a Pages build explicitly (see below)
+
+concurrency:
+  group: daily-refresh
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash   # explicit bash turns on pipefail, so "| tee" can't hide a failure
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Offline tests (guard against broken pipeline code)
+        run: python3 pipeline/test_pipeline.py
+
+      - name: Fetch prices
+        run: python3 pipeline/fetch_prices.py --write | tee prices.log
+
+      - name: Fetch macro indicators
+        run: python3 pipeline/fetch_macro.py --write | tee macro.log
+
+      - name: Build and validate
+        run: |
+          python3 pipeline/build_index.py
+          python3 pipeline/validate_site_data.py | tee validate.log
+
+      - name: Commit if the data changed
+        id: commit
+        run: |
+          git add site_data/stocks.json site_data/macro.json index.html
+          if git diff --cached --quiet; then
+            echo "No data change (e.g. a market holiday) - nothing to commit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          session=$(python3 -c 'import json; print(json.load(open("site_data/stocks.json"))["priceSession"])')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Daily data refresh: session ${session}"
+          git pull --rebase
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # Pushes made with GITHUB_TOKEN don't start other workflow runs, and the
+      # branch-based ("legacy") Pages build is one, so ask for a build directly.
+      - name: Request a Pages build
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
+
+      - name: Health check (fails the run, and so emails the owner, if the data is degraded)
+        run: python3 pipeline/health_check.py | tee health.log
+
+      - name: Run summary
+        if: always()
+        run: |
+          {
+            echo '```'
+            cat prices.log macro.log validate.log health.log 2>/dev/null || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

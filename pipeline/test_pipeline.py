@@ -183,8 +183,50 @@ def test_end_to_end_with_failures():
     check("failed source keeps its previous value as stale", m2["status"] == "stale" and m2["value"] == ind["sp500"]["value"], m2)
 
 
+def test_no_change_and_health():
+    tmp = Path(tempfile.mkdtemp())
+    stocks = tmp / "stocks.json"
+    stocks.write_text((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"), encoding="utf-8")
+    fx = tmp / "fixtures"
+    fx.mkdir()
+    (fx / "NVDA.json").write_text(json.dumps(chart(DAYS, CLOSES)))
+    (fx / "^GSPC_1d.json").write_text(json.dumps(chart(DAYS, [6000.0 + i for i in range(22)])))
+
+    price_args = ["--data", str(stocks), "--fixtures", str(fx), "--now", AFTER.isoformat(), "--tickers", "NVDA", "--write"]
+    run("fetch_prices.py", *price_args)
+    first = stocks.read_text(encoding="utf-8")
+    out = run("fetch_prices.py", *price_args)
+    check("repeat price run with nothing new leaves stocks.json untouched",
+          stocks.read_text(encoding="utf-8") == first and "No change" in out.stdout, out.stdout + out.stderr)
+
+    macro = tmp / "macro.json"
+    macro_args = ["--stocks", str(stocks), "--out", str(macro), "--fixtures", str(fx), "--now", AFTER.isoformat(), "--write"]
+    run("fetch_macro.py", *macro_args)
+    first = macro.read_text(encoding="utf-8")
+    out = run("fetch_macro.py", *macro_args)
+    check("repeat macro run with nothing new leaves macro.json untouched",
+          macro.read_text(encoding="utf-8") == first and "No change" in out.stdout, out.stdout + out.stderr)
+
+    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro))
+    check("health check fails when a market series is not fresh", out.returncode == 1, out.stdout)
+
+    healthy = tmp / "healthy_macro.json"
+    healthy.write_text(json.dumps({"indicators": {k: {"status": "fresh"} for k in ("sp500", "vix", "usdkrw")},
+                                   "nextFomc": {"start": "2026-09-15", "end": "2026-09-16"}}))
+    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(healthy))
+    check("health check passes on fresh data", out.returncode == 0, out.stdout)
+
+    d = json.loads(stocks.read_text(encoding="utf-8"))
+    for t in d["tickers"][:6]:
+        t["price"] = dict(t["price"], status="stale", statusReason="test")
+    stocks.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(healthy))
+    check("health check fails at 6 non-fresh tickers", out.returncode == 1, out.stdout)
+
+
 if __name__ == "__main__":
     test_price_rules()
     test_macro_rules()
     test_end_to_end_with_failures()
+    test_no_change_and_health()
     print(f"OK - {len(PASSED)} checks passed")

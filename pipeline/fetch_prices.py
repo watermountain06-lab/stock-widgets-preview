@@ -166,6 +166,12 @@ def main():
         print(f"  big moves (check the news before trusting): {', '.join(big)}")
     if args.write:
         data["priceSession"] = target
+        # a holiday repeats the same session: don't rewrite (and so don't
+        # commit) a file whose only change would be its generatedAt stamp
+        old = json.loads(path.read_text(encoding="utf-8"))
+        if {k: v for k, v in old.items() if k != "generatedAt"} == {k: v for k, v in data.items() if k != "generatedAt"}:
+            print(f"No change - {path.name} left as is")
+            return
         data["generatedAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"Wrote {path}")

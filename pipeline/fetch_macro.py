@@ -205,6 +205,11 @@ def main():
         print(f"{key:13} {v['status']:11} {str(shown):>12}  {v.get('asOf', '')}  {v.get('statusReason', '')}")
     print(f"next FOMC {fomc}" if fomc else f"WARNING: FOMC schedule exhausted (through {FOMC_THROUGH}) - add next year's dates")
     if args.write:
+        # same as fetch_prices.py: no rewrite when only generatedAt would change
+        if prev is not None and ({k: v for k, v in prev.items() if k != "generatedAt"}
+                                 == {k: v for k, v in macro.items() if k != "generatedAt"}):
+            print(f"No change - {out.name} left as is")
+            return
         out.write_text(json.dumps(macro, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"Wrote {out}")
     else:
