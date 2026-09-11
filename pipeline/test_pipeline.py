@@ -624,6 +624,12 @@ def test_valuation_render():
     via = va.render(va.render(odd, odd_base, D("130"), "2026-09-11", []), odd_base, D("100"), "2026-09-11", [])
     check("valuation: back at the original stage, the card's own label and colour return",
           via == va.render(odd, odd_base, D("100"), "2026-09-11", []) and "3단계 보통(가중치 0.5)" in via and "#c8a84b,#f0c040" in via)
+    head = '<div class="verdict-summary-head">종합 판단 <span class="tag mixed">적정</span></div>'
+    once = va.summary_asof(head, "2026.09.09")
+    check("valuation: 종합 판단 heading gets the analysis date once",
+          '종합 판단 <span class="summary-asof"' in once and "(2026.09.09 분석 기준)</span> <span class=\"tag mixed\">" in once
+          and va.summary_asof(once, "2026.09.09") == once)
+    check("valuation: a card without the heading is left alone", va.summary_asof("<div>x</div>", "2026.09.09") == "<div>x</div>")
     check("valuation: a multi-word stage wording isn't mistaken for a suffix",
           [va.badge_suffix(b) for b in ("4단계 다소 높음", "4단계 높음(가중치 0.5)", "1단계 매우낮음 · 평가보류", "5단계 매우높음")]
           == ["", "(가중치 0.5)", " · 평가보류", ""])

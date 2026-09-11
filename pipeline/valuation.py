@@ -72,7 +72,21 @@ def render(html, base, p1, session, notes):
         html = val_item(html, rec, v1, base.get("gradients") or {}, notes)
         html = multiple_data(html, rec, v1, r, p1, asof)
     html = section_title(html, p1, session)
+    html = summary_asof(html, asof)
     return asof_wording(html)
+
+
+SUMMARY_ASOF_STYLE = "font-size:11px;font-weight:400;color:var(--text3);"
+
+
+def summary_asof(html, asof):
+    """The "종합 판단" paragraph quotes the analysis-date multiples and premiums while the gauges above
+    it move - say so in its heading (user decision 2026-09-11). Cards without the heading are skipped."""
+    pat = r'(<div class="verdict-summary-head">종합 판단 )(?:<span class="summary-asof"[^>]*>[^<]*</span> )?'
+    if not re.search(pat, html):
+        return html
+    return sub_one(pat, html, lambda x: f'{x.group(1)}<span class="summary-asof" style="{SUMMARY_ASOF_STYLE}">'
+                                        f'({asof} 분석 기준)</span> ', "종합 판단 heading")
 
 
 def badge_suffix(badge):
