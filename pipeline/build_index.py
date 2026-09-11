@@ -7,6 +7,10 @@ can never be served out of sync with its data. Only the text between the
 when each marker appears exactly once. Derived values (change %, estimated
 market cap) are computed here rather than stored in stocks.json.
 
+The block holds two globals: DATA (one slim row per ticker, what the page's
+JS renders) and META (the as-of dates shown next to the list, so the page
+never implies one date for values that come from different dates).
+
 Usage: python3 pipeline/build_index.py [--data PATH] [--index PATH] [--check]
   --check   write nothing; exit 1 if index.html is not up to date
 """
@@ -29,6 +33,7 @@ def ui_row(t):
     change = round((close / prev - 1) * 100, 2) if close and prev else None
     shares = t["shares"].get("usEquivalent")
     cap = round(close * shares) if close and shares else None
+    score = t["score"]
     return {
         "rank": t["cardRank"],
         "ticker": t["ticker"],
@@ -39,15 +44,38 @@ def ui_row(t):
         "marketCap": cap,
         "href": t["href"],
         "priceStale": p["status"] != "fresh",
+        "tier": t["tier"]["value"],
+        "tierConflict": t["tier"]["status"] == "conflict",
+        "score": score.get("total") if score["status"] == "available" else None,
     }
+
+
+def meta(data):
+    """As-of dates for the page's date line - one per source, never merged."""
+    card_dates = sorted(t["cardAsOf"] for t in data["tickers"])
+    valuation_dates = sorted(t["score"]["valuationAsOf"] for t in data["tickers"]
+                             if t["score"]["status"] == "available")
+    return {
+        "priceSession": data.get("priceSession"),
+        # None bounds for an empty dataset - the page has its own empty state
+        "cardAsOfMin": card_dates[0] if card_dates else None,
+        "cardAsOfMax": card_dates[-1] if card_dates else None,
+        # both bounds, so scores priced off different dates are shown as a range
+        "scoreValuationAsOfMin": valuation_dates[0] if valuation_dates else None,
+        "scoreValuationAsOfMax": valuation_dates[-1] if valuation_dates else None,
+        "scoreVersion": data.get("scoreVersion"),
+    }
+
+
+def _js(obj):
+    # "</" inside a <script> block would end it early; "<\/" is the same JSON string
+    return json.dumps(obj, ensure_ascii=False, separators=(", ", ": ")).replace("</", "<\\/")
 
 
 def render_block(data):
     rows = sorted((ui_row(t) for t in data["tickers"]), key=lambda r: r["rank"])
-    # "</" inside a <script> block would end it early; "<\/" is the same JSON string
-    lines = [json.dumps(r, ensure_ascii=False, separators=(", ", ": ")).replace("</", "<\\/")
-             for r in rows]
-    return f"{START}\n  var DATA = [\n    " + ",\n    ".join(lines) + f"\n  ];\n  {END}"
+    return (f"{START}\n  var DATA = [\n    " + ",\n    ".join(_js(r) for r in rows)
+            + f"\n  ];\n  var META = {_js(meta(data))};\n  {END}")
 
 
 def splice(index_html, block):
@@ -62,10 +90,10 @@ def splice(index_html, block):
 
 def parse_inline_rows(index_html):
     """Inverse of render_block, for validation: the DATA rows currently inlined."""
-    a = index_html.index(START)
-    b = index_html.index(END)
-    block = index_html[a:b]
-    return json.loads(block[block.index("["): block.rindex("]") + 1])
+    block = index_html[index_html.index(START): index_html.index(END)]
+    s = block.index("var DATA = [") + len("var DATA = ")
+    e = block.index("\n  ];", s) + len("\n  ]")
+    return json.loads(block[s:e])
 
 
 def main():
