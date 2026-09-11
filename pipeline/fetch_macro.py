@@ -19,6 +19,11 @@ to the same US session as the stock prices (stocks.json priceSession):
 A failed source keeps its previous value marked stale (unavailable if there
 was none) - never a substituted value from another date.
 
+Network: requests are retried like fetch_prices.py. FRED gets 60s per
+attempt (it timed out at 30s from GitHub's runners on the first workflow
+run, 2026-09-11), and once one FRED series fails on the network the other
+FRED series are skipped instead of each waiting out its own retries.
+
 Usage: python3 pipeline/fetch_macro.py [--write] [--stocks PATH] [--out PATH]
                                        [--fixtures DIR] [--now ISO]
   --fixtures DIR   read {SYMBOL}_{interval}.json and {SERIES}.csv from DIR (tests)
@@ -30,16 +35,16 @@ import json
 import sys
 import time
 import urllib.parse
-import urllib.request
 from datetime import date, datetime, time as dtime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from fetch_prices import ET, completed_bars  # noqa: E402
+from fetch_prices import ET, completed_bars, http_get, is_network_error  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 YAHOO = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1mo&interval={interval}"
 FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}"
+FRED_TIMEOUT = 60
 
 # federalreserve.gov/monetarypolicy/fomccalendars.htm, checked 2026-09-11
 FOMC = [
@@ -52,16 +57,17 @@ FOMC = [
 ]
 FOMC_THROUGH = "2027-12"
 
+# set to the network error once FRED fails, so the remaining series skip it
+_fred_down = None
 
-def _get(url, fixture, fixtures):
+
+def _get(url, fixture, fixtures, timeout=30):
     if fixtures:
         path = Path(fixtures) / fixture
         if not path.exists():
             raise FileNotFoundError(f"no fixture {fixture}")
         return path.read_text(encoding="utf-8")
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        text = resp.read().decode("utf-8")
+    text = http_get(url, timeout).decode("utf-8")
     time.sleep(0.2)
     return text
 
@@ -73,7 +79,16 @@ def yahoo(symbol, interval, fixtures):
 
 def fred(sid, fixtures):
     """[(date, value)] oldest first; FRED marks missing observations with '.'."""
-    rows = list(csv.reader(io.StringIO(_get(FRED.format(sid=sid), f"{sid}.csv", fixtures))))
+    global _fred_down
+    if _fred_down is not None:
+        raise RuntimeError(f"skipped: FRED unreachable earlier in this run ({_fred_down})")
+    try:
+        text = _get(FRED.format(sid=sid), f"{sid}.csv", fixtures, timeout=FRED_TIMEOUT)
+    except Exception as e:
+        if is_network_error(e):
+            _fred_down = e
+        raise
+    rows = list(csv.reader(io.StringIO(text)))
     series = [(r[0], float(r[1])) for r in rows[1:] if len(r) == 2 and r[1] not in ("", ".")]
     if not series:
         raise ValueError(f"FRED {sid}: no observations")

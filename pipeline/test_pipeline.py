@@ -224,9 +224,100 @@ def test_no_change_and_health():
     check("health check fails at 6 non-fresh tickers", out.returncode == 1, out.stdout)
 
 
+def test_retries_and_breakers():
+    """Network behaviour with urlopen and sleep patched - no real requests, no waiting."""
+    import urllib.error
+
+    class Resp:
+        def __init__(self, body):
+            self.body = body
+
+        def read(self):
+            return self.body
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+    calls = []
+
+    def scripted(*outcomes):
+        seq = list(outcomes)
+
+        def urlopen(req, timeout=None):
+            calls.append(req.full_url)
+            outcome = seq.pop(0) if len(seq) > 1 else seq[0]  # the last outcome repeats
+            if isinstance(outcome, BaseException):
+                raise outcome
+            return Resp(outcome)
+        return urlopen
+
+    real_urlopen, real_sleep, real_argv = fp.urllib.request.urlopen, fp.time.sleep, sys.argv
+    fp.time.sleep = lambda seconds: None
+    try:
+        calls.clear()
+        fp.urllib.request.urlopen = scripted(TimeoutError("t"), TimeoutError("t"), b"ok")
+        check("timeouts are retried until success", fp.http_get("http://x") == b"ok" and len(calls) == 3, calls)
+
+        calls.clear()
+        fp.urllib.request.urlopen = scripted(TimeoutError("t"))
+        try:
+            fp.http_get("http://x")
+            check("gives up after 3 attempts", False)
+        except TimeoutError:
+            check("gives up after 3 attempts", len(calls) == 3, calls)
+
+        calls.clear()
+        fp.urllib.request.urlopen = scripted(urllib.error.HTTPError("http://x", 404, "nf", {}, None))
+        try:
+            fp.http_get("http://x")
+            check("404 is not retried", False)
+        except urllib.error.HTTPError:
+            check("404 is not retried", len(calls) == 1, calls)
+
+        calls.clear()
+        fp.urllib.request.urlopen = scripted(urllib.error.HTTPError("http://x", 503, "busy", {}, None), b"ok")
+        check("503 is retried", fp.http_get("http://x") == b"ok" and len(calls) == 2, calls)
+
+        tmp = Path(tempfile.mkdtemp())
+        stocks = tmp / "stocks.json"
+        stocks.write_text((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"), encoding="utf-8")
+        before = stocks.read_text(encoding="utf-8")
+
+        # the price provider is down: only 3 tickers are tried, then the rest are skipped
+        calls.clear()
+        fp.urllib.request.urlopen = scripted(TimeoutError("t"))
+        sys.argv = ["fetch_prices.py", "--data", str(stocks), "--now", AFTER.isoformat(), "--write"]
+        try:
+            fp.main()
+        except SystemExit:
+            pass
+        check("price breaker stops after 3 unreachable tickers", len(calls) == 9, len(calls))
+        check("nothing written when no ticker produced a session", stocks.read_text(encoding="utf-8") == before)
+
+        # FRED is down: one series uses its 3 attempts, the others are skipped
+        calls.clear()
+        fm._fred_down = None
+        macro = tmp / "macro.json"
+        sys.argv = ["fetch_macro.py", "--stocks", str(stocks), "--out", str(macro), "--now", AFTER.isoformat(), "--write"]
+        fm.main()
+        fred_calls = [u for u in calls if "stlouisfed" in u]
+        check("FRED breaker: one series tried, the rest skipped", len(fred_calls) == 3, len(fred_calls))
+        ind = json.loads(macro.read_text(encoding="utf-8"))["indicators"]
+        check("skipped FRED series are unavailable with a reason",
+              all(ind[k]["status"] == "unavailable" and "skipped" in ind[k]["statusReason"]
+                  for k in ("unemployment", "cpiYoy")), {k: ind[k] for k in ("unemployment", "cpiYoy")})
+    finally:
+        fp.urllib.request.urlopen, fp.time.sleep, sys.argv = real_urlopen, real_sleep, real_argv
+        fm._fred_down = None
+
+
 if __name__ == "__main__":
     test_price_rules()
     test_macro_rules()
     test_end_to_end_with_failures()
     test_no_change_and_health()
+    test_retries_and_breakers()
     print(f"OK - {len(PASSED)} checks passed")

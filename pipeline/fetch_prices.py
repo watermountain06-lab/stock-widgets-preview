@@ -25,6 +25,11 @@ priceSession is the latest completed session found this run. A ticker whose
 latest completed bar is older (halt, missing bar), whose fetch failed (its
 previous block is kept), or that wasn't refreshed this run is "stale".
 
+Network: every request is retried (3 attempts, 5s then 15s apart; a 4xx
+other than 429 won't fix itself and is not retried). After 3 consecutive
+tickers fail on the network, the rest are recorded as fetch failures without
+trying - a blocked provider must not push the job past its time limit.
+
 Usage: python3 pipeline/fetch_prices.py [--tickers A,B] [--write]
                                         [--data PATH] [--fixtures DIR] [--now ISO]
   --fixtures DIR   read {SYMBOL}.json chart responses from DIR (tests)
@@ -35,6 +40,7 @@ import json
 import statistics
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from collections import Counter
@@ -48,6 +54,33 @@ CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1m
 SETTLE = dtime(16, 20)
 VOLUME_FLOOR = 0.15
 BIG_MOVE = 0.15  # reported for a news check, not treated as an error
+RETRY_DELAYS = (5, 15)  # seconds before the 2nd and 3rd attempt
+MAX_NET_FAILURES = 3
+
+
+def is_network_error(e):
+    """Worth retrying: timeouts, connection problems, 5xx and 429 rate limiting."""
+    if isinstance(e, urllib.error.HTTPError):
+        return e.code >= 500 or e.code == 429
+    return isinstance(e, (urllib.error.URLError, TimeoutError, ConnectionError))
+
+
+def http_get(url, timeout=30):
+    """GET with retries. FRED timed out from GitHub's runners on the very first
+    workflow run (2026-09-11); a transient failure shouldn't cost a day's data."""
+    last = None
+    for delay in (0,) + RETRY_DELAYS:
+        if delay:
+            time.sleep(delay)
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp.read()
+        except Exception as e:
+            if not is_network_error(e):
+                raise
+            last = e
+    raise last
 
 
 def fetch_chart(symbol, fixtures=None):
@@ -56,10 +89,7 @@ def fetch_chart(symbol, fixtures=None):
         if not path.exists():
             raise FileNotFoundError(f"no fixture for {symbol}")
         return json.loads(path.read_text(encoding="utf-8"))
-    url = CHART_URL.format(symbol=urllib.parse.quote(symbol, safe=""))
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        data = json.loads(resp.read())
+    data = json.loads(http_get(CHART_URL.format(symbol=urllib.parse.quote(symbol, safe=""))))
     time.sleep(0.2)
     return data
 
@@ -119,15 +149,20 @@ def main():
         if unknown:
             sys.exit(f"unknown ticker(s) in --tickers: {', '.join(sorted(unknown))} - nothing written")
 
-    results = {}
+    results, net_failures = {}, 0
     for t in data["tickers"]:
         tk = t["ticker"]
         if wanted and tk not in wanted:
             continue
+        if net_failures >= MAX_NET_FAILURES:
+            results[tk] = RuntimeError(f"skipped after {MAX_NET_FAILURES} consecutive network failures")
+            continue
         try:
             results[tk] = resolve_price(fetch_chart(t.get("yahooSymbol", tk), args.fixtures), now_et)
+            net_failures = 0
         except Exception as e:  # one ticker's failure must not stop the rest
             results[tk] = e
+            net_failures = net_failures + 1 if is_network_error(e) else 0
 
     sessions = sorted({r["session"] for r in results.values() if isinstance(r, dict)})
     if not sessions:

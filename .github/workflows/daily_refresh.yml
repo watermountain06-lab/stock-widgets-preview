@@ -30,7 +30,9 @@ defaults:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # worst case with every provider down: prices stop after 3 tickers x 3
+    # attempts (~6 min), macro ~9 min (Yahoo 3 series + one FRED series at 60s)
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
