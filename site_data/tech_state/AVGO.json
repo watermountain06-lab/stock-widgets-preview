@@ -1,7 +1,7 @@
 {
   "ticker": "AVGO",
-  "asOf": "2026-09-10",
-  "close": 360.83,
+  "asOf": "2026-09-11",
+  "close": 361.99,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -0.66
+    "weightedRocPct": -3.49
   },
   "position52w": {
     "score": 5,
     "max": 20,
-    "riseFromLowPct": 24.44,
-    "drawdownFromHighPct": 27.11,
+    "riseFromLowPct": 24.84,
+    "drawdownFromHighPct": 26.87,
     "high52w": 495.0,
     "low52w": 289.96
   },
@@ -48,7 +48,7 @@
     "고점대비큰조정"
   ],
   "atr": {
-    "pctNow": 2.98,
-    "percentileVsOwnHistory": 4.0
+    "pctNow": 2.87,
+    "percentileVsOwnHistory": 0.4
   }
 }

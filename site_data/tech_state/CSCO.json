@@ -1,7 +1,7 @@
 {
   "ticker": "CSCO",
-  "asOf": "2026-09-10",
-  "close": 107.44,
+  "asOf": "2026-09-11",
+  "close": 112.13,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,22 +20,22 @@
   "momentum": {
     "score": 30,
     "max": 40,
-    "weightedRocPct": 22.85
+    "weightedRocPct": 26.78
   },
   "position52w": {
-    "score": 15,
+    "score": 20,
     "max": 20,
-    "riseFromLowPct": 62.47,
-    "drawdownFromHighPct": 17.59,
+    "riseFromLowPct": 69.56,
+    "drawdownFromHighPct": 13.99,
     "high52w": 130.37,
     "low52w": 66.13
   },
   "priceStructureScore": {
-    "score": 55,
+    "score": 60,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 85,
+  "rawScore": 90,
   "rawGrade": "강한",
   "displayGrade": "강한",
   "riskFlags": [
@@ -45,7 +45,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.8,
-    "percentileVsOwnHistory": 17.9
+    "pctNow": 1.86,
+    "percentileVsOwnHistory": 20.6
   }
 }
