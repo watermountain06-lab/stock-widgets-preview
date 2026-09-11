@@ -22,7 +22,7 @@
       "method": "price-ratio",
       "anchor": "53.6",
       "verdictPremium0": "-23.9",
-      "anchorBasis": "display",
+      "anchorBasis": "verdict",
       "premiumDecimals": 1
     },
     {
@@ -42,7 +42,7 @@
       "method": "price-ratio",
       "anchor": "35.5",
       "verdictPremium0": "-58.8",
-      "anchorBasis": "display",
+      "anchorBasis": "verdict",
       "premiumDecimals": 1
     },
     {
@@ -80,9 +80,10 @@
       "value0": "44.69",
       "decimals": 2,
       "method": "price-ratio",
-      "anchor": null,
-      "verdictPremium0": null,
-      "verdictPremiumNote": "verdict -30.2% not reproducible from the anchor - left as is"
+      "anchor": "64.0",
+      "verdictPremium0": "-30.2",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1
     },
     {
       "metric": "evebitda",
@@ -157,5 +158,5 @@
     "upside0": "+35.6",
     "frozen": false
   },
-  "builtAt": "2026-09-11T20:06:43Z"
+  "builtAt": "2026-09-11T20:07:30Z"
 }

@@ -270,6 +270,8 @@ def build(entry, html):
                 q = Decimal(1).scaleb(-places)
                 hits = [(b, a) for b, a in anchors_of(body) + verdict_reference(body)
                         if ((dec(rec["value0"]) / a - 1) * 100).quantize(q, rounding=ROUND_HALF_UP) == shown]
+                if any(b == "verdict" for b, _ in hits):  # the value the sentence itself compares against wins
+                    hits = [(b, a) for b, a in hits if b == "verdict"]
                 if len({a for _, a in hits}) > 1:  # both reproduce at this precision - use the one the verdict quotes
                     vtext = re.search(r"verdict: '([^']*)'", body).group(1)
                     hits = [(b, a) for b, a in hits
