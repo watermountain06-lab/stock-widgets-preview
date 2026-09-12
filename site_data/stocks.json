@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-11T23:48:54Z",
+  "generatedAt": "2026-09-12T10:44:07Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.0",
   "tickers": [
@@ -2078,6 +2078,80 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
+        "status": "valid"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+      }
+    },
+    {
+      "ticker": "TXN",
+      "name": "텍사스 인스트루먼츠",
+      "sector": "반도체·아날로그·임베디드",
+      "href": "TXN_full_widget.html",
+      "cardRank": 51,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 268.7,
+        "prevClose": 258.82,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 913247686,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-15",
+        "filedAt": "2026-07-24",
+        "filing": "10-Q 0000097476-26-000152 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+      }
+    },
+    {
+      "ticker": "KLAC",
+      "name": "KLA",
+      "sector": "반도체·검사·계측 장비",
+      "href": "KLAC_full_widget.html",
+      "cardRank": 52,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 180.64,
+        "prevClose": 177.18,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1306546783,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-03",
+        "filedAt": "2026-08-06",
+        "filing": "10-K 0000319201-26-000027 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
         "status": "valid"
       },
       "score": {
