@@ -179,7 +179,8 @@
   var STAR = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9c5b3" stroke-width="1.6"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 
   // DATA는 pipeline/build_index.py가 site_data/stocks.json에서 생성한다. 마커 사이는 직접 수정하지 말 것.
-  // 매크로 지표 스트립·스탯카드 숫자(11/7/9/6)·날짜는 아직 레이아웃 시연용 목업 값이며 실제 계산된 수치가 아님.
+  // 매크로 지표 스트립은 MACRO(site_data/macro.json), 스탯카드 숫자와 날짜는 DATA에서 계산한다.
+  // 2026-09-11부터 전부 실데이터 - 예전 목업 값(11/7/9/6 등)은 남아 있지 않다.
   /*STOCKS_DATA_START*/
   var DATA = [
     {"rank": 1, "ticker": "NVDA", "name": "엔비디아", "sector": "반도체", "price": 218.29, "change": -0.03, "marketCap": 5260789000000, "href": "NVDA_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 86.3, "scoreFlags": []},
