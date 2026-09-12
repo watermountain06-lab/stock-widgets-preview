@@ -1,0 +1,232 @@
+{
+  "schema": 1,
+  "ticker": "LIN",
+  "cardAsOf": "2026-09-11",
+  "p0": "466.22",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM 조정)",
+      "valueText": "27.04x",
+      "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
+      "stage0": 3,
+      "width0": "41.8",
+      "low": "12",
+      "high": "48",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "linValue",
+      "value0": "27.04",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "29.96",
+      "verdictPremium0": "-9.7",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "27.04",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "5.50x",
+      "badge": "4단계 높음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "72.7",
+      "low": "1.5",
+      "high": "7",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "linValue",
+      "value0": "5.50",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "4.28",
+      "verdictPremium0": "28.5",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "5.50",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR",
+      "valueText": "6.06x",
+      "badge": "4단계 높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "76.0",
+      "low": "1.5",
+      "high": "7.5",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "linValue",
+      "value0": "6.06",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "4.535",
+      "verdictPremium0": "33.6",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "6.06",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "214.92",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": "로는 주가 "
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "20.49x",
+      "badge": "4단계 높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "65.9",
+      "low": "6",
+      "high": "28",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "linValue",
+      "value0": "20.49",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "16.74",
+      "verdictPremium0": "22.4",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "20.49",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "214.92",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": "로는 주가 "
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "17.22x",
+      "badge": "3단계 적정(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
+      "stage0": 3,
+      "width0": "53.8",
+      "low": "7",
+      "high": "26",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "linValue",
+      "value0": "17.22",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 238.03,
+      "mcap0": 214.92,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "16.59",
+      "verdictPremium0": "3.8",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "17.22",
+          "decimals": 2
+        },
+        "form": "ev",
+        "ev": {
+          "value": "238.03",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "mcap": {
+          "value": "214.92",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "344.8",
+        "448.2"
+      ],
+      [
+        "448.2",
+        "517.2"
+      ],
+      [
+        "517.2",
+        "637.9"
+      ]
+    ],
+    "intervals": [
+      [
+        "344.8",
+        "448.2"
+      ],
+      [
+        "448.2",
+        "517.2"
+      ],
+      [
+        "517.2",
+        "637.9"
+      ]
+    ],
+    "segments": [
+      "35.3",
+      "23.5",
+      "41.2"
+    ],
+    "marker0": "41.4",
+    "target": "544.50",
+    "upside0": "+16.8",
+    "frozen": false
+  },
+  "builtAt": "2026-09-12T18:26:41Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#f0c040,#e67e22)",
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)"
+  }
+}

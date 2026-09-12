@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T13:05:39Z",
+  "generatedAt": "2026-09-12T18:27:47Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.1",
   "tickers": [
@@ -2413,7 +2413,8 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
@@ -2458,7 +2459,8 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
@@ -2541,11 +2543,104 @@
       "tier": {
         "value": "적정~저평가",
         "raw": "적정~저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 57.1,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "AXP",
+      "name": "아메리칸 익스프레스",
+      "sector": "금융·결제 네트워크·카드",
+      "href": "AXP_full_widget.html",
+      "cardRank": 55,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 324.69,
+        "prevClose": 320.71,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 675309833,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-14",
+        "filedAt": "2026-07-24",
+        "filing": "10-Q 0000004962-26-000322 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "excluded",
+        "reason": "bank (config bank_exclude_tickers)"
+      }
+    },
+    {
+      "ticker": "LIN",
+      "name": "린데",
+      "sector": "산업가스·화학",
+      "href": "LIN_full_widget.html",
+      "cardRank": 56,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 466.22,
+        "prevClose": 461.62,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 460980163,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0001628280-26-051289 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 61.6,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     }
   ]

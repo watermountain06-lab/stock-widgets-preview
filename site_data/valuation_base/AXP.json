@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "ticker": "AXP",
+  "cardAsOf": "2026-09-11",
+  "p0": "324.69",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "19.70x",
+      "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#c8a84b,#f0c040)",
+      "stage0": 3,
+      "width0": "58.9",
+      "low": "15.34",
+      "high": "22.75",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "axpValue",
+      "value0": "19.70",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "18.96",
+      "verdictPremium0": "3.9",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "19.70",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "6.71x",
+      "badge": "4단계 다소 높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "77.2",
+      "low": "4.73",
+      "high": "7.29",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "axpValue",
+      "value0": "6.71",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "6.03",
+      "verdictPremium0": "11.2",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict 11.2% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "6.71",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "2.89x",
+      "badge": "4단계 다소 높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "69.2",
+      "low": "2.07",
+      "high": "3.25",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "axpValue",
+      "value0": "2.89",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "2.80",
+      "verdictPremium0": "3.1",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict 3.1% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "2.89",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "219.27",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "11.87x (참고)",
+      "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
+      "stage0": null,
+      "width0": "100",
+      "low": "2.22",
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "axpValue",
+      "frozenReason": "not a positive multiple (11.87x (참고))"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "정의 부적용",
+      "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
+      "stage0": null,
+      "width0": "100",
+      "low": "157.0",
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "axpValue",
+      "frozenReason": "not a positive multiple (정의 부적용)"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "240.6",
+        "274.2"
+      ],
+      [
+        "274.2",
+        "340.5"
+      ],
+      [
+        "340.5",
+        "394.9"
+      ]
+    ],
+    "intervals": [
+      [
+        "240.6",
+        "274.2"
+      ],
+      [
+        "274.2",
+        "340.5"
+      ],
+      [
+        "340.5",
+        "394.9"
+      ]
+    ],
+    "segments": [
+      "21.8",
+      "42.9",
+      "35.3"
+    ],
+    "marker0": "54.5",
+    "target": "375.96",
+    "upside0": "+15.8",
+    "frozen": false
+  },
+  "builtAt": "2026-09-12T18:26:41Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#c8a84b,#f0c040)",
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)"
+  }
+}
