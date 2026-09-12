@@ -283,7 +283,7 @@ def main():
             sys.exit(f"unknown ticker(s) in --tickers: {', '.join(sorted(unknown))} - nothing written")
     sec = Sec(args.cache)
 
-    failures, flagged = [], []
+    failures, flagged, held = [], [], []
     print(f"{'ticker':6} {'source':14} {'usEquivalent':>16} {'asOf':10} {'filed':10}  vs legacy")
     for t in data["tickers"]:
         tk = t["ticker"]
@@ -296,13 +296,31 @@ def main():
             failures.append(f"{tk}: {e}")
             continue
         gap = rec["usEquivalent"] / t["shares"]["usEquivalent"] - 1
-        flag = "  <-- CHECK" if abs(gap) > FLAG_GAP else ""
-        if flag:
+        # Refuse to move a count BACKWARDS in time, whatever the gap size.
+        # Citigroup is the case this exists for: SEC's XBRL API has indexed
+        # none of its 2026 filings, so the dei series still ends at the
+        # February 10-K while stocks.json holds the Q2 10-Q's own cover
+        # figure. The gap is 4.29%, under FLAG_GAP, so it printed no warning
+        # and a --write would have silently replaced a verified count with a
+        # seven-month-older one - enough to move the ticker's market cap past
+        # its rank neighbour. A size threshold cannot catch this class; the
+        # as-of date can, and it is the honest test: newer data may differ by
+        # any amount, older data should never win.
+        stale = rec["asOf"] < t["shares"].get("asOf", "")
+        if stale:
+            held.append(f"{tk} (incoming {rec['asOf']} older than held {t['shares']['asOf']})")
+        flag = "  <-- OLDER, HELD" if stale else ("  <-- CHECK" if abs(gap) > FLAG_GAP else "")
+        if flag and not stale:
             flagged.append(tk)
         print(f"{tk:6} {source:14} {rec['usEquivalent']:>16,} {rec['asOf']:10} {rec['filedAt']:10} "
               f"{gap:+7.2%}{flag}")
-        t["shares"] = rec
+        if not stale:
+            t["shares"] = rec
 
+    if held:
+        print(f"\n{len(held)} held - incoming record is OLDER than the one already stored, not written:")
+        for h in held:
+            print(f"  - {h}")
     if flagged:
         print(f"\n{len(flagged)} flagged (>{FLAG_GAP:.0%} from the provisional value): {', '.join(flagged)}")
     if failures:

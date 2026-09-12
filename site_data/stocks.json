@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T11:52:48Z",
+  "generatedAt": "2026-09-12T13:01:46Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.1",
   "tickers": [
@@ -2471,6 +2471,44 @@
           "historicalMultiples": 2,
           "targetPrice": true
         }
+      }
+    },
+    {
+      "ticker": "C",
+      "name": "씨티그룹",
+      "sector": "금융·글로벌 유니버설 뱅크",
+      "href": "C_full_widget.html",
+      "cardRank": 53,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 138.82,
+        "prevClose": 138.5,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1677436783,
+        "method": "sec-cover",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-06",
+        "status": "ok",
+        "filing": "10-Q 0000831001-26-000045 cover/balance sheet",
+        "note": "SEC XBRL API has not indexed any of Citi's 2026 filings, so seed_shares.py reads the stale dei series (1,749,319,009 as of 2026-01-31, the February 10-K) and reports a +4.29% gap. This count is the Q2 2026 10-Q's own figure: 3,099,786,399 issued minus 1,422,349,616 treasury. Do not overwrite it with seed_shares --write until the API catches up."
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "excluded",
+        "reason": "bank (config bank_exclude_tickers)"
       }
     }
   ]

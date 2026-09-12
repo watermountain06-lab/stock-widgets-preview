@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "ticker": "C",
+  "cardAsOf": "2026-09-11",
+  "p0": "138.82",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "14.99x",
+      "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
+      "stage0": 3,
+      "width0": "53.1",
+      "low": "11.07",
+      "high": "18.45",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "cValue",
+      "value0": "14.99",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "14.27",
+      "verdictPremium0": "5.0",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "14.99",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "1.21x",
+      "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
+      "stage0": 2,
+      "width0": "35.4",
+      "low": "0.98",
+      "high": "1.63",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "cValue",
+      "value0": "1.21",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "1.98",
+      "verdictPremium0": "-38.9",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "1.21",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "2.55x",
+      "badge": "2단계 낮음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#27ae60,#f0c040)",
+      "stage0": 2,
+      "width0": "38.5",
+      "low": "2.03",
+      "high": "3.38",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "cValue",
+      "value0": "2.55",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "3.86",
+      "verdictPremium0": "-33.9",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "2.55",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "232.86",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": " = 주가 "
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "TTM 마이너스",
+      "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
+      "stage0": null,
+      "width0": "100",
+      "low": "18.30",
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "cValue",
+      "frozenReason": "not a positive multiple (TTM 마이너스)"
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "정의 부적용",
+      "badge": "평가 보류",
+      "gradient0": "repeating-linear-gradient(45deg,var(--text3),var(--text3) 6px,transparent 6px,transparent 12px)",
+      "stage0": null,
+      "width0": "100",
+      "low": null,
+      "high": "5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "cValue",
+      "frozenReason": "not a positive multiple (정의 부적용)"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "83.3",
+        "101.9"
+      ],
+      [
+        "102.5",
+        "170.9"
+      ],
+      [
+        "175.9",
+        "194.5"
+      ]
+    ],
+    "intervals": [
+      [
+        "83.3",
+        "101.9"
+      ],
+      [
+        "101.9",
+        "102.5"
+      ],
+      [
+        "102.5",
+        "170.9"
+      ],
+      [
+        "170.9",
+        "175.9"
+      ],
+      [
+        "175.9",
+        "194.5"
+      ]
+    ],
+    "segments": [
+      "16.67",
+      "0.58",
+      "61.50",
+      "4.58",
+      "16.67"
+    ],
+    "marker0": "49.9",
+    "target": "155.20",
+    "upside0": "+11.8",
+    "frozen": false
+  },
+  "builtAt": "2026-09-12T12:56:46Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#f0c040,#e67e22)",
+    "2": "linear-gradient(90deg,#27ae60,#f0c040)"
+  }
+}
