@@ -628,7 +628,9 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     check_from = max(0, (changed if changed is not None else len(bars)) - trimmed)
     for d, o, h, l, c, v in bars[check_from:]:  # every bar this run wrote
         if min(o, h, l, c) <= 0 or v < 0 or h + 0.011 < max(o, c) or l - 0.011 > min(o, c):
-            raise EditError(f"implausible bar {d}: o{o} h{h} l{l} c{c} v{v}")
+            # a provider glitch, not a card problem (CVX 2026-09-11 came with low above open and was
+            # corrected the next day) - hold the card and pick it up once the data is consistent
+            raise Hold(f"provider sent an inconsistent bar for {d}: o{o} h{h} l{l} c{c} v{v}")
 
     pdata = price_data(ticker, tokens)
     state_path = state_dir / f"{ticker}.json"

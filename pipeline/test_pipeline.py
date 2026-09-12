@@ -379,7 +379,7 @@ def test_card_updater():
     data = json.loads((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"))
     # ANET normal, NVDA mid-session bar, AAPL split, MSFT no fixture, BAC second
     # statement after its MA120 array, KO Yahoo lagging, V stale on the homepage
-    data["tickers"] = [t for t in data["tickers"] if t["ticker"] in ("ANET", "NVDA", "AAPL", "MSFT", "BAC", "KO", "V")]
+    data["tickers"] = [t for t in data["tickers"] if t["ticker"] in ("ANET", "NVDA", "AAPL", "MSFT", "BAC", "KO", "V", "CVX")]
     new_close, card_last = {}, {}
     for t in data["tickers"]:
         tk = t["ticker"]
@@ -400,6 +400,8 @@ def test_card_updater():
         card_last[tk] = (bars[-2][0], bars[-2][4])
         t["price"] = {"close": c, "prevClose": bars[-2][4], "session": nxt.isoformat(),
                       "prevSession": bars[-2][0], "status": "fresh"}
+        if tk == "CVX":  # the provider sent low above open (really happened 2026-09-11) - hold, don't fail
+            bars[-1][3] = round(bars[-1][1] * 1.01, 2)
         if tk == "V":  # the homepage kept V's previous close - the card must not run ahead of it
             t["price"] = {"close": bars[-2][4], "prevClose": bars[-3][4], "session": bars[-2][0],
                           "prevSession": bars[-3][0], "status": "stale", "statusReason": "fetch-failed: test"}
@@ -446,6 +448,9 @@ def test_card_updater():
         check(f"{tk}: tech state saved for the new session",
               json.loads((state / f"{tk}.json").read_text(encoding="utf-8"))["asOf"] == d)
 
+    check("an inconsistent bar holds the card instead of failing it",
+          st["CVX"]["status"] == "held" and any("inconsistent bar" in r for r in st["CVX"]["reasons"])
+          and snapshot()["CVX_full_widget.html"] == before["CVX_full_widget.html"], st["CVX"])
     check("Yahoo missing the session holds the card", st["KO"]["status"] == "held"
           and snapshot()["KO_full_widget.html"] == before["KO_full_widget.html"], st["KO"])
     _, v_arrays = uc.parse_card_arrays((cards / "V_full_widget.html").read_text(encoding="utf-8"))
