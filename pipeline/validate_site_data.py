@@ -33,7 +33,7 @@ SHARES_BASIS = {"single", "sum-of-classes", "class-b-equivalent", "as-converted"
                 "adr-equivalent", "ny-registry", "legacy-implied"}
 SHARES_STATUS = {"ok", "stale", "unverified"}
 TIER_STATUS = {"valid", "normalized", "missing", "conflict"}
-SCORE_STATUS = {"available", "missing", "excluded"}
+SCORE_STATUS = {"available", "missing", "excluded", "unsupported"}
 HISTORY_DECISIONS = {"seeded", "changed", "held-hysteresis", "held-divergence"}
 MARKET_MACRO_KEYS = {"sp500", "vix", "usdkrw"}
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")

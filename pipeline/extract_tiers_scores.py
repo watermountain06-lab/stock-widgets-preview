@@ -12,8 +12,10 @@ found is also appended to tier_history.json as a "seeded" entry (skipped if
 that exact entry already exists, so re-runs don't duplicate).
 
 Score: copied from the redesign repo's frozen v1.0.0 fundamental-score files.
-Banks are "excluded" - BAC/JPM/MS by the config's bank_exclude_tickers, and
-WFC/GS by the same rationale (their cards postdate the frozen list).
+Banks are "excluded" by the config's bank_exclude_tickers, which is the one
+place that list lives (WFC/GS were folded in on 2026-09-12; they had been
+hardcoded here, so a re-scoring run that read only the config would have
+silently scored them).
 
 Dry run by default (prints a 50-row review table); --write updates
 stocks.json and tier_history.json.
@@ -47,10 +49,6 @@ SUMMARY_RE = re.compile(r'class="verdict-summary-head">종합 판단 <span[^>]*>
 ROW_RE = re.compile(r'<span class="zone-label">⚖️ 밸류에이션</span><span class="zone-val"[^>]*>([^<]*)</span>')
 
 SCORE_FILE = {"BRKB": "BRK_B"}
-EXTRA_BANKS = {"WFC", "GS"}
-# the score's valuation axis reads the old pipeline's valuation_signals.json,
-# whose last merged update is 2026-08-18 - every v1.0.0 score priced off that
-VALUATION_AS_OF = "2026-08-18"
 SEED_RULE = "card-headline-v0"
 
 
@@ -102,12 +100,11 @@ def extract_tier(ticker, html):
     return tier, others
 
 
-def extract_score(ticker, scores_dir, bank_list):
+def extract_score(ticker, scores_dir, bank_list, unsupported=None):
     if ticker in bank_list:
         return {"status": "excluded", "reason": "bank (config bank_exclude_tickers)"}
-    if ticker in EXTRA_BANKS:
-        return {"status": "excluded",
-                "reason": "bank - same rationale as bank_exclude_tickers; card built after v1.0.0 was frozen"}
+    if unsupported and ticker in unsupported:
+        return {"status": "unsupported", "reason": unsupported[ticker]}
     path = scores_dir / "fundamental_scores" / f"{SCORE_FILE.get(ticker, ticker)}_fundamental_score.json"
     if not path.exists():
         return {"status": "missing", "reason": "no score file (card built after the 2026-08-25 scoring run)"}
@@ -115,9 +112,23 @@ def extract_score(ticker, scores_dir, bank_list):
     if d.get("totalScore") is None:
         return {"status": "missing", "reason": f"score file has no totalScore ({d.get('status', 'no status')})"}
     rec = {"status": "available", "total": d["totalScore"], "grade": d.get("grade"),
-           "financialsAsOf": d["financialsAsOf"], "valuationAsOf": VALUATION_AS_OF}
+           "financialsAsOf": d["financialsAsOf"], "valuationAsOf": d.get("valuationAsOf")}
     if d.get("coverageStatus") != "full":
         rec["note"] = f"coverage {d.get('coverageStatus')}"
+    # v1.0.1 - carry the diagnostics the homepage needs to stop presenting a
+    # thin score as if it were comparable. qualityFlags is separate from
+    # coverageStatus on purpose (see the score config's v1_0_1_note).
+    flags = d.get("qualityFlags") or []
+    if flags:
+        rec["qualityFlags"] = flags
+    if d.get("financialsAgeMonths") is not None:
+        rec["financialsAgeMonths"] = d["financialsAgeMonths"]
+    val = d.get("valuation") or {}
+    if val.get("historicalMultipleCoverage") is not None:
+        rec["valuationCoverage"] = {
+            "historicalMultiples": val["historicalMultipleCoverage"],
+            "targetPrice": bool(val.get("targetPriceAvailable")),
+        }
     return rec
 
 
@@ -135,6 +146,7 @@ def main():
     if config.get("version") != data.get("scoreVersion"):
         sys.exit(f"score config version {config.get('version')} != stocks.json scoreVersion {data.get('scoreVersion')}")
     banks = set(config["bank_exclude_tickers"])
+    unsupported = config.get("unsupported_tickers", {})
     history = json.loads(hist_path.read_text(encoding="utf-8")) if hist_path.exists() else []
     seen = {(e["ticker"], e["evaluatedAt"], e["ruleVersion"]) for e in history}
 
@@ -147,7 +159,7 @@ def main():
         except ValueError as e:
             failures.append(str(e))
             continue
-        score = extract_score(tk, scores_dir, banks)
+        score = extract_score(tk, scores_dir, banks, unsupported)
         t["tier"], t["score"] = tier, score
         sc = f"{score['total']} ({score['financialsAsOf']})" if score["status"] == "available" else score["status"]
         print(f"{tk:5} {str(tier['raw'])[:30]:30} {str(others['summary']):10} {str(others['row']):10} -> "

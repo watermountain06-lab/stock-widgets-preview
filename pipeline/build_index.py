@@ -24,6 +24,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MACRO_PATH = ROOT / "site_data" / "macro.json"
+SCORE_CONFIG = Path.home() / "Workspace/stock-widgets-redesign/scripts/fundamental_score_config_v1.json"
+try:
+    COMPARABILITY_FLAGS = set(json.loads(SCORE_CONFIG.read_text(encoding="utf-8"))
+                              .get("comparability_flags", {}).get("flags", []))
+except OSError:
+    COMPARABILITY_FLAGS = set()
+
 START = "/*STOCKS_DATA_START*/"
 END = "/*STOCKS_DATA_END*/"
 
@@ -49,6 +56,11 @@ def ui_row(t):
         "tier": t["tier"]["value"],
         "tierConflict": t["tier"]["status"] == "conflict",
         "score": score.get("total") if score["status"] == "available" else None,
+        # v1.0.1 - flags that make a score non-comparable with the rest of its
+        # tier group. The page groups these separately rather than listing them
+        # in the same ordering: a badge alone still reads as a like-for-like
+        # rank. Empty list when the score is fully comparable.
+        "scoreFlags": [f for f in (score.get("qualityFlags") or []) if f in COMPARABILITY_FLAGS],
     }
 
 

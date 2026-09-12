@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T10:44:07Z",
+  "generatedAt": "2026-09-12T11:52:48Z",
   "priceSession": "2026-09-11",
-  "scoreVersion": "1.0.0",
+  "scoreVersion": "1.0.1",
   "tickers": [
     {
       "ticker": "NVDA",
@@ -35,14 +35,19 @@
         "value": "적정~저평가",
         "raw": "적정~저평가",
         "status": "valid",
-        "note": "no tier label found in row"
+        "note": "no tier label found in summary, row"
       },
       "score": {
         "status": "available",
         "total": 86.3,
         "grade": "우수",
         "financialsAsOf": "2026-01-25",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 7.5,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -75,14 +80,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 43.6,
+        "total": 40.2,
         "grade": "보통",
         "financialsAsOf": "2025-09-27",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 11.5,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -132,14 +143,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 69.8,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -172,14 +189,20 @@
       "tier": {
         "value": "적정~저평가",
         "raw": "적정~저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 80.3,
+        "total": 83.6,
         "grade": "우수",
         "financialsAsOf": "2026-06-30",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 2.4,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -212,14 +235,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 63.8,
+        "total": 66.3,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -253,14 +282,24 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 73.8,
-        "grade": "양호",
+        "total": 88.7,
+        "grade": "우수",
         "financialsAsOf": "2024-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "qualityFlags": [
+          "valuation_target_only",
+          "stale_financials"
+        ],
+        "financialsAgeMonths": 20.3,
+        "valuationCoverage": {
+          "historicalMultiples": 0,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -308,8 +347,8 @@
         "status": "missing"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "unsupported",
+        "reason": "상장 직후라 5년 이력이 없다 - 자기이력 대비 PER/PBR 5년 평균과 5년 CAGR이 정의되지 않는다"
       }
     },
     {
@@ -342,14 +381,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 69.7,
+        "total": 60.2,
         "grade": "양호",
         "financialsAsOf": "2025-11-02",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 10.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -394,14 +439,20 @@
       "tier": {
         "value": "저평가",
         "raw": "저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 76.8,
+        "total": 71.9,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 1,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -434,14 +485,20 @@
       "tier": {
         "value": "초고평가",
         "raw": "초고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 52.7,
+        "total": 49.4,
         "grade": "보통",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -487,15 +544,25 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 66.7,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18",
-        "note": "coverage partial"
+        "valuationAsOf": "2026-09-11",
+        "note": "coverage partial",
+        "qualityFlags": [
+          "valuation_target_only",
+          "health_ratios_below_gate"
+        ],
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 0,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -528,14 +595,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 60.4,
         "grade": "양호",
         "financialsAsOf": "2025-08-28",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 12.5,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -582,14 +655,19 @@
         "value": "적정",
         "raw": "적정",
         "status": "conflict",
-        "note": "headline kept; summary says 고평가, row says 고평가"
+        "note": "headline kept; row says 고평가; no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 73.4,
+        "total": 79.2,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -622,7 +700,8 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "excluded",
@@ -661,11 +740,11 @@
         "value": "저평가",
         "raw": "저평가 — 단, ADR 프리미엄은 별개 리스크",
         "status": "normalized",
-        "note": "trailing ADR-premium caveat after the label"
+        "note": "trailing ADR-premium caveat after the label; no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "unsupported",
+        "reason": "IFRS 외국 발행인 - fetch_financials.py는 SEC companyfacts의 us-gaap/dei만 읽어 ifrs-full 태그를 가져오지 못한다"
       }
     },
     {
@@ -698,14 +777,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 44.3,
+        "total": 46.8,
         "grade": "보통",
         "financialsAsOf": "2026-01-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 7.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -738,14 +823,20 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 66.0,
         "grade": "양호",
         "financialsAsOf": "2025-12-27",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.5,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -778,14 +869,23 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 71.8,
         "grade": "양호",
         "financialsAsOf": "2025-09-30",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "qualityFlags": [
+          "valuation_target_only"
+        ],
+        "financialsAgeMonths": 11.4,
+        "valuationCoverage": {
+          "historicalMultiples": 0,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -818,14 +918,20 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 47.7,
         "grade": "보통",
         "financialsAsOf": "2025-12-28",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.4,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -860,11 +966,12 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "unsupported",
+        "reason": "IFRS 외국 발행인 - fetch_financials.py는 SEC companyfacts의 us-gaap/dei만 읽어 ifrs-full 태그를 가져오지 못한다"
       }
     },
     {
@@ -897,14 +1004,20 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 44.2,
+        "total": 40.9,
         "grade": "보통",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -949,14 +1062,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 69.4,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 1,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -989,14 +1108,20 @@
       "tier": {
         "value": "저평가",
         "raw": "저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 36.5,
         "grade": "미흡",
         "financialsAsOf": "2025-12-27",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.5,
+        "valuationCoverage": {
+          "historicalMultiples": 1,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1029,14 +1154,20 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 77.0,
         "grade": "양호",
         "financialsAsOf": "2026-05-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 3.4,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1069,14 +1200,23 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 34.1,
         "grade": "미흡",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "qualityFlags": [
+          "negative_equity"
+        ],
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 1,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1109,7 +1249,8 @@
       "tier": {
         "value": "적정~저평가",
         "raw": "적정~저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "excluded",
@@ -1147,14 +1288,19 @@
         "value": "적정~저평가",
         "raw": "저평가~적정",
         "status": "normalized",
-        "note": "reversed range order 저평가~적정"
+        "note": "reversed range order 저평가~적정; no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 44.7,
+        "total": 47.7,
         "grade": "보통",
-        "financialsAsOf": "2025-07-26",
-        "valuationAsOf": "2026-08-18"
+        "financialsAsOf": "2026-07-25",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 1.6,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1204,14 +1350,20 @@
       "tier": {
         "value": "초고평가",
         "raw": "초고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 78.5,
-        "grade": "양호",
+        "total": 84.2,
+        "grade": "우수",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1244,11 +1396,20 @@
       "tier": {
         "value": "저평가",
         "raw": "저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 36.6,
+        "grade": "미흡",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1281,14 +1442,20 @@
       "tier": {
         "value": "초고평가",
         "raw": "초고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 48.2,
+        "total": 51.6,
         "grade": "보통",
         "financialsAsOf": "2025-08-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 12.4,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1321,14 +1488,20 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 62.2,
+        "total": 65.5,
         "grade": "양호",
         "financialsAsOf": "2026-06-28",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 2.5,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1361,14 +1534,20 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 53.2,
         "grade": "보통",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1401,14 +1580,20 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 44.4,
+        "total": 47.7,
         "grade": "보통",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1441,14 +1626,20 @@
       "tier": {
         "value": "적정~저평가",
         "raw": "적정~저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 61.3,
+        "total": 64.6,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1481,14 +1672,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 58.7,
         "grade": "보통",
         "financialsAsOf": "2025-10-26",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 10.5,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1521,14 +1718,20 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 49.0,
         "grade": "보통",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1561,14 +1764,20 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 60.2,
+        "total": 63.5,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1618,11 +1827,23 @@
       "tier": {
         "value": "초고평가",
         "raw": "초고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 33.8,
+        "grade": "미흡",
+        "financialsAsOf": "2026-01-30",
+        "valuationAsOf": "2026-09-11",
+        "qualityFlags": [
+          "negative_equity"
+        ],
+        "financialsAgeMonths": 7.4,
+        "valuationCoverage": {
+          "historicalMultiples": 1,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1655,7 +1876,8 @@
       "tier": {
         "value": "적정~저평가",
         "raw": "적정~저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "excluded",
@@ -1692,14 +1914,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 58.0,
         "grade": "보통",
         "financialsAsOf": "2026-06-30",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 2.4,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1732,14 +1960,20 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 61.4,
         "grade": "양호",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1772,14 +2006,20 @@
       "tier": {
         "value": "적정~저평가",
         "raw": "적정~저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 50.2,
+        "total": 56.0,
         "grade": "보통",
         "financialsAsOf": "2026-02-01",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 7.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1812,11 +2052,12 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank - same rationale as bank_exclude_tickers; card built after v1.0.0 was frozen"
+        "reason": "bank (config bank_exclude_tickers)"
       }
     },
     {
@@ -1849,14 +2090,23 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
         "total": 48.6,
         "grade": "보통",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "qualityFlags": [
+          "negative_equity"
+        ],
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 1,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1889,11 +2139,20 @@
       "tier": {
         "value": "고평가~적정",
         "raw": "고평가~적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 62.9,
+        "grade": "양호",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 1.4,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -1926,11 +2185,12 @@
       "tier": {
         "value": "저평가",
         "raw": "저평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank - same rationale as bank_exclude_tickers; card built after v1.0.0 was frozen"
+        "reason": "bank (config bank_exclude_tickers)"
       }
     },
     {
@@ -1963,14 +2223,20 @@
       "tier": {
         "value": "적정",
         "raw": "적정",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
         "status": "available",
-        "total": 40.1,
+        "total": 49.2,
         "grade": "보통",
         "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-08-18"
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -2004,11 +2270,22 @@
         "value": "고평가~적정",
         "raw": "적정~고평가",
         "status": "normalized",
-        "note": "reversed range order 적정~고평가"
+        "note": "reversed range order 적정~고평가; no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 94.3,
+        "grade": "우수",
+        "financialsAsOf": "2026-07-03",
+        "valuationAsOf": "2026-09-11",
+        "qualityFlags": [
+          "valuation_target_only"
+        ],
+        "financialsAgeMonths": 2.3,
+        "valuationCoverage": {
+          "historicalMultiples": 0,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -2041,11 +2318,23 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 70.2,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "qualityFlags": [
+          "valuation_target_only"
+        ],
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 0,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -2078,11 +2367,20 @@
       "tier": {
         "value": "고평가",
         "raw": "고평가",
-        "status": "valid"
+        "status": "valid",
+        "note": "no tier label found in summary"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 76.9,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -2118,8 +2416,16 @@
         "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 57.0,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     },
     {
@@ -2155,8 +2461,16 @@
         "status": "valid"
       },
       "score": {
-        "status": "missing",
-        "reason": "no score file (card built after the 2026-08-25 scoring run)"
+        "status": "available",
+        "total": 51.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 2.4,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
       }
     }
   ]
