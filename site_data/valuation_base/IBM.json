@@ -1,0 +1,232 @@
+{
+  "schema": 1,
+  "ticker": "IBM",
+  "cardAsOf": "2026-09-11",
+  "p0": "243.29",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM 조정)",
+      "valueText": "25.31x",
+      "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
+      "stage0": 3,
+      "width0": "51.0",
+      "low": "10",
+      "high": "40",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "ibmValue",
+      "value0": "25.31",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "20.97",
+      "verdictPremium0": "20.7",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "25.31",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "6.65x",
+      "badge": "3단계 적정(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
+      "stage0": 3,
+      "width0": "46.5",
+      "low": "2",
+      "high": "12",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "ibmValue",
+      "value0": "6.65",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "7.145",
+      "verdictPremium0": "-6.9",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "6.65",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR",
+      "valueText": "3.32x",
+      "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#8bc34a)",
+      "stage0": 2,
+      "width0": "33.1",
+      "low": "1",
+      "high": "8",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "ibmValue",
+      "value0": "3.32",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "4.165",
+      "verdictPremium0": "-20.3",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "3.32",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "229.21",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": "로는 주가 "
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "15.40x",
+      "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#8bc34a)",
+      "stage0": 2,
+      "width0": "29.7",
+      "low": "5",
+      "high": "40",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "ibmValue",
+      "value0": "15.40",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "21.13",
+      "verdictPremium0": "-27.1",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "15.40",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "229.21",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": "로는 주가 "
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (TTM)",
+      "valueText": "16.17x",
+      "badge": "3단계 적정(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#f0c040,#e67e22)",
+      "stage0": 3,
+      "width0": "46.2",
+      "low": "6",
+      "high": "28",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "ibmValue",
+      "value0": "16.17",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 284.03,
+      "mcap0": 229.21,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "13.57",
+      "verdictPremium0": "19.2",
+      "anchorBasis": "formula",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "16.17",
+          "decimals": 2
+        },
+        "form": "ev",
+        "ev": {
+          "value": "284.03",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "mcap": {
+          "value": "229.21",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "141.4",
+        "201.6"
+      ],
+      [
+        "201.6",
+        "261.8"
+      ],
+      [
+        "261.8",
+        "345.3"
+      ]
+    ],
+    "intervals": [
+      [
+        "141.4",
+        "201.6"
+      ],
+      [
+        "201.6",
+        "261.8"
+      ],
+      [
+        "261.8",
+        "345.3"
+      ]
+    ],
+    "segments": [
+      "29.5",
+      "29.5",
+      "41.0"
+    ],
+    "marker0": "50.0",
+    "target": "245.35",
+    "upside0": "+0.9",
+    "frozen": false
+  },
+  "builtAt": "2026-09-12T13:05:58Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#f0c040,#e67e22)",
+    "2": "linear-gradient(90deg,#27ae60,#8bc34a)"
+  }
+}

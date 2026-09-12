@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T13:01:46Z",
+  "generatedAt": "2026-09-12T13:05:39Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.1",
   "tickers": [
@@ -2509,6 +2509,43 @@
       "score": {
         "status": "excluded",
         "reason": "bank (config bank_exclude_tickers)"
+      }
+    },
+    {
+      "ticker": "IBM",
+      "name": "인터내셔널 비즈니스 머신즈",
+      "sector": "IT 서비스",
+      "href": "IBM_full_widget.html",
+      "cardRank": 54,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 243.29,
+        "prevClose": 234.02,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 942134390,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0000051143-26-000078 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid"
+      },
+      "score": {
+        "status": "missing",
+        "reason": "no score file (card built after the 2026-08-25 scoring run)"
       }
     }
   ]
