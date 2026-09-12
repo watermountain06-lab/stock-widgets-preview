@@ -105,11 +105,27 @@ def run(script, *args):
     return subprocess.run([sys.executable, str(ROOT / "pipeline" / script), *args], capture_output=True, text=True)
 
 
+def seed_stocks(path):
+    """A copy of the site's stocks.json moved back to the fixtures' session, so these tests don't drift
+    as the real site advances: the top-level session and every priced ticker read as that day's close.
+    Prices themselves are kept (a fetch failure still falls back to one), and records without a close
+    are left alone - "unavailable" must keep a null close to pass the validator."""
+    data = json.loads((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"))
+    session, prev = DAYS[-1].isoformat(), DAYS[-2].isoformat()
+    data["priceSession"] = session
+    for t in data["tickers"]:
+        p = t["price"]
+        if isinstance(p.get("close"), (int, float)) and p["close"] > 0:
+            t["price"] = {"close": p["close"], "prevClose": p.get("prevClose") or p["close"],
+                          "session": session, "prevSession": prev, "status": "fresh"}
+    path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    return data
+
+
 def test_end_to_end_with_failures():
     tmp = Path(tempfile.mkdtemp())
-    original = json.loads((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"))
     stocks = tmp / "stocks.json"
-    stocks.write_text(json.dumps(original, ensure_ascii=False), encoding="utf-8")
+    original = seed_stocks(stocks)
     fx = tmp / "fixtures"
     fx.mkdir()
     (fx / "NVDA.json").write_text(json.dumps(chart(DAYS, CLOSES)))
@@ -189,7 +205,7 @@ def test_end_to_end_with_failures():
 def test_no_change_and_health():
     tmp = Path(tempfile.mkdtemp())
     stocks = tmp / "stocks.json"
-    stocks.write_text((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"), encoding="utf-8")
+    seed_stocks(stocks)
     fx = tmp / "fixtures"
     fx.mkdir()
     (fx / "NVDA.json").write_text(json.dumps(chart(DAYS, CLOSES)))
@@ -286,7 +302,7 @@ def test_retries_and_breakers():
 
         tmp = Path(tempfile.mkdtemp())
         stocks = tmp / "stocks.json"
-        stocks.write_text((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"), encoding="utf-8")
+        seed_stocks(stocks)
         before = stocks.read_text(encoding="utf-8")
 
         # the price provider is down: only 3 tickers are tried, then the rest are skipped
