@@ -246,21 +246,32 @@ def marker_left(band, price):
 
 # ---------- per card ----------
 
-def pre2a_header(href):
-    """(price, market cap in billions) from the card's header before stage 2A rewrote it."""
-    old = subprocess.run(["git", "-C", str(ROOT), "show", f"{PRE_2A}:{href}"], capture_output=True, text=True).stdout
+def pre2a_header(href, html):
+    """(price, market cap in billions, where they came from) from the card's header before stage 2A
+    started rewriting it. A card built after that commit isn't in it at all - its own header still
+    shows its analysis price, so that is used instead (main() has already refused any card stage 2B
+    has moved). If the commit itself can't be read - a shallow clone, say - stop rather than take a
+    price that only looks right."""
+    r = subprocess.run(["git", "-C", str(ROOT), "show", f"{PRE_2A}:{href}"], capture_output=True, text=True)
+    source = f"header price at git {PRE_2A} (before stage 2A)"
+    if r.returncode:
+        if not re.search(r"does not exist in|exists on disk, but not in", r.stderr):
+            sys.exit(f"cannot read {PRE_2A}:{href} ({r.stderr.strip()[:120]}) - run this in a clone with full history")
+        old, source = html, "the card's own header (card added after stage 2A)"
+    else:
+        old = r.stdout
     m = re.search(r'<div class="price-main">\$([\d,]+\.\d+)</div>', old)
     c = re.search(r'meta-label">시가총액</span><span class="meta-value[^"]*">(?:약 )?\$([\d,.]+)([TB])', old)
-    return (dec(m.group(1).replace(",", "")) if m else None), (billions(c.group(1), c.group(2)) if c else None)
+    return (dec(m.group(1).replace(",", "")) if m else None), (billions(c.group(1), c.group(2)) if c else None), source
 
 
 def build(entry, html):
     t = entry["ticker"]
-    p0, cap0 = pre2a_header(entry["href"])
+    p0, cap0, p0_source = pre2a_header(entry["href"], html)
     # an ADR card's header cap may be on the ordinary-share basis, unlike its EV - don't mix them
     header_cap = cap0 if entry.get("listing", {}).get("type") != "adr" else None
     base = {"schema": SCHEMA, "ticker": t, "cardAsOf": entry["cardAsOf"], "p0": str(p0) if p0 else None,
-            "p0Source": f"header price at git {PRE_2A} (before stage 2A)", "metrics": [], "targetBand": None,
+            "p0Source": p0_source, "metrics": [], "targetBand": None,
             "builtAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
     mds = multiple_data(html)
     calc_prices = {dec(x.replace(",", "")) for x in re.findall(r"calcLine: '[^']*주가\(\$([\d,.]+)\)", html)}

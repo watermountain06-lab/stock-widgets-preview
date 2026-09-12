@@ -595,6 +595,11 @@ def test_valuation_base_units():
            '<span class="val-high">고 20.8x</span></div>')
     m = vb.ROW.search(row)
     check("a val-name with a nested span (CAT, PANW) still parses", m is not None and "가중치 0.5" in m.group("name"))
+    # a ticker added after stage 2A isn't in the pre-2A commit at all (skipped on a shallow clone)
+    if subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e", f"{vb.PRE_2A}^{{commit}}"], capture_output=True).returncode == 0:
+        price, cap, src = vb.pre2a_header("NOT_A_CARD_full_widget.html", '<div class="price-main">$12.34</div>')
+        check("a card added after stage 2A takes P0 from its own header",
+              (price, cap) == (D("12.34"), None) and "added after stage 2A" in src, (price, cap, src))
     ebitda = {"EV/EBITDA = EV($406.2B, 시총 $379.0B) ÷ EBITDA($15.89B, 영업이익 $14.85B+D&A $1.03B) = 25.56x": 15.89,
               "EV/EBITDA = EV($374.7B = 시가총액 $375.2B) ÷ EBITDA TTM($9.67B = 영업이익 $9.14B) = 38.76x": 9.67,
               "EV/EBITDA = EV($229.99B) ÷ TTM EBITDA($4.640B = 영업이익 $4.547B) = 49.57x": 4.64,
