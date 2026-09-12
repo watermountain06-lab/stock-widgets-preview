@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T18:27:47Z",
+  "generatedAt": "2026-09-12T19:51:45Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.1",
   "tickers": [
@@ -2634,6 +2634,101 @@
         "status": "available",
         "total": 61.6,
         "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "CRWD",
+      "name": "크라우드스트라이크",
+      "sector": "정보기술 — 사이버보안",
+      "href": "CRWD_full_widget.html",
+      "cardRank": 57,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 206.74,
+        "prevClose": 208.86,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1023934842,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-20",
+        "filedAt": "2026-08-27",
+        "filing": "10-Q 0001535527-26-000031 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "초고평가",
+        "raw": "초고평가",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.8,
+        "grade": "보통",
+        "financialsAsOf": "2026-01-31",
+        "valuationAsOf": "2026-09-11",
+        "qualityFlags": [
+          "valuation_target_only"
+        ],
+        "financialsAgeMonths": 7.3,
+        "valuationCoverage": {
+          "historicalMultiples": 0,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "VZ",
+      "name": "버라이즌",
+      "sector": "통신서비스 — 무선·광대역",
+      "href": "VZ_full_widget.html",
+      "cardRank": 58,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 50.61,
+        "prevClose": 49.97,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 4154775202,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0000732712-26-000046 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 37.6,
+        "grade": "미흡",
         "financialsAsOf": "2025-12-31",
         "valuationAsOf": "2026-09-11",
         "financialsAgeMonths": 8.3,
