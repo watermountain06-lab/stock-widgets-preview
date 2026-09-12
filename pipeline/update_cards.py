@@ -60,8 +60,8 @@ from compute_breakout_signal import compute_active_breakout  # noqa: E402
 from compute_technical_score import compute_signal  # noqa: E402
 import valuation  # noqa: E402
 
-# stage 2B-2 (valuation tab) runs only on these cards until the pilot passes; None = every card with a baseline
-VALUATION_TICKERS = {"ANET", "NVDA", "AAPL", "KO"}
+# stage 2B-2 (valuation tab): None = every card with a baseline (the four-card pilot passed 2026-09-12)
+VALUATION_TICKERS = None
 
 MAX_BARS = 1255
 CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range={range}&interval=1d&events=split"
