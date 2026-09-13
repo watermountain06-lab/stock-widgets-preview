@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "ticker": "STX",
+  "cardAsOf": "2026-09-11",
+  "p0": "830.17",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "59.72x",
+      "badge": "4단계 고평가",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "74.8",
+      "low": "16.31",
+      "high": "74.33",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "stxValue",
+      "value0": "59.72",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "34.95",
+      "verdictPremium0": "70.9",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "59.72",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "86.83x",
+      "badge": "평가 보류 (가중치 0)",
+      "gradient0": "linear-gradient(90deg,#5c6282,#6b7080)",
+      "stage0": null,
+      "width0": "0",
+      "low": null,
+      "high": null,
+      "weight": 0.0,
+      "frozen": true,
+      "valueKey": "stxValue",
+      "frozenReason": "badge withheld (평가보류/no stage)"
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "15.43x",
+      "badge": "5단계 초고평가",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 5,
+      "width0": "100",
+      "low": "1.26",
+      "high": "6.35",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "stxValue",
+      "value0": "15.43",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "15.43",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "188.153",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 3,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "51.21x",
+      "badge": "5단계 초고평가",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 5,
+      "width0": "100",
+      "low": "9.50",
+      "high": "32.83",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "stxValue",
+      "value0": "51.21",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "18.76",
+      "verdictPremium0": "172.9",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict 172.9% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "51.21",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "188.153",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 3,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (GAAP)",
+      "valueText": "43.48x",
+      "badge": "4단계 고평가",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "64.8",
+      "low": "9.31",
+      "high": "62.01",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "stxValue",
+      "value0": "43.48",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 190.014,
+      "mcap0": 188.153,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "22.08",
+      "verdictPremium0": "96.9",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "210.30",
+        "310.00"
+      ],
+      [
+        "310.00",
+        "851.42"
+      ],
+      [
+        "851.42",
+        "1146.95"
+      ]
+    ],
+    "intervals": [
+      [
+        "210.30",
+        "310.00"
+      ],
+      [
+        "310.00",
+        "851.42"
+      ],
+      [
+        "851.42",
+        "1146.95"
+      ]
+    ],
+    "segments": [
+      "10.6",
+      "57.8",
+      "31.6"
+    ],
+    "marker0": "66.2",
+    "target": "1125.00",
+    "upside0": "+35.5",
+    "frozen": false
+  },
+  "builtAt": "2026-09-13T18:42:10Z",
+  "gradients": {
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "5": "linear-gradient(90deg,#e67e22,#e74c3c)"
+  }
+}

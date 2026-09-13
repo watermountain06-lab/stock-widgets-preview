@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T15:01:50Z",
+  "generatedAt": "2026-09-13T18:42:57Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.1",
   "tickers": [
@@ -3012,6 +3012,98 @@
         "financialsAgeMonths": 8.3,
         "valuationCoverage": {
           "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "QCOM",
+      "name": "퀄컴",
+      "sector": "정보기술 — 반도체",
+      "href": "QCOM_full_widget.html",
+      "cardRank": 65,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 181.97,
+        "prevClose": 176.88,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1050000000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-27",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q 0000804328-26-000086 dei",
+        "approximate": true,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 54.3,
+        "grade": "보통",
+        "financialsAsOf": "2025-09-28",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 11.4,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "STX",
+      "name": "시게이트",
+      "sector": "정보기술 — 스토리지(HDD)",
+      "href": "STX_full_widget.html",
+      "cardRank": 66,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 830.17,
+        "prevClose": 862.33,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 226644518,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-04",
+        "filing": "10-K 0001137789-26-000159 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "초고평가",
+        "raw": "초고평가",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 59.3,
+        "grade": "보통",
+        "financialsAsOf": "2026-07-03",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 2.3,
+        "valuationCoverage": {
+          "historicalMultiples": 1,
           "targetPrice": true
         }
       }
