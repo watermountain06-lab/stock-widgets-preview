@@ -635,7 +635,16 @@ def test_valuation_render():
     check("valuation: multiple, width and badge follow the price",
           ">65.00x<" in out and "width:78.6%" in out and "stage-badge stage-4\">4단계 높음(가중치 0.5)<" in out)
     check("valuation: verdict value, premium and anchor date",
-          "T PER 65.00x는 앵커(평균 40.0x, 2026.09.09 기준) 대비 +62.5% — 설명" in out)
+          "T PER 65.00x는 앵커(평균 40.0x, 2026.09.09 분석 시점 고정) 대비 +62.5% — 설명" in out)
+    # the stamp says the anchor is frozen at the analysis, NOT that the peers were priced
+    # then - two cards state peer dates of their own that differ from it (KLAC, IBM)
+    stamped = va.render(out, base, D("130"), "2026-09-11", [])
+    check("valuation: the anchor stamp is added once and never claims a measurement date",
+          stamped.count("2026.09.09 분석 시점 고정") == 1 and "2026.09.09 기준) 대비" not in stamped)
+    own = html.replace("앵커(평균 40.0x)", "앵커(평균 40.0x, 2026.09.04 종가 기준)")
+    check("valuation: a card that states its own anchor as-of keeps it and gets no second stamp",
+          "2026.09.04 종가 기준" in va.render(own, base, D("130"), "2026-09-11", [])
+          and "분석 시점 고정" not in va.render(own, base, D("130"), "2026-09-11", []))
     check("valuation: calcLine price and result", "PER = 주가($130.00) ÷ EPS($2.00) = 65.00x" in out and "tValue: 65.00," in out)
     check("valuation: section title and as-of wording",
           "현재가 $130.00 (2026.09.11 종가)" in out and "가격·기술지표·배수: " in out and "분석 문장·재무·앵커: " in out)

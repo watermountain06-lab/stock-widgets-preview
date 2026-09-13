@@ -168,7 +168,7 @@ def verdict(body, rec, v1, asof):
     return body[:vm.start(2)] + vt + body[vm.end(2):]
 
 
-ANCHOR_DATE = re.compile(r"(?:, |\(앵커 )\d{4}\.\d{2}\.\d{2} 기준\)")
+ANCHOR_DATE = re.compile(r"(?:, |\(앵커 )\d{4}\.\d{2}\.\d{2}(?: 분석 시점 고정| 기준)\)")
 # Any as-of already written inside the anchor parenthesis, whatever separator
 # introduces it. The narrow ANCHOR_DATE above only recognises ", " and "(앵커 ",
 # so a card that wrote "평균 27.23x· 2026.09.11 기준" got a second date appended
@@ -179,12 +179,23 @@ ANCHOR_DATE = re.compile(r"(?:, |\(앵커 )\d{4}\.\d{2}\.\d{2} 기준\)")
 # The qualifier between the date and 기준 is not fixed - cards write "2026.09.11 기준",
 # "2026.09.11 종가 기준", "2026.09.11 분석 기준". Matching only the bare form let VZ
 # collect "(앵커 … 기준) (앵커 … 종가 기준)" on all five metrics.
-INNER_DATE = re.compile(r"\d{4}\.\d{2}\.\d{2}(?:\s*[^()\s]{1,4})?\s*기준")
+INNER_DATE = re.compile(r"\d{4}\.\d{2}\.\d{2}(?:\s*분석 시점 고정|(?:\s*[^()\s]{1,4})?\s*기준)")
+
+
+# What this stamp may claim. It says the anchor is FROZEN at the analysis - it does not
+# move with price the way the card's own multiple does. It must not be read as "the peer
+# multiples were measured on this date", because that is something the pipeline has no way
+# to know: KLAC's peers are AMAT 09.08 / LRCX 09.04 and IBM's are ORCL 09.04 / CSCO 09.06,
+# both stated on the cards themselves, and the old wording ", 2026.09.11 기준" contradicted
+# those statements outright. "분석 시점 고정" is true on every card whatever the peers' own
+# as-of, so no per-card detection is needed. (Decided with the user 2026-09-13.)
+FROZEN_AT = "분석 시점 고정"
 
 
 def add_anchor_date(vt, asof):
-    """Say once that the anchor is an analysis-date snapshot - inside the parenthesis that holds the
-    comparison value ("앵커(… 평균 54.2x, 2026.09.09 기준) 대비 +10.1%"), else right after the premium."""
+    """Say once that the anchor is frozen at the analysis date - inside the parenthesis that holds the
+    comparison value ("앵커(… 평균 54.2x, 2026.09.09 분석 시점 고정) 대비 +10.1%"), else right after
+    the premium. See FROZEN_AT above for what this may and may not be read as claiming."""
     i = vt.find("대비")
     head = vt[:i]
     j = head.rfind(")")
@@ -192,7 +203,7 @@ def add_anchor_date(vt, asof):
     if j > 0 and k >= 0 and re.search(r"[\d.]+x", head[k:j]):
         if INNER_DATE.search(head[k:j]):   # the card already states one - leave it alone
             return vt
-        return vt[:j] + f", {asof} 기준" + vt[j:]
+        return vt[:j] + f", {asof} {FROZEN_AT}" + vt[j:]
     pos = vt.find("%", i) + 1
     # Same guard as the branch above, which this one lacked: a self-history verdict
     # ("자기 5년 중앙값 대비 +17.0%") has no anchor parenthesis holding an "x" value, so it
@@ -200,7 +211,7 @@ def add_anchor_date(vt, asof):
     # got a second one appended on all five metrics.
     if INNER_DATE.search(vt[pos:pos + 60]):
         return vt
-    return vt[:pos] + f" (앵커 {asof} 기준)" + vt[pos:]
+    return vt[:pos] + f" (앵커 {asof} {FROZEN_AT})" + vt[pos:]
 
 
 def calc_line(body, rec, v1, r, p1, asof):
