@@ -375,6 +375,23 @@ def build(entry, html):
         if metric not in parsed:
             base["metrics"].append({"metric": metric, "frozen": True, "frozenReason": "row markup not parsed"})
 
+    # The weight is read off the badge - that is the only machine-readable place a card
+    # states it. A card that puts it in the surrounding note instead parses as 1.0 and
+    # nothing complains, because nothing consumes "weight" yet. It will: stage 2B-3/2B-4
+    # recompute the valuation layer on a price move, and a card whose stored weights are
+    # not the ones its own text argues from would then be rewritten to contradict itself.
+    # So check the weights against the one number the card derives from them.
+    stated = re.search(r"가중평균\s*([\d.]+)\s*/\s*5", re.sub(r"<[^>]+>", "", html))
+    if stated:
+        scored = [m for m in base["metrics"] if m.get("stage0") is not None and m.get("weight")]
+        den = sum(m["weight"] for m in scored)
+        if den:
+            got = sum(m["stage0"] * m["weight"] for m in scored) / den
+            if abs(got - float(stated.group(1))) > 0.05:
+                shown = ", ".join(f"{m['metric']}={m['stage0']}x{m['weight']}" for m in scored)
+                base["weightWarning"] = (f"card states 가중평균 {stated.group(1)}, "
+                                         f"badge weights give {got:.2f} ({shown})")
+
     band, why = target_band(html)
     if band and p0:
         left = marker_left(band, p0)
@@ -429,7 +446,7 @@ def main():
     data = json.loads(Path(args.data).read_text(encoding="utf-8"))
     wanted = {t.strip().upper() for t in args.tickers.split(",")} if args.tickers else None
     lines = ["| 종목 | P0 | 자동 지표 | 동결 지표(사유) | verdict % | 목표가 밴드 |", "|---|---|---|---|---|---|"]
-    totals = {"auto": 0, "frozen": 0, "premium": 0, "band": 0, "cards": 0}
+    totals = {"auto": 0, "frozen": 0, "premium": 0, "band": 0, "cards": 0, "weight": 0}
     out_dir = Path(args.out)
     for entry in data["tickers"]:
         t = entry["ticker"]
@@ -459,11 +476,15 @@ def main():
                      f"{'자동' if not band.get('frozen') else '동결: ' + band.get('frozenReason', '')} |")
         if base.get("p0Warning"):
             lines[-1] += f" ⚠️ {base['p0Warning']}"
+        if base.get("weightWarning"):
+            lines[-1] += f" ⚠️ {base['weightWarning']}"
+            totals["weight"] += 1
         if args.write:
             out_dir.mkdir(parents=True, exist_ok=True)
             (out_dir / f"{t}.json").write_text(json.dumps(base, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     summary = (f"{totals['cards']} cards: {totals['auto']} metrics automatic, {totals['frozen']} frozen, "
-               f"{totals['premium']} verdict premiums reproducible, {totals['band']} target bands automatic")
+               f"{totals['premium']} verdict premiums reproducible, {totals['band']} target bands automatic, "
+               f"{totals['weight']} with badge weights that do not reproduce the card's own 가중평균")
     print("\n".join(lines)); print("\n" + summary)
     if args.report:
         Path(args.report).write_text("\n".join(lines) + "\n\n" + summary + "\n", encoding="utf-8")
