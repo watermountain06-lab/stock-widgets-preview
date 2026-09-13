@@ -176,7 +176,10 @@ ANCHOR_DATE = re.compile(r"(?:, |\(앵커 )\d{4}\.\d{2}\.\d{2} 기준\)")
 # (CRM, LIN, CRWD). The date is NOT overwritten: it states when the peer
 # multiples were measured, which is not always the analysis date - CRWD's peers
 # really are 2026.09.09 against a 2026.09.11 analysis.
-INNER_DATE = re.compile(r"\d{4}\.\d{2}\.\d{2} 기준")
+# The qualifier between the date and 기준 is not fixed - cards write "2026.09.11 기준",
+# "2026.09.11 종가 기준", "2026.09.11 분석 기준". Matching only the bare form let VZ
+# collect "(앵커 … 기준) (앵커 … 종가 기준)" on all five metrics.
+INNER_DATE = re.compile(r"\d{4}\.\d{2}\.\d{2}(?:\s*[^()\s]{1,4})?\s*기준")
 
 
 def add_anchor_date(vt, asof):
@@ -191,6 +194,12 @@ def add_anchor_date(vt, asof):
             return vt
         return vt[:j] + f", {asof} 기준" + vt[j:]
     pos = vt.find("%", i) + 1
+    # Same guard as the branch above, which this one lacked: a self-history verdict
+    # ("자기 5년 중앙값 대비 +17.0%") has no anchor parenthesis holding an "x" value, so it
+    # falls through to here - and VZ, whose card already said "(앵커 2026.09.11 종가 기준)",
+    # got a second one appended on all five metrics.
+    if INNER_DATE.search(vt[pos:pos + 60]):
+        return vt
     return vt[:pos] + f" (앵커 {asof} 기준)" + vt[pos:]
 
 
