@@ -169,6 +169,14 @@ def verdict(body, rec, v1, asof):
 
 
 ANCHOR_DATE = re.compile(r"(?:, |\(앵커 )\d{4}\.\d{2}\.\d{2} 기준\)")
+# Any as-of already written inside the anchor parenthesis, whatever separator
+# introduces it. The narrow ANCHOR_DATE above only recognises ", " and "(앵커 ",
+# so a card that wrote "평균 27.23x· 2026.09.11 기준" got a second date appended
+# and rendered "…, 2026.09.11 기준, 2026.09.11 기준)". Three shipped cards did
+# (CRM, LIN, CRWD). The date is NOT overwritten: it states when the peer
+# multiples were measured, which is not always the analysis date - CRWD's peers
+# really are 2026.09.09 against a 2026.09.11 analysis.
+INNER_DATE = re.compile(r"\d{4}\.\d{2}\.\d{2} 기준")
 
 
 def add_anchor_date(vt, asof):
@@ -179,6 +187,8 @@ def add_anchor_date(vt, asof):
     j = head.rfind(")")
     k = head.rfind("(", 0, j) if j > 0 else -1
     if j > 0 and k >= 0 and re.search(r"[\d.]+x", head[k:j]):
+        if INNER_DATE.search(head[k:j]):   # the card already states one - leave it alone
+            return vt
         return vt[:j] + f", {asof} 기준" + vt[j:]
     pos = vt.find("%", i) + 1
     return vt[:pos] + f" (앵커 {asof} 기준)" + vt[pos:]

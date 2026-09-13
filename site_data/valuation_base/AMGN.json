@@ -1,0 +1,193 @@
+{
+  "schema": 1,
+  "ticker": "AMGN",
+  "cardAsOf": "2026-09-11",
+  "p0": "377.35",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM 조정)",
+      "valueText": "27.11x",
+      "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#c8a84b,#f0c040)",
+      "stage0": 3,
+      "width0": "47.1",
+      "low": "13",
+      "high": "43",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amgnValue",
+      "value0": "27.11",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "17.45x",
+      "badge": "5단계 매우높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 5,
+      "width0": "96.6",
+      "low": "2",
+      "high": "18",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amgnValue",
+      "value0": "17.45",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "17.45",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "5.36x",
+      "badge": "2단계 다소 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#2ecc71)",
+      "stage0": 2,
+      "width0": "35.7",
+      "low": "2.5",
+      "high": "10.5",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amgnValue",
+      "value0": "5.36",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "6.3",
+      "verdictPremium0": "-15",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "5.36",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "204.01",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "16.35x",
+      "badge": "2단계 다소 낮음",
+      "gradient0": "linear-gradient(90deg,#27ae60,#2ecc71)",
+      "stage0": 2,
+      "width0": "36.7",
+      "low": "9",
+      "high": "29",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "amgnValue",
+      "value0": "16.35",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "19",
+      "verdictPremium0": "-14",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 0,
+      "calc": {
+        "result": {
+          "value": "16.35",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "204.01",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "14.32x",
+      "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#c8a84b,#f0c040)",
+      "stage0": 3,
+      "width0": "49.1",
+      "low": "4.5",
+      "high": "24.5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "amgnValue",
+      "value0": "14.32",
+      "decimals": 2,
+      "frozenReason": "EV/market cap not stated in a parseable form"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "278.32",
+        "333.98"
+      ],
+      [
+        "333.98",
+        "417.48"
+      ],
+      [
+        "417.48",
+        "473.14"
+      ]
+    ],
+    "intervals": [
+      [
+        "278.32",
+        "333.98"
+      ],
+      [
+        "333.98",
+        "417.48"
+      ],
+      [
+        "417.48",
+        "473.14"
+      ]
+    ],
+    "segments": [
+      "28.6",
+      "42.9",
+      "28.6"
+    ],
+    "marker0": "50.8",
+    "target": "388.72",
+    "upside0": "+3.0",
+    "frozen": false
+  },
+  "builtAt": "2026-09-13T03:58:37Z",
+  "gradients": {
+    "3": "linear-gradient(90deg,#c8a84b,#f0c040)",
+    "5": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "2": "linear-gradient(90deg,#27ae60,#2ecc71)"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-12T19:51:45Z",
+  "generatedAt": "2026-09-13T04:01:17Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.1",
   "tickers": [
@@ -2732,6 +2732,98 @@
         "financialsAsOf": "2025-12-31",
         "valuationAsOf": "2026-09-11",
         "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "AMGN",
+      "name": "암젠",
+      "sector": "헬스케어 — 바이오의약품",
+      "href": "AMGN_full_widget.html",
+      "cardRank": 59,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 377.35,
+        "prevClose": 382.47,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 540632005,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-30",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000318154-26-000126 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 45.8,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "CRM",
+      "name": "세일즈포스",
+      "sector": "정보기술 — 기업용 소프트웨어",
+      "href": "CRM_full_widget.html",
+      "cardRank": 60,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 247.72,
+        "prevClose": 243.0,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 823000000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-20",
+        "filedAt": "2026-08-27",
+        "filing": "10-Q 0001108524-26-000190 dei",
+        "approximate": true,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "no tier label found in summary, row"
+      },
+      "score": {
+        "status": "available",
+        "total": 68.7,
+        "grade": "양호",
+        "financialsAsOf": "2026-01-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 7.3,
         "valuationCoverage": {
           "historicalMultiples": 2,
           "targetPrice": true

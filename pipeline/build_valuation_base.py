@@ -430,7 +430,15 @@ def main():
         if wanted and t not in wanted:
             continue
         html = (ROOT / entry["href"]).read_text(encoding="utf-8")
-        if STAGE_2B_MARK.search(html) and not args.force:
+        # Whether stage 2B has moved this card is decided by the baseline file, not by
+        # the card's text. update_cards.py only calls valuation.render() for a ticker that
+        # already has site_data/valuation_base/{T}.json, so a card without one provably
+        # has never been touched by 2B. The old text-only guard could not tell 2B's output
+        # apart from the same wording written by hand at build time - both emit
+        # "(분석일 YYYY.MM.DD 기준 계산)" - and it blocked five consecutive new cards
+        # (TXN, LIN, CRWD, VZ, AMGN) that 2B had never seen. The mark is still required
+        # alongside the baseline, so a stale leftover file alone does not refuse.
+        if (out_dir / f"{t}.json").exists() and STAGE_2B_MARK.search(html) and not args.force:
             sys.exit(f"{t}: its valuation tab was already moved by stage 2B - a baseline taken from it now "
                      "would be wrong (restore the card first; --force overrides)")
         base = build(entry, html)
