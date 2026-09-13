@@ -404,7 +404,13 @@ def baseline_test(rec):
     if shown != number(rec["valueText"]):
         out.append(f"value {shown} vs {rec['valueText']}")
     w = width_of(v, dec(rec["low"]), dec(rec["high"]))
-    if abs(w - dec(rec["width0"])) > Decimal("0.6"):
+    # A value below the band floor has no width to draw, so a card may floor the bar at a
+    # small visible sliver instead of nothing. TMUS is the first card with metrics under
+    # their own band and says so in the open: "막대가 왼쪽 끝에 붙은 셋은 실제로는 밴드
+    # 하단보다도 아래라 최소 폭으로 그렸다". Treating that as a mismatch froze three of its
+    # five metrics, which would have left the card's central claim unable to follow price.
+    off_scale = w <= 0 and Decimal(0) <= dec(rec["width0"]) <= Decimal("2.5")
+    if not off_scale and abs(w - dec(rec["width0"])) > Decimal("0.6"):
         out.append(f"width {w} vs {rec['width0']}")
     if stage_of(w) != rec["stage0"]:
         out.append(f"stage {stage_of(w)} vs {rec['stage0']}")

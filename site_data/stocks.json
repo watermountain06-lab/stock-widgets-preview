@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T13:12:47Z",
+  "generatedAt": "2026-09-13T15:01:50Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.1",
   "tickers": [
@@ -2743,7 +2743,7 @@
       "name": "암젠",
       "sector": "헬스케어 — 바이오의약품",
       "href": "AMGN_full_widget.html",
-      "cardRank": 61,
+      "cardRank": 62,
       "cardAsOf": "2026-09-11",
       "listing": {
         "type": "common"
@@ -2789,7 +2789,7 @@
       "name": "세일즈포스",
       "sector": "정보기술 — 기업용 소프트웨어",
       "href": "CRM_full_widget.html",
-      "cardRank": 62,
+      "cardRank": 63,
       "cardAsOf": "2026-09-11",
       "listing": {
         "type": "common"
@@ -2918,6 +2918,100 @@
         "financialsAgeMonths": 7.3,
         "valuationCoverage": {
           "historicalMultiples": 1,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "APH",
+      "name": "앰페놀",
+      "sector": "정보기술 — 커넥터·인터커넥트",
+      "href": "APH_full_widget.html",
+      "cardRank": 61,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 83.92,
+        "prevClose": 80.25,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "suspicious",
+        "statusReason": "split-in-window 2026-09-03"
+      },
+      "shares": {
+        "usEquivalent": 2465966914,
+        "method": "sec-cover-split-adjusted",
+        "basis": "single",
+        "asOf": "2026-07-28",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0000820313-26-000047 dei, x2 for the 2026-09-03 two-for-one",
+        "approximate": false,
+        "status": "ok",
+        "note": "the SEC cover count 1,232,983,457 predates the 2026-09-03 2:1 split; seed_shares flags it at -50% and must not overwrite this"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 64.2,
+        "grade": "양호",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "TMUS",
+      "name": "티모바일",
+      "sector": "통신서비스 — 무선",
+      "href": "TMUS_full_widget.html",
+      "cardRank": 64,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 182.33,
+        "prevClose": 177.16,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1072671613,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0001283699-26-000101 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "초저평가",
+        "raw": "초저평가",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 57.6,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
           "targetPrice": true
         }
       }

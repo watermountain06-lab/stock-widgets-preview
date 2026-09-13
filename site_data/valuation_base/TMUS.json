@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "ticker": "TMUS",
+  "cardAsOf": "2026-09-11",
+  "p0": "182.33",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "19.09x",
+      "badge": "1단계 저평가",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 1,
+      "width0": "2",
+      "low": "19.15",
+      "high": "26.59",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tmusValue",
+      "value0": "19.09",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "23.23",
+      "verdictPremium0": "-17.8",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "19.09",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "3.48x",
+      "badge": "3단계 적정",
+      "gradient0": "linear-gradient(90deg,#c8a84b,#f0c040)",
+      "stage0": 3,
+      "width0": "55.4",
+      "low": "2.33",
+      "high": "4.40",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tmusValue",
+      "value0": "3.48",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "3.03",
+      "verdictPremium0": "14.8",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict 14.8% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "3.48",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "195.58",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (TTM)",
+      "valueText": "2.12x",
+      "badge": "1단계 저평가",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 1,
+      "width0": "11.2",
+      "low": "2.00",
+      "high": "3.13",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tmusValue",
+      "value0": "2.12",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "2.32",
+      "verdictPremium0": "-8.7",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict -8.7% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "2.12",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "195.58",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "6.78x",
+      "badge": "1단계 저평가",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 1,
+      "width0": "2",
+      "low": "8.05",
+      "high": "11.43",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tmusValue",
+      "value0": "6.78",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "10.31",
+      "verdictPremium0": "-34.2",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "6.78",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "195.58",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA (GAAP)",
+      "valueText": "8.56x",
+      "badge": "1단계 저평가",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 1,
+      "width0": "2",
+      "low": "9.07",
+      "high": "11.95",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "tmusValue",
+      "value0": "8.56",
+      "decimals": 2,
+      "method": "ev-delta",
+      "ev0": 279.675,
+      "mcap0": 195.58,
+      "evSource": "calcLine EV and market cap",
+      "evChecked": true,
+      "anchor": "10.10",
+      "verdictPremium0": "-15.2",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "179.79",
+        "198.70"
+      ],
+      [
+        "198.70",
+        "236.38"
+      ],
+      [
+        "236.38",
+        "260.25"
+      ]
+    ],
+    "intervals": [
+      [
+        "179.79",
+        "198.70"
+      ],
+      [
+        "198.70",
+        "236.38"
+      ],
+      [
+        "236.38",
+        "260.25"
+      ]
+    ],
+    "segments": [
+      "23.5",
+      "46.8",
+      "29.7"
+    ],
+    "marker0": "3.2",
+    "target": "243.38",
+    "upside0": "+33.5",
+    "frozen": false
+  },
+  "builtAt": "2026-09-13T15:01:02Z",
+  "gradients": {
+    "1": "linear-gradient(90deg,#2ecc71,#27ae60)",
+    "3": "linear-gradient(90deg,#c8a84b,#f0c040)"
+  }
+}

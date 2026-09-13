@@ -26,7 +26,11 @@ import seed_from_index  # noqa: E402
 TIERS = ["초저평가", "저평가", "적정~저평가", "적정", "고평가~적정", "고평가", "초고평가"]
 LISTING_TYPES = {"common", "multi-class", "adr", "ny-registry"}
 PRICE_STATUS = {"fresh", "stale", "suspicious", "unavailable"}
-SHARES_METHOD = {"sec-dei", "sec-cover", "sec-note", "sec-annual-report", "prospectus", "manual"}
+# "sec-cover-split-adjusted": the SEC cover count multiplied for a split that took effect
+# after the filing. APH split 2:1 on 2026-09-03 while its latest cover count is dated
+# 2026-07-28, so the filed figure is half the real one and seed_shares flags it at -50%.
+SHARES_METHOD = {"sec-dei", "sec-cover", "sec-cover-split-adjusted", "sec-note",
+                 "sec-annual-report", "prospectus", "manual"}
 # legacy-implied is transitional: only the one-time seed writes it, and the
 # share-seeding step must replace every occurrence (reported as a warning)
 SHARES_BASIS = {"single", "sum-of-classes", "class-b-equivalent", "as-converted",
