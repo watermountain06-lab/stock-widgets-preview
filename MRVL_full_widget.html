@@ -310,7 +310,7 @@
     <div class="meta-item"><span class="meta-label">순차입금</span><span class="meta-value">$1.03B (차입 $4.96B − 현금 $3.93B)</span></div>
   </div>
 </div>
-<div class="asof-line" style="max-width:1100px;margin:10px auto 12px;padding:0 16px;box-sizing:border-box;font-size:11px;color:var(--text3);line-height:1.5;">가격·기술지표·배수: 2026.09.11 종가 기준 · 재무: FY2027 Q2(2026.08.01 종료) 10-Q 기준 · 시가총액: SEC 공시 주식수 876,900,000주 기준</div>
+<div class="asof-line" style="max-width:1100px;margin:10px auto 12px;padding:0 16px;box-sizing:border-box;font-size:11px;color:var(--text3);line-height:1.5;">가격·기술지표·배수: 2026.09.11 종가 기준 · 재무: FY2027 Q2(2026.08.01 종료) 10-Q 기준 · 시가총액: SEC 공시 보통주 876,900,000주 기준 $207.0B · 엔비디아 보유 전환우선주(전환 시 보통주 2,180만 주)가 모두 전환되면 8억 9,870만 주 $212.2B이 되지만, 이 카드는 전환 전 보통주만 센다 — 전환우선주는 보통주가 아니고 아직 한 주도 전환되지 않았기 때문이다(상세 #valuation)</div>
 <div class="box-key">
   <div style="font-size:13px;font-weight:700;color:var(--accent2);display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
     <span style="display:flex;align-items:center;gap:6px;"><span style="width:4px;height:14px;background:var(--accent2);border-radius:2px;display:inline-block;"></span>핵심 투자 논리 <span style="color:var(--red);font-weight:600;">(고평가)</span></span>
@@ -718,7 +718,7 @@
     <div class="scorecard-noflags">ℹ️ 데이터 상태 · 주요 재무지표가 기준 커버리지를 충족합니다</div>
 
     <div class="scorecard-footer">
-      <span>재무 데이터 기준일 2026-01-31 · 공시 후 7.3개월</span>
+      <span>재무 데이터 기준일 2026-01-31 · 기준일로부터 7.3개월 경과</span>
       <span class="scorecard-disclaimer">서술적 스냅샷 지표 - 지금 저평가·재무건전성·성장성이 어느 수준인지 요약할 뿐이며, 향후 수익률과의 상관관계는 검증하지 않았습니다. 기술점수와의 단순평균도 순위·매수판단용이 아닙니다.</span>
     </div>
   </div>
@@ -1341,11 +1341,11 @@ const MULTIPLE_DATA = {
     calcLine: 'PER(조정) = 시가총액($207,036M) ÷ 조정 순이익($1,114.9M = (TTM 영업이익 $1,561.3M − TTM 이자비용 $216.4M) × (1−17.10%)) = 185.70x — 세율 17.10%는 매각이익이 들어오기 전인 FY2026 상반기 실효세율($76.9M÷$449.6M)이다',
     verdict: 'MRVL 조정 PER 185.70x는 앵커(AVGO 46.1x·NVDA 27.6x 평균 36.9x, 2026.09.11 종가 기준) 대비 +403% — 5개 지표 중 격차가 가장 크다',
     verdictCaveat: 'TTM GAAP 순이익 $2,639.9M의 69%인 $1,830.4M이 자동차 이더넷 사업 매각이익(세전)이라 GAAP PER 78.43x는 피어와 비교할 수 없다. 조정 PER이 이렇게 높은 이유는 남은 이익이 얇기 때문이다 — 인수로 생긴 무형자산상각 TTM $892.7M이 영업이익 $1,561.3M의 57%를 먹고, 주식보상비용 $828.9M이 또 얹힌다. 회사 자체 non-GAAP은 이 둘을 모두 되돌리지만 이 프로젝트는 주식보상비용을 실제 비용으로 보므로 그 기준을 쓰지 않는다. 참고로 무형자산상각만 되돌리면 111.62x이고, 시장 컨센서스 선행 PER(회사 non-GAAP 기준, StockAnalysis.com)은 43.27x다. 주식수 쪽 변수도 하나 있다 — 엔비디아가 보유한 전환우선주가 보통주 2,180만 주로 모두 전환되면 주식수는 8억 7,690만 주에서 8억 9,870만 주가 되고, 같은 조정 이익에 대한 배수는 185.70x에서 190.3x로 올라간다. AVGO도 VMware 상각을 안고 있지만 NVDA는 그렇지 않아 앵커 자체가 두 기준이 섞여 있고, 그래서 가중치를 0.5로 낮췄다.',
-    anchor: { value: '36.9x', formula: '평균(AVGO 46.1x, NVDA 27.6x) = 36.85x → 36.9x — 두 값 모두 이 저장소의 해당 카드가 2026.09.11 종가(AVGO $361.99·NVDA $218.29)와 각사 TTM GAAP 희석 EPS(AVGO $7.84·NVDA $7.91)로 계산한 자체 값이다', cross: 'StockAnalysis.com이 게시한 MRVL PER은 79.33x로, 본 위젯의 GAAP 기준 78.43x와 사실상 같다 — 즉 79x라는 시중 수치는 매각이익을 그대로 포함한 값이고, 조정 전후 차이가 이 카드와 시중 화면이 갈리는 지점이다' },
+    anchor: { value: '36.9x', formula: '평균(AVGO 46.1x, NVDA 27.6x) = 36.85x → 36.9x — 두 값 모두 이 저장소의 해당 카드가 2026.09.11 종가(AVGO $361.99·NVDA $218.29)와 각사 TTM GAAP 희석 EPS(AVGO $7.84·NVDA $7.91)로 계산한 자체 값이다. 앵커 두 곳 중 NVDA는 2026년 3월 31일부터 MRVL의 Series A 전환우선주 $2.0B을 들고 있는 주주이므로(미전환), 이 비교는 완전한 제3자 평가가 아니다', cross: 'StockAnalysis.com이 게시한 MRVL PER은 79.33x로, 본 위젯의 GAAP 기준 78.43x와 사실상 같다 — 즉 79x라는 시중 수치는 매각이익을 그대로 포함한 값이고, 조정 전후 차이가 이 카드와 시중 화면이 갈리는 지점이다' },
     secondary: { label: 'GAAP PER (비교 불가) — 78.43x', caveat: '시가총액 $207,036M ÷ TTM GAAP 순이익 $2,639.9M. 일회성 매각이익 $1,830.4M이 분모에 그대로 들어 있어 피어 비교에 쓸 수 없고, 표시는 시중 화면과 대조하라는 뜻이다.' },
     peers: [
       { name:'AVGO', value:46.1, status:'anchor' },
-      { name:'NVDA', value:27.6, status:'anchor' },
+      { name:'NVDA(MRVL 주주)', value:27.6, status:'anchor' },
       { name:'ANET(참고)', value:62.96, status:'reference' }
     ]
   },
@@ -1359,7 +1359,7 @@ const MULTIPLE_DATA = {
     secondary: null,
     peers: [
       { name:'AVGO', value:17.7, status:'anchor' },
-      { name:'NVDA', value:23.1, status:'anchor' },
+      { name:'NVDA(MRVL 주주)', value:23.1, status:'anchor' },
       { name:'ANET(참고)', value:17.01, status:'reference' }
     ]
   },
@@ -1373,7 +1373,7 @@ const MULTIPLE_DATA = {
     secondary: null,
     peers: [
       { name:'AVGO', value:19.8, status:'anchor' },
-      { name:'NVDA', value:17.5, status:'anchor' },
+      { name:'NVDA(MRVL 주주)', value:17.5, status:'anchor' },
       { name:'ANET(참고)', value:23.88, status:'reference' }
     ]
   },
@@ -1387,7 +1387,7 @@ const MULTIPLE_DATA = {
     secondary: null,
     peers: [
       { name:'AVGO', value:45.5, status:'anchor' },
-      { name:'NVDA', value:41.8, status:'anchor' },
+      { name:'NVDA(MRVL 주주)', value:41.8, status:'anchor' },
       { name:'ANET(참고)', value:48.83, status:'reference' }
     ]
   },
@@ -1401,7 +1401,7 @@ const MULTIPLE_DATA = {
     secondary: null,
     peers: [
       { name:'AVGO', value:35.0, status:'anchor' },
-      { name:'NVDA', value:26.0, status:'anchor' },
+      { name:'NVDA(MRVL 주주)', value:26.0, status:'anchor' },
       { name:'ANET(참고)', value:51.38, status:'reference' }
     ]
   }
