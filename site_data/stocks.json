@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T04:01:17Z",
+  "generatedAt": "2026-09-13T13:12:47Z",
   "priceSession": "2026-09-11",
   "scoreVersion": "1.0.1",
   "tickers": [
@@ -2564,7 +2564,7 @@
       "name": "아메리칸 익스프레스",
       "sector": "금융·결제 네트워크·카드",
       "href": "AXP_full_widget.html",
-      "cardRank": 55,
+      "cardRank": 56,
       "cardAsOf": "2026-09-11",
       "listing": {
         "type": "common"
@@ -2602,7 +2602,7 @@
       "name": "린데",
       "sector": "산업가스·화학",
       "href": "LIN_full_widget.html",
-      "cardRank": 56,
+      "cardRank": 57,
       "cardAsOf": "2026-09-11",
       "listing": {
         "type": "common"
@@ -2648,7 +2648,7 @@
       "name": "크라우드스트라이크",
       "sector": "정보기술 — 사이버보안",
       "href": "CRWD_full_widget.html",
-      "cardRank": 57,
+      "cardRank": 58,
       "cardAsOf": "2026-09-11",
       "listing": {
         "type": "common"
@@ -2697,7 +2697,7 @@
       "name": "버라이즌",
       "sector": "통신서비스 — 무선·광대역",
       "href": "VZ_full_widget.html",
-      "cardRank": 58,
+      "cardRank": 59,
       "cardAsOf": "2026-09-11",
       "listing": {
         "type": "common"
@@ -2743,7 +2743,7 @@
       "name": "암젠",
       "sector": "헬스케어 — 바이오의약품",
       "href": "AMGN_full_widget.html",
-      "cardRank": 59,
+      "cardRank": 61,
       "cardAsOf": "2026-09-11",
       "listing": {
         "type": "common"
@@ -2789,7 +2789,7 @@
       "name": "세일즈포스",
       "sector": "정보기술 — 기업용 소프트웨어",
       "href": "CRM_full_widget.html",
-      "cardRank": 60,
+      "cardRank": 62,
       "cardAsOf": "2026-09-11",
       "listing": {
         "type": "common"
@@ -2826,6 +2826,98 @@
         "financialsAgeMonths": 7.3,
         "valuationCoverage": {
           "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "TMO",
+      "name": "써모피셔사이언티픽",
+      "sector": "헬스케어 — 생명과학 도구·서비스",
+      "href": "TMO_full_widget.html",
+      "cardRank": 55,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 609.82,
+        "prevClose": 603.18,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 369747286,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-27",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0000097745-26-000144 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "고평가~적정",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.1,
+        "grade": "보통",
+        "financialsAsOf": "2025-12-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 8.3,
+        "valuationCoverage": {
+          "historicalMultiples": 2,
+          "targetPrice": true
+        }
+      }
+    },
+    {
+      "ticker": "MRVL",
+      "name": "마벨 테크놀로지",
+      "sector": "정보기술 — 반도체(데이터센터)",
+      "href": "MRVL_full_widget.html",
+      "cardRank": 60,
+      "cardAsOf": "2026-09-11",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 236.1,
+        "prevClose": 226.96,
+        "session": "2026-09-11",
+        "prevSession": "2026-09-10",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 876900000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-21",
+        "filedAt": "2026-08-28",
+        "filing": "10-Q 0001835632-26-000025 dei",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "no tier label found in summary"
+      },
+      "score": {
+        "status": "available",
+        "total": 62.8,
+        "grade": "양호",
+        "financialsAsOf": "2026-01-31",
+        "valuationAsOf": "2026-09-11",
+        "financialsAgeMonths": 7.3,
+        "valuationCoverage": {
+          "historicalMultiples": 1,
           "targetPrice": true
         }
       }
