@@ -1,0 +1,209 @@
+{
+  "schema": 1,
+  "ticker": "PEP",
+  "cardAsOf": "2026-09-11",
+  "p0": "136.32",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "17.87x",
+      "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 2,
+      "width0": "27.4",
+      "low": "10.7",
+      "high": "36.9",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "pepValue",
+      "value0": "17.87",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "23.8",
+      "verdictPremium0": "-24.9",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "17.87",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "8.42x",
+      "badge": "4단계 높음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "75.1",
+      "low": "3.0",
+      "high": "10.2",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "pepValue",
+      "value0": "8.42",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "6.6",
+      "verdictPremium0": "27.6",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "8.42",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "186.06",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": "대비 주가 "
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (시총/매출 TTM)",
+      "valueText": "1.92x",
+      "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 1,
+      "width0": "19.3",
+      "low": "1.3",
+      "high": "4.5",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "pepValue",
+      "value0": "1.92",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "2.9",
+      "verdictPremium0": "-33.8",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "1.92",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "186.06",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "13.83x",
+      "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 2,
+      "width0": "23.6",
+      "low": "8.8",
+      "high": "30.2",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "pepValue",
+      "value0": "13.83",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "19.5",
+      "verdictPremium0": "-29.1",
+      "anchorBasis": "verdict",
+      "premiumDecimals": 1,
+      "calc": {
+        "result": {
+          "value": "13.83",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "186.06",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "12.10x",
+      "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 1,
+      "width0": "18.9",
+      "low": "8.3",
+      "high": "28.5",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "pepValue",
+      "value0": "12.10",
+      "decimals": 2,
+      "frozenReason": "EV/market cap not stated in a parseable form"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "114.45",
+        "133.53"
+      ],
+      [
+        "133.53",
+        "160.23"
+      ],
+      [
+        "160.23",
+        "179.31"
+      ]
+    ],
+    "intervals": [
+      [
+        "114.45",
+        "133.53"
+      ],
+      [
+        "133.53",
+        "160.23"
+      ],
+      [
+        "160.23",
+        "179.31"
+      ]
+    ],
+    "segments": [
+      "29.4",
+      "41.2",
+      "29.4"
+    ],
+    "marker0": "33.7",
+    "target": "155.00",
+    "upside0": "+13.7",
+    "frozen": false
+  },
+  "builtAt": "2026-09-14T13:51:02Z",
+  "gradients": {
+    "2": "linear-gradient(90deg,#2ecc71,#27ae60)",
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "1": "linear-gradient(90deg,#2ecc71,#27ae60)"
+  }
+}
