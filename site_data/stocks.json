@@ -2941,14 +2941,15 @@
         "statusReason": "split-in-window 2026-09-03"
       },
       "shares": {
-        "usEquivalent": 1232983457,
-        "method": "sec-dei",
+        "usEquivalent": 2465966914,
+        "method": "sec-cover-split-adjusted",
         "basis": "single",
         "asOf": "2026-07-28",
         "filedAt": "2026-07-31",
-        "filing": "10-Q 0001104659-26-089194 dei",
+        "filing": "10-Q 0001104659-26-089194 dei x2 for the 2026-09-03 2:1 split",
         "approximate": false,
-        "status": "ok"
+        "status": "ok",
+        "note": "SEC's latest cover count (2026-07-28, filed 07-31) predates the 2026-09-03 2:1 split; the price series is already split-adjusted, so the filed count is doubled until a post-split 10-Q lands (late Oct 2026)."
       },
       "tier": {
         "value": "고평가~적정",
