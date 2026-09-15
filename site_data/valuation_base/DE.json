@@ -1,0 +1,182 @@
+{
+  "schema": 1,
+  "ticker": "DE",
+  "cardAsOf": "2026-09-14",
+  "p0": "681.46",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM · 시총÷지배주주순이익)",
+      "valueText": "37.71x",
+      "badge": "5단계 매우높음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 5,
+      "width0": "96.8",
+      "low": "9.84",
+      "high": "38.64",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "deValue",
+      "value0": "37.71",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "6.56x",
+      "badge": "4단계 높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "70.6",
+      "low": "4.19",
+      "high": "7.56",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "deValue",
+      "value0": "6.56",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "calc": {
+        "form": "fixed"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (시총/매출 TTM)",
+      "valueText": "3.83x",
+      "badge": "5단계 매우높음",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 5,
+      "width0": "95.9",
+      "low": "1.62",
+      "high": "3.92",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "deValue",
+      "value0": "3.83",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "3.83",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "183.74",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "25.36x",
+      "badge": "4단계 높음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "61.4",
+      "low": "9.82",
+      "high": "35.12",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "deValue",
+      "value0": "25.36",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": null,
+      "verdictPremium0": null,
+      "calc": {
+        "result": {
+          "value": "25.36",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "183.74",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "20.30x (참고)",
+      "badge": "평가 보류 (가중치 0)",
+      "gradient0": "linear-gradient(90deg,#5c6282,#6b7080)",
+      "stage0": null,
+      "width0": "0",
+      "low": null,
+      "high": null,
+      "weight": 0.0,
+      "frozen": true,
+      "valueKey": "deValue",
+      "frozenReason": "not a positive multiple (20.30x (참고))"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "304.61",
+        "415.87"
+      ],
+      [
+        "415.87",
+        "541.04"
+      ],
+      [
+        "541.04",
+        "728.00"
+      ]
+    ],
+    "intervals": [
+      [
+        "304.61",
+        "415.87"
+      ],
+      [
+        "415.87",
+        "541.04"
+      ],
+      [
+        "541.04",
+        "728.00"
+      ]
+    ],
+    "segments": [
+      "26.3",
+      "29.6",
+      "44.1"
+    ],
+    "marker0": "89.0",
+    "target": "688.44",
+    "upside0": "+1.0",
+    "frozen": false
+  },
+  "builtAt": "2026-09-15T19:24:12Z",
+  "gradients": {
+    "5": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)"
+  }
+}

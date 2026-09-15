@@ -1,0 +1,217 @@
+{
+  "schema": 1,
+  "ticker": "DIS",
+  "cardAsOf": "2026-09-14",
+  "p0": "108.59",
+  "p0Source": "the card's own header (card added after stage 2A)",
+  "metrics": [
+    {
+      "metric": "per",
+      "name": "PER (TTM GAAP)",
+      "valueText": "22.39x",
+      "badge": "4단계 높음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#e67e22,#e74c3c)",
+      "stage0": 4,
+      "width0": "73.4",
+      "low": "7.2",
+      "high": "27.9",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "disValue",
+      "value0": "22.39",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "16.4",
+      "verdictPremium0": "36.8",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict 36.8% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "22.39",
+          "decimals": 2
+        },
+        "form": "price"
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pbr",
+      "name": "PBR",
+      "valueText": "1.70x",
+      "badge": "1단계 매우낮음(가중치 0.5)",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 1,
+      "width0": "7.9",
+      "low": "0.8",
+      "high": "12.2",
+      "weight": 0.5,
+      "frozen": false,
+      "valueKey": "disValue",
+      "value0": "1.70",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "6.2",
+      "verdictPremium0": "-72.8",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict -72.8% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "1.70",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "187.50",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        },
+        "priceContext": "대비 주가 "
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "psr",
+      "name": "PSR (시총/매출 TTM)",
+      "valueText": "1.90x",
+      "badge": "1단계 매우낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 1,
+      "width0": "19.1",
+      "low": "0.6",
+      "high": "7.4",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "disValue",
+      "value0": "1.90",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "3.7",
+      "verdictPremium0": "-48.5",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict -48.5% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "1.90",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "187.50",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "pcr",
+      "name": "PCR (P/OCF)",
+      "valueText": "11.04x",
+      "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 2,
+      "width0": "31.5",
+      "low": "2.4",
+      "high": "29.8",
+      "weight": 1.0,
+      "frozen": false,
+      "valueKey": "disValue",
+      "value0": "11.04",
+      "decimals": 2,
+      "method": "price-ratio",
+      "anchor": "13.3",
+      "verdictPremium0": "-16.9",
+      "anchorBasis": "verdict (normalized)",
+      "premiumDecimals": 1,
+      "premiumNormalized": true,
+      "verdictPremiumNote": "verdict -16.9% normalized to the value it states (rounding gap)",
+      "calc": {
+        "result": {
+          "value": "11.04",
+          "decimals": 2
+        },
+        "form": "mcap",
+        "mcap": {
+          "value": "187.50",
+          "unit": "B",
+          "shownUnit": true,
+          "decimals": 2,
+          "commas": false
+        }
+      },
+      "verdictFirstIsValue": true
+    },
+    {
+      "metric": "evebitda",
+      "name": "EV/EBITDA",
+      "valueText": "10.89x",
+      "badge": "2단계 낮음",
+      "gradient0": "linear-gradient(90deg,#2ecc71,#27ae60)",
+      "stage0": 2,
+      "width0": "31.5",
+      "low": "4.5",
+      "high": "24.8",
+      "weight": 1.0,
+      "frozen": true,
+      "valueKey": "disValue",
+      "value0": "10.89",
+      "decimals": 2,
+      "frozenReason": "EV/market cap not stated in a parseable form"
+    }
+  ],
+  "targetBand": {
+    "ranges": [
+      [
+        "77.60",
+        "92.15"
+      ],
+      [
+        "92.15",
+        "116.40"
+      ],
+      [
+        "116.40",
+        "130.95"
+      ]
+    ],
+    "intervals": [
+      [
+        "77.60",
+        "92.15"
+      ],
+      [
+        "92.15",
+        "116.40"
+      ],
+      [
+        "116.40",
+        "130.95"
+      ]
+    ],
+    "segments": [
+      "27.27",
+      "45.46",
+      "27.27"
+    ],
+    "marker0": "58.1",
+    "target": "128.18",
+    "upside0": "+18.0",
+    "frozen": false
+  },
+  "builtAt": "2026-09-15T19:24:12Z",
+  "gradients": {
+    "4": "linear-gradient(90deg,#e67e22,#e74c3c)",
+    "1": "linear-gradient(90deg,#2ecc71,#27ae60)",
+    "2": "linear-gradient(90deg,#2ecc71,#27ae60)"
+  }
+}
