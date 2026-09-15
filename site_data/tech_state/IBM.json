@@ -1,7 +1,7 @@
 {
   "ticker": "IBM",
-  "asOf": "2026-09-11",
-  "close": 243.29,
+  "asOf": "2026-09-14",
+  "close": 249.09,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,15 +18,15 @@
     }
   },
   "momentum": {
-    "score": 0,
+    "score": 10,
     "max": 40,
-    "weightedRocPct": -10.33
+    "weightedRocPct": -7.86
   },
   "position52w": {
     "score": 5,
     "max": 20,
-    "riseFromLowPct": 22.14,
-    "drawdownFromHighPct": 26.82,
+    "riseFromLowPct": 25.05,
+    "drawdownFromHighPct": 25.08,
     "high52w": 332.46,
     "low52w": 199.19
   },
@@ -35,7 +35,7 @@
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 5,
+  "rawScore": 15,
   "rawGrade": "약한",
   "displayGrade": "약한",
   "riskFlags": [
@@ -47,7 +47,7 @@
     "고점대비큰조정"
   ],
   "atr": {
-    "pctNow": 2.61,
-    "percentileVsOwnHistory": 28.6
+    "pctNow": 2.63,
+    "percentileVsOwnHistory": 29.0
   }
 }

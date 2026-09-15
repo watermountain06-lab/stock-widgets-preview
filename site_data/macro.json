@@ -1,46 +1,46 @@
 {
-  "generatedAt": "2026-09-15T00:10:27Z",
-  "priceSession": "2026-09-11",
+  "generatedAt": "2026-09-15T14:53:56Z",
+  "priceSession": "2026-09-14",
   "indicators": {
     "sp500": {
-      "value": 7656.98,
-      "changePct": 0.86,
-      "asOf": "2026-09-11",
+      "value": 7619.98,
+      "changePct": -0.48,
+      "asOf": "2026-09-14",
       "status": "fresh",
       "source": "Yahoo ^GSPC daily close"
     },
     "vix": {
-      "value": 15.84,
-      "changePct": -11.21,
-      "asOf": "2026-09-11",
+      "value": 17.1,
+      "changePct": 7.95,
+      "asOf": "2026-09-14",
       "status": "fresh",
       "source": "Yahoo ^VIX daily close"
     },
     "usdkrw": {
-      "value": 1341.77,
-      "changePct": -0.49,
-      "asOf": "2026-09-11",
+      "value": 1347.16,
+      "changePct": 0.4,
+      "asOf": "2026-09-14",
       "status": "fresh",
       "source": "Yahoo KRW=X hourly bar ending 16:00 ET"
     },
     "fedTarget": {
       "lower": 3.5,
       "upper": 3.75,
-      "asOf": "2026-09-14",
+      "asOf": "2026-09-15",
       "status": "fresh",
-      "source": "FRED API DFEDTARL/DFEDTARU"
+      "source": "FRED CSV DFEDTARL/DFEDTARU"
     },
     "unemployment": {
       "value": 4.1,
       "asOf": "2026-08",
       "status": "fresh",
-      "source": "FRED API UNRATE"
+      "source": "FRED CSV UNRATE"
     },
     "cpiYoy": {
       "value": 3.4,
       "asOf": "2026-08",
       "status": "fresh",
-      "source": "FRED API CPIAUCSL, YoY computed"
+      "source": "FRED CSV CPIAUCSL, YoY computed"
     }
   },
   "nextFomc": {

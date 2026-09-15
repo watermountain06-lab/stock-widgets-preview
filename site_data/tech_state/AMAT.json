@@ -1,43 +1,43 @@
 {
   "ticker": "AMAT",
-  "asOf": "2026-09-11",
-  "close": 456.49,
+  "asOf": "2026-09-14",
+  "close": 424.21,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
   "insufficientHistory": false,
   "momentumUnavailable": false,
   "trendStructure": {
-    "score": 40,
+    "score": 30,
     "max": 40,
     "conditions": {
-      "close>ma150_and_close>ma200": true,
+      "close>ma150_and_close>ma200": false,
       "ma150>ma200": true,
       "ma200>ma200_21d_ago": true,
       "ma50>ma150_and_ma50>ma200": true
     }
   },
   "momentum": {
-    "score": 40,
+    "score": 30,
     "max": 40,
-    "weightedRocPct": 50.15
+    "weightedRocPct": 35.45
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 178.35,
-    "drawdownFromHighPct": 38.28,
+    "riseFromLowPct": 153.74,
+    "drawdownFromHighPct": 42.65,
     "high52w": 739.67,
-    "low52w": 164.0
+    "low52w": 167.18
   },
   "priceStructureScore": {
-    "score": 50,
+    "score": 40,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 90,
-  "rawGrade": "강한",
-  "displayGrade": "강한",
+  "rawScore": 70,
+  "rawGrade": "긍정적",
+  "displayGrade": "긍정적",
   "riskFlags": [
     "고점대비큰조정",
     "단기추세이탈"
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 3.38,
-    "percentileVsOwnHistory": 18.7
+    "pctNow": 3.94,
+    "percentileVsOwnHistory": 35.7
   }
 }
