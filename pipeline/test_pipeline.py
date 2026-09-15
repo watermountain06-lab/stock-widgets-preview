@@ -529,6 +529,25 @@ def test_card_updater():
              "--now", now)
     check("a hold that clears by itself doesn't fail the health check", hc.returncode == 0, hc.stdout)
 
+    # A newly added ticker's card updates before build_valuation_base.py has run for it.
+    # The valuation tab is skipped, which must leave a trace instead of passing silently.
+    for name, blob in before.items():
+        (cards / name).write_bytes(blob)
+    no_base = tmp / "no_valuation_base"
+    no_base.mkdir()
+    run("update_cards.py", *args, "--valuation-dir", str(no_base), "--write")
+    st = json.loads(status.read_text(encoding="utf-8"))["cards"]
+    why = "; ".join(st["ANET"]["reasons"])
+    check("a missing valuation baseline is recorded on the card, not skipped silently",
+          st["ANET"]["status"] == "updated" and "no valuation baseline" in why, st["ANET"])
+    check("the note names the command that fixes it", "build_valuation_base.py --tickers ANET" in why, why)
+    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(status),
+             "--now", now)
+    failed_part = hc.stdout.split("HEALTH CHECK FAILED")[-1]
+    check("a missing baseline warns and never fails the run",
+          "WARNING" in hc.stdout and "no valuation baseline" in hc.stdout
+          and "card ANET" not in failed_part, hc.stdout)
+
 
 def test_card_units():
     """Pieces of update_cards.py that fixtures can't easily reach."""

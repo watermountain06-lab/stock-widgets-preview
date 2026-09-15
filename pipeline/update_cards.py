@@ -653,12 +653,19 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     html = render(html, ticker, tokens, tech, breakout, shares, entry["cardAsOf"], notes, ma_last)
     # stage 2B-2: the valuation tab, in the same transaction - if it fails, the card isn't written at all
     base_path = (valuation_dir or ROOT / "site_data" / "valuation_base") / f"{ticker}.json"
-    if base_path.exists() and (VALUATION_TICKERS is None or ticker in VALUATION_TICKERS):
+    in_scope = VALUATION_TICKERS is None or ticker in VALUATION_TICKERS
+    if base_path.exists() and in_scope:
         try:
             html = valuation.render(html, json.loads(base_path.read_text(encoding="utf-8")),
                                     Decimal(str(bars[-1][4])), bars[-1][0], notes)
         except valuation.RenderError as e:
             raise EditError(f"valuation: {e}")
+    elif in_scope:
+        # A newly added ticker has no baseline until build_valuation_base.py runs, so this
+        # is not a failure - but the price layer moves on while the valuation tab silently
+        # keeps yesterday's numbers, and that must leave a trace. health_check.py warns on it.
+        notes.append(f"no valuation baseline ({base_path.name}) - valuation tab left as is; "
+                     f"run build_valuation_base.py --tickers {ticker} --write")
 
     if html == old_html:  # tech is still returned so a missing state file gets repaired
         return "unchanged", bars[-1][0], {"replaced": 0, "appended": 0}, notes, None, tech

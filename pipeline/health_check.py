@@ -18,6 +18,10 @@ Fails when:
 On a market holiday the previous session simply carries over as fresh, so a
 holiday is not reported as a failure.
 
+Warns without failing when a card reports no valuation baseline. That is the
+expected state while a new ticker is being onboarded, so it must not fail the
+run - but it must not pass with no trace either.
+
 The session-lag check exists because of 2026-09-14: Yahoo answered with a
 well-formed chart whose newest bar was three days old, so every ticker stayed
 "fresh" on that old session, nothing errored, and the run reported success.
@@ -41,6 +45,8 @@ MAX_NOT_FRESH = 6
 MARKET_KEYS = ("sp500", "vix", "usdkrw")
 # update_cards.py hold reasons that won't clear without rebuilding the card's history
 NEEDS_PERSON = ("rebuild", "missing inside", "Yahoo doesn't")
+# update_cards.py's note for a card with no valuation baseline yet - warn, never fail
+NO_BASELINE = "no valuation baseline"
 ET = ZoneInfo("America/New_York")
 SETTLE = dtime(16, 20)   # the cutoff fetch_prices.py uses to call a bar complete
 MAX_SESSION_LAG = 2      # weekdays behind before a quiet provider counts as a failure
@@ -134,9 +140,11 @@ def main():
                 problems.append(f"cards were last run for {cs.get('priceSession')}, "
                                 f"prices are {stocks.get('priceSession')}")
             for tk, c in sorted(cs.get("cards", {}).items()):
+                why = "; ".join(c.get("reasons", []))
+                if NO_BASELINE in why:  # also on a card that updated cleanly otherwise
+                    warnings.append(f"card {tk}: {why}")
                 if c["status"] not in ("failed", "held"):
                     continue
-                why = "; ".join(c.get("reasons", []))
                 card_lines.append(f"{tk} {c['status']}: {why}")
                 if c["status"] == "failed" or any(k in why for k in NEEDS_PERSON):
                     problems.append(f"card {tk} {c['status']}: {why}")
