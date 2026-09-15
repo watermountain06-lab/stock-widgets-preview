@@ -9,6 +9,8 @@ Fails when:
   - MAX_NOT_FRESH or more tickers are not fresh (stale/suspicious/unavailable)
   - any market series in macro.json (sp500, vix, usdkrw) is not fresh
   - macro.json is missing, or its FOMC schedule has run out
+  - priceSession is MAX_SESSION_LAG or more weekdays behind the session that
+    should have settled by now (see below)
   - with --cards: the card updater didn't reach the price session, or a card
     failed, or was held for something a person has to fix (a split, missing
     sessions - see NEEDS_PERSON). Holds that clear by themselves (a ticker's
@@ -16,18 +18,74 @@ Fails when:
 On a market holiday the previous session simply carries over as fresh, so a
 holiday is not reported as a failure.
 
-Usage: python3 pipeline/health_check.py [--stocks PATH] [--macro PATH] [--cards PATH]
+The session-lag check exists because of 2026-09-14: Yahoo answered with a
+well-formed chart whose newest bar was three days old, so every ticker stayed
+"fresh" on that old session, nothing errored, and the run reported success.
+Freshness only says a record matches what the source returned; this says the
+source itself moved. No exchange calendar is kept (fetch_prices.py declined
+one for the same reason), so one day of provider lag is indistinguishable
+from a market holiday - hence one weekday behind warns, two or more fails.
+
+Usage: python3 pipeline/health_check.py [--stocks PATH] [--macro PATH] [--cards PATH] [--now ISO]
 """
 import argparse
 import json
+import os
 import sys
+from datetime import date, datetime, time as dtime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_NOT_FRESH = 6
 MARKET_KEYS = ("sp500", "vix", "usdkrw")
 # update_cards.py hold reasons that won't clear without rebuilding the card's history
 NEEDS_PERSON = ("rebuild", "missing inside", "Yahoo doesn't")
+ET = ZoneInfo("America/New_York")
+SETTLE = dtime(16, 20)   # the cutoff fetch_prices.py uses to call a bar complete
+MAX_SESSION_LAG = 2      # weekdays behind before a quiet provider counts as a failure
+
+
+def expected_session(now_et):
+    """The most recent weekday whose close has settled by now_et."""
+    d = now_et.date()
+    if now_et < datetime.combine(d, SETTLE, ET):
+        d -= timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d
+
+
+def weekday_lag(session, expected):
+    """Weekdays after `session` up to and including `expected`, so 0 means the
+    data is current and 1 is the gap a single market holiday can account for."""
+    n, d = 0, session
+    while d < expected:
+        d += timedelta(days=1)
+        if d.weekday() < 5:
+            n += 1
+    return n
+
+
+def session_age(session, now_et):
+    """(problem, warning) for how far behind priceSession is - at most one is set."""
+    if not session:
+        return "priceSession missing from stocks.json", None
+    try:
+        parsed = date.fromisoformat(session)
+    except ValueError:
+        return f"priceSession {session!r} is not a date", None
+    expected = expected_session(now_et)
+    if parsed > expected:
+        return f"priceSession {session} is ahead of the settled session {expected}", None
+    lag = weekday_lag(parsed, expected)
+    note = (f"priceSession {session} is {lag} weekday(s) behind {expected} - "
+            f"the provider may be serving stale data")
+    if lag >= MAX_SESSION_LAG:
+        return note, None
+    if lag:
+        return None, f"{note} (a market holiday looks the same)"
+    return None, None
 
 
 def main():
@@ -35,10 +93,18 @@ def main():
     ap.add_argument("--stocks", default=str(ROOT / "site_data" / "stocks.json"))
     ap.add_argument("--macro", default=str(ROOT / "site_data" / "macro.json"))
     ap.add_argument("--cards", default=None, help="card_status.json written by update_cards.py")
+    ap.add_argument("--now", default=None, help="ISO timestamp standing in for the clock (tests)")
     args = ap.parse_args()
 
+    now_et = datetime.fromisoformat(args.now).astimezone(ET) if args.now else datetime.now(ET)
     stocks = json.loads(Path(args.stocks).read_text(encoding="utf-8"))
-    problems = []
+    problems, warnings = [], []
+
+    stale, warn = session_age(stocks.get("priceSession"), now_et)
+    if stale:
+        problems.append(stale)
+    if warn:
+        warnings.append(warn)
 
     not_fresh = [f"{t['ticker']} ({t['price']['status']}: {t['price'].get('statusReason', '')})"
                  for t in stocks["tickers"] if t["price"]["status"] != "fresh"]
@@ -83,6 +149,9 @@ def main():
         print(f"cards: {len(card_lines)} held or failed")
         for line in card_lines:
             print(f"  - {line}")
+    for w in warnings:
+        # an annotation on Actions, so a warning shows on the run page without an email
+        print(f"::warning::{w}" if os.environ.get("GITHUB_ACTIONS") else f"WARNING: {w}")
     if problems:
         print("HEALTH CHECK FAILED:")
         for p in problems:

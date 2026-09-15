@@ -226,20 +226,37 @@ def test_no_change_and_health():
     check("repeat macro run with nothing new leaves macro.json untouched",
           macro.read_text(encoding="utf-8") == first and "No change" in out.stdout, out.stdout + out.stderr)
 
-    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro))
+    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--now", AFTER.isoformat())
     check("health check fails when a market series is not fresh", out.returncode == 1, out.stdout)
 
     healthy = tmp / "healthy_macro.json"
     healthy.write_text(json.dumps({"indicators": {k: {"status": "fresh"} for k in ("sp500", "vix", "usdkrw")},
                                    "nextFomc": {"start": "2026-09-15", "end": "2026-09-16"}}))
-    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(healthy))
+    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(healthy), "--now", AFTER.isoformat())
     check("health check passes on fresh data", out.returncode == 0, out.stdout)
+
+    # 2026-09-14: the provider answered with a clean chart whose newest bar was days old,
+    # so everything read "fresh" on a session the market had moved past. stocks is on
+    # Thursday 2026-09-10; run the check as if it were later without new data arriving.
+    hc_args = ["--stocks", str(stocks), "--macro", str(healthy), "--now"]
+    out = run("health_check.py", *hc_args, datetime(2026, 9, 11, 18, 0, tzinfo=ET).isoformat())
+    check("one weekday behind warns but passes - a market holiday looks the same",
+          out.returncode == 0 and "is 1 weekday(s) behind 2026-09-11" in out.stdout, out.stdout)
+    out = run("health_check.py", *hc_args, datetime(2026, 9, 14, 18, 0, tzinfo=ET).isoformat())
+    check("two weekdays behind fails, so a stale provider can't pass as a quiet day",
+          out.returncode == 1 and "is 2 weekday(s) behind 2026-09-14" in out.stdout, out.stdout)
+    out = run("health_check.py", *hc_args, datetime(2026, 9, 11, 12, 0, tzinfo=ET).isoformat())
+    check("before the settle cutoff the day's own session isn't expected yet",
+          out.returncode == 0 and "weekday(s) behind" not in out.stdout, out.stdout)
+    out = run("health_check.py", *hc_args, datetime(2026, 9, 13, 12, 0, tzinfo=ET).isoformat())
+    check("a weekend run measures against Friday, not the weekend day",
+          out.returncode == 0 and "is 1 weekday(s) behind 2026-09-11" in out.stdout, out.stdout)
 
     d = json.loads(stocks.read_text(encoding="utf-8"))
     for t in d["tickers"][:6]:
         t["price"] = dict(t["price"], status="stale", statusReason="test")
     stocks.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
-    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(healthy))
+    out = run("health_check.py", "--stocks", str(stocks), "--macro", str(healthy), "--now", AFTER.isoformat())
     check("health check fails at 6 non-fresh tickers", out.returncode == 1, out.stdout)
 
 
@@ -498,7 +515,8 @@ def test_card_updater():
     macro = tmp / "macro.json"
     macro.write_text(json.dumps({"indicators": {k: {"status": "fresh"} for k in ("sp500", "vix", "usdkrw")},
                                  "nextFomc": {"start": "2026-09-15", "end": "2026-09-16"}}), encoding="utf-8")
-    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(status))
+    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(status),
+             "--now", now)
     failed_part = hc.stdout.split("HEALTH CHECK FAILED")[-1]
     check("health check fails on a failed card and a split hold, not on a late-Yahoo hold",
           hc.returncode == 1 and "card MSFT failed" in failed_part and "card AAPL held" in failed_part
@@ -507,7 +525,8 @@ def test_card_updater():
     only_ko["cards"] = {"KO": only_ko["cards"]["KO"]}
     ko_status = tmp / "card_status_ko.json"
     ko_status.write_text(json.dumps(only_ko), encoding="utf-8")
-    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(ko_status))
+    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(ko_status),
+             "--now", now)
     check("a hold that clears by itself doesn't fail the health check", hc.returncode == 0, hc.stdout)
 
 
