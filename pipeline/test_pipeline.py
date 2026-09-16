@@ -8,6 +8,7 @@ updater on copies of real cards. No network.
 Usage: python3 pipeline/test_pipeline.py
 """
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -101,8 +102,17 @@ def test_macro_rules():
     check("exhausted schedule gives None", fm.next_fomc(date(2027, 12, 9)) is None)
 
 
-def run(script, *args):
-    return subprocess.run([sys.executable, str(ROOT / "pipeline" / script), *args], capture_output=True, text=True)
+def run(script, *args, env=None):
+    """env overrides the child's environment; a None value removes a variable. Pin anything
+    the scripts read from it - health_check.py formats its warnings differently when
+    GITHUB_ACTIONS is set, so a test that reads them passes locally and fails on the runner."""
+    child = None
+    if env is not None:
+        child = dict(os.environ)
+        for k, v in env.items():
+            child.pop(k, None) if v is None else child.__setitem__(k, v)
+    return subprocess.run([sys.executable, str(ROOT / "pipeline" / script), *args],
+                          capture_output=True, text=True, env=child)
 
 
 def seed_stocks(path):
@@ -542,11 +552,15 @@ def test_card_updater():
           st["ANET"]["status"] == "updated" and "no valuation baseline" in why, st["ANET"])
     check("the note names the command that fixes it", "build_valuation_base.py --tickers ANET" in why, why)
     hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(status),
-             "--now", now)
+             "--now", now, env={"GITHUB_ACTIONS": None})
     failed_part = hc.stdout.split("HEALTH CHECK FAILED")[-1]
     check("a missing baseline warns and never fails the run",
-          "WARNING" in hc.stdout and "no valuation baseline" in hc.stdout
+          "WARNING: card ANET" in hc.stdout and "no valuation baseline" in hc.stdout
           and "card ANET" not in failed_part, hc.stdout)
+    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(status),
+             "--now", now, env={"GITHUB_ACTIONS": "true"})
+    check("on Actions that warning becomes an annotation instead",
+          "::warning::card ANET" in hc.stdout and "WARNING: card ANET" not in hc.stdout, hc.stdout)
 
 
 def test_card_units():
