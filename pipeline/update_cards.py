@@ -191,6 +191,14 @@ def close_decimal(token):
     return Decimal(BAR_TOKEN.fullmatch(token).group(4).split(",")[3].strip())
 
 
+def close_matches(homepage_close, token):
+    """stocks.json keeps 4dp and the card 2dp, so a raw close a hair above a half-cent
+    legitimately lands exactly 0.005 apart (SNDK 2026-09-15: 1530.895 vs 1530.9). The
+    tolerance therefore includes 0.005, and the comparison is Decimal - in float that
+    tie comes out as 0.005000000000109139 and failed the card."""
+    return abs(Decimal(str(homepage_close)) - close_decimal(token)) <= Decimal("0.005")
+
+
 def array_dp(tokens):
     decs = [len(t.split(".")[1]) for t in tokens if t != "null" and "." in t]
     return max(decs) if decs else None
@@ -623,7 +631,7 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
             raise EditError(f"dates not strictly increasing at {b[0]}")
     if bars[-1][0] != target:
         raise Hold(f"no completed Yahoo bar for {target} yet (card ends {bars[-1][0]})")
-    if abs(p["close"] - bars[-1][4]) > 0.005:
+    if not close_matches(p["close"], tokens[-1]):
         raise EditError(f"last close {bars[-1][4]} != homepage close {p['close']} for {target}")
     check_from = max(0, (changed if changed is not None else len(bars)) - trimmed)
     for d, o, h, l, c, v in bars[check_from:]:  # every bar this run wrote

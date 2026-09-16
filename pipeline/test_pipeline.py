@@ -570,6 +570,16 @@ def test_card_units():
             "['2026-09-03',11.0,12.0,10.5,11.5,100]];\nconst X_MA5 = [null,null,null]; const OTHER = [1];")
     _, arrays = uc.parse_card_arrays(card)
     check("array line keeps a trailing statement as its tail", arrays["MA5"]["tail"] == "; const OTHER = [1];")
+
+    # SNDK 2026-09-15: one raw close, rounded to 4dp for stocks.json and 2dp for the card,
+    # is exactly half a cent apart. The float form of that tie is 0.005000000000109139,
+    # which failed a "> 0.005" test and left the card unwritten.
+    tok = lambda c: f"['2026-09-15',10.0,11.0,9.0,{c},100]"
+    check("a half-cent rounding tie still counts as a match", uc.close_matches(1530.895, tok(1530.9)))
+    check("the tie matches in the other direction too", uc.close_matches(1530.895, tok(1530.89)))
+    check("an exact match still matches", uc.close_matches(192.93, tok(192.93)))
+    check("a real mismatch is still caught", not uc.close_matches(1530.895, tok(1531.02)))
+    check("just past the tolerance is still caught", not uc.close_matches(100.0, tok(100.006)))
     def held_by_sync(card_dates, yahoo_dates):
         toks = ",".join(f"['{d}',10.0,11.0,9.0,10.5,100]" for d in card_dates)
         _, a = uc.parse_card_arrays(f"const X_DAILY = [{toks}];")
