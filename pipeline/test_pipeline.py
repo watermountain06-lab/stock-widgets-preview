@@ -103,14 +103,18 @@ def test_macro_rules():
 
 
 def run(script, *args, env=None):
-    """env overrides the child's environment; a None value removes a variable. Pin anything
-    the scripts read from it - health_check.py formats its warnings differently when
-    GITHUB_ACTIONS is set, so a test that reads them passes locally and fails on the runner."""
+    """env overrides the child's environment; a None value removes a variable. Pin the
+    variables the script under test actually reads - health_check.py formats its warnings
+    differently when GITHUB_ACTIONS is set, so a test that reads them passes locally and
+    fails on the runner."""
     child = None
     if env is not None:
         child = dict(os.environ)
         for k, v in env.items():
-            child.pop(k, None) if v is None else child.__setitem__(k, v)
+            if v is None:
+                child.pop(k, None)
+            else:
+                child[k] = v
     return subprocess.run([sys.executable, str(ROOT / "pipeline" / script), *args],
                           capture_output=True, text=True, env=child)
 
@@ -579,7 +583,8 @@ def test_card_units():
     check("the tie matches in the other direction too", uc.close_matches(1530.895, tok(1530.89)))
     check("an exact match still matches", uc.close_matches(192.93, tok(192.93)))
     check("a real mismatch is still caught", not uc.close_matches(1530.895, tok(1531.02)))
-    check("just past the tolerance is still caught", not uc.close_matches(100.0, tok(100.006)))
+    check("exactly at the tolerance is a match", uc.close_matches(100.005, tok(100.0)))
+    check("a hair past the tolerance is caught", not uc.close_matches(100.0051, tok(100.0)))
     def held_by_sync(card_dates, yahoo_dates):
         toks = ",".join(f"['{d}',10.0,11.0,9.0,10.5,100]" for d in card_dates)
         _, a = uc.parse_card_arrays(f"const X_DAILY = [{toks}];")
