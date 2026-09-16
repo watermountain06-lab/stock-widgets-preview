@@ -1,7 +1,7 @@
 {
   "ticker": "WMT",
-  "asOf": "2026-09-14",
-  "close": 109.08,
+  "asOf": "2026-09-15",
+  "close": 108.09,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -6.18
+    "weightedRocPct": -7.45
   },
   "position52w": {
     "score": 5,
     "max": 20,
-    "riseFromLowPct": 10.32,
-    "drawdownFromHighPct": 19.3,
+    "riseFromLowPct": 9.31,
+    "drawdownFromHighPct": 20.03,
     "high52w": 135.16,
     "low52w": 98.88
   },
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.72,
-    "percentileVsOwnHistory": 16.3
+    "pctNow": 1.69,
+    "percentileVsOwnHistory": 15.1
   }
 }

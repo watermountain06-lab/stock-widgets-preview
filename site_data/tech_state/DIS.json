@@ -1,7 +1,7 @@
 {
   "ticker": "DIS",
-  "asOf": "2026-09-14",
-  "close": 108.59,
+  "asOf": "2026-09-15",
+  "close": 106.42,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": 3.8
+    "weightedRocPct": 0.88
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 17.79,
-    "drawdownFromHighPct": 7.26,
+    "riseFromLowPct": 15.44,
+    "drawdownFromHighPct": 9.11,
     "high52w": 117.09,
     "low52w": 92.19
   },
@@ -41,7 +41,7 @@
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 1.97,
-    "percentileVsOwnHistory": 29.0
+    "pctNow": 2.07,
+    "percentileVsOwnHistory": 41.3
   }
 }

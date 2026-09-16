@@ -1,7 +1,7 @@
 {
   "ticker": "PG",
-  "asOf": "2026-09-14",
-  "close": 146.13,
+  "asOf": "2026-09-15",
+  "close": 146.67,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -2.2
+    "weightedRocPct": -2.31
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 6.18,
-    "drawdownFromHighPct": 12.63,
+    "riseFromLowPct": 6.58,
+    "drawdownFromHighPct": 12.3,
     "high52w": 167.25,
     "low52w": 137.62
   },
@@ -39,15 +39,13 @@
   "rawGrade": "약한",
   "displayGrade": "약한",
   "riskFlags": [
-    "장기추세이탈",
-    "단기추세이탈"
+    "장기추세이탈"
   ],
   "riskFlagsShown": [
-    "장기추세이탈",
-    "단기추세이탈"
+    "장기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.52,
-    "percentileVsOwnHistory": 21.4
+    "pctNow": 1.59,
+    "percentileVsOwnHistory": 29.4
   }
 }

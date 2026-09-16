@@ -1,7 +1,7 @@
 {
   "ticker": "CAT",
-  "asOf": "2026-09-14",
-  "close": 784.0,
+  "asOf": "2026-09-15",
+  "close": 783.54,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,15 +20,15 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 18.86
+    "weightedRocPct": 17.32
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 83.28,
-    "drawdownFromHighPct": 26.97,
+    "riseFromLowPct": 81.96,
+    "drawdownFromHighPct": 27.01,
     "high52w": 1073.46,
-    "low52w": 427.75
+    "low52w": 430.61
   },
   "priceStructureScore": {
     "score": 40,
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.82,
-    "percentileVsOwnHistory": 29.0
+    "pctNow": 2.68,
+    "percentileVsOwnHistory": 20.6
   }
 }
