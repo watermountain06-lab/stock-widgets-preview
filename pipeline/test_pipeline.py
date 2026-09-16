@@ -716,6 +716,60 @@ def test_valuation_render():
     check("valuation: section title and as-of wording",
           "현재가 $130.00 (2026.09.11 종가)" in out and "가격·기술지표·배수: " in out and "분석 문장·재무·앵커: " in out)
     check("valuation: re-running with the same price changes nothing", va.render(out, base, D("130"), "2026-09-11", []) == out)
+
+    # stage 2B-3: the target band. Today every card sits inside its band, so the branches that
+    # matter most - outside it, in a grey gap, exactly on a boundary, exactly at the target -
+    # are only reachable with synthetic prices.
+    band_html = (
+        '<div style="position:relative;height:70px;margin:28px 6px 6px;">\n'
+        '<div style="position:absolute;top:28px;left:0;right:0;height:10px;border-radius:5px;overflow:hidden;display:flex;">'
+        '<div style="width:20.0%;height:100%;background:rgba(46,204,113,0.45);"></div>'
+        '<div style="width:10.0%;height:100%;background:var(--bg3);"></div>'
+        '<div style="width:30.0%;height:100%;background:rgba(240,192,64,0.5);"></div>'
+        '<div style="width:10.0%;height:100%;background:var(--bg3);"></div>'
+        '<div style="width:30.0%;height:100%;background:rgba(231,76,60,0.45);"></div></div>\n'
+        '<div style="position:absolute;top:10px;left:25.0%;width:2px;height:28px;background:var(--gold);border-radius:1px;"></div>\n'
+        '<div style="position:absolute;top:-6px;left:25.0%;transform:translateX(-50%);font-size:11px;font-weight:800;'
+        'color:var(--gold);white-space:nowrap;">현재 $25.00</div>\n'
+        '<div style="position:absolute;top:22px;left:85.0%;width:2px;height:24px;background:var(--red);border-radius:1px;"></div>\n'
+        '<div style="position:absolute;top:48px;left:85.0%;transform:translateX(-50%);font-size:10px;font-weight:700;'
+        'color:var(--red);white-space:nowrap;">▲ 목표 $55.00 (+120.0%)</div>\n</div>\n'
+        '<div style="display:flex;justify-content:space-between;font-size:10.5px;"><span>Bear $10~20</span></div>\n'
+        '<div class="stat-box"><div class="stat-label">평균 목표주가</div>'
+        '<div class="stat-value gold" style="font-size:19px;">$55.00</div><div class="stat-sub">+120.0%</div></div>')
+    band_base = {"p0": "25.00", "cardAsOf": "2026-09-09", "metrics": [], "ticker": "ASML", "targetBand": {
+        "ranges": [["10", "20"], ["30", "40"], ["50", "60"]],
+        "intervals": [["10", "20"], ["20", "30"], ["30", "40"], ["40", "50"], ["50", "60"]],
+        "segments": ["20.0", "10.0", "30.0", "10.0", "30.0"],
+        "marker0": "25.0", "target": "55.00", "upside0": "+120.0", "frozen": False}}
+
+    def band(price):
+        return va.target_band(band_html, band_base, D(price), [])
+
+    b = band("35")
+    check("band: a price inside a range takes that range's colour and position",
+          "top:10px;left:45%;width:2px;height:28px;background:var(--gold)" in b and "현재 $35.00</div>" in b, b[-400:])
+    check("band: the target percentage follows the price, the target price does not",
+          "▲ 목표 $55.00 (+57.1%)" in b and "<div class=\"stat-sub\">+57.1%</div>" in b)
+    check("band: a price in a grey gap gets the neutral colour, not a valuation colour",
+          "background:var(--text3)" in band("25") and "left:25%" in band("25"))
+    check("band: an interval owns [low, high) so a boundary belongs to the segment above",
+          "left:20%;width:2px;height:28px;background:var(--text3)" in band("20"))
+    check("band: the last interval closes on its upper bound", "left:100%" in band("60"))
+    below, above = band("5"), band("65")
+    check("band: below the band hides the tick and says so at the left edge",
+          "left:0%" in below and "display:none;" in below and "· 밴드 아래" in below, below[-500:])
+    check("band: an edge reads the same whether the price is just inside or just outside",
+          "left:100%" in above and "display:none;" in above and "· 밴드 위" in above)
+    check("band: at the target neither arrow is true, so the marker is neutral",
+          "▶ 목표 $55.00 (+0.0%)" in band("55"))
+    check("band: a price above the target flips the arrow down", "▼ 목표 $55.00 (-8.3%)" in band("60"))
+    check("band: re-rendering at the same price changes nothing", va.target_band(b, band_base, D("35"), []) == b)
+    check("band: the result depends on today's price alone, not on the path",
+          va.target_band(b, band_base, D("52"), []) == band("52"))
+    check("band: a frozen band is left exactly as it was",
+          va.target_band(band_html, dict(band_base, targetBand=dict(band_base["targetBand"], frozen=True)),
+                         D("35"), []) == band_html)
     check("valuation: result depends on today's price only, not on the path",
           va.render(out, base, D("90"), "2026-09-12", []) == va.render(html, base, D("90"), "2026-09-12", []))
     # a card whose own label/colour for a stage isn't the standard one must get them back, whatever the path

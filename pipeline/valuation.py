@@ -71,9 +71,164 @@ def render(html, base, p1, session, notes):
         v1 = vb.value_at(rec, r)
         html = val_item(html, rec, v1, base.get("gradients") or {}, notes)
         html = multiple_data(html, rec, v1, r, p1, asof)
+    html = target_band(html, base, p1, notes)
     html = section_title(html, p1, session)
     html = summary_asof(html, asof)
     return asof_wording(html)
+
+
+# ---------- stage 2B-3: the target band ----------
+
+NEUTRAL = "var(--text3)"
+FAMILY_COLOUR = {"green": "var(--green)", "gold": "var(--gold)", "red": "var(--red)", "gap": NEUTRAL}
+# Anchored on each element's own markup, not on "the old left% appears twice": the marker
+# and target ticks can hold the same left%, and then replacing by value would move both.
+# top/height verified identical on all 66 cards; only the properties that change are rewritten,
+# so any per-card styling the audit did not cover survives.
+MARK_TICK = re.compile(r'(top:10px;left:)([\d.]+)(%;width:2px;height:28px;background:)(var\(--[a-z0-9]+\))(;border-radius:1px;)(display:none;)?')
+MARK_LABEL = re.compile(r'(top:-6px;left:)([\d.]+)(%;transform:translateX\(-50%\);[^"]*?color:)(var\(--[a-z0-9]+\))([^"]*">현재 \$)([\d,.]+)([^<]*)(</div>)')
+TGT_TICK = re.compile(r'top:22px;left:([\d.]+)%;width:2px;height:24px')
+TGT_LABEL = re.compile(r'(">)([▲▼▶])( 목표 \$)([\d,.]+)( ?\()([+\-−][\d.]+)(%\)</div>)')
+# The stat-box is addressed by the target price it shows, and the pill by its wording, because
+# neither may be found by the percentage this stage rewrites - after one render it is gone.
+STAT_BOX = re.compile(r'(class="stat-value[^"]*"[^>]*>\$)([\d,.]+)(</div>\s*<div class="stat-sub">[^<%]*?)([+\-−]\d+(?:\.\d+)?)%')
+PILL = re.compile(r'(<span style="[^"]*border-radius:999px;[^"]*">)([^<]*)(</span>)')
+PILL_UPSIDE = re.compile(r"컨센서스\s*(?:목표가|여력)")
+
+
+def band_families(band):
+    """green / gold / red for the Bear, Base and Bull ranges, "gap" for the grey strips between
+    them. Derived from the baseline so the colour never depends on what the card renders today."""
+    fams, i = [], 0
+    for pair in band["intervals"]:
+        if pair in band["ranges"]:
+            fams.append(["green", "gold", "red"][i])
+            i += 1
+        else:
+            fams.append("gap")
+    return fams
+
+
+def band_position(band, price):
+    """(left%, colour family) for a price, or (None, direction) when it is outside the band.
+    Intervals own [low, high); the last one closes on its upper bound."""
+    lo0, hi0 = Decimal(band["intervals"][0][0]), Decimal(band["intervals"][-1][1])
+    if price < lo0:
+        return None, "below"
+    if price > hi0:
+        return None, "above"
+    cum = Decimal(0)
+    last = len(band["intervals"]) - 1
+    for i, ((lo, hi), w, fam) in enumerate(zip(band["intervals"], band["segments"], band_families(band))):
+        lo, hi, w = Decimal(lo), Decimal(hi), Decimal(w)
+        if lo <= price < hi or (i == last and price == hi):
+            return q(cum + w * (price - lo) / (hi - lo), 1), fam
+        cum += w
+    return None, "above"  # unreachable while the segments cover the range
+
+
+def upside_text(target, p1):
+    """Signed 1dp percentage plus the arrow that is true of it. At the target neither arrow is,
+    so the marker is neutral and a -0.0% is normalised away."""
+    pct = q((target / p1 - 1) * 100, 1)
+    if pct == 0:
+        return "▶", "+0.0"
+    return ("▲" if pct > 0 else "▼"), f"{'+' if pct > 0 else ''}{pct}"
+
+
+# Stage 2B-3 pilot, four cards chosen to cover every markup variant: ASML a spaced target
+# label, AVGO a price in a grey gap, INTC a compound stat-sub, DE a header pill.
+BAND_TICKERS = {"ASML", "AVGO", "INTC", "DE"}  # None = every card with a baseline
+
+
+def target_band(html, base, p1, notes):
+    band = base.get("targetBand") or {}
+    if band.get("frozen") or not band.get("target"):
+        return html
+    if BAND_TICKERS is not None and base.get("ticker") not in BAND_TICKERS:
+        return html
+    open_m = list(re.finditer(r'<div style="position:relative;[^"]*">', html))
+    marks = [m for m in MARK_LABEL.finditer(html)]
+    if len(marks) != 1:
+        raise RenderError(f"target band marker label: expected 1, found {len(marks)}")
+    starts = [m.start() for m in open_m if m.start() < marks[0].start()]
+    if not starts:
+        raise RenderError("target band container not found before the marker")
+    blk_start = starts[-1]
+    cap = html.find("justify-content:space-between", marks[0].end())
+    if cap < 0 or cap - blk_start > 3000:
+        raise RenderError("target band caption row not found after the marker")
+    blk = html[blk_start:cap]
+
+    left, fam = band_position(band, p1)
+    colour = FAMILY_COLOUR[fam] if left is not None else NEUTRAL
+    # width_text drops a trailing ".0", so the edges are written the same way an in-band
+    # position of 0 or 100 would be - otherwise the same spot reads differently depending
+    # on whether the price is just inside the band or just outside it.
+    edge, suffix = ("0", " · 밴드 아래") if fam == "below" else ("100", " · 밴드 위")
+    pos = width_text(left) if left is not None else edge
+    hide = "" if left is not None else "display:none;"
+
+    blk = sub_one(MARK_TICK, blk, lambda x: f"{x.group(1)}{pos}{x.group(3)}{colour}{x.group(5)}{hide}", "band marker tick")
+    blk = sub_one(MARK_LABEL, blk,
+                  lambda x: (f"{x.group(1)}{pos}{x.group(3)}{colour}{x.group(5)}{num(p1, 2, True)}"
+                             f"{'' if left is not None else suffix}{x.group(8)}"), "band marker label")
+    arrow, pct = upside_text(Decimal(band["target"]), p1)
+    blk = sub_one(TGT_LABEL, blk, lambda x: f"{x.group(1)}{arrow}{x.group(3)}{x.group(4)}{x.group(5)}{pct}{x.group(7)}",
+                  "band target label")
+
+    tgt = TGT_TICK.search(blk)
+    want, _ = band_position(band, Decimal(band["target"]))
+    if tgt and want is not None and abs(Decimal(tgt.group(1)) - want) > Decimal("0.3"):
+        raise RenderError(f"band target tick at {tgt.group(1)}% but the baseline puts {band['target']} at {want}%")
+    if left is None:
+        notes.append(f"price ${num(p1, 2, True)} is {fam} the target band "
+                     f"(${band['intervals'][0][0]}~${band['intervals'][-1][1]}) - marker hidden")
+    html = html[:blk_start] + blk + html[cap:]
+    html = band_stat_box(html, band, pct)
+    return band_pill(html, pct)
+
+
+def band_stat_box(html, band, pct):
+    """The stat-box beside the band restates the same upside. It is found by the target price it
+    shows - a value this stage never rewrites - and not by yesterday's percentage, which would be
+    unfindable after the first render. Only the leading percentage token is replaced: 11 cards
+    carry extra context after it, and LRCX and QCOM carry a SECOND percentage that means
+    something else. CRM puts words before its percentage ("현재가 대비 +10.4% · 56명 · Buy"), so the
+    leading token is the first percentage inside the row rather than the row's first character.
+    All 66 in-scope cards carry this box, so finding none is a failure and never a quiet skip."""
+    target = Decimal(band["target"])
+    hits = []
+    for m in STAT_BOX.finditer(html):
+        try:
+            shown = Decimal(m.group(2).replace(",", ""))
+        except ArithmeticError:
+            continue
+        if abs(shown - target) <= Decimal("0.5"):
+            hits.append(m)
+    if len(hits) != 1:
+        raise RenderError(f"band stat-box: expected 1 for target {band['target']}, found {len(hits)}")
+    m = hits[0]
+    return html[:m.start(4)] + pct + html[m.end(4):]
+
+
+def band_pill(html, pct):
+    """DE, TMUS and VZ repeat the upside in a header pill, each with its own wording. The pill is
+    anchored on its wording rather than on the number, for the same reason as the stat-box - but
+    on 컨센서스 목표가/여력 specifically, not on 컨센서스 alone: CSCO's pill reads
+    "FY27 가이던스 컨센서스 대폭 상회" and its one percentage is revenue growth, which the looser
+    anchor would have overwritten with the target upside."""
+    hits = [m for m in PILL.finditer(html) if PILL_UPSIDE.search(m.group(2))]
+    if not hits:
+        return html
+    if len(hits) != 1:
+        raise RenderError(f"band header pill: expected 1, found {len(hits)}")
+    m = hits[0]
+    pcts = list(re.finditer(r"[+\-−]\d+(?:\.\d+)?%", m.group(2)))
+    if len(pcts) != 1:
+        raise RenderError(f"band header pill: expected 1 percentage, found {len(pcts)}")
+    start = m.start(2) + pcts[0].start()
+    return html[:start] + pct + "%" + html[start + pcts[0].end() - pcts[0].start():]
 
 
 SUMMARY_ASOF_STYLE = "font-size:11px;font-weight:400;color:var(--text3);"
