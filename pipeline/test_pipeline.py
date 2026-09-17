@@ -490,8 +490,18 @@ def test_card_updater():
               arrays["DAILY"]["tokens"][-1].startswith(f"[{q}{d}{q}"), arrays["DAILY"]["tokens"][-1])
         check(f"{tk}: header shows the new close", f'<div class="price-main">{uc.money(c)}</div>' in html)
         check(f"{tk}: as-of label inserted once", html.count('class="asof-line"') == 1)
-        check(f"{tk}: key-levels title carries the analysis date once",
-              html.count('class="levels-asof"') == 1 and "분석 기준)</span></div>" in html)
+        # The title says which day the levels are from: the analysis date while the box is left
+        # alone, today's close once its rows are recomputed. Read through the box's own container,
+        # never a character window - zone-item and ladder-item also appear in other lists below.
+        ki = html.find("핵심 가격대")
+        opener = re.search(r'<div class="(zone-list|price-ladder)">', html[ki:ki + 2000])
+        box = html[ki + opener.start():uc.close_div(html, ki + opener.start())]
+        named = [l for l in re.findall(r'(?:zone-label|ladder-label)">([^<]*)</span>', box)]
+        refreshed = bool(named) and all(uc.level_kind(l) not in ("ambiguous", "other") for l in named)
+        want = "종가 기준)</span></div>" if refreshed else "분석 기준)</span></div>"
+        check(f"{tk}: key-levels title says which day its levels are from",
+              html.count('class="levels-asof"') == 1 and want in html,
+              (refreshed, html[html.find('class="levels-asof"'):][:120]))
         check(f"{tk}: tech state saved for the new session",
               json.loads((state / f"{tk}.json").read_text(encoding="utf-8"))["asOf"] == d)
 

@@ -390,6 +390,156 @@ def render_flags(html, wanted, notes):
     return html
 
 
+# --- key-levels box (stage 2C) ---------------------------------------------
+# Two markups for the same box: 46 cards use zone-item, 24 use ladder-item. Both are
+# uniform - one shape each across every item - so a row can be rewritten in place.
+# A ladder item holds one self-closing dot div and then spans, so its own close is never adjacent
+# to an inner one: a "</div>\s*</div>" pattern finds a single item per ladder box instead of the
+# three to five it has, and every ladder card then looks like it has too few rows to touch. Items
+# are found by their opening tag and closed by depth, which resolves on all 70 cards in both
+# markups, with spans that never overlap and exactly one label each.
+ITEM_START = re.compile(r'<div class="(?:zone-item|ladder-item)">')
+ROW_LABEL = re.compile(r'(?:zone-label|ladder-label)">([^<]*)</span>')
+ROW_VALUE = re.compile(r'((?:zone-val|ladder-value)"[^>]*>)\$([\d,.]+)(</span>)')
+ROW_META = re.compile(r'((?:zone-tag [a-z-]+|ladder-meta)">)([^<]*)(</span>)')
+ROW_COLOUR = re.compile(r'(?:background|color):var\(--([a-z0-9]+)\)')
+MA_IDENTITY = {"ma5", "ma20", "ma60", "ma120"}
+EXTREME_HIGH = ("최고",)
+EXTREME_WORDS = ("52주 최고", "52주 최저", "사상 최고",
+                 "상장이후 최고", "상장이후 최저", "상장 이후 최고", "상장 이후 최저")
+# a claim about nearness cannot survive a price move; the owner chose to drop it and keep the role
+NEARNESS = [r"\(근소\)", r"\(현재가와 근접\)", r"\(근접\)", r"최근접\s*", r"근접\s*", r"현재가[^·]*·\s*"]
+
+
+def close_div(html, start):
+    """End index of the <div> opening at `start`, by depth counting.
+
+    The box's own container is the only safe boundary. zone-item and ladder-item also appear in
+    other lists further down a card - 46 of the 70 carry seven to nine of them - so bounding the
+    box by a character window silently rewrites rows belonging to a different box. Closed by
+    depth, every card resolves to the three to five rows the box actually has.
+    """
+    depth = 0
+    for m in re.finditer(r"<div\b|</div>", html[start:]):
+        depth += 1 if m.group(0) != "</div>" else -1
+        if depth == 0:
+            return start + m.end()
+    return None
+
+
+def level_kind(label):
+    label = label.strip()
+    if label == "현재가":
+        return "current"
+    if any(k in label for k in ("최근접", "밀집")):
+        return "ambiguous"
+    if any(k in label for k in EXTREME_WORDS):
+        return "extreme"
+    return "ma" if re.search(r"MA\s*\d+", label) else "other"
+
+
+def drop_nearness(text):
+    for pat in NEARNESS:
+        text = re.sub(pat, "", text)
+    return text.strip(" ·")
+
+
+def say_role(text, role):
+    """The card's own vocabulary kept - 강지지/지지선/장기 지지선 - only the direction moves."""
+    want, other = ("저항", "지지") if role == "resist" else ("지지", "저항")
+    return text.replace(other, want)
+
+
+def key_levels(html, close, w, ma_last, notes):
+    """Recompute the box's values, roles, colours and order from today's close.
+
+    Eligibility is decided from the card, not a ticker list, so it cannot go stale: a box holding
+    a row whose label names a role rather than a source ("최근접 지지", "MA 지지 밀집") is left
+    untouched, because refreshing its neighbours would leave that row claiming a nearness it no
+    longer has. An extreme row takes its value and date from its own label, never from the role -
+    a 52주 최고 row stays the high even on a day the price is above it.
+    """
+    i = html.find("핵심 가격대")
+    if i < 0:
+        return html, False
+    opener = re.search(r'<div class="(zone-list|price-ladder)">', html[i:i + 2000])
+    if not opener:
+        notes.append("key levels left as they were - no zone-list or price-ladder after the title")
+        return html, False
+    start = i + opener.start()
+    end = close_div(html, start)
+    if end is None:
+        notes.append("key levels left as they were - the box's container never closes")
+        return html, False
+    box = html[start:end]
+    items = [(m.start(), close_div(box, m.start())) for m in ITEM_START.finditer(box)]
+    if not items or any(en is None for _, en in items):
+        notes.append("key levels left as they were - the box's rows could not be read")
+        return html, False
+    labels = [ROW_LABEL.search(box[st:en]) for st, en in items]
+    if not all(labels):
+        notes.append("key levels left as they were - a row carries no label")
+        return html, False
+    kinds = [level_kind(l.group(1)) for l in labels]
+    blocked = {l.group(1).strip() for l, k in zip(labels, kinds) if k in ("ambiguous", "other")}
+    if blocked:
+        notes.append(f"key levels left as they were - {', '.join(sorted(blocked))} names a role, not a source")
+        return html, False
+
+    rebuilt = []
+    for (st, en), label, kind in zip(items, labels, kinds):
+        body, name = box[st:en], label.group(1).strip()
+        if kind == "current":
+            value, role = Decimal(str(close)), "current"
+        elif kind == "extreme":
+            high = any(k in name for k in EXTREME_HIGH)
+            value = Decimal(str(w["hi"] if high else w["lo"]))
+            role = "resist" if value > Decimal(str(close)) else "support"
+        else:
+            period = re.search(r"MA\s*(\d+)", name).group(1)
+            if f"MA{period}" not in ma_last:
+                raise EditError(f"key levels name MA{period}, which the card has no array for")
+            value = Decimal(str(ma_last[f"MA{period}"]))
+            role = "resist" if value > Decimal(str(close)) else "support"
+
+        new_label = drop_nearness(name)
+        if kind == "ma" and re.search(r"지지|저항", new_label):
+            new_label = say_role(new_label, role)
+        body = body.replace(f'>{name}</span>', f'>{new_label}</span>', 1)
+        body = ROW_VALUE.sub(lambda x: f"{x.group(1)}{money(float(value))}{x.group(3)}", body, count=1)
+
+        def fix_meta(x):
+            text = drop_nearness(x.group(2))
+            if "고점 대비" in text:
+                text = re.sub(r"-?[\d.]+%", f"{(close / w['hi'] - 1) * 100:.1f}%", text)
+            elif kind == "extreme":
+                text = re.sub(r"\d{4}\.\d{2}\.\d{2}",
+                              dot(w["hi_date"] if any(k in name for k in EXTREME_HIGH) else w["lo_date"]), text)
+            if role != "current":
+                text = say_role(text, role)
+                if re.fullmatch(r"지지|저항", text):
+                    text += "선"
+            tag = x.group(1)
+            if "zone-tag" in tag and role != "current":
+                tag = re.sub(r"tag-(resist|support)", "tag-resist" if role == "resist" else "tag-support", tag)
+            return f"{tag}{text}{x.group(3)}"
+        body = ROW_META.sub(fix_meta, body, count=1)
+
+        want = {"current": "gold", "resist": "red", "support": "green"}[role]
+        body = ROW_COLOUR.sub(lambda x: x.group(0).replace(x.group(1), x.group(1) if x.group(1)
+                                                           in MA_IDENTITY else want), body)
+        rebuilt.append((value, body))
+
+    if len(rebuilt) < 2:
+        notes.append(f"key levels left as they were - only {len(rebuilt)} row(s) read from the box")
+        return html, False
+    gap = box[items[0][1]:items[1][0]]
+    fresh = (box[:items[0][0]]
+             + gap.join(b for _, b in sorted(rebuilt, key=lambda r: -r[0]))
+             + box[items[-1][1]:])
+    return (html if fresh == box else html[:start] + fresh + html[end:]), True
+
+
 def render(html, ticker, tokens, tech, breakout, shares, card_asof, notes, ma_last):
     bars = [bar_values(t) for t in tokens]
     last, prev = bars[-1], bars[-2]
@@ -462,11 +612,13 @@ def render(html, ticker, tokens, tech, breakout, shares, card_asof, notes, ma_la
     if n != html.count('<div class="ma-row">'):
         raise EditError(f"MA box: {html.count('<div class=\"ma-row\">')} rows, {n} in the expected format")
 
-    # --- key-levels box: its levels are hand-picked per card, so it isn't
-    # recomputed - its title just says which day the analysis was written ---
+    # --- key-levels box ---
+    html, levels_moved = key_levels(html, close, w, ma_last, notes)
     levels = re.compile(r'(<div class="card-title">핵심 가격대[^<]*?)(?:<span class="levels-asof"[^>]*>[^<]*</span>)?(</div>)')
+    stamp = (f'가격 레벨: {dot(last[0])} 종가 기준' if levels_moved
+             else f'{dot(card_asof)} 분석 기준')
     html, n = levels.subn(lambda m: f'{m.group(1)}<span class="levels-asof" style="{LEVELS_ASOF_STYLE}">'
-                                    f'({dot(card_asof)} 분석 기준)</span>{m.group(2)}', html)
+                                    f'({stamp})</span>{m.group(2)}', html)
     if n != 1:
         raise EditError(f"핵심 가격대 title: expected 1 match, found {n}")
 
