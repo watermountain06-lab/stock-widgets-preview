@@ -189,6 +189,18 @@ def check_stocks(data, r):
         r.err(f"card files vs tickers mismatch: only cards {sorted(cards - hrefs)}, "
               f"only data {sorted(hrefs - cards)}")
 
+    # index.html builds each icon's src as logos/<ticker>.png in JS. A missing
+    # file used to render as an empty 32px box with no error of any kind: PEP,
+    # SCHW, DIS and DE sat blank from the day they were built because their
+    # logos had been added to the redesign repo and never copied back here.
+    # The page now falls back to the ticker text, and this makes it loud.
+    logos = {p.name.lower() for p in (ROOT / "logos").glob("*.png")}
+    no_logo = sorted(t["ticker"] for t in tickers
+                     if isinstance(t.get("ticker"), str)
+                     and f"{t['ticker'].lower()}.png" not in logos)
+    if no_logo:
+        r.err(f"no logos/<ticker>.png for: {no_logo}")
+
 
 def check_tier_history(path, r):
     if not path.exists():
