@@ -692,6 +692,56 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     return "updated", bars[-1][0], counts, notes, html, tech
 
 
+STATED_WAVG = re.compile(r"가중평균\s*([\d.]+)\s*/\s*5")
+
+
+def wavg_report(html, base_path):
+    """Does the card still support the 가중평균 its own prose states?
+
+    Stage 2B-2 moves every metric's badge with the price; the sentence quoting the average
+    of those badges does not move, so a card can end up contradicting itself. Rewriting that
+    sentence was tried by hand on 2026-09-16 and 7 of the 12 cards drifted again within one
+    session, so this only reports - the number is prose, and the 7-tier grade it once fed is
+    a judgement a script may not touch.
+
+    Weights come from the baseline, which is what val_item carries across a stage change. If
+    the badge text disagrees with it, no average is computed: the number would then be this
+    function's own parsing artifact rather than the card's contradiction.
+    """
+    if not base_path.exists():
+        return None
+    m = STATED_WAVG.search(re.sub(r"<[^>]+>", "", html))
+    if not m:
+        return None
+    base = json.loads(base_path.read_text(encoding="utf-8"))
+    weight = {r["metric"]: (r.get("weight") or 0.0) for r in base["metrics"]}
+    stage0 = {r["metric"]: r.get("stage0") for r in base["metrics"] if r.get("stage0") is not None}
+    shown = {}
+    for r in valuation.vb.ROW.finditer(html):
+        g = r.groupdict()
+        if g["stage"]:
+            w = re.search(r"가중치\s*([\d.]+)", (g["badge"] or "") + (g["name"] or ""))
+            shown[g["metric"]] = (int(g["stage"]), float(w.group(1)) if w else 1.0)
+    stated = float(m.group(1))
+    if set(shown) != set(stage0) or any(w != (weight.get(k) or 1.0) for k, (_, w) in shown.items()):
+        return {"class": "weight-disagreement", "stated": stated}
+
+    def avg(stages):
+        den = sum(weight.get(k) or 1.0 for k in stages)
+        return sum(s * (weight.get(k) or 1.0) for k, s in stages.items()) / den if den else None
+
+    now = avg({k: s for k, (s, _) in shown.items()})
+    if now is None:
+        return None
+    places = len(m.group(1).split(".")[1]) if "." in m.group(1) else 0
+    if round(now, places) == stated:   # compared at the precision the sentence itself claims
+        return None
+    then = avg(stage0)
+    kind = "drift" if then is not None and round(then, places) == stated else "legacy"
+    return {"class": kind, "stated": stated, "now": round(now, 2),
+            "atBaseline": round(then, 2) if then is not None else None}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--tickers", default=None, help="comma-separated subset (pilot)")
@@ -758,6 +808,14 @@ def main():
             "lastUpdated": (datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
                             if st == "updated" and args.write else prev.get("lastUpdated")),
         }
+        # Reporting only, and outside update_card's transaction: a card whose prose average no
+        # longer matches its badges is still a card worth publishing, and a held or unchanged
+        # card can carry the same contradiction. health_check.py warns when the class changes.
+        card_html = html if html is not None else (path.read_text(encoding="utf-8") if path.exists() else None)
+        wavg = wavg_report(card_html, Path(args.valuation_dir) / f"{t}.json") if card_html else None
+        if wavg:
+            wavg["changed"] = wavg["class"] != (prev.get("weightedAverage") or {}).get("class")
+            status["cards"][t]["weightedAverage"] = wavg
 
     summary = {s: sum(1 for r in results.values() if r[0] == s) for s in ("updated", "unchanged", "held", "failed")}
     print(f"summary: {summary}")

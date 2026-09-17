@@ -566,6 +566,28 @@ def test_card_updater():
     check("on Actions that warning becomes an annotation instead",
           "::warning::card ANET" in hc.stdout and "WARNING: card ANET" not in hc.stdout, hc.stdout)
 
+    # A 가중평균 disagreement is a standing condition on several cards, so repeating every one of
+    # them nightly would be tuned out: only a card that changed class is worth a line.
+    wa = json.loads(status.read_text(encoding="utf-8"))
+    wa["cards"]["ANET"]["weightedAverage"] = {"class": "legacy", "stated": 4.6, "now": 3.8,
+                                              "atBaseline": 4.2, "changed": True}
+    wa["cards"]["KO"]["weightedAverage"] = {"class": "legacy", "stated": 2.4, "now": 2.33,
+                                            "atBaseline": 2.33, "changed": False}
+    wa["cards"]["BAC"]["weightedAverage"] = {"class": "weight-disagreement", "stated": 3.0, "changed": True}
+    wa_status = tmp / "card_status_wavg.json"
+    wa_status.write_text(json.dumps(wa, ensure_ascii=False), encoding="utf-8")
+    hc = run("health_check.py", "--stocks", str(stocks), "--macro", str(macro), "--cards", str(wa_status),
+             "--now", now, env={"GITHUB_ACTIONS": None})
+    failed_part = hc.stdout.split("HEALTH CHECK FAILED")[-1]
+    check("가중평균: only a card that changed class is reported",
+          "WARNING: card ANET: 가중평균 legacy" in hc.stdout and "card KO: 가중평균" not in hc.stdout, hc.stdout)
+    check("가중평균: a weight disagreement says so instead of quoting an average",
+          "card BAC: 가중평균 weight-disagreement" in hc.stdout
+          and "badge weights disagree" in hc.stdout, hc.stdout)
+    check("가중평균: the standing set is counted, not listed",
+          "가중평균 disagreeing with their own badges: 3 (legacy 2, weight-disagreement 1)" in hc.stdout, hc.stdout)
+    check("가중평균: a disagreement never fails the run", "가중평균" not in failed_part, hc.stdout)
+
 
 def test_card_units():
     """Pieces of update_cards.py that fixtures can't easily reach."""
@@ -770,6 +792,42 @@ def test_valuation_render():
     check("band: a frozen band is left exactly as it was",
           va.target_band(band_html, dict(band_base, targetBand=dict(band_base["targetBand"], frozen=True)),
                          D("35"), []) == band_html)
+
+    # The 가중평균 detector. The badges feeding that sentence move daily and the sentence does
+    # not, so the card can contradict itself; this only reports, and must tell a stale sentence
+    # (legacy) apart from one the daily update walked away from (drift).
+    import update_cards as uc
+    wd = Path(tempfile.mkdtemp())
+
+    def wbase(stage0, weight):
+        p = wd / f"W{stage0}{weight}.json"
+        p.write_text(json.dumps({"ticker": "W", "metrics": [
+            {"metric": "per", "stage0": stage0, "weight": weight}]}), encoding="utf-8")
+        return p
+
+    def wcard(stated, stage=3):
+        return (html.replace("stage-badge stage-3\">3단계 적정(가중치 0.5)",
+                             f"stage-badge stage-{stage}\">{stage}단계 적정(가중치 0.5)")
+                + f'<div class="box-key">다섯 지표 가중평균 {stated}/5단계가 나왔다</div>')
+
+    check("가중평균: a card its badges still support says nothing",
+          uc.wavg_report(wcard("3.00"), wbase(3, 0.5)) is None)
+    r = uc.wavg_report(wcard("2.50"), wbase(3, 0.5))
+    check("가중평균: a sentence its badges never supported is legacy",
+          r and r["class"] == "legacy" and r["now"] == 3.0 and r["atBaseline"] == 3.0, r)
+    r = uc.wavg_report(wcard("3.00", stage=5), wbase(3, 0.5))
+    check("가중평균: matched at the baseline and left behind by a badge move is drift",
+          r and r["class"] == "drift" and r["now"] == 5.0 and r["atBaseline"] == 3.0, r)
+    r = uc.wavg_report(wcard("3.00"), wbase(3, 1.0))
+    check("가중평균: a badge weight the baseline disagrees with reports that, and no average",
+          r and r["class"] == "weight-disagreement" and "now" not in r, r)
+    check("가중평균: a card stating no average is not reported",
+          uc.wavg_report(html, wbase(3, 0.5)) is None)
+    check("가중평균: a ticker with no baseline yet is not reported",
+          uc.wavg_report(wcard("2.50"), wd / "absent.json") is None)
+    check("가중평균: the comparison uses the precision the sentence itself claims",
+          uc.wavg_report(wcard("3"), wbase(3, 0.5)) is None
+          and uc.wavg_report(wcard("3.0"), wbase(3, 0.5)) is None)
     check("valuation: result depends on today's price only, not on the path",
           va.render(out, base, D("90"), "2026-09-12", []) == va.render(html, base, D("90"), "2026-09-12", []))
     # a card whose own label/colour for a stage isn't the standard one must get them back, whatever the path

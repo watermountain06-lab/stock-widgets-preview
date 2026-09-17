@@ -36,6 +36,7 @@ import argparse
 import json
 import os
 import sys
+from collections import Counter
 from datetime import date, datetime, time as dtime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -104,7 +105,7 @@ def main():
 
     now_et = datetime.fromisoformat(args.now).astimezone(ET) if args.now else datetime.now(ET)
     stocks = json.loads(Path(args.stocks).read_text(encoding="utf-8"))
-    problems, warnings = [], []
+    problems, warnings, wavg_standing = [], [], []
 
     stale, warn = session_age(stocks.get("priceSession"), now_et)
     if stale:
@@ -143,6 +144,16 @@ def main():
                 why = "; ".join(c.get("reasons", []))
                 if NO_BASELINE in why:  # also on a card that updated cleanly otherwise
                     warnings.append(f"card {tk}: {why}")
+                wa = c.get("weightedAverage")
+                if wa:
+                    # The standing set is counted below, not listed: nine cards repeating the same
+                    # line every night is noise that gets tuned out. Only a card that changed class
+                    # - started disagreeing, or changed why - is worth reading.
+                    wavg_standing.append(f"{tk} {wa['class']}")
+                    if wa.get("changed"):
+                        detail = (f"states {wa['stated']}, its badges give {wa['now']}"
+                                  if wa.get("now") is not None else "badge weights disagree with the baseline")
+                        warnings.append(f"card {tk}: 가중평균 {wa['class']} - {detail}")
                 if c["status"] not in ("failed", "held"):
                     continue
                 card_lines.append(f"{tk} {c['status']}: {why}")
@@ -157,6 +168,10 @@ def main():
         print(f"cards: {len(card_lines)} held or failed")
         for line in card_lines:
             print(f"  - {line}")
+        if wavg_standing:
+            kinds = Counter(s.split()[-1] for s in wavg_standing)
+            print(f"가중평균 disagreeing with their own badges: {len(wavg_standing)} "
+                  f"({', '.join(f'{k} {n}' for k, n in sorted(kinds.items()))})")
     for w in warnings:
         # an annotation on Actions, so a warning shows on the run page without an email
         print(f"::warning::{w}" if os.environ.get("GITHUB_ACTIONS") else f"WARNING: {w}")

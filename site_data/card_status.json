@@ -21,10 +21,17 @@
       "lastUpdated": "2026-09-17T12:03:22Z"
     },
     "ANET": {
-      "status": "updated",
+      "status": "unchanged",
       "reasons": [],
       "lastBar": "2026-09-16",
-      "lastUpdated": "2026-09-17T12:03:35Z"
+      "lastUpdated": "2026-09-17T12:03:35Z",
+      "weightedAverage": {
+        "class": "drift",
+        "stated": 3.9,
+        "now": 4.12,
+        "atBaseline": 3.88,
+        "changed": false
+      }
     },
     "GOOGL": {
       "status": "updated",
@@ -197,7 +204,7 @@
       "lastUpdated": "2026-09-17T12:03:28Z"
     },
     "KO": {
-      "status": "updated",
+      "status": "unchanged",
       "reasons": [],
       "lastBar": "2026-09-16",
       "lastUpdated": "2026-09-17T12:03:28Z"
@@ -347,10 +354,17 @@
       "lastUpdated": "2026-09-17T12:03:38Z"
     },
     "VZ": {
-      "status": "updated",
+      "status": "unchanged",
       "reasons": [],
       "lastBar": "2026-09-16",
-      "lastUpdated": "2026-09-17T12:03:38Z"
+      "lastUpdated": "2026-09-17T12:03:38Z",
+      "weightedAverage": {
+        "class": "legacy",
+        "stated": 4.6,
+        "now": 3.8,
+        "atBaseline": 4.2,
+        "changed": false
+      }
     },
     "AMGN": {
       "status": "updated",
@@ -426,9 +440,16 @@
       "status": "unchanged",
       "reasons": [],
       "lastBar": "2026-09-16",
-      "lastUpdated": "2026-09-17T11:25:14Z"
+      "lastUpdated": "2026-09-17T11:25:14Z",
+      "weightedAverage": {
+        "class": "drift",
+        "stated": 4.5,
+        "now": 4.33,
+        "atBaseline": 4.5,
+        "changed": false
+      }
     }
   },
   "priceSession": "2026-09-16",
-  "generatedAt": "2026-09-17T12:03:43Z"
+  "generatedAt": "2026-09-17T15:12:25Z"
 }
