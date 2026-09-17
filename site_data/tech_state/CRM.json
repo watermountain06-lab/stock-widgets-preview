@@ -1,7 +1,7 @@
 {
   "ticker": "CRM",
-  "asOf": "2026-09-16",
-  "close": 250.54,
+  "asOf": "2026-09-17",
+  "close": 242.85,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 30,
     "max": 40,
-    "weightedRocPct": 27.4
+    "weightedRocPct": 27.03
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 71.23,
-    "drawdownFromHighPct": 6.9,
+    "riseFromLowPct": 65.97,
+    "drawdownFromHighPct": 9.76,
     "high52w": 269.11,
     "low52w": 146.32
   },
@@ -38,14 +38,10 @@
   "rawScore": 70,
   "rawGrade": "긍정적",
   "displayGrade": "긍정적",
-  "riskFlags": [
-    "변동성급증(자체이력대비)"
-  ],
-  "riskFlagsShown": [
-    "변동성급증(자체이력대비)"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 4.98,
-    "percentileVsOwnHistory": 91.3
+    "pctNow": 3.97,
+    "percentileVsOwnHistory": 50.0
   }
 }

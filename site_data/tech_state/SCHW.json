@@ -1,7 +1,7 @@
 {
   "ticker": "SCHW",
-  "asOf": "2026-09-16",
-  "close": 105.16,
+  "asOf": "2026-09-17",
+  "close": 104.63,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 11.89
+    "weightedRocPct": 11.67
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 25.25,
-    "drawdownFromHighPct": 8.18,
+    "riseFromLowPct": 24.62,
+    "drawdownFromHighPct": 8.64,
     "high52w": 114.53,
     "low52w": 83.96
   },
@@ -45,7 +45,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.04,
-    "percentileVsOwnHistory": 29.4
+    "pctNow": 2.02,
+    "percentileVsOwnHistory": 27.0
   }
 }

@@ -1,7 +1,7 @@
 {
   "ticker": "PANW",
-  "asOf": "2026-09-16",
-  "close": 375.65,
+  "asOf": "2026-09-17",
+  "close": 375.06,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 40,
     "max": 40,
-    "weightedRocPct": 74.61
+    "weightedRocPct": 75.2
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 169.15,
-    "drawdownFromHighPct": 5.82,
+    "riseFromLowPct": 168.73,
+    "drawdownFromHighPct": 5.97,
     "high52w": 398.88,
     "low52w": 139.57
   },
@@ -38,14 +38,10 @@
   "rawScore": 100,
   "rawGrade": "강한",
   "displayGrade": "강한",
-  "riskFlags": [
-    "변동성급증(자체이력대비)"
-  ],
-  "riskFlagsShown": [
-    "변동성급증(자체이력대비)"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 5.78,
-    "percentileVsOwnHistory": 95.2
+    "pctNow": 5.3,
+    "percentileVsOwnHistory": 88.1
   }
 }

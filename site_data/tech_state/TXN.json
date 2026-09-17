@@ -1,17 +1,17 @@
 {
   "ticker": "TXN",
-  "asOf": "2026-09-16",
-  "close": 260.67,
+  "asOf": "2026-09-17",
+  "close": 258.14,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
   "insufficientHistory": false,
   "momentumUnavailable": false,
   "trendStructure": {
-    "score": 40,
+    "score": 30,
     "max": 40,
     "conditions": {
-      "close>ma150_and_close>ma200": true,
+      "close>ma150_and_close>ma200": false,
       "ma150>ma200": true,
       "ma200>ma200_21d_ago": true,
       "ma50>ma150_and_ma50>ma200": true
@@ -20,22 +20,22 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 19.23
+    "weightedRocPct": 19.34
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 70.67,
-    "drawdownFromHighPct": 21.96,
+    "riseFromLowPct": 69.02,
+    "drawdownFromHighPct": 22.72,
     "high52w": 334.03,
     "low52w": 152.73
   },
   "priceStructureScore": {
-    "score": 55,
+    "score": 45,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 75,
+  "rawScore": 65,
   "rawGrade": "긍정적",
   "displayGrade": "긍정적",
   "riskFlags": [
@@ -45,7 +45,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 3.08,
-    "percentileVsOwnHistory": 46.8
+    "pctNow": 3.2,
+    "percentileVsOwnHistory": 55.6
   }
 }

@@ -1,7 +1,7 @@
 {
   "ticker": "PEP",
-  "asOf": "2026-09-16",
-  "close": 134.34,
+  "asOf": "2026-09-17",
+  "close": 133.66,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,15 +20,15 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -9.12
+    "weightedRocPct": -8.06
   },
   "position52w": {
     "score": 5,
     "max": 20,
-    "riseFromLowPct": 0.46,
-    "drawdownFromHighPct": 21.66,
+    "riseFromLowPct": 0.55,
+    "drawdownFromHighPct": 22.06,
     "high52w": 171.48,
-    "low52w": 133.73
+    "low52w": 132.93
   },
   "priceStructureScore": {
     "score": 5,
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.49,
-    "percentileVsOwnHistory": 9.5
+    "pctNow": 1.47,
+    "percentileVsOwnHistory": 9.1
   }
 }

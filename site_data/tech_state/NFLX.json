@@ -1,7 +1,7 @@
 {
   "ticker": "NFLX",
-  "asOf": "2026-09-16",
-  "close": 76.41,
+  "asOf": "2026-09-17",
+  "close": 75.31,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 0,
     "max": 40,
-    "weightedRocPct": -16.21
+    "weightedRocPct": -16.34
   },
   "position52w": {
     "score": 5,
     "max": 20,
-    "riseFromLowPct": 17.41,
-    "drawdownFromHighPct": 38.8,
+    "riseFromLowPct": 15.72,
+    "drawdownFromHighPct": 39.68,
     "high52w": 124.86,
     "low52w": 65.08
   },
@@ -40,14 +40,15 @@
   "displayGrade": "약한",
   "riskFlags": [
     "장기추세이탈",
-    "고점대비큰조정"
+    "고점대비큰조정",
+    "단기추세이탈"
   ],
   "riskFlagsShown": [
     "장기추세이탈",
     "고점대비큰조정"
   ],
   "atr": {
-    "pctNow": 2.96,
-    "percentileVsOwnHistory": 54.0
+    "pctNow": 2.95,
+    "percentileVsOwnHistory": 52.8
   }
 }

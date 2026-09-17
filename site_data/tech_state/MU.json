@@ -1,7 +1,7 @@
 {
   "ticker": "MU",
-  "asOf": "2026-09-16",
-  "close": 926.55,
+  "asOf": "2026-09-17",
+  "close": 977.5,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,32 +20,28 @@
   "momentum": {
     "score": 40,
     "max": 40,
-    "weightedRocPct": 170.75
+    "weightedRocPct": 185.23
   },
   "position52w": {
-    "score": 10,
+    "score": 15,
     "max": 20,
-    "riseFromLowPct": 499.13,
-    "drawdownFromHighPct": 26.17,
+    "riseFromLowPct": 532.07,
+    "drawdownFromHighPct": 22.11,
     "high52w": 1255.0,
     "low52w": 154.65
   },
   "priceStructureScore": {
-    "score": 50,
+    "score": 55,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 90,
+  "rawScore": 95,
   "rawGrade": "강한",
   "displayGrade": "강한",
-  "riskFlags": [
-    "고점대비큰조정"
-  ],
-  "riskFlagsShown": [
-    "고점대비큰조정"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 4.65,
-    "percentileVsOwnHistory": 13.1
+    "pctNow": 4.39,
+    "percentileVsOwnHistory": 7.5
   }
 }

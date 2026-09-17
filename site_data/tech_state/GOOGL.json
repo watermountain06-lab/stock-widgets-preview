@@ -1,7 +1,7 @@
 {
   "ticker": "GOOGL",
-  "asOf": "2026-09-16",
-  "close": 342.87,
+  "asOf": "2026-09-17",
+  "close": 347.33,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,32 +20,28 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 8.22
+    "weightedRocPct": 10.96
   },
   "position52w": {
-    "score": 15,
+    "score": 20,
     "max": 20,
-    "riseFromLowPct": 45.38,
-    "drawdownFromHighPct": 16.09,
+    "riseFromLowPct": 47.27,
+    "drawdownFromHighPct": 15.0,
     "high52w": 408.61,
     "low52w": 235.84
   },
   "priceStructureScore": {
-    "score": 55,
+    "score": 60,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 75,
+  "rawScore": 80,
   "rawGrade": "긍정적",
   "displayGrade": "긍정적",
-  "riskFlags": [
-    "단기추세이탈"
-  ],
-  "riskFlagsShown": [
-    "단기추세이탈"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.25,
-    "percentileVsOwnHistory": 17.9
+    "pctNow": 2.28,
+    "percentileVsOwnHistory": 19.8
   }
 }
