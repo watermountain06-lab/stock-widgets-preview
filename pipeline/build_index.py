@@ -24,18 +24,45 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MACRO_PATH = ROOT / "site_data" / "macro.json"
-SCORE_CONFIG = Path.home() / "Workspace/stock-widgets-redesign/scripts/fundamental_score_config_v1.json"
-try:
-    COMPARABILITY_FLAGS = set(json.loads(SCORE_CONFIG.read_text(encoding="utf-8"))
-                              .get("comparability_flags", {}).get("flags", []))
-except OSError:
-    COMPARABILITY_FLAGS = set()
+SCORE_CONFIG = ROOT / "scripts" / "fundamental_score_config_v1.json"
+
+
+class ConfigError(Exception):
+    """The scoring config is missing or unusable, so the page is not rendered from a guess."""
+
+
+def comparability_flags(path=SCORE_CONFIG):
+    """The flag names that mark a score as not comparable with the rest of its tier group.
+
+    This used to read the config from the sibling repo by absolute home path and fall back to an
+    empty set on OSError. The runner checks out this repo alone, so that path never existed there:
+    every card published an empty scoreFlags and six tickers were ranked as like-for-like from the
+    day the feature shipped. An empty set is indistinguishable from "no card carries a flag", so
+    every bad state raises here instead.
+
+    It raises from inside a function on purpose. validate_site_data.py imports this module, and a
+    failure at import time would take the validator down with it; raised here it surfaces from
+    render_block, which both the builder and the validator call before anything is written.
+    """
+    path = Path(path)
+    if not path.exists():
+        raise ConfigError(f"scoring config missing: {path}")
+    try:
+        cfg = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise ConfigError(f"scoring config is not valid JSON ({path}): {e}") from e
+    flags = (cfg.get("comparability_flags") or {}).get("flags")
+    if flags is None:
+        raise ConfigError(f"scoring config has no comparability_flags.flags ({path})")
+    if not flags:
+        raise ConfigError(f"scoring config lists no comparability flags ({path})")
+    return set(flags)
 
 START = "/*STOCKS_DATA_START*/"
 END = "/*STOCKS_DATA_END*/"
 
 
-def ui_row(t):
+def ui_row(t, flags):
     """The slim per-ticker record the page's JS actually uses."""
     p = t["price"]
     close, prev = p.get("close"), p.get("prevClose")
@@ -60,7 +87,7 @@ def ui_row(t):
         # tier group. The page groups these separately rather than listing them
         # in the same ordering: a badge alone still reads as a like-for-like
         # rank. Empty list when the score is fully comparable.
-        "scoreFlags": [f for f in (score.get("qualityFlags") or []) if f in COMPARABILITY_FLAGS],
+        "scoreFlags": [f for f in (score.get("qualityFlags") or []) if f in flags],
     }
 
 
@@ -91,8 +118,9 @@ def _js(obj):
     return json.dumps(obj, ensure_ascii=False, separators=(", ", ": ")).replace("</", "<\\/")
 
 
-def render_block(data, macro=None):
-    rows = sorted((ui_row(t) for t in data["tickers"]), key=lambda r: r["rank"])
+def render_block(data, macro=None, flags=None):
+    flags = comparability_flags() if flags is None else flags   # read and validated once per build
+    rows = sorted((ui_row(t, flags) for t in data["tickers"]), key=lambda r: r["rank"])
     return (f"{START}\n  var DATA = [\n    " + ",\n    ".join(_js(r) for r in rows)
             + f"\n  ];\n  var META = {_js(meta(data))};\n  var MACRO = {_js(macro)};\n  {END}")
 

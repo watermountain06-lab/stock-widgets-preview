@@ -828,6 +828,47 @@ def test_valuation_render():
     check("가중평균: the comparison uses the precision the sentence itself claims",
           uc.wavg_report(wcard("3"), wbase(3, 0.5)) is None
           and uc.wavg_report(wcard("3.0"), wbase(3, 0.5)) is None)
+
+    # The scoring config behind the page's comparability flags. build_index used to read it from
+    # a sibling repo by absolute home path and fall back to an empty set on OSError; the runner
+    # checks out this repo alone, so six tickers were published unflagged from the day the feature
+    # shipped and nothing noticed. Every bad state must raise rather than render a guess.
+    import build_index as bi
+    cfgdir = Path(tempfile.mkdtemp())
+    good = {"comparability_flags": {"flags": ["valuation_target_only", "stale_financials"]}}
+    (cfgdir / "good.json").write_text(json.dumps(good), encoding="utf-8")
+    (cfgdir / "bad.json").write_text("{oops", encoding="utf-8")
+    (cfgdir / "nokey.json").write_text(json.dumps({"version": "1"}), encoding="utf-8")
+    (cfgdir / "empty.json").write_text(json.dumps({"comparability_flags": {"flags": []}}), encoding="utf-8")
+
+    def cfg_raises(name):
+        try:
+            bi.comparability_flags(cfgdir / name)
+            return False
+        except bi.ConfigError:
+            return True
+
+    check("score config: a good one loads", bi.comparability_flags(cfgdir / "good.json")
+          == {"valuation_target_only", "stale_financials"})
+    check("score config: a missing file raises instead of publishing a guess", cfg_raises("nope.json"))
+    check("score config: malformed JSON raises", cfg_raises("bad.json"))
+    check("score config: a missing comparability_flags.flags raises", cfg_raises("nokey.json"))
+    check("score config: an empty flag list raises - it reads the same as no card being flagged",
+          cfg_raises("empty.json"))
+    check("score config: this repo's own copy still declares the two comparability flags",
+          bi.comparability_flags() == {"valuation_target_only", "stale_financials"},
+          sorted(bi.comparability_flags()))
+
+    scored = {"ticker": "AA", "cardRank": 1, "name": "A", "sector": "s", "href": "AA_full_widget.html",
+              "price": {"close": 10.0, "prevClose": 10.0, "status": "fresh"},
+              "shares": {"usEquivalent": 100}, "cardAsOf": "2026-09-01",
+              "tier": {"value": "적정", "status": "ok"},
+              "score": {"status": "available", "total": 50.0, "valuationAsOf": "2026-08-18",
+                        "qualityFlags": ["valuation_target_only", "negative_equity"]}}
+    check("score config: only comparability flags reach the page, not every quality flag",
+          bi.ui_row(scored, {"valuation_target_only"})["scoreFlags"] == ["valuation_target_only"])
+    check("score config: a card carrying no comparability flag shows an empty list",
+          bi.ui_row(scored, {"stale_financials"})["scoreFlags"] == [])
     check("valuation: result depends on today's price only, not on the path",
           va.render(out, base, D("90"), "2026-09-12", []) == va.render(html, base, D("90"), "2026-09-12", []))
     # a card whose own label/colour for a stage isn't the standard one must get them back, whatever the path
