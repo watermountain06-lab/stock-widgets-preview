@@ -136,9 +136,11 @@ def upside_text(target, p1):
     return ("▲" if pct > 0 else "▼"), f"{'+' if pct > 0 else ''}{pct}"
 
 
-# Stage 2B-3 pilot, four cards chosen to cover every markup variant: ASML a spaced target
-# label, AVGO a price in a grey gap, INTC a compound stat-sub, DE a header pill.
-BAND_TICKERS = {"ASML", "AVGO", "INTC", "DE"}  # None = every card with a baseline
+# Stage 2B-3. The pilot - ASML, AVGO, INTC and DE, which carry a spaced target label, a
+# price in a grey gap, a compound stat-sub and a header pill between them - moved with the
+# 2026-09-16 session, and rendering the other 62 offline produced no failure, so the gate
+# is open. Put a set of tickers here to hold a change to those cards again.
+BAND_TICKERS = None
 
 
 def target_band(html, base, p1, notes):

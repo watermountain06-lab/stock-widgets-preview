@@ -13,6 +13,13 @@ on:
     # completeness cutoff in pipeline/fetch_prices.py. GitHub may start
     # scheduled runs some minutes late.
     - cron: "0 22 * * 1-5"
+    # A second pass for the evenings the provider is simply late. On 2026-09-14 and
+    # again on 2026-09-16 Yahoo still had no completed bar for that day's session at
+    # 20:00 ET, and by the next morning it did - both times the site sat a day behind
+    # until someone noticed, because one weekday of lag only warns. 09:00 UTC Tue-Sat
+    # = 05:00 ET, well after the bar appears. A run that finds the session already
+    # current writes nothing and commits nothing, so this is free on a normal day.
+    - cron: "0 9 * * 2-6"
   workflow_dispatch: {}
 
 permissions:
