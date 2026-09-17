@@ -1,7 +1,7 @@
 {
   "ticker": "INTC",
-  "asOf": "2026-09-15",
-  "close": 97.14,
+  "asOf": "2026-09-16",
+  "close": 101.05,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,15 +20,15 @@
   "momentum": {
     "score": 40,
     "max": 40,
-    "weightedRocPct": 102.7
+    "weightedRocPct": 115.44
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 301.07,
-    "drawdownFromHighPct": 31.76,
+    "riseFromLowPct": 313.29,
+    "drawdownFromHighPct": 29.01,
     "high52w": 142.35,
-    "low52w": 24.22
+    "low52w": 24.45
   },
   "priceStructureScore": {
     "score": 50,
@@ -39,15 +39,13 @@
   "rawGrade": "강한",
   "displayGrade": "강한",
   "riskFlags": [
-    "고점대비큰조정",
-    "단기추세이탈"
+    "고점대비큰조정"
   ],
   "riskFlagsShown": [
-    "고점대비큰조정",
-    "단기추세이탈"
+    "고점대비큰조정"
   ],
   "atr": {
-    "pctNow": 5.05,
-    "percentileVsOwnHistory": 25.0
+    "pctNow": 5.18,
+    "percentileVsOwnHistory": 32.1
   }
 }

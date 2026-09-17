@@ -1,7 +1,7 @@
 {
   "ticker": "GE",
-  "asOf": "2026-09-15",
-  "close": 307.05,
+  "asOf": "2026-09-16",
+  "close": 312.9,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,22 +20,22 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -0.82
+    "weightedRocPct": -1.01
   },
   "position52w": {
-    "score": 5,
+    "score": 10,
     "max": 20,
-    "riseFromLowPct": 14.18,
-    "drawdownFromHighPct": 21.03,
+    "riseFromLowPct": 16.36,
+    "drawdownFromHighPct": 19.53,
     "high52w": 388.84,
     "low52w": 268.91
   },
   "priceStructureScore": {
-    "score": 35,
+    "score": 40,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 45,
+  "rawScore": 50,
   "rawGrade": "혼조",
   "displayGrade": "혼조",
   "riskFlags": [
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.76,
-    "percentileVsOwnHistory": 46.4
+    "pctNow": 2.81,
+    "percentileVsOwnHistory": 50.4
   }
 }

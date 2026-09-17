@@ -1,7 +1,7 @@
 {
   "ticker": "LRCX",
-  "asOf": "2026-09-15",
-  "close": 270.87,
+  "asOf": "2026-09-16",
+  "close": 269.23,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,15 +20,15 @@
   "momentum": {
     "score": 30,
     "max": 40,
-    "weightedRocPct": 30.98
+    "weightedRocPct": 31.65
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 131.45,
-    "drawdownFromHighPct": 38.23,
+    "riseFromLowPct": 126.87,
+    "drawdownFromHighPct": 38.6,
     "high52w": 438.5,
-    "low52w": 117.03
+    "low52w": 118.67
   },
   "priceStructureScore": {
     "score": 40,
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 4.9,
-    "percentileVsOwnHistory": 52.8
+    "pctNow": 5.04,
+    "percentileVsOwnHistory": 57.1
   }
 }

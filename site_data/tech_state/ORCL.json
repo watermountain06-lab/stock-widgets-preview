@@ -1,7 +1,7 @@
 {
   "ticker": "ORCL",
-  "asOf": "2026-09-15",
-  "close": 140.35,
+  "asOf": "2026-09-16",
+  "close": 143.16,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 0,
     "max": 40,
-    "weightedRocPct": -29.14
+    "weightedRocPct": -26.54
   },
   "position52w": {
     "score": 5,
     "max": 20,
-    "riseFromLowPct": 22.58,
-    "drawdownFromHighPct": 57.41,
+    "riseFromLowPct": 25.03,
+    "drawdownFromHighPct": 56.55,
     "high52w": 329.5,
     "low52w": 114.5
   },
@@ -40,15 +40,14 @@
   "displayGrade": "약한",
   "riskFlags": [
     "장기추세이탈",
-    "고점대비큰조정",
-    "단기추세이탈"
+    "고점대비큰조정"
   ],
   "riskFlagsShown": [
     "장기추세이탈",
     "고점대비큰조정"
   ],
   "atr": {
-    "pctNow": 5.59,
-    "percentileVsOwnHistory": 72.6
+    "pctNow": 5.52,
+    "percentileVsOwnHistory": 70.2
   }
 }

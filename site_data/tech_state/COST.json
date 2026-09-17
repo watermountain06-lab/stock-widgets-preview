@@ -1,7 +1,7 @@
 {
   "ticker": "COST",
-  "asOf": "2026-09-15",
-  "close": 901.35,
+  "asOf": "2026-09-16",
+  "close": 893.74,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -6.19
+    "weightedRocPct": -7.0
   },
   "position52w": {
     "score": 5,
     "max": 20,
-    "riseFromLowPct": 6.79,
-    "drawdownFromHighPct": 17.8,
+    "riseFromLowPct": 5.89,
+    "drawdownFromHighPct": 18.49,
     "high52w": 1096.5,
     "low52w": 844.06
   },
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.6,
-    "percentileVsOwnHistory": 17.1
+    "pctNow": 1.61,
+    "percentileVsOwnHistory": 17.5
   }
 }
