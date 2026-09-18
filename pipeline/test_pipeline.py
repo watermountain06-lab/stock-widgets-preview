@@ -904,7 +904,79 @@ def test_valuation_render():
     check("valuation: a frozen metric is left exactly as it was", ">50.00x<" in kept and "대비 +25.0% — 설명" in kept)
 
 
+def test_prose_stamp():
+    """Stage 3's tri-state on a synthetic card, then the manifest this repo actually ships."""
+    import prose_stamp as ps
+
+    tmp = Path(tempfile.mkdtemp())
+    pre = "평균 목표가 $100.00는 현재가 대비 +10.0%다."
+    post = "평균 목표가 $100.00는 2026.09.09 종가 기준 현재가 대비 +10.0%다."
+    seq = [0]
+
+    def manifest(entries):
+        seq[0] += 1
+        p = tmp / f"m{seq[0]}.json"
+        p.write_text(json.dumps({"version": "t", "entries": entries}, ensure_ascii=False), encoding="utf-8")
+        ps._cache.clear()
+        return p
+
+    def entry(**over):
+        e = {"ticker": "AA", "disposition": "stamp", "form": "bare", "asOf": "2026-09-09",
+             "token": "+10.0%", "preimage": pre, "preSha": ps.sha(pre),
+             "postimage": post, "postSha": ps.sha(post)}
+        e.update(over)
+        return e
+
+    def fails(html, mp):
+        try:
+            ps.render(html, "AA", [], path=mp, tickers={"AA"})
+            return False
+        except ps.RenderError:
+            return True
+
+    m = manifest([entry()])
+    out, c = ps.render(f"<div>{pre}</div>", "AA", [], path=m, tickers={"AA"})
+    check("prose: the audited sentence is dated exactly once",
+          out == f"<div>{post}</div>" and c["applied"] == 1, c)
+    again, c2 = ps.render(out, "AA", [], path=m, tickers={"AA"})
+    check("prose: a rerun writes nothing and is verified against the recorded postimage",
+          again == out and c2 == {"applied": 0, "already": 1, "gated": False}, c2)
+    _, cg = ps.render(f"<div>{pre}</div>", "AA", [], path=m, tickers={"BB"})
+    check("prose: a card outside the gate is untouched", cg["gated"] is True)
+    check("prose: a sentence that is neither preimage nor postimage fails the card",
+          fails("<div>평균 목표가 $100.00는 현재가 대비 +9.9%다.</div>", m))
+    check("prose: a preimage appearing twice fails rather than picking one",
+          fails(f"<div>{pre}</div><div>{pre}</div>", m))
+    check("prose: a manifest whose hash does not match its text is refused",
+          fails(f"<div>{pre}</div>", manifest([entry(preSha="0" * 16)])))
+    check("prose: an anchor that would change nothing is refused",
+          fails(f"<div>{pre}</div>", manifest([entry(postimage=pre, postSha=ps.sha(pre))])))
+    half = f"<div>{pre}</div><div>{post}</div>"
+    check("prose: a card holding both states at once fails", fails(half, m))
+
+    ps._cache.clear()
+    real = ps.load()
+    total = sum(len(v) for v in real.values())
+    check("prose: the shipped manifest is the audited set - 72 anchors across 47 cards",
+          total == 72 and len(real) == 47, (total, len(real)))
+    unresolved = []
+    for t, entries in real.items():
+        card = (ROOT / f"{t}_full_widget.html").read_text(encoding="utf-8")
+        for e in entries:
+            if card.count(e["preimage"]) + card.count(e["postimage"]) != 1:
+                unresolved.append((t, e["preimage"][:40]))
+    check("prose: every anchor resolves to exactly one state on its live card",
+          not unresolved, unresolved[:3])
+    check("prose: the pilot gate covers all five anchor shapes",
+          {e["form"] for t in ps.PROSE_TICKERS for e in real[t]}
+          == {"bare", "paren", "price-label", "bb-item", "green-span"})
+    check("prose: no anchor is recorded against a card that lost its 종가 기준 wording",
+          all("종가 기준" in e["postimage"] or "종가 $" in e["postimage"]
+              for es in real.values() for e in es))
+
+
 if __name__ == "__main__":
+    test_prose_stamp()
     test_valuation_render()
     test_valuation_base_units()
     test_price_rules()

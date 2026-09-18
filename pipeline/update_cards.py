@@ -59,6 +59,7 @@ import fetch_prices as fp  # noqa: E402
 from compute_breakout_signal import compute_active_breakout  # noqa: E402
 from compute_technical_score import compute_signal  # noqa: E402
 import valuation  # noqa: E402
+import prose_stamp  # noqa: E402
 
 # stage 2B-2 (valuation tab): None = every card with a baseline (the four-card pilot passed 2026-09-12)
 VALUATION_TICKERS = None
@@ -827,6 +828,14 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
         notes.append(f"no valuation baseline ({base_path.name}) - valuation tab left as is; "
                      f"run build_valuation_base.py --tickers {ticker} --write")
 
+    # stage 3: date the prose that quotes an analysis-date upside, in the same transaction.
+    # It runs after 2B-3 on purpose - the band, its stat-box and the pill have just been moved
+    # to today's close, and these sentences are what still speaks for the analysis date.
+    try:
+        html, prose_counts = prose_stamp.render(html, ticker, notes)
+    except prose_stamp.RenderError as e:
+        raise EditError(f"prose: {e}")
+
     if html == old_html:  # tech is still returned so a missing state file gets repaired
         return "unchanged", bars[-1][0], {"replaced": 0, "appended": 0}, notes, None, tech
     if f'<div class="price-main">{money(bars[-1][4])}</div>' not in html:
@@ -840,7 +849,7 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     if err is None:
         raise EditError("node not found - can't check the inline scripts")
     counts = {"replaced": replaced, "appended": appended, "trimmed": trimmed, "maComputed": computed,
-              "score": tech.get("rawScore")}
+              "score": tech.get("rawScore"), "prose": prose_counts}
     return "updated", bars[-1][0], counts, notes, html, tech
 
 
