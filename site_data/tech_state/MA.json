@@ -1,7 +1,7 @@
 {
   "ticker": "MA",
-  "asOf": "2026-09-17",
-  "close": 565.73,
+  "asOf": "2026-09-18",
+  "close": 565.24,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 8.24
+    "weightedRocPct": 8.04
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 21.79,
-    "drawdownFromHighPct": 5.97,
+    "riseFromLowPct": 21.68,
+    "drawdownFromHighPct": 6.05,
     "high52w": 601.62,
     "low52w": 464.52
   },
@@ -38,10 +38,14 @@
   "rawScore": 65,
   "rawGrade": "긍정적",
   "displayGrade": "긍정적",
-  "riskFlags": [],
-  "riskFlagsShown": [],
+  "riskFlags": [
+    "단기추세이탈"
+  ],
+  "riskFlagsShown": [
+    "단기추세이탈"
+  ],
   "atr": {
-    "pctNow": 1.46,
-    "percentileVsOwnHistory": 4.0
+    "pctNow": 1.47,
+    "percentileVsOwnHistory": 4.4
   }
 }

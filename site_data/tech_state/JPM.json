@@ -1,7 +1,7 @@
 {
   "ticker": "JPM",
-  "asOf": "2026-09-17",
-  "close": 349.31,
+  "asOf": "2026-09-18",
+  "close": 349.67,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 10.61
+    "weightedRocPct": 11.89
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 25.16,
-    "drawdownFromHighPct": 4.69,
+    "riseFromLowPct": 25.28,
+    "drawdownFromHighPct": 4.59,
     "high52w": 366.5,
     "low52w": 279.1
   },
@@ -46,6 +46,6 @@
   ],
   "atr": {
     "pctNow": 2.0,
-    "percentileVsOwnHistory": 34.5
+    "percentileVsOwnHistory": 34.1
   }
 }
