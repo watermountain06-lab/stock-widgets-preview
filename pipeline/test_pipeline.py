@@ -954,21 +954,44 @@ def test_prose_stamp():
     half = f"<div>{pre}</div><div>{post}</div>"
     check("prose: a card holding both states at once fails", fails(half, m))
 
+    # A stamp that only PREFIXES its sentence leaves the preimage inside the postimage.
+    # DE, TXN and VZ are shaped that way ("컨센서스 여력 +1.0%:"), and a bare zero-count
+    # failed all three on the first fleet run - and would have failed every rerun after,
+    # because the already-applied branch could never match either.
+    lab = "컨센서스 여력 +1.0%:"
+    lab_post = "2026.09.14 종가 기준 " + lab
+    lm = manifest([entry(preimage=lab, preSha=ps.sha(lab),
+                         postimage=lab_post, postSha=ps.sha(lab_post))])
+    out2, c3 = ps.render(f"<div>{lab}</div>", "AA", [], path=lm, tickers={"AA"})
+    check("prose: a prefix-only stamp applies though the postimage contains the preimage",
+          out2 == f"<div>{lab_post}</div>" and c3["applied"] == 1, c3)
+    out3, c4 = ps.render(out2, "AA", [], path=lm, tickers={"AA"})
+    check("prose: and its rerun reads as already applied, not as a failure",
+          out3 == out2 and c4 == {"applied": 0, "already": 1, "gated": False}, c4)
+    check("prose: a prefix-form preimage left twice in the card still fails",
+          fails(f"<div>{lab}</div><div>{lab}</div>", lm))
+
     ps._cache.clear()
     real = ps.load()
     total = sum(len(v) for v in real.values())
     check("prose: the shipped manifest is the audited set - 72 anchors across 47 cards",
           total == 72 and len(real) == 47, (total, len(real)))
+    # Counting states, not occurrences: a correctly stamped prefix-form anchor leaves its
+    # preimage inside the postimage, so "pre + post == 1" calls a healthy card broken.
     unresolved = []
     for t, entries in real.items():
         card = (ROOT / f"{t}_full_widget.html").read_text(encoding="utf-8")
         for e in entries:
-            if card.count(e["preimage"]) + card.count(e["postimage"]) != 1:
-                unresolved.append((t, e["preimage"][:40]))
+            pre_i, post_i = e["preimage"], e["postimage"]
+            npre, npost = card.count(pre_i), card.count(post_i)
+            stamped = npost == 1 and npre == post_i.count(pre_i)
+            awaiting = npost == 0 and npre == 1
+            if not (stamped or awaiting):
+                unresolved.append((t, pre_i[:40], npre, npost))
     check("prose: every anchor resolves to exactly one state on its live card",
           not unresolved, unresolved[:3])
-    check("prose: the pilot gate covers all five anchor shapes",
-          {e["form"] for t in ps.PROSE_TICKERS for e in real[t]}
+    check("prose: the manifest carries all five anchor shapes",
+          {e["form"] for es in real.values() for e in es}
           == {"bare", "paren", "price-label", "bb-item", "green-span"})
     check("prose: no anchor is recorded against a card that lost its 종가 기준 wording",
           all("종가 기준" in e["postimage"] or "종가 $" in e["postimage"]

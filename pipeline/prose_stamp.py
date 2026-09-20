@@ -38,11 +38,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ANCHORS = ROOT / "site_data" / "prose_anchors.json"
 
-# The pilot. ANET (two bare stamps), ABBV (a stamp inside a parenthesis that already holds
-# its source), AAPL (a caption whose stale 현재가 becomes a dated 종가), CRWD and CVX (the
-# two whose direction flipped, each carrying a marker edit in the same anchor) cover all
-# five shapes in the manifest. Set to None to render every card.
-PROSE_TICKERS = {"ANET", "ABBV", "AAPL", "CRWD", "CVX"}
+# None = every card the manifest names. The five-card pilot - ANET (two bare stamps), ABBV
+# (a stamp inside a parenthesis that already holds its source), AAPL (a caption whose stale
+# 현재가 becomes a dated 종가), CRWD and CVX (the two whose direction flipped, each carrying
+# a marker edit in the same anchor) - covered all five shapes and shipped 2026-09-18. Put a
+# set here to hold a change to a subset again.
+PROSE_TICKERS = None
 
 _cache = {}
 
@@ -97,29 +98,39 @@ def render(html, ticker, notes, path=ANCHORS, tickers=None):
     if not entries:
         return html, {"applied": 0, "already": 0, "gated": False}
 
+    # A stamp that only PREFIXES its sentence leaves the preimage inside the postimage:
+    # DE, TXN and VZ carry a short label ("컨센서스 여력 +1.0%:") whose stamp goes at the
+    # head, so the rendered text still contains the original string in full. Counting a
+    # bare zero there is wrong twice over - it fails the post-render assertion on the
+    # first run, and on a rerun it matches neither tri-state branch, so a card that was
+    # correctly stamped yesterday fails tonight. `residual` is how many copies of the
+    # preimage a correctly rendered anchor is expected to leave behind: 0 normally, 1
+    # for the prefix form.
     applied = already = 0
     for e in entries:
         pre, post = e["preimage"], e["postimage"]
+        residual = post.count(pre)
         n_pre, n_post = html.count(pre), html.count(post)
-        if n_pre == 1 and n_post == 0:
+        if n_post == 0 and n_pre == 1:
             html = html.replace(pre, post, 1)
             applied += 1
-        elif n_post == 1 and n_pre == 0:
+        elif n_post == 1 and n_pre == residual:
             already += 1
         else:
             raise RenderError(
                 f"{ticker} {e['disposition']}/{e.get('form')}: preimage x{n_pre}, postimage x{n_post} "
-                f"(expected exactly one of them once) - {pre[:60]!r}")
+                f"(expected preimage x1/postimage x0, or postimage x1/preimage x{residual}) - {pre[:60]!r}")
 
     # Post-render assertion. Re-read the written card rather than trusting the edits above:
     # an exact-once replacement can still put the right text in the wrong card state.
     for e in entries:
-        if html.count(e["postimage"]) != 1:
+        pre, post = e["preimage"], e["postimage"]
+        if html.count(post) != 1:
             raise RenderError(f"{ticker}: after rendering, postimage appears "
-                              f"{html.count(e['postimage'])}x - {e['postimage'][:60]!r}")
-        if html.count(e["preimage"]) != 0:
-            raise RenderError(f"{ticker}: after rendering, the preimage is still present - "
-                              f"{e['preimage'][:60]!r}")
+                              f"{html.count(post)}x - {post[:60]!r}")
+        if html.count(pre) != post.count(pre):
+            raise RenderError(f"{ticker}: after rendering, the preimage appears {html.count(pre)}x "
+                              f"where {post.count(pre)} is expected - {pre[:60]!r}")
     if applied:
         notes.append(f"prose: {applied} anchor(s) dated" + (f", {already} already" if already else ""))
     return html, {"applied": applied, "already": already, "gated": False}
