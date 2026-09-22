@@ -20,6 +20,15 @@ on:
     # = 05:00 ET, well after the bar appears. A run that finds the session already
     # current writes nothing and commits nothing, so this is free on a normal day.
     - cron: "0 9 * * 2-6"
+    # A third pass, because the second one is not guaranteed to run. On 2026-09-21
+    # the evening run started 2.5h late, Yahoo still had no bar for that session, and
+    # the 09:00 UTC retry never fired at all - GitHub drops scheduled runs under load
+    # and does not queue them. The site sat a weekday behind until it was noticed by
+    # hand, which is the one recovery path that is neither automatic nor free. 13:00
+    # UTC Tue-Sat = 09:00 ET, before the open and long after the previous session's
+    # 16:20 ET cutoff. Like the pass above, a run that finds the session already
+    # current writes nothing, so a third chance costs nothing on a normal day.
+    - cron: "0 13 * * 2-6"
   workflow_dispatch: {}
 
 permissions:
