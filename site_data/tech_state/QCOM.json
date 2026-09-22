@@ -1,7 +1,7 @@
 {
   "ticker": "QCOM",
-  "asOf": "2026-09-21",
-  "close": 194.23,
+  "asOf": "2026-09-22",
+  "close": 198.27,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,32 +20,28 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 10.56
+    "weightedRocPct": 16.28
   },
   "position52w": {
-    "score": 10,
+    "score": 15,
     "max": 20,
-    "riseFromLowPct": 59.22,
-    "drawdownFromHighPct": 25.27,
+    "riseFromLowPct": 62.53,
+    "drawdownFromHighPct": 23.72,
     "high52w": 259.92,
     "low52w": 121.99
   },
   "priceStructureScore": {
-    "score": 40,
+    "score": 45,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 60,
+  "rawScore": 65,
   "rawGrade": "긍정적",
-  "displayGrade": "혼조",
-  "riskFlags": [
-    "고점대비큰조정"
-  ],
-  "riskFlagsShown": [
-    "고점대비큰조정"
-  ],
+  "displayGrade": "긍정적",
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 5.0,
-    "percentileVsOwnHistory": 77.8
+    "pctNow": 4.87,
+    "percentileVsOwnHistory": 76.6
   }
 }

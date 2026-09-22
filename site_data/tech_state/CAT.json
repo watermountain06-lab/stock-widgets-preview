@@ -1,42 +1,42 @@
 {
   "ticker": "CAT",
-  "asOf": "2026-09-21",
-  "close": 816.5,
+  "asOf": "2026-09-22",
+  "close": 808.01,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
   "insufficientHistory": false,
   "momentumUnavailable": false,
   "trendStructure": {
-    "score": 30,
+    "score": 20,
     "max": 40,
     "conditions": {
       "close>ma150_and_close>ma200": false,
       "ma150>ma200": true,
       "ma200>ma200_21d_ago": true,
-      "ma50>ma150_and_ma50>ma200": true
+      "ma50>ma150_and_ma50>ma200": false
     }
   },
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 19.97
+    "weightedRocPct": 19.07
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 77.66,
-    "drawdownFromHighPct": 23.94,
+    "riseFromLowPct": 75.81,
+    "drawdownFromHighPct": 24.73,
     "high52w": 1073.46,
     "low52w": 459.58
   },
   "priceStructureScore": {
-    "score": 45,
+    "score": 35,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 65,
-  "rawGrade": "긍정적",
+  "rawScore": 55,
+  "rawGrade": "혼조",
   "displayGrade": "긍정적",
   "riskFlags": [
     "단기추세이탈"
@@ -45,7 +45,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.69,
-    "percentileVsOwnHistory": 19.8
+    "pctNow": 2.64,
+    "percentileVsOwnHistory": 17.1
   }
 }
