@@ -1,7 +1,7 @@
 {
   "ticker": "NVDA",
-  "asOf": "2026-09-18",
-  "close": 222.27,
+  "asOf": "2026-09-21",
+  "close": 227.38,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,15 +18,15 @@
     }
   },
   "momentum": {
-    "score": 20,
+    "score": 30,
     "max": 40,
-    "weightedRocPct": 18.21
+    "weightedRocPct": 22.33
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 35.31,
-    "drawdownFromHighPct": 6.03,
+    "riseFromLowPct": 38.42,
+    "drawdownFromHighPct": 3.87,
     "high52w": 236.54,
     "low52w": 164.27
   },
@@ -35,9 +35,9 @@
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 80,
-  "rawGrade": "긍정적",
-  "displayGrade": "긍정적",
+  "rawScore": 90,
+  "rawGrade": "강한",
+  "displayGrade": "강한",
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {

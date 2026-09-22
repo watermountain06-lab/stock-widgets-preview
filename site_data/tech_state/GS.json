@@ -1,7 +1,7 @@
 {
   "ticker": "GS",
-  "asOf": "2026-09-18",
-  "close": 942.0,
+  "asOf": "2026-09-21",
+  "close": 959.39,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": 2.79
+    "weightedRocPct": 4.12
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 27.3,
-    "drawdownFromHighPct": 18.37,
+    "riseFromLowPct": 29.65,
+    "drawdownFromHighPct": 16.86,
     "high52w": 1153.99,
     "low52w": 740.01
   },
@@ -39,15 +39,13 @@
   "rawGrade": "혼조",
   "displayGrade": "혼조",
   "riskFlags": [
-    "장기추세이탈",
     "단기추세이탈"
   ],
   "riskFlagsShown": [
-    "장기추세이탈",
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.97,
-    "percentileVsOwnHistory": 61.9
+    "pctNow": 2.98,
+    "percentileVsOwnHistory": 62.3
   }
 }

@@ -1,7 +1,7 @@
 {
   "ticker": "WFC",
-  "asOf": "2026-09-18",
-  "close": 86.12,
+  "asOf": "2026-09-21",
+  "close": 86.54,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": 4.02
+    "weightedRocPct": 3.01
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 18.33,
-    "drawdownFromHighPct": 11.91,
+    "riseFromLowPct": 18.91,
+    "drawdownFromHighPct": 11.48,
     "high52w": 97.76,
     "low52w": 72.78
   },
@@ -45,7 +45,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.56,
-    "percentileVsOwnHistory": 70.2
+    "pctNow": 2.53,
+    "percentileVsOwnHistory": 66.7
   }
 }

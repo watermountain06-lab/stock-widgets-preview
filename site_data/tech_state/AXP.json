@@ -1,7 +1,7 @@
 {
   "ticker": "AXP",
-  "asOf": "2026-09-18",
-  "close": 311.56,
+  "asOf": "2026-09-21",
+  "close": 313.59,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -7.09
+    "weightedRocPct": -6.62
   },
   "position52w": {
     "score": 5,
     "max": 20,
-    "riseFromLowPct": 7.08,
-    "drawdownFromHighPct": 19.6,
+    "riseFromLowPct": 7.77,
+    "drawdownFromHighPct": 19.07,
     "high52w": 387.49,
     "low52w": 290.97
   },
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.94,
-    "percentileVsOwnHistory": 23.8
+    "pctNow": 1.95,
+    "percentileVsOwnHistory": 25.4
   }
 }

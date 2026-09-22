@@ -1,7 +1,7 @@
 {
   "ticker": "AMZN",
-  "asOf": "2026-09-18",
-  "close": 253.71,
+  "asOf": "2026-09-21",
+  "close": 258.45,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,32 +20,28 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 10.54
+    "weightedRocPct": 15.29
   },
   "position52w": {
-    "score": 15,
+    "score": 20,
     "max": 20,
-    "riseFromLowPct": 29.44,
-    "drawdownFromHighPct": 11.66,
+    "riseFromLowPct": 31.86,
+    "drawdownFromHighPct": 10.01,
     "high52w": 287.2,
     "low52w": 196.0
   },
   "priceStructureScore": {
-    "score": 55,
+    "score": 60,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 75,
+  "rawScore": 80,
   "rawGrade": "긍정적",
   "displayGrade": "긍정적",
-  "riskFlags": [
-    "단기추세이탈"
-  ],
-  "riskFlagsShown": [
-    "단기추세이탈"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.2,
-    "percentileVsOwnHistory": 15.1
+    "pctNow": 2.06,
+    "percentileVsOwnHistory": 9.9
   }
 }

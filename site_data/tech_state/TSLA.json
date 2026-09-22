@@ -1,7 +1,7 @@
 {
   "ticker": "TSLA",
-  "asOf": "2026-09-18",
-  "close": 364.27,
+  "asOf": "2026-09-21",
+  "close": 375.3,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,36 +18,34 @@
     }
   },
   "momentum": {
-    "score": 0,
+    "score": 10,
     "max": 40,
-    "weightedRocPct": -12.48
+    "weightedRocPct": -8.47
   },
   "position52w": {
-    "score": 5,
+    "score": 10,
     "max": 20,
-    "riseFromLowPct": 22.49,
-    "drawdownFromHighPct": 26.98,
+    "riseFromLowPct": 26.2,
+    "drawdownFromHighPct": 24.76,
     "high52w": 498.83,
     "low52w": 297.38
   },
   "priceStructureScore": {
-    "score": 5,
+    "score": 10,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 5,
+  "rawScore": 20,
   "rawGrade": "약한",
   "displayGrade": "약한",
   "riskFlags": [
-    "장기추세이탈",
-    "고점대비큰조정"
+    "장기추세이탈"
   ],
   "riskFlagsShown": [
-    "장기추세이탈",
-    "고점대비큰조정"
+    "장기추세이탈"
   ],
   "atr": {
-    "pctNow": 3.9,
-    "percentileVsOwnHistory": 44.4
+    "pctNow": 3.64,
+    "percentileVsOwnHistory": 30.6
   }
 }
