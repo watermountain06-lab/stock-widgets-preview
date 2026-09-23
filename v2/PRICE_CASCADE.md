@@ -18,6 +18,7 @@
 |---|---|---|
 | 내재가치 3시나리오 `$159.77 / $315.00 / $602.30` | `build_dcf.scenarios(base_inputs, history)` | 새 10-Q/10-K |
 | 직접 바꿔보기 격자 `NVDA_DCF_GRID` (3 × 할인율 5 × 영구성장 5) | `build_dcf_grid.py` — 기본값 칸이 `NVDA_DCF`와 다르면 멈춘다 | 새 10-Q/10-K, `NVDA_DCF` 갱신 직후 |
+| 활동성 칸 `NVDA_ACTIVITY` (DSO·DIO·DPO·CCC, 색) | `build_activity_score.py` — SEC 분기 잔액 5점 평균, 색은 DSO+DIO의 자기 20분기 위치 | 새 10-Q/10-K |
 | 적정주가 밴드 `$260~$315` | `PER 33~40x × TTM EPS $7.91` (앵커는 손으로 잡음) | EPS 갱신 시 |
 | 기본 시나리오 5년 CAGR `33.9%` | `growth_5y 69.4%`에서 2.5%까지 선형 감쇠한 경로의 기하평균 | 새 공시 |
 | 과거 매출 성장률 `3년 +110.6% · 5년 +69.4%` | `history()['growth_3y'/'growth_5y']` | 새 공시 |
@@ -244,6 +245,7 @@ NVDA_DCF.requiredGrowth  0.2543 → 0.2606
 v2/build_dcf.py                    scenarios · margin_path_for · implied_growth · history
 v2/build_dcf_track.py              분기별 시나리오 추적 (NVDA_DCF_TRACK)
 v2/build_dcf_grid.py               직접 바꿔보기 격자 (NVDA_DCF_GRID)
+v2/build_activity_score.py         활동성 칸 (NVDA_ACTIVITY)
 v2/build_multiple_history.py       load_daily · pick_tag · ttm_series · dda_ttm
 scripts/compute_earnings_backtest_band.py   예상밴드 체크포인트
 pipeline/update_cards.py           stage 2A(가격) + 2B(밸류에이션), 루트 카드 전용

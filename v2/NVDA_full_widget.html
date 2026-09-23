@@ -176,6 +176,10 @@
   .diag-summary .sub { font-size:12px; color:var(--text2); margin-top:2px; line-height:1.4; }
   .diag-summary.watch { background: linear-gradient(90deg, rgba(240,192,64,0.14), rgba(240,192,64,0.03)); border-color: rgba(240,192,64,0.35); }
   .diag-summary.watch .title { color: var(--gold); }
+  .diag-summary.alert { background: linear-gradient(90deg, rgba(231,76,60,0.14), rgba(231,76,60,0.03)); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert .title { color: var(--red); }
+  .diag-summary.none { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none .title { color: var(--text2); }
   .diag-list { display:flex; flex-direction:column; gap:6px; margin-bottom: 22px; }
   .diag-row { display:flex; align-items:center; justify-content:space-between; background:var(--bg3); border-radius:8px; padding:10px 14px; }
   .diag-left { display:flex; align-items:baseline; gap:10px; }
@@ -650,22 +654,22 @@
   <div class="grid-4">
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 FY27)</div>
-      <div class="stat-value gold">$21.4B</div>
-      <div class="stat-sub">현금창출력 · FCF 마진 22.2%(매출채권·재고 급증으로 둔화)</div>
+      <div class="stat-value">$21.4B</div>
+      <div class="stat-sub">현금창출력</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 FY27)</div>
       <div class="stat-value">$2.7B</div>
-      <div class="stat-sub">미래 재투자 · 매출의 2.8%(팹리스)</div>
+      <div class="stat-sub">미래 재투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">R&amp;D (Q2 FY27)</div>
       <div class="stat-value">$7.1B</div>
-      <div class="stat-sub">핵심 해자 투자 · 매출의 7.3%(YoY +64.4%)</div>
+      <div class="stat-sub">기술 경쟁력 투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value gold">11월 중순 예상</div>
+      <div class="stat-value">11월 중순 예상</div>
       <div class="stat-sub">일정 · Q3 FY27</div>
     </div>
   </div>
@@ -679,7 +683,6 @@
       <div class="icon">🩺</div>
       <div>
         <div class="title">종합 진단: 매우 안정적</div>
-        <div class="sub">유동비율 458.9% · 차입금의존도 10.4% · CCC 107.9일 — 5개 항목 모두 기준치 통과, 단기 부실 위험 없음</div>
       </div>
     </div>
 
@@ -723,12 +726,11 @@
     <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율·당좌비율·이자보상배율 모두 기준치를 큰 폭으로 상회 — 재무구조 자체의 부실 위험은 사실상 없다. 다만 2026년 6월 15일 2021년 이후 첫 회사채(7개 트랜치, 만기 2~30년)를 $25B 규모로 발행하며 총부채가 $8.5B→$33.4B로 늘어 차입금의존도·부채비율이 함께 상승했다 — 자금 조달 목적보다는 투자등급 신용시장에 벤치마크를 세워 향후 재무 유연성을 확보하려는 목적으로 알려져 있다(수요 약 $85B로 3.4배 초과청약).</div>
     </div>
 
-    <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (TTM 기준 · Q3 FY26~Q2 FY27)</div>
-    <div class="diag-summary watch">
+    <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.07.26까지 4분기</span>)</div>
+    <div class="diag-summary alert" id="actSummary">
       <div class="icon">🔄</div>
       <div>
-        <div class="title">종합 진단: 회전 둔화 지속 — 재고·매출채권 확대 국면</div>
-        <div class="sub">CCC 107.9일(직전 분기(TTM) 102.0일 대비 +5.9일) — 매출채권·재고 회전이 함께 둔화, 매입채무 지급기간 확대가 일부 상쇄</div>
+        <div class="title" id="actTitle">종합 진단: 매출채권·재고에 묶이는 기간 154.9일, 지난 5년 중 긴 편</div>
       </div>
     </div>
 
@@ -741,39 +743,39 @@
     <div class="activity-grid">
       <div class="act-card">
         <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value">6.67회</div><div class="act-sub">54.7일 만에 현금화 · 직전 분기(TTM) 45.2일 대비 확대</div></div>
+        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
       </div>
       <div class="act-card">
         <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value">3.30회</div><div class="act-sub">110.6일 재고 보유 · 직전 분기(TTM) 103.4일 대비 확대</div></div>
+        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
       </div>
       <div class="act-card">
         <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value">6.36회</div><div class="act-sub">57.4일 만에 지급 · 직전 분기(TTM) 46.6일 대비 확대</div></div>
+        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
       </div>
       <div class="act-card">
         <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value">165.3일</div><div class="act-sub">재고보유+매출채권 회전기간 · 직전 분기(TTM) 148.6일</div></div>
+        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
       </div>
     </div>
     <div class="ccc-card">
       <div class="ccc-head">
         <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value">107.9일</div>
+        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
       </div>
-      <div class="ccc-explain">재고를 사서 판매 대금을 회수하기까지 165.3일이 걸리는데, 그중 57.4일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">107.9일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기(TTM) 102.0일 대비 5.9일 늘어난 것은 매출채권·재고 회전이 함께 둔화된 결과로, Q2 실적에서 이미 부각된 매출채권·재고 급증과 같은 흐름이다.</div>
-      <div class="tl-bar-wrap">
-        <div class="tl-marker" style="left:34.7%; height:18px;"></div>
-        <div class="tl-marker-label" style="left:34.7%;">매입채무 지급 57.4일</div>
+      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
+      <div class="tl-bar-wrap" id="actBar">
+        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
+        <div class="tl-marker-label" style="left:33.4%;">매입채무 지급 51.8일</div>
         <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:66.9%;">재고보유 110.6일</div>
-          <div class="tl-seg-ar" style="width:33.1%;">매출채권회수 54.7일</div>
+          <div class="tl-seg-inv" style="width:69.3%;">재고보유 107.3일</div>
+          <div class="tl-seg-ar" style="width:30.7%;">매출채권회수 47.6일</div>
         </div>
-        <div class="tl-ccc-span" style="left:34.7%; width:65.3%;"></div>
+        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">활동성 지표는 직전 분기(TTM) 대비 전반적으로 둔화됐다 — CCC 107.9일은 반도체 제조·재고 특성상 매출채권과 재고 회수에 3개월 이상 현금이 묶인다는 뜻이고, Blackwell Ultra·Vera Rubin 양산을 위한 선제적 재고·매출채권 확대가 주된 요인이다. 성장 국면의 정상적 패턴이나, 수요 급변 시 재고자산 감액·대손 리스크는 함께 봐야 한다.</div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;" id="actNote">색은 매출채권·재고에 묶이는 기간(영업순환주기)을 지난 5년 20분기와 비교한 위치다. 이보다 길었던 분기는 5번(범위 112.2~206.7일)이고, 나눠 보면 매출채권 회수기간은 9번, 재고 보유기간은 4번이다. 재고 증가는 Blackwell Ultra·Vera Rubin 양산을 앞둔 선제 재고일 수 있지만, 색은 그 이유를 가리지 않고 길이만 잰다. 매입채무 지급기간은 늦출수록 CCC가 줄어 좋아 보이므로 색 판정에서 뺐다.</div>
     </div>
   </div>
 
@@ -1684,6 +1686,84 @@ const NVDA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
     });
   });
   draw();
+})();
+
+// ── 기본적 분석 탭: 활동성 칸 (2026-09-23) ──
+// 색은 영업순환주기(DSO+DIO)를 자기 5년 20분기와 비교한 위치에서 나온다. 30/70
+// 문턱은 카드 공통이다. 매입채무(DPO)는 색에서 뺀다 — 지급을 늦추면 CCC가 줄어
+// 초록을 얻는 구멍이 생긴다. 점수 숫자는 싣지 않는다(겹치는 TTM 창이라 독립
+// 관측이 2~4개뿐, 5점 단위는 가짜 정밀도). 근거와 한계는 스크립트 docstring.
+//
+// 예전 값은 손으로 쓴 두 점 평균이었고 직전 분기 DPO·CCC가 틀려 있었다
+// (46.6 → 실제 56.9일, 102.0 → 91.8일). 그래서 "CCC +5.9일, 지급기간 확대가
+// 일부 상쇄"라고 적혀 있었는데 실제로는 +16.2일이었고 지급기간은 그대로였다.
+//
+// 갱신: python3 v2/build_activity_score.py NVDA
+/* ACTIVITY:BEGIN */
+const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "prevAsOf": "2026-04-26", "now": {"dso": 47.6, "dio": 107.3, "dpo": 51.8, "op": 154.9, "ccc": 103.1}, "prev": {"dso": 47.2, "dio": 104.0, "dpo": 52.5, "op": 151.2, "ccc": 98.7}, "history": {"n": 20, "from": "2021-08-01", "to": "2026-04-26", "min": 112.2, "max": 206.7, "longer": 5, "dsoLonger": 9, "dioLonger": 4}, "score": 25.0, "tone": "red"};
+/* ACTIVITY:END */
+(function(){
+  const A = (typeof NVDA_ACTIVITY !== 'undefined') ? NVDA_ACTIVITY : null;
+  const $ = id => document.getElementById(id);
+  if (!A || A.status !== 'ok') {
+    // 판정할 수 없으면 HTML에 남은 옛 숫자와 색을 보여주지 않는다.
+    const box = $('actSummary'), title = $('actTitle');
+    if (box) { box.classList.remove('watch', 'alert'); box.classList.add('none'); }
+    if (title) title.textContent = '종합 진단: 판정하지 않음 — ' + ((A && A.reason) || '활동성 데이터 없음');
+    const toggle = box && box.nextElementSibling;
+    if (toggle && toggle.classList.contains('detail-toggle')) {
+      toggle.style.display = 'none';
+      if (toggle.nextElementSibling) toggle.nextElementSibling.style.display = 'none';
+    }
+    const per = $('actPeriod'); if (per) per.textContent = 'TTM 기준';
+    return;
+  }
+  const per = $('actPeriod');
+  if (per) per.textContent = `TTM 기준 · ${A.asOf.replaceAll('-', '.')}까지 4분기`;
+  const d1 = v => v.toFixed(1);
+  const cmp = k => {
+    const diff = A.now[k] - A.prev[k];
+    const sign = Math.abs(diff) < 0.05 ? '±' : (diff > 0 ? '+' : '−');
+    return `직전 분기 ${d1(A.prev[k])}일 대비 ${sign}${d1(Math.abs(diff))}일`;
+  };
+  const WORD = { green: '짧은 편', yellow: '보통', red: '긴 편' };
+  const CLS  = { green: '', yellow: 'watch', red: 'alert' };
+
+  const box = $('actSummary');
+  if (box) { box.classList.remove('watch', 'alert'); if (CLS[A.tone]) box.classList.add(CLS[A.tone]); }
+  const title = $('actTitle');
+  if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
+
+  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회'; });
+  document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
+  const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
+                 dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
+  document.querySelectorAll('[data-act-sub]').forEach(el => {
+    const k = el.dataset.actSub; el.textContent = LEAD[k](d1(A.now[k])) + ' · ' + cmp(k);
+  });
+
+  const ex = $('actCccExplain'), cccDiff = A.now.ccc - A.prev.ccc;
+  if (ex) ex.innerHTML = `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
+    + (Math.abs(cccDiff) < 0.05 ? `직전 분기 ${d1(A.prev.ccc)}일과 같다.`
+       : `직전 분기 ${d1(A.prev.ccc)}일보다 ${d1(Math.abs(cccDiff))}일 ${cccDiff > 0 ? '길어졌다' : '짧아졌다'}.`);
+
+  const bar = $('actBar');
+  if (bar) {
+    const pct = v => (v / A.now.op * 100).toFixed(1) + '%';
+    bar.querySelectorAll('.tl-marker, .tl-marker-label, .tl-ccc-span').forEach(el => { el.style.left = pct(A.now.dpo); });
+    bar.querySelector('.tl-marker-label').textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;
+    bar.querySelector('.tl-ccc-span').style.width = pct(A.now.ccc);
+    const inv = bar.querySelector('.tl-seg-inv'), ar = bar.querySelector('.tl-seg-ar');
+    inv.style.width = pct(A.now.dio); inv.textContent = `재고보유 ${d1(A.now.dio)}일`;
+    ar.style.width = pct(A.now.dso);  ar.textContent = `매출채권회수 ${d1(A.now.dso)}일`;
+  }
+
+  const note = $('actNote'), H = A.history;
+  if (note) note.textContent = `색은 매출채권·재고에 묶이는 기간(영업순환주기)을 지난 5년 ${H.n}분기와 비교한 위치다. `
+    + `이보다 길었던 분기는 ${H.longer}번(범위 ${d1(H.min)}~${d1(H.max)}일)이고, 나눠 보면 매출채권 회수기간은 ${H.dsoLonger}번, 재고 보유기간은 ${H.dioLonger}번이다. `
+    + '재고 증가는 Blackwell Ultra·Vera Rubin 양산을 앞둔 선제 재고일 수 있지만, 색은 그 이유를 가리지 않고 길이만 잰다. '
+    + '매입채무 지급기간은 늦출수록 CCC가 줄어 좋아 보이므로 색 판정에서 뺐다.';
 })();
 
 // 요약 격자 세 점수를 NVDA_SCORES에서 렌더한다. 색과 배지는 점수에서 나온다.
