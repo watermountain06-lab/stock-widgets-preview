@@ -1,0 +1,173 @@
+#!/usr/bin/env python3
+"""동종업 대비 밸류에이션 점수 — 같은 GICS 섹터 안에서 배수 순위를 매긴다.
+
+왜 자기 이력만으로는 모자란가
+------------------------------
+`build_multiple_history.py`는 "이 종목의 배수가 **자기 5년 분포**에서 하위 몇 %인가"를
+점수로 준다. NVDA는 91.4점이다. 그런데 그 질문은 "다른 회사 대신 이걸 사야 하나"에
+답하지 않는다. 계속 비싸지기만 한 종목은 자기 이력 대비로는 영원히 비싸고, 계속
+싸지는 종목은 영원히 싸다.
+
+같은 섹터 안에서 다시 세면 답이 달라진다. NVDA는 동종업 대비 47.5점이다. **44점이
+벌어진다** — 이익 기준(PER)으로는 25종목 중 6위로 싸지만 자산·매출 기준(PBR·PSR)으로는
+하위권이다. 마진이 예외적이라 같은 매출·자산에서 훨씬 많은 이익을 뽑기 때문이다.
+두 점수를 평균으로 뭉개면 이 사실이 사라지므로 카드는 둘을 **나란히** 싣는다.
+
+어떻게 세는가
+-------------
+섹터는 `v2/sectors.json`(GICS 11 분류, 70종목). 배수는 각 종목의
+`site_data/valuation_base/{T}.json`에 있는 `value0`을 `site_data/stocks.json`의
+현재 종가로 환산해 만든다(`price-ratio`는 비례, `ev-delta`는 EV에 시총 변화분을 더함).
+**네트워크를 쓰지 않는다** — 70종목 SEC 조회는 429를 부른다.
+
+점수는 배수마다 `100 - (나보다 싼 동종업 비율)`이다. 배수가 낮을수록 싸므로 점수가
+높다. 다섯 배수의 단순평균이 최종값이다.
+
+일부러 하지 않은 것
+-------------------
+- **피어를 손으로 고르지 않는다.** 카드의 `MULTIPLE_DATA`는 배수마다 AVGO·AMD·TSM을
+  손으로 골라 두세 개만 쓰는데, 고르는 근거가 파일에 없고 날짜도 없다. 여기서는
+  섹터 전체를 쓴다. 표본이 3개에서 25개로 늘고, 무엇을 넣고 뺄지 고민할 여지가 없다.
+- **가중치를 주지 않는다.** 다섯 배수 단순평균이다. 업종별 가중은 근거가 생기면 붙인다.
+- **회계 기준 차이를 보정하지 않는다.** IT 섹터에 TSM(IFRS)·ASML이 섞여 있고 파운드리와
+  팹리스는 자산집약도가 다르다. 보정하려면 다시 손으로 고르는 일이 되므로, 보정 대신
+  **표본 수를 늘려** 개별 차이가 순위에 미치는 영향을 줄였다. 한 종목이 순위를 뒤집지
+  못한다는 뜻이지 비교가 공정해졌다는 뜻은 아니다.
+
+무엇을 버리는가
+---------------
+- `frozen: true`인 배수. 그 값은 일부러 갱신을 멈춘 것이라 현재가로 환산하면 틀린다.
+- `value0`이 없거나 0 이하인 배수(적자 종목의 음수 PER 등).
+- 남은 표본이 `MIN_PEERS`개 미만인 배수. 서너 종목의 순위는 순위가 아니다.
+
+사용법
+------
+    python3 v2/build_peer_score.py NVDA
+    python3 v2/build_peer_score.py NVDA --json v2/NVDA_peer_score.json
+    python3 v2/build_peer_score.py NVDA --self v2/NVDA_multiples.json
+"""
+import argparse
+import json
+import os
+import statistics
+import sys
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SECTORS = os.path.join(REPO, "v2", "sectors.json")
+STOCKS = os.path.join(REPO, "site_data", "stocks.json")
+VBASE = os.path.join(REPO, "site_data", "valuation_base")
+
+METRICS = ["per", "pbr", "psr", "pcr", "evebitda"]
+LABELS = {"per": "PER", "pbr": "PBR", "psr": "PSR",
+          "pcr": "PCR", "evebitda": "EV/EBITDA"}
+MIN_PEERS = 8          # 이보다 적으면 그 배수는 버린다
+
+
+def load_sectors():
+    d = json.load(open(SECTORS))
+    return {k: v for k, v in d.items() if not k.startswith("_")}
+
+
+def load_prices():
+    d = json.load(open(STOCKS))["tickers"]
+    rows = d.values() if isinstance(d, dict) else d
+    return {r["ticker"]: r for r in rows}
+
+
+def multiples_now(ticker, prices):
+    """`value0`을 현재 종가로 환산한 배수. 못 구하면 그 배수는 빠진다."""
+    path = os.path.join(VBASE, f"{ticker}.json")
+    if not os.path.exists(path):
+        return {}, None
+    base = json.load(open(path))
+    p0 = float(base["p0"])
+    row = prices.get(ticker) or {}
+    close = (row.get("price") or {}).get("close")
+    if not close or p0 <= 0:
+        return {}, base.get("cardAsOf")
+    out = {}
+    for m in base.get("metrics", []):
+        if m.get("value0") is None or m.get("frozen"):
+            continue
+        v0 = float(m["value0"])
+        if v0 <= 0:
+            continue
+        if m.get("method") == "ev-delta":
+            ev0, mcap0 = float(m["ev0"]), float(m["mcap0"])
+            ev = ev0 + (mcap0 * close / p0 - mcap0)
+            out[m["metric"]] = ev / (ev0 / v0)       # EBITDA = ev0 / v0
+        else:
+            out[m["metric"]] = v0 * close / p0
+    return out, base.get("cardAsOf")
+
+
+def peer_score(ticker, sectors, prices):
+    sector = sectors.get(ticker)
+    if not sector:
+        sys.exit(f"{ticker}: v2/sectors.json에 섹터가 없다")
+    group = [t for t in sectors if sectors[t] == sector]
+    data, asof = {}, {}
+    for t in group:
+        data[t], asof[t] = multiples_now(t, prices)
+    rows, dropped = [], []
+    for m in METRICS:
+        vals = {t: v[m] for t, v in data.items() if m in v}
+        if ticker not in vals:
+            dropped.append((m, "본인 값 없음"))
+            continue
+        if len(vals) - 1 < MIN_PEERS:
+            dropped.append((m, f"동종업 {len(vals)-1}개뿐"))
+            continue
+        mine = vals[ticker]
+        peers = sorted(v for t, v in vals.items() if t != ticker)
+        cheaper = sum(1 for x in peers if x < mine)
+        score = 100 - cheaper / len(peers) * 100
+        rows.append({"metric": m, "value": mine, "rank": cheaper + 1,
+                     "peers": len(peers), "median": statistics.median(peers),
+                     "score": round(score, 1)})
+    dates = [d for t, d in asof.items() if d and data.get(t)]
+    return {"ticker": ticker, "sector": sector, "groupSize": len(group),
+            "metrics": rows, "dropped": dropped,
+            "score": round(sum(r["score"] for r in rows) / len(rows), 1) if rows else None,
+            "peerAsOf": [min(dates), max(dates)] if dates else None}
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("ticker")
+    ap.add_argument("--json", help="결과 저장 경로")
+    ap.add_argument("--self", dest="self_path",
+                    help="자기 이력 점수를 읽을 build_multiple_history 결과 JSON")
+    args = ap.parse_args()
+    t = args.ticker.upper()
+
+    r = peer_score(t, load_sectors(), load_prices())
+    print(f"{t} — {r['sector']} {r['groupSize']}종목 (본인 포함)")
+    if r["peerAsOf"]:
+        print(f"  동종업 기준일 {r['peerAsOf'][0]} ~ {r['peerAsOf'][1]}")
+    print()
+    print(f"  {'배수':10} {'본인':>8} {'동종업중앙':>10} {'순위':>10} {'점수':>7}")
+    for row in r["metrics"]:
+        print(f"  {LABELS[row['metric']]:10} {row['value']:8.1f} {row['median']:10.1f}"
+              f" {row['rank']:4d}/{row['peers']:<5} {row['score']:7.1f}")
+    for m, why in r["dropped"]:
+        print(f"  {LABELS[m]:10} {'—':>8} {'버림':>10} {why:>16}")
+    print(f"\n  동종업 대비 = {r['score']}")
+
+    if args.self_path and os.path.exists(args.self_path):
+        d = json.load(open(args.self_path))["multiples"]
+        s = round(sum(v["score"] for v in d.values()) / len(d), 1)
+        r["selfScore"] = s
+        r["selfWindow"] = json.load(open(args.self_path)).get("window")
+        print(f"  자기 이력 대비 = {s}  (창 {r['selfWindow'][0]} ~ {r['selfWindow'][1]})")
+        gap = abs(s - r["score"])
+        print(f"\n  두 점수의 격차 {gap:.1f}점"
+              + (" — 평균으로 뭉개지 말 것" if gap >= 20 else ""))
+
+    if args.json:
+        json.dump(r, open(args.json, "w"), ensure_ascii=False, indent=1)
+        print("\n저장:", args.json)
+
+
+if __name__ == "__main__":
+    main()

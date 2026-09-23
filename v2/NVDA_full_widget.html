@@ -416,12 +416,14 @@
   .logic-box.logic-positive { border-left-color:var(--green); }
   .logic-box.logic-neutral { border-left-color:var(--gold); }
   .logic-box.logic-negative { border-left-color:var(--red); }
+  .logic-box.logic-info { border-left-color:#38bdf8; }
   .logic-head { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:5px; }
   .logic-tag { font-size:11.5px; font-weight:800; color:var(--text); }
   .logic-verdict { font-size:10px; font-weight:700; padding:2px 7px; border-radius:999px; background:var(--bg3); color:var(--text2); white-space:nowrap; }
   .logic-positive .logic-verdict { background:rgba(46,204,113,0.15); color:var(--green); }
   .logic-neutral .logic-verdict { background:rgba(240,192,64,0.15); color:var(--gold); }
   .logic-negative .logic-verdict { background:rgba(231,76,60,0.15); color:var(--red); }
+  .logic-info .logic-verdict { background:rgba(56,189,248,0.15); color:#38bdf8; }
   .logic-score { font-size:19px; font-weight:800; color:var(--text); }
   .logic-denom { font-size:11px; font-weight:600; color:var(--text3); }
   .logic-desc { font-size:12px; color:var(--text2); line-height:1.65; }
@@ -479,23 +481,25 @@
 
 <div id="tech" class="summary">
 
-  <!-- ══════════ 적정주가를 뒷받침하는 3가지 근거 ══════════ -->
-  <div class="logic-grid">
-    <div class="logic-box logic-neutral">
-      <div class="logic-head"><span class="logic-tag">내재가치 (DCF 시나리오)</span><span class="logic-verdict">기본 시나리오 밑</span></div>
+  <!-- ══════════ 네 가지 관점 ══════════
+       값은 전부 NVDA_SCORES / NVDA_DCF에서 렌더한다. HTML에 적힌 숫자는
+       스크립트가 꺼졌을 때를 위한 대비용이다. -->
+  <div class="logic-grid" id="nvdaLogicGrid">
+    <div class="logic-box logic-info">
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="nvdaDcfVerdict">현재가보다 위</span></div>
       <div class="logic-score" id="nvdaDcfBox">$315<span class="logic-denom"> · 낮은 성장 $160 · 높은 성장 $602</span></div>
     </div>
-    <div class="logic-box logic-positive">
-      <div class="logic-head"><span class="logic-tag">기본적 분석</span><span class="logic-verdict">우수</span></div>
-      <div class="logic-score">98.1<span class="logic-denom">/100</span></div>
+    <div class="logic-box" id="nvdaFundBox">
+      <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="nvdaFundVerdict">우수</span></div>
+      <div class="logic-score" id="nvdaFundScore">96.1<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 (5년 이력 대비)</span><span class="logic-verdict">5년 내 최저권</span></div>
-      <div class="logic-score">92.1<span class="logic-denom">/100</span></div>
+    <div class="logic-box" id="nvdaPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="nvdaPeerVerdict">중간</span></div>
+      <div class="logic-score" id="nvdaPeerScore">47.5<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-positive">
-      <div class="logic-head"><span class="logic-tag">시계열 뉴스</span><span class="logic-verdict">우호적 · 정책 경계</span></div>
-      <div class="logic-score">4개 분기<span class="logic-denom"> 연속 서프라이즈</span></div>
+    <div class="logic-box" id="nvdaSelfBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="nvdaSelfVerdict">싼 편</span></div>
+      <div class="logic-score" id="nvdaSelfScore">91.4<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -962,7 +966,7 @@
 
 <div id="valuation" class="section">
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 $227.38</div>
-  <div style="font-size:10.5px;color:var(--text3);margin:-4px 0 12px;">※ 5개 배수 전부 2026-08-26 Q2 FY27 실적(SEC 10-Q, 자기자본 $229.0B·TTM매출 $302.97B·TTM FCF $127.0B·TTM EBITDA $201.3B) 기준으로 갱신(2026-09-04).</div>
+  <div style="font-size:10.5px;color:var(--text3);margin:-4px 0 12px;">※ 5개 배수 전부 2026-08-26 Q2 FY27 실적(SEC 10-Q, 자기자본 $229.0B·TTM매출 $302.97B·TTM FCF $127.0B·TTM EBITDA $201.3B) 기준으로 계산했고, 주가는 2026-09-21 종가 $227.38이다.</div>
 
 
   <div class="grid-2">
@@ -1057,49 +1061,49 @@
   <div class="scorecard">
     <div class="scorecard-top">
       <div>
-        <div class="scorecard-score"><span class="num">86.3</span><span class="denom">/100</span></div>
+        <div class="scorecard-score"><span class="num">94.9</span><span class="denom">/100</span></div>
       </div>
       <div class="scorecard-verdict">
         <div><span class="scorecard-grade grade-strong">재무 기본점수 · 우수 구간</span></div>
-        <div class="scorecard-noOpp-inline">기술 80 · 평균 83.2</div>
+        <div class="scorecard-noOpp-inline">기술 90 · 평균 92.5</div>
       </div>
     </div>
-    <div class="scorecard-bar"><div class="scorecard-bar-fill" style="width:86.3%;"></div></div>
-    <div class="scorecard-subtitle">3축(밸류에이션·재무건전성·성장·수익성) 종합, 100점 만점 환산 · 모델 v1.0.1 산식 동결 2026-08-25</div>
+    <div class="scorecard-bar"><div class="scorecard-bar-fill" style="width:94.9%;"></div></div>
+    <div class="scorecard-subtitle">3축(밸류에이션·재무건전성·성장·수익성) 종합, 100점 만점 환산 · 배점은 모델 v1.0.1(2026-08-25 동결) 그대로 두고 입력만 최신 분기·TTM으로 바꿨다</div>
 
     <div class="scorecard-subscores">
       <div class="subscore-box">
-        <div class="subscore-label"><span>밸류에이션</span><span class="subscore-max">20.6/33</span></div>
-        <div class="subscore-val">20.6</div>
-        <div class="subscore-bar"><div class="subscore-bar-fill" style="width:62.4%;"></div></div>
-        <div class="subscore-desc">PER 44.55x 2단계·PBR 33.72x 5단계·목표주가 1단계(애널리스트 57명 컨센서스 +50.1%) — 종합 2.5/5단계(낮을수록 저평가) <span style="color:var(--gold);font-weight:700;">낮음</span> <span style="color:var(--text3);">(2026-09-11 모델 스냅샷 기준)</span></div>
+        <div class="subscore-label"><span>밸류에이션</span><span class="subscore-max">30.5/33</span></div>
+        <div class="subscore-val">30.5</div>
+        <div class="subscore-bar"><div class="subscore-bar-fill" style="width:92.4%;"></div></div>
+        <div class="subscore-desc">PER 28.7x 1단계·PBR 24.1x 2단계·목표주가 1단계(애널리스트 60명 컨센서스 +43.4%) — 종합 1.3/5단계(낮을수록 저평가) <span style="color:var(--green);font-weight:700;">매우낮음</span> <span style="color:var(--text3);">(단계는 위 5단계 표와 같은 값을 쓴다)</span></div>
       </div>
       <div class="subscore-box">
-        <div class="subscore-label"><span>재무건전성</span><span class="subscore-max">31.7/33</span></div>
-        <div class="subscore-val">31.7</div>
-        <div class="subscore-bar"><div class="subscore-bar-fill" style="width:96.1%;"></div></div>
-        <div class="subscore-desc">유동비율 390.5%·당좌비율 324.0%·차입금의존도 4.1%·이자보상배율 503.40배·부채비율 31.5% — 5개 비율 합계 24/25점</div>
+        <div class="subscore-label"><span>재무건전성</span><span class="subscore-max">30.4/33</span></div>
+        <div class="subscore-val">30.4</div>
+        <div class="subscore-bar"><div class="subscore-bar-fill" style="width:92.1%;"></div></div>
+        <div class="subscore-desc">유동비율 458.9%·당좌비율 385.5%·차입금의존도 10.4%·이자보상배율 280.80배·부채비율 39.9% — 5개 비율 합계 23/25점. <span style="color:var(--gold);">장기차입금이 FY2026 $7.5B에서 $32.4B로 늘어 차입금의존도만 5점→4점</span></div>
       </div>
       <div class="subscore-box">
         <div class="subscore-label"><span>성장·수익성</span><span class="subscore-max">34/34</span></div>
         <div class="subscore-val">34</div>
         <div class="subscore-bar"><div class="subscore-bar-fill" style="width:100.0%;"></div></div>
-        <div class="subscore-desc">매출 CAGR 100.5%·영업이익 CAGR 214.9%·영업이익률(OPM) 60.4%·순이익률 55.6% — 4개 지표 합계 20/20점</div>
+        <div class="subscore-desc">매출 CAGR 100.0%·영업이익 CAGR 213.7%(연간 시계열)·영업이익률(OPM) 66.2%·순이익률 62.0%(Q2 FY27) — 4개 지표 합계 20/20점</div>
       </div>
     </div>
 
     <div class="scorecard-noflags">ℹ️ 데이터 상태 · 주요 재무지표가 기준 커버리지를 충족합니다</div>
 
     <div class="scorecard-footer">
-      <span>재무 데이터 기준일 2026-01-25 · 기준일로부터 7.5개월 경과</span>
+      <span>재무 데이터 기준일 2026-07-26 (Q2 FY27 10-Q, 2026-08-26 공시) · 주가 2026-09-21 종가</span>
       <span class="scorecard-disclaimer">서술적 스냅샷 지표 - 지금 저평가·재무건전성·성장성이 어느 수준인지 요약할 뿐이며, 향후 수익률과의 상관관계는 검증하지 않았습니다. 기술점수와의 단순평균도 순위·매수판단용이 아닙니다.</span>
     </div>
   </div>
 
   <div class="card">
     <div class="card-title">종합 밸류에이션</div>
-    <div class="verdict-summary-head">종합 판단 <span class="summary-asof" style="font-size:11px;font-weight:400;color:var(--text3);">(2026.09.03 분석 기준)</span> <span class="tag" style="color:var(--gold);">적정~저평가 · 확신도 보통</span></div>
-    <div class="verdict-summary-body">PER(1단계)뿐 아니라 PBR·PSR·PCR·EV/EBITDA까지 5개 배수 전부 2단계(낮음) 이하로 내려와, Q1 FY27 기준으로 이익 관련 배수에만 국한됐던 할인이 자산·매출·현금흐름 기준까지 전방위로 넓어졌다. 자기자본(+17.1%)·TTM매출·TTM FCF가 모두 주가 상승분(약 +5%)보다 훨씬 빠르게 늘어난 결과다. <strong style="color:var(--text);">이익 성장이 유지된다는 전제 하의 저평가</strong>라는 성격 자체는 그대로다.</div>
+    <div class="verdict-summary-head">종합 판단 <span class="summary-asof" style="font-size:11px;font-weight:400;color:var(--text3);">(2026.09.21 종가 · Q2 FY27 실적 기준)</span> <span class="tag" style="color:var(--gold);">적정~저평가 · 확신도 보통</span></div>
+    <div class="verdict-summary-body">PER(1단계)뿐 아니라 PBR·PSR·PCR·EV/EBITDA까지 5개 배수 전부 2단계(낮음) 이하로 내려와, Q1 FY27 기준으로 이익 관련 배수에만 국한됐던 할인이 자산·매출·현금흐름 기준까지 전방위로 넓어졌다. 자기자본이 직전 분기 대비 <strong>+17.1%</strong>($195.5B → $229.0B) 늘어나는 동안 같은 기간 주가는 <strong>-0.7%</strong>($208.27 → $206.84)였다. TTM 매출과 FCF도 같은 방향이다 — 분모가 주가보다 빨리 커지면 배수는 저절로 내려간다. <strong style="color:var(--text);">이익 성장이 유지된다는 전제 하의 저평가</strong>라는 성격 자체는 그대로다.</div>
     <div class="verdict-summary-risk">⚠️ 마진(OPM 65%+)이나 EPS 성장률(85%+)이 정상화되면 PER·PEG 기준의 할인 논리는 빠르게 약해질 수 있다.</div>
   </div>
 </div>
@@ -1631,6 +1635,41 @@ const NVDA_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 갱신: python3 v2/build_dcf.py NVDA --price <현재가>
 const NVDA_DCF = {low: 159.77, base: 315.00, high: 602.30,
                   requiredGrowth: 0.2606, asOf: "2026-09-22"};
+
+// ── 요약 격자 네 칸 (2026-09-22 재구성) ──
+// 전에는 "적정주가를 뒷받침하는 3가지 근거"라고 적어놓고 박스가 4개였고, 값이
+// 가격 · 점수 · 점수 · 문장으로 단위가 셋이었다. 같은 격자에 놓이면 비교 가능한
+// 것처럼 보이는데 아니었다. 손으로 쓴 뉴스 박스(재현 불가)를 빼고, 밸류에이션을
+// **동종업 대비**와 **자기 이력 대비** 둘로 갈라 네 칸을 채운다.
+//
+// 두 밸류에이션 점수를 평균내지 않는 것이 핵심이다. NVDA는 43.9점이 벌어지는데
+// (동종업 47.5 대 자기 이력 91.4), 그 격차가 이 종목에 대한 진짜 정보다 —
+// 자기 역사상 가장 싼 구간이면서 동종업 중에서는 중간이다. 이익 기준(PER)으로는
+// 24개 중 6위로 싸지만 자산·매출 기준(PBR·PSR)으로는 하위권인데, 마진이
+// 예외적이라 같은 매출·자산에서 훨씬 많은 이익을 뽑기 때문이다. 한 숫자로
+// 뭉개면 이 사실이 사라진다.
+//
+// 색은 점수에서 나온다 — 헤더 ④ 밴드 적중률과 **같은 문턱**이다.
+//     초록 70점 이상 · 노랑 30~70점 · 빨강 30점 미만
+// 내재가치 칸만 파랑 고정이다. 점수가 아니라 가격이고, 헤더 ②와 같은 값이라
+// 같은 색을 쓴다.
+//
+// 갱신: python3 v2/build_peer_score.py NVDA --self v2/NVDA_multiples.json
+//       python3 v2/build_fundamental_score.py NVDA
+const NVDA_SCORES = {
+  fundamental: 96.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
+  peer: 47.5,          // GICS Information Technology 24~27종목 대비 배수 순위
+  selfHistory: 91.4,   // 자기 5년 배수 분포 백분위 (2021-09-21 ~ 2026-09-21)
+  asOf: "2026-09-21",
+  fundamentalAsOf: "2026-07-26",   // Q2 FY27 10-Q (2026-08-26 공시)
+};
+// 기본적 분석이 98.1이 아니라 96.1인 이유. redesign의 동결 모델(v1.0.1)은
+// **연간치만** 써서 NVDA 같은 1월 결산 종목은 대차대조표가 최대 12개월 뒤처진다.
+// v2는 배점 구간을 그대로 두고 입력만 최신 분기로 바꾼다. 바뀐 칸은 하나 —
+// **차입금의존도 4.1%(5점) → 10.4%(4점)**. 장기차입금이 FY2026의 $7.5B에서
+// Q2 FY27에 $32.4B로 4.3배 늘었는데, 연간 기준으로는 2027년 2월까지 안 보인다.
+// 마진은 분기가 오히려 좋지만(OPM 60.4→66.2%) 이미 만점이라 올라갈 자리가 없다.
+// `--basis annual`로 돌리면 98.1이 그대로 나온다 — 배점을 안 건드렸다는 확인이다.
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 NVDA_DCF 하나다.
 //
@@ -1671,6 +1710,47 @@ const NVDA_DCF = {low: 159.77, base: 315.00, high: 602.30,
   if (box)  box.innerHTML = '$' + Math.round(d.base)
     + '<span class="logic-denom"> · 낮은 성장 $' + Math.round(d.low)
     + ' · 높은 성장 $' + Math.round(d.high) + '</span>';
+  const dv = $('nvdaDcfVerdict');
+  if (dv && price != null) dv.textContent = price < d.base ? '현재가보다 위' : '현재가보다 아래';
+})();
+
+// 요약 격자 세 점수를 NVDA_SCORES에서 렌더한다. 색과 배지는 점수에서 나온다.
+(function(){
+  const S = NVDA_SCORES, $ = id => document.getElementById(id);
+  const GREEN = 70, RED = 30;   // 헤더 ④ 밴드 적중률과 같은 문턱
+  const tone = v => v >= GREEN ? 'logic-positive' : v >= RED ? 'logic-neutral' : 'logic-negative';
+  // 배지 말은 칸마다 다르다 — 98.1은 "싸다"가 아니라 "재무가 좋다"는 뜻이다.
+  const WORDS = {
+    fund: ['우수', '보통', '취약'],
+    val:  ['싼 편', '중간', '비싼 편'],
+  };
+  const word = (v, set) => v >= GREEN ? set[0] : v >= RED ? set[1] : set[2];
+  const put = (boxId, scoreId, verdictId, v, set, title) => {
+    const box = $(boxId), sc = $(scoreId), vd = $(verdictId);
+    if (!box || v == null) return;
+    box.classList.remove('logic-positive', 'logic-neutral', 'logic-negative');
+    box.classList.add(tone(v));
+    if (sc) sc.innerHTML = v.toFixed(1) + '<span class="logic-denom">/100</span>';
+    if (vd) vd.textContent = word(v, set);
+    if (title) box.title = title;
+  };
+  put('nvdaFundBox', 'nvdaFundScore', 'nvdaFundVerdict', S.fundamental, WORDS.fund,
+      `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 FY27), 성장률은 연간 시계열을 쓴다.`
+      + `\n장기차입금이 반년 사이 $7.5B → $32.4B로 늘어 차입금의존도가 4.1%에서 10.4%가 됐다.`);
+  put('nvdaPeerBox', 'nvdaPeerScore', 'nvdaPeerVerdict', S.peer, WORDS.val,
+      `같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.`
+      + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
+      + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
+  put('nvdaSelfBox', 'nvdaSelfScore', 'nvdaSelfVerdict', S.selfHistory, WORDS.val,
+      `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
+      + `\n⚠ PER이 구조적으로 내려오는 중이라 과거 분포는 현재보다 높게 잡힌다 —`
+      + ` "자기 역사상 싸다"가 "지금 싸다"를 뜻하지 않는다.`);
+  // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
+  const gap = Math.abs(S.peer - S.selfHistory);
+  const grid = $('nvdaLogicGrid');
+  if (grid && gap >= 20) grid.title = `밸류에이션 두 점수가 ${gap.toFixed(1)}점 갈린다`
+    + ` — 동종업 ${S.peer} 대 자기 이력 ${S.selfHistory}. 평균내지 않고 나란히 둔다.`;
 })();
 // 시점별 내재가치 (v2/build_dcf_track.py). 각 분기 실적이 공개된 날짜에,
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다

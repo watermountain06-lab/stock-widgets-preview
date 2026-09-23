@@ -1,0 +1,74 @@
+{
+ "ticker": "NVDA",
+ "basis": "quarter",
+ "asOf": "2026-07-26",
+ "filedAt": "2026-08-26",
+ "score": 96.1,
+ "grade": "우수",
+ "axes": {
+  "health": {
+   "rows": [
+    {
+     "metric": "currentRatio",
+     "value": 458.89490690160164,
+     "points": 5
+    },
+    {
+     "metric": "quickRatio",
+     "value": 385.49710592993796,
+     "points": 5
+    },
+    {
+     "metric": "debtDependency",
+     "value": 10.418019683269222,
+     "points": 4
+    },
+    {
+     "metric": "interestCoverage",
+     "value": 280.76651982378854,
+     "points": 5
+    },
+    {
+     "metric": "debtToEquity",
+     "value": 39.866540893686896,
+     "points": 4
+    }
+   ],
+   "raw": 23,
+   "used": 5,
+   "points": 30.4,
+   "max": 33.0
+  },
+  "growthProfit": {
+   "rows": [
+    {
+     "metric": "revenueCagr",
+     "value": 100.04509499443964,
+     "points": 5
+    },
+    {
+     "metric": "opIncomeCagr",
+     "value": 213.69201301125563,
+     "points": 5
+    },
+    {
+     "metric": "opMargin",
+     "value": 66.23710000935347,
+     "points": 5
+    },
+    {
+     "metric": "netMargin",
+     "value": 62.03219671381507,
+     "points": 5
+    }
+   ],
+   "raw": 20,
+   "used": 4,
+   "points": 34.0,
+   "max": 34.0
+  }
+ },
+ "axisMaxTotal": 67.0,
+ "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다",
+ "configVersion": "1.0.1"
+}

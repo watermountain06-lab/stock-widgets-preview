@@ -28,8 +28,11 @@ Yahoo 일봉은 분할이 소급 반영돼 있고 XBRL의 주식수는 당시 �
 
 사용법
 ------
-    python3 v2/build_multiple_history.py NVDA
-    python3 v2/build_multiple_history.py NVDA --json out.json
+    EPS_HISTORY=scripts/NVDA_eps_history.json python3 v2/build_multiple_history.py NVDA
+    EPS_HISTORY=scripts/NVDA_eps_history.json python3 v2/build_multiple_history.py NVDA --json out.json
+
+EPS 이력이 없으면 PER만 빠진 채 계산된다. 만들려면:
+    python3 scripts/fetch_eps_history.py NVDA --cik 0001045810 --out scripts/NVDA_eps_history.json
 """
 import argparse
 import json
@@ -642,6 +645,10 @@ def main():
             "days": len(pts), "current": round(cur, 2),
             "min": round(srt[0], 2), "p10": round(q(.10), 2), "median": round(q(.50), 2),
             "p90": round(q(.90), 2), "max": round(srt[-1], 2),
+            # 평균도 같이 낸다. 기본적 분석 점수의 밸류에이션 축이 "현재값이 5년
+            # 평균에서 몇 % 떨어졌나"로 단계를 매기기 때문이다(build_fundamental_score).
+            # 중앙값이 아니라 평균인 것은 그 산식이 그렇게 정의돼 있어서다.
+            "mean": round(sum(vals) / len(vals), 2),
             "percentile": round(pr, 1), "score": round(100 - pr, 1),
         }
         m = out["multiples"][label]
