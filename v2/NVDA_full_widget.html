@@ -264,16 +264,13 @@
   .val-number { font-size: 14px; font-weight: 700; color: var(--accent2); }
   .val-track { height: 8px; background: var(--bg3); border-radius: 4px; position: relative; overflow: hidden; }
   .val-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
-  .val-labels { display: flex; justify-content: space-between; margin-top: 4px; }
-  .val-low { font-size: 10px; color: var(--green); }
-  .val-mid { font-size: 10px; color: var(--accent2); text-align: center; }
-  .val-high { font-size: 10px; color: var(--red); }
-  .stage-badge { font-size: 13px; padding: 2px 10px; border-radius: 12px; font-weight: 700; }
-  .stage-1 { background: rgba(46,204,113,0.2); color: #2ecc71; }
-  .stage-2 { background: rgba(39,174,96,0.2); color: #27ae60; }
-  .stage-3 { background: rgba(200,168,75,0.2); color: var(--accent2); }
-  .stage-4 { background: rgba(231,126,35,0.2); color: #e67e22; }
-  .stage-5 { background: rgba(231,76,60,0.2); color: var(--red); }
+  .hist-badge { font-size:11.5px; padding:2px 9px; border-radius:12px; font-weight:700; white-space:nowrap; }
+  .hist-badge.good { background:rgba(46,204,113,0.15); color:var(--green); }
+  .hist-badge.mid { background:rgba(240,192,64,0.15); color:var(--gold); }
+  .hist-badge.bad { background:rgba(231,76,60,0.15); color:var(--red); }
+  .hist-fill.good { background:var(--green); } .hist-fill.mid { background:var(--gold); } .hist-fill.bad { background:var(--red); }
+  .hist-labels { display:flex; justify-content:space-between; margin-top:4px; font-size:10px; color:var(--text3); }
+  .hist-note { font-size:10px; font-weight:500; color:var(--text3); margin-left:6px; }
 
   /* PEER-COMPARE VERDICT BLOCK */
 
@@ -489,7 +486,7 @@
     </div>
     <div class="logic-box" id="nvdaSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="nvdaSelfVerdict">싼 편</span></div>
-      <div class="logic-score" id="nvdaSelfScore">91.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="nvdaSelfScore">89.2<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -841,7 +838,7 @@
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~저평가</span><span class="vs-asof"><span data-vs="asof">2026.09.22</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 NVDA 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">91.0</div><div class="sc-tile" data-vc="self" data-m="per">99</div><div class="sc-tile" data-vc="self" data-m="pbr">81</div><div class="sc-tile" data-vc="self" data-m="psr">83</div><div class="sc-tile" data-vc="self" data-m="pcr">94</div><div class="sc-tile" data-vc="self" data-m="evebitda">99</div><div class="vs-pill" data-vs-pill="self">싸다</div>
+      <div class="vs-name" title="지난 5년 NVDA 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">89.2</div><div class="sc-tile" data-vc="self" data-m="per">99</div><div class="sc-tile" data-vc="self" data-m="pbr">81</div><div class="sc-tile" data-vc="self" data-m="psr">83</div><div class="sc-tile" data-vc="self" data-m="pcr">85</div><div class="sc-tile" data-vc="self" data-m="evebitda">99</div><div class="vs-pill" data-vs-pill="self">싸다</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$315</div><div class="vs-note">현재가 <span data-vs="price">$228.87</span> 대비 <strong data-vs="upside">+37.6%</strong> · 기본 시나리오</div><div class="vs-pill" data-vs-pill="dcf">싸다</div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">46.7</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile low" data-vc="peer" data-m="pbr">22</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">61</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
@@ -851,66 +848,66 @@
 
   <div class="grid-2">
     <div class="card">
-      <div class="card-title">멀티플 5단계 평가 (글로벌 AI 반도체 비교)</div>
+      <div class="card-title">배수별 자기 5년 위치</div>
 
       <div class="val-item" data-metric="per" onclick="selectMultiple('per')">
         <div class="val-header">
           <span class="val-name">PER (TTM)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number">28.9x</span>
-            <span class="stage-badge stage-1">1단계 매우낮음</span>
+            <span class="val-number" data-hist="cur">28.9x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 1%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill" style="width:7.4%;background:linear-gradient(90deg,#27ae60,#2ecc71);"></div></div>
-        <div class="val-labels"><span class="val-low">저 26.5x</span><span class="val-mid">적정 40.8x</span><span class="val-high">고 59.0x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:2.0%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 26.5x</span><span data-hist="median">중앙 58.2x</span><span data-hist="max">최고 247.3x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
           <span class="val-name">PBR</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number">24.1x</span>
-            <span class="stage-badge stage-2">2단계 낮음</span>
+            <span class="val-number" data-hist="cur">24.1x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 19%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill" style="width:29.4%;background:linear-gradient(90deg,#27ae60,#8bc34a);"></div></div>
-        <div class="val-labels"><span class="val-low">저 5x</span><span class="val-mid">적정 20x</span><span class="val-high">고 70x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:19.0%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.7x</span><span data-hist="median">중앙 36.1x</span><span data-hist="max">최고 67.9x</span></div>
       </div>
 
       <div class="val-item" data-metric="psr" onclick="selectMultiple('psr')">
         <div class="val-header">
           <span class="val-name">PSR (TTM)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number">18.2x</span>
-            <span class="stage-badge stage-2">2단계 낮음</span>
+            <span class="val-number" data-hist="cur">18.2x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 17%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill" style="width:29.3%;background:linear-gradient(90deg,#27ae60,#8bc34a);"></div></div>
-        <div class="val-labels"><span class="val-low">저 5x</span><span class="val-mid">적정 23x</span><span class="val-high">고 50x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:17.2%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 9.4x</span><span data-hist="median">중앙 25.4x</span><span data-hist="max">최고 46.7x</span></div>
       </div>
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
-          <span class="val-name">PCR (FCF, TTM)</span>
+          <span class="val-name">PCR (FCF, TTM) <span class="hist-note">2024.08~ 이력</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number">43.4x</span>
-            <span class="stage-badge stage-2">2단계 낮음</span>
+            <span class="val-number" data-hist="cur">43.4x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 15%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill" style="width:37.9%;background:linear-gradient(90deg,#27ae60,#8bc34a);"></div></div>
-        <div class="val-labels"><span class="val-low">저 15x</span><span class="val-mid">적정 58x</span><span class="val-high">고 90x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:15.1%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 37.8x</span><span data-hist="median">중앙 55.9x</span><span data-hist="max">최고 78.1x</span></div>
       </div>
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
         <div class="val-header">
           <span class="val-name">EV/EBITDA</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number">27.3x</span>
-            <span class="stage-badge stage-2">2단계 낮음</span>
+            <span class="val-number" data-hist="cur">27.3x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 1%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill" style="width:24.7%;background:linear-gradient(90deg,#27ae60,#8bc34a);"></div></div>
-        <div class="val-labels"><span class="val-low">저 10x</span><span class="val-mid">적정 46x</span><span class="val-high">고 80x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:2.0%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 25.0x</span><span data-hist="median">중앙 49.1x</span><span data-hist="max">최고 192.1x</span></div>
       </div>
     </div>
 
@@ -1428,8 +1425,8 @@ const NVDA_DCF = {low: 159.77, base: 315.00, high: 602.30,
 // 것처럼 보이는데 아니었다. 손으로 쓴 뉴스 박스(재현 불가)를 빼고, 밸류에이션을
 // **동종업 대비**와 **자기 이력 대비** 둘로 갈라 네 칸을 채운다.
 //
-// 두 밸류에이션 점수를 평균내지 않는 것이 핵심이다. NVDA는 43.9점이 벌어지는데
-// (동종업 46.7 대 자기 이력 91.0), 그 격차가 이 종목에 대한 진짜 정보다 —
+// 두 밸류에이션 점수를 평균내지 않는 것이 핵심이다. NVDA는 42.5점이 벌어지는데
+// (동종업 46.7 대 자기 이력 89.2), 그 격차가 이 종목에 대한 진짜 정보다 —
 // 자기 역사상 가장 싼 구간이면서 동종업 중에서는 중간이다. 이익 기준(PER)으로는
 // 24개 중 6위로 싸지만 자산·매출 기준(PBR·PSR)으로는 하위권인데, 마진이
 // 예외적이라 같은 매출·자산에서 훨씬 많은 이익을 뽑기 때문이다. 한 숫자로
@@ -1445,7 +1442,7 @@ const NVDA_DCF = {low: 159.77, base: 315.00, high: 602.30,
 const NVDA_SCORES = {
   fundamental: 96.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 46.7,          // GICS Information Technology 24~27종목 대비 배수 순위
-  selfHistory: 91.0,   // 자기 5년 배수 분포 백분위 (2021-09-22 ~ 2026-09-22)
+  selfHistory: 89.2,   // 자기 5년 배수 분포 백분위 (2021-09-22 ~ 2026-09-22, PCR은 2024-08부터)
   asOf: "2026-09-22",
   fundamentalAsOf: "2026-07-26",   // Q2 FY27 10-Q (2026-08-26 공시)
 };
@@ -1643,13 +1640,27 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
 //
 // 갱신: python3 v2/build_peer_score.py NVDA --self v2/NVDA_multiples.json --card
 /* VALUATION:BEGIN */
-const NVDA_VALUATION = {"peer": {"score": 46.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "per", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "pbr", "score": 21.7, "rank": 19, "peers": 23}, {"metric": "psr", "score": 25.9, "rank": 21, "peers": 27}, {"metric": "pcr", "score": 60.9, "rank": 10, "peers": 23}, {"metric": "evebitda", "score": 50.0, "rank": 13, "peers": 24}]}, "self": {"score": 91.0, "window": ["2021-09-22", "2026-09-22"], "metrics": [{"metric": "per", "score": 98.6, "percentile": 1.4}, {"metric": "pbr", "score": 81.0, "percentile": 19.0}, {"metric": "psr", "score": 82.8, "percentile": 17.2}, {"metric": "pcr", "score": 93.8, "percentile": 6.2}, {"metric": "evebitda", "score": 98.6, "percentile": 1.4}]}};
+const NVDA_VALUATION = {"peer": {"score": 46.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "per", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "pbr", "score": 21.7, "rank": 19, "peers": 23}, {"metric": "psr", "score": 25.9, "rank": 21, "peers": 27}, {"metric": "pcr", "score": 60.9, "rank": 10, "peers": 23}, {"metric": "evebitda", "score": 50.0, "rank": 13, "peers": 24}]}, "self": {"score": 89.2, "window": ["2021-09-22", "2026-09-22"], "metrics": [{"metric": "per", "score": 98.6, "percentile": 1.4, "current": 28.93, "min": 26.51, "median": 58.17, "max": 247.34, "days": 1255}, {"metric": "pbr", "score": 81.0, "percentile": 19.0, "current": 24.09, "min": 11.72, "median": 36.1, "max": 67.87, "days": 1255}, {"metric": "psr", "score": 82.8, "percentile": 17.2, "current": 18.21, "min": 9.4, "median": 25.45, "max": 46.74, "days": 1255}, {"metric": "pcr", "score": 84.9, "percentile": 15.1, "current": 43.43, "min": 37.82, "median": 55.88, "max": 78.06, "days": 518}, {"metric": "evebitda", "score": 98.6, "percentile": 1.4, "current": 27.32, "min": 25.02, "median": 49.13, "max": 192.08, "days": 1255}]}};
 /* VALUATION:END */
 (function(){
   const V = (typeof NVDA_VALUATION !== 'undefined') ? NVDA_VALUATION : null;
   if (!V) return;
   NVDA_SCORES.peer = V.peer.score; NVDA_SCORES.selfHistory = V.self.score;
   const tone = v => v >= 70 ? '' : v >= 30 ? ' lost' : ' low';
+  // 배수별 자기 5년 위치 — 막대는 백분위(왼쪽 끝 = 5년 최저, 가운데 = 중앙값).
+  // 예전 "5단계 평가"는 손으로 잡은 적정 앵커(재현 불가)와 옛 단계 체계였다.
+  const histCls = v => v >= 70 ? 'good' : v >= 30 ? 'mid' : 'bad';
+  V.self.metrics.forEach(m => {
+    const item = document.querySelector(`#valuation .val-item[data-metric="${m.metric}"]`);
+    if (!item) return;
+    const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
+    f('cur').textContent = x(m.current);
+    f('badge').className = 'hist-badge ' + histCls(m.score);
+    f('badge').textContent = `5년 중 하위 ${Math.round(m.percentile)}%`;
+    f('fill').className = 'val-fill hist-fill ' + histCls(m.score);
+    f('fill').style.width = Math.max(m.percentile, 2) + '%';
+    f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
+  });
   ['peer', 'self'].forEach(k => {
     const el = document.querySelector(`#valComp [data-vc-score="${k}"]`);
     if (el) el.textContent = V[k].score.toFixed(1);

@@ -98,6 +98,11 @@ EBITDA_TAGS = {
 }
 
 
+# 두 시리즈를 짝지을 때 허용하는 뒤처짐. 한 분기 늦은 보고(약 91일)는 받고,
+# 두 분기 이상 비면 버린다.
+MAX_PAIR_LAG_DAYS = 200
+
+
 CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".sec_cache")
 
 
@@ -610,6 +615,15 @@ def main():
             if not common:
                 return None, None
             end = max(common)
+            # 그 분기가 앞선 쪽의 최신 분기보다 한참 뒤처지면 쓰지 않는다.
+            # NVDA는 2021~2023년 10-Q에서 설비투자를 회사 전용 태그(nvda:)로
+            # 보고했고 companyfacts는 그 태그를 주지 않는다. 그 동안 짝이 맞는
+            # "가장 최근" 분기를 찾다가 2012-10-28까지 거슬러 가서, 10년 전
+            # FCF $0.6B를 2021~2024년 주가의 분모로 썼다(PCR 910배, 5년 중앙값
+            # 64.97 → 381, 2026-09-23 발견). 그런 날은 값을 내지 않는다.
+            lead = max(ea[-1]["end"], eb[-1]["end"])
+            if (date.fromisoformat(lead) - date.fromisoformat(end)).days > MAX_PAIR_LAG_DAYS:
+                return None, None
             ea = [x for x in ea if x["end"] == end]
             eb = [x for x in eb if x["end"] == end]
         return ea[-1]["val"], eb[-1]["val"]

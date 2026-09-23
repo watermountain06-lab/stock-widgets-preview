@@ -4,7 +4,7 @@
 왜 자기 이력만으로는 모자란가
 ------------------------------
 `build_multiple_history.py`는 "이 종목의 배수가 **자기 5년 분포**에서 하위 몇 %인가"를
-점수로 준다. NVDA는 91.4점이다. 그런데 그 질문은 "다른 회사 대신 이걸 사야 하나"에
+점수로 준다. NVDA는 89.2점이다(2026-09-23 PCR 짝맞춤 수정 후). 그런데 그 질문은 "다른 회사 대신 이걸 사야 하나"에
 답하지 않는다. 계속 비싸지기만 한 종목은 자기 이력 대비로는 영원히 비싸고, 계속
 싸지는 종목은 영원히 싸다.
 
@@ -210,7 +210,9 @@ def write_card(ticker, r, self_multiples):
         "self": {"score": r["selfScore"], "window": r["selfWindow"],
                  # 동종업 상자와 같은 순서(METRICS)로 — 원본 JSON은 PER·PSR·PBR 순이다
                  "metrics": sorted(
-                     [{"metric": SELF_KEYS[k], "score": v["score"], "percentile": v["percentile"]}
+                     [{"metric": SELF_KEYS[k], "score": v["score"], "percentile": v["percentile"],
+                       "current": v["current"], "min": v["min"], "median": v["median"],
+                       "max": v["max"], "days": v["days"]}
                       for k, v in self_multiples.items() if v.get("score") is not None],
                      key=lambda m: METRICS.index(m["metric"]))},
     }
