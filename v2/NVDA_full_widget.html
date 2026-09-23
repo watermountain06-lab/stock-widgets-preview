@@ -319,6 +319,8 @@
   .tl-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
   .tl-source { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 11px; font-weight: 600; color: var(--accent2); text-decoration: none; }
   .tl-source:hover { text-decoration: underline; }
+  .news-list { margin:10px 0 0; padding-left:20px; font-size:12.5px; color:var(--text2); line-height:1.7; }
+  .news-list li::marker { color:var(--accent2); font-weight:700; }
   .tl-reaction { display:inline-block; margin-left:8px; font-size:10px; font-weight:700; padding:2px 7px; border-radius:999px; }
   .tl-reaction.up { background:rgba(46,204,113,0.15); color:var(--green); }
   .tl-reaction.down { background:rgba(231,76,60,0.15); color:var(--red); }
@@ -922,14 +924,18 @@
 </div>
 
 <div id="news" class="section">
-  <div class="section-title">시계열 주요 뉴스 (2025.07 ~ 2026.08)</div>
+  <div class="section-title">시계열 주요 뉴스 (2025.11 ~ 2026.09)</div>
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · AI 데이터센터 수요發 실적 서프라이즈 우위<span class="tag">우호적·정책 경계</span></div>
-    <div class="verdict-summary-body">2025년 9월 저점 이후 Data Center 매출 성장률이 YoY 66%→75%→92%→117%로 확대되며 4개 분기 연속 강한 실적을 이어갔고, Q4·Q1·Q2 전부 컨센서스도 상회했다. Q2 FY27에서는 매출이 처음으로 $96B를 넘어서며 전년동기 대비 두 배 이상(+106%) 성장했다.</div>
-    <div class="verdict-summary-counter">⚠️ 반대 신호 — 중국向 수출규제가 2025년 9월(H20 라이선스, $4.5B 재고손실 충당) 이후 2026년 6월(해외 법인 우회 루프홀 차단)까지 반복 재부상하며 완전히 해소되지 않은 정책 리스크로 남아 있고, Q2 FY27에서는 매출채권·재고 증가로 잉여현금흐름이 둔화되며 실적 발표 다음날 상승분 일부를 반납하기도 했다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 — Q3 FY27 실적(11월 중순 예상)에서 Data Center 성장률·잉여현금흐름이 개선되는지, 강화된 수출규제가 실제 실적에 미치는 영향.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · 실적이 매 분기 가이던스를 넘는다<span class="tag">우호적·정책 경계</span></div>
+    <ol class="news-list">
+      <li>네 분기 연속 매출이 직전 가이던스를 넘었다. $57.0B에서 $96.2B까지 늘었고, 데이터센터 성장률은 전년 대비 66% → 75% → 92% → 117%로 빨라졌다.</li>
+      <li>다음 분기(Q3 FY27) 가이던스는 $108.0B다. 중국 데이터센터 매출은 0으로 가정했다.</li>
+      <li>9월에 Hugging Face를 $12.93B에 인수하기로 했다.</li>
+    </ol>
+    <div class="verdict-summary-counter">⚠️ 중국 규제가 계속 조여진다(3월 H200 중국向 생산 중단 보도, 5월 말 해외 법인 우회 차단). 실적 발표 다음날 주가가 오른 것은 네 번 중 한 번(Q2 FY27)뿐이다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 FY27 실적(11월 중순 예상)에서 $108.0B 가이던스를 넘는지, 잉여현금흐름이 회복되는지.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -944,45 +950,46 @@
   <div class="card">
     <div class="timeline">
       <div class="tl-item">
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 9월 3일 — Hugging Face 인수<span class="tl-reaction up" data-react="2026-09-03">+1.8%</span></div>
+        <div class="tl-title">개방형 AI 모델 플랫폼 Hugging Face를 $12.93B에 인수하기로 발표</div>
+        <a class="tl-source" href="https://blogs.nvidia.com/blog/nvidia-to-acquire-hugging-face/" target="_blank" rel="noopener">NVIDIA Blog →</a>
+      </div>
+      <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-date">2026년 8월 26일 발표 → 8월 27일 반응 — Q2 FY27 실적<span class="tl-reaction up">+8.7%</span></div>
-        <div class="tl-title">매출 $96.2B(+106%)·GAAP EPS $2.46 서프라이즈로 급등, 잉여현금흐름 둔화 우려로 다음날 일부 반납</div>
-        <div class="tl-desc">매출·EPS 모두 서프라이즈였고 다음 거래일 +8.7% 급등했지만, 매출채권·재고 증가로 잉여현금흐름이 줄며 그 다음날 일부 반납했다.</div>
-        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">관련 공시 보기 (SEC 8-K) →</a>
+        <div class="tl-date">2026년 8월 26일 발표 · 8월 27일 반응 — Q2 FY27 실적<span class="tl-reaction up" data-react="2026-08-27">+8.7%</span></div>
+        <div class="tl-title">매출 $96.2B(+106%)로 가이던스 $91.0B 상회 · 다음 분기 가이던스 $108.0B · 이튿날 −4.6%</div>
+        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot red"></div>
-        <div class="tl-date">2026년 6월 1일 — 수출규제 재강화</div>
-        <div class="tl-title">미 정부 중국계 기업 해외 법인도 수출허가 적용 — Blackwell 루프홀 차단</div>
-        <div class="tl-desc">미 상무부가 중국 본사·모기업 소재 기업의 해외 자회사에도 수출허가 요건을 명확히 적용해 우회 수입 루프홀을 막았다.</div>
-        <a class="tl-source" href="https://www.cnbc.com/2026/06/04/nvidia-ceo-jensen-huang-warren-senate-hearing-china-ai-chips.html" target="_blank" rel="noopener">관련 뉴스 보기 (CNBC) →</a>
+        <div class="tl-date">2026년 5월 31일 — 수출 규제 강화<span class="tl-reaction up" data-react="2026-06-01">+6.3%</span></div>
+        <div class="tl-title">미 상무부, 중국 본사 기업의 해외 법인에도 첨단 칩 수출허가 적용 · Blackwell 우회 경로 차단</div>
+        <a class="tl-source" href="https://www.cnbc.com/2026/05/31/us-takes-step-to-halt-nvidia-ai-chip-shipments-to-chinese-firms-outside-china.html" target="_blank" rel="noopener">CNBC →</a>
       </div>
       <div class="tl-item">
-        <div class="tl-dot green"></div>
-        <div class="tl-date">2026년 5월 20일 — Q1 FY27 실적</div>
-        <div class="tl-title">매출 $81.6B · 연속 신고점 · 배당 25배 인상 + $80B 자사주 승인</div>
-        <div class="tl-desc">매출 $81.6B(+85%)로 컨센서스를 상회했고, 분기배당을 25배 인상하며 $80B 자사주 매입도 새로 승인했다.</div>
-        <a class="tl-source" href="https://www.tikr.com/blog/nvidia-q1-2027-earnings-81-6b-revenue-and-three-straight-quarters-of-acceleration" target="_blank" rel="noopener">관련 뉴스 보기 (TIKR) →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot green"></div>
-        <div class="tl-date">2026년 2월 25일 — Q4 FY26 실적</div>
-        <div class="tl-title">매출 $68.1B · 분기 역대최대 · $78B 가이던스 제시</div>
-        <div class="tl-desc">매출 $68.1B(+73%)로 컨센서스를 크게 웃돌았고, 다음 분기 가이던스도 $78B로 컨센서스를 상회했다.</div>
-        <a class="tl-source" href="https://futurumgroup.com/insights/nvidia-q4-fy-2026-earnings-highlight-durable-ai-infrastructure-demand/" target="_blank" rel="noopener">관련 뉴스 보기 (Futurum) →</a>
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026년 5월 20일 발표 · 5월 21일 반응 — Q1 FY27 실적<span class="tl-reaction down" data-react="2026-05-21">−1.8%</span></div>
+        <div class="tl-title">매출 $81.6B(+85%)로 가이던스 $78.0B 상회 · 배당 $0.01→$0.25, 자사주 $80B 추가 승인</div>
+        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot red"></div>
-        <div class="tl-date">2025년 11월 19일 — Q3 FY26 실적</div>
-        <div class="tl-title">매출 $57.0B 역대최대 · Blackwell "품절(sold out)" 발언에도 주가는 하락<span class="tl-reaction down">-3.15%</span></div>
-        <div class="tl-desc">매출 $57.0B(+62%)로 역대 최대였고 CEO가 "품절" 발언까지 했지만, 장 마감 후 발표라 다음 거래일 -3.15% 하락했다.</div>
-        <a class="tl-source" href="https://mysweetretirement.com/nvidia-q3-fy2026-earnings" target="_blank" rel="noopener">관련 뉴스 보기 (MySweetRetirement) →</a>
+        <div class="tl-date">2026년 3월 5일 — H200 중국向 생산 중단 보도 (FT)<span class="tl-reaction flat" data-react="2026-03-05">+0.2%</span></div>
+        <div class="tl-title">중국이 선적을 막자 TSMC 생산 능력을 H200에서 Vera Rubin으로 전환</div>
+        <a class="tl-source" href="https://www.trendforce.com/news/2026/03/05/news-nvidia-reportedly-halts-h200-production-amid-china-sales-uncertainty-shifts-tsmc-capacity-to-vera-rubin/" target="_blank" rel="noopener">TrendForce →</a>
       </div>
       <div class="tl-item">
-        <div class="tl-dot red"></div>
-        <div class="tl-date">2025년 9월 5일 — 52주 최저</div>
-        <div class="tl-title">$164.07 52주 최저 · 중국向 수출규제 불확실성 지속</div>
-        <div class="tl-desc">중국向 수출규제 불확실성이 이어지며 주가가 $164.07로 52주 최저를 기록했고, 이후 반등이 시작됐다.</div>
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026년 2월 25일 발표 · 2월 26일 반응 — Q4 FY26 실적<span class="tl-reaction down" data-react="2026-02-26">−5.5%</span></div>
+        <div class="tl-title">매출 $68.1B(+73%)로 가이던스 $65.0B 상회 · 다음 분기 가이던스 $78.0B</div>
+        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-fourth-quarter-and-fiscal-2026" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2025년 11월 19일 발표 · 11월 20일 반응 — Q3 FY26 실적<span class="tl-reaction down" data-react="2025-11-20">−3.2%</span></div>
+        <div class="tl-title">매출 $57.0B(+62%)로 가이던스 $54.0B 상회 · "클라우드 GPU는 품절" (젠슨 황)</div>
+        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-third-quarter-fiscal-2026" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
       </div>
     </div>
   </div>
@@ -1631,6 +1638,19 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
   }
   const hx = $('fundHealthAxis');
   if (hx && F.axes.health.points != null) hx.textContent = `${F.axes.health.points.toFixed(1)}/${F.axes.health.max}`;
+})();
+
+// ── 시계열 뉴스: 사건일 주가 반응은 NVDA_DAILY에서 계산한다 (전일 종가 대비) ──
+(function(){
+  if (typeof NVDA_DAILY === 'undefined') return;
+  const ix = {}; NVDA_DAILY.forEach((r, i) => { ix[r[0]] = i; });
+  document.querySelectorAll('#news [data-react]').forEach(el => {
+    const i = ix[el.dataset.react];
+    if (i == null || i === 0) { el.remove(); return; }
+    const c = (NVDA_DAILY[i][4] / NVDA_DAILY[i - 1][4] - 1) * 100;
+    el.className = 'tl-reaction ' + (c >= 0.5 ? 'up' : c <= -0.5 ? 'down' : 'flat');
+    el.textContent = (c >= 0 ? '+' : '−') + Math.abs(c).toFixed(1) + '%';
+  });
 })();
 
 // ── 밸류에이션 탭: 요약 격자의 두 밸류에이션 점수를 배수별로 (2026-09-23) ──
