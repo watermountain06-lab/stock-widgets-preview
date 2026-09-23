@@ -11,27 +11,152 @@
     {
      "metric": "currentRatio",
      "value": 458.89490690160164,
-     "points": 5
+     "points": 5,
+     "label": "유동비율",
+     "unit": "%",
+     "higherIsBetter": true,
+     "buckets": [
+      {
+       "upper_exclusive": 100,
+       "points": 1
+      },
+      {
+       "upper_exclusive": 150,
+       "points": 2
+      },
+      {
+       "upper_exclusive": 200,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 300,
+       "points": 4
+      },
+      {
+       "upper_exclusive": null,
+       "points": 5
+      }
+     ]
     },
     {
      "metric": "quickRatio",
      "value": 385.49710592993796,
-     "points": 5
+     "points": 5,
+     "label": "당좌비율",
+     "unit": "%",
+     "higherIsBetter": true,
+     "buckets": [
+      {
+       "upper_exclusive": 50,
+       "points": 1
+      },
+      {
+       "upper_exclusive": 100,
+       "points": 2
+      },
+      {
+       "upper_exclusive": 150,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 250,
+       "points": 4
+      },
+      {
+       "upper_exclusive": null,
+       "points": 5
+      }
+     ]
     },
     {
      "metric": "debtDependency",
      "value": 10.418019683269222,
-     "points": 4
+     "points": 4,
+     "label": "차입금의존도",
+     "unit": "%",
+     "higherIsBetter": false,
+     "buckets": [
+      {
+       "upper_exclusive": 5,
+       "points": 5
+      },
+      {
+       "upper_exclusive": 15,
+       "points": 4
+      },
+      {
+       "upper_exclusive": 30,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 50,
+       "points": 2
+      },
+      {
+       "upper_exclusive": null,
+       "points": 1
+      }
+     ]
     },
     {
      "metric": "interestCoverage",
      "value": 280.76651982378854,
-     "points": 5
+     "points": 5,
+     "label": "이자보상배율",
+     "unit": "x",
+     "higherIsBetter": true,
+     "buckets": [
+      {
+       "upper_exclusive": 1,
+       "points": 1
+      },
+      {
+       "upper_exclusive": 4,
+       "points": 2
+      },
+      {
+       "upper_exclusive": 10,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 30,
+       "points": 4
+      },
+      {
+       "upper_exclusive": null,
+       "points": 5
+      }
+     ]
     },
     {
      "metric": "debtToEquity",
      "value": 39.866540893686896,
-     "points": 4
+     "points": 4,
+     "label": "부채비율",
+     "unit": "%",
+     "higherIsBetter": false,
+     "buckets": [
+      {
+       "upper_exclusive": 25,
+       "points": 5
+      },
+      {
+       "upper_exclusive": 50,
+       "points": 4
+      },
+      {
+       "upper_exclusive": 100,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 200,
+       "points": 2
+      },
+      {
+       "upper_exclusive": null,
+       "points": 1
+      }
+     ]
     }
    ],
    "raw": 23,
@@ -44,22 +169,122 @@
     {
      "metric": "revenueCagr",
      "value": 100.04509499443964,
-     "points": 5
+     "points": 5,
+     "label": "매출 CAGR",
+     "unit": "%",
+     "higherIsBetter": true,
+     "buckets": [
+      {
+       "upper_exclusive": 0,
+       "points": 1
+      },
+      {
+       "upper_exclusive": 5,
+       "points": 2
+      },
+      {
+       "upper_exclusive": 12,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 25,
+       "points": 4
+      },
+      {
+       "upper_exclusive": null,
+       "points": 5
+      }
+     ]
     },
     {
      "metric": "opIncomeCagr",
      "value": 213.69201301125563,
-     "points": 5
+     "points": 5,
+     "label": "영업이익 CAGR",
+     "unit": "%",
+     "higherIsBetter": true,
+     "buckets": [
+      {
+       "upper_exclusive": 0,
+       "points": 1
+      },
+      {
+       "upper_exclusive": 8,
+       "points": 2
+      },
+      {
+       "upper_exclusive": 18,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 35,
+       "points": 4
+      },
+      {
+       "upper_exclusive": null,
+       "points": 5
+      }
+     ]
     },
     {
      "metric": "opMargin",
      "value": 66.23710000935347,
-     "points": 5
+     "points": 5,
+     "label": "영업이익률(OPM)",
+     "unit": "%",
+     "higherIsBetter": true,
+     "buckets": [
+      {
+       "upper_exclusive": 5,
+       "points": 1
+      },
+      {
+       "upper_exclusive": 15,
+       "points": 2
+      },
+      {
+       "upper_exclusive": 25,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 35,
+       "points": 4
+      },
+      {
+       "upper_exclusive": null,
+       "points": 5
+      }
+     ]
     },
     {
      "metric": "netMargin",
      "value": 62.03219671381507,
-     "points": 5
+     "points": 5,
+     "label": "순이익률",
+     "unit": "%",
+     "higherIsBetter": true,
+     "buckets": [
+      {
+       "upper_exclusive": 3,
+       "points": 1
+      },
+      {
+       "upper_exclusive": 8,
+       "points": 2
+      },
+      {
+       "upper_exclusive": 15,
+       "points": 3
+      },
+      {
+       "upper_exclusive": 25,
+       "points": 4
+      },
+      {
+       "upper_exclusive": null,
+       "points": 5
+      }
+     ]
     }
    ],
    "raw": 20,

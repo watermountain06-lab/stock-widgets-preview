@@ -45,11 +45,14 @@ NVDA에서 실제로 무엇을 놓치는가
     python3 v2/build_fundamental_score.py NVDA
     python3 v2/build_fundamental_score.py NVDA --basis annual      # 검산
     python3 v2/build_fundamental_score.py NVDA --json v2/NVDA_fundamental.json
+    python3 v2/build_fundamental_score.py NVDA --card    # 카드의 FUNDAMENTAL 블록 교체
 """
 import argparse
 import json
 import os
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_CONFIG = os.path.join(REPO, "v2", "fundamental_score_config_v1.json")
@@ -136,7 +139,10 @@ def compute(ticker, fin, config, basis):
         rows, raw, used = [], 0, 0
         for k in keys:
             pts = bucket_points(r.get(k), specs[k])
-            rows.append({"metric": k, "value": r.get(k), "points": pts})
+            rows.append({"metric": k, "value": r.get(k), "points": pts,
+                         "label": specs[k].get("label", k), "unit": specs[k].get("unit"),
+                         "higherIsBetter": specs[k].get("higher_is_better", True),
+                         "buckets": specs[k]["buckets"]})
             if pts is not None:
                 raw += pts
                 used += 1
@@ -188,6 +194,8 @@ def main():
     ap.add_argument("--financials")
     ap.add_argument("--config", default=DEFAULT_CONFIG)
     ap.add_argument("--json")
+    ap.add_argument("--card", action="store_true",
+                    help="v2/<T>_full_widget.html의 FUNDAMENTAL 블록을 교체한다 (최신 분기 기준만)")
     args = ap.parse_args()
     t = args.ticker.upper()
 
@@ -204,6 +212,41 @@ def main():
     if args.json:
         json.dump(res, open(args.json, "w"), ensure_ascii=False, indent=1)
         print("\n저장:", args.json)
+    if args.card:
+        if args.basis != "quarter":
+            sys.exit("--card는 최신 분기 기준으로만 쓴다")
+        write_card(t, res)
+
+
+def net_cash(ticker):
+    """순현금 — 내재가치 탭의 DCF와 **같은 입력, 같은 정의**를 쓴다.
+
+    현금 + 단기투자 − 차입금 − 리스. 지분증권(상장주식·비상장 지분)은 넣지 않는다.
+    DCF가 그것을 "비영업 투자자산"으로 따로 더하기 때문이다. 2026-09-23 이전 카드는
+    지분증권 $42.8B를 넣은 순현금 $66.0B를 희석 가중평균 24.29B주로 나눠 $2.72를
+    적었고, 같은 카드의 DCF는 순부채 −$18B를 쓰고 있었다.
+    """
+    import build_dcf as d
+    b = d.base_inputs(ticker)
+    parts = {k: b.get(k) or 0 for k in ("cash", "sti", "debt", "lease")}
+    net = parts["cash"] + parts["sti"] - parts["debt"] - parts["lease"]
+    return {**parts, "shares": b["shares"], "net": net, "perShare": net / b["shares"]}
+
+
+BEGIN, END = "/* FUNDAMENTAL:BEGIN */", "/* FUNDAMENTAL:END */"
+
+
+def write_card(ticker, res):
+    import re
+    out = {**res, "netCash": net_cash(ticker)}
+    path = os.path.join(REPO, "v2", f"{ticker}_full_widget.html")
+    html = open(path, encoding="utf-8").read()
+    pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
+    if len(pat.findall(html)) != 1:
+        sys.exit(f"{path}: FUNDAMENTAL 마커가 정확히 한 쌍이 아니다")
+    block = f"{BEGIN}\nconst {ticker}_FUNDAMENTAL = {json.dumps(out, ensure_ascii=False)};\n{END}"
+    open(path, "w", encoding="utf-8").write(pat.sub(lambda _: block, html))
+    print("교체:", path)
 
 
 if __name__ == "__main__":
