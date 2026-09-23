@@ -775,7 +775,6 @@
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;" id="actNote">색은 매출채권·재고에 묶이는 기간(영업순환주기)을 지난 5년 20분기와 비교한 위치다. 이보다 길었던 분기는 5번(범위 112.2~206.7일)이고, 나눠 보면 매출채권 회수기간은 9번, 재고 보유기간은 4번이다. 재고 증가는 Blackwell Ultra·Vera Rubin 양산을 앞둔 선제 재고일 수 있지만, 색은 그 이유를 가리지 않고 길이만 잰다. 매입채무 지급기간은 늦출수록 CCC가 줄어 좋아 보이므로 색 판정에서 뺐다.</div>
     </div>
   </div>
 
@@ -789,7 +788,6 @@
     <div class="chart-wrap" style="height:240px;">
       <canvas id="nvdaFundCompareChart"></canvas>
     </div>
-    <div id="fundNarrative" style="font-size:12px;color:var(--text2);line-height:1.75;margin-top:14px;"></div>
     <div class="yoy-footnote" id="fundFootnote"></div>
   </div>
 
@@ -809,8 +807,7 @@
         </div>
       </div>
 
-      <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">Hyperscale 비중이 46%→51%로 다시 확대(Blackwell Ultra 램프업 영향, 일부 고객 재분류 포함)됐다 — ACIE(AI 클라우드·산업·엔터프라이즈) 성장률(YoY +138%)이 Hyperscale(YoY +101%)보다 빨랐음에도 절대 규모는 여전히 Hyperscale이 앞선다.</div>
-      <div class="yoy-footnote" style="margin-top:10px;">출처: <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27cfocommentary.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 CFO Commentary (SEC 8-K) →</a> · 이번 분기 중 ACIE→Hyperscale 고객 재분류로 전분기 수치가 소급 수정됨</div>
+      <div class="yoy-footnote" style="margin-top:14px;">출처: <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27cfocommentary.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 CFO Commentary (SEC 8-K) →</a> · 이번 분기 중 ACIE→Hyperscale 고객 재분류로 전분기 수치가 소급 수정됨</div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
@@ -834,7 +831,6 @@
           </div>
         </div>
       </div>
-      <div style="margin-top:10px;font-size:11px;color:var(--text3);">자사주매입 $19.7B는 직전 분기 신기록($20.2B)에 이어 두 번째로 큰 분기였다. 배당은 2026.5.18 발표된 25배 인상(주당 $0.01→$0.25)이 2026.6.26 지급분부터 처음 전액 반영돼 전분기 $243M→$6.0B로 급증(수익률 0.02%→0.44% 수준). 같은 발표에서 승인된 $80B 추가 자사주매입 한도까지 반영되며 잔여 승인 한도는 $38.5B→$99.3B로 확대됐다.</div>
     </div>
   </div>
 
@@ -1248,7 +1244,6 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 FY27 vs Q2 FY26)',
     chart: { cur: [96.2, 63.7, 71.5, 59.7, 21.4], cmp: [46.7, 28.4, 31.2, 26.4, 13.5] },
     deltas: ['+105.9%', '+124.1%', '+129.2%', '+125.9%', '+58.9%'],
-    narrative: '영업이익률이 60.8%→66.2%로 5.4%p 확대되며 매출 성장(+105.9%)보다 영업 레버리지가 더 두드러졌다(순이익 +125.9%). 다만 FCF 증가율(+58.9%)이 순이익 증가율에 크게 못 미치는 건 매출채권·재고 급증에 따른 운전자본 부담(CCC 참고) 때문이다. 이 분기 중 2021년 이후 첫 회사채($25B, 7개 트랜치)를 발행하며 총부채가 $8.5B→$33.4B로 늘어, 순수 현금창출력만으로 이뤄진 확장이라 보긴 어려워졌다.',
     footnote: '기준일: 2026.07.26(Q2 FY27) vs 2025.07.27(Q2 FY26) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 실적발표 원문 →</a>'
   },
   qoq: {
@@ -1256,7 +1251,6 @@ const FUND_COMPARE = {
     titleSuffix: 'QoQ (Q2 FY27 vs Q1 FY27)',
     chart: { cur: [96.2, 63.7, 71.5, 59.7, 21.4], cmp: [81.6, 53.5, 69.9, 58.3, 48.6] },
     deltas: ['+17.9%', '+19.1%', '+2.3%', '+2.4%', '-56.0%'],
-    narrative: '영업이익률은 65.6%→66.2%로 소폭 더 개선됐지만, 세전이익(+2.3%)·순이익(+2.4%) 증가율은 매출(+17.9%)·영업이익(+19.1%) 증가율에 크게 못 미쳤다 — 영업외손익 기여가 전분기 대비 줄었기 때문이다(영업외손익 Q1 $16.4B→Q2 $7.8B). FCF는 매출채권·재고 급증으로 전분기 대비 -56.0%($48.6B→$21.4B) 급감했다.',
     footnote: '기준일: 2026.07.26(Q2 FY27) vs 2026.04.26(Q1 FY27) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 실적발표 원문 →</a>'
   }
 };
@@ -1297,7 +1291,6 @@ function selectFundPeriod(period) {
     b.style.borderColor = active ? 'var(--accent)' : 'var(--border)';
   });
   document.getElementById('fundPeriodTitle').textContent = d.titleSuffix;
-  document.getElementById('fundNarrative').textContent = d.narrative;
   document.getElementById('fundFootnote').innerHTML = d.footnote;
 
   const ctx = document.getElementById('nvdaFundCompareChart');
@@ -1759,11 +1752,6 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
     ar.style.width = pct(A.now.dso);  ar.textContent = `매출채권회수 ${d1(A.now.dso)}일`;
   }
 
-  const note = $('actNote'), H = A.history;
-  if (note) note.textContent = `색은 매출채권·재고에 묶이는 기간(영업순환주기)을 지난 5년 ${H.n}분기와 비교한 위치다. `
-    + `이보다 길었던 분기는 ${H.longer}번(범위 ${d1(H.min)}~${d1(H.max)}일)이고, 나눠 보면 매출채권 회수기간은 ${H.dsoLonger}번, 재고 보유기간은 ${H.dioLonger}번이다. `
-    + '재고 증가는 Blackwell Ultra·Vera Rubin 양산을 앞둔 선제 재고일 수 있지만, 색은 그 이유를 가리지 않고 길이만 잰다. '
-    + '매입채무 지급기간은 늦출수록 CCC가 줄어 좋아 보이므로 색 판정에서 뺐다.';
 })();
 
 // 요약 격자 세 점수를 NVDA_SCORES에서 렌더한다. 색과 배지는 점수에서 나온다.
