@@ -65,6 +65,11 @@ def test_price_rules():
     check("in-progress bar is dropped", r["session"] == "2026-09-09", r)
     r = fp.resolve_price(chart(DAYS, CLOSES[:-1] + [None]), AFTER)
     check("trailing null close is skipped", r["session"] == "2026-09-09", r)
+    # An INTERIOR null is the dangerous one: the bar vanishes from the series, so prevClose
+    # silently comes from the session before it and a two-day move reads as a one-day change.
+    r = fp.resolve_price(chart(DAYS, CLOSES[:-2] + [None] + CLOSES[-1:]), AFTER)
+    check("an interior null close makes prevSession skip a session",
+          (r["session"], r["prevSession"], r["prevClose"]) == ("2026-09-10", "2026-09-08", CLOSES[-3]), r)
     r = fp.resolve_price(chart(DAYS, CLOSES, [1_000_000] * 21 + [50_000]), AFTER)
     check("low-volume bar is suspicious", (r["status"], r.get("statusReason")) == ("suspicious", "volume-anomaly"), r)
     r = fp.resolve_price(chart(DAYS, CLOSES, splits=[10]), AFTER)
@@ -204,6 +209,44 @@ def test_end_to_end_with_failures():
     check("a halted ticker whose record matches the provider is still written stale",
           h["status"] == "stale" and "target session" in (h.get("statusReason") or ""), h)
     check("halted ticker stays stale against the global session", p2["AAPL"]["status"] == "stale", p2["AAPL"])
+
+    # The provider skipping a session we already hold, rather than retreating from it. Yahoo nulled
+    # the 2026-09-22 close for 41 of 70 tickers on the 23rd while serving a complete 09-23 bar, and
+    # the date it published was the right one - only prevClose was two sessions old. Left alone that
+    # would have shown STX +5.30% against a real +0.44% and reversed the sign on twelve tickers,
+    # all labelled fresh with a session lag of zero, so the health check could not have seen it.
+    gap = tmp / "gap.json"
+    seed_stocks(gap)
+    g = json.loads(gap.read_text(encoding="utf-8"))
+    for t in g["tickers"]:                                 # hold AAPL at the session about to be nulled
+        if t["ticker"] == "AAPL":
+            t["price"] = {"close": CLOSES[-2], "prevClose": CLOSES[-3],
+                          "session": DAYS[-2].isoformat(), "prevSession": DAYS[-3].isoformat(),
+                          "status": "fresh"}
+    gap.write_text(json.dumps(g, ensure_ascii=False), encoding="utf-8")
+    (fx / "AAPL.json").write_text(json.dumps(chart(DAYS, CLOSES[:-2] + [None] + CLOSES[-1:])))
+    run("fetch_prices.py", "--data", str(gap), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")
+    gp = {t["ticker"]: t["price"] for t in json.loads(gap.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("a session the provider skipped keeps its recorded close, not a two-session change",
+          gp["session"] == DAYS[-2].isoformat() and gp["close"] == CLOSES[-2]
+          and gp["prevSession"] == DAYS[-3].isoformat(), gp)
+    check("and the reason names the session the provider no longer has",
+          gp["status"] == "stale" and f"no bar for {DAYS[-2].isoformat()}" in (gp.get("statusReason") or ""), gp)
+
+    # A held "suspicious" block must not come back as plain "stale": update_cards holds a card on
+    # suspicious and lets stale through, so laundering the status would let a card follow a price
+    # the card layer had already refused (APH carried a split-in-window flag through this exact day).
+    for t in g["tickers"]:
+        if t["ticker"] == "AAPL":
+            t["price"] = dict(t["price"], status="suspicious", statusReason="split-in-window 2026-09-03")
+    gap.write_text(json.dumps(g, ensure_ascii=False), encoding="utf-8")
+    run("fetch_prices.py", "--data", str(gap), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")
+    gs = {t["ticker"]: t["price"] for t in json.loads(gap.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("a held suspicious block stays suspicious rather than being laundered to stale",
+          gs["status"] == "suspicious", gs)
+    (fx / "AAPL.json").write_text(json.dumps(chart(DAYS[:-2], CLOSES[:-2])))   # restore the halt fixture
 
     # a failed fetch with no usable previous close stays unavailable (a stale record needs a close)
     for t in d2["tickers"]:

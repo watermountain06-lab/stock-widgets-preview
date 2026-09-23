@@ -182,9 +182,30 @@ def main():
                 new = {"close": None, "status": "unavailable", "statusReason": reason}
         elif isinstance(r, dict):
             held = t["price"].get("session")
-            if r["session"] == target:
+            have = held and t["price"].get("close") is not None
+            # A withdrawal costs a stale label, not a status: rewriting a held "suspicious"
+            # block as plain "stale" would launder it, and update_cards holds a card on
+            # suspicious while letting stale through - the card would then follow a price
+            # the card layer had already refused.
+            keep = "suspicious" if t["price"].get("status") == "suspicious" else "stale"
+            if have and r.get("prevSession") and r["session"] > held > r["prevSession"]:
+                # The provider lost an INTERIOR session and kept advancing. Yahoo nulled the
+                # 2026-09-22 close for 41 of 70 tickers on the 23rd and served a complete
+                # 09-23 bar beside it, so completed_bars - which drops null closes outright -
+                # would have read prevClose off 09-21 and published a two-session move as a
+                # one-day change: STX +5.30% against a real +0.44%, and twelve tickers with
+                # the sign reversed (AMGN +3.29% against -1.01%). status stayed "fresh" and
+                # the session lag stayed 0, so nothing downstream could see it. The branch
+                # below only catches a provider going backwards; this is the same provider
+                # skipping over a session we already hold, which is the more dangerous shape
+                # because the date it publishes is the right one.
+                new = dict(t["price"], status=keep,
+                           statusReason=f"provider has no bar for {held} between "
+                                        f"{r['prevSession']} and {r['session']} - keeping the "
+                                        f"{held} close rather than a two-session change")
+            elif r["session"] == target:
                 new = r
-            elif held and t["price"].get("close") and r["session"] < held:
+            elif have and r["session"] < held:
                 # The provider went BACKWARDS: it served a session on one run and withdrew it
                 # on the next. On 2026-09-22 Yahoo returned a complete session that evening and
                 # by the 23rd its close and volume were null for all 70 tickers, so the fetch
@@ -192,10 +213,11 @@ def main():
                 # 2026-09-22 close with an older one, and because the commit step runs before
                 # the health check the regression reached the public page before anything
                 # failed - AAPL read $338.98 on the homepage against $339.75 on its own card.
-                # update_cards.py already refuses to drop a session the provider no longer has;
-                # this is the same rule for the homepage data. The recorded block is kept and
+                # update_cards.py has no such rule of its own - what saved the cards that day was
+                # its MA-window integrity check, which holds a card carrying a session the fetch
+                # no longer returns. This is the homepage's own rule. The recorded block is kept and
                 # only its status changes, so a withdrawal costs a stale label, not the price.
-                new = dict(t["price"], status="stale",
+                new = dict(t["price"], status=keep,
                            statusReason=f"provider withdrew {held}: its latest completed bar is now "
                                         f"{r['session']} - keeping the {held} close")
             else:
