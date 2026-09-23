@@ -1238,19 +1238,23 @@ function renderFundChart() {
 }
 
 // ─── FUND YoY/QoQ COMPARE ───
+// 매출 · 영업이익 · 순이익 · FCF (단위 $B). 2026-09-23 SEC companyfacts로 대조했다.
+// FCF = 영업현금흐름 − PaymentsToAcquireProductiveAssets, 분기값은 누적값의 차이.
+// 증감률은 반올림 전 원자료로 계산한다 — 반올림한 63.7 ÷ 53.5로 계산하면
+// 영업이익 QoQ가 +19.1%로 나오지만 원자료는 +19.05%라 +19.0%다.
 const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 FY27', cmpLabel: 'Q2 FY26',
     titleSuffix: 'YoY (Q2 FY27 vs Q2 FY26)',
-    chart: { cur: [96.2, 63.7, 71.5, 59.7, 21.4], cmp: [46.7, 28.4, 31.2, 26.4, 13.5] },
-    deltas: ['+105.9%', '+124.1%', '+129.2%', '+125.9%', '+58.9%'],
+    chart: { cur: [96.2, 63.7, 59.7, 21.4], cmp: [46.7, 28.4, 26.4, 13.5] },
+    deltas: ['+105.9%', '+124.1%', '+125.9%', '+58.9%'],
     footnote: '기준일: 2026.07.26(Q2 FY27) vs 2025.07.27(Q2 FY26) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 실적발표 원문 →</a>'
   },
   qoq: {
     curLabel: 'Q2 FY27', cmpLabel: 'Q1 FY27',
     titleSuffix: 'QoQ (Q2 FY27 vs Q1 FY27)',
-    chart: { cur: [96.2, 63.7, 71.5, 59.7, 21.4], cmp: [81.6, 53.5, 69.9, 58.3, 48.6] },
-    deltas: ['+17.9%', '+19.1%', '+2.3%', '+2.4%', '-56.0%'],
+    chart: { cur: [96.2, 63.7, 59.7, 21.4], cmp: [81.6, 53.5, 58.3, 48.6] },
+    deltas: ['+17.9%', '+19.0%', '+2.3%', '-56.0%'],
     footnote: '기준일: 2026.07.26(Q2 FY27) vs 2026.04.26(Q1 FY27) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 실적발표 원문 →</a>'
   }
 };
@@ -1306,7 +1310,7 @@ function selectFundPeriod(period) {
     fundCompareChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['매출', '영업이익', '세전이익', '순이익', 'FCF'],
+        labels: ['매출', '영업이익', '순이익', 'FCF'],
         datasets: [
           { label: d.cmpLabel, data: d.chart.cmp, backgroundColor: 'rgba(154,160,184,0.35)', borderColor: '#5c6282', borderWidth: 1, borderRadius: 4 },
           { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(118,185,0,0.55)', borderColor: '#76b900', borderWidth: 1, borderRadius: 4 }
