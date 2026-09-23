@@ -101,7 +101,25 @@ def multiples_now(ticker, prices):
     return out, base.get("cardAsOf")
 
 
-def peer_score(ticker, sectors, prices):
+SELF_KEYS = {"PER": "per", "PBR": "pbr", "PSR": "psr",
+             "PCR": "pcr", "EV/EBITDA": "evebitda"}
+
+
+def self_multiples(path):
+    """본인 배수는 카드가 화면에 쓰는 값과 같아야 한다.
+
+    동종업 값은 각 카드의 `valuation_base`에서 오는데, NVDA의 경우 그 기준선이
+    **희석 가중평균 주식수**(24.285B)로 만들어져 있고 v2의 내재가치·백분위는
+    **발행주식수**(24.100B, SEC dei)를 쓴다. 0.7% 차이지만 PBR이 24.1x와
+    24.3x로, PCR이 43.4x와 43.8x로 갈린다. 카드가 한 화면에서 같은 배수를 두
+    값으로 보여주는 것보다, 본인만 카드와 같은 기준으로 세는 편이 낫다고 봤다.
+    동종업 기준과 0.7% 어긋나지만 순위는 한 칸 안에서 움직인다(실측).
+    """
+    d = json.load(open(path))["multiples"]
+    return {SELF_KEYS[k]: v["current"] for k, v in d.items() if k in SELF_KEYS}
+
+
+def peer_score(ticker, sectors, prices, self_path=None):
     sector = sectors.get(ticker)
     if not sector:
         sys.exit(f"{ticker}: v2/sectors.json에 섹터가 없다")
@@ -109,6 +127,8 @@ def peer_score(ticker, sectors, prices):
     data, asof = {}, {}
     for t in group:
         data[t], asof[t] = multiples_now(t, prices)
+    if self_path and os.path.exists(self_path):
+        data[ticker] = {**data.get(ticker, {}), **self_multiples(self_path)}
     rows, dropped = [], []
     for m in METRICS:
         vals = {t: v[m] for t, v in data.items() if m in v}
@@ -141,7 +161,7 @@ def main():
     args = ap.parse_args()
     t = args.ticker.upper()
 
-    r = peer_score(t, load_sectors(), load_prices())
+    r = peer_score(t, load_sectors(), load_prices(), args.self_path)
     print(f"{t} — {r['sector']} {r['groupSize']}종목 (본인 포함)")
     if r["peerAsOf"]:
         print(f"  동종업 기준일 {r['peerAsOf'][0]} ~ {r['peerAsOf'][1]}")
