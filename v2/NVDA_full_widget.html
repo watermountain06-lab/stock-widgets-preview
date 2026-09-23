@@ -191,6 +191,15 @@
   .diag-badge.info { background:rgba(154,160,184,0.14); color:var(--text2); }
   .diag-badge.watch { background:rgba(240,192,64,0.16); color:var(--gold); }
   .diag-badge.alert { background:rgba(231,76,60,0.16); color:var(--red); }
+  .score-comp-head { display:flex; justify-content:space-between; align-items:baseline; font-size:13px; font-weight:700; color:var(--text); margin-bottom:10px; }
+  .score-comp-total { font-size:20px; font-weight:800; color:var(--text); }
+  .score-comp-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .score-comp-box { background:var(--bg3); border-radius:8px; padding:10px 14px; }
+  .score-comp-axis { font-size:12px; color:var(--text2); margin-bottom:4px; }
+  .score-comp-axis b { font-size:15px; color:var(--text); }
+  .score-comp-items { font-size:11.5px; color:var(--text2); line-height:1.6; word-break:keep-all; }
+  .score-comp-items .lost { color:var(--gold); font-weight:700; }
+  @media (max-width: 600px) { .score-comp-grid { grid-template-columns:1fr; } }
 
   .detail-toggle { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; user-select: none; font-size: 12.5px; color: var(--text2); font-weight: 600; padding: 10px 2px 6px; border-top: 1px dashed var(--bg3); margin-top: 2px; }
   .detail-toggle:hover { color: var(--text); }
@@ -643,6 +652,21 @@
 <div id="fund" class="section">
   <div class="section-title">기본적 분석 — 분기 재무제표</div>
 
+  <!-- ══════════ 0. 점수 구성 — 요약 격자의 기본적 분석 점수가 어디서 나오나 ══════════ -->
+  <div class="card score-comp" id="fundComp">
+    <div class="score-comp-head"><span>기본적 분석</span><span class="score-comp-total" id="fundCompTotal">96.1<span class="logic-denom">/100</span></span></div>
+    <div class="score-comp-grid">
+      <div class="score-comp-box" data-axis="health">
+        <div class="score-comp-axis">재무건전성 <b data-axis-pts>30.4</b><span class="logic-denom">/33</span></div>
+        <div class="score-comp-items" data-axis-items>유동비율 5 · 당좌비율 5 · 차입금의존도 4 · 이자보상배율 5 · 부채비율 4</div>
+      </div>
+      <div class="score-comp-box" data-axis="growthProfit">
+        <div class="score-comp-axis">성장·수익성 <b data-axis-pts>34.0</b><span class="logic-denom">/34</span></div>
+        <div class="score-comp-items" data-axis-items>매출 성장 5 · 이익 성장 5 · 영업이익률 5 · 순이익률 5</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ══════════ 1. 분기 매출/순이익/영업이익률 차트 ══════════ -->
   <div class="card">
     <div class="card-title">분기 매출 / 순이익 / 영업이익률 (Q3 FY25~Q2 FY27)</div>
@@ -675,29 +699,6 @@
     </div>
   </div>
 
-  <!-- ══════════ 성장·수익성 — 기본적 분석 점수의 나머지 절반 ══════════ -->
-  <div class="card" style="margin-top:16px;">
-    <div class="card-title">성장·수익성 — 기본적 분석 점수 입력 (<span id="fundGrowthAxis">34.0/34</span>)</div>
-    <div class="diag-list">
-      <div class="diag-row" data-fund-metric="revenueCagr">
-        <div class="diag-left"><span class="diag-label">매출 CAGR</span><span class="diag-value">100.0%</span><span class="diag-note">최고점 기준 25% 이상 · 3년 연간</span></div>
-        <div class="diag-badge safe">5/5점</div>
-      </div>
-      <div class="diag-row" data-fund-metric="opIncomeCagr">
-        <div class="diag-left"><span class="diag-label">영업이익 CAGR</span><span class="diag-value">213.7%</span><span class="diag-note">최고점 기준 35% 이상 · 3년 연간</span></div>
-        <div class="diag-badge safe">5/5점</div>
-      </div>
-      <div class="diag-row" data-fund-metric="opMargin">
-        <div class="diag-left"><span class="diag-label">영업이익률</span><span class="diag-value">66.2%</span><span class="diag-note">최고점 기준 35% 이상 · 최신 분기</span></div>
-        <div class="diag-badge safe">5/5점</div>
-      </div>
-      <div class="diag-row" data-fund-metric="netMargin">
-        <div class="diag-left"><span class="diag-label">순이익률</span><span class="diag-value">62.0%</span><span class="diag-note">최고점 기준 25% 이상 · 최신 분기</span></div>
-        <div class="diag-badge safe">5/5점</div>
-      </div>
-    </div>
-  </div>
-
   <!-- ══════════ 3. 재무 건전성 (구조 유지) ══════════ -->
   <div class="card" style="margin-top:16px;">
     <div class="card-title"><span>재무 건전성 — 안정성·활동성 (Q2 FY27 · 2026.07.26 기준)</span></div>
@@ -718,24 +719,19 @@
 
     <div class="diag-list">
       <div class="diag-row" data-fund-metric="currentRatio">
-        <div class="diag-left"><span class="diag-label">유동비율</span><span class="diag-value">458.9%</span><span class="diag-note">최고점 기준 300% 이상</span></div>
-        <div class="diag-badge safe">5/5점</div>
+        <div class="diag-left"><span class="diag-label">유동비율</span><span class="diag-value">458.9%</span></div>
       </div>
       <div class="diag-row" data-fund-metric="quickRatio">
-        <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">385.5%</span><span class="diag-note">최고점 기준 250% 이상</span></div>
-        <div class="diag-badge safe">5/5점</div>
+        <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">385.5%</span></div>
       </div>
       <div class="diag-row" data-fund-metric="debtDependency">
-        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">10.4%</span><span class="diag-note">5점 기준 5% 미만</span></div>
-        <div class="diag-badge safe">4/5점</div>
+        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">10.4%</span></div>
       </div>
       <div class="diag-row" data-fund-metric="interestCoverage">
-        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">281x</span><span class="diag-note">최고점 기준 30x 이상</span></div>
-        <div class="diag-badge safe">5/5점</div>
+        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">281x</span></div>
       </div>
       <div class="diag-row" data-fund-metric="debtToEquity">
-        <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">39.9%</span><span class="diag-note">5점 기준 25% 미만</span></div>
-        <div class="diag-badge safe">4/5점</div>
+        <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">39.9%</span></div>
       </div>
       <div class="diag-row">
         <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">85.3%</span><span class="diag-note">FY26 $206.8B(전기 $111.6B) · 연간 지표, FY27 마감 전까지 동일</span></div>
@@ -1717,7 +1713,7 @@ const NVDA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py NVDA --card
 /* FUNDAMENTAL:BEGIN */
-const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07-26", "filedAt": "2026-08-26", "score": 96.1, "grade": "우수", "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 458.89490690160164, "points": 5, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 385.49710592993796, "points": 5, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 10.418019683269222, "points": 4, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 280.76651982378854, "points": 5, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 39.866540893686896, "points": 4, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "raw": 23, "used": 5, "points": 30.4, "max": 33.0}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 100.04509499443964, "points": 5, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 213.69201301125563, "points": 5, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 66.23710000935347, "points": 5, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 62.03219671381507, "points": 5, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "raw": 20, "used": 4, "points": 34.0, "max": 34.0}}, "axisMaxTotal": 67.0, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 22443000000.0, "sti": 34143000000.0, "debt": 33366000000.0, "lease": 5494000000.0, "shares": 24100000000, "net": 17726000000.0, "perShare": 0.7355186721991701}};
+const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07-26", "filedAt": "2026-08-26", "score": 96.1, "grade": "우수", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 458.89490690160164, "points": 5, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 385.49710592993796, "points": 5, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 10.418019683269222, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 280.76651982378854, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 39.866540893686896, "points": 4, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 30.360000000000003, "points": 30.4, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 100.52198737118174, "points": 5, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 214.92597803874185, "points": 5, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 66.23710000935347, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 62.03219671381507, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 34.0, "points": 34.0, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 22443000000.0, "sti": 34143000000.0, "debt": 33366000000.0, "lease": 5494000000.0, "shares": 24100000000, "net": 17726000000.0, "perShare": 0.7355186721991701}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof NVDA_FUNDAMENTAL !== 'undefined') ? NVDA_FUNDAMENTAL : null;
@@ -1727,41 +1723,28 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
   const rows = {};
   Object.values(F.axes).forEach(a => a.rows.forEach(r => { rows[r.metric] = r; }));
 
-  const fmt = (r, v) => r.metric === 'interestCoverage'
-    ? (v >= 1e8 ? '이자비용 없음' : Math.round(v) + 'x')
-    : v.toFixed(1) + '%';
-  const unitOf = r => r.metric === 'interestCoverage' ? 'x' : '%';
-  // 목표 점수 구간의 경계를 문장으로. 높을수록 좋으면 하한, 낮을수록 좋으면 상한.
-  function rule(r) {
-    const target = Math.min(r.points + 1, 5);
-    const i = r.buckets.findIndex(b => b.points === target);
-    const b = r.buckets[i];
-    const cond = r.higherIsBetter
-      ? `${r.buckets[i - 1].upper_exclusive}${unitOf(r)} 이상`
-      : `${b.upper_exclusive}${unitOf(r)} 미만`;
-    return (r.points === 5 ? '최고점 기준 ' : `${target}점 기준 `) + cond;
-  }
-  const SUFFIX = { revenueCagr: ' · 3년 연간', opIncomeCagr: ' · 3년 연간',
-                   opMargin: ' · 최신 분기', netMargin: ' · 최신 분기' };
-
+  // 안정성 줄 — 값만. 점수는 탭 맨 위 구성표 한 곳에서만 보여준다.
   document.querySelectorAll('[data-fund-metric]').forEach(el => {
-    const r = rows[el.dataset.fundMetric];
-    if (!r) return;
-    const val = el.querySelector('.diag-value'), note = el.querySelector('.diag-note'),
-          badge = el.querySelector('.diag-badge');
-    if (r.value == null || r.points == null) {
-      val.textContent = '—'; note.textContent = '데이터 없음';
-      badge.className = 'diag-badge info'; badge.textContent = '채점 안 됨';
-      return;
-    }
-    val.textContent = fmt(r, r.value);
-    note.textContent = rule(r) + (SUFFIX[r.metric] || '');
-    badge.className = 'diag-badge ' + (r.points >= 4 ? 'safe' : r.points === 3 ? 'watch' : 'alert');
-    badge.textContent = `${r.points}/5점`;
+    const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
+    if (!r || !v) return;
+    v.textContent = r.value == null ? (r.note || '—')
+      : r.metric === 'interestCoverage' ? Math.round(r.value) + 'x' : r.value.toFixed(1) + '%';
   });
 
-  const ax = (id, a) => { const el = $(id); if (el) el.textContent = `${a.points.toFixed(1)}/${Math.round(a.max)}`; };
-  ax('fundHealthAxis', F.axes.health); ax('fundGrowthAxis', F.axes.growthProfit);
+  // 구성표 — 축 점수와 항목별 점수(5점 만점). 깎인 항목만 색으로 짚는다.
+  const SHORT = { currentRatio: '유동비율', quickRatio: '당좌비율', debtDependency: '차입금의존도',
+                  interestCoverage: '이자보상배율', debtToEquity: '부채비율', revenueCagr: '매출 성장',
+                  opIncomeCagr: '이익 성장', opMargin: '영업이익률', netMargin: '순이익률' };
+  const tot = $('fundCompTotal');
+  if (tot) tot.innerHTML = (F.score == null ? '—' : F.score.toFixed(1)) + '<span class="logic-denom">/100</span>';
+  document.querySelectorAll('#fundComp [data-axis]').forEach(box => {
+    const a = F.axes[box.dataset.axis];
+    box.querySelector('[data-axis-pts]').textContent = a.points == null ? '—' : a.points.toFixed(1);
+    box.querySelector('[data-axis-items]').innerHTML = a.rows.map(r =>
+      r.points == null ? `${SHORT[r.metric]} —`
+        : r.points < 5 ? `<span class="lost">${SHORT[r.metric]} ${r.points}</span>` : `${SHORT[r.metric]} ${r.points}`
+    ).join(' · ');
+  });
 
   const N = F.netCash, B = v => '$' + (v / 1e9).toFixed(1) + 'B';
   if (N && $('fundNetCashPs')) {
@@ -1769,6 +1752,8 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
     $('fundNetCashNote').textContent = `순현금 ${B(N.net)} ÷ ${(N.shares / 1e9).toFixed(2)}B주 · `
       + `현금·단기투자 ${B(N.cash + N.sti)} − 차입금·리스 ${B(N.debt + N.lease)}`;
   }
+  const hx = $('fundHealthAxis');
+  if (hx && F.axes.health.points != null) hx.textContent = `${F.axes.health.points.toFixed(1)}/${F.axes.health.max}`;
 })();
 
 // ── 기본적 분석 탭: 활동성 칸 (2026-09-23) ──
@@ -1851,7 +1836,7 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
   const tone = v => v >= GREEN ? 'logic-positive' : v >= RED ? 'logic-neutral' : 'logic-negative';
   // 배지 말은 칸마다 다르다 — 98.1은 "싸다"가 아니라 "재무가 좋다"는 뜻이다.
   const WORDS = {
-    fund: ['우수', '보통', '취약'],
+    fund: ['우수', '보통', '취약'],   // 대체용. 실제 단어는 아래에서 등급으로 덮어쓴다
     val:  ['싼 편', '중간', '비싼 편'],
   };
   const word = (v, set) => v >= GREEN ? set[0] : v >= RED ? set[1] : set[2];
@@ -1868,6 +1853,21 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 FY27), 성장률은 연간 시계열을 쓴다.`
       + `\n장기차입금이 반년 사이 $7.5B → $32.4B로 늘어 차입금의존도가 4.1%에서 10.4%가 됐다.`);
+  // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
+  // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
+  // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
+  // 등급 대신 "해석 제한"을 단다.
+  if (typeof NVDA_FUNDAMENTAL !== 'undefined') {
+    const F = NVDA_FUNDAMENTAL, vd = $('nvdaFundVerdict'), box = $('nvdaFundBox');
+    const WHY = { negative_equity: '자본이 음수다', operating_income_estimated: '영업이익을 세전이익+이자비용으로 추정했다',
+                  health_ratios_below_gate: '재무건전성 항목이 부족하다', growth_metrics_below_gate: '성장·수익성 항목이 부족하다',
+                  no_latest_quarter: '최신 분기 재무제표가 없다' };
+    if (vd) vd.textContent = F.qualityFlags.length ? '해석 제한' : (F.grade || '—');
+    if (box && F.qualityFlags.length) {
+      box.classList.remove('logic-positive', 'logic-negative'); box.classList.add('logic-neutral');
+      box.title += '\n⚠ 해석 제한 — ' + F.qualityFlags.map(f => WHY[f] || f).join(', ');
+    }
+  }
   put('nvdaPeerBox', 'nvdaPeerScore', 'nvdaPeerVerdict', S.peer, WORDS.val,
       `같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.`
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`

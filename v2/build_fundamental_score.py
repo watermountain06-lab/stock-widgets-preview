@@ -20,7 +20,7 @@ NVDA에서 실제로 무엇을 놓치는가
 --------------------------------
 장기차입금이 FY2026의 $7.5B에서 Q2 FY27에 **$32.4B로 4.3배** 늘었다. 연간 기준
 차입금의존도는 4.1%(5점)인데 분기 기준은 10.4%(4점)다. 이 한 칸이 기본적 분석
-점수를 98.1에서 96.1로 내린다. 반년 사이 자본구조가 바뀌었다는 사실이 연간
+점수를 98.0에서 96.1로 내린다. 반년 사이 자본구조가 바뀌었다는 사실이 연간
 기준으로는 내년 2월까지 보이지 않는다.
 
 무엇을 바꾸고 무엇을 그대로 두나
@@ -37,8 +37,14 @@ NVDA에서 실제로 무엇을 놓치는가
   이기 때문이다. 배수 비교는 `build_peer_score.py`와 `build_multiple_history.py`가
   따로 답한다. 따라서 만점은 33+34 = 67이고 100점으로 환산한다.
 
-`--basis annual`로 돌리면 redesign의 계산과 같은 입력을 쓴다. 두 저장소가 갈리지
-않았는지 확인하는 용도다 — NVDA에서 98.1이 나와야 한다.
+`--basis annual`로 돌리면 redesign v1과 같은 입력을 쓴다. 두 저장소가 갈리지
+않았는지 확인하는 용도다 — v1의 (재무건전성 + 성장·수익성 축) ÷ 67 × 100과 같아야
+한다. 2026-09-23 은행 제외 60종목 전부 일치(NVDA 98.0). 예전 문서의 98.1은 축 점수를
+먼저 반올림하고 더한 값이었다(31.7 + 34 → 98.06). v1은 반올림 전 값으로 더한다
+(31.68 + 34 → 98.03).
+
+결측 처리와 해석 제한 표시(`qualityFlags`)는 v1 규칙을 그대로 따른다 — 아래
+score_items() 앞의 주석 참고.
 
 사용법
 ------
@@ -62,20 +68,57 @@ HEALTH = ["currentRatio", "quickRatio", "debtDependency",
           "interestCoverage", "debtToEquity"]
 GROWTH = ["revenueCagr", "opIncomeCagr", "opMargin", "netMargin"]
 
+# 결측 처리는 v1(`stock-widgets-redesign/scripts/compute_fundamental_score.py`)을
+# 그대로 옮긴다. 2026-09-23 이전 v2는 이 규칙을 빠뜨려서 NVDA 밖에서는 v1보다
+# 나빴다(Fable 검증, 은행 제외 60종목):
+#   - 결측 항목이 0점이 됐다(v1은 쓸 수 있는 항목으로 재척도). MRK 63.1 → 21.3.
+#   - 음수 자본이 0점·무표시(v1은 1점 + negative_equity). ABBV·DELL·PM.
+#   - 총부채 결측 시 자산 − 자본 역산, 재고 결측 시 0 대입, 영업이익 추정
+#     (세전이익 + 이자비용), 적자·흑자 전환 CAGR 고정점이 전부 없었다.
+#   - 분기값이 없으면 연간 최신값으로 조용히 떨어졌다. KLAC은 2015년 영업이익을
+#     2026년 매출로 나눠 OPM 5.7%(실제 약 40%)가 나왔다 — v1이 이미 고친 결함.
+# 검산: `--basis annual`은 v1의 재무건전성·성장수익성 축과 같은 값을 내야 한다.
 
-def annual(fin, key):
-    rows = [e for e in fin.get(key, {}).get("annual", []) if e.get("val") is not None]
-    return sorted(rows, key=lambda e: e["end"])
+
+def _rows(fin, key):
+    return [e for e in fin.get(key, {}).get("annual", []) if e.get("val") is not None]
 
 
-def latest_annual(fin, key):
-    rows = annual(fin, key)
-    return rows[-1]["val"] if rows else None
-
-
-def latest_quarter(fin, key):
+def _q(fin, key):
     q = fin.get(key, {}).get("latestQuarter")
-    return q.get("val") if q else None
+    return q if q and q.get("val") is not None else None
+
+
+def instant_series(fin, key, basis):
+    """대차대조표 값. 분기 기준이면 연간 이력 뒤에 최신 분기 시점값을 붙인다."""
+    rows = _rows(fin, key)
+    q = _q(fin, key) if basis == "quarter" else None
+    if q and (not rows or q["end"] > max(e["end"] for e in rows)):
+        rows = rows + [{"end": q["end"], "val": q["val"]}]
+    return rows
+
+
+def latest_instant(entries):
+    usable = [e for e in entries if e.get("val") is not None]
+    return max(usable, key=lambda e: e["end"])["val"] if usable else None
+
+
+def instant_pair(a, b):
+    """두 시점값을 **같은 결산일**에서 꺼낸다(v1 instant_pair)."""
+    ba = {e["end"]: e["val"] for e in a if e.get("val") is not None}
+    bb = {e["end"]: e["val"] for e in b if e.get("val") is not None}
+    shared = sorted(set(ba) & set(bb))
+    if not shared:
+        return None, None, None
+    end = shared[-1]
+    return ba[end], bb[end], end
+
+
+def value_at(entries, end):
+    for e in entries:
+        if e.get("end") == end and e.get("val") is not None:
+            return e["val"]
+    return None
 
 
 def bucket_points(value, spec):
@@ -89,80 +132,214 @@ def bucket_points(value, spec):
     return spec["buckets"][-1]["points"]
 
 
-def cagr(rows, years):
-    """실제 경과 연수로 나눈다. 부호가 바뀌면(적자→흑자 등) 계산하지 않는다."""
-    if len(rows) < 2:
+def operating_income_annual(fin):
+    """(연간 영업이익, 추정 여부). 태그가 아예 없으면 세전이익 + 이자비용(v1)."""
+    op = _rows(fin, "operatingIncome")
+    if op:
+        return op, False
+    interest = {e["end"]: e["val"] for e in _rows(fin, "interestExpense")}
+    est = [{"end": e["end"], "val": e["val"] + abs(interest[e["end"]])}
+           for e in _rows(fin, "pretaxIncome") if e["end"] in interest]
+    return est, bool(est)
+
+
+def quarter_flow(fin, key, end):
+    """최신 분기 흐름값. 매출과 **같은 분기**일 때만 쓴다."""
+    q = _q(fin, key)
+    return q["val"] if q and q["end"] == end else None
+
+
+def operating_income_quarter(fin, end):
+    op = quarter_flow(fin, "operatingIncome", end)
+    if op is not None:
+        return op, False
+    pt, ie = quarter_flow(fin, "pretaxIncome", end), quarter_flow(fin, "interestExpense", end)
+    if pt is not None and ie is not None:
+        return pt + abs(ie), True
+    return None, False
+
+
+def find_cagr_pair(entries, target_years):
+    from datetime import date
+    usable = sorted([e for e in entries if e.get("val") is not None], key=lambda e: e["end"])
+    if len(usable) < 2:
         return None
-    n = min(years, len(rows) - 1)
-    a, b = rows[-1 - n]["val"], rows[-1]["val"]
-    if a is None or b is None or a <= 0 or b <= 0:
+    latest = usable[-1]
+    le = date.fromisoformat(latest["end"])
+    best, diff = None, None
+    for e in usable[:-1]:
+        back = (le - date.fromisoformat(e["end"])).days
+        if back <= 0:
+            continue
+        d = abs(back - target_years * 365.25)
+        if diff is None or d < diff:
+            best, diff = e, d
+    if best is None:
         return None
-    return ((b / a) ** (1 / n) - 1) * 100
+    return best, latest, (le - date.fromisoformat(best["end"])).days / 365.25
 
 
-def ratios(fin, basis):
-    """basis='quarter'면 최신 분기, 'annual'이면 최신 연간치를 쓴다."""
-    get = latest_quarter if basis == "quarter" else latest_annual
+def growth_metric(entries, target_years, spec):
+    """부호가 바뀌면 고정점(v1): 흑자전환 4 · 적자전환 1 · 적자 지속 1."""
+    pair = find_cagr_pair(entries, target_years)
+    if pair is None:
+        return None
+    base, latest, yrs = pair
+    b, l = base["val"], latest["val"]
+    if b > 0 and l > 0:
+        v = ((l / b) ** (1 / yrs) - 1) * 100
+        return {"value": v, "points": bucket_points(round(v, 1), spec)}
+    if b <= 0 < l:
+        return {"value": None, "points": 4, "note": "흑자 전환"}
+    if l <= 0 < b:
+        return {"value": None, "points": 1, "note": "적자 전환"}
+    return {"value": None, "points": 1, "note": "적자 지속"}
 
-    def g(k):
-        v = get(fin, k)
-        return v if v is not None else latest_annual(fin, k)
 
-    ca, cl, inv = g("currentAssets"), g("currentLiabilities"), g("inventory")
-    std, ltd, assets = g("shortTermDebt"), g("longTermDebt"), g("assets")
-    tl, eq = g("totalLiabilities"), g("equityAttributableToParent")
-    op, ie = g("operatingIncome"), g("interestExpense")
-    rev, ni = g("revenue"), g("netIncome")
-    out = {}
-    out["currentRatio"] = ca / cl * 100 if ca and cl else None
-    out["quickRatio"] = (ca - inv) / cl * 100 if ca and cl and inv is not None else None
-    out["debtDependency"] = ((std or 0) + (ltd or 0)) / assets * 100 if assets else None
-    out["interestCoverage"] = (op / ie if op and ie and op > 0 else
-                               (1e9 if op and not ie else None))
-    out["debtToEquity"] = tl / eq * 100 if tl and eq and eq > 0 else None
-    out["opMargin"] = op / rev * 100 if op is not None and rev else None
-    out["netMargin"] = ni / rev * 100 if ni is not None and rev else None
-    return out
+def score_items(fin, config, basis):
+    """항목별 (값, 점수, 상태). 분기 기준은 대차대조표·마진·이자보상에 최신 분기를 쓴다."""
+    h, g = config["health"]["ratios"], config["growth_profit"]["metrics"]
+    items, flags = {}, []
+    S = lambda k: instant_series(fin, k, basis)
+
+    rev_q = _q(fin, "revenue") if basis == "quarter" else None
+    q_end = rev_q["end"] if rev_q else None
+    op_annual, op_est_annual = operating_income_annual(fin)
+
+    # 유동·당좌 — 같은 결산일, 재고 결측은 0(v1)
+    ca, cl, end = instant_pair(S("currentAssets"), S("currentLiabilities"))
+    if ca is not None and cl:
+        items["currentRatio"] = {"value": ca / cl * 100}
+        inv = value_at(S("inventory"), end) or 0
+        items["quickRatio"] = {"value": (ca - inv) / cl * 100}
+
+    # 차입금의존도 — 차입금 태그가 둘 다 없으면 무차입과 결측을 못 가르므로 결측(v1)
+    sd, ld, assets = S("shortTermDebt"), S("longTermDebt"), latest_instant(S("assets"))
+    if (sd or ld) and assets:
+        items["debtDependency"] = {"value": ((latest_instant(sd) or 0) + (latest_instant(ld) or 0)) / assets * 100}
+
+    # 이자보상배율 — 분기 기준이면 최신 분기 영업이익·이자비용(같은 분기)
+    if basis == "quarter" and q_end:
+        op, est = operating_income_quarter(fin, q_end)
+        op_end = q_end if op is not None else None
+    else:
+        e = max(op_annual, key=lambda x: x["end"], default=None)
+        op, est, op_end = (e["val"], op_est_annual, e["end"]) if e else (None, False, None)
+    if est:
+        flags.append("operating_income_estimated")
+    # 태그가 아예 있는지는 연간·분기 전체로 보지만, 나누는 값은 영업이익과 **같은
+    # 기간**이어야 한다. 최신 분기가 회계연도 말이면 연간·분기 이자비용이 같은
+    # 결산일로 겹친다 — 섞으면 분기 영업이익을 연간 이자비용으로 나눈다(Codex).
+    has_interest_tag = bool(_rows(fin, "interestExpense") or _q(fin, "interestExpense"))
+    if op is not None:
+        if op <= 0:
+            items["interestCoverage"] = {"value": None, "points": 1, "note": "영업적자"}
+        elif not has_interest_tag:
+            items["interestCoverage"] = {"value": None, "points": 5, "note": "이자비용 태그 없음"}
+        else:
+            iv = (quarter_flow(fin, "interestExpense", op_end) if basis == "quarter" and q_end
+                  else value_at(_rows(fin, "interestExpense"), op_end))
+            if iv == 0:
+                items["interestCoverage"] = {"value": None, "points": 5, "note": "이자비용 0"}
+            elif iv is not None:
+                items["interestCoverage"] = {"value": op / abs(iv)}
+
+    # 부채비율 — 총부채 결측이면 자산 − 자본, 음수 자본은 1점 + 표시(v1)
+    tl, eq, _ = instant_pair(S("totalLiabilities"), S("equityAttributableToParent"))
+    if tl is None:
+        a, e2, _ = instant_pair(S("assets"), S("equityAttributableToParent"))
+        if a is not None and e2 is not None:
+            tl, eq = a - e2, e2
+    if tl is not None and eq is not None:
+        if eq <= 0:
+            items["debtToEquity"] = {"value": None, "points": 1, "note": "자본 음수"}
+            flags.append("negative_equity")
+        else:
+            items["debtToEquity"] = {"value": tl / eq * 100}
+
+    # 성장 — 연간 CAGR. 영업이익 태깅이 매출보다 먼저 끝났으면 쓰지 않는다(v1)
+    rev_a = _rows(fin, "revenue")
+    look = config["growth_profit"]["cagr_lookback_years_target"]
+    r = growth_metric(rev_a, look, g["revenueCagr"])
+    if r:
+        items["revenueCagr"] = r
+    rev_end = max((e["end"] for e in rev_a), default=None)
+    op_a_end = max((e["end"] for e in op_annual), default=None)
+    if op_a_end is not None and op_a_end == rev_end:
+        r = growth_metric(op_annual, look, g["opIncomeCagr"])
+        if r:
+            items["opIncomeCagr"] = r
+        if op_est_annual:
+            flags.append("operating_income_estimated")
+
+    # 마진 — 분기 기준은 최신 분기, 연간 기준은 최신 연도. 분자·분모는 같은 기간.
+    ni_key = "netIncomeAttributableToParent" if (_rows(fin, "netIncomeAttributableToParent") or _q(fin, "netIncomeAttributableToParent")) else "netIncome"
+    if basis == "quarter" and q_end:
+        rv = rev_q["val"]
+        op_m, _ = operating_income_quarter(fin, q_end)
+        ni = quarter_flow(fin, ni_key, q_end)
+    else:
+        rv = latest_instant(rev_a)
+        op_m = value_at(op_annual, rev_end) if op_a_end == rev_end else None
+        ni = latest_instant(_rows(fin, ni_key))
+    if rv:
+        if op_m is not None:
+            items["opMargin"] = {"value": op_m / rv * 100}
+        if ni is not None:
+            items["netMargin"] = {"value": ni / rv * 100}
+
+    for k, it in items.items():
+        spec = h.get(k) or g.get(k)
+        if "points" not in it:
+            # v1은 소수 첫째 자리로 반올림한 값으로 버킷을 정한다
+            it["points"] = bucket_points(round(it["value"], 1), spec)
+    if basis == "quarter" and not q_end:
+        flags.append("no_latest_quarter")
+    return items, sorted(set(flags))
 
 
 def compute(ticker, fin, config, basis):
-    look = config["growth_profit"]["cagr_lookback_years_target"]
-    r = ratios(fin, basis)
-    r["revenueCagr"] = cagr(annual(fin, "revenue"), look)
-    r["opIncomeCagr"] = cagr(annual(fin, "operatingIncome"), look)
+    items, flags = score_items(fin, config, basis)
+    weights, gate = config["axis_weights"], config["coverage_gate"]
 
     axes = {}
     for name, keys, cfg_key in (("health", HEALTH, "health"),
                                 ("growthProfit", GROWTH, "growth_profit")):
-        cfg = config[cfg_key]
-        specs = cfg.get("ratios") or cfg.get("metrics")
-        rows, raw, used = [], 0, 0
+        specs = config[cfg_key].get("ratios") or config[cfg_key].get("metrics")
+        rows, pts = [], []
         for k in keys:
-            pts = bucket_points(r.get(k), specs[k])
-            rows.append({"metric": k, "value": r.get(k), "points": pts,
+            it = items.get(k, {})
+            rows.append({"metric": k, "value": it.get("value"), "points": it.get("points"),
+                         "note": it.get("note"),
                          "label": specs[k].get("label", k), "unit": specs[k].get("unit"),
                          "higherIsBetter": specs[k].get("higher_is_better", True),
                          "buckets": specs[k]["buckets"]})
-            if pts is not None:
-                raw += pts
-                used += 1
-        axes[name] = {"rows": rows, "raw": raw, "used": used,
-                      "points": round(raw * cfg["scale_to_axis"], 1),
-                      "max": round(cfg["max_raw_points"] * cfg["scale_to_axis"], 1)}
+            if it.get("points") is not None:
+                pts.append(it["points"])
+        w = weights["health" if name == "health" else "growth_profit"]
+        # 쓸 수 있는 항목만으로 축 만점에 맞춘다(v1). 결측을 0점으로 세지 않는다.
+        raw = sum(pts) / (5 * len(pts)) * w if pts else None
+        axes[name] = {"rows": rows, "used": len(pts), "pointsRaw": raw,
+                      "points": round(raw, 1) if raw is not None else None, "max": w}
+
+    if not axes["health"]["used"] >= gate["min_health_ratios"]:
+        flags.append("health_ratios_below_gate")
+    if not axes["growthProfit"]["used"] >= gate["min_growth_profit_metrics"]:
+        flags.append("growth_metrics_below_gate")
 
     total_max = axes["health"]["max"] + axes["growthProfit"]["max"]
-    total = axes["health"]["points"] + axes["growthProfit"]["points"]
-    score = round(total / total_max * 100, 1)
+    raws = [a["pointsRaw"] for a in axes.values()]
+    score = round(sum(raws) / total_max * 100, 1) if None not in raws else None
     cuts = config["grade_cuts"]
-    grade = next((g for g, c in sorted(cuts.items(), key=lambda kv: -kv[1])
-                  if score >= c), "미흡")
+    grade = (next((g for g, c in sorted(cuts.items(), key=lambda kv: -kv[1]) if score >= c), "미흡")
+             if score is not None else None)
 
     lq = (fin.get("revenue", {}).get("latestQuarter") or {})
-    as_of = lq.get("end") if basis == "quarter" else (
-        annual(fin, "revenue")[-1]["end"] if annual(fin, "revenue") else None)
+    rev_a = _rows(fin, "revenue")
+    as_of = lq.get("end") if (basis == "quarter" and lq) else (max(e["end"] for e in rev_a) if rev_a else None)
     return {"ticker": ticker, "basis": basis, "asOf": as_of,
             "filedAt": lq.get("filed") if basis == "quarter" else None,
-            "score": score, "grade": grade,
+            "score": score, "grade": grade, "qualityFlags": sorted(set(flags)),
             "axes": axes, "axisMaxTotal": total_max,
             "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다",
             "configVersion": config.get("version")}
@@ -179,12 +356,15 @@ def show(res, config):
     print()
     for name, ko in (("health", "재무건전성"), ("growthProfit", "성장·수익성")):
         a = res["axes"][name]
-        print(f"  {ko}  {a['points']}/{a['max']}   (원점수 {a['raw']}/{a['used']*5})")
+        print(f"  {ko}  {a['points']}/{a['max']}   (쓴 항목 {a['used']}개)")
         for row in a["rows"]:
             v = row["value"]
             vs = "—" if v is None else (f"{v:>10.1f}" if abs(v) < 1e8 else "     매우큼")
-            print(f"    {labels.get(row['metric'], row['metric']):14}{vs}  {row['points']}점")
+            print(f"    {labels.get(row['metric'], row['metric']):14}{vs}  {row['points']}점"
+                  + (f"  ({row['note']})" if row.get("note") else ""))
     print(f"\n  기본적 분석 = {res['score']} / 100   ({res['grade']})")
+    if res["qualityFlags"]:
+        print("  표시:", ", ".join(res["qualityFlags"]))
 
 
 def main():

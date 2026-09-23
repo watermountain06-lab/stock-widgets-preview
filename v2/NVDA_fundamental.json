@@ -5,6 +5,7 @@
  "filedAt": "2026-08-26",
  "score": 96.1,
  "grade": "우수",
+ "qualityFlags": [],
  "axes": {
   "health": {
    "rows": [
@@ -12,6 +13,7 @@
      "metric": "currentRatio",
      "value": 458.89490690160164,
      "points": 5,
+     "note": null,
      "label": "유동비율",
      "unit": "%",
      "higherIsBetter": true,
@@ -42,6 +44,7 @@
      "metric": "quickRatio",
      "value": 385.49710592993796,
      "points": 5,
+     "note": null,
      "label": "당좌비율",
      "unit": "%",
      "higherIsBetter": true,
@@ -72,6 +75,7 @@
      "metric": "debtDependency",
      "value": 10.418019683269222,
      "points": 4,
+     "note": null,
      "label": "차입금의존도",
      "unit": "%",
      "higherIsBetter": false,
@@ -102,6 +106,7 @@
      "metric": "interestCoverage",
      "value": 280.76651982378854,
      "points": 5,
+     "note": null,
      "label": "이자보상배율",
      "unit": "x",
      "higherIsBetter": true,
@@ -132,6 +137,7 @@
      "metric": "debtToEquity",
      "value": 39.866540893686896,
      "points": 4,
+     "note": null,
      "label": "부채비율",
      "unit": "%",
      "higherIsBetter": false,
@@ -159,17 +165,18 @@
      ]
     }
    ],
-   "raw": 23,
    "used": 5,
+   "pointsRaw": 30.360000000000003,
    "points": 30.4,
-   "max": 33.0
+   "max": 33
   },
   "growthProfit": {
    "rows": [
     {
      "metric": "revenueCagr",
-     "value": 100.04509499443964,
+     "value": 100.52198737118174,
      "points": 5,
+     "note": null,
      "label": "매출 CAGR",
      "unit": "%",
      "higherIsBetter": true,
@@ -198,8 +205,9 @@
     },
     {
      "metric": "opIncomeCagr",
-     "value": 213.69201301125563,
+     "value": 214.92597803874185,
      "points": 5,
+     "note": null,
      "label": "영업이익 CAGR",
      "unit": "%",
      "higherIsBetter": true,
@@ -230,6 +238,7 @@
      "metric": "opMargin",
      "value": 66.23710000935347,
      "points": 5,
+     "note": null,
      "label": "영업이익률(OPM)",
      "unit": "%",
      "higherIsBetter": true,
@@ -260,6 +269,7 @@
      "metric": "netMargin",
      "value": 62.03219671381507,
      "points": 5,
+     "note": null,
      "label": "순이익률",
      "unit": "%",
      "higherIsBetter": true,
@@ -287,13 +297,13 @@
      ]
     }
    ],
-   "raw": 20,
    "used": 4,
+   "pointsRaw": 34.0,
    "points": 34.0,
-   "max": 34.0
+   "max": 34
   }
  },
- "axisMaxTotal": 67.0,
+ "axisMaxTotal": 67,
  "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다",
  "configVersion": "1.0.1"
 }
