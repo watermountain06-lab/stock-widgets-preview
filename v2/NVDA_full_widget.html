@@ -319,6 +319,11 @@
   .tl-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
   .tl-source { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; font-size: 11px; font-weight: 600; color: var(--accent2); text-decoration: none; }
   .tl-source:hover { text-decoration: underline; }
+  .bb-row { display:grid; grid-template-columns:14px 64px minmax(0, 1fr); gap:8px; align-items:center; padding:7px 0; border-bottom:1px solid var(--border); font-size:12.5px; }
+  .bb-row:last-child { border-bottom:none; }
+  .bb-row.bull .bb-icon { color:var(--bull); } .bb-row.bear .bb-icon { color:var(--bear); }
+  .bb-head { font-weight:700; color:var(--text); white-space:nowrap; }
+  .bb-text { color:var(--text2); line-height:1.45; }
   .tl-pager { display:flex; justify-content:center; gap:6px; margin-top:14px; }
   .tl-pager:empty { display:none; }
   .news-list { margin:10px 0 0; padding-left:20px; font-size:12.5px; color:var(--text2); line-height:1.7; }
@@ -1000,88 +1005,30 @@
 
 <div id="invest" class="section">
 
-  <div class="card">
+  <!-- 기술적 분석: 사이트 목적(내재가치 대비 판단)에서 뺀다. 지우지 않고 숨긴다. -->
+  <div class="card" hidden>
     <div class="card-title">추세 구조</div>
     <div style="font-size:12.5px;color:var(--text2);line-height:1.7;">
       MA50 · MA150 · MA200 정배열 조건 4개를 전부 충족하고 있다. 52주 저점 대비 +39.33%, 고점 대비 -3.24% 구간이다.
       <span style="color:var(--text3);">(2026-09-22 종가 기준 · 매매 신호가 아니라 추세 상태 설명이다)</span>
     </div>
   </div>
-  <div class="section-title">2026년 핵심 투자 포인트</div>
+  <div class="section-title">핵심 투자 포인트</div>
 
+  <!-- Bull 3 · Bear 3 고정 (모든 티커 같은 틀). 항목 = 머리말 + 한 문장.
+       앞으로 가장 크게 작용할 요인만 고른다. -->
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bull);">▲</span><span><strong>PEG 0.47:</strong> 성장 대비 극단 저평가. 성장주 기준으로는 싸다.</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bull);">▲</span><span><strong>하이퍼스케일러 $700B capex:</strong> 수요 가시성 최고 수준.</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bull);">▲</span><span><strong>CUDA 생태계:</strong> 교체 불가 기술 독점 해자.</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bull);">▲</span><span><strong>OPM 65%:</strong> 소프트웨어 수준 마진, 마진 확장 지속.</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bull);">▲</span><span><strong>Vera Rubin 로드맵:</strong> 차세대 사이클 준비 완료.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">수요</span><span class="bb-text">네 분기 연속 가이던스를 넘었고 다음 분기 가이던스는 $108.0B다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">차세대 제품</span><span class="bb-text">Vera Rubin이 양산에 들어가 하반기 주요 클라우드부터 공급된다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">매출이 두 배가 되는 동안 영업이익률이 66.2%까지 올랐다.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>지정학 리스크:</strong> 중국 수출규제 재강화 (6월 현재).</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>고객 이탈 위험:</strong> 구글·아마존·MS 자체 AI칩 개발.</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>고변동성:</strong> 베타 2.2 — 시장 하락 시 2배 낙폭.</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>집중 위험:</strong> 하이퍼스케일러 고객 집중도 높음.</span></div>
-      <div class="bb-item"><span class="bb-icon" style="color:var(--bear);">▼</span><span><strong>성장 전제부 할인:</strong> 5개 배수 전부 낮음 구간까지 내려온 건 매출 +106% 성장이 계속된다는 전제가 깔려 있어 — 성장률이 둔화되면 배수 전체가 동시에 재평가(할인폭 축소) 압력을 받을 수 있다.</span></div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:16px;">
-    <div class="card-title">목표가 밴드 — 시나리오별 공정가치 vs 현재가 · 애널리스트 목표가</div>
-    <div style="position:relative;height:70px;margin:28px 6px 6px;">
-      <div style="position:absolute;top:28px;left:0;right:0;height:10px;border-radius:5px;overflow:hidden;display:flex;">
-        <div style="width:19.6%;height:100%;background:rgba(46,204,113,0.45);"></div>
-        <div style="width:43.1%;height:100%;background:rgba(240,192,64,0.5);"></div>
-        <div style="width:37.3%;height:100%;background:rgba(231,76,60,0.45);"></div>
-      </div>
-      <div style="position:absolute;top:10px;left:7.4%;width:2px;height:28px;background:var(--text3);border-radius:1px;"></div>
-      <div style="position:absolute;top:-6px;left:7.4%;transform:translateX(-50%);font-size:11px;font-weight:800;color:var(--text3);white-space:nowrap;">현재 $228.87</div>
-      <div style="position:absolute;top:22px;left:45.5%;width:2px;height:24px;background:var(--gold);border-radius:1px;"></div>
-      <div style="position:absolute;top:48px;left:45.5%;transform:translateX(-50%);font-size:10px;font-weight:700;color:var(--gold);white-space:nowrap;">▲ 목표 $325.99 (+42.4%)</div>
-    </div>
-    <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text3);margin-top:4px;">
-      <span style="color:var(--green);">Bear $210~260 (1년 하위 25%)</span>
-      <span>Base $260~370 (1년 중간 50%)</span>
-      <span style="color:var(--red);">Bull $370~465 (1년 상위 25%)</span>
-    </div>
-
-    <div class="detail-toggle collapsed" onclick="toggleCollapsible(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCollapsible(this);}" role="button" tabindex="0" aria-expanded="false" aria-controls="investScenarioDetailBody">
-      <span>시나리오 근거·투자의견 분포</span>
-      <span class="toggle-hint"><span class="toggle-hint-text">상세 보기</span><span class="chevron">▾</span></span>
-    </div>
-    <div id="investScenarioDetailBody" class="collapsible-body collapsed" aria-hidden="true">
-      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;font-size:11.5px;color:var(--text2);line-height:1.6;">
-        <div><strong style="color:var(--green);">Bear $210~260</strong> — PER이 최근 1년 하위 25%(26.5~32.8x)에 머무는 경우. AI 인프라 투자 둔화와 커스텀 실리콘 경쟁 심화가 배수를 더 누르는 국면이다 (TTM EPS $7.91 기준)</div>
-        <div><strong style="color:var(--text);">Base $260~370</strong> — PER이 최근 1년 중간 50%(32.8~46.6x)로 돌아오는 경우. 중앙값 40.8x는 $322이다 (TTM EPS $7.91 기준)</div>
-        <div><strong style="color:var(--red);">Bull $370~465</strong> — PER이 최근 1년 상위 25%(46.6~59.0x)까지 재평가되는 경우. 상단 59.0x는 이 창의 실제 최고치다 (TTM EPS $7.91 기준)</div>
-        <div style="margin-top:6px;padding-top:8px;border-top:1px solid var(--border);color:var(--text3);">세 구간은 <b>최근 252거래일의 실제 PER 분포</b>를 그대로 쓴다 — 최저 26.5x · p25 32.8x · 중앙 40.8x · p75 46.6x · 최고 59.0x. 시나리오를 손으로 상상한 값이 아니라 이 종목이 지난 1년 실제로 거래된 배수다.<br><b style="color:var(--gold);">한계.</b> NVDA의 PER은 2023년 중앙 132x에서 2026년 36x로 내려오는 중이라, 과거 분포로 만든 범위는 구조적으로 현재보다 <b>위</b>에 놓인다. 창을 6개월로 줄이면 $242~$287, 5년으로 늘리면 $361~$619다 — <b>창 선택이 답을 1.8배 바꾼다.</b> 가격 목표가 아니라 "배수가 어디까지 오갔나"로 읽어야 한다.</div>
-      </div>
-      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
-        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">애널리스트 60명 투자의견 분포</div>
-        <div style="height:8px;border-radius:4px;overflow:hidden;display:flex;">
-          <div style="width:95.0%;height:100%;background:var(--green);"></div>
-          <div style="width:3.3%;height:100%;background:#f0c040;"></div>
-          <div style="width:1.7%;height:100%;background:var(--red);"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-size:10.5px;margin-top:6px;">
-          <span style="color:var(--green);">매수 57명 (Strong Buy 48·Buy 9)</span>
-          <span style="color:#f0c040;">유지 2명 (Hold)</span>
-          <span style="color:var(--red);">매도 1명 (Strong Sell)</span>
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:10px;font-size:11px;color:var(--text3);">2026.09.22 종가 $228.87은 자체 Base 시나리오 밴드($260~370) 하단에도 못 미쳐, 60명 평균 목표가 $325.99까지 +42.4% 여력이 있다. 이 밴드는 밸류에이션 탭(PER 28.9x·EV/EBITDA 27.3x)과 기본적 분석(OPM 66.2%·OCF $24.1B)을 반영했으며, Street 목표가 범위는 최저 $180 ~ 최고 $515(중앙값 $315), GF Value $382.77(2026-09-03, GuruFocus)다.</div>
-  </div>
-
-  <div class="card" style="margin-top:16px;">
-    <div class="card-title">4개 분석 종합 — 한눈에 보기</div>
-    <div class="zone-list">
-      <div class="zone-item"><span class="zone-label">📈 기술적 분석</span><span class="zone-val" style="color:var(--green);">현재가&gt;MA5&gt;MA20&gt;MA60&gt;MA120 정배열 완성 · 기술적 긍정적</span></div>
-      <div class="zone-item"><span class="zone-label">📊 기본적 분석</span><span class="zone-val" style="color:var(--green);">Q2 FY27 매출 $96.2B(+106%)·OPM 66.2%·OCF $24.1B — 매출채권·재고 증가로 FCF는 둔화</span></div>
-      <div class="zone-item"><span class="zone-label">⚖️ 밸류에이션</span><span class="zone-val" style="color:var(--green);">전방위 저평가 — PER 28.9x 1단계, PBR 24.1x·PSR 18.2x·PCR 43.4x·EV/EBITDA 27.3x 전부 2단계(낮음)</span></div>
-      <div class="zone-item"><span class="zone-label">📰 시계열 뉴스</span><span class="zone-val" style="color:var(--green);">4분기 연속 실적 서프라이즈 우위, 중국 수출규제 재부상은 정책 경계 요인</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">중국</span><span class="bb-text">규제가 계속 조여져 가이던스는 중국 데이터센터 매출을 0으로 잡았다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">고객 집중</span><span class="bb-text">직접 고객 두 곳이 FY2026 매출의 36%를 차지한다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">자체 칩</span><span class="bb-text">구글·아마존·MS가 자체 AI 칩으로 일부 수요를 대신하려 한다.</span></div>
     </div>
   </div>
 
@@ -1089,27 +1036,28 @@
     <div class="card-title">투자의견 요약</div>
     <div class="grid-3">
       <div class="stat-box">
-        <div class="stat-label">투자의견</div>
-        <div class="stat-value" style="color:var(--accent2);font-size:19px;">Strong Buy</div>
-        <div class="stat-sub">60명 중 매수 57</div>
+        <div class="stat-label">애널리스트 의견</div>
+        <div class="stat-value" style="font-size:19px;">Strong Buy</div>
+        <div class="stat-sub"><span data-an="n">61</span>명 중 매수 <span data-an="buy">58</span></div>
       </div>
       <div class="stat-box">
-        <div class="stat-label">목표주가</div>
-        <div class="stat-value gold" style="font-size:19px;">$325.99</div>
-        <div class="stat-sub">+42.4%</div>
+        <div class="stat-label">평균 목표주가</div>
+        <div class="stat-value" style="font-size:19px;" data-an="mean">$328.66</div>
+        <div class="stat-sub" data-an="upside">+43.6%</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">다음 실적</div>
-        <div class="stat-value gold" style="font-size:19px;">11월 중순</div>
+        <div class="stat-value" style="font-size:19px;">11월 중순</div>
         <div class="stat-sub">Q3 FY27 (예상)</div>
       </div>
     </div>
     <div class="stat-box" style="margin-top:12px;">
       <div class="stat-label">결론</div>
-      <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
-        <div style="font-size:13px;color:var(--text);line-height:1.6;"><strong style="color:var(--accent2);">1.</strong>&nbsp; PEG 0.47로 성장 대비 저평가다.</div>
-        <div style="font-size:13px;color:var(--text);line-height:1.6;"><strong style="color:var(--accent2);">2.</strong>&nbsp; 중국 수출규제 등 지정학 리스크가 가장 큰 핵심 변수다.</div>
-      </div>
+      <ol class="news-list" style="margin-top:6px;font-size:13px;color:var(--text);">
+        <li>종합 평가는 <strong data-verdict>적정~저평가</strong>다.</li>
+        <li>전제는 지금의 높은 마진과 성장이 이어지는 것이다.</li>
+        <li>가장 큰 변수는 중국 규제와 고객 집중이다.</li>
+      </ol>
     </div>
   </div>
 </div>
@@ -1814,6 +1762,26 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
     ar.style.width = pct(A.now.dso);  ar.textContent = `매출채권회수 ${d1(A.now.dso)}일`;
   }
 
+})();
+
+// ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
+// 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/nvda/forecast/)의 값과 날짜를 옮긴다.
+// 현재가 대비는 마지막 종가에서 계산한다.
+const NVDA_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', n: 61, mean: 328.66, median: 315,
+  low: 180, high: 515, strongBuy: 48, buy: 10, hold: 2, sell: 0, strongSell: 1 };
+(function(){
+  const A = NVDA_ANALYST, last = (typeof NVDA_DAILY !== 'undefined' && NVDA_DAILY.length) ? NVDA_DAILY[NVDA_DAILY.length - 1] : null;
+  const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
+  const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
+  const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
+  put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
+  put('hold', A.hold); put('sell', sells);
+  const bar = { buy: buys, hold: A.hold, sell: sells };
+  document.querySelectorAll('#invest [data-an-bar]').forEach(el => { el.style.width = (bar[el.dataset.anBar] / A.n * 100).toFixed(1) + '%'; });
+  if (!last) return;
+  const px = last[4], up = (A.mean / px - 1) * 100;
+  put('price', '$' + px.toFixed(2)); put('upside', (up >= 0 ? '+' : '−') + Math.abs(up).toFixed(1) + '%');
 })();
 
 // 요약 격자 세 점수를 NVDA_SCORES에서 렌더한다. 색과 배지는 점수에서 나온다.
