@@ -17,6 +17,7 @@
 | 값 | 근거 | 언제 바뀌나 |
 |---|---|---|
 | 내재가치 3시나리오 `$159.77 / $315.00 / $602.30` | `build_dcf.scenarios(base_inputs, history)` | 새 10-Q/10-K |
+| 직접 바꿔보기 격자 `NVDA_DCF_GRID` (3 × 할인율 5 × 영구성장 5) | `build_dcf_grid.py` — 기본값 칸이 `NVDA_DCF`와 다르면 멈춘다 | 새 10-Q/10-K, `NVDA_DCF` 갱신 직후 |
 | 적정주가 밴드 `$260~$315` | `PER 33~40x × TTM EPS $7.91` (앵커는 손으로 잡음) | EPS 갱신 시 |
 | 기본 시나리오 5년 CAGR `33.9%` | `growth_5y 69.4%`에서 2.5%까지 선형 감쇠한 경로의 기하평균 | 새 공시 |
 | 과거 매출 성장률 `3년 +110.6% · 5년 +69.4%` | `history()['growth_3y'/'growth_5y']` | 새 공시 |
@@ -67,7 +68,8 @@ mp  = d.margin_path_for(hist, '기본')          # 헤더 내재가치와 같은
 req = d.implied_growth(base, P, wacc=0.10, terminal=0.025, margin_path=mp)
 ```
 
-카드에는 세 시나리오가 다 실린다(내재가치 탭의 표). 셋 다 다시 계산한다.
+2026-09-23 내재가치 탭을 줄이면서 세 시나리오 표(거꾸로 물어보기)는 지웠다. 카드에 남은 것은
+`기본` 한 값뿐이다(헤더 ③과 내재가치 탭의 한 문장). 아래 표는 기록으로 둔다.
 
 | P | 낙관(마진 66.4%) | 기본(62.8%) | 보수(56.6%) |
 |---|---|---|---|
@@ -86,6 +88,9 @@ req = d.implied_growth(base, P, wacc=0.10, terminal=0.025, margin_path=mp)
 - 박스별 적중률과 색, 박스 툴팁
 - 차트 제목의 1년 수익률, `techRangeSummary`
 - 열린 예상밴드 구간의 오른쪽 끝(마지막 일봉까지 자동으로 늘어난다)
+- 내재가치 탭의 "현재가 대비" 열, 직접 바꿔보기의 현재가 표시, "지금 가격 … 매년 26.2% …
+  연 35.4%" 문장의 세 값(가격은 NVDA_DAILY, 두 성장률은 NVDA_DCF에서)(2026-09-23부터. 전에는
+  HTML에 박혀 있어서 $222.27 기준 +41.7%가 $228.87 카드에 남아 있었다)
 
 정적 텍스트를 고치지 않아도 화면은 맞다. 다만 JS가 죽으면 옛 숫자가 드러나므로
 같이 맞춰두는 편이 낫다.
@@ -97,9 +102,6 @@ req = d.implied_growth(base, P, wacc=0.10, terminal=0.025, margin_path=mp)
 
 | 문장 | 규칙 |
 |---|---|
-| `"이 회사가 5년간 연 26%씩 클 수 있나?"` | 요구 성장률을 **정수로** 반올림 |
-| `26.1 ÷ 33.9 = 0.77` | 요구 성장률 ÷ 기본 CAGR, 소수 둘째까지 |
-| `이 질문의 답도 24.6~28.8%로 움직인다` | 세 시나리오의 최소~최대 |
 | `NVDA 28.7x는 자체 10년 기준점 53x보다 낮음` | 배수값만 치환 |
 | `2026.09.21 종가 $227.38은 ... +43.4% 여력이 있다` | 날짜·가격·여력 세 곳 |
 | `52주 저점 대비 +38.42%, 고점 대비 -3.87%` | 소수 둘째까지 |
@@ -241,6 +243,7 @@ NVDA_DCF.requiredGrowth  0.2543 → 0.2606
 ```
 v2/build_dcf.py                    scenarios · margin_path_for · implied_growth · history
 v2/build_dcf_track.py              분기별 시나리오 추적 (NVDA_DCF_TRACK)
+v2/build_dcf_grid.py               직접 바꿔보기 격자 (NVDA_DCF_GRID)
 v2/build_multiple_history.py       load_daily · pick_tag · ttm_series · dda_ttm
 scripts/compute_earnings_backtest_band.py   예상밴드 체크포인트
 pipeline/update_cards.py           stage 2A(가격) + 2B(밸류에이션), 루트 카드 전용

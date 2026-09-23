@@ -560,194 +560,78 @@
   #dcf .big { font-size: 15px; font-weight: 700; }
   #dcf .note { font-size: 10.5px; color: var(--text3); line-height: 1.6; margin-top: 10px; }
   #dcf .wrap { overflow-x: auto; }
-  #dcf .flow { font-size: 11.5px; color: var(--text2); line-height: 1.9; word-break: keep-all; }
-  #dcf .flow b { color: var(--text); }
-  #dcf .limit { font-size: 12px; color: var(--text2); line-height: 1.7; margin: 0; padding-left: 18px; }
-  #dcf .limit li { margin-bottom: 9px; }
-  #dcf .limit b { color: var(--gold); }
-  #dcf .hi { color: var(--accent2); font-weight: 700; }
+  #dcf .lede { font-size: 12.5px; color: var(--text2); margin: -8px 0 16px; }
+  #dcf th.story { text-align: left; }
+  #dcf td.story { text-align: left; white-space: normal; color: var(--text2); line-height: 1.55; min-width: 260px; word-break: keep-all; }
+  #dcf .reverse { font-size: 12px; color: var(--text2); line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  #dcf .reverse b { color: #38bdf8; }
+  #dcf .knobs { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  #dcf .knob { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  #dcf .knob-l { font-size: 11.5px; color: var(--text3); width: 96px; flex-shrink: 0; }
+  #dcf .knob-d { color: var(--text2); }
+  #dcf .knob-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+  #dcf .pick-result { display: flex; align-items: baseline; gap: 10px; margin: 4px 0 6px; }
+  #dcf #dcfPickValue { font-size: 22px; font-weight: 800; }
+  #dcf #dcfPickUpside { font-size: 13px; font-weight: 700; }
+  #dcf .ruler { position: relative; height: 92px; margin: 0 28px; }
+  #dcf .ruler-line { position: absolute; left: 0; right: 0; top: 46px; height: 2px; background: var(--border); }
+  #dcf .ruler-pt { position: absolute; top: 46px; transform: translate(-50%, -50%); transition: left .25s ease; }
+  #dcf .ruler-dot { width: 10px; height: 10px; border-radius: 50%; margin: 0 auto; opacity: .45; }
+  #dcf .ruler-pt.on .ruler-dot { width: 16px; height: 16px; opacity: 1; box-shadow: 0 0 0 3px var(--bg2), 0 0 0 4px currentColor; }
+  #dcf .ruler-lab { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); font-size: 10.5px; white-space: nowrap; text-align: center; line-height: 1.3; opacity: .6; }
+  #dcf .ruler-pt.on .ruler-lab { opacity: 1; font-weight: 700; bottom: 18px; }
+  #dcf .ruler-now { position: absolute; top: 30px; width: 2px; height: 32px; background: var(--gold); transform: translateX(-1px); transition: left .25s ease; }
+  #dcf .ruler-now span { position: absolute; top: 36px; left: 50%; transform: translateX(-50%); font-size: 10.5px; color: var(--gold); white-space: nowrap; text-align: center; line-height: 1.3; }
+  @media (max-width: 600px) {
+    #dcf thead { display: none; }
+    #dcf tbody tr { display: grid; grid-template-columns: 48px 1fr auto; align-items: baseline; border-bottom: 1px solid var(--border); padding: 6px 0; }
+    #dcf tbody tr:last-child { border-bottom: none; }
+    #dcf tbody td { border-bottom: none; padding: 4px 6px; }
+    #dcf td.story { grid-column: 1 / -1; min-width: 0; padding-top: 0; }
+  }
 </style>
 
 <div id="dcf" class="section">
   <div class="section-title">내재가치 (DCF) — 현금흐름이 말하는 가격</div>
-
-  <div class="box-key">
-    회사가 앞으로 벌어들일 현금을 <b>오늘 가치로 할인</b>해 주당 얼마인지 계산한다. 배수(PER·PBR)는
-    "시장이 비슷한 회사에 얼마를 매기나"를 묻지만, 여기서는 시장을 보지 않고 <b>회사의 현금흐름만</b> 본다.
-    그레이엄·버핏식으로 "가치보다 주가가 싼가"를 물으려면 이 쪽이 필요하다.
-  </div>
+  <div class="lede">회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치다.</div>
 
   <!-- ── 1. 세 시나리오 ── -->
   <div class="card">
-    <div class="card-title">세 시나리오 — 성장과 마진을 함께 움직인다</div>
+    <div class="card-title">세 시나리오</div>
     <div class="wrap"><table>
-      <thead><tr>
-        <th>시나리오</th><th>주당 가치</th><th>현재가 대비</th>
-        <th>첫해 성장 → 5년 CAGR</th><th>5년차 매출</th><th>마진 경로</th><th>가정의 출처</th>
-      </tr></thead>
+      <thead><tr><th>시나리오</th><th>주당 가치</th><th>현재가 대비</th><th class="story">어떤 경우인가</th></tr></thead>
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low">$159.77</td><td class="scn-low">−28.1%</td>
-          <td>34.7% → <b>18.1%</b></td><td>$695B</td><td>66.4% → 56.6%</td>
-          <td style="text-align:left;color:var(--text3);">5년 CAGR의 절반 · 마진 5년 중앙값</td>
+          <td class="big scn-low" data-dcf-value="low">$159.77</td><td data-dcf-upside="low"></td>
+          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 마진은 지난 5년 중앙값(56.6%)으로 내려온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base">$315.00</td><td class="scn-base">+41.7%</td>
-          <td>69.4% → <b>33.9%</b></td><td>$1,302B</td><td>66.4% → 62.8%</td>
-          <td style="text-align:left;color:var(--text3);">5년 CAGR · 마진 최근 2년 중앙값</td>
+          <td class="big scn-base" data-dcf-value="base">$315.00</td><td data-dcf-upside="base"></td>
+          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 마진은 최근 2년 중앙값(62.8%)으로 서서히 내려온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high">$602.30</td><td class="scn-high">+171.0%</td>
-          <td>110.6% → <b>51.7%</b></td><td>$2,435B</td><td>66.4% → 66.4%</td>
-          <td style="text-align:left;color:var(--text3);">3년 CAGR · 마진 현재 유지</td>
+          <td class="big scn-high" data-dcf-value="high">$602.30</td><td data-dcf-upside="high"></td>
+          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 마진(66.4%)이 그대로 간다. 5년 뒤 매출이 $2.4조로 세계 반도체 시장 전체와 맞먹어서 현실적인 상한은 아니다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">
-      <b style="color:var(--gold);">이 세 값은 확률이 아니다.</b> 셋의 차이는 회사의 과거 실적을
-      <b>어느 창으로 잘라 보느냐</b>에서 나온다 — 성장률은 3년 / 5년 / 5년의 절반, 마진은 현재 /
-      최근 2년 중앙값 / 5년 중앙값이다. "낙관이 될 확률 20%" 같은 의미가 없고, 세 값 사이 어디가
-      더 그럴듯하다는 근거도 이 표 안에는 없다.
-      <br><br>
-      폭 3.8배를 만드는 것은 성장률만이 아니다. 보수 시나리오의 성장 경로를 그대로 두고
-      <b>마진만 현재 수준(66.4%)으로 바꿔도 $159.77 → $184.74</b>로 15.6% 올라간다. 두 가정이
-      같은 방향으로 함께 움직이도록 짜여 있어 폭이 더 벌어진다.
-      <br><br>
-      "첫해 성장"은 1년차에만 적용되고 5년에 걸쳐 영구성장률 2.5%까지 직선으로 낮아진다. 그래서 경로
-      전체의 연평균(5년 CAGR)은 훨씬 낮다 — 기본 시나리오는 <b>69.4%가 아니라 33.9%</b>다.
-    </div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="reverse">지금 가격 <span data-dcf-price>$228.87</span>이 정당하려면 5년간 매출이 매년 <b data-dcf-req>26.2%</b>씩 커야 한다. 기본 시나리오 <span data-dcf-basev>$315</span>를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>35.4%</span>다.</div>
   </div>
 
-  <!-- ── 2. 역방향 ── -->
+  <!-- ── 2. 직접 바꿔보기 ── -->
   <div class="card">
-    <div class="card-title">거꾸로 물어보기 — 지금 가격이 요구하는 성장률</div>
-    <div style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px;">
-      위 표는 <b>내가 넣은 성장률</b>을 계산기에 통과시켜 다시 보여주는 구조다. 성장 경로가 답을 정한다면
-      결국 입력의 재진술이다. 반대로 돌리면 사람이 실제로 판단할 수 있는 질문이 된다 —
-      <b class="hi">"이 회사가 5년간 연 26%씩 클 수 있나?"</b>
+    <div class="card-title">직접 바꿔보기</div>
+    <div class="knobs">
+      <div class="knob"><span class="knob-l">시나리오</span><span class="knob-btns" data-knob="scn"></span></div>
+      <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
+      <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="wrap"><table>
-      <thead><tr><th>마진 가정</th><th>현재가 $228.87이 요구하는 5년 매출 성장률</th></tr></thead>
-      <tbody>
-        <tr><td>현재 마진 66.4% 유지 (낙관과 동일)</td><td class="big">연 24.8%</td></tr>
-        <tr><td>62.8%로 수렴 (기본과 동일) — 헤더에 실린 값</td><td class="big scn-base">연 26.2%</td></tr>
-        <tr><td>56.6%로 수렴 (보수와 동일)</td><td class="big">연 29.0%</td></tr>
-      </tbody>
-    </table></div>
-    <div class="note">
-      비교 대상은 <b>기본 시나리오의 5년 CAGR 33.9%</b>다. 요구 성장률 26.2%는 5년 내내 일정한
-      값이고, 기본 시나리오도 경로 전체로는 연평균 33.9%이므로 같은 잣대다.
-      <b style="color:var(--green);">26.2 ÷ 33.9 = 0.77</b> — 기본 시나리오가 그리는 성장의
-      <b>4분의 3</b>만 실현돼도 지금 가격이 설명된다.
-      <br><br>
-      NVDA의 <b>실제</b> 매출 성장률은 최근 3년 연 +110.6% · 5년 연 +69.4%였다. 다만 이 둘과
-      26.2%를 직접 나누면 안 된다. 그 둘은 시나리오에 <b>첫해 값</b>으로 들어가 5년에 걸쳐
-      2.5%까지 줄어드는 경로의 출발점이고, 25.4%는 5년 내내 같은 값이다. 재는 기간이 다르다.
-      <br><br>
-      이 질문의 답도 마진 가정에 따라 24.8~29.0%로 움직인다. 헤더에 26.2%를 실은 이유는 옆 칸의
-      내재가치 $315와 <b>같은 마진 경로</b>를 써야 두 숫자를 나란히 놓을 수 있기 때문이다.
-    </div>
-  </div>
-
-  <!-- ── 3. 계산 구조 ── -->
-  <div class="card">
-    <div class="card-title">어떻게 계산했나 — 기본 시나리오 5년치</div>
-    <div class="flow" style="margin-bottom:14px;">
-      매출 → <b>EBITDA</b>(매출 × 마진) → 감가상각을 빼 <b>영업이익</b> → 세금 16%를 빼 <b>NOPAT</b> →
-      감가상각을 다시 더하고 <b>설비투자</b>와 <b>운전자본 증가분</b>(매출 증가의 18.5%)을 빼면
-      <b>무차입 잉여현금흐름(FCF)</b> → 할인율 10%로 <b>현재가치</b>(기중 할인) → 6년차부터는
-      <b>영구성장 2.5%</b>로 잔존가치 → 순부채를 빼고 <b>비영업 투자자산을 더한 뒤</b>
-      주식수로 나눠 <b>주당 내재가치</b>.
-    </div>
-    <div class="wrap"><table>
-      <thead><tr>
-        <th>연차</th><th>매출</th><th>EBITDA</th><th>감가상각</th><th>영업이익</th>
-        <th>NOPAT</th><th>설비투자</th><th>Δ운전자본</th><th>FCF</th><th>현재가치</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>1년차</td><td>$513B</td><td>$337B</td><td>$7.5B</td><td>$330B</td><td>$277B</td><td>$11B</td><td>$39B</td><td>$234B</td><td>$223B</td></tr>
-        <tr><td>2년차</td><td>$784B</td><td>$509B</td><td>$11.4B</td><td>$498B</td><td>$418B</td><td>$15B</td><td>$50B</td><td>$364B</td><td>$316B</td></tr>
-        <tr><td>3년차</td><td>$1,066B</td><td>$685B</td><td>$14.8B</td><td>$670B</td><td>$562B</td><td>$18B</td><td>$52B</td><td>$507B</td><td>$399B</td></tr>
-        <tr><td>4년차</td><td>$1,271B</td><td>$807B</td><td>$16.7B</td><td>$790B</td><td>$663B</td><td>$19B</td><td>$38B</td><td>$624B</td><td>$447B</td></tr>
-        <tr><td>5년차</td><td>$1,302B</td><td>$818B</td><td>$16.2B</td><td>$801B</td><td>$673B</td><td>$16B</td><td>$6B</td><td>$667B</td><td>$435B</td></tr>
-      </tbody>
-    </table></div>
-    <div class="note">
-      각 행은 <b>NOPAT + 감가상각 − 설비투자 − Δ운전자본 = FCF</b>로 검산된다. Δ운전자본은
-      매출 증가분의 18.5%다 — 매출이 커질수록 재고·매출채권에 묶이는 돈이 늘기 때문에 빼준다.
-      5년차에 $6B으로 줄어드는 것은 그해 매출 증가가 거의 멈추기 때문이다(성장률이 2.5%까지 내려온다).
-      <br><br>
-      예측기간 현재가치 합 <b>$1,820B</b> + 잔존가치 <b>$5,711B</b> = 기업가치 <b>$7,531B</b>.
-      여기에 순부채 −$18B를 빼고(현금 $56.6B가 차입금+리스 $38.9B보다 많아 오히려 더해진다)
-      <b>비영업 투자자산 $43B</b>를 더하면 주주가치 <b>$7,592B</b>, 주식수 24.10B으로 나눠
-      <b class="scn-base">주당 $315.00</b>.
-      <br><br>
-      비영업 투자자산은 NVDA가 들고 있는 상장주식·지분 같은 것으로, 영업이 굴리는 자본이 아니라
-      예측한 현금흐름에 들어 있지 않다. 그래서 따로 더한다. 같은 이유로 ROIC를 구할 때는
-      투하자본에서 빼둔다.
-    </div>
-  </div>
-
-  <!-- ── 4. 가정과 민감도 ── -->
-  <div class="card">
-    <div class="card-title">가정과 민감도 — 값이 어디서 흔들리나</div>
-    <div style="font-size:11.5px;color:var(--text2);line-height:1.8;margin-bottom:14px;">
-      <b>회사에서 온 것</b> — 매출 $303B · EBITDA 마진 66.4% · 감가상각 1.2% · 설비투자 2.4% ·
-      운전자본 18.5%(매출 대비) · 실효세율 16.0% · ROIC 98.5% · 주식수 24.10B.
-      네 비율은 모두 <b>출발값</b>이고 예측기간 동안 아래 규칙대로 움직인다.<br>
-      <b style="color:var(--gold);">우리가 고른 것</b> — 할인율(WACC) 10.0% · 영구성장률 2.5% ·
-      잔존 ROIC 페이드 0.5(98.5% → 54.2%로 절반만 수렴) · 예측기간 5년 · 성장 경로는 직선 감소 ·
-      <b>설비투자 비율이 감가상각 비율 쪽으로 수렴</b>(2.185% → 1.217%) ·
-      <b>감가상각은 자산 회전에 맞춰 조정</b>(1.454% → 1.248%).
-      마지막 두 줄은 회사가 보고한 값이 아니라 "성장이 멈추면 설비투자도 유지보수 수준으로
-      내려간다"는 우리 쪽 모델 규칙이다.
-    </div>
-    <div class="wrap"><table>
-      <thead><tr><th>영구성장 ＼ 할인율</th><th>8.0%</th><th>9.0%</th><th>10.0%</th><th>11.0%</th><th>12.0%</th></tr></thead>
-      <tbody>
-        <tr><td>1.5%</td><td>$382</td><td>$329</td><td>$289</td><td>$257</td><td>$232</td></tr>
-        <tr><td>2.0%</td><td>$405</td><td>$346</td><td>$301</td><td>$267</td><td>$239</td></tr>
-        <tr><td>2.5%</td><td>$433</td><td>$365</td><td><b class="scn-base">$315</b></td><td>$277</td><td>$247</td></tr>
-        <tr><td>3.0%</td><td>$466</td><td>$387</td><td>$331</td><td>$289</td><td>$256</td></tr>
-        <tr><td>3.5%</td><td>$506</td><td>$413</td><td>$349</td><td>$302</td><td>$265</td></tr>
-      </tbody>
-    </table></div>
-    <div class="note">
-      기본 시나리오 기준. 회사 실적을 하나도 바꾸지 않고 <b>우리가 고른 두 숫자만 움직여도 $232에서
-      $506까지</b> 벌어진다. 할인율 10%는 관행적으로 쓰는 값이지 NVDA에서 측정한 값이 아니다.
-    </div>
-  </div>
-
-  <!-- ── 5. 한계 ── -->
-  <div class="card">
-    <div class="card-title">이 모델이 못 하는 것</div>
-    <ul class="limit">
-      <li><b>값의 4분의 3이 "6년차 이후"에서 나온다.</b> 잔존가치 비중이 보수 72.3% · 기본 75.8% ·
-        낙관 78.3%다. 표에 적은 5년치 현금흐름은 전체의 4분의 1뿐이고, 나머지는 "그 뒤로 영원히
-        연 2.5%씩 자란다"는 한 줄이 만든다.</li>
-      <li><b>낙관 시나리오는 현실적인 상한이 아니다.</b> 모델의 3년차 매출 $1,066B는 WSTS가 전망한
-        <b>2027년 세계 반도체 시장 약 $2.1T의 51%</b>이고, 2년차 $784B도 37%다. 낙관 시나리오의
-        5년차 $2,435B는 그 시장 전체에 맞먹는 규모다. 이 시나리오를 "있을 수 있는 좋은 경우"로
-        읽으면 안 된다.
-        <br><span style="color:var(--text3);">※ 두 숫자는 범주가 다르다. WSTS는 반도체 소자
-        판매액이고, NVDA 매출에는 보드에 실린 HBM(이미 메모리 업체 매출로 집계된다)과 네트워킹
-        시스템·소프트웨어가 섞여 있다. 크기 감을 잡는 용도지 점유율이 아니다.</span></li>
-      <li><b>내재가치가 주가보다 빠르게 실적을 뒤따라간다.</b> 시점별로 다시 계산하면 2024-08 $67.70 →
-        2026-08 $315.00으로 2년 만에 4.7배가 됐다. 같은 기간 주가는 1.67배, TTM EPS는 3.7배다. 과거
-        성장률을 미래에 투영하는 구조라 실적이 좋아지면 내재가치도 따라 오른다.</li>
-      <li><b>그래서 이 모델의 성적표는 카드에 싣지 않는다.</b> "저평가라고 한 뒤 올랐는가"와
-        "고평가라고 한 뒤 내렸는가"를 함께 세어보면, 보유기간을 21/63/126/189/252거래일로 바꿀 때마다
-        75% / 50% / 71% / 17% / 20%로 달라진다. 하나를 고를 근거가 없다. 판정 시점은 9개뿐이고
-        (기간에 따라 채점 가능한 것은 5~8개), 연속한 시점은 같은 재무제표를 공유한다.</li>
-      <li><b>은행·보험에는 쓸 수 없다.</b> 부채가 영업의 일부인 업종이라 무차입 FCF와 WACC 구조가
-        성립하지 않는다. 카드 70장 중 금융으로 분류된 11장이 여기 해당하는지는 한 장씩 봐야 한다 —
-        예컨대 비자·마스터카드는 같은 금융 분류지만 결제 네트워크라 부채 구조가 은행과 다르다.</li>
-      <li><b>투자 권유가 아니다.</b> 여기 있는 모든 값은 공개된 재무제표와 명시된 가정으로 계산한
-        결과일 뿐, 목표주가나 매수·매도 판단이 아니다.</li>
-    </ul>
+    <div class="pick-result"><span id="dcfPickValue">주당 $315</span><span id="dcfPickUpside"></span></div>
+    <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
 
@@ -1634,7 +1518,13 @@ const NVDA_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 //
 // 갱신: python3 v2/build_dcf.py NVDA --price <현재가>
 const NVDA_DCF = {low: 159.77, base: 315.00, high: 602.30,
-                  requiredGrowth: 0.2624, asOf: "2026-09-22"};
+                  requiredGrowth: 0.2624, baseEquivGrowth: 0.3540, asOf: "2026-09-22"};
+// baseEquivGrowth — 기본 시나리오 $315를 requiredGrowth와 **같은 방식**(5년 내내 일정한
+// 성장률, 같은 마진 경로)으로 환산한 값. 내재가치 탭이 requiredGrowth와 나란히 싣는다.
+// 기본 시나리오의 경로 CAGR 33.9%와 비교하면 안 된다 — 69.4%→2.5%로 앞에 몰린 경로라
+// 일정한 33.9%는 $315가 아니라 $298.96을 준다. 그러면 주가 $299~315에서 헤더는
+// 파랑(내재가치 아래)인데 탭 문장은 "요구 성장이 더 높다"가 되어 서로 어긋난다.
+//   d.implied_growth(base, NVDA_DCF.base, 0.10, 0.025, margin_path=d.margin_path_for(hist, "기본"))
 
 // ── 요약 격자 네 칸 (2026-09-22 재구성) ──
 // 전에는 "적정주가를 뒷받침하는 3가지 근거"라고 적어놓고 박스가 4개였고, 값이
@@ -1712,6 +1602,88 @@ const NVDA_SCORES = {
     + ' · 높은 성장 $' + Math.round(d.high) + '</span>';
   const dv = $('nvdaDcfVerdict');
   if (dv && price != null) dv.textContent = price < d.base ? '현재가보다 위' : '현재가보다 아래';
+})();
+
+// ── 내재가치 탭: 세 시나리오 표 + 직접 바꿔보기 (2026-09-23) ──
+// 표의 주당 가치는 NVDA_DCF, "현재가 대비"는 마지막 종가에서 계산한다. 예전에는
+// 이 열이 HTML에 박혀 있어서 $222.27 기준 +41.7%가 $228.87 카드에 남아 있었다.
+//
+// 버튼이 고르는 값은 아래 격자에서 **찾기만** 한다. DCF를 JS로 다시 짜지 않는다.
+// 영구성장 버튼은 6년차 이후만 바꾸는 게 아니다. 시나리오의 성장 경로가 첫해 값에서
+// 영구성장률까지 직선으로 식으므로 2~5년차 성장도 함께 움직인다. $315를 만든
+// scenarios()와 같은 정의라 의도된 동작이다(옛 민감도 표는 경로를 고정해 값이 달랐다).
+// 격자의 기본값 칸(할인율 10% · 영구 2.5%)은 NVDA_DCF와 같아야 하고, 갱신
+// 스크립트가 다르면 멈춘다.
+//
+// 갱신: python3 v2/build_dcf_grid.py NVDA
+/* DCF_GRID:BEGIN */
+const NVDA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[188.31, 163.61, 144.73, 129.83, 117.76], [201.2, 172.97, 151.8, 135.33, 122.16], [216.39, 183.73, 159.77, 141.45, 126.99], [234.56, 196.24, 168.85, 148.31, 132.33], [256.7, 210.97, 179.29, 156.05, 138.27]], "기본": [[374.61, 323.24, 283.99, 253.05, 228.04], [401.28, 342.56, 298.56, 264.38, 237.06], [432.69, 364.77, 315.0, 276.98, 246.99], [470.27, 390.6, 333.72, 291.09, 257.97], [516.08, 421.02, 355.24, 307.03, 270.18]], "낙관": [[720.78, 619.1, 541.5, 480.36, 430.99], [773.21, 657.04, 570.06, 502.53, 448.62], [834.99, 700.66, 602.3, 527.2, 468.02], [908.91, 751.39, 639.01, 554.84, 489.48], [999.03, 811.16, 681.22, 586.05, 513.37]]}};
+/* DCF_GRID:END */
+(function(){
+  const D = NVDA_DCF, G = (typeof NVDA_DCF_GRID !== 'undefined') ? NVDA_DCF_GRID : null;
+  const price = (typeof NVDA_DAILY !== 'undefined' && NVDA_DAILY.length)
+    ? NVDA_DAILY[NVDA_DAILY.length - 1][4] : null;
+  const pct = v => (v >= price ? '+' : '−') + Math.abs((v / price - 1) * 100).toFixed(1) + '%';
+  const tone = v => v >= price ? 'var(--green)' : 'var(--red)';
+
+  document.querySelectorAll('#dcf [data-dcf-value]').forEach(el => {
+    el.textContent = '$' + D[el.dataset.dcfValue].toFixed(2);
+  });
+  if (price != null) document.querySelectorAll('#dcf [data-dcf-upside]').forEach(el => {
+    const v = D[el.dataset.dcfUpside];
+    el.textContent = pct(v); el.style.color = tone(v);
+  });
+  const fill = (sel, text) => document.querySelectorAll('#dcf ' + sel).forEach(el => { el.textContent = text; });
+  if (price != null) fill('[data-dcf-price]', '$' + price.toFixed(2));
+  fill('[data-dcf-req]', (D.requiredGrowth * 100).toFixed(1) + '%');
+  fill('[data-dcf-basev]', '$' + Math.round(D.base));
+  fill('[data-dcf-baseeq]', (D.baseEquivGrowth * 100).toFixed(1) + '%');
+
+  if (!G) return;
+  const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#38bdf8'], ['낙관', 'high', 'var(--green)']];
+  const st = { scn: 1, wacc: G.waccs.indexOf(G.default[0]), term: G.terms.indexOf(G.default[1]) };
+  const opts = {
+    scn: SCN.map(s => s[0]),
+    wacc: G.waccs.map(w => +(w * 100).toFixed(1) + '%'),
+    term: G.terms.map(t => +(t * 100).toFixed(1) + '%'),
+  };
+  document.querySelectorAll('#dcf [data-knob-default]').forEach(el => {
+    const v = G.default[el.dataset.knobDefault === 'wacc' ? 0 : 1];
+    el.textContent = '(' + +(v * 100).toFixed(1) + '%)';
+  });
+  const ruler = document.getElementById('dcfRuler');
+  // 자의 양 끝은 격자 전체에서 한 번만 정한다. 선택마다 다시 잡으면 현재가
+  // 표시까지 움직여 무엇이 바뀌었는지 읽기 어렵다. 범위가 8배쯤이라 로그 눈금.
+  const every = SCN.flatMap(s => G.values[s[0]].flat()).concat(price != null ? [price] : []);
+  const LO = Math.log(Math.min(...every) * 0.92), HI = Math.log(Math.max(...every) * 1.04);
+
+  function draw() {
+    document.querySelectorAll('#dcf [data-knob]').forEach(box => {
+      box.querySelectorAll('button').forEach((b, i) => b.classList.toggle('active', i === st[box.dataset.knob]));
+    });
+    const vals = SCN.map(s => G.values[s[0]][st.term][st.wacc]);
+    const pick = vals[st.scn], col = SCN[st.scn][2];
+    const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
+    pv.textContent = '주당 $' + Math.round(pick); pv.style.color = col;
+    if (price != null) { pu.textContent = '현재가 대비 ' + pct(pick); pu.style.color = tone(pick); }
+
+    const x = v => ((Math.log(v) - LO) / (HI - LO) * 100).toFixed(2) + '%';
+    ruler.innerHTML = '<div class="ruler-line"></div>'
+      + (price != null ? `<div class="ruler-now" style="left:${x(price)}"><span>현재가<br>$${price.toFixed(2)}</span></div>` : '')
+      + SCN.map((s, i) => `<div class="ruler-pt${i === st.scn ? ' on' : ''}" style="left:${x(vals[i])};color:${s[2]}">`
+        + `<div class="ruler-lab">${s[0]}<br>$${Math.round(vals[i])}</div><div class="ruler-dot" style="background:${s[2]}"></div></div>`).join('');
+  }
+
+  document.querySelectorAll('#dcf [data-knob]').forEach(box => {
+    const k = box.dataset.knob;
+    opts[k].forEach((label, i) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'range-btn'; b.textContent = label;
+      b.onclick = () => { st[k] = i; draw(); };
+      box.appendChild(b);
+    });
+  });
+  draw();
 })();
 
 // 요약 격자 세 점수를 NVDA_SCORES에서 렌더한다. 색과 배지는 점수에서 나온다.
@@ -1970,7 +1942,7 @@ function nvdaBandTone(cp){
     // 2026-09-22 이전에는 두 범위의 **교집합**을 남색으로 칠했는데, 재보니
     // 정보가 없었다(Fable 발견). 9개 체크포인트에서 교집합이 밴드 대비
     // 0%(2024년 3개) / 32·44·77%(2025년) / **100%(2026년 3개)**였다.
-    // DCF 범위가 $164~$602로 3.7배나 넓어 밴드를 통째로 삼키기 때문에,
+    // DCF 범위가 $160~$602로 3.8배나 넓어 밴드를 통째로 삼키기 때문에,
     // 남색 구간은 "비었거나 백테스트 밴드를 색만 바꿔 다시 그린 것"이었다.
     // 기본선 하나로 바꾸면 9번 중 5번 안 / 4번 아래로 실제로 갈린다.
     //
@@ -1990,7 +1962,7 @@ function nvdaBandTone(cp){
           t => t.d > dataDates[0] && t.d <= dataDates[dataDates.length-1]))
       : [];
     // 둘 다 켜면 DCF는 **기본선만** 그리므로 y축에도 기본값만 넣는다.
-    // 낮은·높은 성장까지 넣으면 화면이 $164~$602로 벌어져 정작 주가가
+    // 낮은·높은 성장까지 넣으면 화면이 $160~$602로 벌어져 정작 주가가
     // 얇은 띠로 눌린다.
     const dcfVals = overlapOnly
       ? dcfVisible.map(t => clipDcf(t.base))
