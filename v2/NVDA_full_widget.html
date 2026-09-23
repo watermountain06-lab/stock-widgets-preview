@@ -43,7 +43,6 @@
   .summary { display: block; padding: 28px 32px; max-width: 1100px; margin: 0 auto; }
 
 
-
 /* ══════ #tech ══════ */
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
@@ -93,45 +92,13 @@
   .price-chart-container { margin-bottom: 16px; }
 
   /* ── SCORECARD (신규) ── */
-  .scorecard { background: linear-gradient(135deg, var(--bg2) 0%, #171a26 100%); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 24px; margin-bottom: 20px; }
-  .scorecard-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
-  .scorecard-score { display: flex; align-items: baseline; gap: 4px; }
-  .scorecard-score .num { font-size: 40px; font-weight: 800; color: var(--accent2); line-height: 1; }
-  .scorecard-score .denom { font-size: 16px; color: var(--text3); font-weight: 600; }
-  .scorecard-grade { font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 999px; background: rgba(46,204,113,0.15); color: var(--green); white-space: nowrap; }
-  .scorecard-grade.grade-strong { background: rgba(46,204,113,0.18); color: var(--green); }
-  .scorecard-grade.grade-positive { background: rgba(159,219,47,0.15); color: var(--accent2); }
-  .scorecard-grade.grade-mixed { background: rgba(240,192,64,0.18); color: var(--gold); }
-  .scorecard-grade.grade-weak { background: rgba(231,76,60,0.15); color: var(--red); }
-  .scorecard-bar { height: 6px; background: var(--bg3); border-radius: 999px; overflow: hidden; margin-bottom: 6px; }
-  .scorecard-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent3), var(--accent2)); border-radius: 999px; }
-  .scorecard-subtitle { font-size: 11.5px; color: var(--text3); margin-bottom: 18px; }
-  .scorecard-subscores { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 10px; }
-  .subscore-box { background: var(--bg3); border-radius: 8px; padding: 12px 14px; }
-  .subscore-box .subscore-label { font-size: 11px; color: var(--text2); margin-bottom: 6px; display: flex; justify-content: space-between; }
-  .subscore-box .subscore-val { font-size: 20px; font-weight: 700; color: var(--text); }
-  .subscore-box .subscore-max { font-size: 12px; color: var(--text3); font-weight: 500; }
-  .subscore-bar { height: 4px; background: var(--bg); border-radius: 999px; overflow: hidden; margin-top: 8px; }
-  .subscore-bar-fill { height: 100%; background: var(--accent2); border-radius: 999px; }
-  .subscore-desc { font-size: 10.5px; color: var(--text3); margin-top: 8px; }
-  .subscores-note { font-size: 10.5px; color: var(--text3); margin-bottom: 16px; line-height: 1.5; }
-  .scorecard-flags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
   .risk-flag { font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: rgba(231,76,60,0.15); color: var(--red); }
-  .scorecard-noflags { font-size: 11.5px; color: var(--text3); margin-bottom: 14px; }
   .opportunity-badge { font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: rgba(52,152,219,0.18); color: var(--blue); }
   .opportunity-badge .sub { font-weight: 500; opacity: 0.85; }
-  .scorecard-verdict { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
-  .scorecard-noOpp-inline { font-size: 10.5px; color: var(--text3); white-space: nowrap; }
-  .scorecard-evidence { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
-  .scorecard-evidence li { font-size: 12.5px; color: var(--text2); padding-left: 16px; position: relative; }
-  .scorecard-evidence li::before { content: '●'; position: absolute; left: 0; color: var(--accent2); font-size: 8px; top: 5px; }
-  .scorecard-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding-top: 12px; border-top: 1px dashed var(--border); font-size: 10.5px; color: var(--text3); }
-  .scorecard-disclaimer { font-size: 10.5px; color: var(--text3); font-style: italic; }
 
   @media (max-width: 640px) {
     .page { padding: 20px 16px; }
     .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
-    .scorecard-subscores { grid-template-columns: 1fr; }
   }
 
 /* ══════ #fund ══════ */
@@ -191,15 +158,36 @@
   .diag-badge.info { background:rgba(154,160,184,0.14); color:var(--text2); }
   .diag-badge.watch { background:rgba(240,192,64,0.16); color:var(--gold); }
   .diag-badge.alert { background:rgba(231,76,60,0.16); color:var(--red); }
-  .score-comp-head { display:flex; justify-content:space-between; align-items:baseline; font-size:13px; font-weight:700; color:var(--text); margin-bottom:10px; }
-  .score-comp-total { font-size:20px; font-weight:800; color:var(--text); }
-  .score-comp-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .score-comp-box { background:var(--bg3); border-radius:8px; padding:10px 14px; }
-  .score-comp-axis { font-size:12px; color:var(--text2); margin-bottom:4px; }
-  .score-comp-axis b { font-size:15px; color:var(--text); }
-  .score-comp-items { font-size:11.5px; color:var(--text2); line-height:1.6; word-break:keep-all; }
-  .score-comp-items .lost { color:var(--gold); font-weight:700; }
-  @media (max-width: 600px) { .score-comp-grid { grid-template-columns:1fr; } }
+  .score-comp { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+  .sc-total { display:flex; align-items:baseline; gap:6px; min-width:150px; }
+  .sc-total-l { font-size:12px; color:var(--text2); }
+  .sc-total-v { font-size:26px; font-weight:800; color:var(--text); }
+  .sc-group { display:flex; flex-direction:column; gap:6px; }
+  .sc-group-l { font-size:11px; color:var(--text3); }
+  .sc-tiles { display:flex; gap:8px; flex-wrap:wrap; }
+  .sc-item { display:flex; flex-direction:column; align-items:center; gap:2px; min-width:52px; }
+  .sc-tile { width:52px; height:22px; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:800; background:rgba(46,204,113,0.16); color:var(--green); }
+  .sc-tile.lost { background:rgba(240,192,64,0.18); color:var(--gold); }
+  .sc-tile.none { background:var(--bg3); color:var(--text3); }
+  .sc-name { font-size:10px; color:var(--text2); white-space:nowrap; }
+  .sc-tile.low { background:rgba(231,76,60,0.16); color:var(--red); }
+  .vs-head { display:flex; align-items:baseline; gap:10px; margin-bottom:12px; }
+  .vs-head-l { font-size:12px; color:var(--text3); }
+  .vs-verdict { font-size:20px; font-weight:800; color:var(--gold); }
+  .vs-asof { margin-left:auto; font-size:11px; color:var(--text3); }
+  .vs-table-wrap { overflow-x:auto; }
+  .vs-table { display:grid; grid-template-columns:150px 64px repeat(5, 44px) minmax(0, 1fr); column-gap:8px; row-gap:8px; align-items:center; background:var(--bg3); border-radius:8px; padding:12px 14px; min-width:560px; }
+  .vc-head { font-size:9.5px; color:var(--text3); text-align:center; white-space:nowrap; }
+  .vs-name { font-size:12px; color:var(--text2); cursor:help; white-space:nowrap; }
+  .vs-val { font-size:17px; font-weight:800; color:var(--text); }
+  .vs-note { grid-column:span 5; font-size:11.5px; color:var(--text2); }
+  .vs-note strong { color:var(--text); }
+  .vs-table .sc-tile { width:44px; height:20px; border-radius:4px; font-size:11.5px; }
+  .vs-pill { justify-self:end; font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--green); background:rgba(46,204,113,0.14); }
+  .vs-pill.mid { color:var(--gold); background:rgba(240,192,64,0.16); }
+  .vs-pill.high { color:var(--red); background:rgba(231,76,60,0.14); }
+  .vs-premise { font-size:12px; color:var(--text2); line-height:1.6; margin:12px 0 10px; }
+  .vs-premise strong { color:var(--text); }
 
   .detail-toggle { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; user-select: none; font-size: 12.5px; color: var(--text2); font-weight: 600; padding: 10px 2px 6px; border-top: 1px dashed var(--bg3); margin-top: 2px; }
   .detail-toggle:hover { color: var(--text); }
@@ -287,19 +275,7 @@
   .stage-4 { background: rgba(231,126,35,0.2); color: #e67e22; }
   .stage-5 { background: rgba(231,76,60,0.2); color: var(--red); }
 
-
   /* PEER-COMPARE VERDICT BLOCK */
-  .verdict-line { font-size:15px; font-weight:700; color:var(--text); line-height:1.45; margin-top:14px; }
-  .verdict-caveat { font-size:11px; color:var(--text3); margin-top:5px; line-height:1.5; display:flex; align-items:flex-start; gap:6px; }
-  .caveat-icon { display:inline-flex; align-items:center; justify-content:center; width:14px; height:14px; border-radius:50%; background:var(--gold); color:#0f1117; font-size:10px; font-weight:800; flex-shrink:0; margin-top:1.5px; }
-  .anchor-card { margin-top:14px; background:var(--bg3); border-radius:8px; padding:12px 14px; }
-  .anchor-card-label { font-size:10.5px; color:var(--text3); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:8px; }
-  .anchor-card-formula { font-family:'SF Mono',Menlo,Consolas,monospace; font-size:12.5px; font-weight:500; color:var(--text2); line-height:1.5; padding:2px 0 2px 10px; border-left:2px solid var(--text3); }
-  .anchor-card-formula + .anchor-card-formula { margin-top:6px; }
-  .anchor-card-cross { font-size:11px; color:var(--text3); margin-top:10px; padding-top:8px; border-top:1px dashed rgba(255,255,255,0.06); line-height:1.5; }
-  .secondary-row { margin-top:10px; background:rgba(52,152,219,0.08); border:1px solid rgba(52,152,219,0.25); border-radius:8px; padding:10px 12px; }
-  .secondary-row-label { font-size:11.5px; font-weight:700; color:var(--blue); }
-  .secondary-row-caveat { font-size:10.5px; color:var(--text3); margin-top:4px; line-height:1.5; }
 
   /* SYNTHESIS VERDICT (종합 밸류에이션) */
   .verdict-summary-head { font-size:14px; font-weight:800; color:var(--text); }
@@ -474,12 +450,8 @@
   </div>
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
-      <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="nvdaFairBand" style="font-size:22px;color:var(--green);">$260 ~ $370</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">내재가치 (현금흐름 기준)</span>
-      <span class="meta-value" id="nvdaDcfBase" style="font-size:22px;color:#38bdf8;">$315</span>
+      <span class="meta-label">종합 평가 (밸류에이션)</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~저평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%)</span>
@@ -489,9 +461,13 @@
       <span class="meta-label" id="nvdaConfidenceLabel">밴드 적중률 (전체 407/696일 · 최근 1년 36.3%)</span>
       <span class="meta-value" id="nvdaConfidence" style="font-size:22px;color:var(--gold);">58.5%</span>
     </div>
+    <div class="meta-item">
+      <span class="meta-label">적정주가 (배수 기준)</span>
+      <span class="meta-value" id="nvdaFairBand" style="font-size:22px;color:var(--green);">$260 ~ $370</span>
+    </div>
+  </div>
   </div>
 </div>
-
 
 <div id="tech" class="summary">
 
@@ -654,17 +630,9 @@
 
   <!-- ══════════ 0. 점수 구성 — 요약 격자의 기본적 분석 점수가 어디서 나오나 ══════════ -->
   <div class="card score-comp" id="fundComp">
-    <div class="score-comp-head"><span>기본적 분석</span><span class="score-comp-total" id="fundCompTotal">96.1<span class="logic-denom">/100</span></span></div>
-    <div class="score-comp-grid">
-      <div class="score-comp-box" data-axis="health">
-        <div class="score-comp-axis">재무건전성 <b data-axis-pts>30.4</b><span class="logic-denom">/33</span></div>
-        <div class="score-comp-items" data-axis-items>유동비율 5 · 당좌비율 5 · 차입금의존도 4 · 이자보상배율 5 · 부채비율 4</div>
-      </div>
-      <div class="score-comp-box" data-axis="growthProfit">
-        <div class="score-comp-axis">성장·수익성 <b data-axis-pts>34.0</b><span class="logic-denom">/34</span></div>
-        <div class="score-comp-items" data-axis-items>매출 성장 5 · 이익 성장 5 · 영업이익률 5 · 순이익률 5</div>
-      </div>
-    </div>
+    <div class="sc-total"><span class="sc-total-l">기본적 분석</span><span class="sc-total-v" id="fundCompTotal">96.1</span></div>
+    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts>30.4</span>/33</div><div class="sc-tiles" data-axis-items><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">부채비율</div></div></div></div>
+    <div class="sc-group" data-axis="growthProfit"><div class="sc-group-l">성장·수익성 <span data-axis-pts>34.0</span>/34</div><div class="sc-tiles" data-axis-items><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">매출 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이익 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">영업이익률</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">순이익률</div></div></div></div>
   </div>
 
   <!-- ══════════ 1. 분기 매출/순이익/영업이익률 차트 ══════════ -->
@@ -868,13 +836,22 @@
 
 <div id="valuation" class="section">
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 $228.87</div>
-  <div style="font-size:10.5px;color:var(--text3);margin:-4px 0 12px;">※ 5개 배수 전부 2026-08-26 Q2 FY27 실적(SEC 10-Q, 자기자본 $229.0B·TTM매출 $302.97B·TTM FCF $127.0B·TTM EBITDA $201.3B) 기준으로 계산했고, 주가는 2026-09-22 종가 $228.87이다. 주식수는 <b>발행주식수 24.100B</b>(SEC dei, 2026-08-21 표지)로 통일했다 — 희석 가중평균 24.285B를 쓰면 PBR이 24.1x가 아니라 24.3x, PCR이 43.4x가 아니라 43.8x가 되어 한 카드 안에서 같은 배수가 두 값이 된다.</div>
 
+  <div class="card val-summary">
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~저평가</span><span class="vs-asof"><span data-vs="asof">2026.09.22</span> 종가 기준</span></div>
+    <div class="vs-table-wrap"><div class="vs-table" id="valComp">
+      <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
+      <div class="vs-name" title="지난 5년 NVDA 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">91.0</div><div class="sc-tile" data-vc="self" data-m="per">99</div><div class="sc-tile" data-vc="self" data-m="pbr">81</div><div class="sc-tile" data-vc="self" data-m="psr">83</div><div class="sc-tile" data-vc="self" data-m="pcr">94</div><div class="sc-tile" data-vc="self" data-m="evebitda">99</div><div class="vs-pill" data-vs-pill="self">싸다</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$315</div><div class="vs-note">현재가 <span data-vs="price">$228.87</span> 대비 <strong data-vs="upside">+37.6%</strong> · 기본 시나리오</div><div class="vs-pill" data-vs-pill="dcf">싸다</div>
+      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">46.7</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile low" data-vc="peer" data-m="pbr">22</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">61</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+    </div></div>
+    <div class="vs-premise">이익 기준 배수는 낮지만 자산·매출 기준 배수는 섹터에서 비싼 편이라, <strong>지금의 높은 마진이 유지된다는 전제의 저평가</strong>다.</div>
+    <div class="verdict-summary-risk">⚠️ 성장이 지난 5년 속도의 절반으로 식고 마진이 5년 중앙값(56.6%)으로 내려오면 내재가치는 <strong data-vs="low">$160</strong>(보수 시나리오)으로 현재가보다 낮아진다.</div>
+  </div>
 
   <div class="grid-2">
     <div class="card">
       <div class="card-title">멀티플 5단계 평가 (글로벌 AI 반도체 비교)</div>
-      <div style="font-size:10.5px;color:var(--text3);line-height:1.5;margin:-4px 0 14px;">※ 아래 각 "적정" 값의 NVDA 자체 10년 중간값 앵커는 게임GPU→암호화폐→데이터센터→생성형AI로 사업모델이 여러 차례 전환된 기간을 합친 값으로, 단일 국면의 적정가치가 아니라 참고용 장기 앵커임.</div>
 
       <div class="val-item" data-metric="per" onclick="selectMultiple('per')">
         <div class="val-header">
@@ -937,77 +914,14 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" style="display:flex;flex-direction:column;">
       <div class="card-title"><span id="multipleCompareTitle">글로벌 AI 반도체 PER 비교</span></div>
-      <div class="chart-wrap" style="height:230px;">
+      <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
-
-      <div class="verdict-line" id="verdictLine"></div>
-      <div class="verdict-caveat" id="verdictCaveat"></div>
-
-      <div class="anchor-card">
-        <div class="anchor-card-label">계산 · 적정 기준</div>
-        <div class="anchor-card-formula" id="anchorCalc"></div>
-        <div class="anchor-card-formula" id="anchorFormula"></div>
-        <div class="anchor-card-cross" id="anchorCross"></div>
-      </div>
-
-      <div class="secondary-row" id="secondaryRow" style="display:none;">
-        <div class="secondary-row-label" id="secondaryLabel"></div>
-        <div class="secondary-row-caveat" id="secondaryCaveat"></div>
-      </div>
     </div>
   </div>
 
-  <div class="scorecard">
-    <div class="scorecard-top">
-      <div>
-        <div class="scorecard-score"><span class="num">94.9</span><span class="denom">/100</span></div>
-      </div>
-      <div class="scorecard-verdict">
-        <div><span class="scorecard-grade grade-strong">재무 기본점수 · 우수 구간</span></div>
-        <div class="scorecard-noOpp-inline">기술 90 · 평균 92.5</div>
-      </div>
-    </div>
-    <div class="scorecard-bar"><div class="scorecard-bar-fill" style="width:94.9%;"></div></div>
-    <div class="scorecard-subtitle">3축(밸류에이션·재무건전성·성장·수익성) 종합, 100점 만점 환산 · 배점은 모델 v1.0.1(2026-08-25 동결) 그대로 두고 입력만 최신 분기·TTM으로 바꿨다</div>
-
-    <div class="scorecard-subscores">
-      <div class="subscore-box">
-        <div class="subscore-label"><span>밸류에이션</span><span class="subscore-max">30.5/33</span></div>
-        <div class="subscore-val">30.5</div>
-        <div class="subscore-bar"><div class="subscore-bar-fill" style="width:92.4%;"></div></div>
-        <div class="subscore-desc">PER 28.9x 1단계·PBR 24.1x 2단계·목표주가 1단계(애널리스트 60명 컨센서스 +42.4%) — 종합 1.3/5단계(낮을수록 저평가) <span style="color:var(--green);font-weight:700;">매우낮음</span> <span style="color:var(--text3);">(단계는 위 5단계 표와 같은 값을 쓴다)</span></div>
-      </div>
-      <div class="subscore-box">
-        <div class="subscore-label"><span>재무건전성</span><span class="subscore-max">30.4/33</span></div>
-        <div class="subscore-val">30.4</div>
-        <div class="subscore-bar"><div class="subscore-bar-fill" style="width:92.1%;"></div></div>
-        <div class="subscore-desc">유동비율 458.9%·당좌비율 385.5%·차입금의존도 10.4%·이자보상배율 280.80배·부채비율 39.9% — 5개 비율 합계 23/25점. <span style="color:var(--gold);">장기차입금이 FY2026 $7.5B에서 $32.4B로 늘어 차입금의존도만 5점→4점</span></div>
-      </div>
-      <div class="subscore-box">
-        <div class="subscore-label"><span>성장·수익성</span><span class="subscore-max">34/34</span></div>
-        <div class="subscore-val">34</div>
-        <div class="subscore-bar"><div class="subscore-bar-fill" style="width:100.0%;"></div></div>
-        <div class="subscore-desc">매출 CAGR 100.0%·영업이익 CAGR 213.7%(연간 시계열)·영업이익률(OPM) 66.2%·순이익률 62.0%(Q2 FY27) — 4개 지표 합계 20/20점</div>
-      </div>
-    </div>
-
-    <div class="scorecard-noflags">ℹ️ 데이터 상태 · 주요 재무지표가 기준 커버리지를 충족합니다</div>
-
-    <div class="scorecard-footer">
-      <span>재무 데이터 기준일 2026-07-26 (Q2 FY27 10-Q, 2026-08-26 공시) · 주가 2026-09-22 종가</span>
-      <span class="scorecard-disclaimer">서술적 스냅샷 지표 - 지금 저평가·재무건전성·성장성이 어느 수준인지 요약할 뿐이며, 향후 수익률과의 상관관계는 검증하지 않았습니다. 기술점수와의 단순평균도 순위·매수판단용이 아닙니다.</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">종합 밸류에이션</div>
-    <div class="verdict-summary-head">종합 판단 <span class="summary-asof" style="font-size:11px;font-weight:400;color:var(--text3);">(2026.09.22 종가 · Q2 FY27 실적 기준)</span> <span class="tag" style="color:var(--gold);">적정~저평가 · 확신도 보통</span></div>
-    <div class="verdict-summary-body">PER(1단계)뿐 아니라 PBR·PSR·PCR·EV/EBITDA까지 5개 배수 전부 2단계(낮음) 이하로 내려와, Q1 FY27 기준으로 이익 관련 배수에만 국한됐던 할인이 자산·매출·현금흐름 기준까지 전방위로 넓어졌다. 자기자본이 직전 분기 대비 <strong>+17.1%</strong>($195.5B → $229.0B) 늘어나는 동안 같은 기간 주가는 <strong>-0.7%</strong>($208.27 → $206.84)였다. TTM 매출과 FCF도 같은 방향이다 — 분모가 주가보다 빨리 커지면 배수는 저절로 내려간다. <strong style="color:var(--text);">이익 성장이 유지된다는 전제 하의 저평가</strong>라는 성격 자체는 그대로다.</div>
-    <div class="verdict-summary-risk">⚠️ 마진(OPM 65%+)이나 EPS 성장률(85%+)이 정상화되면 PER·PEG 기준의 할인 논리는 빠르게 약해질 수 있다.</div>
-  </div>
 </div>
 
 <div id="news" class="section">
@@ -1387,11 +1301,6 @@ const MULTIPLE_DATA = {
   per: {
     title: '글로벌 AI 반도체 PER 비교',
     unit: 'PER(TTM)', max: 60, nvdaValue: 28.9,
-    calcLine: 'PER = 주가($228.87) ÷ EPS($7.91) = 28.9x',
-    verdict: 'NVDA 28.9x는 최근 1년 중앙값 40.8x보다 낮음 → 1년 안에서도 하위 6%',
-    verdictCaveat: '40.8x는 최근 252거래일 PER의 중앙값일 뿐 내재가치 추정치가 아니다. NVDA는 PER이 계속 내려오는 중이라 과거 중앙값은 구조적으로 현재보다 높다',
-    anchor: { value: '40.8x', formula: '최근 1년(252거래일) PER 중앙값 = 40.77x · 저 26.51x는 같은 창의 최저, 고 58.95x는 최고', cross: '비교 유의: 피어마다 회계기준·기간이 달라(AVGO Non-GAAP·TSM IFRS·AMD Forward) 절대값보다 방향성 참고용' },
-    secondary: { label: 'Forward PER(FY27E) 21.2x · PEG 0.47', caveat: 'TTM PER과 기준 기간이 달라 별도 지표로 참고 — PEG는 성장률 반영 시 저평가 근거로 별도 해석' },
     peers: [
       { name:'AVGO', value:50.9, status:'reference' },
       { name:'TSM', value:27.7, status:'excluded' },
@@ -1402,11 +1311,6 @@ const MULTIPLE_DATA = {
   pbr: {
     title: 'PBR 비교 — 팹리스 자산집약도 기준',
     unit: 'PBR', max: 35, nvdaValue: 24.1,
-    calcLine: 'PBR = 주가($228.87) ÷ BPS($9.50) = 24.1x',
-    verdict: 'NVDA 24.1x는 핵심 앵커 3사 중 가장 높음(AVGO 24.0x를 근소하게 웃돈다)',
-    verdictCaveat: '적정 20x는 팹리스 피어 2곳(AVGO·AMD)과 자체 10년 중간값의 중앙값',
-    anchor: { value: '20x', formula: '중앙값(AVGO 24.0x, AMD 13.3x, 자체중간값 20.3x) = 20.3x → 20x', cross: '비교 유의: AVGO·AMD와는 팹리스 자산집약도 기준으로 비교 가능하나, TSM은 파운드리 사업모델 차이로 비교 대상에서 제외' },
-    secondary: null,
     peers: [
       { name:'AVGO', value:24.0, status:'anchor' },
       { name:'AMD', value:13.3, status:'anchor' },
@@ -1416,11 +1320,6 @@ const MULTIPLE_DATA = {
   psr: {
     title: 'PSR 비교 — 팹리스 마진구조 기준',
     unit: 'PSR(TTM)', max: 35, nvdaValue: 18.2,
-    calcLine: 'PSR = 주가($228.87) ÷ 주당매출($12.57) = 18.2x',
-    verdict: 'NVDA 18.2x는 핵심 앵커 중앙값(22.9x)보다 뚜렷하게 낮음',
-    verdictCaveat: '적정 23x는 AVGO·AMD·자체 10년 중간값의 중앙값(기존 15x에서 재검증)',
-    anchor: { value: '23x', formula: '중앙값(AVGO 27.0x, AMD 22.9x, 자체중간값 19.6x) = 22.9x → 23x', cross: '비교 유의: AVGO·AMD와는 팹리스 마진구조 기준으로 비교 가능하나, TSM은 파운드리 마진구조 차이로 비교 대상에서 제외' },
-    secondary: null,
     peers: [
       { name:'AVGO', value:27.0, status:'anchor' },
       { name:'AMD', value:22.9, status:'anchor' },
@@ -1430,11 +1329,6 @@ const MULTIPLE_DATA = {
   pcr: {
     title: 'PCR(FCF) 비교 — 팹리스 자본집약도 기준',
     unit: 'PCR(FCF)', max: 70, nvdaValue: 43.4,
-    calcLine: 'PCR = 주가($228.87) ÷ FCF/주($5.27) = 43.4x',
-    verdict: 'NVDA 43.4x는 두 핵심 앵커 모두보다 뚜렷하게 낮음 — 2단계(낮음)로 하향',
-    verdictCaveat: '적정 58x는 앵커 2개뿐인 저표본 평균 — 정밀한 적정가치 점추정보다 중심값 정도로 해석 권장. Q2 FY27에서 매출채권·재고 증가로 FCF가 둔화된 점은 감안 필요',
-    anchor: { value: '58x', formula: '평균(AVGO 58.6x, 자체중간값 57.1x) = 57.85x → 58x', cross: '비교 유의: AVGO와는 팹리스 자본집약도 기준으로 비교 가능하나 FCF 정의 일치 여부 미검증. AMD는 PCR을 공시하지 않아 비교 대상에서 빠짐' },
-    secondary: null,
     peers: [
       { name:'AVGO', value:58.6, status:'anchor' },
       { name:'반도체평균', value:48.1, status:'reference' },
@@ -1444,11 +1338,6 @@ const MULTIPLE_DATA = {
   evebitda: {
     title: 'EV/EBITDA 비교 — 팹리스 자본집약도 기준',
     unit: 'EV/EBITDA', max: 100, nvdaValue: 27.3,
-    calcLine: 'EV/EBITDA = EV($5.50T) ÷ EBITDA($201.3B) = 27.3x',
-    verdict: 'NVDA 27.3x는 적정 46x 대비로도 뚜렷한 저평가',
-    verdictCaveat: 'EV = 시가총액 + 총부채 − 현금성자산 기준',
-    anchor: { value: '46x', formula: '평균(AVGO 49.5x, 자체중간값 42.7x) = 46.1x → 46x', cross: '비교 유의: AVGO와는 팹리스 자본집약도 기준으로 비교 가능하나 EBITDA 정의 일치 여부 미검증. TSM·AMD는 사업모델·회계왜곡으로 비교 대상에서 제외' },
-    secondary: null,
     peers: [
       { name:'AVGO', value:49.5, status:'anchor' },
       { name:'TSM', value:20.1, status:'excluded' },
@@ -1499,24 +1388,6 @@ function selectMultiple(key) {
   document.querySelectorAll('.val-item[data-metric]').forEach(el => el.classList.toggle('selected', el.dataset.metric === key));
   document.getElementById('multipleCompareTitle').textContent = d.title;
 
-  document.getElementById('verdictLine').textContent = d.verdict;
-  document.getElementById('verdictCaveat').innerHTML = '<span class="caveat-icon">!</span><span>' + d.verdictCaveat + '</span>';
-
-  document.getElementById('anchorCalc').textContent = d.calcLine;
-  document.getElementById('anchorFormula').textContent = d.anchor.formula;
-  const crossEl = document.getElementById('anchorCross');
-  if (d.anchor.cross) { crossEl.textContent = d.anchor.cross; crossEl.style.display = ''; }
-  else { crossEl.style.display = 'none'; }
-
-  const secRow = document.getElementById('secondaryRow');
-  if (d.secondary) {
-    document.getElementById('secondaryLabel').textContent = d.secondary.label;
-    document.getElementById('secondaryCaveat').textContent = d.secondary.caveat;
-    secRow.style.display = '';
-  } else {
-    secRow.style.display = 'none';
-  }
-
   renderMultipleChart(key);
 }
 
@@ -1536,6 +1407,12 @@ const NVDA_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 둘 다 지적했다). 이제 아래 IIFE가 헤더와 근거 박스를 이 값에서 그린다.
 //
 // 갱신: python3 v2/build_dcf.py NVDA --price <현재가>
+// 밸류에이션 종합 판정 — 헤더 첫 칸과 밸류에이션 탭 머리가 이 한 값을 쓴다.
+// 사람이 내린 판단이다(근거: 밸류에이션 탭의 세 줄 — 자기 이력 · 현금흐름 · 동종업).
+// 규칙으로 정할지는 backlog "v2 카드 70장 확대"의 열린 결정 (b).
+const NVDA_VERDICT = '적정~저평가';
+document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = NVDA_VERDICT; });
+
 const NVDA_DCF = {low: 159.77, base: 315.00, high: 602.30,
                   requiredGrowth: 0.2624, baseEquivGrowth: 0.3540, asOf: "2026-09-22"};
 // baseEquivGrowth — 기본 시나리오 $315를 requiredGrowth와 **같은 방식**(5년 내내 일정한
@@ -1560,7 +1437,7 @@ const NVDA_DCF = {low: 159.77, base: 315.00, high: 602.30,
 //
 // 색은 점수에서 나온다 — 헤더 ④ 밴드 적중률과 **같은 문턱**이다.
 //     초록 70점 이상 · 노랑 30~70점 · 빨강 30점 미만
-// 내재가치 칸만 파랑 고정이다. 점수가 아니라 가격이고, 헤더 ②와 같은 값이라
+// 내재가치 칸만 파랑 고정이다. 점수가 아니라 가격이라
 // 같은 색을 쓴다.
 //
 // 갱신: python3 v2/build_peer_score.py NVDA --self v2/NVDA_multiples.json
@@ -1582,23 +1459,25 @@ const NVDA_SCORES = {
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 NVDA_DCF 하나다.
 //
-// ── 헤더 네 칸의 색 규칙 (2026-09-22 고정) ──
+// ── 헤더 네 칸의 색 규칙 (2026-09-22 고정, 2026-09-23 순서 변경) ──
 // 카드를 만들 때마다 색이 달라지지 않도록 한곳에 모아 둔다.
+// 2026-09-23 순서를 종합 평가 · 요구 성장 · 밴드 적중률 · 적정주가로 바꾸고
+// 내재가치 칸을 뺐다 — 바로 아래 요약 격자 첫 칸에 같은 $315가 있다.
 //
-//   ① 적정주가 (배수 기준)   초록 고정 — 값과 무관
-//   ② 내재가치 (현금흐름)    파랑 고정 — 값과 무관
-//   ③ 현재가 요구 성장       현재가 < 내재가치면 파랑, 넘으면 빨강
-//   ④ 밴드 적중률            초록 70%↑ · 노랑 30~70% · 빨강 30%↓ (nvdaHitTone)
+//   종합 평가 (밸류에이션)   노랑 고정 — NVDA_VERDICT
+//   현재가 요구 성장         현재가 < 내재가치면 파랑, 넘으면 빨강
+//   밴드 적중률              초록 70%↑ · 노랑 30~70% · 빨강 30%↓ (nvdaHitTone)
+//   적정주가 (배수 기준)     초록 고정 — 값과 무관
 //
-// ③의 문턱을 **내재가치 자체**로 잡은 이유. 요구 성장률을 기본 시나리오의
+// 요구 성장 칸의 문턱을 **내재가치 자체**로 잡은 이유. 요구 성장률을 기본 시나리오의
 // 5년 CAGR 33.87%와 비교하면 직관적이지만 정확하지 않다. 기본 시나리오는
 // 69.4%에서 2.5%로 줄어드는 **앞에 몰린** 경로라, 같은 CAGR이어도 현재가치가
 // 더 크다(할인은 시점에 민감하다). 실제로 주가가 내재가치 $315일 때 비율은
 // 1.000이 아니라 1.045이고, CAGR 기준으로 색을 주면 적정가보다 5% 싼
 // $298.93에서 이미 빨강이 된다. 가격끼리 비교하면 그 오차가 없다.
 //
-// ①과 ④가 값에 반응하지 않는 것은 의도다. ①은 "지난 1년 배수가 오간 범위"라
-// 좋고 나쁨이 없고, ④는 다른 질문("이 밴드를 믿을 수 있나")에 답한다.
+// 적정주가와 밴드 적중률 칸이 값에 반응하지 않는 것은 의도다. 적정주가는 "지난 1년 배수가 오간 범위"라
+// 좋고 나쁨이 없고, 밴드 적중률은 다른 질문("이 밴드를 믿을 수 있나")에 답한다.
 (function(){
   const d = NVDA_DCF, $ = id => document.getElementById(id);
   const base = $('nvdaDcfBase'), req = $('nvdaDcfReq'), box = $('nvdaDcfBox');
@@ -1731,19 +1610,20 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
       : r.metric === 'interestCoverage' ? Math.round(r.value) + 'x' : r.value.toFixed(1) + '%';
   });
 
-  // 구성표 — 축 점수와 항목별 점수(5점 만점). 깎인 항목만 색으로 짚는다.
+  // 구성표 — 총점 · 축 점수 · 항목별 점수 칸(5점 만점). 깎인 항목은 노란 칸.
   const SHORT = { currentRatio: '유동비율', quickRatio: '당좌비율', debtDependency: '차입금의존도',
                   interestCoverage: '이자보상배율', debtToEquity: '부채비율', revenueCagr: '매출 성장',
                   opIncomeCagr: '이익 성장', opMargin: '영업이익률', netMargin: '순이익률' };
   const tot = $('fundCompTotal');
-  if (tot) tot.innerHTML = (F.score == null ? '—' : F.score.toFixed(1)) + '<span class="logic-denom">/100</span>';
+  if (tot) tot.textContent = F.score == null ? '—' : F.score.toFixed(1);
   document.querySelectorAll('#fundComp [data-axis]').forEach(box => {
     const a = F.axes[box.dataset.axis];
     box.querySelector('[data-axis-pts]').textContent = a.points == null ? '—' : a.points.toFixed(1);
-    box.querySelector('[data-axis-items]').innerHTML = a.rows.map(r =>
-      r.points == null ? `${SHORT[r.metric]} —`
-        : r.points < 5 ? `<span class="lost">${SHORT[r.metric]} ${r.points}</span>` : `${SHORT[r.metric]} ${r.points}`
-    ).join(' · ');
+    box.querySelector('[data-axis-items]').innerHTML = a.rows.map(r => {
+      const cls = r.points == null ? ' none' : r.points < 5 ? ' lost' : '';
+      return `<div class="sc-item"><div class="sc-tile${cls}">${r.points == null ? '—' : r.points}</div>`
+        + `<div class="sc-name">${SHORT[r.metric]}</div></div>`;
+    }).join('');
   });
 
   const N = F.netCash, B = v => '$' + (v / 1e9).toFixed(1) + 'B';
@@ -1754,6 +1634,55 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
   }
   const hx = $('fundHealthAxis');
   if (hx && F.axes.health.points != null) hx.textContent = `${F.axes.health.points.toFixed(1)}/${F.axes.health.max}`;
+})();
+
+// ── 밸류에이션 탭: 요약 격자의 두 밸류에이션 점수를 배수별로 (2026-09-23) ──
+// 두 점수는 다섯 배수 점수의 단순평균이다. 칸 색은 카드 공통 30/70.
+// 요약 격자도 이 값을 읽는다 — 94.9 스코어카드(옛 단계 체계, 손으로 쓴 값)를
+// 지우고 그 자리에 둔다.
+//
+// 갱신: python3 v2/build_peer_score.py NVDA --self v2/NVDA_multiples.json --card
+/* VALUATION:BEGIN */
+const NVDA_VALUATION = {"peer": {"score": 46.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "per", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "pbr", "score": 21.7, "rank": 19, "peers": 23}, {"metric": "psr", "score": 25.9, "rank": 21, "peers": 27}, {"metric": "pcr", "score": 60.9, "rank": 10, "peers": 23}, {"metric": "evebitda", "score": 50.0, "rank": 13, "peers": 24}]}, "self": {"score": 91.0, "window": ["2021-09-22", "2026-09-22"], "metrics": [{"metric": "per", "score": 98.6, "percentile": 1.4}, {"metric": "pbr", "score": 81.0, "percentile": 19.0}, {"metric": "psr", "score": 82.8, "percentile": 17.2}, {"metric": "pcr", "score": 93.8, "percentile": 6.2}, {"metric": "evebitda", "score": 98.6, "percentile": 1.4}]}};
+/* VALUATION:END */
+(function(){
+  const V = (typeof NVDA_VALUATION !== 'undefined') ? NVDA_VALUATION : null;
+  if (!V) return;
+  NVDA_SCORES.peer = V.peer.score; NVDA_SCORES.selfHistory = V.self.score;
+  const tone = v => v >= 70 ? '' : v >= 30 ? ' lost' : ' low';
+  ['peer', 'self'].forEach(k => {
+    const el = document.querySelector(`#valComp [data-vc-score="${k}"]`);
+    if (el) el.textContent = V[k].score.toFixed(1);
+    // 빠진 배수(적자·표본 부족·동결)는 평균에서 빠진다. HTML의 대체값이 남지 않게
+    // 먼저 전부 비우고, 데이터에 있는 배수만 채운다(Codex).
+    document.querySelectorAll(`#valComp [data-vc="${k}"]`).forEach(t => { t.className = 'sc-tile none'; t.textContent = '—'; });
+    V[k].metrics.forEach(m => {
+      const t = document.querySelector(`#valComp [data-vc="${k}"][data-m="${m.metric}"]`);
+      if (t) { t.className = 'sc-tile' + tone(m.score); t.textContent = Math.round(m.score); }
+    });
+  });
+
+  // 종합 밸류에이션 문장의 숫자 — 두 점수, 내재가치, 현재가 대비, 기준일.
+  // 예전 본문은 옛 단계 체계("5개 배수 전부 2단계 이하, 전방위 저평가")와 손으로
+  // 쓴 가격($208.27 → $206.84)이었다.
+  const last = (typeof NVDA_DAILY !== 'undefined' && NVDA_DAILY.length) ? NVDA_DAILY[NVDA_DAILY.length - 1] : null;
+  const D = (typeof NVDA_DCF !== 'undefined') ? NVDA_DCF : null;
+  const put = (k, t) => document.querySelectorAll(`#valuation [data-vs="${k}"]`).forEach(el => { el.textContent = t; });
+  put('self', V.self.score.toFixed(1)); put('peer', V.peer.score.toFixed(1));
+  if (D) { put('dcf', '$' + Math.round(D.base)); put('low', '$' + Math.round(D.low)); }
+  if (last) {
+    put('asof', last[0].replaceAll('-', '.'));
+    put('price', '$' + last[4].toFixed(2));
+    if (D) { const u = (D.base / last[4] - 1) * 100; put('upside', (u >= 0 ? '+' : '−') + Math.abs(u).toFixed(1) + '%'); }
+  }
+  // 판정 알약 — 점수는 카드 공통 30/70(70↑ 싸다 · 30~70 중간 · 30↓ 비싸다).
+  // 현금흐름은 잠정 규칙: 현재가 < 내재가치면 싸다. 안전마진(예: 15%)을 둘지는
+  // backlog "v2 카드 70장 확대"의 열린 결정이다.
+  const pill = (k, cls, txt) => { const el = document.querySelector(`#valuation [data-vs-pill="${k}"]`);
+    if (el) { el.className = 'vs-pill' + (cls ? ' ' + cls : ''); el.textContent = txt; } };
+  const byScore = v => v >= 70 ? ['', '싸다'] : v >= 30 ? ['mid', '중간'] : ['high', '비싸다'];
+  pill('self', ...byScore(V.self.score)); pill('peer', ...byScore(V.peer.score));
+  if (D && last) pill('dcf', ...(last[4] < D.base ? ['', '싸다'] : ['high', '비싸다']));
 })();
 
 // ── 기본적 분석 탭: 활동성 칸 (2026-09-23) ──

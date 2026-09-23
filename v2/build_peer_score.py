@@ -45,6 +45,7 @@
     python3 v2/build_peer_score.py NVDA
     python3 v2/build_peer_score.py NVDA --json v2/NVDA_peer_score.json
     python3 v2/build_peer_score.py NVDA --self v2/NVDA_multiples.json
+    python3 v2/build_peer_score.py NVDA --self v2/NVDA_multiples.json --card   # 카드 블록 교체
 """
 import argparse
 import json
@@ -158,6 +159,8 @@ def main():
     ap.add_argument("--json", help="결과 저장 경로")
     ap.add_argument("--self", dest="self_path",
                     help="자기 이력 점수를 읽을 build_multiple_history 결과 JSON")
+    ap.add_argument("--card", action="store_true",
+                    help="v2/<T>_full_widget.html의 VALUATION 블록을 교체한다 (--self 필요)")
     args = ap.parse_args()
     t = args.ticker.upper()
 
@@ -187,6 +190,38 @@ def main():
     if args.json:
         json.dump(r, open(args.json, "w"), ensure_ascii=False, indent=1)
         print("\n저장:", args.json)
+    if args.card:
+        if "selfScore" not in r:
+            sys.exit("--card는 --self와 함께 쓴다 (두 점수를 한 블록에 싣는다)")
+        write_card(t, r, json.load(open(args.self_path))["multiples"])
+
+
+SELF_KEYS = {"PER": "per", "PBR": "pbr", "PSR": "psr", "PCR": "pcr", "EV/EBITDA": "evebitda"}
+BEGIN, END = "/* VALUATION:BEGIN */", "/* VALUATION:END */"
+
+
+def write_card(ticker, r, self_multiples):
+    """밸류에이션 탭의 두 점수 상자가 읽는 블록. 요약 격자도 같은 값을 쓴다."""
+    import re
+    out = {
+        "peer": {"score": r["score"], "sector": r["sector"], "asOf": r["peerAsOf"],
+                 "metrics": [{"metric": m["metric"], "score": m["score"],
+                              "rank": m["rank"], "peers": m["peers"]} for m in r["metrics"]]},
+        "self": {"score": r["selfScore"], "window": r["selfWindow"],
+                 # 동종업 상자와 같은 순서(METRICS)로 — 원본 JSON은 PER·PSR·PBR 순이다
+                 "metrics": sorted(
+                     [{"metric": SELF_KEYS[k], "score": v["score"], "percentile": v["percentile"]}
+                      for k, v in self_multiples.items() if v.get("score") is not None],
+                     key=lambda m: METRICS.index(m["metric"]))},
+    }
+    path = os.path.join(REPO, "v2", f"{ticker}_full_widget.html")
+    html = open(path, encoding="utf-8").read()
+    pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
+    if len(pat.findall(html)) != 1:
+        sys.exit(f"{path}: VALUATION 마커가 정확히 한 쌍이 아니다")
+    block = f"{BEGIN}\nconst {ticker}_VALUATION = {json.dumps(out, ensure_ascii=False)};\n{END}"
+    open(path, "w", encoding="utf-8").write(pat.sub(lambda _: block, html))
+    print("교체:", path)
 
 
 if __name__ == "__main__":
