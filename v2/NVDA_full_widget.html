@@ -321,6 +321,15 @@
   .tl-source:hover { text-decoration: underline; }
   .bb-row { display:grid; grid-template-columns:14px 64px minmax(0, 1fr); gap:8px; align-items:center; padding:7px 0; border-bottom:1px solid var(--border); font-size:12.5px; }
   .bb-row:last-child { border-bottom:none; }
+  .op-strip { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); background:var(--bg3); border-radius:8px; padding:12px 0; }
+  .op-cell { display:flex; flex-direction:column; gap:3px; padding:0 18px; border-left:1px solid var(--border); }
+  .op-cell:first-child { border-left:none; }
+  .op-label { font-size:11px; color:var(--text3); }
+  .op-val { font-size:17px; font-weight:800; color:var(--text); }
+  .op-sub { font-size:12px; font-weight:600; color:var(--text2); }
+  .op-sub.op-up { color:var(--green); }
+  .op-dist { display:flex; height:6px; width:150px; border-radius:3px; overflow:hidden; margin-top:3px; }
+  @media (max-width: 600px) { .op-strip { grid-template-columns:1fr; row-gap:12px; } .op-cell { border-left:none; } }
   .bb-row.bull .bb-icon { color:var(--bull); } .bb-row.bear .bb-icon { color:var(--bear); }
   .bb-head { font-weight:700; color:var(--text); white-space:nowrap; }
   .bb-text { color:var(--text2); line-height:1.45; }
@@ -1034,30 +1043,20 @@
 
   <div class="card" style="margin-top:16px;">
     <div class="card-title">투자의견 요약</div>
-    <div class="grid-3">
-      <div class="stat-box">
-        <div class="stat-label">애널리스트 의견</div>
-        <div class="stat-value" style="font-size:19px;">Strong Buy</div>
-        <div class="stat-sub"><span data-an="n">61</span>명 중 매수 <span data-an="buy">58</span></div>
+    <div class="op-strip">
+      <div class="op-cell">
+        <span class="op-label">애널리스트 <span data-an="n">61</span>명</span>
+        <span class="op-val">Strong Buy <span class="op-sub">매수 <span data-an="buy">58</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width:95.1%;background:var(--green);"></div><div data-an-bar="hold" style="width:3.3%;background:var(--gold);"></div><div data-an-bar="sell" style="width:1.6%;background:var(--red);"></div></div>
       </div>
-      <div class="stat-box">
-        <div class="stat-label">평균 목표주가</div>
-        <div class="stat-value" style="font-size:19px;" data-an="mean">$328.66</div>
-        <div class="stat-sub" data-an="upside">+43.6%</div>
+      <div class="op-cell">
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-21</span></span>
+        <span class="op-val"><span data-an="mean">$328.66</span> <span class="op-sub op-up" data-an="upside">+43.6%</span></span>
       </div>
-      <div class="stat-box">
-        <div class="stat-label">다음 실적</div>
-        <div class="stat-value" style="font-size:19px;">11월 중순</div>
-        <div class="stat-sub">Q3 FY27 (예상)</div>
+      <div class="op-cell">
+        <span class="op-label">다음 실적</span>
+        <span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>
       </div>
-    </div>
-    <div class="stat-box" style="margin-top:12px;">
-      <div class="stat-label">결론</div>
-      <ol class="news-list" style="margin-top:6px;font-size:13px;color:var(--text);">
-        <li>종합 평가는 <strong data-verdict>적정~저평가</strong>다.</li>
-        <li>전제는 지금의 높은 마진과 성장이 이어지는 것이다.</li>
-        <li>가장 큰 변수는 중국 규제와 고객 집중이다.</li>
-      </ol>
     </div>
   </div>
 </div>
