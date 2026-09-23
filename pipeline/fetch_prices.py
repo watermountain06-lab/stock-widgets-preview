@@ -181,8 +181,26 @@ def main():
             else:  # nothing usable to fall back on - a stale record needs a close
                 new = {"close": None, "status": "unavailable", "statusReason": reason}
         elif isinstance(r, dict):
-            new = r if r["session"] == target else dict(
-                r, status="stale", statusReason=f"latest completed bar {r['session']}, target session {target}")
+            held = t["price"].get("session")
+            if r["session"] == target:
+                new = r
+            elif held and t["price"].get("close") and r["session"] < held:
+                # The provider went BACKWARDS: it served a session on one run and withdrew it
+                # on the next. On 2026-09-22 Yahoo returned a complete session that evening and
+                # by the 23rd its close and volume were null for all 70 tickers, so the fetch
+                # read 2026-09-21 as the latest completed bar. Writing that replaced a real
+                # 2026-09-22 close with an older one, and because the commit step runs before
+                # the health check the regression reached the public page before anything
+                # failed - AAPL read $338.98 on the homepage against $339.75 on its own card.
+                # update_cards.py already refuses to drop a session the provider no longer has;
+                # this is the same rule for the homepage data. The recorded block is kept and
+                # only its status changes, so a withdrawal costs a stale label, not the price.
+                new = dict(t["price"], status="stale",
+                           statusReason=f"provider withdrew {held}: its latest completed bar is now "
+                                        f"{r['session']} - keeping the {held} close")
+            else:
+                new = dict(r, status="stale",
+                           statusReason=f"latest completed bar {r['session']}, target session {target}")
         else:
             new = t["price"]
             if new["status"] == "fresh" and new.get("session") != target:

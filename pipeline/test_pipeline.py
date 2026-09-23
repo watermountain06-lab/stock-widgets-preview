@@ -173,6 +173,36 @@ def test_end_to_end_with_failures():
     p2 = {t["ticker"]: t["price"] for t in d2["tickers"]}
     check("subset refresh keeps the newer priceSession", d2["priceSession"] == "2026-09-10", d2["priceSession"])
     check("subset refresh leaves other fresh tickers fresh", p2["NVDA"]["status"] == "fresh", p2["NVDA"])
+
+    # A provider going BACKWARDS is not the same as a halt, and the difference decides whether a
+    # real close survives. On 2026-09-22 Yahoo served a complete session that evening; by the 23rd
+    # its close and volume were null for all 70 tickers, so the fetch read the previous day as the
+    # latest completed bar and wrote it - AAPL went to $338.98 on the homepage while its own card
+    # still held the real $339.75, and the commit step runs before the health check, so the
+    # regression was public before anything failed. A withdrawal must keep the recorded close; a
+    # genuine halt, where the record already sits at the provider's last bar, must still go stale.
+    back = tmp / "back.json"
+    seed_stocks(back)                                     # every ticker recorded at 09-10
+    run("fetch_prices.py", "--data", str(back), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")                   # AAPL's fixture stops at 09-08
+    w = {t["ticker"]: t["price"] for t in json.loads(back.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("a withdrawn session keeps the recorded close, not the older one",
+          w["close"] == before["AAPL"]["close"] and w["session"] == "2026-09-10", w)
+    check("and the reason says the provider withdrew it",
+          w["status"] == "stale" and "withdrew" in (w.get("statusReason") or ""), w)
+
+    halt = json.loads(back.read_text(encoding="utf-8"))    # record already at the provider's last bar
+    for t in halt["tickers"]:
+        if t["ticker"] == "AAPL":
+            t["price"] = {"close": CLOSES[-3], "prevClose": CLOSES[-4],
+                          "session": DAYS[-3].isoformat(), "prevSession": DAYS[-4].isoformat(),
+                          "status": "fresh"}
+    (tmp / "halt.json").write_text(json.dumps(halt, ensure_ascii=False), encoding="utf-8")
+    run("fetch_prices.py", "--data", str(tmp / "halt.json"), "--fixtures", str(fx),
+        "--now", AFTER.isoformat(), "--tickers", "AAPL", "--write")
+    h = {t["ticker"]: t["price"] for t in json.loads((tmp / "halt.json").read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("a halted ticker whose record matches the provider is still written stale",
+          h["status"] == "stale" and "target session" in (h.get("statusReason") or ""), h)
     check("halted ticker stays stale against the global session", p2["AAPL"]["status"] == "stale", p2["AAPL"])
 
     # a failed fetch with no usable previous close stays unavailable (a stale record needs a close)
