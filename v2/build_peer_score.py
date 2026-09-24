@@ -55,7 +55,9 @@ import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECTORS = os.path.join(REPO, "v2", "sectors.json")
-SECTOR_BORROW = {"Communication Services": ["Information Technology"]}
+SECTOR_BORROW = {"Communication Services": ["Information Technology"],
+                 # AMZN·HD·TSLA 3종목뿐(2026-09-24 사용자 결정, AMZN)
+                 "Consumer Discretionary": ["Information Technology"]}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
@@ -118,7 +120,14 @@ def self_multiples(path):
     동종업 기준과 0.7% 어긋나지만 순위는 한 칸 안에서 움직인다(실측).
     """
     d = json.load(open(path))["multiples"]
-    return {SELF_KEYS[k]: v["current"] for k, v in d.items() if k in SELF_KEYS}
+    # 오늘 분모가 0 이하(currentNote "negative")면 값 대신 NEGATIVE — 동종업 꼴찌로 센다.
+    # 분모를 못 구한 날("missing")은 넣지 않아 그 배수가 빠진다.
+    return {SELF_KEYS[k]: (v["current"] if v.get("current") is not None else NEGATIVE)
+            for k, v in d.items() if k in SELF_KEYS
+            and (v.get("current") is not None or v.get("currentNote") == "negative")}
+
+
+NEGATIVE = "negative"
 
 
 def peer_score(ticker, sectors, prices, self_path=None):
@@ -136,6 +145,10 @@ def peer_score(ticker, sectors, prices, self_path=None):
     core = False
     if self_path and os.path.exists(self_path):
         data[ticker] = {**data.get(ticker, {}), **self_multiples(self_path)}
+        # 오늘 분모를 못 구한 배수("missing")는 valuation_base 쪽 값도 지워 순위에서 뺀다(Codex 2차).
+        for k, v in json.load(open(self_path))["multiples"].items():
+            if k in SELF_KEYS and v.get("currentNote") == "missing":
+                data[ticker].pop(SELF_KEYS[k], None)
         core = json.load(open(self_path)).get("perBasis") == "core"
     rows, dropped = [], []
     for m in METRICS:
@@ -153,7 +166,7 @@ def peer_score(ticker, sectors, prices, self_path=None):
             continue
         mine = vals[ticker]
         peers = sorted(v for t, v in vals.items() if t != ticker)
-        cheaper = sum(1 for x in peers if x < mine)
+        cheaper = len(peers) if mine == NEGATIVE else sum(1 for x in peers if x < mine)
         score = 100 - cheaper / len(peers) * 100
         rows.append({"metric": m, "value": mine, "rank": cheaper + 1,
                      "peers": len(peers), "median": statistics.median(peers),
@@ -185,7 +198,8 @@ def main():
     print()
     print(f"  {'배수':10} {'본인':>8} {'동종업중앙':>10} {'순위':>10} {'점수':>7}")
     for row in r["metrics"]:
-        print(f"  {LABELS[row['metric']]:10} {row['value']:8.1f} {row['median']:10.1f}"
+        vtxt = "적자" if row["value"] == NEGATIVE else f"{row['value']:.1f}"
+        print(f"  {LABELS[row['metric']]:10} {vtxt:>8} {row['median']:10.1f}"
               f" {row['rank']:4d}/{row['peers']:<5} {row['score']:7.1f}")
     for m, why in r["dropped"]:
         print(f"  {LABELS[m]:10} {'—':>8} {'버림':>10} {why:>16}")
@@ -193,16 +207,17 @@ def main():
 
     if args.self_path and os.path.exists(args.self_path):
         d = json.load(open(args.self_path))["multiples"]
-        s = round(sum(v["score"] for v in d.values()) / len(d), 1)
+        sc = [v["score"] for v in d.values() if v.get("score") is not None]
+        s = round(sum(sc) / len(sc), 1) if sc else None
         r["selfScore"] = s
         r["selfWindow"] = json.load(open(args.self_path)).get("window")
-        print(f"  자기 이력 대비 = {s}  (창 {r['selfWindow'][0]} ~ {r['selfWindow'][1]})")
+        print(f"  자기 이력 대비 = {s if s is not None else '—'}  (창 {r['selfWindow'][0]} ~ {r['selfWindow'][1]})")
         if r["score"] is None:
             # 동종업이 MIN_PEERS보다 적은 섹터(GOOGL의 Communication Services 6종목 등)는
             # 동종업 점수가 없다. 카드 블록에는 None으로 싣고 카드가 "표본 부족"으로 보인다.
             print("\n  동종업 점수 없음 — 격차 계산 생략")
         else:
-            gap = abs(s - r["score"])
+            gap = abs(s - r["score"]) if s is not None else 0
             print(f"\n  두 점수의 격차 {gap:.1f}점"
                   + (" — 평균으로 뭉개지 말 것" if gap >= 20 else ""))
 
@@ -233,8 +248,9 @@ def write_card(ticker, r, self_multiples, per_basis="diluted"):
                  "metrics": sorted(
                      [{"metric": SELF_KEYS[k], "score": v["score"], "percentile": v["percentile"],
                        "current": v["current"], "min": v["min"], "median": v["median"],
-                       "max": v["max"], "days": v["days"]}
-                      for k, v in self_multiples.items() if v.get("score") is not None],
+                       "max": v["max"], "days": v["days"], "currentNote": v.get("currentNote")}
+                      for k, v in self_multiples.items()
+                      if v.get("score") is not None or v.get("currentNote") == "missing"],
                      key=lambda m: METRICS.index(m["metric"]))},
     }
     path = os.path.join(REPO, "v2", f"{ticker}_full_widget.html")

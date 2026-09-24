@@ -718,6 +718,14 @@ def main():
         o, c = paired("ocf", "capex", d)
         return (o - c) if (o is not None and c is not None) else None
 
+    # 오늘 배수가 없을 때 적자(분모 0 이하)인지 가르는 분모. 본업 PER은 core_earnings가
+    # 적자면 None을 돌려 가를 수 없어 넣지 않는다.
+    DENOMS = {"PCR": fcf, "EV/EBITDA": ebitda,
+              "PSR": lambda d: as_of(series.get("revenue", []), d),
+              "PBR": lambda d: as_of(series.get("equity", []), d)}
+    if not core:
+        DENOMS["PER"] = lambda d: as_of(eps, d) if eps else None
+
     for label, fn in defs.items():
         pts = []
         for b in daily:
@@ -733,6 +741,15 @@ def main():
         vals = [v for _, v in pts]
         cur = pts[-1][1]
         srt = sorted(vals)
+        # 오늘 값이 없으면 마지막 양수 날의 값을 "현재"로 쓰면 안 된다(Codex 지적, 2026-09-24 AMZN:
+        # TTM FCF −$11.6B인데 과거 양수일의 PCR 367x가 현재로 실렸다). 오늘 분모가 0 이하면
+        # 가장 비싼 것과 같게 0점(사용자 결정, 동종업도 적자를 꼴찌로 센다), 분모 자체를 못 구하면
+        # 점수를 내지 않아 평균에서 빠진다.
+        stale_note = None
+        if pts[-1][0] != daily[-1][0]:
+            dfn = DENOMS.get(label)
+            dv = dfn(daily[-1][0]) if dfn else None
+            stale_note = "negative" if (dv is not None and dv <= 0) else "missing"
 
         def q(p):
             i = (len(srt) - 1) * p
@@ -741,17 +758,22 @@ def main():
             return srt[lo] + (srt[hi] - srt[lo]) * (i - lo)
 
         pr = percentile_rank(vals, cur)
+        if stale_note:
+            cur, pr = None, 100.0
         out["multiples"][label] = {
-            "days": len(pts), "current": round(cur, 2),
+            "days": len(pts), "current": round(cur, 2) if cur is not None else None,
             "min": round(srt[0], 2), "p10": round(q(.10), 2), "median": round(q(.50), 2),
             "p90": round(q(.90), 2), "max": round(srt[-1], 2),
             # 평균도 같이 낸다. 기본적 분석 점수의 밸류에이션 축이 "현재값이 5년
             # 평균에서 몇 % 떨어졌나"로 단계를 매기기 때문이다(build_fundamental_score).
             # 중앙값이 아니라 평균인 것은 그 산식이 그렇게 정의돼 있어서다.
             "mean": round(sum(vals) / len(vals), 2),
-            "percentile": round(pr, 1), "score": round(100 - pr, 1),
+            "percentile": round(pr, 1),
+            "score": None if stale_note == "missing" else round(100 - pr, 1),
         }
-        if label == "PER" and pts[-1][0] == daily[-1][0]:
+        if stale_note:
+            out["multiples"][label]["currentNote"] = stale_note
+        if label == "PER" and not stale_note:
             # 적정주가 밴드 — 최근 252거래일 PER의 p25~p75 × 현재 EPS, $10 반올림.
             # EPS_now = P_now / PER_now이므로 현재가 × (분위 PER ÷ 현재 PER)로 같다.
             # (2026-09-24 손값에서 스크립트로. NVDA $260~$370·AAPL $300~$330 재현)
@@ -770,6 +792,9 @@ def main():
             print(f"  적정주가 밴드: PER {yq(.25):.1f}~{yq(.75):.1f}x → ${out['fairBand']['low']}~${out['fairBand']['high']}"
                   f" ({out['perBasis']})")
         m = out["multiples"][label]
+        if stale_note:
+            print(f"  {label}: 오늘 값 없음 ({'분모 0 이하 → 0점' if stale_note == 'negative' else '분모를 못 구함 → 평균에서 뺌'})")
+            continue
         print(f"  {label}: 현재 {m['current']}  (최저 {m['min']} · 중앙 {m['median']} · 최고 {m['max']})"
               f"  하위 {m['percentile']}%  → 점수 {m['score']}  [{m['days']}일]")
 

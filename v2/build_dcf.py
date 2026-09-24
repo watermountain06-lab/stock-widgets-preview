@@ -150,10 +150,24 @@ def base_inputs(ticker, asof=None):
     # 있으면 그것만, 없을 때만 EquitySecuritiesFvNi를 쓴다. NVDA는 FvNi만, GOOGL은 OtherLTI만.
     lti_vals = [fresh_latest(bmh.component_sum(cik, [tag]))
                 for tag in ("LongTermInvestments", "OtherLongTermInvestments")]
-    fvni = fresh_latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"])) or 0
-    # 존재는 None으로 판정한다 — 장기투자 값이 정상적인 0이어도 FvNi로 넘어가면 안 된다(Codex 2차).
+    # 장기투자 태그가 없으면 지분증권을 두 갈래로 더한다 — 공정가치 지분(FvNi)과 **시가 없는
+    # 비상장 지분**(측정 대안, EquitySecuritiesWithoutReadilyDeterminableFairValueAmount).
+    # AMZN은 비상장 지분 $122.3B가 이 태그뿐이라 주주가치에서 통째로 빠졌고, NVDA도 $47.9B가
+    # 빠져 있었다(2026-09-24 사용자 결정으로 포함, NVDA 갱신). GOOGL·MSFT는 장기투자 태그 안에
+    # 같은 자산이 있어 그쪽만 쓴다(이중계상 방지).
+    equity_vals = [fresh_latest(bmh.component_sum(cik, [tag]))
+                   for tag in ("EquitySecuritiesFvNi", "EquitySecuritiesWithoutReadilyDeterminableFairValueAmount")]
+    # 존재는 None으로 판정한다 — 장기투자 값이 정상적인 0이어도 지분 태그로 넘어가면 안 된다(Codex 2차).
     has_lti = any(v is not None for v in lti_vals)
-    out["nonop_assets"] = (sum(v or 0 for v in lti_vals) if has_lti else fvni) + out["lt_marketable"]
+    out["nonop_assets"] = (sum(v or 0 for v in lti_vals) if has_lti
+                           else sum(v or 0 for v in equity_vals)) + out["lt_marketable"]
+    # 종목 지정 비영업자산(v2/nonop_extra.json). 같은 태그가 회사마다 다른 자산을 담아
+    # (AvailableForSaleSecuritiesDebtSecurities는 흔히 단기 시장성 채권 전체다) 일괄 적용하면
+    # 현금·단기투자와 겹친다. 10-Q 주석으로 확인한 종목만 목록에 올린다(AMZN Anthropic 전환사채).
+    extra_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nonop_extra.json")
+    extra = json.load(open(extra_path)).get(ticker, []) if os.path.exists(extra_path) else []
+    out["nonop_extra"] = sum(fresh_latest(bmh.component_sum(cik, [x["tag"]])) or 0 for x in extra)
+    out["nonop_assets"] += out["nonop_extra"]
 
     # 운전자본은 재고·매출채권처럼 영업에 묶인 돈만 본다. 현금과 차입금은 뺀다
     # (그 둘은 순부채 쪽에서 따로 계산되므로 여기 넣으면 두 번 센다).

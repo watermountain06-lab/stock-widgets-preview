@@ -1,0 +1,7 @@
+{
+ "_note": "태그 이름만으로는 비영업자산인지 가를 수 없어 일괄 적용하지 않는 자산을 종목별로 지정한다. build_dcf.base_inputs가 nonop_assets에 더한다. 근거는 반드시 1차 출처(10-Q/10-K 주석)로 적는다.",
+ "AMZN": [
+  {"tag": "AvailableForSaleSecuritiesDebtSecurities",
+   "reason": "Anthropic 전환사채(비시장성, 매도가능, Level 3). 2026-06-30 공정가치 $97.9B — 10-Q 'Non-Marketable Investments' 주석. 이 회사의 시장성 채권($106.5B)은 AvailableForSaleSecuritiesDebtMaturitiesSingleMaturityDate로 따로 보고되고 현금·단기투자에 들어 있어 겹치지 않는다(2026-09-24 사용자 결정)."}
+ ]
+}
