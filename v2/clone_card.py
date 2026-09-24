@@ -106,6 +106,8 @@ def main():
     h = h.replace(f"--accent: {NVDA_ACCENT[0]}; --accent2: {NVDA_ACCENT[1]}; --accent3: {NVDA_ACCENT[2]};",
                   f"--accent: {a1}; --accent2: {a2}; --accent3: {a3};")
     h = h.replace(f"rgba({NVDA_RGB},", f"rgba({rgb(a1)},").replace("#76b900", a1).replace("#9fdb2f", a2)
+    # #9fdb2f의 rgba 표기(상세 보기 버튼·활동성 아이콘·선택된 배수 항목) — 놓쳤던 것을 Codex가 MSFT에서 잡았다.
+    h = h.replace("rgba(159,219,47,", f"rgba({rgb(a2)},")
 
     # 4. NVDA 전용 툴팁 문장 — 그대로 복제되면 새 카드에 NVDA 사실이 뜬다(AAPL 첫 변환 때 Codex가 잡음).
     #    "확인 필요"로 바꿔 두고 새 종목 사실로 다시 쓴다. 상수 {T}_SCORES도 다시 채울 것.
@@ -125,7 +127,7 @@ def main():
     print(f"남은 NVDA 흔적 {len(left)}줄 (데이터 블록·산문·뉴스는 다음 단계에서 교체):")
     for n, l in left:
         print(f"  {n}: {l}")
-    for lit in ("118,185,0", "#76b900", "#9fdb2f", "#aeff20", "#3b5d00"):
+    for lit in ("118,185,0", "159,219,47", "#76b900", "#9fdb2f", "#aeff20", "#3b5d00", "#4d7a00"):
         if lit in h:
             print(f"⚠ NVDA 색 리터럴이 남았다: {lit}")
 

@@ -203,13 +203,23 @@ def growth_metric(entries, target_years, spec):
     return {"value": None, "points": 1, "note": "적자 지속"}
 
 
+def annual_is_newer(fin):
+    """연간 보고서(10-K)가 최신 10-Q보다 새로운가. 회계연도 말 직후 종목이 그렇다 —
+    4분기는 10-Q가 없어 latestQuarter가 한 분기 전(3분기)에 머문다. MSFT는 FY26 10-K
+    (2026-06-30, 7/29 공시)가 있는데 3월 분기로 계산되고 있었다(2026-09-24)."""
+    lq = (fin.get("revenue", {}).get("latestQuarter") or {})
+    rev_a = _rows(fin, "revenue")
+    return bool(lq and rev_a and max(e["end"] for e in rev_a) > lq["end"])
+
+
 def score_items(fin, config, basis):
     """항목별 (값, 점수, 상태). 분기 기준은 대차대조표·마진·이자보상에 최신 분기를 쓴다."""
     h, g = config["health"]["ratios"], config["growth_profit"]["metrics"]
     items, flags = {}, []
     S = lambda k: instant_series(fin, k, basis)
 
-    rev_q = _q(fin, "revenue") if basis == "quarter" else None
+    # 연간이 더 새로우면 흐름값(마진·이자보상)도 연간을 쓴다 — 가장 최신 기간이다.
+    rev_q = _q(fin, "revenue") if basis == "quarter" and not annual_is_newer(fin) else None
     q_end = rev_q["end"] if rev_q else None
     op_annual, op_est_annual = operating_income_annual(fin)
 
@@ -311,7 +321,7 @@ def score_items(fin, config, basis):
         if "points" not in it:
             # v1은 소수 첫째 자리로 반올림한 값으로 버킷을 정한다
             it["points"] = bucket_points(round(it["value"], 1), spec)
-    if basis == "quarter" and not q_end:
+    if basis == "quarter" and not q_end and not annual_is_newer(fin):
         flags.append("no_latest_quarter")
     return items, sorted(set(flags))
 
@@ -354,9 +364,11 @@ def compute(ticker, fin, config, basis):
 
     lq = (fin.get("revenue", {}).get("latestQuarter") or {})
     rev_a = _rows(fin, "revenue")
-    as_of = lq.get("end") if (basis == "quarter" and lq) else (max(e["end"] for e in rev_a) if rev_a else None)
+    use_q = basis == "quarter" and lq and not annual_is_newer(fin)
+    as_of = lq.get("end") if use_q else (max(e["end"] for e in rev_a) if rev_a else None)
+    filed = lq.get("filed") if use_q else (max(rev_a, key=lambda e: e["end"]).get("filed") if rev_a else None)
     return {"ticker": ticker, "basis": basis, "asOf": as_of,
-            "filedAt": lq.get("filed") if basis == "quarter" else None,
+            "filedAt": filed, "periodSource": "10-Q" if use_q else "10-K",
             "score": score, "grade": grade, "qualityFlags": sorted(set(flags)),
             "axes": axes, "axisMaxTotal": total_max,
             "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다",

@@ -60,7 +60,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044"}
+CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019"}
 UA = "stock-widgets research gptjhss@gmail.com"
 
 # 앞에 있는 태그가 우선한다. 같은 분기에 둘 다 있으면 뒤 태그는 버린다.
