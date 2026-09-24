@@ -228,24 +228,124 @@ def test_end_to_end_with_failures():
     run("fetch_prices.py", "--data", str(gap), "--fixtures", str(fx), "--now", AFTER.isoformat(),
         "--tickers", "AAPL", "--write")
     gp = {t["ticker"]: t["price"] for t in json.loads(gap.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
-    check("a session the provider skipped keeps its recorded close, not a two-session change",
-          gp["session"] == DAYS[-2].isoformat() and gp["close"] == CLOSES[-2]
-          and gp["prevSession"] == DAYS[-3].isoformat(), gp)
-    check("and the reason names the session the provider no longer has",
-          gp["status"] == "stale" and f"no bar for {DAYS[-2].isoformat()}" in (gp.get("statusReason") or ""), gp)
+    # Yahoo never restored 2026-09-22, so the site advances rather than waiting for good, and the
+    # one figure the hole corrupts is taken from our own record instead of the bar before it.
+    check("a session the provider lost does not stop the site advancing",
+          gp["session"] == DAYS[-1].isoformat() and gp["close"] == CLOSES[-1]
+          and gp["status"] == "fresh", gp)
+    check("and prevClose is repaired from our record, not read off the bar before the hole",
+          gp["prevSession"] == DAYS[-2].isoformat() and gp["prevClose"] == CLOSES[-2], gp)
+    check("the lost session is recorded so the card layer can tell it from a stray bar",
+          gp.get("providerGaps") == [DAYS[-2].isoformat()], gp)
 
-    # A held "suspicious" block must not come back as plain "stale": update_cards holds a card on
-    # suspicious and lets stale through, so laundering the status would let a card follow a price
-    # the card layer had already refused (APH carried a split-in-window flag through this exact day).
+    # providerGaps has to outlive the run that wrote it: every branch rebuilds the price block.
+    (fx / "AAPL.json").write_text(json.dumps(chart(DAYS, CLOSES)))    # the provider is whole again
+    run("fetch_prices.py", "--data", str(gap), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")
+    gk = {t["ticker"]: t["price"] for t in json.loads(gap.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("the record of a lost session survives a later ordinary run",
+          gk["status"] == "fresh" and gk.get("providerGaps") == [DAYS[-2].isoformat()], gk)
+
+    # Reading the same incomplete response a second time must not undo the repair. This pipeline
+    # runs three times a day, so the second read is the normal case: by then we have advanced past
+    # the hole, so the detection above no longer fires, and the provider's own prevClose - which
+    # still spans the hole - would be copied straight back in. (Codex found this, and then found
+    # that the first version of this very check re-read a COMPLETE fixture left behind by the test
+    # above, so it passed with the repair-preservation deleted. The fixture is set here on purpose.)
+    (fx / "AAPL.json").write_text(json.dumps(chart(DAYS, CLOSES[:-2] + [None] + CLOSES[-1:])))
+    run("fetch_prices.py", "--data", str(gap), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")
+    g2 = {t["ticker"]: t["price"] for t in json.loads(gap.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("a second read of the same incomplete response keeps the repaired previous close",
+          g2["prevSession"] == DAYS[-2].isoformat() and g2["prevClose"] == CLOSES[-2]
+          and g2["session"] == DAYS[-1].isoformat(), g2)
+
+    # Crossing the hole does not make a lagging ticker fresh. The repaired record is still subject to
+    # the target session, or validate_site_data rejects the whole file before anything commits.
+    lag = tmp / "lag.json"
+    seed_stocks(lag)
+    l = json.loads(lag.read_text(encoding="utf-8"))
+    l["priceSession"] = "2026-09-11"                       # the fleet is a session ahead of AAPL
+    for t in l["tickers"]:
+        if t["ticker"] == "AAPL":
+            t["price"] = {"close": CLOSES[-2], "prevClose": CLOSES[-3],
+                          "session": DAYS[-2].isoformat(), "prevSession": DAYS[-3].isoformat(),
+                          "status": "fresh"}
+    lag.write_text(json.dumps(l, ensure_ascii=False), encoding="utf-8")
+    (fx / "AAPL.json").write_text(json.dumps(chart(DAYS, CLOSES[:-2] + [None] + CLOSES[-1:])))
+    run("fetch_prices.py", "--data", str(lag), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")
+    ld = json.loads(lag.read_text(encoding="utf-8"))
+    lp = {t["ticker"]: t["price"] for t in ld["tickers"]}["AAPL"]
+    check("a ticker that crosses the hole behind the fleet is stale, not fresh",
+          lp["status"] == "stale" and "target session" in (lp.get("statusReason") or "")
+          and lp.get("providerGaps") == [DAYS[-2].isoformat()], lp)
+    rl = vsd.Report()
+    for t in ld["tickers"]:
+        vsd.check_ticker(t, ld, rl)
+    check("and the file still passes the validator", not rl.errors, rl.errors[:3])
+
+    run("fetch_prices.py", "--data", str(lag), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")
+    l2 = {t["ticker"]: t["price"] for t in json.loads(lag.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("a lagging ticker keeps its repaired previous close on a rerun as well",
+          l2["prevSession"] == DAYS[-2].isoformat() and l2["prevClose"] == CLOSES[-2], l2)
+
+    # Marking the session lag must not overwrite a flag on the NEW bar either: a volume-anomalous bar
+    # that crosses the hole would become "stale", which update_cards accepts and suspicious it does not.
+    (fx / "AAPL.json").write_text(json.dumps(
+        chart(DAYS, CLOSES[:-2] + [None] + CLOSES[-1:], [1_000_000] * 21 + [10_000])))
+    for t in l["tickers"]:
+        if t["ticker"] == "AAPL":
+            t["price"] = {"close": CLOSES[-2], "prevClose": CLOSES[-3],
+                          "session": DAYS[-2].isoformat(), "prevSession": DAYS[-3].isoformat(),
+                          "status": "fresh"}
+    lag.write_text(json.dumps(l, ensure_ascii=False), encoding="utf-8")
+    run("fetch_prices.py", "--data", str(lag), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")
+    l3 = {t["ticker"]: t["price"] for t in json.loads(lag.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("a suspicious new bar crossing the hole keeps its anomaly, not a plain stale label",
+          l3["status"] == "suspicious" and l3["statusReason"] == "volume-anomaly", l3)
+
+    # The same hole once the provider has served a session past it. This is the state the real
+    # incident was actually in: the first response to the 09-22 loss was to stop advancing, so by
+    # the time it was diagnosed 09-23 had arrived and the hole was no longer adjacent to the top.
+    # An adjacency test would have missed it, and prevClose must NOT be overwritten here - it now
+    # comes from a real bar, and our older record would be the wrong number.
+    far = tmp / "far.json"
+    seed_stocks(far)
+    f = json.loads(far.read_text(encoding="utf-8"))
+    for t in f["tickers"]:                                 # held two sessions behind the provider
+        if t["ticker"] == "AAPL":
+            t["price"] = {"close": CLOSES[-3], "prevClose": CLOSES[-4],
+                          "session": DAYS[-3].isoformat(), "prevSession": DAYS[-4].isoformat(),
+                          "status": "fresh"}
+    far.write_text(json.dumps(f, ensure_ascii=False), encoding="utf-8")
+    (fx / "AAPL.json").write_text(json.dumps(chart(DAYS, CLOSES[:-3] + [None] + CLOSES[-2:])))
+    run("fetch_prices.py", "--data", str(far), "--fixtures", str(fx), "--now", AFTER.isoformat(),
+        "--tickers", "AAPL", "--write")
+    fp = {t["ticker"]: t["price"] for t in json.loads(far.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
+    check("a lost session is still caught once the provider has moved past it",
+          fp["session"] == DAYS[-1].isoformat() and fp.get("providerGaps") == [DAYS[-3].isoformat()], fp)
+    check("and prevClose is left on the real bar, not overwritten with the older record",
+          fp["prevSession"] == DAYS[-2].isoformat() and fp["prevClose"] == CLOSES[-2], fp)
+
+    # A record that was already suspect must not advance: the gap branch would drop its flag, and
+    # update_cards holds a card on suspicious while letting fresh through, so the card would follow
+    # a price the card layer had refused. APH carried a split-in-window flag through this exact day.
     for t in g["tickers"]:
         if t["ticker"] == "AAPL":
-            t["price"] = dict(t["price"], status="suspicious", statusReason="split-in-window 2026-09-03")
+            t["price"] = {"close": CLOSES[-2], "prevClose": CLOSES[-3],
+                          "session": DAYS[-2].isoformat(), "prevSession": DAYS[-3].isoformat(),
+                          "status": "suspicious", "statusReason": "split-in-window 2026-09-03"}
     gap.write_text(json.dumps(g, ensure_ascii=False), encoding="utf-8")
+    (fx / "AAPL.json").write_text(json.dumps(chart(DAYS, CLOSES[:-2] + [None] + CLOSES[-1:])))
     run("fetch_prices.py", "--data", str(gap), "--fixtures", str(fx), "--now", AFTER.isoformat(),
         "--tickers", "AAPL", "--write")
     gs = {t["ticker"]: t["price"] for t in json.loads(gap.read_text(encoding="utf-8"))["tickers"]}["AAPL"]
-    check("a held suspicious block stays suspicious rather than being laundered to stale",
-          gs["status"] == "suspicious", gs)
+    check("a suspect record does not advance across the hole, and keeps its flag",
+          gs["status"] == "suspicious" and gs["session"] == DAYS[-2].isoformat()
+          and "already suspicious" in (gs.get("statusReason") or ""), gs)
     (fx / "AAPL.json").write_text(json.dumps(chart(DAYS[:-2], CLOSES[:-2])))   # restore the halt fixture
 
     # a failed fetch with no usable previous close stays unavailable (a stale record needs a close)
@@ -498,8 +598,11 @@ def test_card_updater():
         p.mkdir()
     data = json.loads((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"))
     # ANET normal, NVDA mid-session bar, AAPL split, MSFT no fixture, BAC second
-    # statement after its MA120 array, KO Yahoo lagging, V stale on the homepage
-    data["tickers"] = [t for t in data["tickers"] if t["ticker"] in ("ANET", "NVDA", "AAPL", "MSFT", "BAC", "KO", "V", "CVX")]
+    # statement after its MA120 array, KO Yahoo lagging, V stale on the homepage,
+    # PEP a session the provider lost and fetch_prices recorded, XOM the same hole unrecorded
+    data["tickers"] = [t for t in data["tickers"]
+                       if t["ticker"] in ("ANET", "NVDA", "AAPL", "MSFT", "BAC", "KO", "V", "CVX",
+                                          "PEP", "XOM", "TSM")]
     new_close, card_last = {}, {}
     for t in data["tickers"]:
         tk = t["ticker"]
@@ -522,12 +625,18 @@ def test_card_updater():
                       "prevSession": bars[-2][0], "status": "fresh"}
         if tk == "CVX":  # the provider sent low above open (really happened 2026-09-11) - hold, don't fail
             bars[-1][3] = round(bars[-1][1] * 1.01, 2)
+        if tk == "PEP":  # fetch_prices saw the provider lose this session and wrote it down
+            t["price"]["providerGaps"] = [bars[-2][0]]
+        if tk == "TSM":  # the homepage repaired its previous close; the card's own bar disagrees
+            t["price"]["prevClose"] = bars[-3][4]
         if tk == "V":  # the homepage kept V's previous close - the card must not run ahead of it
             t["price"] = {"close": bars[-2][4], "prevClose": bars[-3][4], "session": bars[-2][0],
                           "prevSession": bars[-3][0], "status": "stale", "statusReason": "fetch-failed: test"}
         if tk != "MSFT":  # MSFT: no fixture -> fetch failure
             splits = [bars[-5][0]] if tk == "AAPL" else ()
             served = bars[:-1] if tk == "KO" else bars  # KO: Yahoo hasn't published the session yet
+            if tk in ("PEP", "XOM"):  # the provider dropped the bar the card currently ends on
+                served = bars[:-2] + bars[-1:]
             (fx / f"{t.get('yahooSymbol', tk)}.json").write_text(json.dumps(card_chart(served, splits)), encoding="utf-8")
     data["priceSession"] = max(s for s, _ in new_close.values())
     stocks = tmp / "stocks.json"
@@ -583,6 +692,34 @@ def test_card_updater():
           and snapshot()["CVX_full_widget.html"] == before["CVX_full_widget.html"], st["CVX"])
     check("Yahoo missing the session holds the card", st["KO"]["status"] == "held"
           and snapshot()["KO_full_widget.html"] == before["KO_full_widget.html"], st["KO"])
+    # Yahoo lost 2026-09-22 for 41 tickers and never restored it. A bar the card holds and the fetch
+    # no longer returns is normally a card problem, but when fetch_prices recorded the loss the bar
+    # is one this pipeline wrote from a complete, OHLC-checked session - keeping it is what lets the
+    # card follow the price again instead of freezing on the provider's hole for good.
+    # The day's change has to come from the pair the homepage published. These agree on any ordinary
+    # day and part company exactly when a session is missing from one side - UNH refused its
+    # 2026-09-22 bar as impossible, Yahoo then lost that session for good, and the card would have
+    # printed -1.66% beside the homepage's -0.45% for the same ticker on the same day.
+    tsm_html = (cards / "TSM_full_widget.html").read_text(encoding="utf-8")
+    _, tsm_arrays = uc.parse_card_arrays(tsm_html)
+    tsm_bars = [uc.bar_values(x) for x in tsm_arrays["DAILY"]["tokens"]]
+    tsm_home = [t["price"] for t in data["tickers"] if t["ticker"] == "TSM"][0]
+    want = (tsm_bars[-1][4] / tsm_home["prevClose"] - 1) * 100
+    shown = re.search(r'class="price-change"[^>]*>[▲▼] ([+\-][\d.]+)%', tsm_html)
+    check("the card's day change follows the homepage's pair, not its own previous bar",
+          shown and abs(float(shown.group(1)) - want) < 0.011
+          and abs(float(shown.group(1)) - (tsm_bars[-1][4] / tsm_bars[-2][4] - 1) * 100) > 0.011,
+          (shown.group(1) if shown else None, round(want, 2)))
+
+    _, pep_arrays = uc.parse_card_arrays((cards / "PEP_full_widget.html").read_text(encoding="utf-8"))
+    pep_dates = [uc.bar_values(x)[0] for x in pep_arrays["DAILY"]["tokens"]]
+    check("a recorded lost session is kept and the card advances past it",
+          st["PEP"]["status"] == "updated" and pep_dates[-1] == new_close["PEP"][0]
+          and card_last["PEP"][0] in pep_dates
+          and any("provider lost" in r for r in st["PEP"]["reasons"]), (st["PEP"], pep_dates[-3:]))
+    check("the same hole with nothing recorded still holds the card",
+          st["XOM"]["status"] == "held" and any("Yahoo doesn't" in r for r in st["XOM"]["reasons"])
+          and snapshot()["XOM_full_widget.html"] == before["XOM_full_widget.html"], st["XOM"])
     _, v_arrays = uc.parse_card_arrays((cards / "V_full_widget.html").read_text(encoding="utf-8"))
     check("stale homepage price caps the card at its own session",
           uc.bar_values(v_arrays["DAILY"]["tokens"][-1])[0] == card_last["V"][0] and st["V"]["status"] != "failed", st["V"])

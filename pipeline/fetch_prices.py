@@ -119,7 +119,10 @@ def resolve_price(chart, now_et):
         raise ValueError(f"only {len(bars)} completed bar(s)")
     (day, close, vol), (prev_day, prev_close, _) = bars[-1], bars[-2]
     rec = {"close": round(close, 4), "prevClose": round(prev_close, 4),
-           "session": day, "prevSession": prev_day, "status": "fresh"}
+           "session": day, "prevSession": prev_day, "status": "fresh",
+           # what the provider actually served, so main can tell a session it lost from one that
+           # simply predates the window. main strips this key before anything is written.
+           "_seen": [b[0] for b in bars]}
     prior = [b[2] for b in bars[-21:-1] if b[2]]
     if prior and vol < VOLUME_FLOOR * statistics.mean(prior):
         rec.update(status="suspicious", statusReason="volume-anomaly")
@@ -181,48 +184,75 @@ def main():
             else:  # nothing usable to fall back on - a stale record needs a close
                 new = {"close": None, "status": "unavailable", "statusReason": reason}
         elif isinstance(r, dict):
+            seen = r.pop("_seen", [])
             held = t["price"].get("session")
             have = held and t["price"].get("close") is not None
-            # A withdrawal costs a stale label, not a status: rewriting a held "suspicious"
-            # block as plain "stale" would launder it, and update_cards holds a card on
-            # suspicious while letting stale through - the card would then follow a price
-            # the card layer had already refused.
+            # A flag that says the value itself is in doubt must survive: update_cards holds a card
+            # on "suspicious" while letting "stale" through, so turning one into the other would let
+            # a card follow a price the card layer had already refused.
             keep = "suspicious" if t["price"].get("status") == "suspicious" else "stale"
-            if have and r.get("prevSession") and r["session"] > held > r["prevSession"]:
-                # The provider lost an INTERIOR session and kept advancing. Yahoo nulled the
-                # 2026-09-22 close for 41 of 70 tickers on the 23rd and served a complete
-                # 09-23 bar beside it, so completed_bars - which drops null closes outright -
-                # would have read prevClose off 09-21 and published a two-session move as a
-                # one-day change: STX +5.30% against a real +0.44%, and twelve tickers with
-                # the sign reversed (AMGN +3.29% against -1.01%). status stayed "fresh" and
-                # the session lag stayed 0, so nothing downstream could see it. The branch
-                # below only catches a provider going backwards; this is the same provider
-                # skipping over a session we already hold, which is the more dangerous shape
-                # because the date it publishes is the right one.
+            gaps = list(t["price"].get("providerGaps") or [])
+            # "held is not in what the provider served, and the window reaches back far enough to
+            # say so." Yahoo nulled the 2026-09-22 close for 41 of 70 tickers on the 23rd and never
+            # restored it, while serving complete 09-23 and 09-24 bars beside the hole. Checking
+            # whether held sits between the provider's last two bars would only catch that on the
+            # day it opened; ours was two sessions back by the time it was diagnosed, because the
+            # first response to it was to stop advancing.
+            lost_one = bool(have and seen and r["session"] > held >= seen[0] and held not in seen)
+
+            if lost_one and t["price"].get("status") != "suspicious":
+                # Refusing to advance costs the lost session for good, so cross the hole and repair
+                # the one figure it corrupts: prevClose, which the provider reads off the bar BEFORE
+                # the hole, making a two-session move look like one day (STX would have published
+                # +5.30% against a real +0.44%, with the sign reversed on twelve tickers). Our own
+                # record of the lost close came from a bar the provider served complete and the
+                # validator accepted. "stale" is no reason to refuse - it means the record is not
+                # current, which is the very thing crossing the hole fixes, and after a day of
+                # holding every ticker stuck behind the hole is stale by definition.
+                if held not in gaps:
+                    gaps.append(held)
+                new = dict(r)
+                if r["prevSession"] < held:   # only while the hole is still adjacent to the top
+                    new.update(prevClose=t["price"]["close"], prevSession=held)
+            elif lost_one:
+                # The held record's own value is in doubt (a split in the window, a volume anomaly).
+                # Advancing would drop that flag, so this one waits for a person.
                 new = dict(t["price"], status=keep,
-                           statusReason=f"provider has no bar for {held} between "
-                                        f"{r['prevSession']} and {r['session']} - keeping the "
-                                        f"{held} close rather than a two-session change")
-            elif r["session"] == target:
-                new = r
+                           statusReason=f"provider has no bar for {held} between {r['prevSession']} "
+                                        f"and {r['session']}, and this record is already {keep}")
             elif have and r["session"] < held:
-                # The provider went BACKWARDS: it served a session on one run and withdrew it
-                # on the next. On 2026-09-22 Yahoo returned a complete session that evening and
-                # by the 23rd its close and volume were null for all 70 tickers, so the fetch
-                # read 2026-09-21 as the latest completed bar. Writing that replaced a real
-                # 2026-09-22 close with an older one, and because the commit step runs before
-                # the health check the regression reached the public page before anything
-                # failed - AAPL read $338.98 on the homepage against $339.75 on its own card.
-                # update_cards.py has no such rule of its own - what saved the cards that day was
-                # its MA-window integrity check, which holds a card carrying a session the fetch
-                # no longer returns. This is the homepage's own rule. The recorded block is kept and
-                # only its status changes, so a withdrawal costs a stale label, not the price.
+                # The provider went BACKWARDS: it served a session on one run and withdrew it on the
+                # next. On 2026-09-22 Yahoo returned a complete session that evening and by the 23rd
+                # its close and volume were null for all 70 tickers, so the fetch read 2026-09-21 as
+                # the latest completed bar. Writing that replaced a real 2026-09-22 close with an
+                # older one, and because the commit step runs before the health check the regression
+                # reached the public page before anything failed - AAPL read $338.98 on the homepage
+                # against $339.75 on its own card. update_cards has no such rule of its own; what
+                # saved the cards that day was its MA-window integrity check.
                 new = dict(t["price"], status=keep,
                            statusReason=f"provider withdrew {held}: its latest completed bar is now "
                                         f"{r['session']} - keeping the {held} close")
             else:
-                new = dict(r, status="stale",
-                           statusReason=f"latest completed bar {r['session']}, target session {target}")
+                # The provider's series is what it is, current or lagging. Carry forward a repair
+                # already made across a hole, because the provider's own prevClose still spans it
+                # and this pipeline reads the same response three times a day. (Codex caught both
+                # halves of this: the current case and the lagging one.)
+                new = dict(r)
+                pv, pc = t["price"].get("prevSession"), t["price"].get("prevClose")
+                if (pv in gaps and pc and r.get("prevSession")
+                        and r["prevSession"] < pv < r["session"]):
+                    new.update(prevClose=pc, prevSession=pv)
+
+            # One place decides freshness against the fleet's session, so no branch can publish a
+            # lagging bar as fresh and fail validate_site_data's "fresh session == priceSession"
+            # rule before anything commits. It only ever downgrades "fresh": a status that says the
+            # value is in doubt is left alone.
+            if new.get("status") == "fresh" and new.get("session") != target:
+                new["status"] = "stale"
+                new["statusReason"] = (f"latest completed bar {new['session']}, "
+                                       f"target session {target}")
+            if gaps:
+                new["providerGaps"] = sorted(gaps)
         else:
             new = t["price"]
             if new["status"] == "fresh" and new.get("session") != target:

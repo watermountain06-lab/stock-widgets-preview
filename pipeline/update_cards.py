@@ -541,10 +541,19 @@ def key_levels(html, close, w, ma_last, notes):
     return (html if fresh == box else html[:start] + fresh + html[end:]), True
 
 
-def render(html, ticker, tokens, tech, breakout, shares, card_asof, notes, ma_last):
+def render(html, ticker, tokens, tech, breakout, shares, card_asof, notes, ma_last, prev_close):
     bars = [bar_values(t) for t in tokens]
     last, prev = bars[-1], bars[-2]
     close = last[4]
+    # The day's change comes from the SAME pair the homepage used, not from this card's own
+    # second-to-last bar. They are the same number on any ordinary day, and they part company
+    # exactly when a session goes missing from one side: UNH's 2026-09-22 bar arrived with its
+    # high below its open, so the card refused it, and when Yahoo then lost that session for good
+    # the card's previous bar was 09-21 while the homepage had repaired its previous close to the
+    # real 09-22. The card would have printed -1.66% beside the homepage's -0.45% for the same
+    # ticker on the same day. Taking the pair from one place makes them agree by construction.
+    # (Codex found this.)
+    prev_close = prev[4] if prev_close is None else prev_close
     w = window_stats(bars)
 
     # --- header ---
@@ -553,7 +562,7 @@ def render(html, ticker, tokens, tech, breakout, shares, card_asof, notes, ma_la
 
     def change(m):
         decimals = len(m.group(3).split(".")[1]) if "." in m.group(3) else 0
-        chg = (close / prev[4] - 1) * 100
+        chg = (close / prev_close - 1) * 100
         up = chg >= 0
         return (f'<div class="price-change" style="color:var(--{"green" if up else "red"});">'
                 f'{"▲" if up else "▼"} {"+" if up else "-"}{abs(chg):.{decimals}f}% ({dot(last[0])} {m.group(4) or ""}기준)</div>')
@@ -772,8 +781,24 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     if not fetched:
         raise ValueError("no completed bars fetched")
     changed, replaced, appended, extra = sync_bars(arrays, fetched, splits, notes)
-    if extra:  # it would sit inside every later MA window
-        raise Hold(f"card has session(s) Yahoo doesn't: {', '.join(extra[:5])}")
+    # A session the card has and the fetch does not is normally a card problem - it would sit
+    # inside every later MA window without the provider ever confirming it. But fetch_prices
+    # records the sessions the provider served complete and then lost (Yahoo nulled 2026-09-22
+    # for 41 tickers and never restored it), and those bars are real: this pipeline wrote them
+    # from a complete bar that passed the OHLC check. Keeping them is what lets the card follow
+    # the price again instead of freezing on the provider's hole for good.
+    lost = set(p.get("providerGaps") or [])
+    unexplained = [d for d in extra if d not in lost]
+    if unexplained:
+        raise Hold(f"card has session(s) Yahoo doesn't: {', '.join(unexplained[:5])}")
+    if extra:
+        notes.append(f"kept {len(extra)} bar(s) the provider lost: {', '.join(extra)}")
+    # A lost session this card never received is gone for good - the provider has no bar and the
+    # only close we hold came from one it rejected as impossible. The card advances rather than
+    # freezing on it, but its moving averages then span that gap, so the run has to say so.
+    inside = sorted(d for d in lost if d > last_card_date and d < target)
+    if inside:
+        notes.append(f"moving averages span {', '.join(inside)}, which this card never received")
     computed = extend_mas(arrays, changed)
     trimmed = trim_front(arrays)
 
@@ -811,7 +836,8 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     elif not shares:
         notes.append("no SEC share count - market cap left as is")
     ma_last = {k: float(a["tokens"][-1]) for k, a in arrays.items() if k != "DAILY" and a["tokens"][-1] != "null"}
-    html = render(html, ticker, tokens, tech, breakout, shares, entry["cardAsOf"], notes, ma_last)
+    html = render(html, ticker, tokens, tech, breakout, shares, entry["cardAsOf"], notes, ma_last,
+                  p.get("prevClose"))
     # stage 2B-2: the valuation tab, in the same transaction - if it fails, the card isn't written at all
     base_path = (valuation_dir or ROOT / "site_data" / "valuation_base") / f"{ticker}.json"
     in_scope = VALUATION_TICKERS is None or ticker in VALUATION_TICKERS
