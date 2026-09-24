@@ -861,7 +861,7 @@
 </div>
 
 <div id="valuation" class="section">
-  <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 $337.02</div>
+  <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$337.02</span></div>
 
   <div class="card val-summary">
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.23</span> 종가 기준</span></div>
@@ -1167,15 +1167,17 @@ const fundBarLabelPlugin = {
     ctx.save();
     ctx.textAlign = 'center';
     meta.data.forEach((bar, i) => {
-      const { x, y } = bar.getProps(['x', 'y'], true);
+      const { x, y, base } = bar.getProps(['x', 'y', 'base'], true);
       const delta = chart.fundDeltas[i] || '';
-      const color = delta.startsWith('-') ? '#e74c3c' : '#2ecc71';
+      // 음수 막대(GOOGL Q2 2026 FCF −$5.9B)는 0선 위에 라벨을 단다. "적자 전환"도 빨강.
+      const top = Math.min(y, base), v = values[i];
+      const color = (delta.startsWith('-') || delta.startsWith('−') || delta.includes('적자')) ? '#e74c3c' : '#2ecc71';
       ctx.font = '700 11.5px sans-serif';
       ctx.fillStyle = '#e8eaf0';
-      ctx.fillText('$' + values[i] + 'B', x, y - 22);
+      ctx.fillText((v < 0 ? '−$' : '$') + Math.abs(v) + 'B', x, top - 22);
       ctx.font = '700 10.5px sans-serif';
       ctx.fillStyle = color;
-      ctx.fillText(delta, x, y - 9);
+      ctx.fillText(delta, x, top - 9);
     });
     ctx.restore();
   }
@@ -1676,6 +1678,11 @@ const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technolog
     if (!item) return;
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     f('cur').textContent = x(m.current);
+    // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
+    // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
+    if (m.metric === 'per' && V.self.perBasis === 'core') {
+      const nm = item.querySelector('.val-name'); if (nm && nm.firstChild) nm.firstChild.textContent = 'PER (본업 기준) ';
+    }
     f('badge').className = 'hist-badge ' + histCls(m.score);
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
     f('badge').textContent = m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
@@ -1687,7 +1694,8 @@ const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technolog
   });
   ['peer', 'self'].forEach(k => {
     const el = document.querySelector(`#valComp [data-vc-score="${k}"]`);
-    if (el) el.textContent = V[k].score.toFixed(1);
+    // 동종업 표본이 모자라면 점수가 null이다(Codex 지적) — 숫자 대신 '표본 부족'.
+    if (el) el.textContent = V[k].score == null ? '—' : V[k].score.toFixed(1);
     // 빠진 배수(적자·표본 부족·동결)는 평균에서 빠진다. HTML의 대체값이 남지 않게
     // 먼저 전부 비우고, 데이터에 있는 배수만 채운다(Codex).
     document.querySelectorAll(`#valComp [data-vc="${k}"]`).forEach(t => { t.className = 'sc-tile none'; t.textContent = '—'; });
@@ -1703,7 +1711,8 @@ const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technolog
   const last = (typeof AAPL_DAILY !== 'undefined' && AAPL_DAILY.length) ? AAPL_DAILY[AAPL_DAILY.length - 1] : null;
   const D = (typeof AAPL_DCF !== 'undefined') ? AAPL_DCF : null;
   const put = (k, t) => document.querySelectorAll(`#valuation [data-vs="${k}"]`).forEach(el => { el.textContent = t; });
-  put('self', V.self.score.toFixed(1)); put('peer', V.peer.score.toFixed(1));
+  const f1 = v => v == null ? '—' : v.toFixed(1);
+  put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D) { put('dcf', '$' + Math.round(D.base)); put('low', '$' + Math.round(D.low)); put('req', (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
@@ -1716,7 +1725,7 @@ const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technolog
   const pill = (k, cls, txt) => { const el = document.querySelector(`#valuation [data-vs-pill="${k}"]`);
     if (el) { el.className = 'vs-pill' + (cls ? ' ' + cls : ''); el.textContent = txt; } };
   const byScore = v => v >= 70 ? ['', '싸다'] : v >= 30 ? ['mid', '중간'] : ['high', '비싸다'];
-  pill('self', ...byScore(V.self.score)); pill('peer', ...byScore(V.peer.score));
+  pill('self', ...byScore(V.self.score)); pill('peer', ...(V.peer.score == null ? ['mid', '표본 부족'] : byScore(V.peer.score)));
   if (D && last) pill('dcf', ...(last[4] < D.base ? ['', '싸다'] : ['high', '비싸다']));
 })();
 
@@ -1843,7 +1852,8 @@ const AAPL_ANALYST = { asOf: '2026-09-23', source: 'StockAnalysis', rating: 'Buy
   const word = (v, set) => v >= GREEN ? set[0] : v >= RED ? set[1] : set[2];
   const put = (boxId, scoreId, verdictId, v, set, title) => {
     const box = $(boxId), sc = $(scoreId), vd = $(verdictId);
-    if (!box || v == null) return;
+    if (!box) return;
+    if (v == null) { if (sc) sc.innerHTML = '—'; if (vd) vd.textContent = '표본 부족'; return; }
     box.classList.remove('logic-positive', 'logic-neutral', 'logic-negative');
     box.classList.add(tone(v));
     if (sc) sc.innerHTML = v.toFixed(1) + '<span class="logic-denom">/100</span>';
@@ -1877,7 +1887,7 @@ const AAPL_ANALYST = { asOf: '2026-09-23', source: 'StockAnalysis', rating: 'Buy
       `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
       + `\n다섯 배수 모두 5년 분포의 비싼 쪽이다(PER 상위 6%, PSR·EV/EBITDA 상위 1%).`);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
-  const gap = Math.abs(S.peer - S.selfHistory);
+  const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
   const grid = $('aaplLogicGrid');
   if (grid && gap >= 20) grid.title = `밸류에이션 두 점수가 ${gap.toFixed(1)}점 갈린다`
     + ` — 동종업 ${S.peer} 대 자기 이력 ${S.selfHistory}. 평균내지 않고 나란히 둔다.`;

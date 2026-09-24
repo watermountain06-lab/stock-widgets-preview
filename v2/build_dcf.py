@@ -100,7 +100,7 @@ def base_inputs(ticker, asof=None):
     for name, tags in bmh.EV_COMPONENTS.items():
         # asof를 빠뜨리면 과거 시점 계산에 오늘 대차대조표가 섞인다
         # (현금·단기투자·차입금·리스가 그랬다 — Codex 지적으로 발견).
-        out[name] = latest(bmh.component_sum(cik, tags), asof)
+        out[name] = latest(bmh.ev_component(cik, name, tags), asof)
     # 금융리스부채는 운용리스와 별개 태그라 EV_COMPONENTS["lease"]에 안 잡힌다.
     # MSFT는 $66.6B가 순부채에서 통째로 빠져 있었다(주당 약 $9).
     # 총계 태그가 있으면 그것만 쓴다. 셋을 모두 더하면 총계와 세부가 겹쳐
@@ -142,9 +142,18 @@ def base_inputs(ticker, asof=None):
 
     # 순현금 표시(build_fundamental_score.net_cash)가 채권성 장기투자만 따로 쓰므로 분리해 둔다.
     out["lt_marketable"] = fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"])) or 0
-    out["nonop_assets"] = (latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) or 0) \
-        + (latest(bmh.component_sum(cik, ["LongTermInvestments"]), asof) or 0) \
-        + out["lt_marketable"]
+    # Alphabet은 비상장 지분을 OtherLongTermInvestments("Non-marketable securities",
+    # 2026-06-30 $131.5B)로 보고한다. 모든 태그에 같은 신선도 필터를 건다 — 필터가 없던
+    # 동안 GOOGL은 2025-09-30에 끊긴 EquitySecuritiesFvNi $7.1B를 계속 쓰고 있었다(2026-09-24).
+    # 장기투자 태그(LongTermInvestments·OtherLongTermInvestments)는 지분증권을 포함해 보고하는
+    # 경우가 많다. 둘 다 더하면 같은 자산이 두 번 들어가므로(Codex 지적), 장기투자 태그가
+    # 있으면 그것만, 없을 때만 EquitySecuritiesFvNi를 쓴다. NVDA는 FvNi만, GOOGL은 OtherLTI만.
+    lti_vals = [fresh_latest(bmh.component_sum(cik, [tag]))
+                for tag in ("LongTermInvestments", "OtherLongTermInvestments")]
+    fvni = fresh_latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"])) or 0
+    # 존재는 None으로 판정한다 — 장기투자 값이 정상적인 0이어도 FvNi로 넘어가면 안 된다(Codex 2차).
+    has_lti = any(v is not None for v in lti_vals)
+    out["nonop_assets"] = (sum(v or 0 for v in lti_vals) if has_lti else fvni) + out["lt_marketable"]
 
     # 운전자본은 재고·매출채권처럼 영업에 묶인 돈만 본다. 현금과 차입금은 뺀다
     # (그 둘은 순부채 쪽에서 따로 계산되므로 여기 넣으면 두 번 센다).

@@ -80,6 +80,13 @@ GROWTH = ["revenueCagr", "opIncomeCagr", "opMargin", "netMargin"]
 # 검산: `--basis annual`은 v1의 재무건전성·성장수익성 축과 같은 값을 내야 한다.
 
 
+def _core_tickers():
+    path = os.path.join(REPO, "v2", "core_earnings.json")
+    if not os.path.exists(path):
+        return set()
+    return {k for k in json.load(open(path)) if not k.startswith("_")}
+
+
 def _rows(fin, key):
     return [e for e in fin.get(key, {}).get("annual", []) if e.get("val") is not None]
 
@@ -285,7 +292,18 @@ def score_items(fin, config, basis):
     if rv:
         if op_m is not None:
             items["opMargin"] = {"value": op_m / rv * 100}
-        if ni is not None:
+        core = fin.get("ticker") in _core_tickers()
+        if core and op_m is not None:
+            # 본업 기준(v2/core_earnings.json) — 순이익 대신 영업이익 × (1 − 실효세율).
+            # GOOGL 2026 Q2 순이익률 93.6%는 비상장 지분 재평가 이익 때문이다(2026-09-24 사용자 결정).
+            import build_dcf as d
+            b = d.base_inputs(fin["ticker"])
+            # 법인세 0은 정상 값이다(0을 거짓으로 보고 21%로 바꾸면 안 된다). 세전이익이 0 이하면
+            # 실효세율이 뜻을 잃으므로 본업 순이익률을 내지 않는다 — PER 경로와 같은 처리(Codex).
+            tax, pretax = b.get("tax"), b.get("pretax")
+            if tax is not None and pretax is not None and pretax > 0:
+                items["netMargin"] = {"value": op_m * (1 - tax / pretax) / rv * 100, "basis": "core"}
+        elif ni is not None:
             items["netMargin"] = {"value": ni / rv * 100}
 
     for k, it in items.items():

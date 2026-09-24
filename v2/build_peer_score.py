@@ -55,6 +55,7 @@ import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECTORS = os.path.join(REPO, "v2", "sectors.json")
+SECTOR_BORROW = {"Communication Services": ["Information Technology"]}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
@@ -124,14 +125,25 @@ def peer_score(ticker, sectors, prices, self_path=None):
     sector = sectors.get(ticker)
     if not sector:
         sys.exit(f"{ticker}: v2/sectors.json에 섹터가 없다")
-    group = [t for t in sectors if sectors[t] == sector]
+    # 표본이 작은 섹터는 가까운 큰 섹터를 빌려 온다(2026-09-24 사용자 결정, GOOGL).
+    # GICS가 2018년 GOOGL·META를 IT에서 Communication Services로 옮겼고 이 유니버스에서는
+    # 그 섹터가 6종목뿐이라 순위가 서지 않는다. 한 방향이다 — IT 종목의 동종업은 IT만 쓴다.
+    borrowed = SECTOR_BORROW.get(sector, [])
+    group = [t for t in sectors if sectors[t] == sector or sectors[t] in borrowed]
     data, asof = {}, {}
     for t in group:
         data[t], asof[t] = multiples_now(t, prices)
+    core = False
     if self_path and os.path.exists(self_path):
         data[ticker] = {**data.get(ticker, {}), **self_multiples(self_path)}
+        core = json.load(open(self_path)).get("perBasis") == "core"
     rows, dropped = [], []
     for m in METRICS:
+        # 본인 PER이 본업 기준이면 공시 EPS 기준인 동종업 PER과 잣대가 다르다. 동종업 전체를
+        # 본업 기준으로 다시 계산하기 전까지는 PER을 동종업 점수에서 뺀다(Codex 지적, 2026-09-24).
+        if m == "per" and core:
+            dropped.append((m, "본인 PER은 본업 기준, 동종업은 공시 EPS 기준이라 비교에서 뺌"))
+            continue
         vals = {t: v[m] for t, v in data.items() if m in v}
         if ticker not in vals:
             dropped.append((m, "본인 값 없음"))
@@ -147,6 +159,8 @@ def peer_score(ticker, sectors, prices, self_path=None):
                      "peers": len(peers), "median": statistics.median(peers),
                      "score": round(score, 1)})
     dates = [d for t, d in asof.items() if d and data.get(t)]
+    if borrowed:
+        sector = sector + " + " + " + ".join(borrowed)
     return {"ticker": ticker, "sector": sector, "groupSize": len(group),
             "metrics": rows, "dropped": dropped,
             "score": round(sum(r["score"] for r in rows) / len(rows), 1) if rows else None,
@@ -183,9 +197,14 @@ def main():
         r["selfScore"] = s
         r["selfWindow"] = json.load(open(args.self_path)).get("window")
         print(f"  자기 이력 대비 = {s}  (창 {r['selfWindow'][0]} ~ {r['selfWindow'][1]})")
-        gap = abs(s - r["score"])
-        print(f"\n  두 점수의 격차 {gap:.1f}점"
-              + (" — 평균으로 뭉개지 말 것" if gap >= 20 else ""))
+        if r["score"] is None:
+            # 동종업이 MIN_PEERS보다 적은 섹터(GOOGL의 Communication Services 6종목 등)는
+            # 동종업 점수가 없다. 카드 블록에는 None으로 싣고 카드가 "표본 부족"으로 보인다.
+            print("\n  동종업 점수 없음 — 격차 계산 생략")
+        else:
+            gap = abs(s - r["score"])
+            print(f"\n  두 점수의 격차 {gap:.1f}점"
+                  + (" — 평균으로 뭉개지 말 것" if gap >= 20 else ""))
 
     if args.json:
         json.dump(r, open(args.json, "w"), ensure_ascii=False, indent=1)
@@ -193,21 +212,23 @@ def main():
     if args.card:
         if "selfScore" not in r:
             sys.exit("--card는 --self와 함께 쓴다 (두 점수를 한 블록에 싣는다)")
-        write_card(t, r, json.load(open(args.self_path))["multiples"])
+        sd = json.load(open(args.self_path))
+        write_card(t, r, sd["multiples"], sd.get("perBasis", "diluted"))
 
 
 SELF_KEYS = {"PER": "per", "PBR": "pbr", "PSR": "psr", "PCR": "pcr", "EV/EBITDA": "evebitda"}
 BEGIN, END = "/* VALUATION:BEGIN */", "/* VALUATION:END */"
 
 
-def write_card(ticker, r, self_multiples):
+def write_card(ticker, r, self_multiples, per_basis="diluted"):
     """밸류에이션 탭의 두 점수 상자가 읽는 블록. 요약 격자도 같은 값을 쓴다."""
     import re
     out = {
         "peer": {"score": r["score"], "sector": r["sector"], "asOf": r["peerAsOf"],
                  "metrics": [{"metric": m["metric"], "score": m["score"],
                               "rank": m["rank"], "peers": m["peers"]} for m in r["metrics"]]},
-        "self": {"score": r["selfScore"], "window": r["selfWindow"],
+        # perBasis "core"면 PER이 본업 이익 기준이다(v2/core_earnings.json). 카드가 라벨을 바꾼다.
+        "self": {"score": r["selfScore"], "window": r["selfWindow"], "perBasis": per_basis,
                  # 동종업 상자와 같은 순서(METRICS)로 — 원본 JSON은 PER·PSR·PBR 순이다
                  "metrics": sorted(
                      [{"metric": SELF_KEYS[k], "score": v["score"], "percentile": v["percentile"],

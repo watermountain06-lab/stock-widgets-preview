@@ -79,7 +79,9 @@ EV_COMPONENTS = {
              "ConvertibleNotesPayableNoncurrent"],
     "lease": ["OperatingLeaseLiabilityCurrent", "OperatingLeaseLiabilityNoncurrent"],
     "nci": ["MinorityInterest"],
-    "preferred": ["PreferredStockValue"],
+    # 전환우선주를 다른 태그로 내는 회사가 있다 — GOOGL 6.25% 의무전환 우선주 $18.0B
+    # (2026, ConvertiblePreferredStock…). 이 태그를 안 보면 EV와 주당 내재가치에서 빠진다.
+    "preferred": ["PreferredStockValue", "ConvertiblePreferredStockNonredeemableOrRedeemableIssuerOptionValue"],
 }
 # 감가상각은 회사마다 보고 구조가 다르다. NVDA는 합산 태그 하나로 내지만
 # MSFT는 Depreciation과 AmortizationOfIntangibleAssets를 따로 낸다. 합산 태그가
@@ -96,6 +98,20 @@ EBITDA_TAGS = {
     "dda": ["DepreciationDepletionAndAmortization", "DepreciationAndAmortization",
             "DepreciationAmortizationAndAccretionNet"],
 }
+# 본업 기준 PER에 쓰는 세율 = 최근 4분기 법인세 ÷ 세전이익 (build_dcf와 같은 정의)
+CORE_TAX_TAGS = {
+    "tax": ["IncomeTaxExpenseBenefit"],
+    "pretax": ["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+               "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+}
+CORE_EARNINGS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "core_earnings.json")
+
+
+def core_tickers():
+    """본업 이익으로 PER을 계산할 종목(v2/core_earnings.json)."""
+    if not os.path.exists(CORE_EARNINGS):
+        return {}
+    return {k: v for k, v in json.load(open(CORE_EARNINGS)).items() if not k.startswith("_")}
 
 
 # 두 시리즈를 짝지을 때 허용하는 뒤처짐. 한 분기 늦은 보고(약 91일)는 받고,
@@ -282,6 +298,12 @@ def dda_quarters(cik, ticker):
     tag, rows = pick_tag(cik, DDA_COMBINED)
     if rows:
         return tag, quarterly_flow(rows, ticker)
+    # 구성요소마다 그 분기가 **처음 공시된 때**가 다르다. 작은 항목이 1년 뒤 비교
+    # 수치로 처음 나오면(GOOGL 무형자산 상각 $0.12B·금융리스 상각 $0.1B), 예전에는
+    # 분기 공개일을 가장 늦은 항목 날짜로 잡아 과거 분기 전체가 1년 늦게 "공개"된
+    # 셈이 됐고 EV/EBITDA 이력이 44일만 남았다(2026-09-24). 결산 후 LATE_PART_DAYS
+    # 안에 공시된 항목만 그 분기에 더한다 — 그때 알 수 없던 값은 빼는 것이 시점 규칙이다.
+    LATE_PART_DAYS = 120
     per_end = {}
     used = []
     for name in DDA_PARTS:
@@ -289,7 +311,18 @@ def dda_quarters(cik, ticker):
         if not part:
             continue
         used.append(name)
+        # 판정은 그 분기가 **처음 알려진 날**로 한다 — 같은 결산일로 끝나는 행(3개월이든
+        # 누계든) 가운데 가장 이른 공시일. quarterly_flow가 고른 행의 공시일로 판정하면,
+        # 제때 누계 차이로 계산됐던 분기가 1년 뒤 비교 수치(직접값)로 다시 실릴 때 지워진다
+        # (Codex 지적, 2026-09-24).
+        first_known = {}
+        for r in part:
+            if "filed" in r and "end" in r:
+                first_known[r["end"]] = min(first_known.get(r["end"], r["filed"]), r["filed"])
         for e in quarterly_flow(part, ticker):
+            known = first_known.get(e["end"], e["filed"])
+            if (date.fromisoformat(known) - date.fromisoformat(e["end"])).days > LATE_PART_DAYS:
+                continue
             slot = per_end.setdefault(e["end"], {"val": 0.0, "filed": e["filed"]})
             slot["val"] += e["val"]
             slot["filed"] = max(slot["filed"], e["filed"])
@@ -388,6 +421,31 @@ def component_sum(cik, tags):
               f" (예: {sorted(suspicious)[-1]}) — 이중계상 가능")
     return sorted(({"end": k, "val": v["val"], "available": v["filed"]}
                    for k, v in per_date.items()), key=lambda e: e["available"])
+
+
+# 같은 항목의 **대체 태그**라 더하면 안 되는 EV 구성요소. 날짜마다 앞 태그 우선으로 하나만 쓴다.
+# 우선주 총계(PreferredStockValue)와 전환우선주(ConvertiblePreferredStock…)를 함께 내는 회사는
+# component_sum으로 더하면 두 배가 된다(Codex 지적, 2026-09-24).
+PICK_COMPONENTS = {"preferred"}
+
+
+def pick_instant(cik, tags):
+    """시점값을 태그 목록 순서대로 골라 하나의 시리즈로 — 날짜마다 앞 태그가 우선."""
+    per_date = {}
+    for tag in tags:
+        for e in concept(cik, tag):
+            if "end" not in e or "filed" not in e or "start" in e:
+                continue
+            cur = per_date.get(e["end"])
+            if cur is None or (cur["tag"] == tag and e["filed"] < cur["filed"]):
+                if cur is None or cur["tag"] == tag:
+                    per_date[e["end"]] = {"val": e["val"], "filed": e["filed"], "tag": tag}
+    return sorted(({"end": k, "val": v["val"], "available": v["filed"]} for k, v in per_date.items()),
+                  key=lambda e: e["available"])
+
+
+def ev_component(cik, name, tags):
+    return pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
 
 
 def dda_ttm(cik, ticker):
@@ -545,7 +603,7 @@ def main():
 
     # EV 구성요소(시점)와 EBITDA(기간)
     for name, tags in EV_COMPONENTS.items():
-        series[name] = component_sum(cik, tags)
+        series[name] = ev_component(cik, name, tags)
         if series[name]:
             print(f"  {name}: {len(series[name])}개 · 최신 {series[name][-1]['end']}"
                   f"{check_fresh(series[name], daily[-1][0])}")
@@ -570,9 +628,37 @@ def main():
               f" · 최신 {series[name][-1]['end'] if series[name] else '없음'}"
               f"{check_fresh(series[name], daily[-1][0])}")
 
-    out = {"ticker": t, "window": [daily[0][0], daily[-1][0]], "multiples": {}}
+    core = t in core_tickers()
+    if core:
+        # 공시 순이익에 투자 평가이익이 크게 섞인 종목은 PER을 본업 이익으로 낸다.
+        # GOOGL 2026 Q2: 영업이익 $40.8B, 영업외이익 $98.0B, 희석 EPS $9.11(본업만 약 $2.7).
+        for name, tags in CORE_TAX_TAGS.items():
+            tag, rows = pick_tag(cik, tags)
+            series[name] = ttm_series(quarterly_flow(rows, t)) if rows else []
+            print(f"  {name}: {tag} — TTM {len(series[name])}개 (본업 기준 PER용)")
+
+    def core_earnings(d):
+        """그날 공개돼 있던 최근 4분기 본업 이익 = 영업이익 × (1 − 법인세/세전이익), 같은 분기끼리."""
+        parts = {n: [e for e in series.get(n, []) if e["available"] <= d] for n in ("opinc", "tax", "pretax")}
+        if not all(parts.values()):
+            return None
+        common = set.intersection(*({e["end"] for e in v} for v in parts.values()))
+        if not common:
+            return None
+        end = max(common)
+        lead = max(v[-1]["end"] for v in parts.values())
+        if (date.fromisoformat(lead) - date.fromisoformat(end)).days > MAX_PAIR_LAG_DAYS:
+            return None
+        o, tx, pt = ([e for e in parts[n] if e["end"] == end][-1]["val"] for n in ("opinc", "tax", "pretax"))
+        if pt <= 0 or o <= 0:
+            return None
+        return o * (1 - tx / pt)
+
+    out = {"ticker": t, "window": [daily[0][0], daily[-1][0]], "multiples": {},
+           "perBasis": "core" if core else "diluted"}
     defs = {
-        "PER": lambda d, px: px / as_of(eps, d) if eps and as_of(eps, d) and as_of(eps, d) > 0 else None,
+        "PER": (lambda d, px: (mcap(d, px) / core_earnings(d)) if mcap(d, px) and core_earnings(d) else None) if core
+        else (lambda d, px: px / as_of(eps, d) if eps and as_of(eps, d) and as_of(eps, d) > 0 else None),
         "PSR": lambda d, px: mcap(d, px) / as_of(series.get("revenue", []), d)
         if mcap(d, px) and as_of(series.get("revenue", []), d) else None,
         "PBR": lambda d, px: mcap(d, px) / as_of(series.get("equity", []), d)
@@ -665,6 +751,24 @@ def main():
             "mean": round(sum(vals) / len(vals), 2),
             "percentile": round(pr, 1), "score": round(100 - pr, 1),
         }
+        if label == "PER" and pts[-1][0] == daily[-1][0]:
+            # 적정주가 밴드 — 최근 252거래일 PER의 p25~p75 × 현재 EPS, $10 반올림.
+            # EPS_now = P_now / PER_now이므로 현재가 × (분위 PER ÷ 현재 PER)로 같다.
+            # (2026-09-24 손값에서 스크립트로. NVDA $260~$370·AAPL $300~$330 재현)
+            # 창은 **최근 252거래일**(일봉 날짜 기준)이다. 계산에 성공한 마지막 252개로 잡으면
+            # 결측 구간이 있을 때 창이 과거로 늘어난다. 오늘 PER이 없으면 밴드를 내지 않는다(Codex).
+            start_day = daily[-252][0] if len(daily) >= 252 else daily[0][0]
+            yr = sorted(v for dd, v in pts if dd >= start_day)
+            def yq(p):
+                i = (len(yr) - 1) * p; lo = int(i); hi = min(lo + 1, len(yr) - 1)
+                return yr[lo] + (yr[hi] - yr[lo]) * (i - lo)
+            px_now = daily[-1][4]
+            lo_px, hi_px = px_now * yq(.25) / cur, px_now * yq(.75) / cur
+            out["fairBand"] = {"per_p25": round(yq(.25), 2), "per_p75": round(yq(.75), 2),
+                               "low": int(round(lo_px / 10) * 10), "high": int(round(hi_px / 10) * 10),
+                               "asOf": daily[-1][0], "basis": out["perBasis"]}
+            print(f"  적정주가 밴드: PER {yq(.25):.1f}~{yq(.75):.1f}x → ${out['fairBand']['low']}~${out['fairBand']['high']}"
+                  f" ({out['perBasis']})")
         m = out["multiples"][label]
         print(f"  {label}: 현재 {m['current']}  (최저 {m['min']} · 중앙 {m['median']} · 최고 {m['max']})"
               f"  하위 {m['percentile']}%  → 점수 {m['score']}  [{m['days']}일]")

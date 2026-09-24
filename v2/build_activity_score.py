@@ -60,7 +60,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CIKS = {"NVDA": "0001045810", "AAPL": "0000320193"}
+CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044"}
 UA = "stock-widgets research gptjhss@gmail.com"
 
 # 앞에 있는 태그가 우선한다. 같은 분기에 둘 다 있으면 뒤 태그는 버린다.
@@ -170,6 +170,20 @@ def build(ticker, facts):
     if len(rows) < HISTORY + 1:
         return {"ticker": ticker, "status": "N/A", "reason": "5년 비교 이력 부족"}
     cur, prev, hist = rows[-1], rows[-2], rows[-HISTORY - 1:-1]
+    # 최신 매출 분기보다 한참 뒤처진 값은 싣지 않는다. GOOGL은 재고를 2023-12~2025-09에
+    # 따로 공시하지 않아 네 항목이 다 있는 마지막 분기가 2023-09였고, 3년 전 값이 그대로
+    # 카드에 나왔다(2026-09-24).
+    gaap = facts["facts"]["us-gaap"]
+    latest_rev = max(quarterly_flow(gaap, TAGS["revenue"]))
+    if _days(cur["end"], latest_rev) > 200:
+        after = [e for e in quarterly_flow(gaap, TAGS["revenue"]) if e > cur["end"]]
+        why = {"ar": "매출채권", "inventory": "재고", "ap": "매입채무", "cogs": "매출원가"}
+        have = {k: instant(gaap, TAGS[k]) for k in ("ar", "inventory", "ap")}
+        have["cogs"] = quarterly_flow(gaap, TAGS["cogs"])
+        missing = [why[k] for k in ("ar", "inventory", "ap", "cogs") if any(e not in have[k] for e in after)]
+        return {"ticker": ticker, "status": "stale", "asOf": cur["end"],
+                "reason": f"{'·'.join(missing) or '일부 항목'} 공시가 끊긴 분기가 있어"
+                          f" 최근 4분기를 계산할 수 없다(마지막 계산 가능 {cur['end']})"}
     longer, score = rank([h["op"] for h in hist], cur["op"])
     tone = "green" if score >= GREEN else ("red" if score <= RED else "yellow")
     r1 = lambda v: round(v, 1)
