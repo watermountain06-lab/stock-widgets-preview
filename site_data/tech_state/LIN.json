@@ -1,7 +1,7 @@
 {
   "ticker": "LIN",
-  "asOf": "2026-09-22",
-  "close": 464.91,
+  "asOf": "2026-09-23",
+  "close": 469.72,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,22 +20,22 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -2.64
+    "weightedRocPct": -2.04
   },
   "position52w": {
-    "score": 10,
+    "score": 15,
     "max": 20,
-    "riseFromLowPct": 19.89,
-    "drawdownFromHighPct": 15.19,
+    "riseFromLowPct": 21.13,
+    "drawdownFromHighPct": 14.32,
     "high52w": 548.2,
     "low52w": 387.78
   },
   "priceStructureScore": {
-    "score": 30,
+    "score": 35,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 40,
+  "rawScore": 45,
   "rawGrade": "혼조",
   "displayGrade": "혼조",
   "riskFlags": [
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.58,
-    "percentileVsOwnHistory": 18.7
+    "pctNow": 1.62,
+    "percentileVsOwnHistory": 24.6
   }
 }

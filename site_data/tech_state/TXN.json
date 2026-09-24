@@ -1,7 +1,7 @@
 {
   "ticker": "TXN",
-  "asOf": "2026-09-22",
-  "close": 271.41,
+  "asOf": "2026-09-23",
+  "close": 272.62,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 30,
     "max": 40,
-    "weightedRocPct": 25.52
+    "weightedRocPct": 25.27
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 77.71,
-    "drawdownFromHighPct": 18.75,
+    "riseFromLowPct": 78.5,
+    "drawdownFromHighPct": 18.38,
     "high52w": 334.03,
     "low52w": 152.73
   },
@@ -38,14 +38,10 @@
   "rawScore": 85,
   "rawGrade": "강한",
   "displayGrade": "긍정적",
-  "riskFlags": [
-    "단기추세이탈"
-  ],
-  "riskFlagsShown": [
-    "단기추세이탈"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 3.0,
-    "percentileVsOwnHistory": 41.7
+    "pctNow": 2.97,
+    "percentileVsOwnHistory": 38.5
   }
 }

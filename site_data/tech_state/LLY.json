@@ -1,7 +1,7 @@
 {
   "ticker": "LLY",
-  "asOf": "2026-09-22",
-  "close": 1170.14,
+  "asOf": "2026-09-23",
+  "close": 1150.99,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,15 +18,15 @@
     }
   },
   "momentum": {
-    "score": 30,
+    "score": 20,
     "max": 40,
-    "weightedRocPct": 21.24
+    "weightedRocPct": 18.68
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 64.33,
-    "drawdownFromHighPct": 9.48,
+    "riseFromLowPct": 61.64,
+    "drawdownFromHighPct": 10.96,
     "high52w": 1292.65,
     "low52w": 712.05
   },
@@ -35,8 +35,8 @@
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 90,
-  "rawGrade": "강한",
+  "rawScore": 80,
+  "rawGrade": "긍정적",
   "displayGrade": "강한",
   "riskFlags": [
     "단기추세이탈"
@@ -45,7 +45,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.29,
-    "percentileVsOwnHistory": 6.0
+    "pctNow": 2.41,
+    "percentileVsOwnHistory": 8.7
   }
 }
