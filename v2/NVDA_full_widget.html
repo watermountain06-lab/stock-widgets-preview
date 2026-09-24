@@ -162,10 +162,19 @@
   .sc-total { display:flex; align-items:baseline; gap:6px; min-width:150px; }
   .sc-total-l { font-size:12px; color:var(--text2); }
   .sc-total-v { font-size:26px; font-weight:800; color:var(--text); }
-  .sc-group { display:flex; flex-direction:column; align-items:center; gap:6px; flex:1 1 0; min-width:0; background:var(--bg3); border-radius:8px; padding:10px 14px; }
+  /* 그룹 안의 칸은 한 줄로 둔다. 폭이 모자라면 칸이 접히지 않고 그룹이 통째로 다음 줄로 간다(2026-09-24).
+     flex-basis 0이라 넓은 화면에서는 두 그룹 폭이 같다(auto로 두면 칸 5개 쪽이 더 넓어진다). */
+  .sc-group { display:flex; flex-direction:column; align-items:center; gap:6px; flex:1 1 0; min-width:max-content; background:var(--bg3); border-radius:8px; padding:10px 14px; }
   .sc-group-l { font-size:11px; color:var(--text3); text-align:center; }
   .sc-group-l [data-axis-pts] { color:var(--text); font-weight:700; }
-  .sc-tiles { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+  .sc-tiles { display:flex; gap:8px; flex-wrap:nowrap; justify-content:center; }
+  @media (max-width: 520px) {
+    .sc-group { min-width:0; width:100%; padding:10px 8px; }
+    .sc-tiles { gap:4px; }
+    .sc-item { min-width:0; }
+    #fundComp .sc-tile { width:44px; }
+    .sc-name { font-size:9px; }
+  }
   .sc-item { display:flex; flex-direction:column; align-items:center; gap:2px; min-width:52px; }
   .sc-tile { width:52px; height:22px; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:800; background:rgba(46,204,113,0.16); color:var(--green); }
   .sc-tile.lost { background:rgba(240,192,64,0.18); color:var(--gold); }
@@ -433,7 +442,9 @@
   .logic-score { font-size:19px; font-weight:800; color:var(--text); }
   .logic-denom { font-size:11px; font-weight:600; color:var(--text3); }
   .logic-desc { font-size:12px; color:var(--text2); line-height:1.65; }
-  @media (max-width: 1100px) { .logic-grid { grid-template-columns:repeat(2,1fr); } }
+  /* 4칸 한 줄은 박스 폭 약 220px까지 버틴다(내재가치 칸 "$315 · 낮은 성장 … · 높은 성장 …"이 먼저 접힌다).
+     예전 기준 1100px에서는 1100px 창에서도 2×2가 됐다(2026-09-24). */
+  @media (max-width: 980px) { .logic-grid { grid-template-columns:repeat(2,1fr); } }
   @media (max-width: 620px) { .logic-grid { grid-template-columns:1fr; } }
 </style>
 </head>
@@ -474,8 +485,8 @@
       <span class="meta-value" id="nvdaDcfReq" style="font-size:22px;color:#38bdf8;">연 25.4%</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="nvdaConfidenceLabel">밴드 적중률 (전체 407/696일 · 최근 1년 36.3%)</span>
-      <span class="meta-value" id="nvdaConfidence" style="font-size:22px;color:var(--gold);">58.5%</span>
+      <span class="meta-label" id="nvdaConfidenceLabel">밴드 적중률 (407/698일, 이탈 전부 하단)</span>
+      <span class="meta-value" id="nvdaConfidence" style="font-size:22px;color:var(--gold);">58.3%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -625,7 +636,7 @@
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="reverse">지금 가격 <span data-dcf-price>$228.87</span>이 정당하려면 5년간 매출이 매년 <b data-dcf-req>26.2%</b>씩 커야 한다. 기본 시나리오 <span data-dcf-basev>$315</span>를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>35.4%</span>다.</div>
+    <div class="reverse">지금 가격(<span data-dcf-price>$228.87</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>26.2%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$315</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>35.4%</span>다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -688,10 +699,10 @@
     <div class="card-title"><span>재무 건전성 — 안정성·활동성 (Q2 FY27 · 2026.07.26 기준)</span></div>
 
     <div class="section-label"><span class="dot"></span>안정성 — 단기 지급능력·차입 의존도 (<span id="fundHealthAxis">30.4/33</span>)</div>
-    <div class="diag-summary">
+    <div class="diag-summary" id="fundHealthSummary">
       <div class="icon">🩺</div>
       <div>
-        <div class="title">종합 진단: 매우 안정적</div>
+        <div class="title" id="fundHealthTitle">종합 진단: 우수 (재무건전성 92%)</div>
       </div>
     </div>
 
@@ -871,7 +882,7 @@
 
       <div class="val-item" data-metric="per" onclick="selectMultiple('per')">
         <div class="val-header">
-          <span class="val-name">PER (TTM)</span>
+          <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">28.9x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 1%</span>
@@ -883,7 +894,7 @@
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
-          <span class="val-name">PBR</span>
+          <span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">24.1x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 19%</span>
@@ -895,7 +906,7 @@
 
       <div class="val-item" data-metric="psr" onclick="selectMultiple('psr')">
         <div class="val-header">
-          <span class="val-name">PSR (TTM)</span>
+          <span class="val-name">PSR (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">18.2x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 17%</span>
@@ -907,7 +918,7 @@
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
-          <span class="val-name">PCR (FCF, TTM) <span class="hist-note">2024.08~ 이력</span></span>
+          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">최근 2.1년 이력</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">43.4x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 15%</span>
@@ -919,7 +930,7 @@
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
         <div class="val-header">
-          <span class="val-name">EV/EBITDA</span>
+          <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">27.3x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 1%</span>
@@ -1311,6 +1322,7 @@ function renderMultipleChart(key) {
     // used to carry the template ticker's name and brand colour into the new
     // card's own bar, and renaming the MULTIPLE_DATA key never reached labels[0].
     const selfKey = Object.keys(d).find(function (k) { return /Value$/.test(k); });
+    const _vs = (typeof NVDA_VALUATION !== 'undefined') ? NVDA_VALUATION.self.metrics.find(m => m.metric === key) : null;
     const _bbc = document.querySelector('.back-bar-current');
     const selfLabel = (_bbc ? _bbc.textContent.split('\u00b7')[0].trim() : '')
       || (selfKey ? selfKey.replace(/Value$/, '').toUpperCase() : '');
@@ -1318,7 +1330,7 @@ function renderMultipleChart(key) {
     const selfBd = _cs.getPropertyValue('--accent').trim();
     const selfBg = _cs.getPropertyValue('--accent2').trim();
   const labels = [selfLabel, ...d.peers.map(p=>p.name)];
-  const data = [d[selfKey], ...d.peers.map(p=>p.value)];
+  const data = [_vs ? +_vs.current.toFixed(1) : d[selfKey], ...d.peers.map(p=>p.value)];
   const bg = [ selfBg, ...d.peers.map(p=> p.status==='excluded' ? 'rgba(231,76,60,0.18)' : 'rgba(154,160,184,0.35)') ];
   const bd = [ selfBd, ...d.peers.map(p=> p.status==='excluded' ? '#c0392b' : '#5c6282') ];
   multipleChart = new Chart(ctx,{
@@ -1326,7 +1338,7 @@ function renderMultipleChart(key) {
     data:{ labels, datasets:[{ label:d.unit, data, backgroundColor:bg, borderColor:bd, borderWidth:1, borderRadius:5 }] },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${d.unit} ${ctx.raw}x`}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{ const p = d.peers[ctx.dataIndex - 1]; return p && p.note ? `${d.unit} ${p.note}` : `${d.unit} ${ctx.raw}x`; }}}},
       scales:{
         x:{grid:{display:false},ticks:{color:'#9aa0b8',font:{size:10.5}}},
         y:{max:d.max,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#9aa0b8',font:{size:10},callback:v=>v+'x'}}
@@ -1585,10 +1597,20 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
   if (N && $('fundNetCashPs')) {
     $('fundNetCashPs').textContent = (N.perShare < 0 ? '−$' : '$') + Math.abs(N.perShare).toFixed(2);
     $('fundNetCashNote').textContent = `순현금 ${B(N.net)} ÷ ${(N.shares / 1e9).toFixed(2)}B주 · `
-      + `현금·단기투자 ${B(N.cash + N.sti)} − 차입금·리스 ${B(N.debt + N.lease)}`;
+      + `현금·단기투자 ${B(N.cash + N.sti)}` + (N.lt_marketable ? ` + 장기 채권 ${B(N.lt_marketable)}` : '')
+      + ` − 차입금·리스 ${B(N.debt + N.lease)}`;
   }
   const hx = $('fundHealthAxis');
   if (hx && F.axes.health.points != null) hx.textContent = `${F.axes.health.points.toFixed(1)}/${F.axes.health.max}`;
+  // 안정성 종합 진단 — 손으로 쓴 문구 대신 축 점수 비율에서 나온다(2026-09-24, AAPL에서 결정).
+  // 단어는 동결 설정의 등급(80 우수 · 60 양호 · 40 보통 · 미흡), 색은 카드 공통 30/70.
+  const hs = $('fundHealthSummary'), ht = $('fundHealthTitle'), ha = F.axes.health;
+  if (hs && ht && ha.points != null) {
+    const r = ha.points / ha.max * 100;
+    const word = r >= 80 ? '우수' : r >= 60 ? '양호' : r >= 40 ? '보통' : '미흡';
+    hs.className = 'diag-summary' + (r >= 70 ? '' : r >= 30 ? ' watch' : ' alert');
+    ht.textContent = `종합 진단: ${word} (재무건전성 ${Math.round(r)}%)`;
+  }
 })();
 
 // ── 시계열 뉴스: 한 페이지 5개 ──
@@ -1651,7 +1673,10 @@ const NVDA_VALUATION = {"peer": {"score": 46.7, "sector": "Information Technolog
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     f('cur').textContent = x(m.current);
     f('badge').className = 'hist-badge ' + histCls(m.score);
-    f('badge').textContent = `5년 중 하위 ${Math.round(m.percentile)}%`;
+    // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
+    f('badge').textContent = m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
+    // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
     f('fill').className = 'val-fill hist-fill ' + histCls(m.score);
     f('fill').style.width = Math.max(m.percentile, 2) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
@@ -1746,17 +1771,32 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
   });
 
   const ex = $('actCccExplain'), cccDiff = A.now.ccc - A.prev.ccc;
-  if (ex) ex.innerHTML = `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
-    + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    + (Math.abs(cccDiff) < 0.05 ? `직전 분기 ${d1(A.prev.ccc)}일과 같다.`
-       : `직전 분기 ${d1(A.prev.ccc)}일보다 ${d1(Math.abs(cccDiff))}일 ${cccDiff > 0 ? '길어졌다' : '짧아졌다'}.`);
+  // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
+  // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
+  const lead = A.now.ccc >= 0
+    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+      + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
+    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+      + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
+  if (ex) ex.innerHTML = lead
+    + (Math.abs(cccDiff) < 0.05 ? '직전 분기와 같다.'
+       : A.now.ccc < 0 && A.prev.ccc < 0
+         ? `그 기간이 직전 분기 ${d1(-A.prev.ccc)}일보다 ${d1(Math.abs(cccDiff))}일 ${cccDiff < 0 ? '늘었다' : '줄었다'}.`
+         : `직전 분기 ${d1(A.prev.ccc)}일보다 ${d1(Math.abs(cccDiff))}일 ${cccDiff > 0 ? '길어졌다' : '짧아졌다'}.`);
 
   const bar = $('actBar');
   if (bar) {
-    const pct = v => (v / A.now.op * 100).toFixed(1) + '%';
-    bar.querySelectorAll('.tl-marker, .tl-marker-label, .tl-ccc-span').forEach(el => { el.style.left = pct(A.now.dpo); });
-    bar.querySelector('.tl-marker-label').textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;
-    bar.querySelector('.tl-ccc-span').style.width = pct(A.now.ccc);
+    // 눈금은 영업순환주기와 지급기간 중 긴 쪽. 예전엔 영업순환주기로만 잡아서 CCC가 음수면
+    // 지급 표시가 막대 밖(259%)으로 나갔다. 음수면 노란 구간이 영업순환주기 끝에서 지급일까지다.
+    const span = Math.max(A.now.op, A.now.dpo);
+    const pct = v => (v / span * 100).toFixed(1) + '%';
+    bar.querySelectorAll('.tl-marker, .tl-marker-label').forEach(el => { el.style.left = pct(A.now.dpo); });
+    const ml = bar.querySelector('.tl-marker-label');
+    ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;
+    // 오른쪽 끝(음수 CCC면 지급일이 눈금 끝)에서는 라벨을 왼쪽으로 붙여 잘리지 않게 한다.
+    ml.style.transform = A.now.dpo / span > 0.85 ? 'translateX(-100%)' : 'translateX(-50%)';
+    const cs = bar.querySelector('.tl-ccc-span');
+    cs.style.left = pct(Math.min(A.now.dpo, A.now.op)); cs.style.width = pct(Math.abs(A.now.ccc));
     const inv = bar.querySelector('.tl-seg-inv'), ar = bar.querySelector('.tl-seg-ar');
     inv.style.width = pct(A.now.dio); inv.textContent = `재고보유 ${d1(A.now.dio)}일`;
     ar.style.width = pct(A.now.dso);  ar.textContent = `매출채권회수 ${d1(A.now.dso)}일`;
@@ -1924,20 +1964,20 @@ function nvdaBandTone(cp){
   el.textContent = (h.ratio*100).toFixed(1) + '%';
   el.style.color = nvdaHitTone(h.ratio).color;
   if (label) {
-    // 이탈이 한쪽으로만 쏠렸다면 그게 밴드가 틀린 방향이다. NVDA는 289일이
-    // 전부 아래로 샜다 — 밴드가 체계적으로 높게 잡혀 있다는 뜻이다.
-    const miss = h.below && !h.above ? ' · 이탈 전부 하단'
-               : h.above && !h.below ? ' · 이탈 전부 상단'
-               : h.below || h.above ? ` · 하단 ${h.below}일 상단 ${h.above}일` : '';
-    // 일수(407/696)는 툴팁에 있다. 라벨에 다 넣으면 두 줄로 밀려 네 칸의
-    // 값 높이가 어긋난다.
-    label.textContent = `밴드 적중률 (목표 ${(NVDA_BAND_NOMINAL*100).toFixed(0)}%${miss})`;
+    // 라벨 = 맞은 날/센 날 + 이탈이 어느 쪽으로 쏠렸나, 값 = 비율 (2026-09-24 사용자 결정).
+    // 목표 80%와 상하단 이탈 일수는 툴팁에 있다. 이탈이 한쪽으로 쏠렸다면 그게 밴드가
+    // 틀린 방향이다(NVDA는 전부 하단 — 밴드가 체계적으로 높게 잡혀 있다).
+    const lean = h.below && !h.above ? ', 이탈 전부 하단'
+               : h.above && !h.below ? ', 이탈 전부 상단'
+               : h.above > h.below ? ', 상단우세'
+               : h.below > h.above ? ', 하단우세' : '';
+    label.textContent = `밴드 적중률 (${h.inside}/${h.total}일${lean})`;
   }
   const cell = el.closest('.meta-item');
   if (cell) {
     const r = h.rRatio == null ? '—' : (h.rRatio*100).toFixed(1) + '%';
     cell.title = `10~90 백분위 밴드이므로 일봉의 약 ${(NVDA_BAND_NOMINAL*100).toFixed(0)}%가`
-      + ` 안에 들어와야 한다. 실제 ${(h.ratio*100).toFixed(1)}%.`
+      + ` 안에 들어와야 한다. 실제 ${h.inside}/${h.total}일 = ${(h.ratio*100).toFixed(1)}%.`
       + `\n이탈 ${h.below+h.above}일 중 하단 ${h.below}일 · 상단 ${h.above}일.`
       + `\n최근 ${h.rCount}구간(${h.rTotal}거래일) ${r}.`
       + `\n색은 초록 ${(NVDA_HIT_GREEN*100).toFixed(0)}%↑ · 노랑 ${(NVDA_HIT_RED*100).toFixed(0)}~${(NVDA_HIT_GREEN*100).toFixed(0)}% · 빨강 ${(NVDA_HIT_RED*100).toFixed(0)}%↓ — 차트의 밴드 박스와 같은 규칙이다.`

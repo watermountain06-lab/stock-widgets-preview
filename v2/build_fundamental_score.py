@@ -408,8 +408,11 @@ def net_cash(ticker):
     """
     import build_dcf as d
     b = d.base_inputs(ticker)
-    parts = {k: b.get(k) or 0 for k in ("cash", "sti", "debt", "lease")}
-    net = parts["cash"] + parts["sti"] - parts["debt"] - parts["lease"]
+    # 장기 채권(MarketableSecuritiesNoncurrent, 국채·회사채)은 만기만 길 뿐 현금에 가깝다.
+    # 빼면 AAPL이 순현금 $48.4B인데 순부채 −$2.44/주로 보인다(2026-09-24 사용자 결정으로 포함).
+    # 지분증권은 여전히 넣지 않는다.
+    parts = {k: b.get(k) or 0 for k in ("cash", "sti", "lt_marketable", "debt", "lease")}
+    net = parts["cash"] + parts["sti"] + parts["lt_marketable"] - parts["debt"] - parts["lease"]
     return {**parts, "shares": b["shares"], "net": net, "perShare": net / b["shares"]}
 
 
