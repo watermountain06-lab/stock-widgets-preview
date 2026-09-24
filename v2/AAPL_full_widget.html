@@ -338,6 +338,7 @@
   .op-val { font-size:17px; font-weight:800; color:var(--text); }
   .op-sub { font-size:12px; font-weight:600; color:var(--text2); }
   .op-sub.op-up { color:var(--green); }
+  .op-sub.op-down { color:var(--red); }
   .op-dist { display:flex; height:6px; width:150px; border-radius:3px; overflow:hidden; margin-top:3px; }
   @media (max-width: 600px) { .op-strip { grid-template-columns:1fr; row-gap:12px; } .op-cell { border-left:none; } }
   .bb-row.bull .bb-icon { color:var(--bull); } .bb-row.bear .bb-icon { color:var(--bear); }
@@ -482,7 +483,7 @@
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +6.8%)</span>
-      <span class="meta-value" id="aaplDcfReq" style="font-size:22px;color:#38bdf8;">연 27.6%</span>
+      <span class="meta-value" id="aaplDcfReq" style="font-size: 22px; color: var(--red);">연 27.6%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="aaplConfidenceLabel">밴드 적중률 (540/711일, 상단우세)</span>
@@ -503,24 +504,24 @@
        스크립트가 꺼졌을 때를 위한 대비용이다. -->
   <div class="logic-grid" id="aaplLogicGrid">
     <div class="logic-box logic-info">
-      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="aaplDcfVerdict">현재가보다 위</span></div>
-      <div class="logic-score" id="aaplDcfBox">$315<span class="logic-denom"> · 낮은 성장 $160 · 높은 성장 $602</span></div>
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="aaplDcfVerdict">현재가보다 아래</span></div>
+      <div class="logic-score" id="aaplDcfBox">$134<span class="logic-denom"> · 낮은 성장 $124 · 높은 성장 $143</span></div>
     </div>
-    <div class="logic-box" id="aaplFundBox">
-      <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="aaplFundVerdict">우수</span></div>
-      <div class="logic-score" id="aaplFundScore">96.1<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-neutral" id="aaplFundBox">
+      <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="aaplFundVerdict">보통</span></div>
+      <div class="logic-score" id="aaplFundScore">52.7<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box" id="aaplPeerBox">
+    <div class="logic-box logic-neutral" id="aaplPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="aaplPeerVerdict">중간</span></div>
-      <div class="logic-score" id="aaplPeerScore">46.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="aaplPeerScore">48.0<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box" id="aaplSelfBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="aaplSelfVerdict">싼 편</span></div>
-      <div class="logic-score" id="aaplSelfScore">89.2<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-negative" id="aaplSelfBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="aaplSelfVerdict">비싼 편</span></div>
+      <div class="logic-score" id="aaplSelfScore">12.5<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
-  <div class="section-title" id="techHeaderTitle">주가 차트 — 일봉 캔들스틱 (2025.09 ~ 2026.09) · 1년 수익률 <span id="techHeaderReturn">+29.5%</span></div>
+  <div class="section-title" id="techHeaderTitle">주가 차트 — 일봉 캔들스틱 (2025.09 ~ 2026.09) · 1년 수익률 <span id="techHeaderReturn" style="color: var(--green);">+31.6%</span></div>
 
   <!-- ══════════ 1. 차트 ══════════ -->
   <div class="price-chart-container">
@@ -541,7 +542,7 @@
     <svg id="aaplCandleSvg" viewBox="0 0 720 240" width="100%" style="display:block;background:var(--bg3);border-radius:8px 8px 0 0;padding:4px;" role="img" aria-label="AAPL 일봉 캔들스틱 차트"></svg>
     <svg id="aaplVolumeSvg" viewBox="0 0 720 70" width="100%" style="display:block;background:var(--bg3);border-radius:0 0 8px 8px;padding:0 4px 4px;" role="img" aria-label="AAPL 거래량 차트"></svg>
     <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <div style="font-size:11px;color:var(--text3);" id="techRangeSummary">1년 최저 $164.27 (2026.03) → 1년 최고 $236.54 (2026.05) → 현재 $228.87</div>
+      <div style="font-size:11px;color:var(--text3);" id="techRangeSummary">1년 최저 $243.42 (2026.01) → 1년 최고 $345.34 (2026.09) → 현재 $337.02</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="ma-toggle-btn" data-ma="ma5" style="color:var(--ma5);border-color:var(--ma5);">● MA5</button>
         <button class="ma-toggle-btn" data-ma="ma20" style="color:var(--ma20);border-color:var(--ma20);">● MA20</button>
@@ -620,17 +621,17 @@
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$123.67</td><td data-dcf-upside="low"></td>
+          <td class="big scn-low" data-dcf-value="low">$123.67</td><td style="color: var(--red);" data-dcf-upside="low">−63.3%</td>
           <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 마진은 지난 5년 중앙값(33.9%)으로 내려온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$134.03</td><td data-dcf-upside="base"></td>
+          <td class="big scn-base" data-dcf-value="base">$134.03</td><td style="color: var(--red);" data-dcf-upside="base">−60.2%</td>
           <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 마진은 최근 2년 중앙값(34.7%)으로 서서히 내려온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$142.98</td><td data-dcf-upside="high"></td>
+          <td class="big scn-high" data-dcf-value="high">$142.98</td><td style="color: var(--red);" data-dcf-upside="high">−57.6%</td>
           <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 마진(36.0%)이 그대로 간다.</td>
         </tr>
       </tbody>
@@ -647,7 +648,7 @@
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span id="dcfPickValue">주당 $134</span><span id="dcfPickUpside"></span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $134</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −60.2%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -657,9 +658,9 @@
 
   <!-- ══════════ 0. 점수 구성 — 요약 격자의 기본적 분석 점수가 어디서 나오나 ══════════ -->
   <div class="card score-comp" id="fundComp">
-    <div class="sc-total"><span class="sc-total-l">기본적 분석</span><span class="sc-total-v" id="fundCompTotal">96.1</span></div>
-    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts>30.4</span>/33</div><div class="sc-tiles" data-axis-items><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">부채비율</div></div></div></div>
-    <div class="sc-group" data-axis="growthProfit"><div class="sc-group-l">성장·수익성 <span data-axis-pts>34.0</span>/34</div><div class="sc-tiles" data-axis-items><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">매출 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이익 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">영업이익률</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">순이익률</div></div></div></div>
+    <div class="sc-total"><span class="sc-total-l">기본적 분석</span><span class="sc-total-v" id="fundCompTotal">52.7</span></div>
+    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts="">13.2</span>/33</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile lost">3</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile none">—</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">1</div><div class="sc-name">부채비율</div></div></div></div>
+    <div class="sc-group" data-axis="growthProfit"><div class="sc-group-l">성장·수익성 <span data-axis-pts="">22.1</span>/34</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">매출 성장</div></div><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">이익 성장</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">영업이익률</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">순이익률</div></div></div></div>
   </div>
 
   <!-- ══════════ 1. 분기 매출/순이익/영업이익률 차트 ══════════ -->
@@ -698,7 +699,7 @@
   <div class="card" style="margin-top:16px;">
     <div class="card-title"><span>재무 건전성 — 안정성·활동성 (Q3 FY26 · 2026.06.27 기준)</span></div>
 
-    <div class="section-label"><span class="dot"></span>안정성 — 단기 지급능력·차입 의존도 (<span id="fundHealthAxis">30.4/33</span>)</div>
+    <div class="section-label"><span class="dot"></span>안정성 — 단기 지급능력·차입 의존도 (<span id="fundHealthAxis">13.2/33</span>)</div>
     <div class="diag-summary watch" id="fundHealthSummary">
       <div class="icon">🩺</div>
       <div>
@@ -714,26 +715,26 @@
 
     <div class="diag-list">
       <div class="diag-row" data-fund-metric="currentRatio">
-        <div class="diag-left"><span class="diag-label">유동비율</span><span class="diag-value">458.9%</span></div>
+        <div class="diag-left"><span class="diag-label">유동비율</span><span class="diag-value">100.3%</span></div>
       </div>
       <div class="diag-row" data-fund-metric="quickRatio">
-        <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">385.5%</span></div>
+        <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">92.9%</span></div>
       </div>
       <div class="diag-row" data-fund-metric="debtDependency">
-        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">10.4%</span></div>
+        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">21.5%</span></div>
       </div>
       <div class="diag-row" data-fund-metric="interestCoverage">
         <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">—</span><span class="diag-note">이자비용을 따로 공시하지 않아 계산할 수 없다 · 점수는 결측 규칙대로 0점</span></div>
       </div>
       <div class="diag-row" data-fund-metric="debtToEquity">
-        <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">39.9%</span></div>
+        <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">256.5%</span></div>
       </div>
       <div class="diag-row">
         <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">−1.6%</span><span class="diag-note">FY25 $359.2B(전기 $365.0B) · 연간 지표, FY26 마감 전까지 동일</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$0.74</span><span class="diag-note" id="fundNetCashNote">순현금 $17.7B ÷ 24.10B주 · 현금·단기투자 $56.6B − 차입금·리스 $38.9B</span></div>
+        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$3.32</span><span class="diag-note" id="fundNetCashNote">순현금 $48.5B ÷ 14.59B주 · 현금·단기투자 $62.4B + 장기 채권 $84.1B − 차입금·리스 $98.1B</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
     </div>
@@ -741,11 +742,11 @@
     <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 100.3%·부채비율 256.5%는 기준보다 약하지만, 자기자본이 얇은 것은 오랜 자사주 매입 때문이다. FY25 말(2025.09.27) 이후 상업어음은 $8.0B에서 $2.0B로, 장기차입금(유동 포함)은 $90.7B에서 $82.3B로 줄었고 자기자본은 $73.7B에서 $107.5B로 늘었다(Q3 FY26 10-Q 대차대조표).</div>
     </div>
 
-    <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.07.26까지 4분기</span>)</div>
+    <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.27까지 4분기</span>)</div>
     <div class="diag-summary alert" id="actSummary">
       <div class="icon">🔄</div>
       <div>
-        <div class="title" id="actTitle">종합 진단: 매출채권·재고에 묶이는 기간 154.9일, 지난 5년 중 긴 편</div>
+        <div class="title" id="actTitle">종합 진단: 매출채권·재고에 묶이는 기간 37.5일, 지난 5년 중 긴 편</div>
       </div>
     </div>
 
@@ -758,35 +759,35 @@
     <div class="activity-grid">
       <div class="act-card">
         <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
+        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">13.37회</div><div class="act-sub" data-act-sub="dso">27.3일 만에 현금화 · 직전 분기 27.4일 대비 −0.1일</div></div>
       </div>
       <div class="act-card">
         <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
+        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">35.78회</div><div class="act-sub" data-act-sub="dio">10.2일 재고 보유 · 직전 분기 9.3일 대비 +0.9일</div></div>
       </div>
       <div class="act-card">
         <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
+        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">3.76회</div><div class="act-sub" data-act-sub="dpo">97.2일 만에 지급 · 직전 분기 95.6일 대비 +1.6일</div></div>
       </div>
       <div class="act-card">
         <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
+        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">37.5일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 36.7일 대비 +0.8일</div></div>
       </div>
     </div>
     <div class="ccc-card">
       <div class="ccc-head">
         <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
+        <div class="ccc-head-value" data-act-days="ccc">-59.7일</div>
       </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
+      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 37.5일이 걸리는데, 매입채무(외상)는 97.2일 뒤에 갚는다. <strong style="color:var(--gold);">판매 대금을 받고도 59.7일 동안 공급업체 돈으로 운영하는</strong> 구조다. 그 기간이 직전 분기 58.9일보다 0.8일 늘었다.</div>
       <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left:33.4%;">매입채무 지급 51.8일</div>
+        <div class="tl-marker" style="left: 100%; height: 18px;"></div>
+        <div class="tl-marker-label" style="left: 100%; transform: translateX(-100%);">매입채무 지급 97.2일</div>
         <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:69.3%;">재고보유 107.3일</div>
-          <div class="tl-seg-ar" style="width:30.7%;">매출채권회수 47.6일</div>
+          <div class="tl-seg-inv" style="width: 10.5%;">재고보유 10.2일</div>
+          <div class="tl-seg-ar" style="width: 28.1%;">매출채권회수 27.3일</div>
         </div>
-        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
+        <div class="tl-ccc-span" style="left: 38.6%; width: 61.4%;"></div>
       </div>
     </div>
 
@@ -795,7 +796,7 @@
 
   <!-- ══════════ 4. 최신 분기 핵심 재무 (YoY/QoQ) ══════════ -->
   <div class="card">
-    <div class="card-title">최신 분기 핵심 재무 — <span id="fundPeriodTitle">YoY (Q2 FY27 vs Q2 FY26)</span></div>
+    <div class="card-title">최신 분기 핵심 재무 — <span id="fundPeriodTitle">YoY (Q3 FY26 vs Q3 FY25)</span></div>
     <div style="display:flex;gap:8px;margin-bottom:14px;">
       <button class="range-btn range-btn-lg active" data-period="yoy" onclick="selectFundPeriod('yoy')" style="background:var(--accent3);color:var(--accent2);border:1px solid var(--accent);font-size:13px;padding:9px 22px;border-radius:10px;cursor:pointer;">YoY · 전년동기</button>
       <button class="range-btn range-btn-lg" data-period="qoq" onclick="selectFundPeriod('qoq')" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border);font-size:13px;padding:9px 22px;border-radius:10px;cursor:pointer;">QoQ · 전분기</button>
@@ -863,12 +864,12 @@
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 $337.02</div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.22</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.23</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 AAPL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">89.2</div><div class="sc-tile" data-vc="self" data-m="per">99</div><div class="sc-tile" data-vc="self" data-m="pbr">81</div><div class="sc-tile" data-vc="self" data-m="psr">83</div><div class="sc-tile" data-vc="self" data-m="pcr">85</div><div class="sc-tile" data-vc="self" data-m="evebitda">99</div><div class="vs-pill" data-vs-pill="self">싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$315</div><div class="vs-note">현재가 <span data-vs="price">$228.87</span> 대비 <strong data-vs="upside">+37.6%</strong> · 기본 시나리오</div><div class="vs-pill" data-vs-pill="dcf">싸다</div>
-      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">46.7</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile low" data-vc="peer" data-m="pbr">22</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">61</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="지난 5년 AAPL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">12.5</div><div class="sc-tile low" data-vc="self" data-m="per">6</div><div class="sc-tile lost" data-vc="self" data-m="pbr">44</div><div class="sc-tile low" data-vc="self" data-m="psr">1</div><div class="sc-tile low" data-vc="self" data-m="pcr">11</div><div class="sc-tile low" data-vc="self" data-m="evebitda">1</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$134</div><div class="vs-note">현재가 <span data-vs="price">$337.02</span> 대비 <strong data-vs="upside">−60.2%</strong> · 기본 시나리오</div><div class="vs-pill high" data-vs-pill="dcf">비싸다</div>
+      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">48.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">54</div><div class="sc-tile low" data-vc="peer" data-m="pbr">4</div><div class="sc-tile" data-vc="peer" data-m="psr">70</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">65</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">46</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">동종업 안에서는 매출·현금흐름 기준 배수가 중간보다 싼 편이지만, <strong>다섯 배수 모두 자기 5년 이력의 비싼 쪽에 있고 현금흐름 내재가치는 현재가에 한참 못 미친다.</strong></div>
     <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">27.6%</strong>씩 커야 한다. 최근 3년 실제 성장은 연 6.8%였다.</div>
@@ -882,60 +883,60 @@
         <div class="val-header">
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">28.9x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 1%</span>
+            <span class="val-number" data-hist="cur">38.7x</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 6%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:2.0%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 26.5x</span><span data-hist="median">중앙 58.2x</span><span data-hist="max">최고 247.3x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 94.3%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 20.5x</span><span data-hist="median">중앙 31.2x</span><span data-hist="max">최고 42.6x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
           <span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">24.1x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 19%</span>
+            <span class="val-number" data-hist="cur">45.8x</span>
+            <span class="hist-badge mid" data-hist="badge">5년 중 상위 44%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:19.0%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.7x</span><span data-hist="median">중앙 36.1x</span><span data-hist="max">최고 67.9x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 56.4%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 31.2x</span><span data-hist="median">중앙 45.1x</span><span data-hist="max">최고 68.8x</span></div>
       </div>
 
       <div class="val-item" data-metric="psr" onclick="selectMultiple('psr')">
         <div class="val-header">
           <span class="val-name">PSR (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">18.2x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 17%</span>
+            <span class="val-number" data-hist="cur">10.5x</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 1%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:17.2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 9.4x</span><span data-hist="median">중앙 25.4x</span><span data-hist="max">최고 46.7x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 98.9%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 5.0x</span><span data-hist="median">중앙 7.7x</span><span data-hist="max">최고 11.1x</span></div>
       </div>
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
           <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">43.4x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 15%</span>
+            <span class="val-number" data-hist="cur">36.0x</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 11%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:15.1%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 37.8x</span><span data-hist="median">중앙 55.9x</span><span data-hist="max">최고 78.1x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 89.2%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 17.9x</span><span data-hist="median">중앙 30.1x</span><span data-hist="max">최고 42.8x</span></div>
       </div>
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">27.3x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 1%</span>
+            <span class="val-number" data-hist="cur">29.5x</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 1%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:2.0%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 25.0x</span><span data-hist="median">중앙 49.1x</span><span data-hist="max">최고 192.1x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 98.7%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 15.9x</span><span data-hist="median">중앙 23.3x</span><span data-hist="max">최고 31.4x</span></div>
       </div>
     </div>
 
@@ -950,18 +951,18 @@
 </div>
 
 <div id="news" class="section">
-  <div class="section-title">시계열 주요 뉴스 (2025.11 ~ 2026.09)</div>
+  <div class="section-title">시계열 주요 뉴스 (2025.10 ~ 2026.09)</div>
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 실적이 매 분기 가이던스를 넘는다<span class="tag">우호적·정책 경계</span></div>
+    <div class="verdict-summary-head">지배적 내러티브 · 네 분기 연속 분기 매출 기록<span class="tag">우호적·공급 경계</span></div>
     <ol class="news-list">
-      <li>네 분기 연속 매출이 직전 가이던스를 넘었다. $57.0B에서 $96.2B까지 늘었고, 데이터센터 성장률은 전년 대비 66% → 75% → 92% → 117%로 빨라졌다.</li>
-      <li>다음 분기(Q3 FY27) 가이던스는 $108.0B다. 중국 데이터센터 매출은 0으로 가정했다.</li>
-      <li>9월에 Hugging Face를 $12.93B에 인수하기로 했다.</li>
+      <li>네 분기 연속 같은 분기 기준 매출 기록을 세웠다. 전년 대비 성장률은 8% → 16% → 17% → 16%로 올라왔다.</li>
+      <li>다음 분기(Q4 FY26) 가이던스는 +9~11%다. 첨단 공정 칩 공급 제약과 환율 역풍 2.5%p가 들어 있다.</li>
+      <li>9월 1일 John Ternus가 CEO에 취임했고, 9일 첫 폴더블 iPhone Duo($1,999)를 공개했다.</li>
     </ol>
-    <div class="verdict-summary-counter">⚠️ 중국 규제가 계속 조여진다(3월 H200 중국向 생산 중단 보도, 5월 말 해외 법인 우회 차단). 실적 발표 다음날 주가가 오른 것은 네 번 중 한 번(Q2 FY27)뿐이다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 FY27 실적(11월 중순 예상)에서 $108.0B 가이던스를 넘는지, 잉여현금흐름이 회복되는지.</div>
+    <div class="verdict-summary-counter">⚠️ Q3 이익에는 관세 환급이 들어 있다(매출총이익률 약 2%p, EPS $0.11). 실적 발표 다음날 주가가 오른 것은 네 번 중 두 번이다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q4 FY26 실적(10월 말 예상)에서 +9~11% 가이던스를 넘는지, iPhone Duo 출시(10월 23일) 뒤 공급 제약이 풀리는지.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -977,45 +978,45 @@
     <div class="timeline" id="newsTimeline">
       <div class="tl-item">
         <div class="tl-dot neutral"></div>
-        <div class="tl-date">2026년 9월 3일 — Hugging Face 인수<span class="tl-reaction up" data-react="2026-09-03">+1.8%</span></div>
-        <div class="tl-title">개방형 AI 모델 플랫폼 Hugging Face를 $12.93B에 인수하기로 발표</div>
-        <a class="tl-source" href="https://blogs.nvidia.com/blog/nvidia-to-acquire-hugging-face/" target="_blank" rel="noopener">NVIDIA Blog →</a>
+        <div class="tl-date">2026년 9월 9일 — 신제품 발표<span class="tl-reaction flat" data-react="2026-09-09">−0.3%</span></div>
+        <div class="tl-title">첫 폴더블 iPhone Duo($1,999, 10월 23일 출시)와 iPhone 18 Pro·Pro Max 공개 · Ternus CEO 체제 첫 발표</div>
+        <a class="tl-source" href="https://www.apple.com/newsroom/2026/09/apple-unveils-iphone-duo/" target="_blank" rel="noopener">Apple Newsroom →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-date">2026년 8월 26일 발표 · 8월 27일 반응 — Q2 FY27 실적<span class="tl-reaction up" data-react="2026-08-27">+8.7%</span></div>
-        <div class="tl-title">매출 $96.2B(+106%)로 가이던스 $91.0B 상회 · 다음 분기 가이던스 $108.0B · 이튿날 −4.6%</div>
-        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
+        <div class="tl-date">2026년 7월 30일 발표 · 7월 31일 반응 — Q3 FY26 실적<span class="tl-reaction down" data-react="2026-07-31">−7.4%</span></div>
+        <div class="tl-title">매출 $109.4B(+16%) · EPS $2.02(+29%, 관세 환급 $0.11 포함) · 다음 분기 가이던스 +9~11%(공급 제약)</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000018/a8-kex991q3202606272026.htm" target="_blank" rel="noopener">Apple 실적 발표 →</a>
       </div>
       <div class="tl-item">
-        <div class="tl-dot red"></div>
-        <div class="tl-date">2026년 5월 31일 — 수출 규제 강화<span class="tl-reaction up" data-react="2026-06-01">+6.3%</span></div>
-        <div class="tl-title">미 상무부, 중국 본사 기업의 해외 법인에도 첨단 칩 수출허가 적용 · Blackwell 우회 경로 차단</div>
-        <a class="tl-source" href="https://www.cnbc.com/2026/05/31/us-takes-step-to-halt-nvidia-ai-chip-shipments-to-chinese-firms-outside-china.html" target="_blank" rel="noopener">CNBC →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2026년 5월 20일 발표 · 5월 21일 반응 — Q1 FY27 실적<span class="tl-reaction down" data-react="2026-05-21">−1.8%</span></div>
-        <div class="tl-title">매출 $81.6B(+85%)로 가이던스 $78.0B 상회 · 배당 $0.01→$0.25, 자사주 $80B 추가 승인</div>
-        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot red"></div>
-        <div class="tl-date">2026년 3월 5일 — H200 중국向 생산 중단 보도 (FT)<span class="tl-reaction flat" data-react="2026-03-05">+0.2%</span></div>
-        <div class="tl-title">중국이 선적을 막자 TSMC 생산 능력을 H200에서 Vera Rubin으로 전환</div>
-        <a class="tl-source" href="https://www.trendforce.com/news/2026/03/05/news-nvidia-reportedly-halts-h200-production-amid-china-sales-uncertainty-shifts-tsmc-capacity-to-vera-rubin/" target="_blank" rel="noopener">TrendForce →</a>
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 6월 8일 — WWDC26<span class="tl-reaction down" data-react="2026-06-08">−1.9%</span></div>
+        <div class="tl-title">Siri AI와 차세대 Apple Intelligence 공개 · 사용자 베타는 연내, 중국 미제공 · EU는 iOS 초기 미제공</div>
+        <a class="tl-source" href="https://www.apple.com/newsroom/2026/06/apple-introduces-siri-ai-a-profoundly-more-capable-and-personal-assistant/" target="_blank" rel="noopener">Apple Newsroom →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-date">2026년 2월 25일 발표 · 2월 26일 반응 — Q4 FY26 실적<span class="tl-reaction down" data-react="2026-02-26">−5.5%</span></div>
-        <div class="tl-title">매출 $68.1B(+73%)로 가이던스 $65.0B 상회 · 다음 분기 가이던스 $78.0B</div>
-        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-fourth-quarter-and-fiscal-2026" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
+        <div class="tl-date">2026년 4월 30일 발표 · 5월 1일 반응 — Q2 FY26 실적<span class="tl-reaction up" data-react="2026-05-01">+3.2%</span></div>
+        <div class="tl-title">매출 $111.2B(+17%) · iPhone $57.0B 3월 분기 최대 · 배당 4% 인상, 자사주 $100B 추가 승인</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000011/a8-kex991q2202603282026.htm" target="_blank" rel="noopener">Apple 실적 발표 →</a>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 4월 20일 발표 · 4월 21일 반응 — CEO 교체<span class="tl-reaction down" data-react="2026-04-21">−2.5%</span></div>
+        <div class="tl-title">Tim Cook은 이사회 의장, 하드웨어 담당 John Ternus가 9월 1일부터 CEO</div>
+        <a class="tl-source" href="https://www.apple.com/newsroom/2026/04/tim-cook-to-become-apple-executive-chairman-john-ternus-to-become-apple-ceo/" target="_blank" rel="noopener">Apple Newsroom →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-date">2025년 11월 19일 발표 · 11월 20일 반응 — Q3 FY26 실적<span class="tl-reaction down" data-react="2025-11-20">−3.2%</span></div>
-        <div class="tl-title">매출 $57.0B(+62%)로 가이던스 $54.0B 상회 · "클라우드 GPU는 품절" (젠슨 황)</div>
-        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-third-quarter-fiscal-2026" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
+        <div class="tl-date">2026년 1월 29일 발표 · 1월 30일 반응 — Q1 FY26 실적<span class="tl-reaction flat" data-react="2026-01-30">+0.5%</span></div>
+        <div class="tl-title">매출 $143.8B(+16%) 역대 최대 · iPhone $85.3B 역대 최대 · EPS $2.84(+19%)</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000005/a8-kex991q1202612272025.htm" target="_blank" rel="noopener">Apple 실적 발표 →</a>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2025년 10월 30일 발표 · 10월 31일 반응 — Q4 FY25 실적<span class="tl-reaction flat" data-react="2025-10-31">−0.4%</span></div>
+        <div class="tl-title">매출 $102.5B(+8%) 9월 분기 최대 · FY25 매출 $416B</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/320193/000032019325000077/a8-kex991q4202509272025.htm" target="_blank" rel="noopener">Apple 실적 발표 →</a>
       </div>
     </div>
     <div class="tl-pager" id="newsPager"></div>
@@ -1028,8 +1029,8 @@
   <div class="card" hidden>
     <div class="card-title">추세 구조</div>
     <div style="font-size:12.5px;color:var(--text2);line-height:1.7;">
-      MA50 · MA150 · MA200 정배열 조건 4개를 전부 충족하고 있다. 52주 저점 대비 +39.33%, 고점 대비 -3.24% 구간이다.
-      <span style="color:var(--text3);">(2026-09-22 종가 기준 · 매매 신호가 아니라 추세 상태 설명이다)</span>
+      MA50 · MA150 · MA200 정배열 조건 4개를 전부 충족하고 있다. 52주 저점 대비 +38.45%, 고점 대비 -2.41% 구간이다.
+      <span style="color:var(--text3);">(2026-09-23 종가 기준 · 매매 신호가 아니라 추세 상태 설명이다)</span>
     </div>
   </div>
   <div class="section-title">핵심 투자 포인트</div>
@@ -1039,15 +1040,15 @@
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">수요</span><span class="bb-text">네 분기 연속 가이던스를 넘었고 다음 분기 가이던스는 $108.0B다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">차세대 제품</span><span class="bb-text">Vera Rubin이 양산에 들어가 하반기 주요 클라우드부터 공급된다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">매출이 두 배가 되는 동안 영업이익률이 66.2%까지 올랐다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">수요</span><span class="bb-text">네 분기 연속 같은 분기 기준 매출 기록을 세웠고 Q3 iPhone 매출은 $54.3B(+22%)였다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">서비스</span><span class="bb-text">Services 매출이 Q3 $30.7B(+12%)로 전체의 28%를 차지한다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">주주환원</span><span class="bb-text">최근 4분기 자사주 매입이 $82.2B이고 4월에 $100B를 추가 승인했다.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">중국</span><span class="bb-text">규제가 계속 조여져 가이던스는 중국 데이터센터 매출을 0으로 잡았다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">고객 집중</span><span class="bb-text">직접 고객 두 곳이 FY2026 매출의 36%를 차지한다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">자체 칩</span><span class="bb-text">구글·아마존·MS가 자체 AI 칩으로 일부 수요를 대신하려 한다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류에이션</span><span class="bb-text">현재가가 내재가치 기본 시나리오의 2.5배이고 다섯 배수 모두 자기 5년 이력의 비싼 쪽이다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">공급 제약</span><span class="bb-text">첨단 공정 칩 공급 제약으로 Q4 가이던스를 Q3 성장률(+16%)보다 낮은 +9~11%로 제시했다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">일회성 이익</span><span class="bb-text">Q3 매출총이익률 50.1%에는 관세 환급 효과 약 2%p가 들어 있다.</span></div>
     </div>
   </div>
 
@@ -1055,17 +1056,17 @@
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">61</span>명</span>
-        <span class="op-val">Strong Buy <span class="op-sub">매수 <span data-an="buy">58</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">1</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width:95.1%;background:var(--green);"></div><div data-an-bar="hold" style="width:3.3%;background:var(--gold);"></div><div data-an-bar="sell" style="width:1.6%;background:var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">44</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">25</span> · 유지 <span data-an="hold">13</span> · 매도 <span data-an="sell">6</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width:56.8%;background:var(--green);"></div><div data-an-bar="hold" style="width:29.5%;background:var(--gold);"></div><div data-an-bar="sell" style="width:13.6%;background:var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-21</span></span>
-        <span class="op-val"><span data-an="mean">$328.66</span> <span class="op-sub op-up" data-an="upside">+43.6%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-23</span></span>
+        <span class="op-val"><span data-an="mean">$328.22</span> <span class="op-sub op-down" data-an="upside">−2.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>
+        <span class="op-val">10월 말 <span class="op-sub">Q4 FY26 예상</span></span>
       </div>
     </div>
   </div>
@@ -1413,11 +1414,11 @@ const AAPL_DCF = {low: 123.67, base: 134.03, high: 142.98,
 // 갱신: python3 v2/build_peer_score.py AAPL --self v2/AAPL_multiples.json
 //       python3 v2/build_fundamental_score.py AAPL
 const AAPL_SCORES = {
-  fundamental: 96.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 46.7,          // GICS Information Technology 24~27종목 대비 배수 순위
-  selfHistory: 89.2,   // 자기 5년 배수 분포 백분위 (2021-09-22 ~ 2026-09-22, PCR은 2024-08부터)
-  asOf: "2026-09-22",
-  fundamentalAsOf: "2026-07-26",   // Q2 FY27 10-Q (2026-08-26 공시)
+  fundamental: 52.7,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
+  peer: 48.0,          // GICS Information Technology 23~27종목 대비 배수 순위
+  selfHistory: 12.5,   // 자기 5년 배수 분포 백분위 (2021-09-23 ~ 2026-09-23)
+  asOf: "2026-09-23",
+  fundamentalAsOf: "2026-06-27",   // Q3 FY26 10-Q (2026-07-31 공시)
 };
 // 기본적 분석이 98.1이 아니라 96.1인 이유. redesign의 동결 모델(v1.0.1)은
 // **연간치만** 써서 NVDA 같은 1월 결산 종목은 대차대조표가 최대 12개월 뒤처진다.
@@ -1810,14 +1811,14 @@ const AAPL_ACTIVITY = {"ticker": "AAPL", "status": "ok", "asOf": "2026-06-27", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/aapl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const AAPL_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', n: 61, mean: 328.66, median: 315,
-  low: 180, high: 515, strongBuy: 48, buy: 10, hold: 2, sell: 0, strongSell: 1 };
+const AAPL_ANALYST = { asOf: '2026-09-23', source: 'StockAnalysis', rating: 'Buy', n: 44, mean: 328.22, median: 340,
+  low: 215, high: 405, strongBuy: 19, buy: 6, hold: 13, sell: 3, strongSell: 3 };
 (function(){
   const A = AAPL_ANALYST, last = (typeof AAPL_DAILY !== 'undefined' && AAPL_DAILY.length) ? AAPL_DAILY[AAPL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };
@@ -1825,6 +1826,8 @@ const AAPL_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', n: 61, mean:
   if (!last) return;
   const px = last[4], up = (A.mean / px - 1) * 100;
   put('price', '$' + px.toFixed(2)); put('upside', (up >= 0 ? '+' : '−') + Math.abs(up).toFixed(1) + '%');
+  // 목표가가 현재가보다 낮으면 빨강 — 예전엔 op-up(초록)이 HTML에 고정돼 AAPL −2.6%도 초록이었다(2026-09-24).
+  document.querySelectorAll('#invest [data-an="upside"]').forEach(el => { el.classList.toggle('op-up', up >= 0); el.classList.toggle('op-down', up < 0); });
 })();
 
 // 요약 격자 세 점수를 AAPL_SCORES에서 렌더한다. 색과 배지는 점수에서 나온다.
@@ -1849,8 +1852,8 @@ const AAPL_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', n: 61, mean:
   };
   put('aaplFundBox', 'aaplFundScore', 'aaplFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 FY27), 성장률은 연간 시계열을 쓴다.`
-      + `\n장기차입금이 반년 사이 $7.5B → $32.4B로 늘어 차입금의존도가 4.1%에서 10.4%가 됐다.`);
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q3 FY26), 성장률은 연간 시계열을 쓴다.`
+      + `\n이자비용을 따로 공시하지 않아 이자보상배율 칸은 0점이다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -1872,8 +1875,7 @@ const AAPL_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', n: 61, mean:
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('aaplSelfBox', 'aaplSelfScore', 'aaplSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
-      + `\n⚠ PER이 구조적으로 내려오는 중이라 과거 분포는 현재보다 높게 잡힌다 —`
-      + ` "자기 역사상 싸다"가 "지금 싸다"를 뜻하지 않는다.`);
+      + `\n다섯 배수 모두 5년 분포의 비싼 쪽이다(PER 상위 6%, PSR·EV/EBITDA 상위 1%).`);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = Math.abs(S.peer - S.selfHistory);
   const grid = $('aaplLogicGrid');

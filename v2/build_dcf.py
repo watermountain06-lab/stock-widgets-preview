@@ -122,17 +122,26 @@ def base_inputs(ticker, asof=None):
     # Apple은 장기 채권 투자를 LongTermInvestments가 아니라 MarketableSecuritiesNoncurrent로
     # 보고한다(2026-06-27 $84.1B). 이 태그를 안 보면 그 자산이 주주가치에서 통째로 빠진다.
     # 그 태그를 예전에 쓰다 그만둔 회사(AMD 2014년 값 등)의 낡은 값을 집지 않도록,
-    # 자기자본 최신 시점보다 200일 넘게 뒤처진 계열은 버린다.
+    # 그 시점(asof)에 공개돼 있던 자기자본보다 200일 넘게 뒤처진 값은 버린다.
+    # 판정은 반드시 asof 시점 기준이다. 전체 계열의 마지막 날짜로 판정하면 나중에 태그를
+    # 그만둔 사실이 과거 계산에서 그때 유효했던 값까지 지운다(Codex 지적, 2026-09-24).
     eq_rows = bmh.component_sum(cik, ["StockholdersEquity"])
 
-    def fresh(series):
-        if not series or not eq_rows:
+    def as_of_rows(series):
+        if asof is None:
             return series
-        lag = (date.fromisoformat(eq_rows[-1]["end"]) - date.fromisoformat(series[-1]["end"])).days
-        return series if lag <= 200 else []
+        return [e for e in series if e.get("available", e.get("end")) <= asof]
+
+    def fresh_latest(series):
+        s, eq = as_of_rows(series), as_of_rows(eq_rows)
+        if not s:
+            return None
+        if eq and (date.fromisoformat(eq[-1]["end"]) - date.fromisoformat(s[-1]["end"])).days > 200:
+            return None
+        return s[-1]["val"]
 
     # 순현금 표시(build_fundamental_score.net_cash)가 채권성 장기투자만 따로 쓰므로 분리해 둔다.
-    out["lt_marketable"] = latest(fresh(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"])), asof) or 0
+    out["lt_marketable"] = fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"])) or 0
     out["nonop_assets"] = (latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) or 0) \
         + (latest(bmh.component_sum(cik, ["LongTermInvestments"]), asof) or 0) \
         + out["lt_marketable"]

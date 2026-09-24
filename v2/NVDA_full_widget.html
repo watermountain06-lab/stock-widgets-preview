@@ -338,6 +338,7 @@
   .op-val { font-size:17px; font-weight:800; color:var(--text); }
   .op-sub { font-size:12px; font-weight:600; color:var(--text2); }
   .op-sub.op-up { color:var(--green); }
+  .op-sub.op-down { color:var(--red); }
   .op-dist { display:flex; height:6px; width:150px; border-radius:3px; overflow:hidden; margin-top:3px; }
   @media (max-width: 600px) { .op-strip { grid-template-columns:1fr; row-gap:12px; } .op-cell { border-left:none; } }
   .bb-row.bull .bb-icon { color:var(--bull); } .bb-row.bear .bb-icon { color:var(--bear); }
@@ -482,7 +483,7 @@
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%)</span>
-      <span class="meta-value" id="nvdaDcfReq" style="font-size:22px;color:#38bdf8;">연 25.4%</span>
+      <span class="meta-value" id="nvdaDcfReq" style="font-size:22px;color:#38bdf8;">연 26.2%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="nvdaConfidenceLabel">밴드 적중률 (407/698일, 이탈 전부 하단)</span>
@@ -506,21 +507,21 @@
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="nvdaDcfVerdict">현재가보다 위</span></div>
       <div class="logic-score" id="nvdaDcfBox">$315<span class="logic-denom"> · 낮은 성장 $160 · 높은 성장 $602</span></div>
     </div>
-    <div class="logic-box" id="nvdaFundBox">
+    <div class="logic-box logic-positive" id="nvdaFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="nvdaFundVerdict">우수</span></div>
       <div class="logic-score" id="nvdaFundScore">96.1<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box" id="nvdaPeerBox">
+    <div class="logic-box logic-neutral" id="nvdaPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="nvdaPeerVerdict">중간</span></div>
       <div class="logic-score" id="nvdaPeerScore">46.7<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box" id="nvdaSelfBox">
+    <div class="logic-box logic-positive" id="nvdaSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="nvdaSelfVerdict">싼 편</span></div>
       <div class="logic-score" id="nvdaSelfScore">89.2<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
-  <div class="section-title" id="techHeaderTitle">주가 차트 — 일봉 캔들스틱 (2025.09 ~ 2026.09) · 1년 수익률 <span id="techHeaderReturn">+29.5%</span></div>
+  <div class="section-title" id="techHeaderTitle">주가 차트 — 일봉 캔들스틱 (2025.09 ~ 2026.09) · 1년 수익률 <span id="techHeaderReturn" style="color: var(--green);">+29.5%</span></div>
 
   <!-- ══════════ 1. 차트 ══════════ -->
   <div class="price-chart-container">
@@ -620,17 +621,17 @@
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$159.77</td><td data-dcf-upside="low"></td>
+          <td class="big scn-low" data-dcf-value="low">$159.77</td><td style="color: var(--red);" data-dcf-upside="low">−30.2%</td>
           <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 마진은 지난 5년 중앙값(56.6%)으로 내려온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$315.00</td><td data-dcf-upside="base"></td>
+          <td class="big scn-base" data-dcf-value="base">$315.00</td><td style="color: var(--green);" data-dcf-upside="base">+37.6%</td>
           <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 마진은 최근 2년 중앙값(62.8%)으로 서서히 내려온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$602.30</td><td data-dcf-upside="high"></td>
+          <td class="big scn-high" data-dcf-value="high">$602.30</td><td style="color: var(--green);" data-dcf-upside="high">+163.2%</td>
           <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 마진(66.4%)이 그대로 간다. 5년 뒤 매출이 $2.4조로 세계 반도체 시장 전체와 맞먹어서 현실적인 상한은 아니다.</td>
         </tr>
       </tbody>
@@ -647,7 +648,7 @@
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span id="dcfPickValue">주당 $315</span><span id="dcfPickUpside"></span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $315</span><span style="color: var(--green);" id="dcfPickUpside">현재가 대비 +37.6%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -658,8 +659,8 @@
   <!-- ══════════ 0. 점수 구성 — 요약 격자의 기본적 분석 점수가 어디서 나오나 ══════════ -->
   <div class="card score-comp" id="fundComp">
     <div class="sc-total"><span class="sc-total-l">기본적 분석</span><span class="sc-total-v" id="fundCompTotal">96.1</span></div>
-    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts>30.4</span>/33</div><div class="sc-tiles" data-axis-items><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">부채비율</div></div></div></div>
-    <div class="sc-group" data-axis="growthProfit"><div class="sc-group-l">성장·수익성 <span data-axis-pts>34.0</span>/34</div><div class="sc-tiles" data-axis-items><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">매출 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이익 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">영업이익률</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">순이익률</div></div></div></div>
+    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts="">30.4</span>/33</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">부채비율</div></div></div></div>
+    <div class="sc-group" data-axis="growthProfit"><div class="sc-group-l">성장·수익성 <span data-axis-pts="">34.0</span>/34</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">매출 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이익 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">영업이익률</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">순이익률</div></div></div></div>
   </div>
 
   <!-- ══════════ 1. 분기 매출/순이익/영업이익률 차트 ══════════ -->
@@ -781,7 +782,7 @@
       <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
       <div class="tl-bar-wrap" id="actBar">
         <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left:33.4%;">매입채무 지급 51.8일</div>
+        <div class="tl-marker-label" style="left: 33.4%; transform: translateX(-50%);">매입채무 지급 51.8일</div>
         <div class="tl-bar">
           <div class="tl-seg-inv" style="width:69.3%;">재고보유 107.3일</div>
           <div class="tl-seg-ar" style="width:30.7%;">매출채권회수 47.6일</div>
@@ -1058,7 +1059,7 @@
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">61</span>명</span>
-        <span class="op-val">Strong Buy <span class="op-sub">매수 <span data-an="buy">58</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">1</span></span></span>
+        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">58</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">1</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width:95.1%;background:var(--green);"></div><div data-an-bar="hold" style="width:3.3%;background:var(--gold);"></div><div data-an-bar="sell" style="width:1.6%;background:var(--red);"></div></div>
       </div>
       <div class="op-cell">
@@ -1807,14 +1808,14 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/nvda/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const NVDA_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', n: 61, mean: 328.66, median: 315,
+const NVDA_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', rating: 'Strong Buy', n: 61, mean: 328.66, median: 315,
   low: 180, high: 515, strongBuy: 48, buy: 10, hold: 2, sell: 0, strongSell: 1 };
 (function(){
   const A = NVDA_ANALYST, last = (typeof NVDA_DAILY !== 'undefined' && NVDA_DAILY.length) ? NVDA_DAILY[NVDA_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };
@@ -1822,6 +1823,8 @@ const NVDA_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', n: 61, mean:
   if (!last) return;
   const px = last[4], up = (A.mean / px - 1) * 100;
   put('price', '$' + px.toFixed(2)); put('upside', (up >= 0 ? '+' : '−') + Math.abs(up).toFixed(1) + '%');
+  // 목표가가 현재가보다 낮으면 빨강 — 예전엔 op-up(초록)이 HTML에 고정돼 AAPL −2.6%도 초록이었다(2026-09-24).
+  document.querySelectorAll('#invest [data-an="upside"]').forEach(el => { el.classList.toggle('op-up', up >= 0); el.classList.toggle('op-down', up < 0); });
 })();
 
 // 요약 격자 세 점수를 NVDA_SCORES에서 렌더한다. 색과 배지는 점수에서 나온다.

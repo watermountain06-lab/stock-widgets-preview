@@ -107,6 +107,15 @@ def main():
                   f"--accent: {a1}; --accent2: {a2}; --accent3: {a3};")
     h = h.replace(f"rgba({NVDA_RGB},", f"rgba({rgb(a1)},").replace("#76b900", a1).replace("#9fdb2f", a2)
 
+    # 4. NVDA 전용 툴팁 문장 — 그대로 복제되면 새 카드에 NVDA 사실이 뜬다(AAPL 첫 변환 때 Codex가 잡음).
+    #    "확인 필요"로 바꿔 두고 새 종목 사실로 다시 쓴다. 상수 {T}_SCORES도 다시 채울 것.
+    for old in ("장기차입금이 반년 사이 $7.5B → $32.4B로 늘어 차입금의존도가 4.1%에서 10.4%가 됐다.",
+                "⚠ PER이 구조적으로 내려오는 중이라 과거 분포는 현재보다 높게 잡힌다 —"):
+        if old in h:
+            h = h.replace(old, "(확인 필요 — NVDA 문장 자리)")
+    h = h.replace(' "자기 역사상 싸다"가 "지금 싸다"를 뜻하지 않는다.', "")
+    h = h.replace("분기(Q2 FY27), 성장률은", "분기(확인 필요), 성장률은")
+
     open(dst, "w", encoding="utf-8").write(h)
 
     # 3. 남은 NVDA 흔적 — 이전 카드 링크 외에는 전부 이후 단계에서 채울 NVDA 내용이다.
