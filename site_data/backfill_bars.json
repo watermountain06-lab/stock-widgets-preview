@@ -1,0 +1,44 @@
+{
+  "note": "Daily bars a person recorded because the provider cannot supply them. update_cards.py inserts a bar from here only when the card is missing that session AND the fetch does not return it. Nothing in the pipeline writes to this file, and no bar is ever computed or inferred - each one is transcribed from the sources named in its own entry, and the run fails rather than guessing if the numbers do not pass the same OHLC check every fetched bar passes.",
+  "bars": [
+    {
+      "ticker": "UNH",
+      "session": "2026-09-22",
+      "open": 381.39,
+      "high": 381.39,
+      "low": 372.41,
+      "close": 372.95,
+      "volume": 4485262,
+      "recorded": "2026-09-24",
+      "why": "Yahoo served this session on 2026-09-22 with a high of 381.00, below its own open of 381.39, so update_cards held the card (an impossible bar, not a card problem). Overnight Yahoo nulled the session entirely for 41 tickers and had not restored it three days later, so the card advanced from 09-21 to 09-23 with a hole and its moving averages spanned it.",
+      "source": "open, low, close and volume are Yahoo's own daily bar as it was served on 2026-09-22, recorded verbatim in site_data/card_status.json at commit 7c64eaa. Only the high is corrected, to the intraday maximum: Yahoo's 1h and 5m endpoints both still serve this session and both give 381.39 (78 five-minute bars, 09:30-15:55 ET), and stockanalysis.com independently lists 381.39/381.39/372.41/372.95 with a -1.22% change against the 09-21 close of 377.56, which the card also holds.",
+      "kept": "Volume stays Yahoo's 4,485,262 rather than stockanalysis.com's 4,128,078: vendors count different tapes, and the rest of this card's series is Yahoo, so mixing one day in would put a step in the volume history."
+    },
+    {
+      "ticker": "GS",
+      "session": "2026-09-22",
+      "open": 967.39,
+      "high": 967.76,
+      "low": 936.78,
+      "close": 949.49,
+      "volume": 2033514,
+      "recorded": "2026-09-24",
+      "why": "Same day, same shape: Yahoo's high of 966.35 was below its open of 967.39, then the session was nulled and never restored.",
+      "source": "open, low, close and volume from Yahoo's 2026-09-22 daily bar as recorded in card_status.json at 7c64eaa. High corrected to 967.76, which Yahoo's 1h and 5m endpoints agree on and stockanalysis.com confirms (967.39/967.76/936.78/949.49).",
+      "kept": "Close stays 949.49, the official close, not the 950.10 an intraday aggregation gives - the last 5m bar ends at 15:55 and misses the closing auction. stockanalysis.com also lists 949.49. Volume stays Yahoo's 2,033,514 against their 2,018,356."
+    },
+    {
+      "ticker": "DIS",
+      "session": "2026-09-22",
+      "open": 105.1,
+      "high": 105.1,
+      "low": 103.33,
+      "close": 103.82,
+      "volume": 7172376,
+      "recorded": "2026-09-24",
+      "why": "Same day, same shape: Yahoo's high of 104.96 was below its open of 105.10, then the session was nulled and never restored.",
+      "source": "open, low, close and volume from Yahoo's 2026-09-22 daily bar as recorded in card_status.json at 7c64eaa. High corrected to 105.10, which Yahoo's 1h and 5m endpoints agree on and stockanalysis.com confirms (105.10/105.10/103.33/103.82).",
+      "kept": "Close stays 103.82 rather than the 103.83 intraday gives, and volume stays Yahoo's 7,172,376 against their 7,161,496."
+    }
+  ]
+}

@@ -39,6 +39,7 @@ Usage: python3 pipeline/update_cards.py [--tickers A,B] [--write]
   --fixtures DIR   read {SYMBOL}.json chart responses from DIR (tests)
 """
 import argparse
+import bisect
 import json
 import os
 import re
@@ -59,6 +60,7 @@ import fetch_prices as fp  # noqa: E402
 from compute_breakout_signal import compute_active_breakout  # noqa: E402
 from compute_technical_score import compute_signal  # noqa: E402
 import valuation  # noqa: E402
+import backfill  # noqa: E402
 import prose_stamp  # noqa: E402
 
 # stage 2B-2 (valuation tab): None = every card with a baseline (the four-card pilot passed 2026-09-12)
@@ -245,19 +247,42 @@ def fetch_range(last_card_date, max_date):
 
 # ---------- the update for one card ----------
 
-def sync_bars(arrays, fetched, splits, notes):
-    """Replace differing bars / append new ones. Returns (first changed index or None, replaced, appended)."""
+def sync_bars(arrays, fetched, splits, notes, insertable=()):
+    """Replace differing bars, append new ones, and insert an allowed one the card never got.
+
+    Returns (first changed index or None, replaced, appended, inserted, extra).
+
+    A session inside the card's history that the card lacks normally holds the card: the card
+    cannot be trusted to have the right history, and a bar dropped into the middle of it shifts
+    every moving-average window after it. `insertable` is the narrow exception - sessions a
+    person recorded in site_data/backfill_bars.json, and sessions the provider lost and has now
+    served again. Those are inserted at their place in the series and the moving averages are
+    then recomputed from that index rather than patched, which is what extend_mas already does
+    for an appended bar. A session missing from the card, missing from the fetch and absent from
+    the manifest still holds the card, which is what should happen while nobody has checked what
+    the right numbers are.
+    """
     tokens = arrays["DAILY"]["tokens"]
     dates = [bar_values(t)[0] for t in tokens]
     first_card_date = dates[0]
     if any(s >= first_card_date for s in splits):
         raise Hold(f"split in the fetched window ({', '.join(splits)}) - price history needs a rebuild")
-    index = {d: i for i, d in enumerate(dates)}
     fetched_dates = {b[0] for b in fetched}
-    missing_in_card = [b[0] for b in fetched if b[0] not in index and b[0] < dates[-1]]
-    if missing_in_card:
-        raise Hold(f"trading day(s) missing inside the card's history: {', '.join(missing_in_card[:5])}")
-    changed, replaced, appended = None, 0, 0
+    missing_in_card = [b[0] for b in fetched if b[0] not in set(dates) and b[0] < dates[-1]]
+    blocked = [d for d in missing_in_card if d not in insertable]
+    if blocked:
+        raise Hold(f"trading day(s) missing inside the card's history: {', '.join(blocked[:5])}")
+
+    changed, replaced, appended, inserted = None, 0, 0, 0
+    # Insertions run before the replace/append pass so that pass sees final indices.
+    for d, o, h, l, c, v in [b for b in fetched if b[0] in set(missing_in_card)]:
+        at = bisect.bisect_left(dates, d)
+        tokens.insert(at, bar_token(arrays["DAILY"]["style"], d, o, h, l, c, v))
+        dates.insert(at, d)
+        inserted += 1
+        changed = at if changed is None else min(changed, at)
+        notes.append(f"inserted the missing {d} bar and recomputed the moving averages from there")
+    index = {d: i for i, d in enumerate(dates)}
     for d, o, h, l, c, v in fetched:
         new = bar_token(arrays["DAILY"]["style"], d, o, h, l, c, v)
         if d in index:
@@ -275,7 +300,7 @@ def sync_bars(arrays, fetched, splits, notes):
             appended += 1
             changed = len(tokens) - 1 if changed is None else changed
     extra = [d for d in dates if d >= fetched[0][0] and d not in fetched_dates] if fetched else []
-    return changed, replaced, appended, extra
+    return changed, replaced, appended, inserted, extra
 
 
 def extend_mas(arrays, changed):
@@ -760,7 +785,8 @@ def node_check(html):
     return ""
 
 
-def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, breakout_config, valuation_dir=None):
+def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, breakout_config,
+                valuation_dir=None, backfill_path=None):
     ticker = entry["ticker"]
     old_html = path.read_text(encoding="utf-8")
     lines, arrays = parse_card_arrays(old_html)
@@ -780,7 +806,10 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     fetched, splits = fetch_bars(entry.get("yahooSymbol", ticker), rng, fixtures, now_et, target)
     if not fetched:
         raise ValueError("no completed bars fetched")
-    changed, replaced, appended, extra = sync_bars(arrays, fetched, splits, notes)
+    # Bars a person recorded because the provider cannot supply them, folded in before the sync so
+    # they go through every check a fetched bar goes through. See pipeline/backfill.py.
+    bf = backfill_path or backfill.MANIFEST
+    fetched, recorded = backfill.merge(fetched, ticker, notes, bf)
     # A session the card has and the fetch does not is normally a card problem - it would sit
     # inside every later MA window without the provider ever confirming it. But fetch_prices
     # records the sessions the provider served complete and then lost (Yahoo nulled 2026-09-22
@@ -788,19 +817,31 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     # from a complete bar that passed the OHLC check. Keeping them is what lets the card follow
     # the price again instead of freezing on the provider's hole for good.
     lost = set(p.get("providerGaps") or [])
+    changed, replaced, appended, inserted, extra = sync_bars(
+        arrays, fetched, splits, notes, backfill.sessions(ticker, bf) | lost)
     unexplained = [d for d in extra if d not in lost]
     if unexplained:
         raise Hold(f"card has session(s) Yahoo doesn't: {', '.join(unexplained[:5])}")
     if extra:
         notes.append(f"kept {len(extra)} bar(s) the provider lost: {', '.join(extra)}")
-    # A lost session this card never received is gone for good - the provider has no bar and the
-    # only close we hold came from one it rejected as impossible. The card advances rather than
-    # freezing on it, but its moving averages then span that gap, so the run has to say so.
-    inside = sorted(d for d in lost if d > last_card_date and d < target)
-    if inside:
-        notes.append(f"moving averages span {', '.join(inside)}, which this card never received")
     computed = extend_mas(arrays, changed)
     trimmed = trim_front(arrays)
+    # extend_mas rebuilds each MA array to DAILY's length and trim_front cuts every array by the
+    # same amount, so these agree by construction - but an insertion shifts every index after it,
+    # and this is the one operation where a silent off-by-one would put every moving average on
+    # the wrong bar. Assert it rather than trust it.
+    for kind in arrays:
+        if len(arrays[kind]["tokens"]) != len(arrays["DAILY"]["tokens"]):
+            raise EditError(f"after syncing, {kind} length {len(arrays[kind]['tokens'])} "
+                            f"!= DAILY {len(arrays['DAILY']['tokens'])}")
+    # A lost session nobody has recorded a bar for is gone until somebody checks it. The card
+    # advances rather than freezing, but its moving averages span the gap, so the run says so.
+    card_dates = {bar_values(t)[0] for t in arrays["DAILY"]["tokens"]}
+    hole = sorted(d for d in lost
+                  if d not in card_dates and min(card_dates) < d < max(card_dates))
+    if hole:
+        notes.append(f"moving averages span {', '.join(hole)}, which this card never received "
+                     f"and no bar has been recorded for")
 
     tokens = arrays["DAILY"]["tokens"]
     bars = [bar_values(t) for t in tokens]
@@ -941,6 +982,7 @@ def main():
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--out-dir", default=None, help="also save updated cards here (for review diffs)")
     ap.add_argument("--valuation-dir", default=str(ROOT / "site_data" / "valuation_base"))
+    ap.add_argument("--backfill", default=str(backfill.MANIFEST))
     args = ap.parse_args()
 
     now_et = datetime.fromisoformat(args.now).astimezone(fp.ET) if args.now else datetime.now(fp.ET)
@@ -973,7 +1015,8 @@ def main():
             try:
                 st, last, counts, notes, html, tech = update_card(path, entry, session, args.fixtures, now_et,
                                                                   state_dir, tech_config, breakout_config,
-                                                                  Path(args.valuation_dir))
+                                                                  Path(args.valuation_dir),
+                                                                  Path(args.backfill))
                 net_failures = 0
                 if args.write:
                     commit(path, html if st == "updated" else None, state_dir / f"{t}.json", tech)

@@ -15,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 from datetime import date, datetime, time as dtime, timedelta
+from decimal import Decimal
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -831,7 +832,7 @@ def test_card_units():
         toks = ",".join(f"['{d}',10.0,11.0,9.0,10.5,100]" for d in card_dates)
         _, a = uc.parse_card_arrays(f"const X_DAILY = [{toks}];")
         try:  # update_card turns the returned card-only sessions into a hold
-            return bool(uc.sync_bars(a, [(d, 10.0, 11.0, 9.0, 10.5, 100) for d in yahoo_dates], [], [])[3])
+            return bool(uc.sync_bars(a, [(d, 10.0, 11.0, 9.0, 10.5, 100) for d in yahoo_dates], [], [])[4])
         except uc.Hold:
             return True
     days = ["2026-09-01", "2026-09-02", "2026-09-03"]
@@ -1208,6 +1209,103 @@ def test_prose_stamp():
               for es in real.values() for e in es))
 
 
+def test_backfill():
+    """A recorded bar fills a hole the provider cannot, and every moving average from the
+    insertion point on is recomputed rather than shifted onto the wrong bar."""
+    import update_cards as uc
+    import backfill as bf
+    tmp = Path(tempfile.mkdtemp())
+
+    def manifest(bars, name="m.json"):
+        pth = tmp / name
+        pth.write_text(json.dumps({"bars": bars}, ensure_ascii=False), encoding="utf-8")
+        bf._cache.clear()
+        return pth
+
+    good = {"ticker": "X", "session": "2026-09-22", "open": 10.0, "high": 11.0,
+            "low": 9.0, "close": 10.5, "volume": 100, "source": "recorded by hand for this test"}
+    check("a recorded bar loads", bf.load(manifest([good]))["X"]["2026-09-22"][4] == 10.5)
+    check("no manifest at all is not an error", bf.load(tmp / "absent.json") == {})
+    # The manifest is the only place a bar can come from that the provider did not serve, so it is
+    # checked harder than a fetched bar, not less: the same OHLC rule, plus a weekday, plus stated
+    # provenance. A bar that cannot pass here must not reach a card.
+    for bad, why, word in (
+        ({**good, "session": "2026-09-20"}, "a weekend date", "weekend"),
+        ({**good, "source": "   "}, "no stated source", "source"),
+        ({**good, "high": 9.5}, "a high under its own close", "consistent"),
+        ({**good, "low": 10.4}, "a low over its own open", "consistent"),
+        ({**good, "volume": -1}, "negative volume", "consistent"),
+        ({**good, "close": 0}, "a zero close", "consistent"),
+        ({**good, "close": "x"}, "a close that is not a number", "not a number"),
+    ):
+        try:
+            bf.load(manifest([bad]))
+            check(f"a bar with {why} is refused", False, bad)
+        except bf.BackfillError as e:
+            check(f"a bar with {why} is refused", word in str(e), str(e))
+    try:
+        bf.load(manifest([good, dict(good)]))
+        check("the same session recorded twice is refused", False)
+    except bf.BackfillError as e:
+        check("the same session recorded twice is refused", "twice" in str(e), str(e))
+
+    m = manifest([good])
+    fetched = [("2026-09-21", 1.0, 1.0, 1.0, 1.0, 1), ("2026-09-23", 2.0, 2.0, 2.0, 2.0, 2)]
+    out, added = bf.merge(fetched, "X", [], m)
+    check("a recorded bar the provider skipped is folded in, in date order",
+          [b[0] for b in out] == ["2026-09-21", "2026-09-22", "2026-09-23"]
+          and added == ["2026-09-22"], out)
+    check("and is not folded in twice", bf.merge(out, "X", [], m)[1] == [])
+    check("a recorded bar outside the fetched window is left alone",
+          bf.merge([("2026-09-23", 2.0, 2.0, 2.0, 2.0, 2)], "X", [], m)[1] == [])
+    check("a ticker with nothing recorded is untouched", bf.merge(fetched, "Y", [], m) == (fetched, []))
+
+    # The array mechanics. A bar dropped into the middle shifts every index after it, which is the
+    # one place a silent off-by-one would put every moving average on the wrong bar.
+    days = ["2026-09-10", "2026-09-11", "2026-09-14", "2026-09-15", "2026-09-16",
+            "2026-09-17", "2026-09-18", "2026-09-21", "2026-09-23"]
+    cl = {d: 100.0 + i for i, d in enumerate(days)}
+    daily = ",".join(f"['{d}',{cl[d]},{cl[d] + 1},{cl[d] - 1},{cl[d]},1000]" for d in days)
+    card = f"const X_DAILY = [{daily}];\nconst X_MA5 = [{','.join(['null'] * len(days))}];"
+    _, a = uc.parse_card_arrays(card)
+    uc.extend_mas(a, 0)                                   # a consistent starting point
+    served = [(d, cl[d], cl[d] + 1, cl[d] - 1, cl[d], 1000) for d in days]
+    served.append(("2026-09-22", 108.5, 109.5, 107.5, 108.5, 1000))
+    served.sort(key=lambda b: b[0])
+    changed, replaced, appended, inserted, extra = uc.sync_bars(a, served, [], [], {"2026-09-22"})
+    check("the missing session is inserted, not appended to the end",
+          (inserted, appended, replaced, changed) == (1, 0, 0, 8), (inserted, appended, replaced, changed))
+    uc.extend_mas(a, changed)
+    got = [uc.bar_values(t)[0] for t in a["DAILY"]["tokens"]]
+    check("the series comes back in order with the hole filled",
+          got == sorted(got) and "2026-09-22" in got and len(got) == len(days) + 1, got[-4:])
+    check("DAILY and MA5 stay the same length", len(a["MA5"]["tokens"]) == len(got))
+    closes = [Decimal(str(uc.bar_values(t)[4])) for t in a["DAILY"]["tokens"]]
+    i = got.index("2026-09-22")
+    for at, label in ((i, "at the inserted bar"), (len(got) - 1, "at the end")):
+        want = sum(closes[at - 4:at + 1]) / 5
+        check(f"MA5 {label} matches a direct average of the filled series",
+              abs(Decimal(a["MA5"]["tokens"][at]) - want) < Decimal("0.00005"),
+              (a["MA5"]["tokens"][at], str(want)))
+    check("the bar before the hole is untouched by the insertion",
+          uc.bar_values(a["DAILY"]["tokens"][i - 1])[0] == "2026-09-21")
+
+    # Running again changes nothing: the card now has the bar, so it goes through the ordinary
+    # replace path and the values match.
+    again = uc.sync_bars(a, served, [], [], {"2026-09-22"})
+    check("a second run neither inserts nor replaces anything",
+          (again[1], again[2], again[3]) == (0, 0, 0), again[:4])
+
+    # And the floor: a hole nobody has recorded a bar for still holds the card.
+    _, a2 = uc.parse_card_arrays(card)
+    uc.extend_mas(a2, 0)
+    try:
+        uc.sync_bars(a2, served, [], [], set())
+        check("a hole nobody recorded still holds the card", False)
+    except uc.Hold as e:
+        check("a hole nobody recorded still holds the card", "missing inside" in str(e), str(e))
+
+
 if __name__ == "__main__":
     test_prose_stamp()
     test_valuation_render()
@@ -1220,4 +1318,5 @@ if __name__ == "__main__":
     test_fred_api_mode()
     test_card_units()
     test_card_updater()
+    test_backfill()
     print(f"OK - {len(PASSED)} checks passed")
