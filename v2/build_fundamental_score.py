@@ -446,7 +446,8 @@ def net_cash(ticker):
     r = fx.rate(ticker, d.bmh.load_daily(ticker)[-1][0])
     parts = {k: (b.get(k) or 0) / r for k in ("cash", "sti", "lt_marketable", "debt", "lease")}
     net = parts["cash"] + parts["sti"] + parts["lt_marketable"] - parts["debt"] - parts["lease"]
-    return {**parts, "shares": b["shares"], "net": net, "perShare": net / b["shares"]}
+    sh = b.get("shares")   # SEC 데이터에 주식 수가 없는 신규 상장(SPCX)이면 주당 값은 비운다
+    return {**parts, "shares": sh, "net": net, "perShare": (net / sh) if sh else None}
 
 
 BEGIN, END = "/* FUNDAMENTAL:BEGIN */", "/* FUNDAMENTAL:END */"

@@ -450,7 +450,13 @@ def pick_instant(cik, tags):
 
 
 def ev_component(cik, name, tags):
-    return pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
+    out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
+    # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
+    # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다
+    # (둘 다 내는 회사에서 더하면 이중 계산).
+    if name == "debt" and not out:
+        out = component_sum(cik, ["LongTermDebt"])
+    return out
 
 
 def dda_ttm(cik, ticker):

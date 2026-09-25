@@ -58,6 +58,9 @@ SECTORS = os.path.join(REPO, "v2", "sectors.json")
 SECTOR_BORROW = {"Communication Services": ["Information Technology"],
                  # AMZN·HD·TSLA 3종목뿐(2026-09-24 사용자 결정, AMZN)
                  "Consumer Discretionary": ["Information Technology"]}
+# 종목 단위 예외(2026-09-25 사용자 결정). SPCX는 산업재(3~5종목뿐)인데 스타링크·AI 비중이 커 IT를 빌린다.
+# 섹터 규칙으로 두면 GE·CAT·DE·RTX·GEV까지 IT 고배수와 비교돼 "싸다"로 기울 수 있어(Fable) 종목만 예외로 했다.
+TICKER_BORROW = {"SPCX": ["Information Technology"]}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
@@ -137,7 +140,7 @@ def peer_score(ticker, sectors, prices, self_path=None):
     # 표본이 작은 섹터는 가까운 큰 섹터를 빌려 온다(2026-09-24 사용자 결정, GOOGL).
     # GICS가 2018년 GOOGL·META를 IT에서 Communication Services로 옮겼고 이 유니버스에서는
     # 그 섹터가 6종목뿐이라 순위가 서지 않는다. 한 방향이다 — IT 종목의 동종업은 IT만 쓴다.
-    borrowed = SECTOR_BORROW.get(sector, [])
+    borrowed = SECTOR_BORROW.get(sector, []) + TICKER_BORROW.get(ticker, [])
     group = [t for t in sectors if sectors[t] == sector or sectors[t] in borrowed]
     data, asof = {}, {}
     for t in group:
