@@ -262,6 +262,7 @@ def invested_capital(base):
 
 # 본국 법정세율. 실효세율이 뜻을 잃을 때(세전이익 ≤ 0, 0~40% 밖) 대신 쓴다(2026-09-25 사용자 결정).
 STATUTORY_TAX = {"TSM": 0.20}
+TERMINAL_STATUTORY = True   # 예측기간 세율을 법정세율로 수렴, 잔존은 법정세율(2단계, 2026-09-25)
 TAX_OK = (0.0, 0.40)
 
 
@@ -297,7 +298,16 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
     """
     rev0 = base["revenue"]
     margin0 = base["opinc"] / rev0
-    tax_rate = tax_rate if tax_rate is not None else effective_tax(base)
+    # 세율 경로(2026-09-25 사용자 결정, 다모다란): 예측기간은 실효세율에서 법정세율로 선형 수렴하고
+    # 잔존은 법정세율. 실효세율(AVGO 5%)이 잔존가치에 영구히 들어가던 문제를 막는다.
+    # 세율을 직접 넘기면(tax_rate=) 경로 없이 그 값 하나를 쓴다.
+    if tax_rate is None:
+        t0 = effective_tax(base)
+        t_stat = STATUTORY_TAX.get(base.get("ticker"), 0.21) if TERMINAL_STATUTORY else t0
+        tax_path = [t0 + (t_stat - t0) * i / (years - 1) for i in range(years)] if years > 1 else [t_stat]
+        tax_rate, tax_term = t0, t_stat
+    else:
+        tax_path, tax_term = [tax_rate] * years, tax_rate
     margins = margin_path or [margin0] * years
     invested = invested_capital(base)
     if s2c is None:
@@ -312,7 +322,7 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
     for i in range(years):
         new_rev = rev * (1 + growth[i])
         ebit = new_rev * margins[i]
-        nopat = ebit * (1 - tax_rate)
+        nopat = ebit * (1 - tax_path[i])
         reinvest = (new_rev - rev) / s2c_path[i]
         fcf = nopat - reinvest
         rev = new_rev
@@ -328,11 +338,11 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
     # 잔존에서는 경쟁이 초과수익을 깎으므로 할인율 쪽으로 절반 수렴시킨다(roic_fade).
     # NVDA는 현재 ROIC가 78.5%라 그대로 두면 잔존 FCF가 NOPAT의 96.8%가 되고, 이 가정 하나가
     # 주당 $54를 만든다(검증에서 확인).
-    roic = margins[-1] * (1 - tax_rate) * s2c_path[-1]
+    roic = margins[-1] * (1 - tax_term) * s2c_path[-1]
     roic_t = wacc + (roic - wacc) * roic_fade if roic > wacc else roic
     # ROIC가 영구성장률 이하면 성장이 가치를 만들지 못한다 — 재투자율을 1로 두어 잔존 현금흐름이 0.
     reinvest_rate = min(max(terminal / roic_t, 0.0), 1.0) if roic_t > terminal else 1.0
-    nopat_t = last["revenue"] * (1 + terminal) * margins[-1] * (1 - tax_rate)
+    nopat_t = last["revenue"] * (1 + terminal) * margins[-1] * (1 - tax_term)
     fcf_t = nopat_t * (1 - reinvest_rate)
 
     tv_ggm = fcf_t / (wacc - terminal) if wacc > terminal else float("nan")
@@ -350,6 +360,7 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
     return {"rows": rows, "pv_sum": pv_sum, "ev_ggm": ev, "ev_exit": ev_exit, "fcf_terminal": fcf_t,
             "ev": ev, "net_debt": net_debt, "equity": equity,
             "per_share": (equity / base["shares"]) if base.get("shares") else None, "tax_rate": tax_rate,
+            "tax_terminal": tax_term,
             "margin0": margin0, "s2c": s2c_path[-1], "s2c_path": s2c_path, "invested": invested,
             "roic": roic, "roic_terminal": roic_t, "reinvest_rate": reinvest_rate}
 
