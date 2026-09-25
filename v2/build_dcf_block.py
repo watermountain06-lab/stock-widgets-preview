@@ -32,6 +32,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_dcf as d  # noqa: E402
+import fx  # noqa: E402
 
 WACC, TERM = 0.10, 0.025
 
@@ -40,13 +41,16 @@ def compute(t):
     with contextlib.redirect_stdout(io.StringIO()):
         daily = d.bmh.load_daily(t)
         price, asof = daily[-1][4], daily[-1][0]
+        # 재무가 현지 통화(TSM)면 역산은 현지 통화 가격으로 하고, 주당 가치는 그날 환율로 달러로 되돌린다.
+        r = fx.rate(t, asof)
+        price_local = price * r
         # 기준일은 카드 일봉의 마지막 날 — 그 뒤 공시가 캐시에 있어도 쓰지 않는다(Codex).
         base = d.base_inputs(t, asof)
         hist = d.history(t, asof)
         s = d.scenarios(base, hist, WACC, TERM)
         mp = d.margin_path_for(hist, "기본")
         sp = d.s2c_path_for(base, "기본")[0]
-        req = d.implied_growth(base, price, WACC, TERM, margin_path=mp, s2c=sp)
+        req = d.implied_growth(base, price_local, WACC, TERM, margin_path=mp, s2c=sp)
         beq = d.implied_growth(base, s[1]["per_share"], WACC, TERM, margin_path=mp, s2c=sp)
         g5 = hist["growth_5y"]
         mode = "growth"
@@ -55,16 +59,16 @@ def compute(t):
             mode = "margin"
         g0 = max(g5 or TERM, TERM)
         path = [g0 + (TERM - g0) * i / 4 for i in range(5)]
-        rm = d.implied_margin(base, price, WACC, TERM, path, s2c=sp) if mode == "margin" else None
+        rm = d.implied_margin(base, price_local, WACC, TERM, path, s2c=sp) if mode == "margin" else None
     return {
-        "low": round(s[0]["per_share"], 2), "base": round(s[1]["per_share"], 2),
-        "high": round(s[2]["per_share"], 2),
+        "low": round(s[0]["per_share"] / r, 2), "base": round(s[1]["per_share"] / r, 2),
+        "high": round(s[2]["per_share"] / r, 2),
         "requiredGrowth": round(req, 4) if req is not None else None,
         "baseEquivGrowth": round(beq, 4) if beq is not None else None,
         "reqMode": mode,
         "requiredMargin": round(rm, 4) if rm is not None else None,
         "marginNow": round(hist["margin_now"], 4), "growth5y": round(g5, 4) if g5 else None,
-        "nonopPerShare": round(s[1]["nonop_per_share"], 2),
+        "nonopPerShare": round(s[1]["nonop_per_share"] / r, 2),
         "s2cFallback": any(x["s2c_fallback"] for x in s),
         "asOf": asof,
     }, price

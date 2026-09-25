@@ -1389,8 +1389,8 @@ const NVDA_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 밸류에이션 종합 판정 — 헤더 첫 칸과 밸류에이션 탭 머리가 이 한 값을 쓴다.
 // 사람이 내린 판단이다(근거: 밸류에이션 탭의 세 줄 — 자기 이력 · 현금흐름 · 동종업).
 // 규칙으로 정할지는 backlog "v2 카드 70장 확대"의 열린 결정 (b).
-const NVDA_VERDICT = '적정~저평가';
-document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = NVDA_VERDICT; });
+// 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
+let NVDA_VERDICT = '계산 중';
 
 const NVDA_DCF = {"low": 156.92, "base": 314.39, "high": 595.91, "requiredGrowth": 0.2625, "baseEquivGrowth": 0.3553, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.6521, "growth5y": 0.6943, "nonopPerShare": 3.76, "s2cFallback": false, "asOf": "2026-09-22"};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
@@ -1732,6 +1732,33 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
 /* VALUATION:BEGIN */
 const NVDA_VALUATION = {"peer": {"score": 46.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "per", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "pbr", "score": 21.7, "rank": 19, "peers": 23}, {"metric": "psr", "score": 25.9, "rank": 21, "peers": 27}, {"metric": "pcr", "score": 60.9, "rank": 10, "peers": 23}, {"metric": "evebitda", "score": 50.0, "rank": 13, "peers": 24}]}, "self": {"score": 89.2, "window": ["2021-09-22", "2026-09-22"], "metrics": [{"metric": "per", "score": 98.6, "percentile": 1.4, "current": 28.93, "min": 26.51, "median": 58.17, "max": 247.34, "days": 1255}, {"metric": "pbr", "score": 81.0, "percentile": 19.0, "current": 24.09, "min": 11.72, "median": 36.1, "max": 67.87, "days": 1255}, {"metric": "psr", "score": 82.8, "percentile": 17.2, "current": 18.21, "min": 9.4, "median": 25.45, "max": 46.74, "days": 1255}, {"metric": "pcr", "score": 84.9, "percentile": 15.1, "current": 43.43, "min": 37.82, "median": 55.88, "max": 78.06, "days": 518}, {"metric": "evebitda", "score": 98.6, "percentile": 1.4, "current": 27.32, "min": 25.02, "median": 49.13, "max": 192.08, "days": 1255}]}};
 /* VALUATION:END */
+
+// ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
+// 사람이 적던 종합 평가를 규칙으로 바꿨다. 각 신호는 방향 한 표만 던진다 — 두 배수 점수를
+// 평균내지 않는다는 원칙은 그대로다.
+//   자기 이력·동종업 점수: 70 이상 +1(싼 편) · 30 미만 −1(비싼 편) · 그 사이 0 (카드 공통 30/70)
+//   현금흐름 5단계(dcfLevel): 매우 싸다 +2 · 싸다 +1 · 적정 0 · 비싸다 −1 · 매우 비싸다 −2
+//     (사이트 목적이 내재가치 대비 판단이라 배수보다 두 배 무게)
+//   합계 +3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가
+// 도입 당시 사람 판단과 6장 중 4장 일치(GOOGL 적정~고평가→고평가, AMZN 적정→적정~고평가).
+// 밴드 이탈 신호는 S&P500 통제 유니버스 검증을 통과하면 한 표로 더한다(backlog).
+(function(){
+  const V = NVDA_VALUATION, D = NVDA_DCF;
+  const last = NVDA_DAILY[NVDA_DAILY.length - 1];
+  const vote = s => s == null ? 0 : s >= 70 ? 1 : s < 30 ? -1 : 0;
+  const DV = {'매우 싸다': 2, '싸다': 1, '적정': 0, '비싸다': -1, '매우 비싸다': -2};
+  const lv = dcfLevel(last[4], D);
+  const parts = [['자기 이력', vote(V.self.score), V.self.score], ['동종업', vote(V.peer.score), V.peer.score],
+                 ['현금흐름', DV[lv.label] ?? 0, lv.label]];
+  const total = parts.reduce((a, p) => a + p[1], 0);
+  NVDA_VERDICT = total >= 3 ? '저평가' : total >= 1 ? '적정~저평가' : total === 0 ? '적정'
+               : total >= -2 ? '적정~고평가' : '고평가';
+  const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
+  const tip = parts.map(p => `${p[0]} ${typeof p[2] === 'number' ? p[2].toFixed(1) : (p[2] ?? '—')} → ${sgn(p[1])}`).join('\n')
+    + `\n합계 ${sgn(total)} → ${NVDA_VERDICT}`
+    + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)';
+  document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = NVDA_VERDICT; el.title = tip; });
+})();
 (function(){
   const V = (typeof NVDA_VALUATION !== 'undefined') ? NVDA_VALUATION : null;
   if (!V) return;

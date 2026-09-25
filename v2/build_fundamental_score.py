@@ -441,7 +441,10 @@ def net_cash(ticker):
     # 장기 채권(MarketableSecuritiesNoncurrent, 국채·회사채)은 만기만 길 뿐 현금에 가깝다.
     # 빼면 AAPL이 순현금 $48.4B인데 순부채 −$2.44/주로 보인다(2026-09-24 사용자 결정으로 포함).
     # 지분증권은 여전히 넣지 않는다.
-    parts = {k: b.get(k) or 0 for k in ("cash", "sti", "lt_marketable", "debt", "lease")}
+    # 재무가 현지 통화(TSM 대만달러)면 카드의 달러 표시를 위해 가장 최근 환율로 바꾼다(v2/fx.py).
+    import fx
+    r = fx.rate(ticker, d.bmh.load_daily(ticker)[-1][0])
+    parts = {k: (b.get(k) or 0) / r for k in ("cash", "sti", "lt_marketable", "debt", "lease")}
     net = parts["cash"] + parts["sti"] + parts["lt_marketable"] - parts["debt"] - parts["lease"]
     return {**parts, "shares": b["shares"], "net": net, "perShare": net / b["shares"]}
 

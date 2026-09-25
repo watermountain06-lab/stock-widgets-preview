@@ -60,6 +60,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
 import build_dcf as d  # noqa: E402
 import build_multiple_history as bmh  # noqa: E402
+import fx  # noqa: E402
 
 
 def quarter_ends(ticker, start="2022-01-01"):
@@ -109,7 +110,9 @@ def main():
         if not base.get("revenue") or not base.get("shares") or not hist:
             continue
         try:
-            scs = {x["name"]: x["per_share"] for x in d.scenarios(base, hist, args.wacc, args.terminal)}
+            # 재무가 현지 통화(TSM)면 그 시점 환율로 달러로 되돌려 그날 ADR 가격과 비교한다(v2/fx.py).
+            r = fx.rate(t, day)
+            scs = {x["name"]: x["per_share"] / r for x in d.scenarios(base, hist, args.wacc, args.terminal)}
         except Exception:
             continue
         px = price_at(day)

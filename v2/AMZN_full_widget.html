@@ -480,7 +480,7 @@
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +13.0%)</span>
@@ -865,7 +865,7 @@
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$249.27</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정</span><span class="vs-asof"><span data-vs="asof">2026.09.23</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.23</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 AMZN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">62.8</div><div class="sc-tile" data-vc="self" data-m="per">87</div><div class="sc-tile" data-vc="self" data-m="pbr">100</div><div class="sc-tile lost" data-vc="self" data-m="psr">34</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile" data-vc="self" data-m="evebitda">94</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
@@ -874,7 +874,7 @@
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.7</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">100</div><div class="sc-tile" data-vc="peer" data-m="psr">90</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile" data-vc="peer" data-m="evebitda">89</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">배수로는 동종업·자기 5년 이력 모두 싼 편이지만, <strong>현금흐름 내재가치는 현재가에 크게 못 미친다.</strong> 설비투자가 매출의 22.8%로 영업현금흐름을 넘어서 최근 4분기 잉여현금흐름이 마이너스다. 자본수익률이 할인율에 가까워 과거 성장으로는 가격이 설명되지 않고, 가격에는 마진 확대 기대가 담겨 있다. 종합 평가는 배수와 PER 적정주가 밴드에 무게를 뒀다.</div>
+    <div class="vs-premise">배수로는 동종업·자기 5년 이력 모두 싼 편이지만, <strong>현금흐름 내재가치는 현재가에 크게 못 미친다.</strong> 설비투자가 매출의 22.8%로 영업현금흐름을 넘어서 최근 4분기 잉여현금흐름이 마이너스다. 자본수익률이 할인율에 가까워 과거 성장으로는 가격이 설명되지 않고, 가격에는 마진 확대 기대가 담겨 있다.</div>
     <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 11.7%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">28.2%</strong>여야 한다(지금 12.1%). 성장만으로 맞추려면 연 55.3%가 필요해, 가격은 성장보다 마진 확대에 거는 기대로 읽힌다(AWS 영업이익률은 Q2 39%).</div>
   </div>
 
@@ -1388,8 +1388,8 @@ const AMZN_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 밸류에이션 종합 판정 — 헤더 첫 칸과 밸류에이션 탭 머리가 이 한 값을 쓴다.
 // 사람이 내린 판단이다(근거: 밸류에이션 탭의 세 줄 — 자기 이력 · 현금흐름 · 동종업).
 // 규칙으로 정할지는 backlog "v2 카드 70장 확대"의 열린 결정 (b).
-const AMZN_VERDICT = '적정';   // 2026-09-24 사용자 결정 — 설비투자 확대기라 내재가치가 비현실적으로 낮아 배수·PER 밴드에 무게
-document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = AMZN_VERDICT; });
+// 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
+let AMZN_VERDICT = '계산 중';
 
 const AMZN_DCF = {"low": 52.76, "base": 87.55, "high": 98.56, "requiredGrowth": 0.5534, "baseEquivGrowth": 0.0714, "reqMode": "margin", "requiredMargin": 0.2825, "marginNow": 0.1208, "growth5y": 0.1174, "nonopPerShare": 20.41, "s2cFallback": false, "asOf": "2026-09-23"};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
@@ -1731,6 +1731,33 @@ const AMZN_FUNDAMENTAL = {"ticker": "AMZN", "basis": "quarter", "asOf": "2026-06
 /* VALUATION:BEGIN */
 const AMZN_VALUATION = {"peer": {"score": 69.7, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "pbr", "score": 100.0, "rank": 1, "peers": 26}, {"metric": "psr", "score": 90.0, "rank": 4, "peers": 30}, {"metric": "pcr", "score": 0.0, "rank": 27, "peers": 26}, {"metric": "evebitda", "score": 88.9, "rank": 4, "peers": 27}]}, "self": {"score": 62.8, "window": ["2021-09-23", "2026-09-23"], "perBasis": "core", "metrics": [{"metric": "per", "score": 86.5, "percentile": 13.5, "current": 37.06, "min": 29.89, "median": 53.91, "max": 93.99, "days": 1197, "currentNote": null}, {"metric": "pbr", "score": 99.8, "percentile": 0.2, "current": 4.87, "min": 4.81, "median": 8.11, "max": 15.55, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 33.5, "percentile": 66.5, "current": 3.47, "min": 1.66, "median": 3.23, "max": 4.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 34.96, "median": 93.22, "max": 465.73, "days": 712, "currentNote": "negative"}, {"metric": "evebitda", "score": 94.3, "percentile": 5.7, "current": 16.54, "min": 14.88, "median": 20.45, "max": 31.46, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
+
+// ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
+// 사람이 적던 종합 평가를 규칙으로 바꿨다. 각 신호는 방향 한 표만 던진다 — 두 배수 점수를
+// 평균내지 않는다는 원칙은 그대로다.
+//   자기 이력·동종업 점수: 70 이상 +1(싼 편) · 30 미만 −1(비싼 편) · 그 사이 0 (카드 공통 30/70)
+//   현금흐름 5단계(dcfLevel): 매우 싸다 +2 · 싸다 +1 · 적정 0 · 비싸다 −1 · 매우 비싸다 −2
+//     (사이트 목적이 내재가치 대비 판단이라 배수보다 두 배 무게)
+//   합계 +3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가
+// 도입 당시 사람 판단과 6장 중 4장 일치(GOOGL 적정~고평가→고평가, AMZN 적정→적정~고평가).
+// 밴드 이탈 신호는 S&P500 통제 유니버스 검증을 통과하면 한 표로 더한다(backlog).
+(function(){
+  const V = AMZN_VALUATION, D = AMZN_DCF;
+  const last = AMZN_DAILY[AMZN_DAILY.length - 1];
+  const vote = s => s == null ? 0 : s >= 70 ? 1 : s < 30 ? -1 : 0;
+  const DV = {'매우 싸다': 2, '싸다': 1, '적정': 0, '비싸다': -1, '매우 비싸다': -2};
+  const lv = dcfLevel(last[4], D);
+  const parts = [['자기 이력', vote(V.self.score), V.self.score], ['동종업', vote(V.peer.score), V.peer.score],
+                 ['현금흐름', DV[lv.label] ?? 0, lv.label]];
+  const total = parts.reduce((a, p) => a + p[1], 0);
+  AMZN_VERDICT = total >= 3 ? '저평가' : total >= 1 ? '적정~저평가' : total === 0 ? '적정'
+               : total >= -2 ? '적정~고평가' : '고평가';
+  const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
+  const tip = parts.map(p => `${p[0]} ${typeof p[2] === 'number' ? p[2].toFixed(1) : (p[2] ?? '—')} → ${sgn(p[1])}`).join('\n')
+    + `\n합계 ${sgn(total)} → ${AMZN_VERDICT}`
+    + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)';
+  document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = AMZN_VERDICT; el.title = tip; });
+})();
 (function(){
   const V = (typeof AMZN_VALUATION !== 'undefined') ? AMZN_VALUATION : null;
   if (!V) return;

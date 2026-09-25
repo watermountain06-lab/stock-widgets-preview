@@ -538,7 +538,11 @@ def main():
     growth = [float(x) / 100 for x in args.growth.split(",")]
     base = base_inputs(t)
     hist = history(t)
-    price = args.price or bmh.load_daily(t)[-1][4]
+    price_usd = args.price or bmh.load_daily(t)[-1][4]
+    # 재무가 현지 통화(TSM 대만달러)면 계산은 현지 통화 가격으로, 주당 가치 표시는 달러로(v2/fx.py, Codex).
+    import fx
+    r_fx = fx.rate(t, bmh.load_daily(t)[-1][0])
+    price = price_usd * r_fx
 
     print(f"{t} 기초 수치 (TTM)")
     print(f"  매출 {base['revenue']/1e9:.1f}B · 영업이익 {base['opinc']/1e9:.1f}B"
@@ -560,7 +564,7 @@ def main():
     print(f"  기업가치 {r['ev']/1e9:.0f}B (영구성장 기준)"
           f" · 잔존 ROIC {r['roic_terminal']:.1%} → 재투자율 {r['reinvest_rate']:.1%}")
     print(f"  순부채 {r['net_debt']/1e9:.0f}B → 주주가치 {r['equity']/1e9:.0f}B")
-    print(f"\n  주당 내재가치 ${r['per_share']:.2f}   현재가 ${price:.2f}")
+    print(f"\n  주당 내재가치 ${r['per_share'] / r_fx:.2f}   현재가 ${price_usd:.2f}")
     margin = (r["per_share"] - price) / r["per_share"] * 100
     upside = (r["per_share"] - price) / price * 100
     print(f"  안전마진(내재가치 대비 할인율) {margin:+.1f}%"
@@ -574,7 +578,7 @@ def main():
     for g in terms:
         cells = []
         for w in waccs:
-            v = run_dcf(base, growth, w, g, args.exit_multiple)["per_share"]
+            v = run_dcf(base, growth, w, g, args.exit_multiple)["per_share"] / r_fx
             cells.append(f"{v:9.0f}")
         print(f"   {g:>16.1%} " + "".join(cells))
 
@@ -592,14 +596,14 @@ def main():
                              s2c=s2c_path_for(base, name)[0])
         label = f"{name} (마진 {mp[-1]:.1%}로 수렴)"
         print(f"  {label:22s} " + (f"{req:>17.1%}" if req is not None else f"{'범위 밖':>18s}"))
-    print(f"  ↑ ${price:.2f} 기준 · 이후 영구 {args.terminal:.1%} · 할인율 {args.wacc:.1%}")
+    print(f"  ↑ ${price_usd:.2f} 기준 · 이후 영구 {args.terminal:.1%} · 할인율 {args.wacc:.1%}")
     if past3:
         print(f"  실제 최근 3년 연평균 매출 성장률 {past3:+.1%}"
               + (f" · 5년 {past5:+.1%}" if past5 else ""))
     print("  → 이 성장률이 달성 가능해 보이면 현재가는 정당하고, 무리해 보이면 비싸다")
 
     if args.json:
-        json.dump({"ticker": t, "price": price, "per_share": r["per_share"],
+        json.dump({"ticker": t, "price": price_usd, "per_share": r["per_share"] / r_fx,
                    "margin_pct": margin, "assumptions": {
                        "growth": growth, "wacc": args.wacc, "terminal": args.terminal,
                        "exit_multiple": args.exit_multiple, "tax_rate": r["tax_rate"],

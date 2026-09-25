@@ -43,6 +43,8 @@ from datetime import date
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
 import fetch_eps_history as feh  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import fx  # noqa: E402  재무 통화가 달러가 아닌 종목(TSM)의 환율
 
 REPO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
@@ -658,7 +660,7 @@ def main():
            "perBasis": "core" if core else "diluted"}
     defs = {
         "PER": (lambda d, px: (mcap(d, px) / core_earnings(d)) if mcap(d, px) and core_earnings(d) else None) if core
-        else (lambda d, px: px / as_of(eps, d) if eps and as_of(eps, d) and as_of(eps, d) > 0 else None),
+        else (lambda d, px: px * fx.rate(t, d) / as_of(eps, d) if eps and as_of(eps, d) and as_of(eps, d) > 0 else None),
         "PSR": lambda d, px: mcap(d, px) / as_of(series.get("revenue", []), d)
         if mcap(d, px) and as_of(series.get("revenue", []), d) else None,
         "PBR": lambda d, px: mcap(d, px) / as_of(series.get("equity", []), d)
@@ -669,8 +671,9 @@ def main():
     }
 
     def mcap(d, px):
+        # 재무가 현지 통화(TSM 대만달러)면 달러 가격을 그날 환율로 바꿔 같은 통화끼리 나눈다(v2/fx.py).
         sh = as_of(series.get("shares", []), d)
-        return px * sh if sh else None
+        return px * fx.rate(t, d) * sh if sh else None
 
     def ev(d, px):
         m = mcap(d, px)

@@ -20,6 +20,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import build_dcf as d  # noqa: E402
+import fx  # noqa: E402
 
 WACCS = [0.08, 0.09, 0.10, 0.11, 0.12]
 TERMS = [0.015, 0.020, 0.025, 0.030, 0.035]
@@ -32,12 +33,14 @@ BEGIN, END = "/* DCF_GRID:BEGIN */", "/* DCF_GRID:END */"
 def build(ticker):
     base = d.base_inputs(ticker)
     hist = d.history(ticker)
+    r = fx.rate(ticker, d.bmh.load_daily(ticker)[-1][0])   # 달러 재무 종목은 1.0
     values = {n: [] for n in NAMES}          # values[시나리오][영구성장 i][할인율 j]
     for g in TERMS:
         rows = {n: [] for n in NAMES}
         for w in WACCS:
             for s in d.scenarios(base, hist, w, g):
-                rows[s["name"]].append(round(s["per_share"], 2))
+                # 재무가 현지 통화(TSM)면 주당 가치를 카드 기준일 환율로 달러로 되돌린다(v2/fx.py).
+                rows[s["name"]].append(round(s["per_share"] / r, 2))
         for n in NAMES:
             values[n].append(rows[n])
     return {"waccs": WACCS, "terms": TERMS, "default": list(DEFAULT), "values": values}
