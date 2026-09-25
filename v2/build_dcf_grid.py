@@ -61,7 +61,8 @@ def main():
     html = open(path, encoding="utf-8").read()
 
     # 격자의 기본값 칸은 요약 격자·헤더가 읽는 NVDA_DCF와 같아야 한다.
-    m = re.search(rf"const {t}_DCF = \{{low: ([\d.]+), base: ([\d.]+), high: ([\d.]+)", html)
+    # build_dcf_block.py가 JSON으로 쓴다("low": …). 옛 손 형식(low: …)도 읽는다.
+    m = re.search(rf'const {t}_DCF = \{{"?low"?: ([\d.]+), "?base"?: ([\d.]+), "?high"?: ([\d.]+)', html)
     if not m:
         sys.exit(f"{path}: {t}_DCF 상수를 못 찾았다")
     for n, card in zip(NAMES, map(float, m.groups())):

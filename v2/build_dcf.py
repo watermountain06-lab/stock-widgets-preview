@@ -93,6 +93,8 @@ def base_inputs(ticker, asof=None):
     out["capex_finance_lease"] = fl_capex or 0
     if fl_capex:
         out["capex"] = (out["capex"] or 0) + fl_capex
+    # 인수 대금 — 한계 매출/자본(현금흐름 기준)의 재투자에 넣는다. 인수로 산 매출도 자본이 든다.
+    out["acquisitions"] = ttm(["PaymentsToAcquireBusinessesNetOfCashAcquired"]) or 0
     out["tax"] = ttm(["IncomeTaxExpenseBenefit"])
     out["pretax"] = ttm(["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                          "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"])
@@ -182,147 +184,96 @@ def base_inputs(ticker, asof=None):
         invest_assets = latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) or 0
         out["invest_assets"] = invest_assets
         out["nwc"] = (ac - cash - invest_assets) - (lc - st_debt)
+    out["ticker"], out["asof"] = ticker, asof   # 한계 매출/자본 계산용(scenarios)
     return out
 
 
+S2C_MAX = 10.0   # 매출/자본 상한 — 자본을 거의 안 쓰는 회사의 발산 방지
+
+
+def invested_capital(base):
+    """영업에 묶인 투하자본 = 자기자본 + 차입금 + 리스 − 현금·단기투자 − 비영업자산."""
+    return ((base.get("equity") or 0) + (base.get("debt") or 0) + (base.get("lease") or 0)
+            - (base.get("cash") or 0) - (base.get("sti") or 0) - (base.get("nonop_assets") or 0))
+
+
 def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
-            margin_path=None, dda_pct=None, capex_pct=None, nwc_pct=None, tax_rate=None,
-            roic_fade=0.5):
+            margin_path=None, s2c=None, tax_rate=None, roic_fade=0.5):
+    """무차입 DCF — **매출/자본 비율(sales-to-capital)** 재투자 (2026-09-24 사용자 결정).
+
+    FCF = NOPAT − 재투자,  NOPAT = 매출 × 영업이익률 × (1 − 세율),
+    재투자 = 그 해 매출 증가분 ÷ 매출/자본 비율.
+
+    예전 구조(설비투자 비율을 감가상각 수준으로 5년에 걸쳐 내리고, 감가상각은 투자를
+    따라 올리고, EBITDA 마진은 고정)에는 두 결함이 있었다.
+      1. 투자 비용(늘어난 상각)은 영업이익을 깎는데 그 투자가 버는 이익은 0이었다.
+         AMZN "현재 마진 유지" 시나리오의 영업이익률이 12.1% → 7~10%로 떨어져 카드 문구와
+         계산이 어긋났다(MSFT 46.8% → 38~43%).
+      2. 영업이익률만 고정하면(중간 시도) 반대로 상각이 늘수록 현금이 남고, 4~5년차 순투자가
+         음수가 되는 이음새가 생겼다(Fable·재계산 확인: AMZN −$19B, MSFT −$21B).
+    성장을 자본으로 "사게" 하면 새 자본이 마진을 버는 것이 가정이 아니라 구조가 되고,
+    잔존 재투자율 g/ROIC와 같은 식(한계 ROIC = 영업이익률 × (1−세율) × 매출/자본)이라
+    이음새가 없다. 설비투자·감가상각·운전자본은 투하자본 안에 함께 들어 있어 따로 두지 않는다.
+
+    `s2c`를 비우면 매출 ÷ 현재 투하자본(이력 평균 효율)을 쓴다.
+    """
     rev0 = base["revenue"]
-    ebitda0 = base["opinc"] + base["dda"]
-    margin0 = ebitda0 / rev0
-    dda_pct = dda_pct if dda_pct is not None else base["dda"] / rev0
-    capex_pct = capex_pct if capex_pct is not None else base["capex"] / rev0
-    nwc_pct = nwc_pct if nwc_pct is not None else (base["nwc"] / rev0 if base.get("nwc") else 0.0)
+    margin0 = base["opinc"] / rev0
     tax_rate = tax_rate if tax_rate is not None else (
         base["tax"] / base["pretax"] if base.get("tax") and base.get("pretax") else 0.21)
     margins = margin_path or [margin0] * years
+    invested = invested_capital(base)
+    if s2c is None:
+        # 투하자본이 0에 가깝거나 음수(순현금·비영업자산이 자본보다 큼)면 비율이 무한대로
+        # 튄다. 상한 S2C_MAX로 막는다 — 0 경계 양쪽에서 값이 이어지게(Codex: 투하자본
+        # 0.001→0에 가치가 78→−5로 뒤집히던 폴백 1.0을 대체). AAPL이 7.9로 가장 높다.
+        s2c = min(rev0 / invested, S2C_MAX) if invested > 0 else S2C_MAX
+    # 연도별 경로도 받는다(기본 시나리오: 최근 효율 → 평균). 잔존은 마지막 해 값을 쓴다.
+    s2c_path = list(s2c) if isinstance(s2c, (list, tuple)) else [s2c] * years
 
-    # 설비투자를 예측기간 동안 정상 수준으로 **서서히** 내린다.
-    #
-    # 예전에는 5년 내내 오늘의 capex 비율을 유지하다가 6년차부터 갑자기
-    # 재투자율(성장률/ROIC) 공식으로 넘어갔다. 두 규칙이 안 맞아 이음새에
-    # 절벽이 생겼다 — MSFT는 5년차 매출의 21.5%를 투자하다 6년차에 3.0%로
-    # 떨어졌다. 잔존가치가 기업가치의 85%라 그 절벽이 답을 좌우했다.
-    #
-    # 정상 수준은 성장이 멈춘 회사가 필요한 만큼, 즉 감가상각 수준으로 본다.
-    # 오늘 투자가 많은 회사일수록 더 크게 내려오고, 이미 감가상각 수준인
-    # 회사는 변화가 없다. 마지막 해에는 정상 수준에 도달해 6년차와 이어진다.
-    capex_steady = max(dda_pct, capex_pct * 0.0) if capex_pct > dda_pct else capex_pct
-    capex_path = [capex_pct + (capex_steady - capex_pct) * (i + 1) / years
-                  for i in range(years)]
-
-    # 감가상각도 투자를 따라 올라간다.
-    #
-    # 매출 대비 비율로 고정하면, 설비투자가 감가상각의 3배인 회사에서 자산은
-    # 쌓이는데 상각은 안 늘어나는 상태가 된다. MSFT가 그랬다 — 유형자산이
-    # 1년 만에 $330B→$432B로 늘고 감가상각은 3년 사이 $11B→$34B로 커졌는데
-    # 모델은 13.4%에 묶여 있었다. 잔존가치가 EV의 73%라 잔존 이익이 그만큼
-    # 부풀려진다(Fable 지적, 감가상각 20% 가정 시 MSFT $224 → $191).
-    #
-    # 감가상각이 설비투자 수준으로 따라붙는 **속도**를 정한다.
-    #
-    # 이름을 조심해야 한다. capex/D&A 비율은 자산의 내용연수가 아니다(2026-09-22
-    # Codex·Fable 공통 지적). 내용연수 10년인 정상상태 기업도 capex와 D&A가 같으면
-    # 이 값이 1이 된다. 실제로 재는 것은 "자산 기반이 얼마나 빠르게 커지고 있나"이고,
-    # 그것을 수렴 속도의 대용으로 쓴다. NVDA는 1.68이고, 이 값을 1.68→15로 바꿔도
-    # 주당 $315 → $320으로 영향이 작다. capex 비중이 큰 회사에서는 클 수 있다.
-    adj_speed = max(capex_pct / dda_pct, 1.0) if dda_pct > 0 else 1.0
-    adj_speed = min(adj_speed, 20.0)   # 상한. 첫해 투자가 폭증한 회사에서 발산 방지
-
-    rows, rev, nwc_prev = [], rev0, rev0 * nwc_pct
-    dda_prev = rev0 * dda_pct
+    rows, rev = [], rev0
     for i in range(years):
-        rev = rev * (1 + growth[i])
-        ebitda = rev * margins[i]
-        # 직전 감가상각에서 그 해 투자 수준으로 한 걸음씩 다가간다. 투자가
-        # 상각보다 크면 감가상각이 서서히 따라 올라간다.
-        dda = dda_prev + (rev * capex_path[i] - dda_prev) / adj_speed
-        dda_prev = dda
-        ebit = ebitda - dda
+        new_rev = rev * (1 + growth[i])
+        ebit = new_rev * margins[i]
         nopat = ebit * (1 - tax_rate)
-        capex = rev * capex_path[i]
-        nwc = rev * nwc_pct
-        fcf = nopat + dda - capex - (nwc - nwc_prev)
-        nwc_prev = nwc
+        reinvest = (new_rev - rev) / s2c_path[i]
+        fcf = nopat - reinvest
+        rev = new_rev
         # 기중 할인(Dechra 모델과 같은 0.5년 관행)
         disc = 1 / (1 + wacc) ** (i + 0.5)
-        rows.append({"year": i + 1, "revenue": rev, "ebitda": ebitda, "ebit": ebit,
-                     "nopat": nopat, "capex": capex, "capex_pct": capex_path[i], "dda": dda,
-                     "fcf": fcf, "pv": fcf * disc})
+        rows.append({"year": i + 1, "revenue": rev, "ebit": ebit, "nopat": nopat,
+                     "reinvest": reinvest, "fcf": fcf, "pv": fcf * disc})
 
     pv_sum = sum(r["pv"] for r in rows)
     last = rows[-1]
 
-    # 잔존 첫해를 정상상태로 다시 만든다.
-    # 마지막 예측연도의 FCF에는 그해 성장률(NVDA는 12%)에 맞춘 운전자본 투자가
-    # 들어 있다. 그대로 영구성장시키면 "영원히 2.5%로 자라는데 운전자본은
-    # 12% 성장분만큼 계속 넣는" 회사가 된다. 성장률에 맞춰 재계산한다.
-    rev_t = last["revenue"] * (1 + terminal)
-    ebitda_t = rev_t * margins[-1]
-    dda_t = last["dda"] * (1 + terminal)
-    nopat_t = (ebitda_t - dda_t) * (1 - tax_rate)
-
-    # 영구성장 구간의 재투자는 성장률과 자본수익률에 묶는다.
-    #     재투자율 = 영구성장률 / ROIC        (ROIC = NOPAT / 투하자본)
-    # 예측기간의 capex 비율을 잔존에 그대로 쓰면, 성장이 2.5%로 떨어졌는데 투자는
-    # 고성장기 수준을 유지하는 회사가 된다. MSFT가 이 결함을 드러냈다 —
-    # 설비투자가 매출의 34.9%(FY2026 $116B, AI 데이터센터)라 잔존가치가 붕괴했다.
-    # NVDA는 capex가 2.4%뿐이라 티가 나지 않았다.
-    # 비영업 투자자산(상장주식·지분법 등)은 영업이 굴리는 자본이 아니다.
-    # 투하자본에 남겨두면 ROIC가 눌리고(NVDA 78.5% vs 제외 시 98.5%),
-    # 주주가치에 더하지 않으면 그 자산이 통째로 사라진다(Fable 지적).
-    nonop = (base.get("nonop_assets") or 0)
-    invested = ((base.get("equity") or 0) + (base.get("debt") or 0) + (base.get("lease") or 0)
-                - (base.get("cash") or 0) - (base.get("sti") or 0) - nonop)
-    nopat_now = (base["opinc"]) * (1 - tax_rate)
-    roic = (nopat_now / invested) if invested and invested > 0 else None
-    # 잔존 구간의 자본수익률은 현재 값을 영구히 유지하지 않고 할인율 쪽으로
-    # 일부 수렴시킨다. 경쟁이 초과수익을 깎기 때문이다. NVDA는 현재 ROIC가
-    # 78.5%인데 그대로 두면 잔존 FCF가 NOPAT의 96.8%가 되고, 이 가정 하나가
+    # 잔존: 재투자율 = 영구성장률 / ROIC. 예측기간의 한계 ROIC는 마진 × (1−세율) × 매출/자본이고,
+    # 잔존에서는 경쟁이 초과수익을 깎으므로 할인율 쪽으로 절반 수렴시킨다(roic_fade).
+    # NVDA는 현재 ROIC가 78.5%라 그대로 두면 잔존 FCF가 NOPAT의 96.8%가 되고, 이 가정 하나가
     # 주당 $54를 만든다(검증에서 확인).
-    roic_t = None
-    if roic is not None:
-        roic_t = wacc + (roic - wacc) * roic_fade if roic > wacc else roic
-    if roic_t and roic_t > terminal:
-        reinvest_rate = terminal / roic_t
-    else:
-        # 투하자본이 음수(순현금 과다)이거나 ROIC가 영구성장률보다 낮으면
-        # 재투자율을 산출할 수 없다. 유지투자만 한다고 보고 capex = 감가상각.
-        reinvest_rate = None
-    # 폴백: 재투자율을 산출할 수 없을 때.
-    # 예전 코드는 여기서 재투자를 0으로 뒀는데 방향이 반대였다 — 자본수익률이
-    # 낮을수록 같은 성장에 더 많은 재투자가 필요하다. 임계값 바로 위아래에서
-    # 잔존가치가 수십 배 뛰는 절벽도 생겼다(ROIC 2.6%면 재투자 96%, 2.4%면 0).
-    # 이제 자본수익률이 할인율보다 낮으면 성장이 가치를 만들지 못하므로
-    # 재투자율을 1에 가깝게 두어 잔존 현금흐름이 0으로 수렴하게 한다.
-    if reinvest_rate is None:
-        reinvest_rate = 1.0 if (roic is None or roic <= wacc) else terminal / roic
-    reinvest_rate = min(max(reinvest_rate, 0.0), 1.0)
+    roic = margins[-1] * (1 - tax_rate) * s2c_path[-1]
+    roic_t = wacc + (roic - wacc) * roic_fade if roic > wacc else roic
+    # ROIC가 영구성장률 이하면 성장이 가치를 만들지 못한다 — 재투자율을 1로 두어 잔존 현금흐름이 0.
+    reinvest_rate = min(max(terminal / roic_t, 0.0), 1.0) if roic_t > terminal else 1.0
+    nopat_t = last["revenue"] * (1 + terminal) * margins[-1] * (1 - tax_rate)
     fcf_t = nopat_t * (1 - reinvest_rate)
 
     tv_ggm = fcf_t / (wacc - terminal) if wacc > terminal else float("nan")
-    # 예측기간 현금흐름을 기중(i+0.5)으로 할인하므로 잔존가치도 같은 기준으로
-    # 맞춘다. 연말(n)로 할인하면 6년차 이후를 직접 계산한 값과 어긋난다
-    # (NVDA에서 주당 $212 대 $220, 판정이 고평가에서 적정으로 바뀐다).
+    # 예측기간 현금흐름을 기중(i+0.5)으로 할인하므로 잔존가치도 같은 기준으로 맞춘다.
     pv_ggm = tv_ggm / (1 + wacc) ** (years - 0.5)
-    tv_exit = last["ebitda"] * exit_mult
-    pv_exit = tv_exit / (1 + wacc) ** (years - 0.5)
-    ev_ggm, ev_exit = pv_sum + pv_ggm, pv_sum + pv_exit
-    # **영구성장 하나만 쓴다.** 두 방법을 평균내지 않는다 — 출구배수는 사람이
-    # 고르는 값이라 그 선택이 결론을 정하고, 평균은 "10배일 수도 25배일 수도
-    # 있으니 17배로 치자"는 근거 없는 절충이 된다(2026-09-20 결정).
-    # ev_exit은 참고용으로만 남긴다. exit_mult=0이면 그냥 예측기간 현재가치다.
-    ev = ev_ggm
+    # 출구배수는 참고용이다(영업이익 배수). **영구성장 하나만 쓴다** — 두 방법을 평균내지
+    # 않는다(2026-09-20 결정). exit_mult=0이면 예측기간 현재가치다.
+    ev_exit = pv_sum + last["ebit"] * exit_mult / (1 + wacc) ** (years - 0.5)
+    ev = pv_sum + pv_ggm
 
     net_debt = ((base.get("debt") or 0) + (base.get("lease") or 0)
                 - (base.get("cash") or 0) - (base.get("sti") or 0))
     equity = (ev - net_debt - (base.get("nci") or 0) - (base.get("preferred") or 0)
               + (base.get("nonop_assets") or 0))
-    return {"rows": rows, "pv_sum": pv_sum, "ev_ggm": ev_ggm, "ev_exit": ev_exit, "fcf_terminal": fcf_t,
+    return {"rows": rows, "pv_sum": pv_sum, "ev_ggm": ev, "ev_exit": ev_exit, "fcf_terminal": fcf_t,
             "ev": ev, "net_debt": net_debt, "equity": equity,
             "per_share": equity / base["shares"], "tax_rate": tax_rate,
-            "margin0": margin0, "dda_pct": dda_pct, "capex_pct": capex_pct, "nwc_pct": nwc_pct,
+            "margin0": margin0, "s2c": s2c_path[-1], "s2c_path": s2c_path, "invested": invested,
             "roic": roic, "roic_terminal": roic_t, "reinvest_rate": reinvest_rate}
 
 
@@ -340,7 +291,6 @@ def history(ticker, asof=None):
 
     rev = ttm_map(bmh.FLOW_TAGS["revenue"])
     op = ttm_map(bmh.EBITDA_TAGS["opinc"])
-    _, dseries = bmh.dda_ttm(cik, ticker)
     dates = sorted(set(rev) & set(op))
 
     # 한 분기가 **언제 세상에 나왔는지**는 결산일이 아니라 공시일이다. 예전에는
@@ -354,17 +304,8 @@ def history(ticker, asof=None):
              and (asof is None or avail_of(x) <= asof)]
     if len(dates) < 13:
         return None
-    # 감가상각은 날짜가 안 맞을 수 있다(연 1회 보고 구간). 그 시점까지 공개된
-    # 가장 최근 값을 쓴다 — 없는 셈 치면 마진이 통째로 부풀려진다.
-    def dda_at(x):
-        day, v = avail_of(x), None
-        for e in dseries:
-            if e["available"] <= day:
-                v = e["val"]
-            else:
-                break
-        return v
-    margins = {x: (op[x]["val"] + (dda_at(x) or 0)) / rev[x]["val"] for x in dates}
+    # 영업이익률 이력 — run_dcf의 마진 경로와 같은 정의(2026-09-24, 전에는 EBITDA 마진).
+    margins = {x: op[x]["val"] / rev[x]["val"] for x in dates}
     k = sorted(margins)
 
     def cagr(quarters):
@@ -404,6 +345,72 @@ def margin_path_for(hist, scenario="기본", years=5):
     return [m0 + (m_end - m0) * (i + 1) / years for i in range(years)]
 
 
+def marginal_s2c(base):
+    """최근 1년의 **한계** 매출/자본 — 현금흐름 기준(2026-09-24 사용자 결정).
+
+        1년간 매출 증가 ÷ (설비투자 − 감가상각 + 운전자본 증가 + 인수)
+
+    평균 비율(매출 ÷ 투하자본)에는 자본을 적게 쓰던 과거가 섞여 있다. 지금의 투자 파동
+    (AI 데이터센터)의 효율을 따로 잰다(Fable 권고). 투하자본 증가(대차대조표)로 재면
+    지분 평가이익과 태그 공백에 흔들렸다 — AMZN은 1년 전 공시에 Anthropic 전환사채
+    태그가 없어 1년 전 투하자본이 약 $20B 부풀고 효율이 1.65로 나왔다(현금흐름 기준 1.38).
+    순투자나 매출 증가가 0 이하면 정의하지 않는다(None → 평균 비율, 결과에 기록).
+    """
+    t, asof = base.get("ticker"), base.get("asof")
+    if not t:
+        return None
+    # 기준일이 없으면 실행일이 아니라 카드 일봉의 마지막 날(종가일)이다(Codex).
+    if not asof:
+        try:
+            asof = bmh.load_daily(t)[-1][0]
+        except Exception:
+            asof = date.today().isoformat()
+    # 비교 시점은 날짜 − 365일이 아니라 **같은 분기의 1년 전 분기가 공시된 날**이다. 날짜로
+    # 빼면 공시일이 하루만 어긋나도(AMZN 2026-07-31 대 2025-08-01) 한 분기 전과 비교해
+    # 5분기 매출 증가를 4분기 투자로 나누게 된다(트랙 마지막 점 $89.2 ≠ 카드 $87.6에서 발견).
+    cik = feh.CIKS[t]
+    _, rrows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
+    rev_ttm = bmh.ttm_series(bmh.quarterly_flow(rrows, t)) if rrows else []
+    seen = [e for e in rev_ttm if e["available"] <= asof]
+    if not seen:
+        return None
+    end_now = date.fromisoformat(seen[-1]["end"])
+    prior = [e for e in rev_ttm
+             if abs((end_now - date.fromisoformat(e["end"])).days - 365) <= 10]
+    if not prior:
+        return None
+    try:
+        b1 = base_inputs(t, prior[-1]["available"])
+    except Exception:
+        return None
+    if not b1.get("revenue") or base.get("capex") is None or base.get("dda") is None:
+        return None
+    d_rev = base["revenue"] - b1["revenue"]
+    net_inv = (base["capex"] - base["dda"] + ((base.get("nwc") or 0) - (b1.get("nwc") or 0))
+               + (base.get("acquisitions") or 0))
+    if d_rev <= 0 or net_inv <= 0:
+        return None
+    # 평균 비율과 같은 상한 — 순투자가 작은 해에 비율이 발산한다(Codex: NVDA 2025-05 시점 14.4).
+    return min(d_rev / net_inv, S2C_MAX)
+
+
+def s2c_path_for(base, scenario="기본", years=5):
+    """시나리오별 연도별 매출/자본. 보수 = 최근·평균 중 나쁜 쪽 유지, 기본 = 최근 → 평균으로 5년 회복,
+    낙관 = 평균(2026-09-24 사용자 결정). 최근 효율을 못 구하면 평균만 쓴다."""
+    avg = run_dcf(base, [0.0] * years, 0.10, 0.025, 0.0, years=years)["s2c_path"][0]
+    # 1년 전 입력을 다시 모으는 계산이라 무겁다. 격자(25칸 × 3 시나리오)가 매번 부르므로 base에 캐시한다.
+    if "_s2c_marginal" not in base:
+        base["_s2c_marginal"] = marginal_s2c(base)
+    m = base["_s2c_marginal"]
+    if m is None or scenario == "낙관":
+        return [avg] * years, (m is None)
+    if scenario == "보수":
+        # 최근 효율이 평균보다 **좋으면**(NVDA 3.46 대 2.51) 그걸 보수에 쓰면 보수가 아니다.
+        # 둘 중 나쁜 쪽(자본이 더 드는 쪽)을 쓴다.
+        return [min(m, avg)] * years, False
+    return [m + (avg - m) * (i + 1) / years for i in range(years)], False
+
+
 def scenarios(base, hist, wacc, terminal, years=5):
     """보수·기본·낙관 세 시나리오. 가정은 전부 회사 자기 이력에서 온다.
 
@@ -422,14 +429,18 @@ def scenarios(base, hist, wacc, terminal, years=5):
     out = []
     for name, g0, desc in plans:
         m_path = margin_path_for(hist, name, years)
-        r = run_dcf(base, fade(g0), wacc, terminal, 0.0, years=years, margin_path=m_path)
+        s_path, fell_back = s2c_path_for(base, name, years)
+        r = run_dcf(base, fade(g0), wacc, terminal, 0.0, years=years, margin_path=m_path, s2c=s_path)
+        # 실제로 쓴 매출/자본을 남긴다 — 최근 효율을 못 구해 평균으로 떨어지면 조용히 바뀌지 않게(Fable).
         out.append({"name": name, "desc": desc, "growth0": max(g0, terminal),
-                    "margin_end": m_path[-1], "per_share": r["per_share"], "roic": r["roic"]})
+                    "margin_end": m_path[-1], "per_share": r["per_share"], "roic": r["roic"],
+                    "s2c_path": s_path, "s2c_fallback": fell_back,
+                    "nonop_per_share": (base.get("nonop_assets") or 0) / base["shares"]})
     return out
 
 
 def implied_growth(base, price, wacc, terminal, years=5, lo=-0.5, hi=2.0,
-                   margin_path=None):
+                   margin_path=None, s2c=None):
     """역방향 DCF — **현재가가 요구하는 매출 성장률**을 되찾는다.
 
     순방향 DCF는 내가 넣은 성장 경로를 계산기에 통과시켜 다시 나에게 보여준다.
@@ -447,11 +458,44 @@ def implied_growth(base, price, wacc, terminal, years=5, lo=-0.5, hi=2.0,
     """
     def value_at(g):
         return run_dcf(base, [g] * years, wacc, terminal, 0.0, years=years,
-                       margin_path=margin_path)["per_share"]
+                       margin_path=margin_path, s2c=s2c)["per_share"]
 
-    if value_at(lo) > price:      # 아무리 낮춰도 현재가보다 비싸다
-        return None
-    if value_at(hi) < price:      # 아무리 높여도 현재가에 못 미친다
+    # 매출/자본 재투자에서는 가치가 성장률에 대해 단조 증가한다는 보장이 없다 — ROIC가
+    # 할인율보다 낮으면 성장할수록 재투자가 가치를 깎는다(Codex 지적). 그래서 전 구간을
+    # 1%p 간격으로 훑어 현재가를 처음 가로지르는 구간을 찾고, 그 안에서만 이분법을 쓴다.
+    # 가로지르는 곳이 없으면 None(어떤 일정 성장률로도 현재가가 설명되지 않는다).
+    steps = int(round((hi - lo) / 0.01))
+    grid = [lo + (hi - lo) * i / steps for i in range(steps + 1)]
+    vals = [value_at(g) for g in grid]
+    for (g0, v0), (g1, v1) in zip(zip(grid, vals), zip(grid[1:], vals[1:])):
+        if v0 == price:
+            return g0
+        if (v0 - price) * (v1 - price) < 0:
+            a_, b_, fa = g0, g1, v0 - price
+            for _ in range(50):
+                mid = (a_ + b_) / 2
+                fm = value_at(mid) - price
+                if fa * fm <= 0:
+                    b_ = mid
+                else:
+                    a_, fa = mid, fm
+            return (a_ + b_) / 2
+    return None
+
+
+def implied_margin(base, price, wacc, terminal, growth, years=5, s2c=None, lo=-0.5, hi=1.0):
+    """역방향 DCF (마진판) — 성장 경로를 고정하고 **현재가가 요구하는 영업이익률**을 찾는다.
+
+    자본수익률이 할인율에 가까운 종목은 성장이 가치를 거의 만들지 못해 요구 성장률이
+    발산한다(AMZN: ROIC 약 16% 대 할인율 10%, 요구 성장 53%, 보수 141%). 그런 가격은
+    성장이 아니라 마진 확대에 대한 베팅이라 이 질문이 맞다(2026-09-24 사용자 결정).
+    마진이 오르면 NOPAT과 한계 ROIC가 함께 오르므로 가치는 마진에 대해 단조 증가한다.
+    """
+    def value_at(m):
+        return run_dcf(base, growth, wacc, terminal, 0.0, years=years,
+                       margin_path=[m] * years, s2c=s2c)["per_share"]
+
+    if value_at(lo) > price or value_at(hi) < price:
         return None
     for _ in range(60):
         mid = (lo + hi) / 2
@@ -460,6 +504,11 @@ def implied_growth(base, price, wacc, terminal, years=5, lo=-0.5, hi=2.0,
         else:
             hi = mid
     return (lo + hi) / 2
+
+
+# 요구 성장률이 최근 5년 실제 성장의 이 배수를 넘으면 "성장만으로는 설명 불가"로 보고
+# 요구 마진을 대신 보인다(2026-09-24 사용자 결정).
+REQ_GROWTH_MULTIPLE = 3.0
 
 
 def past_growth(ticker, years=3):
@@ -492,19 +541,20 @@ def main():
     price = args.price or bmh.load_daily(t)[-1][4]
 
     print(f"{t} 기초 수치 (TTM)")
-    print(f"  매출 {base['revenue']/1e9:.1f}B · EBITDA {(base['opinc']+base['dda'])/1e9:.1f}B"
-          f" · 설비투자 {base['capex']/1e9:.1f}B · 주식수 {base['shares']/1e9:.2f}B")
+    print(f"  매출 {base['revenue']/1e9:.1f}B · 영업이익 {base['opinc']/1e9:.1f}B"
+          f" · 투하자본 {invested_capital(base)/1e9:.1f}B · 주식수 {base['shares']/1e9:.2f}B")
     print(f"  현금+단기투자 {((base.get('cash') or 0)+(base.get('sti') or 0))/1e9:.1f}B"
           f" · 차입금+리스 {((base.get('debt') or 0)+(base.get('lease') or 0))/1e9:.1f}B")
 
     r = run_dcf(base, growth, args.wacc, args.terminal, args.exit_multiple)
     print(f"\n가정: 성장 {args.growth}% · 할인율 {args.wacc:.1%} · 영구성장 {args.terminal:.1%}"
           f" · 출구배수 {args.exit_multiple}x · 실효세율 {r['tax_rate']:.1%}")
-    print(f"      EBITDA 마진 {r['margin0']:.1%} 유지 · 감가상각 {r['dda_pct']:.1%}"
-          f" · 설비투자 {r['capex_pct']:.1%} · 운전자본 {r['nwc_pct']:.1%} (매출 대비)")
+    print(f"      영업이익률 {r['margin0']:.1%} 유지 · 매출/자본 {r['s2c']:.2f}"
+          f" (투하자본 {r['invested']/1e9:.0f}B) · 한계 ROIC {r['roic']:.1%}")
     print("\n연도별 무차입 잉여현금흐름 (B$)")
     for row in r["rows"]:
-        print(f"  {row['year']}년차  매출 {row['revenue']/1e9:8.1f}  EBITDA {row['ebitda']/1e9:7.1f}"
+        print(f"  {row['year']}년차  매출 {row['revenue']/1e9:8.1f}  영업이익 {row['ebit']/1e9:7.1f}"
+              f"  재투자 {row['reinvest']/1e9:6.1f}"
               f"  FCF {row['fcf']/1e9:7.1f}  현재가치 {row['pv']/1e9:7.1f}")
     print(f"\n  예측기간 현재가치 합 {r['pv_sum']/1e9:.0f}B")
     print(f"  기업가치 {r['ev']/1e9:.0f}B (영구성장 기준)"
@@ -538,7 +588,8 @@ def main():
     print(f"  {'가정':22s} {'요구 매출 성장률(5년)':>18s}")
     for name in ["낙관", "기본", "보수"]:
         mp = margin_path_for(hist, name)
-        req = implied_growth(base, price, args.wacc, args.terminal, margin_path=mp)
+        req = implied_growth(base, price, args.wacc, args.terminal, margin_path=mp,
+                             s2c=s2c_path_for(base, name)[0])
         label = f"{name} (마진 {mp[-1]:.1%}로 수렴)"
         print(f"  {label:22s} " + (f"{req:>17.1%}" if req is not None else f"{'범위 밖':>18s}"))
     print(f"  ↑ ${price:.2f} 기준 · 이후 영구 {args.terminal:.1%} · 할인율 {args.wacc:.1%}")
@@ -551,7 +602,9 @@ def main():
         json.dump({"ticker": t, "price": price, "per_share": r["per_share"],
                    "margin_pct": margin, "assumptions": {
                        "growth": growth, "wacc": args.wacc, "terminal": args.terminal,
-                       "exit_multiple": args.exit_multiple, "tax_rate": r["tax_rate"]}},
+                       "exit_multiple": args.exit_multiple, "tax_rate": r["tax_rate"],
+                       "model": "sales-to-capital (2026-09-24)", "margin": "operating (EBIT)",
+                       "s2c": r["s2c"]}},
                   open(args.json, "w"), ensure_ascii=False, indent=1)
         print("\n저장:", args.json)
 

@@ -484,7 +484,7 @@
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +13.0%)</span>
-      <span class="meta-value" id="amznDcfReq" style="font-size: 22px; color: var(--red);">연 32.4%</span>
+      <span class="meta-value" id="amznDcfReq" style="font-size: 22px; color: var(--red);">28.2%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="amznConfidenceLabel">밴드 적중률 (305/716일, 이탈 전부 하단)</span>
@@ -506,7 +506,7 @@
   <div class="logic-grid" id="amznLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="amznDcfVerdict">현재가보다 아래</span></div>
-      <div class="logic-score" id="amznDcfBox">$76<span class="logic-denom"> · 낮은 성장 $37 · 높은 성장 $91</span></div>
+      <div class="logic-score" id="amznDcfBox">$88<span class="logic-denom"> · 낮은 성장 $53 · 높은 성장 $99</span></div>
     </div>
     <div class="logic-box logic-neutral" id="amznFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="amznFundVerdict">양호</span></div>
@@ -622,23 +622,24 @@
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$37.28</td><td style="color: var(--red);" data-dcf-upside="low">−85.0%</td>
-          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 마진은 지난 5년 중앙값(15.6%)으로 내려온다.</td>
+          <td class="big scn-low" data-dcf-value="low">$52.76</td><td style="color: var(--red);" data-dcf-upside="low">−78.8%</td>
+          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(7.2%)으로 내려온다. 매출 $1을 늘리는 데 $0.73를 투자한다(최근 1년 수준).</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$75.86</td><td style="color: var(--red);" data-dcf-upside="base">−69.6%</td>
-          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 마진은 최근 2년 중앙값(20.0%)으로 서서히 내려온다.</td>
+          <td class="big scn-base" data-dcf-value="base">$87.55</td><td style="color: var(--red);" data-dcf-upside="base">−64.9%</td>
+          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(11.1%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $0.73에서 5년에 걸쳐 과거 평균 $0.58로 돌아온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$91.11</td><td style="color: var(--red);" data-dcf-upside="high">−63.4%</td>
-          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 마진(21.8%)이 그대로 간다.</td>
+          <td class="big scn-high" data-dcf-value="high">$98.56</td><td style="color: var(--red);" data-dcf-upside="high">−60.5%</td>
+          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(12.1%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $0.58다.</td>
         </tr>
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="reverse">지금 가격(<span data-dcf-price>$249.27</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>32.4%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$76</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>6.7%</span>다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $88 = 사업 가치 $68 + 비영업 자산 $20(주당, 지분·장기투자)</div>
+    <div class="reverse">지금 가격($249.27)이 정당하려면, 매출이 지난 5년 속도(연 11.7%)로 크다가 식는 동안 영업이익률이 <b>28.2%</b>여야 한다(지금 12.1%). 성장만으로는 설명되지 않는다 — 일정 성장으로 맞추려면 연 55.3%가 필요해 지난 5년 실제의 3배를 넘는다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -649,7 +650,7 @@
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $76</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −69.6%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $88</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −64.9%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -868,11 +869,11 @@
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 AMZN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">62.8</div><div class="sc-tile" data-vc="self" data-m="per">87</div><div class="sc-tile" data-vc="self" data-m="pbr">100</div><div class="sc-tile lost" data-vc="self" data-m="psr">34</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile" data-vc="self" data-m="evebitda">94</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$76</div><div class="vs-note">현재가 <span data-vs="price">$249.27</span> 대비 <strong data-vs="upside">−69.6%</strong> · 기본 시나리오</div><div class="vs-pill high" data-vs-pill="dcf">비싸다</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$88</div><div class="vs-note">현재가 <span data-vs="price">$249.27</span> 대비 <strong data-vs="upside">−64.9%</strong> · 기본 시나리오</div><div class="vs-pill high" data-vs-pill="dcf">비싸다</div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.7</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">100</div><div class="sc-tile" data-vc="peer" data-m="psr">90</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile" data-vc="peer" data-m="evebitda">89</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">배수로는 동종업·자기 5년 이력 모두 싼 편이지만, <strong>현금흐름 내재가치는 현재가에 크게 못 미친다.</strong> 설비투자가 매출의 22.8%로 영업현금흐름을 넘어서 최근 4분기 잉여현금흐름이 마이너스다. 투자 확대기의 현금흐름이 그대로 이어진다는 계산이라 내재가치가 지나치게 낮게 잡혀, 종합 평가는 배수와 PER 적정주가 밴드에 무게를 뒀다.</div>
-    <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">32.4%</strong>씩 커야 한다. 최근 3년 실제 성장은 연 13.0%였고, 설비투자가 5년에 걸쳐 감가상각 수준(매출의 9.7%)으로 내려온다는 가정이다.</div>
+    <div class="vs-premise">배수로는 동종업·자기 5년 이력 모두 싼 편이지만, <strong>현금흐름 내재가치는 현재가에 크게 못 미친다.</strong> 설비투자가 매출의 22.8%로 영업현금흐름을 넘어서 최근 4분기 잉여현금흐름이 마이너스다. 자본수익률이 할인율에 가까워 과거 성장으로는 가격이 설명되지 않고, 가격에는 마진 확대 기대가 담겨 있다. 종합 평가는 배수와 PER 적정주가 밴드에 무게를 뒀다.</div>
+    <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 11.7%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">28.2%</strong>여야 한다(지금 12.1%). 성장만으로 맞추려면 연 55.3%가 필요해, 가격은 성장보다 마진 확대에 거는 기대로 읽힌다(AWS 영업이익률은 Q2 39%).</div>
   </div>
 
   <div class="grid-2">
@@ -1388,8 +1389,7 @@ const AMZN_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 const AMZN_VERDICT = '적정';   // 2026-09-24 사용자 결정 — 설비투자 확대기라 내재가치가 비현실적으로 낮아 배수·PER 밴드에 무게
 document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = AMZN_VERDICT; });
 
-const AMZN_DCF = {low: 37.28, base: 75.86, high: 91.11,
-                  requiredGrowth: 0.3241, baseEquivGrowth: 0.0674, asOf: "2026-09-23"};   // Anthropic 전환사채 $97.9B 포함(v2/nonop_extra.json)
+const AMZN_DCF = {"low": 52.76, "base": 87.55, "high": 98.56, "requiredGrowth": 0.5534, "baseEquivGrowth": 0.0714, "reqMode": "margin", "requiredMargin": 0.2825, "marginNow": 0.1208, "growth5y": 0.1174, "nonopPerShare": 20.41, "s2cFallback": false, "asOf": "2026-09-23"};   // build_dcf_block.py
 // baseEquivGrowth — 기본 시나리오 $315를 requiredGrowth와 **같은 방식**(5년 내내 일정한
 // 성장률, 같은 마진 경로)으로 환산한 값. 내재가치 탭이 requiredGrowth와 나란히 싣는다.
 // 기본 시나리오의 경로 CAGR 33.9%와 비교하면 안 된다 — 69.4%→2.5%로 앞에 몰린 경로라
@@ -1460,13 +1460,27 @@ const AMZN_SCORES = {
     ? AMZN_DAILY[AMZN_DAILY.length - 1][4] : null;
   if (base) base.style.color = '#38bdf8';
   if (base) base.textContent = '$' + Math.round(d.base);
-  if (req)  req.textContent  = '연 ' + (d.requiredGrowth * 100).toFixed(1) + '%';
+  // 요구 성장률이 최근 5년 실제 성장의 3배를 넘으면(또는 해가 없으면) 성장만으로는 가격이
+  // 설명되지 않는다 — 대신 요구 영업이익률을 보인다(reqMode, build_dcf_block.py, 2026-09-24).
+  const mMode = d.reqMode === 'margin', f1 = v => (v * 100).toFixed(1) + '%';
+  if (req) req.textContent = mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '—')
+                                   : '연 ' + f1(d.requiredGrowth);
+  if (req && mMode) {
+    const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
+    if (lb) lb.textContent = `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+  }
   if (req && price != null) {
     const cheap = price < d.base;
     req.style.color = cheap ? '#38bdf8' : 'var(--red)';
     const cell = req.closest('.meta-item');
-    if (cell) cell.title = `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
-      + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`
+    if (cell) cell.title = (mMode
+        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
+          + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
+          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+            ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
+            : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
+        : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
+          + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
       + `\n내재가치 $${Math.round(d.base)} ${cheap ? '아래라 파랑' : '위라 빨강'}`
       + ` — 주가가 내재가치를 넘으면 빨강으로 바뀐다.`;
   }
@@ -1490,7 +1504,7 @@ const AMZN_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py AMZN
 /* DCF_GRID:BEGIN */
-const AMZN_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[42.82, 38.47, 35.12, 32.44, 30.26], [44.64, 39.82, 36.16, 33.29, 30.96], [46.68, 41.29, 37.28, 34.17, 31.69], [49.01, 42.91, 38.48, 35.11, 32.45], [51.72, 44.72, 39.79, 36.11, 33.24]], "기본": [[90.78, 79.94, 71.6, 64.98, 59.59], [94.58, 82.66, 73.65, 66.58, 60.88], [98.9, 85.66, 75.86, 68.28, 62.24], [103.87, 89.0, 78.25, 70.09, 63.66], [109.7, 92.77, 80.88, 72.02, 65.15]], "낙관": [[109.81, 96.36, 86.02, 77.82, 71.15], [114.4, 99.63, 88.47, 79.72, 72.68], [119.62, 103.24, 91.11, 81.74, 74.27], [125.63, 107.26, 93.97, 83.89, 75.95], [132.71, 111.8, 97.12, 86.19, 77.72]]}};
+const AMZN_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[67.49, 59.94, 54.17, 49.61, 45.92], [67.57, 59.54, 53.52, 48.84, 45.08], [67.61, 59.04, 52.76, 47.94, 44.14], [67.61, 58.42, 51.85, 46.91, 43.06], [67.55, 57.63, 50.76, 45.71, 41.83]], "기본": [[108.91, 95.13, 84.56, 76.19, 69.4], [112.26, 97.28, 85.98, 77.15, 70.05], [116.14, 99.7, 87.55, 78.19, 70.75], [120.71, 102.46, 89.29, 79.32, 71.49], [126.2, 105.65, 91.25, 80.56, 72.29]], "낙관": [[122.24, 106.62, 94.65, 85.17, 77.49], [126.42, 109.36, 96.5, 86.47, 78.41], [131.27, 112.45, 98.56, 87.87, 79.39], [136.99, 115.98, 100.85, 89.41, 80.44], [143.86, 120.07, 103.43, 91.11, 81.59]]}};
 /* DCF_GRID:END */
 (function(){
   const D = AMZN_DCF, G = (typeof AMZN_DCF_GRID !== 'undefined') ? AMZN_DCF_GRID : null;
@@ -1510,7 +1524,23 @@ const AMZN_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   if (price != null) fill('[data-dcf-price]', '$' + price.toFixed(2));
   fill('[data-dcf-req]', (D.requiredGrowth * 100).toFixed(1) + '%');
   fill('[data-dcf-basev]', '$' + Math.round(D.base));
-  fill('[data-dcf-baseeq]', (D.baseEquivGrowth * 100).toFixed(1) + '%');
+  fill('[data-dcf-baseeq]', D.baseEquivGrowth != null ? (D.baseEquivGrowth * 100).toFixed(1) + '%' : '—');
+  const pc = v => (v * 100).toFixed(1) + '%';
+  if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
+    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
+      + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
+      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null
+        ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
+        : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
+  });
+  // 비영업 자산 분리 표기 — 주주가치에 더한 지분·장기투자(주당). 사업이 버는 현금과 구분한다.
+  document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
+    const n = D.nonopPerShare || 0;
+    el.textContent = n >= 1
+      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      : '';
+    el.hidden = n < 1;
+  });
 
   if (!G) return;
   const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#38bdf8'], ['낙관', 'high', 'var(--green)']];
@@ -1724,7 +1754,7 @@ const AMZN_VALUATION = {"peer": {"score": 69.7, "sector": "Consumer Discretionar
   const put = (k, t) => document.querySelectorAll(`#valuation [data-vs="${k}"]`).forEach(el => { el.textContent = t; });
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
-  if (D) { put('dcf', '$' + Math.round(D.base)); put('low', '$' + Math.round(D.low)); put('req', (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  if (D) { put('dcf', '$' + Math.round(D.base)); put('low', '$' + Math.round(D.low)); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
@@ -1920,7 +1950,7 @@ const AMZN_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', rating: 'Str
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const AMZN_DCF_TRACK = [{d:"2024-11-01",low:25.0,base:39.2,high:63.3},{d:"2025-02-07",low:28.6,base:52.0,high:75.0},{d:"2025-05-02",low:26.8,base:55.8,high:74.8},{d:"2025-08-01",low:23.9,base:58.3,high:76.7},{d:"2025-10-31",low:23.5,base:62.9,high:73.7},{d:"2026-02-06",low:28.9,base:69.8,high:78.3},{d:"2026-04-30",low:27.5,base:67.5,high:78.0},{d:"2026-07-31",low:37.3,base:75.9,high:91.1}];
+const AMZN_DCF_TRACK = [{d:"2024-11-01",low:21.1,base:30.5,high:55.7},{d:"2025-02-07",low:27.5,base:46.3,high:69.9},{d:"2025-05-02",low:28.5,base:53.6,high:71.1},{d:"2025-08-01",low:31.7,base:59.7,high:75.1},{d:"2025-10-31",low:36.0,base:67.9,high:74.5},{d:"2026-02-06",low:40.3,base:76.7,high:79.8},{d:"2026-04-30",low:37.2,base:76.3,high:82.4},{d:"2026-07-31",low:52.8,base:87.5,high:98.6}];
 const AMZN_BACKTEST = [{"checkpoint_date":"2023-10-27","predicted_low":113.79,"predicted_high":594.08,"realized_low":127.74,"realized_high":161.26,"period_end_date":"2024-02-01","zone":"full_hit","is_open":false,"band_width_ratio":5.22},{"checkpoint_date":"2024-02-02","predicted_low":210.19,"predicted_high":878.12,"realized_low":167.08,"realized_high":189.05,"period_end_date":"2024-04-30","zone":"breached_bottom","is_open":false,"band_width_ratio":4.18},{"checkpoint_date":"2024-05-01","predicted_low":213.63,"predicted_high":986.45,"realized_low":176.44,"realized_high":200.0,"period_end_date":"2024-08-01","zone":"breached_bottom","is_open":false,"band_width_ratio":4.62},{"checkpoint_date":"2024-08-02","predicted_low":214.5,"predicted_high":477.07,"realized_low":161.02,"realized_high":193.96,"period_end_date":"2024-10-31","zone":"breached_bottom","is_open":false,"band_width_ratio":2.22},{"checkpoint_date":"2024-11-01","predicted_low":198.74,"predicted_high":485.56,"realized_low":195.78,"realized_high":242.06,"period_end_date":"2025-02-06","zone":"breached_bottom","is_open":false,"band_width_ratio":2.44},{"checkpoint_date":"2025-02-07","predicted_low":236.65,"predicted_high":449.94,"realized_low":167.32,"realized_high":233.14,"period_end_date":"2025-05-01","zone":"breached_bottom","is_open":false,"band_width_ratio":1.9},{"checkpoint_date":"2025-05-02","predicted_low":209.84,"predicted_high":467.32,"realized_low":185.01,"realized_high":234.11,"period_end_date":"2025-07-31","zone":"breached_bottom","is_open":false,"band_width_ratio":2.23},{"checkpoint_date":"2025-08-01","predicted_low":219.03,"predicted_high":395.84,"realized_low":211.65,"realized_high":238.24,"period_end_date":"2025-10-30","zone":"breached_bottom","is_open":false,"band_width_ratio":1.81},{"checkpoint_date":"2025-10-31","predicted_low":233.64,"predicted_high":365.03,"realized_low":217.14,"realized_high":254.0,"period_end_date":"2026-02-05","zone":"breached_bottom","is_open":false,"band_width_ratio":1.56},{"checkpoint_date":"2026-02-06","predicted_low":231.33,"predicted_high":344.21,"realized_low":198.79,"realized_high":263.99,"period_end_date":"2026-04-29","zone":"breached_bottom","is_open":false,"band_width_ratio":1.49},{"checkpoint_date":"2026-04-30","predicted_low":243.41,"predicted_high":368.31,"realized_low":226.65,"realized_high":274.99,"period_end_date":"2026-07-30","zone":"breached_bottom","is_open":false,"band_width_ratio":1.51},{"checkpoint_date":"2026-07-31","predicted_low":354.69,"predicted_high":457.66,"realized_low":256.36,"realized_high":284.02,"period_end_date":"2026-08-27","zone":"breached_bottom","is_open":true,"band_width_ratio":1.29}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
