@@ -285,7 +285,10 @@ def instant_series(entries, ticker, is_share_count):
         if key not in best or e["filed"] < best[key]["filed"]:
             best[key] = e
     out = []
-    splits = feh.KNOWN_SPLITS.get(ticker, [])
+    # 손 목록(KNOWN_SPLITS)이 없으면 Yahoo 분할 기록으로 보정한다(v2/splits.py, 2026-09-25).
+    # 전에는 목록에 없는 종목의 분할 전 주식 수가 그대로 들어가 주당 가치가 부풀었다(BKNG·KLAC·CRWD).
+    import splits as _splits
+    splits = _splits.for_ticker(ticker)
     for e in best.values():
         val = e["val"]
         if is_share_count and splits:

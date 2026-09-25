@@ -1735,7 +1735,7 @@ const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technolog
 // 사람이 적던 종합 평가를 규칙으로 바꿨다. 각 신호는 방향 한 표만 던진다 — 두 배수 점수를
 // 평균내지 않는다는 원칙은 그대로다.
 //   자기 이력·동종업 점수: 70 이상 +1(싼 편) · 30 미만 −1(비싼 편) · 그 사이 0 (카드 공통 30/70)
-//   현금흐름 5단계(dcfLevel): 매우 싸다 +2 · 싸다 +1 · 적정 0 · 비싸다 −1 · 매우 비싸다 −2
+//   현금흐름 5단계(dcfLevel): 매우 싸다 +1(경고) · 싸다 +1 · 적정 0 · 비싸다 −1 · 매우 비싸다 −2
 //     (사이트 목적이 내재가치 대비 판단이라 배수보다 두 배 무게)
 //   합계 +3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가
 // 도입 당시 사람 판단과 6장 중 4장 일치(GOOGL 적정~고평가→고평가, AMZN 적정→적정~고평가).
@@ -1743,18 +1743,36 @@ const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technolog
 (function(){
   const V = MSFT_VALUATION, D = MSFT_DCF;
   const last = MSFT_DAILY[MSFT_DAILY.length - 1];
-  const vote = s => s == null ? 0 : s >= 70 ? 1 : s < 30 ? -1 : 0;
-  const DV = {'매우 싸다': 2, '싸다': 1, '적정': 0, '비싸다': -1, '매우 비싸다': -2};
+  // 기권 규칙(2026-09-25, Fable 지적 · 사용자 결정): 표를 못 던지는 심판은 0표가 아니라 **제외**한다.
+  // 0표는 "적정"이라는 주장이라, 적자·신규 상장·표본 부족 종목이 근거 없이 적정 쪽으로 끌려간다.
+  // 배수 심판은 유효 배수 3개 이상일 때만 성립한다. 현금흐름이 기권하거나 성립한 심판이 2명 미만이면 판정 보류.
+  const valid = side => side && side.score != null
+    && (side.metrics || []).filter(m => m.score != null).length >= 3;
+  const vote = s => s >= 70 ? 1 : s < 30 ? -1 : 0;
+  // '매우 싸다'는 +1만 준다(2026-09-25 사용자 결정) — S&P500 검증에서 내재가치 대비 가장 싼 무리가
+  // 오히려 부진했다(가치 함정: 보험·헬스케어·자동차·크루즈). 효과는 중간 구간 순위에서 나왔다.
+  const DV = {'매우 싸다': 1, '싸다': 1, '적정': 0, '비싸다': -1, '매우 비싸다': -2};
   const lv = dcfLevel(last[4], D);
-  const parts = [['자기 이력', vote(V.self.score), V.self.score], ['동종업', vote(V.peer.score), V.peer.score],
-                 ['현금흐름', DV[lv.label] ?? 0, lv.label]];
-  const total = parts.reduce((a, p) => a + p[1], 0);
-  MSFT_VERDICT = total >= 3 ? '저평가' : total >= 1 ? '적정~저평가' : total === 0 ? '적정'
-               : total >= -2 ? '적정~고평가' : '고평가';
+  const judges = [
+    ['자기 이력', valid(V.self) ? vote(V.self.score) : null, V.self && V.self.score, 1],
+    ['동종업', valid(V.peer) ? vote(V.peer.score) : null, V.peer && V.peer.score, 1],
+    ['현금흐름', lv.label in DV ? DV[lv.label] : null, lv.label, 2],
+  ];
+  const seated = judges.filter(j => j[1] != null);
+  const maxW = seated.reduce((a, j) => a + j[3], 0);
+  const total = seated.reduce((a, j) => a + j[1], 0);
+  const dcfIn = judges[2][1] != null;
+  // 기권이 있으면 최대 가능 표(전원 4표)에 맞춰 늘려 같은 문턱을 쓴다.
+  const n = maxW ? total * 4 / maxW : 0;
+  MSFT_VERDICT = (!dcfIn || seated.length < 2) ? '판정 보류'
+    : n >= 3 ? '저평가' : n >= 1 ? '적정~저평가' : n > -1 ? '적정' : n > -3 ? '적정~고평가' : '고평가';
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
-  const tip = parts.map(p => `${p[0]} ${typeof p[2] === 'number' ? p[2].toFixed(1) : (p[2] ?? '—')} → ${sgn(p[1])}`).join('\n')
-    + `\n합계 ${sgn(total)} → ${MSFT_VERDICT}`
-    + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)';
+  const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
+      + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
+    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
+    + ` → ${MSFT_VERDICT}`
+    + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
+    + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
   document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = MSFT_VERDICT; el.title = tip; });
 })();
 (function(){
