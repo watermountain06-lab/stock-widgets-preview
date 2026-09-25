@@ -1,7 +1,7 @@
 {
   "ticker": "AMAT",
-  "asOf": "2026-09-23",
-  "close": 474.38,
+  "asOf": "2026-09-24",
+  "close": 474.25,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,15 +18,15 @@
     }
   },
   "momentum": {
-    "score": 40,
+    "score": 30,
     "max": 40,
-    "weightedRocPct": 41.9
+    "weightedRocPct": 37.92
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 141.78,
-    "drawdownFromHighPct": 35.87,
+    "riseFromLowPct": 141.72,
+    "drawdownFromHighPct": 35.88,
     "high52w": 739.67,
     "low52w": 196.2
   },
@@ -35,8 +35,8 @@
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 90,
-  "rawGrade": "강한",
+  "rawScore": 80,
+  "rawGrade": "긍정적",
   "displayGrade": "강한",
   "riskFlags": [
     "고점대비큰조정",
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 3.98,
-    "percentileVsOwnHistory": 35.3
+    "pctNow": 4.01,
+    "percentileVsOwnHistory": 36.5
   }
 }
