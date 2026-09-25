@@ -60,7 +60,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168"}
+CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801"}
 UA = "stock-widgets research gptjhss@gmail.com"
 
 # 앞에 있는 태그가 우선한다. 같은 분기에 둘 다 있으면 뒤 태그는 버린다.
@@ -69,7 +69,7 @@ TAGS = {
     "cogs": ["CostOfRevenue", "CostOfGoodsAndServicesSold"],
     "ar": ["AccountsReceivableNetCurrent"],
     "inventory": ["InventoryNet"],
-    "ap": ["AccountsPayableCurrent"],
+    "ap": ["AccountsPayableCurrent", "AccountsPayableTradeCurrent"],   # META는 2021~2026-03을 뒤 태그로만 냈다(겹치는 2020-12·2025-12 값 같음)
 }
 HISTORY = 20            # 비교할 직전 분기 수 (5년)
 GREEN, RED = 70, 30     # 카드 공통 문턱
@@ -140,6 +140,11 @@ def series(facts):
     gaap = facts["facts"]["us-gaap"]
     rev, cogs = quarterly_flow(gaap, TAGS["revenue"]), quarterly_flow(gaap, TAGS["cogs"])
     ar, inv, ap = (instant(gaap, TAGS[k]) for k in ("ar", "inventory", "ap"))
+    # 재고 태그를 한 번도 낸 적 없는 회사(META — 광고 사업)는 재고 0으로 본다(2026-09-25 사용자 결정).
+    # 영업순환주기 = 매출채권 회수기간. 한때라도 재고를 낸 회사는 그대로 둔다(빈 분기를 0으로 채우면
+    # GOOGL처럼 재고 공시가 끊긴 기간이 조용히 0이 된다).
+    if not inv:
+        inv = {e: 0.0 for e in rev}
     qs = [e for e in sorted(rev) if all(e in d for d in (cogs, ar, inv, ap))]
 
     def avg(x, i):
@@ -179,6 +184,8 @@ def build(ticker, facts):
         after = [e for e in quarterly_flow(gaap, TAGS["revenue"]) if e > cur["end"]]
         why = {"ar": "매출채권", "inventory": "재고", "ap": "매입채무", "cogs": "매출원가"}
         have = {k: instant(gaap, TAGS[k]) for k in ("ar", "inventory", "ap")}
+        if not have["inventory"]:
+            have["inventory"] = {e: 0.0 for e in quarterly_flow(gaap, TAGS["revenue"])}
         have["cogs"] = quarterly_flow(gaap, TAGS["cogs"])
         missing = [why[k] for k in ("ar", "inventory", "ap", "cogs") if any(e not in have[k] for e in after)]
         return {"ticker": ticker, "status": "stale", "asOf": cur["end"],

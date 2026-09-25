@@ -1,7 +1,19 @@
 {
- "_note": "태그 이름만으로는 비영업자산인지 가를 수 없어 일괄 적용하지 않는 자산을 종목별로 지정한다. build_dcf.base_inputs가 nonop_assets에 더한다. 근거는 반드시 1차 출처(10-Q/10-K 주석)로 적는다.",
+ "_note": "태그 이름만으로는 비영업자산인지 가를 수 없어 일괄 적용하지 않는 자산을 종목별로 지정한다. build_dcf.base_inputs가 nonop_assets에 더한다. 근거는 반드시 1차 출처(10-Q/10-K 주석)로 적는다. \"exclude\" 항목은 그 태그가 이미 현금·단기투자에 들어 있어 비영업 자산·운전자본 차감에서 빼는 태그다.",
  "AMZN": [
-  {"tag": "AvailableForSaleSecuritiesDebtSecurities",
-   "reason": "Anthropic 전환사채(비시장성, 매도가능, Level 3). 2026-06-30 공정가치 $97.9B — 10-Q 'Non-Marketable Investments' 주석. 이 회사의 시장성 채권($106.5B)은 AvailableForSaleSecuritiesDebtMaturitiesSingleMaturityDate로 따로 보고되고 현금·단기투자에 들어 있어 겹치지 않는다(2026-09-24 사용자 결정)."}
+  {
+   "tag": "AvailableForSaleSecuritiesDebtSecurities",
+   "reason": "Anthropic 전환사채(비시장성, 매도가능, Level 3). 2026-06-30 공정가치 $97.9B — 10-Q 'Non-Marketable Investments' 주석. 이 회사의 시장성 채권($106.5B)은 AvailableForSaleSecuritiesDebtMaturitiesSingleMaturityDate로 따로 보고되고 현금·단기투자에 들어 있어 겹치지 않는다(2026-09-24 사용자 결정)."
+  }
+ ],
+ "META": [
+  {
+   "tag": "EquityMethodInvestments",
+   "reason": "지분법 비상장 투자(Scale AI 등) 2026-06-30 $9,406M — 10-Q Note 5 'Non-Marketable Equity Investments'. 측정대안 비상장 지분($20,751M)과 별개 항목이라 겹치지 않는다(2026-09-25 사용자 결정)."
+  },
+  {
+   "exclude": "EquitySecuritiesFvNi",
+   "reason": "상장주식 $3,543M는 10-Q 공정가치 표에서 'Total marketable securities $74,798M' 안에 있다(= 단기투자 MarketableSecuritiesCurrent). 비영업 자산과 운전자본 차감에서 빼야 두 번 세지 않는다(Fable, 2026-09-25)."
+  }
  ]
 }

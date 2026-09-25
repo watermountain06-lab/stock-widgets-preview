@@ -96,6 +96,11 @@ def base_inputs(ticker, asof=None):
     # 인수 대금 — 한계 매출/자본(현금흐름 기준)의 재투자에 넣는다. 인수로 산 매출도 자본이 든다.
     out["acquisitions"] = ttm(["PaymentsToAcquireBusinessesNetOfCashAcquired"]) or 0
     out["tax"] = ttm(["IncomeTaxExpenseBenefit"])
+    # 회사가 밝힌 일회성 법인세 항목은 세율에서 뺀다(v2/tax_oneoff.json, META). 같은 시점의 TTM 결산일 기준.
+    _, trows = bmh.pick_tag(cik, ["IncomeTaxExpenseBenefit"])
+    tser = [e for e in bmh.ttm_series(bmh.quarterly_flow(trows, ticker)) if asof is None or e["available"] <= asof] if trows else []
+    if out["tax"] is not None and tser:
+        out["tax"] -= bmh.oneoff_in_ttm(ticker, tser[-1]["end"], "tax", asof)
     out["pretax"] = ttm(["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                          "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"])
 
@@ -184,8 +189,12 @@ def base_inputs(ticker, asof=None):
     # 현금·단기투자와 겹친다. 10-Q 주석으로 확인한 종목만 목록에 올린다(AMZN Anthropic 전환사채).
     extra_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nonop_extra.json")
     extra = json.load(open(extra_path)).get(ticker, []) if os.path.exists(extra_path) else []
-    out["nonop_extra"] = sum(fresh_latest(bmh.component_sum(cik, [x["tag"]])) or 0 for x in extra)
+    out["nonop_extra"] = sum(fresh_latest(bmh.component_sum(cik, [x["tag"]])) or 0 for x in extra if "tag" in x)
     out["nonop_assets"] += out["nonop_extra"]
+    # 이미 단기투자에 든 태그(META 상장주식 — 10-Q 공정가치 표의 시장성 증권 합계 안)는 뺀다
+    excluded = {x["exclude"] for x in extra if "exclude" in x}
+    if "EquitySecuritiesFvNi" in excluded and not has_lti:
+        out["nonop_assets"] -= equity_vals[0] or 0
 
     # 운전자본은 재고·매출채권처럼 영업에 묶인 돈만 본다. 현금과 차입금은 뺀다
     # (그 둘은 순부채 쪽에서 따로 계산되므로 여기 넣으면 두 번 센다).
@@ -197,7 +206,8 @@ def base_inputs(ticker, asof=None):
         # 유동자산에는 상장주식 같은 투자자산도 들어 있다. 영업에 묶인 돈이
         # 아니므로 운전자본에서 뺀다. NVDA는 EquitySecuritiesFvNi $42.8B가
         # 섞여 운전자본이 매출의 32.6%로 잡혔다(실제 18.5% 수준).
-        invest_assets = latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) or 0
+        invest_assets = 0 if "EquitySecuritiesFvNi" in excluded else (
+            latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) or 0)
         out["invest_assets"] = invest_assets
         out["nwc"] = (ac - cash - invest_assets) - (lc - st_debt)
     out["ticker"], out["asof"] = ticker, asof   # 한계 매출/자본 계산용(scenarios)

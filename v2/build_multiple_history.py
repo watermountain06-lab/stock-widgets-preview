@@ -116,6 +116,26 @@ def core_tickers():
     return {k: v for k, v in json.load(open(CORE_EARNINGS)).items() if not k.startswith("_")}
 
 
+TAX_ONEOFF = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tax_oneoff.json")
+
+
+def oneoff_in_ttm(ticker, ttm_end, field, asof=None):
+    """결산일 ttm_end로 끝나는 최근 4분기에 든 일회성 법인세 항목(v2/tax_oneoff.json)의 합.
+
+    META 2025 Q3 −$15.93B(비현금 세금)·2026 Q1 +$8.03B(환입)처럼 회사가 금액을 밝힌 것만
+    넣는다(2026-09-25 사용자 결정). asof가 있으면 그때 공시된 항목만 센다.
+    """
+    if not ttm_end or not os.path.exists(TAX_ONEOFF):
+        return 0.0
+    end = date.fromisoformat(ttm_end)
+    total = 0.0
+    for it in json.load(open(TAX_ONEOFF)).get(ticker, []):
+        lag = (end - date.fromisoformat(it["quarter_end"])).days
+        if 0 <= lag < 330 and (asof is None or it["filed"] <= asof):
+            total += it[field]
+    return total
+
+
 # 두 시리즈를 짝지을 때 허용하는 뒤처짐. 한 분기 늦은 보고(약 91일)는 받고,
 # 두 분기 이상 비면 버린다.
 MAX_PAIR_LAG_DAYS = 200
@@ -164,9 +184,12 @@ def _overlay(cik, data):
     for tax, tags in json.load(open(op)).items():
         for tag, rows in tags.items():
             units = data["facts"].setdefault(tax, {}).setdefault(tag, {"units": {}})["units"]
-            have = units.setdefault("USD", [])
-            keys = {(r.get("start"), r["end"], r.get("filed")) for r in have}
-            have.extend(r for r in rows if (r.get("start"), r["end"], r["filed"]) not in keys)
+            # 행마다 단위를 적을 수 있다(주식 수는 "shares" — META 표지 합산, `adapters/cover_shares.py`)
+            for unit in sorted({r.get("unit", "USD") for r in rows}):
+                have = units.setdefault(unit, [])
+                keys = {(r.get("start"), r["end"], r.get("filed")) for r in have}
+                have.extend(r for r in rows if r.get("unit", "USD") == unit
+                            and (r.get("start"), r["end"], r["filed"]) not in keys)
     return data
 
 
@@ -634,7 +657,9 @@ def main():
     eps_path = os.environ.get("EPS_HISTORY", "")
     eps = []
     if eps_path and os.path.exists(eps_path):
-        eps = [{"available": e["available_date"], "val": e["ttm_eps"]}
+        # 일회성 세금을 뺀 EPS — 항목은 그 분기 실적과 같은 공시에서 밝혀지므로 같은 시점에 반영한다
+        eps = [{"available": e["available_date"],
+                "val": e["ttm_eps"] + oneoff_in_ttm(t, e.get("quarter_end"), "eps")}
                for e in json.load(open(eps_path)) if e.get("ttm_eps")]
         eps.sort(key=lambda e: e["available"])
 
