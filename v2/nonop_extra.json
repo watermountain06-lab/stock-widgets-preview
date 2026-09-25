@@ -15,5 +15,18 @@
    "exclude": "EquitySecuritiesFvNi",
    "reason": "상장주식 $3,543M는 10-Q 공정가치 표에서 'Total marketable securities $74,798M' 안에 있다(= 단기투자 MarketableSecuritiesCurrent). 비영업 자산과 운전자본 차감에서 빼야 두 번 세지 않는다(Fable, 2026-09-25)."
   }
+ ],
+ "TSLA": [
+  {
+   "name": "SpaceX 지분",
+   "value": 3007000000,
+   "end": "2026-06-30",
+   "filed": "2026-07-23",
+   "reason": "2026-03 $2.00B 투자(구 xAI 우선주 전환), 공정가치 선택 지분법 · 2026-06-30 공정가치 $3,007M(Level 2) — 10-Q 공정가치 표. 표준 태그 없음. SpaceX 상장 관련 매각 제한은 2026-12까지."
+  },
+  {
+   "tag": "CryptoAssetFairValueNoncurrent",
+   "reason": "비트코인 등 디지털 자산 공정가치(2026-06-30 $674M, 재무상태표 'Digital assets'). 표준 태그라 과거 시점도 그때 값으로 잡힌다(Fable: 고정값으로 넣었을 때 과거 추이 점이 빠졌다)."
+  }
  ]
 }

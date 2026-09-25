@@ -320,6 +320,15 @@ def ttm_series(quarters, max_span_days=310):
     return sorted(out, key=lambda e: e["available"])
 
 
+SHARE_ADJUST = os.path.join(os.path.dirname(os.path.abspath(__file__)), "share_adjust.json")
+
+
+def share_adjustments(ticker):
+    if not os.path.exists(SHARE_ADJUST):
+        return []
+    return json.load(open(SHARE_ADJUST)).get(ticker, [])
+
+
 def instant_series(entries, ticker, is_share_count):
     rows = [e for e in entries if "end" in e and "filed" in e and "start" not in e]
     rows = feh.dedup_earliest_filed_instant(rows) if hasattr(feh, "dedup_earliest_filed_instant") else rows
@@ -333,11 +342,15 @@ def instant_series(entries, ticker, is_share_count):
     # 전에는 목록에 없는 종목의 분할 전 주식 수가 그대로 들어가 주당 가치가 부풀었다(BKNG·KLAC·CRWD).
     import splits as _splits
     splits = _splits.for_ticker(ticker)
+    adjust = share_adjustments(ticker) if is_share_count else []
     for e in best.values():
         val = e["val"]
         if is_share_count and splits:
             # 이 공시 이후에 일어난 분할만큼 주식수를 오늘 기준으로 늘린다
             val = val * feh.split_ratio(e["filed"], splits)
+        # 획득 전 성과 조건부 제한주는 뺀다(v2/share_adjust.json, TSLA 423.7M주)
+        val -= sum(a["shares"] for a in adjust
+                   if e["end"] >= a["from"] and (a.get("until") is None or e["end"] < a["until"]))
         out.append({"end": e["end"], "val": val, "available": e["filed"]})
     return sorted(out, key=lambda e: e["available"])
 
@@ -504,14 +517,44 @@ def pick_instant(cik, tags):
                   key=lambda e: e["available"])
 
 
+# LongTermDebt를 비유동분으로만 태깅한다고 10-Q로 확인한 회사(CIK). TSLA 2026-06 LongTermDebt $7,721M =
+# 10-Q 장기분, 유동분 $1,340M은 DebtCurrent(총차입금 $9,061M).
+DEBT_NONCURRENT_ONLY = {"0001318605"}
+
+
 def ev_component(cik, name, tags):
     out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
     # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다
     # (둘 다 내는 회사에서 더하면 이중 계산).
     fell_back = name == "debt" and not out
+    total_dates = set()
     if fell_back:
         out = component_sum(cik, ["LongTermDebt"])
+    elif name == "debt" and out:
+        # 세부 태그가 옛날에만 있고 이후 총계만 내는 회사(TSLA는 세부가 2018-12에 끝나고 2019년부터
+        # LongTermDebt 총계만)는 세부가 **없는 날짜**를 총계로 채운다. 세부가 있는 날짜는 그대로(이중 계산 방지).
+        # 총계로 채운 날짜에는 아래 LTD&CLO 보충을 더하지 않는다(총계에 이미 들어 있다).
+        have = {e["end"] for e in out}
+        filled = [e for e in component_sum(cik, ["LongTermDebt"]) if e["end"] not in have
+                  and e["end"] > max(have)]
+        if filled:
+            # 이런 회사는 LongTermDebt를 비유동분으로만 태깅한다(TSLA 2026-06 $7.72B = 10-Q 장기분,
+            # 유동분 $1.34B는 DebtCurrent). 같은 날짜의 DebtCurrent를 더한다 — 총계 $9.06B와 일치.
+            # us-gaap 정의상 LongTermDebt는 유동분 포함 총액이라, 비유동분만 태깅한다고 10-Q로 확인한
+            # 회사(DEBT_NONCURRENT_ONLY)에서만 DebtCurrent를 더한다(Fable: 일반화하면 유동분 이중 계산 위험).
+            cur = {e["end"]: e for e in component_sum(cik, ["DebtCurrent"])} if cik in DEBT_NONCURRENT_ONLY else {}
+            if cik not in DEBT_NONCURRENT_ONLY:
+                print(f"    ⚠ 차입금: 세부 태그 이후를 LongTermDebt로 채움({len(filled)}개 날짜) — 유동분 포함 여부를 10-Q로 확인할 것")
+            for e in filled:
+                c = cur.get(e["end"])
+                if c:
+                    e["val"] += c["val"]
+                    e["available"] = max(e["available"], c["available"])
+            out = sorted(out + filled, key=lambda e: e["available"])
+            total_dates = {e["end"] for e in filled}
+        else:
+            total_dates = set()
     # 비유동 차입금을 LongTermDebtAndCapitalLeaseObligations(비유동, 리스 포함)로 낸 기간이 있다.
     # AVGO는 2025-08까지 이 태그로만 내서 VMware 인수 차입금 약 $60B이 EV·투하자본에서 빠졌다
     # (2026-09-25). LongTermDebtNoncurrent가 **없는 날짜에만** 더한다(둘 다 있는 날짜는 같은 값).
@@ -521,7 +564,7 @@ def ev_component(cik, name, tags):
         nonc = {e["end"] for e in component_sum(cik, ["LongTermDebtNoncurrent"])}
         by_end = {e["end"]: e for e in out}
         for e in component_sum(cik, ["LongTermDebtAndCapitalLeaseObligations"]):
-            if e["end"] in nonc:
+            if e["end"] in nonc or e["end"] in total_dates:
                 continue
             if e["end"] in by_end:
                 slot = by_end[e["end"]]

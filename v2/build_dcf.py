@@ -190,6 +190,14 @@ def base_inputs(ticker, asof=None):
     extra_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nonop_extra.json")
     extra = json.load(open(extra_path)).get(ticker, []) if os.path.exists(extra_path) else []
     out["nonop_extra"] = sum(fresh_latest(bmh.component_sum(cik, [x["tag"]])) or 0 for x in extra if "tag" in x)
+    # 표준 태그가 없는 자산은 10-Q 값으로 적는다({"value", "end", "filed"}). 공시일 이전 시점에는 쓰지 않고,
+    # 더 새 값이 있으면 그것만 쓴다(같은 "name"끼리). TSLA SpaceX 지분·비트코인(2026-09-25).
+    fixed = {}
+    for x in extra:
+        if "value" in x and (asof is None or x["filed"] <= asof):
+            if x["name"] not in fixed or x["end"] > fixed[x["name"]]["end"]:
+                fixed[x["name"]] = x
+    out["nonop_extra"] += sum(x["value"] for x in fixed.values())
     out["nonop_assets"] += out["nonop_extra"]
     # 이미 단기투자에 든 태그(META 상장주식 — 10-Q 공정가치 표의 시장성 증권 합계 안)는 뺀다
     excluded = {x["exclude"] for x in extra if "exclude" in x}
