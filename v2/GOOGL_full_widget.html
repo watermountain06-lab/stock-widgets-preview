@@ -1691,7 +1691,7 @@ const GOOGL_FUNDAMENTAL = {"ticker": "GOOGL", "basis": "quarter", "asOf": "2026-
     }).join('');
   });
 
-  const N = F.netCash, B = v => '$' + (v / 1e9).toFixed(1) + 'B';
+  const N = F.netCash, B = v => (v < 0 ? '−$' : '$') + Math.abs(v / 1e9).toFixed(1) + 'B';
   if (N && $('fundNetCashPs')) {
     // 주식 수를 모르면(SEC 데이터에 없는 신규 상장) 주당 값은 비운다
     $('fundNetCashPs').textContent = N.perShare == null ? '—' : (N.perShare < 0 ? '−$' : '$') + Math.abs(N.perShare).toFixed(2);
@@ -1745,7 +1745,8 @@ const GOOGL_FUNDAMENTAL = {"ticker": "GOOGL", "basis": "quarter", "asOf": "2026-
     if (i == null || i === 0) { el.remove(); return; }
     const c = (GOOGL_DAILY[i][4] / GOOGL_DAILY[i - 1][4] - 1) * 100;
     el.className = 'tl-reaction ' + (c >= 0.5 ? 'up' : c <= -0.5 ? 'down' : 'flat');
-    el.textContent = (c >= 0 ? '+' : '−') + Math.abs(c).toFixed(1) + '%';
+    const t = Math.abs(c).toFixed(1);   // −0.03%가 '−0.0%'로 찍히지 않게
+    el.textContent = (t === '0.0' ? '' : c >= 0 ? '+' : '−') + t + '%';
   });
 })();
 
@@ -2069,7 +2070,7 @@ const GOOGL_ANALYST = { asOf: '2026-09-17', source: 'StockAnalysis', rating: 'St
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const GOOGL_DCF_TRACK = [{d:"2024-10-30",low:97.6,base:106.7,high:123.1},{d:"2025-02-05",low:104.0,base:114.2,high:126.2},{d:"2025-04-25",low:109.0,base:122.9,high:131.1},{d:"2025-07-24",low:107.6,base:126.9,high:132.8},{d:"2025-10-30",low:112.1,base:136.2,high:137.2},{d:"2026-02-05",low:118.2,base:147.4,high:148.9},{d:"2026-04-30",low:122.4,base:151.6,high:159.0},{d:"2026-07-23",low:136.0,base:166.1,high:176.3}];
+const GOOGL_DCF_TRACK = [{d:"2024-10-30",low:96.6,base:105.0,high:121.4},{d:"2025-02-05",low:104.0,base:114.2,high:126.2},{d:"2025-04-25",low:109.0,base:122.9,high:131.1},{d:"2025-07-24",low:107.6,base:126.9,high:132.8},{d:"2025-10-30",low:112.1,base:136.2,high:137.2},{d:"2026-02-05",low:118.2,base:147.4,high:148.9},{d:"2026-04-30",low:122.4,base:151.6,high:159.0},{d:"2026-07-23",low:136.0,base:166.1,high:176.3}];
 const GOOGL_BACKTEST = [{"checkpoint_date":"2023-10-25","predicted_low":98.56,"predicted_high":150.64,"realized_low":122.17,"realized_high":153.51,"period_end_date":"2024-01-30","zone":"breached_top","is_open":false,"band_width_ratio":1.53},{"checkpoint_date":"2024-01-31","predicted_low":112.94,"predicted_high":166.65,"realized_low":131.4,"realized_high":159.41,"period_end_date":"2024-04-25","zone":"full_hit","is_open":false,"band_width_ratio":1.48},{"checkpoint_date":"2024-04-26","predicted_low":131.37,"predicted_high":185.38,"realized_low":162.78,"realized_high":191.18,"period_end_date":"2024-07-23","zone":"breached_top","is_open":false,"band_width_ratio":1.41},{"checkpoint_date":"2024-07-24","predicted_low":157.91,"predicted_high":198.59,"realized_low":148.66,"realized_high":172.63,"period_end_date":"2024-10-29","zone":"breached_bottom","is_open":false,"band_width_ratio":1.26},{"checkpoint_date":"2024-10-30","predicted_low":171.23,"predicted_high":212.65,"realized_low":164.76,"realized_high":206.38,"period_end_date":"2025-02-04","zone":"breached_bottom","is_open":false,"band_width_ratio":1.24},{"checkpoint_date":"2025-02-05","predicted_low":182.7,"predicted_high":222.74,"realized_low":144.7,"realized_high":191.6,"period_end_date":"2025-04-24","zone":"breached_bottom","is_open":false,"band_width_ratio":1.22},{"checkpoint_date":"2025-04-25","predicted_low":177.27,"predicted_high":244.63,"realized_low":151.38,"realized_high":191.34,"period_end_date":"2025-07-23","zone":"breached_bottom","is_open":false,"band_width_ratio":1.38},{"checkpoint_date":"2025-07-24","predicted_low":173.98,"predicted_high":252.35,"realized_low":189.13,"realized_high":274.57,"period_end_date":"2025-10-29","zone":"breached_top","is_open":false,"band_width_ratio":1.45},{"checkpoint_date":"2025-10-30","predicted_low":190.84,"predicted_high":272.48,"realized_low":276.41,"realized_high":343.69,"period_end_date":"2026-02-04","zone":"breached_top","is_open":false,"band_width_ratio":1.43},{"checkpoint_date":"2026-02-05","predicted_low":209.37,"predicted_high":347.29,"realized_low":273.5,"realized_high":350.34,"period_end_date":"2026-04-29","zone":"breached_top","is_open":false,"band_width_ratio":1.66},{"checkpoint_date":"2026-04-30","predicted_low":259.38,"predicted_high":417.68,"realized_low":337.39,"realized_high":402.62,"period_end_date":"2026-07-22","zone":"full_hit","is_open":false,"band_width_ratio":1.61},{"checkpoint_date":"2026-07-23","predicted_low":407.93,"predicted_high":624.96,"realized_low":317.69,"realized_high":377.65,"period_end_date":"2026-09-01","zone":"breached_bottom","is_open":true,"band_width_ratio":1.53}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
@@ -2416,9 +2417,12 @@ function googlBandTone(cp){
           hit.setAttribute('height', Math.max(yBot - yTop, 1));
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
-          let txt = `${e.v.d} 공시 기준 — 낮은 성장 $${e.v.low.toFixed(0)}`
-            + ` · 기본 $${e.v.base.toFixed(0)} · 높은 성장 $${e.v.high.toFixed(0)}`
-            + (e.v.high > DCF_CAP_HI ? ' · 높은 성장은 화면 밖이라 잘라서 표시' : '');
+          const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);
+          let txt = `${e.v.d} 공시 기준 — 낮은 성장 ${usd(e.v.low)}`
+            + ` · 기본 ${usd(e.v.base)} · 높은 성장 ${usd(e.v.high)}`
+            + (e.v.high > DCF_CAP_HI ? ' · 높은 성장은 화면 밖이라 잘라서 표시' : '')
+            // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
+            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 높은 성장이 가장 낮다 — 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];

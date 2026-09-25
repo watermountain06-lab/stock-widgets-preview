@@ -291,6 +291,13 @@ def score_items(fin, config, basis):
 
     # 마진 — 분기 기준은 최신 분기, 연간 기준은 최신 연도. 분자·분모는 같은 기간.
     ni_key = "netIncomeAttributableToParent" if (_rows(fin, "netIncomeAttributableToParent") or _q(fin, "netIncomeAttributableToParent")) else "netIncome"
+    # 지배주주 순이익 태그가 멈췄으면 연결 순이익으로 간다. AVGO는 우선주 전환(2023) 뒤
+    # NetIncomeLossAvailableToCommonStockholdersBasic을 FY2024에서 멈춰, 최신 분기 순이익률이 비었다.
+    def _last_end(key):
+        ends = [e["end"] for e in _rows(fin, key)] + [(_q(fin, key) or {}).get("end", "")]
+        return max(ends) if ends else ""
+    if ni_key != "netIncome" and _last_end(ni_key) < _last_end("netIncome"):
+        ni_key = "netIncome"
     if basis == "quarter" and q_end:
         rv = rev_q["val"]
         op_m, _ = operating_income_quarter(fin, q_end)

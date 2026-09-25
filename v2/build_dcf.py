@@ -119,7 +119,25 @@ def base_inputs(ticker, asof=None):
     _, drows = bmh.pick_tag(cik, ["EntityCommonStockSharesOutstanding"], "dei")
     out["shares"] = latest(bmh.instant_series(srows + drows, ticker, is_share_count=True), asof)
 
-    out["equity"] = latest(bmh.component_sum(cik, ["StockholdersEquity"]), asof)
+    # 지배주주 자본 태그가 멈추고 비지배지분 포함 총계만 내는 회사가 있다. AVGO는
+    # StockholdersEquity가 2019-11($24.9B)에서 끝나고 그 뒤로는 포함 총계만 낸다
+    # (2026-08 $99.7B). 멈춘 값을 쓰면 투하자본이 $75B 작게 잡혀 매출/자본이 부풀었다(2026-09-25).
+    # 그 시점에 공개된 두 계열의 마지막 결산일을 비교해 총계가 200일 넘게 앞서면 총계 − 비지배지분.
+    se_rows = bmh.component_sum(cik, ["StockholdersEquity"])
+    incl_rows = bmh.component_sum(cik, ["StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"])
+
+    def _last(series):
+        r = [e for e in series if asof is None or e.get("available", e.get("end")) <= asof]
+        return r[-1] if r else None
+
+    se_last, incl_last = _last(se_rows), _last(incl_rows)
+    if incl_last and (not se_last or (date.fromisoformat(incl_last["end"])
+                                      - date.fromisoformat(se_last["end"])).days > 200):
+        out["equity"] = incl_last["val"] - (out.get("nci") or 0)
+        eq_rows = incl_rows
+    else:
+        out["equity"] = se_last["val"] if se_last else None
+        eq_rows = se_rows
     # 비영업 투자자산 — 영업에 쓰이지 않는 지분·장기투자
     # Apple은 장기 채권 투자를 LongTermInvestments가 아니라 MarketableSecuritiesNoncurrent로
     # 보고한다(2026-06-27 $84.1B). 이 태그를 안 보면 그 자산이 주주가치에서 통째로 빠진다.
@@ -127,8 +145,6 @@ def base_inputs(ticker, asof=None):
     # 그 시점(asof)에 공개돼 있던 자기자본보다 200일 넘게 뒤처진 값은 버린다.
     # 판정은 반드시 asof 시점 기준이다. 전체 계열의 마지막 날짜로 판정하면 나중에 태그를
     # 그만둔 사실이 과거 계산에서 그때 유효했던 값까지 지운다(Codex 지적, 2026-09-24).
-    eq_rows = bmh.component_sum(cik, ["StockholdersEquity"])
-
     def as_of_rows(series):
         if asof is None:
             return series

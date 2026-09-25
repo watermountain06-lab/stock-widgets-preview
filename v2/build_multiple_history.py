@@ -136,7 +136,7 @@ def _facts(cik):
     path = os.path.join(CACHE_DIR, f"{cik}_facts.json")
     if os.path.exists(path):
         try:
-            return json.load(open(path))
+            return _overlay(cik, json.load(open(path)))
         except Exception:
             pass
     url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
@@ -146,6 +146,27 @@ def _facts(cik):
         return {}
     if "facts" in data:
         json.dump(data, open(path, "w"))
+    return _overlay(cik, data)
+
+
+def _overlay(cik, data):
+    """companyfacts에 없는 기간을 `.sec_cache/overlay/{cik}.json`으로 채운다.
+
+    회사가 한동안 자체 태그로만 낸 항목(AVGO 무형자산 상각 2020~2025, `adapters/avgo_amort.py`)은
+    companyfacts에 빠진다. 같은 (start, end, 공시일)이 이미 있으면 SEC 값을 그대로 둔다. 공시일까지
+    보는 이유는 AVGO가 2026년 공시에서 2025년 분기를 비교 수치로 표준 태그에 다시 실었기 때문이다 —
+    기간만으로 겹침을 보면 제때(2025) 공시된 보충 행이 빠지고, 시점 규칙이 그 분기를 1년 늦게
+    알려진 값으로 보고 버린다.
+    """
+    op = os.path.join(CACHE_DIR, "overlay", f"{cik}.json")
+    if not os.path.exists(op) or "facts" not in data:
+        return data
+    for tax, tags in json.load(open(op)).items():
+        for tag, rows in tags.items():
+            units = data["facts"].setdefault(tax, {}).setdefault(tag, {"units": {}})["units"]
+            have = units.setdefault("USD", [])
+            keys = {(r.get("start"), r["end"], r.get("filed")) for r in have}
+            have.extend(r for r in rows if (r.get("start"), r["end"], r["filed"]) not in keys)
     return data
 
 
@@ -298,9 +319,20 @@ def instant_series(entries, ticker, is_share_count):
     return sorted(out, key=lambda e: e["available"])
 
 
+def live_combined(cik):
+    """합산 감가상각 태그. 오래전에 멈췄으면(AVGO는 2018-05 두 건뿐, 이후 구성요소로만
+    보고) 없는 것으로 보고 구성요소로 넘긴다 — 멈춘 합산 태그가 잡히면 구성요소 경로에
+    가지 못해 EV/EBITDA가 통째로 빠진다(2026-09-25)."""
+    tag, rows = pick_tag(cik, DDA_COMBINED)
+    stale = date.fromordinal(date.today().toordinal() - 730).isoformat()
+    if rows and max(r["end"] for r in rows) < stale:
+        return None, []
+    return tag, rows
+
+
 def dda_quarters(cik, ticker):
     """감가상각 분기 시리즈. 합산 태그 우선, 없으면 구성요소를 더한다."""
-    tag, rows = pick_tag(cik, DDA_COMBINED)
+    tag, rows = live_combined(cik)
     if rows:
         return tag, quarterly_flow(rows, ticker)
     # 구성요소마다 그 분기가 **처음 공시된 때**가 다르다. 작은 항목이 1년 뒤 비교
@@ -454,8 +486,27 @@ def ev_component(cik, name, tags):
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
     # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다
     # (둘 다 내는 회사에서 더하면 이중 계산).
-    if name == "debt" and not out:
+    fell_back = name == "debt" and not out
+    if fell_back:
         out = component_sum(cik, ["LongTermDebt"])
+    # 비유동 차입금을 LongTermDebtAndCapitalLeaseObligations(비유동, 리스 포함)로 낸 기간이 있다.
+    # AVGO는 2025-08까지 이 태그로만 내서 VMware 인수 차입금 약 $60B이 EV·투하자본에서 빠졌다
+    # (2026-09-25). LongTermDebtNoncurrent가 **없는 날짜에만** 더한다(둘 다 있는 날짜는 같은 값).
+    # 총계(LongTermDebt) 폴백으로 채운 회사에는 더하지 않는다 — 총계에 이미 들어 있다
+    # (SPCX 2026-06 $38.3B + $36.8B = $75.1B로 두 번 잡혔다, Fable).
+    if name == "debt" and out and not fell_back:
+        nonc = {e["end"] for e in component_sum(cik, ["LongTermDebtNoncurrent"])}
+        by_end = {e["end"]: e for e in out}
+        for e in component_sum(cik, ["LongTermDebtAndCapitalLeaseObligations"]):
+            if e["end"] in nonc:
+                continue
+            if e["end"] in by_end:
+                slot = by_end[e["end"]]
+                slot["val"] += e["val"]
+                slot["available"] = max(slot["available"], e["available"])
+            else:
+                by_end[e["end"]] = dict(e)
+        out = sorted(by_end.values(), key=lambda e: e["available"])
     return out
 
 
@@ -484,7 +535,7 @@ def dda_ttm(cik, ticker):
                 series.append(e)
         return sorted(series, key=lambda e: (e["available"], e["end"]))
 
-    combined, rows = pick_tag(cik, DDA_COMBINED)
+    combined, rows = live_combined(cik)
     if rows:
         q = quarterly_flow(rows, ticker)
         series = with_annuals(ttm_series(q) if q else [], DDA_COMBINED, "pick")
@@ -497,17 +548,23 @@ def dda_ttm(cik, ticker):
             continue
         q = quarterly_flow(part, ticker)
         series = with_annuals(ttm_series(q) if q else [], [tag], "sum")
+        # 멈춘 구성요소(AVGO 금융리스 상각은 FY2024 10-K가 마지막)는 마지막 값이 영원히 더해진다.
+        # 연 1회만 내는 항목(MSFT 감가상각)도 다음 10-K는 결산 뒤 약 425일 안에 나오므로,
+        # 마지막 결산일에서 450일이 지난 평가 시점에는 넣지 않는다.
         if series:
-            per_tag[tag] = series
+            stale_after = date.fromordinal(date.fromisoformat(series[-1]["end"]).toordinal() + 450).isoformat()
+            per_tag[tag] = (series, stale_after)
     if not per_tag:
         return None, []
 
     # 평가 시점은 **공시일**이다. 예전에는 `available`에 결산일을 적어두고
     # 결산일로 조회해, 각 구성요소가 한 분기씩 밀린 값으로 더해졌다.
     out = []
-    for day in sorted({e["available"] for s in per_tag.values() for e in s}):
+    for day in sorted({e["available"] for s, _ in per_tag.values() for e in s}):
         parts = []
-        for s in per_tag.values():
+        for s, stale_after in per_tag.values():
+            if day > stale_after:
+                continue
             newest = None
             for e in s:
                 if e["available"] <= day:
