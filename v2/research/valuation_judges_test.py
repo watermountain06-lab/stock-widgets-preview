@@ -143,7 +143,9 @@ def build_panel():
             rows.append({"t": t, "d": day, "i": i, "px": px, "base": base,
                          "ratio": (px / base) if base else None,
                          "g5": (h or {}).get("growth_5y") if h else None, "req": req,
-                         "q": q, "qflag": qflag, "mcap": (b.get("shares") * px) if (b and b.get("shares")) else None})
+                         "q": q, "qflag": qflag, "mcap": (b.get("shares") * px) if (b and b.get("shares")) else None,
+                         # 데이터 품질(2026-09-25): 차입금 누락 의심 행은 analyze에서 뺀다
+                         "dq": (b or {}).get("dq") or [], "g5_base_effect": bool((h or {}).get("growth_base_effect"))})
         if k % 25 == 0:
             print(k, t, len(rows), flush=True)
     json.dump({"rows": rows}, open(PANEL, "w"))
@@ -190,7 +192,11 @@ def boot_weighted(vals, weights, block=6, n=5000, seed=42):
 
 
 def analyze(rows):
-    res = {"n_rows": len(rows), "n_tickers": len({r["t"] for r in rows})}
+    # 차입금 누락 의심(이자비용 ÷ 차입금 > 15% 또는 차입금 0) 행은 검증에서 뺀다 — 회사 자체 태그라
+    # 자동으로 고칠 수 없고, 빠진 차입금만큼 내재가치가 부풀어 "매우 싸다"를 오염시킨다(2026-09-25 사용자 결정).
+    before = len(rows)
+    rows = [r for r in rows if not any(str(x).startswith("debt_suspect") for x in (r.get("dq") or []))]
+    res = {"n_rows": len(rows), "n_tickers": len({r["t"] for r in rows}), "excluded_debt_suspect": before - len(rows)}
     # ① 분포
     def level(x):
         return None if x is None else ("매우 싸다" if x <= .7 else "싸다" if x <= .9 else "적정" if x <= 1.1 else "비싸다" if x <= 1.5 else "매우 비싸다")

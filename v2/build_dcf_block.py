@@ -71,7 +71,7 @@ def compute(t):
         "nonopPerShare": round(s[1]["nonop_per_share"] / r, 2),
         "s2cFallback": any(x["s2c_fallback"] for x in s),
         "asOf": asof,
-    }, price
+    }, price, (base.get("dq") or []) + (["growth_base_effect"] if hist.get("growth_base_effect") else [])
 
 
 def main():
@@ -80,8 +80,11 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     t = args.ticker.upper()
-    blk, price = compute(t)
+    blk, price, dq = compute(t)
     print(t, f"${price}", json.dumps(blk, ensure_ascii=False))
+    # 데이터 품질 표시(2026-09-25) — 차입금 누락 의심이면 10-Q로 총차입금을 대조할 것(TSLA·AVGO처럼)
+    for x in dq:
+        print(f"  ⚠ 데이터 품질: {x}")
     if blk["s2cFallback"]:
         print("  ⚠ 최근 1년 매출/자본을 못 구해 평균으로 떨어진 시나리오가 있다")
     if args.dry_run:

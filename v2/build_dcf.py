@@ -219,6 +219,35 @@ def base_inputs(ticker, asof=None):
         out["invest_assets"] = invest_assets
         out["nwc"] = (ac - cash - invest_assets) - (lc - st_debt)
     out["ticker"], out["asof"] = ticker, asof   # 한계 매출/자본 계산용(scenarios)
+
+    # ── 데이터 품질(2026-09-25 사용자 결정) — 유니버스 427종목 중 34%가 아래 신호 하나 이상 ──
+    out["dq"] = []
+    # 주식 수: 표지·재무상태표 값이 없거나 희석 가중평균(분할 보정)의 0.5~2배 밖이면 희석 가중평균으로.
+    # SPG는 한 클래스만 잡혀 8,000주로 주당 $6,834가 나왔다.
+    import splits as _splits
+    _, wrows = bmh.pick_tag(cik, ["WeightedAverageNumberOfDilutedSharesOutstanding"])
+    wq = sorted([e for e in wrows if "start" in e and e.get("filed") and (asof is None or e["filed"] <= asof)
+                 and 80 <= (date.fromisoformat(e["end"]) - date.fromisoformat(e["start"])).days <= 100],
+                key=lambda e: (e["end"], e["filed"])) if wrows else []
+    if wq:
+        wd = wq[-1]["val"] * feh.split_ratio(wq[-1]["filed"], _splits.for_ticker(ticker))
+        sh = out.get("shares")
+        if not sh or not (0.5 <= sh / wd <= 2.0):
+            out["dq"].append(f"shares_fallback:{sh}->{wd:.0f}")
+            out["shares"] = wd
+    elif not out.get("shares") or out["shares"] < 1e7:
+        # 대조할 희석 가중평균도 없는데 주식 수가 없거나 1,000만 주 미만(S&P500 기업으로는 불가능)이면
+        # 계산하지 않는다(SPG는 2013년 이후 주식 수를 표준 태그로 내지 않아 8,000주가 잡혔다).
+        out["dq"].append(f"shares_missing:{out.get('shares')}")
+        out["shares"] = None
+    # 차입금: 최근 4분기 이자비용 ÷ 차입금이 15%를 넘거나, 이자비용이 $1억 넘는데 차입금이 0이면
+    # 차입금이 빠졌을 가능성(회사 자체 태그 — CMCSA 장기차입금). 고치지 않고 표시만 한다(검증 패널 제외).
+    interest = ttm(["InterestExpense", "InterestExpenseNonoperating", "InterestExpenseDebt"])
+    debt_all = (out.get("debt") or 0)
+    if interest and interest > 1e8 and (debt_all <= 0 or interest / debt_all > 0.15):
+        out["dq"].append(f"debt_suspect:interest={interest / 1e9:.2f}B,debt={debt_all / 1e9:.2f}B")
+    if effective_tax(out) != (out["tax"] / out["pretax"] if out.get("tax") is not None and out.get("pretax") else None):
+        out["dq"].append("tax_fallback")
     return out
 
 
@@ -229,6 +258,21 @@ def invested_capital(base):
     """영업에 묶인 투하자본 = 자기자본 + 차입금 + 리스 − 현금·단기투자 − 비영업자산."""
     return ((base.get("equity") or 0) + (base.get("debt") or 0) + (base.get("lease") or 0)
             - (base.get("cash") or 0) - (base.get("sti") or 0) - (base.get("nonop_assets") or 0))
+
+
+# 본국 법정세율. 실효세율이 뜻을 잃을 때(세전이익 ≤ 0, 0~40% 밖) 대신 쓴다(2026-09-25 사용자 결정).
+STATUTORY_TAX = {"TSM": 0.20}
+TAX_OK = (0.0, 0.40)
+
+
+def effective_tax(base):
+    """최근 4분기 실효세율. 세전이익이 0 이하이거나 세율이 0~40% 밖이면 본국 법정세율.
+
+    TRMB는 세전이익이 약 0이라 세율이 음수가 되어 세후 영업이익이 부풀었다(유니버스 55곳, 2026-09-25)."""
+    tax, pre = base.get("tax"), base.get("pretax")
+    if tax is not None and pre and pre > 0 and TAX_OK[0] <= tax / pre <= TAX_OK[1]:
+        return tax / pre
+    return STATUTORY_TAX.get(base.get("ticker"), 0.21)
 
 
 def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
@@ -253,8 +297,7 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
     """
     rev0 = base["revenue"]
     margin0 = base["opinc"] / rev0
-    tax_rate = tax_rate if tax_rate is not None else (
-        base["tax"] / base["pretax"] if base.get("tax") and base.get("pretax") else 0.21)
+    tax_rate = tax_rate if tax_rate is not None else effective_tax(base)
     margins = margin_path or [margin0] * years
     invested = invested_capital(base)
     if s2c is None:
@@ -306,7 +349,7 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
               + (base.get("nonop_assets") or 0))
     return {"rows": rows, "pv_sum": pv_sum, "ev_ggm": ev, "ev_exit": ev_exit, "fcf_terminal": fcf_t,
             "ev": ev, "net_debt": net_debt, "equity": equity,
-            "per_share": equity / base["shares"], "tax_rate": tax_rate,
+            "per_share": (equity / base["shares"]) if base.get("shares") else None, "tax_rate": tax_rate,
             "margin0": margin0, "s2c": s2c_path[-1], "s2c_path": s2c_path, "invested": invested,
             "roic": roic, "roic_terminal": roic_t, "reinvest_rate": reinvest_rate}
 
@@ -356,11 +399,16 @@ def history(ticker, asof=None):
         return (rev[k[-1]]["val"] / rev[k[-1 - n]]["val"]) ** (1 / yrs) - 1
 
     import statistics as st
+    g3, g5 = cagr(12), cagr(20)
+    # 기저효과: 창 시작(2021-07)이 코로나 저점이라 5년 성장이 부푼 회사(NCLH 137%·CCL 119%)는
+    # 5년이 3년보다 15%p 넘게 높고 30%를 넘으면 3년 성장으로 바꾼다(2026-09-25 사용자 결정).
+    base_effect = g3 is not None and g5 is not None and g5 > 0.30 and g5 > g3 + 0.15
     return {
         "margin_now": margins[k[-1]],
         "margin_2y": st.median([margins[x] for x in k[-8:]]),
         "margin_5y": st.median(margins.values()),
-        "growth_3y": cagr(12), "growth_5y": cagr(20),
+        "growth_3y": g3, "growth_5y": g3 if base_effect else g5,
+        "growth_5y_raw": g5, "growth_base_effect": base_effect,
         "quarters": len(k),
     }
 
@@ -469,7 +517,7 @@ def scenarios(base, hist, wacc, terminal, years=5):
         out.append({"name": name, "desc": desc, "growth0": max(g0, terminal),
                     "margin_end": m_path[-1], "per_share": r["per_share"], "roic": r["roic"],
                     "s2c_path": s_path, "s2c_fallback": fell_back,
-                    "nonop_per_share": (base.get("nonop_assets") or 0) / base["shares"]})
+                    "nonop_per_share": ((base.get("nonop_assets") or 0) / base["shares"]) if base.get("shares") else 0.0})
     return out
 
 
