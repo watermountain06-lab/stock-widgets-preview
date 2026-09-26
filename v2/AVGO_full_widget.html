@@ -484,7 +484,7 @@
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +35.8%)</span>
-      <span class="meta-value" id="avgoDcfReq" style="font-size: 22px; color: var(--red);">연 50.7%</span>
+      <span class="meta-value" id="avgoDcfReq" style="font-size: 22px; color: var(--red);">연 47.8%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="avgoConfidenceLabel">밴드 적중률 (343/753일, 상단우세)</span>
@@ -506,7 +506,7 @@
   <div class="logic-grid" id="avgoLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="avgoDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="avgoDcfBox">$117<span class="logic-denom"> · 낮은 성장 $77 · 높은 성장 $146</span></div>
+      <div class="logic-score" id="avgoDcfBox">$118<span class="logic-denom"> · 낮은 성장 $76 · 높은 성장 $141</span></div>
     </div>
     <div class="logic-box logic-positive" id="avgoFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="avgoFundVerdict">양호</span></div>
@@ -622,24 +622,24 @@
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$77.37</td><td style="color: var(--red);" data-dcf-upside="low">−77.9%</td>
+          <td class="big scn-low" data-dcf-value="low">$75.56</td><td style="color: var(--red);" data-dcf-upside="low">−78.4%</td>
           <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(37.7%)으로 내려온다. 매출 $1을 늘리는 데 $1.53를 투자한다(과거 평균 — 최근 1년($0.13)보다 자본이 더 드는 쪽).</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$117.33</td><td style="color: var(--red);" data-dcf-upside="base">−66.5%</td>
+          <td class="big scn-base" data-dcf-value="base">$117.61</td><td style="color: var(--red);" data-dcf-upside="base">−66.4%</td>
           <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(38.8%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $0.13에서 5년에 걸쳐 과거 평균 $1.53로 돌아온다. 최근 1년 값은 순투자에서 인수 무형자산 상각(연 $8.0B)까지 빼서 작게 잡힌 것이라, 이 시나리오 가치를 높이는 쪽으로 기운다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$145.59</td><td style="color: var(--red);" data-dcf-upside="high">−58.4%</td>
+          <td class="big scn-high" data-dcf-value="high">$141.28</td><td style="color: var(--red);" data-dcf-upside="high">−59.7%</td>
           <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(48.0%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $1.53다. 과거 평균에는 VMware 인수로 생긴 영업권·무형자산이 들어 있어, 인수 없이 자라는 동안에는 이보다 적게 들 수 있다.</td>
         </tr>
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>
-    <div class="reverse">지금 가격(<span data-dcf-price>$350.36</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>50.7%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$117</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>16.7%</span>다.</div>
+    <div class="reverse">지금 가격(<span data-dcf-price>$350.36</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>47.8%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$118</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>15.9%</span>다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -650,7 +650,7 @@
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $117</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −66.5%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $118</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −66.4%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -872,13 +872,13 @@
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 AVGO 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">40.6</div><div class="sc-tile lost" data-vc="self" data-m="per">51</div><div class="sc-tile lost" data-vc="self" data-m="pbr">34</div><div class="sc-tile lost" data-vc="self" data-m="psr">32</div><div class="sc-tile lost" data-vc="self" data-m="pcr">38</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">49</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$117</div><div class="vs-note">현재가 <span data-vs="price">$350.36</span> 대비 <strong data-vs="upside">−66.5%</strong> · 기본 시나리오</div><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.99
-시나리오 범위: 낙관 기준 2.41 ~ 보수 기준 4.53
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$118</div><div class="vs-note">현재가 <span data-vs="price">$350.36</span> 대비 <strong data-vs="upside">−66.4%</strong> · 기본 시나리오</div><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.98
+시나리오 범위: 낙관 기준 2.48 ~ 보수 기준 4.64
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.9</div><div class="sc-tile lost" data-vc="peer" data-m="per">38</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">30</div><div class="sc-tile low" data-vc="peer" data-m="psr">22</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">63</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">42</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">자기 5년 이력과 동종업 안에서는 둘 다 중간 자리지만, <strong>현금흐름 내재가치(기본 시나리오)는 현재가의 33%에 그친다.</strong> VMware 인수로 생긴 영업권·무형자산이 투하자본에 들어가 평균 매출/자본이 0.65로 낮게 잡히는 영향이 크다.</div>
-    <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">50.7%</strong>씩 커야 한다. 최근 5년 실제 성장은 연 27.4%였고, 4분기 가이던스는 전년 대비 93% 성장이다.</div>
+    <div class="vs-premise">자기 5년 이력과 동종업 안에서는 둘 다 중간 자리지만, <strong>현금흐름 내재가치(기본 시나리오)는 현재가의 34%에 그친다.</strong> VMware 인수로 생긴 영업권·무형자산이 투하자본에 들어가 평균 매출/자본이 0.65로 낮게 잡히는 영향이 크다.</div>
+    <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">47.8%</strong>씩 커야 한다. 최근 5년 실제 성장은 연 27.4%였고, 4분기 가이던스는 전년 대비 93% 성장이다.</div>
   </div>
 
   <div class="grid-2">
@@ -1058,7 +1058,7 @@
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">현재가가 기본 내재가치의 약 3.0배이고, 현재가를 정당화하려면 매출이 5년간 매년 50.7%씩 커야 한다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">현재가가 기본 내재가치의 약 3.0배이고, 현재가를 정당화하려면 매출이 5년간 매년 47.8%씩 커야 한다.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">고객 집중</span><span class="bb-text">상위 5개 최종 고객이 최근 분기 매출의 약 55%이고, 한 고객의 리스 의무를 최대 약 $29B까지 보증한다.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">차입금</span><span class="bb-text">현금 $24.0B보다 차입금이 $59.4B로 많아, 리스를 더한 순차입금이 약 $37B이다.</span></div>
     </div>
@@ -1405,7 +1405,7 @@ const AVGO_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let AVGO_VERDICT = '계산 중';
 
-const AVGO_DCF = {"low": 77.37, "base": 117.33, "high": 145.59, "requiredGrowth": 0.5069, "baseEquivGrowth": 0.1665, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.4805, "growth5y": 0.2742, "nonopPerShare": 0.0, "s2cFallback": false, "asOf": "2026-09-24"};   // build_dcf_block.py
+const AVGO_DCF = {"low": 75.56, "base": 117.61, "high": 141.28, "requiredGrowth": 0.4776, "baseEquivGrowth": 0.1592, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.4805, "growth5y": 0.2742, "nonopPerShare": 0.0, "s2cFallback": false, "asOf": "2026-09-24"};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1546,7 +1546,7 @@ const AVGO_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py AVGO
 /* DCF_GRID:BEGIN */
-const AVGO_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[97.11, 83.54, 73.14, 64.89, 58.2], [101.34, 86.4, 75.14, 66.34, 59.27], [106.27, 89.64, 77.37, 67.93, 60.43], [112.11, 93.36, 79.87, 69.68, 61.69], [119.15, 97.69, 82.71, 71.62, 63.07]], "기본": [[144.41, 125.47, 110.92, 99.38, 90.0], [150.59, 129.72, 113.96, 101.64, 91.72], [157.76, 134.51, 117.33, 104.1, 93.57], [166.21, 139.98, 121.09, 106.79, 95.56], [176.37, 146.33, 125.32, 109.75, 97.73]], "낙관": [[184.21, 156.28, 134.94, 118.14, 104.56], [194.37, 163.28, 139.97, 121.85, 107.38], [206.24, 171.26, 145.59, 125.95, 110.45], [220.36, 180.47, 151.93, 130.49, 113.81], [237.45, 191.23, 159.15, 135.57, 117.5]]}};
+const AVGO_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[95.8, 82.16, 71.68, 63.37, 56.6], [99.85, 84.84, 73.51, 64.64, 57.51], [104.6, 87.9, 75.56, 66.05, 58.49], [110.24, 91.43, 77.88, 67.62, 59.58], [117.09, 95.57, 80.53, 69.38, 60.77]], "기본": [[144.87, 125.89, 111.3, 99.73, 90.31], [151.0, 130.09, 114.3, 101.94, 91.99], [158.11, 134.82, 117.61, 104.34, 93.79], [166.51, 140.24, 121.31, 106.98, 95.73], [176.6, 146.53, 125.49, 109.89, 97.83]], "낙관": [[180.95, 152.77, 131.2, 114.16, 100.35], [190.82, 159.48, 135.94, 117.6, 102.91], [202.4, 167.18, 141.28, 121.42, 105.71], [216.21, 176.09, 147.33, 125.68, 108.79], [233.0, 186.56, 154.26, 130.47, 112.2]]}};
 /* DCF_GRID:END */
 (function(){
   const D = AVGO_DCF, G = (typeof AVGO_DCF_GRID !== 'undefined') ? AVGO_DCF_GRID : null;
@@ -2071,7 +2071,7 @@ const AVGO_ANALYST = { asOf: '2026-09-25', source: 'StockAnalysis', rating: 'Str
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const AVGO_DCF_TRACK = [{d:"2024-09-11",low:19.3,base:36.3,high:7.4},{d:"2024-12-20",low:21.0,base:38.9,high:5.9},{d:"2025-03-12",low:26.2,base:26.3,high:23.1},{d:"2025-06-11",low:29.2,base:29.7,high:33.3},{d:"2025-09-10",low:35.9,base:37.0,high:44.2},{d:"2025-12-18",low:39.7,base:40.6,high:52.8},{d:"2026-03-11",low:47.1,base:63.0,high:64.6},{d:"2026-06-09",low:57.2,base:81.4,high:88.5},{d:"2026-09-10",low:77.4,base:117.3,high:145.6}];
+const AVGO_DCF_TRACK = [{d:"2024-09-11",low:17.9,base:35.9,high:5.0},{d:"2024-12-20",low:19.5,base:38.8,high:3.2},{d:"2025-03-12",low:24.7,base:23.7,high:20.4},{d:"2025-06-11",low:27.6,base:27.1,high:30.5},{d:"2025-09-10",low:34.4,base:34.5,high:41.5},{d:"2025-12-18",low:38.2,base:38.0,high:50.0},{d:"2026-03-11",low:45.5,base:63.2,high:61.6},{d:"2026-06-09",low:55.6,base:81.6,high:85.1},{d:"2026-09-10",low:75.6,base:117.6,high:141.3}];
 const AVGO_BACKTEST = [{"checkpoint_date":"2023-09-06","predicted_low":67.8,"predicted_high":107.43,"realized_low":80.84,"realized_high":108.97,"period_end_date":"2023-12-13","zone":"breached_top","is_open":false,"band_width_ratio":1.58},{"checkpoint_date":"2023-12-14","predicted_low":69.45,"predicted_high":99.06,"realized_low":104.9,"realized_high":140.7,"period_end_date":"2024-03-13","zone":"breached_top","is_open":false,"band_width_ratio":1.43},{"checkpoint_date":"2024-03-14","predicted_low":57.5,"predicted_high":103.64,"realized_low":120.47,"realized_high":149.55,"period_end_date":"2024-06-12","zone":"breached_top","is_open":false,"band_width_ratio":1.8},{"checkpoint_date":"2024-06-13","predicted_low":51.05,"predicted_high":117.58,"realized_low":136.27,"realized_high":182.89,"period_end_date":"2024-09-10","zone":"breached_top","is_open":false,"band_width_ratio":2.3},{"checkpoint_date":"2024-09-11","predicted_low":26.66,"predicted_high":82.2,"realized_low":158.27,"realized_high":250.0,"period_end_date":"2024-12-19","zone":"breached_top","is_open":false,"band_width_ratio":3.08},{"checkpoint_date":"2024-12-20","predicted_low":32.67,"predicted_high":191.03,"realized_low":179.45,"realized_high":245.36,"period_end_date":"2025-03-11","zone":"breached_top","is_open":false,"band_width_ratio":5.85},{"checkpoint_date":"2025-03-12","predicted_low":58.85,"predicted_high":394.3,"realized_low":146.29,"realized_high":261.08,"period_end_date":"2025-06-10","zone":"full_hit","is_open":false,"band_width_ratio":6.7},{"checkpoint_date":"2025-06-11","predicted_low":101.49,"predicted_high":497.06,"realized_low":248.7,"realized_high":345.65,"period_end_date":"2025-09-09","zone":"full_hit","is_open":false,"band_width_ratio":4.9},{"checkpoint_date":"2025-09-10","predicted_low":195.2,"predicted_high":694.61,"realized_low":324.63,"realized_high":412.97,"period_end_date":"2025-12-17","zone":"full_hit","is_open":false,"band_width_ratio":3.56},{"checkpoint_date":"2025-12-18","predicted_low":339.47,"predicted_high":743.34,"realized_low":308.05,"realized_high":354.61,"period_end_date":"2026-03-10","zone":"breached_bottom","is_open":false,"band_width_ratio":2.19},{"checkpoint_date":"2026-03-11","predicted_low":349.37,"predicted_high":767.01,"realized_low":293.41,"realized_high":481.57,"period_end_date":"2026-06-08","zone":"breached_bottom","is_open":false,"band_width_ratio":2.2},{"checkpoint_date":"2026-06-09","predicted_low":395.43,"predicted_high":752.2,"realized_low":355.59,"realized_high":427.76,"period_end_date":"2026-09-01","zone":"breached_bottom","is_open":false,"band_width_ratio":1.9},{"checkpoint_date":"2026-09-02","predicted_low":483.11,"predicted_high":880.31,"realized_low":367.24,"realized_high":367.24,"period_end_date":"2026-09-02","zone":"breached_bottom","is_open":true,"band_width_ratio":1.82}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,

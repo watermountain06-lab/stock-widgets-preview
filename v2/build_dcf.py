@@ -323,7 +323,13 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
         new_rev = rev * (1 + growth[i])
         ebit = new_rev * margins[i]
         nopat = ebit * (1 - tax_path[i])
-        reinvest = (new_rev - rev) / s2c_path[i]
+        if REINVEST_LEAD:
+            # 올해 투자가 **다음 해** 매출 증가를 만든다(잔존 고든 공식과 같은 시점 규약). 같은 해로 두면
+            # ROIC = 할인율인데도 성장이 가치를 만든다 — 사전 등록 엔진 단위검정 ①에서 성장 30%에 +31%(2026-09-26).
+            g_next = growth[i + 1] if i + 1 < years else terminal
+            reinvest = new_rev * g_next / s2c_path[i]
+        else:
+            reinvest = (new_rev - rev) / s2c_path[i]
         fcf = nopat - reinvest
         rev = new_rev
         # 기중 할인(Dechra 모델과 같은 0.5년 관행)
@@ -332,6 +338,11 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
                      "reinvest": reinvest, "fcf": fcf, "pv": fcf * disc})
 
     pv_sum = sum(r["pv"] for r in rows)
+    if REINVEST_LEAD:
+        # 1년차 매출 증가를 만들 투자는 지금(0년) 들어간다 — 빠뜨리면 첫해 성장이 공짜가 된다.
+        # 기중 할인 규약에서 i년차 흐름은 i−0.5 시점이므로, 1년차 성장을 위한 투자는 −0.5 시점이다.
+        reinvest0 = rev0 * growth[0] / s2c_path[0]
+        pv_sum -= reinvest0 * (1 + wacc) ** 0.5
     last = rows[-1]
 
     # 잔존: 재투자율 = 영구성장률 / ROIC. 예측기간의 한계 ROIC는 마진 × (1−세율) × 매출/자본이고,
@@ -365,7 +376,7 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
             "roic": roic, "roic_terminal": roic_t, "reinvest_rate": reinvest_rate}
 
 
-def history(ticker, asof=None):
+def history(ticker, asof=None, window_start=None):
     """성장률·마진 이력을 SEC에서 뽑는다. 시나리오 가정의 출처다.
 
     사람이 성장률을 고르면 그게 답을 정하므로(순방향 DCF의 근본 문제),
@@ -388,7 +399,9 @@ def history(ticker, asof=None):
     def avail_of(x):
         return max(rev[x]["available"], op[x]["available"])
 
-    dates = [x for x in dates if x >= WINDOW_START
+    # window_start: 과거 시점 재현은 그 시점 기준 약 5년 창을 쓴다(research/point_in_time_replay.py).
+    ws = window_start or WINDOW_START
+    dates = [x for x in dates if x >= ws
              and (asof is None or avail_of(x) <= asof)]
     if len(dates) < 13:
         return None
@@ -504,15 +517,36 @@ def s2c_path_for(base, scenario="기본", years=5):
     return [m + (avg - m) * (i + 1) / years for i in range(years)], False
 
 
-def scenarios(base, hist, wacc, terminal, years=5):
+# ③ 10년 2단계 경로(research/two_stage_prereg.md). 채택 전까지 기본값은 지금 모델("fade").
+PATH_MODE = "fade"
+REINVEST_LEAD = True   # 재투자 시점 규약(엔진 단위검정 ①, 2026-09-26 사용자 결정으로 적용)
+TWO_STAGE = {"years": 10, "hold": 3, "cap": 0.20, "roic_fade": 0.0}
+
+
+def scenarios(base, hist, wacc, terminal, years=5, path=None):
     """보수·기본·낙관 세 시나리오. 가정은 전부 회사 자기 이력에서 온다.
 
     성장과 마진을 함께 움직인다. 성장만 흔들면 마진 위험이 빠진 범위가 되고,
     NVDA에서는 그 차이가 주당 $224 대 $150이었다.
+
+    path="two_stage": 10년 예측, 1~hold년 g0(상한 cap) 유지 후 10년차까지 영구성장으로 선형 수렴,
+    마진·매출/자본은 5년 경로 뒤 유지, 잔존 ROIC는 할인율로 완전 수렴(roic_fade 0).
     """
+    path = path or PATH_MODE
+    two = path == "two_stage"
+    n = TWO_STAGE["years"] if two else years
+
     def fade(g0):
         g0 = max(g0, terminal)
-        return [g0 + (terminal - g0) * i / (years - 1) for i in range(years)]
+        if not two:
+            return [g0 + (terminal - g0) * i / (years - 1) for i in range(years)]
+        g0 = min(g0, TWO_STAGE["cap"])
+        h = TWO_STAGE["hold"]
+        # 1~h년 g0, h+1년부터 n년차에 정확히 영구성장률이 되도록 선형
+        return [g0 if i < h else g0 + (terminal - g0) * (i - h + 1) / (n - h) for i in range(n)]
+
+    def extend(xs):
+        return list(xs) + [xs[-1]] * (n - len(xs))
 
     plans = [
         ("보수", (hist["growth_5y"] or terminal) / 2, "5년 CAGR의 절반 · 마진 5년 중앙값"),
@@ -521,9 +555,11 @@ def scenarios(base, hist, wacc, terminal, years=5):
     ]
     out = []
     for name, g0, desc in plans:
-        m_path = margin_path_for(hist, name, years)
+        m_path = extend(margin_path_for(hist, name, years))
         s_path, fell_back = s2c_path_for(base, name, years)
-        r = run_dcf(base, fade(g0), wacc, terminal, 0.0, years=years, margin_path=m_path, s2c=s_path)
+        s_path = extend(s_path)
+        r = run_dcf(base, fade(g0), wacc, terminal, 0.0, years=n, margin_path=m_path, s2c=s_path,
+                    roic_fade=TWO_STAGE["roic_fade"] if two else 0.5)
         # 실제로 쓴 매출/자본을 남긴다 — 최근 효율을 못 구해 평균으로 떨어지면 조용히 바뀌지 않게(Fable).
         out.append({"name": name, "desc": desc, "growth0": max(g0, terminal),
                     "margin_end": m_path[-1], "per_share": r["per_share"], "roic": r["roic"],
