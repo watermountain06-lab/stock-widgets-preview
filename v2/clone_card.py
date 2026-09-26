@@ -31,6 +31,8 @@ TEMPLATE = os.path.join(HERE, "NVDA_full_widget.html")
 # 틀(NVDA)의 브랜드 색. --accent 셋과, 틀 안에 리터럴로 박힌 초록.
 NVDA_ACCENT = ("#76b900", "#aeff20", "#3b5d00")
 NVDA_RGB = "118,185,0"
+# 화면 표기가 파일 이름과 다른 종목(점 들어간 클래스 주식). 파일·상수 이름은 키 그대로 쓴다.
+DISPLAY = {"BRKB": "BRK.B"}
 
 
 def rgb(hexcol):
@@ -42,6 +44,7 @@ def root_meta(t):
     """루트 카드에서 새 카드 머리에 쓸 값을 읽는다."""
     path = os.path.join(REPO, f"{t}_full_widget.html")
     h = open(path, encoding="utf-8").read()
+    d = DISPLAY.get(t, t)
 
     def need(pat, what):
         m = re.search(pat, h, re.S)
@@ -50,7 +53,7 @@ def root_meta(t):
         return m
 
     acc = need(r"--accent:\s*(#[0-9a-fA-F]{6});\s*--accent2:\s*(#[0-9a-fA-F]{6});\s*--accent3:\s*(#[0-9a-fA-F]{6});", "--accent 셋")
-    sub = need(r'<span class="ticker-badge">' + re.escape(t) + r'</span>\s*<span[^>]*>([^<]+)</span>', "거래소·업종 줄")
+    sub = need(r'<span class="ticker-badge">' + re.escape(d) + r'</span>\s*<span[^>]*>([^<]+)</span>', "거래소·업종 줄")
     name = need(r'<div class="company-name">([^<]+)</div>', "회사명")
     cur = need(r'<span class="back-bar-current">([^<]+)</span>', "뒤로가기 막대 현재 표시")
     prev = re.search(r'<(?:a|span) class="back-bar-nav[^"]*"[^>]*>◀[^<]*</(?:a|span)>', h)
@@ -86,8 +89,9 @@ def main():
     #    "NVDA_full_widget.html" 이전 링크까지 바뀐다(AAPL 첫 시도에서 실제로 났다).
     h = h.replace("NVDA_", f"{t}_")
     h = re.sub(r"\bnvda(?=[A-Z])", lo, h)
-    one("<title>NVDA 종합 분석 위젯", f"<title>{t} 종합 분석 위젯")
-    one('<span class="ticker-badge">NVDA</span>', f'<span class="ticker-badge">{t}</span>')
+    d = DISPLAY.get(t, t)
+    one("<title>NVDA 종합 분석 위젯", f"<title>{d} 종합 분석 위젯")
+    one('<span class="ticker-badge">NVDA</span>', f'<span class="ticker-badge">{d}</span>')
     one("NASDAQ · AI 반도체", meta["sub"])
     one('<div class="company-name">NVIDIA Corporation</div>', f'<div class="company-name">{meta["name"]}</div>')
     one('<span class="back-bar-current">NVDA · 시총 1위</span>', f'<span class="back-bar-current">{meta["current"]}</span>')
@@ -96,10 +100,10 @@ def main():
     if not m:
         sys.exit("틀의 다음 링크를 못 찾았다")
     h = h[:m.start()] + meta["next"] + h[m.end():]
-    h = h.replace('aria-label="NVDA ', f'aria-label="{t} ')
-    one("지난 5년 NVDA 자신의 배수", f"지난 5년 {t} 자신의 배수")
+    h = h.replace('aria-label="NVDA ', f'aria-label="{d} ')
+    one("지난 5년 NVDA 자신의 배수", f"지난 5년 {d} 자신의 배수")
     h = re.sub(r"(python3 v2/build_[a-z_]+\.py) NVDA", rf"\1 {t}", h)
-    h = h.replace("stockanalysis.com/stocks/nvda/", f"stockanalysis.com/stocks/{lo}/")
+    h = h.replace("stockanalysis.com/stocks/nvda/", f"stockanalysis.com/stocks/{d.lower().replace('.', '-')}/")
 
     # 2. 색
     a1, a2, a3 = meta["accent"]
