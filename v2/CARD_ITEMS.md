@@ -119,19 +119,26 @@ NVDA 화면은 완성본이다. 아래는 화면을 바꾸자는 것이 아니�
 
 ---
 
-## 새 카드 시작 절차 (AAPL에서 겪은 실수를 막는 순서)
+## 새 카드 시작 절차 (AAPL~TSLA에서 겪은 실수를 막는 순서, 2026-09-26 갱신)
 
 틀(NVDA)에는 위 [틀] 항목이 2026-09-24에 모두 되돌려 반영됐다. 새 카드는 그 틀에서 시작한다.
 
 1. **복제** — `python3 v2/clone_card.py {T}`. 이름·머리·브랜드 색(초록 리터럴 포함)을 루트 카드에서 읽어 치환한다. 남은 NVDA 흔적 목록을 출력한다.
 2. **배열** — DAILY·MA5/20/60/120·BACKTEST를 루트 카드에서 스크립트로 잘라 붙인다. 길이 동일, `MA20[-1]` = 최근 20일 평균 확인. 손으로 옮기지 않는다.
-3. **데이터 블록** — CIK가 `v2/build_activity_score.py` CIKS에 없으면 추가. 재무 파일을 redesign에서 `v2/fundamental_data/`로 복사. 순서: `fetch_eps_history` → `build_multiple_history --json v2/{T}_multiples.json` → `build_peer_score --self … --card` → `build_fundamental_score --card` → `build_activity_score` → `build_dcf`(scenarios·implied_growth로 `{T}_DCF` 작성) → `build_dcf_grid` → `build_dcf_track`.
-4. **헤더 손값** — 현재가·등락·기준일, "실제 3년 +N%"(`history()['growth_3y']`), 적정주가 밴드(252거래일 시점별 PER p25~p75 × TTM EPS, $10 반올림), 종합 평가(사람 판단, 먼저 "확인 필요"로).
-5. **판단 콘텐츠** — 루트 카드에서 옮기되 **문장마다 1차 출처로 다시 확인**. AAPL에서 루트 카드의 CEO 승계 "예정"(이미 끝남)·관세 $3.3B(출처 없음)가 틀렸다. 자사주 매입은 현금흐름표 기준인지 확인.
-6. **틀 전용 문장 제거** — NVDA 산문(반도체 시장 규모, 56.6% 마진, 회사채 발행 등)이 그대로 남지 않았는지 `grep -i nvda`와 탭별 읽기로 확인.
-7. **대체값 맞추기** — 탭을 다 채운 뒤 `python3 v2/sync_fallbacks.py {T}`(서버 필요). JS가 그린 값을 HTML 대체값에 되써 넣는다. 적용 전후 렌더 글자가 같은지 비교한다. 탭을 열 때만 채워지는 칸(`fundPeriodTitle`)은 손으로. AAPL 43곳·NVDA 13곳이 낡아 있었다(Codex).
-8. **확인** — `node --check`는 문법만 본다. **다섯 탭을 실제로 열어 콘솔 에러 0건과 차트 4개(분기 실적·YoY/QoQ·매출 구성·비교)가 그려지는지** 확인한다(MSFT에서 `const revenue`의 공백이 치환으로 빠져 `constrevenue=`가 됐는데 문법 검사는 통과하고 분기 차트만 비었다). 그 밖에 `node --check`(인라인 JS), `python3 -m http.server`로 띄워 콘솔 0건. **주소에 `?v=N`을 붙여 캐시를 피한다**(수정한 NVDA가 캐시 때문에 옛 화면으로 보였다). 창 폭 1100·900·700·390에서 요약 격자·점수 구성표·헤더 네 칸 높이.
-9. **탭마다 사용자 확인** — 표시 형식(라벨/값에 무엇을 둘지) 요청은 구현 전에 "라벨: … / 값: …"으로 한 줄 되물어 맞춘다.
+3. **데이터 받기** — CIK가 `scripts/fetch_eps_history.py` CIKS·`v2/build_activity_score.py` CIKS에 없으면 추가, 분할이 있으면 KNOWN_SPLITS(없으면 `v2/splits.py`가 Yahoo로 보정). `fetch_eps_history` → `../stock-widgets-redesign/scripts/fetch_financials.py {T} --cik … --out v2/fundamental_data/{T}_financials.json`.
+4. **데이터 블록** — `build_multiple_history --json`(환경변수 `EPS_HISTORY`) → `build_peer_score --self … --card` → `build_fundamental_score --card` → `build_activity_score` → `build_dcf_block` → `build_dcf_grid` → `build_dcf_track --json` + 트랙 splice. **각 단계 출력의 경고를 넘기지 말 것**:
+   - `태그 없음`·`N일 뒤처짐`(EV 구성요소) → 태그가 바뀐 회사다(AVGO 감가상각·차입금·자본, TSLA 차입금). CARD_ITEMS AVGO·TSLA 절.
+   - `shares: 태그 없음` → 다중 클래스면 `v2/adapters/cover_shares.py {T}`(META).
+   - `⚠ 데이터 품질: debt_suspect` → **10-Q의 총차입금과 대조**. LongTermDebt를 비유동분만 태깅하는 회사면 `DEBT_NONCURRENT_ONLY`에 CIK 추가(TSLA).
+   - 세율 이상·주식 수 대체·성장 기저효과는 `build_dcf`가 자동 처리(①단계 규칙) — 경고만 확인.
+5. **1차 출처로 확인할 입력** — 실적 보도자료에서 **금액을 밝힌 일회성 법인세** → `v2/tax_oneoff.json`(META). **획득 전 성과 조건부 제한주**(희석 EPS에서도 빠지는 주식) → `v2/share_adjust.json`(TSLA). **표준 태그 없는 비영업 자산**(비상장 지분·지분법·암호자산) → `v2/nonop_extra.json`(태그 또는 10-Q 값 `{name, value, end, filed}`), 단기투자에 이미 든 상장주식은 `exclude`(META). **본업 기준 문턱**((세전 − 영업이익) ÷ 영업이익 ≥ 20%면 `core_earnings.json`).
+6. **헤더 손값** — 현재가·등락·기준일(DAILY 마지막 두 종가), "실제 3년 +N%"(`history()['growth_3y']`), 적정주가 밴드(`{T}_multiples.json`의 fairBand). **세 칸 모두 NVDA 값이 남기 쉽다**(TSM·AVGO에서 두 번 놓침). 종합 평가는 자동 판정 — `data-verdict` 대체값만 렌더 값으로.
+7. **판단 콘텐츠** — 루트 카드를 믿지 말고 **문장마다 1차 출처**(8-K 보도자료·10-Q·10-K)로 다시 확인. 반응일은 8-K 접수 시각(장 마감 후 → 다음 거래일, 휴장 반영). 보도 출처(비SEC)는 SEC에 없는 사건만. 시나리오 설명은 **한 줄 50자 안팎**(TSLA에서 길다는 지적). 내재가치 비율·요구 성장 같은 DCF 숫자를 산문에 적었으면 **모델을 바꿀 때마다 같이 고친다**(②·③단계에서 9장 손으로 갱신).
+8. **틀 전용 문장 제거** — `grep -i "nvda\|nvidia\|FY27\|확인 필요"`와 탭별 읽기. 카드 안 블록을 지울 때는 **끝 표식이 유일한지 먼저 확인**하거나 생성 스크립트에서 빼고 다시 만든다(TSLA에서 비탐욕 정규식이 뒤쪽 영역까지 지웠다 — `clone_card.py --force`부터 재생성으로 복구).
+9. **대체값 맞추기** — `python3 v2/sync_fallbacks.py {T}`(서버 필요). **요구 마진 모드(reqMode margin) 카드는 `.reverse` 문장을 sync가 못 맞추므로 렌더 문장을 손으로 넣는다**(AAPL·AMZN·TSLA).
+10. **확인** — 다섯 탭을 실제로 열어 콘솔 에러 0건·차트 4개, 주소에 `?v=N`. `$-`·`−0.0%`·`NaN`·`undefined`·`확인 필요` 문자열 0건. 기존 카드 회귀는 **파싱한 JSON 블록 비교**로(줄 diff는 필드 추가만으로도 다르게 나온다).
+11. **Fable 검토** — 비판만(파일 수정 금지), 1차 출처 재계산·반응일·틀 잔재·다른 카드 회귀. 지적은 검증 후 반영, 방법 결정만 사용자에게.
+12. **표시 형식** — 라벨/값 배치 요청은 구현 전에 "라벨: … / 값: …"으로 한 줄 되물어 맞춘다.
 - **[틀·반영됨] 애널리스트 등급은 `{T}_ANALYST.rating`** — "Strong Buy"가 HTML에 박혀 있었다(AAPL은 Buy). 목표가 여력이 음수면 빨강(`op-down`) — `op-up` 초록이 고정돼 AAPL −2.6%도 초록이었다.
 
 ## GOOGL에서 정한 규칙 (2026-09-24)

@@ -1912,7 +1912,7 @@ const META_VALUATION = {"peer": {"score": 64.6, "sector": "Communication Service
         const b = document.createElement('span');
         b.className = 'vs-hard'; b.textContent = `⚠ 계산 어려움 ${D.hard.length}/5`;
         b.title = lines.join('\n') + (tv ? '\n· ' + tv : '') + '\n판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.';
-        wrap.appendChild(b);
+        wrap.insertBefore(b, el);   // 배지를 왼쪽, 판정 알약을 오른쪽 끝에(2026-09-26 사용자 요청)
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
