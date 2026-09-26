@@ -117,7 +117,10 @@ def base_inputs(ticker, asof=None):
         fin_lease = latest(bmh.component_sum(cik, ["FinanceLeaseLiabilityCurrent",
                                                    "FinanceLeaseLiabilityNoncurrent"]), asof)
     fin_lease = fin_lease or 0
-    out["lease"] = (out.get("lease") or 0) + fin_lease
+    # 총차입금 태그를 지정한 회사(bmh.DEBT_TOTAL_TAG, MU = DebtAndCapitalLeaseObligations)는 금융리스가
+    # 차입금에 이미 들어 있다 — 리스에 또 더하면 두 번 뺀다(MU 2026-05 $2.67B, 2026-09-26).
+    if cik not in bmh.DEBT_TOTAL_TAG:
+        out["lease"] = (out.get("lease") or 0) + fin_lease
     out["finance_lease"] = fin_lease
 
     _, srows = bmh.pick_tag(cik, ["CommonStockSharesOutstanding"], "us-gaap")
@@ -164,7 +167,10 @@ def base_inputs(ticker, asof=None):
         return s[-1]["val"]
 
     # 순현금 표시(build_fundamental_score.net_cash)가 채권성 장기투자만 따로 쓰므로 분리해 둔다.
-    out["lt_marketable"] = fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"])) or 0
+    # MU는 같은 자산(10-Q "Long-term marketable investments", 2026-05 $4,106M)을 매도가능 채권 태그로만 낸다.
+    # 앞 태그가 없거나 낡았을 때만 쓴다(AAPL은 앞 태그가 있어 불변 — Codex 지적, 2026-09-26).
+    out["lt_marketable"] = (fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"]))
+                            or fresh_latest(bmh.component_sum(cik, ["AvailableForSaleSecuritiesDebtSecuritiesNoncurrent"])) or 0)
     # Alphabet은 비상장 지분을 OtherLongTermInvestments("Non-marketable securities",
     # 2026-06-30 $131.5B)로 보고한다. 모든 태그에 같은 신선도 필터를 건다 — 필터가 없던
     # 동안 GOOGL은 2025-09-30에 끊긴 EquitySecuritiesFvNi $7.1B를 계속 쓰고 있었다(2026-09-24).

@@ -144,6 +144,7 @@ CIKS = {
     # TSM: SEC에 us-gaap 데이터가 없어 v2/adapters/tsm_ifrs.py가 만든 캐시를 쓴다(tsm_feed.py로 실행).
     "TSM": "0001046179",
     "SPCX": "0001181412",
+    "MU": "0000723125",
 }
 
 

@@ -232,7 +232,17 @@ def score_items(fin, config, basis):
 
     # 차입금의존도 — 차입금 태그가 둘 다 없으면 무차입과 결측을 못 가르므로 결측(v1)
     sd, ld, assets = S("shortTermDebt"), S("longTermDebt"), latest_instant(S("assets"))
-    if (sd or ld) and assets:
+    import build_multiple_history as bmh
+    cik = str(fin.get("cik", "")).zfill(10)
+    if cik in bmh.DEBT_TOTAL_TAG and assets:
+        # 총차입금 태그를 지정한 회사(MU)는 EV·순현금과 같은 차입금을 쓴다. fetch_financials의 LongTermDebt는
+        # MU에서 2025-11에 멈춰 2026-05 총자산과 섞였다(7.0% vs 10-Q 4.3%, 2026-09-26).
+        a_end = max(r["end"] for r in S("assets"))
+        dv = [e for e in bmh.ev_component(cik, "debt", bmh.EV_COMPONENTS["debt"]) if e["end"] <= a_end]
+        if dv:
+            last = max(dv, key=lambda e: (e["end"], e["available"]))
+            items["debtDependency"] = {"value": last["val"] / assets * 100}
+    elif (sd or ld) and assets:
         items["debtDependency"] = {"value": ((latest_instant(sd) or 0) + (latest_instant(ld) or 0)) / assets * 100}
 
     # 이자보상배율 — 분기 기준이면 최신 분기 영업이익·이자비용(같은 분기)

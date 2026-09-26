@@ -520,9 +520,15 @@ def pick_instant(cik, tags):
 # LongTermDebt를 비유동분으로만 태깅한다고 10-Q로 확인한 회사(CIK). TSLA 2026-06 LongTermDebt $7,721M =
 # 10-Q 장기분, 유동분 $1,340M은 DebtCurrent(총차입금 $9,061M).
 DEBT_NONCURRENT_ONLY = {"0001318605"}
+# 비유동 차입금 태그를 시기마다 바꿔 내는 회사(유동분 DebtCurrent만 꾸준함)는 10-Q "총차입금"과 같은 한 태그로 고정한다.
+# MU는 2025-11까지 LongTermDebt(사채만, 금융리스 제외)·그 뒤 LongTermDebtAndCapitalLeaseObligations(비유동+금융리스)라
+# 정의가 섞였다. DebtAndCapitalLeaseObligations = 유동+비유동+금융리스 = 10-Q 주석 9 총계(2026-05 $5,722M), 2019년부터 30개.
+DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations"}
 
 
 def ev_component(cik, name, tags):
+    if name == "debt" and cik in DEBT_TOTAL_TAG:
+        return component_sum(cik, [DEBT_TOTAL_TAG[cik]])
     out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
     # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다

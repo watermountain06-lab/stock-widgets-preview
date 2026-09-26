@@ -126,7 +126,7 @@ NVDA 화면은 완성본이다. 아래는 화면을 바꾸자는 것이 아니�
 **구조 불변 원칙(2026-09-26 사용자 결정, BRKB에서 어긋난 뒤)** — 카드마다 모양이 달라지지 않게, 틀의 블록(토글·배수 5개·요약표 5열·점수 구성표·활동성 칸)을 **지우거나 새로 짜지 않는다.** 업종에 안 맞는 값은 같은 자리에 "해당 없음"·"계산 불가"와 이유를 적고, 업종 고유 사실은 기존 목록 안에 줄로 더한다. 탭 전체를 바꿔야 하는 경우(BRKB 내재가치 탭의 두 기둥 표처럼)만 예외로 하고 사용자에게 먼저 묻는다.
 
 1. **복제** — `python3 v2/clone_card.py {T}`. 이름·머리·브랜드 색(초록 리터럴 포함)을 루트 카드에서 읽어 치환한다. 남은 NVDA 흔적 목록을 출력한다.
-2. **배열** — DAILY·MA5/20/60/120·BACKTEST를 루트 카드에서 스크립트로 잘라 붙인다. 길이 동일, `MA20[-1]` = 최근 20일 평균 확인. 손으로 옮기지 않는다.
+2. **배열** — DAILY·MA5/20/60/120·BACKTEST를 루트 카드에서 스크립트로 잘라 붙인다. 길이 동일, `MA20[-1]` = 최근 20일 평균 확인. 손으로 옮기지 않는다. **정규식 `\[.*?\];` 대신 `json.JSONDecoder().raw_decode`로 배열 끝을 찾는다** — MU 루트 카드는 BACKTEST 뒤가 줄바꿈 후 `;`라 정규식이 차트 코드 2,885자를 같이 잘라 붙여 JS 전체가 죽었다(2026-09-26).
 3. **데이터 받기** — CIK가 `scripts/fetch_eps_history.py` CIKS·`v2/build_activity_score.py` CIKS에 없으면 추가, 분할이 있으면 KNOWN_SPLITS(없으면 `v2/splits.py`가 Yahoo로 보정). `fetch_eps_history` → `../stock-widgets-redesign/scripts/fetch_financials.py {T} --cik … --out v2/fundamental_data/{T}_financials.json`.
 4. **데이터 블록** — `build_multiple_history --json`(환경변수 `EPS_HISTORY`) → `build_peer_score --self … --card` → `build_fundamental_score --card` → `build_activity_score` → `build_dcf_block` → `build_dcf_grid` → `build_dcf_track --json` + 트랙 splice. **각 단계 출력의 경고를 넘기지 말 것**:
    - `태그 없음`·`N일 뒤처짐`(EV 구성요소) → 태그가 바뀐 회사다(AVGO 감가상각·차입금·자본, TSLA 차입금). CARD_ITEMS AVGO·TSLA 절.
@@ -265,6 +265,16 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **추출 오류 수정(결과 후)** — 국채 매입 미지급금 태그가 2025-09부터 `OtherPayablesToBrokerDealersAndClearingOrganizations`로 바뀌어 0으로 읽혔다(Q1 2026 $17.2B). prereg에 "결과를 본 뒤 개정"으로 기록.
 - **루트 카드 오류** — Q2 2026 영업이익 $11.7B(실제 보도자료 $12.98B). 반응일: 실적 보도자료는 토요일 → 월요일 반응, 자사주 재개 8-K는 3/5 개장 전.
 - 복제: `clone_card.py`에 화면 표기 `DISPLAY = {"BRKB": "BRK.B"}`.
+
+## MU — 차입금 태그 교체·장기 채권 태그·메모리 사이클 (2026-09-26)
+
+- **최신 분기 Q3 FY26(2026-05-28)** — Q4 FY26 실적은 9월 30일(8/26 회사 발표, GlobeNewswire). 발표 뒤 갱신 대상.
+- **차입금** — 세부 비유동 태그가 없고 총계 태그가 바뀌었다(2025-11까지 `LongTermDebt` 사채만 → 이후 `LongTermDebtAndCapitalLeaseObligations` 비유동+금융리스). `build_multiple_history.DEBT_TOTAL_TAG`에 MU를 넣어 `DebtAndCapitalLeaseObligations`(유동+비유동+금융리스 = 10-Q 주석 9 총계, 2026-05 $5,722M)로 고정. 이 회사들은 `build_dcf`가 금융리스를 리스에 또 더하지 않고($2.67B 이중 계산 제거), `build_fundamental_score` 차입금의존도도 같은 차입금을 쓴다(fetch_financials의 LongTermDebt가 2025-11에 멈춰 7.0% → 10-Q 4.3%).
+- **장기 채권** — MU는 "Long-term marketable investments"($4.11B)를 `AvailableForSaleSecuritiesDebtSecuritiesNoncurrent`로만 낸다. `build_dcf`가 `MarketableSecuritiesNoncurrent`가 없거나 낡았을 때 이 태그를 쓴다(Codex). 카드 11장 중 이 태그가 살아 있는 회사는 MU뿐(AAPL은 2011년 값이라 버려짐) — AAPL $84.1B 불변 확인. 기본 내재가치 $381 → $387.
+- **판정 고평가** — 자기 이력 24.6(−1, PSR·PBR 5년 상위 3%), 동종업 65.6(0), 현금흐름 현재가 ÷ 기본 2.8배(−2). 적정주가 밴드 $970~$1,590 안에 현재가가 있지만 밴드는 호황기 EPS × 1년 PER이라 전제 문장에 적었다.
+- **DCF 추이의 음수** — 2024년 시점(적자였던 FY23이 최근 2년 마진에 포함)은 기본·낙관이 음수이고 낙관 < 보수로 뒤집힌다(마진이 음수면 "현재 마진 유지"가 더 나쁨). 모델 출력이 맞다(Fable 재계산). 차트의 음수 표시는 틀 과제로 남긴다.
+- **틀 과제(전 카드 공통, 화면엔 안 보임)** — 숨긴 '추세 구조' 카드와 비영업 자산 줄의 HTML 대체값이 NVDA 문장 그대로다. `sync_fallbacks`는 `data-verdict`를 맞추지 않으므로 헤더·밸류에이션 판정 대체값은 채우기 스크립트에서 넣는다(절차 6번).
+- 반응일: 실적은 16:0x ET 장 마감 후 → 다음 거래일, 3/25 공개매수 개시·8/26 경영진 개편 8-K는 개장 전 → 당일.
 
 ## 내재가치·종합 평가 개선 방향 (2026-09-25, team-assemble 토론 → 사용자 결정)
 
