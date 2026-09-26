@@ -1,7 +1,7 @@
 {
   "ticker": "C",
-  "asOf": "2026-09-24",
-  "close": 132.1,
+  "asOf": "2026-09-25",
+  "close": 134.28,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 7.55
+    "weightedRocPct": 10.69
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 41.04,
-    "drawdownFromHighPct": 10.72,
+    "riseFromLowPct": 43.37,
+    "drawdownFromHighPct": 9.25,
     "high52w": 147.96,
     "low52w": 93.66
   },
@@ -38,14 +38,10 @@
   "rawScore": 80,
   "rawGrade": "긍정적",
   "displayGrade": "강한",
-  "riskFlags": [
-    "단기추세이탈"
-  ],
-  "riskFlagsShown": [
-    "단기추세이탈"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.88,
-    "percentileVsOwnHistory": 62.7
+    "pctNow": 2.82,
+    "percentileVsOwnHistory": 60.3
   }
 }

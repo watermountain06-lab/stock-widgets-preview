@@ -1,7 +1,7 @@
 {
   "ticker": "RTX",
-  "asOf": "2026-09-24",
-  "close": 188.61,
+  "asOf": "2026-09-25",
+  "close": 189.4,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": 3.59
+    "weightedRocPct": 3.81
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 21.18,
-    "drawdownFromHighPct": 16.87,
+    "riseFromLowPct": 21.69,
+    "drawdownFromHighPct": 16.52,
     "high52w": 226.88,
     "low52w": 155.64
   },
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.05,
-    "percentileVsOwnHistory": 25.8
+    "pctNow": 2.0,
+    "percentileVsOwnHistory": 21.4
   }
 }

@@ -1,7 +1,7 @@
 {
   "ticker": "V",
-  "asOf": "2026-09-24",
-  "close": 367.98,
+  "asOf": "2026-09-25",
+  "close": 367.38,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 11.3
+    "weightedRocPct": 10.24
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 25.21,
-    "drawdownFromHighPct": 4.56,
+    "riseFromLowPct": 25.01,
+    "drawdownFromHighPct": 4.72,
     "high52w": 385.57,
     "low52w": 293.89
   },
@@ -38,10 +38,14 @@
   "rawScore": 75,
   "rawGrade": "긍정적",
   "displayGrade": "긍정적",
-  "riskFlags": [],
-  "riskFlagsShown": [],
+  "riskFlags": [
+    "단기추세이탈"
+  ],
+  "riskFlagsShown": [
+    "단기추세이탈"
+  ],
   "atr": {
-    "pctNow": 1.55,
+    "pctNow": 1.54,
     "percentileVsOwnHistory": 7.1
   }
 }

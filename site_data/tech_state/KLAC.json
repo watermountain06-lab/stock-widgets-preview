@@ -1,7 +1,7 @@
 {
   "ticker": "KLAC",
-  "asOf": "2026-09-24",
-  "close": 187.11,
+  "asOf": "2026-09-25",
+  "close": 187.92,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,15 +18,15 @@
     }
   },
   "momentum": {
-    "score": 20,
+    "score": 30,
     "max": 40,
-    "weightedRocPct": 17.66
+    "weightedRocPct": 20.92
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 90.73,
-    "drawdownFromHighPct": 39.13,
+    "riseFromLowPct": 91.56,
+    "drawdownFromHighPct": 38.86,
     "high52w": 307.37,
     "low52w": 98.1
   },
@@ -35,7 +35,7 @@
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 60,
+  "rawScore": 70,
   "rawGrade": "긍정적",
   "displayGrade": "긍정적",
   "riskFlags": [
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 4.35,
-    "percentileVsOwnHistory": 54.4
+    "pctNow": 3.92,
+    "percentileVsOwnHistory": 35.3
   }
 }

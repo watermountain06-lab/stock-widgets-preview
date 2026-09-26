@@ -1,7 +1,7 @@
 {
   "ticker": "BAC",
-  "asOf": "2026-09-24",
-  "close": 56.03,
+  "asOf": "2026-09-25",
+  "close": 56.7,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": 3.23
+    "weightedRocPct": 4.89
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 21.49,
-    "drawdownFromHighPct": 14.1,
+    "riseFromLowPct": 22.94,
+    "drawdownFromHighPct": 13.08,
     "high52w": 65.23,
     "low52w": 46.12
   },
@@ -45,7 +45,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.44,
-    "percentileVsOwnHistory": 82.9
+    "pctNow": 2.38,
+    "percentileVsOwnHistory": 80.2
   }
 }

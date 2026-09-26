@@ -1,7 +1,7 @@
 {
   "ticker": "PEP",
-  "asOf": "2026-09-24",
-  "close": 128.15,
+  "asOf": "2026-09-25",
+  "close": 128.63,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,35 +20,34 @@
   "momentum": {
     "score": 0,
     "max": 40,
-    "weightedRocPct": -10.88
+    "weightedRocPct": -10.55
   },
   "position52w": {
-    "score": 0,
+    "score": 5,
     "max": 20,
-    "riseFromLowPct": 0.13,
-    "drawdownFromHighPct": 25.27,
+    "riseFromLowPct": 1.36,
+    "drawdownFromHighPct": 24.99,
     "high52w": 171.48,
-    "low52w": 127.98
+    "low52w": 126.9
   },
   "priceStructureScore": {
-    "score": 0,
+    "score": 5,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 0,
+  "rawScore": 5,
   "rawGrade": "약한",
   "displayGrade": "약한",
   "riskFlags": [
     "장기추세이탈",
-    "고점대비큰조정",
     "단기추세이탈"
   ],
   "riskFlagsShown": [
     "장기추세이탈",
-    "고점대비큰조정"
+    "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.72,
-    "percentileVsOwnHistory": 32.9
+    "pctNow": 1.67,
+    "percentileVsOwnHistory": 29.0
   }
 }

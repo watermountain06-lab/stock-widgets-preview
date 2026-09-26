@@ -1,7 +1,7 @@
 {
   "ticker": "BRKB",
-  "asOf": "2026-09-24",
-  "close": 505.18,
+  "asOf": "2026-09-25",
+  "close": 505.48,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": 3.3
+    "weightedRocPct": 2.35
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 8.87,
-    "drawdownFromHighPct": 6.05,
+    "riseFromLowPct": 8.94,
+    "drawdownFromHighPct": 6.0,
     "high52w": 537.74,
     "low52w": 464.01
   },
@@ -46,6 +46,6 @@
   ],
   "atr": {
     "pctNow": 1.29,
-    "percentileVsOwnHistory": 31.3
+    "percentileVsOwnHistory": 29.4
   }
 }
