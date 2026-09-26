@@ -196,6 +196,10 @@
   .vs-pill { justify-self:end; font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--green); background:rgba(46,204,113,0.14); }
   .vs-pill.mid { color:var(--gold); background:rgba(240,192,64,0.16); }
   .vs-pill.high { color:var(--red); background:rgba(231,76,60,0.14); }
+  /* "계산 어려움" 배지 — 현금흐름 알약과 한 칸에 묶는다(격자 칸 수를 바꾸지 않게) */
+  .vs-pill-wrap { justify-self:end; display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+  .vs-pill-wrap .vs-pill { justify-self:auto; }
+  .vs-hard { font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--gold); background:rgba(240,192,64,0.12); border:1px dashed rgba(240,192,64,0.55); cursor:help; }
   .vs-premise { font-size:12px; color:var(--text2); line-height:1.6; margin:12px 0 10px; }
   .vs-premise strong { color:var(--text); }
 
@@ -613,6 +617,7 @@
 <div id="dcf" class="section">
   <div class="section-title">내재가치 (DCF) — 현금흐름이 말하는 가격</div>
   <div class="lede">회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치다.</div>
+  <div class="note" id="dcfHardNote" hidden></div>
 
   <!-- ── 1. 세 시나리오 ── -->
   <div class="card">
@@ -870,9 +875,9 @@
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 TSM 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">11.1</div><div class="sc-tile low" data-vc="self" data-m="per">19</div><div class="sc-tile low" data-vc="self" data-m="pbr">7</div><div class="sc-tile low" data-vc="self" data-m="psr">5</div><div class="sc-tile low" data-vc="self" data-m="pcr">17</div><div class="sc-tile low" data-vc="self" data-m="evebitda">7</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$234</div><div class="vs-note">현재가 <span data-vs="price">$446.57</span> 대비 <strong data-vs="upside">−47.7%</strong> · 기본 시나리오</div><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.91
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$234</div><div class="vs-note">현재가 <span data-vs="price">$446.57</span> 대비 <strong data-vs="upside">−47.7%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.91
 시나리오 범위: 낙관 기준 1.68 ~ 보수 기준 2.48
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div>
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">51.8</div><div class="sc-tile lost" data-vc="peer" data-m="per">67</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">65</div><div class="sc-tile lost" data-vc="peer" data-m="psr">37</div><div class="sc-tile low" data-vc="peer" data-m="pcr">26</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">64</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">동종업 안에서는 중간이지만, <strong>다섯 배수 모두 자기 5년 이력의 비싼 쪽이고 현금흐름 내재가치는 현재가에 한참 못 미친다.</strong> 배수는 ADR 가격 기준이라, 본주보다 비싸게 거래되는 ADR만큼 대만 본주 기준 배수보다 높게 나온다.</div>
@@ -1392,7 +1397,7 @@ const TSM_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,n
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let TSM_VERDICT = '계산 중';
 
-const TSM_DCF = {"low": 179.72, "base": 233.75, "high": 265.33, "requiredGrowth": 0.3478, "baseEquivGrowth": 0.1452, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.561, "growth5y": 0.255, "nonopPerShare": 1.38, "s2cFallback": false, "asOf": "2026-09-23"};   // build_dcf_block.py
+const TSM_DCF = {"low": 179.72, "base": 233.75, "high": 265.33, "requiredGrowth": 0.3478, "baseEquivGrowth": 0.1452, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.561, "growth5y": 0.255, "nonopPerShare": 1.38, "s2cFallback": false, "asOf": "2026-09-23", "hard": [], "hardDetail": {"roic": 0.4649, "tax": 0.1616, "nonopShare": 0.0059}, "tvShare": 0.7484};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1881,6 +1886,34 @@ const TSM_VALUATION = {"peer": {"score": 51.8, "sector": "Information Technology
     if (el) el.title = (lv.ratio != null ? `현재가 ÷ 기본 내재가치 = ${lv.ratio.toFixed(2)}` : lv.range)
       + (lv.ratio != null && lv.range ? '\n' + lv.range : '') + '\n' + DCF_RULE_TEXT
       + (lv.split ? '\n보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.' : '');
+    // ── "계산 어려움" 배지(2026-09-26 사용자 결정 — 판정은 유지하고 표시만) ──
+    // 신호 5개는 결과를 보기 전에 고정했다(build_dcf_block.hard_signals, CARD_ITEMS ⑤).
+    if (el && Array.isArray(D.hard)) {
+      const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
+      const TXT = {
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 성장해도 가치가 생기지 않는다`,
+        ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
+        tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
+        nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
+        nosol: () => '어떤 일정 성장률로도 현재가에 닿지 않는다',
+      };
+      const lines = D.hard.map(k => '· ' + (TXT[k] ? TXT[k]() : k));
+      const tv = D.tvShare != null ? `잔존가치(5년 뒤)가 내재가치의 ${Math.round(D.tvShare * 100)}%` : '';
+      let wrap = el.parentElement.classList.contains('vs-pill-wrap') ? el.parentElement : null;
+      if (!wrap) { wrap = document.createElement('div'); wrap.className = 'vs-pill-wrap'; el.replaceWith(wrap); wrap.appendChild(el); }
+      wrap.querySelectorAll('.vs-hard').forEach(x => x.remove());
+      if (D.hard.length) {
+        const b = document.createElement('span');
+        b.className = 'vs-hard'; b.textContent = `⚠ 계산 어려움 ${D.hard.length}/5`;
+        b.title = lines.join('\n') + (tv ? '\n· ' + tv : '') + '\n판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.';
+        wrap.appendChild(b);
+      }
+      const note = document.getElementById('dcfHardNote');
+      if (note) {
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.hidden = !note.textContent;
+      }
+    }
   }
 })();
 

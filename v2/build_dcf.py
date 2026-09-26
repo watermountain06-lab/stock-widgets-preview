@@ -563,6 +563,7 @@ def scenarios(base, hist, wacc, terminal, years=5, path=None):
         # 실제로 쓴 매출/자본을 남긴다 — 최근 효율을 못 구해 평균으로 떨어지면 조용히 바뀌지 않게(Fable).
         out.append({"name": name, "desc": desc, "growth0": max(g0, terminal),
                     "margin_end": m_path[-1], "per_share": r["per_share"], "roic": r["roic"],
+                    "tv_share": ((r["ev"] - r["pv_sum"]) / r["ev"]) if r["ev"] and r["ev"] > 0 else None,
                     "s2c_path": s_path, "s2c_fallback": fell_back,
                     "nonop_per_share": ((base.get("nonop_assets") or 0) / base["shares"]) if base.get("shares") else 0.0})
     return out

@@ -37,6 +37,30 @@ import fx  # noqa: E402
 WACC, TERM = 0.10, 0.025
 
 
+# "계산 어려움" 신호 — 결과를 보기 전에 고정(2026-09-26, CARD_ITEMS "⑤" 절). 판정은 바꾸지 않고 배지로만 보여 준다.
+HARD_ROIC, HARD_TAX, HARD_NONOP = 0.10, 0.10, 0.30
+
+
+def hard_signals(base, s, req):
+    b = s[1]
+    tax = d.effective_tax(base)
+    nonop = (b["nonop_per_share"] / b["per_share"]) if b.get("per_share") and b["per_share"] > 0 else None
+    hard = []
+    if b.get("roic") is not None and b["roic"] < HARD_ROIC:
+        hard.append("roic")        # 성장해도 가치가 생기지 않음
+    if d.invested_capital(base) <= 0:
+        hard.append("ic")          # 투하자본 0 이하 — 매출/자본 상한
+    if tax < HARD_TAX:
+        hard.append("tax")         # 세금 가정의 영향이 큼
+    if nonop is not None and nonop > HARD_NONOP:
+        hard.append("nonop")       # 본업 밖 자산이 값을 좌우
+    if req is None:
+        hard.append("nosol")       # 성장만으로 현재가 설명 불가
+    return {"hard": hard, "hardDetail": {"roic": round(b["roic"], 4) if b.get("roic") is not None else None,
+                                         "tax": round(tax, 4), "nonopShare": round(nonop, 4) if nonop is not None else None},
+            "tvShare": round(b["tv_share"], 4) if b.get("tv_share") is not None else None}
+
+
 def compute(t):
     with contextlib.redirect_stdout(io.StringIO()):
         daily = d.bmh.load_daily(t)
@@ -71,6 +95,7 @@ def compute(t):
         "nonopPerShare": round(s[1]["nonop_per_share"] / r, 2),
         "s2cFallback": any(x["s2c_fallback"] for x in s),
         "asOf": asof,
+        **hard_signals(base, s, req),
     }, price, (base.get("dq") or []) + (["growth_base_effect"] if hist.get("growth_base_effect") else [])
 
 

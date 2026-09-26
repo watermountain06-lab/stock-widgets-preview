@@ -196,6 +196,10 @@
   .vs-pill { justify-self:end; font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--green); background:rgba(46,204,113,0.14); }
   .vs-pill.mid { color:var(--gold); background:rgba(240,192,64,0.16); }
   .vs-pill.high { color:var(--red); background:rgba(231,76,60,0.14); }
+  /* "계산 어려움" 배지 — 현금흐름 알약과 한 칸에 묶는다(격자 칸 수를 바꾸지 않게) */
+  .vs-pill-wrap { justify-self:end; display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+  .vs-pill-wrap .vs-pill { justify-self:auto; }
+  .vs-hard { font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--gold); background:rgba(240,192,64,0.12); border:1px dashed rgba(240,192,64,0.55); cursor:help; }
   .vs-premise { font-size:12px; color:var(--text2); line-height:1.6; margin:12px 0 10px; }
   .vs-premise strong { color:var(--text); }
 
@@ -613,6 +617,7 @@
 <div id="dcf" class="section">
   <div class="section-title">내재가치 (DCF) — 현금흐름이 말하는 가격</div>
   <div class="lede">회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치다.</div>
+  <div class="note" id="dcfHardNote" hidden></div>
 
   <!-- ── 1. 세 시나리오 ── -->
   <div class="card">
@@ -1866,6 +1871,34 @@ const SPCX_VALUATION = {"peer": {"score": 8.6, "sector": "Industrials + Informat
     if (el) el.title = (lv.ratio != null ? `현재가 ÷ 기본 내재가치 = ${lv.ratio.toFixed(2)}` : lv.range)
       + (lv.ratio != null && lv.range ? '\n' + lv.range : '') + '\n' + DCF_RULE_TEXT
       + (lv.split ? '\n보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.' : '');
+    // ── "계산 어려움" 배지(2026-09-26 사용자 결정 — 판정은 유지하고 표시만) ──
+    // 신호 5개는 결과를 보기 전에 고정했다(build_dcf_block.hard_signals, CARD_ITEMS ⑤).
+    if (el && Array.isArray(D.hard)) {
+      const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
+      const TXT = {
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 성장해도 가치가 생기지 않는다`,
+        ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
+        tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
+        nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
+        nosol: () => '어떤 일정 성장률로도 현재가에 닿지 않는다',
+      };
+      const lines = D.hard.map(k => '· ' + (TXT[k] ? TXT[k]() : k));
+      const tv = D.tvShare != null ? `잔존가치(5년 뒤)가 내재가치의 ${Math.round(D.tvShare * 100)}%` : '';
+      let wrap = el.parentElement.classList.contains('vs-pill-wrap') ? el.parentElement : null;
+      if (!wrap) { wrap = document.createElement('div'); wrap.className = 'vs-pill-wrap'; el.replaceWith(wrap); wrap.appendChild(el); }
+      wrap.querySelectorAll('.vs-hard').forEach(x => x.remove());
+      if (D.hard.length) {
+        const b = document.createElement('span');
+        b.className = 'vs-hard'; b.textContent = `⚠ 계산 어려움 ${D.hard.length}/5`;
+        b.title = lines.join('\n') + (tv ? '\n· ' + tv : '') + '\n판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.';
+        wrap.appendChild(b);
+      }
+      const note = document.getElementById('dcfHardNote');
+      if (note) {
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.hidden = !note.textContent;
+      }
+    }
   }
 })();
 
