@@ -1,5 +1,5 @@
 {
- "_note": "표준 태그(차원 없는 InterestExpense*)로 분기 이자비용을 내지 않는 회사의 손입력 값. build_fundamental_score가 같은 분기 태그 값이 없을 때만 쓴다. 10-Q 원문 표에서 옮기고 source를 적는다(2026-09-27 사용자 결정, LLY).",
+ "_note": "표준 태그(차원 없는 InterestExpense*)로 분기 이자비용을 내지 않는 회사의 손입력 값. build_fundamental_score가 같은 분기 태그 값이 없을 때만 쓴다. 10-Q 원문 표에서 옮기고 source를 적는다(2026-09-27 사용자 결정, LLY). \"adjust\" 항목은(분기 기준에만 적용, 연간 기준엔 적용하지 않음) 태그 값이 있어도 더한다 — 회사가 금액을 밝힌 일회성 이자비용 조정을 되돌린다(2026-09-27, WMT).",
  "LLY": [
   {
    "end": "2026-06-30",
@@ -7,6 +7,15 @@
    "filed": "2026-08-05",
    "desc": "Q2 2026 이자비용 — 10-Q 부문 주석(Segment Information) 표의 'Interest expense $345'. 2026년부터 손익계산서에는 기타 영업외손익에 합쳐져 따로 없다.",
    "source": "https://www.sec.gov/Archives/edgar/data/59478/000005947826000081/lly-20260630.htm"
+  }
+ ],
+ "WMT": [
+  {
+   "end": "2026-07-31",
+   "adjust": 500000000,
+   "filed": "2026-08-28",
+   "desc": "Q2 FY27 부채 이자 $137M에는 미인식 세무 혜택 변동에 따른 이자비용 감소 $0.5B가 들어 있다(10-Q 법인세 주석: 'a $0.5 billion reduction of interest expense ... related to changes in unrecognized tax benefits'). 되돌리면 약 $637M(전년 같은 분기 $651M).",
+   "source": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000154/wmt-20260731.htm"
   }
  ]
 }

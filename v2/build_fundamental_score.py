@@ -290,12 +290,15 @@ def score_items(fin, config, basis):
         else:
             iv = (quarter_flow(fin, "interestExpense", op_end) if basis == "quarter" and q_end
                   else value_at(_rows(fin, "interestExpense"), op_end))
+            extra = os.path.join(os.path.dirname(os.path.abspath(__file__)), "interest_extra.json")
+            rows = json.load(open(extra)).get(fin.get("ticker", ""), []) if os.path.exists(extra) else []
             if iv is None and basis == "quarter":
                 # 태그가 없는 분기는 손입력(v2/interest_extra.json, 10-Q 원문 표)을 쓴다 — LLY 부문 주석 $345M
-                extra = os.path.join(os.path.dirname(os.path.abspath(__file__)), "interest_extra.json")
-                if os.path.exists(extra):
-                    rows = json.load(open(extra)).get(fin.get("ticker", ""), [])
-                    iv = next((r["value"] for r in rows if r["end"] == op_end), None)
+                iv = next((r["value"] for r in rows if r["end"] == op_end and "value" in r), None)
+            elif iv is not None and basis == "quarter":
+                # 회사가 금액을 밝힌 일회성 이자비용 조정은 되돌린다(v2/tax_oneoff.json이 일회성 세금에 쓰는 원칙과 같다, 분기 기준만) —
+                # WMT Q2 FY27: 미인식 세무 혜택 변동으로 이자비용 $0.5B 감소(10-Q 법인세 주석)
+                iv += sum(r["adjust"] for r in rows if r["end"] == op_end and "adjust" in r)
             if iv == 0:
                 items["interestCoverage"] = {"value": None, "points": 5, "note": "이자비용 0"}
             elif iv is not None:

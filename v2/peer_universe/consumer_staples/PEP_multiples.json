@@ -1,0 +1,42 @@
+{
+ "ticker": "PEP",
+ "window": [
+  "2025-09-26",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 16.86,
+   "min": 16.8,
+   "p10": 18.12,
+   "median": 25.58,
+   "p90": 28.29,
+   "max": 29.51,
+   "mean": 24.33,
+   "percentile": 0.4,
+   "score": 99.6
+  },
+  "PBR": {
+   "days": 251,
+   "current": 7.94,
+   "min": 7.92,
+   "p10": 8.54,
+   "median": 10.1,
+   "p90": 10.82,
+   "max": 11.42,
+   "mean": 9.82,
+   "percentile": 0.4,
+   "score": 99.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 22.21,
+  "per_p75": 27.67,
+  "low": 170,
+  "high": 210,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

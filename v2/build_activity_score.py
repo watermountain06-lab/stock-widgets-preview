@@ -60,7 +60,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801", "TSLA": "0001318605", "MU": "0000723125", "LLY": "0000059478", "SKHY": "0002120882"}
+CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801", "TSLA": "0001318605", "MU": "0000723125", "LLY": "0000059478", "SKHY": "0002120882", "WMT": "0000104169"}
 UA = "stock-widgets research gptjhss@gmail.com"
 
 # 앞에 있는 태그가 우선한다. 같은 분기에 둘 다 있으면 뒤 태그는 버린다.
@@ -140,6 +140,10 @@ def series(facts):
     gaap = facts["facts"]["us-gaap"]
     rev, cogs = quarterly_flow(gaap, TAGS["revenue"]), quarterly_flow(gaap, TAGS["cogs"])
     ar, inv, ap = (instant(gaap, TAGS[k]) for k in ("ar", "inventory", "ap"))
+    # 매출채권 태그를 한 번도 안 낸 회사만 ReceivablesNetCurrent("Receivables, net")를 쓴다 — WMT(2026-09-27).
+    # 분기 단위로 섞지 않는다: MU는 두 태그를 다 내고 값이 다르다(RN에 비매출채권 포함, Fable).
+    if not ar:
+        ar = instant(gaap, ["ReceivablesNetCurrent"])
     # 재고 태그를 한 번도 낸 적 없는 회사(META — 광고 사업)는 재고 0으로 본다(2026-09-25 사용자 결정).
     # 영업순환주기 = 매출채권 회수기간. 한때라도 재고를 낸 회사는 그대로 둔다(빈 분기를 0으로 채우면
     # GOOGL처럼 재고 공시가 끊긴 기간이 조용히 0이 된다).

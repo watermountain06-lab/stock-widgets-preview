@@ -64,7 +64,9 @@ TICKER_BORROW = {"SPCX": ["Information Technology"]}
 # 사이트 유니버스로는 표본이 모자란 섹터를 S&P500 같은 섹터 전체로 넓힌다(2026-09-27 사용자 결정, LLY).
 # 헬스케어 카드 종목은 7개뿐이라 배수마다 동종업 2~6곳이었다. 파일은 v2/adapters/sector_universe.py가
 # 카드와 같은 엔진(build_multiple_history)으로 기준일 배수를 계산해 만든다. 이 섹터는 valuation_base를 섞지 않는다.
-SECTOR_UNIVERSE = {"Health Care": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "health_care.json")}
+SECTOR_UNIVERSE = {"Health Care": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "health_care.json"),
+                   # 카드 유니버스 필수소비재 6종목 → S&P500 34종목(2026-09-27 사용자 결정, WMT)
+                   "Consumer Staples": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_staples.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 

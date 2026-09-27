@@ -1,0 +1,66 @@
+{
+ "ticker": "MO",
+ "window": [
+  "2025-09-26",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 14.49,
+   "min": 10.46,
+   "p10": 11.12,
+   "median": 14.39,
+   "p90": 16.1,
+   "max": 16.92,
+   "mean": 13.77,
+   "percentile": 54.6,
+   "score": 45.4
+  },
+  "PSR": {
+   "days": 251,
+   "current": 4.9,
+   "min": 3.92,
+   "p10": 4.17,
+   "median": 4.77,
+   "p90": 5.16,
+   "max": 5.34,
+   "mean": 4.71,
+   "percentile": 68.1,
+   "score": 31.9
+  },
+  "PCR": {
+   "days": 251,
+   "current": 12.61,
+   "min": 10.0,
+   "p10": 10.63,
+   "median": 12.4,
+   "p90": 14.02,
+   "max": 14.51,
+   "mean": 12.33,
+   "percentile": 63.7,
+   "score": 36.3
+  },
+  "EV/EBITDA": {
+   "days": 251,
+   "current": 12.24,
+   "min": 10.0,
+   "p10": 10.51,
+   "median": 12.13,
+   "p90": 13.01,
+   "max": 13.56,
+   "mean": 11.92,
+   "percentile": 57.4,
+   "score": 42.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 12.06,
+  "per_p75": 15.24,
+  "low": 60,
+  "high": 70,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}
