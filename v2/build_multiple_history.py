@@ -92,6 +92,27 @@ DDA_COMBINED = ["DepreciationDepletionAndAmortization", "DepreciationAndAmortiza
                 "DepreciationAmortizationAndAccretionNet", "DepreciationAmortizationAndOther"]
 DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
              "FinanceLeaseRightOfUseAssetAmortization"]
+# 태그 의미가 도중에 바뀐 회사의 합산 감가상각(CIK). AMD의 OtherDepreciationAndAmortization(현금흐름표
+# "Depreciation and amortization")은 FY2024 10-K(2025-02-05) 전까지 인수 무형자산 상각을 **포함한** 합계였고,
+# 그 뒤로는 상각을 AmortizationOfIntangibleAssets 줄로 떼어 낸다(Fable, 2026-09-27). 분할 뒤 공시의 행에만
+# 같은 (start, end, accn)의 상각을 더해 한 줄기 합산 시리즈로 만든다. Depreciation 태그는 10-K 연간(설비만)뿐이다.
+# (처음엔 두 태그를 구성요소로 더했다가 2023~24년이 이중 계상되고 2024 Q4가 음수가 됐다.)
+DDA_SPLIT_BY_CIK = {"0000002488": {"total": "OtherDepreciationAndAmortization", "add": "AmortizationOfIntangibleAssets",
+                                   "split_from": "2025-02-05"}}
+
+
+def split_era_dda(cik):
+    cfg = DDA_SPLIT_BY_CIK[cik]
+    add = {(r.get("start"), r["end"], r.get("accn")): r["val"] for r in concept(cik, cfg["add"])}
+    out = []
+    for r in concept(cik, cfg["total"]):
+        if r.get("filed", "") >= cfg["split_from"]:
+            k = (r.get("start"), r["end"], r.get("accn"))
+            if k not in add:
+                continue
+            r = dict(r, val=r["val"] + add[k])
+        out.append(r)
+    return out
 
 EBITDA_TAGS = {
     "opinc": ["OperatingIncomeLoss"],
@@ -246,6 +267,14 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
     merged, used = [], []
     for name in names:
         rows = concept(cik, name, taxonomy)
+        if rows and name == "NetCashProvidedByUsedInOperatingActivities":
+            # 총액에는 중단영업 현금이 섞인다. 같은 (start, end, accn)에 중단영업 영업현금흐름이 있으면 뺀다 —
+            # AMD 2025년 ZT Systems 제조 부문(분기 $0.3~0.5B, TTM 약 7%, Fable 2026-09-27).
+            disc = {(r.get("start"), r["end"], r.get("accn")): r["val"]
+                    for r in concept(cik, "CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations", taxonomy)}
+            if disc:
+                rows = [dict(r, val=r["val"] - disc[(r.get("start"), r["end"], r.get("accn"))])
+                        if (r.get("start"), r["end"], r.get("accn")) in disc else r for r in rows]
         if rows:
             used.append(f"{name}({len(rows)})")
             merged.extend(rows)
@@ -390,6 +419,8 @@ def live_combined(cik):
     """합산 감가상각 태그. 오래전에 멈췄으면(AVGO는 2018-05 두 건뿐, 이후 구성요소로만
     보고) 없는 것으로 보고 구성요소로 넘긴다 — 멈춘 합산 태그가 잡히면 구성요소 경로에
     가지 못해 EV/EBITDA가 통째로 빠진다(2026-09-25)."""
+    if cik in DDA_SPLIT_BY_CIK:
+        return f"{DDA_SPLIT_BY_CIK[cik]['total']}(+분할 뒤 {DDA_SPLIT_BY_CIK[cik]['add']})", split_era_dda(cik)
     tag, rows = pick_tag(cik, DDA_COMBINED)
     stale = date.fromordinal(date.today().toordinal() - 730).isoformat()
     if rows and max(r["end"] for r in rows) < stale:
