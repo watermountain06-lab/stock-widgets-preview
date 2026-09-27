@@ -1,0 +1,79 @@
+{
+ "_note": "은행 특별 항목(research/bank_rim_prereg.md §1-5·7-5). 회사가 실적 보도자료(8-K Ex.99.1)에서 밝힌 항목별 EPS 영향. RIM 출발 ROE·유보율에만 쓴다(배수는 GAAP). 보도자료를 확인한 분기는 항목이 없어도 [] 로 적는다. 항목은 eps(항목별 EPS 영향) 또는 ni(회사가 밝힌 세후 보통주 금액)를 가진다. 둘 다 없으면 조정 불가로 표시하고 그 분기는 GAAP를 쓴다(7-5).",
+ "JPM": {
+  "2024-09-30": {
+   "accn": "0000019617-24-000555",
+   "filed": "2024-10-11",
+   "items": [],
+   "evidence": "헤드라인 'THIRD-QUARTER 2024 NET INCOME OF $12.9 BILLION ($4.37 PER SHARE)' · SIGNIFICANT ITEM 절 없음"
+  },
+  "2024-12-31": {
+   "accn": "0000019617-25-000040",
+   "filed": "2025-01-15",
+   "items": [],
+   "evidence": "4분기 헤드라인에 분기 특별 항목 없음(연간 'EXCLUDING SIGNIFICANT ITEMS'는 앞 분기 항목 합계)"
+  },
+  "2025-03-31": {
+   "accn": "0000019617-25-000332",
+   "filed": "2025-04-11",
+   "items": [
+    {
+     "desc": "$588 million First Republic-related gain in Corporate",
+     "eps": 0.16
+    }
+   ],
+   "evidence": "보도자료 \"SIGNIFICANT ITEM(S) IN ..Q.. RESULTS\" 절의 항목별 \"($X increase/decrease in EPS)\""
+  },
+  "2025-06-30": {
+   "accn": "0000019617-25-000518",
+   "filed": "2025-07-15",
+   "items": [
+    {
+     "desc": "$774 million income tax benefit in Corporate",
+     "eps": 0.28
+    }
+   ],
+   "evidence": "보도자료 \"SIGNIFICANT ITEM(S) IN ..Q.. RESULTS\" 절의 항목별 \"($X increase/decrease in EPS)\""
+  },
+  "2025-09-30": {
+   "accn": "0001628280-25-044845",
+   "filed": "2025-10-14",
+   "items": [],
+   "evidence": "헤드라인 'THIRD-QUARTER 2025 NET INCOME OF $14.4 BILLION ($5.07 PER SHARE)' · SIGNIFICANT ITEM 절 없음"
+  },
+  "2025-12-31": {
+   "accn": "0001628280-26-001902",
+   "filed": "2026-01-13",
+   "items": [
+    {
+     "desc": "$2.2 billion credit reserve for the forward purchase commitment of the Apple credit card portfolio",
+     "eps": -0.6
+    }
+   ],
+   "wdil": 2740500000,
+   "wdil_src": "2026-01-13 실적 보충자료 \"Average shares: Diluted 2,740.5\"",
+   "evidence": "보도자료 \"SIGNIFICANT ITEM(S) IN ..Q.. RESULTS\" 절의 항목별 \"($X increase/decrease in EPS)\""
+  },
+  "2026-03-31": {
+   "accn": "0001628280-26-024990",
+   "filed": "2026-04-14",
+   "items": [],
+   "evidence": "헤드라인 'FIRST-QUARTER 2026 NET INCOME OF $16.5 BILLION ($5.94 PER SHARE)' · SIGNIFICANT ITEM 절 없음"
+  },
+  "2026-06-30": {
+   "accn": "0001628280-26-048078",
+   "filed": "2026-07-14",
+   "items": [
+    {
+     "desc": "$4.6 billion net gain related to Visa shares",
+     "eps": 1.27
+    },
+    {
+     "desc": "$1.0 billion of gains on certain equity investments",
+     "eps": 0.29
+    }
+   ],
+   "evidence": "보도자료 \"SIGNIFICANT ITEM(S) IN ..Q.. RESULTS\" 절의 항목별 \"($X increase/decrease in EPS)\""
+  }
+ }
+}

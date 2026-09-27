@@ -1,0 +1,154 @@
+{
+ "asOf": "2026-09-25",
+ "subIndustries": [
+  "Diversified Banks",
+  "Regional Banks"
+ ],
+ "tickers": {
+  "BAC": {
+   "ptbv": 1.728,
+   "ptbv_end": "2026-06-30",
+   "per": 13.0645,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "없음(우선주 이력 없음)",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "C": {
+   "ptbv_missing": "분기말 2025-12-31가 200일 넘게 낡음(SEC companyfacts 미반영)",
+   "per": 19.2103,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockValue",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "CFG": {
+   "ptbv": 1.7589,
+   "ptbv_end": "2026-06-30",
+   "per": 14.2457,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockValue",
+    "intangibles": "Finite+Indefinite",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "FITB": {
+   "ptbv": 2.2431,
+   "ptbv_end": "2026-06-30",
+   "per": 17.8425,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockValue",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "HBAN": {
+   "ptbv": 1.649,
+   "ptbv_end": "2026-03-31",
+   "per": 12.0308,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockValue",
+    "intangibles": "Finite+Indefinite",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "JPM": {
+   "ptbv": 3.0592,
+   "ptbv_end": "2026-06-30",
+   "per": 14.6921,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockLiquidationPreferenceValue",
+    "intangibles": "Finite+Indefinite",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "KEY": {
+   "ptbv": 1.5193,
+   "ptbv_end": "2026-06-30",
+   "per": 11.9826,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockValue",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "MTB": {
+   "ptbv": 1.8858,
+   "ptbv_end": "2026-06-30",
+   "per": 11.7094,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockValue",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "PNC": {
+   "ptbv_missing": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)",
+   "per": 12.4183,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockValue",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "RF": {
+   "ptbv": 2.0337,
+   "ptbv_end": "2026-06-30",
+   "per": 11.2276,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockLiquidationPreferenceValue",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "TFC": {
+   "ptbv_missing": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)",
+   "per": 10.9062,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockLiquidationPreferenceValue",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "CommonStockSharesOutstanding"
+   }
+  },
+  "USB": {
+   "ptbv": 2.1916,
+   "ptbv_end": "2026-06-30",
+   "per": 11.8423,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockLiquidationPreferenceValue",
+    "intangibles": "IntangibleAssetsNetExcludingGoodwill",
+    "shares": "Issued−Treasury"
+   }
+  },
+  "WFC": {
+   "ptbv_missing": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)",
+   "per": 12.0771,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "PreferredStockLiquidationPreferenceValue",
+    "intangibles": "Finite+Indefinite",
+    "shares": "Issued−Treasury"
+   }
+  }
+ },
+ "skipped": {
+  "C:ptbv": "분기말 2025-12-31가 200일 넘게 낡음(SEC companyfacts 미반영)",
+  "PNC:ptbv": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)",
+  "TFC:ptbv": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)",
+  "WFC:ptbv": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)"
+ }
+}

@@ -1,0 +1,97 @@
+{
+ "quarters": {
+  "2024-09-30": {
+   "release": "2024-10-11",
+   "bvps": 115.15,
+   "tbvps": 96.42,
+   "ce_m": 324186.0,
+   "ni_common_m": 12537.0,
+   "net_payout_ltm": 0.54
+  },
+  "2024-12-31": {
+   "release": "2025-01-15",
+   "bvps": 116.07,
+   "tbvps": 97.3,
+   "ce_m": 324708.0,
+   "ni_common_m": 13669.0,
+   "net_payout_ltm": 0.54
+  },
+  "2025-03-31": {
+   "release": "2025-04-11",
+   "bvps": 119.24,
+   "tbvps": 100.36,
+   "ce_m": 331375.0,
+   "ni_common_m": 14317.0,
+   "net_payout_ltm": 0.62
+  },
+  "2025-06-30": {
+   "release": "2025-07-15",
+   "bvps": 122.51,
+   "tbvps": 103.4,
+   "ce_m": 336879.0,
+   "ni_common_m": 14630.0,
+   "net_payout_ltm": 0.71
+  },
+  "2025-09-30": {
+   "release": "2025-10-14",
+   "bvps": 124.96,
+   "tbvps": 105.7,
+   "ce_m": 340167.0,
+   "ni_common_m": 14043.0,
+   "net_payout_ltm": 0.73
+  },
+  "2025-12-31": {
+   "release": "2026-01-13",
+   "bvps": 126.99,
+   "tbvps": 107.56,
+   "ce_m": 342393.0,
+   "ni_common_m": 12689.0,
+   "net_payout_ltm": 0.82
+  },
+  "2026-03-31": {
+   "release": "2026-04-14",
+   "bvps": 128.38,
+   "tbvps": 108.87,
+   "ce_m": 343993.0,
+   "ni_common_m": 16148.0,
+   "net_payout_ltm": 0.82
+  },
+  "2026-06-30": {
+   "release": "2026-07-14",
+   "bvps": 133.01,
+   "tbvps": 113.35,
+   "ce_m": 353558.0,
+   "ni_common_m": 20752.0,
+   "net_payout_ltm": 0.73
+  }
+ },
+ "years": {
+  "2021": {
+   "release": "2022-01-14",
+   "roe": 0.19,
+   "ni_common_m": 46503.0
+  },
+  "2022": {
+   "release": "2023-01-13",
+   "roe": 0.14,
+   "ni_common_m": 35892.0
+  },
+  "2023": {
+   "release": "2024-01-12",
+   "roe": 0.17,
+   "ni_common_m": 47760.0
+  },
+  "2024": {
+   "release": "2025-01-15",
+   "roe": 0.18,
+   "ni_common_m": 56868.0
+  },
+  "2025": {
+   "release": "2026-01-13",
+   "roe": 0.17,
+   "ni_common_m": 55681.0
+  }
+ },
+ "_note": "관문 G1~G5 대조용 회사 공시값(research/bank_rim_prereg.md §4). 실적 보도자료(8-K Ex.99.1 본문·Ex.99.2 보충자료)에서 옮겼다: BVPS·TBVPS·LTM 순환원율은 본문, 보통주 자본(기말)·보통주 귀속 순이익·연간 ROE는 보충자료. release = 8-K 접수일.",
+ "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0000019617&type=8-K"
+}
