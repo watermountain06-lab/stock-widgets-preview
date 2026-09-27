@@ -81,7 +81,9 @@ def main():
     args = ap.parse_args()
     t = args.ticker.upper()
 
-    daily = bmh.load_daily(t)
+    # 원주 가격 이력 종목(bmh.LOCAL_HISTORY, SKHY)은 마지막 날만 ADR 가격이고 나머지는 원주 환산가다 —
+    # ADR 상장(2026-07-10) 뒤 시점도 원주 환산가로 판정·이후 수익률을 센다(ADR 프리미엄 제외). 다른 종목은 카드 일봉 그대로.
+    daily = bmh.history_daily(t, bmh.load_daily(t))
     dates = [b[0] for b in daily]
     closes = {b[0]: b[4] for b in daily}
 

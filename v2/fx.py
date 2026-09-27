@@ -1,6 +1,6 @@
 """재무제표 통화가 달러가 아닌 종목의 환율 — 가격(달러)과 재무(현지 통화)가 만나는 곳에서만 쓴다.
 
-TSM(2026-09-25 사용자 결정): 어댑터(v2/adapters/tsm_ifrs.py)가 재무를 **대만달러 그대로** 둔다.
+TSM(2026-09-25 사용자 결정, SKHY도 같은 규칙 — 원화 재무·ADR 1주 = 보통주 0.1주): 어댑터(v2/adapters/tsm_ifrs.py)가 재무를 **대만달러 그대로** 둔다.
 분기 평균 환율로 미리 달러 환산하면 가격(매일 환율)과 이익(분기마다 다른 환율)이 섞여, 대만달러가
 급변한 구간(2025-06 등)에 PER은 위로·PBR은 아래로 최대 10% 밀렸다(Fable). 그래서 배수는
 **ADR 가격 × 그날 환율**(대만달러)을 대만달러 재무로 나누고, 주당 가치는 계산 뒤 그날 환율로 달러로 되돌린다.
@@ -16,8 +16,11 @@ import csv
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CURRENCY = {"TSM": "TWD"}
-SERIES = {"TWD": os.path.join(HERE, ".sec_cache", "fx_DEXTAUS.csv")}   # 연준 H.10 (FRED DEXTAUS)
+CURRENCY = {"TSM": "TWD", "SKHY": "KRW"}
+# 연준 H.10 (FRED DEXTAUS·DEXKOUS). 값 = 1달러당 현지 통화
+SERIES = {"TWD": os.path.join(HERE, ".sec_cache", "fx_DEXTAUS.csv"),
+          "KRW": os.path.join(HERE, ".sec_cache", "fx_DEXKOUS.csv")}
+COLUMN = {"TWD": "DEXTAUS", "KRW": "DEXKOUS"}
 _cache = {}
 
 
@@ -25,7 +28,7 @@ def _load(cur):
     if cur not in _cache:
         rows = []
         for r in csv.DictReader(open(SERIES[cur])):
-            v = r.get("DEXTAUS")
+            v = r.get(COLUMN[cur])
             if v and v != ".":
                 rows.append((r["observation_date"], float(v)))
         rows.sort()

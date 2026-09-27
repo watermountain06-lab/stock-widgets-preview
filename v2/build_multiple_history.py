@@ -718,6 +718,27 @@ def load_daily(ticker):
     return json.loads(m.group(1).replace("'", '"'))
 
 
+# 자기 이력 분포를 ADR 가격이 아닌 원주 가격으로 만드는 종목(2026-09-27 사용자 결정, SKHY: ADR 상장 2026-07-10).
+# 분포는 원주(KRX) 종가를 ADR 1주 상당 달러(÷ ADR당 주식 수 역수 ÷ 그날 환율)로 바꿔 5년치를 쓰고,
+# **마지막 날(현재)은 ADR 가격**을 쓴다 — 현재 위치에 ADR 프리미엄이 그대로 들어간다.
+LOCAL_HISTORY = {"SKHY": {"loader": "skhy_krx", "ads_per_share": 10}}
+
+
+def history_daily(ticker, daily):
+    cfg = LOCAL_HISTORY.get(ticker)
+    if not cfg:
+        return daily
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "adapters"))
+    mod = __import__(cfg["loader"])
+    last = daily[-1]
+    y, m, d = map(int, last[0].split("-"))
+    start = date(y - 5, m, min(d, 28)).isoformat()
+    k = cfg["ads_per_share"]
+    bars = [[b[0]] + [v / k / fx.rate(ticker, b[0]) for v in b[1:5]]
+            for b in mod.load() if start <= b[0] < last[0]]
+    return bars + [last]
+
+
 def percentile_rank(values, current):
     below = sum(1 for v in values if v < current)
     return below / len(values) * 100
@@ -733,8 +754,9 @@ def main():
     if not cik:
         sys.exit(f"{t}: CIK를 모른다. fetch_eps_history.py의 CIKS에 추가할 것")
 
-    daily = load_daily(t)
-    print(f"{t}: 일봉 {len(daily)}개 ({daily[0][0]} ~ {daily[-1][0]})")
+    daily = history_daily(t, load_daily(t))
+    print(f"{t}: 일봉 {len(daily)}개 ({daily[0][0]} ~ {daily[-1][0]})"
+          + (" — 원주 가격 이력 + 마지막 날 ADR 가격" if t in LOCAL_HISTORY else ""))
 
     # EPS는 기존 스크립트가 이미 만든 형식을 그대로 쓴다
     eps_path = os.environ.get("EPS_HISTORY", "")
