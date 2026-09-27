@@ -276,6 +276,19 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **틀 과제(전 카드 공통, 화면엔 안 보임)** — 숨긴 '추세 구조' 카드와 비영업 자산 줄의 HTML 대체값이 NVDA 문장 그대로다. `sync_fallbacks`는 `data-verdict`를 맞추지 않으므로 헤더·밸류에이션 판정 대체값은 채우기 스크립트에서 넣는다(절차 6번).
 - 반응일: 실적은 16:0x ET 장 마감 후 → 다음 거래일, 3/25 공개매수 개시·8/26 경영진 개편 8-K는 개장 전 → 당일.
 
+## LLY — 영업이익 줄 없는 손익계산서·직원복리신탁 주식·IPR&D (2026-09-27)
+
+- **판정 적정~고평가** — 자기 이력 75.8(+1, PER·EV/EBITDA 5년 하위 13% 안), 동종업 9.7(−1, S&P500 헬스케어 59종목 중 다섯 배수 모두 비싼 쪽), 현금흐름 현재가 ÷ 기본 2.75배(−2).
+- **동종업 비교군을 S&P500으로 넓힘(사용자 결정)** — 카드 유니버스에 헬스케어가 7종목뿐이라 배수마다 동종업 2~6곳으로 `MIN_PEERS`(8)를 못 넘었다. `v2/adapters/sector_universe.py "Health Care" --asof 2026-09-25`가 S&P500 같은 섹터 59종목을 **카드와 같은 엔진**(build_multiple_history, Yahoo 일봉 + SEC)으로 계산해 `v2/peer_universe/health_care.json`에 남기고, `build_peer_score.SECTOR_UNIVERSE`에 적힌 섹터만 이 파일을 비교군으로 쓴다(다른 섹터 불변). 동종업 적자 배수는 가장 비싼 쪽으로 센다. JNJ가 기존 값과 일치(PER 31.5 vs 31.4). 1년 안 분할 종목은 PER 제외(BDX). 배수 극단값(MRK PER 119·MTD PBR 2,556)은 실제 GAAP 값이며 순위 방식이라 영향이 작다. **다른 헬스케어 카드(JNJ·ABBV·MRK·AMGN·TMO·UNH)도 이 파일을 쓰게 된다 — 가격이 바뀌면 `--asof`로 다시 만든다.** Yahoo는 긴 브라우저 UA를 429로 막아 `Mozilla/5.0`로 받는다. 최신 분기 Q2 2026, Q3 실적 10월 말 예상(회사 미확정).
+- **영업이익 합성** — 10-Q 손익계산서에 영업이익 줄이 없어(S&P500 검증에서 "DCF 한 번도 안 나온 14종목" 중 하나) `build_multiple_history.DERIVED_OPINC`로 세전이익 − `NonoperatingIncomeExpense`(같은 기간·같은 공시)를 쓴다. Q2 2026 $8,978M = 10-Q 항목 합 = 보도자료 영업이익. `build_fundamental_score`도 같은 값(연간 10-K·분기)을 써 "추정" 표시가 사라졌다.
+- **이자보상배율 손입력(사용자 결정)** — 이자비용 분기 태그가 2025-09 분기에서 끊기고 2026년 10-Q는 부문 주석(차원 태그)에만 낸다. `v2/interest_extra.json`에 10-Q 원문 값(Q2 2026 $345M)을 적고, `build_fundamental_score`가 같은 분기 태그 값이 없을 때만 쓴다 → 26.0배(4점), 기본적 분석 70.4 → 74.4. 새 분기마다 값을 추가해야 한다.
+- **태그 보강(`EXTRA_TAGS`)** — 설비투자 `PaymentsToAcquireOtherPropertyPlantAndEquipment`, 인수 `OtherPaymentsToAcquireBusinesses`(2022년 이후). 겹치는 기간은 값이 같아 중복 없음(Fable).
+- **차입금** — 유동분을 `DebtCurrent`로만 내 세부 목록에 안 잡혔다. `DEBT_TOTAL_TAG`가 목록을 받게 해 DebtCurrent + LongTermDebtNoncurrent($54,908M = 10-Q). 금융리스 이중계산 방지 규칙은 합계 태그 이름에 CapitalLease가 있을 때만(MU) 적용하도록 좁혔다.
+- **주식 수** — 표지 941.4M에 직원복리신탁 보유 50.0M주가 들어 있다(10-K: EPS 계산에서 제외, 원가 $3.0B 자본 차감, 2020~2025년 50.0M). `share_adjust.json`에서 뺀다 → 891.4M(희석 가중평균 893.7M과 정합).
+- **IPR&D** — 자산 인수·라이선스로 산 임상 단계 신약 권리는 즉시 비용(2분기 $2.8B, EPS 주당 $3.03)이라 영업이익률이 분기마다 흔들린다. 2023-09 뒤 매 TTM $2.6~4.7B로 반복돼 비용 취급을 유지(Fable 정량: TTM 마진 42.2% vs 제외 시 47.9%, 기본 시나리오 하락폭 6.6%p 중 5.7%p는 IPR&D와 무관). 현금흐름표에선 투자활동이라 **FCF·PCR에는 빠져 있다**(TTM FCF의 약 25%) — 각주·툴팁에 적었다.
+- **틀 과제** — 동종업 줄 툴팁 "같은 IT 섹터 종목들보다…"가 틀 문장이라 IT가 아닌 카드(TSLA 등)에 그대로 남는다. LLY는 고쳤다.
+- 반응일: 실적 보도자료는 07:0x ET 개장 전 → 당일.
+
 ## 내재가치·종합 평가 개선 방향 (2026-09-25, team-assemble 토론 → 사용자 결정)
 
 철학 조사(opus)·모델 진단(opus)·개선 설계(opus)·Fable 비판을 거쳤다. 계산 스크립트: 세션 scratchpad `diag.py`·`run2.py`·`critic_a.py`·`critic_b.py`.

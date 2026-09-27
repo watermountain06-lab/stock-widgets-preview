@@ -1,0 +1,66 @@
+{
+ "ticker": "VEEV",
+ "window": [
+  "2025-09-26",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 45.94,
+   "min": 27.16,
+   "p10": 29.29,
+   "median": 38.12,
+   "p90": 59.73,
+   "max": 63.01,
+   "mean": 40.75,
+   "percentile": 76.1,
+   "score": 23.9
+  },
+  "PSR": {
+   "days": 251,
+   "current": 13.14,
+   "min": 7.5,
+   "p10": 8.14,
+   "median": 10.45,
+   "p90": 16.03,
+   "max": 16.91,
+   "mean": 11.2,
+   "percentile": 82.1,
+   "score": 17.9
+  },
+  "PBR": {
+   "days": 251,
+   "current": 6.12,
+   "min": 3.41,
+   "p10": 3.63,
+   "median": 4.71,
+   "p90": 7.17,
+   "max": 7.56,
+   "mean": 5.0,
+   "percentile": 82.1,
+   "score": 17.9
+  },
+  "EV/EBITDA": {
+   "days": 251,
+   "current": 36.6,
+   "min": 18.24,
+   "p10": 20.94,
+   "median": 29.21,
+   "p90": 50.48,
+   "max": 53.67,
+   "mean": 31.75,
+   "percentile": 76.1,
+   "score": 23.9
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 32.69,
+  "per_p75": 45.25,
+  "low": 200,
+  "high": 280,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

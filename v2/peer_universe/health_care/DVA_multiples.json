@@ -1,0 +1,66 @@
+{
+ "ticker": "DVA",
+ "window": [
+  "2025-09-26",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 14.69,
+   "min": 10.71,
+   "p10": 11.83,
+   "median": 15.05,
+   "p90": 20.27,
+   "max": 22.5,
+   "mean": 15.26,
+   "percentile": 42.2,
+   "score": 57.8
+  },
+  "PSR": {
+   "days": 251,
+   "current": 0.81,
+   "min": 0.55,
+   "p10": 0.61,
+   "median": 0.74,
+   "p90": 1.02,
+   "max": 1.12,
+   "mean": 0.78,
+   "percentile": 64.9,
+   "score": 35.1
+  },
+  "PCR": {
+   "days": 251,
+   "current": 7.07,
+   "min": 5.67,
+   "p10": 6.27,
+   "median": 7.42,
+   "p90": 9.33,
+   "max": 10.36,
+   "mean": 7.57,
+   "percentile": 33.5,
+   "score": 66.5
+  },
+  "EV/EBITDA": {
+   "days": 251,
+   "current": 8.57,
+   "min": 7.14,
+   "p10": 7.42,
+   "median": 8.15,
+   "p90": 9.59,
+   "max": 10.08,
+   "mean": 8.32,
+   "percentile": 64.9,
+   "score": 35.1
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 12.5,
+  "per_p75": 15.94,
+  "low": 150,
+  "high": 190,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

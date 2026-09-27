@@ -139,11 +139,32 @@ def bucket_points(value, spec):
     return spec["buckets"][-1]["points"]
 
 
+def _derived_opinc(fin):
+    """영업이익 줄이 없는 회사(bmh.DERIVED_OPINC, LLY)는 EV·DCF와 같은 합성 영업이익(세전 − 영업외)을 쓴다.
+    (연간 [{end,val}], 분기 {end: val}) 또는 None. 추정(세전+이자)이 아니라 손익계산서 항등식이라 추정 표시를 달지 않는다."""
+    import build_multiple_history as bmh
+    cik = str(fin.get("cik", "")).zfill(10)
+    if cik not in bmh.DERIVED_OPINC:
+        return None
+    from datetime import date
+    rows = bmh._derived_opinc(cik, "us-gaap")
+    ann = {}
+    for r in rows:
+        if r.get("start") and r.get("form") == "10-K" and 350 <= (date.fromisoformat(r["end"]) - date.fromisoformat(r["start"])).days <= 380:
+            if r["end"] not in ann or r["filed"] < ann[r["end"]]["filed"]:
+                ann[r["end"]] = r
+    q = {e["end"]: e["val"] for e in bmh.quarterly_flow(rows, fin.get("ticker", ""))}
+    return [{"end": k, "val": v["val"]} for k, v in sorted(ann.items())], q
+
+
 def operating_income_annual(fin):
     """(연간 영업이익, 추정 여부). 태그가 아예 없으면 세전이익 + 이자비용(v1)."""
     op = _rows(fin, "operatingIncome")
     if op:
         return op, False
+    d = _derived_opinc(fin)
+    if d and d[0]:
+        return d[0], False
     interest = {e["end"]: e["val"] for e in _rows(fin, "interestExpense")}
     est = [{"end": e["end"], "val": e["val"] + abs(interest[e["end"]])}
            for e in _rows(fin, "pretaxIncome") if e["end"] in interest]
@@ -160,6 +181,9 @@ def operating_income_quarter(fin, end):
     op = quarter_flow(fin, "operatingIncome", end)
     if op is not None:
         return op, False
+    d = _derived_opinc(fin)
+    if d and end in d[1]:
+        return d[1][end], False
     pt, ie = quarter_flow(fin, "pretaxIncome", end), quarter_flow(fin, "interestExpense", end)
     if pt is not None and ie is not None:
         return pt + abs(ie), True
@@ -266,6 +290,12 @@ def score_items(fin, config, basis):
         else:
             iv = (quarter_flow(fin, "interestExpense", op_end) if basis == "quarter" and q_end
                   else value_at(_rows(fin, "interestExpense"), op_end))
+            if iv is None and basis == "quarter":
+                # 태그가 없는 분기는 손입력(v2/interest_extra.json, 10-Q 원문 표)을 쓴다 — LLY 부문 주석 $345M
+                extra = os.path.join(os.path.dirname(os.path.abspath(__file__)), "interest_extra.json")
+                if os.path.exists(extra):
+                    rows = json.load(open(extra)).get(fin.get("ticker", ""), [])
+                    iv = next((r["value"] for r in rows if r["end"] == op_end), None)
             if iv == 0:
                 items["interestCoverage"] = {"value": None, "points": 5, "note": "이자비용 0"}
             elif iv is not None:

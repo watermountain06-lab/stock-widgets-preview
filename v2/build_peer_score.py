@@ -61,6 +61,10 @@ SECTOR_BORROW = {"Communication Services": ["Information Technology"],
 # 종목 단위 예외(2026-09-25 사용자 결정). SPCX는 산업재(3~5종목뿐)인데 스타링크·AI 비중이 커 IT를 빌린다.
 # 섹터 규칙으로 두면 GE·CAT·DE·RTX·GEV까지 IT 고배수와 비교돼 "싸다"로 기울 수 있어(Fable) 종목만 예외로 했다.
 TICKER_BORROW = {"SPCX": ["Information Technology"]}
+# 사이트 유니버스로는 표본이 모자란 섹터를 S&P500 같은 섹터 전체로 넓힌다(2026-09-27 사용자 결정, LLY).
+# 헬스케어 카드 종목은 7개뿐이라 배수마다 동종업 2~6곳이었다. 파일은 v2/adapters/sector_universe.py가
+# 카드와 같은 엔진(build_multiple_history)으로 기준일 배수를 계산해 만든다. 이 섹터는 valuation_base를 섞지 않는다.
+SECTOR_UNIVERSE = {"Health Care": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "health_care.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
@@ -141,10 +145,18 @@ def peer_score(ticker, sectors, prices, self_path=None):
     # GICS가 2018년 GOOGL·META를 IT에서 Communication Services로 옮겼고 이 유니버스에서는
     # 그 섹터가 6종목뿐이라 순위가 서지 않는다. 한 방향이다 — IT 종목의 동종업은 IT만 쓴다.
     borrowed = SECTOR_BORROW.get(sector, []) + TICKER_BORROW.get(ticker, [])
-    group = [t for t in sectors if sectors[t] == sector or sectors[t] in borrowed]
-    data, asof = {}, {}
-    for t in group:
-        data[t], asof[t] = multiples_now(t, prices)
+    uni = SECTOR_UNIVERSE.get(sector)
+    if uni and os.path.exists(uni):
+        u = json.load(open(uni))
+        data = {t: dict(m) for t, m in u["tickers"].items() if t != ticker}
+        asof = {t: u["asOf"] for t in data}
+        group = list(data) + [ticker]
+        sector = f"{sector} (S&P500 {len(u['tickers'])}종목)"
+    else:
+        group = [t for t in sectors if sectors[t] == sector or sectors[t] in borrowed]
+        data, asof = {}, {}
+        for t in group:
+            data[t], asof[t] = multiples_now(t, prices)
     core = False
     if self_path and os.path.exists(self_path):
         data[ticker] = {**data.get(ticker, {}), **self_multiples(self_path)}
@@ -168,11 +180,13 @@ def peer_score(ticker, sectors, prices, self_path=None):
             dropped.append((m, f"동종업 {len(vals)-1}개뿐"))
             continue
         mine = vals[ticker]
-        peers = sorted(v for t, v in vals.items() if t != ticker)
+        # 동종업 쪽 적자(NEGATIVE, S&P500 유니버스 파일에만 있다)는 가장 비싼 쪽으로 센다 — 나보다 싸지 않다.
+        peers_all = [v for t, v in vals.items() if t != ticker]
+        peers = sorted(v for v in peers_all if v != NEGATIVE)
         cheaper = len(peers) if mine == NEGATIVE else sum(1 for x in peers if x < mine)
-        score = 100 - cheaper / len(peers) * 100
+        score = 100 - cheaper / len(peers_all) * 100
         rows.append({"metric": m, "value": mine, "rank": cheaper + 1,
-                     "peers": len(peers), "median": statistics.median(peers),
+                     "peers": len(peers_all), "median": statistics.median(peers) if peers else None,
                      "score": round(score, 1)})
     dates = [d for t, d in asof.items() if d and data.get(t)]
     if borrowed:
@@ -202,7 +216,7 @@ def main():
     print(f"  {'배수':10} {'본인':>8} {'동종업중앙':>10} {'순위':>10} {'점수':>7}")
     for row in r["metrics"]:
         vtxt = "적자" if row["value"] == NEGATIVE else f"{row['value']:.1f}"
-        print(f"  {LABELS[row['metric']]:10} {vtxt:>8} {row['median']:10.1f}"
+        print(f"  {LABELS[row['metric']]:10} {vtxt:>8} {(row['median'] or 0):10.1f}"
               f" {row['rank']:4d}/{row['peers']:<5} {row['score']:7.1f}")
     for m, why in r["dropped"]:
         print(f"  {LABELS[m]:10} {'—':>8} {'버림':>10} {why:>16}")

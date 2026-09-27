@@ -1,0 +1,66 @@
+{
+ "ticker": "MRK",
+ "window": [
+  "2025-09-26",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 119.02,
+   "min": 11.13,
+   "p10": 13.05,
+   "median": 16.13,
+   "p90": 115.14,
+   "max": 125.16,
+   "mean": 33.86,
+   "percentile": 94.4,
+   "score": 5.6
+  },
+  "PSR": {
+   "days": 251,
+   "current": 5.51,
+   "min": 3.08,
+   "p10": 3.44,
+   "median": 4.4,
+   "p90": 5.33,
+   "max": 5.8,
+   "mean": 4.38,
+   "percentile": 94.4,
+   "score": 5.6
+  },
+  "PBR": {
+   "days": 251,
+   "current": 8.75,
+   "min": 4.01,
+   "p10": 4.45,
+   "median": 5.64,
+   "p90": 8.47,
+   "max": 9.2,
+   "mean": 5.94,
+   "percentile": 94.4,
+   "score": 5.6
+  },
+  "PCR": {
+   "days": 251,
+   "current": 22.85,
+   "min": 13.33,
+   "p10": 15.13,
+   "median": 21.11,
+   "p90": 23.52,
+   "max": 24.79,
+   "mean": 20.73,
+   "percentile": 75.3,
+   "score": 24.7
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 13.97,
+  "per_p75": 34.81,
+  "low": 20,
+  "high": 40,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

@@ -119,7 +119,10 @@ def base_inputs(ticker, asof=None):
     fin_lease = fin_lease or 0
     # 총차입금 태그를 지정한 회사(bmh.DEBT_TOTAL_TAG, MU = DebtAndCapitalLeaseObligations)는 금융리스가
     # 차입금에 이미 들어 있다 — 리스에 또 더하면 두 번 뺀다(MU 2026-05 $2.67B, 2026-09-26).
-    if cik not in bmh.DEBT_TOTAL_TAG:
+    # 합계 태그가 금융리스를 포함하는지는 태그 이름으로 가른다(LLY의 DebtCurrent+LongTermDebtNoncurrent는 불포함 — Fable).
+    _tt = bmh.DEBT_TOTAL_TAG.get(cik)
+    fl_in_debt = isinstance(_tt, str) and "CapitalLease" in _tt
+    if not fl_in_debt:
         out["lease"] = (out.get("lease") or 0) + fin_lease
     out["finance_lease"] = fin_lease
 

@@ -203,6 +203,31 @@ def concept(cik, tag, taxonomy="us-gaap"):
     return []
 
 
+# 회사 전용 태그 보강(CIK별). 표준 태그 대신 같은 항목을 다른 표준 태그로만 내는 회사.
+# LLY: 설비투자 = PaymentsToAcquireOtherPropertyPlantAndEquipment(10-Q "Purchases of property and equipment"),
+#      인수 = OtherPaymentsToAcquireBusinesses("Cash paid for acquisitions, net of cash acquired", 2022년 이후).
+EXTRA_TAGS = {
+    "0000059478": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"],
+                   "PaymentsToAcquireBusinessesNetOfCashAcquired": ["OtherPaymentsToAcquireBusinesses"]},
+}
+# 영업이익 줄이 없는 손익계산서(LLY). 영업이익 = 세전이익 − 영업외손익("Other income (expense)")으로 합성한다.
+# LLY Q2 2026: 매출 22,974 − 매출원가 3,268 − R&D 3,819 − 판관비 3,430 − 인수 IPR&D 2,776 − 손상·구조조정 703
+# = 8,978 = 세전 9,247 − 영업외 269(10-Q 대조, 2026-09-27). 같은 공시(accn)·같은 기간끼리만 뺀다.
+DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                "NonoperatingIncomeExpense")}
+
+
+def _derived_opinc(cik, taxonomy):
+    pre_tag, non_tag = DERIVED_OPINC[cik]
+    non = {(r.get("start"), r["end"], r.get("accn")): r["val"] for r in concept(cik, non_tag, taxonomy)}
+    out = []
+    for r in concept(cik, pre_tag, taxonomy):
+        k = (r.get("start"), r["end"], r.get("accn"))
+        if k in non:
+            out.append({**r, "val": r["val"] - non[k]})
+    return out
+
+
 def pick_tag(cik, names, taxonomy="us-gaap"):
     """후보 태그를 **전부 합친다**.
 
@@ -216,12 +241,18 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
     같은 기간을 두 태그가 함께 보고하면 먼저 제출된 쪽을 쓴다
     (dedup_earliest_filed와 같은 규칙).
     """
+    extra = EXTRA_TAGS.get(cik, {})
+    names = list(names) + [x for n in names for x in extra.get(n, []) if x not in names]
     merged, used = [], []
     for name in names:
         rows = concept(cik, name, taxonomy)
         if rows:
             used.append(f"{name}({len(rows)})")
             merged.extend(rows)
+    if not merged and "OperatingIncomeLoss" in names and cik in DERIVED_OPINC and taxonomy == "us-gaap":
+        merged = _derived_opinc(cik, taxonomy)
+        if merged:
+            used.append(f"세전−영업외(합성 {len(merged)})")
     return ("+".join(used) if used else None), merged
 
 
@@ -523,12 +554,15 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 비유동 차입금 태그를 시기마다 바꿔 내는 회사(유동분 DebtCurrent만 꾸준함)는 10-Q "총차입금"과 같은 한 태그로 고정한다.
 # MU는 2025-11까지 LongTermDebt(사채만, 금융리스 제외)·그 뒤 LongTermDebtAndCapitalLeaseObligations(비유동+금융리스)라
 # 정의가 섞였다. DebtAndCapitalLeaseObligations = 유동+비유동+금융리스 = 10-Q 주석 9 총계(2026-05 $5,722M), 2019년부터 30개.
-DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations"}
+# LLY는 유동분을 DebtCurrent("Short-term borrowings and current maturities", 2026-06 $7,050M)로만 내서 세부 태그 목록에 안 잡혔다
+# (비유동 $47,858M만 잡힘). 두 태그가 2020년부터 같은 26개 날짜에 있어 합으로 고정 — 10-Q 총 $54,908M.
+DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"]}
 
 
 def ev_component(cik, name, tags):
     if name == "debt" and cik in DEBT_TOTAL_TAG:
-        return component_sum(cik, [DEBT_TOTAL_TAG[cik]])
+        tags = DEBT_TOTAL_TAG[cik]
+        return component_sum(cik, tags if isinstance(tags, list) else [tags])
     out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
     # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다

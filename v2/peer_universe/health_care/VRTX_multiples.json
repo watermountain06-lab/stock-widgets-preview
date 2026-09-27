@@ -1,0 +1,78 @@
+{
+ "ticker": "VRTX",
+ "window": [
+  "2025-09-26",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 30.65,
+   "min": 25.18,
+   "p10": 26.6,
+   "median": 29.78,
+   "p90": 32.25,
+   "max": 33.86,
+   "mean": 29.72,
+   "percentile": 66.9,
+   "score": 33.1
+  },
+  "PSR": {
+   "days": 251,
+   "current": 10.6,
+   "min": 8.66,
+   "p10": 9.07,
+   "median": 9.73,
+   "p90": 10.49,
+   "max": 11.24,
+   "mean": 9.76,
+   "percentile": 92.0,
+   "score": 8.0
+  },
+  "PBR": {
+   "days": 251,
+   "current": 6.59,
+   "min": 5.56,
+   "p10": 5.83,
+   "median": 6.33,
+   "p90": 6.85,
+   "max": 7.09,
+   "mean": 6.33,
+   "percentile": 74.5,
+   "score": 25.5
+  },
+  "PCR": {
+   "days": 251,
+   "current": 35.13,
+   "min": 28.26,
+   "p10": 29.94,
+   "median": 34.18,
+   "p90": 36.65,
+   "max": 39.7,
+   "mean": 33.72,
+   "percentile": 69.7,
+   "score": 30.3
+  },
+  "EV/EBITDA": {
+   "days": 224,
+   "current": 25.52,
+   "min": 20.93,
+   "p10": 22.11,
+   "median": 25.02,
+   "p90": 27.09,
+   "max": 28.25,
+   "mean": 24.95,
+   "percentile": 60.7,
+   "score": 39.3
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 28.5,
+  "per_p75": 31.36,
+  "low": 490,
+  "high": 540,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}
