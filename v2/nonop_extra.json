@@ -28,5 +28,11 @@
    "tag": "CryptoAssetFairValueNoncurrent",
    "reason": "비트코인 등 디지털 자산 공정가치(2026-06-30 $674M, 재무상태표 'Digital assets'). 표준 태그라 과거 시점도 그때 값으로 잡힌다(Fable: 고정값으로 넣었을 때 과거 추이 점이 빠졌다)."
   }
+ ],
+ "ASML": [
+  {
+   "tag": "EquityMethodInvestments",
+   "reason": "Carl Zeiss SMT Holding 지분 24.9%(광학 부품 단일 공급사, 2017-06-29 취득) — 20-F 2025 Note 10. 지분법 이익(2025년 €216.7M)은 영업이익 아래 'Profit related to equity method investments'로 잡혀 사업 가치(영업이익 기준)에 들어가지 않으므로 장부가를 더한다(META와 같은 규칙). 2026-06-28 €985.8M(6-K 분기 요약). Mistral AI 지분(€1.3B, 약 11%)은 어댑터가 LongTermInvestments로 실어 build_dcf가 따로 더한다."
+  }
  ]
 }

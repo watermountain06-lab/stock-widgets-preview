@@ -60,7 +60,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801", "TSLA": "0001318605", "MU": "0000723125", "LLY": "0000059478", "SKHY": "0002120882", "WMT": "0000104169", "AMD": "0000002488", "V": "0001403161", "JNJ": "0000200406"}
+CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801", "TSLA": "0001318605", "MU": "0000723125", "LLY": "0000059478", "SKHY": "0002120882", "WMT": "0000104169", "AMD": "0000002488", "V": "0001403161", "JNJ": "0000200406", "ASML": "0000937966"}
 UA = "stock-widgets research gptjhss@gmail.com"
 
 # 앞에 있는 태그가 우선한다. 같은 분기에 둘 다 있으면 뒤 태그는 버린다.
@@ -149,7 +149,10 @@ def series(facts):
     # GOOGL처럼 재고 공시가 끊긴 기간이 조용히 0이 된다).
     if not inv:
         inv = {e: 0.0 for e in rev}
-    qs = [e for e in sorted(rev) if all(e in d for d in (cogs, ar, inv, ap))]
+    # 매입채무를 분기마다 따로 적지 않는 회사(ASML — 6-K 요약 재무상태표는 유동부채 한 줄뿐, 반기·연말 보고서에만 있다)는 DPO·현금전환주기를
+    # 비워 둔다. 점수는 원래 DSO+DIO(영업순환주기)라 그대로 매긴다(2026-09-28).
+    no_ap = not ap
+    qs = [e for e in sorted(rev) if all(e in d for d in (cogs, ar, inv) + (() if no_ap else (ap,)))]
 
     def avg(x, i):
         k = qs[i - 4:i + 1]
@@ -161,9 +164,10 @@ def series(facts):
             continue
         r = sum(rev[k] for k in qs[i - 3:i + 1])
         c = sum(cogs[k] for k in qs[i - 3:i + 1])
-        dso, dio, dpo = 365 * avg(ar, i) / r, 365 * avg(inv, i) / c, 365 * avg(ap, i) / c
+        dso, dio = 365 * avg(ar, i) / r, 365 * avg(inv, i) / c
+        dpo = None if no_ap else 365 * avg(ap, i) / c
         rows.append({"end": qs[i], "dso": dso, "dio": dio, "dpo": dpo,
-                     "op": dso + dio, "ccc": dso + dio - dpo})
+                     "op": dso + dio, "ccc": None if no_ap else dso + dio - dpo})
     return rows
 
 
@@ -197,7 +201,7 @@ def build(ticker, facts):
                           f" 최근 4분기를 계산할 수 없다(마지막 계산 가능 {cur['end']})"}
     longer, score = rank([h["op"] for h in hist], cur["op"])
     tone = "green" if score >= GREEN else ("red" if score <= RED else "yellow")
-    r1 = lambda v: round(v, 1)
+    r1 = lambda v: None if v is None else round(v, 1)
     return {
         "ticker": ticker, "status": "ok", "asOf": cur["end"], "prevAsOf": prev["end"],
         "now": {k: r1(cur[k]) for k in ("dso", "dio", "dpo", "op", "ccc")},

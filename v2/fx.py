@@ -16,11 +16,15 @@ import csv
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CURRENCY = {"TSM": "TWD", "SKHY": "KRW"}
+CURRENCY = {"TSM": "TWD", "SKHY": "KRW", "ASML": "EUR"}
 # 연준 H.10 (FRED DEXTAUS·DEXKOUS). 값 = 1달러당 현지 통화
 SERIES = {"TWD": os.path.join(HERE, ".sec_cache", "fx_DEXTAUS.csv"),
-          "KRW": os.path.join(HERE, ".sec_cache", "fx_DEXKOUS.csv")}
-COLUMN = {"TWD": "DEXTAUS", "KRW": "DEXKOUS"}
+          "KRW": os.path.join(HERE, ".sec_cache", "fx_DEXKOUS.csv"),
+          # 유로는 ECB 기준환율(1유로당 달러, 14:15 CET). FRED DEXUSEU가 2026-09-28 내내 응답하지 않아 대신 썼다.
+          # 받는 법: data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?format=csvdata
+          "EUR": os.path.join(HERE, ".sec_cache", "fx_ECB_EURUSD.csv")}
+COLUMN = {"TWD": "DEXTAUS", "KRW": "DEXKOUS", "EUR": "EURUSD"}
+INVERT = {"EUR"}   # 원자료가 1유로당 달러라 뒤집어 1달러당 유로로 쓴다
 _cache = {}
 
 
@@ -30,7 +34,7 @@ def _load(cur):
         for r in csv.DictReader(open(SERIES[cur])):
             v = r.get(COLUMN[cur])
             if v and v != ".":
-                rows.append((r["observation_date"], float(v)))
+                rows.append((r["observation_date"], 1 / float(v) if cur in INVERT else float(v)))
         rows.sort()
         _cache[cur] = ([d for d, _ in rows], [v for _, v in rows])
     return _cache[cur]
