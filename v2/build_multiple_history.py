@@ -590,7 +590,17 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"]}
 
 
+# EV 구성요소의 종목별 태그(CIK). V: 유동 투자증권을 2020년까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent로,
+# 그 뒤로는 Investments(2018~ 이어짐, Q3 FY26 $1,433M)로 낸다. 기본 목록을 합치면 2020년 값($3.6B)이 계속 남아
+# 순현금·EV·DCF가 틀렸다(Codex, 2026-09-27). 겹치는 2018~2020년도 한 태그만 쓴다.
+# 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
+# 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
+# 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
+EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []}}
+
+
 def ev_component(cik, name, tags):
+    tags = EV_TAGS_BY_CIK.get(cik, {}).get(name, tags)
     if name == "debt" and cik in DEBT_TOTAL_TAG:
         tags = DEBT_TOTAL_TAG[cik]
         return component_sum(cik, tags if isinstance(tags, list) else [tags])

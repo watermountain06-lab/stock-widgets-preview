@@ -67,6 +67,9 @@ TICKER_BORROW = {"SPCX": ["Information Technology"]}
 SECTOR_UNIVERSE = {"Health Care": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "health_care.json"),
                    # 카드 유니버스 필수소비재 6종목 → S&P500 34종목(2026-09-27 사용자 결정, WMT)
                    "Consumer Staples": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_staples.json")}
+# 종목별 비교군(섹터 전체가 맞지 않는 종목). V: 카드 유니버스 금융 10곳은 은행·증권이라 결제망과 배수가 맞지 않아
+# S&P500 결제 8곳 + 거래소·데이터 9곳(2026-09-27 사용자 결정). 섹터 규칙보다 앞선다.
+TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
@@ -147,7 +150,7 @@ def peer_score(ticker, sectors, prices, self_path=None):
     # GICS가 2018년 GOOGL·META를 IT에서 Communication Services로 옮겼고 이 유니버스에서는
     # 그 섹터가 6종목뿐이라 순위가 서지 않는다. 한 방향이다 — IT 종목의 동종업은 IT만 쓴다.
     borrowed = SECTOR_BORROW.get(sector, []) + TICKER_BORROW.get(ticker, [])
-    uni = SECTOR_UNIVERSE.get(sector)
+    uni = TICKER_UNIVERSE.get(ticker) or SECTOR_UNIVERSE.get(sector)
     if uni and os.path.exists(uni):
         u = json.load(open(uni))
         data = {t: dict(m) for t, m in u["tickers"].items() if t != ticker}

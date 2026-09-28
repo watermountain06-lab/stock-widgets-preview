@@ -338,6 +338,16 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **카드 한정 JS** — 요구 마진 해가 없을 때 틀 문장이 "영업이익률이 범위 밖여야 한다"로 나와 "100%로 잡아도 닿지 않는다"로 고쳤다. **틀 과제**(NVDA 1524·1596행). 요구 마진 모드 `.reverse`의 data-dcf-* span이 사라지는 것은 AAPL·AMZN·TSLA·WMT와 같은 관례(JS가 덮어씀) — 틀에서 정리할 때 함께.
 - 반응일: 실적 8-K 16:16 ET 장 마감 후 → 다음 거래일(8/5 −7.0%, 5/6 +18.6%, 2/4 −17.3%), 워런트 8-K 07시 ET 개장 전 → 당일(10/6 +23.7%, 2/24 +8.8%).
 
+## V — 클래스별 EPS·companyfacts 지연·결제망 비교군 (2026-09-27)
+
+- **판정 고평가(−3)** — 자기 이력 38.1(0, PBR·PCR만 비싼 쪽), 동종업 7.6(−1), 현금흐름 기본 $183 vs $367.38(−2, 요구 성장 28.3%). 낙관(3년 성장 11.8%·최근 마진 60.7%)이 기본(5년 13.8%·2년 마진 61.7%)보다 낮게 나오는 것은 모델 출력이다.
+- **클래스별 EPS·주식 수(`adapters/visa_classA.py`)** — Visa는 EPS·주식 수를 클래스 A·B-1·B-2·B-3·C 차원으로만 내 companyfacts에 EarningsPerShareDiluted가 없고 시점 주식 수는 2010년 값(4.7억 주)뿐이라 PSR이 4배로 나왔다. 각 10-Q/10-K 인라인 XBRL에서 클래스 A 희석 EPS와 **분기말 환산 총수 `v:SharesOutstandingAsConvertedBasis`**(클래스 A·B·C·우선주를 A로 환산, Q3 FY26 18.80억 주)를 오버레이에 쓴다(없는 공시만 희석 가중평균으로 채움). EPS 이력은 `visa_classA.py eps`. 4분기 EPS는 연간 − 3분기 합이라 보도자료와 $0.01 차이(FY25 Q4 $2.61 vs $2.62) — 전 카드 공통 방식.
+- **companyfacts 지연 보충(`adapters/ixbrl_supplement.py`, 범용)** — SEC companyfacts에 7/29 10-Q가 없었다(JPM 카드의 C와 같은 현상). companyfacts 마지막 공시보다 새 10-Q/10-K 원문에서 **차원 없는** us-gaap·dei 수치를 오버레이에 더한다(ixt:fixed-zero는 0). `adapters/overlay_feed.py V {CIK}`로 fetch_financials를 오버레이 기준으로 돌린다(기본적 분석 기준일 3/31 → 6/30). 동종업 PYPL·SPGI도 같은 지연이라 보충하고 EPS를 오버레이로 다시 만들었다. 중첩 ix:nonFraction은 놓친다(핵심 재무값 영향 없음, Fable).
+- **EV 구성요소 종목별 태그(`EV_TAGS_BY_CIK`)** — 유동 투자증권이 2020년에 멈춘 태그($3.6B)로 남아 있었다 → `Investments`($1.433B). 우선주(2019년 $5.46B)·비지배지분(2011년 $2M)은 0 — 환산 주식 수에 우선주가 이미 들어 있어 이중 계산이었다(Codex·Fable). **틀 과제: EV 시점 구성요소에 나이 상한이 없다 — 멈춘 태그의 마지막 값이 영원히 쓰인다.**
+- **동종업 비교군(사용자 결정)** — 카드 유니버스 금융 10곳은 은행·증권이라 S&P500 결제 8곳 + 거래소·금융 데이터 9곳(`peer_universe/payments_exchanges.json`, `sector_universe.py --sub --name`, `build_peer_score.TICKER_UNIVERSE`). MA·CME 주식 수는 표지 클래스 합산(cover_shares, 1:1 전환). **MA 카드도 이 파일을 쓴다.** 분할 판정은 비율 1.5 이상(0.67 이하)만 — SPGI 스핀오프 가격 조정계수(1057:1000)를 분할로 보고 PER을 빼던 것을 고쳤다(Fable). 남은 한계: XYZ는 클래스 주식 수가 없어 PER만, CME EV/EBITDA·MSCI PBR(음수 자본) 결측.
+- **활동성 해당 없음** — 매출원가·재고가 없는 결제망. `V_activity.json` 사유를 채움 스크립트가 쓴다(`build_activity_score V --card`를 다시 돌리면 "5년 비교 이력 부족"으로 돌아간다).
+- 반응일: 실적 8-K 16:05 ET 장 마감 후 → 다음 거래일(4/29 +8.3%), MDL 합의 8-K 08:30 ET·교환 결과 09:10 ET 개장 전 → 당일.
+
 ## 내재가치·종합 평가 개선 방향 (2026-09-25, team-assemble 토론 → 사용자 결정)
 
 철학 조사(opus)·모델 진단(opus)·개선 설계(opus)·Fable 비판을 거쳤다. 계산 스크립트: 세션 scratchpad `diag.py`·`run2.py`·`critic_a.py`·`critic_b.py`.

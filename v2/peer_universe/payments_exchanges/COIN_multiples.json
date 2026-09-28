@@ -1,0 +1,59 @@
+{
+ "ticker": "COIN",
+ "window": [
+  "2025-09-26",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 210,
+   "current": null,
+   "min": 12.66,
+   "p10": 20.53,
+   "median": 37.85,
+   "p90": 62.1,
+   "max": 79.63,
+   "mean": 39.69,
+   "percentile": 100.0,
+   "score": 0.0,
+   "currentNote": "negative"
+  },
+  "PSR": {
+   "days": 227,
+   "current": 8.19,
+   "min": 5.12,
+   "p10": 6.17,
+   "median": 7.34,
+   "p90": 9.23,
+   "max": 12.04,
+   "mean": 7.51,
+   "percentile": 74.0,
+   "score": 26.0
+  },
+  "PBR": {
+   "days": 227,
+   "current": 3.93,
+   "min": 2.45,
+   "p10": 2.99,
+   "median": 3.56,
+   "p90": 4.42,
+   "max": 5.77,
+   "mean": 3.62,
+   "percentile": 73.6,
+   "score": 26.4
+  },
+  "EV/EBITDA": {
+   "days": 227,
+   "current": 56.53,
+   "min": 15.72,
+   "p10": 24.94,
+   "median": 31.61,
+   "p90": 51.85,
+   "max": 58.61,
+   "mean": 36.18,
+   "percentile": 96.9,
+   "score": 3.1
+  }
+ },
+ "perBasis": "diluted"
+}

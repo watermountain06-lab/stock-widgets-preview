@@ -58,8 +58,11 @@ def yahoo(ticker, asof):
         if day > asof or q["close"][i] is None or not q["volume"][i]:
             continue
         bars.append([day, q["open"][i], q["high"][i], q["low"][i], q["close"][i], q["volume"][i]])
+    # 분할만 센다 — Yahoo는 스핀오프 가격 조정계수도 splits로 준다(SPGI 2026-07-01 1057:1000, Fable).
+    # 비율이 1.5 이상(또는 0.67 이하)인 것만 분할로 본다.
     splits = sorted(time.strftime("%Y-%m-%d", time.gmtime(s["date"]))
-                    for s in (r.get("events", {}).get("splits") or {}).values())
+                    for s in (r.get("events", {}).get("splits") or {}).values()
+                    if s.get("denominator") and not (0.67 < s["numerator"] / s["denominator"] < 1.5))
     return bars, splits
 
 
@@ -102,12 +105,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("sector")
     ap.add_argument("--asof", required=True)
+    # 섹터 안의 하위 업종만(쉼표 구분) — V: 결제 + 거래소·데이터(2026-09-27 사용자 결정)
+    ap.add_argument("--sub", help='예: "Transaction & Payment Processing Services,Financial Exchanges & Data"')
+    ap.add_argument("--name", help="파일 이름(기본: 섹터 이름)")
     a = ap.parse_args()
-    rows = [r for r in sp500_rows() if r.get("sector") == a.sector]
-    slug = a.sector.lower().replace(" ", "_")
+    subs = [x.strip() for x in a.sub.split(",")] if a.sub else None
+    rows = [r for r in sp500_rows() if r.get("sector") == a.sector and (not subs or r.get("subIndustry") in subs)]
+    slug = a.name or a.sector.lower().replace(" ", "_")
     eps_dir = os.path.join(OUT_DIR, slug)
     os.makedirs(eps_dir, exist_ok=True)
-    res = {"sector": a.sector, "asOf": a.asof, "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
+    res = {"sector": a.sector, "subIndustries": subs, "asOf": a.asof, "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
            "tickers": {}, "skipped": {}}
     for r in rows:
         t = (r.get("ticker") or r.get("symbol")).replace("-", ".")
