@@ -234,18 +234,34 @@ EXTRA_TAGS = {
 # 영업이익 줄이 없는 손익계산서(LLY). 영업이익 = 세전이익 − 영업외손익("Other income (expense)")으로 합성한다.
 # LLY Q2 2026: 매출 22,974 − 매출원가 3,268 − R&D 3,819 − 판관비 3,430 − 인수 IPR&D 2,776 − 손상·구조조정 703
 # = 8,978 = 세전 9,247 − 영업외 269(10-Q 대조, 2026-09-27). 같은 공시(accn)·같은 기간끼리만 뺀다.
+# JNJ도 영업이익 줄이 없다(OperatingIncomeLoss는 2015년까지). 영업외 = 이자수익 − 이자비용(2024년부터
+# InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
+# 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
+# − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
 DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
-                                "NonoperatingIncomeExpense")}
+                                "NonoperatingIncomeExpense"),
+                 "0000200406": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InvestmentIncomeInterest"], 1), (["InterestExpenseNonoperating", "InterestExpense"], -1),
+                                 (["OtherNonoperatingIncomeExpense"], 1)])}
 
 
 def _derived_opinc(cik, taxonomy):
-    pre_tag, non_tag = DERIVED_OPINC[cik]
-    non = {(r.get("start"), r["end"], r.get("accn")): r["val"] for r in concept(cik, non_tag, taxonomy)}
+    """영업이익 = 세전이익 − 영업외 손익. 영업외는 태그 하나(LLY) 또는 [(대체 태그들, 부호), …](JNJ)이고,
+    같은 (start, end, accn)에 모든 항목이 있을 때만 만든다."""
+    pre_tag, non_spec = DERIVED_OPINC[cik]
+    items = [([non_spec], 1)] if isinstance(non_spec, str) else non_spec
+    maps = []
+    for tags, sign in items:
+        m = {}
+        for t in tags:                          # 앞 태그 우선(이름이 바뀐 태그는 뒤에)
+            for r in concept(cik, t, taxonomy):
+                m.setdefault((r.get("start"), r["end"], r.get("accn")), r["val"])
+        maps.append((m, sign))
     out = []
     for r in concept(cik, pre_tag, taxonomy):
         k = (r.get("start"), r["end"], r.get("accn"))
-        if k in non:
-            out.append({**r, "val": r["val"] - non[k]})
+        if all(k in m for m, _ in maps):
+            out.append({**r, "val": r["val"] - sum(sign * m[k] for m, sign in maps)})
     return out
 
 
@@ -278,7 +294,8 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
         if rows:
             used.append(f"{name}({len(rows)})")
             merged.extend(rows)
-    if not merged and "OperatingIncomeLoss" in names and cik in DERIVED_OPINC and taxonomy == "us-gaap":
+    # 합성 대상 회사는 영업이익 태그가 옛날에만 있어도(JNJ는 2015년까지) 합성값만 쓴다
+    if "OperatingIncomeLoss" in names and cik in DERIVED_OPINC and taxonomy == "us-gaap":
         merged = _derived_opinc(cik, taxonomy)
         if merged:
             used.append(f"세전−영업외(합성 {len(merged)})")
@@ -596,11 +613,21 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []}}
+EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
+                  # JNJ: 비유동 리스 태그는 2019년에 멈췄고 총 리스부채(OperatingLeaseLiability, 10-K 연간)만 이어진다.
+                  "0000200406": {"lease": ["OperatingLeaseLiability"]}}
+# 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
+# 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
+# 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
+EV_ZERO_FROM_BY_CIK = {"0000200406": {"nci": ("2023-10-01", "2023-10-27")}}
 
 
 def ev_component(cik, name, tags):
     tags = EV_TAGS_BY_CIK.get(cik, {}).get(name, tags)
+    zf = EV_ZERO_FROM_BY_CIK.get(cik, {}).get(name)
+    if zf:
+        rows = [e for e in component_sum(cik, tags) if e["end"] < zf[0]]
+        return rows + [{"end": zf[0], "val": 0.0, "available": zf[1]}]
     if name == "debt" and cik in DEBT_TOTAL_TAG:
         tags = DEBT_TOTAL_TAG[cik]
         return component_sum(cik, tags if isinstance(tags, list) else [tags])

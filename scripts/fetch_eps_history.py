@@ -152,6 +152,7 @@ CIKS = {
     # SKHY: SEC companyfacts가 비어 v2/adapters/skhy_ifrs.py(KIND 원문 K-IFRS)가 만든 캐시를 쓴다(skhy_feed.py로 실행).
     "SKHY": "0002120882",
     "V": "0001403161",
+    "JNJ": "0000200406",
 }
 
 

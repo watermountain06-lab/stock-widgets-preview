@@ -151,7 +151,9 @@ def _derived_opinc(fin):
     ann = {}
     for r in rows:
         if r.get("start") and r.get("form") == "10-K" and 350 <= (date.fromisoformat(r["end"]) - date.fromisoformat(r["start"])).days <= 380:
-            if r["end"] not in ann or r["filed"] < ann[r["end"]]["filed"]:
+            # 연간은 가장 늦게 공시된(재작성) 값 — fetch_financials 매출과 같은 기준. JNJ는 Kenvue 분사로
+            # 2021·2022년을 계속사업으로 재작성했는데 원공시를 쓰면 매출(재작성)과 기준이 어긋났다(Fable, 2026-09-28).
+            if r["end"] not in ann or r["filed"] > ann[r["end"]]["filed"]:
                 ann[r["end"]] = r
     q = {e["end"]: e["val"] for e in bmh.quarterly_flow(rows, fin.get("ticker", ""))}
     return [{"end": k, "val": v["val"]} for k, v in sorted(ann.items())], q
@@ -159,12 +161,13 @@ def _derived_opinc(fin):
 
 def operating_income_annual(fin):
     """(연간 영업이익, 추정 여부). 태그가 아예 없으면 세전이익 + 이자비용(v1)."""
-    op = _rows(fin, "operatingIncome")
-    if op:
-        return op, False
+    # 합성 대상 회사는 합성값이 먼저다 — JNJ는 operatingIncome 태그가 2015년에 멈춰 CAGR이 비었다(2026-09-28)
     d = _derived_opinc(fin)
     if d and d[0]:
         return d[0], False
+    op = _rows(fin, "operatingIncome")
+    if op:
+        return op, False
     interest = {e["end"]: e["val"] for e in _rows(fin, "interestExpense")}
     est = [{"end": e["end"], "val": e["val"] + abs(interest[e["end"]])}
            for e in _rows(fin, "pretaxIncome") if e["end"] in interest]
