@@ -165,7 +165,13 @@ CIKS = {
     "ABBV": "0001551152",
     "PLTR": "0001321655",
     "CVX": "0000093410",
+    "COST": "0000909832",
 }
+
+
+# 4분기가 16주(53주 해는 17주)인 52·53주 회계. 1분기 말 → 연말이 287일이 돼 280일 규칙에 걸려
+# 2023-09-03(53주 FY2023) 4분기가 빠지고 그 뒤 TTM EPS가 약 12% 낮게 나왔다(COST, Fable 2026-09-29).
+LONG_Q4_TICKERS = {"COST"}
 
 
 def main():
@@ -213,7 +219,7 @@ def main():
             q for q in discrete
             if date.fromisoformat(q["end"]) <= fy_end_d
             and (fy_end_d - date.fromisoformat(q["start"])).days <= 380
-            and (fy_end_d - date.fromisoformat(q["end"])).days <= 280
+            and (fy_end_d - date.fromisoformat(q["end"])).days <= (295 if ticker_key in LONG_Q4_TICKERS else 280)
         ]
         if len(members) == 3 and not any(q["end"] == fy_end for q in discrete):
             q4_val = round(fy["val"] - sum(m["val"] for m in members), 4)

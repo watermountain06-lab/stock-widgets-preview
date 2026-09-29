@@ -228,6 +228,11 @@ def concept(cik, tag, taxonomy="us-gaap"):
 # LLY: 설비투자 = PaymentsToAcquireOtherPropertyPlantAndEquipment(10-Q "Purchases of property and equipment"),
 #      인수 = OtherPaymentsToAcquireBusinesses("Cash paid for acquisitions, net of cash acquired", 2022년 이후).
 EXTRA_TAGS = {
+    # COST: 세전이익을 FY2023부터 IncomeLossAttributableToParent로 낸다(FY2023 연간 8,487 = 손익계산서 세전이익,
+    # Q3 FY26 2,938 = 10-Q "INCOME BEFORE INCOME TAXES"). 표준 태그는 10-Q 기준 2024-05에서 끊겨 DCF 세율이
+    # FY2024 연간 세전으로 계산됐다(29.9% → 24.8%, Fable 2026-09-29).
+    "0000909832": {"IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest":
+                   ["IncomeLossAttributableToParent"]},
     "0000059478": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"],
                    "PaymentsToAcquireBusinessesNetOfCashAcquired": ["OtherPaymentsToAcquireBusinesses"]},
 }
@@ -318,6 +323,10 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
     return ("+".join(used) if used else None), merged
 
 
+# 4분기가 16주(나머지 12주)인 52·53주 회계 종목. quarterly_flow가 4분기를 연간에서 뺄 때 3분기 끝을 112일 전까지 찾는다.
+LONG_Q4_TICKERS = {"COST"}
+
+
 def quarterly_flow(entries, ticker):
     """기간 항목(매출·영업현금흐름·설비투자)을 분기 단위로 환원한다.
 
@@ -354,11 +363,14 @@ def quarterly_flow(entries, ticker):
         end = date.fromisoformat(a["end"])
         parts, cur = [], end
         ok = True
-        for _ in range(3):  # 직전 세 분기를 거슬러 찾는다
+        for i in range(3):  # 직전 세 분기를 거슬러 찾는다
             prev = None
+            # 4분기가 16주인 회계(COST 12·12·12·16주)는 연간 결산일과 3분기 끝이 112일(53주 해는 119일) 떨어진다.
+            # 80~100일만 찾으면 4분기가 통째로 빠져 TTM이 하나도 안 만들어졌다(2026-09-29).
+            hi = 120 if (i == 0 and ticker in LONG_Q4_TICKERS) else 100
             for e in q.values():
                 d = (cur - date.fromisoformat(e["end"])).days
-                if 80 <= d <= 100:
+                if 80 <= d <= hi:
                     prev = e
                     break
             if prev is None:
