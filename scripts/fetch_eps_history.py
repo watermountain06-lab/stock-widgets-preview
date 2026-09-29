@@ -111,6 +111,7 @@ KNOWN_SPLITS = {
     "ASML": [],   # no split or share consolidation in the data window (2019~)
     "JNJ": [],    # last split 2001-06-13 (2-for-1), outside this data's reporting window -- WebSearch confirmed 2026-09-05
     "MA": [],     # last split 10-for-1 effective 2014-01, outside this data's reporting window -- WebSearch confirmed 2026-09-06
+    "CVX": [],    # last split 2004-09-13 (2-for-1), outside this data's reporting window
     "PLTR": [],   # no splits since the 2020-09-30 direct listing -- Yahoo split events confirmed 2026-09-29
     "INTC": [],   # last split 2000 (2-for-1), outside this data's reporting window -- Yahoo split events confirmed 2026-09-29
     "XOM": [],    # last split 2001-07-19 (2-for-1), outside this data's reporting window -- WebSearch confirmed 2026-09-06
@@ -163,6 +164,7 @@ CIKS = {
     "MA": "0001141391",
     "ABBV": "0001551152",
     "PLTR": "0001321655",
+    "CVX": "0000093410",
 }
 
 

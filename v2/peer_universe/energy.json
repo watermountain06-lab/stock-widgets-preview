@@ -15,10 +15,11 @@
    "pcr": 18.35
   },
   "CVX": {
-   "per": 19.66,
-   "psr": 1.94,
-   "pbr": 2.13,
-   "pcr": 14.95
+   "per": 19.84,
+   "psr": 1.95,
+   "pbr": 2.15,
+   "pcr": 15.09,
+   "evebitda": 8.05
   },
   "COP": {
    "per": 16.82,
@@ -138,5 +139,5 @@
  "skipped": {
   "TPL": "최근 분할 2025-12-23 — PER 제외"
  },
- "notes": "XOM 행은 2분기 10-Q 인라인 XBRL 보충(companyfacts 지연)과 영업이익 합성(세전 + 이자) 뒤 카드 엔진 값으로 바꿨다(2026-09-29, Codex). 영업이익 태그가 없는 CVX·COP·OXY·PSX는 EV/EBITDA, 설비투자 태그가 다른 APA·BKR·COP·FANG·EOG·PSX·VLO·TPL 등은 PCR이 빠져 있다."
+ "notes": "XOM 행은 2분기 10-Q 인라인 XBRL 보충(companyfacts 지연)과 영업이익 합성(세전 + 이자) 뒤 카드 엔진 값으로 바꿨다(2026-09-29, Codex). CVX 행도 영업이익 합성(세전 + 이자) 뒤 카드 엔진 값(2026-09-28 종가)으로 바꿨다(2026-09-29). 영업이익 태그가 없는 COP·OXY·PSX는 EV/EBITDA, 설비투자 태그가 다른 APA·BKR·COP·FANG·EOG·PSX·VLO·TPL 등은 PCR이 빠져 있다."
 }

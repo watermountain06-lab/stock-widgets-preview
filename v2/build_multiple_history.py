@@ -247,7 +247,11 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                  # (카타르 LNG 등 합작 생산)·기타수익은 영업으로 본다(지분법 투자는 비영업 자산에 더하지 않는다). Q2 2026:
                  # 세전 19,424 + 이자 227 = 19,651(10-Q 대조).
                  "0000034088": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
-                                [(["InterestExpense"], -1)])}
+                                [(["InterestExpense"], -1)]),
+                 # CVX: XOM과 같은 구조(영업이익 줄 없음) → 같은 규칙. 영업이익 = 세전이익 + 이자비용("Interest and debt
+                 # expense", InterestExpenseDebt). 지분법 이익(TCO 등)·기타수익은 영업. Q2 2026: 세전 16,684 + 352 = 17,036.
+                 "0000093410": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+                                [(["InterestExpenseDebt"], -1)])}
 
 
 def _derived_opinc(cik, taxonomy):
@@ -626,7 +630,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # ABBV: 1년 안 만기분을 LongTermDebtAndCapitalLeaseObligationsCurrent로 내 기본 목록에서 빠졌다
                   # (2026-06-30 $62,481M만 → 10-Q 합계 $70,822M, 2026-09-29). 단기차입금은 있는 날짜만.
                   "0001551152": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent",
-                                 "LongTermDebtAndCapitalLeaseObligations"]}
+                                 "LongTermDebtAndCapitalLeaseObligations"],
+                  # CVX: 대차대조표는 단기차입금 + 장기차입금(금융리스 포함) 두 줄. 장기 줄을 분기마다 …IncludingCurrentMaturities로
+                  # 내고(10-K는 태그가 둘 다 같은 값) — 2026-06-30 $401M + $36,674M = $37.1B(10-Q "total debt" 대조).
+                  "0000093410": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"]}
 
 
 # EV 구성요소의 종목별 태그(CIK). V: 유동 투자증권을 2020년까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent로,
@@ -641,7 +648,11 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # XOM: 단기투자 줄이 없다(ShortTermInvestments 태그가 2011-06에 멈춰 그 값이 계속 쓰였다). 리스는 10-K 연간 총액.
                   "0000034088": {"sti": [], "lease": ["OperatingLeaseLiability"]},
                   # MA: 유동 투자증권은 V처럼 Investments($318M, 2026-06-30)로 낸다 — 기본 목록으론 0이었다(Codex, 2026-09-29).
-                  "0001141391": {"sti": ["Investments"]}}
+                  "0001141391": {"sti": ["Investments"]},
+                  # CVX: 재무상태표 현금을 2024-09부터 회사 고유 태그(cvx:CashAndCashEquivalentsExcludingTimeDeposits)로 내
+                  # companyfacts에 없다 — 표준 태그는 2024-06-30 $4,008M에서 멈춰 그 값이 계속 쓰였다(2026-06-30 실제 $8,527M).
+                  # 공정가치 주석 태그(0.1B 단위 반올림)는 2021년부터 매 분기 이어진다(2026-06-30 $8.5B, 2026-09-29).
+                  "0000093410": {"cash": ["CashAndCashEquivalentsFairValueDisclosure"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
