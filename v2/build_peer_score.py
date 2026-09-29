@@ -70,7 +70,9 @@ SECTOR_UNIVERSE = {"Health Care": os.path.join(os.path.dirname(os.path.abspath(_
                    "Energy": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "energy.json")}
 # 종목별 비교군(섹터 전체가 맞지 않는 종목). V: 카드 유니버스 금융 10곳은 은행·증권이라 결제망과 배수가 맞지 않아
 # S&P500 결제 8곳 + 거래소·데이터 9곳(2026-09-27 사용자 결정). 섹터 규칙보다 앞선다.
-TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json")}
+TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   # MA도 V와 같은 결제·거래소 비교군(2026-09-29)
+                   "MA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 

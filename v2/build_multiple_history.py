@@ -270,6 +270,12 @@ def _derived_opinc(cik, taxonomy):
     return out
 
 
+# 종목별로 후보에서 빼는 태그(CIK). MA는 2018~2022년 RevenueFromContractWithCustomerExcludingAssessedTax에
+# 리베이트·인센티브 차감 전 **총매출**(2022 Q3 $9.17B)을, Revenues에 순매출($5.76B)을 실었다. 합치면 앞 태그가
+# 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
+EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",)}
+
+
 def pick_tag(cik, names, taxonomy="us-gaap"):
     """후보 태그를 **전부 합친다**.
 
@@ -285,6 +291,7 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
     """
     extra = EXTRA_TAGS.get(cik, {})
     names = list(names) + [x for n in names for x in extra.get(n, []) if x not in names]
+    names = [n for n in names if n not in EXCLUDE_TAGS.get(cik, ())]
     merged, used = [], []
     for name in names:
         rows = concept(cik, name, taxonomy)
@@ -628,7 +635,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # JNJ: 비유동 리스 태그는 2019년에 멈췄고 총 리스부채(OperatingLeaseLiability, 10-K 연간)만 이어진다.
                   "0000200406": {"lease": ["OperatingLeaseLiability"]},
                   # XOM: 단기투자 줄이 없다(ShortTermInvestments 태그가 2011-06에 멈춰 그 값이 계속 쓰였다). 리스는 10-K 연간 총액.
-                  "0000034088": {"sti": [], "lease": ["OperatingLeaseLiability"]}}
+                  "0000034088": {"sti": [], "lease": ["OperatingLeaseLiability"]},
+                  # MA: 유동 투자증권은 V처럼 Investments($318M, 2026-06-30)로 낸다 — 기본 목록으론 0이었다(Codex, 2026-09-29).
+                  "0001141391": {"sti": ["Investments"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
