@@ -622,7 +622,11 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   "0000034088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # INTC: 10-Q는 1년 안 만기 차입금을 DebtCurrent로만 낸다(LongTermDebtCurrent는 10-K에만) — 기본 목록으론
                   # 2026-06-27 단기 $1,988M이 빠져 $48,549M이었다(10-Q 합계 $50,537M, 2026-09-29).
-                  "0000050863": ["DebtCurrent", "LongTermDebtNoncurrent"]}
+                  "0000050863": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # ABBV: 1년 안 만기분을 LongTermDebtAndCapitalLeaseObligationsCurrent로 내 기본 목록에서 빠졌다
+                  # (2026-06-30 $62,481M만 → 10-Q 합계 $70,822M, 2026-09-29). 단기차입금은 있는 날짜만.
+                  "0001551152": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent",
+                                 "LongTermDebtAndCapitalLeaseObligations"]}
 
 
 # EV 구성요소의 종목별 태그(CIK). V: 유동 투자증권을 2020년까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent로,

@@ -35,6 +35,37 @@ NVDA_RGB = "118,185,0"
 DISPLAY = {"BRKB": "BRK.B"}
 
 
+
+# 어두운 배경(--bg2 #1a1d27)에서 브랜드 색이 글자로 읽히게 밝기만 올린다(색조·채도 유지, 2026-09-29 사용자 지적 — ABBV
+# #16294a·V #1a1f71처럼 짙은 남색이 뉴스·내재가치 글자에서 거의 안 보였다). 문턱: --accent 대비 4.5 이상(작은 글자·배지),
+# --accent2 대비 7 이상(강조 글자). --accent3(그라데이션·배경용 어두운 색)은 그대로 둔다.
+_CARD_BG = "#1a1d27"
+
+
+def _lum(hx):
+    r, g, b = (int(hx[i:i + 2], 16) / 255 for i in (1, 3, 5))
+    f = lambda c: c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b)
+
+
+def _contrast(a, b=_CARD_BG):
+    la, lb = sorted((_lum(a), _lum(b)), reverse=True)
+    return (la + 0.05) / (lb + 0.05)
+
+
+def _lighten_to(hx, target):
+    import colorsys
+    r, g, b = (int(hx[i:i + 2], 16) / 255 for i in (1, 3, 5))
+    h, l, s = colorsys.rgb_to_hls(r, g, b)
+    while _contrast(hx) < target and l < 0.97:
+        l = min(0.97, l + 0.01)
+        hx = "#%02x%02x%02x" % tuple(round(c * 255) for c in colorsys.hls_to_rgb(h, l, s))
+    return hx
+
+
+def readable_accents(a1, a2, a3):
+    return _lighten_to(a1, 4.5), _lighten_to(a2, 7.0), a3
+
 def rgb(hexcol):
     h = hexcol.lstrip("#")
     return ",".join(str(int(h[i:i + 2], 16)) for i in (0, 2, 4))
@@ -106,7 +137,7 @@ def main():
     h = h.replace("stockanalysis.com/stocks/nvda/", f"stockanalysis.com/stocks/{d.lower().replace('.', '-')}/")
 
     # 2. 색
-    a1, a2, a3 = meta["accent"]
+    a1, a2, a3 = readable_accents(*meta["accent"])
     h = h.replace(f"--accent: {NVDA_ACCENT[0]}; --accent2: {NVDA_ACCENT[1]}; --accent3: {NVDA_ACCENT[2]};",
                   f"--accent: {a1}; --accent2: {a2}; --accent3: {a3};")
     h = h.replace(f"rgba({NVDA_RGB},", f"rgba({rgb(a1)},").replace("#76b900", a1).replace("#9fdb2f", a2)
