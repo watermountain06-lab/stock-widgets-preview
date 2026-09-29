@@ -9,8 +9,8 @@
 
   /* HEADER (라이브 AVGO_analysis_widget.html에서 재사용) */
   .header { background: linear-gradient(135deg, #101a05 0%, #0f1117 40%, #1a1d27 100%); border-bottom: 2px solid var(--accent3); padding: 28px 32px 24px; position: relative; overflow: hidden; max-width: 1100px; margin: 0 auto; }
-  .box-key { background: rgba(204,9,47,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
-  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(204,9,47,0.14) 0%, transparent 70%); pointer-events: none; }
+  .box-key { background: rgba(246,58,95,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
+  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(246,58,95,0.14) 0%, transparent 70%); pointer-events: none; }
   .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .ticker-block { display: flex; align-items: center; gap: 16px; flex: 1 1 320px; min-width: 0; }
   .ticker-block > div { min-width: 0; }
@@ -47,7 +47,7 @@
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #cc092f; --accent2: #f74467; --accent3: #74051b;
+    --accent: #f63a5f; --accent2: #fa849b; --accent3: #74051b;
     --ma5: #ff6b9d; --ma20: #9b59b6; --ma60: #f0c040; --ma120: #22d3ee;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -86,7 +86,7 @@
   .range-toggle { display: flex; gap: 6px; flex-wrap: wrap; }
   .range-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text3); font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; cursor: pointer; transition: all .15s; }
   .range-btn:hover { color: var(--text); border-color: var(--text2); }
-  .range-btn.active { background: rgba(204,9,47,0.18); color: var(--accent2); border-color: var(--accent); }
+  .range-btn.active { background: rgba(246,58,95,0.18); color: var(--accent2); border-color: var(--accent); }
   .ma-toggle-btn { background: var(--bg3); border: 1px solid; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; cursor: pointer; opacity: 1; transition: opacity .15s; }
   .ma-toggle-btn.ma-off { opacity: 0.35; }
   .price-chart-container { margin-bottom: 16px; }
@@ -105,7 +105,7 @@
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #cc092f; --accent2: #f74467; --accent3: #74051b;
+    --accent: #f63a5f; --accent2: #fa849b; --accent3: #74051b;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
@@ -205,8 +205,8 @@
 
   .detail-toggle { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; user-select: none; font-size: 12.5px; color: var(--text2); font-weight: 600; padding: 10px 2px 6px; border-top: 1px dashed var(--bg3); margin-top: 2px; }
   .detail-toggle:hover { color: var(--text); }
-  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(247,68,103,0.12); border: 1px solid rgba(247,68,103,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
-  .detail-toggle:hover .toggle-hint { background: rgba(247,68,103,0.22); border-color: rgba(247,68,103,0.5); }
+  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(250,132,155,0.12); border: 1px solid rgba(250,132,155,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
+  .detail-toggle:hover .toggle-hint { background: rgba(250,132,155,0.22); border-color: rgba(250,132,155,0.5); }
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
@@ -215,7 +215,7 @@
 
   .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .act-card { background: var(--bg3); border-radius: 8px; padding: 12px 14px; display:flex; align-items:center; gap:12px; }
-  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(247,68,103,0.1); border-radius:8px; flex-shrink:0; }
+  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(250,132,155,0.1); border-radius:8px; flex-shrink:0; }
   .act-label { font-size: 11.5px; color: var(--text2); font-weight:600; margin-bottom:2px; }
   .act-value { font-size: 15px; font-weight: 700; color: var(--text); }
   .act-sub { font-size: 11px; color: var(--text2); margin-top:1px; }
@@ -228,7 +228,7 @@
   .tl-bar { height: 18px; border-radius: 5px; overflow: hidden; display: flex; }
   .tl-seg-float { background: repeating-linear-gradient(45deg, rgba(240,192,64,0.28) 0 6px, rgba(240,192,64,0.14) 6px 12px); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--gold); }
   .tl-seg-inv { background: linear-gradient(90deg,#3498db,#2980b9); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
-  .tl-seg-ar { background: linear-gradient(90deg,#f74467,#cc092f); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
+  .tl-seg-ar { background: linear-gradient(90deg,#fa849b,#f63a5f); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
   .tl-marker { position: absolute; top: -18px; width: 2px; background: var(--gold); }
   .tl-marker-label { position: absolute; top: -32px; transform: translateX(-50%); font-size: 10.5px; font-weight: 700; color: var(--gold); white-space: nowrap; }
   .tl-ccc-span { position: absolute; height: 3px; background: rgba(240,192,64,0.6); border-radius: 2px; top: 24px; }
@@ -239,7 +239,7 @@
   .zone-label { font-size: 12px; color: var(--text2); }
   .zone-val { font-size: 13px; font-weight: 700; color: var(--text); }
   .zone-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .tag-record { background: rgba(204,9,47,0.2); color: var(--accent2); }
+  .tag-record { background: rgba(246,58,95,0.2); color: var(--accent2); }
 
   @media (max-width: 640px) {
     .page { padding: 20px 16px; }
@@ -251,7 +251,7 @@
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #cc092f; --accent2: #f74467; --accent3: #74051b;
+    --accent: #f63a5f; --accent2: #fa849b; --accent3: #74051b;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
@@ -273,7 +273,7 @@
   .val-item:last-child { margin-bottom: 0; }
   .val-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .val-item:hover { background: rgba(255,255,255,0.03); }
-  .val-item.selected { background: rgba(247,68,103,0.08); border-color: rgba(247,68,103,0.35); }
+  .val-item.selected { background: rgba(250,132,155,0.08); border-color: rgba(250,132,155,0.35); }
   .val-name { position: relative; font-size: 13px; font-weight: 600; color: var(--text); }
   .val-item.selected .val-name::after { content: '▸ 비교 보기'; font-size: 9.5px; font-weight: 600; color: var(--accent2); margin-left: 8px; vertical-align: middle; }
   .val-number { font-size: 14px; font-weight: 700; color: var(--accent2); }
@@ -304,7 +304,7 @@
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #cc092f; --accent2: #f74467; --accent3: #74051b;
+    --accent: #f63a5f; --accent2: #fa849b; --accent3: #74051b;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --event-major: #38bdf8; --event-neutral: #f1c40f;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -382,7 +382,7 @@
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #cc092f; --accent2: #f74467; --accent3: #74051b;
+    --accent: #f63a5f; --accent2: #fa849b; --accent3: #74051b;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --bull: #D85A30; --bear: #185FA5;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -824,7 +824,7 @@
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#cc092f;display:inline-block;flex-shrink:0;"></span>AI 반도체 <strong style="color:var(--text);">$16.7B · 56.4%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f63a5f;display:inline-block;flex-shrink:0;"></span>AI 반도체 <strong style="color:var(--text);">$16.7B · 56.4%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f97316;display:inline-block;flex-shrink:0;"></span>기타 반도체 <strong style="color:var(--text);">$4.1B · 14.0%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3498db;display:inline-block;flex-shrink:0;"></span>인프라 소프트웨어 <strong style="color:var(--text);">$8.8B · 29.6%</strong></div>
         </div>
@@ -1138,7 +1138,7 @@ function renderFundChart() {
     data:{
       labels:['Q4 FY24','Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25','Q1 FY26','Q2 FY26','Q3 FY26'],
       datasets:[
-        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(204,9,47,0.55)',borderColor:'#cc092f',borderWidth:1,borderRadius:4,yAxisID:'y'},
+        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(246,58,95,0.55)',borderColor:'#f63a5f',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'bar',label:'순이익($B)',data:netIncome,backgroundColor:'rgba(52,152,219,0.5)',borderColor:'#3498db',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'line',label:'OPM(%)',data:opm,borderColor:'#f0c040',backgroundColor:'rgba(240,192,64,.1)',tension:.35,pointRadius:4,borderWidth:2.5,fill:false,yAxisID:'y2'}
       ]
@@ -1233,7 +1233,7 @@ function selectFundPeriod(period) {
         labels: ['매출', '영업이익', '순이익', 'FCF'],
         datasets: [
           { label: d.cmpLabel, data: d.chart.cmp, backgroundColor: 'rgba(154,160,184,0.35)', borderColor: '#5c6282', borderWidth: 1, borderRadius: 4 },
-          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(204,9,47,0.55)', borderColor: '#cc092f', borderWidth: 1, borderRadius: 4 }
+          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(246,58,95,0.55)', borderColor: '#f63a5f', borderWidth: 1, borderRadius: 4 }
         ]
       },
       options: {
@@ -1263,7 +1263,7 @@ function renderSegmentChart() {
       labels:['AI 반도체','기타 반도체','인프라 소프트웨어'],
       datasets:[{
         data:[16700, 4139, 8752],
-        backgroundColor:['#cc092f','#f97316','#3498db'],
+        backgroundColor:['#f63a5f','#f97316','#3498db'],
         borderColor:'#1a1d27',
         borderWidth:2
       }]
