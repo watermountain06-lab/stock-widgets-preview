@@ -1,7 +1,7 @@
 {
   "ticker": "AAPL",
-  "asOf": "2026-09-25",
-  "close": 341.07,
+  "asOf": "2026-09-28",
+  "close": 338.4,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 30,
     "max": 40,
-    "weightedRocPct": 27.13
+    "weightedRocPct": 26.31
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 40.12,
-    "drawdownFromHighPct": 1.24,
+    "riseFromLowPct": 39.02,
+    "drawdownFromHighPct": 2.01,
     "high52w": 345.34,
     "low52w": 243.42
   },
@@ -42,6 +42,6 @@
   "riskFlagsShown": [],
   "atr": {
     "pctNow": 2.0,
-    "percentileVsOwnHistory": 28.2
+    "percentileVsOwnHistory": 27.0
   }
 }
