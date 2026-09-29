@@ -372,6 +372,18 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **새 분기** — `asml_reports.py` → `asml_ifrs.py` → `asml_feed.py eps` → `asml_feed.py financials` → `build_activity_score.py ASML --facts v2/.sec_cache/0000937966_facts.json`(SEC를 직접 부르면 연간 유로 원본을 읽는다) → 새 카드 절차 4단계. 7월에는 반기보고서 유동 차입금, 2월에는 20-F 연말 값을 `asml_semiannual.json`에 더한다. Q3 2026 실적 10월 14일(반기보고서 재무 캘린더).
 - 반응일: 07:00 CET 발표, 6-K 06시대 ET 접수 → 미국 당일.
 
+## XOM — 텍사스 지주사 재편·영업이익 합성(세전 + 이자)·S&P500 에너지 비교군 (2026-09-29)
+
+- **판정 고평가(−3)** — 자기 이력 11.4(−1, 다섯 배수 모두 5년 상위 16% 안), 동종업 41.5(0, S&P500 에너지 21종목), 현금흐름 기본 $97 ÷ $160.59 = 0.60(−2, 마진 모드 — 요구 영업이익률 19.0% 대 최근 4분기 12.5%). 기본적 분석 51.8(매출·영업이익 3년 증가율이 2022년 유가 정점 대비라 음수).
+- **동종업 비교군(사용자 결정)** — 카드 유니버스 에너지가 XOM·CVX 2곳뿐이라 `adapters/sector_universe.py "Energy" --asof 2026-09-25` → `peer_universe/energy.json`(21종목), `build_peer_score.SECTOR_UNIVERSE`에 등록. 결측: 영업이익 태그 없는 CVX·COP·OXY·PSX는 EV/EBITDA, 설비투자 태그가 다른 E&P·정제사 여럿은 PCR이 빠져 남은 EV/EBITDA 13곳은 미드스트림 비중이 크다. Fable 경계 분석: 결측이 전부 XOM보다 싸도 36.1, 전부 비싸도 50.1 → 판정 불변. XOM 행은 보충·합성 뒤 카드 값으로 바꿨다(Codex). **CVX·COP 카드 때 에너지 공통 영업이익 합성과 설비투자 태그를 보강할 것.** OXY는 순이익 태그가 2024년에 멈췄다.
+- **영업이익 합성(사용자 결정)** — 손익계산서에 영업이익 줄이 없다. 세전이익 + 이자비용(`DERIVED_OPINC`), 지분법 이익(카타르 LNG 등 합작)·기타수익은 영업으로 보고 지분법 투자는 비영업 자산에 더하지 않는다. Q2 2026 19,424 + 227 = 19,651. 매출 태그 `Revenues`는 총수익(판매 + 지분법 + 기타수익, 판매보다 약 1.3% 큼) — 비교군도 같은 엔진이라 그대로 둔다.
+- **태그 보정** — 차입금 `DEBT_TOTAL_TAG` = DebtCurrent + LongTermDebtAndCapitalLeaseObligations($42.4B, 기본 목록은 2017년에 멈춘 LongTermDebtNoncurrent를 썼다). 단기투자 `EV_TAGS_BY_CIK` sti=[](2011년 값이 남아 있었다), 리스 = OperatingLeaseLiability(10-K 연간). 재고는 두 태그(원유·제품 + 자재)의 합 — `adapters/financials_sum_tags.py XOM`(fetch_financials는 InventoryNet만 읽어 당좌비율 = 유동비율이었다). `build_dcf`의 금융리스 중복 판정을 목록형 총차입금에도 적용(XOM $2.66B 중복, Fable — MU·LLY 불변).
+- **companyfacts 지연 + 법인 교체** — 2026-07-01 ExxonMobil Holdings Corporation(텍사스, **CIK 0002115436**)이 상장사를 승계(주식 1:1, 티커 XOM). 2분기 10-Q는 두 CIK 공동 공시인데 companyfacts는 새 CIK에만 실었다 → `ixbrl_supplement.py 0000034088`로 옛 CIK 오버레이, EPS는 오버레이 facts로(`overlay_feed.py XOM 0000034088`). **Q3 2026(10월 말 실적, 11월 초 10-Q)부터 새 공시는 0002115436으로만 나온다 — 두 CIK를 합치는 어댑터나 별칭이 필요하다(fetch_eps_history·build_activity_score CIKS, DERIVED_OPINC·DEBT_TOTAL_TAG·EV_TAGS 키, sp500.json 모두 34088).**
+- **활동성 해당 없음** — 매출원가 줄이 없다(원유·제품 매입·생산비를 회사 고유 태그로). R&D도 분기 공시가 없어 "해당 없음".
+- **DCF 해석 주의** — 보수 $102 > 기본 $97 > 낙관 $85로 뒤집힌다(5년 마진 중앙값에 2022년 호황, 3년 성장 음수). 최근 4분기에는 회사가 밝힌 일회성 손실(세후 $4.6B: 3Q25 0.5·4Q25 0.8·1Q26 0.7·2Q26 2.6)이 있어 마진이 낮게 잡힌다. Fable 민감도: 일회성을 빼고 기본 끝 마진을 5년 중앙값(14.4%)으로 올리면 기본 약 $109(0.68) → 합계 −2(적정~고평가). DCF 추적에서 2025년 두 시점 모두 '비싸다' 뒤 주가 +30%. **사용자 결정(2026-09-29): 지금 모델을 유지하고 일회성 사실만 카드에 적는다. 사이클 종목 정상화 마진은 100장 뒤 종합 재설계 과제.** 4분기 EPS는 엔진이 연간 − 1~3분기로 만들어 발표값과 1센트 다르다(1.54 대 1.53, ASML과 같은 규칙).
+- **틀 과제** — 요약 격자 라벨 "낮은 성장 $102 · 높은 성장 $85"가 마진 가정이 지배할 때 거꾸로 읽힌다(보수/낙관 표기 검토). "3배를 넘는다"는 카드 한정으로 실제 배수(4배)를 찍었다(JNJ와 같음).
+- 반응일: 실적 8-K 06:31 ET 전후 접수(장 전) → 당일. 중동 영향 공시(4/8) 06:45 ET → 당일.
+
 ## 내재가치·종합 평가 개선 방향 (2026-09-25, team-assemble 토론 → 사용자 결정)
 
 철학 조사(opus)·모델 진단(opus)·개선 설계(opus)·Fable 비판을 거쳤다. 계산 스크립트: 세션 scratchpad `diag.py`·`run2.py`·`critic_a.py`·`critic_b.py`.

@@ -121,7 +121,9 @@ def base_inputs(ticker, asof=None):
     # 차입금에 이미 들어 있다 — 리스에 또 더하면 두 번 뺀다(MU 2026-05 $2.67B, 2026-09-26).
     # 합계 태그가 금융리스를 포함하는지는 태그 이름으로 가른다(LLY의 DebtCurrent+LongTermDebtNoncurrent는 불포함 — Fable).
     _tt = bmh.DEBT_TOTAL_TAG.get(cik)
-    fl_in_debt = isinstance(_tt, str) and "CapitalLease" in _tt
+    # 목록이면 태그 중 하나라도 CapitalLease를 담으면 포함으로 본다 — XOM의 LongTermDebtAndCapitalLeaseObligations는
+    # 금융리스를 담는데 목록이라 빠져 금융리스 $2.66B가 두 번 빠졌다(Fable, 2026-09-29).
+    fl_in_debt = any("CapitalLease" in t for t in ([_tt] if isinstance(_tt, str) else (_tt or [])))
     if not fl_in_debt:
         out["lease"] = (out.get("lease") or 0) + fin_lease
     out["finance_lease"] = fin_lease

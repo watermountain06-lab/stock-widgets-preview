@@ -1,0 +1,142 @@
+{
+ "sector": "Energy",
+ "subIndustries": null,
+ "asOf": "2026-09-25",
+ "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
+ "tickers": {
+  "APA": {
+   "per": 9.04,
+   "pbr": 2.13,
+   "evebitda": 3.21
+  },
+  "BKR": {
+   "psr": 2.07,
+   "pbr": 2.88,
+   "pcr": 18.35
+  },
+  "CVX": {
+   "per": 19.66,
+   "psr": 1.94,
+   "pbr": 2.13,
+   "pcr": 14.95
+  },
+  "COP": {
+   "per": 16.82,
+   "psr": 2.72,
+   "pbr": 2.34
+  },
+  "DVN": {
+   "per": 11.18,
+   "psr": 2.63,
+   "pbr": 1.24,
+   "pcr": 11.03
+  },
+  "FANG": {
+   "per": 35.56,
+   "psr": 3.06,
+   "pbr": 1.38,
+   "evebitda": 11.16
+  },
+  "EOG": {
+   "per": 10.91,
+   "psr": 2.72,
+   "pbr": 2.31,
+   "evebitda": 5.6
+  },
+  "EQT": {
+   "per": 11.79,
+   "psr": 3.33,
+   "pbr": 1.26,
+   "pcr": 8.46,
+   "evebitda": 6.08
+  },
+  "EXE": {
+   "per": 7.48,
+   "psr": 1.48,
+   "pbr": 1.04,
+   "pcr": 7.5,
+   "evebitda": 3.51
+  },
+  "XOM": {
+   "per": 20.64,
+   "psr": 1.79,
+   "pbr": 2.55,
+   "pcr": 21.61,
+   "evebitda": 9.31
+  },
+  "HAL": {
+   "per": 18.61,
+   "psr": 1.22,
+   "pbr": 2.48,
+   "pcr": 15.82,
+   "evebitda": 7.09
+  },
+  "KMI": {
+   "per": 19.71,
+   "psr": 4.21,
+   "pbr": 2.16,
+   "pcr": 21.68,
+   "evebitda": 12.95
+  },
+  "MPC": {
+   "per": 13.59,
+   "psr": 0.72,
+   "pbr": 5.79,
+   "pcr": 8.57,
+   "evebitda": 8.11
+  },
+  "OXY": {
+   "per": 8.8,
+   "psr": 2.71,
+   "pbr": 1.36,
+   "pcr": 10.7
+  },
+  "OKE": {
+   "per": 15.28,
+   "psr": 1.42,
+   "pbr": 2.44,
+   "pcr": 19.23,
+   "evebitda": 11.66
+  },
+  "PSX": {
+   "per": 14.6,
+   "psr": 0.67,
+   "pbr": 3.24
+  },
+  "SLB": {
+   "per": 25.14,
+   "psr": 2.1,
+   "pbr": 2.93,
+   "pcr": 15.91
+  },
+  "TRGP": {
+   "per": 26.56,
+   "psr": 3.56,
+   "pbr": 16.29,
+   "pcr": 80.41,
+   "evebitda": 14.44
+  },
+  "TPL": {
+   "psr": 26.21,
+   "pbr": 14.07,
+   "evebitda": 31.47
+  },
+  "VLO": {
+   "per": 16.11,
+   "psr": 0.8,
+   "pbr": 4.46,
+   "evebitda": 11.55
+  },
+  "WMB": {
+   "per": 27.59,
+   "psr": 5.49,
+   "pbr": 6.42,
+   "pcr": "negative",
+   "evebitda": 16.25
+  }
+ },
+ "skipped": {
+  "TPL": "최근 분할 2025-12-23 — PER 제외"
+ },
+ "notes": "XOM 행은 2분기 10-Q 인라인 XBRL 보충(companyfacts 지연)과 영업이익 합성(세전 + 이자) 뒤 카드 엔진 값으로 바꿨다(2026-09-29, Codex). 영업이익 태그가 없는 CVX·COP·OXY·PSX는 EV/EBITDA, 설비투자 태그가 다른 APA·BKR·COP·FANG·EOG·PSX·VLO·TPL 등은 PCR이 빠져 있다."
+}

@@ -156,6 +156,7 @@ CIKS = {
     "JNJ": "0000200406",
     # ASML: 10-Q가 없어 companyfacts는 연간 유로뿐 — v2/adapters/asml_ifrs.py(6-K US GAAP 분기 요약)가 만든 캐시를 쓴다(asml_feed.py로 실행).
     "ASML": "0000937966",
+    "XOM": "0000034088",
 }
 
 

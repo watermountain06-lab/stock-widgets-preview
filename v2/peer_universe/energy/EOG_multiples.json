@@ -1,0 +1,66 @@
+{
+ "ticker": "EOG",
+ "window": [
+  "2025-09-29",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 10.91,
+   "min": 10.12,
+   "p10": 10.44,
+   "median": 11.57,
+   "p90": 14.71,
+   "max": 16.44,
+   "mean": 12.32,
+   "percentile": 32.0,
+   "score": 68.0
+  },
+  "PSR": {
+   "days": 250,
+   "current": 2.72,
+   "min": 2.45,
+   "p10": 2.55,
+   "median": 2.87,
+   "p90": 3.24,
+   "max": 3.55,
+   "mean": 2.87,
+   "percentile": 37.2,
+   "score": 62.8
+  },
+  "PBR": {
+   "days": 250,
+   "current": 2.31,
+   "min": 1.82,
+   "p10": 1.9,
+   "median": 2.3,
+   "p90": 2.5,
+   "max": 2.7,
+   "mean": 2.22,
+   "percentile": 52.0,
+   "score": 48.0
+  },
+  "EV/EBITDA": {
+   "days": 250,
+   "current": 5.6,
+   "min": 4.98,
+   "p10": 5.3,
+   "median": 5.92,
+   "p90": 7.16,
+   "max": 7.94,
+   "mean": 6.16,
+   "percentile": 26.0,
+   "score": 74.0
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 10.74,
+  "per_p75": 13.79,
+  "low": 140,
+  "high": 180,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

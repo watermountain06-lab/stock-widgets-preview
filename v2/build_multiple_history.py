@@ -242,7 +242,12 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                                 "NonoperatingIncomeExpense"),
                  "0000200406": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["InvestmentIncomeInterest"], 1), (["InterestExpenseNonoperating", "InterestExpense"], -1),
-                                 (["OtherNonoperatingIncomeExpense"], 1)])}
+                                 (["OtherNonoperatingIncomeExpense"], 1)]),
+                 # XOM: 손익계산서에 영업이익 줄이 없다. 영업이익 = 세전이익 + 이자비용(2026-09-29 사용자 결정) — 지분법 이익
+                 # (카타르 LNG 등 합작 생산)·기타수익은 영업으로 본다(지분법 투자는 비영업 자산에 더하지 않는다). Q2 2026:
+                 # 세전 19,424 + 이자 227 = 19,651(10-Q 대조).
+                 "0000034088": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestExpense"], -1)])}
 
 
 def _derived_opinc(cik, taxonomy):
@@ -604,7 +609,10 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 정의가 섞였다. DebtAndCapitalLeaseObligations = 유동+비유동+금융리스 = 10-Q 주석 9 총계(2026-05 $5,722M), 2019년부터 30개.
 # LLY는 유동분을 DebtCurrent("Short-term borrowings and current maturities", 2026-06 $7,050M)로만 내서 세부 태그 목록에 안 잡혔다
 # (비유동 $47,858M만 잡힘). 두 태그가 2020년부터 같은 26개 날짜에 있어 합으로 고정 — 10-Q 총 $54,908M.
-DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"]}
+# XOM: 유동 "Notes and loans payable"은 DebtCurrent, 장기차입금은 LongTermDebtAndCapitalLeaseObligations(금융리스 포함)로만 낸다.
+# 기본 목록으로는 2017년에 멈춘 LongTermDebtNoncurrent가 섞이고 유동분이 빠졌다(2026-06-30 $32.2B → 10-Q 합계 $42.4B).
+DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  "0000034088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"]}
 
 
 # EV 구성요소의 종목별 태그(CIK). V: 유동 투자증권을 2020년까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent로,
@@ -615,7 +623,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
                   # JNJ: 비유동 리스 태그는 2019년에 멈췄고 총 리스부채(OperatingLeaseLiability, 10-K 연간)만 이어진다.
-                  "0000200406": {"lease": ["OperatingLeaseLiability"]}}
+                  "0000200406": {"lease": ["OperatingLeaseLiability"]},
+                  # XOM: 단기투자 줄이 없다(ShortTermInvestments 태그가 2011-06에 멈춰 그 값이 계속 쓰였다). 리스는 10-K 연간 총액.
+                  "0000034088": {"sti": [], "lease": ["OperatingLeaseLiability"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).

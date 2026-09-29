@@ -1,0 +1,54 @@
+{
+ "ticker": "APA",
+ "window": [
+  "2025-09-29",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 9.04,
+   "min": 5.61,
+   "p10": 5.92,
+   "median": 8.1,
+   "p90": 9.61,
+   "max": 11.13,
+   "mean": 7.94,
+   "percentile": 76.0,
+   "score": 24.0
+  },
+  "PBR": {
+   "days": 250,
+   "current": 2.13,
+   "min": 1.31,
+   "p10": 1.42,
+   "median": 1.87,
+   "p90": 2.24,
+   "max": 2.57,
+   "mean": 1.84,
+   "percentile": 77.2,
+   "score": 22.8
+  },
+  "EV/EBITDA": {
+   "days": 250,
+   "current": 3.21,
+   "min": 2.31,
+   "p10": 2.39,
+   "median": 3.06,
+   "p90": 3.45,
+   "max": 3.83,
+   "mean": 2.98,
+   "percentile": 63.2,
+   "score": 36.8
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 6.56,
+  "per_p75": 8.98,
+  "low": 30,
+  "high": 40,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

@@ -66,7 +66,8 @@ TICKER_BORROW = {"SPCX": ["Information Technology"]}
 # 카드와 같은 엔진(build_multiple_history)으로 기준일 배수를 계산해 만든다. 이 섹터는 valuation_base를 섞지 않는다.
 SECTOR_UNIVERSE = {"Health Care": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "health_care.json"),
                    # 카드 유니버스 필수소비재 6종목 → S&P500 34종목(2026-09-27 사용자 결정, WMT)
-                   "Consumer Staples": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_staples.json")}
+                   "Consumer Staples": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_staples.json"),
+                   "Energy": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "energy.json")}
 # 종목별 비교군(섹터 전체가 맞지 않는 종목). V: 카드 유니버스 금융 10곳은 은행·증권이라 결제망과 배수가 맞지 않아
 # S&P500 결제 8곳 + 거래소·데이터 9곳(2026-09-27 사용자 결정). 섹터 규칙보다 앞선다.
 TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json")}
