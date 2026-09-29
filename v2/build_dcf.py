@@ -94,7 +94,21 @@ def base_inputs(ticker, asof=None):
     if fl_capex:
         out["capex"] = (out["capex"] or 0) + fl_capex
     # 인수 대금 — 한계 매출/자본(현금흐름 기준)의 재투자에 넣는다. 인수로 산 매출도 자본이 든다.
-    out["acquisitions"] = ttm(["PaymentsToAcquireBusinessesNetOfCashAcquired"]) or 0
+    # 태그가 끊긴 회사는 마지막 TTM이 몇 년 전 값이다(INTC: 2017년 Mobileye $14.5B가 "최근 1년"으로 쓰였다, Fable 2026-09-29).
+    # 매출 TTM보다 200일 넘게 뒤처진 인수 대금은 최근 인수가 없던 것으로 보고 0으로 둔다(EV 구성요소 신선도 규칙과 같은 문턱).
+    def ttm_fresh(tags, ref_tags):
+        _, rows = bmh.pick_tag(cik, tags)
+        _, rrows = bmh.pick_tag(cik, ref_tags)
+        if not rows or not rrows:
+            return None
+        s = [e for e in bmh.ttm_series(bmh.quarterly_flow(rows, ticker)) if asof is None or e.get("available", e["end"]) <= asof]
+        r = [e for e in bmh.ttm_series(bmh.quarterly_flow(rrows, ticker)) if asof is None or e.get("available", e["end"]) <= asof]
+        if not s or not r:
+            return None
+        if (date.fromisoformat(r[-1]["end"]) - date.fromisoformat(s[-1]["end"])).days > 200:
+            return None
+        return s[-1]["val"]
+    out["acquisitions"] = ttm_fresh(["PaymentsToAcquireBusinessesNetOfCashAcquired"], bmh.FLOW_TAGS["revenue"]) or 0
     out["tax"] = ttm(["IncomeTaxExpenseBenefit"])
     # 회사가 밝힌 일회성 법인세 항목은 세율에서 뺀다(v2/tax_oneoff.json, META). 같은 시점의 TTM 결산일 기준.
     _, trows = bmh.pick_tag(cik, ["IncomeTaxExpenseBenefit"])

@@ -612,7 +612,10 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # XOM: 유동 "Notes and loans payable"은 DebtCurrent, 장기차입금은 LongTermDebtAndCapitalLeaseObligations(금융리스 포함)로만 낸다.
 # 기본 목록으로는 2017년에 멈춘 LongTermDebtNoncurrent가 섞이고 유동분이 빠졌다(2026-06-30 $32.2B → 10-Q 합계 $42.4B).
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
-                  "0000034088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"]}
+                  "0000034088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # INTC: 10-Q는 1년 안 만기 차입금을 DebtCurrent로만 낸다(LongTermDebtCurrent는 10-K에만) — 기본 목록으론
+                  # 2026-06-27 단기 $1,988M이 빠져 $48,549M이었다(10-Q 합계 $50,537M, 2026-09-29).
+                  "0000050863": ["DebtCurrent", "LongTermDebtNoncurrent"]}
 
 
 # EV 구성요소의 종목별 태그(CIK). V: 유동 투자증권을 2020년까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent로,

@@ -111,6 +111,7 @@ KNOWN_SPLITS = {
     "ASML": [],   # no split or share consolidation in the data window (2019~)
     "JNJ": [],    # last split 2001-06-13 (2-for-1), outside this data's reporting window -- WebSearch confirmed 2026-09-05
     "MA": [],     # last split 10-for-1 effective 2014-01, outside this data's reporting window -- WebSearch confirmed 2026-09-06
+    "INTC": [],   # last split 2000 (2-for-1), outside this data's reporting window -- Yahoo split events confirmed 2026-09-29
     "XOM": [],    # last split 2001-07-19 (2-for-1), outside this data's reporting window -- WebSearch confirmed 2026-09-06
     "ORCL": [],   # last split 2000-10-13 (2-for-1), outside this data's reporting window -- WebSearch confirmed 2026-09-06
     "ABBV": [],   # no splits ever since 2013 Abbott spinoff -- WebSearch confirmed 2026-09-06
@@ -157,6 +158,7 @@ CIKS = {
     # ASML: 10-Q가 없어 companyfacts는 연간 유로뿐 — v2/adapters/asml_ifrs.py(6-K US GAAP 분기 요약)가 만든 캐시를 쓴다(asml_feed.py로 실행).
     "ASML": "0000937966",
     "XOM": "0000034088",
+    "INTC": "0000050863",
 }
 
 
