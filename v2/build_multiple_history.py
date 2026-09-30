@@ -666,6 +666,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # MRK: 유동 차입을 DebtCurrent("Loans payable and current portion of long-term debt")로만 낸다(분기마다).
                   # 기본 목록으론 2026-06-30 $2,825M이 빠져 $51,081M이었다(10-Q 합계 $53,906M, 2026-09-30, INTC와 같은 경우).
                   "0000310158": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # AMAT: 재무상태표 "Short-term debt"(ShortTermBorrowings)가 1년 안 만기 장기차입금 + 기업어음 합계인데
+                  # 유동 장기차입금을 LongTermDebtCurrent로도 따로 태그해 기본 목록이 두 번 더했다(2026-07-26 $1,199M,
+                  # 2024-10~2025-07 $700M). 2026-07-26 $1,299 + $5,245 = $6,544M(10-Q, 2026-09-30).
+                  "0000006951": ["ShortTermBorrowings", "LongTermDebtNoncurrent"],
                   "0000021344": ["NotesAndLoansPayable",
                                  ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"),
                                  ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")]}
