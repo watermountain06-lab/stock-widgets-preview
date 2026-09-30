@@ -92,6 +92,10 @@ DDA_COMBINED = ["DepreciationDepletionAndAmortization", "DepreciationAndAmortiza
                 "DepreciationAmortizationAndAccretionNet", "DepreciationAmortizationAndOther"]
 DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
              "FinanceLeaseRightOfUseAssetAmortization"]
+# 구성요소 목록을 종목별로 바꿔야 하는 회사(CIK). MRK: 무형자산 상각을 분기엔 현금흐름표 "Amortization"
+# (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
+# 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
+DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"]}
 # 태그 의미가 도중에 바뀐 회사의 합산 감가상각(CIK). AMD의 OtherDepreciationAndAmortization(현금흐름표
 # "Depreciation and amortization")은 FY2024 10-K(2025-02-05) 전까지 인수 무형자산 상각을 **포함한** 합계였고,
 # 그 뒤로는 상각을 AmortizationOfIntangibleAssets 줄로 떼어 낸다(Fable, 2026-09-27). 분할 뒤 공시의 행에만
@@ -256,7 +260,12 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                  # CVX: XOM과 같은 구조(영업이익 줄 없음) → 같은 규칙. 영업이익 = 세전이익 + 이자비용("Interest and debt
                  # expense", InterestExpenseDebt). 지분법 이익(TCO 등)·기타수익은 영업. Q2 2026: 세전 16,684 + 352 = 17,036.
                  "0000093410": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
-                                [(["InterestExpenseDebt"], -1)])}
+                                [(["InterestExpenseDebt"], -1)]),
+                 # MRK: 손익계산서에 영업이익 줄이 없다(LLY·JNJ와 같은 구조). 영업이익 = 세전이익 − "Other (income) expense, net"
+                 # (OtherNonoperatingIncomeExpense — 이자비용 포함, 비용이면 음수). Q2 2026: −683 − (−99) = −584(10-Q 대조).
+                 # 인수 IPR&D(1분기 $8.54B·2분기 $5.27B)는 R&D 안이라 영업이익에 남는다(ABBV 선례, 안건 B2).
+                 "0000310158": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                "OtherNonoperatingIncomeExpense")}
 
 
 def _derived_opinc(cik, taxonomy):
@@ -486,7 +495,7 @@ def dda_quarters(cik, ticker):
     LATE_PART_DAYS = 120
     per_end = {}
     used = []
-    for name in DDA_PARTS:
+    for name in DDA_PARTS_BY_CIK.get(cik, DDA_PARTS):
         part = concept(cik, name)
         if not part:
             continue
@@ -654,6 +663,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # 영업 부채이고 이자비용이 영업이익 안에 있다. 부문 값은 차원 태그라 `adapters/cat_segment_debt.py`가 오버레이에 쓴다.
                   # 2026-06-30 $35M + $10,655M = $10,690M(10-Q; 연결 합계 $45,146M 중 금융 부문 $34,456M 제외).
                   "0000018230": ["CatMETShortTermBorrowings", "CatMETLongTermDebtCurrent", "CatMETLongTermDebtNoncurrent"],
+                  # MRK: 유동 차입을 DebtCurrent("Loans payable and current portion of long-term debt")로만 낸다(분기마다).
+                  # 기본 목록으론 2026-06-30 $2,825M이 빠져 $51,081M이었다(10-Q 합계 $53,906M, 2026-09-30, INTC와 같은 경우).
+                  "0000310158": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   "0000021344": ["NotesAndLoansPayable",
                                  ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"),
                                  ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")]}
@@ -684,7 +696,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # "Marketable securities" 2,842, 2026-07-03). 기본 목록의 MarketableSecuritiesCurrent는 2020-12($2,348M)에 멈췄다.
                   "0000021344": {"sti": ["OtherShortTermInvestments", "MarketableSecurities"]},
                   # CAT: 재무상태표에 단기투자 줄이 없다(2026-06-30 10-Q). ShortTermInvestments가 2014-09-30 $378M에서 멈춰 그 값이 쓰였다.
-                  "0000018230": {"sti": []}}
+                  "0000018230": {"sti": []},
+                  # MRK: 우선주가 없다. PreferredStockValue가 2009-09-30 $2,500M(셰링-플라우 합병 때)에서 멈춰 EV에 계속 더해졌다(2026-09-30).
+                  "0000310158": {"preferred": []}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
@@ -795,7 +809,7 @@ def dda_ttm(cik, ticker):
         return combined, series
 
     per_tag = {}
-    for tag in DDA_PARTS:
+    for tag in DDA_PARTS_BY_CIK.get(cik, DDA_PARTS):
         part = concept(cik, tag)
         if not part:
             continue

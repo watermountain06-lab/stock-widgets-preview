@@ -491,6 +491,19 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **남은 것(방법 결정, 안건 B13)** — 금융 부문을 빼는 정의의 잔여 불일치: 현금은 연결(금융 부문 $0.77B 포함), 운전자본에 금융 부문 유동 채권·차입금 혼재, 차입금의존도는 부문 빚 ÷ 연결 자산, 설비투자에 임대 장비 구입 미포함(감가상각에는 포함). 어느 것도 판정은 안 바뀐다(Fable).
 - 반응일: 실적 8-K 06:31 ET(장 전) → 당일. 배당(6/10)·CFO(4/8)는 반응률 없음.
 
+## MRK — 영업이익 합성·인수 IPR&D(GAAP 유지)·분기 상각 태그 (2026-09-30)
+
+- **판정 고평가(−4)** — 자기 이력 11.9(−1), 동종업 21.9(−1, S&P500 헬스케어), 현금흐름 기본 $45.77 ÷ $149.28(−2). 기본적 분석 33.0. 세 칸 모두 인수 IPR&D의 영향을 받지만, 비용을 빼도 PSR·PBR은 5년 상위 2% 안이고 기본 내재가치는 마진을 처음부터 2년 중앙값으로 둬도 $55~64(현재가의 37~43%)라 판정은 같다(Fable 재계산).
+- **인수 IPR&D는 GAAP 유지 + 크게 명시(사용자 결정, ABBV 선례)** — 2026년 1분기 Cidara $9.0B(주당 $3.62), 2분기 Terns $5.7B(주당 $2.31), 비과세라 세전=세후. 최근 4분기 EPS $1.25 → 두 비용을 빼면 약 $7.18, PER 약 21배. 전제·위험·요약·밴드 툴팁·자기 이력 툴팁에 적었다. 안건 B2.
+- **영업이익 합성** — 영업이익 줄이 없어 `DERIVED_OPINC` MRK = 세전 − OtherNonoperatingIncomeExpense(이자비용·지분증권 손익·환손익·연금 비서비스 포함). 네 분기 부호 10-Q·8-K 대조(Fable).
+- **분기 상각(엔진, Fable)** — 무형자산 상각을 분기엔 현금흐름표 AdjustmentForAmortization으로만 내고 AmortizationOfIntangibleAssets는 연간뿐이라 EBITDA가 분기마다 상각 없이 잡혀 EV/EBITDA 43배로 부풀었다 → **`DDA_PARTS_BY_CIK`**(종목별 감가상각 구성요소) 신설, MRK = Depreciation + AdjustmentForAmortization → 31.8배, 최근 4분기 D&A $6.7B. 다른 종목 경로 불변.
+- **EV 입력** — 우선주 PreferredStockValue가 2009 $2.5B에 멈춤 → `EV_TAGS_BY_CIK` MRK preferred = []. 유동 차입을 DebtCurrent로만 내 → `DEBT_TOTAL_TAG` MRK = DebtCurrent + LongTermDebtNoncurrent($53,906M, 10-Q).
+- **비교군 파일** — health_care.json MRK 행을 카드 엔진 값으로(EV/EBITDA 추가). 커밋된 LLY 9.7 → 10.1, JNJ 30.8 → 31.0, ABBV 22.0 → 22.3(판정 불변) — 재생성 안 함, 안건 C6.
+- **Fable 문장 수정** — 체크포인트 전망은 Cidara·Terns 비용 모두 포함, 자사주 잔여 한도는 10-Q가 밝힌 $5.7B(2026년 약 $3.0B 매입 예정), "대부분 IPR&D"로 표현 통일, 보수 시나리오가 0 근처인 이유(인수 현금 $18.8B로 매출/자본 0.19), 요구 성장률 문장 삭제.
+- **카드 한정 JS** — 음수 금액 표기(−$1·−$3) 보정(INTC와 같은 스크립트, 안건 E1).
+- **검토** — Codex는 사용 한도로 실행 못 함(오후 4:43 이후 가능). Fable 단독 검토.
+- 반응일: 실적 8-K 06:40~06:53 ET(장 전) → 당일.
+
 ## 내재가치·종합 평가 개선 방향 (2026-09-25, team-assemble 토론 → 사용자 결정)
 
 철학 조사(opus)·모델 진단(opus)·개선 설계(opus)·Fable 비판을 거쳤다. 계산 스크립트: 세션 scratchpad `diag.py`·`run2.py`·`critic_a.py`·`critic_b.py`.
