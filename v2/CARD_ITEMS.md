@@ -469,6 +469,17 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **강조색(사용자)** — 루트 카드 강조색이 회청색(#79879f)이라 "최신 분기 핵심 재무"의 이번 분기 막대가 비교 분기(회색)와 구분되지 않았다 → `clone_card.ACCENT_OVERRIDE` LRCX = 램 파랑(#0074c8 → 읽힘 보정 #0089ec). 도넛은 파랑·금색.
 - **[틀·반영됨, 2026-09-30 사용자] 두 가지를 NVDA 틀과 v2 카드 28장에 직접 넣었다** — ① 탭을 열 때 선의 점이 바닥에서 날아오르고 도넛이 도는 애니메이션을 끔(`Chart.defaults.datasets.line.animation = false`, `Chart.overrides.doughnut.animation = false`, 막대가 자라는 동작은 유지). ② 헤더 "현재가 요구" 칸이 마진 모드 해 없음(영업이익률 100%로도 불가)이면 "현재가 요구 성장 (마진 100%로도 불가) / 연 N%"로 요구 성장률을 보인다(LRCX 49.0%, PLTR 117.6%; AMD·INTC는 성장 해도 없어 "—" 유지). **주의:** 커밋된 카드를 다시 만들 때는 스크래치 복제본이 이 변경 전이므로 `clone_card.py {T} --force`로 다시 복제한다.
 
+## KO — companyfacts 지연·차입금 태그 교체(우선순위 묶음)·지분법 투자 (2026-09-30)
+
+- **판정 고평가(−3)** — 자기 이력 41.6(0, PSR만 5년 상위 3%), 동종업 24.1(−1, S&P500 필수소비재 34종목), 현금흐름 기본 $34.13 ÷ $87.18(−2, 마진 모드: 요구 65.3% 대 최근 4분기 29.6%). 기본적 분석 61.1.
+- **companyfacts 지연** — 7/29 2분기 10-Q가 없어 `ixbrl_supplement.py 0000021344`로 보충, EPS는 병합 facts로(XOM의 `xom_eps.py`와 같은 방식), 재무는 `overlay_feed.py`, 활동성은 `--facts` 병합본. 2분기 EPS가 들어가 PER 27.4 → 26.2.
+- **EV 입력 세 가지** — ① 단기투자: `MarketableSecuritiesCurrent`가 2020-12 $2,348M에 멈춤 → `EV_TAGS_BY_CIK` KO sti = OtherShortTermInvestments + MarketableSecurities($3,464M). ② 차입금: 2024년에 장기차입금 태그가 LongTermDebt(Non)Current → LongTermDebtAndCapitalLeaseObligations(Current)로 바뀌어 유동분 $6.5B가 빠졌다 → `DEBT_TOTAL_TAG`에 **튜플 = 날짜별 우선순위 묶음**을 새로 허용(`ev_component`, `build_dcf` 금융리스 판별도 펼침). KO = NotesAndLoansPayable + (LTD&CLO Current, LongTermDebtCurrent) + (LTD&CLO, LongTermDebtNoncurrent) → 2026-07-03 $43,543M, 2023-12-31 이중 계산 없음(Codex·Fable). 기본적 분석 차입금의존도도 같은 차입금(33.8 → 40.3%). ③ 지분법 투자 $20.8B(`nonop_extra` KO, META·ASML 규칙) + 비유동 공정가치 지분증권 $2,738M·비유동 채권 $379M(10-Q Note 4 고정값, Codex) → 비영업 자산 주당 $5.62.
+- **지분법 장부가 대 공정가치(사용자 결정 "장부가 유지 + 명시")** — 상장분 공정가치 $34.3B 대 장부가 $14.0B(10-K 2025). 문장에 적고 안건 B8.
+- **활동성** — 분기 매입채무가 "매입채무·미지급비용" 한 줄뿐이라 DPO·CCC 해당 없음. 처음엔 틀 JS가 null에서 멈춰 요약 칸에 NVDA 값이 남았다 → ABBV와 같은 카드 한정 JS.
+- **Codex·Fable 문장 수정** — "영업일 6일" → "분기 일수 6일", Q3 2025 전망(FCF $9.5 → $9.8B 이상 상향), 배당 인상 출처(10-K), 리스 기준일, 손상 포함 마진(빼면 31.5%), 할인율 8%에서도 기본 $46(현재가의 53%), 고점 대비 −5%, 자사주 239만 주.
+- **남은 것(엔진 공통)** — 운전자본의 단기차입금 되돌림·EquitySecuritiesFvNi가 멈춘 태그 값(안건 D14). 부채비율은 비지배지분을 부채에 넣는 정의(198.5%, 제외 시 192.6%).
+- 반응일: 실적 8-K 06:58~07:00 ET(장 전) → 당일. 랜섬웨어(7/16)·CEO 교체(12/10)는 장 마감 후, 반응률 표시 안 함.
+
 ## 내재가치·종합 평가 개선 방향 (2026-09-25, team-assemble 토론 → 사용자 결정)
 
 철학 조사(opus)·모델 진단(opus)·개선 설계(opus)·Fable 비판을 거쳤다. 계산 스크립트: 세션 scratchpad `diag.py`·`run2.py`·`critic_a.py`·`critic_b.py`.

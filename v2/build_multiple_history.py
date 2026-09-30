@@ -645,7 +645,14 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                                  "LongTermDebtAndCapitalLeaseObligations"],
                   # CVX: 대차대조표는 단기차입금 + 장기차입금(금융리스 포함) 두 줄. 장기 줄을 분기마다 …IncludingCurrentMaturities로
                   # 내고(10-K는 태그가 둘 다 같은 값) — 2026-06-30 $401M + $36,674M = $37.1B(10-Q "total debt" 대조).
-                  "0000093410": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"]}
+                  "0000093410": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"],
+                  # KO: 단기 차입 NotesAndLoansPayable(기업어음 포함 — CommercialPaper는 그 일부라 넣지 않는다) + 유동·비유동 장기차입금.
+                  # 장기차입금 태그가 2024년에 LongTermDebt(Non)Current → LongTermDebtAndCapitalLeaseObligations(Current)로 바뀌어
+                  # 괄호 묶음(튜플)은 날짜마다 앞 태그를 우선하고 없으면 뒤 태그를 쓴다 — 두 태그가 같은 값을 낸 2023-12-31에
+                  # 유동분 $1,960M이 두 번 잡히지 않게(Codex·Fable, 2026-09-30). 2026-07-03 $48 + $6,494 + $37,001 = $43,543M(10-Q).
+                  "0000021344": ["NotesAndLoansPayable",
+                                 ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"),
+                                 ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")]}
 
 
 # EV 구성요소의 종목별 태그(CIK). V: 유동 투자증권을 2020년까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent로,
@@ -668,7 +675,10 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # LRCX: ShortTermInvestments가 2015-06-28 $2,575M에서 멈춰 그 값이 계속 순현금·EV에 더해졌다(2026-09-30).
                   # 이후 투자 잔액은 Investments 태그(2021-09 $569M → 2024-03-31 $0)로 냈고, FY2026 10-K 재무상태표에는
                   # 단기투자 줄이 없다. Investments가 0으로 끝나 옛 값이 이어지지 않는다(Fable).
-                  "0000707549": {"sti": ["Investments"]}}
+                  "0000707549": {"sti": ["Investments"]},
+                  # KO: 단기투자 = OtherShortTermInvestments + MarketableSecurities(10-Q "Short-term investments" 622 +
+                  # "Marketable securities" 2,842, 2026-07-03). 기본 목록의 MarketableSecuritiesCurrent는 2020-12($2,348M)에 멈췄다.
+                  "0000021344": {"sti": ["OtherShortTermInvestments", "MarketableSecurities"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
@@ -683,7 +693,17 @@ def ev_component(cik, name, tags):
         return rows + [{"end": zf[0], "val": 0.0, "available": zf[1]}]
     if name == "debt" and cik in DEBT_TOTAL_TAG:
         tags = DEBT_TOTAL_TAG[cik]
-        return component_sum(cik, tags if isinstance(tags, list) else [tags])
+        tags = tags if isinstance(tags, list) else [tags]
+        if not any(isinstance(t, tuple) for t in tags):
+            return component_sum(cik, tags)
+        # 튜플 항목은 날짜마다 앞 태그 우선(pick_instant), 문자열 항목은 그대로 더한다(KO).
+        by_end = {}
+        for t in tags:
+            for e in (pick_instant(cik, list(t)) if isinstance(t, tuple) else component_sum(cik, [t])):
+                slot = by_end.setdefault(e["end"], {"end": e["end"], "val": 0.0, "available": e["available"]})
+                slot["val"] += e["val"]
+                slot["available"] = max(slot["available"], e["available"])
+        return sorted(by_end.values(), key=lambda e: e["available"])
     out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
     # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다

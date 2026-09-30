@@ -34,5 +34,25 @@
    "tag": "EquityMethodInvestments",
    "reason": "Carl Zeiss SMT Holding 지분 24.9%(광학 부품 단일 공급사, 2017-06-29 취득) — 20-F 2025 Note 10. 지분법 이익(2025년 €216.7M)은 영업이익 아래 'Profit related to equity method investments'로 잡혀 사업 가치(영업이익 기준)에 들어가지 않으므로 장부가를 더한다(META와 같은 규칙). 2026-06-28 €985.8M(6-K 분기 요약). Mistral AI 지분(€1.3B, 약 11%)은 어댑터가 LongTermInvestments로 실어 build_dcf가 따로 더한다."
   }
+ ],
+ "KO": [
+  {
+   "tag": "EquityMethodInvestments",
+   "reason": "지분법 투자(코카콜라 병입사들·몬스터 베버리지 등) 2026-07-03 $20,782M — 10-Q 재무상태표 'Equity method investments'. 지분법 이익(상반기 $988M)은 영업이익 아래 'Equity income (loss) — net'으로 잡혀 사업 가치(영업이익 기준)에 들어가지 않으므로 장부가를 더한다(META·ASML과 같은 규칙, 2026-09-30)."
+  },
+  {
+   "name": "비유동 공정가치 지분증권",
+   "value": 2738000000,
+   "end": "2026-07-03",
+   "filed": "2026-07-29",
+   "reason": "10-Q Note 4 — 공정가치 지분증권 $3,285M 중 기타 비유동자산 $2,738M(나머지 $547M은 시장성 증권 안이라 단기투자에 이미 있다). 표준 태그로 분리돼 있지 않다(Codex, 2026-09-30)."
+  },
+  {
+   "name": "비유동 채권",
+   "value": 379000000,
+   "end": "2026-07-03",
+   "filed": "2026-07-29",
+   "reason": "10-Q 공정가치 표 — 채권 $2,674M 중 시장성 증권($2,842M − 지분 $547M = $2,295M)에 든 것을 뺀 $379M(비유동). 표준 태그로 분리돼 있지 않다(Codex, 2026-09-30)."
+  }
  ]
 }
