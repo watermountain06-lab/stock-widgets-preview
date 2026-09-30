@@ -480,6 +480,17 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **남은 것(엔진 공통)** — 운전자본의 단기차입금 되돌림·EquitySecuritiesFvNi가 멈춘 태그 값(안건 D14). 부채비율은 비지배지분을 부채에 넣는 정의(198.5%, 제외 시 192.6%).
 - 반응일: 실적 8-K 06:58~07:00 ET(장 전) → 당일. 랜섬웨어(7/16)·CEO 교체(12/10)는 장 마감 후, 반응률 표시 안 함.
 
+## CAT — 금융 자회사 빚 제외(부문 차입금 어댑터)·S&P500 산업재 비교군·관세 환급 (2026-09-30)
+
+- **판정 고평가(−4)** — 자기 이력 9.4(−1, 다섯 배수 5년 상위권), 동종업 17.7(−1, S&P500 산업재 81종목), 현금흐름 기본 $326.38 ÷ $819.95(−2, 마진 모드: 요구 41.0% 대 최근 4분기 17.5%). 기본적 분석 58.0.
+- **차입금 = 기계·동력·에너지 부문만(사용자 결정)** — 연결 $45.1B 중 금융 부문(Cat Financial) $34.5B는 할부·리스 채권과 묶인 영업 부채이고 이자가 영업비용 안("Interest expense of Financial Products")이다. 부문 차입금은 차원 태그(`cat:MachineryPowerEnergyMember`)라 companyfacts에 없어 **새 어댑터 `adapters/cat_segment_debt.py`**가 2020~ 10-Q·10-K 원문에서 뽑아 오버레이에 CatMET* 태그로 쓴다("—"는 0). `DEBT_TOTAL_TAG` CAT = 세 태그 → 2026-06-30 $10,690M(10-Q). 기본적 분석 차입금의존도도 이 값(35.3 → 10.4%).
+- **S&P500 산업재 비교군(사용자 결정)** — 카드 유니버스 산업재 2~4곳 → `sector_universe.py "Industrials" --asof 2026-09-25`로 81종목 `peer_universe/industrials.json`, `SECTOR_UNIVERSE`에 등록. **회귀 수정(Fable)**: 섹터가 산업재인 SPCX(TICKER_BORROW IT)가 산업재 파일에 걸릴 뻔해 `build_peer_score`가 TICKER_BORROW 종목엔 섹터 파일을 쓰지 않게 했다(SPCX 8.6 재현).
+- **멈춘 태그 두 개** — ShortTermInvestments 2014-09 $378M → `EV_TAGS_BY_CIK` CAT sti = []. NetIncomeLoss는 분기 값이 2011년 뒤로 없어 카드 분기 차트는 NetIncomeLossAvailableToCommonStockholdersBasic(보통주 귀속 "Profit").
+- **관세 환급** — 2분기 영업이익에 IEEPA 관세 환급 예상분 $392M(빼면 영업이익률 19.0%). 회사가 낸 IEEPA 관세 약 $1.0B 중 $392M만 인식(10-Q) — 추가 환급은 모델 밖 상방. 각주·체크포인트·강세 요인에 적음(Fable).
+- **Codex·Fable 문장 수정** — Capex 칸은 유형자산 취득만이고 금융 부문 임대 장비 구입($0.52B, 별도 줄)은 빠졌다(설명을 반대로 적었었다, Codex). 현금은 연결 $6.7B(기계·동력 $5.9B). 동종업 EV/EBITDA에서 영업이익 태그 없는 DE·GE·ETN·PCAR 등이 빠졌다고 명시. 6월 말 고점 대비 −23%.
+- **남은 것(방법 결정, 안건 B13)** — 금융 부문을 빼는 정의의 잔여 불일치: 현금은 연결(금융 부문 $0.77B 포함), 운전자본에 금융 부문 유동 채권·차입금 혼재, 차입금의존도는 부문 빚 ÷ 연결 자산, 설비투자에 임대 장비 구입 미포함(감가상각에는 포함). 어느 것도 판정은 안 바뀐다(Fable).
+- 반응일: 실적 8-K 06:31 ET(장 전) → 당일. 배당(6/10)·CFO(4/8)는 반응률 없음.
+
 ## 내재가치·종합 평가 개선 방향 (2026-09-25, team-assemble 토론 → 사용자 결정)
 
 철학 조사(opus)·모델 진단(opus)·개선 설계(opus)·Fable 비판을 거쳤다. 계산 스크립트: 세션 scratchpad `diag.py`·`run2.py`·`critic_a.py`·`critic_b.py`.

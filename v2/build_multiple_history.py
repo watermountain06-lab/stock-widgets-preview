@@ -650,6 +650,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # 장기차입금 태그가 2024년에 LongTermDebt(Non)Current → LongTermDebtAndCapitalLeaseObligations(Current)로 바뀌어
                   # 괄호 묶음(튜플)은 날짜마다 앞 태그를 우선하고 없으면 뒤 태그를 쓴다 — 두 태그가 같은 값을 낸 2023-12-31에
                   # 유동분 $1,960M이 두 번 잡히지 않게(Codex·Fable, 2026-09-30). 2026-07-03 $48 + $6,494 + $37,001 = $43,543M(10-Q).
+                  # CAT: 기계·동력·에너지 부문 빚만(2026-09-30 사용자 결정). 금융 부문(Cat Financial) 차입금은 할부·리스 채권과 묶인
+                  # 영업 부채이고 이자비용이 영업이익 안에 있다. 부문 값은 차원 태그라 `adapters/cat_segment_debt.py`가 오버레이에 쓴다.
+                  # 2026-06-30 $35M + $10,655M = $10,690M(10-Q; 연결 합계 $45,146M 중 금융 부문 $34,456M 제외).
+                  "0000018230": ["CatMETShortTermBorrowings", "CatMETLongTermDebtCurrent", "CatMETLongTermDebtNoncurrent"],
                   "0000021344": ["NotesAndLoansPayable",
                                  ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"),
                                  ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")]}
@@ -678,7 +682,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000707549": {"sti": ["Investments"]},
                   # KO: 단기투자 = OtherShortTermInvestments + MarketableSecurities(10-Q "Short-term investments" 622 +
                   # "Marketable securities" 2,842, 2026-07-03). 기본 목록의 MarketableSecuritiesCurrent는 2020-12($2,348M)에 멈췄다.
-                  "0000021344": {"sti": ["OtherShortTermInvestments", "MarketableSecurities"]}}
+                  "0000021344": {"sti": ["OtherShortTermInvestments", "MarketableSecurities"]},
+                  # CAT: 재무상태표에 단기투자 줄이 없다(2026-06-30 10-Q). ShortTermInvestments가 2014-09-30 $378M에서 멈춰 그 값이 쓰였다.
+                  "0000018230": {"sti": []}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).

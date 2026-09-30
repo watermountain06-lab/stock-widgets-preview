@@ -1,0 +1,66 @@
+{
+ "ticker": "TDG",
+ "window": [
+  "2025-09-30",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 249,
+   "current": 33.87,
+   "min": 32.65,
+   "p10": 36.41,
+   "median": 40.46,
+   "p90": 43.23,
+   "max": 45.2,
+   "mean": 39.93,
+   "percentile": 3.6,
+   "score": 96.4
+  },
+  "PSR": {
+   "days": 249,
+   "current": 6.17,
+   "min": 5.94,
+   "p10": 6.66,
+   "median": 7.79,
+   "p90": 8.69,
+   "max": 9.25,
+   "mean": 7.74,
+   "percentile": 3.6,
+   "score": 96.4
+  },
+  "PCR": {
+   "days": 249,
+   "current": 32.02,
+   "min": 30.87,
+   "p10": 34.35,
+   "median": 38.07,
+   "p90": 41.96,
+   "max": 44.97,
+   "mean": 38.04,
+   "percentile": 3.6,
+   "score": 96.4
+  },
+  "EV/EBITDA": {
+   "days": 38,
+   "current": 18.25,
+   "min": 17.81,
+   "p10": 18.07,
+   "median": 18.91,
+   "p90": 19.71,
+   "max": 20.0,
+   "mean": 18.88,
+   "percentile": 23.7,
+   "score": 76.3
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 37.68,
+  "per_p75": 42.12,
+  "low": 1240,
+  "high": 1390,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

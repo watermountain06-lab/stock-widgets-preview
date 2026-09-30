@@ -1,0 +1,66 @@
+{
+ "ticker": "PCAR",
+ "window": [
+  "2025-09-30",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 249,
+   "current": 23.38,
+   "min": 15.95,
+   "p10": 18.93,
+   "median": 24.9,
+   "p90": 27.81,
+   "max": 29.41,
+   "mean": 24.05,
+   "percentile": 31.3,
+   "score": 68.7
+  },
+  "PSR": {
+   "days": 249,
+   "current": 2.11,
+   "min": 1.57,
+   "p10": 1.72,
+   "median": 2.19,
+   "p90": 2.41,
+   "max": 2.62,
+   "mean": 2.14,
+   "percentile": 32.5,
+   "score": 67.5
+  },
+  "PBR": {
+   "days": 249,
+   "current": 2.88,
+   "min": 2.55,
+   "p10": 2.71,
+   "median": 3.17,
+   "p90": 3.45,
+   "max": 3.68,
+   "mean": 3.13,
+   "percentile": 18.5,
+   "score": 81.5
+  },
+  "PCR": {
+   "days": 249,
+   "current": 15.85,
+   "min": 12.58,
+   "p10": 13.75,
+   "median": 16.51,
+   "p90": 18.34,
+   "max": 19.39,
+   "mean": 16.27,
+   "percentile": 34.9,
+   "score": 65.1
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 22.12,
+  "per_p75": 26.45,
+  "low": 110,
+  "high": 130,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}
