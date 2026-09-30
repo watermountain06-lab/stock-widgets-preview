@@ -265,7 +265,14 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                  # (OtherNonoperatingIncomeExpense — 이자비용 포함, 비용이면 음수). Q2 2026: −683 − (−99) = −584(10-Q 대조).
                  # 인수 IPR&D(1분기 $8.54B·2분기 $5.27B)는 R&D 안이라 영업이익에 남는다(ABBV 선례, 안건 B2).
                  "0000310158": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
-                                "OtherNonoperatingIncomeExpense")}
+                                "OtherNonoperatingIncomeExpense"),
+                 # GE: 손익계산서에 영업이익 줄이 없다. 영업이익 = 세전이익 − 기타수익("Other income (loss)", 지분 매각·평가 손익)
+                 # + 이자·기타 금융비용 + 영업외 연금비용(수익이면 음수). 뒤 두 줄은 회사 고유 태그라 인라인 XBRL 어댑터
+                 # (adapters/ge_income_items.py)가 overlay에 싣는다. 보험(런오프) 수익·비용은 영업으로 둔다. Q2 2026: 2,801 − 313
+                 # + 215 − 177 = 2,526 = 매출 13,349 − 영업비용 10,823(10-Q 대조).
+                 "0000040545": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["NonoperatingIncomeExpense"], 1), (["GeInterestAndOtherFinancialCharges"], -1),
+                                 (["GeBenefitCostIncomeNonoperating"], -1)])}
 
 
 def _derived_opinc(cik, taxonomy):
@@ -291,7 +298,10 @@ def _derived_opinc(cik, taxonomy):
 # 종목별로 후보에서 빼는 태그(CIK). MA는 2018~2022년 RevenueFromContractWithCustomerExcludingAssessedTax에
 # 리베이트·인센티브 차감 전 **총매출**(2022 Q3 $9.17B)을, Revenues에 순매출($5.76B)을 실었다. 합치면 앞 태그가
 # 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
-EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",)}
+# GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
+# Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
+EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",)}
 
 
 def pick_tag(cik, names, taxonomy="us-gaap"):
@@ -343,7 +353,7 @@ def quarterly_flow(entries, ticker):
     제출되지 않는 경우가 많아 연간에서 앞 세 분기를 빼서 만든다.
     """
     rows = [e for e in entries if "start" in e and "end" in e and "filed" in e]
-    rows = feh.dedup_earliest_filed(rows)
+    rows = feh.dedup_for(rows, ticker)   # 분사 재작성 종목(GE)은 나중 공시 값
     q = {e["end"]: e for e in rows if 80 <= feh.days_between(e) <= 100}
 
     # 현금흐름표는 분기가 아니라 회계연도 누계로 보고된다(2분기 10-Q에 6개월
@@ -388,9 +398,11 @@ def quarterly_flow(entries, ticker):
             parts.append(prev)
             cur = date.fromisoformat(prev["end"])
         if ok and a["end"] not in q:
+            nine = [e for e in rows if e["start"] == a["start"] and e["end"] == parts[0]["end"]
+                    and 260 <= feh.days_between(e) <= 285] if ticker in feh.RESTATED_LATEST else []
             q[a["end"]] = {
                 "end": a["end"],
-                "val": a["val"] - sum(p["val"] for p in parts),
+                "val": a["val"] - (nine[0]["val"] if nine else sum(p["val"] for p in parts)),   # 재작성 종목은 연간 − 9개월 누계
                 "filed": a["filed"],
                 "start": a["start"],
             }
@@ -673,6 +685,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # UNH: 유동 차입을 DebtCurrent("Short-term borrowings and current maturities")로만 낸다 — 기본 목록으론
                   # 2026-06-30 $3,827M이 빠졌다(10-Q 합계 $73,328M, 2026-09-30, MRK와 같은 경우).
                   "0000731766": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # GE: 1년 안 만기·단기 차입 DebtCurrent($2,000M) + 장기 LongTermDebtAndCapitalLeaseObligations($17,157M) = 10-Q 합계.
+                  "0000040545": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   "0000021344": ["NotesAndLoansPayable",
                                  ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"),
                                  ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")]}
@@ -707,7 +721,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # MRK: 우선주가 없다. PreferredStockValue가 2009-09-30 $2,500M(셰링-플라우 합병 때)에서 멈춰 EV에 계속 더해졌다(2026-09-30).
                   "0000310158": {"preferred": []},
                   # UNH: 리스는 10-K 연간 총액(OperatingLeaseLiability)만 — 기본 유동·비유동 태그는 2019년 값에 멈췄다.
-                  "0000731766": {"lease": ["OperatingLeaseLiability"]}}
+                  "0000731766": {"lease": ["OperatingLeaseLiability"]},
+                  # GE: CashAndCashEquivalentsAtCarryingValue가 2017년($43.3B)에 멈췄다. 재무상태표 첫 줄은 제한 현금 포함 합계뿐.
+                  "0000040545": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
@@ -894,7 +910,15 @@ def load_daily(ticker):
 LOCAL_HISTORY = {"SKHY": {"loader": "skhy_krx", "ads_per_share": 10}}
 
 
+# 자기 이력 창의 시작일을 늦추는 종목. GE: 버노바 분사(2024-04-02) 뒤 첫 재무상태표(2024-06-30)가 나온 2024-07-23
+# (2분기 10-Q)부터 — 그 전 배수는 분사 조정된 주가와 복합기업 재무가 섞여 싸게 나온다(2026-09-30 사용자 결정). 2024-03-31
+# 재무상태표는 버노바를 포함해 자본 $29.9B(분사 뒤 $18.6B)였고, 1분기 현금흐름(2023 Q1)이 재작성되지 않아 2분기 누계 차감이 섞였다(Fable).
+HISTORY_START = {"GE": "2024-07-23"}
+
+
 def history_daily(ticker, daily):
+    if ticker in HISTORY_START:
+        daily = [r for r in daily if r[0] >= HISTORY_START[ticker]]
     cfg = LOCAL_HISTORY.get(ticker)
     if not cfg:
         return daily

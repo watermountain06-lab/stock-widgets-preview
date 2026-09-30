@@ -48,6 +48,10 @@ import fetch_eps_history as feh  # noqa: E402
 # 이력 창 시작일. 중앙값은 창 선택에 흔들린다 — NVDA 마진 중앙값이 창을
 # 2021-01로 잡으면 49.4%, 2021-07로 잡으면 56.6%다. 한곳에 고정해 둔다.
 WINDOW_START = "2021-07-01"
+# 분사로 이력이 짧아진 종목의 (최근 4분기 시작 결산일, 최소 개수). GE: 계속사업(GE 에어로스페이스 단독) 재작성 값이
+# 2023년 2분기부터 있어 최근 4분기 끝 2024-03-31부터 10개(2026-06까지). 3년·5년 성장률이 같은 약 2.25년 CAGR이 된다
+# (2026-09-30 사용자 결정 "분사 뒤 단독 숫자만").
+HISTORY_WINDOW = {"GE": ("2024-03-31", 9)}
 
 
 def latest(series, asof=None):
@@ -71,7 +75,8 @@ def latest(series, asof=None):
 
 
 # 투자자산이 영업 자산인 회사(CIK) — 투자 수익이 영업이익 안에 있다. 값은 근거.
-INVESTMENTS_OPERATING = {"0000731766": "UNH — 10-Q 손익계산서 Revenues에 'Investment and other income'(2026 Q2 $1,223M), Earnings from operations에 포함"}
+INVESTMENTS_OPERATING = {"0000731766": "UNH — 10-Q 손익계산서 Revenues에 'Investment and other income'(2026 Q2 $1,223M), Earnings from operations에 포함",
+                         "0000040545": "GE — 런오프 보험 투자증권 $37.9B가 보험 부채 $36.2B를 받친다. 투자수익은 'Insurance revenue'(2026 Q2 $715M)로 매출·영업이익 안(2026-09-30 사용자 결정)"}
 
 
 def base_inputs(ticker, asof=None):
@@ -435,10 +440,10 @@ def history(ticker, asof=None, window_start=None):
         return max(rev[x]["available"], op[x]["available"])
 
     # window_start: 과거 시점 재현은 그 시점 기준 약 5년 창을 쓴다(research/point_in_time_replay.py).
-    ws = window_start or WINDOW_START
+    ws = window_start or HISTORY_WINDOW.get(ticker, (WINDOW_START, 13))[0]
     dates = [x for x in dates if x >= ws
              and (asof is None or avail_of(x) <= asof)]
-    if len(dates) < 13:
+    if len(dates) < HISTORY_WINDOW.get(ticker, (WINDOW_START, 13))[1]:
         return None
     # 영업이익률 이력 — run_dcf의 마진 경로와 같은 정의(2026-09-24, 전에는 EBITDA 마진).
     margins = {x: op[x]["val"] / rev[x]["val"] for x in dates}

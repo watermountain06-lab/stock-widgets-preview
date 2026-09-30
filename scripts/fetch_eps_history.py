@@ -81,6 +81,26 @@ def dedup_earliest_filed(entries):
     return list(best.values())
 
 
+# 분사로 과거 기간을 다시 공시한 종목(2026-09-30 사용자 결정 "분사 뒤 단독 숫자만", GE). 같은 기간 값은 **가장 나중 공시**
+# (계속사업 재작성)를 쓰고, 공개일은 처음 공시일로 둔다 — 분사 사업을 빼고 다시 적은 숫자가 원공시의 자리에 들어간다.
+# 4분기는 연간 − 9개월 누계로 만든다(1분기 원공시가 분사 사업을 포함한 채 남아 있어 세 분기를 빼면 섞인다).
+RESTATED_LATEST = {"GE"}
+
+
+def dedup_for(entries, ticker):
+    """RESTATED_LATEST 종목이면 (start, end)마다 나중 공시 값 + 처음 공시일, 아니면 dedup_earliest_filed."""
+    if ticker not in RESTATED_LATEST:
+        return dedup_earliest_filed(entries)
+    first, last = {}, {}
+    for e in entries:
+        key = (e["start"], e["end"])
+        if key not in first or e["filed"] < first[key]["filed"]:
+            first[key] = e
+        if key not in last or e["filed"] > last[key]["filed"]:
+            last[key] = e
+    return [{**last[k], "filed": first[k]["filed"]} for k in first]
+
+
 def days_between(e):
     # Guard: a few filers have a malformed XBRL entry with no "start" (confirmed on GS,
     # one 2008 entry). Returning -1 makes it fail both the quarterly (80<=d<=100) and
@@ -113,6 +133,7 @@ KNOWN_SPLITS = {
     "MA": [],     # last split 10-for-1 effective 2014-01, outside this data's reporting window -- WebSearch confirmed 2026-09-06
     "AMAT": [],   # last split 2002-04-16 (2-for-1), outside this data's reporting window
     "UNH": [],    # last split 2005-05-31 (2-for-1), outside this data's reporting window
+    "GE": [("2021-08-02", 0.125)],  # 1-for-8 reverse split effective 2021-08-02 (GE 8-K 2021-07-30); spin-offs of GE HealthCare (2023-01-04) and GE Vernova (2024-04-02) are distributions, not splits
     "CVX": [],    # last split 2004-09-13 (2-for-1), outside this data's reporting window
     "PLTR": [],   # no splits since the 2020-09-30 direct listing -- Yahoo split events confirmed 2026-09-29
     "INTC": [],   # last split 2000 (2-for-1), outside this data's reporting window -- Yahoo split events confirmed 2026-09-29
@@ -174,6 +195,7 @@ CIKS = {
     "MRK": "0000310158",
     "AMAT": "0000006951",
     "UNH": "0000731766",
+    "GE": "0000040545",
 }
 
 
@@ -213,8 +235,10 @@ def main():
     if split_dates:
         entries = apply_split_correction(entries, split_dates)
 
-    discrete = dedup_earliest_filed([e for e in entries if e["form"] == "10-Q" and 80 <= days_between(e) <= 100])
-    annual = dedup_earliest_filed([e for e in entries if e["form"] == "10-K" and days_between(e) > 350])
+    discrete = dedup_for([e for e in entries if e["form"] == "10-Q" and 80 <= days_between(e) <= 100], ticker_key)
+    annual = dedup_for([e for e in entries if e["form"] == "10-K" and days_between(e) > 350], ticker_key)
+    ytd9 = {(e["start"], e["end"]): e for e in dedup_for(
+        [e for e in entries if e["form"] == "10-Q" and 260 <= days_between(e) <= 285], ticker_key)}
 
     discrete.sort(key=lambda e: e["end"])
     annual.sort(key=lambda e: e["end"])
@@ -232,6 +256,9 @@ def main():
         if len(members) == 3 and not any(q["end"] == fy_end for q in discrete):
             q4_val = round(fy["val"] - sum(m["val"] for m in members), 4)
             last_q = max(members, key=lambda m: m["end"])
+            nine = ytd9.get((fy["start"], last_q["end"]))
+            if ticker_key in RESTATED_LATEST and nine:
+                q4_val = round(fy["val"] - nine["val"], 4)   # 연간 − 9개월 누계(재작성 종목)
             quarters.append({
                 "start": last_q["end"], "end": fy_end, "val": q4_val,
                 "accn": fy["accn"], "fy": fy.get("fy"), "fp": "Q4-derived",
