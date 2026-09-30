@@ -1,47 +1,47 @@
 {
   "ticker": "PG",
-  "asOf": "2026-09-28",
-  "close": 149.03,
+  "asOf": "2026-09-29",
+  "close": 148.32,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
   "insufficientHistory": false,
   "momentumUnavailable": false,
   "trendStructure": {
-    "score": 10,
+    "score": 20,
     "max": 40,
     "conditions": {
       "close>ma150_and_close>ma200": true,
       "ma150>ma200": false,
-      "ma200>ma200_21d_ago": false,
+      "ma200>ma200_21d_ago": true,
       "ma50>ma150_and_ma50>ma200": false
     }
   },
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": 1.26
+    "weightedRocPct": 0.9
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 8.29,
-    "drawdownFromHighPct": 10.89,
+    "riseFromLowPct": 7.78,
+    "drawdownFromHighPct": 11.32,
     "high52w": 167.25,
     "low52w": 137.62
   },
   "priceStructureScore": {
-    "score": 20,
+    "score": 30,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 30,
-  "rawGrade": "약한",
-  "displayGrade": "약한",
+  "rawScore": 40,
+  "rawGrade": "혼조",
+  "displayGrade": "혼조",
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 1.56,
-    "percentileVsOwnHistory": 24.2
+    "pctNow": 1.51,
+    "percentileVsOwnHistory": 19.4
   }
 }
