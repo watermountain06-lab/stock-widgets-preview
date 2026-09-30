@@ -664,7 +664,11 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # CVX: 재무상태표 현금을 2024-09부터 회사 고유 태그(cvx:CashAndCashEquivalentsExcludingTimeDeposits)로 내
                   # companyfacts에 없다 — 표준 태그는 2024-06-30 $4,008M에서 멈춰 그 값이 계속 쓰였다(2026-06-30 실제 $8,527M).
                   # 공정가치 주석 태그(0.1B 단위 반올림)는 2021년부터 매 분기 이어진다(2026-06-30 $8.5B, 2026-09-29).
-                  "0000093410": {"cash": ["CashAndCashEquivalentsFairValueDisclosure"]}}
+                  "0000093410": {"cash": ["CashAndCashEquivalentsFairValueDisclosure"]},
+                  # LRCX: ShortTermInvestments가 2015-06-28 $2,575M에서 멈춰 그 값이 계속 순현금·EV에 더해졌다(2026-09-30).
+                  # 이후 투자 잔액은 Investments 태그(2021-09 $569M → 2024-03-31 $0)로 냈고, FY2026 10-K 재무상태표에는
+                  # 단기투자 줄이 없다. Investments가 0으로 끝나 옛 값이 이어지지 않는다(Fable).
+                  "0000707549": {"sti": ["Investments"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).

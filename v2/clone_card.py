@@ -31,6 +31,8 @@ TEMPLATE = os.path.join(HERE, "NVDA_full_widget.html")
 # 틀(NVDA)의 브랜드 색. --accent 셋과, 틀 안에 리터럴로 박힌 초록.
 NVDA_ACCENT = ("#76b900", "#aeff20", "#3b5d00")
 NVDA_RGB = "118,185,0"
+# 루트 카드의 강조색이 회색 계열이라 비교 막대(회색)와 구분이 안 되는 종목은 브랜드 색으로 덮어쓴다(2026-09-30 사용자, LRCX).
+ACCENT_OVERRIDE = {"LRCX": ("#0074c8", "#6cb4ea", "#0b2a4a")}
 # 화면 표기가 파일 이름과 다른 종목(점 들어간 클래스 주식). 파일·상수 이름은 키 그대로 쓴다.
 DISPLAY = {"BRKB": "BRK.B"}
 
@@ -137,7 +139,7 @@ def main():
     h = h.replace("stockanalysis.com/stocks/nvda/", f"stockanalysis.com/stocks/{d.lower().replace('.', '-')}/")
 
     # 2. 색
-    a1, a2, a3 = readable_accents(*meta["accent"])
+    a1, a2, a3 = readable_accents(*ACCENT_OVERRIDE.get(t, meta["accent"]))
     h = h.replace(f"--accent: {NVDA_ACCENT[0]}; --accent2: {NVDA_ACCENT[1]}; --accent3: {NVDA_ACCENT[2]};",
                   f"--accent: {a1}; --accent2: {a2}; --accent3: {a3};")
     h = h.replace(f"rgba({NVDA_RGB},", f"rgba({rgb(a1)},").replace("#76b900", a1).replace("#9fdb2f", a2)
