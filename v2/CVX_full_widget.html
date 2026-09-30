@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CVX 종합 분석 위젯 (재설계 조립본 v1)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+// 탭을 열 때 선의 점이 바닥에서 날아오르고 도넛이 돌며 들어오는 애니메이션을 끈다 — 막대가 자라는 동작은 남긴다(2026-09-30 사용자).
+Chart.defaults.datasets.line.animation = false;
+Chart.overrides.doughnut.animation = false;
+</script>
 <style>
 
   /* HEADER (라이브 CVX_analysis_widget.html에서 재사용) */
@@ -1489,11 +1494,14 @@ const CVX_SCORES = {
   // 요구 성장률이 최근 5년 실제 성장의 3배를 넘으면(또는 해가 없으면) 성장만으로는 가격이
   // 설명되지 않는다 — 대신 요구 영업이익률을 보인다(reqMode, build_dcf_block.py, 2026-09-24).
   const mMode = d.reqMode === 'margin', f1 = v => (v * 100).toFixed(1) + '%';
-  if (req) req.textContent = mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '—')
+  // 마진 모드인데 영업이익률 100%로도 닿지 않으면(해 없음) 요구 성장률을 대신 보인다(2026-09-30 사용자 결정, LRCX·PLTR).
+  const noSol = mMode && d.requiredMargin == null && d.requiredGrowth != null;
+  if (req) req.textContent = noSol ? '연 ' + f1(d.requiredGrowth)
+                           : mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '—')
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);

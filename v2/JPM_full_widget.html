@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JPM 종합 분석 위젯 (재설계 조립본 v1)</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+// 탭을 열 때 선의 점이 바닥에서 날아오르고 도넛이 돌며 들어오는 애니메이션을 끈다 — 막대가 자라는 동작은 남긴다(2026-09-30 사용자).
+Chart.defaults.datasets.line.animation = false;
+Chart.overrides.doughnut.animation = false;
+</script>
 <style>
 
   /* HEADER (라이브 JPM_analysis_widget.html에서 재사용) */
