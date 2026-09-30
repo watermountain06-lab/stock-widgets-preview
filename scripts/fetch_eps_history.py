@@ -112,6 +112,7 @@ KNOWN_SPLITS = {
     "JNJ": [],    # last split 2001-06-13 (2-for-1), outside this data's reporting window -- WebSearch confirmed 2026-09-05
     "MA": [],     # last split 10-for-1 effective 2014-01, outside this data's reporting window -- WebSearch confirmed 2026-09-06
     "AMAT": [],   # last split 2002-04-16 (2-for-1), outside this data's reporting window
+    "UNH": [],    # last split 2005-05-31 (2-for-1), outside this data's reporting window
     "CVX": [],    # last split 2004-09-13 (2-for-1), outside this data's reporting window
     "PLTR": [],   # no splits since the 2020-09-30 direct listing -- Yahoo split events confirmed 2026-09-29
     "INTC": [],   # last split 2000 (2-for-1), outside this data's reporting window -- Yahoo split events confirmed 2026-09-29
@@ -172,6 +173,7 @@ CIKS = {
     "CAT": "0000018230",
     "MRK": "0000310158",
     "AMAT": "0000006951",
+    "UNH": "0000731766",
 }
 
 

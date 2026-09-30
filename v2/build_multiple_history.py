@@ -670,6 +670,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # 유동 장기차입금을 LongTermDebtCurrent로도 따로 태그해 기본 목록이 두 번 더했다(2026-07-26 $1,199M,
                   # 2024-10~2025-07 $700M). 2026-07-26 $1,299 + $5,245 = $6,544M(10-Q, 2026-09-30).
                   "0000006951": ["ShortTermBorrowings", "LongTermDebtNoncurrent"],
+                  # UNH: 유동 차입을 DebtCurrent("Short-term borrowings and current maturities")로만 낸다 — 기본 목록으론
+                  # 2026-06-30 $3,827M이 빠졌다(10-Q 합계 $73,328M, 2026-09-30, MRK와 같은 경우).
+                  "0000731766": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   "0000021344": ["NotesAndLoansPayable",
                                  ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"),
                                  ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")]}
@@ -702,7 +705,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # CAT: 재무상태표에 단기투자 줄이 없다(2026-06-30 10-Q). ShortTermInvestments가 2014-09-30 $378M에서 멈춰 그 값이 쓰였다.
                   "0000018230": {"sti": []},
                   # MRK: 우선주가 없다. PreferredStockValue가 2009-09-30 $2,500M(셰링-플라우 합병 때)에서 멈춰 EV에 계속 더해졌다(2026-09-30).
-                  "0000310158": {"preferred": []}}
+                  "0000310158": {"preferred": []},
+                  # UNH: 리스는 10-K 연간 총액(OperatingLeaseLiability)만 — 기본 유동·비유동 태그는 2019년 값에 멈췄다.
+                  "0000731766": {"lease": ["OperatingLeaseLiability"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).

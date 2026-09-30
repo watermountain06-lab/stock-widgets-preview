@@ -70,6 +70,10 @@ def latest(series, asof=None):
     return val
 
 
+# 투자자산이 영업 자산인 회사(CIK) — 투자 수익이 영업이익 안에 있다. 값은 근거.
+INVESTMENTS_OPERATING = {"0000731766": "UNH — 10-Q 손익계산서 Revenues에 'Investment and other income'(2026 Q2 $1,223M), Earnings from operations에 포함"}
+
+
 def base_inputs(ticker, asof=None):
     """기초 연도 수치를 SEC에서 모은다. 전부 최근 12개월(TTM) 기준이다."""
     cik = feh.CIKS[ticker]
@@ -210,6 +214,11 @@ def base_inputs(ticker, asof=None):
     has_lti = any(v is not None for v in lti_vals)
     out["nonop_assets"] = (sum(v or 0 for v in lti_vals) if has_lti
                            else sum(v or 0 for v in equity_vals)) + out["lt_marketable"]
+    # 투자 수익을 매출·영업이익에 넣는 회사(보험 — UNH "Investment and other income")는 그 투자가 영업 자산이다.
+    # 비영업 자산으로 또 더하면 수익을 두 번 센다(2026-09-30 사용자 결정 "장기투자는 빼고 현금은 두기").
+    # 투하자본 계산에서도 영업 자산으로 남는다. 현금·단기투자는 다른 회사처럼 순현금에 둔다.
+    if cik in INVESTMENTS_OPERATING:
+        out["nonop_assets"] = 0.0
     # 종목 지정 비영업자산(v2/nonop_extra.json). 같은 태그가 회사마다 다른 자산을 담아
     # (AvailableForSaleSecuritiesDebtSecurities는 흔히 단기 시장성 채권 전체다) 일괄 적용하면
     # 현금·단기투자와 겹친다. 10-Q 주석으로 확인한 종목만 목록에 올린다(AMZN Anthropic 전환사채).
