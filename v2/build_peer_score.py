@@ -74,7 +74,10 @@ SECTOR_UNIVERSE = {"Health Care": os.path.join(os.path.dirname(os.path.abspath(_
 # S&P500 결제 8곳 + 거래소·데이터 9곳(2026-09-27 사용자 결정). 섹터 규칙보다 앞선다.
 TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
                    # MA도 V와 같은 결제·거래소 비교군(2026-09-29)
-                   "MA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json")}
+                   "MA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   # HD: 카드 유니버스 경기소비재+IT 대신 S&P500 경기소비재 47종목(2026-10-01 사용자 결정). 섹터 전체에 걸지 않은 것은
+                   # 이미 커밋된 AMZN·TSLA 카드의 비교군을 바꾸지 않기 위해서다(다음 경기소비재 카드 때 다시 묻는다).
+                   "HD": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
@@ -201,7 +204,7 @@ def peer_score(ticker, sectors, prices, self_path=None):
                      "peers": len(peers_all), "median": statistics.median(peers) if peers else None,
                      "score": round(score, 1)})
     dates = [d for t, d in asof.items() if d and data.get(t)]
-    if borrowed:
+    if borrowed and not (uni and os.path.exists(uni)):   # 비교군 파일을 쓰면 빌린 섹터는 섞이지 않는다(HD 라벨, 2026-10-01)
         sector = sector + " + " + " + ".join(borrowed)
     return {"ticker": ticker, "sector": sector, "groupSize": len(group),
             "metrics": rows, "dropped": dropped,

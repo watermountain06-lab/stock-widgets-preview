@@ -1,0 +1,66 @@
+{
+ "ticker": "TJX",
+ "window": [
+  "2025-10-01",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 248,
+   "current": 24.09,
+   "min": 22.75,
+   "p10": 27.37,
+   "median": 32.61,
+   "p90": 34.68,
+   "max": 35.7,
+   "mean": 31.84,
+   "percentile": 3.6,
+   "score": 96.4
+  },
+  "PSR": {
+   "days": 248,
+   "current": 2.29,
+   "min": 2.17,
+   "p10": 2.52,
+   "median": 2.85,
+   "p90": 2.97,
+   "max": 3.05,
+   "mean": 2.8,
+   "percentile": 3.6,
+   "score": 96.4
+  },
+  "PBR": {
+   "days": 248,
+   "current": 13.43,
+   "min": 12.69,
+   "p10": 14.94,
+   "median": 17.62,
+   "p90": 18.68,
+   "max": 19.22,
+   "mean": 17.25,
+   "percentile": 3.6,
+   "score": 96.4
+  },
+  "PCR": {
+   "days": 248,
+   "current": 24.35,
+   "min": 23.0,
+   "p10": 28.38,
+   "median": 37.1,
+   "p90": 39.85,
+   "max": 42.17,
+   "mean": 35.41,
+   "percentile": 3.6,
+   "score": 96.4
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 30.6,
+  "per_p75": 34.04,
+  "low": 170,
+  "high": 180,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

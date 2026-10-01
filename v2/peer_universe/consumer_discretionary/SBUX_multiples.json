@@ -1,0 +1,66 @@
+{
+ "ticker": "SBUX",
+ "window": [
+  "2025-10-01",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 248,
+   "current": 54.83,
+   "min": 33.82,
+   "p10": 37.08,
+   "median": 72.06,
+   "p90": 81.52,
+   "max": 84.53,
+   "mean": 65.32,
+   "percentile": 28.2,
+   "score": 71.8
+  },
+  "PSR": {
+   "days": 248,
+   "current": 2.82,
+   "min": 2.43,
+   "p10": 2.58,
+   "median": 2.93,
+   "p90": 3.15,
+   "max": 3.23,
+   "mean": 2.88,
+   "percentile": 36.3,
+   "score": 63.7
+  },
+  "PCR": {
+   "days": 248,
+   "current": 29.69,
+   "min": 29.31,
+   "p10": 33.12,
+   "median": 42.71,
+   "p90": 47.55,
+   "max": 49.45,
+   "mean": 41.6,
+   "percentile": 0.8,
+   "score": 99.2
+  },
+  "EV/EBITDA": {
+   "days": 248,
+   "current": 27.4,
+   "min": 20.12,
+   "p10": 21.64,
+   "median": 29.29,
+   "p90": 30.53,
+   "max": 31.17,
+   "mean": 27.89,
+   "percentile": 31.0,
+   "score": 69.0
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 53.19,
+  "per_p75": 79.85,
+  "low": 90,
+  "high": 140,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

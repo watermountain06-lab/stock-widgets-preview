@@ -690,6 +690,15 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # DELL: 단기 DebtCurrent($8,481M) + 장기 LongTermDebtNoncurrent($25,985M) = $34,466M(10-Q). DFS 빚($9.6B)은 이자가
                   # 영업이익 밖(interest and other, net)이라 차입금에 넣는다(2026-10-01 사용자 결정, CAT과 반대).
                   "0001571996": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # HD: 기업어음 CommercialPaper($4,248M) + 1년 안 만기 장기 LongTermDebtAndCapitalLeaseObligationsCurrent($4,697M) +
+                  # 장기 LongTermDebtAndCapitalLeaseObligations($43,951M) = $52,896M(10-Q). 금융리스는 이 태그 안에 있어 리스에 다시 더하지 않는다.
+                  "0000354950": [("ShortTermBorrowings", "CommercialPaper"), "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # 단기는 정확한 합계 태그 우선(기업어음은 반올림값, Codex)
+                  # PANW: 차입금은 전환사채뿐이다. 기본 태그(ConvertibleNotesPayable*)는 2023-07-31 $1,992M에서 멈춰 그 뒤 날짜에
+                  # 옛 값이 그대로 쓰였다(2025-07-31 실제 0, 2026-07-31 CyberArk 승계분 $1,774M — FY2026 10-K). 0을 명시한 태그를 우선한다.
+                  "0001327567": [("ConvertibleDebtCurrent", "ConvertibleNotesPayableCurrent"), ("ConvertibleDebtNoncurrent", "ConvertibleNotesPayableNoncurrent")],
+                  # PM: 단기 ShortTermBorrowings($3,341M) + 1년 안 만기 장기 LongTermDebtAndCapitalLeaseObligationsCurrent($3,406M) +
+                  # 장기 LongTermDebtAndCapitalLeaseObligations($42,366M) = $49,113M(2026-06-30 10-Q). 기본 태그로는 유동분이 빠졌다.
+                  "0001413329": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   "0000021344": ["NotesAndLoansPayable",
                                  ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"),
                                  ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")]}
@@ -733,6 +742,11 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
 EV_ZERO_FROM_BY_CIK = {"0000200406": {"nci": ("2023-10-01", "2023-10-27")}}
+# 차입금 합계의 가용일을 10-K 원문 날짜로 바로잡는 회사(CIK → {분기말: 가용일}). 합계 가용일은 구성요소 중 가장 늦은 접수일인데,
+# 한 구성요소(0)가 나중 공시의 비교 열에서만 태깅되면 그 분기 값이 1년 가까이 늦게 열린다.
+# PANW: 2025-07-31 전환사채 0(유동 0은 FY2025 10-K 2025-08-29, 비유동 0은 2026-06-03 10-Q 비교 열에서만 태깅) — FY2025 10-K 재무상태표에
+# 전환사채 줄이 "—"이고 옛 사채는 2025-06-01까지 전환·상환(FY2026 10-K Note 12, Codex). 그래서 2025-08-29부터 0이다.
+DEBT_AVAILABLE_FIX = {"0001327567": {"2025-07-31": "2025-08-29"}}
 
 
 def ev_component(cik, name, tags):
@@ -753,6 +767,9 @@ def ev_component(cik, name, tags):
                 slot = by_end.setdefault(e["end"], {"end": e["end"], "val": 0.0, "available": e["available"]})
                 slot["val"] += e["val"]
                 slot["available"] = max(slot["available"], e["available"])
+        for end, av in DEBT_AVAILABLE_FIX.get(cik, {}).items():
+            if end in by_end:
+                by_end[end]["available"] = av
         return sorted(by_end.values(), key=lambda e: e["available"])
     out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가

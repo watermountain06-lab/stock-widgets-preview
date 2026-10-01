@@ -1,0 +1,30 @@
+{
+ "ticker": "RL",
+ "window": [
+  "2025-10-01",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 248,
+   "current": 22.5,
+   "min": 20.99,
+   "p10": 22.38,
+   "median": 25.16,
+   "p90": 26.94,
+   "max": 27.47,
+   "mean": 24.95,
+   "percentile": 10.9,
+   "score": 89.1
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 23.94,
+  "per_p75": 26.33,
+  "low": 380,
+  "high": 420,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

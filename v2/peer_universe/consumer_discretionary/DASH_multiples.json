@@ -1,0 +1,30 @@
+{
+ "ticker": "DASH",
+ "window": [
+  "2025-10-01",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 248,
+   "current": 100.71,
+   "min": 68.83,
+   "p10": 74.3,
+   "median": 94.77,
+   "p90": 131.09,
+   "max": 154.8,
+   "mean": 98.52,
+   "percentile": 55.6,
+   "score": 44.4
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 80.92,
+  "per_p75": 112.0,
+  "low": 160,
+  "high": 220,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

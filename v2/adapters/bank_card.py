@@ -52,6 +52,12 @@ def pct_rank(vals, cur):
     return sum(1 for v in vals if v < cur) / len(vals) * 100
 
 
+def _qavail(bank, e):
+    """분기말 e가 열리는 날 — 회사 정의 자본 예외(WFC)가 있으면 보도자료일이 10-Q보다 빠르다(Codex)."""
+    o = br.EQUITY_OVERRIDE.get(bank.t, {}).get(e) if bank.ov else None
+    return min(bank.se[e][1], o["filed"]) if o else bank.se[e][1]
+
+
 def self_history(bank, daily, eps_path):
     steps = ptbv_steps(bank)
     eps = json.load(open(eps_path)) if eps_path else []
@@ -60,7 +66,7 @@ def self_history(bank, daily, eps_path):
     for d in daily:
         day, px = d[0], d[4]
         # 그날 접수된 가장 최근 분기말의 TCE만 쓴다(8-3) — 그 분기에 TCE가 없으면 그날은 빈 날
-        avail = [e for e in bank.se if bank.se[e][1] <= day]
+        avail = [e for e in bank.se if _qavail(bank, e) <= day]
         if avail:
             e = max(avail)
             st = [x for x in steps if x[1] == e and x[0] <= day]
@@ -154,7 +160,7 @@ def main():
     cik = feh.CIKS.get(t) or next(str(r["cik"]).zfill(10) for r in su.sp500_rows() if r["ticker"] == t)
     daily = bmh.load_daily(t)
     asof, px = daily[-1][0], daily[-1][4]
-    bank = br.Bank(t, cik, asof)   # 평가일(카드 일봉 마지막 날) 이후 접수 사실은 쓰지 않는다(Codex)
+    bank = br.Bank(t, cik, asof, overrides=True)   # 평가일(카드 일봉 마지막 날) 이후 접수 사실은 쓰지 않는다(Codex). 회사 정의 예외는 본인 카드에만
     g = br.gates(bank, os.path.join(V2, "research", f"bank_gate_{t}.json"))
     r = br.rim(bank, price=px)
     eps_path = eps_file(t, cik, os.path.join(REPO, "scripts"))

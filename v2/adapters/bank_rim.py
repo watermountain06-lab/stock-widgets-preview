@@ -53,7 +53,9 @@ def flow_q(cik, tags, ticker, asof=None):
     _, rows = bmh.pick_tag(cik, tags)
     if asof:
         rows = [r for r in rows if r["filed"] <= asof]
-    q = {e["end"]: (e["val"], e["filed"]) for e in bmh.quarterly_flow(rows, ticker)}
+    # 분기말이 3·6·9·12월 말이 아닌 값(GS의 2008년 이전 11월 결산 시절 등)은 쓰지 않는다(2026-10-01)
+    q = {e["end"]: (e["val"], e["filed"]) for e in bmh.quarterly_flow(rows, ticker)
+         if e["end"][5:] in ("03-31", "06-30", "09-30", "12-31")}
     # 누적 차분으로 만든 분기값의 가용일은 두 누적값 접수일 중 늦은 날이다(7-2, Codex). 같은 회계연도의
     # 직전 분기 사실 접수일까지 포함해 늦은 쪽으로 잡는다(보수적).
     out = {}
@@ -78,9 +80,18 @@ def qends_before(end, n):
 
 
 # ── 1장 정의 ─────────────────────────────────────────────────────────────
+_SO = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "research", "bank_shares_override.json")
+SHARES_OVERRIDE = {k: v for k, v in json.load(open(_SO)).items() if not k.startswith("_")} if os.path.exists(_SO) else {}
+
+
+_EO = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "research", "bank_equity_override.json")
+EQUITY_OVERRIDE = {k: v for k, v in json.load(open(_EO)).items() if not k.startswith("_")} if os.path.exists(_EO) else {}
+
+
 class Bank:
-    def __init__(self, ticker, cik, asof=None):
-        self.t, self.cik, self.asof = ticker, cik, asof
+    def __init__(self, ticker, cik, asof=None, overrides=False):
+        # overrides: 회사 정의 주식 수·자본 예외(GS·WFC)는 그 종목 카드에서만 쓴다 — 동종업 계산에 넣으면 커밋된 다른 은행 카드 점수가 바뀐다
+        self.t, self.cik, self.asof, self.ov = ticker, cik, asof, overrides
         c = cik
         self.se = instant(c, "StockholdersEquity", asof)
         self.pref_liq = instant(c, "PreferredStockLiquidationPreferenceValue", asof)
@@ -115,6 +126,9 @@ class Bank:
 
     # 1-1
     def ce(self, end):
+        o = EQUITY_OVERRIDE.get(self.t, {}).get(end) if self.ov else None   # WFC 한정 예외: 보도자료 회사 정의 CE(research/bank_equity_override.json)
+        if o and not (self.asof and o["filed"] > self.asof):
+            return (o["ce_m"] * 1e6, o["filed"])
         if end not in self.se:
             return None
         p = self.pref_liq.get(end) or self.pref_val.get(end)
@@ -127,6 +141,9 @@ class Bank:
 
     # 1-2 (+7-6)
     def tce(self, end):
+        o = EQUITY_OVERRIDE.get(self.t, {}).get(end) if self.ov else None   # WFC 한정 예외: 보도자료 회사 정의 TCE
+        if o and not (self.asof and o["filed"] > self.asof):
+            return (o["tce_m"] * 1e6, o["filed"])
         c = self.ce(end)
         if not c or end not in self.gw:
             return None
@@ -166,8 +183,11 @@ class Bank:
             cands.append((e, v))
         return max(cands)[1] if cands else None
 
-    # 1-6
+    # 1-6 (GS·WFC 예외: research/bank_shares_override.json의 회사 정의 주식 수 — GS 사용자 결정, WFC Claude 추천 결정, 2026-10-01. 본인 카드만)
     def shares(self, end):
+        o = SHARES_OVERRIDE.get(self.t, {}).get(end) if self.ov else None
+        if o and not (self.asof and o["filed"] > self.asof):
+            return (o["shares_m"] * 1e6, o["filed"])
         if end in self.issued and end in self.tr:
             v = self.issued[end][0] - self.tr[end][0]
             return (v, max(self.issued[end][1], self.tr[end][1])) if v > 0 else None

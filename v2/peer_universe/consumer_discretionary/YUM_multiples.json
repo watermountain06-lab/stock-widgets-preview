@@ -1,0 +1,66 @@
+{
+ "ticker": "YUM",
+ "window": [
+  "2025-10-01",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 248,
+   "current": 17.44,
+   "min": 17.08,
+   "p10": 19.01,
+   "median": 28.24,
+   "p90": 30.13,
+   "max": 31.87,
+   "mean": 26.53,
+   "percentile": 1.6,
+   "score": 98.4
+  },
+  "PSR": {
+   "days": 248,
+   "current": 4.34,
+   "min": 4.25,
+   "p10": 4.73,
+   "median": 5.16,
+   "p90": 5.44,
+   "max": 5.66,
+   "mean": 5.1,
+   "percentile": 1.6,
+   "score": 98.4
+  },
+  "PCR": {
+   "days": 248,
+   "current": 22.53,
+   "min": 22.06,
+   "p10": 24.53,
+   "median": 26.39,
+   "p90": 27.72,
+   "max": 29.02,
+   "mean": 26.17,
+   "percentile": 1.6,
+   "score": 98.4
+  },
+  "EV/EBITDA": {
+   "days": 221,
+   "current": 18.18,
+   "min": 17.92,
+   "p10": 18.99,
+   "median": 19.83,
+   "p90": 20.64,
+   "max": 21.19,
+   "mean": 19.79,
+   "percentile": 1.8,
+   "score": 98.2
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 24.43,
+  "per_p75": 29.36,
+  "low": 190,
+  "high": 230,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}

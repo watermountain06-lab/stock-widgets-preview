@@ -1,0 +1,30 @@
+{
+ "ticker": "LEN",
+ "window": [
+  "2025-10-01",
+  "2026-09-25"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 248,
+   "current": 13.1,
+   "min": 8.41,
+   "p10": 10.3,
+   "median": 12.44,
+   "p90": 13.59,
+   "max": 14.49,
+   "mean": 12.14,
+   "percentile": 74.2,
+   "score": 25.8
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 11.43,
+  "per_p75": 13.11,
+  "low": 70,
+  "high": 80,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
+}
