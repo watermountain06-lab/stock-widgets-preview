@@ -1,0 +1,30 @@
+{
+ "ticker": "TTD",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 14.49,
+   "min": 14.35,
+   "p10": 16.57,
+   "median": 26.31,
+   "p90": 53.17,
+   "max": 65.22,
+   "mean": 31.72,
+   "percentile": 0.4,
+   "score": 99.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 21.58,
+  "per_p75": 42.85,
+  "low": 20,
+  "high": 40,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

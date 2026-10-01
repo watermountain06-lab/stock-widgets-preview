@@ -79,7 +79,10 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "MA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
                    # HD: 카드 유니버스 경기소비재+IT 대신 S&P500 경기소비재 47종목(2026-10-01 사용자 결정). 섹터 전체에 걸지 않은 것은
                    # 이미 커밋된 AMZN·TSLA 카드의 비교군을 바꾸지 않기 위해서다(다음 경기소비재 카드 때 다시 묻는다).
-                   "HD": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json")}
+                   "HD": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # VZ: 커뮤니케이션 섹터는 IT를 빌려 쓰는데(GOOGL·META) 통신사가 IT와 비교되면 모든 배수가 가장 싸다(98.6점) →
+                   # S&P500 커뮤니케이션 22종목(2026-10-01, Claude 추천·사용자 위임). 섹터 전체에 걸지 않은 것은 커밋된 GOOGL·META·NFLX를 바꾸지 않기 위해서다.
+                   "VZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 

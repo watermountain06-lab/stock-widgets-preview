@@ -1,0 +1,78 @@
+{
+ "ticker": "NFLX",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 21.88,
+   "min": 21.26,
+   "p10": 23.18,
+   "median": 31.64,
+   "p90": 46.05,
+   "max": 52.89,
+   "mean": 33.45,
+   "percentile": 2.4,
+   "score": 97.6
+  },
+  "PSR": {
+   "days": 250,
+   "current": 5.99,
+   "min": 5.82,
+   "p10": 6.39,
+   "median": 8.04,
+   "p90": 10.77,
+   "max": 12.65,
+   "mean": 8.36,
+   "percentile": 2.4,
+   "score": 97.6
+  },
+  "PBR": {
+   "days": 250,
+   "current": 9.61,
+   "min": 9.34,
+   "p10": 9.99,
+   "median": 12.83,
+   "p90": 18.0,
+   "max": 21.14,
+   "mean": 13.62,
+   "percentile": 2.8,
+   "score": 97.2
+  },
+  "PCR": {
+   "days": 250,
+   "current": 25.98,
+   "min": 25.11,
+   "p10": 26.72,
+   "median": 35.72,
+   "p90": 52.1,
+   "max": 62.05,
+   "mean": 38.0,
+   "percentile": 4.4,
+   "score": 95.6
+  },
+  "EV/EBITDA": {
+   "days": 250,
+   "current": 20.18,
+   "min": 19.62,
+   "p10": 21.46,
+   "median": 27.05,
+   "p90": 36.62,
+   "max": 42.46,
+   "mean": 28.16,
+   "percentile": 2.4,
+   "score": 97.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 25.17,
+  "per_p75": 39.25,
+  "low": 80,
+  "high": 120,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

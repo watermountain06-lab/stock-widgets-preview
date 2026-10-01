@@ -1,0 +1,47 @@
+{
+ "ticker": "ECHO",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PSR": {
+   "days": 250,
+   "current": 0.29,
+   "min": 0.21,
+   "p10": 0.23,
+   "median": 0.33,
+   "p90": 0.4,
+   "max": 0.46,
+   "mean": 0.32,
+   "percentile": 28.0,
+   "score": 72.0
+  },
+  "PBR": {
+   "days": 250,
+   "current": 0.3,
+   "min": 0.17,
+   "p10": 0.28,
+   "median": 0.77,
+   "p90": 1.04,
+   "max": 1.2,
+   "mean": 0.69,
+   "percentile": 16.8,
+   "score": 83.2
+  },
+  "EV/EBITDA": {
+   "days": 25,
+   "current": null,
+   "min": 20.32,
+   "p10": 20.32,
+   "median": 20.39,
+   "p90": 20.47,
+   "max": 20.55,
+   "mean": 20.39,
+   "percentile": 100.0,
+   "score": 0.0,
+   "currentNote": "negative"
+  }
+ },
+ "perBasis": "diluted"
+}

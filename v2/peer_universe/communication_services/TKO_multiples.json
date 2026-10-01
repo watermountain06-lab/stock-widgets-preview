@@ -1,0 +1,30 @@
+{
+ "ticker": "TKO",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 62.84,
+   "min": 62.09,
+   "p10": 66.54,
+   "median": 76.71,
+   "p90": 86.45,
+   "max": 99.54,
+   "mean": 76.12,
+   "percentile": 0.4,
+   "score": 99.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 69.48,
+  "per_p75": 81.08,
+  "low": 200,
+  "high": 230,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

@@ -1,0 +1,146 @@
+{
+ "sector": "Communication Services",
+ "subIndustries": null,
+ "asOf": "2026-09-30",
+ "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
+ "tickers": {
+  "GOOGL": {
+   "per": 34.93,
+   "psr": 9.44,
+   "pbr": 6.57,
+   "pcr": 78.99,
+   "evebitda": 23.54
+  },
+  "GOOG": {
+   "per": 17.11,
+   "psr": 9.35,
+   "pbr": 6.51,
+   "pcr": 78.22,
+   "evebitda": 23.31
+  },
+  "T": {
+   "per": 8.11,
+   "psr": 1.31,
+   "pbr": 1.32,
+   "pcr": 9.49,
+   "evebitda": 6.9
+  },
+  "CHTR": {
+   "per": 2.89,
+   "psr": 0.55,
+   "pbr": 1.77,
+   "pcr": 6.89,
+   "evebitda": 6.12
+  },
+  "CMCSA": {
+   "per": 7.0,
+   "psr": 0.72,
+   "pbr": 1.0,
+   "pcr": 4.39,
+   "evebitda": 5.06
+  },
+  "ECHO": {
+   "psr": 0.29,
+   "pbr": 0.3,
+   "evebitda": "negative"
+  },
+  "FOXA": {
+   "per": 16.32
+  },
+  "FOX": {
+   "per": 14.66
+  },
+  "LYV": {
+   "per": "negative",
+   "psr": 1.52,
+   "pbr": 484.55,
+   "pcr": 28.85,
+   "evebitda": 23.7
+  },
+  "META": {
+   "per": 25.02,
+   "psr": 8.09,
+   "pbr": 7.07,
+   "pcr": 45.08,
+   "evebitda": 17.05
+  },
+  "NFLX": {
+   "psr": 5.99,
+   "pbr": 9.61,
+   "pcr": 25.98,
+   "evebitda": 20.18
+  },
+  "NWSA": {
+   "per": 27.82,
+   "psr": 1.84,
+   "pbr": 1.95,
+   "pcr": 20.45
+  },
+  "NWS": {
+   "per": 30.8,
+   "psr": 2.03,
+   "pbr": 2.15,
+   "pcr": 22.65
+  },
+  "OMC": {
+   "per": "negative",
+   "psr": 1.06,
+   "pbr": 2.22,
+   "pcr": 7.02,
+   "evebitda": 17.44
+  },
+  "PSKY": {
+   "per": 54.37,
+   "psr": 0.75,
+   "pbr": 0.94,
+   "evebitda": 31.27
+  },
+  "TMUS": {
+   "per": 17.06,
+   "psr": 1.9,
+   "pbr": 3.11,
+   "pcr": 9.51,
+   "evebitda": 6.35
+  },
+  "TTWO": {
+   "psr": 5.8,
+   "pbr": 10.75,
+   "pcr": 114.96,
+   "evebitda": 1140.83
+  },
+  "TKO": {
+   "per": 62.84
+  },
+  "TTD": {
+   "per": 14.49
+  },
+  "VZ": {
+   "per": 11.91,
+   "psr": 1.37,
+   "pbr": 1.81,
+   "pcr": 8.85,
+   "evebitda": 7.95
+  },
+  "DIS": {
+   "per": 21.67,
+   "psr": 1.83,
+   "pbr": 1.65,
+   "pcr": 21.84,
+   "evebitda": 9.76
+  },
+  "WBD": {
+   "per": "negative",
+   "psr": 2.15,
+   "pbr": 2.37,
+   "pcr": 35.65,
+   "evebitda": 29.19
+  }
+ },
+ "skipped": {
+  "EA": "기준일 종가 없음(2026-08-04)",
+  "NFLX": "최근 분할 2025-11-17 — PER 제외"
+ },
+ "notes": {
+  "FOX/FOXA": "PSR·PBR·PCR이 0.0으로 계산돼(종류별 주식 수를 못 찾아 시가총액 0으로 보임) 결측으로 뺐다. 0이 \"가장 싼 종목\"으로 세어져 VZ 동종업 점수가 낮게 나왔다(Fable, 2026-10-01, 안건 D12)."
+ }
+}

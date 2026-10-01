@@ -232,6 +232,9 @@ def concept(cik, tag, taxonomy="us-gaap"):
 # LLY: 설비투자 = PaymentsToAcquireOtherPropertyPlantAndEquipment(10-Q "Purchases of property and equipment"),
 #      인수 = OtherPaymentsToAcquireBusinesses("Cash paid for acquisitions, net of cash acquired", 2022년 이후).
 EXTRA_TAGS = {
+    # VZ: 설비투자가 2019-09 뒤 PaymentsToAcquireOtherProductiveAssets(분기 약 $4B, "Capital expenditures (including capitalized
+    # software)")로 옮겨 가 기본 목록이 2019년 값에 멈췄다 — PCR 계산 불가(2026-10-01).
+    "0000732712": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets"]},
     # COST: 세전이익을 FY2023부터 IncomeLossAttributableToParent로 낸다(FY2023 연간 8,487 = 손익계산서 세전이익,
     # Q3 FY26 2,938 = 10-Q "INCOME BEFORE INCOME TAXES"). 표준 태그는 10-Q 기준 2024-05에서 끊겨 DCF 세율이
     # FY2024 연간 세전으로 계산됐다(29.9% → 24.8%, Fable 2026-09-29).
@@ -314,7 +317,11 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
-                "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",)}
+                "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
+                # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아
+                # EV/EBITDA가 높게 나왔다(Fable, 2026-10-01).
+                "0000318154": ("DepreciationAndAmortization",)}
 
 
 def pick_tag(cik, names, taxonomy="us-gaap"):
@@ -738,6 +745,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # LIN: 기본 목록은 OtherShortTermBorrowings($330M, 단기차입금의 일부) 등이 겹쳐 2026-06-30 $32,874M였다.
                   # 10-Q 합계 $28,013M = 단기 $4,861M + 1년 안 만기 $2,474M + 장기 $20,678M(2026-10-01).
                   "0001707925": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],
+                  # APH: 기본 목록이 장기분만 잡아 1년 안 만기 $1,634M가 빠졌다(10-Q 합계 $18,811M, 2026-10-01).
+                  "0000820313": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # VZ: 장기 줄이 금융리스를 포함하는데 리스로 금융리스를 또 더했다(Fable, 2026-10-01). 1년 안 + 장기 = $165,231M(10-Q).
+                  "0000732712": ["LongTermDebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # GEV: 10-Q 주석 14 차입금 합계 $2,849M(회사채 $2.6B + 금융리스 등, 1년 안 만기 $55M 포함). 장기 태그만 잡혀 $2,794M였다(2026-10-01).
                   "0001996810": ["LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"],
                   # TMO: LongTermDebt($42,284M)는 단기 차입 일부·금융리스가 빠진다. 재무상태표 = 단기·1년 안 만기 $3,368M + 장기 $39,181M
@@ -770,6 +781,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
+                  # VZ: 단기투자 줄이 없다(ShortTermInvestments가 2015-12 $350M에 멈춰 그 값이 계속 쓰였다, Codex 2026-10-01).
+                  "0000732712": {"sti": []},
                   # JNJ: 비유동 리스 태그는 2019년에 멈췄고 총 리스부채(OperatingLeaseLiability, 10-K 연간)만 이어진다.
                   "0000200406": {"lease": ["OperatingLeaseLiability"]},
                   # XOM: 단기투자 줄이 없다(ShortTermInvestments 태그가 2011-06에 멈춰 그 값이 계속 쓰였다). 리스는 10-K 연간 총액.
@@ -1132,6 +1145,13 @@ def main():
         for name, tags in CORE_TAX_TAGS.items():
             tag, rows = pick_tag(cik, tags)
             series[name] = ttm_series(quarterly_flow(rows, t)) if rows else []
+            if name == "pretax" and not series[name]:
+                # 세전이익을 연간에만 태그한 회사(MRVL)는 분기 세전 = 순이익 + 법인세로 만든다 — build_dcf.base_inputs와 같은 대체(2026-10-01)
+                _, nr = pick_tag(cik, ["NetIncomeLoss"]); _, tr = pick_tag(cik, CORE_TAX_TAGS["tax"])
+                nq = {e["end"]: e for e in quarterly_flow(nr, t)}; tq = {e["end"]: e for e in quarterly_flow(tr, t)}
+                merged = [dict(nq[k], val=nq[k]["val"] + tq[k]["val"], filed=max(nq[k]["filed"], tq[k]["filed"])) for k in sorted(nq) if k in tq]
+                series[name] = ttm_series(merged)
+                tag = "NetIncomeLoss + 법인세(분기 세전 태그 없음)"
             print(f"  {name}: {tag} — TTM {len(series[name])}개 (본업 기준 PER용)")
 
     def core_earnings(d):
