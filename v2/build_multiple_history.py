@@ -354,7 +354,18 @@ def quarterly_flow(entries, ticker):
     """
     rows = [e for e in entries if "start" in e and "end" in e and "filed" in e]
     rows = feh.dedup_for(rows, ticker)   # 분사 재작성 종목(GE)은 나중 공시 값
-    q = {e["end"]: e for e in rows if 80 <= feh.days_between(e) <= 100}
+    # 약 90일 항목인데 값이 같은 결산일의 연간 값과 똑같고 9개월 누계가 있으면 태깅 오류다 — ORCL FY2021·FY2022 10-K가 연간 매출
+    # $40,479M·$42,440M을 3/1~5/31 기간으로도 태깅해 4분기 자리에 연간 값이 들어갔다(2026-10-01). 이런 항목은 버리고
+    # 4분기는 아래에서 연간 − 1~3분기로 만든다.
+    # 다만 4분기에 처음 생긴 항목(예: 4분기 인수)은 분기 = 연간이 정상이라, 같은 회계연도 9개월 누계가 0보다 클 때만
+    # 모순(앞 세 분기 합이 0이 아님)으로 보고 버린다(Codex 2026-10-01).
+    _ann = {e["end"]: e for e in rows if feh.days_between(e) > 350}
+    def _bad_q(e):
+        a = _ann.get(e["end"])
+        if not a or a["val"] != e["val"]:
+            return False
+        return any(r["start"] == a["start"] and r["val"] > 0 and 250 <= feh.days_between(r) <= 290 for r in rows)
+    q = {e["end"]: e for e in rows if 80 <= feh.days_between(e) <= 100 and not _bad_q(e)}
 
     # 현금흐름표는 분기가 아니라 회계연도 누계로 보고된다(2분기 10-Q에 6개월
     # 누계가 실린다). 그래서 같은 시작일을 공유하는 누계들을 끝나는 날짜 순으로
@@ -463,13 +474,25 @@ def instant_series(entries, ticker, is_share_count):
         key = e["end"]
         if key not in best or e["filed"] < best[key]["filed"]:
             best[key] = e
+    # 주식 수를 정정 공시(10-Q/A·10-K/A)로 고친 경우 정정 값을 **정정 공시일부터** 따로 넣는다. 표지 주식 수 오타다 —
+    # SNDK 첫 10-Q(2025-03-07) 114,863,251주를 10-Q/A(2025-03-17)에서 144,863,251주로 고쳤는데, 처음 값이 다음 10-Q까지
+    # 쓰여 2025-03~05 배수가 21% 낮게 나왔다(2026-10-01). 처음 공시일로 당기면 미래 정보가 섞인다(Codex) — 그사이는 처음 값.
+    amended = []
+    if is_share_count:
+        # 같은 기간의 정정은 공시 순서대로 바로 앞 값과 비교한다 — 두 번째 정정이 처음 값으로 되돌려도 남는다(Codex 2차).
+        last = {k: v["val"] for k, v in best.items()}
+        for e in sorted(rows, key=lambda r: r["filed"]):
+            b0 = best[e["end"]]
+            if str(e.get("form", "")).endswith("/A") and e["filed"] > b0["filed"] and e["val"] != last[e["end"]] \
+                    and not any(x["end"] > e["end"] and x["filed"] <= e["filed"] for x in best.values()):
+                amended.append(e); last[e["end"]] = e["val"]
     out = []
     # 손 목록(KNOWN_SPLITS)이 없으면 Yahoo 분할 기록으로 보정한다(v2/splits.py, 2026-09-25).
     # 전에는 목록에 없는 종목의 분할 전 주식 수가 그대로 들어가 주당 가치가 부풀었다(BKNG·KLAC·CRWD).
     import splits as _splits
     splits = _splits.for_ticker(ticker)
     adjust = share_adjustments(ticker) if is_share_count else []
-    for e in best.values():
+    for e in list(best.values()) + amended:
         val = e["val"]
         if is_share_count and splits:
             # 이 공시 이후에 일어난 분할만큼 주식수를 오늘 기준으로 늘린다
@@ -693,6 +716,15 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # HD: 기업어음 CommercialPaper($4,248M) + 1년 안 만기 장기 LongTermDebtAndCapitalLeaseObligationsCurrent($4,697M) +
                   # 장기 LongTermDebtAndCapitalLeaseObligations($43,951M) = $52,896M(10-Q). 금융리스는 이 태그 안에 있어 리스에 다시 더하지 않는다.
                   "0000354950": [("ShortTermBorrowings", "CommercialPaper"), "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # 단기는 정확한 합계 태그 우선(기업어음은 반올림값, Codex)
+                  # RTX: ShortTermBorrowings($229M) + LongTermDebtAndCapitalLeaseObligationsCurrent($5,296M) + LongTermDebtAndCapitalLeaseObligations($31,858M)
+                  # = $37,383M(2026-06-30 10-Q "Total debt"). 기본 조합은 1년 안 만기 $5.3B를 빠뜨렸다(HD·PM과 같은 모양).
+                  "0000101829": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # CSCO: DebtCurrent($10,161M — 기업어음 + 1년 안 만기 장기) + LongTermDebtNoncurrent($19,372M) = $29,533M(FY2026 10-K "Total debt").
+                  # 기본 조합은 LongTermDebtCurrent + Noncurrent($22,872M)라 기업어음 $6.7B가 빠졌다.
+                  "0000858877": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # ORCL: 유동 NotesPayableCurrent($7,625M) + 비유동 LongTermNotesAndLoans($117,712M) = $125,337M(2026-08-31 10-Q).
+                  # 기본 태그가 하나도 없어 차입금 0으로 계산됐다(이자비용 $5.1B와 모순, debt_suspect). 연간 전용 태그는 뒤 순위로 둔다.
+                  "0001341439": [("NotesPayableCurrent", "DebtCurrent"), ("LongTermNotesAndLoans", "LongTermNotesPayable")],
                   # PANW: 차입금은 전환사채뿐이다. 기본 태그(ConvertibleNotesPayable*)는 2023-07-31 $1,992M에서 멈춰 그 뒤 날짜에
                   # 옛 값이 그대로 쓰였다(2025-07-31 실제 0, 2026-07-31 CyberArk 승계분 $1,774M — FY2026 10-K). 0을 명시한 태그를 우선한다.
                   "0001327567": [("ConvertibleDebtCurrent", "ConvertibleNotesPayableCurrent"), ("ConvertibleDebtNoncurrent", "ConvertibleNotesPayableNoncurrent")],
@@ -730,6 +762,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000021344": {"sti": ["OtherShortTermInvestments", "MarketableSecurities"]},
                   # CAT: 재무상태표에 단기투자 줄이 없다(2026-06-30 10-Q). ShortTermInvestments가 2014-09-30 $378M에서 멈춰 그 값이 쓰였다.
                   "0000018230": {"sti": []},
+                  # RTX: MarketableSecuritiesCurrent $711M(2026-06-30)은 비적격 퇴직급여 지급용 신탁 증권이다(10-Q 주석 10·13).
+                  # 회사가 쓸 수 있는 단기투자가 아니라 순현금에서 뺀다(Codex, 2026-10-01).
+                  "0000101829": {"sti": []},
                   # MRK: 우선주가 없다. PreferredStockValue가 2009-09-30 $2,500M(셰링-플라우 합병 때)에서 멈춰 EV에 계속 더해졌다(2026-09-30).
                   "0000310158": {"preferred": []},
                   # UNH: 리스는 10-K 연간 총액(OperatingLeaseLiability)만 — 기본 유동·비유동 태그는 2019년 값에 멈췄다.

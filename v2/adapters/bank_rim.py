@@ -25,6 +25,8 @@ ITEMS = os.path.join(V2, "bank_items.json")
 # 자사주 매입 현금 태그가 다른 은행. MS는 현금흐름표 "Repurchases of common stock"을 StockRepurchasedDuringPeriodValue로 낸다
 # (PaymentsForRepurchaseOfCommonStock은 2013년에 멈춤, 2026-10-01). 우선주 잔액은 회사 고유 태그라 adapters/ms_preferred.py가 overlay에 싣는다.
 BUY_TAGS = {"MS": ["StockRepurchasedDuringPeriodValue"]}
+# 보통주 배당 현금을 PaymentsOfDividendsCommonStock 대신 다른 태그로 내는 은행(BAC: DividendsCommonStockCash, 2026-10-01)
+DIV_COM_TAGS = {"BAC": ["DividendsCommonStockCash"]}
 
 
 # ── 사실 읽기 ────────────────────────────────────────────────────────────
@@ -108,7 +110,7 @@ class Bank:
         self.cso = instant(c, "CommonStockSharesOutstanding", asof)
         self.ni = flow_q(c, ["NetIncomeLossAvailableToCommonStockholdersBasic"], ticker, asof)
         self.div_all = flow_q(c, ["PaymentsOfDividends"], ticker, asof)
-        self.div_com = flow_q(c, ["PaymentsOfDividendsCommonStock"], ticker, asof)
+        self.div_com = flow_q(c, DIV_COM_TAGS.get(ticker, ["PaymentsOfDividendsCommonStock"]), ticker, asof)
         self.div_pref = flow_q(c, ["DividendsPreferredStock"], ticker, asof)
         self.buy = flow_q(c, BUY_TAGS.get(ticker, ["PaymentsForRepurchaseOfCommonStock"]), ticker, asof)
         self.iss = flow_q(c, ["ProceedsFromIssuanceOfCommonStock"], ticker, asof)

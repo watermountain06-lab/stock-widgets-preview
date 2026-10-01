@@ -55,7 +55,9 @@ def pct_rank(vals, cur):
 def _qavail(bank, e):
     """분기말 e가 열리는 날 — 회사 정의 자본 예외(WFC)가 있으면 보도자료일이 10-Q보다 빠르다(Codex)."""
     o = br.EQUITY_OVERRIDE.get(bank.t, {}).get(e) if bank.ov else None
-    return min(bank.se[e][1], o["filed"]) if o else bank.se[e][1]
+    so = br.SHARES_OVERRIDE.get(bank.t, {}).get(e) if bank.ov else None
+    # 주식 수도 보도자료 값일 때만(WFC) 보도자료일에 연다 — BAC처럼 주식 수는 10-Q 태그면 그 분기 P/TBV는 10-Q 날 열린다
+    return min(bank.se[e][1], max(o["filed"], so["filed"])) if o and so else bank.se[e][1]
 
 
 def self_history(bank, daily, eps_path):

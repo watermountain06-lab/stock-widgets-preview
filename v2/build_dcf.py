@@ -51,7 +51,9 @@ WINDOW_START = "2021-07-01"
 # 분사로 이력이 짧아진 종목의 (최근 4분기 시작 결산일, 최소 개수). GE: 계속사업(GE 에어로스페이스 단독) 재작성 값이
 # 2023년 2분기부터 있어 최근 4분기 끝 2024-03-31부터 10개(2026-06까지). 3년·5년 성장률이 같은 약 2.25년 CAGR이 된다
 # (2026-09-30 사용자 결정 "분사 뒤 단독 숫자만").
-HISTORY_WINDOW = {"GE": ("2024-03-31", 9)}
+# SNDK: 2025-02 WDC에서 분사. 회사 공시의 단독(carve-out) 분기가 2023-10부터 있어 최근 4분기 끝 2024-09-27부터
+# 8개(2026-07까지). 3년·5년 성장률이 같은 약 1.8년 CAGR이 된다(2026-10-01, GE 선례 적용).
+HISTORY_WINDOW = {"GE": ("2024-03-31", 9), "SNDK": ("2024-09-27", 8)}
 
 
 def latest(series, asof=None):
@@ -124,8 +126,15 @@ def base_inputs(ticker, asof=None):
     tser = [e for e in bmh.ttm_series(bmh.quarterly_flow(trows, ticker)) if asof is None or e["available"] <= asof] if trows else []
     if out["tax"] is not None and tser:
         out["tax"] -= bmh.oneoff_in_ttm(ticker, tser[-1]["end"], "tax", asof)
-    out["pretax"] = ttm(["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
-                         "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"])
+    # 세전이익도 매출보다 200일 넘게 뒤처지면 쓰지 않는다 — ORCL은 표준 태그가 2018-08에서 멈춰 2018년 TTM($12.8B)이
+    # "최근 4분기"로 쓰였다(2026-10-01). 커밋된 카드 중 이 규칙에 걸리는 종목은 ORCL뿐이다(PG는 태그가 원래 없음).
+    out["pretax"] = ttm_fresh(["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                               "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                              bmh.FLOW_TAGS["revenue"])
+    if cik in PRETAX_FROM_NI_TAX:
+        # 세전이익을 표준 태그로 내지 않는 회사는 순이익 + 법인세로 만든다(ORCL Q1 FY27: 4,760 + 847 = 10-Q 5,607).
+        ni_ttm, tx_ttm = ttm_fresh(["NetIncomeLoss"], bmh.FLOW_TAGS["revenue"]), ttm_fresh(["IncomeTaxExpenseBenefit"], bmh.FLOW_TAGS["revenue"])
+        out["pretax"] = ni_ttm + tx_ttm if ni_ttm is not None and tx_ttm is not None else None
 
     for name, tags in bmh.EV_COMPONENTS.items():
         # asof를 빠뜨리면 과거 시점 계산에 오늘 대차대조표가 섞인다
@@ -289,6 +298,10 @@ def base_inputs(ticker, asof=None):
     if effective_tax(out) != (out["tax"] / out["pretax"] if out.get("tax") is not None and out.get("pretax") else None):
         out["dq"].append("tax_fallback")
     return out
+
+
+# 세전이익을 표준 태그로 내지 않는 회사(CIK) — 순이익 + 법인세로 만든다. ORCL은 2018-08 뒤로 회사 고유 태그만 쓴다.
+PRETAX_FROM_NI_TAX = {"0001341439"}
 
 
 S2C_MAX = 10.0   # 매출/자본 상한 — 자본을 거의 안 쓰는 회사의 발산 방지
