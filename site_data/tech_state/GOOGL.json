@@ -1,7 +1,7 @@
 {
   "ticker": "GOOGL",
-  "asOf": "2026-09-29",
-  "close": 340.92,
+  "asOf": "2026-09-30",
+  "close": 344.08,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 12.49
+    "weightedRocPct": 12.18
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 44.56,
-    "drawdownFromHighPct": 16.57,
+    "riseFromLowPct": 45.9,
+    "drawdownFromHighPct": 15.79,
     "high52w": 408.61,
     "low52w": 235.84
   },
@@ -38,14 +38,10 @@
   "rawScore": 55,
   "rawGrade": "혼조",
   "displayGrade": "긍정적",
-  "riskFlags": [
-    "단기추세이탈"
-  ],
-  "riskFlagsShown": [
-    "단기추세이탈"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.49,
-    "percentileVsOwnHistory": 32.5
+    "pctNow": 2.59,
+    "percentileVsOwnHistory": 46.4
   }
 }

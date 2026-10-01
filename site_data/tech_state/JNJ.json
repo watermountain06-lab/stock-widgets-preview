@@ -1,7 +1,7 @@
 {
   "ticker": "JNJ",
-  "asOf": "2026-09-29",
-  "close": 267.57,
+  "asOf": "2026-09-30",
+  "close": 264.74,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,15 +20,15 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 19.76
+    "weightedRocPct": 18.02
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 48.82,
-    "drawdownFromHighPct": 4.8,
+    "riseFromLowPct": 46.21,
+    "drawdownFromHighPct": 5.81,
     "high52w": 281.07,
-    "low52w": 179.8
+    "low52w": 181.07
   },
   "priceStructureScore": {
     "score": 60,
@@ -38,10 +38,14 @@
   "rawScore": 80,
   "rawGrade": "긍정적",
   "displayGrade": "강한",
-  "riskFlags": [],
-  "riskFlagsShown": [],
+  "riskFlags": [
+    "단기추세이탈"
+  ],
+  "riskFlagsShown": [
+    "단기추세이탈"
+  ],
   "atr": {
-    "pctNow": 1.87,
-    "percentileVsOwnHistory": 56.0
+    "pctNow": 1.85,
+    "percentileVsOwnHistory": 52.4
   }
 }

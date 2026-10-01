@@ -1,7 +1,7 @@
 {
   "ticker": "JPM",
-  "asOf": "2026-09-29",
-  "close": 334.98,
+  "asOf": "2026-09-30",
+  "close": 330.83,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,15 +18,15 @@
     }
   },
   "momentum": {
-    "score": 20,
+    "score": 10,
     "max": 40,
-    "weightedRocPct": 6.17
+    "weightedRocPct": 3.5
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 20.02,
-    "drawdownFromHighPct": 8.6,
+    "riseFromLowPct": 18.53,
+    "drawdownFromHighPct": 9.73,
     "high52w": 366.5,
     "low52w": 279.1
   },
@@ -35,7 +35,7 @@
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 75,
+  "rawScore": 65,
   "rawGrade": "긍정적",
   "displayGrade": "긍정적",
   "riskFlags": [
@@ -45,7 +45,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 2.12,
-    "percentileVsOwnHistory": 49.6
+    "pctNow": 2.19,
+    "percentileVsOwnHistory": 57.5
   }
 }
