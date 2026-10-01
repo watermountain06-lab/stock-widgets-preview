@@ -279,7 +279,11 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                  "0000319201": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["InterestExpenseNonoperating", "InterestExpense"], -1), (["OtherNonoperatingIncomeExpense"], 1),
                                  # 채무 상환 손실(손익계산서 별도 줄, 손실은 음수) — Q1 FY23 $13.3M(Codex). 없는 분기는 0.
-                                 (["GainsLossesOnExtinguishmentOfDebt"], 1, True)])}
+                                 (["GainsLossesOnExtinguishmentOfDebt"], 1, True)]),
+                 # IBM: 손익계산서에 영업이익 줄이 없고 "지식재산·주문 개발 수익"과 "기타 (수익)·비용"은 회사 고유 태그라 SEC 요약 데이터에
+                 # 없다. 영업이익 = 매출총이익 − 판관비 − R&D(표준 태그만). 지식재산 수익(Q2 2026 $166M)은 빠져 조금 보수적이다.
+                 # Q2 2026: 9,907 − 4,981 − 2,311 = 2,615(10-Q 대조, 2026-10-01).
+                 "0000051143": ("GrossProfit", [(["SellingGeneralAndAdministrativeExpense"], 1), (["ResearchAndDevelopmentExpense"], 1)])}
 
 
 def _derived_opinc(cik, taxonomy):
@@ -687,6 +691,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # (비유동 $47,858M만 잡힘). 두 태그가 2020년부터 같은 26개 날짜에 있어 합으로 고정 — 10-Q 총 $54,908M.
 # XOM: 유동 "Notes and loans payable"은 DebtCurrent, 장기차입금은 LongTermDebtAndCapitalLeaseObligations(금융리스 포함)로만 낸다.
 # 기본 목록으로는 2017년에 멈춘 LongTermDebtNoncurrent가 섞이고 유동분이 빠졌다(2026-06-30 $32.2B → 10-Q 합계 $42.4B).
+# CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
+# 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
+SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   "0000034088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # INTC: 10-Q는 1년 안 만기 차입금을 DebtCurrent로만 낸다(LongTermDebtCurrent는 10-K에만) — 기본 목록으론
@@ -728,8 +735,17 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # RTX: ShortTermBorrowings($229M) + LongTermDebtAndCapitalLeaseObligationsCurrent($5,296M) + LongTermDebtAndCapitalLeaseObligations($31,858M)
                   # = $37,383M(2026-06-30 10-Q "Total debt"). 기본 조합은 1년 안 만기 $5.3B를 빠뜨렸다(HD·PM과 같은 모양).
                   "0000101829": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # LIN: 기본 목록은 OtherShortTermBorrowings($330M, 단기차입금의 일부) 등이 겹쳐 2026-06-30 $32,874M였다.
+                  # 10-Q 합계 $28,013M = 단기 $4,861M + 1년 안 만기 $2,474M + 장기 $20,678M(2026-10-01).
+                  "0001707925": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],
                   # GEV: 10-Q 주석 14 차입금 합계 $2,849M(회사채 $2.6B + 금융리스 등, 1년 안 만기 $55M 포함). 장기 태그만 잡혀 $2,794M였다(2026-10-01).
                   "0001996810": ["LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"],
+                  # TMO: LongTermDebt($42,284M)는 단기 차입 일부·금융리스가 빠진다. 재무상태표 = 단기·1년 안 만기 $3,368M + 장기 $39,181M
+                  # = $42,549M(2026-06-27 10-Q, 2026-10-01).
+                  "0000097745": ["DebtCurrent", ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # 앞 태그가 2021-10부터라 그 전은 장기 태그(Codex)
+                  # IBM: 차입금 $61,987M = 단기 $5,775M + 장기(금융리스 포함) $56,212M(10-Q). 합계 태그 없이 기본 목록이면 금융리스 $1.15B가
+                  # 리스에 다시 더해졌다(Codex, 2026-10-01).
+                  "0000051143": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligations"],
                   # CSCO: DebtCurrent($10,161M — 기업어음 + 1년 안 만기 장기) + LongTermDebtNoncurrent($19,372M) = $29,533M(FY2026 10-K "Total debt").
                   # 기본 조합은 LongTermDebtCurrent + Noncurrent($22,872M)라 기업어음 $6.7B가 빠졌다.
                   "0000858877": ["DebtCurrent", "LongTermDebtNoncurrent"],
@@ -776,6 +792,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # KLAC: AvailableForSaleSecuritiesDebtSecuritiesCurrent가 2021-03-31 $990.6M에서 멈춰 그 값이 쓰였다. 재무상태표
                   # "Marketable securities" $3,252.6M(2026-06-30) = 매도가능 채권 합계 $3,205.8M + 상장 지분증권 약 $46.8M(2026-10-01).
                   "0000319201": {"sti": ["AvailableForSaleSecuritiesDebtSecurities"]},
+                  # IBM: 단기투자 태그가 2021-03-31 $600M에서 멈춰 쓰였다. 10-Q "Marketable securities" $960M(2026-06-30)은
+                  # DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent(Codex, 2026-10-01).
+                  "0000051143": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"]},
                   # RTX: MarketableSecuritiesCurrent $711M(2026-06-30)은 비적격 퇴직급여 지급용 신탁 증권이다(10-Q 주석 10·13).
                   # 회사가 쓸 수 있는 단기투자가 아니라 순현금에서 뺀다(Codex, 2026-10-01).
                   "0000101829": {"sti": []},
@@ -988,7 +1007,9 @@ LOCAL_HISTORY = {"SKHY": {"loader": "skhy_krx", "ads_per_share": 10}}
 # 재무상태표는 버노바를 포함해 자본 $29.9B(분사 뒤 $18.6B)였고, 1분기 현금흐름(2023 Q1)이 재작성되지 않아 2분기 누계 차감이 섞였다(Fable).
 HISTORY_START = {"GE": "2024-07-23",
                  # DELL: VMware 분사(2021-11-01) 뒤 첫 재무상태표(FY2022 말 2022-01-28)가 나온 10-K 공시일(2026-10-01 사용자 결정).
-                 "DELL": "2022-03-24"}
+                 "DELL": "2022-03-24",
+                 # IBM: Kyndryl 분사(2021-11-03) 뒤 첫 재무상태표(2021-12-31)가 나온 FY2021 10-K 공시일(2026-10-01, GE·DELL 방식).
+                 "IBM": "2022-02-22"}
 
 
 def history_daily(ticker, daily):
@@ -1058,6 +1079,15 @@ def main():
             t2, r2 = pick_tag(cik, ["EntityCommonStockSharesOutstanding"], "dei")
             tag = "+".join(x for x in (t1, t2) if x)
             rows = r1 + r2
+            if cik in SHARES_WA_FALLBACK:
+                # 기말 주식 수가 시작되기 전 구간만 분기(약 3개월) 가중평균 기본 주식 수로 채운다(종목 예외)
+                from datetime import date as _d
+                _, rw = pick_tag(cik, ["WeightedAverageNumberOfSharesOutstandingBasic"], "us-gaap")
+                first = min((r["end"] for r in r2 if "start" not in r), default="9999-12-31")   # 표지(dei) 주식 수가 시작되기 전
+                extra = [{k: v for k, v in r.items() if k != "start"} for r in rw if "start" in r and r["end"] < first
+                         and 80 <= (_d.fromisoformat(r["end"]) - _d.fromisoformat(r["start"])).days <= 100]
+                rows = rows + extra
+                tag += f"+분기 가중평균 기본 {len(extra)}개({first} 전)"
         else:
             tag, rows = pick_tag(cik, tags, "us-gaap")
         if not rows:

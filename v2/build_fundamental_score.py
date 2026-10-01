@@ -177,6 +177,12 @@ def operating_income_annual(fin):
 def quarter_flow(fin, key, end):
     """최신 분기 흐름값. 매출과 **같은 분기**일 때만 쓴다."""
     q = _q(fin, key)
+    # 분기 칸에 누계(상반기 등)가 들어온 경우는 쓰지 않는다 — TMO 이자비용은 SEC 데이터에 상반기 $755M뿐이라 2분기 영업이익을
+    # 상반기 이자로 나눴다(Codex, 2026-10-01). 손익 항목 중 이런 경우는 TMO뿐이었다(전 카드 확인).
+    if q and q.get("start"):
+        from datetime import date as _d
+        if (_d.fromisoformat(q["end"]) - _d.fromisoformat(q["start"])).days > 100:
+            return None
     return q["val"] if q and q["end"] == end else None
 
 

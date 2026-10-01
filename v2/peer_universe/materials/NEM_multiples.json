@@ -1,0 +1,66 @@
+{
+ "ticker": "NEM",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 14.56,
+   "min": 11.53,
+   "p10": 12.34,
+   "median": 15.46,
+   "p90": 18.55,
+   "max": 20.52,
+   "mean": 15.39,
+   "percentile": 39.2,
+   "score": 60.8
+  },
+  "PSR": {
+   "days": 250,
+   "current": 4.72,
+   "min": 3.74,
+   "p10": 4.05,
+   "median": 4.85,
+   "p90": 5.85,
+   "max": 6.7,
+   "mean": 4.94,
+   "percentile": 41.2,
+   "score": 58.8
+  },
+  "PBR": {
+   "days": 250,
+   "current": 3.45,
+   "min": 2.58,
+   "p10": 2.84,
+   "median": 3.35,
+   "p90": 3.91,
+   "max": 4.33,
+   "mean": 3.37,
+   "percentile": 55.2,
+   "score": 44.8
+  },
+  "PCR": {
+   "days": 250,
+   "current": 12.49,
+   "min": 9.89,
+   "p10": 11.02,
+   "median": 14.8,
+   "p90": 20.04,
+   "max": 23.52,
+   "mean": 15.34,
+   "percentile": 20.0,
+   "score": 80.0
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 13.75,
+  "per_p75": 16.97,
+  "low": 110,
+  "high": 130,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

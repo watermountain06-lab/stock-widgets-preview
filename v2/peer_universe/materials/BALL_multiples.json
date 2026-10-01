@@ -1,0 +1,66 @@
+{
+ "ticker": "BALL",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 15.96,
+   "min": 15.3,
+   "p10": 16.51,
+   "median": 18.17,
+   "p90": 21.06,
+   "max": 24.2,
+   "mean": 18.57,
+   "percentile": 3.6,
+   "score": 96.4
+  },
+  "PSR": {
+   "days": 250,
+   "current": 1.04,
+   "min": 0.98,
+   "p10": 1.03,
+   "median": 1.16,
+   "p90": 1.28,
+   "max": 1.43,
+   "mean": 1.16,
+   "percentile": 12.0,
+   "score": 88.0
+  },
+  "PBR": {
+   "days": 250,
+   "current": 2.58,
+   "min": 2.28,
+   "p10": 2.44,
+   "median": 2.8,
+   "p90": 3.12,
+   "max": 3.33,
+   "mean": 2.79,
+   "percentile": 23.6,
+   "score": 76.4
+  },
+  "PCR": {
+   "days": 250,
+   "current": 17.93,
+   "min": 17.93,
+   "p10": 19.92,
+   "median": 26.25,
+   "p90": 106.19,
+   "max": 129.71,
+   "mean": 47.1,
+   "percentile": 0.0,
+   "score": 100.0
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 17.33,
+  "per_p75": 19.43,
+  "low": 60,
+  "high": 70,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

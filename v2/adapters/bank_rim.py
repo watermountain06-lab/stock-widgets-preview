@@ -90,6 +90,11 @@ _EO = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
 EQUITY_OVERRIDE = {k: v for k, v in json.load(open(_EO)).items() if not k.startswith("_")} if os.path.exists(_EO) else {}
 
 
+# 우선주 장부·청산가 태그가 0·없음인데 우선주가 있는 회사 — 청산가 = 발행 우선주 수 × 주당 상환가(10-K). AXP: 1,600주 × $1,000,000
+# = $1.6B(재무상태표 우선주 장부가 "—", 회사 BVPS는 이를 뺀 값, 2026-10-01). 종목별로만 적용한다.
+PREF_PRICE = {"AXP": 1_000_000}
+
+
 class Bank:
     def __init__(self, ticker, cik, asof=None, overrides=False):
         # overrides: 회사 정의 주식 수·자본 예외(GS·WFC)는 그 종목 카드에서만 쓴다 — 동종업 계산에 넣으면 커밋된 다른 은행 카드 점수가 바뀐다
@@ -99,6 +104,7 @@ class Bank:
         self.pref_liq = instant(c, "PreferredStockLiquidationPreferenceValue", asof)
         self.pref_val = instant(c, "PreferredStockValue", asof)
         self.pref_ever = ever(c, "PreferredStockLiquidationPreferenceValue") or ever(c, "PreferredStockValue")
+        self.pref_sh = instant(c, "PreferredStockSharesOutstanding", asof) if ticker in PREF_PRICE else {}
         self.gw = instant(c, "Goodwill", asof)
         self.ia = instant(c, "IntangibleAssetsNetExcludingGoodwill", asof)
         self.fin = instant(c, "FiniteLivedIntangibleAssetsNet", asof)
@@ -134,6 +140,8 @@ class Bank:
         if end not in self.se:
             return None
         p = self.pref_liq.get(end) or self.pref_val.get(end)
+        if self.t in PREF_PRICE and end in self.pref_sh:   # 종목 예외(AXP) — 발행 우선주 수 × 주당 상환가
+            p = (self.pref_sh[end][0] * PREF_PRICE[self.t], self.pref_sh[end][1])
         if p is None:
             if self.pref_ever:
                 return None

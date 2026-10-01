@@ -85,7 +85,7 @@ def dedup_earliest_filed(entries):
 # 분사로 과거 기간을 다시 공시한 종목(2026-09-30 사용자 결정 "분사 뒤 단독 숫자만", GE). 같은 기간 값은 **가장 나중 공시**
 # (계속사업 재작성)를 쓰고, 공개일은 처음 공시일로 둔다 — 분사 사업을 빼고 다시 적은 숫자가 원공시의 자리에 들어간다.
 # 4분기는 연간 − 9개월 누계로 만든다(1분기 원공시가 분사 사업을 포함한 채 남아 있어 세 분기를 빼면 섞인다).
-RESTATED_LATEST = {"GE", "DELL"}   # DELL: 2021-11 VMware 분사(2026-10-01 사용자 결정 "GE와 같은 방식")
+RESTATED_LATEST = {"GE", "DELL", "IBM"}   # IBM: 2021-11 Kyndryl 분사 — 2021년 분기가 재작성됐다(2026-10-01, GE 방식)   # DELL: 2021-11 VMware 분사(2026-10-01 사용자 결정 "GE와 같은 방식")
 
 
 def dedup_for(entries, ticker):
@@ -112,6 +112,10 @@ def days_between(e):
     return (date.fromisoformat(e["end"]) - date.fromisoformat(e["start"])).days
 
 
+# 연간을 소급 수정했는데 분기는 원공시라 "연간 − 1~3분기"가 섞이는 종목의 4분기 희석 EPS(분할 반영 값).
+# CRWD FY26 4분기: 주식보상비용 인식 시점 오류(경미)를 10-K에서 고쳐 연간 −0.65 대 원공시 분기 합이 맞지 않아 0.24(분할 전)가 나왔다.
+# 2026-03-03 보도자료 희석 EPS $0.15 ÷ 4 = 0.0375(2026-10-01, Fable).
+Q4_EPS_OVERRIDE = {"CRWD": {"2026-01-31": 0.0375}}
 KNOWN_SPLITS = {
     "NVDA": [("2021-07-20", 4), ("2024-06-07", 10)],
     # Verified 2026-09-02 against real EDGAR duplicate-filing detection (not just public
@@ -167,6 +171,11 @@ KNOWN_SPLITS = {
     "TXN": [],    # 데이터 창(2021-09~) 안에 분할 없음 — Yahoo 분할 기록 없음(2026-10-01 확인)
     "C": [],      # 마지막 분할은 2011-05 1:10 병합으로 데이터 창 밖 — Yahoo 창 안 기록 없음(2026-10-01 확인)
     "KLAC": [("2026-06-12", 10)],  # 10:1 정분할 — 2026-05-07 8-K 발표, 2026-06-11 23:59 정관 개정 효력(2026-06-12 8-K Item 5.03), 6/12부터 분할 후 거래. 2026-10-01 확인
+    "IBM": [],    # 분할 없음 — 2021-11-04 Kyndryl 분사 조정 비율 1.046은 분할이 아니다(splits.py ignored, 2026-10-01)
+    "TMO": [],    # 데이터 창(2021-09~) 안에 분할 없음 — Yahoo 기록 없음(2026-10-01)
+    "AXP": [],    # 데이터 창 안에 분할 없음 — Yahoo 기록 없음(2026-10-01)
+    "LIN": [],    # 데이터 창 안에 분할 없음 — Yahoo 기록 없음(2026-10-01)
+    "CRWD": [("2026-07-02", 4)],   # 4:1 주식 배당형 분할 — 2026-06-03 8-K(기록일 6/25, 7/2부터 분할 기준 거래). 마지막 분할 전 공시 2026-06-04(Q1 FY27 10-Q), 첫 분할 후 2026-08-27(Q2 FY27 10-Q)
 }
 
 CIKS = {
@@ -218,6 +227,11 @@ CIKS = {
     "TXN": "0000097476",
     "KLAC": "0000319201",
     "C": "0000831001",
+    "IBM": "0000051143",
+    "TMO": "0000097745",
+    "AXP": "0000004962",
+    "LIN": "0001707925",
+    "CRWD": "0001535527",
     "GS": "0000886982",
 }
 
@@ -325,6 +339,8 @@ def main():
             nine = ytd9.get((fy["start"], last_q["end"]))
             if ticker_key in RESTATED_LATEST and nine:
                 q4_val = round(fy["val"] - nine["val"], 4)   # 연간 − 9개월 누계(재작성 종목)
+            if fy_end in Q4_EPS_OVERRIDE.get(ticker_key, {}):
+                q4_val = Q4_EPS_OVERRIDE[ticker_key][fy_end]   # 보도자료 4분기 값(분할 반영) — 수정 연간 − 원공시 분기 섞임 방지
             quarters.append({
                 "start": last_q["end"], "end": fy_end, "val": q4_val,
                 "accn": fy["accn"], "fy": fy.get("fy"), "fp": "Q4-derived",

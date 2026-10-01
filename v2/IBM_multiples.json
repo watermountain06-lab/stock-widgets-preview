@@ -1,0 +1,78 @@
+{
+ "ticker": "IBM",
+ "window": [
+  "2022-02-22",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 1156,
+   "current": 19.53,
+   "min": 18.21,
+   "p10": 20.16,
+   "median": 30.15,
+   "p90": 64.32,
+   "max": 99.72,
+   "mean": 37.77,
+   "percentile": 5.8,
+   "score": 94.2
+  },
+  "PSR": {
+   "days": 1156,
+   "current": 3.0,
+   "min": 1.78,
+   "p10": 1.96,
+   "median": 2.79,
+   "p90": 4.12,
+   "max": 4.5,
+   "mean": 2.87,
+   "percentile": 56.4,
+   "score": 43.6
+  },
+  "PBR": {
+   "days": 1156,
+   "current": 6.01,
+   "min": 5.08,
+   "p10": 5.71,
+   "median": 6.72,
+   "p90": 9.71,
+   "max": 10.55,
+   "mean": 7.26,
+   "percentile": 20.6,
+   "score": 79.4
+  },
+  "PCR": {
+   "days": 1156,
+   "current": 15.03,
+   "min": 10.17,
+   "p10": 11.83,
+   "median": 15.41,
+   "p90": 21.1,
+   "max": 23.96,
+   "mean": 15.73,
+   "percentile": 48.1,
+   "score": 51.9
+  },
+  "EV/EBITDA": {
+   "days": 1156,
+   "current": 16.21,
+   "min": 12.11,
+   "p10": 13.09,
+   "median": 16.57,
+   "p90": 21.97,
+   "max": 24.28,
+   "mean": 16.91,
+   "percentile": 47.3,
+   "score": 52.7
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 20.93,
+  "per_p75": 36.01,
+  "low": 240,
+  "high": 410,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

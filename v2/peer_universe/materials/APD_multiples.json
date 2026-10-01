@@ -1,0 +1,59 @@
+{
+ "ticker": "APD",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 97,
+   "current": null,
+   "min": 28.68,
+   "p10": 29.61,
+   "median": 31.66,
+   "p90": 37.57,
+   "max": 39.06,
+   "mean": 33.0,
+   "percentile": 100.0,
+   "score": 0.0,
+   "currentNote": "negative"
+  },
+  "PSR": {
+   "days": 250,
+   "current": 4.92,
+   "min": 4.27,
+   "p10": 4.65,
+   "median": 5.07,
+   "p90": 5.41,
+   "max": 5.61,
+   "mean": 5.06,
+   "percentile": 29.2,
+   "score": 70.8
+  },
+  "PBR": {
+   "days": 250,
+   "current": 4.46,
+   "min": 3.4,
+   "p10": 3.64,
+   "median": 4.06,
+   "p90": 4.73,
+   "max": 4.96,
+   "mean": 4.12,
+   "percentile": 82.0,
+   "score": 18.0
+  },
+  "EV/EBITDA": {
+   "days": 250,
+   "current": 67.63,
+   "min": 16.32,
+   "p10": 17.37,
+   "median": 73.51,
+   "p90": 86.51,
+   "max": 89.11,
+   "mean": 56.39,
+   "percentile": 38.8,
+   "score": 61.2
+  }
+ },
+ "perBasis": "diluted"
+}

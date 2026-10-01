@@ -1,0 +1,66 @@
+{
+ "ticker": "CRWD",
+ "window": [
+  "2021-09-30",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 275,
+   "current": 6618.75,
+   "min": 352.0,
+   "p10": 417.92,
+   "median": 704.37,
+   "p90": 940.52,
+   "max": 6618.75,
+   "mean": 1106.77,
+   "percentile": 99.6,
+   "score": 0.4
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 50.24,
+   "min": 10.88,
+   "p10": 14.25,
+   "median": 24.56,
+   "p90": 36.35,
+   "max": 58.32,
+   "mean": 25.26,
+   "percentile": 97.6,
+   "score": 2.4
+  },
+  "PBR": {
+   "days": 1255,
+   "current": 53.14,
+   "min": 16.85,
+   "p10": 21.43,
+   "median": 31.12,
+   "p90": 45.68,
+   "max": 73.39,
+   "mean": 32.52,
+   "percentile": 96.4,
+   "score": 3.6
+  },
+  "PCR": {
+   "days": 1255,
+   "current": 168.51,
+   "min": 35.65,
+   "p10": 45.19,
+   "median": 80.41,
+   "p90": 122.06,
+   "max": 174.3,
+   "mean": 83.51,
+   "percentile": 99.5,
+   "score": 0.5
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 5362.56,
+  "per_p75": 6264.44,
+  "low": 210,
+  "high": 250,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}
