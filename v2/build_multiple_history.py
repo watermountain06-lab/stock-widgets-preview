@@ -687,6 +687,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   "0000731766": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # GE: 1년 안 만기·단기 차입 DebtCurrent($2,000M) + 장기 LongTermDebtAndCapitalLeaseObligations($17,157M) = 10-Q 합계.
                   "0000040545": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # DELL: 단기 DebtCurrent($8,481M) + 장기 LongTermDebtNoncurrent($25,985M) = $34,466M(10-Q). DFS 빚($9.6B)은 이자가
+                  # 영업이익 밖(interest and other, net)이라 차입금에 넣는다(2026-10-01 사용자 결정, CAT과 반대).
+                  "0001571996": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   "0000021344": ["NotesAndLoansPayable",
                                  ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"),
                                  ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")]}
@@ -723,7 +726,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # UNH: 리스는 10-K 연간 총액(OperatingLeaseLiability)만 — 기본 유동·비유동 태그는 2019년 값에 멈췄다.
                   "0000731766": {"lease": ["OperatingLeaseLiability"]},
                   # GE: CashAndCashEquivalentsAtCarryingValue가 2017년($43.3B)에 멈췄다. 재무상태표 첫 줄은 제한 현금 포함 합계뿐.
-                  "0000040545": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]}}
+                  "0000040545": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
+                  # PG: CashAndCashEquivalentsAtCarryingValue가 2019-09($9.3B)에 멈췄다. 재무상태표 현금 $9,942M(2026-06-30)은 합계 태그로만 낸다.
+                  "0000080424": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
@@ -913,7 +918,9 @@ LOCAL_HISTORY = {"SKHY": {"loader": "skhy_krx", "ads_per_share": 10}}
 # 자기 이력 창의 시작일을 늦추는 종목. GE: 버노바 분사(2024-04-02) 뒤 첫 재무상태표(2024-06-30)가 나온 2024-07-23
 # (2분기 10-Q)부터 — 그 전 배수는 분사 조정된 주가와 복합기업 재무가 섞여 싸게 나온다(2026-09-30 사용자 결정). 2024-03-31
 # 재무상태표는 버노바를 포함해 자본 $29.9B(분사 뒤 $18.6B)였고, 1분기 현금흐름(2023 Q1)이 재작성되지 않아 2분기 누계 차감이 섞였다(Fable).
-HISTORY_START = {"GE": "2024-07-23"}
+HISTORY_START = {"GE": "2024-07-23",
+                 # DELL: VMware 분사(2021-11-01) 뒤 첫 재무상태표(FY2022 말 2022-01-28)가 나온 10-K 공시일(2026-10-01 사용자 결정).
+                 "DELL": "2022-03-24"}
 
 
 def history_daily(ticker, daily):

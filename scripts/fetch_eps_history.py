@@ -84,7 +84,7 @@ def dedup_earliest_filed(entries):
 # 분사로 과거 기간을 다시 공시한 종목(2026-09-30 사용자 결정 "분사 뒤 단독 숫자만", GE). 같은 기간 값은 **가장 나중 공시**
 # (계속사업 재작성)를 쓰고, 공개일은 처음 공시일로 둔다 — 분사 사업을 빼고 다시 적은 숫자가 원공시의 자리에 들어간다.
 # 4분기는 연간 − 9개월 누계로 만든다(1분기 원공시가 분사 사업을 포함한 채 남아 있어 세 분기를 빼면 섞인다).
-RESTATED_LATEST = {"GE"}
+RESTATED_LATEST = {"GE", "DELL"}   # DELL: 2021-11 VMware 분사(2026-10-01 사용자 결정 "GE와 같은 방식")
 
 
 def dedup_for(entries, ticker):
@@ -196,6 +196,10 @@ CIKS = {
     "AMAT": "0000006951",
     "UNH": "0000731766",
     "GE": "0000040545",
+    "DELL": "0001571996",
+    "MS": "0000895421",
+    "PG": "0000080424",
+    "NFLX": "0001065280",
 }
 
 
@@ -212,9 +216,27 @@ def main():
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
-    url = f"https://data.sec.gov/api/xbrl/companyconcept/CIK{args.cik}/us-gaap/{args.tag}.json"
-    data = curl_json(url)
-    entries = data["units"]["USD/shares"]
+    # --tag "A,B": A가 없는 (start, end) 기간만 B로 채운다. DELL은 계속사업 EPS 태그를 FY2023 뒤로 쓰지 않는다(분사 뒤 중단사업이
+    # 없어 희석 EPS와 같다, 2026-10-01). 앞 태그를 다 받은 뒤 뒤 태그의 빈 기간을 더한다.
+    tags = args.tag.split(",")
+    if len(tags) > 1:
+        entries, seen = [], set()
+        for tg in tags:
+            facts = curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{args.cik}.json")
+            rows = facts["facts"]["us-gaap"].get(tg, {}).get("units", {}).get("USD/shares", [])
+            if args.ticker.upper() in RESTATED_LATEST:
+                # 재작성 종목은 태그를 가리지 않고 다 모은다 — 같은 기간은 dedup_for가 가장 나중 공시를 고른다(같은 날이면 앞 태그).
+                # DELL FY2024 계속사업 $4.36(2024-03)보다 뒤 10-K의 희석 $4.60이 회사의 현재 숫자다(Codex, 2026-10-01).
+                rows = [e for e in rows if "start" in e]
+            else:
+                rows = [e for e in rows if "start" in e and (e["start"], e["end"]) not in seen]
+            seen |= {(e["start"], e["end"]) for e in rows}
+            entries += rows
+        data = None
+    else:
+        url = f"https://data.sec.gov/api/xbrl/companyconcept/CIK{args.cik}/us-gaap/{args.tag}.json"
+        data = curl_json(url)
+        entries = data["units"]["USD/shares"]
     if not entries:
         # companyconcept has a known intermittent indexing-lag bug (returns
         # units:{"USD/shares":{}} for a filer that has real data) -- confirmed
@@ -235,7 +257,20 @@ def main():
     if split_dates:
         entries = apply_split_correction(entries, split_dates)
 
-    discrete = dedup_for([e for e in entries if e["form"] == "10-Q" and 80 <= days_between(e) <= 100], ticker_key)
+    if ticker_key in RESTATED_LATEST:
+        # 10-K의 분기 비교 값도 재작성 값이다(DELL FY2024 분기 $0.86·$0.66·$1.42). 단위가 잘못 붙은 값(DELL FY2022 10-K
+        # 계속사업 EPS 840000·−40000)은 주당 $1,000을 넘으면 버린다.
+        entries = [e for e in entries if abs(e["val"]) < 1000]
+    qforms = ("10-Q", "10-K") if ticker_key in RESTATED_LATEST else ("10-Q",)
+    discrete = dedup_for([e for e in entries if e["form"] in qforms and 80 <= days_between(e) <= 100], ticker_key)
+    if ticker_key in RESTATED_LATEST:
+        # 10-K에만 있는 4분기 3개월 값은 처음 공시일을 그해 연간 실적의 처음 공시일로 당긴다(그날 연간 − 9개월로 이미 알 수 있었다).
+        fy_first = {}
+        for e in entries:
+            if e["form"] == "10-K" and days_between(e) > 350:
+                fy_first[e["end"]] = min(fy_first.get(e["end"], e["filed"]), e["filed"])
+        discrete = [{**q, "filed": fy_first[q["end"]]} if q["end"] in fy_first and fy_first[q["end"]] < q["filed"] else q
+                    for q in discrete]
     annual = dedup_for([e for e in entries if e["form"] == "10-K" and days_between(e) > 350], ticker_key)
     ytd9 = {(e["start"], e["end"]): e for e in dedup_for(
         [e for e in entries if e["form"] == "10-Q" and 260 <= days_between(e) <= 285], ticker_key)}
