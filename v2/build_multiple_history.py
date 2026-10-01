@@ -272,7 +272,14 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                  # + 215 − 177 = 2,526 = 매출 13,349 − 영업비용 10,823(10-Q 대조).
                  "0000040545": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["NonoperatingIncomeExpense"], 1), (["GeInterestAndOtherFinancialCharges"], -1),
-                                 (["GeBenefitCostIncomeNonoperating"], -1)])}
+                                 (["GeBenefitCostIncomeNonoperating"], -1)]),
+                 # KLAC: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss는 2015년까지 — 그 값이 계속 쓰였다). 영업이익 = 세전이익
+                 # + 이자비용 − "Other expense (income), net"(기타수익, 양수). Q4 FY26: 1,549.4 + 73.3 − 68.7 = 1,553.9 = 매출 3,657.6
+                 # − 매출원가 1,413.1 − R&D 399.0 − 판관비 291.5(실적 보도자료 대조, 2026-10-01).
+                 "0000319201": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestExpenseNonoperating", "InterestExpense"], -1), (["OtherNonoperatingIncomeExpense"], 1),
+                                 # 채무 상환 손실(손익계산서 별도 줄, 손실은 음수) — Q1 FY23 $13.3M(Codex). 없는 분기는 0.
+                                 (["GainsLossesOnExtinguishmentOfDebt"], 1, True)])}
 
 
 def _derived_opinc(cik, taxonomy):
@@ -281,17 +288,19 @@ def _derived_opinc(cik, taxonomy):
     pre_tag, non_spec = DERIVED_OPINC[cik]
     items = [([non_spec], 1)] if isinstance(non_spec, str) else non_spec
     maps = []
-    for tags, sign in items:
+    for it in items:
+        tags, sign = it[0], it[1]
+        optional = len(it) > 2 and it[2]        # 선택 항목: 그 공시에 없으면 0(KLAC 채무 상환 손익 — 일부 분기만)
         m = {}
         for t in tags:                          # 앞 태그 우선(이름이 바뀐 태그는 뒤에)
             for r in concept(cik, t, taxonomy):
                 m.setdefault((r.get("start"), r["end"], r.get("accn")), r["val"])
-        maps.append((m, sign))
+        maps.append((m, sign, optional))
     out = []
     for r in concept(cik, pre_tag, taxonomy):
         k = (r.get("start"), r["end"], r.get("accn"))
-        if all(k in m for m, _ in maps):
-            out.append({**r, "val": r["val"] - sum(sign * m[k] for m, sign in maps)})
+        if all(k in m or opt for m, _, opt in maps):
+            out.append({**r, "val": r["val"] - sum(sign * m.get(k, 0) for m, sign, _ in maps)})
     return out
 
 
@@ -719,6 +728,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # RTX: ShortTermBorrowings($229M) + LongTermDebtAndCapitalLeaseObligationsCurrent($5,296M) + LongTermDebtAndCapitalLeaseObligations($31,858M)
                   # = $37,383M(2026-06-30 10-Q "Total debt"). 기본 조합은 1년 안 만기 $5.3B를 빠뜨렸다(HD·PM과 같은 모양).
                   "0000101829": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # GEV: 10-Q 주석 14 차입금 합계 $2,849M(회사채 $2.6B + 금융리스 등, 1년 안 만기 $55M 포함). 장기 태그만 잡혀 $2,794M였다(2026-10-01).
+                  "0001996810": ["LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"],
                   # CSCO: DebtCurrent($10,161M — 기업어음 + 1년 안 만기 장기) + LongTermDebtNoncurrent($19,372M) = $29,533M(FY2026 10-K "Total debt").
                   # 기본 조합은 LongTermDebtCurrent + Noncurrent($22,872M)라 기업어음 $6.7B가 빠졌다.
                   "0000858877": ["DebtCurrent", "LongTermDebtNoncurrent"],
@@ -762,6 +773,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000021344": {"sti": ["OtherShortTermInvestments", "MarketableSecurities"]},
                   # CAT: 재무상태표에 단기투자 줄이 없다(2026-06-30 10-Q). ShortTermInvestments가 2014-09-30 $378M에서 멈춰 그 값이 쓰였다.
                   "0000018230": {"sti": []},
+                  # KLAC: AvailableForSaleSecuritiesDebtSecuritiesCurrent가 2021-03-31 $990.6M에서 멈춰 그 값이 쓰였다. 재무상태표
+                  # "Marketable securities" $3,252.6M(2026-06-30) = 매도가능 채권 합계 $3,205.8M + 상장 지분증권 약 $46.8M(2026-10-01).
+                  "0000319201": {"sti": ["AvailableForSaleSecuritiesDebtSecurities"]},
                   # RTX: MarketableSecuritiesCurrent $711M(2026-06-30)은 비적격 퇴직급여 지급용 신탁 증권이다(10-Q 주석 10·13).
                   # 회사가 쓸 수 있는 단기투자가 아니라 순현금에서 뺀다(Codex, 2026-10-01).
                   "0000101829": {"sti": []},
@@ -772,7 +786,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # GE: CashAndCashEquivalentsAtCarryingValue가 2017년($43.3B)에 멈췄다. 재무상태표 첫 줄은 제한 현금 포함 합계뿐.
                   "0000040545": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
                   # PG: CashAndCashEquivalentsAtCarryingValue가 2019-09($9.3B)에 멈췄다. 재무상태표 현금 $9,942M(2026-06-30)은 합계 태그로만 낸다.
-                  "0000080424": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]}}
+                  "0000080424": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
+                  # GEV: 재무상태표 첫 줄이 "Cash, cash equivalents, and restricted cash" $13,120M 합계뿐이라 현금이 비어 있었다(2026-10-01, GE·PG 선례).
+                  "0001996810": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
@@ -1103,7 +1119,13 @@ def main():
         o, tx, pt = ([e for e in parts[n] if e["end"] == end][-1]["val"] for n in ("opinc", "tax", "pretax"))
         if pt <= 0 or o <= 0:
             return None
-        return o * (1 - tx / pt)
+        r = tx / pt
+        # 종목 예외(core_earnings.json "statutory_fallback"): 세율이 0~40% 밖이면 법정 21%. GEV는 세금 평가충당금 환입
+        # $2.9B로 최근 4분기 세율이 −20.8%라 본업 이익이 영업이익보다 컸다(Codex·Fable, 2026-10-01). 전 종목 적용은
+        # ABBV·PANW 점수를 바꿔 100장 뒤 안건으로 미룬다.
+        if core_tickers().get(t, {}).get("statutory_fallback") and not 0.0 <= r <= 0.40:
+            r = 0.21
+        return o * (1 - r)
 
     out = {"ticker": t, "window": [daily[0][0], daily[-1][0]], "multiples": {},
            "perBasis": "core" if core else "diluted"}

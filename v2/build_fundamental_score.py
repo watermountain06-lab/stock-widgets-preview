@@ -83,8 +83,8 @@ GROWTH = ["revenueCagr", "opIncomeCagr", "opMargin", "netMargin"]
 def _core_tickers():
     path = os.path.join(REPO, "v2", "core_earnings.json")
     if not os.path.exists(path):
-        return set()
-    return {k for k in json.load(open(path)) if not k.startswith("_")}
+        return {}
+    return {k: v for k, v in json.load(open(path)).items() if not k.startswith("_")}   # 사전 — `in`은 그대로 쓰인다
 
 
 def _rows(fin, key):
@@ -285,6 +285,11 @@ def score_items(fin, config, basis):
     # 기간**이어야 한다. 최신 분기가 회계연도 말이면 연간·분기 이자비용이 같은
     # 결산일로 겹친다 — 섞으면 분기 영업이익을 연간 이자비용으로 나눈다(Codex).
     has_interest_tag = bool(_rows(fin, "interestExpense") or _q(fin, "interestExpense"))
+    # 엔진이 읽는 태그는 없지만 10-Q 값을 손입력한 종목(v2/interest_extra.json "value")도 이자비용이 있는 회사로 본다 —
+    # TXN은 InterestAndDebtExpense로만 낸다(2026-10-01). 손입력이 없으면 전과 같다.
+    _extra_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "interest_extra.json")
+    if not has_interest_tag and os.path.exists(_extra_path):
+        has_interest_tag = any("value" in r for r in json.load(open(_extra_path)).get(fin.get("ticker", ""), []))
     if op is not None:
         if op <= 0:
             items["interestCoverage"] = {"value": None, "points": 1, "note": "영업적자"}
@@ -365,7 +370,11 @@ def score_items(fin, config, basis):
             # 실효세율이 뜻을 잃으므로 본업 순이익률을 내지 않는다 — PER 경로와 같은 처리(Codex).
             tax, pretax = b.get("tax"), b.get("pretax")
             if tax is not None and pretax is not None and pretax > 0:
-                items["netMargin"] = {"value": op_m * (1 - tax / pretax) / rv * 100, "basis": "core"}
+                r = tax / pretax
+                # 종목 예외 "statutory_fallback"(GEV) — PER 경로(build_multiple_history.core_earnings)와 같은 규칙
+                if _core_tickers().get(fin["ticker"], {}).get("statutory_fallback") and not 0.0 <= r <= 0.40:
+                    r = 0.21
+                items["netMargin"] = {"value": op_m * (1 - r) / rv * 100, "basis": "core"}
         elif ni is not None:
             items["netMargin"] = {"value": ni / rv * 100}
 

@@ -39,6 +39,7 @@ Usage:
 """
 import argparse
 import json
+import os
 import subprocess
 import sys
 from datetime import date
@@ -163,6 +164,9 @@ KNOWN_SPLITS = {
     "SKHY": [],   # 어댑터(v2/adapters/skhy_ifrs.py)가 EPS를 ADR 1주(= 보통주 0.1주) 기준으로 만든다. SK하이닉스 보통주는 데이터 창(2020~) 안에 액면분할이 없었다(발행주식 728,002,365주가 2020~2025 보고서에서 그대로, 2026 소각·ADR 신주로만 변동).
     "SPCX": [],   # 2026-05 5:1 분할은 상장(2026-06-12) 전이라 SEC 공시·가격 모두 분할 후 숫자다(10-Q "2026 Stock Split", 2026-09-25 확인)
     "SNDK": [],   # SanDisk has never split -- it only began trading 2025-02-13 (when-issued) / 2025-02-24 (regular-way, Nasdaq) after Western Digital distributed 80.1% of SanDisk on 2025-02-21 at one-third of a SNDK share per WDC share. That distribution ratio is the SPINOFF's exchange ratio applied to WDC holders, not a split of SNDK's own outstanding shares -- the same aggregator artifact already documented for DELL's VMware Class V exchange and RTX's 2020 Carrier/Otis spin-merge above, except here it belongs to the PARENT's price series, so it must never be applied to SNDK's own EPS history. Confirmed empirically 2026-09-10: SNDK's full XBRL EarningsPerShareDiluted history (20 entries, earliest end 2023-06-30, carve-out periods included) has 0 (start,end) groups with any duplicate-value disagreement at all, let alone a ratio >1.3.
+    "TXN": [],    # 데이터 창(2021-09~) 안에 분할 없음 — Yahoo 분할 기록 없음(2026-10-01 확인)
+    "C": [],      # 마지막 분할은 2011-05 1:10 병합으로 데이터 창 밖 — Yahoo 창 안 기록 없음(2026-10-01 확인)
+    "KLAC": [("2026-06-12", 10)],  # 10:1 정분할 — 2026-05-07 8-K 발표, 2026-06-11 23:59 정관 개정 효력(2026-06-12 8-K Item 5.03), 6/12부터 분할 후 거래. 2026-10-01 확인
 }
 
 CIKS = {
@@ -209,6 +213,11 @@ CIKS = {
     "CSCO": "0000858877",
     "RTX": "0000101829",
     "SNDK": "0002023554",
+    "GEV": "0001996810",
+    "ANET": "0001596532",
+    "TXN": "0000097476",
+    "KLAC": "0000319201",
+    "C": "0000831001",
     "GS": "0000886982",
 }
 
@@ -257,6 +266,18 @@ def main():
               f"falling back to companyfacts", file=sys.stderr)
         facts = curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{args.cik}.json")
         entries = facts["facts"]["us-gaap"][args.tag]["units"]["USD/shares"]
+
+    # companyfacts·companyconcept가 최근 10-Q를 몇 달씩 싣지 않는 회사는 v2/adapters/ixbrl_supplement.py가 원문 인라인 XBRL로
+    # v2/.sec_cache/overlay/{cik}.json을 만든다. 그 파일에 이 태그의 행이 있으면 SEC 데이터에 없는 (start, end)만 더한다 — C는
+    # 2026년 1·2분기 10-Q가 빠져 최근 4분기 EPS가 2025-12에 멈췄다($6.99 대 실제 $9.26, PER 18.5배 대 14배, 2026-10-01).
+    _ov = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "v2", ".sec_cache", "overlay", f"{args.cik}.json")
+    if os.path.exists(_ov):
+        _have = {(e.get("start"), e["end"]) for e in entries}
+        _add = [dict(r) for tg in tags for r in json.load(open(_ov)).get("us-gaap", {}).get(tg, [])
+                if r.get("unit", "USD/shares") == "USD/shares" and "start" in r and (r["start"], r["end"]) not in _have]
+        if _add:
+            print(f"NOTE: overlay에서 {len(_add)}개 행 보충({args.ticker})", file=sys.stderr)
+            entries = list(entries) + _add
 
     ticker_key = args.ticker.upper()
     if ticker_key not in KNOWN_SPLITS:
