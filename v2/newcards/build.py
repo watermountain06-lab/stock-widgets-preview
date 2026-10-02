@@ -8,6 +8,7 @@
   eps_tag  : EPS 태그(분사 종목은 계속사업 EPS — WDC)
   bt_start : 백테스트에 쓸 일봉 시작일(분사 종목 — 재작성 숫자가 처음 나온 날)
   company_tags : [(회사 고유 태그, 표준 태그)] — 설비투자 등을 회사 고유 태그로만 내는 종목(COP)
+  no_dcf   : 현금흐름 모델 미적용 사유(보험사 — CB). DCF 칸은 '계산 불가 · 사유', 판정은 두 칸으로
   overlay  : SEC companyfacts가 최신 10-Q를 아직 싣지 않은 종목 — 인라인 XBRL 보충(adapters/ixbrl_supplement.py) 뒤
              재무는 adapters/overlay_feed.py, 활동성은 병합 facts로
 새 종목(71위~)은 meta/{t}.json(헤더 값)과 yahoo/{t}.json(Yahoo 일봉)이 있어야 하고, 없으면 루트 카드가 있는 종목으로 보고
@@ -100,16 +101,28 @@ def main():
         run([PY, "v2/build_activity_score.py", T, "--facts", merged], show=r'"score"|"reason"')
     else:
         run([PY, "v2/build_activity_score.py", T], show=r'"score"|"reason"')
-    print("· 현금흐름")
-    run([PY, "v2/build_dcf_block.py", T], show=rf"^{T} |⚠")
-    run([PY, "v2/build_dcf_grid.py", T])
-    run([PY, "v2/build_dcf_track.py", T, "--json", f"v2/{T}_dcf_track.json"])
-    d = json.load(open(os.path.join(V2, f"{T}_dcf_track.json")))
-    p = os.path.join(REPO, card); h = open(p, encoding="utf-8").read()
-    pts = [f'{{d:"{x["date"]}",low:{round(x["low"], 1)},base:{round(x["base"], 1)},high:{round(x["high"], 1)}}}' for x in d["points"]]
-    old = re.search(rf"const {T}_DCF_TRACK = \[.*?\];", h, re.S).group(0)
-    h = h.replace(old, f"const {T}_DCF_TRACK = [" + ",".join(pts) + "];", 1)
-    open(p, "w", encoding="utf-8").write(h)
+    p = os.path.join(REPO, card)
+    if B.get("no_dcf"):   # 현금흐름 모델 미적용(보험사 — CB, 2026-10-02 사용자 결정, BRKB 방식). 카드 JS가 base == null이면 사유만 적는다.
+        print("· 현금흐름 미적용 —", B["no_dcf"])
+        h = open(p, encoding="utf-8").read()
+        blk = {"low": None, "base": None, "high": None, "requiredGrowth": None, "baseEquivGrowth": None, "reqMode": "growth",
+               "requiredMargin": None, "marginNow": None, "growth5y": None, "nonopPerShare": 0, "s2cFallback": False,
+               "asOf": a.asof, "unavailable": B["no_dcf"], "hard": [], "hardDetail": {}}
+        h = re.sub(rf"const {T}_DCF = \{{.*?\}};[^\n]*", lambda _: f"const {T}_DCF = {json.dumps(blk, ensure_ascii=False)};   // no_dcf", h, count=1, flags=re.S)
+        h = re.sub(rf"const {T}_DCF_GRID = .*", f"const {T}_DCF_GRID = null;", h, count=1)
+        h = re.sub(rf"const {T}_DCF_TRACK = \[.*?\];", f"const {T}_DCF_TRACK = [];", h, count=1, flags=re.S)
+        open(p, "w", encoding="utf-8").write(h)
+    else:
+        print("· 현금흐름")
+        run([PY, "v2/build_dcf_block.py", T], show=rf"^{T} |⚠")
+        run([PY, "v2/build_dcf_grid.py", T])
+        run([PY, "v2/build_dcf_track.py", T, "--json", f"v2/{T}_dcf_track.json"])
+        d = json.load(open(os.path.join(V2, f"{T}_dcf_track.json")))
+        h = open(p, encoding="utf-8").read()
+        pts = [f'{{d:"{x["date"]}",low:{round(x["low"], 1)},base:{round(x["base"], 1)},high:{round(x["high"], 1)}}}' for x in d["points"]]
+        old = re.search(rf"const {T}_DCF_TRACK = \[.*?\];", h, re.S).group(0)
+        h = h.replace(old, f"const {T}_DCF_TRACK = [" + ",".join(pts) + "];", 1)
+        open(p, "w", encoding="utf-8").write(h)
     if a.data:
         print("데이터 단계 끝 — cfg/cfg_%s.py를 쓰고 --data 없이 다시 실행" % t)
         return

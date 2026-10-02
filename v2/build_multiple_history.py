@@ -268,6 +268,10 @@ DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이
                  # Q2 2026: 2,808 − 140 + 145 = 2,813 = 총매출 5,044 − (총비용 2,376 − 이자 145)(10-Q 대조, 2026-10-02).
                  "0001393818": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["OtherNonoperatingIncomeExpense"], 1), (["InterestExpense"], -1)]),
+                 # BMY: MRK와 같은 구조(영업이익 줄 없음). 영업이익 = 세전이익 − "Other (income)/expense, net"(이자비용·투자수익·구조조정·지분 평가 포함,
+                 # 수익이면 양수). Q2 2026: 4,086 − 61 = 4,025 = 매출 12,973 − (총비용 8,887 + 61)(10-Q 대조, 2026-10-02).
+                 "0000014272": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                "OtherNonoperatingIncomeExpense"),
                  "0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 "NonoperatingIncomeExpense"),
                  "0000200406": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
@@ -794,6 +798,14 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0000024741": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # NOW: 단기차입(기업어음, ShortTermBorrowings $2,082M)과 장기 사채(LongTermDebt $5,435M) — 엔진 조합은 $4,182M였다(2026-10-02).
                   "0001373715": ["ShortTermBorrowings", "LongTermDebt"],
+                  # BMY: ShortTermBorrowings($1,027M = 재무상태표 "Short-term debt obligations")에 1년 안 만기 사채 $768M가 이미 들어 있어 기본 조합이 두 번 셌다($43.9B 대 $43.1B, 2026-10-02).
+                  "0000014272": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # VRTX: 차입금이 없다 — LongTermDebt가 2011-09($105M)에 멈춘 값이라 쓰지 않는다(금융리스는 따로 잡힌다, 2026-10-02).
+                  "0000875320": ["LongTermDebtNoncurrent"],
+                  # PH: 1년 안 만기·기업어음($1,754M = "Notes payable and long-term debt payable within one year")이 기본 조합에서 일부 빠져 $7.8B였다(10-K $8,520M, 2026-10-02).
+                  "0000076334": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # CB: 단기 $663M + 장기 $17,452M + 하이브리드 $427M(OtherBorrowings) — 기본 조합은 단기만 잡혀 순현금이 양수로 나왔다(Fable 2026-10-02). 환매조건부 차입은 투자 운용이라 뺀다.
+                  "0000896159": ["ShortTermBorrowings", "LongTermDebt", "OtherBorrowings"],
                   # BX: LongTermDebt에 연결 펀드 차입 $124M이 더 들어 있다 — 재무상태표 Loans Payable($13,195M)만(Codex 2026-10-02).
                   "0001393818": "LoansPayable",
                   # BA: LongTermDebt는 장기차입금 유동분까지만 담아 단기차입금이 빠진다($45,596M 대 재무상태표 $45,900M, 2026-10-02).
@@ -901,6 +913,8 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000024741": {"preferred": []},
                   # FTNT: 단기투자를 2021-06 뒤 OtherShortTermInvestments로만 낸다(2026-06-30 $1,134.7M) — 멈춘 ShortTermInvestments(2021-06 $1,233.9M)가 쓰였다(2026-10-02).
                   "0001262039": {"sti": ["OtherShortTermInvestments"]},
+                  # CB: 현금 태그가 2023-06, 단기투자 태그가 2019-09에 멈춰 옛 값($2.29B·$2.84B)이 쓰였다 — 제한 현금 포함 현금 $2,753M, 기타 단기투자 $5,458M(Codex 2026-10-02).
+                  "0000896159": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": ["OtherShortTermInvestments"]},
                   # BLK: 리스부채를 유동·비유동으로 나누지 않고 총액(OperatingLeaseLiability, 2026-06-30 $2,224M)만 낸다 — 기본 목록으론 0이었다(2026-10-01).
                   "0002012383": {"lease": ["OperatingLeaseLiability"]},
                   # ETN: 분기 재무상태표에는 비유동 운용리스 부채만 있고 유동분은 10-K에만 있다 → JNJ처럼 10-K 총액(FY2025 $789M)을 쓴다(Codex 2026-10-01).

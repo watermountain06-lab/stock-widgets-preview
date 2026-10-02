@@ -18,7 +18,9 @@
 
 `BUILD` 옵션: `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 일봉 시작일 — WDC·T), `overlay`(companyfacts 지연 — ABT·WELL·NEE, 또는 재무 태그 별칭이 필요할 때 — BA 재고), `company_tags`(회사 고유 태그 — COP 설비투자).
 
-cfg 선택 항목: `SELF_SPAN`(자기 이력이 5년보다 짧을 때 "5년" 표기를 바꿈 — DHR·BA), `GROWTH_SPAN`(현금흐름 역산 설명의 "지난 5년"을 실제 이력으로 — DHR).
+`BUILD['no_dcf']`(사유 문자열): 현금흐름 모델 미적용 — DCF 블록을 사유만 남긴 빈 값으로 두고 카드가 BRKB처럼 "판정 보류"(보험사 CB, 2026-10-02 사용자 결정).
+
+cfg 선택 항목: `NI_TAGS`(분기 순이익 태그 — PH는 2021년 뒤 ProfitLoss), `OP_DISPLAY`(영업이익 줄이 없는 종목의 카드 표시용 영업이익 — CB 세전이익 + 이자비용, 엔진 배수에는 안 씀), `SELF_SPAN`(자기 이력이 5년보다 짧을 때 "5년" 표기를 바꿈 — DHR·BA), `GROWTH_SPAN`(현금흐름 역산 설명의 "지난 5년"을 실제 이력으로 — DHR).
 
 ## 새 종목 순서
 

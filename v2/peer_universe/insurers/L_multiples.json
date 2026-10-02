@@ -1,0 +1,66 @@
+{
+ "ticker": "L",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 12.81,
+   "min": 12.81,
+   "p10": 13.33,
+   "median": 14.07,
+   "p90": 15.62,
+   "max": 16.36,
+   "mean": 14.35,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "PSR": {
+   "days": 250,
+   "current": 6.58,
+   "min": 6.55,
+   "p10": 6.72,
+   "median": 6.96,
+   "p90": 7.31,
+   "max": 7.71,
+   "mean": 6.99,
+   "percentile": 0.8,
+   "score": 99.2
+  },
+  "PBR": {
+   "days": 250,
+   "current": 1.12,
+   "min": 1.12,
+   "p10": 1.15,
+   "median": 1.19,
+   "p90": 1.25,
+   "max": 1.31,
+   "mean": 1.2,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "PCR": {
+   "days": 250,
+   "current": 12.09,
+   "min": 6.61,
+   "p10": 6.93,
+   "median": 8.4,
+   "p90": 12.64,
+   "max": 13.46,
+   "mean": 9.46,
+   "percentile": 74.4,
+   "score": 25.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 13.61,
+  "per_p75": 15.12,
+  "low": 110,
+  "high": 120,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

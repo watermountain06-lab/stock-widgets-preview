@@ -1,0 +1,101 @@
+{
+ "sector": "Financials",
+ "subIndustries": [
+  "Property & Casualty Insurance",
+  "Multi-line Insurance",
+  "Life & Health Insurance"
+ ],
+ "asOf": "2026-09-30",
+ "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
+ "tickers": {
+  "AFL": {
+   "per": 12.06,
+   "psr": 3.1,
+   "pbr": 1.85
+  },
+  "ALL": {
+   "per": 4.44,
+   "psr": 0.8,
+   "pbr": 1.66,
+   "pcr": 4.58
+  },
+  "AIG": {
+   "per": 13.58,
+   "psr": 1.46,
+   "pbr": 0.96
+  },
+  "ACGL": {
+   "per": 7.23,
+   "psr": 1.64,
+   "pbr": 1.31,
+   "pcr": 5.2
+  },
+  "AIZ": {
+   "per": 12.61,
+   "psr": 0.97,
+   "pbr": 2.13,
+   "pcr": 7.85
+  },
+  "CB": {
+   "per": 11.51,
+   "psr": 2.07,
+   "pbr": 1.71
+  },
+  "CINF": {
+   "per": 7.52,
+   "psr": 1.75,
+   "pbr": 1.47,
+   "pcr": 7.19
+  },
+  "GL": {
+   "per": 11.01,
+   "psr": 2.06,
+   "pbr": 2.07,
+   "pcr": 10.33
+  },
+  "HIG": {
+   "per": 7.92,
+   "pbr": 1.69,
+   "pcr": 5.64
+  },
+  "L": {
+   "per": 12.81,
+   "psr": 6.58,
+   "pbr": 1.12,
+   "pcr": 12.09
+  },
+  "MET": {
+   "per": 18.0,
+   "pbr": 2.18,
+   "evebitda": 4.97
+  },
+  "PFG": {
+   "per": 16.06,
+   "psr": 1.56,
+   "pbr": 2.05
+  },
+  "PGR": {
+   "per": 10.4,
+   "psr": 1.32,
+   "pbr": 3.51,
+   "pcr": 7.56
+  },
+  "PRU": {
+   "per": 10.3,
+   "psr": 0.61,
+   "pbr": 1.24
+  },
+  "TRV": {
+   "per": 9.57,
+   "psr": 1.52,
+   "pbr": 2.25
+  },
+  "WRB": {
+   "per": 13.87,
+   "psr": 1.68,
+   "pbr": 2.55
+  }
+ },
+ "skipped": {},
+ "notes": "HIG PSR 25.95·MET PSR 22.34는 매출 태그가 일부 매출만 담은 값으로 보여 뺐다(보험사 PSR은 대개 1~3배, 2026-10-02). 보험 중개사(AON 등)는 수수료 사업이라 넣지 않았다."
+}

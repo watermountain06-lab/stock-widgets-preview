@@ -48,6 +48,11 @@ def q(tags):
 pct = lambda v: f'{v * 100:.1f}%'
 rev = q(bmh.FLOW_TAGS['revenue']); op = q(['OperatingIncomeLoss']); ni = q(getattr(C, 'NI_TAGS', ['NetIncomeLoss']))
 ocf = q(bmh.FLOW_TAGS['ocf']); cap = q(bmh.FLOW_TAGS['capex'])   # 엔진과 같은 태그 목록 — T는 2026년부터 계속사업 영업현금흐름 태그로만 냈다(2026-10-02)
+if getattr(C, 'OP_DISPLAY', None):   # 영업이익 줄이 없는 종목의 카드 표시용 영업이익(엔진 배수에는 안 씀) — CB 보험사: 세전이익 + 이자비용(2026-10-02)
+    _pt_tags, _adds = C.OP_DISPLAY
+    _pt = q(_pt_tags)
+    _add = [(q(_t), _sg) for _t, _sg in _adds]
+    op = {k: _pt[k] + sum(_sg * _a.get(k, 0) for _a, _sg in _add) for k in _pt}
 for _e, _o, _n in getattr(C, 'OVERRIDE_OP_NI', []):   # 회사가 수정값·보도자료 값을 낸 분기(백만 달러)
     op[_e], ni[_e] = _o * 1e6, _n * 1e6
 fcf = {k: ocf[k] - cap[k] for k in ocf if k in cap}
@@ -75,7 +80,7 @@ r1 = lambda v: float(Decimal(str(v / 1e9)).quantize(Decimal('0.01'), ROUND_HALF_
 L8 = C.L8
 D = json.loads(re.search(rf'const {T}_DAILY\s*=\s*(\[.*?\]);', h, re.S).group(1)); days = {r[0] for r in D}
 MUL = json.load(open(f'{T}_multiples.json')); FB = MUL.get('fairBand'); SM = MUL['multiples']   # 최근 4분기 EPS ≤ 0이면 밴드 없음(GILD, 2026-10-01)
-HIST = bd.history(T)
+HIST = bd.history(T) or {}   # 현금흐름 미적용 종목(CB)은 이력이 없을 수 있다
 DCF = json.loads(re.search(rf'^const {T}_DCF = (\{{.*?\}});', h, re.M).group(1))
 FUND = json.loads(re.search(rf'^const {T}_FUNDAMENTAL = (\{{.*?\}});', h, re.M).group(1))
 VAL = json.loads(re.search(rf'^const {T}_VALUATION = (\{{.*?\}});', h, re.M).group(1))
@@ -86,11 +91,15 @@ eps_ttm = round(px / SM['PER']['current'], 2) if SM.get('PER') and SM['PER'].get
 ratio = px / DCF['base'] if DCF.get('base') else None
 _vote = lambda s: 1 if s >= 70 else -1 if s < 30 else 0
 _dv = (1 if ratio <= 0.9 else 0 if ratio <= 1.1 else -1 if ratio <= 1.5 else -2) if ratio and DCF['base'] > 0 else -2
+if DCF.get('unavailable'):   # 현금흐름 미적용(보험사, 2026-10-02 사용자 결정) — 판정은 자기 이력·동종업 두 칸
+    _dv = 0
 VOTES = (_vote(selfsc), _vote(peersc), _dv); TOTAL = sum(VOTES)
 VERDICT = '저평가' if TOTAL >= 3 else '적정~저평가' if TOTAL >= 1 else '적정' if TOTAL > -1 else '적정~고평가' if TOTAL > -3 else '고평가'
+if DCF.get('unavailable'):   # 현금흐름이 기권하면 카드 JS가 '판정 보류'로 덮어쓴다(BRKB 선례, Fable 2026-10-02)
+    VERDICT = '판정 보류'
 assert (VOTES, VERDICT) == (C.VOTES, C.VERDICT), (VOTES, VERDICT, selfsc, peersc, ratio)
 sgn = lambda v: f'{v:+d}'.replace('-', '−') if v else '0'
-VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현금흐름 {sgn(VOTES[2])}'; TOTAL_TXT = sgn(TOTAL)
+VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현금흐름 ' + ('미적용' if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL)
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
 ch = (px / D[-253][4] - 1) * 100
 CH_TXT = ('제자리(' + format(ch, '+.1f') + '%)') if abs(ch) < 1 else format(ch, '+.0f') + '%'
@@ -249,7 +258,11 @@ assert len(olds) == 3, len(olds)
 for o, n in zip(olds, new):
     assert h.count(o) == 1
     h = h.replace(o, n)
-one('<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>',
+if DCF.get('unavailable'):   # 현금흐름 미적용 — 계산했다는 문구를 빼고 사유만(CB)
+    one('<div class="lede">회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치다.</div>', '<div class="lede">이 종목은 현금흐름 내재가치를 계산하지 않는다.</div>')
+    one('<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>', '<div class="note">' + F(C.DCF_NOTE) + '</div>')
+else:
+ one('<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>',
     '<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.' + (' ' + F(C.DCF_NOTE) if getattr(C, 'DCF_NOTE', '') else '') + '</div>')
 # 음수·$10 미만 시나리오, 이력 기간 표기(카드 한정 패치 모음 — PANW·TMO·LIN·CRWD에서 쓴 것과 같다)
 one("    el.textContent = '$' + D[el.dataset.dcfValue].toFixed(2);", "    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';   // 카드 한정")
@@ -342,7 +355,7 @@ A_ = C.ANALYST
 sub(rf"const {T}_ANALYST = \{{[^}}]*\}};", f"const {T}_ANALYST = {{ asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: '{A_['rating']}', n: {A_['n']}, mean: {A_['mean']}, median: {A_['median']},\n  low: {A_['low']}, high: {A_['high']}, strongBuy: {A_['sb']}, buy: {A_['b']}, hold: {A_['h']}, sell: {A_['s']}, strongSell: {A_['ss']} }};")
 assert A_['n'] == A_['sb'] + A_['b'] + A_['h'] + A_['s'] + A_['ss']
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', f'<span class="op-val">{C.NEXT_OP[0]} <span class="op-sub">{C.NEXT_OP[1]}</span></span>')
-_vc = {'저평가': 'var(--green)', '적정~저평가': 'var(--green)', '적정': 'var(--gold)', '적정~고평가': 'var(--gold)', '고평가': 'var(--red)'}[VERDICT]
+_vc = {'저평가': 'var(--green)', '적정~저평가': 'var(--green)', '적정': 'var(--gold)', '적정~고평가': 'var(--gold)', '고평가': 'var(--red)', '판정 보류': 'var(--gold)'}[VERDICT]
 h = h.replace('data-verdict style="font-size:22px;color:var(--gold);">적정~저평가</span>', f'data-verdict style="font-size:22px;color:{_vc};">{VERDICT}</span>', 1)
 one('<span class="vs-verdict" data-verdict>적정~저평가</span>', f'<span class="vs-verdict" data-verdict>{VERDICT}</span>')
 if getattr(C, 'ACT_REASON', None):   # 활동성 미판정 사유(카드 한정)
