@@ -272,6 +272,10 @@ DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이
                  # 수익이면 양수). Q2 2026: 4,086 − 61 = 4,025 = 매출 12,973 − (총비용 8,887 + 61)(10-Q 대조, 2026-10-02).
                  "0000014272": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 "OtherNonoperatingIncomeExpense"),
+                 # NEM: LLY와 같은 구조(영업이익 줄 없음). 영업이익 = 세전이익 − 영업외손익 합계(NonoperatingIncomeExpense).
+                 # Q2 2026: 2,999 − (−97) = 3,096 = 매출 6,118 − 총비용 3,022(10-Q 대조, 2026-10-02).
+                 "0001164727": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                "NonoperatingIncomeExpense"),
                  "0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 "NonoperatingIncomeExpense"),
                  "0000200406": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
@@ -796,6 +800,16 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0000313616": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # GLW: 장기차입금 태그만 잡혀 1년 안 만기·단기차입 $668M이 빠졌다(재무상태표 Total debt $8,424M, 2026-10-02).
                   "0000024741": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # ACN: 유동 차입금 중 기업어음만 잡혀 기타(금융리스) $13.4M이 빠졌다 — 유동 112.8 + 장기 5,029.4 = 5,142.3(백만 달러, 2026-05-31 10-Q 주석 9; Codex 2026-10-02).
+                  "0001467373": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # NEM: 회사 순차입금 기준(차입금 + 리스·기타 금융채무). 리스·기타 금융채무는 회사 고유 태그라 cfg_nem의 company_tags가
+                  # FinanceLeaseLiabilityCurrent·Noncurrent 이름으로 싣는다 — 2026-06-30 차입금 5,083 + 132 + 383 = 5,598(10-Q 총부채 설명과 같음).
+                  "0001164727": ["LongTermDebtCurrent", "LongTermDebtNoncurrent", "FinanceLeaseLiabilityCurrent", "FinanceLeaseLiabilityNoncurrent"],
+                  # PGR: 재무상태표 차입금 한 줄을 DebtLongtermAndShorttermCombinedAmount로 낸다(2026-06-30 $8,387M) — 기본 목록은 연말 주석 값(2025-12)만 잡혔다(2026-10-02).
+                  "0000080661": ["DebtLongtermAndShorttermCombinedAmount"],
+                  # MPC: 기본 목록(LongTermDebtCurrent·Noncurrent)이 2012-03에 멈춰 옛 $3.3B가 EV·순차입금에 쓰였다 —
+                  # 유동 2,120 + 장기 30,696 = 32,816(2026-06-30 10-Q, MPLX 포함 연결, 2026-10-02).
+                  "0001510295": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # NOW: 단기차입(기업어음, ShortTermBorrowings $2,082M)과 장기 사채(LongTermDebt $5,435M) — 엔진 조합은 $4,182M였다(2026-10-02).
                   "0001373715": ["ShortTermBorrowings", "LongTermDebt"],
                   # BMY: ShortTermBorrowings($1,027M = 재무상태표 "Short-term debt obligations")에 1년 안 만기 사채 $768M가 이미 들어 있어 기본 조합이 두 번 셌다($43.9B 대 $43.1B, 2026-10-02).
@@ -913,6 +927,12 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000024741": {"preferred": []},
                   # FTNT: 단기투자를 2021-06 뒤 OtherShortTermInvestments로만 낸다(2026-06-30 $1,134.7M) — 멈춘 ShortTermInvestments(2021-06 $1,233.9M)가 쓰였다(2026-10-02).
                   "0001262039": {"sti": ["OtherShortTermInvestments"]},
+                  # NEM: 운용리스 유동·비유동 태그는 2021-09, 우선주 태그는 2012-09에 멈춰 옛 값이 EV에 더해졌다 — 운용리스는 연말 합계
+                  # OperatingLeaseLiability(2025-12 $109M)로, 우선주는 없음으로. 리스·기타 금융채무($515M)는 차입금 쪽(DEBT_TOTAL_TAG)에 넣는다(2026-10-02).
+                  "0001164727": {"lease": ["OperatingLeaseLiability"], "preferred": []},
+                  # PGR: 비지배지분 태그가 2016-06에 멈췄다(현재 비지배지분 없음 — 10-Q 자본 항목에 없다, 2026-10-02).
+                  # 현금은 Cash 태그로만 낸다(2026-06-30 $178M) — 기본 태그가 없어 0으로 잡혔다(Fable 2026-10-02).
+                  "0000080661": {"nci": [], "cash": ["Cash"]},
                   # CB: 현금 태그가 2023-06, 단기투자 태그가 2019-09에 멈춰 옛 값($2.29B·$2.84B)이 쓰였다 — 제한 현금 포함 현금 $2,753M, 기타 단기투자 $5,458M(Codex 2026-10-02).
                   "0000896159": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": ["OtherShortTermInvestments"]},
                   # BLK: 리스부채를 유동·비유동으로 나누지 않고 총액(OperatingLeaseLiability, 2026-06-30 $2,224M)만 낸다 — 기본 목록으론 0이었다(2026-10-01).

@@ -60,7 +60,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801", "TSLA": "0001318605", "MU": "0000723125", "LLY": "0000059478", "SKHY": "0002120882", "WMT": "0000104169", "AMD": "0000002488", "V": "0001403161", "JNJ": "0000200406", "ASML": "0000937966", "XOM": "0000034088", "INTC": "0000050863", "MA": "0001141391", "ABBV": "0001551152", "PLTR": "0001321655", "CVX": "0000093410", "COST": "0000909832", "LRCX": "0000707549", "KO": "0000021344", "CAT": "0000018230", "MRK": "0000310158", "AMAT": "0000006951", "UNH": "0000731766", "GE": "0000040545", "DELL": "0001571996", "MS": "0000895421", "PG": "0000080424", "NFLX": "0001065280", "HD": "0000354950", "GS": "0000886982", "PM": "0001413329", "PANW": "0001327567", "WFC": "0000072971", "ORCL": "0001341439", "BAC": "0000070858", "CSCO": "0000858877", "RTX": "0000101829", "SNDK": "0002023554", "GEV": "0001996810", "ANET": "0001596532", "TXN": "0000097476", "KLAC": "0000319201", "C": "0000831001", "IBM": "0000051143", "TMO": "0000097745", "AXP": "0000004962", "LIN": "0001707925", "CRWD": "0001535527", "VZ": "0000732712", "MRVL": "0001835632", "APH": "0000820313", "AMGN": "0000318154", "CRM": "0001108524", "TMUS": "0001283699", "QCOM": "0000804328", "STX": "0001137789", "PEP": "0000077476", "SCHW": "0000316709", "DIS": "0001744489", "DE": "0000315189", "ADI": "0000006281", "GILD": "0000882095", "BLK": "0002012383", "ETN": "0001551182", "ABT": "0000001800", "WDC": "0000106040", "T": "0000732717", "MCD": "0000063908", "WELL": "0000766704", "UNP": "0000100885", "PFE": "0000078003", "NEE": "0000753308", "COP": "0001163165", "DHR": "0000313616", "BA": "0000012927", "TJX": "0000109198", "BX": "0001393818", "GLW": "0000024741", "NOW": "0001373715", "ISRG": "0001035267", "UBER": "0001543151", "FTNT": "0001262039", "VRTX": "0000875320", "CB": "0000896159", "PLD": "0001045609", "BMY": "0000014272", "PH": "0000076334"}
+CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801", "TSLA": "0001318605", "MU": "0000723125", "LLY": "0000059478", "SKHY": "0002120882", "WMT": "0000104169", "AMD": "0000002488", "V": "0001403161", "JNJ": "0000200406", "ASML": "0000937966", "XOM": "0000034088", "INTC": "0000050863", "MA": "0001141391", "ABBV": "0001551152", "PLTR": "0001321655", "CVX": "0000093410", "COST": "0000909832", "LRCX": "0000707549", "KO": "0000021344", "CAT": "0000018230", "MRK": "0000310158", "AMAT": "0000006951", "UNH": "0000731766", "GE": "0000040545", "DELL": "0001571996", "MS": "0000895421", "PG": "0000080424", "NFLX": "0001065280", "HD": "0000354950", "GS": "0000886982", "PM": "0001413329", "PANW": "0001327567", "WFC": "0000072971", "ORCL": "0001341439", "BAC": "0000070858", "CSCO": "0000858877", "RTX": "0000101829", "SNDK": "0002023554", "GEV": "0001996810", "ANET": "0001596532", "TXN": "0000097476", "KLAC": "0000319201", "C": "0000831001", "IBM": "0000051143", "TMO": "0000097745", "AXP": "0000004962", "LIN": "0001707925", "CRWD": "0001535527", "VZ": "0000732712", "MRVL": "0001835632", "APH": "0000820313", "AMGN": "0000318154", "CRM": "0001108524", "TMUS": "0001283699", "QCOM": "0000804328", "STX": "0001137789", "PEP": "0000077476", "SCHW": "0000316709", "DIS": "0001744489", "DE": "0000315189", "ADI": "0000006281", "GILD": "0000882095", "BLK": "0002012383", "ETN": "0001551182", "ABT": "0000001800", "WDC": "0000106040", "T": "0000732717", "MCD": "0000063908", "WELL": "0000766704", "UNP": "0000100885", "PFE": "0000078003", "NEE": "0000753308", "COP": "0001163165", "DHR": "0000313616", "BA": "0000012927", "TJX": "0000109198", "BX": "0001393818", "GLW": "0000024741", "NOW": "0001373715", "ISRG": "0001035267", "UBER": "0001543151", "FTNT": "0001262039", "VRTX": "0000875320", "CB": "0000896159", "PLD": "0001045609", "BMY": "0000014272", "PH": "0000076334", "PGR": "0000080661", "BKNG": "0001075531", "NEM": "0001164727", "ACN": "0001467373", "COF": "0000927628", "MPC": "0001510295"}
 UA = "stock-widgets research gptjhss@gmail.com"
 
 # 앞에 있는 태그가 우선한다. 같은 분기에 둘 다 있으면 뒤 태그는 버린다.
@@ -76,6 +76,11 @@ AR_TAG_BY_CIK = {"0000804328": ["AccountsAndOtherReceivablesNetCurrent"],   # QC
 # 재고를 InventoryNet이 아닌 이름으로만 내는 회사(2026-10-02, Codex·Fable). BA는 "Inventories"(장기 프로그램 재고에서 고객 선수금·
 # 진행 청구를 뺀 순액, 2026-06-30 $88,388M)를 InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings로 낸다 — 없으면 재고 0으로 계산됐다.
 INV_TAG_BY_CIK = {"0000012927": ["InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings"]}
+# 매출원가를 표준 목록 밖 이름으로만 내는 회사 — NEM 판매원가(감가상각 제외, CostOfGoodsAndServiceExcludingDepreciation…).
+# 재고는 회사 고유 태그라 cfg_nem의 company_tags로 InventoryNet에 싣는다(2026-10-02).
+COGS_TAG_BY_CIK = {"0001164727": ["CostOfGoodsAndServiceExcludingDepreciationDepletionAndAmortization"]}
+# 재고를 여러 줄의 합으로 보는 회사 — NEM 재고 + 유동 광석 비축분(둘 다 회사 고유 태그를 company_tags로 실은 이름, 같은 날짜만 더한다).
+INV_SUM_BY_CIK = {"0001164727": ["InventoryNet", "InventoryOreStockpilesCurrentNem"]}
 HISTORY = 20            # 비교할 직전 분기 수 (5년)
 GREEN, RED = 70, 30     # 카드 공통 문턱
 
@@ -143,7 +148,8 @@ def instant(gaap, tags):
 
 def series(facts):
     gaap = facts["facts"]["us-gaap"]
-    rev, cogs = quarterly_flow(gaap, TAGS["revenue"]), quarterly_flow(gaap, TAGS["cogs"])
+    cogs_tags = COGS_TAG_BY_CIK.get(str(facts.get("cik", "")).zfill(10), TAGS["cogs"])
+    rev, cogs = quarterly_flow(gaap, TAGS["revenue"]), quarterly_flow(gaap, cogs_tags)
     ar, inv, ap = (instant(gaap, TAGS[k]) for k in ("ar", "inventory", "ap"))
     # 매출채권을 10-K에서만 따로 내고 10-Q는 "매출채권 + 기타 채권" 합산 태그로만 내는 회사는 합산 태그를 **전 기간** 쓴다 —
     # 점수가 자기 이력 안의 순위라 일관된 기준이 중요하다(분기마다 섞으면 DSO가 1.5배씩 오르내린다). QCOM 2025-09-28
@@ -152,6 +158,9 @@ def series(facts):
         ar = instant(gaap, AR_TAG_BY_CIK[str(facts["cik"]).zfill(10)])
     if str(facts.get("cik", "")).zfill(10) in INV_TAG_BY_CIK:
         inv = instant(gaap, INV_TAG_BY_CIK[str(facts["cik"]).zfill(10)])
+    if str(facts.get("cik", "")).zfill(10) in INV_SUM_BY_CIK:
+        parts = [instant(gaap, [t]) for t in INV_SUM_BY_CIK[str(facts["cik"]).zfill(10)]]
+        inv = {e: sum(p[e] for p in parts) for e in parts[0] if all(e in p for p in parts)}
     # 매출채권 태그를 한 번도 안 낸 회사만 ReceivablesNetCurrent("Receivables, net")를 쓴다 — WMT(2026-09-27).
     # 분기 단위로 섞지 않는다: MU는 두 태그를 다 내고 값이 다르다(RN에 비매출채권 포함, Fable).
     if not ar:

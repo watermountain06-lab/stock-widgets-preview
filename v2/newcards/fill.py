@@ -392,6 +392,9 @@ if _np < 5:
     h = h.replace('뒤집어 점수로 썼고 다섯 개를 평균했다.', f'뒤집어 점수로 썼고 {"·".join(_miss)}를 뺀 {_np}개를 평균했다.', 1)
 # 배수 이력 배지: "최근 N년 이력"은 이력이 끊긴 경우(적자·자본 음수 구간 제외, STX PER·PBR)에 틀린다 → "유효 이력"(Fable, 2026-10-01)
 h = h.replace("`최근 ${(m.days / 252).toFixed(1)}년 이력`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`")
+# 분모 음수 배지: PBR의 분모는 자본이라 "적자"가 아니라 "자본 음수"(BKNG 흑자·자본 −$10.8B, Codex 2026-10-02)
+h = h.replace("f('badge').textContent = neg ? '적자 · 0점'", "f('badge').textContent = neg ? (m.metric === 'pbr' ? '자본 음수 · 0점' : '적자 · 0점')")
+h = h.replace("`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)`")
 # 활동성 — 분기 매입채무가 없는 카드(DPO·CCC null): ABBV 카드 한정 패치를 공통으로(PEP에서 null.toFixed로 스크립트 전체가 멈췄다, Codex·Fable 2026-10-01)
 _ACT = re.search(rf'^const {T}_ACTIVITY = (\{{.*?\}});', h, re.M)
 if _ACT and (json.loads(_ACT.group(1)).get('now') or {}).get('dpo', 0) is None:

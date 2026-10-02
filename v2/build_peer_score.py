@@ -103,7 +103,11 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    # BX: BLK와 같은 S&P500 자산운용·수탁은행 비교군(2026-10-02, Claude 추천·사용자 위임 — 리뷰 때 확인). 대체투자 운용사.
                    "BX": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
                    # CB: 카드 유니버스 금융은 은행·결제라 보험사와 맞지 않다 → S&P500 손해·종합·생명보험 16곳(중개사 제외, 2026-10-02, Claude 추천 — 리뷰 때 확인)
-                   "CB": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json")}
+                   "CB": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   # PGR: CB와 같은 S&P500 보험사 비교군(2026-10-02)
+                   "PGR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   # BKNG: HD·MCD·TJX와 같은 S&P500 경기소비재 비교군(2026-10-02, Claude 추천 — 리뷰 때 확인)
+                   "BKNG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 

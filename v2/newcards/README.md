@@ -16,7 +16,9 @@
 | `root_arrays.py T` | 루트 카드가 있는 종목은 배열을 루트 카드에서 옮긴다 |
 | `aph_root_arrays_special.py` | APH만 — 분할 안전장치로 루트가 멈춰 Yahoo 일봉으로 다시 만든 기록(그대로는 못 돌림, `/tmp/aph_rows.json` 필요) |
 
-`BUILD` 옵션: `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 일봉 시작일 — WDC·T), `overlay`(companyfacts 지연 — ABT·WELL·NEE, 또는 재무 태그 별칭이 필요할 때 — BA 재고), `company_tags`(회사 고유 태그 — COP 설비투자).
+`BUILD` 옵션: `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 일봉 시작일 — WDC·T), `overlay`(companyfacts 지연 — ABT·WELL·NEE, 또는 재무 태그 별칭이 필요할 때 — BA 재고), `company_tags`(회사 고유 태그 — COP 설비투자, NEM 재고·리스). 재무 데이터의 총계 태그가 없으면 `adapters/overlay_feed.py`의 `SUM`(구성 줄 합 — ACN 총부채, NEM 재고 + 광석 비축분, 옛 행이 있으면 `REPLACE`)을 쓰고 `overlay`를 켠다. 활동성 매출원가·재고 예외는 `build_activity_score.py`의 `COGS_TAG_BY_CIK`·`INV_SUM_BY_CIK`.
+
+은행(COF)은 이 생성기가 아니라 은행 세트 경로다: `build.py T --data`(cfg에 `no_dcf`)로 복제·배열 → `research/bank_gate_T.json`·`bank_items.json`(필요하면 `research/bank_equity_override.json`) → `adapters/bank_card.py T --json v2/T_bank.json` → 은행 채우기 스크립트(SCHW 스크립트를 옮긴 cof_fill.py — 다른 은행 카드처럼 세션 스크립트라 저장소 밖) → `sync_fallbacks.py`.
 
 `BUILD['no_dcf']`(사유 문자열): 현금흐름 모델 미적용 — DCF 블록을 사유만 남긴 빈 값으로 두고 카드가 BRKB처럼 "판정 보류"(보험사 CB, 2026-10-02 사용자 결정).
 
