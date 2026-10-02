@@ -166,7 +166,8 @@ def base_inputs(ticker, asof=None):
     # 목록이면 태그 중 하나라도 CapitalLease를 담으면 포함으로 본다 — XOM의 LongTermDebtAndCapitalLeaseObligations는
     # 금융리스를 담는데 목록이라 빠져 금융리스 $2.66B가 두 번 빠졌다(Fable, 2026-09-29).
     _flat = [x for t in ([_tt] if isinstance(_tt, str) else (_tt or [])) for x in (t if isinstance(t, tuple) else (t,))]   # 튜플 묶음(KO)도 펼친다
-    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat)   # FinanceLease: TMUS(2026-10-01)
+    # DE: 장비 부문 차입금(보충 표 원문, 회사 고유 이름)은 금융리스를 이미 담는다(10-K 주석 24) — 이름으로 못 가려 목록에 둔다(Codex, 2026-10-01)
+    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in ("0000315189",)   # FinanceLease: TMUS(2026-10-01)
     if not fl_in_debt:
         out["lease"] = (out.get("lease") or 0) + fin_lease
     out["finance_lease"] = fin_lease

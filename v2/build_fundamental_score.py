@@ -187,12 +187,14 @@ def quarter_flow(fin, key, end):
 
 
 def operating_income_quarter(fin, end):
-    op = quarter_flow(fin, "operatingIncome", end)
-    if op is not None:
-        return op, False
+    # 합성 대상 회사는 합성값이 먼저다(연간과 같게) — DIS는 operatingIncome 태그가 비GAAP 부문 영업이익 합계라
+    # 분기 영업이익률 22.0%·이자보상배율 12배로 부풀었다(합성 15.6%·8.5배, Codex 2026-10-01)
     d = _derived_opinc(fin)
     if d and end in d[1]:
         return d[1][end], False
+    op = quarter_flow(fin, "operatingIncome", end)
+    if op is not None:
+        return op, False
     pt, ie = quarter_flow(fin, "pretaxIncome", end), quarter_flow(fin, "interestExpense", end)
     if pt is not None and ie is not None:
         return pt + abs(ie), True

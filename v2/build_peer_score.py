@@ -84,7 +84,9 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    # S&P500 커뮤니케이션 22종목(2026-10-01, Claude 추천·사용자 위임). 섹터 전체에 걸지 않은 것은 커밋된 GOOGL·META·NFLX를 바꾸지 않기 위해서다.
                    "VZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
                    # TMUS: VZ와 같은 통신사라 같은 비교군(2026-10-01, Claude 추천·사용자 위임). 기본 섹터 34종목이면 모든 배수가 2~3위였다(95.4점).
-                   "TMUS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json")}
+                   "TMUS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   # DIS: VZ·TMUS와 같은 커뮤니케이션 비교군(2026-10-01, Claude 추천·사용자 위임). 기본 섹터(IT 포함 34종목)면 91.3점.
+                   "DIS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 

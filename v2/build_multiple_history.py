@@ -279,6 +279,19 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                  # KLAC: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss는 2015년까지 — 그 값이 계속 쓰였다). 영업이익 = 세전이익
                  # + 이자비용 − "Other expense (income), net"(기타수익, 양수). Q4 FY26: 1,549.4 + 73.3 − 68.7 = 1,553.9 = 매출 3,657.6
                  # − 매출원가 1,413.1 − R&D 399.0 − 판관비 291.5(실적 보도자료 대조, 2026-10-01).
+                 # DE: 손익계산서에 영업이익 줄이 없다(금융 부문 이자·대손이 비용 안). CAT 결정(금융 부문 빚 제외·그 이자는 영업)과 같게
+                 # 영업이익 = 세전이익("Income of Consolidated Group before Income Taxes") — 장비 부문 대외 이자(분기 약 $50M,
+                 # 연결 이자 $710M − 금융 부문 $661M, Q3 FY26)까지 영업 비용에 남아 영업이익이 약 3% 낮다(태그가 없어 더하지 못함, 2026-10-01).
+                 # DIS: OperatingIncomeLoss 태그가 회사 비GAAP "부문 영업이익 합계"(Q3 FY26 $5,555M — 본사 비용·인수 무형자산 상각·
+                 # 구조조정 제외)다. GAAP 손익계산서로 영업이익 = 세전이익 − 순이자(InterestIncomeExpenseNonoperatingNet, 비용이면 음수) − 기타 영업외손익.
+                 # 지분법 이익·구조조정·손상은 영업에 둔다(XOM·ABBV 선례). Q3 FY26: 3,645 + 298 = 3,943 = 매출 25,248 − 비용 20,488
+                 # − 구조조정·손상 900 + 지분법 83(10-Q 대조, 2026-10-01).
+                 "0001744489": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestIncomeExpenseNonoperatingNet", "InterestIncomeExpenseNet"], 1),
+                                 # "Other income (expense), net"(DraftKings 평가손 등, 분기에 따라 없음 → 선택 항목). FY2022 −$667M,
+                                 # Q3 FY24 −$65M을 영업이익에서 뺀다(Codex, 2026-10-01).
+                                 (["OtherNonoperatingIncomeExpense", "NonoperatingIncomeExpense"], 1, True)]),
+                 "0000315189": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments", []),
                  "0000319201": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["InterestExpenseNonoperating", "InterestExpense"], -1), (["OtherNonoperatingIncomeExpense"], 1),
                                  # 채무 상환 손실(손익계산서 별도 줄, 손실은 음수) — Q1 FY23 $13.3M(Codex). 없는 분기는 0.
@@ -721,6 +734,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # 영업 부채이고 이자비용이 영업이익 안에 있다. 부문 값은 차원 태그라 `adapters/cat_segment_debt.py`가 오버레이에 쓴다.
                   # 2026-06-30 $35M + $10,655M = $10,690M(10-Q; 연결 합계 $45,146M 중 금융 부문 $34,456M 제외).
                   "0000018230": ["CatMETShortTermBorrowings", "CatMETLongTermDebtCurrent", "CatMETLongTermDebtNoncurrent"],
+                  # DE: 장비 부문 빚만(CAT과 같은 규칙). 부문 차입금은 10-Q·10-K 보충 표에 태그 없이 있어 `adapters/de_equipment_debt.py`가
+                  # 원문 장비 열을 오버레이에 싣는다(장비 + 금융 + 제거 = 연결 대조). 2026-08-02 $417 + $1 + $8,907 = $9,325M(연결 $63,836M).
+                  "0000315189": ["DeEquipShortTermBorrowings", "DeEquipSecuritizationBorrowings", "DeEquipLongTermBorrowings"],
                   # MRK: 유동 차입을 DebtCurrent("Loans payable and current portion of long-term debt")로만 낸다(분기마다).
                   # 기본 목록으론 2026-06-30 $2,825M이 빠져 $51,081M이었다(10-Q 합계 $53,906M, 2026-09-30, INTC와 같은 경우).
                   "0000310158": ["DebtCurrent", "LongTermDebtNoncurrent"],
@@ -818,6 +834,7 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000021344": {"sti": ["OtherShortTermInvestments", "MarketableSecurities"]},
                   # CAT: 재무상태표에 단기투자 줄이 없다(2026-06-30 10-Q). ShortTermInvestments가 2014-09-30 $378M에서 멈춰 그 값이 쓰였다.
                   "0000018230": {"sti": []},
+                  "0000315189": {"sti": [], "lease": ["OperatingLeaseLiability"]},   # DE: 유가증권 $1.35B 중 $1.20B가 금융 부문(보험) 몫 — CAT처럼 단기투자를 더하지 않는다
                   # KLAC: AvailableForSaleSecuritiesDebtSecuritiesCurrent가 2021-03-31 $990.6M에서 멈춰 그 값이 쓰였다. 재무상태표
                   # "Marketable securities" $3,252.6M(2026-06-30) = 매도가능 채권 합계 $3,205.8M + 상장 지분증권 약 $46.8M(2026-10-01).
                   "0000319201": {"sti": ["AvailableForSaleSecuritiesDebtSecurities"]},
