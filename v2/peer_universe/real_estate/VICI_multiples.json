@@ -1,0 +1,54 @@
+{
+ "ticker": "VICI",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 8.9,
+   "min": 8.88,
+   "p10": 9.18,
+   "median": 10.61,
+   "p90": 11.59,
+   "max": 12.55,
+   "mean": 10.46,
+   "percentile": 0.4,
+   "score": 99.6
+  },
+  "PSR": {
+   "days": 250,
+   "current": 6.17,
+   "min": 6.17,
+   "p10": 6.9,
+   "median": 7.52,
+   "p90": 8.16,
+   "max": 8.89,
+   "mean": 7.5,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "PBR": {
+   "days": 250,
+   "current": 0.87,
+   "min": 0.87,
+   "p10": 0.98,
+   "median": 1.08,
+   "p90": 1.17,
+   "max": 1.29,
+   "mean": 1.07,
+   "percentile": 0.0,
+   "score": 100.0
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 9.74,
+  "per_p75": 11.0,
+  "low": 30,
+  "high": 30,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

@@ -1,0 +1,54 @@
+{
+ "ticker": "MAA",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 35.68,
+   "min": 25.93,
+   "p10": 27.62,
+   "median": 35.04,
+   "p90": 40.78,
+   "max": 43.09,
+   "mean": 34.38,
+   "percentile": 55.6,
+   "score": 44.4
+  },
+  "PSR": {
+   "days": 250,
+   "current": 6.19,
+   "min": 6.17,
+   "p10": 6.58,
+   "median": 6.99,
+   "p90": 7.25,
+   "max": 7.48,
+   "mean": 6.95,
+   "percentile": 0.4,
+   "score": 99.6
+  },
+  "PBR": {
+   "days": 250,
+   "current": 2.47,
+   "min": 2.46,
+   "p10": 2.57,
+   "median": 2.71,
+   "p90": 2.83,
+   "max": 2.99,
+   "mean": 2.71,
+   "percentile": 0.4,
+   "score": 99.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 28.55,
+  "per_p75": 39.5,
+  "low": 90,
+  "high": 130,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

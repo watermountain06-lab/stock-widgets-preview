@@ -1,0 +1,66 @@
+{
+ "ticker": "AEE",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 17.5,
+   "min": 17.46,
+   "p10": 18.79,
+   "median": 20.02,
+   "p90": 21.46,
+   "max": 23.23,
+   "mean": 20.11,
+   "percentile": 0.4,
+   "score": 99.6
+  },
+  "PSR": {
+   "days": 250,
+   "current": 3.14,
+   "min": 2.94,
+   "p10": 3.05,
+   "median": 3.38,
+   "p90": 3.52,
+   "max": 3.69,
+   "mean": 3.33,
+   "percentile": 19.2,
+   "score": 80.8
+  },
+  "PBR": {
+   "days": 250,
+   "current": 2.01,
+   "min": 2.01,
+   "p10": 2.1,
+   "median": 2.23,
+   "p90": 2.31,
+   "max": 2.42,
+   "mean": 2.22,
+   "percentile": 0.4,
+   "score": 99.6
+  },
+  "EV/EBITDA": {
+   "days": 250,
+   "current": 12.94,
+   "min": 12.93,
+   "p10": 13.48,
+   "median": 13.94,
+   "p90": 14.68,
+   "max": 15.37,
+   "mean": 13.98,
+   "percentile": 0.4,
+   "score": 99.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 19.27,
+  "per_p75": 20.75,
+  "low": 110,
+  "high": 120,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

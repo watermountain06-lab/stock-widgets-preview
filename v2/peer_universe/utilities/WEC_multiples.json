@@ -1,0 +1,66 @@
+{
+ "ticker": "WEC",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 44.99,
+   "min": 44.99,
+   "p10": 46.95,
+   "median": 50.08,
+   "p90": 52.06,
+   "max": 53.06,
+   "mean": 49.76,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "PSR": {
+   "days": 250,
+   "current": 3.24,
+   "min": 3.24,
+   "p10": 3.43,
+   "median": 3.73,
+   "p90": 3.9,
+   "max": 4.06,
+   "mean": 3.7,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "PBR": {
+   "days": 250,
+   "current": 2.25,
+   "min": 2.25,
+   "p10": 2.39,
+   "median": 2.56,
+   "p90": 2.71,
+   "max": 2.77,
+   "mean": 2.55,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "EV/EBITDA": {
+   "days": 250,
+   "current": 14.48,
+   "min": 14.24,
+   "p10": 14.47,
+   "median": 15.3,
+   "p90": 16.04,
+   "max": 16.3,
+   "mean": 15.28,
+   "percentile": 10.4,
+   "score": 89.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 48.3,
+  "per_p75": 51.4,
+  "low": 110,
+  "high": 120,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

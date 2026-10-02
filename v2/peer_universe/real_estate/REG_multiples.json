@@ -1,0 +1,46 @@
+{
+ "ticker": "REG",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PSR": {
+   "days": 250,
+   "current": 8.3,
+   "min": 8.07,
+   "p10": 8.36,
+   "median": 8.82,
+   "p90": 9.35,
+   "max": 9.55,
+   "mean": 8.84,
+   "percentile": 6.4,
+   "score": 93.6
+  },
+  "PBR": {
+   "days": 250,
+   "current": 1.91,
+   "min": 1.81,
+   "p10": 1.87,
+   "median": 2.02,
+   "p90": 2.13,
+   "max": 2.2,
+   "mean": 2.0,
+   "percentile": 20.8,
+   "score": 79.2
+  },
+  "EV/EBITDA": {
+   "days": 226,
+   "current": 11.93,
+   "min": 11.8,
+   "p10": 12.05,
+   "median": 12.51,
+   "p90": 12.96,
+   "max": 13.2,
+   "mean": 12.51,
+   "percentile": 4.0,
+   "score": 96.0
+  }
+ },
+ "perBasis": "diluted"
+}

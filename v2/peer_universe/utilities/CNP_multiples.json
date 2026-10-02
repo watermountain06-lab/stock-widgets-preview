@@ -1,0 +1,66 @@
+{
+ "ticker": "CNP",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 22.58,
+   "min": 22.47,
+   "p10": 24.1,
+   "median": 25.82,
+   "p90": 27.29,
+   "max": 28.32,
+   "mean": 25.72,
+   "percentile": 0.4,
+   "score": 99.6
+  },
+  "PSR": {
+   "days": 250,
+   "current": 2.57,
+   "min": 2.56,
+   "p10": 2.73,
+   "median": 2.89,
+   "p90": 3.05,
+   "max": 3.15,
+   "mean": 2.89,
+   "percentile": 0.4,
+   "score": 99.6
+  },
+  "PBR": {
+   "days": 250,
+   "current": 2.1,
+   "min": 2.09,
+   "p10": 2.24,
+   "median": 2.37,
+   "p90": 2.53,
+   "max": 2.58,
+   "mean": 2.38,
+   "percentile": 0.4,
+   "score": 99.6
+  },
+  "EV/EBITDA": {
+   "days": 250,
+   "current": 12.25,
+   "min": 12.21,
+   "p10": 12.53,
+   "median": 13.14,
+   "p90": 13.52,
+   "max": 13.71,
+   "mean": 13.05,
+   "percentile": 0.4,
+   "score": 99.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 24.68,
+  "per_p75": 26.81,
+  "low": 40,
+  "high": 40,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

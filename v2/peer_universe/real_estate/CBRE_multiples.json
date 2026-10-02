@@ -1,0 +1,78 @@
+{
+ "ticker": "CBRE",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 29.53,
+   "min": 28.46,
+   "p10": 30.41,
+   "median": 35.22,
+   "p90": 41.86,
+   "max": 45.87,
+   "mean": 35.97,
+   "percentile": 2.4,
+   "score": 97.6
+  },
+  "PSR": {
+   "days": 250,
+   "current": 0.86,
+   "min": 0.86,
+   "p10": 0.93,
+   "median": 1.03,
+   "p90": 1.27,
+   "max": 1.32,
+   "mean": 1.08,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "PBR": {
+   "days": 250,
+   "current": 4.43,
+   "min": 4.28,
+   "p10": 4.49,
+   "median": 5.03,
+   "p90": 5.75,
+   "max": 5.98,
+   "mean": 5.08,
+   "percentile": 5.2,
+   "score": 94.8
+  },
+  "PCR": {
+   "days": 250,
+   "current": 39.66,
+   "min": 32.6,
+   "p10": 33.35,
+   "median": 39.91,
+   "p90": 46.52,
+   "max": 48.74,
+   "mean": 39.72,
+   "percentile": 49.6,
+   "score": 50.4
+  },
+  "EV/EBITDA": {
+   "days": 250,
+   "current": 17.13,
+   "min": 16.73,
+   "p10": 17.65,
+   "median": 19.62,
+   "p90": 23.56,
+   "max": 24.6,
+   "mean": 20.43,
+   "percentile": 2.4,
+   "score": 97.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 32.38,
+  "per_p75": 39.6,
+  "low": 140,
+  "high": 170,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

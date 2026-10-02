@@ -1,0 +1,54 @@
+{
+ "ticker": "SRE",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 26.52,
+   "min": 21.57,
+   "p10": 26.29,
+   "median": 28.83,
+   "p90": 34.59,
+   "max": 36.27,
+   "mean": 29.43,
+   "percentile": 12.8,
+   "score": 87.2
+  },
+  "PSR": {
+   "days": 250,
+   "current": 4.19,
+   "min": 4.13,
+   "p10": 4.54,
+   "median": 4.9,
+   "p90": 5.05,
+   "max": 5.25,
+   "mean": 4.84,
+   "percentile": 1.2,
+   "score": 98.8
+  },
+  "PBR": {
+   "days": 250,
+   "current": 1.58,
+   "min": 1.56,
+   "p10": 1.71,
+   "median": 1.88,
+   "p90": 1.97,
+   "max": 2.06,
+   "mean": 1.86,
+   "percentile": 1.2,
+   "score": 98.8
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 27.26,
+  "per_p75": 31.64,
+  "low": 80,
+  "high": 90,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

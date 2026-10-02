@@ -71,7 +71,11 @@ SECTOR_UNIVERSE = {"Health Care": os.path.join(os.path.dirname(os.path.abspath(_
                    # 카드 유니버스 산업재 2~4종목 → S&P500 81종목(2026-09-30 사용자 결정, CAT)
                    "Industrials": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "industrials.json"),
                    # 카드 유니버스 소재는 LIN 1종목뿐 → S&P500 소재 26종목(2026-10-01, Claude 추천·사용자 위임 — 리뷰 때 확인)
-                   "Materials": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "materials.json")}
+                   "Materials": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "materials.json"),
+                   # 부동산·유틸리티는 카드 유니버스에 종목이 없다 → S&P500 섹터(2026-10-02, Claude 추천·사용자 위임 — 리뷰 때 확인).
+                   # 부동산 파일은 PSR 60배 초과·0 값을 데이터 오류로 뺐다(파일 note).
+                   "Real Estate": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "real_estate.json"),
+                   "Utilities": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "utilities.json")}
 # 종목별 비교군(섹터 전체가 맞지 않는 종목). V: 카드 유니버스 금융 10곳은 은행·증권이라 결제망과 배수가 맞지 않아
 # S&P500 결제 8곳 + 거래소·데이터 9곳(2026-09-27 사용자 결정). 섹터 규칙보다 앞선다.
 TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),

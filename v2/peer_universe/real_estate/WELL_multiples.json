@@ -1,0 +1,54 @@
+{
+ "ticker": "WELL",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 114.55,
+   "min": 93.22,
+   "p10": 102.81,
+   "median": 123.32,
+   "p90": 149.45,
+   "max": 155.02,
+   "mean": 124.38,
+   "percentile": 26.0,
+   "score": 74.0
+  },
+  "PSR": {
+   "days": 250,
+   "current": 17.35,
+   "min": 14.72,
+   "p10": 16.1,
+   "median": 17.08,
+   "p90": 18.06,
+   "max": 18.99,
+   "mean": 17.03,
+   "percentile": 63.6,
+   "score": 36.4
+  },
+  "PBR": {
+   "days": 250,
+   "current": 3.71,
+   "min": 3.09,
+   "p10": 3.25,
+   "median": 3.45,
+   "p90": 3.81,
+   "max": 4.06,
+   "mean": 3.5,
+   "percentile": 76.0,
+   "score": 24.0
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 113.99,
+  "per_p75": 137.58,
+  "low": 230,
+  "high": 280,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

@@ -171,6 +171,7 @@ KNOWN_SPLITS = {
     "SNDK": [],   # SanDisk has never split -- it only began trading 2025-02-13 (when-issued) / 2025-02-24 (regular-way, Nasdaq) after Western Digital distributed 80.1% of SanDisk on 2025-02-21 at one-third of a SNDK share per WDC share. That distribution ratio is the SPINOFF's exchange ratio applied to WDC holders, not a split of SNDK's own outstanding shares -- the same aggregator artifact already documented for DELL's VMware Class V exchange and RTX's 2020 Carrier/Otis spin-merge above, except here it belongs to the PARENT's price series, so it must never be applied to SNDK's own EPS history. Confirmed empirically 2026-09-10: SNDK's full XBRL EarningsPerShareDiluted history (20 entries, earliest end 2023-06-30, carve-out periods included) has 0 (start,end) groups with any duplicate-value disagreement at all, let alone a ratio >1.3.
     "TXN": [],    # 데이터 창(2021-09~) 안에 분할 없음 — Yahoo 분할 기록 없음(2026-10-01 확인)
     "C": [],      # 마지막 분할은 2011-05 1:10 병합으로 데이터 창 밖 — Yahoo 창 안 기록 없음(2026-10-01 확인)
+    "NEE": [("2020-10-27", 4.0)],   # 4-for-1 split effective 2020-10-27 (Yahoo split event 2020-10-27, 2026-10-02)
     "KLAC": [("2026-06-12", 10)],  # 10:1 정분할 — 2026-05-07 8-K 발표, 2026-06-11 23:59 정관 개정 효력(2026-06-12 8-K Item 5.03), 6/12부터 분할 후 거래. 2026-10-01 확인
     "IBM": [],    # 분할 없음 — 2021-11-04 Kyndryl 분사 조정 비율 1.046은 분할이 아니다(splits.py ignored, 2026-10-01)
     "TMO": [],    # 데이터 창(2021-09~) 안에 분할 없음 — Yahoo 기록 없음(2026-10-01)
@@ -179,7 +180,7 @@ KNOWN_SPLITS = {
     "CRWD": [("2026-07-02", 4)],   # 4:1 주식 배당형 분할 — 2026-06-03 8-K(기록일 6/25, 7/2부터 분할 기준 거래). 마지막 분할 전 공시 2026-06-04(Q1 FY27 10-Q), 첫 분할 후 2026-08-27(Q2 FY27 10-Q)
     "APH": [("2021-03-05", 2), ("2024-06-12", 2), ("2026-09-03", 2)],   # 2:1 세 번 — 마지막은 2026-08-06 8-K(기록일 8/17, 9/2 배분, 9/4 8-K "now been effected"). 분할 뒤 EPS 공시가 아직 없어 기존 공시 전부 ÷2
     "VZ": [], "MRVL": [], "AMGN": [], "CRM": [],
-    "TMUS": [], "QCOM": [], "STX": [], "PEP": [], "SCHW": [], "DIS": [], "DE": [], "ADI": [], "GILD": [], "BLK": [], "ETN": [], "ABT": [], "WDC": [], "T": [], "MCD": [],   # 데이터 창 안에 분할 없음 — Yahoo 기록 없음(2026-10-01)
+    "TMUS": [], "QCOM": [], "STX": [], "PEP": [], "SCHW": [], "DIS": [], "DE": [], "ADI": [], "GILD": [], "BLK": [], "ETN": [], "ABT": [], "WDC": [], "T": [], "MCD": [], "WELL": [], "UNP": [], "PFE": [],   # 데이터 창 안에 분할 없음 — Yahoo 기록 없음(2026-10-01)
 }
 
 CIKS = {
@@ -251,6 +252,10 @@ CIKS = {
     "WDC": "0000106040",
     "T": "0000732717",
     "MCD": "0000063908",
+    "WELL": "0000766704",
+    "UNP": "0000100885",
+    "PFE": "0000078003",
+    "NEE": "0000753308",
     "ABT": "0000001800",
     "QCOM": "0000804328",
     "STX": "0001137789",
