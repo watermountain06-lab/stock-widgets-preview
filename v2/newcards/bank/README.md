@@ -12,6 +12,7 @@
 다시 만들기: `bash v2/newcards/bank/{t}_rebuild.sh`(저장소 루트 기준 경로). 일봉을 새로 받으면 기반 HTML부터 다시 만든다 — COF는 `python3 v2/newcards/build.py COF --data` 뒤 `cp v2/COF_full_widget.html v2/newcards/bank/base/cof_base.html`.
 
 주의
-- 채우기 스크립트는 `v2/{T}_bank.json`과 `v2/peer_universe/banks.json`이 같은 때 만든 것이라고 가정한다(동종업 수 확인). `bank_card.py`를 건너뛰고 채우기만 돌리면 비교군 파일이 그 뒤 갱신된 은행(BAC·GS·WFC)은 확인에서 멈추고, MS는 비교 차트 값이 바뀐다(2026-10-02 확인). 반드시 `rebuild.sh`로 돌린다.
+- 채우기 스크립트는 `v2/{T}_bank.json`과 `v2/peer_universe/banks.json`이 같은 때 만든 것이라고 가정한다(동종업 수 확인). `bank_card.py`를 건너뛰고 채우기만 돌리면 비교군 파일이 그 뒤 갱신된 은행(BAC·GS·WFC)은 확인에서 멈추고, MS는 비교 차트 값이 바뀐다(2026-10-02 확인). 반드시 `rebuild.sh`로 돌린다. 2026-10-02 네 장을 `rebuild.sh`로 다시 돌린 결과, C 데이터 보충 뒤 C의 P/TBV가 계산되어 비교 은행이 한 곳 늘어난 것이 차이의 원인이었다(판정은 네 장 모두 그대로).
+- `peer_universe/banks.json`은 마지막으로 돌린 은행의 기준일로 덮어써진다. GS·MS·WFC 일봉은 9/29에서 끝나 그 뒤에는 기준일이 9/29가 되므로, 여러 장을 돌리면 9/30 기준 은행(BAC·COF 등)을 마지막에 돌린다.
 - C는 `ixbrl_supplement.py`를 먼저 돌린다(스크립트에 포함). GS·MS·COF의 `rebuild.sh`는 SCHW 것을 그대로 옮겨 만들었다 — MS 우선주 오버레이(`adapters/ms_preferred.py`) 등 앞 단계가 필요하면 그 종목 `{t}_fill.py` 머리 설명을 먼저 본다.
 - 손입력 값(분기 순수익·순이익, 자본비율, 뉴스·애널리스트)은 스크립트 안에 있다. 다음 분기 갱신 때 보도자료로 고친다.
