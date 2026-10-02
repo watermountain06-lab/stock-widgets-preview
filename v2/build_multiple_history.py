@@ -348,7 +348,10 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
                 # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아
                 # EV/EBITDA가 높게 나왔다(Fable, 2026-10-01).
-                "0000318154": ("DepreciationAndAmortization",)}
+                "0000318154": ("DepreciationAndAmortization",),
+                # MCD: DepreciationDepletionAndAmortization(분기 $111M)는 현금흐름표 D&A(DepreciationAndAmortization, 분기 $565M)의 일부라
+                # 앞 태그가 이겨 EBITDA·DCF 감가상각이 낮았다(최근 4분기 $0.47B 대 약 $2.2B, 2026-10-02).
+                "0000063908": ("DepreciationDepletionAndAmortization",)}
 
 
 def pick_tag(cik, names, taxonomy="us-gaap"):
@@ -731,7 +734,10 @@ SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # ETN: 1년 안 만기 장기차입금을 LongTermDebtAndCapitalLeaseObligationsCurrent로 내 기본 목록에서 빠졌다(FY2025 말 $1,136M —
                   # 엔진 $8,759M 대 재무상태표 $9,895M, Codex 2026-10-01). 금융리스 포함 태그라 금융리스를 따로 더하지 않는다.
-                  "0001551182": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"], "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  "0001551182": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # T: 1년 안 만기 차입금을 DebtCurrent($9.3B, 2026-06-30)로만 내 기본 목록에서 빠졌다(엔진 $134.6B 대 재무상태표 $144.0B, 2026-10-02).
+                  # 장기는 금융리스 포함 LongTermDebtAndCapitalLeaseObligations(GE와 같은 조합).
+                  "0000732717": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"], "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   "0000034088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # INTC: 10-Q는 1년 안 만기 차입금을 DebtCurrent로만 낸다(LongTermDebtCurrent는 10-K에만) — 기본 목록으론
                   # 2026-06-27 단기 $1,988M이 빠져 $48,549M이었다(10-Q 합계 $50,537M, 2026-09-29).
@@ -835,6 +841,10 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0002012383": {"lease": ["OperatingLeaseLiability"]},
                   # ETN: 분기 재무상태표에는 비유동 운용리스 부채만 있고 유동분은 10-K에만 있다 → JNJ처럼 10-K 총액(FY2025 $789M)을 쓴다(Codex 2026-10-01).
                   "0001551182": {"lease": ["OperatingLeaseLiability"]},
+                  # T: 단기투자 태그가 2014-12 $1.89B에서 멈춰 그 값이 계속 순현금에 더해졌다. 리스는 분기엔 비유동분만 있어 10-K 총액(Codex 2026-10-02).
+                  "0000732717": {"sti": [], "lease": ["OperatingLeaseLiability"]},
+                  # MCD: 단기투자 줄이 없다(ShortTermInvestments가 2014-09에 멈춤, 2026-10-02).
+                  "0000063908": {"sti": []},
                   # VZ: 단기투자 줄이 없다(ShortTermInvestments가 2015-12 $350M에 멈춰 그 값이 계속 쓰였다, Codex 2026-10-01).
                   "0000732712": {"sti": []},
                   # STX: 단기투자 태그 AvailableForSaleSecuritiesDebtSecuritiesCurrent가 2012-06-29 $411M에서 멈췄는데 2026년 순현금에 더해졌다
@@ -1083,7 +1093,14 @@ HISTORY_START = {"GE": "2024-07-23",
                  # DELL: VMware 분사(2021-11-01) 뒤 첫 재무상태표(FY2022 말 2022-01-28)가 나온 10-K 공시일(2026-10-01 사용자 결정).
                  "DELL": "2022-03-24",
                  # IBM: Kyndryl 분사(2021-11-03) 뒤 첫 재무상태표(2021-12-31)가 나온 FY2021 10-K 공시일(2026-10-01, GE·DELL 방식).
-                 "IBM": "2022-02-22"}
+                 "IBM": "2022-02-22",
+                 # WDC: SanDisk 분사(2025-02-21 완료). 첫 분사 후 재무상태표는 Q3 FY25 10-Q(2025-05-02)지만, 계속사업 기준으로 재작성한
+                 # 분기 매출·이익이 처음 나온 것은 FY25 10-K(2025-08-14)다. 그 전 날짜는 재작성 전 최근 4분기(분사 전 원공시와 섞임,
+                 # 2023-06 분기 음수)를 써 PSR이 29.8배로 튀었다 → 10-K 공시일부터(2026-10-02, GE 방식 변형).
+                 "WDC": "2025-08-14",
+                 # T: WarnerMedia 분사(2022-04-08). 첫 분사 후 재무상태표는 2022-06-30이지만, 최근 4분기 합이 모두 분사 뒤 분기인 첫
+                 # 시점은 2023-03-31(1분기 10-Q 2023-05-01)이다 — 그 전 합은 분사 전 분기(WarnerMedia 포함)와 섞인다(WDC 교훈, 2026-10-02).
+                 "T": "2023-05-01"}
 
 
 def history_daily(ticker, daily):

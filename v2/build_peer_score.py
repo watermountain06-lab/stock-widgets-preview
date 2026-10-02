@@ -89,7 +89,11 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "DIS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
                    # BLK: 카드 유니버스 금융은 은행·결제라 자산운용사와 맞지 않고 표본도 모자랐다(PER·PBR만 남음) →
                    # S&P500 자산운용·수탁은행 12종목(2026-10-01, Claude 추천·사용자 위임 — 리뷰 때 확인)
-                   "BLK": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json")}
+                   "BLK": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   # T: VZ·TMUS와 같은 통신사라 같은 비교군(2026-10-02, Claude 추천·사용자 위임 — 리뷰 때 확인)
+                   "T": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   # MCD: HD와 같은 S&P500 경기소비재 비교군(2026-10-02, Claude 추천·사용자 위임 — 리뷰 때 확인). 카드 유니버스 경기소비재+IT면 외식업이 IT와 섞인다.
+                   "MCD": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 

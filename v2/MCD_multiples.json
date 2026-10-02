@@ -1,0 +1,66 @@
+{
+ "ticker": "MCD",
+ "window": [
+  "2021-09-30",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 1255,
+   "current": 18.76,
+   "min": 18.76,
+   "p10": 22.71,
+   "median": 26.13,
+   "p90": 32.12,
+   "max": 35.78,
+   "mean": 26.71,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 5.9,
+   "min": 5.9,
+   "p10": 7.24,
+   "median": 8.28,
+   "p90": 8.77,
+   "max": 9.41,
+   "mean": 8.14,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "PCR": {
+   "days": 1255,
+   "current": 21.06,
+   "min": 21.06,
+   "p10": 25.77,
+   "median": 30.01,
+   "p90": 34.55,
+   "max": 39.73,
+   "mean": 30.21,
+   "percentile": 0.0,
+   "score": 100.0
+  },
+  "EV/EBITDA": {
+   "days": 1255,
+   "current": 14.41,
+   "min": 14.41,
+   "p10": 17.04,
+   "median": 19.3,
+   "p90": 21.82,
+   "max": 23.41,
+   "mean": 19.34,
+   "percentile": 0.0,
+   "score": 100.0
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 22.54,
+  "per_p75": 26.35,
+  "low": 280,
+  "high": 320,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

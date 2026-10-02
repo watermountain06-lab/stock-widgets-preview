@@ -57,7 +57,14 @@ WINDOW_START = "2021-07-01"
 # 약 2.5년 CAGR(2026-10-01, SNDK와 같은 방식).
 # IBM: 2021-11 Kyndryl 분사 — 2021년 분기는 재작성(계속사업) 값이 있지만 2020년 4분기는 원공시라 최근 4분기 끝 2021-12-31부터 19개,
 # 약 4.5년 CAGR(2026-10-01, GE 방식).
-HISTORY_WINDOW = {"GE": ("2024-03-31", 9), "SNDK": ("2024-09-27", 8), "GEV": ("2023-12-31", 11), "IBM": ("2021-12-31", 18)}
+HISTORY_WINDOW = {"GE": ("2024-03-31", 9), "SNDK": ("2024-09-27", 8), "GEV": ("2023-12-31", 11), "IBM": ("2021-12-31", 18),
+                  # WDC: SanDisk 분사(2025-02). 분기 매출은 FY24부터 재작성 값이 있지만 영업이익은 FY25 1·2분기 10-Q가 비교 수치로 낸
+                  # FY24 분기가 분사 전 원공시라(−596·−210·+94·−91, 계속사업 연간은 −403 — Codex) 네 분기가 모두 계속사업인 첫 최근
+                  # 4분기 합은 FY25 말(2025-06-27)이다. 그 전 창은 5년 성장률 −5.3%(원공시)·57%(섞인 합)로 나왔다(2026-10-02, GE 방식).
+                  # 이력이 1년(합 5개)뿐이라 3년·5년 성장률이 같은 값이다.
+                  "WDC": ("2025-06-27", 5),
+                  # T: WarnerMedia 분사(2022-04). 네 분기가 모두 분사 뒤인 첫 최근 4분기 합은 2023-03-31(2026-10-02).
+                  "T": ("2023-03-31", 13)}
 
 
 def latest(series, asof=None):
@@ -167,7 +174,9 @@ def base_inputs(ticker, asof=None):
     # 금융리스를 담는데 목록이라 빠져 금융리스 $2.66B가 두 번 빠졌다(Fable, 2026-09-29).
     _flat = [x for t in ([_tt] if isinstance(_tt, str) else (_tt or [])) for x in (t if isinstance(t, tuple) else (t,))]   # 튜플 묶음(KO)도 펼친다
     # DE: 장비 부문 차입금(보충 표 원문, 회사 고유 이름)은 금융리스를 이미 담는다(10-K 주석 24) — 이름으로 못 가려 목록에 둔다(Codex, 2026-10-01)
-    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in ("0000315189",)   # FinanceLease: TMUS(2026-10-01)
+    # MCD: 재무상태표 리스부채(OperatingLeaseLiabilityCurrent·Noncurrent 태그)가 운용 + 금융리스 합계라(10-K 리스 주석 표, 2025-12 $694M·$14,147M)
+    # 금융리스를 또 더하면 $2.35B가 두 번 빠진다(2026-10-02) — 같은 목록에 둔다.
+    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in ("0000315189", "0000063908")   # FinanceLease: TMUS(2026-10-01)
     if not fl_in_debt:
         out["lease"] = (out.get("lease") or 0) + fin_lease
     out["finance_lease"] = fin_lease
@@ -291,6 +300,11 @@ def base_inputs(ticker, asof=None):
                 key=lambda e: (e["end"], e["filed"])) if wrows else []
     if wq:
         wd = wq[-1]["val"] * feh.split_ratio(wq[-1]["filed"], _splits.for_ticker(ticker))
+        # 희석 가중평균을 백만 주 단위 숫자로 잘못 태깅한 회사(MCD 2026년 "711.1"주)는 대조값으로 쓸 수 없다 — 백만 배로 되돌린다
+        # (100만 주 미만은 S&P500 기업으로 불가능). 그대로 두면 표지 주식 수 7.08억 주를 711주로 바꿔 주당 가치가 9천만 달러가 됐다(2026-10-02).
+        if wd < 1e6:
+            out["dq"].append(f"weighted_shares_unit:{wq[-1]['val']}->x1e6")
+            wd *= 1e6
         sh = out.get("shares")
         if not sh or not (0.5 <= sh / wd <= 2.0):
             out["dq"].append(f"shares_fallback:{sh}->{wd:.0f}")

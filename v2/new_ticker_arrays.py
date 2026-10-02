@@ -52,6 +52,8 @@ def main():
     ap.add_argument("ticker")
     ap.add_argument("--yahoo", required=True)
     ap.add_argument("--asof", required=True)
+    # 백테스트만 이 날짜 이후 일봉으로 — 분사 종목(WDC)은 재작성 EPS가 처음 나온 날 전 PER이 원공시와 섞인다(Codex 2026-10-02)
+    ap.add_argument("--bt-start")
     a = ap.parse_args()
     t = a.ticker.upper()
     allbars = bars_from_yahoo(a.yahoo, a.asof)
@@ -63,7 +65,7 @@ def main():
     assert all(x is not None for n in ma for x in ma[n])
 
     tmp = f"/tmp/{t}_daily_for_backtest.json"
-    json.dump({"daily": daily}, open(tmp, "w"))
+    json.dump({"daily": [b for b in daily if not a.bt_start or b[0] >= a.bt_start]}, open(tmp, "w"))
     eps = os.path.join(REPO, "scripts", f"{t}_eps_history.json")
     out = f"/tmp/{t}_backtest.json"
     r = subprocess.run([sys.executable, os.path.join(REPO, "scripts", "compute_earnings_backtest_band.py"), t,
