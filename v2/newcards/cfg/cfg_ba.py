@@ -18,7 +18,13 @@ PR = {'q2': S_ + '000162828026049929/a202606jun308kprex991.htm', 'q1': S_ + '000
 PR_CUR = 'q2'
 TENQ = S_ + '000162828026050038/ba-20260630.htm'; TENQ_NAME = 'Q2 2026 10-Q'
 LINKS = {'spirit': S_ + '000162828025055825/a202512dec088kex991.htm'}
-FAIRBAND_TITLE = 'id="baFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS가 양수인 것은 2025년 4분기 Digital Aviation Solutions 매각 이익($9.6B) 때문이라 범위를 이익 수준으로 읽기 어렵다."'
+# 적정주가 밴드·밴드 적중률은 "해당 없음"(2026-10-02 사용자 결정) — 흑자 전환 뒤 PER 이력이 122일뿐이고(밴드 PER 100~116배),
+# 그 EPS가 매각 이익 $9.6B로 부푼 값이라 밴드($235~267)가 이익 수준과 무관하다. 체크포인트 1개(진행 중)에 적중률 4.4%(2/45일)였다.
+PRE = ['FB = None']
+_NA_WHY = '흑자 전환(2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B) 뒤 PER 이력이 122일뿐이고, 그 PER이 일회성 이익으로 부푼 EPS 기준이라 밴드를 이익 수준으로 읽을 수 없다.'
+FAIRBAND_TITLE = 'id="baFairBand" title="PER 25~75% 구간 × 최근 4분기 EPS로 내는 범위다. ' + _NA_WHY + '"'
+POST = [r"""h = re.sub(r'const BA_BACKTEST = \[.*?\];', 'const BA_BACKTEST = [];', h, count=1, flags=re.S)""",
+        "one(\"if (label) label.textContent = '밴드 적중률 (백테스트 없음)';\", \"if (label) { label.textContent = '밴드 적중률 (해당 없음)'; label.title = '\" + C._NA_WHY + \"'; }\")"]
 HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (최근 4분기 {pct(HIST[\'margin_now\'])})</span>'
 OPM_RANGE, Y2 = (-40, 40), (-40, 40)
 FCF_SUB = '영업현금흐름 − 설비투자'

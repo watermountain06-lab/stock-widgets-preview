@@ -507,12 +507,12 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="baDcfReq" style="font-size: 22px; color: var(--red);">16.0%</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="baConfidenceLabel">밴드 적중률 (2/45일, 이탈 전부 하단)</span>
-      <span class="meta-value" id="baConfidence" style="font-size: 22px; color: var(--red);">4.4%</span>
+      <span class="meta-label" id="baConfidenceLabel">밴드 적중률 (해당 없음)</span>
+      <span class="meta-value" id="baConfidence" style="font-size: 22px; color: var(--text3);">—</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="baFairBand" title="최근 1년 PER 25~75% 구간(98.9~111.3배) × 최근 4분기 희석 EPS $2.31(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS가 양수인 것은 2025년 4분기 Digital Aviation Solutions 매각 이익($9.6B) 때문이라 범위를 이익 수준으로 읽기 어렵다." style="font-size:22px;color:var(--green);">$230 ~ $260</span>
+      <span class="meta-value" id="baFairBand" title="PER 25~75% 구간 × 최근 4분기 EPS로 내는 범위다. 흑자 전환(2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B) 뒤 PER 이력이 122일뿐이고, 그 PER이 일회성 이익으로 부푼 EPS 기준이라 밴드를 이익 수준으로 읽을 수 없다." style="font-size:22px;color:var(--text3);">해당 없음</span>
     </div>
   </div>
   </div>
@@ -2114,7 +2114,7 @@ const BA_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집�
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
 const BA_DCF_TRACK = [{d:"2024-10-23",low:-109.2,base:-109.1,high:-124.0},{d:"2025-02-03",low:-71.7,base:-68.2,high:-90.7},{d:"2025-04-23",low:-74.9,base:-72.2,high:-94.9},{d:"2025-07-29",low:-75.5,base:-78.8,high:-96.7},{d:"2025-10-29",low:-75.4,base:-86.9,high:-93.2},{d:"2026-01-30",low:-45.6,base:-60.8,high:14.6},{d:"2026-04-22",low:-47.1,base:-64.7,high:11.2},{d:"2026-07-28",low:-45.0,base:-63.5,high:17.1}];
-const BA_BACKTEST = [{"checkpoint_date": "2026-07-28", "quarter_end": "2026-06-30", "ttm_eps": 2.31, "trailing_sample_size": 122, "per_low": 101.57, "per_high": 115.64, "band_width_ratio": 1.14, "predicted_low": 234.62, "predicted_high": 267.12, "realized_per_high": 103.98, "realized_per_low": 79.82, "realized_price_high": 240.19, "realized_price_low": 184.39, "period_end_date": "2026-09-30", "is_open": true, "zone": "breached_bottom"}];
+const BA_BACKTEST = [];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
 // "예상 밴드 안에서 마감한 일봉이 몇 %인가"로 따로 센다. 진행 중인 구간의
@@ -2194,7 +2194,7 @@ function baBandTone(cp){
   const h = BA_BAND_HIT;
   if (el && h.ratio == null) {   // 백테스트 체크포인트가 없으면(신규 상장 등) 비워 둔다
     el.textContent = '—'; el.style.color = 'var(--text3)';
-    if (label) label.textContent = '밴드 적중률 (백테스트 없음)';
+    if (label) { label.textContent = '밴드 적중률 (해당 없음)'; label.title = '흑자 전환(2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B) 뒤 PER 이력이 122일뿐이고, 그 PER이 일회성 이익으로 부푼 EPS 기준이라 밴드를 이익 수준으로 읽을 수 없다.'; }
     return;
   }
   if (!el) return;
