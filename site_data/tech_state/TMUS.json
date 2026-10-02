@@ -1,7 +1,7 @@
 {
   "ticker": "TMUS",
-  "asOf": "2026-09-30",
-  "close": 163.08,
+  "asOf": "2026-10-01",
+  "close": 161.73,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 0,
     "max": 40,
-    "weightedRocPct": -17.02
+    "weightedRocPct": -18.34
   },
   "position52w": {
     "score": 0,
     "max": 20,
-    "riseFromLowPct": 1.2,
-    "drawdownFromHighPct": 32.32,
+    "riseFromLowPct": 0.37,
+    "drawdownFromHighPct": 32.88,
     "high52w": 240.95,
     "low52w": 161.14
   },
@@ -48,7 +48,7 @@
     "고점대비큰조정"
   ],
   "atr": {
-    "pctNow": 3.03,
-    "percentileVsOwnHistory": 73.8
+    "pctNow": 2.88,
+    "percentileVsOwnHistory": 66.7
   }
 }

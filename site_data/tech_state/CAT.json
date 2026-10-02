@@ -1,7 +1,7 @@
 {
   "ticker": "CAT",
-  "asOf": "2026-09-30",
-  "close": 810.79,
+  "asOf": "2026-10-01",
+  "close": 826.35,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,34 +18,30 @@
     }
   },
   "momentum": {
-    "score": 20,
+    "score": 30,
     "max": 40,
-    "weightedRocPct": 18.01
+    "weightedRocPct": 20.2
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 72.42,
-    "drawdownFromHighPct": 24.47,
+    "riseFromLowPct": 75.39,
+    "drawdownFromHighPct": 23.02,
     "high52w": 1073.46,
-    "low52w": 470.24
+    "low52w": 471.14
   },
   "priceStructureScore": {
     "score": 35,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 55,
-  "rawGrade": "혼조",
+  "rawScore": 65,
+  "rawGrade": "긍정적",
   "displayGrade": "긍정적",
-  "riskFlags": [
-    "단기추세이탈"
-  ],
-  "riskFlagsShown": [
-    "단기추세이탈"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.58,
-    "percentileVsOwnHistory": 14.3
+    "pctNow": 2.62,
+    "percentileVsOwnHistory": 15.9
   }
 }

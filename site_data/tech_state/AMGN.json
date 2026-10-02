@@ -1,7 +1,7 @@
 {
   "ticker": "AMGN",
-  "asOf": "2026-09-30",
-  "close": 421.51,
+  "asOf": "2026-10-01",
+  "close": 407.27,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,15 +20,15 @@
   "momentum": {
     "score": 30,
     "max": 40,
-    "weightedRocPct": 26.97
+    "weightedRocPct": 20.24
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 53.82,
-    "drawdownFromHighPct": 5.71,
+    "riseFromLowPct": 43.91,
+    "drawdownFromHighPct": 8.89,
     "high52w": 447.03,
-    "low52w": 274.02
+    "low52w": 283.0
   },
   "priceStructureScore": {
     "score": 60,
@@ -38,10 +38,14 @@
   "rawScore": 90,
   "rawGrade": "강한",
   "displayGrade": "강한",
-  "riskFlags": [],
-  "riskFlagsShown": [],
+  "riskFlags": [
+    "단기추세이탈"
+  ],
+  "riskFlagsShown": [
+    "단기추세이탈"
+  ],
   "atr": {
-    "pctNow": 2.18,
-    "percentileVsOwnHistory": 24.6
+    "pctNow": 2.36,
+    "percentileVsOwnHistory": 45.2
   }
 }

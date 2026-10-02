@@ -1,7 +1,7 @@
 {
   "ticker": "META",
-  "asOf": "2026-09-30",
-  "close": 725.18,
+  "asOf": "2026-10-01",
+  "close": 725.93,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 14.21
+    "weightedRocPct": 16.45
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 39.39,
-    "drawdownFromHighPct": 7.01,
+    "riseFromLowPct": 39.53,
+    "drawdownFromHighPct": 6.91,
     "high52w": 779.82,
     "low52w": 520.26
   },
@@ -45,7 +45,7 @@
     "변동성급증(자체이력대비)"
   ],
   "atr": {
-    "pctNow": 4.08,
-    "percentileVsOwnHistory": 92.1
+    "pctNow": 4.03,
+    "percentileVsOwnHistory": 90.5
   }
 }

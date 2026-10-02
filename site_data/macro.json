@@ -1,38 +1,38 @@
 {
-  "generatedAt": "2026-10-01T15:57:12Z",
-  "priceSession": "2026-09-30",
+  "generatedAt": "2026-10-02T15:17:50Z",
+  "priceSession": "2026-10-01",
   "indicators": {
     "sp500": {
-      "value": 7651.54,
-      "changePct": -0.25,
-      "asOf": "2026-09-30",
+      "value": 7666.45,
+      "changePct": 0.19,
+      "asOf": "2026-10-01",
       "status": "fresh",
       "source": "Yahoo ^GSPC daily close"
     },
     "vix": {
-      "value": 16.34,
-      "changePct": 1.87,
-      "asOf": "2026-09-30",
+      "value": 16.39,
+      "changePct": 0.31,
+      "asOf": "2026-10-01",
       "status": "fresh",
       "source": "Yahoo ^VIX daily close"
     },
     "usdkrw": {
-      "value": 1356.38,
-      "changePct": 0.24,
-      "asOf": "2026-09-30",
+      "value": 1359.4,
+      "changePct": 0.22,
+      "asOf": "2026-10-01",
       "status": "fresh",
       "source": "Yahoo KRW=X hourly bar ending 16:00 ET"
     },
     "fedTarget": {
       "lower": 3.75,
       "upper": 4.0,
-      "asOf": "2026-10-01",
+      "asOf": "2026-10-02",
       "status": "fresh",
       "source": "FRED API DFEDTARL/DFEDTARU"
     },
     "unemployment": {
-      "value": 4.1,
-      "asOf": "2026-08",
+      "value": 4.2,
+      "asOf": "2026-09",
       "status": "fresh",
       "source": "FRED API UNRATE"
     },
