@@ -20,6 +20,7 @@
     python3 v2/clone_card.py AAPL --force     # 이미 있는 v2 작업본을 덮어쓴다(주의)
 """
 import argparse
+import json
 import os
 import re
 import sys
@@ -101,14 +102,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
     ap.add_argument("--force", action="store_true")
+    # 루트 카드가 없는 새 종목(71위부터, 2026-10-01): 머리 값(accent 셋·거래소 줄·회사명·현재 표시·이전·다음 링크 HTML)을 JSON으로 준다
+    ap.add_argument("--meta", help="루트 카드 대신 쓸 머리 값 JSON 파일")
     t = ap.parse_args().ticker.upper()
     lo = t.lower()
     force = ap.parse_args().force
+    meta_json = ap.parse_args().meta
     dst = os.path.join(HERE, f"{t}_full_widget.html")
     if os.path.exists(dst) and not force:
         sys.exit(f"이미 있다: {dst} (덮어쓰려면 --force)")
 
-    meta = root_meta(t)
+    meta = json.load(open(meta_json)) if meta_json else root_meta(t)
     h = open(TEMPLATE, encoding="utf-8").read()
 
     def one(old, new):

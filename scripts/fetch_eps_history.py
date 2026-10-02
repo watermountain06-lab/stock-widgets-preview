@@ -178,7 +178,7 @@ KNOWN_SPLITS = {
     "CRWD": [("2026-07-02", 4)],   # 4:1 주식 배당형 분할 — 2026-06-03 8-K(기록일 6/25, 7/2부터 분할 기준 거래). 마지막 분할 전 공시 2026-06-04(Q1 FY27 10-Q), 첫 분할 후 2026-08-27(Q2 FY27 10-Q)
     "APH": [("2021-03-05", 2), ("2024-06-12", 2), ("2026-09-03", 2)],   # 2:1 세 번 — 마지막은 2026-08-06 8-K(기록일 8/17, 9/2 배분, 9/4 8-K "now been effected"). 분할 뒤 EPS 공시가 아직 없어 기존 공시 전부 ÷2
     "VZ": [], "MRVL": [], "AMGN": [], "CRM": [],
-    "TMUS": [], "QCOM": [], "STX": [], "PEP": [], "SCHW": [], "DIS": [], "DE": [],   # 데이터 창 안에 분할 없음 — Yahoo 기록 없음(2026-10-01)
+    "TMUS": [], "QCOM": [], "STX": [], "PEP": [], "SCHW": [], "DIS": [], "DE": [], "ADI": [], "GILD": [], "BLK": [], "ETN": [], "ABT": [],   # 데이터 창 안에 분할 없음 — Yahoo 기록 없음(2026-10-01)
 }
 
 CIKS = {
@@ -243,6 +243,11 @@ CIKS = {
     "TMUS": "0001283699",
     "DIS": "0001744489",
     "DE": "0000315189",
+    "ADI": "0000006281",
+    "GILD": "0000882095",
+    "BLK": "0002012383",
+    "ETN": "0001551182",
+    "ABT": "0000001800",
     "QCOM": "0000804328",
     "STX": "0001137789",
     "PEP": "0000077476",
@@ -301,9 +306,15 @@ def main():
     # 2026년 1·2분기 10-Q가 빠져 최근 4분기 EPS가 2025-12에 멈췄다($6.99 대 실제 $9.26, PER 18.5배 대 14배, 2026-10-01).
     _ov = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "v2", ".sec_cache", "overlay", f"{args.cik}.json")
     if os.path.exists(_ov):
+        _ovrows = [dict(r) for tg in tags for r in json.load(open(_ov)).get("us-gaap", {}).get(tg, [])
+                   if r.get("unit", "USD/shares") == "USD/shares" and "start" in r]
+        # 옛 CIK(predecessor_facts.py, BLK 2024 재편) 행은 같은 기간 새 CIK 비교 수치보다 앞선다 — 새 CIK는 그 기간을 1년 늦게 실어
+        # 공시일이 밀린다(2023-09-30 분기가 2024-11-06로 보였다, 2026-10-01)
+        _pred = {(r["start"], r["end"]) for r in _ovrows if str(r.get("src", "")).startswith("predecessor:")}
+        if _pred:
+            entries = [e for e in entries if (e.get("start"), e["end"]) not in _pred]
         _have = {(e.get("start"), e["end"]) for e in entries}
-        _add = [dict(r) for tg in tags for r in json.load(open(_ov)).get("us-gaap", {}).get(tg, [])
-                if r.get("unit", "USD/shares") == "USD/shares" and "start" in r and (r["start"], r["end"]) not in _have]
+        _add = [r for r in _ovrows if (r["start"], r["end"]) not in _have]
         if _add:
             print(f"NOTE: overlay에서 {len(_add)}개 행 보충({args.ticker})", file=sys.stderr)
             entries = list(entries) + _add

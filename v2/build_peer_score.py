@@ -86,7 +86,10 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    # TMUS: VZ와 같은 통신사라 같은 비교군(2026-10-01, Claude 추천·사용자 위임). 기본 섹터 34종목이면 모든 배수가 2~3위였다(95.4점).
                    "TMUS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
                    # DIS: VZ·TMUS와 같은 커뮤니케이션 비교군(2026-10-01, Claude 추천·사용자 위임). 기본 섹터(IT 포함 34종목)면 91.3점.
-                   "DIS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json")}
+                   "DIS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   # BLK: 카드 유니버스 금융은 은행·결제라 자산운용사와 맞지 않고 표본도 모자랐다(PER·PBR만 남음) →
+                   # S&P500 자산운용·수탁은행 12종목(2026-10-01, Claude 추천·사용자 위임 — 리뷰 때 확인)
+                   "BLK": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 

@@ -1,0 +1,66 @@
+{
+ "ticker": "BNY",
+ "window": [
+  "2025-10-02",
+  "2026-09-30"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 250,
+   "current": 16.86,
+   "min": 15.36,
+   "p10": 15.77,
+   "median": 17.25,
+   "p90": 18.94,
+   "max": 20.14,
+   "mean": 17.29,
+   "percentile": 38.0,
+   "score": 62.0
+  },
+  "PSR": {
+   "days": 250,
+   "current": 6.53,
+   "min": 4.91,
+   "p10": 5.04,
+   "median": 5.78,
+   "p90": 7.24,
+   "max": 7.44,
+   "mean": 6.01,
+   "percentile": 69.2,
+   "score": 30.8
+  },
+  "PBR": {
+   "days": 250,
+   "current": 2.2,
+   "min": 1.68,
+   "p10": 1.73,
+   "median": 1.98,
+   "p90": 2.44,
+   "max": 2.5,
+   "mean": 2.04,
+   "percentile": 69.6,
+   "score": 30.4
+  },
+  "PCR": {
+   "days": 250,
+   "current": 61.64,
+   "min": 15.21,
+   "p10": 16.13,
+   "median": 53.4,
+   "p90": 69.51,
+   "max": 76.59,
+   "mean": 50.36,
+   "percentile": 58.4,
+   "score": 41.6
+  }
+ },
+ "perBasis": "diluted",
+ "fairBand": {
+  "per_p25": 16.34,
+  "per_p75": 18.15,
+  "low": 140,
+  "high": 160,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
+}

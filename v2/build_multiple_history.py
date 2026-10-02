@@ -299,7 +299,20 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                  # IBM: 손익계산서에 영업이익 줄이 없고 "지식재산·주문 개발 수익"과 "기타 (수익)·비용"은 회사 고유 태그라 SEC 요약 데이터에
                  # 없다. 영업이익 = 매출총이익 − 판관비 − R&D(표준 태그만). 지식재산 수익(Q2 2026 $166M)은 빠져 조금 보수적이다.
                  # Q2 2026: 9,907 − 4,981 − 2,311 = 2,615(10-Q 대조, 2026-10-01).
-                 "0000051143": ("GrossProfit", [(["SellingGeneralAndAdministrativeExpense"], 1), (["ResearchAndDevelopmentExpense"], 1)])}
+                 "0000051143": ("GrossProfit", [(["SellingGeneralAndAdministrativeExpense"], 1), (["ResearchAndDevelopmentExpense"], 1)]),
+                 # ETN: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그 없음). 영업이익 = 세전이익 + 순이자비용("Interest expense - net")
+                 # − "Other expense (income) - net"(OtherNonoperatingIncomeExpense, 비용이면 음수). 순이자비용 태그가 공시마다 바뀌었다 —
+                 # 2024-09부터 InterestExpenseNonoperating(양수), 일부 재작성 공시는 InterestExpenseOperating(양수), 그 전은
+                 # InterestIncomeExpenseNet(비용이면 음수, 부호를 뒤집는다). 같은 공시에 둘이 있으면 앞 태그를 쓴다.
+                 # Q2 2026: 1,144 + 201 + 47 = 1,392 = 매출 8,531 − 매출원가 5,676 − 판관비 1,236 − R&D 227(10-Q 대조, 2026-10-01).
+                 "0001551182": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestExpenseNonoperating", "InterestExpenseOperating", ("InterestIncomeExpenseNet", -1)], -1),
+                                 # 기타 영업외손익도 공시마다 태그가 다르다 — 수익인 분기는 OtherNonoperatingIncome(양수, Q1 2026 $41M), 비용만이면
+                                 # OtherNonoperatingExpense(양수, 부호를 뒤집는다). 빠뜨리면 그 분기가 0으로 잡혔다(Codex: Q1 2026 1,213 → 1,172).
+                                 (["OtherNonoperatingIncomeExpense", "OtherNonoperatingIncome", ("OtherNonoperatingExpense", -1)], 1, True),
+                                 # 사업 매각 이익(손익계산서 별도 줄 "Gain on sale of business") — Q3 2021 유압 사업 $617M, Q1 2022 $24M.
+                                 # 없는 분기는 0. 빼지 않으면 Q3 2021 영업이익률이 24.7%로 튄다(다른 분기 12~14%).
+                                 (["GainLossOnSaleOfBusiness"], 1, True)])}
 
 
 def _derived_opinc(cik, taxonomy):
@@ -313,8 +326,9 @@ def _derived_opinc(cik, taxonomy):
         optional = len(it) > 2 and it[2]        # 선택 항목: 그 공시에 없으면 0(KLAC 채무 상환 손익 — 일부 분기만)
         m = {}
         for t in tags:                          # 앞 태그 우선(이름이 바뀐 태그는 뒤에)
+            t, mult = t if isinstance(t, tuple) else (t, 1)   # (태그, 배수): 같은 줄을 부호가 반대인 태그로 낸 공시(ETN 이자)
             for r in concept(cik, t, taxonomy):
-                m.setdefault((r.get("start"), r["end"], r.get("accn")), r["val"])
+                m.setdefault((r.get("start"), r["end"], r.get("accn")), mult * r["val"])
         maps.append((m, sign, optional))
     out = []
     for r in concept(cik, pre_tag, taxonomy):
@@ -714,7 +728,10 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
+DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # ETN: 1년 안 만기 장기차입금을 LongTermDebtAndCapitalLeaseObligationsCurrent로 내 기본 목록에서 빠졌다(FY2025 말 $1,136M —
+                  # 엔진 $8,759M 대 재무상태표 $9,895M, Codex 2026-10-01). 금융리스 포함 태그라 금융리스를 따로 더하지 않는다.
+                  "0001551182": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"], "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   "0000034088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # INTC: 10-Q는 1년 안 만기 차입금을 DebtCurrent로만 낸다(LongTermDebtCurrent는 10-K에만) — 기본 목록으론
                   # 2026-06-27 단기 $1,988M이 빠져 $48,549M이었다(10-Q 합계 $50,537M, 2026-09-29).
@@ -786,6 +803,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # 이미 담는데 기본 목록이 둘을 또 더해 $7.7B가 두 번 잡혔다. 장기 줄은 분기마다 LongTermDebtAndCapitalLeaseObligations
                   # (LongTermDebtNoncurrent는 10-K만). 2026-06-13 $10,602 + $42,612 = $53,214M(10-Q, 2026-10-01).
                   "0000077476": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligations"],
+                  # ADI: 10-K 결산일마다 기업어음이 ShortTermBorrowings와 CommercialPaper 두 태그로 같은 값($446.6M, 2025-11-01)이라 기본 목록이
+                  # 두 번 더했다. 기업어음(없으면 단기차입금) + 1년 안 만기 + 장기. 2026-08-01 $1,005 + $1,345 + $6,772 = $9,122M(10-Q, 2026-10-01).
+                  # 목록에 넣으면 기본적 분석 차입금의존도도 같은 차입금을 쓴다(fetch_financials 값은 기업어음을 뺐다 — 16.8% 대 18.8%, Codex).
+                  "0000006281": [("CommercialPaper", "ShortTermBorrowings"), "LongTermDebtCurrent", "LongTermDebtNoncurrent"],
                   # CSCO: DebtCurrent($10,161M — 기업어음 + 1년 안 만기 장기) + LongTermDebtNoncurrent($19,372M) = $29,533M(FY2026 10-K "Total debt").
                   # 기본 조합은 LongTermDebtCurrent + Noncurrent($22,872M)라 기업어음 $6.7B가 빠졌다.
                   "0000858877": ["DebtCurrent", "LongTermDebtNoncurrent"],
@@ -810,6 +831,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
+                  # BLK: 리스부채를 유동·비유동으로 나누지 않고 총액(OperatingLeaseLiability, 2026-06-30 $2,224M)만 낸다 — 기본 목록으론 0이었다(2026-10-01).
+                  "0002012383": {"lease": ["OperatingLeaseLiability"]},
+                  # ETN: 분기 재무상태표에는 비유동 운용리스 부채만 있고 유동분은 10-K에만 있다 → JNJ처럼 10-K 총액(FY2025 $789M)을 쓴다(Codex 2026-10-01).
+                  "0001551182": {"lease": ["OperatingLeaseLiability"]},
                   # VZ: 단기투자 줄이 없다(ShortTermInvestments가 2015-12 $350M에 멈춰 그 값이 계속 쓰였다, Codex 2026-10-01).
                   "0000732712": {"sti": []},
                   # STX: 단기투자 태그 AvailableForSaleSecuritiesDebtSecuritiesCurrent가 2012-06-29 $411M에서 멈췄는데 2026년 순현금에 더해졌다
@@ -834,7 +859,10 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000021344": {"sti": ["OtherShortTermInvestments", "MarketableSecurities"]},
                   # CAT: 재무상태표에 단기투자 줄이 없다(2026-06-30 10-Q). ShortTermInvestments가 2014-09-30 $378M에서 멈춰 그 값이 쓰였다.
                   "0000018230": {"sti": []},
-                  "0000315189": {"sti": [], "lease": ["OperatingLeaseLiability"]},   # DE: 유가증권 $1.35B 중 $1.20B가 금융 부문(보험) 몫 — CAT처럼 단기투자를 더하지 않는다
+                  "0000315189": {"sti": [], "lease": ["OperatingLeaseLiability"]},
+                  # GILD: CashAndCashEquivalentsAtCarryingValue가 2022-12 $5,412M에 멈춰 2026년 순현금에 쓰였다(실제 2026-06-30 $3,179M) —
+                  # 현금은 제한 현금 포함 총계 태그(재무상태표 현금과 같은 값, 2026-10-01)
+                  "0000882095": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},   # DE: 유가증권 $1.35B 중 $1.20B가 금융 부문(보험) 몫 — CAT처럼 단기투자를 더하지 않는다
                   # KLAC: AvailableForSaleSecuritiesDebtSecuritiesCurrent가 2021-03-31 $990.6M에서 멈춰 그 값이 쓰였다. 재무상태표
                   # "Marketable securities" $3,252.6M(2026-06-30) = 매도가능 채권 합계 $3,205.8M + 상장 지분증권 약 $46.8M(2026-10-01).
                   "0000319201": {"sti": ["AvailableForSaleSecuritiesDebtSecurities"]},
