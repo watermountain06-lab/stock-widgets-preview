@@ -148,10 +148,16 @@ def base_inputs(ticker, asof=None):
     # MSFT는 $66.6B가 순부채에서 통째로 빠져 있었다(주당 약 $9).
     # 총계 태그가 있으면 그것만 쓴다. 셋을 모두 더하면 총계와 세부가 겹쳐
     # 금융리스가 두 배로 잡히는 회사가 나온다(Codex 지적).
-    fin_lease = latest(bmh.component_sum(cik, ["FinanceLeaseLiability"]), asof)
-    if not fin_lease:
-        fin_lease = latest(bmh.component_sum(cik, ["FinanceLeaseLiabilityCurrent",
-                                                   "FinanceLeaseLiabilityNoncurrent"]), asof)
+    # 총계 태그가 세부(유동 + 비유동)보다 오래된 결산일에 멈췄으면 세부를 쓴다 — TMUS는 총계를 10-K에만 내
+    # 2026-06-30에도 2025-12-31 $2,270M이 쓰였다(10-Q 세부 $1,178M + $1,121M = $2,299M, Codex, 2026-10-01).
+    def _last_end(rows):
+        ok = [e for e in rows if asof is None or e.get("available", e.get("end")) <= asof]
+        return ok[-1]["end"] if ok else ""
+    _fl_tot = bmh.component_sum(cik, ["FinanceLeaseLiability"])
+    _fl_parts = bmh.component_sum(cik, ["FinanceLeaseLiabilityCurrent", "FinanceLeaseLiabilityNoncurrent"])
+    fin_lease = latest(_fl_tot, asof)
+    if not fin_lease or _last_end(_fl_parts) > _last_end(_fl_tot):
+        fin_lease = latest(_fl_parts, asof) or fin_lease
     fin_lease = fin_lease or 0
     # 총차입금 태그를 지정한 회사(bmh.DEBT_TOTAL_TAG, MU = DebtAndCapitalLeaseObligations)는 금융리스가
     # 차입금에 이미 들어 있다 — 리스에 또 더하면 두 번 뺀다(MU 2026-05 $2.67B, 2026-09-26).
@@ -160,7 +166,7 @@ def base_inputs(ticker, asof=None):
     # 목록이면 태그 중 하나라도 CapitalLease를 담으면 포함으로 본다 — XOM의 LongTermDebtAndCapitalLeaseObligations는
     # 금융리스를 담는데 목록이라 빠져 금융리스 $2.66B가 두 번 빠졌다(Fable, 2026-09-29).
     _flat = [x for t in ([_tt] if isinstance(_tt, str) else (_tt or [])) for x in (t if isinstance(t, tuple) else (t,))]   # 튜플 묶음(KO)도 펼친다
-    fl_in_debt = any("CapitalLease" in t for t in _flat)
+    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat)   # FinanceLease: TMUS(2026-10-01)
     if not fl_in_debt:
         out["lease"] = (out.get("lease") or 0) + fin_lease
     out["finance_lease"] = fin_lease

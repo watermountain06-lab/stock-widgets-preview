@@ -363,7 +363,7 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
 
 
 # 4분기가 16주(나머지 12주)인 52·53주 회계 종목. quarterly_flow가 4분기를 연간에서 뺄 때 3분기 끝을 112일 전까지 찾는다.
-LONG_Q4_TICKERS = {"COST"}
+LONG_Q4_TICKERS = {"COST", "PEP"}   # PEP: 12·12·12·16주(2026-10-01)
 
 
 def quarterly_flow(entries, ticker):
@@ -757,6 +757,19 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
                   # IBM: 차입금 $61,987M = 단기 $5,775M + 장기(금융리스 포함) $56,212M(10-Q). 합계 태그 없이 기본 목록이면 금융리스 $1.15B가
                   # 리스에 다시 더해졌다(Codex, 2026-10-01).
                   "0000051143": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligations"],
+                  # TMUS: 2026 10-Q부터 장기차입금을 특수관계자 차원으로만 내 companyfacts가 2025-12에서 멈췄다(단기 $6.1B만 남음).
+                  # 10-Q 차입금 주석 "Total debt"(LongTermDebt, DebtInstrumentAxis=TotalDebtMember, 금융리스 제외)를
+                  # `adapters/dim_member_supplement.py`가 오버레이에 싣는다(2021년부터). 2026-06-30 $84,621M(단기 $6,117 + 장기 $78,504, 2026-10-01).
+                  # 금융리스는 이 합계 밖이고 기본 리스(운용)에도 없어 EV에서 빠졌다 → 유동 + 비유동 금융리스 태그를 더한다
+                  # ($1,178 + $1,121, Codex). build_dcf는 "FinanceLease"가 든 목록이면 리스에 다시 더하지 않는다.
+                  "0001283699": ["LongTermDebt", "FinanceLeaseLiabilityCurrent", "FinanceLeaseLiabilityNoncurrent"],
+                  # QCOM: LongTermDebt가 분기마다 비유동 장기차입금만(LongTermDebtNoncurrent는 10-K만)이고 유동분은 DebtCurrent.
+                  # 기본 목록이 2026-06-28 유동 $2,489M를 빠뜨렸다. $2,489 + $12,781 = $15,270M(10-Q, 2026-10-01).
+                  "0000804328": ["DebtCurrent", "LongTermDebt"],
+                  # PEP: 재무상태표 "Short-term debt obligations"(ShortTermBorrowings $10,602M)가 기업어음 $6,100M·1년 안 만기 $1,600M를
+                  # 이미 담는데 기본 목록이 둘을 또 더해 $7.7B가 두 번 잡혔다. 장기 줄은 분기마다 LongTermDebtAndCapitalLeaseObligations
+                  # (LongTermDebtNoncurrent는 10-K만). 2026-06-13 $10,602 + $42,612 = $53,214M(10-Q, 2026-10-01).
+                  "0000077476": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligations"],
                   # CSCO: DebtCurrent($10,161M — 기업어음 + 1년 안 만기 장기) + LongTermDebtNoncurrent($19,372M) = $29,533M(FY2026 10-K "Total debt").
                   # 기본 조합은 LongTermDebtCurrent + Noncurrent($22,872M)라 기업어음 $6.7B가 빠졌다.
                   "0000858877": ["DebtCurrent", "LongTermDebtNoncurrent"],
@@ -783,6 +796,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations", "0000059478": 
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
                   # VZ: 단기투자 줄이 없다(ShortTermInvestments가 2015-12 $350M에 멈춰 그 값이 계속 쓰였다, Codex 2026-10-01).
                   "0000732712": {"sti": []},
+                  # STX: 단기투자 태그 AvailableForSaleSecuritiesDebtSecuritiesCurrent가 2012-06-29 $411M에서 멈췄는데 2026년 순현금에 더해졌다
+                  # (Codex, 2026-10-01). FY2026 10-K는 현금 $1,704M뿐이다.
+                  "0001137789": {"sti": []},
                   # JNJ: 비유동 리스 태그는 2019년에 멈췄고 총 리스부채(OperatingLeaseLiability, 10-K 연간)만 이어진다.
                   "0000200406": {"lease": ["OperatingLeaseLiability"]},
                   # XOM: 단기투자 줄이 없다(ShortTermInvestments 태그가 2011-06에 멈춰 그 값이 계속 쓰였다). 리스는 10-K 연간 총액.
