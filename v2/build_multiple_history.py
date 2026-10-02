@@ -240,6 +240,9 @@ EXTRA_TAGS = {
     # NEE: 손익계산서 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q2 2026 $7,534M)다. RevenueFromContractWithCustomerIncludingAssessedTax는
     # 주석의 고객 계약 매출(0.1B 단위 반올림, $6.7B)이라 뺀다(EXCLUDE_TAGS). 설비투자·이자비용은 회사 고유 태그라 표준 데이터에 없다(2026-10-02).
     "0000753308": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
+    # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
+    # 2020-09에 멈춘 PaymentsToAcquireProductiveAssets를 잡아 PCR 계산 불가였다(2026-10-02).
+    "0000024741": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},
     "0000766704": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"],
                    "NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # COST: 세전이익을 FY2023부터 IncomeLossAttributableToParent로 낸다(FY2023 연간 8,487 = 손익계산서 세전이익,
@@ -787,6 +790,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0001163165": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DHR: 1년 안 만기 차입금을 DebtCurrent($1,411M, 2026-06-26)로 낸다 — 기본 목록(LongTermDebtCurrent는 2011년에 멈춤)에서 빠졌다(2026-10-02).
                   "0000313616": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # GLW: 장기차입금 태그만 잡혀 1년 안 만기·단기차입 $668M이 빠졌다(재무상태표 Total debt $8,424M, 2026-10-02).
+                  "0000024741": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # NOW: 단기차입(기업어음, ShortTermBorrowings $2,082M)과 장기 사채(LongTermDebt $5,435M) — 엔진 조합은 $4,182M였다(2026-10-02).
+                  "0001373715": ["ShortTermBorrowings", "LongTermDebt"],
                   # BX: LongTermDebt에 연결 펀드 차입 $124M이 더 들어 있다 — 재무상태표 Loans Payable($13,195M)만(Codex 2026-10-02).
                   "0001393818": "LoansPayable",
                   # BA: LongTermDebt는 장기차입금 유동분까지만 담아 단기차입금이 빠진다($45,596M 대 재무상태표 $45,900M, 2026-10-02).
@@ -890,6 +897,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
+                  # GLW: 우선주(삼성디스플레이 보유 $2.3B)는 2021년 보통주로 바뀌어 태그가 2021-03에 멈췄다 — 옛 값이 EV에 더해졌다(2026-10-02).
+                  "0000024741": {"preferred": []},
+                  # FTNT: 단기투자를 2021-06 뒤 OtherShortTermInvestments로만 낸다(2026-06-30 $1,134.7M) — 멈춘 ShortTermInvestments(2021-06 $1,233.9M)가 쓰였다(2026-10-02).
+                  "0001262039": {"sti": ["OtherShortTermInvestments"]},
                   # BLK: 리스부채를 유동·비유동으로 나누지 않고 총액(OperatingLeaseLiability, 2026-06-30 $2,224M)만 낸다 — 기본 목록으론 0이었다(2026-10-01).
                   "0002012383": {"lease": ["OperatingLeaseLiability"]},
                   # ETN: 분기 재무상태표에는 비유동 운용리스 부채만 있고 유동분은 10-K에만 있다 → JNJ처럼 10-K 총액(FY2025 $789M)을 쓴다(Codex 2026-10-01).
