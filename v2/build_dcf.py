@@ -64,7 +64,9 @@ HISTORY_WINDOW = {"GE": ("2024-03-31", 9), "SNDK": ("2024-09-27", 8), "GEV": ("2
                   # 이력이 1년(합 5개)뿐이라 3년·5년 성장률이 같은 값이다.
                   "WDC": ("2025-06-27", 5),
                   # T: WarnerMedia 분사(2022-04). 네 분기가 모두 분사 뒤인 첫 최근 4분기 합은 2023-03-31(2026-10-02).
-                  "T": ("2023-03-31", 13)}
+                  "T": ("2023-03-31", 13),
+                  # DHR: Veralto 분사 — 재작성 값으로 네 분기가 모두 계속사업인 첫 최근 4분기 합은 2022년 말(2026-10-02).
+                  "DHR": ("2022-12-31", 13)}
 
 
 def latest(series, asof=None):
@@ -314,6 +316,15 @@ def base_inputs(ticker, asof=None):
         # 계산하지 않는다(SPG는 2013년 이후 주식 수를 표준 태그로 내지 않아 8,000주가 잡혔다).
         out["dq"].append(f"shares_missing:{out.get('shares')}")
         out["shares"] = None
+    # Up-C 구조(지주회사 주식 + 교환 가능한 파트너십 지분)는 영업이익 전체를 쓰므로 주식 수를 회사가 밝힌 경제적 전체 주식 수
+    # (보통주·파트너십 지분, 미가득 참여분 포함 — BX "Distributable Earnings Shares Outstanding")로 바꾼다. 그대로 두면 BX는
+    # Blackstone Holdings 지분(이익의 약 43%) 몫까지 Class A 7.5억 주에 몰려 주당 가치가 약 1.66배가 됐다(2026-10-02, Codex 1차 반영).
+    if ticker in ECON_SHARES and out.get("shares"):
+        rows = sorted(ECON_SHARES[ticker], key=lambda x: x["end"])
+        ok = [x for x in rows if asof is None or x["filed"] <= asof]
+        u = (ok[-1] if ok else rows[0])["value"]   # 공시 전 시점은 가장 이른 값(2024-09-30, 이후 값과 1% 안쪽)
+        out["dq"].append(f"econ_shares:{out['shares']:.0f}->{u}")
+        out["shares"] = u
     # 차입금: 최근 4분기 이자비용 ÷ 차입금이 15%를 넘거나, 이자비용이 $1억 넘는데 차입금이 0이면
     # 차입금이 빠졌을 가능성(회사 자체 태그 — CMCSA 장기차입금). 고치지 않고 표시만 한다(검증 패널 제외).
     interest = ttm(["InterestExpense", "InterestExpenseNonoperating", "InterestExpenseDebt"])
@@ -353,6 +364,17 @@ def effective_tax(base):
     if tax is not None and pre and pre > 0 and TAX_OK[0] <= tax / pre <= TAX_OK[1]:
         return tax / pre
     return STATUTORY_TAX.get(base.get("ticker"), 0.21)
+
+
+# 경제적 전체 주식 수(분기 실적 보도자료 "Distributable Earnings Shares Outstanding" = 참여 보통주 + 참여 파트너십 지분, 분기 말).
+ECON_SHARES = {"BX": [{"end": "2024-09-30", "value": 1221580941, "filed": "2024-10-17"},
+                      {"end": "2024-12-31", "value": 1221171137, "filed": "2025-01-30"},
+                      {"end": "2025-03-31", "value": 1221507649, "filed": "2025-04-17"},
+                      {"end": "2025-06-30", "value": 1230142232, "filed": "2025-07-24"},
+                      {"end": "2025-09-30", "value": 1229184102, "filed": "2025-10-23"},
+                      {"end": "2025-12-31", "value": 1228769322, "filed": "2026-01-29"},
+                      {"end": "2026-03-31", "value": 1230169747, "filed": "2026-04-23"},
+                      {"end": "2026-06-30", "value": 1243813031, "filed": "2026-07-23"}]}
 
 
 def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
@@ -490,16 +512,24 @@ def history(ticker, asof=None, window_start=None):
 
     def cagr(quarters):
         """실제 경과 연수로 나눈다. 분기 수가 모자라면 그만큼 짧은 기간의 CAGR이
-        되므로(MSFT는 창 안 분기가 20개라 4.75년) 라벨이 아니라 실제 값을 쓴다."""
-        n = min(quarters, len(k) - 1)
-        if n < 4:
+        되므로(MSFT는 창 안 분기가 20개라 4.75년) 라벨이 아니라 실제 값을 쓴다.
+        시작점은 **날짜로** 고른다 — 끝에서 quarters/4년(45일 여유) 이상 떨어진 가장 늦은 점, 없으면 가장 이른 점.
+        예전엔 "quarters개 앞 점"이라 영업이익이 빈 분기가 있으면 3년 성장률이 4.75년 구간이 됐다(COP 2022년, Codex 2026-10-02).
+        빈 분기가 없으면 결과가 같다."""
+        # 성장률은 매출만 쓰므로 매출 최근 4분기 합 날짜(같은 창·공시일 조건)에서 고른다 — 영업이익이 빈 분기 때문에 빠지지 않게(COP).
+        rk = sorted(x for x in rev if x >= ws and x <= k[-1] and (asof is None or rev[x]["available"] <= asof))
+        if len(rk) - 1 < 4:
             return None
-        d0 = date.fromisoformat(k[-1 - n])
-        d1 = date.fromisoformat(k[-1])
+        d1 = date.fromisoformat(rk[-1])
+        far = [x for x in rk[:-1] if (d1 - date.fromisoformat(x)).days >= quarters / 4 * 365.25 - 45]
+        start = far[-1] if far else rk[0]
+        if len(rk) - 1 - rk.index(start) < 4:
+            return None
+        d0 = date.fromisoformat(start)
         yrs = (d1 - d0).days / 365.25
         if yrs <= 0:
             return None
-        return (rev[k[-1]]["val"] / rev[k[-1 - n]]["val"]) ** (1 / yrs) - 1
+        return (rev[rk[-1]]["val"] / rev[start]["val"]) ** (1 / yrs) - 1
 
     import statistics as st
     g3, g5 = cagr(12), cagr(20)

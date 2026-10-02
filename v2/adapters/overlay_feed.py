@@ -21,7 +21,9 @@ import build_multiple_history as bmh  # noqa: E402
 ALIAS = {"0000766704": {"InterestExpense": "InterestExpenseBorrowings"},
          # NEE: 총매출 RegulatedAndUnregulatedOperatingRevenue를 fetch_financials가 아는 이름으로(엔진 EXTRA_TAGS와 같은 기준, Codex 2026-10-02).
          # 이자비용은 회사 고유 태그라 대신할 표준 태그가 없다(현금 이자 지급액은 다른 항목이라 쓰지 않는다 — Codex).
-         "0000753308": {"Revenues": "RegulatedAndUnregulatedOperatingRevenue"}}
+         "0000753308": {"Revenues": "RegulatedAndUnregulatedOperatingRevenue"},
+         # BA: 재고를 InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings로만 내 당좌비율이 유동비율과 같게 나왔다(Codex·Fable 2026-10-02).
+         "0000012927": {"InventoryNet": "InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings"}}
 # 함께 지울 태그(엔진 EXCLUDE_TAGS와 같은 기준) — NEE 주석의 고객 계약 매출(0.1B 반올림)
 DROP = {"0000753308": ("RevenueFromContractWithCustomerIncludingAssessedTax",)}
 

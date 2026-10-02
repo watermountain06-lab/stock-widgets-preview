@@ -21,7 +21,7 @@ from cover_shares import get  # noqa: E402
 CACHE = os.path.join(V2, ".sec_cache")
 
 
-def parse(h):
+def parse(h, prefixes=("us-gaap:", "dei:")):
     ctx = {}
     for m in re.finditer(r'<xbrli:context id="([^"]+)">(.*?)</xbrli:context>', h, re.S):
         b = m.group(2)
@@ -34,7 +34,7 @@ def parse(h):
     for m in re.finditer(r'<ix:nonFraction([^>]*)>(.*?)</ix:nonFraction>', h, re.S):
         a = m.group(1)
         name = re.search(r'name="([^"]+)"', a).group(1)
-        if not name.startswith(("us-gaap:", "dei:")):
+        if not name.startswith(prefixes):
             continue
         c = ctx.get(re.search(r'contextRef="([^"]+)"', a).group(1))
         txt = re.sub(r"<[^>]+>", "", m.group(2)).strip()

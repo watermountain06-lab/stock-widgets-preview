@@ -80,5 +80,23 @@
    "desc": "Q2 2026 이자비용 — 10-Q 연결 손익계산서 'Interest expense $(487)'. 회사 고유 태그로만 내 표준 데이터에 없다(금리 파생상품 평가손익 포함, 1년 전 $1,060M).",
    "source": "https://www.sec.gov/Archives/edgar/data/753308/000075330826000060/nee-20260630.htm"
   }
+ ],
+ "COP": [
+  {
+   "end": "2026-06-30",
+   "value": 182000000,
+   "filed": "2026-08-06",
+   "desc": "Q2 2026 이자비용 — 10-Q 손익계산서 'Interest and debt expense $182'. 재무 데이터가 연간만 있는 InterestExpenseDebt를 골라 분기 값이 비었다(Codex).",
+   "source": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000032/cop-20260630.htm"
+  }
+ ],
+ "BA": [
+  {
+   "end": "2026-06-30",
+   "value": 600000000,
+   "filed": "2026-07-28",
+   "desc": "Q2 2026 이자비용 — 10-Q 손익계산서 'Interest and debt expense (600)'(3개월). InterestAndDebtExpense로만 내 재무 데이터의 이자비용이 비었다.",
+   "source": "https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm"
+  }
  ]
 }

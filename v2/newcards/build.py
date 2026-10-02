@@ -7,6 +7,7 @@
 종목별 내용은 cfg/cfg_{t}.py, 빌드 옵션은 그 안의 BUILD 사전:
   eps_tag  : EPS 태그(분사 종목은 계속사업 EPS — WDC)
   bt_start : 백테스트에 쓸 일봉 시작일(분사 종목 — 재작성 숫자가 처음 나온 날)
+  company_tags : [(회사 고유 태그, 표준 태그)] — 설비투자 등을 회사 고유 태그로만 내는 종목(COP)
   overlay  : SEC companyfacts가 최신 10-Q를 아직 싣지 않은 종목 — 인라인 XBRL 보충(adapters/ixbrl_supplement.py) 뒤
              재무는 adapters/overlay_feed.py, 활동성은 병합 facts로
 새 종목(71위~)은 meta/{t}.json(헤더 값)과 yahoo/{t}.json(Yahoo 일봉)이 있어야 하고, 없으면 루트 카드가 있는 종목으로 보고
@@ -60,6 +61,8 @@ def main():
 
     if B.get("overlay"):
         print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장")
+    for ctag, stag in B.get("company_tags", []):   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
+        print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
     print("· EPS")
     eps = [PY, "scripts/fetch_eps_history.py", T, "--cik", cik, "--out", f"scripts/{T}_eps_history.json"]
     if B.get("eps_tag"):

@@ -257,7 +257,15 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이익 = 세전이익 − "Interest (income) expense, net"(InterestRevenueExpenseNet, 순이자수익이면 양수).
+                 # Q2 FY27: 2,018 − 31 = 1,987 = 매출 15,180 − 원가 10,108 − 판관비 3,085(10-Q 대조, 2026-10-02).
+                 "0000109198": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestRevenueExpenseNet"], 1)]),
+                 # BX: 영업이익 줄이 없다. 영업이익 = 세전이익 − "Total Other Income"(펀드 투자 순이익) + 이자비용(총비용 안에 있다 — Codex).
+                 # Q2 2026: 2,808 − 140 + 145 = 2,813 = 총매출 5,044 − (총비용 2,376 − 이자 145)(10-Q 대조, 2026-10-02).
+                 "0001393818": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["OtherNonoperatingIncomeExpense"], 1), (["InterestExpense"], -1)]),
+                 "0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 "NonoperatingIncomeExpense"),
                  "0000200406": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["InvestmentIncomeInterest"], 1), (["InterestExpenseNonoperating", "InterestExpense"], -1),
@@ -328,7 +336,11 @@ DERIVED_OPINC = {"0000059478": ("IncomeLossFromContinuingOperationsBeforeIncomeT
                  # (OtherNonoperatingIncomeExpense, 비용이면 음수 — 이자비용·무형자산 손상·지분 평가손익 포함, MRK 선례대로 영업 밖).
                  # Q2 2026: −653 − (−3,716) = 3,063(10-Q 대조, 2026-10-02).
                  "0000078003": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
-                                "OtherNonoperatingIncomeExpense")}
+                                "OtherNonoperatingIncomeExpense"),
+                 # COP: XOM·CVX와 같은 구조(영업이익 줄 없음) → 같은 규칙. 영업이익 = 세전이익 + 이자비용("Interest and debt expense",
+                 # InterestAndDebtExpense). 지분법 이익·기타 수익은 영업. Q2 2026: 6,082 + 182 = 6,264(10-Q 대조, 2026-10-02).
+                 "0001163165": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestAndDebtExpense"], -1)])}
 
 
 def _derived_opinc(cik, taxonomy):
@@ -377,7 +389,10 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0000078003": ("Revenues",)}
+PREFER_TAGS = {"0000078003": ("Revenues",),
+               # COP: 손익계산서 "Sales and other operating revenues"는 Revenues(Q2 2026 $19,161M)이고 RevenueFromContract…는 그중 고객 계약분
+               # ($18,088M, 파생 계약 매출 제외)이다(10-Q 매출 주석, 2026-10-02).
+               "0001163165": ("Revenues",)}
 
 
 def pick_tag(cik, names, taxonomy="us-gaap"):
@@ -767,7 +782,15 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # 장기는 금융리스 포함 LongTermDebtAndCapitalLeaseObligations(GE와 같은 조합).
                   "0000732717": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # UNP: 1년 안 만기 차입금을 LongTermDebtAndCapitalLeaseObligationsCurrent($1,288M, 2026-06-30)로만 내 기본 목록에서 빠졌다(2026-10-02).
-                  "0000100885": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"], "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  "0000100885": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # COP: 1년 안 만기 차입금 DebtCurrent($462M, 2026-06-30)가 빠지고 금융리스($0.8B)는 장기 태그 안인데 따로 더해졌다(2026-10-02).
+                  "0001163165": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # DHR: 1년 안 만기 차입금을 DebtCurrent($1,411M, 2026-06-26)로 낸다 — 기본 목록(LongTermDebtCurrent는 2011년에 멈춤)에서 빠졌다(2026-10-02).
+                  "0000313616": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # BX: LongTermDebt에 연결 펀드 차입 $124M이 더 들어 있다 — 재무상태표 Loans Payable($13,195M)만(Codex 2026-10-02).
+                  "0001393818": "LoansPayable",
+                  # BA: LongTermDebt는 장기차입금 유동분까지만 담아 단기차입금이 빠진다($45,596M 대 재무상태표 $45,900M, 2026-10-02).
+                  "0000012927": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"], "0000059478": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   "0000034088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # INTC: 10-Q는 1년 안 만기 차입금을 DebtCurrent로만 낸다(LongTermDebtCurrent는 10-K에만) — 기본 목록으론
                   # 2026-06-27 단기 $1,988M이 빠져 $48,549M이었다(10-Q 합계 $50,537M, 2026-09-29).
@@ -875,6 +898,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000732717": {"sti": [], "lease": ["OperatingLeaseLiability"]},
                   # MCD: 단기투자 줄이 없다(ShortTermInvestments가 2014-09에 멈춤, 2026-10-02).
                   "0000063908": {"sti": []},
+                  # DHR: 현금 태그 CashAndCashEquivalentsAtCarryingValue가 2020-10에 멈춰 그 값($5.7B)이 계속 쓰였다 → 제한 현금 포함 총계
+                  # (2026-06-26 $4,348M, 재무상태표 현금과 대조할 것). 리스는 분기마다 총액만(OperatingLeaseLiability), 우선주는 2023년 전환으로 없음(2026-10-02).
+                  "0000313616": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "lease": ["OperatingLeaseLiability"], "preferred": []},
                   # UNP: 단기투자를 만기보유 증권(HeldToMaturitySecuritiesCurrent, $500M)으로 낸다 — 기본 목록으론 비었다(2026-10-02).
                   "0000100885": {"sti": ["HeldToMaturitySecuritiesCurrent"]},
                   # PFE: 재무상태표 단기투자 총액은 OtherShortTermInvestments($10,723M, 2026-06-28 = 매도가능 $7,281M + 만기보유 $1,811M + 지분 $1,630M).
@@ -1135,7 +1161,10 @@ HISTORY_START = {"GE": "2024-07-23",
                  "WDC": "2025-08-14",
                  # T: WarnerMedia 분사(2022-04-08). 첫 분사 후 재무상태표는 2022-06-30이지만, 최근 4분기 합이 모두 분사 뒤 분기인 첫
                  # 시점은 2023-03-31(1분기 10-Q 2023-05-01)이다 — 그 전 합은 분사 전 분기(WarnerMedia 포함)와 섞인다(WDC 교훈, 2026-10-02).
-                 "T": "2023-05-01"}
+                 "T": "2023-05-01",
+                 # DHR: Veralto 분사(2023-09-30) 뒤 첫 재무상태표(2023-09-29)가 나온 3분기 10-Q 공시일(2026-10-02, GE 방식). 재작성 값이
+                 # 2022년 분기부터 있어 그 날 최근 4분기 합은 모두 계속사업 기준이다.
+                 "DHR": "2023-10-24"}
 
 
 def history_daily(ticker, daily):

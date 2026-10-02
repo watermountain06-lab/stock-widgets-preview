@@ -16,7 +16,9 @@
 | `root_arrays.py T` | 루트 카드가 있는 종목은 배열을 루트 카드에서 옮긴다 |
 | `aph_root_arrays_special.py` | APH만 — 분할 안전장치로 루트가 멈춰 Yahoo 일봉으로 다시 만든 기록(그대로는 못 돌림, `/tmp/aph_rows.json` 필요) |
 
-`BUILD` 옵션: `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 일봉 시작일 — WDC·T), `overlay`(companyfacts 지연 — ABT·WELL·NEE).
+`BUILD` 옵션: `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 일봉 시작일 — WDC·T), `overlay`(companyfacts 지연 — ABT·WELL·NEE, 또는 재무 태그 별칭이 필요할 때 — BA 재고), `company_tags`(회사 고유 태그 — COP 설비투자).
+
+cfg 선택 항목: `SELF_SPAN`(자기 이력이 5년보다 짧을 때 "5년" 표기를 바꿈 — DHR·BA), `GROWTH_SPAN`(현금흐름 역산 설명의 "지난 5년"을 실제 이력으로 — DHR).
 
 ## 새 종목 순서
 
@@ -38,6 +40,8 @@ StockAnalysis 애널리스트 페이지는 `curl -A "curl/8.4.0"`(짧은 "Mozill
 - **차입금·현금·단기투자·리스를 재무상태표와 대조** — 1년 안 만기 차입금 누락(ETN·T·UNP), 멈춘 단기투자 태그(T·MCD·PFE), 리스 태그가 이미 금융리스 포함(MCD), 주식 수 단위 오류(MCD 711.1).
 - **현금흐름 시나리오** — 음수·순서 역전(낙관 < 기본)은 원인을 찾아 문장으로 적는다. 인수 대금이 큰 해는 매출/자본이 극단적이다.
 - **비교군** — S&P500 섹터 파일을 처음 만들면 이상값(PSR 수백 배, 0)부터 본다(부동산).
+- **영업이익 줄이 없는 손익계산서** — 세전이익에서 영업외 항목을 되돌려 `DERIVED_OPINC`(COP·TJX·BX). **재고 태그 이름**이 InventoryNet이 아니면 당좌비율 = 유동비율, 재고 0일이 된다(BA).
+- **주식 수** — Up-C(BX)는 교환 가능한 파트너십 지분을 현금흐름 주식 수에 더한다(`build_dcf.UNITS_EXTRA`). 적자·흑자가 섞인 해의 4분기 EPS는 보도자료와 대조(BA `Q4_EPS_OVERRIDE`).
 
 ## 분사 종목 (GE·DELL·IBM·WDC·T)
 

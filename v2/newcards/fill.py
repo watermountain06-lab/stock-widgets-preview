@@ -178,8 +178,9 @@ sub(r'<span class="zone-label">배당 \(Q2 FY27\)</span>\n          <div style="
 CHECK = (f'<div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">{C.CHECK_WHEN}</span></div>\n    <div style="font-size:12px;color:var(--text2);line-height:1.8;">\n'
          + '\n'.join(f'      <div{" style=\"margin-bottom:8px;\"" if i < 3 else ""}><strong style="color:var(--accent2);">{"①②③④"[i]}</strong> {F(x)}</div>' for i, x in enumerate(C.CHECK)) + '\n    </div>')
 sub(r'<div class="card-title">다음 실적 체크포인트 <span[^>]*>[^<]*</span></div>\n    <div style="font-size:12px;color:var\(--text2\);line-height:1\.8;">.*?\n    </div>', CHECK)
+_usd = lambda v: ('−$' if v < 0 else '$') + f'{abs(v):.2f}'   # 음수 기본값(BA) — "$-63.51" 대신 "−$63.51"
 if DCF.get('nonopPerShare', 0) >= 0.5:
-    one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', f'<div class="note" data-dcf-nonop>기본 시나리오 ${DCF["base"]:.2f} = 사업 가치 ${DCF["base"] - DCF["nonopPerShare"]:.2f} + 비영업 자산 ${DCF["nonopPerShare"]:.2f}(주당, {C.NONOP_WHAT})</div>')
+    one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', f'<div class="note" data-dcf-nonop>기본 시나리오 {_usd(DCF["base"])} = 사업 가치 {_usd(DCF["base"] - DCF["nonopPerShare"])} + 비영업 자산 ${DCF["nonopPerShare"]:.2f}(주당, {C.NONOP_WHAT})</div>')
 else:
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', '<div class="note" data-dcf-nonop hidden></div>')
 
@@ -231,6 +232,13 @@ one("+ `\\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(확인 필�
 one("+ `\\n(확인 필요 — NVDA 문장 자리)`);", "+ `\\n" + F(C.FUND_TIP) + "`);")
 one("+ `\\n(확인 필요 — NVDA 문장 자리)`\n", "+ `\\n" + F(C.SELF_TIP) + "`\n")
 one('`이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`', '`이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`')
+if getattr(C, 'GROWTH_SPAN', None):   # 현금흐름 이력이 5년보다 짧은 종목(분사) — 역산 설명의 "지난 5년"을 실제 이력으로(2026-10-02, DHR Codex 2차)
+    for _o in ('매출이 지난 5년 속도', '필요해 지난 5년의 3배', '필요해 지난 5년 실제의 3배'):
+        assert h.count(_o) >= 1, _o; h = h.replace(_o, _o.replace('지난 5년', C.GROWTH_SPAN))
+if getattr(C, 'SELF_SPAN', None):   # 자기 이력이 5년보다 짧은 종목(분사·흑자 전환) — "5년" 표기를 실제 이력으로(2026-10-02, DHR Codex)
+    one('<div class="card-title">배수별 자기 5년 위치</div>', f'<div class="card-title">배수별 자기 이력 위치 ({C.SELF_SPAN})</div>')
+    one(f'title="지난 5년 {T} 자신의 배수보다', f'title="{T} 자신의 배수 이력({C.SELF_SPAN})보다')
+    one('`이 종목 자신의 5년 배수 분포에서 지금보다', f'`이 종목 자신의 배수 이력({C.SELF_SPAN})에서 지금보다')
 one("`같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.`", "`" + F(C.PEER_TIP[0]) + "`")
 one("+ `\\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);", "+ `\\n" + F(C.PEER_TIP[1]) + "`);")
 

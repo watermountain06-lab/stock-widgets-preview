@@ -97,7 +97,11 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    # T: VZ·TMUS와 같은 통신사라 같은 비교군(2026-10-02, Claude 추천·사용자 위임 — 리뷰 때 확인)
                    "T": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
                    # MCD: HD와 같은 S&P500 경기소비재 비교군(2026-10-02, Claude 추천·사용자 위임 — 리뷰 때 확인). 카드 유니버스 경기소비재+IT면 외식업이 IT와 섞인다.
-                   "MCD": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json")}
+                   "MCD": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # TJX: HD·MCD와 같은 S&P500 경기소비재 비교군(2026-10-02, Claude 추천·사용자 위임 — 리뷰 때 확인). 할인 의류 소매.
+                   "TJX": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # BX: BLK와 같은 S&P500 자산운용·수탁은행 비교군(2026-10-02, Claude 추천·사용자 위임 — 리뷰 때 확인). 대체투자 운용사.
+                   "BX": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
