@@ -1,0 +1,28 @@
+{
+ "n_obs": 1995,
+ "n_tickers": 337,
+ "adjusted_obs": 922,
+ "amort_missing_obs": 1034,
+ "W0": {
+  "none_rate": 0.45112781954887216,
+  "cap_rate": 0.05463659147869674,
+  "pred_pairs": 244,
+  "err_variant": 0.7372497779620389,
+  "err_avg": 0.7279234025032506,
+  "skill": -0.009326375458788339
+ },
+ "W1": {
+  "none_rate": 0.39147869674185465,
+  "cap_rate": 0.056140350877192984,
+  "pred_pairs": 280,
+  "err_variant": 0.7365254795828233,
+  "err_avg": 0.7709192588668767,
+  "skill": 0.034393779284053405
+ },
+ "rule": {
+  "1_none_drop_10pp": false,
+  "3_skill_not_worse": true,
+  "2_cap_within_2pp": true
+ },
+ "pick": "W0"
+}
