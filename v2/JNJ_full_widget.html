@@ -515,7 +515,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="jnjLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="jnjDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="jnjDcfBox">$87<span class="logic-denom"> · 낮은 성장 $84 · 높은 성장 $90</span></div>
+      <div class="logic-score" id="jnjDcfBox">$86<span class="logic-denom"> · 낮은 성장 $84 · 높은 성장 $90</span></div>
     </div>
     <div class="logic-box logic-neutral" id="jnjFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="jnjFundVerdict">양호</span></div>
@@ -637,7 +637,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$86.52</td><td style="color: var(--red);" data-dcf-upside="base">−68.1%</td>
+          <td class="big scn-base" data-dcf-value="base">$86.42</td><td style="color: var(--red);" data-dcf-upside="base">−68.1%</td>
           <td class="story">5년 성장률(연 1.9%)에서 식고, 영업이익률이 최근 2년 중앙값 24.9%로 간다.</td>
         </tr>
         <tr>
@@ -649,7 +649,7 @@ Chart.overrides.doughnut.animation = false;
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
     <div class="note" data-dcf-nonop hidden></div>
-    <div class="reverse">지금 가격($271.22)이 정당하려면, 매출이 지난 5년 속도(연 1.9%)로 크다가 식는 동안 영업이익률이 <b>65.9%</b>여야 한다(지금 26.5%). 성장만으로는 설명되지 않는다 — 일정 성장으로 맞추려면 연 38.1%가 필요해 지난 5년 실제의 20배다.</div>
+    <div class="reverse">지금 가격($271.22)이 정당하려면, 매출이 지난 5년 속도(연 1.9%)로 크다가 식는 동안 영업이익률이 <b>65.9%</b>여야 한다(지금 26.5%). 성장만으로는 설명되지 않는다 — 일정 성장으로 맞추려면 연 38.4%가 필요해 지난 5년 실제의 20배다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -660,7 +660,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $87</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −68.1%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $86</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −68.1%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -881,12 +881,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 JNJ 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">4.4</div><div class="sc-tile low" data-vc="self" data-m="per">10</div><div class="sc-tile low" data-vc="self" data-m="pbr">1</div><div class="sc-tile low" data-vc="self" data-m="psr">1</div><div class="sc-tile low" data-vc="self" data-m="pcr">10</div><div class="sc-tile low" data-vc="self" data-m="evebitda">1</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$87</div><div class="vs-note">현재가 <span data-vs="price">$271.22</span> 대비 <strong data-vs="upside">−68.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 3.13
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$86</div><div class="vs-note">현재가 <span data-vs="price">$271.22</span> 대비 <strong data-vs="upside">−68.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 3.14
 시나리오 범위: 낙관 기준 3.03 ~ 보수 기준 3.25
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="같은 헬스케어 섹터(S&amp;P500 59종목)보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">30.8</div><div class="sc-tile lost" data-vc="peer" data-m="per">42</div><div class="sc-tile low" data-vc="peer" data-m="pbr">23</div><div class="sc-tile low" data-vc="peer" data-m="psr">21</div><div class="sc-tile low" data-vc="peer" data-m="pcr">29</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">39</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">다섯 배수 모두 자기 5년 이력의 가장 비싼 구간(4.4점)이고, S&P500 헬스케어 59종목 안에서는 중간(30.8점, 비싼 쪽 경계 30점 바로 위)이다. <strong>현금흐름 내재가치(기본 $87)는 현재가의 32%</strong>다. 5년 매출 성장률이 연 1.9%로 낮은 것은 과거 매출에 2023년 분사한 소비자사업(Kenvue)이 들어 있어서다. 계속사업 기준으로 다시 재면 3년 연 6.0%·5년 약 5.0%이고, 그래도 기본 내재가치는 약 $90(현재가의 33%)이다.</div>
+    <div class="vs-premise">다섯 배수 모두 자기 5년 이력의 가장 비싼 구간(4.4점)이고, S&P500 헬스케어 59종목 안에서는 중간(30.8점, 비싼 쪽 경계 30점 바로 위)이다. <strong>현금흐름 내재가치(기본 $86)는 현재가의 32%</strong>다. 5년 매출 성장률이 연 1.9%로 낮은 것은 과거 매출에 2023년 분사한 소비자사업(Kenvue)이 들어 있어서다. 계속사업 기준으로 다시 재면 3년 연 6.0%·5년 약 5.0%이고, 그래도 기본 내재가치는 약 $90(현재가의 33%)이다.</div>
     <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">65.9%</strong>여야 한다(최근 4분기 26.5%). 지난 1년 주가가 54% 오른 만큼 배수가 이익보다 빨리 올랐다.</div>
   </div>
 
@@ -1412,7 +1412,7 @@ const JNJ_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,n
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let JNJ_VERDICT = '계산 중';
 
-const JNJ_DCF = {"low": 84.33, "base": 86.52, "high": 90.16, "requiredGrowth": 0.3809, "baseEquivGrowth": 0.025, "reqMode": "margin", "requiredMargin": 0.6586, "marginNow": 0.2647, "growth5y": 0.0189, "nonopPerShare": 0.33, "s2cFallback": false, "asOf": "2026-09-25", "hard": [], "hardDetail": {"roic": 0.1715, "tax": 0.1651, "nonopShare": 0.0039}, "tvShare": 0.6714};   // build_dcf_block.py
+const JNJ_DCF = {"low": 84.33, "base": 86.42, "high": 90.16, "requiredGrowth": 0.3842, "baseEquivGrowth": 0.025, "reqMode": "margin", "requiredMargin": 0.6588, "marginNow": 0.2647, "growth5y": 0.0189, "nonopPerShare": 0.33, "s2cFallback": false, "asOf": "2026-09-25", "hard": [], "hardDetail": {"roic": 0.1715, "tax": 0.1651, "nonopShare": 0.0039}, "tvShare": 0.6721};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1560,7 +1560,7 @@ const JNJ_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py JNJ
 /* DCF_GRID:BEGIN */
-const JNJ_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[105.44, 90.94, 79.79, 70.95, 63.74], [110.13, 94.07, 81.94, 72.44, 64.78], [115.6, 97.62, 84.33, 74.07, 65.9], [122.07, 101.71, 87.02, 75.88, 67.13], [129.87, 106.47, 90.07, 77.9, 68.48]], "기본": [[107.56, 92.93, 81.67, 72.73, 65.46], [111.87, 95.81, 83.67, 74.16, 66.49], [117.81, 99.83, 86.52, 76.25, 68.07], [124.75, 104.38, 89.68, 78.53, 69.76], [133.03, 109.61, 93.2, 81.01, 71.58]], "낙관": [[112.3, 96.81, 84.92, 75.48, 67.8], [117.59, 100.38, 87.39, 77.23, 69.05], [123.75, 104.44, 90.16, 79.16, 70.41], [131.05, 109.1, 93.27, 81.29, 71.89], [139.87, 114.54, 96.82, 83.68, 73.52]]}};
+const JNJ_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[105.44, 90.94, 79.79, 70.95, 63.74], [110.13, 94.07, 81.94, 72.44, 64.78], [115.6, 97.62, 84.33, 74.07, 65.9], [122.07, 101.71, 87.02, 75.88, 67.13], [129.87, 106.47, 90.07, 77.9, 68.48]], "기본": [[107.5, 92.86, 81.6, 72.67, 65.39], [111.79, 95.73, 83.59, 74.08, 66.42], [117.7, 99.73, 86.42, 76.15, 67.98], [124.62, 104.26, 89.56, 78.41, 69.64], [132.88, 109.47, 93.06, 80.87, 71.44]], "낙관": [[112.3, 96.81, 84.92, 75.48, 67.8], [117.59, 100.38, 87.39, 77.23, 69.05], [123.75, 104.44, 90.16, 79.16, 70.41], [131.05, 109.1, 93.27, 81.29, 71.89], [139.87, 114.54, 96.82, 83.68, 73.52]]}};
 /* DCF_GRID:END */
 (function(){
   const D = JNJ_DCF, G = (typeof JNJ_DCF_GRID !== 'undefined') ? JNJ_DCF_GRID : null;
@@ -2114,7 +2114,7 @@ const JNJ_ANALYST = { asOf: '2026-09-28', source: 'StockAnalysis (S&P Global 집
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const JNJ_DCF_TRACK = [{d:"2024-07-25",low:101.4,base:103.3,high:102.7},{d:"2024-10-23",low:80.7,base:82.6,high:78.9},{d:"2025-02-13",low:82.3,base:83.0,high:77.1},{d:"2025-04-23",low:81.2,base:81.0,high:77.0},{d:"2025-07-24",low:38.3,base:67.6,high:68.6},{d:"2025-10-22",low:44.4,base:72.2,high:79.4},{d:"2026-02-11",low:57.2,base:75.7,high:86.8},{d:"2026-04-22",low:61.3,base:77.6,high:86.1},{d:"2026-07-23",low:84.3,base:86.5,high:90.2}];
+const JNJ_DCF_TRACK = [{d:"2024-07-25",low:101.4,base:103.3,high:102.7},{d:"2024-10-23",low:80.7,base:82.6,high:78.9},{d:"2025-02-13",low:82.3,base:83.0,high:77.1},{d:"2025-04-23",low:81.2,base:81.0,high:77.0},{d:"2025-07-24",low:32.3,base:67.2,high:68.6},{d:"2025-10-22",low:38.9,base:71.9,high:79.4},{d:"2026-02-11",low:50.9,base:75.2,high:86.8},{d:"2026-04-22",low:53.5,base:76.9,high:86.1},{d:"2026-07-23",low:84.3,base:86.4,high:90.2}];
 const JNJ_BACKTEST = [{checkpoint_date:"2023-10-27",period_end_date:"2024-02-15",predicted_low:308.7,predicted_high:463.14,is_open:false,zone:"breached_bottom"},
 {checkpoint_date:"2024-02-16",period_end_date:"2024-04-30",predicted_low:157.4,predicted_high:467.92,is_open:false,zone:"breached_bottom"},
 {checkpoint_date:"2024-05-01",period_end_date:"2024-07-24",predicted_low:165.51,predicted_high:506.99,is_open:false,zone:"breached_bottom"},

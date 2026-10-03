@@ -290,7 +290,7 @@ def base_inputs(ticker, asof=None):
     lc = latest(bmh.component_sum(cik, ["LiabilitiesCurrent"]), asof)
     if ac and lc:
         cash = (out.get("cash") or 0) + (out.get("sti") or 0)
-        st_debt = latest(bmh.component_sum(cik, ["LongTermDebtCurrent"]), asof) or 0
+        st_debt = current_debt(cik, asof)
         # 유동자산에는 상장주식 같은 투자자산도 들어 있다. 영업에 묶인 돈이
         # 아니므로 운전자본에서 뺀다. NVDA는 EquitySecuritiesFvNi $42.8B가
         # 섞여 운전자본이 매출의 32.6%로 잡혔다(실제 18.5% 수준).
@@ -298,6 +298,8 @@ def base_inputs(ticker, asof=None):
             latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) or 0)
         out["invest_assets"] = invest_assets
         out["nwc"] = (ac - cash - invest_assets) - (lc - st_debt)
+        _ac = [e for e in bmh.component_sum(cik, ["AssetsCurrent"]) if e.get("available", e["end"]) <= (asof or "9999")]
+        out["nwc_end"] = _ac[-1]["end"] if _ac else None
     out["ticker"], out["asof"] = ticker, asof   # 한계 매출/자본 계산용(scenarios)
 
     # ── 데이터 품질(2026-09-25 사용자 결정) — 유니버스 427종목 중 34%가 아래 신호 하나 이상 ──
@@ -354,6 +356,79 @@ S2C_MAX = 10.0   # 매출/자본 상한 — 자본을 거의 안 쓰는 회사�
 
 
 IFRS_LEASE = {"TSM", "SKHY"}     # IFRS 16 — 리스 비용이 영업이익 밖이라 리스부채는 빚(B16)
+
+
+CURRENT_DEBT_FRESH_DAYS = 200
+# 단기차입(ShortTermBorrowings) 태그가 유동 장기차입을 이미 담은 합계인 회사 — 같은 결산일 두 값이 2% 안(Fable 감사 2026-10-03).
+# IBM(5.775 대 5.772)·PM·DVN·LITE·DOV·COO·HWM·APTV. 숫자가 비슷하다는 것만으로 일반화하지 않는다(Codex — 우연히 같을 수 있음).
+STB_INCLUDES_CURRENT_LTD = {"0000051143", "0001413329", "0001090012", "0001633978", "0000029905", "0000711404", "0000004281", "0001521332"}
+
+
+def current_debt(cik, asof):
+    """운전자본에서 되돌릴 유동 차입(B17, 2026-10-03 사용자 결정 — 사전 등록 V1).
+
+    예전에는 `LongTermDebtCurrent`(장기차입금 1년 내 만기분) 하나만 되돌려, 기업어음·단기차입·유동 금융리스가 늘면 운전자본이
+    줄고 순투자가 작게 잡혔다(Codex). 유동자산 결산일(`AssetsCurrent`)을 기준으로 두 후보를 만든다.
+      A = DebtCurrent(유동 차입 합계 — 유동 금융리스 포함)
+      B = 유동 장기차입(LongTermDebtAndCapitalLeaseObligationsCurrent, 없으면 LongTermDebtCurrent)
+          + 단기차입(ShortTermBorrowings, 없으면 CommercialPaper) + 유동 금융리스(합계 태그를 안 쓴 경우만)
+    각 태그는 그 결산일 값, 없으면 결산일 이전 200일 안의 마지막 값(연말에만 공시하는 회사 — MCD). **결산일이 더 최근인 후보가
+    이기고**(이어 쓴 옛 값이 같은 결산일 값을 이기지 않게 — Fable: VZ 2025-12 $18.6B 대 2026-06 $21.8B), 결산일이 같으면 큰 쪽.
+    B의 결산일은 구성요소 중 가장 오래된 것으로 본다. 단기차입이 유동 장기차입을 이미 담은 회사(IBM·BMY)는 더하지 않는다.
+    한계: 유동부채(LiabilitiesCurrent)는 base_inputs가 따로 latest로 고른다 — 유동자산과 결산일이 다를 수 있다(카드에서는 일치 확인).
+    """
+    ac_rows = [e for e in bmh.component_sum(cik, ["AssetsCurrent"]) if e.get("available", e["end"]) <= (asof or "9999")]
+    if not ac_rows:
+        return 0
+    end = ac_rows[-1]["end"]
+
+    def pick(tag):
+        rows = [e for e in bmh.component_sum(cik, [tag]) if e.get("available", e["end"]) <= (asof or "9999")
+                and e["end"] <= end and (date.fromisoformat(end) - date.fromisoformat(e["end"])).days <= CURRENT_DEBT_FRESH_DAYS]
+        if not rows:
+            return None
+        r = sorted(rows, key=lambda e: (e["end"], e.get("available", "")))[-1]
+        return r["end"], r["val"]
+
+    def fresher(a, b):      # 결산일이 더 최근인 쪽, 같으면 a
+        if a is None:
+            return b
+        if b is None:
+            return a
+        return a if a[0] >= b[0] else b
+
+    A = pick("DebtCurrent")
+    comb, ltd = pick("LongTermDebtAndCapitalLeaseObligationsCurrent"), pick("LongTermDebtCurrent")
+    lt = fresher(comb, ltd)
+    _stb, _cp = pick("ShortTermBorrowings"), pick("CommercialPaper")
+    stb = fresher(_stb, _cp)
+    stb_is_tag = stb is not None and stb is _stb        # 기업어음은 합계 태그가 될 수 없다 — "포함" 판단은 ShortTermBorrowings일 때만(Fable: PH 우연 일치)
+    same = lambda x, y: x and y and x[0] == y[0] and abs(x[1] - y[1]) <= 0.02 * max(abs(x[1]), abs(y[1]), 1)
+    # 단기차입 태그가 이미 유동 장기차입을 담은 합계인 회사가 있다(Fable 감사 2026-10-03). 같은 결산일에 유동 차입 합계(DebtCurrent)와
+    # 같으면(BMY $1.027B) 합계로 본다 — 그 합계는 유동 금융리스까지 담는다. 유동 장기차입과만 비슷한 경우는 우연일 수 있어(Codex) 감사로
+    # 확인한 회사만 명단(STB_INCLUDES_CURRENT_LTD)으로 처리한다.
+    by_total = stb_is_tag and same(stb, A)
+    inclusive = by_total or (stb_is_tag and cik in STB_INCLUDES_CURRENT_LTD and lt is not None)
+    parts = [x for x in (lt, stb) if x]
+    B = None
+    if parts:
+        B_val = max(x[1] for x in parts) if inclusive else sum(x[1] for x in parts)
+        B_end = min(x[0] for x in parts)       # 가장 오래된 구성요소의 결산일로 비교 — 이어 쓴 옛 값이 같은 결산일 합계(A)를 이기지 않게(Codex)
+    if (lt is not comb or comb is None) and not by_total:
+        fl = pick("FinanceLeaseLiabilityCurrent")       # 금융리스만 있는 회사(REGN)도 넣는다
+        if fl:
+            B_val = (B_val if parts else 0) + fl[1]
+            B_end = min(B_end, fl[0]) if parts else fl[0]
+            parts = parts + [fl]
+    if parts:
+        B = (B_end, B_val)
+    if A is None and B is None:
+        return 0
+    if A is None or B is None:
+        return (A or B)[1]
+    if A[0] != B[0]:
+        return (A if A[0] > B[0] else B)[1]
+    return max(A[1], B[1])
 
 
 def invested_capital(base):
@@ -605,7 +680,7 @@ def marginal_s2c(base):
         return None
     end_now = date.fromisoformat(seen[-1]["end"])
     prior = [e for e in rev_ttm
-             if abs((end_now - date.fromisoformat(e["end"])).days - 365) <= 10]
+             if abs((end_now - date.fromisoformat(e["end"])).days - 365) <= 10 and e["available"] <= asof]   # 그날까지 공시분만(Codex)
     if not prior:
         return None
     try:
@@ -614,9 +689,17 @@ def marginal_s2c(base):
         return None
     if not b1.get("revenue") or base.get("capex") is None or base.get("dda") is None:
         return None
-    d_rev = base["revenue"] - b1["revenue"]
-    net_inv = (base["capex"] - base["dda"] + ((base.get("nwc") or 0) - (b1.get("nwc") or 0))
-               + (base.get("acquisitions") or 0))
+    # 매출 증가는 1년 전 **같은 분기의 TTM 값**으로 잰다. b1(그 값이 공시된 날의 입력)의 매출은 그날 최신 TTM이라, 재공시로 분기
+    # 공시일이 한꺼번에 늦게 찍힌 회사(UBER)는 3분기 전 TTM이 됐다(Fable, B17).
+    d_rev = base["revenue"] - prior[-1]["val"]
+    # 운전자본이 한쪽 시점에만 있으면 변화분을 0으로 본다 — 예전에는 (nwc or 0)이라 변화분이 운전자본 전체가 됐다(B17).
+    d_nwc = (base["nwc"] - b1["nwc"]) if (base.get("nwc") is not None and b1.get("nwc") is not None) else 0.0
+    # 두 운전자본의 결산일이 1년(±20일) 간격이 아니면 변화분을 0으로 본다 — 재공시로 분기 매출 공시일이 한꺼번에 늦게 찍힌 회사
+    # (UBER 2025 분기가 모두 2026-01-12)는 "1년 전" 기준일의 대차대조표가 3분기 전이 돼 운전자본 변화가 3분기치만 잡혔다(Fable).
+    e0, e1 = base.get("nwc_end"), b1.get("nwc_end")
+    if not (e0 and e1) or abs((date.fromisoformat(e0) - date.fromisoformat(e1)).days - 365) > 20:
+        d_nwc = 0.0
+    net_inv = base["capex"] - base["dda"] + d_nwc + (base.get("acquisitions") or 0)
     if d_rev <= 0 or net_inv <= 0:
         return None
     # 평균 비율과 같은 상한 — 순투자가 작은 해에 비율이 발산한다(Codex: NVDA 2025-05 시점 14.4).

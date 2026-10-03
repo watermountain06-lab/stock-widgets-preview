@@ -515,7 +515,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="amznLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="amznDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="amznDcfBox">$100<span class="logic-denom"> · 낮은 성장 $62 · 높은 성장 $113</span></div>
+      <div class="logic-score" id="amznDcfBox">$99<span class="logic-denom"> · 낮은 성장 $62 · 높은 성장 $113</span></div>
     </div>
     <div class="logic-box logic-neutral" id="amznFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="amznFundVerdict">양호</span></div>
@@ -632,12 +632,12 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$61.69</td><td style="color: var(--red);" data-dcf-upside="low">−75.3%</td>
+          <td class="big scn-low" data-dcf-value="low">$61.53</td><td style="color: var(--red);" data-dcf-upside="low">−75.3%</td>
           <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(7.2%)으로 내려온다. 매출 $1을 늘리는 데 $0.73를 투자한다(최근 1년 수준).</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$99.54</td><td style="color: var(--red);" data-dcf-upside="base">−60.1%</td>
+          <td class="big scn-base" data-dcf-value="base">$99.48</td><td style="color: var(--red);" data-dcf-upside="base">−60.1%</td>
           <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(11.1%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $0.73에서 5년에 걸쳐 과거 평균 $0.58로 돌아온다.</td>
         </tr>
         <tr>
@@ -648,8 +648,8 @@ Chart.overrides.doughnut.animation = false;
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $88 = 사업 가치 $68 + 비영업 자산 $20(주당, 지분·장기투자)</div>
-    <div class="reverse">지금 가격($249.27)이 정당하려면, 매출이 지난 5년 속도(연 11.7%)로 크다가 식는 동안 영업이익률이 <b>26.6%</b>여야 한다(지금 12.1%). 성장만으로는 설명되지 않는다 — 일정 성장으로 맞추려면 연 50.0%가 필요해 지난 5년 실제의 3배를 넘는다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $99 = 사업 가치 $79 + 비영업 자산 $20(주당, 지분·장기투자)</div>
+    <div class="reverse">지금 가격($249.27)이 정당하려면, 매출이 지난 5년 속도(연 11.7%)로 크다가 식는 동안 영업이익률이 <b>26.6%</b>여야 한다(지금 12.1%). 성장만으로는 설명되지 않는다 — 일정 성장으로 맞추려면 연 50.1%가 필요해 지난 5년 실제의 3배를 넘는다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -660,7 +660,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $100</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −60.1%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $99</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −60.1%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -879,13 +879,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 AMZN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">62.8</div><div class="sc-tile" data-vc="self" data-m="per">87</div><div class="sc-tile" data-vc="self" data-m="pbr">100</div><div class="sc-tile lost" data-vc="self" data-m="psr">34</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile" data-vc="self" data-m="evebitda">94</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$100</div><div class="vs-note">현재가 <span data-vs="price">$249.27</span> 대비 <strong data-vs="upside">−60.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.50
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$99</div><div class="vs-note">현재가 <span data-vs="price">$249.27</span> 대비 <strong data-vs="upside">−60.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.51
 시나리오 범위: 낙관 기준 2.54 ~ 보수 기준 4.81
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.7</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">100</div><div class="sc-tile" data-vc="peer" data-m="psr">90</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile" data-vc="peer" data-m="evebitda">89</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">배수로는 동종업·자기 5년 이력 모두 싼 편이지만, <strong>현금흐름 내재가치는 현재가에 크게 못 미친다.</strong> 설비투자가 매출의 22.8%로 영업현금흐름을 넘어서 최근 4분기 잉여현금흐름이 마이너스다. 자본수익률이 할인율에 가까워 과거 성장으로는 가격이 설명되지 않고, 가격에는 마진 확대 기대가 담겨 있다.</div>
-    <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 11.7%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">26.6%</strong>여야 한다(지금 12.1%). 성장만으로 맞추려면 연 50.0%가 필요해, 가격은 성장보다 마진 확대에 거는 기대로 읽힌다(AWS 영업이익률은 Q2 39%).</div>
+    <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 11.7%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">26.6%</strong>여야 한다(지금 12.1%). 성장만으로 맞추려면 연 50.1%가 필요해, 가격은 성장보다 마진 확대에 거는 기대로 읽힌다(AWS 영업이익률은 Q2 39%).</div>
   </div>
 
   <div class="grid-2">
@@ -1401,7 +1401,7 @@ const AMZN_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let AMZN_VERDICT = '계산 중';
 
-const AMZN_DCF = {"low": 61.69, "base": 99.54, "high": 113.22, "requiredGrowth": 0.5002, "baseEquivGrowth": 0.0699, "reqMode": "margin", "requiredMargin": 0.2658, "marginNow": 0.1208, "growth5y": 0.1174, "nonopPerShare": 20.41, "s2cFallback": false, "asOf": "2026-09-23", "hard": [], "hardDetail": {"roic": 0.1917, "tax": 0.2258, "nonopShare": 0.2051}, "tvShare": 0.8045};   // build_dcf_block.py
+const AMZN_DCF = {"low": 61.53, "base": 99.48, "high": 113.22, "requiredGrowth": 0.501, "baseEquivGrowth": 0.0699, "reqMode": "margin", "requiredMargin": 0.2659, "marginNow": 0.1208, "growth5y": 0.1174, "nonopPerShare": 20.41, "s2cFallback": false, "asOf": "2026-09-23", "hard": [], "hardDetail": {"roic": 0.1917, "tax": 0.2258, "nonopShare": 0.2052}, "tvShare": 0.8051};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1556,7 +1556,7 @@ const AMZN_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py AMZN
 /* DCF_GRID:BEGIN */
-const AMZN_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[76.98, 69.22, 63.2, 58.45, 54.59], [77.05, 68.8, 62.49, 57.58, 53.64], [77.12, 68.31, 61.69, 56.62, 52.6], [77.22, 67.74, 60.77, 55.53, 51.44], [77.32, 67.06, 59.7, 54.29, 50.14]], "기본": [[121.49, 106.83, 95.59, 86.68, 79.45], [125.73, 109.6, 97.45, 87.95, 80.33], [130.71, 112.78, 99.54, 89.37, 81.29], [136.66, 116.46, 101.93, 90.95, 82.35], [143.89, 120.79, 104.66, 92.73, 83.53]], "낙관": [[137.39, 120.81, 108.11, 98.05, 89.89], [142.61, 124.3, 110.51, 99.75, 91.11], [148.73, 128.28, 113.22, 101.64, 92.45], [156.02, 132.89, 116.28, 103.74, 93.92], [164.87, 138.3, 119.78, 106.09, 95.55]]}};
+const AMZN_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[76.88, 69.1, 63.1, 58.35, 54.5], [76.93, 68.65, 62.36, 57.46, 53.53], [76.99, 68.13, 61.53, 56.47, 52.47], [77.05, 67.52, 60.58, 55.36, 51.28], [77.13, 66.8, 59.48, 54.09, 49.96]], "기본": [[121.43, 106.77, 95.53, 86.62, 79.4], [125.67, 109.54, 97.39, 87.89, 80.27], [130.65, 112.71, 99.48, 89.31, 81.23], [136.6, 116.4, 101.86, 90.89, 82.29], [143.82, 120.72, 104.59, 92.66, 83.46]], "낙관": [[137.39, 120.81, 108.11, 98.05, 89.89], [142.61, 124.3, 110.51, 99.75, 91.11], [148.73, 128.28, 113.22, 101.64, 92.45], [156.02, 132.89, 116.28, 103.74, 93.92], [164.87, 138.3, 119.78, 106.09, 95.55]]}};
 /* DCF_GRID:END */
 (function(){
   const D = AMZN_DCF, G = (typeof AMZN_DCF_GRID !== 'undefined') ? AMZN_DCF_GRID : null;
@@ -2109,7 +2109,7 @@ const AMZN_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', rating: 'Str
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const AMZN_DCF_TRACK = [{d:"2024-11-01",low:29.5,base:38.7,high:62.9},{d:"2025-02-07",low:34.4,base:51.4,high:73.8},{d:"2025-05-02",low:35.9,base:58.7,high:75.9},{d:"2025-08-01",low:37.3,base:64.3,high:80.0},{d:"2025-10-31",low:42.0,base:74.6,high:82.4},{d:"2026-02-06",low:47.5,base:85.3,high:90.0},{d:"2026-04-30",low:44.8,base:85.9,high:94.1},{d:"2026-07-31",low:61.7,base:99.5,high:113.2}];
+const AMZN_DCF_TRACK = [{d:"2024-11-01",low:29.5,base:39.0,high:62.9},{d:"2025-02-07",low:34.4,base:51.5,high:73.8},{d:"2025-05-02",low:35.9,base:58.7,high:75.9},{d:"2025-08-01",low:37.3,base:64.3,high:80.0},{d:"2025-10-31",low:41.9,base:74.5,high:82.4},{d:"2026-02-06",low:47.3,base:85.3,high:90.0},{d:"2026-04-30",low:44.7,base:85.8,high:94.1},{d:"2026-07-31",low:61.5,base:99.5,high:113.2}];
 const AMZN_BACKTEST = [{"checkpoint_date":"2023-10-27","predicted_low":113.79,"predicted_high":594.08,"realized_low":127.74,"realized_high":161.26,"period_end_date":"2024-02-01","zone":"full_hit","is_open":false,"band_width_ratio":5.22},{"checkpoint_date":"2024-02-02","predicted_low":210.19,"predicted_high":878.12,"realized_low":167.08,"realized_high":189.05,"period_end_date":"2024-04-30","zone":"breached_bottom","is_open":false,"band_width_ratio":4.18},{"checkpoint_date":"2024-05-01","predicted_low":213.63,"predicted_high":986.45,"realized_low":176.44,"realized_high":200.0,"period_end_date":"2024-08-01","zone":"breached_bottom","is_open":false,"band_width_ratio":4.62},{"checkpoint_date":"2024-08-02","predicted_low":214.5,"predicted_high":477.07,"realized_low":161.02,"realized_high":193.96,"period_end_date":"2024-10-31","zone":"breached_bottom","is_open":false,"band_width_ratio":2.22},{"checkpoint_date":"2024-11-01","predicted_low":198.74,"predicted_high":485.56,"realized_low":195.78,"realized_high":242.06,"period_end_date":"2025-02-06","zone":"breached_bottom","is_open":false,"band_width_ratio":2.44},{"checkpoint_date":"2025-02-07","predicted_low":236.65,"predicted_high":449.94,"realized_low":167.32,"realized_high":233.14,"period_end_date":"2025-05-01","zone":"breached_bottom","is_open":false,"band_width_ratio":1.9},{"checkpoint_date":"2025-05-02","predicted_low":209.84,"predicted_high":467.32,"realized_low":185.01,"realized_high":234.11,"period_end_date":"2025-07-31","zone":"breached_bottom","is_open":false,"band_width_ratio":2.23},{"checkpoint_date":"2025-08-01","predicted_low":219.03,"predicted_high":395.84,"realized_low":211.65,"realized_high":238.24,"period_end_date":"2025-10-30","zone":"breached_bottom","is_open":false,"band_width_ratio":1.81},{"checkpoint_date":"2025-10-31","predicted_low":233.64,"predicted_high":365.03,"realized_low":217.14,"realized_high":254.0,"period_end_date":"2026-02-05","zone":"breached_bottom","is_open":false,"band_width_ratio":1.56},{"checkpoint_date":"2026-02-06","predicted_low":231.33,"predicted_high":344.21,"realized_low":198.79,"realized_high":263.99,"period_end_date":"2026-04-29","zone":"breached_bottom","is_open":false,"band_width_ratio":1.49},{"checkpoint_date":"2026-04-30","predicted_low":243.41,"predicted_high":368.31,"realized_low":226.65,"realized_high":274.99,"period_end_date":"2026-07-30","zone":"breached_bottom","is_open":false,"band_width_ratio":1.51},{"checkpoint_date":"2026-07-31","predicted_low":354.69,"predicted_high":457.66,"realized_low":256.36,"realized_high":284.02,"period_end_date":"2026-08-27","zone":"breached_bottom","is_open":true,"band_width_ratio":1.29}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,

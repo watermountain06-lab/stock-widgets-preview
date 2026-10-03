@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="mrvlLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="mrvlDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="mrvlDcfBox">$3.39<span class="logic-denom"> · 보수 계산 불가 · 낙관 $6.13</span></div>
+      <div class="logic-score" id="mrvlDcfBox">$3.01<span class="logic-denom"> · 보수 계산 불가 · 낙관 $6.13</span></div>
     </div>
     <div class="logic-box logic-positive" id="mrvlFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="mrvlFundVerdict">양호</span></div>
@@ -648,7 +648,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$3.39</td><td style="color: var(--red);" data-dcf-upside="base">−98.7%</td>
+          <td class="big scn-base" data-dcf-value="base">$3.01</td><td style="color: var(--red);" data-dcf-upside="base">−98.9%</td>
           <td class="story">5년 성장률(최근 4분기 합 기준, 연 22.3%)에서 식고, 영업이익률이 최근 2년 중앙값 8.0%로 간다.</td>
         </tr>
         <tr>
@@ -671,7 +671,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $3.39</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −98.7%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $3.01</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −98.9%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -892,15 +892,15 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 MRVL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">14.6</div><div class="sc-tile low" data-vc="self" data-m="per">15</div><div class="sc-tile low" data-vc="self" data-m="pbr">2</div><div class="sc-tile low" data-vc="self" data-m="psr">2</div><div class="sc-tile low" data-vc="self" data-m="pcr">2</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">53</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$3.39</div><div class="vs-note">현재가 <span data-vs="price">$264.21</span> 대비 <strong data-vs="upside">−98.7%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 3.0% &lt; 할인율 10% — 성장해도 가치가 생기지 않는다
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$3.01</div><div class="vs-note">현재가 <span data-vs="price">$264.21</span> 대비 <strong data-vs="upside">−98.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 3.0% &lt; 할인율 10% — 성장해도 가치가 생기지 않는다
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
 · 잔존가치(5년 뒤)가 내재가치의 46%
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 77.94
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 87.78
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다. 본인 PER은 본업 기준이라 동종업 비교에서 뺀다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.1</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">57</div><div class="sc-tile low" data-vc="peer" data-m="psr">11</div><div class="sc-tile low" data-vc="peer" data-m="pcr">4</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">8</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PSR 24.5배·PBR 12.5배·PCR 134배가 이력 중 가장 비싼 쪽(상위 3% 안)이고, 본업 PER 172배도 흑자였던 207일 중 비싼 쪽이다. EV/EBITDA만 중간이라 자기 이력 14.6점이다. EV/EBITDA가 중간인 것은 이력에 EBITDA가 0에 가까웠던 구간(최고 1,093배)이 있어서다. 공시 EPS 기준 PER은 87배, 비GAAP EPS 기준 80배다. 카드 유니버스 IT 안에서는 PBR만 중간이고 PSR·PCR·EV/EBITDA가 비싼 쪽이라 20.1점이다(PER은 본업 기준이라 비교에서 뺐다). <strong>현금흐름 내재가치(기본 $3.39)는 현재가의 1.1%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”다. 투하자본 수익률(약 3%, 인수 영업권 포함)이 할인율 10%보다 낮아 성장이 가치를 만들지 못하고(계산 어려움 신호), 영업이익률을 100%로 올려도 현재가에 닿지 않는다. 내재가치 기본값은 직전 공시(5월)까지 음수였다가 0 근처로 올라와 비율(78배) 자체는 뜻이 작다. 최근 4분기 PER은 FY26 3분기 자동차 이더넷 사업 매각 이익(세전 약 $1.8B)을 빼려고 본업 이익(영업이익 × (1 − 세율))으로 낸다.</div>
+    <div class="vs-premise">PSR 24.5배·PBR 12.5배·PCR 134배가 이력 중 가장 비싼 쪽(상위 3% 안)이고, 본업 PER 172배도 흑자였던 207일 중 비싼 쪽이다. EV/EBITDA만 중간이라 자기 이력 14.6점이다. EV/EBITDA가 중간인 것은 이력에 EBITDA가 0에 가까웠던 구간(최고 1,093배)이 있어서다. 공시 EPS 기준 PER은 87배, 비GAAP EPS 기준 80배다. 카드 유니버스 IT 안에서는 PBR만 중간이고 PSR·PCR·EV/EBITDA가 비싼 쪽이라 20.1점이다(PER은 본업 기준이라 비교에서 뺐다). <strong>현금흐름 내재가치(기본 $3.01)는 현재가의 1.1%</strong>다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”다. 투하자본 수익률(약 3%, 인수 영업권 포함)이 할인율 10%보다 낮아 성장이 가치를 만들지 못하고(계산 어려움 신호), 영업이익률을 100%로 올려도 현재가에 닿지 않는다. 내재가치 기본값은 직전 공시(5월)까지 음수였다가 0 근처로 올라와 비율(88배) 자체는 뜻이 작다. 최근 4분기 PER은 FY26 3분기 자동차 이더넷 사업 매각 이익(세전 약 $1.8B)을 빼려고 본업 이익(영업이익 × (1 − 세율))으로 낸다.</div>
   </div>
 
   <div class="grid-2">
@@ -989,7 +989,7 @@ Chart.overrides.doughnut.animation = false;
       <li>GAAP EPS $0.33, 비GAAP EPS $0.94였고 3분기 매출 가이던스는 $3.15B(±5%)다.</li>
       <li>3월 NVIDIA가 전환우선주 $2.0B를 샀고, 8월 구글과 맞춤형 칩 계약을 넓히며 워런트를 줬다.</li>
     </ol>
-    <div class="verdict-summary-counter">⚠️ 배수가 자기 이력과 IT 카드 유니버스 모두에서 비싼 쪽이고, 현금흐름 모델은 주당 $3.39다.</div>
+    <div class="verdict-summary-counter">⚠️ 배수가 자기 이력과 IT 카드 유니버스 모두에서 비싼 쪽이고, 현금흐름 모델은 주당 $3.01다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 FY27 실적(12월 초 예상)이 매출 가이던스 $3.15B(±5%)를 넘는지.</div>
   </div>
 
@@ -1424,7 +1424,7 @@ const MRVL_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let MRVL_VERDICT = '계산 중';
 
-const MRVL_DCF = {"low": -7.4, "base": 3.39, "high": 6.13, "requiredGrowth": null, "baseEquivGrowth": 0.055, "reqMode": "margin", "requiredMargin": null, "marginNow": 0.1652, "growth5y": 0.2227, "nonopPerShare": 0.18, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roic", "nosol"], "hardDetail": {"roic": 0.031, "tax": 0.1369, "nonopShare": 0.0525}, "tvShare": 0.4742};   // build_dcf_block.py
+const MRVL_DCF = {"low": -7.4, "base": 3.01, "high": 6.13, "requiredGrowth": null, "baseEquivGrowth": 0.068, "reqMode": "margin", "requiredMargin": null, "marginNow": 0.1652, "growth5y": 0.2227, "nonopPerShare": 0.18, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roic", "nosol"], "hardDetail": {"roic": 0.031, "tax": 0.1369, "nonopShare": 0.0593}, "tvShare": 0.5201};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1573,7 +1573,7 @@ const MRVL_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py MRVL
 /* DCF_GRID:BEGIN */
-const MRVL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[-6.73, -6.67, -6.62, -6.57, -6.52], [-7.14, -7.07, -7.01, -6.95, -6.89], [-7.56, -7.48, -7.4, -7.33, -7.27], [-7.98, -7.89, -7.8, -7.72, -7.64], [-8.41, -8.3, -8.21, -8.12, -8.03]], "기본": [[8.69, 7.47, 6.53, 5.78, 5.17], [6.8, 5.82, 5.07, 4.48, 4.01], [4.53, 3.88, 3.39, 3.01, 2.7], [1.75, 1.58, 1.44, 1.33, 1.23], [0.94, 0.89, 0.84, 0.79, 0.75]], "낙관": [[13.75, 10.43, 7.9, 5.92, 4.32], [13.08, 9.64, 7.07, 5.08, 3.5], [12.3, 8.73, 6.13, 4.15, 2.59], [11.35, 7.67, 5.05, 3.1, 1.58], [10.19, 6.41, 3.81, 1.9, 0.46]]}};
+const MRVL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[-6.73, -6.67, -6.62, -6.57, -6.52], [-7.14, -7.07, -7.01, -6.95, -6.89], [-7.56, -7.48, -7.4, -7.33, -7.27], [-7.98, -7.89, -7.8, -7.72, -7.64], [-8.41, -8.3, -8.21, -8.12, -8.03]], "기본": [[8.32, 7.1, 6.16, 5.42, 4.81], [6.42, 5.44, 4.7, 4.11, 3.64], [4.13, 3.49, 3.01, 2.63, 2.32], [1.34, 1.17, 1.04, 0.93, 0.84], [0.52, 0.48, 0.43, 0.39, 0.35]], "낙관": [[13.75, 10.43, 7.9, 5.92, 4.32], [13.08, 9.64, 7.07, 5.08, 3.5], [12.3, 8.73, 6.13, 4.15, 2.59], [11.35, 7.67, 5.05, 3.1, 1.58], [10.19, 6.41, 3.81, 1.9, 0.46]]}};
 /* DCF_GRID:END */
 (function(){
   const D = MRVL_DCF, G = (typeof MRVL_DCF_GRID !== 'undefined') ? MRVL_DCF_GRID : null;
@@ -2128,7 +2128,7 @@ const MRVL_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const MRVL_DCF_TRACK = [{d:"2024-08-30",low:-11.1,base:-15.7,high:-16.0},{d:"2024-12-04",low:-11.6,base:-16.2,high:-15.4},{d:"2025-03-12",low:-11.4,base:-16.6,high:-12.6},{d:"2025-05-30",low:-11.9,base:-18.1,high:-10.9},{d:"2025-08-29",low:-11.7,base:-18.7,high:-9.5},{d:"2025-12-03",low:-7.5,base:-14.6,high:4.6},{d:"2026-03-11",low:-6.9,base:-13.5,high:6.5},{d:"2026-05-28",low:-7.4,base:-14.1,high:4.7},{d:"2026-08-28",low:-7.4,base:3.4,high:6.1}];
+const MRVL_DCF_TRACK = [{d:"2024-08-30",low:-11.1,base:-15.7,high:-16.0},{d:"2024-12-04",low:-11.6,base:-16.2,high:-15.4},{d:"2025-03-12",low:-11.4,base:-16.6,high:-12.6},{d:"2025-05-30",low:-11.9,base:-18.1,high:-10.9},{d:"2025-08-29",low:-11.7,base:-18.7,high:-9.5},{d:"2025-12-03",low:-7.5,base:-14.6,high:4.6},{d:"2026-03-11",low:-6.9,base:-2.1,high:6.5},{d:"2026-05-28",low:-7.4,base:-14.1,high:4.7},{d:"2026-08-28",low:-7.4,base:3.0,high:6.1}];
 const MRVL_BACKTEST = [{"checkpoint_date": "2026-05-28", "period_end_date": "2026-08-27", "predicted_low": 80.67, "predicted_high": 167.08, "zone": "breached_top", "is_open": false}, {"checkpoint_date": "2026-08-28", "period_end_date": "2026-09-11", "predicted_low": 86.05, "predicted_high": 287.16, "zone": "full_hit", "is_open": true}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
