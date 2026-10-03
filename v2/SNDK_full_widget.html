@@ -504,7 +504,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 영업이익률 (현재 61.2%)</span>
-      <span class="meta-value" id="sndkDcfReq" style="font-size: 22px; color: var(--red);">27.8%</span>
+      <span class="meta-value" id="sndkDcfReq" style="font-size: 22px; color: var(--red);">27.7%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="sndkConfidenceLabel">밴드 적중률 (백테스트 없음)</span>
@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="sndkLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="sndkDcfVerdict">매우 비싸다 · 갈림</span></div>
-      <div class="logic-score" id="sndkDcfBox">$307<span class="logic-denom"> · 낮은 성장 $164 · 높은 성장 $3841</span></div>
+      <div class="logic-score" id="sndkDcfBox">$308<span class="logic-denom"> · 낮은 성장 $168 · 높은 성장 $3850</span></div>
     </div>
     <div class="logic-box logic-positive" id="sndkFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="sndkFundVerdict">우수</span></div>
@@ -643,23 +643,23 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$164.11</td><td style="color: var(--red);" data-dcf-upside="low">−90.6%</td>
+          <td class="big scn-low" data-dcf-value="low">$167.56</td><td style="color: var(--red);" data-dcf-upside="low">−90.4%</td>
           <td class="story">최근 약 1.8년 성장률의 절반(연 41.2%)에서 식고, 영업이익률이 이력 중앙값 -1.3%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$306.70</td><td style="color: var(--red);" data-dcf-upside="base">−82.4%</td>
+          <td class="big scn-base" data-dcf-value="base">$308.42</td><td style="color: var(--red);" data-dcf-upside="base">−82.3%</td>
           <td class="story">최근 약 1.8년 성장률(연 82.5%)에서 식고, 영업이익률이 이력 중앙값 -1.3%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$3840.87</td><td style="color: var(--green);" data-dcf-upside="high">+120.8%</td>
+          <td class="big scn-high" data-dcf-value="high">$3850.39</td><td style="color: var(--green);" data-dcf-upside="high">+121.3%</td>
           <td class="story">같은 성장률(연 82.5%)에서 식고, 최근 4분기 영업이익률 61.2%가 이어진다.</td>
         </tr>
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $307 = 사업 가치 $295 + 비영업 자산 $12(주당, Nanya 지분)</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $308 = 사업 가치 $295 + 비영업 자산 $12(주당, Nanya 지분)</div>
     <div class="reverse">—</div>
   </div>
 
@@ -671,7 +671,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $307</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −82.4%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $308</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −82.3%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -894,17 +894,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="상장(2025-02) 뒤 SNDK 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">61.2</div><div class="sc-tile" data-vc="self" data-m="per">79</div><div class="sc-tile low" data-vc="self" data-m="pbr">14</div><div class="sc-tile lost" data-vc="self" data-m="psr">44</div><div class="sc-tile" data-vc="self" data-m="pcr">90</div><div class="sc-tile" data-vc="self" data-m="evebitda">79</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$307</div><div class="vs-note">현재가 <span data-vs="price">$1739.89</span> 대비 <strong data-vs="upside">−82.4%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 예측 끝 자본수익률 -2.2% &lt; 할인율 10% — 이력 중앙값 마진(-1.3%) 가정에서 나온 값이고 지금 실적이 아니다
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$308</div><div class="vs-note">현재가 <span data-vs="price">$1739.89</span> 대비 <strong data-vs="upside">−82.3%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 예측 끝 자본수익률 -2.2% &lt; 할인율 10% — 이력 중앙값 마진(-1.3%) 가정에서 나온 값이고 지금 실적이 아니다
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
 · 잔존가치(5년 뒤)가 내재가치의 0%
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 5.67
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 5.64
 시나리오 범위: 낙관 기준 0.45 ~ 보수 기준 10.60
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">매우 비싸다 · 갈림</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">66.4</div><div class="sc-tile" data-vc="peer" data-m="per">84</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">35</div><div class="sc-tile lost" data-vc="peer" data-m="psr">59</div><div class="sc-tile" data-vc="peer" data-m="pcr">83</div><div class="sc-tile" data-vc="peer" data-m="evebitda">71</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">상장(2025-02) 뒤 이력만 있어 PER·EV/EBITDA는 흑자 전환 뒤 약 0.4년치다. 그 안에서 PER 23.6배·PCR 22.2배는 싼 쪽, PBR 16.2배는 비싼 쪽이라 자기 이력 61.2점(중간)이다. 카드 유니버스 IT 안에서는 66.4점으로 중간이다. <strong>현금흐름 내재가치(기본 $307)는 현재가의 18%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 0·0·−2로 합계 −2 “적정~고평가”다. 현금흐름 모델의 기본 시나리오는 영업이익률이 이력 중앙값 -1.3%로 돌아간다고 본다. 이 중앙값에는 Q3 FY25 영업권 손상 $1.83B와 불황기 분기가 들어 있다. 손상을 빼도 중앙값 9.6%·기본 약 $827로 현재가의 48%라 판정은 같다. 마진이 그 값까지 내려가면 5년 뒤 사업 가치는 0으로 잡힌다(잔존가치 0). 현재가를 설명하려면 매출이 연 82.5%에서 2.5%로 식으며 늘어나는 동안 영업이익률이 5년 내내, 그 뒤에도 27.8%를 지켜야 한다(최근 4분기 61.2%). 성장률은 분사 단독 이력 약 1.8년의 연 82.5%다.</div>
+    <div class="vs-premise">상장(2025-02) 뒤 이력만 있어 PER·EV/EBITDA는 흑자 전환 뒤 약 0.4년치다. 그 안에서 PER 23.6배·PCR 22.2배는 싼 쪽, PBR 16.2배는 비싼 쪽이라 자기 이력 61.2점(중간)이다. 카드 유니버스 IT 안에서는 66.4점으로 중간이다. <strong>현금흐름 내재가치(기본 $308)는 현재가의 18%</strong>다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 0·0·−2로 합계 −2 “적정~고평가”다. 현금흐름 모델의 기본 시나리오는 영업이익률이 이력 중앙값 -1.3%로 돌아간다고 본다. 이 중앙값에는 Q3 FY25 영업권 손상 $1.83B와 불황기 분기가 들어 있다. 손상을 빼도 중앙값 9.6%·기본 약 $830으로 현재가의 48%라 판정은 같다. 마진이 그 값까지 내려가면 5년 뒤 사업 가치는 0으로 잡힌다(잔존가치 0). 현재가를 설명하려면 매출이 연 82.5%에서 2.5%로 식으며 늘어나는 동안 영업이익률이 5년 내내, 그 뒤에도 27.7%를 지켜야 한다(최근 4분기 61.2%). 성장률은 분사 단독 이력 약 1.8년의 연 82.5%다.</div>
   </div>
 
   <div class="grid-2">
@@ -1072,7 +1072,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">현금흐름 기본 $307 — 마진이 이력 중앙값으로 돌아가면 현재가를 설명하지 못한다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">현금흐름 기본 $308 — 마진이 이력 중앙값으로 돌아가면 현재가를 설명하지 못한다.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">가격</span><span class="bb-text">FY2026 매출 +175% 가운데 출하량 증가는 10%대 중반, 나머지는 가격.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">물량</span><span class="bb-text">WDC가 남은 SNDK 지분을 2026년 말까지 처분할 예정이다.</span></div>
     </div>
@@ -1424,7 +1424,7 @@ const SNDK_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let SNDK_VERDICT = '계산 중';
 
-const SNDK_DCF = {"low": 164.11, "base": 306.7, "high": 3840.87, "requiredGrowth": null, "baseEquivGrowth": null, "reqMode": "margin", "requiredMargin": 0.278, "marginNow": 0.6119, "growth5y": 0.8246, "nonopPerShare": 12.14, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roic", "nosol"], "hardDetail": {"roic": -0.0217, "tax": 0.1217, "nonopShare": 0.0396}, "tvShare": 0.0};   // build_dcf_block.py
+const SNDK_DCF = {"low": 167.56, "base": 308.42, "high": 3850.39, "requiredGrowth": null, "baseEquivGrowth": null, "reqMode": "margin", "requiredMargin": 0.2774, "marginNow": 0.6119, "growth5y": 0.8246, "nonopPerShare": 12.14, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roic", "nosol"], "hardDetail": {"roic": -0.0221, "tax": 0.1217, "nonopShare": 0.0394}, "tvShare": 0.0};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1572,7 +1572,7 @@ const SNDK_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py SNDK
 /* DCF_GRID:BEGIN */
-const SNDK_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[172.24, 169.82, 167.47, 165.19, 162.96], [170.46, 168.1, 165.8, 163.57, 161.39], [168.67, 166.36, 164.11, 161.92, 159.79], [166.84, 164.59, 162.39, 160.25, 158.17], [165.0, 162.8, 160.65, 158.56, 156.53]], "기본": [[319.43, 314.87, 310.44, 306.14, 301.96], [317.43, 312.95, 308.59, 304.35, 300.23], [315.4, 310.99, 306.7, 302.52, 298.47], [313.34, 308.99, 304.77, 300.67, 296.68], [311.23, 306.97, 302.82, 298.78, 294.86]], "낙관": [[4602.67, 3949.71, 3451.17, 3058.28, 2740.82], [4939.62, 4193.13, 3634.04, 3199.87, 2853.12], [5337.19, 4473.48, 3840.87, 3357.76, 2976.94], [5813.56, 4800.0, 4076.78, 3535.01, 3114.2], [6394.96, 5185.25, 4348.49, 3735.49, 3267.26]]}};
+const SNDK_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[175.63, 173.2, 170.84, 168.54, 166.3], [173.91, 171.53, 169.21, 166.96, 164.76], [172.15, 169.83, 167.56, 165.35, 163.21], [170.38, 168.1, 165.89, 163.73, 161.63], [168.58, 166.36, 164.19, 162.08, 160.03]], "기본": [[321.1, 316.54, 312.1, 307.79, 303.6], [319.14, 314.65, 310.28, 306.03, 301.91], [317.15, 312.72, 308.42, 304.24, 300.18], [315.12, 310.77, 306.53, 302.42, 298.42], [313.05, 308.77, 304.61, 300.57, 296.63]], "낙관": [[4611.47, 3958.08, 3459.22, 3066.06, 2748.38], [4949.46, 4202.34, 3642.77, 3208.23, 2861.18], [5348.27, 4483.67, 3850.39, 3366.78, 2985.56], [5826.14, 4811.33, 4087.22, 3544.78, 3123.44], [6409.39, 5197.94, 4359.98, 3746.1, 3277.21]]}};
 /* DCF_GRID:END */
 (function(){
   const D = SNDK_DCF, G = (typeof SNDK_DCF_GRID !== 'undefined') ? SNDK_DCF_GRID : null;
@@ -2128,7 +2128,7 @@ const SNDK_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const SNDK_DCF_TRACK = [{d:"2026-08-17",low:164.1,base:306.7,high:3840.9}];
+const SNDK_DCF_TRACK = [{d:"2026-08-17",low:167.6,base:308.4,high:3850.4}];
 const SNDK_BACKTEST = [];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,

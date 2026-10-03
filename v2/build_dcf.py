@@ -178,7 +178,16 @@ def base_inputs(ticker, asof=None):
     # DE: 장비 부문 차입금(보충 표 원문, 회사 고유 이름)은 금융리스를 이미 담는다(10-K 주석 24) — 이름으로 못 가려 목록에 둔다(Codex, 2026-10-01)
     # MCD: 재무상태표 리스부채(OperatingLeaseLiabilityCurrent·Noncurrent 태그)가 운용 + 금융리스 합계라(10-K 리스 주석 표, 2025-12 $694M·$14,147M)
     # 금융리스를 또 더하면 $2.35B가 두 번 빠진다(2026-10-02) — 같은 목록에 둔다.
-    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in ("0000315189", "0000063908")   # FinanceLease: TMUS(2026-10-01)
+    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in ("0000315189", "0000063908")   # DE(장비 부문 차입금에 금융리스 포함)·MCD(리스 태그가 운용 + 금융 합계)
+    # 운용리스(B16, 2026-10-03 사용자 결정): US GAAP 영업이익은 운용리스 비용(임차료)을 이미 뺐다. 그 부채를 순부채로 또 빼고
+    # 투하자본에 넣으면 같은 비용이 두 번 든다(Codex·Fable DCF 검증). DCF는 운용리스를 영업비용으로 일관되게 보고
+    # run_dcf·invested_capital에서 op_lease를 뺀다. "lease"는 총리스 그대로 둔다(카드 문장의 순차입금 표시가 쓴다).
+    # MCD는 운용리스 태그가 금융리스 합계라 금융리스분을 뺀다. IFRS 16 회사(TSM·SKHY)는 리스 비용이 감가상각 + 이자라
+    # 영업이익이 임차료를 빼지 않았으므로 리스를 빚으로 두는 지금 처리가 맞다 — 0.
+    op_lease = out.get("lease") or 0
+    if cik == "0000063908":
+        op_lease = max(op_lease - fin_lease, 0)
+    out["op_lease"] = 0 if ticker in IFRS_LEASE else op_lease
     if not fl_in_debt:
         out["lease"] = (out.get("lease") or 0) + fin_lease
     out["finance_lease"] = fin_lease
@@ -344,9 +353,14 @@ PRETAX_FROM_NI_TAX = {"0001341439", "0001835632"}
 S2C_MAX = 10.0   # 매출/자본 상한 — 자본을 거의 안 쓰는 회사의 발산 방지
 
 
+IFRS_LEASE = {"TSM", "SKHY"}     # IFRS 16 — 리스 비용이 영업이익 밖이라 리스부채는 빚(B16)
+
+
 def invested_capital(base):
-    """영업에 묶인 투하자본 = 자기자본 + 차입금 + 리스 − 현금·단기투자 − 비영업자산."""
-    return ((base.get("equity") or 0) + (base.get("debt") or 0) + (base.get("lease") or 0)
+    """영업에 묶인 투하자본 = 자기자본 + 차입금 + 리스 − 현금·단기투자 − 비영업자산.
+
+    운용리스(op_lease)는 뺀다 — 영업이익이 임차료를 이미 뺐으므로 사용권자산도 투하자본에 넣지 않는다(B16)."""
+    return ((base.get("equity") or 0) + (base.get("debt") or 0) + (base.get("lease") or 0) - (base.get("op_lease") or 0)
             - (base.get("cash") or 0) - (base.get("sti") or 0) - (base.get("nonop_assets") or 0))
 
 
@@ -465,7 +479,7 @@ def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,
     ev_exit = pv_sum + last["ebit"] * exit_mult / (1 + wacc) ** (years - 0.5)
     ev = pv_sum + pv_ggm
 
-    net_debt = ((base.get("debt") or 0) + (base.get("lease") or 0)
+    net_debt = ((base.get("debt") or 0) + (base.get("lease") or 0) - (base.get("op_lease") or 0)   # 운용리스는 영업비용(B16)
                 - (base.get("cash") or 0) - (base.get("sti") or 0))
     equity = (ev - net_debt - (base.get("nci") or 0) - (base.get("preferred") or 0)
               + (base.get("nonop_assets") or 0))
@@ -787,7 +801,8 @@ def main():
     print(f"  매출 {base['revenue']/1e9:.1f}B · 영업이익 {base['opinc']/1e9:.1f}B"
           f" · 투하자본 {invested_capital(base)/1e9:.1f}B · 주식수 {base['shares']/1e9:.2f}B")
     print(f"  현금+단기투자 {((base.get('cash') or 0)+(base.get('sti') or 0))/1e9:.1f}B"
-          f" · 차입금+리스 {((base.get('debt') or 0)+(base.get('lease') or 0))/1e9:.1f}B")
+          f" · 차입금+리스 {((base.get('debt') or 0)+(base.get('lease') or 0))/1e9:.1f}B"
+          f" (그중 운용리스 {(base.get('op_lease') or 0)/1e9:.1f}B는 영업비용으로 보고 순부채에서 뺌 — B16)")
 
     r = run_dcf(base, growth, args.wacc, args.terminal, args.exit_multiple)
     print(f"\n가정: 성장 {args.growth}% · 할인율 {args.wacc:.1%} · 영구성장 {args.terminal:.1%}"

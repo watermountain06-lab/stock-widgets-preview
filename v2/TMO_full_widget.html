@@ -504,7 +504,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 영업이익률 (현재 17.6%)</span>
-      <span class="meta-value" id="tmoDcfReq" style="font-size: 22px; color: var(--red);">61.9%</span>
+      <span class="meta-value" id="tmoDcfReq" style="font-size: 22px; color: var(--red);">61.5%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="tmoConfidenceLabel">밴드 적중률 (497/716일, 하단우세)</span>
@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="tmoLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="tmoDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="tmoDcfBox">$31<span class="logic-denom"> · 낮은 성장 계산 불가 · 높은 성장 $52</span></div>
+      <div class="logic-score" id="tmoDcfBox">$36<span class="logic-denom"> · 낮은 성장 계산 불가 · 높은 성장 $58</span></div>
     </div>
     <div class="logic-box logic-neutral" id="tmoFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="tmoFundVerdict">보통</span></div>
@@ -648,18 +648,18 @@ Chart.overrides.doughnut.animation = false;
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$30.92</td><td style="color: var(--red);" data-dcf-upside="base">−95.4%</td>
+          <td class="big scn-base" data-dcf-value="base">$36.39</td><td style="color: var(--red);" data-dcf-upside="base">−94.6%</td>
           <td class="story">5년 성장률(연 3.9%)에서 식고, 영업이익률이 최근 2년 중앙값 17.2%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$52.41</td><td style="color: var(--red);" data-dcf-upside="high">−92.2%</td>
+          <td class="big scn-high" data-dcf-value="high">$57.92</td><td style="color: var(--red);" data-dcf-upside="high">−91.4%</td>
           <td class="story">3년 성장률(연 2.1%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 최근 4분기 영업이익률 17.6%가 이어진다.</td>
         </tr>
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $31 = 사업 가치 $30 + 비영업 자산 $0.53(주당, 지분 투자)</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $36 = 사업 가치 $30 + 비영업 자산 $0.53(주당, 지분 투자)</div>
     <div class="reverse">—</div>
   </div>
 
@@ -671,7 +671,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $31</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −95.4%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $36</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −94.6%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -894,16 +894,16 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 TMO 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">19.7</div><div class="sc-tile low" data-vc="self" data-m="per">15</div><div class="sc-tile lost" data-vc="self" data-m="pbr">45</div><div class="sc-tile low" data-vc="self" data-m="psr">18</div><div class="sc-tile low" data-vc="self" data-m="pcr">21</div><div class="sc-tile low" data-vc="self" data-m="evebitda">1</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$31</div><div class="vs-note">현재가 <span data-vs="price">$675.05</span> 대비 <strong data-vs="upside">−95.4%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 6.8% &lt; 할인율 10% — 성장해도 가치가 생기지 않는다
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$36</div><div class="vs-note">현재가 <span data-vs="price">$675.05</span> 대비 <strong data-vs="upside">−94.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 6.8% &lt; 할인율 10% — 성장해도 가치가 생기지 않는다
 · 실효세율 7.8% &lt; 10% — 세금 가정에 따라 값이 크게 바뀐다
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
 · 잔존가치(5년 뒤)가 내재가치의 81%
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 3/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 21.83
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 3/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 18.55
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">31.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">32</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">42</div><div class="sc-tile lost" data-vc="peer" data-m="psr">37</div><div class="sc-tile low" data-vc="peer" data-m="pcr">22</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">22</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 36.3배·PSR·PCR이 5년 중 비싼 쪽이고 EV/EBITDA는 이력(4.3년) 최고에 가까워 자기 이력 19.7점이다. S&P500 헬스케어 안에서는 31.0점으로 중간이다. <strong>현금흐름 내재가치(기본 $31)는 현재가의 5%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 −1·0·−2로 합계 −3 “고평가”다. GAAP 영업이익률이 최근 4분기 17.6%(인수 무형자산 상각 포함, 회사 조정 22.8%), 5년 성장률 연 3.9%·3년 2.1%라, 현재가를 설명하려면 영업이익률이 61.9%여야 한다. 최근 4분기 실효세율이 7.8%로 낮고(계산 어려움 신호 — 10-Q는 저세율 지역 이익 비중 등으로 설명하고 2026년 GAAP 세율을 9~11%로 예상), 보수 시나리오는 음수다(계산 불가) — 보수는 한계·평균 매출/자본 중 나쁜 쪽을 쓰는데, Clario 인수로 투하자본이 커져 재투자 부담이 크게 잡힌다.</div>
+    <div class="vs-premise">PER 36.3배·PSR·PCR이 5년 중 비싼 쪽이고 EV/EBITDA는 이력(4.3년) 최고에 가까워 자기 이력 19.7점이다. S&P500 헬스케어 안에서는 31.0점으로 중간이다. <strong>현금흐름 내재가치(기본 $36)는 현재가의 5%</strong>다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 −1·0·−2로 합계 −3 “고평가”다. GAAP 영업이익률이 최근 4분기 17.6%(인수 무형자산 상각 포함, 회사 조정 22.8%), 5년 성장률 연 3.9%·3년 2.1%라, 현재가를 설명하려면 영업이익률이 61.5%여야 한다. 최근 4분기 실효세율이 7.8%로 낮고(계산 어려움 신호 — 10-Q는 저세율 지역 이익 비중 등으로 설명하고 2026년 GAAP 세율을 9~11%로 예상), 보수 시나리오는 음수다(계산 불가) — 보수는 한계·평균 매출/자본 중 나쁜 쪽을 쓰는데, Clario 인수로 투하자본이 커져 재투자 부담이 크게 잡힌다.</div>
   </div>
 
   <div class="grid-2">
@@ -1077,7 +1077,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PER 36배 — 5년 중앙값 31배, 현금흐름 기본 $31.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PER 36배 — 5년 중앙값 31배, 현금흐름 기본 $36.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">차입금 $42.5B로 연초보다 $3B 넘게 늘었다.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">세율</span><span class="bb-text">최근 4분기 실효세율 7.8% — 회사는 2026년 GAAP 세율 9~11%를 예상한다(10-Q).</span></div>
     </div>
@@ -1429,7 +1429,7 @@ const TMO_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,n
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let TMO_VERDICT = '계산 중';
 
-const TMO_DCF = {"low": -16.59, "base": 30.92, "high": 52.41, "requiredGrowth": null, "baseEquivGrowth": 0.0336, "reqMode": "margin", "requiredMargin": 0.6189, "marginNow": 0.1758, "growth5y": 0.0392, "nonopPerShare": 0.53, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roic", "tax", "nosol"], "hardDetail": {"roic": 0.0681, "tax": 0.0782, "nonopShare": 0.0171}, "tvShare": 0.811};   // build_dcf_block.py
+const TMO_DCF = {"low": -12.61, "base": 36.39, "high": 57.92, "requiredGrowth": null, "baseEquivGrowth": 0.0336, "reqMode": "margin", "requiredMargin": 0.6152, "marginNow": 0.1758, "growth5y": 0.0392, "nonopPerShare": 0.53, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roic", "tax", "nosol"], "hardDetail": {"roic": 0.0692, "tax": 0.0782, "nonopShare": 0.0146}, "tvShare": 0.8098};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1577,7 +1577,7 @@ const TMO_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py TMO
 /* DCF_GRID:BEGIN */
-const TMO_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[65.44, 42.44, 24.82, 10.89, -0.41], [44.74, 23.27, 7.13, -5.46, -15.55], [16.96, -2.37, -16.59, -27.49, -36.13], [-16.39, -32.29, -43.7, -52.29, -59.0], [-57.17, -67.67, -74.99, -80.4, -84.58]], "기본": [[96.78, 67.23, 44.62, 26.78, 12.33], [92.29, 61.36, 38.16, 20.12, 5.67], [87.09, 54.69, 30.92, 12.73, -1.63], [80.97, 47.0, 22.72, 4.5, -9.68], [73.62, 38.01, 13.35, -4.76, -18.61]], "낙관": [[116.28, 87.09, 64.75, 47.1, 32.78], [113.04, 82.4, 59.39, 41.48, 27.12], [108.8, 76.29, 52.41, 34.13, 19.67], [103.57, 68.92, 44.13, 25.51, 11.0], [97.16, 60.19, 34.56, 15.73, 1.3]]}};
+const TMO_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[69.41, 46.41, 28.8, 14.87, 3.57], [48.72, 27.24, 11.1, -1.48, -11.57], [20.94, 1.6, -12.61, -23.52, -32.15], [-12.41, -28.32, -39.72, -48.31, -55.03], [-53.19, -63.69, -71.02, -76.43, -80.6]], "기본": [[101.87, 72.18, 49.48, 31.55, 17.04], [97.79, 66.66, 43.31, 25.14, 10.6], [93.07, 60.37, 36.39, 18.03, 3.54], [87.53, 53.14, 28.56, 10.11, -4.24], [80.9, 44.69, 19.61, 1.21, -12.87]], "낙관": [[121.36, 92.05, 69.61, 51.87, 37.5], [118.51, 87.68, 64.53, 46.5, 32.05], [114.8, 82.0, 57.92, 39.47, 24.88], [110.22, 75.15, 50.07, 31.23, 16.54], [104.6, 67.05, 41.01, 21.88, 7.22]]}};
 /* DCF_GRID:END */
 (function(){
   const D = TMO_DCF, G = (typeof TMO_DCF_GRID !== 'undefined') ? TMO_DCF_GRID : null;
@@ -2132,7 +2132,7 @@ const TMO_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const TMO_DCF_TRACK = [{d:"2024-08-02",low:87.9,base:60.2,high:67.8},{d:"2024-11-01",low:69.0,base:50.9,high:58.5},{d:"2025-02-20",low:-1522.5,base:4.1,high:74.4},{d:"2025-05-02",low:-133.6,base:32.0,high:68.9},{d:"2025-08-01",low:-100.2,base:40.2,high:66.2},{d:"2025-10-31",low:56.0,base:80.4,high:56.1},{d:"2026-02-26",low:70.7,base:68.3,high:73.4},{d:"2026-05-01",low:36.8,base:33.3,high:40.1},{d:"2026-07-31",low:-16.6,base:30.9,high:52.4}];
+const TMO_DCF_TRACK = [{d:"2024-08-02",low:93.4,base:65.8,high:73.4},{d:"2024-11-01",low:74.5,base:56.4,high:64.0},{d:"2025-02-20",low:-1518.6,base:10.8,high:80.0},{d:"2025-05-02",low:-129.6,base:37.7,high:74.4},{d:"2025-08-01",low:-96.2,base:45.9,high:71.7},{d:"2025-10-31",low:61.5,base:85.5,high:61.7},{d:"2026-02-26",low:76.2,base:73.9,high:78.8},{d:"2026-05-01",low:42.3,base:38.9,high:45.6},{d:"2026-07-31",low:-12.6,base:36.4,high:57.9}];
 const TMO_BACKTEST = [{"checkpoint_date": "2023-11-03", "quarter_end": "2023-09-30", "ttm_eps": 15.26, "trailing_sample_size": 503, "per_low": 28.48, "per_high": 36.63, "band_width_ratio": 1.29, "predicted_low": 434.66, "predicted_high": 558.92, "realized_per_high": 37.16, "realized_per_low": 29.11, "realized_price_high": 567.12, "realized_price_low": 444.27, "period_end_date": "2024-02-21", "is_open": false, "zone": "breached_top"}, {"checkpoint_date": "2024-02-22", "quarter_end": "2023-12-31", "ttm_eps": 15.45, "trailing_sample_size": 502, "per_low": 29.61, "per_high": 36.26, "band_width_ratio": 1.22, "predicted_low": 457.46, "predicted_high": 560.28, "realized_per_high": 38.8, "realized_per_low": 35.05, "realized_price_high": 599.43, "realized_price_low": 541.52, "period_end_date": "2024-05-02", "is_open": false, "zone": "breached_top"}, {"checkpoint_date": "2024-05-03", "quarter_end": "2024-03-30", "ttm_eps": 15.59, "trailing_sample_size": 503, "per_low": 30.14, "per_high": 37.51, "band_width_ratio": 1.24, "predicted_low": 469.82, "predicted_high": 584.71, "realized_per_high": 39.88, "realized_per_low": 34.12, "realized_price_high": 621.77, "realized_price_low": 531.86, "period_end_date": "2024-08-01", "is_open": false, "zone": "breached_top"}, {"checkpoint_date": "2024-08-02", "quarter_end": "2024-06-29", "ttm_eps": 16.12, "trailing_sample_size": 503, "per_low": 31.22, "per_high": 37.89, "band_width_ratio": 1.21, "predicted_low": 503.28, "predicted_high": 610.78, "realized_per_high": 38.72, "realized_per_low": 33.89, "realized_price_high": 624.21, "realized_price_low": 546.32, "period_end_date": "2024-10-31", "is_open": false, "zone": "breached_top"}, {"checkpoint_date": "2024-11-01", "quarter_end": "2024-09-28", "ttm_eps": 15.95, "trailing_sample_size": 503, "per_low": 32.38, "per_high": 38.12, "band_width_ratio": 1.18, "predicted_low": 516.44, "predicted_high": 607.94, "realized_per_high": 38.04, "realized_per_low": 31.43, "realized_price_high": 606.74, "realized_price_low": 501.29, "period_end_date": "2025-02-19", "is_open": false, "zone": "breached_bottom"}, {"checkpoint_date": "2025-02-20", "quarter_end": "2024-12-31", "ttm_eps": 16.53, "trailing_sample_size": 501, "per_low": 32.53, "per_high": 37.99, "band_width_ratio": 1.17, "predicted_low": 537.71, "predicted_high": 627.96, "realized_per_high": 32.64, "realized_per_low": 25.37, "realized_price_high": 539.55, "realized_price_low": 419.31, "period_end_date": "2025-05-01", "is_open": false, "zone": "breached_bottom"}, {"checkpoint_date": "2025-05-02", "quarter_end": "2025-03-29", "ttm_eps": 17.05, "trailing_sample_size": 502, "per_low": 27.18, "per_high": 37.86, "band_width_ratio": 1.39, "predicted_low": 463.47, "predicted_high": 645.48, "realized_per_high": 28.44, "realized_per_low": 22.89, "realized_price_high": 484.96, "realized_price_low": 390.26, "period_end_date": "2025-07-31", "is_open": false, "zone": "breached_bottom"}, {"checkpoint_date": "2025-08-01", "quarter_end": "2025-06-28", "ttm_eps": 17.29, "trailing_sample_size": 502, "per_low": 23.75, "per_high": 37.47, "band_width_ratio": 1.58, "predicted_low": 410.64, "predicted_high": 647.82, "realized_per_high": 33.11, "realized_per_low": 25.97, "realized_price_high": 572.5, "realized_price_low": 448.94, "period_end_date": "2025-10-30", "is_open": false, "zone": "full_hit"}, {"checkpoint_date": "2025-10-31", "quarter_end": "2025-09-27", "ttm_eps": 17.31, "trailing_sample_size": 502, "per_low": 24.09, "per_high": 37.13, "band_width_ratio": 1.54, "predicted_low": 417.04, "predicted_high": 642.65, "realized_per_high": 36.94, "realized_per_low": 28.98, "realized_price_high": 639.45, "realized_price_low": 501.59, "period_end_date": "2026-02-25", "is_open": false, "zone": "full_hit"}, {"checkpoint_date": "2026-02-26", "quarter_end": "2025-12-31", "ttm_eps": 17.74, "trailing_sample_size": 502, "per_low": 24.93, "per_high": 36.4, "band_width_ratio": 1.46, "predicted_low": 442.18, "predicted_high": 645.72, "realized_per_high": 29.97, "realized_per_low": 26.18, "realized_price_high": 531.67, "realized_price_low": 464.37, "period_end_date": "2026-04-30", "is_open": false, "zone": "full_hit"}, {"checkpoint_date": "2026-05-01", "quarter_end": "2026-03-28", "ttm_eps": 18.19, "trailing_sample_size": 501, "per_low": 25.52, "per_high": 35.76, "band_width_ratio": 1.4, "predicted_low": 464.21, "predicted_high": 650.48, "realized_per_high": 31.71, "realized_per_low": 24.1, "realized_price_high": 576.77, "realized_price_low": 438.34, "period_end_date": "2026-07-30", "is_open": false, "zone": "breached_bottom"}, {"checkpoint_date": "2026-07-31", "quarter_end": "2026-06-27", "ttm_eps": 18.59, "trailing_sample_size": 501, "per_low": 24.93, "per_high": 34.23, "band_width_ratio": 1.37, "predicted_low": 463.37, "predicted_high": 636.32, "realized_per_high": 34.09, "realized_per_low": 30.38, "realized_price_high": 633.71, "realized_price_low": 564.75, "period_end_date": "2026-09-11", "is_open": true, "zone": "full_hit"}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
