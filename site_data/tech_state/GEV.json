@@ -1,7 +1,7 @@
 {
   "ticker": "GEV",
-  "asOf": "2026-10-01",
-  "close": 987.45,
+  "asOf": "2026-10-02",
+  "close": 988.7,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 20,
     "max": 40,
-    "weightedRocPct": 19.61
+    "weightedRocPct": 19.21
   },
   "position52w": {
     "score": 15,
     "max": 20,
-    "riseFromLowPct": 86.26,
-    "drawdownFromHighPct": 17.43,
+    "riseFromLowPct": 86.49,
+    "drawdownFromHighPct": 17.33,
     "high52w": 1195.94,
     "low52w": 530.16
   },
@@ -41,7 +41,7 @@
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 3.6,
-    "percentileVsOwnHistory": 8.7
+    "pctNow": 3.28,
+    "percentileVsOwnHistory": 2.4
   }
 }

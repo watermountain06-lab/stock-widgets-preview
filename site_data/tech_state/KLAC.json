@@ -1,7 +1,7 @@
 {
   "ticker": "KLAC",
-  "asOf": "2026-10-01",
-  "close": 200.33,
+  "asOf": "2026-10-02",
+  "close": 206.89,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 30,
     "max": 40,
-    "weightedRocPct": 29.75
+    "weightedRocPct": 33.46
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 104.21,
-    "drawdownFromHighPct": 34.82,
+    "riseFromLowPct": 110.9,
+    "drawdownFromHighPct": 32.69,
     "high52w": 307.37,
     "low52w": 98.1
   },
@@ -45,7 +45,7 @@
     "고점대비큰조정"
   ],
   "atr": {
-    "pctNow": 3.58,
-    "percentileVsOwnHistory": 19.0
+    "pctNow": 3.3,
+    "percentileVsOwnHistory": 11.9
   }
 }
