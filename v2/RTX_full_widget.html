@@ -523,7 +523,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="rtxPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="rtxPeerVerdict">중간</span></div>
-      <div class="logic-score" id="rtxPeerScore">51.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="rtxPeerScore">51.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="rtxSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="rtxSelfVerdict">중간</span></div>
@@ -889,9 +889,9 @@ Chart.overrides.doughnut.animation = false;
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 6.68
 시나리오 범위: 낙관 기준 5.15 ~ 보수 기준 12.47
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">51.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">34</div><div class="sc-tile" data-vc="peer" data-m="pbr">72</div><div class="sc-tile lost" data-vc="peer" data-m="psr">59</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">59</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">34</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">51.8</div><div class="sc-tile lost" data-vc="peer" data-m="per">35</div><div class="sc-tile" data-vc="peer" data-m="pbr">72</div><div class="sc-tile lost" data-vc="peer" data-m="psr">59</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">59</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">34</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">자기 이력에서는 PER 32.7배·PCR 21.9배가 5년 중 싼 쪽, PSR·PBR은 비싼 쪽이라 49.1점(중간)이다. S&P500 산업재 81종목 안에서도 51.5점으로 중간이다. <strong>현금흐름 내재가치(기본 $28)는 현재가의 15%</strong>다.</div>
+    <div class="vs-premise">자기 이력에서는 PER 32.7배·PCR 21.9배가 5년 중 싼 쪽, PSR·PBR은 비싼 쪽이라 49.1점(중간)이다. S&P500 산업재 81종목 안에서도 51.8점으로 중간이다. <strong>현금흐름 내재가치(기본 $28)는 현재가의 15%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 0·0·−2로 합계 −2 “적정~고평가”다. GAAP 영업이익률이 최근 4분기 11.2%, 5년 중앙값 8.0%로 낮아(합병 무형자산 상각 등 인수 회계 조정이 들어 있다) 현금흐름 모델의 값이 작다. 현재가가 정당하려면 영업이익률이 28.6%여야 한다. 최근 1년 매출/자본을 못 구해 시나리오 일부는 과거 평균을 썼다.</div>
   </div>
 
@@ -1463,7 +1463,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py RTX
 const RTX_SCORES = {
   fundamental: 54.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 51.5,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 51.8,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 49.1,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-23 공시)
@@ -1772,7 +1772,7 @@ const RTX_FUNDAMENTAL = {"ticker": "RTX", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py RTX --self v2/RTX_multiples.json --card
 /* VALUATION:BEGIN */
-const RTX_VALUATION = {"peer": {"score": 51.5, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 33.8, "rank": 52, "peers": 77}, {"metric": "pbr", "score": 71.6, "rank": 22, "peers": 74}, {"metric": "psr", "score": 59.0, "rank": 33, "peers": 78}, {"metric": "pcr", "score": 58.9, "rank": 31, "peers": 73}, {"metric": "evebitda", "score": 34.4, "rank": 43, "peers": 64}]}, "self": {"score": 49.1, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 77.1, "percentile": 22.9, "current": 32.68, "min": 18.4, "median": 36.31, "max": 74.08, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 12.4, "percentile": 87.6, "current": 3.77, "min": 1.39, "median": 2.16, "max": 4.58, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.3, "percentile": 83.7, "current": 2.68, "min": 1.43, "median": 2.14, "max": 3.25, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 82.0, "percentile": 18.0, "current": 21.93, "min": 17.29, "median": 30.7, "max": 71.18, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 57.6, "percentile": 42.4, "current": 18.98, "min": 13.06, "median": 19.65, "max": 26.49, "days": 1075, "currentNote": null}]}};
+const RTX_VALUATION = {"peer": {"score": 51.8, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 35.1, "rank": 51, "peers": 77}, {"metric": "pbr", "score": 71.6, "rank": 22, "peers": 74}, {"metric": "psr", "score": 59.0, "rank": 33, "peers": 78}, {"metric": "pcr", "score": 58.9, "rank": 31, "peers": 73}, {"metric": "evebitda", "score": 34.4, "rank": 43, "peers": 64}]}, "self": {"score": 49.1, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 77.1, "percentile": 22.9, "current": 32.68, "min": 18.4, "median": 36.31, "max": 74.08, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 12.4, "percentile": 87.6, "current": 3.77, "min": 1.39, "median": 2.16, "max": 4.58, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.3, "percentile": 83.7, "current": 2.68, "min": 1.43, "median": 2.14, "max": 3.25, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 82.0, "percentile": 18.0, "current": 21.93, "min": 17.29, "median": 30.7, "max": 71.18, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 57.6, "percentile": 42.4, "current": 18.98, "min": 13.06, "median": 19.65, "max": 26.49, "days": 1075, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

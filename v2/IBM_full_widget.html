@@ -504,15 +504,15 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 영업이익률 (현재 16.1%)</span>
-      <span class="meta-value" id="ibmDcfReq" style="font-size: 22px; color: var(--red);">38.1%</span>
+      <span class="meta-value" id="ibmDcfReq" style="font-size: 22px; color: var(--red);">37.4%</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="ibmConfidenceLabel">밴드 적중률 (320/641일, 상단우세)</span>
-      <span class="meta-value" id="ibmConfidence" style="font-size:22px;color:var(--gold);">49.9%</span>
+      <span class="meta-label" id="ibmConfidenceLabel">밴드 적중률 (343/641일, 상단우세)</span>
+      <span class="meta-value" id="ibmConfidence" style="font-size:22px;color:var(--gold);">53.5%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="ibmFairBand" title="최근 1년 PER 25~75% 구간(20.9~36.0배) × 최근 4분기 희석 EPS $11.26(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에는 2025년 4분기 세무조사 종결 법인세 혜택이 들어 있어 밴드가 높게 나온다." style="font-size:22px;color:var(--green);">$240 ~ $410</span>
+      <span class="meta-value" id="ibmFairBand" title="최근 1년 PER 25~75% 구간(24.2~36.0배) × 최근 4분기 희석 EPS $9.72(회사가 밝힌 2025년 4분기 세무조사 종결 법인세 혜택 $1.47B를 뺀 값, 10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$240 ~ $350</span>
     </div>
   </div>
   </div>
@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="ibmLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="ibmDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="ibmDcfBox">$32<span class="logic-denom"> · 낮은 성장 $19.83 · 높은 성장 $41</span></div>
+      <div class="logic-score" id="ibmDcfBox">$35<span class="logic-denom"> · 낮은 성장 $22.22 · 높은 성장 $43</span></div>
     </div>
     <div class="logic-box logic-neutral" id="ibmFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="ibmFundVerdict">보통</span></div>
@@ -534,11 +534,11 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="ibmPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ibmPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="ibmPeerScore">95.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="ibmPeerScore">94.2<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="ibmSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="ibmSelfVerdict">중간</span></div>
-      <div class="logic-score" id="ibmSelfScore">64.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="ibmSelfScore">61.4<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -643,17 +643,17 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$19.83</td><td style="color: var(--red);" data-dcf-upside="low">−91.0%</td>
+          <td class="big scn-low" data-dcf-value="low">$22.22</td><td style="color: var(--red);" data-dcf-upside="low">−89.9%</td>
           <td class="story">분사 뒤 약 4.5년 성장률의 절반(연 2.1%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 이력 중앙값 13.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$32.00</td><td style="color: var(--red);" data-dcf-upside="base">−85.4%</td>
+          <td class="big scn-base" data-dcf-value="base">$34.55</td><td style="color: var(--red);" data-dcf-upside="base">−84.3%</td>
           <td class="story">분사 뒤 약 4.5년 성장률(연 4.2%)에서 식고, 영업이익률이 최근 2년 중앙값 15.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$40.56</td><td style="color: var(--red);" data-dcf-upside="high">−81.6%</td>
+          <td class="big scn-high" data-dcf-value="high">$43.19</td><td style="color: var(--red);" data-dcf-upside="high">−80.4%</td>
           <td class="story">3년 성장률(연 4.5%)에서 식고, 최근 4분기 영업이익률 16.1%가 이어진다.</td>
         </tr>
       </tbody>
@@ -671,7 +671,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $32</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −85.4%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $35</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −84.3%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -894,16 +894,16 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.30</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="Kyndryl 분사 뒤(2022-02~) IBM 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">64.4</div><div class="sc-tile" data-vc="self" data-m="per">94</div><div class="sc-tile" data-vc="self" data-m="pbr">79</div><div class="sc-tile lost" data-vc="self" data-m="psr">44</div><div class="sc-tile lost" data-vc="self" data-m="pcr">52</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">53</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$32</div><div class="vs-note">현재가 <span data-vs="price">$219.93</span> 대비 <strong data-vs="upside">−85.4%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 9.0% &lt; 할인율 10% — 성장해도 가치가 생기지 않는다
+      <div class="vs-name" title="Kyndryl 분사 뒤(2022-02~) IBM 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">61.4</div><div class="sc-tile" data-vc="self" data-m="per">79</div><div class="sc-tile" data-vc="self" data-m="pbr">79</div><div class="sc-tile lost" data-vc="self" data-m="psr">44</div><div class="sc-tile lost" data-vc="self" data-m="pcr">52</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">53</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$35</div><div class="vs-note">현재가 <span data-vs="price">$219.93</span> 대비 <strong data-vs="upside">−84.3%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 9.3% &lt; 할인율 10% — 성장해도 가치가 생기지 않는다
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
-· 잔존가치(5년 뒤)가 내재가치의 79%
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 6.87
+· 잔존가치(5년 뒤)가 내재가치의 73%
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 6.37
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">95.0</div><div class="sc-tile" data-vc="peer" data-m="per">96</div><div class="sc-tile" data-vc="peer" data-m="pbr">91</div><div class="sc-tile" data-vc="peer" data-m="psr">96</div><div class="sc-tile" data-vc="peer" data-m="pcr">96</div><div class="sc-tile" data-vc="peer" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">94.2</div><div class="sc-tile" data-vc="peer" data-m="per">92</div><div class="sc-tile" data-vc="peer" data-m="pbr">91</div><div class="sc-tile" data-vc="peer" data-m="psr">96</div><div class="sc-tile" data-vc="peer" data-m="pcr">96</div><div class="sc-tile" data-vc="peer" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">자기 이력(Kyndryl 분사 뒤 2022-02부터)에서 PER 19.5배·PBR 6.0배는 싼 쪽, PSR·PCR·EV/EBITDA는 중간이라 64.4점(중간)이다. 카드 유니버스 IT 안에서는 다섯 배수 모두 가장 싼 쪽이라 95.0점(싸다)이다. <strong>현금흐름 내재가치(기본 $32)는 현재가의 15%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 0·+1·−2로 합계 −1 “적정~고평가”다. 합성 영업이익률이 최근 4분기 16.1%, 성장률이 분사 뒤 약 4.5년 연 4.2%라, 현재가를 설명하려면 영업이익률이 38.1%여야 한다. 차입금 $62.0B(금융 부문 $13.0B 포함)가 주주 몫을 줄인다. 최근 4분기 세율이 법인세 혜택으로 음수라 법정 21%를 썼다.</div>
+    <div class="vs-premise">자기 이력(Kyndryl 분사 뒤 2022-02부터)에서 PER 22.6배(회사가 밝힌 세무조사 종결 세금 혜택 $1.47B를 뺀 EPS 기준)·PBR 6.0배는 싼 쪽, PSR·PCR·EV/EBITDA는 중간이라 61.4점(중간)이다. 카드 유니버스 IT 안에서는 다섯 배수 모두 가장 싼 쪽이라 94.2점(싸다)이다. <strong>현금흐름 내재가치(기본 $35)는 현재가의 16%</strong>다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 0·+1·−2로 합계 −1 “적정~고평가”다. 합성 영업이익률이 최근 4분기 16.1%, 성장률이 분사 뒤 약 4.5년 연 4.2%라, 현재가를 설명하려면 영업이익률이 37.4%여야 한다. 차입금 $62.0B(금융 부문 $13.0B 포함)가 주주 몫을 줄인다. 세율은 회사가 밝힌 세무조사 종결 법인세 혜택 $1.47B를 뺀 최근 4분기 실효세율 11.5%다.</div>
   </div>
 
   <div class="grid-2">
@@ -914,12 +914,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note">최근 4.6년 이력</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">19.5x</span>
-            <span class="hist-badge good" data-hist="badge">4.6년 중 하위 6%</span>
+            <span class="val-number" data-hist="cur">22.6x</span>
+            <span class="hist-badge good" data-hist="badge">4.6년 중 하위 21%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 5.8%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 18.2x</span><span data-hist="median">중앙 30.1x</span><span data-hist="max">최고 99.7x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 20.8%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 18.6x</span><span data-hist="median">중앙 30.7x</span><span data-hist="max">최고 99.7x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -992,7 +992,7 @@ Chart.overrides.doughnut.animation = false;
       <li>7월 14일 예비 실적으로 부진을 먼저 알렸고, 연간 매출 전망을 고정환율 +4~5%로 바꿨다.</li>
       <li>올해 Confluent 등 인수에 $10.5B를 써 현금이 줄고 차입금이 $62.0B가 됐다. 배당은 분기 $1.69를 이어 간다.</li>
     </ol>
-    <div class="verdict-summary-counter">⚠️ 배수는 IT 종목 가운데 가장 싼 쪽이지만, 합성 영업이익률 16.1%와 연 4.2% 성장으로는 현금흐름 모델이 현재가의 15%만 설명한다.</div>
+    <div class="verdict-summary-counter">⚠️ 배수는 IT 종목 가운데 가장 싼 쪽이지만, 합성 영업이익률 16.1%와 연 4.2% 성장으로는 현금흐름 모델이 현재가의 16%만 설명한다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 하순 예상)에서 밀린 거래가 닫히는지와 소프트웨어 성장률.</div>
   </div>
 
@@ -1066,14 +1066,14 @@ Chart.overrides.doughnut.animation = false;
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">소프트웨어</span><span class="bb-text">2분기 소프트웨어 +5%(Red Hat +11%·데이터 +19%), 매출의 45%.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배수</span><span class="bb-text">PER 19.5배 — IT 카드 유니버스에서 가장 싼 쪽.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배수</span><span class="bb-text">PER 22.6배(일회성 세금 혜택 제외) — IT 카드 유니버스에서 가장 싼 쪽.</span></div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배당</span><span class="bb-text">분기 $1.69, 1916년부터 해마다 배당.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">2분기 매출 +1%, IBM Z −42%·거래처리 소프트웨어 −8%.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">차입금 $62.0B, 현금 $8.2B — 올해 인수에 $10.5B.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">현금흐름 기본 $32 — 합성 영업이익률 16.1%로는 현재가를 설명하지 못한다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">현금흐름 기본 $35 — 합성 영업이익률 16.1%로는 현재가를 설명하지 못한다.</span></div>
     </div>
   </div>
 
@@ -1422,7 +1422,7 @@ const IBM_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,n
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let IBM_VERDICT = '계산 중';
 
-const IBM_DCF = {"low": 19.83, "base": 32.0, "high": 40.56, "requiredGrowth": null, "baseEquivGrowth": 0.0349, "reqMode": "margin", "requiredMargin": 0.3808, "marginNow": 0.1608, "growth5y": 0.0423, "nonopPerShare": 0.23, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roic", "nosol"], "hardDetail": {"roic": 0.0932, "tax": 0.21, "nonopShare": 0.0073}, "tvShare": 0.7521};   // build_dcf_block.py
+const IBM_DCF = {"low": 22.22, "base": 34.55, "high": 43.19, "requiredGrowth": null, "baseEquivGrowth": 0.0345, "reqMode": "margin", "requiredMargin": 0.3735, "marginNow": 0.1608, "growth5y": 0.0423, "nonopPerShare": 0.23, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roic", "nosol"], "hardDetail": {"roic": 0.0932, "tax": 0.1153, "nonopShare": 0.0068}, "tvShare": 0.7311};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1474,8 +1474,8 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py IBM
 const IBM_SCORES = {
   fundamental: 45.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 95.0,          // 카드 유니버스 IT 종목 대비 배수 순위
-  selfHistory: 64.4,   // 분사 뒤 배수 분포 백분위 (2022-02-22 ~ 2026-09-30)
+  peer: 94.2,          // 카드 유니버스 IT 종목 대비 배수 순위
+  selfHistory: 61.4,   // 분사 뒤 배수 분포 백분위 (2022-02-22 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-23 공시)
 };
@@ -1570,7 +1570,7 @@ const IBM_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py IBM
 /* DCF_GRID:BEGIN */
-const IBM_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[47.37, 33.77, 23.36, 15.13, 8.46], [47.16, 32.69, 21.82, 13.36, 6.58], [46.91, 31.29, 19.83, 11.05, 4.11], [46.59, 29.61, 17.46, 8.33, 1.23], [46.2, 27.61, 14.72, 5.26, -1.99]], "기본": [[60.63, 45.34, 33.07, 23.17, 15.17], [61.59, 45.48, 32.56, 22.22, 13.95], [62.7, 45.65, 32.0, 21.16, 12.61], [64.03, 45.84, 31.36, 19.98, 11.12], [65.63, 46.07, 30.62, 18.64, 9.47]], "낙관": [[70.14, 53.49, 40.61, 29.84, 21.12], [71.66, 54.03, 40.58, 29.27, 20.21], [73.42, 54.64, 40.56, 28.63, 19.21], [75.51, 55.34, 40.53, 27.91, 18.1], [78.02, 56.16, 40.49, 27.1, 16.86]]}};
+const IBM_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[49.8, 36.17, 25.73, 17.47, 10.78], [49.6, 35.1, 24.2, 15.71, 8.9], [49.37, 33.72, 22.22, 13.41, 6.44], [49.08, 32.06, 19.88, 10.72, 3.59], [48.71, 30.08, 17.16, 7.67, 0.39]], "기본": [[63.24, 47.92, 35.61, 25.68, 17.64], [64.2, 48.06, 35.11, 24.74, 16.43], [65.32, 48.23, 34.55, 23.68, 15.1], [66.65, 48.43, 33.91, 22.5, 13.61], [68.26, 48.67, 33.18, 21.16, 11.96]], "낙관": [[72.83, 56.15, 43.23, 32.42, 23.67], [74.35, 56.69, 43.21, 31.86, 22.77], [76.12, 57.31, 43.19, 31.22, 21.77], [78.21, 58.01, 43.16, 30.51, 20.66], [80.73, 58.83, 43.13, 29.7, 19.43]]}};
 /* DCF_GRID:END */
 (function(){
   const D = IBM_DCF, G = (typeof IBM_DCF_GRID !== 'undefined') ? IBM_DCF_GRID : null;
@@ -1783,7 +1783,7 @@ const IBM_FUNDAMENTAL = {"ticker": "IBM", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py IBM --self v2/IBM_multiples.json --card
 /* VALUATION:BEGIN */
-const IBM_VALUATION = {"peer": {"score": 95.0, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "per", "score": 95.8, "rank": 2, "peers": 24}, {"metric": "pbr", "score": 91.3, "rank": 3, "peers": 23}, {"metric": "psr", "score": 96.3, "rank": 2, "peers": 27}, {"metric": "pcr", "score": 95.7, "rank": 2, "peers": 23}, {"metric": "evebitda", "score": 95.8, "rank": 2, "peers": 24}]}, "self": {"score": 64.4, "window": ["2022-02-22", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.2, "percentile": 5.8, "current": 19.53, "min": 18.21, "median": 30.15, "max": 99.72, "days": 1156, "currentNote": null}, {"metric": "pbr", "score": 79.4, "percentile": 20.6, "current": 6.01, "min": 5.08, "median": 6.72, "max": 10.55, "days": 1156, "currentNote": null}, {"metric": "psr", "score": 43.6, "percentile": 56.4, "current": 3.0, "min": 1.78, "median": 2.79, "max": 4.5, "days": 1156, "currentNote": null}, {"metric": "pcr", "score": 51.9, "percentile": 48.1, "current": 15.03, "min": 10.17, "median": 15.41, "max": 23.96, "days": 1156, "currentNote": null}, {"metric": "evebitda", "score": 52.7, "percentile": 47.3, "current": 16.21, "min": 12.11, "median": 16.57, "max": 24.28, "days": 1156, "currentNote": null}]}};
+const IBM_VALUATION = {"peer": {"score": 94.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "per", "score": 91.7, "rank": 3, "peers": 24}, {"metric": "pbr", "score": 91.3, "rank": 3, "peers": 23}, {"metric": "psr", "score": 96.3, "rank": 2, "peers": 27}, {"metric": "pcr", "score": 95.7, "rank": 2, "peers": 23}, {"metric": "evebitda", "score": 95.8, "rank": 2, "peers": 24}]}, "self": {"score": 61.4, "window": ["2022-02-22", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.2, "percentile": 20.8, "current": 22.63, "min": 18.62, "median": 30.67, "max": 99.72, "days": 1156, "currentNote": null}, {"metric": "pbr", "score": 79.4, "percentile": 20.6, "current": 6.01, "min": 5.08, "median": 6.72, "max": 10.55, "days": 1156, "currentNote": null}, {"metric": "psr", "score": 43.6, "percentile": 56.4, "current": 3.0, "min": 1.78, "median": 2.79, "max": 4.5, "days": 1156, "currentNote": null}, {"metric": "pcr", "score": 51.9, "percentile": 48.1, "current": 15.03, "min": 10.17, "median": 15.41, "max": 23.96, "days": 1156, "currentNote": null}, {"metric": "evebitda", "score": 52.7, "percentile": 47.3, "current": 16.21, "min": 12.11, "median": 16.57, "max": 24.28, "days": 1156, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2115,7 +2115,7 @@ const IBM_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('ibmSelfBox', 'ibmSelfScore', 'ibmSelfVerdict', S.selfHistory, WORDS.val,
       `분사 뒤(2022-02~) 이 종목 자신의 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nKyndryl 분사(2021-11) 뒤 이력(2022-02~)만 쓴다. PER 19.5배는 이력 중앙값 30.1배보다 낮다 — 2024년 3·4분기 연금 정산 비용($2.7B·$0.4B)으로 GAAP EPS가 작았던 구간이 중앙값을 높였다.`
+      + `\nKyndryl 분사(2021-11) 뒤 이력(2022-02~)만 쓴다. PER 22.6배(일회성 세금 혜택 제외)는 이력 중앙값 30.7배보다 낮다 — 2024년 3·4분기 연금 정산 비용($2.7B·$0.4B)으로 GAAP EPS가 작았던 구간이 중앙값을 높였다.`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
@@ -2127,8 +2127,8 @@ const IBM_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const IBM_DCF_TRACK = [{d:"2026-04-23",low:21.4,base:27.9,high:42.9},{d:"2026-07-23",low:19.8,base:32.0,high:40.6}];
-const IBM_BACKTEST = [{"checkpoint_date": "2024-02-26", "quarter_end": "2023-12-31", "ttm_eps": 8.16, "trailing_sample_size": 245, "per_low": 19.38, "per_high": 24.21, "band_width_ratio": 1.25, "predicted_low": 158.16, "predicted_high": 197.55, "realized_per_high": 24.24, "realized_per_low": 20.48, "realized_price_high": 197.78, "realized_price_low": 167.13, "period_end_date": "2024-04-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-04-30", "quarter_end": "2024-03-31", "ttm_eps": 8.83, "trailing_sample_size": 246, "per_low": 19.89, "per_high": 24.09, "band_width_ratio": 1.21, "predicted_low": 175.63, "predicted_high": 212.67, "realized_per_high": 21.74, "realized_per_low": 18.62, "realized_price_high": 191.98, "realized_price_low": 164.43, "period_end_date": "2024-07-29", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2024-07-30", "quarter_end": "2024-06-30", "ttm_eps": 9.07, "trailing_sample_size": 246, "per_low": 18.98, "per_high": 23.67, "band_width_ratio": 1.25, "predicted_low": 172.11, "predicted_high": 214.71, "realized_per_high": 25.94, "realized_per_low": 20.21, "realized_price_high": 235.26, "realized_price_low": 183.31, "period_end_date": "2024-10-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-10-30", "quarter_end": "2024-09-30", "ttm_eps": 6.87, "trailing_sample_size": 251, "per_low": 19.16, "per_high": 24.63, "band_width_ratio": 1.29, "predicted_low": 131.65, "predicted_high": 169.24, "realized_per_high": 38.54, "realized_per_low": 29.83, "realized_price_high": 264.74, "realized_price_low": 204.9, "period_end_date": "2025-02-24", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-02-25", "quarter_end": "2024-12-31", "ttm_eps": 6.43, "trailing_sample_size": 329, "per_low": 19.59, "per_high": 36.73, "band_width_ratio": 1.88, "predicted_low": 125.94, "predicted_high": 236.18, "realized_per_high": 40.67, "realized_per_low": 34.37, "realized_price_high": 261.54, "realized_price_low": 221.03, "period_end_date": "2025-04-23", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-04-24", "quarter_end": "2025-03-31", "ttm_eps": 5.86, "trailing_sample_size": 370, "per_low": 20.05, "per_high": 38.67, "band_width_ratio": 1.93, "predicted_low": 117.48, "predicted_high": 226.62, "realized_per_high": 50.3, "realized_per_low": 39.13, "realized_price_high": 294.78, "realized_price_low": 229.33, "period_end_date": "2025-07-23", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-07-24", "quarter_end": "2025-06-30", "ttm_eps": 6.21, "trailing_sample_size": 432, "per_low": 20.85, "per_high": 48.33, "band_width_ratio": 2.32, "predicted_low": 129.47, "predicted_high": 300.13, "realized_per_high": 47.32, "realized_per_low": 37.81, "realized_price_high": 293.87, "realized_price_low": 234.77, "period_end_date": "2025-10-22", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-10-23", "quarter_end": "2025-09-30", "ttm_eps": 8.39, "trailing_sample_size": 496, "per_low": 21.74, "per_high": 48.04, "band_width_ratio": 2.21, "predicted_low": 182.41, "predicted_high": 403.06, "realized_per_high": 37.54, "realized_per_low": 26.62, "realized_price_high": 314.98, "realized_price_low": 223.35, "period_end_date": "2026-02-23", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2026-02-24", "quarter_end": "2025-12-31", "ttm_eps": 11.14, "trailing_sample_size": 500, "per_low": 25.69, "per_high": 46.13, "band_width_ratio": 1.8, "predicted_low": 286.2, "predicted_high": 513.93, "realized_per_high": 23.24, "realized_per_low": 20.59, "realized_price_high": 258.85, "realized_price_low": 229.32, "period_end_date": "2026-04-22", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-04-23", "quarter_end": "2026-03-31", "ttm_eps": 11.3, "trailing_sample_size": 501, "per_low": 21.67, "per_high": 45.44, "band_width_ratio": 2.1, "predicted_low": 244.86, "predicted_high": 513.43, "realized_per_high": 29.14, "realized_per_low": 18.21, "realized_price_high": 329.23, "realized_price_low": 205.77, "period_end_date": "2026-07-22", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-07-23", "quarter_end": "2026-06-30", "ttm_eps": 11.26, "trailing_sample_size": 501, "per_low": 20.31, "per_high": 44.13, "band_width_ratio": 2.17, "predicted_low": 228.67, "predicted_high": 496.88, "realized_per_high": 22.12, "realized_per_low": 18.35, "realized_price_high": 249.09, "realized_price_low": 206.65, "period_end_date": "2026-09-30", "is_open": true, "zone": "breached_bottom", "spans_earnings": 0}];
+const IBM_DCF_TRACK = [{d:"2026-04-23",low:23.6,base:30.3,high:45.4},{d:"2026-07-23",low:22.2,base:34.5,high:43.2}];
+const IBM_BACKTEST = [{"checkpoint_date": "2024-02-26", "quarter_end": "2023-12-31", "ttm_eps": 8.16, "trailing_sample_size": 245, "per_low": 19.38, "per_high": 24.21, "band_width_ratio": 1.25, "predicted_low": 158.16, "predicted_high": 197.55, "realized_per_high": 24.24, "realized_per_low": 20.48, "realized_price_high": 197.78, "realized_price_low": 167.13, "period_end_date": "2024-04-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-04-30", "quarter_end": "2024-03-31", "ttm_eps": 8.83, "trailing_sample_size": 246, "per_low": 19.89, "per_high": 24.09, "band_width_ratio": 1.21, "predicted_low": 175.63, "predicted_high": 212.67, "realized_per_high": 21.74, "realized_per_low": 18.62, "realized_price_high": 191.98, "realized_price_low": 164.43, "period_end_date": "2024-07-29", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2024-07-30", "quarter_end": "2024-06-30", "ttm_eps": 9.07, "trailing_sample_size": 246, "per_low": 18.98, "per_high": 23.67, "band_width_ratio": 1.25, "predicted_low": 172.11, "predicted_high": 214.71, "realized_per_high": 25.94, "realized_per_low": 20.21, "realized_price_high": 235.26, "realized_price_low": 183.31, "period_end_date": "2024-10-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-10-30", "quarter_end": "2024-09-30", "ttm_eps": 6.87, "trailing_sample_size": 251, "per_low": 19.16, "per_high": 24.63, "band_width_ratio": 1.29, "predicted_low": 131.65, "predicted_high": 169.24, "realized_per_high": 38.54, "realized_per_low": 29.83, "realized_price_high": 264.74, "realized_price_low": 204.9, "period_end_date": "2025-02-24", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-02-25", "quarter_end": "2024-12-31", "ttm_eps": 6.43, "trailing_sample_size": 329, "per_low": 19.59, "per_high": 36.73, "band_width_ratio": 1.88, "predicted_low": 125.94, "predicted_high": 236.18, "realized_per_high": 40.67, "realized_per_low": 34.37, "realized_price_high": 261.54, "realized_price_low": 221.03, "period_end_date": "2025-04-23", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-04-24", "quarter_end": "2025-03-31", "ttm_eps": 5.86, "trailing_sample_size": 370, "per_low": 20.05, "per_high": 38.67, "band_width_ratio": 1.93, "predicted_low": 117.48, "predicted_high": 226.62, "realized_per_high": 50.3, "realized_per_low": 39.13, "realized_price_high": 294.78, "realized_price_low": 229.33, "period_end_date": "2025-07-23", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-07-24", "quarter_end": "2025-06-30", "ttm_eps": 6.21, "trailing_sample_size": 432, "per_low": 20.85, "per_high": 48.33, "band_width_ratio": 2.32, "predicted_low": 129.47, "predicted_high": 300.13, "realized_per_high": 47.32, "realized_per_low": 37.81, "realized_price_high": 293.87, "realized_price_low": 234.77, "period_end_date": "2025-10-22", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-10-23", "quarter_end": "2025-09-30", "ttm_eps": 8.39, "trailing_sample_size": 496, "per_low": 21.74, "per_high": 48.04, "band_width_ratio": 2.21, "predicted_low": 182.41, "predicted_high": 403.06, "realized_per_high": 37.54, "realized_per_low": 26.62, "realized_price_high": 314.98, "realized_price_low": 223.35, "period_end_date": "2026-02-23", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2026-02-24", "quarter_end": "2025-12-31", "ttm_eps": 9.6, "trailing_sample_size": 500, "per_low": 25.69, "per_high": 46.13, "band_width_ratio": 1.8, "predicted_low": 246.64, "predicted_high": 442.88, "realized_per_high": 26.96, "realized_per_low": 23.89, "realized_price_high": 258.85, "realized_price_low": 229.32, "period_end_date": "2026-04-22", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-04-23", "quarter_end": "2026-03-31", "ttm_eps": 9.76, "trailing_sample_size": 501, "per_low": 24.93, "per_high": 45.44, "band_width_ratio": 1.82, "predicted_low": 243.36, "predicted_high": 443.46, "realized_per_high": 33.73, "realized_per_low": 21.08, "realized_price_high": 329.23, "realized_price_low": 205.77, "period_end_date": "2026-07-22", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-07-23", "quarter_end": "2026-06-30", "ttm_eps": 9.72, "trailing_sample_size": 501, "per_low": 23.27, "per_high": 44.13, "band_width_ratio": 1.9, "predicted_low": 226.17, "predicted_high": 428.92, "realized_per_high": 25.63, "realized_per_low": 21.26, "realized_price_high": 249.09, "realized_price_low": 206.65, "period_end_date": "2026-09-30", "is_open": true, "zone": "breached_bottom", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
 // "예상 밴드 안에서 마감한 일봉이 몇 %인가"로 따로 센다. 진행 중인 구간의

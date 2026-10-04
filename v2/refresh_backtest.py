@@ -34,13 +34,12 @@ REPO = os.path.dirname(HERE)
 # 루트 백테스트 JSON(stock-widgets-redesign/scripts/{T}_earnings_backtest.json)의 exclude_per_window — 일회성 비용 기간
 EXCLUDE_PER_WINDOW = {
     "IBM": ("2022-10-25", "2023-10-30"),   # 연금 정산 비용
-    "QCOM": ("2025-11-05", "2026-04-28"),  # 세금 비용
+    # QCOM ("2025-11-05", "2026-04-28") 세금 비용 창은 2026-10-04 뺐다 — 그 세금 항목을 tax_oneoff.json이 EPS에서 직접 뺀다(A8 ①)
     "ABBV": ("2025-11-04", "2026-02-19"),
     "AMD": ("2023-05-03", "2024-01-30"),
 }
-# 다시 계산하지 않고 지금(루트) 배열에 표시만 — TSM·ASML 현지 통화 EPS(C10), PANW는 분할 뒤 체크포인트로 잘라 둔 카드 배열을 지킨다(D20).
-# 처음 적은 이유(EPS가 분할 조정 안 됨)는 틀렸다 — v2로 다시 계산한 2024년 밴드가 넓은 건 FY2024 2분기 일회성 세금 이익(EPS 2.445) 탓이다(C12, 2026-10-04)
-KEEP_ROOT = {"TSM", "ASML", "PANW"}
+# 다시 계산하지 않고 지금(루트) 배열에 표시만 — TSM·ASML 현지 통화 EPS(C10), PANW는 D20으로 한동안 루트 배열을 지켰다가 A9·A8 ①로 풀었다(2026-10-04).
+KEEP_ROOT = {"TSM", "ASML"}   # PANW는 2026-10-04 뺐다 — 흑자 초기(A9 B6)와 일회성 세금(A8 ①)을 반영하니 v2 재계산 밴드가 정상(폭 1.3~2.9배)
 # 체크포인트가 실적 발표일인 루트 배열(EPS 공시일은 몇 주 뒤) — 같은 분기 공시를 거르는 45일. PANW 배열은 체크포인트가 곧 공시일이라 0일(Codex)
 RELEASE_DATE_CHECKPOINTS = {"TSM", "ASML"}
 KEEP_EMPTY = {"BA", "COF"}   # 적정주가 밴드·백테스트를 카드 결정으로 비운 종목(CARD_ITEMS BA 규칙)
@@ -154,6 +153,13 @@ def main():
         import build_multiple_history as bmh
         bt_start = bmh.HISTORY_START.get(t)
         work = tempfile.mkdtemp(prefix=f"{t}_bt_")
+        # 회사가 밝힌 일회성 법인세 항목(v2/tax_oneoff.json)은 카드 PER과 같게 TTM EPS에서 뺀다(A8 ①, 2026-10-04)
+        import build_multiple_history as bmh2
+        adj = [{**e, "ttm_eps": round(e["ttm_eps"] + bmh2.oneoff_in_ttm(t, e.get("quarter_end"), "eps"), 6)}
+               if e.get("ttm_eps") is not None else e for e in eps_rows]
+        if adj != eps_rows:
+            eps_path = os.path.join(work, "eps_adj.json")
+            json.dump(adj, open(eps_path, "w"))
         tmp, out = os.path.join(work, "daily.json"), os.path.join(work, "backtest.json")
         json.dump({"daily": [b for b in daily if not bt_start or b[0] >= bt_start]}, open(tmp, "w"))
         cmd = [sys.executable, os.path.join(REPO, "scripts", "compute_earnings_backtest_band.py"), t,
