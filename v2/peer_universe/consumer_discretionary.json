@@ -4,7 +4,9 @@
  "asOf": "2026-09-25",
  "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
  "tickers": {
-  "ABNB": {},
+  "ABNB": {
+   "per": 35.87
+  },
   "AMZN": {
    "per": 37.12,
    "psr": 3.47,
@@ -316,6 +318,12 @@
   "tickers": {
    "BKNG": "PER None → 18.19",
    "CVNA": "PER None → None (EPS 이력 멈춤(마지막 분기 2024-03-31) — PER 제외)"
+  }
+ },
+ "epsRefetch": {
+  "rule": "비교군 EPS를 다시 받음(D66, 2026-10-04) — 희석 EPS가 없는 기간은 계속사업 희석 EPS로 채움(MNST·KIM·WEC·GD)",
+  "tickers": {
+   "ABNB": "PER None → 35.87 (EPS 마지막 분기 0000 → 2026-06-30)"
   }
  }
 }

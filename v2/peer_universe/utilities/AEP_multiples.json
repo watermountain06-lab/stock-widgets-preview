@@ -1,24 +1,24 @@
 {
  "ticker": "AEP",
  "window": [
-  "2025-10-02",
+  "2025-10-03",
   "2026-09-30"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
+   "days": 249,
    "current": 17.55,
-   "min": 16.61,
-   "p10": 16.97,
+   "min": 16.62,
+   "p10": 16.98,
    "median": 18.55,
-   "p90": 20.09,
+   "p90": 20.1,
    "max": 20.59,
-   "mean": 18.54,
-   "percentile": 27.6,
-   "score": 72.4
+   "mean": 18.55,
+   "percentile": 27.3,
+   "score": 72.7
   },
   "PSR": {
-   "days": 250,
+   "days": 249,
    "current": 2.91,
    "min": 2.82,
    "p10": 2.89,
@@ -26,11 +26,11 @@
    "p90": 3.32,
    "max": 3.4,
    "mean": 3.1,
-   "percentile": 13.2,
-   "score": 86.8
+   "percentile": 12.9,
+   "score": 87.1
   },
   "PBR": {
-   "days": 250,
+   "days": 249,
    "current": 2.03,
    "min": 2.0,
    "p10": 2.04,
@@ -55,6 +55,7 @@
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
   "per_p25": 17.51,
   "per_p75": 19.68,

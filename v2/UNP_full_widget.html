@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="unpPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="unpPeerVerdict">중간</span></div>
-      <div class="logic-score" id="unpPeerScore">47.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="unpPeerScore">47.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="unpSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="unpSelfVerdict">중간</span></div>
@@ -897,9 +897,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$118</div><div class="vs-note">현재가 <span data-vs="price">$272.13</span> 대비 <strong data-vs="upside">−56.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.31
 시나리오 범위: 2.31 ~ 2.50(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">47.2</div><div class="sc-tile" data-vc="peer" data-m="per">74</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">39</div><div class="sc-tile low" data-vc="peer" data-m="psr">13</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">48</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">63</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">47.0</div><div class="sc-tile" data-vc="peer" data-m="per">73</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">39</div><div class="sc-tile low" data-vc="peer" data-m="psr">13</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">48</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">63</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 +15% 올라 PER 22.0배(5년 중앙값 21.2배)·PSR·EV/EBITDA가 중앙값보다 비싸고 PCR은 중간, PBR만 5년 중 가장 싼 쪽(자본이 늘어서)이라 자기 이력 48.9점(중간)이다. S&P500 산업재 안에서는 PER·EV/EBITDA가 싼 쪽, PSR이 비싼 쪽(이익률이 높은 철도라 매출 대비 비쌈)이라 47.2점(중간)이다. <strong>현금흐름 내재가치(기본 $118.05)는 현재가의 43%</strong>다.</div>
+    <div class="vs-premise">주가가 1년 새 +15% 올라 PER 22.0배(5년 중앙값 21.2배)·PSR·EV/EBITDA가 중앙값보다 비싸고 PCR은 중간, PBR만 5년 중 가장 싼 쪽(자본이 늘어서)이라 자기 이력 48.9점(중간)이다. S&P500 산업재 안에서는 PER·EV/EBITDA가 싼 쪽, PSR이 비싼 쪽(이익률이 높은 철도라 매출 대비 비쌈)이라 47.0점(중간)이다. <strong>현금흐름 내재가치(기본 $118.05)는 현재가의 43%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”다. 현재가를 정당화하려면 GAAP 영업이익률이 71.3%까지 올라야 한다(최근 4분기 40.0%, 5년 중앙값 40.0%). 현금흐름 −2는 매출 성장이 연 5% 안팎으로 낮고 설비투자가 큰 철도라 남는 현금이 이익보다 적기 때문이다. Norfolk Southern 합병(주식 약 2억 2,500만 주 + 현금 약 $20B)은 계산에 넣지 않았다.</div>
   </div>
 
@@ -1491,7 +1491,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py UNP
 const UNP_SCORES = {
   fundamental: 48.2,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 47.2,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 47.0,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 48.9,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-23 공시)
@@ -1800,7 +1800,7 @@ const UNP_FUNDAMENTAL = {"ticker": "UNP", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py UNP --self v2/UNP_multiples.json --card
 /* VALUATION:BEGIN */
-const UNP_VALUATION = {"peer": {"score": 47.2, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 73.7, "rank": 21, "peers": 76}, {"metric": "pbr", "score": 39.2, "rank": 46, "peers": 74}, {"metric": "psr", "score": 12.8, "rank": 69, "peers": 78}, {"metric": "pcr", "score": 47.9, "rank": 39, "peers": 73}, {"metric": "evebitda", "score": 62.5, "rank": 25, "peers": 64}]}, "self": {"score": 48.9, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 38.7, "percentile": 61.3, "current": 22.02, "min": 16.57, "median": 21.25, "max": 27.81, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 96.2, "percentile": 3.8, "current": 7.82, "min": 7.42, "median": 9.44, "max": 12.9, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 21.8, "percentile": 78.2, "current": 6.36, "min": 4.49, "median": 5.84, "max": 8.15, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 49.6, "percentile": 50.4, "current": 24.86, "min": 19.37, "median": 24.8, "max": 32.82, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 38.4, "percentile": 61.6, "current": 15.04, "min": 12.11, "median": 14.57, "max": 17.87, "days": 1255, "currentNote": null}]}};
+const UNP_VALUATION = {"peer": {"score": 47.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 72.7, "rank": 22, "peers": 77}, {"metric": "pbr", "score": 39.2, "rank": 46, "peers": 74}, {"metric": "psr", "score": 12.8, "rank": 69, "peers": 78}, {"metric": "pcr", "score": 47.9, "rank": 39, "peers": 73}, {"metric": "evebitda", "score": 62.5, "rank": 25, "peers": 64}]}, "self": {"score": 48.9, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 38.7, "percentile": 61.3, "current": 22.02, "min": 16.57, "median": 21.25, "max": 27.81, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 96.2, "percentile": 3.8, "current": 7.82, "min": 7.42, "median": 9.44, "max": 12.9, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 21.8, "percentile": 78.2, "current": 6.36, "min": 4.49, "median": 5.84, "max": 8.15, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 49.6, "percentile": 50.4, "current": 24.86, "min": 19.37, "median": 24.8, "max": 32.82, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 38.4, "percentile": 61.6, "current": 15.04, "min": 12.11, "median": 14.57, "max": 17.87, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

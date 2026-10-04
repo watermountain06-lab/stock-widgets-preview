@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="mcdPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="mcdPeerVerdict">중간</span></div>
-      <div class="logic-score" id="mcdPeerScore">32.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="mcdPeerScore">32.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="mcdSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="mcdSelfVerdict">싼 편</span></div>
@@ -896,9 +896,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$123</div><div class="vs-note">현재가 <span data-vs="price">$230.94</span> 대비 <strong data-vs="upside">−46.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.88
 시나리오 범위: 1.86 ~ 2.01(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">32.4</div><div class="sc-tile lost" data-vc="peer" data-m="per">50</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile low" data-vc="peer" data-m="psr">5</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">37</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">38</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">32.6</div><div class="sc-tile lost" data-vc="peer" data-m="per">51</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile low" data-vc="peer" data-m="psr">5</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">37</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">38</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 -24% 내려 PER 18.8배(5년 중앙값 26.1배)·PSR·PCR·EV/EBITDA가 모두 5년 중 가장 낮아 자기 이력 100.0점(싸다)이다(PBR은 자본 음수라 없음). S&P500 경기소비재 안에서는 PER이 중간, PCR·EV/EBITDA가 중간보다 조금 비싼 쪽이고 PSR이 가장 비싼 쪽(가맹 수익 중심이라 매출 대비 이익이 큼)이라 32.4점(중간)이다. <strong>현금흐름 내재가치(기본 $122.64)는 현재가의 53%</strong>다.</div>
+    <div class="vs-premise">주가가 1년 새 -24% 내려 PER 18.8배(5년 중앙값 26.1배)·PSR·PCR·EV/EBITDA가 모두 5년 중 가장 낮아 자기 이력 100.0점(싸다)이다(PBR은 자본 음수라 없음). S&P500 경기소비재 안에서는 PER이 중간, PCR·EV/EBITDA가 중간보다 조금 비싼 쪽이고 PSR이 가장 비싼 쪽(가맹 수익 중심이라 매출 대비 이익이 큼)이라 32.6점(중간)이다. <strong>현금흐름 내재가치(기본 $122.64)는 현재가의 53%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”다. 현재가를 정당화하려면 GAAP 영업이익률이 69.9%까지 올라야 한다(최근 4분기 46.2%, 5년 중앙값 45.3%). 현금흐름 −2는 매출 성장이 연 4~5%로 낮은 데다, 사업 가치에서 차입금 $39.9B를 빼기 때문이다. 자기 이력으로는 5년 중 가장 싸지만 그만큼 성장이 둔해진 결과다.</div>
   </div>
 
@@ -1464,7 +1464,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py MCD
 const MCD_SCORES = {
   fundamental: 60.3,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 32.4,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
+  peer: 32.6,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 100.0,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-07 공시)
@@ -1773,7 +1773,7 @@ const MCD_FUNDAMENTAL = {"ticker": "MCD", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py MCD --self v2/MCD_multiples.json --card
 /* VALUATION:BEGIN */
-const MCD_VALUATION = {"peer": {"score": 32.4, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 50.0, "rank": 21, "peers": 40}, {"metric": "psr", "score": 5.1, "rank": 38, "peers": 39}, {"metric": "pcr", "score": 36.8, "rank": 25, "peers": 38}, {"metric": "evebitda", "score": 37.5, "rank": 21, "peers": 32}]}, "self": {"score": 100.0, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 18.76, "min": 18.76, "median": 26.13, "max": 35.78, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 100.0, "percentile": 0.0, "current": 5.9, "min": 5.9, "median": 8.28, "max": 9.41, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 100.0, "percentile": 0.0, "current": 21.06, "min": 21.06, "median": 30.01, "max": 39.73, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 14.41, "min": 14.41, "median": 19.3, "max": 23.41, "days": 1255, "currentNote": null}]}};
+const MCD_VALUATION = {"peer": {"score": 32.6, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 51.2, "rank": 21, "peers": 41}, {"metric": "psr", "score": 5.1, "rank": 38, "peers": 39}, {"metric": "pcr", "score": 36.8, "rank": 25, "peers": 38}, {"metric": "evebitda", "score": 37.5, "rank": 21, "peers": 32}]}, "self": {"score": 100.0, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 18.76, "min": 18.76, "median": 26.13, "max": 35.78, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 100.0, "percentile": 0.0, "current": 5.9, "min": 5.9, "median": 8.28, "max": 9.41, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 100.0, "percentile": 0.0, "current": 21.06, "min": 21.06, "median": 30.01, "max": 39.73, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 14.41, "min": 14.41, "median": 19.3, "max": 23.41, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

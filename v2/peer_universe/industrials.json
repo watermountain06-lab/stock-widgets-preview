@@ -217,7 +217,8 @@
    "psr": 1.69,
    "pbr": 3.49,
    "pcr": 14.68,
-   "evebitda": 14.82
+   "evebitda": 14.82,
+   "per": 21.19
   },
   "HONA": {},
   "HON": {
@@ -536,9 +537,7 @@
    "pcr": 24.96
   }
  },
- "skipped": {
-  "GD": "EPS 이력 멈춤(마지막 분기 2019-09-29) — PER 제외"
- },
+ "skipped": {},
  "notes": {
   "GE": "evebitda 33.29 = GE 카드 엔진 값(9/29 종가, 영업이익 합성 — adapters/ge_income_items.py), 2026-09-30"
  },
@@ -568,6 +567,12 @@
   "rule": "400일 분할 가드를 'EPS 이력 멈춤 · 보정 못 한 분할'로 바꾸고 EPS를 다시 받음(2026-10-04)",
   "tickers": {
    "GD": "PER 30.64 → 제외 (EPS 이력 멈춤(마지막 분기 2019-09-29) — PER 제외) — 멈춘 EPS 파일로 계산된 값이었다(Fable)"
+  }
+ },
+ "epsRefetch": {
+  "rule": "비교군 EPS를 다시 받음(D66, 2026-10-04) — 희석 EPS가 없는 기간은 계속사업 희석 EPS로 채움(MNST·KIM·WEC·GD)",
+  "tickers": {
+   "GD": "PER None → 21.19 (EPS 마지막 분기 2019-09-29 → 2026-04-05)"
   }
  }
 }

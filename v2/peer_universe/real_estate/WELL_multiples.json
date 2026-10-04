@@ -1,53 +1,78 @@
 {
  "ticker": "WELL",
  "window": [
-  "2025-10-02",
+  "2025-10-03",
   "2026-09-30"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
-   "current": 114.55,
+   "days": 249,
+   "current": 106.1,
    "min": 93.22,
-   "p10": 102.81,
-   "median": 123.32,
+   "p10": 102.86,
+   "median": 123.55,
    "p90": 149.45,
    "max": 155.02,
-   "mean": 124.38,
-   "percentile": 26.0,
-   "score": 74.0
+   "mean": 122.89,
+   "percentile": 15.3,
+   "score": 84.7
   },
   "PSR": {
-   "days": 250,
-   "current": 17.35,
-   "min": 14.72,
-   "p10": 16.1,
-   "median": 17.08,
-   "p90": 18.06,
-   "max": 18.99,
-   "mean": 17.03,
-   "percentile": 63.6,
-   "score": 36.4
+   "days": 249,
+   "current": 13.0,
+   "min": 11.72,
+   "p10": 12.59,
+   "median": 13.18,
+   "p90": 13.93,
+   "max": 15.12,
+   "mean": 13.2,
+   "percentile": 36.1,
+   "score": 63.9
   },
   "PBR": {
-   "days": 250,
-   "current": 3.71,
+   "days": 249,
+   "current": 3.58,
    "min": 3.09,
    "p10": 3.25,
    "median": 3.45,
-   "p90": 3.81,
+   "p90": 3.72,
    "max": 4.06,
-   "mean": 3.5,
-   "percentile": 76.0,
-   "score": 24.0
+   "mean": 3.47,
+   "percentile": 69.9,
+   "score": 30.1
+  },
+  "PCR": {
+   "days": 249,
+   "current": 82.14,
+   "min": 70.14,
+   "p10": 73.6,
+   "median": 79.42,
+   "p90": 85.7,
+   "max": 95.0,
+   "mean": 79.49,
+   "percentile": 71.1,
+   "score": 28.9
+  },
+  "EV/EBITDA": {
+   "days": 249,
+   "current": 63.15,
+   "min": 37.94,
+   "p10": 39.66,
+   "median": 63.9,
+   "p90": 71.09,
+   "max": 74.23,
+   "mean": 57.32,
+   "percentile": 42.6,
+   "score": 57.4
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 113.99,
-  "per_p75": 137.58,
+  "per_p25": 108.03,
+  "per_p75": 137.59,
   "low": 230,
-  "high": 280,
+  "high": 300,
   "asOf": "2026-09-30",
   "basis": "diluted"
  }

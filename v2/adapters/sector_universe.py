@@ -83,7 +83,7 @@ def split_history(ticker):
         k = s["numerator"] / s["denominator"]
         big = k if k >= 1 else 1 / k
         day = time.strftime("%Y-%m-%d", time.gmtime(s["date"]))
-        if big >= 1.25 and any(abs(big * q - round(big * q)) < 0.02 for q in (1, 2, 3, 4)):
+        if big >= 1.25 and any(abs(big * q - round(big * q)) < 0.005 for q in (1, 2, 3, 4)):   # 0.02면 FTV 1.327(Ralliant 분사)을 4:3으로 받았다(Fable)
             out.append((day, round(k, 6)))
         elif big >= 1.25:
             print(f"  {ticker}: Yahoo 분할 {day} 비율 {k:.4f}는 단순 분수가 아니라 분사 조정으로 보고 뺐다 — 확인 필요", file=sys.stderr)
@@ -97,9 +97,11 @@ def one(ticker, cik, asof, eps_dir):
     eps_path = os.path.join(eps_dir, f"{ticker}_eps_history.json")
     sh = split_history(ticker)
     # 5년 안에 분할이 있으면 캐시가 있어도 다시 받는다 — 보정 전에 받은 파일이 그대로 통과하지 않게(Codex, 2026-10-04)
-    if not os.path.exists(eps_path) or sh:
+    if not os.path.exists(eps_path) or sh or os.environ.get("REFETCH_EPS"):
         subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
-                        "--cik", cik, "--out", eps_path, "--splits", ",".join(f"{d}:{k}" for d, k in sh)],
+                        "--cik", cik, "--out", eps_path, "--splits", ",".join(f"{d}:{k}" for d, k in sh),
+                        # 희석 EPS가 없는 기간은 계속사업 희석 EPS로 — MNST·KIM·WEC·GD는 몇 년째 그 태그로만 공시한다(D66, 2026-10-04)
+                        "--tag", "EarningsPerShareDiluted,IncomeLossFromContinuingOperationsPerDilutedShare"],
                        capture_output=True, text=True)
         time.sleep(0.6)
     feh.CIKS[ticker] = cik

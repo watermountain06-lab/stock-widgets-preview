@@ -1,16 +1,16 @@
 {
  "ticker": "SO",
  "window": [
-  "2025-10-02",
+  "2025-10-03",
   "2026-09-30"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
+   "days": 249,
    "current": 21.2,
    "min": 20.92,
    "p10": 21.69,
-   "median": 23.72,
+   "median": 23.71,
    "p90": 24.84,
    "max": 25.77,
    "mean": 23.41,
@@ -18,7 +18,7 @@
    "score": 98.0
   },
   "PSR": {
-   "days": 250,
+   "days": 249,
    "current": 3.1,
    "min": 3.08,
    "p10": 3.29,
@@ -30,7 +30,7 @@
    "score": 99.2
   },
   "PBR": {
-   "days": 250,
+   "days": 249,
    "current": 2.34,
    "min": 2.33,
    "p10": 2.48,
@@ -42,11 +42,11 @@
    "score": 99.2
   },
   "EV/EBITDA": {
-   "days": 250,
+   "days": 249,
    "current": 12.33,
    "min": 12.09,
    "p10": 12.35,
-   "median": 13.13,
+   "median": 13.12,
    "p90": 13.48,
    "max": 13.96,
    "mean": 13.0,
@@ -55,8 +55,9 @@
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 22.32,
+  "per_p25": 22.29,
   "per_p75": 24.48,
   "low": 90,
   "high": 100,

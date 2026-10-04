@@ -1,9 +1,31 @@
 {
  "ticker": "ABNB",
  "window": [
-  "2025-10-01",
+  "2025-10-03",
   "2026-09-25"
  ],
- "multiples": {},
- "perBasis": "diluted"
+ "multiples": {
+  "PER": {
+   "days": 246,
+   "current": 35.87,
+   "min": 26.62,
+   "p10": 29.08,
+   "median": 32.78,
+   "p90": 38.49,
+   "max": 43.39,
+   "mean": 33.48,
+   "percentile": 78.0,
+   "score": 22.0
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 31.01,
+  "per_p75": 35.32,
+  "low": 140,
+  "high": 160,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
 }

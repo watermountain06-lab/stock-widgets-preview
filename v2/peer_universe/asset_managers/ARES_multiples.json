@@ -1,34 +1,35 @@
 {
  "ticker": "ARES",
  "window": [
-  "2025-10-02",
+  "2025-10-03",
   "2026-09-30"
  ],
  "multiples": {
   "PSR": {
-   "days": 250,
+   "days": 249,
    "current": 6.08,
    "min": 5.4,
    "p10": 6.03,
-   "median": 7.14,
+   "median": 7.13,
    "p90": 9.86,
    "max": 10.43,
-   "mean": 7.63,
+   "mean": 7.62,
    "percentile": 11.2,
    "score": 88.8
   },
   "PBR": {
-   "days": 250,
+   "days": 249,
    "current": 9.17,
    "min": 7.07,
-   "p10": 8.02,
+   "p10": 8.01,
    "median": 9.99,
-   "p90": 11.6,
+   "p90": 11.61,
    "max": 12.48,
    "mean": 9.96,
-   "percentile": 26.0,
-   "score": 74.0
+   "percentile": 26.1,
+   "score": 73.9
   }
  },
- "perBasis": "diluted"
+ "perBasis": "diluted",
+ "perNA": null
 }

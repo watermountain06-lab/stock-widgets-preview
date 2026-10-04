@@ -1,24 +1,24 @@
 {
  "ticker": "KKR",
  "window": [
-  "2025-10-02",
+  "2025-10-03",
   "2026-09-30"
  ],
  "multiples": {
   "PSR": {
-   "days": 250,
+   "days": 249,
    "current": 3.85,
    "min": 3.84,
    "p10": 4.08,
    "median": 4.61,
    "p90": 6.84,
    "max": 7.49,
-   "mean": 5.15,
+   "mean": 5.14,
    "percentile": 0.4,
    "score": 99.6
   },
   "PBR": {
-   "days": 250,
+   "days": 249,
    "current": 2.64,
    "min": 2.42,
    "p10": 2.64,
@@ -30,5 +30,6 @@
    "score": 89.6
   }
  },
- "perBasis": "diluted"
+ "perBasis": "diluted",
+ "perNA": null
 }

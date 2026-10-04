@@ -1,40 +1,40 @@
 {
  "ticker": "HUBB",
  "window": [
-  "2025-09-30",
+  "2025-10-03",
   "2026-09-25"
  ],
  "multiples": {
   "PER": {
-   "days": 249,
+   "days": 246,
    "current": 27.77,
    "min": 25.25,
-   "p10": 26.91,
-   "median": 28.8,
-   "p90": 31.6,
+   "p10": 26.88,
+   "median": 28.81,
+   "p90": 31.63,
    "max": 33.73,
-   "mean": 29.03,
-   "percentile": 24.9,
-   "score": 75.1
+   "mean": 29.04,
+   "percentile": 24.8,
+   "score": 75.2
   },
   "PSR": {
-   "days": 249,
+   "days": 246,
    "current": 4.11,
    "min": 3.84,
-   "p10": 4.01,
+   "p10": 4.02,
    "median": 4.29,
    "p90": 4.75,
    "max": 5.07,
    "mean": 4.34,
-   "percentile": 24.1,
-   "score": 75.9
+   "percentile": 23.2,
+   "score": 76.8
   },
   "PBR": {
-   "days": 249,
+   "days": 246,
    "current": 6.54,
    "min": 5.88,
-   "p10": 6.31,
-   "median": 6.73,
+   "p10": 6.3,
+   "median": 6.74,
    "p90": 7.28,
    "max": 7.71,
    "mean": 6.77,
@@ -67,9 +67,10 @@
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 27.77,
-  "per_p75": 30.18,
+  "per_p25": 27.78,
+  "per_p75": 30.19,
   "low": 470,
   "high": 510,
   "asOf": "2026-09-25",
