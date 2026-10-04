@@ -146,6 +146,10 @@ def base_inputs(ticker, asof=None):
         ni_ttm, tx_ttm = ttm_fresh(["NetIncomeLoss"], bmh.FLOW_TAGS["revenue"]), ttm_fresh(["IncomeTaxExpenseBenefit"], bmh.FLOW_TAGS["revenue"])
         out["pretax"] = ni_ttm + tx_ttm if ni_ttm is not None and tx_ttm is not None else None
 
+    # 비과세 일회성 세전 이익(tax_oneoff.json pretax — GEV Prolec 재평가 $3,992M)은 세율 분모에서 뺀다(본업 이익 세율과 같게, 2026-10-04)
+    if out["pretax"] is not None and tser:
+        out["pretax"] -= bmh.oneoff_in_ttm(ticker, tser[-1]["end"], "pretax", asof)
+
     for name, tags in bmh.EV_COMPONENTS.items():
         # asof를 빠뜨리면 과거 시점 계산에 오늘 대차대조표가 섞인다
         # (현금·단기투자·차입금·리스가 그랬다 — Codex 지적으로 발견).

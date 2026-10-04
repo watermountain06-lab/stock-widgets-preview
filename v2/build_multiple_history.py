@@ -157,7 +157,7 @@ def oneoff_in_ttm(ticker, ttm_end, field, asof=None):
     for it in json.load(open(TAX_ONEOFF)).get(ticker, []):
         lag = (end - date.fromisoformat(it["quarter_end"])).days
         if 0 <= lag < 330 and (asof is None or it["filed"] <= asof):
-            total += it[field]
+            total += it.get(field, 0)   # pretax 필드는 세율 분모에서 뺄 비과세 일회성 세전 항목(GEV Prolec, 2026-10-04)
     return total
 
 
@@ -1379,10 +1379,15 @@ def main():
         o, tx, pt = ([e for e in parts[n] if e["end"] == end][-1]["val"] for n in ("opinc", "tax", "pretax"))
         if pt <= 0 or o <= 0:
             return None
-        r = tx / pt
+        # 회사가 금액을 밝힌 일회성 법인세 항목(v2/tax_oneoff.json)은 현금흐름 세율(build_dcf.effective_tax)과 같게 세율에서 뺀다
+        # (2026-10-04 — 같은 카드 안에서 본업 PER은 법정 21%, 현금흐름은 일회성을 뺀 16.1%로 세율이 갈렸다, GEV)
+        # 회사가 금액과 비과세임을 밝힌 일회성 세전 이익(pretax 필드, GEV Prolec 재평가 $3,992M)은 분모에서도 뺀다 — 안 빼면 세금이 안 붙는
+        # 이익이 분모만 키워 세율이 어느 분기에도 없는 16.1%가 됐다(Fable, 2026-10-04 사용자 결정). 본업 이익(opinc)에서는 원래 빠져 있다.
+        pt_rate = pt - oneoff_in_ttm(t, end, "pretax", d)
+        r = (tx - oneoff_in_ttm(t, end, "tax", d)) / pt_rate if pt_rate > 0 else tx / pt
         # 종목 예외(core_earnings.json "statutory_fallback"): 세율이 0~40% 밖이면 법정 21%. GEV는 세금 평가충당금 환입
-        # $2.9B로 최근 4분기 세율이 −20.8%라 본업 이익이 영업이익보다 컸다(Codex·Fable, 2026-10-01). 전 종목 적용은
-        # ABBV·PANW 점수를 바꿔 100장 뒤 안건으로 미룬다.
+        # $2.9B로 최근 4분기 세율이 −20.8%라 본업 이익이 영업이익보다 컸다(Codex·Fable, 2026-10-01). 위에서 그 환입을 빼면
+        # 비과세 Prolec 이익까지 빼 범위 안(32.5%)이라 지금은 걸리지 않는다. 전 종목 적용은 ABBV·PANW 점수를 바꿔 100장 뒤 안건으로 미룬다.
         if core_tickers().get(t, {}).get("statutory_fallback") and not 0.0 <= r <= 0.40:
             r = 0.21
         return o * (1 - r)

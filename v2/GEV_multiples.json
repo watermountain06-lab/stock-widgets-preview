@@ -7,15 +7,15 @@
  "multiples": {
   "PER": {
    "days": 414,
-   "current": 178.12,
+   "current": 208.6,
    "min": 136.37,
    "p10": 162.4,
-   "median": 232.43,
+   "median": 250.85,
    "p90": 328.01,
    "max": 360.45,
-   "mean": 236.4,
-   "percentile": 21.0,
-   "score": 79.0
+   "mean": 249.47,
+   "percentile": 24.6,
+   "score": 75.4
   },
   "PSR": {
    "days": 414,
@@ -67,11 +67,12 @@
   }
  },
  "perBasis": "core",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 169.54,
-  "per_p75": 233.05,
-  "low": 900,
-  "high": 1240,
+  "per_p25": 172.0,
+  "per_p75": 269.38,
+  "low": 780,
+  "high": 1230,
   "asOf": "2026-09-30",
   "basis": "core"
  }
