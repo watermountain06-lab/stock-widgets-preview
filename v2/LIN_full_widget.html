@@ -1818,6 +1818,30 @@ const LIN_VALUATION = {"peer": {"score": 13.8, "sector": "Materials (S&P500 26�
     + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
   document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = LIN_VERDICT; el.title = tip; });
+  // A7(2026-10-04 사용자 결정 — 표시만, 판정 규칙은 그대로): 자기 이력·동종업 점수가 문턱(30·70) ±2점 안이고 그 칸 표가
+  // 한 칸만 바뀌어도 종합 판정이 달라지면 헤더 판정 밑에 작게 적는다.
+  const verdictOf = js => { const s = js.filter(j => j[1] != null), w = s.reduce((a, j) => a + j[3], 0), t = s.reduce((a, j) => a + j[1], 0), m = w ? t * 4 / w : 0;
+    return (js[2][1] == null || s.length < 2) ? '판정 보류' : m >= 3 ? '저평가' : m >= 1 ? '적정~저평가' : m > -1 ? '적정' : m > -3 ? '적정~고평가' : '고평가'; };
+  const edges = [];
+  // 카드 규칙과 같은 식으로 다시 낸 판정이 실제 판정과 같을 때만 본다(은행 등 판정 식이 다른 카드는 건너뜀)
+  if (verdictOf(judges) === LIN_VERDICT) judges.slice(0, 2).forEach((j, i) => {
+    if (j[1] == null || typeof j[2] !== 'number') return;
+    [30, 70].forEach(th => {
+      if (Math.abs(j[2] - th) > 2) return;
+      const js = judges.map(x => x.slice()); js[i][1] = j[2] >= th ? j[1] - 1 : j[1] + 1;
+      const v = verdictOf(js);
+      if (v !== LIN_VERDICT) edges.push(`${j[0]} ${j[2].toFixed(1)}점이 문턱 ${th} 옆이라 그 칸 표가 한 칸 바뀌면 ${v}`);
+    });
+  });
+  document.querySelectorAll('[data-verdict]').forEach(el => {
+    if (edges.length) el.title += '\n\n경계: ' + edges.join(' / ');
+    if (!el.classList.contains('meta-value')) return;   // 헤더 판정 밑에만 글을 단다
+    const old = el.parentNode.querySelector('.verdict-edge'); if (old) old.remove();
+    if (!edges.length) return;
+    const e = document.createElement('span'); e.className = 'verdict-edge';
+    e.style.cssText = 'display:block;font-size:11px;color:var(--text3);margin-top:2px;line-height:1.35;';
+    e.textContent = '경계 — ' + edges[0]; el.after(e);
+  });
 })();
 (function(){
   const V = (typeof LIN_VALUATION !== 'undefined') ? LIN_VALUATION : null;
