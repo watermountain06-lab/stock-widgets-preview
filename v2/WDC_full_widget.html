@@ -504,7 +504,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 재작성 이력 1년 연 35.1%)</span>
-      <span class="meta-value" id="wdcDcfReq" style="font-size: 22px; color: var(--red);">연 42.8%</span>
+      <span class="meta-value" id="wdcDcfReq" style="font-size: 22px; color: var(--red);">연 43.1%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="wdcConfidenceLabel">밴드 적중률 (백테스트 없음)</span>
@@ -512,7 +512,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="wdcFairBand" title="최근 1년 PER 25~75% 구간(29.3~39.0배 — 2025년 3월 분기 일회성 이연법인세 이익 $711M은 회사가 밝힌 금액만큼 뺐다) × 최근 4분기 희석 EPS $24.22(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에 SanDisk 지분 평가이익(FY26 $6.5B, 이제 지분 없음)이 들어 있어 범위가 부풀어 있다. 회사 조정 EPS(FY26 $10.22)로는 PER 약 44배다." style="font-size:22px;color:var(--green);">$710 ~ $940</span>
+      <span class="meta-value" id="wdcFairBand" title="최근 1년 본업 PER 25~75% 구간(26.6~55.9배) × 최근 4분기 본업 이익(영업이익 × (1 − 세율), 10달러 단위 반올림). SanDisk 지분 평가이익(FY26 $6.5B, 이제 지분 없음)이 공시 EPS를 부풀려 본업 기준으로 잰다(2026-10-04). 세율은 비과세인 SanDisk 지분 이익(.5B, 10-K)을 분모에서 뺀 14.1%. 본업 기준 이력이 약 9개월뿐이라 이 범위는 뜻이 약하다. PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$280 ~ $590</span>
     </div>
   </div>
   </div>
@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="wdcLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="wdcDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="wdcDcfBox">$213<span class="logic-denom"> · 보수 $148 · 낙관 $234</span></div>
+      <div class="logic-score" id="wdcDcfBox">$210<span class="logic-denom"> · 보수 $145 · 낙관 $230</span></div>
     </div>
     <div class="logic-box logic-positive" id="wdcFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="wdcFundVerdict">양호</span></div>
@@ -534,11 +534,11 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="wdcPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="wdcPeerVerdict">중간</span></div>
-      <div class="logic-score" id="wdcPeerScore">55.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="wdcPeerScore">45.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="wdcSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="wdcSelfVerdict">중간</span></div>
-      <div class="logic-score" id="wdcSelfScore">44.8<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="wdcSelfScore">33.4<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -643,22 +643,22 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$148.32</td><td style="color: var(--red);" data-dcf-upside="low">−67.4%</td>
+          <td class="big scn-low" data-dcf-value="low">$145.26</td><td style="color: var(--red);" data-dcf-upside="low">−68.0%</td>
           <td class="story">재작성 이력 1년의 성장률 절반(연 17.5%)으로 시작해 식고, 영업이익률이 최근 4분기 34.5%에서 5년에 걸쳐 이력 중앙값 29.3%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$213.37</td><td style="color: var(--red);" data-dcf-upside="base">−53.0%</td>
+          <td class="big scn-base" data-dcf-value="base">$209.50</td><td style="color: var(--red);" data-dcf-upside="base">−53.9%</td>
           <td class="story">재작성 이력 1년의 성장률(연 35.1%)로 시작해 식고, 영업이익률이 최근 4분기 34.5%에서 5년에 걸쳐 이력 중앙값 29.3%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$234.39</td><td style="color: var(--red);" data-dcf-upside="high">−48.4%</td>
+          <td class="big scn-high" data-dcf-value="high">$230.27</td><td style="color: var(--red);" data-dcf-upside="high">−49.3%</td>
           <td class="story">같은 성장률(연 35.1%)로 시작해 식고, 최근 4분기 영업이익률 34.5%가 이어진다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 분사 뒤 네 분기가 모두 계속사업 기준인 최근 4분기 합이 FY25 말부터 5개(1년)뿐이라 3년·5년 성장률이 같은 1년 성장률(53주 해라 연환산 35.1%, 회계연도 기준 +35.7%)이고 “5년 중앙값”·“2년 중앙값” 이익률도 그 5개의 중앙값이다. 세율은 실효세율 4.9%(SanDisk 지분 이익은 비과세 교환)에서 5년에 걸쳐 21%로 간다. 주식 수는 보통주 3억 6,050만 주이며, 전환사채 전환분(공정가치 $10.1B 대 장부 $0.70B)은 넣지 않아 그만큼 주당 가치가 높게 잡혔다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 분사 뒤 네 분기가 모두 계속사업 기준인 최근 4분기 합이 FY25 말부터 5개(1년)뿐이라 3년·5년 성장률이 같은 1년 성장률(53주 해라 연환산 35.1%, 회계연도 기준 +35.7%)이고 “5년 중앙값”·“2년 중앙값” 이익률도 그 5개의 중앙값이다. 세율은 비과세인 SanDisk 지분 이익($6.5B)을 분모에서 뺀 실효세율 14.1%에서 5년에 걸쳐 21%로 간다(2026-10-04). 주식 수는 보통주 3억 6,050만 주이며, 전환사채 전환분(공정가치 $10.1B 대 장부 $0.70B)은 넣지 않아 그만큼 주당 가치가 높게 잡혔다.</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -671,7 +671,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $213</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −53.0%</span></div>
+    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $210</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −53.9%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -892,16 +892,16 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.30</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 WDC 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">44.8</div><div class="sc-tile" data-vc="self" data-m="per">94</div><div class="sc-tile low" data-vc="self" data-m="pbr">23</div><div class="sc-tile lost" data-vc="self" data-m="psr">32</div><div class="sc-tile lost" data-vc="self" data-m="pcr">38</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">37</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$213</div><div class="vs-note">현재가 <span data-vs="price">$454.46</span> 대비 <strong data-vs="upside">−53.0%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 실효세율 4.9% &lt; 10% — 세금 가정에 따라 값이 크게 바뀐다
+      <div class="vs-name" title="지난 5년 WDC 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">33.4</div><div class="sc-tile lost" data-vc="self" data-m="per">37</div><div class="sc-tile low" data-vc="self" data-m="pbr">23</div><div class="sc-tile lost" data-vc="self" data-m="psr">32</div><div class="sc-tile lost" data-vc="self" data-m="pcr">38</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">37</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$210</div><div class="vs-note">현재가 <span data-vs="price">$454.46</span> 대비 <strong data-vs="upside">−53.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 실효세율 4.9% &lt; 10% — 세금 가정에 따라 값이 크게 바뀐다
 · 잔존가치(5년 뒤)가 내재가치의 72%
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.13
-시나리오 범위: 1.94 ~ 3.06(세 시나리오 최대·최소 기준)
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.17
+시나리오 범위: 1.97 ~ 3.13(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">55.3</div><div class="sc-tile" data-vc="peer" data-m="per">96</div><div class="sc-tile low" data-vc="peer" data-m="pbr">25</div><div class="sc-tile lost" data-vc="peer" data-m="psr">57</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">54</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">44</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">45.1</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile low" data-vc="peer" data-m="pbr">25</div><div class="sc-tile lost" data-vc="peer" data-m="psr">57</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">54</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">44</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 +289% 올랐다. 자기 이력은 SanDisk 분사 뒤 재작성 숫자가 나온 2025-08-14부터라 약 13개월뿐이다. PER 18.8배는 그 기간 중 싼 쪽이지만 SanDisk 지분 평가이익이 EPS에 들어간 탓이고, PBR·PCR·EV/EBITDA는 비싼 쪽이라 44.8점(중간)이다. 카드 유니버스 IT 안에서는 PER만 25곳 중 두 번째로 싸고 나머지는 중간이나 비싼 쪽이라 55.3점(중간)이다. <strong>현금흐름 내재가치(기본 $213.37)는 현재가의 47%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”다. 현재가를 정당화하려면 5년간 매출이 연 42.8% 늘어야 한다(분사 뒤 재작성 이력 1년 연 35.1%). PER이 싸 보이는 것은 FY26 GAAP 순이익 $9.4B 가운데 SanDisk 지분 평가이익이 $6.5B였기 때문이다. 지분은 이제 없어 되풀이되지 않는다. 회사 조정 EPS($10.22)로는 PER 약 44배다.</div>
+    <div class="vs-premise">주가가 1년 새 +289% 올랐다. 자기 이력은 SanDisk 분사 뒤 재작성 숫자가 나온 2025-08-14부터라 약 13개월뿐이다. PER은 SanDisk 지분 평가이익을 뺀 본업 기준(영업이익 × (1 − 세율)) 42.8배로 그 기간 중간쯤이고, PBR·PCR·EV/EBITDA는 비싼 쪽이라 33.4점(중간)이다. 카드 유니버스 IT 안에서는 PER을 빼고(본업 기준이라 공시 EPS 기준인 동종업과 잣대가 다르다) 나머지가 중간이나 비싼 쪽이라 45.1점(중간)이다. <strong>현금흐름 내재가치(기본 $209.50)는 현재가의 46%</strong>다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”다. 현재가를 정당화하려면 5년간 매출이 연 43.1% 늘어야 한다(분사 뒤 재작성 이력 1년 연 35.1%). 공시 EPS로는 PER이 18.8배로 싸 보이는데, FY26 GAAP 순이익 $9.4B 가운데 SanDisk 지분 평가이익이 $6.5B였기 때문이다(지분은 이제 없어 되풀이되지 않는다). 그래서 PER은 본업 기준(42.8배)으로 잰다 — 영업외 이익이 영업이익의 20%를 넘는 종목의 규칙(2026-10-04). 회사 조정 EPS($10.22)로는 약 44배다.</div>
   </div>
 
   <div class="grid-2">
@@ -910,14 +910,14 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="per" onclick="selectMultiple('per')">
         <div class="val-header">
-          <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note">유효 이력 1.1년(적자·결측 구간 제외)</span></span>
+          <span class="val-name">PER (본업 기준) <span class="hist-note" data-hist="note">유효 이력 1.1년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">18.8x</span>
-            <span class="hist-badge good" data-hist="badge">1.1년 중 하위 6%</span>
+            <span class="val-number" data-hist="cur">42.8x</span>
+            <span class="hist-badge mid" data-hist="badge">1.1년 중 상위 37%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 5.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 17.0x</span><span data-hist="median">중앙 33.0x</span><span data-hist="max">최고 57.0x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 62.7%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 13.4x</span><span data-hist="median">중앙 38.0x</span><span data-hist="max">최고 90.6x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -990,7 +990,7 @@ Chart.overrides.doughnut.animation = false;
       <li>분사 때 남긴 SanDisk 주식(차입금 상환·자사주 맞교환)과 현금(전환사채 정산 $1.2B)으로 차입금이 $4.7B에서 $1.05B로 줄었다.</li>
       <li>FY26 GAAP 순이익 $9.4B 가운데 $6.5B가 SanDisk 지분 평가이익이라, 이익 기준 배수가 실제보다 싸게 나온다.</li>
     </ol>
-    <div class="verdict-summary-counter">⚠️ 자기 이력이 13개월뿐이고, 현금흐름 모델은 재작성 이력 1년의 높은 성장률을 써도 기본 주당 $213.37이다.</div>
+    <div class="verdict-summary-counter">⚠️ 자기 이력이 13개월뿐이고, 현금흐름 모델은 재작성 이력 1년의 높은 성장률을 써도 기본 주당 $209.50이다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q1 FY27 실적(10월 하순 예상)의 조정 EPS $4.00 달성과 SanDisk 이익이 빠진 GAAP EPS.</div>
   </div>
 
@@ -1431,7 +1431,7 @@ const WDC_MA120 = [50.543, 50.463, 50.389, 50.315, 50.236, 50.168, 50.096, 50.01
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let WDC_VERDICT = '계산 중';
 
-const WDC_DCF = {"low": 148.32, "base": 213.37, "high": 234.39, "requiredGrowth": 0.4279, "baseEquivGrowth": 0.197, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.3447, "growth5y": 0.3506, "nonopPerShare": 0.0, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["tax"], "hardDetail": {"roic": 0.3581, "tax": 0.0486, "nonopShare": 0.0}, "tvShare": 0.7155};   // build_dcf_block.py
+const WDC_DCF = {"low": 145.26, "base": 209.5, "high": 230.27, "requiredGrowth": 0.4314, "baseEquivGrowth": 0.1963, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.3447, "growth5y": 0.3506, "nonopPerShare": 0.0, "s2cFallback": false, "asOf": "2026-09-30", "hard": [], "hardDetail": {"roic": 0.3581, "tax": 0.1412, "nonopShare": 0.0}, "tvShare": 0.7288};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1484,8 +1484,8 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py WDC
 const WDC_SCORES = {
   fundamental: 75.2,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 55.3,          // 카드 유니버스 IT 종목 대비 배수 순위
-  selfHistory: 44.8,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
+  peer: 45.1,          // 카드 유니버스 IT 종목 대비 배수 순위
+  selfHistory: 33.4,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-07-03",   // FY2026 10-K (2026-08-14 공시)
 };
@@ -1580,7 +1580,7 @@ const WDC_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py WDC
 /* DCF_GRID:BEGIN */
-const WDC_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[179.11, 155.7, 137.77, 123.59, 112.08], [188.81, 162.51, 142.73, 127.31, 114.95], [200.21, 170.31, 148.32, 131.45, 118.09], [213.84, 179.37, 154.66, 136.07, 121.56], [230.41, 190.02, 161.95, 141.28, 125.41]], "기본": [[257.42, 223.71, 197.89, 177.47, 160.91], [271.53, 233.65, 205.18, 182.99, 165.19], [288.09, 245.03, 213.37, 189.09, 169.87], [307.82, 258.2, 222.64, 195.89, 175.01], [331.8, 273.66, 233.26, 203.53, 180.7]], "낙관": [[285.69, 245.7, 215.11, 190.95, 171.4], [303.18, 258.04, 224.17, 197.81, 176.71], [323.76, 272.22, 234.39, 205.44, 182.56], [348.36, 288.69, 246.02, 213.97, 189.01], [378.32, 308.08, 259.37, 223.59, 196.18]]}};
+const WDC_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[175.97, 152.61, 134.72, 120.58, 109.11], [185.66, 159.41, 139.68, 124.3, 111.97], [197.07, 167.21, 145.26, 128.43, 115.11], [210.68, 176.26, 151.6, 133.05, 118.57], [227.26, 186.9, 158.87, 138.25, 122.42]], "기본": [[253.46, 219.8, 194.04, 173.67, 157.17], [267.56, 229.73, 201.32, 179.18, 161.44], [284.11, 241.1, 209.5, 185.28, 166.11], [303.84, 254.27, 218.77, 192.07, 171.25], [327.81, 269.72, 229.38, 199.7, 176.93]], "낙관": [[281.46, 241.52, 210.99, 186.9, 167.4], [298.94, 253.86, 220.05, 193.75, 172.71], [319.51, 268.03, 230.27, 201.37, 178.55], [344.1, 284.5, 241.88, 209.89, 184.99], [374.05, 303.87, 255.23, 219.51, 192.16]]}};
 /* DCF_GRID:END */
 (function(){
   const D = WDC_DCF, G = (typeof WDC_DCF_GRID !== 'undefined') ? WDC_DCF_GRID : null;
@@ -1686,7 +1686,7 @@ const WDC_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
 //
 // 갱신: python3 v2/build_fundamental_score.py WDC --card
 /* FUNDAMENTAL:BEGIN */
-const WDC_FUNDAMENTAL = {"ticker": "WDC", "basis": "quarter", "asOf": "2026-07-03", "filedAt": "2026-08-14", "periodSource": "10-K", "score": 75.2, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 132.87735849056602, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 97.24056603773586, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 7.589639997114206, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 26.98787878787879, "points": 4, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 56.37409747292419, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 19.8, "points": 19.8, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 27.259442679223554, "points": 5, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": null, "points": 4, "note": "흑자 전환", "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 34.46861212168125, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 71.87862837680935, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 30.6, "points": 30.6, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 1579000000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 1052000000.0, "lease": 139000000.0, "shares": 360540944, "net": 388000000.0, "perShare": 1.0761607147730772}};
+const WDC_FUNDAMENTAL = {"ticker": "WDC", "basis": "quarter", "asOf": "2026-07-03", "filedAt": "2026-08-14", "periodSource": "10-K", "score": 75.2, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 132.87735849056602, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 97.24056603773586, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 7.589639997114206, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 26.98787878787879, "points": 4, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 56.37409747292419, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 19.8, "points": 19.8, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 27.259442679223554, "points": 5, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": null, "points": 4, "note": "흑자 전환", "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 34.46861212168125, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 29.60233609276176, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 30.6, "points": 30.6, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 1579000000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 1052000000.0, "lease": 139000000.0, "shares": 360540944, "net": 388000000.0, "perShare": 1.0761607147730772}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof WDC_FUNDAMENTAL !== 'undefined') ? WDC_FUNDAMENTAL : null;
@@ -1793,7 +1793,7 @@ const WDC_FUNDAMENTAL = {"ticker": "WDC", "basis": "quarter", "asOf": "2026-07-0
 //
 // 갱신: python3 v2/build_peer_score.py WDC --self v2/WDC_multiples.json --card
 /* VALUATION:BEGIN */
-const WDC_VALUATION = {"peer": {"score": 55.3, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "per", "score": 96.0, "rank": 2, "peers": 25}, {"metric": "pbr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "psr", "score": 57.1, "rank": 13, "peers": 28}, {"metric": "pcr", "score": 54.2, "rank": 12, "peers": 24}, {"metric": "evebitda", "score": 44.0, "rank": 15, "peers": 25}]}, "self": {"score": 44.8, "window": ["2025-08-14", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.4, "percentile": 5.6, "current": 18.76, "min": 17.0, "median": 32.97, "max": 57.01, "days": 284, "currentNote": null}, {"metric": "pbr", "score": 22.5, "percentile": 77.5, "current": 18.49, "min": 4.88, "median": 13.78, "max": 26.57, "days": 284, "currentNote": null}, {"metric": "psr", "score": 32.4, "percentile": 67.6, "current": 12.68, "min": 2.72, "median": 8.98, "max": 21.84, "days": 284, "currentNote": null}, {"metric": "pcr", "score": 38.0, "percentile": 62.0, "current": 46.67, "min": 20.25, "median": 42.19, "max": 88.54, "days": 284, "currentNote": null}, {"metric": "evebitda", "score": 36.6, "percentile": 63.4, "current": 33.86, "min": 10.28, "median": 28.23, "max": 65.33, "days": 284, "currentNote": null}]}};
+const WDC_VALUATION = {"peer": {"score": 45.1, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "pbr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "psr", "score": 57.1, "rank": 13, "peers": 28}, {"metric": "pcr", "score": 54.2, "rank": 12, "peers": 24}, {"metric": "evebitda", "score": 44.0, "rank": 15, "peers": 25}]}, "self": {"score": 33.4, "window": ["2025-08-14", "2026-09-30"], "perBasis": "core", "metrics": [{"metric": "per", "score": 37.3, "percentile": 62.7, "current": 42.84, "min": 13.45, "median": 37.95, "max": 90.62, "days": 284, "currentNote": null}, {"metric": "pbr", "score": 22.5, "percentile": 77.5, "current": 18.49, "min": 4.88, "median": 13.78, "max": 26.57, "days": 284, "currentNote": null}, {"metric": "psr", "score": 32.4, "percentile": 67.6, "current": 12.68, "min": 2.72, "median": 8.98, "max": 21.84, "days": 284, "currentNote": null}, {"metric": "pcr", "score": 38.0, "percentile": 62.0, "current": 46.67, "min": 20.25, "median": 42.19, "max": 88.54, "days": 284, "currentNote": null}, {"metric": "evebitda", "score": 36.6, "percentile": 63.4, "current": 33.86, "min": 10.28, "median": 28.23, "max": 65.33, "days": 284, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2145,11 +2145,12 @@ const WDC_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
   }
   put('wdcPeerBox', 'wdcPeerScore', 'wdcPeerVerdict', S.peer, WORDS.val,
       `카드 유니버스 IT 종목과 배수 순위를 매긴 값이다.`
-      + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
-      + `\nPER은 SanDisk 지분 평가이익이 든 EPS라 비교군 25곳 중 두 번째로 싸게 나온다. 씨게이트(STX)는 아직 비교군에 없다.`);
+      + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 PER을 뺀 네 개를 평균했다.`
+      + `\nPER은 본업 기준(SanDisk 지분 이익 제외)이라 공시 EPS 기준인 동종업과 잣대가 달라 이 점수에서 뺐다(2026-10-04).`
+      + `\nPER은 본업 기준(2026-10-04 — 영업외 이익이 영업이익의 20%를 넘음)이라 공시 EPS 기준인 동종업과 잣대가 달라 이 점수에서 뺐다.`);
   put('wdcSelfBox', 'wdcSelfScore', 'wdcSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n자기 이력은 2025-08-14부터 약 13개월이다(분사 전 숫자는 플래시 사업을 포함해 쓰지 않는다). PER 18.8배는 SanDisk 지분 평가이익이 든 EPS 기준이다.`
+      + `\n자기 이력은 2025-08-14부터 약 13개월이다(분사 전 숫자는 플래시 사업을 포함해 쓰지 않는다). PER은 SanDisk 지분 이익을 뺀 본업 기준 42.8배다(공시 EPS로는 18.8배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
@@ -2161,7 +2162,7 @@ const WDC_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const WDC_DCF_TRACK = [{d:"2026-08-14",low:148.3,base:213.4,high:234.4}];
+const WDC_DCF_TRACK = [{d:"2026-08-14",low:145.3,base:209.5,high:230.3}];
 const WDC_BACKTEST = [];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
