@@ -15,8 +15,8 @@
    "max": 1244.33,
    "mean": 104.4,
    "percentile": 100.0,
-   "score": 0.0,
-   "currentNote": "negative"
+   "score": null,
+   "currentNote": "per_na"
   },
   "PSR": {
    "days": 1255,
@@ -68,5 +68,9 @@
    "currentNote": "negative"
   }
  },
- "perBasis": "diluted"
+ "perBasis": "diluted",
+ "perNA": {
+  "netMargin": -0.1064,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+ }
 }

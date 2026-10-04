@@ -496,12 +496,12 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="spcxDcfReq" style="font-size: 22px; color: var(--text3);">—</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="spcxConfidenceLabel">밴드 적중률 (백테스트 없음)</span>
-      <span class="meta-value" id="spcxConfidence" style="font-size: 22px; color: var(--text3);">—</span>
+      <span class="meta-label" id="spcxConfidenceLabel">밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)</span>
+      <span class="meta-value" id="spcxConfidence" style="font-size:22px;color:var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="spcxFairBand" style="font-size:22px;color:var(--text3);">— (적자)</span>
+      <span class="meta-value" id="spcxFairBand" style="font-size:22px;color:var(--text3);">해당 없음</span>
     </div>
   </div>
   </div>
@@ -523,7 +523,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="spcxPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="spcxPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="spcxPeerScore">8.6<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="spcxPeerScore">10.7<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="spcxSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="spcxSelfVerdict">표본 부족</span></div>
@@ -881,7 +881,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="지난 5년 SPCX 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">—</div><div class="sc-tile none" data-vc="self" data-m="per">—</div><div class="sc-tile none" data-vc="self" data-m="pbr">—</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">현재가 <span data-vs="price">$148.03</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill mid" data-vs-pill="dcf" title="
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">계산 불가</div>
-      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">8.6</div><div class="sc-tile low" data-vc="peer" data-m="per">0</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">43</div><div class="sc-tile low" data-vc="peer" data-m="psr">0</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">10.7</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">43</div><div class="sc-tile low" data-vc="peer" data-m="psr">0</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">동종업 중 가장 비싼 쪽이다(매출의 87배, 순손실). <strong>상장 3개월이라 자기 5년 이력과 현금흐름 내재가치는 계산할 수 없어 종합 판정은 보류한다.</strong></div>
     <div class="verdict-summary-risk">⚠️ 최근 4분기 잉여현금흐름이 −$32.3B다. AI 설비투자를 상장 대금(주당 $135 × 6억 3,890만 주)과 회사채 $25B로 치르고 있다.</div>
@@ -1439,7 +1439,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py SPCX
 const SPCX_SCORES = {
   fundamental: 43.6,   // 재무건전성 + 성장·수익성 — 성장 항목 부족으로 해석 제한
-  peer: 8.6,           // 산업재 + IT 섹터 대비 배수 순위 (PER·PCR은 적자라 0점)
+  peer: 10.7,           // 산업재 + IT 섹터 대비 배수 순위 (PER은 해당 없음, PCR은 적자라 0점)
   selfHistory: null,   // 상장 3개월 — 5년 이력 없음
   asOf: "2026-09-24",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-04 공시)
@@ -1754,7 +1754,7 @@ const SPCX_FUNDAMENTAL = {"ticker": "SPCX", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py SPCX --self v2/SPCX_multiples.json --card
 /* VALUATION:BEGIN */
-const SPCX_VALUATION = {"peer": {"score": 8.6, "sector": "Industrials + Information Technology", "asOf": ["2026-08-27", "2026-09-14"], "metrics": [{"metric": "per", "score": 0.0, "rank": 31, "peers": 30}, {"metric": "pbr", "score": 42.9, "rank": 17, "peers": 28}, {"metric": "psr", "score": 0.0, "rank": 34, "peers": 33}, {"metric": "pcr", "score": 0.0, "rank": 30, "peers": 29}, {"metric": "evebitda", "score": 0.0, "rank": 29, "peers": 28}]}, "self": {"score": null, "window": ["2026-09-24", "2026-09-24"], "perBasis": "diluted", "metrics": []}};
+const SPCX_VALUATION = {"peer": {"score": 10.7, "sector": "Industrials + Information Technology", "asOf": ["2026-08-27", "2026-09-14"], "metrics": [{"metric": "pbr", "score": 42.9, "rank": 17, "peers": 28}, {"metric": "psr", "score": 0.0, "rank": 34, "peers": 33}, {"metric": "pcr", "score": 0.0, "rank": 30, "peers": 29}, {"metric": "evebitda", "score": 0.0, "rank": 29, "peers": 28}]}, "self": {"score": null, "window": ["2026-09-24", "2026-09-24"], "perBasis": "diluted", "metrics": []}, "perNA": {"netMargin": -0.3566, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자", "source": "SPCX_multiples.json의 ttm(어댑터 — S-1·10-Q 손입력) 순이익 ÷ 매출"}};;;
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1824,7 +1824,9 @@ const SPCX_VALUATION = {"peer": {"score": 8.6, "sector": "Industrials + Informat
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1832,11 +1834,11 @@ const SPCX_VALUATION = {"peer": {"score": 8.6, "sector": "Industrials + Informat
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
     const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -2080,8 +2082,8 @@ const SPCX_ANALYST = { asOf: '2026-09-24', source: 'StockAnalysis', rating: 'Buy
   }
   put('spcxPeerBox', 'spcxPeerScore', 'spcxPeerVerdict', S.peer, WORDS.val,
       `GICS 산업재 섹터에 IT 섹터를 더해 배수 순위를 매긴 값이다(산업재는 3~5종목뿐).`
-      + `\nPER·PCR은 순손실·잉여현금흐름 적자라 0점(가장 비싼 쪽)으로 셌다.`
-      + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
+      + `\nPER은 순손실이라 해당 없음(점수에서 뺌), PCR은 잉여현금흐름 적자라 0점(가장 비싼 쪽)으로 셌다.`
+      + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고, PER은 해당 없음(적자)이라 빼고 나머지 네 개를 평균했다.`
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('spcxSelfBox', 'spcxSelfScore', 'spcxSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
@@ -2176,6 +2178,13 @@ function spcxBandTone(cp){
   const el = document.getElementById('spcxConfidence');
   const label = document.getElementById('spcxConfidenceLabel');
   const h = SPCX_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof SPCX_VALUATION !== 'undefined' && SPCX_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('spcxFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   if (el && h.ratio == null) {   // 백테스트 체크포인트가 없으면(신규 상장 등) 비워 둔다
     el.textContent = '—'; el.style.color = 'var(--text3)';
     if (label) label.textContent = '밴드 적중률 (백테스트 없음)';

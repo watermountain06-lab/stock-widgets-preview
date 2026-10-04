@@ -14,7 +14,7 @@
    "median": null,
    "max": null,
    "days": 0,
-   "currentNote": "negative"
+   "currentNote": "per_na"
   },
   "PSR": {
    "current": 87.19,
@@ -78,5 +78,10 @@
   "h1": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052535/spcx-20260630.htm"
  },
  "asOf": "2026-09-24",
- "price": 148.03
+ "price": 148.03,
+ "perNA": {
+  "netMargin": -0.3566,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자",
+  "source": "SPCX_multiples.json의 ttm(어댑터 — S-1·10-Q 손입력) 순이익 ÷ 매출"
+ }
 }

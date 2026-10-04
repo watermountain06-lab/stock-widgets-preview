@@ -172,8 +172,9 @@ def self_multiples(path):
     d = json.load(open(path))["multiples"]
     # 오늘 분모가 0 이하(currentNote "negative")면 값 대신 NEGATIVE — 동종업 꼴찌로 센다.
     # 분모를 못 구한 날("missing")은 넣지 않아 그 배수가 빠진다.
+    # PER 해당 없음(A3, currentNote "per_na")은 동종업 비교에도 넣지 않는다.
     return {SELF_KEYS[k]: (v["current"] if v.get("current") is not None else NEGATIVE)
-            for k, v in d.items() if k in SELF_KEYS
+            for k, v in d.items() if k in SELF_KEYS and v.get("currentNote") != "per_na"
             and (v.get("current") is not None or v.get("currentNote") == "negative")}
 
 
@@ -202,7 +203,7 @@ def peer_score(ticker, sectors, prices, self_path=None):
         data, asof = {}, {}
         for t in group:
             data[t], asof[t] = multiples_now(t, prices)
-    core = False
+    core = per_na = False
     if self_path and os.path.exists(self_path):
         data[ticker] = {**data.get(ticker, {}), **self_multiples(self_path)}
         # 오늘 분모를 못 구한 배수("missing")는 valuation_base 쪽 값도 지워 순위에서 뺀다(Codex 2차).
@@ -210,10 +211,14 @@ def peer_score(ticker, sectors, prices, self_path=None):
             if k in SELF_KEYS and v.get("currentNote") == "missing":
                 data[ticker].pop(SELF_KEYS[k], None)
         core = json.load(open(self_path)).get("perBasis") == "core"
+        per_na = bool(json.load(open(self_path)).get("perNA"))
     rows, dropped = [], []
     for m in METRICS:
         # 본인 PER이 본업 기준이면 공시 EPS 기준인 동종업 PER과 잣대가 다르다. 동종업 전체를
         # 본업 기준으로 다시 계산하기 전까지는 PER을 동종업 점수에서 뺀다(Codex 지적, 2026-09-24).
+        if m == "per" and per_na:
+            dropped.append((m, "본인 PER 해당 없음 — 최근 4분기 GAAP 순이익률 2% 미만(A3)"))
+            continue
         if m == "per" and core:
             dropped.append((m, "본인 PER은 본업 기준, 동종업은 공시 EPS 기준이라 비교에서 뺌"))
             continue
@@ -290,14 +295,14 @@ def main():
         if "selfScore" not in r:
             sys.exit("--card는 --self와 함께 쓴다 (두 점수를 한 블록에 싣는다)")
         sd = json.load(open(args.self_path))
-        write_card(t, r, sd["multiples"], sd.get("perBasis", "diluted"))
+        write_card(t, r, sd["multiples"], sd.get("perBasis", "diluted"), sd.get("perNA"))
 
 
 SELF_KEYS = {"PER": "per", "PBR": "pbr", "PSR": "psr", "PCR": "pcr", "EV/EBITDA": "evebitda"}
 BEGIN, END = "/* VALUATION:BEGIN */", "/* VALUATION:END */"
 
 
-def write_card(ticker, r, self_multiples, per_basis="diluted"):
+def write_card(ticker, r, self_multiples, per_basis="diluted", per_na=None):
     """밸류에이션 탭의 두 점수 상자가 읽는 블록. 요약 격자도 같은 값을 쓴다."""
     import re
     out = {
@@ -312,9 +317,11 @@ def write_card(ticker, r, self_multiples, per_basis="diluted"):
                        "current": v["current"], "min": v["min"], "median": v["median"],
                        "max": v["max"], "days": v["days"], "currentNote": v.get("currentNote")}
                       for k, v in self_multiples.items()
-                      if v.get("score") is not None or v.get("currentNote") == "missing"],
+                      if v.get("score") is not None or v.get("currentNote") in ("missing", "per_na")],
                      key=lambda m: METRICS.index(m["metric"]))},
     }
+    if per_na:
+        out["perNA"] = per_na   # A3 — 카드가 적정주가·밴드 적중률·PER 행을 "해당 없음"으로 보인다
     path = os.path.join(REPO, "v2", f"{ticker}_full_widget.html")
     html = open(path, encoding="utf-8").read()
     pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)

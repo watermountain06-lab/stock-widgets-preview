@@ -164,6 +164,7 @@ def oneoff_in_ttm(ticker, ttm_end, field, asof=None):
 # 두 시리즈를 짝지을 때 허용하는 뒤처짐. 한 분기 늦은 보고(약 91일)는 받고,
 # 두 분기 이상 비면 버린다.
 MAX_PAIR_LAG_DAYS = 200
+PER_NA_MARGIN = 0.02   # A3: 최근 4분기 GAAP 순이익률이 이보다 낮으면(적자 포함) PER 해당 없음
 
 
 CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".sec_cache")
@@ -1459,6 +1460,34 @@ def main():
     if not core:
         DENOMS["PER"] = lambda d: as_of(eps, d) if eps else None
 
+    # A3(2026-10-01 사용자 결정, 100장 뒤 적용 — 2026-10-03): 최근 4분기 GAAP 순이익률이 2% 미만(손익분기 근처 흑자)이거나
+    # 순이익 ≤ 0(적자)이면 "PER 해당 없음" 종목. PER을 자기 이력·동종업 점수에서 빼고, PER 기준 적정주가 밴드는 만들지 않는다.
+    def _net_margin_now():
+        """지배주주 귀속 순이익(NetIncomeLoss, 우선주 배당 전) TTM ÷ 매출 TTM. 태그가 멈췄으면(매출 TTM 결산일보다 120일 넘게 뒤처짐)
+        다음 태그로 — AVGO는 NetIncomeLoss TTM이 2019에 멈춰 2019 순이익 ÷ 2026 매출이 될 뻔했다(Fable, A3)."""
+        day = daily[-1][0]
+        rv_s = [e for e in series.get("revenue", []) if e["available"] <= day]
+        if not rv_s:
+            return None
+        rv_end = date.fromisoformat(rv_s[-1]["end"])
+        for tags in (["NetIncomeLoss"], ["ProfitLoss"], ["NetIncomeLossAvailableToCommonStockholdersBasic"]):
+            _, nr = pick_tag(cik, tags)
+            ni_s = [e for e in (ttm_series(quarterly_flow(nr, t)) if nr else []) if e["available"] <= day]
+            if ni_s and abs((rv_end - date.fromisoformat(ni_s[-1]["end"])).days) <= 120 and rv_s[-1]["val"]:
+                return ni_s[-1]["val"] / rv_s[-1]["val"]
+        return None
+    per_margin = _net_margin_now()
+    per_na = per_margin is not None and per_margin < PER_NA_MARGIN
+    out["perNA"] = {"netMargin": round(per_margin, 4), "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"} if per_na else None
+    if per_na:
+        print(f"  PER 해당 없음: 최근 4분기 순이익률 {per_margin:.2%} (< 2%) — 자기 이력·동종업 점수에서 PER을 뺀다(A3)")
+    elif per_margin is None and eps and (as_of(eps, daily[-1][0]) or 0) <= 0 and as_of(eps, daily[-1][0]) is not None:
+        # 순이익률을 못 구해도 최근 4분기 EPS가 0 이하(적자)면 해당 — 양수 PER 이력이 없어 아래 반복이 PER을 건너뛰어도 적용되게
+        # 배수 계산 전에 정한다(Codex 2차).
+        per_na = True
+        out["perNA"] = {"netMargin": None, "rule": "최근 4분기 EPS ≤ 0(적자) — 순이익률 계산 불가"}
+        print("  PER 해당 없음: 순이익률은 못 구했지만 최근 4분기 EPS ≤ 0(적자) — 자기 이력·동종업 점수에서 PER을 뺀다(A3)")
+
     for label, fn in defs.items():
         pts = []
         for b in daily:
@@ -1506,7 +1535,10 @@ def main():
         }
         if stale_note:
             out["multiples"][label]["currentNote"] = stale_note
-        if label == "PER" and not stale_note:
+        if label == "PER" and per_na:
+            m_ = out["multiples"]["PER"]
+            m_["score"], m_["currentNote"] = None, "per_na"
+        if label == "PER" and not stale_note and not per_na:
             # 적정주가 밴드 — 최근 252거래일 PER의 p25~p75 × 현재 EPS, $10 반올림.
             # EPS_now = P_now / PER_now이므로 현재가 × (분위 PER ÷ 현재 PER)로 같다.
             # (2026-09-24 손값에서 스크립트로. NVDA $260~$370·AAPL $300~$330 재현)
@@ -1525,6 +1557,9 @@ def main():
             print(f"  적정주가 밴드: PER {yq(.25):.1f}~{yq(.75):.1f}x → ${out['fairBand']['low']}~${out['fairBand']['high']}"
                   f" ({out['perBasis']})")
         m = out["multiples"][label]
+        if label == "PER" and per_na:
+            print(f"  {label}: 해당 없음(A3 — 점수·평균에서 뺌)")
+            continue
         if stale_note:
             print(f"  {label}: 오늘 값 없음 ({'분모 0 이하 → 0점' if stale_note == 'negative' else '분모를 못 구함 → 평균에서 뺌'})")
             continue
