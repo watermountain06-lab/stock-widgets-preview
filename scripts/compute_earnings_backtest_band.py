@@ -192,6 +192,9 @@ def main():
                           "early-profit ramp -- from a company's first-ever positive TTM EPS until its last four "
                           "quarters are all positive -- when tiny TTM EPS makes PER run into the hundreds or "
                           "thousands. The windows come from reported EPS, never from this output's magnitude.")
+    ap.add_argument("--min-sample-days", type=int, default=100,
+                     help="minimum trailing PER observations (trading days) for a checkpoint. v2 C14 (2026-10-04): 252 "
+                          "-- a band built from under a year of PER is too narrow to mean anything (UBER 125 days, 1.1x wide).")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -257,7 +260,7 @@ def main():
                   for (d, p) in per_series if window_start.isoformat() <= d < t_str
                   and not (exclude_start is not None and exclude_start <= d <= exclude_end)
                   and not any(ws <= d <= we for ws, we in extra_windows)]
-        if len(sample) < 100:
+        if len(sample) < args.min_sample_days:
             continue
         per_low = weighted_percentile(sample, args.per_low_pctile)
         per_high = weighted_percentile(sample, args.per_high_pctile)

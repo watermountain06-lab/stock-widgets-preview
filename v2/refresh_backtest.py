@@ -42,6 +42,8 @@ EXCLUDE_PER_WINDOW = {
 KEEP_ROOT = {"TSM", "ASML"}   # PANW는 2026-10-04 뺐다 — 흑자 초기(A9 B6)와 일회성 세금(A8 ①)을 반영하니 v2 재계산 밴드가 정상(폭 1.3~2.9배)
 # 체크포인트가 실적 발표일인 루트 배열(EPS 공시일은 몇 주 뒤) — 같은 분기 공시를 거르는 45일. PANW 배열은 체크포인트가 곧 공시일이라 0일(Codex)
 RELEASE_DATE_CHECKPOINTS = {"TSM", "ASML"}
+# 체크포인트 밴드에 필요한 직전 PER 표본(거래일) — 1년 미만 표본의 밴드는 너무 좁아 뜻이 없다(C14 ①, 2026-10-04 — UBER 125일·폭 1.1배)
+MIN_SAMPLE_DAYS = 252
 KEEP_EMPTY = {"BA", "COF"}   # 적정주가 밴드·백테스트를 카드 결정으로 비운 종목(CARD_ITEMS BA 규칙)
 # 루트 JSON의 trailing_years가 기본(2년)과 다른 종목 — GEV는 2024-04 상장이라 직전 1년 PER로 잰다
 TRAILING_YEARS = {"GEV": 1}
@@ -164,6 +166,7 @@ def main():
         json.dump({"daily": [b for b in daily if not bt_start or b[0] >= bt_start]}, open(tmp, "w"))
         cmd = [sys.executable, os.path.join(REPO, "scripts", "compute_earnings_backtest_band.py"), t,
                "--eps", eps_path, "--daily-json", tmp, "--out", out]
+        cmd += ["--min-sample-days", str(MIN_SAMPLE_DAYS)]
         if t in TRAILING_YEARS:
             cmd += ["--trailing-years", str(TRAILING_YEARS[t])]
         if t in EXCLUDE_PER_WINDOW:

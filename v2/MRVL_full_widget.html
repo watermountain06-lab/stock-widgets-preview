@@ -507,7 +507,7 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="mrvlDcfReq" style="font-size: 22px; color: var(--red);">100%로도 불가</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="mrvlConfidenceLabel">밴드 적중률 (끝난 체크포인트 1개 — 4개 미만)</span>
+      <span class="meta-label" id="mrvlConfidenceLabel">밴드 적중률 (해당 없음 — 직전 PER 표본 1년 미만)</span>
       <span class="meta-value" id="mrvlConfidence" style="font-size: 22px; color: var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
@@ -2155,7 +2155,7 @@ const MRVL_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
 const MRVL_DCF_TRACK = [{d:"2024-08-30",low:-11.1,base:-15.7,high:-16.0},{d:"2024-12-04",low:-11.6,base:-16.2,high:-15.4},{d:"2025-03-12",low:-11.4,base:-16.6,high:-12.6},{d:"2025-05-30",low:-11.9,base:-18.1,high:-10.9},{d:"2025-08-29",low:-11.7,base:-18.7,high:-9.5},{d:"2025-12-03",low:-7.5,base:-14.6,high:4.6},{d:"2026-03-11",low:-6.9,base:-2.1,high:6.5},{d:"2026-05-28",low:-7.4,base:-14.1,high:4.7},{d:"2026-08-28",low:-7.4,base:3.0,high:6.1}];
-const MRVL_BACKTEST = [{"checkpoint_date": "2026-05-28", "quarter_end": "2026-05-02", "ttm_eps": 2.91, "trailing_sample_size": 120, "per_low": 27.72, "per_high": 57.42, "band_width_ratio": 2.07, "predicted_low": 80.67, "predicted_high": 167.08, "realized_per_high": 108.74, "realized_per_low": 56.15, "realized_price_high": 316.43, "realized_price_low": 163.4, "period_end_date": "2026-08-27", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-08-28", "quarter_end": "2026-08-01", "ttm_eps": 3.02, "trailing_sample_size": 184, "per_low": 28.49, "per_high": 95.09, "band_width_ratio": 3.34, "predicted_low": 86.05, "predicted_high": 287.16, "realized_per_high": 87.49, "realized_per_low": 68.37, "realized_price_high": 264.21, "realized_price_low": 206.48, "period_end_date": "2026-09-30", "is_open": true, "zone": "full_hit", "spans_earnings": 0}];
+const MRVL_BACKTEST = [];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
 // "예상 밴드 안에서 마감한 일봉이 몇 %인가"로 따로 센다. 진행 중인 구간의
@@ -2245,7 +2245,7 @@ function mrvlBandTone(cp){
   }
   if (el && h.ratio == null) {   // 백테스트 체크포인트가 없으면(신규 상장 등) 비워 둔다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
-    if (label) label.textContent = '밴드 적중률 (백테스트 없음)';
+    if (label) label.textContent = '밴드 적중률 (해당 없음 — 직전 PER 표본 1년 미만)';
     return;
   }
   if (!el) return;
