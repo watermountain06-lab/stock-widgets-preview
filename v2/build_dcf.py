@@ -80,13 +80,10 @@ def latest(series, asof=None):
         return None
     if asof is None:
         return series[-1]["val"]
-    val = None
-    for e in series:
-        if e.get("available", e.get("end")) <= asof:
-            val = e["val"]
-        else:
-            break
-    return val
+    # 끝까지 훑는다 — 시리즈가 공시일 순서가 아니어도 그날까지 공개된 마지막 값을 놓치지 않게(C8, Codex). 공시일 순서인
+    # 시리즈(component_sum·instant_series·ttm_series)는 예전과 결과가 같다(2026-10-03 계측: 뒤바뀐 입력 0건).
+    ok = [e for e in series if e.get("available", e.get("end")) <= asof]
+    return ok[-1]["val"] if ok else None
 
 
 # 투자자산이 영업 자산인 회사(CIK) — 투자 수익이 영업이익 안에 있다. 값은 근거.
@@ -590,10 +587,15 @@ def history(ticker, asof=None, window_start=None):
         return max(rev[x]["available"], op[x]["available"])
 
     # window_start: 과거 시점 재현은 그 시점 기준 약 5년 창을 쓴다(research/point_in_time_replay.py).
-    ws = window_start or HISTORY_WINDOW.get(ticker, (WINDOW_START, 13))[0]
+    hw = HISTORY_WINDOW.get(ticker, (WINDOW_START, 13))
+    # 연구용 시점 재현(bmh.ASOF_REF)에서는 분사 이력 시작일이 평가일보다 뒤면 쓰지 않는다 — 나중에 정한 날짜라 그 전 평가일에는
+    # 미래 정보다(WDC 2025, C8 — Codex). 카드 경로는 그대로.
+    if bmh.ASOF_REF and asof and hw[0] > asof:
+        hw = (WINDOW_START, 13)
+    ws = window_start or hw[0]
     dates = [x for x in dates if x >= ws
              and (asof is None or avail_of(x) <= asof)]
-    if len(dates) < HISTORY_WINDOW.get(ticker, (WINDOW_START, 13))[1]:
+    if len(dates) < hw[1]:
         return None
     # 영업이익률 이력 — run_dcf의 마진 경로와 같은 정의(2026-09-24, 전에는 EBITDA 마진).
     margins = {x: op[x]["val"] / rev[x]["val"] for x in dates}

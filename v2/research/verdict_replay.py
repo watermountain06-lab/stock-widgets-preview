@@ -34,6 +34,8 @@ import numpy as np  # noqa: E402
 from scipy.stats import spearmanr, rankdata  # noqa: E402
 import valuation_judges_test as v  # noqa: E402  (boot_weighted, SP500, EXCLUDE, d = build_dcf)
 import build_multiple_history as bmh  # noqa: E402
+import pit  # noqa: E402  (C8 — 평가일마다 그날까지 공시된 행만)
+pit.capture(bmh)
 import splits as _splits  # noqa: E402
 
 d = v.d
@@ -217,8 +219,29 @@ def provenance():
     return {"engine_commit": git("rev-parse", "HEAD"),
             "engine_dirty": git("status", "--porcelain", "--", *engine),
             "script_sha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()[:16],
+            "pit_sha256": hashlib.sha256(open(os.path.join(HERE, "pit.py"), "rb").read()).hexdigest()[:16],
+            "engine_sha256": {f: hashlib.sha256(open(os.path.join(V2, f), "rb").read()).hexdigest()[:16] for f in engine if os.path.exists(os.path.join(V2, f))},
             "inputs": {k: _dir_hash(p) for k, p in (("prices10y", PRICES), ("facts", FACTS), ("eps", EPS_DIR))},
             "redesign_commit": subprocess.run(["git", "-C", os.path.dirname(v.DATA), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()}
+
+
+def _override_filed(t):
+    """종목별 손 보정 파일에 적힌 공시일(filed) 모음."""
+    out = set()
+    def walk(x):
+        if isinstance(x, dict):
+            if isinstance(x.get("filed"), str):
+                out.add(x["filed"])
+            for y in x.values():
+                walk(y)
+        elif isinstance(x, list):
+            for y in x:
+                walk(y)
+    for f in ("nonop_extra.json", "interest_extra.json", "tax_oneoff.json"):
+        p = os.path.join(V2, f)
+        if os.path.exists(p):
+            walk(json.load(open(p)).get(t))
+    return out
 
 
 def build():
@@ -249,24 +272,24 @@ def build():
             if hasattr(getattr(bmh, fn), "cache_clear"):
                 getattr(bmh, fn).cache_clear()
         ep = os.path.join(EPS_DIR, f"{t}.json")
-        eps = []
-        if os.path.exists(ep):
+        # C8: EPS TTM은 SEC 자료로 다시 만들어 공개일을 구성 분기 중 가장 늦은 첫 공시일로(pit.eps_ttm). 자료가 없으면 EPS 파일.
+        eps = [{"available": e["available"], "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"])}
+               for e in pit.eps_ttm(data, pj.get("splits") or []) if e["val"]]
+        if not eps and os.path.exists(ep):
             eps = sorted(({"available": e["available_date"],
                            "val": e["ttm_eps"] + bmh.oneoff_in_ttm(t, e.get("quarter_end"), "eps", asof=e["available_date"])}
                           for e in json.load(open(ep)) if e.get("ttm_eps")), key=lambda e: e["available"])
         daily = [(dd, c) for dd, c in zip(dates, closes) if dd >= BAR_START]
-        try:
-            with contextlib.redirect_stdout(io.StringIO()):
-                mvals, core, denoms, per_dil = multiple_series(t, cik, daily, eps)
-        except Exception as e:
-            print("배수 실패", t, str(e)[:80], flush=True)
-            mvals, core, denoms, per_dil = None, False, {}, None
+        # C8(2026-10-03, Codex·Fable 2차): 모든 종목의 현금흐름과 배수 시리즈를 (공시 상태, 감가상각 합산 태그 판정) 단위로
+        # 그날까지 공시된 행만으로 계산한다. 한 번 만든 시리즈를 쓰면 1년 뒤 비교 수치로 다시 실린 분기가 공개일을 늦추는 등
+        # 공개 시점이 미래 공시에 따라 바뀌었다(PEP·KO, Fable). 감가상각 판정은 평가일 기준(공시 없이 730일 문턱을 넘을 수 있음).
         filed_all = sorted({row.get("filed") for ns in data["facts"].values() for vv in ns.values()
                             for rr in vv["units"].values() for row in rr if row.get("filed")})
         month_ends = {}
         for i, dd in enumerate(dates):
             month_ends[dd[:7]] = i
-        cache = {}
+        cache, mcache = {}, {}
+        override_filed = sorted(_override_filed(t))
         hstart = bmh.HISTORY_START.get(t, "0000")
         for mth, i in sorted(month_ends.items()):
             if mth < START_MONTH or mth > "2026-09":
@@ -275,9 +298,26 @@ def build():
             state = max((f for f in filed_all if f <= day), default=None)
             if state is None:
                 continue
-            if state not in cache:
+            try:
+                pit.install(bmh, cik, data, state, ref=day)
+                # 감가상각 경로: 합산 태그 판정과 실제로 쓴 경로(합산·구성요소 대체)를 함께 키에 넣는다(XYL·IEX, Fable 3차)
+                with contextlib.redirect_stdout(io.StringIO()):
+                    dflag = (bmh.live_combined(cik)[0] is not None, bmh.dda_quarters(cik, t)[0])
+            except Exception:
+                dflag = None
+            finally:
+                pit.reset(bmh)
+            # 평가일에 따라 달라지는 엔진 분기를 모두 키에 넣는다: 감가상각 합산 태그 판정, 분사 이력 시작일(HISTORY_WINDOW —
+            # 연구 모드에서는 그 날짜가 지난 평가일에만 적용)이 지났는지(WDC 2025-05 대 06, Codex 2차).
+            hw = d.HISTORY_WINDOW.get(t)
+            # 손으로 넣은 보정값(nonop_extra·interest_extra·tax_oneoff)은 자체 공시일로 걸러진다 — SEC 공시 목록에 없는 날짜라
+            # 키에 따로 넣는다(KO nonop_extra 2026-07, Fable 2차).
+            ovr = max((f for f in override_filed if f <= day), default="")
+            key = (state, dflag, bool(hw and hw[0] <= day), ovr)
+            if key not in cache:
                 res = {"dq": [], "base": None, "ok": False}
                 try:
+                    pit.install(bmh, cik, data, state, ref=day)
                     with contextlib.redirect_stdout(io.StringIO()):
                         b = d.base_inputs(t, day)
                         h = d.history(t, day)
@@ -288,38 +328,51 @@ def build():
                             res["base"], res["ok"] = sc[1]["per_share"], True
                 except Exception as e:
                     res["err"] = str(e)[:60]
-                cache[state] = res
-            res = cache[state]
+                finally:
+                    pit.reset(bmh)
+                cache[key] = res
+            res = cache[key]
+            if key not in mcache:
+                try:
+                    pit.install(bmh, cik, data, state, ref=day)
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        mcache[key] = multiple_series(t, cik, daily, eps)
+                except Exception as e:
+                    print("배수 실패", t, day, str(e)[:60], flush=True)
+                    mcache[key] = (None, False, {}, None)
+                finally:
+                    pit.reset(bmh)
+            mv_day, core_day, den_day, pdil_day = mcache[key]
             y, m_, dd_ = day.split("-")
             # 분사 종목의 자기 이력 시작일은 그 날짜가 지난 평가일에만 적용한다(그 전 평가일에 쓰면 미래 정보 — Codex)
             wstart = f"{int(y) - 5}-{m_}-{dd_}"
             if hstart <= day:
                 wstart = max(wstart, hstart)
             selfm, peerv = {}, {}
-            if mvals:
+            if mv_day:
                 for lab in METRICS:
-                    sc_, cur = self_score_at(mvals[lab], denoms.get(lab), day, wstart)
+                    sc_, cur = self_score_at(mv_day[lab], den_day.get(lab), day, wstart)
                     if sc_ is not None:
                         selfm[lab] = sc_
-                    elif lab in mvals and any(x for dd2, x in mvals[lab].items() if wstart <= dd2 <= day):
+                    elif lab in mv_day and any(x for dd2, x in mv_day[lab].items() if wstart <= dd2 <= day):
                         selfm[lab] = None                     # 분모 없음(카드: currentNote missing)
                     # 동종업용 값(공시 EPS 기준 PER)
-                    if lab == "PER" and core:
-                        x = per_dil(day, px) if per_dil else None
+                    if lab == "PER" and core_day:
+                        x = pdil_day(day, px) if pdil_day else None
                         e_ = bmh.as_of(eps, day) if eps else None
                         peerv["PER_dil"] = x if x else (NEG if (e_ is not None and e_ <= 0) else None)
                         continue
                     # 동종업 값은 자기 이력 창과 무관하게 그날 배수 · 분모 부호로(Codex)
-                    x = mvals[lab].get(day)
+                    x = mv_day[lab].get(day)
                     if x:
                         peerv[lab] = x
                     else:
-                        dn = denoms.get(lab)
+                        dn = den_day.get(lab)
                         dv = dn(day) if dn else None
                         peerv[lab] = NEG if (dv is not None and dv <= 0) else None
             rows.append({"t": t, "sec": r["sector"], "d": day, "m": mth, "i": i, "px": px,
                          "dq": res["dq"], "dcf_ok": res["ok"], "base": res["base"],
-                         "self": selfm, "peer": peerv, "core": core})
+                         "self": selfm, "peer": peerv, "core": core_day})
         if k % 25 == 0:
             print(k, t, len(rows), flush=True)
     meta = provenance() | {"built": date.today().isoformat(), "roster": sorted({r["t"] for r in rows})}

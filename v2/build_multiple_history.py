@@ -608,6 +608,9 @@ def instant_series(entries, ticker, is_share_count):
     return sorted(out, key=lambda e: e["available"])
 
 
+ASOF_REF = None   # 연구용 시점 재현의 평가일(research/pit.py). 카드는 None(오늘).
+
+
 def live_combined(cik):
     """합산 감가상각 태그. 오래전에 멈췄으면(AVGO는 2018-05 두 건뿐, 이후 구성요소로만
     보고) 없는 것으로 보고 구성요소로 넘긴다 — 멈춘 합산 태그가 잡히면 구성요소 경로에
@@ -615,7 +618,10 @@ def live_combined(cik):
     if cik in DDA_SPLIT_BY_CIK:
         return f"{DDA_SPLIT_BY_CIK[cik]['total']}(+분할 뒤 {DDA_SPLIT_BY_CIK[cik]['add']})", split_era_dda(cik)
     tag, rows = pick_tag(cik, DDA_COMBINED)
-    stale = date.fromordinal(date.today().toordinal() - 730).isoformat()
+    # 기준일: 카드는 오늘, 연구용 시점 재현은 평가일(ASOF_REF — research/pit.py가 넣는다, C8). 오늘 기준으로만 재면 과거 평가일에
+    # 살아 있던 합산 태그도 지금 멈췄다는 이유로 버려진다(Codex).
+    ref = date.fromisoformat(ASOF_REF) if ASOF_REF else date.today()
+    stale = date.fromordinal(ref.toordinal() - 730).isoformat()
     if rows and max(r["end"] for r in rows) < stale:
         return None, []
     return tag, rows
@@ -625,7 +631,23 @@ def dda_quarters(cik, ticker):
     """감가상각 분기 시리즈. 합산 태그 우선, 없으면 구성요소를 더한다."""
     tag, rows = live_combined(cik)
     if rows:
-        return tag, quarterly_flow(rows, ticker)
+        q = quarterly_flow(rows, ticker)
+        # 연구용 시점 재현(ASOF_REF)에서는 연간만 남은 합산 태그가 "살아 있다"고 판정돼 분기가 비거나(DHR·EME) 분기가 오래돼
+        # 영업이익과 짝이 안 맞으면(ACN 2020-08·IEX·FE — Fable, C8) EBITDA가 통째로 빠졌다. 그때만 구성요소로 넘어간다.
+        # 카드 경로(ASOF_REF None)는 그대로.
+        if not ASOF_REF:
+            return tag, q
+        # 기준은 실제 짝짓기다 — 합산 분기의 마지막 결산일이 영업이익 분기보다 MAX_PAIR_LAG_DAYS 넘게 뒤처지면 EBITDA가 안 나오므로
+        # 구성요소로(IEX 2025-07: 평가일 시차 304일로 통과했지만 영업이익과 짝이 안 맞았다 — Fable 3차). 영업이익 분기를 모르면 평가일 시차로.
+        if q:
+            q_end = date.fromisoformat(max(e["end"] for e in q))
+            _, orows = pick_tag(cik, EBITDA_TAGS["opinc"])   # EBITDA 짝짓기에 쓰는 영업이익 태그와 같다
+            oq = quarterly_flow(orows, ticker) if orows else []
+            if oq:
+                if (date.fromisoformat(max(e["end"] for e in oq)) - q_end).days <= MAX_PAIR_LAG_DAYS:
+                    return tag, q
+            elif (date.fromisoformat(ASOF_REF) - q_end).days <= MAX_PAIR_LAG_DAYS + 120:
+                return tag, q
     # 구성요소마다 그 분기가 **처음 공시된 때**가 다르다. 작은 항목이 1년 뒤 비교
     # 수치로 처음 나오면(GOOGL 무형자산 상각 $0.12B·금융리스 상각 $0.1B), 예전에는
     # 분기 공개일을 가장 늦은 항목 날짜로 잡아 과거 분기 전체가 1년 늦게 "공개"된
