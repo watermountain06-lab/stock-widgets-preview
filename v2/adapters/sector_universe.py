@@ -11,7 +11,7 @@ build_peer_score는 SECTOR_UNIVERSE에 적힌 섹터만 이 파일을 비교군�
 
 - 가격: Yahoo 일봉(1년), 기준일 종가까지. 분할 기록도 같은 요청에서 받는다.
 - EPS: scripts/fetch_eps_history.py(카드와 같은 SEC 희석 EPS). 분할 손 목록이 없으므로
-  기준일 전 400일 안에 분할이 있으면 그 종목의 PER은 뺀다(분할 전 EPS가 섞인다).
+  EPS 이력이 멈췄거나(마지막 분기가 기준일보다 200일 넘게 앞섬) 보정하지 못한 분할이 400일 안에 있으면 그 종목의 PER은 뺀다(2026-10-04 — 예전 400일 분할 가드를 바꿈).
 - 배수 정의·적자 처리(음수면 "negative")·분모 결측은 카드와 같다. 점수에서는 음수 PCR만 동종업 꼴찌로 세고 음수 EV/EBITDA·PBR은
   build_peer_score가 비교에서 뺀다(C11, 2026-10-04 — PBR 음수는 self_multiples가 이미 뺀다). PER은 A3(순이익률 2% 미만·적자 → 해당 없음)라
   self_multiples가 빼고, 뺀 종목은 파일의 perNA에 남긴다(C9, 2026-10-04 — 동종 종목에도 A3).
@@ -95,8 +95,9 @@ def one(ticker, cik, asof, eps_dir):
     if not bars or bars[-1][0] != asof:
         return None, f"기준일 종가 없음({bars[-1][0] if bars else '—'})", None
     eps_path = os.path.join(eps_dir, f"{ticker}_eps_history.json")
-    if not os.path.exists(eps_path):
-        sh = split_history(ticker)
+    sh = split_history(ticker)
+    # 5년 안에 분할이 있으면 캐시가 있어도 다시 받는다 — 보정 전에 받은 파일이 그대로 통과하지 않게(Codex, 2026-10-04)
+    if not os.path.exists(eps_path) or sh:
         subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
                         "--cik", cik, "--out", eps_path, "--splits", ",".join(f"{d}:{k}" for d, k in sh)],
                        capture_output=True, text=True)
@@ -119,12 +120,21 @@ def one(ticker, cik, asof, eps_dir):
             os.environ["EPS_HISTORY"] = old_env
     m = ps.self_multiples(out)      # 카드 본인 값과 같은 규칙(음수 → negative, 결측 → 제외, PER 해당 없음 → 제외)
     pna = json.load(open(out)).get("perNA")
-    recent = [s for s in splits if (time.mktime(time.strptime(asof, "%Y-%m-%d")) -
-                                    time.mktime(time.strptime(s, "%Y-%m-%d"))) / 86400 <= 400]
+    # 예전에는 기준일 전 400일 안에 분할이 있으면 PER을 뺐다. EPS를 5년 분할 기록으로 보정하게 되어(C12) 그 가드를 두 조건으로 바꿨다
+    # (2026-10-04): ① EPS 이력이 멈춤 — 마지막 분기가 기준일보다 200일 넘게 앞서면(MNST 2011·CVNA 2024 — 태그 문제),
+    # ② 1y 일봉의 분할 가운데 EPS 보정에 쓰지 못한 것(단순 분수가 아니라 걸러진 분할 비율)이 400일 안에 있으면.
     note = None
-    if recent and "per" in m:
+    rows = json.load(open(eps_path)) if os.path.exists(eps_path) else []
+    last_q = max((r["quarter_end"] for r in rows if r.get("quarter_end")), default=None)
+    days = lambda a_, b_: (time.mktime(time.strptime(a_, "%Y-%m-%d")) - time.mktime(time.strptime(b_, "%Y-%m-%d"))) / 86400
+    used = {d for d, _ in sh}
+    unfixed = [s for s in splits if 0 <= days(asof, s) <= 400 and not any(abs(days(s, d)) <= 5 for d in used)]
+    if "per" in m and (last_q is None or days(asof, last_q) > 200):
         m.pop("per")
-        note = f"최근 분할 {recent[-1]} — PER 제외"
+        note = f"EPS 이력 멈춤(마지막 분기 {last_q}) — PER 제외"
+    elif "per" in m and unfixed:
+        m.pop("per")
+        note = f"보정하지 못한 분할 {unfixed[-1]} — PER 제외"
     return m, note, pna
 
 

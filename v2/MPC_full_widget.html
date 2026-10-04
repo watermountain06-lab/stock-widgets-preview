@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="mpcPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="mpcPeerVerdict">중간</span></div>
-      <div class="logic-score" id="mpcPeerScore">63.6<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="mpcPeerScore">64.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="mpcSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="mpcSelfVerdict">비싼 편</span></div>
@@ -896,9 +896,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$226</div><div class="vs-note">현재가 <span data-vs="price">$395.42</span> 대비 <strong data-vs="upside">−42.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.75
 시나리오 범위: 1.04 ~ 1.75(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 에너지 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">63.6</div><div class="sc-tile lost" data-vc="peer" data-m="per">67</div><div class="sc-tile low" data-vc="peer" data-m="pbr">15</div><div class="sc-tile" data-vc="peer" data-m="psr">95</div><div class="sc-tile" data-vc="peer" data-m="pcr">85</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">57</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 에너지 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">64.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">68</div><div class="sc-tile low" data-vc="peer" data-m="pbr">15</div><div class="sc-tile" data-vc="peer" data-m="psr">95</div><div class="sc-tile" data-vc="peer" data-m="pcr">85</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">57</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 +101% 올라 PSR·PBR이 5년 중 가장 비싼 쪽, PER 13.7배도 5년 중앙값 8.1배보다 높아 자기 이력 23.1점(비싸다)이다. S&P500 에너지 안에서는 PSR·PCR이 싼 쪽, PBR은 비싼 쪽이라 63.6점(중간)이다. <strong>현금흐름 내재가치(기본 $225.83)는 현재가보다 크게 낮다</strong>.</div>
+    <div class="vs-premise">주가가 1년 새 +101% 올라 PSR·PBR이 5년 중 가장 비싼 쪽, PER 13.7배도 5년 중앙값 8.1배보다 높아 자기 이력 23.1점(비싸다)이다. S&P500 에너지 안에서는 PSR·PCR이 싼 쪽, PBR은 비싼 쪽이라 64.0점(중간)이다. <strong>현금흐름 내재가치(기본 $225.83)는 현재가보다 크게 낮다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”다. 현재가를 정당화하려면 5년 매출 성장이 연 20.5%여야 한다(실제 5년 연 8.9%). 최근 4분기 이익에는 정제·판매 마진이 1년 전의 두 배였던 2분기가 들어 있다.</div>
   </div>
 
@@ -1473,7 +1473,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py MPC
 const MPC_SCORES = {
   fundamental: 39.4,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 63.6,          // S&P500 에너지 대비 배수 순위 (v2/peer_universe/energy.json)
+  peer: 64.0,          // S&P500 에너지 대비 배수 순위 (v2/peer_universe/energy.json)
   selfHistory: 23.1,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-04 공시, 인라인 XBRL 보충)
@@ -1782,7 +1782,7 @@ const MPC_FUNDAMENTAL = {"ticker": "MPC", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py MPC --self v2/MPC_multiples.json --card
 /* VALUATION:BEGIN */
-const MPC_VALUATION = {"peer": {"score": 63.6, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 66.7, "rank": 7, "peers": 18}, {"metric": "pbr", "score": 15.0, "rank": 18, "peers": 20}, {"metric": "psr", "score": 94.7, "rank": 2, "peers": 19}, {"metric": "pcr", "score": 84.6, "rank": 3, "peers": 13}, {"metric": "evebitda", "score": 57.1, "rank": 7, "peers": 14}]}, "self": {"score": 23.1, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 27.4, "percentile": 72.6, "current": 13.65, "min": 3.21, "median": 8.06, "max": 28.84, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.8, "percentile": 99.2, "current": 5.82, "min": 1.31, "median": 2.42, "max": 6.25, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.8, "percentile": 99.2, "current": 0.72, "min": 0.26, "median": 0.38, "max": 0.78, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 47.2, "percentile": 52.8, "current": 8.61, "min": 2.87, "median": 7.8, "max": 87.07, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 39.5, "percentile": 60.5, "current": 8.26, "min": 2.5, "median": 7.05, "max": 16.9, "days": 1255, "currentNote": null}]}};
+const MPC_VALUATION = {"peer": {"score": 64.0, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 68.4, "rank": 7, "peers": 19}, {"metric": "pbr", "score": 15.0, "rank": 18, "peers": 20}, {"metric": "psr", "score": 94.7, "rank": 2, "peers": 19}, {"metric": "pcr", "score": 84.6, "rank": 3, "peers": 13}, {"metric": "evebitda", "score": 57.1, "rank": 7, "peers": 14}]}, "self": {"score": 23.1, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 27.4, "percentile": 72.6, "current": 13.65, "min": 3.21, "median": 8.06, "max": 28.84, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.8, "percentile": 99.2, "current": 5.82, "min": 1.31, "median": 2.42, "max": 6.25, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.8, "percentile": 99.2, "current": 0.72, "min": 0.26, "median": 0.38, "max": 0.78, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 47.2, "percentile": 52.8, "current": 8.61, "min": 2.87, "median": 7.8, "max": 87.07, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 39.5, "percentile": 60.5, "current": 8.26, "min": 2.5, "median": 7.05, "max": 16.9, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="wellPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="wellPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="wellPeerScore">10.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="wellPeerScore">10.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="wellSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="wellSelfVerdict">비싼 편</span></div>
@@ -898,9 +898,9 @@ Chart.overrides.doughnut.animation = false;
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="기본 내재가치가 0 이하다
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 부동산 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">10.2</div><div class="sc-tile low" data-vc="peer" data-m="per">8</div><div class="sc-tile low" data-vc="peer" data-m="pbr">17</div><div class="sc-tile low" data-vc="peer" data-m="psr">14</div><div class="sc-tile low" data-vc="peer" data-m="pcr">13</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 부동산 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">10.3</div><div class="sc-tile low" data-vc="peer" data-m="per">8</div><div class="sc-tile low" data-vc="peer" data-m="pbr">17</div><div class="sc-tile low" data-vc="peer" data-m="psr">14</div><div class="sc-tile low" data-vc="peer" data-m="pcr">13</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 +31% 올라 PBR 3.6배·PSR·PCR·EV/EBITDA가 5년 중 가장 비싼 쪽이고 PER만 중간보다 조금 싸 자기 이력 20.1점(비싸다)이다. S&P500 부동산 안에서도 다섯 배수가 모두 가장 비싼 쪽이라 10.2점(비싸다)이다. <strong>현금흐름 내재가치는 세 시나리오 모두 음수</strong>다.</div>
+    <div class="vs-premise">주가가 1년 새 +31% 올라 PBR 3.6배·PSR·PCR·EV/EBITDA가 5년 중 가장 비싼 쪽이고 PER만 중간보다 조금 싸 자기 이력 20.1점(비싸다)이다. S&P500 부동산 안에서도 다섯 배수가 모두 가장 비싼 쪽이라 10.3점(비싸다)이다. <strong>현금흐름 내재가치는 세 시나리오 모두 음수</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”다. 현금흐름 −2는 최근 4분기 GAAP 영업이익률이 3.4%로 낮은 탓이다. 2025년 4분기에 10년 경영진 보상 프로그램의 주식 보상 비용이 한꺼번에 잡혀 일반관리비가 연 $1.75B(1년 전 $0.24B)였다. 리츠는 감가상각이 크고 이익을 주로 FFO로 보지만, 사이트는 GAAP 기준이라 FFO를 판정에 쓰지 않는다. 회사 기준 정규화 FFO($6.36~6.44 전망)로는 주가가 약 36배다.</div>
   </div>
 
@@ -1477,7 +1477,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py WELL
 const WELL_SCORES = {
   fundamental: 54.9,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 10.2,          // S&P500 부동산 대비 배수 순위 (v2/peer_universe/real_estate.json, PSR 이상값 제외)
+  peer: 10.3,          // S&P500 부동산 대비 배수 순위 (v2/peer_universe/real_estate.json, PSR 이상값 제외)
   selfHistory: 20.1,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-28 공시, 인라인 XBRL 보충)
@@ -1786,7 +1786,7 @@ const WELL_FUNDAMENTAL = {"ticker": "WELL", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py WELL --self v2/WELL_multiples.json --card
 /* VALUATION:BEGIN */
-const WELL_VALUATION = {"peer": {"score": 10.2, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 7.7, "rank": 25, "peers": 26}, {"metric": "pbr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "psr", "score": 14.3, "rank": 19, "peers": 21}, {"metric": "pcr", "score": 12.5, "rank": 8, "peers": 8}, {"metric": "evebitda", "score": 0.0, "rank": 19, "peers": 18}]}, "self": {"score": 20.1, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 64.8, "percentile": 35.2, "current": 106.1, "min": 57.84, "median": 118.47, "max": 412.19, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 6.0, "percentile": 94.0, "current": 3.58, "min": 1.43, "median": 2.25, "max": 4.06, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 12.7, "percentile": 87.3, "current": 13.0, "min": 4.91, "median": 8.58, "max": 15.12, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 5.7, "percentile": 94.3, "current": 82.14, "min": 27.47, "median": 48.95, "max": 95.0, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 11.4, "percentile": 88.6, "current": 63.15, "min": 21.17, "median": 32.76, "max": 74.23, "days": 1255, "currentNote": null}]}};
+const WELL_VALUATION = {"peer": {"score": 10.3, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 8.0, "rank": 24, "peers": 25}, {"metric": "pbr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "psr", "score": 14.3, "rank": 19, "peers": 21}, {"metric": "pcr", "score": 12.5, "rank": 8, "peers": 8}, {"metric": "evebitda", "score": 0.0, "rank": 19, "peers": 18}]}, "self": {"score": 20.1, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 64.8, "percentile": 35.2, "current": 106.1, "min": 57.84, "median": 118.47, "max": 412.19, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 6.0, "percentile": 94.0, "current": 3.58, "min": 1.43, "median": 2.25, "max": 4.06, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 12.7, "percentile": 87.3, "current": 13.0, "min": 4.91, "median": 8.58, "max": 15.12, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 5.7, "percentile": 94.3, "current": 82.14, "min": 27.47, "median": 48.95, "max": 95.0, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 11.4, "percentile": 88.6, "current": 63.15, "min": 21.17, "median": 32.76, "max": 74.23, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

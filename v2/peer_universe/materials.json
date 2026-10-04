@@ -20,7 +20,8 @@
    "psr": 0.82,
    "pbr": 1.64,
    "pcr": 15.75,
-   "evebitda": 9.95
+   "evebitda": 9.95,
+   "per": 17.59
   },
   "AVY": {
    "per": 18.67,
@@ -166,10 +167,7 @@
    "evebitda": 15.37
   }
  },
- "skipped": {
-  "AMCR": "최근 분할 2026-01-15 — PER 제외",
-  "DD": "최근 분할 2026-06-24 — PER 제외"
- },
+ "skipped": {},
  "notes": {
   "LIN": "EV/EBITDA는 차입금 태그 수정(DEBT_TOTAL_TAG) 뒤 카드 엔진 값으로 고침(18.87→18.5, 2026-10-01)"
  },
@@ -191,6 +189,10 @@
    "SW": {
     "netMargin": 0.0159,
     "per": 46.91
+   },
+   "DD": {
+    "netMargin": 0.0067,
+    "per": null
    }
   }
  },
@@ -198,6 +200,13 @@
   "rule": "회사가 밝힌 일회성 법인세 항목(v2/tax_oneoff.json)을 뺀 TTM EPS로 PER을 다시 냄(A8 ①, 2026-10-04) — 파일을 만든 뒤 항목이 추가됐다",
   "tickers": {
    "NEM": "PER 14.56 → 13.7 (TTM EPS 7.92 → 8.42, 파푸아뉴기니·가나 미송금 이익 과세 $0.55B)"
+  }
+ },
+ "splitGuardFix": {
+  "rule": "400일 분할 가드를 'EPS 이력 멈춤 · 보정 못 한 분할'로 바꾸고 EPS를 5년 분할 기록으로 다시 받음(2026-10-04)",
+  "tickers": {
+   "AMCR": "PER None → 17.59",
+   "DD": "PER None → None (순이익률 2% 미만 — perNA)"
   }
  }
 }
