@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="abtPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="abtPeerVerdict">중간</span></div>
-      <div class="logic-score" id="abtPeerScore">44.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="abtPeerScore">44.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="abtSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="abtSelfVerdict">싼 편</span></div>
@@ -900,9 +900,9 @@ Chart.overrides.doughnut.animation = false;
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 5.46
 시나리오 범위: 5.46 ~ 7.05(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">44.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">40</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">52</div><div class="sc-tile lost" data-vc="peer" data-m="psr">44</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">45</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">40</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">44.8</div><div class="sc-tile lost" data-vc="peer" data-m="per">43</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">52</div><div class="sc-tile lost" data-vc="peer" data-m="psr">44</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">45</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">40</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 -26% 내려 PSR 3.7배·PBR 3.4배·PCR이 5년 중 가장 싼 쪽이고 EV/EBITDA도 싼 쪽이라 자기 이력 82.3점(싸다)이다. PER 32.0배만 인수 관련 비용으로 GAAP EPS가 줄어 중간이다. S&P500 헬스케어 안에서는 다섯 배수가 모두 중간 근처라 44.3점(중간)이다. <strong>현금흐름 내재가치(기본 $18.10)는 현재가의 18%</strong>다.</div>
+    <div class="vs-premise">주가가 1년 새 -26% 내려 PSR 3.7배·PBR 3.4배·PCR이 5년 중 가장 싼 쪽이고 EV/EBITDA도 싼 쪽이라 자기 이력 82.3점(싸다)이다. PER 32.0배만 인수 관련 비용으로 GAAP EPS가 줄어 중간이다. S&P500 헬스케어 안에서는 다섯 배수가 모두 중간 근처라 44.8점(중간)이다. <strong>현금흐름 내재가치(기본 $18.10)는 현재가의 18%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”다. 현재가를 정당화하려면 GAAP 영업이익률이 45.0%까지 올라야 한다(최근 4분기 15.8%, 5년 중앙값 17.0%). 현금흐름 −2는 GAAP 영업이익률 16~17%(인수 무형자산 상각 2분기 $658M을 비용으로 뺀 값)와 순차입금 약 $28.2B로는 내재가치가 현재가의 약 1/5에 그치기 때문이다. 투하자본이익률(약 8%)이 할인율 10%보다 낮아 성장이 그 차이를 메우지도 못한다.</div>
   </div>
 
@@ -1488,7 +1488,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ABT
 const ABT_SCORES = {
   fundamental: 41.4,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 44.3,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 44.8,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 82.3,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-28 공시, 인라인 XBRL 보충)
@@ -1797,7 +1797,7 @@ const ABT_FUNDAMENTAL = {"ticker": "ABT", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py ABT --self v2/ABT_multiples.json --card
 /* VALUATION:BEGIN */
-const ABT_VALUATION = {"peer": {"score": 44.3, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 40.4, "rank": 29, "peers": 47}, {"metric": "pbr", "score": 51.9, "rank": 26, "peers": 52}, {"metric": "psr", "score": 43.9, "rank": 33, "peers": 57}, {"metric": "pcr", "score": 45.1, "rank": 29, "peers": 51}, {"metric": "evebitda", "score": 40.4, "rank": 29, "peers": 47}]}, "self": {"score": 82.3, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 59.9, "percentile": 40.1, "current": 31.98, "min": 19.85, "median": 32.99, "max": 41.86, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 94.8, "percentile": 5.2, "current": 3.35, "min": 2.76, "median": 4.89, "max": 7.27, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 95.5, "percentile": 4.5, "current": 3.67, "min": 3.19, "median": 4.62, "max": 5.91, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.8, "percentile": 10.2, "current": 21.86, "min": 19.49, "median": 28.48, "max": 44.33, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 71.3, "percentile": 28.7, "current": 18.52, "min": 13.78, "median": 20.09, "max": 25.66, "days": 906, "currentNote": null}]}};
+const ABT_VALUATION = {"peer": {"score": 44.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 42.6, "rank": 28, "peers": 47}, {"metric": "pbr", "score": 51.9, "rank": 26, "peers": 52}, {"metric": "psr", "score": 43.9, "rank": 33, "peers": 57}, {"metric": "pcr", "score": 45.1, "rank": 29, "peers": 51}, {"metric": "evebitda", "score": 40.4, "rank": 29, "peers": 47}]}, "self": {"score": 82.3, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 59.9, "percentile": 40.1, "current": 31.98, "min": 19.85, "median": 32.99, "max": 41.86, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 94.8, "percentile": 5.2, "current": 3.35, "min": 2.76, "median": 4.89, "max": 7.27, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 95.5, "percentile": 4.5, "current": 3.67, "min": 3.19, "median": 4.62, "max": 5.91, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.8, "percentile": 10.2, "current": 21.86, "min": 19.49, "median": 28.48, "max": 44.33, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 71.3, "percentile": 28.7, "current": 18.52, "min": 13.78, "median": 20.09, "max": 25.66, "days": 906, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

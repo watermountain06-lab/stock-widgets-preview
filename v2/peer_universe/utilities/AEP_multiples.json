@@ -7,49 +7,49 @@
  "multiples": {
   "PER": {
    "days": 249,
-   "current": 17.55,
+   "current": 20.56,
    "min": 16.62,
    "p10": 16.98,
-   "median": 18.55,
-   "p90": 20.1,
-   "max": 20.59,
-   "mean": 18.55,
-   "percentile": 27.3,
-   "score": 72.7
+   "median": 19.33,
+   "p90": 21.28,
+   "max": 22.24,
+   "mean": 19.1,
+   "percentile": 83.1,
+   "score": 16.9
   },
   "PSR": {
    "days": 249,
-   "current": 2.91,
+   "current": 2.86,
    "min": 2.82,
-   "p10": 2.89,
-   "median": 3.07,
+   "p10": 2.87,
+   "median": 3.04,
    "p90": 3.32,
    "max": 3.4,
-   "mean": 3.1,
-   "percentile": 12.9,
-   "score": 87.1
-  },
-  "PBR": {
-   "days": 249,
-   "current": 2.03,
-   "min": 2.0,
-   "p10": 2.04,
-   "median": 2.16,
-   "p90": 2.32,
-   "max": 2.38,
-   "mean": 2.18,
+   "mean": 3.09,
    "percentile": 6.0,
    "score": 94.0
   },
+  "PBR": {
+   "days": 249,
+   "current": 2.01,
+   "min": 2.0,
+   "p10": 2.04,
+   "median": 2.15,
+   "p90": 2.32,
+   "max": 2.38,
+   "mean": 2.17,
+   "percentile": 3.6,
+   "score": 96.4
+  },
   "PCR": {
    "days": 103,
-   "current": 24.88,
-   "min": 24.65,
-   "p10": 25.32,
-   "median": 26.79,
+   "current": 15.07,
+   "min": 14.94,
+   "p10": 15.34,
+   "median": 26.77,
    "p90": 28.41,
    "max": 29.08,
-   "mean": 26.83,
+   "mean": 22.48,
    "percentile": 3.9,
    "score": 96.1
   }
@@ -57,10 +57,10 @@
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 17.51,
-  "per_p75": 19.68,
-  "low": 120,
-  "high": 130,
+  "per_p25": 17.54,
+  "per_p75": 20.2,
+  "low": 100,
+  "high": 120,
   "asOf": "2026-09-30",
   "basis": "diluted"
  }

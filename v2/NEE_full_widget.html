@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="neePeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="neePeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="neePeerScore">22.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="neePeerScore">21.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="neeSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="neeSelfVerdict">싼 편</span></div>
@@ -898,9 +898,9 @@ Chart.overrides.doughnut.animation = false;
 · 잔존가치(5년 뒤)가 내재가치의 5526%
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="기본 내재가치가 0 이하다
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 유틸리티 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">22.3</div><div class="sc-tile" data-vc="peer" data-m="per">79</div><div class="sc-tile low" data-vc="peer" data-m="pbr">10</div><div class="sc-tile low" data-vc="peer" data-m="psr">0</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 유틸리티 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">21.5</div><div class="sc-tile" data-vc="peer" data-m="per">76</div><div class="sc-tile low" data-vc="peer" data-m="pbr">10</div><div class="sc-tile low" data-vc="peer" data-m="psr">0</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">GAAP EPS가 크게 늘어 PER 17.0배(5년 중앙값 25.6배)·PSR·PBR이 5년 중 싼 쪽이고 EV/EBITDA도 중앙값보다 조금 싸 자기 이력 80.8점(싸다)이다(PCR은 설비투자 태그가 없어 없음). S&P500 유틸리티 안에서는 PER만 싼 쪽이고 PBR·PSR·EV/EBITDA는 가장 비싼 쪽이라 22.3점(비싸다)이다. <strong>현금흐름 내재가치는 세 시나리오 모두 음수</strong>다.</div>
+    <div class="vs-premise">GAAP EPS가 크게 늘어 PER 17.0배(5년 중앙값 25.6배)·PSR·PBR이 5년 중 싼 쪽이고 EV/EBITDA도 중앙값보다 조금 싸 자기 이력 80.8점(싸다)이다(PCR은 설비투자 태그가 없어 없음). S&P500 유틸리티 안에서는 PER만 싼 쪽이고 PBR·PSR·EV/EBITDA는 가장 비싼 쪽이라 21.5점(비싸다)이다. <strong>현금흐름 내재가치는 세 시나리오 모두 음수</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”다. 현금흐름 −2는 투하자본이익률(약 4%)이 할인율 10%보다 크게 낮아 성장할수록 가치가 줄고, 차입금 $110.2B와 소수주주 지분 $11.0B를 빼기 때문이다. 유틸리티는 규제 수익률로 자본을 늘려 이익을 내는 구조라 이 모델과 잘 맞지 않는다. 자기 이력 +1은 GAAP EPS에 헤지·원전 해체 기금 평가손익 등이 들어 PER이 낮아진 영향이 크다(조정 EPS 기준 PER 약 19배).</div>
   </div>
 
@@ -1477,7 +1477,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py NEE
 const NEE_SCORES = {
   fundamental: 56.4,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 22.3,          // S&P500 유틸리티 대비 배수 순위 (v2/peer_universe/utilities.json)
+  peer: 21.5,          // S&P500 유틸리티 대비 배수 순위 (v2/peer_universe/utilities.json)
   selfHistory: 80.8,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-24 공시, 인라인 XBRL 보충)
@@ -1786,7 +1786,7 @@ const NEE_FUNDAMENTAL = {"ticker": "NEE", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py NEE --self v2/NEE_multiples.json --card
 /* VALUATION:BEGIN */
-const NEE_VALUATION = {"peer": {"score": 22.3, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 79.3, "rank": 7, "peers": 29}, {"metric": "pbr", "score": 10.0, "rank": 28, "peers": 30}, {"metric": "psr", "score": 0.0, "rank": 31, "peers": 30}, {"metric": "evebitda", "score": 0.0, "rank": 26, "peers": 25}]}, "self": {"score": 80.8, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.7, "percentile": 12.3, "current": 16.98, "min": 12.18, "median": 25.65, "max": 109.43, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 87.6, "percentile": 12.4, "current": 2.77, "min": 2.23, "median": 3.3, "max": 5.0, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 80.3, "percentile": 19.7, "current": 5.5, "min": 3.7, "median": 6.36, "max": 11.16, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 67.6, "percentile": 32.4, "current": 17.94, "min": 12.02, "median": 18.98, "max": 40.77, "days": 1255, "currentNote": null}]}};
+const NEE_VALUATION = {"peer": {"score": 21.5, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 75.9, "rank": 8, "peers": 29}, {"metric": "pbr", "score": 10.0, "rank": 28, "peers": 30}, {"metric": "psr", "score": 0.0, "rank": 31, "peers": 30}, {"metric": "evebitda", "score": 0.0, "rank": 26, "peers": 25}]}, "self": {"score": 80.8, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.7, "percentile": 12.3, "current": 16.98, "min": 12.18, "median": 25.65, "max": 109.43, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 87.6, "percentile": 12.4, "current": 2.77, "min": 2.23, "median": 3.3, "max": 5.0, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 80.3, "percentile": 19.7, "current": 5.5, "min": 3.7, "median": 6.36, "max": 11.16, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 67.6, "percentile": 32.4, "current": 17.94, "min": 12.02, "median": 18.98, "max": 40.77, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

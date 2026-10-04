@@ -135,7 +135,7 @@
    "evebitda": 13.38
   },
   "PPG": {
-   "per": 14.88,
+   "per": 14.95,
    "psr": 1.44,
    "pbr": 2.87,
    "pcr": 19.06
@@ -160,7 +160,7 @@
    "evebitda": 13.22
   },
   "VMC": {
-   "per": 29.12,
+   "per": 28.92,
    "psr": 3.94,
    "pbr": 3.76,
    "pcr": 28.43,
@@ -207,6 +207,13 @@
   "tickers": {
    "AMCR": "PER None → 17.59",
    "DD": "PER None → None (순이익률 2% 미만 — perNA)"
+  }
+ },
+ "epsRefetch": {
+  "rule": "",
+  "tickers": {
+   "PPG": "PER 14.88 → 14.95 (EPS 마지막 분기 2026-03-31 → 2026-06-30, 6월 분기는 10-Q 원문 인라인 XBRL 보충 — companyfacts 미반영)",
+   "VMC": "PER 29.12 → 28.92 (EPS 마지막 분기 2026-03-31 → 2026-06-30, 6월 분기는 10-Q 원문 인라인 XBRL 보충 — companyfacts 미반영)"
   }
  }
 }

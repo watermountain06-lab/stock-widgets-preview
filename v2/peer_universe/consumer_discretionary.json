@@ -98,7 +98,7 @@
    "evebitda": 2.21
   },
   "GRMN": {
-   "per": 32.83,
+   "per": 30.36,
    "psr": 7.6,
    "pbr": 6.12,
    "pcr": 39.08,
@@ -323,7 +323,8 @@
  "epsRefetch": {
   "rule": "비교군 EPS를 다시 받음(D66, 2026-10-04) — 희석 EPS가 없는 기간은 계속사업 희석 EPS로 채움(MNST·KIM·WEC·GD)",
   "tickers": {
-   "ABNB": "PER None → 35.87 (EPS 마지막 분기 0000 → 2026-06-30)"
+   "ABNB": "PER None → 35.87 (EPS 마지막 분기 0000 → 2026-06-30)",
+   "GRMN": "PER 32.83 → 30.36 (EPS 마지막 분기 2026-03-28 → 2026-06-27, 6월 분기는 10-Q 원문 인라인 XBRL 보충 — companyfacts 미반영)"
   }
  }
 }

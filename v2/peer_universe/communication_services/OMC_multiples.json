@@ -6,70 +6,70 @@
  ],
  "multiples": {
   "PER": {
-   "days": 95,
-   "current": null,
+   "days": 140,
+   "current": 184.07,
    "min": 9.92,
-   "p10": 10.38,
-   "median": 11.2,
-   "p90": 11.87,
-   "max": 12.2,
-   "mean": 11.18,
-   "percentile": 100.0,
+   "p10": 10.56,
+   "median": 11.67,
+   "p90": 213.89,
+   "max": 222.35,
+   "mean": 73.56,
+   "percentile": 67.9,
    "score": null,
    "currentNote": "per_na"
   },
   "PSR": {
    "days": 249,
-   "current": 1.06,
+   "current": 0.9,
    "min": 0.81,
    "p10": 0.88,
-   "median": 1.08,
+   "median": 1.03,
    "p90": 1.38,
    "max": 1.54,
-   "mean": 1.1,
-   "percentile": 43.0,
-   "score": 57.0
+   "mean": 1.07,
+   "percentile": 15.7,
+   "score": 84.3
   },
   "PBR": {
    "days": 249,
-   "current": 2.22,
+   "current": 2.09,
    "min": 1.9,
    "p10": 2.01,
-   "median": 2.47,
+   "median": 2.41,
    "p90": 3.35,
    "max": 3.46,
-   "mean": 2.63,
-   "percentile": 23.7,
-   "score": 76.3
+   "mean": 2.6,
+   "percentile": 14.5,
+   "score": 85.5
   },
   "PCR": {
    "days": 249,
-   "current": 7.02,
+   "current": 8.45,
    "min": 6.75,
-   "p10": 7.15,
-   "median": 8.37,
-   "p90": 9.26,
-   "max": 9.57,
-   "mean": 8.22,
-   "percentile": 4.8,
-   "score": 95.2
+   "p10": 7.18,
+   "median": 8.56,
+   "p90": 9.48,
+   "max": 10.21,
+   "mean": 8.51,
+   "percentile": 42.6,
+   "score": 57.4
   },
   "EV/EBITDA": {
    "days": 249,
-   "current": 17.44,
+   "current": 10.5,
    "min": 3.82,
    "p10": 4.3,
-   "median": 17.91,
+   "median": 12.52,
    "p90": 29.52,
    "max": 33.36,
-   "mean": 15.56,
-   "percentile": 43.0,
-   "score": 57.0
+   "mean": 14.14,
+   "percentile": 38.2,
+   "score": 61.8
   }
  },
  "perBasis": "diluted",
  "perNA": {
-  "netMargin": 0.0032,
+  "netMargin": 0.0174,
   "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

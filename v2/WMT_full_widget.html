@@ -523,7 +523,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="wmtPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="wmtPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="wmtPeerScore">25.9<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="wmtPeerScore">25.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="wmtSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="wmtSelfVerdict">비싼 편</span></div>
@@ -885,9 +885,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$29</div><div class="vs-note">현재가 <span data-vs="price">$107.98</span> 대비 <strong data-vs="upside">−72.7%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 3.66
 시나리오 범위: 낙관 기준 3.69 ~ 보수 기준 4.06
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="같은 필수소비재 섹터(S&amp;P500 34종목)보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">25.9</div><div class="sc-tile low" data-vc="peer" data-m="per">13</div><div class="sc-tile low" data-vc="peer" data-m="pbr">25</div><div class="sc-tile" data-vc="peer" data-m="psr">71</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">21</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="같은 필수소비재 섹터(S&amp;P500 34종목)보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">25.8</div><div class="sc-tile low" data-vc="peer" data-m="per">12</div><div class="sc-tile low" data-vc="peer" data-m="pbr">25</div><div class="sc-tile" data-vc="peer" data-m="psr">71</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">21</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">자기 5년 이력으로는 PER이 중간이고 나머지 네 배수가 비싼 쪽(28.0점)이며, S&P500 필수소비재 34종목 안에서도 비싼 쪽(25.9점)이다. <strong>현금흐름 내재가치(기본 $29)는 현재가의 27%</strong>다. 영업이익률 4%대에 매출 성장 연 5%인 회사는 할인율 10%에서 현재가에 한참 못 미친다.</div>
+    <div class="vs-premise">자기 5년 이력으로는 PER이 중간이고 나머지 네 배수가 비싼 쪽(28.0점)이며, S&P500 필수소비재 34종목 안에서도 비싼 쪽(25.8점)이다. <strong>현금흐름 내재가치(기본 $29)는 현재가의 27%</strong>다. 영업이익률 4%대에 매출 성장 연 5%인 회사는 할인율 10%에서 현재가에 한참 못 미친다.</div>
     <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 5.3%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">11.6%</strong>여야 한다(최근 4분기 4.4%, 5년 중앙값 4.2%). 광고·회원 수익이 마진을 얼마나 올리느냐가 관건이다.</div>
   </div>
 
@@ -1455,7 +1455,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py WMT
 const WMT_SCORES = {
   fundamental: 42.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 25.9,          // S&P500 필수소비재 34종목 대비 배수 순위(v2/peer_universe/consumer_staples.json)
+  peer: 25.8,          // S&P500 필수소비재 34종목 대비 배수 순위(v2/peer_universe/consumer_staples.json)
   selfHistory: 28.0,   // 자기 5년 배수 분포 백분위 (2021-09-27 ~ 2026-09-25)
   asOf: "2026-09-25",
   fundamentalAsOf: "2026-07-31",   // Q2 FY27 10-Q (2026-08-28 공시)
@@ -1763,7 +1763,7 @@ const WMT_FUNDAMENTAL = {"ticker": "WMT", "basis": "quarter", "asOf": "2026-07-3
 //
 // 갱신: python3 v2/build_peer_score.py WMT --self v2/WMT_multiples.json --card
 /* VALUATION:BEGIN */
-const WMT_VALUATION = {"peer": {"score": 25.9, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 12.5, "rank": 22, "peers": 24}, {"metric": "pbr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "psr", "score": 70.8, "rank": 8, "peers": 24}, {"metric": "pcr", "score": 0.0, "rank": 23, "peers": 22}, {"metric": "evebitda", "score": 21.1, "rank": 16, "peers": 19}]}, "self": {"score": 28.0, "window": ["2021-09-27", "2026-09-25"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 44.5, "percentile": 55.5, "current": 39.12, "min": 24.45, "median": 38.52, "max": 50.61, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 27.6, "percentile": 72.4, "current": 8.72, "min": 3.94, "median": 5.92, "max": 11.11, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 21.8, "percentile": 78.2, "current": 1.18, "min": 0.57, "median": 0.76, "max": 1.53, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 22.1, "percentile": 77.9, "current": 63.42, "min": 20.57, "median": 53.42, "max": 122.04, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 24.2, "percentile": 75.8, "current": 19.39, "min": 10.22, "median": 14.54, "max": 26.26, "days": 1073, "currentNote": null}]}};
+const WMT_VALUATION = {"peer": {"score": 25.8, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 12.0, "rank": 23, "peers": 25}, {"metric": "pbr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "psr", "score": 70.8, "rank": 8, "peers": 24}, {"metric": "pcr", "score": 0.0, "rank": 23, "peers": 22}, {"metric": "evebitda", "score": 21.1, "rank": 16, "peers": 19}]}, "self": {"score": 28.0, "window": ["2021-09-27", "2026-09-25"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 44.5, "percentile": 55.5, "current": 39.12, "min": 24.45, "median": 38.52, "max": 50.61, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 27.6, "percentile": 72.4, "current": 8.72, "min": 3.94, "median": 5.92, "max": 11.11, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 21.8, "percentile": 78.2, "current": 1.18, "min": 0.57, "median": 0.76, "max": 1.53, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 22.1, "percentile": 77.9, "current": 63.42, "min": 20.57, "median": 53.42, "max": 122.04, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 24.2, "percentile": 75.8, "current": 19.39, "min": 10.22, "median": 14.54, "max": 26.26, "days": 1073, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
