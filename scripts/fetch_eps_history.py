@@ -161,7 +161,8 @@ KNOWN_SPLITS = {
     "MS": [],     # last split 2000-01-27 (2-for-1), outside this data's 5y reporting window -- WebSearch confirmed 2026-09-09
     "DELL": [],   # no proportional stock split -- the 2021-11-02 "1973-for-1000"/"903-for-500" ratios some aggregators list are the VMware spinoff's Class V tracking-stock exchange into Class C, a fixed-ratio security conversion, not a market-wide split of existing Class C shares (no price discontinuity around 2021-11-02 in Yahoo daily data) -- confirmed empirically 2026-09-09 (0 duplicate-value groups with ratio>1.3 found in full XBRL EarningsPerShareDiluted history)
     "PG": [],     # last split 2004-06-21 (2-for-1), outside this data's 5y reporting window -- WebSearch confirmed 2026-09-09
-    "PANW": [("2024-12-12", 2)],  # 2-for-1 split, effected 2024-12-12 -- confirmed via PANW FY2025 10-K text ("On December 12, 2024, we effected a two-for-one stock split of our outstanding shares of common stock"); all share/per-share amounts retroactively adjusted by the company
+    "PANW": [("2022-09-14", 3), ("2024-12-12", 2)],  # 3-for-1 effective 2022-09-14 added 2026-10-04 (C12 — Yahoo 5y split check found it missing; only loss-era FY2022 filings were affected, TTM was negative then)
+     # 2-for-1 split, effected 2024-12-12 -- confirmed via PANW FY2025 10-K text ("On December 12, 2024, we effected a two-for-one stock split of our outstanding shares of common stock"); all share/per-share amounts retroactively adjusted by the company
     "HD": [],     # last split 1999-12-30 (3-for-2), far outside this data's XBRL window (HD's EarningsPerShareDiluted history starts at FY2007, earliest end 2008-02-03) -- WebSearch confirmed 2026-09-09 (13 splits between 1982 and 1999, none since) and confirmed empirically (0 of 121 (start,end) groups in the full XBRL EPS history have a duplicate-value ratio >1.3)
     "GS": [],     # GS has never split since its 1999 IPO -- confirmed empirically (no duplicate (start,end) group with ratio>1.3 in the full XBRL EarningsPerShareDiluted history)
     "NFLX": [("2025-11-14", 10)],  # 10-for-1 forward split -- confirmed via NFLX FY2025 10-K Item 5 / Q2 2026 10-Q Note 1 text ("On November 14, 2025, the Company completed a ten-for-one forward stock split of the Company's issued common stock"), record date 2025-11-10, split-adjusted trading from 2025-11-17. Boundary is the 11-14 completion date, not the 11-17 trading date, because split_ratio() compares each XBRL entry's FILED date: last pre-split filing 2025-10-22 (Q3'25 10-Q, EPS 5.87 -> 0.587), first post-split filing 2026-01-23 (FY25 10-K, EPS 2.53 as-filed)
@@ -307,6 +308,9 @@ def main():
     ap.add_argument("--cik", required=True)
     ap.add_argument("--tag", default="EarningsPerShareDiluted")
     ap.add_argument("--out", required=True)
+    # 분할 목록을 밖에서 넘긴다("YYYY-MM-DD:비율,…") — KNOWN_SPLITS에 없는 종목(S&P500 비교군)용. 없으면 분할 뒤 연간 EPS에서
+    # 분할 전 분기 EPS를 빼 4분기 EPS가 크게 틀린다(ORLY 2025-06 15:1 → 2025년 4분기 −8.01, 안건 C12 2026-10-04).
+    ap.add_argument("--splits", help='예: "2025-06-10:15" (KNOWN_SPLITS에 있으면 그쪽이 앞선다)')
     args = ap.parse_args()
 
     # --tag "A,B": A가 없는 (start, end) 기간만 B로 채운다. DELL은 계속사업 EPS 태그를 FY2023 뒤로 쓰지 않는다(분사 뒤 중단사업이
@@ -360,11 +364,13 @@ def main():
             entries = list(entries) + _add
 
     ticker_key = args.ticker.upper()
-    if ticker_key not in KNOWN_SPLITS:
+    if ticker_key not in KNOWN_SPLITS and args.splits is None:
         print(f"WARNING: no known-split table for {args.ticker} -- add an entry "
               f"(even an empty list, if verified split-free) before trusting this output.",
               file=sys.stderr)
     split_dates = KNOWN_SPLITS.get(ticker_key, [])
+    if ticker_key not in KNOWN_SPLITS and args.splits:
+        split_dates = [(d, float(r)) for d, r in (x.split(":") for x in args.splits.split(",") if x)]
     if split_dates:
         entries = apply_split_correction(entries, split_dates)
 

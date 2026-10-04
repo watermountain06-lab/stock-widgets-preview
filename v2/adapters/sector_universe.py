@@ -68,14 +68,38 @@ def yahoo(ticker, asof):
     return bars, splits
 
 
+def split_history(ticker):
+    """최근 5년 주식분할(날짜, 비율) — EPS 이력의 분할 보정용(C12, 2026-10-04). 1y 일봉 요청의 분할만으로는 그보다 오래된 분할을
+    못 보고, 분할 뒤 연간 EPS − 분할 전 분기 EPS로 4분기를 역산하다 크게 틀렸다(ORLY 2025-06 15:1 → 2025년 4분기 −8.01).
+    Yahoo는 스핀오프 가격 조정도 splits로 주므로(DD 2025-11 2.39 — Qnity 분사) 분모 4 이하 분수(2:1·3:2·4:3·5:4·1:5 등)에 가까운
+    것만 분할로 본다. 비율 모양만으로 분사를 완전히 가를 수는 없다(Codex) — 걸러진 값은 출력으로 남겨 손으로 본다."""
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker.replace('.', '-')}?range=5y&interval=3mo&events=split"
+    raw = subprocess.run(["curl", "-s", "-A", UA, url], capture_output=True, text=True, timeout=60).stdout
+    r = json.loads(raw)["chart"]["result"][0]
+    out = []
+    for s in (r.get("events", {}).get("splits") or {}).values():
+        if not s.get("denominator"):
+            continue
+        k = s["numerator"] / s["denominator"]
+        big = k if k >= 1 else 1 / k
+        day = time.strftime("%Y-%m-%d", time.gmtime(s["date"]))
+        if big >= 1.25 and any(abs(big * q - round(big * q)) < 0.02 for q in (1, 2, 3, 4)):
+            out.append((day, round(k, 6)))
+        elif big >= 1.25:
+            print(f"  {ticker}: Yahoo 분할 {day} 비율 {k:.4f}는 단순 분수가 아니라 분사 조정으로 보고 뺐다 — 확인 필요", file=sys.stderr)
+    return sorted(out)
+
+
 def one(ticker, cik, asof, eps_dir):
     bars, splits = yahoo(ticker, asof)
     if not bars or bars[-1][0] != asof:
         return None, f"기준일 종가 없음({bars[-1][0] if bars else '—'})", None
     eps_path = os.path.join(eps_dir, f"{ticker}_eps_history.json")
     if not os.path.exists(eps_path):
+        sh = split_history(ticker)
         subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
-                        "--cik", cik, "--out", eps_path], capture_output=True, text=True)
+                        "--cik", cik, "--out", eps_path, "--splits", ",".join(f"{d}:{k}" for d, k in sh)],
+                       capture_output=True, text=True)
         time.sleep(0.6)
     feh.CIKS[ticker] = cik
     orig = bmh.load_daily
