@@ -507,8 +507,8 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="stxDcfReq" style="font-size: 22px; color: var(--red);">연 62.1%</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="stxConfidenceLabel">밴드 적중률 (끝난 체크포인트 3개 — 4개 미만)</span>
-      <span class="meta-value" id="stxConfidence" style="font-size:22px;color:var(--text3);">해당 없음</span>
+      <span class="meta-label" id="stxConfidenceLabel">밴드 적중률 (110/248일, 이탈 전부 상단)</span>
+      <span class="meta-value" id="stxConfidence" style="font-size:22px;color:var(--gold);">44.4%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -2164,7 +2164,7 @@ const STX_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
 const STX_DCF_TRACK = [{d:"2024-08-02",low:1.2,base:-18.2,high:-1.5},{d:"2024-10-25",low:13.8,base:-14.8,high:26.1},{d:"2025-01-24",low:33.3,base:-11.4,high:45.2},{d:"2025-05-02",low:40.0,base:5.7,high:61.3},{d:"2025-08-01",low:47.2,base:32.1,high:76.0},{d:"2025-10-31",low:52.6,base:58.2,high:91.5},{d:"2026-01-30",low:58.3,base:76.7,high:109.2},{d:"2026-04-29",low:74.3,base:99.1,high:160.0},{d:"2026-08-04",low:95.5,base:127.4,high:260.7}];
-const STX_BACKTEST = [{"checkpoint_date": "2025-10-31", "quarter_end": "2025-10-03", "ttm_eps": 7.79, "trailing_sample_size": 313, "per_low": 15.41, "per_high": 37.94, "band_width_ratio": 2.46, "predicted_low": 120.06, "predicted_high": 295.54, "realized_per_high": 57.33, "realized_per_low": 30.49, "realized_price_high": 446.57, "realized_price_low": 237.49, "period_end_date": "2026-01-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-01-30", "quarter_end": "2026-01-02", "ttm_eps": 8.84, "trailing_sample_size": 374, "per_low": 16.02, "per_high": 42.42, "band_width_ratio": 2.65, "predicted_low": 141.62, "predicted_high": 374.96, "realized_per_high": 67.4, "realized_per_low": 39.91, "realized_price_high": 595.86, "realized_price_low": 352.8, "period_end_date": "2026-04-28", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-04-29", "quarter_end": "2026-04-03", "ttm_eps": 10.54, "trailing_sample_size": 435, "per_low": 17.75, "per_high": 58.78, "band_width_ratio": 3.31, "predicted_low": 187.08, "predicted_high": 619.52, "realized_per_high": 103.8, "realized_per_low": 61.03, "realized_price_high": 1094.04, "realized_price_low": 643.3, "period_end_date": "2026-08-03", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-08-04", "quarter_end": "2026-07-03", "ttm_eps": 13.9, "trailing_sample_size": 500, "per_low": 19.91, "per_high": 85.38, "band_width_ratio": 4.29, "predicted_low": 276.68, "predicted_high": 1186.78, "realized_per_high": 71.57, "realized_per_low": 55.53, "realized_price_high": 994.79, "realized_price_low": 771.81, "period_end_date": "2026-09-30", "is_open": true, "zone": "full_hit", "spans_earnings": 0}];
+const STX_BACKTEST = [{"checkpoint_date": "2025-08-01", "quarter_end": "2025-06-27", "ttm_eps": 6.77, "trailing_sample_size": 249, "per_low": 14.17, "per_high": 63.04, "band_width_ratio": 4.45, "predicted_low": 95.95, "predicted_high": 426.81, "realized_per_high": 39.64, "realized_per_low": 21.75, "realized_price_high": 268.34, "realized_price_low": 147.27, "period_end_date": "2025-10-30", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-10-31", "quarter_end": "2025-10-03", "ttm_eps": 7.79, "trailing_sample_size": 313, "per_low": 15.41, "per_high": 37.94, "band_width_ratio": 2.46, "predicted_low": 120.06, "predicted_high": 295.54, "realized_per_high": 57.33, "realized_per_low": 30.49, "realized_price_high": 446.57, "realized_price_low": 237.49, "period_end_date": "2026-01-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-01-30", "quarter_end": "2026-01-02", "ttm_eps": 8.84, "trailing_sample_size": 374, "per_low": 16.02, "per_high": 42.42, "band_width_ratio": 2.65, "predicted_low": 141.62, "predicted_high": 374.96, "realized_per_high": 67.4, "realized_per_low": 39.91, "realized_price_high": 595.86, "realized_price_low": 352.8, "period_end_date": "2026-04-28", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-04-29", "quarter_end": "2026-04-03", "ttm_eps": 10.54, "trailing_sample_size": 435, "per_low": 17.75, "per_high": 58.78, "band_width_ratio": 3.31, "predicted_low": 187.08, "predicted_high": 619.52, "realized_per_high": 103.8, "realized_per_low": 61.03, "realized_price_high": 1094.04, "realized_price_low": 643.3, "period_end_date": "2026-08-03", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-08-04", "quarter_end": "2026-07-03", "ttm_eps": 13.9, "trailing_sample_size": 500, "per_low": 19.91, "per_high": 85.38, "band_width_ratio": 4.29, "predicted_low": 276.68, "predicted_high": 1186.78, "realized_per_high": 71.57, "realized_per_low": 55.53, "realized_price_high": 994.79, "realized_price_low": 771.81, "period_end_date": "2026-09-30", "is_open": true, "zone": "full_hit", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
 // "예상 밴드 안에서 마감한 일봉이 몇 %인가"로 따로 센다. 진행 중인 구간의
@@ -2181,7 +2181,7 @@ const STX_BAND_NOMINAL = 0.80;
 const STX_BAND_HIT = (function(){
   const lastDate = STX_DAILY[STX_DAILY.length-1][0];
   let total = 0, inside = 0, below = 0, above = 0;
-  let excluded = 0, finished = 0, early = 0;   // early = 흑자 초기 구간(A9 B6, 2026-10-04)   // C1(2026-10-03): 실적 발표를 넘긴 구간은 빼고, 끝난 체크포인트가 4개 미만이면 해당 없음
+  let excluded = 0, finished = 0, early = 0;   // early = 흑자 초기 구간(A9 B6, 2026-10-04)   // C1(2026-10-03): 실적 발표를 넘긴 구간은 빼고, 끝난 체크포인트가 4개 미만이면 해당 없음 — 2026-10-04부터 모든 구간이 다음 실적 공시에서 끝나 C1 제외는 진짜 자료 공백 때만 걸린다(C14)
   STX_BACKTEST.forEach(cp=>{
     if (cp.early_profit) { early++; cp._excluded = true; return; }   // 흑자 초기 구간(A9 B6 — 파일 안 첫 흑자 TTM부터 최근 4분기가 모두 흑자가 되기 전까지)
     if (cp.spans_earnings) { excluded++; cp._excluded = true; return; }   // 흑자·자료 공백으로 다음 실적을 넘긴 구간(C1)
@@ -2189,6 +2189,7 @@ const STX_BAND_HIT = (function(){
     // 진행 중인 구간은 JSON의 period_end_date가 데이터 생성일에 멈춰 있다.
     // 그 뒤로 지나간 일봉도 실제 관측이므로 마지막 봉까지 센다.
     //
+    // (2026-10-04) 진행 중 구간은 이제 적중률에 넣지 않는다 — 아래 경고는 열린 상자의 툴팁·색에만 해당한다.
     // ⚠ 다음 실적이 나오면 `compute_earnings_backtest_band.py`를 다시 돌려야
     // 한다. 안 돌리면 이 열린 구간이 EPS 갱신을 넘어 계속 자라고, 그때부터는
     // 옛 EPS에 고정된 달러 밴드에 새 주가를 대는 셈이 된다 — 백테스트 v2가
@@ -2202,12 +2203,15 @@ const STX_BAND_HIT = (function(){
     cp._hit = hit;
     cp._below = bars.filter(b => b[4] < cp.predicted_low).length;
     cp._above = bars.filter(b => b[4] > cp.predicted_high).length;
-    cp._hitRatio = bars.length ? hit/bars.length : null;
-    total += bars.length; inside += hit; below += cp._below; above += cp._above;
+    // 현지 통화 재무 종목(TSM·ASML)은 엔진이 현지 통화 가격으로 센 일수를 쓴다(C10) — 달러 밴드는 체크포인트 날 환율로 고정돼 구간 안 환율 변동이 섞인다
+    if (cp.days_total != null && !cp.is_open) { cp._bars = cp.days_total; cp._hit = cp.days_in; cp._below = cp.days_below; cp._above = cp.days_above; }
+    cp._hitRatio = cp._bars ? cp._hit/cp._bars : null;
+    // 진행 중인 분기는 끝나 다음 실적이 나와야 적중률에 넣는다 — 지금까지 끝난 분기만 센다(2026-10-04 사용자 결정). 차트 상자에는 그대로 보인다.
+    if (!cp.is_open) { total += cp._bars; inside += cp._hit; below += cp._below; above += cp._above; }
   });
   // 최근 4구간만 따로 — 통합 비율이 최신 국면을 희석한다. 예전에 이걸
   // "최근 1년"이라 불렀는데 실제로는 204거래일, 약 10개월이다(Codex 지적).
-  const recent = STX_BACKTEST.filter(cp => !cp._excluded).slice(-4);
+  const recent = STX_BACKTEST.filter(cp => !cp._excluded && !cp.is_open).slice(-4);
   const rTotal = recent.reduce((a,cp)=>a+(cp._bars||0),0);
   const rInside = recent.reduce((a,cp)=>a+(cp._hit||0),0);
   return {total, inside, below, above, excluded, early, finished, few: finished < 4, ratio: total && finished >= 4 ? inside/total : null,
@@ -2450,7 +2454,7 @@ function stxBandTone(cp){
       title.textContent =
         `${cp.checkpoint_date} ~ ${cp.is_open ? '진행 중' : (cp.period_end_date || '')}`
         + `\n예상밴드 $${cp.predicted_low.toFixed(2)}~$${cp.predicted_high.toFixed(2)} (폭 ${width.toFixed(2)}배)`
-        + (cp._bars ? `\n일봉 ${cp._bars}일 중 ${cp._hit}일(${(cp._hitRatio*100).toFixed(1)}%)이 밴드 안에서 마감` : '')
+        + (cp._bars ? `\n일봉 ${cp._bars}일 중 ${cp._hit}일(${(cp._hitRatio*100).toFixed(1)}%)이 밴드 안에서 마감` + (cp.days_total != null && !cp.is_open ? ' (현지 통화 기준 — 달러 밴드는 체크포인트 날 환율 고정)' : '') : '')
         + (cp.is_open ? '\n아직 판정 전이라 회색이다.' : '')
         + (cp._clipped ? '\n차트 범위를 크게 벗어나 잘라서 표시했다.' : '');
       rect.appendChild(title);

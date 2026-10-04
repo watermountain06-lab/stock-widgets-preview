@@ -195,6 +195,10 @@ def main():
     ap.add_argument("--min-sample-days", type=int, default=100,
                      help="minimum trailing PER observations (trading days) for a checkpoint. v2 C14 (2026-10-04): 252 "
                           "-- a band built from under a year of PER is too narrow to mean anything (UBER 125 days, 1.1x wide).")
+    ap.add_argument("--end-at-next-filing", action="store_true",
+                     help="v2 C14 (2026-10-04): end each checkpoint's evaluation period at the next EPS filing even "
+                          "when that filing produced no band (sample gate, negative EPS). Without it a dropped later "
+                          "checkpoint stretches the previous period over years (VRTX 2024-05 → 2026-09).")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -295,8 +299,17 @@ def main():
         start_idx = date_to_idx.get(cp["checkpoint_date"])
         if start_idx is None:
             start_idx = next(j for j, d in enumerate(dates) if d >= cp["checkpoint_date"])
-        if i + 1 < len(checkpoints):
-            end_date = checkpoints[i + 1]["checkpoint_date"]
+        next_cp = checkpoints[i + 1]["checkpoint_date"] if i + 1 < len(checkpoints) else None
+        next_filing = None
+        if args.end_at_next_filing:
+            first = {}
+            for e in eps_points_sorted:   # 분기마다 첫 공시일 — 같은 분기의 재공시(10-K 비교 열)는 새 실적이 아니다
+                q = e.get("quarter_end") or e["available_date"]
+                first[q] = min(first.get(q, e["available_date"]), e["available_date"])
+            next_filing = next((d for d in sorted(first.values()) if d > cp["checkpoint_date"] and d <= dates[-1]), None)
+        cands = [d for d in (next_cp, next_filing) if d]
+        if cands:
+            end_date = min(cands)
             end_idx = date_to_idx.get(end_date)
             if end_idx is None:  # v1 bug fix: explicit None-check, not `or` (0 is falsy)
                 end_idx = next(j for j, d in enumerate(dates) if d >= end_date)

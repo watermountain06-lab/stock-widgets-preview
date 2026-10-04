@@ -39,14 +39,15 @@ EXCLUDE_PER_WINDOW = {
     "AMD": ("2023-05-03", "2024-01-30"),
 }
 # 다시 계산하지 않고 지금(루트) 배열에 표시만 — TSM·ASML 현지 통화 EPS(C10), PANW는 D20으로 한동안 루트 배열을 지켰다가 A9·A8 ①로 풀었다(2026-10-04).
-KEEP_ROOT = {"TSM", "ASML"}   # PANW는 2026-10-04 뺐다 — 흑자 초기(A9 B6)와 일회성 세금(A8 ①)을 반영하니 v2 재계산 밴드가 정상(폭 1.3~2.9배)
+KEEP_ROOT = set()   # TSM·ASML은 C10(2026-10-04)으로 환율 환산해 다시 계산   # PANW는 2026-10-04 뺐다 — 흑자 초기(A9 B6)와 일회성 세금(A8 ①)을 반영하니 v2 재계산 밴드가 정상(폭 1.3~2.9배)
 # 체크포인트가 실적 발표일인 루트 배열(EPS 공시일은 몇 주 뒤) — 같은 분기 공시를 거르는 45일. PANW 배열은 체크포인트가 곧 공시일이라 0일(Codex)
-RELEASE_DATE_CHECKPOINTS = {"TSM", "ASML"}
-# 체크포인트 밴드에 필요한 직전 PER 표본(거래일) — 1년 미만 표본의 밴드는 너무 좁아 뜻이 없다(C14 ①, 2026-10-04 — UBER 125일·폭 1.1배)
-MIN_SAMPLE_DAYS = 252
+RELEASE_DATE_CHECKPOINTS = set()   # 루트 배열을 쓰는 종목이 없어졌다(C10)
+# 체크포인트 밴드에 필요한 직전 PER 표본(거래일) — 1년 미만 표본의 밴드는 너무 좁아 뜻이 없다(C14 ①, 2026-10-04 — UBER 125일·폭 1.1배).
+# 252가 아니라 240 — 달력 1년은 휴일에 따라 거래일 249~252라 252면 1~3일 차로 갈렸다(VRTX·GEV, Fable)
+MIN_SAMPLE_DAYS = 240
 KEEP_EMPTY = {"BA", "COF"}   # 적정주가 밴드·백테스트를 카드 결정으로 비운 종목(CARD_ITEMS BA 규칙)
 # 루트 JSON의 trailing_years가 기본(2년)과 다른 종목 — GEV는 2024-04 상장이라 직전 1년 PER로 잰다
-TRAILING_YEARS = {"GEV": 1}
+TRAILING_YEARS = {}   # GEV 1년 창은 2026-10-04 뺐다 — 상장(2024-04) 뒤 2년이 차 기본 2년 창을 쓸 수 있고, 1년 창은 최소 표본(C14 ①)을 못 채운다(Fable)
 
 
 def js_array(h, name):
@@ -163,10 +164,17 @@ def main():
             eps_path = os.path.join(work, "eps_adj.json")
             json.dump(adj, open(eps_path, "w"))
         tmp, out = os.path.join(work, "daily.json"), os.path.join(work, "backtest.json")
-        json.dump({"daily": [b for b in daily if not bt_start or b[0] >= bt_start]}, open(tmp, "w"))
+        # 재무가 현지 통화인 ADR(TSM 대만달러·ASML 유로)은 카드 PER과 같게 달러 가격 × 그날 환율로 현지 통화 가격을 만들어
+        # 현지 통화 EPS로 나누고, 밴드 가격은 체크포인트 날 환율로 달러로 되돌린다(C10, 2026-10-04 — v2/fx.py 규칙)
+        import fx
+        cur = fx.CURRENCY.get(t)
+        bars = [b for b in daily if not bt_start or b[0] >= bt_start]
+        if cur:
+            bars = [[b[0]] + [round(x * fx.rate(t, b[0]), 4) for x in b[1:5]] + b[5:] for b in bars]
+        json.dump({"daily": bars}, open(tmp, "w"))
         cmd = [sys.executable, os.path.join(REPO, "scripts", "compute_earnings_backtest_band.py"), t,
                "--eps", eps_path, "--daily-json", tmp, "--out", out]
-        cmd += ["--min-sample-days", str(MIN_SAMPLE_DAYS)]
+        cmd += ["--min-sample-days", str(MIN_SAMPLE_DAYS), "--end-at-next-filing"]
         if t in TRAILING_YEARS:
             cmd += ["--trailing-years", str(TRAILING_YEARS[t])]
         if t in EXCLUDE_PER_WINDOW:
@@ -179,6 +187,24 @@ def main():
         if r.returncode != 0:
             sys.exit(r.stderr[-500:])
         bt = json.load(open(out))["checkpoints"]
+        if cur:
+            # 적중은 현지 통화 가격 공간에서 센다 — 달러 밴드를 체크포인트 날 환율로 고정하면 구간 안의 환율 변동(TSM 2025 2~5월
+            # 약 9%)이 적중에 섞인다(Fable). 카드 JS는 days_*가 있으면 그것을 쓴다. 표시용 밴드·실현 범위는 달러.
+            for cp in bt:
+                r = fx.rate(t, cp["checkpoint_date"])
+                end = cp.get("period_end_date") or daily[-1][0]
+                lo_l, hi_l = cp["predicted_low"], cp["predicted_high"]
+                loc = [b for b in bars if cp["checkpoint_date"] < b[0] <= end]
+                usd = [b for b in daily if cp["checkpoint_date"] < b[0] <= end]
+                cp["days_total"] = len(loc)
+                cp["days_in"] = sum(1 for b in loc if lo_l <= b[4] <= hi_l)
+                cp["days_below"] = sum(1 for b in loc if b[4] < lo_l)
+                cp["days_above"] = sum(1 for b in loc if b[4] > hi_l)
+                cp["predicted_low"], cp["predicted_high"] = round(lo_l / r, 2), round(hi_l / r, 2)
+                if usd:
+                    cp["realized_price_low"] = min(b[4] for b in usd)
+                    cp["realized_price_high"] = max(b[4] for b in usd)
+                cp["fx_rate"] = r   # 표시 밴드를 달러로 되돌린 환율(현지 통화/달러, 체크포인트 날)
     bt = flag(bt, eps_dates, daily[-1][0], 45 if t in RELEASE_DATE_CHECKPOINTS else 0, () if t in KEEP_ROOT else ramps)
     if t in KEEP_ROOT:
         # 루트 배열의 열린 구간이 다음 실적을 넘긴 건 흑자 공백이 아니라 배열이 멈춘 탓 — C1 제외 대상이 아니다(Fable 2026-10-03, PANW).

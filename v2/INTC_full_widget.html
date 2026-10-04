@@ -2152,7 +2152,7 @@ const INTC_ANALYST = { asOf: '2026-09-29', source: 'StockAnalysis (S&P Global �
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
 const INTC_DCF_TRACK = [{d:"2024-11-01",low:-26.1,base:-18.6,high:-18.8},{d:"2025-01-31",low:-14.4,base:-16.0,high:-19.7},{d:"2025-04-25",low:-14.8,base:-16.5,high:-19.7},{d:"2025-07-24",low:-15.2,base:-18.0,high:-20.5},{d:"2025-11-06",low:-7.8,base:-10.0,high:-8.6},{d:"2026-01-23",low:-6.9,base:-8.6,high:-7.2},{d:"2026-04-24",low:-26.0,base:-14.1,high:-10.0},{d:"2026-07-24",low:-8.8,base:-11.2,high:-8.3}];
-const INTC_BACKTEST = [{"checkpoint_date": "2024-01-26", "quarter_end": "2023-12-30", "ttm_eps": 0.4, "trailing_sample_size": 315, "per_low": 6.18, "per_high": 15.91, "band_width_ratio": 2.57, "predicted_low": 2.47, "predicted_high": 6.36, "realized_per_high": 115.37, "realized_per_low": 85.5, "realized_price_high": 46.15, "realized_price_low": 34.2, "period_end_date": "2024-04-25", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-04-26", "quarter_end": "2024-03-30", "ttm_eps": 0.97, "trailing_sample_size": 316, "per_low": 7.25, "per_high": 110.08, "band_width_ratio": 15.19, "predicted_low": 7.03, "predicted_high": 106.77, "realized_per_high": 35.95, "realized_per_low": 29.95, "realized_price_high": 34.87, "realized_price_low": 29.05, "period_end_date": "2024-08-01", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-08-02", "quarter_end": "2024-06-29", "ttm_eps": 0.24, "trailing_sample_size": 316, "per_low": 13.16, "per_high": 108.28, "band_width_ratio": 8.23, "predicted_low": 3.16, "predicted_high": 25.99, "realized_per_high": 5432.0, "realized_per_low": 78.71, "realized_price_high": 140.94, "realized_price_low": 18.13, "period_end_date": "2026-09-28", "is_open": true, "zone": "breached_top", "spans_earnings": 8}];   // 루트 카드에 밴드 백테스트 데이터가 없다(2026-09-29 확인)
+const INTC_BACKTEST = [{"checkpoint_date": "2024-01-26", "quarter_end": "2023-12-30", "ttm_eps": 0.4, "trailing_sample_size": 315, "per_low": 6.18, "per_high": 15.91, "band_width_ratio": 2.57, "predicted_low": 2.47, "predicted_high": 6.36, "realized_per_high": 115.37, "realized_per_low": 85.5, "realized_price_high": 46.15, "realized_price_low": 34.2, "period_end_date": "2024-04-25", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-04-26", "quarter_end": "2024-03-30", "ttm_eps": 0.97, "trailing_sample_size": 316, "per_low": 7.25, "per_high": 110.08, "band_width_ratio": 15.19, "predicted_low": 7.03, "predicted_high": 106.77, "realized_per_high": 35.95, "realized_per_low": 29.95, "realized_price_high": 34.87, "realized_price_low": 29.05, "period_end_date": "2024-08-01", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-08-02", "quarter_end": "2024-06-29", "ttm_eps": 0.24, "trailing_sample_size": 316, "per_low": 13.16, "per_high": 108.28, "band_width_ratio": 8.23, "predicted_low": 3.16, "predicted_high": 25.99, "realized_per_high": 99.67, "realized_per_low": 78.71, "realized_price_high": 23.92, "realized_price_low": 18.89, "period_end_date": "2024-10-31", "is_open": false, "zone": "full_hit", "spans_earnings": 0}];   // 루트 카드에 밴드 백테스트 데이터가 없다(2026-09-29 확인)
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
 // "예상 밴드 안에서 마감한 일봉이 몇 %인가"로 따로 센다. 진행 중인 구간의
@@ -2169,7 +2169,7 @@ const INTC_BAND_NOMINAL = 0.80;
 const INTC_BAND_HIT = (function(){
   const lastDate = INTC_DAILY[INTC_DAILY.length-1][0];
   let total = 0, inside = 0, below = 0, above = 0;
-  let excluded = 0, finished = 0, early = 0;   // early = 흑자 초기 구간(A9 B6, 2026-10-04)   // C1(2026-10-03): 실적 발표를 넘긴 구간은 빼고, 끝난 체크포인트가 4개 미만이면 해당 없음
+  let excluded = 0, finished = 0, early = 0;   // early = 흑자 초기 구간(A9 B6, 2026-10-04)   // C1(2026-10-03): 실적 발표를 넘긴 구간은 빼고, 끝난 체크포인트가 4개 미만이면 해당 없음 — 2026-10-04부터 모든 구간이 다음 실적 공시에서 끝나 C1 제외는 진짜 자료 공백 때만 걸린다(C14)
   INTC_BACKTEST.forEach(cp=>{
     if (cp.early_profit) { early++; cp._excluded = true; return; }   // 흑자 초기 구간(A9 B6 — 파일 안 첫 흑자 TTM부터 최근 4분기가 모두 흑자가 되기 전까지)
     if (cp.spans_earnings) { excluded++; cp._excluded = true; return; }   // 흑자·자료 공백으로 다음 실적을 넘긴 구간(C1)
@@ -2177,6 +2177,7 @@ const INTC_BAND_HIT = (function(){
     // 진행 중인 구간은 JSON의 period_end_date가 데이터 생성일에 멈춰 있다.
     // 그 뒤로 지나간 일봉도 실제 관측이므로 마지막 봉까지 센다.
     //
+    // (2026-10-04) 진행 중 구간은 이제 적중률에 넣지 않는다 — 아래 경고는 열린 상자의 툴팁·색에만 해당한다.
     // ⚠ 다음 실적이 나오면 `compute_earnings_backtest_band.py`를 다시 돌려야
     // 한다. 안 돌리면 이 열린 구간이 EPS 갱신을 넘어 계속 자라고, 그때부터는
     // 옛 EPS에 고정된 달러 밴드에 새 주가를 대는 셈이 된다 — 백테스트 v2가
@@ -2190,12 +2191,15 @@ const INTC_BAND_HIT = (function(){
     cp._hit = hit;
     cp._below = bars.filter(b => b[4] < cp.predicted_low).length;
     cp._above = bars.filter(b => b[4] > cp.predicted_high).length;
-    cp._hitRatio = bars.length ? hit/bars.length : null;
-    total += bars.length; inside += hit; below += cp._below; above += cp._above;
+    // 현지 통화 재무 종목(TSM·ASML)은 엔진이 현지 통화 가격으로 센 일수를 쓴다(C10) — 달러 밴드는 체크포인트 날 환율로 고정돼 구간 안 환율 변동이 섞인다
+    if (cp.days_total != null && !cp.is_open) { cp._bars = cp.days_total; cp._hit = cp.days_in; cp._below = cp.days_below; cp._above = cp.days_above; }
+    cp._hitRatio = cp._bars ? cp._hit/cp._bars : null;
+    // 진행 중인 분기는 끝나 다음 실적이 나와야 적중률에 넣는다 — 지금까지 끝난 분기만 센다(2026-10-04 사용자 결정). 차트 상자에는 그대로 보인다.
+    if (!cp.is_open) { total += cp._bars; inside += cp._hit; below += cp._below; above += cp._above; }
   });
   // 최근 4구간만 따로 — 통합 비율이 최신 국면을 희석한다. 예전에 이걸
   // "최근 1년"이라 불렀는데 실제로는 204거래일, 약 10개월이다(Codex 지적).
-  const recent = INTC_BACKTEST.filter(cp => !cp._excluded).slice(-4);
+  const recent = INTC_BACKTEST.filter(cp => !cp._excluded && !cp.is_open).slice(-4);
   const rTotal = recent.reduce((a,cp)=>a+(cp._bars||0),0);
   const rInside = recent.reduce((a,cp)=>a+(cp._hit||0),0);
   return {total, inside, below, above, excluded, early, finished, few: finished < 4, ratio: total && finished >= 4 ? inside/total : null,
@@ -2445,7 +2449,7 @@ function intcBandTone(cp){
       title.textContent =
         `${cp.checkpoint_date} ~ ${cp.is_open ? '진행 중' : (cp.period_end_date || '')}`
         + `\n예상밴드 $${cp.predicted_low.toFixed(2)}~$${cp.predicted_high.toFixed(2)} (폭 ${width.toFixed(2)}배)`
-        + (cp._bars ? `\n일봉 ${cp._bars}일 중 ${cp._hit}일(${(cp._hitRatio*100).toFixed(1)}%)이 밴드 안에서 마감` : '')
+        + (cp._bars ? `\n일봉 ${cp._bars}일 중 ${cp._hit}일(${(cp._hitRatio*100).toFixed(1)}%)이 밴드 안에서 마감` + (cp.days_total != null && !cp.is_open ? ' (현지 통화 기준 — 달러 밴드는 체크포인트 날 환율 고정)' : '') : '')
         + (cp.is_open ? '\n아직 판정 전이라 회색이다.' : '')
         + (cp._clipped ? '\n차트 범위를 크게 벗어나 잘라서 표시했다.' : '');
       rect.appendChild(title);
