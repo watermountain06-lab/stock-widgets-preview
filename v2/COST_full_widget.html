@@ -496,8 +496,8 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="costDcfReq" style="font-size: 22px; color: var(--red);">11.0%</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="costConfidenceLabel">밴드 적중률 (377/683일, 상단우세)</span>
-      <span class="meta-value" id="costConfidence" style="font-size:22px;color:var(--gold);">55.2%</span>
+      <span class="meta-label" id="costConfidenceLabel">밴드 적중률 (378/731일, 상단우세)</span>
+      <span class="meta-value" id="costConfidence" style="font-size:22px;color:var(--gold);">51.7%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -2110,7 +2110,7 @@ const COST_ANALYST = { asOf: '2026-09-28', source: 'StockAnalysis (S&P Global �
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
 const COST_DCF_TRACK = [{d:"2024-10-09",low:189.2,base:215.3,high:239.2},{d:"2024-12-19",low:170.5,base:214.2,high:243.6},{d:"2025-03-13",low:221.4,base:240.9,high:250.6},{d:"2025-06-05",low:230.4,base:257.3,high:260.7},{d:"2025-10-08",low:235.9,base:267.1,high:265.7},{d:"2025-12-17",low:245.6,base:277.3,high:276.3},{d:"2026-03-11",low:254.6,base:288.6,high:287.0},{d:"2026-06-03",low:267.1,base:303.3,high:301.5}];
-const COST_BACKTEST = [{"checkpoint_date":"2023-12-20","quarter_end":"2023-11-26","ttm_eps":12.88,"trailing_sample_size":503,"per_low":36.24,"per_high":44.21,"band_width_ratio":1.22,"predicted_low":466.77,"predicted_high":569.37,"realized_per_high":60.99,"realized_per_low":50.05,"realized_price_high":785.59,"realized_price_low":644.69,"period_end_date":"2024-03-12","is_open":false,"zone":"breached_top"},{"checkpoint_date":"2024-03-13","quarter_end":"2024-02-18","ttm_eps":13.73,"trailing_sample_size":502,"per_low":36.51,"per_high":56.16,"band_width_ratio":1.54,"predicted_low":501.28,"predicted_high":771.14,"realized_per_high":60.76,"realized_per_low":51.34,"realized_price_high":834.3,"realized_price_low":704.88,"period_end_date":"2024-06-05","is_open":false,"zone":"breached_top"},{"checkpoint_date":"2024-06-06","quarter_end":"2024-05-12","ttm_eps":14.21,"trailing_sample_size":503,"per_low":36.88,"per_high":57.82,"band_width_ratio":1.57,"predicted_low":524.02,"predicted_high":821.61,"realized_per_high":64.54,"realized_per_low":56.43,"realized_price_high":917.08,"realized_price_low":801.83,"period_end_date":"2024-10-08","is_open":false,"zone":"breached_top"},{"checkpoint_date":"2024-10-09","quarter_end":"2024-09-01","ttm_eps":16.56,"trailing_sample_size":502,"per_low":38.91,"per_high":62.63,"band_width_ratio":1.61,"predicted_low":644.38,"predicted_high":1037.21,"realized_per_high":60.07,"realized_per_low":52.79,"realized_price_high":994.69,"realized_price_low":874.18,"period_end_date":"2024-12-18","is_open":false,"zone":"full_hit"},{"checkpoint_date":"2024-12-19","quarter_end":"2024-11-24","ttm_eps":17.02,"trailing_sample_size":503,"per_low":40.92,"per_high":62.33,"band_width_ratio":1.52,"predicted_low":696.48,"predicted_high":1060.81,"realized_per_high":63.27,"realized_per_low":53.46,"realized_price_high":1076.86,"realized_price_low":909.81,"period_end_date":"2025-03-12","is_open":false,"zone":"breached_top"},{"checkpoint_date":"2025-03-13","quarter_end":"2025-02-16","ttm_eps":17.12,"trailing_sample_size":502,"per_low":42.57,"per_high":62.33,"band_width_ratio":1.46,"predicted_low":728.73,"predicted_high":1067.04,"realized_per_high":61.73,"realized_per_low":52.02,"realized_price_high":1056.85,"realized_price_low":890.62,"period_end_date":"2025-06-04","is_open":false,"zone":"full_hit"},{"checkpoint_date":"2025-06-05","quarter_end":"2025-05-11","ttm_eps":17.62,"trailing_sample_size":502,"per_low":52.15,"per_high":61.82,"band_width_ratio":1.19,"predicted_low":918.82,"predicted_high":1089.35,"realized_per_high":57.6,"realized_per_low":51.7,"realized_price_high":1014.94,"realized_price_low":910.94,"period_end_date":"2025-10-07","is_open":false,"zone":"breached_bottom"},{"checkpoint_date":"2025-10-08","quarter_end":"2025-08-31","ttm_eps":18.21,"trailing_sample_size":501,"per_low":52.64,"per_high":61.27,"band_width_ratio":1.16,"predicted_low":958.57,"predicted_high":1115.65,"realized_per_high":52.44,"realized_per_low":47.25,"realized_price_high":954.99,"realized_price_low":860.39,"period_end_date":"2025-12-16","is_open":false,"zone":"breached_bottom"},{"checkpoint_date":"2025-12-17","quarter_end":"2025-11-23","ttm_eps":18.67,"trailing_sample_size":501,"per_low":50.08,"per_high":60.42,"band_width_ratio":1.21,"predicted_low":935.0,"predicted_high":1127.99,"realized_per_high":54.55,"realized_per_low":45.53,"realized_price_high":1018.48,"realized_price_low":850.0,"period_end_date":"2026-03-10","is_open":false,"zone":"breached_bottom"},{"checkpoint_date":"2026-03-11","quarter_end":"2026-02-15","ttm_eps":19.23,"trailing_sample_size":501,"per_low":48.91,"per_high":59.53,"band_width_ratio":1.22,"predicted_low":940.49,"predicted_high":1144.81,"realized_per_high":56.91,"realized_per_low":49.2,"realized_price_high":1094.32,"realized_price_low":946.11,"period_end_date":"2026-06-02","is_open":false,"zone":"full_hit"},{"checkpoint_date":"2026-06-03","quarter_end":"2026-05-10","ttm_eps":19.88,"trailing_sample_size":501,"per_low":49.54,"per_high":58.36,"band_width_ratio":1.18,"predicted_low":984.82,"predicted_high":1160.1,"realized_per_high":49.63,"realized_per_low":45.92,"realized_price_high":986.68,"realized_price_low":912.97,"period_end_date":"2026-09-04","is_open":true,"zone":"breached_bottom"}];
+const COST_BACKTEST = [{"checkpoint_date": "2023-10-11", "quarter_end": "2023-09-03", "ttm_eps": 14.16, "trailing_sample_size": 503, "per_low": 36.01, "per_high": 42.32, "band_width_ratio": 1.18, "predicted_low": 509.86, "predicted_high": 599.24, "realized_per_high": 48.11, "realized_per_low": 38.35, "realized_price_high": 681.24, "realized_price_low": 543.03, "period_end_date": "2023-12-19", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2023-12-20", "quarter_end": "2023-11-26", "ttm_eps": 14.67, "trailing_sample_size": 503, "per_low": 36.24, "per_high": 42.9, "band_width_ratio": 1.18, "predicted_low": 531.63, "predicted_high": 629.31, "realized_per_high": 53.55, "realized_per_low": 43.95, "realized_price_high": 785.59, "realized_price_low": 644.69, "period_end_date": "2024-03-12", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-03-13", "quarter_end": "2024-02-18", "ttm_eps": 15.29, "trailing_sample_size": 502, "per_low": 36.51, "per_high": 49.31, "band_width_ratio": 1.35, "predicted_low": 558.24, "predicted_high": 753.97, "realized_per_high": 54.57, "realized_per_low": 46.1, "realized_price_high": 834.3, "realized_price_low": 704.88, "period_end_date": "2024-06-05", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-06-06", "quarter_end": "2024-05-12", "ttm_eps": 16.14, "trailing_sample_size": 503, "per_low": 36.88, "per_high": 51.48, "band_width_ratio": 1.4, "predicted_low": 595.19, "predicted_high": 830.95, "realized_per_high": 56.82, "realized_per_low": 49.68, "realized_price_high": 917.08, "realized_price_low": 801.83, "period_end_date": "2024-10-08", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-10-09", "quarter_end": "2024-09-01", "ttm_eps": 16.56, "trailing_sample_size": 502, "per_low": 38.83, "per_high": 55.14, "band_width_ratio": 1.42, "predicted_low": 643.02, "predicted_high": 913.18, "realized_per_high": 60.07, "realized_per_low": 52.79, "realized_price_high": 994.69, "realized_price_low": 874.18, "period_end_date": "2024-12-18", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-12-19", "quarter_end": "2024-11-24", "ttm_eps": 17.02, "trailing_sample_size": 503, "per_low": 40.08, "per_high": 58.02, "band_width_ratio": 1.45, "predicted_low": 682.11, "predicted_high": 987.58, "realized_per_high": 63.27, "realized_per_low": 53.46, "realized_price_high": 1076.86, "realized_price_low": 909.81, "period_end_date": "2025-03-12", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-03-13", "quarter_end": "2025-02-16", "ttm_eps": 17.12, "trailing_sample_size": 502, "per_low": 41.74, "per_high": 60.63, "band_width_ratio": 1.45, "predicted_low": 714.64, "predicted_high": 1038.03, "realized_per_high": 61.73, "realized_per_low": 52.02, "realized_price_high": 1056.85, "realized_price_low": 890.62, "period_end_date": "2025-06-04", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-06-05", "quarter_end": "2025-05-11", "ttm_eps": 17.62, "trailing_sample_size": 502, "per_low": 46.82, "per_high": 60.56, "band_width_ratio": 1.29, "predicted_low": 825.01, "predicted_high": 1067.1, "realized_per_high": 57.6, "realized_per_low": 51.7, "realized_price_high": 1014.94, "realized_price_low": 910.94, "period_end_date": "2025-10-07", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-10-08", "quarter_end": "2025-08-31", "ttm_eps": 18.21, "trailing_sample_size": 501, "per_low": 51.7, "per_high": 59.47, "band_width_ratio": 1.15, "predicted_low": 941.44, "predicted_high": 1082.95, "realized_per_high": 52.44, "realized_per_low": 47.25, "realized_price_high": 954.99, "realized_price_low": 860.39, "period_end_date": "2025-12-16", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2025-12-17", "quarter_end": "2025-11-23", "ttm_eps": 18.67, "trailing_sample_size": 501, "per_low": 49.13, "per_high": 58.92, "band_width_ratio": 1.2, "predicted_low": 917.28, "predicted_high": 1100.07, "realized_per_high": 54.55, "realized_per_low": 45.53, "realized_price_high": 1018.48, "realized_price_low": 850, "period_end_date": "2026-03-10", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-03-11", "quarter_end": "2026-02-15", "ttm_eps": 19.23, "trailing_sample_size": 501, "per_low": 48.66, "per_high": 57.92, "band_width_ratio": 1.19, "predicted_low": 935.75, "predicted_high": 1113.74, "realized_per_high": 56.91, "realized_per_low": 49.2, "realized_price_high": 1094.32, "realized_price_low": 946.11, "period_end_date": "2026-06-02", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2026-06-03", "quarter_end": "2026-05-10", "ttm_eps": 19.88, "trailing_sample_size": 501, "per_low": 49.54, "per_high": 56.86, "band_width_ratio": 1.15, "predicted_low": 984.82, "predicted_high": 1130.43, "realized_per_high": 49.63, "realized_per_low": 44.96, "realized_price_high": 986.68, "realized_price_low": 893.74, "period_end_date": "2026-09-28", "is_open": true, "zone": "breached_bottom", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
 // "예상 밴드 안에서 마감한 일봉이 몇 %인가"로 따로 센다. 진행 중인 구간의
@@ -2127,7 +2127,10 @@ const COST_BAND_NOMINAL = 0.80;
 const COST_BAND_HIT = (function(){
   const lastDate = COST_DAILY[COST_DAILY.length-1][0];
   let total = 0, inside = 0, below = 0, above = 0;
+  let excluded = 0, finished = 0;   // C1(2026-10-03): 실적 발표를 넘긴 구간은 빼고, 끝난 체크포인트가 4개 미만이면 해당 없음
   COST_BACKTEST.forEach(cp=>{
+    if (cp.spans_earnings) { excluded++; cp._excluded = true; return; }   // 흑자·자료 공백으로 다음 실적을 넘긴 구간(C1)
+    if (!cp.is_open) finished++;
     // 진행 중인 구간은 JSON의 period_end_date가 데이터 생성일에 멈춰 있다.
     // 그 뒤로 지나간 일봉도 실제 관측이므로 마지막 봉까지 센다.
     //
@@ -2149,10 +2152,10 @@ const COST_BAND_HIT = (function(){
   });
   // 최근 4구간만 따로 — 통합 비율이 최신 국면을 희석한다. 예전에 이걸
   // "최근 1년"이라 불렀는데 실제로는 204거래일, 약 10개월이다(Codex 지적).
-  const recent = COST_BACKTEST.slice(-4);
+  const recent = COST_BACKTEST.filter(cp => !cp._excluded).slice(-4);
   const rTotal = recent.reduce((a,cp)=>a+(cp._bars||0),0);
   const rInside = recent.reduce((a,cp)=>a+(cp._hit||0),0);
-  return {total, inside, below, above, ratio: total ? inside/total : null,
+  return {total, inside, below, above, excluded, finished, few: finished < 4, ratio: total && finished >= 4 ? inside/total : null,
           rCount: recent.length, rTotal, rInside, rRatio: rTotal ? rInside/rTotal : null};
 })();
 // 적중률 색은 **헤더와 박스가 같은 규칙**을 쓴다 (2026-09-22 통일).
@@ -2188,8 +2191,14 @@ function costBandTone(cp){
   const el = document.getElementById('costConfidence');
   const label = document.getElementById('costConfidenceLabel');
   const h = COST_BAND_HIT;
+  // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
+  if (el && h.few && COST_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = `밴드 적중률 (끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''})`;
+    return;
+  }
   if (el && h.ratio == null) {   // 백테스트 체크포인트가 없으면(신규 상장 등) 비워 둔다
-    el.textContent = '—'; el.style.color = 'var(--text3)';
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
     if (label) label.textContent = '밴드 적중률 (백테스트 없음)';
     return;
   }
@@ -2204,7 +2213,7 @@ function costBandTone(cp){
                : h.above && !h.below ? ', 이탈 전부 상단'
                : h.above > h.below ? ', 상단우세'
                : h.below > h.above ? ', 하단우세' : '';
-    label.textContent = `밴드 적중률 (${h.inside}/${h.total}일${lean})`;
+    label.textContent = `밴드 적중률 (${h.inside}/${h.total}일${lean}${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''})`;
   }
   const cell = el.closest('.meta-item');
   if (cell) {
