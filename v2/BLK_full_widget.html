@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="blkPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="blkPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="blkPeerScore">25.6<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="blkPeerScore">22.4<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="blkSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="blkSelfVerdict">중간</span></div>
@@ -898,9 +898,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$627</div><div class="vs-note">현재가 <span data-vs="price">$1058.29</span> 대비 <strong data-vs="upside">−40.7%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.69
 시나리오 범위: 1.69 ~ 1.96(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 자산운용·수탁은행 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">25.6</div><div class="sc-tile low" data-vc="peer" data-m="per">22</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">36</div><div class="sc-tile low" data-vc="peer" data-m="psr">18</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 자산운용·수탁은행 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">22.4</div><div class="sc-tile low" data-vc="peer" data-m="per">13</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">36</div><div class="sc-tile low" data-vc="peer" data-m="psr">18</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 25.4배가 5년 중앙값(22.2배)보다 비싸고 PCR 47배는 5년 중 가장 비싼 쪽이지만, PSR·PBR·EV/EBITDA는 중앙값보다 조금 싸 자기 이력 45.4점(중간)이다. S&P500 자산운용·수탁은행 안에서는 PER·PBR·PSR이 모두 비싼 쪽이라 25.6점(비싸다)이다(PCR·EV/EBITDA는 비교 종목이 모자라 뺐다). <strong>현금흐름 내재가치(기본 $627.05)는 현재가의 59%</strong>다.</div>
+    <div class="vs-premise">PER 25.4배가 5년 중앙값(22.2배)보다 비싸고 PCR 47배는 5년 중 가장 비싼 쪽이지만, PSR·PBR·EV/EBITDA는 중앙값보다 조금 싸 자기 이력 45.4점(중간)이다. S&P500 자산운용·수탁은행 안에서는 PER·PBR·PSR이 모두 비싼 쪽이라 22.4점(비싸다)이다(PCR·EV/EBITDA는 비교 종목이 모자라 뺐다). <strong>현금흐름 내재가치(기본 $627.05)는 현재가의 59%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”다. 현재가를 정당화하려면 5년간 매출이 연 19.9% 늘어야 한다(5년 성장률 연 8.2%). 현금흐름 −2는 주로 성장 가정 차이다. 기본 시나리오는 성장률이 연 8.2%에서 2.5%로 식는데 현재가는 연 19.9%를 요구한다. 인수로 커진 투하자본(영업권·무형자산이 2023년 말 $33.8B에서 $62.6B)은 매출/자본이 해마다 낮아지며 갈수록 재투자 부담을 키운다(1년차 약 8.1 → 5년차 0.46). Subco 지분 760만 단위와 조건부 대가 $7.9B는 계산에 넣지 않아, 넣으면 주당 가치가 더 낮아진다.</div>
   </div>
 
@@ -1469,7 +1469,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py BLK
 const BLK_SCORES = {
   fundamental: 68.4,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 25.6,          // S&P500 자산운용·수탁은행 대비 배수 순위 (v2/peer_universe/asset_managers.json)
+  peer: 22.4,          // S&P500 자산운용·수탁은행 대비 배수 순위 (v2/peer_universe/asset_managers.json)
   selfHistory: 45.4,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-06 공시)
@@ -1778,7 +1778,7 @@ const BLK_FUNDAMENTAL = {"ticker": "BLK", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py BLK --self v2/BLK_multiples.json --card
 /* VALUATION:BEGIN */
-const BLK_VALUATION = {"peer": {"score": 25.6, "sector": "Financials (S&P500 12종목)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 22.2, "rank": 8, "peers": 9}, {"metric": "pbr", "score": 36.4, "rank": 8, "peers": 11}, {"metric": "psr", "score": 18.2, "rank": 10, "peers": 11}]}, "self": {"score": 45.4, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 28.6, "percentile": 71.4, "current": 25.36, "min": 14.0, "median": 22.21, "max": 30.98, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 67.9, "percentile": 32.1, "current": 2.85, "min": 2.16, "median": 2.99, "max": 4.05, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 68.0, "percentile": 32.0, "current": 6.01, "min": 4.13, "median": 6.53, "max": 8.63, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 3.8, "percentile": 96.2, "current": 46.67, "min": 17.84, "median": 30.76, "max": 52.16, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 58.6, "percentile": 41.4, "current": 17.68, "min": 10.73, "median": 18.45, "max": 24.02, "days": 1255, "currentNote": null}]}};
+const BLK_VALUATION = {"peer": {"score": 22.4, "sector": "Financials (S&P500 12종목)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 12.5, "rank": 8, "peers": 8}, {"metric": "pbr", "score": 36.4, "rank": 8, "peers": 11}, {"metric": "psr", "score": 18.2, "rank": 10, "peers": 11}]}, "self": {"score": 45.4, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 28.6, "percentile": 71.4, "current": 25.36, "min": 14.0, "median": 22.21, "max": 30.98, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 67.9, "percentile": 32.1, "current": 2.85, "min": 2.16, "median": 2.99, "max": 4.05, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 68.0, "percentile": 32.0, "current": 6.01, "min": 4.13, "median": 6.53, "max": 8.63, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 3.8, "percentile": 96.2, "current": 46.67, "min": 17.84, "median": 30.76, "max": 52.16, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 58.6, "percentile": 41.4, "current": 17.68, "min": 10.73, "median": 18.45, "max": 24.02, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

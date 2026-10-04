@@ -203,6 +203,10 @@ def peer_score(ticker, sectors, prices, self_path=None):
         data, asof = {}, {}
         for t in group:
             data[t], asof[t] = multiples_now(t, prices)
+            # 카드 유니버스 동종 종목도 A3(C9) — 그 카드가 PER 해당 없음이면 기준선 값이 양수여도 PER 비교에서 뺀다
+            mp = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{t}_multiples.json")
+            if t != ticker and os.path.exists(mp) and json.load(open(mp)).get("perNA"):
+                data[t].pop("per", None)
     core = per_na = False
     if self_path and os.path.exists(self_path):
         data[ticker] = {**data.get(ticker, {}), **self_multiples(self_path)}
@@ -231,6 +235,8 @@ def peer_score(ticker, sectors, prices, self_path=None):
             continue
         mine = vals[ticker]
         # 동종업 쪽 적자(NEGATIVE, S&P500 유니버스 파일에만 있다)는 가장 비싼 쪽으로 센다 — 나보다 싸지 않다.
+        # PER은 예외: 동종 종목에도 A3를 적용해(C9, 2026-10-04 사용자 결정) 적자·순이익률 2% 미만 종목은 비교군 파일에서
+        # PER을 뺐다(파일의 perNA). 남은 NEGATIVE는 PCR·EV/EBITDA·PBR뿐이다(그 처리는 안건 C11).
         peers_all = [v for t, v in vals.items() if t != ticker]
         peers = sorted(v for v in peers_all if v != NEGATIVE)
         cheaper = len(peers) if mine == NEGATIVE else sum(1 for x in peers if x < mine)

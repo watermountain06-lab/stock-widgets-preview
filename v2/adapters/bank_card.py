@@ -141,6 +141,8 @@ def peer_scores(self_ticker, mine, uni):
     for k in ("ptbv", "per"):
         mv = mine.get(k)
         vals = {t: v[k] for t, v in uni["tickers"].items() if t != self_ticker and k in v}
+        if k == "per":   # 동종 종목 적자 PER은 꼴찌로 세지 않고 뺀다 — A3를 동종 종목에도(C9, 2026-10-04). 은행은 매출 태그가 없어 순이익률 2% 기준은 못 쓴다
+            vals = {t: v for t, v in vals.items() if v != "negative"}
         if mv is None or len(vals) < MIN_PEERS:
             res[k] = {"score": None, "peers": len(vals), "note": "본인 값 없음" if mv is None else f"동종업 {len(vals)}곳뿐"}
             continue

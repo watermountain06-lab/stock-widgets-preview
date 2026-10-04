@@ -75,20 +75,17 @@
    "pcr": 11.22
   },
   "CAH": {
-   "per": 55.06,
    "psr": 0.21,
    "pcr": 9.3,
    "evebitda": 15.92
   },
   "COR": {
-   "per": 22.79,
    "psr": 0.18,
    "pbr": 19.2,
    "pcr": 14.43,
    "evebitda": 16.93
   },
   "CNC": {
-   "per": "negative",
    "psr": 0.17,
    "pbr": 1.35,
    "pcr": 3.41,
@@ -114,7 +111,6 @@
    "evebitda": 14.22
   },
   "CVS": {
-   "per": 23.52,
    "psr": 0.27,
    "pbr": 1.43,
    "pcr": 9.7,
@@ -162,7 +158,6 @@
    "evebitda": 11.9
   },
   "GILD": {
-   "per": "negative",
    "psr": 6.14,
    "pbr": 15.82,
    "pcr": 14.46,
@@ -181,7 +176,6 @@
    "evebitda": 13.76
   },
   "HUM": {
-   "per": 42.47,
    "psr": 0.35,
    "pbr": 2.57,
    "pcr": 37.56,
@@ -242,7 +236,6 @@
    "evebitda": 30.84
   },
   "MCK": {
-   "per": 23.25,
    "psr": 0.25,
    "pcr": 15.75,
    "evebitda": 15.83
@@ -392,5 +385,38 @@
  "skipped": {
   "BDX": "최근 분할 2026-02-10 — PER 제외"
  },
- "notes": "MRK 행은 영업이익 합성(세전 − 기타수익) 뒤 카드 엔진 값(2026-09-29 종가)으로 바꿨다 — EV/EBITDA 추가(2026-09-30)."
+ "notes": "MRK 행은 영업이익 합성(세전 − 기타수익) 뒤 카드 엔진 값(2026-09-29 종가)으로 바꿨다 — EV/EBITDA 추가(2026-09-30).",
+ "perNA": {
+  "rule": "A3를 동종 종목에도(C9, 2026-10-04 사용자 결정) — 기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다. per는 빼기 전 값",
+  "tickers": {
+   "CAH": {
+    "netMargin": 0.0068,
+    "per": 55.06
+   },
+   "COR": {
+    "netMargin": 0.0079,
+    "per": 22.79
+   },
+   "CNC": {
+    "netMargin": -0.0285,
+    "per": "negative"
+   },
+   "CVS": {
+    "netMargin": 0.0118,
+    "per": 23.52
+   },
+   "GILD": {
+    "netMargin": -0.1064,
+    "per": "negative"
+   },
+   "HUM": {
+    "netMargin": 0.0082,
+    "per": 42.47
+   },
+   "MCK": {
+    "netMargin": 0.0112,
+    "per": 23.25
+   }
+  }
+ }
 }

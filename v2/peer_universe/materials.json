@@ -5,7 +5,6 @@
  "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
  "tickers": {
   "APD": {
-   "per": "negative",
    "psr": 4.92,
    "pbr": 4.46,
    "evebitda": 67.63
@@ -97,7 +96,6 @@
    "evebitda": 18.5
   },
   "LYB": {
-   "per": "negative",
    "psr": 0.6,
    "pbr": 1.74,
    "pcr": 11.76,
@@ -111,7 +109,6 @@
    "evebitda": 16.96
   },
   "MOS": {
-   "per": "negative",
    "psr": 0.56,
    "pbr": 0.6,
    "pcr": "negative",
@@ -149,7 +146,6 @@
    "pcr": 24.43
   },
   "SW": {
-   "per": 46.91,
    "psr": 0.74,
    "pbr": 1.28,
    "pcr": 22.79,
@@ -176,5 +172,26 @@
  },
  "notes": {
   "LIN": "EV/EBITDA는 차입금 태그 수정(DEBT_TOTAL_TAG) 뒤 카드 엔진 값으로 고침(18.87→18.5, 2026-10-01)"
+ },
+ "perNA": {
+  "rule": "A3를 동종 종목에도(C9, 2026-10-04 사용자 결정) — 기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다. per는 빼기 전 값",
+  "tickers": {
+   "APD": {
+    "netMargin": -0.0038,
+    "per": "negative"
+   },
+   "LYB": {
+    "netMargin": -0.0111,
+    "per": "negative"
+   },
+   "MOS": {
+    "netMargin": -0.0521,
+    "per": "negative"
+   },
+   "SW": {
+    "netMargin": 0.0159,
+    "per": 46.91
+   }
+  }
  }
 }

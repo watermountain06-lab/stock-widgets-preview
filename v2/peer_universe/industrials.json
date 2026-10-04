@@ -58,7 +58,6 @@
    "evebitda": 15.15
   },
   "BLDR": {
-   "per": 64.32,
    "psr": 0.44,
    "pbr": 1.59,
    "pcr": 9.96,
@@ -541,5 +540,14 @@
  "skipped": {},
  "notes": {
   "GE": "evebitda 33.29 = GE 카드 엔진 값(9/29 종가, 영업이익 합성 — adapters/ge_income_items.py), 2026-09-30"
+ },
+ "perNA": {
+  "rule": "A3를 동종 종목에도(C9, 2026-10-04 사용자 결정) — 기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다. per는 빼기 전 값",
+  "tickers": {
+   "BLDR": {
+    "netMargin": 0.0071,
+    "per": 64.32
+   }
+  }
  }
 }

@@ -51,7 +51,6 @@
    "per": 14.66
   },
   "LYV": {
-   "per": "negative",
    "psr": 1.52,
    "pbr": 484.55,
    "pcr": 28.85,
@@ -84,14 +83,12 @@
    "pcr": 22.65
   },
   "OMC": {
-   "per": "negative",
    "psr": 1.06,
    "pbr": 2.22,
    "pcr": 7.02,
    "evebitda": 17.44
   },
   "PSKY": {
-   "per": 54.37,
    "psr": 0.75,
    "pbr": 0.94,
    "evebitda": 31.27
@@ -130,7 +127,6 @@
    "evebitda": 11.99
   },
   "WBD": {
-   "per": "negative",
    "psr": 2.15,
    "pbr": 2.37,
    "pcr": 35.65,
@@ -146,5 +142,26 @@
   "TMUS": "2026 10-Q부터 장기차입금이 차원 태그로만 나와 차입금이 $6.1B로 잡혔다(EV/EBITDA 6.35). 오버레이(adapters/dim_member_supplement.py)로 $84.6B를 넣고 카드 엔진 값으로 이 행을 고쳤다(EV/EBITDA 8.82, 금융리스 포함, 2026-10-01).",
   "DIS": "OperatingIncomeLoss 태그가 회사 비GAAP 부문 영업이익 합계라 EBITDA가 부풀었다(EV/EBITDA 9.76). GAAP 영업이익(세전 + 순이자, DERIVED_OPINC)으로 고친 카드 엔진 값(11.99, 2026-10-01).",
   "NFLX": "PER이 비어 있었다(2025-11 10:1 분할 뒤 비교군 생성이 EPS를 못 맞춤 — 안건 D12와 같은 모양). NFLX 카드 엔진 값 22.11로 채움(VZ 74.5→74.7·TMUS 55.5→55.9, 표 그대로, 2026-10-01)."
+ },
+ "perNA": {
+  "rule": "A3를 동종 종목에도(C9, 2026-10-04 사용자 결정) — 기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다. per는 빼기 전 값",
+  "tickers": {
+   "LYV": {
+    "netMargin": 0.0051,
+    "per": "negative"
+   },
+   "OMC": {
+    "netMargin": 0.0032,
+    "per": "negative"
+   },
+   "PSKY": {
+    "netMargin": -0.0152,
+    "per": 54.37
+   },
+   "WBD": {
+    "netMargin": -0.0877,
+    "per": "negative"
+   }
+  }
  }
 }

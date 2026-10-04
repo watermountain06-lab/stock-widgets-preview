@@ -7,9 +7,7 @@
  "asOf": "2026-09-25",
  "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
  "tickers": {
-  "XYZ": {
-   "per": 136.46
-  },
+  "XYZ": {},
   "CBOE": {
    "per": 20.11,
    "psr": 5.32,
@@ -24,7 +22,6 @@
    "pcr": 22.57
   },
   "COIN": {
-   "per": "negative",
    "psr": 8.19,
    "pbr": 3.93,
    "evebitda": 56.53
@@ -58,7 +55,6 @@
    "evebitda": 7.29
   },
   "GPN": {
-   "per": "negative",
    "psr": 2.24,
    "pbr": 0.99,
    "pcr": 27.82,
@@ -127,5 +123,22 @@
   }
  },
  "skipped": {},
- "notes": "V 행의 PER은 V 카드 엔진 값(클래스 A 환산 EPS, adapters/visa_classA.py)으로 채웠다 — 범용 계산은 클래스별 EPS만 있어 비었다(2026-09-29, MA 카드)."
+ "notes": "V 행의 PER은 V 카드 엔진 값(클래스 A 환산 EPS, adapters/visa_classA.py)으로 채웠다 — 범용 계산은 클래스별 EPS만 있어 비었다(2026-09-29, MA 카드).",
+ "perNA": {
+  "rule": "A3를 동종 종목에도(C9, 2026-10-04 사용자 결정) — 기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다. per는 빼기 전 값",
+  "tickers": {
+   "XYZ": {
+    "netMargin": 0.0143,
+    "per": 136.46
+   },
+   "COIN": {
+    "netMargin": -0.1572,
+    "per": "negative"
+   },
+   "GPN": {
+    "netMargin": -0.0913,
+    "per": "negative"
+   }
+  }
+ }
 }

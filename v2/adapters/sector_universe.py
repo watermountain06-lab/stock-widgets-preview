@@ -12,7 +12,8 @@ build_peer_score는 SECTOR_UNIVERSE에 적힌 섹터만 이 파일을 비교군�
 - 가격: Yahoo 일봉(1년), 기준일 종가까지. 분할 기록도 같은 요청에서 받는다.
 - EPS: scripts/fetch_eps_history.py(카드와 같은 SEC 희석 EPS). 분할 손 목록이 없으므로
   기준일 전 400일 안에 분할이 있으면 그 종목의 PER은 뺀다(분할 전 EPS가 섞인다).
-- 배수 정의·적자 처리(음수면 "negative" → 동종업 꼴찌)·분모 결측은 카드와 같다.
+- 배수 정의·적자 처리(음수면 "negative" → 동종업 꼴찌)·분모 결측은 카드와 같다. PER은 A3(순이익률 2% 미만·적자 → 해당 없음)라
+  self_multiples가 빼고, 뺀 종목은 파일의 perNA에 남긴다(C9, 2026-10-04 — 동종 종목에도 A3).
 - 생존자 표본(현재 구성종목)이다. 기준일 하나의 횡단면이라 과거 백분위와는 무관하다.
 - SEC 요청은 종목마다 쉬어 간다(429 방지). 이미 받은 companyfacts는 .sec_cache를 쓴다.
 """
@@ -69,7 +70,7 @@ def yahoo(ticker, asof):
 def one(ticker, cik, asof, eps_dir):
     bars, splits = yahoo(ticker, asof)
     if not bars or bars[-1][0] != asof:
-        return None, f"기준일 종가 없음({bars[-1][0] if bars else '—'})"
+        return None, f"기준일 종가 없음({bars[-1][0] if bars else '—'})", None
     eps_path = os.path.join(eps_dir, f"{ticker}_eps_history.json")
     if not os.path.exists(eps_path):
         subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
@@ -91,14 +92,15 @@ def one(ticker, cik, asof, eps_dir):
             os.environ.pop("EPS_HISTORY", None)
         else:
             os.environ["EPS_HISTORY"] = old_env
-    m = ps.self_multiples(out)      # 카드 본인 값과 같은 규칙(음수 → negative, 결측 → 제외)
+    m = ps.self_multiples(out)      # 카드 본인 값과 같은 규칙(음수 → negative, 결측 → 제외, PER 해당 없음 → 제외)
+    pna = json.load(open(out)).get("perNA")
     recent = [s for s in splits if (time.mktime(time.strptime(asof, "%Y-%m-%d")) -
                                     time.mktime(time.strptime(s, "%Y-%m-%d"))) / 86400 <= 400]
     note = None
     if recent and "per" in m:
         m.pop("per")
         note = f"최근 분할 {recent[-1]} — PER 제외"
-    return m, note
+    return m, note, pna
 
 
 def main():
@@ -120,13 +122,15 @@ def main():
         t = (r.get("ticker") or r.get("symbol")).replace("-", ".")
         cik = str(r.get("cik")).zfill(10)
         try:
-            m, note = one(t, cik, a.asof, eps_dir)
+            m, note, pna = one(t, cik, a.asof, eps_dir)
         except Exception as e:  # 한 종목 실패가 전체를 멈추지 않게
-            m, note = None, f"오류: {type(e).__name__}: {e}"
+            m, note, pna = None, f"오류: {type(e).__name__}: {e}", None
         if m is None:
             res["skipped"][t] = note
         else:
             res["tickers"][t] = m
+            if pna:   # A3 동종 종목(C9) — PER을 뺀 근거
+                res.setdefault("perNA", {"rule": "기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다(A3·C9)", "tickers": {}})["tickers"][t] = pna
             if note:
                 res["skipped"][t] = note
         print(t, "→", m if m is not None else note, flush=True)
