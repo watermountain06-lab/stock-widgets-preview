@@ -78,6 +78,14 @@
  ],
  "IBM": [
   {
+   "quarter_end": "2024-03-31",
+   "filed": "2024-04-24",
+   "tax": -448000000,
+   "eps": -0.48,
+   "desc": "개별 세금 사건의 순 세금 이익(조정표 'Tax Reform Impacts' 열 — 각주는 'net benefit from discrete tax events'만 밝힘)",
+   "source": "https://www.sec.gov/Archives/edgar/data/51143/000005114324000018/ibm-20240424xex991.htm"
+  },
+  {
    "quarter_end": "2025-12-31",
    "filed": "2026-01-28",
    "tax": -1468000000,
@@ -129,5 +137,96 @@
    "source": "https://www.sec.gov/Archives/edgar/data/1318605/000095017024007073/tsla-ex99_1.htm"
   }
  ],
- "_note_a8": "A8 ①(2026-10-04) — 회사 보도자료·10-K 원문 금액. eps는 회사 주당 수치가 없으면 금액 ÷ 그 분기 희석 주식(derived_eps=true) 후보는 분기 실효세율이 −30% 미만·60% 초과인 분기만 훑었다 — 세전이익이 큰 분기의 작은 비율 항목(예: 세전 $10B에 $1B)은 빠질 수 있다(Fable). 훑은 45개 중 넣지 않은 항목의 처분은 안건 A8 행에."
+ "_note_a8": "A8 ①(2026-10-04) — 회사 보도자료·10-K 원문 금액. eps는 회사 주당 수치가 없으면 금액 ÷ 그 분기 희석 주식(derived_eps=true) 후보는 분기 실효세율이 −30% 미만·60% 초과인 분기만 훑었다 — 세전이익이 큰 분기의 작은 비율 항목(예: 세전 $10B에 $1B)은 빠질 수 있다(Fable). 훑은 45개 중 넣지 않은 항목의 처분은 안건 A8 행에.",
+ "AVGO": [
+  {
+   "quarter_end": "2024-08-04",
+   "filed": "2024-09-05",
+   "tax": 4500000000,
+   "eps": 0.94,
+   "derived_eps": true,
+   "desc": "그룹 내 IP 권리를 미국으로 옮기며 생긴 일회성 비현금 세금 비용 — 빼면 흑자라 GAAP 희석 4,824M 기준: 조정 EPS 0.544 − GAAP −0.40 = +0.94(분할 뒤, Fable)",
+   "source": "https://www.sec.gov/Archives/edgar/data/1730168/000173016824000095/avgo-08042024x8kxex99.htm"
+  }
+ ],
+ "INTC": [
+  {
+   "quarter_end": "2024-09-28",
+   "filed": "2024-10-31",
+   "tax": 9925000000,
+   "eps": 2.31,
+   "desc": "미국 이연법인세자산 평가충당금 설정(비현금)",
+   "source": "https://www.sec.gov/Archives/edgar/data/50863/000005086324000147/q324_earningsrelease.htm"
+  }
+ ],
+ "DIS": [
+  {
+   "quarter_end": "2024-06-29",
+   "filed": "2024-08-07",
+   "tax": -418000000,
+   "eps": -0.23,
+   "desc": "법인세 충당금 조정(회사 조정 항목 'Income Tax Reserve Adjustments', FY2024 3분기)",
+   "source": "https://www.sec.gov/Archives/edgar/data/1744489/000174448925000135/fy2025_q3xprxex991.htm"
+  },
+  {
+   "quarter_end": "2025-03-29",
+   "filed": "2025-05-07",
+   "tax": -1016000000,
+   "eps": -0.56,
+   "desc": "과거 연도 세금 문제 해결에 따른 비현금 세금 이익(회사 조정 항목)",
+   "source": "https://www.sec.gov/Archives/edgar/data/1744489/000174448925000096/fy2025_q2xprxex991.htm"
+  },
+  {
+   "quarter_end": "2025-06-28",
+   "filed": "2025-08-06",
+   "tax": -3277000000,
+   "eps": -1.56,
+   "desc": "Hulu 미국 세법상 분류 변경에 따른 비현금 세금 이익 $3,277M — 주당은 회사의 'Hulu Transaction Impacts' −1.56(같은 거래의 비지배지분 몫 $477M을 뺀 값). tax는 연결 법인세 줄(현금흐름 세율용), eps는 주주 몫(비지배지분 $477M 차감) — 같은 거래의 두 줄",
+   "source": "https://www.sec.gov/Archives/edgar/data/1744489/000174448925000135/fy2025_q3xprxex991.htm"
+  }
+ ],
+ "NOW": [
+  {
+   "quarter_end": "2023-06-30",
+   "filed": "2023-07-26",
+   "tax": -910000000,
+   "eps": -0.888,
+   "derived_eps": true,
+   "desc": "이연법인세자산 평가충당금 환입 — EPS = $910M ÷ 희석 205M = −4.44(분할 전) → 2025-12 5:1 분할 반영 −0.888",
+   "source": "https://www.sec.gov/Archives/edgar/data/1373715/000137371523000323/erq2fy23.htm"
+  }
+ ],
+ "WDC": [
+  {
+   "quarter_end": "2025-03-28",
+   "filed": "2025-05-02",
+   "tax": -711000000,
+   "eps": -1.99,
+   "derived_eps": true,
+   "desc": "Flash 사업 분리 때 법인 간 자산 이전으로 생긴 일회성 이연법인세 이익(10-Q 금액) — EPS = 711 ÷ 희석 358M",
+   "source": "https://www.sec.gov/Archives/edgar/data/106040/000010604025000026/wdc-20250328.htm"
+  }
+ ],
+ "BMY": [
+  {
+   "quarter_end": "2024-06-30",
+   "filed": "2024-07-26",
+   "tax": -502000000,
+   "eps": -0.25,
+   "derived_eps": true,
+   "desc": "Celgene 인수 관련 법인세 충당금 환입 — EPS = 502 ÷ 희석 2,029M",
+   "source": "https://www.sec.gov/Archives/edgar/data/14272/000001427224000121/q22024ex991-filing.htm"
+  }
+ ],
+ "DELL": [
+  {
+   "quarter_end": "2024-05-03",
+   "filed": "2024-06-11",
+   "tax": -400000000,
+   "eps": -0.55,
+   "derived_eps": true,
+   "desc": "공소시효 만료로 미확정 세금 혜택이 바뀐 개별 세금 이익(10-Q, 회사가 $0.1B 단위로 밝힘) — EPS = 400 ÷ 희석 727M. 같은 문장의 주식보상 관련 $0.2B는 반복 항목이라 뺌",
+   "source": "https://www.sec.gov/Archives/edgar/data/1571996/000157199624000062/dell-20240503.htm"
+  }
+ ]
 }
