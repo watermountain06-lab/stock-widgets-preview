@@ -1770,7 +1770,7 @@ const BMY_FUNDAMENTAL = {"ticker": "BMY", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py BMY --self v2/BMY_multiples.json --card
 /* VALUATION:BEGIN */
-const BMY_VALUATION = {"peer": {"score": 73.5, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 91.3, "rank": 5, "peers": 46}, {"metric": "pbr", "score": 34.6, "rank": 35, "peers": 52}, {"metric": "psr", "score": 59.6, "rank": 24, "peers": 57}, {"metric": "pcr", "score": 90.2, "rank": 6, "peers": 51}, {"metric": "evebitda", "score": 92.0, "rank": 5, "peers": 50}]}, "self": {"score": 46.0, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.0, "percentile": 13.0, "current": 13.71, "min": 12.18, "median": 18.06, "max": 28.36, "days": 915, "currentNote": null}, {"metric": "pbr", "score": 29.9, "percentile": 70.1, "current": 5.71, "min": 3.2, "median": 5.09, "max": 7.84, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 45.6, "percentile": 54.4, "current": 2.59, "min": 1.77, "median": 2.52, "max": 3.69, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 22.9, "percentile": 77.1, "current": 11.14, "min": 5.95, "median": 9.26, "max": 13.56, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 44.8, "percentile": 55.2, "current": 10.84, "min": 7.39, "median": 10.37, "max": 49.59, "days": 805, "currentNote": null}]}};
+const BMY_VALUATION = {"peer": {"score": 73.5, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 91.3, "rank": 5, "peers": 46}, {"metric": "pbr", "score": 34.6, "rank": 35, "peers": 52}, {"metric": "psr", "score": 59.6, "rank": 24, "peers": 57}, {"metric": "pcr", "score": 90.2, "rank": 6, "peers": 51}, {"metric": "evebitda", "score": 91.7, "rank": 5, "peers": 48}]}, "self": {"score": 46.0, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.0, "percentile": 13.0, "current": 13.71, "min": 12.18, "median": 18.06, "max": 28.36, "days": 915, "currentNote": null}, {"metric": "pbr", "score": 29.9, "percentile": 70.1, "current": 5.71, "min": 3.2, "median": 5.09, "max": 7.84, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 45.6, "percentile": 54.4, "current": 2.59, "min": 1.77, "median": 2.52, "max": 3.69, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 22.9, "percentile": 77.1, "current": 11.14, "min": 5.95, "median": 9.26, "max": 13.56, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 44.8, "percentile": 55.2, "current": 10.84, "min": 7.39, "median": 10.37, "max": 49.59, "days": 805, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1840,7 +1840,7 @@ const BMY_VALUATION = {"peer": {"score": 73.5, "sector": "Health Care (S&P500 59
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing';   // missing = 분모를 못 구함(점수 없음)
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1851,6 +1851,8 @@ const BMY_VALUATION = {"peer": {"score": 73.5, "sector": "Health Care (S&P500 59
     f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
     const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
+    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
+    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);

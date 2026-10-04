@@ -1844,6 +1844,8 @@ const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technolog
     f('badge').className = 'hist-badge ' + histCls(m.score);
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
     f('badge').textContent = m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
+    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
+    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
     const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
     f('fill').className = 'val-fill hist-fill ' + histCls(m.score);

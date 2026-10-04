@@ -172,13 +172,14 @@ def self_multiples(path):
     d = json.load(open(path))["multiples"]
     # 오늘 분모가 0 이하(currentNote "negative")면 값 대신 NEGATIVE — 동종업 꼴찌로 센다.
     # 분모를 못 구한 날("missing")은 넣지 않아 그 배수가 빠진다.
-    # PER 해당 없음(A3, currentNote "per_na")은 동종업 비교에도 넣지 않는다.
+    # PER 해당 없음(A3, currentNote "per_na")·PBR 해당 없음(자본 음수, C11 "pbr_na")은 동종업 비교에도 넣지 않는다.
     return {SELF_KEYS[k]: (v["current"] if v.get("current") is not None else NEGATIVE)
-            for k, v in d.items() if k in SELF_KEYS and v.get("currentNote") != "per_na"
+            for k, v in d.items() if k in SELF_KEYS and v.get("currentNote") not in ("per_na", "pbr_na")
             and (v.get("current") is not None or v.get("currentNote") == "negative")}
 
 
 NEGATIVE = "negative"
+PEER_NEG_DROP = {"evebitda", "pbr"}   # C11
 
 
 def peer_score(ticker, sectors, prices, self_path=None):
@@ -207,15 +208,16 @@ def peer_score(ticker, sectors, prices, self_path=None):
             mp = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{t}_multiples.json")
             if t != ticker and os.path.exists(mp) and json.load(open(mp)).get("perNA"):
                 data[t].pop("per", None)
-    core = per_na = False
+    core = per_na = pbr_na = False
     if self_path and os.path.exists(self_path):
         data[ticker] = {**data.get(ticker, {}), **self_multiples(self_path)}
         # 오늘 분모를 못 구한 배수("missing")는 valuation_base 쪽 값도 지워 순위에서 뺀다(Codex 2차).
         for k, v in json.load(open(self_path))["multiples"].items():
-            if k in SELF_KEYS and v.get("currentNote") == "missing":
+            if k in SELF_KEYS and v.get("currentNote") in ("missing", "pbr_na"):
                 data[ticker].pop(SELF_KEYS[k], None)
         core = json.load(open(self_path)).get("perBasis") == "core"
         per_na = bool(json.load(open(self_path)).get("perNA"))
+        pbr_na = json.load(open(self_path))["multiples"].get("PBR", {}).get("currentNote") == "pbr_na"
     rows, dropped = [], []
     for m in METRICS:
         # 본인 PER이 본업 기준이면 공시 EPS 기준인 동종업 PER과 잣대가 다르다. 동종업 전체를
@@ -227,6 +229,13 @@ def peer_score(ticker, sectors, prices, self_path=None):
             dropped.append((m, "본인 PER은 본업 기준, 동종업은 공시 EPS 기준이라 비교에서 뺌"))
             continue
         vals = {t: v[m] for t, v in data.items() if m in v}
+        # 동종 종목의 음수 EV/EBITDA(영업 적자 — A3와 같은 뜻)·PBR(자본 음수)은 비교에서 뺀다. 음수 PCR(잉여현금흐름 적자)은
+        # 실제로 현금이 안 남는다는 뜻이라 그대로 가장 비싼 쪽으로 센다(C11, 2026-10-04 사용자 결정 H). 표본 수도 뺀 뒤로 센다.
+        if m in PEER_NEG_DROP:
+            vals = {t: v for t, v in vals.items() if t == ticker or v != NEGATIVE}
+        if m == "pbr" and pbr_na:
+            dropped.append((m, "본인 PBR 해당 없음 — 자본 음수(C11)"))
+            continue
         if ticker not in vals:
             dropped.append((m, "본인 값 없음"))
             continue
@@ -236,7 +245,7 @@ def peer_score(ticker, sectors, prices, self_path=None):
         mine = vals[ticker]
         # 동종업 쪽 적자(NEGATIVE, S&P500 유니버스 파일에만 있다)는 가장 비싼 쪽으로 센다 — 나보다 싸지 않다.
         # PER은 예외: 동종 종목에도 A3를 적용해(C9, 2026-10-04 사용자 결정) 적자·순이익률 2% 미만 종목은 비교군 파일에서
-        # PER을 뺐다(파일의 perNA). 남은 NEGATIVE는 PCR·EV/EBITDA·PBR뿐이다(그 처리는 안건 C11).
+        # PER을 뺐다(파일의 perNA). 남은 NEGATIVE 가운데 EV/EBITDA·PBR은 위에서 뺐고(C11) PCR만 남는다.
         peers_all = [v for t, v in vals.items() if t != ticker]
         peers = sorted(v for v in peers_all if v != NEGATIVE)
         cheaper = len(peers) if mine == NEGATIVE else sum(1 for x in peers if x < mine)
@@ -323,7 +332,7 @@ def write_card(ticker, r, self_multiples, per_basis="diluted", per_na=None):
                        "current": v["current"], "min": v["min"], "median": v["median"],
                        "max": v["max"], "days": v["days"], "currentNote": v.get("currentNote")}
                       for k, v in self_multiples.items()
-                      if v.get("score") is not None or v.get("currentNote") in ("missing", "per_na")],
+                      if v.get("score") is not None or v.get("currentNote") in ("missing", "per_na", "pbr_na")],
                      key=lambda m: METRICS.index(m["metric"]))},
     }
     if per_na:

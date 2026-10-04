@@ -1538,6 +1538,12 @@ def main():
         if label == "PER" and per_na:
             m_ = out["multiples"]["PER"]
             m_["score"], m_["currentNote"] = None, "per_na"
+        if label == "PBR" and stale_note == "negative":
+            # 자본 음수(자사주 매입 누적 등)면 PBR은 비싸다는 뜻이 아니라 잴 수 없다 — 해당 없음, 자기 이력·동종업 평균에서 뺀다
+            # (C11, 2026-10-04 사용자 결정 H). 자본이 한 번도 양수가 아니던 종목(MCD)은 원래 "계산 불가"로 빠졌는데,
+            # 한때 양수였던 종목(BKNG·ABBV)만 0점이던 어긋남을 맞춘다. PCR·EV/EBITDA의 음수는 그대로 0점.
+            m_ = out["multiples"]["PBR"]
+            m_["score"], m_["currentNote"] = None, "pbr_na"
         if label == "PER" and not stale_note and not per_na:
             # 적정주가 밴드 — 최근 252거래일 PER의 p25~p75 × 현재 EPS, $10 반올림.
             # EPS_now = P_now / PER_now이므로 현재가 × (분위 PER ÷ 현재 PER)로 같다.
@@ -1561,7 +1567,7 @@ def main():
             print(f"  {label}: 해당 없음(A3 — 점수·평균에서 뺌)")
             continue
         if stale_note:
-            print(f"  {label}: 오늘 값 없음 ({'분모 0 이하 → 0점' if stale_note == 'negative' else '분모를 못 구함 → 평균에서 뺌'})")
+            print(f"  {label}: 오늘 값 없음 ({('자본 음수 → 해당 없음(C11)' if label == 'PBR' else '분모 0 이하 → 0점') if stale_note == 'negative' else '분모를 못 구함 → 평균에서 뺌'})")
             continue
         print(f"  {label}: 현재 {m['current']}  (최저 {m['min']} · 중앙 {m['median']} · 최고 {m['max']})"
               f"  하위 {m['percentile']}%  → 점수 {m['score']}  [{m['days']}일]")

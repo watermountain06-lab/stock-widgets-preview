@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="gevPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="gevPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="gevPeerScore">21.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="gevPeerScore">20.7<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="gevSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="gevSelfVerdict">중간</span></div>
@@ -897,9 +897,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$88</div><div class="vs-note">현재가 <span data-vs="price">$950.49</span> 대비 <strong data-vs="upside">−90.7%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 10.77
 시나리오 범위: 낙관 기준 8.68 ~ 보수 기준 14.86
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">21.0</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile low" data-vc="peer" data-m="pbr">5</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">62</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">2</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.7</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile low" data-vc="peer" data-m="pbr">4</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">62</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">2</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">상장(2024-04) 뒤 이력만 있다. 본업 PER 178배(세율은 법정 21% — 최근 4분기 실효세율이 세금 환입으로 −20.8%)·PCR 20.4배는 그 안에서 싼 쪽, PBR 21.2배·PSR은 비싼 쪽이라 자기 이력 53.4점(중간)이다. S&P500 산업재 안에서는 EV/EBITDA 82배가 가장 비싸 21.0점이다(PER은 본업 기준이라 순위에서 뺌). <strong>현금흐름 내재가치(기본 $88)는 현재가의 9%</strong>다.</div>
+    <div class="vs-premise">상장(2024-04) 뒤 이력만 있다. 본업 PER 178배(세율은 법정 21% — 최근 4분기 실효세율이 세금 환입으로 −20.8%)·PCR 20.4배는 그 안에서 싼 쪽, PBR 21.2배·PSR은 비싼 쪽이라 자기 이력 53.4점(중간)이다. S&P500 산업재 안에서는 EV/EBITDA 82배가 가장 비싸 20.7점이다(PER은 본업 기준이라 순위에서 뺌). <strong>현금흐름 내재가치(기본 $88)는 현재가의 9%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 0·−1·−2로 합계 −3 “고평가”다. 최근 4분기 GAAP 영업이익률이 4.3%(풍력 손실·Prolec GE 인수 무형자산 상각 포함), 최근 2년 중앙값은 2.9%라 현금흐름 모델의 값이 작다. 이 모델은 영업이익률에서 현금흐름을 만들며, 고객 선수금으로 커진 회사 FCF(2026년 전망 $11.5~12.5B)는 쓰지 않는다 — 그래서 PCR은 싸게, 내재가치는 낮게 나온다. 현재가를 설명하려면 매출이 연 9.2%에서 식으며 늘어나는 동안 GAAP 영업이익률이 5년 내내 45.5%여야 한다(회사 전망의 조정 EBITDA 마진 12~14%는 감가상각 전·조정 기준이라 더 높게 나오는 지표다). 성장률은 분사 단독 이력 약 2.5년 값이고, 최근 1년 매출/자본을 못 구해 시나리오 일부는 과거 평균을 썼다.</div>
   </div>
 
@@ -1477,7 +1477,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py GEV
 const GEV_SCORES = {
   fundamental: 55.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 21.0,          // S&P500 산업재 대비 배수 순위 (PER은 본업 기준이라 제외)
+  peer: 20.7,          // S&P500 산업재 대비 배수 순위 (PER은 본업 기준이라 제외)
   selfHistory: 53.4,   // 상장 뒤 배수 분포 백분위 (2024-03-27 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-22 공시)
@@ -1786,7 +1786,7 @@ const GEV_FUNDAMENTAL = {"ticker": "GEV", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py GEV --self v2/GEV_multiples.json --card
 /* VALUATION:BEGIN */
-const GEV_VALUATION = {"peer": {"score": 21.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "pbr", "score": 5.3, "rank": 72, "peers": 75}, {"metric": "psr", "score": 15.4, "rank": 67, "peers": 78}, {"metric": "pcr", "score": 61.6, "rank": 29, "peers": 73}, {"metric": "evebitda", "score": 1.6, "rank": 64, "peers": 64}]}, "self": {"score": 53.4, "window": ["2024-03-27", "2026-09-30"], "perBasis": "core", "metrics": [{"metric": "per", "score": 79.0, "percentile": 21.0, "current": 178.12, "min": 136.37, "median": 232.43, "max": 360.45, "days": 414, "currentNote": null}, {"metric": "pbr", "score": 12.0, "percentile": 88.0, "current": 21.17, "min": 3.99, "median": 17.3, "max": 24.18, "days": 607, "currentNote": null}, {"metric": "psr", "score": 28.3, "percentile": 71.7, "current": 6.12, "min": 2.13, "median": 4.75, "max": 8.02, "days": 414, "currentNote": null}, {"metric": "pcr", "score": 95.4, "percentile": 4.6, "current": 20.35, "min": 18.73, "median": 53.24, "max": 79.32, "days": 414, "currentNote": null}, {"metric": "evebitda", "score": 52.2, "percentile": 47.8, "current": 81.57, "min": 41.4, "median": 82.24, "max": 123.46, "days": 414, "currentNote": null}]}};
+const GEV_VALUATION = {"peer": {"score": 20.7, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "pbr", "score": 4.1, "rank": 72, "peers": 74}, {"metric": "psr", "score": 15.4, "rank": 67, "peers": 78}, {"metric": "pcr", "score": 61.6, "rank": 29, "peers": 73}, {"metric": "evebitda", "score": 1.6, "rank": 64, "peers": 64}]}, "self": {"score": 53.4, "window": ["2024-03-27", "2026-09-30"], "perBasis": "core", "metrics": [{"metric": "per", "score": 79.0, "percentile": 21.0, "current": 178.12, "min": 136.37, "median": 232.43, "max": 360.45, "days": 414, "currentNote": null}, {"metric": "pbr", "score": 12.0, "percentile": 88.0, "current": 21.17, "min": 3.99, "median": 17.3, "max": 24.18, "days": 607, "currentNote": null}, {"metric": "psr", "score": 28.3, "percentile": 71.7, "current": 6.12, "min": 2.13, "median": 4.75, "max": 8.02, "days": 414, "currentNote": null}, {"metric": "pcr", "score": 95.4, "percentile": 4.6, "current": 20.35, "min": 18.73, "median": 53.24, "max": 79.32, "days": 414, "currentNote": null}, {"metric": "evebitda", "score": 52.2, "percentile": 47.8, "current": 81.57, "min": 41.4, "median": 82.24, "max": 123.46, "days": 414, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1856,7 +1856,7 @@ const GEV_VALUATION = {"peer": {"score": 21.0, "sector": "Industrials (S&P500 81
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing';   // missing = 분모를 못 구함(점수 없음)
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1867,6 +1867,8 @@ const GEV_VALUATION = {"peer": {"score": 21.0, "sector": "Industrials (S&P500 81
     f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정, 2026-10-01)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
     const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
+    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
+    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);

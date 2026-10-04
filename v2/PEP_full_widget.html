@@ -534,7 +534,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="pepPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="pepPeerVerdict">중간</span></div>
-      <div class="logic-score" id="pepPeerScore">55.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="pepPeerScore">55.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="pepSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="pepSelfVerdict">싼 편</span></div>
@@ -899,9 +899,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$61</div><div class="vs-note">현재가 <span data-vs="price">$126.72</span> 대비 <strong data-vs="upside">−51.7%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.07
 시나리오 범위: 1.90 ~ 2.22(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">55.7</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">32</div><div class="sc-tile lost" data-vc="peer" data-m="psr">50</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">50</div><div class="sc-tile" data-vc="peer" data-m="evebitda">71</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">55.1</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile low" data-vc="peer" data-m="pbr">29</div><div class="sc-tile lost" data-vc="peer" data-m="psr">50</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">50</div><div class="sc-tile" data-vc="peer" data-m="evebitda">71</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 10% 내려 5년 최저라 PER 16.6배(5년 중앙값 26.0배)·PSR·PBR이 5년 중 가장 싸고 PCR·EV/EBITDA도 확보된 이력(약 4.3년) 중 가장 싸, 자기 이력 100.0점(싸다)이다. S&P500 필수소비재 안에서는 PER·EV/EBITDA가 싼 쪽, PSR·PCR은 중간, PBR은 비싼 쪽이라 55.7점(중간)이다. <strong>현금흐름 내재가치(기본 $61.24)는 현재가의 48%</strong>다.</div>
+    <div class="vs-premise">주가가 1년 새 10% 내려 5년 최저라 PER 16.6배(5년 중앙값 26.0배)·PSR·PBR이 5년 중 가장 싸고 PCR·EV/EBITDA도 확보된 이력(약 4.3년) 중 가장 싸, 자기 이력 100.0점(싸다)이다. S&P500 필수소비재 안에서는 PER·EV/EBITDA가 싼 쪽, PSR·PCR은 중간, PBR은 비싼 쪽이라 55.1점(중간)이다. <strong>현금흐름 내재가치(기본 $61.24)는 현재가의 48%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현재가를 정당화하려면 GAAP 영업이익률이 21.3%까지 올라야 한다(최근 4분기 14.8%, 5년 중앙값 13.4%, 회사 Core 기준 상반기 16.3%). 내재가치에서 빼는 것은 차입금 $53.2B이고 현금·단기투자 $10.7B를 더한다(운용리스 약 $3.8B는 영업이익이 임차료를 이미 뺐으므로 빼지 않는다). 최근 4분기 영업이익에는 구조조정·손상 비용이 들어 있어 회사 Core 기준보다 이익률이 낮게 잡힌다.</div>
   </div>
 
@@ -1479,7 +1479,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py PEP
 const PEP_SCORES = {
   fundamental: 45.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 55.7,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
+  peer: 55.1,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
   selfHistory: 100.0,   // 자기 5년 배수 분포 백분위 (2021-09-30 ~ 2026-09-30)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-13",   // Q2 2026 10-Q (2026-07-09 공시)
@@ -1788,7 +1788,7 @@ const PEP_FUNDAMENTAL = {"ticker": "PEP", "basis": "quarter", "asOf": "2026-06-1
 //
 // 갱신: python3 v2/build_peer_score.py PEP --self v2/PEP_multiples.json --card
 /* VALUATION:BEGIN */
-const PEP_VALUATION = {"peer": {"score": 55.7, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "pbr", "score": 32.0, "rank": 18, "peers": 25}, {"metric": "psr", "score": 50.0, "rank": 14, "peers": 26}, {"metric": "pcr", "score": 50.0, "rank": 13, "peers": 24}, {"metric": "evebitda", "score": 71.4, "rank": 7, "peers": 21}]}, "self": {"score": 100.0, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 16.61, "min": 16.61, "median": 26.03, "max": 41.2, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 100.0, "percentile": 0.0, "current": 7.83, "min": 7.83, "median": 12.28, "max": 15.85, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 100.0, "percentile": 0.0, "current": 1.78, "min": 1.78, "median": 2.55, "max": 3.17, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 100.0, "percentile": 0.0, "current": 18.63, "min": 18.63, "median": 32.88, "max": 50.72, "days": 1084, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 12.21, "min": 12.21, "median": 18.2, "max": 26.5, "days": 1084, "currentNote": null}]}};
+const PEP_VALUATION = {"peer": {"score": 55.1, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-09-25", "2026-09-25"], "metrics": [{"metric": "per", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "pbr", "score": 29.2, "rank": 18, "peers": 24}, {"metric": "psr", "score": 50.0, "rank": 14, "peers": 26}, {"metric": "pcr", "score": 50.0, "rank": 13, "peers": 24}, {"metric": "evebitda", "score": 71.4, "rank": 7, "peers": 21}]}, "self": {"score": 100.0, "window": ["2021-09-30", "2026-09-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 16.61, "min": 16.61, "median": 26.03, "max": 41.2, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 100.0, "percentile": 0.0, "current": 7.83, "min": 7.83, "median": 12.28, "max": 15.85, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 100.0, "percentile": 0.0, "current": 1.78, "min": 1.78, "median": 2.55, "max": 3.17, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 100.0, "percentile": 0.0, "current": 18.63, "min": 18.63, "median": 32.88, "max": 50.72, "days": 1084, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 12.21, "min": 12.21, "median": 18.2, "max": 26.5, "days": 1084, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1858,7 +1858,7 @@ const PEP_VALUATION = {"peer": {"score": 55.7, "sector": "Consumer Staples (S&P5
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing';   // missing = 분모를 못 구함(점수 없음)
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1869,6 +1869,8 @@ const PEP_VALUATION = {"peer": {"score": 55.7, "sector": "Consumer Staples (S&P5
     f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
     const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
+    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
+    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
