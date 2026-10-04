@@ -186,6 +186,12 @@ def main():
                           "ratio, etc.) -- see module docstring point 6 for why an earlier "
                           "magnitude-only heuristic was tried and rejected (it flagged 5 of "
                           "NVDA's real consecutive-growth quarters as false positives).")
+    ap.add_argument("--exclude-per-windows-json", default=None,
+                     help="JSON list of [start, end] ISO windows (inclusive) dropped from the TRAILING "
+                          "PER sample, like --exclude-per-window but several. v2 A9 (2026-10-04 user decision B6): the "
+                          "early-profit ramp -- from a company's first-ever positive TTM EPS until its last four "
+                          "quarters are all positive -- when tiny TTM EPS makes PER run into the hundreds or "
+                          "thousands. The windows come from reported EPS, never from this output's magnitude.")
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
@@ -223,6 +229,7 @@ def main():
     date_to_idx = {d: i for i, d in enumerate(dates)}
     per_by_date = dict(per_series)
 
+    extra_windows = [tuple(w) for w in json.load(open(args.exclude_per_windows_json))] if args.exclude_per_windows_json else []
     exclude_start, exclude_end = (args.exclude_per_window if args.exclude_per_window
                                    else (None, None))
     if exclude_start:
@@ -248,7 +255,8 @@ def main():
             continue  # not enough trailing history yet
         sample = [(p, recency_weight(d, t_str, args.halflife_days))
                   for (d, p) in per_series if window_start.isoformat() <= d < t_str
-                  and not (exclude_start is not None and exclude_start <= d <= exclude_end)]
+                  and not (exclude_start is not None and exclude_start <= d <= exclude_end)
+                  and not any(ws <= d <= we for ws, we in extra_windows)]
         if len(sample) < 100:
             continue
         per_low = weighted_percentile(sample, args.per_low_pctile)

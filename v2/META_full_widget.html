@@ -2137,8 +2137,9 @@ const META_BAND_NOMINAL = 0.80;
 const META_BAND_HIT = (function(){
   const lastDate = META_DAILY[META_DAILY.length-1][0];
   let total = 0, inside = 0, below = 0, above = 0;
-  let excluded = 0, finished = 0;   // C1(2026-10-03): 실적 발표를 넘긴 구간은 빼고, 끝난 체크포인트가 4개 미만이면 해당 없음
+  let excluded = 0, finished = 0, early = 0;   // early = 흑자 초기 구간(A9 B6, 2026-10-04)   // C1(2026-10-03): 실적 발표를 넘긴 구간은 빼고, 끝난 체크포인트가 4개 미만이면 해당 없음
   META_BACKTEST.forEach(cp=>{
+    if (cp.early_profit) { early++; cp._excluded = true; return; }   // 흑자 초기 구간(A9 B6 — 파일 안 첫 흑자 TTM부터 최근 4분기가 모두 흑자가 되기 전까지)
     if (cp.spans_earnings) { excluded++; cp._excluded = true; return; }   // 흑자·자료 공백으로 다음 실적을 넘긴 구간(C1)
     if (!cp.is_open) finished++;
     // 진행 중인 구간은 JSON의 period_end_date가 데이터 생성일에 멈춰 있다.
@@ -2165,7 +2166,7 @@ const META_BAND_HIT = (function(){
   const recent = META_BACKTEST.filter(cp => !cp._excluded).slice(-4);
   const rTotal = recent.reduce((a,cp)=>a+(cp._bars||0),0);
   const rInside = recent.reduce((a,cp)=>a+(cp._hit||0),0);
-  return {total, inside, below, above, excluded, finished, few: finished < 4, ratio: total && finished >= 4 ? inside/total : null,
+  return {total, inside, below, above, excluded, early, finished, few: finished < 4, ratio: total && finished >= 4 ? inside/total : null,
           rCount: recent.length, rTotal, rInside, rRatio: rTotal ? rInside/rTotal : null};
 })();
 // 적중률 색은 **헤더와 박스가 같은 규칙**을 쓴다 (2026-09-22 통일).
@@ -2204,7 +2205,7 @@ function metaBandTone(cp){
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && META_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
-    if (label) label.textContent = `밴드 적중률 (끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''})`;
+    if (label) label.textContent = `밴드 적중률 (끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''})`;
     return;
   }
   if (el && h.ratio == null) {   // 백테스트 체크포인트가 없으면(신규 상장 등) 비워 둔다
@@ -2223,7 +2224,7 @@ function metaBandTone(cp){
                : h.above && !h.below ? ', 이탈 전부 상단'
                : h.above > h.below ? ', 상단우세'
                : h.below > h.above ? ', 하단우세' : '';
-    label.textContent = `밴드 적중률 (${h.inside}/${h.total}일${lean}${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''})`;
+    label.textContent = `밴드 적중률 (${h.inside}/${h.total}일${lean}${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''})`;
   }
   const cell = el.closest('.meta-item');
   if (cell) {

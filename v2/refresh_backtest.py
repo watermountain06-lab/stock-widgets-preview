@@ -43,6 +43,7 @@ EXCLUDE_PER_WINDOW = {
 KEEP_ROOT = {"TSM", "ASML", "PANW"}
 # 체크포인트가 실적 발표일인 루트 배열(EPS 공시일은 몇 주 뒤) — 같은 분기 공시를 거르는 45일. PANW 배열은 체크포인트가 곧 공시일이라 0일(Codex)
 RELEASE_DATE_CHECKPOINTS = {"TSM", "ASML"}
+KEEP_EMPTY = {"BA", "COF"}   # 적정주가 밴드·백테스트를 카드 결정으로 비운 종목(CARD_ITEMS BA 규칙)
 # 루트 JSON의 trailing_years가 기본(2년)과 다른 종목 — GEV는 2024-04 상장이라 직전 1년 PER로 잰다
 TRAILING_YEARS = {"GEV": 1}
 
@@ -90,12 +91,40 @@ def first_filings(eps_rows):
     return sorted(first.values())
 
 
-def flag(bt, eps_dates, last_day, lag_days=0):
+def ramp_windows(eps_rows, last_day):
+    """흑자 초기 구간(A9, 2026-10-04 사용자 결정 B6) — 파일 안에서 처음 흑자 TTM이 된 공시일부터, 최근 4분기가 모두 흑자 분기가 된
+    공시일 전날까지. 이 구간의 PER은 EPS가 아주 작아 수백~수천 배라(PANW 2023 TTM 0.04→0.3) 밴드 표본에서 빼고, 그 안의 체크포인트는
+    적중률에서 뺀다. 한 번 흑자였다가 일회성 손실로 적자가 된 뒤의 회복(NEM·BMY)은 해당하지 않는다(그 전에 흑자 TTM이 있다).
+    부호만 본다(크기를 보지 않음 — 백테스트 스크립트 docstring 6번): 구간 안에 적자 분기가 하나라도 끼면 네 분기 셈을 다시 시작해 구간이 길어진다
+    (UBER 2024년 1분기 지분 평가 손실로 2024-08 → 2025-05, 일부러 보수적으로 둔다). 첫 흑자 때 이미 네 분기가 모두 흑자면 구간이 0이다
+    (PLTR — 흑자 초기 PER 약 250배는 이 규칙으로 안 걸린다)."""
+    # 분기 순서(quarter_end)로 센다 — 공시일 순으로 세면 나중 비교 열로 실린 옛 분기가 끼어 순서가 어긋난다(PANW, Codex)
+    rows = sorted([e for e in eps_rows if e.get("available_date") and e.get("quarter_end") and e.get("ttm_eps") is not None],
+                  key=lambda e: e["quarter_end"])
+    out = []
+    for i, e in enumerate(rows):
+        if i and rows[i - 1]["ttm_eps"] <= 0 < e["ttm_eps"] and not any(r["ttm_eps"] > 0 for r in rows[:i]):
+            end = None
+            for j in range(max(i, 3), len(rows)):
+                if all(r.get("quarter_eps") is not None and r["quarter_eps"] > 0 for r in rows[j - 3:j + 1]):
+                    end = max(r["available_date"] for r in rows[j - 3:j + 1])   # 네 분기가 모두 공시된 날
+                    break
+            start = e["available_date"]
+            if end is None:
+                out.append([start, last_day])   # 아직 안 끝난 구간은 마지막 날까지
+            elif end > start:
+                out.append([start, (date.fromisoformat(end) - timedelta(days=1)).isoformat()])
+    return out
+
+
+def flag(bt, eps_dates, last_day, lag_days=0, ramps=()):
     """lag_days — 발표일 체크포인트 루트 배열(RELEASE_DATE_CHECKPOINTS)은 체크포인트가 실적 발표일이고 EPS 공시일(6-K·20-F)이 몇 주 뒤라, 같은 분기 공시를 거르려고 45일을 둔다."""
     for cp in bt:
         end = last_day if cp.get("is_open") else (cp.get("period_end_date") or last_day)
         start = (date.fromisoformat(cp["checkpoint_date"]) + timedelta(days=lag_days)).isoformat()
         cp["spans_earnings"] = sum(1 for x in eps_dates if start < x < end)
+        if any(ws <= cp["checkpoint_date"] <= we for ws, we in ramps):
+            cp["early_profit"] = True   # A9 B6 — 흑자 초기 구간의 체크포인트
     return bt
 
 
@@ -106,13 +135,17 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     t = a.ticker.upper()
+    if t in KEEP_EMPTY and not a.flag_only:
+        sys.exit(f"{t}: 백테스트를 일부러 비운 카드다(BA 규칙) — 다시 계산하지 않는다")
     p = os.path.join(HERE, f"{t}_full_widget.html")
     h = open(p, encoding="utf-8").read()
     _, _, daily = js_array(h, f"{t}_DAILY")
     st, en, bt_old = js_array(h, f"{t}_BACKTEST")
     assert daily and st is not None, "카드에 DAILY·BACKTEST 배열이 없다"
     eps_path = os.path.join(REPO, "scripts", f"{t}_eps_history.json")
-    eps_dates = first_filings(json.load(open(eps_path)))
+    eps_rows = json.load(open(eps_path))
+    eps_dates = first_filings(eps_rows)
+    ramps = ramp_windows(eps_rows, daily[-1][0])
     if a.flag_only or t in KEEP_ROOT:
         bt = bt_old
     else:
@@ -129,11 +162,15 @@ def main():
             cmd += ["--trailing-years", str(TRAILING_YEARS[t])]
         if t in EXCLUDE_PER_WINDOW:
             cmd += ["--exclude-per-window", *EXCLUDE_PER_WINDOW[t]]
+        if ramps:
+            wj = os.path.join(work, "ramps.json")
+            json.dump(ramps, open(wj, "w"))
+            cmd += ["--exclude-per-windows-json", wj]
         r = subprocess.run(cmd, capture_output=True, text=True)
         if r.returncode != 0:
             sys.exit(r.stderr[-500:])
         bt = json.load(open(out))["checkpoints"]
-    bt = flag(bt, eps_dates, daily[-1][0], 45 if t in RELEASE_DATE_CHECKPOINTS else 0)
+    bt = flag(bt, eps_dates, daily[-1][0], 45 if t in RELEASE_DATE_CHECKPOINTS else 0, () if t in KEEP_ROOT else ramps)
     if t in KEEP_ROOT:
         # 루트 배열의 열린 구간이 다음 실적을 넘긴 건 흑자 공백이 아니라 배열이 멈춘 탓 — C1 제외 대상이 아니다(Fable 2026-10-03, PANW).
         # 빼면 놓친 날만 사라져 적중률이 오른다. 표시만 남기고 센다.
