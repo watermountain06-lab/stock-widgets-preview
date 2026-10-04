@@ -497,7 +497,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label" id="cscoConfidenceLabel">밴드 적중률 (216/685일, 상단우세)</span>
-      <span class="meta-value" id="cscoConfidence" style="font-size:22px;color:var(--gold);">31.5%</span>
+      <span class="meta-value" id="cscoConfidence" style="font-size:22px;color:var(--red);">31.5%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -2158,6 +2158,8 @@ const CSCO_BACKTEST = [{"checkpoint_date": "2023-11-21", "quarter_end": "2023-10
 // 밴드는 10~90 백분위로 만든다. 그러면 **명목 포함률은 80%**다. 그 80%가
 // 이 숫자를 읽는 유일한 기준선이다. 58.5%는 "절반 넘게 맞혔다"가 아니라
 // "맞혀야 할 80%에 21.5%p 못 미친다"는 뜻이다(2026-09-22 Fable 발견).
+// (2026-10-04, C14 ②) 위 설명은 바뀌었다 — S&P500 실측에서 10~90 백분위 밴드의 적중은 평균 58%(종목별 41~74%)라 80%는 기대치가 아니다.
+// C14 ②: 80%는 이 숫자의 기준선이 아니다. 명목값은 밴드를 10~90 백분위로 만들었다는 사실로만 남긴다.
 const CSCO_BAND_NOMINAL = 0.80;
 const CSCO_BAND_HIT = (function(){
   const lastDate = CSCO_DAILY[CSCO_DAILY.length-1][0];
@@ -2200,7 +2202,7 @@ const CSCO_BAND_HIT = (function(){
 })();
 // 적중률 색은 **헤더와 박스가 같은 규칙**을 쓴다 (2026-09-22 통일).
 //
-//     초록  70% 이상        노랑  30~70%        빨강  30% 미만
+//     초록  74% 이상        노랑  41~74%        빨강  41% 미만   (2026-10-04부터 — S&P500 실측 종목별 10·90 분위, C14 ②)
 //
 // 묻는 것은 하나다 — "밴드 안에서 마감한 일봉이 얼마나 되나". 전에는 헤더만
 // **명목 80%와의 거리**로 칠했는데, 그러면 100%로 맞춘 구간이 감점돼 박스는
@@ -2213,7 +2215,9 @@ const CSCO_BAND_HIT = (function(){
 // (4.81배)이라 100%가 성과가 아니다. 헤더 툴팁에도 같은 경고를 적어 둔다.
 // 명목 80%(CSCO_BAND_NOMINAL)는 여전히 라벨에 쓴다. 밴드가 10~90 백분위로
 // 만들어졌다는 **사실**이고, 색과는 별개다.
-const CSCO_HIT_GREEN = 0.70, CSCO_HIT_RED = 0.30;
+// 색 기준은 S&P500 438종목 실측 적중의 종목별 분위(2026-10-04 사용자 결정, C14 ②) — 상위 10% 74% 이상 초록, 하위 10% 41% 미만 빨강.
+// 예전 70·30은 '10~90 백분위라 80%가 들어와야 한다'는 기대에서 나왔는데, 시장 전체 실측 적중이 평균 58%라 그 기대가 틀렸다.
+const CSCO_HIT_GREEN = 0.74, CSCO_HIT_RED = 0.41;
 function cscoHitTone(ratio){
   if (ratio == null) return {key:'none', color:'var(--text3)', fill:'rgba(154,160,184,0.12)', border:'#5c6282'};
   if (ratio >= CSCO_HIT_GREEN) return {key:'good', color:'var(--green)', fill:'rgba(46,204,113,0.16)', border:'#2ecc71'};
@@ -2258,11 +2262,11 @@ function cscoBandTone(cp){
   const cell = el.closest('.meta-item');
   if (cell) {
     const r = h.rRatio == null ? '—' : (h.rRatio*100).toFixed(1) + '%';
-    cell.title = `10~90 백분위 밴드이므로 일봉의 약 ${(CSCO_BAND_NOMINAL*100).toFixed(0)}%가`
-      + ` 안에 들어와야 한다. 실제 ${h.inside}/${h.total}일 = ${(h.ratio*100).toFixed(1)}%.`
+    cell.title = `지난 2년 PER(최근 가중) 10~90% 범위 × 그때 EPS로 그린 과거 범위이지 미래 예측 구간이 아니다. 끝난 분기 ${h.inside}/${h.total}일 = ${(h.ratio*100).toFixed(1)}%.`
+      + `\nS&P500 438종목 실측(2023-09~2026-09): 평균 58%, 종목별 41~74%(10~90 분위). 공시 직전 약 73%가 다음 날 약 61%로 떨어진다(진단) — 실적 발표 때 PER 수준이 옮겨 간다.`
       + `\n이탈 ${h.below+h.above}일 중 하단 ${h.below}일 · 상단 ${h.above}일.`
       + `\n최근 ${h.rCount}구간(${h.rTotal}거래일) ${r}.`
-      + `\n색은 초록 ${(CSCO_HIT_GREEN*100).toFixed(0)}%↑ · 노랑 ${(CSCO_HIT_RED*100).toFixed(0)}~${(CSCO_HIT_GREEN*100).toFixed(0)}% · 빨강 ${(CSCO_HIT_RED*100).toFixed(0)}%↓ — 차트의 밴드 박스와 같은 규칙이다.`
+      + `\n색은 시장 실측 기준 — 초록 ${(CSCO_HIT_GREEN*100).toFixed(0)}%↑ · 노랑 ${(CSCO_HIT_RED*100).toFixed(0)}~${(CSCO_HIT_GREEN*100).toFixed(0)}% · 빨강 ${(CSCO_HIT_RED*100).toFixed(0)}%↓. 두 문턱은 종목 평균 적중의 상위·하위 10% 자리이고, 차트 박스도 같은 색을 쓰지만 한 분기 박스는 0%·100%가 흔하다(S&P500 구간의 약 21%·32%).`
       + `\n밴드가 넓을수록 저절로 올라가는 값이라 예측 성과가 아니다. 구간별 폭 배수는 박스 툴팁에 있다.`;
   }
 })();
