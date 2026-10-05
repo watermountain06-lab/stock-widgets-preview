@@ -19,6 +19,13 @@ def one(o, n):
     c = h.count(o); assert c == 1, (c, o[:100]); h = h.replace(o, n)
 
 
+def one_done(o, n):
+    """틀(NVDA)에 이미 같은 수정이 들어가 있으면 건너뛴다 — 2026-10-05 틀 시절 카드 47장(NVDA 포함)에 이 음수 표시 규칙을 넣었다(E25)."""
+    if n in h:
+        return
+    one(o, n)
+
+
 def sub(pat, new, flags=re.S):
     global h
     m = list(re.finditer(pat, h, flags)); assert len(m) == 1, (len(m), pat[:90])
@@ -272,38 +279,38 @@ else:
  one('<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>',
     '<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.' + (' ' + F(C.DCF_NOTE) if getattr(C, 'DCF_NOTE', '') else '') + '</div>')
 # 음수·$10 미만 시나리오, 이력 기간 표기(카드 한정 패치 모음 — PANW·TMO·LIN·CRWD에서 쓴 것과 같다)
-one("    el.textContent = '$' + D[el.dataset.dcfValue].toFixed(2);", "    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';   // 카드 한정")
-one("    const v = D[el.dataset.dcfUpside];\n    el.textContent = pct(v); el.style.color = tone(v);",
+one_done("    el.textContent = '$' + D[el.dataset.dcfValue].toFixed(2);", "    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';   // 카드 한정")
+one_done("    const v = D[el.dataset.dcfUpside];\n    el.textContent = pct(v); el.style.color = tone(v);",
     "    const v = D[el.dataset.dcfUpside];\n    if (!(v > 0)) { el.textContent = '—'; return; }   // 음수 시나리오(카드 한정)\n    el.textContent = pct(v); el.style.color = tone(v);")
-one("    + ' · 높은 성장 $' + Math.round(d.high) + '</span>';", "    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';")
-one("    + '<span class=\"logic-denom\"> · 낮은 성장 $' + Math.round(d.low)", "    + '<span class=\"logic-denom\"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')")
+one_done("    + ' · 높은 성장 $' + Math.round(d.high) + '</span>';", "    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';")
+one_done("    + '<span class=\"logic-denom\"> · 낮은 성장 $' + Math.round(d.low)", "    + '<span class=\"logic-denom\"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')")
 one("m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;",
     "m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)")
-one("  const every = SCN.flatMap(s => G.values[s[0]].flat()).concat(price != null ? [price] : []);",
+one_done("  const every = SCN.flatMap(s => G.values[s[0]].flat()).concat(price != null ? [price] : []);",
     "  const every = SCN.flatMap(s => G.values[s[0]].flat()).filter(v => v != null && v > 0).concat(price != null ? [price] : []);   // 음수 칸 제외(카드 한정)")
-one("    pv.textContent = '주당 $' + Math.round(pick); pv.style.color = col;",
+one_done("    pv.textContent = '주당 $' + Math.round(pick); pv.style.color = col;",
     "    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '계산 불가(음수)'; pv.style.color = col;")
-one("    if (price != null) { pu.textContent = '현재가 대비 ' + pct(pick); pu.style.color = tone(pick); }",
+one_done("    if (price != null) { pu.textContent = '현재가 대비 ' + pct(pick); pu.style.color = tone(pick); }",
     "    if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }")
-one("      + SCN.map((s, i) => `<div class=\"ruler-pt${i === st.scn ? ' on' : ''}\" style=\"left:${x(vals[i])};color:${s[2]}\">`\n        + `<div class=\"ruler-lab\">${s[0]}<br>$${Math.round(vals[i])}</div><div class=\"ruler-dot\" style=\"background:${s[2]}\"></div></div>`).join('');",
+one_done("      + SCN.map((s, i) => `<div class=\"ruler-pt${i === st.scn ? ' on' : ''}\" style=\"left:${x(vals[i])};color:${s[2]}\">`\n        + `<div class=\"ruler-lab\">${s[0]}<br>$${Math.round(vals[i])}</div><div class=\"ruler-dot\" style=\"background:${s[2]}\"></div></div>`).join('');",
     "      + SCN.map((s, i) => !(vals[i] > 0) ? '' : `<div class=\"ruler-pt${i === st.scn ? ' on' : ''}\" style=\"left:${x(vals[i])};color:${s[2]}\">`\n        + `<div class=\"ruler-lab\">${s[0]}<br>$${vals[i] < 10 ? vals[i].toFixed(2) : Math.round(vals[i])}</div><div class=\"ruler-dot\" style=\"background:${s[2]}\"></div></div>`).join('');")
 h = h.replace("'$' + Math.round(d.base)", "'$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))")
 h = h.replace("'$' + Math.round(D.base)", "'$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base))")
 h = h.replace("${Math.round(d.base)}", "${Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)}").replace("${Math.round(D.base)}", "${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)}")
 sub(r'<div class="reverse">.*?</div>', '<div class="reverse">—</div>')   # JS가 문장으로 채운다(틀 NVDA 숫자 제거)
 # 기본 내재가치가 0 이하면 헤더·밸류에이션 칸을 "0 이하"·"—"로 — 시나리오 표의 "계산 불가(음수)"와 맞춘다(T·WELL, Fable 2026-10-02)
-one("put('dcf', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)));", "put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하');")
-one("    if (D && D.base != null) { const u = (D.base / last[4] - 1) * 100;", "    if (D && D.base != null && D.base > 0) { const u = (D.base / last[4] - 1) * 100;")
-one("  if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))", "  if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')")
-one("put('low', '$' + Math.round(D.low));", "put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가');")
+one_done("put('dcf', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)));", "put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하');")
+one_done("    if (D && D.base != null) { const u = (D.base / last[4] - 1) * 100;", "    if (D && D.base != null && D.base > 0) { const u = (D.base / last[4] - 1) * 100;")
+one_done("  if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))", "  if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')")
+one_done("put('low', '$' + Math.round(D.low));", "put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가');")
 # 시나리오 범위·갈림은 세 값 최소·최대(이름 순서가 뒤집힌 카드가 많다 — AXP·CRWD·LIN)
-one("  const split = D.low > 0 && D.high > 0 && D.low < price && price < D.high;\n  const range = (D.low > 0 && D.high > 0)\n    ? `시나리오 범위: 낙관 기준 ${(price / D.high).toFixed(2)} ~ 보수 기준 ${(price / D.low).toFixed(2)}` : '';",
+one_done("  const split = D.low > 0 && D.high > 0 && D.low < price && price < D.high;\n  const range = (D.low > 0 && D.high > 0)\n    ? `시나리오 범위: 낙관 기준 ${(price / D.high).toFixed(2)} ~ 보수 기준 ${(price / D.low).toFixed(2)}` : '';",
     "  const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(카드 한정)\n  const split = _mn > 0 && _mn < price && price < _mx;\n  const range = _mn > 0\n    ? `시나리오 범위: ${(price / _mx).toFixed(2)} ~ ${(price / _mn).toFixed(2)}(세 시나리오 최대·최소 기준)` : '';")
 # 내재가치 추적선 음수 값(카드 한정, LIN)
-one("      : dcfVisible.flatMap(t => [clipDcf(t.low), clipDcf(t.high)]);", "      : dcfVisible.flatMap(t => [t.low, t.base, t.high].filter(v => v > 0).map(clipDcf));   // 음수는 빼고 기본도 축에 넣는다(카드 한정, Codex)")
-one("          const yTop = overlapOnly ? py(clipDcf(e.v.base)) - 6 : py(clipDcf(e.v.high));\n          const yBot = overlapOnly ? py(clipDcf(e.v.base)) + 6 : py(clipDcf(e.v.low));",
+one_done("      : dcfVisible.flatMap(t => [clipDcf(t.low), clipDcf(t.high)]);", "      : dcfVisible.flatMap(t => [t.low, t.base, t.high].filter(v => v > 0).map(clipDcf));   // 음수는 빼고 기본도 축에 넣는다(카드 한정, Codex)")
+one_done("          const yTop = overlapOnly ? py(clipDcf(e.v.base)) - 6 : py(clipDcf(e.v.high));\n          const yBot = overlapOnly ? py(clipDcf(e.v.base)) + 6 : py(clipDcf(e.v.low));",
     "          const _vmx = Math.max(e.v.low, e.v.base, e.v.high), _vmn = Math.max(Math.min(e.v.low, e.v.base, e.v.high), 0);   // 순서가 뒤집힌 시나리오도 잡히게(카드 한정, Codex)\n          const yTop = overlapOnly ? py(clipDcf(e.v.base)) - 6 : py(clipDcf(_vmx));\n          const yBot = overlapOnly ? py(clipDcf(e.v.base)) + 6 : py(clipDcf(_vmn));")
-one("          const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);", "          const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정")
+one_done("          const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);", "          const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정")
 # 재고 없는 회사의 회전율·현금순환 문장(카드 한정, CRWD)
 one("  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회'; });",
     "  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; });   // 카드 한정")

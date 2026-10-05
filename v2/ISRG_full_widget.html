@@ -2373,7 +2373,7 @@ function isrgBandTone(cp){
     // 위쪽만 현재가의 2배에서 자른다 — 높은 성장 시나리오가 화면 밖으로 크게
     // 벗어나 실제 주가를 얇은 띠로 눌러버리는 것을 막기 위해서다.
     const DCF_CAP_HI = lastClose * 2.0;
-    const clipDcf = v => Math.min(DCF_CAP_HI, v);
+    const clipDcf = v => Math.max(0, Math.min(DCF_CAP_HI, v));   // 음수 시나리오는 0에 그린다 — 실제 값은 툴팁(E17, 2026-10-05)
     // 둘 다 켜면 **백테스트 밴드(상자) 위에 DCF 기본선**을 얹는다.
     // 세 그림이 서로 다른 질문에 답한다 — DCF만: 현금흐름이 말하는 가격대,
     // 백테스트만: 시장 배수가 말하는 가격대, 둘 다: 그 둘이 어긋나는 정도.
@@ -2404,7 +2404,7 @@ function isrgBandTone(cp){
     // 낮은·높은 성장까지 넣으면 화면이 $160~$602로 벌어져 정작 주가가
     // 얇은 띠로 눌린다.
     const dcfVals = overlapOnly
-      ? dcfVisible.map(t => clipDcf(t.base))
+      ? dcfVisible.map(t => t.base).filter(v => v > 0).map(clipDcf)   // 겹침 모드도 음수는 축에서 뺀다(E17)
       : dcfVisible.flatMap(t => [t.low, t.base, t.high].filter(v => v > 0).map(clipDcf));   // 음수는 빼고 기본도 축에 넣는다(카드 한정, Codex)
     const maVals=[...priceVals,...backtestVals,...dcfVals];
     const mx=Math.max(...highs,...maVals), mn=Math.min(...lows,...maVals);

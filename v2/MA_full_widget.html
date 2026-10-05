@@ -1420,9 +1420,10 @@ function dcfLevel(price, D) {
   const [cls, label] = r <= 0.7 ? ['', '매우 싸다'] : r <= 0.9 ? ['', '싸다'] : r <= 1.1 ? ['mid', '적정']
                      : r <= 1.5 ? ['high', '비싸다'] : ['high', '매우 비싸다'];
   const color = cls === '' ? '#38bdf8' : cls === 'mid' ? 'var(--gold)' : 'var(--red)';
-  const split = D.low > 0 && D.high > 0 && D.low < price && price < D.high;
-  const range = (D.low > 0 && D.high > 0)
-    ? `시나리오 범위: 낙관 기준 ${(price / D.high).toFixed(2)} ~ 보수 기준 ${(price / D.low).toFixed(2)}` : '';
+  const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(카드 한정)
+  const split = _mn > 0 && _mn < price && price < _mx;
+  const range = _mn > 0
+    ? `시나리오 범위: ${(price / _mx).toFixed(2)} ~ ${(price / _mn).toFixed(2)}(세 시나리오 최대·최소 기준)` : '';
   return { label, cls, color, split, ratio: r, range };
 }
 const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다';
@@ -1496,7 +1497,7 @@ const MA_SCORES = {
     return;
   }
   if (base) base.style.color = '#38bdf8';
-  if (base) base.textContent = '$' + Math.round(d.base);
+  if (base) base.textContent = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base));
   // 요구 성장률이 최근 5년 실제 성장의 3배를 넘으면(또는 해가 없으면) 성장만으로는 가격이
   // 설명되지 않는다 — 대신 요구 영업이익률을 보인다(reqMode, build_dcf_block.py, 2026-09-24).
   const mMode = d.reqMode === 'margin', f1 = v => (v * 100).toFixed(1) + '%';
@@ -1524,9 +1525,9 @@ const MA_SCORES = {
       + `\n현재가 ÷ 내재가치 $${Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
-  if (box)  box.innerHTML = '$' + Math.round(d.base)
-    + '<span class="logic-denom"> · 낮은 성장 $' + Math.round(d.low)
-    + ' · 높은 성장 $' + Math.round(d.high) + '</span>';
+  if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('maDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1573,16 +1574,17 @@ const MA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.
   }
 
   document.querySelectorAll('#dcf [data-dcf-value]').forEach(el => {
-    el.textContent = '$' + D[el.dataset.dcfValue].toFixed(2);
+    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';   // 카드 한정
   });
   if (price != null) document.querySelectorAll('#dcf [data-dcf-upside]').forEach(el => {
     const v = D[el.dataset.dcfUpside];
+    if (!(v > 0)) { el.textContent = '—'; return; }   // 음수 시나리오(카드 한정)
     el.textContent = pct(v); el.style.color = tone(v);
   });
   const fill = (sel, text) => document.querySelectorAll('#dcf ' + sel).forEach(el => { el.textContent = text; });
   if (price != null) fill('[data-dcf-price]', '$' + price.toFixed(2));
   fill('[data-dcf-req]', (D.requiredGrowth * 100).toFixed(1) + '%');
-  fill('[data-dcf-basev]', '$' + Math.round(D.base));
+  fill('[data-dcf-basev]', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)));
   fill('[data-dcf-baseeq]', D.baseEquivGrowth != null ? (D.baseEquivGrowth * 100).toFixed(1) + '%' : '—');
   const pc = v => (v * 100).toFixed(1) + '%';
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
@@ -1616,7 +1618,7 @@ const MA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.
   const ruler = document.getElementById('dcfRuler');
   // 자의 양 끝은 격자 전체에서 한 번만 정한다. 선택마다 다시 잡으면 현재가
   // 표시까지 움직여 무엇이 바뀌었는지 읽기 어렵다. 범위가 8배쯤이라 로그 눈금.
-  const every = SCN.flatMap(s => G.values[s[0]].flat()).concat(price != null ? [price] : []);
+  const every = SCN.flatMap(s => G.values[s[0]].flat()).filter(v => v != null && v > 0).concat(price != null ? [price] : []);   // 음수 칸 제외(카드 한정)
   const LO = Math.log(Math.min(...every) * 0.92), HI = Math.log(Math.max(...every) * 1.04);
 
   function draw() {
@@ -1626,14 +1628,14 @@ const MA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.
     const vals = SCN.map(s => G.values[s[0]][st.term][st.wacc]);
     const pick = vals[st.scn], col = SCN[st.scn][2];
     const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
-    pv.textContent = '주당 $' + Math.round(pick); pv.style.color = col;
-    if (price != null) { pu.textContent = '현재가 대비 ' + pct(pick); pu.style.color = tone(pick); }
+    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '계산 불가(음수)'; pv.style.color = col;
+    if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }
 
     const x = v => ((Math.log(v) - LO) / (HI - LO) * 100).toFixed(2) + '%';
     ruler.innerHTML = '<div class="ruler-line"></div>'
       + (price != null ? `<div class="ruler-now" style="left:${x(price)}"><span>현재가<br>$${price.toFixed(2)}</span></div>` : '')
-      + SCN.map((s, i) => `<div class="ruler-pt${i === st.scn ? ' on' : ''}" style="left:${x(vals[i])};color:${s[2]}">`
-        + `<div class="ruler-lab">${s[0]}<br>$${Math.round(vals[i])}</div><div class="ruler-dot" style="background:${s[2]}"></div></div>`).join('');
+      + SCN.map((s, i) => !(vals[i] > 0) ? '' : `<div class="ruler-pt${i === st.scn ? ' on' : ''}" style="left:${x(vals[i])};color:${s[2]}">`
+        + `<div class="ruler-lab">${s[0]}<br>$${vals[i] < 10 ? vals[i].toFixed(2) : Math.round(vals[i])}</div><div class="ruler-dot" style="background:${s[2]}"></div></div>`).join('');
   }
 
   document.querySelectorAll('#dcf [data-knob]').forEach(box => {
@@ -1896,11 +1898,11 @@ const MA_VALUATION = {"peer": {"score": 8.3, "sector": "Financials (S&P500 18종
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', '$' + Math.round(D.base)); put('low', '$' + Math.round(D.low)); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
-    if (D && D.base != null) { const u = (D.base / last[4] - 1) * 100; put('upside', (u >= 0 ? '+' : '−') + Math.abs(u).toFixed(1) + '%'); }
+    if (D && D.base != null && D.base > 0) { const u = (D.base / last[4] - 1) * 100; put('upside', (u >= 0 ? '+' : '−') + Math.abs(u).toFixed(1) + '%'); }
     else if (D) put('upside', '—');
   }
   // 판정 알약 — 점수는 카드 공통 30/70(70↑ 싸다 · 30~70 중간 · 30↓ 비싸다).
@@ -2359,7 +2361,7 @@ function maBandTone(cp){
     // 위쪽만 현재가의 2배에서 자른다 — 높은 성장 시나리오가 화면 밖으로 크게
     // 벗어나 실제 주가를 얇은 띠로 눌러버리는 것을 막기 위해서다.
     const DCF_CAP_HI = lastClose * 2.0;
-    const clipDcf = v => Math.min(DCF_CAP_HI, v);
+    const clipDcf = v => Math.max(0, Math.min(DCF_CAP_HI, v));   // 음수 시나리오는 0에 그린다 — 실제 값은 툴팁(E17, 2026-10-05)
     // 둘 다 켜면 **백테스트 밴드(상자) 위에 DCF 기본선**을 얹는다.
     // 세 그림이 서로 다른 질문에 답한다 — DCF만: 현금흐름이 말하는 가격대,
     // 백테스트만: 시장 배수가 말하는 가격대, 둘 다: 그 둘이 어긋나는 정도.
@@ -2390,8 +2392,8 @@ function maBandTone(cp){
     // 낮은·높은 성장까지 넣으면 화면이 $160~$602로 벌어져 정작 주가가
     // 얇은 띠로 눌린다.
     const dcfVals = overlapOnly
-      ? dcfVisible.map(t => clipDcf(t.base))
-      : dcfVisible.flatMap(t => [clipDcf(t.low), clipDcf(t.high)]);
+      ? dcfVisible.map(t => t.base).filter(v => v > 0).map(clipDcf)   // 겹침 모드도 음수는 축에서 뺀다(E17)
+      : dcfVisible.flatMap(t => [t.low, t.base, t.high].filter(v => v > 0).map(clipDcf));   // 음수는 빼고 기본도 축에 넣는다(카드 한정, Codex)
     const maVals=[...priceVals,...backtestVals,...dcfVals];
     const mx=Math.max(...highs,...maVals), mn=Math.min(...lows,...maVals);
     const pad=(mx-mn)*0.06 || mx*0.02;
@@ -2488,14 +2490,15 @@ function maBandTone(cp){
         byPeriod.forEach(e=>{
           const hit = document.createElementNS(NS,'rect');
           // 둘 다 켜면 구간이 안 보이므로 기본선 주위만 잡는다.
-          const yTop = overlapOnly ? py(clipDcf(e.v.base)) - 6 : py(clipDcf(e.v.high));
-          const yBot = overlapOnly ? py(clipDcf(e.v.base)) + 6 : py(clipDcf(e.v.low));
+          const _vmx = Math.max(e.v.low, e.v.base, e.v.high), _vmn = Math.max(Math.min(e.v.low, e.v.base, e.v.high), 0);   // 순서가 뒤집힌 시나리오도 잡히게(카드 한정, Codex)
+          const yTop = overlapOnly ? py(clipDcf(e.v.base)) - 6 : py(clipDcf(_vmx));
+          const yBot = overlapOnly ? py(clipDcf(e.v.base)) + 6 : py(clipDcf(_vmn));
           hit.setAttribute('x', e.x0); hit.setAttribute('y', yTop);
           hit.setAttribute('width', Math.max(e.x1-e.x0, 1));
           hit.setAttribute('height', Math.max(yBot - yTop, 1));
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
-          const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);
+          const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정
           let txt = `${e.v.d} 공시 기준 — 낮은 성장 ${usd(e.v.low)}`
             + ` · 기본 ${usd(e.v.base)} · 높은 성장 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 높은 성장은 화면 밖이라 잘라서 표시' : '')
