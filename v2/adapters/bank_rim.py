@@ -419,9 +419,31 @@ def gates(bank, gate_path):
                       None if not ce or not c3 else ce[0] / 1e6 / c3 - 1))
         nq = ytd_diff_q(bank, "NetIncomeLossAvailableToCommonStockholdersBasic", q)   # 누적 차분(Codex)
         rows5.append((q, nq and nq / 1e6, c5, None if nq is None or c5 is None else nq / 1e6 - c5))
-    res["G1"] = {"rows": rows1, "pass": all(r[3] is not None and abs(r[3]) <= 0.015 for r in rows1)}
-    res["G2"] = {"rows": rows2, "pass": all(r[3] is not None and r[4] is not None and abs(r[3]) <= 0.005 and abs(r[4]) <= 0.005 for r in rows2)}
-    res["G5"] = {"rows": rows5, "pass": all(r[3] is not None and abs(r[3]) <= 50 for r in rows5)}
+    # 5판 개정 9-1(2026-10-05 사용자 결정): 회사가 대조할 값을 공시하지 않으면 "확인 불가"로 두고 남은 독립 대조로 판단한다.
+    #   G1 — 회사 TBVPS가 없으면 우리 TCE·주식 수를 그 분기에 만들 수 있을 때만 통과(못 만들면 실제 미통과)
+    #   G2 — BVPS가 없으면 CE 금액(±0.5%) + 그 분기 G1 TBVPS 대조(주식 수 확인), CE 금액이 없으면 BVPS(±0.5%); 둘 다 없으면 미통과
+    g1_ok = lambda r: (r[3] is not None and abs(r[3]) <= 0.015) or (r[2] is None and r[1] is not None)
+    g1_checked = lambda r: r[3] is not None and abs(r[3]) <= 0.015
+    def g2_ok(r, r1):
+        bv_ok = r[3] is not None and abs(r[3]) <= 0.005
+        ce_ok = r[4] is not None and abs(r[4]) <= 0.005
+        has_bv = r[2] is not None
+        if has_bv and r[4] is not None:
+            return bv_ok and ce_ok
+        if not has_bv and r[4] is not None:
+            return ce_ok and g1_checked(r1)          # BVPS 미공시 → CE 금액 + TBVPS로 주식 수 확인
+        if has_bv:
+            return bv_ok                             # CE 금액 미공시 → BVPS만
+        return False
+    res["G1"] = {"rows": rows1, "pass": all(g1_ok(r) for r in rows1),
+                 "unverifiable": sum(1 for r in rows1 if r[2] is None and r[1] is not None)}
+    res["G2"] = {"rows": rows2, "pass": all(g2_ok(r, r1) for r, r1 in zip(rows2, rows1)),
+                 "unverifiable": sum(1 for r in rows2 if r[2] is None or r[4] is None)}
+    # 9-2: 회사가 공시한 소급 재작성으로 누적 차분이 어긋난 분기는 관문 JSON의 recast_adjust_m(출처 함께)만큼 보정해 대조한다(BAC 4Q25 −119)
+    adj5 = {q: (g["quarters"][q].get("recast_adjust_m") or 0.0) for q in g["quarters"]}
+    g5_ok = lambda r: r[3] is not None and (abs(r[3]) <= 50 or (adj5.get(r[0]) and abs(r[3] - adj5[r[0]]) <= 50))
+    res["G5"] = {"rows": rows5, "pass": all(g5_ok(r) for r in rows5),
+                 "restated": [r[0] for r in rows5 if r[3] is not None and abs(r[3]) > 50 and g5_ok(r)]}
     rows3 = []
     ann = {}
     for f in _facts(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic"):
@@ -436,15 +458,42 @@ def gates(bank, gate_path):
         k = ann.get(end)
         roe = ours[0] / (sum(c[0] for c in ces) / 5) if ours and all(ces) else None
         rows3.append((fy, ours and ours[0] / 1e6, k and k["val"] / 1e6, v.get("ni_common_m"), roe, v.get("roe")))
-    res["G3"] = {"rows": rows3, "pass": all(r[1] is not None and r[2] is not None and abs(r[1] - r[2]) <= 50
-                                            and r[4] is not None and r[5] is not None and abs(r[4] - r[5]) <= 0.015 for r in rows3)}
+    # 5판 개정 9-2: 우리 연간 NI(가장 먼저 접수된 분기 값의 합, 7-2)가 10-K와 어긋나도, 그 해 분기 가운데 나중에 다시 공시된 값으로 바꿔
+    # 합치면 10-K와 ±$50M이면 "통과(재작성)"(WFC 2021 1분기 4,363 → 4,256).
+    def g3_ok(r):
+        nim_ok = r[1] is not None and r[2] is not None and abs(r[1] - r[2]) <= 50
+        roe_ok = r[4] is not None and r[5] is not None and abs(r[4] - r[5]) <= 0.015
+        return nim_ok and roe_ok
+    def g3_restated(r):
+        """우리 값 − 10-K 차이가 그 해 3개월 분기 값의 나중 공시 수정(가장 먼저 − 가장 나중)으로 ±$50M 안에서 설명되면 재작성."""
+        if r[1] is None or r[2] is None or abs(r[1] - r[2]) <= 50:
+            return False
+        late, early = {}, {}
+        for f in _facts(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic"):
+            if "start" not in f or f["start"][:4] != r[0] or f["filed"] > bank.asof:
+                continue
+            if not 80 <= (date.fromisoformat(f["end"]) - date.fromisoformat(f["start"])).days <= 100:
+                continue
+            key = (f["start"], f["end"])
+            if key not in late or f["filed"] > late[key]["filed"]:
+                late[key] = f
+            if key not in early or f["filed"] < early[key]["filed"]:
+                early[key] = f
+        rev = sum((early[k]["val"] - late[k]["val"]) / 1e6 for k in late)
+        return abs(rev) > 0 and abs((r[1] - r[2]) - rev) <= 50 and r[4] is not None and r[5] is not None and abs(r[4] - r[5]) <= 0.015
+    res["G3"] = {"rows": rows3, "pass": all(g3_ok(r) or g3_restated(r) for r in rows3),
+                 "restated": [r[0] for r in rows3 if not g3_ok(r) and g3_restated(r)]}
     rows4 = []
     for q, v in sorted(g["quarters"].items()):
         n, p = bank.ni_ttm(q), bank.payout_ttm(q)
         ours = p[0] / n[0] if n and p and n[0] > 0 else None
         cv = v.get("net_payout_ltm")
         rows4.append((q, ours, cv, None if ours is None or cv is None else ours - cv))
-    res["G4"] = {"rows": rows4, "pass": all(r[3] is not None and abs(r[3]) <= 0.10 for r in rows4)}
+    # 9-1: 회사가 순환원율을 공시하지 않으면 "확인 불가"로 통과(우리 값은 있어야 한다) — 카드에 적는다
+    # 최근 4분기 NI ≤ 0이면 순환원율은 정의되지 않는다(COF 2025-06 — Discover 인수 충당금) — 회사 값도 없으면 확인 불가로 본다
+    _ni_neg = {r[0] for r in rows4 if r[1] is None and (bank.ni_ttm(r[0]) or (1,))[0] <= 0}
+    res["G4"] = {"rows": rows4, "pass": all((r[3] is not None and abs(r[3]) <= 0.10) or (r[2] is None and (r[1] is not None or r[0] in _ni_neg)) for r in rows4),
+                 "unverifiable": sum(1 for r in rows4 if r[2] is None)}
     if missing:
         for k in ("G1", "G2", "G3", "G4", "G5"):
             res[k]["pass"] = False

@@ -121,7 +121,7 @@ def peers(asof, self_ticker):
             if not bars or bars[-1][0] != asof:
                 out["skipped"][t] = "기준일 종가 없음"
                 continue
-            bank = br.Bank(t, cik, asof)
+            bank = br.Bank(t, cik, asof, overrides=True)   # 다른 은행도 회사 정의 보정값으로(5판 9-5, 2026-10-05 사용자 결정 — BAC가 동종업 1.66배·자기 카드 1.85배로 갈리던 것)
             m = br.multiples_on(bank, asof, bars[-1][4], eps_file(t, cik, PEER_DIR))
             if "ptbv" not in m:
                 out["skipped"][t + ":ptbv"] = m.get("ptbv_missing", "분기말 자본 자료 없음")
