@@ -54,6 +54,8 @@ score_items() 앞의 주석 참고.
     python3 v2/build_fundamental_score.py NVDA --card    # 카드의 FUNDAMENTAL 블록 교체
 """
 import argparse
+import contextlib
+import io
 import json
 import os
 import sys
@@ -382,7 +384,16 @@ def score_items(fin, config, basis):
                 # 종목 예외 "statutory_fallback"(GEV) — PER 경로(build_multiple_history.core_earnings)와 같은 규칙
                 if _core_tickers().get(fin["ticker"], {}).get("statutory_fallback") and not 0.0 <= r <= 0.40:
                     r = 0.21
-                items["netMargin"] = {"value": op_m * (1 - r) / rv * 100, "basis": "core"}
+                # A8(2026-10-04): 본업 이익 = (영업이익 + 순이자) × (1 − 세율) — PER 경로(build_multiple_history.core_earnings)와 같은 정의.
+                # 순이자 결측이면 영업이익만(CRM·GEV).
+                import build_multiple_history as bmh
+                cik = str(d.feh.CIKS.get(fin["ticker"]) or "").zfill(10)
+                end = q_end if (basis == "quarter" and q_end) else rev_end
+                ni = None
+                if cik.strip("0") and end:
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        ni = bmh.net_interest_at(bmh.net_interest_series(cik, fin["ticker"]), end, quarter=(basis == "quarter" and bool(q_end)))
+                items["netMargin"] = {"value": (op_m + (ni or 0.0)) * (1 - r) / rv * 100, "basis": "core"}
         elif ni is not None:
             items["netMargin"] = {"value": ni / rv * 100}
 

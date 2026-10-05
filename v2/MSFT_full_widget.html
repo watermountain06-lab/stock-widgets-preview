@@ -1860,7 +1860,7 @@ const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technolog
     if (!item) return;
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     f('cur').textContent = x(m.current);
-    // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
+    // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
       const nm = item.querySelector('.val-name'); if (nm && nm.firstChild) nm.firstChild.textContent = 'PER (본업 기준) ';

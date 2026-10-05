@@ -161,6 +161,74 @@ def oneoff_in_ttm(ticker, ttm_end, field, asof=None):
     return total
 
 
+# A8(2026-10-04 사용자 결정): 본업 이익 = (영업이익 + 순이자) × (1 − 세율). 분자 시가총액이 주주 몫이라 분모도 이자를 낸 뒤의 이익이어야
+# 잣대가 맞는다(현금 많은 회사의 이자수익, 빚 많은 회사의 이자비용). 대상 종목은 지금처럼 core_earnings.json 목록 — 자동 문턱은
+# S&P500 시점 재현(research/a8_core_prereg.md)에서 양(+) 쪽 C+가 탈락해 보류했다. 태그 규칙은 그 재현과 같다.
+NET_INTEREST_TAGS = {
+    "net": ["InterestIncomeExpenseNonoperatingNet", "InterestIncomeExpenseNet"],
+    "inc": ["InvestmentIncomeInterest", "InterestIncomeOther", "InvestmentIncomeInterestAndDividend", "InterestIncomeNonoperating"],
+    "exp": ["InterestExpenseNonoperating", "InterestExpense", "InterestExpenseDebt", "InterestAndDebtExpense"],
+}
+
+
+def net_interest_series(cik, ticker, quarter=False):
+    """순이자 계산 재료: 묶음(순액·수익·비용)마다 {분기 결산일: [태그 우선순위 순 분기 항목]}과 공시 행(결산일, 공시일).
+
+    회사가 시기마다 태그를 바꾸므로(CRM 이자비용: FY26까지 InterestExpenseDebt, FY27부터 InterestExpenseNonoperating) 분기마다
+    후보를 모두 남기고, 고르는 일은 기준일에 맞춰 net_interest_at이 한다 — 나중 공시의 비교 수치로 생긴 앞 태그가 그때 이미 공개돼 있던
+    뒤 태그 값을 가리지 않게(Codex, 2026-10-04). quarter 인자는 호출 쪽 호환용(분기·4분기 합 모두 같은 재료를 쓴다).
+    """
+    if ticker in LOCAL_HISTORY:
+        return None        # SKHY: 어댑터의 InterestExpense는 현금흐름표 "이자의 지급"(현금)이라 발생 기준 순이자가 아니다 — 영업이익만
+    out = {}
+    for name, tags in NET_INTEREST_TAGS.items():
+        byq, raw = {}, []
+        for tg in tags:
+            _, rows = pick_tag(cik, [tg])
+            if not rows:
+                continue
+            for e in quarterly_flow(rows, ticker):
+                byq.setdefault(e["end"], []).append(e)
+            raw += [(r["end"], r.get("filed", "")) for r in rows]
+        out[name] = (byq, raw)
+    return out
+
+
+def net_interest_at(nis, end, asof="9999-12-31", quarter=False):
+    """결산일 end의 순이자(이자수익 − 이자비용) — quarter면 그 분기, 아니면 end로 끝나는 4분기 합.
+    순액 태그가 있으면 그것, 없으면 수익 − 비용(그 무렵 태그를 안 쓰는 쪽은 0). 태그는 쓰는데 값을 못 만들면 None(결측) —
+    그 종목은 영업이익만으로 계산한다. 분기마다 asof까지 공시된 후보 가운데 우선순위가 가장 높은 태그 값을 쓴다."""
+    if not nis:
+        return None
+    def pick(byq, q_end):
+        xs = [e for e in byq.get(q_end, []) if e.get("filed", "") <= asof]
+        return xs[0]["val"] if xs else None
+    def comp(name):
+        byq, raw = nis[name]
+        if quarter:
+            val = pick(byq, end)
+        else:
+            ends = [k for k in sorted(byq) if k <= end and any(e.get("filed", "") <= asof for e in byq[k])]
+            last4 = ends[-4:]
+            val = None
+            if len(last4) == 4 and last4[-1] == end and \
+                    (date.fromisoformat(end) - date.fromisoformat(last4[0])).days <= 310:
+                vals = [pick(byq, k) for k in last4]
+                val = sum(vals) if None not in vals else None
+        if val is not None:
+            return val
+        e0 = date.fromisoformat(end)
+        near = any(abs((date.fromisoformat(en) - e0).days) <= MAX_PAIR_LAG_DAYS for en, fd in raw if fd <= asof)
+        return None if near else "absent"
+    net = comp("net")
+    if net not in (None, "absent"):
+        return net
+    a, b = comp("inc"), comp("exp")
+    if (a == "absent" and b == "absent") or a is None or b is None:
+        return None
+    return (0.0 if a == "absent" else a) - (0.0 if b == "absent" else b)
+
+
 # 두 시리즈를 짝지을 때 허용하는 뒤처짐. 한 분기 늦은 보고(약 91일)는 받고,
 # 두 분기 이상 비면 버린다.
 MAX_PAIR_LAG_DAYS = 200
@@ -1363,6 +1431,11 @@ def main():
                 series[name] = ttm_series(merged)
                 tag = "NetIncomeLoss + 법인세(분기 세전 태그 없음)"
             print(f"  {name}: {tag} — TTM {len(series[name])}개 (본업 기준 PER용)")
+        nis = net_interest_series(cik, t)
+        lastni = net_interest_at(nis, series["opinc"][-1]["end"]) if series.get("opinc") else None
+        print(f"  순이자(A8): 최근 {'결측 — 영업이익만' if lastni is None else f'{lastni / 1e6:,.0f}M'}")
+    else:
+        nis = None
 
     def core_earnings(d):
         """그날 공개돼 있던 최근 4분기 본업 이익 = 영업이익 × (1 − 법인세/세전이익), 같은 분기끼리."""
@@ -1390,7 +1463,12 @@ def main():
         # 비과세 Prolec 이익까지 빼 범위 안(32.5%)이라 지금은 걸리지 않는다. 전 종목 적용은 ABBV·PANW 점수를 바꿔 100장 뒤 안건으로 미룬다.
         if core_tickers().get(t, {}).get("statutory_fallback") and not 0.0 <= r <= 0.40:
             r = 0.21
-        return o * (1 - r)
+        # A8: 순이자를 더한다. 결측(태그는 쓰는데 그 분기 값 없음, 태그 없음)이면 영업이익만(CRM·GEV — 2026-10-04 사용자 결정)
+        ni = net_interest_at(nis, end, d) if nis else None
+        base = o + ni if ni is not None else o
+        if base <= 0:
+            return None
+        return base * (1 - r)
 
     out = {"ticker": t, "window": [daily[0][0], daily[-1][0]], "multiples": {},
            "perBasis": "core" if core else "diluted"}

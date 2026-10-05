@@ -1917,7 +1917,7 @@ const MS_VALUATION = {"peer": {"score": 3.9, "rule": "both", "sector": "Financia
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
     const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
-    // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
+    // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
       const nm = item.querySelector('.val-name'); if (nm && nm.firstChild) nm.firstChild.textContent = 'PER (본업 기준) ';

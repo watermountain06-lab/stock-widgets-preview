@@ -56,7 +56,7 @@ if getattr(C, 'OP_DISPLAY', None):   # 영업이익 줄이 없는 종목의 카�
 for _e, _o, _n in getattr(C, 'OVERRIDE_OP_NI', []):   # 회사가 수정값·보도자료 값을 낸 분기(백만 달러)
     op[_e], ni[_e] = _o * 1e6, _n * 1e6
 fcf = {k: ocf[k] - cap[k] for k in ocf if k in cap}
-# 본업 기준 종목(core_earnings.json)은 분기 차트·YoY/QoQ 순이익도 본업 순이익(영업이익 × (1 − 그 분기 실효세율, 범위 밖이면 21%))으로(2026-09-24 사용자 결정, GEV 방식)
+# 본업 기준 종목(core_earnings.json)은 분기 차트·YoY/QoQ 순이익도 본업 순이익((영업이익 + 순이자) × (1 − 그 분기 실효세율, 범위 밖이면 21%))으로(2026-09-24 사용자 결정, GEV 방식)
 CORE = T in json.load(open('core_earnings.json'))
 ni_gaap = dict(ni)
 if CORE:
@@ -66,7 +66,9 @@ if CORE:
         if _k not in _pt and _k in _tax:
             _pt[_k] = ni_gaap[_k] + _tax[_k]   # 분기 세전 태그가 없는 회사(MRVL)
     _rate = lambda k: _tax[k] / _pt[k] if _pt.get(k) and _pt[k] > 0 and k in _tax and 0 <= _tax[k] / _pt[k] <= 0.40 else 0.21
-    ni_chart = {k: op[k] * (1 - _rate(k)) for k in op}
+    # A8(2026-10-04 사용자 결정): 본업 순이익 = (영업이익 + 순이자) × (1 − 세율). 순이자 결측 분기는 영업이익만.
+    _nis = bmh.net_interest_series(CIK, T)
+    ni_chart = {k: (op[k] + (bmh.net_interest_at(_nis, k, quarter=True) or 0.0)) * (1 - _rate(k)) for k in op}
 else:
     ni_chart = ni
 ks = sorted(k for k in rev if k <= C.CUR)[-8:]

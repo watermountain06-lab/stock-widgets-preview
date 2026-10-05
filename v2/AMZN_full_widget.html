@@ -501,7 +501,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="amznFairBand" style="font-size:22px;color:var(--green);">$250 ~ $270</span>
+      <span class="meta-value" id="amznFairBand" style="font-size:22px;color:var(--green);">$240 ~ $270</span>
     </div>
   </div>
   </div>
@@ -527,7 +527,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="amznSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="amznSelfVerdict">중간</span></div>
-      <div class="logic-score" id="amznSelfScore">62.8<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="amznSelfScore">62.4<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -681,7 +681,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="amznRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">본업 순이익 = 영업이익 × (1 − 그 분기 실효세율). 공시 순이익은 Anthropic 등 투자 평가이익이 들어가 2026 Q1 $30.3B·Q2 $62.6B다.</div>
+    <div class="yoy-footnote" style="margin-top:8px;">본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율). 공시 순이익은 Anthropic 등 투자 평가이익이 들어가 2026 Q1 $30.3B·Q2 $62.6B다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -878,7 +878,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.23</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 AMZN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">62.8</div><div class="sc-tile" data-vc="self" data-m="per">87</div><div class="sc-tile" data-vc="self" data-m="pbr">100</div><div class="sc-tile lost" data-vc="self" data-m="psr">34</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile" data-vc="self" data-m="evebitda">94</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="지난 5년 AMZN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">62.4</div><div class="sc-tile" data-vc="self" data-m="per">85</div><div class="sc-tile" data-vc="self" data-m="pbr">100</div><div class="sc-tile lost" data-vc="self" data-m="psr">34</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile" data-vc="self" data-m="evebitda">94</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$99</div><div class="vs-note">현재가 <span data-vs="price">$249.27</span> 대비 <strong data-vs="upside">−60.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.51
 시나리오 범위: 낙관 기준 2.54 ~ 보수 기준 4.81
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
@@ -896,12 +896,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (본업 기준) <span class="hist-note" data-hist="note">최근 4.8년 이력</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">37.1x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 14%</span>
+            <span class="val-number" data-hist="cur">36.5x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 16%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 13.5%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 29.9x</span><span data-hist="median">중앙 53.9x</span><span data-hist="max">최고 94.0x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 15.5%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 28.9x</span><span data-hist="median">중앙 53.5x</span><span data-hist="max">최고 104.4x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -1125,7 +1125,7 @@ function renderFundChart() {
   const ctx = document.getElementById('amznRevChart');
   if (!ctx) return;
   const revenue=[158.9,187.8,155.7,167.7,180.2,213.4,181.5,200.6];
-  const netIncome=[14.8,19.0,14.5,16.7,13.1,20.3,18.1,21.3];   // 본업 순이익 = 영업이익 × (1 − 그 분기 실효세율)
+  const netIncome=[15.4,19.6,15.0,17.2,13.6,20.7,18.4,21.3];   // 본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율), A8 2026-10-04
   const opm=[11.0,11.3,11.8,11.4,9.7,11.7,13.1,13.7];
   const y2min=8, y2max=16;
   new Chart(ctx,{
@@ -1157,15 +1157,15 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [200.6, 27.5, 21.3, -8.8], cmp: [167.7, 19.2, 16.7, 0.3] },
-    deltas: ['+19.6%', '+43.2%', '+27.4%', '적자 전환'],
+    chart: { cur: [200.6, 27.5, 21.3, -8.8], cmp: [167.7, 19.2, 17.2, 0.3] },
+    deltas: ['+19.6%', '+43.2%', '+23.6%', '적자 전환'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · 순이익은 본업 기준(공시 $62.6B) · FCF는 설비투자 총액 차감 · <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm" target="_blank" rel="noopener">Amazon Q2 2026 실적발표 원문 →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [200.6, 27.5, 21.3, -8.8], cmp: [181.5, 23.9, 18.1, -18.2] },
-    deltas: ['+10.5%', '+15.1%', '+17.4%', '적자 축소'],
+    chart: { cur: [200.6, 27.5, 21.3, -8.8], cmp: [181.5, 23.9, 18.4, -18.2] },
+    deltas: ['+10.5%', '+15.1%', '+15.7%', '적자 축소'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · 순이익은 본업 기준(공시 $62.6B) · FCF는 설비투자 총액 차감 · <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm" target="_blank" rel="noopener">Amazon Q2 2026 실적발표 원문 →</a>'
   }
 };
@@ -1454,7 +1454,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 const AMZN_SCORES = {
   fundamental: 62.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 69.7,          // GICS 경기소비재 + IT 섹터 대비 배수 순위 (본업 기준 PER은 제외, 네 배수)
-  selfHistory: 62.8,   // 자기 5년 배수 분포 백분위 (2021-09-23 ~ 2026-09-23, PCR은 최근 712거래일)
+  selfHistory: 62.4,   // 자기 5년 배수 분포 백분위 (2021-09-23 ~ 2026-09-23, PCR은 최근 712거래일)
   asOf: "2026-09-23",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-31 공시)
 };
@@ -1661,7 +1661,7 @@ const AMZN_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py AMZN --card
 /* FUNDAMENTAL:BEGIN */
-const AMZN_FUNDAMENTAL = {"ticker": "AMZN", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-31", "periodSource": "10-Q", "score": 62.5, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 103.31158765552857, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 87.48559728773097, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 11.79340122972851, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 20.898782343987822, "points": 4, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 98.63112287444255, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 19.8, "points": 19.8, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 11.728456546856748, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 86.88211092464732, "points": 5, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 13.689022262544489, "points": 2, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 10.598448493662199, "points": 3, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 22.1, "points": 22.1, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 78213000000.0, "sti": 44775000000.0, "lt_marketable": 0, "debt": 132549000000.0, "lease": 109771000000.0, "shares": 10786313572, "net": -119332000000.0, "perShare": -11.063279331111959}};
+const AMZN_FUNDAMENTAL = {"ticker": "AMZN", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-31", "periodSource": "10-Q", "score": 62.5, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 103.31158765552857, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 87.48559728773097, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 11.79340122972851, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 20.898782343987822, "points": 4, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 98.63112287444255, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 19.8, "points": 19.8, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 11.728456546856748, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 86.88211092464732, "points": 5, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 13.689022262544489, "points": 2, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 10.591115529772335, "points": 3, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 22.1, "points": 22.1, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 78213000000.0, "sti": 44775000000.0, "lt_marketable": 0.0, "debt": 132549000000.0, "lease": 109771000000.0, "shares": 10786313572, "net": -119332000000.0, "perShare": -11.063279331111959}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof AMZN_FUNDAMENTAL !== 'undefined') ? AMZN_FUNDAMENTAL : null;
@@ -1768,7 +1768,7 @@ const AMZN_FUNDAMENTAL = {"ticker": "AMZN", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py AMZN --self v2/AMZN_multiples.json --card
 /* VALUATION:BEGIN */
-const AMZN_VALUATION = {"peer": {"score": 69.7, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "pbr", "score": 100.0, "rank": 1, "peers": 26}, {"metric": "psr", "score": 90.0, "rank": 4, "peers": 30}, {"metric": "pcr", "score": 0.0, "rank": 27, "peers": 26}, {"metric": "evebitda", "score": 88.9, "rank": 4, "peers": 27}]}, "self": {"score": 62.8, "window": ["2021-09-23", "2026-09-23"], "perBasis": "core", "metrics": [{"metric": "per", "score": 86.5, "percentile": 13.5, "current": 37.06, "min": 29.89, "median": 53.91, "max": 93.99, "days": 1197, "currentNote": null}, {"metric": "pbr", "score": 99.8, "percentile": 0.2, "current": 4.87, "min": 4.81, "median": 8.11, "max": 15.55, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 33.5, "percentile": 66.5, "current": 3.47, "min": 1.66, "median": 3.23, "max": 4.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 34.96, "median": 93.22, "max": 465.73, "days": 712, "currentNote": "negative"}, {"metric": "evebitda", "score": 94.3, "percentile": 5.7, "current": 16.54, "min": 14.88, "median": 20.45, "max": 31.46, "days": 1255, "currentNote": null}]}};
+const AMZN_VALUATION = {"peer": {"score": 69.7, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "metrics": [{"metric": "pbr", "score": 100.0, "rank": 1, "peers": 26}, {"metric": "psr", "score": 90.0, "rank": 4, "peers": 30}, {"metric": "pcr", "score": 0.0, "rank": 27, "peers": 26}, {"metric": "evebitda", "score": 88.9, "rank": 4, "peers": 27}]}, "self": {"score": 62.4, "window": ["2021-09-23", "2026-09-23"], "perBasis": "core", "metrics": [{"metric": "per", "score": 84.5, "percentile": 15.5, "current": 36.54, "min": 28.93, "median": 53.54, "max": 104.42, "days": 1197, "currentNote": null}, {"metric": "pbr", "score": 99.8, "percentile": 0.2, "current": 4.87, "min": 4.81, "median": 8.11, "max": 15.55, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 33.5, "percentile": 66.5, "current": 3.47, "min": 1.66, "median": 3.23, "max": 4.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 34.96, "median": 93.22, "max": 465.73, "days": 712, "currentNote": "negative"}, {"metric": "evebitda", "score": 94.3, "percentile": 5.7, "current": 16.54, "min": 14.88, "median": 20.45, "max": 31.46, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1863,7 +1863,7 @@ const AMZN_VALUATION = {"peer": {"score": 69.7, "sector": "Consumer Discretionar
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
     const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
-    // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
+    // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
       const nm = item.querySelector('.val-name'); if (nm && nm.firstChild) nm.firstChild.textContent = 'PER (본업 기준) ';

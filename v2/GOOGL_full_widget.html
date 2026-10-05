@@ -501,7 +501,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="googlFairBand" style="font-size:22px;color:var(--green);">$340 ~ $380</span>
+      <span class="meta-value" id="googlFairBand" style="font-size:22px;color:var(--green);">$330 ~ $370</span>
     </div>
   </div>
   </div>
@@ -527,7 +527,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="googlSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="googlSelfVerdict">비싼 편</span></div>
-      <div class="logic-score" id="googlSelfScore">26.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="googlSelfScore">26.2<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -681,7 +681,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="googlRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">본업 순이익 = 영업이익 × (1 − 그 분기 실효세율). 공시 순이익은 비상장 지분 평가이익 등 영업외이익이 들어가 2026 Q1 $62.6B·Q2 $112.2B다.</div>
+    <div class="yoy-footnote" style="margin-top:8px;">본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율). 공시 순이익은 비상장 지분 평가이익 등 영업외이익이 들어가 2026 Q1 $62.6B·Q2 $112.2B다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -885,7 +885,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.23</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 GOOGL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">26.3</div><div class="sc-tile low" data-vc="self" data-m="per">16</div><div class="sc-tile lost" data-vc="self" data-m="pbr">56</div><div class="sc-tile low" data-vc="self" data-m="psr">14</div><div class="sc-tile low" data-vc="self" data-m="pcr">3</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">43</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
+      <div class="vs-name" title="지난 5년 GOOGL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">26.2</div><div class="sc-tile low" data-vc="self" data-m="per">16</div><div class="sc-tile lost" data-vc="self" data-m="pbr">56</div><div class="sc-tile low" data-vc="self" data-m="psr">14</div><div class="sc-tile low" data-vc="self" data-m="pcr">3</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">43</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$161</div><div class="vs-note">현재가 <span data-vs="price">$337.83</span> 대비 <strong data-vs="upside">−52.4%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.10
 시나리오 범위: 낙관 기준 2.00 ~ 보수 기준 2.59
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
@@ -903,12 +903,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (본업 기준) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">34.3x</span>
+            <span class="val-number" data-hist="cur">33.6x</span>
             <span class="hist-badge bad" data-hist="badge">5년 중 상위 16%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 83.7%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 16.2x</span><span data-hist="median">중앙 25.9x</span><span data-hist="max">최고 42.9x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 84.5%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 15.8x</span><span data-hist="median">중앙 25.1x</span><span data-hist="max">최고 41.8x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -961,7 +961,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 (모두 본업 기준) · 2026.09.23 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 (모두 본업 기준, AAPL·MSFT는 이자 태그가 없거나 끊겨 영업이익만) · 2026.09.23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1132,7 +1132,7 @@ function renderFundChart() {
   const ctx = document.getElementById('googlRevChart');
   if (!ctx) return;
   const revenue=[88.3,96.5,90.2,96.4,102.3,113.8,109.9,119.8];
-  const netIncome=[23.7,25.5,25.3,26.0,24.8,31.7,32.1,33.0];   // 본업 순이익 = 영업이익 × (1 − 그 분기 실효세율)
+  const netIncome=[24.6,26.3,26.1,26.6,25.6,32.5,32.8,33.1];   // 본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율), A8 2026-10-04
   const opm=[32.3,32.1,33.9,32.4,30.5,31.6,36.1,34.0];
   const y2min=25, y2max=40;
   new Chart(ctx,{
@@ -1164,15 +1164,15 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [119.8, 40.8, 33.0, -5.9], cmp: [96.4, 31.3, 26.0, 5.3] },
-    deltas: ['+24.2%', '+30.4%', '+26.9%', '적자 전환'],
+    chart: { cur: [119.8, 40.8, 33.1, -5.9], cmp: [96.4, 31.3, 26.6, 5.3] },
+    deltas: ['+24.2%', '+30.4%', '+24.2%', '적자 전환'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · 순이익은 본업 기준(공시 $112.2B) · <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm" target="_blank" rel="noopener">Alphabet Q2 2026 10-Q →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [119.8, 40.8, 33.0, -5.9], cmp: [109.9, 39.7, 32.1, 10.1] },
-    deltas: ['+9.0%', '+2.7%', '+2.7%', '적자 전환'],
+    chart: { cur: [119.8, 40.8, 33.1, -5.9], cmp: [109.9, 39.7, 32.8, 10.1] },
+    deltas: ['+9.0%', '+2.7%', '+1.0%', '적자 전환'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · 순이익은 본업 기준(공시 $112.2B) · <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm" target="_blank" rel="noopener">Alphabet Q2 2026 10-Q →</a>'
   }
 };
@@ -1284,17 +1284,18 @@ function renderSegmentChart() {
 
 // ══════ #valuation ══════
 // 피어 값은 v2/build_multiple_history.py를 루트 카드 일봉(같은 날 종가)으로 돌려 분모에서 직접 계산했다(2026-09-24).
-// PER은 GOOGL과 같은 잣대로 **모든 종목을 본업 기준**(영업이익 × (1 − 실효세율))으로 냈다 — AMZN은 공시 EPS로는 20.1x, 본업 37.1x.
+// PER은 GOOGL과 같은 잣대로 **모든 종목을 본업 기준**((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)으로 냈다 — AMZN은 공시 EPS로는 20.1x, 본업 36.5x.
+// AAPL은 이자 태그가 없고 MSFT는 이자수익 태그가 2025년에 끊겨 영업이익만으로 냈다(이자비용만 빼면 MSFT가 30.3x로 부풀어서).
 // 자기 막대는 GOOGL_VALUATION.self의 현재값을 쓴다.
 const MULTIPLE_DATA = {
   per: {
-    title: '빅테크 PER 비교 (모두 본업 기준) · 2026.09.23 종가',
+    title: '빅테크 PER 비교 (모두 본업 기준, AAPL·MSFT는 이자 태그가 없거나 끊겨 영업이익만) · 2026.09.23 종가',
     unit: 'PER(본업)', max: 50,
     peers: [
       { name:'AAPL', value:38.4, status:'reference' },
       { name:'MSFT', value:29.7, status:'reference' },
-      { name:'AMZN', value:37.1, status:'reference' },
-      { name:'NVDA', value:32.8, status:'reference' }
+      { name:'AMZN', value:36.5, status:'reference' },
+      { name:'NVDA', value:32.5, status:'reference' }
     ]
   },
   pbr: {
@@ -1460,7 +1461,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 const GOOGL_SCORES = {
   fundamental: 86.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외), 순이익률은 본업 기준
   peer: 53.0,          // Communication Services + Information Technology 29~33종목 대비 배수 순위 (PER 제외 네 배수)
-  selfHistory: 26.3,   // 자기 5년 배수 분포 백분위 (2021-09-23 ~ 2026-09-23, EV/EBITDA는 1.9년)
+  selfHistory: 26.2,   // 자기 5년 배수 분포 백분위 (2021-09-23 ~ 2026-09-23, EV/EBITDA는 1.9년)
   asOf: "2026-09-23",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-23 공시)
 };
@@ -1667,7 +1668,7 @@ const GOOGL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015,
 //
 // 갱신: python3 v2/build_fundamental_score.py GOOGL --card
 /* FUNDAMENTAL:BEGIN */
-const GOOGL_FUNDAMENTAL = {"ticker": "GOOGL", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-23", "score": 86.5, "grade": "우수", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 272.3981254609035, "points": 4, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 264.4757396262023, "points": 5, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 10.863974715368938, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 31.901408450704224, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 43.951879840119915, "points": 4, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 29.04, "points": 29.0, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 14.465940930742537, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 19.905898267415402, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 34.03285585495342, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 27.770980502687888, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 28.9, "points": 28.9, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 55911000000.0, "sti": 186563000000.0, "lt_marketable": 0, "debt": 100164000000.0, "lease": 20627000000.0, "shares": 12230000000, "net": 121683000000.0, "perShare": 9.949550286181521}};
+const GOOGL_FUNDAMENTAL = {"ticker": "GOOGL", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-23", "periodSource": "10-Q", "score": 86.5, "grade": "우수", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 272.3981254609035, "points": 4, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 264.4757396262023, "points": 5, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 10.863974715368938, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 31.901408450704224, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 43.951879840119915, "points": 4, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 29.04, "points": 29.0, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 14.465940930742537, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 19.905898267415402, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 34.03285585495342, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 27.874517148172522, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 28.9, "points": 28.9, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 55911000000.0, "sti": 186563000000.0, "lt_marketable": 0.0, "debt": 100164000000.0, "lease": 20627000000.0, "shares": 12230000000, "net": 121683000000.0, "perShare": 9.949550286181521}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof GOOGL_FUNDAMENTAL !== 'undefined') ? GOOGL_FUNDAMENTAL : null;
@@ -1774,7 +1775,7 @@ const GOOGL_FUNDAMENTAL = {"ticker": "GOOGL", "basis": "quarter", "asOf": "2026-
 //
 // 갱신: python3 v2/build_peer_score.py GOOGL --self v2/GOOGL_multiples.json --card
 /* VALUATION:BEGIN */
-const GOOGL_VALUATION = {"peer": {"score": 53.0, "sector": "Communication Services + Information Technology", "asOf": ["2026-08-27", "2026-09-14"], "metrics": [{"metric": "pbr", "score": 79.3, "rank": 7, "peers": 29}, {"metric": "psr", "score": 63.6, "rank": 13, "peers": 33}, {"metric": "pcr", "score": 13.8, "rank": 26, "peers": 29}, {"metric": "evebitda", "score": 55.2, "rank": 14, "peers": 29}]}, "self": {"score": 26.3, "window": ["2021-09-23", "2026-09-23"], "perBasis": "core", "metrics": [{"metric": "per", "score": 16.3, "percentile": 83.7, "current": 34.3, "min": 16.16, "median": 25.94, "max": 42.86, "days": 1255}, {"metric": "pbr", "score": 55.7, "percentile": 44.3, "current": 6.45, "min": 4.27, "median": 6.59, "max": 10.73, "days": 1255}, {"metric": "psr", "score": 13.5, "percentile": 86.5, "current": 9.27, "min": 3.84, "median": 6.17, "max": 11.55, "days": 1255}, {"metric": "pcr", "score": 2.7, "percentile": 97.3, "current": 77.56, "min": 17.3, "median": 28.05, "max": 86.7, "days": 1255}, {"metric": "evebitda", "score": 43.4, "percentile": 56.6, "current": 23.1, "min": 13.22, "median": 21.47, "max": 29.9, "days": 475}]}};
+const GOOGL_VALUATION = {"peer": {"score": 53.0, "sector": "Communication Services + Information Technology", "asOf": ["2026-08-27", "2026-09-14"], "metrics": [{"metric": "pbr", "score": 79.3, "rank": 7, "peers": 29}, {"metric": "psr", "score": 63.6, "rank": 13, "peers": 33}, {"metric": "pcr", "score": 13.8, "rank": 26, "peers": 29}, {"metric": "evebitda", "score": 55.2, "rank": 14, "peers": 29}]}, "self": {"score": 26.2, "window": ["2021-09-23", "2026-09-23"], "perBasis": "core", "metrics": [{"metric": "per", "score": 15.5, "percentile": 84.5, "current": 33.65, "min": 15.85, "median": 25.14, "max": 41.81, "days": 1255}, {"metric": "pbr", "score": 55.7, "percentile": 44.3, "current": 6.45, "min": 4.27, "median": 6.59, "max": 10.73, "days": 1255}, {"metric": "psr", "score": 13.5, "percentile": 86.5, "current": 9.27, "min": 3.84, "median": 6.17, "max": 11.55, "days": 1255}, {"metric": "pcr", "score": 2.7, "percentile": 97.3, "current": 77.56, "min": 17.3, "median": 28.05, "max": 86.7, "days": 1255}, {"metric": "evebitda", "score": 43.4, "percentile": 56.6, "current": 23.1, "min": 13.22, "median": 21.47, "max": 29.9, "days": 475}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1867,7 +1868,7 @@ const GOOGL_VALUATION = {"peer": {"score": 53.0, "sector": "Communication Servic
     if (!item) return;
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     f('cur').textContent = x(m.current);
-    // 본업 기준 PER(영업이익 × (1 − 실효세율))이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
+    // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
       const nm = item.querySelector('.val-name'); if (nm && nm.firstChild) nm.firstChild.textContent = 'PER (본업 기준) ';
@@ -2107,7 +2108,7 @@ const GOOGL_ANALYST = { asOf: '2026-09-17', source: 'StockAnalysis', rating: 'St
   put('googlFundBox', 'googlFundScore', 'googlFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026), 성장률은 연간 시계열을 쓴다.`
-      + `\n순이익률은 비상장 지분 평가이익을 뺀 본업 기준(영업이익 × (1 − 실효세율))이다.`);
+      + `\n순이익률은 비상장 지분 평가이익을 뺀 본업 기준((영업이익 + 순이자) × (1 − 실효세율))이다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
