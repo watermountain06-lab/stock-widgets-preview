@@ -2124,7 +2124,7 @@ const V_ANALYST = { asOf: '2026-09-27', source: 'StockAnalysis (S&P Global 집�
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
       + `\n결제 처리(FIS·FISV·GPN 등)는 이익률이 낮아 배수가 낮다. MA·CME의 주식 수는 표지 클래스를 더했다.`);
   put('vSelfBox', 'vSelfScore', 'vSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
+      `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\n주식 수는 클래스 A·B·C·우선주를 클래스 A로 환산한 분기말 총수(3분기 말 18.80억 주)다 — Visa는 EPS·주식 수를 클래스별로만 낸다(v2/adapters/visa_classA.py). PBR은 5년 최고 수준(상위 2%)이다.`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.

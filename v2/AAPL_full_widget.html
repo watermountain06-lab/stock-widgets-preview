@@ -2120,7 +2120,7 @@ const AAPL_ANALYST = { asOf: '2026-09-23', source: 'StockAnalysis', rating: 'Buy
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('aaplSelfBox', 'aaplSelfScore', 'aaplSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
+      `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\n다섯 배수 모두 5년 분포의 비싼 쪽이다(PER 상위 6%, PSR·EV/EBITDA 상위 1%).`);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

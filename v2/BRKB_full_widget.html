@@ -2195,7 +2195,7 @@ const BRKB_ANALYST = { asOf: '2026-09-26', source: 'StockAnalysis (S&P Global �
       `보험지주 동종업이 비교 유니버스에 5곳 미만이라 설계상 기권한다.`
       + `\n은행·보험 카드가 늘면 산업군(보험/은행) 안에서 PBR·정상화 PER 순위를 매긴다.`);
   put('brkbSelfBox', 'brkbSelfScore', 'brkbSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
+      `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\n보험지주 규칙이라 정상화 PER(${BRKB_VALUATION.self.metrics[0].current}배)과 PBR 두 배수만 보고, 둘 다 70 이상이거나 둘 다 30 미만일 때만 표를 준다. 표시 점수는 두 점수의 평균이다.`
       + `\n정상화 이익은 순이익에서 투자 손익·파생 손익(세후 79%)을 빼고 영업권 손상·지분법 투자 손상을 되돌린 값으로, 회사가 밝힌 영업이익과 최근 4분기 0.2% 안에서 맞는다.`);
   if (BRKB_VALUATION.self.rule === 'both') {   // 금융 규칙: 두 배수가 같은 방향일 때만 싼 편·비싼 편

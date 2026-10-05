@@ -2131,7 +2131,7 @@ const GOOGL_ANALYST = { asOf: '2026-09-17', source: 'StockAnalysis', rating: 'St
       + `\nCommunication Services가 6종목뿐이라 IT 섹터를 합쳐 순위를 매겼다.`
       + `\nPER은 본업 기준이라 공시 EPS 기준인 동종업과 잣대가 달라 이 점수에서 뺐다.`);
   put('googlSelfBox', 'googlSelfScore', 'googlSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
+      `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nPER은 본업 기준이다. EV/EBITDA는 감가상각 공시가 2023년부터라 이력이 1.9년뿐이다.`);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

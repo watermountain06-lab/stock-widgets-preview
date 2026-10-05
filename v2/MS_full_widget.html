@@ -2197,7 +2197,7 @@ const MS_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집�
       + `\nP/TBV는 유형자본을 만들 수 있는 10곳, PER은 13곳과 비교했다. 두 배수 모두 가장 비싼 쪽이다.`
       + `\nC는 SEC 요약 데이터에 2026년 분기가 아직 없어 P/TBV에서 빠졌다. PNC·WFC·TFC는 유형자본 태그를 못 채워 빠졌다.`);
   put('msSelfBox', 'msSelfScore', 'msSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`
+      `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nP/TBV 3.62배(5년 중 상위 13%)·PER 15.6배(상위 49%). P/TBV 이력은 우선주·무형자산 값이 빈 46거래일을 뺐다.`
       + ``);
   [['self', 'msSelfBox', 'msSelfVerdict'], ['peer', 'msPeerBox', 'msPeerVerdict']].forEach(([k, bid, vid]) => {
