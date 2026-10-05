@@ -47,6 +47,8 @@ def main():
     ap.add_argument("ticker")
     ap.add_argument("--data", action="store_true", help="채우기 전까지만")
     ap.add_argument("--asof", default="2026-09-30")
+    ap.add_argument("--from-card", action="store_true",
+                    help="재현 모드 — 배열을 루트 카드가 아니라 지금 v2 카드의 사본에서 옮긴다(가격·날짜가 그 카드와 같다, 2026-10-05)")
     a = ap.parse_args()
     T = a.ticker.upper(); t = T.lower()
     spec = importlib.util.spec_from_file_location("cfg", os.path.join(HERE, "cfg", f"cfg_{t}.py"))
@@ -70,8 +72,14 @@ def main():
         eps[5:5] = ["--tag", B["eps_tag"]]
     run(eps, show=r"TTM-EPS points")
     print("· 복제·배열")
+    src = None
+    if a.from_card:   # 덮어쓰기 전에 지금 카드를 떠 둔다
+        src = f"/tmp/{T}_from_card.html"
+        open(src, "w", encoding="utf-8").write(open(os.path.join(REPO, card), encoding="utf-8").read())
     run([PY, "v2/clone_card.py", T, "--force"] + (["--meta", meta] if new else []))
-    if new:
+    if src:
+        run([PY, os.path.join(HERE, "root_arrays.py"), T, src], show=r"^arrays")
+    elif new:
         arr = [PY, "v2/new_ticker_arrays.py", T, "--yahoo", yahoo, "--asof", a.asof]
         if B.get("bt_start"):
             arr += ["--bt-start", B["bt_start"]]

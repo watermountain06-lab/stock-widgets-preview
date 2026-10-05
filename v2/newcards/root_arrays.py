@@ -1,8 +1,9 @@
-"""루트 카드(70장)가 있는 종목의 배열(일봉·이동평균·백테스트)과 헤더 현재가를 루트 카드에서 옮긴다. 사용: python3 v2/newcards/root_arrays.py VZ"""
+"""루트 카드(70장)가 있는 종목의 배열(일봉·이동평균·백테스트)과 헤더 현재가를 루트 카드에서 옮긴다. 사용: python3 v2/newcards/root_arrays.py VZ [원본 카드 경로]
+원본 경로를 주면 루트 카드 대신 그 파일(예: 지금 v2 카드의 사본)에서 옮긴다 — build.py --from-card(재현 모드, 2026-10-05)."""
 import json,re,os,sys
 os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 T=sys.argv[1].upper()
-root=open(f'{T}_full_widget.html',encoding='utf-8').read(); p=f'v2/{T}_full_widget.html'; h=open(p,encoding='utf-8').read()
+root=open(sys.argv[2] if len(sys.argv)>2 else f'{T}_full_widget.html',encoding='utf-8').read(); p=f'v2/{T}_full_widget.html'; h=open(p,encoding='utf-8').read()
 def span(s, name):
     a=s.index(f'const {T}_{name} '); st=s.index('[',a); d=0; ins=None
     for i in range(st,len(s)):
