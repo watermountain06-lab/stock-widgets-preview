@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="klacLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="klacDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="klacDcfBox">$53<span class="logic-denom"> · 낮은 성장 $45 · 낙관 $52</span></div>
+      <div class="logic-score" id="klacDcfBox">$53<span class="logic-denom"> · 보수 $45 · 낙관 $52</span></div>
     </div>
     <div class="logic-box logic-positive" id="klacFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="klacFundVerdict">양호</span></div>
@@ -902,7 +902,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">25.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">33</div><div class="sc-tile low" data-vc="peer" data-m="pbr">9</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile low" data-vc="peer" data-m="pcr">26</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">33</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">주가가 1년 새 +83% 올라 PER 53.3배·PSR·PBR·PCR이 5년 중, EV/EBITDA가 4.1년 중 상위 7% 안이라 자기 이력 5.0점이다. 카드 유니버스 IT 안에서도 PBR·PSR·PCR이 비싼 쪽이라 25.5점이다. <strong>현금흐름 내재가치(기본 $53)는 현재가의 27%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 −1·−1·−2로 합계 −4 “고평가”다. 영업이익률을 100%로 올려도 현재가에 닿지 않고, 성장으로만 맞추려면 5년 내내 연 46.5%가 필요하다(지난 5년 13.4%, 3년 9.0%). 높은 성장 시나리오($52)가 기본($53)보다 낮은 것은 3년 성장률이 5년보다 낮아서다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 −1·−1·−2로 합계 −4 “고평가”다. 영업이익률을 100%로 올려도 현재가에 닿지 않고, 성장으로만 맞추려면 5년 내내 연 46.5%가 필요하다(지난 5년 13.4%, 3년 9.0%). 낙관 시나리오($52)가 기본($53)보다 낮은 것은 3년 성장률이 5년보다 낮아서다.</div>
   </div>
 
   <div class="grid-2">
@@ -1545,7 +1545,7 @@ const KLAC_SCORES = {
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
-    + '<span class="logic-denom"> · 낮은 성장 ' + (d.low > 0 ? '$' + Math.round(d.low) : '계산 불가')
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
     + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('klacDcfVerdict');
   if (dv && price != null) {
@@ -1945,7 +1945,7 @@ const KLAC_VALUATION = {"peer": {"score": 25.5, "sector": "Information Technolog
     if (el && Array.isArray(D.hard)) {
       const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
       const TXT = {
-        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 이보다 높지 않으면 성장이 가치를 만들지 못한다`,
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다`,
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
@@ -2017,7 +2017,7 @@ const KLAC_ACTIVITY = {"ticker": "KLAC", "status": "ok", "asOf": "2026-06-30", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : '재고 없음'; });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2117,7 +2117,7 @@ const KLAC_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
   };
   put('klacFundBox', 'klacFundScore', 'klacFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 FY2026 연간(10-K), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
+      + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 ${S.fundamentalAsOf}에 끝난 회계연도 연간(10-K), 성장률은 그 해까지의 연간 시계열을 쓴다.`
       + `\n부채비율 2점은 자사주 매입으로 자본($6.3B)이 작아서다. 영업이익은 손익계산서에 줄이 없어 세전이익 + 이자 − 기타수익으로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,

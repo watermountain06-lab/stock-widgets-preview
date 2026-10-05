@@ -253,6 +253,7 @@ def annual_is_newer(fin):
 # (UNP "Materials and supplies" = MaterialsSuppliesAndOther, 98.6% → 82.2%, 점수 구간 같음 — 안건 D43, 2026-10-05).
 # 카드 종목 가운데 재고 태그가 없는 20곳의 SEC 자료를 훑어 재고성 태그가 있는 곳은 UNP뿐이었다.
 INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther"}
+ROUNDED_COMMON_NI = {"0000001800"}   # ABT — 위 순이익률 주석 참고
 
 
 def _inventory_alt(fin, end):
@@ -386,10 +387,9 @@ def score_items(fin, config, basis):
     if ni_key != "netIncome" and _last_end(ni_key) < _last_end("netIncome"):
         ni_key = "netIncome"
     # 보통주 귀속 이익 태그를 $0.1B 단위로 반올림해 내는 회사(ABT — EPS 주석의 "보통주 배분 이익" $0.9B 대 순이익 $928M,
-    # 순이익률 7.1% 대 7.4%)는 최신 분기 값이 $0.1B 배수이고 연결 순이익은 아니면 연결 순이익을 쓴다(안건 D34, 2026-10-05 — 카드 종목 중 ABT만 해당).
-    qa, qn = _q(fin, ni_key), _q(fin, "netIncome")
-    if (ni_key != "netIncome" and qa and qn and qa["end"] == qn["end"]
-            and qa["val"] % 1e8 == 0 and qn["val"] % 1e8 != 0):
+    # 순이익률 7.1% 대 7.4%)는 연결 순이익(NetIncomeLoss = 지배주주 귀속, ABT는 비지배지분 태그 없음)을 쓴다(안건 D34, 2026-10-05).
+    # 값이 우연히 $0.1B 배수인 다른 회사가 조용히 바뀌지 않게 CIK로 지정한다(Fable) — 카드 종목을 훑어 해당은 ABT뿐이었다.
+    if ni_key != "netIncome" and cik in ROUNDED_COMMON_NI:
         ni_key = "netIncome"
     if basis == "quarter" and q_end:
         rv = rev_q["val"]

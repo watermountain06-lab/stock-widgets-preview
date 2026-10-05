@@ -313,7 +313,7 @@ one_done("          const yTop = overlapOnly ? py(clipDcf(e.v.base)) - 6 : py(cl
 one_done("          const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);", "          const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정")
 # 재고 없는 회사의 회전율·현금순환 문장(카드 한정, CRWD)
 # 틀(NVDA)에 2026-10-05 '재고 없음' 가드가 들어갔다(META Infinity회) — 그 줄이면 옛 줄로 되돌린 뒤 아래 교체를 그대로 적용한다
-_TPL_TURN = "  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : '재고 없음'; });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)"
+_TPL_TURN = "  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)"
 if _TPL_TURN in h:
     h = h.replace(_TPL_TURN, "  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회'; });")
 one("  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회'; });",

@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="gevLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="gevDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="gevDcfBox">$87<span class="logic-denom"> · 낮은 성장 $66 · 낙관 $111</span></div>
+      <div class="logic-score" id="gevDcfBox">$87<span class="logic-denom"> · 보수 $66 · 낙관 $111</span></div>
     </div>
     <div class="logic-box logic-neutral" id="gevFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="gevFundVerdict">보통</span></div>
@@ -895,7 +895,7 @@ Chart.overrides.doughnut.animation = false;
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="상장(2024-04) 뒤 GEV 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">52.7</div><div class="sc-tile" data-vc="self" data-m="per">75</div><div class="sc-tile low" data-vc="self" data-m="pbr">12</div><div class="sc-tile low" data-vc="self" data-m="psr">28</div><div class="sc-tile" data-vc="self" data-m="pcr">95</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">52</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$87</div><div class="vs-note">현재가 <span data-vs="price">$950.49</span> 대비 <strong data-vs="upside">−90.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 10.99
-시나리오 범위: 낙관 기준 8.59 ~ 보수 기준 14.47
+시나리오 범위: 8.59 ~ 14.47 (세 시나리오 중 가장 높은 값 ~ 가장 낮은 값 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.7</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile low" data-vc="peer" data-m="pbr">4</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">62</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">2</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
@@ -1439,9 +1439,9 @@ function dcfLevel(price, D) {
   const [cls, label] = r <= 0.7 ? ['', '매우 싸다'] : r <= 0.9 ? ['', '싸다'] : r <= 1.1 ? ['mid', '적정']
                      : r <= 1.5 ? ['high', '비싸다'] : ['high', '매우 비싸다'];
   const color = cls === '' ? '#38bdf8' : cls === 'mid' ? 'var(--gold)' : 'var(--red)';
-  const split = D.low > 0 && D.high > 0 && D.low < price && price < D.high;
-  const range = (D.low > 0 && D.high > 0)
-    ? `시나리오 범위: 낙관 기준 ${(price / D.high).toFixed(2)} ~ 보수 기준 ${(price / D.low).toFixed(2)}` : '';
+  const split = D.low > 0 && D.high > 0 && Math.min(D.low, D.base, D.high) < price && price < Math.max(D.low, D.base, D.high);   // 순서가 뒤집힌 시나리오도(Fable, 2026-10-05)
+  const range = (D.low > 0 && D.base > 0 && D.high > 0)   // 기본이 범위 밖인 카드가 있어 세 시나리오 최대·최소로(Fable, 2026-10-05)
+    ? `시나리오 범위: ${(price / Math.max(D.low, D.base, D.high)).toFixed(2)} ~ ${(price / Math.min(D.low, D.base, D.high)).toFixed(2)} (세 시나리오 중 가장 높은 값 ~ 가장 낮은 값 기준)` : '';
   return { label, cls, color, split, ratio: r, range };
 }
 const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다';
@@ -1548,7 +1548,7 @@ const GEV_SCORES = {
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
-    + '<span class="logic-denom"> · 낮은 성장 ' + (d.low > 0 ? '$' + Math.round(d.low) : '계산 불가')
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
     + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('gevDcfVerdict');
   if (dv && price != null) {
@@ -1948,7 +1948,7 @@ const GEV_VALUATION = {"peer": {"score": 20.7, "sector": "Industrials (S&P500 81
     if (el && Array.isArray(D.hard)) {
       const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
       const TXT = {
-        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 이보다 높지 않으면 성장이 가치를 만들지 못한다`,
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다`,
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
@@ -2020,7 +2020,7 @@ const GEV_ACTIVITY = {"ticker": "GEV", "status": "N/A", "reason": "5년 비교 �
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : '재고 없음'; });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };

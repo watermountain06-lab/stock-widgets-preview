@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="sndkLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="sndkDcfVerdict">매우 비싸다 · 갈림</span></div>
-      <div class="logic-score" id="sndkDcfBox">$308<span class="logic-denom"> · 낮은 성장 $168 · 낙관 $3850</span></div>
+      <div class="logic-score" id="sndkDcfBox">$308<span class="logic-denom"> · 보수 $168 · 낙관 $3850</span></div>
     </div>
     <div class="logic-box logic-positive" id="sndkFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="sndkFundVerdict">우수</span></div>
@@ -898,7 +898,7 @@ Chart.overrides.doughnut.animation = false;
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
 · 잔존가치(5년 뒤)가 내재가치의 0%
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 5.64
-시나리오 범위: 낙관 기준 0.45 ~ 보수 기준 10.38
+시나리오 범위: 0.45 ~ 10.38 (세 시나리오 중 가장 높은 값 ~ 가장 낮은 값 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.
 보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">매우 비싸다 · 갈림</div></div>
@@ -1438,9 +1438,9 @@ function dcfLevel(price, D) {
   const [cls, label] = r <= 0.7 ? ['', '매우 싸다'] : r <= 0.9 ? ['', '싸다'] : r <= 1.1 ? ['mid', '적정']
                      : r <= 1.5 ? ['high', '비싸다'] : ['high', '매우 비싸다'];
   const color = cls === '' ? '#38bdf8' : cls === 'mid' ? 'var(--gold)' : 'var(--red)';
-  const split = D.low > 0 && D.high > 0 && D.low < price && price < D.high;
-  const range = (D.low > 0 && D.high > 0)
-    ? `시나리오 범위: 낙관 기준 ${(price / D.high).toFixed(2)} ~ 보수 기준 ${(price / D.low).toFixed(2)}` : '';
+  const split = D.low > 0 && D.high > 0 && Math.min(D.low, D.base, D.high) < price && price < Math.max(D.low, D.base, D.high);   // 순서가 뒤집힌 시나리오도(Fable, 2026-10-05)
+  const range = (D.low > 0 && D.base > 0 && D.high > 0)   // 기본이 범위 밖인 카드가 있어 세 시나리오 최대·최소로(Fable, 2026-10-05)
+    ? `시나리오 범위: ${(price / Math.max(D.low, D.base, D.high)).toFixed(2)} ~ ${(price / Math.min(D.low, D.base, D.high)).toFixed(2)} (세 시나리오 중 가장 높은 값 ~ 가장 낮은 값 기준)` : '';
   return { label, cls, color, split, ratio: r, range };
 }
 const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다';
@@ -1547,7 +1547,7 @@ const SNDK_SCORES = {
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
-    + '<span class="logic-denom"> · 낮은 성장 ' + (d.low > 0 ? '$' + Math.round(d.low) : '계산 불가')
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
     + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('sndkDcfVerdict');
   if (dv && price != null) {
@@ -2020,7 +2020,7 @@ const SNDK_ACTIVITY = {"ticker": "SNDK", "status": "N/A", "reason": "5년 비교
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : '재고 없음'; });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2120,7 +2120,7 @@ const SNDK_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
   };
   put('sndkFundBox', 'sndkFundScore', 'sndkFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 FY2026 연간(10-K), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
+      + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 ${S.fundamentalAsOf}에 끝난 회계연도 연간(10-K), 성장률은 그 해까지의 연간 시계열을 쓴다.`
       + `\n매출 3년 CAGR 49.1%는 불황기 FY2023(매출 $6.1B)에서 잰 값이다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
