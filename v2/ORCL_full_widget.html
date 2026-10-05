@@ -493,7 +493,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 영업이익률 (현재 32.1%)</span>
-      <span class="meta-value" id="orclDcfReq" style="font-size:22px;color:#38bdf8;">연 28.0%</span>
+      <span class="meta-value" id="orclDcfReq" style="font-size: 22px; color: var(--red);">68.0%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="orclConfidenceLabel">밴드 적중률 (373/677일, 상단우세)</span>
@@ -514,24 +514,24 @@ Chart.overrides.doughnut.animation = false;
        스크립트가 꺼졌을 때를 위한 대비용이다. -->
   <div class="logic-grid" id="orclLogicGrid">
     <div class="logic-box logic-info">
-      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="orclDcfVerdict">싸다 · 갈림</span></div>
-      <div class="logic-score" id="orclDcfBox">$296<span class="logic-denom"> · 낮은 성장 $148 · 높은 성장 $558</span></div>
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="orclDcfVerdict">매우 비싸다</span></div>
+      <div class="logic-score" id="orclDcfBox">$18<span class="logic-denom"> · 낮은 성장 계산 불가 · 낙관 $35</span></div>
     </div>
-    <div class="logic-box logic-positive" id="orclFundBox">
-      <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="orclFundVerdict">우수</span></div>
-      <div class="logic-score" id="orclFundScore">96.1<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-neutral" id="orclFundBox">
+      <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="orclFundVerdict">보통</span></div>
+      <div class="logic-score" id="orclFundScore">57.2<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral" id="orclPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="orclPeerVerdict">중간</span></div>
-      <div class="logic-score" id="orclPeerScore">46.7<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-positive" id="orclPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="orclPeerVerdict">싼 편</span></div>
+      <div class="logic-score" id="orclPeerScore">71.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="orclSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="orclSelfVerdict">싼 편</span></div>
-      <div class="logic-score" id="orclSelfScore">89.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="orclSelfScore">72.2<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
-  <div class="section-title" id="techHeaderTitle">주가 차트 — 일봉 캔들스틱 (2025.09 ~ 2026.09) · 1년 수익률 <span id="techHeaderReturn" style="color: var(--green);">+29.5%</span></div>
+  <div class="section-title" id="techHeaderTitle">주가 차트 — 일봉 캔들스틱 (2025.09 ~ 2026.09) · 1년 수익률 <span id="techHeaderReturn" style="color: var(--red);">-51.4%</span></div>
 
   <!-- ══════════ 1. 차트 ══════════ -->
   <div class="price-chart-container">
@@ -552,7 +552,7 @@ Chart.overrides.doughnut.animation = false;
     <svg id="orclCandleSvg" viewBox="0 0 720 240" width="100%" style="display:block;background:var(--bg3);border-radius:8px 8px 0 0;padding:4px;" role="img" aria-label="ORCL 일봉 캔들스틱 차트"></svg>
     <svg id="orclVolumeSvg" viewBox="0 0 720 70" width="100%" style="display:block;background:var(--bg3);border-radius:0 0 8px 8px;padding:0 4px 4px;" role="img" aria-label="ORCL 거래량 차트"></svg>
     <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <div style="font-size:11px;color:var(--text3);" id="techRangeSummary">1년 최저 $164.27 (2026.03) → 1년 최고 $236.54 (2026.05) → 현재 $228.87</div>
+      <div style="font-size:11px;color:var(--text3);" id="techRangeSummary">1년 최저 $114.50 (2026.07) → 1년 최고 $322.54 (2025.10) → 현재 $137.30</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="ma-toggle-btn" data-ma="ma5" style="color:var(--ma5);border-color:var(--ma5);">● MA5</button>
         <button class="ma-toggle-btn" data-ma="ma20" style="color:var(--ma20);border-color:var(--ma20);">● MA20</button>
@@ -670,9 +670,9 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 0. 점수 구성 — 요약 격자의 기본적 분석 점수가 어디서 나오나 ══════════ -->
   <div class="card score-comp" id="fundComp">
-    <div class="sc-total"><span class="sc-total-l">기본적 분석</span><span class="sc-total-v" id="fundCompTotal">96.1</span></div>
-    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts="">30.4</span>/33</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">부채비율</div></div></div></div>
-    <div class="sc-group" data-axis="growthProfit"><div class="sc-group-l">성장·수익성 <span data-axis-pts="">34.0</span>/34</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">매출 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이익 성장</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">영업이익률</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">순이익률</div></div></div></div>
+    <div class="sc-total"><span class="sc-total-l">기본적 분석</span><span class="sc-total-v" id="fundCompTotal">57.2</span></div>
+    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts="">14.5</span>/33</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile lost">3</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile lost">3</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">1</div><div class="sc-name">부채비율</div></div></div></div>
+    <div class="sc-group" data-axis="growthProfit"><div class="sc-group-l">성장·수익성 <span data-axis-pts="">23.8</span>/34</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile lost">3</div><div class="sc-name">매출 성장</div></div><div class="sc-item"><div class="sc-tile lost">3</div><div class="sc-name">이익 성장</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">영업이익률</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">순이익률</div></div></div></div>
   </div>
 
   <!-- ══════════ 1. 분기 매출/순이익/영업이익률 차트 ══════════ -->
@@ -712,11 +712,11 @@ Chart.overrides.doughnut.animation = false;
   <div class="card" style="margin-top:16px;">
     <div class="card-title"><span>재무 건전성 — 안정성·활동성 (Q1 FY27 · 2026.08.31 기준)</span></div>
 
-    <div class="section-label"><span class="dot"></span>안정성 — 단기 지급능력·차입 의존도 (<span id="fundHealthAxis">30.4/33</span>)</div>
-    <div class="diag-summary" id="fundHealthSummary">
+    <div class="section-label"><span class="dot"></span>안정성 — 단기 지급능력·차입 의존도 (<span id="fundHealthAxis">14.5/33</span>)</div>
+    <div class="diag-summary watch" id="fundHealthSummary">
       <div class="icon">🩺</div>
       <div>
-        <div class="title" id="fundHealthTitle">종합 진단: 우수 (재무건전성 92%)</div>
+        <div class="title" id="fundHealthTitle">종합 진단: 보통 (재무건전성 44%)</div>
       </div>
     </div>
 
@@ -728,26 +728,26 @@ Chart.overrides.doughnut.animation = false;
 
     <div class="diag-list">
       <div class="diag-row" data-fund-metric="currentRatio">
-        <div class="diag-left"><span class="diag-label">유동비율</span><span class="diag-value">458.9%</span></div>
-      <div class="diag-badge safe" title="구성표 배점 5/5점">✅ 양호</div></div>
+        <div class="diag-left"><span class="diag-label">유동비율</span><span class="diag-value">117.1%</span></div>
+      <div class="diag-badge alert" title="구성표 배점 2/5점">⚠️ 주의</div></div>
       <div class="diag-row" data-fund-metric="quickRatio">
-        <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">385.5%</span></div>
-      <div class="diag-badge safe" title="구성표 배점 5/5점">✅ 양호</div></div>
+        <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">117.1%</span></div>
+      <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="debtDependency">
-        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">10.4%</span></div>
-      <div class="diag-badge watch" title="구성표 배점 4/5점">보통</div></div>
+        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">41.3%</span></div>
+      <div class="diag-badge alert" title="구성표 배점 2/5점">⚠️ 주의</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
-        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">281x</span></div>
-      <div class="diag-badge safe" title="구성표 배점 5/5점">✅ 양호</div></div>
+        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">5x</span></div>
+      <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="debtToEquity">
-        <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">39.9%</span></div>
-      <div class="diag-badge watch" title="구성표 배점 4/5점">보통</div></div>
+        <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">354.2%</span></div>
+      <div class="diag-badge alert" title="구성표 배점 1/5점">⚠️ 주의</div></div>
       <div class="diag-row">
         <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+55.5%</span><span class="diag-note">FY2026 말 $261.8B(전년 $168.4B) · 데이터센터 투자 · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$0.74</span><span class="diag-note" id="fundNetCashNote">순현금 $17.7B ÷ 24.10B주 · 현금·단기투자 $56.6B − 차입금·리스 $38.9B</span></div>
+        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">−$43.68</span><span class="diag-note" id="fundNetCashNote">순현금 −$132.1B ÷ 3.02B주 · 현금·단기투자 $37.1B − 차입금·리스 $169.1B</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
     </div>
@@ -755,11 +755,11 @@ Chart.overrides.doughnut.animation = false;
     <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 $125.3B(유동 $7.6B + 비유동 $117.7B)이고 현금은 $36.4B다. 1분기에 ATM으로 보통주 약 1.41억 주를 발행해 $19.9B를 조달했고, 2026년 2월에는 의무전환 우선주 $5.0B를 발행했다. AI 데이터센터 투자로 1분기 설비투자가 $28.5B(1년 전 $8.5B)라 FCF가 음수다. 부채비율 354%는 총부채 약 $236B(차입 $125B에 리스·이연수익 등 포함)가 자본 $67B의 3.5배라서다. 활동성은 5년 비교 이력이 부족해 판정하지 않는다. <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm" target="_blank" rel="noopener">Q1 FY2027 10-Q (SEC) →</a></div>
     </div>
 
-    <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.07.26까지 4분기</span>)</div>
-    <div class="diag-summary alert" id="actSummary">
+    <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
+    <div class="diag-summary none" id="actSummary">
       <div class="icon">🔄</div>
       <div>
-        <div class="title" id="actTitle">종합 진단: 매출채권·재고에 묶이는 기간 154.9일, 지난 5년 중 긴 편</div>
+        <div class="title" id="actTitle">종합 진단: 판정하지 않음 — 5년 비교 이력 부족</div>
       </div>
     </div>
 
@@ -877,18 +877,19 @@ Chart.overrides.doughnut.animation = false;
 </div>
 
 <div id="valuation" class="section">
-  <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$228.87</span></div>
+  <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$137.30</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정</span><span class="vs-asof"><span data-vs="asof">2026.09.22</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정</span><span class="vs-asof"><span data-vs="asof">2026.09.30</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 ORCL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">89.2</div><div class="sc-tile" data-vc="self" data-m="per">99</div><div class="sc-tile" data-vc="self" data-m="pbr">81</div><div class="sc-tile" data-vc="self" data-m="psr">83</div><div class="sc-tile" data-vc="self" data-m="pcr">85</div><div class="sc-tile" data-vc="self" data-m="evebitda">99</div><div class="vs-pill" data-vs-pill="self">싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$296</div><div class="vs-note">현재가 <span data-vs="price">$228.87</span> 대비 <strong data-vs="upside">+29.4%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 0.77
-시나리오 범위: 낙관 기준 0.41 ~ 보수 기준 1.55
+      <div class="vs-name" title="지난 5년 ORCL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">72.2</div><div class="sc-tile" data-vc="self" data-m="per">95</div><div class="sc-tile" data-vc="self" data-m="pbr">100</div><div class="sc-tile lost" data-vc="self" data-m="psr">67</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile" data-vc="self" data-m="evebitda">99</div><div class="vs-pill" data-vs-pill="self">싸다</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$18</div><div class="vs-note">현재가 <span data-vs="price">$137.30</span> 대비 <strong data-vs="upside">−86.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 어떤 일정 성장률로도 현재가에 닿지 않는다
+· 잔존가치(5년 뒤)가 내재가치의 105%
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 7.46
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
-보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">싸다 · 갈림</div></div>
-      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">46.7</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile low" data-vc="peer" data-m="pbr">22</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">61</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
+      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">71.1</div><div class="sc-tile" data-vc="peer" data-m="per">92</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">85</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile" data-vc="peer" data-m="evebitda">92</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
     <div class="vs-premise">주가가 1년 새 51% 내려 PER 21.5배·EV/EBITDA 15.8배가 5년 중 가장 싼 쪽이다. 자기 이력 72.2점, 카드 유니버스 IT 안에서 71.1점으로 둘 다 싼 쪽이다(FCF 음수인 PCR은 0점). <strong>현금흐름 내재가치는 기본 $18.41로 현재가의 13%다</strong> — 1분기 설비투자 $28.5B처럼 매출보다 빠르게 느는 투자가 재투자로 잡혀서다(보수 시나리오는 음수).</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 +1·+1·−2로 갈려 합계 0 “적정”이다. 배수는 지금 이익으로 싸 보이고, 현금흐름 모델은 지금 투자 속도가 이어진다는 가정에서 가치를 현재가의 13% 정도로 본다. 현재가가 정당하려면 영업이익률이 68.0%여야 한다(최근 4분기 32.1%). PER 21.5배는 Q2 FY26 Ampere 매각 이익($2.7B 세전)이 든 GAAP EPS 기준이다.</div>
@@ -902,60 +903,60 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">28.9x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 1%</span>
+            <span class="val-number" data-hist="cur">21.5x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 5%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:2.0%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 26.5x</span><span data-hist="median">중앙 58.2x</span><span data-hist="max">최고 247.3x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 4.9%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 18.6x</span><span data-hist="median">중앙 32.4x</span><span data-hist="max">최고 76.0x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
-          <span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>
+          <span class="val-name">PBR <span class="hist-note" data-hist="note">최근 3.3년 이력</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">24.1x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 19%</span>
+            <span class="val-number" data-hist="cur">6.2x</span>
+            <span class="hist-badge good" data-hist="badge">3.3년 중 하위 0%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:19.0%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.7x</span><span data-hist="median">중앙 36.1x</span><span data-hist="max">최고 67.9x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 2%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 6.0x</span><span data-hist="median">중앙 34.9x</span><span data-hist="max">최고 320.5x</span></div>
       </div>
 
       <div class="val-item" data-metric="psr" onclick="selectMultiple('psr')">
         <div class="val-header">
           <span class="val-name">PSR (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">18.2x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 17%</span>
+            <span class="val-number" data-hist="cur">5.8x</span>
+            <span class="hist-badge mid" data-hist="badge">5년 중 하위 33%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:17.2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 9.4x</span><span data-hist="median">중앙 25.4x</span><span data-hist="max">최고 46.7x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 33%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 3.7x</span><span data-hist="median">중앙 6.3x</span><span data-hist="max">최고 15.8x</span></div>
       </div>
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
-          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">최근 2.1년 이력</span></span>
+          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">최근 3.7년 이력</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">43.4x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 15%</span>
+            <span class="val-number" data-hist="cur">계산 불가</span>
+            <span class="hist-badge bad" data-hist="badge">적자 · 0점</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:15.1%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 37.8x</span><span data-hist="median">중앙 55.9x</span><span data-hist="max">최고 78.1x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 100%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 19.0x</span><span data-hist="median">중앙 33.1x</span><span data-hist="max">최고 103.8x</span></div>
       </div>
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">27.3x</span>
+            <span class="val-number" data-hist="cur">15.8x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 1%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width:2.0%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 25.0x</span><span data-hist="median">중앙 49.1x</span><span data-hist="max">최고 192.1x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 15.4x</span><span data-hist="median">중앙 20.2x</span><span data-hist="max">최고 41.9x</span></div>
       </div>
     </div>
 
@@ -997,43 +998,43 @@ Chart.overrides.doughnut.animation = false;
     <div class="timeline" id="newsTimeline">
       <div class="tl-item">
         <div class="tl-dot neutral"></div>
-        <div class="tl-date">2026년 9월 12일 — 엘리슨 이사회 의장 주식 매도 계획 취소<span class="tl-reaction flat" data-react="2026-09-14">0.0%</span></div>
+        <div class="tl-date">2026년 9월 12일 — 엘리슨 이사회 의장 주식 매도 계획 취소<span class="tl-reaction down" data-react="2026-09-14">−3.7%</span></div>
         <div class="tl-title">래리 엘리슨 이사회 의장 겸 CTO가 6월 22일 채택한 최대 5천만 주 매도 계획(10b5-1)을 취소, 계획에 따라 판 주식은 없었다</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526389753/" target="_blank" rel="noopener">Oracle 공시 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-date">2026년 9월 10일 장 마감 후 — Q1 FY2027 실적<span class="tl-reaction flat" data-react="2026-09-11">0.0%</span></div>
+        <div class="tl-date">2026년 9월 10일 장 마감 후 — Q1 FY2027 실적<span class="tl-reaction down" data-react="2026-09-11">−1.7%</span></div>
         <div class="tl-title">매출 $19.3B(+30%)·EPS $1.56(비GAAP $1.92) · 클라우드 인프라 +121% · RPO $664B · FCF −$5.4B · 연간 매출 $90B 이상 전망</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/" target="_blank" rel="noopener">Oracle 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-date">2026년 6월 10일 장 마감 후 — Q4 FY2026 실적<span class="tl-reaction flat" data-react="2026-06-11">0.0%</span></div>
+        <div class="tl-date">2026년 6월 10일 장 마감 후 — Q4 FY2026 실적<span class="tl-reaction down" data-react="2026-06-11">−8.5%</span></div>
         <div class="tl-title">매출 $19.2B(+21%)·EPS $1.45 · FY2026 매출 $67.4B(+17%)</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526265848/" target="_blank" rel="noopener">Oracle 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot neutral"></div>
-        <div class="tl-date">2026년 4월 6일 — 새 CFO 선임<span class="tl-reaction flat" data-react="2026-04-06">0.0%</span></div>
+        <div class="tl-date">2026년 4월 6일 — 새 CFO 선임<span class="tl-reaction down" data-react="2026-04-06">−0.6%</span></div>
         <div class="tl-title">힐러리 맥슨이 CFO로 합류</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526142939/" target="_blank" rel="noopener">Oracle 공시 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-date">2026년 3월 10일 장 마감 후 — Q3 FY2026 실적<span class="tl-reaction flat" data-react="2026-03-11">0.0%</span></div>
+        <div class="tl-date">2026년 3월 10일 장 마감 후 — Q3 FY2026 실적<span class="tl-reaction up" data-react="2026-03-11">+9.2%</span></div>
         <div class="tl-title">매출 $17.2B(+22%)·EPS $1.27 · 15년 만에 매출·비GAAP EPS 모두 20% 이상 성장 · RPO $553B</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526100148/" target="_blank" rel="noopener">Oracle 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot neutral"></div>
-        <div class="tl-date">2026년 2월 2일 — 자본 조달 계약(ATM $20B·의무전환 우선주·사채 $25B)<span class="tl-reaction flat" data-react="2026-02-02">0.0%</span></div>
+        <div class="tl-date">2026년 2월 2일 — 자본 조달 계약(ATM $20B·의무전환 우선주·사채 $25B)<span class="tl-reaction down" data-react="2026-02-02">−2.7%</span></div>
         <div class="tl-title">보통주 최대 $20B ATM 판매 계약, 6.50% 의무전환 우선주 발행 계약, 2월 4일 사채 $25B 발행 · 데이터센터 투자 자금</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526039344/" target="_blank" rel="noopener">Oracle 공시 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot"></div>
-        <div class="tl-date">2025년 12월 10일 장 마감 후 — Q2 FY2026 실적<span class="tl-reaction flat" data-react="2025-12-11">0.0%</span></div>
+        <div class="tl-date">2025년 12월 10일 장 마감 후 — Q2 FY2026 실적<span class="tl-reaction down" data-react="2025-12-11">−10.8%</span></div>
         <div class="tl-title">매출 $16.1B(+14%)·EPS $2.10(Ampere 매각 이익 $2.7B 세전 포함) · RPO $523B(메타·엔비디아 등 새 계약)</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1341439/000119312525314207/" target="_blank" rel="noopener">Oracle 실적 보도자료 (SEC 8-K) →</a>
       </div>
@@ -1075,13 +1076,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">61</span>명</span>
-        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">58</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">1</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width:95.1%;background:var(--green);"></div><div data-an-bar="hold" style="width:3.3%;background:var(--gold);"></div><div data-an-bar="sell" style="width:1.6%;background:var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">43</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">35</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 81.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 2.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-21</span></span>
-        <span class="op-val"><span data-an="mean">$328.66</span> <span class="op-sub op-up" data-an="upside">+43.6%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-01</span></span>
+        <span class="op-val"><span data-an="mean">$237.97</span> <span class="op-sub op-up" data-an="upside">+73.3%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1535,12 +1536,12 @@ const ORCL_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 $${Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
     + '<span class="logic-denom"> · 낮은 성장 ' + (d.low > 0 ? '$' + Math.round(d.low) : '계산 불가')
-    + ' · 높은 성장 ' + (d.high > 0 ? '$' + Math.round(d.high) : '계산 불가') + '</span>';
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('orclDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1689,7 +1690,7 @@ const ORCL_FUNDAMENTAL = {"ticker": "ORCL", "basis": "quarter", "asOf": "2026-08
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
     v.textContent = r.value == null ? (r.note || '—')
-      : r.metric === 'interestCoverage' ? Math.round(r.value) + 'x' : r.value.toFixed(1) + '%';
+      : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
     if (!b) { b = document.createElement('div'); el.appendChild(b); }
     const [cls, txt] = BADGE(r.points);
@@ -1939,7 +1940,7 @@ const ORCL_VALUATION = {"peer": {"score": 71.1, "sector": "Information Technolog
     if (el && Array.isArray(D.hard)) {
       const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
       const TXT = {
-        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 성장해도 가치가 생기지 않는다`,
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 이보다 높지 않으면 성장이 가치를 만들지 못한다`,
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
@@ -2011,7 +2012,7 @@ const ORCL_ACTIVITY = {"ticker": "ORCL", "status": "N/A", "reason": "5년 비교
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회'; });
+  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : '재고 없음'; });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2512,11 +2513,11 @@ function orclBandTone(cp){
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
           const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);
-          let txt = `${e.v.d} 공시 기준 — 낮은 성장 ${usd(e.v.low)}`
-            + ` · 기본 ${usd(e.v.base)} · 높은 성장 ${usd(e.v.high)}`
-            + (e.v.high > DCF_CAP_HI ? ' · 높은 성장은 화면 밖이라 잘라서 표시' : '')
+          let txt = `${e.v.d} 공시 기준 · 보수 ${usd(e.v.low)}`
+            + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
+            + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 높은 성장이 가장 낮다 — 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];

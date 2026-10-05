@@ -249,6 +249,25 @@ def annual_is_newer(fin):
     return bool(lq and rev_a and max(e["end"] for e in rev_a) > lq["end"])
 
 
+# 재고를 InventoryNet이 아닌 태그로만 내는 회사 — fetch_financials가 재고를 못 찾아 당좌비율이 유동비율과 같아졌다
+# (UNP "Materials and supplies" = MaterialsSuppliesAndOther, 98.6% → 82.2%, 점수 구간 같음 — 안건 D43, 2026-10-05).
+# 카드 종목 가운데 재고 태그가 없는 20곳의 SEC 자료를 훑어 재고성 태그가 있는 곳은 UNP뿐이었다.
+INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther"}
+
+
+def _inventory_alt(fin, end):
+    cik = str(fin.get("cik", "")).zfill(10)
+    tag = INVENTORY_ALT.get(cik)
+    if not tag or not end:
+        return None
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".sec_cache", f"{cik}_facts.json")
+    if not os.path.exists(p):
+        return None
+    rows = json.load(open(p))["facts"]["us-gaap"].get(tag, {}).get("units", {}).get("USD", [])
+    vals = [r["val"] for r in rows if r["end"] == end]
+    return vals[-1] if vals else None
+
+
 def score_items(fin, config, basis):
     """항목별 (값, 점수, 상태). 분기 기준은 대차대조표·마진·이자보상에 최신 분기를 쓴다."""
     h, g = config["health"]["ratios"], config["growth_profit"]["metrics"]
@@ -264,22 +283,29 @@ def score_items(fin, config, basis):
     ca, cl, end = instant_pair(S("currentAssets"), S("currentLiabilities"))
     if ca is not None and cl:
         items["currentRatio"] = {"value": ca / cl * 100}
-        inv = value_at(S("inventory"), end) or 0
-        items["quickRatio"] = {"value": (ca - inv) / cl * 100}
+        inv = value_at(S("inventory"), end)
+        if inv is None:
+            inv = _inventory_alt(fin, end)
+        items["quickRatio"] = {"value": (ca - (inv or 0)) / cl * 100}
 
     # 차입금의존도 — 차입금 태그가 둘 다 없으면 무차입과 결측을 못 가르므로 결측(v1)
     sd, ld, assets = S("shortTermDebt"), S("longTermDebt"), latest_instant(S("assets"))
     import build_multiple_history as bmh
     cik = str(fin.get("cik", "")).zfill(10)
-    if cik in bmh.DEBT_TOTAL_TAG and assets:
-        # 총차입금 태그를 지정한 회사(MU)는 EV·순현금과 같은 차입금을 쓴다. fetch_financials의 LongTermDebt는
-        # MU에서 2025-11에 멈춰 2026-05 총자산과 섞였다(7.0% vs 10-Q 4.3%, 2026-09-26).
+    # 차입금은 EV·순현금·DCF와 같은 엔진 차입금(build_multiple_history의 debt 구성)을 쓴다. 처음엔 총차입금 태그를 지정한
+    # 회사(MU — fetch_financials의 LongTermDebt가 2025-11에 멈춰 7.0% vs 10-Q 4.3%, 2026-09-26)만 그랬는데, fetch_financials의
+    # 단기·장기 두 태그는 기업어음·기타 단기(NEE $6.0B)·단기 기간 대출(UBER $2.0B)을 놓치고 멈춘 단기차입을 이어 써서(MCD)
+    # 전 카드로 넓혔다(안건 D43·D34, 2026-10-05 — 91장 중 6장 값이 0.1%p 넘게 바뀌고 점수 구간은 모두 그대로).
+    # 엔진 차입금이 없으면 예전대로 두 태그 합(총차입금 태그 지정 회사는 결측).
+    dv = []
+    if assets:
         a_end = max(r["end"] for r in S("assets"))
         dv = [e for e in bmh.ev_component(cik, "debt", bmh.EV_COMPONENTS["debt"]) if e["end"] <= a_end]
-        if dv:
-            last = max(dv, key=lambda e: (e["end"], e["available"]))
-            items["debtDependency"] = {"value": last["val"] / assets * 100}
-    elif (sd or ld) and assets:
+    if dv:
+        last = max(dv, key=lambda e: (e["end"], e["available"]))
+        items["debtDependency"] = {"value": last["val"] / assets * 100}
+    elif (sd or ld) and assets and cik not in bmh.DEBT_TOTAL_TAG:
+        # 총차입금 태그를 지정한 회사는 그 태그가 비면 결측으로 둔다 — VRTX는 2011년에 멈춘 LongTermDebt만 남아 있다
         items["debtDependency"] = {"value": ((latest_instant(sd) or 0) + (latest_instant(ld) or 0)) / assets * 100}
 
     # 이자보상배율 — 분기 기준이면 최신 분기 영업이익·이자비용(같은 분기)
@@ -358,6 +384,12 @@ def score_items(fin, config, basis):
         ends = [e["end"] for e in _rows(fin, key)] + [(_q(fin, key) or {}).get("end", "")]
         return max(ends) if ends else ""
     if ni_key != "netIncome" and _last_end(ni_key) < _last_end("netIncome"):
+        ni_key = "netIncome"
+    # 보통주 귀속 이익 태그를 $0.1B 단위로 반올림해 내는 회사(ABT — EPS 주석의 "보통주 배분 이익" $0.9B 대 순이익 $928M,
+    # 순이익률 7.1% 대 7.4%)는 최신 분기 값이 $0.1B 배수이고 연결 순이익은 아니면 연결 순이익을 쓴다(안건 D34, 2026-10-05 — 카드 종목 중 ABT만 해당).
+    qa, qn = _q(fin, ni_key), _q(fin, "netIncome")
+    if (ni_key != "netIncome" and qa and qn and qa["end"] == qn["end"]
+            and qa["val"] % 1e8 == 0 and qn["val"] % 1e8 != 0):
         ni_key = "netIncome"
     if basis == "quarter" and q_end:
         rv = rev_q["val"]

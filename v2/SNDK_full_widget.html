@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="sndkLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="sndkDcfVerdict">매우 비싸다 · 갈림</span></div>
-      <div class="logic-score" id="sndkDcfBox">$308<span class="logic-denom"> · 낮은 성장 $168 · 높은 성장 $3850</span></div>
+      <div class="logic-score" id="sndkDcfBox">$308<span class="logic-denom"> · 낮은 성장 $168 · 낙관 $3850</span></div>
     </div>
     <div class="logic-box logic-positive" id="sndkFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="sndkFundVerdict">우수</span></div>
@@ -898,8 +898,9 @@ Chart.overrides.doughnut.animation = false;
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
 · 잔존가치(5년 뒤)가 내재가치의 0%
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 5.64
-시나리오 범위: 낙관 기준 0.45 ~ 보수 기준 10.60
+시나리오 범위: 낙관 기준 0.45 ~ 보수 기준 10.38
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
+이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.
 보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">매우 비싸다 · 갈림</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">66.4</div><div class="sc-tile" data-vc="peer" data-m="per">84</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">35</div><div class="sc-tile lost" data-vc="peer" data-m="psr">59</div><div class="sc-tile" data-vc="peer" data-m="pcr">83</div><div class="sc-tile" data-vc="peer" data-m="evebitda">71</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
@@ -1542,12 +1543,12 @@ const SNDK_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 $${Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
     + '<span class="logic-denom"> · 낮은 성장 ' + (d.low > 0 ? '$' + Math.round(d.low) : '계산 불가')
-    + ' · 높은 성장 ' + (d.high > 0 ? '$' + Math.round(d.high) : '계산 불가') + '</span>';
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('sndkDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1696,7 +1697,7 @@ const SNDK_FUNDAMENTAL = {"ticker": "SNDK", "basis": "quarter", "asOf": "2026-07
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
     v.textContent = r.value == null ? (r.note || '—')
-      : r.metric === 'interestCoverage' ? Math.round(r.value) + 'x' : r.value.toFixed(1) + '%';
+      : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
     if (!b) { b = document.createElement('div'); el.appendChild(b); }
     const [cls, txt] = BADGE(r.points);
@@ -2019,7 +2020,7 @@ const SNDK_ACTIVITY = {"ticker": "SNDK", "status": "N/A", "reason": "5년 비교
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회'; });
+  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : '재고 없음'; });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2119,7 +2120,7 @@ const SNDK_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
   };
   put('sndkFundBox', 'sndkFundScore', 'sndkFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(FY26 말 재무상태표, 마진·이자보상배율은 FY2026 연간 값 — 10-K), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
+      + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 FY2026 연간(10-K), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
       + `\n매출 3년 CAGR 49.1%는 불황기 FY2023(매출 $6.1B)에서 잰 값이다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
@@ -2520,11 +2521,11 @@ function sndkBandTone(cp){
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
           const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);
-          let txt = `${e.v.d} 공시 기준 — 낮은 성장 ${usd(e.v.low)}`
-            + ` · 기본 ${usd(e.v.base)} · 높은 성장 ${usd(e.v.high)}`
-            + (e.v.high > DCF_CAP_HI ? ' · 높은 성장은 화면 밖이라 잘라서 표시' : '')
+          let txt = `${e.v.d} 공시 기준 · 보수 ${usd(e.v.low)}`
+            + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
+            + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 높은 성장이 가장 낮다 — 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];

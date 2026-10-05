@@ -895,10 +895,11 @@ Chart.overrides.doughnut.animation = false;
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 ETN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">10.2</div><div class="sc-tile low" data-vc="self" data-m="per">2</div><div class="sc-tile low" data-vc="self" data-m="pbr">3</div><div class="sc-tile low" data-vc="self" data-m="psr">14</div><div class="sc-tile low" data-vc="self" data-m="pcr">29</div><div class="sc-tile low" data-vc="self" data-m="evebitda">3</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$55</div><div class="vs-note">현재가 <span data-vs="price">$429.71</span> 대비 <strong data-vs="upside">−87.2%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 어떤 일정 성장률로도 현재가에 닿지 않는다
-· 잔존가치(5년 뒤)가 내재가치의 98%
+· 잔존가치(5년 뒤)가 내재가치의 97%
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 7.80
 시나리오 범위: 6.64 ~ 60.69(세 시나리오 최대·최소 기준)
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
+이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">16.7</div><div class="sc-tile low" data-vc="peer" data-m="per">9</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">34</div><div class="sc-tile low" data-vc="peer" data-m="psr">23</div><div class="sc-tile low" data-vc="peer" data-m="pcr">8</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">9</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">주가가 1년 새 +17% 오르는 동안 GAAP EPS는 인수 관련 비용으로 줄어 PER 43.8배(5년 중앙값 32.9배)·PBR·EV/EBITDA가 5년 중 가장 비싼 쪽이고 PSR·PCR도 비싼 쪽이라 자기 이력 10.2점(비싸다)이다. S&P500 산업재 81종목 안에서도 다섯 배수 모두 비싼 쪽이라 16.7점(비싸다)이다. <strong>현금흐름 내재가치(기본 $55.11)는 현재가의 13%</strong>다.</div>
@@ -1552,7 +1553,7 @@ const ETN_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 $${Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
@@ -1628,7 +1629,7 @@ const ETN_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1706,7 +1707,7 @@ const ETN_FUNDAMENTAL = {"ticker": "ETN", "basis": "quarter", "asOf": "2026-06-3
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
     v.textContent = r.value == null ? (r.note || '—')
-      : r.metric === 'interestCoverage' ? Math.round(r.value) + 'x' : r.value.toFixed(1) + '%';
+      : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
     if (!b) { b = document.createElement('div'); el.appendChild(b); }
     const [cls, txt] = BADGE(r.points);
@@ -1956,7 +1957,7 @@ const ETN_VALUATION = {"peer": {"score": 16.7, "sector": "Industrials (S&P500 81
     if (el && Array.isArray(D.hard)) {
       const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
       const TXT = {
-        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 성장해도 가치가 생기지 않는다`,
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 이보다 높지 않으면 성장이 가치를 만들지 못한다`,
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,

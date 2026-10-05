@@ -744,7 +744,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">106.7%</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="debtDependency">
-        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">67.7%</span></div>
+        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">66.5%</span></div>
       <div class="diag-badge alert" title="구성표 배점 1/5점">⚠️ 주의</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
         <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">8x</span></div>
@@ -895,7 +895,8 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="지난 5년 MCD 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">100.0</div><div class="sc-tile" data-vc="self" data-m="per">100</div><div class="sc-tile none" data-vc="self" data-m="pbr">—</div><div class="sc-tile" data-vc="self" data-m="psr">100</div><div class="sc-tile" data-vc="self" data-m="pcr">100</div><div class="sc-tile" data-vc="self" data-m="evebitda">100</div><div class="vs-pill" data-vs-pill="self">싸다</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$123</div><div class="vs-note">현재가 <span data-vs="price">$230.94</span> 대비 <strong data-vs="upside">−46.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.88
 시나리오 범위: 1.86 ~ 2.01(세 시나리오 최대·최소 기준)
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
+이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">32.9</div><div class="sc-tile lost" data-vc="peer" data-m="per">52</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile low" data-vc="peer" data-m="psr">5</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">37</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">38</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">주가가 1년 새 -24% 내려 PER 18.8배(5년 중앙값 26.1배)·PSR·PCR·EV/EBITDA가 모두 5년 중 가장 낮아 자기 이력 100.0점(싸다)이다(PBR은 자본 음수라 없음). S&P500 경기소비재 안에서는 PER이 중간, PCR·EV/EBITDA가 중간보다 조금 비싼 쪽이고 PSR이 가장 비싼 쪽(가맹 수익 중심이라 매출 대비 이익이 큼)이라 32.9점(중간)이다. <strong>현금흐름 내재가치(기본 $122.64)는 현재가의 53%</strong>다.</div>
@@ -1530,7 +1531,7 @@ const MCD_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 $${Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
@@ -1606,7 +1607,7 @@ const MCD_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1666,7 +1667,7 @@ const MCD_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
 //
 // 갱신: python3 v2/build_fundamental_score.py MCD --card
 /* FUNDAMENTAL:BEGIN */
-const MCD_FUNDAMENTAL = {"ticker": "MCD", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-08-07", "periodSource": "10-Q", "score": 60.3, "grade": "양호", "qualityFlags": ["negative_equity"], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 108.13837730214037, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 106.69487307117969, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 67.7369826435247, "points": 1, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 8.161369193154034, "points": 3, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": null, "points": 1, "note": "자본 음수", "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 13.200000000000001, "points": 13.2, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 5.061091825101549, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 9.762571768292784, "points": 3, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 47.02070714185096, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 33.27229187209466, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 27.200000000000003, "points": 27.2, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 822000000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 39863000000.0, "lease": 14729000000.0, "shares": 707641531, "net": -53770000000.0, "perShare": -75.98479971068855}};
+const MCD_FUNDAMENTAL = {"ticker": "MCD", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-08-07", "periodSource": "10-Q", "score": 60.3, "grade": "양호", "qualityFlags": ["negative_equity"], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 108.13837730214037, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 106.69487307117969, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 66.52703604806408, "points": 1, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 8.161369193154034, "points": 3, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": null, "points": 1, "note": "자본 음수", "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 13.200000000000001, "points": 13.2, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 5.061091825101549, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 9.762571768292784, "points": 3, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 47.02070714185096, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 33.27229187209466, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 27.200000000000003, "points": 27.2, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 822000000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 39863000000.0, "lease": 14729000000.0, "shares": 707641531, "net": -53770000000.0, "perShare": -75.98479971068855}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof MCD_FUNDAMENTAL !== 'undefined') ? MCD_FUNDAMENTAL : null;
@@ -1684,7 +1685,7 @@ const MCD_FUNDAMENTAL = {"ticker": "MCD", "basis": "quarter", "asOf": "2026-06-3
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
     v.textContent = r.value == null ? (r.note || '—')
-      : r.metric === 'interestCoverage' ? Math.round(r.value) + 'x' : r.value.toFixed(1) + '%';
+      : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
     if (!b) { b = document.createElement('div'); el.appendChild(b); }
     const [cls, txt] = BADGE(r.points);
@@ -1944,7 +1945,7 @@ const MCD_VALUATION = {"peer": {"score": 32.9, "sector": "Consumer Discretionary
     if (el && Array.isArray(D.hard)) {
       const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
       const TXT = {
-        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 성장해도 가치가 생기지 않는다`,
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 이보다 높지 않으면 성장이 가치를 만들지 못한다`,
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
@@ -2117,7 +2118,7 @@ const MCD_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
   put('mcdFundBox', 'mcdFundScore', 'mcdFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n자본이 음수라 부채비율은 최저점이다. 차입금의존도 68%로 재무 안정성 점수가 낮고, 영업이익률 47%·순이익률 33%로 수익성 점수는 높다.`);
+      + `\n자본이 음수라 부채비율은 최저점이다. 차입금의존도 67%로 재무 안정성 점수가 낮고, 영업이익률 47%·순이익률 33%로 수익성 점수는 높다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면

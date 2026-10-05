@@ -14,7 +14,11 @@ JUDGE_OLD=[ "['현금흐름', lv.label in DV ? DV[lv.label] : null, lv.label, 2]
             "['초과이익', lv.label in DV ? DV[lv.label] : null, lv.label, 2],"]
 JUDGE_NEW="['초과이익', lv.label in DV && !D.referenceOnly ? DV[lv.label] : null, D.referenceOnly ? '참고용' : lv.label, 2],   // 관문 미통과 → 참고용·기권(사전 등록 7-7) — 은행 9장 공통(2026-10-05)"
 TEXT=[('현금흐름이 "매우 싸다"여도 +1만 준다','초과이익이 "매우 싸다"여도 +1만 준다'),
-      ('→ 현금흐름 기준값이 밴드','→ 초과이익 기준값이 밴드')]
+      ('→ 현금흐름 기준값이 밴드','→ 초과이익 기준값이 밴드'),
+      # 기본적 분석 구성표: 은행은 채점하지 않아 9칸이 모두 '—'였다. 사전 등록 §5대로 값이 있는 항목(부채비율·성장·순이익률)은
+      # 칸 이름 옆에 값을 적는다(점수 칸은 '—' 그대로, 안건 E16, 2026-10-05).
+      ("+ `<div class=\"sc-name\">${SHORT[r.metric]}</div></div>`;",
+       "+ `<div class=\"sc-name\">${SHORT[r.metric]}${r.points == null && r.value != null ? ' ' + r.value.toFixed(1) + '%' : ''}</div></div>`;   // 은행: 채점 없이 값만(사전 등록 §5)")]
 BADGE="        b.className = 'vs-hard'; b.textContent = D.model === 'rim' ? `⚠ 모형 신호 ${D.hard.length}/3` : `⚠ 계산 어려움 ${D.hard.length}/5`;   // 은행 초과이익모형 신호는 3개(사전 등록) — 9장 공통 표기(2026-10-05)"
 NOTE="        note.textContent = (D.hard.length ? (D.model === 'rim' ? `⚠ 모형 신호 ${D.hard.length}/3 — ` : `⚠ 계산 어려움 ${D.hard.length}/5 — `) + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;"
 TXT_BANK=("        nosol: () => D.model === 'rim' ? '현재가를 맞추는 ROE가 탐색 범위(0~60%) 밖이다(초과이익모형 신호, 사전 등록)' : '어떤 일정 성장률로도 현재가에 닿지 않는다',\n"
@@ -78,4 +82,15 @@ for T in BANKS:
     r=json.load(open(os.path.join(ROOT,"v2",f"{T}_bank.json")))["rim"]
     old=D.get("hard"); D["hard"]=hard_rule(r); D["roeTarget"]=r["roe_2y_median"]
     h=h[:i]+json.dumps(D,ensure_ascii=False)+h[e:]
+    # 판정 보류 카드(앉은 심판 2명 미만)는 헤더 적정주가가 PER 하나로 낸 범위라 상승 여지처럼 읽혔다 — 라벨에 'PER만·참고', 색은 중립(안건 E22, 2026-10-05)
+    k=f"const {T}_VALUATION = "; V=dec.raw_decode(h,h.index(k)+len(k))[0]
+    both=lambda b: {"per","pbr"} <= {m["metric"] for m in V[b]["metrics"]}
+    seats=both("self")+both("peer")+(not D.get("referenceOnly"))
+    lab_old,lab_new='<span class="meta-label">적정주가 (배수 기준)</span>','<span class="meta-label">적정주가 (PER만·참고)</span>'
+    fb=re.compile(r'(id="'+T.lower()+r'FairBand"[^>]*style="font-size:22px;color:)var\(--green\)(;")')
+    if seats<2:
+        if h.count(lab_old)==1: h=h.replace(lab_old,lab_new); c["held_label"]+=1
+        h,n=fb.subn(r"\1var(--text2)\2",h); c["held_color"]+=n
+    else:
+        assert lab_new not in h
     open(p,"w",encoding="utf-8").write(h); print(T,dict(c),"hard",old,"->",D["hard"])

@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="tmoLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="tmoDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="tmoDcfBox">$34<span class="logic-denom"> · 낮은 성장 계산 불가 · 높은 성장 $58</span></div>
+      <div class="logic-score" id="tmoDcfBox">$34<span class="logic-denom"> · 낮은 성장 계산 불가 · 낙관 $58</span></div>
     </div>
     <div class="logic-box logic-neutral" id="tmoFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="tmoFundVerdict">보통</span></div>
@@ -894,12 +894,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 TMO 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">19.7</div><div class="sc-tile low" data-vc="self" data-m="per">15</div><div class="sc-tile lost" data-vc="self" data-m="pbr">45</div><div class="sc-tile low" data-vc="self" data-m="psr">18</div><div class="sc-tile low" data-vc="self" data-m="pcr">21</div><div class="sc-tile low" data-vc="self" data-m="evebitda">1</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$34</div><div class="vs-note">현재가 <span data-vs="price">$675.05</span> 대비 <strong data-vs="upside">−95.0%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 6.8% &lt; 할인율 10% — 성장해도 가치가 생기지 않는다
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$34</div><div class="vs-note">현재가 <span data-vs="price">$675.05</span> 대비 <strong data-vs="upside">−95.0%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 6.9% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 이보다 높지 않으면 성장이 가치를 만들지 못한다
 · 실효세율 7.8% &lt; 10% — 세금 가정에 따라 값이 크게 바뀐다
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
-· 잔존가치(5년 뒤)가 내재가치의 81%
+· 잔존가치(5년 뒤)가 내재가치의 83%
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 3/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 20.14
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
+이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">30.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">32</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">42</div><div class="sc-tile lost" data-vc="peer" data-m="psr">37</div><div class="sc-tile low" data-vc="peer" data-m="pcr">22</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">19</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">PER 36.3배·PSR·PCR이 5년 중 비싼 쪽이고 EV/EBITDA는 이력(4.3년) 최고에 가까워 자기 이력 19.7점이다. S&P500 헬스케어 안에서는 30.3점으로 중간이다 — 비싼 쪽 문턱 30 바로 위라 동종 종목 자료가 갱신될 때마다 0과 −1을 오간다(2026-10-04 한때 29.6점). <strong>현금흐름 내재가치(기본 $34)는 현재가의 5%</strong>다.</div>
@@ -1547,12 +1548,12 @@ const TMO_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 $${Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
     + '<span class="logic-denom"> · 낮은 성장 ' + (d.low > 0 ? '$' + Math.round(d.low) : '계산 불가')
-    + ' · 높은 성장 ' + (d.high > 0 ? '$' + Math.round(d.high) : '계산 불가') + '</span>';
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('tmoDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1701,7 +1702,7 @@ const TMO_FUNDAMENTAL = {"ticker": "TMO", "basis": "quarter", "asOf": "2026-06-2
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
     v.textContent = r.value == null ? (r.note || '—')
-      : r.metric === 'interestCoverage' ? Math.round(r.value) + 'x' : r.value.toFixed(1) + '%';
+      : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
     if (!b) { b = document.createElement('div'); el.appendChild(b); }
     const [cls, txt] = BADGE(r.points);
@@ -1951,7 +1952,7 @@ const TMO_VALUATION = {"peer": {"score": 30.3, "sector": "Health Care (S&P500 59
     if (el && Array.isArray(D.hard)) {
       const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
       const TXT = {
-        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 성장해도 가치가 생기지 않는다`,
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 이보다 높지 않으면 성장이 가치를 만들지 못한다`,
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
@@ -2023,7 +2024,7 @@ const TMO_ACTIVITY = {"ticker": "TMO", "status": "N/A", "reason": "매출원가 
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회'; });
+  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : '재고 없음'; });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2524,11 +2525,11 @@ function tmoBandTone(cp){
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
           const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);
-          let txt = `${e.v.d} 공시 기준 — 낮은 성장 ${usd(e.v.low)}`
-            + ` · 기본 ${usd(e.v.base)} · 높은 성장 ${usd(e.v.high)}`
-            + (e.v.high > DCF_CAP_HI ? ' · 높은 성장은 화면 밖이라 잘라서 표시' : '')
+          let txt = `${e.v.d} 공시 기준 · 보수 ${usd(e.v.low)}`
+            + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
+            + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 높은 성장이 가장 낮다 — 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];

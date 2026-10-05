@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="linLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="linDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="linDcfBox">$127<span class="logic-denom"> · 보수 $109 · 높은 성장 $121</span></div>
+      <div class="logic-score" id="linDcfBox">$127<span class="logic-denom"> · 보수 $109 · 낙관 $121</span></div>
     </div>
     <div class="logic-box logic-neutral" id="linFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="linFundVerdict">보통</span></div>
@@ -658,7 +658,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 최근 3년 성장률(분기 누적 기준 연 2.3%)이 5년(연 3.7%)보다 낮아 “높은 성장” 시나리오가 기본보다 낮게 나온다(이름과 순서가 뒤집힘). 세 값의 차이는 현재가와의 차이보다 훨씬 작다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 최근 3년 성장률(분기 누적 기준 연 2.3%)이 5년(연 3.7%)보다 낮아 “낙관” 시나리오가 기본보다 낮게 나온다(이름과 순서가 뒤집힘). 세 값의 차이는 현재가와의 차이보다 훨씬 작다.</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $127.43 = 사업 가치 $127.20 + 비영업 자산 $0.23(주당, 지분 투자)</div>
     <div class="reverse">—</div>
   </div>
@@ -896,8 +896,9 @@ Chart.overrides.doughnut.animation = false;
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 LIN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">50.1</div><div class="sc-tile" data-vc="self" data-m="per">93</div><div class="sc-tile low" data-vc="self" data-m="pbr">30</div><div class="sc-tile lost" data-vc="self" data-m="psr">46</div><div class="sc-tile low" data-vc="self" data-m="pcr">25</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">57</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$127</div><div class="vs-note">현재가 <span data-vs="price">$474.65</span> 대비 <strong data-vs="upside">−73.2%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 3.72
-시나리오 범위: 낙관 기준 4.00 ~ 보수 기준 4.45
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
+시나리오 범위: 낙관 기준 3.92 ~ 보수 기준 4.35
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
+이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">13.5</div><div class="sc-tile low" data-vc="peer" data-m="per">28</div><div class="sc-tile low" data-vc="peer" data-m="pbr">8</div><div class="sc-tile low" data-vc="peer" data-m="psr">0</div><div class="sc-tile low" data-vc="peer" data-m="pcr">17</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">14</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">PER 30.6배는 5년 중 싼 쪽(중앙값 34.6배)이지만 PBR·PCR은 비싼 쪽이고 PSR·EV/EBITDA는 중간이라 자기 이력 50.1점(중간)이다. S&P500 소재 안에서는 다섯 배수가 모두 비싼 쪽(PER 28점)이라 13.5점(비싸다)이다. <strong>현금흐름 내재가치(기본 $127)는 현재가의 27%</strong>다.</div>
@@ -1529,12 +1530,12 @@ const LIN_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 $${Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
     + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + Math.round(d.low) : '계산 불가')
-    + ' · 높은 성장 ' + (d.high > 0 ? '$' + Math.round(d.high) : '계산 불가') + '</span>';
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('linDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1683,7 +1684,7 @@ const LIN_FUNDAMENTAL = {"ticker": "LIN", "basis": "quarter", "asOf": "2026-06-3
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
     v.textContent = r.value == null ? (r.note || '—')
-      : r.metric === 'interestCoverage' ? Math.round(r.value) + 'x' : r.value.toFixed(1) + '%';
+      : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
     if (!b) { b = document.createElement('div'); el.appendChild(b); }
     const [cls, txt] = BADGE(r.points);
@@ -1933,7 +1934,7 @@ const LIN_VALUATION = {"peer": {"score": 13.5, "sector": "Materials (S&P500 26�
     if (el && Array.isArray(D.hard)) {
       const pct = x => (x * 100).toFixed(1) + '%', H = D.hardDetail || {};
       const TXT = {
-        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 성장해도 가치가 생기지 않는다`,
+        roic: () => `자본수익률 ${pct(H.roic)} < 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 이보다 높지 않으면 성장이 가치를 만들지 못한다`,
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
@@ -2005,7 +2006,7 @@ const LIN_ACTIVITY = {"ticker": "LIN", "status": "N/A", "reason": "매출원가 
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회'; });
+  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : '재고 없음'; });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2506,11 +2507,11 @@ function linBandTone(cp){
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
           const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정(Fable)
-          let txt = `${e.v.d} 공시 기준 — 낮은 성장 ${usd(e.v.low)}`
-            + ` · 기본 ${usd(e.v.base)} · 높은 성장 ${usd(e.v.high)}`
-            + (e.v.high > DCF_CAP_HI ? ' · 높은 성장은 화면 밖이라 잘라서 표시' : '')
+          let txt = `${e.v.d} 공시 기준 · 보수 ${usd(e.v.low)}`
+            + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
+            + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 높은 성장이 가장 낮다 — 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
