@@ -58,7 +58,7 @@ CHART_TITLES = {'per': 'IT 하드웨어·네트워크 PER 비교', 'pbr': 'IT �
 PEER_NAME_TITLE = '같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'GICS Information Technology 카드 유니버스 대비 배수 순위'
 FUND_ASOF_NOTE = 'Q2 FY27 10-Q (2026-09-08 공시)'
-SELF_SPAN_TITLE = 'VMware 분사 뒤 2022-03부터 약 4.5년'   # 자기 이력 카드 제목만(옛 카드). fill.py SELF_SPAN은 틀 문장이 바뀌어(E13) 세 번째 치환에서 멈춘다 — 공통 후보
+SELF_SPAN = 'VMware 분사 뒤 2022-03부터 약 4.5년'   # 제목·툴팁 모두(fill.py SELF_SPAN, Fable 2026-10-05)
 PREMISE = ('VMware 분사 뒤(약 4.5년) 자기 이력에서 네 배수가 모두 상위 10% 안이라 {selfsc:.1f}점이다(PBR은 자본이 음수라 계산하지 않는다). '
            '카드 유니버스 IT 종목 안에서는 싼 쪽({peersc:.1f}점)이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}, 2분기 단독 {opm[-1]:.1f}%). '
@@ -123,8 +123,6 @@ h = h.replace(" · FCF는 영업현금흐름 − 설비투자 · ", " · FCF는 
 # 총자산증가율 메모: 회계연도 끝 날·연간 지표 꼬리(옛 카드)
 one("FY2026 말 $", "FY2026 말(2026-01-30) $")
 one("(전년 $79.7B) · 연간 지표</span>", "(전년 $79.7B) · 연간 지표, FY2027 10-K 전까지 동일</span>")
-# 자기 이력 카드 제목: 분사 뒤 이력(옛 카드 — SELF_SPAN 대신)
-one('<div class="card-title">배수별 자기 5년 위치</div>', f'<div class="card-title">배수별 자기 이력 위치 ({C.SELF_SPAN_TITLE})</div>')
 # 없는 배수 칸: 현재값·배지 글자(옛 카드 그대로 — CSCO와 같은 패치)
 _i = h.index('const haveM = new Set'); _j = h.index("['peer', 'self'].forEach(k => {", _i)
 _seg = h[_i:_j]

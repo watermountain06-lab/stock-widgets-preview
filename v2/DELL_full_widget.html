@@ -895,7 +895,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.29</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 DELL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">5.9</div><div class="sc-tile low" data-vc="self" data-m="per">9</div><div class="sc-tile none" data-vc="self" data-m="pbr">—</div><div class="sc-tile low" data-vc="self" data-m="psr">2</div><div class="sc-tile low" data-vc="self" data-m="pcr">7</div><div class="sc-tile low" data-vc="self" data-m="evebitda">6</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
+      <div class="vs-name" title="DELL 자신의 배수 이력(VMware 분사 뒤 2022-03부터 약 4.5년)보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">5.9</div><div class="sc-tile low" data-vc="self" data-m="per">9</div><div class="sc-tile none" data-vc="self" data-m="pbr">—</div><div class="sc-tile low" data-vc="self" data-m="psr">2</div><div class="sc-tile low" data-vc="self" data-m="pcr">7</div><div class="sc-tile low" data-vc="self" data-m="evebitda">6</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$174</div><div class="vs-note">현재가 <span data-vs="price">$539.59</span> 대비 <strong data-vs="upside">−67.8%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 3.10
 시나리오 범위: 1.90 ~ 4.11(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
@@ -2149,7 +2149,7 @@ const DELL_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 PBR를 뺀 4개를 평균했다.`
       + `\n반도체·소프트웨어처럼 마진 구조가 다른 고배수 종목이 섞여 있어, 하드웨어인 델은 PSR이 낮게(1위) 나온다. PBR은 자본 음수로 빠졌다.`);
   put('dellSelfBox', 'dellSelfScore', 'dellSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
+      `이 종목 자신의 배수 이력(VMware 분사 뒤 2022-03부터 약 4.5년)에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nVMware 분사 뒤(2022-03-24~) 창이다. 네 배수 모두 그 창의 상위 10% 안이다(PSR 2.28배는 상위 2%). PBR은 자본 음수(−$1.4B)라 빠졌다. 이력 앞쪽(2022년 3~12월)의 낮은 PER은 Boomi 매각 이익이 든 EPS 때문이다.`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
