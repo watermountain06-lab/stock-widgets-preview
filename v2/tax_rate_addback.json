@@ -1,0 +1,11 @@
+{
+ "_note": "세율 분모(세전이익)에 되돌려 더하는 반복적 비공제 영업외 항목 — 태그의 최근 4분기 합(분기 차트는 그 분기 값). tax_oneoff.json의 pretax(일회성 비과세 이익을 빼는 것)와 같은 목적이지만 해마다 되풀이되는 항목이라 회사 태그를 그대로 읽는다. 본업 PER 세율·현금흐름 세율·기본적 분석 본업 순이익률·분기 본업 순이익이 같은 세율을 쓴다. 2026-10-05(사용자 위임 — Claude 추천, A8 ABBV 남은 것).",
+ "ABBV": {
+  "tags": [
+   "BusinessCombinationContingentConsiderationArrangementsChangeInAmountOfContingentConsiderationLiability1"
+  ],
+  "sign": 1,
+  "reason": "인수 조건부 대가(스카이리치·린버크 등)의 공정가치 변동 — 'Other expense, net' 안의 비현금 평가손(최근 4분기 $6.1B). 세금 효과가 거의 없다(회사 비GAAP 조정표의 세후 차이 약 3% — FY2025 $6,495M → $6,309M, Fable). 세전이익을 눌러 실효세율이 2023~2026년 −44%~68%로 흔들렸다; 되돌려 더하면 10~18%(회사 비GAAP 세율 15~18%보다 약 1.5%p 낮다 — 상각·IPR&D가 영업이익에 남아서). 남은 세금 효과 약 $0.19B/년이 분자에 남아 세율이 약 1%p 낮게 나온다.",
+  "since": "2026-10-05"
+ }
+}

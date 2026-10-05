@@ -65,7 +65,11 @@ if CORE:
     for _k in ni_gaap:
         if _k not in _pt and _k in _tax:
             _pt[_k] = ni_gaap[_k] + _tax[_k]   # 분기 세전 태그가 없는 회사(MRVL)
-    _rate = lambda k: _tax[k] / _pt[k] if _pt.get(k) and _pt[k] > 0 and k in _tax and 0 <= _tax[k] / _pt[k] <= 0.40 else 0.21
+    # 세율 분모에 반복적 비공제 항목(tax_rate_addback.json)을 되돌려 더한다 — 본업 PER·현금흐름과 같은 세율 규칙(ABBV 조건부 대가, 2026-10-05).
+    # 일회성 세금(tax_oneoff.json)은 분기 차트에서 빼지 않는다(GEV·WDC 카드가 "분기 차트는 그 분기 세율 그대로"라고 밝힌 기존 규칙, Codex)
+    _ptr = {k: _pt[k] + bmh.rate_addback(T, CIK, k, quarter=True) for k in _pt}
+    _txr = dict(_tax)
+    _rate = lambda k: _txr[k] / _ptr[k] if _ptr.get(k) and _ptr[k] > 0 and k in _txr and 0 <= _txr[k] / _ptr[k] <= 0.40 else 0.21
     # A8(2026-10-04 사용자 결정): 본업 순이익 = (영업이익 + 순이자) × (1 − 세율). 순이자 결측 분기는 영업이익만.
     _nis = bmh.net_interest_series(CIK, T)
     ni_chart = {k: (op[k] + (bmh.net_interest_at(_nis, k, quarter=True) or 0.0)) * (1 - _rate(k)) for k in op}

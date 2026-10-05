@@ -229,6 +229,30 @@ def net_interest_at(nis, end, asof="9999-12-31", quarter=False):
     return (0.0 if a == "absent" else a) - (0.0 if b == "absent" else b)
 
 
+TAX_RATE_ADDBACK = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tax_rate_addback.json")
+
+
+def rate_addback(ticker, cik, end, asof="9999-12-31", quarter=False):
+    """세율 분모에 되돌려 더할 반복적 비공제 영업외 항목(v2/tax_rate_addback.json)의 end 분기 값(quarter) 또는 end로 끝나는 4분기 합.
+    태그 값이 그 기간에 없으면 0(그 종목 설정이 없을 때와 같다)."""
+    if not os.path.exists(TAX_RATE_ADDBACK):
+        return 0.0
+    cfg = json.load(open(TAX_RATE_ADDBACK)).get(ticker)
+    if not cfg:
+        return 0.0
+    total = 0.0
+    for tg in cfg["tags"]:
+        _, rows = pick_tag(cik, [tg])
+        rows = [r for r in rows if r.get("filed", "") <= asof]   # 원자료를 먼저 거른다 — 유도 분기는 나중 입력의 공시일을 남기지 않는다(Codex)
+        q = quarterly_flow(rows, ticker) if rows else []
+        if quarter:
+            total += next((e["val"] for e in q if e["end"] == end), 0.0)
+        else:
+            ser = [e for e in ttm_series(q) if e["end"] == end]
+            total += ser[-1]["val"] if ser else 0.0
+    return cfg.get("sign", 1) * total
+
+
 # 두 시리즈를 짝지을 때 허용하는 뒤처짐. 한 분기 늦은 보고(약 91일)는 받고,
 # 두 분기 이상 비면 버린다.
 MAX_PAIR_LAG_DAYS = 200
@@ -1456,7 +1480,7 @@ def main():
         # (2026-10-04 — 같은 카드 안에서 본업 PER은 법정 21%, 현금흐름은 일회성을 뺀 16.1%로 세율이 갈렸다, GEV)
         # 회사가 금액과 비과세임을 밝힌 일회성 세전 이익(pretax 필드, GEV Prolec 재평가 $3,992M)은 분모에서도 뺀다 — 안 빼면 세금이 안 붙는
         # 이익이 분모만 키워 세율이 어느 분기에도 없는 16.1%가 됐다(Fable, 2026-10-04 사용자 결정). 본업 이익(opinc)에서는 원래 빠져 있다.
-        pt_rate = pt - oneoff_in_ttm(t, end, "pretax", d)
+        pt_rate = pt - oneoff_in_ttm(t, end, "pretax", d) + rate_addback(t, cik, end, d)   # 반복적 비공제 항목(ABBV 조건부 대가, 2026-10-05)
         r = (tx - oneoff_in_ttm(t, end, "tax", d)) / pt_rate if pt_rate > 0 else tx / pt
         # 종목 예외(core_earnings.json "statutory_fallback"): 세율이 0~40% 밖이면 법정 21%. GEV는 세금 평가충당금 환입
         # $2.9B로 최근 4분기 세율이 −20.8%라 본업 이익이 영업이익보다 컸다(Codex·Fable, 2026-10-01). 위에서 그 환입을 빼면

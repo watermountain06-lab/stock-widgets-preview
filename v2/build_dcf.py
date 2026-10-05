@@ -149,6 +149,8 @@ def base_inputs(ticker, asof=None):
     # 비과세 일회성 세전 이익(tax_oneoff.json pretax — GEV Prolec 재평가 $3,992M)은 세율 분모에서 뺀다(본업 이익 세율과 같게, 2026-10-04)
     if out["pretax"] is not None and tser:
         out["pretax"] -= bmh.oneoff_in_ttm(ticker, tser[-1]["end"], "pretax", asof)
+        # 반복적 비공제 영업외 항목(v2/tax_rate_addback.json — ABBV 조건부 대가 평가손)은 세율 분모에 되돌려 더한다(2026-10-05)
+        out["pretax"] += bmh.rate_addback(ticker, cik, tser[-1]["end"], asof or "9999-12-31")
 
     for name, tags in bmh.EV_COMPONENTS.items():
         # asof를 빠뜨리면 과거 시점 계산에 오늘 대차대조표가 섞인다
