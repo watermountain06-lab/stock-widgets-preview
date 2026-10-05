@@ -2222,7 +2222,7 @@ const AXP_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
       + `\nPER 18.5배는 13곳 모두보다 비싸 0점이다(중앙값 11.7배).`
       + `\n은행 규칙은 P/TBV·PER 두 배수가 같은 방향일 때만 표를 주는데, AXP는 유형 장부가치를 밝히지 않아 P/TBV가 없어 기권한다.`);
   put('axpSelfBox', 'axpSelfScore', 'axpSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
+      `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nPER 18.5배(5년 중 하위 44%, 중앙값 19.0배). P/TBV는 유형 장부가치 미공시로 없어 은행 규칙상 기권한다.`
       + ``);
   [['self', 'axpSelfBox', 'axpSelfVerdict'], ['peer', 'axpPeerBox', 'axpPeerVerdict']].forEach(([k, bid, vid]) => {

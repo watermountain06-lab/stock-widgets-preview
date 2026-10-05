@@ -329,7 +329,7 @@ sub(r'<div class="vs-premise">.*?</div>\n    <div class="verdict-summary-risk">.
     f'    <div class="verdict-summary-risk">⚠️ 참고로 초과이익모형을 표로 쓰면 현재가가 기본 가치의 {lvl:.2f}배라 −2다. 지금 가격은 ROE {f1(R["required_roe"])}가 5년 이어진다는 값이다(최근 4분기 특별 항목 제외 {f1(R["roe0"])}). 기본 가정의 최근 2년 중앙값 ROE({f1(R["roe_2y_median"])})에는 2025년 2분기 Discover 인수 초기 충당금(세전 $8.8B)으로 적자였던 기간이 들어 있어 낮다(5년 중앙값 {f1(R["roe_5y_median"])}로 가는 보수는 ${R["보수"]:.0f}). 최근 4분기 환원이 순이익보다 많아 유보율이 0이라 장부가가 자라지 않는다고 둔다.</div>')
 
 # 판정 JS — 금융 규칙(두 배수가 같은 방향일 때만 표), 자기 이력·동종업 모두
-one('`이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`', '`이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`')
+one('`이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`', '`이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`')
 one("""  const valid = side => side && side.score != null
     && (side.metrics || []).filter(m => m.score != null).length >= 3;
   const vote = s => s >= 70 ? 1 : s < 30 ? -1 : 0;""",

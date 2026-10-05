@@ -2218,7 +2218,7 @@ const COF_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
       + `\nPER 11.9배는 13곳 중 싼 쪽에서 8번째라 46.2점이다(중앙값 11.7배).`
       + `\n은행 규칙은 P/TBV·PER 두 배수가 같은 방향일 때만 표를 주는데, COF는 주당 장부가치를 밝히지 않아(G2) P/TBV가 없어 기권한다.`);
   put('cofSelfBox', 'cofSelfScore', 'cofSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
+      `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nPER 11.9배(5년 중 하위 55%, 중앙값 10.8배). P/TBV는 주당 장부가치 미공시(G2)로 없어 은행 규칙상 기권한다.`
       + ``);
   [['self', 'cofSelfBox', 'cofSelfVerdict'], ['peer', 'cofPeerBox', 'cofPeerVerdict']].forEach(([k, bid, vid]) => {

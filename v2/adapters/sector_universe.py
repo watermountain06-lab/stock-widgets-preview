@@ -152,6 +152,10 @@ def one(ticker, cik, asof, eps_dir):
     elif "per" in m and unfixed:
         m.pop("per")
         note = f"보정하지 못한 분할 {unfixed[-1]} — PER 제외"
+    elif "per" not in m and not pna and m:
+        # PER만 조용히 비던 경우(D29 — KKR·ARES): 이력이 없으면 사유를 남긴다(Codex 2026-10-05)
+        note = ("EPS 이력 없음(희석 EPS 표준 태그를 못 찾음) — PER 제외" if not rows
+                else f"PER 계산 불가(마지막 분기 {last_q}, 4분기 합이 0 이하이거나 없음) — PER 제외")
     return m, note, pna
 
 

@@ -2133,7 +2133,7 @@ const BLK_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 PCR·EV/EBITDA를 뺀 3개를 평균했다.`
       + `\n사모 운용사(BX·KKR·APO·ARES)와 수탁은행(BNY·STT·NTRS)이 섞여 있다. ARES는 희석 EPS 표준 태그가 없어 PER에서 빠졌다(KKR은 원문 XBRL의 보통주 EPS로 채움, 2026-10-05).`);
   put('blkSelfBox', 'blkSelfScore', 'blkSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
+      `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nPCR 47배가 5년 최고(52배) 근처인 것은 연결 펀드 투자와 성과급 지급으로 영업현금흐름이 이익보다 작게 잡혀서다(상반기 영업현금흐름 $0.25B, 순이익 $4.1B).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
