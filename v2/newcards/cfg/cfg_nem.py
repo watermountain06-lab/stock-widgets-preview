@@ -22,7 +22,7 @@ PR = {'q2': S_ + '000116472726000034/newmontq22026earningsrelea.htm', 'q1': S_ +
 PR_CUR = 'q2'
 TENQ = S_ + '000116472726000036/nem-20260630.htm'; TENQ_NAME = 'Q2 2026 10-Q'
 LINKS = {'ngm': 'https://www.sec.gov/Archives/edgar/data/1164727/000110465926095968/tm2623048d1_8k.htm', 'tenq': TENQ}
-FAIRBAND_TITLE = 'id="nemFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다."'
+FAIRBAND_TITLE = 'id="nemFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(회사가 따로 밝힌 파푸아뉴기니·가나 미송금 이익 과세 $0.55B를 뺀 값, 10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다."'
 HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 {pct(HIST[\'growth_5y\'])})</span>'
 OPM_RANGE, Y2 = (0, 70), (0, 70)
 FCF_SUB = '영업현금흐름 − 설비투자'
@@ -55,7 +55,7 @@ CHART_TITLES = {'per': '소재 6곳 PER 비교 (점수는 S&P500 소재 기준)'
 PEER_NAME_TITLE = 'S&P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 소재 대비 배수 순위 (v2/peer_universe/materials.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-23 공시)'
-PREMISE = ('이익 기준 배수(PER {SM[\'PER\'][\'current\']:.1f}배 대 5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)는 5년 중 싼 쪽이지만 PSR·PBR은 비싼 쪽이라 자기 이력 {selfsc:.1f}점(중간)이다. '
+PREMISE = ('이익 기준 배수(PER {SM[\'PER\'][\'current\']:.1f}배 대 5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배 — 회사가 따로 밝힌 파푸아뉴기니·가나 미송금 이익 과세 $0.55B를 뺀 EPS 기준)는 5년 중 싼 쪽이지만 PSR·PBR은 비싼 쪽이라 자기 이력 {selfsc:.1f}점(중간)이다. '
            'S&P500 소재 안에서는 {peersc:.1f}점(중간)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가보다 높지만</strong>, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}를 출발점으로 한다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 5년 매출 성장이 연 {pct(DCF[\'requiredGrowth\'])}면 된다(실제 5년 연 {pct(HIST[\'growth_5y\'])}). '
@@ -97,4 +97,5 @@ BULL = [('현금흐름', '상반기 영업현금흐름 $6.7B, FCF $5.3B.'),
 BEAR = [('금값', '영업이익률 51%는 최근 금값 수준에서 나온 값이다.'),
         ('Cadia', '4월 지진 활동으로 차질, 6월 중순 정상화. 2분기 구리 생산 −43%.'),
         ('NGM 지급', 'Barrick에 현금 $1.95B 지급 예정.')]
+MISS_WHY = {('APD', 'per'): ' 적자'}   # C9 뒤 동종 파일은 perNA로 옮겨 'negative'가 빠졌다 — 카드 표기 그대로
 ANALYST = {'rating': 'Buy', 'n': 23, 'mean': 141.57, 'median': 144, 'low': 110, 'high': 175, 'sb': 15, 'b': 5, 'h': 2, 's': 0, 'ss': 1}

@@ -19,7 +19,7 @@ PR_CUR = 'q2'
 TENQ = S_ + '000162828026050134/abt-20260630.htm'; TENQ_NAME = 'Q2 2026 10-Q'
 LINKS = {'exact': S_ + '000110465925114422/tm2531676d2_8k.htm', 'exact_done': S_ + '000110465926033079/tm268709d2_8k.htm',
          'notes': S_ + '000110465926025240/tm264905d8_8k.htm', 'nec': S_ + '000110465926099247/tm2623675d1_ex99-1.htm'}
-FAIRBAND_TITLE = 'id="abtFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 2024년 4분기 세금 환입(순이익 $9.2B)이 빠지며 최근 1년 PER이 크게 움직여 범위가 넓다."'
+FAIRBAND_TITLE = 'id="abtFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 2024년 4분기 세금 평가충당금 조정($7.5B)은 회사가 밝힌 금액만큼 PER 이력에서 뺐다."'
 HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (최근 4분기 {pct(HIST[\'margin_now\'])})</span>'
 OPM_RANGE, Y2 = (0, 25), (-80, 600)
 FCF_SUB = '영업현금흐름 − 설비투자'

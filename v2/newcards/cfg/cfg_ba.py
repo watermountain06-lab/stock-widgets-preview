@@ -4,6 +4,7 @@
 # 보도자료 $10.23으로 고정(fetch_eps_history Q4_EPS_OVERRIDE). 차입금 = DebtCurrent + LongTermDebtAndCapitalLeaseObligations(LongTermDebt는 단기차입금이 빠진다).
 # 이자비용은 InterestAndDebtExpense로만 내 interest_extra.json에 2분기 $600M 손입력. 리스 부채는 10-K에만 있어 2025년 말 값.
 BUILD = {'overlay': True}   # 재고 태그 별칭(adapters/overlay_feed.py ALIAS)을 재무에 싣기 위해 — companyfacts 지연은 아님
+NONOP_NEG_SIGN = True   # 기본값 음수 — 비영업 자산 줄 "−$59.75"(step 1)
 CIK = '0000012927'
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'

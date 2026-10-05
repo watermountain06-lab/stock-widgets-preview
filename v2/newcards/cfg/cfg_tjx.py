@@ -18,7 +18,7 @@ PR_CUR = 'q2'
 TENQ = S_ + '000010919826000048/tjx-20260801.htm'; TENQ_NAME = 'Q2 FY27 10-Q'
 LINKS = {}
 FAIRBAND_TITLE = 'id="tjxFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에는 관세 환급(2분기)·카드 수수료 소송 합의(4분기) 이익이 들어 있다."'
-HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (최근 4분기 {pct(HIST[\'margin_now\'])})</span>'
+HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 연 {HIST[\'growth_3y\'] * 100:+.1f}%)</span>'
 OPM_RANGE, Y2 = (5, 20), (0, 20)
 FCF_SUB = '영업현금흐름 − 설비투자'
 CAPEX_SUB = '점포·물류 설비 취득(현금흐름표 “Property additions”)'
@@ -54,7 +54,7 @@ FUND_ASOF_NOTE = 'Q2 FY27 10-Q (2026-08-28 공시)'
 PREMISE = ('주가가 1년 새 {CH_TXT} 내려 PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PBR·PCR·EV/EBITDA가 5년 중 싼 쪽이라 자기 이력 {selfsc:.1f}점(싸다)이다. PSR만 중앙값보다 조금 비싸다. '
            'S&P500 경기소비재 안에서는 다섯 배수가 모두 중간~비싼 쪽이라 {peersc:.1f}점(중간)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}, 5년 중앙값 {pct(HIST[\'margin_5y\'])}). '
+RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 5년 매출 성장이 연 {pct(DCF[\'requiredGrowth\'])}여야 한다(실제 5년 연 {pct(HIST[\'growth_5y\'])}). '
         '배수는 5년 이력보다 낮아졌지만, 영업이익률 11~13%의 소매업 현금흐름으로는 현재가의 절반 정도가 나온다.')
 FUND_TIP = '부채비율 248%는 운용리스 부채($11.4B)가 부채에 들어가서다. 당좌비율이 낮은 것은 재고($7.9B)가 유동자산의 절반이라서다. 순이자가 수익이라 이자보상배율은 매기지 않는다. 활동성은 영업순환주기 기준이다.'
 SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배는 5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배보다 낮다. 최근 4분기 EPS에는 관세 환급(2분기 세전이익 순증 $219M)과 카드 수수료 소송 합의 이익(4분기 주당 $0.15)이 들어 있다.'
@@ -63,8 +63,8 @@ PEER_TIP = ('S&P500 경기소비재(TJX 제외)와 배수 순위를 매긴 값�
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})으로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '5년 성장률(연 {pct(HIST[\'growth_5y\'])})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})로 시작해 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다.']
-DCF_NOTE = ('세 시나리오 모두 현재가의 절반 안팎이다. 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}에는 관세 환급·소송 합의 이익이 들어 있다. '
-            '운용리스 부채 $11.4B(주당 약 $10)를 차입금처럼 빼는데, 영업이익에는 임차료가 이미 비용으로 들어 있어 값이 낮게 나오는 쪽이다(빼지 않아도 기본 약 $75로 판정은 같다).')
+DCF_NOTE = ('세 시나리오가 현재가의 53~66%다. 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}에는 관세 환급·소송 합의 이익이 들어 있다. '
+            '운용리스 부채 $11.4B(주당 약 $10)는 영업이익에 임차료가 이미 비용으로 들어 있어 내재가치에서 빼지 않는다(2026-10-03 수정 — 전에는 빼서 기본이 $64.34였고 판정은 같다).')
 NEWS_RANGE = '2025.10 ~ 2026.09'
 NEWS = [
     ('red', '2026년 8월 19일 장 시작 전 — Q2 FY27 실적', '2026-08-19',

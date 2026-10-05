@@ -1291,54 +1291,54 @@ const MULTIPLE_DATA = {
     title: '소프트웨어 6곳 PER 비교 (점수는 카드 유니버스 IT 기준) (CRWD 값 없음) · 09/01~09/11 카드 기준(NOW 막대는 9/30)',
     unit: 'PER', max: 190, nowValue: null,
     peers: [
-      { name:'CRM', value:33.0, status:'reference' },
-      { name:'ORCL', value:23.7, status:'reference' },
-      { name:'PLTR', value:163.8, status:'reference' },
-      { name:'PANW', value:94.6, status:'reference' },
-      { name:'MSFT', value:29.7, status:'reference' }
+      { name:'CRM', value:32.7, status:'reference' },
+      { name:'ORCL', value:24.4, status:'reference' },
+      { name:'PLTR', value:162.7, status:'reference' },
+      { name:'PANW', value:96.2, status:'reference' },
+      { name:'MSFT', value:30.0, status:'reference' }
     ]
   },
   pbr: {
     title: '소프트웨어 PBR 비교 (PANW 값 없음·CRWD 값 없음) · 09/01~09/11 카드 기준(NOW 막대는 9/30)',
     unit: 'PBR', max: 55, nowValue: null,
     peers: [
-      { name:'CRM', value:5.1, status:'reference' },
-      { name:'ORCL', value:9.4, status:'reference' },
-      { name:'PLTR', value:46.8, status:'reference' },
-      { name:'MSFT', value:8.6, status:'reference' }
+      { name:'CRM', value:5.0, status:'reference' },
+      { name:'ORCL', value:9.6, status:'reference' },
+      { name:'PLTR', value:46.4, status:'reference' },
+      { name:'MSFT', value:8.7, status:'reference' }
     ]
   },
   psr: {
     title: '소프트웨어 PSR 비교 · 09/01~09/11 카드 기준(NOW 막대는 9/30)',
-    unit: 'PSR(TTM)', max: 90, nowValue: null,
+    unit: 'PSR(TTM)', max: 85, nowValue: null,
     peers: [
       { name:'CRM', value:4.4, status:'reference' },
-      { name:'ORCL', value:5.9, status:'reference' },
-      { name:'PLTR', value:74.2, status:'reference' },
-      { name:'PANW', value:28.1, status:'reference' },
-      { name:'CRWD', value:50.5, status:'reference' },
-      { name:'MSFT', value:11.5, status:'reference' }
+      { name:'ORCL', value:6.1, status:'reference' },
+      { name:'PLTR', value:73.7, status:'reference' },
+      { name:'PANW', value:28.6, status:'reference' },
+      { name:'CRWD', value:51.2, status:'reference' },
+      { name:'MSFT', value:11.6, status:'reference' }
     ]
   },
   pcr: {
     title: '소프트웨어 PCR(FCF) 비교 (ORCL 값 없음) · 09/01~09/11 카드 기준(NOW 막대는 9/30)',
     unit: 'PCR(FCF)', max: 160, nowValue: null,
     peers: [
-      { name:'CRM', value:12.4, status:'reference' },
-      { name:'PLTR', value:134.3, status:'reference' },
-      { name:'PANW', value:70.9, status:'reference' },
-      { name:'CRWD', value:135.1, status:'reference' },
-      { name:'MSFT', value:56.8, status:'reference' }
+      { name:'CRM', value:12.3, status:'reference' },
+      { name:'PLTR', value:133.4, status:'reference' },
+      { name:'PANW', value:72.2, status:'reference' },
+      { name:'CRWD', value:137.1, status:'reference' },
+      { name:'MSFT', value:57.3, status:'reference' }
     ]
   },
   evebitda: {
     title: '소프트웨어 EV/EBITDA 비교 (PANW 값 없음·CRWD 값 없음) · 09/01~09/11 카드 기준(NOW 막대는 9/30)',
     unit: 'EV/EBITDA', max: 195, nowValue: null,
     peers: [
-      { name:'CRM', value:17.6, status:'reference' },
-      { name:'ORCL', value:16.6, status:'reference' },
-      { name:'PLTR', value:168.0, status:'reference' },
-      { name:'MSFT', value:19.5, status:'reference' }
+      { name:'CRM', value:17.5, status:'reference' },
+      { name:'ORCL', value:17.0, status:'reference' },
+      { name:'PLTR', value:166.8, status:'reference' },
+      { name:'MSFT', value:19.6, status:'reference' }
     ]
   }
 };
@@ -1610,7 +1610,7 @@ const NOW_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기 시장성 증권·전략 투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기 시장성 증권·전략 투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1871,7 +1871,11 @@ const NOW_VALUATION = {"peer": {"score": 49.7, "sector": "Information Technology
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1879,13 +1883,11 @@ const NOW_VALUATION = {"peer": {"score": 49.7, "sector": "Information Technology
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -2236,6 +2238,13 @@ function nowBandTone(cp){
   const el = document.getElementById('nowConfidence');
   const label = document.getElementById('nowConfidenceLabel');
   const h = NOW_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof NOW_VALUATION !== 'undefined' && NOW_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('nowFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && NOW_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

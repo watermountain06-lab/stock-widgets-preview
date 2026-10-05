@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 2048, 'op': 689, 'ocf': 1044, 'cap': 78}   # 10-Q, 현금흐름은 상반기 − 1분기
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, -1, -2), '고평가'
 CO = 'Fortinet'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1262039/'
 SEC = S_
@@ -51,13 +51,13 @@ PEER_NAME_TITLE = '카드 유니버스 IT 종목들보다 배수가 얼마나 �
 PEER_COMMENT = '카드 유니버스 IT 종목 대비 배수 순위'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-30 공시)'
 PREMISE = ('주가가 1년 새 {CH_TXT} 올라 PSR {SM[\'PSR\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PSR\'][\'median\']:.1f}배)가 5년 중 가장 비싼 쪽이고 PER·PCR·EV/EBITDA도 중앙값보다 비싸 자기 이력 {selfsc:.1f}점(비싸다)이다. '
-           '카드 유니버스 IT 안에서는 PCR만 싼 쪽이고 PER·PBR·EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점(중간과 비싸다의 경계)이다. '
+           '카드 유니버스 IT 안에서는 PCR만 싼 쪽이고 PER·PBR·EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점(비싸다)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 5년 매출 성장이 연 {pct(DCF[\'requiredGrowth\'])}여야 한다(실제 5년 연 {pct(HIST[\'growth_5y\'])}). '
         '2분기 빌링 +33%·제품 매출 +52%로 성장이 빨라졌지만, 주가가 그보다 더 많이 올랐다.')
 FUND_TIP = '부채비율이 높게 나오는 것은 자사주로 자기자본이 작고 이연 매출이 부채에 많아서다. 이익률·현금흐름은 높다. 활동성은 영업순환주기 기준이다.'
 SELF_TIP = 'PSR {SM[\'PSR\'][\'current\']:.1f}배는 5년 중 가장 높은 쪽이다. PBR은 자기자본이 매우 작았던 2022~2023년의 수천 배 구간이 이력에 들어 있어 중간으로 보인다.'
-PEER_TIP = ('카드 유니버스 IT 종목과 배수 순위를 매긴 값이다(30.0점은 “비싸다” 문턱 바로 위).',
+PEER_TIP = ('카드 유니버스 IT 종목과 배수 순위를 매긴 값이다({peersc:.1f}점은 “비싸다” 문턱 30 아래).',
             '반도체·하드웨어가 섞여 있다. 차트에는 보안·네트워크·소프트웨어 6곳만 보인다.')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '5년 성장률(연 {pct(HIST[\'growth_5y\'])})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',

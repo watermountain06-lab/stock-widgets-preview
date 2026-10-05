@@ -2,7 +2,7 @@
 # 출처: SEC XBRL, Q2 2026 10-Q(2026-08-05), 실적 보도자료(Q3 2025~Q2 2026, SEC 접수 모두 오전 6시 56분 = 장 시작 전),
 # 8-K(Delivery Hero 인수 제안 7/16, 인수 자금 기간 대출 8/7, 유로 회사채 €4.5B 9/15, CFO 교체 2/4), StockAnalysis.
 # 엔진 수정(2026-10-02): 2025년 4분기 EPS를 보도자료 $0.14로 고정(연간 − 9개월은 $0.16, Q4_EPS_OVERRIDE).
-# 최근 4분기 세금이 음수(2025년 3분기 세금 충당금 환입 $4.9B)라 현금흐름 세율은 법정세율 21%(tax_fallback).
+# 현금흐름 세율은 회사가 밝힌 세금 평가충당금 환입 $4.9B를 뺀 최근 4분기 실효세율(A8 ①, 2026-10-04 — 전에는 법정세율 21%).
 BUILD = {}
 CIK = '0001543151'
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
@@ -18,8 +18,8 @@ PR = {'q2': S_ + '000154315126000027/uberq226earningspressrelea.htm', 'q1': S_ +
 PR_CUR = 'q2'
 TENQ = S_ + '000154315126000032/uber-20260630.htm'; TENQ_NAME = 'Q2 2026 10-Q'
 LINKS = {'dh': S_ + '000155278126000382/e26302_ex99-1.htm', 'eur': S_ + '000155278126000486/e26383_uber-8k.htm'}
-FAIRBAND_TITLE = 'id="uberFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에는 2025년 3분기 세금 충당금 환입 $4.9B와 지분 투자 평가손익이 들어 있어 실제 영업 이익보다 크다."'
-HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (최근 4분기 {pct(HIST[\'margin_now\'])})</span>'
+FAIRBAND_TITLE = 'id="uberFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(회사가 밝힌 2025년 3분기 세금 충당금 환입 $4.9B를 뺀 값, 10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 지분 투자 평가손익은 아직 EPS에 들어 있다."'
+HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 연 {HIST[\'growth_3y\'] * 100:+.1f}%)</span>'
 OPM_RANGE, Y2 = (0, 20), (0, 20)
 FCF_SUB = '영업현금흐름 − 설비투자'
 CAPEX_SUB = '유형자산 취득(현금흐름표)'
@@ -52,20 +52,20 @@ CHART_TITLES = {'per': '운송 6곳 PER 비교 (점수는 S&P500 산업재 기�
 PEER_NAME_TITLE = 'S&P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-05 공시)'
-PREMISE = ('주가가 1년 새 {CH_TXT} 내려 PBR·PCR·EV/EBITDA가 이력 최저권, PSR도 싼 쪽이고 PER {SM[\'PER\'][\'current\']:.1f}배도 흑자 뒤 이력에서 싼 쪽이라 자기 이력 {selfsc:.1f}점(싸다)이다. 다만 PER의 EPS에는 세금 환입 $4.9B가 들어 있다. '
-           'S&P500 산업재 안에서는 PER·PCR이 싼 쪽, EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점(중간)이다. '
+PREMISE = ('주가가 1년 새 {CH_TXT} 내려 PBR·PCR·EV/EBITDA가 이력 최저권, PSR도 싼 쪽이고 PER {SM[\'PER\'][\'current\']:.1f}배(회사가 밝힌 세금 평가충당금 환입 $6.4B·$4.9B를 뺀 EPS 기준)도 흑자 뒤 이력에서 싼 쪽이라 자기 이력 {selfsc:.1f}점(싸다)이다. '
+           'S&P500 산업재 안에서는 PCR이 싼 쪽, PER은 중간, EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점(중간)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). '
+RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 5년 매출 성장이 연 {pct(DCF[\'requiredGrowth\'])}여야 한다(실제 3년 연 {pct(HIST[\'growth_3y\'])}). '
         '현금흐름 모델은 적자였던 2021~2022년이 든 5년 중앙값 이익률({pct(HIST[\'margin_5y\'])})과 2년 중앙값({pct(HIST[\'margin_2y\'])})을 써서, 이익률이 최근 수준에 머문다고 보면 값이 커진다(낙관 ${DCF[\'high\']:.2f}).')
 FUND_TIP = '부채비율이 높게 나오는 것은 보험 준비금(약 $13.3B)이 부채에 들어서다. 순이익률은 세금 환입·지분 평가손익으로 분기마다 크게 흔들린다. 활동성은 5년 비교 이력이 부족해 판정하지 않는다.'
-SELF_TIP = 'PER 이력은 흑자 전환 뒤 {SM[\'PER\'][\'days\']}일이다. 최근 4분기 EPS(약 $4.55)에는 2025년 3분기 세금 충당금 환입 $4.9B(주당 약 $2.3)가 들어 있어, 빼면 PER이 약 31배로 5년 중앙값보다 높다. 자기 이력 +1은 PCR·EV/EBITDA·PSR이 끌고 간다.'
+SELF_TIP = 'PER 이력은 흑자 전환 뒤 {SM[\'PER\'][\'days\']}일이다. PER은 회사가 밝힌 세금 평가충당금 환입(2025년 3분기 $4.9B·주당 약 $2.31, 2024년 4분기 $6.4B)을 뺀 EPS로 잰다(2026-10-04). 그 기준 {SM[\'PER\'][\'current\']:.1f}배는 흑자 뒤 이력 중앙값 {SM[\'PER\'][\'median\']:.1f}배보다 낮다.'
 PEER_TIP = ('S&P500 산업재(UBER 제외)와 배수 순위를 매긴 값이다.',
             '기계·방산·건설이 섞여 있다. 차트에는 운송 6곳만 보인다.')
 STORIES = ['3년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)}, 5년 성장률은 코로나 저점 기저라 3년으로 바꿈)로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '3년 성장률(연 {pct(HIST[\'growth_5y\'])})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})로 시작해 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다.']
-DCF_NOTE = ('5년 성장률(연 {pct(HIST[\'growth_5y_raw\'])})은 2021년 코로나 저점 기저라 3년 성장률로 바꿨다. 최근 4분기 세금이 음수(환입)라 세율은 법정세율 21%를 쓴다. '
-            '“보수”가 현재가의 5%로 낮은 것은 적자였던 해가 든 5년 중앙값 이익률 {pct(HIST[\'margin_5y\'])}로 내려가는 가정이라서다. Delivery Hero 인수(약 $13.7B)는 아직 반영되지 않았다.')
+DCF_NOTE = ('5년 성장률(연 {pct(HIST[\'growth_5y_raw\'])})은 2021년 코로나 저점 기저라 3년 성장률로 바꿨다. 세율은 회사가 밝힌 세금 평가충당금 환입 $4.9B를 뺀 최근 4분기 실효세율 27.6%다. '
+            '“보수”가 현재가의 {DCF[\'low\'] / px * 100:.0f}%로 낮은 것은 적자였던 해가 든 5년 중앙값 이익률 {pct(HIST[\'margin_5y\'])}로 내려가는 가정이라서다. Delivery Hero 인수(약 $13.7B)는 아직 반영되지 않았다.')
 NEWS_RANGE = '2025.10 ~ 2026.09'
 NEWS = [
     ('neutral', '2026년 9월 15일 — 유로 회사채 €4.5B 발행', None,
@@ -94,3 +94,8 @@ BEAR = [('대형 인수', 'Delivery Hero 약 $13.7B, 브리지 대출 €14.2B �
         ('이익 변동', '세금 환입·지분 평가손익으로 GAAP 이익이 흔들림.'),
         ('주가', '1년 새 크게 하락, 실적 날 네 번 중 세 번 하락.')]
 ANALYST = {'rating': 'Buy', 'n': 51, 'mean': 103.88, 'median': 105, 'low': 72, 'high': 125, 'sb': 33, 'b': 9, 'h': 8, 's': 0, 'ss': 1}
+
+POST = [r'''
+# A9·C14·A8 ①(2026-10-04) 카드 직접 수정 — 적중률 칸 툴팁
+one("    if (label) label.textContent = `밴드 적중률 (끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''})`;\n", "    if (label) label.textContent = `밴드 적중률 (끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''})`;\n    // UBER 한정 — 흑자 초기 구간(A9 B6)을 표본에서 빼 앞쪽 체크포인트가 표본 부족으로 빠졌다\n    if (label) label.title = '흑자 초기 구간(첫 흑자 TTM 2023-11-07부터 최근 4분기가 모두 흑자가 된 2025-05-07 전까지 — 2024년 1분기 지분 평가 손실 분기가 끼어 길어졌다)의 PER은 밴드 표본에서 뺀다(A9, 2026-10-04). 그래서 직전 PER 표본이 1년(240거래일)에 못 미치는 체크포인트는 만들지 않아(C14) 끝난 체크포인트가 1개뿐이다. EPS에서는 회사가 밝힌 2024년 4분기·2025년 3분기 세금 환입을 뺐다(A8 ①).';\n")
+''']

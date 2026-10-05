@@ -659,8 +659,8 @@ Chart.overrides.doughnut.animation = false;
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. “낙관”이 “기본”보다 낮다. 3년 성장률(연 14.7%)이 5년 성장률(연 20.3%)보다 낮아, 이익률을 더 높게 두는 “낙관”의 성장 출발점이 더 낮기 때문이다. “보수”(연 10.2%)와 “낙관”(연 14.7%)은 최근 성장 가속(1·2분기 매출 +20%·+26%)과 회사 연간 전망(매출 약 +18~20%)보다 낮은 성장에서 시작하고, “기본”(연 20.3%)만 전망과 비슷하다. 최근 증분 매출/자본을 구하지 못하고 이력 평균도 상한(10)이라, 성장에 드는 재투자가 거의 없는 가정이다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $57.20 = 사업 가치 $56.57 + 비영업 자산 $0.54(주당, 장기투자)</div>
-    <div class="reverse">—</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $57.20 = 사업 가치 $56.66 + 비영업 자산 $0.54(주당, 장기투자)</div>
+    <div class="reverse">지금 가격(<span data-dcf-price>$178.76</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>45.8%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$57</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>11.8%</span>다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -922,7 +922,7 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
-          <span class="val-name">PBR <span class="hist-note" data-hist="note">유효 이력 3.8년(적자·결측 구간 제외)</span></span>
+          <span class="val-name">PBR <span class="hist-note" data-hist="note">유효 이력 3.8년(자본 음수·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">84.6x</span>
             <span class="hist-badge mid" data-hist="badge">3.8년 중 상위 43%</span>
@@ -1278,56 +1278,56 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '보안·네트워크 6곳 PER 비교 (점수는 카드 유니버스 IT 기준) (CRWD 값 없음) · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
-    unit: 'PER', max: 110, ftntValue: null,
+    unit: 'PER', max: 115, ftntValue: null,
     peers: [
-      { name:'PANW', value:94.6, status:'reference' },
-      { name:'CSCO', value:35.8, status:'reference' },
-      { name:'ANET', value:64.5, status:'reference' },
-      { name:'CRM', value:33.0, status:'reference' },
-      { name:'ORCL', value:23.7, status:'reference' }
+      { name:'PANW', value:96.2, status:'reference' },
+      { name:'CSCO', value:36.9, status:'reference' },
+      { name:'ANET', value:65.4, status:'reference' },
+      { name:'CRM', value:32.7, status:'reference' },
+      { name:'ORCL', value:24.4, status:'reference' }
     ]
   },
   pbr: {
     title: '보안·네트워크 PBR 비교 (PANW 값 없음·CRWD 값 없음) · FTNT PBR 84.6배는 자사주로 자기자본이 작아서다(배수가 높은 PANW·CRWD는 값이 없어 빠짐) · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
     unit: 'PBR', max: 100, ftntValue: null,
     peers: [
-      { name:'CSCO', value:8.5, status:'reference' },
-      { name:'ANET', value:17.4, status:'reference' },
-      { name:'CRM', value:5.1, status:'reference' },
-      { name:'ORCL', value:9.4, status:'reference' }
+      { name:'CSCO', value:8.8, status:'reference' },
+      { name:'ANET', value:17.7, status:'reference' },
+      { name:'CRM', value:5.0, status:'reference' },
+      { name:'ORCL', value:9.6, status:'reference' }
     ]
   },
   psr: {
     title: '보안·네트워크 PSR 비교 · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
     unit: 'PSR(TTM)', max: 60, ftntValue: null,
     peers: [
-      { name:'PANW', value:28.1, status:'reference' },
-      { name:'CRWD', value:50.5, status:'reference' },
-      { name:'CSCO', value:6.8, status:'reference' },
-      { name:'ANET', value:24.5, status:'reference' },
+      { name:'PANW', value:28.6, status:'reference' },
+      { name:'CRWD', value:51.2, status:'reference' },
+      { name:'CSCO', value:7.0, status:'reference' },
+      { name:'ANET', value:24.8, status:'reference' },
       { name:'CRM', value:4.4, status:'reference' },
-      { name:'ORCL', value:5.9, status:'reference' }
+      { name:'ORCL', value:6.1, status:'reference' }
     ]
   },
   pcr: {
     title: '보안·네트워크 PCR(FCF) 비교 (ORCL 값 없음) · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
     unit: 'PCR(FCF)', max: 160, ftntValue: null,
     peers: [
-      { name:'PANW', value:70.9, status:'reference' },
-      { name:'CRWD', value:135.1, status:'reference' },
-      { name:'CSCO', value:33.6, status:'reference' },
-      { name:'ANET', value:48.6, status:'reference' },
-      { name:'CRM', value:12.4, status:'reference' }
+      { name:'PANW', value:72.2, status:'reference' },
+      { name:'CRWD', value:137.1, status:'reference' },
+      { name:'CSCO', value:34.6, status:'reference' },
+      { name:'ANET', value:49.3, status:'reference' },
+      { name:'CRM', value:12.3, status:'reference' }
     ]
   },
   evebitda: {
     title: '보안·네트워크 EV/EBITDA 비교 (PANW 값 없음·CRWD 값 없음) · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
     unit: 'EV/EBITDA', max: 65, ftntValue: null,
     peers: [
-      { name:'CSCO', value:24.7, status:'reference' },
-      { name:'ANET', value:52.7, status:'reference' },
-      { name:'CRM', value:17.6, status:'reference' },
-      { name:'ORCL', value:16.6, status:'reference' }
+      { name:'CSCO', value:25.5, status:'reference' },
+      { name:'ANET', value:53.5, status:'reference' },
+      { name:'CRM', value:17.5, status:'reference' },
+      { name:'ORCL', value:17.0, status:'reference' }
     ]
   }
 };
@@ -1599,7 +1599,7 @@ const FTNT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1860,7 +1860,11 @@ const FTNT_VALUATION = {"peer": {"score": 28.4, "sector": "Information Technolog
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1868,13 +1872,11 @@ const FTNT_VALUATION = {"peer": {"score": 28.4, "sector": "Information Technolog
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -2117,7 +2119,7 @@ const FTNT_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
     }
   }
   put('ftntPeerBox', 'ftntPeerScore', 'ftntPeerVerdict', S.peer, WORDS.val,
-      `카드 유니버스 IT 종목과 배수 순위를 매긴 값이다(30.0점은 “비싸다” 문턱 바로 위).`
+      `카드 유니버스 IT 종목과 배수 순위를 매긴 값이다(28.4점은 “비싸다” 문턱 30 아래).`
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
       + `\n반도체·하드웨어가 섞여 있다. 차트에는 보안·네트워크·소프트웨어 6곳만 보인다.`);
   put('ftntSelfBox', 'ftntSelfScore', 'ftntSelfVerdict', S.selfHistory, WORDS.val,
@@ -2134,7 +2136,7 @@ const FTNT_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global �
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const FTNT_DCF_TRACK = [{d:"2024-11-08",low:25.2,base:33.0,high:39.1},{d:"2025-02-21",low:28.4,base:35.5,high:43.1},{d:"2025-05-08",low:30.1,base:38.9,high:45.8},{d:"2025-08-08",low:31.3,base:42.2,high:45.0},{d:"2025-11-07",low:31.1,base:45.3,high:44.9},{d:"2026-02-25",low:33.2,base:49.1,high:45.4},{d:"2026-05-08",low:33.9,base:52.0,high:47.9},{d:"2026-07-30",low:38.7,base:57.2,high:53.7}];
+const FTNT_DCF_TRACK = [{d:"2024-11-08",low:25.2,base:33.0,high:39.1},{d:"2025-02-21",low:28.4,base:35.5,high:43.1},{d:"2025-05-08",low:30.0,base:38.8,high:45.8},{d:"2025-08-08",low:31.1,base:42.2,high:45.0},{d:"2025-11-07",low:31.0,base:45.3,high:44.9},{d:"2026-02-25",low:33.1,base:49.1,high:45.4},{d:"2026-05-08",low:33.9,base:52.0,high:47.9},{d:"2026-07-30",low:38.7,base:57.2,high:53.7}];
 const FTNT_BACKTEST = [{"checkpoint_date": "2023-11-07", "quarter_end": "2023-09-30", "ttm_eps": 1.442, "trailing_sample_size": 502, "per_low": 43.69, "per_high": 74.49, "band_width_ratio": 1.7, "predicted_low": 63.0, "predicted_high": 107.42, "realized_per_high": 49.15, "realized_per_low": 34.34, "realized_price_high": 70.88, "realized_price_low": 49.52, "period_end_date": "2024-02-23", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2024-02-26", "quarter_end": "2023-12-31", "ttm_eps": 1.46, "trailing_sample_size": 500, "per_low": 37.27, "per_high": 65.1, "band_width_ratio": 1.75, "predicted_low": 54.41, "predicted_high": 95.05, "realized_per_high": 50.05, "realized_per_low": 40.33, "realized_price_high": 73.07, "realized_price_low": 58.88, "period_end_date": "2024-05-03", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-05-06", "quarter_end": "2024-03-31", "ttm_eps": 1.54, "trailing_sample_size": 501, "per_low": 40.06, "per_high": 63.21, "band_width_ratio": 1.58, "predicted_low": 61.69, "predicted_high": 97.34, "realized_per_high": 45.41, "realized_per_low": 35.97, "realized_price_high": 69.93, "realized_price_low": 55.39, "period_end_date": "2024-08-07", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2024-08-08", "quarter_end": "2024-06-30", "ttm_eps": 1.7, "trailing_sample_size": 503, "per_low": 37.34, "per_high": 59.62, "band_width_ratio": 1.6, "predicted_low": 63.47, "predicted_high": 101.35, "realized_per_high": 49.22, "realized_per_low": 40.4, "realized_price_high": 83.68, "realized_price_low": 68.68, "period_end_date": "2024-11-07", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-11-08", "quarter_end": "2024-09-30", "ttm_eps": 1.99, "trailing_sample_size": 503, "per_low": 37.77, "per_high": 55.73, "band_width_ratio": 1.48, "predicted_low": 75.15, "predicted_high": 110.9, "realized_per_high": 57.57, "realized_per_low": 45.62, "realized_price_high": 114.57, "realized_price_low": 90.79, "period_end_date": "2025-02-20", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-02-21", "quarter_end": "2024-12-31", "ttm_eps": 2.26, "trailing_sample_size": 502, "per_low": 38.52, "per_high": 54.12, "band_width_ratio": 1.41, "predicted_low": 87.05, "predicted_high": 122.31, "realized_per_high": 48.68, "realized_per_low": 37.48, "realized_price_high": 110.02, "realized_price_low": 84.71, "period_end_date": "2025-05-07", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2025-05-08", "quarter_end": "2025-03-31", "ttm_eps": 2.43, "trailing_sample_size": 502, "per_low": 38.86, "per_high": 49.85, "band_width_ratio": 1.28, "predicted_low": 94.44, "predicted_high": 121.15, "realized_per_high": 44.3, "realized_per_low": 30.99, "realized_price_high": 107.65, "realized_price_low": 75.3, "period_end_date": "2025-08-07", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2025-08-08", "quarter_end": "2025-06-30", "ttm_eps": 2.51, "trailing_sample_size": 502, "per_low": 39.55, "per_high": 48.84, "band_width_ratio": 1.24, "predicted_low": 99.26, "predicted_high": 122.6, "realized_per_high": 34.87, "realized_per_low": 29.64, "realized_price_high": 87.52, "realized_price_low": 74.39, "period_end_date": "2025-11-06", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2025-11-07", "quarter_end": "2025-09-30", "ttm_eps": 2.43, "trailing_sample_size": 502, "per_low": 31.81, "per_high": 48.26, "band_width_ratio": 1.52, "predicted_low": 77.3, "predicted_high": 117.28, "realized_per_high": 36.14, "realized_per_low": 30.96, "realized_price_high": 87.82, "realized_price_low": 75.23, "period_end_date": "2026-02-24", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-02-25", "quarter_end": "2025-12-31", "ttm_eps": 2.43, "trailing_sample_size": 501, "per_low": 31.78, "per_high": 47.27, "band_width_ratio": 1.49, "predicted_low": 77.24, "predicted_high": 114.86, "realized_per_high": 44.43, "realized_per_low": 31.56, "realized_price_high": 107.97, "realized_price_low": 76.7, "period_end_date": "2026-05-07", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-05-08", "quarter_end": "2026-03-31", "ttm_eps": 2.59, "trailing_sample_size": 501, "per_low": 32.02, "per_high": 45.58, "band_width_ratio": 1.42, "predicted_low": 82.92, "predicted_high": 118.04, "realized_per_high": 64.41, "realized_per_low": 43.97, "realized_price_high": 166.83, "realized_price_low": 113.87, "period_end_date": "2026-07-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-07-30", "quarter_end": "2026-06-30", "ttm_eps": 2.84, "trailing_sample_size": 501, "per_low": 32.28, "per_high": 59.16, "band_width_ratio": 1.83, "predicted_low": 91.67, "predicted_high": 168.01, "realized_per_high": 62.94, "realized_per_low": 53.1, "realized_price_high": 178.76, "realized_price_low": 150.79, "period_end_date": "2026-09-30", "is_open": true, "zone": "breached_top", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
@@ -2225,6 +2227,13 @@ function ftntBandTone(cp){
   const el = document.getElementById('ftntConfidence');
   const label = document.getElementById('ftntConfidenceLabel');
   const h = FTNT_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof FTNT_VALUATION !== 'undefined' && FTNT_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('ftntFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && FTNT_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

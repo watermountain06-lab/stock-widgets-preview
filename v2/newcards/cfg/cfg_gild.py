@@ -51,15 +51,15 @@ CHART_TITLES = {'per': '대형 바이오·제약 PER 비교 (점수는 S&P500 �
 PEER_NAME_TITLE = 'S&P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-06 공시)'
-PREMISE = ('최근 4분기가 인수 IPR&D 비용으로 적자라 PER·EV/EBITDA가 0점이고, 주가가 1년 새 {CH_TXT} 올라 PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배가 5년 중 가장 비싼 쪽이다. PCR {SM[\'PCR\'][\'current\']:.1f}배만 중간보다 조금 비싸 자기 이력 {selfsc:.1f}점(비싸다)이다. '
-           'S&P500 헬스케어 안에서도 PER·EV/EBITDA(적자)·PBR이 가장 비싼 쪽이고 PCR만 싼 쪽이라 {peersc:.1f}점(비싸다)이다. 인수 비용을 빼면 PER은 약 23배다. '
+PREMISE = ('최근 4분기가 인수 IPR&D 비용으로 적자라 PER은 점수에서 빼고(PER 해당 없음, 순이익률 2% 미만 규칙) EV/EBITDA는 0점이고, 주가가 1년 새 {CH_TXT} 올라 PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배가 5년 중 가장 비싼 쪽이다. PCR {SM[\'PCR\'][\'current\']:.1f}배만 중간보다 조금 비싸 자기 이력 {selfsc:.1f}점(비싸다)이다. '
+           'S&P500 헬스케어 안에서도 EV/EBITDA(적자)·PBR이 가장 비싼 쪽이고 PCR만 싼 쪽이라 {peersc:.1f}점(비싸다, PER 제외)이다. 인수 비용을 빼면 PER은 약 23배다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 세 칸 모두 2분기 인수 IPR&D 비용($11.18B, GAAP 유지 규칙)의 영향을 받는다. 현금흐름 −2도 그 일회성 비용으로 음수가 된 최근 4분기 이익률을 출발점으로 삼은 결과다(5월 공시 기준 기본은 약 $56). 그 비용과 무관한 PSR도 5년 중 가장 비싼 쪽이다(PBR은 비용으로 줄어든 GAAP 자본 기준이라 높게 나온다). '
-        '현재가를 정당화하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(5년 중앙값 {pct(HIST[\'margin_5y\'])}). 내재가치에서 빼는 것은 차입금 $26.2B와 리스 $0.6B이고 현금 $3.2B와 지분 투자 $2.0B를 더한다.')
+RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 세 칸 모두 2분기 인수 IPR&D 비용($11.18B, GAAP 유지 규칙)의 영향을 받는다. 현금흐름 −2도 그 일회성 비용으로 음수가 된 최근 4분기 이익률을 출발점으로 삼은 결과다(5월 공시 기준 기본은 약 $57). 그 비용과 무관한 PSR도 5년 중 가장 비싼 쪽이다(PBR은 비용으로 줄어든 GAAP 자본 기준이라 높게 나온다). '
+        '현재가를 정당화하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(5년 중앙값 {pct(HIST[\'margin_5y\'])}). 내재가치에서 빼는 것은 차입금 $26.2B이고 현금 $3.2B와 지분 투자 $2.0B를 더한다(운용리스 $0.6B는 영업이익이 임차료를 이미 뺐으므로 빼지 않는다).')
 FUND_TIP = '영업이익률·순이익률·이자보상배율은 2분기 인수 IPR&D 비용으로 크게 음수다. 활동성은 영업순환주기(167일)가 5년 중 거의 가장 길어 10점이다.'
-SELF_TIP = 'PER·EV/EBITDA는 최근 4분기 적자라 0점이다(인수 IPR&D 제외 PER 약 23배, 5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배). PBR {SM[\'PBR\'][\'current\']:.1f}배는 인수 비용으로 자본이 줄어 5년 최고({SM[\'PBR\'][\'max\']:.1f}배) 근처다.'
+SELF_TIP = '최근 4분기 적자라 PER은 해당 없음(점수에서 뺌), EV/EBITDA는 0점이다(PER은 인수 IPR&D 제외 PER 약 23배, 5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배). PBR {SM[\'PBR\'][\'current\']:.1f}배는 인수 비용으로 자본이 줄어 5년 최고({SM[\'PBR\'][\'max\']:.1f}배) 근처다.'
 PEER_TIP = ('S&P500 헬스케어(GILD 제외)와 배수 순위를 매긴 값이다.',
-            '제약·바이오 외에 보험·의료기기·서비스가 섞여 있다. 적자인 PER·EV/EBITDA는 가장 비싼 순위로 센다.')
+            '제약·바이오 외에 보험·의료기기·서비스가 섞여 있다. 적자인 EV/EBITDA는 가장 비싼 순위로 센다(GILD의 PER은 해당 없음이라 비교에서 뺀다).')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '5년 성장률(연 {pct(HIST[\'growth_5y\'])})이 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '매출이 3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})로 시작해 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}(인수 IPR&D로 음수)가 이어진다.']
@@ -100,6 +100,8 @@ ANALYST = {'rating': 'Buy', 'n': 27, 'mean': 160.38, 'median': 165, 'low': 123, 
 # 밴드 적중률: 8월 6일 2분기 공시로 최근 4분기 EPS가 음수(−$2.66)가 돼 그 뒤로는 PER 밴드가 뜻이 없다. 백테스트는 음수 체크포인트를 만들지 않아
 # 1분기 밴드가 9/30까지 열려 있었다 → 카드 한정으로 열린 구간을 8/5에서 끊는다(Codex, 2026-10-01, 안건 C — 백테스트 공통 과제)
 POST = [r'''
+# A3·C9(2026-10-04) 카드 직접 수정 — 동종업 툴팁의 평균 문장
+one('뒤집어 점수로 썼고 PER를 뺀 4개를 평균했다.', '뒤집어 점수로 썼고, PER은 해당 없음(순이익률 2% 미만)이라 빼고 나머지 네 개를 평균했다.')
 one("    const end = cp.is_open ? lastDate : (cp.period_end_date || lastDate);",
     "    const end = cp.is_open ? (lastDate > '2026-08-05' ? '2026-08-05' : lastDate) : (cp.period_end_date || lastDate);   // 8/6부터 최근 4분기 EPS 음수 — 밴드 무의미(카드 한정, Codex)")
 one("""    const cpEnd = cp => cp.is_open

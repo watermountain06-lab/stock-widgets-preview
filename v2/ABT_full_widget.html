@@ -659,7 +659,7 @@ Chart.overrides.doughnut.animation = false;
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. “낙관”이 가장 낮다. 인수 관련 비용으로 눌린 최근 4분기 영업이익률을 회복 없이 이어 가는 가정이라서다(기본과의 차이 약 $4 가운데 약 $3). 투하자본이익률(약 7~8%)이 할인율 10%보다 낮아 더 빠른 성장도 가치를 보태지 못한다. 최근 증분 매출/자본을 구하지 못해 세 시나리오 모두 이력 평균(약 0.6)을 쓴다. Exact Sciences 인수 대금 $20.0B는 회사 고유 태그로 공시돼 재투자에 들어가지 않았다. 넣으면 값이 더 낮아진다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $18.10 = 사업 가치 $16.50 + 비영업 자산 $0.64(주당, 지분 투자)</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $18.10 = 사업 가치 $17.46 + 비영업 자산 $0.64(주당, 지분 투자)</div>
     <div class="reverse">—</div>
   </div>
 
@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">의료기기·진단 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) (BDX 값 없음) · 9/25 종가(ABT 막대는 9/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">의료기기·진단 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 9/25 종가(ABT 막대는 9/30)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1304,14 +1304,15 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '의료기기·진단 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (BDX 값 없음) · 9/25 종가(ABT 막대는 9/30)',
-    unit: 'PER', max: 50, abtValue: null,
+    title: '의료기기·진단 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 9/25 종가(ABT 막대는 9/30)',
+    unit: 'PER', max: 65, abtValue: null,
     peers: [
       { name:'MDT', value:21.8, status:'reference' },
       { name:'BSX', value:17.8, status:'reference' },
       { name:'SYK', value:28.2, status:'reference' },
       { name:'TMO', value:36.3, status:'reference' },
-      { name:'DHR', value:39.8, status:'reference' }
+      { name:'DHR', value:39.8, status:'reference' },
+      { name:'BDX', value:55.5, status:'reference' }
     ]
   },
   pbr: {
@@ -1558,7 +1559,7 @@ const ABT_SCORES = {
       + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
-  if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
+  if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
     + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
     + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('abtDcfVerdict');
@@ -1631,7 +1632,7 @@ const ABT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분 투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분 투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1892,7 +1893,11 @@ const ABT_VALUATION = {"peer": {"score": 44.8, "sector": "Health Care (S&P500 59
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1900,13 +1905,11 @@ const ABT_VALUATION = {"peer": {"score": 44.8, "sector": "Health Care (S&P500 59
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -1931,11 +1934,11 @@ const ABT_VALUATION = {"peer": {"score": 44.8, "sector": "Health Care (S&P500 59
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base))); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
-    if (D && D.base != null) { const u = (D.base / last[4] - 1) * 100; put('upside', (u >= 0 ? '+' : '−') + Math.abs(u).toFixed(1) + '%'); }
+    if (D && D.base != null && D.base > 0) { const u = (D.base / last[4] - 1) * 100; put('upside', (u >= 0 ? '+' : '−') + Math.abs(u).toFixed(1) + '%'); }
     else if (D) put('upside', '—');
   }
   // 판정 알약 — 점수는 카드 공통 30/70(70↑ 싸다 · 30~70 중간 · 30↓ 비싸다).
@@ -2166,7 +2169,7 @@ const ABT_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const ABT_DCF_TRACK = [{d:"2024-10-31",low:30.9,base:29.4,high:29.8},{d:"2025-02-21",low:30.1,base:29.1,high:29.6},{d:"2025-04-30",low:30.8,base:29.2,high:31.0},{d:"2025-07-30",low:31.8,base:30.4,high:33.2},{d:"2025-10-29",low:33.3,base:32.0,high:35.0},{d:"2026-02-20",low:35.0,base:33.7,high:37.4},{d:"2026-04-29",low:17.6,base:17.3,high:17.5},{d:"2026-07-28",low:18.1,base:18.1,high:14.0}];
+const ABT_DCF_TRACK = [{d:"2024-10-31",low:30.9,base:29.4,high:29.8},{d:"2025-02-21",low:30.6,base:29.5,high:30.0},{d:"2025-04-30",low:31.1,base:29.4,high:31.2},{d:"2025-07-30",low:32.1,base:30.7,high:33.5},{d:"2025-10-29",low:33.4,base:32.0,high:35.1},{d:"2026-02-20",low:35.0,base:33.7,high:37.4},{d:"2026-04-29",low:17.6,base:17.3,high:17.5},{d:"2026-07-28",low:18.1,base:18.1,high:14.0}];
 const ABT_BACKTEST = [{"checkpoint_date": "2023-11-01", "quarter_end": "2023-09-30", "ttm_eps": 2.94, "trailing_sample_size": 503, "per_low": 23.5, "per_high": 35.05, "band_width_ratio": 1.49, "predicted_low": 69.08, "predicted_high": 103.04, "realized_per_high": 39.01, "realized_per_low": 31.82, "realized_price_high": 114.69, "realized_price_low": 93.55, "period_end_date": "2024-02-15", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-02-16", "quarter_end": "2023-12-31", "ttm_eps": 3.26, "trailing_sample_size": 502, "per_low": 24.46, "per_high": 38.25, "band_width_ratio": 1.56, "predicted_low": 79.75, "predicted_high": 124.69, "realized_per_high": 37.1, "realized_per_low": 32.29, "realized_price_high": 120.96, "realized_price_low": 105.27, "period_end_date": "2024-05-01", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-05-02", "quarter_end": "2024-03-31", "ttm_eps": 3.21, "trailing_sample_size": 503, "per_low": 25.03, "per_high": 38.03, "band_width_ratio": 1.52, "predicted_low": 80.35, "predicted_high": 122.08, "realized_per_high": 33.51, "realized_per_low": 31.17, "realized_price_high": 107.58, "realized_price_low": 100.07, "period_end_date": "2024-07-30", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-07-31", "quarter_end": "2024-06-30", "ttm_eps": 3.17, "trailing_sample_size": 502, "per_low": 26.28, "per_high": 37.25, "band_width_ratio": 1.42, "predicted_low": 83.3, "predicted_high": 118.09, "realized_per_high": 37.66, "realized_per_low": 33.42, "realized_price_high": 119.39, "realized_price_low": 105.94, "period_end_date": "2024-10-30", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-10-31", "quarter_end": "2024-09-30", "ttm_eps": 3.29, "trailing_sample_size": 503, "per_low": 31.69, "per_high": 37.1, "band_width_ratio": 1.17, "predicted_low": 104.28, "predicted_high": 122.07, "realized_per_high": 40.48, "realized_per_low": 33.77, "realized_price_high": 133.17, "realized_price_low": 111.1, "period_end_date": "2025-02-20", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-02-21", "quarter_end": "2024-12-31", "ttm_eps": 3.35, "trailing_sample_size": 502, "per_low": 32.31, "per_high": 38.86, "band_width_ratio": 1.2, "predicted_low": 108.24, "predicted_high": 130.19, "realized_per_high": 41.86, "realized_per_low": 37.0, "realized_price_high": 140.22, "realized_price_low": 123.95, "period_end_date": "2025-04-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-04-30", "quarter_end": "2025-03-31", "ttm_eps": 3.41, "trailing_sample_size": 501, "per_low": 32.61, "per_high": 39.6, "band_width_ratio": 1.21, "predicted_low": 111.19, "predicted_high": 135.03, "realized_per_high": 40.49, "realized_per_low": 35.34, "realized_price_high": 138.08, "realized_price_low": 120.51, "period_end_date": "2025-07-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-07-30", "quarter_end": "2025-06-30", "ttm_eps": 3.68, "trailing_sample_size": 501, "per_low": 33.2, "per_high": 39.67, "band_width_ratio": 1.19, "predicted_low": 122.17, "predicted_high": 145.99, "realized_per_high": 37.12, "realized_per_low": 34.29, "realized_price_high": 136.62, "realized_price_low": 126.19, "period_end_date": "2025-10-28", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-10-29", "quarter_end": "2025-09-30", "ttm_eps": 3.68, "trailing_sample_size": 501, "per_low": 34.33, "per_high": 39.34, "band_width_ratio": 1.15, "predicted_low": 126.34, "predicted_high": 144.77, "realized_per_high": 35.49, "realized_per_low": 28.82, "realized_price_high": 130.59, "realized_price_low": 106.05, "period_end_date": "2026-02-19", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-02-20", "quarter_end": "2025-12-31", "ttm_eps": 3.72, "trailing_sample_size": 502, "per_low": 30.62, "per_high": 39.17, "band_width_ratio": 1.28, "predicted_low": 113.9, "predicted_high": 145.72, "realized_per_high": 31.28, "realized_per_low": 24.5, "realized_price_high": 116.35, "realized_price_low": 91.13, "period_end_date": "2026-04-28", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-04-29", "quarter_end": "2026-03-31", "ttm_eps": 3.57, "trailing_sample_size": 501, "per_low": 27.6, "per_high": 39.0, "band_width_ratio": 1.41, "predicted_low": 98.53, "predicted_high": 139.23, "realized_per_high": 29.27, "realized_per_low": 23.13, "realized_price_high": 104.49, "realized_price_low": 82.56, "period_end_date": "2026-07-27", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-07-28", "quarter_end": "2026-06-30", "ttm_eps": 3.09, "trailing_sample_size": 500, "per_low": 24.62, "per_high": 38.5, "band_width_ratio": 1.56, "predicted_low": 76.09, "predicted_high": 118.98, "realized_per_high": 37.76, "realized_per_low": 31.98, "realized_price_high": 116.67, "realized_price_low": 98.83, "period_end_date": "2026-09-30", "is_open": true, "zone": "full_hit", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
@@ -2257,6 +2260,13 @@ function abtBandTone(cp){
   const el = document.getElementById('abtConfidence');
   const label = document.getElementById('abtConfidenceLabel');
   const h = ABT_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof ABT_VALUATION !== 'undefined' && ABT_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('abtFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && ABT_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

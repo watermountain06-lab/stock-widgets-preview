@@ -1628,7 +1628,7 @@ const PFE_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기 투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기 투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1889,7 +1889,11 @@ const PFE_VALUATION = {"peer": {"score": 68.4, "sector": "Health Care (S&P500 59
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1897,13 +1901,11 @@ const PFE_VALUATION = {"peer": {"score": 68.4, "sector": "Health Care (S&P500 59
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -2163,7 +2165,7 @@ const PFE_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const PFE_DCF_TRACK = [{d:"2024-08-05",low:4.7,base:1.5,high:-13.5},{d:"2024-11-04",low:8.2,base:-5.2,high:-6.4},{d:"2025-02-27",low:11.9,base:-1.5,high:9.1},{d:"2025-05-05",low:10.7,base:1.3,high:7.9},{d:"2025-08-05",low:11.4,base:1.9,high:12.6},{d:"2025-11-04",low:10.8,base:4.6,high:10.7},{d:"2026-02-26",low:10.2,base:6.9,high:10.9},{d:"2026-05-05",low:11.0,base:8.7,high:11.6},{d:"2026-08-04",low:10.0,base:9.3,high:9.5}];
+const PFE_DCF_TRACK = [{d:"2024-08-05",low:4.7,base:1.5,high:-13.5},{d:"2024-11-04",low:8.2,base:-5.2,high:-6.4},{d:"2025-02-27",low:11.9,base:-1.5,high:9.1},{d:"2025-05-05",low:10.7,base:-2.0,high:7.9},{d:"2025-08-05",low:11.4,base:-1.9,high:12.6},{d:"2025-11-04",low:10.8,base:1.5,high:10.7},{d:"2026-02-26",low:10.2,base:6.9,high:10.9},{d:"2026-05-05",low:11.0,base:8.7,high:11.6},{d:"2026-08-04",low:10.0,base:9.3,high:9.5}];
 const PFE_BACKTEST = [{"checkpoint_date": "2023-11-08", "quarter_end": "2023-10-01", "ttm_eps": 1.82, "trailing_sample_size": 503, "per_low": 7.16, "per_high": 11.62, "band_width_ratio": 1.62, "predicted_low": 13.04, "predicted_high": 21.15, "realized_per_high": 16.93, "realized_per_low": 14.36, "realized_price_high": 30.82, "realized_price_low": 26.13, "period_end_date": "2024-02-21", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-02-22", "quarter_end": "2023-12-31", "ttm_eps": 0.37, "trailing_sample_size": 502, "per_low": 7.29, "per_high": 15.98, "band_width_ratio": 2.19, "predicted_low": 2.7, "predicted_high": 5.91, "realized_per_high": 76.68, "realized_per_low": 68.27, "realized_price_high": 28.37, "realized_price_low": 25.26, "period_end_date": "2024-05-07", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-11-04", "quarter_end": "2024-09-29", "ttm_eps": 0.75, "trailing_sample_size": 377, "per_low": 7.35, "per_high": 74.46, "band_width_ratio": 10.14, "predicted_low": 5.51, "predicted_high": 55.84, "realized_per_high": 37.32, "realized_per_low": 33.07, "realized_price_high": 27.99, "realized_price_low": 24.8, "period_end_date": "2025-02-26", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-02-27", "quarter_end": "2024-12-31", "ttm_eps": 1.41, "trailing_sample_size": 378, "per_low": 8.31, "per_high": 71.0, "band_width_ratio": 8.54, "predicted_low": 11.72, "predicted_high": 100.11, "realized_per_high": 18.96, "realized_per_low": 15.31, "realized_price_high": 26.73, "realized_price_low": 21.59, "period_end_date": "2025-05-02", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-05-05", "quarter_end": "2025-03-30", "ttm_eps": 1.38, "trailing_sample_size": 376, "per_low": 14.82, "per_high": 37.01, "band_width_ratio": 2.5, "predicted_low": 20.45, "predicted_high": 51.08, "realized_per_high": 18.68, "realized_per_low": 15.96, "realized_price_high": 25.78, "realized_price_low": 22.02, "period_end_date": "2025-08-04", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-08-05", "quarter_end": "2025-06-29", "ttm_eps": 1.88, "trailing_sample_size": 376, "per_low": 15.7, "per_high": 35.65, "band_width_ratio": 2.27, "predicted_low": 29.52, "predicted_high": 67.03, "realized_per_high": 14.56, "realized_per_low": 12.55, "realized_price_high": 27.37, "realized_price_low": 23.6, "period_end_date": "2025-11-03", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2025-11-04", "quarter_end": "2025-09-28", "ttm_eps": 1.72, "trailing_sample_size": 376, "per_low": 12.97, "per_high": 35.25, "band_width_ratio": 2.72, "predicted_low": 22.31, "predicted_high": 60.64, "realized_per_high": 16.12, "realized_per_low": 14.13, "realized_price_high": 27.73, "realized_price_low": 24.3, "period_end_date": "2026-02-25", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2026-02-26", "quarter_end": "2025-12-31", "ttm_eps": 1.36, "trailing_sample_size": 378, "per_low": 13.11, "per_high": 34.27, "band_width_ratio": 2.61, "predicted_low": 17.83, "predicted_high": 46.6, "realized_per_high": 20.99, "realized_per_low": 19.31, "realized_price_high": 28.55, "realized_price_low": 26.26, "period_end_date": "2026-05-04", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2026-05-05", "quarter_end": "2026-03-29", "ttm_eps": 1.31, "trailing_sample_size": 376, "per_low": 13.17, "per_high": 20.42, "band_width_ratio": 1.55, "predicted_low": 17.25, "predicted_high": 26.75, "realized_per_high": 20.25, "realized_per_low": 18.07, "realized_price_high": 26.53, "realized_price_low": 23.67, "period_end_date": "2026-08-03", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2026-08-04", "quarter_end": "2026-06-28", "ttm_eps": 0.76, "trailing_sample_size": 436, "per_low": 13.55, "per_high": 20.19, "band_width_ratio": 1.49, "predicted_low": 10.3, "predicted_high": 15.35, "realized_per_high": 38.18, "realized_per_low": 33.43, "realized_price_high": 29.02, "realized_price_low": 25.41, "period_end_date": "2026-09-30", "is_open": true, "zone": "breached_top", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
@@ -2254,6 +2256,13 @@ function pfeBandTone(cp){
   const el = document.getElementById('pfeConfidence');
   const label = document.getElementById('pfeConfidenceLabel');
   const h = PFE_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof PFE_VALUATION !== 'undefined' && PFE_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('pfeFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && PFE_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

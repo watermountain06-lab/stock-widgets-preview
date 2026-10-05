@@ -899,7 +899,7 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.6</div><div class="sc-tile low" data-vc="peer" data-m="per">1</div><div class="sc-tile low" data-vc="peer" data-m="pbr">3</div><div class="sc-tile" data-vc="peer" data-m="psr">83</div><div class="sc-tile low" data-vc="peer" data-m="pcr">1</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">14</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 -14% 내려 PER 80.5배·PBR·EV/EBITDA가 각 이력의 가장 낮은 쪽이라 자기 이력 73.9점(싸다)이다. 다만 PER은 흑자 전환, PBR은 자기자본이 플러스로 돌아선 2025년 말 뒤의 168일 이력뿐이다. S&P500 산업재 안에서는 PSR만 싼 쪽이고 PER·PBR·PCR(잉여현금흐름 적자)·EV/EBITDA가 비싼 쪽이라 20.6점(비싸다)이다. <strong>현금흐름 내재가치(기본 주당 −$63.51)는 음수</strong>다.</div>
+    <div class="vs-premise">주가가 1년 새 -14% 내려 PER 80.5배·PBR·EV/EBITDA가 각 이력의 가장 낮은 쪽이라 자기 이력 73.9점(싸다)이다. 다만 PER은 흑자 전환, PBR은 자기자본이 플러스로 돌아선 2025년 말 뒤의 168일 이력뿐이다. S&P500 산업재 안에서는 PSR만 싼 쪽이고 PER·PBR·PCR(잉여현금흐름 적자)·EV/EBITDA가 비싼 쪽이라 20.6점(비싸다)이다. <strong>현금흐름 내재가치(기본 주당 −$59.75)는 음수</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”다. 자기 이력 +1은 PER·PBR 이력이 2025년 말 뒤의 168일뿐이고, EV/EBITDA 이력에는 손익분기 근처의 수백 배 구간이 들어 있으며 현재 EV/EBITDA에도 매각 이익이 들어 있어 나온 값이라 싸다는 신호로 읽기 어렵다. 현재가를 정당화하려면 영업이익률이 15.7%까지 올라야 한다(최근 4분기 4.9%, 매각 이익 포함).</div>
   </div>
 
@@ -921,7 +921,7 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
-          <span class="val-name">PBR <span class="hist-note" data-hist="note">유효 이력 0.7년(적자·결측 구간 제외)</span></span>
+          <span class="val-name">PBR <span class="hist-note" data-hist="note">유효 이력 0.7년(자본 음수·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">24.1x</span>
             <span class="hist-badge good" data-hist="badge">0.7년 중 하위 1%</span>
@@ -1289,7 +1289,7 @@ const MULTIPLE_DATA = {
       { name:'RTX', value:33.4, status:'reference' },
       { name:'LMT', value:19.1, status:'reference' },
       { name:'NOC', value:16.2, status:'reference' },
-      { name:'GD', value:30.6, status:'reference' },
+      { name:'GD', value:20.5, status:'reference' },
       { name:'HWM', value:50.1, status:'reference' }
     ]
   },
@@ -1870,7 +1870,11 @@ const BA_VALUATION = {"peer": {"score": 20.6, "sector": "Industrials (S&P500 81�
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1878,13 +1882,11 @@ const BA_VALUATION = {"peer": {"score": 20.6, "sector": "Industrials (S&P500 81�
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -2144,7 +2146,7 @@ const BA_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집�
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const BA_DCF_TRACK = [{d:"2024-10-23",low:-105.9,base:-105.6,high:-120.5},{d:"2025-02-03",low:-68.6,base:-65.1,high:-87.5},{d:"2025-04-23",low:-71.8,base:-69.0,high:-91.6},{d:"2025-07-29",low:-72.4,base:-75.5,high:-93.2},{d:"2025-10-29",low:-72.3,base:-83.5,high:-89.5},{d:"2026-01-30",low:-42.2,base:-57.1,high:19.0},{d:"2026-04-22",low:-43.7,base:-60.9,high:15.5},{d:"2026-07-28",low:-41.6,base:-59.8,high:21.3}];
+const BA_DCF_TRACK = [{d:"2024-10-23",low:-105.9,base:-105.6,high:-120.5},{d:"2025-02-03",low:-68.6,base:-65.1,high:-87.5},{d:"2025-04-23",low:-71.8,base:-69.0,high:-91.6},{d:"2025-07-29",low:-72.4,base:-72.7,high:-93.2},{d:"2025-10-29",low:-72.3,base:-83.5,high:-89.5},{d:"2026-01-30",low:-42.2,base:-57.1,high:19.0},{d:"2026-04-22",low:-43.7,base:-60.9,high:15.5},{d:"2026-07-28",low:-41.6,base:-59.8,high:21.3}];
 const BA_BACKTEST = [];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
@@ -2235,6 +2237,13 @@ function baBandTone(cp){
   const el = document.getElementById('baConfidence');
   const label = document.getElementById('baConfidenceLabel');
   const h = BA_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof BA_VALUATION !== 'undefined' && BA_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('baFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && BA_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

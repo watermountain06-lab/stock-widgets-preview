@@ -4,6 +4,7 @@
 # 손해보험사라 현금흐름 모델은 미적용(CB와 같은 방식, BRKB 선례) — 현금흐름 칸이 기권해 '판정 보류'(두 칸은 참고로 표시).
 # 엔진 수정(2026-10-02): 차입금 DebtLongtermAndShorttermCombinedAmount(DEBT_TOTAL_TAG, overlay_feed ALIAS), 비지배지분 태그 2016 멈춤(EV_TAGS_BY_CIK).
 BUILD = {'overlay': True, 'no_dcf': '손해보험사라 현금흐름 모델을 쓰지 않는다'}   # 2026-10-02 CB와 같은 방식(BRKB 선례)
+NO_DCF_SKEW = True   # 금융 카드 — 현금흐름 칸 쏠림 메모(A0) 없음
 CIK = '0000080661'
 OP_DISPLAY = (['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest'], [(['InterestExpense'], 1)])   # 카드 표시용 영업이익 = 세전이익 + 이자비용
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'

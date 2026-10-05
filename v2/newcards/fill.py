@@ -127,6 +127,15 @@ else:   # 같은 자리에 '해당 없음'(틀 구조 유지, CRWD 카드 한정
     sub(rf'id="{t}FairBand" style="[^"]*">[^<]*<', F(C.FAIRBAND_TITLE) + ' style="font-size:22px;color:var(--text3);">해당 없음<')
 one('<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%)</span>', F(C.HEADER_REQ_LABEL))
 
+# 루트 카드의 마지막 종목(DE)은 '다음'이 막혀 있다 — 새 종목 meta의 '이전'이 이 종목을 가리키면 그 종목으로 잇는다(ADI 추가 때 카드에 직접 고친 것, 2026-10-05)
+_nb = '<span class="back-bar-nav disabled">다음 ▶</span>'
+if _nb in h:
+    for _mf in sorted(os.listdir(os.path.join(HERE, 'meta'))):
+        if f'href="{T}_full_widget.html"' in json.load(open(os.path.join(HERE, 'meta', _mf), encoding='utf-8')).get('prev', ''):
+            _nt = _mf[:-5].upper()
+            one(_nb, f'<a class="back-bar-nav" href="{_nt}_full_widget.html">다음 {_nt} ▶</a>')
+            break
+
 # ── 2. 기본적 분석 ──
 if L8[0] != 'Q3 FY25':
     one('분기 매출 / 순이익 / 영업이익률 (Q3 FY25~Q2 FY27)', f'분기 매출 / 순이익 / 영업이익률 ({L8[0]}~{L8[-1]})')
@@ -213,7 +222,8 @@ if C.PEER_FILE:
     _isnum = lambda tk, k: isinstance(U.get(tk, {}).get(k), (int, float))
     peers = {k: [(tk, round(U[tk][k], 1)) for tk in PH if _isnum(tk, k) and not (k in C.CHART_CAP and U[tk][k] > C.CHART_CAP[k])] for k in ('per', 'pbr', 'psr', 'pcr', 'evebitda')}
     miss = {k: [tk for tk in PH if not _isnum(tk, k)] for k in peers}
-    _why = lambda tk, k: ' 적자' if U.get(tk, {}).get(k) == 'negative' else ' 값 없음'
+    # C9(2026-10-04)로 순이익률 2% 미만·적자 종목의 PER이 perNA로 옮겨져 'negative' 표시가 사라졌다 — 카드가 '적자'로 적은 것은 cfg MISS_WHY로(NEM·BMY·VRTX)
+    _why = lambda tk, k: getattr(C, 'MISS_WHY', {}).get((tk, k)) or (' 적자' if U.get(tk, {}).get(k) == 'negative' else ' 값 없음')
     _ua = json.load(open(C.PEER_FILE))['asOf']
     _ld = D[-1][0]   # 카드 막대 날짜 = 카드 마지막 종가(재현 모드에서는 옛 카드 날짜, 2026-10-05 — 예전엔 9/30 고정)
     DT = f'{int(_ua[5:7])}/{int(_ua[8:10])} 종가' + ('' if _ua == _ld else f'({T} 막대는 {int(_ld[5:7])}/{int(_ld[8:10])})')
@@ -345,7 +355,10 @@ h = h.replace("`현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`", 
 h = h.replace("`\\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null", "`\\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null")
 h = h.replace("` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null", "` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null")
 h = h.replace("(주당, 지분·장기투자)`", f"(주당, {C.NONOP_WHAT})`")
-h = h.replace('기본 시나리오 $${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}', '기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}', 1)
+if getattr(C, 'NONOP_NEG_SIGN', False):   # 기본값 음수 카드의 비영업 자산 줄을 "−$59.75"로(BA, step 1 카드 수정 18cf363 — 틀 시절 INTC는 옛 식 그대로라 cfg로 켠다)
+    h = h.replace('기본 시나리오 $${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}', "기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}", 1)
+else:
+    h = h.replace('기본 시나리오 $${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}', '기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}', 1)
 h = h.replace("공시 기준 — 낮은 성장 ${usd(e.v.low)}`", "공시 기준 · 보수 ${usd(e.v.low)}`").replace("` · 기본 ${usd(e.v.base)} · 높은 성장 ${usd(e.v.high)}`", "` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`")
 h = h.replace("' · 높은 성장은 화면 밖이라 잘라서 표시'", "' · 낙관은 화면 밖이라 잘라서 표시'").replace("'\\n⚠ 이 시점엔 높은 성장이 가장 낮다 — ", "'\\n⚠ 이 시점엔 낙관이 가장 낮다. ")
 h = h.replace("' 낮은·기본·높은 세 가정의 범위.'", "' 보수·기본·낙관 세 가정의 범위.'")
@@ -415,7 +428,9 @@ if _np < 5:
 h = h.replace("`최근 ${(m.days / 252).toFixed(1)}년 이력`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`")
 # 분모 음수 배지: PBR의 분모는 자본이라 "적자"가 아니라 "자본 음수"(BKNG 흑자·자본 −$10.8B, Codex 2026-10-02)
 h = h.replace("f('badge').textContent = neg ? '적자 · 0점'", "f('badge').textContent = neg ? (m.metric === 'pbr' ? '자본 음수 · 0점' : '적자 · 0점')")
-h = h.replace("`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)`")
+# 자본이 음수였던 적이 없는데 이력이 짧은 종목(분사 창 — DHR·T)은 cfg PBR_GAP_NEG_EQUITY = False로 옛 문구를 둔다(카드 HEAD 그대로, 2026-10-05)
+if getattr(C, 'PBR_GAP_NEG_EQUITY', True):
+    h = h.replace("`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)`")
 # 활동성 — 분기 매입채무가 없는 카드(DPO·CCC null): ABBV 카드 한정 패치를 공통으로(PEP에서 null.toFixed로 스크립트 전체가 멈췄다, Codex·Fable 2026-10-01)
 _ACT = re.search(rf'^const {T}_ACTIVITY = (\{{.*?\}});', h, re.M)
 if _ACT and (json.loads(_ACT.group(1)).get('now') or {}).get('dpo', 0) is None:
@@ -449,6 +464,10 @@ if _tt_old in h:
 if getattr(C, 'REQ_MULT_EXACT', False):
     one("가 필요해 지난 5년의 3배를 넘는다.`", "가 필요해 지난 5년의 ${Math.round(d.requiredGrowth / d.growth5y)}배다.`")
     one("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요해 지난 5년 실제의 ${Math.round(D.requiredGrowth / D.growth5y)}배다.`")
+# 현금흐름 칸 쏠림 메모(A0, 86af3f2)는 비금융 카드에만 — 금융 카드(BLK·BX·CB·PGR)는 cfg NO_DCF_SKEW = True로 뺀다(검증 패널에 금융이 없다)
+if getattr(C, 'NO_DCF_SKEW', False):
+    sub(r'// 이 칸이 대부분 종목에서 "매우 비싸다"라는 사실을 툴팁으로 알린다\.[^\n]*\n// 금융 카드에는 넣지 않는다[^\n]*\nconst DCF_SKEW_NOTE = [^\n]*\n', '')
+    one("      + (lv.ratio != null ? '\\n' + DCF_SKEW_NOTE : '')\n", '')
 for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
     exec(_code, globals())
 # 성장 모드 역산 문장: 위에서 .reverse를 '—'로 비우는데 카드 JS는 마진 모드일 때만 문장을 다시 쓴다 — 성장 모드 카드는 '—'만 남았다

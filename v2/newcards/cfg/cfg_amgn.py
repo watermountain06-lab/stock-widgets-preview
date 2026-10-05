@@ -61,7 +61,7 @@ STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})에서 �
            '5년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_5y\'])})에서 식고, 영업이익률이 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})에서 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다.']
 DCF_NOTE = ('최근 2년 중앙값 영업이익률({pct(HIST[\'margin_2y\'])})이 5년 중앙값({pct(HIST[\'margin_5y\'])})보다 낮아 기본이 보수보다 낮게 나온다(이름과 순서가 뒤집힘). 2년 창에는 Horizon 인수 재고의 공정가치 상향분 상각과 무형자산 상각이 컸던 분기가 들어 있다. '
-            '주당으로 보면 사업 가치 약 ${DCF[\'base\'] + NDPS:.0f}에서 순차입금(차입금·리스 − 현금·유가증권) 약 ${NDPS:.0f}를 빼 기본 ${DCF[\'base\']:.0f}이 된다. 3년 성장률에는 2023년 Horizon 인수 매출이 들어 있다.')
+            '주당으로 보면 사업 가치 약 ${DCF[\'base\'] + NDPS:.0f}에서 순차입금(차입금 − 현금·유가증권) 약 ${NDPS:.0f}을 빼 기본 ${DCF[\'base\']:.0f}이 된다(운용리스는 영업이익이 임차료를 이미 뺐으므로 빼지 않는다). 3년 성장률에는 2023년 Horizon 인수 매출이 들어 있다.')
 NEWS_RANGE = '2025.11 ~ 2026.08'
 NEWS = [
     ('', '2026년 8월 4일 장 마감 후 — Q2 2026 실적', '2026-08-05',
@@ -93,5 +93,5 @@ BEAR = [('특허·가격', 'Prolia −32%는 바이오시밀러 출시, Otezla �
         ('부채', '차입금 $57.3B, 자기자본 $11.7B.')]
 ANALYST = {'rating': 'Hold', 'n': 34, 'mean': 399.87, 'median': 400, 'low': 230, 'high': 500, 'sb': 8, 'b': 4, 'h': 18, 's': 2, 'ss': 2}
 PRE = [r'''
-NDPS = ((b.get('debt') or 0) + (b.get('lease') or 0) - (b.get('cash') or 0) - (b.get('sti') or 0)) / b['shares']
+NDPS = ((b.get('debt') or 0) - (b.get('cash') or 0) - (b.get('sti') or 0)) / b['shares']
 ''']

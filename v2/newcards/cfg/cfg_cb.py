@@ -4,6 +4,7 @@
 # 손해보험사라 현금흐름 모델은 미적용(2026-10-02 사용자 결정, BRKB 방식) — 현금흐름 심판이 기권해 BRKB처럼 '판정 보류'(두 칸은 참고로 표시). 보험 전용 평가는 100장 뒤 안건.
 # 비교군은 S&P500 손해·종합·생명보험 16곳(peer_universe/insurers.json, 중개사 제외 — build_peer_score TICKER_UNIVERSE).
 BUILD = {'overlay': True, 'no_dcf': '손해보험사라 현금흐름 모델을 쓰지 않는다'}   # 2026-10-02 사용자 결정(BRKB 방식)
+NO_DCF_SKEW = True   # 금융 카드 — 현금흐름 칸 쏠림 메모(A0) 없음
 CIK = '0000896159'
 OP_DISPLAY = (['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest'], [(['InterestExpense'], 1)])   # 카드 표시용 영업이익 = 세전이익 + 이자비용
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'

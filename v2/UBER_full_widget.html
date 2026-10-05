@@ -508,7 +508,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label" id="uberConfidenceLabel">밴드 적중률 (끝난 체크포인트 1개 — 4개 미만)</span>
-      <span class="meta-value" id="uberConfidence" style="font-size:22px;color:var(--text3);">해당 없음</span>
+      <span class="meta-value" id="uberConfidence" style="font-size: 22px; color: var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -658,7 +658,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 5년 성장률(연 33.7%)은 2021년 코로나 저점 기저라 3년 성장률로 바꿨다. 세율은 회사가 밝힌 세금 평가충당금 환입 $4.9B를 뺀 최근 4분기 실효세율 27.6%다. “보수”가 현재가의 8%로 낮은 것은 적자였던 해가 든 5년 중앙값 이익률 3.5%로 내려가는 가정이라서다. Delivery Hero 인수(약 $13.7B)는 아직 반영되지 않았다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 5년 성장률(연 33.7%)은 2021년 코로나 저점 기저라 3년 성장률로 바꿨다. 세율은 회사가 밝힌 세금 평가충당금 환입 $4.9B를 뺀 최근 4분기 실효세율 27.6%다. “보수”가 현재가의 7%로 낮은 것은 적자였던 해가 든 5년 중앙값 이익률 3.5%로 내려가는 가정이라서다. Delivery Hero 인수(약 $13.7B)는 아직 반영되지 않았다.</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $29.31 = 사업 가치 $27.44 + 비영업 자산 $1.87(주당, 지분 투자)</div>
     <div class="reverse">지금 가격(<span data-dcf-price>$68.51</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>36.3%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$29</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>10.4%</span>다.</div>
   </div>
@@ -915,7 +915,7 @@ Chart.overrides.doughnut.animation = false;
             <span class="hist-badge good" data-hist="badge">2.9년 중 하위 7%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 7.0%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 7%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 28.6x</span><span data-hist="median">중앙 40.2x</span><span data-hist="max">최고 149.3x</span></div>
       </div>
 
@@ -1616,7 +1616,7 @@ const UBER_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분 투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분 투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1877,7 +1877,11 @@ const UBER_VALUATION = {"peer": {"score": 55.1, "sector": "Industrials (S&P500 8
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1885,13 +1889,11 @@ const UBER_VALUATION = {"peer": {"score": 55.1, "sector": "Industrials (S&P500 8
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -2242,6 +2244,13 @@ function uberBandTone(cp){
   const el = document.getElementById('uberConfidence');
   const label = document.getElementById('uberConfidenceLabel');
   const h = UBER_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof UBER_VALUATION !== 'undefined' && UBER_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('uberFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && UBER_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

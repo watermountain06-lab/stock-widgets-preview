@@ -660,7 +660,7 @@ Chart.overrides.doughnut.animation = false;
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 분사 뒤 네 분기가 모두 계속사업 기준인 최근 4분기 합이 FY25 말부터 5개(1년)뿐이라 3년·5년 성장률이 같은 1년 성장률(53주 해라 연환산 35.1%, 회계연도 기준 +35.7%)이고 “5년 중앙값”·“2년 중앙값” 이익률도 그 5개의 중앙값이다. 세율은 비과세인 SanDisk 지분 이익($6.5B)을 분모에서 뺀 실효세율 14.1%에서 5년에 걸쳐 21%로 간다(2026-10-04). 주식 수는 보통주 3억 6,050만 주이며, 전환사채 전환분(공정가치 $10.1B 대 장부 $0.70B)은 넣지 않아 그만큼 주당 가치가 높게 잡혔다.</div>
     <div class="note" data-dcf-nonop hidden></div>
-    <div class="reverse">—</div>
+    <div class="reverse">지금 가격(<span data-dcf-price>$454.46</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>43.1%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$210</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>19.6%</span>다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -688,7 +688,7 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 1. 분기 매출/순이익/영업이익률 차트 ══════════ -->
   <div class="card">
-    <div class="card-title">분기 매출 / 순이익 / 영업이익률 (Q1 FY25~Q4 FY26)</div>
+    <div class="card-title">분기 매출 / 순이익(본업 기준) / 영업이익률 (Q1 FY25~Q4 FY26)</div>
     <div class="chart-wrap" style="height:260px;">
       <canvas id="wdcRevChart"></canvas>
     </div>
@@ -892,7 +892,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.30</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 WDC 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">33.7</div><div class="sc-tile lost" data-vc="self" data-m="per">39</div><div class="sc-tile low" data-vc="self" data-m="pbr">23</div><div class="sc-tile lost" data-vc="self" data-m="psr">32</div><div class="sc-tile lost" data-vc="self" data-m="pcr">38</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">37</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="WDC 자신의 배수 이력(재작성 이력 2025-08부터 약 1.1년)보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">33.7</div><div class="sc-tile lost" data-vc="self" data-m="per">39</div><div class="sc-tile low" data-vc="self" data-m="pbr">23</div><div class="sc-tile lost" data-vc="self" data-m="psr">32</div><div class="sc-tile lost" data-vc="self" data-m="pcr">38</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">37</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$210</div><div class="vs-note">현재가 <span data-vs="price">$454.46</span> 대비 <strong data-vs="upside">−53.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.17
 시나리오 범위: 1.97 ~ 3.13(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
@@ -1146,7 +1146,7 @@ function renderFundChart() {
   const ctx = document.getElementById('wdcRevChart');
   if (!ctx) return;
   const revenue=[2.21,2.41,2.29,2.61,2.82,3.02,3.34,3.75];
-  const netIncome=[0.15,0.47,0.77,0.25,1.18,1.84,3.21,3.2];
+  const netIncome=[0.15,0.48,0.54,0.45,0.66,0.81,1.11,1.53];
   const opm=[15.1,23.2,33.1,26.1,28.1,30.1,35.7,41.7];
   const y2min=-100, y2max=1300;
   new Chart(ctx,{
@@ -1179,16 +1179,16 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q4 FY26', cmpLabel: 'Q4 FY25',
     titleSuffix: 'YoY (Q4 FY26 vs Q4 FY25)',
-    chart: { cur: [3.75, 1.56, 3.2, 1.28], cmp: [2.61, 0.68, 0.25, 0.68] },
-    deltas: ['+43.8%', '+129.9%', '약 13배', '+89.8%'],
-    footnote: '기준일: 2026.07.03(Q4 FY26) vs 2025.06.27(Q4 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 클라우드 +43%, 클라이언트 +61%, 소비자 +38% · 순이익은 SanDisk 지분 평가이익이 대부분 · <a href="https://www.sec.gov/Archives/edgar/data/106040/000162828026053305/a4ex991-pressreleaseq426.htm" target="_blank" rel="noopener">Western Digital Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
+    chart: { cur: [3.75, 1.56, 1.53, 1.28], cmp: [2.61, 0.68, 0.45, 0.68] },
+    deltas: ['+43.8%', '+129.9%', '+237.4%', '+89.8%'],
+    footnote: '기준일: 2026.07.03(Q4 FY26) vs 2025.06.27(Q4 FY25) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q4 FY26 $3.2B) · FCF는 영업현금흐름 − 설비투자 · 클라우드 +43%, 클라이언트 +61%, 소비자 +38% · 순이익은 SanDisk 지분 평가이익이 대부분 · <a href="https://www.sec.gov/Archives/edgar/data/106040/000162828026053305/a4ex991-pressreleaseq426.htm" target="_blank" rel="noopener">Western Digital Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q4 FY26', cmpLabel: 'Q3 FY26',
     titleSuffix: 'QoQ (Q4 FY26 vs Q3 FY26)',
-    chart: { cur: [3.75, 1.56, 3.2, 1.28], cmp: [3.34, 1.19, 3.21, 0.98] },
-    deltas: ['+12.3%', '+31.3%', '-0.3%', '+31.0%'],
-    footnote: '기준일: 2026.07.03(Q4 FY26) vs 2026.04.03(Q3 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/106040/000162828026053305/a4ex991-pressreleaseq426.htm" target="_blank" rel="noopener">Western Digital Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
+    chart: { cur: [3.75, 1.56, 1.53, 1.28], cmp: [3.34, 1.19, 1.11, 0.98] },
+    deltas: ['+12.3%', '+31.3%', '+38.1%', '+31.0%'],
+    footnote: '기준일: 2026.07.03(Q4 FY26) vs 2026.04.03(Q3 FY26) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q4 FY26 $3.2B) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/106040/000162828026053305/a4ex991-pressreleaseq426.htm" target="_blank" rel="noopener">Western Digital Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1301,59 +1301,59 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '스토리지·메모리·하드웨어 PER 비교 (SNDK 값 없음) · 09/03~09/09 카드 기준(WDC 막대는 9/30)',
-    unit: 'PER', max: 75, wdcValue: null,
+    unit: 'PER', max: 80, wdcValue: null,
     peers: [
-      { name:'MU', value:24.1, status:'reference' },
-      { name:'SKHY', value:18.0, status:'reference' },
-      { name:'DELL', value:31.3, status:'reference' },
-      { name:'ANET', value:64.2, status:'reference' },
-      { name:'CSCO', value:35.4, status:'reference' }
+      { name:'MU', value:24.3, status:'reference' },
+      { name:'SKHY', value:19.1, status:'reference' },
+      { name:'DELL', value:32.7, status:'reference' },
+      { name:'ANET', value:65.4, status:'reference' },
+      { name:'CSCO', value:36.9, status:'reference' }
     ]
   },
   pbr: {
     title: '스토리지·메모리·하드웨어 PBR 비교 (DELL 값 없음) · 09/03~09/09 카드 기준(WDC 막대는 9/30)',
     unit: 'PBR', max: 25, wdcValue: null,
     peers: [
-      { name:'MU', value:11.9, status:'reference' },
-      { name:'SNDK', value:16.2, status:'reference' },
-      { name:'SKHY', value:6.9, status:'reference' },
-      { name:'ANET', value:17.3, status:'reference' },
-      { name:'CSCO', value:8.4, status:'reference' }
+      { name:'MU', value:12.0, status:'reference' },
+      { name:'SNDK', value:16.0, status:'reference' },
+      { name:'SKHY', value:7.3, status:'reference' },
+      { name:'ANET', value:17.7, status:'reference' },
+      { name:'CSCO', value:8.8, status:'reference' }
     ]
   },
   psr: {
     title: '스토리지·메모리·하드웨어 PSR 비교 · 09/03~09/09 카드 기준(WDC 막대는 9/30)',
     unit: 'PSR(TTM)', max: 30, wdcValue: null,
     peers: [
-      { name:'MU', value:13.3, status:'reference' },
-      { name:'SNDK', value:12.6, status:'reference' },
-      { name:'SKHY', value:9.6, status:'reference' },
-      { name:'DELL', value:2.3, status:'reference' },
-      { name:'ANET', value:24.4, status:'reference' },
-      { name:'CSCO', value:6.7, status:'reference' }
+      { name:'MU', value:13.5, status:'reference' },
+      { name:'SNDK', value:12.4, status:'reference' },
+      { name:'SKHY', value:10.2, status:'reference' },
+      { name:'DELL', value:2.4, status:'reference' },
+      { name:'ANET', value:24.8, status:'reference' },
+      { name:'CSCO', value:7.0, status:'reference' }
     ]
   },
   pcr: {
     title: '스토리지·메모리·하드웨어 PCR(FCF) 비교 (SNDK 값 없음) · 09/03~09/09 카드 기준(WDC 막대는 9/30)',
     unit: 'PCR(FCF)', max: 60, wdcValue: null,
     peers: [
-      { name:'MU', value:45.9, status:'reference' },
-      { name:'SKHY', value:19.8, status:'reference' },
-      { name:'DELL', value:28.1, status:'reference' },
-      { name:'ANET', value:48.4, status:'reference' },
-      { name:'CSCO', value:33.2, status:'reference' }
+      { name:'MU', value:46.3, status:'reference' },
+      { name:'SKHY', value:21.0, status:'reference' },
+      { name:'DELL', value:29.4, status:'reference' },
+      { name:'ANET', value:49.3, status:'reference' },
+      { name:'CSCO', value:34.6, status:'reference' }
     ]
   },
   evebitda: {
     title: '스토리지·메모리·하드웨어 EV/EBITDA 비교 · 09/03~09/09 카드 기준(WDC 막대는 9/30)',
     unit: 'EV/EBITDA', max: 65, wdcValue: null,
     peers: [
-      { name:'MU', value:17.4, status:'reference' },
-      { name:'SNDK', value:19.9, status:'reference' },
-      { name:'SKHY', value:12.5, status:'reference' },
-      { name:'DELL', value:21.1, status:'reference' },
-      { name:'ANET', value:52.5, status:'reference' },
-      { name:'CSCO', value:24.5, status:'reference' }
+      { name:'MU', value:17.5, status:'reference' },
+      { name:'SNDK', value:19.7, status:'reference' },
+      { name:'SKHY', value:13.2, status:'reference' },
+      { name:'DELL', value:22.0, status:'reference' },
+      { name:'ANET', value:53.5, status:'reference' },
+      { name:'CSCO', value:25.5, status:'reference' }
     ]
   }
 };
@@ -1552,7 +1552,7 @@ const WDC_SCORES = {
       + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
-  if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))
+  if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
     + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
     + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
   const dv = $('wdcDcfVerdict');
@@ -1625,7 +1625,7 @@ const WDC_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1886,7 +1886,11 @@ const WDC_VALUATION = {"peer": {"score": 45.1, "sector": "Information Technology
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1894,13 +1898,11 @@ const WDC_VALUATION = {"peer": {"score": 45.1, "sector": "Information Technology
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
     const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)` : '';
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -1925,11 +1927,11 @@ const WDC_VALUATION = {"peer": {"score": 45.1, "sector": "Information Technology
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base))); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
-    if (D && D.base != null) { const u = (D.base / last[4] - 1) * 100; put('upside', (u >= 0 ? '+' : '−') + Math.abs(u).toFixed(1) + '%'); }
+    if (D && D.base != null && D.base > 0) { const u = (D.base / last[4] - 1) * 100; put('upside', (u >= 0 ? '+' : '−') + Math.abs(u).toFixed(1) + '%'); }
     else if (D) put('upside', '—');
   }
   // 판정 알약 — 점수는 카드 공통 30/70(70↑ 싸다 · 30~70 중간 · 30↓ 비싸다).
@@ -2145,10 +2147,9 @@ const WDC_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
   put('wdcPeerBox', 'wdcPeerScore', 'wdcPeerVerdict', S.peer, WORDS.val,
       `카드 유니버스 IT 종목과 배수 순위를 매긴 값이다.`
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 PER을 뺀 네 개를 평균했다.`
-      + `\nPER은 본업 기준(SanDisk 지분 이익 제외)이라 공시 EPS 기준인 동종업과 잣대가 달라 이 점수에서 뺐다(2026-10-04).`
-      + `\nPER은 본업 기준(2026-10-04 — 영업외 이익이 영업이익의 20%를 넘음)이라 공시 EPS 기준인 동종업과 잣대가 달라 이 점수에서 뺐다.`);
+      + `\nPER은 본업 기준(SanDisk 지분 이익 제외)이라 공시 EPS 기준인 동종업과 잣대가 달라 이 점수에서 뺐다(2026-10-04 — 영업외 이익이 영업이익의 20%를 넘음).`);
   put('wdcSelfBox', 'wdcSelfScore', 'wdcSelfVerdict', S.selfHistory, WORDS.val,
-      `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
+      `이 종목 자신의 배수 이력(재작성 이력 2025-08부터 약 1.1년)에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\n자기 이력은 2025-08-14부터 약 13개월이다(분사 전 숫자는 플래시 사업을 포함해 쓰지 않는다). PER은 SanDisk 지분 이익을 뺀 본업 기준 44.0배다(공시 EPS로는 18.8배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
@@ -2252,6 +2253,13 @@ function wdcBandTone(cp){
   const el = document.getElementById('wdcConfidence');
   const label = document.getElementById('wdcConfidenceLabel');
   const h = WDC_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof WDC_VALUATION !== 'undefined' && WDC_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('wdcFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && WDC_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

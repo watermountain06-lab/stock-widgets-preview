@@ -5,6 +5,7 @@
 # 배수(PSR·PCR·EV/EBITDA)는 Class A 주식 시가총액만 써서 낮게 나온다 — 고치지 않고 문장으로 밝힌다(안건).
 # 비교군은 BLK와 같은 S&P500 자산운용·수탁은행(build_peer_score TICKER_UNIVERSE).
 BUILD = {}
+NO_DCF_SKEW = True   # 금융 카드 — 현금흐름 칸 쏠림 메모(A0) 없음
 CIK = '0001393818'
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
@@ -54,7 +55,7 @@ PEER_NAME_TITLE = 'S&P500 자산운용·수탁은행보다 배수가 얼마나 �
 PEER_COMMENT = 'S&P500 자산운용·수탁은행 대비 배수 순위 (v2/peer_universe/asset_managers.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-07 공시)'
 PREMISE = ('주가가 1년 새 {CH_TXT} 내려 PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)를 비롯한 다섯 배수가 모두 5년 중 싼 쪽이라 자기 이력 {selfsc:.1f}점(싸다)이다. '
-           'S&P500 자산운용·수탁은행 안에서는 PBR이 가장 비싸고 PER·PSR도 비싼 쪽이라 {peersc:.1f}점(비싸다)이다. '
+           'S&P500 자산운용·수탁은행 안에서는 PBR이 가장 비싸고 PSR도 비싼 쪽, PER은 중간이라 {peersc:.1f}점(비싸다)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). '
         'PSR·PCR은 Class A 보통주 시가총액만 써서, 경제적 전체 주식 가운데 빠진 몫(파트너십 지분·미가득 참여 주식, 약 40%)만큼 낮게 나온다. EV/EBITDA도 같은 시가총액을 써서 낮게 나온다. 자기 이력의 “싸다”는 그만큼 덜어서 읽는다.')
