@@ -47,6 +47,7 @@ def main():
     ap.add_argument("ticker")
     ap.add_argument("--data", action="store_true", help="채우기 전까지만")
     ap.add_argument("--asof", default="2026-09-30")
+    ap.add_argument("--sync-base", default=None, help="sync_fallbacks에 넘길 http 서버 주소(복제본에서 돌릴 때 — 기본 8765)")
     ap.add_argument("--from-card", action="store_true",
                     help="재현 모드 — 배열을 루트 카드가 아니라 지금 v2 카드의 사본에서 옮긴다(가격·날짜가 그 카드와 같다, 2026-10-05)")
     a = ap.parse_args()
@@ -136,7 +137,7 @@ def main():
         return
     print("· 채우기")
     run([PY, os.path.join(HERE, "fill.py"), T], show=r"^ok|^peers")
-    run([PY, "v2/sync_fallbacks.py", T], show=r".")
+    run([PY, "v2/sync_fallbacks.py", T] + (["--base", a.sync_base] if a.sync_base else []), show=r".")
     js = "/tmp/%s_inline.js" % T
     open(js, "w").write("\n;\n".join(re.findall(r"<script>(.*?)</script>", open(p, encoding="utf-8").read(), re.S)))
     run(["node", "--check", js])

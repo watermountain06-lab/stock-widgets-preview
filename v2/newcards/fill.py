@@ -215,7 +215,8 @@ if C.PEER_FILE:
     miss = {k: [tk for tk in PH if not _isnum(tk, k)] for k in peers}
     _why = lambda tk, k: ' 적자' if U.get(tk, {}).get(k) == 'negative' else ' 값 없음'
     _ua = json.load(open(C.PEER_FILE))['asOf']
-    DT = f'{int(_ua[5:7])}/{int(_ua[8:10])} 종가' + ('' if _ua == '2026-09-30' else f'({T} 막대는 9/30)')
+    _ld = D[-1][0]   # 카드 막대 날짜 = 카드 마지막 종가(재현 모드에서는 옛 카드 날짜, 2026-10-05 — 예전엔 9/30 고정)
+    DT = f'{int(_ua[5:7])}/{int(_ua[8:10])} 종가' + ('' if _ua == _ld else f'({T} 막대는 {int(_ld[5:7])}/{int(_ld[8:10])})')
 else:
     import build_peer_score as bps
     PR_ = bps.load_prices()
@@ -223,7 +224,7 @@ else:
     peers = {k: [(tk, round(now[tk][0][k], 1)) for tk in PH if k in now[tk][0] and not (k in C.CHART_CAP and now[tk][0][k] > C.CHART_CAP[k])] for k in ('per', 'pbr', 'psr', 'pcr', 'evebitda')}
     miss = {k: [tk for tk in PH if k not in now[tk][0]] for k in peers}
     _why = lambda tk, k: getattr(C, 'MISS_WHY', {}).get((tk, k), ' 값 없음')
-    DT = f'{min(v[1] for v in now.values())[5:].replace("-", "/")}~{max(v[1] for v in now.values())[5:].replace("-", "/")} 카드 기준({T} 막대는 9/30)'
+    DT = f'{min(v[1] for v in now.values())[5:].replace("-", "/")}~{max(v[1] for v in now.values())[5:].replace("-", "/")} 카드 기준({T} 막대는 {int(D[-1][0][5:7])}/{int(D[-1][0][8:10])})'
 _m = lambda k: f' ({"·".join(tk + _why(tk, k) for tk in miss[k])})' if miss[k] else ''
 _cur = lambda k: (SM.get({'per': 'PER', 'pbr': 'PBR', 'psr': 'PSR', 'pcr': 'PCR', 'evebitda': 'EV/EBITDA'}[k]) or {}).get('current') or 0
 _mx = lambda k: int(math.ceil(max([v for _, v in peers[k]] + [min(_cur(k), C.SELF_CAP.get(k, 1e9))] + [1]) * 1.15 / 5) * 5)
@@ -370,7 +371,7 @@ bull = [(a, F(x)) for a, x in C.BULL]; bear = [(a, F(x)) for a, x in C.BEAR]
 m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n    </div>\n    <div class="bb-box">\n      <div class="bb-title bb-bear">🐻 Bear 요인</div>\n)(.*?)(\n    </div>\n  </div>)', h, re.S)
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b_) for b_ in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b_) for b_ in bear) + m.group(5) + h[m.end():]
 A_ = C.ANALYST
-sub(rf"const {T}_ANALYST = \{{[^}}]*\}};", f"const {T}_ANALYST = {{ asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: '{A_['rating']}', n: {A_['n']}, mean: {A_['mean']}, median: {A_['median']},\n  low: {A_['low']}, high: {A_['high']}, strongBuy: {A_['sb']}, buy: {A_['b']}, hold: {A_['h']}, sell: {A_['s']}, strongSell: {A_['ss']} }};")
+sub(rf"const {T}_ANALYST = \{{[^}}]*\}};", f"const {T}_ANALYST = {{ asOf: '{getattr(C, 'ANALYST_ASOF', '2026-10-01')}', source: 'StockAnalysis (S&P Global 집계)', rating: '{A_['rating']}', n: {A_['n']}, mean: {A_['mean']}, median: {A_['median']},\n  low: {A_['low']}, high: {A_['high']}, strongBuy: {A_['sb']}, buy: {A_['b']}, hold: {A_['h']}, sell: {A_['s']}, strongSell: {A_['ss']} }};")
 assert A_['n'] == A_['sb'] + A_['b'] + A_['h'] + A_['s'] + A_['ss']
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', f'<span class="op-val">{C.NEXT_OP[0]} <span class="op-sub">{C.NEXT_OP[1]}</span></span>')
 _vc = {'저평가': 'var(--green)', '적정~저평가': 'var(--green)', '적정': 'var(--gold)', '적정~고평가': 'var(--gold)', '고평가': 'var(--red)', '판정 보류': 'var(--gold)'}[VERDICT]
@@ -442,6 +443,10 @@ _tt_old = '현재 영업이익률이 과거보다 낮아, 그 마진으로 빨�
 if _tt_old in h:
     _roic = (DCF.get('hardDetail') or {}).get('roic')
     h = h.replace(_tt_old, '현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다.' + (' 투하자본 수익률이 할인율보다 낮아 빨리 클수록 가치가 더 줄어든다.' if _roic is not None and _roic < 0.10 else ''))
+# 요구 성장률 배수: 틀은 "3배를 넘는다"로 고정 — 틀 시절 카드(KO·ABBV·CAT·COST·JNJ·MRK·XOM)는 실제 배수를 적었다(cfg REQ_MULT_EXACT, 2026-10-05)
+if getattr(C, 'REQ_MULT_EXACT', False):
+    one("가 필요해 지난 5년의 3배를 넘는다.`", "가 필요해 지난 5년의 ${Math.round(d.requiredGrowth / d.growth5y)}배다.`")
+    one("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요해 지난 5년 실제의 ${Math.round(D.requiredGrowth / D.growth5y)}배다.`")
 for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
     exec(_code, globals())
 open(p, 'w', encoding='utf-8').write(h)
