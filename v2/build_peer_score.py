@@ -122,10 +122,47 @@ def load_sectors():
     return {k: v for k, v in d.items() if not k.startswith("_")}
 
 
-def load_prices():
-    d = json.load(open(STOCKS))["tickers"]
+def load_prices(session=None):
+    """비교 종목 종가(site_data/stocks.json). session을 주면 그 거래일(없으면 그 전 마지막 거래일)의 파일을 git 이력에서 읽는다.
+
+    카드 자신의 배수는 카드를 만든 날(자기 이력 창의 끝) 값인데 비교 종목을 오늘 종가로 환산하면 날짜가 섞여, 카드를
+    다시 계산할 때마다 비교 종목 주가 움직임만으로 점수가 바뀌었다(2026-10-04 Fable — 34장 중 30장이 가격 차이뿐, FTNT는
+    10/1 가격이면 30.0·10/2면 29.2로 표가 오갔다). 그래서 카드 날짜의 종가로 맞춘다.
+    """
+    if session is None:
+        d = json.load(open(STOCKS))["tickers"]
+    else:
+        d = _stocks_at(session)["tickers"]
     rows = d.values() if isinstance(d, dict) else d
     return {r["ticker"]: r for r in rows}
+
+
+_STOCKS_CACHE = {}
+
+
+def _stocks_at(session):
+    """priceSession ≤ session 가운데 가장 늦은 거래일의 stocks.json(작업 트리 파일 포함).
+
+    커밋 순서와 거래일 순서가 다를 수 있어(나중 커밋이 옛 가격을 담는 경우) 모든 판을 보고 거래일로 고른다(Codex).
+    """
+    import subprocess
+    if session in _STOCKS_CACHE:
+        return _STOCKS_CACHE[session]
+    if "_all" not in _STOCKS_CACHE:
+        rel = os.path.relpath(STOCKS, REPO)
+        snaps = [json.load(open(STOCKS))]
+        for h in subprocess.run(["git", "-C", REPO, "log", "--format=%H", "--", rel], capture_output=True, text=True).stdout.split():
+            try:
+                snaps.append(json.loads(subprocess.run(["git", "-C", REPO, "show", f"{h}:{rel}"], capture_output=True, text=True).stdout))
+            except ValueError:
+                continue
+        _STOCKS_CACHE["_all"] = [d for d in snaps if isinstance(d.get("priceSession"), str)]
+    ok = [d for d in _STOCKS_CACHE["_all"] if d["priceSession"] <= session]
+    if not ok:
+        raise SystemExit(f"{session} 이전 stocks.json이 git 이력에 없다")
+    best = max(ok, key=lambda d: d["priceSession"])      # 같은 거래일이 여럿이면 앞(작업 트리·최근 커밋)이 먼저라 그것
+    _STOCKS_CACHE[session] = best
+    return best
 
 
 def multiples_now(ticker, prices):
@@ -268,12 +305,19 @@ def main():
     ap.add_argument("--json", help="결과 저장 경로")
     ap.add_argument("--self", dest="self_path",
                     help="자기 이력 점수를 읽을 build_multiple_history 결과 JSON")
+    ap.add_argument("--prices-today", action="store_true",
+                    help="비교 종목을 오늘 stocks.json 종가로(기본은 카드 자기 이력 창 끝 날짜의 종가)")
     ap.add_argument("--card", action="store_true",
                     help="v2/<T>_full_widget.html의 VALUATION 블록을 교체한다 (--self 필요)")
     args = ap.parse_args()
     t = args.ticker.upper()
 
-    r = peer_score(t, load_sectors(), load_prices(), args.self_path)
+    # 비교 종목 가격은 카드 자신의 배수와 같은 날(자기 이력 창의 끝)로 — --prices-today면 오늘 파일(예전 방식)
+    session = None
+    if args.self_path and os.path.exists(args.self_path) and not args.prices_today:
+        session = (json.load(open(args.self_path)).get("window") or [None, None])[1]
+    r = peer_score(t, load_sectors(), load_prices(session), args.self_path)
+    r["priceSession"] = (_stocks_at(session) if session else json.load(open(STOCKS))).get("priceSession")   # 실제로 쓴 파일의 거래일
     print(f"{t} — {r['sector']} {r['groupSize']}종목 (본인 포함)")
     if r["peerAsOf"]:
         print(f"  동종업 기준일 {r['peerAsOf'][0]} ~ {r['peerAsOf'][1]}")
