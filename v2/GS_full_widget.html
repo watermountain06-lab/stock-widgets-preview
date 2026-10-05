@@ -898,7 +898,7 @@ Chart.overrides.doughnut.animation = false;
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">P/TBV</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 GS 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 은행 규칙에 따라 P/TBV·PER 두 배수가 모두 70 이상이면 +1, 모두 30 미만이면 −1이다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">33.3</div><div class="sc-tile lost" data-vc="self" data-m="per">55</div><div class="sc-tile low" data-vc="self" data-m="pbr">12</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$504</div><div class="vs-note">현재가 <span data-vs="price">$916.24</span> 대비 <strong data-vs="upside">−45.0%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.82
-시나리오 범위: 낙관 기준 1.56 ~ 보수 기준 1.87
+시나리오 범위: 1.56 ~ 1.87(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">12.7</div><div class="sc-tile low" data-vc="peer" data-m="per">15</div><div class="sc-tile low" data-vc="peer" data-m="pbr">10</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
@@ -1331,7 +1331,7 @@ const MULTIPLE_DATA = {
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 9/29 종가 (PNC·WFC·TFC는 유형자본 태그 결측, C는 2026년 분기 미반영)",
+    "title": "S&P500 은행 P/TBV 비교 · 9/29 종가 (PNC·WFC·TFC는 유형자본 태그 결측)",
     "unit": "P/TBV",
     "max": 4,
     "msValue": null,
@@ -1463,7 +1463,7 @@ const GS_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,nu
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let GS_VERDICT = '계산 중';
 
-const GS_DCF = {"low": 489.41, "base": 504.32, "high": 586.75, "requiredGrowth": 0.30208820072103304, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.18268329309822567, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-29", "hard": [], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.03492431388781447, "bvps": 367.67426273458443};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
+const GS_DCF = {"low": 489.41, "base": 504.32, "high": 586.75, "requiredGrowth": 0.30208820072103304, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.18268329309822567, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-29", "hard": [], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.03492431388781447, "bvps": 367.67426273458443, "roeTarget": 0.14251942514989227};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1857,7 +1857,7 @@ const GS_VALUATION = {"peer": {"score": 12.7, "rule": "both", "sector": "Financi
   const judges = [
     ['자기 이력', valid(V.self) ? sideVote(V.self) : null, V.self && V.self.score, 1],
     ['동종업', valid(V.peer) ? sideVote(V.peer) : null, V.peer && V.peer.score, 1],
-    ['현금흐름', lv.label in DV ? DV[lv.label] : null, lv.label, 2],
+    ['초과이익', lv.label in DV && !D.referenceOnly ? DV[lv.label] : null, D.referenceOnly ? '참고용' : lv.label, 2],   // 관문 미통과 → 참고용·기권(사전 등록 7-7) — 은행 9장 공통(2026-10-05)
   ];
   const seated = judges.filter(j => j[1] != null);
   const maxW = seated.reduce((a, j) => a + j[3], 0);
@@ -1873,7 +1873,7 @@ const GS_VALUATION = {"peer": {"score": 12.7, "rule": "both", "sector": "Financi
     + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
     + ` → ${GS_VERDICT}`
     + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
-    + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
+    + (lv.label === '매우 싸다' ? '\n⚠ 초과이익이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
   document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = GS_VERDICT; el.title = tip; });
   // A7(2026-10-04 사용자 결정 — 표시만, 판정 규칙은 그대로): 자기 이력·동종업 점수가 문턱(30·70) ±2점 안이고 그 칸 표가
   // 한 칸만 바뀌어도 종합 판정이 달라지면 헤더 판정 밑에 작게 적는다.
@@ -1974,7 +1974,7 @@ const GS_VALUATION = {"peer": {"score": 12.7, "rule": "both", "sector": "Financi
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth != null ? (D.requiredGrowth * 100).toFixed(1) + '%' : '해 없음')); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
@@ -2007,7 +2007,9 @@ const GS_VALUATION = {"peer": {"score": 12.7, "rule": "both", "sector": "Financi
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
-        nosol: () => '어떤 일정 성장률로도 현재가에 닿지 않는다',
+        nosol: () => D.model === 'rim' ? '현재가를 맞추는 ROE가 탐색 범위(0~60%) 밖이다(초과이익모형 신호, 사전 등록)' : '어떤 일정 성장률로도 현재가에 닿지 않는다',
+        b0: () => '유보율 0 — 이익보다 많이 돌려줘 장부가가 자라지 않는다(초과이익모형 신호, 사전 등록)',
+        roeend: () => `기본 시나리오 끝 ROE ${D.roeTarget != null ? pct(D.roeTarget) : '—'} < 자기자본비용 10% — 장부가 위에 초과이익이 생기지 않는다(초과이익모형 신호, 사전 등록)`,
       };
       const lines = D.hard.map(k => '· ' + (TXT[k] ? TXT[k]() : k));
       const tv = D.tvShare != null ? `잔존가치(5년 뒤)가 내재가치의 ${Math.round(D.tvShare * 100)}%` : '';
@@ -2016,13 +2018,13 @@ const GS_VALUATION = {"peer": {"score": 12.7, "rule": "both", "sector": "Financi
       wrap.querySelectorAll('.vs-hard').forEach(x => x.remove());
       if (D.hard.length) {
         const b = document.createElement('span');
-        b.className = 'vs-hard'; b.textContent = `⚠ 계산 어려움 ${D.hard.length}/5`;
+        b.className = 'vs-hard'; b.textContent = D.model === 'rim' ? `⚠ 모형 신호 ${D.hard.length}/3` : `⚠ 계산 어려움 ${D.hard.length}/5`;   // 은행 초과이익모형 신호는 3개(사전 등록) — 9장 공통 표기(2026-10-05)
         b.title = lines.join('\n') + (tv ? '\n· ' + tv : '') + '\n판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.';
         wrap.insertBefore(b, el);   // 배지를 왼쪽, 판정 알약을 오른쪽 끝에(2026-09-26 사용자 요청)
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? (D.model === 'rim' ? `⚠ 모형 신호 ${D.hard.length}/3 — ` : `⚠ 계산 어려움 ${D.hard.length}/5 — `) + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -2203,7 +2205,7 @@ const GS_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집�
   put('gsPeerBox', 'gsPeerScore', 'gsPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균). GS는 투자은행이지만 MS 카드와 같은 비교군을 쓴다(2026-10-01 사용자 결정).`
       + `\nP/TBV는 유형자본을 만들 수 있는 10곳, PER은 13곳과 비교했다. 두 배수 모두 30 미만이라 비싼 쪽 한 표다.`
-      + `\nC는 SEC 요약 데이터에 2026년 분기가 아직 없어 P/TBV에서 빠졌다. PNC·WFC·TFC는 유형자본 태그를 못 채워 빠졌다.`);
+      + `\nPNC·WFC·TFC는 유형자본 태그를 못 채워 빠졌다.`);
   put('gsSelfBox', 'gsSelfScore', 'gsSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nP/TBV 2.72배(5년 중 상위 12%)·PER 14.1배(상위 55%). 주식 수는 회사 정의 기본주식 수다.`
@@ -2604,7 +2606,7 @@ function gsBandTone(cp){
             if (cp) {
               const inBand = e.v.base >= cp.predicted_low && e.v.base <= cp.predicted_high;
               txt += `\n예상밴드 $${cp.predicted_low.toFixed(0)}~$${cp.predicted_high.toFixed(0)}`
-                + ` → 현금흐름 기준값이 밴드 ${inBand ? '안에 있다' : (e.v.base < cp.predicted_low ? '아래에 있다' : '위에 있다')}`;
+                + ` → 초과이익 기준값이 밴드 ${inBand ? '안에 있다' : (e.v.base < cp.predicted_low ? '아래에 있다' : '위에 있다')}`;
             }
           }
           tt.textContent = txt;

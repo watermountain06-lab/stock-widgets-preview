@@ -308,7 +308,7 @@ PB = ['JPM', 'USB', 'FITB', 'RF', 'MTB', 'HBAN']
 mk = lambda k, key, title, unit, mx: {"title": title, "unit": unit, "max": mx, "msValue": None,
                                      "peers": [{"name": t, "value": round(U[t][key], 2), "status": "reference"} for t in PB if isinstance(U.get(t, {}).get(key), (int, float))]}
 MD = {"per": mk('per', 'per', 'S&P500 은행 PER 비교 · 9/30 종가 (12곳 중 6곳 표시)', 'PER(TTM)', 25),
-      "pbr": mk('pbr', 'ptbv', 'S&P500 은행 P/TBV 비교 · 9/30 종가 (12곳 중 6곳 표시 · PNC·WFC·TFC는 유형자본 태그 결측, C는 2026년 분기 미반영)', 'P/TBV', 4)}
+      "pbr": mk('pbr', 'ptbv', 'S&P500 은행 P/TBV 비교 · 9/30 종가 (12곳 중 6곳 표시 · PNC·WFC·TFC는 유형자본 태그 결측)', 'P/TBV', 4)}
 for k, nm, why in (('psr', 'PSR', '은행 매출에는 이자수익이 들어 있다'), ('pcr', 'PCR', '은행 현금흐름은 예금·대출 증감이 좌우한다'), ('evebitda', 'EV/EBITDA', '예금·차입이 영업 자금이라 기업가치가 뜻이 없다')):
     MD[k] = {"title": f'{nm} — 은행에 해당 없음 ({why})', "unit": nm, "max": 1, "msValue": None, "peers": []}
 sub(r'const MULTIPLE_DATA = \{.*?\n\};\n', '// 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3) 중 6곳. 값이 없는 은행은 뺀다.\nconst MULTIPLE_DATA = ' + json.dumps(MD, ensure_ascii=False, indent=2) + ';\n')
@@ -384,7 +384,7 @@ one("""      `같은 GICS 섹터(Information Technology) 안에서 배수 순위
       + `\\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);""",
     f"""      `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균). BAC 본인을 뺀 12곳과 비교한다.`
       + `\\nP/TBV는 유형자본을 만들 수 있는 {PEER['ptbv']['peers']}곳, PER은 {PEER['per']['peers']}곳과 비교했다. 두 배수 모두 중간이라 표가 없다.`
-      + `\\nC는 SEC 요약 데이터에 2026년 분기가 아직 없어 P/TBV에서 빠졌다. PNC·WFC·TFC는 유형자본 태그를 못 채워 빠졌다.`);""")
+      + `\\nPNC·WFC·TFC는 유형자본 태그를 못 채워 빠졌다.`);""")
 one("""      + `\\n(확인 필요 — NVDA 문장 자리)`
       + ``);""",
     f"""      + `\\nP/TBV {SH['ptbv']['current']:.2f}배(5년 중 상위 {100 - SH['ptbv']['percentile']:.0f}%)·PER {SH['per']['current']:.1f}배(하위 {SH['per']['percentile']:.0f}%). 보통주·유형 보통주 자본은 보도자료 회사 값이다.`

@@ -1473,7 +1473,7 @@ const COF_MA120 = [158.497, 158.779, 159.032, 159.314, 159.574, 159.844, 160.155
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let COF_VERDICT = '계산 중';
 
-const COF_DCF = {"low": 170.78, "base": 125.0, "high": 165.19, "requiredGrowth": 0.11345999518439454, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.09350299860728192, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roeend", "b0"], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.0, "bvps": 176.6726635114417, "referenceOnly": true};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
+const COF_DCF = {"low": 170.78, "base": 125.0, "high": 165.19, "requiredGrowth": 0.11345999518439454, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.09350299860728192, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roeend", "b0"], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.0, "bvps": 176.6726635114417, "referenceOnly": true, "roeTarget": 0.06622571779717026};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1883,7 +1883,7 @@ const COF_VALUATION = {"peer": {"score": 46.2, "rule": "both", "need": 2, "secto
     + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
     + ` → ${COF_VERDICT}`
     + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
-    + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
+    + (lv.label === '매우 싸다' ? '\n⚠ 초과이익이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
   document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = COF_VERDICT; el.title = tip; });
   // A7(2026-10-04 사용자 결정 — 표시만, 판정 규칙은 그대로): 자기 이력·동종업 점수가 문턱(30·70) ±2점 안이고 그 칸 표가
   // 한 칸만 바뀌어도 종합 판정이 달라지면 헤더 판정 밑에 작게 적는다.
@@ -1984,7 +1984,7 @@ const COF_VALUATION = {"peer": {"score": 46.2, "rule": "both", "need": 2, "secto
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth != null ? (D.requiredGrowth * 100).toFixed(1) + '%' : '해 없음')); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
@@ -2018,9 +2018,9 @@ const COF_VALUATION = {"peer": {"score": 46.2, "rule": "both", "need": 2, "secto
         ic: () => '투하자본이 0 이하 — 매출/자본이 상한(10)에 걸린다',
         tax: () => `실효세율 ${pct(H.tax)} < 10% — 세금 가정에 따라 값이 크게 바뀐다`,
         nonop: () => `비영업 자산이 내재가치의 ${pct(H.nonopShare)} — 본업 밖 자산이 값을 좌우한다`,
-        nosol: () => '어떤 일정 성장률로도 현재가에 닿지 않는다',
+        nosol: () => D.model === 'rim' ? '현재가를 맞추는 ROE가 탐색 범위(0~60%) 밖이다(초과이익모형 신호, 사전 등록)' : '어떤 일정 성장률로도 현재가에 닿지 않는다',
         b0: () => '유보율 0 — 이익보다 많이 돌려줘 장부가가 자라지 않는다(초과이익모형 신호, 사전 등록)',
-        roeend: () => '기본 시나리오 끝 ROE 6.6% < 자기자본비용 10% — 장부가 위에 초과이익이 생기지 않는다(초과이익모형 신호, 사전 등록)',
+        roeend: () => `기본 시나리오 끝 ROE ${D.roeTarget != null ? pct(D.roeTarget) : '—'} < 자기자본비용 10% — 장부가 위에 초과이익이 생기지 않는다(초과이익모형 신호, 사전 등록)`,
       };
       const lines = D.hard.map(k => '· ' + (TXT[k] ? TXT[k]() : k));
       const tv = D.tvShare != null ? `잔존가치(5년 뒤)가 내재가치의 ${Math.round(D.tvShare * 100)}%` : '';
@@ -2029,7 +2029,7 @@ const COF_VALUATION = {"peer": {"score": 46.2, "rule": "both", "need": 2, "secto
       wrap.querySelectorAll('.vs-hard').forEach(x => x.remove());
       if (D.hard.length) {
         const b = document.createElement('span');
-        b.className = 'vs-hard'; b.textContent = D.model === 'rim' ? `⚠ 모형 신호 ${D.hard.length}/3` : `⚠ 계산 어려움 ${D.hard.length}/5`;   // 은행 초과이익모형 신호는 3개(사전 등록)
+        b.className = 'vs-hard'; b.textContent = D.model === 'rim' ? `⚠ 모형 신호 ${D.hard.length}/3` : `⚠ 계산 어려움 ${D.hard.length}/5`;   // 은행 초과이익모형 신호는 3개(사전 등록) — 9장 공통 표기(2026-10-05)
         b.title = lines.join('\n') + (tv ? '\n· ' + tv : '') + '\n판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.';
         wrap.insertBefore(b, el);   // 배지를 왼쪽, 판정 알약을 오른쪽 끝에(2026-09-26 사용자 요청)
       }
@@ -2617,7 +2617,7 @@ function cofBandTone(cp){
             if (cp) {
               const inBand = e.v.base >= cp.predicted_low && e.v.base <= cp.predicted_high;
               txt += `\n예상밴드 $${cp.predicted_low.toFixed(0)}~$${cp.predicted_high.toFixed(0)}`
-                + ` → 현금흐름 기준값이 밴드 ${inBand ? '안에 있다' : (e.v.base < cp.predicted_low ? '아래에 있다' : '위에 있다')}`;
+                + ` → 초과이익 기준값이 밴드 ${inBand ? '안에 있다' : (e.v.base < cp.predicted_low ? '아래에 있다' : '위에 있다')}`;
             }
           }
           tt.textContent = txt;
