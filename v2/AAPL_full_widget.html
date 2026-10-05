@@ -215,6 +215,17 @@ Chart.overrides.doughnut.animation = false;
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
+  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
   .collapsible-body { overflow: hidden; opacity: 1; transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.2s ease; }
   .collapsible-body.collapsed { max-height: 0 !important; opacity: 0; margin-top: 0 !important; }
 
@@ -453,7 +464,7 @@ Chart.overrides.doughnut.animation = false;
   .logic-score { font-size:19px; font-weight:800; color:var(--text); }
   .logic-denom { font-size:11px; font-weight:600; color:var(--text3); }
   .logic-desc { font-size:12px; color:var(--text2); line-height:1.65; }
-  /* 4칸 한 줄은 박스 폭 약 220px까지 버틴다(내재가치 칸 "$134 · 낮은 성장 … · 높은 성장 …"이 먼저 접힌다).
+  /* 4칸 한 줄은 박스 폭 약 220px까지 버틴다(내재가치 칸 "$315 · 낮은 성장 … · 높은 성장 …"이 먼저 접힌다).
      예전 기준 1100px에서는 1100px 창에서도 2×2가 됐다(2026-09-24). */
   @media (max-width: 980px) { .logic-grid { grid-template-columns:repeat(2,1fr); } }
   @media (max-width: 620px) { .logic-grid { grid-template-columns:1fr; } }
@@ -489,19 +500,19 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label">현재가 요구 영업이익률 (현재 33.2%)</span>
+      <span class="meta-label">현재가 요구 영업이익률 (최근 4분기 33.2%)</span>
       <span class="meta-value" id="aaplDcfReq" style="font-size: 22px; color: var(--red);">86.3%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="aaplConfidenceLabel">밴드 적중률 (503/674일, 상단우세)</span>
-      <span class="meta-value" id="aaplConfidence" style="font-size:22px;color:var(--green);">74.6%</span>
+      <span class="meta-value" id="aaplConfidence" style="font-size: 22px; color: var(--green);">74.6%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="aaplFairBand" style="font-size:22px;color:var(--green);">$300 ~ $330</span>
+      <span class="meta-value" id="aaplFairBand" title="최근 1년 PER 25~75% 구간(34.4~37.6배) × 최근 4분기 희석 EPS $8.71(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$300 ~ $330</span>
     </div>
   </div>
   </div>
@@ -633,23 +644,23 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$116.54</td><td style="color: var(--red);" data-dcf-upside="low">−65.4%</td>
-          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(31.0%)으로 내려온다. 매출 $1을 늘리는 데 $0.18를 투자한다(최근 1년 수준).</td>
+          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(31.0%)으로 내려온다. 매출 $1을 늘리는 데 $0.10를 투자한다(최근 1년 수준).</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$126.43</td><td style="color: var(--red);" data-dcf-upside="base">−62.5%</td>
-          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(31.9%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $0.18에서 5년에 걸쳐 과거 평균 $0.13로 돌아온다.</td>
+          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(31.9%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $0.10에서 5년에 걸쳐 과거 평균 $0.10로 돌아온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$134.83</td><td style="color: var(--red);" data-dcf-upside="high">−60.0%</td>
-          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(33.2%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $0.13다.</td>
+          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(33.2%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $0.10다.</td>
         </tr>
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $126 = 사업 가치 $120 + 비영업 자산 $6(주당, 지분·장기투자)</div>
-    <div class="reverse">지금 가격($337.02)이 정당하려면, 매출이 지난 5년 속도(연 5.3%)로 크다가 식는 동안 영업이익률이 <b>86.3%</b>여야 한다(지금 33.2%). 성장만으로는 설명되지 않는다 — 일정 성장으로 맞추려면 연 30.4%가 필요해 지난 5년 실제의 3배를 넘는다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $126.43 = 사업 가치 $120.67 + 비영업 자산 $5.76(주당, 지분·장기투자)</div>
+    <div class="reverse">—</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -687,12 +698,12 @@ Chart.overrides.doughnut.animation = false;
   <div class="grid-4">
     <div class="stat-box">
       <div class="stat-label">FCF (Q3 FY26)</div>
-      <div class="stat-value">$31.9B</div>
+      <div class="stat-value">$31.91B</div>
       <div class="stat-sub">현금창출력</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q3 FY26)</div>
-      <div class="stat-value">$2.5B</div>
+      <div class="stat-value">$2.46B</div>
       <div class="stat-sub">미래 재투자</div>
     </div>
     <div class="stat-box">
@@ -751,7 +762,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 100.3%·부채비율 256.5%는 기준보다 약하지만, 자기자본이 얇은 것은 오랜 자사주 매입 때문이다. FY25 말(2025.09.27) 이후 상업어음은 $8.0B에서 $2.0B로, 장기차입금(유동 포함)은 $90.7B에서 $82.3B로 줄었고 자기자본은 $73.7B에서 $107.5B로 늘었다(Q3 FY26 10-Q 대차대조표).</div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 100.3%·부채비율 256.5%는 기준보다 약하지만, 자기자본이 얇은 것은 오랜 자사주 매입 때문이다. FY25 말(2025.09.27) 이후 상업어음은 $8.0B에서 $2.0B로, 장기차입금(유동 포함)은 $90.7B에서 $82.3B로 줄었고 자기자본은 $73.7B에서 $107.5B로 늘었다(Q3 FY26 10-Q 대차대조표). <a href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000020/aapl-20260627.htm" target="_blank" rel="noopener">Q3 FY26 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.27까지 4분기</span>)</div>
@@ -829,11 +840,11 @@ Chart.overrides.doughnut.animation = false;
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#c4c8ca;display:inline-block;flex-shrink:0;"></span>iPhone <strong style="color:var(--text);">$54.3B · 49.6%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3498db;display:inline-block;flex-shrink:0;"></span>Services <strong style="color:var(--text);">$30.7B · 28.1%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#a6acaf;display:inline-block;flex-shrink:0;"></span>Mac <strong style="color:var(--text);">$10.4B · 9.5%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#767f83;display:inline-block;flex-shrink:0;"></span>Wearables·Home·Acc. <strong style="color:var(--text);">$7.9B · 7.2%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5c6282;display:inline-block;flex-shrink:0;"></span>iPad <strong style="color:var(--text);">$6.2B · 5.7%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#c4c8ca;display:inline-block;flex-shrink:0;"></span>iPhone <strong style="color:var(--text);">$54.25B · 49.6%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3498db;display:inline-block;flex-shrink:0;"></span>Services <strong style="color:var(--text);">$30.74B · 28.1%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#a6acaf;display:inline-block;flex-shrink:0;"></span>Mac <strong style="color:var(--text);">$10.35B · 9.5%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#767f83;display:inline-block;flex-shrink:0;"></span>Wearables·Home·Acc. <strong style="color:var(--text);">$7.88B · 7.2%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5c6282;display:inline-block;flex-shrink:0;"></span>iPad <strong style="color:var(--text);">$6.19B · 5.7%</strong></div>
         </div>
       </div>
 
@@ -845,7 +856,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="zone-list">
         <div class="zone-item">
           <span class="zone-label">자사주 매입 (Q3 FY26)</span>
-          <span class="zone-val">$25.1B</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="zone-val">$25.1B</span>
+          </div>
         </div>
         <div class="zone-item">
           <span class="zone-label">자사주 매입 (최근 4분기)</span>
@@ -853,7 +866,9 @@ Chart.overrides.doughnut.animation = false;
         </div>
         <div class="zone-item">
           <span class="zone-label">배당 (Q3 FY26 · 주당 $0.27)</span>
-          <span class="zone-val">$4.0B</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="zone-val">$4.0B</span>
+          </div>
         </div>
       </div>
       <div class="yoy-footnote" style="margin-top:14px;">현금흐름표 지급액 기준 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000020/aapl-20260627.htm" target="_blank" rel="noopener">Apple Q3 FY26 Form 10-Q (SEC) →</a></div>
@@ -956,7 +971,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 · 2026.09.23 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 · 08/27~09/03 카드 기준(AAPL 막대는 9/23)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1061,7 +1076,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류에이션</span><span class="bb-text">현재가가 내재가치 기본 시나리오의 2.5배이고 다섯 배수 모두 자기 5년 이력의 비싼 쪽이다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류에이션</span><span class="bb-text">현재가가 내재가치 기본 시나리오의 2.7배이고 다섯 배수 모두 자기 5년 이력의 비싼 쪽이다.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">공급 제약</span><span class="bb-text">첨단 공정 칩 공급 제약으로 Q4 가이던스를 Q3 성장률(+16%)보다 낮은 +9~11%로 제시했다.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">일회성 이익</span><span class="bb-text">Q3 매출총이익률 50.1%에는 관세 환급 효과 약 2%p가 들어 있다.</span></div>
     </div>
@@ -1073,7 +1088,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">44</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">25</span> · 유지 <span data-an="hold">13</span> · 매도 <span data-an="sell">6</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width:56.8%;background:var(--green);"></div><div data-an-bar="hold" style="width:29.5%;background:var(--gold);"></div><div data-an-bar="sell" style="width:13.6%;background:var(--red);"></div></div>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 56.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 29.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 13.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
         <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-23</span></span>
@@ -1126,8 +1141,8 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('aaplRevChart');
   if (!ctx) return;
-  const revenue=[94.9,124.3,95.4,94.0,102.5,143.8,111.2,109.4];
-  const netIncome=[14.7,36.3,24.8,23.4,27.5,42.1,29.6,29.8];
+  const revenue=[94.93,124.3,95.36,94.04,102.47,143.76,111.18,109.42];
+  const netIncome=[14.74,36.33,24.78,23.43,27.47,42.1,29.58,29.79];
   const opm=[31.2,34.5,31.0,30.0,31.6,35.4,32.3,32.6];
   const y2min=25, y2max=40;
   new Chart(ctx,{
@@ -1152,23 +1167,24 @@ function renderFundChart() {
 }
 
 // ─── FUND YoY/QoQ COMPARE ───
-// 매출 · 영업이익 · 순이익 · FCF (단위 $B). 2026-09-24 SEC companyfacts로 대조했다.
+// 매출 · 영업이익 · 순이익 · FCF (단위 $B). 2026-09-23 SEC companyfacts로 대조했다.
 // FCF = 영업현금흐름 − PaymentsToAcquireProductiveAssets, 분기값은 누적값의 차이.
-// 증감률은 반올림 전 원자료로 계산한다(반올림한 값끼리 나누면 한 틱 어긋날 수 있다).
+// 증감률은 반올림 전 원자료로 계산한다 — 반올림한 63.7 ÷ 53.5로 계산하면
+// 영업이익 QoQ가 +19.1%로 나오지만 원자료는 +19.05%라 +19.0%다.
 const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q3 FY26', cmpLabel: 'Q3 FY25',
     titleSuffix: 'YoY (Q3 FY26 vs Q3 FY25)',
-    chart: { cur: [109.4, 35.7, 29.8, 31.9], cmp: [94.0, 28.2, 23.4, 24.4] },
+    chart: { cur: [109.42, 35.7, 29.79, 31.91], cmp: [94.04, 28.2, 23.43, 24.41] },
     deltas: ['+16.4%', '+26.6%', '+27.1%', '+30.8%'],
-    footnote: '기준일: 2026.06.27(Q3 FY26) vs 2025.06.28(Q3 FY25) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000018/a8-kex991q3202606272026.htm" target="_blank" rel="noopener">Apple Q3 FY26 실적발표 원문 →</a>'
+    footnote: '기준일: 2026.06.27(Q3 FY26) vs 2025.06.28(Q3 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000018/a8-kex991q3202606272026.htm" target="_blank" rel="noopener">Apple Q3 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q3 FY26', cmpLabel: 'Q2 FY26',
     titleSuffix: 'QoQ (Q3 FY26 vs Q2 FY26)',
-    chart: { cur: [109.4, 35.7, 29.8, 31.9], cmp: [111.2, 35.9, 29.6, 26.7] },
+    chart: { cur: [109.42, 35.7, 29.79, 31.91], cmp: [111.18, 35.89, 29.58, 26.73] },
     deltas: ['-1.6%', '-0.5%', '+0.7%', '+19.4%'],
-    footnote: '기준일: 2026.06.27(Q3 FY26) vs 2026.03.28(Q2 FY26) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000018/a8-kex991q3202606272026.htm" target="_blank" rel="noopener">Apple Q3 FY26 실적발표 원문 →</a>'
+    footnote: '기준일: 2026.06.27(Q3 FY26) vs 2026.03.28(Q2 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/320193/000032019326000018/a8-kex991q3202606272026.htm" target="_blank" rel="noopener">Apple Q3 FY26 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1247,7 +1263,7 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 매출 구성 도넛 차트 (iPhone / Services / Mac / Wearables·Home·Acc. / iPad) ───
+// ─── 매출 구성 도넛 차트 (Q3 FY26, 백만 달러) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
@@ -1255,10 +1271,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:['iPhone','Services','Mac','Wearables·Home·Acc.','iPad'],
+      labels:["iPhone", "Services", "Mac", "Wearables·Home·Acc.", "iPad"],
       datasets:[{
         data:[54252, 30739, 10352, 7883, 6191],
-        backgroundColor:['#c4c8ca','#3498db','#a6acaf','#767f83','#5c6282'],
+        backgroundColor:["#c4c8ca", "#3498db", "#a6acaf", "#767f83", "#5c6282"],
         borderColor:'#1a1d27',
         borderWidth:2
       }]
@@ -1278,57 +1294,55 @@ function renderSegmentChart() {
 }
 
 // ══════ #valuation ══════
-// 피어 값은 v2/build_multiple_history.py를 루트 카드 일봉(같은 날 종가)으로 돌려 분모에서 직접 계산했다(2026-09-24).
-// 자기 막대는 여기 두지 않는다 — AAPL_VALUATION.self의 현재값을 쓴다(같은 숫자의 출처가 둘이면 갈라진다).
 const MULTIPLE_DATA = {
   per: {
-    title: '빅테크 PER 비교 · 2026.09.23 종가',
-    unit: 'PER(TTM)', max: 50,
+    title: '빅테크 PER 비교 · 08/27~09/03 카드 기준(AAPL 막대는 9/23)',
+    unit: 'PER', max: 45, aaplValue: null,
     peers: [
-      { name:'MSFT', value:27.9, status:'reference' },
-      { name:'GOOGL', value:17.0, status:'reference' },
-      { name:'AMZN', value:20.1, status:'reference' },
-      { name:'NVDA', value:28.5, status:'reference' }
+      { name:'MSFT', value:30.0, status:'reference' },
+      { name:'GOOGL', value:34.2, status:'reference' },
+      { name:'AMZN', value:38.4, status:'reference' },
+      { name:'NVDA', value:29.6, status:'reference' }
     ]
   },
   pbr: {
-    title: '빅테크 PBR 비교 · 2026.09.23 종가',
-    unit: 'PBR', max: 50,
+    title: '빅테크 PBR 비교 · 08/27~09/03 카드 기준(AAPL 막대는 9/23)',
+    unit: 'PBR', max: 55, aaplValue: null,
     peers: [
-      { name:'MSFT', value:8.4, status:'reference' },
-      { name:'GOOGL', value:6.5, status:'reference' },
+      { name:'MSFT', value:8.7, status:'reference' },
+      { name:'GOOGL', value:6.6, status:'reference' },
       { name:'AMZN', value:4.9, status:'reference' },
-      { name:'NVDA', value:23.7, status:'reference' }
+      { name:'NVDA', value:24.8, status:'reference' }
     ]
   },
   psr: {
-    title: '빅테크 PSR 비교 · 2026.09.23 종가',
-    unit: 'PSR(TTM)', max: 20,
+    title: '빅테크 PSR 비교 · 08/27~09/03 카드 기준(AAPL 막대는 9/23)',
+    unit: 'PSR(TTM)', max: 25, aaplValue: null,
     peers: [
-      { name:'MSFT', value:11.2, status:'reference' },
-      { name:'GOOGL', value:9.3, status:'reference' },
+      { name:'MSFT', value:11.6, status:'reference' },
+      { name:'GOOGL', value:9.4, status:'reference' },
       { name:'AMZN', value:3.5, status:'reference' },
-      { name:'NVDA', value:17.9, status:'reference' }
+      { name:'NVDA', value:18.7, status:'reference' }
     ]
   },
   pcr: {
-    title: '빅테크 PCR(FCF) 비교 · 2026.09.23 종가',
-    unit: 'PCR(FCF)', max: 90,
+    title: '빅테크 PCR(FCF) 비교 · 08/27~09/03 카드 기준(AAPL 막대는 9/23)',
+    unit: 'PCR(FCF)', max: 95, aaplValue: null,
     peers: [
-      { name:'MSFT', value:55.5, status:'reference' },
-      { name:'GOOGL', value:77.6, status:'reference' },
-      { name:'AMZN', value:90, status:'excluded', note:'실제 367x · FCF가 0에 가까워 축 밖' },
-      { name:'NVDA', value:42.8, status:'reference' }
+      { name:'MSFT', value:57.3, status:'reference' },
+      { name:'GOOGL', value:78.7, status:'reference' },
+      { name:'AMZN', value:16.8, status:'reference' },
+      { name:'NVDA', value:44.8, status:'reference' }
     ]
   },
   evebitda: {
-    title: '빅테크 EV/EBITDA 비교 · 2026.09.23 종가',
-    unit: 'EV/EBITDA', max: 35,
+    title: '빅테크 EV/EBITDA 비교 · 08/27~09/03 카드 기준(AAPL 막대는 9/23)',
+    unit: 'EV/EBITDA', max: 35, aaplValue: null,
     peers: [
-      { name:'MSFT', value:18.5, status:'reference' },
-      { name:'GOOGL', value:23.0, status:'reference' },
-      { name:'AMZN', value:16.5, status:'reference' },
-      { name:'NVDA', value:26.9, status:'reference' }
+      { name:'MSFT', value:19.6, status:'reference' },
+      { name:'GOOGL', value:23.5, status:'reference' },
+      { name:'AMZN', value:16.1, status:'reference' },
+      { name:'NVDA', value:27.9, status:'reference' }
     ]
   }
 };
@@ -1351,7 +1365,11 @@ function renderMultipleChart(key) {
     const selfBd = _cs.getPropertyValue('--accent').trim();
     const selfBg = _cs.getPropertyValue('--accent2').trim();
   const labels = [selfLabel, ...d.peers.map(p=>p.name)];
-  const data = [_vs ? +_vs.current.toFixed(1) : d[selfKey], ...d.peers.map(p=>p.value)];
+  // 자기 값이 축(d.max)을 넘으면 막대를 축 끝에서 자르고 툴팁에 실제 값을 쓴다(AMZN PCR 367x).
+  const selfNA = !!_vs && _vs.current == null;   // 적자로 오늘 배수가 없다 — 막대 없이 툴팁으로
+  const selfRaw = selfNA ? null : _vs ? +_vs.current.toFixed(1) : d[selfKey];
+  const selfOver = selfRaw != null && d.max != null && selfRaw > d.max;
+  const data = [selfOver ? d.max : selfRaw, ...d.peers.map(p=>p.value)];
   const bg = [ selfBg, ...d.peers.map(p=> p.status==='excluded' ? 'rgba(231,76,60,0.18)' : 'rgba(154,160,184,0.35)') ];
   const bd = [ selfBd, ...d.peers.map(p=> p.status==='excluded' ? '#c0392b' : '#5c6282') ];
   multipleChart = new Chart(ctx,{
@@ -1359,7 +1377,7 @@ function renderMultipleChart(key) {
     data:{ labels, datasets:[{ label:d.unit, data, backgroundColor:bg, borderColor:bd, borderWidth:1, borderRadius:5 }] },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{ const p = d.peers[ctx.dataIndex - 1]; return p && p.note ? `${d.unit} ${p.note}` : `${d.unit} ${ctx.raw}x`; }}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{ if (ctx.dataIndex === 0 && selfNA) return `${d.unit} 계산 불가 · ` + (_vs.currentNote === 'missing' ? '분모 데이터 없음' : '분모가 적자'); if (ctx.dataIndex === 0 && selfOver) return `${d.unit} 실제 ${selfRaw}x · 축 밖`; const p = d.peers[ctx.dataIndex - 1]; return p && p.note ? `${d.unit} ${p.note}` : `${d.unit} ${ctx.raw}x`; }}}},
       scales:{
         x:{grid:{display:false},ticks:{color:'#9aa0b8',font:{size:10.5}}},
         y:{max:d.max,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#9aa0b8',font:{size:10},callback:v=>v+'x'}}
@@ -1459,13 +1477,6 @@ const AAPL_SCORES = {
   asOf: "2026-09-23",
   fundamentalAsOf: "2026-06-27",   // Q3 FY26 10-Q (2026-07-31 공시)
 };
-// 기본적 분석이 98.1이 아니라 96.1인 이유. redesign의 동결 모델(v1.0.1)은
-// **연간치만** 써서 NVDA 같은 1월 결산 종목은 대차대조표가 최대 12개월 뒤처진다.
-// v2는 배점 구간을 그대로 두고 입력만 최신 분기로 바꾼다. 바뀐 칸은 하나 —
-// **차입금의존도 4.1%(5점) → 10.4%(4점)**. 장기차입금이 FY2026의 $7.5B에서
-// Q2 FY27에 $32.4B로 4.3배 늘었는데, 연간 기준으로는 2027년 2월까지 안 보인다.
-// 마진은 분기가 오히려 좋지만(OPM 60.4→66.2%) 이미 만점이라 올라갈 자리가 없다.
-// `--basis annual`로 돌리면 98.1이 그대로 나온다 — 배점을 안 건드렸다는 확인이다.
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 AAPL_DCF 하나다.
 //
@@ -1513,7 +1524,7 @@ const AAPL_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1522,12 +1533,12 @@ const AAPL_SCORES = {
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
-          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+          + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
@@ -1595,7 +1606,7 @@ const AAPL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
       + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
-      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null
+      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
@@ -1603,7 +1614,7 @@ const AAPL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1663,7 +1674,7 @@ const AAPL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py AAPL --card
 /* FUNDAMENTAL:BEGIN */
-const AAPL_FUNDAMENTAL = {"ticker": "AAPL", "basis": "quarter", "asOf": "2026-06-27", "filedAt": "2026-07-31", "score": 52.7, "grade": "보통", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 100.32948046555859, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 92.9014371241445, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 22.00664812427922, "points": 3, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 256.46019345238096, "points": 1, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 13.200000000000001, "points": 13.2, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 1.8071275091400274, "points": 2, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 3.6523429021003917, "points": 2, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 32.62290137729969, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 27.22520266503377, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 22.1, "points": 22.1, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 39544000000.0, "sti": 22855000000.0, "lt_marketable": 84118000000.0, "debt": 84344000000.0, "lease": 13720000000.0, "shares": 14594180000, "net": 48453000000.0, "perShare": 3.3200220909979183}};
+const AAPL_FUNDAMENTAL = {"ticker": "AAPL", "basis": "quarter", "asOf": "2026-06-27", "filedAt": "2026-07-31", "periodSource": "10-Q", "score": 52.7, "grade": "보통", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 100.32948046555859, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 92.9014371241445, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 22.00664812427922, "points": 3, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 256.46019345238096, "points": 1, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 13.200000000000001, "points": 13.2, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 1.8071275091400274, "points": 2, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 3.6523429021003917, "points": 2, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 32.62290137729969, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 27.22520266503377, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 22.1, "points": 22.1, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 39544000000.0, "sti": 22855000000.0, "lt_marketable": 84118000000.0, "debt": 84344000000.0, "lease": 13720000000.0, "shares": 14594180000, "net": 48453000000.0, "perShare": 3.3200220909979183}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof AAPL_FUNDAMENTAL !== 'undefined') ? AAPL_FUNDAMENTAL : null;
@@ -1770,7 +1781,7 @@ const AAPL_FUNDAMENTAL = {"ticker": "AAPL", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py AAPL --self v2/AAPL_multiples.json --card
 /* VALUATION:BEGIN */
-const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-09-23", "metrics": [{"metric": "per", "score": 54.2, "rank": 12, "peers": 24}, {"metric": "pbr", "score": 4.3, "rank": 23, "peers": 23}, {"metric": "psr", "score": 70.4, "rank": 9, "peers": 27}, {"metric": "pcr", "score": 65.2, "rank": 9, "peers": 23}, {"metric": "evebitda", "score": 45.8, "rank": 14, "peers": 24}]}, "self": {"score": 12.5, "window": ["2021-09-23", "2026-09-23"], "metrics": [{"metric": "per", "score": 5.7, "percentile": 94.3, "current": 38.69, "min": 20.46, "median": 31.21, "max": 42.6, "days": 1255}, {"metric": "pbr", "score": 43.6, "percentile": 56.4, "current": 45.75, "min": 31.23, "median": 45.1, "max": 68.75, "days": 1255}, {"metric": "psr", "score": 1.1, "percentile": 98.9, "current": 10.54, "min": 5.04, "median": 7.68, "max": 11.06, "days": 1255}, {"metric": "pcr", "score": 10.8, "percentile": 89.2, "current": 35.98, "min": 17.85, "median": 30.09, "max": 42.82, "days": 1255}, {"metric": "evebitda", "score": 1.3, "percentile": 98.7, "current": 29.49, "min": 15.87, "median": 23.34, "max": 31.4, "days": 1255}]}};
+const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-09-23", "metrics": [{"metric": "per", "score": 54.2, "rank": 12, "peers": 24}, {"metric": "pbr", "score": 4.3, "rank": 23, "peers": 23}, {"metric": "psr", "score": 70.4, "rank": 9, "peers": 27}, {"metric": "pcr", "score": 65.2, "rank": 9, "peers": 23}, {"metric": "evebitda", "score": 45.8, "rank": 14, "peers": 24}]}, "self": {"score": 12.5, "window": ["2021-09-23", "2026-09-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 5.7, "percentile": 94.3, "current": 38.69, "min": 20.46, "median": 31.21, "max": 42.6, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 43.6, "percentile": 56.4, "current": 45.75, "min": 31.23, "median": 45.1, "max": 68.75, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 1.1, "percentile": 98.9, "current": 10.54, "min": 5.04, "median": 7.68, "max": 11.06, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 10.8, "percentile": 89.2, "current": 35.98, "min": 17.85, "median": 30.09, "max": 42.82, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 1.3, "percentile": 98.7, "current": 29.49, "min": 15.87, "median": 23.34, "max": 31.4, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1862,21 +1873,25 @@ const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technolog
     const item = document.querySelector(`#valuation .val-item[data-metric="${m.metric}"]`);
     if (!item) return;
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
-    f('cur').textContent = x(m.current);
+    // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
+    f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
       const nm = item.querySelector('.val-name'); if (nm && nm.firstChild) nm.firstChild.textContent = 'PER (본업 기준) ';
     }
-    f('badge').className = 'hist-badge ' + histCls(m.score);
+    f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
-    f('fill').className = 'val-fill hist-fill ' + histCls(m.score);
-    f('fill').style.width = Math.max(m.percentile, 2) + '%';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
+    f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -1888,7 +1903,7 @@ const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technolog
     document.querySelectorAll(`#valComp [data-vc="${k}"]`).forEach(t => { t.className = 'sc-tile none'; t.textContent = '—'; });
     V[k].metrics.forEach(m => {
       const t = document.querySelector(`#valComp [data-vc="${k}"][data-m="${m.metric}"]`);
-      if (t) { t.className = 'sc-tile' + tone(m.score); t.textContent = Math.round(m.score); }
+      if (t && m.score != null) { t.className = 'sc-tile' + tone(m.score); t.textContent = Math.round(m.score); }
     });
   });
 
@@ -1948,7 +1963,7 @@ const AAPL_VALUATION = {"peer": {"score": 48.0, "sector": "Information Technolog
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + (tv ? ' · ' : '') : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -2001,7 +2016,7 @@ const AAPL_ACTIVITY = {"ticker": "AAPL", "status": "ok", "asOf": "2026-06-27", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; });   // 카드 한정
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2013,9 +2028,9 @@ const AAPL_ACTIVITY = {"ticker": "AAPL", "status": "ok", "asOf": "2026-06-27", "
   // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
   // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
   const lead = A.now.ccc >= 0
-    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    ? `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
       + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+    : `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
       + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
   if (ex) ex.innerHTML = lead
     + (Math.abs(cccDiff) < 0.05 ? '직전 분기와 같다.'
@@ -2059,7 +2074,7 @@ const AAPL_ACTIVITY = {"ticker": "AAPL", "status": "ok", "asOf": "2026-06-27", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/aapl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const AAPL_ANALYST = { asOf: '2026-09-23', source: 'StockAnalysis', rating: 'Buy', n: 44, mean: 328.22, median: 340,
+const AAPL_ANALYST = { asOf: '2026-09-23', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 44, mean: 328.22, median: 340,
   low: 215, high: 405, strongBuy: 19, buy: 6, hold: 13, sell: 3, strongSell: 3 };
 (function(){
   const A = AAPL_ANALYST, last = (typeof AAPL_DAILY !== 'undefined' && AAPL_DAILY.length) ? AAPL_DAILY[AAPL_DAILY.length - 1] : null;
@@ -2101,7 +2116,7 @@ const AAPL_ANALYST = { asOf: '2026-09-23', source: 'StockAnalysis', rating: 'Buy
   };
   put('aaplFundBox', 'aaplFundScore', 'aaplFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q3 FY26), 성장률은 연간 시계열을 쓴다.`
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q3 FY26, 10-Q), 성장률은 연간 시계열(FY25까지)을 쓴다.`
       + `\n이자비용을 따로 공시하지 않아 이자보상배율 칸은 0점이다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
@@ -2124,7 +2139,8 @@ const AAPL_ANALYST = { asOf: '2026-09-23', source: 'StockAnalysis', rating: 'Buy
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('aaplSelfBox', 'aaplSelfScore', 'aaplSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n다섯 배수 모두 5년 분포의 비싼 쪽이다(PER 상위 6%, PSR·EV/EBITDA 상위 1%).`);
+      + `\n다섯 배수 모두 5년 분포의 비싼 쪽이다(PER 상위 6%, PSR·EV/EBITDA 상위 1%).`
+      + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
   const grid = $('aaplLogicGrid');
@@ -2226,6 +2242,13 @@ function aaplBandTone(cp){
   const el = document.getElementById('aaplConfidence');
   const label = document.getElementById('aaplConfidenceLabel');
   const h = AAPL_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof AAPL_VALUATION !== 'undefined' && AAPL_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('aaplFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && AAPL_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
@@ -2506,7 +2529,7 @@ function aaplBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
@@ -2672,7 +2695,7 @@ function aaplBandTone(cp){
       if (maState.dcf) {
         lines.push('<strong style="color:' + (overlapOnly ? '#818cf8' : '#38bdf8') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
-          + (overlapOnly ? '' : ' 낮은·기본·높은 세 가정의 범위.'));
+          + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
       legendEl.innerHTML = lines.join('<br>');
       legendEl.style.display = lines.length ? 'block' : 'none';

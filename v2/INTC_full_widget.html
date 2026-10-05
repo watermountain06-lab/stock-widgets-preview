@@ -14,8 +14,8 @@ Chart.overrides.doughnut.animation = false;
 
   /* HEADER (라이브 INTC_analysis_widget.html에서 재사용) */
   .header { background: linear-gradient(135deg, #101a05 0%, #0f1117 40%, #1a1d27 100%); border-bottom: 2px solid var(--accent3); padding: 28px 32px 24px; position: relative; overflow: hidden; max-width: 1100px; margin: 0 auto; }
-  .box-key { background: rgba(0,113,197,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
-  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(0,113,197,0.14) 0%, transparent 70%); pointer-events: none; }
+  .box-key { background: rgba(0,136,238,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
+  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(0,136,238,0.14) 0%, transparent 70%); pointer-events: none; }
   .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .ticker-block { display: flex; align-items: center; gap: 16px; flex: 1 1 320px; min-width: 0; }
   .ticker-block > div { min-width: 0; }
@@ -52,7 +52,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #0071c5; --accent2: #2ca5ff; --accent3: #003c69;
+    --accent: #0088ee; --accent2: #46b0ff; --accent3: #003c69;
     --ma5: #ff6b9d; --ma20: #9b59b6; --ma60: #f0c040; --ma120: #22d3ee;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -91,7 +91,7 @@ Chart.overrides.doughnut.animation = false;
   .range-toggle { display: flex; gap: 6px; flex-wrap: wrap; }
   .range-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text3); font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; cursor: pointer; transition: all .15s; }
   .range-btn:hover { color: var(--text); border-color: var(--text2); }
-  .range-btn.active { background: rgba(0,113,197,0.18); color: var(--accent2); border-color: var(--accent); }
+  .range-btn.active { background: rgba(0,136,238,0.18); color: var(--accent2); border-color: var(--accent); }
   .ma-toggle-btn { background: var(--bg3); border: 1px solid; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; cursor: pointer; opacity: 1; transition: opacity .15s; }
   .ma-toggle-btn.ma-off { opacity: 0.35; }
   .price-chart-container { margin-bottom: 16px; }
@@ -110,7 +110,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #0071c5; --accent2: #2ca5ff; --accent3: #003c69;
+    --accent: #0088ee; --accent2: #46b0ff; --accent3: #003c69;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
@@ -210,17 +210,28 @@ Chart.overrides.doughnut.animation = false;
 
   .detail-toggle { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; user-select: none; font-size: 12.5px; color: var(--text2); font-weight: 600; padding: 10px 2px 6px; border-top: 1px dashed var(--bg3); margin-top: 2px; }
   .detail-toggle:hover { color: var(--text); }
-  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(44,165,255,0.12); border: 1px solid rgba(44,165,255,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
-  .detail-toggle:hover .toggle-hint { background: rgba(44,165,255,0.22); border-color: rgba(44,165,255,0.5); }
+  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(70,176,255,0.12); border: 1px solid rgba(70,176,255,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
+  .detail-toggle:hover .toggle-hint { background: rgba(70,176,255,0.22); border-color: rgba(70,176,255,0.5); }
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
+  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
   .collapsible-body { overflow: hidden; opacity: 1; transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.2s ease; }
   .collapsible-body.collapsed { max-height: 0 !important; opacity: 0; margin-top: 0 !important; }
 
   .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .act-card { background: var(--bg3); border-radius: 8px; padding: 12px 14px; display:flex; align-items:center; gap:12px; }
-  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(44,165,255,0.1); border-radius:8px; flex-shrink:0; }
+  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(70,176,255,0.1); border-radius:8px; flex-shrink:0; }
   .act-label { font-size: 11.5px; color: var(--text2); font-weight:600; margin-bottom:2px; }
   .act-value { font-size: 15px; font-weight: 700; color: var(--text); }
   .act-sub { font-size: 11px; color: var(--text2); margin-top:1px; }
@@ -233,7 +244,7 @@ Chart.overrides.doughnut.animation = false;
   .tl-bar { height: 18px; border-radius: 5px; overflow: hidden; display: flex; }
   .tl-seg-float { background: repeating-linear-gradient(45deg, rgba(240,192,64,0.28) 0 6px, rgba(240,192,64,0.14) 6px 12px); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--gold); }
   .tl-seg-inv { background: linear-gradient(90deg,#3498db,#2980b9); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
-  .tl-seg-ar { background: linear-gradient(90deg,#2ca5ff,#0071c5); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
+  .tl-seg-ar { background: linear-gradient(90deg,#46b0ff,#0088ee); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
   .tl-marker { position: absolute; top: -18px; width: 2px; background: var(--gold); }
   .tl-marker-label { position: absolute; top: -32px; transform: translateX(-50%); font-size: 10.5px; font-weight: 700; color: var(--gold); white-space: nowrap; }
   .tl-ccc-span { position: absolute; height: 3px; background: rgba(240,192,64,0.6); border-radius: 2px; top: 24px; }
@@ -244,7 +255,7 @@ Chart.overrides.doughnut.animation = false;
   .zone-label { font-size: 12px; color: var(--text2); }
   .zone-val { font-size: 13px; font-weight: 700; color: var(--text); }
   .zone-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .tag-record { background: rgba(0,113,197,0.2); color: var(--accent2); }
+  .tag-record { background: rgba(0,136,238,0.2); color: var(--accent2); }
 
   @media (max-width: 640px) {
     .page { padding: 20px 16px; }
@@ -256,7 +267,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #0071c5; --accent2: #2ca5ff; --accent3: #003c69;
+    --accent: #0088ee; --accent2: #46b0ff; --accent3: #003c69;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
@@ -278,7 +289,7 @@ Chart.overrides.doughnut.animation = false;
   .val-item:last-child { margin-bottom: 0; }
   .val-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .val-item:hover { background: rgba(255,255,255,0.03); }
-  .val-item.selected { background: rgba(44,165,255,0.08); border-color: rgba(44,165,255,0.35); }
+  .val-item.selected { background: rgba(70,176,255,0.08); border-color: rgba(70,176,255,0.35); }
   .val-name { position: relative; font-size: 13px; font-weight: 600; color: var(--text); }
   .val-item.selected .val-name::after { content: '▸ 비교 보기'; font-size: 9.5px; font-weight: 600; color: var(--accent2); margin-left: 8px; vertical-align: middle; }
   .val-number { font-size: 14px; font-weight: 700; color: var(--accent2); }
@@ -309,7 +320,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #0071c5; --accent2: #2ca5ff; --accent3: #003c69;
+    --accent: #0088ee; --accent2: #46b0ff; --accent3: #003c69;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --event-major: #38bdf8; --event-neutral: #f1c40f;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -387,7 +398,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #0071c5; --accent2: #2ca5ff; --accent3: #003c69;
+    --accent: #0088ee; --accent2: #46b0ff; --accent3: #003c69;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --bull: #D85A30; --bear: #185FA5;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -492,16 +503,16 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label">현재가 요구 영업이익률 (현재 −0.1%)</span>
-      <span class="meta-value" id="intcDcfReq" style="font-size: 22px; color: var(--red);">—</span>
+      <span class="meta-label">현재가 요구 영업이익률 (최근 4분기 −0.1%)</span>
+      <span class="meta-value" id="intcDcfReq" style="font-size: 22px; color: var(--red);">100%로도 불가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="intcConfidenceLabel">밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)</span>
-      <span class="meta-value" id="intcConfidence" style="font-size:22px;color:var(--text3);">해당 없음</span>
+      <span class="meta-value" id="intcConfidence" style="font-size: 22px; color: var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="intcFairBand" style="font-size:22px;color:var(--text3);" title="최근 4분기 GAAP 순이익이 적자라 PER 기준 적정주가 밴드를 만들 수 없다.">해당 없음</span>
+      <span class="meta-value" id="intcFairBand" title="최근 4분기 GAAP 순이익이 적자라 PER 기준 적정주가 밴드를 만들 수 없다." style="font-size:22px;color:var(--text3);">해당 없음</span>
     </div>
   </div>
   </div>
@@ -637,19 +648,19 @@ Chart.overrides.doughnut.animation = false;
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="base">—</td>
+          <td class="big scn-base" data-dcf-value="base">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="base">—</td>
           <td class="story">매출이 영구성장률 2.5%로 크고, 영업이익률이 최근 2년 중앙값 −13.5%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="high">—</td>
+          <td class="big scn-high" data-dcf-value="high">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="high">—</td>
           <td class="story">3년 성장률(연 1.8%)이 영구성장률보다 낮아 2.5%로 두고, 영업이익률 −0.1%가 이어진다.</td>
         </tr>
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 −$11 = 사업 가치 −$13 + 비영업 자산 $2(주당, 지분·장기투자)</div>
-    <div class="reverse">지금 가격($116.03)이 정당하려면, 매출이 연 2.5%(지난 5년 실제 연 −6.5%, 영구성장률을 하한으로 둔다)로 크는 동안 영업이익률을 <b>100%로 잡아도</b> 닿지 않는다(지금 −0.1%). 성장만으로는 설명되지 않는다 — 어떤 일정 성장률로도 현재가에 닿지 않는다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 −$11.19 = 사업 가치 −$12.81 + 비영업 자산 $1.62(주당, 지분·장기투자)</div>
+    <div class="reverse">—</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -688,12 +699,12 @@ Chart.overrides.doughnut.animation = false;
   <div class="grid-4">
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
-      <div class="stat-value">$4.5B</div>
+      <div class="stat-value">$4.45B</div>
       <div class="stat-sub">영업현금흐름 − 유형자산 취득</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
-      <div class="stat-value">$2.6B</div>
+      <div class="stat-value">$2.56B</div>
       <div class="stat-sub">투자활동 유형자산 취득(회사 기준 총액 $2.65B)</div>
     </div>
     <div class="stat-box">
@@ -889,7 +900,7 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">44.6</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">91</div><div class="sc-tile" data-vc="peer" data-m="psr">70</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">17</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">최근 4분기 GAAP가 적자라 PER은 점수에서 빼고(PER 해당 없음, 순이익률 2% 미만 규칙), PSR·PBR·PCR이 자기 5년 이력의 상위 4% 안이라 5.8점이다. IT 28종목 안에서는 PBR·PSR이 싼 쪽이지만 PCR·EV/EBITDA가 비싼 쪽이라 44.6점이다. <strong>현금흐름 내재가치는 기본 −10.3달러로 음수</strong>다 — 최근 4분기 영업이익률이 −0.1%라 지금 수익성으로는 투자가 가치를 만들지 못한다.</div>
+    <div class="vs-premise">최근 4분기 GAAP가 적자라 PER은 점수에서 빼고(PER 해당 없음, 순이익률 2% 미만 규칙), PSR·PBR·PCR이 자기 5년 이력의 상위 4% 안이라 5.8점이다. IT 28종목 안에서는 PBR·PSR이 싼 쪽이지만 PCR·EV/EBITDA가 비싼 쪽이라 44.6점이다. <strong>현금흐름 내재가치는 기본 −11.2달러로 음수</strong>다 — 최근 4분기 영업이익률이 −0.1%라 지금 수익성으로는 투자가 가치를 만들지 못한다.</div>
     <div class="verdict-summary-risk">⚠️ 이 모델로는 영업이익률을 100%로 잡아도 현재가에 닿지 않는다. 현재가는 매출의 10.3배인데, 할인율 10%·영구성장 2.5%·세율 21%에서는 영업이익률이 100%여도 사업 가치가 매출의 약 10배에 그치고 여기서 순부채·비지배지분(주당 약 $7)을 뺀다. 일회성 비용을 뺀 2분기 비GAAP 영업이익률 17.2%를 5년 유지해도 주당 약 $10이다. 현재가는 과거 실적이 아니라 파운드리·18A 전환과 AI 수요에 대한 기대를 반영한다.</div>
   </div>
 
@@ -899,7 +910,7 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="per" onclick="selectMultiple('per')">
         <div class="val-header">
-          <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note">최근 2.6년 이력</span></span>
+          <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note">유효 이력 2.6년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">계산 불가</span>
             <span class="hist-badge mid" data-hist="badge">해당 없음 · 평균 제외(순이익률 2% 미만)</span>
@@ -935,10 +946,10 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
-          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">최근 1.0년 이력</span></span>
+          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">유효 이력 1.0년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">206.7x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 2%</span>
+            <span class="hist-badge bad" data-hist="badge">1.0년 중 상위 2%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 97.7%;"></div></div>
@@ -947,10 +958,10 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
         <div class="val-header">
-          <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">최근 4.5년 이력</span></span>
+          <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.5년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">50.5x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 17%</span>
+            <span class="hist-badge bad" data-hist="badge">4.5년 중 상위 17%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 83.2%;"></div></div>
@@ -959,7 +970,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">반도체 대형주 PER 비교 · 동종업 9/25 종가(INTC는 9/28)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">반도체 대형주 PER 비교 · 08/27~09/11 카드 기준(INTC 막대는 9/28)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1135,15 +1146,15 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('intcRevChart');
   if (!ctx) return;
-  const revenue=[13.3,14.3,12.7,12.9,13.7,13.7,13.6,16.1];
-  const netIncome=[-16.6,-0.1,-0.8,-2.9,4.1,-0.6,-3.7,-11.0];
+  const revenue=[13.28,14.26,12.67,12.86,13.65,13.67,13.58,16.13];
+  const netIncome=[-16.64,-0.13,-0.82,-2.92,4.06,-0.59,-3.73,-11.03];
   const opm=[-68.2,2.9,-2.4,-24.7,5.0,4.2,-23.1,11.1];
   const y2min=-80, y2max=30;
   new Chart(ctx,{
     data:{
       labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026'],
       datasets:[
-        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(0,113,197,0.55)',borderColor:'#0071c5',borderWidth:1,borderRadius:4,yAxisID:'y'},
+        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(0,136,238,0.55)',borderColor:'#0088ee',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'bar',label:'순이익($B)',data:netIncome,backgroundColor:'rgba(52,152,219,0.5)',borderColor:'#3498db',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'line',label:'OPM(%)',data:opm,borderColor:'#f0c040',backgroundColor:'rgba(240,192,64,.1)',tension:.35,pointRadius:4,borderWidth:2.5,fill:false,yAxisID:'y2'}
       ]
@@ -1169,14 +1180,14 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [16.1, 1.8, -11.0, 4.5], cmp: [12.9, -3.2, -2.9, -1.5] },
+    chart: { cur: [16.13, 1.8, -11.03, 4.45], cmp: [12.86, -3.18, -2.92, -1.5] },
     deltas: ['+25.4%', '흑자 전환', '적자 지속', '흑자 전환'],
     footnote: '기준일: 2026.06.27(Q2 2026) vs 2025.06.28(Q2 2025) · GAAP 기준 · 순이익은 인텔 귀속(2분기 에스크로 주식 평가손 −$12.5B 포함, 비GAAP EPS $0.42) · FCF는 영업현금흐름 − 투자활동 유형자산 취득(회사 조정 FCF −$8.4B는 Fab 34 지분 재매입 등 파트너 분배금 −$12.2B 반영) · <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm" target="_blank" rel="noopener">Intel Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [16.1, 1.8, -11.0, 4.5], cmp: [13.6, -3.1, -3.7, -2.5] },
+    chart: { cur: [16.13, 1.8, -11.03, 4.45], cmp: [13.58, -3.14, -3.73, -2.54] },
     deltas: ['+18.8%', '흑자 전환', '적자 지속', '흑자 전환'],
     footnote: '기준일: 2026.06.27(Q2 2026) vs 2026.03.28(Q1 2026) · GAAP 기준 · 순이익은 인텔 귀속(2분기 에스크로 주식 평가손 −$12.5B 포함, 비GAAP EPS $0.42) · FCF는 영업현금흐름 − 투자활동 유형자산 취득(회사 조정 FCF −$8.4B는 Fab 34 지분 재매입 등 파트너 분배금 −$12.2B 반영) · <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm" target="_blank" rel="noopener">Intel Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
@@ -1238,7 +1249,7 @@ function selectFundPeriod(period) {
         labels: ['매출', '영업이익', '순이익', 'FCF'],
         datasets: [
           { label: d.cmpLabel, data: d.chart.cmp, backgroundColor: 'rgba(154,160,184,0.35)', borderColor: '#5c6282', borderWidth: 1, borderRadius: 4 },
-          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(0,113,197,0.55)', borderColor: '#0071c5', borderWidth: 1, borderRadius: 4 }
+          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(0,136,238,0.55)', borderColor: '#0088ee', borderWidth: 1, borderRadius: 4 }
         ]
       },
       options: {
@@ -1257,7 +1268,7 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 매출 구성 도넛 차트 (Q2 2026 부문별, 백만 달러) ───
+// ─── 매출 구성 도넛 차트 (Q2 2026, 백만 달러) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
@@ -1290,62 +1301,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '반도체 대형주 PER 비교 · 동종업 9/25 종가(INTC는 9/28)',
-    unit: 'PER', max: 180, intcValue: null,
+    title: '반도체 대형주 PER 비교 · 08/27~09/11 카드 기준(INTC 막대는 9/28)',
+    unit: 'PER', max: 215, intcValue: null,
     peers: [
-      { name:'AMD', value:178.6, status:'reference' },
-      { name:'NVDA', value:29.0, status:'reference' },
-      { name:'TSM', value:32.7, status:'reference' },
-      { name:'QCOM', value:21.7, status:'reference' },
-      { name:'TXN', value:42.3, status:'reference' },
-      { name:'MU', value:23.9, status:'reference' }
+      { name:'AMD', value:186.2, status:'reference' },
+      { name:'NVDA', value:29.6, status:'reference' },
+      { name:'TSM', value:34.1, status:'reference' },
+      { name:'QCOM', value:21.4, status:'reference' },
+      { name:'TXN', value:44.7, status:'reference' },
+      { name:'MU', value:24.3, status:'reference' }
     ]
   },
   pbr: {
-    title: '반도체 대형주 PBR 비교 · 동종업 9/25 종가(INTC는 9/28)',
+    title: '반도체 대형주 PBR 비교 · 08/27~09/11 카드 기준(INTC 막대는 9/28)',
     unit: 'PBR', max: 30, intcValue: null,
     peers: [
-      { name:'AMD', value:14.8, status:'reference' },
-      { name:'NVDA', value:24.2, status:'reference' },
-      { name:'TSM', value:11.4, status:'reference' },
-      { name:'QCOM', value:7.1, status:'reference' },
-      { name:'TXN', value:14.1, status:'reference' },
-      { name:'MU', value:11.8, status:'reference' }
+      { name:'AMD', value:15.4, status:'reference' },
+      { name:'NVDA', value:24.8, status:'reference' },
+      { name:'TSM', value:11.9, status:'reference' },
+      { name:'QCOM', value:7.0, status:'reference' },
+      { name:'TXN', value:14.9, status:'reference' },
+      { name:'MU', value:12.0, status:'reference' }
     ]
   },
   psr: {
-    title: '반도체 대형주 PSR 비교 · 동종업 9/25 종가(INTC는 9/28)',
+    title: '반도체 대형주 PSR 비교 · 08/27~09/11 카드 기준(INTC 막대는 9/28)',
     unit: 'PSR(TTM)', max: 30, intcValue: null,
     peers: [
-      { name:'AMD', value:24.1, status:'reference' },
-      { name:'NVDA', value:18.3, status:'reference' },
-      { name:'TSM', value:16.4, status:'reference' },
-      { name:'QCOM', value:4.5, status:'reference' },
-      { name:'TXN', value:13.1, status:'reference' },
-      { name:'MU', value:13.2, status:'reference' }
+      { name:'AMD', value:25.1, status:'reference' },
+      { name:'NVDA', value:18.7, status:'reference' },
+      { name:'TSM', value:17.2, status:'reference' },
+      { name:'QCOM', value:4.4, status:'reference' },
+      { name:'TXN', value:13.8, status:'reference' },
+      { name:'MU', value:13.5, status:'reference' }
     ]
   },
   pcr: {
-    title: '반도체 대형주 PCR(FCF) 비교 · 동종업 9/25 종가(INTC는 9/28)',
-    unit: 'PCR(FCF)', max: 130, intcValue: null,
+    title: '반도체 대형주 PCR(FCF) 비교 · 08/27~09/11 카드 기준(INTC 막대는 9/28)',
+    unit: 'PCR(FCF)', max: 240, intcValue: null,
     peers: [
-      { name:'AMD', value:118.0, status:'reference' },
-      { name:'NVDA', value:43.8, status:'reference' },
-      { name:'TSM', value:64.1, status:'reference' },
-      { name:'QCOM', value:15.9, status:'reference' },
-      { name:'TXN', value:29.3, status:'reference' },
-      { name:'MU', value:45.4, status:'reference' }
+      { name:'AMD', value:123.0, status:'reference' },
+      { name:'NVDA', value:44.8, status:'reference' },
+      { name:'TSM', value:66.9, status:'reference' },
+      { name:'QCOM', value:15.7, status:'reference' },
+      { name:'TXN', value:31.0, status:'reference' },
+      { name:'MU', value:46.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: '반도체 대형주 EV/EBITDA 비교 (TSM 값 없음) · 동종업 9/25 종가(INTC는 9/28)',
-    unit: 'EV/EBITDA', max: 120, intcValue: null,
+    title: '반도체 대형주 EV/EBITDA 비교 (TSM 값 없음) · 08/27~09/11 카드 기준(INTC 막대는 9/28)',
+    unit: 'EV/EBITDA', max: 125, intcValue: null,
     peers: [
-      { name:'AMD', value:102.4, status:'reference' },
-      { name:'NVDA', value:27.2, status:'reference' },
-      { name:'QCOM', value:17.3, status:'reference' },
-      { name:'TXN', value:27.6, status:'reference' },
-      { name:'MU', value:17.2, status:'reference' }
+      { name:'AMD', value:106.8, status:'reference' },
+      { name:'NVDA', value:27.9, status:'reference' },
+      { name:'QCOM', value:17.1, status:'reference' },
+      { name:'TXN', value:29.1, status:'reference' },
+      { name:'MU', value:17.5, status:'reference' }
     ]
   }
 };
@@ -1476,7 +1487,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 const INTC_SCORES = {
   fundamental: 40.3,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 44.6,          // GICS Information Technology 대비 배수 순위
-  selfHistory: 5.8,   // 자기 5년 배수 분포 백분위 (2021-09-28 ~ 2026-09-28, PER 해당 없음 — 순이익률 2% 미만)
+  selfHistory: 5.8,   // 자기 5년 배수 분포 백분위 (2021-09-28 ~ 2026-09-28)
   asOf: "2026-09-28",
   fundamentalAsOf: "2026-06-27",   // Q2 2026 10-Q (2026-07-24 공시)
 };
@@ -1523,11 +1534,11 @@ const INTC_SCORES = {
   // 마진 모드인데 영업이익률 100%로도 닿지 않으면(해 없음) 요구 성장률을 대신 보인다(2026-09-30 사용자 결정, LRCX·PLTR).
   const noSol = mMode && d.requiredMargin == null && d.requiredGrowth != null;
   if (req) req.textContent = noSol ? '연 ' + f1(d.requiredGrowth)
-                           : mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '—')
+                           : mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '100%로도 불가')   // 해 없음(카드 한정)
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : d.requiredMargin == null ? '현재가 요구 영업이익률' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1536,12 +1547,12 @@ const INTC_SCORES = {
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 연 2.5%(지난 5년 실제 연 ${f1(d.growth5y)}, 영구성장률 하한)로 크는 동안`
           + (d.requiredMargin != null ? ` 영업이익률이 ${f1(d.requiredMargin)}여야 한다(현재 ${f1(d.marginNow)}).` : ` 영업이익률을 100%로 잡아도 닿지 않는다(현재 ${f1(d.marginNow)}, 탐색 범위 −50~100%).`)
-          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+          + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
@@ -1606,17 +1617,18 @@ const INTC_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   fill('[data-dcf-basev]', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)));
   fill('[data-dcf-baseeq]', D.baseEquivGrowth != null ? (D.baseEquivGrowth * 100).toFixed(1) + '%' : '—');
   const pc = v => (v * 100).toFixed(1) + '%';
-  // INTC: 5년 성장이 음수라 모델은 영구성장률(2.5%)을 하한으로 쓰고, 요구 마진 해가 없다(nosol) — 카드 한정 문장
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 연 2.5%(지난 5년 실제 연 ${pc(D.growth5y)}, 영구성장률을 하한으로 둔다)로 크는 동안`
       + (D.requiredMargin != null ? ` 영업이익률이 <b>${pc(D.requiredMargin)}</b>여야 한다(지금 ${pc(D.marginNow)}).` : ` 영업이익률을 <b>100%로 잡아도</b> 닿지 않는다(지금 ${pc(D.marginNow)}).`)
-      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요하다.` : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
+      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
+        ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
+        : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
   // 비영업 자산 분리 표기 — 주주가치에 더한 지분·장기투자(주당). 사업이 버는 현금과 구분한다.
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1889,9 +1901,9 @@ const INTC_VALUATION = {"peer": {"score": 44.6, "sector": "Information Technolog
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
@@ -1965,7 +1977,7 @@ const INTC_VALUATION = {"peer": {"score": 44.6, "sector": "Information Technolog
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + (tv ? ' · ' : '') : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -2018,7 +2030,7 @@ const INTC_ACTIVITY = {"ticker": "INTC", "status": "ok", "asOf": "2026-06-27", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; });   // 카드 한정
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2030,9 +2042,9 @@ const INTC_ACTIVITY = {"ticker": "INTC", "status": "ok", "asOf": "2026-06-27", "
   // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
   // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
   const lead = A.now.ccc >= 0
-    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    ? `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
       + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+    : `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
       + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
   if (ex) ex.innerHTML = lead
     + (Math.abs(cccDiff) < 0.05 ? '직전 분기와 같다.'
@@ -2118,7 +2130,7 @@ const INTC_ANALYST = { asOf: '2026-09-29', source: 'StockAnalysis (S&P Global �
   };
   put('intcFundBox', 'intcFundScore', 'intcFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열을 쓴다.`
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(2025년까지)을 쓴다.`
       + `\n순이익률이 크게 음수인 것은 2분기 에스크로 주식 평가손(−$12.5B) 때문이다. 매출 3년 증가율이 음수인 것은 2022년 대비이고 2025년 9월 Altera 매각으로 매출이 빠진 영향도 있다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
@@ -2154,7 +2166,7 @@ const INTC_ANALYST = { asOf: '2026-09-29', source: 'StockAnalysis (S&P Global �
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
 const INTC_DCF_TRACK = [{d:"2024-11-01",low:-26.1,base:-18.6,high:-18.8},{d:"2025-01-31",low:-14.4,base:-16.0,high:-19.7},{d:"2025-04-25",low:-14.8,base:-16.5,high:-19.7},{d:"2025-07-24",low:-15.2,base:-18.0,high:-20.5},{d:"2025-11-06",low:-7.8,base:-10.0,high:-8.6},{d:"2026-01-23",low:-6.9,base:-8.6,high:-7.2},{d:"2026-04-24",low:-26.0,base:-14.1,high:-10.0},{d:"2026-07-24",low:-8.8,base:-11.2,high:-8.3}];
-const INTC_BACKTEST = [{"checkpoint_date": "2024-01-26", "quarter_end": "2023-12-30", "ttm_eps": 0.4, "trailing_sample_size": 315, "per_low": 6.18, "per_high": 15.91, "band_width_ratio": 2.57, "predicted_low": 2.47, "predicted_high": 6.36, "realized_per_high": 115.37, "realized_per_low": 85.5, "realized_price_high": 46.15, "realized_price_low": 34.2, "period_end_date": "2024-04-25", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-04-26", "quarter_end": "2024-03-30", "ttm_eps": 0.97, "trailing_sample_size": 316, "per_low": 7.25, "per_high": 110.08, "band_width_ratio": 15.19, "predicted_low": 7.03, "predicted_high": 106.77, "realized_per_high": 35.95, "realized_per_low": 29.95, "realized_price_high": 34.87, "realized_price_low": 29.05, "period_end_date": "2024-08-01", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-08-02", "quarter_end": "2024-06-29", "ttm_eps": 0.24, "trailing_sample_size": 316, "per_low": 13.16, "per_high": 108.28, "band_width_ratio": 8.23, "predicted_low": 3.16, "predicted_high": 25.99, "realized_per_high": 99.67, "realized_per_low": 78.71, "realized_price_high": 23.92, "realized_price_low": 18.89, "period_end_date": "2024-10-31", "is_open": false, "zone": "full_hit", "spans_earnings": 0}];   // 루트 카드에 밴드 백테스트 데이터가 없다(2026-09-29 확인)
+const INTC_BACKTEST = [{"checkpoint_date": "2024-01-26", "quarter_end": "2023-12-30", "ttm_eps": 0.4, "trailing_sample_size": 315, "per_low": 6.18, "per_high": 15.91, "band_width_ratio": 2.57, "predicted_low": 2.47, "predicted_high": 6.36, "realized_per_high": 115.37, "realized_per_low": 85.5, "realized_price_high": 46.15, "realized_price_low": 34.2, "period_end_date": "2024-04-25", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-04-26", "quarter_end": "2024-03-30", "ttm_eps": 0.97, "trailing_sample_size": 316, "per_low": 7.25, "per_high": 110.08, "band_width_ratio": 15.19, "predicted_low": 7.03, "predicted_high": 106.77, "realized_per_high": 35.95, "realized_per_low": 29.95, "realized_price_high": 34.87, "realized_price_low": 29.05, "period_end_date": "2024-08-01", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-08-02", "quarter_end": "2024-06-29", "ttm_eps": 0.24, "trailing_sample_size": 316, "per_low": 13.16, "per_high": 108.28, "band_width_ratio": 8.23, "predicted_low": 3.16, "predicted_high": 25.99, "realized_per_high": 99.67, "realized_per_low": 78.71, "realized_price_high": 23.92, "realized_price_low": 18.89, "period_end_date": "2024-10-31", "is_open": false, "zone": "full_hit", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
 // "예상 밴드 안에서 마감한 일봉이 몇 %인가"로 따로 센다. 진행 중인 구간의
@@ -2531,7 +2543,7 @@ function intcBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다. 투하자본 수익률이 할인율보다 낮아 빨리 클수록 가치가 더 줄어든다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
@@ -2697,7 +2709,7 @@ function intcBandTone(cp){
       if (maState.dcf) {
         lines.push('<strong style="color:' + (overlapOnly ? '#818cf8' : '#38bdf8') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
-          + (overlapOnly ? '' : ' 낮은·기본·높은 세 가정의 범위.'));
+          + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
       legendEl.innerHTML = lines.join('<br>');
       legendEl.style.display = lines.length ? 'block' : 'none';

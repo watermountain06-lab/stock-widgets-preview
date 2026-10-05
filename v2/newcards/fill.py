@@ -114,7 +114,7 @@ assert (VOTES, VERDICT) == (C.VOTES, C.VERDICT), (VOTES, VERDICT, selfsc, peersc
 sgn = lambda v: f'{v:+d}'.replace('-', '−') if v else '0'
 VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현금흐름 ' + ('미적용' if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL)
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
-ch = (px / D[-253][4] - 1) * 100
+ch = (px / D[max(-253, -len(D))][4] - 1) * 100   # 일봉이 1년보다 짧으면 첫날부터(SKHY ADR, 2026-10-05)
 CH_TXT = ('제자리(' + format(ch, '+.1f') + '%)') if abs(ch) < 1 else format(ch, '+.0f') + '%'
 for _code in getattr(C, 'PRE', []):
     exec(_code, globals())
@@ -262,7 +262,9 @@ if getattr(C, 'GROWTH_SPAN', None):   # 현금흐름 이력이 5년보다 짧은
 if getattr(C, 'SELF_SPAN', None):   # 자기 이력이 5년보다 짧은 종목(분사·흑자 전환) — "5년" 표기를 실제 이력으로(2026-10-02, DHR Codex)
     one('<div class="card-title">배수별 자기 5년 위치</div>', f'<div class="card-title">배수별 자기 이력 위치 ({C.SELF_SPAN})</div>')
     one(f'title="지난 5년 {T} 자신의 배수보다', f'title="{T} 자신의 배수 이력({C.SELF_SPAN})보다')
-    one('`이 종목 자신의 5년 배수 분포에서 지금보다', f'`이 종목 자신의 배수 이력({C.SELF_SPAN})에서 지금보다')
+    # 틀 문구가 E13(2026-10-05)에서 '지금과 배수가 같거나 높았던 날의 비율'로 바뀌어 옛 앵커('지금보다')가 없어졌다 — 둘 다 받는다
+    _sa = '`이 종목 자신의 5년 배수 분포에서 지금보다' if '`이 종목 자신의 5년 배수 분포에서 지금보다' in h else '`이 종목 자신의 5년 배수 분포에서 지금과'
+    one(_sa, _sa.replace('5년 배수 분포에서', f'배수 이력({C.SELF_SPAN})에서'))
 one("`같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.`", "`" + F(C.PEER_TIP[0]) + "`")
 one("+ `\\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);", "+ `\\n" + F(C.PEER_TIP[1]) + "`);")
 
@@ -449,6 +451,12 @@ if getattr(C, 'REQ_MULT_EXACT', False):
     one("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요해 지난 5년 실제의 ${Math.round(D.requiredGrowth / D.growth5y)}배다.`")
 for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
     exec(_code, globals())
+# 성장 모드 역산 문장: 위에서 .reverse를 '—'로 비우는데 카드 JS는 마진 모드일 때만 문장을 다시 쓴다 — 성장 모드 카드는 '—'만 남았다
+# (ACN·APH·BKNG 등, 틀 통일 변환에서 발견, 2026-10-05). cfg REVERSE가 있으면 그 문장, 없으면 틀 시절 카드의 표준 문장(칸은 JS가 갱신).
+if '<div class="reverse">—</div>' in h and DCF.get('reqMode') == 'growth' and DCF.get('requiredGrowth') is not None:
+    _rev = F(C.REVERSE) if getattr(C, 'REVERSE', None) else (f'지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. '
+        + f'기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.')
+    one('<div class="reverse">—</div>', '<div class="reverse">' + _rev + '</div>')
 open(p, 'w', encoding='utf-8').write(h)
 print('ok', T, VERDICT, VOTES, 'self', selfsc, 'peer', peersc, 'ratio', round(ratio, 2) if ratio else None, 'YoY', vec(cur), yd, 'QoQ', qd, 'opm', opm, 'ch', round(ch, 1))
 print('peers', {k: v for k, v in peers.items()}, 'miss', miss)

@@ -215,6 +215,17 @@ Chart.overrides.doughnut.animation = false;
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
+  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
   .collapsible-body { overflow: hidden; opacity: 1; transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.2s ease; }
   .collapsible-body.collapsed { max-height: 0 !important; opacity: 0; margin-top: 0 !important; }
 
@@ -492,7 +503,7 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label">현재가 요구 영업이익률 (현재 26.2%)</span>
+      <span class="meta-label">현재가 요구 영업이익률 (최근 4분기 26.2%)</span>
       <span class="meta-value" id="abbvDcfReq" style="font-size: 22px; color: var(--red);">75.9%</span>
     </div>
     <div class="meta-item">
@@ -649,7 +660,7 @@ Chart.overrides.doughnut.animation = false;
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
     <div class="note" data-dcf-nonop hidden></div>
-    <div class="reverse">지금 가격($266.28)이 정당하려면, 매출이 지난 5년 속도(연 3.3%)로 크다가 식는 동안 영업이익률이 <b>75.9%</b>여야 한다(지금 26.2%). 성장만으로는 설명되지 않는다 — 일정 성장으로 맞추려면 연 54.8%가 필요해 지난 5년 실제의 17배다.</div>
+    <div class="reverse">—</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -677,7 +688,7 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 1. 분기 매출/순이익/영업이익률 차트 ══════════ -->
   <div class="card">
-    <div class="card-title">분기 매출 / 순이익 / 영업이익률 (Q3 2024~Q2 2026)</div>
+    <div class="card-title">분기 매출 / 순이익(본업 기준) / 영업이익률 (Q3 2024~Q2 2026)</div>
     <div class="chart-wrap" style="height:260px;">
       <canvas id="abbvRevChart"></canvas>
     </div>
@@ -688,7 +699,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="grid-4">
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
-      <div class="stat-value">$3.1B</div>
+      <div class="stat-value">$3.11B</div>
       <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
@@ -913,7 +924,7 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
-          <span class="val-name">PBR <span class="hist-note" data-hist="note">최근 3.8년 이력</span></span>
+          <span class="val-name">PBR <span class="hist-note" data-hist="note">유효 이력 3.8년(자본 음수·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">계산 불가</span>
             <span class="hist-badge mid" data-hist="badge">해당 없음 · 평균 제외(자본 음수)</span>
@@ -961,7 +972,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">대형 제약 PER 비교(ABBV 본업 기준 · 동종업 공시 EPS) · 동종업 9/25 종가(ABBV는 9/28)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">대형 제약 PER 비교(ABBV 본업 기준 · 동종업 공시 EPS) · 9/25 종가(ABBV 막대는 9/28)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1137,8 +1148,8 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('abbvRevChart');
   if (!ctx) return;
-  const revenue=[14.5,15.1,13.3,15.4,15.8,16.6,15.0,17.0];
-  const netIncome=[2.8,-1.7,2.7,3.6,0.8,3.1,3.0,5.1];
+  const revenue=[14.46,15.1,13.34,15.42,15.78,16.62,15.0,16.99];
+  const netIncome=[2.75,-1.66,2.74,3.62,0.8,3.07,3.01,5.1];
   const opm=[26.5,-9.9,28.0,31.7,12.1,27.3,26.6,37.9];
   const y2min=-10, y2max=50;
   new Chart(ctx,{
@@ -1171,14 +1182,14 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [17.0, 6.4, 5.1, 3.1], cmp: [15.4, 4.9, 3.6, 4.9] },
+    chart: { cur: [16.99, 6.43, 5.1, 3.11], cmp: [15.42, 4.89, 3.62, 4.88] },
     deltas: ['+10.2%', '+31.4%', '+40.7%', '-36.2%'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준, 순이익은 본업 기준(공시 순이익은 2분기 $3.61B, 1년 전 $0.94B) · 영업이익에 인수 IPR&amp;D·마일스톤(2분기 $291M, 1년 전 $823M)이 들어 있다 · <a href="https://www.sec.gov/Archives/edgar/data/1551152/000155115226000023/abbv-20260630xexhibit991.htm" target="_blank" rel="noopener">AbbVie Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [17.0, 6.4, 5.1, 3.1], cmp: [15.0, 4.0, 3.0, 3.6] },
+    chart: { cur: [16.99, 6.43, 5.1, 3.11], cmp: [15.0, 3.99, 3.01, 3.56] },
     deltas: ['+13.3%', '+61.2%', '+69.2%', '-12.6%'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준, 순이익은 본업 기준(공시 순이익은 2분기 $3.61B, 1년 전 $0.94B) · 영업이익에 인수 IPR&amp;D·마일스톤(2분기 $291M, 1년 전 $823M)이 들어 있다 · <a href="https://www.sec.gov/Archives/edgar/data/1551152/000155115226000023/abbv-20260630xexhibit991.htm" target="_blank" rel="noopener">AbbVie Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
@@ -1259,7 +1270,7 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 매출 구성 도넛 차트 (Q2 2026 포트폴리오별, 백만 달러) ───
+// ─── 매출 구성 도넛 차트 (Q2 2026, 백만 달러) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
@@ -1292,19 +1303,19 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '대형 제약 PER 비교(ABBV 본업 기준 · 동종업 공시 EPS) · 동종업 9/25 종가(ABBV는 9/28)',
-    unit: 'PER', max: 150, abbvValue: null,
+    title: '대형 제약 PER 비교(ABBV 본업 기준 · 동종업 공시 EPS) · 9/25 종가(ABBV 막대는 9/28)',
+    unit: 'PER', max: 140, abbvValue: null,
     peers: [
       { name:'LLY', value:39.7, status:'reference' },
       { name:'JNJ', value:31.5, status:'reference' },
-      { name:'MRK', value:119.0, status:'reference' },
+      { name:'MRK', value:119.4, status:'reference' },
       { name:'PFE', value:37.7, status:'reference' },
       { name:'AMGN', value:25.8, status:'reference' },
       { name:'BMY', value:13.8, status:'reference' }
     ]
   },
   pbr: {
-    title: '대형 제약 PBR 비교 · 동종업 9/25 종가(ABBV는 9/28)',
+    title: '대형 제약 PBR 비교 · 9/25 종가(ABBV 막대는 9/28)',
     unit: 'PBR', max: 40, abbvValue: null,
     peers: [
       { name:'LLY', value:31.1, status:'reference' },
@@ -1316,7 +1327,7 @@ const MULTIPLE_DATA = {
     ]
   },
   psr: {
-    title: '대형 제약 PSR 비교 · 동종업 9/25 종가(ABBV는 9/28)',
+    title: '대형 제약 PSR 비교 · 9/25 종가(ABBV 막대는 9/28)',
     unit: 'PSR(TTM)', max: 20, abbvValue: null,
     peers: [
       { name:'LLY', value:13.2, status:'reference' },
@@ -1328,8 +1339,8 @@ const MULTIPLE_DATA = {
     ]
   },
   pcr: {
-    title: '대형 제약 PCR(FCF) 비교 · 동종업 9/25 종가(ABBV는 9/28)',
-    unit: 'PCR(FCF)', max: 75, abbvValue: null,
+    title: '대형 제약 PCR(FCF) 비교 · 9/25 종가(ABBV 막대는 9/28)',
+    unit: 'PCR(FCF)', max: 70, abbvValue: null,
     peers: [
       { name:'LLY', value:58.0, status:'reference' },
       { name:'JNJ', value:29.4, status:'reference' },
@@ -1340,10 +1351,11 @@ const MULTIPLE_DATA = {
     ]
   },
   evebitda: {
-    title: '대형 제약 EV/EBITDA 비교 (JNJ·MRK·PFE·BMY 값 없음) · 동종업 9/25 종가(ABBV는 9/28)',
+    title: '대형 제약 EV/EBITDA 비교 (JNJ 값 없음·PFE 값 없음·BMY 값 없음) · 9/25 종가(ABBV 막대는 9/28)',
     unit: 'EV/EBITDA', max: 40, abbvValue: null,
     peers: [
       { name:'LLY', value:30.8, status:'reference' },
+      { name:'MRK', value:31.8, status:'reference' },
       { name:'AMGN', value:19.0, status:'reference' }
     ]
   }
@@ -1379,7 +1391,7 @@ function renderMultipleChart(key) {
     data:{ labels, datasets:[{ label:d.unit, data, backgroundColor:bg, borderColor:bd, borderWidth:1, borderRadius:5 }] },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{ if (ctx.dataIndex === 0 && selfNA) return `${d.unit} 계산 불가 · ` + (_vs.currentNote === 'missing' ? '분모 데이터 없음' : key === 'pbr' ? '자본 음수' : '분모가 적자'); if (ctx.dataIndex === 0 && selfOver) return `${d.unit} 실제 ${selfRaw}x · 축 밖`; const p = d.peers[ctx.dataIndex - 1]; return p && p.note ? `${d.unit} ${p.note}` : `${d.unit} ${ctx.raw}x`; }}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{ if (ctx.dataIndex === 0 && selfNA) return `${d.unit} 계산 불가 · ` + (_vs.currentNote === 'missing' ? '분모 데이터 없음' : '분모가 적자'); if (ctx.dataIndex === 0 && selfOver) return `${d.unit} 실제 ${selfRaw}x · 축 밖`; const p = d.peers[ctx.dataIndex - 1]; return p && p.note ? `${d.unit} ${p.note}` : `${d.unit} ${ctx.raw}x`; }}}},
       scales:{
         x:{grid:{display:false},ticks:{color:'#9aa0b8',font:{size:10.5}}},
         y:{max:d.max,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#9aa0b8',font:{size:10},callback:v=>v+'x'}}
@@ -1434,7 +1446,7 @@ function dcfLevel(price, D) {
   const [cls, label] = r <= 0.7 ? ['', '매우 싸다'] : r <= 0.9 ? ['', '싸다'] : r <= 1.1 ? ['mid', '적정']
                      : r <= 1.5 ? ['high', '비싸다'] : ['high', '매우 비싸다'];
   const color = cls === '' ? '#38bdf8' : cls === 'mid' ? 'var(--gold)' : 'var(--red)';
-  const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(틀 규칙, 2026-10-05)
+  const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(카드 한정)
   const split = _mn > 0 && _mn < price && price < _mx;
   const range = _mn > 0
     ? `시나리오 범위: ${(price / _mx).toFixed(2)} ~ ${(price / _mn).toFixed(2)}(세 시나리오 최대·최소 기준)` : '';
@@ -1475,7 +1487,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 const ABBV_SCORES = {
   fundamental: 48.7,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 28.9,          // S&P500 헬스케어 대비 배수 순위(v2/peer_universe/health_care.json), 본업 PER은 비교에서 뺌
-  selfHistory: 10.6,   // 자기 5년 배수 분포 백분위 (2021-09-28 ~ 2026-09-28), PER은 본업 기준
+  selfHistory: 10.6,   // 자기 5년 배수 분포 백분위 (2021-09-28 ~ 2026-09-28)
   asOf: "2026-09-28",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-03 공시)
 };
@@ -1526,7 +1538,7 @@ const ABBV_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1535,12 +1547,12 @@ const ABBV_SCORES = {
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
-          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+          + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 ${Math.round(d.requiredGrowth / d.growth5y)}배다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
@@ -1608,7 +1620,7 @@ const ABBV_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
       + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
-      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null
+      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 ${Math.round(D.requiredGrowth / D.growth5y)}배다.`
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
@@ -1616,7 +1628,7 @@ const ABBV_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1877,7 +1889,11 @@ const ABBV_VALUATION = {"peer": {"score": 28.9, "sector": "Health Care (S&P500 5
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1885,13 +1901,11 @@ const ABBV_VALUATION = {"peer": {"score": 28.9, "sector": "Health Care (S&P500 5
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? (m.metric === 'pbr' ? '자본 음수 · 0점' : '적자 · 0점') : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -1963,7 +1977,7 @@ const ABBV_VALUATION = {"peer": {"score": 28.9, "sector": "Health Care (S&P500 5
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + (tv ? ' · ' : '') : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -2002,7 +2016,7 @@ const ABBV_ACTIVITY = {"ticker": "ABBV", "status": "ok", "asOf": "2026-06-30", "
   }
   const per = $('actPeriod');
   if (per) per.textContent = `TTM 기준 · ${A.asOf.replaceAll('-', '.')}까지 4분기`;
-  const d1 = v => v == null ? '—' : v.toFixed(1);   // 분기 매입채무 미공시(ABBV)면 dpo·ccc가 null
+  const d1 = v => v == null ? '—' : v.toFixed(1);   // 분기 매입채무 미공시면 dpo·ccc가 null
   const cmp = k => {
     const diff = A.now[k] - A.prev[k];
     const sign = Math.abs(diff) < 0.05 ? '±' : (diff > 0 ? '+' : '−');
@@ -2016,13 +2030,13 @@ const ABBV_ACTIVITY = {"ticker": "ABBV", "status": "ok", "asOf": "2026-06-30", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { const v = A.now[el.dataset.actTurn]; el.textContent = v == null ? '해당 없음' : (365 / v).toFixed(2) + '회'; });
+  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; });   // 카드 한정
   document.querySelectorAll('[data-act-days]').forEach(el => { const v = A.now[el.dataset.actDays]; el.textContent = v == null ? '해당 없음' : d1(v) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
   document.querySelectorAll('[data-act-sub]').forEach(el => {
     const k = el.dataset.actSub;
-    // 분기 매입채무를 따로 공시하지 않는 회사(ABBV — 10-Q는 매입채무·미지급비용 합산뿐)는 지급기간을 계산하지 않는다.
+    // 분기 매입채무를 따로 공시하지 않는 회사는 지급기간을 계산하지 않는다.
     el.textContent = A.now[k] == null ? '분기 매입채무를 따로 공시하지 않아 계산하지 않는다' : LEAD[k](d1(A.now[k])) + ' · ' + cmp(k);
   });
 
@@ -2031,9 +2045,9 @@ const ABBV_ACTIVITY = {"ticker": "ABBV", "status": "ok", "asOf": "2026-06-30", "
   // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
   // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
   const lead = A.now.ccc >= 0
-    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    ? `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
       + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+    : `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
       + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
   if (ex && noAp) {
     const opDiff = A.now.op - A.prev.op;
@@ -2125,7 +2139,7 @@ const ABBV_ANALYST = { asOf: '2026-09-29', source: 'StockAnalysis (S&P Global �
   };
   put('abbvFundBox', 'abbvFundScore', 'abbvFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열을 쓴다.`
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(2025년까지)을 쓴다.`
       + `\n자본이 음수라 부채비율은 최저점이다. 영업이익 3년 증가율이 음수인 것은 휴미라 매출 감소와 인수 IPR&D 비용 때문이다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
@@ -2251,6 +2265,13 @@ function abbvBandTone(cp){
   const el = document.getElementById('abbvConfidence');
   const label = document.getElementById('abbvConfidenceLabel');
   const h = ABBV_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof ABBV_VALUATION !== 'undefined' && ABBV_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('abbvFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && ABBV_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
@@ -2531,7 +2552,7 @@ function abbvBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
@@ -2697,7 +2718,7 @@ function abbvBandTone(cp){
       if (maState.dcf) {
         lines.push('<strong style="color:' + (overlapOnly ? '#818cf8' : '#38bdf8') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
-          + (overlapOnly ? '' : ' 낮은·기본·높은 세 가정의 범위.'));
+          + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
       legendEl.innerHTML = lines.join('<br>');
       legendEl.style.display = lines.length ? 'block' : 'none';

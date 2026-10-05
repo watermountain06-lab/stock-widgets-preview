@@ -25,7 +25,7 @@ D=dec.raw_decode(h,h.index('[',h.index(f'const {T}_DAILY')))[0]
 for n,k in [('MA5',5),('MA20',20),('MA60',60),('MA120',120)]:
     m=dec.raw_decode(h,h.index('[',h.index(f'const {T}_{n}')))[0]
     last=[x for x in m if x is not None][-1] if m else None
-    print(n,len(m),len(D), m[-1], round(sum(r[4] for r in D[-k:])/k,2))
+    print(n,len(m),len(D), m[-1] if m else None, round(sum(r[4] for r in D[-k:])/k,2))
 last,prev=D[-1],D[-2]; c=(last[4]/prev[4]-1)*100; up=c>=0
 new=f'<div class="price-main"><span class="price-change" style="color:var(--{"green" if up else "red"});">{"▲ +" if up else "▼ −"}{abs(c):.2f}%</span> ${last[4]:.2f}</div>'
 h=re.sub(r'<div class="price-main">.*?</div>',lambda m:new,h,count=1)

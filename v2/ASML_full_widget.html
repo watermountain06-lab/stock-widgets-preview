@@ -215,6 +215,17 @@ Chart.overrides.doughnut.animation = false;
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
+  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
   .collapsible-body { overflow: hidden; opacity: 1; transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.2s ease; }
   .collapsible-body.collapsed { max-height: 0 !important; opacity: 0; margin-top: 0 !important; }
 
@@ -501,7 +512,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="asmlFairBand" style="font-size:22px;color:var(--green);">$1,240 ~ $1,690</span>
+      <span class="meta-value" id="asmlFairBand" title="최근 1년 PER 25~75% 구간(39.4~53.7배) × 최근 4분기 희석 EPS(달러 환산) $31.41(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$1,240 ~ $1,690</span>
     </div>
   </div>
   </div>
@@ -648,7 +659,7 @@ Chart.overrides.doughnut.animation = false;
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $543 = 사업 가치 $537 + 비영업 자산 $7(주당, 지분·장기투자)</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $543.39 = 사업 가치 $536.54 + 비영업 자산 $6.85(주당, 지분·장기투자)</div>
     <div class="reverse">지금 가격(<span data-dcf-price>$1743.94</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>43.5%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$543</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>9.9%</span>다.</div>
   </div>
 
@@ -961,7 +972,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">반도체 장비·주요 고객 PER 비교 · 9/25 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">반도체 장비·주요 고객 PER 비교 · 08/27~09/11 카드 기준(ASML 막대는 9/25)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1119,8 +1130,8 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('asmlRevChart');
   if (!ctx) return;
-  const revenue=[8.2,9.9,8.1,8.7,8.8,11.3,10.3,10.8];
-  const netIncome=[2.3,2.9,2.5,2.6,2.5,3.3,3.2,3.4];
+  const revenue=[8.2,9.9,8.14,8.71,8.78,11.31,10.26,10.85];
+  const netIncome=[2.28,2.88,2.48,2.59,2.48,3.3,3.23,3.39];
   const opm=[32.7,36.2,35.4,34.6,32.8,35.3,36.0,37.1];
   const y2min=25, y2max=45;
   new Chart(ctx,{
@@ -1153,14 +1164,14 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [10.8, 4.0, 3.4, 1.5], cmp: [8.7, 3.0, 2.6, 0.4] },
+    chart: { cur: [10.85, 4.02, 3.39, 1.53], cmp: [8.71, 3.02, 2.59, 0.36] },
     deltas: ['+21.3%', '+29.7%', '+27.4%', '+313.1%'],
     footnote: '기준일: 2026.06.28(Q2 2026) vs 2025.06.29(Q2 2025) · US GAAP · 금액은 분기 평균 환율로 달러 환산, 증감률은 유로 기준 · FCF는 영업현금흐름 − 설비·무형자산 투자로, 고객 선수금 흐름에 따라 분기마다 크게 흔들린다(1분기 −€2.6B) · <a href="https://www.sec.gov/Archives/edgar/data/937966/000162828026048235/financialstatementsusgaa.htm" target="_blank" rel="noopener">ASML Q2 2026 US GAAP 요약 재무제표 (SEC 6-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [10.8, 4.0, 3.4, 1.5], cmp: [10.3, 3.7, 3.2, -3.1] },
+    chart: { cur: [10.85, 4.02, 3.39, 1.53], cmp: [10.26, 3.7, 3.23, -3.05] },
     deltas: ['+6.4%', '+9.4%', '+5.8%', '흑자 전환'],
     footnote: '기준일: 2026.06.28(Q2 2026) vs 2026.03.29(Q1 2026) · US GAAP · 금액은 분기 평균 환율로 달러 환산, 증감률은 유로 기준 · FCF는 영업현금흐름 − 설비·무형자산 투자로, 고객 선수금 흐름에 따라 분기마다 크게 흔들린다(1분기 −€2.6B) · <a href="https://www.sec.gov/Archives/edgar/data/937966/000162828026048235/financialstatementsusgaa.htm" target="_blank" rel="noopener">ASML Q2 2026 US GAAP 요약 재무제표 (SEC 6-K) →</a>'
   }
@@ -1241,11 +1252,11 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 매출 구성 도넛 차트 (2026 상반기 제품·서비스별, 백만 유로) ───
+// ─── 매출 구성 도넛 차트 (2026 상반기, 백만 유로) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 18093.4;
+  const total = 18093.399999999998;
   new Chart(ctx,{
     type:'doughnut',
     data:{
@@ -1274,62 +1285,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '반도체 장비·주요 고객 PER 비교 · 9/25 종가',
+    title: '반도체 장비·주요 고객 PER 비교 · 08/27~09/11 카드 기준(ASML 막대는 9/25)',
     unit: 'PER', max: 70, asmlValue: null,
     peers: [
-      { name:'AMAT', value:41.9, status:'reference' },
-      { name:'LRCX', value:54.7, status:'reference' },
-      { name:'KLAC', value:51.3, status:'reference' },
-      { name:'TSM', value:32.5, status:'reference' },
-      { name:'MU', value:24.5, status:'reference' },
-      { name:'NVDA', value:28.5, status:'reference' }
+      { name:'AMAT', value:46.6, status:'reference' },
+      { name:'LRCX', value:60.3, status:'reference' },
+      { name:'KLAC', value:56.5, status:'reference' },
+      { name:'TSM', value:34.1, status:'reference' },
+      { name:'MU', value:24.3, status:'reference' },
+      { name:'NVDA', value:29.6, status:'reference' }
     ]
   },
   pbr: {
-    title: '반도체 장비·주요 고객 PBR 비교 · 9/25 종가',
-    unit: 'PBR', max: 45, asmlValue: null,
+    title: '반도체 장비·주요 고객 PBR 비교 · 08/27~09/11 카드 기준(ASML 막대는 9/25)',
+    unit: 'PBR', max: 50, asmlValue: null,
     peers: [
-      { name:'AMAT', value:15.0, status:'reference' },
-      { name:'LRCX', value:31.6, status:'reference' },
-      { name:'KLAC', value:38.7, status:'reference' },
-      { name:'TSM', value:11.4, status:'reference' },
-      { name:'MU', value:12.1, status:'reference' },
-      { name:'NVDA', value:23.8, status:'reference' }
+      { name:'AMAT', value:16.7, status:'reference' },
+      { name:'LRCX', value:34.9, status:'reference' },
+      { name:'KLAC', value:42.6, status:'reference' },
+      { name:'TSM', value:11.9, status:'reference' },
+      { name:'MU', value:12.0, status:'reference' },
+      { name:'NVDA', value:24.8, status:'reference' }
     ]
   },
   psr: {
-    title: '반도체 장비·주요 고객 PSR 비교 · 9/25 종가',
+    title: '반도체 장비·주요 고객 PSR 비교 · 08/27~09/11 카드 기준(ASML 막대는 9/25)',
     unit: 'PSR(TTM)', max: 25, asmlValue: null,
     peers: [
-      { name:'AMAT', value:12.5, status:'reference' },
-      { name:'LRCX', value:17.0, status:'reference' },
-      { name:'KLAC', value:18.1, status:'reference' },
-      { name:'TSM', value:16.4, status:'reference' },
-      { name:'MU', value:13.6, status:'reference' },
-      { name:'NVDA', value:18.0, status:'reference' }
+      { name:'AMAT', value:13.9, status:'reference' },
+      { name:'LRCX', value:18.7, status:'reference' },
+      { name:'KLAC', value:19.9, status:'reference' },
+      { name:'TSM', value:17.2, status:'reference' },
+      { name:'MU', value:13.5, status:'reference' },
+      { name:'NVDA', value:18.7, status:'reference' }
     ]
   },
   pcr: {
-    title: '반도체 장비·주요 고객 PCR(FCF) 비교 · 9/25 종가',
+    title: '반도체 장비·주요 고객 PCR(FCF) 비교 · 08/27~09/11 카드 기준(ASML 막대는 9/25)',
     unit: 'PCR(FCF)', max: 90, asmlValue: null,
     peers: [
-      { name:'AMAT', value:45.8, status:'reference' },
-      { name:'LRCX', value:67.3, status:'reference' },
-      { name:'KLAC', value:59.3, status:'reference' },
-      { name:'TSM', value:63.7, status:'reference' },
-      { name:'MU', value:46.6, status:'reference' },
-      { name:'NVDA', value:43.1, status:'reference' }
+      { name:'AMAT', value:51.0, status:'reference' },
+      { name:'LRCX', value:74.2, status:'reference' },
+      { name:'KLAC', value:65.2, status:'reference' },
+      { name:'TSM', value:66.9, status:'reference' },
+      { name:'MU', value:46.3, status:'reference' },
+      { name:'NVDA', value:44.8, status:'reference' }
     ]
   },
   evebitda: {
-    title: '반도체 장비·주요 고객 EV/EBITDA 비교 (TSM 값 없음) · 9/25 종가',
+    title: '반도체 장비·주요 고객 EV/EBITDA 비교 (TSM 값 없음) · 08/27~09/11 카드 기준(ASML 막대는 9/25)',
     unit: 'EV/EBITDA', max: 60, asmlValue: null,
     peers: [
-      { name:'AMAT', value:39.8, status:'reference' },
-      { name:'LRCX', value:45.4, status:'reference' },
-      { name:'KLAC', value:40.7, status:'reference' },
-      { name:'MU', value:17.7, status:'reference' },
-      { name:'NVDA', value:26.8, status:'reference' }
+      { name:'AMAT', value:44.3, status:'reference' },
+      { name:'LRCX', value:50.1, status:'reference' },
+      { name:'KLAC', value:44.8, status:'reference' },
+      { name:'MU', value:17.5, status:'reference' },
+      { name:'NVDA', value:27.9, status:'reference' }
     ]
   }
 };
@@ -1511,7 +1522,7 @@ const ASML_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1520,12 +1531,12 @@ const ASML_SCORES = {
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
-          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+          + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
@@ -1593,7 +1604,7 @@ const ASML_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
       + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
-      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null
+      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
@@ -1601,7 +1612,7 @@ const ASML_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1862,7 +1873,11 @@ const ASML_VALUATION = {"peer": {"score": 29.4, "sector": "Information Technolog
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1870,13 +1885,11 @@ const ASML_VALUATION = {"peer": {"score": 29.4, "sector": "Information Technolog
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -1948,7 +1961,7 @@ const ASML_VALUATION = {"peer": {"score": 29.4, "sector": "Information Technolog
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + (tv ? ' · ' : '') : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -1987,7 +2000,7 @@ const ASML_ACTIVITY = {"ticker": "ASML", "status": "ok", "asOf": "2026-06-28", "
   }
   const per = $('actPeriod');
   if (per) per.textContent = `TTM 기준 · ${A.asOf.replaceAll('-', '.')}까지 4분기`;
-  const d1 = v => v == null ? '—' : v.toFixed(1);   // 매입채무 미공시(ASML)면 dpo·ccc가 null
+  const d1 = v => v == null ? '—' : v.toFixed(1);   // 분기 매입채무 미공시면 dpo·ccc가 null
   const cmp = k => {
     const diff = A.now[k] - A.prev[k];
     const sign = Math.abs(diff) < 0.05 ? '±' : (diff > 0 ? '+' : '−');
@@ -2001,13 +2014,13 @@ const ASML_ACTIVITY = {"ticker": "ASML", "status": "ok", "asOf": "2026-06-28", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { const v = A.now[el.dataset.actTurn]; el.textContent = v == null ? '해당 없음' : (365 / v).toFixed(2) + '회'; });
+  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; });   // 카드 한정
   document.querySelectorAll('[data-act-days]').forEach(el => { const v = A.now[el.dataset.actDays]; el.textContent = v == null ? '해당 없음' : d1(v) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
   document.querySelectorAll('[data-act-sub]').forEach(el => {
     const k = el.dataset.actSub;
-    // 분기 매입채무를 공시하지 않는 회사(ASML — 6-K 요약 재무상태표는 유동부채 한 줄)는 지급기간을 계산하지 않는다.
+    // 분기 매입채무를 따로 공시하지 않는 회사는 지급기간을 계산하지 않는다.
     el.textContent = A.now[k] == null ? '매입채무를 분기마다 공시하지 않아(반기·연말만) 계산하지 않는다' : LEAD[k](d1(A.now[k])) + ' · ' + cmp(k);
   });
 
@@ -2016,9 +2029,9 @@ const ASML_ACTIVITY = {"ticker": "ASML", "status": "ok", "asOf": "2026-06-28", "
   // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
   // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
   const lead = A.now.ccc >= 0
-    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    ? `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
       + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+    : `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
       + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
   if (ex && noAp) {
     const opDiff = A.now.op - A.prev.op;
@@ -2110,7 +2123,7 @@ const ASML_ANALYST = { asOf: '2026-09-28', source: 'StockAnalysis (S&P Global �
   };
   put('asmlFundBox', 'asmlFundScore', 'asmlFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 6-K 분기 요약), 성장률은 연간 시계열을 쓴다.`
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 6-K 분기 요약), 성장률은 연간 시계열(2025년까지)을 쓴다.`
       + `\n재무는 유로(US GAAP)다. ASML은 10-Q를 내지 않아 분기 실적 6-K의 요약 재무제표를 읽는다(v2/adapters/asml_ifrs.py). 유동 차입금은 반기·연말에만 공시돼 1·3분기는 직전 값을 쓰고, 이자보상배율은 분기 이자비용이 없어 해당 없음(만점, 2025년 약 96배)으로 두었다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
@@ -2236,6 +2249,13 @@ function asmlBandTone(cp){
   const el = document.getElementById('asmlConfidence');
   const label = document.getElementById('asmlConfidenceLabel');
   const h = ASML_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof ASML_VALUATION !== 'undefined' && ASML_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('asmlFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && ASML_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
@@ -2516,7 +2536,7 @@ function asmlBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
@@ -2682,7 +2702,7 @@ function asmlBandTone(cp){
       if (maState.dcf) {
         lines.push('<strong style="color:' + (overlapOnly ? '#818cf8' : '#38bdf8') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
-          + (overlapOnly ? '' : ' 낮은·기본·높은 세 가정의 범위.'));
+          + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
       legendEl.innerHTML = lines.join('<br>');
       legendEl.style.display = lines.length ? 'block' : 'none';

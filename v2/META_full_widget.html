@@ -14,8 +14,8 @@ Chart.overrides.doughnut.animation = false;
 
   /* HEADER (라이브 META_analysis_widget.html에서 재사용) */
   .header { background: linear-gradient(135deg, #101a05 0%, #0f1117 40%, #1a1d27 100%); border-bottom: 2px solid var(--accent3); padding: 28px 32px 24px; position: relative; overflow: hidden; max-width: 1100px; margin: 0 auto; }
-  .box-key { background: rgba(24,119,242,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
-  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(24,119,242,0.14) 0%, transparent 70%); pointer-events: none; }
+  .box-key { background: rgba(48,133,243,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
+  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(48,133,243,0.14) 0%, transparent 70%); pointer-events: none; }
   .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .ticker-block { display: flex; align-items: center; gap: 16px; flex: 1 1 320px; min-width: 0; }
   .ticker-block > div { min-width: 0; }
@@ -52,7 +52,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #1877F2; --accent2: #79b0f7; --accent3: #094da5;
+    --accent: #3085f3; --accent2: #79b0f7; --accent3: #094da5;
     --ma5: #ff6b9d; --ma20: #9b59b6; --ma60: #f0c040; --ma120: #22d3ee;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -91,7 +91,7 @@ Chart.overrides.doughnut.animation = false;
   .range-toggle { display: flex; gap: 6px; flex-wrap: wrap; }
   .range-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text3); font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; cursor: pointer; transition: all .15s; }
   .range-btn:hover { color: var(--text); border-color: var(--text2); }
-  .range-btn.active { background: rgba(24,119,242,0.18); color: var(--accent2); border-color: var(--accent); }
+  .range-btn.active { background: rgba(48,133,243,0.18); color: var(--accent2); border-color: var(--accent); }
   .ma-toggle-btn { background: var(--bg3); border: 1px solid; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; cursor: pointer; opacity: 1; transition: opacity .15s; }
   .ma-toggle-btn.ma-off { opacity: 0.35; }
   .price-chart-container { margin-bottom: 16px; }
@@ -110,7 +110,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #1877F2; --accent2: #79b0f7; --accent3: #094da5;
+    --accent: #3085f3; --accent2: #79b0f7; --accent3: #094da5;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
@@ -215,6 +215,17 @@ Chart.overrides.doughnut.animation = false;
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
+  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
   .collapsible-body { overflow: hidden; opacity: 1; transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.2s ease; }
   .collapsible-body.collapsed { max-height: 0 !important; opacity: 0; margin-top: 0 !important; }
 
@@ -233,7 +244,7 @@ Chart.overrides.doughnut.animation = false;
   .tl-bar { height: 18px; border-radius: 5px; overflow: hidden; display: flex; }
   .tl-seg-float { background: repeating-linear-gradient(45deg, rgba(240,192,64,0.28) 0 6px, rgba(240,192,64,0.14) 6px 12px); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--gold); }
   .tl-seg-inv { background: linear-gradient(90deg,#3498db,#2980b9); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
-  .tl-seg-ar { background: linear-gradient(90deg,#79b0f7,#1877F2); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
+  .tl-seg-ar { background: linear-gradient(90deg,#79b0f7,#3085f3); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
   .tl-marker { position: absolute; top: -18px; width: 2px; background: var(--gold); }
   .tl-marker-label { position: absolute; top: -32px; transform: translateX(-50%); font-size: 10.5px; font-weight: 700; color: var(--gold); white-space: nowrap; }
   .tl-ccc-span { position: absolute; height: 3px; background: rgba(240,192,64,0.6); border-radius: 2px; top: 24px; }
@@ -244,7 +255,7 @@ Chart.overrides.doughnut.animation = false;
   .zone-label { font-size: 12px; color: var(--text2); }
   .zone-val { font-size: 13px; font-weight: 700; color: var(--text); }
   .zone-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .tag-record { background: rgba(24,119,242,0.2); color: var(--accent2); }
+  .tag-record { background: rgba(48,133,243,0.2); color: var(--accent2); }
 
   @media (max-width: 640px) {
     .page { padding: 20px 16px; }
@@ -256,7 +267,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #1877F2; --accent2: #79b0f7; --accent3: #094da5;
+    --accent: #3085f3; --accent2: #79b0f7; --accent3: #094da5;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
@@ -309,7 +320,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #1877F2; --accent2: #79b0f7; --accent3: #094da5;
+    --accent: #3085f3; --accent2: #79b0f7; --accent3: #094da5;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --event-major: #38bdf8; --event-neutral: #f1c40f;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -387,7 +398,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #1877F2; --accent2: #79b0f7; --accent3: #094da5;
+    --accent: #3085f3; --accent2: #79b0f7; --accent3: #094da5;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --bull: #D85A30; --bear: #185FA5;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -489,7 +500,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +23.7%)</span>
@@ -501,7 +512,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="metaFairBand" style="font-size:22px;color:var(--green);">$590 ~ $670</span>
+      <span class="meta-value" id="metaFairBand" title="최근 1년 PER 25~75% 구간(20.4~23.0배) × 최근 4분기 EPS $28.98(일회성 법인세 제외, 10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$590 ~ $670</span>
     </div>
   </div>
   </div>
@@ -633,22 +644,22 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$389.70</td><td style="color: var(--red);" data-dcf-upside="low">−49.9%</td>
-          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(38.7%)에 맞춘다. 매출 $1을 늘리는 데 $1.15를 투자한다(최근 1년 — 과거 평균 $1.11보다 자본이 더 드는 쪽).</td>
+          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(38.7%)에 맞춘다. 매출 $1을 늘리는 데 $1.15를 투자한다(최근 1년 — 과거 평균 $0.99보다 자본이 더 드는 쪽).</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$485.36</td><td style="color: var(--red);" data-dcf-upside="base">−37.6%</td>
-          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(41.8%)으로 서서히 올라간다. 매출 $1당 투자는 최근 1년 $1.15에서 5년에 걸쳐 과거 평균 $1.11로 돌아온다.</td>
+          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(41.8%)으로 서서히 올라간다. 매출 $1당 투자는 최근 1년 $1.15에서 5년에 걸쳐 과거 평균 $0.99로 돌아온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$502.58</td><td style="color: var(--red);" data-dcf-upside="high">−35.4%</td>
-          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(38.1%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $1.11다. 지금 마진이 법적 비용·감원 비용으로 2년 중앙값보다 낮아, 마진만 보면 기본보다 보수적이다.</td>
+          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(38.1%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $0.99다. 지금 마진이 법적 비용·감원 비용으로 2년 중앙값보다 낮아, 마진만 보면 기본보다 보수적이다.</td>
         </tr>
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $485 = 사업 가치 $473 + 비영업 자산 $12(주당, 지분·장기투자)</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $485.36 = 사업 가치 $473.52 + 비영업 자산 $11.84(주당, 지분·장기투자)</div>
     <div class="reverse">지금 가격(<span data-dcf-price>$777.59</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>24.6%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$485</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>9.6%</span>다.</div>
   </div>
 
@@ -687,12 +698,12 @@ Chart.overrides.doughnut.animation = false;
   <div class="grid-4">
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
-      <div class="stat-value">$1.7B</div>
+      <div class="stat-value">$1.75B</div>
       <div class="stat-sub">현금창출력</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
-      <div class="stat-value">$30.1B</div>
+      <div class="stat-value">$30.12B</div>
       <div class="stat-sub">미래 재투자</div>
     </div>
     <div class="stat-box">
@@ -751,7 +762,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 223%로 단기 지급 여력은 넉넉하고, 이자보상배율은 24.9배다. 설비투자 재원으로 회사채를 2025년 11월 $30B, 2026년 5월 $25B 발행해 장기차입금이 $58.7B(2025년 말)에서 $83.7B가 됐다. 현금·유가증권 $90.3B이 차입금보다 조금 많지만, 리스부채까지 더하면 순차입금이다.</div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 223%로 단기 지급 여력은 넉넉하고, 이자보상배율은 24.9배다. 설비투자 재원으로 회사채를 2025년 11월 $30B, 2026년 5월 $25B 발행해 장기차입금이 $58.7B(2025년 말)에서 $83.7B가 됐다. 현금·유가증권 $90.3B이 차입금보다 조금 많지만, 리스부채까지 더하면 순차입금이다. <a href="https://www.sec.gov/Archives/edgar/data/1326801/000162828026050705/meta-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -791,7 +802,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
         <div class="ccc-head-value" data-act-days="ccc">-64.9일</div>
       </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 29.5일이 걸리는데, 매입채무(외상)는 94.4일 뒤에 갚는다. <strong style="color:var(--gold);">판매 대금을 받고도 64.9일 동안 공급업체 돈으로 운영하는</strong> 구조다. 그 기간이 직전 분기 59.5일보다 5.4일 늘었다.</div>
+      <div class="ccc-explain" id="actCccExplain">판매 대금을 회수하기까지 29.5일이 걸리는데, 매입채무(외상)는 94.4일 뒤에 갚는다. <strong style="color:var(--gold);">판매 대금을 받고도 64.9일 동안 공급업체 돈으로 운영하는</strong> 구조다. 그 기간이 직전 분기 59.5일보다 5.4일 늘었다.</div>
       <div class="tl-bar-wrap" id="actBar">
         <div class="tl-marker" style="left: 100%; height: 18px;"></div>
         <div class="tl-marker-label" style="left: 100%; transform: translateX(-100%);">매입채무 지급 94.4일</div>
@@ -829,9 +840,9 @@ Chart.overrides.doughnut.animation = false;
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#1877F2;display:inline-block;flex-shrink:0;"></span>광고 <strong style="color:var(--text);">$59.4B · 97.6%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f97316;display:inline-block;flex-shrink:0;"></span>기타(앱 부문) <strong style="color:var(--text);">$1.0B · 1.7%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#8a8fa8;display:inline-block;flex-shrink:0;"></span>Reality Labs <strong style="color:var(--text);">$0.4B · 0.7%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#1877F2;display:inline-block;flex-shrink:0;"></span>광고 <strong style="color:var(--text);">$59.36B · 97.6%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f97316;display:inline-block;flex-shrink:0;"></span>기타(앱 부문) <strong style="color:var(--text);">$1.01B · 1.7%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#8a8fa8;display:inline-block;flex-shrink:0;"></span>Reality Labs <strong style="color:var(--text);">$0.43B · 0.7%</strong></div>
         </div>
       </div>
 
@@ -843,7 +854,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="zone-list">
         <div class="zone-item">
           <span class="zone-label">설비투자 (Q2 2026, 금융리스 원금 포함)</span>
-          <span class="zone-val">$31.1B</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="zone-val">$31.1B</span>
+          </div>
         </div>
         <div class="zone-item">
           <span class="zone-label">2026년 설비투자 전망 (7월)</span>
@@ -851,7 +864,9 @@ Chart.overrides.doughnut.animation = false;
         </div>
         <div class="zone-item">
           <span class="zone-label">배당 (Q2 2026, 주당 $0.525)</span>
-          <span class="zone-val">$1.35B</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="zone-val">$1.35B</span>
+          </div>
         </div>
         <div class="zone-item">
           <span class="zone-label">자사주 매입 (2026년 상반기)</span>
@@ -958,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 · 2026.09.24 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 · 08/27~09/09 카드 기준(META 막대는 9/24)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1134,15 +1149,15 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('metaRevChart');
   if (!ctx) return;
-  const revenue=[40.6,48.4,42.3,47.5,51.2,59.9,56.3,60.8];
-  const netIncome=[15.7,20.8,16.6,18.3,2.7,22.8,26.8,15.8];
+  const revenue=[40.59,48.39,42.31,47.52,51.24,59.89,56.31,60.8];
+  const netIncome=[15.69,20.84,16.64,18.34,2.71,22.77,26.77,15.85];
   const opm=[42.7,48.3,41.5,43.0,40.1,41.3,40.6,30.9];
   const y2min=25, y2max=55;
   new Chart(ctx,{
     data:{
       labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026'],
       datasets:[
-        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(24,119,242,0.55)',borderColor:'#1877F2',borderWidth:1,borderRadius:4,yAxisID:'y'},
+        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(48,133,243,0.55)',borderColor:'#3085f3',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'bar',label:'순이익($B)',data:netIncome,backgroundColor:'rgba(52,152,219,0.5)',borderColor:'#3498db',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'line',label:'OPM(%)',data:opm,borderColor:'#f0c040',backgroundColor:'rgba(240,192,64,.1)',tension:.35,pointRadius:4,borderWidth:2.5,fill:false,yAxisID:'y2'}
       ]
@@ -1168,16 +1183,16 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [60.8, 18.8, 15.8, 1.7], cmp: [47.5, 20.4, 18.3, 9.0] },
+    chart: { cur: [60.8, 18.78, 15.85, 1.75], cmp: [47.52, 20.44, 18.34, 9.02] },
     deltas: ['+28.0%', '-8.2%', '-13.6%', '-80.6%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자(회사 발표 FCF는 금융리스 원금 상환까지 빼 $0.78B) · <a href="https://www.sec.gov/Archives/edgar/data/1326801/000162828026050596/meta-06302026xexhibit991.htm" target="_blank" rel="noopener">Meta Q2 2026 실적발표 원문 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자(회사 발표 FCF는 금융리스 원금 상환까지 빼 $0.78B) · <a href="https://www.sec.gov/Archives/edgar/data/1326801/000162828026050596/meta-06302026xexhibit991.htm" target="_blank" rel="noopener">Meta Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [60.8, 18.8, 15.8, 1.7], cmp: [56.3, 22.9, 26.8, 13.2] },
+    chart: { cur: [60.8, 18.78, 15.85, 1.75], cmp: [56.31, 22.87, 26.77, 13.23] },
     deltas: ['+8.0%', '-17.9%', '-40.8%', '-86.8%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자(회사 발표 FCF는 금융리스 원금 상환까지 빼 $0.78B) · <a href="https://www.sec.gov/Archives/edgar/data/1326801/000162828026050596/meta-06302026xexhibit991.htm" target="_blank" rel="noopener">Meta Q2 2026 실적발표 원문 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자(회사 발표 FCF는 금융리스 원금 상환까지 빼 $0.78B) · <a href="https://www.sec.gov/Archives/edgar/data/1326801/000162828026050596/meta-06302026xexhibit991.htm" target="_blank" rel="noopener">Meta Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1237,7 +1252,7 @@ function selectFundPeriod(period) {
         labels: ['매출', '영업이익', '순이익', 'FCF'],
         datasets: [
           { label: d.cmpLabel, data: d.chart.cmp, backgroundColor: 'rgba(154,160,184,0.35)', borderColor: '#5c6282', borderWidth: 1, borderRadius: 4 },
-          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(24,119,242,0.55)', borderColor: '#1877F2', borderWidth: 1, borderRadius: 4 }
+          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(48,133,243,0.55)', borderColor: '#3085f3', borderWidth: 1, borderRadius: 4 }
         ]
       },
       options: {
@@ -1256,7 +1271,7 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 매출 구성 도넛 차트 (광고 / 기타 / Reality Labs, 백만 달러) ───
+// ─── 매출 구성 도넛 차트 (Q2 2026, 백만 달러) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
@@ -1264,10 +1279,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:['광고','기타(앱 부문)','Reality Labs'],
+      labels:["광고", "기타(앱 부문)", "Reality Labs"],
       datasets:[{
         data:[59363, 1007, 431],
-        backgroundColor:['#1877F2','#f97316','#8a8fa8'],
+        backgroundColor:["#1877F2", "#f97316", "#8a8fa8"],
         borderColor:'#1a1d27',
         borderWidth:2
       }]
@@ -1289,57 +1304,57 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '빅테크 PER 비교 · 2026.09.24 종가',
-    unit: 'PER(TTM)', max: 50, metaValue: null,
+    title: '빅테크 PER 비교 · 08/27~09/09 카드 기준(META 막대는 9/24)',
+    unit: 'PER', max: 45, metaValue: null,
     peers: [
-      { name:'GOOGL', value:34.1, status:'reference' },
-      { name:'MSFT', value:28.8, status:'reference' },
-      { name:'AMZN', value:38.0, status:'reference' },
-      { name:'AAPL', value:38.5, status:'reference' },
-      { name:'NFLX', value:26.7, status:'reference' }
+      { name:'GOOGL', value:34.2, status:'reference' },
+      { name:'MSFT', value:30.0, status:'reference' },
+      { name:'AMZN', value:38.4, status:'reference' },
+      { name:'AAPL', value:38.3, status:'reference' },
+      { name:'NFLX', value:25.0, status:'reference' }
     ]
   },
   pbr: {
-    title: '빅테크 PBR 비교 · 2026.09.24 종가 (AAPL은 축 밖)',
+    title: '빅테크 PBR 비교 (AAPL은 축 밖) · 08/27~09/09 카드 기준(META 막대는 9/24)',
     unit: 'PBR', max: 15, metaValue: null,
     peers: [
-      { name:'GOOGL', value:6.5, status:'reference' },
-      { name:'MSFT', value:8.4, status:'reference' },
+      { name:'GOOGL', value:6.6, status:'reference' },
+      { name:'MSFT', value:8.7, status:'reference' },
       { name:'AMZN', value:4.9, status:'reference' },
-      { name:'AAPL', value:45.7, status:'reference' },
-      { name:'NFLX', value:9.9, status:'reference' }
+      { name:'NFLX', value:9.3, status:'reference' }
     ]
   },
   psr: {
-    title: '빅테크 PSR 비교 · 2026.09.24 종가',
+    title: '빅테크 PSR 비교 · 08/27~09/09 카드 기준(META 막대는 9/24)',
     unit: 'PSR(TTM)', max: 15, metaValue: null,
     peers: [
       { name:'GOOGL', value:9.4, status:'reference' },
-      { name:'MSFT', value:11.1, status:'reference' },
+      { name:'MSFT', value:11.6, status:'reference' },
       { name:'AMZN', value:3.5, status:'reference' },
       { name:'AAPL', value:10.5, status:'reference' },
-      { name:'NFLX', value:6.2, status:'reference' }
+      { name:'NFLX', value:5.8, status:'reference' }
     ]
   },
   pcr: {
-    title: '빅테크 PCR(FCF) 비교 · 2026.09.24 종가 (AMZN 잉여현금흐름 적자)',
-    unit: 'PCR(FCF)', max: 90, metaValue: null,
+    title: '빅테크 PCR(FCF) 비교 · 08/27~09/09 카드 기준(META 막대는 9/24)',
+    unit: 'PCR(FCF)', max: 95, metaValue: null,
     peers: [
-      { name:'GOOGL', value:78.5, status:'reference' },
-      { name:'MSFT', value:55.2, status:'reference' },
-      { name:'AAPL', value:35.9, status:'reference' },
-      { name:'NFLX', value:32.6, status:'reference' }
+      { name:'GOOGL', value:78.7, status:'reference' },
+      { name:'MSFT', value:57.3, status:'reference' },
+      { name:'AMZN', value:16.8, status:'reference' },
+      { name:'AAPL', value:35.6, status:'reference' },
+      { name:'NFLX', value:30.4, status:'reference' }
     ]
   },
   evebitda: {
-    title: '빅테크 EV/EBITDA 비교 · 2026.09.24 종가',
+    title: '빅테크 EV/EBITDA 비교 · 08/27~09/09 카드 기준(META 막대는 9/24)',
     unit: 'EV/EBITDA', max: 35, metaValue: null,
     peers: [
-      { name:'GOOGL', value:23.4, status:'reference' },
-      { name:'MSFT', value:18.9, status:'reference' },
-      { name:'AMZN', value:16.0, status:'reference' },
-      { name:'AAPL', value:29.4, status:'reference' },
-      { name:'NFLX', value:20.6, status:'reference' }
+      { name:'GOOGL', value:23.5, status:'reference' },
+      { name:'MSFT', value:19.6, status:'reference' },
+      { name:'AMZN', value:16.1, status:'reference' },
+      { name:'AAPL', value:29.2, status:'reference' },
+      { name:'NFLX', value:19.3, status:'reference' }
     ]
   }
 };
@@ -1470,7 +1485,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 const META_SCORES = {
   fundamental: 81.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 64.6,          // GICS Information Technology 대비 배수 순위 (카드 공통 섹터 차용)
-  selfHistory: 29.8,   // 자기 5년 배수 분포 백분위 (2021-09-24 ~ 2026-09-24, PER은 일회성 법인세 제외)
+  selfHistory: 29.8,   // 자기 5년 배수 분포 백분위 (2021-09-24 ~ 2026-09-24)
   asOf: "2026-09-24",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-30 공시)
 };
@@ -1521,7 +1536,7 @@ const META_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1530,12 +1545,12 @@ const META_SCORES = {
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
-          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+          + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
@@ -1603,7 +1618,7 @@ const META_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
       + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
-      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null
+      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
@@ -1611,7 +1626,7 @@ const META_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1872,7 +1887,11 @@ const META_VALUATION = {"peer": {"score": 64.6, "sector": "Communication Service
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1880,13 +1899,11 @@ const META_VALUATION = {"peer": {"score": 64.6, "sector": "Communication Service
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -1958,7 +1975,7 @@ const META_VALUATION = {"peer": {"score": 64.6, "sector": "Communication Service
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + (tv ? ' · ' : '') : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -2011,7 +2028,7 @@ const META_ACTIVITY = {"ticker": "META", "status": "ok", "asOf": "2026-06-30", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 카드 한정
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2023,9 +2040,9 @@ const META_ACTIVITY = {"ticker": "META", "status": "ok", "asOf": "2026-06-30", "
   // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
   // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
   const lead = A.now.ccc >= 0
-    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    ? `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
       + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+    : `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
       + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
   if (ex) ex.innerHTML = lead
     + (Math.abs(cccDiff) < 0.05 ? '직전 분기와 같다.'
@@ -2069,7 +2086,7 @@ const META_ACTIVITY = {"ticker": "META", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/meta/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const META_ANALYST = { asOf: '2026-09-25', source: 'StockAnalysis', rating: 'Strong Buy', n: 62, mean: 761.01, median: 756.5,
+const META_ANALYST = { asOf: '2026-09-25', source: 'StockAnalysis (S&P Global 집계)', rating: 'Strong Buy', n: 62, mean: 761.01, median: 756.5,
   low: 580, high: 1000, strongBuy: 47, buy: 9, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = META_ANALYST, last = (typeof META_DAILY !== 'undefined' && META_DAILY.length) ? META_DAILY[META_DAILY.length - 1] : null;
@@ -2111,7 +2128,7 @@ const META_ANALYST = { asOf: '2026-09-25', source: 'StockAnalysis', rating: 'Str
   };
   put('metaFundBox', 'metaFundScore', 'metaFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열을 쓴다.`
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY25까지)을 쓴다.`
       + `\n2분기 영업이익률 30.9%에는 법적 비용 $2.40B와 감원 비용 $1.18B가 들어 있다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
@@ -2237,6 +2254,13 @@ function metaBandTone(cp){
   const el = document.getElementById('metaConfidence');
   const label = document.getElementById('metaConfidenceLabel');
   const h = META_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof META_VALUATION !== 'undefined' && META_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('metaFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && META_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
@@ -2517,7 +2541,7 @@ function metaBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
@@ -2683,7 +2707,7 @@ function metaBandTone(cp){
       if (maState.dcf) {
         lines.push('<strong style="color:' + (overlapOnly ? '#818cf8' : '#38bdf8') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
-          + (overlapOnly ? '' : ' 낮은·기본·높은 세 가정의 범위.'));
+          + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
       legendEl.innerHTML = lines.join('<br>');
       legendEl.style.display = lines.length ? 'block' : 'none';

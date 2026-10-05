@@ -215,6 +215,17 @@ Chart.overrides.doughnut.animation = false;
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
+  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
   .collapsible-body { overflow: hidden; opacity: 1; transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.2s ease; }
   .collapsible-body.collapsed { max-height: 0 !important; opacity: 0; margin-top: 0 !important; }
 
@@ -501,7 +512,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="msftFairBand" style="font-size:22px;color:var(--green);">$440 ~ $610</span>
+      <span class="meta-value" id="msftFairBand" title="최근 1년 PER 25~75% 구간(24.6~34.0배) × 최근 4분기 희석 EPS $17.95(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$440 ~ $610</span>
     </div>
   </div>
   </div>
@@ -633,22 +644,22 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$193.23</td><td style="color: var(--red);" data-dcf-upside="low">−61.4%</td>
-          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(44.3%)으로 내려온다. 매출 $1을 늘리는 데 $2.18를 투자한다(최근 1년 수준).</td>
+          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(44.3%)으로 내려온다. 매출 $1을 늘리는 데 $2.17를 투자한다(최근 1년 수준).</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$236.91</td><td style="color: var(--red);" data-dcf-upside="base">−52.7%</td>
-          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(45.9%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $2.18에서 5년에 걸쳐 과거 평균 $1.36로 돌아온다.</td>
+          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(45.9%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $2.17에서 5년에 걸쳐 과거 평균 $1.31로 돌아온다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$259.01</td><td style="color: var(--red);" data-dcf-upside="high">−48.3%</td>
-          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(46.8%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $1.36다.</td>
+          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(46.8%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $1.31다.</td>
         </tr>
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $245 = 사업 가치 $240 + 비영업 자산 $5(주당, 지분·장기투자)</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $236.91 = 사업 가치 $232.02 + 비영업 자산 $4.89(주당, 지분·장기투자)</div>
     <div class="reverse">지금 가격(<span data-dcf-price>$500.59</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>34.3%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$237</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>8.4%</span>다.</div>
   </div>
 
@@ -688,7 +699,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="grid-4">
     <div class="stat-box">
       <div class="stat-label">FCF (Q4 FY26)</div>
-      <div class="stat-value">$19.6B</div>
+      <div class="stat-value">$19.64B</div>
       <div class="stat-sub">현금창출력</div>
     </div>
     <div class="stat-box">
@@ -752,7 +763,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율은 기준보다 낮지만 차입금의존도 5.3%, 이자보상배율 51배로 상환 부담은 작다. 데이터센터 확충을 금융리스로도 조달해 금융리스 부채가 $66.6B다(FY26 10-K).</div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율은 기준보다 낮지만 차입금의존도 5.3%, 이자보상배율 51배로 상환 부담은 작다. 데이터센터 확충을 금융리스로도 조달해 금융리스 부채가 $66.6B다(FY26 10-K). <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm" target="_blank" rel="noopener">FY26 10-K (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -830,9 +841,9 @@ Chart.overrides.doughnut.animation = false;
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3498db;display:inline-block;flex-shrink:0;"></span>Intelligent Cloud <strong style="color:var(--text);">$39.3B · 43.7%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#a2c3fa;display:inline-block;flex-shrink:0;"></span>Productivity and Business Processes <strong style="color:var(--text);">$37.8B · 42.0%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5c6282;display:inline-block;flex-shrink:0;"></span>More Personal Computing <strong style="color:var(--text);">$12.9B · 14.3%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3498db;display:inline-block;flex-shrink:0;"></span>Intelligent Cloud <strong style="color:var(--text);">$39.30B · 43.7%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#a2c3fa;display:inline-block;flex-shrink:0;"></span>Productivity and Business Processes <strong style="color:var(--text);">$37.80B · 42.0%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5c6282;display:inline-block;flex-shrink:0;"></span>More Personal Computing <strong style="color:var(--text);">$12.90B · 14.3%</strong></div>
         </div>
       </div>
 
@@ -844,7 +855,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="zone-list">
         <div class="zone-item">
           <span class="zone-label">자사주 매입 (Q4 FY26)</span>
-          <span class="zone-val">$4.6B</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="zone-val">$4.6B</span>
+          </div>
         </div>
         <div class="zone-item">
           <span class="zone-label">잔여 매입 승인 한도 ($60B 중)</span>
@@ -852,7 +865,9 @@ Chart.overrides.doughnut.animation = false;
         </div>
         <div class="zone-item">
           <span class="zone-label">배당 (Q4 FY26 · 주당 $0.91)</span>
-          <span class="zone-val">$6.8B</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="zone-val">$6.8B</span>
+          </div>
         </div>
       </div>
       <div class="yoy-footnote" style="margin-top:14px;">현금흐름표 지급액 기준(자사주 매입에 임직원 원천징수분 포함) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm" target="_blank" rel="noopener">Microsoft FY26 10-K (SEC) →</a></div>
@@ -955,7 +970,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 (GOOGL·AMZN은 본업 기준) · 2026.09.23 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 (GOOGL·AMZN은 본업 기준) · 08/27~09/03 카드 기준(MSFT 막대는 9/23)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1062,7 +1077,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">투자 부담</span><span class="bb-text">설비투자가 Q4 $35.8B(금융리스 별도)로 늘어 잉여현금흐름이 1년 새 23% 줄었다.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">OpenAI</span><span class="bb-text">4월 계약 개정으로 OpenAI 모델 독점 사용권이 끝났다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류에이션</span><span class="bb-text">현재가가 내재가치 기본 시나리오의 2.4배다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류에이션</span><span class="bb-text">현재가가 내재가치 기본 시나리오의 2.1배다.</span></div>
     </div>
   </div>
 
@@ -1125,8 +1140,8 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('msftRevChart');
   if (!ctx) return;
-  const revenue=[65.6,69.6,70.1,76.4,77.7,81.3,82.9,90.0];
-  const netIncome=[24.7,24.1,25.8,27.2,27.7,38.5,31.8,35.8];
+  const revenue=[65.59,69.63,70.07,76.44,77.67,81.27,82.89,90.01];
+  const netIncome=[24.67,24.11,25.82,27.23,27.75,38.46,31.78,35.77];
   const opm=[46.6,45.5,45.7,44.9,48.9,47.1,46.3,45.1];
   const y2min=40, y2max=52;
   new Chart(ctx,{
@@ -1151,23 +1166,24 @@ function renderFundChart() {
 }
 
 // ─── FUND YoY/QoQ COMPARE ───
-// 매출 · 영업이익 · 순이익 · FCF (단위 $B). 2026-09-24 SEC companyfacts로 대조했다.
+// 매출 · 영업이익 · 순이익 · FCF (단위 $B). 2026-09-23 SEC companyfacts로 대조했다.
 // FCF = 영업현금흐름 − PaymentsToAcquireProductiveAssets, 분기값은 누적값의 차이.
-// 증감률은 반올림 전 원자료로 계산한다(반올림한 값끼리 나누면 한 틱 어긋날 수 있다).
+// 증감률은 반올림 전 원자료로 계산한다 — 반올림한 63.7 ÷ 53.5로 계산하면
+// 영업이익 QoQ가 +19.1%로 나오지만 원자료는 +19.05%라 +19.0%다.
 const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q4 FY26', cmpLabel: 'Q4 FY25',
     titleSuffix: 'YoY (Q4 FY26 vs Q4 FY25)',
-    chart: { cur: [90.0, 40.6, 35.8, 19.6], cmp: [76.4, 34.3, 27.2, 25.6] },
-    deltas: ["+17.7%", "+18.3%", "+31.3%", "-23.2%"],
-    footnote: '기준일: 2026.06.30(Q4 FY26) vs 2025.06.30(Q4 FY25) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm" target="_blank" rel="noopener">Microsoft Q4 FY26 실적발표 원문 →</a>'
+    chart: { cur: [90.01, 40.6, 35.77, 19.64], cmp: [76.44, 34.32, 27.23, 25.57] },
+    deltas: ['+17.7%', '+18.3%', '+31.3%', '-23.2%'],
+    footnote: '기준일: 2026.06.30(Q4 FY26) vs 2025.06.30(Q4 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm" target="_blank" rel="noopener">Microsoft Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q4 FY26', cmpLabel: 'Q3 FY26',
     titleSuffix: 'QoQ (Q4 FY26 vs Q3 FY26)',
-    chart: { cur: [90.0, 40.6, 35.8, 19.6], cmp: [82.9, 38.4, 31.8, 15.8] },
+    chart: { cur: [90.01, 40.6, 35.77, 19.64], cmp: [82.89, 38.4, 31.78, 15.8] },
     deltas: ['+8.6%', '+5.7%', '+12.5%', '+24.3%'],
-    footnote: '기준일: 2026.06.30(Q4 FY26) vs 2026.03.31(Q3 FY26) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm" target="_blank" rel="noopener">Microsoft Q4 FY26 실적발표 원문 →</a>'
+    footnote: '기준일: 2026.06.30(Q4 FY26) vs 2026.03.31(Q3 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323632/msft-ex99_1.htm" target="_blank" rel="noopener">Microsoft Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1246,7 +1262,7 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 매출 구성 도넛 차트 (Intelligent Cloud / Productivity and Business Processes / More Personal Computing) ───
+// ─── 매출 구성 도넛 차트 (Q4 FY26, 백만 달러) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
@@ -1254,10 +1270,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:['Intelligent Cloud','Productivity and Business Processes','More Personal Computing'],
+      labels:["Intelligent Cloud", "Productivity and Business Processes", "More Personal Computing"],
       datasets:[{
         data:[39300, 37800, 12900],
-        backgroundColor:['#3498db','#a2c3fa','#5c6282'],
+        backgroundColor:["#3498db", "#a2c3fa", "#5c6282"],
         borderColor:'#1a1d27',
         borderWidth:2
       }]
@@ -1277,58 +1293,55 @@ function renderSegmentChart() {
 }
 
 // ══════ #valuation ══════
-// 피어 값은 v2/build_multiple_history.py를 루트 카드 일봉(같은 날 종가)으로 돌려 분모에서 직접 계산했다(2026-09-24).
-// PER은 종목마다 정한 기준을 따른다 — GOOGL·AMZN은 본업 기준(core_earnings.json), 나머지는 공시 희석 EPS.
-// 자기 막대는 MSFT_VALUATION.self의 현재값을 쓴다.
 const MULTIPLE_DATA = {
   per: {
-    title: '빅테크 PER 비교 (GOOGL·AMZN은 본업 기준) · 2026.09.23 종가',
-    unit: 'PER', max: 50,
+    title: '빅테크 PER 비교 (GOOGL·AMZN은 본업 기준) · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
+    unit: 'PER', max: 45, msftValue: null,
     peers: [
-      { name:'AAPL', value:38.7, status:'reference' },
-      { name:'GOOGL', value:34.3, status:'reference' },
-      { name:'AMZN', value:37.1, status:'reference' },
-      { name:'NVDA', value:28.5, status:'reference' }
+      { name:'AAPL', value:38.3, status:'reference' },
+      { name:'GOOGL', value:34.2, status:'reference' },
+      { name:'AMZN', value:38.4, status:'reference' },
+      { name:'NVDA', value:29.6, status:'reference' }
     ]
   },
   pbr: {
-    title: '빅테크 PBR 비교 · 2026.09.23 종가',
-    unit: 'PBR', max: 50,
+    title: '빅테크 PBR 비교 · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
+    unit: 'PBR', max: 55, msftValue: null,
     peers: [
-      { name:'AAPL', value:45.8, status:'reference' },
-      { name:'GOOGL', value:6.5, status:'reference' },
+      { name:'AAPL', value:45.4, status:'reference' },
+      { name:'GOOGL', value:6.6, status:'reference' },
       { name:'AMZN', value:4.9, status:'reference' },
-      { name:'NVDA', value:23.7, status:'reference' }
+      { name:'NVDA', value:24.8, status:'reference' }
     ]
   },
   psr: {
-    title: '빅테크 PSR 비교 · 2026.09.23 종가',
-    unit: 'PSR(TTM)', max: 20,
+    title: '빅테크 PSR 비교 · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
+    unit: 'PSR(TTM)', max: 25, msftValue: null,
     peers: [
       { name:'AAPL', value:10.5, status:'reference' },
-      { name:'GOOGL', value:9.3, status:'reference' },
+      { name:'GOOGL', value:9.4, status:'reference' },
       { name:'AMZN', value:3.5, status:'reference' },
-      { name:'NVDA', value:17.9, status:'reference' }
+      { name:'NVDA', value:18.7, status:'reference' }
     ]
   },
   pcr: {
-    title: '빅테크 PCR(FCF) 비교 · 2026.09.23 종가',
-    unit: 'PCR(FCF)', max: 90,
+    title: '빅테크 PCR(FCF) 비교 · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
+    unit: 'PCR(FCF)', max: 95, msftValue: null,
     peers: [
-      { name:'AAPL', value:36.0, status:'reference' },
-      { name:'GOOGL', value:77.6, status:'reference' },
-      { name:'AMZN', value:90, status:'excluded', note:'실제 367x · FCF가 0에 가까워 축 밖' },
-      { name:'NVDA', value:42.8, status:'reference' }
+      { name:'AAPL', value:35.6, status:'reference' },
+      { name:'GOOGL', value:78.7, status:'reference' },
+      { name:'AMZN', value:16.8, status:'reference' },
+      { name:'NVDA', value:44.8, status:'reference' }
     ]
   },
   evebitda: {
-    title: '빅테크 EV/EBITDA 비교 · 2026.09.23 종가',
-    unit: 'EV/EBITDA', max: 35,
+    title: '빅테크 EV/EBITDA 비교 · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
+    unit: 'EV/EBITDA', max: 35, msftValue: null,
     peers: [
-      { name:'AAPL', value:29.5, status:'reference' },
-      { name:'GOOGL', value:23.1, status:'reference' },
-      { name:'AMZN', value:16.5, status:'reference' },
-      { name:'NVDA', value:26.9, status:'reference' }
+      { name:'AAPL', value:29.2, status:'reference' },
+      { name:'GOOGL', value:23.5, status:'reference' },
+      { name:'AMZN', value:16.1, status:'reference' },
+      { name:'NVDA', value:27.9, status:'reference' }
     ]
   }
 };
@@ -1351,7 +1364,11 @@ function renderMultipleChart(key) {
     const selfBd = _cs.getPropertyValue('--accent').trim();
     const selfBg = _cs.getPropertyValue('--accent2').trim();
   const labels = [selfLabel, ...d.peers.map(p=>p.name)];
-  const data = [_vs ? +_vs.current.toFixed(1) : d[selfKey], ...d.peers.map(p=>p.value)];
+  // 자기 값이 축(d.max)을 넘으면 막대를 축 끝에서 자르고 툴팁에 실제 값을 쓴다(AMZN PCR 367x).
+  const selfNA = !!_vs && _vs.current == null;   // 적자로 오늘 배수가 없다 — 막대 없이 툴팁으로
+  const selfRaw = selfNA ? null : _vs ? +_vs.current.toFixed(1) : d[selfKey];
+  const selfOver = selfRaw != null && d.max != null && selfRaw > d.max;
+  const data = [selfOver ? d.max : selfRaw, ...d.peers.map(p=>p.value)];
   const bg = [ selfBg, ...d.peers.map(p=> p.status==='excluded' ? 'rgba(231,76,60,0.18)' : 'rgba(154,160,184,0.35)') ];
   const bd = [ selfBd, ...d.peers.map(p=> p.status==='excluded' ? '#c0392b' : '#5c6282') ];
   multipleChart = new Chart(ctx,{
@@ -1359,7 +1376,7 @@ function renderMultipleChart(key) {
     data:{ labels, datasets:[{ label:d.unit, data, backgroundColor:bg, borderColor:bd, borderWidth:1, borderRadius:5 }] },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{ const p = d.peers[ctx.dataIndex - 1]; return p && p.note ? `${d.unit} ${p.note}` : `${d.unit} ${ctx.raw}x`; }}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{ if (ctx.dataIndex === 0 && selfNA) return `${d.unit} 계산 불가 · ` + (_vs.currentNote === 'missing' ? '분모 데이터 없음' : '분모가 적자'); if (ctx.dataIndex === 0 && selfOver) return `${d.unit} 실제 ${selfRaw}x · 축 밖`; const p = d.peers[ctx.dataIndex - 1]; return p && p.note ? `${d.unit} ${p.note}` : `${d.unit} ${ctx.raw}x`; }}}},
       scales:{
         x:{grid:{display:false},ticks:{color:'#9aa0b8',font:{size:10.5}}},
         y:{max:d.max,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#9aa0b8',font:{size:10},callback:v=>v+'x'}}
@@ -1459,13 +1476,6 @@ const MSFT_SCORES = {
   asOf: "2026-09-23",
   fundamentalAsOf: "2026-06-30",   // FY26 10-K (2026-07-29 공시) — 4분기는 10-Q가 없어 연간 기간을 쓴다
 };
-// 기본적 분석이 98.1이 아니라 96.1인 이유. redesign의 동결 모델(v1.0.1)은
-// **연간치만** 써서 NVDA 같은 1월 결산 종목은 대차대조표가 최대 12개월 뒤처진다.
-// v2는 배점 구간을 그대로 두고 입력만 최신 분기로 바꾼다. 바뀐 칸은 하나 —
-// **차입금의존도 4.1%(5점) → 10.4%(4점)**. 장기차입금이 FY2026의 $7.5B에서
-// Q2 FY27에 $32.4B로 4.3배 늘었는데, 연간 기준으로는 2027년 2월까지 안 보인다.
-// 마진은 분기가 오히려 좋지만(OPM 60.4→66.2%) 이미 만점이라 올라갈 자리가 없다.
-// `--basis annual`로 돌리면 98.1이 그대로 나온다 — 배점을 안 건드렸다는 확인이다.
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 MSFT_DCF 하나다.
 //
@@ -1513,7 +1523,7 @@ const MSFT_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1522,12 +1532,12 @@ const MSFT_SCORES = {
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
-          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+          + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
@@ -1595,7 +1605,7 @@ const MSFT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
       + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
-      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null
+      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
@@ -1603,7 +1613,7 @@ const MSFT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1663,7 +1673,7 @@ const MSFT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py MSFT --card
 /* FUNDAMENTAL:BEGIN */
-const MSFT_FUNDAMENTAL = {"ticker": "MSFT", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-29", "periodSource": "10-K", "score": 79.2, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 123.03272619576484, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 122.20524211461571, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 5.3131955652605045, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 50.880694854146185, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 71.42818392041357, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 22.44, "points": 22.4, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 16.120019561712297, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 20.58533425857576, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 46.780818408927225, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 40.30538905915218, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 30.6, "points": 30.6, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 20935000000.0, "sti": 55908000000.0, "lt_marketable": 0, "debt": 40294000000.0, "lease": 83126000000.0, "shares": 7425545491, "net": -46577000000.0, "perShare": -6.272535809854349}};
+const MSFT_FUNDAMENTAL = {"ticker": "MSFT", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-29", "periodSource": "10-K", "score": 79.2, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 123.03272619576484, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 122.20524211461571, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 5.3131955652605045, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 50.880694854146185, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 71.42818392041357, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 22.44, "points": 22.4, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 16.120019561712297, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 20.58533425857576, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 46.780818408927225, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 40.30538905915218, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 30.6, "points": 30.6, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 20935000000.0, "sti": 55908000000.0, "lt_marketable": 0.0, "debt": 40294000000.0, "lease": 83126000000.0, "shares": 7425545491, "net": -46577000000.0, "perShare": -6.272535809854349}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof MSFT_FUNDAMENTAL !== 'undefined') ? MSFT_FUNDAMENTAL : null;
@@ -1770,7 +1780,7 @@ const MSFT_FUNDAMENTAL = {"ticker": "MSFT", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py MSFT --self v2/MSFT_multiples.json --card
 /* VALUATION:BEGIN */
-const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-09-23", "metrics": [{"metric": "per", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "pbr", "score": 73.9, "rank": 7, "peers": 23}, {"metric": "psr", "score": 66.7, "rank": 10, "peers": 27}, {"metric": "pcr", "score": 39.1, "rank": 15, "peers": 23}, {"metric": "evebitda", "score": 75.0, "rank": 7, "peers": 24}]}, "self": {"score": 62.8, "window": ["2021-09-23", "2026-09-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 75.3, "percentile": 24.7, "current": 27.89, "min": 21.0, "median": 33.86, "max": 40.52, "days": 1255}, {"metric": "pbr", "score": 87.7, "percentile": 12.3, "current": 8.4, "min": 6.33, "median": 11.49, "max": 16.95, "days": 1255}, {"metric": "psr", "score": 62.4, "percentile": 37.6, "current": 11.2, "min": 7.86, "median": 11.96, "max": 14.69, "days": 1255}, {"metric": "pcr", "score": 1.0, "percentile": 99.0, "current": 55.49, "min": 25.22, "median": 41.75, "max": 56.93, "days": 1255}, {"metric": "evebitda", "score": 87.4, "percentile": 12.6, "current": 18.51, "min": 13.73, "median": 25.59, "max": 32.65, "days": 1255}]}};
+const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-09-23", "metrics": [{"metric": "per", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "pbr", "score": 73.9, "rank": 7, "peers": 23}, {"metric": "psr", "score": 66.7, "rank": 10, "peers": 27}, {"metric": "pcr", "score": 39.1, "rank": 15, "peers": 23}, {"metric": "evebitda", "score": 75.0, "rank": 7, "peers": 24}]}, "self": {"score": 62.8, "window": ["2021-09-23", "2026-09-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 75.3, "percentile": 24.7, "current": 27.89, "min": 21.0, "median": 33.86, "max": 40.52, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 87.7, "percentile": 12.3, "current": 8.4, "min": 6.33, "median": 11.49, "max": 16.95, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 62.4, "percentile": 37.6, "current": 11.2, "min": 7.86, "median": 11.96, "max": 14.69, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 1.0, "percentile": 99.0, "current": 55.49, "min": 25.22, "median": 41.75, "max": 56.93, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 87.4, "percentile": 12.6, "current": 18.51, "min": 13.73, "median": 25.59, "max": 32.65, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1862,21 +1872,25 @@ const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technolog
     const item = document.querySelector(`#valuation .val-item[data-metric="${m.metric}"]`);
     if (!item) return;
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
-    f('cur').textContent = x(m.current);
+    // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
+    f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
       const nm = item.querySelector('.val-name'); if (nm && nm.firstChild) nm.firstChild.textContent = 'PER (본업 기준) ';
     }
-    f('badge').className = 'hist-badge ' + histCls(m.score);
+    f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
-    f('fill').className = 'val-fill hist-fill ' + histCls(m.score);
-    f('fill').style.width = Math.max(m.percentile, 2) + '%';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
+    f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -1888,7 +1902,7 @@ const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technolog
     document.querySelectorAll(`#valComp [data-vc="${k}"]`).forEach(t => { t.className = 'sc-tile none'; t.textContent = '—'; });
     V[k].metrics.forEach(m => {
       const t = document.querySelector(`#valComp [data-vc="${k}"][data-m="${m.metric}"]`);
-      if (t) { t.className = 'sc-tile' + tone(m.score); t.textContent = Math.round(m.score); }
+      if (t && m.score != null) { t.className = 'sc-tile' + tone(m.score); t.textContent = Math.round(m.score); }
     });
   });
 
@@ -1948,7 +1962,7 @@ const MSFT_VALUATION = {"peer": {"score": 66.8, "sector": "Information Technolog
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + (tv ? ' · ' : '') : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -2001,7 +2015,7 @@ const MSFT_ACTIVITY = {"ticker": "MSFT", "status": "ok", "asOf": "2026-06-30", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; });   // 카드 한정
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2013,9 +2027,9 @@ const MSFT_ACTIVITY = {"ticker": "MSFT", "status": "ok", "asOf": "2026-06-30", "
   // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
   // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
   const lead = A.now.ccc >= 0
-    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    ? `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
       + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+    : `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
       + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
   if (ex) ex.innerHTML = lead
     + (Math.abs(cccDiff) < 0.05 ? '직전 분기와 같다.'
@@ -2059,7 +2073,7 @@ const MSFT_ACTIVITY = {"ticker": "MSFT", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/msft/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MSFT_ANALYST = { asOf: '2026-09-22', source: 'StockAnalysis', rating: 'Strong Buy', n: 55, mean: 576.4, median: 572.5,
+const MSFT_ANALYST = { asOf: '2026-09-22', source: 'StockAnalysis (S&P Global 집계)', rating: 'Strong Buy', n: 55, mean: 576.4, median: 572.5,
   low: 440, high: 870, strongBuy: 38, buy: 14, hold: 3, sell: 0, strongSell: 0 };
 (function(){
   const A = MSFT_ANALYST, last = (typeof MSFT_DAILY !== 'undefined' && MSFT_DAILY.length) ? MSFT_DAILY[MSFT_DAILY.length - 1] : null;
@@ -2101,7 +2115,7 @@ const MSFT_ANALYST = { asOf: '2026-09-22', source: 'StockAnalysis', rating: 'Str
   };
   put('msftFundBox', 'msftFundScore', 'msftFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 ${S.fundamentalAsOf}에 끝난 회계연도 연간(10-K), 성장률은 그 해까지의 연간 시계열을 쓴다.`
+      + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 FY26 연간(10-K), 성장률은 연간 시계열(FY26까지)을 쓴다.`
       + `\n6월 결산이라 최신 기간이 FY26 연간(10-K)이다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
@@ -2124,7 +2138,8 @@ const MSFT_ANALYST = { asOf: '2026-09-22', source: 'StockAnalysis', rating: 'Str
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('msftSelfBox', 'msftSelfScore', 'msftSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPCR만 5년 중 가장 비싼 쪽(상위 1%)이고 PER·PBR·PSR·EV/EBITDA는 하위 쪽이다 — 설비투자로 현금흐름이 줄어서다.`);
+      + `\nPCR만 5년 중 가장 비싼 쪽(상위 1%)이고 PER·PBR·PSR·EV/EBITDA는 하위 쪽이다 — 설비투자로 현금흐름이 줄어서다.`
+      + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
   const grid = $('msftLogicGrid');
@@ -2135,7 +2150,7 @@ const MSFT_ANALYST = { asOf: '2026-09-22', source: 'StockAnalysis', rating: 'Str
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const MSFT_DCF_TRACK = [{d:"2024-10-30",low:151.0,base:178.6,high:186.7},{d:"2025-01-29",low:143.9,base:179.8,high:188.8},{d:"2025-04-30",low:151.0,base:188.1,high:195.7},{d:"2025-07-30",low:170.0,base:203.4,high:208.9},{d:"2025-10-29",low:174.1,base:210.7,high:221.9},{d:"2026-01-28",low:183.4,base:218.9,high:234.7},{d:"2026-04-29",low:193.0,base:229.2,high:247.4},{d:"2026-07-29",low:193.2,base:236.9,high:259.0}];
+const MSFT_DCF_TRACK = [{d:"2024-10-30",low:160.4,base:184.8,high:186.7},{d:"2025-01-29",low:157.2,base:185.6,high:188.8},{d:"2025-04-30",low:161.6,base:192.7,high:195.7},{d:"2025-07-30",low:173.6,base:205.1,high:208.9},{d:"2025-10-29",low:174.1,base:210.7,high:221.9},{d:"2026-01-28",low:183.4,base:218.9,high:234.7},{d:"2026-04-29",low:193.0,base:229.2,high:247.4},{d:"2026-07-29",low:193.2,base:236.9,high:259.0}];
 const MSFT_BACKTEST = [{"checkpoint_date": "2023-10-24", "quarter_end": "2023-09-30", "ttm_eps": 10.32, "trailing_sample_size": 502, "per_low": 25.97, "per_high": 36.49, "band_width_ratio": 1.41, "predicted_low": 267.96, "predicted_high": 376.61, "realized_per_high": 39.7, "realized_per_low": 31.77, "realized_price_high": 409.72, "realized_price_low": 327.89, "period_end_date": "2024-01-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-01-30", "quarter_end": "2023-12-31", "ttm_eps": 11.05, "trailing_sample_size": 501, "per_low": 26.63, "per_high": 37.09, "band_width_ratio": 1.39, "predicted_low": 294.27, "predicted_high": 409.85, "realized_per_high": 38.86, "realized_per_low": 35.98, "realized_price_high": 429.37, "realized_price_low": 397.58, "period_end_date": "2024-04-24", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-04-25", "quarter_end": "2024-03-31", "ttm_eps": 11.54, "trailing_sample_size": 503, "per_low": 27.61, "per_high": 38.17, "band_width_ratio": 1.38, "predicted_low": 318.63, "predicted_high": 440.43, "realized_per_high": 40.52, "realized_per_low": 33.74, "realized_price_high": 467.56, "realized_price_low": 389.33, "period_end_date": "2024-07-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-07-30", "quarter_end": "2024-06-30", "ttm_eps": 11.8, "trailing_sample_size": 501, "per_low": 31.14, "per_high": 38.85, "band_width_ratio": 1.25, "predicted_low": 367.45, "predicted_high": 458.47, "realized_per_high": 37.18, "realized_per_low": 33.49, "realized_price_high": 438.69, "realized_price_low": 395.15, "period_end_date": "2024-10-29", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-10-30", "quarter_end": "2024-09-30", "ttm_eps": 12.11, "trailing_sample_size": 502, "per_low": 33.29, "per_high": 38.55, "band_width_ratio": 1.16, "predicted_low": 403.12, "predicted_high": 466.82, "realized_per_high": 37.53, "realized_per_low": 33.55, "realized_price_high": 454.46, "realized_price_low": 406.35, "period_end_date": "2025-01-28", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-01-29", "quarter_end": "2024-12-31", "ttm_eps": 12.41, "trailing_sample_size": 501, "per_low": 33.98, "per_high": 38.22, "band_width_ratio": 1.12, "predicted_low": 421.65, "predicted_high": 474.31, "realized_per_high": 35.64, "realized_per_low": 28.57, "realized_price_high": 442.33, "realized_price_low": 354.56, "period_end_date": "2025-04-29", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2025-04-30", "quarter_end": "2025-03-31", "ttm_eps": 12.93, "trailing_sample_size": 501, "per_low": 30.9, "per_high": 37.55, "band_width_ratio": 1.22, "predicted_low": 399.59, "predicted_high": 485.51, "realized_per_high": 39.73, "realized_per_low": 30.57, "realized_price_high": 513.71, "realized_price_low": 395.26, "period_end_date": "2025-07-29", "is_open": false, "zone": "breached_both", "spans_earnings": 0}, {"checkpoint_date": "2025-07-30", "quarter_end": "2025-06-30", "ttm_eps": 13.64, "trailing_sample_size": 501, "per_low": 31.3, "per_high": 38.9, "band_width_ratio": 1.24, "predicted_low": 426.99, "predicted_high": 530.64, "realized_per_high": 39.74, "realized_per_low": 36.29, "realized_price_high": 542.07, "realized_price_low": 495, "period_end_date": "2025-10-28", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-10-29", "quarter_end": "2025-09-30", "ttm_eps": 14.06, "trailing_sample_size": 501, "per_low": 31.67, "per_high": 38.79, "band_width_ratio": 1.22, "predicted_low": 445.34, "predicted_high": 545.43, "realized_per_high": 38.52, "realized_per_low": 31.59, "realized_price_high": 541.55, "realized_price_low": 444.11, "period_end_date": "2026-01-27", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-01-28", "quarter_end": "2025-12-31", "ttm_eps": 15.99, "trailing_sample_size": 501, "per_low": 32.33, "per_high": 38.48, "band_width_ratio": 1.19, "predicted_low": 516.91, "predicted_high": 615.28, "realized_per_high": 30.12, "realized_per_low": 22.31, "realized_price_high": 481.63, "realized_price_low": 356.77, "period_end_date": "2026-04-28", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-04-29", "quarter_end": "2026-03-31", "ttm_eps": 16.8, "trailing_sample_size": 501, "per_low": 24.33, "per_high": 38.16, "band_width_ratio": 1.57, "predicted_low": 408.73, "predicted_high": 641.16, "realized_per_high": 27.41, "realized_per_low": 21.0, "realized_price_high": 460.52, "realized_price_low": 352.83, "period_end_date": "2026-07-28", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-07-29", "quarter_end": "2026-06-30", "ttm_eps": 17.95, "trailing_sample_size": 501, "per_low": 23.02, "per_high": 37.64, "band_width_ratio": 1.64, "predicted_low": 413.21, "predicted_high": 675.66, "realized_per_high": 28.61, "realized_per_low": 21.76, "realized_price_high": 513.53, "realized_price_low": 390.54, "period_end_date": "2026-09-23", "is_open": true, "zone": "breached_bottom", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
@@ -2226,6 +2241,13 @@ function msftBandTone(cp){
   const el = document.getElementById('msftConfidence');
   const label = document.getElementById('msftConfidenceLabel');
   const h = MSFT_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof MSFT_VALUATION !== 'undefined' && MSFT_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('msftFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && MSFT_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
@@ -2506,7 +2528,7 @@ function msftBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
@@ -2672,7 +2694,7 @@ function msftBandTone(cp){
       if (maState.dcf) {
         lines.push('<strong style="color:' + (overlapOnly ? '#818cf8' : '#38bdf8') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
-          + (overlapOnly ? '' : ' 낮은·기본·높은 세 가정의 범위.'));
+          + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
       legendEl.innerHTML = lines.join('<br>');
       legendEl.style.display = lines.length ? 'block' : 'none';

@@ -14,8 +14,8 @@ Chart.overrides.doughnut.animation = false;
 
   /* HEADER (라이브 TSLA_analysis_widget.html에서 재사용) */
   .header { background: linear-gradient(135deg, #101a05 0%, #0f1117 40%, #1a1d27 100%); border-bottom: 2px solid var(--accent3); padding: 28px 32px 24px; position: relative; overflow: hidden; max-width: 1100px; margin: 0 auto; }
-  .box-key { background: rgba(227,25,55,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
-  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(227,25,55,0.14) 0%, transparent 70%); pointer-events: none; }
+  .box-key { background: rgba(235,73,97,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
+  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(235,73,97,0.14) 0%, transparent 70%); pointer-events: none; }
   .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .ticker-block { display: flex; align-items: center; gap: 16px; flex: 1 1 320px; min-width: 0; }
   .ticker-block > div { min-width: 0; }
@@ -52,7 +52,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #E31937; --accent2: #f07285; --accent3: #901023;
+    --accent: #eb4961; --accent2: #f28999; --accent3: #901023;
     --ma5: #ff6b9d; --ma20: #9b59b6; --ma60: #f0c040; --ma120: #22d3ee;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -91,7 +91,7 @@ Chart.overrides.doughnut.animation = false;
   .range-toggle { display: flex; gap: 6px; flex-wrap: wrap; }
   .range-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text3); font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; cursor: pointer; transition: all .15s; }
   .range-btn:hover { color: var(--text); border-color: var(--text2); }
-  .range-btn.active { background: rgba(227,25,55,0.18); color: var(--accent2); border-color: var(--accent); }
+  .range-btn.active { background: rgba(235,73,97,0.18); color: var(--accent2); border-color: var(--accent); }
   .ma-toggle-btn { background: var(--bg3); border: 1px solid; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; cursor: pointer; opacity: 1; transition: opacity .15s; }
   .ma-toggle-btn.ma-off { opacity: 0.35; }
   .price-chart-container { margin-bottom: 16px; }
@@ -110,7 +110,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #E31937; --accent2: #f07285; --accent3: #901023;
+    --accent: #eb4961; --accent2: #f28999; --accent3: #901023;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
@@ -210,17 +210,28 @@ Chart.overrides.doughnut.animation = false;
 
   .detail-toggle { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; user-select: none; font-size: 12.5px; color: var(--text2); font-weight: 600; padding: 10px 2px 6px; border-top: 1px dashed var(--bg3); margin-top: 2px; }
   .detail-toggle:hover { color: var(--text); }
-  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(240,114,133,0.12); border: 1px solid rgba(240,114,133,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
-  .detail-toggle:hover .toggle-hint { background: rgba(240,114,133,0.22); border-color: rgba(240,114,133,0.5); }
+  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(242,137,153,0.12); border: 1px solid rgba(242,137,153,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
+  .detail-toggle:hover .toggle-hint { background: rgba(242,137,153,0.22); border-color: rgba(242,137,153,0.5); }
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
+  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
   .collapsible-body { overflow: hidden; opacity: 1; transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.2s ease; }
   .collapsible-body.collapsed { max-height: 0 !important; opacity: 0; margin-top: 0 !important; }
 
   .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .act-card { background: var(--bg3); border-radius: 8px; padding: 12px 14px; display:flex; align-items:center; gap:12px; }
-  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(240,114,133,0.1); border-radius:8px; flex-shrink:0; }
+  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(242,137,153,0.1); border-radius:8px; flex-shrink:0; }
   .act-label { font-size: 11.5px; color: var(--text2); font-weight:600; margin-bottom:2px; }
   .act-value { font-size: 15px; font-weight: 700; color: var(--text); }
   .act-sub { font-size: 11px; color: var(--text2); margin-top:1px; }
@@ -233,7 +244,7 @@ Chart.overrides.doughnut.animation = false;
   .tl-bar { height: 18px; border-radius: 5px; overflow: hidden; display: flex; }
   .tl-seg-float { background: repeating-linear-gradient(45deg, rgba(240,192,64,0.28) 0 6px, rgba(240,192,64,0.14) 6px 12px); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--gold); }
   .tl-seg-inv { background: linear-gradient(90deg,#3498db,#2980b9); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
-  .tl-seg-ar { background: linear-gradient(90deg,#f07285,#E31937); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
+  .tl-seg-ar { background: linear-gradient(90deg,#f28999,#eb4961); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
   .tl-marker { position: absolute; top: -18px; width: 2px; background: var(--gold); }
   .tl-marker-label { position: absolute; top: -32px; transform: translateX(-50%); font-size: 10.5px; font-weight: 700; color: var(--gold); white-space: nowrap; }
   .tl-ccc-span { position: absolute; height: 3px; background: rgba(240,192,64,0.6); border-radius: 2px; top: 24px; }
@@ -244,7 +255,7 @@ Chart.overrides.doughnut.animation = false;
   .zone-label { font-size: 12px; color: var(--text2); }
   .zone-val { font-size: 13px; font-weight: 700; color: var(--text); }
   .zone-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .tag-record { background: rgba(227,25,55,0.2); color: var(--accent2); }
+  .tag-record { background: rgba(235,73,97,0.2); color: var(--accent2); }
 
   @media (max-width: 640px) {
     .page { padding: 20px 16px; }
@@ -256,7 +267,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #E31937; --accent2: #f07285; --accent3: #901023;
+    --accent: #eb4961; --accent2: #f28999; --accent3: #901023;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
   }
@@ -278,7 +289,7 @@ Chart.overrides.doughnut.animation = false;
   .val-item:last-child { margin-bottom: 0; }
   .val-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .val-item:hover { background: rgba(255,255,255,0.03); }
-  .val-item.selected { background: rgba(240,114,133,0.08); border-color: rgba(240,114,133,0.35); }
+  .val-item.selected { background: rgba(242,137,153,0.08); border-color: rgba(242,137,153,0.35); }
   .val-name { position: relative; font-size: 13px; font-weight: 600; color: var(--text); }
   .val-item.selected .val-name::after { content: '▸ 비교 보기'; font-size: 9.5px; font-weight: 600; color: var(--accent2); margin-left: 8px; vertical-align: middle; }
   .val-number { font-size: 14px; font-weight: 700; color: var(--accent2); }
@@ -309,7 +320,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #E31937; --accent2: #f07285; --accent3: #901023;
+    --accent: #eb4961; --accent2: #f28999; --accent3: #901023;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --event-major: #38bdf8; --event-neutral: #f1c40f;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -387,7 +398,7 @@ Chart.overrides.doughnut.animation = false;
   :root {
     --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
     --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #E31937; --accent2: #f07285; --accent3: #901023;
+    --accent: #eb4961; --accent2: #f28999; --accent3: #901023;
     --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
     --bull: #D85A30; --bear: #185FA5;
     --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -489,10 +500,10 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label">현재가 요구 영업이익률 (현재 4.2%)</span>
+      <span class="meta-label">현재가 요구 영업이익률 (최근 4분기 4.2%)</span>
       <span class="meta-value" id="tslaDcfReq" style="font-size: 22px; color: var(--red);">82.3%</span>
     </div>
     <div class="meta-item">
@@ -648,8 +659,8 @@ Chart.overrides.doughnut.animation = false;
       </tbody>
     </table></div>
     <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $26 = 사업 가치 $25 + 비영업 자산 $1(주당, 지분·장기투자)</div>
-    <div class="reverse">지금 가격($377.94)이 정당하려면, 매출이 지난 5년 속도(연 18.2%)로 크다가 식는 동안 영업이익률이 <b>82.3%</b>여야 한다(지금 4.2%). 성장만으로는 설명되지 않는다 — 어떤 일정 성장률로도 현재가에 닿지 않는다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $25.70 = 사업 가치 $24.66 + 비영업 자산 $1.04(주당, 지분·장기투자)</div>
+    <div class="reverse">—</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -687,12 +698,12 @@ Chart.overrides.doughnut.animation = false;
   <div class="grid-4">
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
-      <div class="stat-value">−$1.1B</div>
+      <div class="stat-value">−$1.09B</div>
       <div class="stat-sub">현금창출력</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
-      <div class="stat-value">$5.8B</div>
+      <div class="stat-value">$5.79B</div>
       <div class="stat-sub">미래 재투자</div>
     </div>
     <div class="stat-box">
@@ -746,12 +757,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$7.80</span><span class="diag-note" id="fundNetCashNote">순현금 $27.5B ÷ 3.53B주 · 현금·단기투자 $43.5B − 차입금·리스 $16.0B</span></div>
+        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$7.78</span><span class="diag-note" id="fundNetCashNote">순현금 $27.4B ÷ 3.53B주 · 현금·단기투자 $43.5B − 차입금·리스 $16.1B</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 194%·당좌비율 155%로 단기 지급 여력은 넉넉하다. 현금·단기투자 $43.5B이 차입금 $9.1B보다 훨씬 많아 순현금이다. 이자보상배율 4.9배는 차입이 많아서가 아니라 2분기 영업이익이 $0.4B로 작아서 낮게 나온 값이다.</div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 194%·당좌비율 155%로 단기 지급 여력은 넉넉하다. 현금·단기투자 $43.5B이 차입금 $9.1B보다 훨씬 많아 순현금이다. 이자보상배율 4.9배는 차입이 많아서가 아니라 2분기 영업이익이 $0.4B로 작아서 낮게 나온 값이다. <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -829,9 +840,9 @@ Chart.overrides.doughnut.animation = false;
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#E31937;display:inline-block;flex-shrink:0;"></span>자동차 <strong style="color:var(--text);">$20.5B · 72.7%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#2ecc71;display:inline-block;flex-shrink:0;"></span>에너지 발전·저장 <strong style="color:var(--text);">$3.1B · 11.1%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3498db;display:inline-block;flex-shrink:0;"></span>서비스·기타 <strong style="color:var(--text);">$4.6B · 16.2%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#E31937;display:inline-block;flex-shrink:0;"></span>자동차 <strong style="color:var(--text);">$20.52B · 72.7%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#2ecc71;display:inline-block;flex-shrink:0;"></span>에너지 발전·저장 <strong style="color:var(--text);">$3.14B · 11.1%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3498db;display:inline-block;flex-shrink:0;"></span>서비스·기타 <strong style="color:var(--text);">$4.58B · 16.2%</strong></div>
         </div>
       </div>
 
@@ -960,7 +971,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 · 2026.09.24 종가 (TSLA는 축 밖)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">빅테크 PER 비교 (TSLA는 축 밖) · 08/27~09/03 카드 기준(TSLA 막대는 9/24)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1130,15 +1141,15 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('tslaRevChart');
   if (!ctx) return;
-  const revenue=[25.2,25.7,19.3,22.5,28.1,24.9,22.4,28.2];
-  const netIncome=[2.2,2.3,0.4,1.2,1.4,0.8,0.5,1.1];
+  const revenue=[25.18,25.71,19.34,22.5,28.1,24.9,22.39,28.24];
+  const netIncome=[2.17,2.32,0.41,1.17,1.37,0.84,0.48,1.11];
   const opm=[10.8,6.2,2.1,4.1,5.8,5.7,4.2,1.4];
   const y2min=0, y2max=15;
   new Chart(ctx,{
     data:{
       labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026'],
       datasets:[
-        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(227,25,55,0.55)',borderColor:'#E31937',borderWidth:1,borderRadius:4,yAxisID:'y'},
+        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(235,73,97,0.55)',borderColor:'#eb4961',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'bar',label:'순이익($B)',data:netIncome,backgroundColor:'rgba(52,152,219,0.5)',borderColor:'#3498db',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'line',label:'OPM(%)',data:opm,borderColor:'#f0c040',backgroundColor:'rgba(240,192,64,.1)',tension:.35,pointRadius:4,borderWidth:2.5,fill:false,yAxisID:'y2'}
       ]
@@ -1164,15 +1175,15 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [28.2, 0.4, 1.1, -1.1], cmp: [22.5, 0.9, 1.2, 0.1] },
-    deltas: ['+25.5%', '-56.9%', '-4.9%', '-847.9%'],
+    chart: { cur: [28.24, 0.4, 1.11, -1.09], cmp: [22.5, 0.92, 1.17, 0.15] },
+    deltas: ['+25.5%', '-56.9%', '-4.9%', '적자 전환'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준(순이익은 보통주 귀속, 2024년 분기는 암호자산 회계기준 소급 수정 전 값) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm" target="_blank" rel="noopener">Tesla Q2 2026 Update 원문 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [28.2, 0.4, 1.1, -1.1], cmp: [22.4, 0.9, 0.5, 1.4] },
-    deltas: ['+26.1%', '-57.7%', '+133.5%', '-175.6%'],
+    chart: { cur: [28.24, 0.4, 1.11, -1.09], cmp: [22.39, 0.94, 0.48, 1.44] },
+    deltas: ['+26.1%', '-57.7%', '+133.5%', '적자 전환'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준(순이익은 보통주 귀속, 2024년 분기는 암호자산 회계기준 소급 수정 전 값) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm" target="_blank" rel="noopener">Tesla Q2 2026 Update 원문 (SEC 8-K) →</a>'
   }
 };
@@ -1233,7 +1244,7 @@ function selectFundPeriod(period) {
         labels: ['매출', '영업이익', '순이익', 'FCF'],
         datasets: [
           { label: d.cmpLabel, data: d.chart.cmp, backgroundColor: 'rgba(154,160,184,0.35)', borderColor: '#5c6282', borderWidth: 1, borderRadius: 4 },
-          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(227,25,55,0.55)', borderColor: '#E31937', borderWidth: 1, borderRadius: 4 }
+          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(235,73,97,0.55)', borderColor: '#eb4961', borderWidth: 1, borderRadius: 4 }
         ]
       },
       options: {
@@ -1252,7 +1263,7 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 매출 구성 도넛 차트 (자동차 / 에너지 / 서비스·기타, 백만 달러) ───
+// ─── 매출 구성 도넛 차트 (Q2 2026, 백만 달러) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
@@ -1260,10 +1271,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:['자동차','에너지 발전·저장','서비스·기타'],
+      labels:["자동차", "에너지 발전·저장", "서비스·기타"],
       datasets:[{
         data:[20516, 3139, 4581],
-        backgroundColor:['#E31937','#2ecc71','#3498db'],
+        backgroundColor:["#E31937", "#2ecc71", "#3498db"],
         borderColor:'#1a1d27',
         borderWidth:2
       }]
@@ -1285,62 +1296,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '빅테크 PER 비교 · 2026.09.24 종가 (TSLA는 축 밖)',
-    unit: 'PER(TTM)', max: 60, tslaValue: null,
+    title: '빅테크 PER 비교 (TSLA는 축 밖) · 08/27~09/03 카드 기준(TSLA 막대는 9/24)',
+    unit: 'PER', max: 45, tslaValue: null,
     peers: [
-      { name:'NVDA', value:28.4, status:'reference' },
-      { name:'AAPL', value:38.5, status:'reference' },
-      { name:'MSFT', value:28.8, status:'reference' },
-      { name:'GOOGL', value:34.1, status:'reference' },
-      { name:'AMZN', value:38.0, status:'reference' },
-      { name:'META', value:26.8, status:'reference' }
+      { name:'NVDA', value:29.6, status:'reference' },
+      { name:'AAPL', value:38.3, status:'reference' },
+      { name:'MSFT', value:30.0, status:'reference' },
+      { name:'GOOGL', value:34.2, status:'reference' },
+      { name:'AMZN', value:38.4, status:'reference' },
+      { name:'META', value:24.1, status:'reference' }
     ]
   },
   pbr: {
-    title: '빅테크 PBR 비교 · 2026.09.24 종가',
-    unit: 'PBR', max: 50, tslaValue: null,
+    title: '빅테크 PBR 비교 · 08/27~09/03 카드 기준(TSLA 막대는 9/24)',
+    unit: 'PBR', max: 55, tslaValue: null,
     peers: [
-      { name:'NVDA', value:23.8, status:'reference' },
-      { name:'AAPL', value:45.7, status:'reference' },
-      { name:'MSFT', value:8.4, status:'reference' },
-      { name:'GOOGL', value:6.5, status:'reference' },
+      { name:'NVDA', value:24.8, status:'reference' },
+      { name:'AAPL', value:45.4, status:'reference' },
+      { name:'MSFT', value:8.7, status:'reference' },
+      { name:'GOOGL', value:6.6, status:'reference' },
       { name:'AMZN', value:4.9, status:'reference' },
-      { name:'META', value:7.6, status:'reference' }
+      { name:'META', value:7.2, status:'reference' }
     ]
   },
   psr: {
-    title: '빅테크 PSR 비교 · 2026.09.24 종가',
-    unit: 'PSR(TTM)', max: 20, tslaValue: null,
+    title: '빅테크 PSR 비교 · 08/27~09/03 카드 기준(TSLA 막대는 9/24)',
+    unit: 'PSR(TTM)', max: 25, tslaValue: null,
     peers: [
-      { name:'NVDA', value:18.0, status:'reference' },
+      { name:'NVDA', value:18.7, status:'reference' },
       { name:'AAPL', value:10.5, status:'reference' },
-      { name:'MSFT', value:11.1, status:'reference' },
+      { name:'MSFT', value:11.6, status:'reference' },
       { name:'GOOGL', value:9.4, status:'reference' },
       { name:'AMZN', value:3.5, status:'reference' },
-      { name:'META', value:8.7, status:'reference' }
+      { name:'META', value:8.2, status:'reference' }
     ]
   },
   pcr: {
-    title: '빅테크 PCR(FCF) 비교 · 2026.09.24 종가 (TSLA는 축 밖, AMZN 잉여현금흐름 적자)',
-    unit: 'PCR(FCF)', max: 90, tslaValue: null,
+    title: '빅테크 PCR(FCF) 비교 (TSLA는 축 밖) · 08/27~09/03 카드 기준(TSLA 막대는 9/24)',
+    unit: 'PCR(FCF)', max: 95, tslaValue: null,
     peers: [
-      { name:'NVDA', value:43.0, status:'reference' },
-      { name:'AAPL', value:35.9, status:'reference' },
-      { name:'MSFT', value:55.2, status:'reference' },
-      { name:'GOOGL', value:78.5, status:'reference' },
-      { name:'META', value:48.3, status:'reference' }
+      { name:'NVDA', value:44.8, status:'reference' },
+      { name:'AAPL', value:35.6, status:'reference' },
+      { name:'MSFT', value:57.3, status:'reference' },
+      { name:'GOOGL', value:78.7, status:'reference' },
+      { name:'AMZN', value:16.8, status:'reference' },
+      { name:'META', value:49.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: '빅테크 EV/EBITDA 비교 · 2026.09.24 종가 (TSLA는 축 밖)',
-    unit: 'EV/EBITDA', max: 40, tslaValue: null,
+    title: '빅테크 EV/EBITDA 비교 (TSLA는 축 밖) · 08/27~09/03 카드 기준(TSLA 막대는 9/24)',
+    unit: 'EV/EBITDA', max: 35, tslaValue: null,
     peers: [
-      { name:'NVDA', value:26.7, status:'reference' },
-      { name:'AAPL', value:29.4, status:'reference' },
-      { name:'MSFT', value:18.9, status:'reference' },
-      { name:'GOOGL', value:23.4, status:'reference' },
-      { name:'AMZN', value:16.0, status:'reference' },
-      { name:'META', value:18.3, status:'reference' }
+      { name:'NVDA', value:27.9, status:'reference' },
+      { name:'AAPL', value:29.2, status:'reference' },
+      { name:'MSFT', value:19.6, status:'reference' },
+      { name:'GOOGL', value:23.5, status:'reference' },
+      { name:'AMZN', value:16.1, status:'reference' },
+      { name:'META', value:17.0, status:'reference' }
     ]
   }
 };
@@ -1522,7 +1534,7 @@ const TSLA_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1531,12 +1543,12 @@ const TSLA_SCORES = {
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
-          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+          + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
@@ -1604,7 +1616,7 @@ const TSLA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
       + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
-      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null
+      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
@@ -1612,7 +1624,7 @@ const TSLA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1672,7 +1684,7 @@ const TSLA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py TSLA --card
 /* FUNDAMENTAL:BEGIN */
-const TSLA_FUNDAMENTAL = {"ticker": "TSLA", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-23", "periodSource": "10-Q", "score": 51.3, "grade": "보통", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 194.09456598447423, "points": 3, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 155.27452364149613, "points": 4, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 6.100697530365463, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 4.91358024691358, "points": 3, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 70.2353266250662, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 22.44, "points": 22.4, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 5.193110653889232, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": -31.672957623177012, "points": 1, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 1.4095480946309675, "points": 1, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 3.9524011899702503, "points": 2, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 11.899999999999999, "points": 11.9, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 15219000000.0, "sti": 28305000000.0, "lt_marketable": 0.0, "debt": 9061000000.0, "lease": 6961000000.0, "shares": 3525847394, "net": 27502000000.0, "perShare": 7.800110704394259}};
+const TSLA_FUNDAMENTAL = {"ticker": "TSLA", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-23", "periodSource": "10-Q", "score": 51.3, "grade": "보통", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 194.09456598447423, "points": 3, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 155.27452364149613, "points": 4, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 6.100697530365463, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 4.91358024691358, "points": 3, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 70.2353266250662, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 22.44, "points": 22.4, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 5.193110653889232, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": -31.672957623177012, "points": 1, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 1.4095480946309675, "points": 1, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 3.9524011899702503, "points": 2, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 11.899999999999999, "points": 11.9, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 15219000000.0, "sti": 28305000000.0, "lt_marketable": 0.0, "debt": 9061000000.0, "lease": 7019000000.0, "shares": 3525847394, "net": 27444000000.0, "perShare": 7.783660758177443}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof TSLA_FUNDAMENTAL !== 'undefined') ? TSLA_FUNDAMENTAL : null;
@@ -1873,7 +1885,11 @@ const TSLA_VALUATION = {"peer": {"score": 17.8, "sector": "Consumer Discretionar
     const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';
     // 오늘 분모가 0 이하면 current가 null이다(build_multiple_history, 0점). 과거 양수값을 쓰지 않는다.
     f('cur').textContent = m.current == null ? '계산 불가' : x(m.current);
-    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)
+    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)
     // 본업 기준 PER((영업이익 + 순이자) × (1 − 실효세율), A8 2026-10-04)이면 이름을 바꾼다 — 공시 EPS에 투자 평가이익이
     // 크게 섞인 종목(v2/core_earnings.json, GOOGL). 2026-09-24.
     if (m.metric === 'per' && V.self.perBasis === 'core') {
@@ -1881,13 +1897,11 @@ const TSLA_VALUATION = {"peer": {"score": 17.8, "sector": "Consumer Discretionar
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
-    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
-    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
-    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';
+    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
   });
   ['peer', 'self'].forEach(k => {
@@ -1959,7 +1973,7 @@ const TSLA_VALUATION = {"peer": {"score": 17.8, "sector": "Consumer Discretionar
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + (tv ? ' · ' : '') : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -2012,7 +2026,7 @@ const TSLA_ACTIVITY = {"ticker": "TSLA", "status": "ok", "asOf": "2026-06-30", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; });   // 카드 한정
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2024,9 +2038,9 @@ const TSLA_ACTIVITY = {"ticker": "TSLA", "status": "ok", "asOf": "2026-06-30", "
   // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
   // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
   const lead = A.now.ccc >= 0
-    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    ? `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
       + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+    : `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
       + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
   if (ex) ex.innerHTML = lead
     + (Math.abs(cccDiff) < 0.05 ? '직전 분기와 같다.'
@@ -2070,7 +2084,7 @@ const TSLA_ACTIVITY = {"ticker": "TSLA", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/tsla/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TSLA_ANALYST = { asOf: '2026-09-25', source: 'StockAnalysis', rating: 'Buy', n: 43, mean: 396.94, median: 415,
+const TSLA_ANALYST = { asOf: '2026-09-25', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 43, mean: 396.94, median: 415,
   low: 125, high: 600, strongBuy: 15, buy: 4, hold: 20, sell: 2, strongSell: 2 };
 (function(){
   const A = TSLA_ANALYST, last = (typeof TSLA_DAILY !== 'undefined' && TSLA_DAILY.length) ? TSLA_DAILY[TSLA_DAILY.length - 1] : null;
@@ -2112,7 +2126,7 @@ const TSLA_ANALYST = { asOf: '2026-09-25', source: 'StockAnalysis', rating: 'Buy
   };
   put('tslaFundBox', 'tslaFundScore', 'tslaFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열을 쓴다.`
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY25까지)을 쓴다.`
       + `\n2분기 영업이익률 1.4%는 영업비용이 전년 대비 47% 늘어서다. 순이익($1.1B)에는 SpaceX 지분 평가이익(2분기 $1.0B)이 들어 있다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
@@ -2147,7 +2161,7 @@ const TSLA_ANALYST = { asOf: '2026-09-25', source: 'StockAnalysis', rating: 'Buy
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const TSLA_DCF_TRACK = [{d:"2024-10-24",low:-58.0,base:19.5,high:33.2},{d:"2025-01-30",low:-99.2,base:10.1,high:30.2},{d:"2025-04-23",low:-25.0,base:14.4,high:26.7},{d:"2025-07-24",low:36.9,base:28.8,high:23.4},{d:"2025-10-23",low:36.3,base:29.1,high:20.6},{d:"2026-01-29",low:35.2,base:27.4,high:20.5},{d:"2026-04-23",low:31.1,base:23.4,high:22.1},{d:"2026-07-23",low:31.9,base:25.7,high:19.0}];
+const TSLA_DCF_TRACK = [{d:"2024-10-24",low:-57.8,base:19.7,high:33.4},{d:"2025-01-30",low:-99.2,base:10.1,high:30.2},{d:"2025-04-23",low:-25.0,base:14.4,high:26.7},{d:"2025-07-24",low:36.9,base:28.8,high:23.4},{d:"2025-10-23",low:36.3,base:29.1,high:20.6},{d:"2026-01-29",low:35.2,base:27.4,high:20.5},{d:"2026-04-23",low:31.1,base:23.4,high:22.1},{d:"2026-07-23",low:31.9,base:25.7,high:19.0}];
 const TSLA_BACKTEST = [{"checkpoint_date": "2023-10-23", "quarter_end": "2023-09-30", "ttm_eps": 3.1067, "trailing_sample_size": 501, "per_low": 48.97, "per_high": 107.15, "band_width_ratio": 2.19, "predicted_low": 152.15, "predicted_high": 332.89, "realized_per_high": 84.15, "realized_per_low": 58.79, "realized_price_high": 261.44, "realized_price_low": 182.63, "period_end_date": "2024-01-26", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-01-29", "quarter_end": "2023-12-31", "ttm_eps": 2.6, "trailing_sample_size": 500, "per_low": 50.66, "per_high": 89.92, "band_width_ratio": 1.77, "predicted_low": 131.72, "predicted_high": 233.78, "realized_per_high": 77.94, "realized_per_low": 54.63, "realized_price_high": 202.64, "realized_price_low": 142.05, "period_end_date": "2024-04-23", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2024-04-24", "quarter_end": "2024-03-31", "ttm_eps": 2.21, "trailing_sample_size": 502, "per_low": 52.8, "per_high": 81.14, "band_width_ratio": 1.54, "predicted_low": 116.7, "predicted_high": 179.32, "realized_per_high": 119.12, "realized_per_low": 73.36, "realized_price_high": 263.26, "realized_price_low": 162.13, "period_end_date": "2024-07-23", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-07-24", "quarter_end": "2024-06-30", "ttm_eps": 1.85, "trailing_sample_size": 502, "per_low": 55.65, "per_high": 102.54, "band_width_ratio": 1.84, "predicted_low": 102.95, "predicted_high": 189.71, "realized_per_high": 141.42, "realized_per_low": 103.65, "realized_price_high": 261.63, "realized_price_low": 191.76, "period_end_date": "2024-10-23", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2024-10-24", "quarter_end": "2024-09-30", "ttm_eps": 1.94, "trailing_sample_size": 503, "per_low": 60.43, "per_high": 124.48, "band_width_ratio": 2.06, "predicted_low": 117.23, "predicted_high": 241.49, "realized_per_high": 247.35, "realized_per_low": 125.18, "realized_price_high": 479.86, "realized_price_low": 242.84, "period_end_date": "2025-01-29", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-01-30", "quarter_end": "2024-12-31", "ttm_eps": 2.04, "trailing_sample_size": 502, "per_low": 66.9, "per_high": 212.57, "band_width_ratio": 3.18, "predicted_low": 136.47, "predicted_high": 433.64, "realized_per_high": 198.33, "realized_per_low": 108.75, "realized_price_high": 404.6, "realized_price_low": 221.86, "period_end_date": "2025-04-22", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-04-23", "quarter_end": "2025-03-31", "ttm_eps": 1.82, "trailing_sample_size": 501, "per_low": 71.19, "per_high": 205.2, "band_width_ratio": 2.88, "predicted_low": 129.57, "predicted_high": 373.47, "realized_per_high": 199.39, "realized_per_low": 137.77, "realized_price_high": 362.89, "realized_price_low": 250.74, "period_end_date": "2025-07-23", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2025-07-24", "quarter_end": "2025-06-30", "ttm_eps": 1.73, "trailing_sample_size": 502, "per_low": 76.59, "per_high": 198.33, "band_width_ratio": 2.59, "predicted_low": 132.49, "predicted_high": 343.12, "realized_per_high": 265.58, "realized_per_low": 174.93, "realized_price_high": 459.46, "realized_price_low": 302.63, "period_end_date": "2025-10-22", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2025-10-23", "quarter_end": "2025-09-30", "ttm_eps": 1.5, "trailing_sample_size": 502, "per_low": 87.81, "per_high": 248.46, "band_width_ratio": 2.83, "predicted_low": 131.71, "predicted_high": 372.68, "realized_per_high": 326.59, "realized_per_low": 260.73, "realized_price_high": 489.88, "realized_price_low": 391.09, "period_end_date": "2026-01-28", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-01-29", "quarter_end": "2025-12-31", "ttm_eps": 1.08, "trailing_sample_size": 502, "per_low": 117.73, "per_high": 301.11, "band_width_ratio": 2.56, "predicted_low": 127.15, "predicted_high": 325.2, "realized_per_high": 398.53, "realized_per_low": 317.82, "realized_price_high": 430.41, "realized_price_low": 343.25, "period_end_date": "2026-04-22", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-04-23", "quarter_end": "2026-03-31", "ttm_eps": 1.09, "trailing_sample_size": 501, "per_low": 132.16, "per_high": 373.44, "band_width_ratio": 2.83, "predicted_low": 144.06, "predicted_high": 407.05, "realized_per_high": 408.5, "realized_per_low": 339.06, "realized_price_high": 445.27, "realized_price_low": 369.57, "period_end_date": "2026-07-22", "is_open": false, "zone": "breached_top", "spans_earnings": 0}, {"checkpoint_date": "2026-07-23", "quarter_end": "2026-06-30", "ttm_eps": 1.08, "trailing_sample_size": 501, "per_low": 170.23, "per_high": 385.87, "band_width_ratio": 2.27, "predicted_low": 183.84, "predicted_high": 416.74, "realized_per_high": 351.96, "realized_per_low": 276.22, "realized_price_high": 380.12, "realized_price_low": 298.32, "period_end_date": "2026-09-24", "is_open": true, "zone": "full_hit", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
@@ -2238,6 +2252,13 @@ function tslaBandTone(cp){
   const el = document.getElementById('tslaConfidence');
   const label = document.getElementById('tslaConfidenceLabel');
   const h = TSLA_BAND_HIT;
+  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
+  if (el && typeof TSLA_VALUATION !== 'undefined' && TSLA_VALUATION.perNA) {
+    el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
+    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    const fb = document.getElementById('tslaFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
+    return;
+  }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && TSLA_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
@@ -2518,7 +2539,7 @@ function tslaBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다. 투하자본 수익률이 할인율보다 낮아 빨리 클수록 가치가 더 줄어든다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
@@ -2684,7 +2705,7 @@ function tslaBandTone(cp){
       if (maState.dcf) {
         lines.push('<strong style="color:' + (overlapOnly ? '#818cf8' : '#38bdf8') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
-          + (overlapOnly ? '' : ' 낮은·기본·높은 세 가정의 범위.'));
+          + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
       legendEl.innerHTML = lines.join('<br>');
       legendEl.style.display = lines.length ? 'block' : 'none';

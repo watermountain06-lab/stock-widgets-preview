@@ -9,6 +9,9 @@
   bt_start : 백테스트에 쓸 일봉 시작일(분사 종목 — 재작성 숫자가 처음 나온 날)
   company_tags : [(회사 고유 태그, 표준 태그)] — 설비투자 등을 회사 고유 태그로만 내는 종목(COP)
   no_dcf   : 현금흐름 모델 미적용 사유(보험사 — CB). DCF 칸은 '계산 불가 · 사유', 판정은 두 칸으로
+  feed     : 외국 기업(IFRS·현지 통화 — ASML·TSM·SKHY) — EPS·재무를 v2/adapters/{t}_feed.py(eps|financials)로, 활동성은 그 캐시 facts로
+  eps_cmd  : EPS 단계를 다른 명령으로(주식 종류별 EPS만 내는 V — ['v2/adapters/visa_classA.py', 'eps'])
+  sum_tags : 재무 파일 항목을 여러 태그 합으로 다시 채운 뒤 기본적 분석(adapters/financials_sum_tags.py — XOM 재고)
   overlay  : SEC companyfacts가 최신 10-Q를 아직 싣지 않은 종목 — 인라인 XBRL 보충(adapters/ixbrl_supplement.py) 뒤
              재무는 adapters/overlay_feed.py, 활동성은 병합 facts로
 새 종목(71위~)은 meta/{t}.json(헤더 값)과 yahoo/{t}.json(Yahoo 일봉)이 있어야 하고, 없으면 루트 카드가 있는 종목으로 보고
@@ -71,7 +74,11 @@ def main():
     eps = [PY, "scripts/fetch_eps_history.py", T, "--cik", cik, "--out", f"scripts/{T}_eps_history.json"]
     if B.get("eps_tag"):
         eps[5:5] = ["--tag", B["eps_tag"]]
-    run(eps, show=r"TTM-EPS points")
+    if B.get("feed"):   # 외국 기업 어댑터(2026-10-05, 틀 통일 — ASML·TSM·SKHY)
+        eps = [PY, f"v2/adapters/{t}_feed.py", "eps"]
+    elif B.get("eps_cmd"):
+        eps = [PY] + list(B["eps_cmd"])
+    run(eps, show=r"TTM-EPS points|저장")
     print("· 복제·배열")
     src = None
     if a.from_card:   # 덮어쓰기 전에 지금 카드를 떠 둔다
@@ -88,7 +95,9 @@ def main():
     else:
         run([PY, os.path.join(HERE, "root_arrays.py"), T], show=r"^arrays")
     print("· 재무")
-    if B.get("overlay"):
+    if B.get("feed"):
+        run([PY, f"v2/adapters/{t}_feed.py", "financials"], show=r"Wrote|저장")
+    elif B.get("overlay"):
         run([PY, "v2/adapters/overlay_feed.py", T, cik], show=r"Wrote")
     else:
         run([PY, os.path.join(REDESIGN, "scripts", "fetch_financials.py"), T, "--cik", cik, "--years", "5",
@@ -101,6 +110,8 @@ def main():
         if re.search(r"적정주가|^  (PER|PBR|PSR|PCR|EV)|⚠", line):
             print("   ", line[:300])
     run([PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"], show=r"대비 =|^  (PER|PBR|PSR|PCR|EV)")
+    if B.get("sum_tags"):
+        run([PY, "v2/adapters/financials_sum_tags.py", T], show=r".")
     run([PY, "v2/build_fundamental_score.py", T, "--card"], show=r"기본적 분석 =|^    ")
     if B.get("overlay"):
         merged = f"/tmp/{T}_facts_merged.json"
@@ -108,6 +119,8 @@ def main():
         import build_multiple_history as bmh
         json.dump(bmh._facts(cik), open(merged, "w")); os.chdir(REPO)
         run([PY, "v2/build_activity_score.py", T, "--facts", merged], show=r'"score"|"reason"')
+    elif B.get("feed"):
+        run([PY, "v2/build_activity_score.py", T, "--facts", f"v2/.sec_cache/{cik}_facts.json"], show=r'"score"|"reason"')
     else:
         run([PY, "v2/build_activity_score.py", T], show=r'"score"|"reason"')
     p = os.path.join(REPO, card)
