@@ -692,7 +692,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="gevRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">순이익은 본업 기준(영업이익 × (1 − 그 분기 실효세율, 범위 밖이면 21%))이다 — 분기 차트는 그 분기 세율 그대로라, 일회성 세금·비과세 Prolec 이익을 뺀 최근 4분기 세율(32.5%)을 쓰는 본업 PER과 세율이 다르다. 공시 순이익은 Q4 2025 $3.66B(미국 세금 평가충당금 환입 $2.9B), Q1 2026 $4.75B(Prolec GE 기존 지분 재평가 이익 $3.99B, 세전)로 부풀었다. 2024년 4월 GE에서 분사했다.</div>
+    <div class="yoy-footnote" style="margin-top:8px;">순이익은 본업 기준(영업이익 × (1 − 그 분기 실효세율, 범위 밖이면 21%))이다(본업 이익은 원칙적으로 순이자를 포함하지만 GEV는 쓰고 있는 SEC 자료에 이자수익·이자비용 표준 태그가 없어 넣지 못했다) — 분기 차트는 그 분기 세율 그대로라, 일회성 세금·비과세 Prolec 이익을 뺀 최근 4분기 세율(32.5%)을 쓰는 본업 PER과 세율이 다르다. 공시 순이익은 Q4 2025 $3.66B(미국 세금 평가충당금 환입 $2.9B), Q1 2026 $4.75B(Prolec GE 기존 지분 재평가 이익 $3.99B, 세전)로 부풀었다. 2024년 4월 GE에서 분사했다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -899,7 +899,7 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.7</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile low" data-vc="peer" data-m="pbr">4</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">62</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">2</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">상장(2024-04) 뒤 이력만 있다. 본업 PER 209배(세율은 세금 환입 $2.9B와 비과세 Prolec 재평가 이익을 뺀 최근 4분기 실효세율 32.5% — 현금흐름 칸과 같은 세율)·PCR 20.4배는 그 안에서 싼 쪽, PBR 21.2배·PSR은 비싼 쪽이라 자기 이력 52.7점(중간)이다. S&P500 산업재 안에서는 EV/EBITDA 82배가 가장 비싸 20.7점이다(PER은 본업 기준이라 순위에서 뺌). <strong>현금흐름 내재가치(기본 $87)는 현재가의 9%</strong>다.</div>
+    <div class="vs-premise">상장(2024-04) 뒤 이력만 있다. 본업 PER 209배(세율은 세금 환입 $2.9B와 비과세 Prolec 재평가 이익을 뺀 최근 4분기 실효세율 32.5% — 현금흐름 칸과 같은 세율)·PCR 20.4배는 그 안에서 싼 쪽, PBR 21.2배·PSR은 비싼 쪽이라 자기 이력 52.7점(중간)이다. 본업 이익은 원칙적으로 (영업이익 + 순이자) × (1 − 세율)이지만 GEV는 쓰고 있는 SEC 자료에 이자 표준 태그가 없어 순이자를 넣지 못했다. 10-Q의 순이자·기타 금융수익은 2분기 $73M·상반기 $100M으로 영업이익의 약 11~12%라(금융 수수료 포함), 넣으면 본업 PER이 그만큼 낮아진다. S&P500 산업재 안에서는 EV/EBITDA 82배가 가장 비싸 20.7점이다(PER은 본업 기준이라 순위에서 뺌). <strong>현금흐름 내재가치(기본 $87)는 현재가의 9%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 0·−1·−2로 합계 −3 “고평가”다. 최근 4분기 GAAP 영업이익률이 4.3%(풍력 손실·Prolec GE 인수 무형자산 상각 포함), 최근 2년 중앙값은 2.9%라 현금흐름 모델의 값이 작다. 이 모델은 영업이익률에서 현금흐름을 만들며, 고객 선수금으로 커진 회사 FCF(2026년 전망 $11.5~12.5B)는 쓰지 않는다 — 그래서 PCR은 싸게, 내재가치는 낮게 나온다. 현재가를 설명하려면 매출이 연 9.2%에서 식으며 늘어나는 동안 GAAP 영업이익률이 5년 내내 46.5%여야 한다(회사 전망의 조정 EBITDA 마진 12~14%는 감가상각 전·조정 기준이라 더 높게 나오는 지표다). 성장률은 분사 단독 이력 약 2.5년 값이고, 최근 1년 매출/자본을 못 구해 시나리오 일부는 과거 평균을 썼다.</div>
   </div>
 
@@ -2143,6 +2143,7 @@ const GEV_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
   put('gevSelfBox', 'gevSelfScore', 'gevSelfVerdict', S.selfHistory, WORDS.val,
       `상장 뒤 이 종목 자신의 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\n상장(2024-04) 뒤 이력뿐이다. PER(본업)·PSR·PCR·EV/EBITDA는 약 1.6년, PBR 2.4년이다.`
+      + `\n본업 PER은 영업이익만으로 냈다 — 쓰고 있는 SEC 자료에 이자 표준 태그가 없어 순이자(10-Q 순이자·기타 금융수익 2분기 $73M, 영업이익의 약 11%)를 넣지 못했다.`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
