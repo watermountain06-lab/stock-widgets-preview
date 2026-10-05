@@ -467,6 +467,9 @@ if getattr(C, 'NO_DCF_SKEW', False):
     one("      + (lv.ratio != null ? '\\n' + DCF_SKEW_NOTE : '')\n", '')
 for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
     exec(_code, globals())
+# 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
+h = re.sub(r'(<div class="card" hidden>\n    <div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">)(.*?)(\n    </div>\n  </div>)',
+           lambda m: m.group(1) + '\n      기술적 분석(추세 상태)은 이 사이트의 판단(내재가치 대비)에서 뺐다. 이 칸은 화면에 보이지 않는다.' + m.group(3), h, count=1, flags=re.S)
 # 성장 모드 역산 문장: 위에서 .reverse를 '—'로 비우는데 카드 JS는 마진 모드일 때만 문장을 다시 쓴다 — 성장 모드 카드는 '—'만 남았다
 # (ACN·APH·BKNG 등, 틀 통일 변환에서 발견, 2026-10-05). cfg REVERSE가 있으면 그 문장, 없으면 틀 시절 카드의 표준 문장(칸은 JS가 갱신).
 if '<div class="reverse">—</div>' in h and DCF.get('reqMode') == 'growth' and DCF.get('requiredGrowth') is not None:

@@ -107,8 +107,6 @@ BEAR = [('설비투자', '2026년 설비투자 전망이 $130~145B이고, 2분�
         ('밸류', '현재가가 기본 내재가치의 약 {px / DCF[\'base\']:.1f}배이고, PCR은 자기 5년 중 가장 비싼 자리다.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 62, 'mean': 761.01, 'median': 756.5, 'low': 580, 'high': 1000, 'sb': 47, 'b': 9, 'h': 6, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-09-25'
-TREND_OLD = ('      MA50 · MA150 · MA200 정배열 조건 4개를 전부 충족하고 있다. 52주 저점 대비 +39.33%, 고점 대비 -3.24% 구간이다.\n'
-             '      <span style="color:var(--text3);">(2026-09-22 종가 기준 · 매매 신호가 아니라 추세 상태 설명이다)</span>')   # 숨긴 카드(옛 카드 그대로 — 틀 문장과 같다)
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
            '기본 시나리오(<span data-dcf-basev>${DCF[\'base\']:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF[\'baseEquivGrowth\'])}</span>다.')
 
@@ -121,7 +119,6 @@ INV = {'보수': 1 / _s2['보수'][0], 'avg': 1 / _s2['낙관'][0], 'recent': 1 
 POST = [r'''
 sub(r'(<span class="diag-label">총자산증가율</span><span class="diag-value">)([+-])([\d.]+%</span><span class="diag-note">)' + C.FY_LABEL + r' 말 (\$[\d.]+B)\(전년 (\$[\d.]+B)\) · 연간 지표(</span>)',
     lambda m_: m_.group(1) + m_.group(2).replace('-', '−') + m_.group(3) + C.FY_LABEL + ' ' + m_.group(4) + '(전기 ' + m_.group(5) + ') · 연간 지표, ' + C.ASSET_NEXT_FY + ' 마감 전까지 동일' + m_.group(6))
-sub(r'(<div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">\n).*?(\n    </div>)', lambda m_: m_.group(1) + C.TREND_OLD + m_.group(2))
 one('<div class="reverse">—</div>', '<div class="reverse">' + F(C.REVERSE) + '</div>')
 one('            <span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n', '')
 sub(r'(<div class="card-title">자본배분 · 주주환원 [^<]*</div>\n      <div class="zone-list">.*?)(\n      </div>\n)',

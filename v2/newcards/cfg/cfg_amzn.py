@@ -100,8 +100,6 @@ BEAR = [('현금흐름', '설비투자가 영업현금흐름을 넘어 최근 4�
         ('이익의 질', 'Q2 공시 순이익 $62.6B에 Anthropic 중심 투자 평가이익 $53.4B(세전)가 들어 있어 지분 가치에 따라 크게 흔들린다.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 60, 'mean': 328.22, 'median': 326, 'low': 230, 'high': 405, 'sb': 43, 'b': 15, 'h': 2, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-09-21'
-TREND_OLD = ('      MA50 · MA150 · MA200 정배열 조건 4개를 전부 충족하고 있다. 52주 저점 대비 +39.33%, 고점 대비 -3.24% 구간이다.\n'
-             '      <span style="color:var(--text3);">(2026-09-22 종가 기준 · 매매 신호가 아니라 추세 상태 설명이다)</span>')   # 숨긴 카드(옛 카드 그대로 — 틀 문장과 같다)
 REV_FOOT = '본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율). 공시 순이익은 Anthropic 등 투자 평가이익이 들어가 2026 Q1 $30.3B·Q2 $62.6B다.'
 
 # 카드 한정 패치 — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다(AAPL·MSFT·GOOGL과 같은 묶음).
@@ -113,7 +111,6 @@ INV = {'보수': 1 / _s2['보수'][0], 'avg': 1 / _s2['낙관'][0], 'recent': 1 
 POST = [r'''
 sub(r'(<span class="diag-label">총자산증가율</span><span class="diag-value">)([+-])([\d.]+%</span><span class="diag-note">)' + C.FY_LABEL + r' 말 (\$[\d.]+B)\(전년 (\$[\d.]+B)\) · 연간 지표(</span>)',
     lambda m_: m_.group(1) + m_.group(2).replace('-', '−') + m_.group(3) + C.FY_LABEL + ' ' + m_.group(4) + '(전기 ' + m_.group(5) + ') · 연간 지표, ' + C.ASSET_NEXT_FY + ' 마감 전까지 동일' + m_.group(6))
-sub(r'(<div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">\n).*?(\n    </div>)', lambda m_: m_.group(1) + C.TREND_OLD + m_.group(2))
 one(f'<canvas id="{t}RevChart"></canvas>\n    </div>\n', f'<canvas id="{t}RevChart"></canvas>\n    </div>\n    <div class="yoy-footnote" style="margin-top:8px;">' + F(C.REV_FOOT) + '</div>\n')
 one('            <span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n', '')
 sub(r'(<div class="card-title">자본배분 · 주주환원 [^<]*</div>\n      <div class="zone-list">.*?\n      </div>\n)', lambda m_: m_.group(1) + '      <div class="yoy-footnote" style="margin-top:14px;">' + F(C.CAPITAL_FOOT) + '</div>\n')

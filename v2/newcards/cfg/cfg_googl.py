@@ -100,8 +100,6 @@ BEAR = [('투자 부담', '설비투자가 Q2 $44.9B로 늘어 잉여현금흐�
         ('밸류에이션', '현재가가 내재가치 기본 시나리오의 {px / DCF[\'base\']:.1f}배이고 본업 PER이 자기 5년 중 상위 {100 - SM[\'PER\'][\'percentile\']:.0f}%다.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 63, 'mean': 428.41, 'median': 430, 'low': 340, 'high': 515, 'sb': 45, 'b': 13, 'h': 5, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-09-17'
-TREND_OLD = ('      MA50 · MA150 · MA200 정배열 조건 4개 중 3개를 충족하고 있다. 52주 저점 대비 +43.25%, 고점 대비 -17.32% 구간이다.\n'
-             '      <span style="color:var(--text3);">(2026-09-23 종가 기준 · 매매 신호가 아니라 추세 상태 설명이다)</span>')   # 숨긴 카드(옛 카드 그대로)
 REV_FOOT = '본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율). 공시 순이익은 비상장 지분 평가이익 등 영업외이익이 들어가 2026 Q1 $62.6B·Q2 $112.2B다.'
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
            '기본 시나리오(<span data-dcf-basev>${DCF[\'base\']:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF[\'baseEquivGrowth\'])}</span>다.')
@@ -117,7 +115,6 @@ INV = {'보수': 1 / _s2['보수'][0], 'avg': 1 / _s2['낙관'][0], 'recent': 1 
 POST = [r'''
 sub(r'(<span class="diag-label">총자산증가율</span><span class="diag-value">)([+-])([\d.]+%</span><span class="diag-note">)' + C.FY_LABEL + r' 말 (\$[\d.]+B)\(전년 (\$[\d.]+B)\) · 연간 지표(</span>)',
     lambda m_: m_.group(1) + m_.group(2).replace('-', '−') + m_.group(3) + C.FY_LABEL + ' ' + m_.group(4) + '(전기 ' + m_.group(5) + ') · 연간 지표, ' + C.ASSET_NEXT_FY + ' 마감 전까지 동일' + m_.group(6))
-sub(r'(<div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">\n).*?(\n    </div>)', lambda m_: m_.group(1) + C.TREND_OLD + m_.group(2))
 one(f'<canvas id="{t}RevChart"></canvas>\n    </div>\n', f'<canvas id="{t}RevChart"></canvas>\n    </div>\n    <div class="yoy-footnote" style="margin-top:8px;">' + F(C.REV_FOOT) + '</div>\n')
 one('<div class="reverse">—</div>', '<div class="reverse">' + F(C.REVERSE) + '</div>')
 one('            <span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n', '')

@@ -96,8 +96,6 @@ BEAR = [('밸류에이션', '현재가가 내재가치 기본 시나리오의 {p
 ANALYST = {'rating': 'Buy', 'n': 44, 'mean': 328.22, 'median': 340, 'low': 215, 'high': 405, 'sb': 19, 'b': 6, 'h': 13, 's': 3, 'ss': 3}
 ANALYST_ASOF = '2026-09-23'
 
-TREND_OLD = ('      MA50 · MA150 · MA200 정배열 조건 4개를 전부 충족하고 있다. 52주 저점 대비 +38.45%, 고점 대비 -2.41% 구간이다.\n'
-             '      <span style="color:var(--text3);">(2026-09-23 종가 기준 · 매매 신호가 아니라 추세 상태 설명이다)</span>')   # 숨긴 카드(옛 카드 그대로)
 
 # 카드 한정 패치 — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 PRE = [r'''
@@ -110,8 +108,6 @@ POST = [r'''
 # 총자산증가율 메모: 옛 카드 표기(회계연도 라벨, 전기, 마감 전까지 동일)
 sub(r'(<span class="diag-label">총자산증가율</span><span class="diag-value">)([+-])([\d.]+%</span><span class="diag-note">)FY25 말 (\$[\d.]+B)\(전년 (\$[\d.]+B)\) · 연간 지표(</span>)',
     lambda m_: m_.group(1) + m_.group(2).replace('-', '−') + m_.group(3) + 'FY25 ' + m_.group(4) + '(전기 ' + m_.group(5) + ') · 연간 지표, FY26 마감 전까지 동일' + m_.group(6))
-# 숨긴 추세 구조 카드: 틀(NVDA) 문장 대신 옛 카드 문장
-sub(r'(<div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">\n).*?(\n    </div>)', lambda m_: m_.group(1) + C.TREND_OLD + m_.group(2))
 # 이자보상배율 줄 메모(이자비용 미공시)
 sub(r'(<div class="diag-row" data-fund-metric="interestCoverage">\n\s*<div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">[^<]*</span>)(</div>)',
     lambda m_: m_.group(1) + '<span class="diag-note">이자비용을 따로 공시하지 않아 계산할 수 없다 · 점수는 결측 규칙대로 0점</span>' + m_.group(2))
