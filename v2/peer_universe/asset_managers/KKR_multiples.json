@@ -1,16 +1,28 @@
 {
  "ticker": "KKR",
  "window": [
-  "2025-10-03",
+  "2025-10-06",
   "2026-09-30"
  ],
  "multiples": {
+  "PER": {
+   "days": 248,
+   "current": 29.08,
+   "min": 29.08,
+   "p10": 31.99,
+   "median": 39.04,
+   "p90": 56.62,
+   "max": 60.5,
+   "mean": 42.34,
+   "percentile": 0.0,
+   "score": 100.0
+  },
   "PSR": {
-   "days": 249,
+   "days": 248,
    "current": 3.85,
    "min": 3.84,
    "p10": 4.08,
-   "median": 4.61,
+   "median": 4.6,
    "p90": 6.84,
    "max": 7.49,
    "mean": 5.14,
@@ -18,7 +30,7 @@
    "score": 99.6
   },
   "PBR": {
-   "days": 249,
+   "days": 248,
    "current": 2.64,
    "min": 2.42,
    "p10": 2.64,
@@ -26,10 +38,18 @@
    "p90": 3.92,
    "max": 4.28,
    "mean": 3.18,
-   "percentile": 10.4,
-   "score": 89.6
+   "percentile": 10.5,
+   "score": 89.5
   }
  },
  "perBasis": "diluted",
- "perNA": null
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 33.31,
+  "per_p75": 51.51,
+  "low": 100,
+  "high": 160,
+  "asOf": "2026-09-30",
+  "basis": "diluted"
+ }
 }

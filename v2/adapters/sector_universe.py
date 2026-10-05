@@ -92,7 +92,7 @@ def split_history(ticker):
 
 # 희석 EPS를 주식 종류별(차원)로만 태그하는 종목 — EPS를 받기 전에 원문 XBRL에서 상장 종류 값을 오버레이에 채운다(D66, 2026-10-05).
 # 오버레이(.sec_cache)는 저장소 밖이라, 이 단계가 없으면 새로 받을 때 다시 "EPS 이력 멈춤"으로 빠진다(Fable).
-CLASS_EPS = {"HSY": "us-gaap:CommonStockMember", "CVNA": "us-gaap:CommonClassAMember"}
+CLASS_EPS = {"HSY": "us-gaap:CommonStockMember", "CVNA": "us-gaap:CommonClassAMember", "KKR": "us-gaap:CommonStockMember"}   # KKR: D29(2026-10-05)
 
 
 # 희석 EPS 태그에 빈 기간이 있어 기본 EPS로 메워도 되는 종목 — 겹치는 분기마다 기본 = 희석을 확인했다.

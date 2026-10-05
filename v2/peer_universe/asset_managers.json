@@ -54,7 +54,8 @@
   },
   "KKR": {
    "psr": 3.85,
-   "pbr": 2.64
+   "pbr": 2.64,
+   "per": 29.08
   },
   "NTRS": {
    "per": 17.73,
@@ -75,7 +76,9 @@
    "pcr": 13.26
   }
  },
- "skipped": {},
+ "skipped": {
+  "ARES": "희석 EPS 표준 태그 없음(원문 XBRL에 EarningsPerShareBasicUndistributed 등 회사 고유 구성) — PER 제외(D29, 2026-10-05)"
+ },
  "perNA": {
   "rule": "A3를 동종 종목에도(C9, 2026-10-04 사용자 결정) — 기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다. per는 빼기 전 값",
   "tickers": {
@@ -83,6 +86,12 @@
     "netMargin": -0.0118,
     "per": "negative"
    }
+  }
+ },
+ "epsRefetch2": {
+  "rule": "D66·D29(2026-10-05)",
+  "tickers": {
+   "KKR": "PER 없음 → 29.08 (희석 EPS를 보통주 차원으로만 태그 — 원문 XBRL 보통주 값, adapters/ixbrl_class_eps.py)"
   }
  }
 }
