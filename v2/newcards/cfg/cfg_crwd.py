@@ -26,7 +26,7 @@ TENQ = S_ + '000153552726000031/crwd-20260731.htm'; TENQ_NAME = 'Q2 FY27 10-Q'
 LINKS = {'buyback': S_ + '000153552726000013/sharerepurchaseincreasepre.htm', 'tenq': TENQ,
          'ceo': S_ + '000110465925124912/tm2534248d1_8k.htm'}
 # PER 해당 없음이라 엔진이 밴드를 내지 않는다(fairBand None) — 옛 카드 설명(9월 말 계산값)을 그대로 둔다.
-FAIRBAND_TITLE = ('id="crwdFairBand" title="최근 1년 PER 25~75% 구간(5,363~6,264배) × 최근 4분기 희석 EPS $0.04로 내면 $210~$250이지만, '
+FAIRBAND_TITLE = ('id="crwdFairBand" title="최근 1년 PER 25~75% 구간(5,363~6,264배) × 최근 4분기 희석 EPS ${eps_ttm}로 내면 $210~$250이지만, '
                   '최근 4분기 GAAP 순이익이 거의 0이고 흑자 PER이 1년 중 약 한 달뿐이라 범위로 쓰지 않는다."')
 HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률</span>'
 OPM_RANGE, Y2 = (-15, 5), (-15, 5)
@@ -62,7 +62,7 @@ CHART_TITLES = {'per': '보안·소프트웨어 6곳 PER 비교 (점수는 IT �
 PEER_NAME_TITLE = '같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = '카드 유니버스 IT 종목 대비 배수 순위(EV/EBITDA 없음)'
 FUND_ASOF_NOTE = 'Q2 FY27 10-Q (2026-08-27 공시)'
-PREMISE = ('PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배·PCR {SM[\'PCR\'][\'current\']:.0f}배가 5년 중 가장 비싼 쪽(상위 4% 안)이고, '
+PREMISE = ('PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배·PCR {SM[\'PCR\'][\'current\']:.0f}배가 5년 중 가장 비싼 쪽(상위 {math.ceil(max(100 - SM[k][\'percentile\'] for k in (\'PSR\', \'PBR\', \'PCR\')))}% 안)이고, '
            'PER {SM[\'PER\'][\'current\']:,.0f}배는 최근 4분기 GAAP 순이익이 거의 0이라(순이익률 1.1%) 점수에서 뺀다(PER 해당 없음, 순이익률 2% 미만 규칙). '
            '자기 이력 {selfsc:.1f}점, 카드 유니버스 IT 안에서도 나머지 세 배수가 모두 가장 비싼 쪽이라 {peersc:.1f}점이다(EV/EBITDA는 감가상각 태그가 회사 고유라 계산하지 않는다). '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.1f}%</strong>다.')

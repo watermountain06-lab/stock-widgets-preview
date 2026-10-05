@@ -20,6 +20,7 @@ TENQ_CF = S_ + '000005947826000081/lly-20260630.htm'
 LINKS = {'notes': S_ + '000119312526232707/d148580d8k.htm'}
 PRE = [r'''
 FR = {r['metric']: r['value'] for ax in FUND['axes'].values() for r in ax['rows']}
+LO2 = math.ceil(round(max(SM[k_]['percentile'] for k_ in ('PER', 'EV/EBITDA')), 1))   # PER·EV/EBITDA 중 높은 백분위의 '하위 N% 안'(올림)
 ''']
 FAIRBAND_TITLE = 'id="llyFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다."'
 HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +{HIST[\'growth_3y\'] * 100:.1f}%)</span>'
@@ -58,7 +59,7 @@ CHART_TITLES = {'per': '대형 제약 PER 비교', 'pbr': '대형 제약 PBR 비
 PEER_NAME_TITLE = '같은 헬스케어 섹터(S&amp;P500 59종목)보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 헬스케어 59종목 대비 배수 순위(v2/peer_universe/health_care.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-05 공시)'
-PREMISE = ('자기 5년 이력으로는 PER·EV/EBITDA가 하위 13% 안이라 싼 편이지만, S&P500 헬스케어 59종목 안에서는 다섯 배수 모두 비싼 쪽(동종업 {peersc:.1f}점)이고, '
+PREMISE = ('자기 5년 이력으로는 PER·EV/EBITDA가 하위 {LO2}% 안이라 싼 편이지만, S&P500 헬스케어 59종목 안에서는 다섯 배수 모두 비싼 쪽(동종업 {peersc:.1f}점)이고, '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. '
            '기본 시나리오는 성장률이 5년 평균(연 {HIST[\'growth_5y\'] * 100:.0f}%)에서 식고 최근 4분기 영업이익률({pct(HIST[\'margin_now\'])})이 최근 2년 중앙값({pct(HIST[\'margin_2y\'])})으로 내려온다고 본다.')
 RISK = ('영업이익률에는 자산 인수·라이선스로 사들인 임상 단계 신약 권리(IPR&amp;D)의 즉시 비용 처리분(2분기 $2.8B)이 들어 있어 분기마다 크게 흔들린다. '
@@ -66,7 +67,7 @@ RISK = ('영업이익률에는 자산 인수·라이선스로 사들인 임상 �
 FUND_TIP = ('영업이익은 세전이익 − 영업외손익으로 만든 값이다(10-Q 손익계산서에 영업이익 줄이 없다, 보도자료 값과 같다). '
             '이자보상배율은 이자비용 분기 태그가 끊겨 10-Q 부문 주석 값($345M)을 손으로 넣었다(v2/interest_extra.json). '
             'FCF에는 투자활동으로 잡히는 IPR&D 매입 현금이 빠져 있어 PCR이 그만큼 낮게 나온다.')
-SELF_TIP = ('PER {SM[\'PER\'][\'current\']:.1f}배·EV/EBITDA {SM[\'EV/EBITDA\'][\'current\']:.1f}배가 5년 중 하위 13% 안이다. 5년 사이 이익이 매출보다 빨리 늘어 배수가 내려왔다. '
+SELF_TIP = ('PER {SM[\'PER\'][\'current\']:.1f}배·EV/EBITDA {SM[\'EV/EBITDA\'][\'current\']:.1f}배가 5년 중 하위 {LO2}% 안이다. 5년 사이 이익이 매출보다 빨리 늘어 배수가 내려왔다. '
             '주식 수는 직원복리신탁 보유 50M주를 뺀 값(891M)이다.')
 PEER_TIP = ('S&P500 헬스케어 59종목과 배수 순위를 매긴 값이다(카드 유니버스엔 헬스케어가 7종목뿐이라 넓혔다).',
             '제약·바이오·의료기기·유통·관리의료가 섞여 있다. 매출 배수는 마진이 얇은 유통·보험사가 크게 낮다.')

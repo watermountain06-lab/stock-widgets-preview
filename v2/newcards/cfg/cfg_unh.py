@@ -59,8 +59,8 @@ CHART_TITLES = {'per': '관리형 의료보험 PER 비교', 'pbr': '관리형 �
 PEER_NAME_TITLE = 'S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-10 공시)'
-PREMISE = ('PBR·PSR·PCR은 자기 5년 이력의 하위 약 20%(백분위 18~20.5)라 다섯 배수 평균이 {selfsc:.1f}점이다. '
-           'PER {SM[\'PER\'][\'current\']:.1f}배·EV/EBITDA {SM[\'EV/EBITDA\'][\'current\']:.1f}배는 5년 중간쯤인데, 최근 4분기 GAAP EPS(약 ${eps_ttm})에 2025년 4분기 일회성 비용이 들어 있어서다(조정 EPS $18.64로는 약 20배). '
+PREMISE = ('PBR·PSR·PCR은 자기 5년 이력의 하위 약 {max(SM[k][\'percentile\'] for k in (\'PBR\', \'PSR\', \'PCR\')):.0f}%(백분위 {min(SM[k][\'percentile\'] for k in (\'PBR\', \'PSR\', \'PCR\')):.0f}~{max(SM[k][\'percentile\'] for k in (\'PBR\', \'PSR\', \'PCR\')):.1f})라 다섯 배수 평균이 {selfsc:.1f}점이다. '
+           'PER {SM[\'PER\'][\'current\']:.1f}배·EV/EBITDA {SM[\'EV/EBITDA\'][\'current\']:.1f}배는 5년 중간쯤인데, 최근 4분기 GAAP EPS(약 ${eps_ttm})에 2025년 4분기 일회성 비용이 들어 있어서다(조정 EPS $18.64로는 약 {px / 18.64:.0f}배). '
            'S&P500 헬스케어 안에서는 {peersc:.1f}점이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. '
            '주가는 1년 새 {CH_TXT}이고, 3월 말 저점(종가 $259.02)에서 7월 고점($436.35)까지 올랐다가 내려왔다.')
 RISK = ('현재가가 정당하려면 5년간 매출이 연 <strong>{pct(DCF[\'requiredGrowth\'])}</strong>씩 커야 한다(지난 5년 실제 연 {pct(HIST[\'growth_5y\'])}). '
@@ -69,7 +69,7 @@ RISK = ('현재가가 정당하려면 5년간 매출이 연 <strong>{pct(DCF[\'r
         '낙관은 성장률(3년 {pct(HIST[\'growth_3y\'])} &lt; 5년 {pct(HIST[\'growth_5y\'])})도 마진(2025년 의료비 급등과 4분기 일회성 비용으로 눌린 최근 4분기 {pct(HIST[\'margin_now\'])} 유지)도 기본보다 낮다. '
         '장기투자 $57.7B(주당 약 $64)는 가입자 의료비 지급을 받치는 보험 자산으로 보고 내재가치에 더하지 않았다(2026-09-30 결정). 그 이자·배당은 이미 영업이익 안에 들어 있다.')
 FUND_TIP = '영업이익 3년 연 증가율 −12.6%(1점)는 2025년 이익 급감(의료비 비율 상승·4분기 일회성 비용) 때문이다. 유동비율 1점은 보험사 구조(미지급 의료비는 유동, 투자 자산은 비유동)에서 온다.'
-SELF_TIP = ('PBR {SM[\'PBR\'][\'current\']:.1f}배·PSR {SM[\'PSR\'][\'current\']:.2f}배·PCR {SM[\'PCR\'][\'current\']:.1f}배는 5년 하위 약 20%로 싼 쪽이고, '
+SELF_TIP = ('PBR {SM[\'PBR\'][\'current\']:.1f}배·PSR {SM[\'PSR\'][\'current\']:.2f}배·PCR {SM[\'PCR\'][\'current\']:.1f}배는 5년 하위 약 {max(SM[k][\'percentile\'] for k in (\'PBR\', \'PSR\', \'PCR\')):.0f}%로 싼 쪽이고, '
             'PER {SM[\'PER\'][\'current\']:.1f}배·EV/EBITDA {SM[\'EV/EBITDA\'][\'current\']:.1f}배는 중간이다. 70점 문턱을 겨우 넘었다.')
 PEER_TIP = ('S&P500 헬스케어와 배수 순위를 매긴 값이다(카드 유니버스 헬스케어가 적어 넓혔다).',
             '제약·바이오·의료기기·보험·서비스가 섞여 있다. 보험사는 마진이 얇아 PSR이 구조적으로 낮게 나온다(PSR 순위 10/57).')
@@ -101,7 +101,7 @@ SUMMARY = ('2025년 의료비 급등과 구조조정을 지나 2026년 이익이
            'Q3 2026 실적(10월 예상)의 의료비 비율과 연간 전망 유지.')
 BULL = [('이익 회복', '2분기 영업이익 ${op[cur] / 1e9:.2f}B로 1년 전보다 {(op[cur] / op[yo] - 1) * 100:.0f}% 늘었고, 연간 전망을 두 번 올렸다.'),
         ('현금', '2분기 영업현금흐름 ${ocf[cur] / 1e9:.2f}B(회사 발표 기준 순이익의 1.9배), 연간 약 $24B 전망.'),
-        ('배수', 'PBR·PSR·PCR이 자기 5년 하위 약 20%다.')]
+        ('배수', 'PBR·PSR·PCR이 자기 5년 하위 약 {max(SM[k][\'percentile\'] for k in (\'PBR\', \'PSR\', \'PCR\')):.0f}%다.')]
 BEAR = [('성장', '2026년 매출 전망이 2025년보다 낮고, 메디케어 어드밴티지 가입자가 연초보다 96.5만 명 줄었다.'),
         ('규제·소송', '법무부 위험조정 소송, IRS 이전가격 조정 통지, 신용등급 전망 "부정적".'),
         ('밸류', '기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, 현재가는 연 {pct(DCF[\'requiredGrowth\'])} 성장을 요구한다.')]

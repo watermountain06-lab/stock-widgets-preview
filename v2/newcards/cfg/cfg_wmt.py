@@ -35,7 +35,7 @@ SEG_TITLE = '매출 구성 — 부문별 순매출'
 SEG_NOTE = '전년 대비 Walmart U.S. +3.5%(기존점 +2.6%), International +12.8%(고정 환율 +7.9%), Sam\'s Club +8.8% · 부문 영업이익 성장은 +20.6%·+16.6%·+44.3% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/104169/000010416926000145/earningsreleasefy27q2.htm" target="_blank" rel="noopener">Walmart Q2 FY27 실적 보도자료 (SEC 8-K) →</a>'
 CAPITAL = [('자사주 매입 (상반기, 4,230만 주)', '$5.1B'), ('잔여 바이백 승인 한도 (2026년 2월 $30B 승인)', '$25.1B'), ('배당 지급 (상반기)', '연 $0.99로 인상(2월)', '$3.9B')]
 CHECK_WHEN = '2026년 11월 중순 (예상) · Q3 FY27'
-CHECK = ['3분기 가이던스 달성 여부 — 순매출 +3.0~3.75%, 조정 영업이익 +2~4%(고정 환율), 조정 EPS $0.62~0.64', '미국 기존점 매출(2분기 +2.6%)이 약국 디플레이션 역풍(125bp)을 넘어 다시 오르는지', '남은 관세 환급을 가격 인하에 다시 쓰는 동안 매출총이익률(2분기 +96bp)이 유지되는지', '광고(+38%)·회원 수수료(+17%)가 영업이익률(최근 4분기 4.4%)을 얼마나 끌어올리는지']
+CHECK = ['3분기 가이던스 달성 여부 — 순매출 +3.0~3.75%, 조정 영업이익 +2~4%(고정 환율), 조정 EPS $0.62~0.64', '미국 기존점 매출(2분기 +2.6%)이 약국 디플레이션 역풍(125bp)을 넘어 다시 오르는지', '남은 관세 환급을 가격 인하에 다시 쓰는 동안 매출총이익률(2분기 +96bp)이 유지되는지', '광고(+38%)·회원 수수료(+17%)가 영업이익률(최근 4분기 {pct(HIST[\'margin_now\'])})을 얼마나 끌어올리는지']
 NONOP_WHAT = '지분·장기투자'
 PH = ['COST', 'TGT', 'DG', 'DLTR', 'KR', 'SYY']
 PEER_FILE = 'peer_universe/consumer_staples.json'
@@ -44,10 +44,10 @@ CHART_TITLES = {'per': '대형 유통 PER 비교', 'pbr': '대형 유통 PBR 비
 PEER_NAME_TITLE = '같은 필수소비재 섹터(S&amp;P500 34종목)보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 필수소비재 34종목 대비 배수 순위(v2/peer_universe/consumer_staples.json)'
 FUND_ASOF_NOTE = 'Q2 FY27 10-Q (2026-08-28 공시)'
-PREMISE = '자기 5년 이력으로는 PER이 중간이고 나머지 네 배수가 비싼 쪽({selfsc:.1f}점)이며, S&P500 필수소비재 34종목 안에서도 비싼 쪽({peersc:.1f}점)이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. 영업이익률 4%대에 매출 성장 연 5%인 회사는 할인율 10%에서 현재가에 한참 못 미친다.'
+PREMISE = '자기 5년 이력으로는 PER이 중간이고 나머지 네 배수가 비싼 쪽({selfsc:.1f}점)이며, S&P500 필수소비재 34종목 안에서도 비싼 쪽({peersc:.1f}점)이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. 영업이익률 {int(HIST[\'margin_now\'] * 100)}%대에 매출 성장 연 {HIST[\'growth_5y\'] * 100:.0f}%인 회사는 할인율 10%에서 현재가에 한참 못 미친다.'
 RISK = '매출이 지난 5년 속도(연 {pct(HIST[\'growth_5y\'])})로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}, 5년 중앙값 {pct(HIST[\'margin_5y\'])}). 광고·회원 수익이 마진을 얼마나 올리느냐가 관건이다.'
 FUND_TIP = "이자보상배율은 2분기 부채 이자에 들어간 일회성 이자비용 감소 $0.5B(미인식 세무 혜택 변동)를 되돌려 계산했다(v2/interest_extra.json). 매출채권은 'Receivables, net'(ReceivablesNetCurrent)을 썼다."
-SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배는 5년 이력의 56% 지점(중간)이고 PSR·PBR·PCR·EV/EBITDA는 상위 22~28% 안쪽이다. 2024년 2월 3:1 분할은 EPS 이력에 반영했다.'
+SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배는 5년 이력의 {SM[\'PER\'][\'percentile\']:.0f}% 지점(중간)이고 PSR·PBR·PCR·EV/EBITDA는 상위 {min(100 - SM[k][\'percentile\'] for k in (\'PSR\', \'PBR\', \'PCR\', \'EV/EBITDA\')):.0f}~{max(100 - SM[k][\'percentile\'] for k in (\'PSR\', \'PBR\', \'PCR\', \'EV/EBITDA\')):.0f}% 안쪽이다. 2024년 2월 3:1 분할은 EPS 이력에 반영했다.'
 PEER_TIP = ('S&P500 필수소비재 34종목과 배수 순위를 매긴 값이다(카드 유니버스엔 필수소비재가 6종목뿐이라 넓혔다).', '유통·식품·음료·생활용품·담배가 섞여 있다. 매출 배수는 마진이 얇은 유통업체가 낮게 나온다. COST는 분기 길이가 불규칙해(12·12·12·16주) 엔진의 최근 4분기 합산에서 빠져 PER·PBR만 계산됐다.')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})에서 식고, 영업이익률이 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 내려간다.', '5년 성장률(연 {pct(HIST[\'growth_5y\'])})에서 식고, 영업이익률이 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 내려간다.', '3년 성장률(연 {pct(HIST[\'growth_3y\'])})에서 출발하고 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다. 5년 뒤 순매출 약 $880B.']
 DCF_NOTE = ''

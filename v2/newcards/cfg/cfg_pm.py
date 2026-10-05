@@ -15,7 +15,7 @@ PR_CUR = 'q2'
 TENQ = S_ + '000162828026049493/pm-20260630.htm'; TENQ_NAME = 'Q2 2026 10-Q'
 FY_ENDS = ('2025-12-31', '2024-12-31')
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
-FAIRBAND_TITLE = 'id="pmFairBand" title="최근 1년 PER 25~75% 구간(25.2~28.1배) × 최근 4분기 희석 EPS $6.95. PER만으로 낸 범위라, 자기 이력·동종업·현금흐름 내재가치를 함께 보는 판정과 따로 읽는다."'
+FAIRBAND_TITLE = 'id="pmFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm:.2f}. PER만으로 낸 범위라, 자기 이력·동종업·현금흐름 내재가치를 함께 보는 판정과 따로 읽는다."'
 HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (최근 4분기 {pct(HIST[\'margin_now\'])})</span>'
 FCF_SUB = '영업현금흐름 − 설비투자'
 CAPEX_SUB = '유형자산 취득(현금흐름표) · 올해 전망 $1.4~1.6B'
@@ -41,8 +41,8 @@ CHART_TITLES = {'per': '담배·음료·생활용품 PER 비교 (필수소비재
 PEER_NAME_TITLE = 'S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-24 공시)'
-PREMISE = '주가가 1년 새 {ch:.0f}% 올라 자기 이력에서 네 배수가 모두 비싼 쪽이라 {selfsc:.1f}점이다(PSR {SM[\'PSR\'][\'current\']:.1f}배는 5년 상위 5%, EV/EBITDA는 최근 2.5년 기준). PBR은 자본이 음수라 계산하지 않는다. S&P500 필수소비재 34종목 안에서는 {peersc:.1f}점으로 비싼 쪽(30 미만)이라 동종업도 −1이다. 적자·순이익률 2% 미만 동종 종목을 PER 비교에서 빼면서(2026-10-04) 30.0점에서 내려왔고, 판정(고평가)은 그대로다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.'
-RISK = '매출이 지난 5년 속도(연 {pct(HIST[\'growth_5y\'])})로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). PER {SM[\'PER\'][\'current\']:.1f}배는 GAAP EPS 기준이라 2분기 RBH 손상(주당 $0.33)이 들어 있다. 회사의 올해 조정 EPS 전망($8.35~8.50)으로 보면 약 23배다.'
+PREMISE = '주가가 1년 새 {ch:.0f}% 올라 자기 이력에서 네 배수가 모두 비싼 쪽이라 {selfsc:.1f}점이다(PSR {SM[\'PSR\'][\'current\']:.1f}배는 5년 상위 {100 - SM[\'PSR\'][\'percentile\']:.0f}%, EV/EBITDA는 최근 2.5년 기준). PBR은 자본이 음수라 계산하지 않는다. S&P500 필수소비재 34종목 안에서는 {peersc:.1f}점으로 비싼 쪽(30 미만)이라 동종업도 −1이다. 적자·순이익률 2% 미만 동종 종목을 PER 비교에서 빼면서(2026-10-04) 30.0점에서 내려왔고, 판정(고평가)은 그대로다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.'
+RISK = '매출이 지난 5년 속도(연 {pct(HIST[\'growth_5y\'])})로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). PER {SM[\'PER\'][\'current\']:.1f}배는 GAAP EPS 기준이라 2분기 RBH 손상(주당 $0.33)이 들어 있다. 회사의 올해 조정 EPS 전망($8.35~8.50)으로 보면 약 {px / ((8.35 + 8.50) / 2):.0f}배다.'
 FUND_TIP = '유동비율 1점·부채비율 1점(자본 음수)이 건전성을 끌어내리고, 영업이익률 40%대·순이익률 25%가 수익성을 받친다. 이자보상배율은 순이자비용 기준이다(회사가 총액을 따로 내지 않음).'
 SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PSR {SM[\'PSR\'][\'current\']:.1f}배·PCR {SM[\'PCR\'][\'current\']:.1f}배 모두 5년 중 비싼 쪽이다. EV/EBITDA는 2022년 3분기~2023년 4분기 감가상각이 SEC 표준 태그에 없어 최근 2.5년 이력으로 본다(규칙대로 두고 명시, 2026-10-01 결정). PBR은 자본 음수(−$8.6B)라 빠졌다.'
 PEER_TIP = ('S&P500 필수소비재(34종목)와 배수 순위를 매긴 값이다.', '담배·음료·식품·생활용품·유통이 섞여 있다. PM은 PSR이 25곳 중 두 번째로 높고 PER은 중간이다. PBR은 자본 음수로 빠졌다.')

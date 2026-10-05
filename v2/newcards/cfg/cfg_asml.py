@@ -61,14 +61,14 @@ CHART_TITLES = {'per': '반도체 장비·주요 고객 PER 비교', 'pbr': '반
 PEER_NAME_TITLE = '같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'GICS Information Technology 28종목 대비 배수 순위 (나스닥 가격 × 그날 환율 ÷ 유로 재무)'
 FUND_ASOF_NOTE = 'Q2 2026 6-K US GAAP 분기 요약 (2026-07-15 공시)'
-PREMISE = ('PER·PSR·EV/EBITDA가 자기 5년 이력의 상위 7% 안이라 {selfsc:.1f}점이고, IT 28종목 안에서도 비싼 쪽({peersc:.1f}점)이다. '
+PREMISE = ('PER·PSR·EV/EBITDA가 자기 5년 이력의 상위 {max(100 - SM[k][\'percentile\'] for k in (\'PER\', \'PSR\', \'EV/EBITDA\')):.0f}% 안이라 {selfsc:.1f}점이고, IT 28종목 안에서도 비싼 쪽({peersc:.1f}점)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. '
            '과거 5년 성장(연 {pct(HIST[\'growth_5y\'])})과 영업이익률 30%대가 이어진다는 가정으로는 현재가에 한참 못 미친다.')
 RISK = ('현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">{pct(DCF[\'requiredGrowth\'])}</strong>씩 커야 한다(최근 3년 실제 연 {pct(HIST[\'growth_3y\'])}). '
         '회사의 2026년 가이던스(€43~45B)는 한 해 +32~38%다. 낙관 시나리오(최근 3년 성장)가 기본보다 낮게 나오는 것은 최근 3년 성장률이 5년 값보다 낮아서다.')
 FUND_TIP = ('재무는 유로(US GAAP)다. ASML은 10-Q를 내지 않아 분기 실적 6-K의 요약 재무제표를 읽는다(v2/adapters/asml_ifrs.py). '
             '유동 차입금은 반기·연말에만 공시돼 1·3분기는 직전 값을 쓰고, 이자보상배율은 분기 이자비용이 없어 해당 없음(만점, 2025년 약 96배)으로 두었다.')
-SELF_TIP = '나스닥 가격을 그날 환율(ECB 기준환율)로 유로로 바꿔 유로 재무로 나눈 배수다. PER은 5년 상위 5%, PSR은 상위 5%, EV/EBITDA는 상위 7%다.'
+SELF_TIP = '나스닥 가격을 그날 환율(ECB 기준환율)로 유로로 바꿔 유로 재무로 나눈 배수다. PER은 5년 상위 {100 - SM[\'PER\'][\'percentile\']:.0f}%, PSR은 상위 {math.ceil(100 - SM[\'PSR\'][\'percentile\'])}%, EV/EBITDA는 상위 {100 - SM[\'EV/EBITDA\'][\'percentile\']:.0f}%다.'
 PEER_TIP = ('같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.',
             '회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다. ASML은 나스닥 가격을 그날 환율로 유로로 바꿔 유로 재무로 나눴다.')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})에서 식고, 영업이익률이 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
@@ -97,7 +97,7 @@ SUMMARY = ('AI 투자로 EUV 수요가 늘어 올해 가이던스를 두 번 올
 BULL = [('수익성', '최근 4분기 영업이익률이 {pct(HIST[\'margin_now\'])}, 2분기는 37.1%로 올라왔다.'),
         ('성장', '올해 매출 가이던스 €43~45B는 지난해보다 32~38% 많고, 7월에 두 번째로 올렸다.'),
         ('주주환원', '2026~2028 자사주 €12B 프로그램을 시작했고, 중간배당을 €1.60에서 €1.88로 올렸다.')]
-BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, PER이 자기 5년 이력의 상위 5%다.'),
+BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, PER이 자기 5년 이력의 상위 {100 - SM[\'PER\'][\'percentile\']:.0f}%다.'),
         ('중국', '상반기 중국 매출이 22% 줄었고, 회사는 수출 통제 논의를 가이던스 범위의 변수로 꼽았다.'),
         ('현금흐름', '선수금 흐름에 따라 분기 영업현금이 +€11.4B(2025년 4분기)에서 −€2.2B(2026년 1분기)까지 흔들린다.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 42, 'mean': 2116, 'median': 2172, 'low': 879.9, 'high': 2818, 'sb': 31, 'b': 7, 'h': 3, 's': 0, 'ss': 1}

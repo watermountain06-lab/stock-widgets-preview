@@ -51,7 +51,7 @@ CHART_TITLES = {'per': '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케
 PEER_NAME_TITLE = 'S&P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-21 공시)'
-PREMISE = ('PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)를 비롯한 다섯 배수가 모두 5년 중 싼 쪽(하위 4~20%)이라 자기 이력 {selfsc:.1f}점(싸다)이다. 이익이 늘어난 만큼 주가가 따라 오르지 않았다(1년 {CH_TXT}). '
+PREMISE = ('PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)를 비롯한 다섯 배수가 모두 5년 중 싼 쪽(하위 {min(v[\'percentile\'] for v in SM.values()):.0f}~{max(v[\'percentile\'] for v in SM.values()):.0f}%)이라 자기 이력 {selfsc:.1f}점(싸다)이다. 이익이 늘어난 만큼 주가가 따라 오르지 않았다(1년 {CH_TXT}). '
            'S&P500 헬스케어 안에서는 다섯 배수가 모두 비싼 쪽이라 {peersc:.1f}점(비싸다)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). '
@@ -63,7 +63,7 @@ PEER_TIP = ('S&P500 헬스케어(ISRG 제외)와 배수 순위를 매긴 값이�
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '5년 성장률(연 {pct(HIST[\'growth_5y\'])})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})로 시작해 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다.']
-DCF_NOTE = ('세 시나리오가 현재가의 29~37%다. 기본값은 최근 4분기 EPS의 약 16배로, 시장 PER 47배와 차이가 크다. 성장률은 연 8~18%(보수·기본·낙관)에서 시작해 식고(기본과 같은 값을 내는 일정 성장률은 약 9.7%), '
+DCF_NOTE = ('세 시나리오가 현재가의 {min(DCF[\'low\'], DCF[\'base\'], DCF[\'high\']) / px * 100:.0f}~{max(DCF[\'low\'], DCF[\'base\'], DCF[\'high\']) / px * 100:.0f}%다. 기본값은 최근 4분기 EPS의 약 {DCF[\'base\'] / eps_ttm:.0f}배로, 시장 PER {SM[\'PER\'][\'current\']:.0f}배와 차이가 크다. 성장률은 연 {HIST[\'growth_5y\'] / 2 * 100:.0f}~{HIST[\'growth_3y\'] * 100:.0f}%(보수·기본·낙관)에서 시작해 식고(기본과 같은 값을 내는 일정 성장률은 약 {DCF[\'baseEquivGrowth\'] * 100:.1f}%), '
             '성장에 드는 재투자를 빼므로 성장이 더하는 가치가 크지 않다. 리스로 설치하는 시스템은 재고에서 유형자산으로 옮겨지는 비현금 대체(상반기 $419M)라 설비투자가 아니라 영업현금흐름(재고)에 들어 있다.')
 NEWS_RANGE = '2025.10 ~ 2026.09'
 NEWS = [
@@ -87,7 +87,7 @@ SUMMARY = ('매출이 20% 안팎 늘었지만 2분기 실적 다음 날 14% 내�
 BULL = [('수술 증가', '수술 건수 +16%, Ion +36%.'),
         ('재무', '차입금 없음, 현금·투자 $8.6B.'),
         ('설치 기반', 'da Vinci 11,710대(+12%), Ion 1,096대(+21%).')]
-BEAR = [('밸류에이션', 'PER 47배, 업종 안에서 다섯 배수 모두 비싼 쪽.'),
+BEAR = [('밸류에이션', 'PER {SM[\'PER\'][\'current\']:.0f}배, 업종 안에서 다섯 배수 모두 비싼 쪽.'),
         ('관세', '매출총이익률 전망에 관세 영향 매출의 1.0%.'),
         ('주가 변동', '2분기 실적 다음 날 −14.1%.')]
 ANALYST = {'rating': 'Buy', 'n': 32, 'mean': 494.73, 'median': 487, 'low': 366, 'high': 685, 'sb': 17, 'b': 7, 'h': 7, 's': 0, 'ss': 1}

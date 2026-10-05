@@ -57,7 +57,7 @@ PREMISE = ('PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 설명하려면 5년 내내 매출이 연 {pct(DCF[\'requiredGrowth\'])}씩 커야 한다(영업이익률이 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 내려가는 기본 경로 기준). '
         '격차의 대부분은 출구 배수에서 온다. 모델은 5년 뒤를 할인율 10%·영구성장 2.5%로 접어 그해 현금흐름의 약 13배로 보지만, 시장은 지금 FCF의 {SM[\'PCR\'][\'current\']:.0f}배를 준다. 할인율 8%·영구성장 3.5%까지 풀어도 기본 ${GMAX:.0f}, 낙관 ${GMAXH:.0f}이다.')
-FUND_TIP = '매출 3년 CAGR(연간 FY2022→FY2025) 22.3%에는 인수 매출이 들어 있다(내재가치 탭 24.4%는 최근 4분기 합 기준 5년 성장률). 부채비율 2점은 CommScope 사업 인수 차입금 때문이다.'
+FUND_TIP = '매출 3년 CAGR(연간 FY2022→FY2025) {FR[\'revenueCagr\']:.1f}%에는 인수 매출이 들어 있다(내재가치 탭 {pct(HIST[\'growth_5y\'])}는 최근 4분기 합 기준 5년 성장률). 부채비율 {FPT[\'debtToEquity\']}점은 CommScope 사업 인수 차입금 때문이다.'
 SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PSR·PBR·PCR은 5년 중 비싼 쪽, EV/EBITDA는 중간이다. 9월 2:1 분할 전 주가·EPS는 분할 기준으로 맞췄다.'
 PEER_TIP = ('카드 유니버스 IT 종목과 배수 순위를 매긴 값이다.',
             '카드 유니버스에 커넥터·수동부품 제조사가 없어 반도체·네트워크·소프트웨어와 비교한다. 점수는 IT 카드 28종목 안의 위치다.')
@@ -99,4 +99,6 @@ MISS_WHY = {('DELL', 'pbr'): ' 자본 음수'}
 PRE = [r'''
 _G = json.loads(re.search(r'^const APH_DCF_GRID = (\{.*?\});', h, re.M).group(1))
 GMAX = max(v for row in _G['values']['기본'] for v in row if v is not None); GMAXH = max(v for row in _G['values']['낙관'] for v in row if v is not None)
+FR = {r_['metric']: r_['value'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}   # 기본적 분석 지표 값·점수(E26)
+FPT = {r_['metric']: r_['points'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}
 ''']

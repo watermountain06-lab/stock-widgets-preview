@@ -63,8 +63,8 @@ PEER_TIP = ('S&P500 헬스케어(VRTX 제외)와 배수 순위를 매긴 값이�
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '5년 성장률(연 {pct(HIST[\'growth_5y\'])})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})로 시작해 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다.']
-DCF_NOTE = ('세 시나리오가 현재가의 49~54%로 좁게 모여 있다. 성장률(연 6~13%)과 영업이익률(34~38%)이 서로 엇갈려 값 차이가 작다. '
-            '비영업 자산(장기 시장성 증권, 주당 약 $23)이 기본값에 들어 있다. Crinetics 인수 대금(약 $10.0B)은 아직 반영되지 않았다.')
+DCF_NOTE = ('세 시나리오가 현재가의 {min(DCF[k] for k in (\'low\', \'base\', \'high\')) / px * 100:.0f}~{max(DCF[k] for k in (\'low\', \'base\', \'high\')) / px * 100:.0f}%로 좁게 모여 있다. 성장률(연 {min(HIST[\'growth_5y\'] / 2, HIST[\'growth_5y\'], HIST[\'growth_3y\']) * 100:.0f}~{max(HIST[\'growth_5y\'] / 2, HIST[\'growth_5y\'], HIST[\'growth_3y\']) * 100:.0f}%)과 영업이익률({min(HIST[k] for k in (\'margin_now\', \'margin_2y\', \'margin_5y\')) * 100:.0f}~{max(HIST[k] for k in (\'margin_now\', \'margin_2y\', \'margin_5y\')) * 100:.0f}%)이 서로 엇갈려 값 차이가 작다. '
+            '비영업 자산(장기 시장성 증권, 주당 약 ${DCF[\'nonopPerShare\']:.0f})이 기본값에 들어 있다. Crinetics 인수 대금(약 $10.0B)은 아직 반영되지 않았다.')
 NEWS_RANGE = '2025.10 ~ 2026.09'
 NEWS = [
     ('neutral', '2026년 9월 1일 — CFO 교체 발표', None,

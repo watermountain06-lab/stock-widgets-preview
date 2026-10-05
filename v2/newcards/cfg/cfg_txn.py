@@ -54,7 +54,7 @@ CHART_TITLES = {'per': '반도체 6곳 PER 비교 (점수는 IT 카드 유니버
 PEER_NAME_TITLE = '같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = '카드 유니버스 IT 종목 대비 배수 순위'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-24 공시)'
-PREMISE = ('주가가 1년 새 {CH_TXT} 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR·PBR·EV/EBITDA가 5년 중 상위 11% 안이라 자기 이력 {selfsc:.1f}점이다'
+PREMISE = ('주가가 1년 새 {CH_TXT} 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR·PBR·EV/EBITDA가 5년 중 상위 {math.ceil(100 - min(SM[\'PER\'][\'percentile\'], SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\'], SM[\'EV/EBITDA\'][\'percentile\']))}% 안이라 자기 이력 {selfsc:.1f}점이다'
            '(PCR {SM[\'PCR\'][\'current\']:.1f}배만 중간). 카드 유니버스 IT 안에서는 {peersc:.1f}점으로 중간이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 매출이 2023~2024년 줄었다가 회복 중이라 '

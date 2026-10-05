@@ -58,7 +58,7 @@ PEER_COMMENT = 'S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/healt
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-07 공시)'
 PREMISE = ('<strong>세 칸 모두 인수 IPR&D 일회성 비용(1년 안 두 건, 주당 $5.93)의 영향을 크게 받는다.</strong> '
            '최근 4분기 EPS는 ${eps_ttm}라 PER {SM[\'PER\'][\'current\']:.0f}배로 자기 5년 이력({selfsc:.1f}점)·S&P500 헬스케어({peersc:.1f}점) 모두 비싼 쪽이지만, '
-           '두 비용을 빼면 EPS 약 $7.18, PER 약 21배로 5년 중앙값({SM[\'PER\'][\'median\']:.0f}배) 근처다. PSR·PBR은 비용과 무관하게 5년 상위 2% 안이다. '
+           '두 비용을 빼면 EPS 약 $7.18, PER 약 {px / 7.18:.0f}배로 5년 중앙값({SM[\'PER\'][\'median\']:.0f}배) 근처다. PSR·PBR은 비용과 무관하게 5년 상위 {math.ceil(100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\']))}% 안이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. 주가는 1년 새 {ch:.0f}% 올랐다.')
 RISK = ('현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다. '
         '최근 4분기 {pct(HIST[\'margin_now\'])}는 IPR&D 비용 때문에 낮고, 최근 2년 중앙값은 {pct(HIST[\'margin_2y\'])}다. '
@@ -66,8 +66,8 @@ RISK = ('현재가가 정당하려면 영업이익률이 <strong data-vs="req">{
         '기본 시나리오도 {pct(HIST[\'margin_now\'])}에서 출발해 5년에 걸쳐 회복하므로 IPR&D 영향이 섞여 있다 — 마진을 처음부터 2년 중앙값으로 두어도 약 $55~62(현재가의 37~41%)라 판정은 같다. '
         '규칙대로 GAAP 이익을 쓰고 일회성 비용을 빼지 않았다(2026-09-30 결정).')
 FUND_TIP = '영업이익률·순이익률·이자보상배율이 각 1점인 것은 2분기 Terns 인수 IPR&D $5.7B 때문이다(그 분기만의 일회성 비용). 영업이익 줄이 없어 세전이익에서 기타(수익)비용을 되돌려 만들었다.'
-SELF_TIP = ('PER {SM[\'PER\'][\'current\']:.0f}배·EV/EBITDA {SM[\'EV/EBITDA\'][\'current\']:.0f}배는 인수 IPR&D로 이익이 눌린 값이다(두 비용을 빼면 PER 약 21배). '
-            'PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배는 5년 상위 2% 안이다.')
+SELF_TIP = ('PER {SM[\'PER\'][\'current\']:.0f}배·EV/EBITDA {SM[\'EV/EBITDA\'][\'current\']:.0f}배는 인수 IPR&D로 이익이 눌린 값이다(두 비용을 빼면 PER 약 {px / 7.18:.0f}배). '
+            'PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배는 5년 상위 {math.ceil(100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\']))}% 안이다.')
 PEER_TIP = ('S&P500 헬스케어와 배수 순위를 매긴 값이다(카드 유니버스 헬스케어가 적어 넓혔다).',
             '제약·바이오·의료기기·보험·서비스가 섞여 있다. 머크의 PER·EV/EBITDA는 인수 IPR&D 비용이 든 값이라 가장 비싼 쪽으로 나온다.')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})에서 식고, 영업이익률이 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
@@ -89,14 +89,14 @@ SUMMARY = ('연이은 신약 인수로 GAAP 이익은 적자가 났지만 주가
            ['2026년 1·2분기에 Cidara($9.0B)·Terns($5.7B)를 인수하며 개발 중 신약 비용을 한 번에 처리해 두 분기 모두 GAAP 적자였다.',
             '매출은 분기마다 약 5% 늘었고, 키트루다가 매출의 절반이다. 윈레브에어(+75%)와 새 승인 제품이 뒤를 받친다.',
             '주가는 1년 새 {ch:.0f}% 올랐고, 8월 말 고점(종가 $156.45)보다 5% 낮다.'],
-           '이 카드의 PER·EV/EBITDA·내재가치는 일회성 인수 비용이 든 GAAP 이익을 쓴다. 비용을 빼면 PER은 약 21배다.',
+           '이 카드의 PER·EV/EBITDA·내재가치는 일회성 인수 비용이 든 GAAP 이익을 쓴다. 비용을 빼면 PER은 약 {px / 7.18:.0f}배다.',
            'Q3 2026 실적(10월 말 예상)의 연간 전망 유지, 키트루다 QLEX 전환, 추가 인수.')
 BULL = [('성장', '매출이 분기마다 약 5% 늘었고, 7월에 연간 매출 전망을 좁히며 올렸다.'),
         ('신제품', '윈레브에어 2분기 $588M(+75%), 리프펜드라·이드빈소가 새로 승인됐다.'),
         ('환원', '분기 배당 $0.85, 상반기 자사주 $1.6B.')]
 BEAR = [('집중', '키트루다 한 제품이 매출의 50%다.'),
         ('인수 비용', '2026년 상반기 두 건의 인수로 R&D 일회성 비용 $14.7B(대부분 IPR&D)를 처리했고, 차입금이 $53.9B로 늘었다.'),
-        ('밸류', 'PSR·PBR이 5년 상위 2% 안이고 기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%다.')]
+        ('밸류', 'PSR·PBR이 5년 상위 {math.ceil(100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\']))}% 안이고 기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%다.')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'mean': 154.62, 'median': 157.5, 'low': 105, 'high': 186, 'sb': 15, 'b': 5, 'h': 8, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-09-29'
 

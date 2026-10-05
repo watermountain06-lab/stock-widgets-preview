@@ -61,14 +61,14 @@ rev = q(['Revenues'])
 EPS_Q1TTM = 5.77   # 1분기까지의 최근 4분기 희석 EPS(옛 카드 값 — 엔진 EPS 이력의 2026-03-31 최근 4분기는 5.74)
 OPM_SALES_Q2 = op[cur] / q(bmh.FLOW_TAGS['revenue'])[cur] * 100
 ''']
-PREMISE = ('자기 5년 이력으로는 비싼 쪽({selfsc:.1f}점)이다 — PSR·PBR은 상위 14% 안, PER·EV/EBITDA는 상위 30% 안, PCR만 중간이다. '
+PREMISE = ('자기 5년 이력으로는 비싼 쪽({selfsc:.1f}점)이다 — PSR·PBR은 상위 {100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\']):.0f}% 안, PER·EV/EBITDA는 상위 {100 - min(SM[\'PER\'][\'percentile\'], SM[\'EV/EBITDA\'][\'percentile\']):.0f}% 안, PCR만 중간이다. '
            'S&P500 에너지 21종목 안에서는 중간({peersc:.1f}점)이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. '
            'PER {SM[\'PER\'][\'current\']:.1f}배에는 유가가 뛴 2분기 이익이 들어 있고, 1분기까지의 최근 4분기 이익(EPS ${EPS_Q1TTM})으로는 약 {px / EPS_Q1TTM:.0f}배다.')
 RISK = ('매출이 지난 5년 속도로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다'
         '(최근 4분기 {pct(HIST[\'margin_now\'])}, 유가 호황이던 2022년 연간 21.3%). 같은 판매 기준으로 2분기 한 분기({OPM_SALES_Q2:.1f}%)는 이 수준을 넘었지만 그 앞 7개 분기는 9~14%였다. '
         '기본 시나리오가 보수보다 낮은 것은 마진이 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 가고 보수는 5년 중앙값 {pct(HIST[\'margin_5y\'])}(2022년 호황 포함)로 가서다.')
 FUND_TIP = '영업이익 줄이 없어 세전이익 + 이자비용으로 만들었다. 매출·영업이익 3년 증가율이 음수인 것은 2022년 유가 정점과 비교해서다. 영업이익률은 2분기 한 분기 값이라 유가 급등이 들어 있다.'
-SELF_TIP = ('PSR·PBR은 5년 중 상위 14% 안이고 PCR은 중간이다. PER은 유가가 뛴 2분기 이익이 들어간 값이라, '
+SELF_TIP = ('PSR·PBR은 5년 중 상위 {100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\']):.0f}% 안이고 PCR은 중간이다. PER은 유가가 뛴 2분기 이익이 들어간 값이라, '
             '1분기까지의 최근 4분기 EPS(${EPS_Q1TTM})로 보면 약 {px / EPS_Q1TTM:.0f}배로 5년 중앙값({SM[\'PER\'][\'median\']:.1f}배)의 두 배가 넘는다.')
 PEER_TIP = ('S&P500 에너지 21종목과 배수 순위를 매긴 값이다(카드 유니버스 에너지는 XOM·CVX 2곳뿐이라 넓혔다).',
             '통합 석유·E&P·정제·서비스·미드스트림이 섞여 있다. 영업이익 태그가 없는 COP·OXY·PSX는 EV/EBITDA가 빠져 있다.')
@@ -98,7 +98,7 @@ SUMMARY = ('중동 분쟁으로 유가가 뛰며 2분기 이익이 1년 전의 �
 BULL = [('현금흐름', '2분기 영업현금흐름 $22.6B, 잉여현금흐름 $18.1B였다(1분기에 빠진 운전자본이 $2.9B 되돌아온 몫 포함).'),
         ('생산', '생산이 4,070 MBOED로 1년 전보다 20% 늘었고 미국 정제 처리량도 기록이었다.'),
         ('비용', '구조적 비용 절감 $3B를 목표보다 6개월 일찍 달성했다.')]
-BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, PSR·PBR이 자기 5년 이력의 상위 14% 안이다.'),
+BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, PSR·PBR이 자기 5년 이력의 상위 {100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\']):.0f}% 안이다.'),
         ('유가', '2분기 이익은 Brent $104에서 나왔고, 그 앞 7개 분기 영업이익률은 9~14%였다.'),
         ('변동성', '타이밍 효과(약 −$2.9B) 때문에 1분기 순이익이 $2.2B로 1년 전($3.5B)보다 37% 적었다.')]
 ANALYST = {'rating': 'Buy', 'n': 25, 'mean': 223.92, 'median': 227, 'low': 175, 'high': 250, 'sb': 14, 'b': 6, 'h': 4, 's': 0, 'ss': 1}

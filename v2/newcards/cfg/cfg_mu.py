@@ -58,7 +58,7 @@ PREMISE = ('이익 기준(PER·EV/EBITDA)으로는 AI 반도체 동종업보다 
 RISK = ('메모리 가격이 공급 부족으로 오른 만큼 이익이 커졌다. 영업이익률이 최근 2년 중앙값({pct(HIST[\'margin_2y\'])})으로 돌아가면 기본 내재가치는 <strong data-vs="dcf">${DCF[\'base\']:.0f}</strong>이고, '
         '현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">{pct(DCF[\'requiredGrowth\'])}</strong>씩 커야 한다.')
 FUND_TIP = '3분기 영업이익률 {FR[\'opMargin\']:.1f}%로 마진은 만점이다. 성장률은 FY25까지의 연간값이라 올해의 급증은 아직 들어가 있지 않다.'
-SELF_TIP = 'PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배가 5년 중 상위 3%다. 같은 5년 안에서 가장 낮았던 PBR은 {SM[\'PBR\'][\'min\']:.1f}배다.'
+SELF_TIP = 'PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배가 5년 중 상위 {math.ceil(100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\']))}%다. 같은 5년 안에서 가장 낮았던 PBR은 {SM[\'PBR\'][\'min\']:.1f}배다.'
 PEER_TIP = ('같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.',
             '회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.')
 STORIES = ['5년 성장률의 절반(연 {HIST[\'growth_5y\'] / 2 * 100:.0f}%)에서 식고, 영업이익률이 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 돌아간다.',

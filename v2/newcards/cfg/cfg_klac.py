@@ -52,7 +52,7 @@ CHART_TITLES = {'per': '반도체 장비·반도체 6곳 PER 비교', 'pbr': '�
 PEER_NAME_TITLE = '같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = '카드 유니버스 IT 종목 대비 배수 순위'
 FUND_ASOF_NOTE = 'FY2026 10-K (2026-08-06 공시)'
-PREMISE = ('주가가 1년 새 {ch:+.0f}% 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR·PBR·PCR이 5년 중, EV/EBITDA가 {SM[\'EV/EBITDA\'][\'days\'] / 252:.1f}년 중 상위 7% 안이라 자기 이력 {selfsc:.1f}점이다. '
+PREMISE = ('주가가 1년 새 {ch:+.0f}% 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR·PBR·PCR이 5년 중, EV/EBITDA가 {SM[\'EV/EBITDA\'][\'days\'] / 252:.1f}년 중 상위 {max(100 - SM[k][\'percentile\'] for k in (\'PER\', \'PSR\', \'PBR\', \'PCR\', \'EV/EBITDA\')):.0f}% 안이라 자기 이력 {selfsc:.1f}점이다. '
            '카드 유니버스 IT 안에서도 PBR·PSR·PCR이 비싼 쪽이라 {peersc:.1f}점이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 영업이익률을 100%로 올려도 현재가에 닿지 않고, '
         '성장으로만 맞추려면 5년 내내 연 {pct(DCF[\'requiredGrowth\'])}가 필요하다(지난 5년 {pct(HIST[\'growth_5y\'])}, 3년 {pct(HIST[\'growth_3y\'])}). '
@@ -87,7 +87,7 @@ SUMMARY = ('AI 반도체 투자로 공정 제어 장비 수요가 늘어 FY2026 
            ['4분기 매출 $3.66B(+15%), 순이익 $1.36B, 영업이익률 42%였다.',
             '회사는 2026년 하반기부터 2027년까지 수요가 가속된다고 보고 1분기 매출을 $4.0B로 전망했다.',
             '3월 배당을 21% 올리고 자사주 한도 $7B를 더했으며, 6월 주식을 10:1로 나눴다.'],
-           '실적은 꾸준하지만 다섯 배수 모두 이력 상위 7% 안이고, 현금흐름 모델로는 현재가의 {DCF[\'base\'] / px * 100:.0f}%만 설명된다.',
+           '실적은 꾸준하지만 다섯 배수 모두 이력 상위 {max(100 - SM[k][\'percentile\'] for k in (\'PER\', \'PSR\', \'PBR\', \'PCR\', \'EV/EBITDA\')):.0f}% 안이고, 현금흐름 모델로는 현재가의 {DCF[\'base\'] / px * 100:.0f}%만 설명된다.',
            'Q1 FY27 실적(10월 하순 예상)의 매출 $4.0B 전망 달성과 수요 가속 여부.')
 BULL = [('수익성', '4분기 영업이익률 42%, 순이익률 37%(FY2026 연간 42%·36%).'),
         ('전망', '1분기 매출 $4.0B 전망(4분기보다 +9%).'),

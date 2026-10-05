@@ -512,7 +512,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="baFairBand" title="PER 25~75% 구간 × 최근 4분기 EPS로 내는 범위다. 흑자 전환(2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B) 뒤 PER 이력이 122일뿐이고, 그 PER이 일회성 이익으로 부푼 EPS 기준이라 밴드를 이익 수준으로 읽을 수 없다." style="font-size:22px;color:var(--text3);">해당 없음</span>
+      <span class="meta-value" id="baFairBand" title="PER 25~75% 구간 × 최근 4분기 EPS로 내는 범위다. 흑자 전환(2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B) 뒤 PER 이력이 168일뿐이고, 그 PER이 일회성 이익으로 부푼 EPS 기준이라 밴드를 이익 수준으로 읽을 수 없다." style="font-size:22px;color:var(--text3);">해당 없음</span>
     </div>
   </div>
   </div>
@@ -2251,7 +2251,7 @@ function baBandTone(cp){
   }
   if (el && h.ratio == null) {   // 백테스트 체크포인트가 없으면(신규 상장 등) 비워 둔다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
-    if (label) { label.textContent = '밴드 적중률 (해당 없음)'; label.title = '흑자 전환(2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B) 뒤 PER 이력이 122일뿐이고, 그 PER이 일회성 이익으로 부푼 EPS 기준이라 밴드를 이익 수준으로 읽을 수 없다.'; }
+    if (label) { label.textContent = '밴드 적중률 (해당 없음)'; label.title = '흑자 전환(2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B) 뒤 PER 이력이 168일뿐이고, 그 PER이 일회성 이익으로 부푼 EPS 기준이라 밴드를 이익 수준으로 읽을 수 없다.'; }
     return;
   }
   if (!el) return;

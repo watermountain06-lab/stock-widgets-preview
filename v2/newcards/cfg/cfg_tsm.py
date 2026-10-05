@@ -62,7 +62,7 @@ PREMISE = ('동종업 안에서는 중간이지만, <strong>다섯 배수 모두
 RISK = ('현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">{pct(DCF[\'requiredGrowth\'])}</strong>씩 커야 한다. '
         '최근 3년 실제 성장은 연 {pct(HIST[\'growth_3y\'])}(대만달러 기준)였고, 회사가 1월에 제시한 2024~2029년 매출 연평균 성장 전망은 25%에 가깝다.')
 FUND_TIP = '대만 IFRS 연결재무제표(6-K)를 분기 평균 환율로 달러 환산한 값이다(v2/adapters/tsm_ifrs.py).'
-SELF_TIP = '다섯 배수 모두 5년 중 비싼 쪽(상위 5~19%)이다 — PSR·PBR·EV/EBITDA는 상위 8% 안쪽.'
+SELF_TIP = '다섯 배수 모두 5년 중 비싼 쪽(상위 {100 - max(v[\'percentile\'] for v in SM.values()):.0f}~{100 - min(v[\'percentile\'] for v in SM.values()):.0f}%)이다 — PSR·PBR·EV/EBITDA는 상위 {math.ceil(100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\'], SM[\'EV/EBITDA\'][\'percentile\']))}% 안쪽.'
 PEER_TIP = ('같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다(ADR 가격 기준).',
             '회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.')
 STORIES = ['지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값({pct(HIST[\'margin_5y\'])})으로 내려온다. 매출 $1을 늘리는 데 $0.84를 투자한다(과거 평균 — 최근 1년($0.78)보다 자본이 더 드는 쪽).',

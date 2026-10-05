@@ -55,7 +55,7 @@ CHART_TITLES = {'per': '음료·식품 대형주 PER 비교', 'pbr': '음료·�
 PEER_NAME_TITLE = 'S&amp;P500 필수소비재 34종목보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 필수소비재 34종목 대비 배수 순위 (v2/peer_universe/consumer_staples.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-29 공시, 인라인 XBRL 보충)'
-PREMISE = ('자기 5년 이력으로는 중간({selfsc:.1f}점)이다 — PER·PBR·PCR은 5년 중앙값 근처지만 PSR {SM[\'PSR\'][\'current\']:.1f}배는 5년 상위 3% 안이다. '
+PREMISE = ('자기 5년 이력으로는 중간({selfsc:.1f}점)이다 — PER·PBR·PCR은 5년 중앙값 근처지만 PSR {SM[\'PSR\'][\'current\']:.1f}배는 5년 상위 {100 - SM[\'PSR\'][\'percentile\']:.0f}% 안이다. '
            'S&P500 필수소비재 34종목 안에서는 비싼 쪽({peersc:.1f}점)이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. '
            '주가는 1년 새 {ch:.0f}% 올랐다.')
 RISK = ('매출이 지난 5년 속도(연 {pct(HIST[\'growth_5y\'])})로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다'
@@ -63,8 +63,8 @@ RISK = ('매출이 지난 5년 속도(연 {pct(HIST[\'growth_5y\'])})로 크다�
         '모델은 모든 종목에 할인율 10%를 쓰므로 경기 영향이 작은 필수소비재에는 낮게 잡힐 수 있지만, 8%로 낮춰도 기본 $46로 현재가의 53%다. '
         '낙관 시나리오(${DCF[\'high\']:.2f})는 기본(${DCF[\'base\']:.2f})보다 조금 높다. 최근 3년 성장률({pct(HIST[\'growth_3y\'])})이 5년 값보다 낮지만, '
         '기본이 쓰는 최근 1년 매출/자본이 평균보다 낮아(자본이 더 듦) 그 차이를 넘는다.')
-FUND_TIP = '부채비율 198.5%(2점)는 차입이 많고 자사주 매입으로 자본이 작아서다. SEC companyfacts에 2분기 10-Q가 아직 없어 원문 인라인 XBRL에서 보충했다.'
-SELF_TIP = 'PER·PBR·PCR은 5년 백분위 38~47%로 중앙값 근처, PSR은 상위 3%, EV/EBITDA는 상위 30%다.'
+FUND_TIP = '부채비율 {FR[\'debtToEquity\'][\'value\']:.1f}%({FR[\'debtToEquity\'][\'points\']}점)는 차입이 많고 자사주 매입으로 자본이 작아서다. SEC companyfacts에 2분기 10-Q가 아직 없어 원문 인라인 XBRL에서 보충했다.'
+SELF_TIP = 'PER·PBR·PCR은 5년 백분위 {min(SM[k_][\'percentile\'] for k_ in (\'PER\', \'PBR\', \'PCR\')):.0f}~{max(SM[k_][\'percentile\'] for k_ in (\'PER\', \'PBR\', \'PCR\')):.0f}%로 중앙값 근처, PSR은 상위 {100 - SM[\'PSR\'][\'percentile\']:.0f}%, EV/EBITDA는 상위 {100 - SM[\'EV/EBITDA\'][\'percentile\']:.0f}%다.'
 PEER_TIP = ('S&P500 필수소비재 34종목과 배수 순위를 매긴 값이다(카드 유니버스 필수소비재가 적어 넓혔다).',
             '음료·식품·생활용품 제조사와 유통이 섞여 있다. 원액을 팔고 병입은 협력사에 맡기는 코카콜라는 마진이 높아 PSR이 가장 비싼 쪽으로 나온다.')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})에서 식고, 영업이익률이 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
@@ -95,14 +95,15 @@ SUMMARY = ('판매량이 늘고 마진이 올라 이익이 두 자릿수로 늘�
 BULL = [('수익성', '2분기 영업이익률 34.9%, 순이익률 33.1%다(원액을 팔고 병입은 협력사가 맡는 구조).'),
         ('현금흐름', '회사 전망 2026년 잉여현금흐름은 약 $12.4B다.'),
         ('배당', '분기 배당 $0.53으로 64년 연속 올렸다.')]
-BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, PSR은 5년 상위 3% 안이다.'),
+BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, PSR은 5년 상위 {100 - SM[\'PSR\'][\'percentile\']:.0f}% 안이다.'),
         ('성장', '최근 3년 매출 성장률은 연 {pct(HIST[\'growth_3y\'])}로 5년 값({pct(HIST[\'growth_5y\'])})보다 낮다.'),
-        ('부채', '차입금이 $43.5B이고, 부채비율(비지배지분 포함 총부채 ÷ 자본)이 198.5%다.')]
+        ('부채', '차입금이 $43.5B이고, 부채비율(비지배지분 포함 총부채 ÷ 자본)이 {FR[\'debtToEquity\'][\'value\']:.1f}%다.')]
 ANALYST = {'rating': 'Buy', 'n': 24, 'mean': 94.7, 'median': 96, 'low': 75, 'high': 104, 'sb': 12, 'b': 7, 'h': 4, 's': 1, 'ss': 0}
 ANALYST_ASOF = '2026-09-28'
 
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 REQ_MULT_EXACT = True   # 요구 성장률 배수를 실제 값으로(fill.py)
+PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)
 POST = [r'''
 # 분기 차트 아래 설명(손상·분기 일수·지분법 이익)
 one('<canvas id="koRevChart"></canvas>\n    </div>\n', '<canvas id="koRevChart"></canvas>\n    </div>\n'

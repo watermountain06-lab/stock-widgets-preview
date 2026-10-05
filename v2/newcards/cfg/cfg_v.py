@@ -62,7 +62,7 @@ RISK = ('현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="
         '낙관 시나리오(최근 3년 성장·최근 마진)가 기본보다 낮게 나오는 것은 최근 성장률·마진이 5년·2년 값보다 낮아서다.')
 FUND_TIP = 'SEC companyfacts에 7/29 10-Q가 아직 없어 원문 인라인 XBRL에서 보충했다(v2/adapters/ixbrl_supplement.py). 영업이익에는 MDL 소송 충당금·감원 비용이 들어 있다.'
 SELF_TIP = ('주식 수는 클래스 A·B·C·우선주를 클래스 A로 환산한 분기말 총수(3분기 말 18.80억 주)다 — Visa는 EPS·주식 수를 클래스별로만 낸다(v2/adapters/visa_classA.py). '
-            'PBR은 5년 최고 수준(상위 2%)이다.')
+            'PBR은 5년 최고 수준(상위 {100 - SM[\'PBR\'][\'percentile\']:.0f}%)이다.')
 PEER_TIP = ('S&P500 결제 8곳 + 거래소·금융 데이터 9곳과 배수 순위를 매긴 값이다(카드 유니버스 금융 10곳은 은행·증권이라 바꿨다).',
             '결제 처리(FIS·FISV·GPN 등)는 이익률이 낮아 배수가 낮다. MA·CME의 주식 수는 표지 클래스를 더했다.')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})에서 식고, 영업이익률이 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',

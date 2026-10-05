@@ -51,12 +51,12 @@ CHART_TITLES = {'per': '네트워크·AI 반도체·하드웨어 6곳 PER 비교
 PEER_NAME_TITLE = '같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = '카드 유니버스 IT 종목 대비 배수 순위'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-05 공시)'
-PREMISE = ('주가가 1년 새 {ch:+.0f}% 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR·EV/EBITDA가 모두 5년 중 상위 3% 안이라 자기 이력 {selfsc:.1f}점이다. '
+PREMISE = ('주가가 1년 새 {ch:+.0f}% 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR·EV/EBITDA가 모두 5년 중 상위 {100 - min(SM[k_][\'percentile\'] for k_ in (\'PER\', \'PSR\', \'PBR\', \'EV/EBITDA\')):.0f}% 안이라 자기 이력 {selfsc:.1f}점이다. '
            '카드 유니버스 IT 안에서도 PSR·EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가가 정당하려면 매출이 5년 내내 연 {pct(DCF[\'requiredGrowth\'])}씩 늘어야 한다'
         '(지난 5년 {pct(HIST[\'growth_5y\'])}, 3년 {pct(HIST[\'growth_3y\'])}). 낙관 시나리오(${DCF[\'high\']:.0f})가 기본(${DCF[\'base\']:.0f})보다 낮은 것은 3년 성장률이 5년보다 낮아서다. '
         '최근 1년 매출/자본을 못 구해 시나리오 일부는 과거 평균을 썼다.')
-FUND_TIP = '이자비용이 없어 이자보상배율은 점수에서 빠진다. 부채비율 3점은 이연매출이 부채로 잡혀서다.'
+FUND_TIP = '이자비용이 없어 이자보상배율은 점수에서 빠진다. 부채비율 {FR[\'debtToEquity\'][\'points\']}점은 이연매출이 부채로 잡혀서다.'
 SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PSR·PBR·EV/EBITDA가 5년 최고치에 가깝다. PCR만 중간 쪽이다.'
 PEER_TIP = ('같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.',
             '회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.')
@@ -86,13 +86,14 @@ SUMMARY = ('AI 데이터센터 네트워크 수요로 2분기 매출이 38% 늘�
 BULL = [('성장', '2분기 매출 +37.7%, 4분기 연속 전년 대비 +27% 이상.'),
         ('수익성', 'GAAP 영업이익률 45.4%, 순이익률 40%.'),
         ('재무', '차입금 0, 현금·투자증권 $13.3B.')]
-BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배 — 5년 중 상위 1%, 현금흐름 기본 ${DCF[\'base\']:.0f}.'),
+BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배 — 5년 중 상위 {100 - SM[\'PER\'][\'percentile\']:.0f}%, 현금흐름 기본 ${DCF[\'base\']:.0f}.'),
         ('집중', '2025년 매출의 26%·16%가 두 최종 고객 — 주문 시점에 따라 분기 매출이 흔들린다(10-Q).'),
         ('환원', '상반기 자사주 매입 없음, 배당 없음, 남은 한도 $0.82B.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 31, 'mean': 241.93, 'median': 246.5, 'low': 190, 'high': 289, 'sb': 23, 'b': 7, 'h': 1, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-01'
 
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
+PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)
 POST = [r'''
 # QoQ 각주에만 영업현금흐름 설명(옛 카드)
 one(f"vs {C.QO.replace('-', '.')}({C.QQL}) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a", f"vs {C.QO.replace('-', '.')}({C.QQL}) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · " + C.QOQ_EXTRA + "<a")
