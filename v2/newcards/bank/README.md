@@ -4,15 +4,17 @@
 
 | 파일 | 하는 일 |
 |---|---|
-| `{t}_rebuild.sh` | 한 번에 다시 만들기 — `bank_card.py`(관문·RIM·자기 이력·동종업 → `v2/{T}_bank.json`) → 기반 HTML 복사 → `{t}_fill.py` → `sync_fallbacks.py` → JS 문법 검사 |
+| `{t}_rebuild.sh` | 한 번에 다시 만들기 — `bank_card.py`(관문·RIM·자기 이력·동종업 → `v2/{T}_bank.json`) → 기반 HTML 복사 → `{t}_fill.py` → `unify_js.py`(은행 공통 화면 규칙) → `sync_fallbacks.py` → JS 문법 검사 |
 | `{t}_fill.py` | 기반 HTML(복제 + 배열)에 은행 데이터·문장을 채운다. 틀 문자열이 정확히 한 번씩 있는지 확인하며 바꾸므로 기반이 바뀌면 멈춘다 |
 | `base/{t}_base.html` | 채우기 직전 카드(복제 + 배열). 루트 카드가 있는 은행은 `clone_card.py` + `{t}_arrays.py`, COF는 `build.py COF --data`로 만든 것 |
-| `{t}_arrays.py` | 루트 카드 일봉·배열을 v2 카드로 옮긴다(루트 카드 있는 은행만) |
+| `{t}_arrays.py` | 루트 카드(또는 인자로 준 카드 사본)의 일봉·배열을 v2 카드로 옮긴다 |
 
-JPM(2026-10-05 복원)
-- `jpm_fill.py`는 `wfc_fill.py` 틀에 그때 `v2/JPM_full_widget.html`(ad61582)의 문장·손입력 값을 옮긴 것이다. `base/jpm_base.html`은 지금 NVDA 틀을 `clone_card.py JPM --force`로 복제하고 `jpm_arrays.py <그 카드 사본>`으로 그 카드의 배열(마지막 봉 2026-09-25)을 넣어 만들었다. 이 기반 + 그때의 `JPM_bank.json` + 9/25 기준 `peer_universe/banks.json`(16b9e28)으로 채우기 → `unify_js.py` → `sync_fallbacks.py`를 돌리면 카드가 바이트 단위로 같게 나온다(sync 전에는 대체값 52곳만 다르다).
-- 지금 NVDA 틀에는 은행 카드가 받지 않은 변경(A3 PER 해당 없음, 쏠림 안내, 음수 시나리오 표기)이 있어 `jpm_fill.py` 6절에서 되돌린다. 다른 은행 기반은 10-02 틀이라 이 절이 없다.
-- 동종업 문장(C·HBAN 사정, 비교 은행 8곳·12곳, 유형자본 결측 은행)과 위험 문장(현재가 ÷ 기본 가치 1.51)은 2026-09-27 데이터에 맞춘 손문장이라, 값이 바뀌면 확인에서 멈춘다. 2026-10-05에 `bank_card.py JPM`을 다시 돌려 보니 C의 P/TBV가 계산되어 P/TBV 비교 은행이 9곳, PER 순위 12/12(점수 8.3)로 바뀌므로, `rebuild.sh`는 이 문장들을 고칠 때까지 멈춘다(판정은 그대로 고평가 −4).
+기반 갱신(2026-10-05, 9장 모두)
+- 기반 HTML은 10-02 NVDA 틀로 만들어져 그 뒤 전 카드에 직접 넣은 화면 규칙(C14 끝난 분기 적중률·days_*, A9 흑자 초기, A7 경계, C1·C11 동종업, 음수 내재가치 표시, E13 문구 등)이 없었다 — 다시 만들면 그 규칙이 빠졌다. 9장 모두 지금 NVDA 틀을 `clone_card.py {T} --force`로 복제하고 `{t}_arrays.py <지금 카드 사본>`으로 그 카드의 배열을 넣어 기반을 다시 만들었다(COF는 루트 카드가 없어 `cof_arrays.py`를 새로).
+- 지금 틀에는 은행 카드가 받지 않은 변경(A3 PER 해당 없음, 쏠림 안내, 일반 카드용 음수 시나리오 표기 등)이 있어 각 `{t}_fill.py` 6절에서 되돌린다(JPM에서 시작). 은행 공통 화면 규칙은 채우기 뒤 `unify_js.py`가 넣는다.
+- 채우기 스크립트는 2026-10-05 상태(관문 개정 — BAC·WFC·COF 판정, AXP는 G1만 미통과로 보류, SCHW 보류, 동종업 보정값)에 맞췄다. 확인: 9장 모두 정상 경로(`bank_card.py`부터)로 다시 만들면 커밋된 카드와 같다 — 다른 것은 GS·MS·WFC 동종업 차트의 BAC 막대가 9/29 값 1.87(손으로 넣었던 9/30 값 1.85를 바로잡음)과 공백 한 곳.
+- `SKIP_BANK_CARD=1`(C는 `SKIP_BANK`도)이면 `bank_card.py`를 건너뛰고 지금 `{T}_bank.json`·`peer_universe/banks.json`으로 채운다(재현 확인용). 비교군 파일 날짜가 카드와 다르면 차트 값이 달라질 수 있다(경고 출력).
+- JPM: `jpm_fill.py`는 `wfc_fill.py` 틀에 JPM 카드(ad61582)의 문장·손입력 값을 옮긴 것이다(2026-10-05 복원). 카드는 9/25 자료다.
 
 다시 만들기: `bash v2/newcards/bank/{t}_rebuild.sh`(저장소 루트 기준 경로). 일봉을 새로 받으면 기반 HTML부터 다시 만든다 — COF는 `python3 v2/newcards/build.py COF --data` 뒤 `cp v2/COF_full_widget.html v2/newcards/bank/base/cof_base.html`.
 

@@ -1,11 +1,12 @@
 """JPM(JP모건체이스) v2 카드 채우기 — 은행 세트 첫 카드(2026-09-27, 16b9e28). 비교군은 S&P500 은행 13곳(JPM 본인 제외 12곳).
+2026-10-05 2단계(e1886df) 카드에 맞췄다 — 관문 개정·동종업 보정값으로 P/TBV 비교 은행 10곳(WFC·C 추가), 동종업 점수 8.3 → 4.2(판정 그대로).
  — clone + 배열 뒤에 실행. 데이터: v2/JPM_bank.json(adapters/bank_card.py).
 처음 카드를 만든 스크립트는 남아 있지 않아 2026-10-05 다시 만들었다(wfc_fill.py 틀). 문장·손입력 값은 그때 v2/JPM_full_widget.html(ad61582)에서 옮겼고,
 그 카드의 배열로 만든 기반(base/jpm_base.html) + 같은 JPM_bank.json으로 돌리면 카드가 그대로 다시 나온다(다른 점은 README 참고).
 관문 G1~G5 모두 통과 → 초과이익모형이 표를 준다(참고용 아님). 손입력: 분기 자본비율·대손 내역·사업부 순이익·자본배분·뉴스·애널리스트.
 기반은 지금 NVDA 틀을 복제한 것이라, 은행 카드가 받지 않은 틀 변경(A3 PER 해당 없음·쏠림 안내·음수 시나리오 표기 등)은 6절에서 되돌린다."""
 import json, os, re, sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview/v2')
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))   # v2(스크립트 위치 기준)
 sys.path.insert(0, '.'); sys.path.insert(0, 'adapters')
 import build_multiple_history as bmh
 import bank_rim as br
@@ -70,7 +71,7 @@ one('<button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;bor
 dcf = {"low": round(R['보수'], 2), "base": round(R['기본'], 2), "high": round(R['낙관'], 2), "requiredGrowth": R['required_roe'],
        "baseEquivGrowth": None, "reqMode": "roe", "requiredMargin": None, "marginNow": None, "roeNow": R['roe0'],
        "growth5y": None, "nonopPerShare": 0, "s2cFallback": False, "asOf": asof, "hard": [], "hardDetail": {}, "tvShare": None,
-       "model": "rim", "retention": R['b'], "bvps": R['bvps']}   # hard·roeTarget는 unify_js.py가 채운다
+       "model": "rim", "retention": R['b'], "bvps": R['bvps'], "roeTarget": R['roe_2y_median'], "referenceOnly": R['reference_only']}   # hard·roeTarget는 unify_js.py가 다시 채운다(자리만 잡아 둠)
 sub(r'^const JPM_DCF = \{.*$', 'const JPM_DCF = ' + json.dumps(dcf, ensure_ascii=False) + ';   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md', re.M)
 ends = {'보수': R['roe_5y_median'], '기본': R['roe_2y_median'], '낙관': R['roe0']}
 waccs, lams = [0.08, 0.09, 0.10, 0.11, 0.12], [0.0, 0.5, 1.0]
@@ -295,14 +296,19 @@ V = {"peer": {"score": peerscore, "rule": "both", "sector": "Financials (S&P500 
      "self": {"score": selfscore, "rule": "both", "naNote": "은행", "window": [D[0][0], asof],
               "metrics": [wm('per', SH['per']), wm('pbr', SH['ptbv'])]}}
 sub(r'^const JPM_VALUATION = \{.*$', 'const JPM_VALUATION = ' + json.dumps(V, ensure_ascii=False) + ';', re.M)
-UB = json.load(open('peer_universe/banks.json')); assert UB['asOf'] == asof, (UB['asOf'], asof)   # 다른 은행을 뒤에 돌렸으면 기준일이 다르다 — rebuild.sh로 돌린다
+UB = json.load(open('peer_universe/banks.json'))
 U = {k: v for k, v in UB['tickers'].items() if k != T}   # 본인 제외
+# 2026-10-05 2단계: banks.json은 마지막으로 돌린 은행 기준일(9/30)로 덮어써져 JPM 기준일(9/25)과 다르다. 비교 은행 구성(유형자본 결측 은행·수)만 여기서 읽고,
+# 비교 차트 값은 카드에 실린 9/25 종가 값(16b9e28 banks.json)을 그대로 둔다 — BAC P/TBV 1.73은 회사 정의 보정값(override) 전 값이다.
+# 순위·점수는 JPM_bank.json(9/25, 보정값 반영)에서 온다.
 PB = ['BAC', 'USB', 'MTB', 'CFG', 'RF', 'FITB']
-NOTB = ['PNC', 'WFC', 'C', 'TFC']   # 유형자본 태그 결측(화면 순서) — 바뀌면 아래 문장들을 다시 쓴다
+CHART_0925 = {'per': {'BAC': 13.06, 'USB': 11.84, 'MTB': 11.71, 'CFG': 14.25, 'RF': 11.23, 'FITB': 17.84},
+              'ptbv': {'BAC': 1.73, 'USB': 2.19, 'MTB': 1.89, 'CFG': 1.76, 'RF': 2.03, 'FITB': 2.24}}
+NOTB = ['PNC', 'TFC']   # 유형자본 태그 결측(화면 순서) — WFC·C는 2026-10-05부터 들어간다. 바뀌면 아래 문장들을 다시 쓴다
 assert sorted(t for t in U if not isinstance(U[t].get('ptbv'), (int, float))) == sorted(NOTB), U
 mdy = f'{int(asof[5:7])}/{int(asof[8:])} 종가'
 mk = lambda k, key, title, unit, mx: {"title": title, "unit": unit, "max": mx, "jpmValue": None,
-                                     "peers": [{"name": t, "value": round(U[t][key], 2), "status": "reference"} for t in PB if isinstance(U.get(t, {}).get(key), (int, float))]}
+                                     "peers": [{"name": t, "value": CHART_0925[key][t], "status": "reference"} for t in PB]}
 MD = {"per": mk('per', 'per', f'S&P500 은행 PER 비교 · {mdy}', 'PER(TTM)', 25),
       "pbr": mk('pbr', 'ptbv', f'S&P500 은행 P/TBV 비교 · {mdy} ({"·".join(NOTB)}는 유형자본 태그 결측)', 'P/TBV', 4)}
 for k, nm, why in (('psr', 'PSR', '은행 매출에는 이자수익이 들어 있다'), ('pcr', 'PCR', '은행 현금흐름은 예금·대출 증감이 좌우한다'), ('evebitda', 'EV/EBITDA', '예금·차입이 영업 자금이라 기업가치가 뜻이 없다')):
@@ -373,14 +379,14 @@ one("""      + `\\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(확�
 one("""    const WHY = { negative_equity:""", """    const WHY = { financial: '은행·보험이라 일반 재무비율 산식이 맞지 않는다', negative_equity:""")
 one("if (vd) vd.textContent = F.qualityFlags.length ? '해석 제한' : (F.grade || '—');",
     "if (vd) vd.textContent = F.qualityFlags.includes('financial') ? '판정 안 함' : F.qualityFlags.length ? '해석 제한' : (F.grade || '—');")
-# 동종업 툴팁의 C·HBAN 문장은 2026-09-27 데이터 사정(C는 2026년 분기 없음, HBAN은 3월 분기)이다 — 비교 은행 수가 바뀌면 멈춘다
-assert (PEER['ptbv']['peers'], PEER['per']['peers']) == (8, 12) and PEER['ptbv']['rank'] == 9 and PEER['per']['rank'] == 11, PEER
+# 동종업 툴팁의 결측 은행 문장(PNC·TFC 빠짐, WFC는 회사 정의 보정값)은 2026-10-05 2단계 데이터 사정이다 — 비교 은행 수·순위가 바뀌면 멈춘다
+assert (PEER['ptbv']['peers'], PEER['per']['peers']) == (10, 12) and PEER['ptbv']['rank'] == 11 and PEER['per']['rank'] == 12, PEER
 one("""      `같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.`
       + `\\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
       + `\\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);""",
     f"""      `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
       + `\\nP/TBV는 유형자본을 만들 수 있는 {PEER['ptbv']['peers']}곳, PER은 {PEER['per']['peers']}곳과 비교했다. 두 배수 모두 가장 비싼 쪽이다.`
-      + `\\nC는 SEC 요약 데이터에 2026년 분기가 아직 없어 P/TBV에서 빠졌고(PER은 2025-12 기준), HBAN은 2026-03 분기로 비교했다. PNC·WFC·TFC는 유형자본 태그를 못 채워 빠졌다.`);""")
+      + `\\n{'·'.join(NOTB)}는 유형자본 태그를 못 채워(WFC는 회사 정의 보정값으로 넣음, 2026-10-05) 빠졌다.`);""")
 one("""      + `\\n(확인 필요 — NVDA 문장 자리)`
       + ``);""",
     f"""      + `\\nP/TBV {SH['ptbv']['current']:.2f}배(5년 중 상위 {100 - SH['ptbv']['percentile']:.0f}%)·PER {SH['per']['current']:.1f}배(상위 {100 - SH['per']['percentile']:.0f}%). P/TBV 이력은 {TB0}부터(무형자산 값 첫 공시)라 앞쪽이 비어 있다.`

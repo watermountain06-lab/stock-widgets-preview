@@ -1,7 +1,11 @@
-import json,re,os
+"""WFC 일봉·이동평균·백테스트 배열을 v2 카드로 옮긴다. clone_card.py WFC --force 뒤에 실행.
+원본은 기본으로 루트 카드(WFC_full_widget.html). 2026-10-05 기반을 지금 NVDA 틀로 다시 만들 때는 그때 v2 카드의 배열(마지막 봉 2026-09-29)을
+그대로 쓰려고 원본 경로를 인자로 줬다: python3 v2/newcards/bank/wfc_arrays.py <카드 사본 경로>"""
+import json,re,os,sys
 os.chdir('/Users/watermountain/Workspace/stock-widgets-preview')
 T='WFC'
-root=open(f'{T}_full_widget.html',encoding='utf-8').read(); p=f'v2/{T}_full_widget.html'; h=open(p,encoding='utf-8').read()
+src=sys.argv[1] if len(sys.argv)>1 else f'{T}_full_widget.html'
+root=open(src,encoding='utf-8').read(); p=f'v2/{T}_full_widget.html'; h=open(p,encoding='utf-8').read()
 def span(s, name):
     a=s.index(f'const {T}_{name} '); st=s.index('[',a); d=0; ins=None
     for i in range(st,len(s)):

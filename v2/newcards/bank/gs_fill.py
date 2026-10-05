@@ -1,8 +1,12 @@
 """GS(골드만삭스) v2 카드 채우기 — MS 스크립트(ms_fill.py)에서 옮김. 은행 세트 세 번째 카드(비교군은 사용자 결정으로 MS와 같은 S&P500 은행 13곳).
  — clone + 배열 뒤에 실행. 데이터: v2/GS_bank.json(adapters/bank_card.py). 주식 수는 사용자 결정으로 회사 정의 기본주식 수(research/bank_shares_override.json).
-틀 구조는 그대로 두고 값·문장만 바꾼다. 내재가치 = 초과이익모형(RIM), 배수 = P/TBV(틀의 PBR 자리)·PER, 금융 규칙."""
+틀 구조는 그대로 두고 값·문장만 바꾼다. 내재가치 = 초과이익모형(RIM), 배수 = P/TBV(틀의 PBR 자리)·PER, 금융 규칙.
+2026-10-05 기반(base/gs_base.html)을 그날 NVDA 틀로 다시 만들었다 — clone_card.py GS --force + gs_arrays.py <그때 v2 카드 사본>(마지막 봉 2026-09-29).
+은행 카드가 받지 않은 틀 변경(A3 PER 해당 없음·쏠림 안내·음수 시나리오 표기 등)은 6절에서 되돌린다(jpm_fill.py와 같은 방식).
+문장은 같은 날 은행 2단계(관문 개정·동종업 보정값, e1886df) 카드에 맞췄다 — 이 기반 + 그때의 GS_bank.json·peer_universe/banks.json으로
+채우기 → unify_js.py → sync_fallbacks.py를 돌리면 그 카드가 그대로 나온다."""
 import json, os, re, sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview/v2')
+os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))   # v2(복제본에서도 그 복제본 기준)
 sys.path.insert(0, '.'); sys.path.insert(0, 'adapters')
 import build_multiple_history as bmh
 import bank_rim as br
@@ -24,11 +28,11 @@ def sub(pat, new, flags=re.S):
 
 J = json.load(open('GS_bank.json'))
 R = J['rim']; SH = J['self']; PEER = J['peer']; FB = SH['fairBand']
-assert all(J['gates'].values()), J['gates']
+assert J['gates'] == {'G1': True, 'G2': True, 'G5': True, 'G3': True, 'G4': True}, J['gates']; assert not R['reference_only']
 D = json.loads(re.search(r'const GS_DAILY\s*=\s*(\[.*?\]);', h, re.S).group(1)); days = {r[0] for r in D}
 px, asof = D[-1][4], D[-1][0]
 assert abs(px - J['price']) < 1e-6 and asof == J['asOf']
-bank = br.Bank(T, CIK)
+bank = br.Bank(T, CIK, overrides=True)   # 은행 2단계(2026-10-05) — 회사 정의 보정값
 S_, CE = R['shares'], R['ce']
 
 
@@ -69,7 +73,8 @@ one('<button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;bor
 dcf = {"low": round(R['보수'], 2), "base": round(R['기본'], 2), "high": round(R['낙관'], 2), "requiredGrowth": R['required_roe'],
        "baseEquivGrowth": None, "reqMode": "roe", "requiredMargin": None, "marginNow": None, "roeNow": R['roe0'],
        "growth5y": None, "nonopPerShare": 0, "s2cFallback": False, "asOf": asof, "hard": [], "hardDetail": {}, "tvShare": None,
-       "model": "rim", "retention": R['b'], "bvps": R['bvps']}
+       "model": "rim", "retention": R['b'], "bvps": R['bvps'],
+       "roeTarget": R['roe_2y_median'], "referenceOnly": R['reference_only']}   # hard·roeTarget는 unify_js.py가 다시 채운다(자리만 잡음)
 sub(r'^const GS_DCF = \{.*$', 'const GS_DCF = ' + json.dumps(dcf, ensure_ascii=False) + ';   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md', re.M)
 ends = {'보수': R['roe_5y_median'], '기본': R['roe_2y_median'], '낙관': R['roe0']}
 waccs, lams = [0.08, 0.09, 0.10, 0.11, 0.12], [0.0, 0.5, 1.0]
@@ -107,11 +112,11 @@ one("""  if (req) req.textContent = noSol ? '연 ' + f1(d.requiredGrowth)
 one("""    if (cell) cell.title = (mMode""",
     """    if (cell) cell.title = roeMode ? `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 동안 ROE가 ${d.requiredGrowth != null ? f1(d.requiredGrowth) : '(범위 밖)'}여야 한다(최근 4분기 ${f1(d.roeNow)}).`
       + `\\n현재가 ÷ 내재가치 $${Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label} (${DCF_RULE_TEXT})` : (mMode""")
-one("""  if (box)  box.innerHTML = '$' + Math.round(d.base)
-    + '<span class="logic-denom"> · 낮은 성장 $' + Math.round(d.low)
-    + ' · 높은 성장 $' + Math.round(d.high) + '</span>';""",
+one("""  if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';""",
     """  const lowW = roeMode ? '보수' : '낮은 성장', highW = roeMode ? '낙관' : '높은 성장';
-  if (box)  box.innerHTML = '$' + Math.round(d.base)
+  if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
     + '<span class="logic-denom"> · ' + lowW + ' $' + Math.round(d.low)
     + ' · ' + highW + ' $' + Math.round(d.high) + '</span>';""")
 one("""  fill('[data-dcf-req]', (D.requiredGrowth * 100).toFixed(1) + '%');""",
@@ -122,8 +127,9 @@ one("""    el.textContent = '(' + +(v * 100).toFixed(1) + '%)';""",
     """    el.textContent = G.kind === 'rim' && el.dataset.knobDefault === 'term' ? '(절반)' : '(' + +(v * 100).toFixed(1) + '%)';""")
 
 # ── 3. 점수 상수 · 기본적 분석 · 활동성 ──
-selfscore = round((SH['ptbv']['score'] + SH['per']['score']) / 2, 1)
-peerscore = round((PEER['ptbv']['score'] + PEER['per']['score']) / 2, 1)
+# 표시 점수 = 칸에 보이는 배수 점수(소수 첫째 자리)의 평균 — 은행 2단계(2026-10-05) 카드와 같은 계산(원값 평균이면 33.3, 칸 평균이면 33.4)
+selfscore = round((round(SH['ptbv']['score'], 1) + round(SH['per']['score'], 1)) / 2, 1)
+peerscore = round((round(PEER['ptbv']['score'], 1) + round(PEER['per']['score'], 1)) / 2, 1)
 sub(r'const GS_SCORES = \{.*?\n\};', f'''const GS_SCORES = {{
   fundamental: null,   // 은행 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
   peer: {peerscore},          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
@@ -289,12 +295,16 @@ V = {"peer": {"score": peerscore, "rule": "both", "sector": "Financials (S&P500 
      "self": {"score": selfscore, "rule": "both", "naNote": "은행", "window": [D[0][0], asof],
               "metrics": [wm('per', SH['per']), wm('pbr', SH['ptbv'])]}}
 sub(r'^const GS_VALUATION = \{.*$', 'const GS_VALUATION = ' + json.dumps(V, ensure_ascii=False) + ';', re.M)
-U = json.load(open('peer_universe/banks.json'))['tickers']
+UB = json.load(open('peer_universe/banks.json')); U = UB['tickers']
+if UB['asOf'] != asof:   # 다른 은행을 뒤에 돌렸으면 기준일이 다르다 — 비교 차트 값이 그날 종가가 된다(rebuild.sh로 돌리면 같다)
+    print(f'⚠ peer_universe/banks.json 기준일 {UB["asOf"]} ≠ 카드 {asof} — 비교 차트 값이 그날 종가다')
+NOTB = ['PNC', 'TFC']   # 유형자본 태그 결측(화면 순서) — WFC는 은행 2단계(2026-10-05) 회사 정의 보정값으로 들어왔다. 바뀌면 아래 문장들을 다시 쓴다
+assert sorted(t for t in U if not isinstance(U[t].get('ptbv'), (int, float))) == sorted(NOTB), U
 PB = ['JPM', 'BAC', 'USB', 'FITB', 'RF', 'MTB']
 mk = lambda k, key, title, unit, mx: {"title": title, "unit": unit, "max": mx, "msValue": None,
                                      "peers": [{"name": t, "value": round(U[t][key], 2), "status": "reference"} for t in PB if isinstance(U.get(t, {}).get(key), (int, float))]}
 MD = {"per": mk('per', 'per', 'S&P500 은행 PER 비교 · 9/29 종가', 'PER(TTM)', 25),
-      "pbr": mk('pbr', 'ptbv', 'S&P500 은행 P/TBV 비교 · 9/29 종가 (PNC·WFC·TFC는 유형자본 태그 결측)', 'P/TBV', 4)}
+      "pbr": mk('pbr', 'ptbv', f'S&P500 은행 P/TBV 비교 · 9/29 종가 ({"·".join(NOTB)}는 유형자본 태그 결측)', 'P/TBV', 4)}
 for k, nm, why in (('psr', 'PSR', '은행 매출에는 이자수익이 들어 있다'), ('pcr', 'PCR', '은행 현금흐름은 예금·대출 증감이 좌우한다'), ('evebitda', 'EV/EBITDA', '예금·차입이 영업 자금이라 기업가치가 뜻이 없다')):
     MD[k] = {"title": f'{nm} — 은행에 해당 없음 ({why})', "unit": nm, "max": 1, "msValue": None, "peers": []}
 sub(r'const MULTIPLE_DATA = \{.*?\n\};\n', '// 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3) 중 6곳. 값이 없는 은행은 뺀다.\nconst MULTIPLE_DATA = ' + json.dumps(MD, ensure_ascii=False, indent=2) + ';\n')
@@ -311,6 +321,8 @@ sub(r'<div class="vs-premise">.*?</div>\n    <div class="verdict-summary-risk">.
     f'    <div class="verdict-summary-risk">⚠️ 최근 4분기 ROE {f1(R["roe0"])}는 5년 중앙값 {f1(R["roe_5y_median"])}보다 높은 호황기 값이다. 이익을 거의 다 돌려줘 유보율이 {f1(R["b"])}뿐이라 장부가가 거의 자라지 않는 것도 내재가치를 낮춘다. 수렴이 없어도 기본 가치는 ${vals["기본"][0][2]:.0f}로 현재가보다 낮다. 상반기 ROE에는 직원 주식보상 관련 세금 혜택(EPS 약 $3.15, ROE 1.7%p)도 들어 있다. 2025년 4분기 애플카드 이관 이익(EPS $0.46)은 뺐고, 2025년 3분기 GM 카드·판매자 금융 관련 세전 −$27M은 세후 금액이 공시되지 않아 GAAP 그대로 뒀다(영향 작음).</div>')
 
 # 판정 JS — 금융 규칙(두 배수가 같은 방향일 때만 표), 자기 이력·동종업 모두
+one("  if (verdictOf(judges) === GS_VERDICT) judges.slice(0, 2).forEach((j, i) => {",
+    "  // 금융 카드는 심판 표가 sideVote(규칙별 — 두 배수가 같은 쪽일 때만 표)라 한 칸 바꾸기 계산이 맞지 않아 건너뛴다(Codex)\n  if (false) judges.slice(0, 2).forEach((j, i) => {")
 one("""  const valid = side => side && side.score != null
     && (side.metrics || []).filter(m => m.score != null).length >= 3;
   const vote = s => s >= 70 ? 1 : s < 30 ? -1 : 0;""",
@@ -331,8 +343,6 @@ one("pill('self', ...byScore(V.self.score)); pill('peer', ...(V.peer.score == nu
   pill('peer', ...(V.peer.score == null ? ['mid', '표본 부족'] : V.peer.rule === 'both' ? bothPill(V.peer) : byScore(V.peer.score)));""")
 one("""    const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(1) + 'x';""",
     """    const f = sel => item.querySelector(`[data-hist="${sel}"]`), x = v => v.toFixed(m.metric === 'pbr' ? 2 : 1) + 'x';""")
-one("""    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';""",
-    """    const nt = f('note'); if (nt) nt.textContent = m.gapDays ? `5년 중 ${m.gapDays}거래일 빈 구간` : m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';""")
 one("""  ['peer', 'self'].forEach(k => {""",
     """  // 이 카드가 쓰지 않는 배수(금융 카드의 PSR·PCR·EV/EBITDA)는 같은 자리에 '해당 없음'
   const haveM = new Set(V.self.metrics.map(m => m.metric));
@@ -370,19 +380,11 @@ one("""      `같은 GICS 섹터(Information Technology) 안에서 배수 순위
       + `\\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);""",
     f"""      `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균). GS는 투자은행이지만 MS 카드와 같은 비교군을 쓴다(2026-10-01 사용자 결정).`
       + `\\nP/TBV는 유형자본을 만들 수 있는 {PEER['ptbv']['peers']}곳, PER은 {PEER['per']['peers']}곳과 비교했다. 두 배수 모두 30 미만이라 비싼 쪽 한 표다.`
-      + `\\nPNC·WFC·TFC는 유형자본 태그를 못 채워 빠졌다.`);""")
+      + `\\n{"·".join(NOTB)}는 유형자본 태그를 못 채워(WFC는 회사 정의 보정값으로 넣음, 2026-10-05) 빠졌다.`);""")
 one("""      + `\\n(확인 필요 — NVDA 문장 자리)`
       + ``);""",
     f"""      + `\\nP/TBV {SH['ptbv']['current']:.2f}배(5년 중 상위 {100 - SH['ptbv']['percentile']:.0f}%)·PER {SH['per']['current']:.1f}배(상위 {100 - SH['per']['percentile']:.0f}%). 주식 수는 회사 정의 기본주식 수다.`
       + ``);""")
-
-# 격자 계산 불가 칸(null) 보호(사전 등록 7-10 "—", Codex)
-one("  const every = SCN.flatMap(s => G.values[s[0]].flat()).concat(price != null ? [price] : []);",
-    "  const every = SCN.flatMap(s => G.values[s[0]].flat()).filter(v => v != null).concat(price != null ? [price] : []);")
-one("    pv.textContent = '주당 $' + Math.round(pick); pv.style.color = col;",
-    "    pv.textContent = pick == null ? '계산 불가' : '주당 $' + Math.round(pick); pv.style.color = col;")
-one("    if (price != null) { pu.textContent = '현재가 대비 ' + pct(pick); pu.style.color = tone(pick); }",
-    "    if (price != null) { pu.textContent = pick == null ? '—' : '현재가 대비 ' + pct(pick); pu.style.color = pick == null ? '' : tone(pick); }")
 
 # ── 5. 뉴스 ──
 def item(dot, date, react, title, href, src):
@@ -431,6 +433,43 @@ m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b) for b in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b) for b in bear) + m.group(5) + h[m.end():]
 sub(r"const GS_ANALYST = \{[^}]*\};", "const GS_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Hold', n: 25, mean: 1127, median: 1150,\n  low: 730, high: 1300, strongBuy: 6, buy: 1, hold: 16, sell: 1, strongSell: 1 };")
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', '<span class="op-val">10월 중순 <span class="op-sub">Q3 2026 예상</span></span>')
+# ── 6. 은행 카드가 받지 않은 틀 변경 되돌리기 ──
+# 은행 9장은 아래 틀 변경 전에 만들어졌고, 뒤의 일괄 적용(비금융 카드 대상)에서도 빠졌다. 지금 NVDA 틀로 복제한 기반에는 들어 있으므로
+# 다른 은행 카드와 같은 상태로 되돌린다. 쏠림 안내는 틀 주석 그대로 금융 카드에 넣지 않는다.
+one("""// 쏠림 안내(2026-10-02 사용자 결정, A0 — research/verdict_replay_prereg.md 결과): 사전 규칙상 문턱 변형이 모두 탈락해 V0를 유지하고,
+// 이 칸이 대부분 종목에서 "매우 비싸다"라는 사실을 툴팁으로 알린다. 숫자는 현금흐름이 계산되는 S&P500 비금융 종목의 월별 비중(dq 필터 적용).
+// 금융 카드에는 넣지 않는다(검증 패널에 금융이 없다).
+const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.";
+""", '')
+one("""      + (lv.ratio != null ? '\\n' + DCF_SKEW_NOTE : '')
+""", '')
+# A3 PER 해당 없음(순이익률 2% 미만) — 은행 카드에는 없다
+one("""    // per_na = PER 해당 없음(A3 — 최근 4분기 GAAP 순이익률 2% 미만): 값은 보이되 점수·평균에서 뺀다.
+    const perNA = m.currentNote === 'per_na';
+    // pbr_na = PBR 해당 없음(C11 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없다. 점수·평균에서 뺀다.
+    const pbrNA = m.currentNote === 'pbr_na';
+    const na = m.current == null, neg = na && m.currentNote !== 'missing' && !perNA && !pbrNA;   // missing = 분모를 못 구함(점수 없음)""",
+    """    const na = m.current == null, neg = na && m.currentNote !== 'missing' && m.currentNote !== 'pbr_na';   // missing = 분모를 못 구함(점수 없음)""")
+one("""    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
+    // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';""",
+    """    f('badge').textContent = neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
+    // PBR 해당 없음(C11, 2026-10-04 — 자본 음수): 비싸다는 뜻이 아니라 잴 수 없어 점수·평균에서 뺀다
+    if (m.currentNote === 'pbr_na') { f('badge').textContent = '해당 없음 · 평균 제외(자본 음수)'; }
+    // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
+    const nt = f('note'); if (nt) nt.textContent = m.gapDays ? `5년 중 ${m.gapDays}거래일 빈 구간` : m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';""")
+one("""    f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';""",
+    """    f('fill').style.width = (m.score == null ? 0 : Math.max(m.percentile, 2)) + '%';""")
+sub(r"  // PER 해당 없음\(A3\): PER 구간 × EPS로 만든 밴드라.*?\n    return;\n  \}\n", '')
+# 음수 시나리오 표기(E2/E17/E25, 비금융 카드 일괄) 이전 형태 — 초과이익모형 격자는 null만 있다(사전 등록 7-10 "—", 계산 불가 칸 보호는 Codex)
+one("  const every = SCN.flatMap(s => G.values[s[0]].flat()).filter(v => v != null && v > 0).concat(price != null ? [price] : []);   // 음수 칸 제외(카드 한정)",
+    "  const every = SCN.flatMap(s => G.values[s[0]].flat()).filter(v => v != null).concat(price != null ? [price] : []);")
+one("    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '계산 불가(음수)'; pv.style.color = col;",
+    "    pv.textContent = pick == null ? '계산 불가' : '주당 $' + Math.round(pick); pv.style.color = col;")
+one("    if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }",
+    "    if (price != null) { pu.textContent = pick == null ? '—' : '현재가 대비 ' + pct(pick); pu.style.color = pick == null ? '' : tone(pick); }")
+
+# ── 7. 판정 확인 ──
 open(p, 'w', encoding='utf-8').write(h)
 _sv = lambda m: 1 if all(x['score'] >= 70 for x in m.values()) else -1 if all(x['score'] < 30 for x in m.values()) else 0
 _d = 1 if lvl <= 0.7 else 1 if lvl <= 0.9 else 0 if lvl <= 1.1 else -1 if lvl <= 1.5 else -2
