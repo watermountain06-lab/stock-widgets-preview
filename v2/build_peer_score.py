@@ -317,7 +317,11 @@ def main():
     if args.self_path and os.path.exists(args.self_path) and not args.prices_today:
         session = (json.load(open(args.self_path)).get("window") or [None, None])[1]
     r = peer_score(t, load_sectors(), load_prices(session), args.self_path)
-    r["priceSession"] = (_stocks_at(session) if session else json.load(open(STOCKS))).get("priceSession")   # 실제로 쓴 파일의 거래일
+    # 실제로 쓴 파일의 거래일 — S&P500 비교군 파일을 쓰는 카드는 종가를 쓰지 않으므로(파일 asOf 값 그대로) 비워 둔다
+    _sec = load_sectors().get(t)
+    _uni = TICKER_UNIVERSE.get(t) or (None if t in TICKER_BORROW else SECTOR_UNIVERSE.get(_sec))
+    r["priceSession"] = None if (_uni and os.path.exists(_uni)) else \
+        (_stocks_at(session) if session else json.load(open(STOCKS))).get("priceSession")
     print(f"{t} — {r['sector']} {r['groupSize']}종목 (본인 포함)")
     if r["peerAsOf"]:
         print(f"  동종업 기준일 {r['peerAsOf'][0]} ~ {r['peerAsOf'][1]}")
@@ -365,7 +369,8 @@ def write_card(ticker, r, self_multiples, per_basis="diluted", per_na=None):
     """밸류에이션 탭의 두 점수 상자가 읽는 블록. 요약 격자도 같은 값을 쓴다."""
     import re
     out = {
-        "peer": {"score": r["score"], "sector": r["sector"], "asOf": r["peerAsOf"],
+        # asOf = 비교군 재무 날짜, priceSession = 비교 종목을 환산한 종가 날짜(카드 자기 이력 창 끝, 2026-10-04)
+        "peer": {"score": r["score"], "sector": r["sector"], "asOf": r["peerAsOf"], "priceSession": r.get("priceSession"),
                  "metrics": [{"metric": m["metric"], "score": m["score"],
                               "rank": m["rank"], "peers": m["peers"]} for m in r["metrics"]]},
         # perBasis "core"면 PER이 본업 이익 기준이다(v2/core_earnings.json). 카드가 라벨을 바꾼다.
