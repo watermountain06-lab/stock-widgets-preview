@@ -90,6 +90,11 @@ def split_history(ticker):
     return sorted(out)
 
 
+# 희석 EPS를 주식 종류별(차원)로만 태그하는 종목 — EPS를 받기 전에 원문 XBRL에서 상장 종류 값을 오버레이에 채운다(D66, 2026-10-05).
+# 오버레이(.sec_cache)는 저장소 밖이라, 이 단계가 없으면 새로 받을 때 다시 "EPS 이력 멈춤"으로 빠진다(Fable).
+CLASS_EPS = {"HSY": "us-gaap:CommonStockMember", "CVNA": "us-gaap:CommonClassAMember"}
+
+
 # 희석 EPS 태그에 빈 기간이 있어 기본 EPS로 메워도 되는 종목 — 겹치는 분기마다 기본 = 희석을 확인했다.
 # LEN: 2024-12~2026-08 분기·누계 행에서 기본과 희석이 모두 같고, FY2025 10-K 연간(7.98)은 기본 EPS 태그에만 있다(2026-10-04).
 BASIC_EPS_OK = {"LEN"}
@@ -103,6 +108,10 @@ def one(ticker, cik, asof, eps_dir):
     sh = split_history(ticker)
     # 5년 안에 분할이 있으면 캐시가 있어도 다시 받는다 — 보정 전에 받은 파일이 그대로 통과하지 않게(Codex, 2026-10-04)
     if not os.path.exists(eps_path) or sh or os.environ.get("REFETCH_EPS"):
+        if ticker in CLASS_EPS:
+            since = f"{int(asof[:4]) - 2}{asof[4:]}"
+            subprocess.run([sys.executable, os.path.join(HERE, "ixbrl_class_eps.py"), cik, CLASS_EPS[ticker], since],
+                           capture_output=True, text=True)
         subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
                         "--cik", cik, "--out", eps_path, "--splits", ",".join(f"{d}:{k}" for d, k in sh),
                         # 희석 EPS가 없는 기간은 계속사업 희석 EPS로 — MNST·KIM·WEC·GD는 몇 년째 그 태그로만 공시한다(D66, 2026-10-04)

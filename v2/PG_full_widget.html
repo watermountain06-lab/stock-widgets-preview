@@ -523,7 +523,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="pgPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="pgPeerVerdict">중간</span></div>
-      <div class="logic-score" id="pgPeerScore">38.1<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="pgPeerScore">38.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="pgSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="pgSelfVerdict">싼 편</span></div>
@@ -889,9 +889,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$75</div><div class="vs-note">현재가 <span data-vs="price">$148.32</span> 대비 <strong data-vs="upside">−49.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.98
 시나리오 범위: 낙관 기준 2.15 ~ 보수 기준 2.18
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">48</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">38</div><div class="sc-tile low" data-vc="peer" data-m="psr">16</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">39</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">50</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">38</div><div class="sc-tile low" data-vc="peer" data-m="psr">16</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">39</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">다섯 배수 모두 자기 5년 이력의 하위 약 17% 안이라 87.0점이다(PER 22.4배, 5년 중앙값 25.7배). S&P500 필수소비재 안에서는 중간(38.1점)이다 — PER은 한가운데, PSR은 비싼 쪽. <strong>현금흐름 내재가치(기본 $75)는 현재가의 50%</strong>다. 주가는 1년 새 -3%이고, 2월 말 고점(종가 $167.20)보다 11% 낮다.</div>
+    <div class="vs-premise">다섯 배수 모두 자기 5년 이력의 하위 약 17% 안이라 87.0점이다(PER 22.4배, 5년 중앙값 25.7배). S&P500 필수소비재 안에서는 중간(38.5점)이다 — PER은 한가운데, PSR은 비싼 쪽. <strong>현금흐름 내재가치(기본 $75)는 현재가의 50%</strong>다. 주가는 1년 새 -3%이고, 2월 말 고점(종가 $167.20)보다 11% 낮다.</div>
     <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 2.6%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">41.2%</strong>여야 한다(최근 4분기 22.7%). 성장이 낮은(연 2~3%) 회사라 현금흐름 모델이 현재 배수를 거의 설명하지 못한다 — 할인율을 8%로 낮춰도 기본 가치는 $103~119 수준이라 할인율만으로는 설명되지 않는다. 세 시나리오 차이가 작은 것($68~$75)도 성장·마진 이력이 좁아서다.</div>
   </div>
 
@@ -1462,7 +1462,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py PG
 const PG_SCORES = {
   fundamental: 49.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 38.1,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
+  peer: 38.5,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
   selfHistory: 87.0,   // 자기 5년 배수 분포 백분위 (2021-09-29 ~ 2026-09-29)
   asOf: "2026-09-29",
   fundamentalAsOf: "2026-06-30",   // FY2026 10-K (2026-08-04 공시)
@@ -1770,7 +1770,7 @@ const PG_FUNDAMENTAL = {"ticker": "PG", "basis": "quarter", "asOf": "2026-06-30"
 //
 // 갱신: python3 v2/build_peer_score.py PG --self v2/PG_multiples.json --card
 /* VALUATION:BEGIN */
-const PG_VALUATION = {"peer": {"score": 38.1, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-09-25", "2026-09-25"], "priceSession": null, "metrics": [{"metric": "per", "score": 48.0, "rank": 14, "peers": 25}, {"metric": "pbr", "score": 37.5, "rank": 16, "peers": 24}, {"metric": "psr", "score": 16.0, "rank": 22, "peers": 25}, {"metric": "pcr", "score": 39.1, "rank": 15, "peers": 23}, {"metric": "evebitda", "score": 50.0, "rank": 11, "peers": 20}]}, "self": {"score": 87.0, "window": ["2021-09-29", "2026-09-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 82.7, "percentile": 17.3, "current": 22.4, "min": 20.15, "median": 25.71, "max": 30.98, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 88.2, "percentile": 11.8, "current": 6.35, "min": 5.96, "median": 7.52, "max": 8.76, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 88.8, "percentile": 11.2, "current": 3.96, "min": 3.69, "median": 4.41, "max": 5.15, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 87.3, "percentile": 12.7, "current": 22.76, "min": 21.59, "median": 24.66, "max": 31.05, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 88.1, "percentile": 11.9, "current": 16.19, "min": 14.64, "median": 18.25, "max": 20.68, "days": 1073, "currentNote": null}]}};
+const PG_VALUATION = {"peer": {"score": 38.5, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-09-25", "2026-09-25"], "priceSession": null, "metrics": [{"metric": "per", "score": 50.0, "rank": 14, "peers": 26}, {"metric": "pbr", "score": 37.5, "rank": 16, "peers": 24}, {"metric": "psr", "score": 16.0, "rank": 22, "peers": 25}, {"metric": "pcr", "score": 39.1, "rank": 15, "peers": 23}, {"metric": "evebitda", "score": 50.0, "rank": 11, "peers": 20}]}, "self": {"score": 87.0, "window": ["2021-09-29", "2026-09-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 82.7, "percentile": 17.3, "current": 22.4, "min": 20.15, "median": 25.71, "max": 30.98, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 88.2, "percentile": 11.8, "current": 6.35, "min": 5.96, "median": 7.52, "max": 8.76, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 88.8, "percentile": 11.2, "current": 3.96, "min": 3.69, "median": 4.41, "max": 5.15, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 87.3, "percentile": 12.7, "current": 22.76, "min": 21.59, "median": 24.66, "max": 31.05, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 88.1, "percentile": 11.9, "current": 16.19, "min": 14.64, "median": 18.25, "max": 20.68, "days": 1073, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
