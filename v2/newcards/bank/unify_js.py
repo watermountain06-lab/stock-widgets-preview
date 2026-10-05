@@ -34,12 +34,46 @@ def patch(h, tag):
     h,n=re.subn(r"^\s*nosol: \(\) => .*$",lambda m:TXT_BANK,h,count=1,flags=re.M); c["txt"]+=n
     if h.count(REQ_OLD)==1: h=h.replace(REQ_OLD,REQ_NEW); c["req"]+=1
     return h,c
+# 틀(NVDA)·생성기에 나중에 들어간 공통 수정 — 은행 기반 HTML은 그 전에 만들어져 다시 만들면 빠진다(2026-10-05)
+import ast as _ast
+_FILL = os.path.join(ROOT, "v2", "newcards", "fill.py")
+_tree = _ast.parse(open(_FILL, encoding="utf-8").read())
+NEG = sorted([( n.lineno, _ast.literal_eval(n.args[0]), _ast.literal_eval(n.args[1])) for n in _ast.walk(_tree)
+              if isinstance(n, _ast.Call) and getattr(n.func, "id", None) == "one_done"])
+LATER = [("이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.", "이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다."),
+         ("이 종목 자신의 5년 배수 분포에서 지금보다 배수가 높았던 날의 비율을 점수로 쓴 값이다.", "이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다."),
+         ("const clipDcf = v => Math.min(DCF_CAP_HI, v);", "const clipDcf = v => Math.max(0, Math.min(DCF_CAP_HI, v));   // 음수 시나리오는 0에 그린다 — 실제 값은 툴팁(E17, 2026-10-05)"),
+         ("? dcfVisible.map(t => clipDcf(t.base))", "? dcfVisible.map(t => t.base).filter(v => v > 0).map(clipDcf)   // 겹침 모드도 음수는 축에서 뺀다(E17)")]
+_REPL_LINE = next(i for i, l in enumerate(open(_FILL, encoding="utf-8").read().split("\n"), 1) if l.startswith("h = h.replace(\"'$' + Math.round(d.base)\""))
+REPL = [("'$' + Math.round(d.base)", "'$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))"),
+        ("'$' + Math.round(D.base)", "'$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base))")]
+
+
+def later_fixes(h, c):
+    """음수 내재가치 표시(E2·E17·E25)·자기 이력 툴팁(E13) — 생성기 규칙을 같은 순서로(옛 문자열이 하나 있을 때만, 새 문자열이 있으면 건너뜀)."""
+    def apply(pairs):
+        nonlocal h
+        for _, a, b in pairs:
+            if b not in h and h.count(a) == 1:
+                h = h.replace(a, b); c["neg"] += 1
+    apply([x for x in NEG if x[0] < _REPL_LINE])           # 생성기에서 REPL보다 앞선 것
+    for a, b in REPL:
+        if a in h:
+            h = h.replace(a, b)
+    apply([x for x in NEG if x[0] > _REPL_LINE])
+    for a, b in LATER:
+        if b not in h and a in h:
+            h = h.replace(a, b); c["later"] += 1
+    return h
+
+
 def hard_rule(r):
     return (["roeend"] if r["roe_2y_median"] < 0.10 else []) + (["b0"] if r["b"] == 0 else []) + (["nosol"] if r.get("required_roe") is None else [])
 dec=json.JSONDecoder()
 for T in BANKS:
     p=os.path.join(ROOT,"v2",f"{T}_full_widget.html"); h=open(p,encoding="utf-8").read()
     h,c=patch(h,T)
+    h=later_fixes(h,c)
     k=f"const {T}_DCF = "; i=h.index(k)+len(k); D,e=dec.raw_decode(h,i)
     r=json.load(open(os.path.join(ROOT,"v2",f"{T}_bank.json")))["rim"]
     old=D.get("hard"); D["hard"]=hard_rule(r); D["roeTarget"]=r["roe_2y_median"]

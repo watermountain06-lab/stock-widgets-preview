@@ -493,7 +493,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 ROE (5년 · 최근 4분기 37.0%)</span>
-      <span class="meta-value" id="axpDcfReq" style="font-size: 22px; color: var(--gold);">ROE 59.9%</span>
+      <span class="meta-value" id="axpDcfReq" style="font-size: 22px; color: var(--red);">ROE 59.9%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="axpConfidenceLabel">밴드 적중률 (388/680일, 상단우세)</span>
@@ -514,7 +514,7 @@ Chart.overrides.doughnut.animation = false;
        스크립트가 꺼졌을 때를 위한 대비용이다. -->
   <div class="logic-grid" id="axpLogicGrid">
     <div class="logic-box logic-info">
-      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">초과이익</span></span><span class="logic-verdict" id="axpDcfVerdict">참고용 · 기권</span></div>
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">초과이익</span></span><span class="logic-verdict" id="axpDcfVerdict">매우 비싸다</span></div>
       <div class="logic-score" id="axpDcfBox">$175<span class="logic-denom"> · 보수 $172 · 낙관 $173</span></div>
     </div>
     <div class="logic-box logic-neutral" id="axpFundBox">
@@ -758,7 +758,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">주당 유형 장부가치 (TBVPS)</span><span class="diag-value">회사 미공시</span><span class="diag-note">회사 값이 없어 카드 계산값을 대조(G1)할 수 없으므로 규칙상 P/TBV를 쓰지 않는다</span></div>
+        <div class="diag-left"><span class="diag-label">주당 유형 장부가치 (TBVPS)</span><span class="diag-value">회사 미공시</span><span class="diag-note">회사 값이 없고 SEC 영업권 태그가 연말에만 있어 카드도 유형자본을 8분기 모두 만들지 못해 P/TBV를 쓰지 않는다</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
     </div>
@@ -898,14 +898,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">P/TBV</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 AXP 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 은행 규칙은 P/TBV·PER 두 배수가 모두 70 이상이면 +1, 모두 30 미만이면 −1인데, AXP는 P/TBV가 없어(유형 장부가치 미공시) 기권한다. 표시 점수는 PER 하나다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">56.2</div><div class="sc-tile lost" data-vc="self" data-m="per">56</div><div class="sc-tile none" data-vc="self" data-m="pbr">—</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">기권</div>
-      <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$175</div><div class="vs-note">현재가 <span data-vs="price">$304.10</span> 대비 <strong data-vs="upside">−42.5%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.74
+      <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$175</div><div class="vs-note">현재가 <span data-vs="price">$304.10</span> 대비 <strong data-vs="upside">−42.5%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.74
 시나리오 범위: 1.74 ~ 1.77(세 시나리오 최대·최소 기준)
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
-참고용 — 데이터 점검 미통과로 판정에 쓰지 않는다">참고용 · 기권</div></div>
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 은행(대형·지역 13곳) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 주는데, AXP는 P/TBV가 없어 기권한다. 표시 점수는 PER 하나다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">0.0</div><div class="sc-tile low" data-vc="peer" data-m="per">0</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">기권</div>
     </div></div>
-    <div class="vs-premise">AXP는 카드사지만 은행지주회사(CET1 규제)라 은행 사전 등록의 고정 비교군인 S&P500 대형·지역 은행 13곳과 비교한다. 수수료 중심(비이자수익이 순수익의 76%)·ROE 37%인 사업 구조 차이도 이 순위에 함께 들어 있다. PER 18.5배는 13곳 모두보다 비싸고(중앙값 11.7배), 자기 이력에서는 중간(하위 44%)이다. 회사가 유형 장부가치를 밝히지 않아 P/TBV가 없고, 두 배수가 함께 있어야 표를 주는 은행 규칙에 따라 자기 이력·동종업 모두 기권한다. <strong>초과이익모형 기본 가치($175)는 현재가의 58%지만 참고용이다</strong>. 초과이익모형이 참고용인 것은 데이터 점검 중 셋을 통과하지 못해서다. 회사가 TBVPS를 내지 않고(G1), 보통주 자본은 평균값만 내 기말 금액을 대조할 수 없으며(G2), 최근 4분기 환원 총액을 분기마다 내지 않는다(G4, 6월 스트레스 테스트 보도자료의 12개월 값 하나는 카드 계산과 맞는다). 앉은 심판이 없어 판정은 보류다.</div>
-    <div class="verdict-summary-risk">⚠️ 참고로 초과이익모형을 표로 쓰면 현재가가 기본 가치의 1.74배라 −2다. 지금 가격은 ROE 59.9%가 5년 이어진다는 값이다(최근 4분기 37.0%). 다만 이 모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보므로, ROE 37%가 이어지는 사업에는 낮게 나올 수 있다(수렴 없음이면 기본 $246).</div>
+    <div class="vs-premise">AXP는 카드사지만 은행지주회사(CET1 규제)라 은행 사전 등록의 고정 비교군인 S&P500 대형·지역 은행 13곳과 비교한다. 수수료 중심(비이자수익이 순수익의 76%)·ROE 37%인 사업 구조 차이도 이 순위에 함께 들어 있다. PER 18.5배는 13곳 모두보다 비싸고(중앙값 11.7배), 자기 이력에서는 중간(하위 44%)이다. 회사가 유형 장부가치를 밝히지 않고 SEC 영업권 태그가 연말에만 있어 카드도 유형자본을 8분기 모두 만들 수 없으므로 P/TBV가 없고, 두 배수가 함께 있어야 표를 주는 은행 규칙에 따라 자기 이력·동종업 모두 기권한다. <strong>초과이익모형 기본 가치($175)는 현재가의 58%라 −2(매우 비싸다)다</strong>. 보통주 자본은 회사 BVPS와 8분기 모두 0.4% 안에서 맞고(G2), 최근 4분기 환원 총액은 회사가 분기마다 내지 않아 확인 불가로 둬(G4, 6월 스트레스 테스트 보도자료의 12개월 값 하나는 카드 계산과 맞는다) 초과이익모형은 데이터 점검을 통과한다(사전 등록 9-1, 2026-10-05). 그래도 표를 내는 심판이 초과이익 하나뿐이라 판정은 보류다.</div>
+    <div class="verdict-summary-risk">⚠️ 현재가가 초과이익모형 기본 가치의 1.74배라 −2다. 지금 가격은 ROE 59.9%가 5년 이어진다는 값이다(최근 4분기 37.0%). 다만 이 모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보므로, ROE 37%가 이어지는 사업에는 낮게 나올 수 있다(수렴 없음이면 기본 $246).</div>
   </div>
 
   <div class="grid-2">
@@ -971,7 +970,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 0%;"></div></div>
         <div class="hist-labels"><span data-hist="min">—</span><span data-hist="median">—</span><span data-hist="max">—</span></div>
       </div>
-      <div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:6px;">은행은 매출·현금흐름·EBITDA 배수가 뜻이 없어 P/TBV·PER 두 배수만 본다. AXP는 회사가 TBVPS를 공시하지 않아 카드 계산값을 대조(G1)할 수 없으므로 규칙상 P/TBV를 쓰지 않는다. 보통주 자본은 SEC 자본 총계에서 우선주(주식 수 × 청산가 $1,000,000)를 뺀 값이고, 회사 발표 BVPS와 8분기 모두 0.4% 안에서 맞는다(최대 차이 $0.16, 2025년 말).</div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:6px;">은행은 매출·현금흐름·EBITDA 배수가 뜻이 없어 P/TBV·PER 두 배수만 본다. AXP는 회사가 TBVPS를 공시하지 않고 SEC 영업권 태그가 연말에만 있어 카드도 유형자본을 8분기 모두 만들지 못하므로 P/TBV를 쓰지 않는다(G1). 보통주 자본은 SEC 자본 총계에서 우선주(주식 수 × 청산가 $1,000,000)를 뺀 값이고, 회사 발표 BVPS와 8분기 모두 0.4% 안에서 맞는다(최대 차이 $0.16, 2025년 말).</div>
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
@@ -995,7 +994,7 @@ Chart.overrides.doughnut.animation = false;
       <li>카드 회원 결제액이 환율 조정 +9%로 3년 만에 가장 빨랐고, 연간 매출 성장 가이던스를 10%로 올렸다(EPS $17.30~17.90 유지).</li>
       <li>2분기 보통주 $2.9B를 돌려주고 3월에 배당을 $0.95로 16% 올렸다. 최근 4분기 순이익의 약 86%를 돌려줬다.</li>
     </ol>
-    <div class="verdict-summary-counter">⚠️ 회사가 유형 장부가치를 밝히지 않아 배수 심판이 기권하고 초과이익모형도 참고용이라 판정을 보류한다(참고로 초과이익모형만 보면 현재가가 기본 가치의 1.74배).</div>
+    <div class="verdict-summary-counter">⚠️ 유형자본을 만들 수 없어 배수 두 심판이 기권하고 초과이익모형 하나(현재가가 기본 가치의 1.74배, −2)만 남아 판정을 보류한다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 중순 예상)의 비용 증가 속도와, 월별 8-K에서 7·8월 1.7%로 오른 미국 소비자 순상각률.</div>
   </div>
 
@@ -1478,7 +1477,7 @@ const AXP_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,n
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let AXP_VERDICT = '계산 중';
 
-const AXP_DCF = {"low": 171.74, "base": 174.91, "high": 172.51, "requiredGrowth": 0.598557338163676, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.37016052880075545, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-30", "hard": [], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.13951442646023926, "bvps": 48.41481481481482, "referenceOnly": true, "roeTarget": 0.3760333420762232};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
+const AXP_DCF = {"low": 171.74, "base": 174.91, "high": 172.51, "requiredGrowth": 0.598557338163676, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.37016052880075545, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-30", "hard": [], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.13951442646023926, "bvps": 48.41481481481482, "referenceOnly": false, "roeTarget": 0.3760333420762232};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -2224,7 +2223,7 @@ const AXP_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
       + `\n은행 규칙은 P/TBV·PER 두 배수가 같은 방향일 때만 표를 주는데, AXP는 유형 장부가치를 밝히지 않아 P/TBV가 없어 기권한다.`);
   put('axpSelfBox', 'axpSelfScore', 'axpSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 18.5배(5년 중 하위 44%, 중앙값 19.0배). P/TBV는 유형 장부가치 미공시로 없어 은행 규칙상 기권한다.`
+      + `\nPER 18.5배(5년 중 하위 44%, 중앙값 19.0배). P/TBV는 유형자본을 8분기 모두 만들 수 없어(회사 TBVPS 미공시·SEC 영업권 태그가 연말에만 있음) 은행 규칙상 기권한다.`
       + ``);
   [['self', 'axpSelfBox', 'axpSelfVerdict'], ['peer', 'axpPeerBox', 'axpPeerVerdict']].forEach(([k, bid, vid]) => {
     const side = AXP_VALUATION[k];   // 금융 규칙: 단어·색은 두 배수가 같은 방향일 때만 싼 편·비싼 편

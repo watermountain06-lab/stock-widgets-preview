@@ -489,7 +489,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">판정 보류</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">적정~고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 ROE (5년 · 최근 4분기 11.6%)</span>
@@ -514,7 +514,7 @@ Chart.overrides.doughnut.animation = false;
        스크립트가 꺼졌을 때를 위한 대비용이다. -->
   <div class="logic-grid" id="bacLogicGrid">
     <div class="logic-box logic-info">
-      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">초과이익</span></span><span class="logic-verdict" id="bacDcfVerdict">참고용 · 기권</span></div>
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">초과이익</span></span><span class="logic-verdict" id="bacDcfVerdict">비싸다</span></div>
       <div class="logic-score" id="bacDcfBox">$41<span class="logic-denom"> · 보수 $42 · 낙관 $44</span></div>
     </div>
     <div class="logic-box logic-neutral" id="bacFundBox">
@@ -523,7 +523,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="bacPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="bacPeerVerdict">중간</span></div>
-      <div class="logic-score" id="bacPeerScore">44.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="bacPeerScore">41.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="bacSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="bacSelfVerdict">중간</span></div>
@@ -894,19 +894,18 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$54.43</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>판정 보류</span><span class="vs-asof"><span data-vs="asof">2026.09.30</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.09.30</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">P/TBV</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 BAC 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 은행 규칙에 따라 P/TBV·PER 두 배수가 모두 70 이상이면 +1, 모두 30 미만이면 −1이다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">38.2</div><div class="sc-tile lost" data-vc="self" data-m="per">53</div><div class="sc-tile low" data-vc="self" data-m="pbr">23</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$41</div><div class="vs-note">현재가 <span data-vs="price">$54.43</span> 대비 <strong data-vs="upside">−25.1%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 유보율 0 — 이익보다 많이 돌려줘 장부가가 자라지 않는다(초과이익모형 신호, 사전 등록)
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 모형 신호 1/3</span><div class="vs-pill mid" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.34
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 모형 신호 1/3</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.34
 시나리오 범위: 1.24 ~ 1.34(세 시나리오 최대·최소 기준)
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
-참고용 — 데이터 점검 미통과로 판정에 쓰지 않는다">참고용 · 기권</div></div>
-      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">44.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">33</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">56</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">비싸다</div></div>
+      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">41.6</div><div class="sc-tile lost" data-vc="peer" data-m="per">33</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">50</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">BAC는 S&P500 대형·지역 은행 12곳(본인 제외)과 비교한다. P/TBV 1.85배는 유형자본을 계산할 수 있는 은행 9곳 중 5곳(FITB·JPM·MTB·RF·USB)이 BAC보다 비싸고, PER 12.5배는 12곳 중 BAC보다 비싼 곳이 4곳이다. 자기 이력에서는 P/TBV가 위쪽(상위 23%)이고 PER은 중간이라, 두 배수가 같은 방향일 때만 표를 주는 은행 규칙에 따라 “중간”이다. <strong>초과이익모형 기본 가치($41)는 현재가의 75%지만 참고용이다</strong>. 2025년 4분기 회계 방식 변경으로 그 분기 순이익이 SEC 데이터($7,200M, 재작성 연간 − 원래 9개월)와 보도자료($7,319M)에서 $119M 어긋나 데이터 점검 G5를 통과하지 못했고, 규칙상 초과이익 심판이 기권해 판정은 보류다.</div>
-    <div class="verdict-summary-risk">⚠️ 참고로 초과이익모형을 표로 쓰면 현재가가 기본 가치의 1.34배라 −1이 되고, 자기 이력·동종업 0과 합쳐 “적정~고평가”다. 지금 가격은 ROE 15.6%가 5년 이어진다는 값이다(최근 4분기 11.6%). 순이익만큼 돌려줘 유보율이 0이라 장부가가 거의 자라지 않는 것이 내재가치를 누른다.</div>
+    <div class="vs-premise">BAC는 S&P500 대형·지역 은행 12곳(본인 제외)과 비교한다. P/TBV 1.85배는 유형자본을 계산할 수 있는 은행 10곳 중 5곳(FITB·JPM·MTB·RF·USB)이 BAC보다 비싸고, PER 12.5배는 12곳 중 BAC보다 비싼 곳이 4곳이다. 자기 이력에서는 P/TBV가 위쪽(상위 23%)이고 PER은 중간이라, 두 배수가 같은 방향일 때만 표를 주는 은행 규칙에 따라 “중간”이다. <strong>초과이익모형 기본 가치($41)는 현재가의 75%라 −1(비싸다)이다</strong>. 합계 −1로 “적정~고평가”다. 2025년 4분기 회계 방식 변경(세금 관련 지분투자, 1~3분기 소급 재작성)으로 그 분기 순이익이 SEC 데이터($7,200M, 재작성 연간 − 원래 9개월)와 보도자료($7,319M)에서 $119M 어긋나는데, 회사가 공시한 재작성 몫이라 데이터 점검을 통과시킨다(사전 등록 9-2, 2026-10-05).</div>
+    <div class="verdict-summary-risk">⚠️ 현재가가 초과이익모형 기본 가치의 1.34배라 −1이고, 자기 이력·동종업 0과 합쳐 “적정~고평가”다. 지금 가격은 ROE 15.6%가 5년 이어진다는 값이다(최근 4분기 11.6%). 순이익만큼 돌려줘 유보율이 0이라 장부가가 거의 자라지 않는 것이 내재가치를 누른다.</div>
   </div>
 
   <div class="grid-2">
@@ -990,13 +989,13 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 순이자이익과 트레이딩이 함께 늘어 순이익이 분기 $9B를 넘었고, 주가는 1년 새 +4%<span class="tag">이익 개선·판정 보류</span></div>
+    <div class="verdict-summary-head">지배적 내러티브 · 순이자이익과 트레이딩이 함께 늘어 순이익이 분기 $9B를 넘었고, 주가는 1년 새 +4%<span class="tag">이익 개선·적정~고평가</span></div>
     <ol class="news-list">
       <li>2분기 순이익 $9.1B·EPS $1.21(+34%), ROE 12.7%·ROTCE 17.0%였다.</li>
       <li>매출 +15% 가운데 순이자이익 +9%, 글로벌 마켓 +34%였고 효율 비율이 59%로 좋아졌다.</li>
       <li>2분기 보통주 $8.0B를 돌려주고 7월에 배당을 $0.32로 올렸다. 최근 4분기 순이익의 약 103%를 돌려줬다.</li>
     </ol>
-    <div class="verdict-summary-counter">⚠️ 배수는 자기 이력·동종업 모두 중간이고, 초과이익모형은 참고용이라 판정을 보류한다(참고로 표를 주면 적정~고평가).</div>
+    <div class="verdict-summary-counter">⚠️ 배수는 자기 이력·동종업 모두 중간이고, 현재가가 초과이익모형 기본 가치의 1.34배라 그 칸만 −1이다 — 합계 −1 “적정~고평가”.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 중순 예상)의 순이자이익과 ROTCE 17% 유지.</div>
   </div>
 
@@ -1334,7 +1333,7 @@ const MULTIPLE_DATA = {
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 9/30 종가 (12곳 중 6곳 표시 · PNC·WFC·TFC는 유형자본 태그 결측)",
+    "title": "S&P500 은행 P/TBV 비교 · 9/30 종가 (12곳 중 6곳 표시 · PNC·TFC는 유형자본 태그 결측)",
     "unit": "P/TBV",
     "max": 4,
     "msValue": null,
@@ -1466,7 +1465,7 @@ const BAC_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,n
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let BAC_VERDICT = '계산 중';
 
-const BAC_DCF = {"low": 41.52, "base": 40.76, "high": 43.79, "requiredGrowth": 0.15562019561755863, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.11641627792426042, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["b0"], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.0, "bvps": 39.341590221622376, "referenceOnly": true, "roeTarget": 0.10168293796048539};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
+const BAC_DCF = {"low": 41.52, "base": 40.76, "high": 43.79, "requiredGrowth": 0.15562019561755863, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.11641627792426042, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["b0"], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.0, "bvps": 39.341590221622376, "referenceOnly": false, "roeTarget": 0.10168293796048539};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1515,7 +1514,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py BAC
 const BAC_SCORES = {
   fundamental: null,   // 은행 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
-  peer: 44.5,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
+  peer: 41.6,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
   selfHistory: 38.2,   // P/TBV·PER 자기 5년 백분위 평균(표시용)
   asOf: "2026-09-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-31 공시)
@@ -1828,7 +1827,7 @@ const BAC_FUNDAMENTAL = {"ticker": "BAC", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py BAC --self v2/BAC_multiples.json --card
 /* VALUATION:BEGIN */
-const BAC_VALUATION = {"peer": {"score": 44.5, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 33.3, "rank": 9, "peers": 12}, {"metric": "pbr", "score": 55.6, "rank": 5, "peers": 9}]}, "self": {"score": 38.2, "rule": "both", "naNote": "은행", "window": ["2021-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 53.1, "percentile": 46.9, "current": 12.54, "min": 7.23, "median": 12.91, "max": 17.31, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 23.3, "percentile": 76.7, "current": 1.85, "min": 1.08, "median": 1.66, "max": 2.28, "days": 1255, "gapDays": 0}]}};
+const BAC_VALUATION = {"peer": {"score": 41.6, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 33.3, "rank": 9, "peers": 12}, {"metric": "pbr", "score": 50.0, "rank": 6, "peers": 10}]}, "self": {"score": 38.2, "rule": "both", "naNote": "은행", "window": ["2021-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 53.1, "percentile": 46.9, "current": 12.54, "min": 7.23, "median": 12.91, "max": 17.31, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 23.3, "percentile": 76.7, "current": 1.85, "min": 1.08, "median": 1.66, "max": 2.28, "days": 1255, "gapDays": 0}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2208,8 +2207,8 @@ const BAC_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집
   }
   put('bacPeerBox', 'bacPeerScore', 'bacPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균). BAC 본인을 뺀 12곳과 비교한다.`
-      + `\nP/TBV는 유형자본을 만들 수 있는 9곳, PER은 12곳과 비교했다. 두 배수 모두 중간이라 표가 없다.`
-      + `\nPNC·WFC·TFC는 유형자본 태그를 못 채워 빠졌다.`);
+      + `\nP/TBV는 유형자본을 만들 수 있는 10곳, PER은 12곳과 비교했다. 두 배수 모두 중간이라 표가 없다.`
+      + `\nPNC·TFC는 유형자본 태그를 못 채워(WFC는 회사 정의 보정값으로 넣음, 2026-10-05) 빠졌다.`);
   put('bacSelfBox', 'bacSelfScore', 'bacSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nP/TBV 1.85배(5년 중 상위 23%)·PER 12.5배(하위 47%). 보통주·유형 보통주 자본은 보도자료 회사 값이다.`

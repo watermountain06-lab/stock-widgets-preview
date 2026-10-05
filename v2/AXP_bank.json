@@ -4,10 +4,10 @@
  "price": 304.1,
  "gates": {
   "G1": false,
-  "G2": false,
+  "G2": true,
   "G5": true,
   "G3": true,
-  "G4": false
+  "G4": true
  },
  "gateRows": {
   "missing_targets": [],
@@ -62,7 +62,8 @@
      null
     ]
    ],
-   "pass": false
+   "pass": false,
+   "unverifiable": 2
   },
   "G2": {
    "rows": [
@@ -123,7 +124,8 @@
      null
     ]
    ],
-   "pass": false
+   "pass": true,
+   "unverifiable": 8
   },
   "G5": {
    "rows": [
@@ -176,7 +178,8 @@
      -19.0
     ]
    ],
-   "pass": true
+   "pass": true,
+   "restated": []
   },
   "G3": {
    "rows": [
@@ -221,7 +224,8 @@
      0.353
     ]
    ],
-   "pass": true
+   "pass": true,
+   "restated": []
   },
   "G4": {
    "rows": [
@@ -274,7 +278,8 @@
      null
     ]
    ],
-   "pass": false
+   "pass": true,
+   "unverifiable": 8
   }
  },
  "rim": {
@@ -310,7 +315,7 @@
    "0.12|0.5": 144.67801144077004,
    "0.12|1.0": 96.94849777854408
   },
-  "reference_only": true
+  "reference_only": false
  },
  "self": {
   "ptbv": null,
@@ -337,7 +342,7 @@
  "peer": {
   "ptbv": {
    "score": null,
-   "peers": 10,
+   "peers": 11,
    "note": "본인 값 없음"
   },
   "per": {

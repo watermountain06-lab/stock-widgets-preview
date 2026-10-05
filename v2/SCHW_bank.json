@@ -7,7 +7,7 @@
   "G2": false,
   "G5": true,
   "G3": true,
-  "G4": false
+  "G4": true
  },
  "gateRows": {
   "missing_targets": [],
@@ -62,7 +62,8 @@
      null
     ]
    ],
-   "pass": false
+   "pass": false,
+   "unverifiable": 6
   },
   "G2": {
    "rows": [
@@ -123,7 +124,8 @@
      null
     ]
    ],
-   "pass": false
+   "pass": false,
+   "unverifiable": 8
   },
   "G5": {
    "rows": [
@@ -176,7 +178,8 @@
      0.0
     ]
    ],
-   "pass": true
+   "pass": true,
+   "restated": []
   },
   "G3": {
    "rows": [
@@ -221,7 +224,8 @@
      0.21
     ]
    ],
-   "pass": true
+   "pass": true,
+   "restated": []
   },
   "G4": {
    "rows": [
@@ -274,7 +278,8 @@
      null
     ]
    ],
-   "pass": false
+   "pass": true,
+   "unverifiable": 8
   }
  },
  "rim": {
@@ -337,7 +342,7 @@
  "peer": {
   "ptbv": {
    "score": null,
-   "peers": 10,
+   "peers": 11,
    "note": "본인 값 없음"
   },
   "per": {

@@ -907,7 +907,7 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">58.4</div><div class="sc-tile low" data-vc="peer" data-m="per">17</div><div class="sc-tile" data-vc="peer" data-m="pbr">100</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">P/TBV 1.29배는 유형자본을 계산할 수 있는 은행 9곳 중 가장 싸지만, PER 14.0배는 12곳 중 10곳보다 비싸다. 자기 이력에서는 P/TBV가 5년 중 상위 9%로 비싼 쪽, PER은 중간이다. 두 배수가 같은 방향일 때만 표를 주는 은행 규칙에 따라 둘 다 “중간”이다. <strong>초과이익모형 기본 가치 $83은 현재가의 64%</strong>로, 지금 가격은 ROE 11.9%가 5년 이어진다는 값이다(최근 4분기 특별 항목 제외 9.3%, GAAP 8.4%).</div>
+    <div class="vs-premise">P/TBV 1.29배는 유형자본을 계산할 수 있는 은행 10곳 중 가장 싸지만, PER 14.0배는 12곳 중 10곳보다 비싸다. 자기 이력에서는 P/TBV가 5년 중 상위 9%로 비싼 쪽, PER은 중간이다. 두 배수가 같은 방향일 때만 표를 주는 은행 규칙에 따라 둘 다 “중간”이다. <strong>초과이익모형 기본 가치 $83은 현재가의 64%</strong>로, 지금 가격은 ROE 11.9%가 5년 이어진다는 값이다(최근 4분기 특별 항목 제외 9.3%, GAAP 8.4%).</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 0·0·−2로 합계 −2 “적정~고평가”다. 최근 4분기 ROE는 2025년 3분기 Banamex 영업권 손상(세후 약 $0.71B)과 4분기 러시아 법인 매각 손실(세후 약 $1.1B)을 빼도 9.3%로 자기자본비용 10%보다 낮다. 이익보다 많이 돌려줘(최근 4분기 순환원율 146%) 유보율이 0이라 장부가가 자라지 않는다고 본다. 2분기만 보면 ROE 11.4%로 올라왔다 — 요구 ROE 11.9%에 가까워, 이 수준이 5년 이어지면 현재가에 거의 닿는다(낙관 $107은 ROE 9.3% 유지).</div>
   </div>
 
@@ -1072,7 +1072,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">회복</span><span class="bb-text">2분기 순이익 +45%, ROE 11.4%·RoTCE 13.0%, 다섯 사업 모두 매출 증가.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">P/TBV 1.29배 — 비교 은행 9곳 중 가장 싸다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">P/TBV 1.29배 — 비교 은행 10곳 중 가장 싸다.</span></div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">$30B 자사주 계획(6월 말 $26.0B 남음), 배당 12% 인상 계획.</span></div>
     </div>
     <div class="bb-box">
@@ -1336,7 +1336,7 @@ const MULTIPLE_DATA = {
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 9/30 종가 (12곳 중 6곳 표시 · PNC·WFC·TFC는 유형자본 태그 결측)",
+    "title": "S&P500 은행 P/TBV 비교 · 9/30 종가 (12곳 중 6곳 표시 · PNC·TFC는 유형자본 태그 결측)",
     "unit": "P/TBV",
     "max": 4,
     "cValue": null,
@@ -1348,7 +1348,7 @@ const MULTIPLE_DATA = {
       },
       {
         "name": "BAC",
-        "value": 1.66,
+        "value": 1.85,
         "status": "reference"
       },
       {
@@ -1468,7 +1468,7 @@ const C_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,nul
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let C_VERDICT = '계산 중';
 
-const C_DCF = {"low": 83.82, "base": 82.81, "high": 106.6, "requiredGrowth": 0.11863394379251407, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.09290943354057458, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roeend", "b0"], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.0, "bvps": 114.73755789221894, "roeTarget": 0.06804656588154219};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
+const C_DCF = {"low": 83.82, "base": 82.81, "high": 106.6, "requiredGrowth": 0.11863394379251407, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.09290943354057458, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-09-30", "hard": ["roeend", "b0"], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.0, "bvps": 114.73755789221894, "roeTarget": 0.06804656588154219, "referenceOnly": false};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1830,7 +1830,7 @@ const C_FUNDAMENTAL = {"ticker": "C", "basis": "quarter", "asOf": "2026-06-30", 
 //
 // 갱신: python3 v2/build_peer_score.py C --self v2/C_multiples.json --card
 /* VALUATION:BEGIN */
-const C_VALUATION = {"peer": {"score": 58.4, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 16.7, "rank": 11, "peers": 12}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 9}]}, "self": {"score": 25.7, "rule": "both", "naNote": "은행", "window": ["2021-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 42.5, "percentile": 57.5, "current": 13.95, "min": 4.75, "median": 11.56, "max": 24.18, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 8.9, "percentile": 91.1, "current": 1.29, "min": 0.45, "median": 0.74, "max": 1.48, "days": 1206, "gapDays": 49}]}};
+const C_VALUATION = {"peer": {"score": 58.4, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 16.7, "rank": 11, "peers": 12}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 10}]}, "self": {"score": 25.7, "rule": "both", "naNote": "은행", "window": ["2021-09-30", "2026-09-30"], "metrics": [{"metric": "per", "score": 42.5, "percentile": 57.5, "current": 13.95, "min": 4.75, "median": 11.56, "max": 24.18, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 8.9, "percentile": 91.1, "current": 1.29, "min": 0.45, "median": 0.74, "max": 1.48, "days": 1206, "gapDays": 49}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2209,8 +2209,8 @@ const C_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집�
   }
   put('cPeerBox', 'cPeerScore', 'cPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형·지역, C 제외) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
-      + `\nP/TBV는 유형자본을 만들 수 있는 9곳, PER은 12곳과 비교했다. P/TBV는 가장 싸고 PER은 비싼 쪽이라 표가 없다.`
-      + `\nPNC·WFC·TFC는 유형자본 태그를 못 채워 P/TBV에서 빠졌다.`);
+      + `\nP/TBV는 유형자본을 만들 수 있는 10곳, PER은 12곳과 비교했다. P/TBV는 가장 싸고 PER은 비싼 쪽이라 표가 없다.`
+      + `\nPNC·TFC는 유형자본 태그를 못 채워(WFC는 회사 정의 보정값으로 넣음, 2026-10-05) P/TBV에서 빠졌다.`);
   put('cSelfBox', 'cSelfScore', 'cSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nP/TBV 1.29배(5년 중 상위 9%)·PER 14.0배(상위 43%). P/TBV 이력에는 2026년 분기 유형자본이 늦게 잡혀 49거래일 빈 구간이 있다.`

@@ -4,10 +4,10 @@
  "price": 193.07,
  "gates": {
   "G1": true,
-  "G2": false,
+  "G2": true,
   "G5": true,
   "G3": true,
-  "G4": false
+  "G4": true
  },
  "gateRows": {
   "missing_targets": [],
@@ -62,7 +62,8 @@
      1.952760903378703e-05
     ]
    ],
-   "pass": true
+   "pass": true,
+   "unverifiable": 0
   },
   "G2": {
    "rows": [
@@ -123,7 +124,8 @@
      0.0
     ]
    ],
-   "pass": false
+   "pass": true,
+   "unverifiable": 8
   },
   "G5": {
    "rows": [
@@ -176,7 +178,8 @@
      0.0
     ]
    ],
-   "pass": true
+   "pass": true,
+   "restated": []
   },
   "G3": {
    "rows": [
@@ -221,7 +224,8 @@
      0.0203
     ]
    ],
-   "pass": true
+   "pass": true,
+   "restated": []
   },
   "G4": {
    "rows": [
@@ -274,7 +278,8 @@
      null
     ]
    ],
-   "pass": false
+   "pass": true,
+   "unverifiable": 8
   }
  },
  "rim": {
@@ -310,10 +315,21 @@
    "0.12|0.5": 105.2342125610724,
    "0.12|1.0": 105.2342125610724
   },
-  "reference_only": true
+  "reference_only": false
  },
  "self": {
-  "ptbv": null,
+  "ptbv": {
+   "current": 1.8350558870653486,
+   "min": 0.9502879418478825,
+   "median": 1.478672704637299,
+   "max": 2.4522742387907703,
+   "days": 1255,
+   "gapDays": 0,
+   "percentile": 79.6812749003984,
+   "score": 20.318725099601593,
+   "currentNote": null,
+   "firstDay": "2021-09-30"
+  },
   "per": {
    "current": 11.947400990099009,
    "min": 3.9921294271972014,
@@ -336,9 +352,11 @@
  },
  "peer": {
   "ptbv": {
-   "score": null,
-   "peers": 10,
-   "note": "본인 값 없음"
+   "score": 54.5,
+   "rank": 6,
+   "peers": 11,
+   "median": 1.8535,
+   "value": 1.8350558870653486
   },
   "per": {
    "score": 46.2,
