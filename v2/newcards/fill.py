@@ -355,10 +355,8 @@ h = h.replace("`현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`", 
 h = h.replace("`\\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null", "`\\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null")
 h = h.replace("` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null", "` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null")
 h = h.replace("(주당, 지분·장기투자)`", f"(주당, {C.NONOP_WHAT})`")
-if getattr(C, 'NONOP_NEG_SIGN', False):   # 기본값 음수 카드의 비영업 자산 줄을 "−$59.75"로(BA, step 1 카드 수정 18cf363 — 틀 시절 INTC는 옛 식 그대로라 cfg로 켠다)
-    h = h.replace('기본 시나리오 $${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}', "기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}", 1)
-else:
-    h = h.replace('기본 시나리오 $${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}', '기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}', 1)
+# 비영업 자산 줄: 부호 처리식 하나로(양수면 출력이 예전과 같고, 음수 기본값은 '−$59.75' — BA·INTC, 18cf363·Fable 2026-10-05)
+h = h.replace('기본 시나리오 $${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}', "기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}", 1)
 h = h.replace("공시 기준 — 낮은 성장 ${usd(e.v.low)}`", "공시 기준 · 보수 ${usd(e.v.low)}`").replace("` · 기본 ${usd(e.v.base)} · 높은 성장 ${usd(e.v.high)}`", "` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`")
 h = h.replace("' · 높은 성장은 화면 밖이라 잘라서 표시'", "' · 낙관은 화면 밖이라 잘라서 표시'").replace("'\\n⚠ 이 시점엔 높은 성장이 가장 낮다 — ", "'\\n⚠ 이 시점엔 낙관이 가장 낮다. ")
 h = h.replace("' 낮은·기본·높은 세 가정의 범위.'", "' 보수·기본·낙관 세 가정의 범위.'")
@@ -428,9 +426,8 @@ if _np < 5:
 h = h.replace("`최근 ${(m.days / 252).toFixed(1)}년 이력`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`")
 # 분모 음수 배지: PBR의 분모는 자본이라 "적자"가 아니라 "자본 음수"(BKNG 흑자·자본 −$10.8B, Codex 2026-10-02)
 h = h.replace("f('badge').textContent = neg ? '적자 · 0점'", "f('badge').textContent = neg ? (m.metric === 'pbr' ? '자본 음수 · 0점' : '적자 · 0점')")
-# 자본이 음수였던 적이 없는데 이력이 짧은 종목(분사 창 — DHR·T)은 cfg PBR_GAP_NEG_EQUITY = False로 옛 문구를 둔다(카드 HEAD 그대로, 2026-10-05)
-if getattr(C, 'PBR_GAP_NEG_EQUITY', True):
-    h = h.replace("`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)`")
+_pbr_gap = '자본 음수·결측' if getattr(C, 'PBR_GAP_NEG_EQUITY', True) else '결측'   # 자본이 음수였던 적이 없는 종목(SEC 자본 확인 — APH·DHR·MRVL·T·WDC)은 PBR 공백이 결측뿐(Fable 2026-10-05)
+h = h.replace("`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '" + _pbr_gap + "' : '적자·결측'} 구간 제외)`")
 # 활동성 — 분기 매입채무가 없는 카드(DPO·CCC null): ABBV 카드 한정 패치를 공통으로(PEP에서 null.toFixed로 스크립트 전체가 멈췄다, Codex·Fable 2026-10-01)
 _ACT = re.search(rf'^const {T}_ACTIVITY = (\{{.*?\}});', h, re.M)
 if _ACT and (json.loads(_ACT.group(1)).get('now') or {}).get('dpo', 0) is None:
@@ -474,7 +471,7 @@ for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
 # (ACN·APH·BKNG 등, 틀 통일 변환에서 발견, 2026-10-05). cfg REVERSE가 있으면 그 문장, 없으면 틀 시절 카드의 표준 문장(칸은 JS가 갱신).
 if '<div class="reverse">—</div>' in h and DCF.get('reqMode') == 'growth' and DCF.get('requiredGrowth') is not None:
     _rev = F(C.REVERSE) if getattr(C, 'REVERSE', None) else (f'지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. '
-        + f'기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.')
+        + f'기본 시나리오(<span data-dcf-basev>${(f'{DCF["base"]:.2f}' if abs(DCF["base"]) < 10 else f'{DCF["base"]:.0f}')}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.')
     one('<div class="reverse">—</div>', '<div class="reverse">' + _rev + '</div>')
 open(p, 'w', encoding='utf-8').write(h)
 print('ok', T, VERDICT, VOTES, 'self', selfsc, 'peer', peersc, 'ratio', round(ratio, 2) if ratio else None, 'YoY', vec(cur), yd, 'QoQ', qd, 'opm', opm, 'ch', round(ch, 1))

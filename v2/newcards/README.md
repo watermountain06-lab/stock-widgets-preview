@@ -1,6 +1,6 @@
 # v2 카드 만들기 도구 (2026-10-02)
 
-71위부터 루트 카드 없이 만든 새 종목과, 루트 카드에서 옮긴 일부 종목(VZ·TMUS·DE 등)의 v2 카드를 다시 만드는 도구다.
+v2 비은행 카드를 다시 만드는 공통 생성기다. 2026-10-05 틀 통일로 틀 시절 카드 47장(AAPL~XOM, KO 포함)도 cfg를 갖게 되어 SPCX·NVDA(틀 자체)·BRKB·은행을 뺀 91장이 모두 이 도구로 다시 만들어진다(은행 9장은 `bank/`).
 그동안 세션 임시 폴더(scratchpad)에만 있던 것을 옮겨 왔다. 절차의 원칙(숫자 지어내지 않기, 배열 손으로 치지 않기, Codex·브라우저 검토)은
 `/ticker` 스킬 플레이북(stock-widgets-redesign/.claude/skills/ticker/playbook.md)의 "v2 새 종목" 절을 따른다.
 
@@ -15,6 +15,10 @@
 | `yahoo/{t}.json` | 새 종목 Yahoo 일봉(2020-01~) — `new_ticker_arrays.py` |
 | `root_arrays.py T` | 루트 카드가 있는 종목은 배열을 루트 카드에서 옮긴다 |
 | `aph_root_arrays_special.py` | APH만 — 분할 안전장치로 루트가 멈춰 Yahoo 일봉으로 다시 만든 기록(그대로는 못 돌림, `/tmp/aph_rows.json` 필요) |
+
+`BUILD` 옵션(2026-10-05 추가): `feed`(외국 기업 — EPS·재무를 `v2/adapters/{t}_feed.py`로, 활동성은 그 캐시 facts — ASML·TSM·SKHY), `eps_cmd`(EPS 단계를 다른 명령으로 — V `visa_classA.py eps`), `sum_tags`(재무 항목을 여러 태그 합으로 다시 채운 뒤 기본적 분석 — XOM 재고, 대상은 `adapters/financials_sum_tags.py`의 SUMS).
+
+cfg 선택 항목(2026-10-05 추가): `ANALYST_ASOF`(애널리스트 기준일), `REQ_MULT_EXACT`(요구 성장률을 '지난 5년의 N배'로), `REVERSE`(성장 모드 역산 문장 — 없으면 표준 문장), `PBR_GAP_NEG_EQUITY=False`(자본이 늘 양수였던 종목의 PBR 이력 공백 배지), `NO_DCF_SKEW`(현금흐름 칸 쏠림 메모 끄기 — 금융), `NONOP_NEG_SIGN`(비영업 자산 줄 음수 '−$'), `PRE`/`POST`(채우기 앞뒤에 실행하는 종목별 코드).
 
 `BUILD` 옵션: `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 일봉 시작일 — WDC·T), `overlay`(companyfacts 지연 — ABT·WELL·NEE, 또는 재무 태그 별칭이 필요할 때 — BA 재고), `company_tags`(회사 고유 태그 — COP 설비투자, NEM 재고·리스). 재무 데이터의 총계 태그가 없으면 `adapters/overlay_feed.py`의 `SUM`(구성 줄 합 — ACN 총부채, NEM 재고 + 광석 비축분, 옛 행이 있으면 `REPLACE`)을 쓰고 `overlay`를 켠다. 활동성 매출원가·재고 예외는 `build_activity_score.py`의 `COGS_TAG_BY_CIK`·`INV_SUM_BY_CIK`.
 
@@ -52,5 +56,9 @@ StockAnalysis 애널리스트 페이지는 `curl -A "curl/8.4.0"`(짧은 "Mozill
 `RESTATED_LATEST`, 자기 이력 창(`build_multiple_history.HISTORY_START`)은 **재작성 숫자가 처음 공시된 날** — 첫 분사 후 재무상태표 날이 아니다(WDC는 그 사이 PSR이 29.8배로 튀었다). 최근 4분기 합이 모두 분사 뒤 분기여야 한다(T). DCF 이력(`build_dcf.HISTORY_WINDOW`)은 네 분기가 모두 재작성인 첫 최근 4분기 합부터(WDC는 영업이익이 FY24 분기에서 섞였다). 백테스트는 `bt_start`로 같은 날부터.
 
 ## 다시 만들 때
+
+**재현 모드(`--from-card`, 2026-10-05)** — 배열(일봉·이동평균·백테스트)을 루트 카드가 아니라 지금 v2 카드의 사본에서 옮겨, 가격·날짜가 그 카드와 같다. 생성기·cfg를 고친 뒤 카드가 바뀌지 않았는지 볼 때 쓴다: `git show HEAD:v2/T_full_widget.html > /tmp/T_h.html; python3 v2/newcards/build.py T --from-card; python3 v2/newcards/compare_render.py T /tmp/T_h.html`(보이는 글자·툴팁 줄 비교) + `node v2/research/extract_card_verdicts.js`(판정 칸). 복제본에서 돌릴 때는 `--sync-base http://localhost:PORT`. 카드에 직접 고친 내용은 반드시 cfg나 fill.py에도 넣는다 — 안 넣으면 다시 만들 때 되돌아간다(2026-10-05 생성기 카드 43장 점검에서 36장이 그랬다).
+
+cfg 문장에 계산값을 숫자로 적지 말고 `{표현식}`으로 — 틀 통일로 옮긴 cfg에 남은 리터럴은 안건 E26.
 
 `build.py`는 카드를 덮어쓴다. 비교군(카드 유니버스 가격)은 매일 갱신되므로 같은 cfg로 다시 만들어도 동종업 점수가 조금 달라질 수 있다(WDC 55.3 → 56.8, 2026-10-02) — 판정이 바뀌면 cfg의 VOTES·문장도 고친다(fill.py가 assert로 멈춘다).

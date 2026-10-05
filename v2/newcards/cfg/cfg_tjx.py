@@ -18,7 +18,7 @@ PR_CUR = 'q2'
 TENQ = S_ + '000010919826000048/tjx-20260801.htm'; TENQ_NAME = 'Q2 FY27 10-Q'
 LINKS = {}
 FAIRBAND_TITLE = 'id="tjxFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에는 관세 환급(2분기)·카드 수수료 소송 합의(4분기) 이익이 들어 있다."'
-HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 연 {HIST[\'growth_3y\'] * 100:+.1f}%)</span>'
+HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 {HIST[\'growth_5y\'] * 100:+.1f}%)</span>'
 OPM_RANGE, Y2 = (5, 20), (0, 20)
 FCF_SUB = '영업현금흐름 − 설비투자'
 CAPEX_SUB = '점포·물류 설비 취득(현금흐름표 “Property additions”)'
