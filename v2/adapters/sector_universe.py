@@ -90,6 +90,11 @@ def split_history(ticker):
     return sorted(out)
 
 
+# 희석 EPS 태그에 빈 기간이 있어 기본 EPS로 메워도 되는 종목 — 겹치는 분기마다 기본 = 희석을 확인했다.
+# LEN: 2024-12~2026-08 분기·누계 행에서 기본과 희석이 모두 같고, FY2025 10-K 연간(7.98)은 기본 EPS 태그에만 있다(2026-10-04).
+BASIC_EPS_OK = {"LEN"}
+
+
 def one(ticker, cik, asof, eps_dir):
     bars, splits = yahoo(ticker, asof)
     if not bars or bars[-1][0] != asof:
@@ -101,7 +106,8 @@ def one(ticker, cik, asof, eps_dir):
         subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
                         "--cik", cik, "--out", eps_path, "--splits", ",".join(f"{d}:{k}" for d, k in sh),
                         # 희석 EPS가 없는 기간은 계속사업 희석 EPS로 — MNST·KIM·WEC·GD는 몇 년째 그 태그로만 공시한다(D66, 2026-10-04)
-                        "--tag", "EarningsPerShareDiluted,IncomeLossFromContinuingOperationsPerDilutedShare"],
+                        # 기본 = 희석을 확인한 종목만 빈 기간을 기본 EPS로(BASIC_EPS_OK — LEN FY2025 연간은 기본 EPS 태그에만 있다, Fable·Codex 2026-10-04)
+                        "--tag", "EarningsPerShareDiluted,IncomeLossFromContinuingOperationsPerDilutedShare" + (",EarningsPerShareBasic" if ticker in BASIC_EPS_OK else "")],
                        capture_output=True, text=True)
         time.sleep(0.6)
     feh.CIKS[ticker] = cik

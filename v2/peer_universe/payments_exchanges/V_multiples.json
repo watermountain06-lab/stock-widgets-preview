@@ -5,6 +5,18 @@
   "2026-09-25"
  ],
  "multiples": {
+  "PER": {
+   "days": 246,
+   "current": 31.27,
+   "min": 27.24,
+   "p10": 28.33,
+   "median": 31.11,
+   "p90": 33.9,
+   "max": 35.05,
+   "mean": 30.98,
+   "percentile": 54.1,
+   "score": 45.9
+  },
   "PSR": {
    "days": 246,
    "current": 15.52,
@@ -55,5 +67,13 @@
   }
  },
  "perBasis": "diluted",
- "perNA": null
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 29.02,
+  "per_p75": 32.35,
+  "low": 340,
+  "high": 380,
+  "asOf": "2026-09-25",
+  "basis": "diluted"
+ }
 }

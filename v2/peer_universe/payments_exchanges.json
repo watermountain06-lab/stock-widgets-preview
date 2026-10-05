@@ -140,5 +140,11 @@
     "per": "negative"
    }
   }
+ },
+ "epsRefetch2": {
+  "rule": "EPS 받기 2차(D66, 2026-10-04) — 분기 3개월 값이 빠지면 같은 해 누계에서 메우고, 네 분기가 1년을 넘으면 4분기 합을 내지 않는다(fetch_eps_history)",
+  "tickers": {
+   "V": "PER 31.27 그대로 — 이제 SEC 원문 인라인 XBRL로 받은 EPS(카드 V와 같은 파일 값)"
+  }
  }
 }

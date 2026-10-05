@@ -42,7 +42,7 @@ import json
 import os
 import subprocess
 import sys
-from datetime import date
+from datetime import date, timedelta
 
 
 def curl_json(url):
@@ -342,8 +342,11 @@ def main():
         # underlying data and has not shown this bug -- fall back to it.
         print(f"NOTE: companyconcept returned 0 entries for {args.ticker}, "
               f"falling back to companyfacts", file=sys.stderr)
-        facts = curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{args.cik}.json")
-        entries = facts["facts"]["us-gaap"][args.tag]["units"]["USD/shares"]
+        if len(tags) > 1:
+            entries = []   # 여러 태그는 이미 companyfacts에서 읽었다 — 아래 오버레이(원문 인라인 XBRL)가 채운다(V, D66 2026-10-04)
+        else:
+            facts = curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{args.cik}.json")
+            entries = facts["facts"]["us-gaap"][args.tag]["units"]["USD/shares"]
 
     # companyfacts·companyconcept가 최근 10-Q를 몇 달씩 싣지 않는 회사는 v2/adapters/ixbrl_supplement.py가 원문 인라인 XBRL로
     # v2/.sec_cache/overlay/{cik}.json을 만든다. 그 파일에 이 태그의 행이 있으면 SEC 데이터에 없는 (start, end)만 더한다 — C는
@@ -392,6 +395,31 @@ def main():
     ytd9 = {(e["start"], e["end"]): e for e in dedup_for(
         [e for e in entries if e["form"] == "10-Q" and 260 <= days_between(e) <= 285], ticker_key)}
 
+    # 분기 3개월 값이 빠진 분기는 같은 해 누계(6개월·9개월 10-Q)에서 나머지 분기를 빼 만든다(D66, 2026-10-04 — PPL 2026 1분기
+    # 희석 EPS가 3개월 값으로 태그되지 않아, 빠진 채 마지막 네 행을 더하면 2025-06~2026-06 다섯 분기에 걸친 틀린 4분기 합이 나왔다).
+    _ytd = dedup_for([e for e in entries if e["form"] == "10-Q" and (170 <= days_between(e) <= 195 or 260 <= days_between(e) <= 285)],
+                     ticker_key)
+    _have_end = {q["end"] for q in discrete}
+    for y in sorted(_ytd, key=lambda e: e["end"]):
+        ys, ye = date.fromisoformat(y["start"]), date.fromisoformat(y["end"])
+        n = 2 if days_between(y) <= 195 else 3
+        inside = sorted([q for q in discrete if date.fromisoformat(q["start"]) >= ys - timedelta(days=3)
+                         and date.fromisoformat(q["end"]) <= ye], key=lambda q: q["end"])
+        if len(inside) != n - 1:
+            continue
+        bounds = [ys] + [x for q in inside for x in (date.fromisoformat(q["start"]), date.fromisoformat(q["end"]) + timedelta(days=1))] + [ye + timedelta(days=1)]
+        gaps = [(bounds[k], bounds[k + 1]) for k in range(0, len(bounds), 2) if (bounds[k + 1] - bounds[k]).days > 60]
+        if len(gaps) != 1:
+            continue
+        g0, g1 = gaps[0]
+        end = (g1 - timedelta(days=1)).isoformat()
+        if end in _have_end:
+            continue
+        discrete.append({"start": g0.isoformat(), "end": end, "val": round(y["val"] - sum(q["val"] for q in inside), 4),
+                         "accn": y["accn"], "fy": y.get("fy"), "fp": "Q-ytd-derived", "form": "10-Q",
+                         # 빼는 데 쓴 값이 모두 나온 날에야 알 수 있다(Codex — CSCO 2009-10 누계 행이 2010-05에 처음 나옴)
+                         "filed": max([y["filed"]] + [q["filed"] for q in inside])})
+        _have_end.add(end)
     discrete.sort(key=lambda e: e["end"])
     annual.sort(key=lambda e: e["end"])
 
@@ -416,20 +444,37 @@ def main():
             quarters.append({
                 "start": last_q["end"], "end": fy_end, "val": q4_val,
                 "accn": fy["accn"], "fy": fy.get("fy"), "fp": "Q4-derived",
-                "form": "10-K-derived", "filed": fy["filed"],
+                # 누계로 메운 분기를 빼서 만든 4분기는 그 분기가 나온 날 뒤에야 알 수 있다(Codex, 2026-10-04)
+                "form": "10-K-derived", "filed": max([fy["filed"]] + [m["filed"] for m in members if m.get("fp") == "Q-ytd-derived"]),
             })
 
     quarters.sort(key=lambda e: e["end"])
+    # 결산일이 10일 안에 겹치는 분기는 하나만 둔다 — 시작일이 다른 연간 행 두 개가 같은 4분기를 두 번 만들었다(PPL 2009-12-31,
+    # TAP 2008-12-28/31, Codex·Fable 2026-10-04). 공시 3개월 값을 먼저, 그다음 먼저 나온 값.
+    _rank = lambda q: (0 if q.get("fp") not in ("Q4-derived", "Q-ytd-derived") else 1, q["filed"])
+    _kept = []
+    for q in sorted(quarters, key=lambda e: (e["end"], _rank(e))):
+        if _kept and (date.fromisoformat(q["end"]) - date.fromisoformat(_kept[-1]["end"])).days <= 10:
+            if _rank(q) < _rank(_kept[-1]):
+                _kept[-1] = q
+            continue
+        _kept.append(q)
+    quarters = _kept
 
     out = []
     for i, q in enumerate(quarters):
         if i < 3:
             continue
+        # 네 분기가 1년 안에 있어야 한다 — 분기가 빠지면 마지막 네 행이 1년을 넘겨 틀린 합이 된다(D66, 2026-10-04: PPL·LEN·EMR·TAP)
+        if not 240 <= (date.fromisoformat(q["end"]) - date.fromisoformat(quarters[i - 3]["end"])).days <= 300:
+            continue
         ttm = round(sum(x["val"] for x in quarters[i - 3:i + 1]), 4)
         out.append({
             "quarter_end": q["end"], "quarter_eps": q["val"], "ttm_eps": ttm,
             "fp": q.get("fp"), "form": q["form"],
-            "available_date": q["filed"],  # true first-disclosure date -- the point-in-time anchor
+            # 누계에서 메운 분기가 들어 있으면 그 분기를 알 수 있게 된 날 뒤로(연간에서 뺀 4분기의 공개일 문제는 그 전부터 있던 것 — 안건 D66 남은 것) — 메운 값이 나중 공시에서 나온 경우(Codex·Fable, 2026-10-04).
+            # 보통 분기의 filed는 dedup_for가 고른 행의 날짜라(재작성 비교 수치면 늦다) 전부의 최댓값을 쓰면 ADI 2021 합이 2022-11로 밀려 넣지 않는다.
+            "available_date": max([q["filed"]] + [x["filed"] for x in quarters[i - 3:i + 1] if x.get("fp") == "Q-ytd-derived"]),
             "accn": q["accn"],
         })
 
