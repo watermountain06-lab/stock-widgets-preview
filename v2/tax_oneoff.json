@@ -273,5 +273,34 @@
    "desc": "공소시효 만료로 미확정 세금 혜택이 바뀐 개별 세금 이익(10-Q, 회사가 $0.1B 단위로 밝힘) — EPS = 400 ÷ 희석 727M. 같은 문장의 주식보상 관련 $0.2B는 반복 항목이라 뺌",
    "source": "https://www.sec.gov/Archives/edgar/data/1571996/000157199624000062/dell-20240503.htm"
   }
+ ],
+ "AMD": [
+  {
+   "quarter_end": "2025-06-28",
+   "filed": "2025-08-05",
+   "tax": -853000000,
+   "eps": -0.52,
+   "desc": "이중연결손실(DCL) 합리적 사유 구제 IRS 승인에 따른 불확실 세무포지션 충당금 환입(회사 비GAAP 조정표 주당 −0.52, 2분기 실효세율 1,263.6%). 2차 점검(2026-10-04, 10-K 세율 조정표 XBRL → 분기 보도자료)",
+   "source": "https://www.sec.gov/Archives/edgar/data/2488/000000248825000106/q22025991.htm"
+  }
+ ],
+ "AMAT": [
+  {
+   "quarter_end": "2025-01-26",
+   "filed": "2025-02-13",
+   "tax": 644000000,
+   "eps": 0.79,
+   "desc": "싱가포르 신규 세제 인센티브 계약에 따른 이연법인세자산 재측정(회사 주당 0.79, 10-K 연간 $659M). 2차 점검",
+   "source": "https://www.sec.gov/Archives/edgar/data/6951/000000695125000005/exhibit991q12025earningsre.htm"
+  },
+  {
+   "quarter_end": "2025-07-27",
+   "filed": "2025-08-14",
+   "tax": 410000000,
+   "eps": 0.51,
+   "derived_eps": true,
+   "desc": "OBBBA로 회수 불가해진 CAMT 세액공제 이연법인세자산 평가충당금(회사 비GAAP 조정, EPS = $410M ÷ 희석 802M — 회사가 주당 금액을 밝히지 않음; 10-K 연말 $407M). 2차 점검",
+   "source": "https://www.sec.gov/Archives/edgar/data/6951/000000695125000032/exhibit991q32025earningsre.htm"
+  }
  ]
 }
