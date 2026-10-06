@@ -191,7 +191,7 @@ one('분기 매출 / 순이익 / 영업이익률 (Q3 FY25~Q2 FY27)', '분기 순
 sub(r'const revenue=\[[^\]]*\];', 'const revenue=' + json.dumps([r1(rev[k]) for k in ks]).replace(' ', '') + ';')
 sub(r'const netIncome=\[[^\]]*\];', 'const netIncome=' + json.dumps([r1(ni[k]) for k in ks]).replace(' ', '') + ';')
 sub(r'const opm=\[[^\]]*\];', 'const opm=' + json.dumps(roe_q).replace(' ', '') + ';')
-one('const y2min=40, y2max=75;', 'const y2min=0, y2max=40;')
+one('const y2min=40, y2max=75;', 'const y2min=-10, y2max=40;')   # 순이익률 −0.6% 분기(Discover 인수 초기)가 축 밖으로 나가지 않게(D39, 2026-10-05)
 one("labels:['Q3 FY25','Q4 FY25','Q1 FY26','Q2 FY26','Q3 FY26','Q4 FY26','Q1 FY27','Q2 FY27'],", 'labels:[' + ','.join(f"'{x}'" for x in L8) + '],')
 one("{type:'line',label:'OPM(%)',", "{type:'line',label:'ROE(최근 4분기, 기초자본 기준, GAAP, %)',")
 one("{type:'bar',label:'매출($B)',", "{type:'bar',label:'순영업수익($B)',")
