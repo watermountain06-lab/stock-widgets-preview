@@ -1078,7 +1078,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">40 · 목표가 27</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">40명 · 목표가 27</span>명</span>
         <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">33</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 82.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 17.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
@@ -1529,7 +1529,7 @@ const AMAT_SCORES = {
     if (d.requiredMargin == null) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)
       const _ps = 13.18;   // 생성 때 PSR(이 줄 위에서 AMAT_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)
       req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'
-        + (_ps ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델이 설명하는 범위를 넘는 성장·마진 기대가 들어 있다.` : '.');
+        + (_ps ? (_ps > 10 ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델 상한(세후 이익률 100% ÷ (할인율 − 영구성장) ≈ 매출의 10배)을 넘는 성장·마진 기대가 들어 있다.` : ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로 모델 상한(≈ 매출의 10배)보다 낮다. 해가 없는 것은 순부채·재투자 가정이 사업 가치를 깎기 때문이다.`) : '.');
     }
   }
   if (req && price != null) {
@@ -2087,7 +2087,7 @@ const AMAT_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

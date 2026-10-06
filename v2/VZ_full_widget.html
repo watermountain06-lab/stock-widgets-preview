@@ -1092,7 +1092,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">25 · 목표가 15</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">25명 · 목표가 15</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">9</span> · 유지 <span data-an="hold">16</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 36%; background: var(--green);"></div><div data-an-bar="hold" style="width: 64%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
@@ -2097,7 +2097,7 @@ const VZ_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 �
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

@@ -71,6 +71,10 @@ def later_fixes(h, c):
     return h
 
 
+BIZ = {"AXP": ("카드·소비자금융", ["COF"]), "COF": ("카드·소비자금융", ["AXP"]),
+       "GS": ("증권·투자은행", ["MS", "SCHW"]), "MS": ("증권·투자은행", ["GS", "SCHW"]), "SCHW": ("증권·투자은행", ["GS", "MS"])}
+
+
 def hard_rule(r):
     return (["roeend"] if r["roe_2y_median"] < 0.10 else []) + (["b0"] if r["b"] == 0 else []) + (["nosol"] if r.get("required_roe") is None else [])
 dec=json.JSONDecoder()
@@ -93,4 +97,14 @@ for T in BANKS:
         h,n=fb.subn(r"\1var(--text2)\2",h); c["held_color"]+=n
     else:
         assert lab_new not in h
+    # 사업 모델별 참고 비교(사전 등록 6판 10-2, 2026-10-05) — 같은 모델 카드끼리의 P/TBV·PER을 동종업 툴팁에. 판정에는 쓰지 않는다.
+    if T in BIZ:
+        name, others = BIZ[T]
+        def _m(x, k):
+            v = (json.load(open(os.path.join(ROOT, "v2", f"{x}_bank.json")))["self"].get(k) or {}).get("current")
+            return "—" if v is None else (f"{v:.2f}배" if k == "ptbv" else f"{v:.1f}배")
+        ref = f" 참고 — 같은 사업 모델({name}) 카드: " + ", ".join(f"{x} P/TBV {_m(x, 'ptbv')}·PER {_m(x, 'per')}" for x in others) + "(판정에 쓰지 않음, 사전 등록 10-2)."
+        pat = re.compile(r'(<div class="vs-name" title=")([^"]*?)( 참고 — 같은 사업 모델[^"]*)?(">동종업 대비</div>)')
+        h, k_ = pat.subn(lambda m_: m_.group(1) + m_.group(2) + ref + m_.group(4), h, count=1)
+        c["biz_ref"] += k_
     open(p,"w",encoding="utf-8").write(h); print(T,dict(c),"hard",old,"->",D["hard"])

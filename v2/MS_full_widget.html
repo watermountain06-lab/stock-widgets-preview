@@ -900,7 +900,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$113</div><div class="vs-note">현재가 <span data-vs="price">$192.76</span> 대비 <strong data-vs="upside">−41.3%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.70
 시나리오 범위: 1.41 ~ 1.93(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">3.9</div><div class="sc-tile low" data-vc="peer" data-m="per">8</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(증권·투자은행) 카드: GS P/TBV 2.72배·PER 14.1배, SCHW P/TBV —·PER 17.8배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">3.9</div><div class="sc-tile low" data-vc="peer" data-m="per">8</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">MS는 투자은행·자산관리 회사지만, 동종업은 결정에 따라 JPM과 같은 S&P500 대형·지역 은행 13곳과 비교한다. 그 안에서 P/TBV 3.62배는 유형자본을 계산할 수 있는 11곳 모두보다 비싸고, PER 15.6배도 13곳 중 비싼 쪽에서 두 번째다. 자기 이력에서는 P/TBV가 위쪽(상위 13%), PER은 중간이다. <strong>초과이익모형 기본 가치 $113은 현재가의 59%</strong>로, 지금 가격은 ROE 26.3%가 5년 이어진다는 값이다(최근 4분기 19.9%, 특별 항목 없음).</div>
     <div class="verdict-summary-risk">⚠️ 최근 4분기 ROE 19.9%는 5년 중앙값 13.7%보다 높은 호황기 값이다. 초과이익모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보는데, 수렴이 없으면 기본 가치는 $136로 올라도 여전히 현재가보다 낮다. 예금 기반 은행과 비교하면 수수료·거래 수익 비중이 큰 MS의 배수가 구조적으로 높게 나온다는 점도 감안해야 한다.</div>
@@ -1075,7 +1075,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">25 · 목표가 15</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">25명 · 목표가 15</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">11</span> · 유지 <span data-an="hold">13</span> · 매도 <span data-an="sell">1</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 44%; background: var(--green);"></div><div data-an-bar="hold" style="width: 52%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4%; background: var(--red);"></div></div>
       </div>
@@ -2143,7 +2143,7 @@ const MS_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 �
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

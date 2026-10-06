@@ -1,9 +1,11 @@
 """AXP(아메리칸 익스프레스) v2 카드 채우기 — BAC 스크립트(bac_fill.py)에서 옮김. 은행 세트 여섯 번째(비교군은 S&P500 은행 13곳, AXP는 비교군 밖).
  — clone + 배열 뒤에 실행. 데이터: v2/AXP_bank.json(adapters/bank_card.py).
 Claude 추천 결정(사용자 위임, 리뷰 때 확인): AXP는 은행지주회사(CET1 규제)라 은행 세트로 둔다. 우선주는 태그 잔액이 없어 주식 수 × 청산가 $1,000,000(bank_rim.PREF_PRICE)으로 뺀다.
-회사가 TBVPS를 밝히지 않고 SEC 영업권 태그가 연말에만 있어 유형자본을 8분기 모두 만들 수 없다(G1 미통과) → P/TBV 없음 → 두 배수 심판 기권.
-관문 개정(사전 등록 9-1, 2026-10-05)으로 회사 값이 없는 분기는 확인 불가로 두어 G2·G4가 통과 → 초과이익모형은 참고용이 아니라 표(−2)를 내지만,
-표를 내는 심판이 하나뿐이라 판정 보류(사전 등록 8-8).
+SEC 영업권 태그가 연말에만 있어 처음(10-01)에는 유형자본을 8분기 모두 만들 수 없었다(G1 미통과 → P/TBV 없음 → 두 배수 심판 기권 → 판정 보류).
+관문 개정(사전 등록 9-1, 2026-10-05)으로 회사 값이 없는 항목은 확인 불가로 두어 G2(BVPS 대조)·G4가 통과하고, 6판 10-1(2026-10-05)로 영업권을
+그 결산일 이전 가장 최근 값으로 400일까지 이어 써 8분기 모두 유형자본이 생겨 G1도 통과한다(회사가 TBVPS를 공시하지 않아 8분기 모두 확인 불가 —
+G1은 회사 값과 대조한 것이 아니라 우리 TCE가 8분기 모두 있는지만 본 것이다). → P/TBV가 자기 이력·동종업에 들어가 판정이 나온다:
+자기 이력 0(P/TBV 50.8·PER 56.2) · 동종업 −1(P/TBV·PER 모두 0점) · 초과이익 −2(현재가 ÷ 기본 1.74) = −3 → 고평가(2026-09-30 자료).
 기반(base/axp_base.html)은 2026-10-05 지금 NVDA 틀을 clone_card.py AXP --force로 복제하고 axp_arrays.py <그때 v2 카드 사본>으로 배열(마지막 봉 2026-09-30)을 넣어
 다시 만들었다(jpm_fill.py와 같은 방식). 은행 카드가 받지 않은 틀 변경은 6절에서 되돌린다."""
 import json, os, re, sys
@@ -29,12 +31,18 @@ def sub(pat, new, flags=re.S):
 
 J = json.load(open('AXP_bank.json'))
 R = J['rim']; SH = J['self']; PEER = J['peer']; FB = SH['fairBand']
-assert J['gates'] == {'G1': False, 'G2': True, 'G5': True, 'G3': True, 'G4': True}, J['gates']; assert not R['reference_only'] and SH['ptbv'] is None and PEER['ptbv']['score'] is None
+assert J['gates'] == {'G1': True, 'G2': True, 'G5': True, 'G3': True, 'G4': True}, J['gates']; assert not R['reference_only'] and SH['ptbv'] is not None and PEER['ptbv']['score'] is not None   # 6판 10-1(영업권 이어쓰기) 뒤
 assert J['gateRows']['G2']['unverifiable'] == 8 and J['gateRows']['G4']['unverifiable'] == 8   # 관문 개정(사전 등록 9-1, 2026-10-05): 회사 값이 없는 분기는 확인 불가로 둔다 → G2·G4 통과
+G1R = J['gateRows']['G1']['rows']   # [분기말, 우리 TBVPS, 회사 TBVPS, 차이] — 회사 값이 없어 8분기 모두 확인 불가, 우리 TCE는 8분기 모두 있다(9-1·10-1)
+assert J['gateRows']['G1']['unverifiable'] == 8 and len(G1R) == 8 and all(r[1] and r[2] is None for r in G1R), G1R
+TB = {r[0]: r[1] for r in G1R}
+assert SH['ptbv']['gapDays'] == 96 and SH['per']['gapDays'] == 0, SH['ptbv']['gapDays']   # 2021·2022년 말 주식 수 첫 접수가 2024-02-09라 2022·2023년 2~4월이 빈다(자기 이력 툴팁)   # 카드 계산 TBVPS(SEC 자본 − 우선주 − 영업권 − 무형자산) ÷ 주식 수
 D = json.loads(re.search(r'const AXP_DAILY\s*=\s*(\[.*?\]);', h, re.S).group(1)); days = {r[0] for r in D}
 px, asof = D[-1][4], D[-1][0]
 assert abs(px - J['price']) < 1e-6 and asof == J['asOf']
 bank = br.Bank(T, CIK, overrides=True)
+GW_ = (max(e for e in bank.gw if e <= '2026-06-30'), bank.gw[max(e for e in bank.gw if e <= '2026-06-30')][0])   # 6판 10-1: 2026-06-30 TCE가 이어 쓴 영업권
+assert GW_[0] == '2025-12-31' and '2026-06-30' not in bank.gw, GW_   # 영업권 태그는 연말에만 있다
 S_, CE = R['shares'], R['ce']
 
 
@@ -73,8 +81,6 @@ one('<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%
     f'<span class="meta-label">현재가 요구 ROE (5년 · 최근 4분기 {f1(R["roe0"])})</span>')
 one('id="axpFairBand" style=', f'id="axpFairBand" title="최근 1년 PER 25~75% 구간({FB["per_p25"]:.1f}~{FB["per_p75"]:.1f}배) × 최근 4분기 EPS(10달러 단위 반올림)로 낸 PER만의 범위다. 판정은 P/TBV·PER 두 배수와 초과이익모형을 함께 보므로 이 범위와 따로 읽는다. 지금 PER({SH["per"]["current"]:.1f}배)이 1년 구간 아래라 현재가가 범위보다 낮다." style=')
 h = re.sub(r'(id="axpFairBand"[^>]*>)[^<]*(</span>)', lambda m: m.group(1) + f'${FB["low"]} ~ ${FB["high"]}' + m.group(2), h, count=1)
-h = h.replace('data-verdict style="font-size:22px;color:var(--gold);">적정~저평가</span>', 'data-verdict style="font-size:22px;color:var(--gold);">판정 보류</span>', 1)
-one('<span class="vs-verdict" data-verdict>적정~저평가</span>', '<span class="vs-verdict" data-verdict>판정 보류</span>')
 one('<button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;border-color:#38bdf8;">◆ DCF 시나리오</button>',
     '<button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;border-color:#38bdf8;" hidden>◆ DCF 시나리오</button>')
 
@@ -141,12 +147,12 @@ one("""    el.textContent = '(' + +(v * 100).toFixed(1) + '%)';""",
     """    el.textContent = G.kind === 'rim' && el.dataset.knobDefault === 'term' ? '(절반)' : '(' + +(v * 100).toFixed(1) + '%)';""")
 
 # ── 3. 점수 상수 · 기본적 분석 · 활동성 ──
-selfscore = round(SH['per']['score'], 1)   # P/TBV 없음(TBVPS 미공시) → 표시 점수는 PER 하나, 심판은 기권
-peerscore = round(PEER['per']['score'], 1)
+selfscore = round((SH['ptbv']['score'] + SH['per']['score']) / 2, 1)   # 표시 점수는 두 배수 평균, 표는 두 배수가 같은 방향일 때만
+peerscore = round((PEER['ptbv']['score'] + PEER['per']['score']) / 2, 1)
 sub(r'const AXP_SCORES = \{.*?\n\};', f'''const AXP_SCORES = {{
   fundamental: null,   // 은행 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
-  peer: {peerscore},          // S&P500 은행 대비 PER 순위(표시용). P/TBV가 없어 표는 기권
-  selfHistory: {selfscore},   // PER 자기 5년 백분위(표시용). P/TBV가 없어 표는 기권
+  peer: {peerscore},          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
+  selfHistory: {selfscore},   // P/TBV·PER 자기 5년 백분위 평균(표시용)
   asOf: "{asof}",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-24 공시)
 }};''')
@@ -218,7 +224,7 @@ xrow = lambda lab, val, note: (f'      <div class="diag-row">\n        <div clas
                                f'<span class="diag-note">{note}</span></div>\n        <div class="diag-badge info">ℹ️ 참고</div>\n      </div>\n')
 extra = (xrow('CET1 비율 (표준방식)', '10.4%', 'CET1 자본 $27.8B ÷ 위험가중자산 $268.3B · 6월 말 기준, 2026.07.24 10-Q')
          + xrow('주당 장부가치 (BVPS)', '$48.42', '1년 전 $44.16 대비 +9.6% · 회사 발표')
-         + xrow('주당 유형 장부가치 (TBVPS)', '회사 미공시', '회사 값이 없고 SEC 영업권 태그가 연말에만 있어 카드도 유형자본을 8분기 모두 만들지 못해 P/TBV를 쓰지 않는다'))
+         + xrow('주당 유형 장부가치 (TBVPS)', f'${TB[cur]:.2f}', f'카드 계산(회사 미공시) · 1년 전 ${TB[yo]:.2f} 대비 {(TB[cur] / TB[yo] - 1) * 100:+.1f}% · 영업권은 연말 값(2025년 말 ${GW_[1] / 1e9:.2f}B)을 이어 썼다 · 카드의 P/TBV 분모'))
 sub(r'(<span class="diag-note" id="fundNetCashNote">[^<]*</span></div>\n        <div class="diag-badge info">ℹ️ 참고</div>\n      </div>\n)', lambda m: m.group(1) + extra)
 sub(r'<div style="margin-top:14px;font-size:11\.5px;color:var\(--text2\);line-height:1\.6;">유동비율·당좌비율.*?</div>',
     f'<div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">AXP는 카드사지만 은행지주회사라 예금이 부채에 들어 있어 유동·당좌·차입 비율과 이자보상배율을 해당 없음으로 두고, 규제자본 비율과 장부가치를 대신 싣는다. 부채비율 {LI['2026-06-30'] / SE['2026-06-30'] * 100:,.0f}%는 고객 예금 $157.0B를 포함한 값이다. CET1 비율 10.4%는 회사 목표 범위(10~11%) 안이고 1년 전(10.6%)보다 조금 낮다.</div>')
@@ -289,43 +295,48 @@ sub(r'<div class="card-title">다음 실적 체크포인트 <span[^>]*>[^<]*</sp
 # ── 4. 밸류에이션 ──
 one('<div class="vc-head">PBR</div>', '<div class="vc-head">P/TBV</div>')
 one('<div class="vs-name" title="지난 5년 AXP 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div>',
-    '<div class="vs-name" title="지난 5년 AXP 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 은행 규칙은 P/TBV·PER 두 배수가 모두 70 이상이면 +1, 모두 30 미만이면 −1인데, AXP는 P/TBV가 없어(유형 장부가치 미공시) 기권한다. 표시 점수는 PER 하나다.">자기 이력 대비</div>')
+    '<div class="vs-name" title="지난 5년 AXP 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 은행 규칙에 따라 P/TBV·PER 두 배수가 모두 70 이상이면 +1, 모두 30 미만이면 −1이다.">자기 이력 대비</div>')
 one('<div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div>',
     '<div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div>')
 one('<span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span>', '<span class="logic-tag">내재가치 <span class="logic-denom">초과이익</span></span>')
 one('<div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div>',
-    '<div class="vs-name" title="S&P500 은행(대형·지역 13곳) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 주는데, AXP는 P/TBV가 없어 기권한다. 표시 점수는 PER 하나다. AXP는 수수료 중심 카드사라 대출 중심 은행보다 ROE·배수가 구조적으로 높아 PER 순위가 맨 끝으로 몰린다(사업 모델별 비교군은 은행 사전 등록 5판에서).">동종업 대비</div>')
+    '<div class="vs-name" title="S&P500 은행(대형·지역 13곳) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. AXP는 수수료 중심 카드사라 대출 중심 은행보다 ROE·배수가 구조적으로 높아 두 배수 순위가 맨 끝으로 몰린다(사업 모델별 비교는 참고로만 적는다, 은행 사전 등록 10-2).">동종업 대비</div>')
 sub(r'<div class="vs-note">현재가 <span data-vs="price">[^<]*</span> 대비 <strong data-vs="upside">[^<]*</strong> · 기본 시나리오</div>',
     '<div class="vs-note">현재가 <span data-vs="price">—</span> 대비 <strong data-vs="upside">—</strong> · 초과이익모형 기본</div>')
 one('<span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>', '<span class="val-name">P/TBV (유형 장부) <span class="hist-note" data-hist="note"></span></span>')
 a_ = h.index('    </div>\n\n    <div class="card" style="display:flex;flex-direction:column;">')
 h = h[:a_] + ('      <div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:6px;">은행은 매출·현금흐름·EBITDA 배수가 뜻이 없어 P/TBV·PER 두 배수만 본다. '
-              'AXP는 회사가 TBVPS를 공시하지 않고 SEC 영업권 태그가 연말에만 있어 카드도 유형자본을 8분기 모두 만들지 못하므로 P/TBV를 쓰지 않는다(G1). 보통주 자본은 SEC 자본 총계에서 우선주(주식 수 × 청산가 $1,000,000)를 뺀 값이고, 회사 발표 BVPS와 8분기 모두 0.4% 안에서 맞는다(최대 차이 $0.16, 2025년 말).</div>\n') + h[a_:]
+              f'P/TBV는 보통주 자본에서 영업권·무형자산을 뺀 유형 장부가치 기준인데, AXP는 회사가 TBVPS를 공시하지 않아 카드가 계산한다(6월 말 ${TB[cur]:.2f}). SEC 영업권 태그는 연말에만 있어 분기에는 직전 연말 값을 400일까지 이어 쓴다(은행 사전 등록 10-1, 6월 말은 2025년 말 ${GW_[1] / 1e9:.2f}B). '
+              '회사 TBVPS가 없으니 이 가정을 회사 값으로 확인하지는 못했고, 데이터 점검 G1은 8분기 모두 유형자본이 만들어지는지만 봤다(8분기 모두 확인 불가). 보통주 자본은 SEC 자본 총계에서 우선주(주식 수 × 청산가 $1,000,000)를 뺀 값이고, 회사 발표 BVPS와 8분기 모두 0.4% 안에서 맞는다(최대 차이 $0.16, 2025년 말).</div>\n') + h[a_:]
 wm = lambda k, m: {"metric": k, "score": round(m['score'], 1), "percentile": round(m['percentile'], 1), "current": round(m['current'], 2),
                    "min": round(m['min'], 2), "median": round(m['median'], 2), "max": round(m['max'], 2), "days": m['days'], "gapDays": m['gapDays']}
 pm = lambda k, m: {"metric": k, "score": m['score'], "rank": m['rank'], "peers": m['peers']}
 V = {"peer": {"score": peerscore, "rule": "both", "need": 2, "sector": "Financials (S&P500 은행)", "asOf": [asof, asof],
-              "metrics": [pm('per', PEER['per'])]},
-     "self": {"score": selfscore, "rule": "both", "need": 2, "naNote": "은행", "naNotes": {"pbr": "유형 장부가치 미공시"}, "window": [D[0][0], asof],
-              "metrics": [wm('per', SH['per'])]}}   # P/TBV 없음 → 두 배수 규칙 미충족 → 기권(사전 등록 8-8)
+              "metrics": [pm('per', PEER['per']), pm('pbr', PEER['ptbv'])]},
+     "self": {"score": selfscore, "rule": "both", "need": 2, "naNote": "은행", "window": [D[0][0], asof],
+              "metrics": [wm('per', SH['per']), wm('pbr', SH['ptbv'])]}}   # 6판 10-1 뒤 P/TBV가 생겨 두 배수 규칙으로 표
 sub(r'^const AXP_VALUATION = \{.*$', 'const AXP_VALUATION = ' + json.dumps(V, ensure_ascii=False) + ';', re.M)
 U = {k: v for k, v in json.load(open('peer_universe/banks.json'))['tickers'].items() if k != T}   # 본인 제외
 PB = ['JPM', 'USB', 'FITB', 'RF', 'MTB', 'HBAN']
 mk = lambda k, key, title, unit, mx: {"title": title, "unit": unit, "max": mx, "msValue": None,
                                      "peers": [{"name": t, "value": round(U[t][key], 2), "status": "reference"} for t in PB if isinstance(U.get(t, {}).get(key), (int, float))]}
 MD = {"per": mk('per', 'per', 'S&P500 은행 PER 비교 · 9/30 종가 (13곳 중 6곳 표시)', 'PER(TTM)', 25),
-      "pbr": mk('pbr', 'ptbv', 'S&P500 은행 P/TBV 비교 · 9/30 종가 (AXP 값 없음 — 유형 장부가치 미공시 · 13곳 중 6곳 표시)', 'P/TBV', 4)}
+      "pbr": mk('pbr', 'ptbv', 'S&P500 은행 P/TBV 비교 · 9/30 종가 (11곳 중 6곳 표시 · PNC·TFC는 유형자본 태그 결측)', 'P/TBV', 8)}   # 축 8 — AXP 7.41배가 잘리지 않게(카드 한정)
 for k, nm, why in (('psr', 'PSR', '은행 매출에는 이자수익이 들어 있다'), ('pcr', 'PCR', '은행 현금흐름은 예금·대출 증감이 좌우한다'), ('evebitda', 'EV/EBITDA', '예금·차입이 영업 자금이라 기업가치가 뜻이 없다')):
     MD[k] = {"title": f'{nm} — 은행에 해당 없음 ({why})', "unit": nm, "max": 1, "msValue": None, "peers": []}
 sub(r'const MULTIPLE_DATA = \{.*?\n\};\n', '// 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3) 중 6곳. 값이 없는 은행은 뺀다.\nconst MULTIPLE_DATA = ' + json.dumps(MD, ensure_ascii=False, indent=2) + ';\n')
 one('<div class="card-title"><span id="multipleCompareTitle">글로벌 AI 반도체 PER 비교</span></div>', f'<div class="card-title"><span id="multipleCompareTitle">{MD["per"]["title"]}</span></div>')
 lvl = px / R['기본']
-_pe = [U[t]['per'] for t in U if isinstance(U[t].get('per'), (int, float))]
-n_pe = sum(v > SH['per']['current'] for v in _pe)
-assert len(_pe) == PEER['per']['peers'] and n_pe == 0, (len(_pe), n_pe)
+_pt = [U[t]['ptbv'] for t in U if isinstance(U[t].get('ptbv'), (int, float))]; _pe = [U[t]['per'] for t in U if isinstance(U[t].get('per'), (int, float))]
+n_pt, n_pe = sum(v > SH['ptbv']['current'] for v in _pt), sum(v > SH['per']['current'] for v in _pe)
+assert len(_pt) == PEER['ptbv']['peers'] == 11 and len(_pe) == PEER['per']['peers'] == 13 and n_pt == 0 and n_pe == 0, (len(_pt), len(_pe), n_pt, n_pe)
+assert max(_pt) < SH['ptbv']['current'] < MD['pbr']['max'], (max(_pt), SH['ptbv']['current'])
+COF_ = json.load(open('COF_bank.json'))   # 같은 카드·소비자금융 모델(사전 등록 10-2, 참고 표시만 — 판정에 쓰지 않는다)
+assert COF_['asOf'] == asof, COF_['asOf']
+cof_txt = f'같은 카드·소비자금융 모델인 COF는 P/TBV {COF_["self"]["ptbv"]["current"]:.2f}배·PER {COF_["self"]["per"]["current"]:.1f}배로, 9/30 기준 참고일 뿐 판정에 쓰지 않는다 — 사전 등록 10-2'
 sub(r'<div class="vs-premise">.*?</div>\n    <div class="verdict-summary-risk">.*?</div>',
-    f'<div class="vs-premise">AXP는 카드사지만 은행지주회사(CET1 규제)라 은행 사전 등록의 고정 비교군인 S&P500 대형·지역 은행 {len(_pe)}곳과 비교한다. 수수료 중심(비이자수익이 순수익의 {14988 / 19637 * 100:.0f}%)·ROE 37%인 사업 구조 차이도 이 순위에 함께 들어 있다. PER {SH["per"]["current"]:.1f}배는 {len(_pe)}곳 모두보다 비싸고(중앙값 {PEER["per"]["median"]:.1f}배), 자기 이력에서는 중간(하위 {SH["per"]["percentile"]:.0f}%)이다. 회사가 유형 장부가치를 밝히지 않고 SEC 영업권 태그가 연말에만 있어 카드도 유형자본을 8분기 모두 만들 수 없으므로 P/TBV가 없고, 두 배수가 함께 있어야 표를 주는 은행 규칙에 따라 자기 이력·동종업 모두 기권한다. <strong>초과이익모형 기본 가치(${R["기본"]:.0f})는 현재가의 {1 / lvl * 100:.0f}%라 −2(매우 비싸다)다</strong>. 보통주 자본은 회사 BVPS와 8분기 모두 0.4% 안에서 맞고(G2), 최근 4분기 환원 총액은 회사가 분기마다 내지 않아 확인 불가로 둬(G4, 6월 스트레스 테스트 보도자료의 12개월 값 하나는 카드 계산과 맞는다) 초과이익모형은 데이터 점검을 통과한다(사전 등록 9-1, 2026-10-05). 그래도 표를 내는 심판이 초과이익 하나뿐이라 판정은 보류다.</div>\n'
-    f'    <div class="verdict-summary-risk">⚠️ 현재가가 초과이익모형 기본 가치의 {lvl:.2f}배라 −2다. 지금 가격은 ROE {f1(R["required_roe"])}가 5년 이어진다는 값이다(최근 4분기 {f1(R["roe0"])}). 다만 이 모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보므로, ROE 37%가 이어지는 사업에는 낮게 나올 수 있다(수렴 없음이면 기본 ${vals["기본"][0][2]:.0f}).</div>')
+    f'<div class="vs-premise">AXP는 카드사지만 은행지주회사(CET1 규제)라 은행 사전 등록의 고정 비교군인 S&P500 대형·지역 은행 {len(_pe)}곳과 비교한다. 수수료 중심(비이자수익이 순수익의 {14988 / 19637 * 100:.0f}%)·ROE 37%인 사업 구조 차이도 이 순위에 함께 들어 있다. P/TBV {SH["ptbv"]["current"]:.2f}배는 유형자본을 계산할 수 있는 은행 {len(_pt)}곳 모두보다 비싸고(중앙값 {PEER["ptbv"]["median"]:.2f}배), PER {SH["per"]["current"]:.1f}배도 {len(_pe)}곳 모두보다 비싸 동종업은 −1(비싸다)이다. 자기 이력에서는 두 배수 모두 중간(P/TBV 하위 {SH["ptbv"]["percentile"]:.0f}%·PER 하위 {SH["per"]["percentile"]:.0f}%)이라 0이다. <strong>초과이익모형 기본 가치(${R["기본"]:.0f})는 현재가의 {1 / lvl * 100:.0f}%라 −2(매우 비싸다)다</strong>. 합계 −3으로 “고평가”다. 회사가 유형 장부가치를 밝히지 않아 P/TBV는 카드 계산 값이고, SEC 영업권 태그가 연말에만 있어 분기에는 직전 연말 영업권을 400일까지 이어 쓴다(사전 등록 10-1, 2026-10-05). 회사 TBVPS가 없으니 이 값을 회사 값과 대조하지는 못했고, 데이터 점검 G1은 8분기 모두 유형자본이 만들어지는지만 확인했다. 보통주 자본은 회사 BVPS와 8분기 모두 0.4% 안에서 맞고(G2), 최근 4분기 환원 총액은 회사가 분기마다 내지 않아 확인 불가로 둔다(G4, 6월 스트레스 테스트 보도자료의 12개월 값 하나는 카드 계산과 맞는다).</div>\n'
+    f'    <div class="verdict-summary-risk">⚠️ 현재가가 초과이익모형 기본 가치의 {lvl:.2f}배라 −2이고, 동종업 −1·자기 이력 0과 합쳐 “고평가”다. 지금 가격은 ROE {f1(R["required_roe"])}가 5년 이어진다는 값이다(최근 4분기 {f1(R["roe0"])}). 다만 이 모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보므로, ROE 37%가 이어지는 사업에는 낮게 나올 수 있다(수렴 없음이면 기본 ${vals["기본"][0][2]:.0f}). 동종업 −1도 대출 중심 은행과 견준 값이라 사업 구조 차이가 함께 들어 있다({cof_txt}).</div>')
 
 # 판정 JS — 금융 규칙(두 배수가 같은 방향일 때만 표), 자기 이력·동종업 모두
 assert h.count('`이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`') == 1   # E13 문장은 지금 틀에 이미 있다
@@ -386,12 +397,13 @@ one("if (vd) vd.textContent = F.qualityFlags.length ? '해석 제한' : (F.grade
 one("""      `같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.`
       + `\\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
       + `\\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);""",
-    f"""      `S&P500 은행(대형 7·지역 6) 13곳 안에서 PER 순위를 매긴 값이다. AXP 자신이 13곳에 없어 본인을 빼지 않고 13곳 모두와 비교한다.`
-      + `\\nPER {SH['per']['current']:.1f}배는 {PEER['per']['peers']}곳 모두보다 비싸 0점이다(중앙값 {PEER['per']['median']:.1f}배).`
-      + `\\n은행 규칙은 P/TBV·PER 두 배수가 같은 방향일 때만 표를 주는데, AXP는 유형 장부가치를 밝히지 않아 P/TBV가 없어 기권한다.`);""")
+    f"""      `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균). AXP 자신이 13곳에 없어 본인을 빼지 않고 비교한다.`
+      + `\\nP/TBV {SH['ptbv']['current']:.2f}배는 유형자본을 만들 수 있는 {PEER['ptbv']['peers']}곳(중앙값 {PEER['ptbv']['median']:.2f}배), PER {SH['per']['current']:.1f}배는 {PEER['per']['peers']}곳(중앙값 {PEER['per']['median']:.1f}배) 모두보다 비싸 둘 다 0점 → −1이다. PNC·TFC는 유형자본 태그를 못 채워 P/TBV에서 빠졌다.`
+      + `\\n수수료 중심 카드사라 대출 중심 은행보다 ROE·배수가 구조적으로 높다. {cof_txt}.`);""")
 one("""      + `\\n(확인 필요 — NVDA 문장 자리)`
       + ``);""",
-    f"""      + `\\nPER {SH['per']['current']:.1f}배(5년 중 하위 {SH['per']['percentile']:.0f}%, 중앙값 {SH['per']['median']:.1f}배). P/TBV는 유형자본을 8분기 모두 만들 수 없어(회사 TBVPS 미공시·SEC 영업권 태그가 연말에만 있음) 은행 규칙상 기권한다.`
+    f"""      + `\\nP/TBV {SH['ptbv']['current']:.2f}배(5년 중 하위 {SH['ptbv']['percentile']:.0f}%, 중앙값 {SH['ptbv']['median']:.2f}배)·PER {SH['per']['current']:.1f}배(하위 {SH['per']['percentile']:.0f}%, 중앙값 {SH['per']['median']:.1f}배)로 둘 다 중간이라 0이다.`
+      + `\\nP/TBV는 카드 계산 값이다(회사 TBVPS 미공시). SEC 영업권 태그가 연말에만 있어 분기에는 직전 연말 값을 400일까지 이어 쓴다(사전 등록 10-1). 2021·2022년 말 주식 수가 SEC 데이터에 2024년에야 들어와 그 다음 해 2~4월 {SH['ptbv']['gapDays']}거래일은 P/TBV가 빈다.`
       + ``);""")
 
 # 은행 "계산 어려움" 신호(사전 등록: ① 기본 ROE_end < r ② b = 0 ③ 요구 ROE 해 없음) — 이 카드는 b = 0(카드 한정 JS, Codex 2026-10-01)
@@ -437,20 +449,20 @@ for it in items:
 tl = '    <div class="timeline" id="newsTimeline">\n' + '\n'.join(item(*i) for i in items) + '\n    </div>'
 sub(r'    <div class="timeline" id="newsTimeline">\n.*?\n    </div>\n    <div class="tl-pager"', tl + '\n    <div class="tl-pager"')
 sub(r'<div class="section-title">시계열 주요 뉴스 \([^)]*\)</div>', '<div class="section-title">시계열 주요 뉴스 (2025.10 ~ 2026.09)</div>')
-SUM = f"""<div class="verdict-summary-head">지배적 내러티브 · 카드 회원 결제액이 3년 만에 가장 빠르게(+9%) 늘어 연간 매출 가이던스를 올렸고, 주가는 1년 새 {(px / D[-253][4] - 1) * 100:+.0f}%<span class="tag">성장 가속·판정 보류</span></div>
+SUM = f"""<div class="verdict-summary-head">지배적 내러티브 · 카드 회원 결제액이 3년 만에 가장 빠르게(+9%) 늘어 연간 매출 가이던스를 올렸고, 주가는 1년 새 {(px / D[-253][4] - 1) * 100:+.0f}%<span class="tag">성장 가속·고평가</span></div>
     <ol class="news-list">
       <li>2분기 EPS $4.53(+11%), 매출 $19.6B(+10%), 회사 발표 분기 보통주 ROE(ROCE) 37.8%였다.</li>
       <li>카드 회원 결제액이 환율 조정 +9%로 3년 만에 가장 빨랐고, 연간 매출 성장 가이던스를 10%로 올렸다(EPS $17.30~17.90 유지).</li>
       <li>2분기 보통주 $2.9B를 돌려주고 3월에 배당을 $0.95로 16% 올렸다. 최근 4분기 순이익의 약 {R_payout * 100:.0f}%를 돌려줬다.</li>
     </ol>
-    <div class="verdict-summary-counter">⚠️ 유형자본을 만들 수 없어 배수 두 심판이 기권하고 초과이익모형 하나(현재가가 기본 가치의 {lvl:.2f}배, −2)만 남아 판정을 보류한다.</div>
+    <div class="verdict-summary-counter">⚠️ 배수는 자기 이력에서 중간(0)이지만 S&P500 은행 대비로는 P/TBV·PER 모두 가장 비싸고(−1), 현재가가 초과이익모형 기본 가치의 {lvl:.2f}배라(−2) 합계 −3 “고평가”다. 다만 비교 은행은 대출 중심이고 초과이익모형은 ROE가 절반 수렴한다고 보므로, ROE 37%의 수수료 사업에는 두 칸 모두 불리하게 나온다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 중순 예상)의 비용 증가 속도와, 월별 8-K에서 7·8월 1.7%로 오른 미국 소비자 순상각률.</div>"""
 sub(r'<div class="verdict-summary-head">지배적 내러티브.*?<div class="verdict-summary-next">.*?</div>', SUM)
 row = lambda k, head, t: f'<div class="bb-row {k}"><span class="bb-icon">{"▲" if k == "bull" else "▼"}</span><span class="bb-head">{head}</span><span class="bb-text">{t}</span></div>'
 bull = [('수익성', '2분기 회사 발표 보통주 ROE(ROCE) 37.8%, EPS +11%, 순상각률 2.0%로 1년 전과 같다.'),
         ('성장', '카드 결제액 +9%, 순이자이익 +11%, 연회비 수익 +15%.'),
         ('주주환원', '2분기 환원 $2.9B(순이익의 약 93%), 배당 $0.95(+16%).')]
-bear = [('밸류', f'PER {SH["per"]["current"]:.1f}배는 S&P500 은행 13곳 모두보다 높다(중앙값 {PEER["per"]["median"]:.1f}배).'),
+bear = [('밸류', f'P/TBV {SH["ptbv"]["current"]:.2f}배·PER {SH["per"]["current"]:.1f}배는 S&P500 은행 모두보다 높고(중앙값 {PEER["ptbv"]["median"]:.2f}배·{PEER["per"]["median"]:.1f}배), 현재가가 초과이익모형 기본 가치의 {lvl:.2f}배다.'),
         ('비용', '총비용 +12%(플래티넘 카드 개편·혜택 이용)가 매출 +10%보다 빠르다.'),
         ('규제', '카드 수수료·금리 상한 같은 규제 논의가 위험 요인으로 적혀 있다.')]
 m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n    </div>\n    <div class="bb-box">\n      <div class="bb-title bb-bear">🐻 Bear 요인</div>\n)(.*?)(\n    </div>\n  </div>)', h, re.S)
@@ -499,10 +511,16 @@ one("    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) :
 one("    if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }",
     "    if (price != null) { pu.textContent = pick == null ? '—' : '현재가 대비 ' + pct(pick); pu.style.color = pick == null ? '' : tone(pick); }")
 
-open(p, 'w', encoding='utf-8').write(h)
+# ── 7. 판정 확인 · 헤더 단어 ──
+_sv = lambda m: 1 if all(x['score'] >= 70 for x in m.values()) else -1 if all(x['score'] < 30 for x in m.values()) else 0
 _d = 1 if lvl <= 0.7 else 1 if lvl <= 0.9 else 0 if lvl <= 1.1 else -1 if lvl <= 1.5 else -2
-_sum = _d
-assert _d == -2, _d   # 초과이익 −2(관문 통과, 사전 등록 9-1). 배수 두 심판 기권(P/TBV 없음) → 표를 내는 심판 하나 → 판정 보류(사전 등록 8-8)
-print('votes sum', _sum)
+_js = (_sv({'a': SH['ptbv'], 'b': SH['per']}), _sv({'a': PEER['ptbv'], 'b': PEER['per']}), _d)
+_sum = sum(_js)
+VERD = '저평가' if _sum >= 3 else '적정~저평가' if _sum >= 1 else '적정' if _sum > -1 else '적정~고평가' if _sum > -3 else '고평가'
+assert _js == (0, -1, -2) and (_sum, VERD) == (-3, '고평가'), (_js, _sum)   # 자기 이력 0 · 동종업 −1 · 초과이익 −2 → −3 → 고평가(6판 10-1 뒤, 2026-09-30 자료)
+h = h.replace('data-verdict style="font-size:22px;color:var(--gold);">적정~저평가</span>', f'data-verdict style="font-size:22px;color:var(--red);">{VERD}</span>', 1)   # 대체 색 고평가 = 빨강(화면에서는 JS가 다시 칠한다)
+one('<span class="vs-verdict" data-verdict>적정~저평가</span>', f'<span class="vs-verdict" data-verdict>{VERD}</span>')
+open(p, 'w', encoding='utf-8').write(h)
+print('votes', _js, 'sum', _sum, VERD)
 print('ok base', R['기본'], 'ratio', round(lvl, 3), 'self', selfscore, 'peer', peerscore, 'req', R['required_roe'], 'band', FB['low'], FB['high'])
 print('YoY', vec(cur), yd); print('QoQ', vec(qo), qd); print('roe_q', roe_q)

@@ -351,7 +351,7 @@ def score_items(fin, config, basis):
         elif not has_interest_tag:
             # v2.1 B-2(2026-10-05): 태그가 없으면 만점(5점)이 아니라 결측 — 축 만점에서 뺀다. 엔진 차입금이 0이면 "해당 없음(무차입)".
             _nodebt = not dv and not (sd or ld)
-            items["interestCoverage"] = {"value": None, "points": None, "note": "해당 없음(무차입)" if _nodebt else "이자비용 태그 없음"}
+            items["interestCoverage"] = {"value": None, "points": None, "note": "해당 없음(차입금·이자비용 태그 없음)" if _nodebt else "이자비용 태그 없음"}
         else:
             iv = (quarter_flow(fin, "interestExpense", op_end) if basis == "quarter" and q_end
                   else value_at(_rows(fin, "interestExpense"), op_end))
@@ -368,6 +368,8 @@ def score_items(fin, config, basis):
                 items["interestCoverage"] = {"value": None, "points": 5, "note": "이자비용 0"}
             elif iv is not None:
                 items["interestCoverage"] = {"value": op / abs(iv)}
+            else:   # 태그는 쓰는데 그 분기 값만 없다 — 결측(사유를 남긴다, v2.1 B-2·Fable 2026-10-05)
+                items["interestCoverage"] = {"value": None, "points": None, "note": "그 분기 이자비용 미공시"}
 
     # 부채비율 — 총부채 결측이면 자산 − 자본, 음수 자본은 1점 + 표시(v1)
     tl, eq, _ = instant_pair(S("totalLiabilities"), S("equityAttributableToParent"))

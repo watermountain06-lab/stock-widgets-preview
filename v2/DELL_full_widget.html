@@ -748,7 +748,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">27.1%</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
-        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">—</span></div>
+        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">그 분기 이자비용 미공시</span></div>
       <div class="diag-badge info" title="구성표 배점 없음">—</div></div>
       <div class="diag-row" data-fund-metric="debtToEquity">
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">자본 음수</span></div>
@@ -1086,7 +1086,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">29 · 목표가 22</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">29명 · 목표가 22</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">20</span> · 유지 <span data-an="hold">9</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 69%; background: var(--green);"></div><div data-an-bar="hold" style="width: 31%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
@@ -1299,19 +1299,19 @@ const MULTIPLE_DATA = {
     title: 'IT 하드웨어·네트워크 PER 비교 · 09/01~09/11 카드 기준(DELL 막대는 9/29)',
     unit: 'PER', max: 80, dellValue: null,
     peers: [
-      { name:'AAPL', value:38.3, status:'reference' },
-      { name:'CSCO', value:36.9, status:'reference' },
-      { name:'ANET', value:65.4, status:'reference' },
-      { name:'IBM', value:23.2, status:'reference' }
+      { name:'AAPL', value:38.2, status:'reference' },
+      { name:'CSCO', value:37.1, status:'reference' },
+      { name:'ANET', value:65.3, status:'reference' },
+      { name:'IBM', value:23.1, status:'reference' }
     ]
   },
   pbr: {
     title: 'IT 하드웨어·네트워크 PBR 비교 (DELL 자본 음수) · 09/01~09/11 카드 기준(DELL 막대는 9/29)',
     unit: 'PBR', max: 55, dellValue: null,
     peers: [
-      { name:'AAPL', value:45.4, status:'reference' },
+      { name:'AAPL', value:45.3, status:'reference' },
       { name:'CSCO', value:8.8, status:'reference' },
-      { name:'ANET', value:17.7, status:'reference' },
+      { name:'ANET', value:17.6, status:'reference' },
       { name:'IBM', value:6.1, status:'reference' }
     ]
   },
@@ -1319,7 +1319,7 @@ const MULTIPLE_DATA = {
     title: 'IT 하드웨어·네트워크 PSR 비교 · 09/01~09/11 카드 기준(DELL 막대는 9/29)',
     unit: 'PSR(TTM)', max: 30, dellValue: null,
     peers: [
-      { name:'AAPL', value:10.5, status:'reference' },
+      { name:'AAPL', value:10.4, status:'reference' },
       { name:'CSCO', value:7.0, status:'reference' },
       { name:'ANET', value:24.8, status:'reference' },
       { name:'IBM', value:3.0, status:'reference' }
@@ -1329,10 +1329,10 @@ const MULTIPLE_DATA = {
     title: 'IT 하드웨어·네트워크 PCR(FCF) 비교 · 09/01~09/11 카드 기준(DELL 막대는 9/29)',
     unit: 'PCR(FCF)', max: 60, dellValue: null,
     peers: [
-      { name:'AAPL', value:35.6, status:'reference' },
-      { name:'CSCO', value:34.6, status:'reference' },
-      { name:'ANET', value:49.3, status:'reference' },
-      { name:'IBM', value:14.1, status:'reference' }
+      { name:'AAPL', value:35.5, status:'reference' },
+      { name:'CSCO', value:34.8, status:'reference' },
+      { name:'ANET', value:49.2, status:'reference' },
+      { name:'IBM', value:14.0, status:'reference' }
     ]
   },
   evebitda: {
@@ -1340,9 +1340,9 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 65, dellValue: null,
     peers: [
       { name:'AAPL', value:29.2, status:'reference' },
-      { name:'CSCO', value:25.5, status:'reference' },
-      { name:'ANET', value:53.5, status:'reference' },
-      { name:'IBM', value:15.1, status:'reference' }
+      { name:'CSCO', value:25.6, status:'reference' },
+      { name:'ANET', value:53.4, status:'reference' },
+      { name:'IBM', value:15.0, status:'reference' }
     ]
   }
 };
@@ -1614,7 +1614,7 @@ const DELL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기투자 $2.7B)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기투자 $2.7B)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1674,7 +1674,7 @@ const DELL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py DELL --card
 /* FUNDAMENTAL:BEGIN */
-const DELL_FUNDAMENTAL = {"ticker": "DELL", "basis": "quarter", "asOf": "2026-07-31", "filedAt": "2026-09-08", "periodSource": "10-Q", "score": 42.6, "grade": "보통", "qualityFlags": ["negative_equity"], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 96.22952582344719, "points": 1, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 70.79435623573826, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 27.054861727096462, "points": 3, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": null, "points": 1, "note": "자본 음수", "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 11.549999999999999, "points": 11.5, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 3.5473360708702106, "points": 2, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 12.233528394800386, "points": 3, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 11.464520661684869, "points": 2, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 8.79904622000809, "points": 3, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 17.0, "points": 17.0, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 11569000000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 34466000000.0, "lease": 805000000.0, "shares": 640000000, "net": -23702000000.0, "perShare": -37.034375}};
+const DELL_FUNDAMENTAL = {"ticker": "DELL", "basis": "quarter", "asOf": "2026-07-31", "filedAt": "2026-09-08", "periodSource": "10-Q", "score": 42.6, "grade": "보통", "qualityFlags": ["negative_equity"], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 96.22952582344719, "points": 1, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 70.79435623573826, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 27.054861727096462, "points": 3, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": "그 분기 이자비용 미공시", "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": null, "points": 1, "note": "자본 음수", "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 11.549999999999999, "points": 11.5, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 3.5473360708702106, "points": 2, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 12.233528394800386, "points": 3, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 11.464520661684869, "points": 2, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 8.79904622000809, "points": 3, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 17.0, "points": 17.0, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 11569000000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 34466000000.0, "lease": 805000000.0, "shares": 640000000, "net": -23702000000.0, "perShare": -37.034375}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof DELL_FUNDAMENTAL !== 'undefined') ? DELL_FUNDAMENTAL : null;
@@ -1889,7 +1889,7 @@ const DELL_VALUATION = {"peer": {"score": 75.7, "sector": "Information Technolog
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
     f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수·결측' : '적자·결측'} 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
@@ -2091,7 +2091,7 @@ const DELL_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

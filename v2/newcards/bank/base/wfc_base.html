@@ -2070,7 +2070,7 @@ const WFC_ANALYST = { asOf: '2026-09-21', source: 'StockAnalysis', rating: 'Stro
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

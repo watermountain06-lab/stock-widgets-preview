@@ -748,7 +748,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">0.0%</span></div>
       <div class="diag-badge safe" title="구성표 배점 5/5점">✅ 양호</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
-        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">—</span></div>
+        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">그 분기 이자비용 미공시</span></div>
       <div class="diag-badge info" title="구성표 배점 없음">—</div></div>
       <div class="diag-row" data-fund-metric="debtToEquity">
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">60.3%</span></div>
@@ -1065,7 +1065,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">31 · 목표가 19</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">31명 · 목표가 19</span>명</span>
         <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">30</span> · 유지 <span data-an="hold">1</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 96.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 3.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
@@ -1278,12 +1278,12 @@ const MULTIPLE_DATA = {
     title: '네트워크·AI 반도체·하드웨어 6곳 PER 비교 (점수는 IT 카드 유니버스 기준) · 09/02~09/11 카드 기준(ANET 막대는 9/30)',
     unit: 'PER', max: 75, anetValue: null,
     peers: [
-      { name:'CSCO', value:36.9, status:'reference' },
-      { name:'AVGO', value:45.3, status:'reference' },
-      { name:'NVDA', value:29.6, status:'reference' },
-      { name:'DELL', value:32.7, status:'reference' },
-      { name:'APH', value:43.6, status:'reference' },
-      { name:'IBM', value:23.2, status:'reference' }
+      { name:'CSCO', value:37.1, status:'reference' },
+      { name:'AVGO', value:46.2, status:'reference' },
+      { name:'NVDA', value:30.2, status:'reference' },
+      { name:'DELL', value:32.1, status:'reference' },
+      { name:'APH', value:43.7, status:'reference' },
+      { name:'IBM', value:23.1, status:'reference' }
     ]
   },
   pbr: {
@@ -1291,9 +1291,9 @@ const MULTIPLE_DATA = {
     unit: 'PBR', max: 30, anetValue: null,
     peers: [
       { name:'CSCO', value:8.8, status:'reference' },
-      { name:'AVGO', value:17.4, status:'reference' },
-      { name:'NVDA', value:24.8, status:'reference' },
-      { name:'APH', value:13.8, status:'reference' },
+      { name:'AVGO', value:17.8, status:'reference' },
+      { name:'NVDA', value:25.3, status:'reference' },
+      { name:'APH', value:13.9, status:'reference' },
       { name:'IBM', value:6.1, status:'reference' }
     ]
   },
@@ -1302,9 +1302,9 @@ const MULTIPLE_DATA = {
     unit: 'PSR(TTM)', max: 30, anetValue: null,
     peers: [
       { name:'CSCO', value:7.0, status:'reference' },
-      { name:'AVGO', value:19.4, status:'reference' },
-      { name:'NVDA', value:18.7, status:'reference' },
-      { name:'DELL', value:2.4, status:'reference' },
+      { name:'AVGO', value:19.8, status:'reference' },
+      { name:'NVDA', value:19.1, status:'reference' },
+      { name:'DELL', value:2.3, status:'reference' },
       { name:'APH', value:7.4, status:'reference' },
       { name:'IBM', value:3.0, status:'reference' }
     ]
@@ -1313,23 +1313,23 @@ const MULTIPLE_DATA = {
     title: '네트워크·AI 하드웨어 PCR(FCF) 비교 (AVGO 값 없음) · 09/02~09/11 카드 기준(ANET 막대는 9/30)',
     unit: 'PCR(FCF)', max: 60, anetValue: null,
     peers: [
-      { name:'CSCO', value:34.6, status:'reference' },
-      { name:'NVDA', value:44.8, status:'reference' },
-      { name:'DELL', value:29.4, status:'reference' },
-      { name:'APH', value:36.5, status:'reference' },
-      { name:'IBM', value:14.1, status:'reference' }
+      { name:'CSCO', value:34.8, status:'reference' },
+      { name:'NVDA', value:45.7, status:'reference' },
+      { name:'DELL', value:28.9, status:'reference' },
+      { name:'APH', value:36.6, status:'reference' },
+      { name:'IBM', value:14.0, status:'reference' }
     ]
   },
   evebitda: {
     title: '네트워크·AI 하드웨어 EV/EBITDA 비교 · 09/02~09/11 카드 기준(ANET 막대는 9/30)',
     unit: 'EV/EBITDA', max: 65, anetValue: null,
     peers: [
-      { name:'CSCO', value:25.5, status:'reference' },
-      { name:'AVGO', value:34.4, status:'reference' },
-      { name:'NVDA', value:27.9, status:'reference' },
-      { name:'DELL', value:22.0, status:'reference' },
-      { name:'APH', value:24.9, status:'reference' },
-      { name:'IBM', value:15.1, status:'reference' }
+      { name:'CSCO', value:25.6, status:'reference' },
+      { name:'AVGO', value:35.1, status:'reference' },
+      { name:'NVDA', value:28.5, status:'reference' },
+      { name:'DELL', value:21.6, status:'reference' },
+      { name:'APH', value:25.0, status:'reference' },
+      { name:'IBM', value:15.0, status:'reference' }
     ]
   }
 };
@@ -1661,7 +1661,7 @@ const ANET_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py ANET --card
 /* FUNDAMENTAL:BEGIN */
-const ANET_FUNDAMENTAL = {"ticker": "ANET", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-08-05", "periodSource": "10-Q", "score": 92.6, "grade": "우수", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 295.72040361375105, "points": 4, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 258.5371934764754, "points": 5, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 0.0, "points": 5, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 60.29585678855498, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 28.05, "points": 28.1, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 27.139560406300657, "points": 5, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 36.164046081897716, "points": 5, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 45.39315479131666, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 39.95454096254571, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 34.0, "points": 34.0, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 2290200000.0, "sti": 11053100000.0, "lt_marketable": 0.0, "debt": 0.0, "lease": 97385000.0, "shares": 1261224648, "net": 13245915000.0, "perShare": 10.502423197171769}};
+const ANET_FUNDAMENTAL = {"ticker": "ANET", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-08-05", "periodSource": "10-Q", "score": 92.6, "grade": "우수", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 295.72040361375105, "points": 4, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 258.5371934764754, "points": 5, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 0.0, "points": 5, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": "그 분기 이자비용 미공시", "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 60.29585678855498, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 28.05, "points": 28.1, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 27.139560406300657, "points": 5, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 36.164046081897716, "points": 5, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 45.39315479131666, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 39.95454096254571, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 34.0, "points": 34.0, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 2290200000.0, "sti": 11053100000.0, "lt_marketable": 0.0, "debt": 0.0, "lease": 97385000.0, "shares": 1261224648, "net": 13245915000.0, "perShare": 10.502423197171769}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof ANET_FUNDAMENTAL !== 'undefined') ? ANET_FUNDAMENTAL : null;
@@ -2068,7 +2068,7 @@ const ANET_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

@@ -29,7 +29,7 @@ def fetch(T):
     tg = re.search(r"targets:\{low:([\d.]+),high:([\d.]+),count:(\d+),median:([\d.]+),average:([\d.]+),updated:\"([\d-]+)\"", h)
     if not rec or not tg:
         raise ValueError(f"{T}: 페이지에서 의견·목표가를 못 찾음({len(h)}자)")
-    b, d, hold, s, total, cons, sb, ss = rec[-1]
+    b, d, hold, s, total, cons, sb, ss = max(rec, key=lambda r: r[1])   # 날짜가 가장 늦은 달(배열 순서를 가정하지 않는다)
     low, high, cnt, med, avg, upd = tg.groups()
     num = lambda x: int(float(x)) if float(x).is_integer() else float(x)
     out = {"rating": cons, "n": int(total), "nt": int(cnt), "mean": num(avg), "median": num(med), "low": num(low), "high": num(high),

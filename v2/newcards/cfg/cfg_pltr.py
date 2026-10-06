@@ -70,8 +70,6 @@ ANALYST_ASOF = '2026-10-05'
 REQ_MULT_EXACT = False   # 옛 카드는 "3배를 넘는다"(틀 문구)
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 POST = [r'''
-# 애널리스트 수: 옛 카드는 목표가 인원 31(의견 합 32와 다름)
-sub(r"(const PLTR_ANALYST = \{[^}]*?)n: 32,", lambda m: m.group(1) + 'n: 31,')
 # 분기 차트 아래 설명
 one('<canvas id="pltrRevChart"></canvas>\n    </div>\n', '<canvas id="pltrRevChart"></canvas>\n    </div>\n'
     '    <div class="yoy-footnote" style="margin-top:8px;">금액은 십억 달러(소수 둘째 자리). 순이익이 영업이익보다 큰 것은 이자수익(2분기 $78M)과 기타수익($92M, 상장 지분증권 평가익), 낮은 세율(최근 4분기 실효세율 약 1%, 이연법인세 평가충당금) 때문이다. 영업이익에는 주식보상비용(상반기 $0.47B)이 들어 있다.</div>\n')

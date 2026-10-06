@@ -3,7 +3,7 @@
  "asOf": "2026-09-30",
  "price": 304.1,
  "gates": {
-  "G1": false,
+  "G1": true,
   "G2": true,
   "G5": true,
   "G3": true,
@@ -15,7 +15,7 @@
    "rows": [
     [
      "2024-09-30",
-     null,
+     34.31534090909091,
      null,
      null
     ],
@@ -27,19 +27,19 @@
     ],
     [
      "2025-03-31",
-     null,
+     36.07988587731812,
      null,
      null
     ],
     [
      "2025-06-30",
-     null,
+     37.93247126436781,
      null,
      null
     ],
     [
      "2025-09-30",
-     null,
+     38.471698113207545,
      null,
      null
     ],
@@ -51,19 +51,19 @@
     ],
     [
      "2026-03-31",
-     null,
+     40.22434017595308,
      null,
      null
     ],
     [
      "2026-06-30",
-     null,
+     41.0637037037037,
      null,
      null
     ]
    ],
-   "pass": false,
-   "unverifiable": 2
+   "pass": true,
+   "unverifiable": 8
   },
   "G2": {
    "rows": [
@@ -318,7 +318,18 @@
   "reference_only": false
  },
  "self": {
-  "ptbv": null,
+  "ptbv": {
+   "current": 7.405566779709937,
+   "min": 4.72719300660793,
+   "median": 7.435912556536722,
+   "max": 10.004497302599313,
+   "days": 1159,
+   "gapDays": 96,
+   "percentile": 49.18032786885246,
+   "score": 50.81967213114754,
+   "currentNote": null,
+   "firstDay": "2021-09-30"
+  },
   "per": {
    "current": 18.463873709775353,
    "min": 13.243673851921274,
@@ -341,9 +352,11 @@
  },
  "peer": {
   "ptbv": {
-   "score": null,
+   "score": 0.0,
+   "rank": 12,
    "peers": 11,
-   "note": "본인 값 없음"
+   "median": 1.8535,
+   "value": 7.405566779709937
   },
   "per": {
    "score": 0.0,

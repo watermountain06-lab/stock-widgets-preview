@@ -747,7 +747,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">4.6%</span></div>
       <div class="diag-badge safe" title="구성표 배점 5/5점">✅ 양호</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
-        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">—</span></div>
+        <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">그 분기 이자비용 미공시</span></div>
       <div class="diag-badge info" title="구성표 배점 없음">—</div></div>
       <div class="diag-row" data-fund-metric="debtToEquity">
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">600.1%</span></div>
@@ -1066,7 +1066,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">44 · 목표가 31</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">44명 · 목표가 31</span>명</span>
         <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">9</span> · 유지 <span data-an="hold">31</span> · 매도 <span data-an="sell">4</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 20.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 70.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 9.1%; background: var(--red);"></div></div>
       </div>
@@ -1279,10 +1279,10 @@ const MULTIPLE_DATA = {
     title: '보안·네트워크 6곳 PER 비교 (점수는 카드 유니버스 IT 기준) (CRWD 값 없음) · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
     unit: 'PER', max: 115, ftntValue: null,
     peers: [
-      { name:'PANW', value:96.2, status:'reference' },
-      { name:'CSCO', value:36.9, status:'reference' },
-      { name:'ANET', value:65.4, status:'reference' },
-      { name:'CRM', value:32.7, status:'reference' },
+      { name:'PANW', value:97.1, status:'reference' },
+      { name:'CSCO', value:37.1, status:'reference' },
+      { name:'ANET', value:65.3, status:'reference' },
+      { name:'CRM', value:32.0, status:'reference' },
       { name:'ORCL', value:24.4, status:'reference' }
     ]
   },
@@ -1291,20 +1291,20 @@ const MULTIPLE_DATA = {
     unit: 'PBR', max: 100, ftntValue: null,
     peers: [
       { name:'CSCO', value:8.8, status:'reference' },
-      { name:'ANET', value:17.7, status:'reference' },
-      { name:'CRM', value:5.0, status:'reference' },
-      { name:'ORCL', value:9.6, status:'reference' }
+      { name:'ANET', value:17.6, status:'reference' },
+      { name:'CRM', value:4.9, status:'reference' },
+      { name:'ORCL', value:9.7, status:'reference' }
     ]
   },
   psr: {
     title: '보안·네트워크 PSR 비교 · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
     unit: 'PSR(TTM)', max: 60, ftntValue: null,
     peers: [
-      { name:'PANW', value:28.6, status:'reference' },
-      { name:'CRWD', value:51.2, status:'reference' },
+      { name:'PANW', value:28.9, status:'reference' },
+      { name:'CRWD', value:51.7, status:'reference' },
       { name:'CSCO', value:7.0, status:'reference' },
       { name:'ANET', value:24.8, status:'reference' },
-      { name:'CRM', value:4.4, status:'reference' },
+      { name:'CRM', value:4.3, status:'reference' },
       { name:'ORCL', value:6.1, status:'reference' }
     ]
   },
@@ -1312,20 +1312,20 @@ const MULTIPLE_DATA = {
     title: '보안·네트워크 PCR(FCF) 비교 (ORCL 값 없음) · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
     unit: 'PCR(FCF)', max: 160, ftntValue: null,
     peers: [
-      { name:'PANW', value:72.2, status:'reference' },
-      { name:'CRWD', value:137.1, status:'reference' },
-      { name:'CSCO', value:34.6, status:'reference' },
-      { name:'ANET', value:49.3, status:'reference' },
-      { name:'CRM', value:12.3, status:'reference' }
+      { name:'PANW', value:72.8, status:'reference' },
+      { name:'CRWD', value:138.4, status:'reference' },
+      { name:'CSCO', value:34.8, status:'reference' },
+      { name:'ANET', value:49.2, status:'reference' },
+      { name:'CRM', value:12.0, status:'reference' }
     ]
   },
   evebitda: {
     title: '보안·네트워크 EV/EBITDA 비교 (PANW 값 없음·CRWD 값 없음) · 09/04~09/11 카드 기준(FTNT 막대는 9/30)',
     unit: 'EV/EBITDA', max: 65, ftntValue: null,
     peers: [
-      { name:'CSCO', value:25.5, status:'reference' },
-      { name:'ANET', value:53.5, status:'reference' },
-      { name:'CRM', value:17.5, status:'reference' },
+      { name:'CSCO', value:25.6, status:'reference' },
+      { name:'ANET', value:53.4, status:'reference' },
+      { name:'CRM', value:17.1, status:'reference' },
       { name:'ORCL', value:17.0, status:'reference' }
     ]
   }
@@ -1598,7 +1598,7 @@ const FTNT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1658,7 +1658,7 @@ const FTNT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py FTNT --card
 /* FUNDAMENTAL:BEGIN */
-const FTNT_FUNDAMENTAL = {"ticker": "FTNT", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-30", "periodSource": "10-Q", "score": 70.2, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 128.24946289869445, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 119.44306726160964, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 4.575843524384853, "points": 5, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 600.0967055637934, "points": 1, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 18.150000000000002, "points": 18.2, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 15.458161312047292, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 29.060014310965364, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 33.65887006201474, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 29.605937789931147, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 28.9, "points": 28.9, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 2934900000.0, "sti": 1134700000.0, "lt_marketable": 0.0, "debt": 496900000.0, "lease": 65500000.0, "shares": 733713653, "net": 3507200000.0, "perShare": 4.780066427358685}};
+const FTNT_FUNDAMENTAL = {"ticker": "FTNT", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-30", "periodSource": "10-Q", "score": 70.2, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 128.24946289869445, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 119.44306726160964, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 4.575843524384853, "points": 5, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": "그 분기 이자비용 미공시", "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 600.0967055637934, "points": 1, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 18.150000000000002, "points": 18.2, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 15.458161312047292, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 29.060014310965364, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 33.65887006201474, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 29.605937789931147, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 28.9, "points": 28.9, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 2934900000.0, "sti": 1134700000.0, "lt_marketable": 0.0, "debt": 496900000.0, "lease": 65500000.0, "shares": 733713653, "net": 3507200000.0, "perShare": 4.780066427358685}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof FTNT_FUNDAMENTAL !== 'undefined') ? FTNT_FUNDAMENTAL : null;
@@ -1873,7 +1873,7 @@ const FTNT_VALUATION = {"peer": {"score": 28.4, "sector": "Information Technolog
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
     f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수·결측' : '적자·결측'} 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
@@ -2065,7 +2065,7 @@ const FTNT_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

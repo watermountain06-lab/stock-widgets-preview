@@ -388,7 +388,7 @@ m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b_) for b_ in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b_) for b_ in bear) + m.group(5) + h[m.end():]
 A_ = C.ANALYST
 # 애널리스트 인원: 의견 인원 · 목표가 인원(통계 표본)을 나눠 적는다(D48, 2026-10-05) — 주석은 줄 밖에(같은 줄 뒤 문장이 있다)
-h = h.replace("put('n', A.n);", "put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : ''));", 1)   # 틀(NVDA) 표시 줄
+h = h.replace("put('n', A.n);", "put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : ''));", 1)   # 틀(NVDA) 표시 줄
 sub(rf"const {T}_ANALYST = \{{[^}}]*\}};", f"const {T}_ANALYST = {{ asOf: '{getattr(C, 'ANALYST_ASOF', '2026-10-01')}', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: '{A_['rating']}', n: {A_['n']}, nTargets: {A_.get('nt', 'null')}, mean: {A_['mean']}, median: {A_['median']},\n  low: {A_['low']}, high: {A_['high']}, strongBuy: {A_['sb']}, buy: {A_['b']}, hold: {A_['h']}, sell: {A_['s']}, strongSell: {A_['ss']} }};")
 assert A_['n'] == A_['sb'] + A_['b'] + A_['h'] + A_['s'] + A_['ss']
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', f'<span class="op-val">{C.NEXT_OP[0]} <span class="op-sub">{C.NEXT_OP[1]}</span></span>')
@@ -477,7 +477,7 @@ if _LB in h and 'v2.1 B-4' not in h:
     h = h.replace(_LB, _LB + "\n    if (d.requiredMargin == null) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)\n"
         + f"      const _ps = {json.dumps((SM.get('PSR') or {}).get('current'))};   // 생성 때 PSR(이 줄 위에서 {T}_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)\n"
         + "      req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'\n"
-        + "        + (_ps ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델이 설명하는 범위를 넘는 성장·마진 기대가 들어 있다.` : '.');\n    }", 1)
+        + "        + (_ps ? (_ps > 10 ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델 상한(세후 이익률 100% ÷ (할인율 − 영구성장) ≈ 매출의 10배)을 넘는 성장·마진 기대가 들어 있다.` : ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로 모델 상한(≈ 매출의 10배)보다 낮다. 해가 없는 것은 순부채·재투자 가정이 사업 가치를 깎기 때문이다.`) : '.');\n    }", 1)
 for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
     exec(_code, globals())
 # 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
