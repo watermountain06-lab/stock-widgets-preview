@@ -156,7 +156,10 @@ class Bank:
         if o and not (self.asof and o["filed"] > self.asof):
             return (o["tce_m"] * 1e6, o["filed"])
         c = self.ce(end)
-        if not c or end not in self.gw:
+        if not c:
+            return None
+        gw = self.gw.get(end) or self._carry_goodwill(end)   # 6판 10-1: 영업권도 400일까지 이어 쓴다(AXP — 연말에만 태그)
+        if gw is None:
             return None
         if end in self.ia:
             ia = self.ia[end]
@@ -172,8 +175,14 @@ class Bank:
             ia = self._carry_intangibles(end)   # 4판 8-1: 직전 값을 400일까지 이어 쓴다
             if ia is None:
                 return None
-        v = c[0] - self.gw[end][0] - ia[0]
-        return (v, max(c[1], self.gw[end][1], ia[1]))
+        v = c[0] - gw[0] - ia[0]
+        return (v, max(c[1], gw[1], ia[1]))
+
+    def _carry_goodwill(self, end):
+        """그 결산일 이전 가장 최근 영업권 값, 400일 이내만(사전 등록 6판 10-1 — 무형자산 8-1과 같은 규칙)."""
+        cands = [(e, v) for e, v in self.gw.items()
+                 if e < end and (date.fromisoformat(end) - date.fromisoformat(e)).days <= 400]
+        return max(cands)[1] if cands else None
 
     def _carry_intangibles(self, end):
         """그 결산일 이전 가장 최근 무형자산 값(1-2 우선순위), 400일 이내만(사전 등록 8-1)."""
