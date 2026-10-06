@@ -1,7 +1,7 @@
 {
   "ticker": "ASML",
-  "asOf": "2026-10-02",
-  "close": 1867.31,
+  "asOf": "2026-10-05",
+  "close": 1859.86,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,15 +18,15 @@
     }
   },
   "momentum": {
-    "score": 40,
+    "score": 30,
     "max": 40,
-    "weightedRocPct": 41.41
+    "weightedRocPct": 39.17
   },
   "position52w": {
     "score": 20,
     "max": 20,
-    "riseFromLowPct": 99.62,
-    "drawdownFromHighPct": 6.63,
+    "riseFromLowPct": 98.83,
+    "drawdownFromHighPct": 7.01,
     "high52w": 1999.96,
     "low52w": 935.41
   },
@@ -35,13 +35,13 @@
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 100,
+  "rawScore": 90,
   "rawGrade": "강한",
   "displayGrade": "강한",
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 2.46,
-    "percentileVsOwnHistory": 7.5
+    "pctNow": 2.41,
+    "percentileVsOwnHistory": 6.0
   }
 }

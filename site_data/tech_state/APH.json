@@ -1,7 +1,7 @@
 {
-  "ticker": "SNDK",
+  "ticker": "APH",
   "asOf": "2026-10-05",
-  "close": 1704.16,
+  "close": 87.27,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -18,34 +18,30 @@
     }
   },
   "momentum": {
-    "score": 40,
+    "score": 30,
     "max": 40,
-    "weightedRocPct": 387.56
+    "weightedRocPct": 24.85
   },
   "position52w": {
-    "score": 10,
+    "score": 20,
     "max": 20,
-    "riseFromLowPct": 1373.17,
-    "drawdownFromHighPct": 27.62,
-    "high52w": 2354.39,
-    "low52w": 115.68
+    "riseFromLowPct": 47.89,
+    "drawdownFromHighPct": 2.23,
+    "high52w": 89.26,
+    "low52w": 59.01
   },
   "priceStructureScore": {
-    "score": 50,
+    "score": 60,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
   "rawScore": 90,
   "rawGrade": "강한",
   "displayGrade": "강한",
-  "riskFlags": [
-    "고점대비큰조정"
-  ],
-  "riskFlagsShown": [
-    "고점대비큰조정"
-  ],
+  "riskFlags": [],
+  "riskFlagsShown": [],
   "atr": {
-    "pctNow": 5.44,
-    "percentileVsOwnHistory": 1.2
+    "pctNow": 2.92,
+    "percentileVsOwnHistory": 13.1
   }
 }
