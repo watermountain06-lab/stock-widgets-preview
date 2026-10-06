@@ -56,7 +56,7 @@ FUND_ASOF_NOTE = 'Q1 FY27 10-Q (2026-09-11 공시)'
 PREMISE = ('주가가 1년 새 {-ch:.0f}% 내려 PER {SM[\'PER\'][\'current\']:.1f}배·EV/EBITDA {SM[\'EV/EBITDA\'][\'current\']:.1f}배가 5년 중 가장 싼 쪽이다. '
            '자기 이력 {selfsc:.1f}점, 카드 유니버스 IT 안에서 {peersc:.1f}점으로 둘 다 싼 쪽이다(FCF 음수인 PCR은 0점). '
            '<strong>현금흐름 내재가치는 기본 ${DCF[\'base\']:.2f}로 현재가의 {DCF[\'base\'] / px * 100:.0f}%다</strong> — 1분기 설비투자 ${cap[cur] / 1e9:.1f}B처럼 매출보다 빠르게 느는 투자가 재투자로 잡혀서다(보수 시나리오는 음수).')
-RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 갈려 합계 {TOTAL_TXT} “{VERDICT}”이다. 배수는 지금 이익으로 싸 보이고, '
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}{jo_ro(VOTES[2])} 갈려 합계 {TOTAL_TXT} “{VERDICT}”이다. 배수는 지금 이익으로 싸 보이고, '
         '현금흐름 모델은 지금 투자 속도가 이어진다는 가정에서 가치를 현재가의 {DCF[\'base\'] / px * 100:.0f}% 정도로 본다. '
         '현재가가 정당하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}여야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). '
         'PER {SM[\'PER\'][\'current\']:.1f}배는 Q2 FY26 Ampere 매각 이익($2.7B 세전)이 든 GAAP EPS 기준이다.')

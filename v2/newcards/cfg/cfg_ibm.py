@@ -60,7 +60,7 @@ GROWTH_SPAN = '분사 뒤 약 4.5년'   # 현금흐름 역산 설명의 "지난 
 PREMISE = ('자기 이력(Kyndryl 분사 뒤 2022-02부터)에서 PER {SM[\'PER\'][\'current\']:.1f}배(회사가 밝힌 세무조사 종결 세금 혜택 $1.47B를 뺀 EPS 기준)·PBR {SM[\'PBR\'][\'current\']:.1f}배는 싼 쪽, '
            'PSR·PCR·EV/EBITDA는 중간이라 {selfsc:.1f}점(중간)이다. 카드 유니버스 IT 안에서는 다섯 배수 모두 가장 싼 쪽이라 {peersc:.1f}점(싸다)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 합성 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}, '
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}{jo_ro(VOTES[2])} 합계 {TOTAL_TXT} “{VERDICT}”다. 합성 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}, '
         '성장률이 분사 뒤 약 4.5년 연 {pct(HIST[\'growth_5y\'])}라, 현재가를 설명하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}여야 한다. '
         '차입금 $62.0B(금융 부문 $13.0B 포함)가 주주 몫을 줄인다. 세율은 회사가 밝힌 세무조사 종결 법인세 혜택 $1.47B를 뺀 최근 4분기 실효세율 11.5%다.')
 FUND_TIP = '부채비율 1점은 차입금 $62.0B(금융 부문 포함)와 이연수익 때문이다. 영업이익은 손익계산서에 줄이 없어 매출총이익 − 판관비 − R&D로 계산했다.'

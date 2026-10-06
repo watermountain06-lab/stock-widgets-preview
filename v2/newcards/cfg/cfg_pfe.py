@@ -56,7 +56,7 @@ PREMISE = ('GAAP EPS가 손상 비용으로 줄어 PER {SM[\'PER\'][\'current\']
            'S&P500 헬스케어 안에서는 PBR·PCR·EV/EBITDA가 싼 쪽, PER은 비싼 쪽이라 {peersc:.1f}점(중간)이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 GAAP 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}, 5년 중앙값 {pct(HIST[\'margin_5y\'])}). '
-        '현금흐름 {sgn(VOTES[2])}는 투하자본이익률(약 {DCF[\'hardDetail\'][\'roic\'] * 100:.0f}%)이 할인율 10%보다 낮고 차입금 $63.2B를 빼기 때문이다. 투하자본에는 Seagen·Metsera 등 인수로 쌓인 영업권·무형자산이 크다.')
+        '현금흐름 {sgn(VOTES[2])}{jo(VOTES[2], \'은\', \'는\')} 투하자본이익률(약 {DCF[\'hardDetail\'][\'roic\'] * 100:.0f}%)이 할인율 10%보다 낮고 차입금 $63.2B를 빼기 때문이다. 투하자본에는 Seagen·Metsera 등 인수로 쌓인 영업권·무형자산이 크다.')
 FUND_TIP = '매출·영업이익 성장률이 크게 음수인 것은 2022년 코로나 백신·치료제 매출이 정점이었기 때문이다. 순이익률은 2분기 무형자산 손상으로 음수다.'
 SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배는 손상 비용으로 GAAP EPS가 줄어든 결과다(조정 EPS 기준 약 {px / 2.90:.0f}배). EV/EBITDA는 계산되는 날만 세어 이력이 짧다({SM[\'EV/EBITDA\'][\'days\']}일).'
 PEER_TIP = ('S&P500 헬스케어(PFE 제외 58종목)와 배수 순위를 매긴 값이다.',

@@ -55,7 +55,7 @@ PEER_COMMENT = '카드 유니버스 IT 종목 대비 배수 순위'
 FUND_ASOF_NOTE = 'FY2026 10-K (2026-09-02 공시)'
 PREMISE = ('주가가 1년 새 {ch:.0f}% 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR·PCR이 모두 5년 중 상위 10% 안이라 자기 이력 {selfsc:.1f}점이다. '
            '카드 유니버스 IT 안에서는 반도체·AI 종목보다 싸 {peersc:.1f}점이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가가 정당하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}여야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). '
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}{jo_ro(VOTES[2])} 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가가 정당하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}여야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). '
         'SEC 데이터의 감가상각 태그가 유형자산 몫 연 $0.7B뿐이라(현금흐름표의 감가상각·상각 등 전체는 $2.5B) EV/EBITDA 자기 이력을 만들 수 없고 내재가치의 재투자도 크게 잡혔다 — '
         '그래도 현재가는 기본 가치의 약 {px / DCF[\'base\']:.0f}배라 판정은 같다.')
 FUND_TIP = '유동비율 1점은 기업어음과 이연매출이 커서이고, 매출·영업이익 3년 성장률이 낮아(연 3.6%·0.7%) 성장 점수가 2점씩이다.'

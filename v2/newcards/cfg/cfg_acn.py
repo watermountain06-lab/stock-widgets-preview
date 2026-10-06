@@ -19,7 +19,7 @@ PR_CUR = 'q2'
 TENQ = S_ + '000146737326000032/acn-20260531.htm'; TENQ_NAME = 'Q3 FY26 10-Q'
 LINKS = {'q4fy26': S_ + '000146737326000037/q4fy26earnings8-kexhibit.htm', 'buyback': S_ + '000146737326000035/acn062320268-kexhibit.htm', 'notes': S_ + '000119312526300813/d181172d8k.htm'}
 FAIRBAND_TITLE = 'id="acnFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 희석 EPS ${eps_ttm}(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다."'
-HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 {pct(HIST[\'growth_5y\'])})</span>'
+HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 {pct(HIST[\'growth_5y_raw\'])})</span>'
 OPM_RANGE, Y2 = (5, 25), (0, 25)
 FCF_SUB = '영업현금흐름 − 설비투자'
 CAPEX_SUB = '유형자산 취득(현금흐름표)'
@@ -54,7 +54,7 @@ FUND_ASOF_NOTE = 'Q3 FY26 10-Q (2026-06-18 공시)'
 PREMISE = ('주가가 1년 새 {CH_TXT} 내려 다섯 배수가 모두 5년 중 가장 싼 쪽(PER {SM[\'PER\'][\'current\']:.1f}배 대 5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)이라 자기 이력 {selfsc:.1f}점(싸다)이다. '
            '카드 유니버스 IT 안에서는 다섯 배수 모두 가장 낮아 {peersc:.1f}점(싸다)이다. 다만 이 비교군은 반도체·소프트웨어·하드웨어가 대부분이라 같은 업종끼리 잰 순위는 아니다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가와 비슷하다</strong>.')
-RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 5년 매출 성장이 연 {pct(DCF[\'requiredGrowth\'])}면 된다(실제 5년 연 {pct(HIST[\'growth_5y\'])}). '
+RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 5년 매출 성장이 연 {pct(DCF[\'requiredGrowth\'])}면 된다(실제 5년 연 {pct(HIST[\'growth_5y_raw\'])}). '
         '동종업 +1은 반도체·소프트웨어가 많은 비교군 안의 순위라 IT 서비스끼리 잰 값으로 읽지 않는다.')
 FUND_TIP = '차입금이 총자산의 {FR[\'debtDependency\'][\'value\']:.1f}%로 적고 이익률이 안정적이다. 매출 성장은 최근 4분기 기준 3년 연 {pct(HIST[\'growth_3y\'])}(점수 칸의 연간 결산 기준은 {FR[\'revenueCagr\'][\'value\']:.1f}%)로 5년(연 {pct(HIST[\'growth_5y\'])})보다 느려졌다. 활동성은 영업순환주기 기준이다.'
 SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배는 5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배의 절반 수준이다. 최근 4분기 EPS는 사업 최적화 비용만큼(주당 $1.18) 낮아져 있어 이를 되돌리면 PER은 약 13.4배다. 주식 수는 표지가 아니라 분기 희석 가중평균을 썼다.'

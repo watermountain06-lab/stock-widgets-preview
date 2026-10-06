@@ -62,7 +62,7 @@ FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-28 공시)'
 PREMISE = ('주가가 1년 새 {CH_TXT} 내려 PER {SM[\'PER\'][\'current\']:.1f}배·PBR·EV/EBITDA가 각 이력의 가장 낮은 쪽이라 자기 이력 {selfsc:.1f}점(싸다)이다. 다만 PER은 흑자 전환, PBR은 자기자본이 플러스로 돌아선 2025년 말 뒤의 {SM[\'PER\'][\'days\']}일 이력뿐이다. '
            'S&P500 산업재 안에서는 PSR만 싼 쪽이고 PER·PBR·PCR(잉여현금흐름 적자)·EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점(비싸다)이다. '
            '<strong>현금흐름 내재가치(기본 주당 −${-DCF[\'base\']:.2f})는 음수</strong>다.')
-RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 자기 이력 {sgn(VOTES[0])}은 PER·PBR 이력이 2025년 말 뒤의 {SM[\'PER\'][\'days\']}일뿐이고, EV/EBITDA 이력에는 손익분기 근처의 수백 배 구간이 들어 있으며 현재 EV/EBITDA에도 매각 이익이 들어 있어 나온 값이라 싸다는 신호로 읽기 어렵다. '
+RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 자기 이력 {sgn(VOTES[0])}{jo(VOTES[0], \'은\', \'는\')} PER·PBR 이력이 2025년 말 뒤의 {SM[\'PER\'][\'days\']}일뿐이고, EV/EBITDA 이력에는 손익분기 근처의 수백 배 구간이 들어 있으며 현재 EV/EBITDA에도 매각 이익이 들어 있어 나온 값이라 싸다는 신호로 읽기 어렵다. '
         '현재가를 정당화하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}, 매각 이익 포함).')
 FUND_TIP = '자기자본이 $6.1B로 작아 부채비율이 매우 높다. 이자보상배율은 2분기 영업이익 $156M ÷ 이자비용 $600M이다. 영업이익 성장률은 흑자 전환이라 계산하지 않는다. 활동성은 영업순환주기 362일(재고 349일, 737 등 생산 중인 기체 포함)로 5년 중 가장 짧다.'
 SELF_TIP = 'PER 이력은 흑자 전환 뒤, PBR 이력은 자기자본이 플러스가 된 뒤 {SM[\'PER\'][\'days\']}일, EV/EBITDA는 {SM[\'EV/EBITDA\'][\'days\']}일이다. 최근 4분기 EPS(약 ${eps_ttm:.2f})에는 매각 이익 $9.6B와 777X 비용 $4.9B가 함께 들어 있다. PCR은 잉여현금흐름이 적자라 0점이다.'

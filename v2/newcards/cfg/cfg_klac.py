@@ -54,7 +54,7 @@ PEER_COMMENT = '카드 유니버스 IT 종목 대비 배수 순위'
 FUND_ASOF_NOTE = 'FY2026 10-K (2026-08-06 공시)'
 PREMISE = ('주가가 1년 새 {ch:+.0f}% 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR·PBR·PCR이 5년 중, EV/EBITDA가 {SM[\'EV/EBITDA\'][\'days\'] / 252:.1f}년 중 상위 {max(100 - SM[k][\'percentile\'] for k in (\'PER\', \'PSR\', \'PBR\', \'PCR\', \'EV/EBITDA\')):.0f}% 안이라 자기 이력 {selfsc:.1f}점이다. '
            '카드 유니버스 IT 안에서도 PBR·PSR·PCR이 비싼 쪽이라 {peersc:.1f}점이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 영업이익률을 100%로 올려도 현재가에 닿지 않고, '
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}{jo_ro(VOTES[2])} 합계 {TOTAL_TXT} “{VERDICT}”다. 영업이익률을 100%로 올려도 현재가에 닿지 않고, '
         '성장으로만 맞추려면 5년 내내 연 {pct(DCF[\'requiredGrowth\'])}가 필요하다(지난 5년 {pct(HIST[\'growth_5y\'])}, 3년 {pct(HIST[\'growth_3y\'])}). '
         '낙관 시나리오(${DCF[\'high\']:.0f})가 기본(${DCF[\'base\']:.0f})보다 낮은 것은 3년 성장률이 5년보다 낮아서다.')
 FUND_TIP = '부채비율 2점은 자사주 매입으로 자본($6.3B)이 작아서다. 영업이익은 손익계산서에 줄이 없어 세전이익 + 이자 − 기타수익으로 계산했다.'

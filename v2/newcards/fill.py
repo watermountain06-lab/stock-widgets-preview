@@ -112,6 +112,9 @@ if DCF.get('unavailable'):   # 현금흐름이 기권하면 카드 JS가 '판정
     VERDICT = '판정 보류'
 assert (VOTES, VERDICT) == (C.VOTES, C.VERDICT), (VOTES, VERDICT, selfsc, peersc, ratio)
 sgn = lambda v: f'{v:+d}'.replace('-', '−') if v else '0'
+# 부호 붙은 정수 뒤 조사(받침 기준 — 0 영·1 일·3 삼·6 육·7 칠·8 팔은 받침, ㄹ 받침(1·7·8)은 '로'): 표가 바뀌면 '−1는'·'0로'가 되던 것(Fable, 2026-10-05)
+jo = lambda v, a_, b_: a_ if abs(v) % 10 in (0, 1, 3, 6, 7, 8) else b_
+jo_ro = lambda v: '으로' if abs(v) % 10 in (0, 3, 6) else '로'
 VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현금흐름 ' + ('미적용' if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL)
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
 ch = (px / D[max(-253, -len(D))][4] - 1) * 100   # 일봉이 1년보다 짧으면 첫날부터(SKHY ADR, 2026-10-05)

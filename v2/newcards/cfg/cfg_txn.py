@@ -57,7 +57,7 @@ FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-24 공시)'
 PREMISE = ('주가가 1년 새 {CH_TXT} 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR·PBR·EV/EBITDA가 5년 중 상위 {math.ceil(100 - min(SM[\'PER\'][\'percentile\'], SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\'], SM[\'EV/EBITDA\'][\'percentile\']))}% 안이라 자기 이력 {selfsc:.1f}점이다'
            '(PCR {SM[\'PCR\'][\'current\']:.1f}배만 중간). 카드 유니버스 IT 안에서는 {peersc:.1f}점으로 중간이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 매출이 2023~2024년 줄었다가 회복 중이라 '
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}{jo_ro(VOTES[2])} 합계 {TOTAL_TXT} “{VERDICT}”다. 매출이 2023~2024년 줄었다가 회복 중이라 '
         '5년 성장률이 연 {pct(HIST[\'growth_5y\'])}·3년 {pct(HIST[\'growth_3y\'])}뿐이고, 영업이익률을 100%로 올려도 현재가에 닿지 않는다'
         '(일정 성장이면 5년 내내 연 {pct(DCF[\'requiredGrowth\'])}). 세 시나리오 모두 성장률은 하한 2.5%로 같고(영업이익률과 매출/자본 가정이 다르다), '
         '보수 시나리오(${DCF[\'low\']:.0f})가 가장 높은 것은 5년 영업이익률 중앙값({pct(HIST[\'margin_5y\'])})이 최근 2년({pct(HIST[\'margin_2y\'])})보다 높아서다.')

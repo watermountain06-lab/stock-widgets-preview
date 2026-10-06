@@ -66,7 +66,7 @@ PREMISE = ('PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']
            'PER {SM[\'PER\'][\'current\']:,.0f}배는 최근 4분기 GAAP 순이익이 거의 0이라(순이익률 1.1%) 점수에서 뺀다(PER 해당 없음, 순이익률 2% 미만 규칙). '
            '자기 이력 {selfsc:.1f}점, 카드 유니버스 IT 안에서도 나머지 세 배수가 모두 가장 비싼 쪽이라 {peersc:.1f}점이다(EV/EBITDA는 감가상각 태그가 회사 고유라 계산하지 않는다). '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.1f}%</strong>다.')
-RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. GAAP 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}(주식보상비용 포함, 회사 비GAAP 2분기 25%)라 '
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}{jo_ro(VOTES[2])} 합계 {TOTAL_TXT} “{VERDICT}”다. GAAP 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}(주식보상비용 포함, 회사 비GAAP 2분기 25%)라 '
         '영업이익률을 100%로 올려도 현재가에 닿지 않는다(해 없음). 성장률은 5년 연 {pct(HIST[\'growth_5y\'])}·3년 연 {pct(HIST[\'growth_3y\'])}로 높지만 모델은 GAAP 이익률에서 출발한다.')
 FUND_TIP = '매출 CAGR 29.0%는 5점이지만, GAAP 영업손실(주식보상비용 포함)로 영업이익 CAGR·영업이익률·이자보상배율이 1점이다.'
 SELF_TIP = ('PSR {SM[\'PSR\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PSR\'][\'median\']:.1f}배)·PBR·PCR이 5년 중 가장 비싼 쪽이다. '

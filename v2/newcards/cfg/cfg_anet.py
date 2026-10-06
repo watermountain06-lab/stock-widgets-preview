@@ -53,7 +53,7 @@ PEER_COMMENT = '카드 유니버스 IT 종목 대비 배수 순위'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-05 공시)'
 PREMISE = ('주가가 1년 새 {ch:+.0f}% 올라 PER {SM[\'PER\'][\'current\']:.1f}배·PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR·EV/EBITDA가 모두 5년 중 상위 {100 - min(SM[k_][\'percentile\'] for k_ in (\'PER\', \'PSR\', \'PBR\', \'EV/EBITDA\')):.0f}% 안이라 자기 이력 {selfsc:.1f}점이다. '
            '카드 유니버스 IT 안에서도 PSR·EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가가 정당하려면 매출이 5년 내내 연 {pct(DCF[\'requiredGrowth\'])}씩 늘어야 한다'
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}{jo_ro(VOTES[2])} 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가가 정당하려면 매출이 5년 내내 연 {pct(DCF[\'requiredGrowth\'])}씩 늘어야 한다'
         '(지난 5년 {pct(HIST[\'growth_5y\'])}, 3년 {pct(HIST[\'growth_3y\'])}). 낙관 시나리오(${DCF[\'high\']:.0f})가 기본(${DCF[\'base\']:.0f})보다 낮은 것은 3년 성장률이 5년보다 낮아서다. '
         '최근 1년 매출/자본을 못 구해 시나리오 일부는 과거 평균을 썼다.')
 FUND_TIP = '이자비용이 없어 이자보상배율은 점수에서 빠진다. 부채비율 {FR[\'debtToEquity\'][\'points\']}점은 이연매출이 부채로 잡혀서다.'

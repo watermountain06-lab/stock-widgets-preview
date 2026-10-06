@@ -57,7 +57,7 @@ FUND_ASOF_NOTE = 'FY2026 10-K (2026-08-17 공시)'
 PREMISE = ('상장(2025-02) 뒤 이력만 있어 PER·EV/EBITDA는 흑자 전환 뒤 약 0.4년치다. 그 안에서 PER {SM[\'PER\'][\'current\']:.1f}배·PCR {SM[\'PCR\'][\'current\']:.1f}배는 싼 쪽, '
            'PBR {SM[\'PBR\'][\'current\']:.1f}배는 비싼 쪽이라 자기 이력 {selfsc:.1f}점(중간)이다. 카드 유니버스 IT 안에서는 {peersc:.1f}점으로 중간이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {TOTAL_TXT} “{VERDICT}”다. 현금흐름 모델의 기본 시나리오는 영업이익률이 이력 중앙값 {pct(HIST[\'margin_2y\'])}로 돌아간다고 본다. '
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}{jo_ro(VOTES[2])} 합계 {TOTAL_TXT} “{VERDICT}”다. 현금흐름 모델의 기본 시나리오는 영업이익률이 이력 중앙값 {pct(HIST[\'margin_2y\'])}로 돌아간다고 본다. '
         '이 중앙값에는 Q3 FY25 영업권 손상 $1.83B와 불황기 분기가 들어 있다. 손상을 빼도 중앙값 9.6%·기본 약 $830으로 현재가의 48%라 판정은 같다. '
         '마진이 그 값까지 내려가면 5년 뒤 사업 가치는 0으로 잡힌다(잔존가치 0). 현재가를 설명하려면 매출이 연 {pct(HIST[\'growth_5y\'])}에서 2.5%로 식으며 늘어나는 동안 '
         '영업이익률이 5년 내내, 그 뒤에도 {pct(DCF[\'requiredMargin\'])}를 지켜야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}). 성장률은 분사 단독 이력 약 1.8년의 연 {pct(HIST[\'growth_5y\'])}다.')

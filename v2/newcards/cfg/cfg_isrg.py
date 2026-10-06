@@ -63,7 +63,7 @@ PEER_TIP = ('S&P500 헬스케어(ISRG 제외)와 배수 순위를 매긴 값이�
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '5년 성장률(연 {pct(HIST[\'growth_5y\'])})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})로 시작해 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다.']
-DCF_NOTE = ('세 시나리오가 현재가의 {min(DCF[\'low\'], DCF[\'base\'], DCF[\'high\']) / px * 100:.0f}~{max(DCF[\'low\'], DCF[\'base\'], DCF[\'high\']) / px * 100:.0f}%다. 기본값은 최근 4분기 EPS의 약 {DCF[\'base\'] / eps_ttm:.0f}배로, 시장 PER {SM[\'PER\'][\'current\']:.0f}배와 차이가 크다. 성장률은 연 {HIST[\'growth_5y\'] / 2 * 100:.0f}~{HIST[\'growth_3y\'] * 100:.0f}%(보수·기본·낙관)에서 시작해 식고(기본과 같은 값을 내는 일정 성장률은 약 {DCF[\'baseEquivGrowth\'] * 100:.1f}%), '
+DCF_NOTE = ('세 시나리오가 현재가의 {min(DCF[\'low\'], DCF[\'base\'], DCF[\'high\']) / px * 100:.0f}~{max(DCF[\'low\'], DCF[\'base\'], DCF[\'high\']) / px * 100:.0f}%다. 기본값은 최근 4분기 EPS의 약 {DCF[\'base\'] / eps_ttm:.0f}배로, 시장 PER {SM[\'PER\'][\'current\']:.0f}배와 차이가 크다. 성장률은 연 {min(HIST[\'growth_5y\'] / 2, HIST[\'growth_5y\'], HIST[\'growth_3y\']) * 100:.0f}~{max(HIST[\'growth_5y\'] / 2, HIST[\'growth_5y\'], HIST[\'growth_3y\']) * 100:.0f}%(보수·기본·낙관)에서 시작해 식고(기본과 같은 값을 내는 일정 성장률은 약 {DCF[\'baseEquivGrowth\'] * 100:.1f}%), '
             '성장에 드는 재투자를 빼므로 성장이 더하는 가치가 크지 않다. 리스로 설치하는 시스템은 재고에서 유형자산으로 옮겨지는 비현금 대체(상반기 $419M)라 설비투자가 아니라 영업현금흐름(재고)에 들어 있다.')
 NEWS_RANGE = '2025.10 ~ 2026.09'
 NEWS = [

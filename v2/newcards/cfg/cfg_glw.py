@@ -64,7 +64,7 @@ PEER_TIP = ('카드 유니버스 IT 종목과 배수 순위를 매긴 값이다.
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '5년 성장률(연 {pct(HIST[\'growth_5y\'])})로 시작해 식고, 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}에서 5년에 걸쳐 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})로 시작해 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다.']
-DCF_NOTE = ('세 시나리오 모두 현재가의 {DCF[\'low\'] / px * 100:.0f}~{DCF[\'high\'] / px * 100:.0f}%다. 투하자본이익률(약 {DCF[\'hardDetail\'][\'roic\'] * 100:.0f}%)이 할인율 10%보다 낮아 성장이 가치를 거의 보태지 못한다. '
+DCF_NOTE = ('세 시나리오 모두 현재가의 {min(DCF[k_] for k_ in (\'low\', \'base\', \'high\')) / px * 100:.0f}~{max(DCF[k_] for k_ in (\'low\', \'base\', \'high\')) / px * 100:.0f}%다. 투하자본이익률(약 {DCF[\'hardDetail\'][\'roic\'] * 100:.0f}%)이 할인율 10%보다 낮아 성장이 가치를 거의 보태지 못한다. '
             '회사가 계획한 매출 $40B(2030년 말 연환산)와 이익률 개선이 실현되면 값은 크게 달라지지만, 이 모델은 지나간 실적만 쓴다.')
 NEWS_RANGE = '2025.10 ~ 2026.09'
 NEWS = [
