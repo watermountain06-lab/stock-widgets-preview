@@ -1,30 +1,31 @@
 {
  "ticker": "HRL",
  "window": [
-  "2025-09-26",
-  "2026-09-25"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 31.29,
+   "current": 31.87,
    "min": 15.43,
    "p10": 17.07,
-   "median": 27.4,
-   "p90": 30.35,
+   "median": 27.53,
+   "p90": 31.49,
    "max": 35.0,
-   "mean": 25.6,
-   "percentile": 91.6,
-   "score": 8.4
+   "mean": 25.93,
+   "percentile": 92.0,
+   "score": 8.0
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 23.33,
-  "per_p75": 28.77,
+  "per_p25": 23.53,
+  "per_p75": 28.94,
   "low": 10,
   "high": 20,
-  "asOf": "2026-09-25",
+  "asOf": "2026-10-05",
   "basis": "diluted"
  }
 }

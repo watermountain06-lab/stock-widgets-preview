@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 60801, 'op': 18775, 'ni': 15848}   # Q2 2026 손익(백만 달러) — SEC XBRL, 옛 카드(매출 $60.8B)와 같다
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (0, 0, -2), '적정~고평가'
 CO = 'Meta'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1326801/'
 SEC = S_
@@ -60,10 +60,10 @@ CHART_TITLES = {'per': '빅테크 PER 비교', 'pbr': '빅테크 PBR 비교', 'p
 PEER_NAME_TITLE = '같은 커뮤니케이션 서비스 섹터와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'GICS Information Technology 대비 배수 순위 (카드 공통 섹터 차용)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-30 공시)'
-PREMISE = ('동종업 안에서는 싼 편이지만 다섯 배수 모두 자기 5년 이력의 중앙값보다 비싼 쪽이고(PCR은 5년 중 최고), '
+PREMISE = ('동종업 안에서는 {score_word(peersc)}({peersc:.1f}점)이지만 다섯 배수 모두 자기 5년 이력의 중앙값보다 비싼 쪽이고(PCR은 5년 중 최고), '
            '<strong>현금흐름 내재가치(기본 시나리오)는 현재가의 {DCF[\'base\'] / px * 100:.0f}%다.</strong> '
            '2분기 설비투자가 매출의 절반까지 늘어 잉여현금흐름이 줄어든 것이 크다. 현재가 ÷ 기본 내재가치가 {px / DCF[\'base\']:.2f}로 "매우 비싸다"(1.5 초과)이고, '
-           '자기 이력 점수({selfsc:.1f})는 "비싼 편" 기준 30 바로 아래다.')
+           '자기 이력 점수({selfsc:.1f})는 "비싸다" 기준 30 바로 {"아래" if selfsc < 30 else "위"}다.')
 RISK = ('현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">{pct(DCF[\'requiredGrowth\'])}</strong>씩 커야 한다. '
         '최근 약 5년(19분기) 실제 성장은 연 {pct(HIST[\'growth_5y\'])}였고, 3분기 가이던스 중간값($62.5B)은 전년 대비 약 22% 성장이다.')
 FUND_TIP = '2분기 영업이익률 {op[cur] / rev[cur] * 100:.1f}%에는 법적 비용 $2.40B와 감원 비용 $1.18B가 들어 있다.'

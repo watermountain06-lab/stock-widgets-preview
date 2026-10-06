@@ -1,78 +1,79 @@
 {
  "ticker": "CBOE",
  "window": [
-  "2025-09-26",
-  "2026-09-25"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 20.11,
-   "min": 19.77,
-   "p10": 22.17,
-   "median": 27.44,
+   "current": 21.63,
+   "min": 19.74,
+   "p10": 21.86,
+   "median": 27.37,
    "p90": 29.4,
    "max": 31.32,
-   "mean": 26.55,
-   "percentile": 0.4,
-   "score": 99.6
+   "mean": 26.37,
+   "percentile": 9.2,
+   "score": 90.8
   },
   "PSR": {
    "days": 251,
-   "current": 5.32,
+   "current": 5.73,
    "min": 5.06,
-   "p10": 5.53,
+   "p10": 5.51,
    "median": 6.05,
    "p90": 6.75,
    "max": 8.01,
-   "mean": 6.15,
-   "percentile": 1.2,
-   "score": 98.8
+   "mean": 6.14,
+   "percentile": 25.5,
+   "score": 74.5
   },
   "PBR": {
    "days": 251,
-   "current": 4.79,
+   "current": 5.15,
    "min": 4.51,
-   "p10": 5.22,
+   "p10": 5.11,
    "median": 5.55,
    "p90": 6.19,
    "max": 7.14,
-   "mean": 5.66,
-   "percentile": 2.0,
-   "score": 98.0
+   "mean": 5.65,
+   "percentile": 10.8,
+   "score": 89.2
   },
   "PCR": {
-   "days": 226,
-   "current": 14.38,
+   "days": 232,
+   "current": 15.46,
    "min": 8.89,
-   "p10": 10.66,
-   "median": 17.74,
-   "p90": 45.12,
+   "p10": 10.68,
+   "median": 17.65,
+   "p90": 45.07,
    "max": 48.67,
-   "mean": 24.66,
-   "percentile": 27.4,
-   "score": 72.6
+   "mean": 24.41,
+   "percentile": 32.8,
+   "score": 67.2
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 13.94,
+   "current": 15.02,
    "min": 13.58,
-   "p10": 15.41,
-   "median": 17.93,
+   "p10": 15.06,
+   "median": 17.87,
    "p90": 19.67,
    "max": 21.71,
-   "mean": 17.8,
-   "percentile": 0.4,
-   "score": 99.6
+   "mean": 17.71,
+   "percentile": 9.6,
+   "score": 90.4
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 24.07,
-  "per_p75": 28.56,
-  "low": 310,
+  "per_p25": 23.74,
+  "per_p75": 28.55,
+  "low": 300,
   "high": 370,
-  "asOf": "2026-09-25",
+  "asOf": "2026-10-05",
   "basis": "diluted"
  }
 }

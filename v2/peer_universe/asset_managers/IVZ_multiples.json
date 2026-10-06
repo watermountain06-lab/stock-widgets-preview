@@ -1,72 +1,76 @@
 {
  "ticker": "IVZ",
  "window": [
-  "2025-10-02",
-  "2026-09-30"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
-   "days": 98,
+   "days": 96,
    "current": null,
    "min": 15.27,
-   "p10": 16.06,
-   "median": 18.35,
-   "p90": 25.36,
+   "p10": 16.04,
+   "median": 18.33,
+   "p90": 25.24,
    "max": 25.95,
-   "mean": 19.55,
+   "mean": 19.42,
    "percentile": 100.0,
-   "score": 0.0,
-   "currentNote": "negative"
+   "score": null,
+   "currentNote": "per_na"
   },
   "PSR": {
-   "days": 250,
-   "current": 1.93,
+   "days": 251,
+   "current": 1.95,
    "min": 1.58,
    "p10": 1.65,
    "median": 1.86,
    "p90": 2.05,
    "max": 2.13,
    "mean": 1.85,
-   "percentile": 67.2,
-   "score": 32.8
+   "percentile": 72.1,
+   "score": 27.9
   },
   "PBR": {
-   "days": 250,
-   "current": 1.07,
+   "days": 251,
+   "current": 1.08,
    "min": 0.71,
    "p10": 0.76,
-   "median": 0.91,
+   "median": 0.92,
    "p90": 1.12,
    "max": 1.18,
    "mean": 0.93,
-   "percentile": 79.6,
-   "score": 20.4
+   "percentile": 82.1,
+   "score": 17.9
   },
   "PCR": {
-   "days": 250,
-   "current": 6.93,
+   "days": 251,
+   "current": 7.01,
    "min": 6.56,
    "p10": 6.99,
-   "median": 7.6,
-   "p90": 9.14,
+   "median": 7.58,
+   "p90": 9.13,
    "max": 9.83,
-   "mean": 7.9,
-   "percentile": 7.2,
-   "score": 92.8
+   "mean": 7.88,
+   "percentile": 13.5,
+   "score": 86.5
   },
   "EV/EBITDA": {
-   "days": 98,
+   "days": 96,
    "current": null,
    "min": 11.29,
-   "p10": 11.71,
-   "median": 12.92,
-   "p90": 13.75,
+   "p10": 11.7,
+   "median": 12.91,
+   "p90": 13.73,
    "max": 13.95,
-   "mean": 12.88,
+   "mean": 12.86,
    "percentile": 100.0,
    "score": 0.0,
    "currentNote": "negative"
   }
  },
- "perBasis": "diluted"
+ "perBasis": "diluted",
+ "perNA": {
+  "netMargin": -0.0118,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+ }
 }

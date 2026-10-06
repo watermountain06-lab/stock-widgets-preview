@@ -1,79 +1,79 @@
 {
  "ticker": "NFLX",
  "window": [
-  "2021-09-29",
-  "2026-09-29"
+  "2021-10-05",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 22.11,
+   "current": 21.23,
    "min": 15.1,
-   "p10": 21.78,
-   "median": 42.65,
-   "p90": 53.35,
+   "p10": 21.67,
+   "median": 42.54,
+   "p90": 53.12,
    "max": 66.3,
-   "mean": 39.92,
-   "percentile": 10.4,
-   "score": 89.6
+   "mean": 39.79,
+   "percentile": 8.7,
+   "score": 91.3
   },
   "PSR": {
    "days": 1255,
-   "current": 6.05,
+   "current": 5.81,
    "min": 2.43,
    "p10": 3.58,
-   "median": 7.42,
+   "median": 7.38,
    "p90": 11.55,
    "max": 14.19,
-   "mean": 7.47,
-   "percentile": 34.3,
-   "score": 65.7
+   "mean": 7.46,
+   "percentile": 30.0,
+   "score": 70.0
   },
   "PBR": {
    "days": 1255,
-   "current": 9.71,
+   "current": 9.32,
    "min": 4.21,
    "p10": 5.72,
-   "median": 11.99,
+   "median": 11.93,
    "p90": 19.94,
    "max": 23.72,
-   "mean": 12.26,
-   "percentile": 35.8,
-   "score": 64.2
+   "mean": 12.23,
+   "percentile": 32.7,
+   "score": 67.3
   },
   "PCR": {
    "days": 1135,
-   "current": 26.25,
-   "min": 25.11,
-   "p10": 32.62,
-   "median": 50.89,
+   "current": 25.2,
+   "min": 25.04,
+   "p10": 32.03,
+   "median": 50.58,
    "p90": 623.76,
    "max": 2025.72,
-   "mean": 194.73,
-   "percentile": 1.6,
-   "score": 98.4
+   "mean": 194.14,
+   "percentile": 0.2,
+   "score": 99.8
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 20.39,
+   "current": 19.6,
    "min": 13.2,
-   "p10": 19.6,
-   "median": 32.58,
-   "p90": 42.05,
+   "p10": 19.57,
+   "median": 32.45,
+   "p90": 42.01,
    "max": 50.56,
-   "mean": 31.67,
-   "percentile": 10.6,
-   "score": 89.4
+   "mean": 31.59,
+   "percentile": 10.1,
+   "score": 89.9
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 25.22,
-  "per_p75": 39.31,
+  "per_p25": 25.05,
+  "per_p75": 39.18,
   "low": 80,
-  "high": 130,
-  "asOf": "2026-09-29",
+  "high": 120,
+  "asOf": "2026-10-05",
   "basis": "diluted"
  }
 }

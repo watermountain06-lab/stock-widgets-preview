@@ -110,8 +110,17 @@ VOTES = (_vote(selfsc), _vote(peersc), _dv); TOTAL = sum(VOTES)
 VERDICT = '저평가' if TOTAL >= 3 else '적정~저평가' if TOTAL >= 1 else '적정' if TOTAL > -1 else '적정~고평가' if TOTAL > -3 else '고평가'
 if DCF.get('unavailable'):   # 현금흐름이 기권하면 카드 JS가 '판정 보류'로 덮어쓴다(BRKB 선례, Fable 2026-10-02)
     VERDICT = '판정 보류'
-assert (VOTES, VERDICT) == (C.VOTES, C.VERDICT), (VOTES, VERDICT, selfsc, peersc, ratio)
+_refresh = None
+if (VOTES, VERDICT) != (C.VOTES, C.VERDICT) and os.environ.get('REFRESH') == '1':
+    # 갱신 모드(새 가격·자료로 다시 만들 때, 2026-10-06): 멈추지 않고 cfg의 표·판정을 고치고 기록한다 — 판정이 바뀐 카드는 목록으로 사람이 본다.
+    # cfg·기록은 카드를 다 쓴 뒤(맨 끝)에 쓴다 — 중간 확인에서 멈추면 아무것도 바꾸지 않는다(Codex 2026-10-06)
+    _refresh = {'ticker': T, 'old': [list(C.VOTES), C.VERDICT], 'new': [list(VOTES), VERDICT], 'self': selfsc, 'peer': peersc, 'ratio': ratio}
+    print(f'표·판정 변경 {C.VOTES} {C.VERDICT} → {VOTES} {VERDICT}')
+else:
+    assert (VOTES, VERDICT) == (C.VOTES, C.VERDICT), (VOTES, VERDICT, selfsc, peersc, ratio)
 sgn = lambda v: f'{v:+d}'.replace('-', '−') if v else '0'
+# 점수 → 판정 단어(70 이상 싸다 · 30 미만 비싸다) — cfg 문장에 '(중간)' 같은 단어를 손으로 적으면 갱신 때 틀린다(2026-10-06 GILD·META·PFE·PLD·TMO·VRTX)
+score_word = lambda sc: '싸다' if sc >= 70 else '비싸다' if sc < 30 else '중간'
 # 부호 붙은 정수 뒤 조사(받침 기준 — 0 영·1 일·3 삼·6 육·7 칠·8 팔은 받침, ㄹ 받침(1·7·8)은 '로'): 표가 바뀌면 '−1는'·'0로'가 되던 것(Fable, 2026-10-05)
 jo = lambda v, a_, b_: a_ if abs(v) % 10 in (0, 1, 3, 6, 7, 8) else b_
 jo_ro = lambda v: '으로' if abs(v) % 10 in (0, 3, 6) else '로'
@@ -490,5 +499,12 @@ if '<div class="reverse">—</div>' in h and DCF.get('reqMode') == 'growth' and 
         + f'기본 시나리오(<span data-dcf-basev>${(f'{DCF["base"]:.2f}' if abs(DCF["base"]) < 10 else f'{DCF["base"]:.0f}')}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.')
     one('<div class="reverse">—</div>', '<div class="reverse">' + _rev + '</div>')
 open(p, 'w', encoding='utf-8').write(h)
+if _refresh:
+    _cp = os.path.join(HERE, 'cfg', f'cfg_{t}.py'); _cs = open(_cp, encoding='utf-8').read()
+    _cs, _k = re.subn(r'^VOTES, VERDICT = .*$', f'VOTES, VERDICT = {VOTES}, {VERDICT!r}', _cs, count=1, flags=re.M)
+    assert _k == 1, 'cfg에 VOTES, VERDICT 한 줄이 없다'
+    open(_cp, 'w', encoding='utf-8').write(_cs)
+    with open(os.path.join(HERE, 'refresh_changes.jsonl'), 'a', encoding='utf-8') as _f:
+        _f.write(json.dumps(_refresh, ensure_ascii=False) + '\n')
 print('ok', T, VERDICT, VOTES, 'self', selfsc, 'peer', peersc, 'ratio', round(ratio, 2) if ratio else None, 'YoY', vec(cur), yd, 'QoQ', qd, 'opm', opm, 'ch', round(ch, 1))
 print('peers', {k: v for k, v in peers.items()}, 'miss', miss)

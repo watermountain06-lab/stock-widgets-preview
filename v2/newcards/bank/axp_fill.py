@@ -320,8 +320,9 @@ U = {k: v for k, v in json.load(open('peer_universe/banks.json'))['tickers'].ite
 PB = ['JPM', 'USB', 'FITB', 'RF', 'MTB', 'HBAN']
 mk = lambda k, key, title, unit, mx: {"title": title, "unit": unit, "max": mx, "msValue": None,
                                      "peers": [{"name": t, "value": round(U[t][key], 2), "status": "reference"} for t in PB if isinstance(U.get(t, {}).get(key), (int, float))]}
-MD = {"per": mk('per', 'per', 'S&P500 은행 PER 비교 · 9/30 종가 (13곳 중 6곳 표시)', 'PER(TTM)', 25),
-      "pbr": mk('pbr', 'ptbv', 'S&P500 은행 P/TBV 비교 · 9/30 종가 (11곳 중 6곳 표시 · PNC·TFC는 유형자본 태그 결측)', 'P/TBV', 8)}   # 축 8 — AXP 7.41배가 잘리지 않게(카드 한정)
+_mdy = (lambda d: f'{int(d[5:7])}/{int(d[8:])} 종가')(json.load(open('peer_universe/banks.json'))['asOf'])   # 차트 제목 날짜 = 비교군 기준일(2026-10-06, 손으로 적은 날짜가 갱신 뒤 남았다 — Fable)
+MD = {"per": mk('per', 'per', f'S&P500 은행 PER 비교 · {_mdy} (13곳 중 6곳 표시)', 'PER(TTM)', 25),
+      "pbr": mk('pbr', 'ptbv', f'S&P500 은행 P/TBV 비교 · {_mdy} (11곳 중 6곳 표시 · PNC·TFC는 유형자본 태그 결측)', 'P/TBV', 8)}   # 축 8 — AXP 7.41배가 잘리지 않게(카드 한정)
 for k, nm, why in (('psr', 'PSR', '은행 매출에는 이자수익이 들어 있다'), ('pcr', 'PCR', '은행 현금흐름은 예금·대출 증감이 좌우한다'), ('evebitda', 'EV/EBITDA', '예금·차입이 영업 자금이라 기업가치가 뜻이 없다')):
     MD[k] = {"title": f'{nm} — 은행에 해당 없음 ({why})', "unit": nm, "max": 1, "msValue": None, "peers": []}
 sub(r'const MULTIPLE_DATA = \{.*?\n\};\n', '// 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3) 중 6곳. 값이 없는 은행은 뺀다.\nconst MULTIPLE_DATA = ' + json.dumps(MD, ensure_ascii=False, indent=2) + ';\n')

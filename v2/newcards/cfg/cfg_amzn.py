@@ -56,7 +56,7 @@ CHART_TITLES = {'per': '빅테크 PER 비교 (AMZN·GOOGL은 본업 기준)', 'p
 PEER_NAME_TITLE = '같은 경기소비재 섹터와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'GICS 경기소비재 + IT 섹터 대비 배수 순위 (본업 기준 PER은 제외, 네 배수)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-31 공시)'
-PREMISE = ('배수로는 동종업·자기 5년 이력 모두 싼 편이지만, <strong>현금흐름 내재가치는 현재가에 크게 못 미친다.</strong> '
+PREMISE = ('배수로는 동종업 {peersc:.1f}점·자기 5년 이력 {selfsc:.1f}점으로 둘 다 중앙값보다 싼 쪽이지만, <strong>현금흐름 내재가치는 현재가에 크게 못 미친다.</strong> '
            '설비투자가 매출의 {b[\'capex\'] / b[\'revenue\'] * 100:.1f}%로 영업현금흐름을 넘어서 최근 4분기 잉여현금흐름이 마이너스다. '
            '자본수익률이 할인율에 가까워 과거 성장으로는 가격이 설명되지 않고, 가격에는 마진 확대 기대가 담겨 있다.')
 RISK = ('매출이 지난 5년 속도(연 {pct(HIST[\'growth_5y\'])})로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다(지금 {pct(HIST[\'margin_now\'])}). '

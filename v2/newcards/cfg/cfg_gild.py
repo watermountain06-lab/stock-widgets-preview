@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 7803, 'op': -10394, 'ni': -10496, 'ocf': 3573}   # 보도자료 손익계산서(영업손실 = 인수 IPR&D $11.18B·IPR&D 손상 $1.75B 포함)
-VOTES, VERDICT = (-1, -1, -2), '고평가'
+VOTES, VERDICT = (-1, 0, -2), '고평가'
 CO = 'Gilead'
 S_ = 'https://www.sec.gov/Archives/edgar/data/882095/'
 SEC = S_
@@ -51,8 +51,8 @@ CHART_TITLES = {'per': '대형 바이오·제약 PER 비교 (점수는 S&P500 �
 PEER_NAME_TITLE = 'S&P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-06 공시)'
-PREMISE = ('최근 4분기가 인수 IPR&D 비용으로 적자라 PER은 점수에서 빼고(PER 해당 없음, 순이익률 2% 미만 규칙) EV/EBITDA는 0점이고, 주가가 1년 새 {CH_TXT} 올라 PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배가 5년 중 가장 비싼 쪽이다. PCR {SM[\'PCR\'][\'current\']:.1f}배만 중간보다 조금 비싸 자기 이력 {selfsc:.1f}점(비싸다)이다. '
-           'S&P500 헬스케어 안에서도 EV/EBITDA(적자)·PBR이 가장 비싼 쪽이고 PCR만 싼 쪽이라 {peersc:.1f}점(비싸다, PER 제외)이다. 인수 비용을 빼면 PER은 약 23배다. '
+PREMISE = ('최근 4분기가 인수 IPR&D 비용으로 적자라 PER은 점수에서 빼고(PER 해당 없음, 순이익률 2% 미만 규칙) EV/EBITDA는 0점이고, 주가가 1년 새 {CH_TXT} 올라 PSR {SM[\'PSR\'][\'current\']:.1f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배가 5년 중 가장 비싼 쪽이다. PCR {SM[\'PCR\'][\'current\']:.1f}배만 중간보다 조금 비싸 자기 이력 {selfsc:.1f}점({score_word(selfsc)})이다. '
+           'S&P500 헬스케어 안에서도 EV/EBITDA(적자)·PBR이 가장 비싼 쪽이고 PCR만 싼 쪽이라 {peersc:.1f}점({score_word(peersc)}, PER 제외)이다. 인수 비용을 빼면 PER은 약 23배다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 세 칸 모두 2분기 인수 IPR&D 비용($11.18B, GAAP 유지 규칙)의 영향을 받는다. 현금흐름 −2도 그 일회성 비용으로 음수가 된 최근 4분기 이익률을 출발점으로 삼은 결과다(5월 공시 기준 기본은 약 $57). 그 비용과 무관한 PSR도 5년 중 가장 비싼 쪽이다(PBR은 비용으로 줄어든 GAAP 자본 기준이라 높게 나온다). '
         '현재가를 정당화하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(5년 중앙값 {pct(HIST[\'margin_5y\'])}). 내재가치에서 빼는 것은 차입금 $26.2B이고 현금 $3.2B와 지분 투자 $2.0B를 더한다(운용리스 $0.6B는 영업이익이 임차료를 이미 뺐으므로 빼지 않는다).')

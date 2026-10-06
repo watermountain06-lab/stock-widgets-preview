@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 2425, 'op': 1251, 'ni': 1062}   # 10-Q, 순이익은 Prologis 귀속(보통주 귀속 $1,061M + 우선주 배당)
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (1, 0, -2), '적정~고평가'
 CO = 'Prologis'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1045609/'
 SEC = S_
@@ -51,8 +51,8 @@ CHART_TITLES = {'per': '리츠 6곳 PER 비교 (점수는 S&P500 부동산 기�
 PEER_NAME_TITLE = 'S&P500 부동산 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 부동산 대비 배수 순위 (v2/peer_universe/real_estate.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-29 공시, 인라인 XBRL 보충)'
-PREMISE = ('PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PSR·EV/EBITDA가 5년 중 싼 쪽이고 PBR은 중앙값 근처라 자기 이력 {selfsc:.1f}점(중간, “싸다” 문턱 바로 아래)이다. '
-           'S&P500 부동산 안에서는 PER·PBR이 중간, PSR·EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점(중간)이다. '
+PREMISE = ('PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PSR·EV/EBITDA가 5년 중 싼 쪽이고 PBR은 중앙값 근처라 자기 이력 {selfsc:.1f}점({score_word(selfsc)}, “싸다” 문턱 70 바로 {"아래" if selfsc < 70 else "위"})이다. '
+           'S&P500 부동산 안에서는 PER·PBR이 중간, PSR·EV/EBITDA가 비싼 쪽이라 {peersc:.1f}점({score_word(peersc)})이다. '
            '<strong>현금흐름 내재가치는 세 시나리오 모두 음수</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현금흐름 −2는 리츠에 일반 기업 모델을 쓴 결과다. 투하자본이익률(약 {DCF[\'hardDetail\'][\'roic\'] * 100:.0f}%)이 할인율 10%보다 낮아, 개발·취득에 계속 재투자하는 부동산 회사는 성장이 가치를 깎는 것으로 계산된다. '
         '리츠는 보통 FFO·순자산가치(NAV)로 평가하는데 카드에는 아직 그 모델이 없다.')
@@ -84,7 +84,7 @@ SUMMARY = ('임대 계약과 core FFO가 늘었고, 8월에 영국 SEGRO 인수�
            ['2분기 core FFO가 주당 $1.63(+11.6%), 점유율 95.5%, 임대 계약 6,700만 제곱피트(사상 최대)였다.',
             '7월에 연간 core FFO 전망을 $6.22~6.30으로 올렸다(올해 두 번째).',
             '8월 4일 SEGRO를 주식 교환 위주로 약 £14.0B에 인수한다고 발표했고, 그날 주가는 −3.5%였다.'],
-           '배수는 이력·업종 모두에서 중간이고, 리츠라 현금흐름 모델 값은 세 시나리오 모두 음수다.',
+           '배수는 자기 이력 {selfsc:.1f}점({score_word(selfsc)})·업종 {peersc:.1f}점({score_word(peersc)})이고, 리츠라 현금흐름 모델 값은 세 시나리오 모두 음수다.',
            'Q3 2026 실적(10월 중순 예상)의 core FFO와 SEGRO 인수 진행.')
 BULL = [('임대 수요', '2분기 임대 계약 사상 최대, 점유율 95.5%.'),
         ('전망 상향', 'core FFO 전망 $6.22~6.30, 두 번 상향.'),

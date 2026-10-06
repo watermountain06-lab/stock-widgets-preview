@@ -1,54 +1,55 @@
 {
  "ticker": "SNA",
  "window": [
-  "2025-09-30",
-  "2026-09-25"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
-   "days": 249,
-   "current": 18.83,
+   "days": 251,
+   "current": 18.74,
    "min": 17.23,
    "p10": 17.91,
-   "median": 19.22,
-   "p90": 20.76,
+   "median": 19.21,
+   "p90": 20.75,
    "max": 21.42,
    "mean": 19.27,
-   "percentile": 32.1,
-   "score": 67.9
+   "percentile": 28.7,
+   "score": 71.3
   },
   "PSR": {
-   "days": 249,
-   "current": 3.95,
+   "days": 251,
+   "current": 3.94,
    "min": 3.65,
    "p10": 3.79,
    "median": 4.05,
    "p90": 4.36,
    "max": 4.5,
    "mean": 4.07,
-   "percentile": 30.5,
-   "score": 69.5
+   "percentile": 27.5,
+   "score": 72.5
   },
   "PBR": {
-   "days": 249,
-   "current": 3.16,
+   "days": 251,
+   "current": 3.15,
    "min": 2.94,
    "p10": 3.05,
    "median": 3.24,
    "p90": 3.49,
    "max": 3.61,
    "mean": 3.26,
-   "percentile": 29.3,
-   "score": 70.7
+   "percentile": 26.3,
+   "score": 73.7
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 18.48,
+  "per_p25": 18.54,
   "per_p75": 20.0,
   "low": 360,
   "high": 390,
-  "asOf": "2026-09-25",
+  "asOf": "2026-10-05",
   "basis": "diluted"
  }
 }

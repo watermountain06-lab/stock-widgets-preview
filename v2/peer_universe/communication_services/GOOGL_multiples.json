@@ -1,78 +1,79 @@
 {
  "ticker": "GOOGL",
  "window": [
-  "2025-10-02",
-  "2026-09-30"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
-   "current": 34.93,
-   "min": 28.51,
-   "p10": 32.67,
-   "median": 36.1,
-   "p90": 40.09,
-   "max": 42.86,
-   "mean": 36.24,
-   "percentile": 37.6,
-   "score": 62.4
+   "days": 251,
+   "current": 34.51,
+   "min": 27.61,
+   "p10": 31.94,
+   "median": 35.29,
+   "p90": 39.06,
+   "max": 41.81,
+   "mean": 35.34,
+   "percentile": 43.4,
+   "score": 56.6
   },
   "PSR": {
-   "days": 250,
-   "current": 9.44,
+   "days": 251,
+   "current": 9.5,
    "min": 7.71,
-   "p10": 8.72,
-   "median": 9.65,
-   "p90": 10.65,
+   "p10": 8.73,
+   "median": 9.64,
+   "p90": 10.64,
    "max": 11.55,
-   "mean": 9.69,
-   "percentile": 40.8,
-   "score": 59.2
+   "mean": 9.7,
+   "percentile": 44.2,
+   "score": 55.8
   },
   "PBR": {
-   "days": 250,
-   "current": 6.57,
+   "days": 251,
+   "current": 6.62,
    "min": 6.07,
-   "p10": 6.57,
+   "p10": 6.56,
    "median": 9.04,
-   "p90": 10.08,
+   "p90": 10.07,
    "max": 10.73,
-   "mean": 8.78,
-   "percentile": 10.8,
-   "score": 89.2
+   "mean": 8.76,
+   "percentile": 14.3,
+   "score": 85.7
   },
   "PCR": {
-   "days": 250,
-   "current": 78.99,
+   "days": 251,
+   "current": 79.54,
    "min": 42.91,
-   "p10": 46.58,
-   "median": 54.87,
-   "p90": 78.87,
+   "p10": 46.68,
+   "median": 55.14,
+   "p90": 78.93,
    "max": 86.7,
-   "mean": 60.51,
-   "percentile": 91.2,
-   "score": 8.8
+   "mean": 60.86,
+   "percentile": 93.6,
+   "score": 6.4
   },
   "EV/EBITDA": {
-   "days": 250,
-   "current": 23.54,
+   "days": 251,
+   "current": 23.71,
    "min": 20.17,
-   "p10": 22.73,
-   "median": 25.03,
+   "p10": 22.81,
+   "median": 25.02,
    "p90": 27.94,
    "max": 29.9,
-   "mean": 25.13,
-   "percentile": 26.8,
-   "score": 73.2
+   "mean": 25.15,
+   "percentile": 30.3,
+   "score": 69.7
   }
  },
  "perBasis": "core",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 34.31,
-  "per_p75": 38.32,
+  "per_p25": 33.53,
+  "per_p75": 37.34,
   "low": 340,
-  "high": 380,
-  "asOf": "2026-09-30",
+  "high": 370,
+  "asOf": "2026-10-05",
   "basis": "core"
  }
 }

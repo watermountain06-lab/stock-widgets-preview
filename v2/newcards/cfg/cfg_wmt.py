@@ -6,7 +6,7 @@ CUR, YO, QO = '2026-07-31', '2025-07-31', '2026-04-30'
 QLABEL, YL, QQL = 'Q2 FY27', 'Q2 FY26', 'Q1 FY27'
 RELEASE = {'rev': 186100, 'op': 9383, 'ni': 6366}   # Q2 FY27 보도자료(백만 달러) — 순매출(엔진 매출 태그). 카드 차트는 총수익(PRE)
 PRE = ["rev = q(['Revenues'])   # 옛 카드 차트·YoY는 총수익(순매출 + 회원 수수료 등, Q2 $187.9B) — 배수·내재가치는 순매출"]
-VOTES, VERDICT = (-1, -1, -2), '고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'Walmart'
 S_ = 'https://www.sec.gov/Archives/edgar/data/104169/'
 SEC = S_
@@ -44,7 +44,7 @@ CHART_TITLES = {'per': '대형 유통 PER 비교', 'pbr': '대형 유통 PBR 비
 PEER_NAME_TITLE = '같은 필수소비재 섹터(S&amp;P500 34종목)보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 필수소비재 34종목 대비 배수 순위(v2/peer_universe/consumer_staples.json)'
 FUND_ASOF_NOTE = 'Q2 FY27 10-Q (2026-08-28 공시)'
-PREMISE = '자기 5년 이력으로는 PER이 중간이고 나머지 네 배수가 비싼 쪽({selfsc:.1f}점)이며, S&P500 필수소비재 34종목 안에서도 비싼 쪽({peersc:.1f}점)이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. 영업이익률 {int(HIST[\'margin_now\'] * 100)}%대에 매출 성장 연 {HIST[\'growth_5y\'] * 100:.0f}%인 회사는 할인율 10%에서 현재가에 한참 못 미친다.'
+PREMISE = '자기 5년 이력으로는 PER이 중간이고 나머지 네 배수가 비싼 쪽이라 {selfsc:.1f}점({score_word(selfsc)})이며, S&P500 필수소비재 34종목 안에서는 {peersc:.1f}점({score_word(peersc)})이다. <strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다. 영업이익률 {int(HIST[\'margin_now\'] * 100)}%대에 매출 성장 연 {HIST[\'growth_5y\'] * 100:.0f}%인 회사는 할인율 10%에서 현재가에 한참 못 미친다.'
 RISK = '매출이 지난 5년 속도(연 {pct(HIST[\'growth_5y\'])})로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">{pct(DCF[\'requiredMargin\'])}</strong>여야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}, 5년 중앙값 {pct(HIST[\'margin_5y\'])}). 광고·회원 수익이 마진을 얼마나 올리느냐가 관건이다.'
 FUND_TIP = "이자보상배율은 2분기 부채 이자에 들어간 일회성 이자비용 감소 $0.5B(미인식 세무 혜택 변동)를 되돌려 계산했다(v2/interest_extra.json). 매출채권은 'Receivables, net'(ReceivablesNetCurrent)을 썼다."
 SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배는 5년 이력의 {SM[\'PER\'][\'percentile\']:.0f}% 지점(중간)이고 PSR·PBR·PCR·EV/EBITDA는 상위 {min(100 - SM[k][\'percentile\'] for k in (\'PSR\', \'PBR\', \'PCR\', \'EV/EBITDA\')):.0f}~{max(100 - SM[k][\'percentile\'] for k in (\'PSR\', \'PBR\', \'PCR\', \'EV/EBITDA\')):.0f}% 안쪽이다. 2024년 2월 3:1 분할은 EPS 이력에 반영했다.'

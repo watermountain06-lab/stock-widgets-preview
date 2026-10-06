@@ -3,95 +3,90 @@
  "subIndustries": [
   "Asset Management & Custody Banks"
  ],
- "asOf": "2026-09-30",
+ "asOf": "2026-10-05",
  "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
  "tickers": {
   "AMP": {
-   "per": 11.9,
-   "psr": 2.19,
-   "pbr": 6.83,
-   "pcr": 5.39
+   "per": 11.96,
+   "psr": 2.2,
+   "pbr": 6.87,
+   "pcr": 5.42
   },
   "APO": {
-   "per": 42.2,
-   "psr": 1.91,
-   "pbr": 3.26
+   "per": 41.95,
+   "psr": 1.9,
+   "pbr": 3.24
   },
   "ARES": {
-   "psr": 6.08,
-   "pbr": 9.17
+   "psr": 6.13,
+   "pbr": 9.24
   },
   "BLK": {
-   "per": 25.36,
-   "psr": 6.01,
-   "pbr": 2.85,
-   "pcr": 46.67,
-   "evebitda": 17.45
+   "per": 25.56,
+   "psr": 6.06,
+   "pbr": 2.87,
+   "pcr": 47.03,
+   "evebitda": 17.82
   },
   "BX": {
-   "per": 25.13,
-   "psr": 5.22,
-   "pbr": 9.33,
-   "pcr": 15.34
+   "per": 25.03,
+   "psr": 5.2,
+   "pbr": 9.3,
+   "pcr": 15.28,
+   "evebitda": 11.57
   },
   "BNY": {
-   "per": 16.86,
-   "psr": 6.53,
-   "pbr": 2.2,
-   "pcr": 61.64
+   "per": 16.75,
+   "psr": 6.49,
+   "pbr": 2.18,
+   "pcr": 61.27
   },
   "BEN": {
-   "per": 21.85,
-   "psr": 1.75,
-   "pbr": 1.39,
-   "evebitda": 14.9
+   "per": 22.37,
+   "psr": 1.79,
+   "pbr": 1.42,
+   "evebitda": 15.28
   },
   "IVZ": {
-   "psr": 1.93,
-   "pbr": 1.07,
-   "pcr": 6.93,
+   "psr": 1.95,
+   "pbr": 1.08,
+   "pcr": 7.01,
    "evebitda": "negative"
   },
   "KKR": {
-   "psr": 3.85,
-   "pbr": 2.64,
-   "per": 29.08
+   "per": 28.65,
+   "psr": 3.79,
+   "pbr": 2.6
   },
   "NTRS": {
-   "per": 17.73,
-   "psr": 5.89,
-   "pbr": 2.31,
-   "pcr": 69.58
+   "per": 17.87,
+   "psr": 5.93,
+   "pbr": 2.33,
+   "pcr": 70.12
   },
   "STT": {
-   "per": 15.41,
-   "psr": 3.19,
-   "pbr": 1.7,
-   "pcr": 23.75
+   "per": 15.57,
+   "psr": 3.22,
+   "pbr": 1.71,
+   "pcr": 24.0
   },
   "TROW": {
-   "per": 10.45,
+   "per": 10.43,
    "psr": 2.92,
-   "pbr": 2.02,
-   "pcr": 13.26
+   "pbr": 2.01,
+   "pcr": 13.25
   }
  },
  "skipped": {
-  "ARES": "희석 EPS 표준 태그 없음(원문 XBRL에 EarningsPerShareBasicUndistributed 등 회사 고유 구성) — PER 제외(D29, 2026-10-05)"
+  "ARES": "EPS 이력 없음(희석 EPS 표준 태그를 못 찾음) — PER 제외"
  },
  "perNA": {
-  "rule": "A3를 동종 종목에도(C9, 2026-10-04 사용자 결정) — 기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다. per는 빼기 전 값",
+  "rule": "기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다(A3·C9)",
   "tickers": {
    "IVZ": {
     "netMargin": -0.0118,
-    "per": "negative"
+    "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
    }
-  }
- },
- "epsRefetch2": {
-  "rule": "D66·D29(2026-10-05)",
-  "tickers": {
-   "KKR": "PER 없음 → 29.08 (희석 EPS를 보통주 차원으로만 태그 — 원문 XBRL 보통주 값, adapters/ixbrl_class_eps.py)"
   }
  }
 }

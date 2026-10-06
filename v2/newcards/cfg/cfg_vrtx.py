@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 3334, 'op': 1247, 'ni': 1100}   # 10-Q
-VOTES, VERDICT = (-1, -1, -2), '고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'Vertex'
 S_ = 'https://www.sec.gov/Archives/edgar/data/875320/'
 SEC = S_
@@ -51,8 +51,8 @@ CHART_TITLES = {'per': '바이오 6곳 PER 비교 (점수는 S&P500 헬스케어
 PEER_NAME_TITLE = 'S&P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-04 공시)'
-PREMISE = ('주가가 1년 새 {CH_TXT} 올라 PER {SM[\'PER\'][\'current\']:.1f}배(이력 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PCR·EV/EBITDA·PSR이 중앙값보다 비싸 자기 이력 {selfsc:.1f}점(비싸다)이다. '
-           'S&P500 헬스케어 안에서는 PSR·PCR이 비싼 쪽이라 {peersc:.1f}점(비싸다)이다. '
+PREMISE = ('주가가 1년 새 {CH_TXT} 올라 PER {SM[\'PER\'][\'current\']:.1f}배(이력 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PCR·EV/EBITDA·PSR이 중앙값보다 비싸 자기 이력 {selfsc:.1f}점({score_word(selfsc)})이다. '
+           'S&P500 헬스케어 안에서는 PSR·PCR이 비싼 쪽이라 {peersc:.1f}점({score_word(peersc)})이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 5년 매출 성장이 연 {pct(DCF[\'requiredGrowth\'])}여야 한다(실제 5년 연 {pct(HIST[\'growth_5y\'])}). '
         '현금흐름 모델은 지나간 실적만 쓰고, 신약(povetacicept)·Crinetics 제품의 앞으로의 매출은 넣지 않는다.')

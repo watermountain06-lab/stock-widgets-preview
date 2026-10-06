@@ -99,8 +99,6 @@ FR = {r_['metric']: r_['value'] for ax_ in FUND['axes'].values() for r_ in ax_.g
 ''']
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 POST = [r'''
-# 애널리스트 중간값이 없다(StockAnalysis median 미제공) — 파이썬 None을 JS null로
-one("mean: 1515, median: None,", "mean: 1515, median: null,")
 one("  const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));", "  const usd = v => v == null ? '—' : '$' + (Number.isInteger(v) ? v.toLocaleString('en-US') : v.toFixed(2));   // 중간값 없음·천 단위(카드 한정)")
 # 분기 비교 각주: FCF의 설비투자는 총액(비GAAP)
 assert h.count(' · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ') == 2

@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-27', '2025-06-28', '2026-03-28'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 11994}   # Q2 2026 보도자료 매출(백만 달러, 부문 합 12,560 − 부문 간 거래 566)
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, -1, -2), '고평가'
 CO = 'Thermo Fisher'
 S_ = 'https://www.sec.gov/Archives/edgar/data/97745/'
 SEC = S_
@@ -54,9 +54,9 @@ PEER_NAME_TITLE = 'S&amp;P500 헬스케어 종목들보다 배수가 얼마나 �
 PEER_COMMENT = 'S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-07-31 공시)'
 PREMISE = ('PER {SM[\'PER\'][\'current\']:.1f}배·PSR·PCR이 5년 중 비싼 쪽이고 EV/EBITDA는 이력(4.3년) 최고에 가까워 자기 이력 {selfsc:.1f}점이다. '
-           'S&P500 헬스케어 안에서는 {peersc:.1f}점으로 중간이다 — 비싼 쪽 문턱 30 바로 위라 동종 종목 자료가 갱신될 때마다 0과 −1을 오간다(2026-10-04 한때 29.6점). '
+           'S&P500 헬스케어 안에서는 {peersc:.1f}점({score_word(peersc)})이다 — 비싼 쪽 문턱 30 바로 {"아래" if peersc < 30 else "위"}라 동종 종목 자료가 갱신될 때마다 0과 −1을 오간다(2026-10-04 한때 29.6점). '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.0f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
-RISK = ('세 칸이 −1·0·−2로 합계 −3 “{VERDICT}”다. GAAP 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}(인수 무형자산 상각 포함, 회사 조정 22.8%), '
+RISK = ('세 칸이 {sgn(VOTES[0])}·{sgn(VOTES[1])}·{sgn(VOTES[2])}로 합계 {sgn(TOTAL)} “{VERDICT}”다. GAAP 영업이익률이 최근 4분기 {pct(HIST[\'margin_now\'])}(인수 무형자산 상각 포함, 회사 조정 22.8%), '
         '5년 성장률 연 {pct(HIST[\'growth_5y\'])}·3년 {pct(HIST[\'growth_3y\'])}라, 현재가를 설명하려면 영업이익률이 {pct(DCF[\'requiredMargin\'])}여야 한다. '
         '최근 4분기 실효세율이 7.8%로 낮고(계산 어려움 신호 — 10-Q는 저세율 지역 이익 비중 등으로 설명하고 2026년 GAAP 세율을 9~11%로 예상), 보수 시나리오는 음수다(계산 불가) — '
         '보수는 한계·평균 매출/자본 중 나쁜 쪽을 쓰는데, Clario 인수로 투하자본이 커져 재투자 부담이 크게 잡힌다.')

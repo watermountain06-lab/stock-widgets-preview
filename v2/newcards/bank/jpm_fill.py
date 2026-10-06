@@ -298,17 +298,14 @@ V = {"peer": {"score": peerscore, "rule": "both", "sector": "Financials (S&P500 
 sub(r'^const JPM_VALUATION = \{.*$', 'const JPM_VALUATION = ' + json.dumps(V, ensure_ascii=False) + ';', re.M)
 UB = json.load(open('peer_universe/banks.json'))
 U = {k: v for k, v in UB['tickers'].items() if k != T}   # 본인 제외
-# 2026-10-05 2단계: banks.json은 마지막으로 돌린 은행 기준일(9/30)로 덮어써져 JPM 기준일(9/25)과 다르다. 비교 은행 구성(유형자본 결측 은행·수)만 여기서 읽고,
-# 비교 차트 값은 카드에 실린 9/25 종가 값(16b9e28 banks.json)을 그대로 둔다 — BAC P/TBV 1.73은 회사 정의 보정값(override) 전 값이다.
-# 순위·점수는 JPM_bank.json(9/25, 보정값 반영)에서 온다.
+# 비교 차트 값은 banks.json(카드와 같은 기준일 — 은행 9장을 한 번에 다시 만든다)에서 읽는다. 2026-10-06 10/5 갱신 전에는 9/25 값을 손으로 고정했었다(Codex: 제목 날짜와 어긋남).
 PB = ['BAC', 'USB', 'MTB', 'CFG', 'RF', 'FITB']
-CHART_0925 = {'per': {'BAC': 13.06, 'USB': 11.84, 'MTB': 11.71, 'CFG': 14.25, 'RF': 11.23, 'FITB': 17.84},
-              'ptbv': {'BAC': 1.73, 'USB': 2.19, 'MTB': 1.89, 'CFG': 1.76, 'RF': 2.03, 'FITB': 2.24}}
+assert UB['asOf'] == asof, (UB['asOf'], asof)
 NOTB = ['PNC', 'TFC']   # 유형자본 태그 결측(화면 순서) — WFC·C는 2026-10-05부터 들어간다. 바뀌면 아래 문장들을 다시 쓴다
 assert sorted(t for t in U if not isinstance(U[t].get('ptbv'), (int, float))) == sorted(NOTB), U
 mdy = f'{int(asof[5:7])}/{int(asof[8:])} 종가'
 mk = lambda k, key, title, unit, mx: {"title": title, "unit": unit, "max": mx, "jpmValue": None,
-                                     "peers": [{"name": t, "value": CHART_0925[key][t], "status": "reference"} for t in PB]}
+                                     "peers": [{"name": t, "value": round(U[t][key], 2), "status": "reference"} for t in PB if isinstance(U.get(t, {}).get(key), (int, float))]}
 MD = {"per": mk('per', 'per', f'S&P500 은행 PER 비교 · {mdy}', 'PER(TTM)', 25),
       "pbr": mk('pbr', 'ptbv', f'S&P500 은행 P/TBV 비교 · {mdy} ({"·".join(NOTB)}는 유형자본 태그 결측)', 'P/TBV', 4)}
 for k, nm, why in (('psr', 'PSR', '은행 매출에는 이자수익이 들어 있다'), ('pcr', 'PCR', '은행 현금흐름은 예금·대출 증감이 좌우한다'), ('evebitda', 'EV/EBITDA', '예금·차입이 영업 자금이라 기업가치가 뜻이 없다')):
@@ -319,10 +316,15 @@ lvl = px / R['기본']
 _pt = [U[t]['ptbv'] for t in U if isinstance(U[t].get('ptbv'), (int, float))]; _pe = [U[t]['per'] for t in U if isinstance(U[t].get('per'), (int, float))]
 assert len(_pt) == PEER['ptbv']['peers'] and len(_pe) == PEER['per']['peers'], (len(_pt), len(_pe))
 assert all(v < SH['ptbv']['current'] for v in _pt)   # 아래 문장: P/TBV가 비교 은행 모두보다 비싸다(가장 비싼 쪽)
-assert round(lvl, 2) == 1.51   # 위험 문장("경계 바로 위"·91%)은 이 비율에서 쓴 손문장 — 바뀌면 다시 쓴다
+assert lvl > 1.1, lvl   # 아래 두 문장은 "비싸다"(1.1~1.5)·"매우 비싸다"(1.5 초과)만 다룬다 — 1.1 이하로 내려오면 다시 쓴다
+_sv = lambda side: 1 if all(m["score"] >= 70 for m in side.values() if isinstance(m, dict) and "score" in m) else -1 if all(m["score"] < 30 for m in side.values() if isinstance(m, dict) and "score" in m) else 0
+assert (_sv({k: SH[k] for k in ("ptbv", "per")}), _sv({k: PEER[k] for k in ("ptbv", "per")})) == (-1, -1)   # 문장: 자기 이력·동종업 모두 −1
+RISK_TXT = (f'⚠️ 현재가 ÷ 기본 가치가 {lvl:.2f}로 "매우 비싸다"(1.5 초과) 경계 바로 위다. 하루 주가 움직임이나 특별 항목을 빼지 않은 ROE로도 "비싸다"(−1)로 내려오지만, 그래도 세 심판 합계가 −3이라 종합 평가는 고평가 그대로다. 적정~고평가로 가려면 기본 가치가 현재가의 91% 이상이어야 한다(할인율 9% 이하·수렴 없음 정도의 가정).'
+            if lvl > 1.5 else
+            f'⚠️ 현재가 ÷ 기본 가치가 {lvl:.2f}로 "비싸다"(1.1~1.5, −1)다 — "매우 비싸다" 문턱(1.5) 바로 아래라 작은 주가 움직임으로 오간다. 자기 이력·동종업이 모두 −1이라 세 심판 합계 −3, 종합 평가는 고평가다. 적정~고평가로 가려면 기본 가치가 현재가의 91% 이상이어야 한다(할인율 9% 이하·수렴 없음 정도의 가정).')
 sub(r'<div class="vs-premise">.*?</div>\n    <div class="verdict-summary-risk">.*?</div>',
     f'<div class="vs-premise">P/TBV·PER이 자기 5년 이력의 위쪽이고 S&P500 은행 중에서도 가장 비싼 쪽이다. <strong>초과이익모형 기본 가치 ${R["기본"]:.0f}은 현재가의 {1 / lvl * 100:.0f}%</strong>로, 지금 가격은 ROE {f1(R["required_roe"])}가 5년 이어진다는 값이다(최근 4분기 {f1(R["roe0"])}, 특별 항목 제외).</div>\n'
-    f'    <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 {lvl:.2f}로 "매우 비싸다"(1.5 초과) 경계 바로 위다. 하루 주가 움직임이나 특별 항목을 빼지 않은 ROE로도 "비싸다"(−1)로 내려오지만, 그래도 세 심판 합계가 −3이라 종합 평가는 고평가 그대로다. 적정~고평가로 가려면 기본 가치가 현재가의 91% 이상이어야 한다(할인율 9% 이하·수렴 없음 정도의 가정).</div>')
+    f'    <div class="verdict-summary-risk">{RISK_TXT}</div>')
 
 # 판정 JS — 금융 규칙(두 배수가 같은 방향일 때만 표), 자기 이력·동종업 모두
 one("""  const valid = side => side && side.score != null
@@ -483,7 +485,7 @@ _sv = lambda m: 1 if all(x['score'] >= 70 for x in m.values()) else -1 if all(x[
 _d = 1 if lvl <= 0.7 else 1 if lvl <= 0.9 else 0 if lvl <= 1.1 else -1 if lvl <= 1.5 else -2   # "매우 싸다"도 +1만
 _sum = _sv({'a': SH['ptbv'], 'b': SH['per']}) + _sv({'a': PEER['ptbv'], 'b': PEER['per']}) + _d   # 카드 식: 합 × 4 ÷ 무게(1+1+2) = 합
 VERD = '저평가' if _sum >= 3 else '적정~저평가' if _sum >= 1 else '적정' if _sum > -1 else '적정~고평가' if _sum > -3 else '고평가'
-assert (_sum, VERD) == (-4, '고평가') and _d == -2, (_sum, _d)   # 자기 이력 −1 · 동종업 −1 · 초과이익 "매우 비싸다" −2 → −4 → 고평가(위험 문장: −1이어도 −3이라 고평가)
+assert (_sum, VERD, _d) == ((-4, '고평가', -2) if lvl > 1.5 else (-3, '고평가', -1)), (_sum, VERD, _d)   # 자기 이력 −1 · 동종업 −1 · 초과이익 "매우 비싸다" −2 → −4 → 고평가(위험 문장: −1이어도 −3이라 고평가)
 h = h.replace('data-verdict style="font-size:22px;color:var(--gold);">적정~저평가</span>', f'data-verdict style="font-size:22px;color:var(--gold);">{VERD}</span>', 1)
 one('<span class="vs-verdict" data-verdict>적정~저평가</span>', f'<span class="vs-verdict" data-verdict>{VERD}</span>')
 open(p, 'w', encoding='utf-8').write(h)

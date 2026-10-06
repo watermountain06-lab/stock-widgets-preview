@@ -83,10 +83,15 @@ def main():
         eps = [PY] + list(B["eps_cmd"])
     run(eps, show=r"TTM-EPS points|저장")
     print("· 복제·배열")
+    WORK = os.path.join(REPO, "v2", ".sec_cache", "_work"); os.makedirs(WORK, exist_ok=True)   # 저장소 안(gitignore) — /tmp는 체크아웃끼리 겹친다(Codex 2026-10-06)
     src = None
     if a.from_card:   # 덮어쓰기 전에 지금 카드를 떠 둔다
-        src = f"/tmp/{T}_from_card.html"
+        src = os.path.join(WORK, f"{T}_from_card.html")
         open(src, "w", encoding="utf-8").write(open(os.path.join(REPO, card), encoding="utf-8").read())
+    fb = os.path.join(WORK, f"{T}_before_build.html")   # 루트 카드에 없는 배열(백테스트 등)을 예전 카드에서 가져오도록 떠 둔다
+    if os.path.exists(os.path.join(REPO, card)):
+        open(fb, "w", encoding="utf-8").write(open(os.path.join(REPO, card), encoding="utf-8").read())
+        os.environ["ROOT_ARRAYS_FALLBACK"] = fb
     run([PY, "v2/clone_card.py", T, "--force"] + (["--meta", meta] if new else []))
     if src:
         run([PY, os.path.join(HERE, "root_arrays.py"), T, src], show=r"^arrays")
@@ -112,6 +117,8 @@ def main():
     for line in (r.stdout + r.stderr).splitlines():
         if re.search(r"적정주가|^  (PER|PBR|PSR|PCR|EV)|⚠", line):
             print("   ", line[:300])
+    if r.returncode != 0:   # 실패하면 예전 배수 파일로 이어 가지 않는다(Codex 2026-10-06)
+        sys.exit(f"build_multiple_history 실패({r.returncode}):\n{(r.stdout + r.stderr)[-1500:]}")
     run([PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"], show=r"대비 =|^  (PER|PBR|PSR|PCR|EV)")
     if B.get("sum_tags"):
         run([PY, "v2/adapters/financials_sum_tags.py", T], show=r".")

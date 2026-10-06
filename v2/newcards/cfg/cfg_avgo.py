@@ -115,6 +115,4 @@ assert h.count(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)') == 2
 h = h.replace(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)', f'{C.CO} {QL} 실적발표 원문 (SEC 8-K)')
 # 총자산증가율 메모(옛 카드 표기)
 one(f'<span class="diag-note">{C.FY_LABEL} 말 ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표</span>', f'<span class="diag-note">FY25 ${a1 / 1000:.1f}B(전기 ${a0 / 1000:.1f}B) · 연간 지표, FY26 마감 전까지 동일</span>')
-# 애널리스트 출처 표기(옛 카드)
-one("source: 'StockAnalysis (S&P Global 집계)'", "source: 'StockAnalysis'")
 ''']

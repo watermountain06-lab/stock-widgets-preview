@@ -1,78 +1,79 @@
 {
  "ticker": "TRGP",
  "window": [
-  "2025-09-29",
-  "2026-09-25"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
-   "current": 26.56,
+   "days": 251,
+   "current": 27.48,
    "min": 20.99,
    "p10": 22.93,
-   "median": 27.1,
+   "median": 27.11,
    "p90": 28.9,
    "max": 30.68,
-   "mean": 26.41,
-   "percentile": 40.4,
-   "score": 59.6
+   "mean": 26.46,
+   "percentile": 59.0,
+   "score": 41.0
   },
   "PSR": {
-   "days": 250,
-   "current": 3.56,
+   "days": 251,
+   "current": 3.68,
    "min": 2.12,
    "p10": 2.41,
-   "median": 3.07,
+   "median": 3.09,
    "p90": 3.66,
    "max": 3.87,
-   "mean": 3.04,
-   "percentile": 82.8,
-   "score": 17.2
+   "mean": 3.07,
+   "percentile": 91.2,
+   "score": 8.8
   },
   "PBR": {
-   "days": 250,
-   "current": 16.29,
+   "days": 251,
+   "current": 16.85,
    "min": 12.16,
    "p10": 13.47,
-   "median": 16.75,
+   "median": 16.76,
    "p90": 18.49,
    "max": 19.54,
-   "mean": 16.21,
-   "percentile": 41.6,
-   "score": 58.4
+   "mean": 16.26,
+   "percentile": 54.6,
+   "score": 45.4
   },
   "PCR": {
-   "days": 250,
-   "current": 80.41,
+   "days": 251,
+   "current": 83.18,
    "min": 54.33,
-   "p10": 59.38,
-   "median": 84.94,
-   "p90": 221.49,
+   "p10": 59.41,
+   "median": 84.81,
+   "p90": 221.48,
    "max": 234.05,
-   "mean": 111.75,
-   "percentile": 38.4,
-   "score": 61.6
+   "mean": 111.57,
+   "percentile": 45.4,
+   "score": 54.6
   },
   "EV/EBITDA": {
-   "days": 250,
-   "current": 14.44,
+   "days": 251,
+   "current": 14.82,
    "min": 10.81,
-   "p10": 11.68,
-   "median": 14.21,
+   "p10": 11.7,
+   "median": 14.23,
    "p90": 15.06,
    "max": 15.47,
-   "mean": 13.63,
-   "percentile": 60.8,
-   "score": 39.2
+   "mean": 13.69,
+   "percentile": 79.7,
+   "score": 20.3
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
-  "per_p25": 24.59,
+  "per_p25": 24.73,
   "per_p75": 28.13,
   "low": 260,
   "high": 290,
-  "asOf": "2026-09-25",
+  "asOf": "2026-10-05",
   "basis": "diluted"
  }
 }

@@ -1,30 +1,27 @@
 {
  "ticker": "TSN",
  "window": [
-  "2025-09-26",
-  "2026-09-25"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 31.43,
+   "current": 31.92,
    "min": 23.05,
-   "p10": 24.63,
+   "p10": 31.15,
    "median": 45.07,
    "p90": 114.41,
    "max": 117.39,
-   "mean": 58.17,
-   "percentile": 12.4,
-   "score": 87.6
+   "mean": 58.33,
+   "percentile": 13.1,
+   "score": null,
+   "currentNote": "per_na"
   }
  },
  "perBasis": "diluted",
- "fairBand": {
-  "per_p25": 35.98,
-  "per_p75": 79.01,
-  "low": 60,
-  "high": 130,
-  "asOf": "2026-09-25",
-  "basis": "diluted"
+ "perNA": {
+  "netMargin": 0.0103,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

@@ -32,7 +32,7 @@ cfg 선택 항목: `NI_TAGS`(분기 순이익 태그 — PH는 2021년 뒤 Profi
 
 1. 시총 순위 확인(StockAnalysis `marketCap`). `scripts/fetch_eps_history.py` CIKS·KNOWN_SPLITS, `v2/build_activity_score.py` CIKS, `v2/sectors.json`에 등록.
 2. `meta/{t}.json`을 쓰고(앞 카드의 `next`도 고친다), Yahoo 일봉을 `yahoo/{t}.json`으로 받는다 —
-   `curl -A "Mozilla/5.0" "https://query1.finance.yahoo.com/v8/finance/chart/T?period1=1577836800&period2=1790899200&interval=1d&events=div%2Csplits"`
+   `curl -A "Mozilla/5.0" "https://query1.finance.yahoo.com/v8/finance/chart/T?period1=1577836800&period2=1791590400&interval=1d&events=div%2Csplits"`
    (긴 브라우저 UA는 429). `events.splits`에 분사 조정 비율(1.45 미만)이 있으면 분사 종목이다 — 아래 "분사".
 3. `python3 v2/newcards/build.py T --data` — 숫자만 만든다. 여기서 아래 "점검"을 모두 본다.
 4. SEC 원문(10-Q·보도자료·8-K)을 받아 `cfg/cfg_{t}.py`를 쓴다(비슷한 종목의 cfg를 복사해 시작).

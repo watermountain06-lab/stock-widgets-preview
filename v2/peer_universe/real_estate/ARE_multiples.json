@@ -1,34 +1,38 @@
 {
  "ticker": "ARE",
  "window": [
-  "2025-10-02",
-  "2026-09-30"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PSR": {
-   "days": 250,
-   "current": 2.91,
+   "days": 251,
+   "current": 2.81,
    "min": 2.4,
    "p10": 2.66,
    "median": 3.0,
-   "p90": 3.3,
-   "max": 4.67,
-   "mean": 3.05,
-   "percentile": 36.8,
-   "score": 63.2
+   "p90": 3.29,
+   "max": 4.46,
+   "mean": 3.03,
+   "percentile": 27.9,
+   "score": 72.1
   },
   "PBR": {
-   "days": 250,
-   "current": 0.53,
+   "days": 251,
+   "current": 0.51,
    "min": 0.45,
    "p10": 0.5,
    "median": 0.56,
    "p90": 0.62,
-   "max": 0.84,
+   "max": 0.81,
    "mean": 0.57,
-   "percentile": 27.2,
-   "score": 72.8
+   "percentile": 18.3,
+   "score": 81.7
   }
  },
- "perBasis": "diluted"
+ "perBasis": "diluted",
+ "perNA": {
+  "netMargin": -0.3608,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+ }
 }

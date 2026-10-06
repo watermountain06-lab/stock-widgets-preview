@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-28', '2025-06-29', '2026-03-29'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 15034, 'op': 3063, 'ni': -248}   # 10-Q 손익(영업이익은 세전 −653 − 기타 영업외 −3,716)
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (0, 1, -2), '적정~고평가'
 CO = 'Pfizer'
 S_ = 'https://www.sec.gov/Archives/edgar/data/78003/'
 SEC = S_
@@ -52,8 +52,8 @@ CHART_TITLES = {'per': '대형 제약 6곳 PER 비교 (점수는 S&P500 헬스�
 PEER_NAME_TITLE = 'S&P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.'
 PEER_COMMENT = 'S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)'
 FUND_ASOF_NOTE = 'Q2 2026 10-Q (2026-08-04 공시)'
-PREMISE = ('GAAP EPS가 손상 비용으로 줄어 PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)가 5년 중 가장 비싼 쪽이고, PSR·PBR·PCR·EV/EBITDA는 중앙값 근처라 자기 이력 {selfsc:.1f}점(중간)이다. '
-           'S&P500 헬스케어 안에서는 PBR·PCR·EV/EBITDA가 싼 쪽, PER은 비싼 쪽이라 {peersc:.1f}점(중간)이다. '
+PREMISE = ('GAAP EPS가 손상 비용으로 줄어 PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)가 5년 중 가장 비싼 쪽이고, PSR·PBR·PCR·EV/EBITDA는 중앙값 근처라 자기 이력 {selfsc:.1f}점({score_word(selfsc)})이다. '
+           'S&P500 헬스케어 안에서는 PBR·PCR·EV/EBITDA가 싼 쪽, PER은 비싼 쪽이라 {peersc:.1f}점({score_word(peersc)})이다. '
            '<strong>현금흐름 내재가치(기본 ${DCF[\'base\']:.2f})는 현재가의 {DCF[\'base\'] / px * 100:.0f}%</strong>다.')
 RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재가를 정당화하려면 GAAP 영업이익률이 {pct(DCF[\'requiredMargin\'])}까지 올라야 한다(최근 4분기 {pct(HIST[\'margin_now\'])}, 5년 중앙값 {pct(HIST[\'margin_5y\'])}). '
         '현금흐름 {sgn(VOTES[2])}{jo(VOTES[2], \'은\', \'는\')} 투하자본이익률(약 {DCF[\'hardDetail\'][\'roic\'] * 100:.0f}%)이 할인율 10%보다 낮고 차입금 $63.2B를 빼기 때문이다. 투하자본에는 Seagen·Metsera 등 인수로 쌓인 영업권·무형자산이 크다.')
@@ -89,7 +89,7 @@ SUMMARY = ('코로나 매출이 빠진 뒤 신제품 성장과 비만 분야 인
            ['2분기 매출 $15.0B는 영업 기준 +1%, 코로나 제품을 빼면 +5%, 출시·인수 제품은 +18%였다.',
             '2분기 무형자산 손상 $4.3B로 GAAP 순손실이었고, 조정 EPS는 $0.77이었다.',
             '2025년 11월 Metsera를 인수해 비만 신약에 들어갔고, 2027~2029년 비용 절감 $2.5B를 더 발표했다.'],
-           '동종업 대비로는 중간(PBR·PCR·EV/EBITDA는 싼 쪽)이지만, GAAP EPS가 손상으로 줄어 PER은 5년 중 비싸고, 현금흐름 모델은 기본 주당 ${DCF[\'base\']:.2f}이다.',
+           '동종업 대비로는 {peersc:.1f}점({score_word(peersc)}, PBR·PCR·EV/EBITDA가 싼 쪽)이지만, GAAP EPS가 손상으로 줄어 PER은 5년 중 비싸고, 현금흐름 모델은 기본 주당 ${DCF[\'base\']:.2f}이다.',
            'Q3 2026 실적(10월 하순 예상)의 매출 전망 유지와 비만·항암 임상 결과.')
 BULL = [('신제품', '출시·인수 제품 매출 +18%, Eliquis +21%.'),
         ('비용 절감', '2027~2029년 추가 $2.5B 절감 계획.'),

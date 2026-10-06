@@ -64,8 +64,7 @@ one('<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%
     f'<span class="meta-label">현재가 요구 ROE (5년 · 최근 4분기 {f1(R["roe0"])})</span>')
 one('id="gsFairBand" style=', f'id="gsFairBand" title="최근 1년 PER 25~75% 구간({FB["per_p25"]:.1f}~{FB["per_p75"]:.1f}배) × 최근 4분기 EPS로 낸 PER만의 범위다. 판정은 P/TBV·PER 두 배수와 초과이익모형을 함께 보므로 이 범위와 따로 읽는다. 지금 PER({SH["per"]["current"]:.1f}배)이 1년 구간 아래라 현재가가 범위보다 낮다." style=')
 h = re.sub(r'(id="gsFairBand"[^>]*>)[^<]*(</span>)', lambda m: m.group(1) + f'${FB["low"]} ~ ${FB["high"]}' + m.group(2), h, count=1)
-h = h.replace('data-verdict style="font-size:22px;color:var(--gold);">적정~저평가</span>', 'data-verdict style="font-size:22px;color:var(--gold);">고평가</span>', 1)
-one('<span class="vs-verdict" data-verdict>적정~저평가</span>', '<span class="vs-verdict" data-verdict>고평가</span>')
+# 헤더 판정 단어는 7번에서 표를 계산한 뒤 넣는다(2026-10-06 10/5 갱신 — 동종업 −1 → 0으로 고평가 → 적정~고평가)
 one('<button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;border-color:#38bdf8;">◆ DCF 시나리오</button>',
     '<button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;border-color:#38bdf8;" hidden>◆ DCF 시나리오</button>')
 
@@ -303,8 +302,9 @@ assert sorted(t for t in U if not isinstance(U[t].get('ptbv'), (int, float))) ==
 PB = ['JPM', 'BAC', 'USB', 'FITB', 'RF', 'MTB']
 mk = lambda k, key, title, unit, mx: {"title": title, "unit": unit, "max": mx, "msValue": None,
                                      "peers": [{"name": t, "value": round(U[t][key], 2), "status": "reference"} for t in PB if isinstance(U.get(t, {}).get(key), (int, float))]}
-MD = {"per": mk('per', 'per', 'S&P500 은행 PER 비교 · 9/29 종가', 'PER(TTM)', 25),
-      "pbr": mk('pbr', 'ptbv', f'S&P500 은행 P/TBV 비교 · 9/29 종가 ({"·".join(NOTB)}는 유형자본 태그 결측)', 'P/TBV', 4)}
+_mdy = (lambda d: f'{int(d[5:7])}/{int(d[8:])} 종가')(json.load(open('peer_universe/banks.json'))['asOf'])   # 차트 제목 날짜 = 비교군 기준일(2026-10-06, 손으로 적은 날짜가 갱신 뒤 남았다 — Fable)
+MD = {"per": mk('per', 'per', f'S&P500 은행 PER 비교 · {_mdy}', 'PER(TTM)', 25),
+      "pbr": mk('pbr', 'ptbv', f'S&P500 은행 P/TBV 비교 · {_mdy} ({"·".join(NOTB)}는 유형자본 태그 결측)', 'P/TBV', 4)}
 for k, nm, why in (('psr', 'PSR', '은행 매출에는 이자수익이 들어 있다'), ('pcr', 'PCR', '은행 현금흐름은 예금·대출 증감이 좌우한다'), ('evebitda', 'EV/EBITDA', '예금·차입이 영업 자금이라 기업가치가 뜻이 없다')):
     MD[k] = {"title": f'{nm} — 은행에 해당 없음 ({why})', "unit": nm, "max": 1, "msValue": None, "peers": []}
 sub(r'const MULTIPLE_DATA = \{.*?\n\};\n', '// 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3) 중 6곳. 값이 없는 은행은 뺀다.\nconst MULTIPLE_DATA = ' + json.dumps(MD, ensure_ascii=False, indent=2) + ';\n')
@@ -413,7 +413,7 @@ for it in items:
 tl = '    <div class="timeline" id="newsTimeline">\n' + '\n'.join(item(*i) for i in items) + '\n    </div>'
 sub(r'    <div class="timeline" id="newsTimeline">\n.*?\n    </div>\n    <div class="tl-pager"', tl + '\n    <div class="tl-pager"')
 sub(r'<div class="section-title">시계열 주요 뉴스 \([^)]*\)</div>', '<div class="section-title">시계열 주요 뉴스 (2025.10 ~ 2026.07)</div>')
-SUM = f"""<div class="verdict-summary-head">지배적 내러티브 · 트레이딩·투자은행 호황으로 사상 최대 순수익, 주가는 유형 장부가의 {SH["ptbv"]["current"]:.1f}배<span class="tag">고수익·고평가</span></div>
+SUM = f"""<div class="verdict-summary-head">지배적 내러티브 · 트레이딩·투자은행 호황으로 사상 최대 순수익, 주가는 유형 장부가의 {SH["ptbv"]["current"]:.1f}배<span class="tag">고수익·__GS_VERD__</span></div>
     <ol class="news-list">
       <li>2분기 순수익 $20.34B가 사상 최대였고, EPS $20.98·ROE 23.5%였다(1년 전 EPS $10.91·ROE 12.8%).</li>
       <li>주식 순수익($7.42B, +72%)과 투자은행 수수료($3.40B, +55%)가 GBM을 끌었고, 자산운용·자산관리(AWM) 감독 자산이 $4.04조로 늘었다.</li>
@@ -469,12 +469,16 @@ one("    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) :
 one("    if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }",
     "    if (price != null) { pu.textContent = pick == null ? '—' : '현재가 대비 ' + pct(pick); pu.style.color = pick == null ? '' : tone(pick); }")
 
-# ── 7. 판정 확인 ──
-open(p, 'w', encoding='utf-8').write(h)
+# ── 7. 판정 확인 · 헤더 단어 ──
 _sv = lambda m: 1 if all(x['score'] >= 70 for x in m.values()) else -1 if all(x['score'] < 30 for x in m.values()) else 0
 _d = 1 if lvl <= 0.7 else 1 if lvl <= 0.9 else 0 if lvl <= 1.1 else -1 if lvl <= 1.5 else -2
 _sum = _sv({'a': SH['ptbv'], 'b': SH['per']}) + _sv({'a': PEER['ptbv'], 'b': PEER['per']}) + _d
-assert _sum <= -3, _sum   # 고평가
-print('votes sum', _sum)
+VERD = '저평가' if _sum >= 3 else '적정~저평가' if _sum >= 1 else '적정' if _sum > -1 else '적정~고평가' if _sum > -3 else '고평가'
+assert VERD in ('고평가', '적정~고평가'), (_sum, VERD)   # 문장(호황기 ROE·기본 가치가 현재가보다 낮다)은 고평가 쪽 판정만 다룬다
+h = h.replace('data-verdict style="font-size:22px;color:var(--gold);">적정~저평가</span>', f'data-verdict style="font-size:22px;color:var(--{"gold" if VERD == "고평가" else "red"});">{VERD}</span>', 1)   # 적정~고평가 = 빨강(bac·c_fill.py와 같이)
+one('<span class="vs-verdict" data-verdict>적정~저평가</span>', f'<span class="vs-verdict" data-verdict>{VERD}</span>')
+assert h.count('__GS_VERD__') == 1; h = h.replace('__GS_VERD__', '고평가' if VERD == '고평가' else '밸류 부담')   # 해석 태그(CAT '수주 호황·밸류 부담'과 같은 말)
+open(p, 'w', encoding='utf-8').write(h)
+print('votes sum', _sum, VERD)
 print('ok base', R['기본'], 'ratio', round(lvl, 3), 'self', selfscore, 'peer', peerscore, 'req', R['required_roe'], 'band', FB['low'], FB['high'])
 print('YoY', vec(cur), yd); print('QoQ', vec(qo), qd); print('roe_q', roe_q)

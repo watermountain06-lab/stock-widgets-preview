@@ -1,66 +1,67 @@
 {
  "ticker": "PGR",
  "window": [
-  "2025-10-02",
-  "2026-09-30"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
-   "current": 10.4,
+   "days": 251,
+   "current": 10.67,
    "min": 9.68,
    "p10": 10.19,
-   "median": 11.06,
-   "p90": 12.49,
-   "max": 13.84,
-   "mean": 11.21,
-   "percentile": 19.6,
-   "score": 80.4
+   "median": 11.03,
+   "p90": 12.47,
+   "max": 13.74,
+   "mean": 11.18,
+   "percentile": 35.5,
+   "score": 64.5
   },
   "PSR": {
-   "days": 250,
-   "current": 1.32,
+   "days": 251,
+   "current": 1.36,
    "min": 1.24,
    "p10": 1.3,
    "median": 1.4,
    "p90": 1.57,
-   "max": 1.75,
+   "max": 1.73,
    "mean": 1.42,
-   "percentile": 14.4,
-   "score": 85.6
+   "percentile": 33.1,
+   "score": 66.9
   },
   "PBR": {
-   "days": 250,
-   "current": 3.51,
+   "days": 251,
+   "current": 3.6,
    "min": 3.33,
    "p10": 3.44,
    "median": 3.73,
-   "p90": 4.06,
-   "max": 4.42,
+   "p90": 4.01,
+   "max": 4.39,
    "mean": 3.74,
-   "percentile": 17.2,
-   "score": 82.8
+   "percentile": 30.3,
+   "score": 69.7
   },
   "PCR": {
-   "days": 250,
-   "current": 7.56,
+   "days": 251,
+   "current": 7.75,
    "min": 6.59,
    "p10": 6.9,
    "median": 7.37,
-   "p90": 8.06,
-   "max": 8.74,
-   "mean": 7.46,
-   "percentile": 56.4,
-   "score": 43.6
+   "p90": 8.04,
+   "max": 8.68,
+   "mean": 7.45,
+   "percentile": 68.1,
+   "score": 31.9
   }
  },
  "perBasis": "diluted",
+ "perNA": null,
  "fairBand": {
   "per_p25": 10.47,
-  "per_p75": 11.77,
+  "per_p75": 11.72,
   "low": 210,
   "high": 230,
-  "asOf": "2026-09-30",
+  "asOf": "2026-10-05",
   "basis": "diluted"
  }
 }

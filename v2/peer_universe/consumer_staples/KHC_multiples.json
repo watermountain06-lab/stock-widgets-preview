@@ -1,46 +1,50 @@
 {
  "ticker": "KHC",
  "window": [
-  "2025-09-26",
-  "2026-09-25"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PSR": {
    "days": 251,
-   "current": 1.13,
+   "current": 1.04,
    "min": 1.01,
-   "p10": 1.07,
+   "p10": 1.06,
    "median": 1.15,
-   "p90": 1.22,
+   "p90": 1.21,
    "max": 1.31,
    "mean": 1.14,
-   "percentile": 34.7,
-   "score": 65.3
+   "percentile": 2.8,
+   "score": 97.2
   },
   "PBR": {
    "days": 251,
-   "current": 0.78,
+   "current": 0.72,
    "min": 0.6,
    "p10": 0.64,
    "median": 0.7,
    "p90": 0.81,
    "max": 0.86,
    "mean": 0.71,
-   "percentile": 84.9,
-   "score": 15.1
+   "percentile": 69.7,
+   "score": 30.3
   },
   "PCR": {
    "days": 251,
-   "current": 7.34,
+   "current": 6.79,
    "min": 6.62,
-   "p10": 7.05,
-   "median": 7.73,
-   "p90": 8.3,
-   "max": 8.9,
-   "mean": 7.7,
-   "percentile": 27.5,
-   "score": 72.5
+   "p10": 7.02,
+   "median": 7.69,
+   "p90": 8.16,
+   "max": 8.71,
+   "mean": 7.66,
+   "percentile": 1.2,
+   "score": 98.8
   }
  },
- "perBasis": "diluted"
+ "perBasis": "diluted",
+ "perNA": {
+  "netMargin": -0.1364,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+ }
 }

@@ -1,30 +1,27 @@
 {
  "ticker": "EL",
  "window": [
-  "2025-09-26",
-  "2026-09-25"
+  "2025-10-06",
+  "2026-10-05"
  ],
  "multiples": {
   "PER": {
-   "days": 27,
-   "current": 188.94,
-   "min": 186.86,
-   "p10": 190.02,
-   "median": 197.66,
-   "p90": 208.84,
+   "days": 33,
+   "current": 186.6,
+   "min": 180.38,
+   "p10": 186.65,
+   "median": 196.02,
+   "p90": 208.15,
    "max": 212.42,
-   "mean": 198.86,
-   "percentile": 7.4,
-   "score": 92.6
+   "mean": 196.53,
+   "percentile": 9.1,
+   "score": null,
+   "currentNote": "per_na"
   }
  },
  "perBasis": "diluted",
- "fairBand": {
-  "per_p25": 192.59,
-  "per_p75": 204.24,
-  "low": 100,
-  "high": 100,
-  "asOf": "2026-09-25",
-  "basis": "diluted"
+ "perNA": {
+  "netMargin": 0.0121,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }
