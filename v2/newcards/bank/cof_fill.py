@@ -73,7 +73,7 @@ one('<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%
 _NA_WHY = f'최근 1년 PER 구간(25~75% {FB["per_p25"]:.0f}~{FB["per_p75"]:.0f}배)은 2025년 2분기 Discover 인수 초기 충당금(주당 −$13.04)이 든 당시의 최근 4분기 EPS로 잰 값이라 부풀어, 지금 EPS에 곱해도 이익 수준의 범위로 읽을 수 없다(BA와 같은 규칙).'
 sub(r'id="cofFairBand" style="[^"]*">[^<]*<', f'id="cofFairBand" title="PER 25~75% 구간 × 최근 4분기 EPS로 내는 범위다. {_NA_WHY}" style="font-size:22px;color:var(--text3);">해당 없음<')
 h = re.sub(r'const COF_BACKTEST = \[.*?\];', 'const COF_BACKTEST = [];', h, count=1, flags=re.S)
-one("if (label) label.textContent = '밴드 적중률 (백테스트 없음)';", "if (label) { label.textContent = '밴드 적중률 (해당 없음)'; label.title = '" + _NA_WHY + "'; }")
+one("if (label) { label.textContent = '밴드 적중률'; label.title = '백테스트 없음'; }", "if (label) { label.textContent = '밴드 적중률'; label.title = '" + _NA_WHY + "'; }")
 one('<button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;border-color:#38bdf8;">◆ DCF 시나리오</button>',
     '<button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;border-color:#38bdf8;" hidden>◆ DCF 시나리오</button>')
 

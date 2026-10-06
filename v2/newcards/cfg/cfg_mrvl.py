@@ -99,5 +99,5 @@ ANALYST = {'rating': 'Strong Buy', 'n': 46, 'nt': 29, 'mean': 290.66, 'median': 
 ANALYST_ASOF = '2026-10-05'
 MISS_WHY = {('INTC', 'per'): ' 적자'}
 POST = [r'''
-one("if (label) label.textContent = '밴드 적중률 (백테스트 없음)';", "if (label) label.textContent = '밴드 적중률 (해당 없음 — 직전 PER 표본 1년 미만)';")   # C14 ① 사유(카드 직접 수정 5b46b49)
+one("if (label) { label.textContent = '밴드 적중률'; label.title = '백테스트 없음'; }", "if (label) { label.textContent = '밴드 적중률'; label.title = '해당 없음 — 직전 PER 표본 1년 미만'; }")   # C14 ① 사유(카드 직접 수정 5b46b49)
 ''']

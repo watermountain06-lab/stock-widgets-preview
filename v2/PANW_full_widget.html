@@ -1513,7 +1513,7 @@ const PANW_SCORES = {
   if (d.base == null) {
     const why = d.unavailable || '입력 부족';
     if (req) { req.textContent = '—'; req.style.color = 'var(--text3)'; const c = req.closest('.meta-item'); if (c) c.title = '계산 불가 — ' + why; }
-    if (box) box.innerHTML = '계산 불가<span class="logic-denom"> · ' + why + '</span>';
+    if (box) { box.textContent = '계산 불가'; box.title = why; }
     const dv0 = $('panwDcfVerdict'); if (dv0) { dv0.textContent = '계산 불가'; dv0.title = why; }
     return;
   }
@@ -1854,12 +1854,6 @@ const PANW_VALUATION = {"peer": {"score": 21.8, "sector": "Information Technolog
   });
   document.querySelectorAll('[data-verdict]').forEach(el => {
     if (edges.length) el.title += '\n\n경계: ' + edges.join(' / ');
-    if (!el.classList.contains('meta-value')) return;   // 헤더 판정 밑에만 글을 단다
-    const old = el.parentNode.querySelector('.verdict-edge'); if (old) old.remove();
-    if (!edges.length) return;
-    const e = document.createElement('span'); e.className = 'verdict-edge';
-    e.style.cssText = 'display:block;font-size:11px;color:var(--text3);margin-top:2px;line-height:1.35;';
-    e.textContent = '경계 — ' + edges[0]; el.after(e);
   });
 })();
 (function(){
@@ -2255,19 +2249,19 @@ function panwBandTone(cp){
   // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
   if (el && typeof PANW_VALUATION !== 'undefined' && PANW_VALUATION.perNA) {
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
-    if (label) label.textContent = '밴드 적중률 (PER 해당 없음 — 최근 4분기 순이익률 2% 미만)';
+    if (label) { label.textContent = '밴드 적중률'; label.title = 'PER 해당 없음 — 최근 4분기 순이익률 2% 미만'; }
     const fb = document.getElementById('panwFairBand'); if (fb) { fb.textContent = '해당 없음'; fb.style.color = 'var(--text3)'; }
     return;
   }
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && PANW_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
-    if (label) label.textContent = `밴드 적중률 (끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''})`;
+    if (label) { label.textContent = '밴드 적중률'; label.title = `끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''}`; }
     return;
   }
   if (el && h.ratio == null) {   // 백테스트 체크포인트가 없으면(신규 상장 등) 비워 둔다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
-    if (label) label.textContent = '밴드 적중률 (백테스트 없음)';
+    if (label) { label.textContent = '밴드 적중률'; label.title = '백테스트 없음'; }
     return;
   }
   if (!el) return;

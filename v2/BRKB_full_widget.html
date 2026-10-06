@@ -492,11 +492,11 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">판정 보류</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label">두 기둥 참고값 (판정 미반영)</span>
+      <span class="meta-label">두 기둥 참고값</span>
       <span class="meta-value" id="brkbPillarRef" style="font-size:22px;color:#38bdf8;" title="투자 기둥 $305 + 영업 기둥 $103(주당). 보험지주라 현금흐름 모델 대신 쓰지만 사전 등록한 데이터 정확성 관문을 통과하지 못해 판정에 넣지 않는다. 내재가치 탭 참고.">$408</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="brkbConfidenceLabel">밴드 적중률 (백테스트 없음)</span>
+      <span class="meta-label" id="brkbConfidenceLabel" title="백테스트 없음">밴드 적중률</span>
       <span class="meta-value" id="brkbConfidence" style="font-size: 22px; color: var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
@@ -515,7 +515,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="brkbLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="brkbDcfVerdict">계산 불가</span></div>
-      <div class="logic-score" id="brkbDcfBox">계산 불가<span class="logic-denom"> · 보험지주라 현금흐름 모델 미적용, 두 기둥 참고값 $408은 판정 미반영</span></div>
+      <div class="logic-score" id="brkbDcfBox" title="보험지주라 현금흐름 모델 미적용, 두 기둥 참고값 $408은 판정 미반영">계산 불가</div>
     </div>
     <div class="logic-box logic-neutral" id="brkbFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="brkbFundVerdict">판정 안 함</span></div>
@@ -620,7 +620,7 @@ Chart.overrides.doughnut.animation = false;
 </style>
 
 <div id="dcf" class="section">
-  <div class="section-title">내재가치 — 두 기둥 참고값 (판정 미반영)</div>
+  <div class="section-title">내재가치 — 두 기둥 참고값</div>
   <div class="lede">보험지주는 매출/자본 현금흐름 모델이 맞지 않아, 버핏이 주주서한에서 설명한 두 기둥(투자 자산과 보험 밖 사업 이익)을 본떠 셈한 참고값만 싣는다.</div>
   <div class="note" id="dcfHardNote" hidden></div>
 
@@ -900,7 +900,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 BRK.B 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 보험지주라 정상화 PER·PBR 두 배수만 보고, 둘 다 70 이상이면 +1, 둘 다 30 미만이면 −1이다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">66.7</div><div class="sc-tile lost" data-vc="self" data-m="per">67</div><div class="sc-tile lost" data-vc="self" data-m="pbr">67</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="보험지주라 현금흐름 모델을 쓰지 않는다. 두 기둥 참고값은 판정에 넣지 않는다.">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">두 기둥 참고값 <strong>$408</strong>(판정 미반영) · 현재가는 그 1.24배</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
+      <div class="vs-name" title="보험지주라 현금흐름 모델을 쓰지 않는다. 두 기둥 참고값은 판정에 넣지 않는다.">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">두 기둥 참고값 <strong>$408</strong> · 현재가는 그 1.24배</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">계산 불가</div></div>
       <div class="vs-name" title="보험지주 동종업이 5곳 미만이라 설계상 기권한다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">—</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">표본 부족</div>
     </div></div>
@@ -1544,7 +1544,7 @@ const BRKB_SCORES = {
   if (d.base == null) {
     const why = d.unavailable || '입력 부족';
     if (req) { req.textContent = '—'; req.style.color = 'var(--text3)'; const c = req.closest('.meta-item'); if (c) c.title = '계산 불가 — ' + why; }
-    if (box) box.innerHTML = '계산 불가<span class="logic-denom"> · ' + why + '</span>';
+    if (box) { box.textContent = '계산 불가'; box.title = why; }
     const dv0 = $('brkbDcfVerdict'); if (dv0) { dv0.textContent = '계산 불가'; dv0.title = why; }
     return;
   }
@@ -1885,12 +1885,6 @@ const BRKB_VALUATION = {"peer": {"score": null, "sector": "Financials", "asOf": 
   });
   document.querySelectorAll('[data-verdict]').forEach(el => {
     if (edges.length) el.title += '\n\n경계: ' + edges.join(' / ');
-    if (!el.classList.contains('meta-value')) return;   // 헤더 판정 밑에만 글을 단다
-    const old = el.parentNode.querySelector('.verdict-edge'); if (old) old.remove();
-    if (!edges.length) return;
-    const e = document.createElement('span'); e.className = 'verdict-edge';
-    e.style.cssText = 'display:block;font-size:11px;color:var(--text3);margin-top:2px;line-height:1.35;';
-    e.textContent = '경계 — ' + edges[0]; el.after(e);
   });
 })();
 (function(){
@@ -2309,12 +2303,12 @@ function brkbBandTone(cp){
   // C1: 끝난 체크포인트가 4개 미만이면 해당 없음(실적을 넘긴 구간을 뺀 뒤 센다)
   if (el && h.few && BRKB_BACKTEST.length) {   // 빈 배열은 아래 분기 — 카드별 사유 툴팁(BA·COF 등)을 살린다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
-    if (label) label.textContent = `밴드 적중률 (끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''})`;
+    if (label) { label.textContent = '밴드 적중률'; label.title = `끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''}`; }
     return;
   }
   if (el && h.ratio == null) {   // 백테스트 체크포인트가 없으면(신규 상장 등) 비워 둔다
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';
-    if (label) label.textContent = '밴드 적중률 (백테스트 없음)';
+    if (label) { label.textContent = '밴드 적중률'; label.title = '백테스트 없음'; }
     return;
   }
   if (!el) return;

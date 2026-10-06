@@ -24,7 +24,7 @@ PRE = ['FB = None']
 _NA_WHY = '흑자 전환(2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B) 뒤 PER 이력이 168일뿐이고, 그 PER이 일회성 이익으로 부푼 EPS 기준이라 밴드를 이익 수준으로 읽을 수 없다.'
 FAIRBAND_TITLE = 'id="baFairBand" title="PER 25~75% 구간 × 최근 4분기 EPS로 내는 범위다. ' + _NA_WHY + '"'
 POST = [r"""h = re.sub(r'const BA_BACKTEST = \[.*?\];', 'const BA_BACKTEST = [];', h, count=1, flags=re.S)""",
-        "one(\"if (label) label.textContent = '밴드 적중률 (백테스트 없음)';\", \"if (label) { label.textContent = '밴드 적중률 (해당 없음)'; label.title = '\" + C._NA_WHY + \"'; }\")"]
+        "one(\"if (label) { label.textContent = '밴드 적중률'; label.title = '백테스트 없음'; }\", \"if (label) { label.textContent = '밴드 적중률'; label.title = '\" + C._NA_WHY + \"'; }\")"]
 HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (최근 4분기 {pct(HIST[\'margin_now\'])})</span>'
 OPM_RANGE, Y2 = (-40, 40), (-40, 40)
 FCF_SUB = '영업현금흐름 − 설비투자'

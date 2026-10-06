@@ -79,7 +79,7 @@ h = re.sub(r'(selfHistory: [\d.]+,   // )[^\n]*', lambda m: m.group(1) + '자기
 one('<canvas id="geRevChart"></canvas>\n    </div>\n', '<canvas id="geRevChart"></canvas>\n    </div>\n'
     '    <div class="yoy-footnote" style="margin-top:8px;">' + C.REV_NOTE + '</div>\n')
 # 밴드 적중률: 분사 뒤 이력이라 체크포인트 없음 — 옛 카드 표기와 사유 툴팁(정적 라벨은 sync_fallbacks가 렌더 결과로 채운다)
-one("if (label) label.textContent = '밴드 적중률 (백테스트 없음)';", "if (label) { label.textContent = '밴드 적중률 (해당 없음)'; label.title = '" + C.BAND_NA_WHY + "'; }")
+one("if (label) { label.textContent = '밴드 적중률'; label.title = '백테스트 없음'; }", "if (label) { label.textContent = '밴드 적중률'; label.title = '" + C.BAND_NA_WHY + "'; }")
 # 역산 문장: 성장 모드(reqMode growth)는 카드 JS가 .reverse를 문장으로 다시 쓰지 않고 칸(span)만 채운다 — 틀 시절 칸 구조를 되살린다
 sub(r'<div class="reverse">—</div>', '<div class="reverse">지금 가격(<span data-dcf-price>$' + f'{px:.2f}' + '</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>' + pct(DCF['requiredGrowth']) + '</b>씩 커야 한다(마진은 기본 시나리오 경로). 기본 시나리오(<span data-dcf-basev>$' + f"{DCF['base']:.0f}" + '</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>' + pct(DCF['baseEquivGrowth']) + '</span>다.</div>')
 # 총자산증가율 메모 꼬리, 기본적 분석 툴팁의 성장률 출처(분사 재작성)

@@ -160,6 +160,7 @@ def main():
         return
     print("· 채우기")
     run([PY, os.path.join(HERE, "fill.py"), T], show=r"^ok|^peers")
+    run([PY, "v2/strip_caveats.py", T])   # 값 옆 사유 글은 툴팁으로(2026-10-06 사용자 결정)
     run([PY, "v2/sync_fallbacks.py", T] + (["--base", a.sync_base] if a.sync_base else []), show=r".")
     js = "/tmp/%s_inline.js" % T
     open(js, "w").write("\n;\n".join(re.findall(r"<script>(.*?)</script>", open(p, encoding="utf-8").read(), re.S)))
