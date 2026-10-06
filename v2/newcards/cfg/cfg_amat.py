@@ -94,8 +94,8 @@ BULL = [('성장', '3분기 매출 +25%, 4분기 가이던스는 1년 전보다 
 BEAR = [('밸류', '다섯 배수 모두 5년 상위 {100 - min(v_[\'percentile\'] for v_ in SM.values()):.0f}% 안이고, 기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%다.'),
         ('규제', '중국 매출이 28%이고, 2월에 수출통제 관련으로 $252.5M를 냈다.'),
         ('변동성', '주가가 6월 말 고점에서 29% 내려왔다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 40, 'mean': 638.94, 'median': 650, 'low': 358, 'high': 900, 'sb': 29, 'b': 4, 'h': 7, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-09-28'
+ANALYST = {'rating': 'Strong Buy', 'n': 40, 'nt': 27, 'mean': 676.52, 'median': 683, 'low': 500, 'high': 900, 'sb': 29, 'b': 4, 'h': 7, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-05'
 
 REQ_MULT_EXACT = True   # 옛 카드 툴팁: "지난 5년의 6.9배"
 

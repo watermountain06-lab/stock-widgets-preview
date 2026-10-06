@@ -1092,13 +1092,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">25</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">25 · 목표가 15</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">9</span> · 유지 <span data-an="hold">16</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 36%; background: var(--green);"></div><div data-an-bar="hold" style="width: 64%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-01</span></span>
-        <span class="op-val"><span data-an="mean">$50.43</span> <span class="op-sub op-up" data-an="upside">+9.9%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$50.37</span> <span class="op-sub op-up" data-an="upside">+9.8%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1630,7 +1630,7 @@ const VZ_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분 투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분 투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1905,7 +1905,7 @@ const VZ_VALUATION = {"peer": {"score": 73.6, "sector": "Communication Services 
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
     f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수' : '적자'}·결측 구간 제외)` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수·결측' : '적자·결측'} 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
@@ -2090,14 +2090,14 @@ const VZ_ACTIVITY = {"ticker": "VZ", "status": "N/A", "reason": "매출원가·�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/vz/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const VZ_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 25, mean: 50.43, median: 50,
+const VZ_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 15, mean: 50.37, median: 50,
   low: 46, high: 56, strongBuy: 7, buy: 2, hold: 16, sell: 0, strongSell: 0 };
 (function(){
   const A = VZ_ANALYST, last = (typeof VZ_DAILY !== 'undefined' && VZ_DAILY.length) ? VZ_DAILY[VZ_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };
@@ -2152,7 +2152,7 @@ const VZ_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집�
   put('vzPeerBox', 'vzPeerScore', 'vzPeerVerdict', S.peer, WORDS.val,
       `S&P500 커뮤니케이션(VZ 제외 21종목, 클래스 중복 GOOG·FOX·NWS 포함)과 배수 순위를 매긴 값이다.`
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
-      + `\n통신·케이블 외에 인터넷 플랫폼(GOOGL·META)·미디어·광고가 섞여 있다. 이 카드만 S&P500 커뮤니케이션 전용 비교군을 쓴다. FOX·FOXA는 PSR·PBR·PCR 값이 0으로 잘못 계산돼 그 세 배수에서 뺐다.`);
+      + `\n통신·케이블 외에 인터넷 플랫폼(GOOGL·META)·미디어·광고가 섞여 있다. 이 카드만 S&P500 커뮤니케이션 전용 비교군을 쓴다. FOX·FOXA는 PSR·PBR·PCR 값이 0으로 잘못 계산돼 그 세 배수에서 뺐다. 통신사는 성장이 높은 플랫폼 기업보다 배수가 낮은 업종이라, 동종업 표(+1)는 이 섞인 구성의 영향이 크다(비교군 설계는 v2.1에서 따로).`);
   put('vzSelfBox', 'vzSelfScore', 'vzSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nPER 11.9배(5년 중앙값 10.0배)는 비싼 쪽, PCR 8.8배는 싼 쪽, PSR·PBR·EV/EBITDA는 중간이다. 설비투자 공시 항목이 2019년에 바뀌어 두 구간을 이어 계산했다.`

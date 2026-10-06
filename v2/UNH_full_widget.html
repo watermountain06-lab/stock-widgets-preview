@@ -1079,13 +1079,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">26</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">26 · 목표가 21</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">22</span> · 유지 <span data-an="hold">4</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 84.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 15.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-30</span></span>
-        <span class="op-val"><span data-an="mean">$481.72</span> <span class="op-sub op-up" data-an="upside">+28.5%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$471.10</span> <span class="op-sub op-up" data-an="upside">+25.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2067,14 +2067,14 @@ const UNH_ACTIVITY = {"ticker": "UNH", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/unh/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const UNH_ANALYST = { asOf: '2026-09-30', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 26, mean: 481.72, median: 490,
-  low: 380, high: 529, strongBuy: 15, buy: 7, hold: 4, sell: 0, strongSell: 0 };
+const UNH_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 21, mean: 471.1, median: 480,
+  low: 370, high: 529, strongBuy: 15, buy: 7, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = UNH_ANALYST, last = (typeof UNH_DAILY !== 'undefined' && UNH_DAILY.length) ? UNH_DAILY[UNH_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

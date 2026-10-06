@@ -1083,12 +1083,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">19</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">19 · 목표가 17</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">9</span> · 유지 <span data-an="hold">9</span> · 매도 <span data-an="sell">1</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 47.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 47.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-01</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
         <span class="op-val"><span data-an="mean">$374.35</span> <span class="op-sub op-down" data-an="upside">−5.3%</span></span>
       </div>
       <div class="op-cell">
@@ -2075,14 +2075,14 @@ const MPC_ACTIVITY = {"ticker": "MPC", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mpc/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MPC_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 19, mean: 374.35, median: 400,
+const MPC_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 17, mean: 374.35, median: 400,
   low: 210, high: 472, strongBuy: 5, buy: 4, hold: 9, sell: 1, strongSell: 0 };
 (function(){
   const A = MPC_ANALYST, last = (typeof MPC_DAILY !== 'undefined' && MPC_DAILY.length) ? MPC_DAILY[MPC_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

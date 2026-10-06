@@ -97,8 +97,8 @@ BULL = [('성장', '매출이 분기마다 약 5% 늘었고, 7월에 연간 매�
 BEAR = [('집중', '키트루다 한 제품이 매출의 50%다.'),
         ('인수 비용', '2026년 상반기 두 건의 인수로 R&D 일회성 비용 $14.7B(대부분 IPR&D)를 처리했고, 차입금이 $53.9B로 늘었다.'),
         ('밸류', 'PSR·PBR이 5년 상위 {math.ceil(100 - min(SM[\'PSR\'][\'percentile\'], SM[\'PBR\'][\'percentile\']))}% 안이고 기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%다.')]
-ANALYST = {'rating': 'Buy', 'n': 28, 'mean': 154.62, 'median': 157.5, 'low': 105, 'high': 186, 'sb': 15, 'b': 5, 'h': 8, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-09-29'
+ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 22, 'mean': 161.16, 'median': 170, 'low': 105, 'high': 180, 'sb': 15, 'b': 5, 'h': 8, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-05'
 
 # 옛 카드 끝의 음수 표기 정리 스크립트(카드 한정 — 틀 JS가 "$-12"·"-6.5%"로 찍던 것, INTC 카드에도 있다)
 NEG_FIX_JS = '<script>\n// 음수 표기 정리(카드 한정, 틀 과제) — 틀 JS가 음수 금액·비율을 "$-12", "-6.5%"로 찍는다. 텍스트 노드만 바꾸고 날짜(2026-06-27)는 건드리지 않는다.\n(function(){\n  const RX1 = /\\$-(\\d)/g, RX2 = /(^|[\\s(~·])-(\\d)/g;\n  const fix = root => {\n    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);\n    let n;\n    while ((n = w.nextNode())) {\n      const p = n.parentElement && n.parentElement.tagName;\n      if (p === \'SCRIPT\' || p === \'STYLE\') continue;\n      const t = n.textContent;\n      if (t.indexOf(\'-\') < 0) continue;\n      const u = t.replace(RX1, \'−$$$1\').replace(RX2, \'$1−$2\');\n      if (u !== t) n.textContent = u;\n    }\n  };\n  const run = () => fix(document.body);\n  run();\n  new MutationObserver(run).observe(document.body, {childList: true, subtree: true, characterData: true});\n})();\n</script>\n'

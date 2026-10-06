@@ -60,7 +60,7 @@ RISK = ('세 칸이 {VOTES_TXT}, 합계 {TOTAL_TXT} “{VERDICT}”다. 현재�
 FUND_TIP = '매출 3년 CAGR(연간 FY2022→FY2025) {FR[\'revenueCagr\']:.1f}%에는 인수 매출이 들어 있다(내재가치 탭 {pct(HIST[\'growth_5y\'])}는 최근 4분기 합 기준 5년 성장률). 부채비율 {FPT[\'debtToEquity\']}점은 CommScope 사업 인수 차입금 때문이다.'
 SELF_TIP = 'PER {SM[\'PER\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PER\'][\'median\']:.1f}배)·PSR·PBR·PCR은 5년 중 비싼 쪽, EV/EBITDA는 중간이다. 9월 2:1 분할 전 주가·EPS는 분할 기준으로 맞췄다.'
 PEER_TIP = ('카드 유니버스 IT 종목과 배수 순위를 매긴 값이다.',
-            '카드 유니버스에 커넥터·수동부품 제조사가 없어 반도체·네트워크·소프트웨어와 비교한다. 점수는 IT 카드 28종목 안의 위치다.')
+            '카드 유니버스에 커넥터·수동부품 제조사가 없어 반도체·네트워크·소프트웨어와 비교한다. 점수는 IT 카드 28종목 안의 위치다. 직접 경쟁사가 없는 비교라 동종업 표({sgn(VOTES[1])})는 참고로 읽는다(비교군 설계는 v2.1에서 따로).')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})에서 식고, 영업이익률이 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
            '5년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_5y\'])})에서 식고, 영업이익률이 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}로 간다.',
            '3년 성장률(최근 4분기 합 기준, 연 {pct(HIST[\'growth_3y\'])})에서 식고, 최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}가 이어진다.']
@@ -94,7 +94,8 @@ BULL = [('성장', '매출 +55%, 유기적 +30%, 수주/매출 1.23.'),
 BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배로 5년 중 비싼 쪽이다.'),
         ('부채', 'CommScope 사업 인수 뒤 차입금 $18.8B, 현금·단기투자 $5.4B.'),
         ('일회성', '2분기 이익에 IEEPA 관세 환급 순효과 $80M(분할 전 주당 $0.04)이 들어 있다.')]
-ANALYST = {'rating': 'Buy', 'n': 18, 'mean': 97.58, 'median': 99, 'low': 72.5, 'high': 115, 'sb': 11, 'b': 4, 'h': 3, 's': 0, 'ss': 0}
+ANALYST = {'rating': 'Strong Buy', 'n': 19, 'nt': 13, 'mean': 97.58, 'median': 99, 'low': 72.5, 'high': 115, 'sb': 13, 'b': 4, 'h': 2, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-05'
 MISS_WHY = {('DELL', 'pbr'): ' 자본 음수'}
 PRE = [r'''
 _G = json.loads(re.search(r'^const APH_DCF_GRID = (\{.*?\});', h, re.M).group(1))

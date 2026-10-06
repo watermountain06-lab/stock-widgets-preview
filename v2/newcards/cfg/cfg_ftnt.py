@@ -87,4 +87,5 @@ BULL = [('성장 가속', '빌링 +33%, 제품 매출 +52%.'),
 BEAR = [('밸류에이션', 'PSR {SM[\'PSR\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PSR\'][\'median\']:.1f}배).'),
         ('주가 급등', '1년 새 두 배 넘게 상승.'),
         ('의견', '애널리스트 대부분 보유(Hold) 의견.')]
-ANALYST = {'rating': 'Hold', 'n': 44, 'mean': 162.97, 'median': 165, 'low': 102, 'high': 220, 'sb': 8, 'b': 1, 'h': 31, 's': 1, 'ss': 3}
+ANALYST = {'rating': 'Hold', 'n': 44, 'nt': 31, 'mean': 162.97, 'median': 165, 'low': 102, 'high': 220, 'sb': 8, 'b': 1, 'h': 31, 's': 1, 'ss': 3}
+ANALYST_ASOF = '2026-10-05'

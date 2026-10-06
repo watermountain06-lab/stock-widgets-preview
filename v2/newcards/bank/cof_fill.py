@@ -464,7 +464,7 @@ bear = [('통합', 'Discover·Brex 통합 비용이 분기 세전 약 $0.4B 이�
         ('신용카드 비중', '신용카드 대출이 전체 대출의 60%($275.4B)다.')]
 m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n    </div>\n    <div class="bb-box">\n      <div class="bb-title bb-bear">🐻 Bear 요인</div>\n)(.*?)(\n    </div>\n  </div>)', h, re.S)
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b) for b in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b) for b in bear) + m.group(5) + h[m.end():]
-sub(r"const COF_ANALYST = \{[^}]*\};", "const COF_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 23, mean: 258.61, median: 260,\n  low: 220, high: 300, strongBuy: 14, buy: 5, hold: 4, sell: 0, strongSell: 0 };")
+sub(r"const COF_ANALYST = \{[^}]*\};", "const COF_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 23, nTargets: 18, mean: 258.44, median: 260,\n  low: 220, high: 300, strongBuy: 14, buy: 5, hold: 4, sell: 0, strongSell: 0 };")
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', '<span class="op-val">10월 하순 <span class="op-sub">Q3 2026 예상</span></span>')
 # 세 시나리오 최소·최대 범위(이름 순서가 뒤집힌 카드, Codex)는 지금 틀에 들어 있다 — 주석만 이 카드 것으로
 one("  const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(카드 한정)",

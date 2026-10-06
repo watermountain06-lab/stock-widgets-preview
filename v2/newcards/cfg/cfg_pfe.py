@@ -97,4 +97,5 @@ BULL = [('신제품', '출시·인수 제품 매출 +18%, Eliquis +21%.'),
 BEAR = [('GAAP 이익', '2분기 무형자산 손상 $4.3B로 순손실.'),
         ('부채', '차입금 $63.2B.'),
         ('코로나 제품', 'Comirnaty·Paxlovid 매출 감소가 이어짐.')]
-ANALYST = {'rating': 'Buy', 'n': 28, 'mean': 28.49, 'median': 28, 'low': 25, 'high': 35.75, 'sb': 8, 'b': 2, 'h': 16, 's': 1, 'ss': 1}
+ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 18, 'mean': 28.49, 'median': 28, 'low': 25, 'high': 35.75, 'sb': 8, 'b': 2, 'h': 16, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-10-05'

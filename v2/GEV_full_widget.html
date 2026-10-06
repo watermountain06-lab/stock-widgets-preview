@@ -530,7 +530,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="gevFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="gevFundVerdict">보통</span></div>
-      <div class="logic-score" id="gevFundScore">55.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="gevFundScore">50.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="gevPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="gevPeerVerdict">비싼 편</span></div>
@@ -681,8 +681,8 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 0. 점수 구성 — 요약 격자의 기본적 분석 점수가 어디서 나오나 ══════════ -->
   <div class="card score-comp" id="fundComp">
-    <div class="sc-total"><span class="sc-total-l">기본적 분석</span><span class="sc-total-v" id="fundCompTotal">55.5</span></div>
-    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts="">18.5</span>/33</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile lost">1</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">1</div><div class="sc-name">부채비율</div></div></div></div>
+    <div class="sc-total"><span class="sc-total-l">기본적 분석</span><span class="sc-total-v" id="fundCompTotal">50.1</span></div>
+    <div class="sc-group" data-axis="health"><div class="sc-group-l">재무건전성 <span data-axis-pts="">14.8</span>/33</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile lost">1</div><div class="sc-name">유동비율</div></div><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">당좌비율</div></div><div class="sc-item"><div class="sc-tile">5</div><div class="sc-name">차입금의존도</div></div><div class="sc-item"><div class="sc-tile none">—</div><div class="sc-name">이자보상배율</div></div><div class="sc-item"><div class="sc-tile lost">1</div><div class="sc-name">부채비율</div></div></div></div>
     <div class="sc-group" data-axis="growthProfit"><div class="sc-group-l">성장·수익성 <span data-axis-pts="">18.7</span>/34</div><div class="sc-tiles" data-axis-items=""><div class="sc-item"><div class="sc-tile lost">3</div><div class="sc-name">매출 성장</div></div><div class="sc-item"><div class="sc-tile lost">4</div><div class="sc-name">이익 성장</div></div><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">영업이익률</div></div><div class="sc-item"><div class="sc-tile lost">2</div><div class="sc-name">순이익률</div></div></div></div>
   </div>
 
@@ -723,11 +723,11 @@ Chart.overrides.doughnut.animation = false;
   <div class="card" style="margin-top:16px;">
     <div class="card-title"><span>재무 건전성 — 안정성·활동성 (Q2 2026 · 2026.06.30 기준)</span></div>
 
-    <div class="section-label"><span class="dot"></span>안정성 — 단기 지급능력·차입 의존도 (<span id="fundHealthAxis">18.5/33</span>)</div>
+    <div class="section-label"><span class="dot"></span>안정성 — 단기 지급능력·차입 의존도 (<span id="fundHealthAxis">14.8/33</span>)</div>
     <div class="diag-summary watch" id="fundHealthSummary">
       <div class="icon">🩺</div>
       <div>
-        <div class="title" id="fundHealthTitle">종합 진단: 보통 (재무건전성 56%)</div>
+        <div class="title" id="fundHealthTitle">종합 진단: 보통 (재무건전성 45%)</div>
       </div>
     </div>
 
@@ -749,7 +749,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="diag-badge safe" title="구성표 배점 5/5점">✅ 양호</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
         <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">이자비용 태그 없음</span></div>
-      <div class="diag-badge safe" title="구성표 배점 5/5점">✅ 양호</div></div>
+      <div class="diag-badge info" title="구성표 배점 없음">—</div></div>
       <div class="diag-row" data-fund-metric="debtToEquity">
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">566.1%</span></div>
       <div class="diag-badge alert" title="구성표 배점 1/5점">⚠️ 주의</div></div>
@@ -763,7 +763,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율이 85%로 낮고 부채비율이 566%로 높은 것은 고객 선수금(계약부채) $39.9B가 유동부채에 있어서다. 차입금은 2월 발행한 회사채 $2.6B를 합쳐 $2.85B이고, 현금(제한 현금 포함)은 $13.1B다. 이자보상배율은 회사가 총이자비용을 따로 밝히지 않아(순 금융수익만 공시) 규칙대로 5점이다. 활동성은 분사 전 단독 재무가 2023년부터라 5년 비교 이력이 부족해 판정하지 않는다. <a href="https://www.sec.gov/Archives/edgar/data/1996810/000199681026000148/gev-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율이 85%로 낮고 부채비율이 566%로 높은 것은 고객 선수금(계약부채) $39.9B가 유동부채에 있어서다. 차입금은 2월 발행한 회사채 $2.6B를 합쳐 $2.85B이고, 현금(제한 현금 포함)은 $13.1B다. 이자보상배율은 회사가 총이자비용을 따로 밝히지 않아(순 금융수익만 공시) 결측으로 점수에서 뺐다. 활동성은 분사 전 단독 재무가 2023년부터라 5년 비교 이력이 부족해 판정하지 않는다. <a href="https://www.sec.gov/Archives/edgar/data/1996810/000199681026000148/gev-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -1084,13 +1084,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">37</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">37 · 목표가 22</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">30</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 81.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 18.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-01</span></span>
-        <span class="op-val"><span data-an="mean">$1237</span> <span class="op-sub op-up" data-an="upside">+30.1%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$1241.45</span> <span class="op-sub op-up" data-an="upside">+30.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1477,7 +1477,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 // 갱신: python3 v2/build_peer_score.py GEV --self v2/GEV_multiples.json
 //       python3 v2/build_fundamental_score.py GEV
 const GEV_SCORES = {
-  fundamental: 55.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
+  fundamental: 50.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 20.7,          // S&P500 산업재 대비 배수 순위 (PER은 본업 기준이라 제외)
   selfHistory: 52.7,   // 상장 뒤 배수 분포 백분위 (2024-03-27 ~ 2026-09-30)
   asOf: "2026-09-30",
@@ -1680,7 +1680,7 @@ const GEV_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
 //
 // 갱신: python3 v2/build_fundamental_score.py GEV --card
 /* FUNDAMENTAL:BEGIN */
-const GEV_FUNDAMENTAL = {"ticker": "GEV", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-22", "periodSource": "10-Q", "score": 55.5, "grade": "보통", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 84.95969908651263, "points": 1, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 62.226401576213505, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 3.5259900990099005, "points": 5, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": 5, "note": "이자비용 태그 없음", "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 566.0700844693486, "points": 1, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 18.48, "points": 18.5, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 8.680262289389894, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": null, "points": 4, "note": "흑자 전환", "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 5.880763688760807, "points": 2, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 3.9669056835427927, "points": 2, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 18.700000000000003, "points": 18.7, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 13120000000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 2849000000.0, "lease": 844000000.0, "shares": 266333581, "net": 9427000000.0, "perShare": 35.395461453281776}};
+const GEV_FUNDAMENTAL = {"ticker": "GEV", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-22", "periodSource": "10-Q", "score": 50.1, "grade": "보통", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 84.95969908651263, "points": 1, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 62.226401576213505, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 3.5259900990099005, "points": 5, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": "이자비용 태그 없음", "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 566.0700844693486, "points": 1, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 14.85, "points": 14.8, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 8.680262289389894, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": null, "points": 4, "note": "흑자 전환", "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 5.880763688760807, "points": 2, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 3.9669056835427927, "points": 2, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 18.700000000000003, "points": 18.7, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 13120000000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 2849000000.0, "lease": 844000000.0, "shares": 266333581, "net": 9427000000.0, "perShare": 35.395461453281776}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof GEV_FUNDAMENTAL !== 'undefined') ? GEV_FUNDAMENTAL : null;
@@ -2080,14 +2080,14 @@ const GEV_ACTIVITY = {"ticker": "GEV", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/gev/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GEV_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 37, mean: 1237, median: 1250,
-  low: 940, high: 1450, strongBuy: 24, buy: 6, hold: 7, sell: 0, strongSell: 0 };
+const GEV_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 37, nTargets: 22, mean: 1241.45, median: 1298,
+  low: 470, high: 1450, strongBuy: 24, buy: 6, hold: 7, sell: 0, strongSell: 0 };
 (function(){
   const A = GEV_ANALYST, last = (typeof GEV_DAILY !== 'undefined' && GEV_DAILY.length) ? GEV_DAILY[GEV_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

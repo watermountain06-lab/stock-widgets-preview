@@ -1084,13 +1084,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">49</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">49 · 목표가 30</span>명</span>
         <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">45</span> · 유지 <span data-an="hold">4</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 91.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 8.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-26</span></span>
-        <span class="op-val"><span data-an="mean">$1,515</span> <span class="op-sub op-up" data-an="upside">+40.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$1596.83</span> <span class="op-sub op-up" data-an="upside">+47.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2065,14 +2065,14 @@ const MU_ACTIVITY = {"ticker": "MU", "status": "ok", "asOf": "2026-05-28", "prev
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mu/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MU_ANALYST = { asOf: '2026-09-26', source: 'StockAnalysis (S&P Global 집계)', rating: 'Strong Buy', n: 49, mean: 1515, median: null,
-  low: 361, high: 2200, strongBuy: 36, buy: 9, hold: 4, sell: 0, strongSell: 0 };
+const MU_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 49, nTargets: 30, mean: 1596.83, median: 1540,
+  low: 1200, high: 2200, strongBuy: 36, buy: 9, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = MU_ANALYST, last = (typeof MU_DAILY !== 'undefined' && MU_DAILY.length) ? MU_DAILY[MU_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => v == null ? '—' : '$' + (Number.isInteger(v) ? v.toLocaleString('en-US') : v.toFixed(2));   // 중간값 없음·천 단위(카드 한정)
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

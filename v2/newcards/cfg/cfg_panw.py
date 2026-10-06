@@ -99,8 +99,8 @@ BULL = [('성장', 'Q4 FY26 매출 +34%, NGS ARR +63%, RPO $21.2B.'),
 BEAR = [('밸류', 'PSR {SM[\'PSR\'][\'current\']:.1f}배·PCR {SM[\'PCR\'][\'current\']:.0f}배가 5년 중 가장 비싼 쪽.'),
         ('이익', '인수 뒤 GAAP 순손실 두 분기, 영업권 $22.0B.'),
         ('희석', '인수 대가로 주식을 발행해 발행주식이 8월 31일 8.18억 주다(Q2 FY26 희석 평균 7.11억 주).')]
-ANALYST = {'rating': 'Buy', 'n': 55, 'mean': 396.12, 'median': 410, 'low': 190, 'high': 475, 'sb': 32, 'b': 10, 'h': 11, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-01'
+ANALYST = {'rating': 'Buy', 'n': 55, 'nt': 42, 'mean': 402.17, 'median': 415, 'low': 290, 'high': 475, 'sb': 32, 'b': 10, 'h': 11, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-10-05'
 REV_FOOTNOTE = ('회계연도는 7월 31일에 끝난다(Q4 FY26 = 2026년 5~7월). 2026년 1월 Chronosphere, 2월 11일 CyberArk(인수 대가 $21.1B) 인수를 마쳐 Q3 FY26부터 매출이 뛰고, '
                 '인수 비용·무형자산 상각·주식보상으로 GAAP 영업이익이 줄었다. 회사 비GAAP 영업이익은 Q4 FY26 $1.0B다.')
 

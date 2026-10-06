@@ -425,7 +425,7 @@ bear = [('밸류', f'P/TBV {SH["ptbv"]["current"]:.1f}배로 비교 은행 {PEER
         ('자본', 'CET1 비율이 15.1%에서 14.8%로 내려왔다(위험가중자산 +5%).')]
 m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n    </div>\n    <div class="bb-box">\n      <div class="bb-title bb-bear">🐻 Bear 요인</div>\n)(.*?)(\n    </div>\n  </div>)', h, re.S)
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b) for b in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b) for b in bear) + m.group(5) + h[m.end():]
-sub(r"const MS_ANALYST = \{[^}]*\};", "const MS_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 25, mean: 235.81, median: 243,\n  low: 184, high: 262, strongBuy: 9, buy: 2, hold: 13, sell: 0, strongSell: 1 };")
+sub(r"const MS_ANALYST = \{[^}]*\};", "const MS_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 15, mean: 234.87, median: 239,\n  low: 195, high: 262, strongBuy: 9, buy: 2, hold: 13, sell: 0, strongSell: 1 };")
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', '<span class="op-val">10월 중순 <span class="op-sub">Q3 2026 예상</span></span>')
 # ── 6. 은행 카드가 받지 않은 틀 변경 되돌리기 ──
 # 은행 9장은 아래 틀 변경 전에 만들어졌고, 뒤의 일괄 적용(비금융 카드 대상)에서도 빠졌다. 지금 NVDA 틀로 복제한 기반에는 들어 있으므로

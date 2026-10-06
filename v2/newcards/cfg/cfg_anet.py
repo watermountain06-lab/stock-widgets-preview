@@ -89,8 +89,8 @@ BULL = [('성장', '2분기 매출 +37.7%, 4분기 연속 전년 대비 +27% 이
 BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배 — 5년 중 상위 {100 - SM[\'PER\'][\'percentile\']:.0f}%, 현금흐름 기본 ${DCF[\'base\']:.0f}.'),
         ('집중', '2025년 매출의 26%·16%가 두 최종 고객 — 주문 시점에 따라 분기 매출이 흔들린다(10-Q).'),
         ('환원', '상반기 자사주 매입 없음, 배당 없음, 남은 한도 $0.82B.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 31, 'mean': 241.93, 'median': 246.5, 'low': 190, 'high': 289, 'sb': 23, 'b': 7, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-01'
+ANALYST = {'rating': 'Strong Buy', 'n': 31, 'nt': 19, 'mean': 239.53, 'median': 250, 'low': 164, 'high': 289, 'sb': 23, 'b': 7, 'h': 1, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-05'
 
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)

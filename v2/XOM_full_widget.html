@@ -1085,13 +1085,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">25</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">25 · 목표가 22</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">10</span> · 유지 <span data-an="hold">15</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 40%; background: var(--green);"></div><div data-an-bar="hold" style="width: 60%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-29</span></span>
-        <span class="op-val"><span data-an="mean">$171.91</span> <span class="op-sub op-up" data-an="upside">+7.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$171.23</span> <span class="op-sub op-up" data-an="upside">+6.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2076,14 +2076,14 @@ const XOM_ACTIVITY = {"ticker": "XOM", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/xom/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const XOM_ANALYST = { asOf: '2026-09-29', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 25, mean: 171.91, median: 173.5,
-  low: 142, high: 200, strongBuy: 7, buy: 3, hold: 15, sell: 0, strongSell: 0 };
+const XOM_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 22, mean: 171.23, median: 177,
+  low: 142, high: 185, strongBuy: 7, buy: 3, hold: 15, sell: 0, strongSell: 0 };
 (function(){
   const A = XOM_ANALYST, last = (typeof XOM_DAILY !== 'undefined' && XOM_DAILY.length) ? XOM_DAILY[XOM_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

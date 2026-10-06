@@ -91,7 +91,8 @@ BULL = [('성장', 'Repatha +37%, EVENITY +38%, TEZSPIRE +42%, UPLIZNA +90%.'),
 BEAR = [('특허·가격', 'Prolia −32%는 바이오시밀러 출시, Otezla −21%는 가격(−9%)·물량(−6%) 하락 때문이다.'),
         ('사건', '7월 사이버 침해로 환자 건강 정보 등 데이터가 빠져나갔다(조사 중, 회사는 재무 영향이 중대하지 않을 것으로 본다).'),
         ('부채', '차입금 $57.3B, 자기자본 $11.7B.')]
-ANALYST = {'rating': 'Hold', 'n': 34, 'mean': 399.87, 'median': 400, 'low': 230, 'high': 500, 'sb': 8, 'b': 4, 'h': 18, 's': 2, 'ss': 2}
+ANALYST = {'rating': 'Hold', 'n': 34, 'nt': 23, 'mean': 399.87, 'median': 400, 'low': 230, 'high': 500, 'sb': 8, 'b': 4, 'h': 18, 's': 2, 'ss': 2}
+ANALYST_ASOF = '2026-10-05'
 PRE = [r'''
 NDPS = ((b.get('debt') or 0) - (b.get('cash') or 0) - (b.get('sti') or 0)) / b['shares']
 ''']

@@ -448,7 +448,7 @@ bear = [('수익성', f'최근 4분기 ROE {f1(R["roe0"])}(특별 항목 제외)
         ('자본', f'최근 4분기 환원이 이익보다 많아(순환원율 {R_payout * 100:.0f}%) CET1 비율이 1년 새 13.5% → 12.8%.')]
 m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n    </div>\n    <div class="bb-box">\n      <div class="bb-title bb-bear">🐻 Bear 요인</div>\n)(.*?)(\n    </div>\n  </div>)', h, re.S)
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b) for b in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b) for b in bear) + m.group(5) + h[m.end():]
-sub(r"const C_ANALYST = \{[^}]*\};", "const C_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 22, mean: 154.9, median: 157,\n  low: 130, high: 176, strongBuy: 12, buy: 5, hold: 5, sell: 0, strongSell: 0 };")
+sub(r"const C_ANALYST = \{[^}]*\};", "const C_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 22, nTargets: 15, mean: 155.4, median: 159,\n  low: 139, high: 169, strongBuy: 12, buy: 5, hold: 5, sell: 0, strongSell: 0 };")
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', '<span class="op-val">10월 중순 <span class="op-sub">Q3 2026 예상</span></span>')
 one("    ['현금흐름', lv.label in DV ? DV[lv.label] : null, lv.label, 2],", "    ['초과이익', lv.label in DV ? DV[lv.label] : null, lv.label, 2],   // 은행 — 심판 이름(Fable)")
 # ── 6. 은행 카드가 받지 않은 틀 변경 되돌리기(jpm_fill.py 6절과 같음, 음수 시나리오 표기는 4절 끝) ──

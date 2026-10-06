@@ -11,6 +11,7 @@
   no_dcf   : 현금흐름 모델 미적용 사유(보험사 — CB). DCF 칸은 '계산 불가 · 사유', 판정은 두 칸으로
   feed     : 외국 기업(IFRS·현지 통화 — ASML·TSM·SKHY) — EPS·재무를 v2/adapters/{t}_feed.py(eps|financials)로, 활동성은 그 캐시 facts로
   eps_cmd  : EPS 단계를 다른 명령으로(주식 종류별 EPS만 내는 V — ['v2/adapters/visa_classA.py', 'eps'])
+  share_events : 분기 뒤 주식 발행을 '주식 + 순수입금'으로 오버레이에(adapters/share_events.py, v2/share_events.json — INTC)
   sum_tags : 재무 파일 항목을 여러 태그 합으로 다시 채운 뒤 기본적 분석(adapters/financials_sum_tags.py — XOM 재고)
   overlay  : SEC companyfacts가 최신 10-Q를 아직 싣지 않은 종목 — 인라인 XBRL 보충(adapters/ixbrl_supplement.py) 뒤
              재무는 adapters/overlay_feed.py, 활동성은 병합 facts로
@@ -68,6 +69,8 @@ def main():
 
     if B.get("overlay"):
         print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장")
+    if B.get("share_events"):   # v2.1 D-1(2026-10-05)
+        print("· 분기 뒤 주식 발행 이벤트"); run([PY, "v2/adapters/share_events.py", T], show=r".")
     for ctag, stag in B.get("company_tags", []):   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
         print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
     print("· EPS")

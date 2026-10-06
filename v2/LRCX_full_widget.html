@@ -745,7 +745,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">190.9%</span></div>
       <div class="diag-badge watch" title="구성표 배점 4/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="debtDependency">
-        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">15.8%</span></div>
+        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">15.9%</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
         <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">52x</span></div>
@@ -1071,13 +1071,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">35</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">35 · 목표가 25</span>명</span>
         <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">29</span> · 유지 <span data-an="hold">6</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 82.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 17.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-22</span></span>
-        <span class="op-val"><span data-an="mean">$373.77</span> <span class="op-sub op-up" data-an="upside">+18.9%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$388.06</span> <span class="op-sub op-up" data-an="upside">+23.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1284,59 +1284,59 @@ const MULTIPLE_DATA = {
     title: '반도체 장비·주요 고객 PER 비교 · 08/27~09/11 카드 기준(LRCX 막대는 9/28)',
     unit: 'PER', max: 70, lrcxValue: null,
     peers: [
-      { name:'AMAT', value:46.6, status:'reference' },
+      { name:'AMAT', value:46.8, status:'reference' },
       { name:'KLAC', value:56.5, status:'reference' },
-      { name:'ASML', value:58.8, status:'reference' },
-      { name:'TSM', value:34.1, status:'reference' },
-      { name:'MU', value:24.3, status:'reference' },
-      { name:'NVDA', value:29.6, status:'reference' }
+      { name:'ASML', value:58.5, status:'reference' },
+      { name:'TSM', value:35.0, status:'reference' },
+      { name:'MU', value:24.1, status:'reference' },
+      { name:'NVDA', value:30.2, status:'reference' }
     ]
   },
   pbr: {
     title: '반도체 장비·주요 고객 PBR 비교 · 08/27~09/11 카드 기준(LRCX 막대는 9/28)',
     unit: 'PBR', max: 50, lrcxValue: null,
     peers: [
-      { name:'AMAT', value:16.7, status:'reference' },
+      { name:'AMAT', value:16.8, status:'reference' },
       { name:'KLAC', value:42.6, status:'reference' },
-      { name:'ASML', value:28.6, status:'reference' },
-      { name:'TSM', value:11.9, status:'reference' },
-      { name:'MU', value:12.0, status:'reference' },
-      { name:'NVDA', value:24.8, status:'reference' }
+      { name:'ASML', value:28.5, status:'reference' },
+      { name:'TSM', value:12.3, status:'reference' },
+      { name:'MU', value:11.9, status:'reference' },
+      { name:'NVDA', value:25.3, status:'reference' }
     ]
   },
   psr: {
     title: '반도체 장비·주요 고객 PSR 비교 · 08/27~09/11 카드 기준(LRCX 막대는 9/28)',
     unit: 'PSR(TTM)', max: 25, lrcxValue: null,
     peers: [
-      { name:'AMAT', value:13.9, status:'reference' },
+      { name:'AMAT', value:14.0, status:'reference' },
       { name:'KLAC', value:19.9, status:'reference' },
-      { name:'ASML', value:17.7, status:'reference' },
-      { name:'TSM', value:17.2, status:'reference' },
-      { name:'MU', value:13.5, status:'reference' },
-      { name:'NVDA', value:18.7, status:'reference' }
+      { name:'ASML', value:17.6, status:'reference' },
+      { name:'TSM', value:17.6, status:'reference' },
+      { name:'MU', value:13.3, status:'reference' },
+      { name:'NVDA', value:19.1, status:'reference' }
     ]
   },
   pcr: {
     title: '반도체 장비·주요 고객 PCR(FCF) 비교 · 08/27~09/11 카드 기준(LRCX 막대는 9/28)',
     unit: 'PCR(FCF)', max: 95, lrcxValue: null,
     peers: [
-      { name:'AMAT', value:51.0, status:'reference' },
+      { name:'AMAT', value:51.3, status:'reference' },
       { name:'KLAC', value:65.2, status:'reference' },
-      { name:'ASML', value:53.5, status:'reference' },
-      { name:'TSM', value:66.9, status:'reference' },
-      { name:'MU', value:46.3, status:'reference' },
-      { name:'NVDA', value:44.8, status:'reference' }
+      { name:'ASML', value:53.2, status:'reference' },
+      { name:'TSM', value:68.7, status:'reference' },
+      { name:'MU', value:45.9, status:'reference' },
+      { name:'NVDA', value:45.7, status:'reference' }
     ]
   },
   evebitda: {
     title: '반도체 장비·주요 고객 EV/EBITDA 비교 (TSM 값 없음) · 08/27~09/11 카드 기준(LRCX 막대는 9/28)',
     unit: 'EV/EBITDA', max: 55, lrcxValue: null,
     peers: [
-      { name:'AMAT', value:44.3, status:'reference' },
+      { name:'AMAT', value:44.5, status:'reference' },
       { name:'KLAC', value:44.8, status:'reference' },
-      { name:'ASML', value:45.9, status:'reference' },
-      { name:'MU', value:17.5, status:'reference' },
-      { name:'NVDA', value:27.9, status:'reference' }
+      { name:'ASML', value:45.7, status:'reference' },
+      { name:'MU', value:17.4, status:'reference' },
+      { name:'NVDA', value:28.5, status:'reference' }
     ]
   }
 };
@@ -1519,6 +1519,11 @@ const LRCX_SCORES = {
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
     if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : d.requiredMargin == null ? '현재가 요구 영업이익률' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
+    if (d.requiredMargin == null) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)
+      const _ps = 16.94;   // 생성 때 PSR(이 줄 위에서 LRCX_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)
+      req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'
+        + (_ps ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델이 설명하는 범위를 넘는 성장·마진 기대가 들어 있다.` : '.');
+    }
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1668,7 +1673,7 @@ const LRCX_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py LRCX --card
 /* FUNDAMENTAL:BEGIN */
-const LRCX_FUNDAMENTAL = {"ticker": "LRCX", "basis": "quarter", "asOf": "2026-06-28", "filedAt": "2026-08-07", "periodSource": "10-K", "score": 78.0, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 262.92825178799137, "points": 4, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 190.90649558406596, "points": 4, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 15.818536564551513, "points": 3, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 52.266610999209604, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 88.67686676870137, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 25.080000000000002, "points": 25.1, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 10.02464346510974, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 16.529998797469702, "points": 3, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 35.294212594409, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 31.272297783855418, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 27.200000000000003, "points": 27.2, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 5579171000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 3722061000.0, "lease": 402975000.0, "shares": 1251321000, "net": 1454135000.0, "perShare": 1.1620799139469409}};
+const LRCX_FUNDAMENTAL = {"ticker": "LRCX", "basis": "quarter", "asOf": "2026-06-28", "filedAt": "2026-08-07", "periodSource": "10-K", "score": 78.0, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 262.92825178799137, "points": 4, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 190.90649558406596, "points": 4, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 15.886420858910357, "points": 3, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 52.266610999209604, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 88.67686676870137, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 25.080000000000002, "points": 25.1, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 10.02464346510974, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 16.529998797469702, "points": 3, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 35.294212594409, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 31.272297783855418, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 27.200000000000003, "points": 27.2, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 5579171000.0, "sti": 0.0, "lt_marketable": 0.0, "debt": 3722061000.0, "lease": 402975000.0, "shares": 1251321000, "net": 1454135000.0, "perShare": 1.1620799139469409}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof LRCX_FUNDAMENTAL !== 'undefined') ? LRCX_FUNDAMENTAL : null;
@@ -2068,14 +2073,14 @@ const LRCX_ACTIVITY = {"ticker": "LRCX", "status": "stale", "asOf": "2025-06-29"
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/lrcx/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const LRCX_ANALYST = { asOf: '2026-09-22', source: 'StockAnalysis (S&P Global 집계)', rating: 'Strong Buy', n: 35, mean: 373.77, median: 380,
-  low: 290, high: 500, strongBuy: 25, buy: 4, hold: 6, sell: 0, strongSell: 0 };
+const LRCX_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 35, nTargets: 25, mean: 388.06, median: 380,
+  low: 275, high: 700, strongBuy: 25, buy: 4, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = LRCX_ANALYST, last = (typeof LRCX_DAILY !== 'undefined' && LRCX_DAILY.length) ? LRCX_DAILY[LRCX_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

@@ -59,7 +59,7 @@ RISK = ('현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="
         '자기 이력 점수 {selfsc:.1f}점은 문턱 70 바로 위라, 주가가 1% 안팎만 올라도 이 표가 0이 되어 종합 판정이 고평가로 바뀐다(설비투자에 자본화 소프트웨어를 넣어도 70 아래로 내려간다). '
         'PBR이 5년 최고 수준인 것은 자사주 매입으로 자본이 작아서다.')
 FUND_TIP = '부채비율이 높은 것은 자사주 매입으로 자본이 작아서다. 매출은 순매출(리베이트·인센티브 차감 후)이고, 2026년 순이익은 ProfitLoss 태그(손익계산서 순이익)다.'
-SELF_TIP = '주식 수는 7월 10-Q 표지의 클래스 A 8억 6,946만 주 + 클래스 B 655만 주다. PER·EV/EBITDA는 5년 하위 {math.ceil(max(SM[\'PER\'][\'percentile\'], SM[\'EV/EBITDA\'][\'percentile\']))}% 안(싼 쪽), PBR은 상위 {math.ceil(100 - SM[\'PBR\'][\'percentile\'])}%다.'
+SELF_TIP = '주식 수는 7월 10-Q 표지의 클래스 A 8억 6,946만 주 + 클래스 B 655만 주다. PER·EV/EBITDA는 5년 하위 {math.ceil(max(SM[\'PER\'][\'percentile\'], SM[\'EV/EBITDA\'][\'percentile\']))}% 안(싼 쪽), PBR은 상위 {math.ceil(100 - SM[\'PBR\'][\'percentile\'])}%다. 자사주 매입으로 자본이 작아 PBR이 사업 가치보다 높게 나오는 구조다(자본이 작은 회사의 PBR 규칙은 v2.1에서 미룸).'
 PEER_TIP = ('S&P500 결제 8곳 + 거래소·금융 데이터 9곳과 배수 순위를 매긴 값이다(V와 같은 비교군).',
             '결제 처리(FIS·FISV·GPN 등)는 이익률이 낮아 배수가 낮다. 주식 수는 표지 클래스 A·B를 더한 값이다.')
 STORIES = ['5년 성장률의 절반(연 {pct(HIST[\'growth_5y\'] / 2)})에서 식고, 영업이익률이 5년 중앙값 {pct(HIST[\'margin_5y\'])}로 간다.',
@@ -93,8 +93,8 @@ BULL = [('수익성', '최근 4분기 영업이익률이 {pct(HIST[\'margin_now\
 BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, 동종업 17곳 중 가장 비싼 쪽이다.'),
         ('소송', '가맹점 합의안은 미국 신용카드 수수료를 5년간 평균 10bp 낮춘다(승인 대기).'),
         ('인센티브', '고객 리베이트·인센티브가 2분기 22% 늘었고, 선급비용 증가로 상반기 영업현금흐름이 3% 줄었다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 40, 'mean': 666.71, 'median': 668, 'low': 550, 'high': 740, 'sb': 27, 'b': 9, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-09-29'
+ANALYST = {'rating': 'Strong Buy', 'n': 40, 'nt': 24, 'mean': 669.92, 'median': 670, 'low': 550, 'high': 740, 'sb': 27, 'b': 9, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-05'
 
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 PRE = [r'''

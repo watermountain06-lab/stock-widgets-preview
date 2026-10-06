@@ -93,4 +93,5 @@ BULL = [('AI 광통신', '광통신 +32%, 기업 네트워크 +65%.'),
 BEAR = [('밸류에이션', 'PSR {SM[\'PSR\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PSR\'][\'median\']:.1f}배), 현금흐름 기본값이 현재가의 {DCF[\'base\'] / px * 100:.0f}% 정도.'),
         ('실적 날 하락', '네 번 모두 하락, 2분기 −12.1%.'),
         ('희석', '최대 $2.0B 주식 수시 발행, NVIDIA 행사가 $180 워런트 1,500만 주.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 17, 'mean': 183.2, 'median': 196, 'low': 129, 'high': 220, 'sb': 13, 'b': 0, 'h': 4, 's': 0, 'ss': 0}
+ANALYST = {'rating': 'Strong Buy', 'n': 17, 'nt': 11, 'mean': 185.18, 'median': 200, 'low': 129, 'high': 220, 'sb': 13, 'b': 0, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-05'

@@ -437,7 +437,7 @@ bear = [('밸류', f'P/TBV 약 3배로 비교 은행 {len(_pt)}곳 모두보다 
         ('승계', '공동 사장 체제로 다이먼 이후 승계가 진행 중이다.')]
 m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n    </div>\n    <div class="bb-box">\n      <div class="bb-title bb-bear">🐻 Bear 요인</div>\n)(.*?)(\n    </div>\n  </div>)', h, re.S)
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b) for b in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b) for b in bear) + m.group(5) + h[m.end():]
-sub(r"const JPM_ANALYST = \{[^}]*\};", "const JPM_ANALYST = { asOf: '2026-09-27', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 24, mean: 375.14, median: null,\n  low: 305, high: 436, strongBuy: 9, buy: 4, hold: 10, sell: 1, strongSell: 0 };")
+sub(r"const JPM_ANALYST = \{[^}]*\};", "const JPM_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 16, mean: 375.31, median: 377,\n  low: 305, high: 436, strongBuy: 9, buy: 4, hold: 11, sell: 0, strongSell: 0 };")
 one("  const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));",
     "  const usd = v => v == null ? '—' : '$' + (Number.isInteger(v) ? v.toLocaleString('en-US') : v.toFixed(2));")   # 중앙값 없음(null)
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', '<span class="op-val">10월 중순 <span class="op-sub">Q3 2026 예상</span></span>')

@@ -294,7 +294,7 @@ one('<div class="vs-name" title="회사가 앞으로 벌어들일 현금만으�
     '<div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div>')
 one('<span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span>', '<span class="logic-tag">내재가치 <span class="logic-denom">초과이익</span></span>')
 one('<div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div>',
-    '<div class="vs-name" title="S&P500 은행(대형·지역 13곳) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 주는데, AXP는 P/TBV가 없어 기권한다. 표시 점수는 PER 하나다.">동종업 대비</div>')
+    '<div class="vs-name" title="S&P500 은행(대형·지역 13곳) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 주는데, AXP는 P/TBV가 없어 기권한다. 표시 점수는 PER 하나다. AXP는 수수료 중심 카드사라 대출 중심 은행보다 ROE·배수가 구조적으로 높아 PER 순위가 맨 끝으로 몰린다(사업 모델별 비교군은 은행 사전 등록 5판에서).">동종업 대비</div>')
 sub(r'<div class="vs-note">현재가 <span data-vs="price">[^<]*</span> 대비 <strong data-vs="upside">[^<]*</strong> · 기본 시나리오</div>',
     '<div class="vs-note">현재가 <span data-vs="price">—</span> 대비 <strong data-vs="upside">—</strong> · 초과이익모형 기본</div>')
 one('<span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>', '<span class="val-name">P/TBV (유형 장부) <span class="hist-note" data-hist="note"></span></span>')
@@ -455,7 +455,7 @@ bear = [('밸류', f'PER {SH["per"]["current"]:.1f}배는 S&P500 은행 13곳 �
         ('규제', '카드 수수료·금리 상한 같은 규제 논의가 위험 요인으로 적혀 있다.')]
 m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n    </div>\n    <div class="bb-box">\n      <div class="bb-title bb-bear">🐻 Bear 요인</div>\n)(.*?)(\n    </div>\n  </div>)', h, re.S)
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b) for b in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b) for b in bear) + m.group(5) + h[m.end():]
-sub(r"const AXP_ANALYST = \{[^}]*\};", "const AXP_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 28, mean: 370.48, median: 375,\n  low: 300, high: 425, strongBuy: 9, buy: 5, hold: 14, sell: 0, strongSell: 0 };")
+sub(r"const AXP_ANALYST = \{[^}]*\};", "const AXP_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 28, nTargets: 23, mean: 367.83, median: 370,\n  low: 300, high: 425, strongBuy: 9, buy: 5, hold: 14, sell: 0, strongSell: 0 };")
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', '<span class="op-val">10월 중순 <span class="op-sub">Q3 2026 예상</span></span>')
 one("  const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(카드 한정)",   # 지금 틀에 이미 있다 — 주석만 이 카드 것으로
     "  const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(이름 순서가 뒤집힌 카드, Codex)")

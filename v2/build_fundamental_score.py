@@ -256,6 +256,22 @@ INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther"}
 ROUNDED_COMMON_NI = {"0000001800"}   # ABT — 위 순이익률 주석 참고
 
 
+def _finance_lease_extra(cik, end):
+    """차입금에 더할 금융리스(build_dcf.base_inputs와 같은 규칙: 총계가 세부보다 오래됐으면 유동 + 비유동, 차입금 태그가 이미 담으면 0)."""
+    import build_multiple_history as bmh
+    tt = bmh.DEBT_TOTAL_TAG.get(cik)
+    flat = [x for t in ([tt] if isinstance(tt, str) else (tt or [])) for x in (t if isinstance(t, tuple) else (t,))]
+    if any("CapitalLease" in t or "FinanceLease" in t for t in flat) or cik in ("0000315189", "0000063908"):
+        return 0
+    def last(rows):
+        ok = [e for e in rows if e["end"] <= end]
+        return max(ok, key=lambda e: (e["end"], e.get("available", ""))) if ok else None
+    tot = last(bmh.component_sum(cik, ["FinanceLeaseLiability"]))
+    parts = last(bmh.component_sum(cik, ["FinanceLeaseLiabilityCurrent", "FinanceLeaseLiabilityNoncurrent"]))
+    pick = parts if (parts and (not tot or parts["end"] > tot["end"])) else tot
+    return (pick or {}).get("val") or 0
+
+
 def _inventory_alt(fin, end):
     cik = str(fin.get("cik", "")).zfill(10)
     tag = INVENTORY_ALT.get(cik)
@@ -304,7 +320,9 @@ def score_items(fin, config, basis):
         dv = [e for e in bmh.ev_component(cik, "debt", bmh.EV_COMPONENTS["debt"]) if e["end"] <= a_end]
     if dv:
         last = max(dv, key=lambda e: (e["end"], e["available"]))
-        items["debtDependency"] = {"value": last["val"] / assets * 100}
+        # v2.1 B-1(2026-10-05): 금융리스를 차입금에 더한다 — 차입금 태그가 이미 담은 회사(DEBT_TOTAL_TAG 이름에 CapitalLease·FinanceLease, DE·MCD)는 빼고.
+        # build_dcf.base_inputs와 같은 규칙. EV·현금흐름 순부채는 그대로(기본적 분석만).
+        items["debtDependency"] = {"value": (last["val"] + _finance_lease_extra(cik, a_end)) / assets * 100}
     elif (sd or ld) and assets and cik not in bmh.DEBT_TOTAL_TAG:
         # 총차입금 태그를 지정한 회사는 그 태그가 비면 결측으로 둔다 — VRTX는 2011년에 멈춘 LongTermDebt만 남아 있다
         items["debtDependency"] = {"value": ((latest_instant(sd) or 0) + (latest_instant(ld) or 0)) / assets * 100}
@@ -331,7 +349,9 @@ def score_items(fin, config, basis):
         if op <= 0:
             items["interestCoverage"] = {"value": None, "points": 1, "note": "영업적자"}
         elif not has_interest_tag:
-            items["interestCoverage"] = {"value": None, "points": 5, "note": "이자비용 태그 없음"}
+            # v2.1 B-2(2026-10-05): 태그가 없으면 만점(5점)이 아니라 결측 — 축 만점에서 뺀다. 엔진 차입금이 0이면 "해당 없음(무차입)".
+            _nodebt = not dv and not (sd or ld)
+            items["interestCoverage"] = {"value": None, "points": None, "note": "해당 없음(무차입)" if _nodebt else "이자비용 태그 없음"}
         else:
             iv = (quarter_flow(fin, "interestExpense", op_end) if basis == "quarter" and q_end
                   else value_at(_rows(fin, "interestExpense"), op_end))

@@ -92,8 +92,8 @@ BULL = [('AI 수요', 'HBM4를 주요 고객 플랫폼용으로 대량 출하하
 BEAR = [('사이클', '이익이 공급 부족에 따른 가격 상승에서 나와, 공급이 늘면 가격이 꺾일 수 있다.'),
         ('설비투자', '올해 순 설비투자가 약 $27B라, 가격이 꺾이면 늘어난 설비의 고정비 부담이 커진다.'),
         ('집중', 'FY25 매출의 절반 이상이 상위 10개 고객이고, 중국은 핵심 기반시설 구매가 막혀 있다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 49, 'mean': 1515, 'median': None, 'low': 361, 'high': 2200, 'sb': 36, 'b': 9, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-09-26'
+ANALYST = {'rating': 'Strong Buy', 'n': 49, 'nt': 30, 'mean': 1596.83, 'median': 1540, 'low': 1200, 'high': 2200, 'sb': 36, 'b': 9, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-05'
 PRE = [r'''
 FR = {r_['metric']: r_['value'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}   # 기본적 분석 지표 값
 ''']

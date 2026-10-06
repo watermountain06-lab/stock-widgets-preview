@@ -1065,13 +1065,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">31</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">31 · 목표가 19</span>명</span>
         <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">30</span> · 유지 <span data-an="hold">1</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 96.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 3.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-01</span></span>
-        <span class="op-val"><span data-an="mean">$241.93</span> <span class="op-sub op-up" data-an="upside">+18.8%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$239.53</span> <span class="op-sub op-up" data-an="upside">+17.7%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2061,14 +2061,14 @@ const ANET_ACTIVITY = {"ticker": "ANET", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/anet/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ANET_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Strong Buy', n: 31, mean: 241.93, median: 246.5,
-  low: 190, high: 289, strongBuy: 23, buy: 7, hold: 1, sell: 0, strongSell: 0 };
+const ANET_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 31, nTargets: 19, mean: 239.53, median: 250,
+  low: 164, high: 289, strongBuy: 23, buy: 7, hold: 1, sell: 0, strongSell: 0 };
 (function(){
   const A = ANET_ANALYST, last = (typeof ANET_DAILY !== 'undefined' && ANET_DAILY.length) ? ANET_DAILY[ANET_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

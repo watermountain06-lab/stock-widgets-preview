@@ -745,7 +745,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">122.2%</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="debtDependency">
-        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">5.3%</span></div>
+        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">14.1%</span></div>
       <div class="diag-badge watch" title="구성표 배점 4/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
         <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">51x</span></div>
@@ -763,7 +763,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율은 기준보다 낮지만 차입금의존도 5.3%, 이자보상배율 51배로 상환 부담은 작다. 데이터센터 확충을 금융리스로도 조달해 금융리스 부채가 $66.6B다(FY26 10-K). <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm" target="_blank" rel="noopener">FY26 10-K (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율은 기준보다 낮지만 차입금의존도 14.1%, 이자보상배율 51배로 상환 부담은 작다. 데이터센터 확충을 금융리스로도 조달해 금융리스 부채가 $66.6B다(FY26 10-K). <a href="https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm" target="_blank" rel="noopener">FY26 10-K (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -1084,13 +1084,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">55</span>명</span>
-        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">52</span> · 유지 <span data-an="hold">3</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 94.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 5.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">55 · 목표가 35</span>명</span>
+        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">53</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">0</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 96.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 3.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-09-22</span></span>
-        <span class="op-val"><span data-an="mean">$576.40</span> <span class="op-sub op-up" data-an="upside">+15.1%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$579.21</span> <span class="op-sub op-up" data-an="upside">+15.7%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1297,40 +1297,40 @@ const MULTIPLE_DATA = {
     title: '빅테크 PER 비교 (GOOGL·AMZN은 본업 기준) · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
     unit: 'PER', max: 45, msftValue: null,
     peers: [
-      { name:'AAPL', value:38.3, status:'reference' },
-      { name:'GOOGL', value:34.2, status:'reference' },
-      { name:'AMZN', value:38.4, status:'reference' },
-      { name:'NVDA', value:29.6, status:'reference' }
+      { name:'AAPL', value:38.2, status:'reference' },
+      { name:'GOOGL', value:34.5, status:'reference' },
+      { name:'AMZN', value:38.3, status:'reference' },
+      { name:'NVDA', value:30.2, status:'reference' }
     ]
   },
   pbr: {
     title: '빅테크 PBR 비교 · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
     unit: 'PBR', max: 55, msftValue: null,
     peers: [
-      { name:'AAPL', value:45.4, status:'reference' },
+      { name:'AAPL', value:45.3, status:'reference' },
       { name:'GOOGL', value:6.6, status:'reference' },
       { name:'AMZN', value:4.9, status:'reference' },
-      { name:'NVDA', value:24.8, status:'reference' }
+      { name:'NVDA', value:25.3, status:'reference' }
     ]
   },
   psr: {
     title: '빅테크 PSR 비교 · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
     unit: 'PSR(TTM)', max: 25, msftValue: null,
     peers: [
-      { name:'AAPL', value:10.5, status:'reference' },
-      { name:'GOOGL', value:9.4, status:'reference' },
+      { name:'AAPL', value:10.4, status:'reference' },
+      { name:'GOOGL', value:9.5, status:'reference' },
       { name:'AMZN', value:3.5, status:'reference' },
-      { name:'NVDA', value:18.7, status:'reference' }
+      { name:'NVDA', value:19.1, status:'reference' }
     ]
   },
   pcr: {
     title: '빅테크 PCR(FCF) 비교 · 08/27~09/03 카드 기준(MSFT 막대는 9/23)',
     unit: 'PCR(FCF)', max: 95, msftValue: null,
     peers: [
-      { name:'AAPL', value:35.6, status:'reference' },
-      { name:'GOOGL', value:78.7, status:'reference' },
+      { name:'AAPL', value:35.5, status:'reference' },
+      { name:'GOOGL', value:79.4, status:'reference' },
       { name:'AMZN', value:16.8, status:'reference' },
-      { name:'NVDA', value:44.8, status:'reference' }
+      { name:'NVDA', value:45.7, status:'reference' }
     ]
   },
   evebitda: {
@@ -1338,9 +1338,9 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 35, msftValue: null,
     peers: [
       { name:'AAPL', value:29.2, status:'reference' },
-      { name:'GOOGL', value:23.5, status:'reference' },
+      { name:'GOOGL', value:23.7, status:'reference' },
       { name:'AMZN', value:16.1, status:'reference' },
-      { name:'NVDA', value:27.9, status:'reference' }
+      { name:'NVDA', value:28.5, status:'reference' }
     ]
   }
 };
@@ -1672,7 +1672,7 @@ const MSFT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py MSFT --card
 /* FUNDAMENTAL:BEGIN */
-const MSFT_FUNDAMENTAL = {"ticker": "MSFT", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-29", "periodSource": "10-K", "score": 79.2, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 123.03272619576484, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 122.20524211461571, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 5.3131955652605045, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 50.880694854146185, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 71.42818392041357, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 22.44, "points": 22.4, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 16.120019561712297, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 20.58533425857576, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 46.780818408927225, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 40.30538905915218, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 30.6, "points": 30.6, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 20935000000.0, "sti": 55908000000.0, "lt_marketable": 0.0, "debt": 40294000000.0, "lease": 83126000000.0, "shares": 7425545491, "net": -46577000000.0, "perShare": -6.272535809854349}};
+const MSFT_FUNDAMENTAL = {"ticker": "MSFT", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-07-29", "periodSource": "10-K", "score": 79.2, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 123.03272619576484, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 122.20524211461571, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 14.094327879574248, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 50.880694854146185, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 71.42818392041357, "points": 3, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 22.44, "points": 22.4, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 16.120019561712297, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 20.58533425857576, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 46.780818408927225, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 40.30538905915218, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 30.6, "points": 30.6, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 20935000000.0, "sti": 55908000000.0, "lt_marketable": 0.0, "debt": 40294000000.0, "lease": 83126000000.0, "shares": 7425545491, "net": -46577000000.0, "perShare": -6.272535809854349}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof MSFT_FUNDAMENTAL !== 'undefined') ? MSFT_FUNDAMENTAL : null;
@@ -2072,14 +2072,14 @@ const MSFT_ACTIVITY = {"ticker": "MSFT", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/msft/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MSFT_ANALYST = { asOf: '2026-09-22', source: 'StockAnalysis (S&P Global 집계)', rating: 'Strong Buy', n: 55, mean: 576.4, median: 572.5,
-  low: 440, high: 870, strongBuy: 38, buy: 14, hold: 3, sell: 0, strongSell: 0 };
+const MSFT_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 55, nTargets: 35, mean: 579.21, median: 575,
+  low: 440, high: 725, strongBuy: 39, buy: 14, hold: 2, sell: 0, strongSell: 0 };
 (function(){
   const A = MSFT_ANALYST, last = (typeof MSFT_DAILY !== 'undefined' && MSFT_DAILY.length) ? MSFT_DAILY[MSFT_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

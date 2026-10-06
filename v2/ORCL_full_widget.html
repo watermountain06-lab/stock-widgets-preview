@@ -745,7 +745,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">당좌비율</span><span class="diag-value">117.1%</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="debtDependency">
-        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">41.3%</span></div>
+        <div class="diag-left"><span class="diag-label">차입금의존도</span><span class="diag-value">44.4%</span></div>
       <div class="diag-badge alert" title="구성표 배점 2/5점">⚠️ 주의</div></div>
       <div class="diag-row" data-fund-metric="interestCoverage">
         <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">5x</span></div>
@@ -1086,13 +1086,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">43</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">43 · 목표가 30</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">35</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">1</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 81.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 2.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-01</span></span>
-        <span class="op-val"><span data-an="mean">$237.97</span> <span class="op-sub op-up" data-an="upside">+73.3%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-val"><span data-an="mean">$247.87</span> <span class="op-sub op-up" data-an="upside">+80.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1299,59 +1299,59 @@ const MULTIPLE_DATA = {
     title: '소프트웨어·인프라 PER 비교 · 09/01~09/11 카드 기준(ORCL 막대는 9/30)',
     unit: 'PER', max: 190, orclValue: null,
     peers: [
-      { name:'MSFT', value:30.0, status:'reference' },
-      { name:'IBM', value:23.2, status:'reference' },
-      { name:'CRM', value:32.7, status:'reference' },
-      { name:'CSCO', value:36.9, status:'reference' },
-      { name:'PLTR', value:162.7, status:'reference' },
-      { name:'AVGO', value:45.3, status:'reference' }
+      { name:'MSFT', value:30.4, status:'reference' },
+      { name:'IBM', value:23.1, status:'reference' },
+      { name:'CRM', value:32.0, status:'reference' },
+      { name:'CSCO', value:37.1, status:'reference' },
+      { name:'PLTR', value:163.3, status:'reference' },
+      { name:'AVGO', value:46.2, status:'reference' }
     ]
   },
   pbr: {
     title: '소프트웨어·인프라 PBR 비교 · 09/01~09/11 카드 기준(ORCL 막대는 9/30)',
     unit: 'PBR', max: 55, orclValue: null,
     peers: [
-      { name:'MSFT', value:8.7, status:'reference' },
+      { name:'MSFT', value:8.8, status:'reference' },
       { name:'IBM', value:6.1, status:'reference' },
-      { name:'CRM', value:5.0, status:'reference' },
+      { name:'CRM', value:4.9, status:'reference' },
       { name:'CSCO', value:8.8, status:'reference' },
-      { name:'PLTR', value:46.4, status:'reference' },
-      { name:'AVGO', value:17.4, status:'reference' }
+      { name:'PLTR', value:46.6, status:'reference' },
+      { name:'AVGO', value:17.8, status:'reference' }
     ]
   },
   psr: {
     title: '소프트웨어·인프라 PSR 비교 · 09/01~09/11 카드 기준(ORCL 막대는 9/30)',
-    unit: 'PSR(TTM)', max: 85, orclValue: null,
+    unit: 'PSR(TTM)', max: 90, orclValue: null,
     peers: [
-      { name:'MSFT', value:11.6, status:'reference' },
+      { name:'MSFT', value:11.8, status:'reference' },
       { name:'IBM', value:3.0, status:'reference' },
-      { name:'CRM', value:4.4, status:'reference' },
+      { name:'CRM', value:4.3, status:'reference' },
       { name:'CSCO', value:7.0, status:'reference' },
-      { name:'PLTR', value:73.7, status:'reference' },
-      { name:'AVGO', value:19.4, status:'reference' }
+      { name:'PLTR', value:74.0, status:'reference' },
+      { name:'AVGO', value:19.8, status:'reference' }
     ]
   },
   pcr: {
     title: '소프트웨어·인프라 PCR(FCF) 비교 (ORCL은 FCF 음수) (AVGO 값 없음) · 09/01~09/11 카드 기준(ORCL 막대는 9/30)',
     unit: 'PCR(FCF)', max: 155, orclValue: null,
     peers: [
-      { name:'MSFT', value:57.3, status:'reference' },
-      { name:'IBM', value:14.1, status:'reference' },
-      { name:'CRM', value:12.3, status:'reference' },
-      { name:'CSCO', value:34.6, status:'reference' },
-      { name:'PLTR', value:133.4, status:'reference' }
+      { name:'MSFT', value:58.2, status:'reference' },
+      { name:'IBM', value:14.0, status:'reference' },
+      { name:'CRM', value:12.0, status:'reference' },
+      { name:'CSCO', value:34.8, status:'reference' },
+      { name:'PLTR', value:133.9, status:'reference' }
     ]
   },
   evebitda: {
     title: '소프트웨어·인프라 EV/EBITDA 비교 · 09/01~09/11 카드 기준(ORCL 막대는 9/30)',
     unit: 'EV/EBITDA', max: 195, orclValue: null,
     peers: [
-      { name:'MSFT', value:19.6, status:'reference' },
-      { name:'IBM', value:15.1, status:'reference' },
-      { name:'CRM', value:17.5, status:'reference' },
-      { name:'CSCO', value:25.5, status:'reference' },
-      { name:'PLTR', value:166.8, status:'reference' },
-      { name:'AVGO', value:34.4, status:'reference' }
+      { name:'MSFT', value:19.9, status:'reference' },
+      { name:'IBM', value:15.0, status:'reference' },
+      { name:'CRM', value:17.1, status:'reference' },
+      { name:'CSCO', value:25.6, status:'reference' },
+      { name:'PLTR', value:167.4, status:'reference' },
+      { name:'AVGO', value:35.1, status:'reference' }
     ]
   }
 };
@@ -1683,7 +1683,7 @@ const ORCL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py ORCL --card
 /* FUNDAMENTAL:BEGIN */
-const ORCL_FUNDAMENTAL = {"ticker": "ORCL", "basis": "quarter", "asOf": "2026-08-31", "filedAt": "2026-09-11", "periodSource": "10-Q", "score": 57.2, "grade": "보통", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 117.08128130656227, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 117.08128130656227, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 41.330018235237866, "points": 2, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 4.711484593837535, "points": 3, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 354.17090996225966, "points": 1, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 14.52, "points": 14.5, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 10.474222050922343, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 16.31521665171809, "points": 3, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 34.77901266477126, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 24.187128456965624, "points": 4, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 23.799999999999997, "points": 23.8, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 36369000000.0, "sti": 708000000.0, "lt_marketable": 0.0, "debt": 125337000000.0, "lease": 43806000000.0, "shares": 3023736000, "net": -132066000000.0, "perShare": -43.67643206946638}};
+const ORCL_FUNDAMENTAL = {"ticker": "ORCL", "basis": "quarter", "asOf": "2026-08-31", "filedAt": "2026-09-11", "periodSource": "10-Q", "score": 57.2, "grade": "보통", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 117.08128130656227, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 117.08128130656227, "points": 3, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 44.358782426902415, "points": 2, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 4.711484593837535, "points": 3, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 354.17090996225966, "points": 1, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 14.52, "points": 14.5, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 10.474222050922343, "points": 3, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 16.31521665171809, "points": 3, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 34.77901266477126, "points": 4, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 24.187128456965624, "points": 4, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 23.799999999999997, "points": 23.8, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 36369000000.0, "sti": 708000000.0, "lt_marketable": 0.0, "debt": 125337000000.0, "lease": 43806000000.0, "shares": 3023736000, "net": -132066000000.0, "perShare": -43.67643206946638}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof ORCL_FUNDAMENTAL !== 'undefined') ? ORCL_FUNDAMENTAL : null;
@@ -2083,14 +2083,14 @@ const ORCL_ACTIVITY = {"ticker": "ORCL", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/orcl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ORCL_ANALYST = { asOf: '2026-10-01', source: 'StockAnalysis (S&P Global 집계)', rating: 'Buy', n: 43, mean: 237.97, median: 240,
+const ORCL_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 43, nTargets: 30, mean: 247.87, median: 240,
   low: 110, high: 400, strongBuy: 27, buy: 8, hold: 7, sell: 0, strongSell: 1 };
 (function(){
   const A = ORCL_ANALYST, last = (typeof ORCL_DAILY !== 'undefined' && ORCL_DAILY.length) ? ORCL_DAILY[ORCL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
   const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
-  put('rating', A.rating); put('n', A.n); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
+  put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
   put('hold', A.hold); put('sell', sells);
   const bar = { buy: buys, hold: A.hold, sell: sells };

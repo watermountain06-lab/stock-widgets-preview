@@ -387,7 +387,9 @@ bull = [(a, F(x)) for a, x in C.BULL]; bear = [(a, F(x)) for a, x in C.BEAR]
 m = re.search(r'(<div class="bb-title bb-bull">🐂 Bull 요인</div>\n)(.*?)(\n    </div>\n    <div class="bb-box">\n      <div class="bb-title bb-bear">🐻 Bear 요인</div>\n)(.*?)(\n    </div>\n  </div>)', h, re.S)
 h = h[:m.start()] + m.group(1) + '\n'.join('      ' + row('bull', *b_) for b_ in bull) + m.group(3) + '\n'.join('      ' + row('bear', *b_) for b_ in bear) + m.group(5) + h[m.end():]
 A_ = C.ANALYST
-sub(rf"const {T}_ANALYST = \{{[^}}]*\}};", f"const {T}_ANALYST = {{ asOf: '{getattr(C, 'ANALYST_ASOF', '2026-10-01')}', source: 'StockAnalysis (S&P Global 집계)', rating: '{A_['rating']}', n: {A_['n']}, mean: {A_['mean']}, median: {A_['median']},\n  low: {A_['low']}, high: {A_['high']}, strongBuy: {A_['sb']}, buy: {A_['b']}, hold: {A_['h']}, sell: {A_['s']}, strongSell: {A_['ss']} }};")
+# 애널리스트 인원: 의견 인원 · 목표가 인원(통계 표본)을 나눠 적는다(D48, 2026-10-05) — 주석은 줄 밖에(같은 줄 뒤 문장이 있다)
+h = h.replace("put('n', A.n);", "put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? ` · 목표가 ${A.nTargets}` : ''));", 1)   # 틀(NVDA) 표시 줄
+sub(rf"const {T}_ANALYST = \{{[^}}]*\}};", f"const {T}_ANALYST = {{ asOf: '{getattr(C, 'ANALYST_ASOF', '2026-10-01')}', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: '{A_['rating']}', n: {A_['n']}, nTargets: {A_.get('nt', 'null')}, mean: {A_['mean']}, median: {A_['median']},\n  low: {A_['low']}, high: {A_['high']}, strongBuy: {A_['sb']}, buy: {A_['b']}, hold: {A_['h']}, sell: {A_['s']}, strongSell: {A_['ss']} }};")
 assert A_['n'] == A_['sb'] + A_['b'] + A_['h'] + A_['s'] + A_['ss']
 sub(r'<span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>', f'<span class="op-val">{C.NEXT_OP[0]} <span class="op-sub">{C.NEXT_OP[1]}</span></span>')
 _vc = {'저평가': 'var(--green)', '적정~저평가': 'var(--green)', '적정': 'var(--gold)', '적정~고평가': 'var(--gold)', '고평가': 'var(--red)', '판정 보류': 'var(--gold)'}[VERDICT]
@@ -464,10 +466,18 @@ if _tt_old in h:
 if getattr(C, 'REQ_MULT_EXACT', False):
     one("가 필요해 지난 5년의 3배를 넘는다.`", "가 필요해 지난 5년의 ${Math.round(d.requiredGrowth / d.growth5y)}배다.`")
     one("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요해 지난 5년 실제의 ${Math.round(D.requiredGrowth / D.growth5y)}배다.`")
-# 현금흐름 칸 쏠림 메모(A0, 86af3f2)는 비금융 카드에만 — 금융 카드(BLK·BX·CB·PGR)는 cfg NO_DCF_SKEW = True로 뺀다(검증 패널에 금융이 없다)
-if getattr(C, 'NO_DCF_SKEW', False):
+# 현금흐름 칸 쏠림 메모(A0, 86af3f2)는 비금융 카드에만 — 근거 패널에 금융이 없다. GICS Financials면 뺀다(cfg NO_DCF_SKEW는 예전 표시, 남겨 둬도 같음)
+_SECT = json.load(open('sectors.json')).get(T)   # GICS 섹터(v2/sectors.json)
+if getattr(C, 'NO_DCF_SKEW', False) or 'Financ' in json.dumps(_SECT or ''):   # 금융 섹터는 섹터로 정한다(v2.1 B-3, 2026-10-05 — MA·V에 남아 있었다)
     sub(r'// 이 칸이 대부분 종목에서 "매우 비싸다"라는 사실을 툴팁으로 알린다\.[^\n]*\n// 금융 카드에는 넣지 않는다[^\n]*\nconst DCF_SKEW_NOTE = [^\n]*\n', '')
     one("      + (lv.ratio != null ? '\\n' + DCF_SKEW_NOTE : '')\n", '')
+# 해 없음 카드 모델 범위 툴팁(v2.1 B-4, 2026-10-05) — 라벨 줄 뒤에, 해 없음일 때만 실행
+_LB = "    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : d.requiredMargin == null ? '현재가 요구 영업이익률' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;"
+if _LB in h and 'v2.1 B-4' not in h:
+    h = h.replace(_LB, _LB + "\n    if (d.requiredMargin == null) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)\n"
+        + f"      const _ps = {json.dumps((SM.get('PSR') or {}).get('current'))};   // 생성 때 PSR(이 줄 위에서 {T}_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)\n"
+        + "      req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'\n"
+        + "        + (_ps ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델이 설명하는 범위를 넘는 성장·마진 기대가 들어 있다.` : '.');\n    }", 1)
 for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
     exec(_code, globals())
 # 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
