@@ -33,8 +33,9 @@ def facts(cik):
         os.chdir(cwd)
 
 
-def latest(rows, before):
-    ok = [r for r in rows if r["end"] <= before]
+def latest(rows, before, filed_by=None):
+    """이벤트 전 결산의 값 — 이벤트 공시일까지 공시된 것만(뒤에 정정된 값을 과거 날짜로 끌어오지 않는다, Codex)."""
+    ok = [r for r in rows if r["end"] <= before and (filed_by is None or r["filed"] <= filed_by)]
     return max(ok, key=lambda r: (r["end"], r["filed"])) if ok else None
 
 
@@ -62,7 +63,7 @@ def main(T):
     for e in spec["events"]:
         if any(r["end"] >= e["date"] for r in periodic):
             print(f"{T} {e['date']}: 그 뒤 결산 정기 공시가 있다 — 지금 값은 그 공시가 덮고, 이벤트 행은 과거 날짜 계산을 위해 남긴다")
-        cash0 = latest(periodic, e["date"])
+        cash0 = latest(periodic, e["date"], e["filed"])
         if cash0 is None:
             sys.exit(f"{T}: 이벤트 전 분기말 현금이 없다")
         row = {"end": e["date"], "filed": e["filed"], "form": "8-K", "accn": e["accn"], "src": f"{SRC}: {e['src']}"}
@@ -71,7 +72,7 @@ def main(T):
         ov.setdefault("us-gaap", {}).setdefault("CashAndCashEquivalentsAtCarryingValue", []).append(
             {**row, "val": cash0["val"] + e["net_proceeds"], "unit": "USD"})
         for tg, rows in eq_rows.items():   # 자본에도 순수입금(현금과 짝)
-            eq0 = latest(rows, e["date"])
+            eq0 = latest(rows, e["date"], e["filed"])
             if eq0:
                 ov["us-gaap"].setdefault(tg, []).append({**row, "val": eq0["val"] + e["net_proceeds"], "unit": "USD"})
         live.append(e)
