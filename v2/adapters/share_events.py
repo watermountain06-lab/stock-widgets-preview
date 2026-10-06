@@ -4,10 +4,12 @@
 공모·전환·워런트 행사로 주식이 늘면, 주식 수만 늘리면 현금이 빠진 채 시가총액만 커지고 주당 가치가 줄어든다.
 `v2/share_events.json`에 공시 원문으로 확인한 이벤트를 적고, 이 스크립트가 `.sec_cache/overlay/{cik}.json`에
 그날 기준 표지 주식 수(dei:EntityCommonStockSharesOutstanding)와 현금(직전 분기말 현금 + 순수입금)을 한 행씩 넣는다.
-공개일 = 이벤트를 밝힌 8-K·증권신고서 공시일. **그 날짜 뒤 결산의 10-Q/10-K가 companyfacts에 들어오면 이벤트를 끈다**
-(그 공시가 주식·현금을 이미 담는다). 조건부 주식·행사 전 워런트는 넣지 않는다(카드 문장에만).
+자본(StockholdersEquity·연결 자본)에도 같은 순수입금을 더한다 — 현금만 늘리면 투하자본(자본 + 차입금 − 현금)이 줄고 PBR이
+새 주식 수와 옛 자본을 섞는다(Codex). 공개일 = 이벤트를 밝힌 8-K·증권신고서 공시일. 이벤트 행은 날짜가 붙어 있어 지우지 않는다 —
+그 뒤 결산의 10-Q/10-K가 들어오면 더 새 결산일이라 지금 값은 그 공시가 덮고, 그 사이 날짜의 과거 계산(자기 이력·DCF 추적)은
+이벤트를 계속 쓴다(Codex). 조건부 주식·행사 전 워런트는 넣지 않는다(카드 문장에만).
 
-    python3 v2/adapters/share_events.py INTC      # 오버레이 갱신(이벤트가 꺼졌으면 넣었던 행을 지운다)
+    python3 v2/adapters/share_events.py INTC      # 오버레이 갱신(예전에 넣은 이벤트 행을 지우고 다시 쓴다)
 """
 import json
 import os
@@ -21,7 +23,14 @@ SRC = "share-event"
 
 
 def facts(cik):
-    return json.load(open(os.path.join(CACHE, f"{cik}_facts.json")))["facts"]
+    """엔진과 같은 경로로 받는다(캐시가 없으면 SEC에서 받아 둔다)."""
+    sys.path.insert(0, V2)
+    import build_multiple_history as bmh
+    cwd = os.getcwd(); os.chdir(V2)
+    try:
+        return bmh._facts(cik)["facts"]
+    finally:
+        os.chdir(cwd)
 
 
 def latest(rows, before):
@@ -48,10 +57,11 @@ def main(T):
             if not tax[tag]:
                 del tax[tag]
     live = []
+    eq_rows = {tg: [r for r in f["us-gaap"].get(tg, {}).get("units", {}).get("USD", []) if r.get("form") in ("10-Q", "10-K")]
+               for tg in ("StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest")}
     for e in spec["events"]:
         if any(r["end"] >= e["date"] for r in periodic):
-            print(f"{T} {e['date']}: 이후 결산 정기 공시가 있어 끈다 — {e['src'][:60]}")
-            continue
+            print(f"{T} {e['date']}: 그 뒤 결산 정기 공시가 있다 — 지금 값은 그 공시가 덮고, 이벤트 행은 과거 날짜 계산을 위해 남긴다")
         cash0 = latest(periodic, e["date"])
         if cash0 is None:
             sys.exit(f"{T}: 이벤트 전 분기말 현금이 없다")
@@ -60,6 +70,10 @@ def main(T):
             {**row, "val": e["shares_after"], "unit": "shares"})
         ov.setdefault("us-gaap", {}).setdefault("CashAndCashEquivalentsAtCarryingValue", []).append(
             {**row, "val": cash0["val"] + e["net_proceeds"], "unit": "USD"})
+        for tg, rows in eq_rows.items():   # 자본에도 순수입금(현금과 짝)
+            eq0 = latest(rows, e["date"])
+            if eq0:
+                ov["us-gaap"].setdefault(tg, []).append({**row, "val": eq0["val"] + e["net_proceeds"], "unit": "USD"})
         live.append(e)
         print(f"{T} {e['date']}: 주식 {e['shares_after']:,} · 현금 {cash0['val'] / 1e9:.2f}B({cash0['end']}) + {e['net_proceeds'] / 1e9:.2f}B")
     os.makedirs(os.path.dirname(op), exist_ok=True)
