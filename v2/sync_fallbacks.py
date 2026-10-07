@@ -182,7 +182,7 @@ def render_text(url):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
-    ap.add_argument("--base", default="http://localhost:8765")
+    ap.add_argument("--base", default=os.environ.get("SYNC_BASE", "http://localhost:8765"))   # SYNC_BASE: 다른 복제본·포트(2026-10-07)
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
     t = args.ticker.upper()

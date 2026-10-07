@@ -38,7 +38,7 @@ def main():
     ap.add_argument("ticker")
     ap.add_argument("old")
     ap.add_argument("--new")
-    ap.add_argument("--base", default="http://localhost:8765")
+    ap.add_argument("--base", default=os.environ.get("SYNC_BASE", "http://localhost:8765"))   # SYNC_BASE: 다른 복제본·포트(2026-10-07)
     a = ap.parse_args()
     T = a.ticker.upper()
     new = a.new or os.path.join(V2, f"{T}_full_widget.html")
