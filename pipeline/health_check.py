@@ -154,6 +154,13 @@ def main():
                         detail = (f"states {wa['stated']}, its badges give {wa['now']}"
                                   if wa.get("now") is not None else "badge weights disagree with the baseline")
                         warnings.append(f"card {tk}: 가중평균 {wa['class']} - {detail}")
+                if c["status"] == "v2":
+                    # v2 카드는 이 실행 뒤 v2 재빌드가 갱신한다 — 지금은 하루 늦은 게 정상이다. 두 세션 넘게 늦으면
+                    # v2 재빌드가 돌지 않았거나 그 카드가 계속 실패하는 것이다(Codex 2026-10-07).
+                    own = next((t for t in stocks["tickers"] if t["ticker"] == tk), {}).get("price", {})
+                    if c.get("lastBar") and own.get("prevSession") and c["lastBar"] < own["prevSession"]:
+                        problems.append(f"card {tk}: v2 카드가 {c['lastBar']}에 멈춰 있다(가격 {own.get('session')}) — v2 재빌드 확인")
+                    continue
                 if c["status"] not in ("failed", "held"):
                     continue
                 card_lines.append(f"{tk} {c['status']}: {why}")

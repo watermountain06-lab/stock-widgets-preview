@@ -607,7 +607,8 @@ def test_card_updater():
     new_close, card_last = {}, {}
     for t in data["tickers"]:
         tk = t["ticker"]
-        html = (ROOT / t["href"]).read_text(encoding="utf-8")
+        # 옛 디자인 카드 사본(2026-10-07 홈 카드가 v2로 바뀌기 전 것) — 이 갱신기는 이제 옛 카드에만 쓰인다
+        html = (ROOT / "pipeline" / "fixtures" / "legacy_cards" / t["href"]).read_text(encoding="utf-8")
         (cards / t["href"]).write_text(html, encoding="utf-8")
         if (ROOT / "site_data" / "tech_state" / f"{tk}.json").exists():
             shutil.copy(ROOT / "site_data" / "tech_state" / f"{tk}.json", state / f"{tk}.json")
@@ -1192,6 +1193,8 @@ def test_prose_stamp():
     unresolved = []
     for t, entries in real.items():
         card = (ROOT / f"{t}_full_widget.html").read_text(encoding="utf-8")
+        if f"const {t}_VALUATION = " in card:   # v2 카드(2026-10-07부터 홈 카드) — 옛 카드 문장 표지는 대상이 아니다
+            continue
         for e in entries:
             pre_i, post_i = e["preimage"], e["postimage"]
             npre, npost = card.count(pre_i), card.count(post_i)

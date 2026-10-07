@@ -1008,7 +1008,15 @@ def main():
         if wanted and t not in wanted:
             continue
         path = cards_dir / entry["href"]
-        if net_failures >= fp.MAX_NET_FAILURES:  # Yahoo is down - don't spend the job's time limit retrying
+        v2_card = path.exists() and f"const {t}_VALUATION = " in path.read_text(encoding="utf-8")
+        if v2_card:
+            # v2 카드(2026-10-07부터 홈 카드)는 이 스크립트가 아니라 v2 재빌드(.github/workflows/v2_cards.yml,
+            # v2/newcards/daily_price.py)가 새 종가로 다시 만든다. 여기서 고치면 v2/ 원본과 어긋나고, 헤더 구조가 달라 실패한다.
+            m = re.findall(r'\["(\d{4}-\d{2}-\d{2})"', re.search(rf"const {t}_DAILY\s*=\s*(\[.*?\]);",
+                                                              path.read_text(encoding="utf-8"), re.S).group(1)[-400:])
+            last_v2 = m[-1] if m else None   # 카드 마지막 봉 — health_check가 v2 재빌드가 멈췄는지 본다
+            st, last, counts, notes, html, tech = ("v2", last_v2, {}, ["v2 카드 — v2 재빌드가 갱신한다"], None, None)
+        elif net_failures >= fp.MAX_NET_FAILURES:  # Yahoo is down - don't spend the job's time limit retrying
             st, last, counts, notes, html, tech = ("failed", None, {}, [f"skipped after {fp.MAX_NET_FAILURES} "
                                                    "consecutive network failures"], None, None)
         else:
@@ -1042,12 +1050,12 @@ def main():
         # longer matches its badges is still a card worth publishing, and a held or unchanged
         # card can carry the same contradiction. health_check.py warns when the class changes.
         card_html = html if html is not None else (path.read_text(encoding="utf-8") if path.exists() else None)
-        wavg = wavg_report(card_html, Path(args.valuation_dir) / f"{t}.json") if card_html else None
+        wavg = wavg_report(card_html, Path(args.valuation_dir) / f"{t}.json") if card_html and not v2_card else None
         if wavg:
             wavg["changed"] = wavg["class"] != (prev.get("weightedAverage") or {}).get("class")
             status["cards"][t]["weightedAverage"] = wavg
 
-    summary = {s: sum(1 for r in results.values() if r[0] == s) for s in ("updated", "unchanged", "held", "failed")}
+    summary = {s: sum(1 for r in results.values() if r[0] == s) for s in ("updated", "unchanged", "held", "failed", "v2")}
     print(f"summary: {summary}")
     if not args.write:
         print("Dry run - pass --write to update the cards")

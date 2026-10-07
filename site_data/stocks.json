@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-07T01:11:04Z",
+  "generatedAt": "2026-10-07T14:00:33Z",
   "priceSession": "2026-10-06",
-  "scoreVersion": "1.0.1",
+  "scoreVersion": "v2",
   "tickers": [
     {
       "ticker": "NVDA",
@@ -10,7 +10,7 @@
       "sector": "반도체",
       "href": "NVDA_full_widget.html",
       "cardRank": 1,
-      "cardAsOf": "2026-09-03",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -35,19 +35,15 @@
         "value": "적정~저평가",
         "raw": "적정~저평가",
         "status": "valid",
-        "note": "no tier label found in summary, row"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 86.3,
+        "total": 96.1,
         "grade": "우수",
-        "financialsAsOf": "2026-01-25",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 7.5,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-07-26",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -56,7 +52,7 @@
       "sector": "하드웨어",
       "href": "AAPL_full_widget.html",
       "cardRank": 2,
-      "cardAsOf": "2026-09-01",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -78,22 +74,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 40.2,
+        "total": 52.7,
         "grade": "보통",
-        "financialsAsOf": "2025-09-27",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 11.5,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-27",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -102,7 +94,7 @@
       "sector": "인터넷·플랫폼",
       "href": "GOOGL_full_widget.html",
       "cardRank": 3,
-      "cardAsOf": "2026-09-01",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "multi-class"
       },
@@ -141,22 +133,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 69.8,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 86.5,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -165,7 +153,7 @@
       "sector": "소프트웨어",
       "href": "MSFT_full_widget.html",
       "cardRank": 4,
-      "cardAsOf": "2026-09-01",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -187,22 +175,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 83.6,
-        "grade": "우수",
+        "total": 79.2,
+        "grade": "양호",
         "financialsAsOf": "2026-06-30",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 2.4,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -211,7 +195,7 @@
       "sector": "유통·클라우드",
       "href": "AMZN_full_widget.html",
       "cardRank": 5,
-      "cardAsOf": "2026-08-27",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -233,22 +217,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 66.3,
+        "total": 62.5,
         "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -257,7 +237,7 @@
       "sector": "반도체·파운드리",
       "href": "TSM_full_widget.html",
       "cardRank": 6,
-      "cardAsOf": "2026-08-27",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "adr",
         "adrRatio": 5
@@ -283,23 +263,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 88.7,
+        "total": 87.0,
         "grade": "우수",
-        "financialsAsOf": "2024-12-31",
-        "valuationAsOf": "2026-09-11",
-        "qualityFlags": [
-          "valuation_target_only",
-          "stale_financials"
-        ],
-        "financialsAgeMonths": 20.3,
-        "valuationCoverage": {
-          "historicalMultiples": 0,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -308,7 +280,7 @@
       "sector": "우주항공·위성통신·AI",
       "href": "SPCX_full_widget.html",
       "cardRank": 7,
-      "cardAsOf": "2026-09-03",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "multi-class"
       },
@@ -344,12 +316,19 @@
       },
       "tier": {
         "value": null,
-        "raw": "데이터 초기 단계",
-        "status": "missing"
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
       },
       "score": {
-        "status": "unsupported",
-        "reason": "상장 직후라 5년 이력이 없다 - 자기이력 대비 PER/PBR 5년 평균과 5년 CAGR이 정의되지 않는다"
+        "status": "available",
+        "total": 43.6,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": [
+          "growth_metrics_below_gate"
+        ]
       }
     },
     {
@@ -358,7 +337,7 @@
       "sector": "반도체·인프라SW",
       "href": "AVGO_full_widget.html",
       "cardRank": 8,
-      "cardAsOf": "2026-09-02",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -380,22 +359,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 60.2,
+        "total": 79.2,
         "grade": "양호",
-        "financialsAsOf": "2025-11-02",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 10.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-08-02",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -404,7 +379,7 @@
       "sector": "SNS 광고·AI",
       "href": "META_full_widget.html",
       "cardRank": 9,
-      "cardAsOf": "2026-08-27",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "multi-class"
       },
@@ -439,22 +414,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "저평가",
-        "raw": "저평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 71.9,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 1,
-          "targetPrice": true
-        }
+        "total": 81.1,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": []
       }
     },
     {
@@ -463,7 +434,7 @@
       "sector": "EV·자율주행",
       "href": "TSLA_full_widget.html",
       "cardRank": 10,
-      "cardAsOf": "2026-08-31",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -485,22 +456,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "초고평가",
-        "raw": "초고평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 49.4,
+        "total": 51.3,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -510,7 +477,7 @@
       "sector": "금융·복합기업",
       "href": "BRKB_full_widget.html",
       "cardRank": 11,
-      "cardAsOf": "2026-09-03",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "multi-class"
       },
@@ -547,27 +514,14 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
       },
       "score": {
-        "status": "available",
-        "total": 68.3,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "note": "coverage partial",
-        "qualityFlags": [
-          "valuation_target_only",
-          "health_ratios_below_gate"
-        ],
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 0,
-          "targetPrice": true
-        }
+        "status": "excluded",
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -576,7 +530,7 @@
       "sector": "반도체·메모리",
       "href": "MU_full_widget.html",
       "cardRank": 12,
-      "cardAsOf": "2026-09-03",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -598,22 +552,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 60.4,
-        "grade": "양호",
-        "financialsAsOf": "2025-08-28",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 12.5,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 85.3,
+        "grade": "우수",
+        "financialsAsOf": "2026-05-28",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -622,7 +572,7 @@
       "sector": "헬스케어·제약(GLP-1)",
       "href": "LLY_full_widget.html",
       "cardRank": 13,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -660,22 +610,18 @@
         "note": "10-K FY2025: employee benefit trust held 50 million shares at 2025-12-31 and 2024-12-31 (cost basis $3.0B)"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "conflict",
-        "note": "headline kept; row says 고평가; no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 79.2,
+        "total": 74.4,
         "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -684,7 +630,7 @@
       "sector": "금융·대형은행",
       "href": "JPM_full_widget.html",
       "cardRank": 14,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -709,11 +655,11 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank (config bank_exclude_tickers)"
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -722,7 +668,7 @@
       "sector": "반도체·메모리(HBM)",
       "href": "SKHY_full_widget.html",
       "cardRank": 15,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "adr",
         "adrRatio": 0.1
@@ -746,14 +692,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "저평가",
-        "raw": "저평가 — 단, ADR 프리미엄은 별개 리스크",
-        "status": "normalized",
-        "note": "trailing ADR-premium caveat after the label; no tier label found in summary"
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
-        "status": "unsupported",
-        "reason": "IFRS 외국 발행인 - fetch_financials.py는 SEC companyfacts의 us-gaap/dei만 읽어 ifrs-full 태그를 가져오지 못한다"
+        "status": "available",
+        "total": 92.1,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": []
       }
     },
     {
@@ -762,7 +712,7 @@
       "sector": "필수소비재·유통",
       "href": "WMT_full_widget.html",
       "cardRank": 16,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -784,22 +734,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 46.8,
+        "total": 47.0,
         "grade": "보통",
-        "financialsAsOf": "2026-01-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 7.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -808,7 +754,7 @@
       "sector": "반도체·팹리스(CPU/GPU)",
       "href": "AMD_full_widget.html",
       "cardRank": 17,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -833,19 +779,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 66.0,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-27",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.5,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 83.9,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-27",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -854,7 +796,7 @@
       "sector": "금융·결제 네트워크",
       "href": "V_full_widget.html",
       "cardRank": 18,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "multi-class"
       },
@@ -879,25 +821,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 71.8,
+        "total": 66.2,
         "grade": "양호",
-        "financialsAsOf": "2025-09-30",
-        "valuationAsOf": "2026-09-11",
-        "qualityFlags": [
-          "valuation_target_only"
-        ],
-        "financialsAgeMonths": 11.4,
-        "valuationCoverage": {
-          "historicalMultiples": 0,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -906,7 +841,7 @@
       "sector": "헬스케어·제약·메드테크",
       "href": "JNJ_full_widget.html",
       "cardRank": 19,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -934,19 +869,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 51.1,
-        "grade": "보통",
-        "financialsAsOf": "2025-12-28",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.4,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 61.1,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-28",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -955,7 +886,7 @@
       "sector": "반도체·장비(EUV)",
       "href": "ASML_full_widget.html",
       "cardRank": 20,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "ny-registry",
         "adrRatio": 1
@@ -982,14 +913,18 @@
         "note": "quarterly counts are only published in 6-K press material, not XBRL"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
-        "status": "unsupported",
-        "reason": "IFRS 외국 발행인 - fetch_financials.py는 SEC companyfacts의 us-gaap/dei만 읽어 ifrs-full 태그를 가져오지 못한다"
+        "status": "available",
+        "total": 70.3,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-28",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -998,7 +933,7 @@
       "sector": "에너지·통합 석유·가스 메이저",
       "href": "XOM_full_widget.html",
       "cardRank": 21,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1023,22 +958,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가",
-        "raw": "고평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 40.9,
+        "total": 51.8,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1047,7 +978,7 @@
       "sector": "금융·결제 네트워크",
       "href": "MA_full_widget.html",
       "cardRank": 22,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "multi-class"
       },
@@ -1084,22 +1015,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 69.4,
+        "total": 66.8,
         "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 1,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1108,7 +1035,7 @@
       "sector": "반도체·IDM+파운드리",
       "href": "INTC_full_widget.html",
       "cardRank": 23,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1130,22 +1057,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "저평가",
-        "raw": "저평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 36.5,
-        "grade": "미흡",
-        "financialsAsOf": "2025-12-27",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.5,
-        "valuationCoverage": {
-          "historicalMultiples": 1,
-          "targetPrice": true
-        }
+        "total": 40.3,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-27",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1154,7 +1077,7 @@
       "sector": "소프트웨어·클라우드 인프라",
       "href": "ORCL_full_widget.html",
       "cardRank": 24,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1177,21 +1100,17 @@
       },
       "tier": {
         "value": "고평가~적정",
-        "raw": "고평가~적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 77.0,
-        "grade": "양호",
-        "financialsAsOf": "2026-05-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 3.4,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 57.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-08-31",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1200,7 +1119,7 @@
       "sector": "제약·바이오",
       "href": "ABBV_full_widget.html",
       "cardRank": 25,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "common"
       },
@@ -1226,25 +1145,20 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 34.1,
-        "grade": "미흡",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
+        "total": 48.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-05",
         "qualityFlags": [
           "negative_equity"
-        ],
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 1,
-          "targetPrice": true
-        }
+        ]
       }
     },
     {
@@ -1253,7 +1167,7 @@
       "sector": "금융·대형 은행",
       "href": "BAC_full_widget.html",
       "cardRank": 26,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1275,14 +1189,14 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank (config bank_exclude_tickers)"
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -1291,7 +1205,7 @@
       "sector": "네트워킹·보안·협업 솔루션",
       "href": "CSCO_full_widget.html",
       "cardRank": 27,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1313,22 +1227,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "저평가~적정",
-        "status": "normalized",
-        "note": "reversed range order 저평가~적정; no tier label found in summary"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 47.7,
+        "total": 51.6,
         "grade": "보통",
         "financialsAsOf": "2026-07-25",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 1.6,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1337,7 +1247,7 @@
       "sector": "소프트웨어·AI/데이터 플랫폼",
       "href": "PLTR_full_widget.html",
       "cardRank": 28,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "multi-class"
       },
@@ -1377,22 +1287,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "초고평가",
-        "raw": "초고평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 84.2,
+        "total": 97.5,
         "grade": "우수",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": []
       }
     },
     {
@@ -1401,7 +1307,7 @@
       "sector": "에너지·통합 석유·가스 메이저",
       "href": "CVX_full_widget.html",
       "cardRank": 29,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1426,22 +1332,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "저평가",
-        "raw": "저평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 36.6,
-        "grade": "미흡",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 54.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1450,7 +1352,7 @@
       "sector": "소비재 유통·회원제 창고형",
       "href": "COST_full_widget.html",
       "cardRank": 30,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1475,22 +1377,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "초고평가",
-        "raw": "초고평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 51.6,
+        "total": 52.4,
         "grade": "보통",
-        "financialsAsOf": "2025-08-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 12.4,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-05-10",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1499,7 +1397,7 @@
       "sector": "반도체 장비·식각·증착(WFE)",
       "href": "LRCX_full_widget.html",
       "cardRank": 31,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1521,22 +1419,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 65.5,
+        "total": 78.0,
         "grade": "양호",
         "financialsAsOf": "2026-06-28",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 2.5,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1545,7 +1439,7 @@
       "sector": "소비재·음료",
       "href": "KO_full_widget.html",
       "cardRank": 32,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1573,19 +1467,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 53.2,
-        "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 61.1,
+        "grade": "양호",
+        "financialsAsOf": "2026-07-03",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1594,7 +1484,7 @@
       "sector": "건설기계·중장비",
       "href": "CAT_full_widget.html",
       "cardRank": 33,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1622,19 +1512,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 47.7,
+        "total": 52.6,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1643,7 +1529,7 @@
       "sector": "헬스케어·제약",
       "href": "MRK_full_widget.html",
       "cardRank": 34,
-      "cardAsOf": "2026-09-04",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1668,22 +1554,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 64.6,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 33.0,
+        "grade": "미흡",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1692,7 +1574,7 @@
       "sector": "반도체 장비·식각·증착·CMP",
       "href": "AMAT_full_widget.html",
       "cardRank": 35,
-      "cardAsOf": "2026-09-08",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1714,22 +1596,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 58.7,
-        "grade": "보통",
-        "financialsAsOf": "2025-10-26",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 10.5,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 70.4,
+        "grade": "양호",
+        "financialsAsOf": "2026-07-26",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1738,7 +1616,7 @@
       "sector": "헬스케어·건강보험",
       "href": "UNH_full_widget.html",
       "cardRank": 36,
-      "cardAsOf": "2026-09-08",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1764,21 +1642,17 @@
       },
       "tier": {
         "value": "고평가~적정",
-        "raw": "고평가~적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 49.0,
+        "total": 42.0,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1787,7 +1661,7 @@
       "sector": "항공우주·방위산업·항공기 엔진",
       "href": "GE_full_widget.html",
       "cardRank": 37,
-      "cardAsOf": "2026-09-08",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1812,22 +1686,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 63.5,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 57.8,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1836,7 +1706,7 @@
       "sector": "IT 인프라·서버·PC",
       "href": "DELL_full_widget.html",
       "cardRank": 38,
-      "cardAsOf": "2026-09-08",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "multi-class"
       },
@@ -1876,25 +1746,20 @@
         "status": "ok"
       },
       "tier": {
-        "value": "초고평가",
-        "raw": "초고평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 33.8,
-        "grade": "미흡",
-        "financialsAsOf": "2026-01-30",
-        "valuationAsOf": "2026-09-11",
+        "total": 42.6,
+        "grade": "보통",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-10-05",
         "qualityFlags": [
           "negative_equity"
-        ],
-        "financialsAgeMonths": 7.4,
-        "valuationCoverage": {
-          "historicalMultiples": 1,
-          "targetPrice": true
-        }
+        ]
       }
     },
     {
@@ -1903,7 +1768,7 @@
       "sector": "금융·투자은행·자산관리",
       "href": "MS_full_widget.html",
       "cardRank": 39,
-      "cardAsOf": "2026-09-08",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1928,14 +1793,14 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank (config bank_exclude_tickers)"
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -1944,7 +1809,7 @@
       "sector": "소비재·생활용품",
       "href": "PG_full_widget.html",
       "cardRank": 40,
-      "cardAsOf": "2026-09-08",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -1969,22 +1834,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 58.0,
+        "total": 49.6,
         "grade": "보통",
         "financialsAsOf": "2026-06-30",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 2.4,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -1993,7 +1854,7 @@
       "sector": "미디어·구독형 스트리밍",
       "href": "NFLX_full_widget.html",
       "cardRank": 41,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2015,22 +1876,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가",
-        "raw": "고평가",
+        "value": "적정",
+        "raw": "적정",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 61.4,
+        "total": 72.7,
         "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2039,7 +1896,7 @@
       "sector": "소매·주택개량",
       "href": "HD_full_widget.html",
       "cardRank": 42,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2064,22 +1921,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 56.0,
+        "total": 40.0,
         "grade": "보통",
-        "financialsAsOf": "2026-02-01",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 7.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-08-02",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2088,7 +1941,7 @@
       "sector": "금융·투자은행·트레이딩",
       "href": "GS_full_widget.html",
       "cardRank": 43,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2114,13 +1967,13 @@
       },
       "tier": {
         "value": "고평가~적정",
-        "raw": "고평가~적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank (config bank_exclude_tickers)"
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -2129,7 +1982,7 @@
       "sector": "담배·니코틴 제품",
       "href": "PM_full_widget.html",
       "cardRank": 44,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2157,22 +2010,17 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 48.6,
+        "total": 55.8,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
         "qualityFlags": [
           "negative_equity"
-        ],
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 1,
-          "targetPrice": true
-        }
+        ]
       }
     },
     {
@@ -2181,7 +2029,7 @@
       "sector": "사이버보안·플랫폼",
       "href": "PANW_full_widget.html",
       "cardRank": 45,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "common"
       },
@@ -2207,22 +2055,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 62.9,
+        "total": 62.0,
         "grade": "양호",
         "financialsAsOf": "2026-07-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 1.4,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": []
       }
     },
     {
@@ -2231,7 +2075,7 @@
       "sector": "금융·상업은행·소비자금융",
       "href": "WFC_full_widget.html",
       "cardRank": 46,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2256,14 +2100,14 @@
         "status": "ok"
       },
       "tier": {
-        "value": "저평가",
-        "raw": "저평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank (config bank_exclude_tickers)"
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -2272,7 +2116,7 @@
       "sector": "항공우주·방위산업",
       "href": "RTX_full_widget.html",
       "cardRank": 47,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2297,22 +2141,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 49.2,
+        "total": 54.1,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2321,7 +2161,7 @@
       "sector": "반도체·NAND 플래시 메모리",
       "href": "SNDK_full_widget.html",
       "cardRank": 48,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "common"
       },
@@ -2347,22 +2187,15 @@
         "value": "고평가~적정",
         "raw": "적정~고평가",
         "status": "normalized",
-        "note": "reversed range order 적정~고평가; no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 94.3,
+        "total": 91.6,
         "grade": "우수",
         "financialsAsOf": "2026-07-03",
-        "valuationAsOf": "2026-09-11",
-        "qualityFlags": [
-          "valuation_target_only"
-        ],
-        "financialsAgeMonths": 2.3,
-        "valuationCoverage": {
-          "historicalMultiples": 0,
-          "targetPrice": true
-        }
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": []
       }
     },
     {
@@ -2371,7 +2204,7 @@
       "sector": "전력설비·발전·전력망",
       "href": "GEV_full_widget.html",
       "cardRank": 49,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "common"
       },
@@ -2400,22 +2233,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 70.2,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "qualityFlags": [
-          "valuation_target_only"
-        ],
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 0,
-          "targetPrice": true
-        }
+        "total": 50.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": []
       }
     },
     {
@@ -2424,7 +2250,7 @@
       "sector": "네트워크 장비·데이터센터 스위치",
       "href": "ANET_full_widget.html",
       "cardRank": 50,
-      "cardAsOf": "2026-09-09",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "common"
       },
@@ -2453,19 +2279,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 76.9,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 92.6,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": []
       }
     },
     {
@@ -2474,7 +2296,7 @@
       "sector": "반도체·아날로그·임베디드",
       "href": "TXN_full_widget.html",
       "cardRank": 51,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2502,19 +2324,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 57.0,
-        "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 67.9,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2523,7 +2341,7 @@
       "sector": "반도체·검사·계측 장비",
       "href": "KLAC_full_widget.html",
       "cardRank": 52,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2548,22 +2366,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 60.2,
+        "total": 72.1,
         "grade": "양호",
         "financialsAsOf": "2026-06-30",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 2.4,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2572,7 +2386,7 @@
       "sector": "금융·글로벌 유니버설 뱅크",
       "href": "C_full_widget.html",
       "cardRank": 53,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2597,14 +2411,14 @@
         "note": "SEC XBRL API has not indexed any of Citi's 2026 filings, so seed_shares.py reads the stale dei series (1,749,319,009 as of 2026-01-31, the February 10-K) and reports a +4.29% gap. This count is the Q2 2026 10-Q's own figure: 3,099,786,399 issued minus 1,422,349,616 treasury. Do not overwrite it with seed_shares --write until the API catches up."
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank (config bank_exclude_tickers)"
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -2613,7 +2427,7 @@
       "sector": "IT 서비스",
       "href": "IBM_full_widget.html",
       "cardRank": 54,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2638,22 +2452,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 57.1,
+        "total": 45.6,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2662,7 +2472,7 @@
       "sector": "금융·결제 네트워크·카드",
       "href": "AXP_full_widget.html",
       "cardRank": 56,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2687,14 +2497,14 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank (config bank_exclude_tickers)"
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -2703,7 +2513,7 @@
       "sector": "산업가스·화학",
       "href": "LIN_full_widget.html",
       "cardRank": 57,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2728,22 +2538,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 61.6,
-        "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 59.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2752,7 +2558,7 @@
       "sector": "정보기술 — 사이버보안",
       "href": "CRWD_full_widget.html",
       "cardRank": 58,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-05",
       "listing": {
         "type": "common"
       },
@@ -2778,25 +2584,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "초고평가",
-        "raw": "초고평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 56.8,
+        "total": 47.9,
         "grade": "보통",
-        "financialsAsOf": "2026-01-31",
-        "valuationAsOf": "2026-09-11",
-        "qualityFlags": [
-          "valuation_target_only"
-        ],
-        "financialsAgeMonths": 7.3,
-        "valuationCoverage": {
-          "historicalMultiples": 0,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-10-05",
+        "qualityFlags": []
       }
     },
     {
@@ -2805,7 +2604,7 @@
       "sector": "통신서비스 — 무선·광대역",
       "href": "VZ_full_widget.html",
       "cardRank": 59,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2827,22 +2626,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가",
-        "raw": "고평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 37.6,
+        "total": 38.6,
         "grade": "미흡",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2851,7 +2646,7 @@
       "sector": "헬스케어 — 바이오의약품",
       "href": "AMGN_full_widget.html",
       "cardRank": 62,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2876,22 +2671,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정",
-        "raw": "적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 45.8,
+        "total": 52.7,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2900,7 +2691,7 @@
       "sector": "정보기술 — 기업용 소프트웨어",
       "href": "CRM_full_widget.html",
       "cardRank": 63,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2925,22 +2716,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
+        "value": "적정",
+        "raw": "적정",
         "status": "valid",
-        "note": "no tier label found in summary, row"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 68.7,
-        "grade": "양호",
-        "financialsAsOf": "2026-01-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 7.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 55.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2949,7 +2736,7 @@
       "sector": "헬스케어 — 생명과학 도구·서비스",
       "href": "TMO_full_widget.html",
       "cardRank": 55,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -2974,22 +2761,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 56.1,
+        "total": 45.9,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-27",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -2998,7 +2781,7 @@
       "sector": "정보기술 — 반도체(데이터센터)",
       "href": "MRVL_full_widget.html",
       "cardRank": 60,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3023,19 +2806,15 @@
         "value": "고평가",
         "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 62.8,
+        "total": 74.9,
         "grade": "양호",
-        "financialsAsOf": "2026-01-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 7.3,
-        "valuationCoverage": {
-          "historicalMultiples": 1,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-08-01",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -3044,7 +2823,7 @@
       "sector": "정보기술 — 커넥터·인터커넥트",
       "href": "APH_full_widget.html",
       "cardRank": 61,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3066,22 +2845,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "고평가~적정",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 64.2,
+        "total": 68.2,
         "grade": "양호",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -3090,7 +2865,7 @@
       "sector": "통신서비스 — 무선",
       "href": "TMUS_full_widget.html",
       "cardRank": 64,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3115,22 +2890,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "초저평가",
-        "raw": "초저평가",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 57.6,
+        "total": 50.7,
         "grade": "보통",
-        "financialsAsOf": "2025-12-31",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -3139,7 +2910,7 @@
       "sector": "정보기술 — 반도체",
       "href": "QCOM_full_widget.html",
       "cardRank": 65,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3162,21 +2933,17 @@
       },
       "tier": {
         "value": "고평가~적정",
-        "raw": "고평가~적정",
-        "status": "valid",
-        "note": "no tier label found in summary"
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 54.3,
+        "total": 54.9,
         "grade": "보통",
-        "financialsAsOf": "2025-09-28",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 11.4,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-28",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -3185,7 +2952,7 @@
       "sector": "정보기술 — 스토리지(HDD)",
       "href": "STX_full_widget.html",
       "cardRank": 66,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3210,22 +2977,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "초고평가",
-        "raw": "초고평가",
+        "value": "고평가",
+        "raw": "고평가",
         "status": "valid",
-        "note": "no tier label found in summary"
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 59.3,
-        "grade": "보통",
+        "total": 68.7,
+        "grade": "양호",
         "financialsAsOf": "2026-07-03",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 2.3,
-        "valuationCoverage": {
-          "historicalMultiples": 1,
-          "targetPrice": true
-        }
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -3234,7 +2997,7 @@
       "sector": "필수소비재 — 음료·스낵",
       "href": "PEP_full_widget.html",
       "cardRank": 67,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3259,21 +3022,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "저평가",
-        "raw": "저평가",
-        "status": "valid"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 55.7,
+        "total": 45.1,
         "grade": "보통",
-        "financialsAsOf": "2025-12-27",
-        "valuationAsOf": "2026-09-11",
-        "financialsAgeMonths": 8.5,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-13",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -3282,7 +3042,7 @@
       "sector": "금융 — 증권·자산관리",
       "href": "SCHW_full_widget.html",
       "cardRank": 68,
-      "cardAsOf": "2026-09-11",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3304,13 +3064,14 @@
         "status": "ok"
       },
       "tier": {
-        "value": "적정~저평가",
-        "raw": "적정~저평가",
-        "status": "valid"
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
       },
       "score": {
         "status": "excluded",
-        "reason": "bank (config bank_exclude_tickers)"
+        "reason": "v2 기본적 분석 점수 없음(financial)"
       }
     },
     {
@@ -3319,7 +3080,7 @@
       "sector": "커뮤니케이션 서비스 — 미디어·엔터테인먼트",
       "href": "DIS_full_widget.html",
       "cardRank": 69,
-      "cardAsOf": "2026-09-14",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3344,21 +3105,18 @@
         "status": "ok"
       },
       "tier": {
-        "value": "저평가",
-        "raw": "저평가",
-        "status": "valid"
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 65.1,
-        "grade": "양호",
-        "financialsAsOf": "2025-09-27",
-        "valuationAsOf": "2026-09-14",
-        "financialsAgeMonths": 11.5,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "total": 54.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-27",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     },
     {
@@ -3367,7 +3125,7 @@
       "sector": "산업재 — 농기계·건설장비",
       "href": "DE_full_widget.html",
       "cardRank": 70,
-      "cardAsOf": "2026-09-14",
+      "cardAsOf": "2026-10-06",
       "listing": {
         "type": "common"
       },
@@ -3392,21 +3150,1393 @@
         "status": "ok"
       },
       "tier": {
-        "value": "초고평가",
-        "raw": "초고평가",
-        "status": "valid"
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
         "status": "available",
-        "total": 31.2,
+        "total": 40.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-08-02",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
+    },
+    {
+      "ticker": "ADI",
+      "name": "아날로그 디바이스",
+      "sector": "정보기술 — 반도체(아날로그)",
+      "href": "ADI_full_widget.html",
+      "cardRank": 71,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 420.55,
+        "prevClose": 419.1,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 484565465,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-01",
+        "filedAt": "2026-08-19",
+        "filing": "10-Q 0000006281-26-000073 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 60.0,
+        "grade": "양호",
+        "financialsAsOf": "2026-08-01",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "GILD",
+      "name": "길리어드 사이언스",
+      "sector": "헬스케어 — 바이오",
+      "href": "GILD_full_widget.html",
+      "cardRank": 72,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 144.23,
+        "prevClose": 144.63,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1239955155,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0000882095-26-000031 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 33.5,
         "grade": "미흡",
-        "financialsAsOf": "2025-11-02",
-        "valuationAsOf": "2026-09-14",
-        "financialsAgeMonths": 10.3,
-        "valuationCoverage": {
-          "historicalMultiples": 2,
-          "targetPrice": true
-        }
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "BLK",
+      "name": "블랙록",
+      "sector": "금융 — 자산운용",
+      "href": "BLK_full_widget.html",
+      "cardRank": 73,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 1079.42,
+        "prevClose": 1066.45,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 154926181,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2025-04-30",
+        "filedAt": "2025-05-07",
+        "filing": "10-Q 0000950170-25-065838 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "stale",
+        "note": "SEC 표지 주식 수가 2025-04-30 뒤로 없다(지주회사 재편 뒤 태그 미기재) — 확인 필요"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 68.4,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
+    },
+    {
+      "ticker": "ETN",
+      "name": "이튼",
+      "sector": "산업재 — 전기 장비",
+      "href": "ETN_full_widget.html",
+      "cardRank": 74,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 445.09,
+        "prevClose": 432.6,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 388400000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0001551182-26-000030 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 54.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "ABT",
+      "name": "애보트 래버러토리스",
+      "sector": "헬스케어 — 의료기기·진단",
+      "href": "ABT_full_widget.html",
+      "cardRank": 75,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 98.16,
+        "prevClose": 100.1,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1730383296,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-28",
+        "filing": "10-Q 0001628280-26-050134 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 41.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "WDC",
+      "name": "웨스턴 디지털",
+      "sector": "정보기술 — 데이터 저장장치(HDD)",
+      "href": "WDC_full_widget.html",
+      "cardRank": 76,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 411.04,
+        "prevClose": 441.64,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 360540944,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-07",
+        "filedAt": "2026-08-14",
+        "filing": "10-K 0001628280-26-057139 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 75.2,
+        "grade": "양호",
+        "financialsAsOf": "2026-07-03",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "T",
+      "name": "에이티앤티",
+      "sector": "커뮤니케이션 — 통신",
+      "href": "T_full_widget.html",
+      "cardRank": 77,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 24.43,
+        "prevClose": 24.24,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 6852385650,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-16",
+        "filedAt": "2026-07-22",
+        "filing": "10-Q 0000732717-26-000297 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 46.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "MCD",
+      "name": "맥도날드",
+      "sector": "경기소비재 — 외식(프랜차이즈)",
+      "href": "MCD_full_widget.html",
+      "cardRank": 78,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 232.45,
+        "prevClose": 233.04,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 707641531,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-07",
+        "filing": "10-Q 0000063908-26-000073 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 60.3,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
+    },
+    {
+      "ticker": "WELL",
+      "name": "웰타워",
+      "sector": "부동산 — 헬스케어 리츠(시니어 주택)",
+      "href": "WELL_full_widget.html",
+      "cardRank": 79,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 225.78,
+        "prevClose": 224.16,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 720744951,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-24",
+        "filedAt": "2026-07-28",
+        "filing": "10-Q 0000766704-26-000030 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 54.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
+    },
+    {
+      "ticker": "UNP",
+      "name": "유니언 퍼시픽",
+      "sector": "산업재 — 철도",
+      "href": "UNP_full_widget.html",
+      "cardRank": 80,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 276.61,
+        "prevClose": 277.06,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 594075498,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0000100885-26-000250 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 48.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "PFE",
+      "name": "화이자",
+      "sector": "헬스케어 — 제약",
+      "href": "PFE_full_widget.html",
+      "cardRank": 81,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 27.5,
+        "prevClose": 27.41,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 5699673589,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-29",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0000078003-26-000095 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 36.9,
+        "grade": "미흡",
+        "financialsAsOf": "2026-06-28",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "NEE",
+      "name": "넥스트에라 에너지",
+      "sector": "유틸리티 — 전력·재생에너지",
+      "href": "NEE_full_widget.html",
+      "cardRank": 82,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 77.88,
+        "prevClose": 76.28,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 2085803189,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-24",
+        "filing": "10-Q 0000753308-26-000060 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "COP",
+      "name": "코노코필립스",
+      "sector": "에너지 — 석유·가스 탐사·생산",
+      "href": "COP_full_widget.html",
+      "cardRank": 83,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 129.35,
+        "prevClose": 128.4,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1201337479,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0001163165-26-000032 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 58.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "DHR",
+      "name": "다나허",
+      "sector": "헬스케어 — 생명과학 장비·진단",
+      "href": "DHR_full_widget.html",
+      "cardRank": 84,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 215.61,
+        "prevClose": 221.21,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 702986054,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-16",
+        "filedAt": "2026-07-21",
+        "filing": "10-Q 0000313616-26-000161 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 51.8,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-26",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "BA",
+      "name": "보잉",
+      "sector": "산업재 — 항공기·방산",
+      "href": "BA_full_widget.html",
+      "cardRank": 85,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 189.82,
+        "prevClose": 192.72,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 790370020,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-21",
+        "filedAt": "2026-07-28",
+        "filing": "10-Q 0001628280-26-050038 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 38.6,
+        "grade": "미흡",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "TJX",
+      "name": "TJX 컴퍼니스",
+      "sector": "경기소비재 — 할인 의류 소매",
+      "href": "TJX_full_widget.html",
+      "cardRank": 86,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 137.03,
+        "prevClose": 134.41,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1099974061,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-21",
+        "filedAt": "2026-08-28",
+        "filing": "10-Q 0000109198-26-000048 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 50.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-08-01",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "BX",
+      "name": "블랙스톤",
+      "sector": "금융 — 대체투자 운용",
+      "href": "BX_full_widget.html",
+      "cardRank": 87,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 113.36,
+        "prevClose": 111.65,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 750625114,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-07",
+        "filing": "10-Q 0001193125-26-340208 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok",
+        "note": "A주 표지 주식 수만이다(B·C주·파트너십 지분 제외) — 홈의 추정 시총이 실제보다 작다"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 69.4,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
+    },
+    {
+      "ticker": "GLW",
+      "name": "코닝",
+      "sector": "IT — 특수 유리·광통신 소재",
+      "href": "GLW_full_widget.html",
+      "cardRank": 88,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 168.97,
+        "prevClose": 159.37,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 861388331,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-24",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q 0000024741-26-000255 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 55.5,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "NOW",
+      "name": "서비스나우",
+      "sector": "IT — 기업용 업무 자동화 소프트웨어",
+      "href": "NOW_full_widget.html",
+      "cardRank": 89,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 137.97,
+        "prevClose": 136.08,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1034000000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0001373715-26-000076 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 50.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "ISRG",
+      "name": "인튜이티브 서지컬",
+      "sector": "헬스케어 — 수술 로봇",
+      "href": "ISRG_full_widget.html",
+      "cardRank": 90,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 404.76,
+        "prevClose": 406.48,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 353278038,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-16",
+        "filedAt": "2026-07-21",
+        "filing": "10-Q 0001035267-26-000058 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 92.4,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
+    },
+    {
+      "ticker": "UBER",
+      "name": "우버",
+      "sector": "산업재 — 모빌리티·배달 플랫폼",
+      "href": "UBER_full_widget.html",
+      "cardRank": 91,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 69.08,
+        "prevClose": 69.48,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 2042560121,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0001543151-26-000032 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 59.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "FTNT",
+      "name": "포티넷",
+      "sector": "IT — 네트워크 보안",
+      "href": "FTNT_full_widget.html",
+      "cardRank": 92,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 191.27,
+        "prevClose": 184.13,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 733713653,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-28",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0001262039-26-000021 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 70.2,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "VRTX",
+      "name": "버텍스 파마슈티컬스",
+      "sector": "헬스케어 — 낭포성 섬유증·유전자 치료제",
+      "href": "VRTX_full_widget.html",
+      "cardRank": 93,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 502.31,
+        "prevClose": 503.5,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 253460924,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0000875320-26-000259 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 81.5,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
+    },
+    {
+      "ticker": "CB",
+      "name": "처브",
+      "sector": "금융 — 손해보험",
+      "href": "CB_full_widget.html",
+      "cardRank": 94,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 334.21,
+        "prevClose": 330.49,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 385799859,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-20",
+        "filedAt": "2026-07-28",
+        "filing": "10-Q 0000896159-26-000017 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 65.1,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate",
+          "operating_income_estimated"
+        ]
+      }
+    },
+    {
+      "ticker": "PLD",
+      "name": "프로로지스",
+      "sector": "부동산 — 물류 리츠",
+      "href": "PLD_full_widget.html",
+      "cardRank": 95,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 128.68,
+        "prevClose": 128.08,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 933076000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-24",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q 0001193125-26-323746 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 66.9,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
+    },
+    {
+      "ticker": "BMY",
+      "name": "브리스톨마이어스 스퀴브",
+      "sector": "헬스케어 — 제약",
+      "href": "BMY_full_widget.html",
+      "cardRank": 96,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 59.59,
+        "prevClose": 58.81,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 2042714656,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-22",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0000014272-26-000020 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.6,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "PH",
+      "name": "파커 하니핀",
+      "sector": "산업재 — 모션·제어 기술",
+      "href": "PH_full_widget.html",
+      "cardRank": 97,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 984.91,
+        "prevClose": 975.68,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 126047469,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-21",
+        "filing": "10-K 0000076334-26-000105 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "PGR",
+      "name": "프로그레시브",
+      "sector": "금융 — 자동차 보험",
+      "href": "PGR_full_widget.html",
+      "cardRank": 98,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 212.05,
+        "prevClose": 212.62,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 581371770,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-02",
+        "filedAt": "2026-08-03",
+        "filing": "10-Q 0000080661-26-000308 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 70.9,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "health_ratios_below_gate",
+          "operating_income_estimated"
+        ]
+      }
+    },
+    {
+      "ticker": "BKNG",
+      "name": "부킹 홀딩스",
+      "sector": "경기소비재 — 온라인 여행",
+      "href": "BKNG_full_widget.html",
+      "cardRank": 99,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 157.63,
+        "prevClose": 158.33,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 751380500,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-27",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0001075531-26-000037 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 62.8,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
+    },
+    {
+      "ticker": "NEM",
+      "name": "뉴몬트",
+      "sector": "소재 — 금 채굴",
+      "href": "NEM_full_widget.html",
+      "cardRank": 100,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 116.39,
+        "prevClose": 115.82,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1053692271,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-16",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0001164727-26-000036 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 87.6,
+        "grade": "우수",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "ACN",
+      "name": "액센츄어",
+      "sector": "IT — 컨설팅·IT 서비스",
+      "href": "ACN_full_widget.html",
+      "cardRank": 101,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 193.4,
+        "prevClose": 195.05,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 615593409,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-04",
+        "filedAt": "2026-06-18",
+        "filing": "10-Q 0001467373-26-000032 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-05-31",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "COF",
+      "name": "캐피털 원",
+      "sector": "금융 — 신용카드·소비자 은행",
+      "href": "COF_full_widget.html",
+      "cardRank": 102,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 195.82,
+        "prevClose": 195.14,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 613484836,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-28",
+        "filing": "10-Q 0000927628-26-000089 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "excluded",
+        "reason": "v2 기본적 분석 점수 없음(financial)"
+      }
+    },
+    {
+      "ticker": "MPC",
+      "name": "마라톤 페트롤리엄",
+      "sector": "에너지 — 정유",
+      "href": "MPC_full_widget.html",
+      "cardRank": 103,
+      "cardAsOf": "2026-10-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 432.36,
+        "prevClose": 433.47,
+        "session": "2026-10-06",
+        "prevSession": "2026-10-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 280824763,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-30",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0001510295-26-000061 dei (v2 카드 엔진 facts — 공시 보충 포함)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 39.4,
+        "grade": "미흡",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-06",
+        "qualityFlags": []
       }
     }
   ]
