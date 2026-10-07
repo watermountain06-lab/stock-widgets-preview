@@ -90,9 +90,9 @@ def one(T, work):
                  [PY, "v2/build_multiple_history.py", T, "--json", f"v2/{T}_multiples.json"],
                  [PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"],
                  [PY, "v2/build_dcf_block.py", T], [PY, "v2/build_dcf_grid.py", T],
-                 [PY, "v2/strip_caveats.py", T], [PY, "v2/sync_fallbacks.py", T]]
+                 [PY, "v2/strip_caveats.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
     elif T in HAND:
-        steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/sync_fallbacks.py", T]]
+        steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
     else:
         return run([PY, "v2/newcards/build.py", T, "--price"], env=dict(os.environ, REFRESH="1"))
     log = ""

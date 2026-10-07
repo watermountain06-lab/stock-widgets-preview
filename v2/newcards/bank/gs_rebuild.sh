@@ -10,6 +10,7 @@ cp $B/base/gs_base.html v2/GS_full_widget.html
 python3 $B/gs_fill.py | tail -6
 python3 $B/unify_js.py GS
 python3 v2/strip_caveats.py GS   # 값 옆 사유 글은 툴팁으로(2026-10-06)
+python3 v2/apply_theme.py GS   # 밝은 테마·사이트 색(2026-10-07)
 python3 v2/sync_fallbacks.py GS --base "${SYNC_BASE:-http://localhost:8765}" 2>&1 | tail -1
 python3 -c "
 import re;h=open('v2/GS_full_widget.html').read();open('v2/.sec_cache/_work/GS_inline.js','w').write('\n;\n'.join(re.findall(r'<script>(.*?)</script>',h,re.S)))"

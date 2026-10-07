@@ -13,13 +13,13 @@ Chart.overrides.doughnut.animation = false;
 <style>
 
   /* HEADER (라이브 CB_analysis_widget.html에서 재사용) */
-  .header { background: linear-gradient(135deg, #101a05 0%, #0f1117 40%, #1a1d27 100%); border-bottom: 2px solid var(--accent3); padding: 28px 32px 24px; position: relative; overflow: hidden; max-width: 1100px; margin: 0 auto; }
-  .box-key { background: rgba(63,134,222,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
-  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(63,134,222,0.14) 0%, transparent 70%); pointer-events: none; }
+  .header { background: linear-gradient(135deg, #ffffff 0%, #fbfaf6 60%, #f7f5ef 100%); border-bottom: 2px solid var(--accent3); padding: 28px 32px 24px; position: relative; overflow: hidden; max-width: 1100px; margin: 0 auto; }
+  .box-key { background: rgba(28,43,74,0.1); border: 1px solid var(--accent3); border-radius: 10px; padding: 12px 16px; max-width: 1100px; margin: 0 auto 16px; }
+  .header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: none; pointer-events: none; }
   .header-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .ticker-block { display: flex; align-items: center; gap: 16px; flex: 1 1 320px; min-width: 0; }
   .ticker-block > div { min-width: 0; }
-  .ticker-badge { background: linear-gradient(135deg, var(--accent3), var(--accent)); color: #0f1117; font-size: 13px; font-weight: 800; padding: 5px 12px; border-radius: 6px; letter-spacing: 1px; }
+  .ticker-badge { background: var(--accent); color: #ffffff; font-size: 13px; font-weight: 800; padding: 5px 12px; border-radius: 6px; letter-spacing: 1px; }
   .company-name { font-size: 22px; font-weight: 700; color: var(--text); }
   .company-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
   .price-block { text-align: right; flex: 0 0 auto; margin-left: auto; }
@@ -50,15 +50,15 @@ Chart.overrides.doughnut.animation = false;
 
 /* ══════ #tech ══════ */
   :root {
-    --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
-    --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #3f86de; --accent2: #92abc7; --accent3: #061528;
-    --ma5: #ff6b9d; --ma20: #9b59b6; --ma60: #f0c040; --ma120: #22d3ee;
-    --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
-    --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    --bg: #f7f5ef; --bg2: #ffffff; --bg3: #f1eee4; --border: #e6e2d3;
+    --text: #1f2420; --text2: #6b6a5e; --text3: #706e62;
+    --accent: #1c2b4a; --accent2: #1c2b4a; --accent3: #dfe5f0;
+    --ma5: #d6336c; --ma20: #7b3fa0; --ma60: #b7791f; --ma120: #0e7490;
+    --green: #1f7a4d; --red: #d92d20; --gold: #b7791f; --blue: #1a56db;
+    --radius: 10px; --shadow: 0 1px 3px rgba(31,36,32,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
   .page { max-width: 1100px; margin: 0 auto; padding: 28px 32px; }
 
   .section-title { font-size: 16px; font-weight: 700; color: var(--accent2); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
@@ -76,29 +76,29 @@ Chart.overrides.doughnut.animation = false;
   .ma-name { display: flex; align-items: center; font-size: 13px; color: var(--text2); }
   .ma-val { font-size: 13px; font-weight: 600; }
   .ma-status { font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
-  .status-above { background: rgba(46,204,113,0.15); color: var(--green); }
-  .status-below { background: rgba(231,76,60,0.15); color: var(--red); }
+  .status-above { background: rgba(31,122,77,0.15); color: var(--green); }
+  .status-below { background: rgba(217,45,32,0.15); color: var(--red); }
 
   .zone-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
   .zone-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--bg3); border-radius: 6px; }
   .zone-label { font-size: 12px; color: var(--text2); }
   .zone-val { font-size: 13px; font-weight: 700; color: var(--text); }
   .zone-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .tag-support { background: rgba(46,204,113,0.15); color: var(--green); }
-  .tag-resist { background: rgba(231,76,60,0.15); color: var(--red); }
-  .tag-current { background: rgba(240,192,64,0.15); color: var(--gold); }
+  .tag-support { background: rgba(31,122,77,0.15); color: var(--green); }
+  .tag-resist { background: rgba(217,45,32,0.15); color: var(--red); }
+  .tag-current { background: rgba(183,121,31,0.15); color: var(--gold); }
 
   .range-toggle { display: flex; gap: 6px; flex-wrap: wrap; }
   .range-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text3); font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; cursor: pointer; transition: all .15s; }
   .range-btn:hover { color: var(--text); border-color: var(--text2); }
-  .range-btn.active { background: rgba(63,134,222,0.18); color: var(--accent2); border-color: var(--accent); }
+  .range-btn.active { background: rgba(28,43,74,0.18); color: var(--accent2); border-color: var(--accent); }
   .ma-toggle-btn { background: var(--bg3); border: 1px solid; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 999px; cursor: pointer; opacity: 1; transition: opacity .15s; }
   .ma-toggle-btn.ma-off { opacity: 0.35; }
   .price-chart-container { margin-bottom: 16px; }
 
   /* ── SCORECARD (신규) ── */
-  .risk-flag { font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: rgba(231,76,60,0.15); color: var(--red); }
-  .opportunity-badge { font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: rgba(52,152,219,0.18); color: var(--blue); }
+  .risk-flag { font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: rgba(217,45,32,0.15); color: var(--red); }
+  .opportunity-badge { font-size: 11px; font-weight: 700; padding: 4px 11px; border-radius: 999px; background: rgba(26,86,219,0.18); color: var(--blue); }
   .opportunity-badge .sub { font-weight: 500; opacity: 0.85; }
 
   @media (max-width: 640px) {
@@ -108,14 +108,14 @@ Chart.overrides.doughnut.animation = false;
 
 /* ══════ #fund ══════ */
   :root {
-    --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
-    --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #3f86de; --accent2: #92abc7; --accent3: #061528;
-    --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
-    --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    --bg: #f7f5ef; --bg2: #ffffff; --bg3: #f1eee4; --border: #e6e2d3;
+    --text: #1f2420; --text2: #6b6a5e; --text3: #706e62;
+    --accent: #1c2b4a; --accent2: #1c2b4a; --accent3: #dfe5f0;
+    --green: #1f7a4d; --red: #d92d20; --gold: #b7791f; --blue: #1a56db;
+    --radius: 10px; --shadow: 0 1px 3px rgba(31,36,32,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
   .page { max-width: 1100px; margin: 0 auto; padding: 28px 32px; }
 
   .section-title { font-size: 16px; font-weight: 700; color: var(--accent2); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
@@ -142,13 +142,13 @@ Chart.overrides.doughnut.animation = false;
 
   .section-label { font-size: 13px; color: var(--text); font-weight: 700; margin-bottom: 10px; display:flex; align-items:center; gap:6px; }
   .section-label .dot { width:6px; height:6px; border-radius:50%; background:var(--accent2); }
-  .diag-summary { display:flex; align-items:center; gap:12px; background: linear-gradient(90deg, rgba(46,204,113,0.14), rgba(46,204,113,0.03)); border:1px solid rgba(46,204,113,0.3); border-radius:8px; padding:12px 16px; margin-bottom:14px; }
+  .diag-summary { display:flex; align-items:center; gap:12px; background: linear-gradient(90deg, rgba(31,122,77,0.14), rgba(31,122,77,0.03)); border:1px solid rgba(31,122,77,0.3); border-radius:8px; padding:12px 16px; margin-bottom:14px; }
   .diag-summary .icon { font-size:24px; }
   .diag-summary .title { font-size:14px; font-weight:800; color:var(--green); }
   .diag-summary .sub { font-size:12px; color:var(--text2); margin-top:2px; line-height:1.4; }
-  .diag-summary.watch { background: linear-gradient(90deg, rgba(240,192,64,0.14), rgba(240,192,64,0.03)); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch { background: linear-gradient(90deg, rgba(183,121,31,0.14), rgba(183,121,31,0.03)); border-color: rgba(183,121,31,0.35); }
   .diag-summary.watch .title { color: var(--gold); }
-  .diag-summary.alert { background: linear-gradient(90deg, rgba(231,76,60,0.14), rgba(231,76,60,0.03)); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert { background: linear-gradient(90deg, rgba(217,45,32,0.14), rgba(217,45,32,0.03)); border-color: rgba(217,45,32,0.35); }
   .diag-summary.alert .title { color: var(--red); }
   .diag-summary.none { background: var(--bg3); border-color: var(--border); }
   .diag-summary.none .title { color: var(--text2); }
@@ -159,10 +159,10 @@ Chart.overrides.doughnut.animation = false;
   .diag-value { font-size:15px; font-weight:700; color:var(--text); }
   .diag-note { font-size:11.5px; color:var(--text2); }
   .diag-badge { font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; display:flex; align-items:center; gap:4px; white-space:nowrap; }
-  .diag-badge.safe { background:rgba(46,204,113,0.16); color:var(--green); }
-  .diag-badge.info { background:rgba(154,160,184,0.14); color:var(--text2); }
-  .diag-badge.watch { background:rgba(240,192,64,0.16); color:var(--gold); }
-  .diag-badge.alert { background:rgba(231,76,60,0.16); color:var(--red); }
+  .diag-badge.safe { background:rgba(31,122,77,0.16); color:var(--green); }
+  .diag-badge.info { background:rgba(107,106,94,0.14); color:var(--text2); }
+  .diag-badge.watch { background:rgba(183,121,31,0.16); color:var(--gold); }
+  .diag-badge.alert { background:rgba(217,45,32,0.16); color:var(--red); }
   .score-comp { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
   .sc-total { display:flex; align-items:baseline; gap:6px; min-width:150px; }
   .sc-total-l { font-size:12px; color:var(--text2); }
@@ -181,11 +181,11 @@ Chart.overrides.doughnut.animation = false;
     .sc-name { font-size:9px; }
   }
   .sc-item { display:flex; flex-direction:column; align-items:center; gap:2px; min-width:52px; }
-  .sc-tile { width:52px; height:22px; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:800; background:rgba(46,204,113,0.16); color:var(--green); }
-  .sc-tile.lost { background:rgba(240,192,64,0.18); color:var(--gold); }
+  .sc-tile { width:52px; height:22px; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:12.5px; font-weight:800; background:rgba(31,122,77,0.16); color:var(--green); }
+  .sc-tile.lost { background:rgba(183,121,31,0.18); color:var(--gold); }
   .sc-tile.none { background:var(--bg3); color:var(--text3); }
   .sc-name { font-size:10px; color:var(--text2); white-space:nowrap; }
-  .sc-tile.low { background:rgba(231,76,60,0.16); color:var(--red); }
+  .sc-tile.low { background:rgba(217,45,32,0.16); color:var(--red); }
   .vs-head { display:flex; align-items:baseline; gap:10px; margin-bottom:12px; }
   .vs-head-l { font-size:12px; color:var(--text3); }
   .vs-verdict { font-size:20px; font-weight:800; color:var(--gold); }
@@ -198,31 +198,31 @@ Chart.overrides.doughnut.animation = false;
   .vs-note { grid-column:span 5; font-size:11.5px; color:var(--text2); }
   .vs-note strong { color:var(--text); }
   .vs-table .sc-tile { width:44px; height:20px; border-radius:4px; font-size:11.5px; }
-  .vs-pill { justify-self:end; font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--green); background:rgba(46,204,113,0.14); }
-  .vs-pill.mid { color:var(--gold); background:rgba(240,192,64,0.16); }
-  .vs-pill.high { color:var(--red); background:rgba(231,76,60,0.14); }
+  .vs-pill { justify-self:end; font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--green); background:rgba(31,122,77,0.14); }
+  .vs-pill.mid { color:var(--gold); background:rgba(183,121,31,0.16); }
+  .vs-pill.high { color:var(--red); background:rgba(217,45,32,0.14); }
   /* "계산 어려움" 배지 — 현금흐름 알약과 한 칸에 묶는다(격자 칸 수를 바꾸지 않게) */
   .vs-pill-wrap { justify-self:end; display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
   .vs-pill-wrap .vs-pill { justify-self:auto; }
-  .vs-hard { font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--gold); background:rgba(240,192,64,0.12); border:1px dashed rgba(240,192,64,0.55); cursor:help; }
+  .vs-hard { font-size:11px; font-weight:700; border-radius:999px; padding:2px 9px; white-space:nowrap; color:var(--gold); background:rgba(183,121,31,0.12); border:1px dashed rgba(183,121,31,0.55); cursor:help; }
   .vs-premise { font-size:12px; color:var(--text2); line-height:1.6; margin:12px 0 10px; }
   .vs-premise strong { color:var(--text); }
 
   .detail-toggle { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; user-select: none; font-size: 12.5px; color: var(--text2); font-weight: 600; padding: 10px 2px 6px; border-top: 1px dashed var(--bg3); margin-top: 2px; }
   .detail-toggle:hover { color: var(--text); }
-  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(146,171,199,0.12); border: 1px solid rgba(146,171,199,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
-  .detail-toggle:hover .toggle-hint { background: rgba(146,171,199,0.22); border-color: rgba(146,171,199,0.5); }
+  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(28,43,74,0.12); border: 1px solid rgba(28,43,74,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
+  .detail-toggle:hover .toggle-hint { background: rgba(28,43,74,0.22); border-color: rgba(28,43,74,0.5); }
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
-  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
-  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(31,122,77,0.12); border-color: rgba(31,122,77,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(31,122,77,0.22); border-color: rgba(31,122,77,0.5); }
   .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
-  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
-  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(183,121,31,0.12); border-color: rgba(183,121,31,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(183,121,31,0.22); border-color: rgba(183,121,31,0.5); }
   .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
-  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
-  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(217,45,32,0.12); border-color: rgba(217,45,32,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(217,45,32,0.22); border-color: rgba(217,45,32,0.5); }
   .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
   .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
   .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
@@ -231,7 +231,7 @@ Chart.overrides.doughnut.animation = false;
 
   .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .act-card { background: var(--bg3); border-radius: 8px; padding: 12px 14px; display:flex; align-items:center; gap:12px; }
-  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(146,171,199,0.1); border-radius:8px; flex-shrink:0; }
+  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(28,43,74,0.1); border-radius:8px; flex-shrink:0; }
   .act-label { font-size: 11.5px; color: var(--text2); font-weight:600; margin-bottom:2px; }
   .act-value { font-size: 15px; font-weight: 700; color: var(--text); }
   .act-sub { font-size: 11px; color: var(--text2); margin-top:1px; }
@@ -242,12 +242,12 @@ Chart.overrides.doughnut.animation = false;
   .ccc-explain { font-size: 11.5px; color: var(--text2); line-height: 1.6; margin-bottom: 22px; }
   .tl-bar-wrap { position: relative; margin: 40px 4px 8px; }
   .tl-bar { height: 18px; border-radius: 5px; overflow: hidden; display: flex; }
-  .tl-seg-float { background: repeating-linear-gradient(45deg, rgba(240,192,64,0.28) 0 6px, rgba(240,192,64,0.14) 6px 12px); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--gold); }
-  .tl-seg-inv { background: linear-gradient(90deg,#3498db,#2980b9); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
-  .tl-seg-ar { background: linear-gradient(90deg,#92abc7,#3f86de); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#0f1117; }
+  .tl-seg-float { background: repeating-linear-gradient(45deg, rgba(183,121,31,0.28) 0 6px, rgba(183,121,31,0.14) 6px 12px); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--gold); }
+  .tl-seg-inv { background: linear-gradient(90deg,#1a56db,#2980b9); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
+  .tl-seg-ar { background: linear-gradient(90deg,#1c2b4a,#1c2b4a); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#f7f5ef; }
   .tl-marker { position: absolute; top: -18px; width: 2px; background: var(--gold); }
   .tl-marker-label { position: absolute; top: -32px; transform: translateX(-50%); font-size: 10.5px; font-weight: 700; color: var(--gold); white-space: nowrap; }
-  .tl-ccc-span { position: absolute; height: 3px; background: rgba(240,192,64,0.6); border-radius: 2px; top: 24px; }
+  .tl-ccc-span { position: absolute; height: 3px; background: rgba(183,121,31,0.6); border-radius: 2px; top: 24px; }
 
   /* ZONE (자본배분·주주환원) */
   .zone-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
@@ -255,7 +255,7 @@ Chart.overrides.doughnut.animation = false;
   .zone-label { font-size: 12px; color: var(--text2); }
   .zone-val { font-size: 13px; font-weight: 700; color: var(--text); }
   .zone-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .tag-record { background: rgba(63,134,222,0.2); color: var(--accent2); }
+  .tag-record { background: rgba(28,43,74,0.2); color: var(--accent2); }
 
   @media (max-width: 640px) {
     .page { padding: 20px 16px; }
@@ -265,14 +265,14 @@ Chart.overrides.doughnut.animation = false;
 
 /* ══════ #valuation ══════ */
   :root {
-    --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
-    --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #3f86de; --accent2: #92abc7; --accent3: #061528;
-    --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
-    --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    --bg: #f7f5ef; --bg2: #ffffff; --bg3: #f1eee4; --border: #e6e2d3;
+    --text: #1f2420; --text2: #6b6a5e; --text3: #706e62;
+    --accent: #1c2b4a; --accent2: #1c2b4a; --accent3: #dfe5f0;
+    --green: #1f7a4d; --red: #d92d20; --gold: #b7791f; --blue: #1a56db;
+    --radius: 10px; --shadow: 0 1px 3px rgba(31,36,32,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
   .page { max-width: 1100px; margin: 0 auto; padding: 28px 32px; }
 
   .section-title { font-size: 16px; font-weight: 700; color: var(--accent2); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
@@ -288,17 +288,17 @@ Chart.overrides.doughnut.animation = false;
   .val-item { margin-bottom: 18px; padding: 8px; margin-left: -8px; margin-right: -8px; border-radius: 8px; border: 1px solid transparent; transition: background 0.15s ease, border-color 0.15s ease; cursor: pointer; }
   .val-item:last-child { margin-bottom: 0; }
   .val-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .val-item:hover { background: rgba(255,255,255,0.03); }
-  .val-item.selected { background: rgba(146,171,199,0.08); border-color: rgba(146,171,199,0.35); }
+  .val-item:hover { background: rgba(31,36,32,0.03); }
+  .val-item.selected { background: rgba(28,43,74,0.08); border-color: rgba(28,43,74,0.35); }
   .val-name { position: relative; font-size: 13px; font-weight: 600; color: var(--text); }
   .val-item.selected .val-name::after { content: '▸ 비교 보기'; font-size: 9.5px; font-weight: 600; color: var(--accent2); margin-left: 8px; vertical-align: middle; }
   .val-number { font-size: 14px; font-weight: 700; color: var(--accent2); }
   .val-track { height: 8px; background: var(--bg3); border-radius: 4px; position: relative; overflow: hidden; }
   .val-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
   .hist-badge { font-size:11.5px; padding:2px 9px; border-radius:12px; font-weight:700; white-space:nowrap; }
-  .hist-badge.good { background:rgba(46,204,113,0.15); color:var(--green); }
-  .hist-badge.mid { background:rgba(240,192,64,0.15); color:var(--gold); }
-  .hist-badge.bad { background:rgba(231,76,60,0.15); color:var(--red); }
+  .hist-badge.good { background:rgba(31,122,77,0.15); color:var(--green); }
+  .hist-badge.mid { background:rgba(183,121,31,0.15); color:var(--gold); }
+  .hist-badge.bad { background:rgba(217,45,32,0.15); color:var(--red); }
   .hist-fill.good { background:var(--green); } .hist-fill.mid { background:var(--gold); } .hist-fill.bad { background:var(--red); }
   .hist-labels { display:flex; justify-content:space-between; margin-top:4px; font-size:10px; color:var(--text3); }
   .hist-note { font-size:10px; font-weight:500; color:var(--text3); margin-left:6px; }
@@ -309,7 +309,7 @@ Chart.overrides.doughnut.animation = false;
   .verdict-summary-head { font-size:14px; font-weight:800; color:var(--text); }
   .verdict-summary-head .tag { font-size:11.5px; font-weight:700; color:var(--green); margin-left:4px; }
   .verdict-summary-body { font-size:12.5px; color:var(--text2); line-height:1.7; margin-top:10px; }
-  .verdict-summary-risk { margin-top:12px; background:rgba(240,192,64,0.08); border:1px solid rgba(240,192,64,0.25); border-radius:8px; padding:10px 12px; font-size:11.5px; color:var(--text2); line-height:1.6; }
+  .verdict-summary-risk { margin-top:12px; background:rgba(183,121,31,0.08); border:1px solid rgba(183,121,31,0.25); border-radius:8px; padding:10px 12px; font-size:11.5px; color:var(--text2); line-height:1.6; }
 
   @media (max-width: 640px) {
     .page { padding: 20px 16px; }
@@ -318,15 +318,15 @@ Chart.overrides.doughnut.animation = false;
 
 /* ══════ #news ══════ */
   :root {
-    --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
-    --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #3f86de; --accent2: #92abc7; --accent3: #061528;
-    --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
-    --event-major: #38bdf8; --event-neutral: #f1c40f;
-    --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    --bg: #f7f5ef; --bg2: #ffffff; --bg3: #f1eee4; --border: #e6e2d3;
+    --text: #1f2420; --text2: #6b6a5e; --text3: #706e62;
+    --accent: #1c2b4a; --accent2: #1c2b4a; --accent3: #dfe5f0;
+    --green: #1f7a4d; --red: #d92d20; --gold: #b7791f; --blue: #1a56db;
+    --event-major: #0e7490; --event-neutral: #b7791f;
+    --radius: 10px; --shadow: 0 1px 3px rgba(31,36,32,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
   .page { max-width: 1100px; margin: 0 auto; padding: 28px 32px; }
 
   .section-title { font-size: 16px; font-weight: 700; color: var(--accent2); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
@@ -370,9 +370,9 @@ Chart.overrides.doughnut.animation = false;
   .news-list { margin:10px 0 0; padding-left:20px; font-size:12.5px; color:var(--text2); line-height:1.7; }
   .news-list li::marker { color:var(--accent2); font-weight:700; }
   .tl-reaction { display:inline-block; margin-left:8px; font-size:10px; font-weight:700; padding:2px 7px; border-radius:999px; }
-  .tl-reaction.up { background:rgba(46,204,113,0.15); color:var(--green); }
-  .tl-reaction.down { background:rgba(231,76,60,0.15); color:var(--red); }
-  .tl-reaction.flat { background:rgba(154,160,184,0.15); color:var(--text3); }
+  .tl-reaction.up { background:rgba(31,122,77,0.15); color:var(--green); }
+  .tl-reaction.down { background:rgba(217,45,32,0.15); color:var(--red); }
+  .tl-reaction.flat { background:rgba(107,106,94,0.15); color:var(--text3); }
 
   .price-ladder { position: relative; padding-left: 20px; }
   .price-ladder::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
@@ -387,8 +387,8 @@ Chart.overrides.doughnut.animation = false;
   .verdict-summary-head { font-size:14px; font-weight:800; color:var(--text); }
   .verdict-summary-head .tag { font-size:11.5px; font-weight:700; color:var(--green); margin-left:4px; }
   .verdict-summary-body { font-size:12.5px; color:var(--text2); line-height:1.7; margin-top:10px; }
-  .verdict-summary-counter { margin-top:12px; background:rgba(240,192,64,0.08); border:1px solid rgba(240,192,64,0.25); border-radius:8px; padding:10px 12px; font-size:11.5px; color:var(--text2); line-height:1.6; }
-  .verdict-summary-next { margin-top:10px; background:rgba(52,152,219,0.08); border:1px solid rgba(52,152,219,0.25); border-radius:8px; padding:10px 12px; font-size:11.5px; color:var(--text2); line-height:1.6; }
+  .verdict-summary-counter { margin-top:12px; background:rgba(183,121,31,0.08); border:1px solid rgba(183,121,31,0.25); border-radius:8px; padding:10px 12px; font-size:11.5px; color:var(--text2); line-height:1.6; }
+  .verdict-summary-next { margin-top:10px; background:rgba(26,86,219,0.08); border:1px solid rgba(26,86,219,0.25); border-radius:8px; padding:10px 12px; font-size:11.5px; color:var(--text2); line-height:1.6; }
 
   @media (max-width: 640px) {
     .page { padding: 20px 16px; }
@@ -396,15 +396,15 @@ Chart.overrides.doughnut.animation = false;
 
 /* ══════ #invest ══════ */
   :root {
-    --bg: #0f1117; --bg2: #1a1d27; --bg3: #22263a; --border: #2e3347;
-    --text: #e8eaf0; --text2: #9aa0b8; --text3: #5c6282;
-    --accent: #3f86de; --accent2: #92abc7; --accent3: #061528;
-    --green: #2ecc71; --red: #e74c3c; --gold: #f0c040; --blue: #3498db;
+    --bg: #f7f5ef; --bg2: #ffffff; --bg3: #f1eee4; --border: #e6e2d3;
+    --text: #1f2420; --text2: #6b6a5e; --text3: #706e62;
+    --accent: #1c2b4a; --accent2: #1c2b4a; --accent3: #dfe5f0;
+    --green: #1f7a4d; --red: #d92d20; --gold: #b7791f; --blue: #1a56db;
     --bull: #D85A30; --bear: #185FA5;
-    --radius: 10px; --shadow: 0 4px 20px rgba(0,0,0,0.4);
+    --radius: 10px; --shadow: 0 1px 3px rgba(31,36,32,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif; font-size: 14px; line-height: 1.6; }
   .page { max-width: 1100px; margin: 0 auto; padding: 28px 32px; }
 
   .section-title { font-size: 16px; font-weight: 700; color: var(--accent2); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
@@ -436,7 +436,7 @@ Chart.overrides.doughnut.animation = false;
   }
 
   body { padding-top: 46px; }
-  .back-bar { position: fixed; top: 0; left: 0; right: 0; height: 46px; background: rgba(10,11,17,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+  .back-bar { position: fixed; top: 0; left: 0; right: 0; height: 46px; background: rgba(247,245,239,0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
   .back-bar-left { display: flex; align-items: center; gap: 8px; text-decoration: none; }
   .back-bar-logo { width: 20px; height: 20px; border-radius: 5px; background: var(--accent2); flex-shrink: 0; }
   .back-bar-left span { color: var(--text2); font-size: 12.5px; font-weight: 600; transition: color 0.2s; }
@@ -453,14 +453,14 @@ Chart.overrides.doughnut.animation = false;
   .logic-box.logic-positive { border-left-color:var(--green); }
   .logic-box.logic-neutral { border-left-color:var(--gold); }
   .logic-box.logic-negative { border-left-color:var(--red); }
-  .logic-box.logic-info { border-left-color:#38bdf8; }
+  .logic-box.logic-info { border-left-color:#0e7490; }
   .logic-head { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:5px; }
   .logic-tag { font-size:11.5px; font-weight:800; color:var(--text); }
   .logic-verdict { font-size:10px; font-weight:700; padding:2px 7px; border-radius:999px; background:var(--bg3); color:var(--text2); white-space:nowrap; }
-  .logic-positive .logic-verdict { background:rgba(46,204,113,0.15); color:var(--green); }
-  .logic-neutral .logic-verdict { background:rgba(240,192,64,0.15); color:var(--gold); }
-  .logic-negative .logic-verdict { background:rgba(231,76,60,0.15); color:var(--red); }
-  .logic-info .logic-verdict { background:rgba(56,189,248,0.15); color:#38bdf8; }
+  .logic-positive .logic-verdict { background:rgba(31,122,77,0.15); color:var(--green); }
+  .logic-neutral .logic-verdict { background:rgba(183,121,31,0.15); color:var(--gold); }
+  .logic-negative .logic-verdict { background:rgba(217,45,32,0.15); color:var(--red); }
+  .logic-info .logic-verdict { background:rgba(14,116,144,0.15); color:#0e7490; }
   .logic-score { font-size:19px; font-weight:800; color:var(--text); }
   .logic-denom { font-size:11px; font-weight:600; color:var(--text3); }
   .logic-desc { font-size:12px; color:var(--text2); line-height:1.65; }
@@ -469,10 +469,13 @@ Chart.overrides.doughnut.animation = false;
   @media (max-width: 980px) { .logic-grid { grid-template-columns:repeat(2,1fr); } }
   @media (max-width: 620px) { .logic-grid { grid-template-columns:1fr; } }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- theme: light-site v1 -->
 </head>
 <body>
 <div class="back-bar">
-  <a class="back-bar-left" href="index.html"><span class="back-bar-logo"></span><span>[사이트명] · 전체 종목 목록</span></a>
+  <a class="back-bar-left" href="index.html"><span class="back-bar-logo"></span><span>US stock 가치를 말하다 · 전체 종목 목록</span></a>
   <div class="back-bar-right">
     <a class="back-bar-nav" href="VRTX_full_widget.html">◀ VRTX</a>
     <span class="back-bar-current">CB · 시총 91위</span>
@@ -555,8 +558,8 @@ Chart.overrides.doughnut.animation = false;
         <button class="range-btn" data-range="5Y">5년</button>
       </div>
       <div id="cbMaToggle" style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="color:#f0c040;border-color:#f0c040;">◆ 예상밴드 백테스트</button>
-        <button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#38bdf8;border-color:#38bdf8;">◆ DCF 시나리오</button>
+        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="color:#b7791f;border-color:#b7791f;">◆ 예상밴드 백테스트</button>
+        <button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#0e7490;border-color:#0e7490;">◆ DCF 시나리오</button>
       </div>
     </div>
     <div id="cbChartLegend" style="display:none;font-size:11px;color:var(--text2);margin-bottom:8px;padding:7px 10px;background:var(--bg3);border-radius:6px;line-height:1.7;"></div>
@@ -594,7 +597,7 @@ Chart.overrides.doughnut.animation = false;
   #dcf tbody tr:last-child td { border-bottom: none; }
   #dcf .scn-name { font-weight: 700; }
   #dcf .scn-low  { color: var(--red); }
-  #dcf .scn-base { color: #38bdf8; }
+  #dcf .scn-base { color: #0e7490; }
   #dcf .scn-high { color: var(--green); }
   #dcf .big { font-size: 15px; font-weight: 700; }
   #dcf .note { font-size: 10.5px; color: var(--text3); line-height: 1.6; margin-top: 10px; }
@@ -603,7 +606,7 @@ Chart.overrides.doughnut.animation = false;
   #dcf th.story { text-align: left; }
   #dcf td.story { text-align: left; white-space: normal; color: var(--text2); line-height: 1.55; min-width: 260px; word-break: keep-all; }
   #dcf .reverse { font-size: 12px; color: var(--text2); line-height: 1.6; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
-  #dcf .reverse b { color: #38bdf8; }
+  #dcf .reverse b { color: #0e7490; }
   #dcf .knobs { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
   #dcf .knob { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   #dcf .knob-l { font-size: 11.5px; color: var(--text3); width: 96px; flex-shrink: 0; }
@@ -865,7 +868,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="zone-item">
           <span class="zone-label">배당 (2분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);">$0.40B</span>
+            <span class="zone-tag" style="background:rgba(183,121,31,0.18);color:var(--gold);">$0.40B</span>
             <span class="zone-val">2분기 환원 합계 $1.37B</span>
           </div>
         </div>
@@ -1138,18 +1141,18 @@ function renderFundChart() {
     data:{
       labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026'],
       datasets:[
-        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(63,134,222,0.55)',borderColor:'#3f86de',borderWidth:1,borderRadius:4,yAxisID:'y'},
-        {type:'bar',label:'순이익($B)',data:netIncome,backgroundColor:'rgba(52,152,219,0.5)',borderColor:'#3498db',borderWidth:1,borderRadius:4,yAxisID:'y'},
-        {type:'line',label:'OPM(%)',data:opm,borderColor:'#f0c040',backgroundColor:'rgba(240,192,64,.1)',tension:.35,pointRadius:4,borderWidth:2.5,fill:false,yAxisID:'y2'}
+        {type:'bar',label:'매출($B)',data:revenue,backgroundColor:'rgba(28,43,74,0.55)',borderColor:'#1c2b4a',borderWidth:1,borderRadius:4,yAxisID:'y'},
+        {type:'bar',label:'순이익($B)',data:netIncome,backgroundColor:'rgba(26,86,219,0.5)',borderColor:'#1a56db',borderWidth:1,borderRadius:4,yAxisID:'y'},
+        {type:'line',label:'OPM(%)',data:opm,borderColor:'#b7791f',backgroundColor:'rgba(183,121,31,.1)',tension:.35,pointRadius:4,borderWidth:2.5,fill:false,yAxisID:'y2'}
       ]
     },
     options:{
       responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{labels:{color:'#9aa0b8',font:{size:11}}}},
+      plugins:{legend:{labels:{color:'#6b6a5e',font:{size:11}}}},
       scales:{
-        x:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#9aa0b8',font:{size:10},maxRotation:30}},
-        y:{position:'left',grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#9aa0b8',font:{size:10},callback:v=>'$'+v+'B'}},
-        y2:{position:'right',min:y2min,max:y2max,grid:{display:false},ticks:{color:'#f0c040',font:{size:10},callback:v=>v+'%'}}
+        x:{grid:{color:'rgba(31,36,32,0.05)'},ticks:{color:'#6b6a5e',font:{size:10},maxRotation:30}},
+        y:{position:'left',grid:{color:'rgba(31,36,32,0.05)'},ticks:{color:'#6b6a5e',font:{size:10},callback:v=>'$'+v+'B'}},
+        y2:{position:'right',min:y2min,max:y2max,grid:{display:false},ticks:{color:'#b7791f',font:{size:10},callback:v=>v+'%'}}
       }
     }
   });
@@ -1191,9 +1194,9 @@ const fundBarLabelPlugin = {
       const delta = chart.fundDeltas[i] || '';
       // 음수 막대(GOOGL Q2 2026 FCF −$5.9B)는 0선 위에 라벨을 단다. "적자 전환"도 빨강.
       const top = Math.min(y, base), v = values[i];
-      const color = (delta.startsWith('-') || delta.startsWith('−') || delta.includes('적자')) ? '#e74c3c' : '#2ecc71';
+      const color = (delta.startsWith('-') || delta.startsWith('−') || delta.includes('적자')) ? '#d92d20' : '#1f7a4d';
       ctx.font = '700 11.5px sans-serif';
-      ctx.fillStyle = '#e8eaf0';
+      ctx.fillStyle = '#1f2420';
       ctx.fillText((v < 0 ? '−$' : '$') + Math.abs(v) + 'B', x, top - 22);
       ctx.font = '700 10.5px sans-serif';
       ctx.fillStyle = color;
@@ -1232,17 +1235,17 @@ function selectFundPeriod(period) {
       data: {
         labels: ['매출', '영업이익', '순이익', 'FCF'],
         datasets: [
-          { label: d.cmpLabel, data: d.chart.cmp, backgroundColor: 'rgba(154,160,184,0.35)', borderColor: '#5c6282', borderWidth: 1, borderRadius: 4 },
-          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(63,134,222,0.55)', borderColor: '#3f86de', borderWidth: 1, borderRadius: 4 }
+          { label: d.cmpLabel, data: d.chart.cmp, backgroundColor: 'rgba(107,106,94,0.35)', borderColor: '#706e62', borderWidth: 1, borderRadius: 4 },
+          { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(28,43,74,0.55)', borderColor: '#1c2b4a', borderWidth: 1, borderRadius: 4 }
         ]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
         layout: { padding: { top: 34 } },
-        plugins: { legend: { labels: { color: '#9aa0b8', font: { size: 11 } } } },
+        plugins: { legend: { labels: { color: '#6b6a5e', font: { size: 11 } } } },
         scales: {
-          x: { grid: { display: false }, ticks: { color: '#9aa0b8', font: { size: 11 } } },
-          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9aa0b8', font: { size: 10 }, callback: v => '$' + v + 'B' } }
+          x: { grid: { display: false }, ticks: { color: '#6b6a5e', font: { size: 11 } } },
+          y: { grid: { color: 'rgba(31,36,32,0.05)' }, ticks: { color: '#6b6a5e', font: { size: 10 }, callback: v => '$' + v + 'B' } }
         }
       },
       plugins: [fundBarLabelPlugin]
@@ -1264,7 +1267,7 @@ function renderSegmentChart() {
       datasets:[{
         data:[13889, 1760, 162],
         backgroundColor:["#0b2341", "#4a6b8f", "#f59e0b"],
-        borderColor:'#1a1d27',
+        borderColor:'#ffffff',
         borderWidth:2
       }]
     },
@@ -1360,8 +1363,8 @@ function renderMultipleChart(key) {
   const selfRaw = selfNA ? null : _vs ? +_vs.current.toFixed(1) : d[selfKey];
   const selfOver = selfRaw != null && d.max != null && selfRaw > d.max;
   const data = [selfOver ? d.max : selfRaw, ...d.peers.map(p=>p.value)];
-  const bg = [ selfBg, ...d.peers.map(p=> p.status==='excluded' ? 'rgba(231,76,60,0.18)' : 'rgba(154,160,184,0.35)') ];
-  const bd = [ selfBd, ...d.peers.map(p=> p.status==='excluded' ? '#c0392b' : '#5c6282') ];
+  const bg = [ selfBg, ...d.peers.map(p=> p.status==='excluded' ? 'rgba(217,45,32,0.18)' : 'rgba(107,106,94,0.35)') ];
+  const bd = [ selfBd, ...d.peers.map(p=> p.status==='excluded' ? '#c0392b' : '#706e62') ];
   multipleChart = new Chart(ctx,{
     type:'bar',
     data:{ labels, datasets:[{ label:d.unit, data, backgroundColor:bg, borderColor:bd, borderWidth:1, borderRadius:5 }] },
@@ -1369,8 +1372,8 @@ function renderMultipleChart(key) {
       responsive:true,maintainAspectRatio:false,
       plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{ if (ctx.dataIndex === 0 && selfNA) return `${d.unit} 계산 불가 · ` + (_vs.currentNote === 'missing' ? '분모 데이터 없음' : '분모가 적자'); if (ctx.dataIndex === 0 && selfOver) return `${d.unit} 실제 ${selfRaw}x · 축 밖`; const p = d.peers[ctx.dataIndex - 1]; return p && p.note ? `${d.unit} ${p.note}` : `${d.unit} ${ctx.raw}x`; }}}},
       scales:{
-        x:{grid:{display:false},ticks:{color:'#9aa0b8',font:{size:10.5}}},
-        y:{max:d.max,grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#9aa0b8',font:{size:10},callback:v=>v+'x'}}
+        x:{grid:{display:false},ticks:{color:'#6b6a5e',font:{size:10.5}}},
+        y:{max:d.max,grid:{color:'rgba(31,36,32,0.05)'},ticks:{color:'#6b6a5e',font:{size:10},callback:v=>v+'x'}}
       }
     }
   });
@@ -1421,7 +1424,7 @@ function dcfLevel(price, D) {
   const r = price / D.base;
   const [cls, label] = r <= 0.7 ? ['', '매우 싸다'] : r <= 0.9 ? ['', '싸다'] : r <= 1.1 ? ['mid', '적정']
                      : r <= 1.5 ? ['high', '비싸다'] : ['high', '매우 비싸다'];
-  const color = cls === '' ? '#38bdf8' : cls === 'mid' ? 'var(--gold)' : 'var(--red)';
+  const color = cls === '' ? '#0e7490' : cls === 'mid' ? 'var(--gold)' : 'var(--red)';
   const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(카드 한정)
   const split = _mn > 0 && _mn < price && price < _mx;
   const range = _mn > 0
@@ -1499,7 +1502,7 @@ const CB_SCORES = {
     const dv0 = $('cbDcfVerdict'); if (dv0) { dv0.textContent = '계산 불가'; dv0.title = why; }
     return;
   }
-  if (base) base.style.color = '#38bdf8';
+  if (base) base.style.color = '#0e7490';
   if (base) base.textContent = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base));
   // 요구 성장률이 최근 5년 실제 성장의 3배를 넘으면(또는 해가 없으면) 성장만으로는 가격이
   // 설명되지 않는다 — 대신 요구 영업이익률을 보인다(reqMode, build_dcf_block.py, 2026-09-24).
@@ -1611,7 +1614,7 @@ const CB_DCF_GRID = null;
     if (pv) { pv.textContent = '계산 불가'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
     return;
   }
-  const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#38bdf8'], ['낙관', 'high', 'var(--green)']];
+  const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#0e7490'], ['낙관', 'high', 'var(--green)']];
   const st = { scn: 1, wacc: G.waccs.indexOf(G.default[0]), term: G.terms.indexOf(G.default[1]) };
   const opts = {
     scn: SCN.map(s => s[0]),
@@ -2220,10 +2223,10 @@ const CB_BAND_HIT = (function(){
 // 예전 70·30은 '10~90 백분위라 80%가 들어와야 한다'는 기대에서 나왔는데, 시장 전체 실측 적중이 평균 58%라 그 기대가 틀렸다.
 const CB_HIT_GREEN = 0.74, CB_HIT_RED = 0.41;
 function cbHitTone(ratio){
-  if (ratio == null) return {key:'none', color:'var(--text3)', fill:'rgba(154,160,184,0.12)', border:'#5c6282'};
-  if (ratio >= CB_HIT_GREEN) return {key:'good', color:'var(--green)', fill:'rgba(46,204,113,0.16)', border:'#2ecc71'};
-  if (ratio >= CB_HIT_RED)   return {key:'mid',  color:'var(--gold)',  fill:'rgba(240,192,64,0.16)', border:'#f0c040'};
-  return {key:'bad', color:'var(--red)', fill:'rgba(231,76,60,0.16)', border:'#e74c3c'};
+  if (ratio == null) return {key:'none', color:'var(--text3)', fill:'rgba(107,106,94,0.12)', border:'#706e62'};
+  if (ratio >= CB_HIT_GREEN) return {key:'good', color:'var(--green)', fill:'rgba(31,122,77,0.16)', border:'#1f7a4d'};
+  if (ratio >= CB_HIT_RED)   return {key:'mid',  color:'var(--gold)',  fill:'rgba(183,121,31,0.16)', border:'#b7791f'};
+  return {key:'bad', color:'var(--red)', fill:'rgba(217,45,32,0.16)', border:'#d92d20'};
 }
 // 진행 중인 구간은 세 색 어디에도 올리지 않는다. 판정이 아직 안 끝났는데
 // 부분 집계를 판정 색으로 칠하면 다음 주에 바뀔 값이 확정처럼 보인다.
@@ -2292,8 +2295,8 @@ function cbBandTone(cp){
   const RANGES = {'1M':21,'6M':126,'1Y':252,'3Y':756,'5Y':Infinity};
   const RANGE_LABELS = {'1M':'1개월','6M':'6개월','1Y':'1년','3Y':'3년','5Y':'5년'};
   const NS = 'http://www.w3.org/2000/svg';
-  const UP='#2ecc71', DOWN='#e74c3c';
-  const maColors = {ma5:'#ff6b9d', ma20:'#9b59b6', ma60:'#f0c040', ma120:'#22d3ee'};
+  const UP='#1f7a4d', DOWN='#d92d20';
+  const maColors = {ma5:'#d6336c', ma20:'#7b3fa0', ma60:'#b7791f', ma120:'#0e7490'};
   const maState = {ma5:true, ma20:true, ma60:true, ma120:true, pricelabels:true, backtest:false, dcf:false};
   let currentRange = '1Y';
   const legendEl = document.getElementById('cbChartLegend');
@@ -2400,7 +2403,7 @@ function cbBandTone(cp){
     // 겹침 모드에서는 두 알약에 같은 남색 표시를 줘, 화면의 남색 선이
     // 무엇을 뜻하는지 버튼만 봐도 연결되게 한다.
     document.querySelectorAll('.ma-toggle-btn[data-ma="dcf"], .ma-toggle-btn[data-ma="backtest"]')
-      .forEach(b=>{ b.style.boxShadow = overlapOnly ? '0 0 0 1.5px #818cf8 inset' : ''; });
+      .forEach(b=>{ b.style.boxShadow = overlapOnly ? '0 0 0 1.5px #4f46e5 inset' : ''; });
     // 화면에 실제로 그려지는 구간만 y축 계산에 넣는다. 예전에는 전체 이력을
     // 넣어, 1년 뷰인데도 2024년의 낮은 값이 y축을 아래로 늘리고 있었다.
     const dcfPrior = CB_DCF_TRACK.filter(t => t.d <= dataDates[0]).slice(-1);
@@ -2486,7 +2489,7 @@ function cbBandTone(cp){
           poly.setAttribute('points',
             stepsHigh.map(p=>p.join(',')).join(' ') + ' ' +
             stepsLow.slice().reverse().map(p=>p.join(',')).join(' '));
-          poly.setAttribute('fill','rgba(56,189,248,0.10)');
+          poly.setAttribute('fill','rgba(14,116,144,0.10)');
           svgCandle.appendChild(poly);
         }
 
@@ -2495,7 +2498,7 @@ function cbBandTone(cp){
         const line = document.createElementNS(NS,'polyline');
         line.setAttribute('points', stepsBase.map(p=>p.join(',')).join(' '));
         line.setAttribute('fill','none');
-        line.setAttribute('stroke', overlapOnly ? '#818cf8' : '#38bdf8');
+        line.setAttribute('stroke', overlapOnly ? '#4f46e5' : '#0e7490');
         line.setAttribute('stroke-width', overlapOnly ? '2.4' : '1.8');
         line.setAttribute('stroke-dasharray','6 3');
         svgCandle.appendChild(line);
@@ -2545,11 +2548,11 @@ function cbBandTone(cp){
       const y = py(v);
       const l=document.createElementNS(NS,'line');
       l.setAttribute('x1',pL);l.setAttribute('x2',W-pR);l.setAttribute('y1',y);l.setAttribute('y2',y);
-      l.setAttribute('stroke','rgba(255,255,255,.08)');l.setAttribute('stroke-width','1');
+      l.setAttribute('stroke','rgba(31,36,32,.08)');l.setAttribute('stroke-width','1');
       svgCandle.appendChild(l);
       const t=document.createElementNS(NS,'text');
       t.setAttribute('x',pL-4);t.setAttribute('y',y+3);t.setAttribute('text-anchor','end');
-      t.setAttribute('font-size','9');t.setAttribute('fill','rgba(154,160,184,.8)');
+      t.setAttribute('font-size','9');t.setAttribute('fill','rgba(107,106,94,.8)');
       t.textContent='$'+v.toFixed(0);
       svgCandle.appendChild(t);
     }
@@ -2631,7 +2634,7 @@ function cbBandTone(cp){
       const cy = py(m.v);
       const dot=document.createElementNS(NS,'circle');
       dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);dot.setAttribute('r','3.5');
-      dot.setAttribute('fill',m.color);dot.setAttribute('stroke','#0f1117');dot.setAttribute('stroke-width','1.5');
+      dot.setAttribute('fill',m.color);dot.setAttribute('stroke','#f7f5ef');dot.setAttribute('stroke-width','1.5');
       svgCandle.appendChild(dot);
 
       const labelText = `${m.label} $${m.v.toFixed(2)}`;
@@ -2654,7 +2657,7 @@ function cbBandTone(cp){
       const bg=document.createElementNS(NS,'rect');
       bg.setAttribute('x', bgX);bg.setAttribute('y', ty-8);
       bg.setAttribute('width', labelW);bg.setAttribute('height', 12);
-      bg.setAttribute('fill','rgba(15,17,23,0.85)');bg.setAttribute('rx','2');
+      bg.setAttribute('fill','rgba(247,245,239,0.85)');bg.setAttribute('rx','2');
       svgCandle.appendChild(bg);
       const t=document.createElementNS(NS,'text');
       t.setAttribute('x', tx);t.setAttribute('y', ty+2);
@@ -2673,7 +2676,7 @@ function cbBandTone(cp){
       t.setAttribute('x', Math.min(Math.max(cx,pL+10), W-20));
       t.setAttribute('y', H-4);
       t.setAttribute('text-anchor','middle');t.setAttribute('font-size','9');
-      t.setAttribute('fill','rgba(154,160,184,.8)');
+      t.setAttribute('fill','rgba(107,106,94,.8)');
       t.textContent = data[idx][0].slice(2).replace(/-/g,'.');
       svgCandle.appendChild(t);
     }
@@ -2683,11 +2686,11 @@ function cbBandTone(cp){
     if (legendEl) {
       const lines = [];
       if (maState.backtest) {
-        lines.push('<strong style="color:#f0c040;">◆ 예상밴드</strong> 그 시점까지'
+        lines.push('<strong style="color:#b7791f;">◆ 예상밴드</strong> 그 시점까지'
           + ' 공시된 실적만으로 계산한 가격 범위다.');
       }
       if (maState.dcf) {
-        lines.push('<strong style="color:' + (overlapOnly ? '#818cf8' : '#38bdf8') + ';">◆ DCF</strong>'
+        lines.push('<strong style="color:' + (overlapOnly ? '#4f46e5' : '#0e7490') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
           + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
@@ -2702,7 +2705,7 @@ function cbBandTone(cp){
       const [,o,,,c,v] = d;
       const cx = pL + (i+0.5)*colW;
       const up = c >= o;
-      const col = up ? 'rgba(46,204,113,0.55)' : 'rgba(231,76,60,0.55)';
+      const col = up ? 'rgba(31,122,77,0.55)' : 'rgba(217,45,32,0.55)';
       const h = (v/maxV)*vcH;
       const rect=document.createElementNS(NS,'rect');
       rect.setAttribute('x', cx - bodyW/2);

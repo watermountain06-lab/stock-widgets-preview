@@ -143,7 +143,9 @@ def main():
     if B.get("sum_tags") and net:
         run([PY, "v2/adapters/financials_sum_tags.py", T], show=r".")
     run([PY, "v2/build_fundamental_score.py", T, "--card"], show=r"기본적 분석 =|^    ")
-    if B.get("overlay"):
+    if B.get("overlay") or (not net and not B.get("feed")):
+        # 가격 재빌드는 캐시된 SEC 자료만 쓴다 — build_activity_score는 --facts가 없으면 SEC에서 새로 받아,
+        # 그날 나온 10-K가 활동성 칸에만 섞였다(2026-10-07 COST). 새 분기 보고서는 확인 대기로만 둔다.
         merged = os.path.join(WORK, f"{T}_facts_merged.json")
         sys.path.insert(0, V2); os.chdir(V2)
         import build_multiple_history as bmh
@@ -189,6 +191,7 @@ def main():
     print("· 채우기")
     run([PY, os.path.join(HERE, "fill.py"), T], show=r"^ok|^peers")
     run([PY, "v2/strip_caveats.py", T])   # 값 옆 사유 글은 툴팁으로(2026-10-06 사용자 결정)
+    run([PY, "v2/apply_theme.py", T])   # 홈과 같은 밝은 테마·사이트 색 하나(2026-10-07 사용자 결정)
     run([PY, "v2/sync_fallbacks.py", T] + (["--base", a.sync_base] if a.sync_base else []), show=r".")
     js = os.path.join(WORK, "%s_inline.js" % T)
     open(js, "w").write("\n;\n".join(re.findall(r"<script>(.*?)</script>", open(p, encoding="utf-8").read(), re.S)))

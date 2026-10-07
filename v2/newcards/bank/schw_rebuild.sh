@@ -9,6 +9,7 @@ cp $B/base/schw_base.html v2/SCHW_full_widget.html
 python3 $B/schw_fill.py | tail -6
 python3 $B/unify_js.py SCHW
 python3 v2/strip_caveats.py SCHW   # 값 옆 사유 글은 툴팁으로(2026-10-06)
+python3 v2/apply_theme.py SCHW   # 밝은 테마·사이트 색(2026-10-07)
 python3 v2/sync_fallbacks.py SCHW ${SYNC_BASE:+--base $SYNC_BASE} 2>&1 | tail -1
 python3 -c "
 import re;h=open('v2/SCHW_full_widget.html').read();open('v2/.sec_cache/_work/SCHW_inline.js','w').write('\n;\n'.join(re.findall(r'<script>(.*?)</script>',h,re.S)))"

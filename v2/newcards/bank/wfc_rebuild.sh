@@ -9,4 +9,5 @@ cp $B/base/wfc_base.html v2/WFC_full_widget.html
 python3 $B/wfc_fill.py | tail -2
 python3 $B/unify_js.py WFC
 python3 v2/strip_caveats.py WFC   # 값 옆 사유 글은 툴팁으로(2026-10-06)
+python3 v2/apply_theme.py WFC   # 밝은 테마·사이트 색(2026-10-07)
 python3 v2/sync_fallbacks.py WFC 2>&1 | tail -1

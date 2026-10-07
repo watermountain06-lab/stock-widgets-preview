@@ -14,6 +14,7 @@ Yahoo 일봉(동부 16:20 뒤에만 확정), 카드에 이미 있는 봉이 다�
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -26,6 +27,21 @@ import update_cards as uc   # noqa: E402
 import fetch_prices as fp   # noqa: E402
 
 SYMBOL = {"BRKB": "BRK-B"}   # 홈페이지에 없는 종목의 Yahoo 기호(있는 종목은 stocks.json의 yahooSymbol)
+
+
+def fix_header(html, T):
+    """헤더 현재가·등락·기준일을 카드 일봉 마지막 봉으로(root_arrays.py와 같은 규칙). 은행 기반·손 카드는 헤더를 다시 쓰는
+    단계가 없어 일봉만 10/6이고 헤더는 10/5로 남았다(2026-10-07 JPM·NVDA)."""
+    D = json.loads(re.search(rf"const {T}_DAILY\s*=\s*(\[.*?\]);", html, re.S).group(1).replace("'", '"'))
+    lastb, prevb = D[-1], D[-2]
+    c = (lastb[4] / prevb[4] - 1) * 100
+    up = c >= 0
+    newp = (f'<div class="price-main"><span class="price-change" style="color:var(--{"green" if up else "red"});">'
+            f'{"▲ +" if up else "▼ −"}{abs(c):.2f}%</span> ${lastb[4]:.2f}</div>')
+    html, k = re.subn(r'<div class="price-main">.*?</div>', lambda _: newp, html, count=1, flags=re.S)   # 여러 줄이어도(Codex)
+    if k != 1:
+        raise SystemExit(f"{T}: 헤더 현재가 자리를 못 찾았다")
+    return re.sub(r'현재가 \(\d{4}\.\d\d\.\d\d\)', f'현재가 ({lastb[0].replace("-", ".")})', html, count=1)
 
 
 def compact(html, T):
@@ -75,7 +91,10 @@ def main():
                 raise uc.EditError(f"{kind} 길이 {len(arrays[kind]['tokens'])} ≠ DAILY {n0}")
         last = uc.bar_values(arrays["DAILY"]["tokens"][-1])[0]
         if last >= session:
-            print(f"{T}: 이미 최신({last})"); return
+            fixed = fix_header(html, T)
+            if fixed != html and not a.dry:
+                path.write_text(fixed, encoding="utf-8")
+            print(f"{T}: 이미 최신({last})" + (" · 헤더 현재가를 일봉에 맞춤" if fixed != html else "")); return
         now_et = datetime.now(fp.ET)
         fetched, splits = uc.fetch_bars(symbol, uc.fetch_range(last, session), a.fixtures, now_et, session)
         if not fetched:
@@ -113,8 +132,10 @@ def main():
     new_last = uc.bar_values(arrays["DAILY"]["tokens"][-1])
     print(f"{T}: {last} → {new_last[0]} 종가 {new_last[4]} · 새 봉 {appended} · 바뀐 봉 {replaced} · 앞 자름 {trimmed}"
           + (f" · {'; '.join(notes)}" if notes else ""))
+    out = "\n".join(lines)
+    out = fix_header(out, T)
     if not a.dry:
-        path.write_text("\n".join(lines), encoding="utf-8")
+        path.write_text(out, encoding="utf-8")
 
 
 if __name__ == "__main__":

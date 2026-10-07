@@ -27,7 +27,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-TEMPLATE = os.path.join(HERE, "NVDA_full_widget.html")
+TEMPLATE = os.path.join(HERE, "newcards", "template", "NVDA_template.html")   # 테마 전 NVDA 틀(2026-10-07) — 공개 NVDA 카드는 밝은 테마가 입혀져 cfg 치환 문자열이 맞지 않는다. 틀 수준 수정은 이 파일에
 
 # 틀(NVDA)의 브랜드 색. --accent 셋과, 틀 안에 리터럴로 박힌 초록.
 NVDA_ACCENT = ("#76b900", "#aeff20", "#3b5d00")
@@ -75,7 +75,14 @@ def rgb(hexcol):
 
 
 def root_meta(t):
-    """루트 카드에서 새 카드 머리에 쓸 값을 읽는다."""
+    """루트 카드에서 새 카드 머리에 쓸 값을 읽는다.
+    2026-10-07부터 루트 카드는 v2 카드의 사본이라(홈 카드 교체) 옛 루트 카드에서 한 번 뽑아 둔 값(newcards/legacy_meta)을 먼저 쓴다 —
+    cfg가 옛 머리 문구를 찾아 고치므로(ASML·CVX·XOM) v2 사본에서 읽으면 멈춘다."""
+    legacy = os.path.join(HERE, "newcards", "legacy_meta", f"{t.lower()}.json")
+    if os.path.exists(legacy):
+        m = json.load(open(legacy, encoding="utf-8"))
+        m["accent"] = tuple(m["accent"])
+        return m
     path = os.path.join(REPO, f"{t}_full_widget.html")
     h = open(path, encoding="utf-8").read()
     d = DISPLAY.get(t, t)
