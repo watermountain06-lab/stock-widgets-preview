@@ -161,6 +161,8 @@ def main():
     ap.add_argument("ticker")
     ap.add_argument("--json")
     ap.add_argument("--no-peers", action="store_true")
+    ap.add_argument("--reuse-peers", action="store_true",
+                    help="매일 가격 재빌드(2026-10-06) — 비교 은행 값을 새로 받지 않고 지금 peer_universe/banks.json(토요일 기준)을 쓴다")
     a = ap.parse_args()
     t = a.ticker.upper()
     cik = feh.CIKS.get(t) or next(str(r["cik"]).zfill(10) for r in su.sp500_rows() if r["ticker"] == t)
@@ -181,7 +183,7 @@ def main():
     out = {"ticker": t, "asOf": asof, "price": px, "gates": {k: v["pass"] for k, v in g.items() if isinstance(v, dict)},
            "gateRows": g, "rim": r, "self": hist}
     if not a.no_peers:
-        uni = peers(asof, t)
+        uni = json.load(open(os.path.join(V2, "peer_universe", "banks.json"))) if a.reuse_peers else peers(asof, t)
         mine = {k: ("negative" if hist.get(k) and hist[k]["currentNote"] == "negative" else hist[k]["current"] if hist.get(k) else None)
                 for k in ("ptbv", "per")}
         out["peer"] = peer_scores(t, mine, uni)

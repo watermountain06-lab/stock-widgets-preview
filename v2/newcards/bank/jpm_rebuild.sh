@@ -3,7 +3,7 @@ cd "$(dirname "$0")/../../.."   # 저장소 루트(스크립트 위치 기준)
 B=v2/newcards/bank
 # SKIP_BANK_CARD=1: 지금 커밋된 JPM_bank.json·peer_universe/banks.json 그대로 채우기만 한다(재현 확인용). 보통은 bank_card.py부터 돈다.
 # SYNC_BASE: sync_fallbacks.py가 쓸 http 서버 주소(기본 http://localhost:8765, 저장소 루트에서 띄운 것)
-if [ -z "$SKIP_BANK_CARD" ]; then python3 v2/adapters/bank_card.py JPM --json v2/JPM_bank.json | grep gates; fi
+if [ -z "$SKIP_BANK_CARD" ]; then python3 v2/adapters/bank_card.py JPM --json v2/JPM_bank.json ${PRICE_ONLY:+--reuse-peers} | grep gates; fi
 # head는 출력이 길면 채우기를 SIGPIPE로 죽인다(2026-10-06 AXP·JPM이 틀 값 그대로 남음)
 # 줄마다 따로 둬서 set -e가 각 단계 실패에서 멈춘다(주석이 줄 끝에 붙으면 뒤 명령이 사라진다, Codex 2026-10-06)
 cp $B/base/jpm_base.html v2/JPM_full_widget.html

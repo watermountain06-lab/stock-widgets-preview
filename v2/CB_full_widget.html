@@ -671,7 +671,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(56, 189, 248);" id="dcfPickValue">주당 $297</span><span style="color: var(--green);" id="dcfPickUpside">현재가 대비 +29.8%</span></div>
+    <div class="pick-result"><span style="color: var(--text3);" id="dcfPickValue">계산 불가</span><span id="dcfPickUpside"></span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -1606,7 +1606,11 @@ const CB_DCF_GRID = null;
     el.hidden = n < 1;
   });
 
-  if (!G) return;
+  if (!G) {   // 직접 바꿔보기 표가 없는 카드(보험사 등) — 틀의 대체값(NVDA $297)이 남지 않게(2026-10-06)
+    const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
+    if (pv) { pv.textContent = '계산 불가'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
+    return;
+  }
   const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#38bdf8'], ['낙관', 'high', 'var(--green)']];
   const st = { scn: 1, wacc: G.waccs.indexOf(G.default[0]), term: G.terms.indexOf(G.default[1]) };
   const opts = {

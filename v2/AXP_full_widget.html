@@ -904,7 +904,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="S&amp;P500 은행(대형·지역 13곳) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. AXP는 수수료 중심 카드사라 대출 중심 은행보다 ROE·배수가 구조적으로 높아 두 배수 순위가 맨 끝으로 몰린다(사업 모델별 비교는 참고로만 적는다, 은행 사전 등록 10-2). 참고 — 같은 사업 모델(카드·소비자금융) 카드: COF P/TBV 1.85배·PER 12.1배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">0.0</div><div class="sc-tile low" data-vc="peer" data-m="per">0</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">AXP는 카드사지만 은행지주회사(CET1 규제)라 은행 사전 등록의 고정 비교군인 S&P500 대형·지역 은행 13곳과 비교한다. 수수료 중심(비이자수익이 순수익의 76%)·ROE 37%인 사업 구조 차이도 이 순위에 함께 들어 있다. P/TBV 7.40배는 유형자본을 계산할 수 있는 은행 11곳 모두보다 비싸고(중앙값 1.84배), PER 18.5배도 13곳 모두보다 비싸 동종업은 −1(비싸다)이다. 자기 이력에서는 두 배수 모두 중간(P/TBV 하위 49%·PER 하위 44%)이라 0이다. <strong>초과이익모형 기본 가치($175)는 현재가의 58%라 −2(매우 비싸다)다</strong>. 합계 −3으로 “고평가”다. 회사가 유형 장부가치를 밝히지 않아 P/TBV는 카드 계산 값이고, SEC 영업권 태그가 연말에만 있어 분기에는 직전 연말 영업권을 400일까지 이어 쓴다(사전 등록 10-1, 2026-10-05). 회사 TBVPS가 없으니 이 값을 회사 값과 대조하지는 못했고, 데이터 점검 G1은 8분기 모두 유형자본이 만들어지는지만 확인했다. 보통주 자본은 회사 BVPS와 8분기 모두 0.4% 안에서 맞고(G2), 최근 4분기 환원 총액은 회사가 분기마다 내지 않아 확인 불가로 둔다(G4, 6월 스트레스 테스트 보도자료의 12개월 값 하나는 카드 계산과 맞는다).</div>
-    <div class="verdict-summary-risk">⚠️ 현재가가 초과이익모형 기본 가치의 1.74배라 −2이고, 동종업 −1·자기 이력 0과 합쳐 “고평가”다. 지금 가격은 ROE 59.8%가 5년 이어진다는 값이다(최근 4분기 37.0%). 다만 이 모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보므로, ROE 37%가 이어지는 사업에는 낮게 나올 수 있다(수렴 없음이면 기본 $246). 동종업 −1도 대출 중심 은행과 견준 값이라 사업 구조 차이가 함께 들어 있다(같은 카드·소비자금융 모델인 COF는 P/TBV 1.85배·PER 12.1배로, 9/30 기준 참고일 뿐 판정에 쓰지 않는다 — 사전 등록 10-2).</div>
+    <div class="verdict-summary-risk">⚠️ 현재가가 초과이익모형 기본 가치의 1.74배라 −2이고, 동종업 −1·자기 이력 0과 합쳐 “고평가”다. 지금 가격은 ROE 59.8%가 5년 이어진다는 값이다(최근 4분기 37.0%). 다만 이 모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보므로, ROE 37%가 이어지는 사업에는 낮게 나올 수 있다(수렴 없음이면 기본 $246). 동종업 −1도 대출 중심 은행과 견준 값이라 사업 구조 차이가 함께 들어 있다(같은 카드·소비자금융 모델인 COF는 P/TBV 1.85배·PER 12.1배로, 10/5 기준 참고일 뿐 판정에 쓰지 않는다 — 사전 등록 10-2).</div>
   </div>
 
   <div class="grid-2">
@@ -1676,7 +1676,11 @@ const AXP_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.0, 0.5
     el.hidden = n < 1;
   });
 
-  if (!G) return;
+  if (!G) {   // 직접 바꿔보기 표가 없는 카드(보험사 등) — 틀의 대체값(NVDA $297)이 남지 않게(2026-10-06)
+    const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
+    if (pv) { pv.textContent = '계산 불가'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
+    return;
+  }
   const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#38bdf8'], ['낙관', 'high', 'var(--green)']];
   const st = { scn: 1, wacc: G.waccs.indexOf(G.default[0]), term: G.terms.indexOf(G.default[1]) };
   const opts = {
@@ -2213,7 +2217,7 @@ const AXP_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 
   put('axpPeerBox', 'axpPeerScore', 'axpPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균). AXP 자신이 13곳에 없어 본인을 빼지 않고 비교한다.`
       + `\nP/TBV 7.40배는 유형자본을 만들 수 있는 11곳(중앙값 1.84배), PER 18.5배는 13곳(중앙값 11.9배) 모두보다 비싸 둘 다 0점 → −1이다. PNC·TFC는 유형자본 태그를 못 채워 P/TBV에서 빠졌다.`
-      + `\n수수료 중심 카드사라 대출 중심 은행보다 ROE·배수가 구조적으로 높다. 같은 카드·소비자금융 모델인 COF는 P/TBV 1.85배·PER 12.1배로, 9/30 기준 참고일 뿐 판정에 쓰지 않는다 — 사전 등록 10-2.`);
+      + `\n수수료 중심 카드사라 대출 중심 은행보다 ROE·배수가 구조적으로 높다. 같은 카드·소비자금융 모델인 COF는 P/TBV 1.85배·PER 12.1배로, 10/5 기준 참고일 뿐 판정에 쓰지 않는다 — 사전 등록 10-2.`);
   put('axpSelfBox', 'axpSelfScore', 'axpSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nP/TBV 7.40배(5년 중 하위 49%, 중앙값 7.44배)·PER 18.5배(하위 44%, 중앙값 19.0배)로 둘 다 중간이라 0이다.`

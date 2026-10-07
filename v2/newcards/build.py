@@ -54,6 +54,9 @@ def main():
     ap.add_argument("--sync-base", default=None, help="sync_fallbacks에 넘길 http 서버 주소(복제본에서 돌릴 때 — 기본 8765)")
     ap.add_argument("--from-card", action="store_true",
                     help="재현 모드 — 배열을 루트 카드가 아니라 지금 v2 카드의 사본에서 옮긴다(가격·날짜가 그 카드와 같다, 2026-10-05)")
+    ap.add_argument("--price", action="store_true",
+                    help="매일 가격 재빌드(2026-10-06) — 지금 카드에 새 종가를 붙여(price_arrays.py) 그 배열로 다시 만든다. "
+                         "SEC·EPS·재무는 받지 않고(캐시·이전 파일), 내재가치 추적선은 지금 카드의 것을 그대로 둔다")
     a = ap.parse_args()
     T = a.ticker.upper(); t = T.lower()
     spec = importlib.util.spec_from_file_location("cfg", os.path.join(HERE, "cfg", f"cfg_{t}.py"))
@@ -66,12 +69,21 @@ def main():
     meta, yahoo = os.path.join(HERE, "meta", f"{t}.json"), os.path.join(HERE, "yahoo", f"{t}.json")
     new = os.path.exists(meta)
     card = f"v2/{T}_full_widget.html"
+    WORK = os.path.join(REPO, "v2", ".sec_cache", "_work"); os.makedirs(WORK, exist_ok=True)   # 저장소 안(gitignore) — /tmp는 체크아웃끼리 겹친다(Codex 2026-10-06)
+    if a.price:   # 지금 카드를 떠서 새 종가를 붙이고, 그 사본을 배열 원본으로 쓴다(--from-card와 같은 길)
+        a.from_card = True
+        src = os.path.join(WORK, f"{T}_from_card.html")
+        open(src, "w", encoding="utf-8").write(open(os.path.join(REPO, card), encoding="utf-8").read())
+        print("· 새 종가")
+        run([PY, os.path.join(HERE, "price_arrays.py"), T, "--card", src], show=r".")
+        a.asof = re.findall(r'\["(\d{4}-\d{2}-\d{2})",', re.search(rf"const {T}_DAILY\s*=\s*(\[.*?\]);", open(src, encoding="utf-8").read()).group(1))[-1]
+        track_old = re.search(rf"const {T}_DCF_TRACK = \[.*?\];", open(src, encoding="utf-8").read(), re.S).group(0)
 
-    if B.get("overlay"):
+    if B.get("overlay") and not a.price:
         print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장")
-    if B.get("share_events"):   # v2.1 D-1(2026-10-05)
+    if B.get("share_events") and not a.price:   # v2.1 D-1(2026-10-05)
         print("· 분기 뒤 주식 발행 이벤트"); run([PY, "v2/adapters/share_events.py", T], show=r".")
-    for ctag, stag in B.get("company_tags", []):   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
+    for ctag, stag in ([] if a.price else B.get("company_tags", [])):   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
         print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
     print("· EPS")
     eps = [PY, "scripts/fetch_eps_history.py", T, "--cik", cik, "--out", f"scripts/{T}_eps_history.json"]
@@ -81,11 +93,11 @@ def main():
         eps = [PY, f"v2/adapters/{t}_feed.py", "eps"]
     elif B.get("eps_cmd"):
         eps = [PY] + list(B["eps_cmd"])
-    run(eps, show=r"TTM-EPS points|저장")
+    if not a.price:
+        run(eps, show=r"TTM-EPS points|저장")
     print("· 복제·배열")
-    WORK = os.path.join(REPO, "v2", ".sec_cache", "_work"); os.makedirs(WORK, exist_ok=True)   # 저장소 안(gitignore) — /tmp는 체크아웃끼리 겹친다(Codex 2026-10-06)
     src = None
-    if a.from_card:   # 덮어쓰기 전에 지금 카드를 떠 둔다
+    if a.from_card and not a.price:   # 덮어쓰기 전에 지금 카드를 떠 둔다
         src = os.path.join(WORK, f"{T}_from_card.html")
         open(src, "w", encoding="utf-8").write(open(os.path.join(REPO, card), encoding="utf-8").read())
     fb = os.path.join(WORK, f"{T}_before_build.html")   # 루트 카드에 없는 배열(백테스트 등)을 예전 카드에서 가져오도록 떠 둔다
@@ -93,6 +105,8 @@ def main():
         open(fb, "w", encoding="utf-8").write(open(os.path.join(REPO, card), encoding="utf-8").read())
         os.environ["ROOT_ARRAYS_FALLBACK"] = fb
     run([PY, "v2/clone_card.py", T, "--force"] + (["--meta", meta] if new else []))
+    if a.price:
+        src = os.path.join(WORK, f"{T}_from_card.html")
     if src:
         run([PY, os.path.join(HERE, "root_arrays.py"), T, src], show=r"^arrays")
     elif new:
@@ -103,7 +117,9 @@ def main():
     else:
         run([PY, os.path.join(HERE, "root_arrays.py"), T], show=r"^arrays")
     print("· 재무")
-    if B.get("feed"):
+    if a.price:
+        print("    (가격 재빌드 — 이전 재무 파일)")
+    elif B.get("feed"):
         run([PY, f"v2/adapters/{t}_feed.py", "financials"], show=r"Wrote|저장")
     elif B.get("overlay"):
         run([PY, "v2/adapters/overlay_feed.py", T, cik], show=r"Wrote")
@@ -120,11 +136,11 @@ def main():
     if r.returncode != 0:   # 실패하면 예전 배수 파일로 이어 가지 않는다(Codex 2026-10-06)
         sys.exit(f"build_multiple_history 실패({r.returncode}):\n{(r.stdout + r.stderr)[-1500:]}")
     run([PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"], show=r"대비 =|^  (PER|PBR|PSR|PCR|EV)")
-    if B.get("sum_tags"):
+    if B.get("sum_tags") and not a.price:
         run([PY, "v2/adapters/financials_sum_tags.py", T], show=r".")
     run([PY, "v2/build_fundamental_score.py", T, "--card"], show=r"기본적 분석 =|^    ")
     if B.get("overlay"):
-        merged = f"/tmp/{T}_facts_merged.json"
+        merged = os.path.join(WORK, f"{T}_facts_merged.json")
         sys.path.insert(0, V2); os.chdir(V2)
         import build_multiple_history as bmh
         json.dump(bmh._facts(cik), open(merged, "w")); os.chdir(REPO)
@@ -143,17 +159,25 @@ def main():
         h = re.sub(rf"const {T}_DCF = \{{.*?\}};[^\n]*", lambda _: f"const {T}_DCF = {json.dumps(blk, ensure_ascii=False)};   // no_dcf", h, count=1, flags=re.S)
         h = re.sub(rf"const {T}_DCF_GRID = .*", f"const {T}_DCF_GRID = null;", h, count=1)
         h = re.sub(rf"const {T}_DCF_TRACK = \[.*?\];", f"const {T}_DCF_TRACK = [];", h, count=1, flags=re.S)
+        # 직접 바꿔보기 결과 칸의 대체값 — 틀(NVDA)의 '주당 $297'이 남지 않게(2026-10-06, CB·PGR). JS는 표가 없으면 같은 글을 쓴다.
+        h, k = re.subn(r'<span style="[^"]*" id="dcfPickValue">[^<]*</span><span style="[^"]*" id="dcfPickUpside">[^<]*</span>',
+                       '<span style="color: var(--text3);" id="dcfPickValue">계산 불가</span><span id="dcfPickUpside"></span>', h, count=1)
+        assert k == 1, "dcfPickValue 대체값 자리를 못 찾음"
         open(p, "w", encoding="utf-8").write(h)
     else:
         print("· 현금흐름")
         run([PY, "v2/build_dcf_block.py", T], show=rf"^{T} |⚠")
         run([PY, "v2/build_dcf_grid.py", T])
-        run([PY, "v2/build_dcf_track.py", T, "--json", f"v2/{T}_dcf_track.json"])
-        d = json.load(open(os.path.join(V2, f"{T}_dcf_track.json")))
         h = open(p, encoding="utf-8").read()
-        pts = [f'{{d:"{x["date"]}",low:{round(x["low"], 1)},base:{round(x["base"], 1)},high:{round(x["high"], 1)}}}' for x in d["points"]]
         old = re.search(rf"const {T}_DCF_TRACK = \[.*?\];", h, re.S).group(0)
-        h = h.replace(old, f"const {T}_DCF_TRACK = [" + ",".join(pts) + "];", 1)
+        if a.price:   # 추적선은 분기 공시 때만 바뀐다(67초 걸리는 단계) — 지금 카드의 것을 그대로
+            new_track = track_old
+        else:
+            run([PY, "v2/build_dcf_track.py", T, "--json", f"v2/{T}_dcf_track.json"])
+            d = json.load(open(os.path.join(V2, f"{T}_dcf_track.json")))
+            pts = [f'{{d:"{x["date"]}",low:{round(x["low"], 1)},base:{round(x["base"], 1)},high:{round(x["high"], 1)}}}' for x in d["points"]]
+            new_track = f"const {T}_DCF_TRACK = [" + ",".join(pts) + "];"
+        h = h.replace(old, new_track, 1)
         open(p, "w", encoding="utf-8").write(h)
     if a.data:
         print("데이터 단계 끝 — cfg/cfg_%s.py를 쓰고 --data 없이 다시 실행" % t)
@@ -162,7 +186,7 @@ def main():
     run([PY, os.path.join(HERE, "fill.py"), T], show=r"^ok|^peers")
     run([PY, "v2/strip_caveats.py", T])   # 값 옆 사유 글은 툴팁으로(2026-10-06 사용자 결정)
     run([PY, "v2/sync_fallbacks.py", T] + (["--base", a.sync_base] if a.sync_base else []), show=r".")
-    js = "/tmp/%s_inline.js" % T
+    js = os.path.join(WORK, "%s_inline.js" % T)
     open(js, "w").write("\n;\n".join(re.findall(r"<script>(.*?)</script>", open(p, encoding="utf-8").read(), re.S)))
     run(["node", "--check", js])
     print("JS_OK", card)

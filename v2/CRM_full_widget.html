@@ -1619,7 +1619,11 @@ const CRM_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
     el.hidden = n < 1;
   });
 
-  if (!G) return;
+  if (!G) {   // 직접 바꿔보기 표가 없는 카드(보험사 등) — 틀의 대체값(NVDA $297)이 남지 않게(2026-10-06)
+    const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
+    if (pv) { pv.textContent = '계산 불가'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
+    return;
+  }
   const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#38bdf8'], ['낙관', 'high', 'var(--green)']];
   const st = { scn: 1, wacc: G.waccs.indexOf(G.default[0]), term: G.terms.indexOf(G.default[1]) };
   const opts = {

@@ -300,10 +300,9 @@ UB = json.load(open('peer_universe/banks.json'))
 U = {k: v for k, v in UB['tickers'].items() if k != T}   # 본인 제외
 # 비교 차트 값은 banks.json(카드와 같은 기준일 — 은행 9장을 한 번에 다시 만든다)에서 읽는다. 2026-10-06 10/5 갱신 전에는 9/25 값을 손으로 고정했었다(Codex: 제목 날짜와 어긋남).
 PB = ['BAC', 'USB', 'MTB', 'CFG', 'RF', 'FITB']
-assert UB['asOf'] == asof, (UB['asOf'], asof)
 NOTB = ['PNC', 'TFC']   # 유형자본 태그 결측(화면 순서) — WFC·C는 2026-10-05부터 들어간다. 바뀌면 아래 문장들을 다시 쓴다
 assert sorted(t for t in U if not isinstance(U[t].get('ptbv'), (int, float))) == sorted(NOTB), U
-mdy = f'{int(asof[5:7])}/{int(asof[8:])} 종가'
+mdy = f'{int(UB["asOf"][5:7])}/{int(UB["asOf"][8:])} 종가'   # 비교 은행 값의 날짜(토요일 갱신 — 매일 재빌드에서는 카드 날짜보다 앞설 수 있다)
 mk = lambda k, key, title, unit, mx: {"title": title, "unit": unit, "max": mx, "jpmValue": None,
                                      "peers": [{"name": t, "value": round(U[t][key], 2), "status": "reference"} for t in PB if isinstance(U.get(t, {}).get(key), (int, float))]}
 MD = {"per": mk('per', 'per', f'S&P500 은행 PER 비교 · {mdy}', 'PER(TTM)', 25),
