@@ -1,0 +1,177 @@
+name: v2 cards rebuild
+
+# v2 카드 103장을 다시 만든다(2026-10-06 사용자 결정 — v2/research/pipeline_checks.md 0절).
+#   매일: "Daily data refresh"가 새 세션 가격을 커밋한 뒤 이어서 돈다. 103장을 새 종가로 재빌드
+#         (점수·판정·문장 숫자가 그날 종가에 맞춰진다). SEC 재무·비교군 파일·애널리스트는 받지 않는다.
+#   토요일: 비교군 파일·애널리스트를 새로 받고 103장 재빌드, 비교군 어긋남 점검, 새 분기 보고서 점검(확인 대기 목록만).
+# 판정이 바뀐 카드는 그대로 반영하고 v2/daily_status.json에 남긴다. 실패한 카드는 전날 상태로 두고 실행을 실패로
+# 끝내 소유자에게 메일이 가게 한다. 라이브(stock-widgets-redesign)는 건드리지 않는다.
+#
+# SEC 자료 캐시(v2/.sec_cache)는 actions/cache로 이어 쓴다. 매일은 읽기만 하고, 토요일 실행이 그 주의 캐시를 새로 저장한다.
+# 첫 실행(캐시 없음)은 스크립트가 SEC에서 받아 채운다.
+
+on:
+  workflow_run:
+    workflows: ["Daily data refresh"]
+    types: [completed]
+  schedule:
+    # 토요일 13:00 UTC = 미국 토요일 09:00 ET(한국 토요일 22:00). Yahoo가 금요일 봉을 늦게 주는 종목까지 다 들어온 뒤 — 2026-10-06 시험에서 저녁 9시(ET)에 돌리자 섹터마다 7~11종목이 빠졌다.
+    - cron: "0 13 * * 6"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "daily 또는 weekly"
+        type: choice
+        options: [daily, weekly]
+        default: daily
+      tickers:
+        description: "일부만(공백으로 구분, 비우면 103장)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: v2-cards
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  rebuild:
+    # 가격 작업은 마지막 점검(health check) 전에 커밋한다 — 점검이 실패해도 새 가격은 올라갔으니 v2도 돈다(Codex).
+    # 새 세션이 없으면 --skip-if-current가 건너뛴다.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0   # build_peer_score가 카드 날짜의 stocks.json을 git 이력에서 꺼낸다(얕은 복제면 SKHY 등이 멈춘다, 2026-10-07)
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Python packages
+        run: pip install numpy
+
+      - name: Mode
+        id: mode
+        run: |
+          mode=daily
+          if [ "${{ github.event_name }}" = "schedule" ]; then mode=weekly; fi
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then mode="${{ inputs.mode }}"; fi
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "week=$(date -u +%G-%V)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore SEC cache
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          # 저장과 경로가 같아야 복원된다(경로가 캐시 버전에 들어간다 — Codex)
+          path: |
+            v2/.sec_cache
+            !v2/.sec_cache/_work
+          key: sec-v2-${{ steps.mode.outputs.week }}
+          restore-keys: sec-v2-
+
+      # Actions 캐시가 비어 있으면(첫 실행·만료) 맥에서 만든 캐시 압축본(릴리스 sec-cache-seed)으로 시작한다.
+      # 캐시 없이 SEC에서 새로 받으면 맥 캐시와 내용이 달라 카드 확인 조건에 걸린다(2026-10-07 시험: 16장 중 다수 실패).
+      - name: Seed SEC cache from release
+        if: steps.cache.outputs.cache-matched-key == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p v2/.sec_cache
+          gh release download sec-cache-seed --pattern sec_cache.tar.zst --dir "$RUNNER_TEMP"
+          zstd -d -c "$RUNNER_TEMP/sec_cache.tar.zst" | tar -xf - -C v2/.sec_cache
+          du -sh v2/.sec_cache
+
+      - name: Local server for render checks
+        run: |
+          mkdir -p v2/.sec_cache/_work
+          nohup python3 -m http.server 8765 > /dev/null 2>&1 &
+          sleep 2
+          curl -sf http://localhost:8765/index.html > /dev/null
+
+      - name: Rebuild cards
+        id: run
+        continue-on-error: true
+        env:
+          MODE: ${{ steps.mode.outputs.mode }}
+          TICKERS: ${{ inputs.tickers }}
+        run: |
+          # 종목 입력은 환경 변수로 받아 형식을 확인한다(셸에 직접 넣지 않는다 — Codex)
+          args=()
+          if [ "$MODE" = "weekly" ]; then args+=(--weekly); else args+=(--skip-if-current); fi
+          for t in $TICKERS; do
+            [[ "$t" =~ ^[A-Za-z.]{1,6}$ ]] || { echo "종목 형식이 아니다: $t"; exit 2; }
+            args+=("$t")
+          done
+          python3 v2/newcards/daily_price.py "${args[@]}" | tee v2_cards.log
+
+      - name: Commit
+        id: commit
+        run: |
+          git add v2/*_full_widget.html v2/*_multiples.json v2/*_bank.json v2/daily_status.json \
+                  v2/newcards/cfg v2/newcards/bank/base v2/newcards/refresh_changes.jsonl v2/peer_universe \
+                  scripts/*_eps_history.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          session=$(python3 -c 'import json; print(json.load(open("site_data/stocks.json"))["priceSession"])')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "v2 cards (${{ steps.mode.outputs.mode }}): session ${session}"
+          # 가격 작업과 push가 겹치면 거절된다 — 받아서 다시(경로는 겹치지 않는다, Codex)
+          for i in 1 2 3; do
+            git pull --rebase && git push && break
+            sleep $((i * 20))
+          done
+          git status -sb | head -1 | grep -qv ahead || { echo "push 실패"; exit 1; }
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Request a Pages build
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
+
+      - name: Save SEC cache (weekly, or first run)
+        if: always() && (steps.mode.outputs.mode == 'weekly' || steps.cache.outputs.cache-matched-key == '')
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            v2/.sec_cache
+            !v2/.sec_cache/_work
+          key: sec-v2-${{ steps.mode.outputs.week }}-${{ github.run_id }}
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo '```'
+            tail -40 v2_cards.log 2>/dev/null || true
+            python3 -c '
+          import json
+          d = json.load(open("v2/daily_status.json"))
+          print("실패:", d.get("failed"))
+          print("판정·표 변경:", d.get("verdictChanges"))
+          print("새 분기 보고서(확인 대기):", d.get("newFilings"))
+          ' 2>/dev/null || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if any card failed (emails the owner)
+        if: steps.run.outcome == 'failure'
+        run: exit 1

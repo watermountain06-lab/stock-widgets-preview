@@ -112,8 +112,10 @@ def weekly_pre(status):
     old = {f: json.load(open(os.path.join(pdir, f))) for f in os.listdir(pdir) if f.endswith(".json") and f != "banks.json"}
     rc, out = run([PY, "v2/adapters/refresh_peer_files.py", "--asof", session], timeout=7200)
     status["peerFiles"] = out.strip().splitlines()[-14:]
-    if rc:
-        print(out[-2000:]); sys.exit("비교군 파일 갱신 실패 — 카드는 건드리지 않았다")
+    if rc:   # 반쯤 받은 파일이 커밋되지 않게 이전 파일로 되돌리고 멈춘다(Codex)
+        for f, o in old.items():
+            json.dump(o, open(os.path.join(pdir, f), "w"), ensure_ascii=False, indent=1)
+        print(out[-2000:]); sys.exit("비교군 파일 갱신 실패 — 이전 파일로 되돌렸고 카드는 건드리지 않았다")
     # Yahoo가 그 세션 봉을 늦게 주는 종목은 "기준일 종가 없음"으로 빠진다(2026-10-06 시험: 저녁 9시에 돌려 섹터마다 7~11종목).
     # 비교군이 줄면 판정이 흔들리므로, 새로 빠진 종목이 3개 이상인 섹터는 이전 파일을 그대로 쓴다.
     kept = []
@@ -128,19 +130,31 @@ def weekly_pre(status):
         print("\n".join(kept), flush=True)
     rc, out = run([PY, "v2/newcards/fetch_analyst.py"] + gen_tickers(), timeout=3600)
     status["analystFailed"] = [l for l in out.splitlines() if "실패" in l]
+    if rc or status["analystFailed"]:   # 실패한 종목은 지난주 값 그대로 — 알림에 넣는다(Codex)
+        status["problems"].append(f"애널리스트 받기 실패 {len(status['analystFailed'])}종목(rc {rc})")
 
 
 def weekly_post(status, work):
     """비교군 파일에 카드 값을 넣고(sync_peer_rows), 동종업 칸이 어긋난 카드를 다시 만들고, 새 분기 보고서를 점검한다."""
-    run([PY, "v2/adapters/sync_peer_rows.py"])
+    rc, out = run([PY, "v2/adapters/sync_peer_rows.py"])
+    if rc:
+        status["problems"].append("sync_peer_rows 실패: " + out.strip()[-300:])
     rc, out = run([PY, "v2/check_peer_drift.py"])
+    if rc == 2:   # 0 = 어긋남 없음, 1 = 어긋남 있음(아래에서 다시 만든다), 2 = 계산 실패
+        status["problems"].append("check_peer_drift 계산 실패: " + out.strip().splitlines()[-1][:300])
     drifted = sorted({l.split(":")[0] for l in out.splitlines() if ": 동종업 " in l})
     status["peerDrift"] = drifted
     for T in drifted:
         print(f"{T}: 동종업 어긋남 — 다시 만든다", flush=True)
         status["cards"][T] = attempt(T, work)
     rc, out = run([PY, "v2/newcards/new_filings.py"])
-    status["newFilings"] = json.loads(out.strip().splitlines()[-1]) if rc == 0 and out.strip() else {"error": out[-500:]}
+    try:
+        nf = json.loads(out.strip().splitlines()[-1])
+        status["newFilings"], status["filingChecksMissed"] = nf["pending"], nf["unchecked"]
+        if nf["unchecked"]:
+            status["problems"].append(f"새 분기 보고서 점검 못 한 카드 {nf['unchecked']}")
+    except Exception:
+        status["problems"].append("new_filings 실패: " + out.strip()[-300:])
 
 
 def attempt(T, work):
@@ -174,14 +188,14 @@ def main():
     if "--skip-if-current" in sys.argv and not weekly and os.path.exists(STATUS):
         # 가격 작업은 하루 세 번까지 돈다(늦은 봉 대비) — 같은 세션을 이미 실패 없이 끝냈으면 건너뛴다
         old = json.load(open(STATUS))
-        if old.get("session") == session and not old.get("failed") and old.get("finished"):
+        if old.get("session") == session and old.get("full") and not old.get("failed") and not old.get("problems") and old.get("finished"):
             print(f"{session} 세션은 이미 끝났다({old['finished']}) — 건너뜀"); return
     want = [a.upper() for a in sys.argv[1:] if not a.startswith("--")]
     tickers = want or (gen_tickers() + BANKS + HAND)
     work = os.path.join(V2, ".sec_cache", "_work", "daily")
     os.makedirs(work, exist_ok=True)
     before = verdicts()
-    status = {"mode": "weekly" if weekly else "daily", "session": session, "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "cards": {}}
+    status = {"mode": "weekly" if weekly else "daily", "session": session, "full": not want, "problems": [], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "cards": {}}
     if weekly:
         weekly_pre(status)
     for T in tickers:
@@ -205,7 +219,9 @@ def main():
     print(f"끝 — ok {sum(v['status'] == 'ok' for v in status['cards'].values())} · 실패 {status['failed']} · 판정·표 변경 {len(changes)}")
     for c in changes:
         print("  ", c)
-    sys.exit(1 if status["failed"] else 0)
+    for p in status["problems"]:
+        print("문제:", p)
+    sys.exit(1 if status["failed"] or status["problems"] else 0)
 
 
 if __name__ == "__main__":
