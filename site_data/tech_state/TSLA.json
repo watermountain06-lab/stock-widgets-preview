@@ -1,7 +1,7 @@
 {
   "ticker": "TSLA",
-  "asOf": "2026-10-05",
-  "close": 378.73,
+  "asOf": "2026-10-06",
+  "close": 380.68,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,13 +20,13 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -6.27
+    "weightedRocPct": -4.83
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 27.36,
-    "drawdownFromHighPct": 24.08,
+    "riseFromLowPct": 28.01,
+    "drawdownFromHighPct": 23.69,
     "high52w": 498.83,
     "low52w": 297.38
   },
@@ -45,7 +45,7 @@
     "장기추세이탈"
   ],
   "atr": {
-    "pctNow": 3.18,
-    "percentileVsOwnHistory": 6.7
+    "pctNow": 3.07,
+    "percentileVsOwnHistory": 3.2
   }
 }

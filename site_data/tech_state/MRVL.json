@@ -1,7 +1,7 @@
 {
   "ticker": "MRVL",
-  "asOf": "2026-10-05",
-  "close": 271.25,
+  "asOf": "2026-10-06",
+  "close": 287.01,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,28 +20,28 @@
   "momentum": {
     "score": 40,
     "max": 40,
-    "weightedRocPct": 120.19
+    "weightedRocPct": 132.22
   },
   "position52w": {
-    "score": 15,
+    "score": 20,
     "max": 20,
-    "riseFromLowPct": 283.72,
-    "drawdownFromHighPct": 17.77,
+    "riseFromLowPct": 306.01,
+    "drawdownFromHighPct": 13.0,
     "high52w": 329.88,
     "low52w": 70.69
   },
   "priceStructureScore": {
-    "score": 55,
+    "score": 60,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 95,
+  "rawScore": 100,
   "rawGrade": "강한",
   "displayGrade": "강한",
   "riskFlags": [],
   "riskFlagsShown": [],
   "atr": {
-    "pctNow": 4.41,
-    "percentileVsOwnHistory": 17.5
+    "pctNow": 4.72,
+    "percentileVsOwnHistory": 24.6
   }
 }

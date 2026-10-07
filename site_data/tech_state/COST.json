@@ -1,7 +1,7 @@
 {
   "ticker": "COST",
-  "asOf": "2026-10-05",
-  "close": 923.52,
+  "asOf": "2026-10-06",
+  "close": 935.68,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
@@ -20,34 +20,32 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -1.12
+    "weightedRocPct": -0.45
   },
   "position52w": {
-    "score": 5,
+    "score": 10,
     "max": 20,
-    "riseFromLowPct": 9.41,
-    "drawdownFromHighPct": 15.78,
+    "riseFromLowPct": 10.85,
+    "drawdownFromHighPct": 14.67,
     "high52w": 1096.5,
     "low52w": 844.06
   },
   "priceStructureScore": {
-    "score": 25,
+    "score": 30,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 35,
+  "rawScore": 40,
   "rawGrade": "혼조",
   "displayGrade": "혼조",
   "riskFlags": [
-    "장기추세이탈",
-    "단기추세이탈"
+    "장기추세이탈"
   ],
   "riskFlagsShown": [
-    "장기추세이탈",
-    "단기추세이탈"
+    "장기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.57,
-    "percentileVsOwnHistory": 12.3
+    "pctNow": 1.62,
+    "percentileVsOwnHistory": 18.3
   }
 }

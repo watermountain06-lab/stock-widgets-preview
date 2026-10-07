@@ -1,18 +1,18 @@
 {
   "ticker": "RTX",
-  "asOf": "2026-10-05",
-  "close": 184.33,
+  "asOf": "2026-10-06",
+  "close": 183.29,
   "modelVersion": "1.0.0",
   "modelFrozenDate": "2026-08-18",
   "disclaimer": "가격/거래량 데이터로 계산한 규칙 기반 기술 상태 요약이며, 투자 권고나 미래 수익률 예측이 아닙니다.",
   "insufficientHistory": false,
   "momentumUnavailable": false,
   "trendStructure": {
-    "score": 30,
+    "score": 20,
     "max": 40,
     "conditions": {
       "close>ma150_and_close>ma200": false,
-      "ma150>ma200": true,
+      "ma150>ma200": false,
       "ma200>ma200_21d_ago": true,
       "ma50>ma150_and_ma50>ma200": true
     }
@@ -20,22 +20,22 @@
   "momentum": {
     "score": 10,
     "max": 40,
-    "weightedRocPct": -2.9
+    "weightedRocPct": -2.38
   },
   "position52w": {
     "score": 10,
     "max": 20,
-    "riseFromLowPct": 18.43,
-    "drawdownFromHighPct": 18.75,
+    "riseFromLowPct": 17.77,
+    "drawdownFromHighPct": 19.21,
     "high52w": 226.88,
     "low52w": 155.64
   },
   "priceStructureScore": {
-    "score": 40,
+    "score": 30,
     "max": 60,
     "note": "추세구조+52주위치 개념적 상위그룹(v1, 상관 0.82로 별도 배점 재검토는 v2)"
   },
-  "rawScore": 50,
+  "rawScore": 40,
   "rawGrade": "혼조",
   "displayGrade": "혼조",
   "riskFlags": [
@@ -47,7 +47,7 @@
     "단기추세이탈"
   ],
   "atr": {
-    "pctNow": 1.87,
-    "percentileVsOwnHistory": 9.1
+    "pctNow": 1.86,
+    "percentileVsOwnHistory": 8.3
   }
 }
