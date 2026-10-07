@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-08-31', '2025-08-31', '2026-05-31'
 QLABEL, YL, QQL = 'Q1 FY27', 'Q1 FY26', 'Q4 FY26'
 L8 = ['Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26', 'Q1 FY27']
 RELEASE = {'rev': 19345, 'op': 6728, 'ni': 4760}   # Q1 FY27 손익(백만 달러) — 옛 카드 YoY 막대 $19.34B·$6.73B·$4.76B와 같다
-VOTES, VERDICT = (1, 1, -2), '적정'
+VOTES, VERDICT = (0, 1, -2), '적정~고평가'
 CO = 'Oracle'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1341439/'
 SEC = S_
@@ -99,8 +99,8 @@ BULL = [('성장', 'Q1 FY27 매출 +30%, 클라우드 인프라 +121%, RPO $664B
 BEAR = [('현금', '1분기 설비투자 ${cap[cur] / 1e9:.1f}B, FCF −${-fcf[cur] / 1e9:.1f}B.'),
         ('부채', '차입금 $125.3B, 주식·우선주 발행으로 희석.'),
         ('내재가치', '현금흐름 모델 기본 ${DCF[\'base\']:.2f}(보수 시나리오 음수).')]
-ANALYST = {'rating': 'Buy', 'n': 43, 'nt': 30, 'mean': 247.87, 'median': 240, 'low': 110, 'high': 400, 'sb': 27, 'b': 8, 'h': 7, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-05'
+ANALYST = {'rating': 'Buy', 'n': 43, 'nt': 30, 'mean': 247.87, 'median': 240, 'low': 110, 'high': 400, 'sb': 28, 'b': 7, 'h': 7, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-06'
 REV_FOOTNOTE = ('회계연도는 5월 31일에 끝난다(Q1 FY27 = 2026년 6~8월). Q2 FY26 순이익 $6.1B에는 Ampere 지분 매각 이익 $2.7B(세전)가 들어 있다. '
                 'SEC 데이터의 FY2021·FY2022 4분기 매출 태그 오류(연간 값이 분기 기간으로 태깅)는 엔진에서 걸러 냈다.')
 

@@ -8,7 +8,7 @@ Claude 추천 결정(사용자 위임, 리뷰 때 확인): SCHW는 저축은행 
 엔진 보강(2026-10-01): 발행 보통주 수가 2025년부터 주식 종류 차원 태그뿐 → adapters/dim_member_supplement.py로 오버레이,
 2025년 자사주 매입은 회사 전용 태그(9개월 $4,581M)라 오버레이, 보통주 배당 DIV_COM_TAGS(DividendsCommonStockCash), 특별 항목 없음(bank_items.json)."""
 import json, os, re, sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview/v2')
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))   # v2(스크립트 위치 기준 — Actions에서도, 2026-10-06)
 sys.path.insert(0, '.'); sys.path.insert(0, 'adapters')
 import build_multiple_history as bmh
 import bank_rim as br

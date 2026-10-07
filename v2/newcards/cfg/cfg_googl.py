@@ -98,8 +98,8 @@ BULL = [('클라우드', '클라우드 매출이 Q2 $24.8B(+82%)로 빨라졌고
 BEAR = [('투자 부담', '설비투자가 Q2 $44.9B로 늘어 잉여현금흐름이 적자(−$5.9B)가 됐다.'),
         ('희석', '6월에 주식 $80B 발행을 발표했고 올해 자사주 매입을 멈췄다.'),
         ('밸류에이션', '현재가가 내재가치 기본 시나리오의 {px / DCF[\'base\']:.1f}배이고 본업 PER이 자기 5년 중 상위 {100 - SM[\'PER\'][\'percentile\']:.0f}%다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 61, 'nt': 33, 'mean': 431.12, 'median': 430, 'low': 355, 'high': 515, 'sb': 43, 'b': 13, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST = {'rating': 'Strong Buy', 'n': 61, 'nt': 33, 'mean': 431.3, 'median': 430, 'low': 355, 'high': 515, 'sb': 43, 'b': 13, 'h': 5, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-06'
 REV_FOOT = '본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율). 공시 순이익은 비상장 지분 평가이익 등 영업외이익이 들어가 2026 Q1 $62.6B·Q2 $112.2B다.'
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
            '기본 시나리오(<span data-dcf-basev>${DCF[\'base\']:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF[\'baseEquivGrowth\'])}</span>다.')

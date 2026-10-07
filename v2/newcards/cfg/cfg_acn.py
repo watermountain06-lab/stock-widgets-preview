@@ -92,7 +92,7 @@ BULL = [('배수', 'PER {SM[\'PER\'][\'current\']:.1f}배, 5년 중앙값의 절
 BEAR = [('성장 둔화', '현지 통화 성장 3%, 3분기 수주 감소.'),
         ('주가 급락', '3분기 실적 날 −18.0%.'),
         ('미국 연방', '미국 연방 정부 사업이 연간 성장을 약 1%p 깎음(회사 전망).')]
-ANALYST = {'rating': 'Buy', 'n': 27, 'nt': 19, 'mean': 221.26, 'median': 220, 'low': 175, 'high': 275, 'sb': 9, 'b': 3, 'h': 15, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST = {'rating': 'Buy', 'n': 27, 'nt': 19, 'mean': 222.84, 'median': 220, 'low': 175, 'high': 275, 'sb': 9, 'b': 2, 'h': 16, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-06'
 
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)

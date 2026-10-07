@@ -507,7 +507,7 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="sndkDcfReq" style="font-size: 22px; color: var(--red);">27.2%</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="sndkConfidenceLabel" title="백테스트 없음">밴드 적중률</span>
+      <span class="meta-label" id="sndkConfidenceLabel">밴드 적중률</span>
       <span class="meta-value" id="sndkConfidence" style="font-size: 22px; color: var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
@@ -1087,8 +1087,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 84%; background: var(--green);"></div><div data-an-bar="hold" style="width: 12%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
-        <span class="op-val"><span data-an="mean">$2165.26</span> <span class="op-sub op-up" data-an="upside">+27.1%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
+        <span class="op-val"><span data-an="mean">$2174.47</span> <span class="op-sub op-up" data-an="upside">+27.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1295,11 +1295,11 @@ const MULTIPLE_DATA = {
     title: '메모리·반도체·하드웨어 6곳 PER 비교 (점수는 IT 카드 유니버스 기준) · 09/03~09/08 카드 기준(SNDK 막대는 10/5)',
     unit: 'PER', max: 70, sndkValue: null,
     peers: [
-      { name:'MU', value:24.1, status:'reference' },
+      { name:'MU', value:23.7, status:'reference' },
       { name:'SKHY', value:19.1, status:'reference' },
-      { name:'NVDA', value:30.2, status:'reference' },
-      { name:'LRCX', value:60.0, status:'reference' },
-      { name:'AMAT', value:46.8, status:'reference' },
+      { name:'NVDA', value:30.3, status:'reference' },
+      { name:'LRCX', value:58.0, status:'reference' },
+      { name:'AMAT', value:45.8, status:'reference' },
       { name:'DELL', value:32.1, status:'reference' }
     ]
   },
@@ -1307,22 +1307,22 @@ const MULTIPLE_DATA = {
     title: '메모리·반도체 PBR 비교 (DELL 값 없음) · 09/03~09/08 카드 기준(SNDK 막대는 10/5)',
     unit: 'PBR', max: 40, sndkValue: null,
     peers: [
-      { name:'MU', value:11.9, status:'reference' },
+      { name:'MU', value:11.7, status:'reference' },
       { name:'SKHY', value:7.3, status:'reference' },
       { name:'NVDA', value:25.3, status:'reference' },
-      { name:'LRCX', value:34.7, status:'reference' },
-      { name:'AMAT', value:16.8, status:'reference' }
+      { name:'LRCX', value:33.5, status:'reference' },
+      { name:'AMAT', value:16.4, status:'reference' }
     ]
   },
   psr: {
     title: '메모리·반도체 PSR 비교 · 09/03~09/08 카드 기준(SNDK 막대는 10/5)',
     unit: 'PSR(TTM)', max: 25, sndkValue: null,
     peers: [
-      { name:'MU', value:13.3, status:'reference' },
+      { name:'MU', value:13.1, status:'reference' },
       { name:'SKHY', value:10.2, status:'reference' },
-      { name:'NVDA', value:19.1, status:'reference' },
-      { name:'LRCX', value:18.6, status:'reference' },
-      { name:'AMAT', value:14.0, status:'reference' },
+      { name:'NVDA', value:19.2, status:'reference' },
+      { name:'LRCX', value:18.0, status:'reference' },
+      { name:'AMAT', value:13.6, status:'reference' },
       { name:'DELL', value:2.3, status:'reference' }
     ]
   },
@@ -1330,11 +1330,11 @@ const MULTIPLE_DATA = {
     title: '메모리·반도체 PCR(FCF) 비교 · 09/03~09/08 카드 기준(SNDK 막대는 10/5)',
     unit: 'PCR(FCF)', max: 85, sndkValue: null,
     peers: [
-      { name:'MU', value:45.9, status:'reference' },
+      { name:'MU', value:45.1, status:'reference' },
       { name:'SKHY', value:21.0, status:'reference' },
-      { name:'NVDA', value:45.7, status:'reference' },
-      { name:'LRCX', value:73.9, status:'reference' },
-      { name:'AMAT', value:51.3, status:'reference' },
+      { name:'NVDA', value:45.8, status:'reference' },
+      { name:'LRCX', value:71.3, status:'reference' },
+      { name:'AMAT', value:50.1, status:'reference' },
       { name:'DELL', value:28.9, status:'reference' }
     ]
   },
@@ -1342,11 +1342,11 @@ const MULTIPLE_DATA = {
     title: '메모리·반도체 EV/EBITDA 비교 · 09/03~09/08 카드 기준(SNDK 막대는 10/5)',
     unit: 'EV/EBITDA', max: 60, sndkValue: null,
     peers: [
-      { name:'MU', value:17.4, status:'reference' },
+      { name:'MU', value:17.0, status:'reference' },
       { name:'SKHY', value:13.2, status:'reference' },
       { name:'NVDA', value:28.5, status:'reference' },
-      { name:'LRCX', value:49.9, status:'reference' },
-      { name:'AMAT', value:44.5, status:'reference' },
+      { name:'LRCX', value:48.1, status:'reference' },
+      { name:'AMAT', value:43.5, status:'reference' },
       { name:'DELL', value:21.6, status:'reference' }
     ]
   }
@@ -2078,7 +2078,7 @@ const SNDK_ACTIVITY = {"ticker": "SNDK", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/sndk/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const SNDK_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 2165.26, median: 2200,
+const SNDK_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 2174.47, median: 2200,
   low: 1470, high: 3000, strongBuy: 17, buy: 4, hold: 3, sell: 1, strongSell: 0 };
 (function(){
   const A = SNDK_ANALYST, last = (typeof SNDK_DAILY !== 'undefined' && SNDK_DAILY.length) ? SNDK_DAILY[SNDK_DAILY.length - 1] : null;

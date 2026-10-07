@@ -99,6 +99,6 @@ BEAR = [('밸류', 'PSR {SM[\'PSR\'][\'current\']:.0f}배(5년 중앙값 {SM[\'P
         ('업황', 'FY2023 적자를 낸 업황 산업, 이익률 중앙값은 5년 {pct(HIST[\'margin_5y\'])}.'),
         ('희석', '교환사채 정리로 주식 약 1,420만 주 발행(FY2026 약 1,260만 + 9월 165만).')]
 ANALYST = {'rating': 'Strong Buy', 'n': 25, 'nt': 19, 'mean': 1124.84, 'median': 1090, 'low': 860, 'high': 1600, 'sb': 18, 'b': 4, 'h': 2, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'
 
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)

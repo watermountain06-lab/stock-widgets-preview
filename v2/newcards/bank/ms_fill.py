@@ -8,7 +8,7 @@ banks.json 기준일 값이 들어간다. 커밋된 카드 차트는 9/29 값에
 은행 카드가 받지 않은 틀 변경(A3 PER 해당 없음·쏠림 안내·음수 시나리오 표기 등)은 jpm_fill.py와 같이 6절에서 되돌린다.
 관문 G1~G5 모두 통과(2026-10-05 관문 개정 뒤에도) → 초과이익모형이 표를 준다(참고용 아님)."""
 import json, os, re, sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview/v2')
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))   # v2(스크립트 위치 기준 — Actions에서도, 2026-10-06)
 sys.path.insert(0, '.'); sys.path.insert(0, 'adapters')
 import build_multiple_history as bmh
 import bank_rim as br

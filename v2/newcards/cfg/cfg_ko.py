@@ -99,7 +99,7 @@ BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 10
         ('성장', '최근 3년 매출 성장률은 연 {pct(HIST[\'growth_3y\'])}로 5년 값({pct(HIST[\'growth_5y\'])})보다 낮다.'),
         ('부채', '차입금이 $43.5B이고, 부채비율(비지배지분 포함 총부채 ÷ 자본)이 {FR[\'debtToEquity\'][\'value\']:.1f}%다.')]
 ANALYST = {'rating': 'Buy', 'n': 24, 'nt': 17, 'mean': 96.12, 'median': 97, 'low': 84, 'high': 104, 'sb': 12, 'b': 7, 'h': 4, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'
 
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 REQ_MULT_EXACT = True   # 요구 성장률 배수를 실제 값으로(fill.py)

@@ -1072,7 +1072,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 64.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 29%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 6.5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
         <span class="op-val"><span data-an="mean">$199.20</span> <span class="op-sub op-up" data-an="upside">+5.2%</span></span>
       </div>
       <div class="op-cell">
@@ -1280,20 +1280,20 @@ const MULTIPLE_DATA = {
     title: '소프트웨어·AI 대형주 PER 비교 (CRWD 값 없음) · 09/01~09/11 카드 기준(PLTR 막대는 10/5)',
     unit: 'PER', max: 190, pltrValue: null,
     peers: [
-      { name:'MSFT', value:30.4, status:'reference' },
-      { name:'ORCL', value:24.4, status:'reference' },
-      { name:'CRM', value:32.0, status:'reference' },
+      { name:'MSFT', value:30.6, status:'reference' },
+      { name:'ORCL', value:24.8, status:'reference' },
+      { name:'CRM', value:31.4, status:'reference' },
       { name:'PANW', value:97.1, status:'reference' },
-      { name:'NVDA', value:30.2, status:'reference' }
+      { name:'NVDA', value:30.3, status:'reference' }
     ]
   },
   pbr: {
     title: '소프트웨어·AI 대형주 PBR 비교 (PANW 값 없음·CRWD 값 없음) · 09/01~09/11 카드 기준(PLTR 막대는 10/5)',
     unit: 'PBR', max: 55, pltrValue: null,
     peers: [
-      { name:'MSFT', value:8.8, status:'reference' },
-      { name:'ORCL', value:9.7, status:'reference' },
-      { name:'CRM', value:4.9, status:'reference' },
+      { name:'MSFT', value:8.9, status:'reference' },
+      { name:'ORCL', value:9.8, status:'reference' },
+      { name:'CRM', value:4.8, status:'reference' },
       { name:'NVDA', value:25.3, status:'reference' }
     ]
   },
@@ -1302,10 +1302,10 @@ const MULTIPLE_DATA = {
     unit: 'PSR(TTM)', max: 90, pltrValue: null,
     peers: [
       { name:'MSFT', value:11.8, status:'reference' },
-      { name:'ORCL', value:6.1, status:'reference' },
-      { name:'CRM', value:4.3, status:'reference' },
+      { name:'ORCL', value:6.2, status:'reference' },
+      { name:'CRM', value:4.2, status:'reference' },
       { name:'PANW', value:28.9, status:'reference' },
-      { name:'NVDA', value:19.1, status:'reference' },
+      { name:'NVDA', value:19.2, status:'reference' },
       { name:'CRWD', value:51.7, status:'reference' }
     ]
   },
@@ -1313,10 +1313,10 @@ const MULTIPLE_DATA = {
     title: '소프트웨어·AI 대형주 PCR(FCF) 비교 (ORCL 값 없음) · 09/01~09/11 카드 기준(PLTR 막대는 10/5)',
     unit: 'PCR(FCF)', max: 160, pltrValue: null,
     peers: [
-      { name:'MSFT', value:58.2, status:'reference' },
-      { name:'CRM', value:12.0, status:'reference' },
+      { name:'MSFT', value:58.6, status:'reference' },
+      { name:'CRM', value:11.8, status:'reference' },
       { name:'PANW', value:72.8, status:'reference' },
-      { name:'NVDA', value:45.7, status:'reference' },
+      { name:'NVDA', value:45.8, status:'reference' },
       { name:'CRWD', value:138.4, status:'reference' }
     ]
   },
@@ -1324,9 +1324,9 @@ const MULTIPLE_DATA = {
     title: '소프트웨어·AI 대형주 EV/EBITDA 비교 (PANW 값 없음·CRWD 값 없음) · 09/01~09/11 카드 기준(PLTR 막대는 10/5)',
     unit: 'EV/EBITDA', max: 195, pltrValue: null,
     peers: [
-      { name:'MSFT', value:19.9, status:'reference' },
-      { name:'ORCL', value:17.0, status:'reference' },
-      { name:'CRM', value:17.1, status:'reference' },
+      { name:'MSFT', value:20.1, status:'reference' },
+      { name:'ORCL', value:17.2, status:'reference' },
+      { name:'CRM', value:16.8, status:'reference' },
       { name:'NVDA', value:28.5, status:'reference' }
     ]
   }
@@ -2060,7 +2060,7 @@ const PLTR_ACTIVITY = {"ticker": "PLTR", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/pltr/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const PLTR_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 31, nTargets: 20, mean: 199.2, median: 205,
+const PLTR_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 31, nTargets: 20, mean: 199.2, median: 205,
   low: 80, high: 255, strongBuy: 19, buy: 1, hold: 9, sell: 1, strongSell: 1 };
 (function(){
   const A = PLTR_ANALYST, last = (typeof PLTR_DAILY !== 'undefined' && PLTR_DAILY.length) ? PLTR_DAILY[PLTR_DAILY.length - 1] : null;

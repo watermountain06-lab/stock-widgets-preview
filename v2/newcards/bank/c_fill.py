@@ -6,7 +6,7 @@ SEC companyfacts에 2026년 1·2분기 10-Q가 빠져 있어(2026-10-01) adapter
 틀에 나중에 들어간 규칙(C14·A9·A7·C1/C11 등)은 기반에 이미 있고, 은행 카드가 받지 않은 틀 변경(A3 PER 해당 없음·쏠림 안내·음수 시나리오 표기)은 6절에서 되돌린다(jpm_fill.py와 같다).
 비교군 문장은 2026-10-05 관문 수정 뒤 v2/peer_universe/banks.json(WFC·BAC P/TBV 회사 정의 보정값 포함, P/TBV 비교 은행 10곳)에 맞춘 것이다."""
 import json, os, re, sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview/v2')
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))   # v2(스크립트 위치 기준 — Actions에서도, 2026-10-06)
 sys.path.insert(0, '.'); sys.path.insert(0, 'adapters')
 import build_multiple_history as bmh
 import bank_rim as br

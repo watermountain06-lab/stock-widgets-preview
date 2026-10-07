@@ -97,4 +97,4 @@ BEAR = [('밸류에이션', '다섯 배수 모두 5년 중 비싼 쪽.'),
         ('인수 차입', 'Filtration Group $9.25B(기간 대출 $7.75B), CIRCOR 항공우주 인수 대기.'),
         ('경기', '산업재 수요 회복에 의존.')]
 ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 16, 'mean': 1143.81, 'median': 1200, 'low': 850, 'high': 1358, 'sb': 16, 'b': 3, 'h': 6, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'

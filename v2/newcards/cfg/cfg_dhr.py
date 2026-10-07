@@ -103,7 +103,7 @@ BEAR = [('성장', '비교 기준 매출 +3.0%, 연간 전망 상단 6% → 4%.'
         ('인수 부담', '차입금 $26.6B(연초 $18.4B), 영업권·무형자산 $68.8B.'),
         ('경영 교체', '10월 1일 CEO 교체(Rainer Blair → Julie Sawyer Montgomery).')]
 ANALYST = {'rating': 'Strong Buy', 'n': 25, 'nt': 20, 'mean': 229.3, 'median': 230, 'low': 200, 'high': 250, 'sb': 17, 'b': 5, 'h': 3, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'
 POST = [r'''
 h = re.sub(r'(selfHistory: [\d.]+,   // )[^\n]*', lambda m: m.group(1) + '자기 배수 분포 백분위 (Veralto 분사 뒤 2023-10-24 ~ ' + D[-1][0] + ')', h, count=1)   # D38 주석(18cf363)
 ''']

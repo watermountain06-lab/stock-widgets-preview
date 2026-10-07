@@ -96,5 +96,5 @@ BULL = [('성장', '조정 EPS +9.5%, 2032년까지 연 8% 이상 목표.'),
 BEAR = [('합병 위험', 'Dominion 합병 규제 승인 불확실, 발표일 −4.6%.'),
         ('부채', '차입금 $110.2B.'),
         ('밸류에이션', '유틸리티 안에서 PBR·PSR·EV/EBITDA 가장 비싼 쪽.')]
-ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 16, 'mean': 98.56, 'median': 102, 'low': 56, 'high': 112, 'sb': 10, 'b': 2, 'h': 7, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-05'
+ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 16, 'mean': 97.63, 'median': 102, 'low': 56, 'high': 112, 'sb': 11, 'b': 3, 'h': 6, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-06'

@@ -108,8 +108,8 @@ BULL = [('수익성', '2분기 영업이익률 {op[cur] / rev[cur] * 100:.1f}%, 
 BEAR = [('성장', '매출 성장률이 17.6% → 13.4% → 3분기 전망 11.7%로 내려오고 있다.'),
         ('밸류', '기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, 현재가는 연 {pct(DCF[\'requiredGrowth\'])} 성장을 요구한다.'),
         ('인수', 'WBD 인수는 무산됐지만 회사는 "선별적 인수합병"을 자본 배분 우선순위에 두고 있다.')]
-ANALYST = {'rating': 'Buy', 'n': 51, 'nt': 30, 'mean': 94.53, 'median': 94, 'low': 57, 'high': 135, 'sb': 27, 'b': 7, 'h': 16, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-05'
+ANALYST = {'rating': 'Buy', 'n': 51, 'nt': 30, 'mean': 94.4, 'median': 94, 'low': 57, 'high': 135, 'sb': 28, 'b': 7, 'h': 15, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-06'
 REV_FOOT = ('1분기 순이익 $5.3B가 튀는 것은 워너브러더스(WBD) 인수 계약 해지 위약금 $2.8B가 영업외 수익("interest and other income")으로 들어와서다. '
             '영업이익률은 1분기 {op[qo] / rev[qo] * 100:.1f}%, 2분기 {op[cur] / rev[cur] * 100:.1f}%였고, 회사는 2026년 연간 31.5%를 전망한다. 2025년 11월 10:1 액면분할로 주당 값은 모두 분할 뒤 기준이다.')
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다(마진은 기본 시나리오 경로). '

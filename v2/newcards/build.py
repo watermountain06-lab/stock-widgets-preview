@@ -29,7 +29,6 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
 REPO = os.path.dirname(V2)
-REDESIGN = os.path.join(os.path.dirname(REPO), "stock-widgets-redesign")
 PY = sys.executable
 
 
@@ -57,7 +56,12 @@ def main():
     ap.add_argument("--price", action="store_true",
                     help="매일 가격 재빌드(2026-10-06) — 지금 카드에 새 종가를 붙여(price_arrays.py) 그 배열로 다시 만든다. "
                          "SEC·EPS·재무는 받지 않고(캐시·이전 파일), 내재가치 추적선은 지금 카드의 것을 그대로 둔다")
+    ap.add_argument("--weekly", action="store_true",
+                    help="토요일 전체 재빌드(2026-10-06) — 배열은 --price와 같이 지금 카드 + 새 종가, 자료(SEC·EPS·재무·추적선)는 모두 새로")
     a = ap.parse_args()
+    if a.weekly:
+        a.price = True
+    net = not a.price or a.weekly   # 자료를 새로 받는가(전체·토요일) — 매일 가격 재빌드만 False
     T = a.ticker.upper(); t = T.lower()
     spec = importlib.util.spec_from_file_location("cfg", os.path.join(HERE, "cfg", f"cfg_{t}.py"))
     if os.path.exists(spec.origin):
@@ -79,11 +83,11 @@ def main():
         a.asof = re.findall(r'\["(\d{4}-\d{2}-\d{2})",', re.search(rf"const {T}_DAILY\s*=\s*(\[.*?\]);", open(src, encoding="utf-8").read()).group(1))[-1]
         track_old = re.search(rf"const {T}_DCF_TRACK = \[.*?\];", open(src, encoding="utf-8").read(), re.S).group(0)
 
-    if B.get("overlay") and not a.price:
+    if B.get("overlay") and net:
         print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장")
-    if B.get("share_events") and not a.price:   # v2.1 D-1(2026-10-05)
+    if B.get("share_events") and net:   # v2.1 D-1(2026-10-05)
         print("· 분기 뒤 주식 발행 이벤트"); run([PY, "v2/adapters/share_events.py", T], show=r".")
-    for ctag, stag in ([] if a.price else B.get("company_tags", [])):   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
+    for ctag, stag in (B.get("company_tags", []) if net else []):   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
         print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
     print("· EPS")
     eps = [PY, "scripts/fetch_eps_history.py", T, "--cik", cik, "--out", f"scripts/{T}_eps_history.json"]
@@ -93,7 +97,7 @@ def main():
         eps = [PY, f"v2/adapters/{t}_feed.py", "eps"]
     elif B.get("eps_cmd"):
         eps = [PY] + list(B["eps_cmd"])
-    if not a.price:
+    if net:
         run(eps, show=r"TTM-EPS points|저장")
     print("· 복제·배열")
     src = None
@@ -117,14 +121,14 @@ def main():
     else:
         run([PY, os.path.join(HERE, "root_arrays.py"), T], show=r"^arrays")
     print("· 재무")
-    if a.price:
+    if not net:
         print("    (가격 재빌드 — 이전 재무 파일)")
     elif B.get("feed"):
         run([PY, f"v2/adapters/{t}_feed.py", "financials"], show=r"Wrote|저장")
     elif B.get("overlay"):
         run([PY, "v2/adapters/overlay_feed.py", T, cik], show=r"Wrote")
     else:
-        run([PY, os.path.join(REDESIGN, "scripts", "fetch_financials.py"), T, "--cik", cik, "--years", "5",
+        run([PY, os.path.join(V2, "vendor", "fetch_financials.py"), T, "--cik", cik, "--years", "5",
              "--out", f"v2/fundamental_data/{T}_financials.json"], show=r"Wrote")
     print("· 배수·비교군·기본적 분석·활동성")
     env_eps = dict(os.environ, EPS_HISTORY=f"scripts/{T}_eps_history.json")
@@ -136,7 +140,7 @@ def main():
     if r.returncode != 0:   # 실패하면 예전 배수 파일로 이어 가지 않는다(Codex 2026-10-06)
         sys.exit(f"build_multiple_history 실패({r.returncode}):\n{(r.stdout + r.stderr)[-1500:]}")
     run([PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"], show=r"대비 =|^  (PER|PBR|PSR|PCR|EV)")
-    if B.get("sum_tags") and not a.price:
+    if B.get("sum_tags") and net:
         run([PY, "v2/adapters/financials_sum_tags.py", T], show=r".")
     run([PY, "v2/build_fundamental_score.py", T, "--card"], show=r"기본적 분석 =|^    ")
     if B.get("overlay"):
@@ -170,7 +174,7 @@ def main():
         run([PY, "v2/build_dcf_grid.py", T])
         h = open(p, encoding="utf-8").read()
         old = re.search(rf"const {T}_DCF_TRACK = \[.*?\];", h, re.S).group(0)
-        if a.price:   # 추적선은 분기 공시 때만 바뀐다(67초 걸리는 단계) — 지금 카드의 것을 그대로
+        if not net:   # 추적선은 분기 공시 때만 바뀐다(67초 걸리는 단계) — 지금 카드의 것을 그대로
             new_track = track_old
         else:
             run([PY, "v2/build_dcf_track.py", T, "--json", f"v2/{T}_dcf_track.json"])

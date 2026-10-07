@@ -1096,7 +1096,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 93.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 0%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 6.7%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
         <span class="op-val"><span data-an="mean">$254.70</span> <span class="op-sub op-up" data-an="upside">+30.6%</span></span>
       </div>
       <div class="op-cell">
@@ -1302,53 +1302,53 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '메모리·반도체 PER 비교 (SNDK 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/5)',
-    unit: 'PER', max: 55, skhyValue: null,
+    unit: 'PER', max: 60, skhyValue: null,
     peers: [
-      { name:'MU', value:24.1, status:'reference' },
-      { name:'NVDA', value:30.2, status:'reference' },
-      { name:'TSM', value:35.0, status:'reference' },
-      { name:'AVGO', value:46.2, status:'reference' }
+      { name:'MU', value:23.7, status:'reference' },
+      { name:'NVDA', value:30.3, status:'reference' },
+      { name:'TSM', value:34.8, status:'reference' },
+      { name:'AVGO', value:47.9, status:'reference' }
     ]
   },
   pbr: {
     title: '메모리·반도체 PBR 비교 · 08/27~09/09 카드 기준(SKHY 막대는 10/5)',
     unit: 'PBR', max: 30, skhyValue: null,
     peers: [
-      { name:'MU', value:11.9, status:'reference' },
+      { name:'MU', value:11.7, status:'reference' },
       { name:'SNDK', value:15.9, status:'reference' },
       { name:'NVDA', value:25.3, status:'reference' },
-      { name:'TSM', value:12.3, status:'reference' },
-      { name:'AVGO', value:17.8, status:'reference' }
+      { name:'TSM', value:12.2, status:'reference' },
+      { name:'AVGO', value:18.4, status:'reference' }
     ]
   },
   psr: {
     title: '메모리·반도체 PSR 비교 · 08/27~09/09 카드 기준(SKHY 막대는 10/5)',
     unit: 'PSR(TTM)', max: 25, skhyValue: null,
     peers: [
-      { name:'MU', value:13.3, status:'reference' },
+      { name:'MU', value:13.1, status:'reference' },
       { name:'SNDK', value:12.3, status:'reference' },
-      { name:'NVDA', value:19.1, status:'reference' },
-      { name:'TSM', value:17.6, status:'reference' },
-      { name:'AVGO', value:19.8, status:'reference' }
+      { name:'NVDA', value:19.2, status:'reference' },
+      { name:'TSM', value:17.5, status:'reference' },
+      { name:'AVGO', value:20.6, status:'reference' }
     ]
   },
   pcr: {
     title: '메모리·반도체 PCR(FCF) 비교 (SNDK 값 없음·AVGO 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/5)',
     unit: 'PCR(FCF)', max: 80, skhyValue: null,
     peers: [
-      { name:'MU', value:45.9, status:'reference' },
-      { name:'NVDA', value:45.7, status:'reference' },
-      { name:'TSM', value:68.7, status:'reference' }
+      { name:'MU', value:45.1, status:'reference' },
+      { name:'NVDA', value:45.8, status:'reference' },
+      { name:'TSM', value:68.2, status:'reference' }
     ]
   },
   evebitda: {
     title: '메모리·반도체 EV/EBITDA 비교 (TSM 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/5)',
     unit: 'EV/EBITDA', max: 45, skhyValue: null,
     peers: [
-      { name:'MU', value:17.4, status:'reference' },
+      { name:'MU', value:17.0, status:'reference' },
       { name:'SNDK', value:19.5, status:'reference' },
       { name:'NVDA', value:28.5, status:'reference' },
-      { name:'AVGO', value:35.1, status:'reference' }
+      { name:'AVGO', value:36.3, status:'reference' }
     ]
   }
 };
@@ -2078,7 +2078,7 @@ const SKHY_ACTIVITY = {"ticker": "SKHY", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/skhy/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const SKHY_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 15, nTargets: 10, mean: 254.7, median: 250,
+const SKHY_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 15, nTargets: 10, mean: 254.7, median: 250,
   low: 200, high: 320, strongBuy: 9, buy: 5, hold: 0, sell: 1, strongSell: 0 };
 (function(){
   const A = SKHY_ANALYST, last = (typeof SKHY_DAILY !== 'undefined' && SKHY_DAILY.length) ? SKHY_DAILY[SKHY_DAILY.length - 1] : null;

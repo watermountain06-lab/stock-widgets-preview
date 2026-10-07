@@ -7,7 +7,7 @@ G5(2025년 4분기 순이익 — 회계 방식 변경 재작성으로 XBRL 7,200
 배열(마지막 봉 2026-09-30)을 넣어 만들었다. 이 기반 + 그때의 BAC_bank.json·peer_universe/banks.json(e1886df)으로 채우기 → unify_js.py →
 sync_fallbacks.py를 돌리면 e1886df 카드가 그대로 나온다. 은행 카드가 받지 않은 틀 변경은 6절에서 되돌린다(jpm_fill.py와 같은 방식)."""
 import json, os, re, sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview/v2')
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))   # v2(스크립트 위치 기준 — Actions에서도, 2026-10-06)
 sys.path.insert(0, '.'); sys.path.insert(0, 'adapters')
 import build_multiple_history as bmh
 import bank_rim as br

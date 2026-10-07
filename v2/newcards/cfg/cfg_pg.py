@@ -97,8 +97,8 @@ BULL = [('배수', '다섯 배수 모두 5년 하위 약 {max(v_[\'percentile\']
 BEAR = [('성장', 'FY2026 유기적 매출 +1%, 4분기 0%, FY2027 전망 +1~3%.'),
         ('원가', 'FY2027 원가·금리 등 세후 약 $1.35B(주당 $0.56) 역풍.'),
         ('마진', '4분기 핵심 영업이익률이 1.3%p 내렸고 재투자가 이어진다.')]
-ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 18, 'mean': 158.56, 'median': 162, 'low': 143, 'high': 177, 'sb': 7, 'b': 6, 'h': 12, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 18, 'mean': 158.5, 'median': 162, 'low': 143, 'high': 177, 'sb': 8, 'b': 6, 'h': 11, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-06'
 
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)
 POST = [r'''

@@ -36,7 +36,7 @@ import build_multiple_history as bmh  # noqa: E402
 import build_peer_score as ps  # noqa: E402
 import fetch_eps_history as feh  # noqa: E402
 
-SP500 = os.path.join(os.path.dirname(REPO), "stock-widgets-redesign", "scripts", "sp500.json")
+SP500 = os.path.join(V2, "vendor", "sp500.json")   # redesign/scripts에서 복사(v2/vendor/README.md)
 OUT_DIR = os.path.join(V2, "peer_universe")
 UA = "Mozilla/5.0"   # 긴 브라우저 UA는 Yahoo가 429로 막았다(2026-09-27)
 

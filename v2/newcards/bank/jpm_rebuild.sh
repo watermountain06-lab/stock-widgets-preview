@@ -12,5 +12,5 @@ python3 $B/unify_js.py JPM
 python3 v2/strip_caveats.py JPM   # 값 옆 사유 글은 툴팁으로(2026-10-06)
 python3 v2/sync_fallbacks.py JPM --base "${SYNC_BASE:-http://localhost:8765}" 2>&1 | tail -1
 python3 -c "
-import re;h=open('v2/JPM_full_widget.html').read();open('/tmp/JPM_inline.js','w').write('\n;\n'.join(re.findall(r'<script>(.*?)</script>',h,re.S)))"
-node --check /tmp/JPM_inline.js && echo JS_OK
+import re;h=open('v2/JPM_full_widget.html').read();open('v2/.sec_cache/_work/JPM_inline.js','w').write('\n;\n'.join(re.findall(r'<script>(.*?)</script>',h,re.S)))"
+node --check v2/.sec_cache/_work/JPM_inline.js && echo JS_OK

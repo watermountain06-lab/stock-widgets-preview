@@ -9,7 +9,7 @@ CUR, YO, QO = '2026-07-25', '2025-07-26', '2026-04-25'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 L8 = ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26']
 RELEASE = {'rev': 17252, 'op': 4264, 'ni': 3859}   # Q4 FY26 손익(백만 달러) — 옛 카드 YoY 막대 $17.25B·$4.26B·$3.86B와 같다
-VOTES, VERDICT = (-1, 1, -2), '적정~고평가'
+VOTES, VERDICT = (-1, 0, -2), '고평가'
 CO = 'Cisco'
 S_ = 'https://www.sec.gov/Archives/edgar/data/858877/'
 SEC = S_
@@ -94,7 +94,7 @@ BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.1f}배 등 네 배수가 5년
         ('서비스', '서비스 매출은 1년 전과 같아 성장이 제품에 기댄다.'),
         ('비용', '최대 $1B 구조조정 — FY2027에 남은 비용이 반영된다.')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 16, 'mean': 138.44, 'median': 139, 'low': 110, 'high': 165, 'sb': 14, 'b': 5, 'h': 9, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'
 
 REV_FOOTNOTE = ('회계연도는 7월 마지막 토요일 무렵에 끝난다(Q4 FY26 = 2026년 4월 말~7월). '
                 'Q4 FY26 영업이익에는 5월 발표한 구조조정 등 비용 $511M(세전, FY2026 합계 $693M)이 들어 있다.')

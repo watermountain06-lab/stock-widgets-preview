@@ -1,5 +1,5 @@
 set -e -o pipefail   # 파이프 안의 실패도 멈춘다(2026-10-06)
-cd /Users/watermountain/Workspace/stock-widgets-preview
+cd "$(dirname "$0")/../../.."   # 저장소 루트(스크립트 위치 기준, 2026-10-06)
 B=v2/newcards/bank
 # SKIP_BANK_CARD=1이면 bank_card.py를 건너뛰고 지금 있는 WFC_bank.json·peer_universe/banks.json으로 채운다(기반 재현 확인용, 2026-10-05)
 [ -n "$SKIP_BANK_CARD" ] || python3 v2/adapters/bank_card.py WFC --json v2/WFC_bank.json ${PRICE_ONLY:+--reuse-peers} | grep gates

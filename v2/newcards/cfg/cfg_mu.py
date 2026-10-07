@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-05-28', '2025-05-29', '2026-02-26'
 QLABEL, YL, QQL = 'Q3 FY26', 'Q3 FY25', 'Q2 FY26'
 L8 = ['Q4 FY24', 'Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26']
 RELEASE = {'rev': 41456, 'op': 33318, 'ni': 28243}   # Q3 FY26 보도자료(백만 달러)
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, 1, -2), '적정~고평가'
 CO = 'Micron'
 S_ = 'https://www.sec.gov/Archives/edgar/data/723125/'
 SEC = S_
@@ -92,8 +92,8 @@ BULL = [('AI 수요', 'HBM4를 주요 고객 플랫폼용으로 대량 출하하
 BEAR = [('사이클', '이익이 공급 부족에 따른 가격 상승에서 나와, 공급이 늘면 가격이 꺾일 수 있다.'),
         ('설비투자', '올해 순 설비투자가 약 $27B라, 가격이 꺾이면 늘어난 설비의 고정비 부담이 커진다.'),
         ('집중', 'FY25 매출의 절반 이상이 상위 10개 고객이고, 중국은 핵심 기반시설 구매가 막혀 있다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 49, 'nt': 30, 'mean': 1596.83, 'median': 1540, 'low': 1200, 'high': 2200, 'sb': 36, 'b': 9, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST = {'rating': 'Strong Buy', 'n': 49, 'nt': 30, 'mean': 1599.5, 'median': 1540, 'low': 1200, 'high': 2200, 'sb': 36, 'b': 9, 'h': 3, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-10-06'
 PRE = [r'''
 FR = {r_['metric']: r_['value'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}   # 기본적 분석 지표 값
 ''']

@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-27', '2025-06-28', '2026-03-28'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 11994}   # Q2 2026 보도자료 매출(백만 달러, 부문 합 12,560 − 부문 간 거래 566)
-VOTES, VERDICT = (-1, -1, -2), '고평가'
+VOTES, VERDICT = (-1, 0, -2), '고평가'
 CO = 'Thermo Fisher'
 S_ = 'https://www.sec.gov/Archives/edgar/data/97745/'
 SEC = S_
@@ -98,7 +98,7 @@ BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배 — 5년 중앙값 {SM
         ('부채', '차입금 $42.5B로 연초보다 $3B 넘게 늘었다.'),
         ('세율', '최근 4분기 실효세율 7.8% — 회사는 2026년 GAAP 세율 9~11%를 예상한다(10-Q).')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 23, 'mean': 640.52, 'median': 639, 'low': 535, 'high': 780, 'sb': 19, 'b': 4, 'h': 4, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'
 
 REQ_MULT_EXACT = False   # 옛 카드는 틀 문구("3배를 넘는다") 그대로
 POST = []

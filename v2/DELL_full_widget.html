@@ -1091,8 +1091,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 69%; background: var(--green);"></div><div data-an-bar="hold" style="width: 31%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
-        <span class="op-val"><span data-an="mean">$575.64</span> <span class="op-sub op-up" data-an="upside">+4.2%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
+        <span class="op-val"><span data-an="mean">$577.91</span> <span class="op-sub op-up" data-an="upside">+4.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1299,28 +1299,28 @@ const MULTIPLE_DATA = {
     title: 'IT 하드웨어·네트워크 PER 비교 · 09/01~09/11 카드 기준(DELL 막대는 10/5)',
     unit: 'PER', max: 80, dellValue: null,
     peers: [
-      { name:'AAPL', value:38.2, status:'reference' },
-      { name:'CSCO', value:37.1, status:'reference' },
+      { name:'AAPL', value:38.3, status:'reference' },
+      { name:'CSCO', value:38.8, status:'reference' },
       { name:'ANET', value:65.3, status:'reference' },
-      { name:'IBM', value:23.1, status:'reference' }
+      { name:'IBM', value:23.0, status:'reference' }
     ]
   },
   pbr: {
     title: 'IT 하드웨어·네트워크 PBR 비교 (DELL 자본 음수) · 09/01~09/11 카드 기준(DELL 막대는 10/5)',
     unit: 'PBR', max: 55, dellValue: null,
     peers: [
-      { name:'AAPL', value:45.3, status:'reference' },
-      { name:'CSCO', value:8.8, status:'reference' },
+      { name:'AAPL', value:45.4, status:'reference' },
+      { name:'CSCO', value:9.2, status:'reference' },
       { name:'ANET', value:17.6, status:'reference' },
-      { name:'IBM', value:6.1, status:'reference' }
+      { name:'IBM', value:6.0, status:'reference' }
     ]
   },
   psr: {
     title: 'IT 하드웨어·네트워크 PSR 비교 · 09/01~09/11 카드 기준(DELL 막대는 10/5)',
     unit: 'PSR(TTM)', max: 30, dellValue: null,
     peers: [
-      { name:'AAPL', value:10.4, status:'reference' },
-      { name:'CSCO', value:7.0, status:'reference' },
+      { name:'AAPL', value:10.5, status:'reference' },
+      { name:'CSCO', value:7.3, status:'reference' },
       { name:'ANET', value:24.8, status:'reference' },
       { name:'IBM', value:3.0, status:'reference' }
     ]
@@ -1329,8 +1329,8 @@ const MULTIPLE_DATA = {
     title: 'IT 하드웨어·네트워크 PCR(FCF) 비교 · 09/01~09/11 카드 기준(DELL 막대는 10/5)',
     unit: 'PCR(FCF)', max: 60, dellValue: null,
     peers: [
-      { name:'AAPL', value:35.5, status:'reference' },
-      { name:'CSCO', value:34.8, status:'reference' },
+      { name:'AAPL', value:35.6, status:'reference' },
+      { name:'CSCO', value:36.4, status:'reference' },
       { name:'ANET', value:49.2, status:'reference' },
       { name:'IBM', value:14.0, status:'reference' }
     ]
@@ -1340,7 +1340,7 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 65, dellValue: null,
     peers: [
       { name:'AAPL', value:29.2, status:'reference' },
-      { name:'CSCO', value:25.6, status:'reference' },
+      { name:'CSCO', value:26.7, status:'reference' },
       { name:'ANET', value:53.4, status:'reference' },
       { name:'IBM', value:15.0, status:'reference' }
     ]
@@ -2082,7 +2082,7 @@ const DELL_ACTIVITY = {"ticker": "DELL", "status": "ok", "asOf": "2026-07-31", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/dell/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const DELL_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 22, mean: 575.64, median: 600,
+const DELL_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 22, mean: 577.91, median: 600,
   low: 290, high: 735, strongBuy: 14, buy: 6, hold: 9, sell: 0, strongSell: 0 };
 (function(){
   const A = DELL_ANALYST, last = (typeof DELL_DAILY !== 'undefined' && DELL_DAILY.length) ? DELL_DAILY[DELL_DAILY.length - 1] : null;

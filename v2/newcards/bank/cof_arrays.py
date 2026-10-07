@@ -3,7 +3,7 @@ COF는 루트 카드가 없어 원본 경로를 인자로 준다. 2026-10-05 기
     cp v2/COF_full_widget.html /tmp/COF_card.html  (복제 전에)  →  python3 v2/newcards/bank/cof_arrays.py /tmp/COF_card.html
 일봉을 새로 받을 때는 이 스크립트 대신 new_ticker_arrays.py COF --yahoo v2/newcards/yahoo/cof.json --asof <날짜>(build.py --data와 같은 단계)."""
 import json,re,os,sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview')
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))   # 저장소 루트(스크립트 위치 기준 — Actions에서도, 2026-10-06)
 T='COF'
 src=sys.argv[1]   # 루트 카드 없음 — 카드 사본 경로 필수
 root=open(src,encoding='utf-8').read(); p=f'v2/{T}_full_widget.html'; h=open(p,encoding='utf-8').read()

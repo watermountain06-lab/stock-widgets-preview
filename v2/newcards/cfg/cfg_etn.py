@@ -99,4 +99,4 @@ BEAR = [('GAAP 이익', '인수 비용으로 2분기 EPS −16%, 연간 GAAP 가
         ('부채', '차입금 $20.6B(연초 $9.9B), 이자비용 분기 $201M.'),
         ('밸류에이션', 'PER {SM[\'PER\'][\'current\']:.1f}배로 5년 중 가장 비싼 쪽.')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 12, 'mean': 490.42, 'median': 502, 'low': 392, 'high': 534, 'sb': 19, 'b': 5, 'h': 3, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'

@@ -100,7 +100,7 @@ BEAR = [('가입자', '후불 계정 순증 −13%, 계정 이탈률 0.99%(1년 
         ('부채', '차입금 $84.6B에 리스 $31.4B, 현금 $2.8B.'),
         ('이익', '최근 4분기 영업이익률 {pct(HIST[\'margin_now\'])}로 최근 2년 중앙값 {pct(HIST[\'margin_2y\'])}보다 낮음(합병 비용).')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 19, 'mean': 238.37, 'median': 235, 'low': 169, 'high': 280, 'sb': 14, 'b': 9, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'
 PRE = [r'''
 FPT = {r_['metric']: r_['points'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}   # 기본적 분석 지표 점수(E26)
 ''']

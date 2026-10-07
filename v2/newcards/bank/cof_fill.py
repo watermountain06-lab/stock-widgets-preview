@@ -7,7 +7,7 @@ SEC 자본 총계 − 우선주)으로 판정한다. P/TBV 1.84가 생겨 두 �
 엔진 보강(2026-10-02): 우선주 장부가 0(청산가 태그 없음)이라 보도자료 보통주 자본·유형자본(research/bank_equity_override.json, WFC·BAC 선례, Claude 추천),
 특별 항목은 보도자료 항목별 세후 EPS(bank_items.json — 반복되는 인수 상각·통합 비용 제외)."""
 import json, os, re, sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview/v2')
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))   # v2(스크립트 위치 기준 — Actions에서도, 2026-10-06)
 sys.path.insert(0, '.'); sys.path.insert(0, 'adapters')
 import build_multiple_history as bmh
 import bank_rim as br

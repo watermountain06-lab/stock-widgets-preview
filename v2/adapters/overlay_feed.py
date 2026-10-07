@@ -71,7 +71,7 @@ def _facts_with_alias(cik):
 
 
 def main(ticker, cik):
-    sys.path.insert(0, os.path.join(os.path.dirname(REPO), "stock-widgets-redesign", "scripts"))
+    sys.path.insert(0, os.path.join(REPO, "v2", "vendor"))   # redesign/scripts에서 복사(v2/vendor/README.md)
     import fetch_financials as ff
     ff.fetch_json = lambda url, ua: _facts_with_alias(cik)
     sys.argv = ["fetch_financials.py", ticker, "--cik", cik, "--years", "5",

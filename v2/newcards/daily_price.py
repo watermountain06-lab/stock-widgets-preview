@@ -15,7 +15,11 @@
 
     python3 v2/newcards/daily_price.py                 # 전부
     python3 v2/newcards/daily_price.py KO GILD JPM     # 일부
+    python3 v2/newcards/daily_price.py --weekly        # 토요일: 비교군 파일·애널리스트를 새로 받고 → 103장 → 비교군 어긋남 점검 → 새 분기 보고서 점검
 결과: v2/daily_status.json(카드별 상태·마지막 봉·판정 전후) — 종료 코드 0 = 실패 없음, 1 = 실패 있음.
+
+토요일 모드도 SEC 재무는 새로 받지 않는다. 카드 재무보다 새 10-Q·10-K가 나온 카드는 `newFilings`에 "확인 대기"로만 적는다
+(문장이 지난 분기 내용이고, 분기 갱신은 research/pipeline_checks.md의 점검을 거친다 — 2026-10-06).
 """
 import json
 import os
@@ -101,38 +105,89 @@ def one(T, work):
     return 0, log
 
 
+def weekly_pre(status):
+    """비교군 파일(S&P500 섹터)과 애널리스트를 기준 세션으로 새로 받는다. 실패하면 멈춘다(카드는 그대로)."""
+    session = json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["priceSession"]
+    pdir = os.path.join(V2, "peer_universe")
+    old = {f: json.load(open(os.path.join(pdir, f))) for f in os.listdir(pdir) if f.endswith(".json") and f != "banks.json"}
+    rc, out = run([PY, "v2/adapters/refresh_peer_files.py", "--asof", session], timeout=7200)
+    status["peerFiles"] = out.strip().splitlines()[-14:]
+    if rc:
+        print(out[-2000:]); sys.exit("비교군 파일 갱신 실패 — 카드는 건드리지 않았다")
+    # Yahoo가 그 세션 봉을 늦게 주는 종목은 "기준일 종가 없음"으로 빠진다(2026-10-06 시험: 저녁 9시에 돌려 섹터마다 7~11종목).
+    # 비교군이 줄면 판정이 흔들리므로, 새로 빠진 종목이 3개 이상인 섹터는 이전 파일을 그대로 쓴다.
+    kept = []
+    for f, o in old.items():
+        n = json.load(open(os.path.join(pdir, f)))
+        miss = [k for k, v in n.get("skipped", {}).items() if "기준일 종가 없음" in str(v) and k not in o.get("skipped", {})]
+        if len(miss) >= 3:
+            json.dump(o, open(os.path.join(pdir, f), "w"), ensure_ascii=False, indent=1)
+            kept.append(f"{f}: 새로 빠진 {len(miss)}종목 — 이전 파일({o.get('asOf')}) 유지")
+    status["peerFilesKept"] = kept
+    if kept:
+        print("\n".join(kept), flush=True)
+    rc, out = run([PY, "v2/newcards/fetch_analyst.py"] + gen_tickers(), timeout=3600)
+    status["analystFailed"] = [l for l in out.splitlines() if "실패" in l]
+
+
+def weekly_post(status, work):
+    """비교군 파일에 카드 값을 넣고(sync_peer_rows), 동종업 칸이 어긋난 카드를 다시 만들고, 새 분기 보고서를 점검한다."""
+    run([PY, "v2/adapters/sync_peer_rows.py"])
+    rc, out = run([PY, "v2/check_peer_drift.py"])
+    drifted = sorted({l.split(":")[0] for l in out.splitlines() if ": 동종업 " in l})
+    status["peerDrift"] = drifted
+    for T in drifted:
+        print(f"{T}: 동종업 어긋남 — 다시 만든다", flush=True)
+        status["cards"][T] = attempt(T, work)
+    rc, out = run([PY, "v2/newcards/new_filings.py"])
+    status["newFilings"] = json.loads(out.strip().splitlines()[-1]) if rc == 0 and out.strip() else {"error": out[-500:]}
+
+
+def attempt(T, work):
+    bk = {}
+    for p in touched(T):
+        if os.path.exists(os.path.join(REPO, p)):
+            bk[p] = os.path.join(work, p.replace("/", "__"))
+            shutil.copy2(os.path.join(REPO, p), bk[p])
+        else:
+            bk[p] = None
+    t0 = time.time()
+    for _ in (1, 2):   # 렌더용 Chrome이 가끔 시간 초과로 멈춘다(2026-10-06 TMUS) — 한 번 더
+        try:
+            rc, out = one(T, work)
+        except subprocess.TimeoutExpired:
+            rc, out = 124, "시간 초과"
+        if rc == 0:
+            break
+        restore(bk)   # 전날 상태로
+    if rc:
+        tail = [l for l in out.strip().splitlines() if l.strip()][-6:]
+        print(f"{T}: 실패 — {tail[-1][:200] if tail else ''}", flush=True)
+        return {"status": "failed", "seconds": round(time.time() - t0), "why": tail}
+    print(f"{T}: ok ({round(time.time() - t0)}초)", flush=True)
+    return {"status": "ok", "seconds": round(time.time() - t0)}
+
+
 def main():
-    want = [a.upper() for a in sys.argv[1:]]
+    weekly = "--weekly" in sys.argv
+    session = json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["priceSession"]
+    if "--skip-if-current" in sys.argv and not weekly and os.path.exists(STATUS):
+        # 가격 작업은 하루 세 번까지 돈다(늦은 봉 대비) — 같은 세션을 이미 실패 없이 끝냈으면 건너뛴다
+        old = json.load(open(STATUS))
+        if old.get("session") == session and not old.get("failed") and old.get("finished"):
+            print(f"{session} 세션은 이미 끝났다({old['finished']}) — 건너뜀"); return
+    want = [a.upper() for a in sys.argv[1:] if not a.startswith("--")]
     tickers = want or (gen_tickers() + BANKS + HAND)
     work = os.path.join(V2, ".sec_cache", "_work", "daily")
     os.makedirs(work, exist_ok=True)
     before = verdicts()
-    status = {"started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "cards": {}}
+    status = {"mode": "weekly" if weekly else "daily", "session": session, "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "cards": {}}
+    if weekly:
+        weekly_pre(status)
     for T in tickers:
-        bk = {}
-        for p in touched(T):
-            if os.path.exists(os.path.join(REPO, p)):
-                bk[p] = os.path.join(work, p.replace("/", "__"))
-                shutil.copy2(os.path.join(REPO, p), bk[p])
-            else:
-                bk[p] = None
-        t0 = time.time()
-        for attempt in (1, 2):   # 렌더용 Chrome이 가끔 시간 초과로 멈춘다(2026-10-06 TMUS) — 한 번 더
-            try:
-                rc, out = one(T, work)
-            except subprocess.TimeoutExpired:
-                rc, out = 124, "시간 초과"
-            if rc == 0:
-                break
-            restore(bk)
-        if rc:
-            restore(bk)   # 전날 상태로
-            tail = [l for l in out.strip().splitlines() if l.strip()][-6:]
-            status["cards"][T] = {"status": "failed", "seconds": round(time.time() - t0), "why": tail}
-            print(f"{T}: 실패 — {tail[-1][:200] if tail else ''}", flush=True)
-        else:
-            status["cards"][T] = {"status": "ok", "seconds": round(time.time() - t0)}
-            print(f"{T}: ok ({round(time.time() - t0)}초)", flush=True)
+        status["cards"][T] = attempt(T, work)
+    if weekly:
+        weekly_post(status, work)
     after = verdicts()
     changes = []
     for T in tickers:

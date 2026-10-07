@@ -105,8 +105,8 @@ BULL = [('광고', '2분기 광고 노출 +14%, 광고 단가 +12%로 광고 매
 BEAR = [('설비투자', '2026년 설비투자 전망이 $130~145B이고, 2분기 회사 발표 잉여현금흐름은 $0.78B였다.'),
         ('법적 위험', '2분기 법적 비용이 $2.40B였고, 회사는 청소년 관련 재판에서 중대한 손실이 날 수 있다고 밝혔다.'),
         ('밸류', '현재가가 기본 내재가치의 약 {px / DCF[\'base\']:.1f}배이고, PCR은 자기 5년 중 가장 비싼 자리다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 62, 'nt': 41, 'mean': 801.34, 'median': 800, 'low': 580, 'high': 1000, 'sb': 46, 'b': 8, 'h': 7, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-05'
+ANALYST = {'rating': 'Strong Buy', 'n': 63, 'nt': 41, 'mean': 806.32, 'median': 800, 'low': 580, 'high': 1000, 'sb': 47, 'b': 8, 'h': 7, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-06'
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
            '기본 시나리오(<span data-dcf-basev>${DCF[\'base\']:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF[\'baseEquivGrowth\'])}</span>다.')
 

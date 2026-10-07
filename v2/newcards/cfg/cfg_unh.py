@@ -106,7 +106,7 @@ BEAR = [('성장', '2026년 매출 전망이 2025년보다 낮고, 메디케어 
         ('규제·소송', '법무부 위험조정 소송, IRS 이전가격 조정 통지, 신용등급 전망 "부정적".'),
         ('밸류', '기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, 현재가는 연 {pct(DCF[\'requiredGrowth\'])} 성장을 요구한다.')]
 ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 21, 'mean': 471.1, 'median': 480, 'low': 370, 'high': 529, 'sb': 15, 'b': 7, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-05'
+ANALYST_ASOF = '2026-10-06'
 
 # 현재가 역산 문장(성장 모드) — 생성기는 틀 문장을 지우고 '—'만 남긴다(JS는 마진 모드만 문장을 쓴다). 옛 카드 문장을 되살린다(JS가 data-dcf-* 칸을 채운다).
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다(마진은 기본 시나리오 경로). '

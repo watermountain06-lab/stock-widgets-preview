@@ -34,7 +34,7 @@ import tempfile
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+CHROME = os.environ.get("CHROME") or next((c for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium") if os.path.exists(c)), "google-chrome")   # 맥·리눅스(Actions) 둘 다
 
 # (표지 이름, 원본에서 찾을 정규식 조각, DOM 선택자). {lo}는 소문자 종목 코드.
 SELECTORS = [

@@ -6,7 +6,7 @@ G3(2021년 1분기 순이익이 소급 수정으로 10-K와 $107M 차이)는 처
 기반(base/wfc_base.html)은 2026-10-05 지금 NVDA 틀을 `clone_card.py WFC --force`로 복제하고 `wfc_arrays.py <그때 카드 사본>`으로 그 카드의 배열(마지막 봉 2026-09-29)을
 넣어 다시 만들었다(jpm_fill.py와 같은 방식). 은행 카드가 받지 않은 틀 변경(A3 PER 해당 없음·쏠림 안내·음수 시나리오 표기 등)은 6절에서 되돌린다."""
 import json, os, re, sys
-os.chdir('/Users/watermountain/Workspace/stock-widgets-preview/v2')
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))   # v2(스크립트 위치 기준 — Actions에서도, 2026-10-06)
 sys.path.insert(0, '.'); sys.path.insert(0, 'adapters')
 import build_multiple_history as bmh
 import bank_rim as br
