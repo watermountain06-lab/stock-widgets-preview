@@ -93,9 +93,20 @@ def band_catch_up(T):
     if not os.path.exists(eps):
         return 0, ""
     filings = rb.first_filings(json.load(open(eps)))
-    if not filings or (bt and filings[-1] <= bt[-1]["checkpoint_date"]):
+    # 차트 5년 창(2026-10-08): DAILY가 앞에서 잘려 ① 첫 체크포인트가 차트 밖으로 완전히 나갔거나 ② 환율 카드(저장된 days_*를 씀)의 걸친 구간이
+    # 바뀌었으면 새 공시가 없어도 다시 돌린다. 비환율 카드의 걸친 구간은 JS가 DAILY 안 봉만 세므로 매일 돌릴 필요가 없다(Fable M2).
+    import fx
+    d0 = rb.js_array(open(card, encoding="utf-8").read(), f"{T}_DAILY")[2][0][0]
+    first = bt[0] if bt else None
+    out_of_window = bool(first) and not first.get("is_open") and (first.get("period_end_date") or "9999") < d0
+    fx_stale = bool(first) and T in fx.CURRENCY and first["checkpoint_date"] < d0 and first.get("clipped_from") != d0
+    new_filing = bool(filings) and (not bt or filings[-1] > bt[-1]["checkpoint_date"])
+    if not new_filing and not (out_of_window or fx_stale):
         return 0, ""
     rc, out = run([PY, "v2/refresh_backtest.py", T])
+    if rc == 3 or (rc and not new_filing):
+        # 보관 파일 문제이거나 창만 미는 재계산의 실패는 가격 갱신을 막지 않는다 — 백테스트를 그대로 두고 경고만(Fable M1)
+        return 0, f"밴드 백테스트 그대로 둠(경고): {out.strip()[-300:]}"
     if rc:
         return rc, out
     if rb.js_array(open(card, encoding="utf-8").read(), f"{T}_BACKTEST")[2] == bt:

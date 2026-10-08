@@ -19,6 +19,13 @@ PANW도 루트(분할 뒤만 남긴) 배열을 둔다(D20 — 일회성 세금 �
     python3 v2/refresh_backtest.py ORCL            # 다시 계산 + 표시, 카드에 쓴다
     python3 v2/refresh_backtest.py ORCL --flag-only  # 다시 계산하지 않고 지금 배열에 표시만
     python3 v2/refresh_backtest.py ORCL --dry-run
+
+차트 5년 전체(2026-10-08 사용자 결정): v2/backtest_pre/{T}.json(build_backtest_pre.py)의 종가 중 **DAILY 첫날 이전 봉만** 앞에 붙여
+직전 2년 PER 표본으로 쓴다. 체크포인트는 구간 끝이 DAILY 첫날 뒤인 것만 남긴다 — 차트 첫날에 걸친 직전 체크포인트는 남기고 적중·실현 범위는
+차트 안 봉으로만 센다(카드 JS도 DAILY 안 봉만 센다). 걸친 구간의 zone·realized_per_*는 compute가 낸 전체 구간 값 그대로다(JS는 쓰지 않음).
+DAILY가 앞에서 잘려 체크포인트가 차트 밖으로 완전히 나가거나 환율 카드의 걸친 구간이 바뀌면 daily_price.band_catch_up이 다시 돌린다.
+보관 파일 문제(없음·겹침 불일치·만료)는 종료 코드 3으로 끝난다 — 일일 갱신은 이때 백테스트를 그대로 두고 경고만 남긴다.
+EPS는 분기마다 처음 공시된 행만 쓴다(drop_stale_quarters — 같은 분기의 뒤늦은 재공시·정정도 뺀다).
 """
 import argparse
 import json
@@ -81,6 +88,62 @@ def js_array(h, name):
                     raise ValueError(f"{name}: node 평가 실패 — {node.stderr[-200:]}")
                 return st, i + 1, json.loads(node.stdout)
     return None, None, None
+
+
+PRE_DIR = os.path.join(HERE, "backtest_pre")
+PRE_TOL = 0.005      # 보관 파일과 DAILY가 겹치는 날 종가 차이 허용(분할 미반영은 2배 이상 차이로 걸린다)
+
+
+def _pre_fail(msg):
+    print(msg, file=sys.stderr)
+    sys.exit(3)
+
+
+def pre_bars(t, daily):
+    """DAILY 첫날 이전 보관 종가를 [date,c,c,c,c,0]로. 보관 대상이 아닌 카드(build_backtest_pre.SKIP)는 [](DAILY만).
+    파일이 없거나 검사가 틀리면 종료 코드 3 — 조용히 짧은 백테스트로 돌아가지 않게(Codex 2026-10-08)."""
+    import build_backtest_pre as bbp
+    p = os.path.join(PRE_DIR, f"{t}.json")
+    if t in bbp.SKIP:
+        return []
+    if not os.path.exists(p):
+        _pre_fail(f"{t}: 보관 파일 {p}이 없다 — python3 v2/build_backtest_pre.py {t}")
+    doc = json.load(open(p))
+    closes = doc["closes"]
+    ds = [c[0] for c in closes]
+    if doc.get("ticker") != t or ds != sorted(set(ds)) or not all(isinstance(c[1], (int, float)) and c[1] > 0 for c in closes):
+        _pre_fail(f"{t}: 보관 파일 형식 오류(종목·정렬·중복·종가)")
+    d0 = daily[0][0]
+    if doc["last"] < d0:
+        _pre_fail(f"{t}: 보관 파일({doc['last']}까지)이 DAILY 첫날 {d0}에 못 미친다 — python3 v2/build_backtest_pre.py --yahoo {t}")
+    pm = dict(map(tuple, closes))
+    dm = {b[0]: b[4] for b in daily}
+    lo, hi = d0, doc["last"]
+    a_dates = sorted(d for d in pm if lo <= d <= hi)
+    b_dates = sorted(d for d in dm if lo <= d <= hi)
+    if len(b_dates) < 20 or a_dates != b_dates:
+        _pre_fail(f"{t}: 보관 파일과 DAILY의 겹치는 거래일이 다르다({len(a_dates)} 대 {len(b_dates)}, 20일 미만이면 만료) — "
+                  f"python3 v2/build_backtest_pre.py --yahoo {t}")
+    bad = [(d, pm[d], dm[d]) for d in b_dates if abs(pm[d] - dm[d]) > PRE_TOL * dm[d]]
+    if bad:
+        _pre_fail(f"{t}: 보관 파일과 DAILY 종가가 {PRE_TOL:.1%} 넘게 다르다(분할 미반영?) {bad[:3]} — python3 v2/build_backtest_pre.py --yahoo {t}")
+    return [[d, c, c, c, c, 0] for d, c in closes if d < d0]
+
+
+def drop_stale_quarters(rows):
+    """공시일 순으로 보며, 그 날짜 전에(또는 같은 날 다른 행으로) 이미 더 최근 분기가 공시된 행을 뺀다. (남은 행, 뺀 (분기, 공시일))."""
+    keyed = [r for r in rows if r.get("quarter_end") and r.get("available_date")]
+    best = {}
+    for r in keyed:
+        best[r["available_date"]] = max(best.get(r["available_date"], ""), r["quarter_end"])
+    seen, latest = "", {}
+    for d in sorted(best):
+        latest[d] = seen          # 그 날짜 전까지 공시된 가장 최근 분기
+        seen = max(seen, best[d])
+    stale = [(r["quarter_end"], r["available_date"]) for r in keyed
+             if r["quarter_end"] <= latest[r["available_date"]] or r["quarter_end"] < best[r["available_date"]]]
+    drop = set(stale)
+    return [r for r in rows if (r.get("quarter_end"), r.get("available_date")) not in drop], sorted(stale)
 
 
 def first_filings(eps_rows):
@@ -160,6 +223,11 @@ def main():
         import build_multiple_history as bmh2
         adj = [{**e, "ttm_eps": round(e["ttm_eps"] + bmh2.oneoff_in_ttm(t, e.get("quarter_end"), "eps"), 6)}
                if e.get("ttm_eps") is not None else e for e in eps_rows]
+        # 늦게 실린 옛 분기 행(그 공시일에 이미 더 최근 분기가 나와 있던 행 — ADI 2022-11-22의 2020·2021 분기, 10-K 비교 열)은 빼고 넘긴다.
+        # compute는 공시일 순으로만 정렬해 같은 날 행마다 체크포인트를 만들고(구간 0일 → 끝까지 '진행 중'), TTM도 파일 순서에 기댄다(2026-10-08).
+        adj, stale = drop_stale_quarters(adj)
+        if stale:
+            print(t, "늦게 실린 옛 분기 행 제외:", stale)
         if adj != eps_rows:
             eps_path = os.path.join(work, "eps_adj.json")
             json.dump(adj, open(eps_path, "w"))
@@ -168,7 +236,8 @@ def main():
         # 현지 통화 EPS로 나누고, 밴드 가격은 체크포인트 날 환율로 달러로 되돌린다(C10, 2026-10-04 — v2/fx.py 규칙)
         import fx
         cur = fx.CURRENCY.get(t)
-        bars = [b for b in daily if not bt_start or b[0] >= bt_start]
+        pre = pre_bars(t, daily)
+        bars = [b for b in pre + daily if not bt_start or b[0] >= bt_start]
         if cur:
             bars = [[b[0]] + [round(x * fx.rate(t, b[0]), 4) for x in b[1:5]] + b[5:] for b in bars]
         json.dump({"daily": bars}, open(tmp, "w"))
@@ -194,7 +263,7 @@ def main():
                 r = fx.rate(t, cp["checkpoint_date"])
                 end = cp.get("period_end_date") or daily[-1][0]
                 lo_l, hi_l = cp["predicted_low"], cp["predicted_high"]
-                loc = [b for b in bars if cp["checkpoint_date"] < b[0] <= end]
+                loc = [b for b in bars if cp["checkpoint_date"] < b[0] <= end and b[0] >= daily[0][0]]   # 차트 안 봉만
                 usd = [b for b in daily if cp["checkpoint_date"] < b[0] <= end]
                 cp["days_total"] = len(loc)
                 cp["days_in"] = sum(1 for b in loc if lo_l <= b[4] <= hi_l)
@@ -205,6 +274,16 @@ def main():
                     cp["realized_price_low"] = min(b[4] for b in usd)
                     cp["realized_price_high"] = max(b[4] for b in usd)
                 cp["fx_rate"] = r   # 표시 밴드를 달러로 되돌린 환율(현지 통화/달러, 체크포인트 날)
+        # 차트 창: 구간 끝이 DAILY 첫날 이전인 체크포인트는 버리고, 첫날에 걸친 체크포인트의 실현 범위는 차트 안 봉으로 다시 잰다
+        d0 = daily[0][0]
+        bt = [cp for cp in bt if cp.get("is_open") or (cp.get("period_end_date") or daily[-1][0]) >= d0]
+        for cp in bt:
+            if cp["checkpoint_date"] < d0:
+                end = daily[-1][0] if cp.get("is_open") else (cp.get("period_end_date") or daily[-1][0])
+                inwin = [b[4] for b in daily if d0 <= b[0] <= end]
+                if inwin and not cur:
+                    cp["realized_price_low"], cp["realized_price_high"] = min(inwin), max(inwin)
+                cp["clipped_from"] = d0
     bt = flag(bt, eps_dates, daily[-1][0], 45 if t in RELEASE_DATE_CHECKPOINTS else 0, () if t in KEEP_ROOT else ramps)
     if t in KEEP_ROOT:
         # 루트 배열의 열린 구간이 다음 실적을 넘긴 건 흑자 공백이 아니라 배열이 멈춘 탓 — C1 제외 대상이 아니다(Fable 2026-10-03, PANW).
