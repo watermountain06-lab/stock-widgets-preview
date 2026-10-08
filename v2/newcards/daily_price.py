@@ -156,6 +156,29 @@ def build(T, work):
 PEER_SEC_FROM = "2026-10-16"   # 이 세션(금요일 종가) 뒤 토요일 실행부터 비교 종목 SEC 재무를 새로 받는다
 
 
+WEEKLY_STATUS = os.path.join(V2, "weekly_status.json")
+WEEKLY_KEYS = ("session", "started", "finished", "newFilings", "filingChecksMissed", "peerDrift", "peerFiles", "peerFilesKept",
+               "peerSecRefresh", "analystFailed", "verdictChanges", "failed", "problems")
+OUTSIDE_CAL = os.path.join(HERE, "outside_calendar.json")
+
+
+def outside_due():
+    """SEC 10-Q 점검 밖 카드(ASML·TSM 6-K, SKHY 한국 공시)의 실적 발표가 지났는데 카드 재무가 그 분기보다 앞인 것 — 달력 파일로 본다."""
+    if not os.path.exists(OUTSIDE_CAL):
+        return []
+    import new_filings as nf
+    today = time.strftime("%Y-%m-%d")
+    due = []
+    for T, rows in json.load(open(OUTSIDE_CAL)).items():
+        if T.startswith("_"):
+            continue
+        asof = nf.card_asof(T)[0]
+        for r in rows:
+            if r["date"] <= today and asof and asof < r["quarterEnd"]:
+                due.append({"ticker": T, "quarterEnd": r["quarterEnd"], "announced": r["date"], "cardAsOf": asof, "source": r.get("source")})
+    return due
+
+
 def weekly_pre(status):
     """비교군 파일(S&P500 섹터)과 애널리스트를 기준 세션으로 새로 받는다. 실패하면 멈춘다(카드는 그대로)."""
     session = json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["priceSession"]
@@ -298,6 +321,12 @@ def main():
     status["finished"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
     status["verdictChanges"] = changes
     status["failed"] = [T for T, v in status["cards"].items() if v["status"] == "failed"]
+    if weekly:   # 토요일 결과는 따로 남긴다 — daily_status.json은 매일 덮이므로 새 공시 대기 목록이 다음 날 사라졌다(Codex 2026-10-08)
+        json.dump({k: status.get(k) for k in WEEKLY_KEYS}, open(WEEKLY_STATUS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    elif os.path.exists(WEEKLY_STATUS):   # 매일 결과에도 지난 토요일의 대기 목록을 싣는다(어느 토요일 점검인지와 함께)
+        w = json.load(open(WEEKLY_STATUS))
+        status["newFilings"], status["newFilingsAsOf"] = w.get("newFilings"), w.get("finished")
+    status["outsideDue"] = outside_due()
     json.dump(status, open(STATUS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"끝 — ok {sum(v['status'] == 'ok' for v in status['cards'].values())} · 실패 {status['failed']} · 판정·표 변경 {len(changes)}")
     for c in changes:

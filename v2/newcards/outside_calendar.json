@@ -1,0 +1,6 @@
+{
+ "_doc": "SEC 10-Q 점검(new_filings.py) 밖 카드의 실적 발표일 — 발표가 지났는데 카드 재무가 그 분기보다 앞이면 daily_status.json의 outsideDue에 오른다(daily_price.outside_due). 분기마다 다음 날짜를 더한다. 2026-10-08 작성.",
+ "ASML": [{"quarterEnd": "2026-09-27", "date": "2026-10-14", "source": "ASML 투자자 페이지·MarketBeat: Q3 2026 결과 10/14 07:00 CET"}],
+ "TSM": [{"quarterEnd": "2026-09-30", "date": "2026-10-15", "source": "investor.tsmc.com: Third Quarter 2026 Earnings Conference 10/15 14:00 대만"}],
+ "SKHY": [{"quarterEnd": "2026-09-30", "date": "2026-10-27", "source": "Investing.com 10/27(회사 공지 미확인 — 한국 공시로 다시 볼 것)"}]
+}
