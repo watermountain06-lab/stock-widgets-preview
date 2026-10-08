@@ -15,6 +15,11 @@ V3 업종 백분위)으로 카드 JS와 같은 합산 규칙의 판정을 낸다
 
     python3 v2/research/verdict_replay.py            # 패널 생성 + 분석
     python3 v2/research/verdict_replay.py --analyze  # 저장된 패널로 분석만
+
+5년 보완 관문(`five_year_gate_prereg.md`)용 패널은 수익률 없이 행만 만든다(4절 1단계 — 기본 실행과 분석은 그대로):
+
+    python3 v2/research/verdict_replay.py --build-only --dcf-window rolling --months 2021-10 2024-03 --panel PATH   # 시험 구간
+    python3 v2/research/verdict_replay.py --build-only --dcf-window rolling --months 2024-06 2026-09 --panel PATH   # 학습 구간 롤링 재실행
 """
 import contextlib
 import functools
@@ -45,7 +50,12 @@ EPS_DIR = os.path.join(HERE, ".eps_20261002")
 PANEL = os.path.join(HERE, "verdict_replay_panel.json")
 RESULT = os.path.join(HERE, "verdict_replay_result.json")
 START_MONTH = "2024-06"
+END_MONTH = "2026-09"
 BAR_START = "2019-05-01"          # 2024-10 평가일의 5년 창을 덮는다
+# 현금흐름 칸의 이력 창: "fixed" = 카드와 같은 고정 창(build_dcf.WINDOW_START 2021-07-01~), "rolling" = 평가일 기준 5.25년
+# (five_year_gate_prereg.md 2절 — 관문 패널에서만). 기본 실행은 fixed 그대로.
+DCF_WINDOW = "fixed"
+HASH_LEN = 16                     # 관문 봉인은 전체 길이(64)
 METRICS = ["PER", "PBR", "PSR", "PCR", "EV/EBITDA"]
 MIN_PEERS = 8
 LEARN = ("2024-10", "2026-03")
@@ -207,7 +217,7 @@ def _dir_hash(path):
     h = hashlib.sha256()
     for f in sorted(os.listdir(path)):
         h.update(f.encode()); h.update(open(os.path.join(path, f), "rb").read())
-    return h.hexdigest()[:16]
+    return h.hexdigest()[:HASH_LEN]
 
 
 def provenance():
@@ -218,9 +228,9 @@ def provenance():
               "core_earnings.json", "tax_oneoff.json", "share_adjust.json", "sectors.json"]
     return {"engine_commit": git("rev-parse", "HEAD"),
             "engine_dirty": git("status", "--porcelain", "--", *engine),
-            "script_sha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()[:16],
-            "pit_sha256": hashlib.sha256(open(os.path.join(HERE, "pit.py"), "rb").read()).hexdigest()[:16],
-            "engine_sha256": {f: hashlib.sha256(open(os.path.join(V2, f), "rb").read()).hexdigest()[:16] for f in engine if os.path.exists(os.path.join(V2, f))},
+            "script_sha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()[:HASH_LEN],
+            "pit_sha256": hashlib.sha256(open(os.path.join(HERE, "pit.py"), "rb").read()).hexdigest()[:HASH_LEN],
+            "engine_sha256": {f: hashlib.sha256(open(os.path.join(V2, f), "rb").read()).hexdigest()[:HASH_LEN] for f in engine if os.path.exists(os.path.join(V2, f))},
             "inputs": {k: _dir_hash(p) for k, p in (("prices10y", PRICES), ("facts", FACTS), ("eps", EPS_DIR))},
             "redesign_commit": subprocess.run(["git", "-C", os.path.dirname(v.DATA), "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()}
 
@@ -244,7 +254,22 @@ def _override_filed(t):
     return out
 
 
-def build():
+def dcf_window_start(t, day):
+    """현금흐름 칸 이력 창의 시작일. fixed면 None(build_dcf 기본 — 카드와 같다).
+    rolling(five_year_gate_prereg.md 2절): ws = 평가일 − int(5.25 × 365.25)일. 분사 종목(HISTORY_WINDOW)은 그 시작일이 평가일 이전이면
+    max(ws, 분사 시작일)을 넘긴다 — history()는 window_start를 받으면 분사 시작일을 무시하므로(build_dcf.py `ws = window_start or hw[0]`)
+    여기서 맞춘다. 최소 개수는 history()가 정한다: 분사 시작일이 평가일 이전이면 종목별 값, 뒤면 ASOF_REF 되돌림으로 13."""
+    if DCF_WINDOW == "fixed":
+        return None
+    from datetime import timedelta
+    ws = (date.fromisoformat(day) - timedelta(days=int(5.25 * 365.25))).isoformat()
+    hw = d.HISTORY_WINDOW.get(t)
+    if hw and hw[0] <= day:
+        ws = max(ws, hw[0])
+    return ws
+
+
+def build(panel_path=PANEL):
     uni = [r for r in json.load(open(v.SP500)) if r.get("sector") != "Financials"]
     rows = []
     for k, r in enumerate(uni):
@@ -292,7 +317,7 @@ def build():
         override_filed = sorted(_override_filed(t))
         hstart = bmh.HISTORY_START.get(t, "0000")
         for mth, i in sorted(month_ends.items()):
-            if mth < START_MONTH or mth > "2026-09":
+            if mth < START_MONTH or mth > END_MONTH:
                 continue
             day, px = dates[i], closes[i]
             state = max((f for f in filed_all if f <= day), default=None)
@@ -314,24 +339,38 @@ def build():
             # 키에 따로 넣는다(KO nonop_extra 2026-07, Fable 2차).
             ovr = max((f for f in override_filed if f <= day), default="")
             key = (state, dflag, bool(hw and hw[0] <= day), ovr)
-            if key not in cache:
+            # 롤링 창이면 공시 상태가 같아도 창이 밀려 분기가 빠지므로 현금흐름 캐시 키에 유효 시작일을 넣는다(관문 2절, Codex·Fable).
+            # 배수 시리즈 캐시(mcache)는 창과 무관해 그대로 key를 쓴다.
+            dws = dcf_window_start(t, day)
+            dkey = key + (dws,)
+            if dkey not in cache:
                 res = {"dq": [], "base": None, "ok": False}
                 try:
                     pit.install(bmh, cik, data, state, ref=day)
+                    # 롤링 창의 분사 종목 최소 개수는 ASOF_REF 되돌림에 기대므로 평가일 기준이 걸려 있어야 한다(Fable M2)
+                    assert dws is None or bmh.ASOF_REF == day, (t, day, bmh.ASOF_REF)
                     with contextlib.redirect_stdout(io.StringIO()):
                         b = d.base_inputs(t, day)
-                        h = d.history(t, day)
+                        h = d.history(t, day, window_start=dws)
                         res["dq"] = b.get("dq") or []
                         ok = bool(h and b.get("revenue") and b.get("shares") and b.get("opinc") is not None)
+                        # 현금흐름이 안 나온 이유를 남긴다 — 데이터 공백과 엔진 오류를 가르려고(관문 4절 3단계, Codex·Fable)
+                        res["why"] = None if ok else ",".join(k for k, bad in (("history", not h), ("revenue", not b.get("revenue")),
+                                                                                ("shares", not b.get("shares")), ("opinc", b.get("opinc") is None)) if bad)
                         sc = d.scenarios(b, h, 0.10, 0.025) if ok else None
                         if sc and sc[1]["per_share"] is not None and math.isfinite(sc[1]["per_share"]):
                             res["base"], res["ok"] = sc[1]["per_share"], True
+                        elif ok:
+                            res["why"] = "scenario"
+                except AssertionError:
+                    raise
                 except Exception as e:
                     res["err"] = str(e)[:60]
+                    res["why"] = "error"
                 finally:
                     pit.reset(bmh)
-                cache[key] = res
-            res = cache[key]
+                cache[dkey] = res
+            res = cache[dkey]
             if key not in mcache:
                 try:
                     pit.install(bmh, cik, data, state, ref=day)
@@ -371,12 +410,14 @@ def build():
                         dv = dn(day) if dn else None
                         peerv[lab] = NEG if (dv is not None and dv <= 0) else None
             rows.append({"t": t, "sec": r["sector"], "d": day, "m": mth, "i": i, "px": px,
-                         "dq": res["dq"], "dcf_ok": res["ok"], "base": res["base"],
+                         "dq": res["dq"], "dcf_ok": res["ok"], "base": res["base"], "dcf_ws": dws,
+                         "dcf_why": res.get("why"), "dcf_err": res.get("err"),
                          "self": selfm, "peer": peerv, "core": core_day})
         if k % 25 == 0:
             print(k, t, len(rows), flush=True)
-    meta = provenance() | {"built": date.today().isoformat(), "roster": sorted({r["t"] for r in rows})}
-    json.dump({"meta": meta, "rows": rows}, open(PANEL, "w"))
+    meta = provenance() | {"built": date.today().isoformat(), "roster": sorted({r["t"] for r in rows}),
+                           "config": {"months": [START_MONTH, END_MONTH], "bar_start": BAR_START, "dcf_window": DCF_WINDOW}}
+    json.dump({"meta": meta, "rows": rows}, open(panel_path, "w"))
     return meta, rows
 
 
@@ -714,7 +755,34 @@ def apply_cards(rows_filtered, month="2026-09"):
     return out
 
 
+def build_only():
+    """관문 4절 1단계: 수익률·카드 적용 없이 행만 만들어 저장하고, 수익률 없는 점검 요약만 찍는다."""
+    global START_MONTH, END_MONTH, BAR_START, DCF_WINDOW, HASH_LEN
+    a = sys.argv
+    i = a.index("--months"); START_MONTH, END_MONTH = a[i + 1], a[i + 2]
+    DCF_WINDOW = a[a.index("--dcf-window") + 1]
+    assert DCF_WINDOW in ("fixed", "rolling"), DCF_WINDOW
+    out = a[a.index("--panel") + 1]
+    assert os.path.abspath(out) != os.path.abspath(PANEL), "학습 패널을 덮어쓰지 않는다"
+    # 시험 구간은 2021-10 평가일의 자기 이력 5년 창(2016-10~)을 덮도록 봉 시작을 당긴다(가격 파일이 2016-10-03부터).
+    # 학습 구간 롤링 재실행은 기본값(2019-05)을 그대로 둬 고정 창 결과와 창 말고는 같은 입력이 되게 한다(Fable M1).
+    if START_MONTH < "2024-06":
+        BAR_START = "2016-01-01"
+    HASH_LEN = 64
+    meta, rows = build(out)
+    import collections
+    by = collections.defaultdict(lambda: [0, 0, 0])
+    for r in rows:
+        x = by[r["m"]]; x[0] += 1; x[1] += bool(r["dcf_ok"]); x[2] += bool(r["dq"])
+    print("\n월, 행, 현금흐름 계산됨, dq 있음")
+    for m in sorted(by):
+        print(m, *by[m])
+    print("종목", len(meta["roster"]), "· 저장", out)
+
+
 def main():
+    if "--build-only" in sys.argv:
+        return build_only()
     if "--analyze" in sys.argv:
         pj = json.load(open(PANEL)); meta, rows = pj["meta"], pj["rows"]
     else:
