@@ -279,16 +279,30 @@ def _facts(cik):
             data = json.load(open(path))
         except Exception:
             data = None
-    if data is None or (appr and _max_filed(data) < appr):   # 캐시가 없거나 승인한 공시보다 오래됐으면 새로 받는다
+    # 토요일 비교군 갱신(SEC_REFRESH_UNLISTED=세션): 기준표 밖 회사(카드 아닌 비교 종목)는 그 실행에서 한 번 새로 받는다 —
+    # 그날까지 나온 실적으로 견준다(2026-10-08 사용자 결정, Codex·Fable 권고). 받기 실패는 옛 캐시를 쓰고 기록만 남긴다.
+    # 파일 시각은 Actions 캐시 복원에서 믿을 수 없어 실행 표식으로 센다. 캐시가 없던 회사도 같은 표식을 남긴다(Codex)
+    run_id = None if appr else os.environ.get("SEC_REFRESH_UNLISTED")
+    done = os.path.join(CACHE_DIR, "_work", f"refreshed_{run_id}.txt")
+    stale = bool(run_id) and cik not in (open(done).read().split() if os.path.exists(done) else [])
+    if data is None or stale or (appr and _max_filed(data) < appr):   # 캐시가 없거나 이번 실행에 아직 안 받았거나 기준일보다 앞서면 새로 받는다
         url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
         try:
             fresh = feh.curl_json(url)
         except Exception:
             fresh = {}
-        if "facts" in fresh:
+        ok = "facts" in fresh
+        if ok:
             json.dump(fresh, open(path, "w"))
             data = fresh
-        elif data is None:
+        if run_id:   # 성공·실패 모두 이번 실행에는 다시 받지 않는다(태그마다 재요청하지 않게)
+            os.makedirs(os.path.dirname(done), exist_ok=True)
+            with open(done, "a") as f:
+                f.write(cik + "\n")
+            if not ok:
+                with open(os.path.join(CACHE_DIR, "_refresh_failed.txt"), "a") as f:
+                    f.write(f"{cik} facts\n")
+        if data is None:
             return {}
     merged = _overlay(cik, data)
     if appr:   # 보충 자료(overlay)까지 합친 뒤에 자른다 — 앞에서 자르면 overlay의 승인 뒤 행이 다시 들어온다(Codex)

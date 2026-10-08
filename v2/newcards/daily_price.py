@@ -153,12 +153,25 @@ def build(T, work):
     return 0, log
 
 
+PEER_SEC_FROM = "2026-10-16"   # 이 세션(금요일 종가) 뒤 토요일 실행부터 비교 종목 SEC 재무를 새로 받는다
+
+
 def weekly_pre(status):
     """비교군 파일(S&P500 섹터)과 애널리스트를 기준 세션으로 새로 받는다. 실패하면 멈춘다(카드는 그대로)."""
     session = json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["priceSession"]
     pdir = os.path.join(V2, "peer_universe")
     old = {f: json.load(open(os.path.join(pdir, f))) for f in os.listdir(pdir) if f.endswith(".json") and f != "banks.json"}
-    rc, out = run([PY, "v2/adapters/refresh_peer_files.py", "--asof", session], timeout=7200)
+    # 비교 종목(카드 아닌 회사)의 SEC 재무·EPS를 새로 받는다 — 10/17 토요일부터(2026-10-08 사용자 결정: 10/10 첫 주간 실행은 그대로 보고 다음 주에 켠다)
+    env = None
+    if session >= PEER_SEC_FROM:
+        env = dict(os.environ, SEC_REFRESH_UNLISTED=session)
+        open(os.path.join(V2, ".sec_cache", "_refresh_failed.txt"), "w").close()
+    rc, out = run([PY, "v2/adapters/refresh_peer_files.py", "--asof", session], timeout=7200, env=env)
+    if env:
+        failed = sorted(set(l.strip() for l in open(os.path.join(V2, ".sec_cache", "_refresh_failed.txt")) if l.strip()))
+        status["peerSecRefresh"] = {"on": True, "failed": failed}
+        if failed:
+            status["problems"].append(f"비교 종목 SEC 재무 새로 받기 실패 {len(failed)}곳(옛 자료 사용)")
     status["peerFiles"] = out.strip().splitlines()[-14:]
     if rc:   # 반쯤 받은 파일이 커밋되지 않게 이전 파일로 되돌리고 멈춘다(Codex)
         for f, o in old.items():

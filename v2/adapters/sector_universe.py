@@ -107,17 +107,22 @@ def one(ticker, cik, asof, eps_dir):
     eps_path = os.path.join(eps_dir, f"{ticker}_eps_history.json")
     sh = split_history(ticker)
     # 5년 안에 분할이 있으면 캐시가 있어도 다시 받는다 — 보정 전에 받은 파일이 그대로 통과하지 않게(Codex, 2026-10-04)
-    if not os.path.exists(eps_path) or sh or os.environ.get("REFETCH_EPS"):
+    # 토요일 비교군 갱신이면 기준표 밖 회사(카드 아닌 비교 종목)의 EPS도 새로 받는다 — 재무(_facts)와 같은 날짜로(2026-10-08)
+    fresh = bool(os.environ.get("SEC_REFRESH_UNLISTED")) and str(cik).zfill(10) not in bmh._approved()
+    if not os.path.exists(eps_path) or sh or os.environ.get("REFETCH_EPS") or fresh:
         if ticker in CLASS_EPS:
             since = f"{int(asof[:4]) - 2}{asof[4:]}"
             subprocess.run([sys.executable, os.path.join(HERE, "ixbrl_class_eps.py"), cik, CLASS_EPS[ticker], since],
                            capture_output=True, text=True)
-        subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
+        r = subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
                         "--cik", cik, "--out", eps_path, "--splits", ",".join(f"{d}:{k}" for d, k in sh),
                         # 희석 EPS가 없는 기간은 계속사업 희석 EPS로 — MNST·KIM·WEC·GD는 몇 년째 그 태그로만 공시한다(D66, 2026-10-04)
                         # 기본 = 희석을 확인한 종목만 빈 기간을 기본 EPS로(BASIC_EPS_OK — LEN FY2025 연간은 기본 EPS 태그에만 있다, Fable·Codex 2026-10-04)
                         "--tag", "EarningsPerShareDiluted,IncomeLossFromContinuingOperationsPerDilutedShare" + (",EarningsPerShareBasic" if ticker in BASIC_EPS_OK else "")],
                        capture_output=True, text=True)
+        if r.returncode and fresh:   # 토요일 갱신에서 EPS 받기 실패 — 옛 파일로 계산하고 보고에 남긴다(Codex 2026-10-08)
+            with open(os.path.join(bmh.CACHE_DIR, "_refresh_failed.txt"), "a") as f:
+                f.write(f"{str(cik).zfill(10)} eps {ticker}\n")
         time.sleep(0.6)
     feh.CIKS[ticker] = cik
     orig = bmh.load_daily

@@ -26,7 +26,7 @@
   표의 공시가 SEC 자료에 아직 없을 때(그 카드만 실패하고 전날 상태로 남는다). **새 카드를 더하면 표에도 넣는다.**
 - 한계(Codex 2026-10-08): 외국 기업 어댑터·`vendor/fetch_financials.py`는 직접 받지만 매일·토요일 실행에서는 돌지 않는다.
   예전에 만든 EPS 캐시 중 재작성 값(GE·DELL·IBM 등 `RESTATED_LATEST`)은 나중 공시의 값에 처음 접수일이 붙어 있어 상한을 지날 수 있다
-  — 그 회사 분기 반영 때 EPS를 다시 받으면 정리된다. 카드가 아닌 비교 종목은 이 표 밖이다.
+  — 그 회사 분기 반영 때 EPS를 다시 받으면 정리된다. 카드가 아닌 비교 종목은 이 표 밖이다 — 2026-10-17 토요일부터 매주 SEC 재무·EPS를 새로 받는다(`daily_price.PEER_SEC_FROM`, 실패는 `daily_status.json`의 `peerSecRefresh`).
 
 ## 4. 설정 파일 손질 — `newcards/cfg/cfg_{t}.py`
 분기마다 바뀌는 칸(COST 기준): `CUR·YO·QO`(분기 말 날짜), `QLABEL·YL·QQL`, `RELEASE`(보도자료 손익), `PR`·`PR_CUR`(보도자료 링크),
