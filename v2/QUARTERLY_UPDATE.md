@@ -31,7 +31,7 @@
 ## 4. 설정 파일 손질 — `newcards/cfg/cfg_{t}.py`
 분기마다 바뀌는 칸(COST 기준): `CUR·YO·QO`(분기 말 날짜), `QLABEL·YL·QQL`, `RELEASE`(보도자료 손익), `PR`·`PR_CUR`(보도자료 링크),
 `TENQ·TENQ_NAME`(10-Q/K 링크), `FY_ENDS`, `L8`(8분기 라벨), `STAT3`, `NEXT·NEXT_OP·CHECK_WHEN`(다음 실적), `FY_LABEL`, `HEALTH_NOTE`,
-`YOY_EXTRA`, `SEG·SEG_ADJ·SEG_NOTE`(제품군 매출), `CAPITAL`, `CHECK`(다음 확인 포인트), `FUND_ASOF_NOTE`, `NEWS`, `SUMMARY·BULL·BEAR`, 그리고
+`YOY_EXTRA`, `SEG·SEG_ADJ·SEG_NOTE`(제품군 매출), `CAPITAL`, `CHECK`(다음 확인 포인트), `FUND_ASOF_NOTE`, `NEWS`(그 실적 발표를 손 뉴스로 쓰면 `v2/news_auto.json`의 자동 항목 — 날짜·링크만 — 은 빠진다), `SUMMARY·BULL·BEAR`, 그리고
 "공시 전" 안내 문장(PREMISE·FUND_TIP 등)을 지운다.
 - 먼저 사본(`newcards/quarterly/cfg_{t}_{분기}_draft.py`)에 고쳐 두고 적용한다.
 - `POST`의 생성 문구 치환은 분기 변수(`C.CUR`·`C.QLABEL`)로 쓴다 — 그래야 다음 분기에 이 블록을 다시 고치지 않는다(COST에서 바꿈).

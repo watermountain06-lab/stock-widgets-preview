@@ -382,6 +382,30 @@ def item(dot, date, react, title, href, src):
 
 
 items = [(d_, dt, rx, ti, (PR.get(hr) or LINKS.get(hr) or hr), src) for d_, dt, rx, ti, hr, src in C.NEWS]
+# 자동 뉴스(news_auto.py, 2026-10-08): 손 뉴스보다 뒤에 나온 실적 발표 8-K — 날짜·제목·보도자료 링크만, 숫자는 분기 반영 때 사람이 쓴다.
+# 카드 마지막 종가 날짜까지 접수된 것만(시점 규칙). 손 뉴스에 같은 발표(앞 1일~뒤 3일)가 있으면 넣지 않는다.
+_auto_p = os.path.join(os.path.dirname(HERE), "news_auto.json")
+_auto = [e for e in (json.load(open(_auto_p)).get(T, []) if os.path.exists(_auto_p) else []) if e.get("results")]
+if _auto:
+    import datetime as _dt
+    import news_auto as _na
+    _hand, _last = _na.hand_dates(C), max(days)
+    _new = []
+    for e in _auto:
+        d = _dt.date.fromisoformat(e["date"])
+        if e["filed"] > _last or (_hand and d <= max(_hand)) or any(d - _dt.timedelta(days=1) <= x <= d + _dt.timedelta(days=3) for x in _hand):
+            continue
+        # 주가 반응일: 미국 동부 16시 이후 접수면 다음 거래일 — 카드 일봉에 있는 첫날
+        r0 = (d + _dt.timedelta(days=1)).isoformat() if e["after_close"] else e["date"]
+        rx = min((x for x in days if x >= r0), default=None)
+        _new.append(('neutral', f'{d.year}년 {d.month}월 {d.day}일 — 실적 발표', rx,
+                     '실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다',
+                     e["url"], f'{C.CO} 실적 보도자료 (SEC 8-K)'))
+    items = _new + items
+    if _new:
+        _end = max(e["date"] for e in _auto if e["filed"] <= _last)[:7].replace("-", ".")   # 반응일이 아직 없어도(마지막 날 장 마감 후) 발표 달로
+        if _end and _end > C.NEWS_RANGE.split("~")[-1].strip():
+            C.NEWS_RANGE = C.NEWS_RANGE.split("~")[0].strip() + " ~ " + _end
 for it in items:
     assert it[2] is None or it[2] in days, it[2]
 tl = '    <div class="timeline" id="newsTimeline">\n' + '\n'.join(item(*i) for i in items) + '\n    </div>'

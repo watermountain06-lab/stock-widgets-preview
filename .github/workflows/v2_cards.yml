@@ -114,6 +114,13 @@ jobs:
         timeout-minutes: 5
         run: python3 v2/fetch_refs.py
 
+      # 카드 뉴스에 새 실적 발표(SEC 8-K 2.02항)를 더한다 — 날짜·제목·보도자료 링크만, 숫자는 분기 반영 때(2026-10-08 사용자 결정).
+      # 실패하면 어제 목록(v2/news_auto.json)으로 재빌드한다.
+      - name: Card news (earnings 8-K)
+        continue-on-error: true
+        timeout-minutes: 10
+        run: python3 v2/newcards/news_auto.py | tail -15
+
       - name: Rebuild cards
         id: run
         continue-on-error: true
@@ -148,6 +155,7 @@ jobs:
                   index.html 2>/dev/null || true
           # 토요일 결과는 첫 토요일 실행(10/10) 뒤에야 생긴다 — 없는 경로를 위 목록에 넣으면 git add 전체가 실패한다(Codex 2026-10-08)
           if [ -f v2/weekly_status.json ]; then git add v2/weekly_status.json; fi
+          if [ -f v2/news_auto.json ]; then git add v2/news_auto.json; fi
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
           fi
