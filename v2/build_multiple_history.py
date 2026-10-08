@@ -272,19 +272,58 @@ def _facts(cik):
     """
     os.makedirs(CACHE_DIR, exist_ok=True)
     path = os.path.join(CACHE_DIR, f"{cik}_facts.json")
+    appr = _approved().get(cik)   # 분기 반영을 승인한 공시 제출일(v2/sec_approved.json) — 없으면 캐시 그대로
+    data = None
     if os.path.exists(path):
         try:
-            return _overlay(cik, json.load(open(path)))
+            data = json.load(open(path))
         except Exception:
-            pass
-    url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
+            data = None
+    if data is None or (appr and _max_filed(data) < appr):   # 캐시가 없거나 승인한 공시보다 오래됐으면 새로 받는다
+        url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
+        try:
+            fresh = feh.curl_json(url)
+        except Exception:
+            fresh = {}
+        if "facts" in fresh:
+            json.dump(fresh, open(path, "w"))
+            data = fresh
+        elif data is None:
+            return {}
+    merged = _overlay(cik, data)
+    if appr:   # 보충 자료(overlay)까지 합친 뒤에 자른다 — 앞에서 자르면 overlay의 승인 뒤 행이 다시 들어온다(Codex)
+        if not any(r.get("filed") == appr and r.get("form") in ("10-Q", "10-K", "10-Q/A", "10-K/A", "20-F", "40-F")
+                   for tx in merged.get("facts", {}).values() for tg in tx.values() for rows in tg.get("units", {}).values() for r in rows):
+            # 승인한 공시가 자료에 없다(SEC 반영 지연·받기 실패) — 옛 분기로 계속 계산하지 않고 멈춘다(Codex). 매일 재빌드는 이 카드를 전날 상태로 둔다
+            raise RuntimeError(f"{cik}: 승인한 공시({appr} 제출)가 SEC 자료에 없다 — sec_approved.json 확인")
+        merged = _cap_filed(merged, appr)
+    return merged
+
+
+SEC_APPROVED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sec_approved.json")
+
+
+def _approved():
+    """분기 반영 승인 표 {cik: 'YYYY-MM-DD'} — 그 날짜까지 제출된 공시만 쓴다(2026-10-08, 분기 반영 절차).
+    매일·토요일 재빌드는 SEC 재무를 자동 반영하지 않는다(사용자 결정). 사람이 점검을 거쳐 승인한 공시만 이 표에 올리고,
+    캐시가 그보다 오래됐으면(예: Actions 캐시) 새로 받아 그 날짜에서 자른다 — 승인한 분기가 다음 날 되돌아가지 않게."""
     try:
-        data = feh.curl_json(url)
-    except Exception:
+        return {k: v for k, v in json.load(open(SEC_APPROVED)).items() if not k.startswith("_")}
+    except (FileNotFoundError, ValueError):
         return {}
-    if "facts" in data:
-        json.dump(data, open(path, "w"))
-    return _overlay(cik, data)
+
+
+def _max_filed(data):
+    return max((r.get("filed", "") for tx in data.get("facts", {}).values() for tg in tx.values()
+                for rows in tg.get("units", {}).values() for r in rows), default="")
+
+
+def _cap_filed(data, appr):
+    out = {k: v for k, v in data.items() if k != "facts"}
+    out["facts"] = {tx: {tag: {**body, "units": {u: [r for r in rows if r.get("filed") and r["filed"] <= appr]
+                                                 for u, rows in body.get("units", {}).items()}}
+                         for tag, body in tags.items()} for tx, tags in data.get("facts", {}).items()}
+    return out
 
 
 def _overlay(cik, data):
