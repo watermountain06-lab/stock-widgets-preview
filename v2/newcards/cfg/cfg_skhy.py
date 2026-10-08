@@ -12,7 +12,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 79318746, 'op': 60542608, 'ni': 93820236}   # 2026 반기보고서 2분기(백만 원)
-VOTES, VERDICT = (-1, 1, 0), '적정'
+VOTES, VERDICT = (-1, 1, 1), '적정~저평가'
 CO = 'SK hynix'
 KIND = 'https://kind.krx.co.kr/common/disclsviewer.do?method=search&acptno='
 S_ = 'https://www.sec.gov/Archives/edgar/data/2120882/'
