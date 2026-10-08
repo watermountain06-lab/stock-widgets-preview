@@ -77,7 +77,55 @@ def restore(bk):
             os.remove(os.path.join(REPO, p))
 
 
+def band_catch_up(T):
+    """EPS 이력에 마지막 체크포인트보다 새 실적 공시가 있으면 밴드 백테스트를 다시 만든다(2026-10-08 사용자 결정).
+    카드 재빌드는 백테스트를 이전 카드에서 물려받기만 해서(root_arrays.py), 분기 갱신 뒤 refresh_backtest.py를 빠뜨리면
+    밴드가 지난 분기에 멈춘다. 빈 배열은 BA·COF 규칙(KEEP_EMPTY)과 EPS 이력이 없는 카드(BRKB·SPCX)만 그대로 두고, 표본이 모자라 빈
+    카드(GEV·CRWD·MRVL 등)는 매일 다시 계산해 1년 표본이 차면 저절로 생기게 한다(Fable 2026-10-08). 은행은 카드를 base 파일에서
+    다시 만들므로 base에도 같은 배열을 넣는다. GILD·INTC처럼 새 공시가 체크포인트를 만들지 않는 카드는 매일 다시 계산만 하고 바뀌는 것은 없다."""
+    sys.path.insert(0, V2)
+    import refresh_backtest as rb
+    if T in rb.KEEP_EMPTY:
+        return 0, ""
+    card = os.path.join(V2, f"{T}_full_widget.html")
+    eps = os.path.join(REPO, "scripts", f"{T}_eps_history.json")
+    _, _, bt = rb.js_array(open(card, encoding="utf-8").read(), f"{T}_BACKTEST")
+    if not os.path.exists(eps):
+        return 0, ""
+    filings = rb.first_filings(json.load(open(eps)))
+    if not filings or (bt and filings[-1] <= bt[-1]["checkpoint_date"]):
+        return 0, ""
+    rc, out = run([PY, "v2/refresh_backtest.py", T])
+    if rc:
+        return rc, out
+    if rb.js_array(open(card, encoding="utf-8").read(), f"{T}_BACKTEST")[2] == bt:
+        return 0, out   # 새 체크포인트가 생기지 않았다(GILD·INTC, 표본 부족 카드)
+    if T in BANKS:
+        base = os.path.join(HERE, "bank", "base", f"{T.lower()}_base.html")
+        h, b = open(card, encoding="utf-8").read(), open(base, encoding="utf-8").read()
+        cs, ce, _ = rb.js_array(h, f"{T}_BACKTEST")
+        bs, be, _ = rb.js_array(b, f"{T}_BACKTEST")
+        open(base, "w", encoding="utf-8").write(b[:bs] + h[cs:ce] + b[be:])
+    rc2, out2 = run([PY, "v2/sync_fallbacks.py", T])   # 헤더 적중률의 HTML 대체값
+    return rc2, out + out2
+
+
 def one(T, work):
+    """가격 재빌드 뒤에 밴드를 따라잡는다 — 그날 나온 실적은 새 일봉이 붙은 뒤에야 체크포인트가 된다(Codex 2026-10-08).
+    밴드 갱신에서 난 예외도 실패로 돌려 attempt()가 카드·base를 전날 상태로 되돌리게 한다."""
+    rc, out = build(T, work)
+    if rc:
+        return rc, out
+    try:
+        rc, more = band_catch_up(T)
+    except Exception as e:
+        rc, more = 1, f"{type(e).__name__}: {e}"
+    if rc:
+        return rc, out + "\n밴드 백테스트 갱신 실패\n" + more
+    return 0, out + more
+
+
+def build(T, work):
     t = T.lower()
     if T in BANKS:
         for target in (f"v2/newcards/bank/base/{t}_base.html", f"v2/{T}_full_widget.html"):
