@@ -277,10 +277,8 @@ def _inventory_alt(fin, end):
     tag = INVENTORY_ALT.get(cik)
     if not tag or not end:
         return None
-    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".sec_cache", f"{cik}_facts.json")
-    if not os.path.exists(p):
-        return None
-    rows = json.load(open(p))["facts"]["us-gaap"].get(tag, {}).get("units", {}).get("USD", [])
+    import build_multiple_history as bmh
+    rows = bmh._facts(cik).get("facts", {}).get("us-gaap", {}).get(tag, {}).get("units", {}).get("USD", [])   # 공시 기준표 상한을 거친다
     vals = [r["val"] for r in rows if r["end"] == end]
     return vals[-1] if vals else None
 

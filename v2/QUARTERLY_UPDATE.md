@@ -18,11 +18,15 @@
 - 점검(`research/pipeline_checks.md`): 2-1 4분기 EPS(연간 − 1~3분기 = 보도자료?), 3-1 분기 길이, 2-2 차입금 합, 보도자료와 공시의 숫자 차이.
 
 ## 3. 승인 — `v2/sec_approved.json`
-- `{"CIK": "공시 제출일"}`을 더한다(같은 회사의 다음 분기면 날짜를 바꾼다). SEC 자료를 읽는 `build_multiple_history._facts`가 보충 자료(overlay)까지
-  합친 뒤 그 날짜까지 제출된 자료만 쓰고, 캐시가 그보다 오래됐으면 SEC에서 새로 받는다 — GitHub Actions의 옛 캐시에서도 승인한 분기가 유지되고,
-  승인하지 않은 다음 공시는 들어가지 않는다. 승인한 공시가 자료에 없으면(SEC 반영 지연) 그 카드는 멈추고 전날 상태로 남는다.
-- 한계(Codex 2026-10-08): 이 상한은 `_facts`를 거치는 길에만 걸린다. 외국 기업 어댑터·`vendor/fetch_financials.py`·`fetch_eps_history.py`는
-  직접 받지만 매일 가격 재빌드에서는 돌지 않는다. 토요일 비교군 갱신은 비교 종목(카드 아님)의 새 공시를 쓸 수 있다.
+- 카드 100장(ASML·TSM·SKHY 제외)의 회사마다 **카드가 쓰는 공시의 접수일**이 적혀 있다(2026-10-08 기준선 = 각 카드의 `FUNDAMENTAL.filedAt`).
+  분기를 반영할 때 그 회사의 날짜를 새 공시 접수일로 바꾼다.
+- SEC 재무(`build_multiple_history._facts`, 보충 자료 overlay 포함)와 EPS(`scripts/fetch_eps_history.py`가 받을 때, `build_multiple_history`가
+  EPS 파일을 읽을 때)는 이 날짜까지 접수된 자료만 쓴다. 다른 카드의 비교 종목으로 나올 때도 같다. 캐시가 이 날짜보다 오래됐으면 SEC에서 새로 받는다.
+- 멈추는 경우: 표가 없거나 비었거나 날짜가 틀렸을 때, 카드 회사가 표에 없을 때(`daily_price.check_approved`, 매 실행 시작),
+  표의 공시가 SEC 자료에 아직 없을 때(그 카드만 실패하고 전날 상태로 남는다). **새 카드를 더하면 표에도 넣는다.**
+- 한계(Codex 2026-10-08): 외국 기업 어댑터·`vendor/fetch_financials.py`는 직접 받지만 매일·토요일 실행에서는 돌지 않는다.
+  예전에 만든 EPS 캐시 중 재작성 값(GE·DELL·IBM 등 `RESTATED_LATEST`)은 나중 공시의 값에 처음 접수일이 붙어 있어 상한을 지날 수 있다
+  — 그 회사 분기 반영 때 EPS를 다시 받으면 정리된다. 카드가 아닌 비교 종목은 이 표 밖이다.
 
 ## 4. 설정 파일 손질 — `newcards/cfg/cfg_{t}.py`
 분기마다 바뀌는 칸(COST 기준): `CUR·YO·QO`(분기 말 날짜), `QLABEL·YL·QQL`, `RELEASE`(보도자료 손익), `PR`·`PR_CUR`(보도자료 링크),

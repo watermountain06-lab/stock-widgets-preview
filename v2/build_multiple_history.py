@@ -304,13 +304,20 @@ SEC_APPROVED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sec_app
 
 
 def _approved():
-    """분기 반영 승인 표 {cik: 'YYYY-MM-DD'} — 그 날짜까지 제출된 공시만 쓴다(2026-10-08, 분기 반영 절차).
+    """카드 공시 기준표 {cik: 'YYYY-MM-DD'} — 그 날짜까지 제출된 공시만 쓴다(2026-10-08, 분기 반영 절차; 카드 100장 기준선).
     매일·토요일 재빌드는 SEC 재무를 자동 반영하지 않는다(사용자 결정). 사람이 점검을 거쳐 승인한 공시만 이 표에 올리고,
     캐시가 그보다 오래됐으면(예: Actions 캐시) 새로 받아 그 날짜에서 자른다 — 승인한 분기가 다음 날 되돌아가지 않게."""
-    try:
-        return {k: v for k, v in json.load(open(SEC_APPROVED)).items() if not k.startswith("_")}
-    except (FileNotFoundError, ValueError):
-        return {}
+    # 파일이 없거나 깨졌거나 비었으면 멈춘다 — 빈 표면 모든 카드에 새 공시가 들어간다(Codex 2026-10-08).
+    # 카드 회사가 표에서 빠졌는지는 매 실행 앞에서 daily_price.check_approved가 본다.
+    table = {k: v for k, v in json.load(open(SEC_APPROVED)).items() if not k.startswith("_")}
+    def _ok(v):
+        try:
+            return isinstance(v, str) and len(v) == 10 and bool(date.fromisoformat(v))
+        except ValueError:
+            return False
+    if not table or not all(_ok(v) for v in table.values()):   # 실제 달력 날짜만(2026-99-99·null은 멈춘다, Codex)
+        raise RuntimeError(f"{SEC_APPROVED}: 비었거나 날짜 형식이 틀렸다")
+    return table
 
 
 def _max_filed(data):
@@ -1407,9 +1414,10 @@ def main():
     eps = []
     if eps_path and os.path.exists(eps_path):
         # 일회성 세금을 뺀 EPS — 항목은 그 분기 실적과 같은 공시에서 밝혀지므로 같은 시점에 반영한다
+        cap = _approved().get(str(cik).zfill(10))   # 카드 공시 기준표 — 그 뒤에 알려진 EPS는 쓰지 않는다(비교군으로 쓰일 때도, Codex 2026-10-08)
         eps = [{"available": e["available_date"],
                 "val": e["ttm_eps"] + oneoff_in_ttm(t, e.get("quarter_end"), "eps")}
-               for e in json.load(open(eps_path)) if e.get("ttm_eps")]
+               for e in json.load(open(eps_path)) if e.get("ttm_eps") and (not cap or e["available_date"] <= cap)]
         eps.sort(key=lambda e: e["available"])
 
     series = {}

@@ -182,8 +182,24 @@ def attempt(T, work):
     return {"status": "ok", "seconds": round(time.time() - t0)}
 
 
+def check_approved():
+    """카드 회사가 모두 공시 기준표(v2/sec_approved.json)에 있는지 — 빠진 카드는 새 10-Q·10-K가 그대로 들어간다(Codex 2026-10-08).
+    새 카드를 더하면 그 카드가 쓰는 공시 접수일(FUNDAMENTAL.filedAt)을 표에 넣어야 한다."""
+    import new_filings as nf
+    table = json.load(open(os.path.join(V2, "sec_approved.json")))
+    miss = [T for T in sorted(f.split("_")[0] for f in os.listdir(V2) if f.endswith("_full_widget.html"))
+            if T not in nf.OUTSIDE and str(nf.cik_of(T)).zfill(10) not in table]
+    sys.path.insert(0, V2); import build_multiple_history as bmh
+    bmh._approved()   # 날짜 형식까지 여기서 본다 — 토요일 비교군 작업 중간에 종목별 오류로 흩어지지 않게(Codex)
+    miss += [T for T in sorted(f.split("_")[0] for f in os.listdir(V2) if f.endswith("_full_widget.html"))
+             if T not in nf.OUTSIDE and str(nf.cik_of(T)).zfill(10) in table and not table[str(nf.cik_of(T)).zfill(10)]]
+    if miss:
+        sys.exit(f"공시 기준표에 없는 카드 {len(miss)}장: {' '.join(miss)} — v2/sec_approved.json에 FUNDAMENTAL.filedAt을 넣을 것")
+
+
 def main():
     weekly = "--weekly" in sys.argv
+    check_approved()
     session = json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["priceSession"]
     if "--skip-if-current" in sys.argv and not weekly and os.path.exists(STATUS):
         # 가격 작업은 하루 세 번까지 돈다(늦은 봉 대비) — 같은 세션을 이미 실패 없이 끝냈으면 건너뛴다

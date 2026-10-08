@@ -53,6 +53,21 @@ def curl_json(url):
     return json.loads(result.stdout)
 
 
+SEC_APPROVED = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "v2", "sec_approved.json")
+
+
+def approved_cap(cik):
+    """카드 공시 기준표(v2/sec_approved.json)에 있는 회사면 그 접수일 — 이 날짜 뒤에 접수된 EPS 행은 쓰지 않는다(2026-10-08).
+    카드 재무는 분기 반영 때만 바뀐다(v2/QUARTERLY_UPDATE.md). 분할 등으로 EPS를 다시 받아도 새 분기가 섞이지 않게 한다."""
+    if not os.path.exists(SEC_APPROVED):
+        return None
+    return json.load(open(SEC_APPROVED)).get(str(cik).zfill(10))
+
+
+def cap_rows(rows, cap):
+    return [e for e in rows if e.get("filed") and e["filed"] <= cap] if cap else rows
+
+
 def split_ratio(filed, split_dates):
     ratio = 1
     for eff_date, r in split_dates:
@@ -318,11 +333,12 @@ def main():
     # --tag "A,B": A가 없는 (start, end) 기간만 B로 채운다. DELL은 계속사업 EPS 태그를 FY2023 뒤로 쓰지 않는다(분사 뒤 중단사업이
     # 없어 희석 EPS와 같다, 2026-10-01). 앞 태그를 다 받은 뒤 뒤 태그의 빈 기간을 더한다.
     tags = args.tag.split(",")
+    cap = approved_cap(args.cik)
     if len(tags) > 1:
         entries, seen = [], set()
         for tg in tags:
             facts = curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{args.cik}.json")
-            rows = facts["facts"]["us-gaap"].get(tg, {}).get("units", {}).get("USD/shares", [])
+            rows = cap_rows(facts["facts"]["us-gaap"].get(tg, {}).get("units", {}).get("USD/shares", []), cap)   # 태그별 빈 기간 메우기 전에 자른다
             if args.ticker.upper() in RESTATED_LATEST:
                 # 재작성 종목은 태그를 가리지 않고 다 모은다 — 같은 기간은 dedup_for가 가장 나중 공시를 고른다(같은 날이면 앞 태그).
                 # DELL FY2024 계속사업 $4.36(2024-03)보다 뒤 10-K의 희석 $4.60이 회사의 현재 숫자다(Codex, 2026-10-01).
@@ -367,6 +383,8 @@ def main():
         if _add:
             print(f"NOTE: overlay에서 {len(_add)}개 행 보충({args.ticker})", file=sys.stderr)
             entries = list(entries) + _add
+
+    entries = cap_rows(entries, cap)   # 원문 오버레이 행까지 합친 뒤, 중복 제거·TTM 계산 전에 자른다(Codex 2026-10-08)
 
     ticker_key = args.ticker.upper()
     if ticker_key not in KNOWN_SPLITS and args.splits is None:
