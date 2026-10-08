@@ -31,9 +31,10 @@ BEGIN, END = "/* DCF_GRID:BEGIN */", "/* DCF_GRID:END */"
 
 
 def build(ticker):
-    base = d.base_inputs(ticker)
-    hist = d.history(ticker)
-    r = fx.rate(ticker, d.bmh.load_daily(ticker)[-1][0])   # 달러 재무 종목은 1.0
+    asof = d.bmh.load_daily(ticker)[-1][0]   # 블록(build_dcf_block)과 같은 시점 — 카드 마지막 종가 날짜까지 공개된 자료만(2026-10-07 COST: 10-K가 격자에만 들어갔다)
+    base = d.base_inputs(ticker, asof)
+    hist = d.history(ticker, asof)
+    r = fx.rate(ticker, asof)   # 달러 재무 종목은 1.0
     values = {n: [] for n in NAMES}          # values[시나리오][영구성장 i][할인율 j]
     for g in TERMS:
         rows = {n: [] for n in NAMES}

@@ -188,8 +188,14 @@ def main():
     if "--skip-if-current" in sys.argv and not weekly and os.path.exists(STATUS):
         # 가격 작업은 하루 세 번까지 돈다(늦은 봉 대비) — 같은 세션을 이미 실패 없이 끝냈으면 건너뛴다
         old = json.load(open(STATUS))
-        if old.get("session") == session and old.get("full") and not old.get("failed") and not old.get("problems") and old.get("finished"):
+        # 종목마다 홈 가격 세션이 다르다(Yahoo가 늦게 준 종목은 전날 세션) — 카드 하나라도 자기 세션보다 뒤면 건너뛰지 않는다
+        # (2026-10-08: 10/6 실행 때 10/5에 머문 11장이 그 뒤 "이미 끝났다"로 계속 건너뛰어져 건강 점검에 걸렸다)
+        own = {e["ticker"]: e["price"].get("session") for e in json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["tickers"]}
+        behind = [t for t, v in old.get("cards", {}).items() if own.get(t) and v.get("date") and v["date"] < own[t]]
+        if old.get("session") == session and old.get("full") and not old.get("failed") and not old.get("problems") and old.get("finished") and not behind:
             print(f"{session} 세션은 이미 끝났다({old['finished']}) — 건너뜀"); return
+        if behind:
+            print(f"자기 세션보다 뒤처진 카드 {len(behind)}장 — 다시 만든다: {' '.join(sorted(behind))}", flush=True)
     want = [a.upper() for a in sys.argv[1:] if not a.startswith("--")]
     tickers = want or (gen_tickers() + BANKS + HAND)
     work = os.path.join(V2, ".sec_cache", "_work", "daily")
