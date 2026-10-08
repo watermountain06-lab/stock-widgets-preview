@@ -107,6 +107,13 @@ jobs:
           sleep 2
           curl -sf http://localhost:8765/index.html > /dev/null
 
+      # 환율(원·대만달러·유로)과 SK하이닉스 원주 일봉을 새로 받는다. 받는 단계가 없어 9월 말 값에 멈춰 있었다
+      # (2026-10-08). 실패하면 스크립트가 기존 파일을 두고 0으로 끝난다 — 재빌드를 막지 않는다.
+      - name: Refresh FX and SKHY KRX prices
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python3 v2/fetch_refs.py
+
       - name: Rebuild cards
         id: run
         continue-on-error: true

@@ -20,8 +20,9 @@ V2 = os.path.dirname(HERE)
 OUT = os.path.join(V2, ".sec_cache", "skhy_krx_000660.json")
 
 
-def fetch():
-    raw = subprocess.run(["curl", "-s", "-A", "Mozilla/5.0",
+def download():
+    """받기만 한다(파일에 쓰지 않음) — fetch_refs.py가 검사·병합한 뒤 직접 저장한다."""
+    raw = subprocess.run(["curl", "-sf", "--max-time", "60", "-A", "Mozilla/5.0",
                           "https://query1.finance.yahoo.com/v8/finance/chart/000660.KS?range=10y&interval=1d"],
                          capture_output=True, check=True).stdout
     r = json.loads(raw)["chart"]["result"][0]
@@ -34,6 +35,11 @@ def fetch():
             continue
         day = D.datetime.fromtimestamp(ts, tz).date().isoformat()
         bars.append([day, q["open"][i], q["high"][i], q["low"][i], c])
+    return bars
+
+
+def fetch():
+    bars = download()
     json.dump(bars, open(OUT, "w"))
     print(f"저장: {OUT} — {len(bars)}일 ({bars[0][0]} ~ {bars[-1][0]})")
     return bars
