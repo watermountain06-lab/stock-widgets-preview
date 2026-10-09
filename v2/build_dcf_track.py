@@ -63,12 +63,47 @@ import build_multiple_history as bmh  # noqa: E402
 import fx  # noqa: E402
 
 
-def quarter_ends(ticker, start="2022-01-01"):
+# 차트(DAILY, 약 5년)의 첫날보다 앞선 점이 하나는 있어야 카드 JS가 첫날부터 띠를 그린다(dcfPrior).
+# 2021-07-01로 두면 7월~10월 초에 공시가 없는 종목은 그 점이 안 생겨 한 분기 더 당겼다(Fable 2026-10-08).
+TRACK_START = "2021-04-01"
+
+# 앞쪽 채우기(아래 front_window_start)를 하지 않는 종목. 2026-10-08 사용자 결정 — 원인을 따로 다룬다.
+FRONT_EXCLUDE = {
+    "COP": "영업이익이 빈 분기 때문에 고정 창이 2024-05~2025-08에 비어, 앞쪽만 채우면 가운데 공백이 남는다",
+    "DELL": "VMware 분사 전후 재작성 분기가 섞여 2021년 점이 음수로 나온다(HISTORY_WINDOW 없음)",
+}
+
+
+def quarter_ends(ticker, start=TRACK_START):
     """분기 실적이 공개된 날짜들. 그 시점마다 내재가치를 다시 계산한다."""
     cik = d.feh.CIKS[ticker]
     tag, rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
     ttm = bmh.ttm_series(bmh.quarterly_flow(rows, ticker))
     return [e["available"] for e in ttm if e["available"] >= start]
+
+
+def front_window_start(ticker, day):
+    """첫 고정 창 점보다 앞선 날짜의 창 시작 — 그날 공시된 **최근 13개** TTM 분기.
+
+    고정 창(build_dcf.WINDOW_START부터)은 13분기가 차야 첫 값이 나와 띠가 2024년 가을에야 시작했다.
+    그 앞을 "직전 5.25년"으로 채우면 첫 고정 점(정확히 13분기 창)과 정의가 달라 이음매에서 값이 ±10% 튀었다.
+    개수로 맞추면 첫 고정일에 두 정의가 같은 값을 낸다(2026-10-08 시험: NVDA·MSFT·KO·META·AMZN 자릿수까지 일치).
+    공시일 필터는 history()와 같은 기준(매출·영업이익 공시일 중 늦은 쪽 ≤ day)이다.
+    분사 종목은 HISTORY_WINDOW 시작보다 앞으로 가지 않는다 — 최소 개수도 그대로라 대개 한 점도 늘지 않는다.
+    """
+    cik = d.feh.CIKS[ticker]
+
+    def ttm_map(tags):
+        tag, rows = bmh.pick_tag(cik, tags)
+        return {e["end"]: e for e in bmh.ttm_series(bmh.quarterly_flow(rows, ticker))} if rows else {}
+
+    rev, op = ttm_map(bmh.FLOW_TAGS["revenue"]), ttm_map(bmh.EBITDA_TAGS["opinc"])
+    avail = sorted(x for x in set(rev) & set(op) if max(rev[x]["available"], op[x]["available"]) <= day)
+    if len(avail) < 13:
+        return None
+    ws = avail[-13]
+    hw = d.HISTORY_WINDOW.get(ticker)
+    return max(ws, hw[0]) if hw else ws
 
 
 def main():
@@ -105,31 +140,46 @@ def main():
         j = idx[-1] + bars
         return closes[dates[j]] if j < len(dates) else None
 
-    points = []
+    points, skipped = [], []
+    seen_fixed = False   # 앞쪽 채우기는 첫 고정 점 **이전**에만 — 그 뒤 고정 창이 비는 날은 지금처럼 비운다(COP, Fable 2026-10-08)
     for day in quarter_ends(t):
         base = d.base_inputs(t, asof=day)
         hist = d.history(t, asof=day)
+        window = "fixed"
+        if hist:
+            seen_fixed = True
+        elif not seen_fixed and t not in FRONT_EXCLUDE:
+            ws = front_window_start(t, day)
+            hist = d.history(t, asof=day, window_start=ws) if ws else None
+            window = "last13"
         if not base.get("revenue") or not base.get("shares") or not hist:
+            skipped.append({"date": day, "why": "기초 입력 없음" if hist else "이력 분기 부족"})
             continue
         try:
             # 재무가 현지 통화(TSM)면 그 시점 환율로 달러로 되돌려 그날 ADR 가격과 비교한다(v2/fx.py).
             r = fx.rate(t, day)
             scs = {x["name"]: x["per_share"] / r for x in d.scenarios(base, hist, args.wacc, args.terminal)}
-        except Exception:
+        except Exception as e:
+            skipped.append({"date": day, "why": f"{type(e).__name__}: {e}"})
             continue
-        px = price_at(day)
+        px = price_at(day)   # 차트 첫날보다 앞선 점은 None — 띠(dcfPrior)에는 쓰고 성적표에서는 뺀다
         fwd = forward(day, args.horizon)
         points.append({
-            "date": day, "price": px,
+            "date": day, "price": px, "window": window,
             "low": scs["보수"], "base": scs["기본"], "high": scs["낙관"],
             "forward_price": fwd,
             "forward_return": (fwd / px - 1) if (fwd and px) else None,
         })
+    for s in skipped:
+        print(f"  (건너뜀 {s['date']}: {s['why']})")
+    if t in FRONT_EXCLUDE:
+        print(f"  (앞쪽 채우기 제외: {FRONT_EXCLUDE[t]})")
+    scored = [p for p in points if p["price"] is not None]
 
     print(f"{t} — 시점별 DCF (WACC {args.wacc:.0%} · 영구성장 {args.terminal:.1%}"
           f" · 이후 {args.horizon}거래일 수익률)")
     print(f"{'시점':12s} {'주가':>8s} {'낮은성장':>9s} {'기본':>8s} {'높은성장':>9s} {'판정':>12s} {'이후수익률':>10s}")
-    for p in points:
+    for p in scored:
         if p["price"] < p["low"]:
             verdict = "저평가(낮은성장)"
         elif p["price"] < p["base"]:
@@ -145,7 +195,7 @@ def main():
     # 성적표 — 판정별로 이후 수익률을 모은다
     print("\n판정별 이후 수익률")
     buckets = {}
-    for p in points:
+    for p in scored:
         if p["forward_return"] is None:
             continue
         key = "주가 < 낮은성장" if p["price"] < p["low"] else (
@@ -168,7 +218,7 @@ def main():
     # 여기서 매번 같이 찍는다.
     def hit_rate(h):
         hit = tot = 0
-        for p in points:
+        for p in scored:
             i = idx_at(p["date"])
             if i is None or i + h >= len(dates):
                 continue
@@ -196,7 +246,7 @@ def main():
     def always_buy(h):
         """같은 판정일에 아무 판단 없이 사기만 했을 때의 방향 적중."""
         hit = tot = 0
-        for p in points:
+        for p in scored:
             i = idx_at(p["date"])
             if i is None or i + h >= len(dates):
                 continue
@@ -205,7 +255,7 @@ def main():
         return hit, tot
 
     print("\n② 같은 판정일에 그냥 샀을 때보다 나은가 (짝지은 기준선)")
-    i0, i1 = idx_at(points[0]["date"]), idx_at(points[-1]["date"])
+    i0, i1 = (idx_at(scored[0]["date"]), idx_at(scored[-1]["date"])) if scored else (0, -1)
     for h in HORIZONS:
         hit, tot = hit_rate(h)
         bh, bt = always_buy(h)
@@ -217,7 +267,7 @@ def main():
         env = f" · 참고: 같은 구간 전 거래일 상승 {sum(1 for x in rs if x > 0)}/{len(rs)}" if rs else ""
         print(f"  {h:3d}거래일 보유 → 모델 {hit}/{tot} = {hit/tot*100:.0f}%"
               f" · 그냥 매수 {bh}/{bt} = {bh/bt*100:.0f}%{env}")
-    print(f"  표본이 {len(points)}개뿐이고 연속 시점이 재무제표를 공유하므로,"
+    print(f"  표본이 {len(scored)}개뿐이고 연속 시점이 재무제표를 공유하므로,"
           "\n  어느 쪽이 앞서든 통계적 우월성을 주장할 수 없다. 방향만 본다.")
 
     print("\n⚠ 연속한 시점은 대부분 같은 재무제표를 공유해 독립 시행이 아니다."
@@ -225,7 +275,7 @@ def main():
           " 성적표가 좋아도 예측력의 증거가 아니다.")
 
     if args.json:
-        json.dump({"ticker": t, "wacc": args.wacc, "horizon": args.horizon, "points": points},
+        json.dump({"ticker": t, "wacc": args.wacc, "horizon": args.horizon, "points": points, "skipped": skipped},
                   open(args.json, "w"), ensure_ascii=False, indent=1)
         print("저장:", args.json)
 
