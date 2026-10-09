@@ -1,0 +1,236 @@
+NOTE target in hand list: ADI
+NOTE target in hand list: LIN
+# engine debt < 0.5×LongTermDebt (same end), 2017+ : 1033 rows, 63 tickers
+A  n=17 ends 2022-07-31..2026-07-31 kinds=Counter({'?': 17})
+     2022-07-31 engine 0.18 LTD 2.73 ? {'ShortTermBorro': 0.18}
+     2022-10-31 engine 0.04 LTD 2.73 ? {'ShortTermBorro': 0.04}
+     2023-01-31 engine 0.24 LTD 2.73 ? {'ShortTermBorro': 0.24}
+DRI  n=12 ends 2023-05-28..2026-02-22 kinds=Counter({'?': 12})
+     2023-05-28 engine 0.0 LTD 0.88 ? {'ShortTermBorro': 0.0}
+     2023-08-27 engine 0.1 LTD 1.48 ? {'ShortTermBorro': 0.1}
+     2023-11-26 engine 0.35 LTD 1.37 ? {'ShortTermBorro': 0.35}
+EQIX  n=35 ends 2017-03-31..2025-09-30 kinds=Counter({'?': 35})
+     2017-03-31 engine 0.0 LTD 7.65 ? {}
+     2017-06-30 engine 0.0 LTD 7.73 ? {}
+     2017-09-30 engine 0.0 LTD 8.45 ? {}
+KLAC CARD n=17 ends 2021-06-30..2025-06-30 kinds=Counter({'?': 17})
+     2021-06-30 engine 0.02 LTD 3.42 ? {'ShortTermBorro': 0.02, 'DebtLongtermAn': 3.44}
+     2021-09-30 engine 0.02 LTD 3.42 ? {'ShortTermBorro': 0.02, 'DebtLongtermAn': 3.44}
+     2021-12-31 engine 0.02 LTD 3.42 ? {'ShortTermBorro': 0.02, 'DebtLongtermAn': 3.44}
+OMC  n=9 ends 2017-12-31..2025-12-31 kinds=Counter({'?': 9})
+     2017-12-31 engine 0.01 LTD 4.9 ? {'LongTermDebtCu': 0.0, 'ShortTermBorro': 0.01}
+     2018-12-31 engine 0.51 LTD 4.9 ? {'LongTermDebtCu': 0.5, 'ShortTermBorro': 0.01}
+     2019-12-31 engine 0.01 LTD 5.12 ? {'ShortTermBorro': 0.01}
+PTC  n=29 ends 2018-09-30..2026-06-30 kinds=Counter({'?': 29})
+     2018-09-30 engine 0.0 LTD 0.64 ? {}
+     2019-06-29 engine 0.0 LTD 0.7 ? {}
+     2019-09-30 engine 0.0 LTD 0.67 ? {'ShortTermBorro': 0.0}
+RMD  n=30 ends 2018-03-31..2025-06-30 kinds=Counter({'?': 30})
+     2018-03-31 engine 0.0 LTD 0.81 ? {'DebtLongtermAn': 0.81}
+     2018-06-30 engine 0.01 LTD 0.27 ? {'ShortTermBorro': 0.01, 'DebtLongtermAn': 0.28}
+     2018-09-30 engine 0.01 LTD 0.52 ? {'ShortTermBorro': 0.01, 'DebtLongtermAn': 0.53}
+TRMB  n=5 ends 2020-10-02..2022-04-01 kinds=Counter({'?': 5})
+     2020-10-02 engine 0.28 LTD 1.39 ? {'ShortTermBorro': 0.28, 'DebtLongtermAn': 1.67}
+     2021-04-02 engine 0.1 LTD 1.29 ? {'ShortTermBorro': 0.1, 'DebtLongtermAn': 1.39}
+     2021-07-02 engine 0.09 LTD 1.29 ? {'ShortTermBorro': 0.09, 'DebtLongtermAn': 1.38}
+TTWO  n=3 ends 2022-06-30..2022-12-31 kinds=Counter({'?': 3})
+     2022-06-30 engine 0.35 LTD 2.94 ? {'ShortTermBorro': 0.35}
+     2022-09-30 engine 0.35 LTD 2.94 ? {'ShortTermBorro': 0.35}
+     2022-12-31 engine 0.35 LTD 2.74 ? {'ShortTermBorro': 0.35, 'DebtLongtermAn': 3.1}
+VTR  n=15 ends 2017-03-31..2025-12-31 kinds=Counter({'?': 15})
+     2017-03-31 engine 0.0 LTD 11.94 ? {}
+     2017-06-30 engine 0.0 LTD 11.91 ? {}
+     2017-09-30 engine 0.0 LTD 11.42 ? {}
+ABT CARD n=1 ends 2018-01-05..2018-01-05 kinds=Counter({'?': 1})
+     2018-01-05 engine 0.0 LTD 1.15 ? {}
+ADBE  n=32 ends 2017-03-03..2026-02-27 kinds=Counter({'?': 32})
+     2017-03-03 engine 0.0 LTD 1.88 ? {}
+     2017-06-02 engine 0.0 LTD 1.89 ? {}
+     2017-09-01 engine 0.0 LTD 1.89 ? {}
+ADSK  n=30 ends 2017-01-31..2026-07-31 kinds=Counter({'?': 30})
+     2017-01-31 engine 0.0 LTD 1.09 ? {}
+     2018-01-31 engine 0.0 LTD 1.59 ? {}
+     2019-01-31 engine 0.0 LTD 2.09 ? {}
+AIG  n=21 ends 2017-03-31..2023-12-31 kinds=Counter({'?': 21})
+     2017-03-31 engine 0.0 LTD 30.75 ? {}
+     2017-06-30 engine 0.0 LTD 31.81 ? {}
+     2017-09-30 engine 0.0 LTD 31.04 ? {}
+AME  n=1 ends 2025-12-31..2025-12-31 kinds=Counter({'TOT>NC': 1})
+     2025-12-31 engine 1.07 LTD 2.28 TOT>NC {'LongTermDebtNo': 1.07, 'DebtCurrent': 1.21}
+AVB  n=38 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 38})
+     2017-03-31 engine 0.0 LTD 7.05 ? {}
+     2017-06-30 engine 0.0 LTD 7.06 ? {}
+     2017-09-30 engine 0.0 LTD 7.2 ? {}
+AXP CARD n=38 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 38})
+     2017-03-31 engine 3.6 LTD 51.65 ? {'ShortTermBorro': 3.6}
+     2017-06-30 engine 3.43 LTD 51.95 ? {'ShortTermBorro': 3.43}
+     2017-09-30 engine 2.35 LTD 48.76 ? {'ShortTermBorro': 2.35}
+BAC CARD n=38 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 38})
+     2017-03-31 engine 44.16 LTD 221.38 ? {'OtherShortTerm': 44.16}
+     2017-06-30 engine 36.49 LTD 223.92 ? {'OtherShortTerm': 36.49}
+     2017-09-30 engine 32.68 LTD 228.67 ? {'OtherShortTerm': 32.68}
+BNY  n=26 ends 2017-12-31..2026-06-30 kinds=Counter({'?': 26})
+     2017-12-31 engine 0.0 LTD 27.98 ? {}
+     2018-12-31 engine 0.0 LTD 29.16 ? {}
+     2019-12-31 engine 0.0 LTD 27.5 ? {}
+BXP  n=5 ends 2017-12-31..2021-12-31 kinds=Counter({'?': 5})
+     2017-12-31 engine 0.0 LTD 3.01 ? {}
+     2018-12-31 engine 0.0 LTD 3.0 ? {}
+     2019-12-31 engine 0.0 LTD 2.95 ? {}
+C CARD n=36 ends 2017-03-31..2025-12-31 kinds=Counter({'?': 36})
+     2017-03-31 engine 52.25 LTD 208.53 ? {'ShortTermBorro': 26.13, 'CommercialPape': 10.09, 'OtherShortTerm': 16.04}
+     2017-06-30 engine 73.04 LTD 225.18 ? {'ShortTermBorro': 36.52, 'CommercialPape': 9.98, 'OtherShortTerm': 26.54}
+     2017-09-30 engine 76.3 LTD 232.67 ? {'ShortTermBorro': 38.15, 'CommercialPape': 10.03, 'OtherShortTerm': 28.12}
+CFG  n=37 ends 2017-06-30..2026-06-30 kinds=Counter({'?': 37})
+     2017-06-30 engine 4.44 LTD 13.15 ? {'ShortTermBorro': 2.43, 'OtherShortTerm': 2.0}
+     2017-09-30 engine 3.46 LTD 13.4 ? {'ShortTermBorro': 1.96, 'OtherShortTerm': 1.5}
+     2017-12-31 engine 4.53 LTD 11.77 ? {'ShortTermBorro': 2.67, 'OtherShortTerm': 1.86}
+CHRW  n=3 ends 2017-03-31..2017-09-30 kinds=Counter({'?': 3})
+     2017-03-31 engine 0.0 LTD 0.5 ? {'DebtCurrent': 0.74}
+     2017-06-30 engine 0.0 LTD 0.75 ? {'DebtCurrent': 0.59}
+     2017-09-30 engine 0.0 LTD 0.75 ? {'DebtCurrent': 0.72}
+CIEN  n=2 ends 2017-04-30..2017-07-31 kinds=Counter({'?': 2})
+     2017-04-30 engine 0.19 LTD 0.39 ? {}
+     2017-07-31 engine 0.0 LTD 0.39 ? {}
+COR  n=1 ends 2018-10-31..2018-10-31 kinds=Counter({'?': 1})
+     2018-10-31 engine 0.0 LTD 0.4 ? {}
+CPAY  n=10 ends 2021-12-31..2026-06-30 kinds=Counter({'?': 10})
+     2021-12-31 engine 1.52 LTD 5.98 ? {'LongTermDebtCu': 1.52}
+     2022-12-31 engine 2.31 LTD 7.04 ? {'LongTermDebtCu': 2.31}
+     2023-12-31 engine 2.13 LTD 6.72 ? {'LongTermDebtCu': 2.13}
+CPT  n=38 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 38})
+     2017-03-31 engine 0.0 LTD 2.45 ? {}
+     2017-06-30 engine 0.0 LTD 2.3 ? {}
+     2017-09-30 engine 0.0 LTD 2.2 ? {}
+DG  n=6 ends 2020-07-31..2021-10-29 kinds=Counter({'?': 6})
+     2020-07-31 engine 0.0 LTD 4.09 ? {}
+     2020-10-30 engine 0.0 LTD 4.13 ? {}
+     2021-01-29 engine 0.0 LTD 4.13 ? {}
+EQR  n=9 ends 2017-12-31..2025-12-31 kinds=Counter({'?': 9})
+     2017-12-31 engine 0.0 LTD 9.07 ? {}
+     2018-12-31 engine 0.5 LTD 8.91 ? {'CommercialPape': 0.5}
+     2019-12-31 engine 1.0 LTD 9.13 ? {'CommercialPape': 1.0}
+EXE  n=1 ends 2021-02-09..2021-02-09 kinds=Counter({'?': 1})
+     2021-02-09 engine 0.0 LTD 1.31 ? {'LongTermDebtCu': 0.0}
+EXPE  n=6 ends 2021-03-31..2024-03-31 kinds=Counter({'?': 6})
+     2021-03-31 engine 0.0 LTD 8.46 ? {}
+     2021-06-30 engine 0.0 LTD 8.48 ? {}
+     2023-03-31 engine 0.0 LTD 6.24 ? {}
+EXR  n=2 ends 2017-12-31..2018-09-30 kinds=Counter({'?': 2})
+     2017-12-31 engine 0.0 LTD 0.6 ? {}
+     2018-09-30 engine 0.0 LTD 0.56 ? {}
+FDS  n=21 ends 2017-02-28..2022-05-31 kinds=Counter({'?': 21})
+     2017-02-28 engine 0.0 LTD 0.36 ? {}
+     2017-05-31 engine 0.0 LTD 0.57 ? {}
+     2017-08-31 engine 0.0 LTD 0.57 ? {}
+FICO  n=20 ends 2017-03-31..2023-06-30 kinds=Counter({'?': 20})
+     2017-03-31 engine 0.0 LTD 0.52 ? {'DebtCurrent': 0.11}
+     2017-06-30 engine 0.0 LTD 0.39 ? {'DebtCurrent': 0.22}
+     2017-12-31 engine 0.0 LTD 0.46 ? {'DebtCurrent': 0.2}
+FITB  n=34 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 34})
+     2017-03-31 engine 2.02 LTD 13.66 ? {'OtherShortTerm': 2.02}
+     2017-06-30 engine 5.39 LTD 13.46 ? {'OtherShortTerm': 5.39}
+     2017-09-30 engine 5.69 LTD 14.04 ? {'OtherShortTerm': 5.69}
+FTV  n=1 ends 2018-03-30..2018-03-30 kinds=Counter({'?': 1})
+     2018-03-30 engine 0.0 LTD 4.0 ? {}
+GL  n=6 ends 2017-03-31..2019-03-31 kinds=Counter({'?': 6})
+     2017-03-31 engine 0.33 LTD 1.13 ? {'ShortTermBorro': 0.33}
+     2017-06-30 engine 0.31 LTD 1.13 ? {'ShortTermBorro': 0.31}
+     2017-09-30 engine 0.31 LTD 1.13 ? {'ShortTermBorro': 0.31}
+HAL  n=4 ends 2025-06-30..2026-06-30 kinds=Counter({'?': 4})
+     2025-06-30 engine 0.38 LTD 7.16 ? {'LongTermDebtCu': 0.38}
+     2025-09-30 engine 0.38 LTD 7.16 ? {'LongTermDebtCu': 0.38}
+     2026-03-31 engine 0.09 LTD 7.07 ? {'LongTermDebtCu': 0.09}
+HBAN  n=34 ends 2017-03-31..2026-03-31 kinds=Counter({'?': 34})
+     2017-03-31 engine 1.26 LTD 9.28 ? {'ShortTermBorro': 1.26}
+     2017-09-30 engine 1.83 LTD 9.2 ? {'ShortTermBorro': 1.83}
+     2018-03-31 engine 2.85 LTD 8.62 ? {'ShortTermBorro': 2.85}
+HIG  n=25 ends 2017-09-30..2025-09-30 kinds=Counter({'?': 25})
+     2017-09-30 engine 0.32 LTD 4.82 ? {'ShortTermBorro': 0.32}
+     2018-03-31 engine 0.41 LTD 4.75 ? {'ShortTermBorro': 0.41}
+     2018-06-30 engine 0.41 LTD 4.26 ? {'ShortTermBorro': 0.41, 'CommercialPape': 0.0}
+HWM  n=1 ends 2023-09-30..2023-09-30 kinds=Counter({'?': 1})
+     2023-09-30 engine 0.0 LTD 3.79 ? {}
+IDXX  n=2 ends 2017-12-31..2018-12-31 kinds=Counter({'?': 2})
+     2017-12-31 engine 0.0 LTD 0.61 ? {}
+     2018-12-31 engine 0.0 LTD 0.6 ? {}
+INTU  n=19 ends 2017-01-31..2022-04-30 kinds=Counter({'?': 19})
+     2017-01-31 engine 0.0 LTD 0.46 ? {'DebtCurrent': 0.69}
+     2017-04-30 engine 0.0 LTD 0.45 ? {'DebtCurrent': 0.05}
+     2017-07-31 engine 0.0 LTD 0.44 ? {'DebtCurrent': 0.05}
+KEY  n=37 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 37})
+     2017-03-31 engine 0.0 LTD 12.32 ? {}
+     2017-06-30 engine 0.0 LTD 13.26 ? {}
+     2017-09-30 engine 0.0 LTD 15.1 ? {}
+KVUE  n=4 ends 2023-04-02..2023-12-31 kinds=Counter({'?': 4})
+     2023-04-02 engine 0.0 LTD 7.68 ? {}
+     2023-07-02 engine 0.75 LTD 7.68 ? {'CommercialPape': 0.75, 'DebtLongtermAn': 8.44}
+     2023-10-01 engine 0.52 LTD 7.68 ? {'CommercialPape': 0.52, 'DebtLongtermAn': 8.2}
+L  n=6 ends 2020-03-31..2021-09-30 kinds=Counter({'?': 6})
+     2020-03-31 engine 2.46 LTD 9.51 ? {'ShortTermBorro': 2.46}
+     2020-06-30 engine 0.05 LTD 9.96 ? {'ShortTermBorro': 0.05}
+     2020-09-30 engine 0.04 LTD 10.37 ? {'ShortTermBorro': 0.04}
+LITE  n=17 ends 2017-04-01..2022-04-02 kinds=Counter({'?': 17})
+     2017-04-01 engine 0.0 LTD 0.46 ? {}
+     2017-07-01 engine 0.0 LTD 0.46 ? {}
+     2017-09-30 engine 0.0 LTD 0.46 ? {}
+MS CARD n=16 ends 2017-03-31..2020-12-31 kinds=Counter({'?': 16})
+     2017-03-31 engine 1.12 LTD 172.69 ? {'ShortTermBorro': 1.12}
+     2017-06-30 engine 0.92 LTD 184.11 ? {'ShortTermBorro': 0.92}
+     2017-09-30 engine 1.09 LTD 191.68 ? {'ShortTermBorro': 1.09}
+MTB  n=29 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 29})
+     2017-03-31 engine 0.0 LTD 8.09 ? {}
+     2017-06-30 engine 1.5 LTD 7.65 ? {'OtherShortTerm': 1.5}
+     2017-09-30 engine 0.0 LTD 8.58 ? {}
+NDAQ  n=2 ends 2017-06-30..2017-09-30 kinds=Counter({'?': 2})
+     2017-06-30 engine 0.49 LTD 3.06 ? {'ShortTermBorro': 0.49, 'DebtLongtermAn': 3.55}
+     2017-09-30 engine 0.15 LTD 3.59 ? {'ShortTermBorro': 0.15, 'DebtLongtermAn': 3.74}
+NRG  n=1 ends 2018-06-19..2018-06-19 kinds=Counter({'?': 1})
+     2018-06-19 engine 0.0 LTD 0.12 ? {}
+NVDA CARD n=14 ends 2017-01-29..2020-07-26 kinds=Counter({'?': 14})
+     2017-01-29 engine 0.0 LTD 1.98 ? {}
+     2017-04-30 engine 0.0 LTD 1.98 ? {}
+     2017-07-30 engine 0.0 LTD 1.98 ? {}
+O  n=1 ends 2017-03-31..2017-03-31 kinds=Counter({'?': 1})
+     2017-03-31 engine 0.0 LTD 4.67 ? {}
+ODFL  n=1 ends 2017-12-31..2017-12-31 kinds=Counter({'?': 1})
+     2017-12-31 engine 0.04 LTD 0.1 ? {'LongTermDebtAn': 0.05}
+PFG  n=37 ends 2017-03-31..2026-03-31 kinds=Counter({'?': 37})
+     2017-03-31 engine 0.06 LTD 3.13 ? {'ShortTermBorro': 0.06}
+     2017-06-30 engine 0.04 LTD 3.13 ? {'ShortTermBorro': 0.04}
+     2017-09-30 engine 0.06 LTD 3.18 ? {'ShortTermBorro': 0.06}
+PSA  n=38 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 38})
+     2017-03-31 engine 0.0 LTD 0.4 ? {}
+     2017-06-30 engine 0.0 LTD 0.42 ? {}
+     2017-09-30 engine 0.0 LTD 1.43 ? {}
+RF  n=31 ends 2017-03-31..2025-12-31 kinds=Counter({'?': 31})
+     2017-03-31 engine 0.0 LTD 6.01 ? {}
+     2017-06-30 engine 1.2 LTD 6.76 ? {'ShortTermBorro': 0.6, 'OtherShortTerm': 0.6}
+     2017-09-30 engine 1.2 LTD 6.1 ? {'ShortTermBorro': 0.6, 'OtherShortTerm': 0.6}
+ROL  n=8 ends 2019-12-31..2026-06-30 kinds=Counter({'?': 8})
+     2019-12-31 engine 0.0 LTD 0.29 ? {}
+     2024-12-31 engine 0.0 LTD 0.4 ? {'ShortTermBorro': 0.0}
+     2025-03-31 engine 0.0 LTD 0.49 ? {}
+TFC  n=24 ends 2017-03-31..2025-06-30 kinds=Counter({'?': 24})
+     2017-03-31 engine 2.02 LTD 21.64 ? {'ShortTermBorro': 2.02}
+     2017-06-30 engine 6.14 LTD 21.74 ? {'ShortTermBorro': 6.14}
+     2017-09-30 engine 7.92 LTD 20.86 ? {'ShortTermBorro': 7.92}
+TPR  n=1 ends 2019-06-30..2019-06-30 kinds=Counter({'?': 1})
+     2019-06-30 engine 0.0 LTD 1.6 ? {'LongTermDebtCu': 0.0}
+TSCO  n=1 ends 2017-08-14..2017-08-14 kinds=Counter({'?': 1})
+     2017-08-14 engine 0.0 LTD 0.15 ? {}
+USB  n=15 ends 2017-03-31..2021-12-31 kinds=Counter({'?': 15})
+     2017-03-31 engine 12.18 LTD 35.95 ? {'ShortTermBorro': 12.18}
+     2017-06-30 engine 14.41 LTD 37.81 ? {'ShortTermBorro': 14.41}
+     2017-09-30 engine 15.86 LTD 34.52 ? {'ShortTermBorro': 15.86}
+WFC CARD n=30 ends 2017-03-31..2026-06-30 kinds=Counter({'?': 30})
+     2017-03-31 engine 94.87 LTD 256.47 ? {'ShortTermBorro': 94.87}
+     2017-06-30 engine 95.36 LTD 238.87 ? {'ShortTermBorro': 95.36}
+     2017-09-30 engine 93.81 LTD 238.89 ? {'ShortTermBorro': 93.81}
+
+# tickers hit: ['A', 'ABT', 'ADBE', 'ADSK', 'AIG', 'AME', 'AVB', 'AXP', 'BAC', 'BNY', 'BXP', 'C', 'CFG', 'CHRW', 'CIEN', 'COR', 'CPAY', 'CPT', 'DG', 'DRI', 'EQIX', 'EQR', 'EXE', 'EXPE', 'EXR', 'FDS', 'FICO', 'FITB', 'FTV', 'GL', 'HAL', 'HBAN', 'HIG', 'HWM', 'IDXX', 'INTU', 'KEY', 'KLAC', 'KVUE', 'L', 'LITE', 'MS', 'MTB', 'NDAQ', 'NRG', 'NVDA', 'O', 'ODFL', 'OMC', 'PFG', 'PSA', 'PTC', 'RF', 'RMD', 'ROL', 'TFC', 'TPR', 'TRMB', 'TSCO', 'TTWO', 'USB', 'VTR', 'WFC']
+# cards hit: ['ABT', 'AXP', 'BAC', 'C', 'KLAC', 'MS', 'NVDA', 'WFC']
+LIN 2022-06-30 {'LongTermDebt': 12.828, 'ShortTermBorrowings': 3.215, 'CommercialPaper': 2.974, 'LongTermDebtAndCapitalLeaseObligations': 11.177, 'LongTermDebtAndCapitalLeaseObligationsCurrent': 1.651, 'OtherShortTermBorrowings': 0.241}
+LIN 2022-09-30 {'LongTermDebt': 12.159, 'ShortTermBorrowings': 3.179, 'CommercialPaper': 2.954, 'LongTermDebtAndCapitalLeaseObligations': 10.608, 'LongTermDebtAndCapitalLeaseObligationsCurrent': 1.551, 'OtherShortTermBorrowings': 0.225}
+LIN 2022-12-31 {'LongTermDebt': 13.797, 'LongTermDebtCurrent': 1.599, 'LongTermDebtNoncurrent': 12.198, 'ShortTermBorrowings': 4.117, 'CommercialPaper': 3.926, 'LongTermDebtAndCapitalLeaseObligations': 12.198, 'LongTermDebtAndCapitalLeaseObligationsCurrent': 1.599, 'OtherShortTermBorrowings': 0.191, 'DebtLongtermAndShorttermCombinedAmount': 17.914}
+LIN 2023-03-31 {'LongTermDebt': 13.44, 'LongTermDebtCurrent': 1.696, 'LongTermDebtNoncurrent': 11.744, 'ShortTermBorrowings': 5.337, 'CommercialPaper': 5.063, 'LongTermDebtAndCapitalLeaseObligations': 11.744, 'LongTermDebtAndCapitalLeaseObligationsCurrent': 1.696, 'OtherShortTermBorrowings': 0.274, 'DebtLongtermAndShorttermCombinedAmount': 18.777}
