@@ -129,3 +129,15 @@
   (4) 10-08 변경 기록의 A10 예외 (1)~(6)을 철회한다. A10 대조(A10-S1 − S0, 둘 다 A9 없음·W0·B 없음, 지표 정의는 `a10_self_history_prereg.md` 4절 첫 항목)는 보고 항목으로 남긴다.
   (5) 9절 "12-01 전에 3단계까지" 일정을 없앤다. 검증에서 엔진을 고치면 패널의 전후 차이만 보고하고 다시 봉인한다 — **12-01 선택은 다시 돌리지 않는다**(12-01 자체의 오류 수정은 그 실행 문서의 규칙대로).
   (6) 이번에 철회한 미실행 절차는 "바꾸기 전 규칙의 결과도 함께 보고"(머리말) 의무에서 뺀다.
+- 2026-10-09 (사용자 결정, 수익률 보기 전) 시험 구간 패널의 엔진 예외 16행(UDR 2022-04~2023-01 10행, ETN 2022-02·03, VRT 2024-02·03, VTRS 2024-02·03)은 엔진을 고치지 않고 **현금흐름 결측**으로 둔다(`dcf_ok` 거짓 — 분석 코드가 이미 그 칸을 기권시킨다). 원인은 엔진이 아니라 옛 매출 TTM 자료다. ETN·VRT·VTRS는 시계열 첫머리 TTM이 4분기가 차지 않아 0에서 시작하고(성장률 분모 0), UDR은 2018-12부터 매출 태그가 전체 매출(`Revenues`)에서 계약 매출(`RevenueFromContract…`, 임대료 제외)로 바뀌어 TTM이 음수가 된다(음수의 거듭제곱 → 복소수). 같은 태그 전환이 오류 없이 지나간 행에도 있다 — UDR 나머지 20행과 AMT·CCI·ESS·EXR(CPT는 이미 결측)의 현금흐름은 잘못된 매출 위에서 계산됐다. 4절 3단계 검증에서 이 행들을 따로 보고하고, 엔진을 고칠지는 그때 정한다(고치면 4절 3단계대로 전후 차이 보고·재봉인). CCL·NCLH·RCL의 2020~21 매출 급락은 실제다.
+
+## 봉인 기록 (4절 2단계, 2026-10-09)
+수익률을 붙이기 전에 적는다. 파일별 SHA-256은 `gate_input_manifest.sha256`(1,201개, 확인은 `cd ~/Workspace && shasum -a 256 -c stock-widgets-preview/v2/research/gate_input_manifest.sha256`)에 있고, 이 문서에는 그 파일의 해시만 적는다.
+- **매니페스트 파일**: `4ff369d58a39d4946041c9144fb8ae14aabb2824da54b6682aa7583b841c1807`
+- **입력 범위**: 패널을 처음부터 다시 만들면서 실제로 읽힌 파일을 모두 기록했다(손으로 고르지 않음) — 가격 `.prices10y` 394개, SEC `.facts_20261002` 391개(같은 CIK 공유 종목 포함), 통제 유니버스 가격 `sp500_5y` 394개, 손 보정 6개(`core_earnings`·`interest_extra`·`nonop_extra`·`share_adjust`·`tax_oneoff`·`tax_rate_addback`), 종목 목록 `sp500.json`. EPS 파일(`.eps_20261002`)은 이 패널에서 읽히지 않는다(EPS TTM을 SEC 자료로 다시 만든다). `sp500_eps`는 내용이 아니라 **파일이 있는지**로 유니버스를 정하므로 이름 목록만 봉인한다 — 467개, 정렬한 이름을 줄바꿈으로 이은 문자열의 SHA-256 `35b41745eadf071d114f4929ab8ce2712ff6f08f3fff7aad8fde1cfe93563960`.
+- **코드**: 생성 경로가 불러오는 로컬 모듈 11개(`verdict_replay`·`pit`·`valuation_judges_test`·`gate_membership`·`build_dcf`·`build_multiple_history`·`build_fundamental_score`·`splits`·`fx`·`scripts/fetch_eps_history`·redesign `scripts/fetch_financials`)가 매니페스트에 있다. 패널을 만든 커밋(b18a453) 뒤 엔진 변경은 `build_dcf.py` 주석 2줄(9dcdf6a)뿐이다.
+- **재현 확인**: 2026-10-09 지금 코드와 위 입력으로 패널을 다시 만들어 저장된 `gate_test_panel.json`과 행 11,820개가 **완전히 같음**을 확인했다(636초). 패널 SHA-256 `653373c0bf3af580…`(전체 값은 매니페스트), 구성 구간 `gate_membership.json`·위키 원본 `list.json`·`historical.json`도 매니페스트에 있다.
+- **설정**: 평가월 2021-10~2024-03, 봉 시작 2016-01-01, 현금흐름 창 rolling(2절 계산식 그대로 — 2절 진입 조건 철회와 무관하게 패널 정의로 남는다), 제외 `{MRNA, ECHO, GL, APP}`, 금융 섹터 제외.
+- **부트스트랩**: `valuation_judges_test.boot_weighted` 기본값 — 블록 6개월, 5,000회, 시드 42.
+- **실행 환경**: Python 3.13.2, numpy 2.2.5, scipy 1.15.3.
+- 가격 파일이 디스크에 있으므로 절차 봉인이다(4절 2단계). 남은 것은 3단계 수익률 없는 검증이다.
