@@ -115,7 +115,10 @@ one("    dv.textContent = lv.label + (lv.split ? ' · 갈림' : '');",
     "    dv.textContent = d.referenceOnly ? '참고용 · 기권' : lv.label + (lv.split ? ' · 갈림' : '');   // 데이터 점검 미통과(사전 등록 7-7)")
 one("    pill('dcf', lv.cls, lv.label + (lv.split ? ' · 갈림' : ''));", "    pill('dcf', D.referenceOnly ? 'mid' : lv.cls, D.referenceOnly ? '참고용 · 기권' : lv.label + (lv.split ? ' · 갈림' : ''));   // 데이터 점검 미통과(카드 한정)")
 one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', '<div class="note" data-dcf-nonop hidden></div>')
-sub(r'<div class="reverse">.*?</div>\n  </div>', f'<div class="reverse" data-rim-reverse>지금 가격이 정당하려면 5년 동안 ROE가 매년 <b data-dcf-req>—</b>여야 하고, 그 뒤에도 절반만 수렴한 약 {f1(0.10 + 0.5 * (R["required_roe"] - 0.10))}가 이어져야 한다(탐색 상한 60% 바로 아래).</div>\n  </div>')
+sub(r'<div class="reverse">.*?</div>\n  </div>', f'<div class="reverse" data-rim-reverse>지금 가격이 정당하려면 5년 동안 ROE가 매년 <b data-dcf-req>—</b>여야 하고, 그 뒤에도 절반만 수렴한 약 {f1(0.10 + 0.5 * (R["required_roe"] - 0.10))}가 이어져야 한다(탐색 상한 60% 바로 아래).</div>\n  </div>'
+    if R["required_roe"] is not None else
+    # 주가가 올라 요구 ROE가 탐색 상한 60%를 넘으면 해가 없다(2026-10-08 종가 $308.1) — 사전 등록의 nosol 신호, 판정 규칙은 그대로
+    '<div class="reverse" data-rim-reverse>지금 가격이 정당하려면 5년 동안 ROE가 매년 탐색 상한 60%보다 높아야 한다 — 이 모형의 가정으로는 닿지 않는 가격이다.</div>\n  </div>')
 one('<div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span>',
     '<div class="knob"><span class="knob-l">잔존 수렴 <span class="knob-d" data-knob-default="term">(절반)</span></span>')
 one('<div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span>',
@@ -337,7 +340,7 @@ assert COF_['asOf'] == asof, COF_['asOf']   # 매일 재빌드는 COF를 AXP보�
 cof_txt = f'같은 카드·소비자금융 모델인 COF는 P/TBV {COF_["self"]["ptbv"]["current"]:.2f}배·PER {COF_["self"]["per"]["current"]:.1f}배로, {int(COF_["asOf"][5:7])}/{int(COF_["asOf"][8:])} 기준 참고일 뿐 판정에 쓰지 않는다 — 사전 등록 10-2'
 sub(r'<div class="vs-premise">.*?</div>\n    <div class="verdict-summary-risk">.*?</div>',
     f'<div class="vs-premise">AXP는 카드사지만 은행지주회사(CET1 규제)라 은행 사전 등록의 고정 비교군인 S&P500 대형·지역 은행 {len(_pe)}곳과 비교한다. 수수료 중심(비이자수익이 순수익의 {14988 / 19637 * 100:.0f}%)·ROE 37%인 사업 구조 차이도 이 순위에 함께 들어 있다. P/TBV {SH["ptbv"]["current"]:.2f}배는 유형자본을 계산할 수 있는 은행 {len(_pt)}곳 모두보다 비싸고(중앙값 {PEER["ptbv"]["median"]:.2f}배), PER {SH["per"]["current"]:.1f}배도 {len(_pe)}곳 모두보다 비싸 동종업은 −1(비싸다)이다. 자기 이력에서는 두 배수 모두 중간(P/TBV 하위 {SH["ptbv"]["percentile"]:.0f}%·PER 하위 {SH["per"]["percentile"]:.0f}%)이라 0이다. <strong>초과이익모형 기본 가치(${R["기본"]:.0f})는 현재가의 {1 / lvl * 100:.0f}%라 −2(매우 비싸다)다</strong>. 합계 −3으로 “고평가”다. 회사가 유형 장부가치를 밝히지 않아 P/TBV는 카드 계산 값이고, SEC 영업권 태그가 연말에만 있어 분기에는 직전 연말 영업권을 400일까지 이어 쓴다(사전 등록 10-1, 2026-10-05). 회사 TBVPS가 없으니 이 값을 회사 값과 대조하지는 못했고, 데이터 점검 G1은 8분기 모두 유형자본이 만들어지는지만 확인했다. 보통주 자본은 회사 BVPS와 8분기 모두 0.4% 안에서 맞고(G2), 최근 4분기 환원 총액은 회사가 분기마다 내지 않아 확인 불가로 둔다(G4, 6월 스트레스 테스트 보도자료의 12개월 값 하나는 카드 계산과 맞는다).</div>\n'
-    f'    <div class="verdict-summary-risk">⚠️ 현재가가 초과이익모형 기본 가치의 {lvl:.2f}배라 −2이고, 동종업 −1·자기 이력 0과 합쳐 “고평가”다. 지금 가격은 ROE {f1(R["required_roe"])}가 5년 이어진다는 값이다(최근 4분기 {f1(R["roe0"])}). 다만 이 모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보므로, ROE 37%가 이어지는 사업에는 낮게 나올 수 있다(수렴 없음이면 기본 ${vals["기본"][0][2]:.0f}). 동종업 −1도 대출 중심 은행과 견준 값이라 사업 구조 차이가 함께 들어 있다({cof_txt}).</div>')
+    f'    <div class="verdict-summary-risk">⚠️ 현재가가 초과이익모형 기본 가치의 {lvl:.2f}배라 −2이고, 동종업 −1·자기 이력 0과 합쳐 “고평가”다. {"지금 가격은 ROE " + f1(R["required_roe"]) + "가 5년 이어진다는 값이다" if R["required_roe"] is not None else "지금 가격은 ROE가 5년 동안 60%를 넘어야 나오는 값이다"}(최근 4분기 {f1(R["roe0"])}). 다만 이 모형은 5년 뒤 ROE가 자기자본비용 쪽으로 절반 수렴한다고 보므로, ROE 37%가 이어지는 사업에는 낮게 나올 수 있다(수렴 없음이면 기본 ${vals["기본"][0][2]:.0f}). 동종업 −1도 대출 중심 은행과 견준 값이라 사업 구조 차이가 함께 들어 있다({cof_txt}).</div>')
 
 # 판정 JS — 금융 규칙(두 배수가 같은 방향일 때만 표), 자기 이력·동종업 모두
 assert h.count('`이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`') == 1   # E13 문장은 지금 틀에 이미 있다

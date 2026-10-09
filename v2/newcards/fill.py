@@ -446,7 +446,9 @@ one("  .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }\n",
     "  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }\n"
     "  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }\n")
 # 성장·마진 모두 해 없음(요구 영업이익률 100%로도 불가) — CRWD에서 쓴 카드 한정 패치를 공통으로(MRVL Fable)
-if DCF.get('reqMode') == 'margin' and DCF.get('requiredMargin') is None:
+# 해가 있든 없든 margin 모드면 바꾼다 — 아래 문구는 화면에서 해 유무를 다시 가르므로 해가 있는 카드의 표시는 같다.
+# 주가에 따라 해가 생겼다 없어졌다 하면 카드 설정(INTC)이 기대하는 문구가 사라져 재빌드가 멈췄다(2026-10-08 종가, Actions)
+if DCF.get('reqMode') == 'margin':
     one("                           : mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '—')",
         "                           : mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '100%로도 불가')   // 해 없음(카드 한정)")
     one("    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;",
