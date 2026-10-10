@@ -101,3 +101,28 @@ ANALYST_ASOF = '2026-10-10'
 POST = [r'''
 h = h.replace('기본 시나리오 $${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}', '기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}', 1)
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "crm:SubscriptionandSupportMember": [
+   "구독·지원",
+   "#00a1e0"
+  ],
+  "crm:ProfessionalServicesandOtherMember": [
+   "전문 서비스·기타",
+   "#94a3b8"
+  ]
+ },
+ "ignore": [
+  "crm:AgentforceAppsMember",
+  "crm:Data360PlatformAndOtherMember"
+ ]
+}

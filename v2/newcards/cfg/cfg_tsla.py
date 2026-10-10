@@ -96,3 +96,38 @@ h = h.replace(f'<div class="stat-value">${r1(fcf[cur])}B</div>', f'<div class="s
 CAPITAL_HTML = '      <div class="zone-list">\n        <div class="zone-item">\n          <span class="zone-label">설비투자 (Q2 2026)</span>\n          <span class="zone-val">$5.79B</span>\n        </div>\n        <div class="zone-item">\n          <span class="zone-label">설비투자 (2026년 상반기)</span>\n          <span class="zone-val">$8.28B</span>\n        </div>\n        <div class="zone-item">\n          <span class="zone-label">SpaceX 지분 (2026-03 $2.0B 투자, 6월 말 공정가치)</span>\n          <span class="zone-val">$3.01B</span>\n        </div>\n        <div class="zone-item">\n          <span class="zone-label">배당 · 자사주 매입</span>\n          <span class="zone-val">없음</span>\n        </div>\n      </div>\n      <div class="yoy-footnote" style="margin-top:14px;">설비투자는 1년 전 분기 $2.39B에서 $5.79B로 늘었다. 회사는 Cybercab·Semi·Megafactory·Optimus 라인 투자를 진행 중이라고 밝혔다. SpaceX 지분은 구 xAI 우선주를 전환한 것이다 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm" target="_blank" rel="noopener">Tesla Q2 2026 10-Q →</a></div>'
 FOOTNOTES = ['footnote: \'기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준(순이익은 보통주 귀속, 2024년 분기는 암호자산 회계기준 소급 수정 전 값) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm" target="_blank" rel="noopener">Tesla Q2 2026 Update 원문 (SEC 8-K) →</a>\'', 'footnote: \'기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준(순이익은 보통주 귀속, 2024년 분기는 암호자산 회계기준 소급 수정 전 값) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026049213/exhibit991.htm" target="_blank" rel="noopener">Tesla Q2 2026 Update 원문 (SEC 8-K) →</a>\'']
 
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "tsla:AutomotiveRevenuesMember": [
+   "자동차",
+   "#E31937"
+  ],
+  "tsla:EnergyGenerationAndStorageMember": [
+   "에너지 발전·저장",
+   "#2ecc71"
+  ],
+  "tsla:ServicesAndOtherMember": [
+   "서비스·기타",
+   "#3498db"
+  ]
+ },
+ "ignore": [
+  "tsla:AutomotiveSalesMember",
+  "tsla:AutomotiveRegulatoryCreditsMember",
+  "tsla:AutomotiveLeasingMember",
+  "tsla:EnergyGenerationAndStorageSalesMember",
+  "tsla:SalesAndServicesMember",
+  "tsla:EnergyGenerationAndStorageLeasingMember"
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 음수 FCF 칸: \'$-1.09B\' 대신 \'−$1.09B\'\nh = h.replace(f\'<div class="stat-value">${r1(fcf[cur])}B</div>\', f\'<div class="stat-value">−${abs(r1(fcf[cur]))}B</div>\', 1) if fcf[cur] < 0 else h']

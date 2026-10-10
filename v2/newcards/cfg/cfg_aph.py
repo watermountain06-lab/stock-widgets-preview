@@ -103,3 +103,29 @@ GMAX = max(v for row in _G['values']['기본'] for v in row if v is not None); G
 FR = {r_['metric']: r_['value'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}   # 기본적 분석 지표 값·점수(E26)
 FPT = {r_['metric']: r_['points'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "aph:CommunicationsSolutionsSegmentMember": [
+   "통신 솔루션",
+   "#0067b1"
+  ],
+  "aph:HarshEnvironmentSolutionsSegmentMember": [
+   "극한 환경 솔루션",
+   "#5aa9e6"
+  ],
+  "aph:InterconnectAndSensorSystemsMember": [
+   "연결·센서 시스템",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}

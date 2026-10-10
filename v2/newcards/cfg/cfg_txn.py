@@ -116,3 +116,35 @@ one('<div class="note" data-dcf-nonop hidden></div>\n', '<div class="note" data-
 one("매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`", "매출이 연 2.5%(5년 성장률 연 ${f1(d.growth5y)}이 영구성장률보다 낮아 하한 적용)로 5년 내내 크는 동안`")
 one("매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`", "매출이 연 2.5%(5년 성장률 연 ${pc(D.growth5y)}이 영구성장률보다 낮아 하한 적용)로 5년 내내 크는 동안`")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "txn:AnalogSegmentMember": [
+   "아날로그",
+   "#0f6eb4"
+  ],
+  "txn:EmbeddedProcessingSegmentMember": [
+   "임베디드 프로세싱",
+   "#c8102e"
+  ],
+  "us-gaap:AllOtherSegmentsMember": [
+   "기타",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}
+POST = [r'''
+# 역산 문장: 5년 성장률이 영구성장률 2.5%보다 낮으면 모델이 하한을 쓴다 — 그때만 하한 문구로(자동 카드: 조건부)
+if (HIST.get('growth_5y') or 0) < 0.025:
+    one("매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`", "매출이 연 2.5%(5년 성장률 연 ${f1(d.growth5y)}이 영구성장률보다 낮아 하한 적용)로 5년 내내 크는 동안`")
+    one("매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`", "매출이 연 2.5%(5년 성장률 연 ${pc(D.growth5y)}이 영구성장률보다 낮아 하한 적용)로 5년 내내 크는 동안`")
+''']   # 손 문구 블록 정리: 구조 표시만 남기고 분기 문장·날짜 박힌 치환은 뺐다

@@ -102,3 +102,35 @@ ANALYST_ASOF = '2026-10-10'
 
 REQ_MULT_EXACT = False   # 옛 카드는 틀 문구("3배를 넘는다") 그대로
 POST = []
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "tmo:LaboratoryProductsAndBiopharmaServicesMember": [
+   "실험실 제품·바이오제약 서비스",
+   "#0f6eb4"
+  ],
+  "tmo:LifeSciencesSolutionsMember": [
+   "생명과학 솔루션",
+   "#5aa9e6"
+  ],
+  "tmo:AnalyticalInstrumentsMember": [
+   "분석 기기",
+   "#2e8b57"
+  ],
+  "tmo:SpecialtyDiagnosticsMember": [
+   "특수 진단",
+   "#f0c040"
+  ]
+ },
+ "ignore": []
+}

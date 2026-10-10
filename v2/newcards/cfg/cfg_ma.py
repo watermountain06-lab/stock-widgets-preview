@@ -113,3 +113,27 @@ one('<canvas id="maRevChart"></canvas>\n    </div>\n', '<canvas id="maRevChart">
 # 역산 문장: 성장 모드 카드는 틀의 정적 문장을 JS가 숫자만 바꾼다 — fill.py가 '—'로 비운 것을 되살린다(공통 후보)
 one('<div class="reverse">—</div>', f'<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.</div>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "ma:PaymentNetworkMember": [
+   "결제망",
+   "#eb001b"
+  ],
+  "ma:ValueAddedServicesAndSolutionsMember": [
+   "부가서비스·솔루션",
+   "#f79e1b"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 분기 차트 아래 설명(순매출·순이익 태그)\none(\'<canvas id="maRevChart"></canvas>\\n    </div>\\n\', \'<canvas id="maRevChart"></canvas>\\n    </div>\\n\'\n    \'    <div class="yoy-footnote" style="margin-top:8px;">매출은 리베이트·인센티브를 뺀 순매출이다(2018~2022년 XBRL의 총매출 태그는 쓰지 않는다). 순이익은 손익계산서 순이익(2026년부터 ProfitLoss 태그).</div>\\n\')', '# 역산 문장: 성장 모드 카드는 틀의 정적 문장을 JS가 숫자만 바꾼다 — fill.py가 \'—\'로 비운 것을 되살린다(공통 후보)\none(\'<div class="reverse">—</div>\', f\'<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.</div>\')']

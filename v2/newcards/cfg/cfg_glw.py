@@ -95,3 +95,41 @@ BEAR = [('밸류에이션', 'PSR {SM[\'PSR\'][\'current\']:.1f}배(5년 중앙�
         ('희석', '최대 $2.0B 주식 수시 발행, NVIDIA 행사가 $180 워런트 1,500만 주.')]
 ANALYST = {'rating': 'Buy', 'n': 18, 'nt': 10, 'mean': 183.7, 'median': 200, 'low': 129, 'high': 220, 'sb': 13, 'b': 0, 'h': 5, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "glw:NetSalesOfReportableSegmentsAndAllOther"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "glw:OpticalCommunicationsMember": [
+   "광통신",
+   "#005eb8"
+  ],
+  "glw:GlassInnovationsMember": [
+   "유리 혁신(디스플레이·특수소재)",
+   "#5aa9e6"
+  ],
+  "glw:AutomotiveMember": [
+   "자동차",
+   "#f59e0b"
+  ],
+  "glw:SolarMember": [
+   "태양광",
+   "#22c55e"
+  ],
+  "glw:LifeSciencesAndEmergingGrowthBusinessesMember": [
+   "생명과학·신사업",
+   "#a78bfa"
+  ]
+ },
+ "ignore": [
+  "glw:ReportableSegmentsMember"
+ ]
+}

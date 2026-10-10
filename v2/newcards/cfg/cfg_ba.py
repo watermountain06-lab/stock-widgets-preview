@@ -101,3 +101,33 @@ BEAR = [('적자', '2분기 GAAP EPS −$0.67, 상업용 항공기 영업이익�
         ('인증·방산', '737-7·737-10·777X 인증 대기, VC-25B 손실 $280M.')]
 ANALYST = {'rating': 'Buy', 'n': 29, 'nt': 17, 'mean': 273.53, 'median': 275, 'low': 240, 'high': 305, 'sb': 18, 'b': 7, 'h': 4, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "ba:CommercialAirplanesSegmentMember": [
+   "상업용 항공기",
+   "#0072c6"
+  ],
+  "ba:BoeingDefenseSpaceSecuritySegmentMember": [
+   "방산·우주·보안",
+   "#c8102e"
+  ],
+  "ba:GlobalServicesMember": [
+   "글로벌 서비스",
+   "#f59e0b"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ["h = re.sub(r'const BA_BACKTEST = \\[.*?\\];', 'const BA_BACKTEST = [];', h, count=1, flags=re.S)", 'one("if (label) { label.textContent = \'밴드 적중률\'; label.title = \'백테스트 없음\'; }", "if (label) { label.textContent = \'밴드 적중률\'; label.title = \'" + C._NA_WHY + "\'; }")']

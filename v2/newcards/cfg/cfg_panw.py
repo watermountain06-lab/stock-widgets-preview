@@ -128,3 +128,30 @@ if ni_gaap[cur] < 0:
     _o = f'(공시 순이익 {QL} ${r1(ni_gaap[cur])}B)'; assert h.count(_o) == 2, h.count(_o)
     h = h.replace(_o, f'(공시 순이익 {QL} −${-r1(ni_gaap[cur])}B)')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "us-gaap:ServiceMember": [
+   "구독·지원",
+   "#f97316"
+  ],
+  "us-gaap:ProductMember": [
+   "제품(방화벽 장비 등)",
+   "#94a3b8"
+  ]
+ },
+ "ignore": [
+  "panw:SubscriptionMember",
+  "panw:SupportMember"
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 동종업 팁: PER을 뺀 이유(옛 카드 문장)\none("뒤집어 점수로 썼고 PER를 뺀 4개를 평균했다.", "뒤집어 점수로 썼고 네 개를 평균했다(PER은 PANW만 본업 기준이라 제외).")', '# 본업 각주의 음수 공시 순이익: "$-0.28B" 대신 "−$0.28B"(생성기 공통 후보)\nif ni_gaap[cur] < 0:\n    _o = f\'(공시 순이익 {QL} ${r1(ni_gaap[cur])}B)\'; assert h.count(_o) == 2, h.count(_o)\n    h = h.replace(_o, f\'(공시 순이익 {QL} −${-r1(ni_gaap[cur])}B)\')']

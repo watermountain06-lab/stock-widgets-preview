@@ -132,3 +132,35 @@ one("const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ?", "const nt 
 # 시나리오 범위 툴팁: 기본이 가장 낮다(옛 카드)
 one("(세 시나리오 최대·최소 기준)` : '';", "(세 시나리오 최대·최소 기준, 기본이 가장 낮다)` : '';")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax"
+ ],
+ "axis": "srt:StatementGeographicalAxis",
+ "extra": {},
+ "members": {
+  "country:US": [
+   "미국",
+   "#e01f3d"
+  ],
+  "us-gaap:EMEAMember": [
+   "유럽·중동·아프리카",
+   "#5aa9e6"
+  ],
+  "srt:AsiaPacificMember": [
+   "아시아·태평양",
+   "#94a3b8"
+  ],
+  "crwd:OtherCountriesMember": [
+   "기타",
+   "#f0c040"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# YoY·QoQ 각주의 FCF 정의: 옛 카드는 "유형자산 취득"\nassert h.count(" · FCF는 영업현금흐름 − 설비투자 · ") == 2\nh = h.replace(" · FCF는 영업현금흐름 − 설비투자 · ", " · FCF는 영업현금흐름 − 유형자산 취득 · ")', '# 동종업 팁: 뺀 배수 설명(옛 카드 문장)\none("뒤집어 점수로 썼고 PER·EV/EBITDA를 뺀 3개를 평균했다.", "뒤집어 점수로 썼고 EV/EBITDA와 PER(해당 없음 — 순이익률 2% 미만)을 뺀 세 개를 평균했다.")', '# PER 이력 메모: 흑자였던 날 수(카드 한정, Fable — 옛 카드)\none("const nt = f(\'note\'); if (nt) nt.textContent = m.days < 1200 ?", "const nt = f(\'note\'); if (nt) nt.textContent = m.metric === \'per\' && m.days < 1200 ? `흑자였던 ${m.days}일 이력` : m.days < 1200 ?")']

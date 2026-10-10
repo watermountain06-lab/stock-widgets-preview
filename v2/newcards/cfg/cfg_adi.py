@@ -105,3 +105,35 @@ ANALYST_ASOF = '2026-10-10'
 POST = [r'''
 h = h.replace("— 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다", "— 평균(인수 영업권 포함) 기준이라, 모델의 추가 투자 효율은 이보다 높다")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "adi:RevenueFromContractWithCustomerEndMarketAxis",
+ "extra": {},
+ "members": {
+  "adi:IndustrialMember": [
+   "산업용",
+   "#0067b9"
+  ],
+  "adi:AutomotiveMember": [
+   "자동차",
+   "#22c55e"
+  ],
+  "adi:CommunicationsMember": [
+   "통신",
+   "#a78bfa"
+  ],
+  "adi:ConsumerMember": [
+   "소비자",
+   "#f59e0b"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['\nh = h.replace("— 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다", "— 평균(인수 영업권 포함) 기준이라, 모델의 추가 투자 효율은 이보다 높다")']

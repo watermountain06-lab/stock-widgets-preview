@@ -102,3 +102,39 @@ BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배. S&P500 소재 안에�
         ('마진', '조정 영업이익률이 1년 전 30.1%에서 29.5%로 0.6%p 낮아졌다(GAAP은 0.2%p). 비용 상승이 가격·생산성 효과를 상쇄했다.')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 18, 'mean': 555.33, 'median': 560, 'low': 525, 'high': 580, 'sb': 17, 'b': 5, 'h': 5, 's': 0, 'ss': 1}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "lin:AmericasSegmentMember": [
+   "미주",
+   "#00a0e1"
+  ],
+  "lin:EMEASegmentMember": [
+   "유럽·중동·아프리카(EMEA)",
+   "#005591"
+  ],
+  "lin:APACSegmentMember": [
+   "아시아·태평양(APAC)",
+   "#5aa9e6"
+  ],
+  "lin:EngineeringSegmentMember": [
+   "엔지니어링",
+   "#f0c040"
+  ],
+  "us-gaap:CorporateAndOtherMember": [
+   "기타",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}

@@ -97,3 +97,15 @@ BEAR = [('성장', '유기적 매출 +2.4%, Core 고정환율 EPS +1%.'),
         ('부채', '차입금 $53.2B, 상반기 영업현금 $2.4B(4분기 편중).')]
 ANALYST = {'rating': 'Hold', 'n': 24, 'nt': 17, 'mean': 144.18, 'median': 141, 'low': 132, 'high': 183, 'sb': 4, 'b': 2, 'h': 17, 's': 0, 'ss': 1}
 ANALYST_ASOF = '2026-10-10'
+
+# ── 자동 카드(설계 D 시험, 2026-10-10) — 분기 변수·부문·EPS 칸·자본배분·다음 실적일·문장을 auto_card.py가 채운다 ──
+AUTO = True
+SEG_MAP = {"concepts": ["us-gaap:Revenues", "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"],
+           "axis": "us-gaap:StatementBusinessSegmentsAxis",
+           "extra": {"srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"},
+           "members": {"pep:PepsiCoBeveragesNorthAmericaMember": ("북미 음료(PBNA)", "#004b93"),
+                       "pep:PepsiCoFoodsNorthAmericaMember": ("북미 식품(PFNA)", "#e3242b"),
+                       "pep:EuropeMiddleEastAfricaSegmentMember": ("유럽·중동·아프리카", "#5aa9e6"),
+                       "pep:LatinAmericaFoodsSegmentMember": ("중남미 식품", "#f59e0b"),
+                       "pep:InternationalBeverageFranchiseMember": ("국제 음료 프랜차이즈", "#a78bfa"),
+                       "pep:AsiaPacificFoodsSegmentMember": ("아시아태평양 식품", "#22c55e")}}

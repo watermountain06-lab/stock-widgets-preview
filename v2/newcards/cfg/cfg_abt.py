@@ -100,3 +100,35 @@ BEAR = [('성장 둔화', '비교 기준 성장 4.8%, 영양 −3%, 1분기 가�
         ('소송', '미숙아 분유(NEC) 소송 일부만 합의.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 28, 'nt': 20, 'mean': 120.7, 'median': 120, 'low': 92, 'high': 135, 'sb': 19, 'b': 5, 'h': 4, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "abt:MedicalDevicesMember": [
+   "의료기기",
+   "#0072c6"
+  ],
+  "abt:DiagnosticProductsMember": [
+   "진단",
+   "#22c55e"
+  ],
+  "abt:NutritionalProductsMember": [
+   "영양",
+   "#f59e0b"
+  ],
+  "abt:EstablishedPharmaceuticalProductsMember": [
+   "기존 의약품",
+   "#a78bfa"
+  ]
+ },
+ "ignore": []
+}

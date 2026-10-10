@@ -65,7 +65,8 @@ def touched(T):
     t = T.lower()
     paths = [f"v2/{T}_full_widget.html", f"v2/newcards/cfg/cfg_{t}.py", f"v2/{T}_multiples.json",
              f"v2/{T}_bank.json", f"v2/newcards/bank/base/{t}_base.html", "v2/newcards/refresh_changes.jsonl",
-             "v2/peer_universe/banks.json", f"scripts/{T}_eps_history.json", f"v2/{T}_dcf_track.json"]
+             "v2/peer_universe/banks.json", f"scripts/{T}_eps_history.json", f"v2/{T}_dcf_track.json",
+             f"v2/{T}_activity.json", f"v2/fundamental_data/{T}_financials.json"]   # 자동 카드 분기 전환 때 함께 바뀐다(Codex 2026-10-10)
     return paths   # 없던 파일은 실패하면 지운다(Codex 2026-10-06 — 되돌린 판정 변경이 기록에 남지 않게)
 
 
@@ -136,6 +137,103 @@ def one(T, work):
     return 0, out + more
 
 
+ET_ZONE = None
+
+
+def first_session_after(accepted_utc):
+    """공시 접수 뒤 첫 종가 세션(미국 동부 16:00 이후 접수면 다음 거래일). 거래일은 홈 가격 파일의 세션으로 확인한다."""
+    import datetime as dt
+    from zoneinfo import ZoneInfo
+    t = dt.datetime.strptime(accepted_utc[:19], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=dt.timezone.utc).astimezone(ZoneInfo("America/New_York"))
+    day = t.date() if t.hour < 16 else t.date() + dt.timedelta(days=1)
+    while day.weekday() >= 5:
+        day += dt.timedelta(days=1)
+    return day.isoformat()
+
+
+def auto_approve(status, session):
+    """자동 카드의 새 10-Q·10-K를 기준표(v2/sec_approved.json)에 스스로 올린다(2026-10-10 사용자 결정: 새 공시는 자동 반영).
+    조건: 정정 아닌 10-Q·10-K, SEC 요약 자료(companyfacts)에 그 공시가 이미 실림, 접수 뒤 첫 종가가 오늘 세션까지 들어옴.
+    요약 자료에 아직 없으면 '대기'로 두고 다음 실행에서 다시 본다. 반환: {T: (CIK, 예전 날짜, 새 날짜)} — 카드가 실패하면 되돌린다."""
+    import importlib.util
+    sys.path.insert(0, V2)
+    import auto_card as ac
+    import build_multiple_history as bmh
+    path = os.path.join(V2, "sec_approved.json")
+    table = json.load(open(path))
+    moved, waiting = {}, []
+    for f in sorted(os.listdir(os.path.join(HERE, "cfg"))):
+        if not f.startswith("cfg_"):
+            continue
+        sp = importlib.util.spec_from_file_location("cfg", os.path.join(HERE, "cfg", f))
+        C = importlib.util.module_from_spec(sp)
+        sp.loader.exec_module(C)
+        if not getattr(C, "AUTO", False):
+            continue
+        T, cik = f[4:-3].upper(), str(C.CIK).zfill(10)
+        old = table.get(cik)
+        try:
+            r = ac._submissions(cik)
+        except Exception as e:
+            waiting.append(f"{T}: SEC 제출 목록 받기 실패({type(e).__name__})")
+            continue
+        # 정정(10-Q/A·10-K/A)도 넣는다 — 재무 수집(vendor/fetch_financials)은 기준일과 상관없이 최신 공시를 받으므로,
+        # 기준표도 최신 공시를 따라가야 한 카드 안에서 정정 전·후가 섞이지 않는다(Codex 2026-10-10)
+        new = sorted(((r["filingDate"][i], r["acceptanceDateTime"][i], form) for i, form in enumerate(r["form"])
+                      if form in ("10-Q", "10-K", "10-Q/A", "10-K/A") and old and r["filingDate"][i] > old), reverse=True)
+        if not new:
+            continue
+        pick, facts = None, None
+        for filed, accepted, form in new:   # 준비된 것 가운데 가장 최근 — 최신이 아직이면 그 앞의 것(Codex)
+            if first_session_after(accepted) > session:
+                waiting.append(f"{T}: {filed} {form} — 첫 종가({first_session_after(accepted)}) 전")
+                continue
+            if facts is None:   # 요약 자료는 캐시가 아니라 새로 받아 확인한다 — 캐시가 그 공시를 빠뜨린 채 머물지 않게(Codex)
+                try:
+                    facts = bmh.feh.curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json")
+                except Exception as e:
+                    waiting.append(f"{T}: SEC 요약 자료 받기 실패({type(e).__name__})")
+                    status["autoRetry"] = True
+                    break
+            have = any(x.get("filed") == filed and x.get("form") == form for tx in facts.get("facts", {}).values()
+                       for tg in tx.values() for rows in tg.get("units", {}).values() for x in rows)
+            if not have:
+                waiting.append(f"{T}: {filed} {form} — SEC 요약 자료에 아직 없음")
+                status["autoRetry"] = True   # 같은 세션에서 다시 돌 수 있게(--skip-if-current가 건너뛰지 않게)
+                continue
+            pick = filed
+            break
+        if not pick:
+            continue
+        json.dump(facts, open(os.path.join(V2, ".sec_cache", f"{cik}_facts.json"), "w"))   # _facts가 새 자료를 쓰게
+        filed = pick
+        table[cik] = filed
+        moved[T] = (cik, old, filed)
+        print(f"{T}: 새 공시 {filed} 자동 반영 — 이번 실행에서 새 분기로 다시 만든다", flush=True)
+    if moved:
+        json.dump(table, open(path, "w"), ensure_ascii=False, indent=1)
+    status["autoApproved"] = {T: v[2] for T, v in moved.items()}
+    status["autoWaiting"] = waiting
+    return moved
+
+
+def auto_quarter_due(T):
+    """자동 카드이고, 기준표(v2/sec_approved.json)의 공시 날짜가 카드 재무의 접수일(FUNDAMENTAL.filedAt)보다 뒤인가."""
+    import importlib.util
+    import new_filings as nf
+    p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
+    if not os.path.exists(p):
+        return False
+    sp = importlib.util.spec_from_file_location("cfg", p)
+    C = importlib.util.module_from_spec(sp)
+    sp.loader.exec_module(C)
+    if not getattr(C, "AUTO", False):
+        return False
+    appr = json.load(open(os.path.join(V2, "sec_approved.json"))).get(str(C.CIK).zfill(10))
+    filed = nf.card_asof(T)[1]
+    return bool(appr and filed and appr > str(filed)[:10])
+
+
 def build(T, work):
     t = T.lower()
     if T in BANKS:
@@ -153,7 +251,10 @@ def build(T, work):
     elif T in HAND:
         steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
     else:
-        return run([PY, "v2/newcards/build.py", T, "--price"], env=dict(os.environ, REFRESH="1"))
+        # 자동 카드(cfg AUTO)는 기준표의 공시 날짜가 카드 재무보다 새로우면 그날 자료를 전부 새로 받아 분기를 넘긴다 —
+        # 가격만 다시 만드는 길(--price)은 EPS·재무를 다시 받지 않아 새 분기로 못 넘어간다(Codex 2026-10-10)
+        mode = "--weekly" if auto_quarter_due(T) else "--price"
+        return run([PY, "v2/newcards/build.py", T, mode], env=dict(os.environ, REFRESH="1"))
     log = ""
     for s in steps:
         env = dict(os.environ, EPS_HISTORY=f"scripts/{T}_eps_history.json") if "build_multiple_history" in s[1] else None
@@ -303,7 +404,7 @@ def main():
         # (2026-10-08: 10/6 실행 때 10/5에 머문 11장이 그 뒤 "이미 끝났다"로 계속 건너뛰어져 건강 점검에 걸렸다)
         own = {e["ticker"]: e["price"].get("session") for e in json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["tickers"]}
         behind = [t for t, v in old.get("cards", {}).items() if own.get(t) and v.get("date") and v["date"] < own[t]]
-        if old.get("session") == session and old.get("full") and not old.get("failed") and not old.get("problems") and old.get("finished") and not behind:
+        if old.get("session") == session and old.get("full") and not old.get("failed") and not old.get("problems") and old.get("finished") and not behind and not old.get("autoRetry"):
             print(f"{session} 세션은 이미 끝났다({old['finished']}) — 건너뜀"); return
         if behind:
             print(f"자기 세션보다 뒤처진 카드 {len(behind)}장 — 다시 만든다: {' '.join(sorted(behind))}", flush=True)
@@ -315,8 +416,22 @@ def main():
     status = {"mode": "weekly" if weekly else "daily", "session": session, "full": not want, "problems": [], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "cards": {}}
     if weekly:
         weekly_pre(status)
-    for T in tickers:
-        status["cards"][T] = attempt(T, work)
+    moved = auto_approve(status, session)
+    try:
+        for T in tickers:
+            status["cards"][T] = attempt(T, work)
+    finally:
+        # 자동 반영한 카드가 실패했거나(예외로 루프가 끊겨) 돌지 않았으면 그 회사의 기준표 날짜를 되돌린다 —
+        # 카드는 attempt()가 이미 이전 분기로 되돌렸다(분기가 섞이지 않게, Codex)
+        reverted = [T for T in moved if status["cards"].get(T, {}).get("status") != "ok"]
+        if reverted:
+            _p = os.path.join(V2, "sec_approved.json")
+            _t = json.load(open(_p))
+            for T in reverted:
+                cik, old, new = moved[T]
+                _t[cik] = old
+                status["problems"].append(f"{T}: 새 공시({new}) 자동 반영 실패 — 이전 분기에 둠")
+            json.dump(_t, open(_p, "w"), ensure_ascii=False, indent=1)
     if weekly:
         weekly_post(status, work)
     after = verdicts()

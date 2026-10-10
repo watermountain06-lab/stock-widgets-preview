@@ -9,6 +9,10 @@ os.chdir(os.path.dirname(HERE))   # v2/
 sys.path.insert(0, '.')
 import build_multiple_history as bmh
 import build_dcf as bd
+AUTO = getattr(C, 'AUTO', False)   # 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 SEC 자료·규칙 문장으로(auto_card.py)
+if AUTO:
+    import auto_card as _ac
+    _ac.apply(C, T)
 
 CIK = C.CIK
 p = f'{T}_full_widget.html'; h = open(p, encoding='utf-8').read()
@@ -128,6 +132,8 @@ VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현�
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
 ch = (px / D[max(-253, -len(D))][4] - 1) * 100   # 일봉이 1년보다 짧으면 첫날부터(SKHY ADR, 2026-10-05)
 CH_TXT = ('제자리(' + format(ch, '+.1f') + '%)') if abs(ch) < 1 else format(ch, '+.0f') + '%'
+if AUTO:
+    _ac.texts(C, globals())
 for _code in getattr(C, 'PRE', []):
     exec(_code, globals())
 
@@ -222,7 +228,7 @@ CHECK = (f'<div class="card-title">다음 실적 체크포인트 <span style="co
          + '\n'.join(f'      <div{" style=\"margin-bottom:8px;\"" if i < 3 else ""}><strong style="color:var(--accent2);">{"①②③④"[i]}</strong> {F(x)}</div>' for i, x in enumerate(C.CHECK)) + '\n    </div>')
 sub(r'<div class="card-title">다음 실적 체크포인트 <span[^>]*>[^<]*</span></div>\n    <div style="font-size:12px;color:var\(--text2\);line-height:1\.8;">.*?\n    </div>', CHECK)
 _usd = lambda v: ('−$' if v < 0 else '$') + f'{abs(v):.2f}'   # 음수 기본값(BA) — "$-63.51" 대신 "−$63.51"
-if DCF.get('nonopPerShare', 0) >= 0.5:
+if DCF.get('nonopPerShare', 0) >= 0.5 and not (AUTO and DCF.get('base') is not None and DCF['base'] <= 0):   # 자동 카드: 음수 기본값은 이 줄에서도 드러내지 않는다(BA, Fable)
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', f'<div class="note" data-dcf-nonop>기본 시나리오 {_usd(DCF["base"])} = 사업 가치 {_usd(DCF["base"] - DCF["nonopPerShare"])} + 비영업 자산 ${DCF["nonopPerShare"]:.2f}(주당, {C.NONOP_WHAT})</div>')
 else:
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', '<div class="note" data-dcf-nonop hidden></div>')
@@ -398,9 +404,18 @@ if _auto:
         # 주가 반응일: 미국 동부 16시 이후 접수면 다음 거래일 — 카드 일봉에 있는 첫날
         r0 = (d + _dt.timedelta(days=1)).isoformat() if e["after_close"] else e["date"]
         rx = min((x for x in days if x >= r0), default=None)
-        _new.append(('neutral', f'{d.year}년 {d.month}월 {d.day}일 — 실적 발표', rx,
-                     '실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다',
-                     e["url"], f'{C.CO} 실적 보도자료 (SEC 8-K)'))
+        # 날짜는 주가가 반응한 거래일로, 장 마감 뒤 접수면 괄호로 밝힌다 — PEP 8-K가 10/7 저녁 접수, 보도·반응은 10/8(Fable 2026-10-10)
+        _shown = _dt.date.fromisoformat(rx) if rx else d
+        _when = f'{_shown.year}년 {_shown.month}월 {_shown.day}일' + (f' (공시 접수 {d.month}/{d.day} 장 마감 뒤)' if e["after_close"] and rx and rx != e["date"] else '')
+        _body = '실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다'
+        if AUTO and 0 < (d - _dt.date.fromisoformat(C.CUR)).days <= 80 and C.CUR in rev:   # 자동 카드: 이번 분기 실적이면 SEC 숫자로
+            _eps = _ac.json.load(open(os.path.join(os.path.dirname(os.path.dirname(HERE)), 'scripts', f'{T}_eps_history.json')))
+            _e = {x['quarter_end']: x['quarter_eps'] for x in _eps}
+            _rc = _ac.chg(rev[C.CUR], rev.get(C.YO))
+            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + ', GAAP 영업이익 ' + _ac.B(op[C.CUR])
+                     + (f', GAAP 희석 EPS {_ac.money(_e[C.CUR])}(1년 전 {_ac.money(_e[C.YO])})' if C.CUR in _e and C.YO in _e else '')
+                     + (' · SEC 10-K 기준' if C.TENQ_NAME.endswith('10-K') else ' · SEC 10-Q 기준'))   # 실제 문서만(Fable)
+        _new.append(('neutral', f'{_when} — 실적 발표', rx, _body, e["url"], f'{C.CO} 실적 보도자료 (SEC 8-K)'))
     items = _new + items
     if _new:
         _end = max(e["date"] for e in _auto if e["filed"] <= _last)[:7].replace("-", ".")   # 반응일이 아직 없어도(마지막 날 장 마감 후) 발표 달로
@@ -411,8 +426,9 @@ for it in items:
 tl = '    <div class="timeline" id="newsTimeline">\n' + '\n'.join(item(*i) for i in items) + '\n    </div>'
 sub(r'    <div class="timeline" id="newsTimeline">\n.*?\n    </div>\n    <div class="tl-pager"', tl + '\n    <div class="tl-pager"')
 sub(r'<div class="section-title">시계열 주요 뉴스 \([^)]*\)</div>', f'<div class="section-title">시계열 주요 뉴스 ({C.NEWS_RANGE})</div>')
-SUMMARY = (f'<div class="verdict-summary-head">지배적 내러티브 · {F(C.SUMMARY[0])}<span class="tag">{C.SUMMARY[1]}</span></div>\n    <ol class="news-list">\n'
-           + '\n'.join(f'      <li>{F(x)}</li>' for x in C.SUMMARY[2]) + '\n    </ol>\n'
+# 숫자 목록이 비면 목록 칸을 통째로 뺀다 — 자동 카드는 목록 없이 머리말·위험·다음 확인만(2026-10-10 사용자 결정)
+SUMMARY = (f'<div class="verdict-summary-head">지배적 내러티브 · {F(C.SUMMARY[0])}<span class="tag">{C.SUMMARY[1]}</span></div>\n'
+           + (('    <ol class="news-list">\n' + '\n'.join(f'      <li>{F(x)}</li>' for x in C.SUMMARY[2]) + '\n    </ol>\n') if C.SUMMARY[2] else '')
            + f'    <div class="verdict-summary-counter">⚠️ {F(C.SUMMARY[3])}</div>\n    <div class="verdict-summary-next">🔍 다음 확인 포인트 · {F(C.SUMMARY[4])}</div>')
 sub(r'<div class="verdict-summary-head">지배적 내러티브.*?<div class="verdict-summary-next">.*?</div>', SUMMARY)
 row = lambda k, head, tx: f'<div class="bb-row {k}"><span class="bb-icon">{"▲" if k == "bull" else "▼"}</span><span class="bb-head">{head}</span><span class="bb-text">{tx}</span></div>'
@@ -513,8 +529,29 @@ if _LB in h and 'v2.1 B-4' not in h:
         + f"      const _ps = {json.dumps((SM.get('PSR') or {}).get('current'))};   // 생성 때 PSR(이 줄 위에서 {T}_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)\n"
         + "      req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'\n"
         + "        + (_ps ? (_ps > 10 ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델 상한(세후 이익률 100% ÷ (할인율 − 영구성장) ≈ 매출의 10배)을 넘는 성장·마진 기대가 들어 있다.` : ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로 모델 상한(≈ 매출의 10배)보다 낮다. 해가 없는 것은 순부채·재투자 가정이 사업 가치를 깎기 때문이다.`) : '.');\n    }", 1)
-for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
-    exec(_code, globals())
+if AUTO:   # 자동 카드의 종목별 패치는 표기 고침뿐이다 — 찾는 글이 없으면(데이터·분기에 따라 문구가 바뀌면) 건너뛰고 기록만, 카드를 멈추지 않는다(2026-10-10)
+    _one_hard, _sub_hard = one, sub
+    def one(o, n):
+        if h.count(o) == 1:
+            _one_hard(o, n)
+        else:
+            print(f'  POST 건너뜀(글 {h.count(o)}곳): {o[:60]!r}')
+    def sub(pat, new, flags=re.S):
+        if len(re.findall(pat, h, flags)) == 1:
+            _sub_hard(pat, new, flags)
+        else:
+            print(f'  POST 건너뜀(패턴): {pat[:60]!r}')
+try:
+    for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
+        try:
+            exec(_code, globals())
+        except Exception as _e:   # 자동 카드: 표기 고침 덩어리의 어떤 오류든(MA requiredGrowth 없음 → pct(None)) 그 덩어리만 건너뛴다(Codex)
+            if not AUTO:
+                raise
+            print(f'  POST 덩어리 건너뜀: {type(_e).__name__} {str(_e)[:80]}')
+finally:
+    if AUTO:
+        one, sub = _one_hard, _sub_hard
 # 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
 h = re.sub(r'(<div class="card" hidden>\n    <div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">)(.*?)(\n    </div>\n  </div>)',
            lambda m: m.group(1) + '\n      기술적 분석(추세 상태)은 이 사이트의 판단(내재가치 대비)에서 뺐다. 이 칸은 화면에 보이지 않는다.' + m.group(3), h, count=1, flags=re.S)

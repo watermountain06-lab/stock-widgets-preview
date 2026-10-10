@@ -104,3 +104,39 @@ ANALYST_ASOF = '2026-10-10'
 PRE = [r'''
 FPT = {r_['metric']: r_['points'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}   # 기본적 분석 지표 점수(E26)
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "tmus:BrandedPostpaidRevenueMember": [
+   "후불 서비스",
+   "#e20074"
+  ],
+  "tmus:BrandedPrepaidRevenueMember": [
+   "선불 서비스",
+   "#f472b6"
+  ],
+  "tmus:WholesaleAndOtherServiceRevenueMember": [
+   "도매·기타 서비스",
+   "#a78bfa"
+  ],
+  "tmus:ProductEquipmentMember": [
+   "단말기",
+   "#5aa9e6"
+  ],
+  "us-gaap:ProductAndServiceOtherMember": [
+   "기타",
+   "#94a3b8"
+  ]
+ },
+ "ignore": [
+  "us-gaap:ServiceMember"
+ ]
+}

@@ -101,3 +101,29 @@ BEAR = [('마진 변동', '정제·판매 마진이 1년 새 $17.58에서 $36.33
         ('현금흐름 모델', '기본값이 현재가의 약 {DCF[\'base\'] / px * 100:.0f}%.')]
 ANALYST = {'rating': 'Buy', 'n': 19, 'nt': 17, 'mean': 399.35, 'median': 426, 'low': 210, 'high': 519, 'sb': 5, 'b': 4, 'h': 9, 's': 0, 'ss': 1}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "mpc:RefiningAndMarketingMember": [
+   "정제·판매",
+   "#b22222"
+  ],
+  "mpc:MidstreamMember": [
+   "미드스트림(MPLX)",
+   "#e07b39"
+  ],
+  "mpc:RenewableDieselMember": [
+   "재생 디젤",
+   "#6aa84f"
+  ]
+ },
+ "ignore": []
+}

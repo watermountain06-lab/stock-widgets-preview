@@ -80,3 +80,35 @@ POST = [r'''
 one('<canvas id="rtxRevChart"></canvas>\n    </div>\n', '<canvas id="rtxRevChart"></canvas>\n    </div>\n'
     '    <div class="yoy-footnote" style="margin-top:8px;">GAAP 영업이익에는 레이시온 합병 때 생긴 무형자산 상각 등 인수 회계 조정이 들어 있다(2분기 EPS 기준 $0.27). 회사 조정 EPS는 2분기 $1.89다.</div>\n')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "rtx:PrattAndWhitneyMember": [
+   "프랫앤휘트니(엔진)",
+   "#0f6eb4"
+  ],
+  "rtx:RaytheonMember": [
+   "레이시온(방산)",
+   "#c8102e"
+  ],
+  "rtx:CollinsAerospaceMember": [
+   "콜린스(항공 시스템)",
+   "#94a3b8"
+  ]
+ },
+ "ignore": [
+  "us-gaap:AllOtherSegmentsMember"
+ ]
+}
+# 손 문구 블록(분기 차트 아래 인수 회계 설명 — 분기 숫자 포함)은 뺐다
+POST = []

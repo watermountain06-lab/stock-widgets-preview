@@ -124,3 +124,31 @@ h = h.replace('매출이 지난 5년 속도', '매출이 분사 단독 이력 �
 one('가 필요해 지난 5년의 3배를 넘는다.`', '가 필요해 최근 약 1.8년 성장의 3배를 넘는다.`')
 one('가 필요해 지난 5년 실제의 3배를 넘는다.`', '가 필요해 최근 약 1.8년 실제의 3배를 넘는다.`')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "sndk:DatacenterMember": [
+   "데이터센터",
+   "#0f6eb4"
+  ],
+  "sndk:EdgeMember": [
+   "엣지(PC·모바일·기기)",
+   "#c8102e"
+  ],
+  "sndk:ConsumerMember": [
+   "소비자",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 자기 이력 문구: 상장(2025-02) 뒤(옛 카드 표기)\none(\'title="SNDK 자신의 배수 이력(상장 뒤)보다\', \'title="상장(2025-02) 뒤 SNDK 자신의 배수보다\')\none(\'`이 종목 자신의 배수 이력(상장 뒤)에서 지금보다\\x00과 배수가\', \'`상장 뒤 이 종목 자신의 배수 분포에서 지금과 배수가\')', '# 계산 어려움(roic) 설명: 예측 끝 자본수익률은 이력 중앙값 마진 가정에서 나온 값(옛 카드)\none("    if (el && Array.isArray(D.hard)) {", "    const HM = " + repr(HIST[\'margin_5y\']) + ";\\n    if (el && Array.isArray(D.hard)) {")\nsub(r"roic: \\(\\) => `자본수익률 \\$\\{pct\\(H\\.roic\\)\\} < 할인율 10% — [^`]*`", "roic: () => `예측 끝 자본수익률 ${pct(H.roic)} < 할인율 10% — 이력 중앙값 마진(${(HM * 100).toFixed(1)}%) 가정에서 나온 값이고 지금 실적이 아니다`")']
