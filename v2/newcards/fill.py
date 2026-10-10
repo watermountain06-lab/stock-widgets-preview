@@ -404,9 +404,17 @@ if _auto:
         # 주가 반응일: 미국 동부 16시 이후 접수면 다음 거래일 — 카드 일봉에 있는 첫날
         r0 = (d + _dt.timedelta(days=1)).isoformat() if e["after_close"] else e["date"]
         rx = min((x for x in days if x >= r0), default=None)
-        _new.append(('neutral', f'{d.year}년 {d.month}월 {d.day}일 — 실적 발표', rx,
-                     '실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다',
-                     e["url"], f'{C.CO} 실적 보도자료 (SEC 8-K)'))
+        # 날짜는 주가가 반응한 거래일로, 장 마감 뒤 접수면 괄호로 밝힌다 — PEP 8-K가 10/7 저녁 접수, 보도·반응은 10/8(Fable 2026-10-10)
+        _shown = _dt.date.fromisoformat(rx) if rx else d
+        _when = f'{_shown.year}년 {_shown.month}월 {_shown.day}일' + (f' (공시 접수 {d.month}/{d.day} 장 마감 뒤)' if e["after_close"] and rx and rx != e["date"] else '')
+        _body = '실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다'
+        if AUTO and 0 < (d - _dt.date.fromisoformat(C.CUR)).days <= 80 and C.CUR in rev:   # 자동 카드: 이번 분기 실적이면 SEC 숫자로
+            _eps = _ac.json.load(open(os.path.join(os.path.dirname(os.path.dirname(HERE)), 'scripts', f'{T}_eps_history.json')))
+            _e = {x['quarter_end']: x['quarter_eps'] for x in _eps}
+            _rc = _ac.chg(rev[C.CUR], rev.get(C.YO))
+            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + ', GAAP 영업이익 ' + _ac.B(op[C.CUR])
+                     + (f', GAAP 희석 EPS ${_e[C.CUR]:.2f}(1년 전 ${_e[C.YO]:.2f})' if C.CUR in _e and C.YO in _e else '') + ' · SEC 10-Q·10-K 기준')
+        _new.append(('neutral', f'{_when} — 실적 발표', rx, _body, e["url"], f'{C.CO} 실적 보도자료 (SEC 8-K)'))
     items = _new + items
     if _new:
         _end = max(e["date"] for e in _auto if e["filed"] <= _last)[:7].replace("-", ".")   # 반응일이 아직 없어도(마지막 날 장 마감 후) 발표 달로

@@ -65,7 +65,8 @@ def touched(T):
     t = T.lower()
     paths = [f"v2/{T}_full_widget.html", f"v2/newcards/cfg/cfg_{t}.py", f"v2/{T}_multiples.json",
              f"v2/{T}_bank.json", f"v2/newcards/bank/base/{t}_base.html", "v2/newcards/refresh_changes.jsonl",
-             "v2/peer_universe/banks.json", f"scripts/{T}_eps_history.json", f"v2/{T}_dcf_track.json"]
+             "v2/peer_universe/banks.json", f"scripts/{T}_eps_history.json", f"v2/{T}_dcf_track.json",
+             f"v2/{T}_activity.json", f"v2/fundamental_data/{T}_financials.json"]   # 자동 카드 분기 전환 때 함께 바뀐다(Codex 2026-10-10)
     return paths   # 없던 파일은 실패하면 지운다(Codex 2026-10-06 — 되돌린 판정 변경이 기록에 남지 않게)
 
 
@@ -136,6 +137,23 @@ def one(T, work):
     return 0, out + more
 
 
+def auto_quarter_due(T):
+    """자동 카드이고, 기준표(v2/sec_approved.json)의 공시 날짜가 카드 재무의 접수일(FUNDAMENTAL.filedAt)보다 뒤인가."""
+    import importlib.util
+    import new_filings as nf
+    p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
+    if not os.path.exists(p):
+        return False
+    sp = importlib.util.spec_from_file_location("cfg", p)
+    C = importlib.util.module_from_spec(sp)
+    sp.loader.exec_module(C)
+    if not getattr(C, "AUTO", False):
+        return False
+    appr = json.load(open(os.path.join(V2, "sec_approved.json"))).get(str(C.CIK).zfill(10))
+    filed = nf.card_asof(T)[1]
+    return bool(appr and filed and appr > str(filed)[:10])
+
+
 def build(T, work):
     t = T.lower()
     if T in BANKS:
@@ -153,7 +171,10 @@ def build(T, work):
     elif T in HAND:
         steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
     else:
-        return run([PY, "v2/newcards/build.py", T, "--price"], env=dict(os.environ, REFRESH="1"))
+        # 자동 카드(cfg AUTO)는 기준표의 공시 날짜가 카드 재무보다 새로우면 그날 자료를 전부 새로 받아 분기를 넘긴다 —
+        # 가격만 다시 만드는 길(--price)은 EPS·재무를 다시 받지 않아 새 분기로 못 넘어간다(Codex 2026-10-10)
+        mode = "--weekly" if auto_quarter_due(T) else "--price"
+        return run([PY, "v2/newcards/build.py", T, mode], env=dict(os.environ, REFRESH="1"))
     log = ""
     for s in steps:
         env = dict(os.environ, EPS_HISTORY=f"scripts/{T}_eps_history.json") if "build_multiple_history" in s[1] else None
