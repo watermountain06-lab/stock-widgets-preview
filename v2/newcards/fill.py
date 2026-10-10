@@ -540,15 +540,17 @@ if AUTO:   # 자동 카드의 종목별 패치는 표기 고침뿐이다 — 찾
             _sub_hard(pat, new, flags)
         else:
             print(f'  POST 건너뜀(패턴): {pat[:60]!r}')
-for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
-    try:
-        exec(_code, globals())
-    except AssertionError as _e:
-        if not AUTO:
-            raise
-        print(f'  POST 확인 건너뜀: {str(_e)[:80]}')
-if AUTO:
-    one, sub = _one_hard, _sub_hard
+try:
+    for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
+        try:
+            exec(_code, globals())
+        except Exception as _e:   # 자동 카드: 표기 고침 덩어리의 어떤 오류든(MA requiredGrowth 없음 → pct(None)) 그 덩어리만 건너뛴다(Codex)
+            if not AUTO:
+                raise
+            print(f'  POST 덩어리 건너뜀: {type(_e).__name__} {str(_e)[:80]}')
+finally:
+    if AUTO:
+        one, sub = _one_hard, _sub_hard
 # 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
 h = re.sub(r'(<div class="card" hidden>\n    <div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">)(.*?)(\n    </div>\n  </div>)',
            lambda m: m.group(1) + '\n      기술적 분석(추세 상태)은 이 사이트의 판단(내재가치 대비)에서 뺐다. 이 칸은 화면에 보이지 않는다.' + m.group(3), h, count=1, flags=re.S)

@@ -89,8 +89,9 @@ def ytd(cik, tags, end, fy_start):
     for tag in tags:
         rows = [r for r in _flow_rows(cik, tag) if r.get("end") == end and r.get("start")
                 and abs((d(r["start"]) - fy_start).days) <= 10 and (d(end) - d(r["start"])).days <= 380]
-        if rows:
-            return sorted(rows, key=lambda r: r["filed"])[0]["val"], d(end) - d(rows[0]["start"])
+        if rows:   # 같은 기간이 정정되면 가장 나중 공시 값(Codex) — 기간도 그 행의 시작일로
+            r = sorted(rows, key=lambda r: r["filed"])[-1]
+            return r["val"], d(end) - d(r["start"])
     return None, None
 
 
@@ -109,7 +110,7 @@ def dps_quarter(cik, end, prev_end, fy_start, is_q4, tag=None):
     rows = _flow_rows(cik, tag, "USD/shares")
     q = [r for r in rows if r.get("end") == end and r.get("start") and 70 <= (d(end) - d(r["start"])).days <= 125]
     if q:
-        return sorted(q, key=lambda r: r["filed"])[0]["val"]
+        return sorted(q, key=lambda r: r["filed"])[-1]["val"]
     if is_q4:
         fy = [r for r in rows if r.get("end") == end and r.get("start") and 350 <= (d(end) - d(r["start"])).days <= 380]
         n9 = [r for r in rows if r.get("end") == prev_end and r.get("start") and abs((d(r["start"]) - fy_start).days) <= 10]
@@ -144,13 +145,20 @@ def apply(C, T):
     else:
         yo_v = sx.quarter_values(M, "10-Q", C.TENQ, C.YO)
     ref_adj = abs(getattr(C, "SEG_ADJ", 0) or 0)   # 사람이 확인해 둔 본사·상계 조정의 크기(cfg 원래 값) — 허용 범위의 기준
+    C._SEG_ADJ_HAND = getattr(C, "SEG_ADJ", 0) or 0
     C.SEG, C.SEG_ADJ = sx.table(M, cur_v)
     # 부문 합과 매출의 차이(본사·상계 등)는 남은 값으로 넣되, 매출의 3%를 넘으면 지도가 틀린 것으로 보고 멈춘다(2026-10-10)
     _, _rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
     _rev = {e["end"]: e["val"] for e in bmh.quarterly_flow(_rows, T)}
     if C.CUR in _rev:
         resid = _rev[C.CUR] / 1e6 - sum(v for _, v, _ in C.SEG) - C.SEG_ADJ
-        if abs(resid) > max(0.03 * _rev[C.CUR] / 1e6, 1.5 * ref_adj):   # GLW 환헤지 −233·TMO 부문 간 거래 −566은 정상
+        ref_signed = getattr(C, "_SEG_ADJ_REF", None)
+        ref_signed = ref_adj if ref_signed is None else ref_signed
+        # 차이는 매출의 3% 안이거나, 사람이 확인한 조정값(cfg SEG_ADJ, GLW 환헤지 −233·TMO 부문 간 거래 −566)과 같은 부호로 그 0.5~1.5배일 때만 —
+        # 큰 조정값이 있다고 아무 차이나 받아들이지 않게(Codex 2026-10-10)
+        orig = getattr(C, "_SEG_ADJ_HAND", 0)
+        near_ref = orig and resid * orig > 0 and 0.5 * abs(orig) <= abs(resid) <= 1.5 * abs(orig)
+        if abs(resid) > 0.03 * _rev[C.CUR] / 1e6 and not near_ref:
             raise SystemExit(f"{T}: 부문 합이 매출과 {resid:,.0f}백만 달러 다르다 — SEG_MAP 확인")
         C.SEG_ADJ = round(C.SEG_ADJ + resid)
     yo_tab = {n: v for n, v, _ in sx.table(M, yo_v)[0]} if yo_v else {}
@@ -192,7 +200,7 @@ def apply(C, T):
                   usd(dps) if dps is not None else "공시 없음")]
     C._AUTO.update({"bb": bb, "dv": dv, "dps": dps, "dps_yo": dps_yo})
     gw = {r["end"]: r["val"] for r in sorted(_flow_rows(cik, "Goodwill"), key=lambda r: r["filed"])}
-    C._AUTO["acq"] = bool(gw.get(C.CUR) and gw.get(C.YO) and gw[C.CUR] > gw[C.YO] * 1.15)   # 영업권이 1년에 15% 넘게 늘면 인수가 매출 성장에 섞였다(ABT, Fable)
+    C._AUTO["acq"] = bool(gw.get(C.CUR) and C.YO in gw and gw[C.CUR] > (gw[C.YO] or 0) * 1.15)   # 1년 전 영업권 0에서 생긴 인수도(Codex)   # 영업권이 1년에 15% 넘게 늘면 인수가 매출 성장에 섞였다(ABT, Fable)
 
     # 실적 보도자료 링크와 다음 실적일(작년 같은 분기의 실적 8-K + 364일, "예상")
     sub = _submissions(cik)
@@ -367,11 +375,11 @@ def texts(C, ns):
     C.HEALTH_NOTE = hn + "."
     C.FUND_TIP = f"점수는 {C.TENQ_NAME} 기준 재무로 계산했다."
     C.SELF_TIP = (f"PER {per['current']:.1f}배는 5년 분포의 하위 {per.get('percentile', 0):.1f}%다(중앙값 {per['median']:.1f}배)." if per.get("current") else "자기 이력 배수 분포 기준이다.")
-    req = DCF.get("requiredMargin") if DCF.get("reqMode") == "margin" else None
+    req = DCF.get("requiredMargin") if DCF.get("reqMode") == "margin" else None   # 0%도 해다 — is not None으로 본다(Codex)
     C.PREMISE = (f"PER {per['current']:.1f}배(5년 중앙값 {per['median']:.1f}배)로 자기 이력 {selfsc:.1f}점({word(selfsc)}), 동종업 {peersc:.1f}점({word(peersc)})이다. "
                  if per.get("current") else f"자기 이력 {selfsc:.1f}점({word(selfsc)}), 동종업 {peersc:.1f}점({word(peersc)})이다. ") + \
         (f"<strong>현금흐름 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {ratio:.0f}%</strong>다." if ratio else "")
-    if req:
+    if req is not None:
         tail = f" 현재가를 정당화하려면 영업이익률이 {req * 100:.1f}%까지 올라야 한다(최근 4분기 {mn:.1f}%, 5년 중앙값 {m5:.1f}%)."
     elif DCF.get("reqMode") == "margin":
         tail = f" 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 {mn:.1f}%)."   # TXN(Fable)
@@ -379,7 +387,8 @@ def texts(C, ns):
         tail = f" 현재가를 정당화하려면 매출이 5년간 연 {DCF['requiredGrowth'] * 100:.1f}% 커야 한다."
     else:
         tail = ""
-    C.RISK = risk + tail + f" 내재가치에서 차입금·리스 {B(debt + lease)}를 빼고 현금·단기투자 {B(cash)}를 더한다."
+    fin_debt = debt + lease - (b.get("op_lease") or 0)   # build_dcf와 같은 정의 — 운용리스는 영업비용이라 빼지 않는다(Codex)
+    C.RISK = risk + tail + f" 내재가치에서 차입금" + ("·금융리스" if lease - (b.get("op_lease") or 0) > 0 else "") + f" {B(fin_debt)}를 빼고 현금·단기투자 {B(cash)}를 더한다."
     term = 0.025   # build_dcf 영구성장률 — 시나리오 성장은 이보다 낮으면 이 값으로 둔다(build_dcf.scenarios)
     def story(g, start_what, m, m_what):
         g = g or term
