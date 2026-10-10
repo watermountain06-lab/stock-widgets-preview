@@ -297,14 +297,45 @@ def build(panel_path=PANEL):
             if hasattr(getattr(bmh, fn), "cache_clear"):
                 getattr(bmh, fn).cache_clear()
         ep = os.path.join(EPS_DIR, f"{t}.json")
-        # C8: EPS TTM은 SEC 자료로 다시 만들어 공개일을 구성 분기 중 가장 늦은 첫 공시일로(pit.eps_ttm). 자료가 없으면 EPS 파일.
-        eps = [{"available": e["available"], "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"])}
-               for e in pit.eps_ttm(data, pj.get("splits") or []) if e["val"]]
-        if not eps and os.path.exists(ep):
-            eps = sorted(({"available": e["available_date"],
-                           "val": e["ttm_eps"] + bmh.oneoff_in_ttm(t, e.get("quarter_end"), "eps", asof=e["available_date"])}
-                          for e in json.load(open(ep)) if e.get("ttm_eps")), key=lambda e: e["available"])
-        daily = [(dd, c) for dd, c in zip(dates, closes) if dd >= BAR_START]
+        # F1(input_fix_prereg 1절): Yahoo가 분사·주식 배당을 0.70 < r < 1.45 비율의 분할로 기록해 그 전 가격을 r로 나눠 둔다.
+        # splits.clean()이 그 사건을 주식 수 보정에서 버리므로 가치 비교용 가격(배수 시리즈·DCF 비교)은 사건 전 봉에 r을 곱해 되돌리고,
+        # EPS도 그 사건으로 나누지 않는다. 재작성 종목(RESTATED_LATEST)은 평가일 공시 상태가 사건일 이후면 재무가 이미 분사 사업을 뺐으므로
+        # 그 사건은 되돌리지 않는다. 수익률(add_returns)은 조정 가격(px) 그대로.
+        keep_sp, ign_sp = _splits.clean([(s_["date"], s_["ratio"]) for s_ in (pj.get("splits") or [])])
+
+        def restore_for(state):
+            return tuple((d0, r0) for d0, r0 in ign_sp
+                         if not (t in d.feh.RESTATED_LATEST and state is not None and state >= d0))
+
+        def then_factor(dd, restore):
+            f_ = 1.0
+            for d0, r0 in restore:
+                if dd < d0:
+                    f_ *= r0
+            return f_
+
+        eps_cache = {}
+
+        def eps_for(restore):
+            """C8: EPS TTM은 SEC 자료로 다시 만들어 공개일을 구성 분기 중 가장 늦은 첫 공시일로(pit.eps_ttm). 자료가 없으면 EPS 파일.
+            분할 목록은 진짜 분할 + 되돌리지 않는 분사 사건(F1)."""
+            if restore not in eps_cache:
+                sp = [{"date": d0, "ratio": r0} for d0, r0 in sorted(keep_sp + [x for x in ign_sp if x not in restore])]
+                e1 = [{"available": e["available"], "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"])}
+                      for e in pit.eps_ttm(data, sp) if e["val"]]
+                if not e1 and os.path.exists(ep):
+                    e1 = sorted(({"available": e["available_date"],
+                                  "val": e["ttm_eps"] + bmh.oneoff_in_ttm(t, e.get("quarter_end"), "eps", asof=e["available_date"])}
+                                 for e in json.load(open(ep)) if e.get("ttm_eps")), key=lambda e: e["available"])
+                eps_cache[restore] = e1
+            return eps_cache[restore]
+
+        daily_cache = {}
+
+        def daily_for(restore):
+            if restore not in daily_cache:
+                daily_cache[restore] = [(dd, c * then_factor(dd, restore)) for dd, c in zip(dates, closes) if dd >= BAR_START]
+            return daily_cache[restore]
         # C8(2026-10-03, Codex·Fable 2차): 모든 종목의 현금흐름과 배수 시리즈를 (공시 상태, 감가상각 합산 태그 판정) 단위로
         # 그날까지 공시된 행만으로 계산한다. 한 번 만든 시리즈를 쓰면 1년 뒤 비교 수치로 다시 실린 분기가 공개일을 늦추는 등
         # 공개 시점이 미래 공시에 따라 바뀌었다(PEP·KO, Fable). 감가상각 판정은 평가일 기준(공시 없이 730일 문턱을 넘을 수 있음).
@@ -323,6 +354,10 @@ def build(panel_path=PANEL):
             state = max((f for f in filed_all if f <= day), default=None)
             if state is None:
                 continue
+            restore = restore_for(state)
+            px_then = px * then_factor(day, restore)
+            eps = eps_for(restore)
+            daily = daily_for(restore)
             try:
                 pit.install(bmh, cik, data, state, ref=day)
                 # 감가상각 경로: 합산 태그 판정과 실제로 쓴 경로(합산·구성요소 대체)를 함께 키에 넣는다(XYL·IEX, Fable 3차)
@@ -338,7 +373,7 @@ def build(panel_path=PANEL):
             # 손으로 넣은 보정값(nonop_extra·interest_extra·tax_oneoff)은 자체 공시일로 걸러진다 — SEC 공시 목록에 없는 날짜라
             # 키에 따로 넣는다(KO nonop_extra 2026-07, Fable 2차).
             ovr = max((f for f in override_filed if f <= day), default="")
-            key = (state, dflag, bool(hw and hw[0] <= day), ovr)
+            key = (state, dflag, bool(hw and hw[0] <= day), ovr, restore)
             # 롤링 창이면 공시 상태가 같아도 창이 밀려 분기가 빠지므로 현금흐름 캐시 키에 유효 시작일을 넣는다(관문 2절, Codex·Fable).
             # 배수 시리즈 캐시(mcache)는 창과 무관해 그대로 key를 쓴다.
             dws = dcf_window_start(t, day)
@@ -397,7 +432,7 @@ def build(panel_path=PANEL):
                         selfm[lab] = None                     # 분모 없음(카드: currentNote missing)
                     # 동종업용 값(공시 EPS 기준 PER)
                     if lab == "PER" and core_day:
-                        x = pdil_day(day, px) if pdil_day else None
+                        x = pdil_day(day, px_then) if pdil_day else None
                         e_ = bmh.as_of(eps, day) if eps else None
                         peerv["PER_dil"] = x if x else (NEG if (e_ is not None and e_ <= 0) else None)
                         continue
@@ -409,7 +444,7 @@ def build(panel_path=PANEL):
                         dn = den_day.get(lab)
                         dv = dn(day) if dn else None
                         peerv[lab] = NEG if (dv is not None and dv <= 0) else None
-            rows.append({"t": t, "sec": r["sector"], "d": day, "m": mth, "i": i, "px": px,
+            rows.append({"t": t, "sec": r["sector"], "d": day, "m": mth, "i": i, "px": px, "px_then": px_then,
                          "dq": res["dq"], "dcf_ok": res["ok"], "base": res["base"], "dcf_ws": dws,
                          "dcf_why": res.get("why"), "dcf_err": res.get("err"),
                          "self": selfm, "peer": peerv, "core": core_day})
@@ -447,7 +482,7 @@ def pct_level(q):
 def D_of(r):
     if r["base"] is None:
         return None
-    return -math.log(r["px"] / r["base"]) if r["base"] > 0 else -math.inf
+    return -math.log(r.get("px_then", r["px"]) / r["base"]) if r["base"] > 0 else -math.inf
 
 
 def peer_scores(rows):
@@ -502,7 +537,7 @@ def assign(rows):
         r["self_vote"] = None if DROP_SELF else seat_multiple(r["self_score"], len(sv))
         r["peer_vote"] = seat_multiple(r.get("peer_score"), r.get("peer_n", 0))
         r["D"] = D_of(r)
-        r["lv_V0"] = ratio_level(r["px"], r["base"]) if r["dcf_ok"] else None
+        r["lv_V0"] = ratio_level(r.get("px_then", r["px"]), r["base"]) if r["dcf_ok"] else None   # F1: 가치 비교는 당시 종가
     months = {}
     for r in rows:
         if r["lv_V0"] is not None:
