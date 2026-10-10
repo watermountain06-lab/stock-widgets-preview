@@ -157,7 +157,11 @@ def base_inputs(ticker, asof=None):
     for name, tags in bmh.EV_COMPONENTS.items():
         # asof를 빠뜨리면 과거 시점 계산에 오늘 대차대조표가 섞인다
         # (현금·단기투자·차입금·리스가 그랬다 — Codex 지적으로 발견).
-        out[name] = latest(bmh.ev_component(cik, name, tags), asof)
+        ser = bmh.ev_component(cik, name, tags)
+        out[name] = latest(ser, asof)
+        if name == "debt":   # F4 표식 — 그 시점에 쓴 차입금 점이 총계 대체면 dq에 남긴다(필터에는 쓰지 않는다)
+            okp = [x for x in ser if asof is None or x.get("available", x["end"]) <= asof]
+            out["_debt_fallback"] = bool(okp and okp[-1].get("_note"))
     # 금융리스부채는 운용리스와 별개 태그라 EV_COMPONENTS["lease"]에 안 잡힌다.
     # MSFT는 $66.6B가 순부채에서 통째로 빠져 있었다(주당 약 $9).
     # 총계 태그가 있으면 그것만 쓴다. 셋을 모두 더하면 총계와 세부가 겹쳐
@@ -184,6 +188,9 @@ def base_inputs(ticker, asof=None):
     # MCD: 재무상태표 리스부채(OperatingLeaseLiabilityCurrent·Noncurrent 태그)가 운용 + 금융리스 합계라(10-K 리스 주석 표, 2025-12 $694M·$14,147M)
     # 금융리스를 또 더하면 $2.35B가 두 번 빠진다(2026-10-02) — 같은 목록에 둔다.
     fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in ("0000315189", "0000063908")   # DE(장비 부문 차입금에 금융리스 포함)·MCD(리스 태그가 운용 + 금융 합계)
+    if out.get("_debt_fallback"):
+        # F4로 총계(합계 태그 또는 LongTermDebt + 단기 차입)를 쓴 시점에는 회사별 목록의 리스 포함 태그가 아니므로 금융리스를 따로 더한다(Codex 2026-10-10)
+        fl_in_debt = cik in ("0000315189", "0000063908")
     # 운용리스(B16, 2026-10-03 사용자 결정): US GAAP 영업이익은 운용리스 비용(임차료)을 이미 뺐다. 그 부채를 순부채로 또 빼고
     # 투하자본에 넣으면 같은 비용이 두 번 든다(Codex·Fable DCF 검증). DCF는 운용리스를 영업비용으로 일관되게 보고
     # run_dcf·invested_capital에서 op_lease를 뺀다. "lease"는 총리스 그대로 둔다(카드 문장의 순차입금 표시가 쓴다).
@@ -309,6 +316,8 @@ def base_inputs(ticker, asof=None):
 
     # ── 데이터 품질(2026-09-25 사용자 결정) — 유니버스 427종목 중 34%가 아래 신호 하나 이상 ──
     out["dq"] = []
+    if out.pop("_debt_fallback", False):
+        out["dq"].append("debt_total_fallback")
     # 주식 수: 표지·재무상태표 값이 없거나 희석 가중평균(분할 보정)의 0.5~2배 밖이면 희석 가중평균으로.
     # SPG는 한 클래스만 잡혀 8,000주로 주당 $6,834가 나왔다.
     import splits as _splits
