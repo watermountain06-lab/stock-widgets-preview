@@ -177,23 +177,36 @@ def auto_approve(status, session):
         except Exception as e:
             waiting.append(f"{T}: SEC 제출 목록 받기 실패({type(e).__name__})")
             continue
-        new = sorted((r["filingDate"][i], r["acceptanceDateTime"][i]) for i, form in enumerate(r["form"])
-                     if form in ("10-Q", "10-K") and old and r["filingDate"][i] > old)
+        # 정정(10-Q/A·10-K/A)도 넣는다 — 재무 수집(vendor/fetch_financials)은 기준일과 상관없이 최신 공시를 받으므로,
+        # 기준표도 최신 공시를 따라가야 한 카드 안에서 정정 전·후가 섞이지 않는다(Codex 2026-10-10)
+        new = sorted(((r["filingDate"][i], r["acceptanceDateTime"][i], form) for i, form in enumerate(r["form"])
+                      if form in ("10-Q", "10-K", "10-Q/A", "10-K/A") and old and r["filingDate"][i] > old), reverse=True)
         if not new:
             continue
-        filed, accepted = new[-1]
-        if first_session_after(accepted) > session:
-            waiting.append(f"{T}: {filed} 공시 — 첫 종가({first_session_after(accepted)}) 전")
+        pick, facts = None, None
+        for filed, accepted, form in new:   # 준비된 것 가운데 가장 최근 — 최신이 아직이면 그 앞의 것(Codex)
+            if first_session_after(accepted) > session:
+                waiting.append(f"{T}: {filed} {form} — 첫 종가({first_session_after(accepted)}) 전")
+                continue
+            if facts is None:   # 요약 자료는 캐시가 아니라 새로 받아 확인한다 — 캐시가 그 공시를 빠뜨린 채 머물지 않게(Codex)
+                try:
+                    facts = bmh.feh.curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json")
+                except Exception as e:
+                    waiting.append(f"{T}: SEC 요약 자료 받기 실패({type(e).__name__})")
+                    status["autoRetry"] = True
+                    break
+            have = any(x.get("filed") == filed and x.get("form") == form for tx in facts.get("facts", {}).values()
+                       for tg in tx.values() for rows in tg.get("units", {}).values() for x in rows)
+            if not have:
+                waiting.append(f"{T}: {filed} {form} — SEC 요약 자료에 아직 없음")
+                status["autoRetry"] = True   # 같은 세션에서 다시 돌 수 있게(--skip-if-current가 건너뛰지 않게)
+                continue
+            pick = filed
+            break
+        if not pick:
             continue
-        try:   # 요약 자료에 그 공시가 실렸는가 — 기준표를 잠시 새 날짜로 보고 확인(실리지 않았으면 _facts가 멈춘다)
-            base = bmh._approved
-            bmh._approved = lambda: {**base(), cik: filed}
-            bmh._facts(cik)
-        except RuntimeError:
-            waiting.append(f"{T}: {filed} 공시 — SEC 요약 자료에 아직 없음")
-            continue
-        finally:
-            bmh._approved = base
+        json.dump(facts, open(os.path.join(V2, ".sec_cache", f"{cik}_facts.json"), "w"))   # _facts가 새 자료를 쓰게
+        filed = pick
         table[cik] = filed
         moved[T] = (cik, old, filed)
         print(f"{T}: 새 공시 {filed} 자동 반영 — 이번 실행에서 새 분기로 다시 만든다", flush=True)
@@ -391,7 +404,7 @@ def main():
         # (2026-10-08: 10/6 실행 때 10/5에 머문 11장이 그 뒤 "이미 끝났다"로 계속 건너뛰어져 건강 점검에 걸렸다)
         own = {e["ticker"]: e["price"].get("session") for e in json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["tickers"]}
         behind = [t for t, v in old.get("cards", {}).items() if own.get(t) and v.get("date") and v["date"] < own[t]]
-        if old.get("session") == session and old.get("full") and not old.get("failed") and not old.get("problems") and old.get("finished") and not behind:
+        if old.get("session") == session and old.get("full") and not old.get("failed") and not old.get("problems") and old.get("finished") and not behind and not old.get("autoRetry"):
             print(f"{session} 세션은 이미 끝났다({old['finished']}) — 건너뜀"); return
         if behind:
             print(f"자기 세션보다 뒤처진 카드 {len(behind)}장 — 다시 만든다: {' '.join(sorted(behind))}", flush=True)
@@ -404,18 +417,21 @@ def main():
     if weekly:
         weekly_pre(status)
     moved = auto_approve(status, session)
-    for T in tickers:
-        status["cards"][T] = attempt(T, work)
-    # 자동 반영한 카드가 실패했으면 그 회사의 기준표 날짜를 되돌린다 — 카드는 attempt()가 이미 이전 분기로 되돌렸다(분기가 섞이지 않게)
-    reverted = [T for T in moved if status["cards"].get(T, {}).get("status") == "failed" or T not in status["cards"]]
-    if reverted:
-        _p = os.path.join(V2, "sec_approved.json")
-        _t = json.load(open(_p))
-        for T in reverted:
-            cik, old, new = moved[T]
-            _t[cik] = old
-            status["problems"].append(f"{T}: 새 공시({new}) 자동 반영 실패 — 이전 분기에 둠")
-        json.dump(_t, open(_p, "w"), ensure_ascii=False, indent=1)
+    try:
+        for T in tickers:
+            status["cards"][T] = attempt(T, work)
+    finally:
+        # 자동 반영한 카드가 실패했거나(예외로 루프가 끊겨) 돌지 않았으면 그 회사의 기준표 날짜를 되돌린다 —
+        # 카드는 attempt()가 이미 이전 분기로 되돌렸다(분기가 섞이지 않게, Codex)
+        reverted = [T for T in moved if status["cards"].get(T, {}).get("status") != "ok"]
+        if reverted:
+            _p = os.path.join(V2, "sec_approved.json")
+            _t = json.load(open(_p))
+            for T in reverted:
+                cik, old, new = moved[T]
+                _t[cik] = old
+                status["problems"].append(f"{T}: 새 공시({new}) 자동 반영 실패 — 이전 분기에 둠")
+            json.dump(_t, open(_p, "w"), ensure_ascii=False, indent=1)
     if weekly:
         weekly_post(status, work)
     after = verdicts()
