@@ -261,7 +261,7 @@ def texts(C, ns):
     nxt = f"{C.CHECK_WHEN.split(' · ')[0]} {A['next_label']} 실적 공시."
     if trend_txt:
         bl.insert(1, f"최근 세 분기 매출 증가율(1년 전 대비, 환율·인수 포함): {trend_txt}.")
-    C.SUMMARY = (head, f"{vx}·{gx}", bl[:4], risk, nxt)
+    C.SUMMARY = (head, f"{vx}·{gx}", [], risk, nxt)   # 숫자 목록은 싣지 않는다(2026-10-10 사용자 결정) — 같은 숫자가 기본적 분석 탭에 있다
 
     # 강세·약세: 후보마다 부호와 크기 — 큰 순으로 셋까지(가드에 걸린 지표는 뺀다)
     cand = []

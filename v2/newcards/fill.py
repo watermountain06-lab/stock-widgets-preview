@@ -425,8 +425,9 @@ for it in items:
 tl = '    <div class="timeline" id="newsTimeline">\n' + '\n'.join(item(*i) for i in items) + '\n    </div>'
 sub(r'    <div class="timeline" id="newsTimeline">\n.*?\n    </div>\n    <div class="tl-pager"', tl + '\n    <div class="tl-pager"')
 sub(r'<div class="section-title">시계열 주요 뉴스 \([^)]*\)</div>', f'<div class="section-title">시계열 주요 뉴스 ({C.NEWS_RANGE})</div>')
-SUMMARY = (f'<div class="verdict-summary-head">지배적 내러티브 · {F(C.SUMMARY[0])}<span class="tag">{C.SUMMARY[1]}</span></div>\n    <ol class="news-list">\n'
-           + '\n'.join(f'      <li>{F(x)}</li>' for x in C.SUMMARY[2]) + '\n    </ol>\n'
+# 숫자 목록이 비면 목록 칸을 통째로 뺀다 — 자동 카드는 목록 없이 머리말·위험·다음 확인만(2026-10-10 사용자 결정)
+SUMMARY = (f'<div class="verdict-summary-head">지배적 내러티브 · {F(C.SUMMARY[0])}<span class="tag">{C.SUMMARY[1]}</span></div>\n'
+           + (('    <ol class="news-list">\n' + '\n'.join(f'      <li>{F(x)}</li>' for x in C.SUMMARY[2]) + '\n    </ol>\n') if C.SUMMARY[2] else '')
            + f'    <div class="verdict-summary-counter">⚠️ {F(C.SUMMARY[3])}</div>\n    <div class="verdict-summary-next">🔍 다음 확인 포인트 · {F(C.SUMMARY[4])}</div>')
 sub(r'<div class="verdict-summary-head">지배적 내러티브.*?<div class="verdict-summary-next">.*?</div>', SUMMARY)
 row = lambda k, head, tx: f'<div class="bb-row {k}"><span class="bb-icon">{"▲" if k == "bull" else "▼"}</span><span class="bb-head">{head}</span><span class="bb-text">{tx}</span></div>'
