@@ -157,7 +157,11 @@ def base_inputs(ticker, asof=None):
     for name, tags in bmh.EV_COMPONENTS.items():
         # asof를 빠뜨리면 과거 시점 계산에 오늘 대차대조표가 섞인다
         # (현금·단기투자·차입금·리스가 그랬다 — Codex 지적으로 발견).
-        out[name] = latest(bmh.ev_component(cik, name, tags), asof)
+        ser = bmh.ev_component(cik, name, tags)
+        out[name] = latest(ser, asof)
+        if name == "debt":   # F4 표식 — 그 시점에 쓴 차입금 점이 총계 대체면 dq에 남긴다(필터에는 쓰지 않는다)
+            okp = [x for x in ser if asof is None or x.get("available", x["end"]) <= asof]
+            out["_debt_fallback"] = bool(okp and okp[-1].get("_note"))
     # 금융리스부채는 운용리스와 별개 태그라 EV_COMPONENTS["lease"]에 안 잡힌다.
     # MSFT는 $66.6B가 순부채에서 통째로 빠져 있었다(주당 약 $9).
     # 총계 태그가 있으면 그것만 쓴다. 셋을 모두 더하면 총계와 세부가 겹쳐
@@ -309,6 +313,8 @@ def base_inputs(ticker, asof=None):
 
     # ── 데이터 품질(2026-09-25 사용자 결정) — 유니버스 427종목 중 34%가 아래 신호 하나 이상 ──
     out["dq"] = []
+    if out.pop("_debt_fallback", False):
+        out["dq"].append("debt_total_fallback")
     # 주식 수: 표지·재무상태표 값이 없거나 희석 가중평균(분할 보정)의 0.5~2배 밖이면 희석 가중평균으로.
     # SPG는 한 클래스만 잡혀 8,000주로 주당 $6,834가 나왔다.
     import splits as _splits

@@ -1293,7 +1293,76 @@ EV_ZERO_FROM_BY_CIK = {"0000200406": {"nci": ("2023-10-01", "2023-10-27")}}
 DEBT_AVAILABLE_FIX = {"0001327567": {"2025-07-31": "2025-08-29"}}
 
 
+# F4(input_fix_prereg, 2026-10-10): 차입금 세부 태그가 일부만 잡히면 총계로 바꾸지 않는 회사들. 금융 섹터는 차입금 정의가 달라
+# 통째로 뺀다(은행 카드는 bank_items 경로). CAT·DE는 금융 자회사 부문 차입금을 뺀 값이 사용자 결정(2026-09-30)이라 총계와 다른 게 맞다.
+# BX는 LoansPayable, VRTX는 0.5배 규칙과 맞지 않는 회사별 결정.
+DEBT_TOTAL_FALLBACK_SKIP = {"0000018230", "0000315189", "0001393818", "0000875320"}
+_FIN_CIKS = None
+
+
+def _financial_ciks():
+    global _FIN_CIKS
+    if _FIN_CIKS is None:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vendor", "sp500.json")
+        _FIN_CIKS = {str(r.get("cik")).zfill(10) for r in json.load(open(p)) if r.get("sector") == "Financials"} if os.path.exists(p) else set()
+    return _FIN_CIKS
+
+
+def _debt_total_fallback(cik, out):
+    """F4: 그 종료일의 엔진 차입금이 없거나 같은 종료일 `LongTermDebt`(총계)의 0.5배 미만이면 바꾼다 — LIN 2022-09-30은 세부 중
+    단기차입 $3.18B만 태깅해 10-Q 합계 $15.34B가 빠졌다(회사별 목록 경로라 총계 대체 전에 끝났다). 순서: ① 그날의
+    `DebtLongtermAndShorttermCombinedAmount` ② `LongTermDebt` + 단기 차입(`ShortTermBorrowings`, 없으면 `CommercialPaper`).
+    단기 차입에 1년 안 만기 장기분이 들어 있는 회사(build_dcf.STB_INCLUDES_CURRENT_LTD)는 장기 비유동분 + 단기 차입,
+    `LongTermDebt`를 비유동분으로만 내는 회사(DEBT_NONCURRENT_ONLY)는 + `DebtCurrent`. 바꾼 점에는 `_note`를 남긴다."""
+    if cik in DEBT_TOTAL_FALLBACK_SKIP or cik in _financial_ciks():
+        return out
+    ltd = {e["end"]: e for e in component_sum(cik, ["LongTermDebt"])}
+    if not ltd:
+        return out
+    import build_dcf as _bd
+    have = {e["end"]: e for e in out}
+    comb = {e["end"]: e for e in component_sum(cik, ["DebtLongtermAndShorttermCombinedAmount"])}
+    stb = {e["end"]: e for e in component_sum(cik, ["ShortTermBorrowings"])}
+    cp = {e["end"]: e for e in component_sum(cik, ["CommercialPaper"])}
+    nonc = {e["end"]: e for e in component_sum(cik, ["LongTermDebtNoncurrent"])}
+    curr = {e["end"]: e for e in component_sum(cik, ["LongTermDebtCurrent"])}
+    dc = {e["end"]: e for e in component_sum(cik, ["DebtCurrent"])}
+    changed = False
+    for end, L in ltd.items():
+        e = have.get(end)
+        if e is not None and e["val"] >= 0.5 * L["val"]:
+            continue
+        if end in comb:
+            parts = [comb[end]]
+        else:
+            if cik in _bd.STB_INCLUDES_CURRENT_LTD:
+                if end in nonc:
+                    base_ = [nonc[end]]
+                elif end in curr:
+                    base_ = [L, {"val": -curr[end]["val"], "available": curr[end]["available"]}]
+                else:
+                    base_ = [L]
+            else:
+                base_ = [L]
+            short = stb.get(end) or cp.get(end)
+            extra = [dc[end]] if (cik in DEBT_NONCURRENT_ONLY and end in dc) else []
+            parts = base_ + ([short] if short else []) + extra
+        val = sum(x["val"] for x in parts)
+        if e is not None and val <= e["val"]:
+            continue
+        have[end] = {"end": end, "val": val, "available": max(x["available"] for x in parts), "_note": "debt_total_fallback"}
+        changed = True
+    return sorted(have.values(), key=lambda e: e["available"]) if changed else out
+
+
 def ev_component(cik, name, tags):
+    out = _ev_component(cik, name, tags)
+    if name == "debt" and not EV_ZERO_FROM_BY_CIK.get(cik, {}).get(name):
+        out = _debt_total_fallback(cik, out)
+    return out
+
+
+def _ev_component(cik, name, tags):
     tags = EV_TAGS_BY_CIK.get(cik, {}).get(name, tags)
     zf = EV_ZERO_FROM_BY_CIK.get(cik, {}).get(name)
     if zf:
