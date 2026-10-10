@@ -95,3 +95,78 @@ BEAR = [('주가', '1년 새 −36%, 실적 날 네 번 중 세 번 하락.'),
         ('구조', '경제적 지분의 약 36%가 파트너십 지분.')]
 ANALYST = {'rating': 'Buy', 'n': 24, 'nt': 18, 'mean': 143.33, 'median': 142, 'low': 119, 'high': 184, 'sb': 9, 'b': 4, 'h': 11, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "bx:FeeRelatedPerformanceRevenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "bx:CreditAndInsuranceMember": [
+     "인센티브 수수료",
+     "#a78bfa"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "bx:PerformanceRevenueRealized"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "bx:PrivateEquitySegmentMember": [
+     "자기자본 투자 이익",
+     "#f59e0b"
+    ],
+    "bx:CreditAndInsuranceMember": [
+     "자기자본 투자 이익",
+     "#f59e0b"
+    ],
+    "bx:MultiAssetsInvestingMember": [
+     "자기자본 투자 이익",
+     "#f59e0b"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "us-gaap:InvestmentAdviceMember": [
+     "운용·자문 수수료",
+     "#0072c6"
+    ]
+   }
+  },
+  {
+   "concepts": [],
+   "axis": None,
+   "extra": {},
+   "members": {
+    "us-gaap:InvestmentIncomeInterestAndDividend": [
+     "이자·배당",
+     "#5aa9e6"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "성과보수(성과 배분)",
+  "#22c55e",
+  0.387
+ ]
+}

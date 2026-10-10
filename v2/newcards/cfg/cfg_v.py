@@ -115,3 +115,35 @@ one(f' <a href="{TENQ}" target="_blank" rel="noopener">{C.TENQ_NAME} (SEC) →</
 # 역산 문장: 성장 모드 카드는 틀의 정적 문장을 JS가 숫자만 바꾼다 — fill.py가 '—'로 비운 것을 되살린다(공통 후보)
 one('<div class="reverse">—</div>', f'<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.</div>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "v:DataProcessingRevenuesMember": [
+   "데이터 처리",
+   "#777de0"
+  ],
+  "us-gaap:ServiceMember": [
+   "서비스",
+   "#3498db"
+  ],
+  "v:InternationalTransactionRevenuesMember": [
+   "국제 거래",
+   "#f7b600"
+  ],
+  "us-gaap:ServiceOtherMember": [
+   "기타",
+   "#8a8fa8"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 역산 문장: 성장 모드 카드는 틀의 정적 문장을 JS가 숫자만 바꾼다 — fill.py가 \'—\'로 비운 것을 되살린다(공통 후보)\none(\'<div class="reverse">—</div>\', f\'<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.</div>\')']

@@ -117,3 +117,63 @@ one('`이 종목 자신의 5년 배수 분포에서 지금과 배수가', '`분�
 # GROWTH_SPAN 뒤 배수 문장: 옛 카드 표현
 h = h.replace(f"필요해 {C.GROWTH_SPAN}의 3배", "필요해 분사 뒤 성장의 3배").replace(f"필요해 {C.GROWTH_SPAN} 실제의 3배", "필요해 분사 뒤 실제의 3배")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "ibm:ConsultingMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "컨설팅",
+     "#5aa9e6"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "ibm:SoftwareMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "소프트웨어",
+     "#0f6eb4"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "ibm:InfrastructureMember": [
+     "인프라",
+     "#94a3b8"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "금융·기타",
+  "#f0c040",
+  0.0139
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 자기 이력 = 분사 뒤(옛 카드의 세 자리 — 카드 제목, 점수 이름 툴팁, 점수 설명 첫 줄)\none(\'<div class="card-title">배수별 자기 5년 위치</div>\', f\'<div class="card-title">배수별 자기 이력 위치 ({C.SELF_SPAN_TITLE})</div>\')\none(f\'title="지난 5년 {T} 자신의 배수보다\', f\'title="Kyndryl 분사 뒤(2022-02~) {T} 자신의 배수보다\')\none(\'`이 종목 자신의 5년 배수 분포에서 지금과 배수가\', \'`분사 뒤(2022-02~) 이 종목 자신의 배수 분포에서 지금과 배수가\')', '# GROWTH_SPAN 뒤 배수 문장: 옛 카드 표현\nh = h.replace(f"필요해 {C.GROWTH_SPAN}의 3배", "필요해 분사 뒤 성장의 3배").replace(f"필요해 {C.GROWTH_SPAN} 실제의 3배", "필요해 분사 뒤 실제의 3배")']

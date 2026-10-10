@@ -206,6 +206,15 @@ if QL != 'Q2 FY27':
     one('<span id="fundPeriodTitle">YoY (Q2 FY27 vs Q2 FY26)</span>', f'<span id="fundPeriodTitle">YoY ({QL} vs {C.YL})</span>')
 SEG = C.SEG
 tot = sum(v for _, v, _ in SEG)
+if AUTO and abs(tot + C.SEG_ADJ - rev[cur] / 1e6) > 1.5:
+    # 카드가 쓰는 매출이 엔진 매출과 다른 카드(CVX 총수익 = 판매 + 지분법·기타 수익, WMT 회비 포함 총수익) — 차이를 조정에 넣되,
+    # 사람이 확인한 조정값(cfg SEG_ADJ: CVX 2,881·WMT 1,837)과 같은 부호로 0.5~1.5배일 때만(2026-10-11)
+    _d = rev[cur] / 1e6 - tot - C.SEG_ADJ
+    _h = getattr(C, '_SEG_ADJ_HAND', 0) or 0
+    _want = C.SEG_ADJ + _d
+    if not (_h and _want * _h > 0 and 0.5 * abs(_h) <= abs(_want) <= 1.5 * abs(_h)):
+        raise SystemExit(f'{T}: 부문 합 {tot:,} + 조정 {C.SEG_ADJ:,}이 카드 매출 {rev[cur] / 1e6:,.0f}와 맞지 않는다 — SEG_MAP 확인')
+    C.SEG_ADJ = round(_want)
 assert abs(tot + C.SEG_ADJ - rev[cur] / 1e6) <= 1.5, (tot, C.SEG_ADJ, rev[cur])
 leg = ''.join(f'\n          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:{c};display:inline-block;flex-shrink:0;"></span>{n} <strong style="color:var(--text);">${v / 1000:.2f}B · {v / tot * 100:.1f}%</strong></div>' for n, v, c in SEG)
 sub(r'<div class="card-title">매출 구성 — Market Platform.*?</div>\n\n      <div style="display:flex;align-items:center;justify-content:center;gap:20px;">.*?\n      </div>\n\n      <div class="yoy-footnote" style="margin-top:14px;">.*?</div>',

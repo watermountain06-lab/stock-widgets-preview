@@ -71,3 +71,74 @@ _hd_low = ("_lo = min(D[-253:], key=lambda r: r[4]); _today = _lo[0] == D[-1][0]
            "HD_LOW_TXT = '오늘 종가가 1년 최저다' if _today else f'1년 최저는 {int(_lo[0][5:7])}월 {int(_lo[0][8:])}일 종가 ${_lo[4]:.2f}다'; "
            "HD_LOW_PREM = f'오늘이 1년 최저(${px:.2f})다' if _today else f'1년 최저는 {int(_lo[0][5:7])}월 {int(_lo[0][8:])}일 종가 ${_lo[4]:.2f}다'")
 PRE = [_hd_low]   # 2026-10-06 매일 재빌드: 1년 최저가 오늘이 아니어도 문장이 맞게(그전에는 그날 멈췄다)
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+    "srt:ProductOrServiceAxis": "hd:MajorProductLineBuildingMaterialsMember"
+   },
+   "members": {
+    "hd:PrimarySegmentMember": [
+     "건축 자재",
+     "#f96302"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "hd:MajorProductLineHardlinesMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "hd:PrimarySegmentMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "공구·원예 등(하드라인)",
+     "#9b59b6"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "hd:MajorProductLineDcorMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "hd:PrimarySegmentMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "인테리어(데코)",
+     "#ffb07a"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {},
+   "members": {
+    "us-gaap:AllOtherSegmentsMember": [
+     "기타(SRS·GMS 등)",
+     "#94a3b8"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = []

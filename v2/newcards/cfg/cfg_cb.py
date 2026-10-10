@@ -94,3 +94,27 @@ BEAR = [('성장 둔화', '순보험료 +3.6%(고정 환율 +2.0%).'),
         ('의견', '애널리스트 대부분 보유(Hold) 의견.')]
 ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 19, 'mean': 370.53, 'median': 373, 'low': 328, 'high': 410, 'sb': 7, 'b': 2, 'h': 14, 's': 2, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [],
+ "axis": None,
+ "extra": {},
+ "members": {
+  "us-gaap:PremiumsEarnedNet": [
+   "순보험료 수익",
+   "#0b2341"
+  ],
+  "us-gaap:NetInvestmentIncome": [
+   "투자 수익",
+   "#4a6b8f"
+  ],
+  "us-gaap:RealizedInvestmentGainsLosses": [
+   "실현 이익",
+   "#f59e0b"
+  ]
+ },
+ "ignore": []
+}

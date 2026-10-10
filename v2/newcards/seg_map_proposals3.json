@@ -1,0 +1,2022 @@
+{
+ "AMAT": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "amat:SemiconductorSystemsSegmentMember": [
+      "반도체 장비(Semiconductor Systems)",
+      "#569bbe"
+     ],
+     "amat:AppliedGlobalServicesSegmentMember": [
+      "글로벌 서비스(AGS)",
+      "#f7b600"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {},
+    "members": {
+     "amat:CorporateAndReconcilingItemsMember": [
+      "디스플레이·기타",
+      "#9b59b6"
+     ]
+    }
+   }
+  ]
+ },
+ "AMD": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "amd:DataCenterMember": [
+      "데이터센터",
+      "#ed1c24"
+     ],
+     "amd:EmbeddedMember": [
+      "임베디드",
+      "#8a8fa8"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "amd:ClientMember"
+    },
+    "members": {
+     "amd:ClientAndGamingMember": [
+      "클라이언트",
+      "#f97316"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "amd:ClientAndGamingMember"
+    },
+    "members": {
+     "amd:GamingMember": [
+      "게이밍",
+      "#3498db"
+     ]
+    }
+   }
+  ]
+ },
+ "AMGN": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "amgn:ReportableSegmentMember"
+    },
+    "members": {
+     "us-gaap:ProductAndServiceOtherMember": [
+      "기타 매출",
+      "#94a3b8"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "srt:StatementGeographicalAxis": "country:US"
+    },
+    "members": {
+     "us-gaap:ProductMember": [
+      "미국 제품",
+      "#0063c3"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "srt:StatementGeographicalAxis": "us-gaap:NonUsMember"
+    },
+    "members": {
+     "us-gaap:ProductMember": [
+      "해외 제품",
+      "#5aa9e6"
+     ]
+    }
+   }
+  ]
+ },
+ "BLK": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:RelatedPartyTransactionsByRelatedPartyAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "us-gaap:InvestmentAdviceMember"
+    },
+    "members": {
+     "blk:InvestmentAdvisoryAndAdministrationFeesMember": [
+      "기본 보수·증권대여",
+      "#1f6feb"
+     ],
+     "blk:SecuritiesLendingRevenueMember": [
+      "기본 보수·증권대여",
+      "#1f6feb"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "blk:TechnologyServicesAndSubscriptionRevenueMember": [
+      "기술 서비스(Aladdin)",
+      "#a78bfa"
+     ],
+     "us-gaap:DistributionAndShareholderServiceMember": [
+      "판매 보수",
+      "#f59e0b"
+     ],
+     "us-gaap:InvestmentPerformanceMember": [
+      "성과 보수",
+      "#22c55e"
+     ],
+     "us-gaap:ServiceOtherMember": [
+      "자문·기타",
+      "#94a3b8"
+     ]
+    }
+   }
+  ]
+ },
+ "CAT": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "cat:PowerEnergyMember"
+    },
+    "members": {
+     "cat:OperatingSegmentsExcludingIntersegmentEliminationMember": [
+      "동력·에너지(발전·엔진)",
+      "#3498db"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "cat:ResourceIndustriesMember"
+    },
+    "members": {
+     "cat:OperatingSegmentsExcludingIntersegmentEliminationMember": [
+      "광산 장비",
+      "#e67e22"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "cat:FinancialProductsMember": [
+      "금융(Cat Financial)",
+      "#9b59b6"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "cat:OperatingSegmentsExcludingIntersegmentEliminationMember"
+    },
+    "members": {
+     "cat:ConstructionIndustriesMember": [
+      "건설 장비",
+      "#ffcd11"
+     ]
+    }
+   }
+  ]
+ },
+ "CVX": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:StatementGeographicalAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "cvx:UpstreamSegmentMember"
+    },
+    "members": {
+     "us-gaap:NonUsMember": [
+      "업스트림 해외",
+      "#da291c"
+     ],
+     "country:US": [
+      "업스트림 미국",
+      "#f7b600"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:StatementGeographicalAxis": "us-gaap:NonUsMember"
+    },
+    "members": {
+     "cvx:DownstreamSegmentMember": [
+      "다운스트림 해외",
+      "#0054a4"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:StatementGeographicalAxis": "country:US"
+    },
+    "members": {
+     "cvx:DownstreamSegmentMember": [
+      "다운스트림 미국",
+      "#3498db"
+     ]
+    }
+   }
+  ]
+ },
+ "DE": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "us-gaap:ProductMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "de:ConstructionAndForestrySegmentMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "건설·임업",
+      "#94a3b8"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "de:SmallAgricultureAndTurfSegmentMember"
+    },
+    "members": {
+     "us-gaap:ProductMember": [
+      "소형 농업·잔디",
+      "#ffde00"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "us-gaap:FinancialServiceMember": [
+      "금융·기타 수익",
+      "#5aa9e6"
+     ],
+     "de:OtherMember": [
+      "금융·기타 수익",
+      "#5aa9e6"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+     "srt:ProductOrServiceAxis": "us-gaap:ProductMember"
+    },
+    "members": {
+     "de:ProductionAndPrecisionAgricultureSegmentMember": [
+      "생산·정밀 농업",
+      "#367c2b"
+     ]
+    }
+   }
+  ]
+ },
+ "DELL": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "dell:ClientSolutionsMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "PC 등 클라이언트(CSG)",
+      "#f7b600"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+     "srt:ProductOrServiceAxis": "dell:StorageMember"
+    },
+    "members": {
+     "dell:InfrastructureSolutionsGroupMember": [
+      "스토리지",
+      "#9b59b6"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {},
+    "members": {
+     "us-gaap:CorporateNonSegmentMember": [
+      "기타",
+      "#94a3b8"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "dell:InfrastructureSolutionsGroupMember"
+    },
+    "members": {
+     "dell:AIOptimizedServersAndNetworkingMember": [
+      "AI 최적화 서버",
+      "#007db8"
+     ],
+     "dell:TraditionalServersAndNetworkingMember": [
+      "일반 서버·네트워킹",
+      "#6cb4ea"
+     ]
+    }
+   }
+  ]
+ },
+ "GE": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "ge:DefenseAndPropulsionTechnologiesReportableSegmentMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "방산·추진기술(DPT)",
+      "#f7b600"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "ge:CommercialEnginesAndServicesReportableSegmentMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "상업용 엔진·서비스(CES)",
+      "#4181ff"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "기타(보험 포함, 내부 거래 차감)",
+   "#9b59b6",
+   0.0131
+  ]
+ },
+ "GILD": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "srt:StatementGeographicalAxis": "gild:RestOfWorldMember"
+    },
+    "members": {
+     "us-gaap:ProductMember": [
+      "항암(Trodelvy·세포치료)",
+      "#a78bfa"
+     ],
+     "gild:HIVProductsDescovyMember": [
+      "기타 제품(Veklury 포함)",
+      "#94a3b8"
+     ],
+     "gild:HIVProductsOdefseyMember": [
+      "기타 제품(Veklury 포함)",
+      "#94a3b8"
+     ],
+     "gild:LiverDiseaseProductsVemlidyMember": [
+      "기타 제품(Veklury 포함)",
+      "#94a3b8"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:StatementGeographicalAxis",
+    "extra": {},
+    "members": {
+     "gild:RestOfWorldMember": [
+      "간질환",
+      "#f59e0b"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "gild:HIVProductSalesMember": [
+      "HIV",
+      "#c4122f"
+     ],
+     "gild:RoyaltyContractAndOtherMember": [
+      "로열티·계약 수익",
+      "#5aa9e6"
+     ]
+    }
+   }
+  ]
+ },
+ "GOOGL": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "goog:GoogleServicesMember"
+    },
+    "members": {
+     "goog:GoogleSearchOtherMember": [
+      "검색 등",
+      "#a2c3fa"
+     ],
+     "goog:SubscriptionsPlatformsAndDevicesRevenueMember": [
+      "구독·플랫폼·기기",
+      "#4285f4"
+     ],
+     "goog:YouTubeAdvertisingRevenueMember": [
+      "YouTube 광고",
+      "#0c55ce"
+     ],
+     "goog:GoogleNetworkMember": [
+      "네트워크",
+      "#5c6282"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {},
+    "members": {
+     "goog:GoogleCloudMember": [
+      "Google Cloud",
+      "#3498db"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "기타(Other Bets·헤지)",
+   "#2e3347",
+   0.0041
+  ]
+ },
+ "HD": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+     "srt:ProductOrServiceAxis": "hd:MajorProductLineBuildingMaterialsMember"
+    },
+    "members": {
+     "hd:PrimarySegmentMember": [
+      "건축 자재",
+      "#f96302"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "hd:MajorProductLineHardlinesMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "hd:PrimarySegmentMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "공구·원예 등(하드라인)",
+      "#9b59b6"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "hd:MajorProductLineDcorMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "hd:PrimarySegmentMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "인테리어(데코)",
+      "#ffb07a"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {},
+    "members": {
+     "us-gaap:AllOtherSegmentsMember": [
+      "기타(SRS·GMS 등)",
+      "#94a3b8"
+     ]
+    }
+   }
+  ]
+ },
+ "IBM": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "ibm:ConsultingMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "컨설팅",
+      "#5aa9e6"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "ibm:SoftwareMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "소프트웨어",
+      "#0f6eb4"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "ibm:InfrastructureMember": [
+      "인프라",
+      "#94a3b8"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "금융·기타",
+   "#f0c040",
+   0.0139
+  ]
+ },
+ "INTC": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "intc:DatacenterAndAIMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "데이터센터·AI (DCAI)",
+      "#00c7fd"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "intc:ClientComputingAndPhysicalAIGroupMember": [
+      "클라이언트·피지컬 AI (CCPG)",
+      "#0071c5"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "파운드리 외부·기타(Mobileye 등, 내부 거래 제거 후)",
+   "#8a8fa8",
+   0.0613
+  ]
+ },
+ "ISRG": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "isrg:InstrumentsandAccessoriesMember": [
+      "기구·소모품",
+      "#0f6cbd"
+     ],
+     "isrg:SystemsMember": [
+      "시스템",
+      "#5aa9e6"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:GeographicDistributionAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "isrg:ServicesMember"
+    },
+    "members": {
+     "us-gaap:GeographicDistributionDomesticMember": [
+      "서비스",
+      "#f59e0b"
+     ],
+     "us-gaap:GeographicDistributionForeignMember": [
+      "서비스",
+      "#f59e0b"
+     ]
+    }
+   }
+  ]
+ },
+ "JNJ": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "jnj:InnovativeMedicineMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "Innovative Medicine",
+      "#d51900"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "jnj:MedTechMember": [
+      "MedTech",
+      "#3498db"
+     ]
+    }
+   }
+  ]
+ },
+ "LLY": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "srt:StatementGeographicalAxis": "us-gaap:NonUsMember"
+    },
+    "members": {
+     "lly:ZepboundMember": [
+      "기타 핵심 제품 6종",
+      "#f0c040"
+     ],
+     "lly:TrulicityMember": [
+      "기타 핵심 제품 6종",
+      "#f0c040"
+     ],
+     "lly:OtherOncologyMember": [
+      "기타 핵심 제품 6종",
+      "#f0c040"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "lly:MounjaroMember": [
+      "Mounjaro",
+      "#d52b1e"
+     ],
+     "lly:ZepboundMember": [
+      "Zepbound",
+      "#f07b72"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "그 밖의 제품",
+   "#94a3b8",
+   0.3164
+  ]
+ },
+ "META": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "meta:FamilyOfAppsMember"
+    },
+    "members": {
+     "us-gaap:AdvertisingMember": [
+      "광고",
+      "#1877F2"
+     ],
+     "us-gaap:ServiceOtherMember": [
+      "기타(앱 부문)",
+      "#f97316"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {},
+    "members": {
+     "meta:RealityLabsMember": [
+      "Reality Labs",
+      "#8a8fa8"
+     ]
+    }
+   }
+  ]
+ },
+ "MRK": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "mrk:AnimalHealthsegmentMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "동물 건강",
+      "#f7b600"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "mrk:PharmaceuticalsegmentMember"
+    },
+    "members": {
+     "mrk:KeytrudaMember": [
+      "키트루다(QLEX 포함)",
+      "#00857c"
+     ],
+     "mrk:KeytrudaQlexMember": [
+      "키트루다(QLEX 포함)",
+      "#00857c"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {},
+    "members": {
+     "us-gaap:CorporateNonSegmentMember": [
+      "기타",
+      "#9b59b6"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "그 밖의 의약품·백신",
+   "#3498db",
+   0.385
+  ]
+ },
+ "NEE": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RegulatedAndUnregulatedOperatingRevenue"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {},
+    "members": {
+     "nee:CorporateAndEliminationsMember": [
+      "본사·기타",
+      "#94a3b8"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RegulatedAndUnregulatedOperatingRevenue"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "nee:NEERSegmentMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "NEER(재생에너지 등)",
+      "#3fbf6f"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RegulatedAndUnregulatedOperatingRevenue"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "nee:FloridaPowerLightCompanyMember": [
+      "FPL(플로리다 전력)",
+      "#0a7c3e"
+     ]
+    }
+   }
+  ]
+ },
+ "ORCL": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "orcl:ServicesBusinessMember": [
+      "서비스",
+      "#94a3b8"
+     ],
+     "orcl:HardwareBusinessMember": [
+      "하드웨어",
+      "#64748b"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "orcl:CloudRevenuesMember": [
+      "클라우드(IaaS+SaaS)",
+      "#c74634"
+     ],
+     "orcl:SoftwareRevenuesMember": [
+      "소프트웨어(라이선스·지원)",
+      "#f0a87e"
+     ]
+    }
+   }
+  ]
+ },
+ "PFE": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "us-gaap:ReportingUnitAxis": "pfe:OncologyMember"
+    },
+    "members": {
+     "pfe:BiopharmaSegmentMember": [
+      "항암",
+      "#a78bfa"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:ReportingUnitAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "pfe:BiopharmaSegmentMember"
+    },
+    "members": {
+     "pfe:PrimaryCareMember": [
+      "1차 진료(Eliquis·Prevnar 등)",
+      "#0093d0"
+     ],
+     "pfe:SpecialtyCareMember": [
+      "전문 진료(Vyndaqel 등)",
+      "#22c55e"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "us-gaap:ReportingUnitAxis": "pfe:SpecialtyCareMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "pfe:BiopharmaSegmentMember"
+    },
+    "members": {
+     "pfe:VyndaqelMember": [
+      "기타(병원·위탁생산 등)",
+      "#94a3b8"
+     ],
+     "pfe:XeljanzMember": [
+      "기타(병원·위탁생산 등)",
+      "#94a3b8"
+     ]
+    }
+   }
+  ]
+ },
+ "PLD": {
+  "parts": [
+   {
+    "concepts": [
+     "pld:RentalRevenue"
+    ],
+    "axis": "srt:ConsolidatedEntitiesAxis",
+    "extra": {},
+    "members": {
+     "srt:PartnershipInterestMember": [
+      "임대 수익",
+      "#0067a5"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "pld:ManagementFeesRevenue"
+    ],
+    "axis": "srt:ConsolidatedEntitiesAxis",
+    "extra": {},
+    "members": {
+     "srt:PartnershipInterestMember": [
+      "운용 수익(전략 자본)",
+      "#5aa9e6"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "pld:OtherRealEstateRevenue"
+    ],
+    "axis": "srt:ConsolidatedEntitiesAxis",
+    "extra": {},
+    "members": {
+     "srt:PartnershipInterestMember": [
+      "개발 관리·기타",
+      "#f59e0b"
+     ]
+    }
+   }
+  ]
+ },
+ "QCOM": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "qcom:QtlMember": [
+      "QTL 라이선스",
+      "#a78bfa"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:MaterialReconcilingItemsMember"
+    },
+    "members": {
+     "us-gaap:AllOtherSegmentsMember": [
+      "기타(QGOV·데이터센터)",
+      "#94a3b8"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "qcom:IoTMember"
+    },
+    "members": {
+     "qcom:QctMember": [
+      "QCT IoT",
+      "#f59e0b"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "qcom:HandsetsMember"
+    },
+    "members": {
+     "qcom:QctMember": [
+      "QCT 휴대폰",
+      "#3253dc"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "qcom:AutomotiveMember"
+    },
+    "members": {
+     "qcom:QctMember": [
+      "QCT 자동차",
+      "#22c55e"
+     ]
+    }
+   }
+  ]
+ },
+ "STX": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:ContractWithCustomerSalesChannelAxis",
+  "extra": {},
+  "members": {
+   "stx:OEMsMember": [
+    "하드디스크·스토리지 (단일 부문)",
+    "#6ebe49"
+   ],
+   "stx:DistributorsMember": [
+    "하드디스크·스토리지 (단일 부문)",
+    "#6ebe49"
+   ],
+   "us-gaap:RetailMember": [
+    "하드디스크·스토리지 (단일 부문)",
+    "#6ebe49"
+   ]
+  }
+ },
+ "UNP": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "unp:IndustrialMember"
+    },
+    "members": {
+     "unp:ReportableSegmentMember": [
+      "산업재 화물",
+      "#ffd200"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "unp:PremiumMember"
+    },
+    "members": {
+     "unp:ReportableSegmentMember": [
+      "프리미엄(자동차·복합운송)",
+      "#22c55e"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "unp:ReportableSegmentMember"
+    },
+    "members": {
+     "unp:BulkMember": [
+      "벌크(곡물·석탄 등)",
+      "#1b3a6b"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "us-gaap:ProductAndServiceOtherMember": [
+      "기타 매출",
+      "#94a3b8"
+     ]
+    }
+   }
+  ]
+ },
+ "V": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "v:DataProcessingRevenuesMember": [
+    "데이터 처리",
+    "#777de0"
+   ],
+   "us-gaap:ServiceMember": [
+    "서비스",
+    "#3498db"
+   ],
+   "v:InternationalTransactionRevenuesMember": [
+    "국제 거래",
+    "#f7b600"
+   ],
+   "us-gaap:ServiceOtherMember": [
+    "기타",
+    "#8a8fa8"
+   ]
+  }
+ },
+ "VZ": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "vz:VerizonConsumerGroupSegmentMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "소비자(Consumer)",
+      "#cd040b"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "vz:VerizonBusinessGroupSegmentMember": [
+      "기업(Business)",
+      "#5aa9e6"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "본사·기타·조정",
+   "#94a3b8",
+   0.025
+  ]
+ },
+ "XOM": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:StatementGeographicalAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "xom:SalesAndOtherOperatingRevenueMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "xom:EnergyProductsMember"
+    },
+    "members": {
+     "country:US": [
+      "에너지 제품(정제·연료)",
+      "#e31937"
+     ],
+     "us-gaap:NonUsMember": [
+      "에너지 제품(정제·연료)",
+      "#e31937"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:StatementGeographicalAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "xom:SalesAndOtherOperatingRevenueMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "xom:ChemicalProductsMember"
+    },
+    "members": {
+     "country:US": [
+      "화학 제품",
+      "#3498db"
+     ],
+     "us-gaap:NonUsMember": [
+      "화학 제품",
+      "#3498db"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:StatementGeographicalAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "xom:SalesAndOtherOperatingRevenueMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "xom:UpstreamMember"
+    },
+    "members": {
+     "country:US": [
+      "업스트림(원유·가스)",
+      "#0c479d"
+     ],
+     "us-gaap:NonUsMember": [
+      "업스트림(원유·가스)",
+      "#0c479d"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:StatementGeographicalAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "xom:SalesAndOtherOperatingRevenueMember",
+     "us-gaap:StatementBusinessSegmentsAxis": "xom:SpecialtyProductsMember"
+    },
+    "members": {
+     "country:US": [
+      "특수 제품(윤활유 등)",
+      "#f7b600"
+     ],
+     "us-gaap:NonUsMember": [
+      "특수 제품(윤활유 등)",
+      "#f7b600"
+     ]
+    }
+   }
+  ]
+ },
+ "AMZN": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {},
+    "members": {
+     "amzn:NorthAmericaSegmentMember": [
+      "북미",
+      "#ffb74d"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "amzn:AmazonWebServicesMember": [
+      "AWS",
+      "#3498db"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "해외",
+   "#8a6d3b",
+   0.2104
+  ]
+ },
+ "MSFT": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "msft:IntelligentCloudMember": [
+    "Intelligent Cloud",
+    "#3498db"
+   ],
+   "msft:ProductivityAndBusinessProcessesMember": [
+    "Productivity and Business Processes",
+    "#a2c3fa"
+   ],
+   "msft:MorePersonalComputingMember": [
+    "More Personal Computing",
+    "#5c6282"
+   ]
+  }
+ },
+ "PH": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "ph:AerospaceSystemsSegmentMember"
+    },
+    "members": {
+     "ph:CommercialOriginalEquipmentManufacturerMember": [
+      "산업재 — 해외",
+      "#5a7fbf"
+     ],
+     "ph:CommercialAftermarketMember": [
+      "산업재 — 해외",
+      "#5a7fbf"
+     ],
+     "ph:DefenseOriginalEquipmentManufacturerMember": [
+      "산업재 — 해외",
+      "#5a7fbf"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "ph:AerospaceSystemsSegmentMember": [
+      "항공우주",
+      "#f59e0b"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "산업재 — 북미",
+   "#1f3f7a",
+   0.3859
+  ]
+ },
+ "WMT": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "wmt:WalmartInternationalMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "Walmart International",
+      "#ffc220"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "wmt:WalmartUSMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "Walmart U.S.",
+      "#0071ce"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {},
+    "members": {
+     "wmt:SamsClubUSMember": [
+      "Sam's Club U.S.",
+      "#3498db"
+     ]
+    }
+   }
+  ]
+ },
+ "BX": {
+  "parts": [
+   {
+    "concepts": [
+     "bx:FeeRelatedPerformanceRevenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "bx:CreditAndInsuranceMember": [
+      "인센티브 수수료",
+      "#a78bfa"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "bx:PerformanceRevenueRealized"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "bx:PrivateEquitySegmentMember": [
+      "자기자본 투자 이익",
+      "#f59e0b"
+     ],
+     "bx:CreditAndInsuranceMember": [
+      "자기자본 투자 이익",
+      "#f59e0b"
+     ],
+     "bx:MultiAssetsInvestingMember": [
+      "자기자본 투자 이익",
+      "#f59e0b"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {},
+    "members": {
+     "us-gaap:InvestmentAdviceMember": [
+      "운용·자문 수수료",
+      "#0072c6"
+     ]
+    }
+   },
+   {
+    "concepts": [],
+    "axis": null,
+    "extra": {},
+    "members": {
+     "us-gaap:InvestmentIncomeInterestAndDividend": [
+      "이자·배당",
+      "#5aa9e6"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "성과보수(성과 배분)",
+   "#22c55e",
+   0.387
+  ]
+ },
+ "CB": {
+  "concepts": [],
+  "axis": null,
+  "extra": {},
+  "members": {
+   "us-gaap:PremiumsEarnedNet": [
+    "순보험료 수익",
+    "#0b2341"
+   ],
+   "us-gaap:NetInvestmentIncome": [
+    "투자 수익",
+    "#4a6b8f"
+   ],
+   "us-gaap:RealizedInvestmentGainsLosses": [
+    "실현 이익",
+    "#f59e0b"
+   ]
+  }
+ },
+ "MCD": {
+  "concepts": [],
+  "axis": null,
+  "extra": {},
+  "members": {
+   "mcd:Revenuesfromfranchisedrestaurants": [
+    "가맹 수익(임대료·로열티)",
+    "#da291c"
+   ],
+   "mcd:SalesByCompanyOwnedAndOperatedRestaurants": [
+    "직영점 매출",
+    "#ffc72c"
+   ],
+   "mcd:OtherRevenues": [
+    "기타",
+    "#94a3b8"
+   ]
+  }
+ },
+ "PGR": {
+  "concepts": [],
+  "axis": null,
+  "extra": {},
+  "members": {
+   "us-gaap:PremiumsEarnedNet": [
+    "순보험료 수익",
+    "#0077c8"
+   ],
+   "us-gaap:InterestAndDividendIncomeOperating": [
+    "투자 수익",
+    "#4a9be0"
+   ],
+   "us-gaap:DebtAndEquitySecuritiesGainLoss": [
+    "실현 이익",
+    "#f59e0b"
+   ]
+  },
+  "remainder": [
+   "수수료·서비스",
+   "#9cc7ee",
+   0.0192
+  ]
+ },
+ "WELL": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "well:SeniorHousingOperatingMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "시니어 주택 운영 매출",
+      "#00837c"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "well:TripleNetMember": [
+      "임대 수익",
+      "#3fb8af"
+     ],
+     "well:OutpatientMedicalMember": [
+      "임대 수익",
+      "#3fb8af"
+     ]
+    }
+   },
+   {
+    "concepts": [],
+    "axis": null,
+    "extra": {},
+    "members": {
+     "us-gaap:InterestAndFeeIncomeLoansAndLeases": [
+      "이자 수익",
+      "#a78bfa"
+     ],
+     "us-gaap:OtherIncome": [
+      "기타",
+      "#94a3b8"
+     ]
+    }
+   }
+  ]
+ },
+ "ABBV": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "abbv:KeyProductPortfolioAxis": "abbv:ImmunologyMember"
+    },
+    "members": {
+     "abbv:SKYRIZIMember": [
+      "면역(스카이리치·린보크·휴미라)",
+      "#5d87cf"
+     ],
+     "abbv:RINVOQMember": [
+      "면역(스카이리치·린보크·휴미라)",
+      "#5d87cf"
+     ],
+     "abbv:HUMIRAMember": [
+      "면역(스카이리치·린보크·휴미라)",
+      "#5d87cf"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "abbv:KeyProductPortfolioAxis": "abbv:NeuroscienceMember"
+    },
+    "members": {
+     "abbv:VraylarMember": [
+      "신경과학",
+      "#3498db"
+     ],
+     "abbv:BotoxTherapeuticMember": [
+      "신경과학",
+      "#3498db"
+     ],
+     "abbv:UbrelvyMember": [
+      "신경과학",
+      "#3498db"
+     ],
+     "abbv:QuliptaMember": [
+      "신경과학",
+      "#3498db"
+     ],
+     "abbv:VyalevMember": [
+      "신경과학",
+      "#3498db"
+     ],
+     "abbv:OtherNeuroscienceMember": [
+      "신경과학",
+      "#3498db"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "abbv:KeyProductPortfolioAxis": "abbv:OncologyMember"
+    },
+    "members": {
+     "abbv:VENCLEXTAMember": [
+      "항암",
+      "#7fb3e6"
+     ],
+     "abbv:ImbruvicaMember": [
+      "항암",
+      "#7fb3e6"
+     ],
+     "abbv:ElahereMember": [
+      "항암",
+      "#7fb3e6"
+     ],
+     "abbv:EpkinlyMember": [
+      "항암",
+      "#7fb3e6"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "abbv:KeyProductPortfolioAxis": "abbv:AestheticsMember"
+    },
+    "members": {
+     "abbv:BotoxCosmeticMember": [
+      "미용(보톡스 등)",
+      "#f7b600"
+     ],
+     "abbv:JuvedermCollectionMember": [
+      "미용(보톡스 등)",
+      "#f7b600"
+     ],
+     "abbv:OtherAestheticsMember": [
+      "미용(보톡스 등)",
+      "#f7b600"
+     ]
+    }
+   }
+  ],
+  "remainder": [
+   "기타",
+   "#8a8fa8",
+   0.1203
+  ]
+ },
+ "UNH": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "unh:UnitedhealthcareMember": [
+    "유나이티드헬스케어(메디케어·메디케이드·고용주)",
+    "#1d4ed8"
+   ]
+  },
+  "remainder": [
+   "옵텀(그룹 밖 매출)",
+   "#f7b600",
+   0.2322
+  ]
+ },
+ "AVGO": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "avgo:SemiconductorSolutionsMember": [
+    "반도체 솔루션",
+    "#f63a5f"
+   ],
+   "avgo:InfrastructureSoftwareMember": [
+    "인프라 소프트웨어",
+    "#3498db"
+   ]
+  }
+ },
+ "PG": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "pg:BeautySegmentMember": [
+    "뷰티",
+    "#e85d9e"
+   ],
+   "pg:GroomingSegmentMember": [
+    "그루밍",
+    "#f7b600"
+   ],
+   "pg:HealthCareSegmentMember": [
+    "헬스케어",
+    "#2ecc71"
+   ],
+   "pg:FabricHomeCareSegmentMember": [
+    "패브릭·홈케어",
+    "#003da5"
+   ],
+   "pg:BabyFeminineFamilyCareSegmentMember": [
+    "베이비·여성·가족 케어",
+    "#5aa9e6"
+   ]
+  },
+  "remainder": [
+   "기업 부문(Corporate)",
+   "#94a3b8",
+   0.0106
+  ]
+ },
+ "COST": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "cost:FoodandSundriesMember": [
+    "식품·잡화",
+    "#005daa"
+   ],
+   "cost:NonFoodsMember": [
+    "비식품",
+    "#e31837"
+   ],
+   "cost:FreshFoodMember": [
+    "신선식품",
+    "#f7b600"
+   ],
+   "cost:OtherMember": [
+    "창고 부대사업(주유·약국 등)",
+    "#3498db"
+   ]
+  },
+  "alias": {
+   "cost:FoodsAndSundriesMember": "cost:FoodandSundriesMember",
+   "cost:FreshFoodsMember": "cost:FreshFoodMember"
+  },
+  "ignore": [
+   "us-gaap:ProductMember"
+  ],
+  "adjust": [
+   "us-gaap:MembershipMember"
+  ]
+ }
+}

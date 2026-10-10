@@ -96,3 +96,56 @@ ANALYST_ASOF = '2026-10-10'
 PRE = [r'''
 NDPS = ((b.get('debt') or 0) - (b.get('cash') or 0) - (b.get('sti') or 0)) / b['shares']
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "amgn:ReportableSegmentMember"
+   },
+   "members": {
+    "us-gaap:ProductAndServiceOtherMember": [
+     "기타 매출",
+     "#94a3b8"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "srt:StatementGeographicalAxis": "country:US"
+   },
+   "members": {
+    "us-gaap:ProductMember": [
+     "미국 제품",
+     "#0063c3"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "srt:StatementGeographicalAxis": "us-gaap:NonUsMember"
+   },
+   "members": {
+    "us-gaap:ProductMember": [
+     "해외 제품",
+     "#5aa9e6"
+    ]
+   }
+  }
+ ]
+}

@@ -114,3 +114,66 @@ h = h.replace('GAAP 기준 · FCF는 영업현금흐름', 'GAAP 기준 · ' + C.
 one('</script>\n</body>', '</script>\n' + C.NEG_FIX_JS + '</body>')
 one("(전년 $117.1B) · 연간 지표</span>", "(전년 $117.1B, Verona 인수 반영) · 연간 지표, 2026년 마감 전까지 동일</span>")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "mrk:AnimalHealthsegmentMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "동물 건강",
+     "#f7b600"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "mrk:PharmaceuticalsegmentMember"
+   },
+   "members": {
+    "mrk:KeytrudaMember": [
+     "키트루다(QLEX 포함)",
+     "#00857c"
+    ],
+    "mrk:KeytrudaQlexMember": [
+     "키트루다(QLEX 포함)",
+     "#00857c"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {},
+   "members": {
+    "us-gaap:CorporateNonSegmentMember": [
+     "기타",
+     "#9b59b6"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "그 밖의 의약품·백신",
+  "#3498db",
+  0.385
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ["one('</script>\\n</body>', '</script>\\n' + C.NEG_FIX_JS + '</body>')"]

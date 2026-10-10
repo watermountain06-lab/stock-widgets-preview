@@ -126,3 +126,58 @@ sub(r'    <div class="activity-grid">.*?<div class="tl-ccc-span"[^>]*></div>\n  
 # 음수 FCF 칸: "$-5.93B" → "−$5.93B"
 one(f'<div class="stat-label">FCF ({QL})</div>\n      <div class="stat-value">$-', f'<div class="stat-label">FCF ({QL})</div>\n      <div class="stat-value">−$')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "goog:GoogleServicesMember"
+   },
+   "members": {
+    "goog:GoogleSearchOtherMember": [
+     "검색 등",
+     "#a2c3fa"
+    ],
+    "goog:SubscriptionsPlatformsAndDevicesRevenueMember": [
+     "구독·플랫폼·기기",
+     "#4285f4"
+    ],
+    "goog:YouTubeAdvertisingRevenueMember": [
+     "YouTube 광고",
+     "#0c55ce"
+    ],
+    "goog:GoogleNetworkMember": [
+     "네트워크",
+     "#5c6282"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {},
+   "members": {
+    "goog:GoogleCloudMember": [
+     "Google Cloud",
+     "#3498db"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "기타(Other Bets·헤지)",
+  "#2e3347",
+  0.0041
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 음수 FCF 칸: "$-5.93B" → "−$5.93B"\none(f\'<div class="stat-label">FCF ({QL})</div>\\n      <div class="stat-value">$-\', f\'<div class="stat-label">FCF ({QL})</div>\\n      <div class="stat-value">−$\')']

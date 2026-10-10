@@ -160,3 +160,48 @@ _NEG = """<script>
 assert h.count('</body>') == 1
 h = h.replace('</body>', _NEG + '</body>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "intc:DatacenterAndAIMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "데이터센터·AI (DCAI)",
+     "#00c7fd"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "intc:ClientComputingAndPhysicalAIGroupMember": [
+     "클라이언트·피지컬 AI (CCPG)",
+     "#0071c5"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "파운드리 외부·기타(Mobileye 등, 내부 거래 제거 후)",
+  "#8a8fa8",
+  0.0613
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ["# 동종업 툴팁: PER이 빠진 이유(해당 없음, 순이익률 2% 미만)\none('뒤집어 점수로 썼고 PER를 뺀 4개를 평균했다.', '뒤집어 점수로 썼고, PER은 해당 없음(순이익률 2% 미만)이라 빼고 나머지 네 개를 평균했다.')", '# 음수 표기 정리(카드 한정, 틀 과제 — 공통 후보) — 틀 JS가 음수 금액·비율을 "$-12", "-6.5%"로 찍는다. 텍스트 노드만 바꾸고 날짜는 건드리지 않는다.\n_NEG = """<script>\n// 음수 표기 정리(카드 한정, 틀 과제) — 틀 JS가 음수 금액·비율을 "$-12", "-6.5%"로 찍는다. 텍스트 노드만 바꾸고 날짜(2026-06-27)는 건드리지 않는다.\n(function(){\n  const RX1 = /\\\\$-(\\\\d)/g, RX2 = /(^|[\\\\s(~·])-(\\\\d)/g;\n  const fix = root => {\n    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);\n    let n;\n    while ((n = w.nextNode())) {\n      const p = n.parentElement && n.parentElement.tagName;\n      if (p === \'SCRIPT\' || p === \'STYLE\') continue;\n      const t = n.textContent;\n      if (t.indexOf(\'-\') < 0) continue;\n      const u = t.replace(RX1, \'−$$$1\').replace(RX2, \'$1−$2\');\n      if (u !== t) n.textContent = u;\n    }\n  };\n  const run = () => fix(document.body);\n  run();\n  new MutationObserver(run).observe(document.body, {childList: true, subtree: true, characterData: true});\n})();\n</script>\n"""\nassert h.count(\'</body>\') == 1\nh = h.replace(\'</body>\', _NEG + \'</body>\')']

@@ -102,3 +102,29 @@ ANALYST = {'rating': 'Strong Buy', 'n': 25, 'nt': 19, 'mean': 1124.84, 'median':
 ANALYST_ASOF = '2026-10-10'
 
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:ContractWithCustomerSalesChannelAxis",
+ "extra": {},
+ "members": {
+  "stx:OEMsMember": [
+   "하드디스크·스토리지 (단일 부문)",
+   "#6ebe49"
+  ],
+  "stx:DistributorsMember": [
+   "하드디스크·스토리지 (단일 부문)",
+   "#6ebe49"
+  ],
+  "us-gaap:RetailMember": [
+   "하드디스크·스토리지 (단일 부문)",
+   "#6ebe49"
+  ]
+ },
+ "ignore": []
+}

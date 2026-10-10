@@ -93,3 +93,27 @@ BEAR = [('미국 둔화', '미국 동일점 매출 +0.8%, 객수 감소.'),
         ('주가 흐름', '1년 새 약 {format(ch, \'+.0f\').replace(\'-\', \'−\')}%, 투자자 설명회 당일 −4.8%.')]
 ANALYST = {'rating': 'Buy', 'n': 34, 'nt': 26, 'mean': 294.88, 'median': 297, 'low': 230, 'high': 390, 'sb': 15, 'b': 4, 'h': 14, 's': 0, 'ss': 1}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [],
+ "axis": None,
+ "extra": {},
+ "members": {
+  "mcd:Revenuesfromfranchisedrestaurants": [
+   "가맹 수익(임대료·로열티)",
+   "#da291c"
+  ],
+  "mcd:SalesByCompanyOwnedAndOperatedRestaurants": [
+   "직영점 매출",
+   "#ffc72c"
+  ],
+  "mcd:OtherRevenues": [
+   "기타",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}

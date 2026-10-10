@@ -115,3 +115,45 @@ h = h.replace(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)', f'{C.CO} Q3 FY2026 �
 # 총자산증가율 메모(옛 카드 표기: 결산일과 "FY2026 10-K 전까지 동일")
 one(f'<span class="diag-note">{C.FY_LABEL} 말 ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표</span>', f'<span class="diag-note">{C.FY_LABEL} 말({C.FY_ENDS[0]}) ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표, FY2026 10-K 전까지 동일</span>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "amat:SemiconductorSystemsSegmentMember": [
+     "반도체 장비(Semiconductor Systems)",
+     "#569bbe"
+    ],
+    "amat:AppliedGlobalServicesSegmentMember": [
+     "글로벌 서비스(AGS)",
+     "#f7b600"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {},
+   "members": {
+    "amat:CorporateAndReconcilingItemsMember": [
+     "디스플레이·기타",
+     "#9b59b6"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 요구 성장률 배수는 소수 한 자리(옛 카드 "6.9배")\nfor _o in ("${Math.round(d.requiredGrowth / d.growth5y)}배다.`", "${Math.round(D.requiredGrowth / D.growth5y)}배다.`"):\n    one(_o, _o.replace(\'Math.round(\', \'(\').replace(\'5y)}\', \'5y).toFixed(1)}\'))']

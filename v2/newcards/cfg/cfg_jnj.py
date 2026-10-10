@@ -118,3 +118,43 @@ one("(전년 $180.1B) · 연간 지표</span>", "(전년 $180.1B) · 연간 지�
 # 자본배분 제목: 상반기 누계
 one('<div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.28 기준)</div>', '<div class="card-title">자본배분 · 주주환원 (2026년 상반기 · 2026.06.28 기준)</div>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "jnj:InnovativeMedicineMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "Innovative Medicine",
+     "#d51900"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "jnj:MedTechMember": [
+     "MedTech",
+     "#3498db"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = []

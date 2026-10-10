@@ -103,8 +103,26 @@ def by_member(fs, M, start_ok, end):
     return {}
 
 
+def by_concept(fs, M, start_ok, end):
+    """axis가 None인 묶음 — 멤버 자리에 차원 없는 개념(보험사 순보험료·MCD 가맹 수익 등, 2026-10-11)."""
+    got = {}
+    for name, s, e, dims, v in fs:
+        if name in M["members"] and e == end and s and not dims and start_ok(_days(s, e)):
+            if name in got and got[name] != v:
+                raise ValueError(f"{name} {end}: 값이 둘({got[name]}, {v})")
+            got[name] = v
+    return got
+
+
 def quarter_values(M, form, url, end, q3_url=None, q3_end=None):
     """분기 값 {멤버: 값}. 10-K면 연간 − 같은 회계연도 3분기 10-Q의 9개월 누계."""
+    if M.get("axis") is None:
+        fs = facts(url)
+        if form == "10-Q":
+            return by_concept(fs, M, lambda n: 70 <= n <= 125, end)
+        fy = by_concept(fs, M, lambda n: 350 <= n <= 380, end)
+        ytd = by_concept(facts(q3_url), M, lambda n: 230 <= n <= 290, q3_end)
+        return {k: fy[k] - ytd[k] for k in fy if k in ytd}
     fs = facts(url)
     if form == "10-Q":
         return by_member(fs, M, lambda n: 70 <= n <= 125, end)
@@ -125,10 +143,14 @@ def table(M, vals):
     unknown = [k for k in vals if k not in M["members"] and k not in skip]
     if unknown and not M.get("other"):
         raise ValueError(f"지도에 없는 부문 {unknown} — SEG_MAP에 더할 것")
+    agg = {}   # 여러 멤버를 한 줄로 묶을 수 있다(같은 이름) — 손 표의 "기타" 등
     for k, (name, color) in M["members"].items():
         if k not in vals:
             raise ValueError(f"부문 {k}의 값이 없다(부문 재편?)")
-        rows.append((name, round(vals[k] / 1e6), color))
+        v0, c0 = agg.get(name, (0.0, color))
+        agg[name] = (v0 + vals[k], c0)
+    for name, (v, color) in agg.items():
+        rows.append((name, round(v / 1e6), color))
     for k in unknown:
         other += vals[k]
     if unknown:

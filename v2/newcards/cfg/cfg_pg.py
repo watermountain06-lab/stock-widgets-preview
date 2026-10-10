@@ -116,3 +116,46 @@ one('<div class="card-title">자본배분 · 주주환원 (Q4 FY26 · 2026.06.30
 # 자본 음수 비교 종목은 '적자'가 아니라 '자본 음수'(PBR 분모는 자본)
 h = h.replace('PBR 비교 (CLX 적자)', 'PBR 비교 (CLX 자본 음수)')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄), AVGO·UNH·PG·ABBV·COST는 공시 항목에 맞춰 직접 연결 ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "pg:BeautySegmentMember": [
+   "뷰티",
+   "#e85d9e"
+  ],
+  "pg:GroomingSegmentMember": [
+   "그루밍",
+   "#f7b600"
+  ],
+  "pg:HealthCareSegmentMember": [
+   "헬스케어",
+   "#2ecc71"
+  ],
+  "pg:FabricHomeCareSegmentMember": [
+   "패브릭·홈케어",
+   "#003da5"
+  ],
+  "pg:BabyFeminineFamilyCareSegmentMember": [
+   "베이비·여성·가족 케어",
+   "#5aa9e6"
+  ]
+ },
+ "remainder": [
+  "기업 부문(Corporate)",
+  "#94a3b8",
+  0.0106
+ ],
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ["# 자본 음수 비교 종목은 '적자'가 아니라 '자본 음수'(PBR 분모는 자본)\nh = h.replace('PBR 비교 (CLX 적자)', 'PBR 비교 (CLX 자본 음수)')"]

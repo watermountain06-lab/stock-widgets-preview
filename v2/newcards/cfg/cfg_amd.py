@@ -115,3 +115,62 @@ one(f'<div class="card-title">자본배분 · 주주환원 ({QL} · {C.CUR.repla
 # 총자산증가율 메모(옛 카드 표기: FY25 $x(전기 $y) · 연간 지표, FY26 마감 전까지 동일)
 one(f'<span class="diag-note">{C.FY_LABEL} 말 ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표</span>', f'<span class="diag-note">FY25 ${a1 / 1000:.1f}B(전기 ${a0 / 1000:.1f}B) · 연간 지표, FY26 마감 전까지 동일</span>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "amd:DataCenterMember": [
+     "데이터센터",
+     "#ed1c24"
+    ],
+    "amd:EmbeddedMember": [
+     "임베디드",
+     "#8a8fa8"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "amd:ClientMember"
+   },
+   "members": {
+    "amd:ClientAndGamingMember": [
+     "클라이언트",
+     "#f97316"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "amd:ClientAndGamingMember"
+   },
+   "members": {
+    "amd:GamingMember": [
+     "게이밍",
+     "#3498db"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = []

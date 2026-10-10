@@ -104,3 +104,48 @@ POST = [r'''
 one("매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안", "매출이 5년 내내 영구성장률 2.5%로 큰다고 볼 때(지난 5년 실제는 연 ${pc(D.growth5y)})")
 one("매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안", "매출이 5년 내내 영구성장률 2.5%로 큰다고 볼 때(지난 5년 실제는 연 ${f1(d.growth5y)})")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "vz:VerizonConsumerGroupSegmentMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "소비자(Consumer)",
+     "#cd040b"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "vz:VerizonBusinessGroupSegmentMember": [
+     "기업(Business)",
+     "#5aa9e6"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "본사·기타·조정",
+  "#94a3b8",
+  0.025
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['if (HIST.get(\'growth_5y\') or 0) < 0.025:   # 5년 성장률이 영구성장률보다 낮을 때만(자동 카드: 조건부)\n    \n    one("매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안", "매출이 5년 내내 영구성장률 2.5%로 큰다고 볼 때(지난 5년 실제는 연 ${pc(D.growth5y)})")\n    one("매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안", "매출이 5년 내내 영구성장률 2.5%로 큰다고 볼 때(지난 5년 실제는 연 ${f1(d.growth5y)})")']

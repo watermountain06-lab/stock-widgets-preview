@@ -102,3 +102,60 @@ BEAR = [('GAAP 이익', 'GAAP EPS 전망 하향, PER 100배 이상.'),
 # StockAnalysis 목표가 최저 $5.97은 원자료 오류로 보이나 원문 값을 그대로 둔다(평균 $247.53도 그 값을 포함한 원문 값).
 ANALYST = {'rating': 'Buy', 'n': 22, 'nt': 17, 'mean': 247.53, 'median': 260, 'low': 5.96, 'high': 292, 'sb': 12, 'b': 6, 'h': 4, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "well:SeniorHousingOperatingMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "시니어 주택 운영 매출",
+     "#00837c"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "well:TripleNetMember": [
+     "임대 수익",
+     "#3fb8af"
+    ],
+    "well:OutpatientMedicalMember": [
+     "임대 수익",
+     "#3fb8af"
+    ]
+   }
+  },
+  {
+   "concepts": [],
+   "axis": None,
+   "extra": {},
+   "members": {
+    "us-gaap:InterestAndFeeIncomeLoansAndLeases": [
+     "이자 수익",
+     "#a78bfa"
+    ],
+    "us-gaap:OtherIncome": [
+     "기타",
+     "#94a3b8"
+    ]
+   }
+  }
+ ]
+}

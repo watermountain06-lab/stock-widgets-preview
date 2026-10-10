@@ -117,3 +117,31 @@ one('<div class="reverse">—</div>', '<div class="reverse">' + F(C.REVERSE) + '
 one('            <span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n', '')
 sub(r'(<div class="card-title">자본배분 · 주주환원 [^<]*</div>\n      <div class="zone-list">.*?\n      </div>\n)', lambda m_: m_.group(1) + '      <div class="yoy-footnote" style="margin-top:14px;">' + F(C.CAPITAL_FOOT) + '</div>\n')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "msft:IntelligentCloudMember": [
+   "Intelligent Cloud",
+   "#3498db"
+  ],
+  "msft:ProductivityAndBusinessProcessesMember": [
+   "Productivity and Business Processes",
+   "#a2c3fa"
+  ],
+  "msft:MorePersonalComputingMember": [
+   "More Personal Computing",
+   "#5c6282"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['one(\'<div class="reverse">—</div>\', \'<div class="reverse">\' + F(C.REVERSE) + \'</div>\')']

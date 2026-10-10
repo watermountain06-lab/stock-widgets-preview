@@ -92,3 +92,47 @@ BEAR = [('밸류에이션', 'PER {SM[\'PER\'][\'current\']:.0f}배, 업종 안�
         ('주가 변동', '2분기 실적 다음 날 −14.1%.')]
 ANALYST = {'rating': 'Buy', 'n': 33, 'nt': 22, 'mean': 487.18, 'median': 485, 'low': 366, 'high': 685, 'sb': 17, 'b': 8, 'h': 7, 's': 0, 'ss': 1}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "isrg:InstrumentsandAccessoriesMember": [
+     "기구·소모품",
+     "#0f6cbd"
+    ],
+    "isrg:SystemsMember": [
+     "시스템",
+     "#5aa9e6"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:GeographicDistributionAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "isrg:ServicesMember"
+   },
+   "members": {
+    "us-gaap:GeographicDistributionDomesticMember": [
+     "서비스",
+     "#f59e0b"
+    ],
+    "us-gaap:GeographicDistributionForeignMember": [
+     "서비스",
+     "#f59e0b"
+    ]
+   }
+  }
+ ]
+}

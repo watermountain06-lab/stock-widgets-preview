@@ -81,3 +81,44 @@ one(f'매출 구성 — 제품군별 순매출 ({C.QLABEL} · {_d(C.CUR)} 기준
 one('<canvas id="costRevChart"></canvas>\n    </div>\n', '<canvas id="costRevChart"></canvas>\n    </div>\n'
     '    <div class="yoy-footnote" style="margin-top:8px;">회계연도는 9월 초에 시작하고 1~3분기는 12주, 4분기는 16주다(4분기 막대가 큰 이유). 매출은 순매출 + 회원비다.</div>\n')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄), AVGO·UNH·PG·ABBV·COST는 공시 항목에 맞춰 직접 연결 ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "cost:FoodandSundriesMember": [
+   "식품·잡화",
+   "#005daa"
+  ],
+  "cost:NonFoodsMember": [
+   "비식품",
+   "#e31837"
+  ],
+  "cost:FreshFoodMember": [
+   "신선식품",
+   "#f7b600"
+  ],
+  "cost:OtherMember": [
+   "창고 부대사업(주유·약국 등)",
+   "#3498db"
+  ]
+ },
+ "alias": {
+  "cost:FoodsAndSundriesMember": "cost:FoodandSundriesMember",
+  "cost:FreshFoodsMember": "cost:FreshFoodMember"
+ },
+ "ignore": [
+  "us-gaap:ProductMember"
+ ],
+ "adjust": [
+  "us-gaap:MembershipMember"
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 분기 차트 아래 설명(옛 카드)\none(\'<canvas id="costRevChart"></canvas>\\n    </div>\\n\', \'<canvas id="costRevChart"></canvas>\\n    </div>\\n\'\n    \'    <div class="yoy-footnote" style="margin-top:8px;">회계연도는 9월 초에 시작하고 1~3분기는 12주, 4분기는 16주다(4분기 막대가 큰 이유). 매출은 순매출 + 회원비다.</div>\\n\')']

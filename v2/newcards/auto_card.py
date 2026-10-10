@@ -206,12 +206,29 @@ def apply(C, T):
     M = getattr(C, "SEG_MAP", None)
     if not M:
         raise SystemExit(f"{T}: SEG_MAP이 없다 — 부문 지도를 먼저 만들 것")
-    cur_v = sx.quarter_values(M, form, C.TENQ, C.CUR, q3_url=q3, q3_end=C.QO)
+    # 여러 축을 섞은 손 표(GOOGL 제품별 + Cloud 사업부)는 parts로 — 묶음마다 값을 꺼내 한 표로(2026-10-11)
+    parts = M.get("parts") or [M]
+    def vals_at(end, kform, q3u, q3e):
+        out = {}
+        for i_, P_ in enumerate(parts):   # 묶음마다 같은 멤버 이름이 나온다(AMGN 미국·해외 모두 ProductSales) — 묶음 번호로 구분
+            v_ = sx.quarter_values(P_, kform, C.TENQ, end, q3_url=q3u, q3_end=q3e)
+            for k_ in P_["members"]:
+                if k_ not in v_:
+                    raise ValueError(f"부문 {k_}의 값이 없다(부문 재편?)")
+                out[f"{i_}|{k_}" if len(parts) > 1 else k_] = v_[k_]
+            for k_ in P_.get("adjust", []):
+                if k_ in v_:
+                    out[k_] = v_[k_]
+        return out
+    Mall = {"members": {(f"{i_}|{k_}" if len(parts) > 1 else k_): v_ for i_, P_ in enumerate(parts) for k_, v_ in P_["members"].items()},
+            "ignore": [], "adjust": M.get("adjust", []), "other": M.get("other")}
+    cur_v = vals_at(C.CUR, form, q3, C.QO)
     if is_q4:
         yo_q3 = ends[ends.index(C.YO) - 1]
-        yo_v = sx.quarter_values(M, "10-K", C.TENQ, C.YO, q3_url=q3, q3_end=yo_q3)
+        yo_v = vals_at(C.YO, "10-K", q3, yo_q3)
     else:
-        yo_v = sx.quarter_values(M, "10-Q", C.TENQ, C.YO)
+        yo_v = vals_at(C.YO, "10-Q", None, None)
+    M = Mall
     ref_adj = abs(getattr(C, "SEG_ADJ", 0) or 0)   # 사람이 확인해 둔 본사·상계 조정의 크기(cfg 원래 값) — 허용 범위의 기준
     C._SEG_ADJ_HAND = getattr(C, "SEG_ADJ", 0) or 0
     C.SEG, C.SEG_ADJ = sx.table(M, cur_v)
@@ -226,10 +243,21 @@ def apply(C, T):
         # 큰 조정값이 있다고 아무 차이나 받아들이지 않게(Codex 2026-10-10)
         orig = getattr(C, "_SEG_ADJ_HAND", 0)
         near_ref = orig and resid * orig > 0 and 0.5 * abs(orig) <= abs(resid) <= 1.5 * abs(orig)
-        if abs(resid) > 0.03 * _rev[C.CUR] / 1e6 and not near_ref:
+        rem = getattr(C, "SEG_MAP", {}).get("remainder")
+        if not rem and abs(resid) > 0.03 * _rev[C.CUR] / 1e6 and not near_ref:   # 나머지 줄이 있으면 그 검사(비중)를 아래에서
             raise SystemExit(f"{T}: 부문 합이 매출과 {resid:,.0f}백만 달러 다르다 — SEG_MAP 확인")
-        C.SEG_ADJ = round(C.SEG_ADJ + resid)
+        if rem:   # 손 표의 "기타" 줄 = 매출 − 나머지 부문(AMAT·HD·META 등) — 비중이 손 표 때의 절반~2배를 벗어나면 멈춘다
+            share = resid / (_rev[C.CUR] / 1e6)
+            if resid < 0 or not (0.5 * rem[2] <= share <= 2 * rem[2] or abs(resid) < 0.005 * _rev[C.CUR] / 1e6):
+                raise SystemExit(f"{T}: 나머지 줄 '{rem[0]}' 비중 {share:.1%}가 손 표 때({rem[2]:.1%})와 너무 다르다 — SEG_MAP 확인")
+            C.SEG = sorted(C.SEG + [(rem[0], round(resid), rem[1])], key=lambda r_: -r_[1])
+            C._AUTO["rem_name"] = rem[0]
+        else:
+            C.SEG_ADJ = round(C.SEG_ADJ + resid)
     yo_tab = {n: v for n, v, _ in sx.table(M, yo_v)[0]} if yo_v else {}
+    _rem = getattr(C, "SEG_MAP", {}).get("remainder")
+    if _rem and C.YO in _rev:
+        yo_tab[_rem[0]] = round(_rev[C.YO] / 1e6 - sum(yo_tab.values()))
     C._AUTO["seg_yo"] = yo_tab
     C.RELEASE = {}   # 보도자료 숫자는 쓰지 않는다 — 부문 합 = 매출 대조(fill.py)가 원문과 요약 자료를 잇는다
     C.OPM_RANGE = (-1000, 1000)
