@@ -125,38 +125,66 @@ def dps_quarter(cik, end, prev_end, fy_start, is_q4, tag=None):
 
 
 def dps_series(cik, tag):
-    """분기별 주당 배당 {분기 말: 값} — 분기 행, 없으면 같은 시작일 누계끼리의 차. 같은 기간이 여럿이면 나중 공시(분할 뒤 고친 값, BKNG)."""
-    rows = {}
+    """분기별 주당 배당 {분기 말: 값}. 분기 행, 없으면 **같은 공시 안의** 같은 시작일 누계끼리의 차 — 공시마다 분할 기준이 같다
+    (BKNG: 상반기 누계는 분할 뒤 고친 $0.38, 9개월 누계는 고치기 전 $9.60이라 공시를 섞어 빼면 $9.22가 나왔다, Codex).
+    같은 분기 값이 여러 공시에 있으면 나중 공시."""
+    by_accn = {}
     for r in _flow_rows(cik, tag, "USD/shares"):
         if r.get("start"):
+            by_accn.setdefault(r.get("accn"), []).append(r)
+    out = {}   # 분기 말 -> (접수일, 값)
+    def put(e_, filed, v):
+        if e_ not in out or filed > out[e_][0]:
+            out[e_] = (filed, v)
+    for accn, rows in by_accn.items():
+        for r in rows:
+            if 70 <= (d(r["end"]) - d(r["start"])).days <= 125:
+                put(r["end"], r["filed"], r["val"])
+        ladders = {}
+        for r in rows:
+            ladders.setdefault(r["start"], []).append(r)
+        for st, xs in ladders.items():
+            xs.sort(key=lambda r: r["end"])
+            for a_, b_ in zip(xs, xs[1:]):
+                if 80 <= (d(b_["end"]) - d(a_["end"])).days <= 100:
+                    if b_["end"] not in out or out[b_["end"]][0] < b_["filed"]:
+                        put(b_["end"], b_["filed"], round(b_["val"] - a_["val"], 6))
+    # 10-K 4분기: 연간(10-K)과 9개월 누계(3분기 10-Q)는 다른 공시다 — 공시를 넘는 차는 직전 분기 배당의 2배 이하일 때만 받는다
+    # (분할 기준이 섞이면 BKNG처럼 크게 튄다, MU 4분기는 받는다)
+    latest = {}
+    for rows in by_accn.values():
+        for r in rows:
             k = (r["start"], r["end"])
-            if k not in rows or r["filed"] > rows[k]["filed"]:
-                rows[k] = r
-    out = {}
-    for (s_, e_), r in rows.items():
-        if 70 <= (d(e_) - d(s_)).days <= 125:
-            out[e_] = r["val"]
-    by = {}
-    for (s_, e_), r in rows.items():
-        by.setdefault(s_, []).append((e_, r["val"]))
-    for s_, xs in by.items():
-        xs.sort()
-        for (e0, v0), (e1, v1) in zip(xs, xs[1:]):
-            if 80 <= (d(e1) - d(e0)).days <= 100 and e1 not in out:
-                out[e1] = round(v1 - v0, 6)
-    return out
+            if k not in latest or r["filed"] > latest[k]["filed"]:
+                latest[k] = r
+    ladders = {}
+    for r in latest.values():
+        ladders.setdefault(r["start"], []).append(r)
+    for st, xs in ladders.items():
+        xs.sort(key=lambda r: r["end"])
+        for a_, b_ in zip(xs, xs[1:]):
+            e_ = b_["end"]
+            if e_ in out or not 80 <= (d(e_) - d(a_["end"])).days <= 100:
+                continue
+            v = round(b_["val"] - a_["val"], 6)
+            prev = [out[k][1] for k in sorted(out) if k < e_ and out[k][1] > 0]
+            if v > 0 and prev and v <= 2 * prev[-1]:
+                put(e_, b_["filed"], v)
+    return {k: v for k, (f_, v) in out.items()}
 
 
 def latest_dps(cik, cur):
-    """최근에 선언한 분기 배당과 1년 전 같은 값 — 분기에 선언이 없으면(BKNG는 1분기에 선언) 그 앞 분기."""
+    """최근에 선언(없으면 지급)한 분기 배당과 1년 전 같은 값 — 분기에 선언이 없으면(BKNG는 1분기에 선언) 그 앞 분기.
+    두 태그 가운데 더 최근 분기를 가진 쪽(선언 보고를 멈추고 지급으로 바꾼 회사, Codex)."""
+    best = None
     for tag, label in DPS_TAGS:
         sr = dps_series(cik, tag)
         ks = sorted(k for k, v in sr.items() if k <= cur and v > 0 and (d(cur) - d(k)).days <= 200)
-        if ks:
+        if ks and (best is None or ks[-1] > best[3]):
             e = ks[-1]
             yo = [k for k, v in sr.items() if v > 0 and 350 <= (d(e) - d(k)).days <= 380]
-            return sr[e], (sr[yo[-1]] if yo else None), label, e
-    return None, None, None, None
+            best = (sr[e], (sr[yo[-1]] if yo else None), label, e)
+    return best or (None, None, None, None)
 
 
 def apply(C, T):
@@ -225,14 +253,14 @@ def apply(C, T):
             return f"연초~{d(C.CUR).month}/{d(C.CUR).day}, {round(td.days / 7)}주"
         return f"회계연도 누계 {st.year}.{st.month}.{st.day}~{d(C.CUR).year}.{d(C.CUR).month}.{d(C.CUR).day}, {round(td.days / 7)}주"   # 해를 밝힌다(MU 53주, Fable)
     bb, bbd = ytd(cik, ["PaymentsForRepurchaseOfCommonStock"], C.CUR, fy_start)
+    dps, dps_yo, dlabel, dps_end = latest_dps(cik, C.CUR)
     dv, dvd = ytd(cik, ["PaymentsOfDividendsCommonStock"], C.CUR, fy_start)
     dv_pref = False
     if dv is None:   # 보통주 태그가 없으면 전체 배당 — 보통주 주당 배당이 없는 회사(BA)는 우선주 배당이라 따로 표시(Fable)
         dv, dvd = ytd(cik, ["PaymentsOfDividends"], C.CUR, fy_start)
-        dv_pref = dv is not None and not dps_series(cik, "CommonStockDividendsPerShareDeclared") and not dps_series(cik, "CommonStockDividendsPerShareCashPaid")
+        dv_pref = dv is not None and dps is None   # 최근 1년 안의 보통주 주당 배당이 없으면 우선주 배당(BA는 과거 보통주 이력이 있다, Codex)
     C._AUTO["dv_weeks"] = round(dvd.days / 7) if dvd else None
     yo_q3 = ends[ends.index(C.YO) - 1]
-    dps, dps_yo, dlabel, dps_end = latest_dps(cik, C.CUR)
     C.CAPITAL = [(f"자사주 매입 ({span(bbd)})" if bb is not None else "자사주 매입", B(bb) if bb is not None else "공시 없음"),
                  ((f"우선주 배당 ({span(dvd)})" if dv_pref else f"배당 지급 ({span(dvd)})") if dv is not None else "보통주 배당 지급", B(dv) if dv is not None else "없음"),
                  ((f"최근 분기 주당 배당 ({dlabel}, {d(dps_end).month}/{d(dps_end).day} 분기)",
@@ -486,7 +514,11 @@ def texts(C, ns):
         C.DCF_NOTE = ""
     # 음수 표기: 문장 속 '-5.0%'·'$-' 를 '−'로(Fable) — 주소·날짜(앞이 글자·숫자·'/')는 건드리지 않는다
     import re as _re
-    fix = lambda t: _re.sub(r"(?<![\w/.])-(?=\$?\d)", "−", t.replace("$-", "−$")) if isinstance(t, str) else t
+    def fix(t):   # 태그 밖 글자에만 — 주소·class·CSS(margin-top:-2px)는 건드리지 않는다(Codex)
+        if not isinstance(t, str):
+            return t
+        parts = _re.split(r"(<[^>]*>)", t)
+        return "".join(p_ if p_.startswith("<") else _re.sub(r"(?<![\w/.])-(?=\$?\d)", "−", p_.replace("$-", "−$")) for p_ in parts)
     deep = lambda v: [deep(x) for x in v] if isinstance(v, list) else tuple(deep(x) for x in v) if isinstance(v, tuple) else fix(v)
     for k in ("SUMMARY", "BULL", "BEAR", "CHECK", "YOY_EXTRA", "SEG_NOTE", "HEALTH_NOTE", "PREMISE", "RISK", "DCF_NOTE", "STORIES", "SELF_TIP"):
         setattr(C, k, deep(getattr(C, k)))
