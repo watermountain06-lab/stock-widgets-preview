@@ -810,6 +810,66 @@ def instant_series(entries, ticker, is_share_count):
     return sorted(out, key=lambda e: e["available"])
 
 
+def wa_unit(wa, cover):
+    """F3 (b)(input_fix_prereg, 2026-10-10): 희석 가중평균(WA) 단위 오류를 표지 주식 수로 가른다.
+    WA > 5×10^10(S&P500 최대 NVDA 약 2.4×10^10)이면 천 단위 오타로 보고 ÷1e3(WAT 2026 82.1B 대 표지 98.1M).
+    WA < 1e7이면 배율 {1, 1e3, 1e6} 중 표지에 가장 가까운 것(TER 164,050 → ×1e3, MCD 711 → ×1e6, NVR 3.3M → ×1).
+    표지가 없으면 예전 규칙(1e6 미만 → ×1e6). 그 밖의 WA는 믿는다(PKG처럼 표지가 틀린 경우). 돌려주는 것: (WA, 배율 표시 또는 None)."""
+    import math
+    tag = None
+    if wa > 5e10:
+        wa, tag = wa / 1e3, "/1e3"
+    if 0 < wa < 1e7:
+        if cover and cover > 0:
+            m = min((1, 1e3, 1e6), key=lambda k: abs(math.log(wa * k / cover)))
+            if m != 1:
+                wa, tag = wa * m, f"x{m:.0e}"
+        elif wa < 1e6:
+            wa, tag = wa * 1e6, "x1e6"
+    return wa, tag
+
+
+def wa_quarters(cik, ticker):
+    """분기(80~100일) 희석 가중평균 주식 수, 공시일 순. 표지 주식 수처럼 그 공시 뒤 분할만큼 오늘 기준으로 맞춘다."""
+    import splits as _splits
+    _, rows = pick_tag(cik, ["WeightedAverageNumberOfDilutedSharesOutstanding"])
+    sp = _splits.for_ticker(ticker)
+    out = []
+    for e in rows or []:
+        if "start" in e and e.get("filed") and 80 <= (date.fromisoformat(e["end"]) - date.fromisoformat(e["start"])).days <= 100:
+            out.append({"end": e["end"], "filed": e["filed"], "val": e["val"] * (feh.split_ratio(e["filed"], sp) if sp else 1)})
+    return sorted(out, key=lambda e: (e["filed"], e["end"]))
+
+
+def check_shares(points, cik, ticker):
+    """F3 (a): 배수 시리즈의 표지 주식 수를 그 시점까지 공시된 직전 분기 WA와 대조한다 — DCF(base_inputs)와 같은 규칙.
+    0.5~2배 밖이면 WA(단위 보정 뒤)로 바꾸고, WA가 없고 1,000만 주 미만이면 그 점을 뺀다. FOX '1'주·SPG 8,000주·CMG 27,962주·
+    PKG 899억 주(표지 ×1000 오타). 돌려주는 것: (점들, dq 표시 목록)."""
+    wq = wa_quarters(cik, ticker)
+    out, dq = [], []
+    for p in points:
+        cand = [w for w in wq if w["filed"] <= p["available"]]
+        if not cand:
+            if p["val"] < 1e7:
+                dq.append(f"series_shares_missing:{p['end']}:{p['val']}")
+                continue
+            out.append(p)
+            continue
+        w = max(cand, key=lambda x: (x["end"], x["filed"]))
+        wa, unit = wa_unit(w["val"], p["val"])
+        if unit:
+            dq.append(f"weighted_shares_unit:{p['end']}:{w['val']}{unit}")
+        if wa > 0 and not (0.5 <= p["val"] / wa <= 2.0):
+            dq.append(f"shares_fallback_series:{p['end']}:{p['val']}->{wa:.0f}")
+            p = dict(p, val=wa, available=max(p["available"], w["filed"]))
+            if p["val"] < 1e5:
+                dq.append(f"shares_suspect:{p['end']}")
+        elif p["val"] < 1e5 and wa < 1e5:
+            dq.append(f"shares_suspect:{p['end']}")
+        out.append(p)
+    return sorted(out, key=lambda e: e["available"]), dq
+
+
 ASOF_REF = None   # 연구용 시점 재현의 평가일(research/pit.py). 카드는 None(오늘).
 
 
@@ -1519,6 +1579,10 @@ def main():
             print(f"  {name}: 태그 없음")
             continue
         series[name] = instant_series(rows, t, is_share_count=(name == "shares"))
+        if name == "shares":   # F3 (a) — DCF와 같은 대조를 배수 시리즈에도
+            series[name], _sdq = check_shares(series[name], cik, t)
+            for x in _sdq:
+                print(f"  ⚠ 주식 수 대조: {x}")
         stale = check_fresh(series[name], daily[-1][0])
         print(f"  {name}: {tag} — 시점 {len(series[name])}개"
               f" · 최신 {series[name][-1]['end'] if series[name] else '없음'}{stale}")

@@ -397,10 +397,11 @@ def main():
     if split_dates:
         entries = apply_split_correction(entries, split_dates)
 
-    if ticker_key in RESTATED_LATEST:
-        # 10-K의 분기 비교 값도 재작성 값이다(DELL FY2024 분기 $0.86·$0.66·$1.42). 단위가 잘못 붙은 값(DELL FY2022 10-K
-        # 계속사업 EPS 840000·−40000)은 주당 $1,000을 넘으면 버린다.
-        entries = [e for e in entries if abs(e["val"]) < 1000]
+    # 단위가 잘못 붙은 값(DELL FY2022 10-K 계속사업 EPS 840000·−40000, HAL 2022-10~2024-11 공시분 ×1e6)은 주당 $1,000을 넘으면 버린다.
+    # 예전에는 재작성 종목만 걸렀다 — F3 (c)(input_fix_prereg, 2026-10-10)로 모든 종목에. 연구 경로(research/pit.py)는 순이익 ÷
+    # 가중평균으로 대신하지만, 이 스크립트는 그 태그를 받지 않으므로 버리기만 한다(변경 기록).
+    entries = [e for e in entries if abs(e["val"]) < 1000]
+    # 재작성 종목은 10-K의 분기 비교 값도 재작성 값이다(DELL FY2024 분기 $0.86·$0.66·$1.42).
     qforms = ("10-Q", "10-K") if ticker_key in RESTATED_LATEST else ("10-Q",)
     discrete = dedup_for([e for e in entries if e["form"] in qforms and 80 <= days_between(e) <= 100], ticker_key)
     if ticker_key in RESTATED_LATEST:
