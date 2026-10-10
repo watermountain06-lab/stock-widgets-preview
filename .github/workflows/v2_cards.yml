@@ -156,6 +156,7 @@ jobs:
           # 토요일 결과는 첫 토요일 실행(10/10) 뒤에야 생긴다 — 없는 경로를 위 목록에 넣으면 git add 전체가 실패한다(Codex 2026-10-08)
           if [ -f v2/weekly_status.json ]; then git add v2/weekly_status.json; fi
           if [ -f v2/news_auto.json ]; then git add v2/news_auto.json; fi
+          git add v2/sec_approved.json v2/fundamental_data scripts 2>/dev/null || true   # 자동 반영한 공시 날짜·새 분기 재무(2026-10-10)
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
           fi
