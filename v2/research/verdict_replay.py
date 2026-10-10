@@ -73,6 +73,7 @@ def multiple_series(t, cik, daily, eps):
     그리고 동종업용 희석 PER(본업 종목도 공시 EPS 기준).
     """
     series = {}
+    shares_dq = []
     for name, tags in bmh.FLOW_TAGS.items():
         tag, rows = bmh.pick_tag(cik, tags)
         if rows:
@@ -92,6 +93,8 @@ def multiple_series(t, cik, daily, eps):
             tag, rows = bmh.pick_tag(cik, tags, "us-gaap")
         if rows:
             series[name] = bmh.instant_series(rows, t, is_share_count=(name == "shares"))
+            if name == "shares":   # F3 (a) — 카드 경로(build_multiple_history.main)와 같은 대조
+                series[name], shares_dq = bmh.check_shares(series[name], cik, t)
     for name, tags in bmh.EV_COMPONENTS.items():
         series[name] = bmh.ev_component(cik, name, tags)
     for name, tags in bmh.EBITDA_TAGS.items():
@@ -194,7 +197,7 @@ def multiple_series(t, cik, daily, eps):
                 x = None
             out[label][dd] = x if (x and x > 0) else None
     neg = {}   # 평가일에만 분모 부호를 본다(분석에서 필요)
-    return out, core, denoms, per_dil
+    return out, core, denoms, per_dil, shares_dq
 
 
 def self_score_at(vals, denom, day, window_start):
@@ -321,7 +324,8 @@ def build(panel_path=PANEL):
             분할 목록은 진짜 분할 + 되돌리지 않는 분사 사건(F1)."""
             if restore not in eps_cache:
                 sp = [{"date": d0, "ratio": r0} for d0, r0 in sorted(keep_sp + [x for x in ign_sp if x not in restore])]
-                e1 = [{"available": e["available"], "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"])}
+                e1 = [{"available": e["available"], "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"]),
+                       **({"replaced": True} if e.get("replaced") else {})}
                       for e in pit.eps_ttm(data, sp) if e["val"]]
                 if not e1 and os.path.exists(ep):
                     e1 = sorted(({"available": e["available_date"],
@@ -413,10 +417,14 @@ def build(panel_path=PANEL):
                         mcache[key] = multiple_series(t, cik, daily, eps)
                 except Exception as e:
                     print("배수 실패", t, day, str(e)[:60], flush=True)
-                    mcache[key] = (None, False, {}, None)
+                    mcache[key] = (None, False, {}, None, [])
                 finally:
                     pit.reset(bmh)
-            mv_day, core_day, den_day, pdil_day = mcache[key]
+            mv_day, core_day, den_day, pdil_day, sdq_all = mcache[key]
+            sdq = [x for x in sdq_all if x.split(":")[1] <= day]   # F3 표식 — 그날까지의 점만(필터에는 쓰지 않는다)
+            _e_now = [e for e in eps if e["available"] <= day]
+            if _e_now and max(_e_now, key=lambda e: e["available"]).get("replaced"):
+                sdq = sdq + ["eps_replaced"]
             y, m_, dd_ = day.split("-")
             # 분사 종목의 자기 이력 시작일은 그 날짜가 지난 평가일에만 적용한다(그 전 평가일에 쓰면 미래 정보 — Codex)
             wstart = f"{int(y) - 5}-{m_}-{dd_}"
@@ -445,7 +453,7 @@ def build(panel_path=PANEL):
                         dv = dn(day) if dn else None
                         peerv[lab] = NEG if (dv is not None and dv <= 0) else None
             rows.append({"t": t, "sec": r["sector"], "d": day, "m": mth, "i": i, "px": px, "px_then": px_then,
-                         "dq": res["dq"], "dcf_ok": res["ok"], "base": res["base"], "dcf_ws": dws,
+                         "dq": res["dq"] + sdq, "dcf_ok": res["ok"], "base": res["base"], "dcf_ws": dws,
                          "dcf_why": res.get("why"), "dcf_err": res.get("err"),
                          "self": selfm, "peer": peerv, "core": core_day})
         if k % 25 == 0:
