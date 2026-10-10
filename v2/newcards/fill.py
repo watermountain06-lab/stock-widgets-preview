@@ -228,7 +228,7 @@ CHECK = (f'<div class="card-title">다음 실적 체크포인트 <span style="co
          + '\n'.join(f'      <div{" style=\"margin-bottom:8px;\"" if i < 3 else ""}><strong style="color:var(--accent2);">{"①②③④"[i]}</strong> {F(x)}</div>' for i, x in enumerate(C.CHECK)) + '\n    </div>')
 sub(r'<div class="card-title">다음 실적 체크포인트 <span[^>]*>[^<]*</span></div>\n    <div style="font-size:12px;color:var\(--text2\);line-height:1\.8;">.*?\n    </div>', CHECK)
 _usd = lambda v: ('−$' if v < 0 else '$') + f'{abs(v):.2f}'   # 음수 기본값(BA) — "$-63.51" 대신 "−$63.51"
-if DCF.get('nonopPerShare', 0) >= 0.5:
+if DCF.get('nonopPerShare', 0) >= 0.5 and not (AUTO and DCF.get('base') is not None and DCF['base'] <= 0):   # 자동 카드: 음수 기본값은 이 줄에서도 드러내지 않는다(BA, Fable)
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', f'<div class="note" data-dcf-nonop>기본 시나리오 {_usd(DCF["base"])} = 사업 가치 {_usd(DCF["base"] - DCF["nonopPerShare"])} + 비영업 자산 ${DCF["nonopPerShare"]:.2f}(주당, {C.NONOP_WHAT})</div>')
 else:
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', '<div class="note" data-dcf-nonop hidden></div>')
@@ -413,7 +413,8 @@ if _auto:
             _e = {x['quarter_end']: x['quarter_eps'] for x in _eps}
             _rc = _ac.chg(rev[C.CUR], rev.get(C.YO))
             _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + ', GAAP 영업이익 ' + _ac.B(op[C.CUR])
-                     + (f', GAAP 희석 EPS ${_e[C.CUR]:.2f}(1년 전 ${_e[C.YO]:.2f})' if C.CUR in _e and C.YO in _e else '') + ' · SEC 10-Q·10-K 기준')
+                     + (f', GAAP 희석 EPS {_ac.money(_e[C.CUR])}(1년 전 {_ac.money(_e[C.YO])})' if C.CUR in _e and C.YO in _e else '')
+                     + (' · SEC 10-K 기준' if C.TENQ_NAME.endswith('10-K') else ' · SEC 10-Q 기준'))   # 실제 문서만(Fable)
         _new.append(('neutral', f'{_when} — 실적 발표', rx, _body, e["url"], f'{C.CO} 실적 보도자료 (SEC 8-K)'))
     items = _new + items
     if _new:
