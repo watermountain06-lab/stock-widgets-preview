@@ -1,69 +1,69 @@
 {
  "ticker": "AAPL",
  "window": [
-  "2021-10-08",
-  "2026-10-08"
+  "2021-10-11",
+  "2026-10-09"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 39.08,
+   "current": 38.65,
    "min": 20.46,
    "p10": 24.66,
-   "median": 31.29,
-   "p90": 37.63,
+   "median": 31.31,
+   "p90": 37.65,
    "max": 42.6,
    "mean": 31.27,
-   "percentile": 95.6,
-   "score": 4.4
+   "percentile": 93.7,
+   "score": 6.3
   },
   "PSR": {
    "days": 1255,
-   "current": 10.64,
+   "current": 10.52,
    "min": 5.04,
    "p10": 6.15,
    "median": 7.71,
    "p90": 9.65,
    "max": 11.06,
-   "mean": 7.87,
-   "percentile": 99.1,
-   "score": 0.9
+   "mean": 7.88,
+   "percentile": 98.4,
+   "score": 1.6
   },
   "PBR": {
    "days": 1255,
-   "current": 46.21,
+   "current": 45.69,
    "min": 31.23,
-   "p10": 37.45,
+   "p10": 37.48,
    "median": 45.17,
    "p90": 54.45,
    "max": 68.75,
-   "mean": 45.61,
-   "percentile": 60.2,
-   "score": 39.8
+   "mean": 45.62,
+   "percentile": 55.5,
+   "score": 44.5
   },
   "PCR": {
    "days": 1255,
-   "current": 36.35,
+   "current": 35.94,
    "min": 17.85,
    "p10": 22.52,
    "median": 30.17,
    "p90": 36.27,
    "max": 42.82,
    "mean": 29.81,
-   "percentile": 90.0,
-   "score": 10.0
+   "percentile": 88.5,
+   "score": 11.5
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 29.78,
+   "current": 29.46,
    "min": 15.87,
    "p10": 19.08,
    "median": 23.43,
-   "p90": 27.78,
+   "p90": 27.8,
    "max": 31.4,
-   "mean": 23.63,
-   "percentile": 99.0,
-   "score": 1.0
+   "mean": 23.64,
+   "percentile": 98.2,
+   "score": 1.8
   }
  },
  "perBasis": "diluted",
@@ -73,7 +73,7 @@
   "per_p75": 37.59,
   "low": 300,
   "high": 330,
-  "asOf": "2026-10-08",
+  "asOf": "2026-10-09",
   "basis": "diluted"
  }
 }

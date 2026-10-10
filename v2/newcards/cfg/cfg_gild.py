@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 7803, 'op': -10394, 'ni': -10496, 'ocf': 3573}   # 보도자료 손익계산서(영업손실 = 인수 IPR&D $11.18B·IPR&D 손상 $1.75B 포함)
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, -1, -2), '고평가'
 CO = 'Gilead'
 S_ = 'https://www.sec.gov/Archives/edgar/data/882095/'
 SEC = S_
