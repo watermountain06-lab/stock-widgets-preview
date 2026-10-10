@@ -1130,13 +1130,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">53명 · 목표가 38</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">53명 · 목표가 39</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">40</span> · 유지 <span data-an="hold">12</span> · 매도 <span data-an="sell">1</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 75.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 22.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 1.9%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
-        <span class="op-val"><span data-an="mean">$241.54</span> <span class="op-sub op-down" data-an="upside">−12.2%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-val"><span data-an="mean">$248.94</span> <span class="op-sub op-down" data-an="upside">−9.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2138,8 +2138,8 @@ const CRWD_ACTIVITY = {"ticker": "CRWD", "status": "ok", "asOf": "2026-07-31", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/crwd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CRWD_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 53, nTargets: 38, mean: 241.54, median: 250,
-  low: 125, high: 425, strongBuy: 30, buy: 10, hold: 12, sell: 1, strongSell: 0 };
+const CRWD_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 53, nTargets: 39, mean: 248.94, median: 250,
+  low: 125, high: 425, strongBuy: 30, buy: 10, hold: 12, sell: 0, strongSell: 1 };
 (function(){
   const A = CRWD_ANALYST, last = (typeof CRWD_DAILY !== 'undefined' && CRWD_DAILY.length) ? CRWD_DAILY[CRWD_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

@@ -935,7 +935,7 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.36 ~ 2.55(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">44.3</div><div class="sc-tile" data-vc="peer" data-m="per">71</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">37</div><div class="sc-tile low" data-vc="peer" data-m="psr">12</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">43</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">60</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">44.3</div><div class="sc-tile" data-vc="peer" data-m="per">71</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">37</div><div class="sc-tile low" data-vc="peer" data-m="psr">12</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">41</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">61</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">주가가 1년 새 +20% 올라 PER 22.5배(5년 중앙값 21.2배)·PSR·EV/EBITDA가 중앙값보다 비싸고 PCR은 중간, PBR만 5년 중 가장 싼 쪽(자본이 늘어서)이라 자기 이력 41.8점(중간)이다. S&P500 산업재 안에서는 PER·EV/EBITDA가 싼 쪽, PSR이 비싼 쪽(이익률이 높은 철도라 매출 대비 비쌈)이라 44.3점(중간)이다. <strong>현금흐름 내재가치(기본 $118.05)는 현재가의 42%</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”다. 현재가를 정당화하려면 GAAP 영업이익률이 72.5%까지 올라야 한다(최근 4분기 40.0%, 5년 중앙값 40.0%). 현금흐름 −2는 매출 성장이 연 5% 안팎으로 낮고 설비투자가 큰 철도라 남는 현금이 이익보다 적기 때문이다. Norfolk Southern 합병(주식 약 2억 2,500만 주 + 현금 약 $20B)은 계산에 넣지 않았다.</div>
@@ -1007,7 +1007,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">철도·산업재 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/5 종가(UNP 막대는 10/9)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">철도·산업재 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/9 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1138,8 +1138,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 72%; background: var(--green);"></div><div data-an-bar="hold" style="width: 24%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
-        <span class="op-val"><span data-an="mean">$332.32</span> <span class="op-sub op-up" data-an="upside">+19.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-val"><span data-an="mean">$331.74</span> <span class="op-sub op-up" data-an="upside">+19.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1343,63 +1343,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '철도·산업재 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/5 종가(UNP 막대는 10/9)',
+    title: '철도·산업재 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/9 종가',
     unit: 'PER', max: 55, unpValue: null,
     peers: [
-      { name:'CSX', value:27.4, status:'reference' },
-      { name:'NSC', value:27.0, status:'reference' },
-      { name:'CAT', value:36.5, status:'reference' },
-      { name:'GE', value:36.1, status:'reference' },
-      { name:'ETN', value:44.0, status:'reference' },
-      { name:'HON', value:9.8, status:'reference' }
+      { name:'CSX', value:27.3, status:'reference' },
+      { name:'NSC', value:27.1, status:'reference' },
+      { name:'CAT', value:34.5, status:'reference' },
+      { name:'GE', value:36.3, status:'reference' },
+      { name:'ETN', value:43.8, status:'reference' },
+      { name:'HON', value:9.5, status:'reference' }
     ]
   },
   pbr: {
-    title: '철도·산업재 PBR 비교 · 10/5 종가(UNP 막대는 10/9)',
+    title: '철도·산업재 PBR 비교 · 10/9 종가',
     unit: 'PBR', max: 25, unpValue: null,
     peers: [
       { name:'CSX', value:6.2, status:'reference' },
       { name:'NSC', value:4.4, status:'reference' },
-      { name:'CAT', value:20.1, status:'reference' },
-      { name:'GE', value:18.0, status:'reference' },
-      { name:'ETN', value:8.3, status:'reference' },
-      { name:'HON', value:3.7, status:'reference' }
+      { name:'CAT', value:19.0, status:'reference' },
+      { name:'GE', value:18.1, status:'reference' },
+      { name:'ETN', value:8.2, status:'reference' },
+      { name:'HON', value:3.5, status:'reference' }
     ]
   },
   psr: {
-    title: '철도·산업재 PSR 비교 · 10/5 종가(UNP 막대는 10/9)',
+    title: '철도·산업재 PSR 비교 · 10/9 종가',
     unit: 'PSR(TTM)', max: 10, unpValue: null,
     peers: [
       { name:'CSX', value:6.0, status:'reference' },
       { name:'NSC', value:5.7, status:'reference' },
-      { name:'CAT', value:5.2, status:'reference' },
+      { name:'CAT', value:4.9, status:'reference' },
       { name:'GE', value:6.3, status:'reference' },
       { name:'ETN', value:5.6, status:'reference' },
       { name:'HON', value:1.7, status:'reference' }
     ]
   },
   pcr: {
-    title: '철도·산업재 PCR(FCF) 비교 · 10/5 종가(UNP 막대는 10/9)',
+    title: '철도·산업재 PCR(FCF) 비교 · 10/9 종가',
     unit: 'PCR(FCF)', max: 55, unpValue: null,
     peers: [
-      { name:'CSX', value:31.4, status:'reference' },
-      { name:'NSC', value:43.5, status:'reference' },
-      { name:'CAT', value:36.5, status:'reference' },
-      { name:'GE', value:38.0, status:'reference' },
-      { name:'ETN', value:42.7, status:'reference' },
-      { name:'HON', value:17.8, status:'reference' }
+      { name:'CSX', value:31.3, status:'reference' },
+      { name:'NSC', value:43.8, status:'reference' },
+      { name:'CAT', value:34.4, status:'reference' },
+      { name:'GE', value:38.2, status:'reference' },
+      { name:'ETN', value:42.4, status:'reference' },
+      { name:'HON', value:17.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: '철도·산업재 EV/EBITDA 비교 · 10/5 종가(UNP 막대는 10/9)',
+    title: '철도·산업재 EV/EBITDA 비교 · 10/9 종가',
     unit: 'EV/EBITDA', max: 40, unpValue: null,
     peers: [
-      { name:'CSX', value:14.5, status:'reference' },
-      { name:'NSC', value:15.8, status:'reference' },
-      { name:'CAT', value:25.5, status:'reference' },
-      { name:'GE', value:32.1, status:'reference' },
-      { name:'ETN', value:29.0, status:'reference' },
-      { name:'HON', value:9.7, status:'reference' }
+      { name:'CSX', value:14.4, status:'reference' },
+      { name:'NSC', value:15.9, status:'reference' },
+      { name:'CAT', value:24.1, status:'reference' },
+      { name:'GE', value:32.3, status:'reference' },
+      { name:'ETN', value:28.9, status:'reference' },
+      { name:'HON', value:9.5, status:'reference' }
     ]
   }
 };
@@ -1847,7 +1847,7 @@ const UNP_FUNDAMENTAL = {"ticker": "UNP", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py UNP --self v2/UNP_multiples.json --card
 /* VALUATION:BEGIN */
-const UNP_VALUATION = {"peer": {"score": 44.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-05", "2026-10-05"], "priceSession": null, "metrics": [{"metric": "per", "score": 71.4, "rank": 23, "peers": 77}, {"metric": "pbr", "score": 36.5, "rank": 48, "peers": 74}, {"metric": "psr", "score": 11.5, "rank": 70, "peers": 78}, {"metric": "pcr", "score": 42.5, "rank": 43, "peers": 73}, {"metric": "evebitda", "score": 59.7, "rank": 28, "peers": 67}]}, "self": {"score": 41.8, "window": ["2021-10-11", "2026-10-09"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 29.4, "percentile": 70.6, "current": 22.52, "min": 16.57, "median": 21.25, "max": 27.81, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 90.9, "percentile": 9.1, "current": 8.0, "min": 7.42, "median": 9.42, "max": 12.9, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.1, "percentile": 83.9, "current": 6.51, "min": 4.49, "median": 5.84, "max": 8.15, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 43.1, "percentile": 56.9, "current": 25.42, "min": 19.37, "median": 24.86, "max": 32.82, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 29.5, "percentile": 70.5, "current": 15.33, "min": 12.11, "median": 14.57, "max": 17.87, "days": 1255, "currentNote": null}]}};
+const UNP_VALUATION = {"peer": {"score": 44.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 71.4, "rank": 23, "peers": 77}, {"metric": "pbr", "score": 36.5, "rank": 48, "peers": 74}, {"metric": "psr", "score": 11.5, "rank": 70, "peers": 78}, {"metric": "pcr", "score": 41.1, "rank": 44, "peers": 73}, {"metric": "evebitda", "score": 61.2, "rank": 27, "peers": 67}]}, "self": {"score": 41.8, "window": ["2021-10-11", "2026-10-09"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 29.4, "percentile": 70.6, "current": 22.52, "min": 16.57, "median": 21.25, "max": 27.81, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 90.9, "percentile": 9.1, "current": 8.0, "min": 7.42, "median": 9.42, "max": 12.9, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.1, "percentile": 83.9, "current": 6.51, "min": 4.49, "median": 5.84, "max": 8.15, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 43.1, "percentile": 56.9, "current": 25.42, "min": 19.37, "median": 24.86, "max": 32.82, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 29.5, "percentile": 70.5, "current": 15.33, "min": 12.11, "median": 14.57, "max": 17.87, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2134,7 +2134,7 @@ const UNP_ACTIVITY = {"ticker": "UNP", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/unp/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const UNP_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 332.32, median: 333,
+const UNP_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 331.74, median: 333,
   low: 294, high: 363, strongBuy: 15, buy: 3, hold: 6, sell: 1, strongSell: 0 };
 (function(){
   const A = UNP_ANALYST, last = (typeof UNP_DAILY !== 'undefined' && UNP_DAILY.length) ? UNP_DAILY[UNP_DAILY.length - 1] : null;

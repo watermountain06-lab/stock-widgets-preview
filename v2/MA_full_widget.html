@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="maPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="maPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="maPeerScore">6.9<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="maPeerScore">9.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="maSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="maSelfVerdict">중간</span></div>
@@ -933,9 +933,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$306</div><div class="vs-note">현재가 <span data-vs="price">$589.14</span> 대비 <strong data-vs="upside">−48.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.93
 시나리오 범위: 1.91 ~ 2.29(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 결제·거래소·금융 데이터 17곳보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">6.9</div><div class="sc-tile low" data-vc="peer" data-m="per">0</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">6</div><div class="sc-tile low" data-vc="peer" data-m="pcr">7</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">21</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 결제·거래소·금융 데이터 17곳보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">9.5</div><div class="sc-tile low" data-vc="peer" data-m="per">7</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">13</div><div class="sc-tile low" data-vc="peer" data-m="pcr">7</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">21</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">자기 5년 이력으로는 PER·PSR·PCR·EV/EBITDA가 싼 쪽(PBR만 비싼 쪽)이라 66.0점이지만, S&P500 결제·거래소·금융 데이터 17곳 안에서는 가장 비싼 쪽(6.9점)이다. <strong>현금흐름 내재가치(기본 $306)는 현재가의 52%</strong>다. 영업이익률 58% 안팎이 이어져도 매출 성장이 5년 평균(연 15.4%)에서 식는다면 현재가에 못 미친다.</div>
+    <div class="vs-premise">자기 5년 이력으로는 PER·PSR·PCR·EV/EBITDA가 싼 쪽(PBR만 비싼 쪽)이라 66.0점이지만, S&P500 결제·거래소·금융 데이터 17곳 안에서는 가장 비싼 쪽(9.5점)이다. <strong>현금흐름 내재가치(기본 $306)는 현재가의 52%</strong>다. 영업이익률 58% 안팎이 이어져도 매출 성장이 5년 평균(연 15.4%)에서 식는다면 현재가에 못 미친다.</div>
     <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">26.7%</strong>씩 커야 한다(최근 3년 실제 연 14.1%). 자기 이력 점수 66.0점은 문턱 70 바로 위라, 주가가 1% 안팎만 올라도 이 표가 0이 되어 종합 판정이 고평가로 바뀐다(설비투자에 자본화 소프트웨어를 넣어도 70 아래로 내려간다). PBR이 5년 최고 수준인 것은 자사주 매입으로 자본이 작아서다.</div>
   </div>
 
@@ -1005,7 +1005,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">결제·금융 인프라 PER 비교 · 10/5 종가(MA 막대는 10/9)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">결제·금융 인프라 PER 비교 · 10/9 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1118,8 +1118,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 90%; background: var(--green);"></div><div data-an-bar="hold" style="width: 10%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
-        <span class="op-val"><span data-an="mean">$669.92</span> <span class="op-sub op-up" data-an="upside">+13.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-val"><span data-an="mean">$672</span> <span class="op-sub op-up" data-an="upside">+14.1%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1323,61 +1323,61 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '결제·금융 인프라 PER 비교 · 10/5 종가(MA 막대는 10/9)',
+    title: '결제·금융 인프라 PER 비교 · 10/9 종가',
     unit: 'PER', max: 40, maValue: null,
     peers: [
-      { name:'V', value:31.5, status:'reference' },
-      { name:'PYPL', value:10.3, status:'reference' },
-      { name:'FISV', value:8.9, status:'reference' },
-      { name:'SPGI', value:23.8, status:'reference' },
-      { name:'MCO', value:28.4, status:'reference' },
-      { name:'CME', value:22.9, status:'reference' }
+      { name:'V', value:32.8, status:'reference' },
+      { name:'PYPL', value:10.5, status:'reference' },
+      { name:'FISV', value:8.8, status:'reference' },
+      { name:'SPGI', value:24.8, status:'reference' },
+      { name:'MCO', value:29.5, status:'reference' },
+      { name:'CME', value:23.8, status:'reference' }
     ]
   },
   pbr: {
-    title: '결제·금융 인프라 PBR 비교 · 10/5 종가(MA 막대는 10/9)',
+    title: '결제·금융 인프라 PBR 비교 · 10/9 종가',
     unit: 'PBR', max: 110, maValue: null,
     peers: [
-      { name:'V', value:19.8, status:'reference' },
+      { name:'V', value:20.6, status:'reference' },
       { name:'PYPL', value:2.4, status:'reference' },
       { name:'FISV', value:0.9, status:'reference' },
-      { name:'SPGI', value:3.7, status:'reference' },
-      { name:'MCO', value:25.7, status:'reference' },
-      { name:'CME', value:3.7, status:'reference' }
+      { name:'SPGI', value:3.8, status:'reference' },
+      { name:'MCO', value:26.6, status:'reference' },
+      { name:'CME', value:3.8, status:'reference' }
     ]
   },
   psr: {
-    title: '결제·금융 인프라 PSR 비교 · 10/5 종가(MA 막대는 10/9)',
+    title: '결제·금융 인프라 PSR 비교 · 10/9 종가',
     unit: 'PSR(TTM)', max: 20, maValue: null,
     peers: [
-      { name:'V', value:15.6, status:'reference' },
+      { name:'V', value:16.3, status:'reference' },
       { name:'PYPL', value:1.4, status:'reference' },
       { name:'FISV', value:1.2, status:'reference' },
-      { name:'SPGI', value:7.2, status:'reference' },
-      { name:'MCO', value:9.5, status:'reference' },
-      { name:'CME', value:14.3, status:'reference' }
+      { name:'SPGI', value:7.5, status:'reference' },
+      { name:'MCO', value:9.8, status:'reference' },
+      { name:'CME', value:14.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '결제·금융 인프라 PCR(FCF) 비교 · 10/5 종가(MA 막대는 10/9)',
+    title: '결제·금융 인프라 PCR(FCF) 비교 · 10/9 종가',
     unit: 'PCR(FCF)', max: 40, maValue: null,
     peers: [
-      { name:'V', value:33.1, status:'reference' },
-      { name:'PYPL', value:7.1, status:'reference' },
+      { name:'V', value:34.5, status:'reference' },
+      { name:'PYPL', value:7.2, status:'reference' },
       { name:'FISV', value:6.2, status:'reference' },
-      { name:'SPGI', value:20.7, status:'reference' },
-      { name:'MCO', value:26.2, status:'reference' },
-      { name:'CME', value:23.1, status:'reference' }
+      { name:'SPGI', value:21.6, status:'reference' },
+      { name:'MCO', value:27.1, status:'reference' },
+      { name:'CME', value:23.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: '결제·금융 인프라 EV/EBITDA 비교 (SPGI 값 없음·CME 값 없음) · 10/5 종가(MA 막대는 10/9)',
+    title: '결제·금융 인프라 EV/EBITDA 비교 (SPGI 값 없음·CME 값 없음) · 10/9 종가',
     unit: 'EV/EBITDA', max: 30, maValue: null,
     peers: [
-      { name:'V', value:24.9, status:'reference' },
-      { name:'PYPL', value:6.8, status:'reference' },
-      { name:'FISV', value:7.3, status:'reference' },
-      { name:'MCO', value:20.2, status:'reference' }
+      { name:'V', value:26.0, status:'reference' },
+      { name:'PYPL', value:6.9, status:'reference' },
+      { name:'FISV', value:7.2, status:'reference' },
+      { name:'MCO', value:20.9, status:'reference' }
     ]
   }
 };
@@ -1504,7 +1504,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py MA
 const MA_SCORES = {
   fundamental: 66.8,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 6.9,          // S&P500 결제 8곳 + 거래소·금융 데이터 9곳 대비 배수 순위(v2/peer_universe/payments_exchanges.json)
+  peer: 9.5,          // S&P500 결제 8곳 + 거래소·금융 데이터 9곳 대비 배수 순위(v2/peer_universe/payments_exchanges.json)
   selfHistory: 66.0,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-30 공시)
@@ -1817,7 +1817,7 @@ const MA_FUNDAMENTAL = {"ticker": "MA", "basis": "quarter", "asOf": "2026-06-30"
 //
 // 갱신: python3 v2/build_peer_score.py MA --self v2/MA_multiples.json --card
 /* VALUATION:BEGIN */
-const MA_VALUATION = {"peer": {"score": 6.9, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-05", "2026-10-05"], "priceSession": null, "metrics": [{"metric": "per", "score": 0.0, "rank": 15, "peers": 14}, {"metric": "pbr", "score": 0.0, "rank": 16, "peers": 15}, {"metric": "psr", "score": 6.2, "rank": 16, "peers": 16}, {"metric": "pcr", "score": 6.7, "rank": 15, "peers": 15}, {"metric": "evebitda", "score": 21.4, "rank": 12, "peers": 14}]}, "self": {"score": 66.0, "window": ["2021-10-11", "2026-10-09"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 84.4, "percentile": 15.6, "current": 32.41, "min": 27.29, "median": 37.02, "max": 50.36, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.6, "percentile": 99.4, "current": 91.98, "min": 41.83, "median": 62.02, "max": 93.65, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 83.8, "percentile": 16.2, "current": 14.71, "min": 12.28, "median": 16.39, "max": 21.92, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 75.9, "percentile": 24.1, "current": 30.9, "min": 23.43, "median": 34.01, "max": 48.59, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 85.4, "percentile": 14.6, "current": 24.47, "min": 20.57, "median": 28.32, "max": 39.77, "days": 1255, "currentNote": null}]}};
+const MA_VALUATION = {"peer": {"score": 9.5, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 7.1, "rank": 14, "peers": 14}, {"metric": "pbr", "score": 0.0, "rank": 16, "peers": 15}, {"metric": "psr", "score": 12.5, "rank": 15, "peers": 16}, {"metric": "pcr", "score": 6.7, "rank": 15, "peers": 15}, {"metric": "evebitda", "score": 21.4, "rank": 12, "peers": 14}]}, "self": {"score": 66.0, "window": ["2021-10-11", "2026-10-09"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 84.4, "percentile": 15.6, "current": 32.41, "min": 27.29, "median": 37.02, "max": 50.36, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.6, "percentile": 99.4, "current": 91.98, "min": 41.83, "median": 62.02, "max": 93.65, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 83.8, "percentile": 16.2, "current": 14.71, "min": 12.28, "median": 16.39, "max": 21.92, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 75.9, "percentile": 24.1, "current": 30.9, "min": 23.43, "median": 34.01, "max": 48.59, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 85.4, "percentile": 14.6, "current": 24.47, "min": 20.57, "median": 28.32, "max": 39.77, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2103,7 +2103,7 @@ const MA_ACTIVITY = {"ticker": "MA", "status": "N/A", "reason": "결제망이라
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ma/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MA_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 40, nTargets: 24, mean: 669.92, median: 670,
+const MA_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 40, nTargets: 24, mean: 672, median: 675,
   low: 550, high: 740, strongBuy: 27, buy: 9, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = MA_ANALYST, last = (typeof MA_DAILY !== 'undefined' && MA_DAILY.length) ? MA_DAILY[MA_DAILY.length - 1] : null;

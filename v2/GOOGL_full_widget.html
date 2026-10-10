@@ -1128,13 +1128,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">61명 · 목표가 33</span>명</span>
-        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">56</span> · 유지 <span data-an="hold">5</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 91.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 8.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">62명 · 목표가 34</span>명</span>
+        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">57</span> · 유지 <span data-an="hold">5</span> · 매도 <span data-an="sell">0</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 91.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 8.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
-        <span class="op-val"><span data-an="mean">$431.30</span> <span class="op-sub op-up" data-an="upside">+22.6%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-val"><span data-an="mean">$430.38</span> <span class="op-sub op-up" data-an="upside">+22.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2114,8 +2114,8 @@ const GOOGL_ACTIVITY = {"ticker": "GOOGL", "status": "stale", "asOf": "2023-09-3
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/googl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GOOGL_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 61, nTargets: 33, mean: 431.3, median: 430,
-  low: 355, high: 515, strongBuy: 43, buy: 13, hold: 5, sell: 0, strongSell: 0 };
+const GOOGL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 62, nTargets: 34, mean: 430.38, median: 430,
+  low: 355, high: 515, strongBuy: 44, buy: 13, hold: 5, sell: 0, strongSell: 0 };
 (function(){
   const A = GOOGL_ANALYST, last = (typeof GOOGL_DAILY !== 'undefined' && GOOGL_DAILY.length) ? GOOGL_DAILY[GOOGL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

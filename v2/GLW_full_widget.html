@@ -1118,13 +1118,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">17명 · 목표가 11</span>명</span>
-        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">13</span> · 유지 <span data-an="hold">4</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 76.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 23.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">18명 · 목표가 10</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">13</span> · 유지 <span data-an="hold">5</span> · 매도 <span data-an="sell">0</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 72.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 27.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
-        <span class="op-val"><span data-an="mean">$185.18</span> <span class="op-sub op-up" data-an="upside">+18.2%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-val"><span data-an="mean">$183.70</span> <span class="op-sub op-up" data-an="upside">+17.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2118,8 +2118,8 @@ const GLW_ACTIVITY = {"ticker": "GLW", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/glw/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GLW_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 17, nTargets: 11, mean: 185.18, median: 200,
-  low: 129, high: 220, strongBuy: 13, buy: 0, hold: 4, sell: 0, strongSell: 0 };
+const GLW_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 18, nTargets: 10, mean: 183.7, median: 200,
+  low: 129, high: 220, strongBuy: 13, buy: 0, hold: 5, sell: 0, strongSell: 0 };
 (function(){
   const A = GLW_ANALYST, last = (typeof GLW_DAILY !== 'undefined' && GLW_DAILY.length) ? GLW_DAILY[GLW_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

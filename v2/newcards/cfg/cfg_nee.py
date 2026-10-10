@@ -97,4 +97,4 @@ BEAR = [('합병 위험', 'Dominion 합병 규제 승인 불확실, 발표일 �
         ('부채', '차입금 $110.2B.'),
         ('밸류에이션', '유틸리티 안에서 PBR·PSR·EV/EBITDA 가장 비싼 쪽.')]
 ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 16, 'mean': 97.63, 'median': 102, 'low': 56, 'high': 112, 'sb': 11, 'b': 3, 'h': 6, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-06'
+ANALYST_ASOF = '2026-10-10'

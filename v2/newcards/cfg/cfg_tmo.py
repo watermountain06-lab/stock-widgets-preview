@@ -97,8 +97,8 @@ BULL = [('성장', '2분기 매출 +10%(유기적 +5%), 네 부문 모두 성장
 BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배 — 5년 중앙값 {SM[\'PER\'][\'median\']:.0f}배, 현금흐름 기본 ${DCF[\'base\']:.0f}.'),
         ('부채', '차입금 $42.5B로 연초보다 $3B 넘게 늘었다.'),
         ('세율', '최근 4분기 실효세율 7.8% — 회사는 2026년 GAAP 세율 9~11%를 예상한다(10-Q).')]
-ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 23, 'mean': 640.52, 'median': 639, 'low': 535, 'high': 780, 'sb': 19, 'b': 4, 'h': 4, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-06'
+ANALYST = {'rating': 'Strong Buy', 'n': 27, 'nt': 22, 'mean': 647.36, 'median': 639, 'low': 535, 'high': 780, 'sb': 19, 'b': 4, 'h': 3, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-10-10'
 
 REQ_MULT_EXACT = False   # 옛 카드는 틀 문구("3배를 넘는다") 그대로
 POST = []

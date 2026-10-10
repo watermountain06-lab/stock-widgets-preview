@@ -95,5 +95,5 @@ BEAR = [('밸류에이션', '다섯 배수 모두 이력 중앙값보다 비쌈.
         ('집중', '매출의 96%가 CF 치료제.'),
         ('인수 부담', 'Crinetics 약 $10.0B, 기간 대출 $4.5B.')]
 MISS_WHY = {('GILD', 'per'): ' 적자', ('GILD', 'evebitda'): ' 적자'}   # C9 뒤 동종 파일 PER은 perNA로 옮겨졌다 — 카드 표기 그대로
-ANALYST = {'rating': 'Buy', 'n': 32, 'nt': 20, 'mean': 573.3, 'median': 585, 'low': 350, 'high': 665, 'sb': 20, 'b': 6, 'h': 4, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-06'
+ANALYST = {'rating': 'Buy', 'n': 32, 'nt': 20, 'mean': 573.6, 'median': 585, 'low': 350, 'high': 665, 'sb': 20, 'b': 6, 'h': 5, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-10'

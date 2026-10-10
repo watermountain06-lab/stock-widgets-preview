@@ -1119,13 +1119,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">24명 · 목표가 19</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">12</span> · 유지 <span data-an="hold">10</span> · 매도 <span data-an="sell">2</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 50%; background: var(--green);"></div><div data-an-bar="hold" style="width: 41.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 8.3%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">25명 · 목표가 21</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">12</span> · 유지 <span data-an="hold">11</span> · 매도 <span data-an="sell">2</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 48%; background: var(--green);"></div><div data-an-bar="hold" style="width: 44%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
-        <span class="op-val"><span data-an="mean">$252.05</span> <span class="op-sub op-up" data-an="upside">+11.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-val"><span data-an="mean">$252.57</span> <span class="op-sub op-up" data-an="upside">+11.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2118,8 +2118,8 @@ const IBM_ACTIVITY = {"ticker": "IBM", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ibm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const IBM_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 19, mean: 252.05, median: 250,
-  low: 190, high: 350, strongBuy: 9, buy: 3, hold: 10, sell: 1, strongSell: 1 };
+const IBM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 21, mean: 252.57, median: 250,
+  low: 190, high: 350, strongBuy: 9, buy: 3, hold: 11, sell: 1, strongSell: 1 };
 (function(){
   const A = IBM_ANALYST, last = (typeof IBM_DAILY !== 'undefined' && IBM_DAILY.length) ? IBM_DAILY[IBM_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

@@ -88,7 +88,7 @@ BULL = [('꾸준한 성장', '네 분기 모두 기존점 +4~6%, 회사 계획 �
 BEAR = [('일회성 이익', '2분기 EPS의 $0.14가 관세 환급.'),
         ('주력 둔화', 'Marmaxx 기존점 +1%(1년 전 +3%).'),
         ('밸류에이션', '현금흐름 기본값이 현재가의 절반 정도.')]
-ANALYST = {'rating': 'Buy', 'n': 22, 'nt': 16, 'mean': 170.75, 'median': 175, 'low': 140, 'high': 198, 'sb': 13, 'b': 5, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-06'
+ANALYST = {'rating': 'Buy', 'n': 22, 'nt': 16, 'mean': 170.75, 'median': 175, 'low': 140, 'high': 198, 'sb': 14, 'b': 4, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-10'
 
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)

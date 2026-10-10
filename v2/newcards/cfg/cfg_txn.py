@@ -101,8 +101,8 @@ BULL = [('회복', '2분기 매출 +23%, 영업이익 +48%, 3분기 전망도 �
 BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배 — 5년 중앙값 {SM[\'PER\'][\'median\']:.0f}배, 현금흐름 기본 ${DCF[\'base\']:.0f}.'),
         ('성장', '5년 매출 성장 연 {pct(HIST[\'growth_5y\'])} — 2023~2024년 감소 뒤 회복 중.'),
         ('인수', 'Silicon Labs 인수 $7.5B를 현금·차입으로 치른다(종결 2027년 상반기 예정).')]
-ANALYST = {'rating': 'Buy', 'n': 36, 'nt': 25, 'mean': 324.08, 'median': 330, 'low': 220, 'high': 405, 'sb': 17, 'b': 3, 'h': 14, 's': 0, 'ss': 2}
-ANALYST_ASOF = '2026-10-06'
+ANALYST = {'rating': 'Buy', 'n': 36, 'nt': 25, 'mean': 324.08, 'median': 330, 'low': 220, 'high': 405, 'sb': 17, 'b': 2, 'h': 15, 's': 0, 'ss': 2}
+ANALYST_ASOF = '2026-10-10'
 PRE = [r'''
 FUND_IC = [r_['value'] for r_ in FUND['axes']['health']['rows'] if r_['metric'] == 'interestCoverage'][0]   # 손입력 이자비용 기준 이자보상배율
 ''']

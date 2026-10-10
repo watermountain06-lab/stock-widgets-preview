@@ -1104,13 +1104,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">31명 · 목표가 20</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">20</span> · 유지 <span data-an="hold">9</span> · 매도 <span data-an="sell">2</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 64.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 29%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 6.5%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">32명 · 목표가 22</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">22</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">3</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 68.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 21.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 9.4%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
-        <span class="op-val"><span data-an="mean">$199.20</span> <span class="op-sub op-down" data-an="upside">−4.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-val"><span data-an="mean">$204.50</span> <span class="op-sub op-down" data-an="upside">−2.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2097,8 +2097,8 @@ const PLTR_ACTIVITY = {"ticker": "PLTR", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/pltr/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const PLTR_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 31, nTargets: 20, mean: 199.2, median: 205,
-  low: 80, high: 255, strongBuy: 19, buy: 1, hold: 9, sell: 1, strongSell: 1 };
+const PLTR_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 32, nTargets: 22, mean: 204.5, median: 215,
+  low: 80, high: 265, strongBuy: 20, buy: 2, hold: 7, sell: 2, strongSell: 1 };
 (function(){
   const A = PLTR_ANALYST, last = (typeof PLTR_DAILY !== 'undefined' && PLTR_DAILY.length) ? PLTR_DAILY[PLTR_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

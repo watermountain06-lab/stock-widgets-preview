@@ -1,55 +1,55 @@
 {
  "ticker": "ADP",
  "window": [
-  "2025-10-06",
-  "2026-10-05"
+  "2025-10-10",
+  "2026-10-09"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 23.79,
+   "current": 24.76,
    "min": 18.15,
    "p10": 19.65,
    "median": 23.93,
-   "p90": 26.15,
-   "max": 29.35,
-   "mean": 23.28,
-   "percentile": 48.2,
-   "score": 51.8
+   "p90": 25.92,
+   "max": 28.65,
+   "mean": 23.2,
+   "percentile": 60.6,
+   "score": 39.4
   },
   "PSR": {
    "days": 251,
-   "current": 4.71,
+   "current": 4.9,
    "min": 3.58,
    "p10": 3.88,
    "median": 4.74,
-   "p90": 5.14,
-   "max": 5.77,
-   "mean": 4.59,
-   "percentile": 48.2,
-   "score": 51.8
+   "p90": 5.12,
+   "max": 5.63,
+   "mean": 4.58,
+   "percentile": 62.5,
+   "score": 37.5
   },
   "PBR": {
    "days": 251,
-   "current": 17.14,
+   "current": 17.84,
    "min": 11.89,
    "p10": 12.95,
    "median": 16.01,
-   "p90": 18.36,
-   "max": 19.17,
-   "mean": 15.56,
-   "percentile": 76.5,
-   "score": 23.5
+   "p90": 18.26,
+   "max": 18.94,
+   "mean": 15.54,
+   "percentile": 84.9,
+   "score": 15.1
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 20.59,
-  "per_p75": 25.43,
+  "per_p75": 25.38,
   "low": 230,
   "high": 280,
-  "asOf": "2026-10-05",
+  "asOf": "2026-10-09",
   "basis": "diluted"
  }
 }

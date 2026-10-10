@@ -1,28 +1,28 @@
 {
  "ticker": "CMCSA",
  "window": [
-  "2025-10-06",
-  "2026-10-05"
+  "2025-10-10",
+  "2026-10-09"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 6.94,
+   "current": 6.64,
    "min": 4.13,
    "p10": 4.31,
-   "median": 4.93,
+   "median": 4.94,
    "p90": 8.02,
    "max": 8.75,
-   "mean": 5.53,
-   "percentile": 79.3,
-   "score": 20.7
+   "mean": 5.56,
+   "percentile": 77.7,
+   "score": 22.3
   },
   "PSR": {
    "days": 251,
-   "current": 0.71,
-   "min": 0.71,
-   "p10": 0.77,
-   "median": 0.88,
+   "current": 0.68,
+   "min": 0.68,
+   "p10": 0.76,
+   "median": 0.87,
    "p90": 1.02,
    "max": 1.08,
    "mean": 0.88,
@@ -31,49 +31,49 @@
   },
   "PBR": {
    "days": 251,
-   "current": 0.99,
-   "min": 0.99,
+   "current": 0.95,
+   "min": 0.95,
    "p10": 1.06,
    "median": 1.18,
    "p90": 1.3,
    "max": 1.48,
-   "mean": 1.18,
+   "mean": 1.17,
    "percentile": 0.0,
    "score": 100.0
   },
   "PCR": {
    "days": 251,
-   "current": 4.35,
-   "min": 4.35,
-   "p10": 4.72,
-   "median": 5.29,
-   "p90": 5.86,
+   "current": 4.17,
+   "min": 4.17,
+   "p10": 4.63,
+   "median": 5.26,
+   "p90": 5.85,
    "max": 6.4,
-   "mean": 5.27,
+   "mean": 5.24,
    "percentile": 0.0,
    "score": 100.0
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 5.04,
-   "min": 5.03,
-   "p10": 5.13,
+   "current": 4.93,
+   "min": 4.93,
+   "p10": 5.1,
    "median": 5.41,
    "p90": 5.85,
    "max": 6.12,
-   "mean": 5.44,
-   "percentile": 0.4,
-   "score": 99.6
+   "mean": 5.43,
+   "percentile": 0.0,
+   "score": 100.0
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 4.61,
-  "per_p75": 5.86,
+  "per_p75": 5.87,
   "low": 10,
   "high": 20,
-  "asOf": "2026-10-05",
+  "asOf": "2026-10-09",
   "basis": "diluted"
  }
 }

@@ -1006,7 +1006,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">결제·금융 인프라 PER 비교 · 10/5 종가(V 막대는 10/9)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">결제·금융 인프라 PER 비교 · 10/9 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1125,7 +1125,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 90%; background: var(--green);"></div><div data-an-bar="hold" style="width: 7.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 2.5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
         <span class="op-val"><span data-an="mean">$423</span> <span class="op-sub op-up" data-an="upside">+9.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1330,61 +1330,61 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '결제·금융 인프라 PER 비교 · 10/5 종가(V 막대는 10/9)',
+    title: '결제·금융 인프라 PER 비교 · 10/9 종가',
     unit: 'PER', max: 40, vValue: null,
     peers: [
-      { name:'MA', value:31.1, status:'reference' },
-      { name:'PYPL', value:10.3, status:'reference' },
-      { name:'FISV', value:8.9, status:'reference' },
-      { name:'SPGI', value:23.8, status:'reference' },
-      { name:'MCO', value:28.4, status:'reference' },
-      { name:'CME', value:22.9, status:'reference' }
+      { name:'MA', value:32.4, status:'reference' },
+      { name:'PYPL', value:10.5, status:'reference' },
+      { name:'FISV', value:8.8, status:'reference' },
+      { name:'SPGI', value:24.8, status:'reference' },
+      { name:'MCO', value:29.5, status:'reference' },
+      { name:'CME', value:23.8, status:'reference' }
     ]
   },
   pbr: {
-    title: '결제·금융 인프라 PBR 비교 · 10/5 종가(V 막대는 10/9)',
-    unit: 'PBR', max: 105, vValue: null,
+    title: '결제·금융 인프라 PBR 비교 · 10/9 종가',
+    unit: 'PBR', max: 110, vValue: null,
     peers: [
-      { name:'MA', value:88.2, status:'reference' },
+      { name:'MA', value:92.0, status:'reference' },
       { name:'PYPL', value:2.4, status:'reference' },
       { name:'FISV', value:0.9, status:'reference' },
-      { name:'SPGI', value:3.7, status:'reference' },
-      { name:'MCO', value:25.7, status:'reference' },
-      { name:'CME', value:3.7, status:'reference' }
+      { name:'SPGI', value:3.8, status:'reference' },
+      { name:'MCO', value:26.6, status:'reference' },
+      { name:'CME', value:3.8, status:'reference' }
     ]
   },
   psr: {
-    title: '결제·금융 인프라 PSR 비교 · 10/5 종가(V 막대는 10/9)',
+    title: '결제·금융 인프라 PSR 비교 · 10/9 종가',
     unit: 'PSR(TTM)', max: 20, vValue: null,
     peers: [
-      { name:'MA', value:14.1, status:'reference' },
+      { name:'MA', value:14.7, status:'reference' },
       { name:'PYPL', value:1.4, status:'reference' },
       { name:'FISV', value:1.2, status:'reference' },
-      { name:'SPGI', value:7.2, status:'reference' },
-      { name:'MCO', value:9.5, status:'reference' },
-      { name:'CME', value:14.3, status:'reference' }
+      { name:'SPGI', value:7.5, status:'reference' },
+      { name:'MCO', value:9.8, status:'reference' },
+      { name:'CME', value:14.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '결제·금융 인프라 PCR(FCF) 비교 · 10/5 종가(V 막대는 10/9)',
+    title: '결제·금융 인프라 PCR(FCF) 비교 · 10/9 종가',
     unit: 'PCR(FCF)', max: 40, vValue: null,
     peers: [
-      { name:'MA', value:29.6, status:'reference' },
-      { name:'PYPL', value:7.1, status:'reference' },
+      { name:'MA', value:30.9, status:'reference' },
+      { name:'PYPL', value:7.2, status:'reference' },
       { name:'FISV', value:6.2, status:'reference' },
-      { name:'SPGI', value:20.7, status:'reference' },
-      { name:'MCO', value:26.2, status:'reference' },
-      { name:'CME', value:23.1, status:'reference' }
+      { name:'SPGI', value:21.6, status:'reference' },
+      { name:'MCO', value:27.1, status:'reference' },
+      { name:'CME', value:23.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: '결제·금융 인프라 EV/EBITDA 비교 (SPGI 값 없음·CME 값 없음) · 10/5 종가(V 막대는 10/9)',
+    title: '결제·금융 인프라 EV/EBITDA 비교 (SPGI 값 없음·CME 값 없음) · 10/9 종가',
     unit: 'EV/EBITDA', max: 30, vValue: null,
     peers: [
-      { name:'MA', value:23.5, status:'reference' },
-      { name:'PYPL', value:6.8, status:'reference' },
-      { name:'FISV', value:7.3, status:'reference' },
-      { name:'MCO', value:20.2, status:'reference' }
+      { name:'MA', value:24.5, status:'reference' },
+      { name:'PYPL', value:6.9, status:'reference' },
+      { name:'FISV', value:7.2, status:'reference' },
+      { name:'MCO', value:20.9, status:'reference' }
     ]
   }
 };
@@ -1824,7 +1824,7 @@ const V_FUNDAMENTAL = {"ticker": "V", "basis": "quarter", "asOf": "2026-06-30", 
 //
 // 갱신: python3 v2/build_peer_score.py V --self v2/V_multiples.json --card
 /* VALUATION:BEGIN */
-const V_VALUATION = {"peer": {"score": 4.1, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-05", "2026-10-05"], "priceSession": null, "metrics": [{"metric": "per", "score": 0.0, "rank": 15, "peers": 14}, {"metric": "pbr", "score": 13.3, "rank": 14, "peers": 15}, {"metric": "psr", "score": 0.0, "rank": 17, "peers": 16}, {"metric": "pcr", "score": 0.0, "rank": 16, "peers": 15}, {"metric": "evebitda", "score": 7.1, "rank": 14, "peers": 14}]}, "self": {"score": 21.6, "window": ["2021-10-11", "2026-10-09"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 31.1, "percentile": 68.9, "current": 32.8, "min": 26.2, "median": 31.57, "max": 47.15, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.1, "percentile": 99.9, "current": 20.6, "min": 10.58, "median": 13.74, "max": 20.6, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 44.8, "percentile": 55.2, "current": 16.29, "min": 13.37, "median": 16.11, "max": 22.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 4.2, "percentile": 95.8, "current": 34.49, "min": 23.38, "median": 29.18, "max": 40.08, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 27.7, "percentile": 72.3, "current": 25.96, "min": 20.27, "median": 24.52, "max": 33.07, "days": 1255, "currentNote": null}]}};
+const V_VALUATION = {"peer": {"score": 4.1, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 0.0, "rank": 15, "peers": 14}, {"metric": "pbr", "score": 13.3, "rank": 14, "peers": 15}, {"metric": "psr", "score": 0.0, "rank": 17, "peers": 16}, {"metric": "pcr", "score": 0.0, "rank": 16, "peers": 15}, {"metric": "evebitda", "score": 7.1, "rank": 14, "peers": 14}]}, "self": {"score": 21.6, "window": ["2021-10-11", "2026-10-09"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 31.1, "percentile": 68.9, "current": 32.8, "min": 26.2, "median": 31.57, "max": 47.15, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.1, "percentile": 99.9, "current": 20.6, "min": 10.58, "median": 13.74, "max": 20.6, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 44.8, "percentile": 55.2, "current": 16.29, "min": 13.37, "median": 16.11, "max": 22.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 4.2, "percentile": 95.8, "current": 34.49, "min": 23.38, "median": 29.18, "max": 40.08, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 27.7, "percentile": 72.3, "current": 25.96, "min": 20.27, "median": 24.52, "max": 33.07, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2110,7 +2110,7 @@ const V_ACTIVITY = {"ticker": "V", "status": "N/A", "reason": "결제망이라 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/v/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const V_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 40, nTargets: 26, mean: 423, median: 425,
+const V_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 40, nTargets: 26, mean: 423, median: 425,
   low: 350, high: 466, strongBuy: 27, buy: 9, hold: 3, sell: 1, strongSell: 0 };
 (function(){
   const A = V_ANALYST, last = (typeof V_DAILY !== 'undefined' && V_DAILY.length) ? V_DAILY[V_DAILY.length - 1] : null;

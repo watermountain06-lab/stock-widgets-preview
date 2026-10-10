@@ -98,5 +98,5 @@ BULL = [('암 진단', 'Cologuard 2분기 10%대 중반 성장, 미국암학회 
 BEAR = [('성장 둔화', '비교 기준 성장 4.8%, 영양 −3%, 1분기 가이던스 하향.'),
         ('부채', '차입금 $32.6B(연초 $12.9B), 이자비용 분기 $351M.'),
         ('소송', '미숙아 분유(NEC) 소송 일부만 합의.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 27, 'nt': 20, 'mean': 121.85, 'median': 121, 'low': 92, 'high': 143, 'sb': 19, 'b': 4, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-06'
+ANALYST = {'rating': 'Strong Buy', 'n': 28, 'nt': 20, 'mean': 120.7, 'median': 120, 'low': 92, 'high': 135, 'sb': 19, 'b': 5, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-10'

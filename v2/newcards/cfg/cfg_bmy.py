@@ -92,5 +92,5 @@ BEAR = [('특허 만료', 'Revlimid −49%, 기존 제품군 −4%.'),
         ('부채', '차입금 $43.1B, 자기자본 $22.3B.'),
         ('의견', '애널리스트 대부분 보유(Hold) 의견.')]
 MISS_WHY = {('GILD', 'per'): ' 적자', ('GILD', 'evebitda'): ' 적자'}   # C9 뒤 동종 파일 PER은 perNA로 옮겨졌다 — 카드 표기 그대로
-ANALYST = {'rating': 'Hold', 'n': 28, 'nt': 19, 'mean': 66.79, 'median': 65, 'low': 40, 'high': 82, 'sb': 6, 'b': 3, 'h': 18, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-06'
+ANALYST = {'rating': 'Hold', 'n': 28, 'nt': 19, 'mean': 66.26, 'median': 65, 'low': 41, 'high': 82, 'sb': 6, 'b': 4, 'h': 17, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-10'

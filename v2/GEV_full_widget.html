@@ -1007,7 +1007,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">전력·전기장비 PER 비교 (공시 EPS — GEV는 본업 기준이라 점수에서 뺌) · 10/5 종가(GEV 막대는 10/9)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">전력·전기장비 PER 비교 (공시 EPS — GEV는 본업 기준이라 점수에서 뺌) · 10/9 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1126,8 +1126,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 81.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 18.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-06</span></span>
-        <span class="op-val"><span data-an="mean">$1241.45</span> <span class="op-sub op-up" data-an="upside">+23.6%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-val"><span data-an="mean">$1233.27</span> <span class="op-sub op-up" data-an="upside">+22.7%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1331,62 +1331,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '전력·전기장비 PER 비교 (공시 EPS — GEV는 본업 기준이라 점수에서 뺌) · 10/5 종가(GEV 막대는 10/9)',
+    title: '전력·전기장비 PER 비교 (공시 EPS — GEV는 본업 기준이라 점수에서 뺌) · 10/9 종가',
     unit: 'PER', max: 95, gevValue: null,
     peers: [
-      { name:'GE', value:36.1, status:'reference' },
-      { name:'ETN', value:44.0, status:'reference' },
-      { name:'PWR', value:78.3, status:'reference' },
-      { name:'VRT', value:57.4, status:'reference' },
-      { name:'HUBB', value:28.7, status:'reference' },
-      { name:'EMR', value:35.5, status:'reference' }
+      { name:'GE', value:36.3, status:'reference' },
+      { name:'ETN', value:43.8, status:'reference' },
+      { name:'PWR', value:80.9, status:'reference' },
+      { name:'VRT', value:54.9, status:'reference' },
+      { name:'HUBB', value:28.3, status:'reference' },
+      { name:'EMR', value:35.4, status:'reference' }
     ]
   },
   pbr: {
-    title: '전력·전기장비 PBR 비교 · 10/5 종가(GEV 막대는 10/9)',
+    title: '전력·전기장비 PBR 비교 · 10/9 종가',
     unit: 'PBR', max: 30, gevValue: null,
     peers: [
-      { name:'GE', value:18.0, status:'reference' },
-      { name:'ETN', value:8.3, status:'reference' },
-      { name:'PWR', value:10.7, status:'reference' },
-      { name:'VRT', value:20.5, status:'reference' },
-      { name:'HUBB', value:6.5, status:'reference' },
+      { name:'GE', value:18.1, status:'reference' },
+      { name:'ETN', value:8.2, status:'reference' },
+      { name:'PWR', value:11.0, status:'reference' },
+      { name:'VRT', value:19.6, status:'reference' },
+      { name:'HUBB', value:6.4, status:'reference' },
       { name:'EMR', value:4.4, status:'reference' }
     ]
   },
   psr: {
-    title: '전력·전기장비 PSR 비교 · 10/5 종가(GEV 막대는 10/9)',
+    title: '전력·전기장비 PSR 비교 · 10/9 종가',
     unit: 'PSR(TTM)', max: 10, gevValue: null,
     peers: [
       { name:'GE', value:6.3, status:'reference' },
       { name:'ETN', value:5.6, status:'reference' },
-      { name:'PWR', value:3.1, status:'reference' },
-      { name:'VRT', value:8.5, status:'reference' },
-      { name:'HUBB', value:4.1, status:'reference' },
-      { name:'EMR', value:4.9, status:'reference' }
+      { name:'PWR', value:3.2, status:'reference' },
+      { name:'VRT', value:8.1, status:'reference' },
+      { name:'HUBB', value:4.0, status:'reference' },
+      { name:'EMR', value:4.8, status:'reference' }
     ]
   },
   pcr: {
-    title: '전력·전기장비 PCR(FCF) 비교 · 10/5 종가(GEV 막대는 10/9)',
-    unit: 'PCR(FCF)', max: 50, gevValue: null,
+    title: '전력·전기장비 PCR(FCF) 비교 · 10/9 종가',
+    unit: 'PCR(FCF)', max: 55, gevValue: null,
     peers: [
-      { name:'GE', value:38.0, status:'reference' },
-      { name:'ETN', value:42.7, status:'reference' },
-      { name:'PWR', value:43.0, status:'reference' },
-      { name:'VRT', value:33.3, status:'reference' },
-      { name:'HUBB', value:28.2, status:'reference' },
+      { name:'GE', value:38.2, status:'reference' },
+      { name:'ETN', value:42.4, status:'reference' },
+      { name:'PWR', value:44.4, status:'reference' },
+      { name:'VRT', value:31.9, status:'reference' },
+      { name:'HUBB', value:27.8, status:'reference' },
       { name:'EMR', value:26.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '전력·전기장비 EV/EBITDA 비교 (EMR 값 없음) · 10/5 종가(GEV 막대는 10/9)',
+    title: '전력·전기장비 EV/EBITDA 비교 (EMR 값 없음) · 10/9 종가',
     unit: 'EV/EBITDA', max: 100, gevValue: null,
     peers: [
-      { name:'GE', value:32.1, status:'reference' },
-      { name:'ETN', value:29.0, status:'reference' },
-      { name:'PWR', value:35.5, status:'reference' },
-      { name:'VRT', value:38.2, status:'reference' },
-      { name:'HUBB', value:20.5, status:'reference' }
+      { name:'GE', value:32.3, status:'reference' },
+      { name:'ETN', value:28.9, status:'reference' },
+      { name:'PWR', value:36.6, status:'reference' },
+      { name:'VRT', value:36.6, status:'reference' },
+      { name:'HUBB', value:20.2, status:'reference' }
     ]
   }
 };
@@ -1834,7 +1834,7 @@ const GEV_FUNDAMENTAL = {"ticker": "GEV", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py GEV --self v2/GEV_multiples.json --card
 /* VALUATION:BEGIN */
-const GEV_VALUATION = {"peer": {"score": 19.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-05", "2026-10-05"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 4.1, "rank": 72, "peers": 74}, {"metric": "psr", "score": 12.8, "rank": 69, "peers": 78}, {"metric": "pcr", "score": 58.9, "rank": 31, "peers": 73}, {"metric": "evebitda", "score": 1.5, "rank": 67, "peers": 67}]}, "self": {"score": 45.0, "window": ["2024-03-27", "2026-10-09"], "perBasis": "core", "metrics": [{"metric": "per", "score": 67.5, "percentile": 32.5, "current": 220.51, "min": 136.37, "median": 249.89, "max": 360.45, "days": 421, "currentNote": null}, {"metric": "pbr", "score": 3.9, "percentile": 96.1, "current": 22.38, "min": 3.99, "median": 17.47, "max": 24.18, "days": 614, "currentNote": null}, {"metric": "psr", "score": 18.8, "percentile": 81.2, "current": 6.47, "min": 2.13, "median": 4.77, "max": 8.02, "days": 421, "currentNote": null}, {"metric": "pcr", "score": 89.3, "percentile": 10.7, "current": 21.51, "min": 18.73, "median": 52.92, "max": 79.32, "days": 421, "currentNote": null}, {"metric": "evebitda", "score": 45.6, "percentile": 54.4, "current": 86.38, "min": 41.4, "median": 83.21, "max": 123.46, "days": 421, "currentNote": null}]}};
+const GEV_VALUATION = {"peer": {"score": 19.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 4.1, "rank": 72, "peers": 74}, {"metric": "psr", "score": 12.8, "rank": 69, "peers": 78}, {"metric": "pcr", "score": 58.9, "rank": 31, "peers": 73}, {"metric": "evebitda", "score": 1.5, "rank": 67, "peers": 67}]}, "self": {"score": 45.0, "window": ["2024-03-27", "2026-10-09"], "perBasis": "core", "metrics": [{"metric": "per", "score": 67.5, "percentile": 32.5, "current": 220.51, "min": 136.37, "median": 249.89, "max": 360.45, "days": 421, "currentNote": null}, {"metric": "pbr", "score": 3.9, "percentile": 96.1, "current": 22.38, "min": 3.99, "median": 17.47, "max": 24.18, "days": 614, "currentNote": null}, {"metric": "psr", "score": 18.8, "percentile": 81.2, "current": 6.47, "min": 2.13, "median": 4.77, "max": 8.02, "days": 421, "currentNote": null}, {"metric": "pcr", "score": 89.3, "percentile": 10.7, "current": 21.51, "min": 18.73, "median": 52.92, "max": 79.32, "days": 421, "currentNote": null}, {"metric": "evebitda", "score": 45.6, "percentile": 54.4, "current": 86.38, "min": 41.4, "median": 83.21, "max": 123.46, "days": 421, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2121,7 +2121,7 @@ const GEV_ACTIVITY = {"ticker": "GEV", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/gev/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GEV_ANALYST = { asOf: '2026-10-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 37, nTargets: 22, mean: 1241.45, median: 1298,
+const GEV_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 37, nTargets: 22, mean: 1233.27, median: 1268,
   low: 470, high: 1450, strongBuy: 24, buy: 6, hold: 7, sell: 0, strongSell: 0 };
 (function(){
   const A = GEV_ANALYST, last = (typeof GEV_DAILY !== 'undefined' && GEV_DAILY.length) ? GEV_DAILY[GEV_DAILY.length - 1] : null;
