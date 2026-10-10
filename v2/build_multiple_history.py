@@ -547,6 +547,9 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # WELL: RevenueFromContractWithCustomerExcludingAssessedTax는 시니어 주택 운영 매출만(Q2 2026 $2,985M)이고 임대 수익·이자
                 # 수익을 뺀 값이다 — 손익계산서 총매출 Revenues($3,545M)만 쓴다(2026-10-02).
                 "0000766704": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # CPT: 손익계산서 총매출(Revenues)을 표준 태그로 내지 않고, 계약 매출 태그는 2019년부터 임대료를 뺀 분기 $3~13M뿐이다 —
+                # 매출로 쓰면 PSR이 수천 배가 된다. 규칙(F2)으로 고칠 수 없어 매출 결측으로 둔다(input_fix_prereg F2 (d), 2026-10-10).
+                "0000906345": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 "0000753308": ("RevenueFromContractWithCustomerIncludingAssessedTax",)}
 
 
@@ -557,6 +560,39 @@ PREFER_TAGS = {"0000078003": ("Revenues",),
                # COP: 손익계산서 "Sales and other operating revenues"는 Revenues(Q2 2026 $19,161M)이고 RevenueFromContract…는 그중 고객 계약분
                # ($18,088M, 파생 계약 매출 제외)이다(10-Q 매출 주석, 2026-10-02).
                "0001163165": ("Revenues",)}
+
+
+REV_TOTAL, REV_CONTRACT = "Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax"
+
+
+def _prefer_total_revenue(merged, total_rows, contract_rows):
+    """F2 (a)(input_fix_prereg, 2026-10-10): 계약 매출은 정의상 총매출의 일부다. 같은 시작일(회계연도·분기)에 두 태그가 함께 있는
+    기간 가운데 가장 긴 기간에서 `Revenues` > 1.02 × 계약 매출이면, 그 시작일의 겹치는 기간 전부에서 계약 매출 행을 뺀다(총매출을 쓴다).
+    리츠(UDR·AMT·SBAC…)는 계약 매출이 임대료를 빼 총매출의 수 %였고, GD 2017은 연간만 계약 매출이 작아 4분기가 음수가 됐다 —
+    기간마다 따로 판정하면 9개월 누계가 계약 매출로 남아 4분기가 여전히 틀린다(Fable). `Revenues`가 2% 안에서 같거나 작으면
+    (BLK·GIS처럼 `Revenues`에 일부만 실은 회사) 지금 규칙(먼저 공시된 행) 그대로다. 각 값은 그 기간에 처음 공시된 행으로 비교한다."""
+    def first(rows):
+        b = {}
+        for r in rows:
+            if "start" not in r:
+                continue
+            k = (r["start"], r["end"])
+            if k not in b or r.get("filed", "") < b[k].get("filed", ""):
+                b[k] = r
+        return {k: r["val"] for k, r in b.items()}
+    tot, con = first(total_rows), first(contract_rows)
+    by_start = {}
+    for k in tot.keys() & con.keys():
+        by_start.setdefault(k[0], []).append(k)
+    drop = set()
+    for ks in by_start.values():
+        k = max(ks, key=lambda x: x[1])                # 같은 시작일에서 가장 긴(가장 늦게 끝나는) 기간
+        if tot[k] > 1.02 * con[k]:
+            # 묶음 안에서도 두 값이 2% 안에서 같은 기간은 남긴다 — 같은 값인데 `Revenues` 행의 늦은 공시일이 가용일이 되지 않게(PFE 2022·IRM 2019, Fable)
+            drop.update(x for x in ks if abs(tot[x] - con[x]) > 0.02 * max(abs(tot[x]), 1.0))
+    if not drop:
+        return merged
+    return [r for r in merged if not (r.get("_tag") == REV_CONTRACT and (r.get("start"), r.get("end")) in drop)]
 
 
 def pick_tag(cik, names, taxonomy="us-gaap"):
@@ -578,6 +614,8 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
     # 같은 기간·같은 공시일이면 앞 태그가 이긴다 — 종목별로 앞세울 태그(PREFER_TAGS)를 맨 앞으로.
     names = [n for n in PREFER_TAGS.get(cik, ()) if n in names] + [n for n in names if n not in PREFER_TAGS.get(cik, ())]
     merged, used = [], []
+    rev_family = REV_TOTAL in names or REV_CONTRACT in names
+    per_tag = {}
     for name in names:
         rows = concept(cik, name, taxonomy)
         if rows and name == "NetCashProvidedByUsedInOperatingActivities":
@@ -590,7 +628,12 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
                         if (r.get("start"), r["end"], r.get("accn")) in disc else r for r in rows]
         if rows:
             used.append(f"{name}({len(rows)})")
+            if rev_family:   # 매출 행에는 태그를 적어 둔다(F2 — 사본이라 concept 캐시를 건드리지 않는다)
+                rows = [dict(r, _tag=name) for r in rows]
+                per_tag[name] = rows
             merged.extend(rows)
+    if rev_family and REV_TOTAL in per_tag and REV_CONTRACT in per_tag:
+        merged = _prefer_total_revenue(merged, per_tag[REV_TOTAL], per_tag[REV_CONTRACT])
     # 합성 대상 회사는 영업이익 태그가 옛날에만 있어도(JNJ는 2015년까지) 합성값만 쓴다
     if "OperatingIncomeLoss" in names and cik in DERIVED_OPINC and taxonomy == "us-gaap":
         merged = _derived_opinc(cik, taxonomy)
@@ -617,10 +660,24 @@ def quarterly_flow(entries, ticker):
     # 다만 4분기에 처음 생긴 항목(예: 4분기 인수)은 분기 = 연간이 정상이라, 같은 회계연도 9개월 누계가 0보다 클 때만
     # 모순(앞 세 분기 합이 0이 아님)으로 보고 버린다(Codex 2026-10-01).
     _ann = {e["end"]: e for e in rows if feh.days_between(e) > 350}
+    _ann_tag = {}
+    for e in entries:   # 매출(태그가 적힌 행)은 태그별 연간 값 — 같은 종료일의 처음 공시
+        if e.get("_tag") and "start" in e and "filed" in e and feh.days_between(e) > 350:
+            k = (e["end"], e["_tag"])
+            if k not in _ann_tag or e["filed"] < _ann_tag[k]["filed"]:
+                _ann_tag[k] = e
     def _bad_q(e):
-        a = _ann.get(e["end"])
-        if not a or a["val"] != e["val"]:
-            return False
+        # F2 (b)(2026-10-10): 매출(태그가 적힌 행)은 **같은 태그**의 연간 값과 2% 안이면 같은 값으로 본다 — ORCL FY2018은 재작성 연간
+        # $39,383M을 3개월 기간으로 실었는데 처음 연간 값은 $39,831M이라 똑같지 않아 안 걸렸다. 다른 태그의 같은 값은 버리지 않는다(Codex).
+        # 다른 항목은 지금처럼 같은 종료일 연간 값과 똑같을 때만.
+        if e.get("_tag"):
+            a = _ann_tag.get((e["end"], e["_tag"]))
+            if not a or not (a["val"] and abs(a["val"] - e["val"]) <= 0.02 * abs(a["val"])):
+                return False
+        else:
+            a = _ann.get(e["end"])
+            if not a or a["val"] != e["val"]:
+                return False
         return any(r["start"] == a["start"] and r["val"] > 0 and 250 <= feh.days_between(r) <= 290 for r in rows)
     q = {e["end"]: e for e in rows if 80 <= feh.days_between(e) <= 100 and not _bad_q(e)}
 
