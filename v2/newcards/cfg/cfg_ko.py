@@ -115,3 +115,42 @@ one("vs 2026.04.03(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설�
 one("(전년 $100.5B) · 연간 지표</span>", "(전년 $100.5B) · 연간 지표, 2026년 마감 전까지 동일</span>")
 one("분기 매입채무를 따로 공시하지 않아 외상으로 버티는 기간과","분기 매입채무를 따로 공시하지 않아(재무상태표는 매입채무·미지급비용 한 줄) 외상으로 버티는 기간과")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "ko:RevenueForReportableSegments"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "ko:NorthAmericaSegmentMember": [
+   "북미",
+   "#f40009"
+  ],
+  "ko:EuropeMiddleEastAfricaMember": [
+   "유럽·중동·아프리카",
+   "#3498db"
+  ],
+  "ko:LatinAmericaSegmentMember": [
+   "중남미",
+   "#f7b600"
+  ],
+  "ko:BottlingInvestmentsMember": [
+   "병입 투자",
+   "#9b59b6"
+  ],
+  "ko:A.PacificMember": [
+   "아시아태평양",
+   "#2ecc71"
+  ]
+ },
+ "ignore": []
+}
+POST = [r'''
+one("분기 매입채무를 따로 공시하지 않아 외상으로 버티는 기간과","분기 매입채무를 따로 공시하지 않아(재무상태표는 매입채무·미지급비용 한 줄) 외상으로 버티는 기간과")
+''']   # 손 문구 블록 정리: 구조 표시만 남기고 분기 문장·날짜 박힌 치환은 뺐다

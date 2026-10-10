@@ -115,3 +115,44 @@ sub(r'(<div class="diag-row" data-fund-metric="interestCoverage">\n\s*<div class
 one('            <span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n', '')
 sub(r'(<div class="card-title">자본배분 · 주주환원 [^<]*</div>\n      <div class="zone-list">.*?\n      </div>\n)', lambda m_: m_.group(1) + '      <div class="yoy-footnote" style="margin-top:14px;">' + F(C.CAPITAL_FOOT) + '</div>\n')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "aapl:IPhoneMember": [
+   "iPhone",
+   "#c4c8ca"
+  ],
+  "us-gaap:ServiceMember": [
+   "Services",
+   "#3498db"
+  ],
+  "aapl:MacMember": [
+   "Mac",
+   "#a6acaf"
+  ],
+  "aapl:WearablesHomeandAccessoriesMember": [
+   "Wearables·Home·Acc.",
+   "#767f83"
+  ],
+  "aapl:IPadMember": [
+   "iPad",
+   "#5c6282"
+  ]
+ },
+ "ignore": [
+  "us-gaap:ProductMember"
+ ]
+}
+POST = [r'''
+# 이자보상배율 줄 메모(이자비용 미공시 — 회사 사정, 분기와 무관)
+sub(r'(<div class="diag-row" data-fund-metric="interestCoverage">\n\s*<div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">[^<]*</span>)(</div>)',
+    lambda m_: m_.group(1) + '<span class="diag-note">이자비용을 따로 공시하지 않아 계산할 수 없다 · 점수는 결측 규칙대로 0점</span>' + m_.group(2))
+''']   # 손 문구 블록 정리: 구조 표시만 남기고 분기 문장·날짜 박힌 치환은 뺐다

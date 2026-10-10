@@ -94,9 +94,19 @@ def ytd(cik, tags, end, fy_start):
     return None, None
 
 
-def dps_quarter(cik, end, prev_end, fy_start, is_q4):
-    """그 분기에 선언한 주당 배당. 10-K 4분기는 연간 − 9개월 누계(주당 배당은 합이라 뺄셈이 맞다)."""
-    rows = _flow_rows(cik, "CommonStockDividendsPerShareDeclared", "USD/shares")
+DPS_TAGS = (("CommonStockDividendsPerShareDeclared", "선언 기준"), ("CommonStockDividendsPerShareCashPaid", "지급 기준"))   # KO는 2018년부터 지급 기준만
+
+
+def dps_quarter(cik, end, prev_end, fy_start, is_q4, tag=None):
+    """그 분기의 주당 배당(선언 기준, 없으면 지급 기준). 10-K 4분기는 연간 − 9개월 누계(주당 배당은 합이라 뺄셈이 맞다).
+    tag를 주지 않으면 값이 있는 첫 태그를 쓰고 (값, 태그)를 돌려준다."""
+    if tag is None:
+        for tg, _ in DPS_TAGS:
+            v = dps_quarter(cik, end, prev_end, fy_start, is_q4, tg)
+            if v is not None:
+                return v, tg
+        return None, None
+    rows = _flow_rows(cik, tag, "USD/shares")
     q = [r for r in rows if r.get("end") == end and r.get("start") and 70 <= (d(end) - d(r["start"])).days <= 125]
     if q:
         return sorted(q, key=lambda r: r["filed"])[0]["val"]
@@ -134,6 +144,14 @@ def apply(C, T):
     else:
         yo_v = sx.quarter_values(M, "10-Q", C.TENQ, C.YO)
     C.SEG, C.SEG_ADJ = sx.table(M, cur_v)
+    # 부문 합과 매출의 차이(본사·상계 등)는 남은 값으로 넣되, 매출의 3%를 넘으면 지도가 틀린 것으로 보고 멈춘다(2026-10-10)
+    _, _rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
+    _rev = {e["end"]: e["val"] for e in bmh.quarterly_flow(_rows, T)}
+    if C.CUR in _rev:
+        resid = _rev[C.CUR] / 1e6 - sum(v for _, v, _ in C.SEG) - C.SEG_ADJ
+        if abs(resid) > 0.03 * _rev[C.CUR] / 1e6:
+            raise SystemExit(f"{T}: 부문 합이 매출과 {resid:,.0f}백만 달러 다르다 — SEG_MAP 확인")
+        C.SEG_ADJ = round(C.SEG_ADJ + resid)
     yo_tab = {n: v for n, v, _ in sx.table(M, yo_v)[0]} if yo_v else {}
     C._AUTO["seg_yo"] = yo_tab
     C.RELEASE = {}   # 보도자료 숫자는 쓰지 않는다 — 부문 합 = 매출 대조(fill.py)가 원문과 요약 자료를 잇는다
@@ -153,14 +171,14 @@ def apply(C, T):
     bb, bbd = ytd(cik, ["PaymentsForRepurchaseOfCommonStock"], C.CUR, fy_start)
     dv, dvd = ytd(cik, ["PaymentsOfDividendsCommonStock", "PaymentsOfDividends"], C.CUR, fy_start)
     yo_q3 = ends[ends.index(C.YO) - 1]
-    dps = dps_quarter(cik, C.CUR, C.QO, fy_start, is_q4)
-    dps_yo = dps_quarter(cik, C.YO, yo_q3, d(C.FY_ENDS[1]) if not is_q4 else d(ends[0]), is_q4) if dps is not None else None
+    dps, dtag = dps_quarter(cik, C.CUR, C.QO, fy_start, is_q4)
+    dps_yo = dps_quarter(cik, C.YO, yo_q3, d(C.FY_ENDS[1]) if not is_q4 else d(ends[0]), is_q4, dtag) if dps is not None else None
     if dps is not None and is_q4:   # 4분기 1년 전: 전년 연간 − 전년 9개월(전년 회계연도 시작은 FY_ENDS 두 칸 앞)
         prev_fy = [x for x in fy_ends if d(x) < d(C.YO)]
-        dps_yo = dps_quarter(cik, C.YO, yo_q3, d(prev_fy[-1]) if prev_fy else fy_start, True)
+        dps_yo = dps_quarter(cik, C.YO, yo_q3, d(prev_fy[-1]) if prev_fy else fy_start, True, dtag)
     C.CAPITAL = [(f"자사주 매입 ({span(bbd)})" if bb is not None else "자사주 매입", B(bb) if bb is not None else "공시 없음"),
                  (f"배당 지급 ({span(dvd)})" if dv is not None else "배당 지급", B(dv) if dv is not None else "공시 없음"),
-                 ("분기 주당 배당 (선언 기준)",
+                 (f"분기 주당 배당 ({dict(DPS_TAGS).get(dtag, '선언 기준')})",
                   ("1년 전 " + usd(dps_yo) + (f" · {chg(dps, dps_yo)}" if chg(dps, dps_yo) else "")) if dps_yo else "1년 전 값 없음",
                   usd(dps) if dps is not None else "공시 없음")]
     C._AUTO.update({"bb": bb, "dv": dv, "dps": dps, "dps_yo": dps_yo})
