@@ -66,13 +66,15 @@ def fiscal(end, fy_ends):
     nxt = [d(x) for x in fy_ends if d(x) >= e]
     if nxt:
         fye = nxt[0]
+        start = past[-1] if past else fye - dt.timedelta(days=364)
     elif past:
+        # 새 회계연도의 10-K가 아직 없다 — 회계연도 말을 1년씩 밀되 시작점도 함께 민다(새 회계연도 1분기를 4분기로 세지 않게, Codex)
         fye = past[-1] + dt.timedelta(days=364)
         while fye < e - dt.timedelta(days=7):
             fye += dt.timedelta(days=364)
+        start = fye - dt.timedelta(days=364)
     else:
         return None, None
-    start = past[-1] if past else fye - dt.timedelta(days=364)
     n = round((e - start).days / 91.3)   # 분기는 12~17주 — 몇 번째 분기인지 날 수로(16주 4분기도 4)
     n = max(1, min(4, n))
     if abs((fye - e).days) <= 7:
@@ -80,19 +82,26 @@ def fiscal(end, fy_ends):
     return fye, n
 
 
+def fy_year(fye):
+    """회계연도의 기준 해 — 52·53주 회계연도는 말일이 12/31 또는 1/7처럼 해를 넘나든다. 1월 1~10일에 끝나면 전년으로 본다(Codex)."""
+    return fye.year - 1 if fye.month == 1 and fye.day <= 10 else fye.year   # 1월 말 결산(CRM·WMT)은 그 해 그대로
+
+
 def label(style, fye, n, off=0):
-    y = fye.year + off
+    y = fy_year(fye) + off
     return f"Q{n} FY{y % 100:02d}" if style == "fy" else f"Q{n} {y}"
 
 
 def name_offset(C, fy_ends):
     """회사의 회계연도 이름 규칙 — 끝난 해(대부분) 또는 시작한 해(HD: 2026-02-01에 끝난 해가 FY2025). 카드의 지금 이름표에서 읽는다."""
+    if hasattr(C, "FY_NAME_OFFSET"):   # 한 번 정해 cfg에 적어 두면 그 값을 쓴다 — 매번 이름표에서 다시 읽으면 한 번 틀린 이름이 굳는다(Codex)
+        return C.FY_NAME_OFFSET
     fye, n = fiscal(C.CUR, fy_ends)
     m = re.search(r"(\d{4}|FY(\d\d))", C.QLABEL)
     if not fye or not m:
         return 0
     y = int(m.group(2)) + 2000 if m.group(2) else int(m.group(1))
-    return y - fye.year
+    return y - fy_year(fye)
 
 
 def filing(cik, end, cap):
@@ -107,12 +116,29 @@ def filing(cik, end, cap):
 
 
 def resolve(T, cap=None, net=True):
+    orig = bmh._approved
+    try:
+        return _resolve(T, cap, net)
+    finally:
+        bmh._approved = orig   # 시험용 기준일이 같은 프로세스의 다른 계산으로 새지 않게(Codex)
+
+
+def _resolve(T, cap, net):
     C = cfg(T)
     cik = str(C.CIK).zfill(10)
     if cap:
-        bmh._approved = (lambda base: (lambda: {**base(), cik: cap}))(bmh._approved)
+        base = bmh._approved
+        bmh._approved = lambda: {**base(), cik: cap}
     cap = cap or bmh._approved().get(cik)
     ends, fy_ends = quarters(T, cik)
+    # 결산월을 바꾼 회사(전환기 보고서)는 분기 번호를 잘못 셀 수 있다 — 멈추고 사람에게 넘긴다(Codex)
+    for a_, b_ in zip(fy_ends, fy_ends[1:]):
+        if not 350 <= (d(b_) - d(a_)).days <= 380 and d(b_) > d(ends[-9]) - dt.timedelta(days=400):
+            raise SystemExit(f"{T}: 회계연도 말 간격이 1년이 아니다({a_} → {b_}) — 결산월 변경?")
+    # 최근 9분기가 끊김 없이 이어져야 한다(분기 하나가 빠지면 L8이 건너뛴다, Codex)
+    for a_, b_ in zip(ends[-9:], ends[-8:]):
+        if not 75 <= (d(b_) - d(a_)).days <= 130:
+            raise SystemExit(f"{T}: 분기 사이가 끊겼다({a_} → {b_})")
     if len(ends) < 9:
         raise SystemExit(f"{T}: 분기 값이 {len(ends)}개뿐이다")
     cur = ends[-1]
@@ -134,7 +160,7 @@ def resolve(T, cap=None, net=True):
     past_fye = [x for x in fy_ends if x <= cur]
     out["FY_ENDS"] = tuple(sorted(past_fye)[-2:][::-1]) if len(past_fye) >= 2 else None
     if past_fye:   # 카드가 쓰던 꼴을 따른다: 'FY2025' · 'FY25' · '2025년'
-        y, old = d(past_fye[-1]).year + name_offset(C, fy_ends), str(getattr(C, "FY_LABEL", "") or "")
+        y, old = fy_year(d(past_fye[-1])) + name_offset(C, fy_ends), str(getattr(C, "FY_LABEL", "") or "")
         out["FY_LABEL"] = (f"{y}년" if old.endswith("년") else f"FY{y % 100:02d}" if re.fullmatch(r"FY\d\d", old) else f"FY{y}")
     else:
         out["FY_LABEL"] = None
@@ -142,7 +168,7 @@ def resolve(T, cap=None, net=True):
         form, url = filing(cik, cur, cap)
         out["TENQ"] = url
         n = lab[cur][2]
-        y = lab[cur][1].year + off
+        y = fy_year(lab[cur][1]) + off
         long_ = "FY20" in str(getattr(C, "TENQ_NAME", ""))   # 카드가 쓰던 꼴: 'FY2026' 또는 'FY26'
         fy = f"FY{y}" if long_ or style != "fy" else f"FY{y % 100:02d}"
         qn = lab[cur][0].replace(f"FY{y % 100:02d}", f"FY{y}") if long_ else lab[cur][0]
