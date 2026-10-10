@@ -151,7 +151,7 @@ def first_session_after(accepted_utc):
     return day.isoformat()
 
 
-def auto_approve(status, session):
+def auto_approve(status, session, tickers):
     """자동 카드의 새 10-Q·10-K를 기준표(v2/sec_approved.json)에 스스로 올린다(2026-10-10 사용자 결정: 새 공시는 자동 반영).
     조건: 정정 아닌 10-Q·10-K, SEC 요약 자료(companyfacts)에 그 공시가 이미 실림, 접수 뒤 첫 종가가 오늘 세션까지 들어옴.
     요약 자료에 아직 없으면 '대기'로 두고 다음 실행에서 다시 본다. 반환: {T: (CIK, 예전 날짜, 새 날짜)} — 카드가 실패하면 되돌린다."""
@@ -171,6 +171,8 @@ def auto_approve(status, session):
         if not getattr(C, "AUTO", False):
             continue
         T, cik = f[4:-3].upper(), str(C.CIK).zfill(10)
+        if T not in tickers:   # 이번 실행에서 만드는 카드만 — 안 만드는 카드를 승인하면 곧바로 되돌리며 실패로 남았다(2026-10-10 시험)
+            continue
         old = table.get(cik)
         try:
             r = ac._submissions(cik)
@@ -416,7 +418,7 @@ def main():
     status = {"mode": "weekly" if weekly else "daily", "session": session, "full": not want, "problems": [], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "cards": {}}
     if weekly:
         weekly_pre(status)
-    moved = auto_approve(status, session)
+    moved = auto_approve(status, session, set(tickers))
     try:
         for T in tickers:
             status["cards"][T] = attempt(T, work)
