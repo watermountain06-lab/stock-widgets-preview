@@ -116,3 +116,27 @@ h = h.replace(_ar_old, 'FY2026 분기 보고서가 매출원가를 회사 고유
 one("가 필요해 지난 5년의 3배를 넘는다.`", "가 필요하다(지난 5년의 ${(d.requiredGrowth / d.growth5y).toFixed(1)}배).`")
 one("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요하다.`")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "lrcx:SystemMember": [
+   "시스템(신규 장비)",
+   "#0089ec"
+  ],
+  "lrcx:CustomerSupportandOtherMember": [
+   "고객지원·기타(서비스·부품·업그레이드)",
+   "#f7b600"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ["\n# 분기 비교 각주: 4분기는 10-K 연간에서 1~3분기를 뺀 값, FCF의 설비투자에 무형자산 포함(옛 카드)\nassert h.count(' · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ') == 2\nh = h.replace(' · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ', ' · GAAP 기준 · 4분기는 10-K 연간에서 1~3분기를 뺀 값 · FCF는 영업현금흐름 − 설비투자·무형자산 · ')", '# 역산 문장: 옛 카드는 일정 성장 배수를 소수 한 자리로(툴팁), 본문은 필요 성장률만\none("가 필요해 지난 5년의 3배를 넘는다.`", "가 필요하다(지난 5년의 ${(d.requiredGrowth / d.growth5y).toFixed(1)}배).`")\none("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요하다.`")']

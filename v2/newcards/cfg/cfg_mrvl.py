@@ -101,3 +101,27 @@ MISS_WHY = {('INTC', 'per'): ' 적자'}
 POST = [r'''
 one("if (label) { label.textContent = '밴드 적중률'; label.title = '백테스트 없음'; }", "if (label) { label.textContent = '밴드 적중률'; label.title = '해당 없음 — 직전 PER 표본 1년 미만'; }")   # C14 ① 사유(카드 직접 수정 5b46b49)
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "mrvl:DataCenterMember": [
+   "데이터센터",
+   "#5a2d82"
+  ],
+  "mrvl:CommunicationsAndOtherMember": [
+   "통신·기타",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['\none("if (label) { label.textContent = \'밴드 적중률\'; label.title = \'백테스트 없음\'; }", "if (label) { label.textContent = \'밴드 적중률\'; label.title = \'해당 없음 — 직전 PER 표본 1년 미만\'; }")   # C14 ① 사유(카드 직접 수정 5b46b49)']

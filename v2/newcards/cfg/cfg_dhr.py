@@ -107,3 +107,33 @@ ANALYST_ASOF = '2026-10-06'
 POST = [r'''
 h = re.sub(r'(selfHistory: [\d.]+,   // )[^\n]*', lambda m: m.group(1) + '자기 배수 분포 백분위 (Veralto 분사 뒤 2023-10-24 ~ ' + D[-1][0] + ')', h, count=1)   # D38 주석(18cf363)
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "dhr:DiagnosticsSegmentMember": [
+   "진단",
+   "#22c55e"
+  ],
+  "dhr:BiotechnologySegmentMember": [
+   "바이오테크놀로지",
+   "#0072c6"
+  ],
+  "dhr:LifeSciencesSegmentMember": [
+   "생명과학",
+   "#f59e0b"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ["\nh = re.sub(r'(selfHistory: [\\d.]+,   // )[^\\n]*', lambda m: m.group(1) + '자기 배수 분포 백분위 (Veralto 분사 뒤 2023-10-24 ~ ' + D[-1][0] + ')', h, count=1)   # D38 주석(18cf363)"]

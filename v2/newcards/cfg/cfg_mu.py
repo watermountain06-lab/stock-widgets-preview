@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-05-28', '2025-05-29', '2026-02-26'
 QLABEL, YL, QQL = 'Q3 FY26', 'Q3 FY25', 'Q2 FY26'
 L8 = ['Q4 FY24', 'Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26']
 RELEASE = {'rev': 41456, 'op': 33318, 'ni': 28243}   # Q3 FY26 보도자료(백만 달러)
-VOTES, VERDICT = (-1, 1, -2), '적정~고평가'
+VOTES, VERDICT = (0, 1, -1), '적정'
 CO = 'Micron'
 S_ = 'https://www.sec.gov/Archives/edgar/data/723125/'
 SEC = S_
@@ -118,3 +118,39 @@ one('<div class="reverse">—</div>', F('<div class="reverse">지금 가격(<spa
 # PER 차트 단위(옛 카드 PER(TTM))
 one("unit: 'PER', max:", "unit: 'PER(TTM)', max:")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "mu:CMBUMember": [
+   "클라우드 메모리",
+   "#0071c5"
+  ],
+  "mu:CDBUMember": [
+   "코어 데이터센터",
+   "#5aa9e6"
+  ],
+  "mu:MCBUMember": [
+   "모바일·클라이언트",
+   "#f0c040"
+  ],
+  "mu:AEBUMember": [
+   "자동차·임베디드",
+   "#2ecc71"
+  ]
+ },
+ "ignore": [
+  "us-gaap:AllOtherSegmentsMember"
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['\none("  const usd = v => \'$\' + (Number.isInteger(v) ? v : v.toFixed(2));", "  const usd = v => v == null ? \'—\' : \'$\' + (Number.isInteger(v) ? v.toLocaleString(\'en-US\') : v.toFixed(2));   // 중간값 없음·천 단위(카드 한정)")', "# 분기 비교 각주: FCF의 설비투자는 총액(비GAAP)\nassert h.count(' · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ') == 2\nh = h.replace(' · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ', ' · GAAP 기준 · FCF는 영업현금흐름 − 설비투자(총액, 비GAAP) · ')", '# 역산 문장: 성장 모드(reqMode growth)는 JS가 문장을 쓰지 않고 칸만 채운다 — 틀의 칸 있는 문장을 되살린다(fill.py가 \'—\'로 비움)\nif DCF[\'reqMode\'] == \'growth\':\n one(\'<div class="reverse">—</div>\', F(\'<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\\\'requiredGrowth\\\'])}</b>씩 커야 한다. \'\n    \'기본 시나리오(<span data-dcf-basev>${DCF[\\\'base\\\']:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF[\\\'baseEquivGrowth\\\'])}</span>다.</div>\'))', '# PER 차트 단위(옛 카드 PER(TTM))\none("unit: \'PER\', max:", "unit: \'PER(TTM)\', max:")']

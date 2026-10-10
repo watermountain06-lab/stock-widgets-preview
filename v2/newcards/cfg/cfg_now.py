@@ -94,3 +94,25 @@ BEAR = [('GAAP 이익', '2분기 GAAP 영업이익률 4%, 주식보상 매출의
         ('주가', '1년 새 크게 하락, 실적 다음 날 −17.7%·−9.9%.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 49, 'nt': 35, 'mean': 143.2, 'median': 140, 'low': 72, 'high': 248, 'sb': 35, 'b': 10, 'h': 2, 's': 1, 'ss': 1}
 ANALYST_ASOF = '2026-10-06'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "us-gaap:LicenseAndServiceMember": [
+   "구독",
+   "#62d84e"
+  ],
+  "us-gaap:TechnologyServiceMember": [
+   "전문 서비스·기타",
+   "#9ee68f"
+  ]
+ },
+ "ignore": []
+}

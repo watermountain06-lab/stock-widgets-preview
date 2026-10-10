@@ -143,13 +143,14 @@ def apply(C, T):
         yo_v = sx.quarter_values(M, "10-K", C.TENQ, C.YO, q3_url=q3, q3_end=yo_q3)
     else:
         yo_v = sx.quarter_values(M, "10-Q", C.TENQ, C.YO)
+    ref_adj = abs(getattr(C, "SEG_ADJ", 0) or 0)   # 사람이 확인해 둔 본사·상계 조정의 크기(cfg 원래 값) — 허용 범위의 기준
     C.SEG, C.SEG_ADJ = sx.table(M, cur_v)
     # 부문 합과 매출의 차이(본사·상계 등)는 남은 값으로 넣되, 매출의 3%를 넘으면 지도가 틀린 것으로 보고 멈춘다(2026-10-10)
     _, _rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
     _rev = {e["end"]: e["val"] for e in bmh.quarterly_flow(_rows, T)}
     if C.CUR in _rev:
         resid = _rev[C.CUR] / 1e6 - sum(v for _, v, _ in C.SEG) - C.SEG_ADJ
-        if abs(resid) > 0.03 * _rev[C.CUR] / 1e6:
+        if abs(resid) > max(0.03 * _rev[C.CUR] / 1e6, 1.5 * ref_adj):   # GLW 환헤지 −233·TMO 부문 간 거래 −566은 정상
             raise SystemExit(f"{T}: 부문 합이 매출과 {resid:,.0f}백만 달러 다르다 — SEG_MAP 확인")
         C.SEG_ADJ = round(C.SEG_ADJ + resid)
     yo_tab = {n: v for n, v, _ in sx.table(M, yo_v)[0]} if yo_v else {}
@@ -162,14 +163,22 @@ def apply(C, T):
     e_cur, e_yo = eps.get(C.CUR), eps.get(C.YO)
     if e_cur is None:
         raise SystemExit(f"{T}: {C.CUR} EPS가 이력 파일에 없다")
-    c = chg(e_cur, e_yo)
+    c = chg(e_cur, e_yo) if e_yo is not None else None
+    if c is None and e_yo and e_yo > 0 and e_cur > 0:   # EPS 칸은 ±50%를 넘어도 증감을 적는다(Fable — CRM·TXN만 빠졌다)
+        c = f"{(e_cur / e_yo - 1) * 100:+.0f}%".replace("-", "−")
+    core_note = " · 차트 순이익은 본업 기준" if T in json.load(open(os.path.join(V2, "core_earnings.json"))) else ""
     C.STAT3 = (f"희석 EPS ({C.QLABEL})", f"${e_cur:.2f}".replace("$-", "−$"),
-               "GAAP · " + (f"1년 전 ${e_yo:.2f} ({c})" if c else f"1년 전 ${e_yo:.2f}" if e_yo is not None else "1년 전 값 없음"))
+               "GAAP · " + (f"1년 전 ${e_yo:.2f} ({c})" if c else f"1년 전 ${e_yo:.2f}" if e_yo is not None else "1년 전 값 없음") + core_note)
 
     # 자본배분: 자사주 매입·배당 지급(올해 누계), 분기 주당 배당(선언 기준)
-    span = lambda td: f"연초~{d(C.CUR).month}/{d(C.CUR).day}, {round(td.days / 7)}주"
+    def span(td):   # 회계연도가 1월에 시작하지 않으면 "연초"가 아니라 회계연도 누계로(Fable — AAPL 9/28 시작)
+        st = d(C.CUR) - td
+        if st.month == 1 and st.day <= 7:
+            return f"연초~{d(C.CUR).month}/{d(C.CUR).day}, {round(td.days / 7)}주"
+        return f"회계연도 누계 {st.month}/{st.day}~{d(C.CUR).month}/{d(C.CUR).day}, {round(td.days / 7)}주"
     bb, bbd = ytd(cik, ["PaymentsForRepurchaseOfCommonStock"], C.CUR, fy_start)
     dv, dvd = ytd(cik, ["PaymentsOfDividendsCommonStock", "PaymentsOfDividends"], C.CUR, fy_start)
+    C._AUTO["dv_weeks"] = round(dvd.days / 7) if dvd else None
     yo_q3 = ends[ends.index(C.YO) - 1]
     dps, dtag = dps_quarter(cik, C.CUR, C.QO, fy_start, is_q4)
     dps_yo = dps_quarter(cik, C.YO, yo_q3, d(C.FY_ENDS[1]) if not is_q4 else d(ends[0]), is_q4, dtag) if dps is not None else None
@@ -182,6 +191,8 @@ def apply(C, T):
                   ("1년 전 " + usd(dps_yo) + (f" · {chg(dps, dps_yo)}" if chg(dps, dps_yo) else "")) if dps_yo else "1년 전 값 없음",
                   usd(dps) if dps is not None else "공시 없음")]
     C._AUTO.update({"bb": bb, "dv": dv, "dps": dps, "dps_yo": dps_yo})
+    gw = {r["end"]: r["val"] for r in sorted(_flow_rows(cik, "Goodwill"), key=lambda r: r["filed"])}
+    C._AUTO["acq"] = bool(gw.get(C.CUR) and gw.get(C.YO) and gw[C.CUR] > gw[C.YO] * 1.15)   # 영업권이 1년에 15% 넘게 늘면 인수가 매출 성장에 섞였다(ABT, Fable)
 
     # 실적 보도자료 링크와 다음 실적일(작년 같은 분기의 실적 8-K + 364일, "예상")
     sub = _submissions(cik)
@@ -218,7 +229,7 @@ def apply(C, T):
         C.CHECK_WHEN = f"{nl}"
     C._AUTO["next_label"] = nl
     C.FUND_ASOF_NOTE = f"{C.TENQ_NAME}"
-    lens = sorted({round(v / 7) for v in qlen.values() if 70 <= v <= 130})
+    lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})   # 차트에 보이는 8분기 안에서만(Fable)
     C.FCF_SUB = "영업현금흐름 − 설비투자" + (f" · 분기 길이가 {'·'.join(map(str, lens))}주로 다르다" if len(lens) > 1 else "")
     C.CAPEX_SUB = "설비투자(현금흐름표)"
 
@@ -239,7 +250,8 @@ def texts(C, ns):
     odd_yo = op[yo] <= 0 or (_r is not None and abs(_r) > 0.5 and opm_yo < m5)   # 1년 전 분기 이익률이 낮아 이익 증감률이 크게 나온다 — 증감률 대신 수준
     r_rev = chg(rev[cur], rev[yo]) if same_len else None
     r_op = None if (odd_yo or not same_len) else chg(op[cur], op[yo])   # 길이가 다른 분기는 이익도 견주지 않는다(Codex)
-    debt, cash = b.get("debt", 0), b.get("cash", 0) + b.get("sti", 0)
+    debt, cash = (b.get("debt") or 0), (b.get("cash") or 0) + (b.get("sti") or 0)
+    lease = (b.get("lease") or 0) or 0   # 카드 Net Cash 줄과 같은 정의(차입금 + 리스, Fable)
     ttm_k = sorted(k for k in rev if k <= cur)[-4:]
     op_ttm = sum(op[k] for k in ttm_k)
     fcf_ok = len(ttm_k) == 4 and all(k in fcf for k in ttm_k)   # 네 분기가 다 있어야 합을 쓴다 — 빠진 분기를 0으로 치지 않는다(Codex)
@@ -256,15 +268,18 @@ def texts(C, ns):
             + f". 주가는 1년 새 {ns['CH_TXT'].replace('-', '−')}")
     # 성장 흐름: 최근 세 분기의 1년 전 대비 매출 증가율(같은 길이 분기끼리) — 3년 평균과 견주면 환율·인수가 섞인 한 분기로 "가속"이 나왔다(Fable)
     ks_all = sorted(k for k in rev if k <= cur)
-    def yoy_at(k):
+    def yoy_at(k):   # 1년 전 분기와 길이가 다르면(6일 넘게) 흐름에서 뺀다(KO 1분기 +6일, Fable)
         j = [x for x in ks_all if 350 <= (d(k) - d(x)).days <= 380]
-        return (rev[k] / rev[j[-1]] - 1) * 100 if j and rev[j[-1]] > 0 else None
+        if not j or rev[j[-1]] <= 0 or abs(A["qlen"].get(k, 91) - A["qlen"].get(j[-1], 91)) > 5:
+            return None
+        return (rev[k] / rev[j[-1]] - 1) * 100
     trend = [yoy_at(k) for k in ks_all[-3:]]
     trend_ok = all(x is not None for x in trend)
-    gx = ("매출 성장 빨라짐" if trend_ok and trend[2] > trend[1] + 1 and trend[1] >= trend[0] - 0.5 else
+    gx = ("매출 성장(인수 포함)" if A.get("acq") else "매출 성장 빨라짐" if trend_ok and trend[2] > trend[1] + 1 and trend[1] >= trend[0] - 0.5 else
           "매출 성장 느려짐" if trend_ok and trend[2] < trend[1] - 1 and trend[1] <= trend[0] + 0.5 else "매출 성장 비슷")
     trend_txt = " → ".join(f"{x:+.1f}%".replace("-", "−") for x in trend) if trend_ok else ""
-    vx = "배수 5년 최저권" if selfsc >= 80 else "배수 5년 고점권" if selfsc <= 20 else "배수 중간"
+    vx = ("배수 5년 최저권" if selfsc >= 80 else "배수 5년 고점권" if selfsc <= 20 else
+          "배수 싼 쪽" if selfsc >= 70 or peersc >= 70 else "배수 비싼 쪽" if selfsc < 30 or peersc < 30 else "배수 중간")   # 동종업 점수도 본다(CRM, Fable)
     bl = [f"매출 {B(rev[cur])}" + (f"({r_rev})" if r_rev else "") + f", 영업이익 {B(op[cur])}" + (f"({r_op})" if r_op else "")
           + f". 최근 4분기 영업이익률 {mn:.1f}%는 5년 중앙값 {m5:.1f}%보다 {rel(mn, m5)}.",
           (f"최근 4분기 FCF {B(fcf_ttm)}(매출의 {fcf_ttm / rev_ttm * 100:.1f}%), " if fcf_ok else "") + f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}."]
@@ -285,19 +300,21 @@ def texts(C, ns):
     cand = []
     if r_rev:
         gv = float(r_rev.replace("−", "-").rstrip("%"))
-        cand.append(("매출", (gv - g3) / 3, f"{QL} 매출 {r_rev}(환율·인수 포함, 3년 연평균 {g3:.1f}%)."))
+        cand.append(("매출", (gv - g3) / 3, f"{QL} 매출 {r_rev}(보고 기준" + (", 인수 포함" if A.get("acq") else "") + f", 3년 연평균 {g3:.1f}%)."))
     cand.append(("마진", (mn - m5) / 2, f"최근 4분기 영업이익률 {mn:.1f}%(5년 중앙값 {m5:.1f}%)."))
     if fcf_ok:
         fm = fcf_ttm / rev_ttm * 100
         cand.append(("현금", 1.0 if fm >= 10 else -1.0 if fm < 3 else 0, f"최근 4분기 FCF {B(fcf_ttm)}, 매출의 {fm:.1f}%."))
     if op_ttm > 0:
-        lev = (debt - cash) / op_ttm
-        cand.append(("부채", 1.0 if lev <= 1 else -1.0 if lev >= 3 else 0, f"순차입금 {B(debt - cash)}, 최근 4분기 영업이익의 {lev:.1f}배."))
+        lev = (debt + lease - cash) / op_ttm
+        cand.append(("부채", 1.0 if lev <= 1 else -1.0 if lev >= 3 else 0, f"순차입금(리스 포함) {B(debt + lease - cash)}, 최근 4분기 영업이익의 {lev:.1f}배."))
+    if H.get("growth_3y") is not None and H.get("growth_5y") and H["growth_3y"] * 100 < H["growth_5y"] * 100 - 1.5:
+        cand.append(("성장", -0.7, f"3년 매출 성장률 연 {H['growth_3y'] * 100:.1f}%, 5년 연 {H['growth_5y'] * 100:.1f}%보다 낮다."))
     if A.get("dps") and A.get("dps_yo"):
         dg = (A["dps"] / A["dps_yo"] - 1) * 100
         cand.append(("환원", 1.0 if dg >= 3 else -1.0 if dg < 0 else 0, f"분기 주당 배당 {usd(A['dps'])}(1년 전보다 {dg:+.1f}%).".replace("+-", "−")))
     if per.get("current"):
-        cand.append(("밸류", (selfsc - 50) / 25, f"PER {per['current']:.1f}배, 5년 중앙값 {per['median']:.1f}배(자기 이력 {selfsc:.0f}점)."))
+        cand.append(("밸류", (selfsc - 50) / 25, f"자기 이력 {selfsc:.0f}점(다섯 배수의 5년 위치) · PER {per['current']:.1f}배(5년 중앙값 {per['median']:.1f}배)."))
     if ratio:
         cand.append(("내재가치", 1.0 if ratio >= 111 else -1.5 if ratio <= 67 else 0, f"현금흐름 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {ratio:.0f}%."))
     yo_tab = A.get("seg_yo", {})
@@ -322,7 +339,10 @@ def texts(C, ns):
     # 다음 실적 체크포인트 — 숫자 기준이 있는 질문만
     ck = [f"매출 증가율(1년 전 대비)이 최근 흐름({trend_txt})보다 낮아지지 않는지" if trend_txt else f"매출 증가율이 3년 연평균 {g3:.1f}% 안팎을 지키는지",
           f"GAAP 영업이익률이 1년 전 같은 분기보다 높은지({QL} {opm:.1f}%, 1년 전 {opm_yo:.1f}%)",
-          f"분기 FCF가 배당 지급을 넘는지" + (f"(최근 4분기 FCF {B(fcf_ttm)})" if fcf_ok else "")]
+]
+    _dv_ann = (A["dv"] / max(1, A.get("dv_weeks") or 52) * 52) if A.get("dv") else None
+    if fcf_ok and _dv_ann and _dv_ann > 0.5 * fcf_ttm:   # 배당이 FCF의 절반을 넘는 회사만(AAPL처럼 여유가 큰 곳은 뺀다, Fable)
+        ck.append(f"FCF(최근 4분기 {B(fcf_ttm)})가 배당 지급(연 환산 약 {B(_dv_ann)})을 넘는지")
     if debt > 0 and op_ttm > 0 and (debt - cash) / op_ttm >= 2:
         ck.append(f"차입금 {B(debt)}이 줄어드는지")
     C.CHECK = ck
@@ -351,8 +371,15 @@ def texts(C, ns):
     C.PREMISE = (f"PER {per['current']:.1f}배(5년 중앙값 {per['median']:.1f}배)로 자기 이력 {selfsc:.1f}점({word(selfsc)}), 동종업 {peersc:.1f}점({word(peersc)})이다. "
                  if per.get("current") else f"자기 이력 {selfsc:.1f}점({word(selfsc)}), 동종업 {peersc:.1f}점({word(peersc)})이다. ") + \
         (f"<strong>현금흐름 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {ratio:.0f}%</strong>다." if ratio else "")
-    C.RISK = risk + (f" 현재가를 정당화하려면 영업이익률이 {req * 100:.1f}%까지 올라야 한다(최근 4분기 {mn:.1f}%, 5년 중앙값 {m5:.1f}%)." if req else "") + \
-        f" 내재가치에서 차입금 {B(debt)}를 빼고 현금·단기투자 {B(cash)}를 더한다."
+    if req:
+        tail = f" 현재가를 정당화하려면 영업이익률이 {req * 100:.1f}%까지 올라야 한다(최근 4분기 {mn:.1f}%, 5년 중앙값 {m5:.1f}%)."
+    elif DCF.get("reqMode") == "margin":
+        tail = f" 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 {mn:.1f}%)."   # TXN(Fable)
+    elif DCF.get("requiredGrowth"):
+        tail = f" 현재가를 정당화하려면 매출이 5년간 연 {DCF['requiredGrowth'] * 100:.1f}% 커야 한다."
+    else:
+        tail = ""
+    C.RISK = risk + tail + f" 내재가치에서 차입금·리스 {B(debt + lease)}를 빼고 현금·단기투자 {B(cash)}를 더한다."
     term = 0.025   # build_dcf 영구성장률 — 시나리오 성장은 이보다 낮으면 이 값으로 둔다(build_dcf.scenarios)
     def story(g, start_what, m, m_what):
         g = g or term
@@ -362,5 +389,13 @@ def texts(C, ns):
     C.STORIES = [story((H.get("growth_5y") or term) / 2, "5년 성장률의 절반", m5, "5년 중앙값"),
                  story(H.get("growth_5y"), "5년 성장률", m2, "최근 2년 중앙값"),
                  story(H.get("growth_3y"), "3년 성장률", mn, "최근 4분기")]
-    C.DCF_NOTE = (f"세 시나리오는 ${DCF['low']:.2f}~${DCF['high']:.2f}다. 영업이익률은 최근 4분기 {mn:.1f}%, 2년 중앙값 {m2:.1f}%, 5년 중앙값 {m5:.1f}%를 쓴다."
-                  if DCF.get("low") is not None else "")
+    if DCF.get("low") is not None:
+        vs = [DCF["low"], DCF["base"], DCF["high"]]
+        note = f"세 시나리오는 ${min(vs):.2f}~${max(vs):.2f}다. 영업이익률은 최근 4분기 {mn:.1f}%, 2년 중앙값 {m2:.1f}%, 5년 중앙값 {m5:.1f}%를 쓴다."
+        if abs(DCF["low"] - DCF["base"]) < 0.01:
+            note += " 보수와 기본이 같다 — 두 시나리오의 성장률이 모두 영구성장률 하한(2.5%)이고 이익률도 같아서다."
+        elif DCF["low"] > DCF["base"] or DCF["high"] < DCF["base"]:
+            note += " 시나리오 순서가 뒤집혀 있다 — 성장률보다 이익률 가정(보수 5년·기본 2년·낙관 최근)의 차이가 커서다."
+        C.DCF_NOTE = note
+    else:
+        C.DCF_NOTE = ""

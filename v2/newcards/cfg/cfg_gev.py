@@ -101,3 +101,33 @@ one('<canvas id="gevRevChart"></canvas>\n    </div>\n', '<canvas id="gevRevChart
     '    <div class="yoy-footnote" style="margin-top:8px;">순이익은 본업 기준(영업이익 × (1 − 그 분기 실효세율, 범위 밖이면 21%))이다(본업 이익은 원칙적으로 순이자를 포함하지만 GEV는 쓰고 있는 SEC 자료에 이자수익·이자비용 표준 태그가 없어 넣지 못했다) — 분기 차트는 그 분기 세율 그대로라, 일회성 세금·비과세 Prolec 이익을 뺀 최근 4분기 세율(32.5%)을 쓰는 본업 PER과 세율이 다르다. 공시 순이익은 Q4 2025 $3.66B(미국 세금 평가충당금 환입 $2.9B), Q1 2026 $4.75B(Prolec GE 기존 지분 재평가 이익 $3.99B, 세전)로 부풀었다. 2024년 4월 GE에서 분사했다.</div>\n')
 one('// 자기 5년 배수 분포 백분위', '// 상장 뒤 배수 분포 백분위')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "gev:OperatingSegmentsExcludingIntersegmentEliminationMember"
+ },
+ "members": {
+  "gev:PowerSegmentMember": [
+   "파워(가스·원전·수력)",
+   "#0f6eb4"
+  ],
+  "gev:ElectrificationSegmentMember": [
+   "전력망(Electrification)",
+   "#2e8b57"
+  ],
+  "gev:WindSegmentMember": [
+   "풍력",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 자기 이력 툴팁·제목(상장 시점) — SELF_SPAN 대신(위 주석)\none(\'<div class="card-title">배수별 자기 5년 위치</div>\', \'<div class="card-title">배수별 자기 이력 위치 (상장 뒤)</div>\')\none(\'title="지난 5년 GEV 자신의 배수보다\', \'title="상장(2024-04) 뒤 GEV 자신의 배수보다\')\none(\'`이 종목 자신의 5년 배수 분포에서 지금과\', \'`상장 뒤 이 종목 자신의 배수 분포에서 지금과\')', "# 동종업 배수 개수 설명\none('뒤집어 점수로 썼고 PER를 뺀 4개를 평균했다.', '뒤집어 점수로 썼고 네 개를 평균했다(PER은 GEV만 본업 기준이라 제외).')", '# 분기 차트 아래 설명(본업 순이익 정의·공시 순이익)\none(\'<canvas id="gevRevChart"></canvas>\\n    </div>\\n\', \'<canvas id="gevRevChart"></canvas>\\n    </div>\\n\'\n    \'    <div class="yoy-footnote" style="margin-top:8px;">순이익은 본업 기준(영업이익 × (1 − 그 분기 실효세율, 범위 밖이면 21%))이다(본업 이익은 원칙적으로 순이자를 포함하지만 GEV는 쓰고 있는 SEC 자료에 이자수익·이자비용 표준 태그가 없어 넣지 못했다) — 분기 차트는 그 분기 세율 그대로라, 일회성 세금·비과세 Prolec 이익을 뺀 최근 4분기 세율(32.5%)을 쓰는 본업 PER과 세율이 다르다. 공시 순이익은 Q4 2025 $3.66B(미국 세금 평가충당금 환입 $2.9B), Q1 2026 $4.75B(Prolec GE 기존 지분 재평가 이익 $3.99B, 세전)로 부풀었다. 2024년 4월 GE에서 분사했다.</div>\\n\')\none(\'// 자기 5년 배수 분포 백분위\', \'// 상장 뒤 배수 분포 백분위\')']

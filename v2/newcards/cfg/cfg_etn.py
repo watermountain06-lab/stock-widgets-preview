@@ -100,3 +100,33 @@ BEAR = [('GAAP 이익', '인수 비용으로 2분기 EPS −16%, 연간 GAAP 가
         ('밸류에이션', 'PER {SM[\'PER\'][\'current\']:.1f}배로 5년 중 가장 비싼 쪽.')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 12, 'mean': 490.42, 'median': 502, 'low': 392, 'high': 534, 'sb': 19, 'b': 5, 'h': 3, 's': 1, 'ss': 0}
 ANALYST_ASOF = '2026-10-06'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "etn:ElectricalAmericasSegmentMember": [
+   "Electrical Americas",
+   "#0050a0"
+  ],
+  "etn:ElectricalGlobalSegmentMember": [
+   "Electrical Global",
+   "#3d86d6"
+  ],
+  "etn:AerospaceSegmentMember": [
+   "Aerospace",
+   "#a78bfa"
+  ],
+  "etn:MobilitySegmentMember": [
+   "Mobility",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}

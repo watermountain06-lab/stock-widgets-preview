@@ -88,3 +88,29 @@ GEN_TIP = '        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매�
 OLD_TIP = '        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`\n          + (d.requiredMargin != null ? ` 영업이익률이 ${f1(d.requiredMargin)}여야 한다(현재 ${f1(d.marginNow)}).` : ` 영업이익률을 100%로 잡아도 닿지 않는다(현재 ${f1(d.marginNow)}, 탐색 범위 −50~100%).`)\n          + `\\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null\n            ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요하다(지난 5년의 ${(d.requiredGrowth / d.growth5y).toFixed(1)}배).`\n            : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)'
 GEN_REV = "    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`\n      + (D.requiredMargin != null ? ` 영업이익률이 <b>${pc(D.requiredMargin)}</b>여야 한다(지금 ${pc(D.marginNow)}).` : ` 영업이익률을 <b>100%</b>로 올려도 모자란다(지금 ${pc(D.marginNow)}).`)\n      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null\n        ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`\n        : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);"
 OLD_REV = "    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`\n      + (D.requiredMargin != null ? ` 영업이익률이 <b>${pc(D.requiredMargin)}</b>여야 한다(지금 ${pc(D.marginNow)}).` : ` 영업이익률을 <b>100%로 잡아도</b> 닿지 않는다(지금 ${pc(D.marginNow)}).`)\n      + (D.requiredGrowth != null ? ` 일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요하다.` : ` 어떤 일정 성장률로도 현재가에 닿지 않는다.`);"
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "pltr:GovernmentOperatingSegmentMember": [
+   "정부",
+   "#8fa3b3"
+  ],
+  "pltr:CommercialOperatingSegmentMember": [
+   "상업",
+   "#3498db"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 역산 문장·헤더 툴팁: 옛 카드 문구(마진 100%로도 닿지 않음, 일정 성장 배수는 소수 한 자리) — 공통 패치(fill.py) 뒤 문구를 되돌린다\none(C.GEN_TIP, C.OLD_TIP)\none(C.GEN_REV, C.OLD_REV)', '# Capex 칸: $0.01B 대신 백만 달러(옛 카드)\none(f\'<div class="stat-value">${r1(cap[cur])}B</div>\\n      <div class="stat-sub">유형자산 취득</div>\', f\'<div class="stat-value">${cap[cur] / 1e6:.0f}M</div>\\n      <div class="stat-sub">유형자산 취득</div>\')', "h = h.replace('   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)\\n', '   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외, 이자보상배율은 무차입이라 제외)\\n', 1)"]

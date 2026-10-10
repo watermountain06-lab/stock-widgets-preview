@@ -109,3 +109,33 @@ h = h.replace("· GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · "
 # 내재가치 표 아래 낙관 < 기본 설명(옛 카드: 비영업 줄 다음 별도 줄)
 one('<div class="note" data-dcf-nonop hidden></div>', '<div class="note" data-dcf-nonop hidden></div>\n    <div class="note">' + F(C.DCF_NOTE2) + '</div>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "klac:SemiconductorProcessControlMember": [
+   "반도체 공정 제어",
+   "#0f6eb4"
+  ],
+  "klac:SpecialtySemiconductorProcessMember": [
+   "특수 반도체 공정",
+   "#c8102e"
+  ],
+  "klac:PCBAndComponentInspectionMember": [
+   "PCB·부품 검사",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# YoY·QoQ 각주: 영업이익 계산법(옛 카드)\nassert h.count("· GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ") == 2\nh = h.replace("· GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ", "· GAAP 기준(영업이익은 세전 + 이자 − 기타수익) · FCF는 영업현금흐름 − 설비투자 · ")']

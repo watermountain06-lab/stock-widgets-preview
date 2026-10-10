@@ -67,3 +67,31 @@ one('뒤집어 점수로 썼고 PBR를 뺀 4개를 평균했다.', '뒤집어 �
 one('<canvas id="pmRevChart"></canvas>\n    </div>\n', '<canvas id="pmRevChart"></canvas>\n    </div>\n'
     '    <div class="yoy-footnote" style="margin-top:8px;">2024년 4분기 순손실은 캐나다 관계회사 RBH 지분 손상 $2,316M(비현금, FY2025 10-K) 때문이다. 2026년 2분기 순이익에도 RBH 지분 추가 손상 $511M(주당 $0.33)이 들어 있다. 1분기 영업현금흐름은 최근 5년 중 3년이 음수였다(2026년 −$399M).</div>\n')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "pm:InternationalSmokeFreeSegmentMember": [
+   "해외 비연소(IQOS 등)",
+   "#0f6eb4"
+  ],
+  "pm:InternationalCombustiblesSegmentMember": [
+   "해외 연소(궐련)",
+   "#94a3b8"
+  ],
+  "pm:U.S.SegmentMember": [
+   "미국(ZYN 등)",
+   "#f0c040"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 자본 음수라 자기 이력에 없는 PBR 칸: \'계산 불가\' · \'자본 음수 · 평균 제외\'(옛 카드, 2026-10-01)\none("    if (f(\'cur\')) f(\'cur\').textContent = \'—\';\\n    if (f(\'badge\')) { f(\'badge\').className = \'hist-badge mid\'; f(\'badge\').textContent = \'계산 불가\'; }",\n    "    if (f(\'cur\')) f(\'cur\').textContent = \'계산 불가\';\\n    if (f(\'badge\')) { f(\'badge\').className = \'hist-badge mid\'; f(\'badge\').textContent = \'자본 음수 · 평균 제외\'; }")\none(\'뒤집어 점수로 썼고 PBR를 뺀 4개를 평균했다.\', \'뒤집어 점수로 썼고 네 개를 평균했다(PBR은 자본 음수로 제외).\')']

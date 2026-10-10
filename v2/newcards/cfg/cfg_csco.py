@@ -115,3 +115,44 @@ _seg2 = _seg.replace("f('cur').textContent = '—';", f"f('cur').textContent = {
     "f('badge').textContent = '계산 불가';", f"f('badge').textContent = {json.dumps(C.MISSING_BADGE, ensure_ascii=False)};", 1)
 assert _seg2 != _seg; h = h[:_i] + _seg2 + h[_j:]
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "csco:NetworkingMember": [
+   "네트워킹",
+   "#049fd9"
+  ],
+  "us-gaap:ServiceMember": [
+   "서비스",
+   "#94a3b8"
+  ],
+  "csco:SecurityMember": [
+   "보안",
+   "#f0c040"
+  ],
+  "csco:CollaborationMember": [
+   "협업",
+   "#5aa9e6"
+  ],
+  "csco:ObservabilityMember": [
+   "관측성",
+   "#64748b"
+  ]
+ },
+ "ignore": [
+  "us-gaap:ProductMember",
+  "csco:SubscriptionRevenueProductMember",
+  "csco:SubscriptionRevenueServiceMember",
+  "us-gaap:SubscriptionAndCirculationMember"
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 없는 배수 칸: 현재값·배지 글자(옛 카드 그대로)\n_i = h.index(\'const haveM = new Set\'); _j = h.index("[\'peer\', \'self\'].forEach(k => {", _i)\n_seg = h[_i:_j]\n_seg2 = _seg.replace("f(\'cur\').textContent = \'—\';", f"f(\'cur\').textContent = {json.dumps(C.MISSING_CUR, ensure_ascii=False)};", 1).replace(\n    "f(\'badge\').textContent = \'계산 불가\';", f"f(\'badge\').textContent = {json.dumps(C.MISSING_BADGE, ensure_ascii=False)};", 1)\nassert _seg2 != _seg; h = h[:_i] + _seg2 + h[_j:]']

@@ -106,3 +106,31 @@ POST = [r'''
 # C11(2026-10-04) 카드 직접 수정 — 동종업 툴팁의 평균 문장
 one('뒤집어 점수로 썼고 PBR를 뺀 4개를 평균했다.', '뒤집어 점수로 썼고, PBR(자본 음수라 해당 없음)을 뺀 네 개를 평균했다.')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "bkng:MerchantRevenueMember": [
+   "대금 직접 수취(merchant)",
+   "#003580"
+  ],
+  "bkng:AgencyRevenueMember": [
+   "중개(agency)",
+   "#3d7ec9"
+  ],
+  "bkng:AdvertisingandotherrevenuesMember": [
+   "광고·기타",
+   "#febb02"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ["\n# C11(2026-10-04) 카드 직접 수정 — 동종업 툴팁의 평균 문장\none('뒤집어 점수로 썼고 PBR를 뺀 4개를 평균했다.', '뒤집어 점수로 썼고, PBR(자본 음수라 해당 없음)을 뺀 네 개를 평균했다.')"]

@@ -94,3 +94,51 @@ BEAR = [('특허 만료', 'Revlimid −49%, 기존 제품군 −4%.'),
 MISS_WHY = {('GILD', 'per'): ' 적자', ('GILD', 'evebitda'): ' 적자'}   # C9 뒤 동종 파일 PER은 perNA로 옮겨졌다 — 카드 표기 그대로
 ANALYST = {'rating': 'Hold', 'n': 28, 'nt': 19, 'mean': 66.79, 'median': 65, 'low': 40, 'high': 82, 'sb': 6, 'b': 3, 'h': 18, 's': 0, 'ss': 1}
 ANALYST_ASOF = '2026-10-06'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "bmy:GrowthBrandsMember": [
+   "성장 제품군(Opdivo·Reblozyl·Camzyos 등)",
+   "#be2bbb"
+  ],
+  "bmy:LegacyBrandsMember": [
+   "기존 제품군(Eliquis·Revlimid 등)",
+   "#d97ad6"
+  ]
+ },
+ "ignore": [
+  "bmy:NetProductSalesMember",
+  "bmy:AllianceAndOtherRevenuesMember",
+  "bmy:AllianceRevenuesMember",
+  "bmy:OtherRevenuesMember",
+  "bmy:SalesRevenueGrossMember",
+  "bmy:OpdivoMember",
+  "bmy:OpdivoOvantigMember",
+  "bmy:OrenciaMember",
+  "bmy:YervoyMember",
+  "bmy:ReblozylMember",
+  "bmy:BreyanziMember",
+  "bmy:OpdualagMember",
+  "bmy:CamzyosMember",
+  "bmy:ZeposiaMember",
+  "bmy:SotyktuMember",
+  "bmy:KrazatiMember",
+  "bmy:CobenfyMember",
+  "bmy:OtherGrowthBrandsMember",
+  "bmy:EliquisMember",
+  "bmy:RevlimidMember",
+  "bmy:PomalystImnovidMember",
+  "bmy:SprycelMember",
+  "bmy:AbraxaneMember",
+  "bmy:OtherLegacyBrandsMember",
+  "bmy:OtherRevenueHedgingActivitiesMember"
+ ]
+}

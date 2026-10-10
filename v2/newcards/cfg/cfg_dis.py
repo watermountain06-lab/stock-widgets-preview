@@ -99,3 +99,31 @@ BEAR = [('스포츠', '스포츠 부문 영업이익 −17%, 스포츠 중계권
         ('자본', '투하자본 수익률 약 {DCF[\'hardDetail\'][\'roic\'] * 100:.0f}%(인수 영업권 포함), 차입금 $46.0B, 9개월 설비투자 $6.8B(체험 부문 $5.6B).')]
 ANALYST = {'rating': 'Strong Buy', 'n': 32, 'nt': 19, 'mean': 128.68, 'median': 129, 'low': 115, 'high': 144, 'sb': 23, 'b': 6, 'h': 2, 's': 0, 'ss': 1}
 ANALYST_ASOF = '2026-10-06'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "dis:EntertainmentSegmentMember": [
+   "엔터테인먼트",
+   "#113ccf"
+  ],
+  "dis:SportsSegmentMember": [
+   "스포츠(ESPN)",
+   "#e11d48"
+  ],
+  "dis:ExperiencesSegmentMember": [
+   "체험(공원·크루즈·상품)",
+   "#f59e0b"
+  ]
+ },
+ "ignore": [
+  "dis:SegmentEliminationsMember"
+ ]
+}

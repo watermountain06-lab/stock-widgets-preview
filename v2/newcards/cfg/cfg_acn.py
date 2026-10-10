@@ -96,3 +96,25 @@ ANALYST = {'rating': 'Buy', 'n': 27, 'nt': 19, 'mean': 222.84, 'median': 220, 'l
 ANALYST_ASOF = '2026-10-06'
 
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "acn:ConsultingRevenueMember": [
+   "컨설팅",
+   "#a100ff"
+  ],
+  "acn:ManagedServicesRevenueMember": [
+   "매니지드 서비스",
+   "#c466ff"
+  ]
+ },
+ "ignore": []
+}

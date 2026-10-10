@@ -93,3 +93,40 @@ BEAR = [('유가 의존', '이익이 유가에 따라 크게 움직임.'),
         ('경영 교체', '9월 1일 CEO 교체, 법무책임자 은퇴(후임 미정).')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 22, 'mean': 145.64, 'median': 146, 'low': 121, 'high': 189, 'sb': 15, 'b': 4, 'h': 9, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-06'
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "cop:LowerFortyEightMember": [
+   "미국 본토(Lower 48)",
+   "#c8102e"
+  ],
+  "cop:EuropeMiddleEastAndNorthAfricaSegmentMember": [
+   "유럽·중동·북아프리카",
+   "#f59e0b"
+  ],
+  "cop:AlaskaSegmentMember": [
+   "알래스카",
+   "#5aa9e6"
+  ],
+  "cop:CanadaOperatingSegmentMember": [
+   "캐나다",
+   "#a78bfa"
+  ],
+  "cop:AsiaPacificOperatingSegmentMember": [
+   "아시아·태평양",
+   "#22c55e"
+  ]
+ },
+ "ignore": [
+  "cop:TotalSegmentsMember",
+  "cop:CorporateSegmentMember"
+ ]
+}

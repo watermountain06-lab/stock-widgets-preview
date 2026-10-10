@@ -134,3 +134,37 @@ for _a in (f"{C.YO.replace('-', '.')}({C.YL})", f"{C.QO.replace('-', '.')}({C.QQ
     one(f"vs {_a} · GAAP 기준 · FCF는", f"vs {_a} · GAAP 기준 · " + C.FN_EXTRA + "FCF는")
 h = h.replace(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K) →', f'{C.CO} {QL} 주주 서한 (SEC 8-K) →')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "srt:StatementGeographicalAxis",
+ "extra": {
+  "srt:ProductOrServiceAxis": "nflx:StreamingMember"
+ },
+ "members": {
+  "nflx:UnitedStatesAndCanadaMember": [
+   "미국·캐나다(UCAN)",
+   "#e50914"
+  ],
+  "us-gaap:EMEAMember": [
+   "유럽·중동·아프리카(EMEA)",
+   "#b20710"
+  ],
+  "srt:LatinAmericaMember": [
+   "중남미(LATAM)",
+   "#f5a623"
+  ],
+  "srt:AsiaPacificMember": [
+   "아시아·태평양(APAC)",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['one(\'<div class="reverse">—</div>\', \'<div class="reverse">\' + F(C.REVERSE) + \'</div>\')', "h = h.replace(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K) →', f'{C.CO} {QL} 주주 서한 (SEC 8-K) →')"]

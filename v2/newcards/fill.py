@@ -528,8 +528,27 @@ if _LB in h and 'v2.1 B-4' not in h:
         + f"      const _ps = {json.dumps((SM.get('PSR') or {}).get('current'))};   // 생성 때 PSR(이 줄 위에서 {T}_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)\n"
         + "      req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'\n"
         + "        + (_ps ? (_ps > 10 ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델 상한(세후 이익률 100% ÷ (할인율 − 영구성장) ≈ 매출의 10배)을 넘는 성장·마진 기대가 들어 있다.` : ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로 모델 상한(≈ 매출의 10배)보다 낮다. 해가 없는 것은 순부채·재투자 가정이 사업 가치를 깎기 때문이다.`) : '.');\n    }", 1)
+if AUTO:   # 자동 카드의 종목별 패치는 표기 고침뿐이다 — 찾는 글이 없으면(데이터·분기에 따라 문구가 바뀌면) 건너뛰고 기록만, 카드를 멈추지 않는다(2026-10-10)
+    _one_hard, _sub_hard = one, sub
+    def one(o, n):
+        if h.count(o) == 1:
+            _one_hard(o, n)
+        else:
+            print(f'  POST 건너뜀(글 {h.count(o)}곳): {o[:60]!r}')
+    def sub(pat, new, flags=re.S):
+        if len(re.findall(pat, h, flags)) == 1:
+            _sub_hard(pat, new, flags)
+        else:
+            print(f'  POST 건너뜀(패턴): {pat[:60]!r}')
 for _code in getattr(C, 'POST', []):   # 종목별 추가 패치
-    exec(_code, globals())
+    try:
+        exec(_code, globals())
+    except AssertionError as _e:
+        if not AUTO:
+            raise
+        print(f'  POST 확인 건너뜀: {str(_e)[:80]}')
+if AUTO:
+    one, sub = _one_hard, _sub_hard
 # 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
 h = re.sub(r'(<div class="card" hidden>\n    <div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">)(.*?)(\n    </div>\n  </div>)',
            lambda m: m.group(1) + '\n      기술적 분석(추세 상태)은 이 사이트의 판단(내재가치 대비)에서 뺐다. 이 칸은 화면에 보이지 않는다.' + m.group(3), h, count=1, flags=re.S)

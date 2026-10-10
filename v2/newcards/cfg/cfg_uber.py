@@ -100,3 +100,33 @@ POST = [r'''
 # A9·C14·A8 ①(2026-10-04) 카드 직접 수정 — 적중률 칸 툴팁
 one("    if (label) { label.textContent = '밴드 적중률'; label.title = `끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''}`; }\n", "    if (label) { label.textContent = '밴드 적중률'; label.title = `끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : ''}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : ''}`; }\n    // UBER 한정 — 흑자 초기 구간(A9 B6)을 표본에서 빼 앞쪽 체크포인트가 표본 부족으로 빠졌다\n    if (label) label.title += '\\n\\n' + '흑자 초기 구간(첫 흑자 TTM 2023-11-07부터 최근 4분기가 모두 흑자가 된 2025-05-07 전까지 — 2024년 1분기 지분 평가 손실 분기가 끼어 길어졌다)의 PER은 밴드 표본에서 뺀다(A9, 2026-10-04). 그래서 직전 PER 표본이 1년(240거래일)에 못 미치는 체크포인트는 만들지 않아(C14) 끝난 체크포인트가 1개뿐이다. EPS에서는 회사가 밝힌 2024년 4분기·2025년 3분기 세금 환입을 뺐다(A8 ①).';\n")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "uber:MobilityMember": [
+   "모빌리티",
+   "#1f1f1f"
+  ],
+  "uber:DeliveryMember": [
+   "배달",
+   "#22c55e"
+  ],
+  "uber:FreightMember": [
+   "화물",
+   "#f59e0b"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = ['\n# A9·C14·A8 ①(2026-10-04) 카드 직접 수정 — 적중률 칸 툴팁\none("    if (label) { label.textContent = \'밴드 적중률\'; label.title = `끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : \'\'}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : \'\'}`; }\\n", "    if (label) { label.textContent = \'밴드 적중률\'; label.title = `끝난 체크포인트 ${h.finished}개 — 4개 미만${h.excluded ? `, 실적을 넘긴 구간 ${h.excluded}개 제외` : \'\'}${h.early ? `, 흑자 초기 구간 ${h.early}개 제외` : \'\'}`; }\\n    // UBER 한정 — 흑자 초기 구간(A9 B6)을 표본에서 빼 앞쪽 체크포인트가 표본 부족으로 빠졌다\\n    if (label) label.title += \'\\\\n\\\\n\' + \'흑자 초기 구간(첫 흑자 TTM 2023-11-07부터 최근 4분기가 모두 흑자가 된 2025-05-07 전까지 — 2024년 1분기 지분 평가 손실 분기가 끼어 길어졌다)의 PER은 밴드 표본에서 뺀다(A9, 2026-10-04). 그래서 직전 PER 표본이 1년(240거래일)에 못 미치는 체크포인트는 만들지 않아(C14) 끝난 체크포인트가 1개뿐이다. EPS에서는 회사가 밝힌 2024년 4분기·2025년 3분기 세금 환입을 뺐다(A8 ①).\';\\n")']

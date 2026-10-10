@@ -100,3 +100,27 @@ one(f"vs {C.QO.replace('-', '.')}({C.QQL}) · GAAP 기준 · FCF는 영업현금
 # 내재가치 표 아래 낙관 < 기본 설명(옛 카드: 비영업 줄 다음 별도 줄)
 one('<div class="note" data-dcf-nonop hidden></div>', '<div class="note" data-dcf-nonop hidden></div>\n    <div class="note">' + F(C.DCF_NOTE2) + '</div>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "srt:ProductOrServiceAxis",
+ "extra": {},
+ "members": {
+  "us-gaap:ProductMember": [
+   "제품",
+   "#0f6eb4"
+  ],
+  "us-gaap:ServiceMember": [
+   "서비스",
+   "#94a3b8"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·시간이 지나면 틀려지는 문장은 뺐다. 덩어리마다 따로 실행(자동 카드는 못 찾으면 건너뜀)
+POST = []
