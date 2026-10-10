@@ -320,10 +320,13 @@ def base_inputs(ticker, asof=None):
         wd = wq[-1]["val"] * feh.split_ratio(wq[-1]["filed"], _splits.for_ticker(ticker))
         # 희석 가중평균을 백만 주 단위 숫자로 잘못 태깅한 회사(MCD 2026년 "711.1"주)는 대조값으로 쓸 수 없다 — 백만 배로 되돌린다
         # (100만 주 미만은 S&P500 기업으로 불가능). 그대로 두면 표지 주식 수 7.08억 주를 711주로 바꿔 주당 가치가 9천만 달러가 됐다(2026-10-02).
-        if wd < 1e6:
-            out["dq"].append(f"weighted_shares_unit:{wq[-1]['val']}->x1e6")
-            wd *= 1e6
+        # F3 (b)(2026-10-10): 천 단위로 낸 WA(TER 164,050·DLR·CCL)와 천 단위 오타로 큰 WA(WAT 2026)도 — 배율은 표지에 가장 가까운 것.
         sh = out.get("shares")
+        wd, _unit = bmh.wa_unit(wd, sh)
+        if _unit:
+            out["dq"].append(f"weighted_shares_unit:{wq[-1]['val']}{_unit}")
+        if (_unit and sh and not (0.5 <= sh / wd <= 2.0)) or (sh is not None and sh < 1e5 and wd < 1e5):
+            out["dq"].append("shares_suspect")   # F3 (b): 배율을 골라도 표지와 안 맞거나 둘 다 터무니없이 작다
         if not sh or not (0.5 <= sh / wd <= 2.0):
             out["dq"].append(f"shares_fallback:{sh}->{wd:.0f}")
             out["shares"] = wd
