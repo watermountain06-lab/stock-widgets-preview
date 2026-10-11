@@ -270,7 +270,10 @@ def apply(C, T):
             C._AUTO["rem_name"] = rem[0]
         else:
             C.SEG_ADJ = round(C.SEG_ADJ + resid)
-    _yt = sx.table(Mall_yo := {**M, "members": {k_: v_ for k_, v_ in M["members"].items() if k_ in yo_v}}, yo_v) if yo_v else ([], 0)
+    # 1년 전 표는 그때의 멤버로 — 분야 전체 묶음(all_as)은 1년 전 호출에서 그 시점 제품으로 다시 채워졌다(단종 제품, Codex)
+    Myo = {**M, "members": {(f"{i_}|{k_}" if len(parts) > 1 else k_): v_ for i_, P_ in enumerate(parts) for k_, v_ in P_["members"].items()}}
+    Myo["members"] = {k_: v_ for k_, v_ in Myo["members"].items() if k_ in yo_v}
+    _yt = sx.table(Myo, yo_v) if yo_v else ([], 0)
     yo_tab = {n: v for n, v, _ in _yt[0]}
     _rem = getattr(C, "SEG_MAP", {}).get("remainder")
     if _rem and C.YO in _rev:   # 1년 전 나머지 줄도 조정액을 빼고(Codex), 음수면 비교하지 않는다
