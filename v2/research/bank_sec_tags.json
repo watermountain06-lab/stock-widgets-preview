@@ -1,0 +1,123 @@
+{
+ "_note": "은행 사전 등록 7판 11-2·11-7(2026-10-11 초안): 은행별 우선주 장부금액 태그(앞의 것부터, 차원 없음, 같은 결산일), CET1 비율 태그. 근거는 원문 재무상태표 줄과 회사 보통주 자본 대조(2025-09~2026-06). 값은 companyfacts, 없으면 같은 결산일 원문 인라인 XBRL.",
+ "preferred": {
+  "AXP": {
+   "path": "PREF_PRICE",
+   "why": "우선주 잔액 태그 없음 — 발행 주식 수 × 상환가 $1,000,000(8-8)"
+  },
+  "BAC": {
+   "tags": [
+    "us-gaap:PreferredStockIncludingAdditionalPaidInCapital",
+    "bac:PreferredStockRedeemableAndNonRedeemableValue"
+   ],
+   "why": "10-K는 us-gaap 태그(25,992), 10-Q는 회사 고유 태그(24,996) — 10-K의 회사 고유 태그 329는 다른 뜻이라 순서가 중요하다. 10-Q 세 분기 회사 CE와 일치"
+  },
+  "C": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "재무상태표 우선주 장부금액 줄(2025-12 10-K·2026-06 10-Q 원문 확인)"
+  },
+  "CFG": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "재무상태표 우선주 장부금액 줄(2025-12 10-K·2026-06 10-Q 원문 확인)"
+  },
+  "COF": {
+   "tags": [
+    "us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount"
+   ],
+   "why": "PreferredStockValue는 액면가(0) — 8분기 회사 CE와 일치"
+  },
+  "FITB": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "재무상태표 우선주 장부금액 줄(2025-12 10-K·2026-06 10-Q 원문 확인)"
+  },
+  "GS": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "장부 = 청산우선액, 회사 CE와 일치"
+  },
+  "HBAN": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "재무상태표 우선주 장부금액 줄(2025-12 10-K·2026-06 10-Q 원문 확인)"
+  },
+  "JPM": {
+   "tags": [
+    "us-gaap:PreferredStockLiquidationPreferenceValue",
+    "us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount"
+   ],
+   "why": "회사 보통주 자본이 청산우선액을 뺀 값(1-1, 2026-06 353.6)"
+  },
+  "KEY": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "재무상태표 우선주 장부금액 줄(2025-12 10-K·2026-06 10-Q 원문 확인)"
+  },
+  "MS": {
+   "tags": [
+    "ms:PreferredStockCarryingValue",
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "우선주 오버레이(ms_preferred.py)와 같은 값"
+  },
+  "MTB": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "재무상태표 우선주 장부금액 줄(2025-12 10-K·2026-06 10-Q 원문 확인)"
+  },
+  "PNC": {
+   "tags": [],
+   "why": "우선주가 자본잉여금(AdditionalPaidInCapital)에 합쳐져 분리 불가 — N5-2로 CE·TCE 없음(PER은 남는다)"
+  },
+  "RF": {
+   "tags": [
+    "us-gaap:PreferredStockValueOutstanding"
+   ],
+   "why": "재무상태표 우선주 장부금액 줄(2025-12 10-K·2026-06 10-Q 원문 확인)"
+  },
+  "SCHW": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "장부금액(6,213) — 청산우선액 6,315가 아니라 재무상태표 줄"
+  },
+  "TFC": {
+   "tags": [
+    "us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount"
+   ],
+   "why": "재무상태표 우선주 장부금액 줄(2025-12 10-K·2026-06 10-Q 원문 확인)"
+  },
+  "USB": {
+   "tags": [
+    "us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount"
+   ],
+   "why": "할인 반영 장부금액(6,808 = 7,026 − 218)"
+  },
+  "WFC": {
+   "tags": [
+    "us-gaap:PreferredStockValue"
+   ],
+   "why": "회사 보통주 자본과 −0.09%(청산우선액은 −0.55%)"
+  }
+ },
+ "cet1": {
+  "JPM": {
+   "tag": "jpm:CommonEquityTier1CapitaltoRiskWeightedAssets"
+  },
+  "GS": {
+   "tag": "gs:BankingRegulationCommonEquityTier1RiskBasedCapitalRatioTotal"
+  },
+  "_default": {
+   "tag": "us-gaap:CommonEquityTierOneCapitalRatio"
+  }
+ }
+}

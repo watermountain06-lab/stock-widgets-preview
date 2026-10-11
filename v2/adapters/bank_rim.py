@@ -22,6 +22,13 @@ import build_multiple_history as bmh  # noqa: E402
 
 R, G_CAP, FADE = 0.10, 0.025, 0.5
 ITEMS = os.path.join(V2, "bank_items.json")
+# 사전 등록 판 — 7판(11절, 10-Q 정의로 통일·보도자료 손입력 없음)은 사용자가 결과를 보고 적용을 정할 때까지 BANK_EDITION=7로만 켠다(2026-10-11)
+EDITION = int(os.environ.get("BANK_EDITION", "6"))
+_ST = os.path.join(V2, "research", "bank_sec_tags.json")
+_SV = os.path.join(V2, "research", "bank_sec_values.json")
+SEC_TAGS = json.load(open(_ST)) if os.path.exists(_ST) else {"preferred": {}, "cet1": {"_default": {"tag": ""}}}
+SEC_VALUES = json.load(open(_SV)) if os.path.exists(_SV) else {}
+ACK = os.path.join(V2, "research", "bank_ack.json")   # 7판 N4 — 사람이 확인한 급변 분기 {은행: {분기말: 사유}}
 # 자사주 매입 현금 태그가 다른 은행. MS는 현금흐름표 "Repurchases of common stock"을 StockRepurchasedDuringPeriodValue로 낸다
 # (PaymentsForRepurchaseOfCommonStock은 2013년에 멈춤, 2026-10-01). 우선주 잔액은 회사 고유 태그라 adapters/ms_preferred.py가 overlay에 싣는다.
 BUY_TAGS = {"MS": ["StockRepurchasedDuringPeriodValue"]}
@@ -47,8 +54,9 @@ def instant(cik, tag, asof=None):
     return out
 
 
-def ever(cik, tag):
-    return bool(_facts(cik, tag))
+def ever(cik, tag, asof=None):
+    """그 태그가 평가일까지 한 번이라도 접수됐는가 — 7판 11-0: 미래 행을 보지 않는다(6판까지는 asof 없이 썼다)."""
+    return any(not asof or f["filed"] <= asof for f in _facts(cik, tag))
 
 
 def flow_q(cik, tags, ticker, asof=None):
@@ -97,21 +105,34 @@ PREF_PRICE = {"AXP": 1_000_000}
 
 
 class Bank:
-    def __init__(self, ticker, cik, asof=None, overrides=False):
+    def __init__(self, ticker, cik, asof=None, overrides=False, edition=None):
         # overrides: 회사 정의 주식 수·자본 예외(GS·WFC)는 그 종목 카드에서만 쓴다 — 동종업 계산에 넣으면 커밋된 다른 은행 카드 점수가 바뀐다
+        self.ed = edition or EDITION
+        if self.ed >= 7:   # 7판 11-1: 회사 정의 보정 폐지
+            overrides = False
         self.t, self.cik, self.asof, self.ov = ticker, cik, asof, overrides
         c = cik
+        # 7판: 원문 인라인 XBRL 값(adapters/bank_sec_values.py) — 평가일까지 접수된 공시의 것만(11-0)
+        self.secv = {e: r for e, r in SEC_VALUES.get(ticker, {}).items() if not asof or r["filed"] <= asof} if self.ed >= 7 else {}
+        self.pref_tbl = SEC_TAGS["preferred"].get(ticker) if self.ed >= 7 else None
         self.se = instant(c, "StockholdersEquity", asof)
         self.pref_liq = instant(c, "PreferredStockLiquidationPreferenceValue", asof)
         self.pref_val = instant(c, "PreferredStockValue", asof)
-        self.pref_ever = ever(c, "PreferredStockLiquidationPreferenceValue") or ever(c, "PreferredStockValue")
+        self.pref_ever = (ever(c, "PreferredStockLiquidationPreferenceValue", asof if self.ed >= 7 else None)
+                          or ever(c, "PreferredStockValue", asof if self.ed >= 7 else None))
         self.pref_sh = instant(c, "PreferredStockSharesOutstanding", asof) if ticker in PREF_PRICE else {}
         self.gw = instant(c, "Goodwill", asof)
         self.ia = instant(c, "IntangibleAssetsNetExcludingGoodwill", asof)
+        for e_, r_ in self.secv.items():   # 7판: companyfacts가 아직 싣지 않은 분기(HBAN 2026 2분기)는 원문 자본·영업권으로
+            if e_ not in self.se and r_.get("se"):
+                self.se[e_] = (r_["se"], r_["filed"])
+            if e_ not in self.gw and r_.get("gw"):
+                self.gw[e_] = (r_["gw"], r_["filed"])
         self.fin = instant(c, "FiniteLivedIntangibleAssetsNet", asof)
         self.ind = instant(c, "IndefiniteLivedIntangibleAssetsExcludingGoodwill", asof)
         self.oth = instant(c, "OtherIntangibleAssetsNet", asof)
-        self.fin_ever, self.ind_ever = ever(c, "FiniteLivedIntangibleAssetsNet"), ever(c, "IndefiniteLivedIntangibleAssetsExcludingGoodwill")
+        _ea = asof if self.ed >= 7 else None
+        self.fin_ever, self.ind_ever = ever(c, "FiniteLivedIntangibleAssetsNet", _ea), ever(c, "IndefiniteLivedIntangibleAssetsExcludingGoodwill", _ea)
         self.issued = instant(c, "CommonStockSharesIssued", asof)
         self.tr = {**instant(c, "TreasuryStockShares", asof), **instant(c, "TreasuryStockCommonShares", asof)}
         self.cso = instant(c, "CommonStockSharesOutstanding", asof)
@@ -140,6 +161,8 @@ class Bank:
             return (o["ce_m"] * 1e6, o["filed"])
         if end not in self.se:
             return None
+        if self.pref_tbl is not None and not self.pref_tbl.get("path"):
+            return self._ce7(end)
         p = self.pref_liq.get(end) or self.pref_val.get(end)
         if self.t in PREF_PRICE and end in self.pref_sh:   # 종목 예외(AXP) — 발행 우선주 수 × 주당 상환가
             p = (self.pref_sh[end][0] * PREF_PRICE[self.t], self.pref_sh[end][1])
@@ -149,6 +172,58 @@ class Bank:
             p = (0, self.se[end][1])
         v = self.se[end][0] - p[0]
         return (v, max(self.se[end][1], p[1])) if v > 0 else None
+
+    def _pref7(self, end):
+        """7판 11-2: 은행별 우선주 장부금액 태그 표(research/bank_sec_tags.json) — companyfacts, 없으면 원문 값. (값, 접수일) 또는 None."""
+        for tag in self.pref_tbl.get("tags", []):
+            if tag.startswith("us-gaap:"):
+                v = instant(self.cik, tag.split(":")[1], self.asof).get(end)
+                if v:
+                    self._pref_tag = getattr(self, "_pref_tag", {}); self._pref_tag[end] = tag
+                    return v
+            r = self.secv.get(end)
+            if r and r.get("pref") is not None and (r.get("pref_tag") or "").lower() == tag.lower():
+                self._pref_tag = getattr(self, "_pref_tag", {}); self._pref_tag[end] = tag
+                return (r["pref"], r["filed"])
+        return None
+
+    def _ce7(self, end):
+        if not self.pref_tbl.get("tags"):   # PNC — 우선주가 자본잉여금에 합쳐져 분리할 수 없다(N5-2와 같은 결과: CE 없음)
+            return None
+        p = self._pref7(end)
+        if p is None:
+            any_pref = any(r.get("pref") for r in self.secv.values()) or any(
+                instant(self.cik, t.split(":")[1], self.asof) for t in self.pref_tbl["tags"] if t.startswith("us-gaap:"))
+            if any_pref:
+                return None   # 우선주가 있던 은행인데 이 분기 값이 없다 — 0으로 두지 않는다
+            p = (0, self.se[end][1])
+        v = self.se[end][0] - p[0]
+        return (v, max(self.se[end][1], p[1])) if v > 0 else None
+
+    def _ia_std(self, end):
+        if end in self.ia:
+            return self.ia[end]
+        if end in self.fin or end in self.ind:
+            f = self.fin.get(end) or ((0, "") if not self.fin_ever else None)
+            i = self.ind.get(end) or ((0, "") if not self.ind_ever else None)
+            return None if f is None or i is None else (f[0] + i[0], max(f[1], i[1]))
+        return self.oth.get(end)
+
+    def _ia7(self, end):
+        """7판 11-3: 표준 태그 → 그 공시의 회사 고유 무형자산 태그 → 그 공시와 직전 네 공시에 무형자산 값이 하나도 없으면 0 → 아니면 400일 이어쓰기."""
+        v = self._ia_std(end)
+        if v is not None:
+            return v
+        r = self.secv.get(end)
+        if r and r.get("ia") is not None:
+            return (r["ia"], r["filed"])
+        prev = [end] + qends_before(end, 4)
+        if all(e in self.secv and self.secv[e].get("ia") is None and self._ia_std(e) is None for e in prev):
+            return (0.0, self.secv[end]["filed"])   # 재무상태표에 따로 표시하지 않음(WFC 2023년 뒤)
+        cands = [(e, self._ia_std(e) or ((self.secv[e]["ia"], self.secv[e]["filed"]) if self.secv.get(e, {}).get("ia") is not None else None))
+                 for e in sorted(set(self.secv) | set(self.ia) | set(self.fin) | set(self.oth)) if e < end]
+        cands = [(e, x) for e, x in cands if x and (date.fromisoformat(end) - date.fromisoformat(e)).days <= 400]
+        return cands[-1][1] if cands else None
 
     # 1-2 (+7-6)
     def tce(self, end):
@@ -161,6 +236,11 @@ class Bank:
         gw = self.gw.get(end) or self._carry_goodwill(end)   # 6판 10-1: 영업권도 400일까지 이어 쓴다(AXP — 연말에만 태그)
         if gw is None:
             return None
+        if self.ed >= 7:
+            ia = self._ia7(end)
+            if ia is None:
+                return None
+            return (c[0] - gw[0] - ia[0], max(c[1], gw[1], ia[1]))
         if end in self.ia:
             ia = self.ia[end]
         elif end in self.fin or end in self.ind:
@@ -213,6 +293,9 @@ class Bank:
             return (v, max(self.issued[end][1], self.tr[end][1])) if v > 0 else None
         if end in self.cso and self.cso[end][0] > 0:
             return self.cso[end]
+        r = self.secv.get(end)   # 7판: companyfacts에 늦게 들어온 분기는 그 분기 원문 값(WFC 2023~2024 — 태그가 2025-04에야 접수)
+        if r and r.get("shares"):
+            return (r["shares"], r["filed"])
         return None
 
     def quarters(self):
@@ -225,7 +308,9 @@ class Bank:
         return (sum(series[k][0] for k in ks), max(series[k][1] for k in ks))
 
     def item_adj(self, end):
-        """특별 항목 NI 조정액(세후, 보통주). 확인 안 한 분기면 None."""
+        """특별 항목 NI 조정액(세후, 보통주). 확인 안 한 분기면 None. 7판(11-5)은 특별 항목을 쓰지 않는다(GAAP)."""
+        if self.ed >= 7:
+            return 0.0
         if end not in self.items:
             return None
         its = self.items[end]["items"]
@@ -247,6 +332,8 @@ class Bank:
         adj = [self.item_adj(k) for k in [end] + qends_before(end, 3)]
         if any(a is None for a in adj):
             return None
+        if self.ed >= 7:
+            return t
         wd_f = [self.wdil[k][1] for k in [end] + qends_before(end, 3) if k in self.wdil]
         return (t[0] - sum(adj), max([t[1]] + [self.items[k]["filed"] for k in [end] + qends_before(end, 3)] + wd_f))
 
@@ -507,3 +594,95 @@ def gates(bank, gate_path):
         for k in ("G1", "G2", "G3", "G4", "G5"):
             res[k]["pass"] = False
     return res
+
+
+# ── 7판 관문 N1~N5(11-6, 2026-10-11 초안) — 보도자료 대조 대신 SEC 자료 안의 대조 ─────────────
+def _q3m(cik, tag, end, unit_key=None):
+    """그 분기(약 3개월) 직접 공시값 — 가장 먼저 접수된 것. (값, 접수번호)."""
+    u = bmh._facts(cik).get("facts", {}).get("us-gaap", {}).get(tag, {}).get("units", {})
+    rows = [r for k, rs in u.items() if unit_key is None or k == unit_key for r in rs]
+    rows = [r for r in rows if r.get("end") == end and r.get("start") and 80 <= (date.fromisoformat(end) - date.fromisoformat(r["start"])).days <= 100]
+    return (sorted(rows, key=lambda r: r["filed"])[0]["val"], sorted(rows, key=lambda r: r["filed"])[0]["filed"]) if rows else None
+
+
+def _fy(cik, tag, end, unit_key=None):
+    u = bmh._facts(cik).get("facts", {}).get("us-gaap", {}).get(tag, {}).get("units", {})
+    rows = [r for k, rs in u.items() if unit_key is None or k == unit_key for r in rs]
+    rows = [r for r in rows if r.get("end") == end and r.get("start") and 350 <= (date.fromisoformat(end) - date.fromisoformat(r["start"])).days <= 380]
+    return sorted(rows, key=lambda r: r["filed"])[0]["val"] if rows else None
+
+
+def peer_ok7(bank, end):
+    """7판 11-6 동종업: 그 분기 CE·TCE·S가 만들어지고 N5-1(EPS 대조)·N5-2(우선주 차감)를 통과하는가 — 아니면 그날 동종업 P/TBV에서 뺀다."""
+    c = checks7(bank, end)
+    core = all((bank.ce(end), bank.tce(end), bank.shares(end)))
+    bad = [k for k in ("N5_1", "N5_2") if c.get(k, {}).get("pass") is False]
+    return core and not bad, ("CE·TCE·주식 수 중 결측" if not core else "") + ("·".join(bad) + " 미통과" if bad else "")
+
+
+def checks7(bank, end):
+    """{N1.., ok, stop_reasons, flags} — 최신 분기 end에 대해. 하나라도 미통과면 ok False(그 분기를 카드에 반영하지 않는다)."""
+    res, stop, flags = {}, [], []
+    prev = qends_before(end, 1)[0]
+    ce, tce, s = bank.ce(end), bank.tce(end), bank.shares(end)
+    # N1 완전성
+    miss = [k for k, v in (("CE", ce), ("TCE", tce), ("S", s), ("NI", bank.ni.get(end)), ("NI TTM", bank.ni_ttm(end)),
+                           ("기초 CE", bank.ce(qends_before(end, 4)[-1])), ("순환원 TTM", bank.payout_ttm(end)), ("유보율", bank.retention(end))) if not v]
+    res["N1"] = {"pass": not miss, "missing": miss}
+    # N2 분기 NI: 직접값 vs 누적 차분
+    d3 = _q3m(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic", end)
+    nq = bank.ni.get(end)
+    if d3 and nq:
+        diff = abs(nq[0] - d3[0])
+        res["N2"] = {"pass": diff <= 5e6 or (diff <= 50e6 and diff <= 0.10 * abs(d3[0])), "diff_m": round(diff / 1e6, 1)}
+    else:
+        res["N2"] = {"pass": True, "note": "직접값 없음(4분기) — N5-1로 대신"}
+    # N3 우선주 연속성 — 자본 이동 전체 대조는 자본변동표의 비표준 항목 때문에 정상 분기를 멈췄다(COF 2026 2분기 +$1.9B 미설명),
+    # 발행·상환 현금 대조는 회사 고유 태그 때문에 정상 발행을 멈췄다(WFC 2024 3분기 +$2.0B, 2026-10-11 시험).
+    # 목적(우선주 태그가 잘못 잡혀 CE가 계단처럼 뛰는 것 — BAC 10-K 회사 고유 태그 329)에 맞춰: 1년 전 같은 분기와 같은 태그이고 값이 절반~2배 안.
+    if bank.pref_tbl is not None and not bank.pref_tbl.get("path") and bank.pref_tbl.get("tags"):
+        ya = qends_before(end, 4)[-1]
+        p1, p0 = bank._pref7(end), bank._pref7(ya)
+        t1, t0 = getattr(bank, "_pref_tag", {}).get(end), getattr(bank, "_pref_tag", {}).get(ya)
+        if p1 and p0:
+            r_ = p1[0] / p0[0] if p0[0] else None
+            res["N3"] = {"pass": t1 == t0 and r_ is not None and 0.5 <= r_ <= 2.0, "tag": t1, "tag_yago": t0, "ratio": r_ and round(r_, 3)}
+        elif not p1 and not p0:
+            res["N3"] = {"pass": True, "note": "우선주 없음"}
+        else:
+            res["N3"] = {"pass": False, "note": "우선주 값이 한쪽 분기에만 있다", "now": p1 and round(p1[0] / 1e6), "yago": p0 and round(p0[0] / 1e6)}
+    else:
+        res["N3"] = {"pass": True, "note": "우선주 표 경로 밖(AXP 상환가·표 없는 은행)"}
+    # N4 급변
+    cp, sp = bank.ce(prev), bank.shares(prev)
+    jumps = []
+    if ce and s and cp and sp:
+        if abs((ce[0] / s[0]) / (cp[0] / sp[0]) - 1) > 0.10:
+            jumps.append("BVPS ±10% 초과")
+        if abs(s[0] / sp[0] - 1) > 0.10:
+            jumps.append("주식 수 ±10% 초과")
+    g0, g1 = bank.gw.get(prev) or bank._carry_goodwill(prev), bank.gw.get(end)
+    if g0 and g1 and g1[0] > g0[0] * 1.2:
+        jumps.append("영업권 20% 넘게 증가")
+    acked = (json.load(open(ACK)).get(bank.t, {}).get(end) if os.path.exists(ACK) else None)
+    res["N4"] = {"pass": not jumps or bool(acked), "jumps": jumps, "ack": acked}
+    # N5-1 EPS 대조
+    if d3 is not None or end.endswith("12-31"):
+        ni_ = d3[0] if d3 else _fy(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic", end)
+        wa = (_q3m(bank.cik, "WeightedAverageNumberOfSharesOutstandingBasic", end, "shares") or (None,))[0] if d3 else _fy(bank.cik, "WeightedAverageNumberOfSharesOutstandingBasic", end, "shares")
+        eps = (_q3m(bank.cik, "EarningsPerShareBasic", end, "USD/shares") or (None,))[0] if d3 else _fy(bank.cik, "EarningsPerShareBasic", end, "USD/shares")
+        if ni_ and wa and eps:
+            res["N5_1"] = {"pass": abs(ni_ / wa / eps - 1) <= 0.01 or abs(ni_ / wa - eps) <= 0.011, "ratio": round(ni_ / wa / eps, 4)}
+        else:
+            res["N5_1"] = {"pass": None, "note": "EPS·가중평균 주식 수 결측"}
+        if d3 and wa and s and abs(s[0] - wa) / s[0] > 0.02:   # 4분기는 연간 평균이라 자사주 매입 은행이 늘 걸린다 — 1~3분기만
+            flags.append(f"분기말 주식 수가 기본 가중평균과 {abs(s[0] - wa) / s[0] * 100:.1f}% 다르다")
+    # N5-2 우선주 배당이 있는데 우선주 차감 0
+    pd = bank.ttm(bank.div_pref, end)
+    pz = bank.pref_tbl is not None and not bank.pref_tbl.get("path") and bank.pref_tbl.get("tags") and bank._pref7(end) is None and ce
+    res["N5_2"] = {"pass": not (pd and pd[0] > 0 and (pz or (ce and bank.se.get(end) and abs(bank.se[end][0] - ce[0]) < 1)))}
+    for k, v in res.items():
+        if v.get("pass") is False:
+            stop.append(k)
+    return {"end": end, **res, "ok": not stop, "stop": stop, "flags": flags,
+            "unverifiable": [k for k, v in res.items() if v.get("pass") is None]}
