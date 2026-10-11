@@ -96,7 +96,7 @@ BEAR = [('부채', '차입금이 연초 $14.4B에서 $39.3B로 늘었고 2분기
         ('성장', '매출 +11% 가운데 Informatica($456M)가 약 4.5%p라 유기적 성장은 약 6%다.'),
         ('일회성', '2분기 GAAP EPS $4.29에 전략 투자 평가이익 $2.6B가 들어 있다.')]
 ANALYST = {'rating': 'Buy', 'n': 56, 'nt': 36, 'mean': 272.19, 'median': 276, 'low': 160, 'high': 400, 'sb': 33, 'b': 6, 'h': 15, 's': 2, 'ss': 0}
-ANALYST_ASOF = '2026-10-10'
+ANALYST_ASOF = '2026-10-11'
 
 POST = [r'''
 h = h.replace('기본 시나리오 $${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}', '기본 시나리오 $${D.base.toFixed(2)} = 사업 가치 $${(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}', 1)

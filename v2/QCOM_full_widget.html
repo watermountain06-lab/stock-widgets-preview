@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$105.02</td><td style="color: var(--red);" data-dcf-upside="low">−40.2%</td>
-          <td class="story">매출이 5년 성장률의 절반(연 2.9%)으로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 27.1%로 간다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 2.9%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 27.1%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$108.45</td><td style="color: var(--red);" data-dcf-upside="base">−38.2%</td>
-          <td class="story">매출이 5년 성장률(연 5.9%)로 시작해 식고, 영업이익률이 최근 2년 중앙값 26.7%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 5.9%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 26.7%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$91.17</td><td style="color: var(--red);" data-dcf-upside="high">−48.1%</td>
-          <td class="story">매출이 3년 성장률(최근 4분기 합 기준, 연 4.5%)로 시작해 식고, 최근 4분기 영업이익률 23.2%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 4.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 23.2%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. “낙관”이 가장 낮고 “보수”가 “기본”과 비슷하다(이름과 순서가 뒤집힘). 최근 4분기 영업이익률 23.2%가 5년·2년 중앙값보다 낮아, 현재 마진을 이어 가는 “낙관”이 가장 작게 나오기 때문이다. 1년 전 투하자본을 다시 모으지 못해 세 시나리오 모두 매출/자본을 이력 평균으로 쓴다(엔진 경고).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $91.17~$108.45다. 영업이익률은 최근 4분기 23.2%, 2년 중앙값 26.7%, 5년 중앙값 27.1%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 2.9%·이익률 27.1%), 기본(5.9%·26.7%), 낙관(4.5%·23.2%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -736,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q3 FY26)</div>
       <div class="stat-value">$0.5B</div>
-      <div class="stat-sub">영업현금흐름 − 설비투자</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자 · 분기 길이가 13·14주로 다르다</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q3 FY26)</div>
       <div class="stat-value">$0.5B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">자동차 매출 (Q3 FY26)</div>
-      <div class="stat-value">$1.59B</div>
-      <div class="stat-sub">+61% · 23분기 연속 두 자릿수 성장</div>
+      <div class="stat-label">희석 EPS (Q3 FY26)</div>
+      <div class="stat-value">$1.87</div>
+      <div class="stat-sub">GAAP · 1년 전 $2.43 (−23.0%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">11월 초 예상</div>
-      <div class="stat-sub">일정 · Q4 FY26 (회사 미확정)</div>
+      <div class="stat-value">11월 4일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q4 FY26 (작년 11/5 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -799,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 $15.3B(1년 안 만기 $2.5B + 장기 $12.8B), 현금과 유가증권은 $8.3B다. 재고가 9개월 새 $6.5B에서 $8.4B로 늘었다. 매출채권은 10-Q가 “매출채권 + 기타 채권” 합산으로만 내 활동성은 그 합산 태그로 전 기간을 계산했다. <a href="https://www.sec.gov/Archives/edgar/data/804328/000080432826000086/qcom-20260628.htm" target="_blank" rel="noopener">Q3 FY26 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $15.3B, 현금·단기투자 $8.3B, 자본 $27.7B. 유동비율 202%, 이자보상배율 9.1배. <a href="https://www.sec.gov/Archives/edgar/data/804328/000080432826000086/qcom-20260628.htm" target="_blank" rel="noopener">Q3 FY26 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.28까지 4분기</span>)</div>
@@ -878,34 +878,34 @@ Chart.overrides.doughnut.animation = false;
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3253dc;display:inline-block;flex-shrink:0;"></span>QCT 휴대폰 <strong style="color:var(--text);">$5.09B · 51.1%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;flex-shrink:0;"></span>QCT 자동차 <strong style="color:var(--text);">$1.59B · 16.0%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block;flex-shrink:0;"></span>QCT IoT <strong style="color:var(--text);">$1.83B · 18.4%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;flex-shrink:0;"></span>QCT 자동차 <strong style="color:var(--text);">$1.59B · 16.0%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#a78bfa;display:inline-block;flex-shrink:0;"></span>QTL 라이선스 <strong style="color:var(--text);">$1.28B · 12.8%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0;"></span>기타(QGOV·데이터센터) <strong style="color:var(--text);">$0.17B · 1.7%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 휴대폰 −20%, 자동차 +61%, IoT +9%, 라이선스(QTL) −3% · 기타는 비보고 부문(정부 사업 QGOV·데이터센터) 매출 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/804328/000080432826000085/qcom062826erex991.htm" target="_blank" rel="noopener">Q3 FY26 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 QCT 휴대폰 −19.6%, QCT IoT +8.9%, QCT 자동차 +61%, QTL 라이선스 −3.0%, 기타(QGOV·데이터센터) 3.1배 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/804328/000080432826000086/qcom-20260628.htm" target="_blank" rel="noopener">Q3 FY26 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q3 FY26 · 2026.06.28 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (FY26 9개월 4,200만 주, 3분기 $1.4B)</span>
+          <span class="zone-label">자사주 매입 (회계연도 누계 2025.9.29~2026.6.28, 39주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="zone-val">$6.8B</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 승인 잔여 (3월 $20B 신규 승인 포함)</span>
-          <span class="zone-val">$20.6B</span>
+          <span class="zone-label">보통주 배당 지급</span>
+          <span class="zone-val">공시 없음</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (9개월 지급, 분기 주당 $0.92)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 6/28 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">이전 분기 $0.89</span>
-            <span class="zone-val">$2.9B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.89 · +3.4%</span>
+            <span class="zone-val">$0.92</span>
           </div>
         </div>
       </div>
@@ -914,12 +914,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 초 (예상) · Q4 FY26</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 4일 무렵 (예상) · Q4 FY26</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 4분기 가이던스 매출 $9.7~10.5B, GAAP EPS $1.22~1.42를 맞추는지(이 분기부터 최근 4분기 EPS에서 세금 충당금 주당 −$5.29가 빠져 PER이 세금 요인만으로 크게 내려간다)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 휴대폰 칩 매출(3분기 −20%)이 메모리 공급 부족에서 회복하는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 원가 상승분을 칩 가격에 반영해 영업이익률(3분기 16.3%)이 돌아오는지</div>
-      <div><strong style="color:var(--accent2);">④</strong> 데이터센터 맞춤형 칩 첫 출하와 아마존 서버 칩 계약(워런트 베스팅 조건)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+5.0% → −3.5% → −4.0%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q3 FY26 16.3%, 1년 전 26.6%)</div>
     </div>
   </div>
 </div>
@@ -938,8 +936,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">90.8</div><div class="sc-tile" data-vc="peer" data-m="per">96</div><div class="sc-tile" data-vc="peer" data-m="pbr">83</div><div class="sc-tile" data-vc="peer" data-m="psr">93</div><div class="sc-tile" data-vc="peer" data-m="pcr">91</div><div class="sc-tile" data-vc="peer" data-m="evebitda">92</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PCR 17.7배·EV/EBITDA 16.3배가 5년 중 비싼 쪽(상위 30% 안)이고 PER 20.1배(5년 중앙값 16.4배 — 회사가 밝힌 평가충당금 설정 $5.7B·환입 $5.7B를 뺀 EPS 기준)도 비싼 쪽, PSR은 중간보다 조금 비싼 쪽, PBR은 중간이라 자기 이력 42.1점(중간)이다. 이익이 줄었는데 주가는 1년 새 +5%였다. 카드 유니버스 IT 안에서는 다섯 배수 모두 싼 쪽(PER 2위)이라 90.8점(싸다)이다. 비교군 대부분이 AI 수혜로 배수가 높은 종목이다. <strong>현금흐름 내재가치(기본 $108.45)는 현재가의 62%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현재가를 정당화하려면 영업이익률이 39.5%까지 올라야 한다(최근 4분기 23.2%, 5년 중앙값 27.1%). 내재가치에서 빼는 것은 차입금 $15.3B이고 현금·유가증권 $8.3B를 더한다(운용리스 $0.8B는 영업이익이 임차료를 이미 뺐으므로 빼지 않는다). 아마존 워런트(최대 2,500만 주, 행사가 $161.26, 375만 주는 발행 때 바로 베스팅)는 모델 주식 수에 넣지 않았다.</div>
+    <div class="vs-premise">PER 20.1배(5년 중앙값 16.4배)로 자기 이력 42.1점(중간), 동종업 90.8점(싸다)이다. <strong>현금흐름 내재가치(기본 $108.45)는 현재가의 62%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $108.45)는 현재가의 62%다. 현재가를 정당화하려면 영업이익률이 39.5%까지 올라야 한다(최근 4분기 23.2%, 5년 중앙값 27.1%). 내재가치에서 차입금 $15.3B를 빼고 현금·단기투자 $8.3B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1022,14 +1020,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 메모리 공급 부족으로 휴대폰 칩 매출이 줄고 이익률이 떨어진 가운데 데이터센터 진출(하이퍼스케일러·아마존)을 밝혔고, 주가는 1년 새 +5%<span class="tag">전환기·이익 감소</span></div>
-    <ol class="news-list">
-      <li>3분기 매출 $9.9B(−4%)로 휴대폰 칩이 20% 줄고 자동차(+61%)·IoT(+9%)가 일부 메웠다.</li>
-      <li>영업이익 $1.6B(−41%), 영업이익률 16.3%로 연구개발비 증가와 원가 상승이 겹쳤다.</li>
-      <li>4월 하이퍼스케일러 맞춤형 칩 연내 출하, 9월 아마존 서버 칩 협력(워런트 최대 2,500만 주)을 밝혔다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 카드 유니버스 IT 안에서는 싼 편이지만 자기 이력으로는 중간이고, 현금흐름 모델은 이익률 회복을 넣어도 주당 $108.45다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q4 FY26 실적(11월 초 예상)의 휴대폰 회복과 영업이익률.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 FY26 매출 $9.9B(−4.0%), 영업이익률 16.3%(1년 전 26.6%). 주가는 1년 새 +5%<span class="tag">배수 싼 쪽·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $108.45)는 현재가의 62%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 11월 4일 무렵 (예상) Q4 FY26 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1112,15 +1105,15 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">다각화</span><span class="bb-text">자동차 매출 +61%(23분기 연속 두 자릿수), 자동차+IoT +28%.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">데이터센터</span><span class="bb-text">하이퍼스케일러 맞춤형 칩 연내 출하, 아마존 서버 칩 협력.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">FY26 9개월 자사주 $6.8B, 승인 잔여 $20.6B, 분기 배당 $0.92.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $10.4B, 매출의 23.6%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">부채</span><span class="bb-text">순차입금(리스 포함) $7.8B, 최근 4분기 영업이익의 0.8배.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">분기 주당 배당 $0.92(1년 전보다 +3.4%).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">휴대폰</span><span class="bb-text">휴대폰 칩 매출 −20%(메모리 공급 부족), 매출의 절반.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">이익률</span><span class="bb-text">3분기 영업이익률 16.3%(1년 전 26.6%), 원가 상승.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">희석</span><span class="bb-text">Alphawave·Modular 인수에 주식 약 2,900만 주 발행, 아마존 워런트 최대 2,500만 주(375만 주 베스팅).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">매출</span><span class="bb-text">Q3 FY26 매출 −4.0%(보고 기준, 인수 포함, 3년 연평균 4.5%).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부문</span><span class="bb-text">QCT 휴대폰 매출 −19.6%(1년 전 같은 분기 대비).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 23.2%(5년 중앙값 27.1%).</span></div>
     </div>
   </div>
 
@@ -1133,12 +1126,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 29.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 62.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 8.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$197.90</span> <span class="op-sub op-up" data-an="upside">+12.8%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">11월 초 <span class="op-sub">Q4 FY26 예상</span></span>
+        <span class="op-val">11월 4일 무렵 <span class="op-sub">Q4 FY26 예상</span></span>
       </div>
     </div>
   </div>
@@ -1219,7 +1212,7 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 FY26 vs Q3 FY25)',
     chart: { cur: [9.95, 1.63, 2.0, 0.5], cmp: [10.37, 2.76, 2.67, 2.58] },
     deltas: ['-4.0%', '-41.1%', '-24.9%', '-80.8%'],
-    footnote: '기준일: 2026.06.28(Q3 FY26) vs 2025.06.29(Q3 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 휴대폰 칩 −20%(메모리 공급 부족) · 자동차 +61%, IoT +9% · 영업이익 −41%(연구개발비 +17%, 원가 상승) · 순이익에 투자 평가이익 $726M · <a href="https://www.sec.gov/Archives/edgar/data/804328/000080432826000085/qcom062826erex991.htm" target="_blank" rel="noopener">Qualcomm Q3 FY26 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.28(Q3 FY26) vs 2025.06.29(Q3 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/804328/000080432826000085/qcom062826erex991.htm" target="_blank" rel="noopener">Qualcomm Q3 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q3 FY26', cmpLabel: 'Q2 FY26',
@@ -1313,10 +1306,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:["QCT 휴대폰", "QCT 자동차", "QCT IoT", "QTL 라이선스", "기타(QGOV·데이터센터)"],
+      labels:["QCT 휴대폰", "QCT IoT", "QCT 자동차", "QTL 라이선스", "기타(QGOV·데이터센터)"],
       datasets:[{
-        data:[5086, 1588, 1830, 1278, 165],
-        backgroundColor:["#3253dc", "#22c55e", "#f59e0b", "#a78bfa", "#94a3b8"],
+        data:[5086, 1830, 1588, 1278, 165],
+        backgroundColor:["#3253dc", "#f59e0b", "#22c55e", "#a78bfa", "#94a3b8"],
         borderColor:'#8a8d9e',
         borderWidth:2
       }]
@@ -1524,7 +1517,7 @@ const QCOM_SCORES = {
   peer: 90.8,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 42.1,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-28",   // Q3 FY26 10-Q (2026-07-29 공시)
+  fundamentalAsOf: "2026-06-28",   // Q3 FY26 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 QCOM_DCF 하나다.
@@ -2126,7 +2119,7 @@ const QCOM_ACTIVITY = {"ticker": "QCOM", "status": "ok", "asOf": "2026-06-28", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/qcom/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const QCOM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 37, nTargets: 31, mean: 197.9, median: 180,
+const QCOM_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 37, nTargets: 31, mean: 197.9, median: 180,
   low: 100, high: 400, strongBuy: 9, buy: 2, hold: 23, sell: 2, strongSell: 1 };
 (function(){
   const A = QCOM_ANALYST, last = (typeof QCOM_DAILY !== 'undefined' && QCOM_DAILY.length) ? QCOM_DAILY[QCOM_DAILY.length - 1] : null;
@@ -2169,7 +2162,7 @@ const QCOM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('qcomFundBox', 'qcomFundScore', 'qcomFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q3 FY26, 10-Q), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n영업이익률 16.3%는 3분기 한 분기 기준이다(1년 전 26.6%). 순이익률이 더 높은 것은 투자·기타 수익 $1,014M(유가증권 평가이익 $726M) 덕분이다. 활동성은 매출채권 합산 태그 기준이라 회수기간이 실제보다 길게 나온다(이력 전체가 같은 기준).`);
+      + `\n점수는 Q3 FY26 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2191,7 +2184,7 @@ const QCOM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\n비교군에 AI 수혜로 배수가 높은 반도체·소프트웨어가 많아 QCOM이 다섯 배수 모두 싼 쪽에 선다. 자기 이력과 50점 넘게 벌어진다.`);
   put('qcomSelfBox', 'qcomSelfScore', 'qcomSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER·PCR·EV/EBITDA가 5년 중 비싼 쪽이다. 3분기 영업현금흐름이 $991M으로 작아(재고 증가) PCR이 올랐다. 최근 4분기 순이익에는 세금 충당금(−$5.7B)과 환입(+$5.7B)이 같이 있어 서로 상쇄된다.`
+      + `\nPER 20.1배는 5년 분포의 하위 71.1%다(중앙값 16.4배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

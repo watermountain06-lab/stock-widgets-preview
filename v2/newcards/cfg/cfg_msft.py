@@ -97,7 +97,7 @@ BEAR = [('투자 부담', '설비투자가 Q4 $35.8B(금융리스 별도)로 늘
         ('OpenAI', '4월 계약 개정으로 OpenAI 모델 독점 사용권이 끝났다.'),
         ('밸류에이션', '현재가가 내재가치 기본 시나리오의 {px / DCF[\'base\']:.1f}배다.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 56, 'nt': 35, 'mean': 581.69, 'median': 575, 'low': 440, 'high': 725, 'sb': 41, 'b': 14, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-10'
+ANALYST_ASOF = '2026-10-11'
 REV_FOOT = '6월 결산 · Q2 FY26 순이익에는 영업외이익 $10.0B가 들어 있다(영업이익 $38.3B).'   # 분기 차트 아래(옛 카드 그대로)
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
            '기본 시나리오(<span data-dcf-basev>${DCF[\'base\']:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF[\'baseEquivGrowth\'])}</span>다.')   # 성장 모드 역산 문장(JS가 칸을 채운다)

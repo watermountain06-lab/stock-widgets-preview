@@ -1,25 +1,12 @@
 {
  "session": "2026-10-09",
- "started": "2026-10-10T19:16:11+0000",
- "finished": "2026-10-10T20:54:09+0000",
- "newFilings": [
-  {
-   "ticker": "MU",
-   "form": "10-K",
-   "period": "2026-09-03",
-   "filed": "2026-10-09",
-   "cardAsOf": "2026-05-28"
-  },
-  {
-   "ticker": "PEP",
-   "form": "10-Q",
-   "period": "2026-09-05",
-   "filed": "2026-10-08",
-   "cardAsOf": "2026-06-13"
-  }
- ],
+ "started": "2026-10-11T13:26:54+0000",
+ "finished": "2026-10-11T15:16:58+0000",
+ "newFilings": [],
  "filingChecksMissed": [],
- "peerDrift": [],
+ "peerDrift": [
+  "SPCX"
+ ],
  "peerFiles": [
   "communication_services: 21종목 · 제외 8 · 기준일 2026-10-09",
   "consumer_discretionary: 47종목 · 제외 0 · 기준일 2026-10-09",
@@ -37,7 +24,46 @@
  "peerFilesKept": [],
  "peerSecRefresh": null,
  "analystFailed": [],
- "verdictChanges": [],
+ "verdictChanges": [
+  {
+   "ticker": "MU",
+   "old": [
+    [
+     -1,
+     1,
+     -2
+    ],
+    "적정~고평가"
+   ],
+   "new": [
+    [
+     0,
+     1,
+     -1
+    ],
+    "적정"
+   ]
+  },
+  {
+   "ticker": "SCHW",
+   "old": [
+    [
+     null,
+     null,
+     null
+    ],
+    "판정 보류"
+   ],
+   "new": [
+    [
+     0,
+     -1,
+     -2
+    ],
+    "고평가"
+   ]
+  }
+ ],
  "failed": [],
  "problems": []
 }

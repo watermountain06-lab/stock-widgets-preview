@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$80.69</td><td style="color: var(--red);" data-dcf-upside="low">−72.2%</td>
-          <td class="story">5년 성장률의 절반(연 1.6%)에서 식고, 영업이익률이 5년 중앙값 14.2%로 간다.</td>
+          <td class="story">5년 성장률의 절반(연 1.6%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 14.2%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$154.45</td><td style="color: var(--red);" data-dcf-upside="base">−46.9%</td>
-          <td class="story">5년 성장률(연 3.2%)에서 식고, 영업이익률이 최근 2년 중앙값 13.0%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 3.2%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 13.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$154.45</td><td style="color: var(--red);" data-dcf-upside="high">−46.9%</td>
-          <td class="story">3년 성장률(연 3.0%)에서 식고, 최근 4분기 영업이익률 12.4%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 3.0%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 12.4%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $80.69~$154.45다. 영업이익률은 최근 4분기 12.4%, 2년 중앙값 13.0%, 5년 중앙값 14.2%를 쓴다.</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="hdRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">회계연도는 1월 말·2월 초에 끝난다(Q2 FY26 = 2026년 5~7월). 2분기가 매출·마진이 가장 큰 성수기다. FY2024는 53주라 4분기에 한 주(매출 약 $2.5B)가 더 있었다. 2025년 9월 GMS, 2026년 5월 Mingledorff's를 인수해(전문 시공업자 대상 유통) 매출이 늘었다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 FY26)</div>
       <div class="stat-value">$4.51B</div>
-      <div class="stat-sub">영업현금흐름 − 설비투자</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자 · 분기 길이가 13·14주로 다르다</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 FY26)</div>
       <div class="stat-value">$0.88B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 FY26)</div>
-      <div class="stat-value">해당 없음</div>
-      <div class="stat-sub">연구개발비를 따로 공시하지 않는다</div>
+      <div class="stat-label">희석 EPS (Q2 FY26)</div>
+      <div class="stat-value">$4.79</div>
+      <div class="stat-sub">GAAP · 1년 전 $4.58 (+4.6%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">11월 중순 예상</div>
-      <div class="stat-sub">일정 · Q3 FY26 (회사 미확정)</div>
+      <div class="stat-value">11월 17일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 FY26 (작년 11/18 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">558.3%</span></div>
       <div class="diag-badge alert" title="구성표 배점 1/5점">⚠️ 주의</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+9.3%</span><span class="diag-note">FY2025 말(2026-02-01) $105.1B(전년 $96.1B, GMS 인수 반영) · 연간 지표</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+9.3%</span><span class="diag-note">FY2025 말 $105.1B(전년 $96.1B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 107.8%, 재고($26.8B)를 뺀 당좌비율 31.1%다. 차입금은 $52.9B(기업어음 $4.2B + 1년 안 만기 $4.7B + 장기 $44.0B, 금융리스 포함)이고 현금은 $2.1B다. 상반기에 장기차입금 $3.0B를 갚았다. 부채비율 558%는 누적 자사주($96.0B)로 자본이 $16.6B로 작아서다. <a href="https://www.sec.gov/Archives/edgar/data/354950/000162828026058715/hd-20260802.htm" target="_blank" rel="noopener">Q2 FY2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $52.9B, 현금·단기투자 $2.1B, 자본 $16.6B. 유동비율 108%, 이자보상배율 12배. <a href="https://www.sec.gov/Archives/edgar/data/354950/000162828026058715/hd-20260802.htm" target="_blank" rel="noopener">Q2 FY2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.08.02까지 4분기</span>)</div>
@@ -878,34 +877,34 @@ Chart.overrides.doughnut.animation = false;
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#9b59b6;display:inline-block;flex-shrink:0;"></span>공구·원예 등(하드라인) <strong style="color:var(--text);">$14.45B · 30.2%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#7c6ad6;display:inline-block;flex-shrink:0;"></span>건축 자재 <strong style="color:var(--text);">$14.43B · 30.2%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#ffb07a;display:inline-block;flex-shrink:0;"></span>인테리어(데코) <strong style="color:var(--text);">$13.93B · 29.1%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#9b59b6;display:inline-block;flex-shrink:0;"></span>공구·원예 등(하드라인) <strong style="color:var(--text);">$14.45B · 30.2%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0;"></span>기타(SRS·GMS 등) <strong style="color:var(--text);">$5.05B · 10.6%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">주력 매장 매출은 1년 전보다 1.5% 늘었고, 기타(전문 유통 자회사)는 $3.1B → $5.1B로 늘었다 · 비교 가능 매출 +1.7%(미국 +1.3%) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/354950/000162828026058715/hd-20260802.htm" target="_blank" rel="noopener">Q2 FY2026 10-Q (SEC) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 공구·원예 등(하드라인) +2.3%, 건축 자재 +1.5%, 인테리어(데코) +0.9%, 기타(SRS·GMS 등) +62% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/354950/000162828026058715/hd-20260802.htm" target="_blank" rel="noopener">Q2 FY2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 FY26 · 2026.08.02 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (2024년 3월부터 중단)</span>
+          <span class="zone-label">자사주 매입</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$0</span>
+            <span class="zone-val">공시 없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">잔여 바이백 승인 한도 (2026.08.02 기준, $15.0B 중)</span>
-          <span class="zone-val">약 $11.7B</span>
+          <span class="zone-label">배당 지급 (회계연도 누계 2026.2.2~2026.8.2, 26주)</span>
+          <span class="zone-val">$4.6B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q2 FY26 지급)</span>
+          <span class="zone-label">최근 분기 주당 배당 (지급 기준, 8/2 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">분기 $2.33(2월 1.3% 인상)</span>
-            <span class="zone-val">$2.3B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $2.30 · +1.3%</span>
+            <span class="zone-val">$2.33</span>
           </div>
         </div>
       </div>
@@ -914,12 +913,12 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 중순 (예상) · Q3 FY26</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 17일 무렵 (예상) · Q3 FY26</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 연간 전망(매출 +2.5~4.5%, 비교 가능 매출 0~+2%, 영업이익률 12.4~12.6%, EPS 0~+4%) 유지 — 관세 환급(IEEPA)으로 연료·원가 상승을 일부 메운다는 전제</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 비교 가능 매출(2분기 +1.7%)과 주택 경기 — 회사는 고객이 작은 공사 위주로 움직인다고 했다</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 에드워드 데커 CEO의 의료 휴직(8월 12일 발표)과 임시 운영 체제</div>
-      <div><strong style="color:var(--accent2);">④</strong> 차입금 상환(상반기 $3.0B)과 2024년 3월부터 멈춘 자사주 매입 재개 여부</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율이 3년 연평균 3.0% 안팎을 지키는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 FY26 14.3%, 1년 전 14.5%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> FCF(최근 4분기 $15.1B)가 배당 지급(연 환산 약 $9.3B)을 넘는지</div>
+      <div><strong style="color:var(--accent2);">④</strong> 차입금 $52.9B이 줄어드는지</div>
     </div>
   </div>
 </div>
@@ -938,8 +937,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">41.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">41</div><div class="sc-tile low" data-vc="peer" data-m="pbr">17</div><div class="sc-tile lost" data-vc="peer" data-m="psr">59</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">50</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">42</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 24% 내렸고 1년 최저는 10월 5일 종가 $281.15다. PSR·PCR이 5년 중 가장 싼 쪽이고 자기 이력은 84.9점이다. 다만 PBR 99점은 자본이 $0.2~1.8B에 그쳤던 2022~2024년이 이력에 섞인 탓이다. S&P500 경기소비재 안에서는 41.7점(중간)이다. <strong>현금흐름 내재가치(기본 $154)는 현재가의 53%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 3.2%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">20.1%</strong>여야 한다(최근 4분기 12.4%, 회사의 올해 전망 12.4~12.6%). 낙관 시나리오와 기본이 $154로 같다. 낙관은 3년 성장률(3.0%)과 최근 4분기 마진(12.4%)이 5년 성장률·2년 마진(13.0%)보다 낮지만, 기본이 쓰는 최근 1년 매출/자본(0.48)이 평균보다 낮아 재투자가 커서 두 효과가 비슷하게 상쇄된다.</div>
+    <div class="vs-premise">PER 20.4배(5년 중앙값 23.1배)로 자기 이력 84.9점(싸다), 동종업 41.7점(중간)이다. <strong>현금흐름 내재가치(기본 $154.45)는 현재가의 53%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $154.45)는 현재가의 53%다. 현재가를 정당화하려면 영업이익률이 20.1%까지 올라야 한다(최근 4분기 12.4%, 5년 중앙값 14.2%). 내재가치에서 차입금 $52.9B를 빼고 현금·단기투자 $2.1B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1022,14 +1021,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 매장 매출은 0~2%대로 정체하고 인수로 매출을 늘리는 중, 주가는 1년 새 크게 내렸다<span class="tag">저성장·조정</span></div>
-    <ol class="news-list">
-      <li>비교 가능 매출 증가율은 1분기 +0.6%, 2분기 +1.7%였고, 회사는 올해 0~+2%를 전망한다.</li>
-      <li>GMS(2025년 9월)·Mingledorff's(2026년 5월) 인수로 전문 시공업자 대상 매출이 늘었고, 자사주 매입은 2024년 3월부터 멈춘 채 차입금을 갚고 있다.</li>
-      <li>주가는 1년 새 -24%이고, 1년 최저는 10월 5일 종가 $281.15다. 8월에는 CEO가 의료 휴직에 들어갔다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 배수는 5년 중 싼 쪽이지만, 현금흐름 모델로는 현재가의 53%만 설명된다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 FY26 실적(11월 중순 예상)의 비교 가능 매출과 연간 전망 유지, CEO 복귀 여부.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 FY26 매출 $47.9B(+5.7%), 영업이익률 14.3%(1년 전 14.5%). 주가는 1년 새 −24%<span class="tag">배수 5년 최저권·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $154.45)는 현재가의 53%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 11월 17일 무렵 (예상) Q3 FY26 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1094,15 +1088,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배수</span><span class="bb-text">PSR 1.71배·PCR 19.2배가 5년 중 가장 싼 쪽, PER 20.4배(5년 중앙값 23.1배).</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">실적</span><span class="bb-text">2분기 실적이 회사 기대를 넘었고 연간 전망을 유지했다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배당</span><span class="bb-text">분기 배당 $2.33, 2분기 지급 $2.3B.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 85점(배수 5개) · PER 20.4배(5년 중앙값 23.1배).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q2 FY26 매출 +5.7%(보고 기준, 인수 포함, 3년 연평균 3.0%).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">비교 가능 매출 0~+2%, 영업이익 3년 연 −4.6%.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">차입금 $52.9B, 자사주 매입 중단 상태.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">경영</span><span class="bb-text">8월부터 CEO 의료 휴직으로 임시 운영 체제다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $154.45)는 현재가의 53%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">부채비율(차입금 ÷ 자본) 558%, 자본 $16.6B.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 12.4%(5년 중앙값 14.2%).</span></div>
     </div>
   </div>
 
@@ -1115,12 +1108,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 61.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 38.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$392.76</span> <span class="op-sub op-up" data-an="upside">+35.1%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">11월 중순 <span class="op-sub">Q3 FY26 예상</span></span>
+        <span class="op-val">11월 17일 무렵 <span class="op-sub">Q3 FY26 예상</span></span>
       </div>
     </div>
   </div>
@@ -1201,14 +1194,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 FY26 vs Q2 FY25)',
     chart: { cur: [47.86, 6.84, 4.77, 4.51], cmp: [45.28, 6.56, 4.55, 3.73] },
     deltas: ['+5.7%', '+4.3%', '+4.7%', '+21.0%'],
-    footnote: '기준일: 2026.08.02(Q2 FY26) vs 2025.08.03(Q2 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/354950/000035495026000145/hd_exhibit991x08022026.htm" target="_blank" rel="noopener">The Home Depot Q2 FY2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.08.02(Q2 FY26) vs 2025.08.03(Q2 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/354950/000035495026000145/hd_exhibit991x08022026.htm" target="_blank" rel="noopener">The Home Depot Q2 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 FY26', cmpLabel: 'Q1 FY26',
     titleSuffix: 'QoQ (Q2 FY26 vs Q1 FY26)',
     chart: { cur: [47.86, 6.84, 4.77, 4.51], cmp: [41.77, 4.98, 3.29, 5.19] },
     deltas: ['+14.6%', '+37.3%', '+44.9%', '-13.1%'],
-    footnote: '기준일: 2026.08.02(Q2 FY26) vs 2026.05.03(Q1 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 매출·이익은 성수기인 2분기가 1분기보다 크다(FCF는 예외) · <a href="https://www.sec.gov/Archives/edgar/data/354950/000035495026000145/hd_exhibit991x08022026.htm" target="_blank" rel="noopener">The Home Depot Q2 FY2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.08.02(Q2 FY26) vs 2026.05.03(Q1 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/354950/000035495026000145/hd_exhibit991x08022026.htm" target="_blank" rel="noopener">The Home Depot Q2 FY26 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1295,10 +1288,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:["건축 자재", "인테리어(데코)", "공구·원예 등(하드라인)", "기타(SRS·GMS 등)"],
+      labels:["공구·원예 등(하드라인)", "건축 자재", "인테리어(데코)", "기타(SRS·GMS 등)"],
       datasets:[{
-        data:[14432, 13929, 14445, 5055],
-        backgroundColor:["#7c6ad6", "#ffb07a", "#9b59b6", "#94a3b8"],
+        data:[14445, 14432, 13929, 5055],
+        backgroundColor:["#9b59b6", "#7c6ad6", "#ffb07a", "#94a3b8"],
         borderColor:'#8a8d9e',
         borderWidth:2
       }]
@@ -1508,7 +1501,7 @@ const HD_SCORES = {
   peer: 41.7,          // S&P500 경기소비재 47종목 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 84.9,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-08-02",   // Q2 FY26 10-Q (2026-08-25 공시)
+  fundamentalAsOf: "2026-08-02",   // Q2 FY2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 HD_DCF 하나다.
@@ -2110,7 +2103,7 @@ const HD_ACTIVITY = {"ticker": "HD", "status": "ok", "asOf": "2026-08-02", "prev
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/hd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const HD_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 36, nTargets: 21, mean: 392.76, median: 400,
+const HD_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 36, nTargets: 21, mean: 392.76, median: 400,
   low: 342, high: 425, strongBuy: 18, buy: 4, hold: 14, sell: 0, strongSell: 0 };
 (function(){
   const A = HD_ANALYST, last = (typeof HD_DAILY !== 'undefined' && HD_DAILY.length) ? HD_DAILY[HD_DAILY.length - 1] : null;
@@ -2153,7 +2146,7 @@ const HD_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
   put('hdFundBox', 'hdFundScore', 'hdFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 FY26, 10-Q), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n당좌비율 1점은 재고가 큰 유통 구조, 부채비율 1점은 자사주로 자본이 작아서다. 영업이익 3년 연 증가율 −4.6%(1점)는 FY2022 정점 대비다.`);
+      + `\n점수는 Q2 FY2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2175,7 +2168,7 @@ const HD_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
       + `\n유통·자동차·여행·외식·의류 등이 섞여 있다. PBR은 자사주로 자본이 작은 회사가 많아 흔들린다.`);
   put('hdSelfBox', 'hdSelfScore', 'hdSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPSR 1.71배·PCR 19.2배는 5년 중 가장 싼 쪽이다. PBR 17.5배가 99점인 것은 누적 자사주로 자본이 작아 비교 기준이 왜곡돼서다(자본이 작은 회사의 PBR 규칙은 v2.1에서 미룸). 자본이 음수였던 2022년 상반기는 빠져 PBR 이력이 4.6년이고, 자본이 $0.2~1.8B에 그친 2022년 하반기~2024년 초가 PBR 수백~1,368배로 들어가 있다(규칙대로 두고 명시, 2026-10-01 결정).`
+      + `\nPER 20.4배는 5년 분포의 하위 33.1%다(중앙값 23.1배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

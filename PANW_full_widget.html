@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$4.59</td><td style="color: var(--red);" data-dcf-upside="low">−98.9%</td>
-          <td class="story">5년 성장률의 절반(연 11.0%)에서 식고, 영업이익률이 5년 중앙값 8.0%로 간다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 11.0%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 8.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$6.35</td><td style="color: var(--red);" data-dcf-upside="base">−98.5%</td>
-          <td class="story">5년 성장률(연 22.0%)에서 식고, 영업이익률이 최근 2년 중앙값 11.0%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 22.0%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 11.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="high">—</td>
-          <td class="story">3년 성장률(연 18.5%)에서 식고, 최근 4분기 영업이익률 6.1%가 이어진다. 낮은 마진으로 빨리 클수록 재투자가 이익을 넘어 값이 음수가 된다.</td>
+          <td class="story">매출이 3년 성장률(연 18.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 6.1%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 1개는 음수라 계산할 수 없다(나머지 $4.59~$6.35). 영업이익률은 최근 4분기 6.1%, 2년 중앙값 11.0%, 5년 중앙값 8.0%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 11.0%·이익률 8.0%), 기본(22.0%·11.0%), 낙관(18.5%·6.1%).</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $6.35 = 사업 가치 $0.44 + 비영업 자산 $5.91(주당, 장기투자)</div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="panwRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">회계연도는 7월 31일에 끝난다(Q4 FY26 = 2026년 5~7월). 2026년 1월 Chronosphere, 2월 11일 CyberArk(인수 대가 $21.1B) 인수를 마쳐 Q3 FY26부터 매출이 뛰고, 인수 비용·무형자산 상각·주식보상으로 GAAP 영업이익이 줄었다. 회사 비GAAP 영업이익은 Q4 FY26 $1.0B다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q4 FY26)</div>
       <div class="stat-value">$1.25B</div>
-      <div class="stat-sub">영업현금흐름 − 설비투자 · 회사 조정 FCF $1.3B</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q4 FY26)</div>
       <div class="stat-value">$0.1B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q4 FY26)</div>
-      <div class="stat-value">$0.78B</div>
-      <div class="stat-sub">매출의 23%</div>
+      <div class="stat-label">희석 EPS (Q4 FY26)</div>
+      <div class="stat-value">−$0.46</div>
+      <div class="stat-sub">GAAP · 1년 전 $0.35 (적자 전환) · 차트 순이익은 본업 기준(영업이익 + 순이자, 세후)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">11월 중순 예상</div>
-      <div class="stat-sub">일정 · Q1 FY27 (회사 미확정)</div>
+      <div class="stat-value">11월 18일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q1 FY27 (작년 11/19 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">76.3%</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+105.5%</span><span class="diag-note">FY2026 말 $48.5B(전년 $23.6B) · CyberArk·Chronosphere 인수로 영업권 $4.6B → $22.0B</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+105.5%</span><span class="diag-note">FY2026 말 $48.5B(전년 $23.6B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 87.1%는 유동부채 $9.9B 중 이연매출(선수 구독료)이 $7.7B라서다. 차입금은 CyberArk에서 승계한 전환사채 $1.8B뿐이고 현금·단기투자 $3.1B, 장기투자 $4.8B가 있다. 이자보상배율은 이자비용이 0으로 잡혀 만점 처리됐다(규칙). 활동성은 5년 비교 이력이 부족해 판정하지 않는다. <a href="https://www.sec.gov/Archives/edgar/data/1327567/000132756726000023/panw-20260731.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $1.8B, 현금·단기투자 $3.1B, 자본 $27.5B. 유동비율 87%. <a href="https://www.sec.gov/Archives/edgar/data/1327567/000132756726000023/panw-20260731.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -817,40 +816,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="collapsible-body collapsed">
 
-    <div class="activity-grid">
-      <div class="act-card">
-        <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
-      </div>
-    </div>
-    <div class="ccc-card">
-      <div class="ccc-head">
-        <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
-      </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
-      <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left: 33.4%; transform: translateX(-50%);">매입채무 지급 51.8일</div>
-        <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:69.3%;" title="재고보유 107.3일">재고보유 107.3일</div>
-          <div class="tl-seg-ar" style="width:30.7%;" title="매출채권회수 47.6일">매출채권회수 47.6일</div>
-        </div>
-        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
-      </div>
-    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — 5년 비교 이력 부족.</div>
 
     </div>
   </div>
@@ -883,27 +849,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 구독·지원 +36%, 제품 +29% · 차세대 보안 연간 반복 매출(NGS ARR) $9.10B(+63%), 남은 계약 잔고(RPO) $21.2B(+34%) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1327567/000132756726000019/" target="_blank" rel="noopener">Q4 FY2026 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 구독·지원 +36.2%, 제품(방화벽 장비 등) +28.6% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1327567/000132756726000023/panw-20260731.htm" target="_blank" rel="noopener">FY2026 10-K 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
-      <div class="card-title">자본배분 · 주주환원 (FY2026 · 2026.07.31 기준)</div>
+      <div class="card-title">자본배분 · 주주환원 (Q4 FY26 · 2026.07.31 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (FY2026, 2월 약 680만 주 · 평균 $147.69)</span>
+          <span class="zone-label">자사주 매입 (회계연도 누계 2025.8.1~2026.7.31, 52주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="zone-val">$1.0B</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">잔여 바이백 승인 한도 (2026.07.31 기준, 3월 $1.0B 추가 승인)</span>
-          <span class="zone-val">$1.0B</span>
+          <span class="zone-label">보통주 배당 지급</span>
+          <span class="zone-val">없음</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 · 인수 (FY2026)</span>
+          <span class="zone-label">분기 주당 배당</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">배당 없음 · 인수 현금 지출</span>
-            <span class="zone-val">$4.7B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">보통주 배당 없음</span>
+            <span class="zone-val">—</span>
           </div>
         </div>
       </div>
@@ -912,12 +878,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 중순 (예상) · Q1 FY27</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 18일 무렵 (예상) · Q1 FY27</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 회사 전망 — Q1 FY27 매출 $3.300~3.310B, NGS ARR $9.54~9.56B, 비GAAP EPS $0.96~0.98</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> FY2027 전망(매출 $14.10~14.20B, 비GAAP 영업이익률 29.5%, 조정 FCF 마진 38%)과 GAAP 이익의 간격</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> CyberArk 통합 — 인수 뒤 두 분기 GAAP 순손실이 언제 흑자로 돌아오는지</div>
-      <div><strong style="color:var(--accent2);">④</strong> 주식 수 증가(8월 31일 발행주식 8.18억 주, Q1 FY27 전망의 희석 주식 8.37~8.44억 주)와 자사주 매입 여력($1.0B)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+14.9% → +31.1% → +34.4%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q4 FY26 5.0%, 1년 전 19.6%)</div>
     </div>
   </div>
 </div>
@@ -938,8 +902,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.8</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">58</div><div class="sc-tile low" data-vc="peer" data-m="psr">7</div><div class="sc-tile low" data-vc="peer" data-m="pcr">17</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 92% 올라 PSR 29.8배·PCR 83배가 5년 중 가장 비싼 쪽이다. PBR만 싸 보이는데(12.5배), 인수 대가로 주식을 발행해 자본이 $7.8B → $27.5B로 커져서다. 자기 이력 23.3점, S&P500 카드 IT 종목 안에서 20.8점이다. <strong>현금흐름 내재가치(기본 $6.35)는 현재가의 1.5%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 이 숫자들은 규칙대로 GAAP 이익으로 계산했다(2026-10-01 결정). CyberArk 인수 뒤 무형자산 상각·인수 비용·주식보상으로 최근 4분기 GAAP 영업이익률이 6.1%뿐이라 본업 PER 559배(순이자 $374M 포함), 내재가치 기본 $6.35가 나온다. 회사 비GAAP 영업이익률은 약 30%, 조정 FCF 마진은 38%다. 어떤 영업이익률·성장률로도 현재가에 닿지 않는다는 계산이다.</div>
+    <div class="vs-premise">PER 559.5배(3.6년 중앙값 118.4배)로 자기 이력 23.3점(비싸다), 동종업 20.8점(비싸다)이다. <strong>현금흐름 내재가치(기본 $6.35)는 현재가의 1.5%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $6.35)는 현재가의 1.5%다. 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 6.1%). 내재가치에서 차입금 $1.8B를 빼고 현금·단기투자 $3.1B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1022,14 +986,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · CyberArk·Chronosphere 인수로 매출이 30%대로 뛰었고 GAAP 이익은 적자로, 주가는 1년 새 92% 올랐다<span class="tag">인수 통합·고평가</span></div>
-    <ol class="news-list">
-      <li>Q4 FY26 매출 $3.41B(+34%), NGS ARR $9.10B(+63%)로 인수 효과가 반영됐다.</li>
-      <li>GAAP으로는 두 분기 연속 순손실(Q3 −$177M, Q4 −$282M)이고, 회사 비GAAP 영업이익률은 30% 안팎이다.</li>
-      <li>FY2027 매출 $14.10~14.20B(+23~24%), 조정 FCF 마진 38%를 전망했다. 주가는 종가 기준 2월 저점 $141.67에서 8월 $396까지 올랐다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 규칙대로 GAAP 이익으로 보면 인수로 자본이 커진 PBR을 뺀 배수가 모두 5년 중 비싼 쪽이고, 현금흐름 모델은 현재가를 설명하지 못한다(해 없음).</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q1 FY27 실적(11월 중순 예상)의 매출 $3.30B·NGS ARR 전망 달성과 GAAP 흑자 전환 시점.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q4 FY26 매출 $3.4B(+34.4%), 영업이익률 5.0%(1년 전 19.6%). 주가는 1년 새 +92%<span class="tag">배수 비싼 쪽·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $6.35)는 현재가의 1.5%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 11월 18일 무렵 (예상) Q1 FY27 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1106,15 +1065,15 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">성장</span><span class="bb-text">Q4 FY26 매출 +34%, NGS ARR +63%, RPO $21.2B.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">FY2026 조정 FCF 마진 38.4%, 차입금은 전환사채 $1.8B뿐.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">전망</span><span class="bb-text">FY2027 매출 +23~24%, 비GAAP 영업이익률 29.5%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q4 FY26 매출 +34.4%(보고 기준, 인수 포함, 3년 연평균 18.5%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $4.1B, 매출의 35.8%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">부채</span><span class="bb-text">현금·단기투자가 차입금·리스보다 $504M 많다(순현금).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PSR 29.8배·PCR 83배가 5년 중 가장 비싼 쪽.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">이익</span><span class="bb-text">인수 뒤 GAAP 순손실 두 분기, 영업권 $22.0B.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">희석</span><span class="bb-text">인수 대가로 주식을 발행해 발행주식이 8월 31일 8.18억 주다(Q2 FY26 희석 평균 7.11억 주).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $6.35)는 현재가의 1.5%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 23점(배수 5개) · PER 559.5배(3.6년 중앙값 118.4배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 6.1%(5년 중앙값 8.0%).</span></div>
     </div>
   </div>
 
@@ -1127,12 +1086,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 76.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 20%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$404.44</span> <span class="op-sub op-down" data-an="upside">−3.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">11월 중순 <span class="op-sub">Q1 FY27 예상</span></span>
+        <span class="op-val">11월 18일 무렵 <span class="op-sub">Q1 FY27 예상</span></span>
       </div>
     </div>
   </div>
@@ -1213,14 +1172,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q4 FY26 vs Q4 FY25)',
     chart: { cur: [3.41, 0.17, 0.21, 1.25], cmp: [2.54, 0.5, 0.47, 0.93] },
     deltas: ['+34.4%', '-65.4%', '-56.1%', '+34.2%'],
-    footnote: '기준일: 2026.07.31(Q4 FY26) vs 2025.07.31(Q4 FY25) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q4 FY26 −$0.28B) · FCF는 영업현금흐름 − 설비투자 · 1년 전엔 인수 전이라 매출 증가에 CyberArk·Chronosphere가 들어 있다 · <a href="https://www.sec.gov/Archives/edgar/data/1327567/000132756726000019/" target="_blank" rel="noopener">Palo Alto Networks Q4 FY2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.07.31(Q4 FY26) vs 2025.07.31(Q4 FY25) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q4 FY26 −$0.28B) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1327567/000132756726000019/ex991q426earningsrelease.htm" target="_blank" rel="noopener">Palo Alto Networks Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q4 FY26', cmpLabel: 'Q3 FY26',
     titleSuffix: 'QoQ (Q4 FY26 vs Q3 FY26)',
     chart: { cur: [3.41, 0.17, 0.21, 1.25], cmp: [3.0, -0.18, -0.09, 0.79] },
     deltas: ['+13.6%', '흑자 전환', '흑자 전환', '+59.1%'],
-    footnote: '기준일: 2026.07.31(Q4 FY26) vs 2026.04.30(Q3 FY26) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q4 FY26 −$0.28B) · FCF는 영업현금흐름 − 설비투자 · Q3 FY26은 인수 뒤 첫 분기라 영업손실이었다 · <a href="https://www.sec.gov/Archives/edgar/data/1327567/000132756726000019/" target="_blank" rel="noopener">Palo Alto Networks Q4 FY2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.07.31(Q4 FY26) vs 2026.04.30(Q3 FY26) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q4 FY26 −$0.28B) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1327567/000132756726000019/ex991q426earningsrelease.htm" target="_blank" rel="noopener">Palo Alto Networks Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1517,7 +1476,7 @@ const PANW_SCORES = {
   peer: 20.8,          // 카드 유니버스 IT 28종목 대비 배수 순위(PER은 본업 기준이라 제외)
   selfHistory: 23.3,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-07-31",   // FY2026 10-K (2026-09-10 공시)
+  fundamentalAsOf: "2026-07-31",   // FY2026 10-K
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 PANW_DCF 하나다.
@@ -2119,7 +2078,7 @@ const PANW_ACTIVITY = {"ticker": "PANW", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/panw/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const PANW_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 55, nTargets: 43, mean: 404.44, median: 415,
+const PANW_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 55, nTargets: 43, mean: 404.44, median: 415,
   low: 290, high: 500, strongBuy: 32, buy: 10, hold: 11, sell: 1, strongSell: 1 };
 (function(){
   const A = PANW_ANALYST, last = (typeof PANW_DAILY !== 'undefined' && PANW_DAILY.length) ? PANW_DAILY[PANW_DAILY.length - 1] : null;
@@ -2162,7 +2121,7 @@ const PANW_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('panwFundBox', 'panwFundScore', 'panwFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 FY2026 연간(10-K), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
-      + `\n유동비율 1점은 이연매출(선수 구독료)이 커서이고, 순이익률(본업 기준 3.5%)·영업이익률(6.1%)이 2점씩인 것은 인수 뒤 GAAP 이익이 작아서다. 차입금은 전환사채 $1.8B뿐이다.`);
+      + `\n점수는 FY2026 10-K 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2184,7 +2143,7 @@ const PANW_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\n반도체·하드웨어가 많고 소프트웨어는 일부다. PSR·EV/EBITDA는 IT 안에서도 가장 비싼 쪽이다.`);
   put('panwSelfBox', 'panwSelfScore', 'panwSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER은 규칙상 본업 기준이다(최근 4분기 세전이익이 영업이익보다 23% 작다). 적자였던 2022년 무렵이 빠져 PER 이력은 3.6년이다. PBR 12.5배가 싸게 나오는 것은 인수로 자본이 커져서다.`
+      + `\nPER 559.5배는 3.6년 분포의 하위 92.8%다(중앙값 118.4배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

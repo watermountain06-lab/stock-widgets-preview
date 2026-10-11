@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
-          <td class="story">5년 성장률의 절반(연 11.1%)에서 식고, 영업이익률이 5년 중앙값 -4.6%로 간다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 11.1%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 −4.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$3.01</td><td style="color: var(--red);" data-dcf-upside="base">−98.9%</td>
-          <td class="story">5년 성장률(최근 4분기 합 기준, 연 22.3%)에서 식고, 영업이익률이 최근 2년 중앙값 8.0%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 22.3%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 8.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$6.13</td><td style="color: var(--red);" data-dcf-upside="high">−97.8%</td>
-          <td class="story">3년 성장률(최근 4분기 합 기준, 연 18.9%)에서 식고, 최근 4분기 영업이익률 16.5%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 18.9%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 16.5%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 5년 중앙값 영업이익률이 -4.6%(영업손실 분기 포함)라 보수 시나리오는 음수다. 최근 4분기 16.5%가 이어지는 낙관도 주당 $6.13다. 최근 4분기 회사 방식 FCF(영업현금 − 설비투자)는 약 $1.73B인데, 모델은 매출이 늘 때마다 영업권까지 포함한 투하자본에 비례한 재투자를 요구해 성장 구간의 현금흐름이 작다. 이 값은 사업이 지금 버는 현금보다 재투자 규칙에 좌우된다(투하자본 수익률 약 3%).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 1개는 음수라 계산할 수 없다(나머지 $3.01~$6.13). 영업이익률은 최근 4분기 16.5%, 2년 중앙값 8.0%, 5년 중앙값 −4.6%를 쓴다.</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -741,17 +741,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 FY27)</div>
       <div class="stat-value">$0.13B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">데이터센터 매출 (Q2 FY27)</div>
-      <div class="stat-value">$2.17B</div>
-      <div class="stat-sub">+46% · 매출의 79%</div>
+      <div class="stat-label">희석 EPS (Q2 FY27)</div>
+      <div class="stat-value">$0.33</div>
+      <div class="stat-sub">GAAP · 1년 전 $0.22 (+50.0%) · 차트 순이익은 본업 기준(영업이익 + 순이자, 세후)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">12월 초 예상</div>
-      <div class="stat-sub">일정 · Q3 FY27 (회사 미확정)</div>
+      <div class="stat-value">12월 1일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 FY27 (작년 12/2 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -799,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 회사채 $4.96B(4월 2036년 만기 $1.0B 발행 포함), 현금은 $3.93B다. 카드의 주당 값은 보통주 8.77억 주 기준이고, 공시 희석 EPS는 9.21억 주(2분기) 기준이다. 3월 NVIDIA에 판 전환우선주 $2.0B(전환가 $91.84, 2,178만 주)는 사실상 확정된 희석이고, 8월 구글 워런트(최대 5,897만 주, 행사가 $206.58)는 136만 주만 시간 베스팅이고 나머지는 구글의 맞춤형 칩 구매 $5억마다 약 24만 주씩 FY2033까지 베스팅된다. 2021년 4월 델라웨어 법인으로 바뀌어(새 CIK) SEC 데이터가 짧아 활동성 5년 비교(6년치 필요)를 하지 않는다. <a href="https://www.sec.gov/Archives/edgar/data/1835632/000183563226000025/mrvl-20260801.htm" target="_blank" rel="noopener">Q2 FY27 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $5.0B, 현금·단기투자 $3.9B, 자본 $18.5B. 유동비율 317%, 이자보상배율 7.5배. <a href="https://www.sec.gov/Archives/edgar/data/1835632/000183563226000025/mrvl-20260801.htm" target="_blank" rel="noopener">Q2 FY27 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -816,40 +816,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="collapsible-body collapsed">
 
-    <div class="activity-grid">
-      <div class="act-card">
-        <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
-      </div>
-    </div>
-    <div class="ccc-card">
-      <div class="ccc-head">
-        <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
-      </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
-      <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left: 33.4%; transform: translateX(-50%);">매입채무 지급 51.8일</div>
-        <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:69.3%;" title="재고보유 107.3일">재고보유 107.3일</div>
-          <div class="tl-seg-ar" style="width:30.7%;" title="매출채권회수 47.6일">매출채권회수 47.6일</div>
-        </div>
-        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
-      </div>
-    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — 5년 비교 이력 부족(2021년 법인 이전으로 데이터가 짧음).</div>
 
     </div>
   </div>
@@ -882,27 +849,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 데이터센터 +46%, 통신·기타 +10% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1835632/000183563226000022/q227_8kx812026ex-991.htm" target="_blank" rel="noopener">Q2 FY27 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 데이터센터 +45.8%, 통신·기타 +10.1% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1835632/000183563226000025/mrvl-20260801.htm" target="_blank" rel="noopener">Q2 FY27 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 FY27 · 2026.08.01 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (Q2 FY27, 1분기도 $0.2B)</span>
+          <span class="zone-label">자사주 매입 (회계연도 누계 2026.2.1~2026.8.1, 26주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$0.2B</span>
+            <span class="zone-val">$400M</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">인수 (Celestial AI $3.53B · XConn $0.47B, 2월 종결)</span>
-          <span class="zone-val">$4.0B</span>
+          <span class="zone-label">배당 지급 (회계연도 누계 2026.2.1~2026.8.1, 26주)</span>
+          <span class="zone-val">$108M</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (분기 주당 $0.06)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 8/1 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">NVIDIA 우선주도 전환 기준으로 같은 배당</span>
-            <span class="zone-val">$0.06/주</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.06 · +0.0%</span>
+            <span class="zone-val">$0.06</span>
           </div>
         </div>
       </div>
@@ -911,12 +878,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 12월 초 (예상) · Q3 FY27</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 12월 1일 무렵 (예상) · Q3 FY27</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 3분기 가이던스 매출 $3.15B(±5%)·GAAP EPS $0.53을 넘는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 데이터센터 매출 증가(2분기 +46%)와 구글 TPU 관련 맞춤형 칩의 매출 반영</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> GAAP 영업이익률(2분기 16.8%)과 Celestial 조건부 대가 평가손(상반기 $433.7M, 주가가 오르면 커진다)</div>
-      <div><strong style="color:var(--accent2);">④</strong> 구글 맞춤형 칩 구매에 따라 베스팅되는 워런트(구매 $5억당 약 24만 주)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+22.1% → +27.6% → +36.5%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 FY27 16.8%, 1년 전 14.5%)</div>
     </div>
   </div>
 </div>
@@ -937,8 +902,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다. 본인 PER은 본업 기준이라 동종업 비교에서 뺀다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">22.1</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">57</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile low" data-vc="peer" data-m="pcr">9</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">8</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PSR 25.5배·PBR 13.0배·PCR 140배가 이력 중 가장 비싼 쪽(상위 3% 안)이고, 본업 PER 208배도 흑자였던 214일 중 비싼 쪽이다. EV/EBITDA만 중간이라 자기 이력 13.4점이다. EV/EBITDA가 중간인 것은 이력에 EBITDA가 0에 가까웠던 구간(최고 1,093배)이 있어서다. 공시 EPS 기준 PER은 87배, 비GAAP EPS 기준 80배다. 카드 유니버스 IT 안에서는 PBR만 중간이고 PSR·PCR·EV/EBITDA가 비싼 쪽이라 22.1점이다(PER은 본업 기준이라 비교에서 뺐다). <strong>현금흐름 내재가치(기본 $3.01)는 현재가의 1.1%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”다. 투하자본 수익률(약 3%, 인수 영업권 포함)이 할인율 10%보다 낮아 성장이 가치를 만들지 못하고(계산 어려움 신호), 영업이익률을 100%로 올려도 현재가에 닿지 않는다. 내재가치 기본값은 직전 공시(5월)까지 음수였다가 0 근처로 올라와 비율(91배) 자체는 뜻이 작다. 최근 4분기 PER은 FY26 3분기 자동차 이더넷 사업 매각 이익(세전 약 $1.8B)을 빼려고 본업 이익((영업이익 + 순이자) × (1 − 세율))으로 낸다.</div>
+    <div class="vs-premise">PER 208.0배(0.8년 중앙값 148.0배)로 자기 이력 13.4점(비싸다), 동종업 22.1점(비싸다)이다. <strong>현금흐름 내재가치(기본 $3.01)는 현재가의 1.1%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $3.01)는 현재가의 1.1%다. 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 16.5%). 내재가치에서 차입금 $5.0B를 빼고 현금·단기투자 $3.9B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1021,14 +986,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 데이터센터 매출이 46% 늘고 구글·NVIDIA와 손잡았으며, 주가는 1년 새 +198%<span class="tag">고성장·초고배수</span></div>
-    <ol class="news-list">
-      <li>2분기 매출 $2.74B(+37%) 가운데 데이터센터가 $2.17B(+46%)로 79%였다.</li>
-      <li>GAAP EPS $0.33, 비GAAP EPS $0.94였고 3분기 매출 가이던스는 $3.15B(±5%)다.</li>
-      <li>3월 NVIDIA가 전환우선주 $2.0B를 샀고, 8월 구글과 맞춤형 칩 계약을 넓히며 워런트를 줬다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 배수가 자기 이력과 IT 카드 유니버스 모두에서 비싼 쪽이고, 현금흐름 모델은 주당 $3.01다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 FY27 실적(12월 초 예상)이 매출 가이던스 $3.15B(±5%)를 넘는지.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 FY27 매출 $2.7B(+36.5%), 영업이익률 16.8%(1년 전 14.5%). 주가는 1년 새 +198%<span class="tag">배수 5년 고점권·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $3.01)는 현재가의 1.1%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 12월 1일 무렵 (예상) Q3 FY27 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1105,15 +1065,15 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">성장</span><span class="bb-text">매출 +37%, 데이터센터 +46%(매출의 79%).</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">고객</span><span class="bb-text">구글 TPU 관련 맞춤형 칩 계약 확대, NVIDIA 전환우선주 $2.0B 투자.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">전망</span><span class="bb-text">3분기 매출 가이던스 $3.15B(±5%), 2분기보다 약 15% 많다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 16.5%(5년 중앙값 −4.6%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q2 FY27 매출 +36.5%(보고 기준, 인수 포함, 3년 연평균 18.9%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $1.7B, 매출의 18.3%.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PSR 25.5배는 자기 이력과 IT 카드 유니버스 모두에서 비싼 쪽이고, 본업 PER 208배는 흑자 이력 안에서 비싼 쪽이다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">희석</span><span class="bb-text">NVIDIA 우선주 2,178만 주(보통주의 약 2.5%)에 구글 워런트(구매에 따라 최대 5,897만 주)와 Celestial 조건부 주식이 더해질 수 있다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">이익</span><span class="bb-text">2분기 GAAP EPS $0.33 대 비GAAP $0.94, 주식보상·인수 무형자산 상각 차이가 크다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $3.01)는 현재가의 1.1%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 13점(배수 5개) · PER 208.0배(0.8년 중앙값 148.0배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">3년 매출 성장률 연 18.9%, 5년 연 22.3%보다 낮다.</span></div>
     </div>
   </div>
 
@@ -1126,12 +1086,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 91.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 8.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$340.77</span> <span class="op-sub op-up" data-an="upside">+23.8%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">12월 초 <span class="op-sub">Q3 FY27 예상</span></span>
+        <span class="op-val">12월 1일 무렵 <span class="op-sub">Q3 FY27 예상</span></span>
       </div>
     </div>
   </div>
@@ -1212,7 +1172,7 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 FY27 vs Q2 FY26)',
     chart: { cur: [2.74, 0.46, 0.32, 0.48], cmp: [2.01, 0.29, 0.2, 0.41] },
     deltas: ['+36.5%', '+58.5%', '+63.2%', '+15.6%'],
-    footnote: '기준일: 2026.08.01(Q2 FY27) vs 2025.08.02(Q2 FY26) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q2 FY27 $0.31B) · FCF는 영업현금흐름 − 설비투자 · 데이터센터 매출 +46% · <a href="https://www.sec.gov/Archives/edgar/data/1835632/000183563226000022/q227_8kx812026ex-991.htm" target="_blank" rel="noopener">Marvell Q2 FY27 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.08.01(Q2 FY27) vs 2025.08.02(Q2 FY26) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q2 FY27 $0.31B) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1835632/000183563226000022/q227_8kx812026ex-991.htm" target="_blank" rel="noopener">Marvell Q2 FY27 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 FY27', cmpLabel: 'Q1 FY27',
@@ -1302,13 +1262,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 2739.3;
+  const total = 2740;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["데이터센터", "통신·기타"],
       datasets:[{
-        data:[2171.5, 567.8],
+        data:[2172, 568],
         backgroundColor:["#5a2d82", "#94a3b8"],
         borderColor:'#8a8d9e',
         borderWidth:2
@@ -1517,7 +1477,7 @@ const MRVL_SCORES = {
   peer: 22.1,          // 카드 유니버스 IT 종목 대비 배수 순위(PER은 본업 기준이라 제외)
   selfHistory: 13.4,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-08-01",   // Q2 FY27 10-Q (2026-08-28 공시)
+  fundamentalAsOf: "2026-08-01",   // Q2 FY27 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 MRVL_DCF 하나다.
@@ -2119,7 +2079,7 @@ const MRVL_ACTIVITY = {"ticker": "MRVL", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mrvl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MRVL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 46, nTargets: 30, mean: 340.77, median: 350,
+const MRVL_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 46, nTargets: 30, mean: 340.77, median: 350,
   low: 220, high: 450, strongBuy: 33, buy: 9, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = MRVL_ANALYST, last = (typeof MRVL_DAILY !== 'undefined' && MRVL_DAILY.length) ? MRVL_DAILY[MRVL_DAILY.length - 1] : null;
@@ -2162,7 +2122,7 @@ const MRVL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('mrvlFundBox', 'mrvlFundScore', 'mrvlFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 FY27, 10-Q), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
-      + `\n순이익률은 본업 기준((영업이익 + 순이자) × (1 − 세율), 사업 매각 이익 제외)이다. 매출 3년 CAGR 11.4%는 연간 FY2023→FY2026 기준이다(내재가치 탭 성장률은 최근 4분기 합 기준).`);
+      + `\n점수는 Q2 FY27 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2184,7 +2144,7 @@ const MRVL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\n반도체 외에 소프트웨어·하드웨어가 섞여 있다.`);
   put('mrvlSelfBox', 'mrvlSelfScore', 'mrvlSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n본업 PER은 흑자였던 214일만 이력이 있고, PSR·PCR 이력은 법인 이전 뒤 약 4.5년, EV/EBITDA는 감가상각 구성요소가 일부 기간만 있어 약 2.5년이다.`
+      + `\nPER 208.0배는 0.8년 분포의 하위 86.9%다(중앙값 148.0배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

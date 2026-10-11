@@ -681,22 +681,22 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
-          <td class="story">5년 성장률의 절반(연 4.4%)으로 시작해 식고, 영업이익률이 최근 4분기 4.9%에서 5년에 걸쳐 5년 중앙값 -5.0%로 간다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 4.4%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 −5.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="base">—</td>
-          <td class="story">5년 성장률(연 8.9%)로 시작해 식고, 영업이익률이 최근 4분기 4.9%에서 5년에 걸쳐 최근 2년 중앙값 -9.7%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 8.9%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 −9.7%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$21.34</td><td style="color: var(--red);" data-dcf-upside="high">−88.8%</td>
-          <td class="story">3년 성장률(최근 4분기 합 기준, 연 8.5%)로 시작해 식고, 최근 4분기 영업이익률 4.9%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 8.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 4.9%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. “기본”이 가장 낮다. 영업이익률이 최근 2년 중앙값(-9.7%)으로 가는 가정이라 적자가 이어지고, 성장률이 높을수록 손실도 커진다. “보수”도 5년 중앙값(-5.0%)으로 가 음수다. “낙관”만 최근 4분기 영업이익률 4.9%를 이어 가는데, 여기에는 Digital Aviation Solutions 매각 이익 $9.6B와 777X 비용 $4.9B가 함께 들어 있다(둘을 빼면 약 −0.1%). 최근 증분 매출/자본을 구하지 못해 세 시나리오 모두 이력 평균(약 2.8)을 쓴다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 −$59.75 = 사업 가치 −$61.16 + 비영업 자산 $1.41(주당, 지분법 투자)</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 2개는 음수라 계산할 수 없다(나머지 $21.34). 영업이익률은 최근 4분기 4.9%, 2년 중앙값 −9.7%, 5년 중앙값 −5.0%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 4.4%·이익률 −5.0%), 기본(8.9%·−9.7%), 낙관(8.5%·4.9%).</div>
+    <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
 
@@ -741,17 +741,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$0.73B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">상업용 항공기 인도 (Q2 2026)</div>
-      <div class="stat-value">171대</div>
-      <div class="stat-sub">+14% · 수주잔고 $715B(사상 최대)</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">−$0.67</div>
+      <div class="stat-sub">GAAP · 1년 전 −$0.92 (적자 지속)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 하순 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 (회사 미확정)</div>
+      <div class="stat-value">10월 28일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/29 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -799,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 $45.9B(1년 안 만기 $4.6B + 장기 $41.3B)로 상반기에 $8.4B를 갚아 연초 $54.1B에서 줄었고, 현금·단기투자는 $20.0B다(연초 $29.4B). 자기자본이 $6.1B로 작아 부채비율이 높다. 2분기 이자비용은 $600M, 쓰지 않은 신용한도는 $10.0B다. <a href="https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $45.9B, 현금·단기투자 $20.0B, 자본 $6.1B. 유동비율 114%, 이자보상배율 0.3배. <a href="https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -883,27 +883,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 상업용 항공기 +8%(인도 171대, 영업이익률 −2.7%), 방산·우주·보안 +13%(영업이익률 −0.2%), 글로벌 서비스 +1%(영업이익률 18.1%) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/12927/000162828026049929/a202606jun308kprex991.htm" target="_blank" rel="noopener">Q2 2026 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 상업용 항공기 +8.1%, 방산·우주·보안 +13.1%, 글로벌 서비스 +1.2% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/12927/000162828026050038/ba-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">차입금 상환 (상반기)</span>
+          <span class="zone-label">자사주 매입</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$8.4B</span>
+            <span class="zone-val">공시 없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">현금·단기투자 (6월 말, 연초 $29.4B)</span>
-          <span class="zone-val">$20.0B</span>
+          <span class="zone-label">우선주 배당 (연초~6/30, 26주)</span>
+          <span class="zone-val">$172M</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">우선주 배당 (상반기, 6% 의무전환우선주)</span>
+          <span class="zone-label">분기 주당 배당</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">보통주 배당·자사주 매입 없음</span>
-            <span class="zone-val">$0.17B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">보통주 배당 없음</span>
+            <span class="zone-val">—</span>
           </div>
         </div>
       </div>
@@ -912,12 +912,11 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 하순 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 28일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 737 월 47대 전환과 737-7·737-10 인증(회사 예상 2026년), 777X 첫 인도(2027년 예상)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 잉여현금흐름(상반기 −$0.8B, 2분기 $0.6B)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> Spirit AeroSystems 통합과 방산 고정가격 계약 손실(2분기 VC-25B $280M)</div>
-      <div><strong style="color:var(--accent2);">④</strong> 차입금 $45.9B와 현금·단기투자 $20.0B</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+57.1% → +14.0% → +8.0%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 0.6%, 1년 전 −0.8%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 차입금 $45.9B이 줄어드는지</div>
     </div>
   </div>
 </div>
@@ -936,8 +935,8 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.2</div><div class="sc-tile low" data-vc="peer" data-m="per">3</div><div class="sc-tile low" data-vc="peer" data-m="pbr">3</div><div class="sc-tile" data-vc="peer" data-m="psr">81</div><div class="sc-tile low" data-vc="peer" data-m="pcr">1</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">13</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 -16% 내려 PER 82.4배·PBR·EV/EBITDA가 각 이력의 가장 낮은 쪽이라 자기 이력 72.0점(싸다)이다. 다만 PER은 흑자 전환, PBR은 자기자본이 플러스로 돌아선 2025년 말 뒤의 175일 이력뿐이다. S&P500 산업재 안에서는 PSR만 싼 쪽이고 PER·PBR·PCR(잉여현금흐름 적자)·EV/EBITDA가 비싼 쪽이라 20.2점(비싸다)이다. <strong>현금흐름 내재가치(기본 주당 −$59.75)는 음수</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”다. 자기 이력 +1은 PER·PBR 이력이 2025년 말 뒤의 175일뿐이고, EV/EBITDA 이력에는 손익분기 근처의 수백 배 구간이 들어 있으며 현재 EV/EBITDA에도 매각 이익이 들어 있어 나온 값이라 싸다는 신호로 읽기 어렵다. 현재가를 정당화하려면 영업이익률이 16.0%까지 올라야 한다(최근 4분기 4.9%, 매각 이익 포함).</div>
+    <div class="vs-premise">PER 82.4배(0.7년 중앙값 105.4배)로 자기 이력 72.0점(싸다), 동종업 20.2점(비싸다)이다. <strong>현금흐름 내재가치(기본)는 음수라 계산할 수 없다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본)는 음수라 계산할 수 없다. 현재가를 정당화하려면 영업이익률이 16.0%까지 올라야 한다(최근 4분기 4.9%, 5년 중앙값 −5.0%). 내재가치에서 차입금 $45.9B를 빼고 현금·단기투자 $20.0B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1020,14 +1019,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 인도는 늘었지만 GAAP 적자가 이어지고 주가는 1년 새 -16%<span class="tag">인도 회복·적자</span></div>
-    <ol class="news-list">
-      <li>2분기 상업용 항공기 인도가 171대(+14%)로 늘어 매출 $24.6B(+8%)였지만, 주당 −$0.67 적자였다.</li>
-      <li>최근 4분기 이익이 양수인 것은 2025년 4분기 Digital Aviation Solutions 매각 이익 $9.6B 때문이고, 3분기에는 777X 비용 $4.9B가 있었다.</li>
-      <li>상반기에 차입금 $8.4B를 갚아 $45.9B가 됐고, 12월에 Spirit AeroSystems 인수를 마쳤다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 자기 이력 점수는 흑자 뒤 짧은 이력 때문에 싸게 나오고, 산업재 안에서는 비싼 쪽이며, 현금흐름 모델 기본값은 음수다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 하순 예상)의 인도·잉여현금흐름과 737-7·737-10 인증.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $24.6B(+8.0%), 영업이익률 0.6%(1년 전 −0.8%). 주가는 1년 새 −16%<span class="tag">배수 싼 쪽·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본)는 음수라 계산할 수 없다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 28일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1092,15 +1086,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">인도 회복</span><span class="bb-text">2분기 인도 171대(+14%), 737 월 47대 전환 시작.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">수주잔고</span><span class="bb-text">사상 최대 $715B, 상업용 항공기 6,200대 이상.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금흐름</span><span class="bb-text">2분기 잉여현금흐름 $0.6B(1년 전 −$0.2B).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 4.9%(5년 중앙값 −5.0%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 72점(배수 4개) · PER 82.4배(0.7년 중앙값 105.4배).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">적자</span><span class="bb-text">2분기 GAAP EPS −$0.67, 상업용 항공기 영업이익률 −2.7%.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">차입금 $45.9B, 자기자본 $6.1B.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">인증·방산</span><span class="bb-text">737-7·737-10·777X 인증 대기, VC-25B 손실 $280M.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본)는 음수 — 지금 이익률·성장으로는 계산할 수 없다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF −$210M, 매출의 −0.2%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">순차입금(리스 포함) $28.1B, 최근 4분기 영업이익의 6.1배.</span></div>
     </div>
   </div>
 
@@ -1113,12 +1106,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 86.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 13.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$273.53</span> <span class="op-sub op-up" data-an="upside">+43.7%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 하순 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 28일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1199,7 +1192,7 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [24.56, 0.16, -0.44, 0.63], cmp: [22.75, -0.18, -0.61, -0.2] },
     deltas: ['+8.0%', '흑자 전환', '적자 지속', '흑자 전환'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 상업용 항공기 인도 171대(+14%) · 방산 매출 +13%(VC-25B 손실 $280M) · 서비스 +1% · <a href="https://www.sec.gov/Archives/edgar/data/12927/000162828026049929/a202606jun308kprex991.htm" target="_blank" rel="noopener">Boeing Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익이 0 이하(영업이익률 −0.8%)라 영업이익 증감률을 쓰지 않는다 · <a href="https://www.sec.gov/Archives/edgar/data/12927/000162828026049929/a202606jun308kprex991.htm" target="_blank" rel="noopener">Boeing Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
@@ -1506,7 +1499,7 @@ const BA_SCORES = {
   peer: 20.2,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 72.0,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-28 공시)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 BA_DCF 하나다.
@@ -2108,7 +2101,7 @@ const BA_ACTIVITY = {"ticker": "BA", "status": "ok", "asOf": "2026-06-30", "prev
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ba/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const BA_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 17, mean: 273.53, median: 275,
+const BA_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 17, mean: 273.53, median: 275,
   low: 240, high: 305, strongBuy: 18, buy: 7, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = BA_ANALYST, last = (typeof BA_DAILY !== 'undefined' && BA_DAILY.length) ? BA_DAILY[BA_DAILY.length - 1] : null;
@@ -2151,7 +2144,7 @@ const BA_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
   put('baFundBox', 'baFundScore', 'baFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n자기자본이 $6.1B로 작아 부채비율이 매우 높다. 이자보상배율은 2분기 영업이익 $156M ÷ 이자비용 $600M이다. 영업이익 성장률은 흑자 전환이라 계산하지 않는다. 활동성은 영업순환주기 362일(재고 349일, 737 등 생산 중인 기체 포함)로 5년 중 가장 짧다.`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2173,7 +2166,7 @@ const BA_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
       + `\n항공우주·방산 외에 기계·운송·건설이 섞여 있다. 차트에는 항공우주·방산 6곳만 보인다.`);
   put('baSelfBox', 'baSelfScore', 'baSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 배수 이력(배수마다 다름 · PER·PBR은 2025년 말 뒤)에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 이력은 흑자 전환 뒤, PBR 이력은 자기자본이 플러스가 된 뒤 175일, EV/EBITDA는 493일이다. 최근 4분기 EPS(약 $2.31)에는 매각 이익 $9.6B와 777X 비용 $4.9B가 함께 들어 있다. PCR은 잉여현금흐름이 적자라 0점이다.`
+      + `\nPER 82.4배는 0.7년 분포의 하위 3.4%다(중앙값 105.4배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

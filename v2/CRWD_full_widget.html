@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$2.69</td><td style="color: var(--red);" data-dcf-upside="low">−99.0%</td>
-          <td class="story">5년 성장률(분기 누적 기준)의 절반(연 18.3%)에서 식고, 영업이익률이 5년 중앙값 -6.1%로 간다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 18.3%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 −6.1%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$1.98</td><td style="color: var(--red);" data-dcf-upside="base">−99.3%</td>
-          <td class="story">5년 성장률(분기 누적 기준, 연 36.5%)에서 식고, 영업이익률이 최근 2년 중앙값 -5.0%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 36.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 −5.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$2.93</td><td style="color: var(--red);" data-dcf-upside="high">−98.9%</td>
-          <td class="story">3년 성장률(분기 누적 기준, 연 26.9%)에서 식고, 최근 4분기 영업이익률 -2.2%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 26.9%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 −2.2%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 모두 GAAP 영업이익률이 음수(주식보상비용 포함)라 사업 가치가 0 이하이고, 기본 $1.98는 순현금(주당 $4.10)보다 작다. 영업이익률이 음수라 매출이 빨리 클수록 손실이 커져 성장 가정이 가장 높은 기본이 가장 낮다. 회사 비GAAP 영업이익률(2분기 25%)이나 잉여현금흐름으로 보면 전혀 다른 숫자가 나온다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $1.98~$2.93다. 영업이익률은 최근 4분기 −2.2%, 2년 중앙값 −5.0%, 5년 중앙값 −6.1%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 18.3%·이익률 −6.1%), 기본(36.5%·−5.0%), 낙관(26.9%·−2.2%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="crwdRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">GAAP 기준이다. 영업이익에는 주식보상비용(2분기 $0.38B)이 들어 있어 회사가 내는 비GAAP 영업이익(2분기 $0.37B)과 크게 다르다. FY26 4분기에 주식보상비용 인식 시점 오류(경미)를 고쳐 과거 분기를 수정했다. 회사가 수정값을 낸 분기(Q4 FY25·Q1·Q2·Q4 FY26)는 수정값, Q3 FY25·Q3 FY26은 원공시다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 FY27)</div>
       <div class="stat-value">$0.41B</div>
-      <div class="stat-sub">영업현금흐름 − 유형자산 취득 · 회사 FCF $0.38B(내부 사용 소프트웨어 자본화도 뺀 정의)</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 FY27)</div>
       <div class="stat-value">$0.12B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 FY27)</div>
-      <div class="stat-value">$0.44B</div>
-      <div class="stat-sub">연구개발(GAAP) · 매출의 30.2%</div>
+      <div class="stat-label">희석 EPS (Q2 FY27)</div>
+      <div class="stat-value">$0.01</div>
+      <div class="stat-sub">GAAP · 1년 전 −$0.08 (흑자 전환)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">12월 초 예상</div>
-      <div class="stat-sub">일정 · Q3 FY27 (회사 미확정)</div>
+      <div class="stat-value">12월 1일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 FY27 (작년 12/2 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">135.0%</span></div>
       <div class="diag-badge alert" title="구성표 배점 2/5점">⚠️ 주의</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+27.4%</span><span class="diag-note">FY2026 말(2026-01) $11.1B(전년 $8.7B) · 연간 지표</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+27.4%</span><span class="diag-note">FY2026 말 $11.1B(전년 $8.7B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">현금 $5.0B에 차입금은 회사채 $0.75B뿐이라 순현금이다. 현금은 2월 인수(Seraphic·SGNL, $0.88B)로 연초 $5.23B에서 줄었다. 유동부채에 이연수익 $3.5B(구독 선수금)가 있어 유동비율이 그만큼 낮게 나온다. 이자보상배율 1점은 GAAP 영업손실 때문이다. <a href="https://www.sec.gov/Archives/edgar/data/1535527/000153552726000031/crwd-20260731.htm" target="_blank" rel="noopener">Q2 FY27 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $746M, 현금·단기투자 $5.0B, 자본 $5.1B. 유동비율 157%. <a href="https://www.sec.gov/Archives/edgar/data/1535527/000153552726000031/crwd-20260731.htm" target="_blank" rel="noopener">Q2 FY27 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.07.31까지 4분기</span>)</div>
@@ -881,31 +880,31 @@ Chart.overrides.doughnut.animation = false;
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#e01f3d;display:inline-block;flex-shrink:0;"></span>미국 <strong style="color:var(--text);">$0.95B · 64.9%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5aa9e6;display:inline-block;flex-shrink:0;"></span>유럽·중동·아프리카 <strong style="color:var(--text);">$0.26B · 17.9%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0;"></span>아시아·태평양 <strong style="color:var(--text);">$0.16B · 10.7%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#d4a017;display:inline-block;flex-shrink:0;"></span>기타 <strong style="color:var(--text);">$0.09B · 6.4%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#d4a017;display:inline-block;flex-shrink:0;"></span>기타 <strong style="color:var(--text);">$0.10B · 6.5%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">고객 주소 기준 · 1년 전보다 미국 +22%, 유럽·중동·아프리카 +40%, 아시아·태평양 +34%, 기타 +21% · 매출의 95%가 구독(구독 $1.40B, 전문 서비스 $0.07B) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1535527/000153552726000031/crwd-20260731.htm" target="_blank" rel="noopener">Q2 FY27 10-Q 지역 표 (SEC) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 미국 +21.5%, 유럽·중동·아프리카 +40.4%, 아시아·태평양 +33.9%, 기타 +21.8% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1535527/000153552726000031/crwd-20260731.htm" target="_blank" rel="noopener">Q2 FY27 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 FY27 · 2026.07.31 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (Q1 FY27 $176M, Q2 FY27 없음)</span>
+          <span class="zone-label">자사주 매입 (회계연도 누계 2026.2.1~2026.7.31, 26주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">상반기 $0.18B</span>
+            <span class="zone-val">$176M</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 승인 한도 (4월 $0.5B 증액 뒤 총액)</span>
-          <span class="zone-val">$1.5B</span>
+          <span class="zone-label">보통주 배당 지급</span>
+          <span class="zone-val">없음</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당</span>
+          <span class="zone-label">분기 주당 배당</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">지급하지 않음</span>
-            <span class="zone-val">$0</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">보통주 배당 없음</span>
+            <span class="zone-val">—</span>
           </div>
         </div>
       </div>
@@ -914,12 +913,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 12월 초 (예상) · Q3 FY27</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 12월 1일 무렵 (예상) · Q3 FY27</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 3분기 가이던스 매출 $1.523~1.529B, 비GAAP EPS $0.31을 넘는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 순신규 ARR(2분기 $333M, +51%)과 올려 잡은 연간 순신규 ARR 성장 34%</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> GAAP 영업손익(2분기 −$33M)이 흑자로 돌아서는지와 주식보상비용(2분기 $377M)</div>
-      <div><strong style="color:var(--accent2);">④</strong> Falcon Flex 고객의 기말 ARR(2분기 $2.29B, +101%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+23.3% → +25.6% → +25.8%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 FY27 −2.3%, 1년 전 −9.0%)</div>
     </div>
   </div>
 </div>
@@ -935,13 +932,13 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$1.98</div><div class="vs-note">현재가 <span data-vs="price">$275.04</span> 대비 <strong data-vs="upside">−99.3%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 -28.2% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 138.91
-시나리오 범위: 93.87 ~ 138.91(세 시나리오 최대·최소 기준, 기본이 가장 낮다)
+시나리오 범위: 93.87 ~ 138.91(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">1.2</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">4</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PSR 52.2배·PBR 55.2배·PCR 175배가 5년 중 가장 비싼 쪽(상위 3% 안)이고, PER 6,876배는 최근 4분기 GAAP 순이익이 거의 0이라(순이익률 1.1%) 점수에서 뺀다(PER 해당 없음, 순이익률 2% 미만 규칙). 자기 이력 1.8점, 카드 유니버스 IT 안에서도 나머지 세 배수가 모두 가장 비싼 쪽이라 1.2점이다(EV/EBITDA는 감가상각 태그가 회사 고유라 계산하지 않는다). <strong>현금흐름 내재가치(기본 $1.98)는 현재가의 0.7%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 −1·−1·−2로 합계 −4 “고평가”다. GAAP 영업이익률이 최근 4분기 -2.2%(주식보상비용 포함, 회사 비GAAP 2분기 25%)라 영업이익률을 100%로 올려도 현재가에 닿지 않는다(해 없음). 성장률은 5년 연 36.5%·3년 연 26.9%로 높지만 모델은 GAAP 이익률에서 출발한다.</div>
+    <div class="vs-premise">PBR 55.2배(5년 중앙값 31.1배)로 자기 이력 1.8점(비싸다), 동종업 1.2점(비싸다)이다. <strong>현금흐름 내재가치(기본 $1.98)는 현재가의 0.7%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $1.98)는 현재가의 0.7%다. 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 −2.2%). 내재가치에서 차입금 $746M를 빼고 현금·단기투자 $5.0B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1024,14 +1021,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 순신규 ARR이 빨라지고 Falcon Flex가 퍼지며 주가는 1년 새 +116%<span class="tag">고성장·초고배수</span></div>
-    <ol class="news-list">
-      <li>2분기 매출 $1.47B(+26%), 순신규 ARR $333M(+51%)으로 분기 최대였다.</li>
-      <li>연간 순신규 ARR 성장 가이던스를 34%로 올렸고, Falcon Flex 고객 ARR이 $2.29B(+101%)다.</li>
-      <li>GAAP 영업손실은 $33M으로 줄었지만 주식보상비용이 $377M이다. 비GAAP 영업이익은 $372M이다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 배수가 5년 이력과 IT 카드 유니버스 모두에서 가장 비싼 쪽이고, GAAP 영업이익률이 음수라 현금흐름 모델은 주당 $1.98이다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 FY27 실적(12월 초 예상)의 순신규 ARR과 GAAP 영업이익 흑자 전환.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 FY27 매출 $1.5B(+25.8%), 영업이익률 −2.3%(1년 전 −9.0%). 주가는 1년 새 +116%<span class="tag">배수 5년 고점권·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $1.98)는 현재가의 0.7%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 12월 1일 무렵 (예상) Q3 FY27 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1114,15 +1106,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">성장</span><span class="bb-text">매출 +26%, 순신규 ARR $333M(+51%), 기말 ARR $5.84B(+25%).</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">2분기 영업현금 $530M, 회사 FCF $377M, 현금 $5.0B.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">플랫폼</span><span class="bb-text">Falcon Flex 고객 ARR $2.29B(+101%), 6개 이상 모듈 고객 51%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $1.6B, 매출의 29.8%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">부채</span><span class="bb-text">현금·단기투자가 차입금·리스보다 $4.2B 많다(순현금).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PSR 52배. 5년 이력과 IT 카드 유니버스 모두에서 가장 비싼 쪽이다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">이익</span><span class="bb-text">GAAP 영업손실이 이어지고(2분기 −$33M) 주식보상비용이 2분기 $377M이다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">희석</span><span class="bb-text">기본 가중평균 주식 수가 1년 새 9.996억 주에서 10.194억 주로 2.0% 늘었다(주식보상).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 2점(배수 3개) · PBR 55.2배(5년 중앙값 31.1배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $1.98)는 현재가의 0.7%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 −2.2%(영업적자).</span></div>
     </div>
   </div>
 
@@ -1135,12 +1126,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 75.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 22.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 1.9%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$248.94</span> <span class="op-sub op-down" data-an="upside">−9.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">12월 초 <span class="op-sub">Q3 FY27 예상</span></span>
+        <span class="op-val">12월 1일 무렵 <span class="op-sub">Q3 FY27 예상</span></span>
       </div>
     </div>
   </div>
@@ -1221,7 +1212,7 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 FY27 vs Q2 FY26)',
     chart: { cur: [1.47, -0.03, 0.01, 0.41], cmp: [1.17, -0.11, -0.07, 0.3] },
     deltas: ['+25.8%', '적자 지속', '흑자 전환', '+34.2%'],
-    footnote: '기준일: 2026.07.31(Q2 FY27) vs 2025.07.31(Q2 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 유형자산 취득 · 영업이익·순이익은 1년 전 적자에서 줄거나 흑자로 바뀌었다 · <a href="https://www.sec.gov/Archives/edgar/data/1535527/000153552726000029/crwd-20260826xex991.htm" target="_blank" rel="noopener">CrowdStrike Q2 FY27 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.07.31(Q2 FY27) vs 2025.07.31(Q2 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 유형자산 취득 · 1년 전 분기 영업이익이 0 이하(영업이익률 −9.0%)라 영업이익 증감률을 쓰지 않는다 · <a href="https://www.sec.gov/Archives/edgar/data/1535527/000153552726000029/crwd-20260826xex991.htm" target="_blank" rel="noopener">CrowdStrike Q2 FY27 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 FY27', cmpLabel: 'Q1 FY27',
@@ -1311,13 +1302,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 1470.897;
+  const total = 1471;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["미국", "유럽·중동·아프리카", "아시아·태평양", "기타"],
       datasets:[{
-        data:[954.464, 263.698, 157.893, 94.842],
+        data:[954, 264, 158, 95],
         backgroundColor:["#e01f3d", "#5aa9e6", "#94a3b8", "#d4a017"],
         borderColor:'#8a8d9e',
         borderWidth:2
@@ -1486,7 +1477,7 @@ function dcfLevel(price, D) {
   const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(카드 한정)
   const split = _mn > 0 && _mn < price && price < _mx;
   const range = _mn > 0
-    ? `시나리오 범위: ${(price / _mx).toFixed(2)} ~ ${(price / _mn).toFixed(2)}(세 시나리오 최대·최소 기준, 기본이 가장 낮다)` : '';
+    ? `시나리오 범위: ${(price / _mx).toFixed(2)} ~ ${(price / _mn).toFixed(2)}(세 시나리오 최대·최소 기준)` : '';
   return { label, cls, color, split, ratio: r, range };
 }
 const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다';
@@ -1526,7 +1517,7 @@ const CRWD_SCORES = {
   peer: 1.2,          // 카드 유니버스 IT 종목 대비 배수 순위(EV/EBITDA 없음)
   selfHistory: 1.8,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-07-31",   // Q2 FY27 10-Q (2026-08-27 공시)
+  fundamentalAsOf: "2026-07-31",   // Q2 FY27 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 CRWD_DCF 하나다.
@@ -2138,7 +2129,7 @@ const CRWD_ACTIVITY = {"ticker": "CRWD", "status": "ok", "asOf": "2026-07-31", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/crwd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CRWD_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 53, nTargets: 39, mean: 248.94, median: 250,
+const CRWD_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 53, nTargets: 39, mean: 248.94, median: 250,
   low: 125, high: 425, strongBuy: 30, buy: 10, hold: 12, sell: 0, strongSell: 1 };
 (function(){
   const A = CRWD_ANALYST, last = (typeof CRWD_DAILY !== 'undefined' && CRWD_DAILY.length) ? CRWD_DAILY[CRWD_DAILY.length - 1] : null;
@@ -2181,7 +2172,7 @@ const CRWD_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('crwdFundBox', 'crwdFundScore', 'crwdFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 FY27, 10-Q), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
-      + `\n매출 CAGR 29.0%는 5점이지만, GAAP 영업손실(주식보상비용 포함)로 영업이익 CAGR·영업이익률·이자보상배율이 1점이다.`);
+      + `\n점수는 Q2 FY27 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2203,7 +2194,7 @@ const CRWD_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('crwdSelfBox', 'crwdSelfScore', 'crwdSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPSR 52.2배(5년 중앙값 24.6배)·PBR·PCR이 5년 중 가장 비싼 쪽이다. PER은 GAAP 순이익이 흑자였던 282일만 이력이 있다. 7월 4:1 분할 전 주가·주식 수는 분할 기준으로 맞췄다.`
+      + `\nPBR 55.2배는 5년 분포의 하위 97.1%다(중앙값 31.1배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

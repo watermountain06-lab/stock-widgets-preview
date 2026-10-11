@@ -695,7 +695,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
       </tbody>
     </table></div>
-    <div class="note">손해보험사는 보험료를 먼저 받고 보험금을 나중에 내는 구조라 일반 기업의 잉여현금흐름 모델이 맞지 않는다. 현금흐름 칸이 비어 BRKB처럼 판정을 보류한다(두 배수 칸은 참고로 표시).</div>
+    <div class="note">이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -741,17 +741,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">해당 없음</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">손해보험 합산비율 (Q2 2026)</div>
-      <div class="stat-value">83.8%</div>
-      <div class="stat-sub">1년 전 85.6% · 낮을수록 보험 영업이 좋다</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">$7.30</div>
+      <div class="stat-sub">GAAP · 1년 전 $7.35 (−0.7%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 하순 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 (회사 미확정)</div>
+      <div class="stat-value">10월 20일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/21 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -799,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 $18.5B(단기 $0.7B + 장기 $17.5B + 하이브리드 $0.4B)이고 Chubb 귀속 자기자본은 $75.4B(비지배지분 포함 $80.8B)다. 보험사라 부채 대부분은 보험 준비금이다. 5~6월에 달러 사채 $1.0B와 캐나다달러 사채 C$800M를 냈다. 주당 장부가치는 $195.45(1년 전보다 +12.3%)다. 보험사는 투자 자산이 보험금 지급 재원이라 순현금 줄은 의미가 작다. <a href="https://www.sec.gov/Archives/edgar/data/896159/000089615926000017/cb-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $18.5B, 현금·단기투자 $8.2B, 자본 $75.4B. 이자보상배율 19배. <a href="https://www.sec.gov/Archives/edgar/data/896159/000089615926000017/cb-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -816,40 +816,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="collapsible-body collapsed">
 
-    <div class="activity-grid">
-      <div class="act-card">
-        <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
-      </div>
-    </div>
-    <div class="ccc-card">
-      <div class="ccc-head">
-        <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
-      </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
-      <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left: 33.4%; transform: translateX(-50%);">매입채무 지급 51.8일</div>
-        <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:69.3%;" title="재고보유 107.3일">재고보유 107.3일</div>
-          <div class="tl-seg-ar" style="width:30.7%;" title="매출채권회수 47.6일">매출채권회수 47.6일</div>
-        </div>
-        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
-      </div>
-    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — 보험사라 재고·매출채권 회전으로 보는 활동성이 맞지 않는다.</div>
 
     </div>
   </div>
@@ -883,27 +850,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">순보험료 수익 +5.8%, 투자 수익 +12.3% · 손해보험 보험영업이익 $1.94B(+18.8%) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/896159/000089615926000017/cb-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 순보험료 수익 +5.8%, 투자 수익 +12.2%, 실현 이익 +1.2% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/896159/000089615926000017/cb-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (상반기, 평균 $326.03)</span>
+          <span class="zone-label">자사주 매입 (연초~6/30, 26주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$2.12B</span>
+            <span class="zone-val">$2.2B</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (2분기, 평균 $327.18)</span>
-          <span class="zone-val">$0.98B</span>
+          <span class="zone-label">배당 지급 (연초~6/30, 26주)</span>
+          <span class="zone-val">$759M</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (2분기)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 3/31 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">$0.40B</span>
-            <span class="zone-val">2분기 환원 합계 $1.37B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.91 · +6.6%</span>
+            <span class="zone-val">$0.97</span>
           </div>
         </div>
       </div>
@@ -912,12 +879,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 하순 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 20일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 손해보험 합산비율(2분기 83.8%)과 자연재해 손실</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 순보험료 성장(2분기 +3.6%, 고정 환율 +2.0%)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 투자 수익(2분기 $1.76B)</div>
-      <div><strong style="color:var(--accent2);">④</strong> 자사주 매입 속도(상반기 $2.12B)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+6.3% → +10.6% → +6.6%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 24.2%, 1년 전 26.3%)</div>
     </div>
   </div>
 </div>
@@ -934,8 +899,8 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">계산 불가</div></div>
       <div class="vs-name" title="S&amp;P500 보험사(손해·종합·생명)보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">40.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">47</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">60</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 12.1배(5년 중앙값 12.2배)는 조금 싼 쪽, PBR·PSR은 중앙값 근처라 자기 이력 35.8점(중간)이다. S&P500 보험사 안에서는 PBR이 조금 싼 쪽, PER은 중간, PSR은 비싼 쪽이라 40.7점(중간)이다. <strong>보험사라 현금흐름 내재가치는 계산하지 않아 판정 보류</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 자기 이력 0 · 동종업 0 · 현금흐름 미적용이라 “판정 보류”다. 두 배수 칸은 모두 중간(0)이지만, 현금흐름 칸을 쓰지 않아 BRKB처럼 판정하지 않는다. 보험사 가치는 장부가치와 자기자본이익률(2분기 core 기준 연 14.5%)로 보는 경우가 많은데, 카드에는 아직 그 모델이 없다.</div>
+    <div class="vs-premise">PER 12.1배(5년 중앙값 12.2배)로 자기 이력 35.8점(중간), 동종업 40.7점(중간)이다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 미적용, 합계 0 “판정 보류”이다.</div>
   </div>
 
   <div class="grid-2">
@@ -1018,14 +983,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 합산비율 80%대 초반의 보험 영업이 이어졌고, 주가는 1년 새 +19%<span class="tag">안정적 보험 영업</span></div>
-    <ol class="news-list">
-      <li>2분기 손해보험 합산비율이 83.8%(1년 전 85.6%)였고 core EPS는 $7.26(+18.2%)였다.</li>
-      <li>순보험료 성장은 +3.6%(고정 환율 +2.0%)로 1분기(+10.7%)보다 낮았다.</li>
-      <li>상반기에 자사주 $2.12B를 샀고 주당 장부가치는 $195.45(+12.3%)다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 배수는 이력·업종 모두에서 중간이고, 보험사라 현금흐름 모델은 쓰지 않았다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 하순 예상)의 합산비율과 자연재해 손실.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $15.8B(+6.6%), 영업이익률 24.2%(1년 전 26.3%). 주가는 1년 새 +19%<span class="tag">배수 중간·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 미적용, 합계 0 “판정 보류”이다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 20일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1096,15 +1056,12 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">보험 영업</span><span class="bb-text">합산비율 80%대 초반, 2분기 83.8%.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">투자 수익</span><span class="bb-text">2분기 $1.76B(+12.3%).</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">주주환원</span><span class="bb-text">상반기 자사주 $2.12B.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">부채</span><span class="bb-text">순차입금(리스 포함) $10.3B, 최근 4분기 영업이익의 0.7배.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">분기 주당 배당 $0.97(1년 전보다 +6.6%).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장 둔화</span><span class="bb-text">순보험료 +3.6%(고정 환율 +2.0%).</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">자연재해</span><span class="bb-text">분기마다 재해 손실이 이익을 흔듦.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">의견</span><span class="bb-text">애널리스트 대부분 보유(Hold) 의견.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 36점(배수 3개) · PER 12.1배(5년 중앙값 12.2배).</span></div>
     </div>
   </div>
 
@@ -1117,12 +1074,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 36%; background: var(--green);"></div><div data-an-bar="hold" style="width: 56%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$370.53</span> <span class="op-sub op-up" data-an="upside">+8.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 하순 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 20일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1203,7 +1160,7 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [15.82, 3.82, 2.85, null], cmp: [14.84, 3.9, 2.97, null] },
     deltas: ['+6.6%', '-1.9%', '-3.8%', '—'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 손해보험 합산비율 83.8%(1년 전 85.6%) · 순보험료 +3.6% · 자연재해 손실 $475M(1년 전 $630M) · <a href="https://www.sec.gov/Archives/edgar/data/896159/000119312526310312/d78544dex991.htm" target="_blank" rel="noopener">Chubb Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/896159/000119312526310312/d78544dex991.htm" target="_blank" rel="noopener">Chubb Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
@@ -1499,7 +1456,7 @@ const CB_SCORES = {
   peer: 40.7,          // S&P500 보험사 대비 배수 순위 (v2/peer_universe/insurers.json)
   selfHistory: 35.8,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-28 공시, 인라인 XBRL 보충)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 CB_DCF 하나다.
@@ -2105,7 +2062,7 @@ const CB_ACTIVITY = {"ticker": "CB", "status": "N/A", "reason": "보험사라 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/cb/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CB_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 370.53, median: 373,
+const CB_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 370.53, median: 373,
   low: 328, high: 410, strongBuy: 7, buy: 2, hold: 14, sell: 2, strongSell: 0 };
 (function(){
   const A = CB_ANALYST, last = (typeof CB_DAILY !== 'undefined' && CB_DAILY.length) ? CB_DAILY[CB_DAILY.length - 1] : null;
@@ -2148,7 +2105,7 @@ const CB_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
   put('cbFundBox', 'cbFundScore', 'cbFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n보험사라 부채 대부분이 보험 준비금이고, 유동·당좌비율과 활동성은 맞지 않는다. 영업이익 줄이 없어 분기 차트의 영업이익률은 (세전이익 + 이자비용) ÷ 매출로 셈했다. 순이익률·성장률 위주로 읽는다.`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2170,7 +2127,7 @@ const CB_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
       + `\nHIG·MET의 PSR은 매출 태그 문제로 보여 뺐다. 생명보험사가 섞여 있고 ALL PER 4.4배(매각 이익)·L PSR 6.6배(지주회사 매출)는 튀는 값이다. 차트에는 손해보험 6곳만 보인다.`);
   put('cbSelfBox', 'cbSelfScore', 'cbSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 12.1배는 5년 중앙값 12.2배보다 조금 낮다. PCR·EV/EBITDA는 보험사에 맞지 않아 계산하지 않는다.`
+      + `\nPER 12.1배는 5년 분포의 하위 46.3%다(중앙값 12.2배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

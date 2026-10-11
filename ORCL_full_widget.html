@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
-          <td class="story">5년 성장률의 절반(연 6.0%)에서 식고, 영업이익률이 5년 중앙값 29.8%로 간다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 6.0%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 29.8%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$18.41</td><td style="color: var(--red);" data-dcf-upside="base">−87.0%</td>
-          <td class="story">5년 성장률(연 11.9%)에서 식고, 영업이익률이 최근 2년 중앙값 30.6%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 11.9%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 30.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$34.50</td><td style="color: var(--red);" data-dcf-upside="high">−75.6%</td>
-          <td class="story">3년 성장률(연 12.1%)에서 식고, 최근 4분기 영업이익률 32.1%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 12.1%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 32.1%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 1개는 음수라 계산할 수 없다(나머지 $18.41~$34.50). 영업이익률은 최근 4분기 32.1%, 2년 중앙값 30.6%, 5년 중앙값 29.8%를 쓴다.</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="orclRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">회계연도는 5월 31일에 끝난다(Q1 FY27 = 2026년 6~8월). Q2 FY26 순이익 $6.1B에는 Ampere 지분 매각 이익 $2.7B(세전)가 들어 있다. SEC 데이터의 FY2021·FY2022 4분기 매출 태그 오류(연간 값이 분기 기간으로 태깅)는 엔진에서 걸러 냈다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q1 FY27)</div>
       <div class="stat-value">−$5.4B</div>
-      <div class="stat-sub">영업현금흐름 $23.1B − 설비투자 $28.5B</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q1 FY27)</div>
       <div class="stat-value">$28.5B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표) · 1년 전 $8.5B</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q1 FY27)</div>
-      <div class="stat-value">$2.40B</div>
-      <div class="stat-sub">매출의 12%</div>
+      <div class="stat-label">희석 EPS (Q1 FY27)</div>
+      <div class="stat-value">$1.56</div>
+      <div class="stat-sub">GAAP · 1년 전 $1.01 (+54%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">12월 중순 예상</div>
-      <div class="stat-sub">일정 · Q2 FY27 (회사 미확정)</div>
+      <div class="stat-value">12월 9일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q2 FY27 (작년 12/10 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">354.2%</span></div>
       <div class="diag-badge alert" title="구성표 배점 1/5점">⚠️ 주의</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+55.5%</span><span class="diag-note">FY2026 말 $261.8B(전년 $168.4B) · 데이터센터 투자 · 연간 지표</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+55.5%</span><span class="diag-note">FY2026 말 $261.8B(전년 $168.4B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 $125.3B(유동 $7.6B + 비유동 $117.7B)이고 현금은 $36.4B다. 1분기에 ATM으로 보통주 약 1.41억 주를 발행해 $19.9B를 조달했고, 2026년 2월에는 의무전환 우선주 $5.0B를 발행했다. AI 데이터센터 투자로 1분기 설비투자가 $28.5B(1년 전 $8.5B)라 FCF가 음수다. 부채비율 354%는 총부채 약 $236B(차입 $125B에 리스·이연수익 등 포함)가 자본 $67B의 3.5배라서다. 활동성은 5년 비교 이력이 부족해 판정하지 않는다. <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm" target="_blank" rel="noopener">Q1 FY2027 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $125.3B, 현금·단기투자 $37.1B, 자본 $66.8B. 유동비율 117%, 이자보상배율 4.7배. <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm" target="_blank" rel="noopener">Q1 FY2027 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -817,40 +816,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="collapsible-body collapsed">
 
-    <div class="activity-grid">
-      <div class="act-card">
-        <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
-      </div>
-    </div>
-    <div class="ccc-card">
-      <div class="ccc-head">
-        <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
-      </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
-      <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left: 33.4%; transform: translateX(-50%);">매입채무 지급 51.8일</div>
-        <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:69.3%;" title="재고보유 107.3일">재고보유 107.3일</div>
-          <div class="tl-seg-ar" style="width:30.7%;" title="매출채권회수 47.6일">매출채권회수 47.6일</div>
-        </div>
-        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
-      </div>
-    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — 5년 비교 이력 부족.</div>
 
     </div>
   </div>
@@ -885,27 +851,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 클라우드 +62%(인프라 IaaS +121%, 애플리케이션 SaaS +10%), 소프트웨어 −3%, 서비스 +5%, 하드웨어 +15% · 남은 계약 잔고(RPO) $664B · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/" target="_blank" rel="noopener">Q1 FY2027 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 클라우드(IaaS+SaaS) +62%, 소프트웨어(라이선스·지원) −3.0%, 서비스 +4.8%, 하드웨어 +15.5% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm" target="_blank" rel="noopener">Q1 FY2027 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q1 FY27 · 2026.08.31 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">주식 발행 (Q1 FY27, ATM 약 1.41억 주 · 자사주 매입 없음)</span>
+          <span class="zone-label">자사주 매입</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">+$19.9B</span>
+            <span class="zone-val">공시 없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">잔여 바이백 승인 한도 (2026.08.31 기준)</span>
-          <span class="zone-val">$6.3B</span>
+          <span class="zone-label">배당 지급 (회계연도 누계 2026.6.1~2026.8.31, 13주)</span>
+          <span class="zone-val">$1.6B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q1 FY27 지급, 분기 $0.50)</span>
+          <span class="zone-label">최근 분기 주당 배당 (지급 기준, 8/31 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">우선주 배당 $81M 별도</span>
-            <span class="zone-val">$1.48B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.50 · +0.0%</span>
+            <span class="zone-val">$0.50</span>
           </div>
         </div>
       </div>
@@ -914,12 +880,12 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 12월 중순 (예상) · Q2 FY27</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 12월 9일 무렵 (예상) · Q2 FY27</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 회사 전망 — Q2 FY27 매출 +30~34%, 클라우드 +65~71%(달러), 비GAAP EPS $1.85~1.93. 연간 매출 $90B 이상</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 설비투자(1분기 $28.5B)와 FCF(−$5.4B)가 언제 다시 양수로 돌아오는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> RPO $664B가 매출로 바뀌는 속도 — 1분기 데이터센터 850MW·GPU 30만 장 이상 인도</div>
-      <div><strong style="color:var(--accent2);">④</strong> 추가 자금 조달(차입 $125.3B, ATM 주식 발행 완료) — 회사는 새 계약으로 조달 계획이 늘지 않는다고 했다</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+21.7% → +20.6% → +29.6%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q1 FY27 34.8%, 1년 전 28.7%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> FCF(최근 4분기 −$28.7B)가 배당 지급(연 환산 약 $6.3B)을 넘는지</div>
+      <div><strong style="color:var(--accent2);">④</strong> 차입금 $125.3B이 줄어드는지</div>
     </div>
   </div>
 </div>
@@ -939,8 +905,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">70.2</div><div class="sc-tile" data-vc="peer" data-m="per">92</div><div class="sc-tile" data-vc="peer" data-m="pbr">83</div><div class="sc-tile" data-vc="peer" data-m="psr">85</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile" data-vc="peer" data-m="evebitda">92</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 51% 내려 PER 22.2배·EV/EBITDA 16.2배가 5년 중 가장 싼 쪽이다. 자기 이력 70.9점, 카드 유니버스 IT 안에서 70.2점으로 둘 다 싼 쪽이다(FCF 음수인 PCR은 0점). <strong>현금흐름 내재가치는 기본 $18.41로 현재가의 13%다</strong> — 1분기 설비투자 $28.5B처럼 매출보다 빠르게 느는 투자가 재투자로 잡혀서다(보수 시나리오는 음수).</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 +1·+1·−2로 갈려 합계 0 “적정”이다. 배수는 지금 이익으로 싸 보이고, 현금흐름 모델은 지금 투자 속도가 이어진다는 가정에서 가치를 현재가의 13% 정도로 본다. 현재가가 정당하려면 영업이익률이 69.3%여야 한다(최근 4분기 32.1%). PER 22.2배는 Q2 FY26 Ampere 매각 이익($2.7B 세전)이 든 GAAP EPS 기준이다.</div>
+    <div class="vs-premise">PER 22.2배(5년 중앙값 32.4배)로 자기 이력 70.9점(싸다), 동종업 70.2점(싸다)이다. <strong>현금흐름 내재가치(기본 $18.41)는 현재가의 13%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $18.41)는 현재가의 13%다. 현재가를 정당화하려면 영업이익률이 69.3%까지 올라야 한다(최근 4분기 32.1%, 5년 중앙값 29.8%). 내재가치에서 차입금·금융리스 $134.5B를 빼고 현금·단기투자 $37.1B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1023,14 +989,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · AI 클라우드 계약이 쌓이고 매출이 30%대로 빨라졌지만, 투자 자금 부담으로 주가는 1년 새 51% 내렸다<span class="tag">AI 투자·자금 조달</span></div>
-    <ol class="news-list">
-      <li>Q1 FY27 매출 $19.3B(+30%), 클라우드 인프라 +121%, 남은 계약 잔고 $664B였다.</li>
-      <li>설비투자가 1분기 $28.5B로 늘어 FCF가 −$5.4B였고, 차입 $125.3B에 ATM 주식 $19.9B·의무전환 우선주 $5.0B를 더 조달했다.</li>
-      <li>주가는 2025년 9월 10일 고점(종가 $328) 뒤 2026년 7월 $115까지 내렸다가 $141이다. 회사는 연간 매출 $90B 이상, 비GAAP EPS $8.10을 전망한다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 배수는 5년 중 싼 쪽이지만, 현금흐름 모델로는 지금 투자 속도에서 가치가 거의 남지 않는다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q2 FY27 실적(12월 중순 예상)의 클라우드 성장(전망 +65~71%)과 설비투자·FCF.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q1 FY27 매출 $19.3B(+29.6%), 영업이익률 34.8%(1년 전 28.7%). 주가는 1년 새 −51%<span class="tag">배수 싼 쪽·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $18.41)는 현재가의 13%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 12월 9일 무렵 (예상) Q2 FY27 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1107,15 +1068,15 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">성장</span><span class="bb-text">Q1 FY27 매출 +30%, 클라우드 인프라 +121%, RPO $664B.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배수</span><span class="bb-text">PER 22.2배·EV/EBITDA 16.2배로 5년 최저 근처.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">전망</span><span class="bb-text">연간 매출 $90B 이상, 비GAAP EPS $8.10.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q1 FY27 매출 +29.6%(보고 기준, 3년 연평균 12.1%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 32.1%(5년 중앙값 29.8%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 71점(배수 4개) · PER 22.2배(5년 중앙값 32.4배).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">현금</span><span class="bb-text">1분기 설비투자 $28.5B, FCF −$5.4B.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">차입금 $125.3B, 주식·우선주 발행으로 희석.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 모델 기본 $18.41(보수 시나리오 음수).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $18.41)는 현재가의 13%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">투자</span><span class="bb-text">Q1 FY27 FCF −$5.4B(설비투자 $28.5B).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF −$28.7B, 매출의 −40.0%.</span></div>
     </div>
   </div>
 
@@ -1128,12 +1089,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 81.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 2.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$244.87</span> <span class="op-sub op-up" data-an="upside">+73.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">12월 중순 <span class="op-sub">Q2 FY27 예상</span></span>
+        <span class="op-val">12월 9일 무렵 <span class="op-sub">Q2 FY27 예상</span></span>
       </div>
     </div>
   </div>
@@ -1214,14 +1175,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q1 FY27 vs Q1 FY26)',
     chart: { cur: [19.35, 6.73, 4.76, -5.4], cmp: [14.93, 4.28, 2.93, -0.36] },
     deltas: ['+29.6%', '+57.3%', '+62.6%', '적자 지속'],
-    footnote: '기준일: 2026.08.31(Q1 FY27) vs 2025.08.31(Q1 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · FCF는 두 분기 모두 음수(설비투자가 영업현금흐름보다 큼) · <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/" target="_blank" rel="noopener">Oracle Q1 FY2027 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.08.31(Q1 FY27) vs 2025.08.31(Q1 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 28.7%로 5년 중앙값(29.8%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-ex99_1.htm" target="_blank" rel="noopener">Oracle Q1 FY27 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q1 FY27', cmpLabel: 'Q4 FY26',
     titleSuffix: 'QoQ (Q1 FY27 vs Q4 FY26)',
     chart: { cur: [19.35, 6.73, 4.76, -5.4], cmp: [19.18, 6.13, 4.3, -1.87] },
     deltas: ['+0.8%', '+9.7%', '+10.6%', '적자 지속'],
-    footnote: '기준일: 2026.08.31(Q1 FY27) vs 2026.05.31(Q4 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · FCF는 두 분기 모두 음수 · <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/" target="_blank" rel="noopener">Oracle Q1 FY2027 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.08.31(Q1 FY27) vs 2026.05.31(Q4 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1341439/000119312526387905/orcl-ex99_1.htm" target="_blank" rel="noopener">Oracle Q1 FY27 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1521,7 +1482,7 @@ const ORCL_SCORES = {
   peer: 70.2,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 70.9,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-08-31",   // Q1 FY27 10-Q (2026-09-11 공시)
+  fundamentalAsOf: "2026-08-31",   // Q1 FY2027 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 ORCL_DCF 하나다.
@@ -2123,7 +2084,7 @@ const ORCL_ACTIVITY = {"ticker": "ORCL", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/orcl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ORCL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 43, nTargets: 31, mean: 244.87, median: 240,
+const ORCL_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 43, nTargets: 31, mean: 244.87, median: 240,
   low: 110, high: 400, strongBuy: 28, buy: 7, hold: 7, sell: 0, strongSell: 1 };
 (function(){
   const A = ORCL_ANALYST, last = (typeof ORCL_DAILY !== 'undefined' && ORCL_DAILY.length) ? ORCL_DAILY[ORCL_DAILY.length - 1] : null;
@@ -2166,7 +2127,7 @@ const ORCL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('orclFundBox', 'orclFundScore', 'orclFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q1 FY27, 10-Q), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
-      + `\n부채비율 1점·차입금의존도 2점은 데이터센터 투자 차입($125.3B) 때문이고(활동성은 엔진이 쓰는 분기 재고·매출원가 이력이 5년에 못 미쳐 판정하지 않는다), 영업이익률 30%대·순이익률이 수익성을 받친다.`);
+      + `\n점수는 Q1 FY2027 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2188,7 +2149,7 @@ const ORCL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\n반도체·하드웨어가 많고 소프트웨어는 일부다. ORCL은 EV/EBITDA가 IT 24곳 중 세 번째로 싸고 PCR은 FCF 음수라 가장 비싼 쪽으로 셈한다.`);
   put('orclSelfBox', 'orclSelfScore', 'orclSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 22.2배·EV/EBITDA 16.2배는 5년 최저 근처다. PBR 6.4배도 최저 쪽인데, 자본이 음수였던 2022년 무렵이 빠져 PBR 이력은 3.3년이고(FCF가 음수인 기간이 빠진 PCR 이력도 짧다) ATM 주식 발행($19.9B)으로 자본이 늘었다. PCR은 FCF 음수라 0점이다.`
+      + `\nPER 22.2배는 5년 분포의 하위 5.7%다(중앙값 32.4배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

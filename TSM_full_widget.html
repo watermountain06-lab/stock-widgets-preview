@@ -524,7 +524,7 @@ Chart.overrides.doughnut.animation = false;
       <div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
           <span class="ticker-badge">TSM</span>
-          <span style="font-size:11px;color:var(--accent);font-weight:600;">NYSE(ADR) · 파운드리·2nm 첨단공정</span>
+          <span style="font-size:11px;color:var(--accent);font-weight:600;">NYSE(ADR) · 파운드리·2nm 첨단공정 · 재무 대만달러(IFRS)</span>
         </div>
         <img class="hdr-logo" src="logos/tsm.png" alt="" onerror="if(!this.dataset.r){this.dataset.r=1;this.src='../logos/tsm.png'}else{this.remove()}"><div class="company-name">Taiwan Semiconductor Manufacturing Co.</div>
       </div>
@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$178.65</td><td style="color: var(--red);" data-dcf-upside="low">−60.6%</td>
-          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(46.4%)으로 내려온다. 매출 $1을 늘리는 데 $0.84를 투자한다(과거 평균 — 최근 1년($0.78)보다 자본이 더 드는 쪽).</td>
+          <td class="story">매출이 5년 성장률의 절반(연 12.7%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 46.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$232.36</td><td style="color: var(--red);" data-dcf-upside="base">−48.7%</td>
-          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(49.1%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $0.78에서 5년에 걸쳐 과거 평균 $0.84로 돌아온다.</td>
+          <td class="story">매출이 5년 성장률(연 25.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 49.1%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$263.76</td><td style="color: var(--red);" data-dcf-upside="high">−41.8%</td>
-          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(56.1%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $0.84다.</td>
+          <td class="story">매출이 3년 성장률(연 25.8%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 56.1%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $178.65~$263.76다. 영업이익률은 최근 4분기 56.1%, 2년 중앙값 49.1%, 5년 중앙값 46.4%를 쓴다.</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $232.36 = 사업 가치 $230.99 + 비영업 자산 $1.37(주당, 지분·장기투자)</div>
     <div class="reverse">지금 가격(<span data-dcf-price>$453.31</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>35.4%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$232</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>14.5%</span>다.</div>
   </div>
@@ -729,7 +729,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="tsmRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">대만달러 실적을 분기 평균 환율(연준 H.10)로 달러 환산했다. 회사가 발표한 달러 매출과 조금 다를 수 있다(Q2 2026은 둘 다 $40.2B).</div>
+    <div class="yoy-footnote" style="margin-top:8px;">대만달러 실적을 분기 평균 환율(연준 H.10)로 달러 환산했다. 회사가 발표한 달러 매출과 조금 다를 수 있다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +737,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
       <div class="stat-value">$9.09B</div>
-      <div class="stat-sub">현금창출력</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$15.69B</div>
-      <div class="stat-sub">미래 재투자</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 2026)</div>
-      <div class="stat-value">$2.3B</div>
-      <div class="stat-sub">기술 경쟁력 투자</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">NT$136.25</div>
+      <div class="stat-sub">IFRS · ADR 1주(보통주 5주, 대만달러) · 1년 전 NT$76.80 (+77%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 중순 예상</div>
-      <div class="stat-sub">일정 · Q3 2026</div>
+      <div class="stat-value">10월 15일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/16 발표, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +791,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">45.1%</span></div>
       <div class="diag-badge watch" title="구성표 배점 4/5점">보통</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+18.5%</span><span class="diag-note">FY25 NT$7.93조(전기 NT$6.69조) · 대만달러 기준 · FY26 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+18.5%</span><span class="diag-note">FY2025 NT$7.93조(전기 NT$6.69조) · 대만달러 기준 · 다음 연간 보고서 전까지 동일</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +800,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 245.8%·당좌비율 225.0%로 단기 지급 여력이 넉넉하고, 이자보상배율은 248배다. 현금·단기투자가 차입금보다 많아 순현금이 ADR 1주당 약 $15다. <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000541/a2026q2consolidatedreport-.htm" target="_blank" rel="noopener">Q2 2026 연결재무제표 (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 NT$1.03T, 현금·단기투자 NT$3.52T, 자본 NT$6.43T. 유동비율 246%, 이자보상배율 248배. <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000541/a2026q2consolidatedreport-.htm" target="_blank" rel="noopener">Q2 2026 연결재무제표 (SEC 6-K) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -871,55 +871,54 @@ Chart.overrides.doughnut.animation = false;
   <!-- ══════════ 5. 매출 구성 + 자본배분·주주환원 (side by side) ══════════ -->
   <div class="grid-2">
     <div class="card" style="margin-bottom:0;">
-      <div class="card-title">매출 구성 — 공정별 웨이퍼 매출 비중 (Q2 2026)</div>
+      <div class="card-title">매출 구성 — 공정별 웨이퍼·웨이퍼 외 (Q2 2026 · 2026.06.30 기준)</div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
         <div class="chart-wrap" style="height:170px;width:170px;flex-shrink:0;">
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#e11d48;display:inline-block;flex-shrink:0;"></span>3·2나노 <strong style="color:var(--text);">33%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f97316;display:inline-block;flex-shrink:0;"></span>5나노 <strong style="color:var(--text);">33%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block;flex-shrink:0;"></span>7나노 <strong style="color:var(--text);">11%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#8a8fa8;display:inline-block;flex-shrink:0;"></span>16나노 이상 <strong style="color:var(--text);">23%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#e11d48;display:inline-block;flex-shrink:0;"></span>3·2나노 <strong style="color:var(--text);">NT$352.5B · 27.7%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f97316;display:inline-block;flex-shrink:0;"></span>5나노 <strong style="color:var(--text);">NT$350.1B · 27.6%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#8a8fa8;display:inline-block;flex-shrink:0;"></span>16나노 이상 <strong style="color:var(--text);">NT$249.2B · 19.6%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#cbd5e1;display:inline-block;flex-shrink:0;"></span>웨이퍼 외 매출 <strong style="color:var(--text);">NT$196.7B · 15.5%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block;flex-shrink:0;"></span>7나노 <strong style="color:var(--text);">NT$121.9B · 9.6%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">7나노 이하 첨단 공정이 77%(2나노 3% 포함) · 16나노 이상은 16/20·28·40/45·65·90나노 이하 합계 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000451/a2q26e_withguidancexfinal.htm" target="_blank" rel="noopener">TSMC Q2 2026 실적 발표 (SEC 6-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 3·2나노 +88%, 5나노 +20.9%, 16나노 이상 +19.0%, 웨이퍼 외 매출 +42.1%, 7나노 +11.7% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000541/a2026q2consolidatedreport-.htm" target="_blank" rel="noopener">Q2 2026 연결재무제표 부문 표 (SEC 6-K) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">설비투자 (Q2 2026)</span>
+          <span class="zone-label">자사주 매입</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$15.7B</span>
+            <span class="zone-val">없음(현금흐름표에 항목 없음)</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">2026년 설비투자 계획 (1월 제시)</span>
-          <span class="zone-val">$52~56B</span>
+          <span class="zone-label">배당 지급 (연초~6/30, 26주)</span>
+          <span class="zone-val">NT$285.3B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">분기 배당 (Q2 2026분, 8월 승인)</span>
+          <span class="zone-label">최근 분기 주당 배당 (보통주 1주 · ADR 1주는 5배 · 연결재무제표 주석)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">NT$7.0</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 NT$5.00 · +40.0%</span>
+            <span class="zone-val">NT$7.00</span>
           </div>
         </div>
       </div>
-      <div class="yoy-footnote" style="margin-top:14px;">배당은 보통주 1주 기준이라 ADR 1주(보통주 5주)로는 NT$35다. 분기 배당이 NT$6.0에서 1분기분부터 NT$7.0으로 올랐다 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000536/tsm-boardx20260811.htm" target="_blank" rel="noopener">TSMC 이사회 결의 (SEC 6-K) →</a></div>
     </div>
   </div>
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 중순 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 15일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 $44.6~45.8B 전망을 달성하는지(1달러=32대만달러 가정의 매출총이익률 65~67%, 영업이익률 56~58%)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 2나노(Q2 웨이퍼 매출의 3%)의 본격 양산이 매출 비중으로 확인되는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 2026년 연간 매출 성장 전망(7월 "40% 조금 넘게")이 유지되는지</div>
-      <div><strong style="color:var(--accent2);">④</strong> Q2 영업외이익(NT$958억)에 들어간 VIS 지분 매각 차익이 빠진 뒤 순이익률이 어떻게 되는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+20.5% → +35.1% → +36.0%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 60.3%, 1년 전 49.6%)</div>
     </div>
   </div>
 </div>
@@ -938,8 +937,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">50.9</div><div class="sc-tile lost" data-vc="peer" data-m="per">67</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">61</div><div class="sc-tile lost" data-vc="peer" data-m="psr">37</div><div class="sc-tile low" data-vc="peer" data-m="pcr">26</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">64</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">동종업 안에서는 중간이지만, <strong>다섯 배수 모두 자기 5년 이력의 비싼 쪽이고 현금흐름 내재가치는 현재가에 한참 못 미친다.</strong> 배수는 ADR 가격 기준이라, 본주보다 비싸게 거래되는 ADR만큼 대만 본주 기준 배수보다 높게 나온다.</div>
-    <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">35.4%</strong>씩 커야 한다. 최근 3년 실제 성장은 연 25.8%(대만달러 기준)였고, 회사가 1월에 제시한 2024~2029년 매출 연평균 성장 전망은 25%에 가깝다.</div>
+    <div class="vs-premise">PER 33.6배(5년 중앙값 27.0배)로 자기 이력 10.1점(비싸다), 동종업 50.9점(중간)이다. <strong>현금흐름 내재가치(기본 $232.36)는 현재가의 51%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $232.36)는 현재가의 51%다. 현재가를 정당화하려면 매출이 5년간 연 35.4% 커야 한다. 내재가치에서 차입금·금융리스 NT$1.06T를 빼고 현금·단기투자 NT$3.52T를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1022,14 +1021,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · AI 수요로 첨단 공정 비중과 마진이 함께 오른다<span class="tag">우호적·밸류 부담</span></div>
-    <ol class="news-list">
-      <li>세 분기 연속 매출이 직전 가이던스 상단 이상이었다. 2026년 매출 성장 전망은 1월 30% 가까이 → 4월 30% 이상 → 7월 40% 조금 넘게로 올라갔다.</li>
-      <li>영업이익률이 1년 새 49.6%(Q2 2025)에서 60.3%(Q2 2026)로 올랐고, 7나노 이하 첨단 공정이 웨이퍼 매출의 77%다.</li>
-      <li>설비투자가 커진다. 2026년 계획은 $52~56B이고, 이사회는 5월에 애리조나 법인 최대 $20B 증자를 승인했다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 다섯 배수 모두 자기 5년 이력의 비싼 쪽이다. 2분기 순이익에는 VIS 지분 매각 차익이 들어 있어(영업외이익 NT$958억) 그만큼은 반복되지 않는다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 중순 예상)에서 매출 전망 $44.6~45.8B와 매출총이익률 65~67%를 지키는지, 2나노 비중이 얼마나 늘었는지.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 NT$1.27T(+36.0%), 영업이익률 60.3%(1년 전 49.6%). 주가는 1년 새 +49%<span class="tag">배수 5년 고점권·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $232.36)는 현재가의 51%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 15일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1106,15 +1100,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">수요</span><span class="bb-text">세 분기 연속 가이던스 상단 이상이었고, 2026년 매출 성장 전망을 40% 넘게로 올렸다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">기술</span><span class="bb-text">7나노 이하가 웨이퍼 매출의 77%이고, 2나노 양산이 3분기부터 가파르게 늘어난다고 했다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">영업이익률이 1년 새 49.6%에서 60.3%로 올랐다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 56.1%(5년 중앙값 46.4%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q2 2026 매출 +36.0%(보고 기준, 3년 연평균 25.8%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF NT$1.14T, 매출의 25.8%.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">다섯 배수 모두 자기 5년 이력의 비싼 쪽이고, 현재가가 기본 내재가치의 약 2.0배다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">설비투자</span><span class="bb-text">2026년 설비투자 계획이 $52~56B이고, Q2 설비투자는 매출의 39%였다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">환율</span><span class="bb-text">마진 가이던스가 1달러=32대만달러 가정이라, 대만달러가 강해지면 마진이 깎인다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 10점(배수 5개) · PER 33.6배(5년 중앙값 27.0배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $232.36)는 현재가의 51%.</span></div>
     </div>
   </div>
 
@@ -1127,12 +1120,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 95.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 4.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$541.29</span> <span class="op-sub op-up" data-an="upside">+19.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 중순 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 15일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1212,15 +1205,15 @@ const FUND_COMPARE = {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [40.2, 24.26, 22.36, 9.09], cmp: [30.24, 15.01, 12.9, 6.47] },
-    deltas: ['+32.9%', '+61.6%', '+73.3%', '+40.5%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · 대만 IFRS 연결재무제표를 분기 평균 환율로 달러 환산 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000541/a2026q2consolidatedreport-.htm" target="_blank" rel="noopener">TSMC Q2 2026 연결재무제표 (SEC 6-K) →</a>'
+    deltas: ['+36.0%', '+65.4%', '+77.4%', '+43.8%'],
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · 대만 IFRS 연결재무제표를 분기 평균 환율로 달러 환산(증감률은 대만달러 기준) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000541/a2026q2consolidatedreport-.htm" target="_blank" rel="noopener">TSMC Q2 2026 연결재무제표 (SEC 6-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
     chart: { cur: [40.2, 24.26, 22.36, 9.09], cmp: [35.86, 20.83, 18.1, 11.01] },
-    deltas: ['+12.1%', '+16.4%', '+23.5%', '-17.4%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · 대만 IFRS 연결재무제표를 분기 평균 환율로 달러 환산 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000541/a2026q2consolidatedreport-.htm" target="_blank" rel="noopener">TSMC Q2 2026 연결재무제표 (SEC 6-K) →</a>'
+    deltas: ['+12.0%', '+16.3%', '+23.4%', '-17.5%'],
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · 대만 IFRS 연결재무제표를 분기 평균 환율로 달러 환산(증감률은 대만달러 기준) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1046179/000104617926000541/a2026q2consolidatedreport-.htm" target="_blank" rel="noopener">TSMC Q2 2026 연결재무제표 (SEC 6-K) →</a>'
   }
 };
 
@@ -1303,14 +1296,14 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 100;
+  const total = 1270381;
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:["3·2나노", "5나노", "7나노", "16나노 이상"],
+      labels:["3·2나노", "5나노", "16나노 이상", "웨이퍼 외 매출", "7나노"],
       datasets:[{
-        data:[33, 33, 11, 23],
-        backgroundColor:["#e11d48", "#f97316", "#3b82f6", "#8a8fa8"],
+        data:[352493, 350113, 249245, 196673, 121857],
+        backgroundColor:["#e11d48", "#f97316", "#8a8fa8", "#cbd5e1", "#3b82f6"],
         borderColor:'#8a8d9e',
         borderWidth:2
       }]
@@ -1322,7 +1315,7 @@ function renderSegmentChart() {
         legend:{display:false},
         tooltip:{callbacks:{label:ctx=>{
           const pct=(ctx.raw/total*100).toFixed(1);
-          return `${ctx.label}: $${(ctx.raw/1000).toFixed(1)}B (${pct}%)`;
+          return `${ctx.label}: NT$${(ctx.raw/1000).toFixed(1)}B (${pct}%)`;   // 대만달러 그대로
         }}}
       }
     }
@@ -1510,7 +1503,7 @@ const TSM_SCORES = {
   peer: 50.9,          // GICS Information Technology 대비 배수 순위 (ADR 가격 × 그날 환율 ÷ 대만달러 재무)
   selfHistory: 10.1,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 연결재무제표 6-K (2026-08-14 공시)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 연결재무제표 (2026-08-14 공시)
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 TSM_DCF 하나다.
@@ -2107,7 +2100,7 @@ const TSM_ACTIVITY = {"ticker": "TSM", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/tsm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TSM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 21, nTargets: 7, mean: 541.29, median: 530,
+const TSM_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 21, nTargets: 7, mean: 541.29, median: 530,
   low: 440, high: 650, strongBuy: 14, buy: 6, hold: 1, sell: 0, strongSell: 0 };
 (function(){
   const A = TSM_ANALYST, last = (typeof TSM_DAILY !== 'undefined' && TSM_DAILY.length) ? TSM_DAILY[TSM_DAILY.length - 1] : null;
@@ -2150,7 +2143,7 @@ const TSM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 
   put('tsmFundBox', 'tsmFundScore', 'tsmFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 6-K 연결재무제표), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n대만 IFRS 연결재무제표(6-K)를 분기 평균 환율로 달러 환산한 값이다(v2/adapters/tsm_ifrs.py).`);
+      + `\n점수는 Q2 2026 연결재무제표 기준 재무로 계산했다. 재무는 대만 IFRS 연결재무제표(6-K, 대만달러)다. 분기 차트·FCF는 분기 평균 환율로 달러 환산하고, 부문·EPS·자본배분은 대만달러 그대로 적는다. 연결재무제표는 실적 발표보다 약 한 달 늦게 나와 그때 카드가 새 분기로 넘어간다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2172,7 +2165,7 @@ const TSM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('tsmSelfBox', 'tsmSelfScore', 'tsmSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n다섯 배수 모두 5년 중 비싼 쪽(상위 5~17%)이다 — PSR·PBR·EV/EBITDA는 상위 7% 안쪽.`
+      + `\nPER 33.6배는 5년 분포의 하위 83.2%다(중앙값 27.0배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

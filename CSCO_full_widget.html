@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$37.32</td><td style="color: var(--red);" data-dcf-upside="low">−68.5%</td>
-          <td class="story">5년 성장률의 절반(연 2.5%)에서 식고, 영업이익률이 5년 중앙값 25.8%로 간다.</td>
+          <td class="story">5년 성장률의 절반(연 2.5%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 25.8%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$32.54</td><td style="color: var(--red);" data-dcf-upside="base">−72.5%</td>
-          <td class="story">5년 성장률(연 4.9%)에서 식고, 영업이익률이 최근 2년 중앙값 21.4%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 4.9%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 21.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$35.57</td><td style="color: var(--red);" data-dcf-upside="high">−70.0%</td>
-          <td class="story">3년 성장률(연 3.6%)에서 식고, 최근 4분기 영업이익률 24.3%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 3.6%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 24.3%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 보수 가치가 가장 높은 것은 보수 시나리오가 쓰는 5년 중앙 영업이익률(25.8%)이 기본의 2년 중앙값(21.4%)보다 높아서다(이름과 순서가 뒤집힘).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $32.54~$37.32다. 영업이익률은 최근 4분기 24.3%, 2년 중앙값 21.4%, 5년 중앙값 25.8%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 2.5%·이익률 25.8%), 기본(4.9%·21.4%), 낙관(3.6%·24.3%).</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $32.54 = 사업 가치 $31.43 + 비영업 자산 $1.11(주당, 장기투자)</div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="cscoRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">회계연도는 7월 마지막 토요일 무렵에 끝난다(Q4 FY26 = 2026년 4월 말~7월). Q4 FY26 영업이익에는 5월 발표한 구조조정 등 비용 $511M(세전, FY2026 합계 $693M)이 들어 있다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -742,17 +741,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">Capex (Q4 FY26)</div>
       <div class="stat-value">$0.39B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q4 FY26)</div>
-      <div class="stat-value">$2.43B</div>
-      <div class="stat-sub">매출의 14%</div>
+      <div class="stat-label">희석 EPS (Q4 FY26)</div>
+      <div class="stat-value">$0.96</div>
+      <div class="stat-sub">GAAP · 1년 전 $0.64 (+50.0%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">11월 중순 예상</div>
-      <div class="stat-sub">일정 · Q1 FY27 (회사 미확정)</div>
+      <div class="stat-value">11월 11일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q1 FY27 (작년 11/12 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 $29.5B(단기 $10.2B — 기업어음 $6.7B와 1년 안 만기 $3.5B — + 장기 $19.4B)이고 현금·단기투자는 $15.9B다. 유동비율 93.1%는 유동부채에 기업어음과 이연매출(선수 구독·서비스료)이 커서다. <a href="https://www.sec.gov/Archives/edgar/data/858877/000085887726000132/csco-20260725.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $29.5B, 현금·단기투자 $15.9B, 자본 $50.3B. 유동비율 93%, 이자보상배율 10배. <a href="https://www.sec.gov/Archives/edgar/data/858877/000085887726000132/csco-20260725.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.07.25까지 4분기</span>)</div>
@@ -886,27 +885,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 네트워킹 +28%, 보안 +14%, 협업 +12%, 관측성 +6%, 서비스 제자리 · 하이퍼스케일러 AI 인프라 주문 FY2026 $9.3B(4분기 $4B), FY2027 매출 약 $7.5B 예상 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/858877/000085887726000106/exhibit991pressrelease-q4f.htm" target="_blank" rel="noopener">Q4 FY2026 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 네트워킹 +28.3%, 서비스 +0.2%, 보안 +14.0%, 협업 +12.0%, 관측성 +6.2% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/858877/000085887726000132/csco-20260725.htm" target="_blank" rel="noopener">FY2026 10-K 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q4 FY26 · 2026.07.25 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (Q4 FY26, 약 1,300만 주 · 평균 $111.53)</span>
+          <span class="zone-label">자사주 매입 (회계연도 누계 2025.7.27~2026.7.25, 52주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$1.5B</span>
+            <span class="zone-val">$6.1B</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">잔여 바이백 승인 한도 (2026.07.25 기준, 기한 없음)</span>
-          <span class="zone-val">$8.1B</span>
+          <span class="zone-label">배당 지급 (회계연도 누계 2025.7.27~2026.7.25, 52주)</span>
+          <span class="zone-val">$6.6B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q4 FY26 지급, 분기 $0.42)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 7/25 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">FY2026 합계 $6.6B</span>
-            <span class="zone-val">$1.7B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.41 · +2.4%</span>
+            <span class="zone-val">$0.42</span>
           </div>
         </div>
       </div>
@@ -915,12 +914,11 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 중순 (예상) · Q1 FY27</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 11일 무렵 (예상) · Q1 FY27</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 회사 전망 — Q1 FY27 매출 $18.0~18.2B, GAAP EPS $1.08~1.10(비GAAP $1.32~1.34)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> FY2027 전망(매출 $72.2~73.4B, GAAP EPS $4.00~4.06) 유지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 하이퍼스케일러 AI 인프라 매출(FY2027 약 $7.5B 예상)과 네트워킹 성장(4분기 +28%)</div>
-      <div><strong style="color:var(--accent2);">④</strong> 5월 발표한 구조조정(최대 $1B, 세전) 남은 비용과 자사주 매입($8.1B 한도)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+9.7% → +12.0% → +17.6%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q4 FY26 24.7%, 1년 전 21.0%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> FCF(최근 4분기 $12.8B)가 배당 지급(연 환산 약 $6.6B)을 넘는지</div>
     </div>
   </div>
 </div>
@@ -939,8 +937,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">68.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">58</div><div class="sc-tile" data-vc="peer" data-m="pbr">74</div><div class="sc-tile" data-vc="peer" data-m="psr">82</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">70</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">58</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 68% 올라 PER 35.5배·PSR 7.4배·PBR·PCR이 모두 5년 중 상위 10% 안이라 자기 이력 5.0점이다. 카드 유니버스 IT 안에서는 반도체·AI 종목보다 싸 68.3점이다. <strong>현금흐름 내재가치(기본 $33)는 현재가의 27%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 −1·0·−2로 합계 −3 “고평가”다. 현재가가 정당하려면 영업이익률이 67.0%여야 한다(최근 4분기 24.3%). SEC 데이터의 감가상각 태그가 유형자산 몫 연 $0.7B뿐이라(현금흐름표의 감가상각·상각 등 전체는 $2.5B) EV/EBITDA 자기 이력을 만들 수 없고 내재가치의 재투자도 크게 잡혔다 — 그래도 현재가는 기본 가치의 약 4배라 판정은 같다.</div>
+    <div class="vs-premise">PER 35.5배(5년 중앙값 20.0배)로 자기 이력 5.0점(비싸다), 동종업 68.3점(중간)이다. <strong>현금흐름 내재가치(기본 $32.54)는 현재가의 27%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $32.54)는 현재가의 27%다. 현재가를 정당화하려면 영업이익률이 67.0%까지 올라야 한다(최근 4분기 24.3%, 5년 중앙값 25.8%). 내재가치에서 차입금 $29.5B를 빼고 현금·단기투자 $15.9B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1023,14 +1021,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · AI 데이터센터 네트워킹 수요로 Q4 매출이 18%(FY2026 +12%) 늘고 주가는 1년 새 68% 올라 5년 중 가장 비싼 쪽<span class="tag">AI 네트워킹·고평가 쪽</span></div>
-    <ol class="news-list">
-      <li>Q4 FY26 매출 $17.3B(+18%)로 사상 최대, 제품 매출 +24%·네트워킹 +28%였다.</li>
-      <li>하이퍼스케일러 AI 인프라 주문이 FY2026 $9.3B였고, 회사는 FY2027에 이 매출 약 $7.5B를 예상한다.</li>
-      <li>5월에 최대 $1B 구조조정을 발표했고, 4분기에 자사주 $1.5B·배당 $1.7B를 돌려줬다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 자기 이력 배수가 모두 5년 상위 10% 안이고, 현금흐름 모델로는 현재가의 27%만 설명된다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q1 FY27 실적(11월 중순 예상)의 매출 $18.0~18.2B 전망 달성과 AI 인프라 주문.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q4 FY26 매출 $17.3B(+17.6%), 영업이익률 24.7%(1년 전 21.0%). 주가는 1년 새 +68%<span class="tag">배수 5년 고점권·매출 성장 빨라짐</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $32.54)는 현재가의 27%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 11월 11일 무렵 (예상) Q1 FY27 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1095,15 +1088,15 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">성장</span><span class="bb-text">Q4 FY26 매출 +18%, 네트워킹 +28%, AI 인프라 주문 FY26 $9.3B.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">전망</span><span class="bb-text">FY2027 매출 $72.2~73.4B(+14~16%), GAAP EPS $4.00~4.06.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">4분기 자사주 $1.5B·배당 $1.7B, 남은 매입 한도 $8.1B.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q4 FY26 매출 +17.6%(보고 기준, 3년 연평균 3.6%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $12.8B, 매출의 20.2%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">부채</span><span class="bb-text">순차입금(리스 포함) $15.3B, 최근 4분기 영업이익의 1.0배.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PER 35.5배 등 네 배수가 5년 상위 10% 안, 현금흐름 내재가치 $33.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">서비스</span><span class="bb-text">서비스 매출은 1년 전과 같아 성장이 제품에 기댄다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">비용</span><span class="bb-text">최대 $1B 구조조정 — FY2027에 남은 비용이 반영된다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 5점(배수 4개) · PER 35.5배(5년 중앙값 20.0배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $32.54)는 현재가의 27%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 24.3%(5년 중앙값 25.8%).</span></div>
     </div>
   </div>
 
@@ -1116,12 +1109,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 65.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 34.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$138.44</span> <span class="op-sub op-up" data-an="upside">+16.9%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">11월 중순 <span class="op-sub">Q1 FY27 예상</span></span>
+        <span class="op-val">11월 11일 무렵 <span class="op-sub">Q1 FY27 예상</span></span>
       </div>
     </div>
   </div>
@@ -1202,14 +1195,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q4 FY26 vs Q4 FY25)',
     chart: { cur: [17.25, 4.26, 3.86, 5.0], cmp: [14.67, 3.09, 2.55, 4.02] },
     deltas: ['+17.6%', '+38.1%', '+51.3%', '+24.4%'],
-    footnote: '기준일: 2026.07.25(Q4 FY26) vs 2025.07.26(Q4 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/858877/000085887726000106/exhibit991pressrelease-q4f.htm" target="_blank" rel="noopener">Cisco Q4 FY2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.07.25(Q4 FY26) vs 2025.07.26(Q4 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/858877/000085887726000106/exhibit991pressrelease-q4f.htm" target="_blank" rel="noopener">Cisco Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q4 FY26', cmpLabel: 'Q3 FY26',
     titleSuffix: 'QoQ (Q4 FY26 vs Q3 FY26)',
     chart: { cur: [17.25, 4.26, 3.86, 5.0], cmp: [15.84, 3.96, 3.37, 3.34] },
     deltas: ['+8.9%', '+7.7%', '+14.4%', '+49.4%'],
-    footnote: '기준일: 2026.07.25(Q4 FY26) vs 2026.04.25(Q3 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/858877/000085887726000106/exhibit991pressrelease-q4f.htm" target="_blank" rel="noopener">Cisco Q4 FY2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.07.25(Q4 FY26) vs 2026.04.25(Q3 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/858877/000085887726000106/exhibit991pressrelease-q4f.htm" target="_blank" rel="noopener">Cisco Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1509,7 +1502,7 @@ const CSCO_SCORES = {
   peer: 68.3,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 5.0,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-07-25",   // FY2026 10-K (2026-09-02 공시)
+  fundamentalAsOf: "2026-07-25",   // FY2026 10-K
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 CSCO_DCF 하나다.
@@ -2121,7 +2114,7 @@ const CSCO_ACTIVITY = {"ticker": "CSCO", "status": "ok", "asOf": "2026-07-25", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/csco/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CSCO_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 16, mean: 138.44, median: 139,
+const CSCO_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 16, mean: 138.44, median: 139,
   low: 110, high: 165, strongBuy: 14, buy: 5, hold: 10, sell: 0, strongSell: 0 };
 (function(){
   const A = CSCO_ANALYST, last = (typeof CSCO_DAILY !== 'undefined' && CSCO_DAILY.length) ? CSCO_DAILY[CSCO_DAILY.length - 1] : null;
@@ -2164,7 +2157,7 @@ const CSCO_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('cscoFundBox', 'cscoFundScore', 'cscoFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 FY2026 연간(10-K), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
-      + `\n유동비율 1점은 기업어음과 이연매출이 커서이고, 매출·영업이익 3년 성장률이 낮아(연 3.6%·0.7%) 성장 점수가 2점씩이다.`);
+      + `\n점수는 FY2026 10-K 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2186,7 +2179,7 @@ const CSCO_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\n반도체·AI 종목이 많아 CSCO의 배수는 그 안에서 싼 쪽이다(PSR 27곳 중 6번째로 쌈).`);
   put('cscoSelfBox', 'cscoSelfScore', 'cscoSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 35.5배(5년 중앙값 20.0배)·PSR·PBR·PCR 모두 5년 상위 10% 안이다. EV/EBITDA는 감가상각을 분기로 공시한 표준 태그가 없어 자기 이력이 없다(규칙대로 두고 명시, 2026-10-01).`
+      + `\nPER 35.5배는 5년 분포의 하위 93.7%다(중앙값 20.0배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

@@ -538,7 +538,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (정상화 PER 기준)</span>
-      <span class="meta-value" id="brkbFairBand" style="font-size:22px;color:var(--green);" title="최근 252거래일 정상화 PER의 25~75% 구간(22.6~23.3배) × 현재 정상화 이익. 2025-11~2026-02(분기 주식 수 태그 없음)를 뺀 172일로 계산했고, 1년 PER이 좁은 범위에 머물러 폭이 좁다. 지금 PER(22.60배)이 25% 지점과 같아 $10 단위로 바깥쪽에 맞췄다.">$500 ~ $520</span>
+      <span class="meta-value" id="brkbFairBand" style="font-size:22px;color:var(--green);" title="최근 252거래일 정상화 PER의 25~75% 구간(22.6~23.2배) × 현재 정상화 이익. 분기 주식 수 태그가 없는 구간을 뺀 172일로 계산했다($10 단위).">$500 ~ $520</span>
     </div>
   </div>
   </div>
@@ -564,7 +564,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="brkbSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="brkbSelfVerdict">중간</span></div>
-      <div class="logic-score" id="brkbSelfScore">66.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="brkbSelfScore">53.8<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -936,12 +936,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>판정 보류</span><span class="vs-asof"><span data-vs="asof">2026.10.09</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 BRK.B 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 보험지주라 정상화 PER·PBR 두 배수만 보고, 둘 다 70 이상이면 +1, 둘 다 30 미만이면 −1이다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">66.7</div><div class="sc-tile lost" data-vc="self" data-m="per">67</div><div class="sc-tile lost" data-vc="self" data-m="pbr">67</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="지난 5년 BRK.B 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 보험지주라 정상화 PER·PBR 두 배수만 보고, 둘 다 70 이상이면 +1, 둘 다 30 미만이면 −1이다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">53.8</div><div class="sc-tile lost" data-vc="self" data-m="per">53</div><div class="sc-tile lost" data-vc="self" data-m="pbr">55</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="보험지주라 현금흐름 모델을 쓰지 않는다. 두 기둥 참고값은 판정에 넣지 않는다.">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">두 기둥 참고값 <strong>$408</strong> · 현재가는 그 1.24배</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">계산 불가</div></div>
       <div class="vs-name" title="보험지주 동종업이 5곳 미만이라 설계상 기권한다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">—</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">표본 부족</div>
     </div></div>
-    <div class="vs-premise">정상화 PER(22.6배)과 PBR(1.45배)이 모두 지난 5년 가운데쯤이라 자기 이력은 0표다. 보험 동종업이 없어 동종업 심판은 기권하고, 현금흐름 모델도 쓰지 않아 <strong>판정 보류</strong>다.</div>
+    <div class="vs-premise">정상화 PER(23.1배)과 PBR(1.48배)이 모두 지난 5년 가운데쯤이라 자기 이력은 0표다. 보험 동종업이 없어 동종업 심판은 기권하고, 현금흐름 모델도 쓰지 않아 <strong>판정 보류</strong>다.</div>
     <div class="verdict-summary-risk">⚠️ 정상화 PER의 이익은 순이익에서 투자·파생 손익을 빼고 손상을 되돌린 우리 정의로, 회사가 밝힌 영업이익과 최근 4분기 0.2% 차이다. 금리가 내려 보험 투자수익(2분기 −9%)과 모회사 국채 이자가 줄면 같은 주가에서도 PER이 올라간다.</div>
   </div>
 
@@ -953,11 +953,11 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">정상화 PER (TTM) <span class="hist-note" data-hist="note">5년 중 80거래일 빈 구간</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">22.6x</span>
-            <span class="hist-badge mid" data-hist="badge">5년 중 하위 33%</span>
+            <span class="val-number" data-hist="cur">23.1x</span>
+            <span class="hist-badge mid" data-hist="badge">5년 중 하위 47%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 33.4%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 47%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 19.2x</span><span data-hist="median">중앙 23.2x</span><span data-hist="max">최고 29.2x</span></div>
       </div>
 
@@ -965,11 +965,11 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PBR <span class="hist-note" data-hist="note">5년 중 80거래일 빈 구간</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">1.45x</span>
-            <span class="hist-badge mid" data-hist="badge">5년 중 하위 33%</span>
+            <span class="val-number" data-hist="cur">1.48x</span>
+            <span class="hist-badge mid" data-hist="badge">5년 중 하위 45%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 33.2%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 45.4%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 1.16x</span><span data-hist="median">중앙 1.49x</span><span data-hist="max">최고 1.79x</span></div>
       </div>
 
@@ -1149,7 +1149,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 50%; background: var(--green);"></div><div data-an-bar="hold" style="width: 50%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$572</span> <span class="op-sub op-up" data-an="upside">+10.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1546,8 +1546,8 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 const BRKB_SCORES = {
   fundamental: null,   // 보험지주 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
   peer: null,          // 보험 동종업 5곳 미만 — 설계상 기권
-  selfHistory: 66.7,   // 정상화 PER·PBR 두 배수 점수 평균(표시용). 표는 두 배수가 같은 방향일 때만
-  asOf: "2026-10-05",
+  selfHistory: 53.8,   // 정상화 PER·PBR 두 배수 점수 평균(표시용). 표는 두 배수가 같은 방향일 때만
+  asOf: "2026-10-09",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-10 공시)
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
@@ -1858,7 +1858,7 @@ const BRKB_FUNDAMENTAL = {"ticker": "BRKB", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py BRKB --self v2/BRKB_multiples.json --card
 /* VALUATION:BEGIN */
-const BRKB_VALUATION = {"peer": {"score": null, "sector": "Financials", "asOf": ["2026-10-05", "2026-10-05"], "metrics": [], "note": "보험지주 동종업 5곳 미만 — 설계상 기권(research/brkb_two_pillar_prereg.md §2)"}, "self": {"score": 66.7, "rule": "both", "perBasis": "normalized_operating", "naNote": "보험지주", "window": ["2021-10-05", "2026-10-05"], "metrics": [{"metric": "per", "score": 66.6, "percentile": 33.4, "current": 22.6, "min": 19.24, "median": 23.2, "max": 29.18, "days": 1175, "gapDays": 80}, {"metric": "pbr", "score": 66.8, "percentile": 33.2, "current": 1.45, "min": 1.16, "median": 1.49, "max": 1.79, "days": 1175, "gapDays": 80}]}};
+const BRKB_VALUATION = {"peer": {"score": null, "sector": "Financials", "asOf": ["2026-10-05", "2026-10-05"], "metrics": [], "note": "보험지주 동종업 5곳 미만 — 설계상 기권(research/brkb_two_pillar_prereg.md §2)"}, "self": {"score": 53.8, "rule": "both", "perBasis": "normalized_operating", "naNote": "보험지주", "window": ["2021-10-11", "2026-10-09"], "metrics": [{"metric": "per", "score": 53.0, "percentile": 47.0, "current": 23.11, "min": 19.24, "median": 23.18, "max": 29.18, "days": 1175, "gapDays": 80}, {"metric": "pbr", "score": 54.6, "percentile": 45.4, "current": 1.48, "min": 1.16, "median": 1.49, "max": 1.79, "days": 1175, "gapDays": 80}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2168,7 +2168,7 @@ const BRKB_ACTIVITY = {"ticker": "BRKB", "status": "na", "reason": "보험지주
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/brk-b/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const BRKB_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 4, nTargets: 2, mean: 572, median: 604,
+const BRKB_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 4, nTargets: 2, mean: 572, median: 604,
   low: 540, high: 604, strongBuy: 2, buy: 0, hold: 2, sell: 0, strongSell: 0 };
 (function(){
   const A = BRKB_ANALYST, last = (typeof BRKB_DAILY !== 'undefined' && BRKB_DAILY.length) ? BRKB_DAILY[BRKB_DAILY.length - 1] : null;

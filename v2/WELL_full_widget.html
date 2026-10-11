@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
-          <td class="story">5년 성장률의 절반(연 12.1%)으로 시작해 식고, 영업이익률이 최근 4분기 3.4%에서 5년에 걸쳐 5년 중앙값 13.6%로 간다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 12.1%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 13.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="base">—</td>
-          <td class="story">5년 성장률(연 24.2%, 인수 포함)로 시작해 식고, 영업이익률이 최근 4분기 3.4%에서 5년에 걸쳐 최근 2년 중앙값 13.6%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 24.2%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 13.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="high">—</td>
-          <td class="story">매출이 3년 성장률(최근 4분기 합 기준, 연 27.1%)로 시작해 식고, 최근 4분기 영업이익률 3.4%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 27.1%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 3.4%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 모두 음수다. 최근 4분기 GAAP 영업이익률이 일회성 보상 비용으로 3% 안팎이고, 투하자본이익률(약 2%)이 할인율보다 크게 낮아 성장이 가치를 깎는다. 리츠의 부동산 인수(상반기 $6.3B)는 설비투자에 넣지 않았다. 사이트에는 리츠 전용 평가(FFO·NAV)가 아직 없다(안건).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 3개는 음수라 계산할 수 없다. 영업이익률은 최근 4분기 3.4%, 2년 중앙값 13.6%, 5년 중앙값 13.6%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 12.1%·이익률 13.6%), 기본(24.2%·13.6%), 낙관(27.1%·3.4%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -736,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
       <div class="stat-value">$0.68B</div>
-      <div class="stat-sub">영업현금흐름 − 기존 자산 개량 지출 · 부동산 인수(상반기 $6.3B)는 빠짐</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$0.32B</div>
-      <div class="stat-sub">기존 자산 개량 지출(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">정규화 FFO/주 (Q2 2026)</div>
-      <div class="stat-value">$1.60</div>
-      <div class="stat-sub">+25.0% · 회사 기준 · GAAP EPS $0.61</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">$0.61</div>
+      <div class="stat-sub">GAAP · 1년 전 $0.45 (+35.6%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 하순 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 (회사 미확정)</div>
+      <div class="stat-value">10월 26일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/27 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -799,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 $17.7B(무담보 회사채 $14.3B + 담보 차입 $3.4B)이고 현금은 $2.0B, 자본은 $47.4B다. 회사 기준 순차입금/조정 EBITDA는 2.99배다. 인수 자금은 주로 주식 발행(상반기 약 $4.5B, 시장가 발행 프로그램)으로 마련했고, 7월에 캐나다 달러 회사채 C$1.15B를 더 냈다. 상반기 부동산 인수는 $6.3B다. <a href="https://www.sec.gov/Archives/edgar/data/766704/000076670426000030/well-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $17.7B, 현금·단기투자 $2.0B, 자본 $46.4B. 이자보상배율 2.8배. <a href="https://www.sec.gov/Archives/edgar/data/766704/000076670426000030/well-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -816,40 +816,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="collapsible-body collapsed">
 
-    <div class="activity-grid">
-      <div class="act-card">
-        <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
-      </div>
-    </div>
-    <div class="ccc-card">
-      <div class="ccc-head">
-        <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
-      </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
-      <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left: 33.4%; transform: translateX(-50%);">매입채무 지급 51.8일</div>
-        <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:69.3%;" title="재고보유 107.3일">재고보유 107.3일</div>
-          <div class="tl-seg-ar" style="width:30.7%;" title="매출채권회수 47.6일">매출채권회수 47.6일</div>
-        </div>
-        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
-      </div>
-    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — 매출원가 합계 표준 태그가 없음(리츠 — 부동산 운영비를 따로 공시).</div>
 
     </div>
   </div>
@@ -884,27 +851,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 시니어 주택 운영 매출 +51%(인수·입주율 +3.3%p), 임대 수익 −5%(외래 의료 건물 매각) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/766704/000076670426000030/well-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 시니어 주택 운영 매출 +51%, 임대 수익 −5.1%, 이자 수익 +24.2%, 기타 −28.1% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/766704/000076670426000030/well-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">주식 발행 (상반기, 시장가 발행 등)</span>
+          <span class="zone-label">자사주 매입</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$4.5B</span>
+            <span class="zone-val">공시 없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 지급 (상반기)</span>
+          <span class="zone-label">배당 지급 (연초~6/30, 26주)</span>
           <span class="zone-val">$1.0B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">분기 배당 (2분기부터)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 6/30 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">$0.74 → $0.85</span>
-            <span class="zone-val">+15%</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.67 · +10.4%</span>
+            <span class="zone-val">$0.74</span>
           </div>
         </div>
       </div>
@@ -913,12 +880,12 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 하순 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 26일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 연간 전망 — 정규화 FFO $6.36~6.44(올림), GAAP EPS $3.11~3.19(낮춤)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 시니어 주택 동일 자산 NOI 성장(2분기 +20.5%)과 입주율</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 인수 속도(올해 $15.5B 확정·계약)와 주식 발행 규모</div>
-      <div><strong style="color:var(--accent2);">④</strong> 외래 의료 포트폴리오 매각 마무리(올해 매각·대출 회수 $3.6B 완료)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+41.3% → +38.3% → +39.1%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 14.2%, 1년 전 17.2%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> FCF(최근 4분기 $2.0B)가 배당 지급(연 환산 약 $2.1B)을 넘는지</div>
+      <div><strong style="color:var(--accent2);">④</strong> 차입금 $17.7B이 줄어드는지</div>
     </div>
   </div>
 </div>
@@ -937,8 +904,8 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 부동산 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">11.0</div><div class="sc-tile low" data-vc="peer" data-m="per">7</div><div class="sc-tile low" data-vc="peer" data-m="pbr">21</div><div class="sc-tile low" data-vc="peer" data-m="psr">14</div><div class="sc-tile low" data-vc="peer" data-m="pcr">13</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 +33% 올라 PBR 3.5배·PSR·PCR·EV/EBITDA가 5년 중 가장 비싼 쪽이고 PER만 중간보다 조금 싸 자기 이력 22.3점(비싸다)이다. S&P500 부동산 안에서도 다섯 배수가 모두 가장 비싼 쪽이라 11.0점(비싸다)이다. <strong>현금흐름 내재가치는 세 시나리오 모두 음수</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”다. 현금흐름 −2는 최근 4분기 GAAP 영업이익률이 3.4%로 낮은 탓이다. 2025년 4분기에 10년 경영진 보상 프로그램의 주식 보상 비용이 한꺼번에 잡혀 일반관리비가 연 $1.75B(1년 전 $0.24B)였다. 리츠는 감가상각이 크고 이익을 주로 FFO로 보지만, 사이트는 GAAP 기준이라 FFO를 판정에 쓰지 않는다. 회사 기준 정규화 FFO($6.36~6.44 전망)로는 주가가 약 35배다.</div>
+    <div class="vs-premise">PER 103.9배(5년 중앙값 118.5배)로 자기 이력 22.3점(비싸다), 동종업 11.0점(비싸다)이다. <strong>현금흐름 내재가치(기본)는 음수라 계산할 수 없다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본)는 음수라 계산할 수 없다. 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 3.4%). 내재가치에서 차입금·금융리스 $18.2B를 빼고 현금·단기투자 $2.0B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1021,14 +988,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 시니어 주택 수요와 대규모 인수로 매출이 40% 가까이 늘고 주가는 1년 새 +33%<span class="tag">시니어 주택·인수</span></div>
-    <ol class="news-list">
-      <li>2분기 매출 $3.5B(+39%) 가운데 시니어 주택 운영 매출이 $3.0B(+51%)이고, 동일 자산 NOI는 시니어 주택 운영 +20.5%·전체 +15.5%였다.</li>
-      <li>올해 $15.5B 인수를 확정·계약했고, 자금은 주로 주식 발행(상반기 약 $4.5B)으로 마련했다.</li>
-      <li>정규화 FFO는 +25%지만 GAAP 이익은 감가상각과 2025년 4분기 일회성 보상 비용으로 낮다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ GAAP 기준으로 업종 안에서는 모든 배수가, 5년 이력에서는 PER을 뺀 네 배수가 비싼 쪽이고, 현금흐름 모델은 음수다(리츠 전용 평가 없음).</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 하순 예상)의 정규화 FFO와 시니어 주택 입주율.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $3.5B(+39.1%), 영업이익률 14.2%(1년 전 17.2%). 주가는 1년 새 +33%<span class="tag">배수 비싼 쪽·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본)는 음수라 계산할 수 없다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 26일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1111,15 +1073,15 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">시니어 주택</span><span class="bb-text">동일 자산 NOI +20.5%(시니어 주택 운영), 입주율 +3.3%p.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">FFO 성장</span><span class="bb-text">정규화 FFO +25%, 연간 전망 상향.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배당</span><span class="bb-text">분기 배당 $0.85(+15%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q2 2026 매출 +39.1%(보고 기준, 인수 포함, 3년 연평균 27.1%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $2.0B, 매출의 15.8%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">분기 주당 배당 $0.74(1년 전보다 +10.4%).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">GAAP 이익</span><span class="bb-text">GAAP EPS 전망 하향, PER 100배 이상.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">희석</span><span class="bb-text">인수 자금을 주식 발행으로 마련(상반기 약 $4.5B).</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류에이션</span><span class="bb-text">PBR·PSR 5년 최고 근처, 업종 안에서도 가장 비싼 쪽.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 3.4%(5년 중앙값 13.6%).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본)는 음수 — 지금 이익률·성장으로는 계산할 수 없다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부문</span><span class="bb-text">임대 수익 매출 −5.1%(1년 전 같은 분기 대비).</span></div>
     </div>
   </div>
 
@@ -1132,12 +1094,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 81.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 18.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$247.53</span> <span class="op-sub op-up" data-an="upside">+9.8%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 하순 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 26일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1218,7 +1180,7 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [3.54, 0.5, 0.45, 0.68], cmp: [2.55, 0.44, 0.3, 0.54] },
     deltas: ['+39.1%', '+14.3%', '+47.4%', '+27.4%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 시니어 주택 운영 매출 +51%(인수 포함), 전체 동일 자산 NOI +15.5% · 보통주 순이익 +47%(부동산 매각 이익 포함) · <a href="https://www.sec.gov/Archives/edgar/data/766704/000076670426000026/a2q26earningsrelease991.htm" target="_blank" rel="noopener">Welltower Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/766704/000076670426000026/a2q26earningsrelease991.htm" target="_blank" rel="noopener">Welltower Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
@@ -1308,13 +1270,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 3545;
+  const total = 3546;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["시니어 주택 운영 매출", "임대 수익", "이자 수익", "기타"],
       datasets:[{
-        data:[2985, 460, 77, 23],
+        data:[2985, 461, 77, 23],
         backgroundColor:["#00837c", "#3fb8af", "#a78bfa", "#94a3b8"],
         borderColor:'#8a8d9e',
         borderWidth:2
@@ -1516,7 +1478,7 @@ const WELL_SCORES = {
   peer: 11.0,          // S&P500 부동산 대비 배수 순위 (v2/peer_universe/real_estate.json, PSR 이상값 제외)
   selfHistory: 22.3,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-28 공시, 인라인 XBRL 보충)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 WELL_DCF 하나다.
@@ -2118,7 +2080,7 @@ const WELL_ACTIVITY = {"ticker": "WELL", "status": "N/A", "reason": "매출원�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/well/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const WELL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 22, nTargets: 17, mean: 247.53, median: 260,
+const WELL_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 22, nTargets: 17, mean: 247.53, median: 260,
   low: 5.96, high: 292, strongBuy: 12, buy: 6, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = WELL_ANALYST, last = (typeof WELL_DAILY !== 'undefined' && WELL_DAILY.length) ? WELL_DAILY[WELL_DAILY.length - 1] : null;
@@ -2161,7 +2123,7 @@ const WELL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('wellFundBox', 'wellFundScore', 'wellFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n유동비율·당좌비율은 리츠 재무상태표에 유동 구분이 없어 비워 둔다. 이자보상배율은 합성 영업이익 ÷ 이자비용이다. 영업이익 성장은 2025년 4분기 일회성 보상 비용 때문에 음수다.`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2183,7 +2145,7 @@ const WELL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\n헬스케어·물류·주거·통신탑 리츠와 부동산 서비스가 섞여 있다. 차트에는 리츠 6곳만 보인다.`);
   put('wellSelfBox', 'wellSelfScore', 'wellSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 103.9배는 5년 중앙값(118.5배)보다 조금 낮지만 리츠라 원래 높다. PBR 3.5배는 5년 최고(4.1배) 근처다.`
+      + `\nPER 103.9배는 5년 분포의 하위 33.5%다(중앙값 118.5배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

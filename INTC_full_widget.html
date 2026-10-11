@@ -681,22 +681,22 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
-          <td class="story">매출이 영구성장률 2.5%(지난 5년 실제 연 −6.5%)로 크고, 영업이익률이 5년 중앙값 −2.5%로 간다.</td>
+          <td class="story">5년 성장률의 절반(연 −3.2%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 −2.5%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="base">—</td>
-          <td class="story">매출이 영구성장률 2.5%로 크고, 영업이익률이 최근 2년 중앙값 −13.5%로 간다.</td>
+          <td class="story">5년 성장률(연 −6.5%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 2년 중앙값 −13.5%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="high">—</td>
-          <td class="story">3년 성장률(연 1.8%)이 영구성장률보다 낮아 2.5%로 두고, 영업이익률 −0.1%가 이어진다.</td>
+          <td class="story">3년 성장률(연 1.8%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 4분기 −0.1%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 −$11.19 = 사업 가치 −$12.81 + 비영업 자산 $1.62(주당, 지분·장기투자)</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 3개는 음수라 계산할 수 없다. 영업이익률은 최근 4분기 −0.1%, 2년 중앙값 −13.5%, 5년 중앙값 −2.5%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 2.5%·이익률 −2.5%), 기본(2.5%·−13.5%), 낙관(2.5%·−0.1%).</div>
+    <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
 
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="intcRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">순이익은 인텔 귀속 GAAP. 2분기 순손실 −$11.0B는 영업이 아니라 미국 정부 거래의 에스크로 주식 파생부채 평가손 −$12.5B(영업외 “이자·기타” 합계 −$12.6B에 포함, 주가 상승 때문)이다. 1분기 영업손실은 Mobileye 영업권 손상 등 구조조정·기타 비용 $4.1B 때문이다. 2025년 9월 Altera 지분 51% 매각으로 그 뒤 매출에서 Altera가 빠졌다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
       <div class="stat-value">$4.45B</div>
-      <div class="stat-sub">영업현금흐름 − 유형자산 취득</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$2.56B</div>
-      <div class="stat-sub">투자활동 유형자산 취득(회사 기준 총액 $2.65B)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 2026)</div>
-      <div class="stat-value">$3.4B</div>
-      <div class="stat-sub">매출의 20.9%</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">−$2.16</div>
+      <div class="stat-sub">GAAP · 1년 전 −$0.67 (적자 지속)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 말 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 (회사 미확정)</div>
+      <div class="stat-value">10월 22일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/23 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">131.2%</span></div>
       <div class="diag-badge alert" title="구성표 배점 2/5점">⚠️ 주의</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+7.6%</span><span class="diag-note">2025년 말 $211.4B(전년 $196.5B) · 연간 지표, 2026년 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+7.6%</span><span class="diag-note">2025년 말 $211.4B(전년 $196.5B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">현금·단기투자 $29.7B, 차입금 $50.5B(단기 $2.0B 포함, 4월 회사채 $6.5B 발행). 4월 아일랜드 Fab 34 합작 지분 49%를 Apollo에서 $14.2B에 되사며 파트너 분배금 $14.3B가 나가 자본이 줄었다(인텔 귀속 자본 $114.3B → $87.5B, 상반기 순손실 포함 — 8월 공모 순수입금 약 $22.6B를 더하면 약 $110.2B로, PBR은 이 값을 쓴다). 8월 보통주 공모(2억 4,210만 주 × $95, 순수입금 약 $22.6B)는 3분기 재무상태표 전이라 주식 수·현금·자본에 공모일(8/12) 기준으로 함께 넣었다(v2.1 D-1). <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm" target="_blank" rel="noopener">Q2 2026 실적 보도자료 (SEC 8-K) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $50.5B, 현금·단기투자 $29.7B, 자본 $87.5B. 유동비율 160%, 이자보상배율 5.6배. <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000157/intc-20260627.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.27까지 4분기</span>)</div>
@@ -884,27 +883,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">전년 대비 CCPG +13%, DCAI +59%, 파운드리(내부 포함) +31% · 부문 영업이익 CCPG $2.34B, DCAI $2.47B, 파운드리 −$2.09B · 출처: <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm" target="_blank" rel="noopener">Intel Q2 2026 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 클라이언트·피지컬 AI (CCPG) +12.8%, 데이터센터·AI (DCAI) +59%, 파운드리 외부·기타(Mobileye 등, 내부 거래 제거 후) −5.7% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000157/intc-20260627.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.27 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (Q2 2026)</span>
+          <span class="zone-label">자사주 매입</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">없음</span>
+            <span class="zone-val">공시 없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">자본 조달 (4월 회사채 $6.5B · 8월 보통주 $23.0B)</span>
-          <span class="zone-val">$29.5B</span>
+          <span class="zone-label">보통주 배당 지급</span>
+          <span class="zone-val">없음</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q2 2026)</span>
+          <span class="zone-label">분기 주당 배당</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">2025년부터 지급 없음</span>
-            <span class="zone-val">$0</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">보통주 배당 없음</span>
+            <span class="zone-val">—</span>
           </div>
         </div>
       </div>
@@ -913,12 +912,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 말 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 22일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 3분기 가이던스 매출 $15.8~16.8B·GAAP 매출총이익률 41.0%·GAAP EPS $0.31 달성</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 에스크로 주식 평가손익이 다시 GAAP 이익을 흔드는지(2분기 −$12.5B)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 파운드리 영업손실(2분기 −$2.09B)이 줄어드는지와 18A 양산 확대</div>
-      <div><strong style="color:var(--accent2);">④</strong> 8월 증자 $23.0B 뒤 설비투자 증액 규모와 주식 수(2억 4,210만 주 추가)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(−4.1% → +7.2% → +25.4%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 11.1%, 1년 전 −24.7%)</div>
     </div>
   </div>
 </div>
@@ -937,8 +934,8 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">46.7</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">96</div><div class="sc-tile" data-vc="peer" data-m="psr">70</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">21</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">최근 4분기 GAAP가 적자라 PER은 점수에서 빼고(PER 해당 없음, 순이익률 2% 미만 규칙), PSR·PBR·PCR이 자기 5년 이력의 상위 7% 안이라 8.1점이다. IT 28종목 안에서는 PBR·PSR이 싼 쪽이지만 PCR·EV/EBITDA가 비싼 쪽이라 46.7점이다. <strong>현금흐름 내재가치는 기본 −11.2달러로 음수</strong>다 — 최근 4분기 영업이익률이 −0.1%라 지금 수익성으로는 투자가 가치를 만들지 못한다.</div>
-    <div class="verdict-summary-risk">⚠️ 이 모델로는 영업이익률을 100%로 잡아도 현재가에 닿지 않는다. 현재가는 매출의 9.3배인데, 할인율 10%·영구성장 2.5%·세율 21%에서는 영업이익률이 100%여도 사업 가치가 매출의 약 10배에 그치고 여기서 순부채·비지배지분(주당 약 $7, 8월 공모 현금 반영)을 뺀다. 일회성 비용을 뺀 2분기 비GAAP 영업이익률 17.2%를 5년 유지해도 주당 약 $14다(공모 뒤 주식 수·현금 기준, 사업 가치는 그대로). 현재가는 과거 실적이 아니라 파운드리·18A 전환과 AI 수요에 대한 기대를 반영한다.</div>
+    <div class="vs-premise">PBR 6.0배(5년 중앙값 1.4배)로 자기 이력 8.1점(비싸다), 동종업 46.7점(중간)이다. <strong>현금흐름 내재가치(기본)는 음수라 계산할 수 없다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본)는 음수라 계산할 수 없다. 현재가를 정당화하려면 영업이익률이 94.5%까지 올라야 한다(최근 4분기 −0.1%, 5년 중앙값 −2.5%). 내재가치에서 차입금 $50.5B를 빼고 현금·단기투자 $29.7B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1021,14 +1018,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · AI 수요로 매출이 다시 늘고, 증자·지분 투자로 파운드리 투자 자금을 모은다<span class="tag">회복 기대·적자 지속</span></div>
-    <ol class="news-list">
-      <li>2분기 매출이 $16.1B로 25% 늘었다. 데이터센터·AI가 59%, 클라이언트가 13% 늘었고, 비GAAP 영업이익률은 17.2%였다.</li>
-      <li>NVIDIA $5.0B(12월), 회사채 $6.5B(4월), 보통주 $23.0B(8월)를 조달했고, 4월에 Fab 34 합작 지분을 $14.2B에 되샀다.</li>
-      <li>GAAP로는 적자가 이어진다 — 1분기 Mobileye 영업권 손상, 2분기 에스크로 주식 평가손 −$12.5B.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 파운드리 부문은 2분기에도 영업손실 −$2.09B였다. 8월 증자로 주식이 약 4.8% 늘었다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 말 예상)의 매출 $15.8~16.8B 가이던스, 파운드리 손실 축소, 에스크로 주식 평가손익.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $16.1B(+25.4%), 영업이익률 11.1%(1년 전 −24.7%). 주가는 1년 새 +180%<span class="tag">배수 5년 고점권·매출 성장 빨라짐</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본)는 음수라 계산할 수 없다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 22일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1111,15 +1103,13 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">성장</span><span class="bb-text">2분기 매출이 25% 늘어 회사가 15년여 만의 최고 증가율이라고 밝혔고, 3분기도 $15.8~16.8B를 전망했다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">수익성</span><span class="bb-text">2분기 매출총이익률이 40.4%로 1년 전(27.5%)보다 12.9%p 높아졌다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">자금</span><span class="bb-text">증자·회사채·NVIDIA 투자로 1년 사이 $34.5B를 조달했다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q2 2026 매출 +25.4%(보고 기준, 3년 연평균 1.8%).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PSR·PBR·PCR이 자기 5년 이력의 상위 7% 안이고, 현금흐름 내재가치는 음수다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">적자</span><span class="bb-text">최근 4분기 GAAP 순이익이 적자이고, 파운드리 부문은 분기 −$2.09B 손실이다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">희석</span><span class="bb-text">NVIDIA 2.1억 주, 8월 공모 2.4억 주를 발행했고, 정부 에스크로 1.4억 주와 조건부 워런트 2.4억 주($20)가 남아 있다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 8점(배수 4개) · PBR 6.0배(5년 중앙값 1.4배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본)는 음수 — 지금 이익률·성장으로는 계산할 수 없다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 −0.1%(영업적자).</span></div>
     </div>
   </div>
 
@@ -1132,12 +1122,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 30.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 65.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$115.66</span> <span class="op-sub op-up" data-an="upside">+10.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 말 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 22일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1218,14 +1208,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [16.13, 1.8, -11.03, 4.45], cmp: [12.86, -3.18, -2.92, -1.5] },
     deltas: ['+25.4%', '흑자 전환', '적자 지속', '흑자 전환'],
-    footnote: '기준일: 2026.06.27(Q2 2026) vs 2025.06.28(Q2 2025) · GAAP 기준 · 순이익은 인텔 귀속(2분기 에스크로 주식 평가손 −$12.5B 포함, 비GAAP EPS $0.42) · FCF는 영업현금흐름 − 투자활동 유형자산 취득(회사 조정 FCF −$8.4B는 Fab 34 지분 재매입 등 파트너 분배금 −$12.2B 반영) · <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm" target="_blank" rel="noopener">Intel Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.27(Q2 2026) vs 2025.06.28(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익이 0 이하(영업이익률 −24.7%)라 영업이익 증감률을 쓰지 않는다 · <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm" target="_blank" rel="noopener">Intel Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
     chart: { cur: [16.13, 1.8, -11.03, 4.45], cmp: [13.58, -3.14, -3.73, -2.54] },
     deltas: ['+18.8%', '흑자 전환', '적자 지속', '흑자 전환'],
-    footnote: '기준일: 2026.06.27(Q2 2026) vs 2026.03.28(Q1 2026) · GAAP 기준 · 순이익은 인텔 귀속(2분기 에스크로 주식 평가손 −$12.5B 포함, 비GAAP EPS $0.42) · FCF는 영업현금흐름 − 투자활동 유형자산 취득(회사 조정 FCF −$8.4B는 Fab 34 지분 재매입 등 파트너 분배금 −$12.2B 반영) · <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm" target="_blank" rel="noopener">Intel Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.27(Q2 2026) vs 2026.03.28(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/50863/000005086326000155/q226earningsrelease.htm" target="_blank" rel="noopener">Intel Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1525,7 +1515,7 @@ const INTC_SCORES = {
   peer: 46.7,          // GICS Information Technology 대비 배수 순위
   selfHistory: 8.1,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-27",   // Q2 2026 10-Q (2026-07-24 공시)
+  fundamentalAsOf: "2026-06-27",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 INTC_DCF 하나다.
@@ -1586,8 +1576,8 @@ const INTC_SCORES = {
     req.style.color = lv.color;   // 5단계와 같은 신호: 싸다 파랑 · 적정 노랑 · 비싸다 빨강
     const cell = req.closest('.meta-item');
     if (cell) cell.title = (mMode
-        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 연 2.5%(지난 5년 실제 연 ${f1(d.growth5y)}, 영구성장률 하한)로 크는 동안`
-          + (d.requiredMargin != null ? ` 영업이익률이 ${f1(d.requiredMargin)}여야 한다(현재 ${f1(d.marginNow)}).` : ` 영업이익률을 100%로 잡아도 닿지 않는다(현재 ${f1(d.marginNow)}, 탐색 범위 −50~100%).`)
+        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
+          + (d.requiredMargin != null ? ` 영업이익률이 ${f1(d.requiredMargin)}여야 한다(현재 ${f1(d.marginNow)}).` : ` 영업이익률을 100%로 올려도 모자란다(현재 ${f1(d.marginNow)}).`)
           + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
@@ -1659,8 +1649,8 @@ const INTC_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   fill('[data-dcf-baseeq]', D.baseEquivGrowth != null ? (D.baseEquivGrowth * 100).toFixed(1) + '%' : '—');
   const pc = v => (v * 100).toFixed(1) + '%';
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
-    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 연 2.5%(지난 5년 실제 연 ${pc(D.growth5y)}, 영구성장률을 하한으로 둔다)로 크는 동안`
-      + (D.requiredMargin != null ? ` 영업이익률이 <b>${pc(D.requiredMargin)}</b>여야 한다(지금 ${pc(D.marginNow)}).` : ` 영업이익률을 <b>100%로 잡아도</b> 닿지 않는다(지금 ${pc(D.marginNow)}).`)
+    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
+      + (D.requiredMargin != null ? ` 영업이익률이 <b>${pc(D.requiredMargin)}</b>여야 한다(지금 ${pc(D.marginNow)}).` : ` 영업이익률을 <b>100%</b>로 올려도 모자란다(지금 ${pc(D.marginNow)}).`)
       + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
@@ -2127,7 +2117,7 @@ const INTC_ACTIVITY = {"ticker": "INTC", "status": "ok", "asOf": "2026-06-27", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/intc/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const INTC_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 49, nTargets: 35, mean: 115.66, median: 114,
+const INTC_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 49, nTargets: 35, mean: 115.66, median: 114,
   low: 65, high: 200, strongBuy: 14, buy: 1, hold: 32, sell: 1, strongSell: 1 };
 (function(){
   const A = INTC_ANALYST, last = (typeof INTC_DAILY !== 'undefined' && INTC_DAILY.length) ? INTC_DAILY[INTC_DAILY.length - 1] : null;
@@ -2170,7 +2160,7 @@ const INTC_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('intcFundBox', 'intcFundScore', 'intcFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(2025년까지)을 쓴다.`
-      + `\n순이익률이 크게 음수인 것은 2분기 에스크로 주식 평가손(−$12.5B) 때문이다. 매출 3년 증가율이 음수인 것은 2022년 대비이고 2025년 9월 Altera 매각으로 매출이 빠진 영향도 있다.`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2192,7 +2182,7 @@ const INTC_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다. 적자 배수는 가장 비싼 쪽으로 센다(INTC의 PER은 해당 없음이라 비교에서 뺀다).`);
   put('intcSelfBox', 'intcSelfScore', 'intcSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n최근 4분기 GAAP 순이익이 적자라 PER은 해당 없음(점수에서 뺌)이다. PSR·PBR·PCR은 5년 상위 7% 안이다. 주식 수는 8월 공모 뒤 52.85억 주(증권신고서 기준 공모 전 50.43억 주 + 공모 2억 4,211만 주, 순수입금 약 $22.6B는 현금·자본에 함께 — v2.1 D-1)다. 미국 정부 몫 에스크로 미방출 1억 4,300만 주(파생부채 $15.6B, 순부채에 넣지 않음)는 조건부라 넣지 않았다(넣으면 약 2.7% 늘어난다).`
+      + `\nPBR 6.0배는 5년 분포의 하위 98.3%다(중앙값 1.4배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

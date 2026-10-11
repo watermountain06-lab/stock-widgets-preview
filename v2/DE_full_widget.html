@@ -686,16 +686,16 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$228.40</td><td style="color: var(--red);" data-dcf-upside="base">−63.2%</td>
-          <td class="story">5년 성장률(연 2.5%)이 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 2년 중앙값 14.0%로 간다.</td>
+          <td class="story">5년 성장률(연 2.5%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 2년 중앙값 14.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$218.72</td><td style="color: var(--red);" data-dcf-upside="high">−64.8%</td>
-          <td class="story">3년 성장률(최근 4분기 합 기준, 연 -7.9%)이 음수라 5년 내내 2.5%로 두고, 최근 4분기 영업이익률 13.4%가 이어진다.</td>
+          <td class="story">3년 성장률(연 −7.9%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 4분기 13.4%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오의 성장률이 모두 2.5% 하한이라 영업이익률만 다르다. 업황 바닥인 지금 이익률이 5년 중앙값보다 낮아 “보수”가 가장 높고 “낙관”이 가장 낮다(이름과 순서가 뒤집힘). 농기계는 업황을 크게 타는 사업이라, 모델이 쓰는 과거 5년 이익률·성장률이 회복기 가치를 낮게 잡을 수 있다. 엔진의 최근 1년 순투자가 음수라 매출/자본은 현재 매출 ÷ 투하자본(약 1.7배)을 쓴다(엔진 경고).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $218.72~$274.51다. 영업이익률은 최근 4분기 13.4%, 2년 중앙값 14.0%, 5년 중앙값 16.7%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 2.5%·이익률 16.7%), 기본(2.5%·14.0%), 낙관(2.5%·13.4%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -736,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q3 FY26)</div>
       <div class="stat-value">$1.94B</div>
-      <div class="stat-sub">영업현금흐름 − 유형자산 취득 · 연결 기준, 운용리스 장비 취득(9개월 $1.93B)은 빼지 않음</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자 · 분기 길이가 13·14주로 다르다</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q3 FY26)</div>
       <div class="stat-value">$0.27B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">장비 부문 영업이익 (Q3 FY26)</div>
-      <div class="stat-value">$1.59B</div>
-      <div class="stat-sub">세 부문 합계 · 1년 전 $1.30B · 금융 부문 순이익 $219M</div>
+      <div class="stat-label">희석 EPS (Q3 FY26)</div>
+      <div class="stat-value">$5.10</div>
+      <div class="stat-sub">GAAP · 1년 전 $4.75 (+7.4%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">11월 하순 예상</div>
-      <div class="stat-sub">일정 · Q4 FY26 (회사 미확정)</div>
+      <div class="stat-value">11월 25일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q4 FY26 (작년 11/26 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -799,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금은 장비 부문 빚 $9.3B만 쓴다(CAT과 같은 규칙). 연결 차입금 $63.8B 가운데 $54.5B는 금융 부문(John Deere Financial)의 할부·리스 채권과 묶인 영업 부채이고 그 이자는 손익계산서 비용 안에 있다. 현금은 연결 $8.9B(장비 부문 $6.6B, 금융 부문 $2.3B)를 그대로 더한다(CAT과 같은 처리 — 장비 부문 현금만 쓰면 순현금이 약 $2.3B 낮아진다). 유동·부채비율은 연결 기준이지만 차입금의존도는 장비 부문 차입금 ÷ 연결 총자산이라 기준이 섞여 있다(연결 차입금이면 59%). 매출원가·매출채권 표준 태그가 없어 활동성은 계산하지 않는다. <a href="https://www.sec.gov/Archives/edgar/data/315189/000110465926102213/de-20260802x10q.htm" target="_blank" rel="noopener">Q3 FY26 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $9.3B, 현금·단기투자 $8.9B, 자본 $28.0B. 이자보상배율 2.7배. <a href="https://www.sec.gov/Archives/edgar/data/315189/000110465926102213/de-20260802x10q.htm" target="_blank" rel="noopener">Q3 FY26 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -816,40 +816,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="collapsible-body collapsed">
 
-    <div class="activity-grid">
-      <div class="act-card">
-        <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
-      </div>
-    </div>
-    <div class="ccc-card">
-      <div class="ccc-head">
-        <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
-      </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
-      <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left: 33.4%; transform: translateX(-50%);">매입채무 지급 51.8일</div>
-        <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:69.3%;" title="재고보유 107.3일">재고보유 107.3일</div>
-          <div class="tl-seg-ar" style="width:30.7%;" title="매출채권회수 47.6일">매출채권회수 47.6일</div>
-        </div>
-        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
-      </div>
-    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — 매출원가 합계·매출채권 표준 태그가 없음(매출채권 대부분이 금융 부문 할부 채권).</div>
 
     </div>
   </div>
@@ -878,33 +845,33 @@ Chart.overrides.doughnut.animation = false;
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#367c2b;display:inline-block;flex-shrink:0;"></span>생산·정밀 농업 <strong style="color:var(--text);">$4.00B · 31.7%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#ffde00;display:inline-block;flex-shrink:0;"></span>소형 농업·잔디 <strong style="color:var(--text);">$3.38B · 26.8%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0;"></span>건설·임업 <strong style="color:var(--text);">$3.62B · 28.7%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#ffde00;display:inline-block;flex-shrink:0;"></span>소형 농업·잔디 <strong style="color:var(--text);">$3.38B · 26.8%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5aa9e6;display:inline-block;flex-shrink:0;"></span>금융·기타 수익 <strong style="color:var(--text);">$1.61B · 12.8%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">금융·기타 수익은 금융·이자 수익 $1.35B와 기타 수익 $0.26B · 부문 영업이익은 생산·정밀 농업 $527M(−9%), 소형 농업·잔디 $622M(+28%), 건설·임업 $436M(+84%) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/315189/000110465926098904/de-20260820xex99d1.htm" target="_blank" rel="noopener">Q3 FY26 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 생산·정밀 농업 −6.4%, 건설·임업 +18.3%, 소형 농업·잔디 +11.8%, 금융·기타 수익 −3.1% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/315189/000110465926102213/de-20260802x10q.htm" target="_blank" rel="noopener">Q3 FY26 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q3 FY26 · 2026.08.02 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (FY26 9개월, 현금흐름표)</span>
+          <span class="zone-label">자사주 매입 (회계연도 누계 2025.11.3~2026.8.2, 39주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$0.70B</span>
+            <span class="zone-val">$697M</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 지급 (FY26 9개월, 분기 주당 $1.62)</span>
-          <span class="zone-val">$1.32B</span>
+          <span class="zone-label">배당 지급 (회계연도 누계 2025.11.3~2026.8.2, 39주)</span>
+          <span class="zone-val">$1.3B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">기업 인수 (FY26 9개월, 건설 장비 관리 소프트웨어 Tenna 등)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 8/2 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">현금 기준</span>
-            <span class="zone-val">$0.46B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $1.62 · +0.0%</span>
+            <span class="zone-val">$1.62</span>
           </div>
         </div>
       </div>
@@ -913,12 +880,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 하순 (예상) · Q4 FY26</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 25일 무렵 (예상) · Q4 FY26</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> FY2026 순이익 가이던스 $4.75~5.00B 달성(9개월 $3.81B)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 대형 농기계(생산·정밀 농업) 매출 감소(연간 약 −10% 전망)가 바닥을 찍는지와 조기 주문 동향</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 건설·임업(+18%)·소형 농업(+12%) 성장이 이어지는지</div>
-      <div><strong style="color:var(--accent2);">④</strong> 관세 비용과 환급(9개월 $382M), 금융 부문 순이익 약 $870M 전망</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+13.0% → +4.7% → +4.9%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q3 FY26 14.9%, 1년 전 13.3%)</div>
     </div>
   </div>
 </div>
@@ -937,8 +902,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.4</div><div class="sc-tile low" data-vc="peer" data-m="per">26</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">49</div><div class="sc-tile lost" data-vc="peer" data-m="psr">47</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">33</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">37</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">주가가 1년 새 +35% 오르는 동안 이익은 업황 바닥이라 PER 34.5배(5년 중앙값 18.7배)·PSR·EV/EBITDA가 5년 중 가장 비싼 쪽이고 PBR·PCR도 비싼 쪽이라 자기 이력 12.2점(비싸다)이다. S&P500 산업재 안에서는 PER·PCR·EV/EBITDA가 비싼 쪽, PBR·PSR은 중간이라 38.4점(중간)이다. <strong>현금흐름 내재가치(기본 $228.40)는 현재가의 37%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”다. 현재가를 정당화하려면 영업이익률이 34.0%까지 올라야 한다(최근 4분기 13.4%, 5년 중앙값 16.7%). 현재가는 업황 회복을 미리 반영한 값이고, 모델은 과거 5년 이익률과 낮은 성장률(5년 연 2.5%, 3년 연 -7.9%)만 쓴다. 내재가치에서 빼는 것은 장비 부문 차입금 $9.3B이고 연결 현금 $8.9B를 더한다(운용리스 $0.3B는 영업이익이 임차료를 이미 뺐으므로 빼지 않는다). 세전이익을 영업이익으로 쓰므로 장비 부문 이자(분기 약 $0.1B)가 이익에서도 빠지고 차입금으로도 빠져 기본값이 약 5% 낮게 잡힌다.</div>
+    <div class="vs-premise">PER 34.5배(5년 중앙값 18.7배)로 자기 이력 12.2점(비싸다), 동종업 38.4점(중간)이다. <strong>현금흐름 내재가치(기본 $228.40)는 현재가의 37%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $228.40)는 현재가의 37%다. 현재가를 정당화하려면 영업이익률이 34.0%까지 올라야 한다(최근 4분기 13.4%, 5년 중앙값 16.7%). 내재가치에서 차입금 $9.3B를 빼고 현금·단기투자 $8.9B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1021,14 +986,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 대형 농기계 업황 바닥에서도 건설·소형 농기계가 늘어 순이익 가이던스를 두 번 올렸고, 주가는 1년 새 +35%<span class="tag">업황 바닥·회복 기대</span></div>
-    <ol class="news-list">
-      <li>3분기 매출 $12.6B(+5%), 순이익 $1.38B(+7%)로 대형 농기계 −6%를 건설·임업 +18%, 소형 농기계 +12%가 메웠다.</li>
-      <li>연간 순이익 가이던스를 11월 $4.00~4.75B → 2월 $4.5~5.0B → 8월 $4.75~5.00B로 올렸다.</li>
-      <li>회사는 2026년을 지금 농기계 사이클의 바닥으로 보고, 조기 주문 흐름을 근거로 든다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 이익이 바닥인데 주가가 먼저 올라 배수가 5년 중 가장 비싼 쪽이고, 과거 이익률만 쓰는 현금흐름 모델은 주당 $228.40에 그친다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q4 FY26 실적(11월 하순 예상)의 연간 순이익 $4.75~5.00B 달성과 2027년 전망.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 FY26 매출 $12.6B(+4.9%), 영업이익률 14.9%(1년 전 13.3%). 주가는 1년 새 +35%<span class="tag">배수 5년 고점권·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $228.40)는 현재가의 37%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 11월 25일 무렵 (예상) Q4 FY26 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1105,15 +1065,15 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">회복</span><span class="bb-text">회사가 2026년을 농기계 사이클 바닥으로 본다, 순이익 가이던스 두 번 상향.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">다각화</span><span class="bb-text">건설·임업 영업이익 +84%, 소형 농업·잔디 +28%.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">금융</span><span class="bb-text">금융 부문 순이익 $219M(+7%), 연간 약 $870M 전망.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q3 FY26 매출 +4.9%(보고 기준, 3년 연평균 −7.9%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $6.0B, 매출의 12.5%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">부채</span><span class="bb-text">순차입금(리스 포함) $741M, 최근 4분기 영업이익의 0.1배.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PER 35배(5년 중앙값 19배), PSR·EV/EBITDA 5년 최고 근처.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">업황</span><span class="bb-text">대형 농기계 매출 −6%, 미국·캐나다 대형 농기계 산업 −15~20% 전망.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">이익</span><span class="bb-text">FY2025 EPS $18.50로 FY2024 $25.62에서 28% 줄었다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 13.4%(5년 중앙값 16.7%).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 12점(배수 5개) · PER 34.5배(5년 중앙값 18.7배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $228.40)는 현재가의 37%.</span></div>
     </div>
   </div>
 
@@ -1126,12 +1086,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 64%; background: var(--green);"></div><div data-an-bar="hold" style="width: 36%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$695.63</span> <span class="op-sub op-up" data-an="upside">+12.0%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">11월 하순 <span class="op-sub">Q4 FY26 예상</span></span>
+        <span class="op-val">11월 25일 무렵 <span class="op-sub">Q4 FY26 예상</span></span>
       </div>
     </div>
   </div>
@@ -1212,7 +1172,7 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 FY26 vs Q3 FY25)',
     chart: { cur: [12.61, 1.88, 1.38, 1.94], cmp: [12.02, 1.6, 1.29, 2.6] },
     deltas: ['+4.9%', '+17.6%', '+7.0%', '-25.2%'],
-    footnote: '기준일: 2026.08.02(Q3 FY26) vs 2025.07.27(Q3 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 영업이익 칸은 세전이익(손익계산서에 영업이익 줄이 없음) · 장비 매출 +6%(대형 농기계 −6%, 소형 농기계 +12%, 건설·임업 +18%) · 관세 환급 $110M · <a href="https://www.sec.gov/Archives/edgar/data/315189/000110465926098904/de-20260820xex99d1.htm" target="_blank" rel="noopener">Deere Q3 FY26 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.08.02(Q3 FY26) vs 2025.07.27(Q3 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/315189/000110465926098904/de-20260820xex99d1.htm" target="_blank" rel="noopener">Deere Q3 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q3 FY26', cmpLabel: 'Q2 FY26',
@@ -1306,10 +1266,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:["생산·정밀 농업", "소형 농업·잔디", "건설·임업", "금융·기타 수익"],
+      labels:["생산·정밀 농업", "건설·임업", "소형 농업·잔디", "금융·기타 수익"],
       datasets:[{
-        data:[3998, 3383, 3618, 1609],
-        backgroundColor:["#367c2b", "#ffde00", "#94a3b8", "#5aa9e6"],
+        data:[3998, 3618, 3383, 1609],
+        backgroundColor:["#367c2b", "#94a3b8", "#ffde00", "#5aa9e6"],
         borderColor:'#8a8d9e',
         borderWidth:2
       }]
@@ -1519,7 +1479,7 @@ const DE_SCORES = {
   peer: 38.4,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 12.2,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-08-02",   // Q3 FY26 10-Q (2026-08-27 공시)
+  fundamentalAsOf: "2026-08-02",   // Q3 FY26 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 DE_DCF 하나다.
@@ -2121,7 +2081,7 @@ const DE_ACTIVITY = {"ticker": "DE", "status": "N/A", "reason": "매출원가 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/de/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const DE_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 695.63, median: 728,
+const DE_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 695.63, median: 728,
   low: 500, high: 813, strongBuy: 11, buy: 5, hold: 9, sell: 0, strongSell: 0 };
 (function(){
   const A = DE_ANALYST, last = (typeof DE_DAILY !== 'undefined' && DE_DAILY.length) ? DE_DAILY[DE_DAILY.length - 1] : null;
@@ -2164,7 +2124,7 @@ const DE_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
   put('deFundBox', 'deFundScore', 'deFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q3 FY26, 10-Q), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n유동·부채비율은 연결 기준이라 금융 부문 차입금($54.5B)이 들어 있고, 차입금의존도는 장비 부문 차입금 기준이다. 영업이익률은 세전이익 기준(금융 부문 이자 포함)이고, 이자보상배율 2.7배도 세전이익 ÷ 연결 이자라 이자 차감 전 이익으로는 3.7배다(같은 2점). 활동성은 매출원가 합계·매출채권 표준 태그가 없어 계산하지 않는다.`);
+      + `\n점수는 Q3 FY26 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2186,7 +2146,7 @@ const DE_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
       + `\n기계 외에 항공·방산·운송·서비스가 섞여 있다. 비교군 파일의 DE 행은 9/25 값(EV/EBITDA 없음)이라 다른 카드 점수에만 쓰인다. DE의 EV/EBITDA는 장비 부문 차입금만 넣은 값이라, 금융 자회사를 연결로 둔 다른 종목과 정의가 다르다(연결 차입금이면 약 27배).`);
   put('deSelfBox', 'deSelfScore', 'deSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n주가가 1년 새 +35% 오르는 동안 최근 4분기 EPS는 업황 바닥이라 PER·PSR·EV/EBITDA가 5년 중 가장 비싼 쪽이다. 영업이익은 세전이익(손익계산서에 영업이익 줄이 없음)이고, EV는 장비 부문 차입금만 쓴다.`
+      + `\nPER 34.5배는 5년 분포의 하위 94.7%다(중앙값 18.7배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

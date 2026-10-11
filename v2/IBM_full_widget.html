@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$22.22</td><td style="color: var(--red);" data-dcf-upside="low">−90.2%</td>
-          <td class="story">분사 뒤 약 4.5년 성장률의 절반(연 2.1%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 이력 중앙값 13.6%로 간다.</td>
+          <td class="story">5년 성장률의 절반(연 2.1%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 13.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$34.55</td><td style="color: var(--red);" data-dcf-upside="base">−84.8%</td>
-          <td class="story">분사 뒤 약 4.5년 성장률(연 4.2%)에서 식고, 영업이익률이 최근 2년 중앙값 15.0%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 4.2%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 15.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$43.19</td><td style="color: var(--red);" data-dcf-upside="high">−81.0%</td>
-          <td class="story">3년 성장률(연 4.5%)에서 식고, 최근 4분기 영업이익률 16.1%가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 4.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 16.1%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $22.22~$43.19다. 영업이익률은 최근 4분기 16.1%, 2년 중앙값 15.0%, 5년 중앙값 13.6%를 쓴다.</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="ibmRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">손익계산서에 영업이익 줄이 없어 영업이익은 매출총이익 − 판관비 − R&amp;D로 계산했다(지식재산·주문 개발 수익과 기타 수익은 회사 고유 항목이라 뺐다 — 2분기 $0.17B·$0.19B). 2025년 4분기 순이익 $5.6B에는 세무조사 종결에 따른 법인세 혜택이 들어 있다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
       <div class="stat-value">$2.37B</div>
-      <div class="stat-sub">영업현금흐름 − 유형자산 취득 · 회사 FCF $2.5B(금융 채권 제외 정의)</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$0.23B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 2026)</div>
-      <div class="stat-value">$2.31B</div>
-      <div class="stat-sub">연구개발 · 매출의 13.5%</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">$2.27</div>
+      <div class="stat-sub">GAAP · 1년 전 $2.31 (−1.7%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 하순 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 (회사 미확정)</div>
+      <div class="stat-value">미정</div>
+      <div class="stat-sub">일정 · Q3 2026</div>
     </div>
   </div>
 
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $62.0B 가운데 $13.0B는 고객 금융(IBM 파이낸싱) 부문 몫이다 — 카드는 규칙대로 총차입금을 쓴다(빼면 주당 약 $14 차이, 판정 불변). 현금·시장성 증권은 $8.2B로 연초보다 $6.3B 줄었다(올해 인수에 $10.5B, Confluent 3월 종결). 유동비율이 낮은 것은 이연수익 $16.2B가 유동부채에 있어서다. 이자보상배율은 2분기 합성 영업이익 ÷ 이자비용 $486M이다. <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000078/ibm-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $62.0B, 현금·단기투자 $8.1B, 자본 $34.5B. 유동비율 79%, 이자보상배율 5.4배. <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000078/ibm-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -885,27 +884,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 소프트웨어 +5%(Red Hat +11%·데이터 +19%·거래처리 −8%), 컨설팅 0%, 인프라 −7%(IBM Z −42%·분산 인프라 +37%) · 금융·기타는 금융 $0.19B + 기타 $0.05B · 부문 합은 반올림으로 총매출과 $1M 다르다 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000077/ibm-20260722xex991.htm" target="_blank" rel="noopener">Q2 2026 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 소프트웨어 +5.1%, 컨설팅 +0.2%, 인프라 −7.4%, 금융·기타 +78% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000078/ibm-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (Q2 2026, 없음)</span>
+          <span class="zone-label">자사주 매입</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$0</span>
+            <span class="zone-val">공시 없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">인수 (올해 상반기, Confluent 등)</span>
-          <span class="zone-val">$10.5B</span>
+          <span class="zone-label">배당 지급 (연초~6/30, 26주)</span>
+          <span class="zone-val">$3.2B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q2 2026 지급)</span>
+          <span class="zone-label">최근 분기 주당 배당 (지급 기준, 6/30 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">분기 주당 $1.69</span>
-            <span class="zone-val">$1.6B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $1.68 · +0.6%</span>
+            <span class="zone-val">$1.69</span>
           </div>
         </div>
       </div>
@@ -914,12 +913,11 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 하순 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 7월에 낮춘 연간 전망 — 고정환율 매출 +4~5%, FCF 약 $1B 증가</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 2분기에 놓친 대형 거래가 3분기에 닫히는지와 소프트웨어 거래처리(−8%)</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 메인프레임(IBM Z −42%) 신제품 주기 뒤 인프라 감소 폭</div>
-      <div><strong style="color:var(--accent2);">④</strong> Confluent 통합과 인수로 줄어든 현금($8.2B)·늘어난 차입금($62.0B)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+12.1% → +9.5% → +1.1%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 15.2%, 1년 전 16.8%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 차입금 $62.0B이 줄어드는지</div>
     </div>
   </div>
 </div>
@@ -941,8 +939,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">91.6</div><div class="sc-tile" data-vc="peer" data-m="per">88</div><div class="sc-tile" data-vc="peer" data-m="pbr">91</div><div class="sc-tile" data-vc="peer" data-m="psr">96</div><div class="sc-tile" data-vc="peer" data-m="pcr">91</div><div class="sc-tile" data-vc="peer" data-m="evebitda">92</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">자기 이력(Kyndryl 분사 뒤 2022-02부터)에서 PER 23.4배(회사가 밝힌 세무조사 종결 세금 혜택 $1.47B를 뺀 EPS 기준)·PBR 6.2배는 싼 쪽, PSR·PCR·EV/EBITDA는 중간이라 57.1점(중간)이다. 카드 유니버스 IT 안에서는 다섯 배수 모두 가장 싼 쪽이라 91.6점(싸다)이다. <strong>현금흐름 내재가치(기본 $35)는 현재가의 15%</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 0·+1·−2로 합계 −1 “적정~고평가”다. 합성 영업이익률이 최근 4분기 16.1%, 성장률이 분사 뒤 약 4.5년 연 4.2%라, 현재가를 설명하려면 영업이익률이 38.2%여야 한다. 차입금 $62.0B(금융 부문 $13.0B 포함)가 주주 몫을 줄인다. 세율은 회사가 밝힌 세무조사 종결 법인세 혜택 $1.47B를 뺀 최근 4분기 실효세율 11.5%다.</div>
+    <div class="vs-premise">PER 23.4배(4.6년 중앙값 31.1배)로 자기 이력 57.1점(중간), 동종업 91.6점(싸다)이다. <strong>현금흐름 내재가치(기본 $34.55)는 현재가의 15%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $34.55)는 현재가의 15%다. 현재가를 정당화하려면 영업이익률이 38.2%까지 올라야 한다(최근 4분기 16.1%, 5년 중앙값 13.6%). 내재가치에서 차입금 $62.0B를 빼고 현금·단기투자 $8.1B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1025,14 +1023,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 소프트웨어는 성장하지만 메인프레임 주기가 꺾이고 2분기 대형 거래가 밀려, 주가는 1년 새 -22%<span class="tag">저성장·싼 배수</span></div>
-    <ol class="news-list">
-      <li>2분기 매출 $17.2B(+1%)로 소프트웨어 +5%, 컨설팅 0%, 인프라 −7%(IBM Z −42%)였다.</li>
-      <li>7월 14일 예비 실적으로 부진을 먼저 알렸고, 연간 매출 전망을 고정환율 +4~5%로 바꿨다.</li>
-      <li>올해 Confluent 등 인수에 $10.5B를 써 현금이 줄고 차입금이 $62.0B가 됐다. 배당은 분기 $1.69를 이어 간다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 배수는 IT 종목 가운데 가장 싼 쪽이지만, 합성 영업이익률 16.1%와 연 4.2% 성장으로는 현금흐름 모델이 현재가의 15%만 설명한다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 하순 예상)에서 밀린 거래가 닫히는지와 소프트웨어 성장률.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $17.2B(+1.1%), 영업이익률 15.2%(1년 전 16.8%). 주가는 1년 새 −22%<span class="tag">배수 싼 쪽·매출 성장 느려짐</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $34.55)는 현재가의 15%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1103,15 +1096,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">소프트웨어</span><span class="bb-text">2분기 소프트웨어 +5%(Red Hat +11%·데이터 +19%), 매출의 45%.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배수</span><span class="bb-text">PER 23.4배(일회성 세금 혜택 제외) — IT 카드 유니버스에서 가장 싼 쪽.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배당</span><span class="bb-text">분기 $1.69, 1916년부터 해마다 배당.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 16.1%(5년 중앙값 13.6%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $13.8B, 매출의 20.0%.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">2분기 매출 +1%, IBM Z −42%·거래처리 소프트웨어 −8%.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">차입금 $62.0B, 현금 $8.2B — 올해 인수에 $10.5B.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">현금흐름 기본 $35 — 합성 영업이익률 16.1%로는 현재가를 설명하지 못한다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $34.55)는 현재가의 15%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부문</span><span class="bb-text">인프라 매출 −7.4%(1년 전 같은 분기 대비).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">매출</span><span class="bb-text">Q2 2026 매출 +1.1%(보고 기준, 3년 연평균 4.5%).</span></div>
     </div>
   </div>
 
@@ -1124,12 +1116,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 48%; background: var(--green);"></div><div data-an-bar="hold" style="width: 44%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$252.57</span> <span class="op-sub op-up" data-an="upside">+11.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 하순 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">미정 <span class="op-sub">Q3 2026</span></span>
       </div>
     </div>
   </div>
@@ -1210,14 +1202,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [17.16, 2.62, 2.17, 2.37], cmp: [16.98, 2.85, 2.19, 1.49] },
     deltas: ['+1.1%', '-8.3%', '-1.3%', '+58.8%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000077/ibm-20260722xex991.htm" target="_blank" rel="noopener">IBM Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000078/ibm-20260630.htm" target="_blank" rel="noopener">IBM Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
     chart: { cur: [17.16, 2.62, 2.17, 2.37], cmp: [15.92, 1.69, 1.22, 4.94] },
     deltas: ['+7.8%', '+54.9%', '+78.0%', '-52.0%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000077/ibm-20260722xex991.htm" target="_blank" rel="noopener">IBM Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000078/ibm-20260630.htm" target="_blank" rel="noopener">IBM Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1300,13 +1292,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 17161;
+  const total = 17162;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["소프트웨어", "컨설팅", "인프라", "금융·기타"],
       datasets:[{
-        data:[7761, 5327, 3835, 238],
+        data:[7761, 5327, 3835, 239],
         backgroundColor:["#0f6eb4", "#5aa9e6", "#94a3b8", "#d4a017"],
         borderColor:'#8a8d9e',
         borderWidth:2
@@ -1516,7 +1508,7 @@ const IBM_SCORES = {
   peer: 91.6,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 57.1,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-23 공시)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 IBM_DCF 하나다.
@@ -2118,7 +2110,7 @@ const IBM_ACTIVITY = {"ticker": "IBM", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ibm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const IBM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 21, mean: 252.57, median: 250,
+const IBM_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 21, mean: 252.57, median: 250,
   low: 190, high: 350, strongBuy: 9, buy: 3, hold: 11, sell: 1, strongSell: 1 };
 (function(){
   const A = IBM_ANALYST, last = (typeof IBM_DAILY !== 'undefined' && IBM_DAILY.length) ? IBM_DAILY[IBM_DAILY.length - 1] : null;
@@ -2161,7 +2153,7 @@ const IBM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 
   put('ibmFundBox', 'ibmFundScore', 'ibmFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\n부채비율 1점은 차입금 $62.0B(금융 부문 포함)와 이연수익 때문이다. 영업이익은 손익계산서에 줄이 없어 매출총이익 − 판관비 − R&D로 계산했다.`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2183,7 +2175,7 @@ const IBM_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('ibmSelfBox', 'ibmSelfScore', 'ibmSelfVerdict', S.selfHistory, WORDS.val,
       `분사 뒤(2022-02~) 이 종목 자신의 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nKyndryl 분사(2021-11) 뒤 이력(2022-02~)만 쓴다. PER 23.4배(일회성 세금 혜택 제외)는 이력 중앙값 31.1배보다 낮다 — 2024년 3·4분기 연금 정산 비용($2.7B·$0.4B)으로 GAAP EPS가 작았던 구간이 중앙값을 높였다.`
+      + `\nPER 23.4배는 4.6년 분포의 하위 23.6%다(중앙값 31.1배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

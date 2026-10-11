@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$68.49</td><td style="color: var(--red);" data-dcf-upside="low">−54.7%</td>
-          <td class="story">5년 성장률의 절반(연 1.3%)에서 식고, 영업이익률이 5년 중앙값 22.4%로 간다.</td>
+          <td class="story">5년 성장률의 절반(연 1.3%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 22.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$74.76</td><td style="color: var(--red);" data-dcf-upside="base">−50.6%</td>
-          <td class="story">5년 성장률(연 2.6%)에서 식고, 영업이익률이 최근 2년 중앙값 23.6%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 2.6%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 23.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$69.61</td><td style="color: var(--red);" data-dcf-upside="high">−54.0%</td>
-          <td class="story">3년 성장률(연 2.0%)에서 식고, 최근 4분기 영업이익률 22.7%가 이어진다.</td>
+          <td class="story">3년 성장률(연 2.0%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 4분기 22.7%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $68.49~$74.76다. 영업이익률은 최근 4분기 22.7%, 2년 중앙값 23.6%, 5년 중앙값 22.4%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 2.5%·이익률 22.4%), 기본(2.6%·23.6%), 낙관(2.5%·22.7%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="pgRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">회계연도는 6월 30일에 끝난다(Q4 FY26 = 2026년 4~6월). 4분기는 연간(10-K) − 1~3분기다. 4분기 영업이익률이 낮은 것은 마케팅 등 판관비 증가와 매출총이익률 하락 때문이다(회사 설명). 2025년 6월 발표한 사업·생산성 재편 비용(2년간 세전 $1.0~1.6B, 절반 넘게 FY2026에 반영)이 GAAP 이익에 들어 있다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -742,17 +741,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">Capex (Q4 FY26)</div>
       <div class="stat-value">$1.02B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (FY2026)</div>
-      <div class="stat-value">$2.1B</div>
-      <div class="stat-sub">분기 값은 공시하지 않는다(10-K 연간)</div>
+      <div class="stat-label">희석 EPS (Q4 FY26)</div>
+      <div class="stat-value">$1.26</div>
+      <div class="stat-sub">GAAP · 1년 전 $1.48 (−14.9%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 하순 예상</div>
-      <div class="stat-sub">일정 · Q1 FY27 (회사 미확정)</div>
+      <div class="stat-value">10월 23일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q1 FY27 (작년 10/24 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 67.7%·당좌비율 46.6%로 낮은 것은 매입채무가 크고(매입채무 지급 약 130일) 재고·매출채권 회전이 빨라서다. 차입금은 $34.1B(1년 안 만기 $11.3B + 장기 $22.8B)이고 현금은 $9.9B다. 이자보상배율 22.5배. <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000103/pg-20260630.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $34.1B, 현금·단기투자 $9.9B, 자본 $54.1B. 유동비율 68%, 이자보상배율 23배. <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000103/pg-20260630.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -871,43 +870,43 @@ Chart.overrides.doughnut.animation = false;
   <!-- ══════════ 5. 매출 구성 + 자본배분·주주환원 (side by side) ══════════ -->
   <div class="grid-2">
     <div class="card" style="margin-bottom:0;">
-      <div class="card-title">매출 구성 — 부문별 순매출 (FY2026 · 2026.06.30 기준)</div>
+      <div class="card-title">매출 구성 — 부문별 순매출 (Q4 FY26 · 2026.06.30 기준)</div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
         <div class="chart-wrap" style="height:170px;width:170px;flex-shrink:0;">
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#003da5;display:inline-block;flex-shrink:0;"></span>패브릭·홈케어 <strong style="color:var(--text);">$30.31B · 34.8%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5aa9e6;display:inline-block;flex-shrink:0;"></span>베이비·여성·가족 케어 <strong style="color:var(--text);">$20.40B · 23.4%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#e85d9e;display:inline-block;flex-shrink:0;"></span>뷰티 <strong style="color:var(--text);">$16.02B · 18.4%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#1fa463;display:inline-block;flex-shrink:0;"></span>헬스케어 <strong style="color:var(--text);">$12.46B · 14.3%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f7b600;display:inline-block;flex-shrink:0;"></span>그루밍 <strong style="color:var(--text);">$6.92B · 7.9%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0;"></span>기업 부문(Corporate) <strong style="color:var(--text);">$0.92B · 1.1%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#003da5;display:inline-block;flex-shrink:0;"></span>패브릭·홈케어 <strong style="color:var(--text);">$7.43B · 35.0%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5aa9e6;display:inline-block;flex-shrink:0;"></span>베이비·여성·가족 케어 <strong style="color:var(--text);">$5.05B · 23.8%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#e85d9e;display:inline-block;flex-shrink:0;"></span>뷰티 <strong style="color:var(--text);">$3.98B · 18.7%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#1fa463;display:inline-block;flex-shrink:0;"></span>헬스케어 <strong style="color:var(--text);">$2.76B · 13.0%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f7b600;display:inline-block;flex-shrink:0;"></span>그루밍 <strong style="color:var(--text);">$1.70B · 8.0%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0;"></span>기업 부문(Corporate) <strong style="color:var(--text);">$0.29B · 1.4%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">연간 매출 +3%(유기적 +1%), 다섯 부문 모두 순이익이 1~4% 줄었다 · 4분기 유기적 매출은 뷰티 +4%, 헬스케어 −1%, 베이비·여성·가족 케어 −2% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000103/pg-20260630.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a>, 4분기 유기적 매출은 <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000093/fy2526q4amj8-kexhibit991.htm" target="_blank" rel="noopener">Q4 보도자료</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 패브릭·홈케어 +0.7%, 베이비·여성·가족 케어 −0.9%, 뷰티 +6.5%, 헬스케어 +1.3%, 그루밍 +1.0%, 기업 부문(Corporate) +5.8% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000103/pg-20260630.htm" target="_blank" rel="noopener">FY2026 10-K 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
-      <div class="card-title">자본배분 · 주주환원 (FY2026 · 2026.06.30 기준)</div>
+      <div class="card-title">자본배분 · 주주환원 (Q4 FY26 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (FY2026)</span>
+          <span class="zone-label">자사주 매입 (회계연도 누계 2025.7.1~2026.6.30, 52주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="zone-val">$5.0B</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">FY2027 매입 계획 (금액 승인 한도는 공시하지 않음)</span>
-          <span class="zone-val">약 $5B</span>
+          <span class="zone-label">배당 지급 (회계연도 누계 2025.7.1~2026.6.30, 52주)</span>
+          <span class="zone-val">$10.2B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (FY2026 지급)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 6/30 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">분기 $1.0885(4월 3% 인상, 70년 연속)</span>
-            <span class="zone-val">$10.2B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $1.0568 · +3.0%</span>
+            <span class="zone-val">$1.0885</span>
           </div>
         </div>
       </div>
@@ -916,12 +915,11 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 하순 (예상) · Q1 FY27</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 23일 무렵 (예상) · Q1 FY27</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> FY2027 전망(유기적 매출 +1~3%, 핵심 EPS $6.89~7.11, GAAP EPS +1~5%) 유지 — 원가·금리 등 세후 약 $1.35B 역풍(주당 $0.56) 포함</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 4분기 유기적 매출 0%에서 회복하는지 — 회사는 반기마다 성장이 빨라진다고 했다</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 4분기 핵심 영업이익률 1.3%p 하락 — 핵심 매출총이익률은 그대로였고 하락은 전부 판관비(주로 마케팅 재투자)였다</div>
-      <div><strong style="color:var(--accent2);">④</strong> 재편 비용(절반 넘게 FY2026에 반영, 나머지는 FY2027)과 배당 약 $10B·자사주 약 $5B 계획</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+1.5% → +7.4% → +1.5%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q4 FY26 18.6%, 1년 전 20.8%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> FCF(최근 4분기 $15.1B)가 배당 지급(연 환산 약 $10.2B)을 넘는지</div>
     </div>
   </div>
 </div>
@@ -940,8 +938,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">35.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">44</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">42</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">33</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">43</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">다섯 배수 모두 자기 5년 이력의 하위 약 20% 안이라 82.7점이다(PER 22.8배, 5년 중앙값 25.7배). S&P500 필수소비재 안에서는 중간(35.5점)이다 — PER은 한가운데, PSR은 비싼 쪽. <strong>현금흐름 내재가치(기본 $75)는 현재가의 49%</strong>다. 주가는 1년 새 0%이고, 2월 말 고점(종가 $167.20)보다 10% 낮다.</div>
-    <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 2.6%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">41.9%</strong>여야 한다(최근 4분기 22.7%). 성장이 낮은(연 2~3%) 회사라 현금흐름 모델이 현재 배수를 거의 설명하지 못한다 — 할인율을 8%로 낮춰도 기본 가치는 $103~119 수준이라 할인율만으로는 설명되지 않는다. 세 시나리오 차이가 작은 것($68~$75)도 성장·마진 이력이 좁아서다.</div>
+    <div class="vs-premise">PER 22.8배(5년 중앙값 25.7배)로 자기 이력 82.7점(싸다), 동종업 35.5점(중간)이다. <strong>현금흐름 내재가치(기본 $74.76)는 현재가의 49%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $74.76)는 현재가의 49%다. 현재가를 정당화하려면 영업이익률이 41.9%까지 올라야 한다(최근 4분기 22.7%, 5년 중앙값 22.4%). 내재가치에서 차입금 $34.1B를 빼고 현금·단기투자 $9.9B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1024,14 +1022,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 성장이 0~3%에 머물고 원가 역풍이 커지는 가운데, 배수는 5년 중 가장 낮은 쪽이다<span class="tag">저성장·배당주</span></div>
-    <ol class="news-list">
-      <li>FY2026 매출은 +3%(유기적 +1%), 핵심 EPS는 +1%였다. 4분기 유기적 매출은 0%였다.</li>
-      <li>회사는 FY2027 핵심 EPS를 0~3% 성장으로 잡았고, 원가·금리 등으로 주당 $0.56의 역풍을 예상했다.</li>
-      <li>주가는 1년 새 0%이고, 다섯 배수 모두 자기 5년 이력의 가장 싼 쪽이다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 현금흐름 모델로는 현재가의 49%만 설명된다. 저성장이 이어지면 배수가 5년 평균으로 돌아갈 근거가 약하다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q1 FY27 실적(10월 하순 예상)의 유기적 매출 회복과 연간 전망 유지.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q4 FY26 매출 $21.2B(+1.5%), 영업이익률 18.6%(1년 전 20.8%). 주가는 1년 새 제자리(+0.4%)<span class="tag">배수 5년 최저권·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $74.76)는 현재가의 49%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 23일 무렵 (예상) Q1 FY27 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1102,15 +1095,13 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배수</span><span class="bb-text">다섯 배수 모두 5년 하위 약 20% 안, PER 22.8배(5년 중앙값 25.7배).</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">FY2026 배당 $10.2B·자사주 $5.0B, 배당 70년 연속 인상.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">4분기 영업현금흐름 $5.1B, 조정 FCF 생산성 133%(회사 정의).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 83점(배수 5개) · PER 22.8배(5년 중앙값 25.7배).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $15.1B, 매출의 17.4%.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">FY2026 유기적 매출 +1%, 4분기 0%, FY2027 전망 +1~3%.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">원가</span><span class="bb-text">FY2027 원가·금리 등 세후 약 $1.35B(주당 $0.56) 역풍.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">4분기 핵심 영업이익률이 1.3%p 내렸고 재투자가 이어진다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $74.76)는 현재가의 49%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부문</span><span class="bb-text">베이비·여성·가족 케어 매출 −0.9%(1년 전 같은 분기 대비).</span></div>
     </div>
   </div>
 
@@ -1123,12 +1114,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 56%; background: var(--green);"></div><div data-an-bar="hold" style="width: 44%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$159.37</span> <span class="op-sub op-up" data-an="upside">+5.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 하순 <span class="op-sub">Q1 FY27 예상</span></span>
+        <span class="op-val">10월 23일 무렵 <span class="op-sub">Q1 FY27 예상</span></span>
       </div>
     </div>
   </div>
@@ -1209,14 +1200,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q4 FY26 vs Q4 FY25)',
     chart: { cur: [21.2, 3.95, 3.04, 4.11], cmp: [20.89, 4.36, 3.62, 3.99] },
     deltas: ['+1.5%', '-9.3%', '-15.8%', '+3.0%'],
-    footnote: '기준일: 2026.06.30(Q4 FY26) vs 2025.06.30(Q4 FY25) · GAAP 기준 · 4분기는 연간 − 1~3분기 · FCF는 영업현금흐름 − 설비투자 · 3분기 순이익에는 Glad 합작 해산 이익이 들어 있다 · <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000093/fy2526q4amj8-kexhibit991.htm" target="_blank" rel="noopener">P&amp;G Q4 FY2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q4 FY26) vs 2025.06.30(Q4 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000093/fy2526q4amj8-kexhibit991.htm" target="_blank" rel="noopener">P&amp;G Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q4 FY26', cmpLabel: 'Q3 FY26',
     titleSuffix: 'QoQ (Q4 FY26 vs Q3 FY26)',
     chart: { cur: [21.2, 3.95, 3.04, 4.11], cmp: [21.24, 4.58, 3.93, 3.03] },
     deltas: ['-0.1%', '-13.7%', '-22.6%', '+35.8%'],
-    footnote: '기준일: 2026.06.30(Q4 FY26) vs 2026.03.31(Q3 FY26) · GAAP 기준 · 4분기는 연간 − 1~3분기 · FCF는 영업현금흐름 − 설비투자 · 3분기 순이익에는 Glad 합작 해산 이익이 들어 있다 · <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000093/fy2526q4amj8-kexhibit991.htm" target="_blank" rel="noopener">P&amp;G Q4 FY2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q4 FY26) vs 2026.03.31(Q3 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/80424/000008042426000093/fy2526q4amj8-kexhibit991.htm" target="_blank" rel="noopener">P&amp;G Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1299,13 +1290,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 87031;
+  const total = 21204;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["패브릭·홈케어", "베이비·여성·가족 케어", "뷰티", "헬스케어", "그루밍", "기업 부문(Corporate)"],
       datasets:[{
-        data:[30314, 20401, 16023, 12456, 6918, 919],
+        data:[7432, 5049, 3975, 2757, 1699, 292],
         backgroundColor:["#003da5", "#5aa9e6", "#e85d9e", "#1fa463", "#f7b600", "#94a3b8"],
         borderColor:'#8a8d9e',
         borderWidth:2
@@ -1514,7 +1505,7 @@ const PG_SCORES = {
   peer: 35.5,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
   selfHistory: 82.7,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // FY2026 10-K (2026-08-04 공시)
+  fundamentalAsOf: "2026-06-30",   // FY2026 10-K
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 PG_DCF 하나다.
@@ -2116,7 +2107,7 @@ const PG_ACTIVITY = {"ticker": "PG", "status": "ok", "asOf": "2026-06-30", "prev
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/pg/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const PG_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 159.37, median: 162,
+const PG_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 159.37, median: 162,
   low: 143, high: 177, strongBuy: 8, buy: 6, hold: 11, sell: 0, strongSell: 0 };
 (function(){
   const A = PG_ANALYST, last = (typeof PG_DAILY !== 'undefined' && PG_DAILY.length) ? PG_DAILY[PG_DAILY.length - 1] : null;
@@ -2159,7 +2150,7 @@ const PG_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
   put('pgFundBox', 'pgFundScore', 'pgFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 FY2026 연간(10-K), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
-      + `\n유동·당좌비율 각 1점은 매입채무가 큰 소비재 구조에서 온다. 매출·영업이익 3년 연 증가율이 2~3%라 성장 항목이 2점이다.`);
+      + `\n점수는 FY2026 10-K 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2181,7 +2172,7 @@ const PG_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 �
       + `\n생활용품·식품·음료 제조사와 유통이 섞여 있다. 마진이 얇은 유통사 때문에 P&G의 PSR은 비싼 쪽으로 나온다.`);
   put('pgSelfBox', 'pgSelfScore', 'pgSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n다섯 배수 모두 5년 백분위 14~20%로 5년 중 가장 싼 쪽이다.`
+      + `\nPER 22.8배는 5년 분포의 하위 19.2%다(중앙값 25.7배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

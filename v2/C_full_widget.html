@@ -526,10 +526,10 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">적정~고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label">현재가 요구 ROE (5년 · 최근 4분기 9.3%)</span>
+      <span class="meta-label">현재가 요구 ROE (5년 · 최근 4분기 8.4%)</span>
       <span class="meta-value" id="cDcfReq" style="font-size: 22px; color: var(--red);">ROE 11.9%</span>
     </div>
     <div class="meta-item">
@@ -538,7 +538,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="cFairBand" title="최근 1년 PER 25~75% 구간(14.7~16.6배) × 최근 4분기 EPS로 낸 PER만의 범위다. 판정은 P/TBV·PER 두 배수와 초과이익모형을 함께 보므로 이 범위와 따로 읽는다. 지금 PER(14.0배)이 1년 구간 아래라 현재가가 범위보다 낮다. 1년 PER 구간에는 특별 손실로 EPS가 눌렸던 2025년 말~2026년 초가 들어 있다." style="font-size:22px;color:var(--green);">$140 ~ $150</span>
+      <span class="meta-value" id="cFairBand" style="font-size:22px;color:var(--green);">$140 ~ $150</span>
     </div>
   </div>
   </div>
@@ -552,7 +552,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="cLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">초과이익</span></span><span class="logic-verdict" id="cDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="cDcfBox">$83<span class="logic-denom"> · 보수 $84 · 낙관 $107</span></div>
+      <div class="logic-score" id="cDcfBox">$81<span class="logic-denom"> · 보수 $82 · 낙관 $96</span></div>
     </div>
     <div class="logic-box logic-neutral" id="cFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="cFundVerdict">판정 안 함</span></div>
@@ -560,11 +560,11 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="cPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="cPeerVerdict">중간</span></div>
-      <div class="logic-score" id="cPeerScore">62.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="cPeerScore">58.4<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="cSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="cSelfVerdict">중간</span></div>
-      <div class="logic-score" id="cSelfScore">25.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="cSelfScore">25.5<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -669,22 +669,22 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$83.82</td><td style="color: var(--red);" data-dcf-upside="low">−35.3%</td>
-          <td class="story">ROE가 최근 4분기 9.3%에서 5년 중앙값 6.9%로 내려간다.</td>
+          <td class="big scn-low" data-dcf-value="low">$82.05</td><td style="color: var(--red);" data-dcf-upside="low">−36.7%</td>
+          <td class="story">ROE가 최근 4분기 8.4%에서 5년 중앙값 6.9%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$82.81</td><td style="color: var(--red);" data-dcf-upside="base">−36.1%</td>
-          <td class="story">ROE가 최근 4분기 9.3%에서 최근 2년 중앙값 6.8%로 내려간다.</td>
+          <td class="big scn-base" data-dcf-value="base">$81.04</td><td style="color: var(--red);" data-dcf-upside="base">−37.5%</td>
+          <td class="story">ROE가 최근 4분기 8.4%에서 최근 2년 중앙값 6.8%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$106.60</td><td style="color: var(--red);" data-dcf-upside="high">−17.8%</td>
-          <td class="story">ROE 9.3%가 5년 동안 이어진다.</td>
+          <td class="big scn-high" data-dcf-value="high">$95.91</td><td style="color: var(--red);" data-dcf-upside="high">−26.0%</td>
+          <td class="story">ROE 8.4%(GAAP, 특별 항목 미조정)가 5년 동안 이어진다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 ROE에서 서로 다른 가정을 뽑아 계산한 결과다. 5년 뒤 ROE가 자기자본비용(10%)보다 높으면 그쪽으로 절반 수렴한다고 보는데, 씨티는 기본·보수 시나리오의 ROE(6.8%·6.9%)가 이미 10%보다 낮아 수렴 가정이 값을 바꾸지 않는다(수렴 없음·완전 수렴 모두 기본 $83). 유보율은 0%(최근 4분기 배당·자사주 환원이 이익보다 많다)라 장부가가 자라지 않는다고 보고, 기타포괄손익은 반영하지 않는다. 5년 중앙값 ROE(6.9%)가 2년 중앙값(6.8%)보다 조금 높아 보수가 기본보다 높게 나온다(이름과 순서가 뒤집힘).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 ROE에서 서로 다른 가정을 뽑아 계산한 결과다. 5년 뒤 ROE는 자기자본비용 쪽으로 절반 수렴한다고 본다. 이 카드는 기본 시나리오 끝 ROE가 자기자본비용 10% 이하라 수렴 가정이 값을 바꾸지 않는다. 유보율 0%(최근 4분기에 이익보다 많이 돌려줬다)라 장부가가 자라지 않는다고 보고, 기타포괄손익은 반영하지 않는다. 순이익은 GAAP이고 특별 항목을 조정하지 않는다. ⚠ 출발 ROE: Q2 2026, Q1 2026 순이익이 최근 8분기 중앙값에서 40% 넘게 벗어났다 — 일회성일 수도, 실적 수준 변화일 수도 있다. 그 분기를 중앙값으로 바꾸면 ROE 6.5%다. 5년 중앙값 ROE(6.9%)가 2년 중앙값(6.8%)보다 높아 보수가 기본보다 높게 나온다(이름과 순서가 뒤집힘).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse" data-rim-reverse>지금 가격이 정당하려면 5년 동안 ROE가 매년 <b data-dcf-req>11.9%</b>여야 한다.</div>
   </div>
@@ -697,7 +697,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">자기자본비용 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">잔존 수렴 <span class="knob-d" data-knob-default="term">(절반)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $83</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −36.1%</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $81</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −37.5%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -723,24 +723,24 @@ Chart.overrides.doughnut.animation = false;
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
   <div class="grid-4">
     <div class="stat-box">
-      <div class="stat-label">CET1 비율 (Q2 2026)</div>
-      <div class="stat-value">12.8%</div>
-      <div class="stat-sub">표준방식 · 1분기 12.7% · 1년 전 13.5%</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-label">대손비용 (Q2 2026)</div>
-      <div class="stat-value">$2.52B</div>
-      <div class="stat-sub">1년 전 $2.87B · 순대손 $2.40B</div>
+      <div class="stat-label">ROE (Q2 2026, 최근 4분기)</div>
+      <div class="stat-value">8.4%</div>
+      <div class="stat-sub">보통주 귀속 순이익 ÷ 1년 전 보통주 자본</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">순이자이익 (Q2 2026)</div>
       <div class="stat-value">$17.1B</div>
-      <div class="stat-sub">전년 대비 +13%</div>
+      <div class="stat-sub">1년 전 대비 +12.9%</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">효율성 비율 (Q2 2026)</div>
+      <div class="stat-value">57.4%</div>
+      <div class="stat-sub">비이자비용 ÷ 순영업수익 · 1년 전 62.7%</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 중순 예상</div>
-      <div class="stat-sub">일정 · Q3 2026</div>
+      <div class="stat-value">10월 13일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/14 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -779,7 +779,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">1264.2%</span></div>
       <div class="diag-badge info" title="구성표 배점 없음">—</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+12.9%</span><span class="diag-note">FY25 $2.66T(전기 $2.35T) · 연간 지표, FY26 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+12.9%</span><span class="diag-note">FY25 $2.66T(전기 $2.35T) · 연간 지표, 다음 10-K 전까지 동일</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -787,20 +787,16 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">CET1 비율 (표준방식)</span><span class="diag-value">12.8%</span><span class="diag-note">1분기 12.7% · 1년 전 13.5% · 보충 레버리지 비율 5.2% · 6월 말 기준, 2026.07.14 보도자료</span></div>
+        <div class="diag-left"><span class="diag-label">주당 장부가치 (BVPS)</span><span class="diag-value">$114.74</span><span class="diag-note">1년 전 대비 +7.3% · 보통주 자본 ÷ 분기말 주식 수(SEC 10-Q)</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">주당 장부가치 (BVPS)</span><span class="diag-value">$114.74</span><span class="diag-note">1년 전 $106.94 대비 +7.3% · 회사 발표</span></div>
-        <div class="diag-badge info">ℹ️ 참고</div>
-      </div>
-      <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">주당 유형 장부가치 (TBVPS)</span><span class="diag-value">$100.89</span><span class="diag-note">1년 전 $94.16 대비 +7.1% · 회사 발표(카드 P/TBV 분모는 SEC 무형자산 태그가 서비싱 권리를 포함해 $100.42)</span></div>
+        <div class="diag-left"><span class="diag-label">주당 유형 장부가치 (TBVPS)</span><span class="diag-value">$100.42</span><span class="diag-note">1년 전 대비 +7.1% · 영업권·무형자산을 뺀 값, 이연법인세 미가산(카드의 P/TBV 분모)</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">은행은 예금이 부채라 유동·당좌·차입 비율과 이자보상배율이 뜻이 없어 해당 없음으로 두고, 규제자본 비율과 장부가치를 대신 싣는다. 부채비율 1,264%는 예금 $1.49조 등을 포함한 값이다. CET1 비율은 1년 전 13.5%에서 자사주 매입과 위험가중자산 증가로 12.8%로 내려왔다. 2분기에는 순이익과 Banamex 지분 22.6% 매각 효과 등으로 1분기 12.7%보다 조금 올랐다(보도자료).</div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">은행은 예금이 부채라 유동·당좌·차입 비율과 이자보상배율이 뜻이 없어 해당 없음으로 두고, 장부가치를 대신 싣는다. 부채비율 1,264%는 예금을 포함한 값이다. 값은 모두 SEC 10-Q·10-K에서 계산했다(회사 발표값과 정의가 다를 수 있다).</div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">해당 없음</span>)</div>
@@ -871,60 +867,56 @@ Chart.overrides.doughnut.animation = false;
   <!-- ══════════ 5. 매출 구성 + 자본배분·주주환원 (side by side) ══════════ -->
   <div class="grid-2">
     <div class="card" style="margin-bottom:0;">
-      <div class="card-title">순수익 구성 — 사업부별 (Q2 2026 · 2026.06.30 기준)</div>
+      <div class="card-title">순영업수익 구성 — 순이자이익 · 그 밖의 수익 (Q2 2026 · 2026.06.30 기준)</div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
         <div class="chart-wrap" style="height:170px;width:170px;flex-shrink:0;">
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#0f6eb4;display:inline-block;flex-shrink:0;"></span>서비스 <strong style="color:var(--text);">$6.4B · 25.8%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#5aa9e6;display:inline-block;flex-shrink:0;"></span>마켓 <strong style="color:var(--text);">$7.0B · 28.3%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#2e8b57;display:inline-block;flex-shrink:0;"></span>뱅킹 <strong style="color:var(--text);">$1.9B · 7.8%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#d4a017;display:inline-block;flex-shrink:0;"></span>자산관리 <strong style="color:var(--text);">$3.2B · 12.8%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#c8102e;display:inline-block;flex-shrink:0;"></span>미국 소비자 카드 <strong style="color:var(--text);">$4.5B · 18.3%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0;"></span>기타(레거시·본사) <strong style="color:var(--text);">$1.8B · 7.1%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#0f6eb4;display:inline-block;flex-shrink:0;"></span>순이자이익 <strong style="color:var(--text);">$17.1B · 69.1%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0;"></span>그 밖의 순영업수익 (비이자 수익) <strong style="color:var(--text);">$7.6B · 30.9%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전보다 서비스 +18%, 마켓 +17%, 뱅킹 +34%, 자산관리 +13%, 미국 소비자 카드 +1% · 뱅킹은 대출 헤지 손익 포함 · 2026년 1분기부터 소매금융을 자산관리로 옮기고 남은 미국 개인금융을 미국 소비자 카드로 바꿨다(<a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926039663/c-20260403x8k.htm" target="_blank" rel="noopener">8-K</a>) · 기타는 레거시 사업·본사 등(총액에서 다섯 사업을 뺀 값) · 출처: <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Citigroup Q2 2026 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 순이자이익 +12.9%, 그 밖의 순영업수익 +17.7% · 그 밖의 수익 = 순영업수익 − 순이자이익 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Citigroup Q2 2026 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">2분기 보통주 환원 (자사주 + 배당, 회사 발표)</span>
-          <span class="zone-val">약 $5.0B</span>
+          <span class="zone-label">자사주 매입 (Q2 2026)</span>
+          <span class="zone-val">$4.0B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">1분기 보통주 환원 (자사주 매입 $6.3B 포함)</span>
-          <span class="zone-val">약 $7.4B</span>
+          <span class="zone-label">보통주 배당 (Q2 2026)</span>
+          <span class="zone-val">$1.0B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 계획 (5월 7일 발표, 6월 말 남은 한도 $26.0B)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 6/30 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">배당 12% 인상 계획</span>
-            <span class="zone-val">$30B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.56 · +7.1%</span>
+            <span class="zone-val">$0.60</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">최근 4분기 순환원율 (보통주 배당 + 자사주 ÷ 보통주 순이익)</span>
+          <span class="zone-label">최근 4분기 순환원율 (배당 + 매입 − 발행 ÷ 순이익)</span>
           <span class="zone-val">146%</span>
         </div>
       </div>
-      <div class="yoy-footnote" style="margin-top:14px;">순환원율이 100%를 넘어 초과이익모형의 유보율은 0이다(장부가가 자라지 않는다고 본다) · 2분기 회사 발표 환원율(분기) 92% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Q2 2026 보도자료</a> · <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926042942/c-20260414xex99d1.htm" target="_blank" rel="noopener">Q1 2026 보도자료</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">현금흐름표 기준(SEC 10-Q) · <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Citigroup Q2 2026 실적 보도자료 (SEC 8-K) →</a></div>
     </div>
   </div>
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 중순 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 13일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> ROE가 2분기 11.4%(RoTCE 13.0%) 수준을 지키는지 — 1년 전은 7.7%였다</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 미국 소비자 카드 매출(2분기 +1%)과 대손비용</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> $30B 자사주 매입 속도와 CET1 비율 12.8%</div>
-      <div><strong style="color:var(--accent2);">④</strong> Banamex 남은 지분 매각(2분기 22.6% 매각) — 러시아 법인은 2월 18일 매각 완료</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 최근 4분기 ROE(8.4%)가 1년 전(6.8%)보다 높은 수준을 지키는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 순이자이익이 1년 전 같은 분기보다 늘어나는지(Q2 2026 +12.9%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 효율성 비율(비이자비용 ÷ 순영업수익, Q2 2026 57.4%, 1년 전 62.7%)이 낮아지는지</div>
+      <div><strong style="color:var(--accent2);">④</strong> 최근 4분기 순환원율 146%로 이익보다 많이 돌려주는 흐름이 이어지는지</div>
     </div>
   </div>
 </div>
@@ -936,16 +928,16 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.10.09</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">P/TBV</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 C 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 은행 규칙에 따라 P/TBV·PER 두 배수가 모두 70 이상이면 +1, 모두 30 미만이면 −1이다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">25.7</div><div class="sc-tile lost" data-vc="self" data-m="per">43</div><div class="sc-tile low" data-vc="self" data-m="pbr">9</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$83</div><div class="vs-note">현재가 <span data-vs="price">$129.64</span> 대비 <strong data-vs="upside">−36.1%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 기본 시나리오 끝 ROE 6.8% &lt; 자기자본비용 10% — 장부가 위에 초과이익이 생기지 않는다(초과이익모형 신호, 사전 등록)
+      <div class="vs-name" title="지난 5년 C 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 은행 규칙에 따라 P/TBV·PER 두 배수가 모두 70 이상이면 +1, 모두 30 미만이면 −1이다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">25.5</div><div class="sc-tile lost" data-vc="self" data-m="per">43</div><div class="sc-tile low" data-vc="self" data-m="pbr">8</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$81</div><div class="vs-note">현재가 <span data-vs="price">$129.64</span> 대비 <strong data-vs="upside">−37.5%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 기본 시나리오 끝 ROE 6.8% &lt; 자기자본비용 10% — 장부가 위에 초과이익이 생기지 않는다(초과이익모형 신호, 사전 등록)
 · 유보율 0 — 이익보다 많이 돌려줘 장부가가 자라지 않는다(초과이익모형 신호, 사전 등록)
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 모형 신호 2/3</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.57
-시나리오 범위: 1.22 ~ 1.57(세 시나리오 최대·최소 기준)
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 모형 신호 2/3</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.60
+시나리오 범위: 1.35 ~ 1.60(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">62.5</div><div class="sc-tile low" data-vc="peer" data-m="per">25</div><div class="sc-tile" data-vc="peer" data-m="pbr">100</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">58.4</div><div class="sc-tile low" data-vc="peer" data-m="per">17</div><div class="sc-tile" data-vc="peer" data-m="pbr">100</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">P/TBV 1.29배는 유형자본을 계산할 수 있는 은행 10곳 중 가장 싸지만, PER 14.0배는 12곳 중 9곳보다 비싸다. 자기 이력에서는 P/TBV가 5년 중 상위 9%로 비싼 쪽, PER은 중간이다. 두 배수가 같은 방향일 때만 표를 주는 은행 규칙에 따라 둘 다 “중간”이다. <strong>초과이익모형 기본 가치 $83은 현재가의 64%</strong>로, 지금 가격은 ROE 11.9%가 5년 이어진다는 값이다(최근 4분기 특별 항목 제외 9.3%, GAAP 8.4%).</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 0·0·−2로 합계 −2 “적정~고평가”다. 최근 4분기 ROE는 2025년 3분기 Banamex 영업권 손상(세후 약 $0.71B)과 4분기 러시아 법인 매각 손실(세후 약 $1.1B)을 빼도 9.3%로 자기자본비용 10%보다 낮다. 이익보다 많이 돌려줘(최근 4분기 순환원율 146%) 유보율이 0이라 장부가가 자라지 않는다고 본다. 2분기만 보면 ROE 11.4%로 올라왔다 — 요구 ROE 11.9%에 가까워, 이 수준이 5년 이어지면 현재가에 거의 닿는다(낙관 $107은 ROE 9.3% 유지).</div>
+    <div class="vs-premise">P/TBV 1.29배는 자기 5년 이력의 위쪽(상위 8%)이고 S&P500 은행 12곳(본인 포함) 중 가장 싸다. <strong>초과이익모형 기본 가치 $81은 현재가의 63%</strong>로, 지금 가격은 ROE 11.9%가 5년 이어진다는 값이다(최근 4분기 8.4%, GAAP).</div>
+    <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 1.60로 "매우 비싸다"다. 세 칸이 자기 이력 0 · 동종업 0 · 초과이익 −2로 종합 평가는 적정~고평가다.</div>
   </div>
 
   <div class="grid-2">
@@ -966,19 +958,19 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
-          <span class="val-name">P/TBV (유형 장부) <span class="hist-note" data-hist="note">5년 중 49거래일 빈 구간</span></span>
+          <span class="val-name">P/TBV (유형 장부) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">1.29x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 9%</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 8%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 91.2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 0.45x</span><span data-hist="median">중앙 0.74x</span><span data-hist="max">최고 1.48x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 91.6%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 0.45x</span><span data-hist="median">중앙 0.73x</span><span data-hist="max">최고 1.48x</span></div>
       </div>
 
       <div class="val-item" data-metric="psr" onclick="selectMultiple('psr')">
         <div class="val-header">
-          <span class="val-name">PSR (TTM) <span class="hist-note" data-hist="note">은행</span></span>
+          <span class="val-name">PSR (TTM) <span class="hist-note" data-hist="note">은행에 해당 없음</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">—</span>
             <span class="hist-badge mid" data-hist="badge">해당 없음</span>
@@ -990,7 +982,7 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
-          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">은행</span></span>
+          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">은행에 해당 없음</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">—</span>
             <span class="hist-badge mid" data-hist="badge">해당 없음</span>
@@ -1002,7 +994,7 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
         <div class="val-header">
-          <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">은행</span></span>
+          <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">은행에 해당 없음</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">—</span>
             <span class="hist-badge mid" data-hist="badge">해당 없음</span>
@@ -1011,11 +1003,11 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 0%;"></div></div>
         <div class="hist-labels"><span data-hist="min">—</span><span data-hist="median">—</span><span data-hist="max">—</span></div>
       </div>
-      <div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:6px;">은행은 매출·현금흐름·EBITDA 배수가 뜻이 없어 P/TBV·PER 두 배수만 본다. P/TBV는 보통주 자본에서 영업권·무형자산을 뺀 유형 장부가치 기준이다. 주식 수는 발행 − 자사주(10-Q 태그)다. 씨티의 SEC 무형자산 태그($5.00B)에는 회사가 빼지 않는 모기지 서비싱 권리 약 $0.79B가 들어 있어 카드 분모($100.42)가 회사 TBVPS($100.89)보다 0.5% 낮다(관문 허용 범위 1.5% 안).</div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:6px;">은행은 매출·현금흐름·EBITDA 배수가 뜻이 없어 P/TBV·PER 두 배수만 본다. P/TBV는 보통주 자본에서 영업권·무형자산을 뺀 유형 장부가치 기준(이연법인세를 더하지 않아 회사 발표 TBVPS보다 작다). </div>
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 10/5 종가 (12곳 중 6곳 표시)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 10/9 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1029,14 +1021,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 구조조정 막바지에 다섯 사업 모두 성장, 이익보다 많이 돌려주는 중, 주가는 유형 장부가의 1.29배<span class="tag">회복기·적정~고평가</span></div>
-    <ol class="news-list">
-      <li>2분기 순수익 $24.8B(+14%), 순이익 $5.8B(+45%), EPS $3.15, ROE 11.4%였다(1년 전 ROE 7.7%).</li>
-      <li>2025년 하반기 Banamex 영업권 손상과 러시아 법인 매각 손실로 이익이 눌렸고, 2026년 들어 사업부를 재편했다.</li>
-      <li>최근 4분기 보통주 순이익의 약 146%를 돌려줬고, 5월 발표한 $30B 자사주 계획으로 2분기에만 $4.0B를 샀다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ P/TBV는 은행들 가운데 가장 싸지만, 최근 4분기 ROE(특별 항목 제외 9.3%)가 자기자본비용 10%에 못 미쳐 초과이익모형 기본 가치는 현재가의 64%다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 중순 예상)에서 ROE 11%대 유지와 미국 소비자 카드 대손비용.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 순이익(보통주 귀속) $5.4B(+47.9%), 최근 4분기 ROE 8.4%. 주가는 1년 새 +34%<span class="tag">수익성 자본비용 아래 · 밸류 부담</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 초과이익 −2, 종합 "적정~고평가"이다. 초과이익모형 기본 가치($81)는 현재가의 63%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 13일 무렵 (예상) · Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1051,39 +1038,27 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="timeline" id="newsTimeline">
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2026년 7월 14일 개장 전 — Q2 2026 실적<span class="tl-reaction down" data-react="2026-07-14">−5.3%</span></div>
-        <div class="tl-title">순수익 $24.8B(+14%)·EPS $3.15 · ROE 11.4% · 보통주 환원 약 $5.0B · 배당 12% 인상 계획·$30B 자사주 계획(5월 발표) 진행</div>
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 7월 14일 — 실적 발표<span class="tl-reaction down" data-react="2026-07-14">−5.3%</span></div>
+        <div class="tl-title">Q2 2026 순영업수익 $24.8B, 보통주 귀속 순이익 $5.4B(1년 전 $3.7B) · SEC 10-Q·10-K 기준</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Citigroup 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2026년 4월 14일 개장 전 — Q1 2026 실적<span class="tl-reaction up" data-react="2026-04-14">+2.6%</span></div>
-        <div class="tl-title">순수익 $24.6B(+14%)·EPS $3.06 · 자사주 매입 $6.3B · 사업부 재편(미국 소비자 카드 신설) 첫 분기</div>
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 4월 14일 — 실적 발표<span class="tl-reaction up" data-react="2026-04-14">+2.6%</span></div>
+        <div class="tl-title">Q1 2026 순영업수익 $24.6B, 보통주 귀속 순이익 $5.4B(1년 전 $3.8B) · SEC 10-Q·10-K 기준</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/831001/000110465926042942/c-20260414xex99d1.htm" target="_blank" rel="noopener">Citigroup 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2026년 1월 14일 개장 전 — Q4 2025 실적<span class="tl-reaction down" data-react="2026-01-14">−3.3%</span></div>
-        <div class="tl-title">순수익 $19.9B·EPS $1.19(러시아 손실 제외 $1.81) · 2025년 순이익 $14.3B · 연간 환원 $17B 이상</div>
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 1월 14일 — 실적 발표<span class="tl-reaction down" data-react="2026-01-14">−3.3%</span></div>
+        <div class="tl-title">Q4 2025 순영업수익 $19.9B, 보통주 귀속 순이익 $2.1B(1년 전 $2.6B) · SEC 10-Q·10-K 기준</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/831001/000110465926003604/c-20260114xex99d1.htm" target="_blank" rel="noopener">Citigroup 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
         <div class="tl-dot neutral"></div>
-        <div class="tl-date">2025년 12월 29일 장 마감 후 — 러시아 법인 매각 결정<span class="tl-reaction down" data-react="2025-12-30">−0.8%</span></div>
-        <div class="tl-title">AO Citibank 매각 계획 승인, 4분기 세전 손실 약 $1.2B(세후 $1.1B) 인식</div>
-        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/831001/000110465925124865/c-20251229x8k.htm" target="_blank" rel="noopener">Citigroup 공시 (SEC 8-K) →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot neutral"></div>
-        <div class="tl-date">2025년 11월 20일 장 마감 후 — CFO 교체<span class="tl-reaction up" data-react="2025-11-21">+1.1%</span></div>
-        <div class="tl-title">곤살로 루케티 미국 개인금융 대표가 2026년 3월 CFO를 맡고 마크 메이슨 CFO는 부회장으로</div>
-        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/831001/000110465925114632/c-20251119x8k.htm" target="_blank" rel="noopener">Citigroup 공시 (SEC 8-K) →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2025년 10월 14일 개장 전 — Q3 2025 실적<span class="tl-reaction up" data-react="2025-10-14">+3.9%</span></div>
-        <div class="tl-title">순수익 $22.1B(+9%)·EPS $1.86(Banamex 손상 제외 $2.24) · 보통주 환원 약 $6.1B</div>
+        <div class="tl-date">2025년 10월 14일 — 실적 발표<span class="tl-reaction up" data-react="2025-10-14">+3.9%</span></div>
+        <div class="tl-title">Q3 2025 순영업수익 $22.1B, 보통주 귀속 순이익 $3.4B(1년 전 $2.9B) · SEC 10-Q·10-K 기준</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/831001/000110465925099097/c-20251014xex99d1.htm" target="_blank" rel="noopener">Citigroup 실적 보도자료 (SEC 8-K) →</a>
       </div>
     </div>
@@ -1107,15 +1082,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">회복</span><span class="bb-text">2분기 순이익 +45%, ROE 11.4%·RoTCE 13.0%, 다섯 사업 모두 매출 증가.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">P/TBV 1.29배 — 비교 은행 10곳 중 가장 싸다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">$30B 자사주 계획(6월 말 $26.0B 남음), 배당 12% 인상 계획.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">순이자이익</span><span class="bb-text">Q2 2026 순이자이익 $17.1B, 1년 전보다 +12.9%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">효율</span><span class="bb-text">효율성 비율 57.4%(1년 전 62.7%) — 낮을수록 비용이 적다.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">수익성</span><span class="bb-text">최근 4분기 ROE 9.3%(특별 항목 제외)로 자기자본비용 10% 아래 — 초과이익모형 기본 $83.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">일회성</span><span class="bb-text">2025년 하반기 Banamex 손상·러시아 손실 등 정리 비용이 이어졌다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">자본</span><span class="bb-text">최근 4분기 환원이 이익보다 많아(순환원율 146%) CET1 비율이 1년 새 13.5% → 12.8%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">수익성</span><span class="bb-text">최근 4분기 ROE 8.4%(1년 전 6.8%) — 자기자본비용 10%에 못 미친다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">환원</span><span class="bb-text">최근 4분기 순이익의 146%를 배당·자사주로 돌려줬다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">P/TBV 1.29배, 자기 5년 이력의 상위 8%.</span></div>
     </div>
   </div>
 
@@ -1123,17 +1097,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">22명 · 목표가 15</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">17</span> · 유지 <span data-an="hold">5</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 77.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 22.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">23명 · 목표가 16</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">18</span> · 유지 <span data-an="hold">5</span> · 매도 <span data-an="sell">0</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 78.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 21.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
-        <span class="op-val"><span data-an="mean">$155.40</span> <span class="op-sub op-up" data-an="upside">+19.9%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
+        <span class="op-val"><span data-an="mean">$155.06</span> <span class="op-sub op-up" data-an="upside">+19.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 중순 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 13일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1178,17 +1152,17 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('cRevChart');
   if (!ctx) return;
-  const revenue=[20.3,19.6,21.6,21.7,22.1,19.9,24.6,24.8];
+  const revenue=[20.2,19.5,21.6,21.7,22.1,19.9,24.6,24.8];
   const netIncome=[2.9,2.6,3.8,3.7,3.4,2.1,5.4,5.4];
   const opm=[3.5,6.1,6.4,6.8,7.0,6.8,7.6,8.4];
-  const y2min=0, y2max=25;
+  const y2min=0, y2max=15;
   new Chart(ctx,{
     data:{
       labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026'],
       datasets:[
         {type:'bar',label:'순영업수익($B)',data:revenue,backgroundColor:'rgba(124,106,214,0.55)',borderColor:'#7c6ad6',borderWidth:1,borderRadius:4,yAxisID:'y'},
         {type:'bar',label:'순이익($B, 보통주 귀속)',data:netIncome,backgroundColor:'rgba(59,130,246,0.5)',borderColor:'#3b82f6',borderWidth:1,borderRadius:4,yAxisID:'y'},
-        {type:'line',label:'ROE(최근 4분기, GAAP, %)',data:opm,borderColor:'#d4a017',backgroundColor:'rgba(212,160,23,.1)',tension:.35,pointRadius:4,borderWidth:2.5,fill:false,yAxisID:'y2'}
+        {type:'line',label:'ROE(최근 4분기, %)',data:opm,borderColor:'#d4a017',backgroundColor:'rgba(212,160,23,.1)',tension:.35,pointRadius:4,borderWidth:2.5,fill:false,yAxisID:'y2'}
       ]
     },
     options:{
@@ -1205,23 +1179,23 @@ function renderFundChart() {
 
 // ─── FUND YoY/QoQ COMPARE ───
 // 매출 · 영업이익 · 순이익 · FCF (단위 $B). 2026-09-23 SEC companyfacts로 대조했다.
-// 은행: 순영업수익 · 충당금 전 이익(순영업수익 − 비이자비용) · 보통주 귀속 순이익 · 대손비용, 분기값은 누적값의 차이.
+// 은행: 순영업수익 · 충당금 전 이익(순영업수익 − 비이자비용) · 보통주 귀속 순이익 · 순이자이익, 분기값은 누적값의 차이(SEC 10-Q·10-K).
 // 증감률은 반올림 전 원자료로 계산한다 — 반올림한 63.7 ÷ 53.5로 계산하면
 // 영업이익 QoQ가 +19.1%로 나오지만 원자료는 +19.05%라 +19.0%다.
 const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [24.8, 10.6, 5.4, 2.5], cmp: [21.7, 8.1, 3.7, 2.9] },
-    deltas: ['+14.3%', '+30.4%', '+47.9%', '-12.2%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP · 충당금 전 이익 = 순영업수익 − 비이자비용 · 순이익은 보통주 귀속 · 대손비용은 늘면 나쁘다 · <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Citigroup Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    chart: { cur: [24.8, 10.6, 5.4, 17.1], cmp: [21.7, 8.1, 3.7, 15.2] },
+    deltas: ['+14.3%', '+30.4%', '+47.9%', '+12.9%'],
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP · 충당금 전 이익 = 순영업수익 − 비이자비용 · 순이익은 보통주 귀속 · <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Citigroup Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [24.8, 10.6, 5.4, 2.5], cmp: [24.6, 10.3, 5.4, 2.8] },
-    deltas: ['+0.5%', '+2.2%', '+0.4%', '-10.1%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP · 충당금 전 이익 = 순영업수익 − 비이자비용 · 순이익은 보통주 귀속 · 대손비용은 늘면 나쁘다 · <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Citigroup Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    chart: { cur: [24.8, 10.6, 5.4, 17.1], cmp: [24.6, 10.3, 5.4, 15.7] },
+    deltas: ['+0.5%', '+2.2%', '+0.4%', '+8.8%'],
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP · 충당금 전 이익 = 순영업수익 − 비이자비용 · 순이익은 보통주 귀속 · <a href="https://www.sec.gov/Archives/edgar/data/831001/000110465926083383/c-20260714xex99d1.htm" target="_blank" rel="noopener">Citigroup Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1278,7 +1252,7 @@ function selectFundPeriod(period) {
     fundCompareChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['순영업수익', '충당금 전 이익', '순이익', '대손비용'],
+        labels: ['순영업수익', '충당금 전 이익', '순이익', '순이자이익'],
         datasets: [
           { label: d.cmpLabel, data: d.chart.cmp, backgroundColor: 'rgba(138,141,158,0.35)', borderColor: '#9a9cab', borderWidth: 1, borderRadius: 4 },
           { label: d.curLabel, data: d.chart.cur, backgroundColor: 'rgba(124,106,214,0.55)', borderColor: '#7c6ad6', borderWidth: 1, borderRadius: 4 }
@@ -1300,7 +1274,7 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 순수익 구성 도넛 차트 (사업 5개 + 기타, 백만 달러) ───
+// ─── 순영업수익 구성 도넛 차트 (순이자이익 · 그 밖의 수익, 백만 달러) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
@@ -1308,10 +1282,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:["서비스", "마켓", "뱅킹", "자산관리", "미국 소비자 카드", "기타(레거시·본사)"],
+      labels:["순이자이익", "그 밖의 순영업수익 (비이자 수익)"],
       datasets:[{
-        data:[6382, 7007, 1922, 3177, 4521, 1757],
-        backgroundColor:["#0f6eb4", "#5aa9e6", "#2e8b57", "#d4a017", "#c8102e", "#94a3b8"],
+        data:[17125, 7641],
+        backgroundColor:["#0f6eb4", "#94a3b8"],
         borderColor:'#8a8d9e',
         borderWidth:2
       }]
@@ -1330,81 +1304,80 @@ function renderSegmentChart() {
   });
 }
 
-// ══════ #valuation ══════
-// 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3) 중 6곳. 값이 없는 은행은 뺀다.
+// 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3)에서 고른 6곳. 값이 없는 은행은 뺀다.
 const MULTIPLE_DATA = {
   "per": {
-    "title": "S&P500 은행 PER 비교 · 10/5 종가 (12곳 중 6곳 표시)",
+    "title": "S&P500 은행 PER 비교 · 10/9 종가",
     "unit": "PER(TTM)",
     "max": 25,
     "cValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 14.23,
+        "value": 14.26,
         "status": "reference"
       },
       {
         "name": "BAC",
-        "value": 12.44,
+        "value": 12.52,
         "status": "reference"
       },
       {
         "name": "USB",
-        "value": 11.43,
+        "value": 11.39,
         "status": "reference"
       },
       {
         "name": "FITB",
-        "value": 17.4,
+        "value": 17.34,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 11.55,
+        "value": 11.51,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 11.0,
+        "value": 10.99,
         "status": "reference"
       }
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 10/5 종가 (12곳 중 6곳 표시 · PNC·TFC는 유형자본 태그 결측)",
+    "title": "S&P500 은행 P/TBV 비교 · 10/9 종가 (PNC는 유형자본을 만들 수 없음)",
     "unit": "P/TBV",
     "max": 4,
     "cValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 2.96,
+        "value": 2.97,
         "status": "reference"
       },
       {
         "name": "BAC",
-        "value": 1.84,
-        "status": "reference"
-      },
-      {
-        "name": "USB",
-        "value": 2.12,
-        "status": "reference"
-      },
-      {
-        "name": "FITB",
-        "value": 2.19,
-        "status": "reference"
-      },
-      {
-        "name": "MTB",
         "value": 1.86,
         "status": "reference"
       },
       {
+        "name": "USB",
+        "value": 2.1,
+        "status": "reference"
+      },
+      {
+        "name": "FITB",
+        "value": 2.18,
+        "status": "reference"
+      },
+      {
+        "name": "MTB",
+        "value": 1.85,
+        "status": "reference"
+      },
+      {
         "name": "RF",
-        "value": 1.99,
+        "value": 1.98,
         "status": "reference"
       }
     ]
@@ -1504,7 +1477,7 @@ const C_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,nul
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let C_VERDICT = '계산 중';
 
-const C_DCF = {"low": 83.82, "base": 82.81, "high": 106.6, "requiredGrowth": 0.1188361783331014, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.09290943354057458, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-10-09", "hard": ["roeend", "b0"], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.0, "bvps": 114.73755789221894, "roeTarget": 0.06804656588154219, "referenceOnly": false};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md
+const C_DCF = {"low": 82.05, "base": 81.04, "high": 95.91, "requiredGrowth": 0.1188361783331014, "baseEquivGrowth": null, "reqMode": "roe", "requiredMargin": null, "marginNow": null, "roeNow": 0.0835923848998334, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-10-09", "hard": ["roeend", "b0"], "hardDetail": {}, "tvShare": null, "model": "rim", "retention": 0.0, "bvps": 114.73755789221894, "roeTarget": 0.06804656588154219, "referenceOnly": false};   // 초과이익모형 — adapters/bank_card.py, research/bank_rim_prereg.md 7판
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1553,8 +1526,8 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py C
 const C_SCORES = {
   fundamental: null,   // 은행 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
-  peer: 62.5,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
-  selfHistory: 25.7,   // P/TBV·PER 자기 5년 백분위 평균(표시용)
+  peer: 58.4,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
+  selfHistory: 25.5,   // P/TBV·PER 자기 5년 백분위 평균(표시용)
   asOf: "2026-10-09",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-06 공시)
 };
@@ -1598,22 +1571,19 @@ const C_SCORES = {
   // 요구 성장률이 최근 5년 실제 성장의 3배를 넘으면(또는 해가 없으면) 성장만으로는 가격이
   // 설명되지 않는다 — 대신 요구 영업이익률을 보인다(reqMode, build_dcf_block.py, 2026-09-24).
   const mMode = d.reqMode === 'margin', f1 = v => (v * 100).toFixed(1) + '%';
-  // 마진 모드인데 영업이익률 100%로도 닿지 않으면(해 없음) 요구 성장률을 대신 보인다(2026-09-30 사용자 결정, LRCX·PLTR).
-  const noSol = mMode && d.requiredMargin == null && d.requiredGrowth != null;
   const roeMode = d.reqMode === 'roe';   // 은행 초과이익모형 — 요구 ROE(research/bank_rim_prereg.md)
   if (req) req.textContent = roeMode ? (d.requiredGrowth != null ? 'ROE ' + f1(d.requiredGrowth) : '해 없음')
-                           : noSol ? '연 ' + f1(d.requiredGrowth)
                            : mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '—')
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
     req.style.color = lv.color;   // 5단계와 같은 신호: 싸다 파랑 · 적정 노랑 · 비싸다 빨강
     const cell = req.closest('.meta-item');
-    if (cell) cell.title = roeMode ? `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 동안 ROE가 ${d.requiredGrowth != null ? f1(d.requiredGrowth) : '(범위 밖)'}여야 한다(최근 4분기 ${f1(d.roeNow)}).`
+    if (cell) cell.title = roeMode ? `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 동안 ROE가 ${d.requiredGrowth != null ? f1(d.requiredGrowth) : '(범위 밖)'}여야 한다(최근 4분기 ${d.roeNow != null ? f1(d.roeNow) : '—'}, GAAP).`
       + `\n현재가 ÷ 내재가치 $${Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label} (${DCF_RULE_TEXT})` : (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
@@ -1627,8 +1597,8 @@ const C_SCORES = {
   }
   const lowW = roeMode ? '보수' : '낮은 성장', highW = roeMode ? '낙관' : '높은 성장';
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
-    + '<span class="logic-denom"> · ' + lowW + ' $' + Math.round(d.low)
-    + ' · ' + highW + ' $' + Math.round(d.high) + '</span>';
+    + '<span class="logic-denom"> · ' + lowW + ' ' + (d.low != null ? '$' + Math.round(d.low) : '—')
+    + ' · ' + highW + ' ' + (d.high != null ? '$' + Math.round(d.high) : '—') + '</span>';
   const dv = $('cDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1653,7 +1623,7 @@ const C_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py C
 /* DCF_GRID:BEGIN */
-const C_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.0, 0.5, 1.0], "default": [0.1, 0.5], "values": {"보수": [[103.81, 92.71, 83.82, 76.54, 70.46], [103.81, 92.71, 83.82, 76.54, 70.46], [103.81, 92.71, 83.82, 76.54, 70.46]], "기본": [[102.5, 91.57, 82.81, 75.63, 69.64], [102.5, 91.57, 82.81, 75.63, 69.64], [102.5, 91.57, 82.81, 75.63, 69.64]], "낙관": [[133.25, 118.45, 106.6, 96.91, 88.84], [126.95, 117.24, 106.6, 96.91, 88.84], [120.65, 116.04, 106.6, 96.91, 88.84]]}, "kind": "rim"};   // 자기자본비용 × 잔존 수렴 비율(λ)
+const C_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.0, 0.5, 1.0], "default": [0.1, 0.5], "values": {"보수": [[101.97, 90.91, 82.05, 74.79, 68.74], [101.97, 90.91, 82.05, 74.79, 68.74], [101.97, 90.91, 82.05, 74.79, 68.74]], "기본": [[100.66, 89.76, 81.04, 73.89, 67.92], [100.66, 89.76, 81.04, 73.89, 67.92], [100.66, 89.76, 81.04, 73.89, 67.92]], "낙관": [[119.89, 106.57, 95.91, 87.19, 79.93], [118.14, 106.57, 95.91, 87.19, 79.93], [116.38, 106.57, 95.91, 87.19, 79.93]]}, "kind": "rim"};   // 자기자본비용 × 잔존 수렴 비율(λ)
 /* DCF_GRID:END */
 (function(){
   const D = C_DCF, G = (typeof C_DCF_GRID !== 'undefined') ? C_DCF_GRID : null;
@@ -1870,7 +1840,7 @@ const C_FUNDAMENTAL = {"ticker": "C", "basis": "quarter", "asOf": "2026-06-30", 
 //
 // 갱신: python3 v2/build_peer_score.py C --self v2/C_multiples.json --card
 /* VALUATION:BEGIN */
-const C_VALUATION = {"peer": {"score": 62.5, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-10-09", "2026-10-09"], "metrics": [{"metric": "per", "score": 25.0, "rank": 10, "peers": 12}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 10}]}, "self": {"score": 25.7, "rule": "both", "naNote": "은행", "window": ["2021-10-11", "2026-10-09"], "metrics": [{"metric": "per", "score": 42.5, "percentile": 57.5, "current": 13.97, "min": 4.75, "median": 11.82, "max": 24.18, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 8.8, "percentile": 91.2, "current": 1.29, "min": 0.45, "median": 0.74, "max": 1.48, "days": 1206, "gapDays": 49}]}};
+const C_VALUATION = {"peer": {"score": 58.4, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-10-09", "2026-10-09"], "metrics": [{"metric": "per", "score": 16.7, "rank": 11, "peers": 12}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 11}]}, "self": {"score": 25.5, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-10-11", "2026-10-09"], "metrics": [{"metric": "per", "score": 42.5, "percentile": 57.5, "current": 13.97, "min": 4.75, "median": 11.82, "max": 24.18, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 8.4, "percentile": 91.6, "current": 1.29, "min": 0.45, "median": 0.73, "max": 1.48, "days": 1255, "gapDays": 0}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1902,7 +1872,7 @@ const C_VALUATION = {"peer": {"score": 62.5, "rule": "both", "sector": "Financia
   const judges = [
     ['자기 이력', valid(V.self) ? sideVote(V.self) : null, V.self && V.self.score, 1],
     ['동종업', valid(V.peer) ? sideVote(V.peer) : null, V.peer && V.peer.score, 1],
-    ['초과이익', lv.label in DV && !D.referenceOnly ? DV[lv.label] : null, D.referenceOnly ? '참고용' : lv.label, 2],   // 관문 미통과 → 참고용·기권(사전 등록 7-7) — 은행 9장 공통(2026-10-05)   // 은행 — 심판 이름(Fable)
+    ['초과이익', lv.label in DV && !D.referenceOnly ? DV[lv.label] : null, D.referenceOnly ? '참고용' : lv.label, 2],   // 관문 미통과 → 참고용·기권(사전 등록 7-7) — 은행 9장 공통(2026-10-05)
   ];
   const seated = judges.filter(j => j[1] != null);
   const maxW = seated.reduce((a, j) => a + j[3], 0);
@@ -2182,12 +2152,12 @@ const C_ACTIVITY = {"ticker": "C", "status": "na", "reason": "은행이라 매�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/c/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const C_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 22, nTargets: 15, mean: 155.4, median: 159,
-  low: 139, high: 169, strongBuy: 12, buy: 5, hold: 5, sell: 0, strongSell: 0 };
+const C_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 23, nTargets: 16, mean: 155.06, median: 159,
+  low: 139, high: 169, strongBuy: 13, buy: 5, hold: 5, sell: 0, strongSell: 0 };
 (function(){
   const A = C_ANALYST, last = (typeof C_DAILY !== 'undefined' && C_DAILY.length) ? C_DAILY[C_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
-  const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));
+  const usd = v => v == null ? '—' : '$' + (Number.isInteger(v) ? v.toLocaleString('en-US') : v.toFixed(2));
   const buys = A.strongBuy + A.buy, sells = A.sell + A.strongSell;
   put('rating', A.rating); put('n', A.n + (A.nTargets != null && A.nTargets !== A.n ? `명 · 목표가 ${A.nTargets}` : '')); put('asof', A.asOf); put('mean', usd(A.mean)); put('median', usd(A.median));
   put('low', usd(A.low)); put('high', usd(A.high)); put('buy', buys); put('sb', A.strongBuy); put('b', A.buy);
@@ -2225,7 +2195,7 @@ const C_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 ·
   put('cFundBox', 'cFundScore', 'cFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n은행이라 점수를 매기지 않는다 — 예금이 부채라 유동·차입 비율이 뜻이 없고 영업이익 개념도 없다.`
-      + `\n기본적 분석 탭에 ${S.fundamentalAsOf} 분기(Q2 2026) 자본비율·장부가치를 싣는다.`);
+      + `\n기본적 분석 탭에 ${S.fundamentalAsOf} 분기(Q2 2026) 자본비율·장부가치를 싣는다(SEC 10-Q·10-K 계산).`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2242,12 +2212,12 @@ const C_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 ·
     }
   }
   put('cPeerBox', 'cPeerScore', 'cPeerVerdict', S.peer, WORDS.val,
-      `S&P500 은행(대형·지역, C 제외) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
-      + `\nP/TBV는 유형자본을 만들 수 있는 10곳, PER은 12곳과 비교했다. P/TBV는 가장 싸고 PER은 비싼 쪽이라 표가 없다.`
-      + `\nPNC·TFC는 유형자본 태그를 못 채워(WFC는 회사 정의 보정값으로 넣음, 2026-10-05) P/TBV에서 빠졌다.`);
+      `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
+      + `\nP/TBV는 유형자본을 만들 수 있는 11곳, PER은 12곳과 비교했다.`
+      + `\nPNC는 P/TBV에서 빠졌다(PNC: 분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)).`);
   put('cSelfBox', 'cSelfScore', 'cSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nP/TBV 1.29배(5년 중 상위 9%)·PER 14.0배(상위 43%). P/TBV 이력에는 2026년 분기 유형자본이 늦게 잡혀 49거래일 빈 구간이 있다.`
+      + `\nP/TBV 1.29배(5년 중 상위 8%)·PER 14.0배(상위 43%).`
       + ``);
   [['self', 'cSelfBox', 'cSelfVerdict'], ['peer', 'cPeerBox', 'cPeerVerdict']].forEach(([k, bid, vid]) => {
     const side = C_VALUATION[k];   // 금융 규칙: 단어·색은 두 배수가 같은 방향일 때만 싼 편·비싼 편

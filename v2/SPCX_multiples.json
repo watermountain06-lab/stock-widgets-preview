@@ -1,8 +1,8 @@
 {
  "ticker": "SPCX",
  "window": [
-  "2026-10-05",
-  "2026-10-05"
+  "2026-10-09",
+  "2026-10-09"
  ],
  "perBasis": "diluted",
  "multiples": {
@@ -14,10 +14,10 @@
    "median": null,
    "max": null,
    "days": 0,
-   "currentNote": "per_na"
+   "currentNote": "negative"
   },
   "PSR": {
-   "current": 100.77,
+   "current": 95.75,
    "score": null,
    "percentile": null,
    "min": null,
@@ -27,7 +27,7 @@
    "currentNote": null
   },
   "PBR": {
-   "current": 18.25,
+   "current": 17.34,
    "score": null,
    "percentile": null,
    "min": null,
@@ -47,7 +47,7 @@
    "currentNote": "negative"
   },
   "EV/EBITDA": {
-   "current": 427.39,
+   "current": 405.52,
    "score": null,
    "percentile": null,
    "min": null,
@@ -77,11 +77,6 @@
   "fy2025": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/spaceexplorationtechnologi.htm",
   "h1": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052535/spcx-20260630.htm"
  },
- "asOf": "2026-10-05",
- "price": 171.09,
- "perNA": {
-  "netMargin": -0.3566,
-  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자",
-  "source": "SPCX_multiples.json의 ttm(어댑터 — S-1·10-Q 손입력) 순이익 ÷ 매출"
- }
+ "asOf": "2026-10-09",
+ "price": 162.57
 }

@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$61.53</td><td style="color: var(--red);" data-dcf-upside="low">−76.6%</td>
-          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(7.2%)으로 내려온다. 매출 $1을 늘리는 데 $0.70를 투자한다(최근 1년 수준).</td>
+          <td class="story">매출이 5년 성장률의 절반(연 5.9%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 7.2%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$99.48</td><td style="color: var(--red);" data-dcf-upside="base">−62.1%</td>
-          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(11.1%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $0.70에서 5년에 걸쳐 과거 평균 $0.46로 돌아온다.</td>
+          <td class="story">매출이 5년 성장률(연 11.7%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 11.1%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$113.22</td><td style="color: var(--red);" data-dcf-upside="high">−56.9%</td>
-          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(12.1%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $0.46다.</td>
+          <td class="story">매출이 3년 성장률(연 13.0%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 12.1%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $61.53~$113.22다. 영업이익률은 최근 4분기 12.1%, 2년 중앙값 11.1%, 5년 중앙값 7.2%를 쓴다.</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $99.48 = 사업 가치 $79.07 + 비영업 자산 $20.41(주당, 지분·장기투자)</div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="amznRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율). 공시 순이익은 Anthropic 등 투자 평가이익이 들어가 2026 Q1 $30.3B·Q2 $62.6B다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
       <div class="stat-value">−$8.82B</div>
-      <div class="stat-sub">현금창출력</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$54.21B</div>
-      <div class="stat-sub">미래 재투자</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">기술·인프라 비용 (Q2 2026)</div>
-      <div class="stat-value">$33.2B</div>
-      <div class="stat-sub">AWS·AI 인프라 포함</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">$5.75</div>
+      <div class="stat-sub">GAAP · 1년 전 $1.68 (+242%) · 차트 순이익은 본업 기준(영업이익 + 순이자, 세후)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 말 예상</div>
-      <div class="stat-sub">일정 · Q3 2026</div>
+      <div class="stat-value">10월 29일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/30 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">98.6%</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+30.9%</span><span class="diag-note">FY25 $818.0B(전기 $624.9B) · 연간 지표, FY26 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+30.9%</span><span class="diag-note">FY25 말 $818.0B(전년 $624.9B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 103.3%·당좌비율 87.5%로 단기 지급 여력은 빠듯한 편이고, 부채비율은 98.6%다. AI 투자 재원을 차입으로도 조달해 6월에 은행 기간대출 계약을, 9월에 파운드화 회사채 £4.25B를 발행했다(8-K). <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $132.5B, 현금·단기투자 $123.0B, 자본 $551.6B. 유동비율 103%, 이자보상배율 21배. <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -878,47 +877,45 @@ Chart.overrides.doughnut.animation = false;
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#ffb74d;display:inline-block;flex-shrink:0;"></span>북미 <strong style="color:var(--text);">$116.20B · 57.9%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block;flex-shrink:0;"></span>AWS <strong style="color:var(--text);">$42.20B · 21.0%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#ffb74d;display:inline-block;flex-shrink:0;"></span>북미 <strong style="color:var(--text);">$116.18B · 57.9%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block;flex-shrink:0;"></span>AWS <strong style="color:var(--text);">$42.23B · 21.1%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#8a6d3b;display:inline-block;flex-shrink:0;"></span>해외 <strong style="color:var(--text);">$42.20B · 21.0%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">출처: <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000024/amzn-20260630xex991.htm" target="_blank" rel="noopener">Amazon Q2 2026 실적발표 (SEC 8-K) →</a> · 영업이익은 AWS $16.6B · 북미 $9.1B · 해외 $1.7B</div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 북미 +16.1%, AWS +36.8%, 해외 +14.8% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">설비투자 (Q2 2026)</span>
+          <span class="zone-label">자사주 매입</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$54.2B</span>
+            <span class="zone-val">공시 없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">OpenAI 투자 약정 (2월, 초기 $15B)</span>
-          <span class="zone-val">$50B</span>
+          <span class="zone-label">보통주 배당 지급</span>
+          <span class="zone-val">없음</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 · 자사주 매입</span>
+          <span class="zone-label">분기 주당 배당</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">없음</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">보통주 배당 없음</span>
+            <span class="zone-val">—</span>
           </div>
         </div>
       </div>
-      <div class="yoy-footnote" style="margin-top:14px;">주주환원 대신 AI 인프라와 지분 투자에 쓴다 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm" target="_blank" rel="noopener">Amazon Q2 2026 10-Q (SEC) →</a></div>
     </div>
   </div>
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 말 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 29일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출($197.0~202.0B, +9~12%)과 영업이익($22.5~26.5B) 전망을 달성하는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> AWS가 Q2 +37%(18분기 만에 최고)의 성장을 이어가는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 설비투자(Q2 $54.2B)로 최근 4분기 잉여현금흐름 −$11.6B(설비투자 총액 차감, 회사 발표 기준으로는 −$7.6B)가 바뀌는지</div>
-      <div><strong style="color:var(--accent2);">④</strong> Anthropic·OpenAI 투자 평가이익이 이번에도 순이익을 얼마나 흔드는지(Q2 영업외이익 $53.4B)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+13.6% → +16.6% → +19.6%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 13.7%, 1년 전 11.4%)</div>
     </div>
   </div>
 </div>
@@ -937,8 +934,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="같은 경기소비재 섹터와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">64.1</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">92</div><div class="sc-tile" data-vc="peer" data-m="psr">90</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile" data-vc="peer" data-m="evebitda">74</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">배수로는 동종업 64.1점·자기 5년 이력 55.3점으로 둘 다 중앙값보다 싼 쪽이지만, <strong>현금흐름 내재가치는 현재가에 크게 못 미친다.</strong> 설비투자가 매출의 22.8%로 영업현금흐름을 넘어서 최근 4분기 잉여현금흐름이 마이너스다. 자본수익률이 할인율에 가까워 과거 성장으로는 가격이 설명되지 않고, 가격에는 마진 확대 기대가 담겨 있다.</div>
-    <div class="verdict-summary-risk">⚠️ 매출이 지난 5년 속도(연 11.7%)로 크다가 식는다면, 현재가가 정당하려면 영업이익률이 <strong data-vs="req">27.9%</strong>여야 한다(지금 12.1%). 성장만으로 맞추려면 연 52.2%가 필요해, 가격은 성장보다 마진 확대에 거는 기대로 읽힌다(AWS 영업이익률은 Q2 39%).</div>
+    <div class="vs-premise">PER 38.5배(4.8년 중앙값 50.8배)로 자기 이력 55.3점(중간), 동종업 64.1점(중간)이다. <strong>현금흐름 내재가치(기본 $99.48)는 현재가의 38%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $99.48)는 현재가의 38%다. 현재가를 정당화하려면 영업이익률이 27.9%까지 올라야 한다(최근 4분기 12.1%, 5년 중앙값 7.2%). 내재가치에서 차입금·금융리스 $146.0B를 빼고 현금·단기투자 $123.0B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1021,14 +1018,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · AWS 성장이 다시 빨라지고, AI 투자는 차입으로도 조달한다<span class="tag">우호적·재무 부담 경계</span></div>
-    <ol class="news-list">
-      <li>세 분기 연속 매출이 직전 가이던스 상단을 넘었다. AWS 성장률은 전년 대비 20% → 24% → 28% → 37%로 빨라졌다.</li>
-      <li>2월 OpenAI와 제휴하며 $50B 투자를 약정했고, OpenAI는 AWS에서 Trainium 2GW를 쓰기로 했다.</li>
-      <li>공시 순이익은 Anthropic 지분 평가이익으로 크게 부풀었다(Q2 영업외이익 $53.4B). 이 카드는 본업 순이익으로 평가한다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 설비투자(Q2 $54.2B)가 영업현금흐름을 넘어 최근 4분기 잉여현금흐름이 −$11.6B다(설비투자 총액 차감). 지난 11월부터 달러·유로·캐나다달러·파운드 회사채와 $17.5B 기간대출로 차입을 늘렸다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 말 예상)에서 매출 전망 $197.0~202.0B를 넘는지, AWS 성장이 이어지는지, 잉여현금흐름이 플러스로 돌아서는지.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $200.6B(+19.6%), 영업이익률 13.7%(1년 전 11.4%). 주가는 1년 새 +17%<span class="tag">배수 중간·매출 성장 빨라짐</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $99.48)는 현재가의 38%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 29일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1105,15 +1097,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">AWS 가속</span><span class="bb-text">AWS 성장률이 네 분기 연속 빨라져 +37%가 됐고, Q2 영업이익 $27.5B 중 $16.6B를 벌었다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">영업이익률이 Q3 2025 9.7%에서 Q2 2026 13.7%로 올랐다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">AI 계약</span><span class="bb-text">OpenAI가 AWS 계약을 8년간 $100B 늘리고 Trainium 2GW를 쓰기로 했다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 12.1%(5년 중앙값 7.2%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q2 2026 매출 +19.6%(보고 기준, 3년 연평균 13.0%).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">현금흐름</span><span class="bb-text">설비투자가 영업현금흐름을 넘어 최근 4분기 잉여현금흐름이 −$11.6B다(설비투자 총액 차감).</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">차입</span><span class="bb-text">AI 투자 재원을 회사채와 $17.5B 기간대출로도 조달해 부채비율이 98.6%다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">이익의 질</span><span class="bb-text">Q2 공시 순이익 $62.6B에 Anthropic 중심 투자 평가이익 $53.4B(세전)가 들어 있어 지분 가치에 따라 크게 흔들린다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $99.48)는 현재가의 38%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">투자</span><span class="bb-text">Q2 2026 FCF −$8.8B(설비투자 $54.2B).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF −$11.6B, 매출의 −1.5%.</span></div>
     </div>
   </div>
 
@@ -1126,12 +1117,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 96.7%; background: var(--green);"></div><div data-an-bar="hold" style="width:3.3%;background:var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$331.29</span> <span class="op-sub op-up" data-an="upside">+26.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 말 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 29일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1302,13 +1293,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 200600;
+  const total = 200606;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["북미", "AWS", "해외"],
       datasets:[{
-        data:[116200, 42200, 42200],
+        data:[116177, 42232, 42197],
         backgroundColor:["#ffb74d", "#3b82f6", "#8a6d3b"],
         borderColor:'#8a8d9e',
         borderWidth:2
@@ -1510,7 +1501,7 @@ const AMZN_SCORES = {
   peer: 64.1,          // GICS 경기소비재 + IT 섹터 대비 배수 순위 (본업 기준 PER은 제외, 네 배수)
   selfHistory: 55.3,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-31 공시)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 AMZN_DCF 하나다.
@@ -2112,7 +2103,7 @@ const AMZN_ACTIVITY = {"ticker": "AMZN", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/amzn/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const AMZN_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 60, nTargets: 45, mean: 331.29, median: 330,
+const AMZN_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 60, nTargets: 45, mean: 331.29, median: 330,
   low: 230, high: 400, strongBuy: 42, buy: 16, hold: 2, sell: 0, strongSell: 0 };
 (function(){
   const A = AMZN_ANALYST, last = (typeof AMZN_DAILY !== 'undefined' && AMZN_DAILY.length) ? AMZN_DAILY[AMZN_DAILY.length - 1] : null;
@@ -2155,7 +2146,7 @@ const AMZN_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
   put('amznFundBox', 'amznFundScore', 'amznFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY25까지)을 쓴다.`
-      + `\n순이익률은 본업 기준이다(Anthropic 등 투자 평가이익 제외).`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2177,7 +2168,7 @@ const AMZN_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계
       + `\nPER은 본업 기준이라 공시 기준인 다른 종목과 섞지 않고 빼서 네 배수를 평균했다.`);
   put('amznSelfBox', 'amznSelfScore', 'amznSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPBR·EV/EBITDA·PER은 5년 중 싼 쪽이다. PCR은 최근 4분기 잉여현금흐름이 적자라 계산되지 않아 0점으로 셌다.`
+      + `\nPER 38.5배는 4.8년 분포의 하위 26.3%다(중앙값 50.8배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

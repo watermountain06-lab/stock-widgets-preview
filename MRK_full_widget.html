@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
-          <td class="story">5년 성장률의 절반(연 3.3%)에서 식고, 영업이익률이 5년 중앙값 26.9%로 간다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 3.3%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 26.9%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$45.87</td><td style="color: var(--red);" data-dcf-upside="base">−68.5%</td>
-          <td class="story">5년 성장률(연 6.6%)에서 식고, 영업이익률이 최근 2년 중앙값 30.5%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 6.6%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 30.5%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="high">—</td>
-          <td class="story">3년 성장률(연 4.5%)에서 식고, 최근 4분기 영업이익률 9.6%(IPR&D로 눌린 값)가 이어진다.</td>
+          <td class="story">매출이 3년 성장률(연 4.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 9.6%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 2개는 음수라 계산할 수 없다(나머지 $45.87). 영업이익률은 최근 4분기 9.6%, 2년 중앙값 30.5%, 5년 중앙값 26.9%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 3.3%·이익률 26.9%), 기본(6.6%·30.5%), 낙관(4.5%·9.6%).</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $45.87 = 사업 가치 $44.51 + 비영업 자산 $1.36(주당, 지분·장기투자)</div>
     <div class="reverse">—</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="mrkRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">2026년 1·2분기 적자는 두 건의 자산 인수에서 산 개발 중 신약(IPR&D)을 한 번에 R&D 비용으로 처리해서다(회사가 밝힌 인수 관련 R&D 일회성 비용, 대부분 IPR&D) — 1분기 Cidara(독감 예방 항바이러스 MK-1406, $9.0B), 2분기 Terns(백혈병 치료 후보 MK-4208, $5.7B)(10-Q). 영업이익 줄이 없어 세전이익에서 기타(수익)비용을 되돌려 만들었다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -742,17 +741,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$0.89B</div>
-      <div class="stat-sub">유형자산 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 2026)</div>
-      <div class="stat-value">$9.74B</div>
-      <div class="stat-sub">Terns 인수 IPR&D $5.7B 포함</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">−$0.54</div>
+      <div class="stat-sub">GAAP · 1년 전 $1.76 (적자 전환)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 말 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 (회사 미확정)</div>
+      <div class="stat-value">10월 29일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/30 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">209.5%</span></div>
       <div class="diag-badge alert" title="구성표 배점 1/5점">⚠️ 주의</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+16.9%</span><span class="diag-note">2025년 말 $136.9B(전년 $117.1B, Verona 인수 반영) · 연간 지표, 2026년 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+16.9%</span><span class="diag-note">2025년 말 $136.9B(전년 $117.1B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 132.3%다. 차입금은 $53.9B(1년 안 만기·단기 $2.8B + 장기 $51.1B)이고 현금·단기투자는 $7.1B다. 2025년 9월·12월과 2026년 5월에 사채를 발행했고, 현금은 연초 $14.6B에서 줄었다. 이자보상배율 1점은 인수 IPR&D 때문에 2분기 합성 영업이익이 적자(−$0.58B)라서다. <a href="https://www.sec.gov/Archives/edgar/data/310158/000031015826000212/mrk-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $53.9B, 현금·단기투자 $7.1B, 자본 $41.9B. 유동비율 132%. <a href="https://www.sec.gov/Archives/edgar/data/310158/000031015826000212/mrk-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -885,27 +884,27 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">키트루다 한 제품이 매출의 절반이다 · 성장 제품: 윈레브에어 $588M(+75%), 가다실 $1.17B(+4%), 동물 건강 +8% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/310158/000031015826000212/mrk-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a>, <a href="https://www.sec.gov/Archives/edgar/data/310158/000110465926090045/tm2621496d1_ex99-1.htm" target="_blank" rel="noopener">보도자료</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 키트루다(QLEX 포함) +5.2%, 그 밖의 의약품·백신 +4.9%, 동물 건강 +7.8%, 기타 −34.5% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/310158/000031015826000212/mrk-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (2026년 상반기)</span>
+          <span class="zone-label">자사주 매입 (연초~6/30, 26주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="zone-val">$1.6B</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">잔여 바이백 승인 한도 (2026.06.30 기준, 2026년 약 $3.0B 매입 예정)</span>
-          <span class="zone-val">$5.7B</span>
+          <span class="zone-label">배당 지급 (연초~6/30, 26주)</span>
+          <span class="zone-val">$4.2B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q2 2026 선언)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 6/30 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">분기 $0.85(2025년 11월 $0.81에서 인상)</span>
-            <span class="zone-val">$2.1B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.81 · +4.9%</span>
+            <span class="zone-val">$0.85</span>
           </div>
         </div>
       </div>
@@ -914,12 +913,12 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 말 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 29일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 연간 전망(매출 $66.3~67.3B, 비GAAP EPS $2.66~2.76 — Cidara 주당 $3.62·Terns 주당 $2.43 비용 포함) 유지 여부</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 매출의 절반인 키트루다와 피하주사형 키트루다 QLEX(2분기 $463M) 전환 속도</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 새 제품(윈레브에어 +75%, 새로 승인된 리프펜드라·이드빈소)의 매출 기여</div>
-      <div><strong style="color:var(--accent2);">④</strong> 추가 자산 인수와 그에 따른 R&D 일회성 비용 — 2026년 상반기 두 건 $14.7B(대부분 IPR&D)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+5.0% → +4.9% → +5.1%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 −3.5%, 1년 전 31.6%)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> FCF(최근 4분기 $16.1B)가 배당 지급(연 환산 약 $8.5B)을 넘는지</div>
+      <div><strong style="color:var(--accent2);">④</strong> 차입금 $53.9B이 줄어드는지</div>
     </div>
   </div>
 </div>
@@ -937,8 +936,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">21.1</div><div class="sc-tile low" data-vc="peer" data-m="per">0</div><div class="sc-tile low" data-vc="peer" data-m="pbr">19</div><div class="sc-tile lost" data-vc="peer" data-m="psr">35</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">41</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">10</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise"><strong>세 칸 모두 인수 IPR&D 일회성 비용(1년 안 두 건, 주당 $5.93)의 영향을 크게 받는다.</strong> 최근 4분기 EPS는 $1.25라 PER 116배로 자기 5년 이력(14.8점)·S&P500 헬스케어(21.1점) 모두 비싼 쪽이지만, 두 비용을 빼면 EPS 약 $7.18, PER 약 20배로 5년 중앙값(20배) 근처다. PSR·PBR은 비용과 무관하게 5년 상위 5% 안이다. <strong>현금흐름 내재가치(기본 $46)는 현재가의 32%</strong>다. 주가는 1년 새 69% 올랐다.</div>
-    <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 영업이익률이 <strong data-vs="req">58.4%</strong>여야 한다. 최근 4분기 9.6%는 IPR&D 비용 때문에 낮고, 최근 2년 중앙값은 30.5%다. 낙관 시나리오가 음수인 것은 IPR&D로 눌린 마진 9.6%를 영구히 쓰기 때문이고, 보수 시나리오도 음수인 것은 최근 1년 인수 현금 $18.8B가 투자로 잡혀 매출/자본이 0.18로 낮아서다. 기본 시나리오도 9.6%에서 출발해 5년에 걸쳐 회복하므로 IPR&D 영향이 섞여 있다 — 마진을 처음부터 2년 중앙값으로 두어도 약 $55~62(현재가의 37~41%)라 판정은 같다. 규칙대로 GAAP 이익을 쓰고 일회성 비용을 빼지 않았다(2026-09-30 결정).</div>
+    <div class="vs-premise">PER 116.5배(5년 중앙값 20.3배)로 자기 이력 14.8점(비싸다), 동종업 21.1점(비싸다)이다. <strong>현금흐름 내재가치(기본 $45.87)는 현재가의 32%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $45.87)는 현재가의 32%다. 현재가를 정당화하려면 영업이익률이 58.4%까지 올라야 한다(최근 4분기 9.6%, 5년 중앙값 26.9%). 내재가치에서 차입금 $53.9B를 빼고 현금·단기투자 $7.1B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1021,14 +1020,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 연이은 신약 인수로 GAAP 이익은 적자가 났지만 주가는 1년 새 크게 올랐다<span class="tag">인수·전환기</span></div>
-    <ol class="news-list">
-      <li>2026년 1·2분기에 Cidara($9.0B)·Terns($5.7B)를 인수하며 개발 중 신약 비용을 한 번에 처리해 두 분기 모두 GAAP 적자였다.</li>
-      <li>매출은 분기마다 약 5% 늘었고, 키트루다가 매출의 절반이다. 윈레브에어(+75%)와 새 승인 제품이 뒤를 받친다.</li>
-      <li>주가는 1년 새 69% 올랐고, 8월 말 고점(종가 $156.45)보다 7% 낮다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 이 카드의 PER·EV/EBITDA·내재가치는 일회성 인수 비용이 든 GAAP 이익을 쓴다. 비용을 빼면 PER은 약 20배다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 말 예상)의 연간 전망 유지, 키트루다 QLEX 전환, 추가 인수.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $16.6B(+5.1%), 영업이익률 −3.5%(1년 전 31.6%). 주가는 1년 새 +69%<span class="tag">배수 5년 고점권·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $45.87)는 현재가의 32%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 29일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1087,15 +1081,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">성장</span><span class="bb-text">매출이 분기마다 약 5% 늘었고, 7월에 연간 매출 전망을 좁히며 올렸다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">신제품</span><span class="bb-text">윈레브에어 2분기 $588M(+75%), 리프펜드라·이드빈소가 새로 승인됐다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">분기 배당 $0.85, 상반기 자사주 $1.6B.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $16.1B, 매출의 24.1%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">분기 주당 배당 $0.85(1년 전보다 +4.9%).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">집중</span><span class="bb-text">키트루다 한 제품이 매출의 50%다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">인수 비용</span><span class="bb-text">2026년 상반기 두 건의 인수로 R&D 일회성 비용 $14.7B(대부분 IPR&D)를 처리했고, 차입금이 $53.9B로 늘었다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">PSR·PBR이 5년 상위 5% 안이고 기본 내재가치는 현재가의 32%다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 9.6%(5년 중앙값 26.9%).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $45.87)는 현재가의 32%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 15점(배수 5개) · PER 116.5배(5년 중앙값 20.3배).</span></div>
     </div>
   </div>
 
@@ -1108,12 +1101,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 70.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 29.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$160.24</span> <span class="op-sub op-up" data-an="upside">+10.1%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 말 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 29일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1194,14 +1187,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [16.61, -0.58, -1.34, 4.48], cmp: [15.81, 4.99, 4.43, 2.53] },
     deltas: ['+5.1%', '적자 전환', '적자 전환', '+77.0%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · 영업이익은 세전이익 − 기타(수익)비용 순액 · 2분기 영업이익·순이익에는 Terns 인수 IPR&D $5.7B(주당 $2.31) 포함 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/310158/000110465926090045/tm2621496d1_ex99-1.htm" target="_blank" rel="noopener">Merck Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/310158/000110465926090045/tm2621496d1_ex99-1.htm" target="_blank" rel="noopener">Merck Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
     chart: { cur: [16.61, -0.58, -1.34, 4.48], cmp: [16.29, -3.4, -4.24, 2.93] },
     deltas: ['+2.0%', '적자 지속', '적자 지속', '+53.0%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · 영업이익은 세전이익 − 기타(수익)비용 순액 · 2분기 영업이익·순이익에는 Terns 인수 IPR&D $5.7B(주당 $2.31) 포함 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/310158/000110465926090045/tm2621496d1_ex99-1.htm" target="_blank" rel="noopener">Merck Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/310158/000110465926090045/tm2621496d1_ex99-1.htm" target="_blank" rel="noopener">Merck Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1501,7 +1494,7 @@ const MRK_SCORES = {
   peer: 21.1,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 14.8,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-07 공시)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 MRK_DCF 하나다.
@@ -2103,7 +2096,7 @@ const MRK_ACTIVITY = {"ticker": "MRK", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mrk/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MRK_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 27, nTargets: 23, mean: 160.24, median: 168.41,
+const MRK_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 27, nTargets: 23, mean: 160.24, median: 168.41,
   low: 105, high: 180, strongBuy: 14, buy: 5, hold: 8, sell: 0, strongSell: 0 };
 (function(){
   const A = MRK_ANALYST, last = (typeof MRK_DAILY !== 'undefined' && MRK_DAILY.length) ? MRK_DAILY[MRK_DAILY.length - 1] : null;
@@ -2146,7 +2139,7 @@ const MRK_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 
   put('mrkFundBox', 'mrkFundScore', 'mrkFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(2025년까지)을 쓴다.`
-      + `\n영업이익률·순이익률·이자보상배율이 각 1점인 것은 2분기 Terns 인수 IPR&D $5.7B 때문이다(그 분기만의 일회성 비용). 영업이익 줄이 없어 세전이익에서 기타(수익)비용을 되돌려 만들었다.`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2168,7 +2161,7 @@ const MRK_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 
       + `\n제약·바이오·의료기기·보험·서비스가 섞여 있다. 머크의 PER·EV/EBITDA는 인수 IPR&D 비용이 든 값이라 가장 비싼 쪽으로 나온다.`);
   put('mrkSelfBox', 'mrkSelfScore', 'mrkSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 116배·EV/EBITDA 31배는 인수 IPR&D로 이익이 눌린 값이다(두 비용을 빼면 PER 약 20배). PSR 5.4배·PBR 8.6배는 5년 상위 5% 안이다.`
+      + `\nPER 116.5배는 5년 분포의 하위 89.2%다(중앙값 20.3배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

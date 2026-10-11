@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$132.39</td><td style="color: var(--red);" data-dcf-upside="low">−62.4%</td>
-          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(30.4%)으로 내려온다. 매출 $1을 늘리는 데 $1.30를 투자한다(최근 1년 수준).</td>
+          <td class="story">매출이 5년 성장률의 절반(연 7.0%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 30.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$160.77</td><td style="color: var(--red);" data-dcf-upside="base">−54.3%</td>
-          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(32.4%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $1.30에서 5년에 걸쳐 과거 평균 $0.83로 돌아온다.</td>
+          <td class="story">매출이 5년 성장률(연 14.0%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 32.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$171.91</td><td style="color: var(--red);" data-dcf-upside="high">−51.1%</td>
-          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(33.1%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $0.83다.</td>
+          <td class="story">매출이 3년 성장률(연 15.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 33.1%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $132.39~$171.91다. 영업이익률은 최근 4분기 33.1%, 2년 중앙값 32.4%, 5년 중앙값 30.4%를 쓴다.</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $160.77 = 사업 가치 $150.02 + 비영업 자산 $10.75(주당, 지분·장기투자)</div>
     <div class="reverse">지금 가격(<span data-dcf-price>$351.66</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>36.7%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$161</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>8.4%</span>다.</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="googlRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">본업 순이익 = (영업이익 + 순이자) × (1 − 그 분기 실효세율). 공시 순이익은 비상장 지분 평가이익 등 영업외이익이 들어가 2026 Q1 $62.6B·Q2 $112.2B다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
       <div class="stat-value">−$5.86B</div>
-      <div class="stat-sub">현금창출력</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$44.92B</div>
-      <div class="stat-sub">미래 재투자</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 2026)</div>
-      <div class="stat-value">$18.2B</div>
-      <div class="stat-sub">기술 경쟁력 투자</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">$9.11</div>
+      <div class="stat-sub">GAAP · 1년 전 $2.31 (+294%) · 차트 순이익은 본업 기준(영업이익 + 순이자, 세후)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 말 예상</div>
-      <div class="stat-sub">일정 · Q3 2026</div>
+      <div class="stat-value">10월 28일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/29 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">44.0%</span></div>
       <div class="diag-badge watch" title="구성표 배점 4/5점">보통</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+32.2%</span><span class="diag-note">FY25 $595.3B(전기 $450.3B) · 연간 지표, FY26 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+32.2%</span><span class="diag-note">FY25 말 $595.3B(전년 $450.3B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율·이자보상배율은 기준을 크게 넘는다. 2026년 상반기에 AI 인프라 투자 재원으로 회사채 $51.8B, 6.25% 의무전환 우선주 $18.0B, 보통주를 발행했고 자사주 매입은 멈췄다(Q2 2026 10-Q). <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $100.2B, 현금·단기투자 $242.5B, 자본 $640.5B. 유동비율 272%, 이자보상배율 32배. <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -817,40 +816,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="collapsible-body collapsed">
 
-    <div class="activity-grid">
-      <div class="act-card">
-        <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.77회</div><div class="act-sub" data-act-sub="dso">47.0일 만에 현금화 · 직전 분기 46.7일 대비 +0.3일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">50.69회</div><div class="act-sub" data-act-sub="dio">7.2일 재고 보유 · 직전 분기 7.2일 대비 ±0.0일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">25.35회</div><div class="act-sub" data-act-sub="dpo">14.4일 만에 지급 · 직전 분기 14.5일 대비 −0.1일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">54.1일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 54.0일 대비 +0.1일</div></div>
-      </div>
-    </div>
-    <div class="ccc-card">
-      <div class="ccc-head">
-        <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">39.7일</div>
-      </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 54.1일이 걸리는데, 그중 14.4일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">39.7일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 39.5일보다 0.2일 길어졌다.</div>
-      <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left: 26.6%; height: 18px;"></div>
-        <div class="tl-marker-label" style="left: 26.6%; transform: translateX(-50%);">매입채무 지급 14.4일</div>
-        <div class="tl-bar">
-          <div class="tl-seg-inv" style="width: 13.3%;">재고보유 7.2일</div>
-          <div class="tl-seg-ar" style="width: 86.9%;">매출채권회수 47.0일</div>
-        </div>
-        <div class="tl-ccc-span" style="left: 26.6%; width: 73.4%;"></div>
-      </div>
-    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — 재고 공시가 끊긴 분기가 있어 최근 4분기를 계산할 수 없다(마지막 계산 가능 2023-09-30).</div>
 
     </div>
   </div>
@@ -887,45 +853,39 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">출처: <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm" target="_blank" rel="noopener">Alphabet Q2 2026 10-Q (SEC) →</a> · Cloud 수주잔고 $513.9B</div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 검색 등 +16.8%, Google Cloud +82%, 구독·플랫폼·기기 +15.2%, YouTube 광고 +12.9%, 네트워크 −0.7%, 기타(Other Bets·헤지) +87% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (2026 상반기)</span>
+          <span class="zone-label">자사주 매입 (연초~6/30, 26주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="zone-val">없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">잔여 매입 승인 한도</span>
-          <span class="zone-val">$69.5B</span>
+          <span class="zone-label">보통주 배당 지급</span>
+          <span class="zone-val">공시 없음</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q2 2026 · 주당 $0.22)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 6/30 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$2.7B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.21 · +4.8%</span>
+            <span class="zone-val">$0.22</span>
           </div>
         </div>
-        <div class="zone-item">
-          <span class="zone-label">인수 (Wiz $29.5B · Intersect $5.9B)</span>
-          <span class="zone-val">$35.4B</span>
-        </div>
       </div>
-      <div class="yoy-footnote" style="margin-top:14px;">현금흐름표 지급액 기준 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm" target="_blank" rel="noopener">Alphabet Q2 2026 10-Q (SEC) →</a></div>
     </div>
   </div>
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 말 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 28일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> Google Cloud가 Q2 $24.8B(+82%)의 성장을 이어가고, 수주잔고 $513.9B가 매출로 바뀌는 속도가 빨라지는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 설비투자가 콜에서 올린 올해 전망($195~205B) 안에서 움직이는지, 잉여현금흐름(Q2 −$5.9B)이 플러스로 돌아오는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 검색 매출이 Q2 $63.3B(+17%)의 성장을 유지하는지</div>
-      <div><strong style="color:var(--accent2);">④</strong> 비상장 지분 평가이익이 이번에도 순이익을 얼마나 흔드는지(Q2 영업외이익 $98.0B)</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+18.0% → +21.8% → +24.2%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 34.0%, 1년 전 32.4%)</div>
     </div>
   </div>
 </div>
@@ -944,8 +904,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="커뮤니케이션 서비스와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">50.5</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">72</div><div class="sc-tile lost" data-vc="peer" data-m="psr">61</div><div class="sc-tile low" data-vc="peer" data-m="pcr">14</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">55</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">동종업 안에서는 자산 기준 배수가 싼 편이지만, <strong>자기 5년 이력으로는 PER·PSR·PCR이 비싼 쪽이고 현금흐름 내재가치는 현재가의 절반에 못 미친다.</strong></div>
-    <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">36.7%</strong>씩 커야 한다. 최근 3년 실제 성장은 연 15.5%였고, AI 투자로 떨어진 투자 효율이 5년에 걸쳐 과거 평균으로 돌아온다는 가정이다.</div>
+    <div class="vs-premise">PER 35.0배(5년 중앙값 25.1배)로 자기 이력 19.5점(비싸다), 동종업 50.5점(중간)이다. <strong>현금흐름 내재가치(기본 $160.77)는 현재가의 46%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $160.77)는 현재가의 46%다. 현재가를 정당화하려면 매출이 5년간 연 36.7% 커야 한다. 내재가치에서 차입금·금융리스 $102.8B를 빼고 현금·단기투자 $242.5B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1028,14 +988,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 클라우드가 이끄는 성장, AI 투자 재원은 외부 조달<span class="tag">우호적·투자 부담 경계</span></div>
-    <ol class="news-list">
-      <li>12분기 연속 매출이 두 자릿수로 늘었고 2026 Q2 매출은 $119.8B(+24%)다. 클라우드 성장률은 48% → 63% → 82%로 빨라졌다.</li>
-      <li>설비투자가 Q2 $44.9B로 늘어 잉여현금흐름이 적자(−$5.9B)가 됐고, 6월에 주식 $80B 발행을 발표해 재원을 마련했다.</li>
-      <li>9월 2일 광고기술 반독점 사건에서 광고 거래소 매각 청구가 기각됐다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 2026 상반기 순이익이 크게 늘어난 것은 대부분 비상장 지분 평가이익 때문이다(상반기 영업외이익 $135.7B). 실적 발표 다음날 주가가 오른 것은 네 번 중 두 번이다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 말 예상)에서 설비투자 전망($195~205B) 속에 잉여현금흐름이 플러스로 돌아오는지, 클라우드 성장이 이어지는지.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $119.8B(+24.2%), 영업이익률 34.0%(1년 전 32.4%). 주가는 1년 새 +44%<span class="tag">배수 5년 고점권·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $160.77)는 현재가의 46%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 28일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1112,15 +1067,15 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">클라우드</span><span class="bb-text">클라우드 매출이 Q2 $24.8B(+82%)로 빨라졌고 수주잔고가 $513.9B다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">검색</span><span class="bb-text">검색 매출이 Q2 $63.3B로 1년 전보다 17% 늘었다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">규제</span><span class="bb-text">광고기술 반독점 사건에서 광고 거래소 매각 청구가 기각됐다(9월 2일).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q2 2026 매출 +24.2%(보고 기준, 인수 포함, 3년 연평균 15.5%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 33.1%(5년 중앙값 30.4%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $53.3B, 매출의 11.9%.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">투자 부담</span><span class="bb-text">설비투자가 Q2 $44.9B로 늘어 잉여현금흐름이 적자(−$5.9B)가 됐다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">희석</span><span class="bb-text">6월에 주식 $80B 발행을 발표했고 올해 자사주 매입을 멈췄다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류에이션</span><span class="bb-text">현재가가 내재가치 기본 시나리오의 2.2배이고 본업 PER이 자기 5년 중 상위 11%다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $160.77)는 현재가의 46%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 20점(배수 5개) · PER 35.0배(5년 중앙값 25.1배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">투자</span><span class="bb-text">Q2 2026 FCF −$5.9B(설비투자 $44.9B).</span></div>
     </div>
   </div>
 
@@ -1133,12 +1088,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 91.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 8.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$430.38</span> <span class="op-sub op-up" data-an="upside">+22.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 말 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 28일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1517,7 +1472,7 @@ const GOOGL_SCORES = {
   peer: 50.5,          // Communication Services + Information Technology 29~33종목 대비 배수 순위 (PER 제외 네 배수)
   selfHistory: 19.5,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-07-23 공시)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 GOOGL_DCF 하나다.
@@ -2114,7 +2069,7 @@ const GOOGL_ACTIVITY = {"ticker": "GOOGL", "status": "stale", "asOf": "2023-09-3
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/googl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GOOGL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 62, nTargets: 34, mean: 430.38, median: 430,
+const GOOGL_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 62, nTargets: 34, mean: 430.38, median: 430,
   low: 355, high: 515, strongBuy: 44, buy: 13, hold: 5, sell: 0, strongSell: 0 };
 (function(){
   const A = GOOGL_ANALYST, last = (typeof GOOGL_DAILY !== 'undefined' && GOOGL_DAILY.length) ? GOOGL_DAILY[GOOGL_DAILY.length - 1] : null;
@@ -2157,7 +2112,7 @@ const GOOGL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집�
   put('googlFundBox', 'googlFundScore', 'googlFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(FY25까지)을 쓴다.`
-      + `\n순이익률은 비상장 지분 평가이익을 뺀 본업 기준((영업이익 + 순이자) × (1 − 실효세율))이다.`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2179,7 +2134,7 @@ const GOOGL_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집�
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.\nCommunication Services가 6종목뿐이라 IT 섹터를 합쳐 순위를 매겼다.\nPER은 본업 기준이라 공시 EPS 기준인 동종업과 잣대가 달라 이 점수에서 뺐다.`);
   put('googlSelfBox', 'googlSelfScore', 'googlSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER은 본업 기준이다. EV/EBITDA는 감가상각 공시가 2023년부터라 이력이 1.9년뿐이다.`
+      + `\nPER 35.0배는 5년 분포의 하위 89.2%다(중앙값 25.1배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$333.31</td><td style="color: var(--red);" data-dcf-upside="low">−12.1%</td>
-          <td class="story">5년 성장률의 절반(연 5.3%)에서 식고, 영업이익률이 5년 중앙값 8.2%로 돌아간다. 마진 회복을 가정해 세 시나리오 중 가장 높다.</td>
+          <td class="story">매출이 5년 성장률의 절반(연 5.3%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 8.2%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$272.59</td><td style="color: var(--red);" data-dcf-upside="base">−28.1%</td>
-          <td class="story">5년 성장률(연 10.6%)에서 식고, 영업이익률이 최근 2년 중앙값 6.7%로 간다.</td>
+          <td class="story">매출이 5년 성장률(연 10.6%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 6.7%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$166.93</td><td style="color: var(--red);" data-dcf-upside="high">−56.0%</td>
-          <td class="story">3년 성장률(연 8.9%)에서 식고, 최근 4분기 영업이익률 4.8%(2025년 4분기 일회성 비용 포함)가 이어진다. 성장률(3년이 5년보다 낮음)과 마진이 모두 기본보다 낮아 세 시나리오 중 가장 낮다.</td>
+          <td class="story">매출이 3년 성장률(연 8.9%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 4.8%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $166.93~$333.31다. 영업이익률은 최근 4분기 4.8%, 2년 중앙값 6.7%, 5년 중앙값 8.2%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 5.3%·이익률 8.2%), 기본(10.6%·6.7%), 낙관(8.9%·4.8%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">지금 가격(<span data-dcf-price>$379.30</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>19.2%</b>씩 커야 한다(마진은 기본 시나리오 경로). 기본 시나리오(<span data-dcf-basev>$273</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>6.7%</span>다.</div>
   </div>
@@ -729,7 +729,6 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="unhRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">2025년 4분기 영업이익이 $0.38B로 거의 0인 것은 일회성 항목 $2.75B 때문이다(구조조정·손실 계약 충당 등 $2.52B, 사이버공격 대응 비용 $0.80B, 사업 매각 이익 −$0.57B). 이를 뺀 회사 조정 영업이익률도 2.8%로 낮았다. 2025년에는 의료비 비율(MCR)이 88.9%(조정)로 전년 85.5%보다 크게 올라 이익이 눌렸고, 2026년에는 1분기 83.9%·2분기 86.7%로 내려왔다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -742,17 +741,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$0.8B</div>
-      <div class="stat-sub">유형자산·소프트웨어 취득(현금흐름표)</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 2026)</div>
-      <div class="stat-value">해당 없음</div>
-      <div class="stat-sub">연구개발비를 따로 공시하지 않는다</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">$6.04</div>
+      <div class="stat-sub">GAAP · 1년 전 $3.74 (+61%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 (회사 미확정)</div>
+      <div class="stat-value">10월 27일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/28 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">195.0%</span></div>
       <div class="diag-badge alert" title="구성표 배점 2/5점">⚠️ 주의</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+3.8%</span><span class="diag-note">2025년 말 $309.6B(전년 $298.3B) · 연간 지표, 2026년 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+3.8%</span><span class="diag-note">2025년 말 $309.6B(전년 $298.3B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -800,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율 77.7%는 보험사 구조 때문이다. 유동부채에 아직 지급하지 않은 의료비($38.9B)가 크게 잡히고, 그 지급을 받치는 투자 자산 대부분($57.7B)은 비유동 장기투자로 분류된다. 재고가 없어 당좌비율도 같다. 차입금은 $73.3B(1년 안 만기·단기 $3.8B + 장기 $69.5B)이고 현금·단기투자는 $31.5B다. 신용등급 전망은 무디스·S&P·피치 모두 "부정적"이다. <a href="https://www.sec.gov/Archives/edgar/data/731766/000073176626000197/unh-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $73.3B, 현금·단기투자 $31.5B, 자본 $98.4B. 유동비율 78%, 이자보상배율 8.3배. <a href="https://www.sec.gov/Archives/edgar/data/731766/000073176626000197/unh-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준</span>)</div>
@@ -817,40 +816,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="collapsible-body collapsed">
 
-    <div class="activity-grid">
-      <div class="act-card">
-        <div class="act-icon">💳</div>
-        <div><div class="act-label">매출채권 회전율·회전기간</div><div class="act-value" data-act-turn="dso">7.67회</div><div class="act-sub" data-act-sub="dso">47.6일 만에 현금화 · 직전 분기 47.2일 대비 +0.4일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">📦</div>
-        <div><div class="act-label">재고자산 회전율·회전기간</div><div class="act-value" data-act-turn="dio">3.40회</div><div class="act-sub" data-act-sub="dio">107.3일 재고 보유 · 직전 분기 104.0일 대비 +3.3일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🧾</div>
-        <div><div class="act-label">매입채무 회전율·지급기간</div><div class="act-value" data-act-turn="dpo">7.05회</div><div class="act-sub" data-act-sub="dpo">51.8일 만에 지급 · 직전 분기 52.5일 대비 −0.7일</div></div>
-      </div>
-      <div class="act-card">
-        <div class="act-icon">🔄</div>
-        <div><div class="act-label">영업순환주기</div><div class="act-value" data-act-days="op">154.9일</div><div class="act-sub" data-act-sub="op">재고보유+매출채권 회전기간 · 직전 분기 151.2일 대비 +3.7일</div></div>
-      </div>
-    </div>
-    <div class="ccc-card">
-      <div class="ccc-head">
-        <div class="ccc-head-label">⏱️ 현금창출주기 (CCC)</div>
-        <div class="ccc-head-value" data-act-days="ccc">103.1일</div>
-      </div>
-      <div class="ccc-explain" id="actCccExplain">재고를 사서 판매 대금을 회수하기까지 154.9일이 걸리는데, 그중 51.8일은 매입채무(외상)로 버티고 나머지 <strong style="color:var(--gold);">103.1일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. 직전 분기 98.7일보다 4.4일 길어졌다.</div>
-      <div class="tl-bar-wrap" id="actBar">
-        <div class="tl-marker" style="left:33.4%; height:18px;"></div>
-        <div class="tl-marker-label" style="left: 33.4%; transform: translateX(-50%);">매입채무 지급 51.8일</div>
-        <div class="tl-bar">
-          <div class="tl-seg-inv" style="width:69.3%;" title="재고보유 107.3일">재고보유 107.3일</div>
-          <div class="tl-seg-ar" style="width:30.7%;" title="매출채권회수 47.6일">매출채권회수 47.6일</div>
-        </div>
-        <div class="tl-ccc-span" style="left:33.4%; width:66.6%;"></div>
-      </div>
-    </div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — 5년 비교 이력 부족.</div>
 
     </div>
   </div>
@@ -878,34 +844,32 @@ Chart.overrides.doughnut.animation = false;
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#002677;display:inline-block;flex-shrink:0;"></span>유나이티드헬스케어 메디케어·은퇴 <strong style="color:var(--text);">$42.39B · 37.8%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block;flex-shrink:0;"></span>유나이티드헬스케어 커뮤니티·주(메디케이드) <strong style="color:var(--text);">$23.64B · 21.1%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#6cb4ea;display:inline-block;flex-shrink:0;"></span>유나이티드헬스케어 고용주·개인 <strong style="color:var(--text);">$19.99B · 17.8%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#1d4ed8;display:inline-block;flex-shrink:0;"></span>유나이티드헬스케어(메디케어·메디케이드·고용주) <strong style="color:var(--text);">$86.02B · 76.8%</strong></div>
           <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#f7b600;display:inline-block;flex-shrink:0;"></span>옵텀(그룹 밖 매출) <strong style="color:var(--text);">$26.02B · 23.2%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">옵텀 전체 매출은 $65.7B지만 그중 $39.6B는 그룹 안 유나이티드헬스케어와의 거래라 연결 매출에서 빠진다(옵텀 영업이익 $4.0B는 유나이티드헬스케어 $3.9B와 비슷하다) · 의료 가입자 4,853만 명, 메디케어 어드밴티지는 연초보다 96.5만 명 줄었다 · 출처: <a href="https://www.sec.gov/Archives/edgar/data/731766/000073176626000191/earningsrelease2q26_7152.htm" target="_blank" rel="noopener">Q2 2026 실적 보도자료 (SEC 8-K) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 유나이티드헬스케어(메디케어·메디케이드·고용주) −0.1%, 옵텀(그룹 밖 매출) +2.0% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/731766/000073176626000197/unh-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (2026년 상반기, 선도계약 포함)</span>
+          <span class="zone-label">자사주 매입 (연초~6/30, 26주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$3.6B</span>
+            <span class="zone-val">$1.6B</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">잔여 바이백 승인 한도 (2026.06.30 기준, 주식 수 한도 · 현재가 환산 약 $4.0B)</span>
-          <span class="zone-val">1,060만 주</span>
+          <span class="zone-label">배당 지급 (연초~6/30, 26주)</span>
+          <span class="zone-val">$4.1B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q2 2026 지급)</span>
+          <span class="zone-label">최근 분기 주당 배당 (지급 기준, 6/30 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">연 $9.28(6월 5% 인상, 전 $8.84)</span>
-            <span class="zone-val">$2.1B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $2.21 · +5.0%</span>
+            <span class="zone-val">$2.32</span>
           </div>
         </div>
       </div>
@@ -914,12 +878,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 27일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 7월에 올린 연간 전망(조정 EPS $19.50~20.00, GAAP $18.45~18.95, 의료비 비율 88.1% ±0.25%p) 유지 여부</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> 의료비 비율 — 1분기 83.9%, 2분기 86.7%(과거 분기 추정 환입 $860M 포함)에서 하반기 흐름</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> 메디케어 어드밴티지 가입자 감소(연초 대비 −96.5만 명)와 옵텀 헬스 가치기반 진료 환자 감소(2분기 1년 전보다 약 70만 명 적음, 매출 −5%)</div>
-      <div><strong style="color:var(--accent2);">④</strong> 법무부 위험조정 소송, IRS 이전가격 조정 통지(2017~2020년분) 등 규제·세무 사안</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+12.3% → +2.0% → +0.4%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 2026 7.1%, 1년 전 4.6%)</div>
     </div>
   </div>
 </div>
@@ -938,8 +900,8 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">68.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">66</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">54</div><div class="sc-tile" data-vc="peer" data-m="psr">84</div><div class="sc-tile" data-vc="peer" data-m="pcr">80</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">56</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PBR·PSR·PCR은 자기 5년 이력의 하위 약 22%(백분위 20~22.2)라 다섯 배수 평균이 68.1점이다. PER 24.4배·EV/EBITDA 15.1배는 5년 중간쯤인데, 최근 4분기 GAAP EPS(약 $15.58)에 2025년 4분기 일회성 비용이 들어 있어서다(조정 EPS $18.64로는 약 20배). S&P500 헬스케어 안에서는 68.1점이다. <strong>현금흐름 내재가치(기본 $273)는 현재가의 72%</strong>다. 주가는 1년 새 +3%이고, 3월 말 저점(종가 $259.02)에서 7월 고점($436.35)까지 올랐다가 내려왔다.</div>
-    <div class="verdict-summary-risk">⚠️ 현재가가 정당하려면 5년간 매출이 연 <strong>19.2%</strong>씩 커야 한다(지난 5년 실제 연 10.6%). 세 시나리오 순서가 보수($333) &gt; 기본 &gt; 낙관($167)으로 뒤집혀 있다. 보수가 기본보다 높은 것은 마진(5년 중앙값 8.2% 대 2년 중앙값 6.7%) 때문이고, 낙관은 성장률(3년 8.9% &lt; 5년 10.6%)도 마진(2025년 의료비 급등과 4분기 일회성 비용으로 눌린 최근 4분기 4.8% 유지)도 기본보다 낮다. 장기투자 $57.7B(주당 약 $64)는 가입자 의료비 지급을 받치는 보험 자산으로 보고 내재가치에 더하지 않았다(2026-09-30 결정). 그 이자·배당은 이미 영업이익 안에 들어 있다.</div>
+    <div class="vs-premise">PER 24.4배(5년 중앙값 25.6배)로 자기 이력 68.1점(중간), 동종업 68.1점(중간)이다. <strong>현금흐름 내재가치(기본 $272.59)는 현재가의 72%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −1, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $272.59)는 현재가의 72%다. 현재가를 정당화하려면 매출이 5년간 연 19.2% 커야 한다. 내재가치에서 차입금 $73.3B를 빼고 현금·단기투자 $31.5B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1022,14 +984,9 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 2025년 의료비 급등과 구조조정을 지나 2026년 이익이 회복되고 있다<span class="tag">회복기</span></div>
-    <ol class="news-list">
-      <li>2025년에는 의료비 비율이 88.9%(조정)로 올라 이익이 급감했고, 4분기에 구조조정 등 일회성 비용 $2.8B를 처리했다.</li>
-      <li>2026년에는 의료비 비율이 1분기 83.9%·2분기 86.7%로 내려왔고, 회사는 연간 전망을 두 번 올렸다. 대신 가입자와 매출은 줄어드는 쪽이다.</li>
-      <li>주가는 1월 전망 발표일에 20% 떨어졌고, 3월 말 저점($259.02)에서 7월 고점($436.35)까지 올랐다가 지금 $379.30다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 신용등급 전망이 세 곳 모두 "부정적"이고, 법무부 위험조정 소송과 IRS 이전가격 조정 통지가 남아 있다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적(10월 예상)의 의료비 비율과 연간 전망 유지.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $112.0B(+0.4%), 영업이익률 7.1%(1년 전 4.6%). 주가는 1년 새 +3%<span class="tag">배수 중간·매출 성장 느려짐</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −1, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $272.59)는 현재가의 72%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 27일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1100,15 +1057,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">이익 회복</span><span class="bb-text">2분기 영업이익 $7.99B로 1년 전보다 55% 늘었고, 연간 전망을 두 번 올렸다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">2분기 영업현금흐름 $11.05B(회사 발표 기준 순이익의 1.9배), 연간 약 $24B 전망.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">배수</span><span class="bb-text">PBR·PSR·PCR이 자기 5년 하위 약 22%다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">분기 주당 배당 $2.32(1년 전보다 +5.0%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 68점(배수 5개) · PER 24.4배(5년 중앙값 25.6배).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">2026년 매출 전망이 2025년보다 낮고, 메디케어 어드밴티지 가입자가 연초보다 96.5만 명 줄었다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">규제·소송</span><span class="bb-text">법무부 위험조정 소송, IRS 이전가격 조정 통지, 신용등급 전망 "부정적".</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">기본 내재가치는 현재가의 72%이고, 현재가는 연 19.2% 성장을 요구한다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">매출</span><span class="bb-text">Q2 2026 매출 +0.4%(보고 기준, 3년 연평균 8.9%).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 4.8%(5년 중앙값 8.2%).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">3년 매출 성장률 연 8.9%, 5년 연 10.6%보다 낮다.</span></div>
     </div>
   </div>
 
@@ -1121,12 +1077,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 84.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 15.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-10</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
         <span class="op-val"><span data-an="mean">$469.19</span> <span class="op-sub op-up" data-an="upside">+23.7%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 27일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1207,14 +1163,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [112.03, 7.99, 5.48, 10.25], cmp: [111.62, 5.15, 3.41, 6.3] },
     deltas: ['+0.4%', '+55.2%', '+61.0%', '+62.7%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · 매출에는 투자·기타 수익(2분기 $1.22B)이 들어 있다 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/731766/000073176626000191/earningsrelease2q26_7152.htm" target="_blank" rel="noopener">UnitedHealth Group Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 4.6%로 5년 중앙값(8.2%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/731766/000073176626000191/earningsrelease2q26_7152.htm" target="_blank" rel="noopener">UnitedHealth Group Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
     chart: { cur: [112.03, 7.99, 5.48, 10.25], cmp: [111.72, 8.99, 6.28, 8.15] },
     deltas: ['+0.3%', '-11.1%', '-12.7%', '+25.8%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · 매출에는 투자·기타 수익(2분기 $1.22B)이 들어 있다 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/731766/000073176626000191/earningsrelease2q26_7152.htm" target="_blank" rel="noopener">UnitedHealth Group Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/731766/000073176626000191/earningsrelease2q26_7152.htm" target="_blank" rel="noopener">UnitedHealth Group Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1301,10 +1257,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:["유나이티드헬스케어 메디케어·은퇴", "유나이티드헬스케어 커뮤니티·주(메디케이드)", "유나이티드헬스케어 고용주·개인", "옵텀(그룹 밖 매출)"],
+      labels:["유나이티드헬스케어(메디케어·메디케이드·고용주)", "옵텀(그룹 밖 매출)"],
       datasets:[{
-        data:[42390, 23635, 19992, 26015],
-        backgroundColor:["#002677", "#3b82f6", "#6cb4ea", "#f7b600"],
+        data:[86017, 26015],
+        backgroundColor:["#1d4ed8", "#f7b600"],
         borderColor:'#8a8d9e',
         borderWidth:2
       }]
@@ -1505,7 +1461,7 @@ const UNH_SCORES = {
   peer: 68.1,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 68.1,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
   asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q (2026-08-10 공시)
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 UNH_DCF 하나다.
@@ -2102,7 +2058,7 @@ const UNH_ACTIVITY = {"ticker": "UNH", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/unh/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const UNH_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 21, mean: 469.19, median: 480,
+const UNH_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 21, mean: 469.19, median: 480,
   low: 370, high: 529, strongBuy: 15, buy: 7, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = UNH_ANALYST, last = (typeof UNH_DAILY !== 'undefined' && UNH_DAILY.length) ? UNH_DAILY[UNH_DAILY.length - 1] : null;
@@ -2145,7 +2101,7 @@ const UNH_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 
   put('unhFundBox', 'unhFundScore', 'unhFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
       + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 10-Q), 성장률은 연간 시계열(2025년까지)을 쓴다.`
-      + `\n영업이익 3년 연 증가율 −12.6%(1점)는 2025년 이익 급감(의료비 비율 상승·4분기 일회성 비용) 때문이다. 유동비율 1점은 보험사 구조(미지급 의료비는 유동, 투자 자산은 비유동)에서 온다.`);
+      + `\n점수는 Q2 2026 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2167,7 +2123,7 @@ const UNH_ANALYST = { asOf: '2026-10-10', source: 'StockAnalysis (의견 집계 
       + `\n제약·바이오·의료기기·보험·서비스가 섞여 있다. 보험사는 마진이 얇아 PSR이 구조적으로 낮게 나온다(PSR 순위 10/57).`);
   put('unhSelfBox', 'unhSelfScore', 'unhSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPBR 3.3배·PSR 0.76배·PCR 14.4배는 5년 하위 약 22%로 싼 쪽이고, PER 24.4배·EV/EBITDA 15.1배는 중간이다. 70점 문턱을 겨우 넘었다.`
+      + `\nPER 24.4배는 5년 분포의 하위 46.9%다(중앙값 25.6배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

@@ -210,17 +210,28 @@ Chart.overrides.doughnut.animation = false;
 
   .detail-toggle { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 8px; user-select: none; font-size: 12.5px; color: var(--text2); font-weight: 600; padding: 10px 2px 6px; border-top: 1px dashed var(--bg3); margin-top: 2px; }
   .detail-toggle:hover { color: var(--text); }
-  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: rgba(159,219,47,0.12); border: 1px solid rgba(159,219,47,0.35); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
-  .detail-toggle:hover .toggle-hint { background: rgba(159,219,47,0.22); border-color: rgba(159,219,47,0.5); }
+  .detail-toggle .toggle-hint { display: flex; align-items: center; gap: 6px; background: color-mix(in srgb, var(--accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 999px; padding: 5px 11px; flex-shrink: 0; transition: background 0.2s ease, border-color 0.2s ease; }
+  .detail-toggle:hover .toggle-hint { background: color-mix(in srgb, var(--accent) 22%, transparent); border-color: color-mix(in srgb, var(--accent) 50%, transparent); }
   .detail-toggle .toggle-hint-text { font-size: 10.5px; font-weight: 700; color: var(--accent2); white-space: nowrap; }
   .detail-toggle .chevron { font-size: 11px; color: var(--accent2); transition: transform 0.25s ease; flex-shrink: 0; }
   .detail-toggle.collapsed .chevron { transform: rotate(-90deg); }
+  .diag-summary + .detail-toggle .toggle-hint { background: rgba(46,204,113,0.12); border-color: rgba(46,204,113,0.35); }
+  .diag-summary + .detail-toggle:hover .toggle-hint { background: rgba(46,204,113,0.22); border-color: rgba(46,204,113,0.5); }
+  .diag-summary + .detail-toggle .toggle-hint-text, .diag-summary + .detail-toggle .chevron { color: var(--green); }
+  .diag-summary.watch + .detail-toggle .toggle-hint { background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); }
+  .diag-summary.watch + .detail-toggle:hover .toggle-hint { background: rgba(240,192,64,0.22); border-color: rgba(240,192,64,0.5); }
+  .diag-summary.watch + .detail-toggle .toggle-hint-text, .diag-summary.watch + .detail-toggle .chevron { color: var(--gold); }
+  .diag-summary.alert + .detail-toggle .toggle-hint { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.35); }
+  .diag-summary.alert + .detail-toggle:hover .toggle-hint { background: rgba(231,76,60,0.22); border-color: rgba(231,76,60,0.5); }
+  .diag-summary.alert + .detail-toggle .toggle-hint-text, .diag-summary.alert + .detail-toggle .chevron { color: var(--red); }
+  .diag-summary.none + .detail-toggle .toggle-hint { background: var(--bg3); border-color: var(--border); }
+  .diag-summary.none + .detail-toggle .toggle-hint-text, .diag-summary.none + .detail-toggle .chevron { color: var(--text2); }
   .collapsible-body { overflow: hidden; opacity: 1; transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.2s ease; }
   .collapsible-body.collapsed { max-height: 0 !important; opacity: 0; margin-top: 0 !important; }
 
   .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .act-card { background: var(--bg3); border-radius: 8px; padding: 12px 14px; display:flex; align-items:center; gap:12px; }
-  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(159,219,47,0.1); border-radius:8px; flex-shrink:0; }
+  .act-icon { font-size: 19px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:color-mix(in srgb, var(--accent) 10%, transparent); border-radius:8px; flex-shrink:0; }
   .act-label { font-size: 11.5px; color: var(--text2); font-weight:600; margin-bottom:2px; }
   .act-value { font-size: 15px; font-weight: 700; color: var(--text); }
   .act-sub { font-size: 11px; color: var(--text2); margin-top:1px; }
@@ -233,7 +244,7 @@ Chart.overrides.doughnut.animation = false;
   .tl-bar { height: 18px; border-radius: 5px; overflow: hidden; display: flex; }
   .tl-seg-float { background: repeating-linear-gradient(45deg, rgba(240,192,64,0.28) 0 6px, rgba(240,192,64,0.14) 6px 12px); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--gold); }
   .tl-seg-inv { background: linear-gradient(90deg,var(--blue),#2980b9); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
-  .tl-seg-ar { background: linear-gradient(90deg,#9fdb2f,var(--accent)); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--bg); }
+  .tl-seg-ar { background: linear-gradient(90deg,var(--accent),var(--accent)); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--bg); }
   .tl-marker { position: absolute; top: -18px; width: 2px; background: var(--gold); }
   .tl-marker-label { position: absolute; top: -32px; transform: translateX(-50%); font-size: 10.5px; font-weight: 700; color: var(--gold); white-space: nowrap; }
   .tl-ccc-span { position: absolute; height: 3px; background: rgba(240,192,64,0.6); border-radius: 2px; top: 24px; }
@@ -278,7 +289,7 @@ Chart.overrides.doughnut.animation = false;
   .val-item:last-child { margin-bottom: 0; }
   .val-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .val-item:hover { background: color-mix(in srgb, var(--text) 3%, transparent); }
-  .val-item.selected { background: rgba(159,219,47,0.08); border-color: rgba(159,219,47,0.35); }
+  .val-item.selected { background: color-mix(in srgb, var(--accent) 8%, transparent); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
   .val-name { position: relative; font-size: 13px; font-weight: 600; color: var(--text); }
   .val-item.selected .val-name::after { content: '▸ 비교 보기'; font-size: 9.5px; font-weight: 600; color: var(--accent2); margin-left: 8px; vertical-align: middle; }
   .val-number { font-size: 14px; font-weight: 700; color: var(--accent2); }
@@ -526,10 +537,10 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~저평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--green);">적정~저평가</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%)</span>
+      <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110.6%)</span>
       <span class="meta-value" id="nvdaDcfReq" style="font-size:22px;color:#0ea5e9;">연 27.9%</span>
     </div>
     <div class="meta-item">
@@ -538,7 +549,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="nvdaFairBand" style="font-size:22px;color:var(--green);">$250 ~ $360</span>
+      <span class="meta-value" id="nvdaFairBand" title="최근 1년 PER 25~75% 구간(31.9~46.0배) × 최근 4분기 희석 EPS $7.91(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$250 ~ $360</span>
     </div>
   </div>
   </div>
@@ -670,22 +681,22 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$148.68</td><td style="color: var(--red);" data-dcf-upside="low">−35.2%</td>
-          <td class="story">지난 5년 성장 속도의 절반에서 출발해 점점 식고, 영업이익률은 지난 5년 중앙값(54.1%)으로 내려온다. 매출 $1을 늘리는 데 $0.40를 투자한다(과거 평균 — 최근 1년($0.29)보다 자본이 더 드는 쪽).</td>
+          <td class="story">매출이 5년 성장률의 절반(연 34.7%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 54.1%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$296.98</td><td style="color: var(--green);" data-dcf-upside="base">+29.5%</td>
-          <td class="story">지난 5년의 성장 속도로 출발해 점점 식고, 영업이익률은 최근 2년 중앙값(61.4%)으로 서서히 내려온다. 매출 $1당 투자는 최근 1년 $0.29에서 5년에 걸쳐 과거 평균 $0.40로 돌아온다.</td>
+          <td class="story">매출이 5년 성장률(연 69.4%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 61.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$560.67</td><td style="color: var(--green);" data-dcf-upside="high">+144.5%</td>
-          <td class="story">최근 3년의 성장 속도로 출발해 점점 식고, 지금 영업이익률(65.2%)이 그대로 간다. 매출 $1당 투자는 과거 평균 $0.40다. 5년 뒤 매출이 $2.4조로 세계 반도체 시장 전체와 맞먹어서 현실적인 상한은 아니다.</td>
+          <td class="story">매출이 3년 성장률(연 110.6%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 65.2%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $148.68~$560.67다. 영업이익률은 최근 4분기 65.2%, 2년 중앙값 61.4%, 5년 중앙값 54.1%를 쓴다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $296.98 = 사업 가치 $293.22 + 비영업 자산 $3.76(주당, 지분·장기투자)</div>
     <div class="reverse">지금 가격(<span data-dcf-price>$229.28</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>27.9%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$297</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>35.6%</span>다.</div>
   </div>
 
@@ -725,22 +736,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 FY27)</div>
       <div class="stat-value">$21.4B</div>
-      <div class="stat-sub">현금창출력</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 FY27)</div>
-      <div class="stat-value">$2.7B</div>
-      <div class="stat-sub">미래 재투자</div>
+      <div class="stat-value">$2.68B</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 FY27)</div>
-      <div class="stat-value">$7.1B</div>
-      <div class="stat-sub">기술 경쟁력 투자</div>
+      <div class="stat-label">희석 EPS (Q2 FY27)</div>
+      <div class="stat-value">$2.46</div>
+      <div class="stat-sub">GAAP · 1년 전 $1.08 (+128%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">11월 중순 예상</div>
-      <div class="stat-sub">일정 · Q3 FY27</div>
+      <div class="stat-value">11월 18일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 FY27 (작년 11/19 공시, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -779,7 +790,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">39.9%</span></div>
       <div class="diag-badge watch" title="구성표 배점 4/5점">보통</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">85.3%</span><span class="diag-note">FY26 $206.8B(전기 $111.6B) · 연간 지표, FY27 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+85.3%</span><span class="diag-note">FY2026 말 $206.8B(전년 $111.6B) · 연간 지표</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
@@ -788,7 +799,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">유동비율·당좌비율·이자보상배율 모두 기준치를 큰 폭으로 상회 — 재무구조 자체의 부실 위험은 사실상 없다. 다만 2026년 6월 15일 2021년 이후 첫 회사채(7개 트랜치, 만기 2~30년)를 $25B 규모로 발행하며 총차입금이 $8.5B→$33.4B로 늘어 차입금의존도·부채비율이 함께 상승했다 — 자금 조달 목적보다는 투자등급 신용시장에 벤치마크를 세워 향후 재무 유연성을 확보하려는 목적으로 알려져 있다(수요 약 $85B로 3.4배 초과청약).</div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 $33.4B, 현금·단기투자 $56.6B, 자본 $229.0B. 유동비율 459%, 이자보상배율 281배. <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm" target="_blank" rel="noopener">Q2 FY27 10-Q (SEC) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.07.26까지 4분기</span>)</div>
@@ -859,40 +870,40 @@ Chart.overrides.doughnut.animation = false;
   <!-- ══════════ 5. 매출 구성 + 자본배분·주주환원 (side by side) ══════════ -->
   <div class="grid-2">
     <div class="card" style="margin-bottom:0;">
-      <div class="card-title">매출 구성 — Market Platform (Q2 FY27 · 2026.07.26 기준)</div>
+      <div class="card-title">매출 구성 — 시장 플랫폼별 (Q2 FY27 · 2026.07.26 기준)</div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:20px;">
         <div class="chart-wrap" style="height:170px;width:170px;flex-shrink:0;">
           <canvas id="segmentPieChart"></canvas>
         </div>
         <div style="display:flex;flex-direction:column;gap:9px;">
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#7c6ad6;display:inline-block;flex-shrink:0;"></span>Hyperscale <strong style="color:var(--text);">$48.7B · 50.6%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#4d7a00;display:inline-block;flex-shrink:0;"></span>AI Clouds·Industrial·Enterprise <strong style="color:var(--text);">$40.3B · 41.9%</strong></div>
-          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block;flex-shrink:0;"></span>Edge Computing <strong style="color:var(--text);">$7.2B · 7.5%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#7c6ad6;display:inline-block;flex-shrink:0;"></span>하이퍼스케일 <strong style="color:var(--text);">$48.71B · 50.6%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#4d7a00;display:inline-block;flex-shrink:0;"></span>AI 클라우드·산업·기업 <strong style="color:var(--text);">$40.31B · 41.9%</strong></div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:#3b82f6;display:inline-block;flex-shrink:0;"></span>엣지 컴퓨팅 <strong style="color:var(--text);">$7.20B · 7.5%</strong></div>
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">출처: <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27cfocommentary.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 CFO Commentary (SEC 8-K) →</a> · 이번 분기 중 ACIE→Hyperscale 고객 재분류로 전분기 수치가 소급 수정됨</div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 하이퍼스케일 2.0배, AI 클라우드·산업·기업 2.4배, 엣지 컴퓨팅 +27.5% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm" target="_blank" rel="noopener">Q2 FY27 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
       <div class="card-title">자본배분 · 주주환원 (Q2 FY27 · 2026.07.26 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">자사주 매입 (Q2 FY27)</span>
+          <span class="zone-label">자사주 매입 (회계연도 누계 2026.1.26~2026.7.26, 26주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">$19.7B</span>
+            <span class="zone-val">$39.0B</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">잔여 바이백 승인 한도 (2026.07.26 기준)</span>
-          <span class="zone-val">$99.3B</span>
+          <span class="zone-label">배당 지급 (회계연도 누계 2026.1.26~2026.7.26, 26주)</span>
+          <span class="zone-val">$6.3B</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 (Q2 FY27)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 7/26 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">25배 인상분 첫 반영</span>
-            <span class="zone-val">$6.0B</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.01</span>
+            <span class="zone-val">$0.25</span>
           </div>
         </div>
       </div>
@@ -901,12 +912,10 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 중순 (예상) · Q3 FY2027</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 11월 18일 무렵 (예상) · Q3 FY27</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> Data Center 매출이 Q2 $89.0B(+117%)에서 가이던스($108B, 전사 기준)대로 계속 신고점을 경신하는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> Q2에서 부각된 매출채권·재고 증가에 따른 잉여현금흐름 둔화가 이번에도 반복되는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> Blackwell 후속 Vera Rubin 로드맵의 2026년 하반기 출하 일정이 유지되는지</div>
-      <div><strong style="color:var(--accent2);">④</strong> 지분증권 평가이익(Q2 $7.77B)이 이번에도 GAAP 순이익을 크게 흔드는지 확인.</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+73.2% → +85.2% → +105.9%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> GAAP 영업이익률이 1년 전 같은 분기보다 높은지(Q2 FY27 66.2%, 1년 전 60.8%)</div>
     </div>
   </div>
 </div>
@@ -926,8 +935,8 @@ Chart.overrides.doughnut.animation = false;
 보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">싸다 · 갈림</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">49.1</div><div class="sc-tile" data-vc="peer" data-m="per">79</div><div class="sc-tile low" data-vc="peer" data-m="pbr">22</div><div class="sc-tile low" data-vc="peer" data-m="psr">30</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">61</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">54</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">이익 기준 배수는 낮지만 자산·매출 기준 배수는 섹터에서 비싼 편이라, <strong>지금의 높은 마진이 유지된다는 전제의 저평가</strong>다.</div>
-    <div class="verdict-summary-risk">⚠️ 성장이 지난 5년 속도의 절반으로 식고 영업이익률이 5년 중앙값(54.1%)으로 내려오면 내재가치는 <strong data-vs="low">$149</strong>(보수 시나리오)으로 현재가보다 낮아진다.</div>
+    <div class="vs-premise">PER 29.0배(5년 중앙값 57.6배)로 자기 이력 88.5점(싸다), 동종업 49.1점(중간)이다. <strong>현금흐름 내재가치(기본 $296.98)는 현재가의 130%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 +1, 합계 +2 “적정~저평가”이다. 현금흐름 내재가치(기본 $296.98)는 현재가의 130%다. 현재가를 정당화하려면 매출이 5년간 연 27.9% 커야 한다. 내재가치에서 차입금 $33.4B를 빼고 현금·단기투자 $56.6B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -972,10 +981,10 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
-          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">최근 2.1년 이력</span></span>
+          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">유효 이력 2.1년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">43.5x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 16%</span>
+            <span class="hist-badge good" data-hist="badge">2.1년 중 하위 16%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 16.2%;"></div></div>
@@ -996,7 +1005,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">글로벌 AI 반도체 PER 비교</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">반도체 대형주 PER 비교 (INTC 값 없음) · 08/27~09/11 카드 기준(NVDA 막대는 10/9)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1006,18 +1015,13 @@ Chart.overrides.doughnut.animation = false;
 </div>
 
 <div id="news" class="section">
-  <div class="section-title">시계열 주요 뉴스 (2025.11 ~ 2026.09)</div>
+  <div class="section-title">시계열 주요 뉴스 (2025.10 ~ 2026.10)</div>
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · 실적이 매 분기 가이던스를 넘는다<span class="tag">우호적·정책 경계</span></div>
-    <ol class="news-list">
-      <li>네 분기 연속 매출이 직전 가이던스를 넘었다. $57.0B에서 $96.2B까지 늘었고, 데이터센터 성장률은 전년 대비 66% → 75% → 92% → 117%로 빨라졌다.</li>
-      <li>다음 분기(Q3 FY27) 가이던스는 $108.0B다. 중국 데이터센터 매출은 0으로 가정했다.</li>
-      <li>9월에 Hugging Face를 $12.93B에 인수하기로 했다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ 중국 규제가 계속 조여진다(3월 H200 중국向 생산 중단 보도, 5월 말 해외 법인 우회 차단). 실적 발표 다음날 주가가 오른 것은 네 번 중 한 번(Q2 FY27)뿐이다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 FY27 실적(11월 중순 예상)에서 $108.0B 가이던스를 넘는지, 잉여현금흐름이 회복되는지.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 FY27 매출 $96.2B, 영업이익률 66.2%(1년 전 60.8%). 주가는 1년 새 +21%<span class="tag">배수 5년 최저권·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 +1, 합계 +2 “적정~저평가”이다. 현금흐름 내재가치(기본 $296.98)는 현재가의 130%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 11월 18일 무렵 (예상) Q3 FY27 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1033,45 +1037,27 @@ Chart.overrides.doughnut.animation = false;
     <div class="timeline" id="newsTimeline">
       <div class="tl-item">
         <div class="tl-dot neutral"></div>
-        <div class="tl-date">2026년 9월 3일 — Hugging Face 인수<span class="tl-reaction up" data-react="2026-09-03">+1.8%</span></div>
-        <div class="tl-title">개방형 AI 모델 플랫폼 Hugging Face를 $12.93B에 인수하기로 발표</div>
-        <a class="tl-source" href="https://blogs.nvidia.com/blog/nvidia-to-acquire-hugging-face/" target="_blank" rel="noopener">NVIDIA Blog →</a>
+        <div class="tl-date">2026년 8월 27일 (공시 접수 8/26 장 마감 뒤) — 실적 발표<span class="tl-reaction up" data-react="2026-08-27">+8.7%</span></div>
+        <div class="tl-title">Q2 FY27 매출 $96.2B, GAAP 영업이익 $63.7B, 희석 EPS $2.46(1년 전 $1.08) · SEC 10-Q 기준</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2026년 8월 26일 발표 · 8월 27일 반응 — Q2 FY27 실적<span class="tl-reaction up" data-react="2026-08-27">+8.7%</span></div>
-        <div class="tl-title">매출 $96.2B(+106%)로 가이던스 $91.0B 상회 · 다음 분기 가이던스 $108.0B · 이튿날 −4.6%</div>
-        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 5월 21일 (공시 접수 5/20 장 마감 뒤) — 실적 발표<span class="tl-reaction down" data-react="2026-05-21">−1.8%</span></div>
+        <div class="tl-title">실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000051/q1fy27pr.htm" target="_blank" rel="noopener">NVIDIA 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
-        <div class="tl-dot red"></div>
-        <div class="tl-date">2026년 5월 31일 — 수출 규제 강화<span class="tl-reaction up" data-react="2026-06-01">+6.3%</span></div>
-        <div class="tl-title">미 상무부, 중국 본사 기업의 해외 법인에도 첨단 칩 수출허가 적용 · Blackwell 우회 경로 차단</div>
-        <a class="tl-source" href="https://www.cnbc.com/2026/05/31/us-takes-step-to-halt-nvidia-ai-chip-shipments-to-chinese-firms-outside-china.html" target="_blank" rel="noopener">CNBC →</a>
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 2월 26일 (공시 접수 2/25 장 마감 뒤) — 실적 발표<span class="tl-reaction down" data-react="2026-02-26">−5.5%</span></div>
+        <div class="tl-title">실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000019/q4fy26pr.htm" target="_blank" rel="noopener">NVIDIA 실적 보도자료 (SEC 8-K) →</a>
       </div>
       <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2026년 5월 20일 발표 · 5월 21일 반응 — Q1 FY27 실적<span class="tl-reaction down" data-react="2026-05-21">−1.8%</span></div>
-        <div class="tl-title">매출 $81.6B(+85%)로 가이던스 $78.0B 상회 · 배당 $0.01→$0.25, 자사주 $80B 추가 승인</div>
-        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot red"></div>
-        <div class="tl-date">2026년 3월 5일 — H200 중국向 생산 중단 보도 (FT)<span class="tl-reaction flat" data-react="2026-03-05">+0.2%</span></div>
-        <div class="tl-title">중국이 선적을 막자 TSMC 생산 능력을 H200에서 Vera Rubin으로 전환</div>
-        <a class="tl-source" href="https://www.trendforce.com/news/2026/03/05/news-nvidia-reportedly-halts-h200-production-amid-china-sales-uncertainty-shifts-tsmc-capacity-to-vera-rubin/" target="_blank" rel="noopener">TrendForce →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2026년 2월 25일 발표 · 2월 26일 반응 — Q4 FY26 실적<span class="tl-reaction down" data-react="2026-02-26">−5.5%</span></div>
-        <div class="tl-title">매출 $68.1B(+73%)로 가이던스 $65.0B 상회 · 다음 분기 가이던스 $78.0B</div>
-        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-fourth-quarter-and-fiscal-2026" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">2025년 11월 19일 발표 · 11월 20일 반응 — Q3 FY26 실적<span class="tl-reaction down" data-react="2025-11-20">−3.2%</span></div>
-        <div class="tl-title">매출 $57.0B(+62%)로 가이던스 $54.0B 상회 · "클라우드 GPU는 품절" (젠슨 황)</div>
-        <a class="tl-source" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-third-quarter-fiscal-2026" target="_blank" rel="noopener">NVIDIA 실적 발표 →</a>
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2025년 11월 20일 (공시 접수 11/19 장 마감 뒤) — 실적 발표<span class="tl-reaction down" data-react="2025-11-20">−3.2%</span></div>
+        <div class="tl-title">실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1045810/000104581025000228/q3fy26pr.htm" target="_blank" rel="noopener">NVIDIA 실적 보도자료 (SEC 8-K) →</a>
       </div>
     </div>
     <div class="tl-pager" id="newsPager"></div>
@@ -1094,15 +1080,13 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">수요</span><span class="bb-text">네 분기 연속 가이던스를 넘었고 다음 분기 가이던스는 $108.0B다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">차세대 제품</span><span class="bb-text">Vera Rubin이 양산에 들어가 하반기 주요 클라우드부터 공급된다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">매출이 두 배가 되는 동안 영업이익률이 66.2%까지 올랐다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 65.2%(5년 중앙값 54.1%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 88점(배수 5개) · PER 29.0배(5년 중앙값 57.6배).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $127.0B, 매출의 41.9%.</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">중국</span><span class="bb-text">규제가 계속 조여져 가이던스는 중국 데이터센터 매출을 0으로 잡았다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">고객 집중</span><span class="bb-text">직접 고객 두 곳이 FY2026 매출의 36%를 차지한다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">자체 칩</span><span class="bb-text">구글·아마존·MS가 자체 AI 칩으로 일부 수요를 대신하려 한다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">—</span><span class="bb-text">기준을 넘는 약세 지표가 없다.</span></div>
     </div>
   </div>
 
@@ -1110,17 +1094,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">61명 · 목표가 38</span>명</span>
-        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">58</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">1</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width:95.1%;background:var(--green);"></div><div data-an-bar="hold" style="width:3.3%;background:var(--gold);"></div><div data-an-bar="sell" style="width:1.6%;background:var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">62명 · 목표가 39</span>명</span>
+        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">59</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 95.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 3.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width:1.6%;background:var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-05</span></span>
-        <span class="op-val"><span data-an="mean">$324.50</span> <span class="op-sub op-up" data-an="upside">+41.5%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
+        <span class="op-val"><span data-an="mean">$323.87</span> <span class="op-sub op-up" data-an="upside">+41.3%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">11월 중순 <span class="op-sub">Q3 FY27 예상</span></span>
+        <span class="op-val">11월 18일 무렵 <span class="op-sub">Q3 FY27 예상</span></span>
       </div>
     </div>
   </div>
@@ -1165,10 +1149,10 @@ function toggleCollapsible(header) {
 function renderFundChart() {
   const ctx = document.getElementById('nvdaRevChart');
   if (!ctx) return;
-  const revenue=[35.1,39.3,44.1,46.7,57.0,68.1,81.6,96.2];
-  const netIncome=[19.3,22.1,18.8,26.4,31.9,43.0,58.3,59.7];
+  const revenue=[35.08,39.33,44.06,46.74,57.01,68.13,81.62,96.22];
+  const netIncome=[19.31,22.09,18.78,26.42,31.91,42.96,58.32,59.69];
   const opm=[62.3,61.1,49.1,60.8,63.2,65.0,65.6,66.2];
-  const y2min=40, y2max=75;
+  const y2min=-5, y2max=20;
   new Chart(ctx,{
     data:{
       labels:['Q3 FY25','Q4 FY25','Q1 FY26','Q2 FY26','Q3 FY26','Q4 FY26','Q1 FY27','Q2 FY27'],
@@ -1199,16 +1183,16 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 FY27', cmpLabel: 'Q2 FY26',
     titleSuffix: 'YoY (Q2 FY27 vs Q2 FY26)',
-    chart: { cur: [96.2, 63.7, 59.7, 21.4], cmp: [46.7, 28.4, 26.4, 13.5] },
+    chart: { cur: [96.22, 63.73, 59.69, 21.4], cmp: [46.74, 28.44, 26.42, 13.47] },
     deltas: ['+105.9%', '+124.1%', '+125.9%', '+58.9%'],
-    footnote: '기준일: 2026.07.26(Q2 FY27) vs 2025.07.27(Q2 FY26) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 실적발표 원문 →</a>'
+    footnote: '기준일: 2026.07.26(Q2 FY27) vs 2025.07.27(Q2 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 FY27', cmpLabel: 'Q1 FY27',
     titleSuffix: 'QoQ (Q2 FY27 vs Q1 FY27)',
-    chart: { cur: [96.2, 63.7, 59.7, 21.4], cmp: [81.6, 53.5, 58.3, 48.6] },
+    chart: { cur: [96.22, 63.73, 59.69, 21.4], cmp: [81.62, 53.54, 58.32, 48.59] },
     deltas: ['+17.9%', '+19.0%', '+2.3%', '-56.0%'],
-    footnote: '기준일: 2026.07.26(Q2 FY27) vs 2026.04.26(Q1 FY27) · GAAP 기준 · <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 실적발표 원문 →</a>'
+    footnote: '기준일: 2026.07.26(Q2 FY27) vs 2026.04.26(Q1 FY27) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27pr.htm" target="_blank" rel="noopener">NVIDIA Q2 FY27 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1287,7 +1271,7 @@ function selectFundPeriod(period) {
   }
 }
 
-// ─── 매출 구성 도넛 차트 (Hyperscale / AI Clouds·Industrial·Enterprise / Edge Computing) ───
+// ─── 매출 구성 도넛 차트 (Q2 FY27, 백만 달러) ───
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
@@ -1295,10 +1279,10 @@ function renderSegmentChart() {
   new Chart(ctx,{
     type:'doughnut',
     data:{
-      labels:['Hyperscale','AI Clouds·Industrial·Enterprise','Edge Computing'],
+      labels:["하이퍼스케일", "AI 클라우드·산업·기업", "엣지 컴퓨팅"],
       datasets:[{
         data:[48710, 40313, 7198],
-        backgroundColor:['#7c6ad6','#4d7a00','#3b82f6'],
+        backgroundColor:["#7c6ad6", "#4d7a00", "#3b82f6"],
         borderColor:'#8a8d9e',
         borderWidth:2
       }]
@@ -1320,49 +1304,59 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '글로벌 AI 반도체 PER 비교',
-    unit: 'PER(TTM)', max: 60, nvdaValue: 30.2,
+    title: '반도체 대형주 PER 비교 (INTC 값 없음) · 08/27~09/11 카드 기준(NVDA 막대는 10/9)',
+    unit: 'PER', max: 210, nvdaValue: null,
     peers: [
-      { name:'AVGO', value:50.9, status:'reference' },
-      { name:'TSM', value:27.7, status:'excluded' },
-      { name:'AMD', value:38.0, status:'reference' },
-      { name:'반도체평균', value:41.0, status:'reference' }
+      { name:'AMD', value:178.6, status:'reference' },
+      { name:'AVGO', value:46.1, status:'reference' },
+      { name:'TSM', value:32.7, status:'reference' },
+      { name:'MU', value:23.3, status:'reference' },
+      { name:'QCOM', value:20.3, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 — 팹리스 자산집약도 기준',
-    unit: 'PBR', max: 35, nvdaValue: 25.1,
+    title: '반도체 대형주 PBR 비교 · 08/27~09/11 카드 기준(NVDA 막대는 10/9)',
+    unit: 'PBR', max: 30, nvdaValue: null,
     peers: [
-      { name:'AVGO', value:24.0, status:'anchor' },
-      { name:'AMD', value:13.3, status:'anchor' },
-      { name:'TSM', value:1.8, status:'excluded' }
+      { name:'AMD', value:14.8, status:'reference' },
+      { name:'AVGO', value:17.7, status:'reference' },
+      { name:'TSM', value:11.4, status:'reference' },
+      { name:'MU', value:11.5, status:'reference' },
+      { name:'QCOM', value:6.7, status:'reference' },
+      { name:'INTC', value:5.1, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 — 팹리스 마진구조 기준',
-    unit: 'PSR(TTM)', max: 35, nvdaValue: 19.0,
+    title: '반도체 대형주 PSR 비교 · 08/27~09/11 카드 기준(NVDA 막대는 10/9)',
+    unit: 'PSR(TTM)', max: 30, nvdaValue: null,
     peers: [
-      { name:'AVGO', value:27.0, status:'anchor' },
-      { name:'AMD', value:22.9, status:'anchor' },
-      { name:'TSM', value:17.1, status:'excluded' }
+      { name:'AMD', value:24.1, status:'reference' },
+      { name:'AVGO', value:19.8, status:'reference' },
+      { name:'TSM', value:16.5, status:'reference' },
+      { name:'MU', value:12.9, status:'reference' },
+      { name:'QCOM', value:4.2, status:'reference' },
+      { name:'INTC', value:9.7, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 — 팹리스 자본집약도 기준',
-    unit: 'PCR(FCF)', max: 70, nvdaValue: 45.3,
+    title: '반도체 대형주 PCR(FCF) 비교 (AVGO 값 없음·INTC 값 없음) · 08/27~09/11 카드 기준(NVDA 막대는 10/9)',
+    unit: 'PCR(FCF)', max: 140, nvdaValue: null,
     peers: [
-      { name:'AVGO', value:58.6, status:'anchor' },
-      { name:'반도체평균', value:48.1, status:'reference' },
-      { name:'TSM', value:11.8, status:'excluded' }
+      { name:'AMD', value:118.0, status:'reference' },
+      { name:'TSM', value:64.1, status:'reference' },
+      { name:'MU', value:44.4, status:'reference' },
+      { name:'QCOM', value:14.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 — 팹리스 자본집약도 기준',
-    unit: 'EV/EBITDA', max: 100, nvdaValue: 28.5,
+    title: '반도체 대형주 EV/EBITDA 비교 (TSM 값 없음) · 08/27~09/11 카드 기준(NVDA 막대는 10/9)',
+    unit: 'EV/EBITDA', max: 120, nvdaValue: null,
     peers: [
-      { name:'AVGO', value:49.5, status:'anchor' },
-      { name:'TSM', value:20.1, status:'excluded' },
-      { name:'AMD', value:93.8, status:'excluded' }
+      { name:'AMD', value:102.4, status:'reference' },
+      { name:'AVGO', value:35.0, status:'reference' },
+      { name:'MU', value:16.8, status:'reference' },
+      { name:'QCOM', value:16.2, status:'reference' },
+      { name:'INTC', value:44.8, status:'reference' }
     ]
   }
 };
@@ -1492,18 +1486,11 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py NVDA
 const NVDA_SCORES = {
   fundamental: 96.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 49.1,          // GICS Information Technology 24~27종목 대비 배수 순위
-  selfHistory: 85.1,   // 자기 5년 배수 분포 백분위 (2021-10-05 ~ 2026-10-05, PCR은 2024-08부터)
-  asOf: "2026-10-05",
-  fundamentalAsOf: "2026-07-26",   // Q2 FY27 10-Q (2026-08-26 공시)
+  peer: 49.1,          // GICS Information Technology 대비 배수 순위
+  selfHistory: 88.5,   // 자기 5년 배수 분포 백분위 (2021-10-11 ~ 2026-10-09)
+  asOf: "2026-10-09",
+  fundamentalAsOf: "2026-07-26",   // Q2 FY27 10-Q
 };
-// 기본적 분석이 98.1이 아니라 96.1인 이유. redesign의 동결 모델(v1.0.1)은
-// **연간치만** 써서 NVDA 같은 1월 결산 종목은 대차대조표가 최대 12개월 뒤처진다.
-// v2는 배점 구간을 그대로 두고 입력만 최신 분기로 바꾼다. 바뀐 칸은 하나 —
-// **차입금의존도 4.1%(5점) → 10.4%(4점)**. 장기차입금이 FY2026의 $7.5B에서
-// Q2 FY27에 $32.4B로 4.3배 늘었는데, 연간 기준으로는 2027년 2월까지 안 보인다.
-// 마진은 분기가 오히려 좋지만(OPM 60.4→66.2%) 이미 만점이라 올라갈 자리가 없다.
-// `--basis annual`로 돌리면 98.1이 그대로 나온다 — 배점을 안 건드렸다는 확인이다.
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 NVDA_DCF 하나다.
 //
@@ -1551,7 +1538,7 @@ const NVDA_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (현재 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1560,12 +1547,12 @@ const NVDA_SCORES = {
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
-          + `\n성장만으로는 설명되지 않는다 — ` + (d.requiredGrowth != null
+          + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
@@ -1633,7 +1620,7 @@ const NVDA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
       + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
-      + ` 성장만으로는 설명되지 않는다 — ` + (D.requiredGrowth != null
+      + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
@@ -1641,7 +1628,7 @@ const NVDA_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => {
     const n = D.nonopPerShare || 0;
     el.textContent = n >= 1
-      ? `기본 시나리오 $${Math.round(D.base)} = 사업 가치 $${Math.round(D.base) - Math.round(n)} + 비영업 자산 $${Math.round(n)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
+      ? `기본 시나리오 ${(D.base < 0 ? '−$' : '$') + Math.abs(D.base).toFixed(2)} = 사업 가치 ${(D.base - n < 0 ? '−$' : '$') + Math.abs(D.base - n).toFixed(2)} + 비영업 자산 $${n.toFixed(2)}(주당, 지분·장기투자)`   // 반올림한 두 값의 합이 합계와 맞게
       : '';
     el.hidden = n < 1;
   });
@@ -1912,9 +1899,9 @@ const NVDA_VALUATION = {"peer": {"score": 49.1, "sector": "Information Technolog
     }
     f('badge').className = 'hist-badge ' + (m.score == null ? 'mid' : histCls(m.score));
     // 50% 넘게 올라가 있으면 "하위 94%"보다 "상위 6%"가 바로 읽힌다(2026-09-24 AAPL).
-    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;
+    f('badge').textContent = perNA ? '해당 없음 · 평균 제외(순이익률 2% 미만)' : pbrNA ? '해당 없음 · 평균 제외(자본 음수)' : neg ? '적자 · 0점' : na ? '데이터 없음 · 평균 제외' : m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)
     // 이력이 5년에 못 미치면(회사 전용 태그 구간을 버린 경우 등) 이름 옆에 적는다.
-    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
+    const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수·결측' : '적자·결측'} 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
@@ -1988,7 +1975,7 @@ const NVDA_VALUATION = {"peer": {"score": 49.1, "sector": "Information Technolog
       }
       const note = document.getElementById('dcfHardNote');
       if (note) {
-        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + ' · ' : '') + tv;
+        note.textContent = (D.hard.length ? `⚠ 계산 어려움 ${D.hard.length}/5 — ` + D.hard.map(k => (TXT[k] ? TXT[k]() : k).split(' — ')[0]).join(' · ') + (tv ? ' · ' : '') : '') + tv;
         note.hidden = !note.textContent;
       }
     }
@@ -2041,7 +2028,7 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
   const title = $('actTitle');
   if (title) title.textContent = `종합 진단: 매출채권·재고에 묶이는 기간 ${d1(A.now.op)}일, 지난 5년 중 ${WORD[A.tone]}`;
 
-  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)
+  document.querySelectorAll('[data-act-turn]').forEach(el => { const dd = A.now[el.dataset.actTurn]; el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; });   // 카드 한정
   document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });
   const LEAD = { dso: v => `${v}일 만에 현금화`, dio: v => `${v}일 재고 보유`,
                  dpo: v => `${v}일 만에 지급`, op: () => '재고보유+매출채권 회전기간' };
@@ -2053,9 +2040,9 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
   // CCC가 음수면(AAPL) 문장이 뒤집힌다 — 대금을 먼저 받고 공급업체에는 나중에 준다.
   // 색은 그대로 DSO+DIO 규칙이다(지급 지연이 초록이 되는 구멍을 막은 NVDA 결정).
   const lead = A.now.ccc >= 0
-    ? `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
+    ? `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 그중 ${d1(A.now.dpo)}일은 매입채무(외상)로 버티고 나머지 `
       + `<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. `
-    : `재고를 사서 판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
+    : `${A.now.dio > 0 ? '재고를 사서 ' : ''}판매 대금을 회수하기까지 ${d1(A.now.op)}일이 걸리는데, 매입채무(외상)는 ${d1(A.now.dpo)}일 뒤에 갚는다. `
       + `<strong style="color:var(--gold);">판매 대금을 받고도 ${d1(-A.now.ccc)}일 동안 공급업체 돈으로 운영하는</strong> 구조다. `;
   if (ex) ex.innerHTML = lead
     + (Math.abs(cccDiff) < 0.05 ? '직전 분기와 같다.'
@@ -2099,8 +2086,8 @@ const NVDA_ACTIVITY = {"ticker": "NVDA", "status": "ok", "asOf": "2026-07-26", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/nvda/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const NVDA_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 61, nTargets: 38, mean: 324.5, median: 315,
-  low: 250, high: 500, strongBuy: 48, buy: 10, hold: 2, sell: 0, strongSell: 1 };
+const NVDA_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 62, nTargets: 39, mean: 323.87, median: 315,
+  low: 250, high: 500, strongBuy: 49, buy: 10, hold: 2, sell: 0, strongSell: 1 };
 (function(){
   const A = NVDA_ANALYST, last = (typeof NVDA_DAILY !== 'undefined' && NVDA_DAILY.length) ? NVDA_DAILY[NVDA_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
@@ -2141,8 +2128,8 @@ const NVDA_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계
   };
   put('nvdaFundBox', 'nvdaFundScore', 'nvdaFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 FY27), 성장률은 연간 시계열을 쓴다.`
-      + `\n장기차입금이 반년 사이 $7.5B → $32.4B로 늘어 차입금의존도가 4.1%에서 10.4%가 됐다.`);
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 FY27, 10-Q), 성장률은 연간 시계열(FY2026까지)을 쓴다.`
+      + `\n점수는 Q2 FY27 10-Q 기준 재무로 계산했다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2164,8 +2151,8 @@ const NVDA_ANALYST = { asOf: '2026-10-05', source: 'StockAnalysis (의견 집계
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('nvdaSelfBox', 'nvdaSelfScore', 'nvdaSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n⚠ PER이 구조적으로 내려오는 중이라 과거 분포는 현재보다 높게 잡힌다 —`
-      + ` "자기 역사상 싸다"가 "지금 싸다"를 뜻하지 않는다.`);
+      + `\nPER 29.0배는 5년 분포의 하위 1.9%다(중앙값 57.6배).`
+      + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
   const grid = $('nvdaLogicGrid');
@@ -2557,7 +2544,7 @@ function nvdaBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진으로 빨리 클수록 재투자가 이익을 넘어 가치가 줄어든다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];
@@ -2723,7 +2710,7 @@ function nvdaBandTone(cp){
       if (maState.dcf) {
         lines.push('<strong style="color:' + (overlapOnly ? '#6366f1' : '#0ea5e9') + ';">◆ DCF</strong>'
           + ' 앞으로 벌어들일 현금을 현재 가치로 할인해 구한 값이다.'
-          + (overlapOnly ? '' : ' 낮은·기본·높은 세 가정의 범위.'));
+          + (overlapOnly ? '' : ' 보수·기본·낙관 세 가정의 범위.'));
       }
       legendEl.innerHTML = lines.join('<br>');
       legendEl.style.display = lines.length ? 'block' : 'none';
