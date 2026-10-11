@@ -130,7 +130,7 @@ def peers(asof, self_ticker):
                     m.pop("ptbv"); m["ptbv_missing"] = f"7판 동종업 관문: {why7}"
             if "ptbv" not in m:
                 out["skipped"][t + ":ptbv"] = m.get("ptbv_missing", "분기말 자본 자료 없음")
-            m["tags"] = {"equity": "StockholdersEquity", "preferred": "PreferredStockLiquidationPreferenceValue" if bank.pref_liq else ("PreferredStockValue" if bank.pref_val else "없음(우선주 이력 없음)" if not bank.pref_ever else "결측"),
+            m["tags"] = {"equity": "StockholdersEquity", "preferred": ("7판 표: " + (bank.pref_tbl.get("path") or "·".join(bank.pref_tbl.get("tags") or ["분리 불가"]))) if bank.pref_tbl is not None else "PreferredStockLiquidationPreferenceValue" if bank.pref_liq else ("PreferredStockValue" if bank.pref_val else "없음(우선주 이력 없음)" if not bank.pref_ever else "결측"),
                          "intangibles": "IntangibleAssetsNetExcludingGoodwill" if bank.ia else "Finite+Indefinite" if (bank.fin or bank.ind) else "OtherIntangibleAssetsNet" if bank.oth else "없음",
                          "shares": "Issued−Treasury" if bank.issued else "CommonStockSharesOutstanding"}
             out["tickers"][t] = {k: (round(v, 4) if isinstance(v, float) else v) for k, v in m.items()}
