@@ -103,6 +103,11 @@ def spcx():
     print(f"SPCX: 동종업 {score} ({', '.join(f'{m['metric']} {m['score']}' for m in mets)})")
 
 
+NEED = {"BRKB": os.path.join(V2, ".sec_cache", "brk_facts.json"), "SPCX": os.path.join(V2, ".sec_cache", "0001181412_facts.json")}
+
 if __name__ == "__main__":
     for T in sys.argv[1:]:
+        if not os.path.exists(NEED[T.upper()]):   # Actions 캐시에 원문 저장본이 없으면 숫자 갱신만 건너뛴다(가격은 그대로 간다)
+            print(f"{T}: 경고 — {os.path.basename(NEED[T.upper()])} 캐시 없음, 숫자 칸 갱신 건너뜀")
+            continue
         {"BRKB": brkb, "SPCX": spcx}[T.upper()]()
