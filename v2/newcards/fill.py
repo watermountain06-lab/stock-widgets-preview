@@ -287,10 +287,11 @@ SCORES = f"""const {T}_SCORES = {{
 }};"""
 sub(rf'const {T}_SCORES = \{{.*?\n\}};', SCORES)
 sub(r'// 기본적 분석이 98\.1이 아니라 96\.1인 이유\..*?// `--basis annual`로 돌리면 98\.1이 그대로 나온다 — 배점을 안 건드렸다는 확인이다\.\n', '')
+_src = getattr(C, 'AUTO_OUTSIDE', None) or {}   # 외국 발행사는 10-Q·10-K가 아니라 6-K 원문(2026-10-11)
 one("+ `\\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(확인 필요), 성장률은 연간 시계열을 쓴다.`",
-    ("+ `\\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 " + C.FY_LABEL + " 연간(10-K), 성장률은 연간 시계열(" + C.FY_LABEL + "까지)을 쓴다.`"
+    ("+ `\\n대차대조표는 ${S.fundamentalAsOf} 시점, 마진·이자보상배율은 " + C.FY_LABEL + f" 연간({_src.get('k_src', '10-K')}), 성장률은 연간 시계열(" + C.FY_LABEL + "까지)을 쓴다.`"
      if FUND.get('periodSource') == '10-K' else   # 최신 공시가 10-K면 분기가 아니라 연간 값이다(STX, Codex 2026-10-01)
-     "+ `\\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(" + QL + ", 10-Q), 성장률은 연간 시계열(" + C.FY_LABEL + "까지)을 쓴다.`"))
+     "+ `\\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(" + QL + f", {_src.get('q_src', '10-Q')}), 성장률은 연간 시계열(" + C.FY_LABEL + "까지)을 쓴다.`"))
 one("+ `\\n(확인 필요 — NVDA 문장 자리)`);", "+ `\\n" + F(C.FUND_TIP) + "`);")
 one("+ `\\n(확인 필요 — NVDA 문장 자리)`\n", "+ `\\n" + F(C.SELF_TIP) + "`\n")
 if '`이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`' in h:   # 틀(NVDA)은 2026-10-05에 고쳐졌다(E13)
@@ -418,15 +419,19 @@ if _auto:
         # 날짜는 주가가 반응한 거래일로, 장 마감 뒤 접수면 괄호로 밝힌다 — PEP 8-K가 10/7 저녁 접수, 보도·반응은 10/8(Fable 2026-10-10)
         _shown = _dt.date.fromisoformat(rx) if rx else d
         _when = f'{_shown.year}년 {_shown.month}월 {_shown.day}일' + (f' (공시 접수 {d.month}/{d.day} 장 마감 뒤)' if e["after_close"] and rx and rx != e["date"] else '')
-        _body = '실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다'
+        _out = getattr(C, 'AUTO_OUTSIDE', None)   # 외국 발행사(ASML·TSM): 실적 6-K
+        _body = ('실적 보도자료 공시(6-K) — 매출·이익 숫자는 분기 재무제표가 나오면 이 카드에 반영된다' if _out else
+                 '실적 보도자료 공시(8-K 2.02항) — 매출·이익 숫자는 분기 보고서를 확인한 뒤 이 카드에 반영한다')
         if AUTO and 0 < (d - _dt.date.fromisoformat(C.CUR)).days <= 80 and C.CUR in rev:   # 자동 카드: 이번 분기 실적이면 SEC 숫자로
             _eps = _ac.json.load(open(os.path.join(os.path.dirname(os.path.dirname(HERE)), 'scripts', f'{T}_eps_history.json')))
             _e = {x['quarter_end']: x['quarter_eps'] for x in _eps}
             _rc = _ac.chg(rev[C.CUR], rev.get(C.YO))
-            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + ', GAAP 영업이익 ' + _ac.B(op[C.CUR])
-                     + (f', GAAP 희석 EPS {_ac.money(_e[C.CUR])}(1년 전 {_ac.money(_e[C.YO])})' if C.CUR in _e and C.YO in _e else '')
-                     + (' · SEC 10-K 기준' if C.TENQ_NAME.endswith('10-K') else ' · SEC 10-Q 기준'))   # 실제 문서만(Fable)
-        _new.append(('neutral', f'{_when} — 실적 발표', rx, _body, e["url"], f'{C.CO} 실적 보도자료 (SEC 8-K)'))
+            _sym, _ac.SYM = _ac.SYM, ('$' if _out else _ac.SYM)   # 외국 발행사: 여기 매출·이익은 PRE가 달러로 바꾼 값(증감률은 달러 기준)
+            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + (', 영업이익 ' if _out else ', GAAP 영업이익 ') + _ac.B(op[C.CUR]))
+            _ac.SYM = _sym
+            _body += ((f', 희석 EPS {_ac.money(_e[C.CUR])}(1년 전 {_ac.money(_e[C.YO])})' if C.CUR in _e and C.YO in _e else '')
+                      + (f' · {C.TENQ_NAME} 기준, 매출·이익은 분기 평균 환율로 달러 환산' if _out else ' · SEC 10-K 기준' if C.TENQ_NAME.endswith('10-K') else ' · SEC 10-Q 기준'))   # 실제 문서만(Fable)
+        _new.append(('neutral', f'{_when} — 실적 발표', rx, _body, e["url"], f'{C.CO} 실적 보도자료 (SEC {"6-K" if _out else "8-K"})'))
     items = _new + items
     if _new:
         _end = max(e["date"] for e in _auto if e["filed"] <= _last)[:7].replace("-", ".")   # 반응일이 아직 없어도(마지막 날 장 마감 후) 발표 달로
@@ -578,6 +583,8 @@ if '<div class="reverse">—</div>' in h and DCF.get('reqMode') == 'growth' and 
     _rev = F(C.REVERSE) if getattr(C, 'REVERSE', None) else (f'지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. '
         + f'기본 시나리오(<span data-dcf-basev>${(f'{DCF["base"]:.2f}' if abs(DCF["base"]) < 10 else f'{DCF["base"]:.0f}')}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.')
     one('<div class="reverse">—</div>', '<div class="reverse">' + _rev + '</div>')
+if getattr(C, 'AUTO_OUTSIDE', None):   # 외국 발행사: 원문 링크는 모두 6-K다
+    h = h.replace(' (SEC) →</a>', ' (SEC 6-K) →</a>')
 open(p, 'w', encoding='utf-8').write(h)
 if _refresh:
     _cp = os.path.join(HERE, 'cfg', f'cfg_{t}.py'); _cs = open(_cp, encoding='utf-8').read()
