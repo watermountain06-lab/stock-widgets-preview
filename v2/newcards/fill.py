@@ -583,6 +583,8 @@ if '<div class="reverse">—</div>' in h and DCF.get('reqMode') == 'growth' and 
     _rev = F(C.REVERSE) if getattr(C, 'REVERSE', None) else (f'지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. '
         + f'기본 시나리오(<span data-dcf-basev>${(f'{DCF["base"]:.2f}' if abs(DCF["base"]) < 10 else f'{DCF["base"]:.0f}')}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.')
     one('<div class="reverse">—</div>', '<div class="reverse">' + _rev + '</div>')
+if getattr(C, 'AUTO_OUTSIDE', None):   # 외국 발행사: 원문 링크는 모두 6-K다
+    h = h.replace(' (SEC) →</a>', ' (SEC 6-K) →</a>')
 open(p, 'w', encoding='utf-8').write(h)
 if _refresh:
     _cp = os.path.join(HERE, 'cfg', f'cfg_{t}.py'); _cs = open(_cp, encoding='utf-8').read()

@@ -52,10 +52,10 @@ def chg(a, b_, unit="%"):
 
 
 def usd(v):
-    """주당 금액 — 센트 아래 자리가 있으면 그대로($1.4225), 없으면 두 자리($1.48)."""
+    """주당 금액 — 센트 아래 자리가 있으면 그대로($1.4225), 없으면 두 자리($1.48). 외국 발행사는 그 통화(SYM)."""
     t = f"{abs(v):.4f}".rstrip("0")
     t = t if len(t.split(".")[1]) >= 2 else f"{abs(v):.2f}"
-    return ("−$" if v < 0 else "$") + t
+    return ("−" if v < 0 else "") + SYM + t
 
 
 def money(v):
@@ -438,10 +438,13 @@ def apply_outside(C, T):
             f"회계연도 누계 {st.year}.{st.month}.{st.day}~{d(C.CUR).year}.{d(C.CUR).month}.{d(C.CUR).day}, {round(td.days / 7)}주"
     bb, bbd = ytd(cik, ["PaymentsForRepurchaseOfCommonStock"], C.CUR, fy_start)
     dv, dvd = ytd(cik, ["PaymentsOfDividendsCommonStock"], C.CUR, fy_start)
+    dp, dp_yo = oa.dps(T, C.CUR), oa.dps(T, C.YO)   # TSM은 연결재무제표 주석에 분기 주당 배당이 있다(Fable)
     C.CAPITAL = [(f"자사주 매입 ({span(bbd)})" if bb is not None else "자사주 매입", (B(bb) if bb else "없음") if bb is not None else O.get("bb_none", "공시 없음")),
                  (f"배당 지급 ({span(dvd)})" if dv is not None else "배당 지급", B(dv) if dv is not None else "공시 없음"),
-                 ("분기 주당 배당", "요약 재무제표에 주당 배당이 없다", "—")]
-    C._AUTO.update({"bb": bb, "dv": dv, "dps": None, "dps_yo": None, "dv_weeks": round(dvd.days / 7) if dvd else None})
+                 ((f"최근 분기 주당 배당 ({O.get('dps_note', '보통주 1주')})",
+                   ("1년 전 " + usd(dp_yo) + (f" · {chg(dp, dp_yo)}" if chg(dp, dp_yo) else "")) if dp_yo else "1년 전 값 없음", usd(dp))
+                  if dp is not None else ("분기 주당 배당", O.get("dps_none", "분기 재무제표에 주당 배당이 없다"), "—"))]
+    C._AUTO.update({"bb": bb, "dv": dv, "dps": dp, "dps_yo": dp_yo, "dv_weeks": round(dvd.days / 7) if dvd else None})
     gw = {r_["end"]: r_["val"] for r_ in sorted(_flow_rows(cik, "Goodwill"), key=lambda r_: r_["filed"])}
     C._AUTO["acq"] = bool(gw.get(C.CUR) and C.YO in gw and gw[C.CUR] > (gw[C.YO] or 0) * 1.15)
 
@@ -464,8 +467,8 @@ def apply_outside(C, T):
     C._AUTO["next_label"] = nl
     C.FUND_ASOF_NOTE = f"{C.TENQ_NAME} ({rep['filed']} 공시)"
     lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})
-    C.FCF_SUB = "영업현금흐름 − 설비투자" + (f" · 분기 길이가 {'·'.join(map(str, lens))}주로 다르다" if len(lens) > 1 else "")
-    C.CAPEX_SUB = "설비투자(현금흐름표)"
+    C.FCF_SUB = O.get("fcf_sub", "영업현금흐름 − 설비투자") + (f" · 분기 길이가 {'·'.join(map(str, lens))}주로 다르다" if len(lens) > 1 else "")
+    C.CAPEX_SUB = O.get("capex_sub", "설비투자(현금흐름표)")
 
 
 def texts(C, ns):
@@ -473,6 +476,11 @@ def texts(C, ns):
     A = C._AUTO
     rev, op, ni, fcf, capx = ns["rev"], ns["op"], ns["ni_gaap"], ns["fcf"], ns["cap"]
     cur, yo = ns["cur"], ns["yo"]
+    O = getattr(C, "AUTO_OUTSIDE", None) or {}
+    if O.get("capex_extra"):   # ASML: 카드 FCF·설비투자는 무형자산 투자까지(PRE와 같은 정의 — 문장이 PRE 전에 돌아 달랐다, Fable)
+        _ia = ns["q"](O["capex_extra"])
+        capx = {k: capx[k] + _ia.get(k, 0) for k in capx}
+        fcf = {k: ns["ocf"][k] - capx[k] for k in ns["ocf"] if k in capx}
     SM, H, DCF, b = ns["SM"], ns["HIST"], ns["DCF"], ns["b"]
     px, selfsc, peersc = ns["px"], ns["selfsc"], ns["peersc"]
     QL = C.QLABEL
@@ -683,6 +691,8 @@ def _finish(C):
     O = getattr(C, "AUTO_OUTSIDE", None)
     if O and O.get("fund_tip") and O["fund_tip"] not in C.FUND_TIP:   # 외국 발행사: 재무 통화·원문 설명을 덧붙인다
         C.FUND_TIP = C.FUND_TIP + " " + O["fund_tip"]
+    if O and O.get("health_extra") and O["health_extra"] not in C.HEALTH_NOTE:
+        C.HEALTH_NOTE = C.HEALTH_NOTE + " " + O["health_extra"]
     # 음수 표기: 문장 속 '-5.0%'·'$-' 를 '−'로(Fable) — 주소·날짜(앞이 글자·숫자·'/')는 건드리지 않는다
     import re as _re
     def fix(t):   # 태그 밖 글자에만 — 주소·class·CSS(margin-top:-2px)는 건드리지 않는다(Codex)
@@ -690,6 +700,9 @@ def _finish(C):
             return t
         parts = _re.split(r"(<[^>]*>)", t)
         return "".join(p_ if p_.startswith("<") else _re.sub(r"(?<![\w/.])-(?=\$?\d)", "−", p_.replace("$-", "−$")) for p_ in parts)
+    if O and O.get("ifrs"):   # IFRS 회사(TSM)에 'GAAP 영업이익률'이라 쓰지 않는다(Fable)
+        _fix0 = fix
+        fix = lambda t: _fix0(t.replace("GAAP ", "") if isinstance(t, str) else t)
     deep = lambda v: [deep(x) for x in v] if isinstance(v, list) else tuple(deep(x) for x in v) if isinstance(v, tuple) else fix(v)
     for k in ("SUMMARY", "BULL", "BEAR", "CHECK", "YOY_EXTRA", "SEG_NOTE", "HEALTH_NOTE", "PREMISE", "RISK", "DCF_NOTE", "STORIES", "SELF_TIP"):
         setattr(C, k, deep(getattr(C, k)))

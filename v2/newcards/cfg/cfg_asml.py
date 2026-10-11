@@ -8,7 +8,10 @@ BUILD = {'feed': True}   # IFRS·유로 — EPS·재무는 adapters/asml_feed.py
 # 자동 카드(2026-10-11): 분기 변수·부문(시스템·서비스)·EPS·자본배분·링크·다음 실적일·해석 문장을 6-K 원문으로(newcards/outside_auto.py).
 # 아래 손 값 가운데 분기 변수·SEG·STAT3·CAPITAL·NEXT·CHECK·문장은 auto_card가 덮어쓴다(빌드 실패 때 되돌릴 기준으로 남긴다).
 AUTO = True
-AUTO_OUTSIDE = {'q_src': '6-K 분기 요약', 'k_src': '6-K 연간 요약', 'sym': '€', 'fs_name': 'US GAAP 요약 재무제표 (6-K)', 'eps_basis': 'US GAAP · 보통주 1주(유로)',
+AUTO_OUTSIDE = {'q_src': '6-K 분기 요약', 'k_src': '6-K 연간 요약', 'sym': '€', 'fs_name': 'US GAAP 요약 재무제표', 'eps_basis': 'US GAAP · 보통주 1주(유로)',
+                'capex_extra': ['PaymentsToAcquireIntangibleAssets'], 'fcf_sub': '영업현금흐름 − 설비·무형자산 투자', 'capex_sub': '설비 + 무형자산(현금흐름표)',
+                'dps_none': '분기 요약 재무제표에 없음',
+                'health_extra': '유동부채에는 고객 선수금(계약부채)이 크게 들어 있어 유동·당좌비율이 낮게 나온다.',
                 'seg_colors': {'노광 시스템': '#0f238c', '설치 기반 관리 (서비스·업그레이드)': '#f7b600'},
                 'fund_tip': '재무는 유로(US GAAP)다. ASML은 10-Q를 내지 않아 분기 실적 6-K의 요약 재무제표를 읽는다. 유동 차입금은 반기·연말에만 공시돼 1·3분기는 직전 값을 쓰고, 분기 이자비용은 공시하지 않는다.'}
 CIK = '0000937966'
@@ -155,8 +158,6 @@ one(f"deltas: [{tq(qd)}],", f"deltas: [{tq(qd_e)}],")
 _fm = F(C.FOOT_MID)
 h, _n = re.subn(r"(footnote: '기준일: [^']*?\) vs [^']*?\) · )GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href=\"[^\"]*\" target=\"_blank\" rel=\"noopener\">[^<]*</a>'", lambda m: m.group(1) + _fm + "'", h)
 assert _n == 2, _n
-# 재무 건전성 메모 링크 이름(SEC 6-K)
-one(f'{C.TENQ_NAME} (SEC) →</a></div>', f'{C.TENQ_NAME} (SEC 6-K) →</a></div>')
 # 총자산증가율 메모(유로)
 one(f'<span class="diag-note">{C.FY_LABEL} 말 ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표</span>', f'<span class="diag-note">{C.FY_LABEL} 말 €{a1 / 1000:.1f}B(전년 €{a0 / 1000:.1f}B) · 연간 지표, 다음 연간 보고서 전까지 동일</span>')
 # 매출 구성: 유로 그대로(범례·툴팁 통화)

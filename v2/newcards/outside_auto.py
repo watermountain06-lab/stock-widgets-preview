@@ -149,6 +149,15 @@ def seg(T, end, yo, q3_end=None):
     return _tsm_seg(T, rep, end, yo, q3_end)
 
 
+def dps(T, end):
+    """TSM 분기 주당 현금배당(보통주 1주, 대만달러) — 연결재무제표 주석의 이사회 결의 표에서 가장 최근 분기(첫 열). 없으면 None."""
+    rep = report(T, end)
+    if T != "TSM" or not rep or not os.path.exists(rep["path"]):
+        return None
+    m = re.search(r"Cash dividends per share \(NT\$\)\s+\$?\s*([\d.]+)", _flat(rep["path"]))
+    return float(m.group(1)) if m else None
+
+
 # ── 실적 보도자료 ──
 def _get(url):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
@@ -198,20 +207,22 @@ def release(T, after, within=60, subs=None):
 
 # ── 새 분기 받기 ──
 def _tags_at(facts, end):
-    """그 날짜에 값이 있는 태그(기간 끝 또는 시점)."""
+    """그 날짜에 0이 아닌 값이 있는 태그(기간 끝 또는 시점) — 라벨이 바뀌면 추출기가 0을 넣는다(TSM need=False, Codex)."""
     out = set()
     for tag, x in facts["facts"].get("us-gaap", {}).items():
         for rows in x.get("units", {}).values():
-            if any(r_.get("end") == end for r_ in rows):
+            if any(r_.get("end") == end and r_.get("val") for r_ in rows):
                 out.add(tag)
     return out
 
 
 def _ends(facts):
+    """매출이 있는 분기 말 — 3개월 행, 그리고 연간 행의 끝(TSM 4분기는 연간 누계로만 있다, Codex)."""
     rows = []
     for tag in ("RevenueFromContractWithCustomerExcludingAssessedTax", "Revenues"):
         for rs in facts["facts"].get("us-gaap", {}).get(tag, {}).get("units", {}).values():
-            rows += [r_["end"] for r_ in rs if r_.get("start") and 80 <= (d(r_["end"]) - d(r_["start"])).days <= 100]
+            rows += [r_["end"] for r_ in rs if r_.get("start") and (80 <= (d(r_["end"]) - d(r_["start"])).days <= 100
+                                                                    or 350 <= (d(r_["end"]) - d(r_["start"])).days <= 380)]
     return sorted(set(rows))
 
 
@@ -233,7 +244,8 @@ def _asml_fetch():
         if not cand:
             continue
         os.makedirs(_reports_dir("ASML"), exist_ok=True)
-        open(os.path.join(_reports_dir("ASML"), f"{filed}_{cand[0]}"), "wb").write(_get(base + cand[0]))
+        data = _get(base + cand[0])
+        open(os.path.join(_reports_dir("ASML"), f"{filed}_{cand[0]}"), "wb").write(data)
         man.append({"filed": filed, "accepted": r["acceptanceDateTime"][i], "accn": acc, "file": f"{filed}_{cand[0]}"})
     man.sort(key=lambda m: m["filed"])
     json.dump(man, open(man_p, "w"), indent=1)
@@ -265,8 +277,9 @@ def ensure(T):
     got = False
     for m in man:
         p = os.path.join(_reports_dir(T), m["file"])
-        if not os.path.exists(p):
-            open(p, "wb").write(_get(_url(T, m)))
+        if not os.path.exists(p) or not os.path.getsize(p):
+            data = _get(_url(T, m))   # 받은 뒤에 쓴다 — 실패하면 빈 파일이 남아 다음 실행이 받지 않았다(Codex)
+            open(p, "wb").write(data)
             time.sleep(0.15)
             got = True
     fp = _paths(T)[0]
@@ -274,7 +287,8 @@ def ensure(T):
     if os.path.exists(fp):
         f = json.load(open(fp))
         have = max((r_.get("filed", "") for x in f["facts"].get("us-gaap", {}).values() for rs in x.get("units", {}).values() for r_ in rs), default="")
-    if got or not os.path.exists(fp) or have < max(m["filed"] for m in man):
+    # 재무가 manifest보다 새것이어도(새 분기를 만든 뒤 커밋·push가 실패하고 캐시만 저장된 경우) 다시 만든다(Codex)
+    if got or not os.path.exists(fp) or have != max(m["filed"] for m in man):
         subprocess.run([sys.executable, os.path.join(AD, f"{T.lower()}_ifrs.py")], check=True, capture_output=True, timeout=900)
         return True
     return False
@@ -313,10 +327,14 @@ def refresh(T, session):
             for p, b in bak.items():
                 shutil.move(b, p)
             return None, ("첫 종가 전 원문 대기" if late else "")
-        cur, prev = new[-1], [e for e in ends if e < new[-1]][-1]
-        miss = sorted(_tags_at(f, prev) - _tags_at(f, cur))
+        cur = new[-1]
+        # 1년 전 같은 분기와 견준다 — 직전 분기와 견주면 반기·연말에만 공시하는 항목(ASML 유동 차입금)이 정상 분기에서 걸린다(Codex)
+        prev = [e for e in ends if 350 <= (d(cur) - d(e)).days <= 380]
+        if not prev:
+            raise ValueError(f"새 분기 {cur}의 1년 전 같은 분기가 어댑터 재무에 없다")
+        miss = sorted(_tags_at(f, prev[-1]) - _tags_at(f, cur))
         if miss:
-            raise ValueError(f"새 분기 {cur}에 직전 분기({prev})에 있던 항목이 없다: {miss} — 원문 라벨이 바뀌었을 수 있다")
+            raise ValueError(f"새 분기 {cur}에 1년 전 같은 분기({prev[-1]})에 있던 항목이 없거나 0이다: {miss} — 원문 라벨이 바뀌었을 수 있다")
         return cur, f"새 분기 {cur}"   # 예전 파일(.bak)은 카드가 끝난 뒤 commit·revert가 정리한다
     except Exception as e:
         for p, b in bak.items():
