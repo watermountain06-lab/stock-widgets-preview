@@ -9,6 +9,9 @@ cd "$(dirname "$0")/../../.."
 B=v2/newcards/bank
 T=$(echo "$1" | tr a-z A-Z); t=$(echo "$1" | tr A-Z a-z)
 [ -f "$B/base/${t}_base.html" ] || { echo "기반 HTML 없음: $B/base/${t}_base.html"; exit 2; }
+# 실패하면 카드·은행 자료를 시작 전으로 되돌린다(직접 실행할 때 — daily_price.py는 따로 되돌린다, Codex)
+BK=$(mktemp -d); for f in "v2/${T}_full_widget.html" "v2/${T}_bank.json"; do [ -f "$f" ] && cp "$f" "$BK/"; done
+trap 'rc=$?; if [ $rc -ne 0 ]; then for f in "v2/${T}_full_widget.html" "v2/${T}_bank.json"; do [ -f "$BK/$(basename $f)" ] && cp "$BK/$(basename $f)" "$f"; done; echo "실패 — 되돌림"; fi; rm -rf "$BK"' EXIT
 if [ -z "$SKIP_BANK_CARD" ]; then
   if [ -z "$PRICE_ONLY" ]; then
     [ "$T" = "C" ] && python3 v2/adapters/ixbrl_supplement.py 0000831001 | tail -1

@@ -509,7 +509,9 @@ for e in sorted(_na, key=lambda e: e['accepted'], reverse=True)[:6]:
     d0 = dt.date.fromisoformat(e['date'])
     r0 = (d0 + dt.timedelta(days=1)).isoformat() if e.get('after_close') else e['date']
     rx = min((x for x in days if x >= r0), default=None)
-    sh_ = dt.date.fromisoformat(rx) if rx else d0
+    if rx is None:   # 마지막 종가 뒤(장 마감 후)에 나온 발표 — 다음 종가가 생기면 넣는다(Codex)
+        continue
+    sh_ = dt.date.fromisoformat(rx)
     body = '실적 보도자료 공시(8-K 2.02항)'
     _qe = [k for k in ks if 0 < (d0 - dt.date.fromisoformat(k)).days <= 80]
     if _qe:
