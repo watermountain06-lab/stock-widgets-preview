@@ -547,6 +547,9 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # WELL: RevenueFromContractWithCustomerExcludingAssessedTax는 시니어 주택 운영 매출만(Q2 2026 $2,985M)이고 임대 수익·이자
                 # 수익을 뺀 값이다 — 손익계산서 총매출 Revenues($3,545M)만 쓴다(2026-10-02).
                 "0000766704": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # CPT: 손익계산서 총매출(Revenues)을 표준 태그로 내지 않고, 계약 매출 태그는 2019년부터 임대료를 뺀 분기 $3~13M뿐이다 —
+                # 매출로 쓰면 PSR이 수천 배가 된다. 규칙(F2)으로 고칠 수 없어 매출 결측으로 둔다(input_fix_prereg F2 (d), 2026-10-10).
+                "0000906345": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 "0000753308": ("RevenueFromContractWithCustomerIncludingAssessedTax",)}
 
 
@@ -557,6 +560,39 @@ PREFER_TAGS = {"0000078003": ("Revenues",),
                # COP: 손익계산서 "Sales and other operating revenues"는 Revenues(Q2 2026 $19,161M)이고 RevenueFromContract…는 그중 고객 계약분
                # ($18,088M, 파생 계약 매출 제외)이다(10-Q 매출 주석, 2026-10-02).
                "0001163165": ("Revenues",)}
+
+
+REV_TOTAL, REV_CONTRACT = "Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax"
+
+
+def _prefer_total_revenue(merged, total_rows, contract_rows):
+    """F2 (a)(input_fix_prereg, 2026-10-10): 계약 매출은 정의상 총매출의 일부다. 같은 시작일(회계연도·분기)에 두 태그가 함께 있는
+    기간 가운데 가장 긴 기간에서 `Revenues` > 1.02 × 계약 매출이면, 그 시작일의 겹치는 기간 전부에서 계약 매출 행을 뺀다(총매출을 쓴다).
+    리츠(UDR·AMT·SBAC…)는 계약 매출이 임대료를 빼 총매출의 수 %였고, GD 2017은 연간만 계약 매출이 작아 4분기가 음수가 됐다 —
+    기간마다 따로 판정하면 9개월 누계가 계약 매출로 남아 4분기가 여전히 틀린다(Fable). `Revenues`가 2% 안에서 같거나 작으면
+    (BLK·GIS처럼 `Revenues`에 일부만 실은 회사) 지금 규칙(먼저 공시된 행) 그대로다. 각 값은 그 기간에 처음 공시된 행으로 비교한다."""
+    def first(rows):
+        b = {}
+        for r in rows:
+            if "start" not in r:
+                continue
+            k = (r["start"], r["end"])
+            if k not in b or r.get("filed", "") < b[k].get("filed", ""):
+                b[k] = r
+        return {k: r["val"] for k, r in b.items()}
+    tot, con = first(total_rows), first(contract_rows)
+    by_start = {}
+    for k in tot.keys() & con.keys():
+        by_start.setdefault(k[0], []).append(k)
+    drop = set()
+    for ks in by_start.values():
+        k = max(ks, key=lambda x: x[1])                # 같은 시작일에서 가장 긴(가장 늦게 끝나는) 기간
+        if tot[k] > 1.02 * con[k]:
+            # 묶음 안에서도 두 값이 2% 안에서 같은 기간은 남긴다 — 같은 값인데 `Revenues` 행의 늦은 공시일이 가용일이 되지 않게(PFE 2022·IRM 2019, Fable)
+            drop.update(x for x in ks if abs(tot[x] - con[x]) > 0.02 * max(abs(tot[x]), 1.0))
+    if not drop:
+        return merged
+    return [r for r in merged if not (r.get("_tag") == REV_CONTRACT and (r.get("start"), r.get("end")) in drop)]
 
 
 def pick_tag(cik, names, taxonomy="us-gaap"):
@@ -578,6 +614,8 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
     # 같은 기간·같은 공시일이면 앞 태그가 이긴다 — 종목별로 앞세울 태그(PREFER_TAGS)를 맨 앞으로.
     names = [n for n in PREFER_TAGS.get(cik, ()) if n in names] + [n for n in names if n not in PREFER_TAGS.get(cik, ())]
     merged, used = [], []
+    rev_family = REV_TOTAL in names or REV_CONTRACT in names
+    per_tag = {}
     for name in names:
         rows = concept(cik, name, taxonomy)
         if rows and name == "NetCashProvidedByUsedInOperatingActivities":
@@ -590,7 +628,12 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
                         if (r.get("start"), r["end"], r.get("accn")) in disc else r for r in rows]
         if rows:
             used.append(f"{name}({len(rows)})")
+            if rev_family:   # 매출 행에는 태그를 적어 둔다(F2 — 사본이라 concept 캐시를 건드리지 않는다)
+                rows = [dict(r, _tag=name) for r in rows]
+                per_tag[name] = rows
             merged.extend(rows)
+    if rev_family and REV_TOTAL in per_tag and REV_CONTRACT in per_tag:
+        merged = _prefer_total_revenue(merged, per_tag[REV_TOTAL], per_tag[REV_CONTRACT])
     # 합성 대상 회사는 영업이익 태그가 옛날에만 있어도(JNJ는 2015년까지) 합성값만 쓴다
     if "OperatingIncomeLoss" in names and cik in DERIVED_OPINC and taxonomy == "us-gaap":
         merged = _derived_opinc(cik, taxonomy)
@@ -617,10 +660,24 @@ def quarterly_flow(entries, ticker):
     # 다만 4분기에 처음 생긴 항목(예: 4분기 인수)은 분기 = 연간이 정상이라, 같은 회계연도 9개월 누계가 0보다 클 때만
     # 모순(앞 세 분기 합이 0이 아님)으로 보고 버린다(Codex 2026-10-01).
     _ann = {e["end"]: e for e in rows if feh.days_between(e) > 350}
+    _ann_tag = {}
+    for e in entries:   # 매출(태그가 적힌 행)은 태그별 연간 값 — 같은 종료일의 처음 공시
+        if e.get("_tag") and "start" in e and "filed" in e and feh.days_between(e) > 350:
+            k = (e["end"], e["_tag"])
+            if k not in _ann_tag or e["filed"] < _ann_tag[k]["filed"]:
+                _ann_tag[k] = e
     def _bad_q(e):
-        a = _ann.get(e["end"])
-        if not a or a["val"] != e["val"]:
-            return False
+        # F2 (b)(2026-10-10): 매출(태그가 적힌 행)은 **같은 태그**의 연간 값과 2% 안이면 같은 값으로 본다 — ORCL FY2018은 재작성 연간
+        # $39,383M을 3개월 기간으로 실었는데 처음 연간 값은 $39,831M이라 똑같지 않아 안 걸렸다. 다른 태그의 같은 값은 버리지 않는다(Codex).
+        # 다른 항목은 지금처럼 같은 종료일 연간 값과 똑같을 때만.
+        if e.get("_tag"):
+            a = _ann_tag.get((e["end"], e["_tag"]))
+            if not a or not (a["val"] and abs(a["val"] - e["val"]) <= 0.02 * abs(a["val"])):
+                return False
+        else:
+            a = _ann.get(e["end"])
+            if not a or a["val"] != e["val"]:
+                return False
         return any(r["start"] == a["start"] and r["val"] > 0 and 250 <= feh.days_between(r) <= 290 for r in rows)
     q = {e["end"]: e for e in rows if 80 <= feh.days_between(e) <= 100 and not _bad_q(e)}
 
@@ -759,6 +816,84 @@ def instant_series(entries, ticker, is_share_count):
                    if e["end"] >= a["from"] and (a.get("until") is None or e["end"] < a["until"]))
         out.append({"end": e["end"], "val": val, "available": e["filed"]})
     return sorted(out, key=lambda e: e["available"])
+
+
+def wa_unit(wa, cover):
+    """F3 (b)(input_fix_prereg, 2026-10-10): 희석 가중평균(WA) 단위 오류를 표지 주식 수로 가른다.
+    WA > 5×10^10(S&P500 최대 NVDA 약 2.4×10^10)이면 천 단위 오타로 보고 ÷1e3(WAT 2026 82.1B 대 표지 98.1M).
+    WA < 1e7이면 배율 {1, 1e3, 1e6} 중 표지에 가장 가까운 것(TER 164,050 → ×1e3, MCD 711 → ×1e6, NVR 3.3M → ×1).
+    표지가 없으면 예전 규칙(1e6 미만 → ×1e6). 그 밖의 WA는 믿는다(PKG처럼 표지가 틀린 경우). 돌려주는 것: (WA, 배율 표시 또는 None)."""
+    import math
+    tag = None
+    if wa > 5e10:
+        wa, tag = wa / 1e3, "/1e3"
+    if 0 < wa < 1e7:
+        if cover and cover > 0:
+            m = min((1, 1e3, 1e6), key=lambda k: abs(math.log(wa * k / cover)))
+            if m != 1:
+                wa, tag = wa * m, f"x{m:.0e}"
+        elif wa < 1e6:
+            wa, tag = wa * 1e6, "x1e6"
+    return wa, tag
+
+
+def wa_quarters(cik, ticker):
+    """분기(80~100일) 희석 가중평균 주식 수, 공시일 순. 표지 주식 수처럼 그 공시 뒤 분할만큼 오늘 기준으로 맞춘다."""
+    import splits as _splits
+    _, rows = pick_tag(cik, ["WeightedAverageNumberOfDilutedSharesOutstanding"])
+    sp = _splits.for_ticker(ticker)
+    out = []
+    for e in rows or []:
+        if "start" in e and e.get("filed") and 80 <= (date.fromisoformat(e["end"]) - date.fromisoformat(e["start"])).days <= 100:
+            out.append({"end": e["end"], "filed": e["filed"], "val": e["val"] * (feh.split_ratio(e["filed"], sp) if sp else 1)})
+    return sorted(out, key=lambda e: (e["filed"], e["end"]))
+
+
+def check_shares(points, cik, ticker):
+    """F3 (a): 배수 시리즈의 표지 주식 수를 그 시점까지 공시된 직전 분기 WA와 대조한다 — DCF(base_inputs)와 같은 규칙.
+    표지 점과 WA 공시일을 합친 날짜마다 다시 대조한다(나중에 WA만 새로 나와도 갱신 — Codex 2026-10-10).
+    20배 넘게 다르면 WA(단위 보정 뒤)를 쓰고(2026-10-10 사용자 결정 — 등록은 0.5~2배였다, 변경 기록), 2~20배면 표지를 두고 shares_suspect만,
+    WA가 없고 표지가 1,000만 주 미만이면 그날부터 결측(None — 앞의 정상 점이 이어지지 않게).
+    FOX '1'주·SPG 8,000주·CMG 27,962주·PKG 899억 주(표지 ×1000 오타). 돌려주는 것: (점들, dq 표시 목록)."""
+    wq = wa_quarters(cik, ticker)
+    if not points:
+        return points, []
+    pts = sorted(points, key=lambda e: e["available"])
+    days = sorted({p["available"] for p in pts} | {w["filed"] for w in wq if w["filed"] >= pts[0]["available"]})
+    out, dq, prev = [], [], None
+    for day in days:
+        p = [x for x in pts if x["available"] <= day][-1]   # as_of와 같은 동률 규칙(목록 뒤쪽 — CRWD 2025-06 정정, Fable)
+        cand = [w for w in wq if w["filed"] <= day]
+        note = None
+        if not cand:
+            if p["val"] < 1e7:
+                val, note = None, f"series_shares_missing:{day}:{p['val']}"
+            else:
+                val = p["val"]
+        else:
+            w = max(cand, key=lambda x: (x["end"], x["filed"]))
+            wa, unit = wa_unit(w["val"], p["val"])
+            if unit:
+                note = f"weighted_shares_unit:{day}:{w['val']}{unit}"
+            val = p["val"]
+            r_ = p["val"] / wa if wa > 0 else None
+            if r_ is not None and not (1 / 20 <= r_ <= 20):
+                # 20배 넘게 다르면 단위 오류(FOX 1주·SPG 8,000·CMG·PKG ×1000·TER 천 단위) — WA로(2026-10-10 사용자 결정)
+                val = wa
+                note = f"shares_fallback_series:{day}:{p['val']}->{wa:.0f}"
+                if unit or wa < 1e5:
+                    dq.append(f"shares_suspect:{day}")
+            elif r_ is not None and not (0.5 <= r_ <= 2.0):
+                # 2~20배는 합병·상장·자본 재편 직후 WA가 뒤처진 경우가 많다(UBER 2019·PCG·IFF·WBD·CHTR 2026, Fable) — 표지를 두고 표시만
+                dq.append(f"shares_suspect:{day}")
+            elif p["val"] < 1e5 and wa < 1e5:
+                dq.append(f"shares_suspect:{day}")
+        if note:
+            dq.append(note)
+        if prev is None or (p["end"], val) != prev:
+            out.append({"end": p["end"], "val": val, "available": day})
+            prev = (p["end"], val)
+    return out, dq
 
 
 ASOF_REF = None   # 연구용 시점 재현의 평가일(research/pit.py). 카드는 None(오늘).
@@ -1184,7 +1319,78 @@ EV_ZERO_FROM_BY_CIK = {"0000200406": {"nci": ("2023-10-01", "2023-10-27")}}
 DEBT_AVAILABLE_FIX = {"0001327567": {"2025-07-31": "2025-08-29"}}
 
 
+# F4(input_fix_prereg, 2026-10-10): 차입금 세부 태그가 일부만 잡히면 총계로 바꾸지 않는 회사들. 금융 섹터는 차입금 정의가 달라
+# 통째로 뺀다(은행 카드는 bank_items 경로). CAT·DE는 금융 자회사 부문 차입금을 뺀 값이 사용자 결정(2026-09-30)이라 총계와 다른 게 맞다.
+# BX는 LoansPayable, VRTX는 0.5배 규칙과 맞지 않는 회사별 결정.
+DEBT_TOTAL_FALLBACK_SKIP = {"0000018230", "0000315189", "0001393818", "0000875320"}
+_FIN_CIKS = None
+
+
+def _financial_ciks():
+    global _FIN_CIKS
+    if _FIN_CIKS is None:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vendor", "sp500.json")
+        _FIN_CIKS = {str(r.get("cik")).zfill(10) for r in json.load(open(p)) if r.get("sector") == "Financials"} if os.path.exists(p) else set()
+    return _FIN_CIKS
+
+
+def _debt_total_fallback(cik, out):
+    """F4: 그 종료일의 엔진 차입금이 없거나 같은 종료일 `LongTermDebt`(총계)의 0.5배 미만이면 바꾼다 — LIN 2022-09-30은 세부 중
+    단기차입 $3.18B만 태깅해 10-Q 합계 $15.34B가 빠졌다(회사별 목록 경로라 총계 대체 전에 끝났다). 순서: ① 그날의
+    `DebtLongtermAndShorttermCombinedAmount` ② `LongTermDebt` + 단기 차입(`ShortTermBorrowings`, 없으면 `CommercialPaper`).
+    단기 차입에 1년 안 만기 장기분이 들어 있는 회사(build_dcf.STB_INCLUDES_CURRENT_LTD)는 장기 비유동분 + 단기 차입,
+    `LongTermDebt`를 비유동분으로만 내는 회사(DEBT_NONCURRENT_ONLY)는 + `DebtCurrent`. 바꾼 점에는 `_note`를 남긴다."""
+    if cik in DEBT_TOTAL_FALLBACK_SKIP or cik in _financial_ciks():
+        return out
+    ltd = {e["end"]: e for e in component_sum(cik, ["LongTermDebt"])}
+    comb = {e["end"]: e for e in component_sum(cik, ["DebtLongtermAndShorttermCombinedAmount"])}
+    if not ltd and not comb:
+        return out
+    import build_dcf as _bd
+    have = {e["end"]: e for e in out}
+    stb = {e["end"]: e for e in component_sum(cik, ["ShortTermBorrowings"])}
+    cp = {e["end"]: e for e in component_sum(cik, ["CommercialPaper"])}
+    nonc = {e["end"]: e for e in component_sum(cik, ["LongTermDebtNoncurrent"])}
+    curr = {e["end"]: e for e in component_sum(cik, ["LongTermDebtCurrent"])}
+    dc = {e["end"]: e for e in component_sum(cik, ["DebtCurrent"])}
+    changed = False
+    for end in sorted(set(ltd) | set(comb)):
+        L, e = ltd.get(end), have.get(end)
+        if L is None:
+            if e is not None:                              # 총계(LongTermDebt)가 없으면 엔진 값이 없을 때만 합계 태그로
+                continue
+        elif e is not None and e["val"] >= 0.5 * L["val"]:
+            continue
+        # 합계 태그가 부분값인 회사가 있다(GPC 2014: 합계 태그 $500M = 비유동분, LongTermDebt $765.5M — Fable) — 총계의 절반 이상일 때만
+        if end in comb and (L is None or comb[end]["val"] >= 0.5 * L["val"]):
+            parts = [comb[end]]
+        else:
+            if cik in _bd.STB_INCLUDES_CURRENT_LTD:
+                if end in nonc:
+                    base_ = [nonc[end]]
+                elif end in curr:
+                    base_ = [L, {"val": -curr[end]["val"], "available": curr[end]["available"]}]
+                else:
+                    base_ = [L]
+            else:
+                base_ = [L]
+            short = stb.get(end) or cp.get(end)
+            extra = [dc[end]] if (cik in DEBT_NONCURRENT_ONLY and end in dc) else []
+            parts = base_ + ([short] if short else []) + extra
+        val = sum(x["val"] for x in parts)
+        have[end] = {"end": end, "val": val, "available": max(x["available"] for x in parts), "_note": "debt_total_fallback"}
+        changed = True
+    return sorted(have.values(), key=lambda e: e["available"]) if changed else out
+
+
 def ev_component(cik, name, tags):
+    out = _ev_component(cik, name, tags)
+    if name == "debt" and not EV_ZERO_FROM_BY_CIK.get(cik, {}).get(name):
+        out = _debt_total_fallback(cik, out)
+    return out
+
+
+def _ev_component(cik, name, tags):
     tags = EV_TAGS_BY_CIK.get(cik, {}).get(name, tags)
     zf = EV_ZERO_FROM_BY_CIK.get(cik, {}).get(name)
     if zf:
@@ -1470,6 +1676,10 @@ def main():
             print(f"  {name}: 태그 없음")
             continue
         series[name] = instant_series(rows, t, is_share_count=(name == "shares"))
+        if name == "shares":   # F3 (a) — DCF와 같은 대조를 배수 시리즈에도
+            series[name], _sdq = check_shares(series[name], cik, t)
+            for x in _sdq:
+                print(f"  ⚠ 주식 수 대조: {x}")
         stale = check_fresh(series[name], daily[-1][0])
         print(f"  {name}: {tag} — 시점 {len(series[name])}개"
               f" · 최신 {series[name][-1]['end'] if series[name] else '없음'}{stale}")
