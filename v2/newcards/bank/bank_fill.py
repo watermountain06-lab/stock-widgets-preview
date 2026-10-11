@@ -53,7 +53,7 @@ D = json.loads(re.search(rf'const {T}_DAILY\s*=\s*(\[.*?\]);', h, re.S).group(1)
 px, asof = D[-1][4], D[-1][0]
 assert abs(px - J['price']) < 1e-6 and asof == J['asOf'], (px, J['price'], asof, J['asOf'])
 cut = (R.get('frozen') or {}).get('asof_cut')
-bank = br.Bank(T, CIK, cut or asof)
+bank = br.Bank(T, CIK, cut or asof, edition=7)   # 카드 판정 JSON과 같은 7판(Fable — 기본값이 6이던 때 4장이 섞였다)
 L = R.get('L') or max(e for e in bank.se if bank.se[e][1] <= (cut or asof))   # 재무 기준 분기(관문을 통과한 최신 분기)
 S_, CE = (R.get('shares'), R.get('ce')) if R.get('L') else ((bank.shares(L) or (None,))[0], (bank.ce(L) or (None,))[0])
 f1 = lambda v: f'{v * 100:.1f}%'
@@ -65,6 +65,13 @@ qd_ = lambda e: f'{e[:4]}.{e[5:7]}.{e[8:]}'
 def q(tags):
     _, rows = bmh.pick_tag(CIK, tags)
     rows = [x for x in rows if x['filed'] <= (cut or asof)]
+    # 표시용 흐름은 같은 기간의 가장 나중 공시 값(재표시 기준)으로 — 1년 전 분기를 처음 공시 값으로 두면 BAC 증감률이 기준이 섞였다(Fable)
+    _lat = {}
+    for x in rows:
+        k_ = (x.get('start'), x['end'])
+        if k_ not in _lat or x['filed'] > _lat[k_]['filed']:
+            _lat[k_] = x
+    rows = sorted(_lat.values(), key=lambda x: (x['end'], x['filed']))
     return {e['end']: e['val'] for e in bmh.quarterly_flow(rows, T)}
 
 
@@ -170,15 +177,20 @@ assert len(olds) == 3
 for o, n in zip(olds, new):
     assert h.count(o) == 1; h = h.replace(o, n)
 S4 = R.get('signal4')
-_note = ('세 값은 확률이 아니라, 과거 ROE에서 서로 다른 가정을 뽑아 계산한 결과다. 5년 뒤 ROE는 자기자본비용 쪽으로 절반 수렴한다고 본다 — 이 가정이 값에 가장 크게 작용한다'
-         + (f'(수렴 없음이면 기본 ${vals["기본"][0][2]:.0f}, 완전 수렴이면 ${vals["기본"][2][2]:.0f})' if RIM_OK and vals['기본'][0][2] and vals['기본'][2][2] else '')
-         + (f'. 유보율 {f1(R["b"])}(최근 4분기 배당·자사주 환원 뒤 남는 몫)로 장부가가 자라고, 기타포괄손익은 반영하지 않는다. 순이익은 GAAP이고 특별 항목을 조정하지 않는다.' if RIM_OK else '.')
+_same = RIM_OK and vals['기본'][0][2] and vals['기본'][2][2] and round(vals['기본'][0][2]) == round(vals['기본'][2][2])
+_note = ('세 값은 확률이 아니라, 과거 ROE에서 서로 다른 가정을 뽑아 계산한 결과다. 5년 뒤 ROE는 자기자본비용 쪽으로 절반 수렴한다고 본다'
+         + ('. 이 카드는 기본 시나리오 끝 ROE가 자기자본비용 10% 이하라 수렴 가정이 값을 바꾸지 않는다' if _same else ' — 이 가정이 값에 가장 크게 작용한다')
+         + ((f'(수렴 없음이면 기본 ${vals["기본"][0][2]:.0f}, 완전 수렴이면 ${vals["기본"][2][2]:.0f})' if round(vals["기본"][0][2]) != round(vals["기본"][2][2])
+             else '') if RIM_OK and vals['기본'][0][2] and vals['기본'][2][2] else '')
+         + ((f'. 유보율 {f1(R["b"])}(최근 4분기 배당·자사주 환원 뒤 남는 몫)로 장부가가 자라고' if R['b'] > 0 else '. 유보율 0%(최근 4분기에 이익보다 많이 돌려줬다)라 장부가가 자라지 않는다고 보고')
+            + ', 기타포괄손익은 반영하지 않는다. 순이익은 GAAP이고 특별 항목을 조정하지 않는다.' if RIM_OK else '.')
          + (f' ⚠ 출발 ROE: {", ".join(qlab(e) for e in S4["quarters"])} 순이익이 최근 8분기 중앙값에서 40% 넘게 벗어났다 — 일회성일 수도, 실적 수준 변화일 수도 있다. 그 분기를 중앙값으로 바꾸면 ROE {f1(S4["roe_at_median"])}다.' if S4 and S4.get('roe_at_median') else '')
          + (f' 5년 중앙값 ROE({f1(R["roe_5y_median"])})가 2년 중앙값({f1(R["roe_2y_median"])})보다 높아 보수가 기본보다 높게 나온다(이름과 순서가 뒤집힘).' if RIM_OK and R.get('보수') and R['보수'] > R['기본'] else '')
          + (f' 계산하지 않음 — {dcf["unavailable"]}.' if not RIM_OK else ''))
 one('<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>', f'<div class="note">{_note}</div>')
 sub(r'<div class="note" data-dcf-nonop>[^<]*</div>', '<div class="note" data-dcf-nonop hidden></div>')
-sub(r'<div class="reverse">.*?</div>\n  </div>', '<div class="reverse" data-rim-reverse>지금 가격이 정당하려면 5년 동안 ROE가 매년 <b data-dcf-req>—</b>여야 한다.</div>\n  </div>')
+sub(r'<div class="reverse">.*?</div>\n  </div>', ('<div class="reverse" data-rim-reverse>지금 가격이 정당하려면 5년 동안 ROE가 매년 <b data-dcf-req>—</b>여야 한다.</div>\n  </div>' if R.get('required_roe') is not None
+    else '<div class="reverse" data-rim-reverse>지금 가격은 5년 ROE 0~60% 범위의 어떤 값으로도 맞출 수 없다(초과이익모형 — <b data-dcf-req>해 없음</b>).</div>\n  </div>'))
 one('<div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span>',
     '<div class="knob"><span class="knob-l">잔존 수렴 <span class="knob-d" data-knob-default="term">(절반)</span></span>')
 one('<div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span>',
@@ -325,7 +337,7 @@ one('// FCF = 영업현금흐름 − PaymentsToAcquireProductiveAssets, 분기�
     '// 은행: 순영업수익 · 충당금 전 이익(순영업수익 − 비이자비용) · 보통주 귀속 순이익 · 순이자이익, 분기값은 누적값의 차이(SEC 10-Q·10-K).')
 # 매출 구성: 순이자이익 · 그 밖의 순영업수익(사업부 순이익은 보도자료에만 있다 — 7판 11-7)
 oth = rev[cur] - nii[cur]
-SEG = [('순이자이익', round(nii[cur] / 1e6), K.COLOR), ('그 밖의 순영업수익 (수수료·트레이딩 등)', round(oth / 1e6), '#94a3b8')]
+SEG = [('순이자이익', round(nii[cur] / 1e6), K.COLOR), ('그 밖의 순영업수익 (비이자 수익)', round(oth / 1e6), '#94a3b8')]
 tot = sum(v for _, v, _ in SEG)
 leg = ''.join(f'\n          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:{c};display:inline-block;flex-shrink:0;"></span>{n} <strong style="color:var(--text);">${v / 1000:.1f}B · {v / tot * 100:.1f}%</strong></div>' for n, v, c in SEG)
 _oth_yo = rev[yo] - nii[yo]
@@ -388,7 +400,7 @@ wm = lambda k, m: {"metric": k, "score": round(m['score'], 1), "percentile": rou
 pm = lambda k, m: {"metric": k, "score": m.get('score'), "rank": m.get('rank'), "peers": m.get('peers')}
 V = {"peer": {"score": peerscore, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": [asof, asof],
               "metrics": [pm('per', PEER['per']), pm('pbr', PEER['ptbv'])]},
-     "self": {"score": selfscore, "rule": "both", "naNote": "은행", "window": [D[0][0], asof],
+     "self": {"score": selfscore, "rule": "both", "naNote": "은행에 해당 없음", "window": [D[0][0], asof],
               "metrics": [wm('per', SH.get('per')), wm('pbr', SH.get('ptbv'))]}}
 sub(rf'^const {T}_VALUATION = \{{.*$', f'const {T}_VALUATION = ' + json.dumps(V, ensure_ascii=False) + ';', re.M)
 UB = json.load(open('peer_universe/banks.json'))
@@ -422,8 +434,11 @@ RISK_TXT = ((f'⚠️ 현재가 ÷ 기본 가치가 {lvl:.2f}로 "{_lvlw}"다' +
             + (f' 재무는 관문을 통과한 {QL}에 머물러 있다({", ".join((R.get("frozen") or {}).get("stop", []))} 미통과 분기 반영 보류).' if R.get('frozen') else ''))
 _ptbv_now = (SH.get('ptbv') or {}).get('current')
 _rank = (PEER.get('ptbv') or {}).get('rank'), (PEER.get('ptbv') or {}).get('peers')
-PREM = (f'P/TBV {_ptbv_now:.2f}배는 자기 5년 이력의 {"위쪽" if (SH["ptbv"]["percentile"] >= 50) else "아래쪽"}(상위 {100 - SH["ptbv"]["percentile"]:.0f}%)' if isinstance(_ptbv_now, (int, float)) else 'P/TBV 이력이 없다')
-PREM += (f'이고 S&P500 은행 {_rank[1] + 1}곳(본인 포함) 중 {_rank[0]}번째로 비싸다. ' if _rank[0] else '. ')
+_hy = f'{_ptd / 252:.1f}년' if _ptd and _ptd < 1200 else '5년'
+PREM = (f'P/TBV {_ptbv_now:.2f}배는 자기 {_hy} 이력의 {"위쪽" if (SH["ptbv"]["percentile"] >= 50) else "아래쪽"}(상위 {100 - SH["ptbv"]["percentile"]:.0f}%)' if isinstance(_ptbv_now, (int, float)) else 'P/TBV 이력이 없다')
+_ntot = (_rank[1] or 0) + 1
+PREM += ((f'이고 S&P500 은행 {_ntot}곳(본인 포함) 중 가장 비싸다. ' if _rank[0] == _ntot else f'이고 S&P500 은행 {_ntot}곳(본인 포함) 중 가장 싸다. ' if _rank[0] == 1
+          else f'이고 S&P500 은행 {_ntot}곳(본인 포함) 중 비싼 쪽부터 {_ntot - _rank[0] + 1}번째다. ') if _rank[0] else '. ')
 PREM += (f'<strong>초과이익모형 기본 가치 ${R["기본"]:.0f}은 현재가의 {1 / lvl * 100:.0f}%</strong>로, 지금 가격은 ROE {f1(R["required_roe"])}가 5년 이어진다는 값이다(최근 4분기 {f1(R["roe0"])}, GAAP).'
          if lvl is not None and R.get('required_roe') is not None else '')
 sub(r'<div class="vs-premise">.*?</div>\n    <div class="verdict-summary-risk">.*?</div>',
@@ -488,7 +503,7 @@ one("""      `같은 GICS 섹터(Information Technology) 안에서 배수 순위
       + `\\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);""",
     f"""      `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
       + `\\nP/TBV는 유형자본을 만들 수 있는 {PEER['ptbv'].get('peers')}곳, PER은 {PEER['per'].get('peers')}곳과 비교했다.`
-      + `{('\\n' + '·'.join(NOTB) + '는 P/TBV에서 빠졌다(' + '; '.join(f'{k}: {_why[k][:40]}' for k in NOTB) + ').') if NOTB else ''}`);""")
+      + `{('\\n' + '·'.join(NOTB) + '는 P/TBV에서 빠졌다(' + '; '.join(f'{k}: {_why[k]}' for k in NOTB) + ').') if NOTB else ''}`);""")
 _sp_ = SH.get('ptbv') or {}
 one("""      + `\\n(확인 필요 — NVDA 문장 자리)`
       + ``);""",
@@ -539,7 +554,8 @@ sub(r'<div class="verdict-summary-head">지배적 내러티브.*?<div class="ver
 row = lambda k, head, t_: f'<div class="bb-row {k}"><span class="bb-icon">{"▲" if k == "bull" else "▼"}</span><span class="bb-head">{head}</span><span class="bb-text">{t_}</span></div>'
 cand = []
 if _roe_now:
-    cand.append(('수익성', 1 if _roe_now[0] >= 0.12 else -1 if _roe_now[0] < 0.10 else 0, f'최근 4분기 ROE {f1(_roe_now[0])}' + (f'(1년 전 {f1(_roe_yo[0])})' if _roe_yo else '') + ' — 자기자본비용 10%와 견준다.'))
+    cand.append(('수익성', 1 if _roe_now[0] >= 0.12 else -1 if _roe_now[0] < 0.10 else 0, f'최근 4분기 ROE {f1(_roe_now[0])}' + (f'(1년 전 {f1(_roe_yo[0])})' if _roe_yo else '')
+                 + (' — 자기자본비용 10%를 넘는다.' if _roe_now[0] >= 0.12 else ' — 자기자본비용 10%에 못 미친다.' if _roe_now[0] < 0.10 else ' — 자기자본비용 10% 근처다.')))
 _nc = chg(nii[cur], nii[yo])
 if _nc is not None:
     cand.append(('순이자이익', 1 if _nc > 0.03 else -1 if _nc < -0.03 else 0, f'{QL} 순이자이익 {B(nii[cur])}, 1년 전보다 {pc(_nc)}.'))

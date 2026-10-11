@@ -39,9 +39,9 @@ def fetch(T):
 
 
 def write(T, A, asof):
-    p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
-    if not os.path.exists(p):   # 은행 카드는 bank/cfg(사전 등록 7판, 2026-10-11)
-        p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")
+    p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")   # 은행 카드는 bank/cfg가 먼저(사전 등록 7판, 2026-10-11 — COF는 생성기 cfg도 남아 있다)
+    if not os.path.exists(p):
+        p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
     if not os.path.exists(p):   # 손 카드(BRKB·SPCX) — cfg가 없어 카드의 상수를 직접 고친다(2026-10-11)
         cp = os.path.join(os.path.dirname(HERE), f"{T}_full_widget.html")
         h = open(cp, encoding="utf-8").read()

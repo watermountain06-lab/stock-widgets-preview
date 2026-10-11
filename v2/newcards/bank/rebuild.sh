@@ -20,7 +20,7 @@ if [ -z "$SKIP_BANK_CARD" ]; then
   BANK_EDITION=7 python3 v2/adapters/bank_card.py "$T" --json "v2/${T}_bank.json" ${PRICE_ONLY:+--reuse-peers} | grep gates
 fi
 cp "$B/base/${t}_base.html" "v2/${T}_full_widget.html"
-python3 "$B/bank_fill.py" "$T" | tail -2
+BANK_EDITION=7 python3 "$B/bank_fill.py" "$T" | tail -2
 python3 "$B/unify_js.py" "$T"
 python3 v2/strip_caveats.py "$T"
 python3 v2/apply_theme.py "$T"

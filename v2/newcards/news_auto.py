@@ -46,9 +46,9 @@ def get(url):
 
 
 def cfg(T):
-    p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
-    if not os.path.exists(p):   # 은행 카드(bank/cfg, 사전 등록 7판 — 2026-10-11)
-        p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")
+    p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")   # 은행 카드(bank/cfg, 사전 등록 7판 — 2026-10-11)가 먼저 — COF는 기반을 만들 때 쓴 생성기 cfg도 남아 있다
+    if not os.path.exists(p):
+        p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
     sp = importlib.util.spec_from_file_location("cfg", p)
     C = importlib.util.module_from_spec(sp)
     sp.loader.exec_module(C)
@@ -145,7 +145,7 @@ def one(T, old):
 
 def main():
     want = [a.upper() for a in sys.argv[1:]]
-    tickers = want or sorted(f[4:-3].upper() for d_ in ("cfg", os.path.join("bank", "cfg")) for f in os.listdir(os.path.join(HERE, d_)) if f.startswith("cfg_") and f.endswith(".py"))
+    tickers = want or sorted({f[4:-3].upper() for d_ in ("cfg", os.path.join("bank", "cfg")) for f in os.listdir(os.path.join(HERE, d_)) if f.startswith("cfg_") and f.endswith(".py")})
     data = json.load(open(OUT)) if os.path.exists(OUT) else {}
     failed = []
     for T in tickers:

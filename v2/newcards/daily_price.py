@@ -169,6 +169,8 @@ def auto_approve(status, session, tickers):
         sp = importlib.util.spec_from_file_location("cfg", os.path.join(HERE, d_, f))
         C = importlib.util.module_from_spec(sp)
         sp.loader.exec_module(C)
+        if d_ == "cfg" and f[4:-3].upper() in BANKS:   # 은행은 bank/cfg로만
+            continue
         if not (getattr(C, "AUTO", False) or d_ != "cfg") or getattr(C, "AUTO_OUTSIDE", None):   # 은행 카드(bank/cfg, 사전 등록 7판)도 새 10-Q를 스스로 반영한다(2026-10-11)
             continue
         T, cik = f[4:-3].upper(), str(C.CIK).zfill(10)
@@ -261,10 +263,10 @@ def auto_quarter_due(T):
     """자동 카드이고, 기준표(v2/sec_approved.json)의 공시 날짜가 카드 재무의 접수일(FUNDAMENTAL.filedAt)보다 뒤인가."""
     import importlib.util
     import new_filings as nf
-    p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
-    bank = not os.path.exists(p)
-    if bank:   # 은행 카드(bank/cfg)
-        p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")
+    p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")
+    bank = os.path.exists(p)   # 은행 카드(bank/cfg)가 먼저 — COF는 생성기 cfg도 남아 있다
+    if not bank:
+        p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
         if not os.path.exists(p):
             return False
     sp = importlib.util.spec_from_file_location("cfg", p)
