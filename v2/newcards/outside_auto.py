@@ -207,7 +207,8 @@ def release(T, after, within=60, subs=None):
 
 # ── 새 분기 받기 ──
 def _tags_at(facts, end):
-    """그 날짜에 0이 아닌 값이 있는 태그(기간 끝 또는 시점) — 라벨이 바뀌면 추출기가 0을 넣는다(TSM need=False, Codex)."""
+    """그 날짜에 0이 아닌 값이 있는 태그(기간 끝 또는 시점) — 라벨이 바뀌면 추출기가 0을 넣는다(TSM need=False, Codex).
+    실제로 잔액이 0이 된 정상 분기(차입금 전액 상환)도 멈춘다 — 틀린 0을 조용히 받는 것보다 멈추고 문제로 알리는 쪽을 골랐다(2026-10-11)."""
     out = set()
     for tag, x in facts["facts"].get("us-gaap", {}).items():
         for rows in x.get("units", {}).values():
