@@ -28,9 +28,12 @@ UA = "kim research gptjhss@gmail.com"
 d = qa.d
 
 
+SYM = "$"   # 재무 통화 기호 — 외국 발행사(ASML €, TSM NT$)는 apply_outside가 바꾼다. 주가·내재가치 문장은 늘 '$'를 글자로 쓴다
+
+
 def B(v):
-    """백만 달러가 아닌 달러 값 → '$12.3B'."""
-    s = f"${abs(v) / 1e9:.1f}B" if abs(v) >= 1e9 else f"${abs(v) / 1e6:,.0f}M"
+    """백만 달러가 아닌 달러 값 → '$12.3B'(외국 발행사는 그 통화 — 대만달러는 조 단위 'NT$1.27T')."""
+    s = (f"{SYM}{abs(v) / 1e12:.2f}T" if abs(v) >= 1e12 else f"{SYM}{abs(v) / 1e9:.1f}B" if abs(v) >= 1e9 else f"{SYM}{abs(v) / 1e6:,.0f}M")
     return ("−" if v < 0 else "") + s
 
 
@@ -57,7 +60,7 @@ def usd(v):
 
 def money(v):
     """주당 금액 두 자리 — 음수는 '−$0.92'(Fable: '$-0.92' 금지)."""
-    return ("−$" if v < 0 else "$") + f"{abs(v):.2f}"
+    return ("−" if v < 0 else "") + SYM + f"{abs(v):.2f}"
 
 
 def kdate(s):
@@ -197,6 +200,8 @@ def adj_note(C):
 
 
 def apply(C, T):
+    if getattr(C, "AUTO_OUTSIDE", None):
+        return apply_outside(C, T)
     cik = str(C.CIK).zfill(10)
     r = qa.resolve(T)   # 기준표 날짜까지 접수된 자료로
     for k in ("CUR", "YO", "QO", "QLABEL", "YL", "QQL", "L8", "TENQ", "TENQ_NAME", "FY_ENDS", "FY_LABEL"):
@@ -368,6 +373,97 @@ def apply(C, T):
     C._AUTO["next_label"] = nl
     C.FUND_ASOF_NOTE = f"{C.TENQ_NAME}"
     lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})   # 차트에 보이는 8분기 안에서만(Fable)
+    C.FCF_SUB = "영업현금흐름 − 설비투자" + (f" · 분기 길이가 {'·'.join(map(str, lens))}주로 다르다" if len(lens) > 1 else "")
+    C.CAPEX_SUB = "설비투자(현금흐름표)"
+
+
+def apply_outside(C, T):
+    """외국 발행사(ASML·TSM) — 10-Q 대신 6-K 원문(어댑터 재무, 현지 통화). 같은 칸을 같은 규칙으로 채운다(2026-10-11).
+    부문 표는 원문 주석(ASML 시스템·서비스, TSM 공정별 웨이퍼 + 웨이퍼 외), 보고서 링크는 재무제표 6-K, 보도자료·다음 실적일은 실적 6-K.
+    주당 배당은 원문 요약에 없어 칸에 '없음'이 아니라 출처 없음을 적는다."""
+    global SYM
+    import outside_auto as oa
+    O = C.AUTO_OUTSIDE
+    SYM = O["sym"]
+    cik = str(C.CIK).zfill(10)
+    r = qa.resolve(T, net=False)
+    for k in ("CUR", "YO", "QO", "QLABEL", "YL", "QQL", "L8", "FY_ENDS", "FY_LABEL"):
+        if r.get(k) is None:
+            raise SystemExit(f"{T}: 자동 분기 변수 {k}를 정하지 못했다")
+        setattr(C, k, r[k])
+    ends, fy_ends = qa.quarters(T, cik)
+    fye, n = qa.fiscal(C.CUR, fy_ends)
+    is_q4 = n == 4
+    fy_start = d(C.FY_ENDS[1] if is_q4 else C.FY_ENDS[0])
+    qlen = {e: (d(e) - d(p)).days for p, e in zip(ends, ends[1:])}
+    C._AUTO = {"qlen": qlen, "is_q4": is_q4, "fy_start": fy_start, "ends": ends}
+    rep = oa.report(T, C.CUR)
+    if not rep:
+        raise SystemExit(f"{T}: {C.CUR} 재무제표 6-K가 manifest에 없다")
+    C.TENQ = rep["url"]
+    C.TENQ_NAME = (f"{C.FY_LABEL} 연간 {O['fs_name']}" if is_q4 and O.get("annual_fs") else f"{C.QLABEL} {O['fs_name']}")
+
+    # 부문 표(현지 통화 백만) — 합이 어댑터 매출과 맞아야 한다
+    cur_v, yo_v = oa.seg(T, C.CUR, C.YO, C.QO if is_q4 else None)
+    colors = O["seg_colors"]
+    if set(cur_v) - set(colors):
+        raise SystemExit(f"{T}: 색이 없는 부문 {sorted(set(cur_v) - set(colors))}")
+    C.SEG = sorted([(k, round(v), colors[k]) for k, v in cur_v.items()], key=lambda r_: -r_[1])
+    _, _rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
+    _rev = {e["end"]: e["val"] for e in bmh.quarterly_flow(_rows, T)}
+    resid = _rev[C.CUR] / 1e6 - sum(v for _, v, _ in C.SEG)
+    if abs(resid) > 0.005 * _rev[C.CUR] / 1e6:
+        raise SystemExit(f"{T}: 부문 합이 매출과 {resid:,.0f}백만 다르다 — 원문 표 확인")
+    C.SEG_ADJ = round(resid)
+    C._SEG_ADJ_HAND = 0
+    C._AUTO["seg_yo"] = {k: round(v) for k, v in yo_v.items()}
+    C.RELEASE = {}
+    C.OPM_RANGE = (-1000, 1000)
+
+    # 핵심 수치 칸: 희석 EPS(현지 통화)
+    eps = {e["quarter_end"]: e["quarter_eps"] for e in json.load(open(os.path.join(REPO, "scripts", f"{T}_eps_history.json")))}
+    e_cur, e_yo = eps.get(C.CUR), eps.get(C.YO)
+    if e_cur is None:
+        raise SystemExit(f"{T}: {C.CUR} EPS가 이력 파일에 없다")
+    c = chg(e_cur, e_yo) if e_yo is not None else None
+    if c is None and e_yo and e_yo > 0 and e_cur > 0:
+        c = f"{(e_cur / e_yo - 1) * 100:+.0f}%".replace("-", "−")
+    C.STAT3 = (f"희석 EPS ({C.QLABEL})", money(e_cur),
+               f"{O['eps_basis']} · " + (f"1년 전 {money(e_yo)} ({c})" if c else f"1년 전 {money(e_yo)}" if e_yo is not None else "1년 전 값 없음"))
+
+    # 자본배분(회계연도 누계, 현지 통화) — 주당 배당은 요약 재무제표에 없다
+    def span(td):
+        st = d(C.CUR) - td
+        return f"연초~{d(C.CUR).month}/{d(C.CUR).day}, {round(td.days / 7)}주" if st.month == 1 and st.day <= 7 else \
+            f"회계연도 누계 {st.year}.{st.month}.{st.day}~{d(C.CUR).year}.{d(C.CUR).month}.{d(C.CUR).day}, {round(td.days / 7)}주"
+    bb, bbd = ytd(cik, ["PaymentsForRepurchaseOfCommonStock"], C.CUR, fy_start)
+    dv, dvd = ytd(cik, ["PaymentsOfDividendsCommonStock"], C.CUR, fy_start)
+    C.CAPITAL = [(f"자사주 매입 ({span(bbd)})" if bb is not None else "자사주 매입", (B(bb) if bb else "없음") if bb is not None else O.get("bb_none", "공시 없음")),
+                 (f"배당 지급 ({span(dvd)})" if dv is not None else "배당 지급", B(dv) if dv is not None else "공시 없음"),
+                 ("분기 주당 배당", "요약 재무제표에 주당 배당이 없다", "—")]
+    C._AUTO.update({"bb": bb, "dv": dv, "dps": None, "dps_yo": None, "dv_weeks": round(dvd.days / 7) if dvd else None})
+    gw = {r_["end"]: r_["val"] for r_ in sorted(_flow_rows(cik, "Goodwill"), key=lambda r_: r_["filed"])}
+    C._AUTO["acq"] = bool(gw.get(C.CUR) and C.YO in gw and gw[C.CUR] > (gw[C.YO] or 0) * 1.15)
+
+    # 실적 보도자료(6-K)와 다음 실적일(작년 같은 분기 보도자료 + 364일)
+    cur_rel = oa.release(T, C.CUR)
+    C.PR, C.PR_CUR = {**C.PR, "auto": cur_rel[1] if cur_rel else C.TENQ}, "auto"
+    i_yo = ends.index(C.YO)
+    nxt_ago = ends[i_yo + 1] if i_yo + 1 < len(ends) else None
+    ago_rel = oa.release(T, nxt_ago) if nxt_ago else None
+    nxt_end = d(nxt_ago) + dt.timedelta(days=364) if nxt_ago else d(C.CUR) + dt.timedelta(days=91)
+    fye2, n2 = qa.fiscal(nxt_end.isoformat(), fy_ends)
+    nl = qa.label("fy" if "FY" in C.QLABEL else "cal", fye2, n2, qa.name_offset(C, fy_ends))
+    if ago_rel:
+        est, ago = d(ago_rel[0]) + dt.timedelta(days=364), d(ago_rel[0])
+        C.NEXT = (f"{est.month}월 {est.day}일 무렵 예상", f"일정 · {nl} (작년 {ago.month}/{ago.day} 발표, 같은 요일로 추정)")
+        C.NEXT_OP = (f"{est.month}월 {est.day}일 무렵", f"{nl} 예상")
+        C.CHECK_WHEN = f"{est.year}년 {est.month}월 {est.day}일 무렵 (예상) · {nl}"
+    else:
+        C.NEXT, C.NEXT_OP, C.CHECK_WHEN = ("미정", f"일정 · {nl}"), ("미정", f"{nl}"), f"{nl}"
+    C._AUTO["next_label"] = nl
+    C.FUND_ASOF_NOTE = f"{C.TENQ_NAME} ({rep['filed']} 공시)"
+    lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})
     C.FCF_SUB = "영업현금흐름 − 설비투자" + (f" · 분기 길이가 {'·'.join(map(str, lens))}주로 다르다" if len(lens) > 1 else "")
     C.CAPEX_SUB = "설비투자(현금흐름표)"
 
@@ -584,6 +680,9 @@ def texts(C, ns):
 
 
 def _finish(C):
+    O = getattr(C, "AUTO_OUTSIDE", None)
+    if O and O.get("fund_tip") and O["fund_tip"] not in C.FUND_TIP:   # 외국 발행사: 재무 통화·원문 설명을 덧붙인다
+        C.FUND_TIP = C.FUND_TIP + " " + O["fund_tip"]
     # 음수 표기: 문장 속 '-5.0%'·'$-' 를 '−'로(Fable) — 주소·날짜(앞이 글자·숫자·'/')는 건드리지 않는다
     import re as _re
     def fix(t):   # 태그 밖 글자에만 — 주소·class·CSS(margin-top:-2px)는 건드리지 않는다(Codex)

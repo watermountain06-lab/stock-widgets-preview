@@ -8,7 +8,7 @@ fill.py가 카드를 만들 때 이 목록을 뉴스 맨 위에 넣는다. 항�
 사람이 손 뉴스로 쓰고, 그러면 같은 발표의 자동 항목은 빠진다(fill.py의 중복 판정).
 
 배당·임원 변경 등 다른 공시는 8.01·5.02항에 여러 사건이 섞여 있어 목록만으로 무엇인지 알 수 없다 — 넣지 않는다.
-ASML·TSM(6-K)·SKHY(한국 공시)와 은행·NVDA·BRKB·SPCX(cfg 뉴스 없음)는 이 점검 밖이다.
+ASML·TSM(자동 카드)은 실적 보도자료 6-K를 찾는다(outside_auto.py, 2026-10-11). SKHY(한국 공시)와 은행·NVDA·BRKB·SPCX(cfg 뉴스 없음)는 이 점검 밖이다.
 
     python3 v2/newcards/news_auto.py            # cfg 카드 전부
     python3 v2/newcards/news_auto.py PEP COST
@@ -108,6 +108,20 @@ def one(T, old):
     r = get(f"https://data.sec.gov/submissions/CIK{str(C.CIK).zfill(10)}.json")["filings"]["recent"]
     known = {e["accn"]: e for e in old}
     items = []
+    if getattr(C, "AUTO_OUTSIDE", None):   # 외국 발행사(ASML·TSM, 자동 카드): 실적 보도자료 6-K(2026-10-11)
+        import outside_auto as oa
+        for i, form in enumerate(r["form"]):
+            if form != "6-K":
+                continue
+            d, part = when(r["acceptanceDateTime"][i])
+            if d <= since:
+                continue
+            h = oa._six_k_head(T, r["accessionNumber"][i])
+            if not h["url"]:
+                continue
+            items.append({"accn": r["accessionNumber"][i], "url": h["url"], "head": h["head"], "results": True, "filed": r["filingDate"][i],
+                          "accepted": r["acceptanceDateTime"][i][:19], "date": d.isoformat(), "after_close": part == "장 마감 후"})
+        return sorted(items, key=lambda e: e["accepted"], reverse=True)
     for i, form in enumerate(r["form"]):
         if form != "8-K" or "2.02" not in r["items"][i].split(","):
             continue
@@ -131,7 +145,7 @@ def main():
     data = json.load(open(OUT)) if os.path.exists(OUT) else {}
     failed = []
     for T in tickers:
-        if T in OUTSIDE:
+        if T in OUTSIDE and not getattr(cfg(T), "AUTO_OUTSIDE", None):
             continue
         try:
             C = cfg(T)

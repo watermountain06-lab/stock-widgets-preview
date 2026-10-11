@@ -5,6 +5,12 @@
 # 증감률은 유로 기준(POST). FCF·Capex는 옛 카드처럼 무형자산 투자까지 포함(엔진의 설비투자 태그는 유형자산만).
 # 재현 모드: python3 v2/newcards/build.py ASML --from-card (일봉·이동평균·백테스트는 지금 카드에서, 마지막 종가 2026-09-25).
 BUILD = {'feed': True}   # IFRS·유로 — EPS·재무는 adapters/asml_feed.py(build.py feed 옵션, 2026-10-05)
+# 자동 카드(2026-10-11): 분기 변수·부문(시스템·서비스)·EPS·자본배분·링크·다음 실적일·해석 문장을 6-K 원문으로(newcards/outside_auto.py).
+# 아래 손 값 가운데 분기 변수·SEG·STAT3·CAPITAL·NEXT·CHECK·문장은 auto_card가 덮어쓴다(빌드 실패 때 되돌릴 기준으로 남긴다).
+AUTO = True
+AUTO_OUTSIDE = {'q_src': '6-K 분기 요약', 'k_src': '6-K 연간 요약', 'sym': '€', 'fs_name': 'US GAAP 요약 재무제표 (6-K)', 'eps_basis': 'US GAAP · 보통주 1주(유로)',
+                'seg_colors': {'노광 시스템': '#0f238c', '설치 기반 관리 (서비스·업그레이드)': '#f7b600'},
+                'fund_tip': '재무는 유로(US GAAP)다. ASML은 10-Q를 내지 않아 분기 실적 6-K의 요약 재무제표를 읽는다. 유동 차입금은 반기·연말에만 공시돼 1·3분기는 직전 값을 쓰고, 분기 이자비용은 공시하지 않는다.'}
 CIK = '0000937966'
 CUR, YO, QO = '2026-06-28', '2025-06-29', '2026-03-29'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
@@ -34,13 +40,13 @@ HEALTH_NOTE = ('유동비율·당좌비율이 낮아 보이는 것은 유동부�
                '이자보상배율은 분기 이자비용을 따로 공시하지 않아 해당 없음으로 두었다(2025년 연간 이자비용 €118M, 영업이익 €11.3B로 약 96배).')
 ACT_REASON = ''
 YOY_EXTRA = ''
-FOOT_MID = ('US GAAP · 금액은 분기 평균 환율로 달러 환산, 증감률은 유로 기준 · FCF는 영업현금흐름 − 설비·무형자산 투자로, 고객 선수금 흐름에 따라 분기마다 크게 흔들린다(1분기 −€2.6B) · '
-            '<a href="{PR[\'fs\']}" target="_blank" rel="noopener">ASML Q2 2026 US GAAP 요약 재무제표 (SEC 6-K) →</a>')
+FOOT_MID = ('US GAAP · 금액은 분기 평균 환율로 달러 환산, 증감률은 유로 기준 · FCF는 영업현금흐름 − 설비·무형자산 투자로, 고객 선수금 흐름에 따라 분기마다 크게 흔들린다 · '
+            '<a href="{TENQ}" target="_blank" rel="noopener">ASML {QL} US GAAP 요약 재무제표 (SEC 6-K) →</a>')
 # 상반기 제품·서비스별 매출(백만 유로, 반기 법정보고서) — 분기 매출과 기간이 달라 SEG_ADJ는 PRE에서 맞춘다
 SEG = [('EUV (NXE·EXE)', 7897.4, '#0f238c'), ('ArF 액침', 3331.7, '#3498db'), ('기타 DUV (ArF 건식·KrF·i-line)', 1253.0, '#7fb3e6'),
        ('계측·검사', 362.1, '#8a8fa8'), ('설치 기반 관리 (서비스·업그레이드)', 5249.2, '#f7b600')]
 SEG_ADJ = 0
-SEG_TITLE = '매출 구성 — 제품·서비스별'
+SEG_TITLE = '매출 구성 — 시스템·서비스'
 SEG_PERIOD = '2026 상반기 · 2026.06.28까지'
 SEG_NOTE = ('상반기 총매출 €18.09B(+17%) · 전년 상반기 대비 EUV +35%, ArF 액침 −23% · 시스템 매출은 로직 €6.44B·메모리 €6.40B · 지역별로 한국 39%, 대만 28%, 중국 16%(전년 24%) · 출처: '
             '<a href="{TENQ}" target="_blank" rel="noopener">ASML 2026 반기 법정보고서 (SEC 6-K) →</a>')
@@ -137,12 +143,11 @@ one('NASDAQ(ADR) · 정보기술 · 반도체장비 · 🇳🇱 네덜란드</sp
 one('<div class="reverse">—</div>', '<div class="reverse">지금 가격(<span data-dcf-price>$' + f'{px:.2f}' + '</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>' + pct(DCF['requiredGrowth']) + '</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$' + f"{DCF['base']:.0f}" + '</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>' + pct(DCF['baseEquivGrowth']) + '</span>다.</div>')
 # 분기 차트 아래 설명(환산·4분기 계절성)
 one('<canvas id="asmlRevChart"></canvas>\n    </div>\n', '<canvas id="asmlRevChart"></canvas>\n    </div>\n'
-    '    <div class="yoy-footnote" style="margin-top:8px;">US GAAP 유로 실적을 분기 평균 환율(ECB 기준환율)로 달러 환산했다. 4분기가 큰 것은 연말 출하(2025년 4분기 High NA 2대 매출 인식)가 몰려서다.</div>\n')
+    '    <div class="yoy-footnote" style="margin-top:8px;">US GAAP 유로 실적을 분기 평균 환율(ECB 기준환율)로 달러 환산했다.</div>\n')
 # 매입채무 미공시 설명: 반기·연말에만 공시(옛 카드)
-assert h.count('분기 매입채무를 따로 공시하지 않아') >= 2   # JS 두 곳(정적 대체값은 sync_fallbacks가 렌더에서 다시 쓴다)
-h = h.replace('분기 매입채무를 따로 공시하지 않아', '매입채무를 분기마다 공시하지 않아(반기·연말만)')
+h = h.replace('분기 매입채무를 따로 공시하지 않아', '매입채무를 분기마다 공시하지 않아(반기·연말만)')   # 반기·연말 분기엔 이 글이 없다(값이 있다)
 # 이자보상배율 메모(분기 이자비용 미공시)
-one('"note": "이자비용 태그 없음", "label": "이자보상배율"', '"note": "분기 이자비용 미공시 · 2025년 약 96배", "label": "이자보상배율"')
+one('"note": "이자비용 태그 없음", "label": "이자보상배율"', '"note": "분기 이자비용 미공시", "label": "이자보상배율"')
 # 증감률은 유로 기준(옛 카드)
 one(f"deltas: [{tq(yd)}],", f"deltas: [{tq(yd_e)}],")
 one(f"deltas: [{tq(qd)}],", f"deltas: [{tq(qd_e)}],")
@@ -153,13 +158,10 @@ assert _n == 2, _n
 # 재무 건전성 메모 링크 이름(SEC 6-K)
 one(f'{C.TENQ_NAME} (SEC) →</a></div>', f'{C.TENQ_NAME} (SEC 6-K) →</a></div>')
 # 총자산증가율 메모(유로)
-one(f'<span class="diag-note">{C.FY_LABEL} 말 ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표</span>', f'<span class="diag-note">{C.FY_LABEL} 말 €{a1 / 1000:.1f}B(전년 €{a0 / 1000:.1f}B) · 연간 지표, 2026년 마감 전까지 동일</span>')
-# 매출 구성: 상반기 유로(제목 기간, 범례·툴팁 통화)
-one(f'<div class="card-title">{C.SEG_TITLE} ({QL} · {C.CUR.replace("-", ".")} 기준)</div>', f'<div class="card-title">{C.SEG_TITLE} ({C.SEG_PERIOD})</div>')
+one(f'<span class="diag-note">{C.FY_LABEL} 말 ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표</span>', f'<span class="diag-note">{C.FY_LABEL} 말 €{a1 / 1000:.1f}B(전년 €{a0 / 1000:.1f}B) · 연간 지표, 다음 연간 보고서 전까지 동일</span>')
+# 매출 구성: 유로 그대로(범례·툴팁 통화)
 for _n_, _v, _c in C.SEG:
     one(f'{_n_} <strong style="color:var(--text);">${_v / 1000:.2f}B · ', f'{_n_} <strong style="color:var(--text);">€{_v / 1000:.2f}B · ')
 one("return `${ctx.label}: $${(ctx.raw/1000).toFixed(1)}B (${pct}%)`;", "return `${ctx.label}: €${(ctx.raw/1000).toFixed(1)}B (${pct}%)`;   // 유로 그대로(Codex)")
-sub(r'// ─── 매출 구성 도넛 차트 \([^)]*\) ───', '// ─── 매출 구성 도넛 차트 (2026 상반기, 백만 유로) ───')
-# 기본적 분석 툴팁: 분기 자료는 6-K 요약
-one(f"분기({QL}, 10-Q), 성장률은", f"분기({QL}, 6-K 분기 요약), 성장률은")
+sub(r'// ─── 매출 구성 도넛 차트 \([^)]*\) ───', f'// ─── 매출 구성 도넛 차트 ({QL}, 백만 유로) ───')
 ''']

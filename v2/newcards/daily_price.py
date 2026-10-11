@@ -219,6 +219,43 @@ def auto_approve(status, session, tickers):
     return moved
 
 
+OUT_AUTO = {"ASML": 10, "TSM": 25}   # 6-K 자동 카드 — 분기 말 뒤 며칠부터 새 재무제표 6-K를 찾는가(ASML 발표일 동시, TSM 약 45일 뒤)
+
+
+def outside_approve(status, session, tickers):
+    """6-K 자동 카드(ASML·TSM)의 새 재무제표를 받아 어댑터 재무를 다시 만든다(2026-10-11). 반환: {T: 새 분기 말}.
+    카드가 끝나면 main이 outside_auto.commit, 실패하면 revert로 예전 재무에 되돌린다."""
+    import datetime as dt
+    import new_filings as nf
+    import outside_auto as oa
+    moved = {}
+    for T, lag in OUT_AUTO.items():
+        if T not in tickers or not os.path.exists(os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")):
+            continue
+        try:
+            if oa.ensure(T):
+                print(f"{T}: 어댑터 재무를 커밋된 manifest에 맞춰 다시 만들었다", flush=True)
+        except Exception as e:
+            status["problems"].append(f"{T}: 어댑터 재무 맞추기 실패 — {str(e)[:200]}")
+            continue
+        asof = nf.card_asof(T)[0]
+        if not asof or (dt.date.fromisoformat(session) - dt.date.fromisoformat(str(asof)[:10])).days < 91 + lag:
+            continue   # 다음 분기 말 + lag일 전에는 새 재무제표가 없다
+        try:
+            cur, msg = oa.refresh(T, session)
+        except Exception as e:
+            status["problems"].append(str(e)[:300])
+            continue
+        if msg and not cur:
+            status.setdefault("autoWaiting", []).append(f"{T}: {msg}")
+            status["autoRetry"] = True
+        if cur:
+            moved[T] = cur
+            print(f"{T}: 새 재무제표 6-K({cur}) 자동 반영 — 이번 실행에서 새 분기로 다시 만든다", flush=True)
+    status["outsideApproved"] = moved
+    return moved
+
+
 def auto_quarter_due(T):
     """자동 카드이고, 기준표(v2/sec_approved.json)의 공시 날짜가 카드 재무의 접수일(FUNDAMENTAL.filedAt)보다 뒤인가."""
     import importlib.util
@@ -231,6 +268,10 @@ def auto_quarter_due(T):
     sp.loader.exec_module(C)
     if not getattr(C, "AUTO", False):
         return False
+    if getattr(C, "AUTO_OUTSIDE", None):   # 6-K 카드: 어댑터 재무의 마지막 분기가 카드보다 새로우면
+        import outside_auto as oa
+        asof = nf.card_asof(T)[0]
+        return bool(asof and oa.latest_end(T) > str(asof)[:10])
     appr = json.load(open(os.path.join(V2, "sec_approved.json"))).get(str(C.CIK).zfill(10))
     filed = nf.card_asof(T)[1]
     return bool(appr and filed and appr > str(filed)[:10])
@@ -284,7 +325,7 @@ def outside_due():
     today = time.strftime("%Y-%m-%d")
     due = []
     for T, rows in json.load(open(OUTSIDE_CAL)).items():
-        if T.startswith("_"):
+        if T.startswith("_") or T in OUT_AUTO:   # 6-K 자동 카드는 outside_approve가 원문으로 직접 본다
             continue
         asof = nf.card_asof(T)[0]
         for r in rows:
@@ -419,6 +460,7 @@ def main():
     if weekly:
         weekly_pre(status)
     moved = auto_approve(status, session, set(tickers))
+    omoved = outside_approve(status, session, set(tickers))
     try:
         for T in tickers:
             status["cards"][T] = attempt(T, work)
@@ -434,6 +476,13 @@ def main():
                 _t[cik] = old
                 status["problems"].append(f"{T}: 새 공시({new}) 자동 반영 실패 — 이전 분기에 둠")
             json.dump(_t, open(_p, "w"), ensure_ascii=False, indent=1)
+        import outside_auto as _oa
+        for T, cur in omoved.items():
+            if status["cards"].get(T, {}).get("status") == "ok":
+                _oa.commit(T)
+            else:
+                _oa.revert(T)
+                status["problems"].append(f"{T}: 새 재무제표 6-K({cur}) 자동 반영 실패 — 이전 분기에 둠")
     if weekly:
         weekly_post(status, work)
     after = verdicts()

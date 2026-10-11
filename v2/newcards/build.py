@@ -189,7 +189,7 @@ def main():
         print("데이터 단계 끝 — cfg/cfg_%s.py를 쓰고 --data 없이 다시 실행" % t)
         return
     print("· 채우기")
-    run([PY, os.path.join(HERE, "fill.py"), T], show=r"^ok|^peers")
+    run([PY, os.path.join(HERE, "fill.py"), T], show=r"^ok|^peers|POST")   # 건너뛴 표기 고침도 기록에(2026-10-11)
     run([PY, "v2/strip_caveats.py", T])   # 값 옆 사유 글은 툴팁으로(2026-10-06 사용자 결정)
     run([PY, "v2/apply_theme.py", T])   # 홈과 같은 밝은 테마·사이트 색 하나(2026-10-07 사용자 결정)
     run([PY, "v2/sync_fallbacks.py", T] + (["--base", a.sync_base] if a.sync_base else []), show=r".")

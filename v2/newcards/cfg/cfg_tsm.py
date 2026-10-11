@@ -7,6 +7,13 @@
 # 출처: 6-K(Q3 2025~Q2 2026 실적 발표·Q2 2026 연결재무제표 2026-08-14, 이사회 5/12·8/11, VIS 매각 5/15, Sony 합작 8/11), StockAnalysis(2026-09-25).
 # 재현 모드: python3 build_ifrs.py <clone> TSM --from-card (일봉·이동평균·백테스트는 지금 카드에서, 마지막 종가 2026-09-23).
 BUILD = {'feed': True}   # IFRS·대만달러 — adapters/tsm_feed.py
+# 자동 카드(2026-10-11): 분기 변수·부문(공정별 웨이퍼 + 웨이퍼 외, 연결재무제표 주석)·EPS·자본배분·링크·다음 실적일·해석 문장을 6-K 원문으로(newcards/outside_auto.py).
+# 아래 손 값 가운데 분기 변수·SEG·STAT3·CAPITAL·NEXT·CHECK·문장은 auto_card가 덮어쓴다(빌드 실패 때 되돌릴 기준으로 남긴다).
+AUTO = True
+AUTO_OUTSIDE = {'q_src': '6-K 연결재무제표', 'k_src': '6-K 연간 연결재무제표', 'sym': 'NT$', 'fs_name': '연결재무제표 (6-K)', 'annual_fs': True, 'eps_basis': 'IFRS · ADR 1주(보통주 5주, 대만달러)',
+                'bb_none': '수집 안 함',
+                'seg_colors': {'3·2나노': '#e11d48', '5나노': '#f97316', '7나노': '#3498db', '16나노 이상': '#8a8fa8', '웨이퍼 외 매출': '#cbd5e1'},
+                'fund_tip': '재무는 대만 IFRS 연결재무제표(6-K, 대만달러)다. 분기 차트·FCF는 분기 평균 환율로 달러 환산하고, 부문·EPS·자본배분은 대만달러 그대로 적는다. 연결재무제표는 실적 발표보다 약 한 달 늦게 나와 그때 카드가 새 분기로 넘어간다.'}
 CIK = '0001046179'
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
@@ -36,7 +43,7 @@ ACT_REASON = ''
 YOY_EXTRA = ''
 SEG = [('3·2나노', 33, '#e11d48'), ('5나노', 33, '#f97316'), ('7나노', 11, '#3498db'), ('16나노 이상', 23, '#8a8fa8')]   # 웨이퍼 매출 비중(%)
 SEG_ADJ = 0   # PRE에서 (달러 환산 매출 − 100)으로 — 비중(%) 도넛이라 fill.py의 매출 대조를 건너뛰게
-SEG_TITLE = '매출 구성 — 공정별 웨이퍼 매출 비중'
+SEG_TITLE = '매출 구성 — 공정별 웨이퍼·웨이퍼 외'
 SEG_NOTE = ('7나노 이하 첨단 공정이 77%(2나노 3% 포함) · 16나노 이상은 16/20·28·40/45·65·90나노 이하 합계 · '
             '출처: <a href="{PR[\'q2\']}" target="_blank" rel="noopener">TSMC Q2 2026 실적 발표 (SEC 6-K) →</a>')
 CAPITAL = [('설비투자 (Q2 2026)', '${cap[cur] / 1e9:.1f}B'),
@@ -124,29 +131,22 @@ C.CAPITAL = [tuple(F(x_) for x_ in z_) for z_ in C.CAPITAL]
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 POST = [r'''
 # 분기 차트 제목·설명(달러 환산)
-one('분기 매출 / 순이익 / 영업이익률 (Q3 2024~Q2 2026)', '분기 매출 / 순이익 / 영업이익률 (Q3 2024~Q2 2026 · 달러 환산)')
+one(f'분기 매출 / 순이익 / 영업이익률 ({C.L8[0]}~{C.L8[-1]})', f'분기 매출 / 순이익 / 영업이익률 ({C.L8[0]}~{C.L8[-1]} · 달러 환산)')
 one('<canvas id="tsmRevChart"></canvas>\n    </div>\n', '<canvas id="tsmRevChart"></canvas>\n    </div>\n'
-    '    <div class="yoy-footnote" style="margin-top:8px;">대만달러 실적을 분기 평균 환율(연준 H.10)로 달러 환산했다. 회사가 발표한 달러 매출과 조금 다를 수 있다(Q2 2026은 둘 다 $40.2B).</div>\n')
+    '    <div class="yoy-footnote" style="margin-top:8px;">대만달러 실적을 분기 평균 환율(연준 H.10)로 달러 환산했다. 회사가 발표한 달러 매출과 조금 다를 수 있다.</div>\n')
 # YoY·QoQ 각주: IFRS 연결재무제표 달러 환산, 링크는 6-K 연결재무제표
-_lk = f'<a href="{PR["q2"]}" target="_blank" rel="noopener">TSMC Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
-assert h.count(' · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ' + _lk) == 2, h.count(_lk)
-h = h.replace(' · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · ' + _lk,
-              ' · 대만 IFRS 연결재무제표를 분기 평균 환율로 달러 환산 · FCF는 영업현금흐름 − 설비투자 · <a href="' + C.TENQ + '" target="_blank" rel="noopener">TSMC Q2 2026 연결재무제표 (SEC 6-K) →</a>')
+_tl = ' · 대만 IFRS 연결재무제표를 분기 평균 환율로 달러 환산 · FCF는 영업현금흐름 − 설비투자 · <a href="' + C.TENQ + '" target="_blank" rel="noopener">TSMC ' + C.TENQ_NAME.replace(' (6-K)', '') + ' (SEC 6-K) →</a>'
+h, _n = re.subn(r" · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href=\"[^\"]*\" target=\"_blank\" rel=\"noopener\">[^<]*</a>", lambda m: _tl, h)
+assert _n == 2, _n
 # 총자산증가율 메모: 대만달러 그대로(옛 카드)
 sub(r'(<span class="diag-label">총자산증가율</span><span class="diag-value">[^<]*</span><span class="diag-note">)[^<]*(</span>)',
-    lambda m: m.group(1) + f'FY25 NT${a1 / 1e6:.2f}조(전기 NT${a0 / 1e6:.2f}조) · 대만달러 기준 · FY26 마감 전까지 동일' + m.group(2))
-# 매출 구성: 비중(%) 도넛 — 범례는 비중만, 제목은 분기만
-for n_, v_, c_ in C.SEG:
-    sub(r'(</span>' + re.escape(n_) + r' <strong style="color:var\(--text\);">)[^<]*(</strong>)', lambda m: m.group(1) + f'{v_}%' + m.group(2))
-one('매출 구성 — 공정별 웨이퍼 매출 비중 (Q2 2026 · 2026.06.30 기준)', '매출 구성 — 공정별 웨이퍼 매출 비중 (Q2 2026)')
-# 자본배분: 배당 줄은 태그 없이, 아래 배당 각주(옛 카드)
-one('<span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n            ', '')
-sub(r'(<span class="zone-val">NT\$7\.0</span>\n          </div>\n        </div>\n      </div>\n)',
-    lambda m: m.group(1) + '      <div class="yoy-footnote" style="margin-top:14px;">배당은 보통주 1주 기준이라 ADR 1주(보통주 5주)로는 NT$35다. 분기 배당이 NT$6.0에서 1분기분부터 NT$7.0으로 올랐다 · 출처: <a href="' + LINKS['board8'] + '" target="_blank" rel="noopener">TSMC 이사회 결의 (SEC 6-K) →</a></div>\n')
+    lambda m: m.group(1) + f'{C.FY_LABEL} NT${a1 / 1e6:.2f}조(전기 NT${a0 / 1e6:.2f}조) · 대만달러 기준 · 다음 연간 보고서 전까지 동일' + m.group(2))
+# 매출 구성: 대만달러 그대로(범례·툴팁 통화)
+for _n_, _v, _c in C.SEG:
+    one(f'{_n_} <strong style="color:var(--text);">${_v / 1000:.2f}B · ', f'{_n_} <strong style="color:var(--text);">NT${_v / 1000:,.1f}B · ')
+one("return `${ctx.label}: $${(ctx.raw/1000).toFixed(1)}B (${pct}%)`;", "return `${ctx.label}: NT$${(ctx.raw/1000).toFixed(1)}B (${pct}%)`;   // 대만달러 그대로")
 # 역산 문장: 성장 모드(reqMode growth)는 JS가 문장을 쓰지 않고 칸만 채운다 — 틀의 칸 있는 문장을 되살린다(fill.py가 '—'로 비움, MU와 같은 공통 후보)
-assert DCF['reqMode'] == 'growth'
-one('<div class="reverse">—</div>', F('<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
+if DCF['reqMode'] == 'growth' and '<div class="reverse">—</div>' in h:
+  one('<div class="reverse">—</div>', F('<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
     '기본 시나리오(<span data-dcf-basev>${DCF[\'base\']:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF[\'baseEquivGrowth\'])}</span>다.</div>'))
-# 기본적 분석 툴팁: 분기 자료는 6-K 연결재무제표(10-Q 아님)
-one("분기(Q2 2026, 10-Q), 성장률은", "분기(Q2 2026, 6-K 연결재무제표), 성장률은")
 ''']
