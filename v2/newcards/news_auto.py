@@ -66,7 +66,7 @@ def hand_dates(C):
 ET = ZoneInfo("America/New_York")
 # 실적 보도자료 첫머리 — 2.02항이라도 가이던스 수정(ABBV IPR&D 2026-10-06)·인도량(TSLA 2026-10-02)처럼 실적 발표가 아닌 공시가 있다
 # 첫머리 300자(제목 부분)만 본다 — 본문의 "실적은 ○일에 발표한다"(TSLA 인도량 보도자료)에 걸리지 않게
-RESULTS = re.compile(r"\b(reports?|announces?)\b.{0,120}?\bresults\b|earnings release|results for the (first|second|third|fourth|fiscal)", re.I)
+RESULTS = re.compile(r"\b(reports?|announces?)\b.{0,120}?\b(results|quarter|earnings)\b|earnings release|results for the (first|second|third|fourth|fiscal)", re.I)   # CB "Chubb Reports Second Quarter Per Share Net Income"(2026-10-11)
 
 
 def when(acc):
@@ -119,7 +119,7 @@ def one(T, old):
         if not e or not e.get("head"):   # 첫머리를 못 읽은 항목은 다음 실행에서 다시 찾는다
             url, head = exhibit(C.CIK, accn, r["primaryDocument"][i])
             e = {"accn": accn, "url": url, "head": head[:400]}
-        e["results"] = bool(RESULTS.search(e["head"][:300]))   # 판정 규칙이 바뀌면 저장된 첫머리로 다시 판정한다
+        e["results"] = bool(RESULTS.search(e["head"][:400]))   # 판정 규칙이 바뀌면 저장된 첫머리로 다시 판정한다
         e.update({"filed": r["filingDate"][i], "accepted": r["acceptanceDateTime"][i][:19], "date": d.isoformat(), "after_close": part == "장 마감 후"})
         items.append(e)
     return sorted(items, key=lambda e: e["accepted"], reverse=True)   # 실적 발표가 아닌 2.02항도 남긴다("results": false) — 카드엔 안 넣는다
