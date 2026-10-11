@@ -116,6 +116,24 @@ def multiple_series(t, cik, daily, eps):
                 series[name] = bmh.ttm_series(merged)
     as_of = bmh.as_of
 
+    def as_of_e(ser, dd):
+        """bmh.as_of와 같은 순서 규칙으로 그날 쓰는 항목 자체를 돌려준다(값과 기간 끝)."""
+        got = None
+        for e in ser:
+            if e["available"] <= dd:
+                got = e
+            else:
+                break
+        return got
+
+    def fresh(end, dd):
+        """F5b: 기간 끝이 평가일에서 STALE_DAYS 안이면 참. 끝을 모르는 항목(EPS 파일 일부)은 검사하지 않는다."""
+        return end is None or (date.fromisoformat(dd) - date.fromisoformat(end)).days <= STALE_DAYS
+
+    def flow(name, dd):
+        e = as_of_e(series.get(name, []), dd)
+        return e["val"] if e and fresh(e.get("end"), dd) else None
+
     def core_earnings(dd):
         parts = {n: [e for e in series.get(n, []) if e["available"] <= dd] for n in ("opinc", "tax", "pretax")}
         if not all(parts.values()):
@@ -126,6 +144,8 @@ def multiple_series(t, cik, daily, eps):
         end = max(common)
         lead = max(x[-1]["end"] for x in parts.values())
         if (date.fromisoformat(lead) - date.fromisoformat(end)).days > bmh.MAX_PAIR_LAG_DAYS:
+            return None
+        if not fresh(end, dd):
             return None
         o, tx, pt = ([e for e in parts[n] if e["end"] == end][-1]["val"] for n in ("opinc", "tax", "pretax"))
         if pt <= 0 or o <= 0:
@@ -163,6 +183,8 @@ def multiple_series(t, cik, daily, eps):
                 return None, None
             ea = [x for x in ea if x["end"] == end]
             eb = [x for x in eb if x["end"] == end]
+        if not fresh(ea[-1]["end"], dd):
+            return None, None
         return ea[-1]["val"], eb[-1]["val"]
 
     def ebitda(dd):
@@ -173,17 +195,19 @@ def multiple_series(t, cik, daily, eps):
         o, c = paired("ocf", "capex", dd)
         return (o - c) if (o is not None and c is not None) else None
 
-    eps_now = lambda dd: as_of(eps, dd) if eps else None
+    def eps_now(dd):
+        e = as_of_e(eps, dd) if eps else None
+        return e["val"] if e and fresh(e.get("end"), dd) else None
     per_dil = lambda dd, px: px * bmh.fx.rate(t, dd) / eps_now(dd) if eps_now(dd) and eps_now(dd) > 0 else None
     defs = {
         "PER": (lambda dd, px: (mcap(dd, px) / core_earnings(dd)) if mcap(dd, px) and core_earnings(dd) else None) if core else per_dil,
-        "PSR": lambda dd, px: mcap(dd, px) / as_of(series.get("revenue", []), dd) if mcap(dd, px) and as_of(series.get("revenue", []), dd) else None,
+        "PSR": lambda dd, px: mcap(dd, px) / flow("revenue", dd) if mcap(dd, px) and flow("revenue", dd) else None,
         "PBR": lambda dd, px: mcap(dd, px) / as_of(series.get("equity", []), dd) if mcap(dd, px) and as_of(series.get("equity", []), dd) else None,
         "PCR": lambda dd, px: (mcap(dd, px) / fcf(dd)) if mcap(dd, px) and fcf(dd) and fcf(dd) > 0 else None,
         "EV/EBITDA": lambda dd, px: (ev(dd, px) / ebitda(dd)) if ev(dd, px) and ebitda(dd) and ebitda(dd) > 0 else None,
     }
     denoms = {"PCR": fcf, "EV/EBITDA": ebitda,
-              "PSR": lambda dd: as_of(series.get("revenue", []), dd),
+              "PSR": lambda dd: flow("revenue", dd),
               "PBR": lambda dd: as_of(series.get("equity", []), dd)}
     if not core:
         denoms["PER"] = eps_now
@@ -197,7 +221,33 @@ def multiple_series(t, cik, daily, eps):
                 x = None
             out[label][dd] = x if (x and x > 0) else None
     neg = {}   # 평가일에만 분모 부호를 본다(분석에서 필요)
-    return out, core, denoms, per_dil, shares_dq
+
+    def stale_labels(dd):
+        """F5b dq 표식: 그날 분모가 신선도 한도로 빠진 배수."""
+        lab = []
+        if core:
+            parts = {n: [e for e in series.get(n, []) if e["available"] <= dd] for n in ("opinc", "tax", "pretax")}
+            if all(parts.values()):
+                common = set.intersection(*({e["end"] for e in x} for x in parts.values()))
+                if common and not fresh(max(common), dd):
+                    lab.append("PER")
+        else:
+            e = as_of_e(eps, dd) if eps else None
+            if e and not fresh(e.get("end"), dd):
+                lab.append("PER")
+        r = as_of_e(series.get("revenue", []), dd)
+        if r and not fresh(r.get("end"), dd):
+            lab.append("PSR")
+        for name, (a, b) in (("PCR", ("ocf", "capex")), ("EV/EBITDA", ("opinc", "dda"))):
+            ea = [x for x in series.get(a, []) if x["available"] <= dd]
+            eb = [x for x in series.get(b, []) if x["available"] <= dd]
+            if ea and eb:
+                common = {x["end"] for x in ea} & {x["end"] for x in eb}
+                end = ea[-1]["end"] if ea[-1]["end"] == eb[-1]["end"] else (max(common) if common else None)
+                if end and not fresh(end, dd):
+                    lab.append(name)
+        return [f"stale_denominator:{x}" for x in lab]
+    return out, core, denoms, per_dil, shares_dq, stale_labels
 
 
 def self_score_at(vals, denom, day, window_start):
@@ -324,11 +374,12 @@ def build(panel_path=PANEL):
             분할 목록은 진짜 분할 + 되돌리지 않는 분사 사건(F1)."""
             if restore not in eps_cache:
                 sp = [{"date": d0, "ratio": r0} for d0, r0 in sorted(keep_sp + [x for x in ign_sp if x not in restore])]
-                e1 = [{"available": e["available"], "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"]),
+                e1 = [{"available": e["available"], "end": e["quarter_end"],
+                       "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"]),
                        **({"replaced": True} if e.get("replaced") else {})}
                       for e in pit.eps_ttm(data, sp) if e["val"]]
                 if not e1 and os.path.exists(ep):
-                    e1 = sorted(({"available": e["available_date"],
+                    e1 = sorted(({"available": e["available_date"], "end": e.get("quarter_end"),
                                   "val": e["ttm_eps"] + bmh.oneoff_in_ttm(t, e.get("quarter_end"), "eps", asof=e["available_date"])}
                                  for e in json.load(open(ep)) if e.get("ttm_eps")), key=lambda e: e["available"])
                 eps_cache[restore] = e1
@@ -417,14 +468,15 @@ def build(panel_path=PANEL):
                         mcache[key] = multiple_series(t, cik, daily, eps)
                 except Exception as e:
                     print("배수 실패", t, day, str(e)[:60], flush=True)
-                    mcache[key] = (None, False, {}, None, [])
+                    mcache[key] = (None, False, {}, None, [], lambda dd: [])
                 finally:
                     pit.reset(bmh)
-            mv_day, core_day, den_day, pdil_day, sdq_all = mcache[key]
+            mv_day, core_day, den_day, pdil_day, sdq_all, stale_fn = mcache[key]
             sdq = [x for x in sdq_all if x.split(":")[1] <= day]   # F3 표식 — 그날까지의 점만(필터에는 쓰지 않는다)
             _e_now = [e for e in eps if e["available"] <= day]
             if _e_now and max(_e_now, key=lambda e: e["available"]).get("replaced"):
                 sdq = sdq + ["eps_replaced"]
+            sdq = sdq + stale_fn(day)
             y, m_, dd_ = day.split("-")
             # 분사 종목의 자기 이력 시작일은 그 날짜가 지난 평가일에만 적용한다(그 전 평가일에 쓰면 미래 정보 — Codex)
             wstart = f"{int(y) - 5}-{m_}-{dd_}"
@@ -534,6 +586,7 @@ def verdict(judges):
 
 
 ALT_FINITE = False      # 민감도: 0 이하 행을 백분위 모수에서 빼고(유한값끼리 순위) 매우 비싸다로 둔다(Fable — 사전 등록 문구 해석 차이)
+STALE_DAYS = 200        # F5b(f5_compare/f5_prereg.md): 배수의 TTM 흐름 입력이 기간 끝에서 이 날수를 넘으면 그날 그 배수는 결측
 DROP_SELF = False       # 민감도: 자기 이력 칸을 앉히지 않는다(Fable — 판정 IC가 자기 이력에 끌리는지)
 
 

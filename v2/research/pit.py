@@ -48,7 +48,7 @@ def reset(bmh):
         bmh._facts = _ORIG["facts"]
 
 
-def eps_ttm(data, splits):
+def _eps_ttm_rule(data, splits, wide=False):
     """희석 EPS TTM을 SEC 자료로 다시 만든다 — 공개일은 **구성 네 분기 가운데 가장 늦은 첫 공시일**(C8, Codex 2차).
 
     통제 유니버스 EPS 파일(fetch_control_universe.fetch_eps)은 마지막 분기 공시일만 적어, 앞 분기가 나중에 처음 공시된 경우
@@ -64,6 +64,8 @@ def eps_ttm(data, splits):
     from datetime import date, timedelta
     gaap = data.get("facts", {}).get("us-gaap", {})
     rows = (gaap.get("EarningsPerShareDiluted", {}).get("units", {}).get("USD/shares", []))
+    if wide:   # F5a ①: 같은 기간은 두 태그 중 먼저 공시된 행(아래 first()가 기간마다 가장 이른 공시를 고른다)
+        rows = rows + (gaap.get("EarningsPerShareBasicAndDiluted", {}).get("units", {}).get("USD/shares", []))
     pdays = lambda e: (date.fromisoformat(e["end"]) - date.fromisoformat(e["start"])).days if "start" in e else -1
 
     def first_by_period(tag, unit):
@@ -116,6 +118,11 @@ def eps_ttm(data, splits):
                 b[k] = e
         return sorted(b.values(), key=lambda e: e["end"])
     qs = first([e for e in ents if e.get("form") == "10-Q" and 80 <= pdays(e) <= 100])
+    if wide:   # F5a ②: 10-Q가 아닌 서식의 분기는 그 끝 7일 안에 10-Q 분기가 없을 때만
+        q10 = [date.fromisoformat(q["end"]) for q in qs]
+        qs = sorted(qs + first([e for e in ents if e.get("form") != "10-Q" and 80 <= pdays(e) <= 100
+                                and not any(abs((date.fromisoformat(e["end"]) - d0).days) <= 7 for d0 in q10)]),
+                    key=lambda e: e["end"])
     fy = first([e for e in ents if e.get("form") == "10-K" and pdays(e) > 350])
     have = {f["end"] for f in fy}
     for (st, en), n_ in ni.items():
@@ -133,7 +140,7 @@ def eps_ttm(data, splits):
     for f in fy:
         fe = date.fromisoformat(f["end"])
         mem = [q for q in qs if date.fromisoformat(q["end"]) <= fe and (fe - date.fromisoformat(q["start"])).days <= 380
-               and (fe - date.fromisoformat(q["end"])).days <= 280]
+               and (fe - date.fromisoformat(q["end"])).days <= (294 if wide else 280)]   # F5a ③ 53주 해
         if len(mem) == 3 and not any(q["end"] == f["end"] for q in qs):
             last = max(mem, key=lambda m: m["end"])["end"]
             if "_ni" in f:
@@ -163,4 +170,48 @@ def eps_ttm(data, splits):
             continue
         out.append({"quarter_end": w[-1]["end"], "available": max(x["filed"] for x in w), "val": round(sum(x["val"] for x in w), 4),
                     **({"replaced": True} if any(x.get("replaced") for x in w) else {})})
+    if wide:   # F5a ④: 공개된 10-K 연간 희석 EPS는 결산일의 TTM 점
+        for f in fy:
+            if 350 < pdays(f) <= 380:
+                out.append({"quarter_end": f["end"], "available": f["filed"], "val": round(f["val"], 4), "_annual": True,
+                            **({"replaced": True} if f.get("replaced") else {})})
     return sorted(out, key=lambda e: e["available"])
+
+
+def eps_ttm(data, splits):
+    """연구 경로 희석 EPS TTM. 기존 규칙의 결과(B)는 값을 바꾸지 않고, 넓힌 규칙(E — F5a ①~④)으로 빈 곳만 채운다
+    (f5_compare/f5_prereg.md, 비교판 전용 — main에 합치지 않는다).
+
+    E의 점은 (가) B에 없는 결산일이거나 (나) B와 같은 결산일·같은 값(0.5% 또는 0.005 안)이 더 일찍 공개됐을 때(공개일만 앞당긴다)
+    쓴다. 같은 결산일에 연간 점과 분기 합이 함께 있으면 연간 점이 앞선다. 그 공개일에 결산일이 더 늦은 점이 이미 공개돼 있으면
+    더하지 않는다 — 뒤늦게 공개된 옛 분기가 "가장 최근 공개" 자리를 차지하지 않게(Fable). B가 비면 그대로 비워 EPS 파일 폴백을 둔다.
+    """
+    B = _eps_ttm_rule(data, splits)
+    if not B:
+        return B
+    E = _eps_ttm_rule(data, splits, wide=True)
+    bq = {}
+    for b in B:
+        bq.setdefault(b["quarter_end"], b)
+    eq = {}
+    for e in E:
+        k = e["quarter_end"]
+        if k not in eq or (not eq[k].get("_annual"), eq[k]["available"]) > (not e.get("_annual"), e["available"]):
+            eq[k] = e
+    out = [dict(b) for b in B]
+    idx = {b["quarter_end"]: o for b, o in zip(B, out)}
+    for k, e in eq.items():
+        if k not in bq:
+            out.append({x: y for x, y in e.items() if x != "_annual"} | {"f5": "annual" if e.get("_annual") else "added"})
+        elif abs(e["val"] - bq[k]["val"]) <= max(0.005 * abs(bq[k]["val"]), 0.005) and e["available"] < bq[k]["available"]:
+            idx[k]["available"], idx[k]["f5"] = e["available"], "earlier"
+    out.sort(key=lambda e: (e["available"], e["quarter_end"]))
+    keep, latest = [], ""
+    for e in out:
+        if e.get("f5") in ("added", "annual") and e["quarter_end"] <= latest:
+            continue
+        keep.append(e)
+        latest = max(latest, e["quarter_end"])
+    return keep
+
+
