@@ -8,7 +8,7 @@ fill.py가 카드를 만들 때 이 목록을 뉴스 맨 위에 넣는다. 항�
 사람이 손 뉴스로 쓰고, 그러면 같은 발표의 자동 항목은 빠진다(fill.py의 중복 판정).
 
 배당·임원 변경 등 다른 공시는 8.01·5.02항에 여러 사건이 섞여 있어 목록만으로 무엇인지 알 수 없다 — 넣지 않는다.
-ASML·TSM(자동 카드)은 실적 보도자료 6-K를 찾는다(outside_auto.py, 2026-10-11). SKHY(한국 공시)와 은행·NVDA·BRKB·SPCX(cfg 뉴스 없음)는 이 점검 밖이다.
+ASML·TSM(자동 카드)은 실적 보도자료 6-K를 찾는다(outside_auto.py, 2026-10-11). 은행(bank/cfg)도 넣는다(2026-10-11). SKHY(한국 공시)와 BRKB·SPCX(cfg 없음)는 이 점검 밖이다.
 
     python3 v2/newcards/news_auto.py            # cfg 카드 전부
     python3 v2/newcards/news_auto.py PEP COST

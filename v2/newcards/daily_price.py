@@ -10,7 +10,7 @@
 카드 종류별 길:
   생성기 카드(cfg 있는 91장)  REFRESH=1 build.py T --price
   은행 9장                    기반·카드 배열에 새 종가(price_arrays.py) → bank/rebuild.sh(공통, 사전 등록 7판 — 새 분기·토요일이면 원문 값·비교 은행도)
-  NVDA(틀 카드)               새 종가 → 배수·비교군·내재가치 블록 → 대체값 동기화(손문장은 그대로)
+  NVDA                        2026-10-11부터 생성기 자동 카드(cfg_nvda.py) — 다른 카드와 같다
   BRKB·SPCX(손 카드)          새 종가 → 대체값 동기화(배수·판정 칸은 토요일·손 갱신 몫)
 
     python3 v2/newcards/daily_price.py                 # 전부
@@ -34,7 +34,7 @@ V2 = os.path.dirname(HERE)
 REPO = os.path.dirname(V2)
 PY = sys.executable
 BANKS = ["COF", "AXP", "BAC", "C", "GS", "JPM", "MS", "SCHW", "WFC"]   # COF 먼저 — AXP 카드가 COF_bank.json(같은 날짜)을 참고로 읽는다
-HAND = ["NVDA", "BRKB", "SPCX"]
+HAND = ["BRKB", "SPCX"]   # NVDA는 2026-10-11부터 생성기 자동 카드(cfg_nvda.py)
 STATUS = os.path.join(V2, "daily_status.json")
 
 
@@ -291,13 +291,7 @@ def build(T, work):
         # 은행 공통 재빌드(사전 등록 7판, 2026-10-11): 새 분기(기준표가 카드 재무보다 새로움)이거나 토요일이면 원문 값·비교 은행을 새로, 아니면 가격만
         full = auto_quarter_due(T) or os.environ.get("V2_WEEKLY") == "1"
         return run(["bash", "v2/newcards/bank/rebuild.sh", T], env=dict(os.environ, **({} if full else {"PRICE_ONLY": "1"})))
-    if T == "NVDA":
-        steps = [[PY, "v2/newcards/price_arrays.py", T],
-                 [PY, "v2/build_multiple_history.py", T, "--json", f"v2/{T}_multiples.json"],
-                 [PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"],
-                 [PY, "v2/build_dcf_block.py", T], [PY, "v2/build_dcf_grid.py", T],
-                 [PY, "v2/strip_caveats.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
-    elif T in HAND:
+    if T in HAND:
         steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
     else:
         # 자동 카드(cfg AUTO)는 기준표의 공시 날짜가 카드 재무보다 새로우면 그날 자료를 전부 새로 받아 분기를 넘긴다 —
