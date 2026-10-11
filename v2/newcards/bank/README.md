@@ -1,5 +1,12 @@
 # 은행 카드 채우기 스크립트 (v2/newcards/bank)
 
+**2026-10-11부터 9장 모두 공통 스크립트로 만든다(사전 등록 7판 — `research/bank_rim_prereg.md` 11절).**
+`bash v2/newcards/bank/rebuild.sh {T}` → `bank_card.py`(7판: 10-Q 정의, 관문 N1~N5) → `bank_fill.py {T}`(숫자는 SEC, 문장은 규칙, 분기마다 손으로 고칠 값 없음) → `unify_js.py` → 테마·대체값.
+은행별 설정은 `cfg/cfg_{t}.py`(CIK·회사 이름·매출 태그·비교 차트 은행·애널리스트 — 애널리스트는 토요일 `fetch_analyst.py`가 고친다).
+원문 값(우선주·무형자산·주식 수·CET1)은 `adapters/bank_sec_values.py`가 `research/bank_sec_values.json`에 모은다. 매일 실행은 새 10-Q·10-K를 스스로 승인하고(`daily_price.auto_approve`),
+그날·토요일에는 원문 값과 비교 은행을 새로 받는다. 아래의 종목별 `{t}_fill.py`·`{t}_rebuild.sh`는 6판(보도자료 손입력) 시절 것으로, 더 쓰지 않는다(기록용).
+
+
 은행 세트(사전 등록 `v2/research/bank_rim_prereg.md`) 카드는 `newcards/fill.py`가 아니라 종목별 채우기 스크립트로 만든다. 세션 임시 폴더에 있던 것을 2026-10-02 저장소로 옮겼다. JPM 스크립트는 남아 있지 않아 2026-10-05 다시 만들었다(아래 JPM 항목).
 
 | 파일 | 하는 일 |

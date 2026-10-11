@@ -22,8 +22,8 @@ import build_multiple_history as bmh  # noqa: E402
 
 R, G_CAP, FADE = 0.10, 0.025, 0.5
 ITEMS = os.path.join(V2, "bank_items.json")
-# 사전 등록 판 — 7판(11절, 10-Q 정의로 통일·보도자료 손입력 없음)은 사용자가 결과를 보고 적용을 정할 때까지 BANK_EDITION=7로만 켠다(2026-10-11)
-EDITION = int(os.environ.get("BANK_EDITION", "6"))
+# 사전 등록 판 — 7판(11절, 10-Q 정의로 통일·보도자료 손입력 없음)이 기본(2026-10-11 적용)
+EDITION = int(os.environ.get("BANK_EDITION", "7"))   # 2026-10-11 사용자 결정(3차 검토 뒤 적용) — 6판은 BANK_EDITION=6으로 재현
 _ST = os.path.join(V2, "research", "bank_sec_tags.json")
 _SV = os.path.join(V2, "research", "bank_sec_values.json")
 SEC_TAGS = json.load(open(_ST)) if os.path.exists(_ST) else {"preferred": {}, "cet1": {"_default": {"tag": ""}}}
@@ -113,7 +113,9 @@ class Bank:
         self.t, self.cik, self.asof, self.ov = ticker, cik, asof, overrides
         c = cik
         # 7판: 원문 인라인 XBRL 값(adapters/bank_sec_values.py) — 평가일까지 접수된 공시의 것만(11-0)
-        self.secv = {e: r for e, r in SEC_VALUES.get(ticker, {}).items() if not asof or r["filed"] <= asof} if self.ed >= 7 else {}
+        _cap = min(x for x in (asof, bmh._approved().get(str(cik).zfill(10))) if x) if (asof or bmh._approved().get(str(cik).zfill(10))) else None
+        # 공시 기준표(sec_approved.json) 날짜도 넘지 않는다 — companyfacts는 그 날짜에서 잘리는데 원문 값만 앞서 섞이면 분기가 어긋난다(2026-10-11 JPM 시험)
+        self.secv = {e: r for e, r in SEC_VALUES.get(ticker, {}).items() if not _cap or r["filed"] <= _cap} if self.ed >= 7 else {}
         self.pref_tbl = SEC_TAGS["preferred"].get(ticker) if self.ed >= 7 else None
         self.se = instant(c, "StockholdersEquity", asof)
         self.pref_liq = instant(c, "PreferredStockLiquidationPreferenceValue", asof)

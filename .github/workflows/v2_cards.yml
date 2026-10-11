@@ -150,7 +150,7 @@ jobs:
         id: commit
         run: |
           git add v2/*_full_widget.html v2/*_multiples.json v2/*_bank.json v2/daily_status.json \
-                  v2/newcards/cfg v2/newcards/bank/base v2/newcards/refresh_changes.jsonl v2/peer_universe \
+                  v2/newcards/cfg v2/newcards/bank/cfg v2/research/bank_sec_values.json v2/newcards/bank/base v2/newcards/refresh_changes.jsonl v2/peer_universe \
                   scripts/*_eps_history.json ./*_full_widget.html site_data/stocks.json site_data/tier_history.json \
                   index.html 2>/dev/null || true
           # 토요일 결과는 첫 토요일 실행(10/10) 뒤에야 생긴다 — 없는 경로를 위 목록에 넣으면 git add 전체가 실패한다(Codex 2026-10-08)

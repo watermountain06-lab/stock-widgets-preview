@@ -40,6 +40,8 @@ def fetch(T):
 
 def write(T, A, asof):
     p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
+    if not os.path.exists(p):   # 은행 카드는 bank/cfg(사전 등록 7판, 2026-10-11)
+        p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")
     s = open(p, encoding="utf-8").read()
     line = "ANALYST = " + repr(A)
     s, n = re.subn(r"^ANALYST = \{[^\n]*\}$", lambda _: line, s, count=1, flags=re.M)
