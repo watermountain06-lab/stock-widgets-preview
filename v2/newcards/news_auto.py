@@ -8,7 +8,7 @@ fill.py가 카드를 만들 때 이 목록을 뉴스 맨 위에 넣는다. 항�
 사람이 손 뉴스로 쓰고, 그러면 같은 발표의 자동 항목은 빠진다(fill.py의 중복 판정).
 
 배당·임원 변경 등 다른 공시는 8.01·5.02항에 여러 사건이 섞여 있어 목록만으로 무엇인지 알 수 없다 — 넣지 않는다.
-ASML·TSM(자동 카드)은 실적 보도자료 6-K를 찾는다(outside_auto.py, 2026-10-11). SKHY(한국 공시)와 은행·NVDA·BRKB·SPCX(cfg 뉴스 없음)는 이 점검 밖이다.
+ASML·TSM(자동 카드)은 실적 보도자료 6-K를 찾는다(outside_auto.py, 2026-10-11). 은행(bank/cfg)도 넣는다(2026-10-11). SKHY(한국 공시)와 BRKB·SPCX(cfg 없음)는 이 점검 밖이다.
 
     python3 v2/newcards/news_auto.py            # cfg 카드 전부
     python3 v2/newcards/news_auto.py PEP COST
@@ -29,6 +29,8 @@ V2 = os.path.dirname(HERE)
 OUT = os.path.join(V2, "news_auto.json")
 UA = "kim research gptjhss@gmail.com"
 OUTSIDE = {"ASML", "TSM", "SKHY"}
+# 은행 카드: 실적 보도자료 첫머리가 회사마다 다르다("Morgan Stanley Second Quarter 2026 Net Revenues", AXP "American Express Company reported", C "Citigroup Reports") — 분기·실적 낱말이 함께 있으면 실적
+BANK_RESULTS = re.compile(r"(first|second|third|fourth|full[- ]year)\s+quarter|\bQ[1-4]\b|\b[1-4]Q(\d\d)?\b|quarterly|press release|earnings release|\breport(s|ed)\b.{0,80}(earnings|net income|net revenues?|results)", re.I)
 KDATE = re.compile(r"(\d{4})년 (\d{1,2})월 (\d{1,2})일")
 
 
@@ -44,7 +46,9 @@ def get(url):
 
 
 def cfg(T):
-    p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
+    p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")   # 은행 카드(bank/cfg, 사전 등록 7판 — 2026-10-11)가 먼저 — COF는 기반을 만들 때 쓴 생성기 cfg도 남아 있다
+    if not os.path.exists(p):
+        p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
     sp = importlib.util.spec_from_file_location("cfg", p)
     C = importlib.util.module_from_spec(sp)
     sp.loader.exec_module(C)
@@ -89,7 +93,7 @@ def exhibit(cik, accn, primary):
     base = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accn.replace('-', '')}/"
     names = [x["name"] for x in get(base + "index.json")["directory"]["item"]]
     cands = [n for n in names if n.endswith((".htm", ".html")) and n != primary and "index" not in n and not re.match(r"R\d+\.htm", n)]
-    cands.sort(key=lambda n: 0 if re.search(r"99", n) else 1)
+    cands.sort(key=lambda n: 0 if re.search(r"99[._d-]?1(?!\d)", n) else 1 if re.search(r"99", n) else 2)   # 99.1(보도자료)을 먼저 — BAC는 99.3 보충자료가 먼저 잡혔다
     first = None
     for n in cands[:8]:   # 보도자료가 여럿이면(EX-99.1 가이던스, EX-99.2 실적) 실적인 것을 고른다(Codex)
         head = text(base + n)[:600]
@@ -104,7 +108,7 @@ def exhibit(cik, accn, primary):
 def one(T, old):
     C = cfg(T)
     hand = hand_dates(C)
-    since = max(hand) if hand else dt.date.today() - dt.timedelta(days=120)
+    since = max(hand) if hand else dt.date.today() - dt.timedelta(days=getattr(C, "NEWS_DAYS", 120))   # 손 뉴스가 없는 은행 카드는 1년여(NEWS_DAYS)
     r = get(f"https://data.sec.gov/submissions/CIK{str(C.CIK).zfill(10)}.json")["filings"]["recent"]
     known = {e["accn"]: e for e in old}
     items = []
@@ -133,7 +137,7 @@ def one(T, old):
         if not e or not e.get("head"):   # 첫머리를 못 읽은 항목은 다음 실행에서 다시 찾는다
             url, head = exhibit(C.CIK, accn, r["primaryDocument"][i])
             e = {"accn": accn, "url": url, "head": head[:400]}
-        e["results"] = bool(RESULTS.search(e["head"][:400]))   # 판정 규칙이 바뀌면 저장된 첫머리로 다시 판정한다
+        e["results"] = bool(RESULTS.search(e["head"][:400]) or (getattr(C, "NEWS_DAYS", None) and BANK_RESULTS.search(e["head"][:600])))   # 판정 규칙이 바뀌면 저장된 첫머리로 다시 판정한다
         e.update({"filed": r["filingDate"][i], "accepted": r["acceptanceDateTime"][i][:19], "date": d.isoformat(), "after_close": part == "장 마감 후"})
         items.append(e)
     return sorted(items, key=lambda e: e["accepted"], reverse=True)   # 실적 발표가 아닌 2.02항도 남긴다("results": false) — 카드엔 안 넣는다
@@ -141,7 +145,7 @@ def one(T, old):
 
 def main():
     want = [a.upper() for a in sys.argv[1:]]
-    tickers = want or sorted(f[4:-3].upper() for f in os.listdir(os.path.join(HERE, "cfg")) if f.startswith("cfg_") and f.endswith(".py"))
+    tickers = want or sorted({f[4:-3].upper() for d_ in ("cfg", os.path.join("bank", "cfg")) for f in os.listdir(os.path.join(HERE, d_)) if f.startswith("cfg_") and f.endswith(".py")})
     data = json.load(open(OUT)) if os.path.exists(OUT) else {}
     failed = []
     for T in tickers:

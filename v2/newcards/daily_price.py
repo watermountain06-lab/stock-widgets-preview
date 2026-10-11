@@ -9,8 +9,8 @@
 
 카드 종류별 길:
   생성기 카드(cfg 있는 91장)  REFRESH=1 build.py T --price
-  은행 9장                    기반·카드 배열에 새 종가(price_arrays.py) → {t}_rebuild.sh
-  NVDA(틀 카드)               새 종가 → 배수·비교군·내재가치 블록 → 대체값 동기화(손문장은 그대로)
+  은행 9장                    기반·카드 배열에 새 종가(price_arrays.py) → bank/rebuild.sh(공통, 사전 등록 7판 — 새 분기·토요일이면 원문 값·비교 은행도)
+  NVDA                        2026-10-11부터 생성기 자동 카드(cfg_nvda.py) — 다른 카드와 같다
   BRKB·SPCX(손 카드)          새 종가 → 대체값 동기화(배수·판정 칸은 토요일·손 갱신 몫)
 
     python3 v2/newcards/daily_price.py                 # 전부
@@ -34,7 +34,7 @@ V2 = os.path.dirname(HERE)
 REPO = os.path.dirname(V2)
 PY = sys.executable
 BANKS = ["COF", "AXP", "BAC", "C", "GS", "JPM", "MS", "SCHW", "WFC"]   # COF 먼저 — AXP 카드가 COF_bank.json(같은 날짜)을 참고로 읽는다
-HAND = ["NVDA", "BRKB", "SPCX"]
+HAND = ["BRKB", "SPCX"]   # NVDA는 2026-10-11부터 생성기 자동 카드(cfg_nvda.py)
 STATUS = os.path.join(V2, "daily_status.json")
 
 
@@ -66,7 +66,8 @@ def touched(T):
     paths = [f"v2/{T}_full_widget.html", f"v2/newcards/cfg/cfg_{t}.py", f"v2/{T}_multiples.json",
              f"v2/{T}_bank.json", f"v2/newcards/bank/base/{t}_base.html", "v2/newcards/refresh_changes.jsonl",
              "v2/peer_universe/banks.json", f"scripts/{T}_eps_history.json", f"v2/{T}_dcf_track.json",
-             f"v2/{T}_activity.json", f"v2/fundamental_data/{T}_financials.json"]   # 자동 카드 분기 전환 때 함께 바뀐다(Codex 2026-10-10)
+             f"v2/{T}_activity.json", f"v2/fundamental_data/{T}_financials.json",
+             "v2/research/bank_sec_values.json", f"v2/newcards/bank/cfg/cfg_{t}.py"]   # 자동 카드 분기 전환 때 함께 바뀐다(Codex 2026-10-10)
     return paths   # 없던 파일은 실패하면 지운다(Codex 2026-10-06 — 되돌린 판정 변경이 기록에 남지 않게)
 
 
@@ -162,13 +163,15 @@ def auto_approve(status, session, tickers):
     path = os.path.join(V2, "sec_approved.json")
     table = json.load(open(path))
     moved, waiting = {}, []
-    for f in sorted(os.listdir(os.path.join(HERE, "cfg"))):
+    for d_, f in sorted((d_, f) for d_ in ("cfg", os.path.join("bank", "cfg")) for f in os.listdir(os.path.join(HERE, d_))):
         if not f.startswith("cfg_"):
             continue
-        sp = importlib.util.spec_from_file_location("cfg", os.path.join(HERE, "cfg", f))
+        sp = importlib.util.spec_from_file_location("cfg", os.path.join(HERE, d_, f))
         C = importlib.util.module_from_spec(sp)
         sp.loader.exec_module(C)
-        if not getattr(C, "AUTO", False):
+        if d_ == "cfg" and f[4:-3].upper() in BANKS:   # 은행은 bank/cfg로만
+            continue
+        if not (getattr(C, "AUTO", False) or d_ != "cfg") or getattr(C, "AUTO_OUTSIDE", None):   # 은행 카드(bank/cfg, 사전 등록 7판)도 새 10-Q를 스스로 반영한다(2026-10-11)
             continue
         T, cik = f[4:-3].upper(), str(C.CIK).zfill(10)
         if T not in tickers:   # 이번 실행에서 만드는 카드만 — 안 만드는 카드를 승인하면 곧바로 되돌리며 실패로 남았다(2026-10-10 시험)
@@ -260,13 +263,16 @@ def auto_quarter_due(T):
     """자동 카드이고, 기준표(v2/sec_approved.json)의 공시 날짜가 카드 재무의 접수일(FUNDAMENTAL.filedAt)보다 뒤인가."""
     import importlib.util
     import new_filings as nf
-    p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
-    if not os.path.exists(p):
-        return False
+    p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")
+    bank = os.path.exists(p)   # 은행 카드(bank/cfg)가 먼저 — COF는 생성기 cfg도 남아 있다
+    if not bank:
+        p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
+        if not os.path.exists(p):
+            return False
     sp = importlib.util.spec_from_file_location("cfg", p)
     C = importlib.util.module_from_spec(sp)
     sp.loader.exec_module(C)
-    if not getattr(C, "AUTO", False):
+    if not (getattr(C, "AUTO", False) or bank):
         return False
     if getattr(C, "AUTO_OUTSIDE", None):   # 6-K 카드: 어댑터 재무의 마지막 분기가 카드보다 새로우면
         import outside_auto as oa
@@ -284,15 +290,11 @@ def build(T, work):
             rc, out = run([PY, "v2/newcards/price_arrays.py", T, "--card", target])
             if rc:
                 return rc, out
-        return run(["bash", f"v2/newcards/bank/{t}_rebuild.sh"], env=dict(os.environ, PRICE_ONLY="1"))   # 비교 은행·공시 보충은 토요일 몫
-    if T == "NVDA":
-        steps = [[PY, "v2/newcards/price_arrays.py", T],
-                 [PY, "v2/build_multiple_history.py", T, "--json", f"v2/{T}_multiples.json"],
-                 [PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"],
-                 [PY, "v2/build_dcf_block.py", T], [PY, "v2/build_dcf_grid.py", T],
-                 [PY, "v2/strip_caveats.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
-    elif T in HAND:
-        steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
+        # 은행 공통 재빌드(사전 등록 7판, 2026-10-11): 새 분기(기준표가 카드 재무보다 새로움)이거나 토요일이면 원문 값·비교 은행을 새로, 아니면 가격만
+        full = auto_quarter_due(T) or os.environ.get("V2_WEEKLY") == "1"
+        return run(["bash", "v2/newcards/bank/rebuild.sh", T], env=dict(os.environ, **({} if full else {"PRICE_ONLY": "1"})))
+    if T in HAND:   # 손 카드: 가격 배열 + 숫자 칸(자기 이력·동종업·밴드, hand_refresh.py — 2026-10-11). 문장은 손으로
+        steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/newcards/hand_refresh.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
     else:
         # 자동 카드(cfg AUTO)는 기준표의 공시 날짜가 카드 재무보다 새로우면 그날 자료를 전부 새로 받아 분기를 넘긴다 —
         # 가격만 다시 만드는 길(--price)은 EPS·재무를 다시 받지 않아 새 분기로 못 넘어간다(Codex 2026-10-10)
@@ -367,7 +369,7 @@ def weekly_pre(status):
     status["peerFilesKept"] = kept
     if kept:
         print("\n".join(kept), flush=True)
-    rc, out = run([PY, "v2/newcards/fetch_analyst.py"] + gen_tickers(), timeout=3600)
+    rc, out = run([PY, "v2/newcards/fetch_analyst.py"] + gen_tickers() + BANKS + HAND, timeout=3600)   # 은행·손 카드도(2026-10-11)   # 은행 카드도(bank/cfg, 2026-10-11)
     status["analystFailed"] = [l for l in out.splitlines() if "실패" in l]
     if rc or status["analystFailed"]:   # 실패한 종목은 지난주 값 그대로 — 알림에 넣는다(Codex)
         status["problems"].append(f"애널리스트 받기 실패 {len(status['analystFailed'])}종목(rc {rc})")
@@ -458,6 +460,7 @@ def main():
     before = verdicts()
     status = {"mode": "weekly" if weekly else "daily", "session": session, "full": not want, "problems": [], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "cards": {}}
     if weekly:
+        os.environ["V2_WEEKLY"] = "1"   # 은행 카드는 토요일에 비교 은행·원문 값을 새로 받는다
         weekly_pre(status)
     moved = auto_approve(status, session, set(tickers))
     omoved = outside_approve(status, session, set(tickers))

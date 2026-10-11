@@ -12,6 +12,7 @@ import os
 import subprocess
 import sys
 import time
+from datetime import date, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
@@ -123,9 +124,13 @@ def peers(asof, self_ticker):
                 continue
             bank = br.Bank(t, cik, asof, overrides=True)   # 다른 은행도 회사 정의 보정값으로(5판 9-5, 2026-10-05 사용자 결정 — BAC가 동종업 1.66배·자기 카드 1.85배로 갈리던 것)
             m = br.multiples_on(bank, asof, bars[-1][4], eps_file(t, cik, PEER_DIR))
+            if bank.ed >= 7 and "ptbv" in m:   # 7판 11-6: 그 분기 CE·TCE·S와 N5-1·N5-2를 통과해야 동종업 P/TBV에 든다
+                ok7, why7 = br.peer_ok7(bank, m["ptbv_end"])
+                if not ok7:
+                    m.pop("ptbv"); m["ptbv_missing"] = f"7판 동종업 관문: {why7}"
             if "ptbv" not in m:
                 out["skipped"][t + ":ptbv"] = m.get("ptbv_missing", "분기말 자본 자료 없음")
-            m["tags"] = {"equity": "StockholdersEquity", "preferred": "PreferredStockLiquidationPreferenceValue" if bank.pref_liq else ("PreferredStockValue" if bank.pref_val else "없음(우선주 이력 없음)" if not bank.pref_ever else "결측"),
+            m["tags"] = {"equity": "StockholdersEquity", "preferred": ("7판 표: " + (bank.pref_tbl.get("path") or "·".join(bank.pref_tbl.get("tags") or ["분리 불가"]))) if bank.pref_tbl is not None else "PreferredStockLiquidationPreferenceValue" if bank.pref_liq else ("PreferredStockValue" if bank.pref_val else "없음(우선주 이력 없음)" if not bank.pref_ever else "결측"),
                          "intangibles": "IntangibleAssetsNetExcludingGoodwill" if bank.ia else "Finite+Indefinite" if (bank.fin or bank.ind) else "OtherIntangibleAssetsNet" if bank.oth else "없음",
                          "shares": "Issued−Treasury" if bank.issued else "CommonStockSharesOutstanding"}
             out["tickers"][t] = {k: (round(v, 4) if isinstance(v, float) else v) for k, v in m.items()}
@@ -156,6 +161,11 @@ def peer_scores(self_ticker, mine, uni):
     return res
 
 
+def qends_before_n(end, n):
+    """end 직전 n개 분기말(end 제외) — 신호 ④의 비교 창."""
+    return br.qends_before(end, n)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
@@ -169,18 +179,64 @@ def main():
     daily = bmh.load_daily(t)
     asof, px = daily[-1][0], daily[-1][4]
     bank = br.Bank(t, cik, asof, overrides=True)   # 평가일(카드 일봉 마지막 날) 이후 접수 사실은 쓰지 않는다(Codex). 회사 정의 예외는 본인 카드에만
-    g = br.gates(bank, os.path.join(V2, "research", f"bank_gate_{t}.json"))
+    frozen = None
+    if bank.ed >= 7:
+        # 7판 11-6: 최신 분기가 N1~N5를 통과하지 못하면 그 분기를 반영하지 않는다 — 그 분기 공시 전날을 기준으로 다시 만든다(가격은 그대로)
+        L = max(e for e in bank.se if bank.se[e][1] <= asof)
+        c7 = br.checks7(bank, L)
+        if not c7["ok"]:
+            frozen = {"quarter": L, "stop": c7["stop"], "detail": {k: c7[k] for k in c7["stop"]}, "skipped": []}
+            # 직전 통과 분기까지 거슬러 올라간다 — 한 분기만 되돌리면 그 분기도 미통과일 때 그대로 계산했다(Codex 3차). 8개 분기 안에 없으면 RIM·P/TBV 기권
+            for _ in range(8):
+                cut = (date.fromisoformat(bank.se[L][1]) - timedelta(days=1)).isoformat()
+                bank = br.Bank(t, cik, cut)
+                if not bank.se:
+                    break
+                L = max(bank.se)
+                c7 = br.checks7(bank, L)
+                if c7["ok"]:
+                    break
+                frozen["skipped"].append(L)
+            frozen["asof_cut"], frozen["used_quarter"] = cut, (L if c7["ok"] else None)
+        g = {"N": c7}
+    else:
+        g = br.gates(bank, os.path.join(V2, "research", f"bank_gate_{t}.json"))
     r = br.rim(bank, price=px)
     eps_path = eps_file(t, cik, os.path.join(REPO, "scripts"))
     hist = self_history(bank, daily, eps_path)
-    # 관문 효력표(사전 등록 7-7): G1·G2 미통과 → P/TBV 없음(자기 이력·동종업), G2·G3·G4·G5 미통과 → RIM 참고용
-    ok = {k: g[k]["pass"] for k in ("G1", "G2", "G3", "G4", "G5")}
-    if not (ok["G1"] and ok["G2"]):
-        hist["ptbv"] = None
-    r["reference_only"] = not (ok["G2"] and ok["G3"] and ok["G4"] and ok["G5"])
+    if bank.ed >= 7:
+        if frozen and not frozen.get("used_quarter"):   # 통과한 분기가 없다 — RIM·P/TBV 기권
+            r = {"abstain": "관문을 통과한 분기가 최근 8분기 안에 없음"}
+            hist["ptbv"] = None
+        if r.get("L") and (date.fromisoformat(asof) - date.fromisoformat(r["L"])).days > 200:   # 11-6: 갱신이 200일 넘게 멈추면 RIM도 기권(8-3의 P/TBV와 같은 기준, Fable 2차)
+            r = {"abstain": f"재무 기준 분기 {r['L']}가 200일 넘게 낡음(관문 정지)"}
+        r["reference_only"] = False
+        r["frozen"] = frozen
+        # 11-5 신호 ④(결과를 본 뒤 개정, 2026-10-11 사용자 결정): 출발 TTM의 네 분기 가운데 순이익이 최근 8개 분기 중앙값에서 40% 넘게 벗어난 분기가 있으면
+        # 표시하고, 그 분기를 중앙값으로 바꾼 ROE를 함께 적는다. 1차 기준(TTM 대 8개 TTM 중앙값 15%)은 이익이 꾸준히 느는 은행 6곳에 켜졌다.
+        if r.get("L"):
+            L_ = r["L"]
+            q8 = [bank.ni.get(e) for e in [L_] + br.qends_before(L_, 7)]
+            if all(q8):
+                med = sorted(x[0] for x in q8)[3:5]
+                med = sum(med) / 2
+                odd = [e for e in [L_] + br.qends_before(L_, 3) if med > 0 and abs(bank.ni[e][0] / med - 1) > 0.40]
+                b0 = bank.ce(br.qends_before(L_, 4)[-1])
+                n0 = bank.ni_ttm(L_)
+                if odd and b0 and n0:
+                    alt = n0[0] - sum(bank.ni[e][0] for e in odd) + med * len(odd)
+                    r["signal4"] = {"quarters": odd, "median_q_ni": med, "roe_at_median": alt / b0[0],
+                                    "note": "최근 8분기 중앙값에서 40% 넘게 벗어난 분기 — 일회성일 수도, 실적 수준 변화일 수도 있다"}
+    else:
+        # 관문 효력표(사전 등록 7-7): G1·G2 미통과 → P/TBV 없음(자기 이력·동종업), G2·G3·G4·G5 미통과 → RIM 참고용
+        ok = {k: g[k]["pass"] for k in ("G1", "G2", "G3", "G4", "G5")}
+        if not (ok["G1"] and ok["G2"]):
+            hist["ptbv"] = None
+        r["reference_only"] = not (ok["G2"] and ok["G3"] and ok["G4"] and ok["G5"])
     if getattr(bank, "unadjustable", None):
         r["unadjustable_quarters"] = sorted(bank.unadjustable)
-    out = {"ticker": t, "asOf": asof, "price": px, "gates": {k: v["pass"] for k, v in g.items() if isinstance(v, dict)},
+    out = {"ticker": t, "asOf": asof, "price": px, "edition": bank.ed,
+           "gates": ({"N": g["N"]["ok"]} if bank.ed >= 7 else {k: v["pass"] for k, v in g.items() if isinstance(v, dict)}),
            "gateRows": g, "rim": r, "self": hist}
     if not a.no_peers:
         uni = json.load(open(os.path.join(V2, "peer_universe", "banks.json"))) if a.reuse_peers else peers(asof, t)
