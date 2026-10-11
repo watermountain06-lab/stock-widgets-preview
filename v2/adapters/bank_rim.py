@@ -123,11 +123,10 @@ class Bank:
         self.pref_sh = instant(c, "PreferredStockSharesOutstanding", asof) if ticker in PREF_PRICE else {}
         self.gw = instant(c, "Goodwill", asof)
         self.ia = instant(c, "IntangibleAssetsNetExcludingGoodwill", asof)
-        for e_, r_ in self.secv.items():   # 7판: companyfacts가 아직 싣지 않은 분기(HBAN 2026 2분기)는 원문 자본·영업권으로
-            if e_ not in self.se and r_.get("se"):
-                self.se[e_] = (r_["se"], r_["filed"])
-            if e_ not in self.gw and r_.get("gw"):
-                self.gw[e_] = (r_["gw"], r_["filed"])
+        for e_, r_ in self.secv.items():   # 7판: 원문 값이 더 먼저 접수됐으면(companyfacts가 늦게 싣거나 나중 공시 값으로 바뀐 분기) 원문 값과 그 접수일(Codex 2차)
+            for d_, k_ in ((self.se, "se"), (self.gw, "gw")):
+                if r_.get(k_) and (e_ not in d_ or r_["filed"] < d_[e_][1]):
+                    d_[e_] = (r_[k_], r_["filed"])
         self.fin = instant(c, "FiniteLivedIntangibleAssetsNet", asof)
         self.ind = instant(c, "IndefiniteLivedIntangibleAssetsExcludingGoodwill", asof)
         self.oth = instant(c, "OtherIntangibleAssetsNet", asof)
@@ -142,7 +141,7 @@ class Bank:
         self.div_pref = flow_q(c, ["DividendsPreferredStock"], ticker, asof)
         self.buy = flow_q(c, BUY_TAGS.get(ticker, ["PaymentsForRepurchaseOfCommonStock"]), ticker, asof)
         self.iss = flow_q(c, ["ProceedsFromIssuanceOfCommonStock"], ticker, asof)
-        self.iss_ever = ever(c, "ProceedsFromIssuanceOfCommonStock")
+        self.iss_ever = ever(c, "ProceedsFromIssuanceOfCommonStock", asof if self.ed >= 7 else None)
         wd = {}
         for f in _facts(c, "WeightedAverageNumberOfDilutedSharesOutstanding"):
             if "start" not in f or (asof and f["filed"] > asof):
@@ -222,7 +221,8 @@ class Bank:
             return (0.0, self.secv[end]["filed"])   # 재무상태표에 따로 표시하지 않음(WFC 2023년 뒤)
         cands = [(e, self._ia_std(e) or ((self.secv[e]["ia"], self.secv[e]["filed"]) if self.secv.get(e, {}).get("ia") is not None else None))
                  for e in sorted(set(self.secv) | set(self.ia) | set(self.fin) | set(self.oth)) if e < end]
-        cands = [(e, x) for e, x in cands if x and (date.fromisoformat(end) - date.fromisoformat(e)).days <= 400]
+        ref = (self.secv.get(end) or {}).get("filed") or (self.se.get(end) or (None, None))[1]   # 400일은 접수일 기준(11-3, Codex 2차)
+        cands = [(e, x) for e, x in cands if x and ref and (date.fromisoformat(ref) - date.fromisoformat(x[1])).days <= 400]
         return cands[-1][1] if cands else None
 
     # 1-2 (+7-6)
@@ -288,14 +288,18 @@ class Bank:
         o = SHARES_OVERRIDE.get(self.t, {}).get(end) if self.ov else None
         if o and not (self.asof and o["filed"] > self.asof):
             return (o["shares_m"] * 1e6, o["filed"])
+        r = self.secv.get(end)
+        if r and r.get("shares"):   # 7판: 그 분기 원문 값(가장 먼저 접수 — companyfacts는 나중 공시의 반올림 값으로 바뀐 분기가 있다, WFC 2024 1분기)
+            cf = self._shares_cf(end)
+            return (r["shares"], r["filed"]) if not cf or r["filed"] <= cf[1] else cf
+        return self._shares_cf(end)
+
+    def _shares_cf(self, end):
         if end in self.issued and end in self.tr:
             v = self.issued[end][0] - self.tr[end][0]
             return (v, max(self.issued[end][1], self.tr[end][1])) if v > 0 else None
         if end in self.cso and self.cso[end][0] > 0:
             return self.cso[end]
-        r = self.secv.get(end)   # 7판: companyfacts에 늦게 들어온 분기는 그 분기 원문 값(WFC 2023~2024 — 태그가 2025-04에야 접수)
-        if r and r.get("shares"):
-            return (r["shares"], r["filed"])
         return None
 
     def quarters(self):
@@ -483,11 +487,13 @@ GATE_Y = ["2021", "2022", "2023", "2024", "2025"]
 
 
 def ytd_diff_q(bank, tag, end):
-    """G5용 — 3개월 직접 공시값을 쓰지 않고 연초 누적(10-Q·10-K)끼리 뺀 분기값."""
+    """G5용 — 3개월 직접 공시값을 쓰지 않고 연초 누적(10-Q·10-K)끼리 뺀 분기값. 7판은 평가일까지 접수된 것만(11-0)."""
     y = end[:4]
     start = f"{y}-01-01"
     cum = {}
     for f in _facts(bank.cik, tag):
+        if bank.ed >= 7 and bank.asof and f["filed"] > bank.asof:
+            continue
         if f.get("start") == start and f["end"].startswith(y) and (f["end"] not in cum or f["filed"] < cum[f["end"]]["filed"]):
             cum[f["end"]] = f
     if end not in cum:
@@ -597,17 +603,17 @@ def gates(bank, gate_path):
 
 
 # ── 7판 관문 N1~N5(11-6, 2026-10-11 초안) — 보도자료 대조 대신 SEC 자료 안의 대조 ─────────────
-def _q3m(cik, tag, end, unit_key=None):
-    """그 분기(약 3개월) 직접 공시값 — 가장 먼저 접수된 것. (값, 접수번호)."""
+def _q3m(cik, tag, end, unit_key=None, asof=None):
+    """그 분기(약 3개월) 직접 공시값 — 평가일까지 접수된 것 가운데 가장 먼저 접수된 것. (값, 접수일)."""
     u = bmh._facts(cik).get("facts", {}).get("us-gaap", {}).get(tag, {}).get("units", {})
-    rows = [r for k, rs in u.items() if unit_key is None or k == unit_key for r in rs]
+    rows = [r for k, rs in u.items() if unit_key is None or k == unit_key for r in rs if not asof or r["filed"] <= asof]
     rows = [r for r in rows if r.get("end") == end and r.get("start") and 80 <= (date.fromisoformat(end) - date.fromisoformat(r["start"])).days <= 100]
     return (sorted(rows, key=lambda r: r["filed"])[0]["val"], sorted(rows, key=lambda r: r["filed"])[0]["filed"]) if rows else None
 
 
-def _fy(cik, tag, end, unit_key=None):
+def _fy(cik, tag, end, unit_key=None, asof=None):
     u = bmh._facts(cik).get("facts", {}).get("us-gaap", {}).get(tag, {}).get("units", {})
-    rows = [r for k, rs in u.items() if unit_key is None or k == unit_key for r in rs]
+    rows = [r for k, rs in u.items() if unit_key is None or k == unit_key for r in rs if not asof or r["filed"] <= asof]
     rows = [r for r in rows if r.get("end") == end and r.get("start") and 350 <= (date.fromisoformat(end) - date.fromisoformat(r["start"])).days <= 380]
     return sorted(rows, key=lambda r: r["filed"])[0]["val"] if rows else None
 
@@ -628,12 +634,15 @@ def checks7(bank, end):
     # N1 완전성
     miss = [k for k, v in (("CE", ce), ("TCE", tce), ("S", s), ("NI", bank.ni.get(end)), ("NI TTM", bank.ni_ttm(end)),
                            ("기초 CE", bank.ce(qends_before(end, 4)[-1])), ("순환원 TTM", bank.payout_ttm(end)), ("유보율", bank.retention(end))) if not v]
-    res["N1"] = {"pass": not miss, "missing": miss}
+    # 효력(11-6 효력표): CE·TCE·S·NI가 없으면 분기 정지. RIM 입력(TTM·기초 CE·순환원·유보율)만 없으면 정지하지 않고 RIM만 기권(2장 규칙) — 배수는 새 분기로(Fable 2차)
+    core = [k for k in miss if k in ("CE", "TCE", "S", "NI")]
+    res["N1"] = {"pass": not core, "missing": core, "rim_missing": [k for k in miss if k not in core]}
     # N2 분기 NI: 직접값 vs 누적 차분
-    d3 = _q3m(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic", end)
+    d3 = _q3m(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic", end, asof=bank.asof)
     nq = bank.ni.get(end)
-    if d3 and nq:
-        diff = abs(nq[0] - d3[0])
+    yd = ytd_diff_q(bank, "NetIncomeLossAvailableToCommonStockholdersBasic", end)   # 누적끼리 뺀 값 — bank.ni는 직접값을 먼저 쓰므로 그것과 견주면 같은 값끼리 비교한다(Codex)
+    if d3 and yd is not None and not end.endswith("03-31"):
+        diff = abs(yd - d3[0])
         res["N2"] = {"pass": diff <= 5e6 or (diff <= 50e6 and diff <= 0.10 * abs(d3[0])), "diff_m": round(diff / 1e6, 1)}
     else:
         res["N2"] = {"pass": True, "note": "직접값 없음(4분기) — N5-1로 대신"}
@@ -653,6 +662,29 @@ def checks7(bank, end):
             res["N3"] = {"pass": False, "note": "우선주 값이 한쪽 분기에만 있다", "now": p1 and round(p1[0] / 1e6), "yago": p0 and round(p0[0] / 1e6)}
     else:
         res["N3"] = {"pass": True, "note": "우선주 표 경로 밖(AXP 상환가·표 없는 은행)"}
+    # N3b 자본 수준 — CE를 자본 구성요소 합(보통주 + 자본잉여금 + 이익잉여금 + 기타포괄손익 − 자기주식)과 견줘, 그 비율이 1년 전 같은 분기보다 1%p 넘게 변하면 정지.
+    # 수준 자체가 아니라 변화를 본다 — GS(주식보상 항목)·AXP·COF(자본잉여금에 우선주)는 구성이 달라 4~8%가 늘 있다(2026-10-11 시험). Fable 2차: 보도자료 G2가 잡던 수준 오류의 대체.
+    def _comp(e):
+        I = lambda t: (instant(bank.cik, t, bank.asof).get(e) or (None,))[0]
+        cs = I("CommonStocksIncludingAdditionalPaidInCapital")
+        if cs is None:
+            a_ = I("AdditionalPaidInCapitalCommonStock") or I("AdditionalPaidInCapital")
+            cs = (I("CommonStockValue") or 0) + a_ if a_ is not None else None
+        re_, ao = I("RetainedEarningsAccumulatedDeficit"), I("AccumulatedOtherComprehensiveIncomeLossNetOfTax")
+        tr = I("TreasuryStockValue") or I("TreasuryStockCommonValue") or 0
+        c_ = bank.ce(e)
+        if not (c_ and cs is not None and re_ is not None and ao is not None):
+            return None
+        tot = cs + re_ + ao - tr
+        pf = c_ and bank.se.get(e) and bank.se[e][0] - c_[0]   # 우리가 뺀 우선주(자본잉여금에 우선주를 넣는 은행 — COF·AXP)
+        return (tot / c_[0] - 1, (tot - (pf or 0)) / c_[0] - 1)
+    ya = qends_before(end, 4)[-1]
+    k1, k0 = _comp(end), _comp(ya)
+    if k1 is not None and k0 is not None:   # 1년 전에 더 잘 맞던 쪽(우선주를 뺀 합 또는 그냥 합)을 같은 방식으로 이번 분기에도
+        j = 0 if abs(k0[0]) <= abs(k0[1]) else 1
+        k1, k0 = k1[j], k0[j]
+    res["N3b"] = ({"pass": abs(k1 - k0) <= 0.01, "gap_now": round(k1, 4), "gap_yago": round(k0, 4)} if k1 is not None and k0 is not None
+                  else {"pass": None, "note": "자본 구성요소 결측"})
     # N4 급변
     cp, sp = bank.ce(prev), bank.shares(prev)
     jumps = []
@@ -664,13 +696,29 @@ def checks7(bank, end):
     g0, g1 = bank.gw.get(prev) or bank._carry_goodwill(prev), bank.gw.get(end)
     if g0 and g1 and g1[0] > g0[0] * 1.2:
         jumps.append("영업권 20% 넘게 증가")
-    acked = (json.load(open(ACK)).get(bank.t, {}).get(end) if os.path.exists(ACK) else None)
-    res["N4"] = {"pass": not jumps or bool(acked), "jumps": jumps, "ack": acked}
+    ackd = json.load(open(ACK)).get(bank.t, {}) if os.path.exists(ACK) else {}
+    def _jumps(e):
+        p_ = qends_before(e, 1)[0]
+        a1, a0, s1, s0 = bank.ce(e), bank.ce(p_), bank.shares(e), bank.shares(p_)
+        j = []
+        if a1 and a0 and s1 and s0:
+            if abs((a1[0] / s1[0]) / (a0[0] / s0[0]) - 1) > 0.10:
+                j.append("BVPS ±10% 초과")
+            if abs(s1[0] / s0[0] - 1) > 0.10:
+                j.append("주식 수 ±10% 초과")
+        g0_, g1_ = bank.gw.get(p_) or bank._carry_goodwill(p_), bank.gw.get(e)
+        if g0_ and g1_ and g1_[0] > g0_[0] * 1.2:
+            j.append("영업권 20% 넘게 증가")
+        return j
+    # 승인되지 않은 급변은 다음 분기에 저절로 풀리지 않는다 — 이번 분기와 앞 4개 분기 가운데 ack 없는 급변이 있으면 정지(Codex 2차)
+    pend = {e: _jumps(e) for e in [end] + qends_before(end, 4)}
+    pend = {e: j for e, j in pend.items() if j and e not in ackd}
+    res["N4"] = {"pass": not pend, "jumps": jumps, "unacked": pend, "ack": ackd.get(end)}
     # N5-1 EPS 대조
     if d3 is not None or end.endswith("12-31"):
-        ni_ = d3[0] if d3 else _fy(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic", end)
-        wa = (_q3m(bank.cik, "WeightedAverageNumberOfSharesOutstandingBasic", end, "shares") or (None,))[0] if d3 else _fy(bank.cik, "WeightedAverageNumberOfSharesOutstandingBasic", end, "shares")
-        eps = (_q3m(bank.cik, "EarningsPerShareBasic", end, "USD/shares") or (None,))[0] if d3 else _fy(bank.cik, "EarningsPerShareBasic", end, "USD/shares")
+        ni_ = d3[0] if d3 else _fy(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic", end, asof=bank.asof)
+        wa = (_q3m(bank.cik, "WeightedAverageNumberOfSharesOutstandingBasic", end, "shares", bank.asof) or (None,))[0] if d3 else _fy(bank.cik, "WeightedAverageNumberOfSharesOutstandingBasic", end, "shares", bank.asof)
+        eps = (_q3m(bank.cik, "EarningsPerShareBasic", end, "USD/shares", bank.asof) or (None,))[0] if d3 else _fy(bank.cik, "EarningsPerShareBasic", end, "USD/shares", bank.asof)
         if ni_ and wa and eps:
             res["N5_1"] = {"pass": abs(ni_ / wa / eps - 1) <= 0.01 or abs(ni_ / wa - eps) <= 0.011, "ratio": round(ni_ / wa / eps, 4)}
         else:
@@ -681,6 +729,9 @@ def checks7(bank, end):
     pd = bank.ttm(bank.div_pref, end)
     pz = bank.pref_tbl is not None and not bank.pref_tbl.get("path") and bank.pref_tbl.get("tags") and bank._pref7(end) is None and ce
     res["N5_2"] = {"pass": not (pd and pd[0] > 0 and (pz or (ce and bank.se.get(end) and abs(bank.se[end][0] - ce[0]) < 1)))}
+    for k in ("N3", "N3b"):   # 사람이 확인한 분기(research/bank_ack.json)는 N3·N3b도 푼다 — 우선주 새 발행·전액 상환(Fable 2차)
+        if res.get(k, {}).get("pass") is False and end in ackd:
+            res[k]["pass"], res[k]["ack"] = True, ackd[end]
     for k, v in res.items():
         if v.get("pass") is False:
             stop.append(k)

@@ -12,6 +12,7 @@ import os
 import subprocess
 import sys
 import time
+from datetime import date, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
@@ -123,6 +124,10 @@ def peers(asof, self_ticker):
                 continue
             bank = br.Bank(t, cik, asof, overrides=True)   # 다른 은행도 회사 정의 보정값으로(5판 9-5, 2026-10-05 사용자 결정 — BAC가 동종업 1.66배·자기 카드 1.85배로 갈리던 것)
             m = br.multiples_on(bank, asof, bars[-1][4], eps_file(t, cik, PEER_DIR))
+            if bank.ed >= 7 and "ptbv" in m:   # 7판 11-6: 그 분기 CE·TCE·S와 N5-1·N5-2를 통과해야 동종업 P/TBV에 든다
+                ok7, why7 = br.peer_ok7(bank, m["ptbv_end"])
+                if not ok7:
+                    m.pop("ptbv"); m["ptbv_missing"] = f"7판 동종업 관문: {why7}"
             if "ptbv" not in m:
                 out["skipped"][t + ":ptbv"] = m.get("ptbv_missing", "분기말 자본 자료 없음")
             m["tags"] = {"equity": "StockholdersEquity", "preferred": "PreferredStockLiquidationPreferenceValue" if bank.pref_liq else ("PreferredStockValue" if bank.pref_val else "없음(우선주 이력 없음)" if not bank.pref_ever else "결측"),
@@ -156,6 +161,11 @@ def peer_scores(self_ticker, mine, uni):
     return res
 
 
+def qends_before_n(end, n):
+    """end 직전 n개 분기말(end 제외) — 신호 ④의 비교 창."""
+    return br.qends_before(end, n)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
@@ -169,18 +179,47 @@ def main():
     daily = bmh.load_daily(t)
     asof, px = daily[-1][0], daily[-1][4]
     bank = br.Bank(t, cik, asof, overrides=True)   # 평가일(카드 일봉 마지막 날) 이후 접수 사실은 쓰지 않는다(Codex). 회사 정의 예외는 본인 카드에만
-    g = br.gates(bank, os.path.join(V2, "research", f"bank_gate_{t}.json"))
+    frozen = None
+    if bank.ed >= 7:
+        # 7판 11-6: 최신 분기가 N1~N5를 통과하지 못하면 그 분기를 반영하지 않는다 — 그 분기 공시 전날을 기준으로 다시 만든다(가격은 그대로)
+        L = max(e for e in bank.se if bank.se[e][1] <= asof)
+        c7 = br.checks7(bank, L)
+        if not c7["ok"]:
+            cut = (date.fromisoformat(bank.se[L][1]) - timedelta(days=1)).isoformat()
+            frozen = {"quarter": L, "stop": c7["stop"], "detail": {k: c7[k] for k in c7["stop"]}, "asof_cut": cut}
+            bank = br.Bank(t, cik, cut)
+            c7 = br.checks7(bank, max(bank.se))
+        g = {"N": c7}
+    else:
+        g = br.gates(bank, os.path.join(V2, "research", f"bank_gate_{t}.json"))
     r = br.rim(bank, price=px)
     eps_path = eps_file(t, cik, os.path.join(REPO, "scripts"))
     hist = self_history(bank, daily, eps_path)
-    # 관문 효력표(사전 등록 7-7): G1·G2 미통과 → P/TBV 없음(자기 이력·동종업), G2·G3·G4·G5 미통과 → RIM 참고용
-    ok = {k: g[k]["pass"] for k in ("G1", "G2", "G3", "G4", "G5")}
-    if not (ok["G1"] and ok["G2"]):
-        hist["ptbv"] = None
-    r["reference_only"] = not (ok["G2"] and ok["G3"] and ok["G4"] and ok["G5"])
+    if bank.ed >= 7:
+        if r.get("L") and (date.fromisoformat(asof) - date.fromisoformat(r["L"])).days > 200:   # 11-6: 갱신이 200일 넘게 멈추면 RIM도 기권(8-3의 P/TBV와 같은 기준, Fable 2차)
+            r = {"abstain": f"재무 기준 분기 {r['L']}가 200일 넘게 낡음(관문 정지)"}
+        r["reference_only"] = False
+        r["frozen"] = frozen
+        # 11-5 신호 ④: 출발 TTM NI가 직전 8개 분기 TTM NI 중앙값과 15% 넘게 다르면(일회성 가능성) 표시하고 그 중앙값 기준 ROE를 함께 적는다
+        if r.get("L"):
+            tt = [bank.ni_ttm(e) for e in qends_before_n(r["L"], 8)]
+            tt = [x[0] for x in tt if x]
+            n0 = bank.ni_ttm(r["L"])
+            if n0 and len(tt) >= 6:
+                med = sorted(tt)[len(tt) // 2]
+                if med > 0 and abs(n0[0] / med - 1) > 0.15:
+                    b0 = bank.ce(br.qends_before(r["L"], 4)[-1])
+                    r["signal4"] = {"ttm_ni": n0[0], "median_ttm_ni": med, "roe_at_median": med / b0[0] if b0 else None}
+    else:
+        # 관문 효력표(사전 등록 7-7): G1·G2 미통과 → P/TBV 없음(자기 이력·동종업), G2·G3·G4·G5 미통과 → RIM 참고용
+        ok = {k: g[k]["pass"] for k in ("G1", "G2", "G3", "G4", "G5")}
+        if not (ok["G1"] and ok["G2"]):
+            hist["ptbv"] = None
+        r["reference_only"] = not (ok["G2"] and ok["G3"] and ok["G4"] and ok["G5"])
     if getattr(bank, "unadjustable", None):
         r["unadjustable_quarters"] = sorted(bank.unadjustable)
-    out = {"ticker": t, "asOf": asof, "price": px, "gates": {k: v["pass"] for k, v in g.items() if isinstance(v, dict)},
+    out = {"ticker": t, "asOf": asof, "price": px, "edition": bank.ed,
+           "gates": ({"N": g["N"]["ok"]} if bank.ed >= 7 else {k: v["pass"] for k, v in g.items() if isinstance(v, dict)}),
            "gateRows": g, "rim": r, "self": hist}
     if not a.no_peers:
         uni = json.load(open(os.path.join(V2, "peer_universe", "banks.json"))) if a.reuse_peers else peers(asof, t)

@@ -153,7 +153,11 @@ def pick(fs, end, names):
 def values(T, cik, fs, end, tags):
     pt = tags["preferred"].get(T, {})
     pref, ptag = (None, None) if pt.get("path") or not pt.get("tags") else pick(fs, end, pt["tags"])
-    ia, itag = pick(fs, end, IA_STD)
+    ia, itag = pick(fs, end, IA_STD[:1])
+    if ia is None:   # 유한 + 비한정을 함께 적은 은행은 둘을 더한다(1-2와 같다 — 첫 태그만 쓰면 비한정만큼 TCE가 커진다, Codex 2차)
+        f_, _ = pick(fs, end, ["us-gaap:FiniteLivedIntangibleAssetsNet"])
+        i_, _ = pick(fs, end, ["us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill"])
+        ia, itag = ((f_ or 0) + (i_ or 0), "Finite+Indefinite") if (f_ is not None or i_ is not None) else pick(fs, end, IA_STD[3:])
     if ia is None:   # 11-3: 회사 고유 무형자산 태그(MSR·영업권 포함 이름 제외)
         cust = sorted({n for n, s, e, d, x in fs if e == end and not s and not d and IA_CUSTOM.match(n) and not IA_SKIP.search(n)})
         ia, itag = pick(fs, end, cust) if cust else (None, None)
