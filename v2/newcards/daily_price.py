@@ -291,8 +291,8 @@ def build(T, work):
         # 은행 공통 재빌드(사전 등록 7판, 2026-10-11): 새 분기(기준표가 카드 재무보다 새로움)이거나 토요일이면 원문 값·비교 은행을 새로, 아니면 가격만
         full = auto_quarter_due(T) or os.environ.get("V2_WEEKLY") == "1"
         return run(["bash", "v2/newcards/bank/rebuild.sh", T], env=dict(os.environ, **({} if full else {"PRICE_ONLY": "1"})))
-    if T in HAND:
-        steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
+    if T in HAND:   # 손 카드: 가격 배열 + 숫자 칸(자기 이력·동종업·밴드, hand_refresh.py — 2026-10-11). 문장은 손으로
+        steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/newcards/hand_refresh.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
     else:
         # 자동 카드(cfg AUTO)는 기준표의 공시 날짜가 카드 재무보다 새로우면 그날 자료를 전부 새로 받아 분기를 넘긴다 —
         # 가격만 다시 만드는 길(--price)은 EPS·재무를 다시 받지 않아 새 분기로 못 넘어간다(Codex 2026-10-10)
@@ -367,7 +367,7 @@ def weekly_pre(status):
     status["peerFilesKept"] = kept
     if kept:
         print("\n".join(kept), flush=True)
-    rc, out = run([PY, "v2/newcards/fetch_analyst.py"] + gen_tickers() + BANKS, timeout=3600)   # 은행 카드도(bank/cfg, 2026-10-11)
+    rc, out = run([PY, "v2/newcards/fetch_analyst.py"] + gen_tickers() + BANKS + HAND, timeout=3600)   # 은행·손 카드도(2026-10-11)   # 은행 카드도(bank/cfg, 2026-10-11)
     status["analystFailed"] = [l for l in out.splitlines() if "실패" in l]
     if rc or status["analystFailed"]:   # 실패한 종목은 지난주 값 그대로 — 알림에 넣는다(Codex)
         status["problems"].append(f"애널리스트 받기 실패 {len(status['analystFailed'])}종목(rc {rc})")

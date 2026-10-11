@@ -42,6 +42,16 @@ def write(T, A, asof):
     p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
     if not os.path.exists(p):   # 은행 카드는 bank/cfg(사전 등록 7판, 2026-10-11)
         p = os.path.join(HERE, "bank", "cfg", f"cfg_{T.lower()}.py")
+    if not os.path.exists(p):   # 손 카드(BRKB·SPCX) — cfg가 없어 카드의 상수를 직접 고친다(2026-10-11)
+        cp = os.path.join(os.path.dirname(HERE), f"{T}_full_widget.html")
+        h = open(cp, encoding="utf-8").read()
+        js = (f"const {T}_ANALYST = {{ asOf: '{asof}', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: '{A['rating']}', n: {A['n']}, nTargets: {A['nt']}, "
+              f"mean: {A['mean']}, median: {A['median'] if A['median'] is not None else 'null'},\n  low: {A['low']}, high: {A['high']}, strongBuy: {A['sb']}, buy: {A['b']}, hold: {A['h']}, sell: {A['s']}, strongSell: {A['ss']} }};")
+        h, n = re.subn(rf"const {T}_ANALYST = \{{.*?\}};", lambda _: js, h, count=1, flags=re.S)
+        if n != 1:
+            raise ValueError(f"{T}: 카드에 ANALYST 상수가 없다")
+        open(cp, "w", encoding="utf-8").write(h)
+        return
     s = open(p, encoding="utf-8").read()
     line = "ANALYST = " + repr(A)
     s, n = re.subn(r"^ANALYST = \{[^\n]*\}$", lambda _: line, s, count=1, flags=re.M)
