@@ -142,7 +142,8 @@ def run(args):
             if T in BANKS:
                 out = os.path.join(ROOT, "work", f"{label}_{T}_bank.json")
                 os.makedirs(os.path.dirname(out), exist_ok=True)
-                p = sh([PY, "v2/adapters/bank_card.py", T, "--json", out, "--reuse-peers"], cwd=TREE, env=env0, check=False)
+                p = sh([PY, "v2/adapters/bank_card.py", T, "--json", out, "--reuse-peers"], cwd=TREE,
+                       env=dict(env0, BANK_EDITION="7"), check=False)   # 은행 7판(2026-10-11부터 기본, rebuild.sh와 같게 못박는다)
                 if p.returncode:
                     r["error"] = (p.stdout + p.stderr)[-400:]
                 else:
@@ -431,12 +432,49 @@ def peersdiff(args):
                 print("   ", c)
 
 
+def build(args):
+    """매일 실행과 같은 카드 빌드(newcards/build.py T --price)를 작업 나무에서 끝까지 돌린다 — 엔진 수정이 카드 설정의 고정 문구 검사
+    (check_literals·fill)나 JS 검사에 걸리지 않는지(INTC 2026-10-08 같은 실패를 합치기 전에). 네트워크는 막는다(캐시만)."""
+    reset_tree()
+    files, blob = engine_files(args.engine) if args.engine != "base" else ([], None)
+    _swap(files, blob)
+    if args.peers:
+        for f in glob.glob(os.path.join(PEERS, args.peers, "*.json")):
+            shutil.copy2(f, os.path.join(TREE, "v2", "peer_universe"))
+    # 자동 카드의 채우기 단계(quarter_auto.filing)는 SEC 공시 목록을 urllib로 직접 묻는다 — 이 시험은 빌드가 끝까지 통과하는지
+    # (고정 문구·JS 검사)를 보는 것이라 네트워크를 연다. 기록된 curl 응답은 재생하고, 새 요청은 기록한다. 쓰기는 작업 나무 안에서만.
+    env = _curl_env(True)
+    env["REFRESH"] = "1"
+    # sync_fallbacks는 카드를 http로 열어 렌더한다 — 작업 나무 루트에 따로 띄운다(진짜 저장소의 8765와 겹치지 않게)
+    srv = subprocess.Popen([PY, "-m", "http.server", "8799", "--bind", "127.0.0.1", "--directory", TREE],
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    time.sleep(1)
+    try:
+        _build_cards(args, env)
+    finally:
+        srv.terminate()
+
+
+def _build_cards(args, env):
+    for T in args.only.split(","):
+        t0 = time.time()
+        p = sh([PY, "v2/newcards/build.py", T, "--price", "--sync-base", "http://127.0.0.1:8799"], cwd=TREE, env=env, check=False)
+        out = (p.stdout + p.stderr)
+        ok = p.returncode == 0 and "JS_OK" in out
+        print(f"{T}: {'OK' if ok else '실패 rc=' + str(p.returncode)} {time.time() - t0:.0f}s")
+        if not ok:
+            print("   " + out[-900:].replace("\n", "\n   "))
+        else:
+            print("   ", blocks(T).get("dcf", {}).get("base") if blocks(T).get("dcf") else "", flush=True)
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("freeze")
     r = sub.add_parser("run"); r.add_argument("label"); r.add_argument("--engine", default="base"); r.add_argument("--only"); r.add_argument("--peers")
     pe = sub.add_parser("peers"); pe.add_argument("label"); pe.add_argument("--engine", default="base"); pe.add_argument("--record", action="store_true"); pe.add_argument("--asof")
+    bd = sub.add_parser("build"); bd.add_argument("--engine", default="base"); bd.add_argument("--peers"); bd.add_argument("--only", required=True)
     pf = sub.add_parser("peersdiff"); pf.add_argument("a"); pf.add_argument("b"); pf.add_argument("--show", type=int, default=15)
     d = sub.add_parser("diff"); d.add_argument("a"); d.add_argument("b"); d.add_argument("--expect"); d.add_argument("--show", type=int, default=8)
     f = sub.add_parser("fidelity"); f.add_argument("label")
@@ -444,7 +482,7 @@ def main():
     pd = sub.add_parser("paneldiff"); pd.add_argument("a"); pd.add_argument("b"); pd.add_argument("--show", type=int, default=12); pd.add_argument("--ticker")
     a = ap.parse_args()
     {"freeze": freeze, "run": run, "diff": diff, "fidelity": fidelity, "panel": panel, "paneldiff": paneldiff,
-     "peers": peers, "peersdiff": peersdiff}[a.cmd](a)
+     "peers": peers, "peersdiff": peersdiff, "build": build}[a.cmd](a)
 
 
 if __name__ == "__main__":
