@@ -200,16 +200,21 @@ def main():
             r = {"abstain": f"재무 기준 분기 {r['L']}가 200일 넘게 낡음(관문 정지)"}
         r["reference_only"] = False
         r["frozen"] = frozen
-        # 11-5 신호 ④: 출발 TTM NI가 직전 8개 분기 TTM NI 중앙값과 15% 넘게 다르면(일회성 가능성) 표시하고 그 중앙값 기준 ROE를 함께 적는다
+        # 11-5 신호 ④(결과를 본 뒤 개정, 2026-10-11 사용자 결정): 출발 TTM의 네 분기 가운데 순이익이 최근 8개 분기 중앙값에서 40% 넘게 벗어난 분기가 있으면
+        # 표시하고, 그 분기를 중앙값으로 바꾼 ROE를 함께 적는다. 1차 기준(TTM 대 8개 TTM 중앙값 15%)은 이익이 꾸준히 느는 은행 6곳에 켜졌다.
         if r.get("L"):
-            tt = [bank.ni_ttm(e) for e in qends_before_n(r["L"], 8)]
-            tt = [x[0] for x in tt if x]
-            n0 = bank.ni_ttm(r["L"])
-            if n0 and len(tt) >= 6:
-                med = sorted(tt)[len(tt) // 2]
-                if med > 0 and abs(n0[0] / med - 1) > 0.15:
-                    b0 = bank.ce(br.qends_before(r["L"], 4)[-1])
-                    r["signal4"] = {"ttm_ni": n0[0], "median_ttm_ni": med, "roe_at_median": med / b0[0] if b0 else None}
+            L_ = r["L"]
+            q8 = [bank.ni.get(e) for e in [L_] + br.qends_before(L_, 7)]
+            if all(q8):
+                med = sorted(x[0] for x in q8)[3:5]
+                med = sum(med) / 2
+                odd = [e for e in [L_] + br.qends_before(L_, 3) if med > 0 and abs(bank.ni[e][0] / med - 1) > 0.40]
+                b0 = bank.ce(br.qends_before(L_, 4)[-1])
+                n0 = bank.ni_ttm(L_)
+                if odd and b0 and n0:
+                    alt = n0[0] - sum(bank.ni[e][0] for e in odd) + med * len(odd)
+                    r["signal4"] = {"quarters": odd, "median_q_ni": med, "roe_at_median": alt / b0[0],
+                                    "note": "최근 8분기 중앙값에서 40% 넘게 벗어난 분기 — 일회성일 수도, 실적 수준 변화일 수도 있다"}
     else:
         # 관문 효력표(사전 등록 7-7): G1·G2 미통과 → P/TBV 없음(자기 이력·동종업), G2·G3·G4·G5 미통과 → RIM 참고용
         ok = {k: g[k]["pass"] for k in ("G1", "G2", "G3", "G4", "G5")}
