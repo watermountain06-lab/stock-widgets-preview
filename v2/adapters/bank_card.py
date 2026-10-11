@@ -185,10 +185,19 @@ def main():
         L = max(e for e in bank.se if bank.se[e][1] <= asof)
         c7 = br.checks7(bank, L)
         if not c7["ok"]:
-            cut = (date.fromisoformat(bank.se[L][1]) - timedelta(days=1)).isoformat()
-            frozen = {"quarter": L, "stop": c7["stop"], "detail": {k: c7[k] for k in c7["stop"]}, "asof_cut": cut}
-            bank = br.Bank(t, cik, cut)
-            c7 = br.checks7(bank, max(bank.se))
+            frozen = {"quarter": L, "stop": c7["stop"], "detail": {k: c7[k] for k in c7["stop"]}, "skipped": []}
+            # 직전 통과 분기까지 거슬러 올라간다 — 한 분기만 되돌리면 그 분기도 미통과일 때 그대로 계산했다(Codex 3차). 8개 분기 안에 없으면 RIM·P/TBV 기권
+            for _ in range(8):
+                cut = (date.fromisoformat(bank.se[L][1]) - timedelta(days=1)).isoformat()
+                bank = br.Bank(t, cik, cut)
+                if not bank.se:
+                    break
+                L = max(bank.se)
+                c7 = br.checks7(bank, L)
+                if c7["ok"]:
+                    break
+                frozen["skipped"].append(L)
+            frozen["asof_cut"], frozen["used_quarter"] = cut, (L if c7["ok"] else None)
         g = {"N": c7}
     else:
         g = br.gates(bank, os.path.join(V2, "research", f"bank_gate_{t}.json"))
@@ -196,6 +205,9 @@ def main():
     eps_path = eps_file(t, cik, os.path.join(REPO, "scripts"))
     hist = self_history(bank, daily, eps_path)
     if bank.ed >= 7:
+        if frozen and not frozen.get("used_quarter"):   # 통과한 분기가 없다 — RIM·P/TBV 기권
+            r = {"abstain": "관문을 통과한 분기가 최근 8분기 안에 없음"}
+            hist["ptbv"] = None
         if r.get("L") and (date.fromisoformat(asof) - date.fromisoformat(r["L"])).days > 200:   # 11-6: 갱신이 200일 넘게 멈추면 RIM도 기권(8-3의 P/TBV와 같은 기준, Fable 2차)
             r = {"abstain": f"재무 기준 분기 {r['L']}가 200일 넘게 낡음(관문 정지)"}
         r["reference_only"] = False
