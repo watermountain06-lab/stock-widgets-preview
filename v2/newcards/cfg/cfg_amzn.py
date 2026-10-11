@@ -122,3 +122,44 @@ one(f'<div class="stat-label">FCF ({QL})</div>\n      <div class="stat-value">$-
 # 동종업 툴팁 둘째 줄: 옛 카드 문장(PER 제외는 셋째 줄이 설명)
 h = h.replace('`\\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 PER를 뺀 4개를 평균했다.`', '`\\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼다.`', 1)
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {},
+   "members": {
+    "amzn:NorthAmericaSegmentMember": [
+     "북미",
+     "#ffb74d"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "amzn:AmazonWebServicesMember": [
+     "AWS",
+     "#3498db"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "해외",
+  "#8a6d3b",
+  0.2104
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# QoQ FCF 증감 문구: 둘 다 적자면 틀은 \'적자 지속\' — 옛 카드는 적자 폭이 준 것을 \'적자 축소\'로 적었다\nif fcf[cur] < 0 and fcf[qo] < 0 and fcf[cur] > fcf[qo]:\n    sub(r"(curLabel: \'" + QL + r"\', cmpLabel: \'" + C.QQL + r"\',.*?deltas: \\[[^\\]]*)\'적자 지속\'\\]", lambda m_: m_.group(1) + "\'적자 축소\']")', '# 음수 FCF 칸\none(f\'<div class="stat-label">FCF ({QL})</div>\\n      <div class="stat-value">$-\', f\'<div class="stat-label">FCF ({QL})</div>\\n      <div class="stat-value">−$\')', '# 동종업 툴팁 둘째 줄: 옛 카드 문장(PER 제외는 셋째 줄이 설명)\nh = h.replace(\'`\\\\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 PER를 뺀 4개를 평균했다.`\', \'`\\\\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼다.`\', 1)']

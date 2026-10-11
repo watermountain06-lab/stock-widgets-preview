@@ -99,3 +99,65 @@ BEAR = [('GAAP 이익', '2분기 무형자산 손상 $4.3B로 순손실.'),
         ('코로나 제품', 'Comirnaty·Paxlovid 매출 감소가 이어짐.')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 20, 'mean': 29.19, 'median': 29, 'low': 25, 'high': 36, 'sb': 8, 'b': 2, 'h': 16, 's': 1, 'ss': 1}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "us-gaap:ReportingUnitAxis": "pfe:OncologyMember"
+   },
+   "members": {
+    "pfe:BiopharmaSegmentMember": [
+     "항암",
+     "#a78bfa"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:ReportingUnitAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "pfe:BiopharmaSegmentMember"
+   },
+   "members": {
+    "pfe:PrimaryCareMember": [
+     "1차 진료(Eliquis·Prevnar 등)",
+     "#0093d0"
+    ],
+    "pfe:SpecialtyCareMember": [
+     "전문 진료(Vyndaqel 등)",
+     "#22c55e"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "us-gaap:ReportingUnitAxis": "pfe:SpecialtyCareMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "pfe:BiopharmaSegmentMember"
+   },
+   "members": {
+    "pfe:VyndaqelMember": [
+     "기타(병원·위탁생산 등)",
+     "#94a3b8"
+    ],
+    "pfe:XeljanzMember": [
+     "기타(병원·위탁생산 등)",
+     "#94a3b8"
+    ]
+   }
+  }
+ ]
+}

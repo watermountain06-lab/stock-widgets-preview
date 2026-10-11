@@ -99,3 +99,86 @@ BEAR = [('휴대폰', '휴대폰 칩 매출 −20%(메모리 공급 부족), 매
         ('희석', 'Alphawave·Modular 인수에 주식 약 2,900만 주 발행, 아마존 워런트 최대 2,500만 주(375만 주 베스팅).')]
 ANALYST = {'rating': 'Hold', 'n': 37, 'nt': 31, 'mean': 197.9, 'median': 180, 'low': 100, 'high': 400, 'sb': 9, 'b': 2, 'h': 23, 's': 2, 'ss': 1}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "qcom:QtlMember": [
+     "QTL 라이선스",
+     "#a78bfa"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:MaterialReconcilingItemsMember"
+   },
+   "members": {
+    "us-gaap:AllOtherSegmentsMember": [
+     "기타(QGOV·데이터센터)",
+     "#94a3b8"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "qcom:IoTMember"
+   },
+   "members": {
+    "qcom:QctMember": [
+     "QCT IoT",
+     "#f59e0b"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "qcom:HandsetsMember"
+   },
+   "members": {
+    "qcom:QctMember": [
+     "QCT 휴대폰",
+     "#3253dc"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "qcom:AutomotiveMember"
+   },
+   "members": {
+    "qcom:QctMember": [
+     "QCT 자동차",
+     "#22c55e"
+    ]
+   }
+  }
+ ]
+}

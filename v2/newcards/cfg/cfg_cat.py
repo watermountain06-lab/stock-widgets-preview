@@ -68,3 +68,71 @@ one('2025년 말 $98.6B(전년 $87.8B) · 연간 지표</span>', '2025년 말 $9
 one('<canvas id="catRevChart"></canvas>\n    </div>\n', '<canvas id="catRevChart"></canvas>\n    </div>\n'
     '    <div class="yoy-footnote" style="margin-top:8px;">매출은 기계·동력·에너지 판매 + 금융 부문 수익이다. 2분기 매출 $20.5B는 회사 첫 분기 $20B 돌파다(보도자료). 2025년 4분기 영업이익률이 낮은 것은 관세로 늘어난 제조원가와 구조조정 비용 때문이고, 2026년 2분기 영업이익에는 IEEPA 관세 환급 예상분 $392M이 들어 있다(빼면 영업이익률 19.0%). 회사가 낸 IEEPA 관세는 약 $1.0B였고 그중 $392M만 환급으로 잡았다(10-Q).</div>\n')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "cat:PowerEnergyMember"
+   },
+   "members": {
+    "cat:OperatingSegmentsExcludingIntersegmentEliminationMember": [
+     "동력·에너지(발전·엔진)",
+     "#3498db"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "cat:ResourceIndustriesMember"
+   },
+   "members": {
+    "cat:OperatingSegmentsExcludingIntersegmentEliminationMember": [
+     "광산 장비",
+     "#e67e22"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "cat:FinancialProductsMember": [
+     "금융(Cat Financial)",
+     "#9b59b6"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "cat:OperatingSegmentsExcludingIntersegmentEliminationMember"
+   },
+   "members": {
+    "cat:ConstructionIndustriesMember": [
+     "건설 장비",
+     "#ffcd11"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = []

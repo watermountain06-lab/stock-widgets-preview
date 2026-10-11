@@ -206,6 +206,17 @@ if QL != 'Q2 FY27':
     one('<span id="fundPeriodTitle">YoY (Q2 FY27 vs Q2 FY26)</span>', f'<span id="fundPeriodTitle">YoY ({QL} vs {C.YL})</span>')
 SEG = C.SEG
 tot = sum(v for _, v, _ in SEG)
+if AUTO and abs(tot + C.SEG_ADJ - rev[cur] / 1e6) > 1.5:
+    # 카드가 쓰는 매출이 엔진 매출과 다른 카드(CVX 총수익 = 판매 + 지분법·기타 수익, WMT 회비 포함 총수익) — 차이를 조정에 넣되,
+    # 사람이 확인한 조정값(cfg SEG_ADJ: CVX 2,881·WMT 1,837)과 같은 부호로 0.5~1.5배일 때만(2026-10-11)
+    _d = rev[cur] / 1e6 - tot - C.SEG_ADJ
+    _h = getattr(C, '_SEG_ADJ_HAND', 0) or 0
+    _want = C.SEG_ADJ + _d
+    if not (_h and _want * _h > 0 and 0.5 * abs(_h) <= abs(_want) <= 1.5 * abs(_h)):
+        raise SystemExit(f'{T}: 부문 합 {tot:,} + 조정 {C.SEG_ADJ:,}이 카드 매출 {rev[cur] / 1e6:,.0f}와 맞지 않는다 — SEG_MAP 확인')
+    _old_note = _ac.adj_note(C)
+    C.SEG_ADJ = round(_want)
+    C.SEG_NOTE = _ac.adj_note(C) + (C.SEG_NOTE[len(_old_note):] if _old_note and C.SEG_NOTE.startswith(_old_note) else C.SEG_NOTE)   # 각주의 조정 설명도 새 값으로(Codex)
 assert abs(tot + C.SEG_ADJ - rev[cur] / 1e6) <= 1.5, (tot, C.SEG_ADJ, rev[cur])
 leg = ''.join(f'\n          <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text2);white-space:nowrap;"><span style="width:8px;height:8px;border-radius:50%;background:{c};display:inline-block;flex-shrink:0;"></span>{n} <strong style="color:var(--text);">${v / 1000:.2f}B · {v / tot * 100:.1f}%</strong></div>' for n, v, c in SEG)
 sub(r'<div class="card-title">매출 구성 — Market Platform.*?</div>\n\n      <div style="display:flex;align-items:center;justify-content:center;gap:20px;">.*?\n      </div>\n\n      <div class="yoy-footnote" style="margin-top:14px;">.*?</div>',
@@ -486,6 +497,12 @@ _pbr_gap = '자본 음수·결측' if getattr(C, 'PBR_GAP_NEG_EQUITY', True) els
 h = h.replace("`유효 이력 ${(m.days / 252).toFixed(1)}년(적자·결측 구간 제외)`", "`유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '" + _pbr_gap + "' : '적자·결측'} 구간 제외)`")
 # 활동성 — 분기 매입채무가 없는 카드(DPO·CCC null): ABBV 카드 한정 패치를 공통으로(PEP에서 null.toFixed로 스크립트 전체가 멈췄다, Codex·Fable 2026-10-01)
 _ACT = re.search(rf'^const {T}_ACTIVITY = (\{{.*?\}});', h, re.M)
+if AUTO and _ACT and not (json.loads(_ACT.group(1)).get('now') or {}):
+    # 활동성을 계산하지 못한 카드(판정 보류·자료 끊김) — 접힌 세부 칸에 틀(NVDA)의 숫자가 남지 않게 사유 문장으로(GOOGL·MCD·UNH·CB, Fable)
+    _why = json.loads(_ACT.group(1)).get('reason') or '계산할 수 없다'
+    h = re.sub(r'    <div class="activity-grid">.*?<div class="tl-ccc-span"[^>]*></div>\n      </div>\n    </div>',
+               lambda m_: f'    <div style="font-size:12px;color:var(--text2);line-height:1.7;">회전율·회전기간을 계산하지 않는다 — {_why}.</div>',
+               h, count=1, flags=re.S)
 if _ACT and (json.loads(_ACT.group(1)).get('now') or {}).get('dpo', 0) is None:
     one("  const d1 = v => v.toFixed(1);\n  const cmp = k => {", "  const d1 = v => v == null ? '—' : v.toFixed(1);   // 분기 매입채무 미공시면 dpo·ccc가 null\n  const cmp = k => {")
     one("document.querySelectorAll('[data-act-days]').forEach(el => { el.textContent = d1(A.now[el.dataset.actDays]) + '일'; });",

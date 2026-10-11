@@ -129,3 +129,129 @@ one("분기 매입채무를 따로 공시하지 않아 외상으로 버티는 �
 # 동종업 평균 설명(본업 PER·PBR 제외 사유)
 one('뒤집어 점수로 썼고 PER·PBR를 뺀 3개를 평균했다.', '뒤집어 점수로 썼고, 본업 PER과 PBR(자본 음수라 해당 없음)을 뺀 세 개를 평균했다.')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄), AVGO·UNH·PG·ABBV·COST는 공시 항목에 맞춰 직접 연결 ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "abbv:KeyProductPortfolioAxis": "abbv:ImmunologyMember"
+   },
+   "members": {
+    "abbv:SKYRIZIMember": [
+     "면역(스카이리치·린보크·휴미라)",
+     "#5d87cf"
+    ],
+    "abbv:RINVOQMember": [
+     "면역(스카이리치·린보크·휴미라)",
+     "#5d87cf"
+    ],
+    "abbv:HUMIRAMember": [
+     "면역(스카이리치·린보크·휴미라)",
+     "#5d87cf"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "abbv:KeyProductPortfolioAxis": "abbv:NeuroscienceMember"
+   },
+   "members": {
+    "abbv:VraylarMember": [
+     "신경과학",
+     "#3498db"
+    ],
+    "abbv:BotoxTherapeuticMember": [
+     "신경과학",
+     "#3498db"
+    ],
+    "abbv:UbrelvyMember": [
+     "신경과학",
+     "#3498db"
+    ],
+    "abbv:QuliptaMember": [
+     "신경과학",
+     "#3498db"
+    ],
+    "abbv:VyalevMember": [
+     "신경과학",
+     "#3498db"
+    ],
+    "abbv:OtherNeuroscienceMember": [
+     "신경과학",
+     "#3498db"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "abbv:KeyProductPortfolioAxis": "abbv:OncologyMember"
+   },
+   "members": {
+    "abbv:VENCLEXTAMember": [
+     "항암",
+     "#7fb3e6"
+    ],
+    "abbv:ImbruvicaMember": [
+     "항암",
+     "#7fb3e6"
+    ],
+    "abbv:ElahereMember": [
+     "항암",
+     "#7fb3e6"
+    ],
+    "abbv:EpkinlyMember": [
+     "항암",
+     "#7fb3e6"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "abbv:KeyProductPortfolioAxis": "abbv:AestheticsMember"
+   },
+   "members": {
+    "abbv:BotoxCosmeticMember": [
+     "미용(보톡스 등)",
+     "#f7b600"
+    ],
+    "abbv:JuvedermCollectionMember": [
+     "미용(보톡스 등)",
+     "#f7b600"
+    ],
+    "abbv:OtherAestheticsMember": [
+     "미용(보톡스 등)",
+     "#f7b600"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "기타",
+  "#8a8fa8",
+  0.1203
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 매입채무 미공시 설명: ABBV는 매입채무를 미지급 리베이트와 합산\none("분기 매입채무를 따로 공시하지 않아 외상으로 버티는 기간과", "분기 매입채무를 따로 공시하지 않아(미지급 리베이트와 합산) 외상으로 버티는 기간과")', "# 동종업 평균 설명(본업 PER·PBR 제외 사유)\none('뒤집어 점수로 썼고 PER·PBR를 뺀 3개를 평균했다.', '뒤집어 점수로 썼고, 본업 PER과 PBR(자본 음수라 해당 없음)을 뺀 세 개를 평균했다.')"]
+# 치료 분야 묶음은 그 분야 제품 전부를 한 줄로(신제품도 자동으로 그 분야에, Codex 2026-10-11)
+for _p in SEG_MAP["parts"]:
+    _p["all_as"] = list(next(iter(_p["members"].values())))

@@ -116,3 +116,27 @@ h = h.replace(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)', f'{C.CO} {QL} 실적
 # 총자산증가율 메모(옛 카드 표기)
 one(f'<span class="diag-note">{C.FY_LABEL} 말 ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표</span>', f'<span class="diag-note">FY25 ${a1 / 1000:.1f}B(전기 ${a0 / 1000:.1f}B) · 연간 지표, FY26 마감 전까지 동일</span>')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄), AVGO·UNH·PG·ABBV·COST는 공시 항목에 맞춰 직접 연결 ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {},
+ "members": {
+  "avgo:SemiconductorSolutionsMember": [
+   "반도체 솔루션",
+   "#f63a5f"
+  ],
+  "avgo:InfrastructureSoftwareMember": [
+   "인프라 소프트웨어",
+   "#3498db"
+  ]
+ },
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['\n# 역산 문장: 성장 모드는 틀이 빈칸(—)으로 둔다 — 옛 카드의 문장 틀(값은 카드 JS가 data-dcf-* 칸에 채운다)\none(\'<div class="reverse">—</div>\', \'<div class="reverse">지금 가격(<span data-dcf-price>$\' + f\'{px:.2f}\' + \'</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>\' + pct(DCF[\'requiredGrowth\']) + \'</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$\' + f"{DCF[\'base\']:.0f}" + \'</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>\' + pct(DCF[\'baseEquivGrowth\']) + \'</span>다.</div>\')', "# 각주 링크 이름(옛 카드: 실적발표 원문)\nassert h.count(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)') == 2\nh = h.replace(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)', f'{C.CO} {QL} 실적발표 원문 (SEC 8-K)')"]

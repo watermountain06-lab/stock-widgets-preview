@@ -130,3 +130,93 @@ one('NYSE · 에너지 · 통합 석유·가스 메이저</span>', 'NYSE · 에�
 one('<canvas id="xomRevChart"></canvas>\n    </div>\n', '<canvas id="xomRevChart"></canvas>\n    </div>\n'
     '    <div class="yoy-footnote" style="margin-top:8px;">매출은 "총수익·기타수익"(판매 + 지분법 이익 + 기타수익)이다. 영업이익 줄이 없어 세전이익 + 이자비용으로 만들었다(지분법 이익은 영업에 포함). 1분기 순이익이 낮은 것은 파생상품 평가(타이밍 효과) −$3.9B 때문이다. 2분기에는 +$2.5B가 되돌았고, 손상 $1.1B·재무 충당금 $1.4B 등 일회성 −$2.6B가 들어갔다.</div>\n')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:StatementGeographicalAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "xom:SalesAndOtherOperatingRevenueMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "xom:EnergyProductsMember"
+   },
+   "members": {
+    "country:US": [
+     "에너지 제품(정제·연료)",
+     "#e31937"
+    ],
+    "us-gaap:NonUsMember": [
+     "에너지 제품(정제·연료)",
+     "#e31937"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:StatementGeographicalAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "xom:SalesAndOtherOperatingRevenueMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "xom:ChemicalProductsMember"
+   },
+   "members": {
+    "country:US": [
+     "화학 제품",
+     "#3498db"
+    ],
+    "us-gaap:NonUsMember": [
+     "화학 제품",
+     "#3498db"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:StatementGeographicalAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "xom:SalesAndOtherOperatingRevenueMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "xom:UpstreamMember"
+   },
+   "members": {
+    "country:US": [
+     "업스트림(원유·가스)",
+     "#0c479d"
+    ],
+    "us-gaap:NonUsMember": [
+     "업스트림(원유·가스)",
+     "#0c479d"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:StatementGeographicalAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "xom:SalesAndOtherOperatingRevenueMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "xom:SpecialtyProductsMember"
+   },
+   "members": {
+    "country:US": [
+     "특수 제품(윤활유 등)",
+     "#f7b600"
+    ],
+    "us-gaap:NonUsMember": [
+     "특수 제품(윤활유 등)",
+     "#f7b600"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 회사 이름: 7/1 재편 뒤 상장사는 새 지주사\none(\'<div class="company-name">Exxon Mobil Corporation</div>\', \'<div class="company-name">ExxonMobil Holdings Corporation</div>\')', '# 역산 문장: 성장 모드 카드는 틀의 정적 문장을 JS가 숫자만 바꾼다 — fill.py가 \'—\'로 비운 것을 되살린다(공통 후보, MSFT와 같음)\none(\'<div class="reverse">—</div>\', f\'<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.</div>\')', "# 헤더 부제(텍사스 지주사 재편)\none('NYSE · 에너지 · 통합 석유·가스 메이저</span>', 'NYSE · 에너지 · 통합 석유·가스 메이저 · 2026-07-01 텍사스 지주사(ExxonMobil Holdings)로 재편</span>')"]

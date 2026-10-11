@@ -96,3 +96,76 @@ BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배(5년 중앙값 {SM[\'P
         ('이익', 'FY2025 EPS $18.50로 FY2024 $25.62에서 28% 줄었다.')]
 ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 19, 'mean': 695.63, 'median': 728, 'low': 500, 'high': 813, 'sb': 11, 'b': 5, 'h': 9, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "us-gaap:ProductMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "de:ConstructionAndForestrySegmentMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "건설·임업",
+     "#94a3b8"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "de:SmallAgricultureAndTurfSegmentMember"
+   },
+   "members": {
+    "us-gaap:ProductMember": [
+     "소형 농업·잔디",
+     "#ffde00"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "us-gaap:FinancialServiceMember": [
+     "금융·기타 수익",
+     "#5aa9e6"
+    ],
+    "de:OtherMember": [
+     "금융·기타 수익",
+     "#5aa9e6"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+    "srt:ProductOrServiceAxis": "us-gaap:ProductMember"
+   },
+   "members": {
+    "de:ProductionAndPrecisionAgricultureSegmentMember": [
+     "생산·정밀 농업",
+     "#367c2b"
+    ]
+   }
+  }
+ ]
+}

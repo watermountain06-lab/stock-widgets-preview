@@ -124,3 +124,30 @@ h = h.replace('GAAP 기준 · FCF는 영업현금흐름', 'GAAP 기준 · ' + C.
 # 총자산증가율 메모 꼬리
 one("(전년 $298.3B) · 연간 지표</span>", "(전년 $298.3B) · 연간 지표, 2026년 마감 전까지 동일</span>")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄), AVGO·UNH·PG·ABBV·COST는 공시 항목에 맞춰 직접 연결 ──
+AUTO = True
+SEG_MAP = {
+ "concepts": [
+  "us-gaap:Revenues"
+ ],
+ "axis": "us-gaap:StatementBusinessSegmentsAxis",
+ "extra": {
+  "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+ },
+ "members": {
+  "unh:UnitedhealthcareMember": [
+   "유나이티드헬스케어(메디케어·메디케이드·고용주)",
+   "#1d4ed8"
+  ]
+ },
+ "remainder": [
+  "옵텀(그룹 밖 매출)",
+  "#f7b600",
+  0.2322
+ ],
+ "ignore": []
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['\n# 현재가 역산 문장(성장 모드)\none(\'<div class="reverse">—</div>\', \'<div class="reverse">\' + F(C.REVERSE) + \'</div>\')']

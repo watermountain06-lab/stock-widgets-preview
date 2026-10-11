@@ -118,3 +118,62 @@ one('NYSE · 에너지 · 통합 석유·가스 메이저</span>', 'NYSE · 에�
 one('<canvas id="cvxRevChart"></canvas>\n    </div>\n', '<canvas id="cvxRevChart"></canvas>\n    </div>\n'
     '    <div class="yoy-footnote" style="margin-top:8px;">매출은 "총수익·기타수익"(판매 + 지분법 이익 + 기타수익)이다. 영업이익 줄이 없어 세전이익 + 이자비용으로 만들었다(텡기즈셰브로일 등 지분법 이익은 영업에 포함). 1분기 순이익이 낮은 것은 파생상품·재고평가 타이밍 효과(약 −$2.9B)와 법적 충당금(−$0.36B) 때문이다. 2분기에는 Brent 평균 $104로 유가가 뛰었고 타이밍 효과 +$1.4B가 되돌았다.</div>\n')
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:StatementGeographicalAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "cvx:UpstreamSegmentMember"
+   },
+   "members": {
+    "us-gaap:NonUsMember": [
+     "업스트림 해외",
+     "#da291c"
+    ],
+    "country:US": [
+     "업스트림 미국",
+     "#f7b600"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:StatementGeographicalAxis": "us-gaap:NonUsMember"
+   },
+   "members": {
+    "cvx:DownstreamSegmentMember": [
+     "다운스트림 해외",
+     "#0054a4"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:StatementGeographicalAxis": "country:US"
+   },
+   "members": {
+    "cvx:DownstreamSegmentMember": [
+     "다운스트림 미국",
+     "#3498db"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ["# 헤더 부제(Hess 인수 시점)\none('NYSE · 에너지 · 통합 석유·가스 메이저</span>', 'NYSE · 에너지 · 통합 석유·가스 메이저 · 2025-07 Hess 인수</span>')"]

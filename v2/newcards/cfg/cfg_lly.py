@@ -123,3 +123,58 @@ one('<div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30
 one("  const usd = v => '$' + (Number.isInteger(v) ? v : v.toFixed(2));", "  const usd = v => v == null ? '—' : '$' + (Number.isInteger(v) ? v.toLocaleString('en-US') : v.toFixed(2));")
 sub(r'(?<=자본배분 · 주주환원 \(2026년 상반기 · 2026\.06\.30 기준\)</div>\n)      <div class="zone-list">\n.*?\n      </div>\n(?=    </div>\n  </div>\n\n  <!-- ══════════ 6\.)', F(C.CAPITAL_ZONES))
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "srt:StatementGeographicalAxis": "us-gaap:NonUsMember"
+   },
+   "members": {
+    "lly:ZepboundMember": [
+     "기타 핵심 제품 6종",
+     "#f0c040"
+    ],
+    "lly:TrulicityMember": [
+     "기타 핵심 제품 6종",
+     "#f0c040"
+    ],
+    "lly:OtherOncologyMember": [
+     "기타 핵심 제품 6종",
+     "#f0c040"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "lly:MounjaroMember": [
+     "Mounjaro",
+     "#d52b1e"
+    ],
+    "lly:ZepboundMember": [
+     "Zepbound",
+     "#f07b72"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "그 밖의 제품",
+  "#94a3b8",
+  0.3164
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['\n# 현재가 역산 문장(성장 모드)\none(\'<div class="reverse">—</div>\', \'<div class="reverse">\' + F(C.REVERSE) + \'</div>\')', '# 애널리스트 중앙값 미공개(null) — 옛 카드의 null 안전·천 단위 쉼표 usd(카드 한정)\none("  const usd = v => \'$\' + (Number.isInteger(v) ? v : v.toFixed(2));", "  const usd = v => v == null ? \'—\' : \'$\' + (Number.isInteger(v) ? v.toLocaleString(\'en-US\') : v.toFixed(2));")\nsub(r\'(?<=자본배분 · 주주환원 \\(2026년 상반기 · 2026\\.06\\.30 기준\\)</div>\\n)      <div class="zone-list">\\n.*?\\n      </div>\\n(?=    </div>\\n  </div>\\n\\n  <!-- ══════════ 6\\.)\', F(C.CAPITAL_ZONES))']

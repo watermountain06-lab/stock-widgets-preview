@@ -98,3 +98,54 @@ BEAR = [('밸류에이션', '다섯 배수 모두 5년 중 비싼 쪽.'),
         ('경기', '산업재 수요 회복에 의존.')]
 ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 17, 'mean': 1157.06, 'median': 1200, 'low': 850, 'high': 1358, 'sb': 16, 'b': 3, 'h': 6, 's': 0, 'ss': 1}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "ph:AerospaceSystemsSegmentMember"
+   },
+   "members": {
+    "ph:CommercialOriginalEquipmentManufacturerMember": [
+     "산업재 — 해외",
+     "#5a7fbf"
+    ],
+    "ph:CommercialAftermarketMember": [
+     "산업재 — 해외",
+     "#5a7fbf"
+    ],
+    "ph:DefenseOriginalEquipmentManufacturerMember": [
+     "산업재 — 해외",
+     "#5a7fbf"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "ph:AerospaceSystemsSegmentMember": [
+     "항공우주",
+     "#f59e0b"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "산업재 — 북미",
+  "#1f3f7a",
+  0.3859
+ ]
+}

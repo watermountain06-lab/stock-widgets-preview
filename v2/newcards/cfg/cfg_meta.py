@@ -130,3 +130,45 @@ one("el.textContent = dd > 0 ? (365 / dd).toFixed(2) + '회' : '해당 없음'; 
 h = h.replace('FCF는 영업현금흐름 − 설비투자 · ' + C.YOY_EXTRA, 'FCF는 영업현금흐름 − 설비투자' + C.YOY_EXTRA, 1)
 one(f"vs {C.QO.replace('-', '.')}({C.QQL}) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a", f"vs {C.QO.replace('-', '.')}({C.QQL}) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자" + C.YOY_EXTRA + "<a")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "meta:FamilyOfAppsMember"
+   },
+   "members": {
+    "us-gaap:AdvertisingMember": [
+     "광고",
+     "#1877F2"
+    ],
+    "us-gaap:ServiceOtherMember": [
+     "기타(앱 부문)",
+     "#f97316"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {},
+   "members": {
+    "meta:RealityLabsMember": [
+     "Reality Labs",
+     "#8a8fa8"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['one(\'<div class="reverse">—</div>\', \'<div class="reverse">\' + F(C.REVERSE) + \'</div>\')', '# 재고 없는 회사의 재고 회전율 칸: 틀의 \'재고 없음\'(2026-10-05 META Infinity회 수정)을 fill.py가 \'해당 없음\'으로 덮는다 — 옛 카드 문구로\none("el.textContent = dd > 0 ? (365 / dd).toFixed(2) + \'회\' : \'해당 없음\'; });", "el.textContent = dd > 0 ? (365 / dd).toFixed(2) + \'회\' : (el.dataset.actTurn === \'dio\' ? \'재고 없음\' : \'해당 없음\'); });")']

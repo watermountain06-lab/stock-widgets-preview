@@ -94,3 +94,50 @@ BEAR = [('대형 인수', 'SEGRO 약 £14.0B, 주식 발행.'),
         ('현금흐름 모델', '리츠라 일반 모델 값이 모두 음수.')]
 ANALYST = {'rating': 'Buy', 'n': 17, 'nt': 17, 'mean': 158, 'median': 160, 'low': 135, 'high': 170, 'sb': 7, 'b': 3, 'h': 7, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "pld:RentalRevenue"
+   ],
+   "axis": "srt:ConsolidatedEntitiesAxis",
+   "extra": {},
+   "members": {
+    "srt:PartnershipInterestMember": [
+     "임대 수익",
+     "#0067a5"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "pld:ManagementFeesRevenue"
+   ],
+   "axis": "srt:ConsolidatedEntitiesAxis",
+   "extra": {},
+   "members": {
+    "srt:PartnershipInterestMember": [
+     "운용 수익(전략 자본)",
+     "#5aa9e6"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "pld:OtherRealEstateRevenue"
+   ],
+   "axis": "srt:ConsolidatedEntitiesAxis",
+   "extra": {},
+   "members": {
+    "srt:PartnershipInterestMember": [
+     "개발 관리·기타",
+     "#f59e0b"
+    ]
+   }
+  }
+ ]
+}

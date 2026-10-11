@@ -111,3 +111,70 @@ one("""    const cpEnd = cp => cp.is_open
 one("`${cp.checkpoint_date} ~ ${cp.is_open ? '진행 중' : (cp.period_end_date || '')}`",
     "`${cp.checkpoint_date} ~ ${cp.is_open ? '2026-08-05(8/6부터 최근 4분기 EPS 음수 — 밴드 없음)' : (cp.period_end_date || '')}`")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "srt:StatementGeographicalAxis": "gild:RestOfWorldMember"
+   },
+   "members": {
+    "us-gaap:ProductMember": [
+     "항암(Trodelvy·세포치료)",
+     "#a78bfa"
+    ],
+    "gild:HIVProductsDescovyMember": [
+     "기타 제품(Veklury 포함)",
+     "#94a3b8"
+    ],
+    "gild:HIVProductsOdefseyMember": [
+     "기타 제품(Veklury 포함)",
+     "#94a3b8"
+    ],
+    "gild:LiverDiseaseProductsVemlidyMember": [
+     "기타 제품(Veklury 포함)",
+     "#94a3b8"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:StatementGeographicalAxis",
+   "extra": {},
+   "members": {
+    "gild:RestOfWorldMember": [
+     "간질환",
+     "#f59e0b"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "gild:HIVProductSalesMember": [
+     "HIV",
+     "#c4122f"
+    ],
+    "gild:RoyaltyContractAndOtherMember": [
+     "로열티·계약 수익",
+     "#5aa9e6"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['\n# A3·C9(2026-10-04) 카드 직접 수정 — 동종업 툴팁의 평균 문장\none(\'뒤집어 점수로 썼고 PER를 뺀 4개를 평균했다.\', \'뒤집어 점수로 썼고, PER은 해당 없음(순이익률 2% 미만)이라 빼고 나머지 네 개를 평균했다.\')\none("    const end = cp.is_open ? lastDate : (cp.period_end_date || lastDate);",\n    "    const end = cp.is_open ? (lastDate > \'2026-08-05\' ? \'2026-08-05\' : lastDate) : (cp.period_end_date || lastDate);   // 8/6부터 최근 4분기 EPS 음수 — 밴드 무의미(카드 한정, Codex)")\none("""    const cpEnd = cp => cp.is_open\n      ? dataDates[dataDates.length-1]""", """    const cpEnd = cp => cp.is_open\n      ? (dataDates[dataDates.length-1] > \'2026-08-05\' ? \'2026-08-05\' : dataDates[dataDates.length-1])   // 차트도 8/5에서 끊는다(카드 한정, Codex 2차)""")\none("`${cp.checkpoint_date} ~ ${cp.is_open ? \'진행 중\' : (cp.period_end_date || \'\')}`",\n    "`${cp.checkpoint_date} ~ ${cp.is_open ? \'2026-08-05(8/6부터 최근 4분기 EPS 음수 — 밴드 없음)\' : (cp.period_end_date || \'\')}`")']

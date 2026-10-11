@@ -69,3 +69,56 @@ sub(r'(<span style="font-size:11px;color:var\(--accent\);font-weight:600;">)[^<]
 one('<div class="card-title">자본배분 · 주주환원 (Q2 FY27 · 2026.07.31 기준)</div>', '<div class="card-title">자본배분 · 주주환원 (FY27 상반기 · 2026.07.31 기준)</div>')
 '''
 ]
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "wmt:WalmartInternationalMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "Walmart International",
+     "#ffc220"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "wmt:WalmartUSMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "Walmart U.S.",
+     "#0071ce"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {},
+   "members": {
+    "wmt:SamsClubUSMember": [
+     "Sam's Club U.S.",
+     "#3498db"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['sub(r\'(<span style="font-size:11px;color:var\\(--accent\\);font-weight:600;">)[^<]*(</span>)\', lambda m: m.group(1) + \'NASDAQ(2025.12.09 NYSE에서 이전) · 필수소비재 · 대형 유통 · 1월 말 결산\' + m.group(2))']

@@ -187,6 +187,15 @@ def latest_dps(cik, cur):
     return best or (None, None, None, None)
 
 
+def adj_note(C):
+    """부문 합과 매출의 차이 설명(TMO 부문 간 거래, CVX 지분법·기타 수익) — fill.py가 매출 기준을 다시 맞춘 뒤에도 부른다(Codex)."""
+    seg_sum = sum(v for _, v, _ in C.SEG)
+    if abs(C.SEG_ADJ) < 0.01 * max(seg_sum, 1):
+        return ""
+    return (f"부문 합 ${seg_sum / 1000:.2f}B에 부문 간 거래·조정 {'−' if C.SEG_ADJ < 0 else '+'}${abs(C.SEG_ADJ) / 1000:.2f}B를 더한 것이 매출이다"
+            "(비율은 부문 합 기준) · ")
+
+
 def apply(C, T):
     cik = str(C.CIK).zfill(10)
     r = qa.resolve(T)   # 기준표 날짜까지 접수된 자료로
@@ -206,12 +215,36 @@ def apply(C, T):
     M = getattr(C, "SEG_MAP", None)
     if not M:
         raise SystemExit(f"{T}: SEG_MAP이 없다 — 부문 지도를 먼저 만들 것")
-    cur_v = sx.quarter_values(M, form, C.TENQ, C.CUR, q3_url=q3, q3_end=C.QO)
+    # 여러 축을 섞은 손 표(GOOGL 제품별 + Cloud 사업부)는 parts로 — 묶음마다 값을 꺼내 한 표로(2026-10-11)
+    parts = M.get("parts") or [M]
+    def vals_at(end, kform, q3u, q3e):
+        out = {}
+        for i_, P_ in enumerate(parts):   # 묶음마다 같은 멤버 이름이 나온다(AMGN 미국·해외 모두 ProductSales) — 묶음 번호로 구분
+            v_ = sx.quarter_values(P_, kform, C.TENQ, end, q3_url=q3u, q3_end=q3e)
+            if P_.get("all_as"):   # 이 묶음의 멤버는 모두 한 줄로(ABBV 치료 분야 — 신제품도 그 분야로)
+                P_ = {**P_, "members": {k_: tuple(P_["all_as"]) for k_ in v_}}
+            unknown = set(v_) - set(P_["members"]) - set(P_.get("ignore", [])) - set(P_.get("adjust", []))
+            if unknown and P_.get("strict"):   # 묶음 전체를 쓰는 지도만 — 여러 축 지도는 원래 묶음에서 일부만 고른다(WMT·CAT) — 새 멤버면 멈춘다(Codex)
+                raise ValueError(f"지도에 없는 부문 {sorted(unknown)} — SEG_MAP에 더할 것")
+            parts[i_] = P_
+            for k_ in P_["members"]:
+                if k_ not in v_:
+                    raise ValueError(f"부문 {k_}의 값이 없다(부문 재편?)")
+                out[f"{i_}|{k_}" if len(parts) > 1 else k_] = v_[k_]
+            for k_ in P_.get("adjust", []):
+                if k_ in v_:
+                    out[k_] = v_[k_]
+        return out
+    parts = [dict(P_) for P_ in parts]
+    cur_v = vals_at(C.CUR, form, q3, C.QO)
+    Mall = {"members": {(f"{i_}|{k_}" if len(parts) > 1 else k_): v_ for i_, P_ in enumerate(parts) for k_, v_ in P_["members"].items()},
+            "ignore": [], "adjust": M.get("adjust", []), "other": M.get("other")}
     if is_q4:
         yo_q3 = ends[ends.index(C.YO) - 1]
-        yo_v = sx.quarter_values(M, "10-K", C.TENQ, C.YO, q3_url=q3, q3_end=yo_q3)
+        yo_v = vals_at(C.YO, "10-K", q3, yo_q3)
     else:
-        yo_v = sx.quarter_values(M, "10-Q", C.TENQ, C.YO)
+        yo_v = vals_at(C.YO, "10-Q", None, None)
+    M = Mall
     ref_adj = abs(getattr(C, "SEG_ADJ", 0) or 0)   # 사람이 확인해 둔 본사·상계 조정의 크기(cfg 원래 값) — 허용 범위의 기준
     C._SEG_ADJ_HAND = getattr(C, "SEG_ADJ", 0) or 0
     C.SEG, C.SEG_ADJ = sx.table(M, cur_v)
@@ -226,10 +259,27 @@ def apply(C, T):
         # 큰 조정값이 있다고 아무 차이나 받아들이지 않게(Codex 2026-10-10)
         orig = getattr(C, "_SEG_ADJ_HAND", 0)
         near_ref = orig and resid * orig > 0 and 0.5 * abs(orig) <= abs(resid) <= 1.5 * abs(orig)
-        if abs(resid) > 0.03 * _rev[C.CUR] / 1e6 and not near_ref:
+        rem = getattr(C, "SEG_MAP", {}).get("remainder")
+        if not rem and abs(resid) > 0.03 * _rev[C.CUR] / 1e6 and not near_ref:   # 나머지 줄이 있으면 그 검사(비중)를 아래에서
             raise SystemExit(f"{T}: 부문 합이 매출과 {resid:,.0f}백만 달러 다르다 — SEG_MAP 확인")
-        C.SEG_ADJ = round(C.SEG_ADJ + resid)
-    yo_tab = {n: v for n, v, _ in sx.table(M, yo_v)[0]} if yo_v else {}
+        if rem:   # 손 표의 "기타" 줄 = 매출 − 나머지 부문(AMAT·HD·META 등) — 비중이 손 표 때의 절반~2배를 벗어나면 멈춘다
+            share = resid / (_rev[C.CUR] / 1e6)
+            if resid < 0 or not (0.5 * rem[2] <= share <= 2 * rem[2] or abs(resid) < 0.005 * _rev[C.CUR] / 1e6):
+                raise SystemExit(f"{T}: 나머지 줄 '{rem[0]}' 비중 {share:.1%}가 손 표 때({rem[2]:.1%})와 너무 다르다 — SEG_MAP 확인")
+            C.SEG = sorted(C.SEG + [(rem[0], round(resid), rem[1])], key=lambda r_: -r_[1])
+            C._AUTO["rem_name"] = rem[0]
+        else:
+            C.SEG_ADJ = round(C.SEG_ADJ + resid)
+    # 1년 전 표는 그때의 멤버로 — 분야 전체 묶음(all_as)은 1년 전 호출에서 그 시점 제품으로 다시 채워졌다(단종 제품, Codex)
+    Myo = {**M, "members": {(f"{i_}|{k_}" if len(parts) > 1 else k_): v_ for i_, P_ in enumerate(parts) for k_, v_ in P_["members"].items()}}
+    Myo["members"] = {k_: v_ for k_, v_ in Myo["members"].items() if k_ in yo_v}
+    _yt = sx.table(Myo, yo_v) if yo_v else ([], 0)
+    yo_tab = {n: v for n, v, _ in _yt[0]}
+    _rem = getattr(C, "SEG_MAP", {}).get("remainder")
+    if _rem and C.YO in _rev:   # 1년 전 나머지 줄도 조정액을 빼고(Codex), 음수면 비교하지 않는다
+        _ry = round(_rev[C.YO] / 1e6 - sum(yo_tab.values()) - _yt[1])
+        if _ry >= 0:
+            yo_tab[_rem[0]] = _ry
     C._AUTO["seg_yo"] = yo_tab
     C.RELEASE = {}   # 보도자료 숫자는 쓰지 않는다 — 부문 합 = 매출 대조(fill.py)가 원문과 요약 자료를 잇는다
     C.OPM_RANGE = (-1000, 1000)
@@ -242,7 +292,7 @@ def apply(C, T):
     c = chg(e_cur, e_yo) if e_yo is not None else None
     if c is None and e_yo and e_yo > 0 and e_cur > 0:   # EPS 칸은 ±50%를 넘어도 증감을 적는다(Fable — CRM·TXN만 빠졌다)
         c = f"{(e_cur / e_yo - 1) * 100:+.0f}%".replace("-", "−")
-    core_note = " · 차트 순이익은 본업 기준" if T in json.load(open(os.path.join(V2, "core_earnings.json"))) else ""
+    core_note = " · 차트 순이익은 본업 기준(영업이익 + 순이자, 세후)" if T in json.load(open(os.path.join(V2, "core_earnings.json"))) else ""
     C.STAT3 = (f"희석 EPS ({C.QLABEL})", money(e_cur),
                "GAAP · " + (f"1년 전 {money(e_yo)} ({c})" if c else f"1년 전 {money(e_yo)}" if e_yo is not None else "1년 전 값 없음") + core_note)
 
@@ -261,8 +311,9 @@ def apply(C, T):
         dv_pref = dv is not None and dps is None   # 최근 1년 안의 보통주 주당 배당이 없으면 우선주 배당(BA는 과거 보통주 이력이 있다, Codex)
     C._AUTO["dv_weeks"] = round(dvd.days / 7) if dvd else None
     yo_q3 = ends[ends.index(C.YO) - 1]
-    C.CAPITAL = [(f"자사주 매입 ({span(bbd)})" if bb is not None else "자사주 매입", B(bb) if bb is not None else "공시 없음"),
-                 ((f"우선주 배당 ({span(dvd)})" if dv_pref else f"배당 지급 ({span(dvd)})") if dv is not None else "보통주 배당 지급", B(dv) if dv is not None else "없음"),
+    C.CAPITAL = [(f"자사주 매입 ({span(bbd)})" if bb is not None else "자사주 매입", (B(bb) if bb else "없음") if bb is not None else "공시 없음"),
+                 ((f"우선주 배당 ({span(dvd)})" if dv_pref else f"배당 지급 ({span(dvd)})") if dv is not None else "보통주 배당 지급",
+                  B(dv) if dv is not None else ("공시 없음" if dps is not None else "없음")),   # 주당 배당이 있는데 지급액이 없으면 결측(GOOGL, Fable)
                  ((f"최근 분기 주당 배당 ({dlabel}, {d(dps_end).month}/{d(dps_end).day} 분기)",
                    ("1년 전 " + usd(dps_yo) + (f" · {chg(dps, dps_yo)}" if chg(dps, dps_yo) else "")) if dps_yo else "1년 전 배당 없음",
                    usd(dps)) if dps is not None else ("분기 주당 배당", "보통주 배당 없음", "—"))]
@@ -274,9 +325,19 @@ def apply(C, T):
     sub = _submissions(cik)
     rel = [(sub["filingDate"][i], sub["accessionNumber"][i], sub["primaryDocument"][i]) for i, f in enumerate(sub["form"])
            if f == "8-K" and "2.02" in sub["items"][i].split(",")]
+    def is_results(x):   # 2.02항이라도 실적 보도자료만(ABBV는 분기 초에 IPR&D 선공시 8-K를 낸다, Fable)
+        p_ = os.path.join(SUBS, f"exhibit_{x[1]}.json")
+        if os.path.exists(p_) and "head" in json.load(open(p_)):   # 첫머리를 저장해 두고 판정은 매번(기준이 바뀌어도 다시 받지 않게)
+            return bool(na.RESULTS.search(json.load(open(p_))["head"][:400]))
+        try:
+            url_, head_ = na.exhibit(cik, x[1], x[2])
+        except Exception:
+            return True   # 확인 못 하면 예전처럼(첫 2.02)
+        json.dump({"url": url_, "head": head_[:400]}, open(p_, "w"))
+        return bool(na.RESULTS.search(head_[:400]))
     def first_release(after, within=80):
         c_ = sorted(x for x in rel if 0 < (d(x[0]) - d(after)).days <= within)
-        return c_[0] if c_ else None
+        return next((x for x in c_ if is_results(x)), None)
     cur_rel = first_release(C.CUR)
     if cur_rel:
         _ex = os.path.join(SUBS, f"exhibit_{cur_rel[1]}.json")   # 보도자료 주소는 접수번호마다 한 번만 찾는다
@@ -322,7 +383,7 @@ def texts(C, ns):
     same_len = abs(A["qlen"].get(cur, 91) - A["qlen"].get(yo, 91)) <= 5   # 흐름(yoy_at)과 같은 기준 — MU 14주 대 13주(7일)는 다르다(Fable)
     opm, opm_yo = op[cur] / rev[cur] * 100, op[yo] / rev[yo] * 100
     m5, m2, mn = H.get("margin_5y", 0) * 100, H.get("margin_2y", 0) * 100, H.get("margin_now", 0) * 100
-    g3 = H.get("growth_3y", 0) * 100
+    g3 = H["growth_3y"] * 100 if H.get("growth_3y") is not None else None   # 없으면 0으로 찍지 않는다(CB, Fable)
     _r = op[cur] / op[yo] - 1 if op[yo] > 0 else None
     odd_yo = op[yo] <= 0 or (_r is not None and abs(_r) > 0.5 and opm_yo < m5)   # 1년 전 분기 이익률이 낮아 이익 증감률이 크게 나온다 — 증감률 대신 수준
     r_rev = chg(rev[cur], rev[yo]) if same_len else None
@@ -381,11 +442,14 @@ def texts(C, ns):
     cand = []
     if r_rev:
         gv = float(r_rev.replace("−", "-").rstrip("%"))
-        cand.append(("매출", (gv - g3) / 3, f"{QL} 매출 {r_rev}(보고 기준" + (", 인수 포함" if A.get("acq") else "") + f", 3년 연평균 {g3:.1f}%)."))
+        if g3 is not None:
+            cand.append(("매출", (gv - g3) / 3, f"{QL} 매출 {r_rev}(보고 기준" + (", 인수 포함" if A.get("acq") else "") + f", 3년 연평균 {g3:.1f}%)."))
     if mn < 0:   # 영업적자는 강세 후보가 아니다(CRWD, Fable)
         cand.append(("마진", -1.0, f"최근 4분기 영업이익률 {mn:.1f}%(영업적자)."))
     else:
         cand.append(("마진", (mn - m5) / 2, f"최근 4분기 영업이익률 {mn:.1f}%(5년 중앙값 {m5:.1f}%)."))
+    if cur in fcf and fcf[cur] < 0:   # 최근 분기 FCF 음수(투자 부담) — 4분기 합만 보면 가려진다(GOOGL, Fable)
+        cand.append(("투자", -1.0, f"{QL} FCF {B(fcf[cur])}(설비투자 {B(capx.get(cur, 0))})."))
     if fcf_ok:
         fm = fcf_ttm / rev_ttm * 100
         cand.append(("현금", 1.0 if fm >= 10 else -1.0 if fm < 3 else 0, f"최근 4분기 FCF {B(fcf_ttm)}, 매출의 {fm:.1f}%."))
@@ -431,7 +495,8 @@ def texts(C, ns):
         C.BEAR = [("—", "기준을 넘는 약세 지표가 없다.")]
 
     # 다음 실적 체크포인트 — 숫자 기준이 있는 질문만
-    ck = [f"매출 증가율(1년 전 대비)이 최근 흐름({trend_txt})보다 낮아지지 않는지" if trend_txt else f"매출 증가율이 3년 연평균 {g3:.1f}% 안팎을 지키는지",
+    ck = [f"매출 증가율(1년 전 대비)이 최근 흐름({trend_txt})보다 낮아지지 않는지" if trend_txt else
+          (f"매출 증가율이 3년 연평균 {g3:.1f}% 안팎을 지키는지" if g3 is not None else f"매출 증가율({QL} {r_rev or '—'})이 이어지는지"),
           f"GAAP 영업이익률이 1년 전 같은 분기보다 높은지({QL} {opm:.1f}%, 1년 전 {opm_yo:.1f}%)",
 ]
     _dv_ann = (A["dv"] / max(1, A.get("dv_weeks") or 52) * 52) if A.get("dv") else None
@@ -457,19 +522,17 @@ def texts(C, ns):
             return c_ or "—"
         return f"{a / b_:.1f}배" if a / b_ >= 2 else f"{(a / b_ - 1) * 100:+.0f}%".replace("-", "−")
     segs = [f"{n} {segchg(v, yo_tab.get(n))}" for n, v, _ in C.SEG if n in yo_tab]
-    seg_sum = sum(v for _, v, _ in C.SEG)
-    adj_note = (f"부문 합 ${seg_sum / 1000:.2f}B에 부문 간 거래·조정 {'−' if C.SEG_ADJ < 0 else '+'}${abs(C.SEG_ADJ) / 1000:.2f}B를 더한 것이 매출이다(비율은 부문 합 기준) · "
-                if abs(C.SEG_ADJ) >= 0.01 * seg_sum else "")   # TMO(Fable)
-    C.SEG_NOTE = adj_note + ("1년 전 같은 분기보다 " + ", ".join(segs) + " · " if segs and same_len else "") + \
+    C.SEG_NOTE = adj_note(C) + ("1년 전 같은 분기보다 " + ", ".join(segs) + " · " if segs and same_len else "") + \
         f'출처: <a href="{C.TENQ}" target="_blank" rel="noopener">{C.TENQ_NAME} 부문 표 (SEC) →</a>'
     rows = {r["metric"]: r["value"] for ax in ns["FUND"]["axes"].values() for r in ax.get("rows", [])}
-    hn = f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}, 자본 {B(b.get('equity', 0))}."
+    hn = f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}, 자본 {B((b.get('equity') or 0))}."
+    extra_ = []
     if rows.get("currentRatio") is not None:
-        hn += f" 유동비율 {rows['currentRatio']:.0f}%"
+        extra_.append(f"유동비율 {rows['currentRatio']:.0f}%")
     if rows.get("interestCoverage") is not None:
         ic = rows["interestCoverage"]
-        hn += f", 이자보상배율 {ic:.1f}배" if abs(ic) < 10 else f", 이자보상배율 {ic:.0f}배"   # 칸 표시와 맞춘다, 10배 아래는 소수 한 자리(BA 0.26, Fable)
-    C.HEALTH_NOTE = hn + "."
+        extra_.append(f"이자보상배율 {ic:.1f}배" if abs(ic) < 10 else f"이자보상배율 {ic:.0f}배")   # 10배 아래는 소수 한 자리(BA 0.26, Fable)
+    C.HEALTH_NOTE = hn + (" " + ", ".join(extra_) + "." if extra_ else "")   # 유동비율 없을 때 '., ' 구두점(CB, Fable)
     C.FUND_TIP = f"점수는 {C.TENQ_NAME} 기준 재무로 계산했다."
     C.SELF_TIP = (f"{name[lead['metric']]} {lead['current']:.1f}배는 {span_y(lead.get('days'))} 분포의 하위 {lead.get('percentile', 0):.1f}%다(중앙값 {lead['median']:.1f}배)." if lead else "자기 이력 배수 분포 기준이다.")
     req = DCF.get("requiredMargin") if DCF.get("reqMode") == "margin" else None   # 0%도 해다 — is not None으로 본다(Codex)
@@ -484,6 +547,11 @@ def texts(C, ns):
         tail = f" 현재가를 정당화하려면 매출이 5년간 연 {DCF['requiredGrowth'] * 100:.1f}% 커야 한다."
     else:
         tail = ""
+    if DCF.get("unavailable"):   # 보험사 등 현금흐름 미적용 — 내재가치 문장을 쓰지 않는다(CB, Fable)
+        C.RISK = risk.replace(f" {dcf_txt}." if dcf_txt else "§", "")
+        C.DCF_NOTE = "이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다)."
+        C.PREMISE = C.PREMISE.split("<strong>")[0].rstrip()
+        return _finish(C)
     fin_debt = debt + lease - (b.get("op_lease") or 0)   # build_dcf와 같은 정의 — 운용리스는 영업비용이라 빼지 않는다(Codex)
     C.RISK = risk + tail + f" 내재가치에서 차입금" + ("·금융리스" if lease - (b.get("op_lease") or 0) > 0 else "") + f" {B(fin_debt)}를 빼고 현금·단기투자 {B(cash)}를 더한다."
     term = 0.025   # build_dcf 영구성장률 — 시나리오 성장은 이보다 낮으면 이 값으로 둔다(build_dcf.scenarios)
@@ -512,6 +580,10 @@ def texts(C, ns):
         C.DCF_NOTE = note
     else:
         C.DCF_NOTE = ""
+    return _finish(C)
+
+
+def _finish(C):
     # 음수 표기: 문장 속 '-5.0%'·'$-' 를 '−'로(Fable) — 주소·날짜(앞이 글자·숫자·'/')는 건드리지 않는다
     import re as _re
     def fix(t):   # 태그 밖 글자에만 — 주소·class·CSS(margin-top:-2px)는 건드리지 않는다(Codex)
@@ -523,3 +595,4 @@ def texts(C, ns):
     for k in ("SUMMARY", "BULL", "BEAR", "CHECK", "YOY_EXTRA", "SEG_NOTE", "HEALTH_NOTE", "PREMISE", "RISK", "DCF_NOTE", "STORIES", "SELF_TIP"):
         setattr(C, k, deep(getattr(C, k)))
 
+    return None

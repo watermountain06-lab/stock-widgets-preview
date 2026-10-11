@@ -99,3 +99,69 @@ BEAR = [('합병 위험', 'STB 승인 불확실, 무산 시 해지 수수료 $2.
         ('연료', '2분기 연료비 +63%로 영업비율 1.2%p 악화.')]
 ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 19, 'mean': 331.74, 'median': 333, 'low': 294, 'high': 363, 'sb': 15, 'b': 3, 'h': 6, 's': 1, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "unp:IndustrialMember"
+   },
+   "members": {
+    "unp:ReportableSegmentMember": [
+     "산업재 화물",
+     "#ffd200"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "unp:PremiumMember"
+   },
+   "members": {
+    "unp:ReportableSegmentMember": [
+     "프리미엄(자동차·복합운송)",
+     "#22c55e"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "unp:ReportableSegmentMember"
+   },
+   "members": {
+    "unp:BulkMember": [
+     "벌크(곡물·석탄 등)",
+     "#1b3a6b"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "us-gaap:ProductAndServiceOtherMember": [
+     "기타 매출",
+     "#94a3b8"
+    ]
+   }
+  }
+ ]
+}

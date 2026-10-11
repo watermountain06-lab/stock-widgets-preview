@@ -88,3 +88,48 @@ one('성장률은 연간 시계열(2025년까지)을 쓴다.', '성장률은 연
 ''']
 REV_NOTE = '2024년 4월 GE 버노바 분사 뒤의 GE 에어로스페이스 단독 숫자다(회사가 다시 공시한 계속사업 값). 손익계산서에 영업이익 줄이 없어 세전이익에서 기타수익(지분 평가손익 등)을 빼고 이자비용·영업외 연금 손익을 되돌려 만들었다. 회사가 "Profit(GAAP)"로 부르는 값은 세전이익(2분기 $2.80B, 21.0%)이라 여기 영업이익률과 다르다. 순이익은 GAAP 지배주주 순이익으로 중단사업 손익(분사 사업 정리분)을 포함한다.'
 BAND_NA_WHY = 'GE Vernova 분사 뒤 재작성 재무가 이어지는 2024-07-23부터의 자기 이력만 쓰므로(분사 전 PER이 섞이지 않게) 밴드에 필요한 직전 2년 PER 이력이 찬 실적 체크포인트가 아직 없다. 옛 75.4%는 분사 전 PER이 섞인 루트 배열 값이었다(안건 C1, 2026-10-03).'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "ge:DefenseAndPropulsionTechnologiesReportableSegmentMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "방산·추진기술(DPT)",
+     "#f7b600"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "ge:CommercialEnginesAndServicesReportableSegmentMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "상업용 엔진·서비스(CES)",
+     "#4181ff"
+    ]
+   }
+  }
+ ],
+ "remainder": [
+  "기타(보험 포함, 내부 거래 차감)",
+  "#9b59b6",
+  0.0131
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ["\nh = re.sub(r'(selfHistory: [\\d.]+,   // )[^\\n]*', lambda m: m.group(1) + '자기 배수 분포 백분위 (버노바 분사 뒤 2024-07-23 ~ ' + D[-1][0] + ')', h, count=1)", '# 밴드 적중률: 분사 뒤 이력이라 체크포인트 없음 — 옛 카드 표기와 사유 툴팁(정적 라벨은 sync_fallbacks가 렌더 결과로 채운다)\none("if (label) { label.textContent = \'밴드 적중률\'; label.title = \'백테스트 없음\'; }", "if (label) { label.textContent = \'밴드 적중률\'; label.title = \'" + C.BAND_NA_WHY + "\'; }")', '# 역산 문장: 성장 모드(reqMode growth)는 카드 JS가 .reverse를 문장으로 다시 쓰지 않고 칸(span)만 채운다 — 틀 시절 칸 구조를 되살린다\nsub(r\'<div class="reverse">—</div>\', \'<div class="reverse">지금 가격(<span data-dcf-price>$\' + f\'{px:.2f}\' + \'</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>\' + pct(DCF[\'requiredGrowth\']) + \'</b>씩 커야 한다(마진은 기본 시나리오 경로). 기본 시나리오(<span data-dcf-basev>$\' + f"{DCF[\'base\']:.0f}" + \'</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>\' + pct(DCF[\'baseEquivGrowth\']) + \'</span>다.</div>\')']

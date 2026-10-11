@@ -118,3 +118,49 @@ one(f"vs {C.QO.replace('-', '.')}({C.QQL}) · GAAP 기준 · FCF는 영업현금
 # 총자산증가율 메모: 늘어난 이유(옛 카드)
 one("(전년 $168.4B) · 연간 지표</span>", "(전년 $168.4B) · 데이터센터 투자 · 연간 지표</span>")
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+   },
+   "members": {
+    "orcl:ServicesBusinessMember": [
+     "서비스",
+     "#94a3b8"
+    ],
+    "orcl:HardwareBusinessMember": [
+     "하드웨어",
+     "#64748b"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "orcl:CloudRevenuesMember": [
+     "클라우드(IaaS+SaaS)",
+     "#c74634"
+    ],
+    "orcl:SoftwareRevenuesMember": [
+     "소프트웨어(라이선스·지원)",
+     "#f0a87e"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# FCF 음수 표기: "$-5.4B" 대신 "−$5.4B"\none(f\'<div class="stat-value">${r1(fcf[cur])}B</div>\', f\'<div class="stat-value">−${-r1(fcf[cur]):.1f}B</div>\')']

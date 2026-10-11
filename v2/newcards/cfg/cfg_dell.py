@@ -130,3 +130,77 @@ _seg2 = _seg.replace("f('cur').textContent = '—';", f"f('cur').textContent = {
     "f('badge').textContent = '계산 불가';", f"f('badge').textContent = {json.dumps(C.MISSING_BADGE, ensure_ascii=False)};", 1)
 assert _seg2 != _seg; h = h[:_i] + _seg2 + h[_j:]
 ''']
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {
+    "us-gaap:StatementBusinessSegmentsAxis": "dell:ClientSolutionsMember"
+   },
+   "members": {
+    "us-gaap:OperatingSegmentsMember": [
+     "PC 등 클라이언트(CSG)",
+     "#f7b600"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+    "srt:ProductOrServiceAxis": "dell:StorageMember"
+   },
+   "members": {
+    "dell:InfrastructureSolutionsGroupMember": [
+     "스토리지",
+     "#9b59b6"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ConsolidationItemsAxis",
+   "extra": {},
+   "members": {
+    "us-gaap:CorporateNonSegmentMember": [
+     "기타",
+     "#94a3b8"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:Revenues"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {
+    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+    "us-gaap:StatementBusinessSegmentsAxis": "dell:InfrastructureSolutionsGroupMember"
+   },
+   "members": {
+    "dell:AIOptimizedServersAndNetworkingMember": [
+     "AI 최적화 서버",
+     "#007db8"
+    ],
+    "dell:TraditionalServersAndNetworkingMember": [
+     "일반 서버·네트워킹",
+     "#6cb4ea"
+    ]
+   }
+  }
+ ]
+}
+# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+POST = ['# 없는 배수 칸: 현재값·배지 글자(옛 카드 그대로 — CSCO와 같은 패치)\n_i = h.index(\'const haveM = new Set\'); _j = h.index("[\'peer\', \'self\'].forEach(k => {", _i)\n_seg = h[_i:_j]\n_seg2 = _seg.replace("f(\'cur\').textContent = \'—\';", f"f(\'cur\').textContent = {json.dumps(C.MISSING_CUR, ensure_ascii=False)};", 1).replace(\n    "f(\'badge\').textContent = \'계산 불가\';", f"f(\'badge\').textContent = {json.dumps(C.MISSING_BADGE, ensure_ascii=False)};", 1)\nassert _seg2 != _seg; h = h[:_i] + _seg2 + h[_j:]']

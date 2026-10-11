@@ -102,3 +102,55 @@ BEAR = [('시장 의존', '보수가 운용자산에 비례해 주가지수 하�
         ('희석', 'Subco 760만 단위가 보통주로 교환되면 주식 수가 약 5% 늘어남.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 18, 'nt': 14, 'mean': 1311.36, 'median': 1300, 'low': 1144, 'high': 1479, 'sb': 11, 'b': 6, 'h': 1, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-10'
+
+
+# ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
+AUTO = True
+SEG_MAP = {
+ "parts": [
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "us-gaap:RelatedPartyTransactionsByRelatedPartyAxis",
+   "extra": {
+    "srt:ProductOrServiceAxis": "us-gaap:InvestmentAdviceMember"
+   },
+   "members": {
+    "blk:InvestmentAdvisoryAndAdministrationFeesMember": [
+     "기본 보수·증권대여",
+     "#1f6feb"
+    ],
+    "blk:SecuritiesLendingRevenueMember": [
+     "기본 보수·증권대여",
+     "#1f6feb"
+    ]
+   }
+  },
+  {
+   "concepts": [
+    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+   ],
+   "axis": "srt:ProductOrServiceAxis",
+   "extra": {},
+   "members": {
+    "blk:TechnologyServicesAndSubscriptionRevenueMember": [
+     "기술 서비스(Aladdin)",
+     "#a78bfa"
+    ],
+    "us-gaap:DistributionAndShareholderServiceMember": [
+     "판매 보수",
+     "#f59e0b"
+    ],
+    "us-gaap:InvestmentPerformanceMember": [
+     "성과 보수",
+     "#22c55e"
+    ],
+    "us-gaap:ServiceOtherMember": [
+     "자문·기타",
+     "#94a3b8"
+    ]
+   }
+  }
+ ]
+}
