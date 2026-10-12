@@ -366,6 +366,8 @@ def apply(C, T):
     nxt_end = d(nxt_ago) + dt.timedelta(days=364) if nxt_ago else d(C.CUR) + dt.timedelta(days=91)
     fye, n = qa.fiscal(nxt_end.isoformat(), fy_ends)
     nl = qa.label("fy" if "FY" in C.QLABEL else "cal", fye, n, qa.name_offset(C, fy_ends))
+    _fa = qa.fiscal(nxt_ago, fy_ends) if nxt_ago else (None, None)   # 다음 분기의 1년 전 분기 — 체크포인트 ②의 비교 기준(2026-10-12)
+    C._AUTO.update({"nxt_ago": nxt_ago, "nxt_ago_label": qa.label("fy" if "FY" in C.QLABEL else "cal", _fa[0], _fa[1], qa.name_offset(C, fy_ends)) if _fa[0] else None})
     if ago_rel:
         est = d(ago_rel[0]) + dt.timedelta(days=364)
         ago = d(ago_rel[0])
@@ -465,6 +467,8 @@ def apply_outside(C, T):
     nxt_end = d(nxt_ago) + dt.timedelta(days=364) if nxt_ago else d(C.CUR) + dt.timedelta(days=91)
     fye2, n2 = qa.fiscal(nxt_end.isoformat(), fy_ends)
     nl = qa.label("fy" if "FY" in C.QLABEL else "cal", fye2, n2, qa.name_offset(C, fy_ends))
+    _fa = qa.fiscal(nxt_ago, fy_ends) if nxt_ago else (None, None)   # 다음 분기의 1년 전 분기 — 체크포인트 ②의 비교 기준(2026-10-12)
+    C._AUTO.update({"nxt_ago": nxt_ago, "nxt_ago_label": qa.label("fy" if "FY" in C.QLABEL else "cal", _fa[0], _fa[1], qa.name_offset(C, fy_ends)) if _fa[0] else None})
     if ago_rel:
         est, ago = d(ago_rel[0]) + dt.timedelta(days=364), d(ago_rel[0])
         C.NEXT = (f"{est.month}월 {est.day}일 무렵 예상", f"일정 · {nl} (작년 {ago.month}/{ago.day} 발표, 같은 요일로 추정)")
@@ -612,9 +616,15 @@ def texts(C, ns):
         C.BEAR = [("—", "기준을 넘는 약세 지표가 없다.")]
 
     # 다음 실적 체크포인트 — 숫자 기준이 있는 질문만
+    # ② 비교 기준은 다음 분기의 1년 전 분기다(2026-10-12 사용자 결정 — 전에는 이번 분기와 그 1년 전을 적어, 다음 발표 때 대볼 숫자가 없었다)
+    _na, _nal, _nl = A.get("nxt_ago"), A.get("nxt_ago_label"), A.get("next_label")
+    if _na and _nal and _nl and rev.get(_na, 0) > 0 and _na in op:
+        _ck_opm = f"{_nl} GAAP 영업이익률이 1년 전 같은 분기({_nal} {op[_na] / rev[_na] * 100:.1f}%)보다 높은지 · 직전 {QL} {opm:.1f}%"
+    else:
+        _ck_opm = f"GAAP 영업이익률이 1년 전 같은 분기보다 높은지({QL} {opm:.1f}%, 1년 전 {opm_yo:.1f}%)"
     ck = [f"매출 증가율(1년 전 대비)이 최근 흐름({trend_txt})보다 낮아지지 않는지" if trend_txt else
           (f"매출 증가율이 3년 연평균 {g3:.1f}% 안팎을 지키는지" if g3 is not None else f"매출 증가율({QL} {r_rev or '—'})이 이어지는지"),
-          f"GAAP 영업이익률이 1년 전 같은 분기보다 높은지({QL} {opm:.1f}%, 1년 전 {opm_yo:.1f}%)",
+          _ck_opm,
 ]
     _dv_ann = (A["dv"] / max(1, A.get("dv_weeks") or 52) * 52) if A.get("dv") else None
     if fcf_ok and _dv_ann and _dv_ann > 0.5 * fcf_ttm:   # 배당이 FCF의 절반을 넘는 회사만(AAPL처럼 여유가 큰 곳은 뺀다, Fable)
