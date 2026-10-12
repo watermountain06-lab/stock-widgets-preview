@@ -177,7 +177,8 @@ def dps(T, end):
     if T == "SKHY":   # DART '배당에 관한 사항'(보통주 1주, 원) — 2026-10-12, Fable
         sys.path.insert(0, AD)
         import skhy_dart as sdt
-        return sdt.dps_quarter(end)
+        rep_ = report(T, end)   # 그 분기 정기보고서 접수일까지 나온 배당 자료만(뒤 사업보고서·정정이 섞이지 않게, Codex)
+        return sdt.dps_quarter(end, rep_["filed"][:10]) if rep_ else None
     rep = report(T, end)
     if T != "TSM" or not rep or not os.path.exists(rep["path"]):
         return None
@@ -224,6 +225,8 @@ def release(T, after, within=60, subs=None):
     if T == "SKHY":
         sys.path.insert(0, AD)
         import skhy_dart as sdt
+        if not sdt.key():   # 키가 없으면 발표일·링크 없이 간다(다음 실적일은 '미정', Codex)
+            return None
         e_ = (d(after) + dt.timedelta(days=within)).isoformat()
         c_ = [x for x in sdt.earnings((d(after) + dt.timedelta(days=1)).isoformat(), e_) if x[0] > after]
         return (c_[0][0], sdt.VIEW + c_[0][1]) if c_ else None

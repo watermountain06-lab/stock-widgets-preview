@@ -173,28 +173,30 @@ def doc_for_period(end):
 _RC = {"03-31": "11013", "06-30": "11012", "09-30": "11014", "12-31": "11011"}
 
 
-def dps_ytd(end):
-    """보통주 주당 현금배당(원, 그해 1월부터 누적) — DART '배당에 관한 사항'. 없으면 None."""
+def dps_ytd(end, asof=None):
+    """보통주 주당 현금배당(원, 그해 1월부터 누적) — DART '배당에 관한 사항'. 없거나 asof(YYYY-MM-DD) 뒤에 접수된 자료면 None."""
     r = _get("alotMatter.json", corp_code=CORP, bsns_year=end[:4], reprt_code=_RC[end[5:]])
-    if r.get("status") != "000":
+    if r.get("status") != "000" or not r.get("list"):
+        return None
+    if asof and any(x.get("rcept_no", "")[:8] > asof.replace("-", "") for x in r["list"]):
         return None
     v = next((x.get("thstrm") for x in r.get("list", []) if "주당 현금배당금" in x.get("se", "") and x.get("stock_knd") == "보통주"), None)
     v = (v or "").replace(",", "").strip()
     return float(v) if re.fullmatch(r"\d+(\.\d+)?", v) else (0.0 if v in ("-", "0") else None)
 
 
-def dps_quarter(end):
+def dps_quarter(end, asof=None):
     """그 분기 보통주 주당 현금배당(원) = 누적 − 직전 분기 누적. 4분기는 연간 − 3분기 누적(결산 배당 포함)."""
     if not key():
         return None
     y, md = end[:4], end[5:]
-    cur = dps_ytd(end)
+    cur = dps_ytd(end, asof)
     if cur is None:
         return None
     prev = {"03-31": None, "06-30": "03-31", "09-30": "06-30", "12-31": "09-30"}[md]
     if not prev:
         return cur
-    p = dps_ytd(f"{y}-{prev}")
+    p = dps_ytd(f"{y}-{prev}", asof)
     return None if p is None else cur - p
 
 
