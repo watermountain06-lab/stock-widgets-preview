@@ -229,7 +229,9 @@ def multiple_series(t, cik, daily, eps):
             parts = {n: [e for e in series.get(n, []) if e["available"] <= dd] for n in ("opinc", "tax", "pretax")}
             if all(parts.values()):
                 common = set.intersection(*({e["end"] for e in x} for x in parts.values()))
-                if common and not fresh(max(common), dd):
+                lead = max(x[-1]["end"] for x in parts.values())
+                if common and (date.fromisoformat(lead) - date.fromisoformat(max(common))).days <= bmh.MAX_PAIR_LAG_DAYS \
+                        and not fresh(max(common), dd):
                     lab.append("PER")
         else:
             e = as_of_e(eps, dd) if eps else None
@@ -244,7 +246,9 @@ def multiple_series(t, cik, daily, eps):
             if ea and eb:
                 common = {x["end"] for x in ea} & {x["end"] for x in eb}
                 end = ea[-1]["end"] if ea[-1]["end"] == eb[-1]["end"] else (max(common) if common else None)
-                if end and not fresh(end, dd):
+                lead = max(ea[-1]["end"], eb[-1]["end"])
+                # paired()가 이미 결측으로 두는 경우(두 시리즈 끝이 MAX_PAIR_LAG_DAYS 넘게 어긋남 — 태그 끊김)는 표식을 붙이지 않는다
+                if end and (date.fromisoformat(lead) - date.fromisoformat(end)).days <= bmh.MAX_PAIR_LAG_DAYS and not fresh(end, dd):
                     lab.append(name)
         return [f"stale_denominator:{x}" for x in lab]
     return out, core, denoms, per_dil, shares_dq, stale_labels
