@@ -11,6 +11,7 @@ Claude 없이 GitHub Actions에서 돈다. fill.py가 두 번 부른다:
 """
 import datetime as dt
 import json
+import re
 import os
 import sys
 import urllib.request
@@ -33,7 +34,10 @@ SYM = "$"   # 재무 통화 기호 — 외국 발행사(ASML €, TSM NT$)는 ap
 
 def B(v):
     """백만 달러가 아닌 달러 값 → '$12.3B'(외국 발행사는 그 통화 — 대만달러는 조 단위 'NT$1.27T')."""
-    s = (f"{SYM}{abs(v) / 1e12:.2f}T" if abs(v) >= 1e12 else f"{SYM}{abs(v) / 1e9:.1f}B" if abs(v) >= 1e9 else f"{SYM}{abs(v) / 1e6:,.0f}M")
+    if SYM == "₩":   # 원화는 조·억 원(SKHY, 2026-10-12)
+        s = f"₩{abs(v) / 1e12:.1f}조" if abs(v) >= 1e12 else f"₩{abs(v) / 1e8:,.0f}억"
+    else:
+        s = (f"{SYM}{abs(v) / 1e12:.2f}T" if abs(v) >= 1e12 else f"{SYM}{abs(v) / 1e9:.1f}B" if abs(v) >= 1e9 else f"{SYM}{abs(v) / 1e6:,.0f}M")
     return ("−" if v < 0 else "") + s
 
 
@@ -60,7 +64,7 @@ def usd(v):
 
 def money(v):
     """주당 금액 두 자리 — 음수는 '−$0.92'(Fable: '$-0.92' 금지)."""
-    return ("−" if v < 0 else "") + SYM + f"{abs(v):.2f}"
+    return ("−" if v < 0 else "") + SYM + (f"{abs(v):,.0f}" if SYM == "₩" else f"{abs(v):.2f}")
 
 
 def kdate(s):
@@ -401,7 +405,9 @@ def apply_outside(C, T):
     if not rep:
         raise SystemExit(f"{T}: {C.CUR} 재무제표 6-K가 manifest에 없다")
     C.TENQ = rep["url"]
-    C.TENQ_NAME = (f"{C.FY_LABEL} 연간 {O['fs_name']}" if is_q4 and O.get("annual_fs") else f"{C.QLABEL} {O['fs_name']}")
+    C.TENQ_NAME = (f"{C.FY_LABEL} 연간 {O['fs_name']}" if is_q4 and O.get("annual_fs") else
+                   f"{C.QLABEL} {re.sub(r'[(（].*', '', rep.get('title', '')).replace('감사보고서 제출', '연결감사보고서').strip()}" if O.get("name_from_report") else
+                   f"{C.QLABEL} {O['fs_name']}")
 
     # 부문 표(현지 통화 백만) — 합이 어댑터 매출과 맞아야 한다
     cur_v, yo_v = oa.seg(T, C.CUR, C.YO, C.QO if is_q4 else None)
@@ -462,10 +468,15 @@ def apply_outside(C, T):
         C.NEXT = (f"{est.month}월 {est.day}일 무렵 예상", f"일정 · {nl} (작년 {ago.month}/{ago.day} 발표, 같은 요일로 추정)")
         C.NEXT_OP = (f"{est.month}월 {est.day}일 무렵", f"{nl} 예상")
         C.CHECK_WHEN = f"{est.year}년 {est.month}월 {est.day}일 무렵 (예상) · {nl}"
+    elif cur_rel:   # 작년 보도자료가 없으면(ADR 상장 1년 미만) 이번 분기 발표 + 13주
+        est, a_ = d(cur_rel[0]) + dt.timedelta(days=91), d(cur_rel[0])
+        C.NEXT = (f"{est.month}월 {est.day}일 무렵 예상", f"일정 · {nl} ({C.QLABEL} 발표 {a_.month}/{a_.day} + 13주로 추정)")
+        C.NEXT_OP = (f"{est.month}월 {est.day}일 무렵", f"{nl} 예상")
+        C.CHECK_WHEN = f"{est.year}년 {est.month}월 {est.day}일 무렵 (예상) · {nl}"
     else:
         C.NEXT, C.NEXT_OP, C.CHECK_WHEN = ("미정", f"일정 · {nl}"), ("미정", f"{nl}"), f"{nl}"
     C._AUTO["next_label"] = nl
-    C.FUND_ASOF_NOTE = f"{C.TENQ_NAME} ({rep['filed']} 공시)"
+    C.FUND_ASOF_NOTE = f"{C.TENQ_NAME} ({rep['filed'][:10]} 공시)"
     lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})
     C.FCF_SUB = O.get("fcf_sub", "영업현금흐름 − 설비투자") + (f" · 분기 길이가 {'·'.join(map(str, lens))}주로 다르다" if len(lens) > 1 else "")
     C.CAPEX_SUB = O.get("capex_sub", "설비투자(현금흐름표)")

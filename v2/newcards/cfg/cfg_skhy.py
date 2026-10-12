@@ -7,6 +7,14 @@
 # 출처: KIND(잠정실적 1/28·4/23, 반기보고서 8/14, 투자 8/7, 자사주 8/19), SEC 6-K(Q2 잠정 7/29)·424B4(ADR 7/10), StockAnalysis(2026-09-27).
 # 재현 모드: python3 build_ifrs.py <clone> SKHY --from-card (일봉·이동평균·백테스트는 지금 카드에서, 마지막 종가 2026-09-25).
 BUILD = {'feed': True}   # IFRS·원화 — adapters/skhy_feed.py
+# 자동 카드(2026-10-12, OpenDART 키): 정기보고서는 DART에서 받고(adapters/skhy_dart.py — 추출은 KIND 때와 같은 skhy_extract),
+# 분기 변수·지역별 매출(원문 XBRL 태그)·EPS·자본배분·링크·다음 실적일(잠정실적 공정공시)·해석 문장을 auto_card가 채운다(newcards/outside_auto.py).
+# 아래 손 값 가운데 분기 변수·SEG·STAT3·CAPITAL·NEXT·CHECK·문장은 덮어쓴다(빌드 실패 때 되돌릴 기준으로 남긴다). SHARE_EVENTS(skhy_ifrs.py)는 손으로.
+AUTO = True
+AUTO_OUTSIDE = {'link_tag': '원문', 'ifrs': True, 'q_src': '분기·반기보고서', 'k_src': '사업보고서', 'sym': '₩', 'fs_name': '정기보고서', 'name_from_report': True,
+                'eps_basis': 'K-IFRS · ADR 1주(보통주 0.1주, 원화)', 'dps_none': '정기보고서 요약에 없음',
+                'seg_colors': {'미국': '#e11d48', '중국': '#f97316', '아시아(중국 제외)': '#3498db', '유럽': '#2ecc71', '국내': '#8a8fa8'},
+                'fund_tip': '재무는 K-IFRS 연결재무제표(원화)다. ADR은 2026-07 상장이라 SEC에 10-Q가 없어 한국 정기보고서(OpenDART)를 읽는다. 분기 차트·FCF는 분기 평균 환율로 달러 환산하고, 부문·EPS·자본배분은 원화로 적는다. 자기 이력은 원주(KRX 000660) 가격 분포다.'}
 CIK = '0002120882'
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
@@ -21,7 +29,7 @@ PR = {'q2': S_ + '000119312526321989/d115239d6k.htm', 'q1': KIND + '202604230000
 PR_CUR = 'q2'
 TENQ = KIND + '20260814002925'; TENQ_NAME = '2026 반기보고서'
 LINKS = {'buyback': KIND + '20260819000318', 'fab': KIND + '20260807000613', 'adr': S_ + '000119312526299963/d32785d424b4.htm'}
-FAIRBAND_TITLE = 'id="skhyFairBand" title="원주 최근 1년 PER(본업 기준) 25~75% 구간 × 현재 본업 EPS. 원주 가격 분포라 ADR 프리미엄이 없다 — 원주 환산가는 $134."'
+FAIRBAND_TITLE = 'id="skhyFairBand" title="원주 최근 1년 PER(본업 기준) 25~75% 구간 × 현재 본업 EPS. 원주 가격 분포라 ADR 프리미엄이 없다."'
 HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +{HIST[\'growth_3y\'] * 100:.0f}%)</span>'
 OPM_RANGE, Y2 = (30, 80), (30, 80)
 FCF_SUB = '현금창출력'
@@ -128,9 +136,9 @@ C.SEG_ADJ = rev[cur] / 1e6 - sum(v_ for _, v_, _ in C.SEG)   # 원화 도넛 —
 # 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
 POST = [r'''
 # 분기 차트 제목·설명(본업 순이익, 달러 환산)
-one('분기 매출 / 순이익(본업 기준) / 영업이익률 (Q3 2024~Q2 2026)', '분기 매출 / 본업 순이익 / 영업이익률 (Q3 2024~Q2 2026 · 달러 환산)')
+one(f'분기 매출 / 순이익(본업 기준) / 영업이익률 ({C.L8[0]}~{C.L8[-1]})', f'분기 매출 / 본업 순이익 / 영업이익률 ({C.L8[0]}~{C.L8[-1]} · 달러 환산)')
 one('<canvas id="skhyRevChart"></canvas>\n    </div>\n', '<canvas id="skhyRevChart"></canvas>\n    </div>\n'
-    '    <div class="yoy-footnote" style="margin-top:8px;">K-IFRS 원화 실적을 분기 평균 환율(연준 H.10)로 달러 환산했다. 순이익은 본업 기준(영업이익 × (1 − 그 분기 실효세율))이다 — 2분기 공시 순이익 ₩93.8조에는 금융수익 ₩65.9조(금융상품평가이익 ₩53.2조·배당금수익 ₩10.0조)가 들어 있다.</div>\n')
+    '    <div class="yoy-footnote" style="margin-top:8px;">K-IFRS 원화 실적을 분기 평균 환율(연준 H.10)로 달러 환산했다. 순이익은 본업 기준(영업이익 × (1 − 그 분기 실효세율))이다 — 공시 순이익에는 금융상품 평가손익 등 영업외 항목이 크게 들어 있다.</div>\n')
 # YoY·QoQ: 증감률은 원화 기준, 각주는 K-IFRS·달러 환산·반기보고서(옛 카드)
 _fd = lambda a, b_: '%+.1f%%' % ((a / b_ - 1) * 100)
 for _cmp, _ql in ((yo, C.YL), (qo, C.QQL)):
@@ -140,35 +148,26 @@ for _cmp, _ql in ((yo, C.YL), (qo, C.QQL)):
 _old = re.findall(r"footnote: '기준일: [^']*'", h)
 assert len(_old) == 2, len(_old)
 for _o, _a in zip(_old, (f'{C.YO.replace("-", ".")}({C.YL})', f'{C.QO.replace("-", ".")}({C.QQL})')):
-    h = h.replace(_o, f"footnote: '기준일: {C.CUR.replace('-', '.')}({QL}) vs {_a} · K-IFRS 연결재무제표 · 금액은 분기 평균 환율로 달러 환산, 증감률은 원화 기준 · 순이익은 본업 기준(영업이익 × (1 − 실효세율)) · FCF는 영업현금흐름 − 유형자산 취득 · <a href=\"{C.TENQ}\" target=\"_blank\" rel=\"noopener\">SK하이닉스 2026 반기보고서 (KIND) →</a>'", 1)
+    h = h.replace(_o, f"footnote: '기준일: {C.CUR.replace('-', '.')}({QL}) vs {_a} · K-IFRS 연결재무제표 · 금액은 분기 평균 환율로 달러 환산, 증감률은 원화 기준 · 순이익은 본업 기준(영업이익 × (1 − 실효세율)) · FCF는 영업현금흐름 − 유형자산 취득 · <a href=\"{C.TENQ}\" target=\"_blank\" rel=\"noopener\">SK하이닉스 {C.TENQ_NAME} (원문) →</a>'", 1)
 # 총자산증가율 메모: 원화 그대로(옛 카드)
 sub(r'(<span class="diag-label">총자산증가율</span><span class="diag-value">[^<]*</span><span class="diag-note">)[^<]*(</span>)',
-    lambda m: m.group(1) + f'FY25 ₩{a1 / 1e6:.1f}조(전기 ₩{a0 / 1e6:.1f}조) · 원화 기준 연간 지표, FY26 마감 전까지 동일' + m.group(2))
+    lambda m: m.group(1) + f'{C.FY_LABEL} ₩{a1 / 1e6:.1f}조(전기 ₩{a0 / 1e6:.1f}조) · 원화 기준 연간 지표, 다음 사업보고서 전까지 동일' + m.group(2))
 # 매출 구성 범례: 원화 조 단위(옛 카드)
 _tot = sum(v_ for _, v_, _ in C.SEG)
 for n_, v_, c_ in C.SEG:
     sub(r'(</span>' + re.escape(n_) + r' <strong style="color:var\(--text\);">)[^<]*(</strong>)', lambda m: m.group(1) + f'₩{v_ / 1e6:.1f}조 · {v_ / _tot * 100:.1f}%' + m.group(2))
-# 자본배분: 제목 기준일, 배당 줄 태그 없음, 네 번째 줄(ADR 신주)과 아래 환원 방침 각주(옛 카드)
-one('<div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>', '<div class="card-title">자본배분 · 주주환원 (2026년 · 2026.08.21 기준)</div>')
-one('<span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n            ', '')
-sub(r'(<span class="zone-val">₩1\.6조</span>\n          </div>\n        </div>\n)',
-    lambda m: m.group(1) + '        <div class="zone-item">\n          <span class="zone-label">ADR 신주 발행 (7/14 납입, 1,779만 주)</span>\n          <span class="zone-val">₩39.9조</span>\n        </div>\n')
-sub(r'(<span class="zone-val">₩39\.9조</span>\n        </div>\n      </div>\n)',
-    lambda m: m.group(1) + '      <div class="yoy-footnote" style="margin-top:14px;">회사는 2025~2027년 누적 잉여현금흐름의 50% 이상을 자사주 매입·소각과 배당으로 돌려주겠다고 밝혔다(8/19 공정공시) · 2월에 기존 자사주 1,530만 주를 소각했다 · 출처: <a href="' + LINKS['buyback'] + '" target="_blank" rel="noopener">자기주식 취득 결정 (KIND) →</a></div>\n')
 # 헤더 부제: ADR 첫 거래·비율·원주 대비 웃돈(옛 카드, 숫자는 원주 9/23 종가·환율 9/18 기준)
-sub(r'NASDAQ ADR\([^<]*', 'NASDAQ ADR(2026.07.10 첫 거래 · 1 ADR = 보통주 0.1주) · 원주 KRX:000660 · ADR이 원주보다 +43% 비싸다(원주 09/23 종가·환율 09/18 기준)')
+sub(r'NASDAQ ADR\([^<]*', 'NASDAQ ADR(2026.07.10 첫 거래 · 1 ADR = 보통주 0.1주) · 원주 KRX:000660')
 # 주가 차트 머리: 상장 뒤 일봉이 기간보다 짧으면 "상장 이후"(옛 카드, 공통 후보 — 짧은 이력 종목)
 one("    const base = prevClose != null ? prevClose : data[0][4];\n", "    const base = prevClose != null ? prevClose : data[0][4];\n"
     "    const FULL = {'1M':21,'6M':126,'1Y':252,'3Y':756,'5Y':1260};\n"
     "    const LBL = (prevClose == null && data.length < FULL[rangeKey] * 0.9) ? '상장 이후' : RANGE_LABELS[rangeKey];\n")
 one("일봉 캔들스틱 (${dateFrom} ~ ${dateTo}) · ${RANGE_LABELS[rangeKey]} 수익률 `;", "일봉 캔들스틱 (${dateFrom} ~ ${dateTo}) · ${LBL} 수익률 `;")
 one("rangeSummary.textContent = `${RANGE_LABELS[rangeKey]} 최저 $${periodLow.toFixed(2)} (${lowDate}) → ${RANGE_LABELS[rangeKey]} 최고", "rangeSummary.textContent = `${LBL} 최저 $${periodLow.toFixed(2)} (${lowDate}) → ${LBL} 최고")
-# 재무 건전성 출처 링크: 반기보고서는 KIND(fill.py는 "(SEC)"로 적는다)
-one('>2026 반기보고서 (SEC) →</a>', '>2026 반기보고서 (KIND) →</a>')
-# 기본적 분석 툴팁: 분기 자료는 반기보고서(10-Q 아님)
-one("분기(Q2 2026, 10-Q), 성장률은", "분기(Q2 2026, 반기보고서), 성장률은")
+# 재무 건전성 출처 링크: 한국 정기보고서(fill.py는 "(SEC)"로 적는다)
+one(f'>{C.TENQ_NAME} (SEC) →</a>', f'>{C.TENQ_NAME} (원문) →</a>')
 # 역산 문장: 성장 모드 — 틀의 칸 있는 문장(MU·TSM과 같은 공통 후보)
-assert DCF['reqMode'] == 'growth'
-one('<div class="reverse">—</div>', F('<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
+if DCF['reqMode'] == 'growth' and '<div class="reverse">—</div>' in h:
+  one('<div class="reverse">—</div>', F('<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '
     '기본 시나리오(<span data-dcf-basev>${DCF[\'base\']:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF[\'baseEquivGrowth\'])}</span>다.</div>'))
 ''']

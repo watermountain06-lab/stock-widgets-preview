@@ -222,7 +222,7 @@ def auto_approve(status, session, tickers):
     return moved
 
 
-OUT_AUTO = {"ASML": 10, "TSM": 25}   # 6-K 자동 카드 — 분기 말 뒤 며칠부터 새 재무제표 6-K를 찾는가(ASML 발표일 동시, TSM 약 45일 뒤)
+OUT_AUTO = {"ASML": 10, "TSM": 25, "SKHY": 25}   # SKHY 분기·반기보고서는 분기 말 뒤 약 45일, 사업보고서 약 76일(OpenDART, 2026-10-12)   # 6-K 자동 카드 — 분기 말 뒤 며칠부터 새 재무제표 6-K를 찾는가(ASML 발표일 동시, TSM 약 45일 뒤)
 
 
 def outside_approve(status, session, tickers):
@@ -254,7 +254,7 @@ def outside_approve(status, session, tickers):
             status["autoRetry"] = True
         if cur:
             moved[T] = cur
-            print(f"{T}: 새 재무제표 6-K({cur}) 자동 반영 — 이번 실행에서 새 분기로 다시 만든다", flush=True)
+            print(f"{T}: 새 재무제표({cur}) 자동 반영 — 이번 실행에서 새 분기로 다시 만든다", flush=True)
     status["outsideApproved"] = moved
     return moved
 

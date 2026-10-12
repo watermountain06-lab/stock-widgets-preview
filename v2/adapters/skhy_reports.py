@@ -13,6 +13,7 @@ KIND(한국거래소 공시)는 같은 원문을 싣고, 회사별 공시 목록
     python3 v2/adapters/skhy_reports.py          # manifest 갱신 + 없는 원문 받기
 """
 import json
+import sys
 import os
 import re
 import subprocess
@@ -98,5 +99,12 @@ def refresh():
 
 
 if __name__ == "__main__":
-    man = refresh()
-    print(len(man), "건")
+    sys.path.insert(0, HERE)
+    import skhy_dart
+    if skhy_dart.key():   # OpenDART 키가 있으면 DART로(2026-10-12 — KIND 화면 긁기는 키가 없을 때만)
+        for e in skhy_dart.fetch_new():
+            print("추가(DART):", e["filed"], e["title"], e["acptno"])
+        print(len(json.load(open(MANIFEST))), "건")
+    else:
+        man = refresh()
+        print(len(man), "건")

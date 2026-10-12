@@ -25,7 +25,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
 AD = os.path.join(V2, "adapters")
 UA = "kim research gptjhss@gmail.com"
-CIK = {"ASML": "0000937966", "TSM": "0001046179"}
+CIK = {"ASML": "0000937966", "TSM": "0001046179", "SKHY": "0002120882"}   # SKHY는 한국 정기보고서(OpenDART, 2026-10-12)
 SUBS = os.path.join(V2, ".sec_cache", "submissions")
 d = dt.date.fromisoformat
 
@@ -51,7 +51,7 @@ def _flat(path):
 
 def report(T, end):
     """그 분기 말 뒤 처음 나온 재무제표 6-K(분기 말 뒤 120일 안). TSM 4분기는 연간 연결재무제표(2월 말)."""
-    c = [m for m in _manifest(T) if 0 < (d(m["filed"]) - d(end)).days <= 120]
+    c = [m for m in _manifest(T) if 0 < (d(m["filed"][:10]) - d(end)).days <= 120]   # SKHY KIND 항목은 "2026-08-14 16:40"
     if not c:
         return None
     m = sorted(c, key=lambda m: m["filed"])[0]
@@ -140,7 +140,30 @@ def _tsm_seg(T, rep, end, yo, q3_end):
     return [{k: v / 1000 for k, v in x.items()} for x in (cur, old)]   # 천 → 백만 대만달러
 
 
+def _skhy_seg(end, q3_end):
+    """SK하이닉스 지역별 매출(백만 원) — DART 원문 표 칸의 XBRL 태그. 이번 분기 3개월(C…)과 같은 보고서의 1년 전 3개월(P…).
+    4분기는 사업보고서 연간(C/P…dFY) − 3분기 보고서 누적(C/P…dTQA)."""
+    sys.path.insert(0, AD)
+    import skhy_dart as sdt
+    y = int(end[:4])
+    r = sdt.regions(sdt.doc_for_period(end))
+    code = {"03-31": "FQA", "06-30": "HYQ", "09-30": "TQQ", "12-31": "FY"}[end[5:]]
+    cur, old = r.get(f"CFY{y}d{code}"), r.get(f"PFY{y - 1}d{code}")
+    if not cur or not old:
+        raise ValueError(f"SKHY {end}: 지역별 매출 태그({code})가 원문에 없다")
+    if code == "FY":
+        r3 = sdt.regions(sdt.doc_for_period(q3_end))
+        c3, p3 = r3.get(f"CFY{y}dTQA"), r3.get(f"PFY{y - 1}dTQA")
+        if not c3 or not p3:
+            raise ValueError("SKHY 4분기: 3분기 보고서의 누적 지역별 매출이 없다")
+        cur = {k: v - c3.get(k, 0) for k, v in cur.items()}
+        old = {k: v - p3.get(k, 0) for k, v in old.items()}
+    return [cur, old]
+
+
 def seg(T, end, yo, q3_end=None):
+    if T == "SKHY":
+        return _skhy_seg(end, q3_end)
     rep = report(T, end)
     if not rep or not os.path.exists(rep["path"]):
         raise ValueError(f"{T}: {end} 재무제표 6-K 원문이 없다")
@@ -165,6 +188,7 @@ def _get(url):
 
 
 HEAD = {"ASML": re.compile(r"ASML reports .{0,80}?\bnet (sales|income)\b", re.I),   # 4분기는 "…net income in 2025"(분기 이름 없음)
+        "SKHY": re.compile(r"(earnings|financial results|\b[1-4]Q\d\d\b|(first|second|third|fourth)[- ]quarter)", re.I),   # 6-K 실적 발표(잠정실적)
         "TSM": re.compile(r"TSMC Reports (First|Second|Third|Fourth) Quarter", re.I)}
 
 
@@ -191,7 +215,14 @@ def _six_k_head(T, accn):
 
 
 def release(T, after, within=60, subs=None):
-    """분기 말(after) 뒤 within일 안의 첫 실적 보도자료 6-K → (접수일, 주소) 또는 None."""
+    """분기 말(after) 뒤 within일 안의 첫 실적 보도자료 6-K → (접수일, 주소) 또는 None.
+    SKHY는 6-K가 표지뿐이라 한국 잠정실적 공정공시(DART)를 쓴다(2026-10-12)."""
+    if T == "SKHY":
+        sys.path.insert(0, AD)
+        import skhy_dart as sdt
+        e_ = (d(after) + dt.timedelta(days=within)).isoformat()
+        c_ = [x for x in sdt.earnings((d(after) + dt.timedelta(days=1)).isoformat(), e_) if x[0] > after]
+        return (c_[0][0], sdt.VIEW + c_[0][1]) if c_ else None
     r = subs
     if r is None:
         import auto_card as ac
@@ -278,6 +309,12 @@ def ensure(T):
     got = False
     for m in man:
         p = os.path.join(_reports_dir(T), m["file"])
+        if m.get("source") == "dart" and (not os.path.exists(p) or not os.path.getsize(p)):   # DART 원문은 API로 다시 받는다(주소는 보기 화면)
+            sys.path.insert(0, AD)
+            import skhy_dart as sdt
+            sdt.fetch(m["acptno"], m["title"])
+            got = True
+            continue
         if not os.path.exists(p) or not os.path.getsize(p):
             data = _get(_url(T, m))   # 받은 뒤에 쓴다 — 실패하면 빈 파일이 남아 다음 실행이 받지 않았다(Codex)
             open(p, "wb").write(data)
@@ -289,7 +326,11 @@ def ensure(T):
         f = json.load(open(fp))
         have = max((r_.get("filed", "") for x in f["facts"].get("us-gaap", {}).values() for rs in x.get("units", {}).values() for r_ in rs), default="")
     # 재무가 manifest보다 새것이어도(새 분기를 만든 뒤 커밋·push가 실패하고 캐시만 저장된 경우) 다시 만든다(Codex)
-    if got or not os.path.exists(fp) or have != max(m["filed"] for m in man):
+    if T == "SKHY":   # SKHY 재무의 filed는 공시 다음 날이라 날짜로 견줄 수 없다 — 보고서 수로
+        stale = not os.path.exists(fp) or json.load(open(fp)).get("_adapter", {}).get("reports") != len(man)
+    else:
+        stale = not os.path.exists(fp) or have != max(m["filed"] for m in man)
+    if got or stale:
         subprocess.run([sys.executable, os.path.join(AD, f"{T.lower()}_ifrs.py")], check=True, capture_output=True, timeout=900)
         return True
     return False
@@ -313,11 +354,13 @@ def refresh(T, session):
     try:
         if T == "ASML":
             _asml_fetch()
+        elif T == "SKHY":   # OpenDART 정기보고서(adapters/skhy_dart.py)
+            subprocess.run([sys.executable, os.path.join(AD, "skhy_dart.py")], check=True, capture_output=True, timeout=1800)
         else:
             subprocess.run([sys.executable, os.path.join(AD, "tsm_ifrs.py"), "--refresh"], check=True, capture_output=True, timeout=900)
             # tsm_ifrs.py --refresh는 재무까지 만든다 — 접수일 검사 뒤 다시 만든다
         man = json.load(open(man_p))
-        late = [m for m in man if m["filed"] >= session and m not in json.load(open(bak[man_p]))]
+        late = [m for m in man if m["filed"][:10] >= session and m not in json.load(open(bak[man_p]))]
         if late:   # 첫 종가 전 — 원문은 다음 실행에서 쓴다
             json.dump([m for m in man if m not in late], open(man_p, "w"), indent=1)
         subprocess.run([sys.executable, os.path.join(AD, f"{t}_ifrs.py")], check=True, capture_output=True, timeout=900)
@@ -342,7 +385,7 @@ def refresh(T, session):
             if os.path.exists(b):
                 shutil.move(b, p)
         msg = e.stderr.decode("utf-8", "ignore")[-300:] if isinstance(e, subprocess.CalledProcessError) and e.stderr else str(e)
-        raise RuntimeError(f"{T}: 6-K 재무 갱신 실패 — {msg}") from None
+        raise RuntimeError(f"{T}: {'정기보고서(DART)' if T == 'SKHY' else '6-K'} 재무 갱신 실패 — {msg}") from None
 
 
 if __name__ == "__main__":
