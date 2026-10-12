@@ -87,8 +87,8 @@ BULL = [('성장 가속', '빌링 +33%, 제품 매출 +52%.'),
 BEAR = [('밸류에이션', 'PSR {SM[\'PSR\'][\'current\']:.1f}배(5년 중앙값 {SM[\'PSR\'][\'median\']:.1f}배).'),
         ('주가 급등', '1년 새 두 배 넘게 상승.'),
         ('의견', '애널리스트 대부분 보유(Hold) 의견.')]
-ANALYST = {'rating': 'Hold', 'n': 44, 'nt': 32, 'mean': 164.91, 'median': 175, 'low': 102, 'high': 225, 'sb': 8, 'b': 1, 'h': 30, 's': 2, 'ss': 3}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Hold', 'n': 44, 'nt': 32, 'mean': 166.16, 'median': 175, 'low': 102, 'high': 225, 'sb': 8, 'b': 1, 'h': 30, 's': 2, 'ss': 3}
+ANALYST_ASOF = '2026-10-12'
 
 
 # ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──

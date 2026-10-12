@@ -1,64 +1,64 @@
 {
  "ticker": "BNY",
  "window": [
-  "2025-10-10",
+  "2025-10-13",
   "2026-10-09"
  ],
  "multiples": {
   "PER": {
-   "days": 251,
+   "days": 250,
    "current": 16.63,
    "min": 15.36,
    "p10": 15.77,
-   "median": 17.24,
+   "median": 17.25,
    "p90": 18.94,
    "max": 20.14,
-   "mean": 17.3,
-   "percentile": 31.9,
-   "score": 68.1
+   "mean": 17.31,
+   "percentile": 31.6,
+   "score": 68.4
   },
   "PSR": {
-   "days": 251,
+   "days": 250,
    "current": 6.44,
-   "min": 4.91,
+   "min": 4.94,
    "p10": 5.09,
-   "median": 5.92,
+   "median": 5.94,
    "p90": 7.24,
    "max": 7.44,
    "mean": 6.05,
-   "percentile": 64.1,
-   "score": 35.9
+   "percentile": 64.0,
+   "score": 36.0
   },
   "PBR": {
-   "days": 251,
+   "days": 250,
    "current": 2.17,
-   "min": 1.68,
+   "min": 1.69,
    "p10": 1.74,
-   "median": 2.0,
+   "median": 2.01,
    "p90": 2.44,
    "max": 2.5,
    "mean": 2.05,
-   "percentile": 64.5,
-   "score": 35.5
+   "percentile": 64.4,
+   "score": 35.6
   },
   "PCR": {
-   "days": 251,
+   "days": 250,
    "current": 60.82,
    "min": 15.21,
-   "p10": 16.14,
-   "median": 53.77,
-   "p90": 69.5,
+   "p10": 16.13,
+   "median": 53.85,
+   "p90": 69.51,
    "max": 76.59,
-   "mean": 51.11,
-   "percentile": 55.4,
-   "score": 44.6
+   "mean": 51.19,
+   "percentile": 55.2,
+   "score": 44.8
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 16.43,
-  "per_p75": 18.14,
+  "per_p75": 18.15,
   "low": 140,
   "high": 160,
   "asOf": "2026-10-09",

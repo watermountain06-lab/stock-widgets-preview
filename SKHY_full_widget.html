@@ -990,7 +990,7 @@ Chart.overrides.doughnut.animation = false;
             <span class="hist-badge mid" data-hist="badge">3.6년 중 상위 41%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 58.8%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 58.9%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 7.4x</span><span data-hist="median">중앙 16.4x</span><span data-hist="max">최고 53.6x</span></div>
       </div>
 
@@ -1120,7 +1120,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 93.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 6.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-12</span></span>
         <span class="op-val"><span data-an="mean">$254.70</span> <span class="op-sub op-up" data-an="upside">+50.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1815,7 +1815,7 @@ const SKHY_FUNDAMENTAL = {"ticker": "SKHY", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py SKHY --self v2/SKHY_multiples.json --card
 /* VALUATION:BEGIN */
-const SKHY_VALUATION = {"peer": {"score": 87.0, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-10-09", "metrics": [{"metric": "pbr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "psr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "pcr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 24}]}, "self": {"score": 21.1, "window": ["2021-10-12", "2026-10-09"], "perBasis": "core", "metrics": [{"metric": "per", "score": 21.6, "percentile": 78.4, "current": 16.43, "min": 5.01, "median": 10.96, "max": 34.51, "days": 897, "currentNote": null}, {"metric": "pbr", "score": 7.3, "percentile": 92.7, "current": 6.32, "min": 0.75, "median": 1.78, "max": 12.58, "days": 1205, "currentNote": null}, {"metric": "psr", "score": 5.9, "percentile": 94.1, "current": 8.76, "min": 1.05, "median": 2.44, "max": 15.65, "days": 1205, "currentNote": null}, {"metric": "pcr", "score": 41.2, "percentile": 58.8, "current": 18.08, "min": 7.42, "median": 16.43, "max": 53.63, "days": 916, "currentNote": null}, {"metric": "evebitda", "score": 29.5, "percentile": 70.5, "current": 11.08, "min": 2.49, "median": 6.32, "max": 35.26, "days": 1205, "currentNote": null}]}};
+const SKHY_VALUATION = {"peer": {"score": 87.0, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-10-09", "metrics": [{"metric": "pbr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "psr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "pcr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 24}]}, "self": {"score": 21.1, "window": ["2021-10-12", "2026-10-09"], "perBasis": "core", "metrics": [{"metric": "per", "score": 21.6, "percentile": 78.4, "current": 16.43, "min": 5.01, "median": 10.96, "max": 34.51, "days": 898, "currentNote": null}, {"metric": "pbr", "score": 7.3, "percentile": 92.7, "current": 6.32, "min": 0.75, "median": 1.78, "max": 12.58, "days": 1206, "currentNote": null}, {"metric": "psr", "score": 5.9, "percentile": 94.1, "current": 8.76, "min": 1.05, "median": 2.44, "max": 15.65, "days": 1206, "currentNote": null}, {"metric": "pcr", "score": 41.1, "percentile": 58.9, "current": 18.08, "min": 7.42, "median": 16.43, "max": 53.63, "days": 917, "currentNote": null}, {"metric": "evebitda", "score": 29.5, "percentile": 70.5, "current": 11.08, "min": 2.49, "median": 6.33, "max": 35.26, "days": 1206, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2102,7 +2102,7 @@ const SKHY_ACTIVITY = {"ticker": "SKHY", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/skhy/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const SKHY_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 15, nTargets: 10, mean: 254.7, median: 250,
+const SKHY_ANALYST = { asOf: '2026-10-12', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 15, nTargets: 10, mean: 254.7, median: 250,
   low: 200, high: 320, strongBuy: 9, buy: 5, hold: 1, sell: 0, strongSell: 0 };
 (function(){
   const A = SKHY_ANALYST, last = (typeof SKHY_DAILY !== 'undefined' && SKHY_DAILY.length) ? SKHY_DAILY[SKHY_DAILY.length - 1] : null;

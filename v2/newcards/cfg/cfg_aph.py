@@ -95,7 +95,7 @@ BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배·PBR {SM[\'PBR\'][\'cu
         ('부채', 'CommScope 사업 인수 뒤 차입금 $18.8B, 현금·단기투자 $5.4B.'),
         ('일회성', '2분기 이익에 IEEPA 관세 환급 순효과 $80M(분할 전 주당 $0.04)이 들어 있다.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 19, 'nt': 12, 'mean': 101.92, 'median': 105, 'low': 88.5, 'high': 116, 'sb': 13, 'b': 4, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-11'
+ANALYST_ASOF = '2026-10-12'
 MISS_WHY = {('DELL', 'pbr'): ' 자본 음수'}
 PRE = [r'''
 _G = json.loads(re.search(r'^const APH_DCF_GRID = (\{.*?\});', h, re.M).group(1))

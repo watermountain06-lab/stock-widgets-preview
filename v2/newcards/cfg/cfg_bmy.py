@@ -93,7 +93,7 @@ BEAR = [('특허 만료', 'Revlimid −49%, 기존 제품군 −4%.'),
         ('의견', '애널리스트 대부분 보유(Hold) 의견.')]
 MISS_WHY = {('GILD', 'per'): ' 적자', ('GILD', 'evebitda'): ' 적자'}   # C9 뒤 동종 파일 PER은 perNA로 옮겨졌다 — 카드 표기 그대로
 ANALYST = {'rating': 'Hold', 'n': 28, 'nt': 19, 'mean': 66.26, 'median': 65, 'low': 41, 'high': 82, 'sb': 6, 'b': 4, 'h': 17, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-11'
+ANALYST_ASOF = '2026-10-12'
 
 
 # ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──

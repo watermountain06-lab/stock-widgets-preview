@@ -1,39 +1,39 @@
 {
  "ticker": "PSX",
  "window": [
-  "2025-10-10",
+  "2025-10-13",
   "2026-10-09"
  ],
  "multiples": {
   "PER": {
-   "days": 251,
+   "days": 250,
    "current": 15.88,
    "min": 11.56,
    "p10": 14.4,
-   "median": 17.64,
-   "p90": 38.12,
+   "median": 17.62,
+   "p90": 38.13,
    "max": 43.53,
-   "mean": 23.64,
-   "percentile": 29.5,
-   "score": 70.5
+   "mean": 23.61,
+   "percentile": 29.6,
+   "score": 70.4
   },
   "PSR": {
-   "days": 251,
+   "days": 250,
    "current": 0.73,
    "min": 0.39,
    "p10": 0.41,
    "median": 0.51,
-   "p90": 0.66,
+   "p90": 0.67,
    "max": 0.74,
    "mean": 0.52,
    "percentile": 99.2,
    "score": 0.8
   },
   "PBR": {
-   "days": 251,
+   "days": 250,
    "current": 3.52,
-   "min": 1.86,
-   "p10": 1.99,
+   "min": 1.89,
+   "p10": 2.0,
    "median": 2.38,
    "p90": 3.21,
    "max": 3.57,
@@ -45,8 +45,8 @@
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 15.24,
-  "per_p75": 35.97,
+  "per_p25": 15.22,
+  "per_p75": 36.01,
   "low": 270,
   "high": 630,
   "asOf": "2026-10-09",

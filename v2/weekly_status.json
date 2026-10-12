@@ -1,21 +1,51 @@
 {
  "session": "2026-10-09",
- "started": "2026-10-11T13:26:54+0000",
- "finished": "2026-10-11T15:16:58+0000",
+ "started": "2026-10-12T18:27:55+0000",
+ "finished": "2026-10-12T19:12:15+0000",
  "newFilings": [],
  "filingChecksMissed": [],
  "peerDrift": [
-  "SPCX"
+  "BKNG",
+  "BX",
+  "CAT",
+  "CB",
+  "COST",
+  "CVX",
+  "DE",
+  "DIS",
+  "ETN",
+  "GE",
+  "GEV",
+  "HD",
+  "KO",
+  "MCD",
+  "PEP",
+  "PG",
+  "PGR",
+  "PH",
+  "PLD",
+  "PM",
+  "RTX",
+  "SPCX",
+  "T",
+  "TJX",
+  "TMO",
+  "TMUS",
+  "UNP",
+  "VRTX",
+  "VZ",
+  "WELL",
+  "WMT"
  ],
  "peerFiles": [
-  "communication_services: 21종목 · 제외 8 · 기준일 2026-10-09",
+  "communication_services: 21종목 · 제외 2 · 기준일 2026-10-09",
   "consumer_discretionary: 47종목 · 제외 0 · 기준일 2026-10-09",
   "consumer_staples: 34종목 · 제외 0 · 기준일 2026-10-09",
   "energy: 21종목 · 제외 1 · 기준일 2026-10-09",
   "health_care: 59종목 · 제외 0 · 기준일 2026-10-09",
   "industrials: 81종목 · 제외 0 · 기준일 2026-10-09",
   "materials: 25종목 · 제외 1 · 기준일 2026-10-09",
-  "real_estate: 29종목 · 제외 11 · 기준일 2026-10-09",
+  "real_estate: 29종목 · 제외 2 · 기준일 2026-10-09",
   "utilities: 31종목 · 제외 0 · 기준일 2026-10-09",
   "asset_managers: 12종목 · 제외 1 · 기준일 2026-10-09",
   "insurers: 16종목 · 제외 2 · 기준일 2026-10-09",
@@ -24,46 +54,7 @@
  "peerFilesKept": [],
  "peerSecRefresh": null,
  "analystFailed": [],
- "verdictChanges": [
-  {
-   "ticker": "MU",
-   "old": [
-    [
-     -1,
-     1,
-     -2
-    ],
-    "적정~고평가"
-   ],
-   "new": [
-    [
-     0,
-     1,
-     -1
-    ],
-    "적정"
-   ]
-  },
-  {
-   "ticker": "SCHW",
-   "old": [
-    [
-     null,
-     null,
-     null
-    ],
-    "판정 보류"
-   ],
-   "new": [
-    [
-     0,
-     -1,
-     -2
-    ],
-    "고평가"
-   ]
-  }
- ],
+ "verdictChanges": [],
  "failed": [],
  "problems": []
 }

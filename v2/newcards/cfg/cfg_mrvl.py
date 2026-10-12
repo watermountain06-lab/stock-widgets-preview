@@ -96,7 +96,7 @@ BEAR = [('밸류', 'PSR {SM[\'PSR\'][\'current\']:.1f}배는 자기 이력과 IT
         ('희석', 'NVIDIA 우선주 2,178만 주(보통주의 약 2.5%)에 구글 워런트(구매에 따라 최대 5,897만 주)와 Celestial 조건부 주식이 더해질 수 있다.'),
         ('이익', '2분기 GAAP EPS $0.33 대 비GAAP $0.94, 주식보상·인수 무형자산 상각 차이가 크다.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 46, 'nt': 30, 'mean': 340.77, 'median': 350, 'low': 220, 'high': 450, 'sb': 33, 'b': 9, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-11'
+ANALYST_ASOF = '2026-10-12'
 MISS_WHY = {('INTC', 'per'): ' 적자'}
 POST = [r'''
 one("if (label) { label.textContent = '밴드 적중률'; label.title = '백테스트 없음'; }", "if (label) { label.textContent = '밴드 적중률'; label.title = '해당 없음 — 직전 PER 표본 1년 미만'; }")   # C14 ① 사유(카드 직접 수정 5b46b49)

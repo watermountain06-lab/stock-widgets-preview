@@ -1,24 +1,24 @@
 {
  "ticker": "MTD",
  "window": [
-  "2025-10-10",
+  "2025-10-13",
   "2026-10-09"
  ],
  "multiples": {
   "PER": {
-   "days": 251,
+   "days": 250,
    "current": 34.94,
    "min": 24.09,
    "p10": 27.34,
-   "median": 31.99,
+   "median": 31.97,
    "p90": 36.0,
    "max": 37.6,
    "mean": 32.0,
-   "percentile": 76.5,
-   "score": 23.5
+   "percentile": 76.4,
+   "score": 23.6
   },
   "PSR": {
-   "days": 251,
+   "days": 250,
    "current": 8.13,
    "min": 5.36,
    "p10": 6.03,
@@ -42,14 +42,14 @@
    "score": 2.0
   },
   "PCR": {
-   "days": 251,
+   "days": 250,
    "current": 38.9,
    "min": 27.59,
-   "p10": 29.89,
-   "median": 34.04,
+   "p10": 29.87,
+   "median": 34.08,
    "p90": 36.31,
    "max": 38.9,
-   "mean": 33.53,
+   "mean": 33.54,
    "percentile": 99.6,
    "score": 0.4
   }
@@ -57,8 +57,8 @@
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 30.02,
-  "per_p75": 34.8,
+  "per_p25": 30.01,
+  "per_p75": 34.81,
   "low": 1330,
   "high": 1540,
   "asOf": "2026-10-09",

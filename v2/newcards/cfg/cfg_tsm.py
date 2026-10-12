@@ -105,8 +105,8 @@ BULL = [('수요', '세 분기 연속 가이던스 상단 이상이었고, 2026�
 BEAR = [('밸류', '다섯 배수 모두 자기 5년 이력의 비싼 쪽이고, 현재가가 기본 내재가치의 약 {px / DCF[\'base\']:.1f}배다.'),
         ('설비투자', '2026년 설비투자 계획이 $52~56B이고, Q2 설비투자는 매출의 39%였다.'),
         ('환율', '마진 가이던스가 1달러=32대만달러 가정이라, 대만달러가 강해지면 마진이 깎인다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 21, 'nt': 7, 'mean': 541.29, 'median': 530, 'low': 440, 'high': 650, 'sb': 14, 'b': 6, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Strong Buy', 'n': 21, 'nt': 8, 'mean': 883, 'median': 554, 'low': 440, 'high': 3260, 'sb': 14, 'b': 6, 'h': 1, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-12'
 PRE = [r'''
 f_ = lambda a, b_: '—' if a is None or b_ is None else ('흑자 전환' if a > 0 else '적자 지속') if b_ <= 0 else ('적자 전환' if a <= 0 else ('약 %.0f배' % (a / b_) if a / b_ >= 10 else ('0.0%' if abs(a / b_ - 1) < 0.0005 else '%+.1f%%' % ((a / b_ - 1) * 100))))   # fill.py의 증감 함수(f)와 같은 식(ASML과 같이)
 FR = {r_['metric']: r_['value'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}   # 기본적 분석 지표 값
