@@ -619,7 +619,7 @@ def texts(C, ns):
     # ② 비교 기준은 다음 분기의 1년 전 분기다(2026-10-12 사용자 결정 — 전에는 이번 분기와 그 1년 전을 적어, 다음 발표 때 대볼 숫자가 없었다)
     _na, _nal, _nl = A.get("nxt_ago"), A.get("nxt_ago_label"), A.get("next_label")
     if _na and _nal and _nl and rev.get(_na, 0) > 0 and _na in op:
-        _ck_opm = f"{_nl} GAAP 영업이익률이 1년 전 같은 분기({_nal} {op[_na] / rev[_na] * 100:.1f}%)보다 높은지 · 직전 {QL} {opm:.1f}%"
+        _ck_opm = f"{_nl} GAAP 영업이익률이 1년 전 같은 분기({_nal} {op[_na] / rev[_na] * 100:.1f}%)보다 높은지(직전 {QL} {opm:.1f}%)"
     else:
         _ck_opm = f"GAAP 영업이익률이 1년 전 같은 분기보다 높은지({QL} {opm:.1f}%, 1년 전 {opm_yo:.1f}%)"
     ck = [f"매출 증가율(1년 전 대비)이 최근 흐름({trend_txt})보다 낮아지지 않는지" if trend_txt else
