@@ -312,6 +312,8 @@ def ensure(T):
         if m.get("source") == "dart" and (not os.path.exists(p) or not os.path.getsize(p)):   # DART 원문은 API로 다시 받는다(주소는 보기 화면)
             sys.path.insert(0, AD)
             import skhy_dart as sdt
+            if not sdt.key():
+                raise RuntimeError(f"{m['file']}: DART 원문이 캐시에 없고 OpenDART 키도 없다 — OPENDART_KEY 확인")
             sdt.fetch(m["acptno"], m["title"])
             got = True
             continue
@@ -354,8 +356,8 @@ def refresh(T, session):
     try:
         if T == "ASML":
             _asml_fetch()
-        elif T == "SKHY":   # OpenDART 정기보고서(adapters/skhy_dart.py)
-            subprocess.run([sys.executable, os.path.join(AD, "skhy_dart.py")], check=True, capture_output=True, timeout=1800)
+        elif T == "SKHY":   # OpenDART 정기보고서(키가 없으면 skhy_reports.py가 KIND로 — Codex)
+            subprocess.run([sys.executable, os.path.join(AD, "skhy_reports.py")], check=True, capture_output=True, timeout=1800)
         else:
             subprocess.run([sys.executable, os.path.join(AD, "tsm_ifrs.py"), "--refresh"], check=True, capture_output=True, timeout=900)
             # tsm_ifrs.py --refresh는 재무까지 만든다 — 접수일 검사 뒤 다시 만든다
