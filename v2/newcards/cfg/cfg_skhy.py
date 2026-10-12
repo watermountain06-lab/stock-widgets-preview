@@ -12,7 +12,7 @@ BUILD = {'feed': True}   # IFRS·원화 — adapters/skhy_feed.py
 # 아래 손 값 가운데 분기 변수·SEG·STAT3·CAPITAL·NEXT·CHECK·문장은 덮어쓴다(빌드 실패 때 되돌릴 기준으로 남긴다). SHARE_EVENTS(skhy_ifrs.py)는 손으로.
 AUTO = True
 AUTO_OUTSIDE = {'link_tag': '원문', 'ifrs': True, 'q_src': '분기·반기보고서', 'k_src': '사업보고서', 'sym': '₩', 'fs_name': '정기보고서', 'name_from_report': True,
-                'eps_basis': 'K-IFRS · ADR 1주(보통주 0.1주, 원화)', 'dps_none': '정기보고서 요약에 없음',
+                'eps_basis': 'K-IFRS · ADR 1주(보통주 0.1주, 원화)', 'dps_none': 'DART 배당 자료를 받지 못함', 'dps_note': '보통주 1주 · ADR 1주는 0.1배 · DART 배당에 관한 사항',
                 'seg_colors': {'미국': '#e11d48', '중국': '#f97316', '아시아(중국 제외)': '#3498db', '유럽': '#2ecc71', '국내': '#8a8fa8'},
                 'fund_tip': '재무는 K-IFRS 연결재무제표(원화)다. ADR은 2026-07 상장이라 SEC에 10-Q가 없어 한국 정기보고서(OpenDART)를 읽는다. 분기 차트·FCF는 분기 평균 환율로 달러 환산하고, 부문·EPS·자본배분은 원화로 적는다. 자기 이력은 원주(KRX 000660) 가격 분포다.'}
 CIK = '0002120882'

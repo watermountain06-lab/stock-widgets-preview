@@ -170,6 +170,34 @@ def doc_for_period(end):
     raise RuntimeError(f"{end} 정기보고서가 DART 목록에 없다")
 
 
+_RC = {"03-31": "11013", "06-30": "11012", "09-30": "11014", "12-31": "11011"}
+
+
+def dps_ytd(end):
+    """보통주 주당 현금배당(원, 그해 1월부터 누적) — DART '배당에 관한 사항'. 없으면 None."""
+    r = _get("alotMatter.json", corp_code=CORP, bsns_year=end[:4], reprt_code=_RC[end[5:]])
+    if r.get("status") != "000":
+        return None
+    v = next((x.get("thstrm") for x in r.get("list", []) if "주당 현금배당금" in x.get("se", "") and x.get("stock_knd") == "보통주"), None)
+    v = (v or "").replace(",", "").strip()
+    return float(v) if re.fullmatch(r"\d+(\.\d+)?", v) else (0.0 if v in ("-", "0") else None)
+
+
+def dps_quarter(end):
+    """그 분기 보통주 주당 현금배당(원) = 누적 − 직전 분기 누적. 4분기는 연간 − 3분기 누적(결산 배당 포함)."""
+    if not key():
+        return None
+    y, md = end[:4], end[5:]
+    cur = dps_ytd(end)
+    if cur is None:
+        return None
+    prev = {"03-31": None, "06-30": "03-31", "09-30": "06-30", "12-31": "09-30"}[md]
+    if not prev:
+        return cur
+    p = dps_ytd(f"{y}-{prev}")
+    return None if p is None else cur - p
+
+
 # 순서가 중요하다 — 사업보고서의 아시아 멤버 이름에 "CountryOfDomicile"이 들어 있다(AsiaOtherThanCountryOfDomicileAndChina…), 유럽도 회사 고유 이름
 REGION = [(r"Asia", "아시아(중국 제외)"), (r"Europe", "유럽"), (r"_USMember|UnitedStates", "미국"), (r"_CNMember|China", "중국"),
           (r"CountryOfDomicile|Korea", "국내")]

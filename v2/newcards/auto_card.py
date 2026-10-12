@@ -59,6 +59,8 @@ def usd(v):
     """주당 금액 — 센트 아래 자리가 있으면 그대로($1.4225), 없으면 두 자리($1.48). 외국 발행사는 그 통화(SYM)."""
     t = f"{abs(v):.4f}".rstrip("0")
     t = t if len(t.split(".")[1]) >= 2 else f"{abs(v):.2f}"
+    if SYM == "₩":   # 원화는 원 단위(₩375, SKHY)
+        t = f"{abs(v):,.0f}" if abs(v - round(v)) < 1e-9 else f"{abs(v):,.1f}"
     return ("−" if v < 0 else "") + SYM + t
 
 
@@ -520,7 +522,7 @@ def texts(C, ns):
     # 종합 해석
     head = (f"{QL} 매출 {B(rev[cur])}" + (f"({r_rev})" if r_rev else "") + f", 영업이익률 {opm:.1f}%"
             + f"(1년 전 {opm_yo:.1f}%)"
-            + f". 주가는 1년 새 {ns['CH_TXT'].replace('-', '−')}")
+            + f". 주가는 {ns.get('CH_SPAN', '1년 새')} {ns['CH_TXT'].replace('-', '−')}")
     # 성장 흐름: 최근 세 분기의 1년 전 대비 매출 증가율(같은 길이 분기끼리) — 3년 평균과 견주면 환율·인수가 섞인 한 분기로 "가속"이 나왔다(Fable)
     ks_all = sorted(k for k in rev if k <= cur)
     def yoy_at(k):   # 1년 전 분기와 길이가 다르면(6일 넘게) 흐름에서 뺀다(KO 1분기 +6일, Fable)

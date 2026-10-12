@@ -174,6 +174,10 @@ def seg(T, end, yo, q3_end=None):
 
 def dps(T, end):
     """TSM 분기 주당 현금배당(보통주 1주, 대만달러) — 연결재무제표 주석의 이사회 결의 표에서 가장 최근 분기(첫 열). 없으면 None."""
+    if T == "SKHY":   # DART '배당에 관한 사항'(보통주 1주, 원) — 2026-10-12, Fable
+        sys.path.insert(0, AD)
+        import skhy_dart as sdt
+        return sdt.dps_quarter(end)
     rep = report(T, end)
     if T != "TSM" or not rep or not os.path.exists(rep["path"]):
         return None

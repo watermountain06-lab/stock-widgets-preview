@@ -132,6 +132,7 @@ VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현�
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
 ch = (px / D[max(-253, -len(D))][4] - 1) * 100   # 일봉이 1년보다 짧으면 첫날부터(SKHY ADR, 2026-10-05)
 CH_TXT = ('제자리(' + format(ch, '+.1f') + '%)') if abs(ch) < 1 else format(ch, '+.0f') + '%'
+CH_SPAN = '1년 새' if len(D) >= 253 else '상장 이후'   # 문장용 기간(SKHY ADR 2026-07 상장 — '1년 새'가 틀렸다, Fable 2026-10-12)
 if AUTO:
     _ac.texts(C, globals())
 for _code in getattr(C, 'PRE', []):
