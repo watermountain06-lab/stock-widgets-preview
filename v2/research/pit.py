@@ -118,11 +118,15 @@ def _eps_ttm_rule(data, splits, wide=False):
                 b[k] = e
         return sorted(b.values(), key=lambda e: e["end"])
     qs = first([e for e in ents if e.get("form") == "10-Q" and 80 <= pdays(e) <= 100])
-    if wide:   # F5a ②: 10-Q가 아닌 서식의 분기는 그 끝 7일 안에 10-Q 분기가 없을 때만
-        q10 = [date.fromisoformat(q["end"]) for q in qs]
-        qs = sorted(qs + first([e for e in ents if e.get("form") != "10-Q" and 80 <= pdays(e) <= 100
-                                and not any(abs((date.fromisoformat(e["end"]) - d0).days) <= 7 for d0 in q10)]),
-                    key=lambda e: e["end"])
+    if wide:   # F5a ②: 10-Q가 아닌 서식의 분기도 받되, 끝이 7일 안인 분기끼리는 먼저 공시된 하나만 남긴다
+        # (그 분기가 공시될 때 이미 있던 10-Q가 이긴다 — 나중 10-Q가 먼저 공개된 분기를 밀어내지 않게, Codex)
+        cand = sorted(qs + first([e for e in ents if e.get("form") != "10-Q" and 80 <= pdays(e) <= 100]),
+                      key=lambda e: (e["filed"], e.get("form") != "10-Q", e["end"]))
+        kept = []
+        for e in cand:
+            if not any(abs((date.fromisoformat(e["end"]) - date.fromisoformat(k["end"])).days) <= 7 for k in kept):
+                kept.append(e)
+        qs = sorted(kept, key=lambda e: e["end"])
     fy = first([e for e in ents if e.get("form") == "10-K" and pdays(e) > 350])
     have = {f["end"] for f in fy}
     for (st, en), n_ in ni.items():
@@ -172,7 +176,7 @@ def _eps_ttm_rule(data, splits, wide=False):
                     **({"replaced": True} if any(x.get("replaced") for x in w) else {})})
     if wide:   # F5a ④: 공개된 10-K 연간 희석 EPS는 결산일의 TTM 점
         for f in fy:
-            if 350 < pdays(f) <= 380:
+            if 350 <= pdays(f) <= 380 and "_ni" not in f:   # 공시된 연간 EPS만(순이익으로 합성한 연간은 4분기 유도용)
                 out.append({"quarter_end": f["end"], "available": f["filed"], "val": round(f["val"], 4), "_annual": True,
                             **({"replaced": True} if f.get("replaced") else {})})
     return sorted(out, key=lambda e: e["available"])
@@ -190,28 +194,29 @@ def eps_ttm(data, splits):
     if not B:
         return B
     E = _eps_ttm_rule(data, splits, wide=True)
-    bq = {}
-    for b in B:
-        bq.setdefault(b["quarter_end"], b)
-    eq = {}
-    for e in E:
-        k = e["quarter_end"]
-        if k not in eq or (not eq[k].get("_annual"), eq[k]["available"]) > (not e.get("_annual"), e["available"]):
-            eq[k] = e
     out = [dict(b) for b in B]
-    idx = {b["quarter_end"]: o for b, o in zip(B, out)}
+    idx = {}
+    for o in out:
+        idx.setdefault(o["quarter_end"], o)
+    eq = {}
+    for e in E:   # 같은 결산일이면 먼저 공개된 점, 같은 날이면 연간 점(Fable — SPG 2021-12)
+        k = e["quarter_end"]
+        if k not in eq or (eq[k]["available"], not eq[k].get("_annual")) > (e["available"], not e.get("_annual")):
+            eq[k] = e
     for k, e in eq.items():
-        if k not in bq:
+        if k not in idx:
             out.append({x: y for x, y in e.items() if x != "_annual"} | {"f5": "annual" if e.get("_annual") else "added"})
-        elif abs(e["val"] - bq[k]["val"]) <= max(0.005 * abs(bq[k]["val"]), 0.005) and e["available"] < bq[k]["available"]:
+        elif abs(e["val"] - idx[k]["val"]) <= max(0.005 * abs(idx[k]["val"]), 0.005) and e["available"] < idx[k]["available"]:
             idx[k]["available"], idx[k]["f5"] = e["available"], "earlier"
+    # 그 공개일에 결산일이 같거나 더 늦은 점이 이미 공개돼 있으면 그 점은 쓰지 않는다 — 기존 점(B)·앞당긴 점 포함
+    # (뒤늦게 공개된 옛 분기가 "가장 최근 공개" 자리를 차지해 더 오래된 값이 쓰이지 않게, Fable·Codex — IRM 2022).
     out.sort(key=lambda e: (e["available"], e["quarter_end"]))
     keep, latest = [], ""
     for e in out:
-        if e.get("f5") in ("added", "annual") and e["quarter_end"] <= latest:
+        if e["quarter_end"] <= latest:
             continue
         keep.append(e)
-        latest = max(latest, e["quarter_end"])
+        latest = e["quarter_end"]
     return keep
 
 

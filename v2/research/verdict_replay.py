@@ -226,6 +226,9 @@ def multiple_series(t, cik, daily, eps):
         """F5b dq 표식: 그날 분모가 신선도 한도로 빠진 배수."""
         lab = []
         if core:
+            e = as_of_e(eps, dd) if eps else None
+            if e and not fresh(e.get("end"), dd):
+                lab.append("PER_dil")
             parts = {n: [e for e in series.get(n, []) if e["available"] <= dd] for n in ("opinc", "tax", "pretax")}
             if all(parts.values()):
                 common = set.intersection(*({e["end"] for e in x} for x in parts.values()))
@@ -497,7 +500,10 @@ def build(panel_path=PANEL):
                     # 동종업용 값(공시 EPS 기준 PER)
                     if lab == "PER" and core_day:
                         x = pdil_day(day, px_then) if pdil_day else None
-                        e_ = bmh.as_of(eps, day) if eps else None
+                        _ee = [e for e in eps if e["available"] <= day] if eps else []
+                        _ee = _ee[-1] if _ee else None
+                        # F5b: 묵은 EPS는 음수 판정에도 쓰지 않는다(신선도가 음수 판정보다 먼저 — Codex)
+                        e_ = _ee["val"] if _ee and (not _ee.get("end") or (date.fromisoformat(day) - date.fromisoformat(_ee["end"])).days <= STALE_DAYS) else None
                         peerv["PER_dil"] = x if x else (NEG if (e_ is not None and e_ <= 0) else None)
                         continue
                     # 동종업 값은 자기 이력 창과 무관하게 그날 배수 · 분모 부호로(Codex)
