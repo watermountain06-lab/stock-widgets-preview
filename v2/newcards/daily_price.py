@@ -34,7 +34,7 @@ V2 = os.path.dirname(HERE)
 REPO = os.path.dirname(V2)
 PY = sys.executable
 BANKS = ["COF", "AXP", "BAC", "C", "GS", "JPM", "MS", "SCHW", "WFC"]   # COF 먼저 — AXP 카드가 COF_bank.json(같은 날짜)을 참고로 읽는다
-HAND = ["BRKB", "SPCX"]   # NVDA는 2026-10-11부터 생성기 자동 카드(cfg_nvda.py)
+HAND = ["BRKB", "SPCX"]   # NVDA는 2026-10-11부터 생성기 자동 카드(cfg_nvda.py). BRKB는 2026-10-12부터 전용 생성기(newcards/brkb/)
 STATUS = os.path.join(V2, "daily_status.json")
 
 
@@ -293,6 +293,8 @@ def build(T, work):
         # 은행 공통 재빌드(사전 등록 7판, 2026-10-11): 새 분기(기준표가 카드 재무보다 새로움)이거나 토요일이면 원문 값·비교 은행을 새로, 아니면 가격만
         full = auto_quarter_due(T) or os.environ.get("V2_WEEKLY") == "1"
         return run(["bash", "v2/newcards/bank/rebuild.sh", T], env=dict(os.environ, **({} if full else {"PRICE_ONLY": "1"})))
+    if T == "BRKB":   # 전용 생성기(2026-10-12): 새 10-Q·10-K 원문 받기 → 가격 → 분기 숫자·문장 → 숫자 칸 → 대체값(newcards/brkb/rebuild.sh)
+        return run(["bash", "v2/newcards/brkb/rebuild.sh"])
     if T in HAND:   # 손 카드: 가격 배열 + 숫자 칸(자기 이력·동종업·밴드, hand_refresh.py — 2026-10-11). 문장은 손으로
         steps = [[PY, "v2/newcards/price_arrays.py", T], [PY, "v2/newcards/hand_refresh.py", T], [PY, "v2/apply_theme.py", T], [PY, "v2/sync_fallbacks.py", T]]
     else:
