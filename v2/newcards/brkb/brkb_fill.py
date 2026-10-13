@@ -93,9 +93,10 @@ def B(v, nd=None):
     """$B — 100억 달러 넘으면 소수 한 자리, 아니면 두 자리(카드 관례: $177.5B, $1.73B)."""
     if v is None:
         return "—"
-    a = abs(v) / 1e9
+    from decimal import Decimal, ROUND_HALF_UP   # 13,485 → $13.49B(이진 소수 반올림은 $13.48B, Fable)
+    a = Decimal(repr(abs(float(v)))) / Decimal(10 ** 9)
     nd = nd if nd is not None else (1 if a >= 10 else 2)
-    return ("−" if v < 0 else "") + f"${a:,.{nd}f}B"
+    return ("−" if v < 0 else "") + f"${a.quantize(Decimal(1).scaleb(-nd), rounding=ROUND_HALF_UP):,.{nd}f}B"
 
 
 def pc(a, b):
@@ -106,6 +107,11 @@ def pc(a, b):
 
 def pct(x, nd=1):
     return "—" if x is None else f"{x:+.{nd}f}%".replace("-", "−")
+
+
+def vs(a, b):
+    """증감 표기 — 1년 전 값이 0 이하(적자)면 비율 대신 그 값을 적는다(Fable)."""
+    return pct(pc(a, b)) if b is not None and b > 0 else f"1년 전 {B(b * 1e6, 2)}"
 
 
 # ── SEC 제출 목록: 10-Q 주소, 실적 보도자료(8-K 2.02), 발표일(토요일) ──
@@ -147,8 +153,12 @@ SRC = (f'<a href="{PRESS}" target="_blank" rel="noopener">Berkshire {QL} 실적 
        else f'<a href="{TENQ}" target="_blank" rel="noopener">Berkshire {QL} {FORM} (SEC) →</a>')
 REL = release_day(Q["filed"])
 try:
-    _na_filed = bq.doc_for(NA)[2]
-    NEXT_DAY = release_day(_na_filed) + dt.timedelta(days=364)
+    _ra = release_day(bq.doc_for(NA)[2])   # 작년 같은 분기 발표(토요일) — 같은 달 같은 번째 토요일(11월 첫 토요일 등, Fable)
+    _nth, _yy = (_ra.day - 1) // 7, _ra.year + 1
+    _d1 = dt.date(_yy, _ra.month, 1)
+    NEXT_DAY = _d1 + dt.timedelta(days=(5 - _d1.weekday()) % 7 + 7 * _nth)
+    if NEXT_DAY.month != _ra.month:   # 다섯째 토요일이 없는 달
+        NEXT_DAY -= dt.timedelta(days=7)
 except bq.BrkbParseError:
     NEXT_DAY = REL + dt.timedelta(days=91)
 WD = "월화수목금토일"
@@ -156,6 +166,7 @@ NEXT_TXT = f"{NEXT_DAY.month}월 {NEXT_DAY.day}일({WD[NEXT_DAY.weekday()]}) 무
 CHECK_WHEN = f"{NEXT_DAY.year}년 {NEXT_DAY.month}월 {NEXT_DAY.day}일 무렵 (예상) · {NL}"
 
 # ── 분기 값 ──────────────────────────────────────────────────────────────
+FX = bq.fx_of(Q["doc"], qn)   # 기타에 든 외화 차입금 환산 손익(세후 $M, 이번·1년 전) — 못 읽으면 None
 # 세후 사업별 표는 $M 그대로 쓴다(B6로 적는다)
 S, SY = bq.seg_quarter(L, ASOF)
 SP = bq.seg_quarter(bq.prev_q(L), ASOF)[0]
@@ -227,7 +238,7 @@ else:
 sub(r'<div class="stat-label">보험 플로트 \([^)]*\)</div>\n      <div class="stat-value">[^<]*</div>\n      <div class="stat-sub">[^<]*</div>',
     f'<div class="stat-label">보험 플로트 ({dot(L)})</div>\n      <div class="stat-value">{B(Q["float"], 1)}</div>\n      <div class="stat-sub">{FL_NOTE}</div>')
 sub(r'<div class="stat-label">다음 실적</div>\n      <div class="stat-value">[^<]*</div>\n      <div class="stat-sub">[^<]*</div>',
-    f'<div class="stat-label">다음 실적</div>\n      <div class="stat-value">{NEXT_DAY.month}월 {NEXT_DAY.day}일 무렵 예상</div>\n      <div class="stat-sub">일정 · {NL} (작년과 같은 토요일로 추정)</div>')
+    f'<div class="stat-label">다음 실적</div>\n      <div class="stat-value">{NEXT_DAY.month}월 {NEXT_DAY.day}일 무렵 예상</div>\n      <div class="stat-sub">일정 · {NL} (작년과 같은 달 같은 번째 토요일로 추정)</div>')
 
 # ── 3. 재무 건전성 ────────────────────────────────────────────────────────
 sub(r'재무 건전성 — 안정성·활동성 \([^)]*\)', f'재무 건전성 — 안정성·활동성 ({QL} · {dot(L)} 기준)')
@@ -311,7 +322,8 @@ sub(r'(<div style="display:flex;flex-direction:column;gap:9px;">\n)(?:\s*<div st
 _neg = [lab for lab, k, _ in SEGS if sv[k] < 0]
 sub(r'<div class="yoy-footnote" style="margin-top:14px;">출처: .*?</div>',
     f'<div class="yoy-footnote" style="margin-top:14px;">출처: {SRC} · 회사 정의 세후 영업이익 {B(tot * 1e6, 2)}(투자 평가손익·손상 제외)'
-    + (f' · {"·".join(_neg)}는 손실이라 도넛에서 0으로 그렸다' if _neg else '') + '</div>')
+    + (f' · {"·".join(_neg)}는 손실이라 도넛에서 0으로 그렸다' if _neg else '')
+    + (f' · 기타에는 외화 차입금 환산 손익(세후) {"+" if FX[0] >= 0 else "−"}${abs(FX[0]):,.0f}M(1년 전 {"+" if FX[1] >= 0 else "−"}${abs(FX[1]):,.0f}M)이 들어 있다' if FX else '') + '</div>')
 sub(r"// ─── 영업이익 구성 도넛 차트 \([^)]*\) ───", f"// ─── 영업이익 구성 도넛 차트 ({QL} {FORM}, 세후 $M) ───")
 sub(r"(function renderSegmentChart\(\) \{.*?const total = )-?\d+;", lambda m: m.group(1) + f"{round(sum(max(v, 0) for v in sv.values()))};")
 sub(r"(labels:\[\"보험 인수\"[^\]]*\],\n      datasets:\[\{\n        data:)\[[^\]]*\]",
@@ -343,7 +355,7 @@ sub(r'(<div class="card-title">)자본배분 · 주주환원 \([^)]*\)(</div>\n 
     lambda m: m.group(1) + f"자본배분 · 주주환원 ({QL} · {dot(L)} 기준)" + m.group(2) + ZL + m.group(3))
 sub(r'(<div class="yoy-footnote" style="margin-top:10px;">자사주는 CEO가 회장과 협의해 내재가치보다 싸다고 볼 때만 산다\(한도 없음\)\. 1967년 이후 현금배당이 없다\. 출처: ).*?(</div>)',
     lambda m: m.group(1) + (f'<a href="{PRESS}" target="_blank" rel="noopener">{QL} 보도자료</a> · ' if PRESS else "")
-    + f'<a href="{TENQ}" target="_blank" rel="noopener">{QL} {FORM}</a> · 사업 인수는 현금흐름표의 인수 지출(취득 현금 차감)' + m.group(2))
+    + f'<a href="{TENQ}" target="_blank" rel="noopener">{QL} {FORM}</a> · 자사주는 자본변동표의 취득 원가(현금흐름표 지급액과 다를 수 있다) · 사업 인수는 현금흐름표의 인수 지출(취득 현금 차감, 소규모 인수 포함)' + m.group(2))
 
 # ── 7. 다음 실적 체크포인트 ─────────────────────────────────────────────────
 try:
@@ -351,11 +363,13 @@ try:
 except bq.BrkbParseError:
     NS = None
 B6 = lambda v: B(v * 1e6, 2)
-ck = [f"자사주 매입이 이어지는지 ({QK} {B(Q['buyback'], 1) if Q['buyback'] else '없음'}, 연초~{md} {B(Q['buyback_ytd'], 1) if Q['buyback_ytd'] else '없음'})"]
+_ytd_txt = "" if qn == 1 else f", 연초~{md} {B(Q['buyback_ytd'], 1) if Q['buyback_ytd'] else '없음'}"
+ck = [f"자사주 매입이 이어지는지 ({QK} {B(Q['buyback'], 1)}{_ytd_txt})" if Q["buyback"]
+      else f"자사주 매입을 다시 시작하는지 ({QK} 없음{_ytd_txt})"]
 if NS:
-    ck += [f"{NL} 보험 인수이익이 1년 전 같은 분기({NAL} {B6(NS['uw'])})보다 높은지(직전 {QL} {B6(S['uw'])})",
-           f"{NL} 보험 투자수익이 1년 전 같은 분기({NAL} {B6(NS['invinc'])})보다 높은지(직전 {QL} {B6(S['invinc'])})",
-           f"{NL} 회사 영업이익(세후)이 1년 전 같은 분기({NAL} {B6(NS['oper'])})보다 높은지(직전 {QL} {B6(S['oper'])})"]
+    ck += [f"보험 인수이익이 {NAL} {B6(NS['uw'])}를 넘는지 (직전 분기 {B6(S['uw'])})",
+           f"보험 투자수익이 {NAL} {B6(NS['invinc'])}를 넘는지 (직전 분기 {B6(S['invinc'])})",
+           f"회사 영업이익(세후)이 {NAL} {B6(NS['oper'])}를 넘는지 (직전 분기 {B6(S['oper'])})"]
 CK = "\n".join(f'      <div{" style=\"margin-bottom:8px;\"" if i < len(ck) - 1 else ""}><strong style="color:var(--accent2);">{"①②③④"[i]}</strong> {t_}</div>' for i, t_ in enumerate(ck))
 sub(r'(<div class="card-title">다음 실적 체크포인트 <span[^>]*>)[^<]*(</span></div>\n    <div style="font-size:12px;color:var\(--text2\);line-height:1.8;">\n).*?(\n    </div>)',
     lambda m: m.group(1) + CHECK_WHEN + m.group(2) + CK + m.group(3))
@@ -367,7 +381,8 @@ _gap = (P["op_norm"] / oper_ttm - 1) * 100
 _ii = pc(S["invinc"], SY["invinc"])
 sub(r'<div class="verdict-summary-risk">⚠️ 정상화 PER의 이익은.*?</div>',
     f'<div class="verdict-summary-risk">⚠️ 정상화 PER의 이익은 순이익에서 투자·파생 손익을 빼고 손상을 되돌린 우리 정의로, 회사가 밝힌 영업이익과 최근 4분기 {abs(_gap):.1f}% 차이다. '
-    f'보험 투자수익은 {QK} 1년 전보다 {pct(_ii)}였고, 이 이익이 줄면 같은 주가에서도 PER이 올라간다.</div>')
+    + (f'{QK} 보험 투자수익({B6(S["invinc"])})은 1년 전보다 {abs(_ii):.1f}% {"줄었고" if _ii < 0 else "늘었고"}, ' if _ii is not None else '')
+    + '보험 투자수익이 줄면 같은 주가에서도 PER이 올라간다.</div>')
 sub(r'(<span class="op-label">다음 실적</span>\n        <span class="op-val">)[^<]*<span class="op-sub">[^<]*</span>',
     lambda m: m.group(1) + f'{NEXT_DAY.month}월 {NEXT_DAY.day}일 무렵 <span class="op-sub">{NL} 예상</span>')
 DCF = json.loads(re.search(r"const BRKB_DCF = (\{.*?\});", h, re.S).group(1))
@@ -427,14 +442,18 @@ sub(r'<div class="section-title">시계열 주요 뉴스 \([^)]*\)</div>',
 
 oy = pc(S["oper"], SY["oper"])
 ni_ins, ni_ins_y = NONINS(S), NONINS(SY)
-bul = [f"보험 밖 사업(BNSF·BHE·제조·서비스·소매) 세후 이익은 {B6(ni_ins)}({pct(pc(ni_ins, ni_ins_y))}), 보험 인수이익 {B6(S['uw'])}({pct(pc(S['uw'], SY['uw']))}), 보험 투자수익 {B6(S['invinc'])}({pct(_ii)})였다.",
-       ((f"자사주를 {QK}에 {B(Q['buyback'], 1)}, 연초부터 {B(Q['buyback_ytd'], 1)} 샀" if Q["buyback_ytd"] else "연초부터 자사주를 사지 않았")
-        + (f"고, 사업 인수에는 연초부터 현금 {B(Q['acq_ytd'], 1)}를 썼다." if Q["acq_ytd"] else "다.")),
-       f"현금·국채(보험·기타) {B(cash_io, 1)}, 보험 플로트 {B(Q['float'], 1)}({FL_NOTE})."]
+_bb = (f"자사주를 {QK}에 {B(Q['buyback'], 1)}" + ("" if qn == 1 else f"(연초부터 {B(Q['buyback_ytd'], 1)})") + " 샀" if Q["buyback"]
+       else f"{QK}에는 자사주를 사지 않았" + (f"(연초부터 {B(Q['buyback_ytd'], 1)})" if Q["buyback_ytd"] else ""))
+bul = [f"보험 밖 사업(BNSF·BHE·제조·서비스·소매) 세후 이익은 {B6(ni_ins)}({vs(ni_ins, ni_ins_y)}), 보험 인수이익은 {B6(S['uw'])}({vs(S['uw'], SY['uw'])}), 보험 투자수익은 {B6(S['invinc'])}({vs(S['invinc'], SY['invinc'])})였다.",
+       _bb + (f"고, 사업 인수에는 연초부터 현금 {B(Q['acq_ytd'], 1)}를 썼다." if Q["acq_ytd"] else "다."),
+       f"현금·국채(보험·기타)는 {B(cash_io, 1)}, 보험 플로트는 {B(Q['float'], 1)}({FL_NOTE})다."]
+if FX:   # 기타의 외화 환산 손익을 빼면 — 헤드라인 증가율의 상당 부분이 이 손익일 수 있다(Fable)
+    _ex, _exy = S["oper"] - FX[0], SY["oper"] - FX[1]
+    bul.insert(1, f"기타에 든 외화 차입금 환산 손익(세후 {'+' if FX[0] >= 0 else '−'}${abs(FX[0]):,.0f}M, 1년 전 {'+' if FX[1] >= 0 else '−'}${abs(FX[1]):,.0f}M)을 빼면 회사 영업이익은 {B6(_ex)}({vs(_ex, _exy)})다.")
 _neg_c = sorted([(pc(S[k], SY[k]), n_) for k, n_ in (("uw", "보험 인수이익"), ("invinc", "보험 투자수익"), ("msr", "제조·서비스·소매"), ("rail", "BNSF"), ("energy", "BHE"))
                  if pc(S[k], SY[k]) is not None and pc(S[k], SY[k]) < -5])
-CTR = ("⚠️ " + ", ".join(f"{n_}이 1년 전보다 {abs(v):.1f}%" for v, n_ in _neg_c[:2]) + f" 줄었다. 순이익에는 투자 평가손익({B6(S['gains'])})이 들어 있어 분기마다 크게 흔들린다."
-       if _neg_c else f"⚠️ 순이익에는 투자 평가손익({B6(S['gains'])})이 들어 있어 분기마다 크게 흔들린다. 현금·국채 {B(cash_io, 1)}는 자본의 {cash_io / eq * 100:.0f}%다.")
+CTR = ("⚠️ 1년 전 대비 " + ", ".join(f"{n_} {pct(v)}" for v, n_ in _neg_c[:2]) + f". 순이익에는 투자 평가손익(세후 {B6(S['gains'])})이 들어 있어 분기마다 크게 흔들린다."
+       if _neg_c else f"⚠️ 순이익에는 투자 평가손익(세후 {B6(S['gains'])})이 들어 있어 분기마다 크게 흔들린다. 현금·국채 {B(cash_io, 1)}는 자본의 {cash_io / eq * 100:.0f}%다.")
 _tag = ("영업이익 증가" if oy is not None and oy > 2 else "영업이익 감소" if oy is not None and oy < -2 else "영업이익 보합") + " · 판정 보류"
 SUM = (f'<div class="verdict-summary-head">지배적 내러티브 · {QL} 회사 영업이익 {B6(S["oper"])}({pct(oy)}), 순이익 {B(Q["ni"], 1)}<span class="tag">{_tag}</span></div>\n'
        '    <ol class="news-list">\n' + "\n".join(f"      <li>{x}</li>" for x in bul) + "\n    </ol>\n"
@@ -445,22 +464,18 @@ sub(r'<div class="verdict-summary-head">지배적 내러티브.*?<div class="ver
 # ── 10. 핵심 투자 포인트(규칙 후보 → 강세·약세 셋씩) ─────────────────────────
 cand = []
 cand.append(("현금", 1.0 if cash_io >= 100e9 else 0.0, f"현금·국채(보험·기타) {B(cash_io, 1)}로 차입금 {B(debt, 1)}의 {_mult:.1f}배다."))
-for k, head, w in (("rail", "BNSF", 0.7), ("energy", "BHE", 0.7), ("msr", "제조·서비스·소매", 0.8)):
-    g = pc(S[k], SY[k])
-    if g is not None and abs(g) >= 5:
-        cand.append((head, w * (1 if g > 0 else -1), f"{QK} 세후 이익 {B6(S[k])}, 1년 전보다 {pct(g)}."))
+_gi = pc(ni_ins, ni_ins_y)
+if _gi is not None and abs(_gi) >= 5:   # 보험 밖 사업은 한 줄로(BNSF·BHE·제조가 각각 셋 자리를 다투지 않게, Fable)
+    cand.append(("보험 밖 사업", 0.85 * (1 if _gi > 0 else -1),
+                 f"{QK} 세후 이익 {B6(ni_ins)}({pct(_gi)}) — BNSF {vs(S['rail'], SY['rail'])}, BHE {vs(S['energy'], SY['energy'])}, 제조·서비스·소매 {vs(S['msr'], SY['msr'])}."))
 for k, head in (("uw", "보험 인수"), ("invinc", "보험 투자수익")):
     g = pc(S[k], SY[k])
     if g is not None and abs(g) >= 5:
-        cand.append((head, 0.9 * (1 if g > 0 else -1), f"{QK} {head}이익 {B6(S[k])}, 1년 전 {B6(SY[k])}보다 {pct(g)}." if k == "uw"
-                     else f"{QK} 보험 투자수익 {B6(S[k])}, 1년 전 {B6(SY[k])}보다 {pct(g)}."))
+        cand.append((head, 0.9 * (1 if g > 0 else -1), f"{QK} {'보험 인수이익' if k == 'uw' else '보험 투자수익'} {B6(S[k])}, 1년 전 {B6(SY[k])}보다 {abs(g):.1f}% {'늘었다' if g > 0 else '줄었다'}."))
 if Q["buyback"]:
-    cand.append(("자사주", 0.8, f"{QK}에 {B(Q['buyback'], 1)}를 샀다(연초부터 {B(Q['buyback_ytd'], 1)}). 회사는 내재가치보다 쌀 때만 산다고 밝혀 왔다."))
+    cand.append(("자사주", 0.8, f"{QK}에 {B(Q['buyback'], 1)}를 샀다" + ("" if qn == 1 else f"(연초부터 {B(Q['buyback_ytd'], 1)})") + ". 회사는 내재가치보다 쌀 때만 산다고 밝혀 왔다."))
 if Q["float_ytd_change"]:
     cand.append(("플로트", 0.5 if Q["float_ytd_change"] > 0 else -0.5, f"보험 플로트 {B(Q['float'], 1)}, {FL_NOTE}."))
-_r = PX / iv
-if _r >= 1.15 or _r <= 0.95:
-    cand.append(("두 기둥", -0.6 if _r >= 1.15 else 0.6, f"현재가가 두 기둥 참고값(${iv:.0f})의 {_r:.2f}배다(판정에는 넣지 않는 참고값)."))
 if Q["top5_pct"] >= 60:
     cand.append(("집중", -0.5, f"상장주식 {B(Q['eq_fv'], 1)}의 {Q['top5_pct']}%가 5종목에 몰려 있다."))
 seen = set()

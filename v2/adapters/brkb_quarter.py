@@ -169,6 +169,28 @@ def float_of(doc):
     return v, None
 
 
+QW = {1: "first", 2: "second", 3: "third"}
+
+
+def fx_of(doc, qn):
+    """'기타'에 든 외화 차입금 환산 손익(세후, $M) (이번 분기, 1년 전 분기) — 확실한 문장 꼴 둘만 읽고, 못 읽으면 None(선택 정보).
+    10-Q 2·3분기: '…exchange gains were $326 million in the second quarter … compared to losses of $877 million in the second quarter'
+    10-Q 1분기: '…exchange rate gains of $249 million in 2026 compared to losses of $713 million in 2025'. 10-K(4분기)는 읽지 않는다."""
+    if qn not in QW:
+        return None
+    t = text_of(doc)
+    amt = lambda v, u: float(v.replace(",", "")) * (1000 if u == "billion" else 1)
+    sg = lambda w: 1 if w == "gains" else -1
+    m = re.search(r"after-tax foreign currency exchange (?:rate )?(gains|losses) (?:were|of) \$([\d.,]+) (million|billion) in the "
+                  + QW[qn] + r" quarter[^.]{0,160}?compared to (?:after-tax )?(gains|losses) of \$([\d.,]+) (million|billion) in the " + QW[qn] + " quarter", t)
+    if not m and qn == 1:
+        m = re.search(r"after-tax foreign currency exchange (?:rate )?(gains|losses) of \$([\d.,]+) (million|billion) in \d{4} compared to "
+                      r"(?:after-tax )?(gains|losses) of \$([\d.,]+) (million|billion) in \d{4}", t)
+    if not m:
+        return None
+    return sg(m.group(1)) * amt(m.group(2), m.group(3)), sg(m.group(4)) * amt(m.group(5), m.group(6))
+
+
 def top5_of(doc):
     """(상위 5종목 비중 %, 종목 이름 목록) — 문장 꼴 둘(2025년 뒤 '…represented 66 %', 그 전 각주 'Approximately 70 % … five companies (…)')."""
     t = text_of(doc)
