@@ -381,8 +381,9 @@ def apply(C, T):
     C._AUTO["next_label"] = nl
     C.FUND_ASOF_NOTE = f"{C.TENQ_NAME}"
     lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})   # 차트에 보이는 8분기 안에서만(Fable)
-    C.FCF_SUB = "영업현금흐름 − 설비투자" + (f" · 분기 길이가 {'·'.join(map(str, lens))}주로 다르다" if len(lens) > 1 else "")
-    C.CAPEX_SUB = "설비투자(현금흐름표)"
+    _cx = getattr(C, "CAPEX_LABEL", "설비투자")   # 설비투자 태그가 다른 지출을 합친 종목(VLO: 설비투자 + 정기보수·촉매, Codex 2026-10-13)
+    C.FCF_SUB = f"영업현금흐름 − {_cx}" + (f" · 분기 길이가 {'·'.join(map(str, lens))}주로 다르다" if len(lens) > 1 else "")
+    C.CAPEX_SUB = f"{_cx}(현금흐름표)"
 
 
 def apply_outside(C, T):

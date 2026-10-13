@@ -49,7 +49,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
     ap.add_argument("--data", action="store_true", help="채우기 전까지만")
-    ap.add_argument("--asof", default="2026-09-30")
+    # 기준일: 새 종목(Yahoo 일봉으로 배열을 새로 만드는 경우)만 필수. 다른 모드는 배열을 옮긴 뒤 카드 일봉 마지막 날로 정한다
+    # (기본값 2026-09-30이 고정돼 있어 새 카드가 9/30에서 잘리거나 --from-card의 no_dcf asOf에 박혔다 — dr 2026-10-13)
+    ap.add_argument("--asof", default=None)
     ap.add_argument("--sync-base", default=None, help="sync_fallbacks에 넘길 http 서버 주소(복제본에서 돌릴 때 — 기본 8765)")
     ap.add_argument("--from-card", action="store_true",
                     help="재현 모드 — 배열을 루트 카드가 아니라 지금 v2 카드의 사본에서 옮긴다(가격·날짜가 그 카드와 같다, 2026-10-05)")
@@ -83,6 +85,10 @@ def main():
         a.asof = re.findall(r'\["(\d{4}-\d{2}-\d{2})",', re.search(rf"const {T}_DAILY\s*=\s*(\[.*?\]);", open(src, encoding="utf-8").read()).group(1))[-1]
         track_old = re.search(rf"const {T}_DCF_TRACK = \[.*?\];", open(src, encoding="utf-8").read(), re.S).group(0)
 
+    if new and not a.from_card and not a.price:   # 새 종목: 기준일과 공시 기준을 빌드 전에 확인(C6, newcards/preflight.py)
+        if not a.asof:
+            sys.exit(f"{T}: 새 종목은 --asof <최근 확정 세션>이 필요하다(newcards/README.md 새 종목 순서)")
+        run([PY, os.path.join(HERE, "preflight.py"), T, "--asof", a.asof], show=r".")
     if B.get("overlay") and net:
         print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장")
     if B.get("share_events") and net:   # v2.1 D-1(2026-10-05)
@@ -114,12 +120,18 @@ def main():
     if src:
         run([PY, os.path.join(HERE, "root_arrays.py"), T, src], show=r"^arrays")
     elif new:
+        if not a.asof:
+            sys.exit(f"{T}: 새 종목은 --asof <최근 확정 세션>이 필요하다(newcards/README.md 새 종목 순서)")
         arr = [PY, "v2/new_ticker_arrays.py", T, "--yahoo", yahoo, "--asof", a.asof]
         if B.get("bt_start"):
             arr += ["--bt-start", B["bt_start"]]
         run(arr, show=r"^arrays|checkpoints")
     else:
         run([PY, os.path.join(HERE, "root_arrays.py"), T], show=r"^arrays")
+    _last = re.findall(r'\["(\d{4}-\d{2}-\d{2})",', re.search(rf"const {T}_DAILY\s*=\s*(\[.*?\]);", open(os.path.join(REPO, card), encoding="utf-8").read(), re.S).group(1))[-1]
+    if a.asof and a.asof != _last:
+        sys.exit(f"{T}: 기준일 {a.asof}와 카드 일봉 마지막 날 {_last}이 다르다")
+    a.asof = _last   # 모든 모드에서 기준일 = 카드 일봉 마지막 날(no_dcf 블록 asOf 등)
     print("· 재무")
     if not net:
         print("    (가격 재빌드 — 이전 재무 파일)")

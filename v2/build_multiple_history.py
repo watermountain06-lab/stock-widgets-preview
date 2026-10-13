@@ -396,6 +396,9 @@ EXTRA_TAGS = {
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
     # 2020-09에 멈춘 PaymentsToAcquireProductiveAssets를 잡아 PCR 계산 불가였다(2026-10-02).
     "0000024741": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},
+    # VLO: 2026년 10-Q부터 현금흐름표 설비투자·정기보수 줄을 VIE 차원으로만 태깅해 PaymentsToAcquireProductiveAssets가 2025-09에 멈췄다(PCR 계산 불가).
+    # SegmentExpenditureAdditionToLongLivedAssets(차원 없음)가 겹치는 기간에 같은 값이다 — 2024년 $2,057M, 2025년 상반기 $1,066M, 2026년 상반기 $798M(2026-10-13).
+    "0001035002": {"PaymentsToAcquirePropertyPlantAndEquipment": ["SegmentExpenditureAdditionToLongLivedAssets"]},
     "0000766704": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"],
                    "NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # COST: 세전이익을 FY2023부터 IncomeLossAttributableToParent로 낸다(FY2023 연간 8,487 = 손익계산서 세전이익,
@@ -541,6 +544,9 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아
                 # EV/EBITDA가 높게 나왔다(Fable, 2026-10-01).
                 "0000318154": ("DepreciationAndAmortization",),
+                # VLO: DepreciationAndAmortization은 판관비 줄 D&A(분기 $12~14M)뿐이다 — 큰 몫은 매출원가 줄(CostOfGoodsAndServicesSoldDepreciationAndAmortization,
+                # 분기 $723~828M)이라 EBITDA ≈ 영업이익, EV/EBITDA 최고 452배였다. 현금흐름표 D&A(DepreciationAmortizationAndAccretionNet, 2025년 $3,158M)를 쓴다(Fable 2026-10-13).
+                "0001035002": ("DepreciationAndAmortization",),
                 # MCD: DepreciationDepletionAndAmortization(분기 $111M)는 현금흐름표 D&A(DepreciationAndAmortization, 분기 $565M)의 일부라
                 # 앞 태그가 이겨 EBITDA·DCF 감가상각이 낮았다(최근 4분기 $0.47B 대 약 $2.2B, 2026-10-02).
                 "0000063908": ("DepreciationDepletionAndAmortization",),
@@ -1106,6 +1112,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0000100885": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # COP: 1년 안 만기 차입금 DebtCurrent($462M, 2026-06-30)가 빠지고 금융리스($0.8B)는 장기 태그 안인데 따로 더해졌다(2026-10-02).
                   "0001163165": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # VLO: 기본 목록 태그가 없어 공정가치 주석의 금융리스 뺀 차입금(DebtLongtermAndShorttermCombinedAmount $9,101M)으로 대체됐다.
+                  # 재무상태표 "debt and finance lease obligations" 유동 $927M + 장기 $10,422M = $11,349M(2026-06-30, COP와 같은 조합, 2026-10-13).
+                  "0001035002": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DHR: 1년 안 만기 차입금을 DebtCurrent($1,411M, 2026-06-26)로 낸다 — 기본 목록(LongTermDebtCurrent는 2011년에 멈춤)에서 빠졌다(2026-10-02).
                   "0000313616": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # GLW: 장기차입금 태그만 잡혀 1년 안 만기·단기차입 $668M이 빠졌다(재무상태표 Total debt $8,424M, 2026-10-02).

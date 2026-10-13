@@ -199,7 +199,7 @@ sub(r"curLabel: 'Q2 FY27', cmpLabel: 'Q2 FY26',\n    titleSuffix: '[^']*',\n    
     f"curLabel: '{QL}', cmpLabel: '{C.YL}',\n    titleSuffix: 'YoY ({QL} vs {C.YL})',\n    chart: {{ cur: {vec(cur)}, cmp: {vec(yo)} }},\n    deltas: [{tq(yd)}],")
 sub(r"curLabel: 'Q2 FY27', cmpLabel: 'Q1 FY27',\n    titleSuffix: '[^']*',\n    chart: \{ cur: \[[^\]]*\], cmp: \[[^\]]*\] \},\n    deltas: \[[^\]]*\],",
     f"curLabel: '{QL}', cmpLabel: '{C.QQL}',\n    titleSuffix: 'QoQ ({QL} vs {C.QQL})',\n    chart: {{ cur: {vec(cur)}, cmp: {vec(qo)} }},\n    deltas: [{tq(qd)}],")
-fn = lambda a, extra='': (f"footnote: '기준일: {C.CUR.replace('-', '.')}({QL}) vs {a} · GAAP 기준{(', 순이익은 본업 기준(공시 순이익 ' + QL + ' $' + str(r1(ni_gaap[cur])) + 'B)') if CORE else ''} · FCF는 영업현금흐름 − 설비투자 · {extra}"
+fn = lambda a, extra='': (f"footnote: '기준일: {C.CUR.replace('-', '.')}({QL}) vs {a} · GAAP 기준{(', 순이익은 본업 기준(공시 순이익 ' + QL + ' $' + str(r1(ni_gaap[cur])) + 'B)') if CORE else ''} · FCF는 영업현금흐름 − {getattr(C, 'CAPEX_LABEL', '설비투자')} · {extra}"
                           f"<a href=\"{PR[getattr(C, 'PR_CUR', 'q2')]}\" target=\"_blank\" rel=\"noopener\">{C.CO} {QL} 실적 보도자료 (SEC 8-K) →</a>'")
 sub(r"footnote: '기준일: 2026\.07\.26\(Q2 FY27\) vs 2025\.07\.27\(Q2 FY26\)[^\n]*'", fn(f'{C.YO.replace("-", ".")}({C.YL})', F(C.YOY_EXTRA)))
 sub(r"footnote: '기준일: 2026\.07\.26\(Q2 FY27\) vs 2026\.04\.26\(Q1 FY27\)[^\n]*'", fn(f'{C.QO.replace("-", ".")}({C.QQL})'))

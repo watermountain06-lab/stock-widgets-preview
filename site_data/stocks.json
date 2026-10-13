@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T03:03:49Z",
+  "generatedAt": "2026-10-13T19:19:53Z",
   "priceSession": "2026-10-12",
   "scoreVersion": "v2",
   "tickers": [
@@ -4523,6 +4523,47 @@
         "status": "available",
         "total": 39.4,
         "grade": "미흡",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-12",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "VLO",
+      "name": "발레로 에너지",
+      "sector": "에너지 — 정유",
+      "href": "VLO_full_widget.html",
+      "cardRank": 104,
+      "cardAsOf": "2026-10-12",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 436.0,
+        "prevClose": 433.75,
+        "session": "2026-10-12",
+        "prevSession": "2026-10-09",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 287927461,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-24",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0001628280-26-050937 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 49.3,
+        "grade": "보통",
         "financialsAsOf": "2026-06-30",
         "valuationAsOf": "2026-10-12",
         "qualityFlags": []

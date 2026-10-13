@@ -140,7 +140,9 @@ def check(T, verbose):
 
 
 def main():
-    args = [a.upper() for a in sys.argv[1:]]
+    strict = "--strict" in sys.argv   # 새 카드 점검용: 리터럴 후보가 하나라도 있으면 종료 코드 1(후보는 우연히 같은 숫자일 수 있어 검토 뒤 판단)
+    args = [a.upper() for a in sys.argv[1:] if not a.startswith("--")]
+    errors = 0
     tickers = args or sorted(f[4:-3].upper() for f in os.listdir(os.path.join(HERE, "cfg")) if f.startswith("cfg_") and f.endswith(".py"))
     total = 0
     rows = []
@@ -151,6 +153,7 @@ def main():
             hits = check(T, bool(args))
         except Exception as e:
             print(f"{T}: 확인 실패 {type(e).__name__}: {e}")
+            errors += 1
             continue
         total += len(hits)
         rows.append((len(hits), T))
@@ -159,6 +162,10 @@ def main():
     if not args:
         print("cfg별 계산값 리터럴 수(많은 순):", ", ".join(f"{t} {n}" for n, t in sorted(rows, reverse=True) if n))
         print(f"합계 {total}곳 · 0곳인 cfg {sum(1 for n, _ in rows if n == 0)}장 / {len(rows)}장")
+    if errors:
+        sys.exit(2)   # 확인 자체가 실패한 cfg가 있으면 비정상 종료(dr 2026-10-13)
+    if strict and total:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

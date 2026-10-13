@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """카드 재무보다 새 분기 보고서(10-Q·10-K·20-F)가 SEC에 나온 카드를 찾는다 — 토요일 점검(2026-10-06 사용자 결정).
 
-새 보고서는 자동으로 카드에 넣지 않는다(문장이 지난 분기 내용으로 쓰여 있고, 분기 갱신은 pipeline_checks.md의
-점검을 거친다). 여기서는 "확인 대기" 목록만 만든다. 카드 재무 기준일 = {T}_FUNDAMENTAL.asOf(분기 말).
+AUTO 카드·은행의 새 보고서는 매일 실행(daily_price.auto_approve)이 스스로 반영한다(2026-10-10). 여기서는 손 카드와 자동 반영이
+멈춘 카드의 "확인 대기" 목록을 만든다 (2026-10-13 고침). 카드 재무 기준일 = {T}_FUNDAMENTAL.asOf(분기 말).
 
     python3 v2/newcards/new_filings.py            # 103장
     python3 v2/newcards/new_filings.py NVDA KO

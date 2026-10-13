@@ -19,10 +19,13 @@ import subprocess
 import sys
 import tempfile
 
+_BANK_CFG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "newcards/bank/cfg")
+BANK_TICKERS = {f[4:-3].upper() for f in os.listdir(_BANK_CFG) if f.startswith("cfg_") and f.endswith(".py")}   # 은행 카드(은행 RIM 경로) — 이름 하드코딩 대신 bank/cfg 목록(dr 2026-10-13)
+
 V2 = os.path.dirname(os.path.abspath(__file__))
 # build_peer_score 일반 경로를 쓰지 않는 카드 — BRKB(두 기둥 어댑터), COF(은행 카드 어댑터: PTBV·PER 음수 제외).
 # 다른 금융 카드는 일반 경로로 다시 계산해도 카드 값과 같았다(2026-10-04 전 카드 대조).
-SKIP = {"BRKB", "COF"}
+SKIP = {"BRKB"}   # 은행은 아래 BANK_TICKERS로 뺀다(일반 비교군 경로를 쓰지 않음)
 
 
 def card_peer(t):
@@ -50,7 +53,7 @@ def main():
     tickers = sys.argv[1:] or sorted(f.split("_")[0] for f in os.listdir(V2) if f.endswith("_full_widget.html"))
     drift, failed, nomult = 0, [], []
     for t in tickers:
-        if t in SKIP:
+        if t in SKIP or t in BANK_TICKERS:
             continue
         if not os.path.exists(os.path.join(V2, f"{t}_multiples.json")):
             nomult.append(t)            # 은행 RIM 카드 등 — 자기 이력 JSON이 없어 이 점검 밖

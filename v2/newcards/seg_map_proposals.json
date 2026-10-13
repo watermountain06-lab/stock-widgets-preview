@@ -1717,5 +1717,26 @@
     "#00837c"
    ]
   }
+ },
+ "VLO": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "vlo:RefiningMember": [
+    "정유",
+    "#1d4f91"
+   ],
+   "vlo:RenewableDieselMember": [
+    "재생 디젤",
+    "#6aa84f"
+   ],
+   "vlo:EthanolMember": [
+    "에탄올",
+    "#e0a030"
+   ]
+  }
  }
 }

@@ -8,7 +8,7 @@
   - 한 장이 실패하면(문장 전제 확인, 데이터 검사, JS 오류) 그 카드는 전날 상태로 되돌리고 실패로 적는다.
 
 카드 종류별 길:
-  생성기 카드(cfg 있는 91장)  REFRESH=1 build.py T --price
+  생성기 카드(cfg 있는 92장)  REFRESH=1 build.py T --price(새 공시를 승인한 AUTO 카드는 --weekly)
   은행 9장                    기반·카드 배열에 새 종가(price_arrays.py) → bank/rebuild.sh(공통, 사전 등록 7판 — 새 분기·토요일이면 원문 값·비교 은행도)
   NVDA                        2026-10-11부터 생성기 자동 카드(cfg_nvda.py) — 다른 카드와 같다
   BRKB·SPCX(손 카드)          새 종가 → 대체값 동기화(배수·판정 칸은 토요일·손 갱신 몫)
@@ -18,8 +18,8 @@
     python3 v2/newcards/daily_price.py --weekly        # 토요일: 비교군 파일·애널리스트를 새로 받고 → 103장 → 비교군 어긋남 점검 → 새 분기 보고서 점검
 결과: v2/daily_status.json(카드별 상태·마지막 봉·판정 전후) — 종료 코드 0 = 실패 없음, 1 = 실패 있음.
 
-토요일 모드도 SEC 재무는 새로 받지 않는다. 카드 재무보다 새 10-Q·10-K가 나온 카드는 `newFilings`에 "확인 대기"로만 적는다
-(문장이 지난 분기 내용이고, 분기 갱신은 research/pipeline_checks.md의 점검을 거친다 — 2026-10-06).
+AUTO 카드·은행의 새 10-Q·10-K는 auto_approve가 스스로 승인하고 그 카드를 --weekly로 다시 만든다(2026-10-10). 손 카드와 자동 반영이
+멈춘 카드만 `newFilings`에 "확인 대기"로 남는다 (2026-10-13 고침).
 """
 import json
 import os
@@ -154,7 +154,7 @@ def first_session_after(accepted_utc):
 
 def auto_approve(status, session, tickers):
     """자동 카드의 새 10-Q·10-K를 기준표(v2/sec_approved.json)에 스스로 올린다(2026-10-10 사용자 결정: 새 공시는 자동 반영).
-    조건: 정정 아닌 10-Q·10-K, SEC 요약 자료(companyfacts)에 그 공시가 이미 실림, 접수 뒤 첫 종가가 오늘 세션까지 들어옴.
+    조건: 10-Q·10-K(정정 10-Q/A·10-K/A 포함 — 아래 주석, 정정 처리 방침은 사용자 결정 대기), SEC 요약 자료(companyfacts)에 그 공시가 이미 실림, 접수 뒤 첫 종가가 오늘 세션까지 들어옴.
     요약 자료에 아직 없으면 '대기'로 두고 다음 실행에서 다시 본다. 반환: {T: (CIK, 예전 날짜, 새 날짜)} — 카드가 실패하면 되돌린다."""
     import importlib.util
     sys.path.insert(0, V2)
