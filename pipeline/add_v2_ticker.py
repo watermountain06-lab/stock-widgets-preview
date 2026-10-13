@@ -6,7 +6,7 @@
 - cardRank = 목록 끝 번호 + 1(카드 순위 — 시총 순위가 아니다. 검사기가 중복·공백을 막는다).
 - sector = meta/{t}.json의 sub("NYSE · 에너지 — 정유")에서 거래소 뒤, cardAsOf = 카드 일봉 마지막 날.
 - shares = v2 엔진 SEC 요약 자료의 dei EntityCommonStockSharesOutstanding 최신 값(단일 클래스만 — 클래스가 여럿이면 멈춘다, 손으로 classes를 넣는다).
-- price는 "unavailable"로 두고 이어서 `python3 pipeline/fetch_prices.py --tickers T --write`, 등급·점수는 `python3 pipeline/sync_v2_home.py`가 채운다.
+- price = 카드 일봉 마지막 두 종가(홈 priceSession과 같은 날일 때만 — fetch_prices --tickers는 쓰지 않는다: 다른 종목을 stale로 바꾸고 장 마감 뒤엔 세션을 올린다). 등급·점수는 `python3 pipeline/sync_v2_home.py`가 채운다.
 이미 목록에 있으면 아무것도 하지 않는다.
 """
 import argparse
@@ -34,7 +34,8 @@ def main():
         return
     card = (V2 / f"{T}_full_widget.html").read_text(encoding="utf-8")
     daily = re.search(rf"const {T}_DAILY\s*=\s*(\[.*?\]);", card, re.S).group(1)
-    as_of = re.findall(r'\["(\d{4}-\d{2}-\d{2})",', daily)[-1]
+    bars = re.findall(r'\["(\d{4}-\d{2}-\d{2})",\s*[-\d.]+,\s*[-\d.]+,\s*[-\d.]+,\s*([-\d.]+)', daily)
+    as_of = bars[-1][0]
     meta = json.loads((V2 / "newcards" / "meta" / f"{t}.json").read_text(encoding="utf-8"))
     sector = meta["sub"].split("·", 1)[-1].strip()
     import build_multiple_history as bmh
@@ -52,17 +53,23 @@ def main():
     if r["filed"] != appr:   # 마지막 dei 행이 카드의 기준 공시 것이 아니면 낡았거나(V는 2010년에 멈춤) 클래스별로 빠진 것이다(Codex 2026-10-13)
         sys.exit(f"{T}: dei 주식 수({last}, 접수 {r['filed']})가 기준 공시({appr})의 것이 아니다 — 표지 주식 수를 확인해 shares를 손으로 넣는다")
     rank = max(x["cardRank"] for x in data["tickers"]) + 1
+    # 가격 칸은 카드 일봉 마지막 두 종가로 — 홈 가격 세션과 같은 날일 때만(2026-10-13 MO: 장 마감 뒤 fetch_prices --tickers가 홈 세션을 다음 날로 올리고
+    # 나머지 104종목을 "stale"로 바꿨다). 다르면 비워 두고 다음 매일 실행이 채운다.
+    if as_of == data.get("priceSession") and len(bars) >= 2:
+        price = {"close": float(bars[-1][1]), "prevClose": float(bars[-2][1]), "session": as_of, "prevSession": bars[-2][0], "status": "fresh"}
+    else:
+        price = {"close": None, "status": "unavailable", "statusReason": f"새 종목 — 카드 마지막 봉 {as_of} ≠ 홈 가격 세션 {data.get('priceSession')}, 다음 매일 실행이 채운다"}
     data["tickers"].append({
         "ticker": T, "name": a.name, "sector": sector, "href": f"{T}_full_widget.html",
         "cardRank": rank, "cardAsOf": as_of, "listing": {"type": "common"},
-        "price": {"close": None, "status": "unavailable", "statusReason": "새 종목 — 가격 받기 전(fetch_prices.py --write)"},
+        "price": price,
         "shares": {"usEquivalent": int(r["val"]), "method": "sec-dei", "basis": "single", "asOf": r["end"], "filedAt": r["filed"],
                    "filing": f'{r.get("form")} {r.get("accn")} dei (v2 카드 엔진 facts)', "status": "ok"},
         "tier": {"value": None, "raw": None, "status": "missing", "note": "추가 직후 — sync_v2_home.py가 채운다"},
         "score": {"status": "excluded", "reason": "추가 직후 — sync_v2_home.py가 채운다"},
     })
     sp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"{T}: 홈 목록 {rank}번째로 추가(cardAsOf {as_of}, 주식 수 {int(r['val']):,} {r['end']}) — 이어서 fetch_prices --write, sync_v2_home")
+    print(f"{T}: 홈 목록 {rank}번째로 추가(cardAsOf {as_of}, 주식 수 {int(r['val']):,} {r['end']}) — 이어서 sync_v2_home")
 
 
 if __name__ == "__main__":

@@ -45,7 +45,7 @@
 8. `python3 v2/newcards/fetch_analyst.py T` · `python3 v2/newcards/news_auto.py T` · `python3 v2/newcards/quarter_auto.py T --check`(cfg 씨앗 분기 변수와 자동 값이 같아야 — 다르면 종료 코드 1. **새 종목 T만** 돌린다 — 인자 없이 돌리면 분기가 바뀐 옛 카드의 낡은 씨앗(MU·PEP·TENQ 등 8장, 2026-10-13)이 어긋남으로 나오지만 빌드는 자동 값을 쓰므로 영향 없다).
 9. `python3 v2/newcards/build.py T --asof <세션>`(첫 빌드는 `REFRESH=1`을 붙여 계산된 판정을 cfg `VOTES`에 쓰게 하고, 값을 확인한다) → **현행 백테스트 규칙**: `python3 v2/build_backtest_pre.py T`(연구 가격 캐시에 없는 종목은 `--yahoo T`, "가격 없음 — 만들지 않음"이 나오면 산출물이 없는 것) → `python3 v2/refresh_backtest.py T` → `python3 v2/sync_fallbacks.py T [--base …]` → `python3 v2/newcards/check_literals.py T --strict`(0곳, 남으면 검토).
 10. **확인** — 브라우저(콘솔 오류 0, NVDA 틀 잔재 `grep -i "nvda\|nvidia\|FY27\|확인 필요"`, 구성요소 개수 `detail-toggle` 2·`val-item` 5·`data-fund-metric=` 5) → Codex → Fable(비판만) → 고치고 Codex 2차. `python3 v2/newcards/preflight.py T --after`(카드 재무 접수일 = 기준표, 매일 재빌드 고리 없음).
-11. **홈 등록** — `python3 pipeline/add_v2_ticker.py T`(stocks.json 항목: 카드 순위·이름·업종·주식 수) → `python3 pipeline/fetch_prices.py --tickers T --write`(가격 칸 — `--write`가 없으면 저장 안 함) → 로고 `logos/{t}.png` → `python3 pipeline/sync_v2_home.py`(루트로 복사, 등급·점수·등급 이력 — **바뀐 v2 카드를 전부 복사하므로 다른 카드 빌드가 도는 중에는 돌리지 않는다**, 반쯤 쓴 카드가 루트로 간다) → `python3 pipeline/build_index.py` → `python3 pipeline/validate_site_data.py`.
+11. **홈 등록** — `python3 pipeline/add_v2_ticker.py T`(stocks.json 항목: 카드 순위·이름·업종·주식 수) (가격 칸도 카드 일봉 마지막 두 종가로 채운다 — **`fetch_prices.py --tickers T`는 쓰지 않는다**: 나머지 종목을 "stale"로 바꾸고, 장 마감 뒤에는 홈 가격 세션을 다음 날로 올린다(MO 2026-10-13)) → 로고 `logos/{t}.png` → `python3 pipeline/sync_v2_home.py`(루트로 복사, 등급·점수·등급 이력 — **바뀐 v2 카드를 전부 복사하므로 다른 카드 빌드가 도는 중에는 돌리지 않는다**, 반쯤 쓴 카드가 루트로 간다) → `python3 pipeline/build_index.py` → `python3 pipeline/validate_site_data.py`.
 12. **매일 실행 시험** — `python3 v2/newcards/daily_price.py T`(상태 단어 확인 — 카드를 새 종가로 다시 만든다, 리뷰 뒤에 돌린다). 이 시험은 `v2/daily_status.json`을 그 종목 하나로 덮어쓴다 — 커밋 전에 `git checkout v2/daily_status.json`.
 13. **기록** — `v2/CARD_ITEMS.md` 카드 절, 공통 과제는 `v2/research/after_100_cards_agenda.md` 사례. 라이브(redesign) 승격은 사용자가 말할 때만(`sync_cards.py`·`build_home.py`·`build_value_gap`).
 
@@ -85,6 +85,8 @@
 6. 홈 등록·기록은 위 11~13과 같다.
 
 ## 분사 종목 (GE·DELL·IBM·WDC·T)
+
+**분사가 끝났는데 아직 재작성 숫자가 없으면 만들지 않는다** — 공시 재무에는 떨어져 나간 사업이 남아 있고 주가는 분사 뒤라 PER·DCF가 섞인다. 10-Q의 "discontinued operations" 문단으로 재작성 시점을 확인하고 그 보고서 뒤로 미룬다(SPGI: Mobility 2026-07-01 분사, Q3 2026 10-Q부터 재작성 — 2026-10-13 보류).
 
 `RESTATED_LATEST`, 자기 이력 창(`build_multiple_history.HISTORY_START`)은 **재작성 숫자가 처음 공시된 날**. 최근 4분기 합이 모두 분사 뒤 분기여야 한다(T). DCF 이력(`build_dcf.HISTORY_WINDOW`)은 네 분기가 모두 재작성인 첫 최근 4분기 합부터. 백테스트는 `bt_start`로 같은 날부터.
 

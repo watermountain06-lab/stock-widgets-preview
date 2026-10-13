@@ -1738,5 +1738,26 @@
     "#e0a030"
    ]
   }
+ },
+ "MO": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "mo:SmokeableProductsSegmentMember": [
+    "흡연 제품",
+    "#033787"
+   ],
+   "mo:OralTobaccoSegmentMember": [
+    "구강 담배",
+    "#68b820"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타",
+    "#c51100"
+   ]
+  }
  }
 }

@@ -540,6 +540,15 @@ if _tt_old in h:
 if getattr(C, 'REQ_MULT_EXACT', False):
     one("가 필요해 지난 5년의 3배를 넘는다.`", "가 필요해 지난 5년의 ${Math.round(d.requiredGrowth / d.growth5y)}배다.`")
     one("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요해 지난 5년 실제의 ${Math.round(D.requiredGrowth / D.growth5y)}배다.`")
+# 요구 영업이익률의 성장 경로: build_dcf_block은 5년 성장이 영구성장률(2.5%)보다 낮으면 2.5%에서 시작한다 — "지난 5년 속도로 크다가"는 그때 틀리다.
+# 5년 성장이 0 이하면 "지난 5년의 N배"도 뜻이 없다(MO −2.2%·BX, Codex 2026-10-13). 그 경우만 문장이 바뀌고 나머지 카드는 그대로다.
+for _v, _f in (("d", "f1"), ("D", "pc")):
+    h = h.replace(f"지난 5년 속도(연 ${{{_f}({_v}.growth5y)}})로 크다가 식는 동안`",
+                  f"` + ({_v}.growth5y < 0.025 ? `연 2.5%(지난 5년 연 ${{{_f}({_v}.growth5y)}}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${{{_f}({_v}.growth5y)}})로 크다가 식는 동안`)")
+for _v, _f, _tail in (("d", "f1", "가 필요해 지난 5년의 "), ("D", "pc", "가 필요해 지난 5년 실제의 ")):
+    _m = re.search(re.escape(f"연 ${{{_f}({_v}.requiredGrowth)}}{_tail}") + r"([^`]*)`", h)
+    if _m:
+        h = h.replace(_m.group(0), f"연 ${{{_f}({_v}.requiredGrowth)}}` + ({_v}.growth5y <= 0 ? `가 필요하다(지난 5년 실제는 연 ${{{_f}({_v}.growth5y)}}로 줄었다).` : `{_tail}{_m.group(1)}`)", 1)
 # 현금흐름 칸 쏠림 메모(A0, 86af3f2)는 비금융 카드에만 — 근거 패널에 금융이 없다. GICS Financials면 뺀다(cfg NO_DCF_SKEW는 예전 표시, 남겨 둬도 같음)
 _SECT = json.load(open('sectors.json')).get(T)   # GICS 섹터(v2/sectors.json)
 if getattr(C, 'NO_DCF_SKEW', False) or 'Financ' in json.dumps(_SECT or ''):   # 금융 섹터는 섹터로 정한다(v2.1 B-3, 2026-10-05 — MA·V에 남아 있었다)
