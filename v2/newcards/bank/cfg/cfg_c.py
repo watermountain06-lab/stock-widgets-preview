@@ -7,6 +7,6 @@ PB = ['JPM', 'BAC', 'USB', 'FITB', 'MTB', 'RF']   # 비교 차트에 그릴 은�
 COLOR = '#0f6eb4'
 BV_NOTE = ""
 ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 16, 'mean': 155.06, 'median': 159, 'low': 139, 'high': 169, 'sb': 13, 'b': 5, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-12'
+ANALYST_ASOF = '2026-10-13'
 NEWS = []   # 손 뉴스 없음 — 실적 보도자료 8-K는 news_auto.py가 넣는다
 NEWS_DAYS = 400
