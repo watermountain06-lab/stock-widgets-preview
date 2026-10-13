@@ -142,14 +142,12 @@ def seg_quarter(end, asof=None):
     q3 = seg_table(doc_for(f"{y}-09-30", asof)[3])
     if len(q3["ni"]) != 4:
         raise BrkbParseError(f"{y} 3분기 10-Q 세후 표에 누계 열이 없다")
-    if set(tab) != set(q3):   # 연말에 행을 합친 해(2024 Pilot → 제조·서비스·소매): 남는 'x:' 행만 기타에 넣는다(영업이익 합은 그대로)
-        diff = set(tab) ^ set(q3)
-        if any(not k.startswith("x:") for k in diff):
-            raise BrkbParseError(f"{y} 10-K와 3분기 10-Q의 세후 표 행이 다르다: {sorted(diff)}")
-        for t_ in (tab, q3):
-            for k in [k for k in t_ if k in diff]:
-                t_.setdefault("other", [0.0] * len(t_[k]))
-                t_["other"] = [a_ + b_ for a_, b_ in zip(t_["other"], t_.pop(k))]
+    if set(tab) != set(q3):   # 연말 10-K에서 사라진 사업 행은 제조·서비스·소매에 합쳐진 것(2024 Pilot) — 3분기 누계 쪽도 거기에 더한다(Codex)
+        gone, new = set(q3) - set(tab), set(tab) - set(q3)
+        if new or any(not k.startswith("x:") for k in gone):
+            raise BrkbParseError(f"{y} 10-K와 3분기 10-Q의 세후 표 행이 다르다: {sorted(gone | new)}")
+        for k in gone:
+            q3["msr"] = [a_ + b_ for a_, b_ in zip(q3["msr"], q3.pop(k))]
     cur = {k: tab[k][0] - q3[k][2] for k in tab}
     yo = {k: tab[k][1] - q3[k][3] for k in tab}
     return _col({k: [v] for k, v in cur.items()}, 0), _col({k: [v] for k, v in yo.items()}, 0)

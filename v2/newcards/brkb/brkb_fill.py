@@ -50,7 +50,27 @@ def sub(pat, new, flags=re.S, count=1):
 # ── 기준 시점·가격 ───────────────────────────────────────────────────────
 D = json.loads(re.search(r"const BRKB_DAILY = (\[.*?\]);", h, re.S).group(1))
 SESSION, PX = D[-1][0], D[-1][4]
-ASOF = os.environ.get("BRKB_ASOF") or (dt.date.fromisoformat(SESSION) - dt.timedelta(days=1)).isoformat()   # BRKB_ASOF: 지난 분기로 되돌려 시험할 때만
+import auto_card as ac  # noqa: E402
+import news_auto as na  # noqa: E402
+SUB = ac._submissions(CIK)
+ROWS = list(zip(SUB["form"], SUB["filingDate"], SUB["accessionNumber"], SUB["primaryDocument"], SUB["items"]))
+
+
+def first_session_after(accepted_utc):
+    """공시 접수 뒤 첫 종가 세션(동부 16:00 이후면 다음 거래일) — daily_price.first_session_after와 같은 규칙."""
+    from zoneinfo import ZoneInfo
+    t_ = dt.datetime.strptime(accepted_utc[:19], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=dt.timezone.utc).astimezone(ZoneInfo("America/New_York"))
+    day = t_.date() if t_.hour < 16 else t_.date() + dt.timedelta(days=1)
+    while day.weekday() >= 5:
+        day += dt.timedelta(days=1)
+    return day.isoformat()
+
+
+# 기준 시점: 접수 뒤 첫 종가가 카드의 마지막 종가 이전인 10-Q·10-K까지(장 마감 뒤 공시는 다음 종가부터, Codex).
+# 숫자 칸(brkb_multiples: 접수일 ≤ 거래일)과는 장 마감 뒤 접수된 날 하루만 다를 수 있다.
+_ok = [SUB["filingDate"][i] for i, f in enumerate(SUB["form"]) if f in ("10-Q", "10-K", "10-Q/A", "10-K/A")
+       and first_session_after(SUB["acceptanceDateTime"][i]) <= SESSION]
+ASOF = os.environ.get("BRKB_ASOF") or max(_ok)   # BRKB_ASOF: 지난 분기로 되돌려 시험할 때만
 L = bq.last_end(ASOF)
 Q = bq.quarter(L, ASOF)
 P = bp.pillars(ASOF)
@@ -89,12 +109,6 @@ def pct(x, nd=1):
 
 
 # ── SEC 제출 목록: 10-Q 주소, 실적 보도자료(8-K 2.02), 발표일(토요일) ──
-import auto_card as ac  # noqa: E402
-import news_auto as na  # noqa: E402
-SUB = ac._submissions(CIK)
-ROWS = list(zip(SUB["form"], SUB["filingDate"], SUB["accessionNumber"], SUB["primaryDocument"], SUB["items"]))
-
-
 def doc_url(doc):
     r = next((x for x in ROWS if x[3] == doc and x[0] in ("10-Q", "10-K")), None)
     return f"https://www.sec.gov/Archives/edgar/data/{int(CIK)}/{r[2].replace('-', '')}/{doc}" if r else None

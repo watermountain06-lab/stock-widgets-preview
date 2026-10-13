@@ -17,13 +17,25 @@ import auto_card as ac  # noqa: E402
 
 CIK = "0001067983"
 STORE = os.path.join(V2, ".sec_cache", "brk_facts.json")
+RAW = os.path.join(V2, ".sec_cache", "brk_filings")
+FIN = os.path.join(V2, "fundamental_data", "BRKB_financials.json")
 sub = ac._submissions(CIK)
 latest = max((sub["filingDate"][i] for i, f in enumerate(sub["form"]) if f in ("10-Q", "10-K")), default=None)
 have = max((f["filed"] for f in json.load(open(STORE)) if f["form"] in ("10-Q", "10-K")), default=None) if os.path.exists(STORE) else None
-if latest and (have is None or latest > have):
-    print(f"BRKB: 새 공시 {latest}(저장소 {have}) — 원문을 받아 사실을 다시 쌓는다", flush=True)
+facts = json.load(open(STORE)) if os.path.exists(STORE) else []
+missing = sorted({f["doc"] for f in facts} - set(os.listdir(RAW) if os.path.isdir(RAW) else []))
+if latest and (have is None or latest > have) or missing:
+    # 캐시에 사실 저장소만 있고 원문이 빠졌으면(Actions 캐시) 원문도 다시 받는다 — 채우기가 MD&A 글을 읽는다(Codex)
+    why = f"새 공시 {latest}(저장소 {have})" if not missing else f"원문 {len(missing)}건 없음"
+    print(f"BRKB: {why} — 원문을 받아 사실을 다시 쌓는다", flush=True)
     subprocess.run([sys.executable, os.path.join(V2, "adapters", "brkb_facts.py")], check=True)
-    subprocess.run([sys.executable, os.path.join(V2, "vendor", "fetch_financials.py"), "BRKB", "--cik", CIK, "--years", "5",
-                    "--out", os.path.join(V2, "fundamental_data", "BRKB_financials.json")], check=True)
+    facts = json.load(open(STORE))
 else:
     print(f"BRKB: 새 공시 없음(SEC {latest}, 저장소 {have})")
+# 재무 요약이 사실 저장소의 마지막 분기보다 뒤처지면 다시 받는다 — 앞 실행이 실패해 되돌려졌어도 다음 실행이 채운다(Codex)
+last_rep = max((f["report"] for f in facts if f["form"] in ("10-Q", "10-K")), default=None)
+fin_end = ((json.load(open(FIN)).get("revenue") or {}).get("latestQuarter") or {}).get("end") if os.path.exists(FIN) else None
+if last_rep and (fin_end is None or fin_end < last_rep):
+    print(f"BRKB: 재무 요약 {fin_end} < {last_rep} — 다시 받는다", flush=True)
+    subprocess.run([sys.executable, os.path.join(V2, "vendor", "fetch_financials.py"), "BRKB", "--cik", CIK, "--years", "5",
+                    "--out", FIN], check=True)
