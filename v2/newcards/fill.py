@@ -428,7 +428,7 @@ if _auto:
             _e = {x['quarter_end']: x['quarter_eps'] for x in _eps}
             _rc = _ac.chg(rev[C.CUR], rev.get(C.YO))
             _sym, _ac.SYM = _ac.SYM, ('$' if _out else _ac.SYM)   # 외국 발행사: 여기 매출·이익은 PRE가 달러로 바꾼 값(증감률은 달러 기준)
-            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + (', 영업이익 ' if _out else ', GAAP 영업이익 ') + _ac.B(op[C.CUR]))
+            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + (', 영업이익 ' if _out else ', 합성 영업이익(세전이익 기준) ' if str(C.CIK).zfill(10) in bmh.DERIVED_OPINC else ', GAAP 영업이익 ') + _ac.B(op[C.CUR]))
             _ac.SYM = _sym
             _body += ((f', 희석 EPS {_ac.money(_e[C.CUR])}(1년 전 {_ac.money(_e[C.YO])})' if C.CUR in _e and C.YO in _e else '')
                       + (f' · {C.TENQ_NAME} 기준, 매출·이익은 분기 평균 환율로 달러 환산' if _out else ' · SEC 10-K 기준' if C.TENQ_NAME.endswith('10-K') else ' · SEC 10-Q 기준'))   # 실제 문서만(Fable)
@@ -541,10 +541,11 @@ if getattr(C, 'REQ_MULT_EXACT', False):
     one("가 필요해 지난 5년의 3배를 넘는다.`", "가 필요해 지난 5년의 ${Math.round(d.requiredGrowth / d.growth5y)}배다.`")
     one("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요해 지난 5년 실제의 ${Math.round(D.requiredGrowth / D.growth5y)}배다.`")
 # 요구 영업이익률의 성장 경로: build_dcf_block은 5년 성장이 영구성장률(2.5%)보다 낮으면 2.5%에서 시작한다 — "지난 5년 속도로 크다가"는 그때 틀리다.
+# 문턱 0.0245 — 화면에 2.5%로 반올림되는 값(DE 2.49%)에 "연 2.5%(지난 5년 연 2.5%가 … 낮아)"가 나오지 않게(2026-10-13).
 # 5년 성장이 0 이하면 "지난 5년의 N배"도 뜻이 없다(MO −2.2%·BX, Codex 2026-10-13). 그 경우만 문장이 바뀌고 나머지 카드는 그대로다.
 for _v, _f in (("d", "f1"), ("D", "pc")):
     h = h.replace(f"지난 5년 속도(연 ${{{_f}({_v}.growth5y)}})로 크다가 식는 동안`",
-                  f"` + ({_v}.growth5y < 0.025 ? `연 2.5%(지난 5년 연 ${{{_f}({_v}.growth5y)}}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${{{_f}({_v}.growth5y)}})로 크다가 식는 동안`)")
+                  f"` + ({_v}.growth5y < 0.0245 ? `연 2.5%(지난 5년 연 ${{{_f}({_v}.growth5y)}}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${{{_f}({_v}.growth5y)}})로 크다가 식는 동안`)")
 for _v, _f, _tail in (("d", "f1", "가 필요해 지난 5년의 "), ("D", "pc", "가 필요해 지난 5년 실제의 ")):
     _m = re.search(re.escape(f"연 ${{{_f}({_v}.requiredGrowth)}}{_tail}") + r"([^`]*)`", h)
     if _m:

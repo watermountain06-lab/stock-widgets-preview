@@ -143,6 +143,8 @@ def base_inputs(ticker, asof=None):
     out["pretax"] = ttm_fresh(["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                               bmh.FLOW_TAGS["revenue"])
+    if cik in PRETAX_TAG_BY_CIK:   # 세전이익을 다른 이름의 태그로만 내는 회사(PSX)
+        out["pretax"] = ttm_fresh([PRETAX_TAG_BY_CIK[cik]], bmh.FLOW_TAGS["revenue"])
     if cik in PRETAX_FROM_NI_TAX:
         # 세전이익을 표준 태그로 내지 않는 회사는 순이익 + 법인세로 만든다(ORCL Q1 FY27: 4,760 + 847 = 10-Q 5,607).
         ni_ttm, tx_ttm = ttm_fresh(["NetIncomeLoss"], bmh.FLOW_TAGS["revenue"]), ttm_fresh(["IncomeTaxExpenseBenefit"], bmh.FLOW_TAGS["revenue"])
@@ -367,6 +369,10 @@ def base_inputs(ticker, asof=None):
 # 세전이익을 표준 태그로 내지 않는 회사(CIK) — 순이익 + 법인세로 만든다. ORCL은 2018-08 뒤로 회사 고유 태그만 쓴다.
 # MRVL: 세전이익을 연간에만 태그해 분기 TTM이 없다 → 순이익 + 법인세(2026-10-01, 본업 기준 PER·순이익률·DCF 세율)
 PRETAX_FROM_NI_TAX = {"0001341439", "0001835632"}
+# 세전이익을 다른 이름의 태그로 내는 회사. PSX는 손익계산서 "Income before income taxes"(Q2 2026 4,971, 비지배지분 몫 포함)를
+# IncomeLossIncludingPortionAttributableToNoncontrollingInterest로만 낸다 — 다른 회사에선 순이익 태그라 목록에 일괄로 넣지 않는다.
+# 순이익(귀속) + 법인세로 만들면 비지배지분 몫만큼 작다(4,939, Codex 2026-10-13).
+PRETAX_TAG_BY_CIK = {"0001534701": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest"}
 
 
 S2C_MAX = 10.0   # 매출/자본 상한 — 자본을 거의 안 쓰는 회사의 발산 방지

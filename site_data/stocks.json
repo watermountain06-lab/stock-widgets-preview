@@ -4611,6 +4611,47 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "PSX",
+      "name": "필립스 66",
+      "sector": "에너지 — 정유·미드스트림·화학",
+      "href": "PSX_full_widget.html",
+      "cardRank": 106,
+      "cardAsOf": "2026-10-12",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 281.47,
+        "prevClose": 278.18,
+        "session": "2026-10-12",
+        "prevSession": "2026-10-09",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 399020916,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0001534701-26-000032 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 40.8,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-12",
+        "qualityFlags": []
+      }
     }
   ]
 }

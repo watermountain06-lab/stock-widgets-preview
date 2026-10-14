@@ -1759,5 +1759,33 @@
     "#c51100"
    ]
   }
+ },
+ "PSX": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "psx:MarketingSpecialitySegmentMember": [
+    "판매·특수제품",
+    "#e2241b"
+   ],
+   "psx:RefiningSegmentMember": [
+    "정유",
+    "#5a5a5a"
+   ],
+   "psx:MidstreamSegmentMember": [
+    "미드스트림",
+    "#1f6fb2"
+   ],
+   "psx:RenewableFuelsMember": [
+    "재생 연료",
+    "#6aa84f"
+   ]
+  },
+  "ignore_candidates": [
+   "psx:ChemicalsSegmentMember"
+  ]
  }
 }

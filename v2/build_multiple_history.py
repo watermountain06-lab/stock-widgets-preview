@@ -507,6 +507,11 @@ DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이
                  # COP: XOM·CVX와 같은 구조(영업이익 줄 없음) → 같은 규칙. 영업이익 = 세전이익 + 이자비용("Interest and debt expense",
                  # InterestAndDebtExpense). 지분법 이익·기타 수익은 영업. Q2 2026: 6,082 + 182 = 6,264(10-Q 대조, 2026-10-02).
                  "0001163165": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestAndDebtExpense"], -1)]),
+                 # PSX: COP·XOM과 같은 구조(영업이익 줄 없음) → 같은 규칙. 세전이익은 IncomeLossIncludingPortionAttributableToNoncontrollingInterest
+                 # (손익계산서 "Income before income taxes" — Q2 2025 1,120 대조)로만 낸다. 영업이익 = 세전 + "Interest and debt expense".
+                 # CPChem·DCP 등 지분법 이익·처분 손익·기타 수익은 영업(XOM 규칙). Q2 2026: 4,971 + 314 = 5,285(10-Q 대조, 2026-10-13).
+                 "0001534701": ("IncomeLossIncludingPortionAttributableToNoncontrollingInterest",
                                 [(["InterestAndDebtExpense"], -1)])}
 
 
@@ -1115,6 +1120,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # VLO: 기본 목록 태그가 없어 공정가치 주석의 금융리스 뺀 차입금(DebtLongtermAndShorttermCombinedAmount $9,101M)으로 대체됐다.
                   # 재무상태표 "debt and finance lease obligations" 유동 $927M + 장기 $10,422M = $11,349M(2026-06-30, COP와 같은 조합, 2026-10-13).
                   "0001035002": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # PSX: 1년 안 만기 차입금(DebtCurrent "Short-term debt" $1,797M, 2026-06-30)이 기본 목록에서 빠져 장기분 $18,768M만 잡혔다(MPC·VLO와 같은 조합, 2026-10-13).
+                  "0001534701": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DHR: 1년 안 만기 차입금을 DebtCurrent($1,411M, 2026-06-26)로 낸다 — 기본 목록(LongTermDebtCurrent는 2011년에 멈춤)에서 빠졌다(2026-10-02).
                   "0000313616": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # GLW: 장기차입금 태그만 잡혀 1년 안 만기·단기차입 $668M이 빠졌다(재무상태표 Total debt $8,424M, 2026-10-02).
