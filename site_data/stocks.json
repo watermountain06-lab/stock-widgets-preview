@@ -4693,6 +4693,49 @@
         "valuationAsOf": "2026-10-13",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "MCK",
+      "name": "맥케슨",
+      "sector": "헬스케어 — 의약품 유통",
+      "href": "MCK_full_widget.html",
+      "cardRank": 108,
+      "cardAsOf": "2026-10-13",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 961.88,
+        "prevClose": 955.76,
+        "session": "2026-10-13",
+        "prevSession": "2026-10-12",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 116590363,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000927653-26-000234 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 46.5,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-13",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }

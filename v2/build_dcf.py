@@ -189,10 +189,12 @@ def base_inputs(ticker, asof=None):
     # DE: 장비 부문 차입금(보충 표 원문, 회사 고유 이름)은 금융리스를 이미 담는다(10-K 주석 24) — 이름으로 못 가려 목록에 둔다(Codex, 2026-10-01)
     # MCD: 재무상태표 리스부채(OperatingLeaseLiabilityCurrent·Noncurrent 태그)가 운용 + 금융리스 합계라(10-K 리스 주석 표, 2025-12 $694M·$14,147M)
     # 금융리스를 또 더하면 $2.35B가 두 번 빠진다(2026-10-02) — 같은 목록에 둔다.
-    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in ("0000315189", "0000063908")   # DE(장비 부문 차입금에 금융리스 포함)·MCD(리스 태그가 운용 + 금융 합계)
+    # MCK: 총차입금(10-Q 차입금 주석 Total debt $9,729M)에 "Lease and other obligations" $164M이 이미 들어 있다(Codex 2026-10-14).
+    FL_IN_DEBT = ("0000315189", "0000063908", "0000927653")
+    fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in FL_IN_DEBT   # DE(장비 부문 차입금에 금융리스 포함)·MCD(리스 태그가 운용 + 금융 합계)·MCK
     if out.get("_debt_fallback"):
         # F4로 총계(합계 태그 또는 LongTermDebt + 단기 차입)를 쓴 시점에는 회사별 목록의 리스 포함 태그가 아니므로 금융리스를 따로 더한다(Codex 2026-10-10)
-        fl_in_debt = cik in ("0000315189", "0000063908")
+        fl_in_debt = cik in FL_IN_DEBT
     # 운용리스(B16, 2026-10-03 사용자 결정): US GAAP 영업이익은 운용리스 비용(임차료)을 이미 뺐다. 그 부채를 순부채로 또 빼고
     # 투하자본에 넣으면 같은 비용이 두 번 든다(Codex·Fable DCF 검증). DCF는 운용리스를 영업비용으로 일관되게 보고
     # run_dcf·invested_capital에서 op_lease를 뺀다. "lease"는 총리스 그대로 둔다(카드 문장의 순차입금 표시가 쓴다).

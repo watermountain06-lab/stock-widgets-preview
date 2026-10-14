@@ -1814,5 +1814,32 @@
     "#6a6a6a"
    ]
   }
+ },
+ "MCK": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "mck:NorthAmericanPharmaceuticalSegmentMember": [
+    "북미 의약품",
+    "#005a8c"
+   ],
+   "mck:OncologyAndMultispecialtySegmentMember": [
+    "종양·다전문",
+    "#2e9bd6"
+   ],
+   "mck:MedicalSurgicalSolutionsSegmentMember": [
+    "의료·수술",
+    "#e07b39"
+   ],
+   "mck:PrescriptionTechnologySolutionsSegmentMember": [
+    "처방 기술",
+    "#6aa84f"
+   ]
+  }
  }
 }

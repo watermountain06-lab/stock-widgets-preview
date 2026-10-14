@@ -552,6 +552,9 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # VLO: DepreciationAndAmortization은 판관비 줄 D&A(분기 $12~14M)뿐이다 — 큰 몫은 매출원가 줄(CostOfGoodsAndServicesSoldDepreciationAndAmortization,
                 # 분기 $723~828M)이라 EBITDA ≈ 영업이익, EV/EBITDA 최고 452배였다. 현금흐름표 D&A(DepreciationAmortizationAndAccretionNet, 2025년 $3,158M)를 쓴다(Fable 2026-10-13).
                 "0001035002": ("DepreciationAndAmortization",),
+                # MCK: DepreciationDepletionAndAmortization(연간 FY2026 $287M)은 현금흐름표 D&A(감가상각 $256M + 상각 $473M = DepreciationAndAmortization
+                # $729M)의 일부라 앞 태그가 이겨 EBITDA·DCF 감가상각이 절반 이하였다(MCD와 같은 유형, 2026-10-13).
+                "0000927653": ("DepreciationDepletionAndAmortization",),
                 # MCD: DepreciationDepletionAndAmortization(분기 $111M)는 현금흐름표 D&A(DepreciationAndAmortization, 분기 $565M)의 일부라
                 # 앞 태그가 이겨 EBITDA·DCF 감가상각이 낮았다(최근 4분기 $0.47B 대 약 $2.2B, 2026-10-02).
                 "0000063908": ("DepreciationDepletionAndAmortization",),
@@ -1249,6 +1252,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
+                  # MCK: 비지배지분 대부분이 상환 가능 비지배지분(재무상태표 메자닌, 2026-06-30 $2,563M — Core Ventures 30%(풋옵션)와 Apollo의
+                  # 의료·수술 부문 전환우선주 약 13% $1.25B, 10-Q Note 5)이라 MinorityInterest($376M)만 잡혔다. 연결 EBITDA에 그 몫이 다 들어 있어 EV에 더한다(2026-10-13).
+                  "0000927653": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCommonCarryingAmount"]},
                   # GLW: 우선주(삼성디스플레이 보유 $2.3B)는 2021년 보통주로 바뀌어 태그가 2021-03에 멈췄다 — 옛 값이 EV에 더해졌다(2026-10-02).
                   "0000024741": {"preferred": []},
                   # FTNT: 단기투자를 2021-06 뒤 OtherShortTermInvestments로만 낸다(2026-06-30 $1,134.7M) — 멈춘 ShortTermInvestments(2021-06 $1,233.9M)가 쓰였다(2026-10-02).
