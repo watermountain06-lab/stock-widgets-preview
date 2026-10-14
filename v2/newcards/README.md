@@ -60,7 +60,7 @@
 | auto가 덮어써 손으로 쓰지 않는 키 | SUMMARY·BULL·BEAR·PREMISE·RISK·STORIES·DCF_NOTE·HEALTH_NOTE·FUND_TIP·SELF_TIP·CHECK·CHECK_WHEN·YOY_EXTRA·SEG_NOTE·STAT3·CAPITAL·NEXT·NEXT_OP·FUND_ASOF_NOTE·OPM_RANGE·PR_CUR·FCF_SUB·CAPEX_SUB, RELEASE는 비움 |
 | 있을 때만 | CAPEX_LABEL(설비투자 태그가 다른 지출을 합칠 때 FCF·설비투자 칸 이름 — VLO)·OP_DISPLAY·NI_TAGS·SELF_SPAN·GROWTH_SPAN·REVERSE·ACT_REASON·REQ_MULT_EXACT·PBR_GAP_NEG_EQUITY·NO_DCF_SKEW·NONOP_NEG_SIGN·AUTO_OUTSIDE(외국 발행사 — ASML·TSM 6-K, SKHY OpenDART) |
 
-`BUILD` 옵션: `overlay`(companyfacts 지연 — 인라인 XBRL 보충, 또는 재무 태그 별칭·합 `adapters/overlay_feed.py`의 `ALIAS`·`SUM`·`REPLACE`), `company_tags`(회사 고유 태그 — COP 설비투자, NEM 재고·리스), `feed`(외국 기업 어댑터 `v2/adapters/{t}_feed.py`), `eps_cmd`(V), `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 시작일 — WDC·T), `sum_tags`(XOM 재고), `share_events`(분기 뒤 주식 발행), `no_dcf`(사유 — 현금흐름 미적용, "판정 보류": 보험 CB·PGR, 은행 기반 HTML 제작용 COF). 활동성 예외는 `build_activity_score.py`의 `COGS_TAG_BY_CIK`·`INV_SUM_BY_CIK`.
+`BUILD` 옵션: `overlay`(companyfacts 지연 — 인라인 XBRL 보충, 또는 재무 태그 별칭·합 `adapters/overlay_feed.py`의 `ALIAS`·`SUM`·`REPLACE`), `company_tags`(회사 고유 태그 — COP·PSX 설비투자, LMT 감가상각, NEM 재고·리스. 보충 자료는 `.sec_cache/overlay`에만 있고 Actions 캐시는 토요일에만 저장되므로, 캐시에 그 행이 없으면 매일 실행도 받아 온다 — 2026-10-13 PSX가 그날 밤 설비투자 없이 빌드됐다), `feed`(외국 기업 어댑터 `v2/adapters/{t}_feed.py`), `eps_cmd`(V), `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 시작일 — WDC·T), `sum_tags`(XOM 재고), `share_events`(분기 뒤 주식 발행), `no_dcf`(사유 — 현금흐름 미적용, "판정 보류": 보험 CB·PGR, 은행 기반 HTML 제작용 COF). 활동성 예외는 `build_activity_score.py`의 `COGS_TAG_BY_CIK`·`INV_SUM_BY_CIK`.
 
 ## 점검 (`--data` 뒤, cfg 쓰기 전)
 

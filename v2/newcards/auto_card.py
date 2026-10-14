@@ -604,7 +604,7 @@ def texts(C, ns):
                 cand.append(("부문", -0.6 - (yo_tab[n_] - v_) / yo_tab[n_] * 10, f"{n_} 매출 {chg(v_, yo_tab[n_])}(1년 전 같은 분기 대비)."))
     _rows = {r_["metric"]: r_["value"] for ax in ns["FUND"]["axes"].values() for r_ in ax.get("rows", [])}
     if _rows.get("debtToEquity") and _rows["debtToEquity"] >= 300:
-        cand.append(("부채", -1.0, f"부채비율(차입금 ÷ 자본) {_rows['debtToEquity']:.0f}%, 자본 {B(b.get('equity', 0))}."))
+        cand.append(("부채", -1.0, f"부채비율(총부채 ÷ 자본) {_rows['debtToEquity']:.0f}%, 자본 {B(b.get('equity', 0))}."))
     if _rows.get("interestCoverage") is not None and _rows["interestCoverage"] < 3:
         cand.append(("이자", -1.0, f"이자보상배율 {_rows['interestCoverage']:.1f}배."))
     seen = set()

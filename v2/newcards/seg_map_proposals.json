@@ -1787,5 +1787,32 @@
   "ignore_candidates": [
    "psx:ChemicalsSegmentMember"
   ]
+ },
+ "LMT": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "lmt:AeronauticsMember": [
+    "항공",
+    "#000080"
+   ],
+   "lmt:RotaryAndMissionSystemsMember": [
+    "회전익·임무 체계",
+    "#4a6fa5"
+   ],
+   "lmt:MissilesAndFireControlMember": [
+    "미사일·화력",
+    "#b22222"
+   ],
+   "lmt:SpaceMember": [
+    "우주",
+    "#6a6a6a"
+   ]
+  }
  }
 }

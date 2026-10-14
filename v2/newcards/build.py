@@ -89,11 +89,16 @@ def main():
         if not a.asof:
             sys.exit(f"{T}: 새 종목은 --asof <최근 확정 세션>이 필요하다(newcards/README.md 새 종목 순서)")
         run([PY, os.path.join(HERE, "preflight.py"), T, "--asof", a.asof], show=r".")
-    if B.get("overlay") and net:
+    # 보충 자료가 캐시에 아예 없으면 매일 실행(net=False)에서도 받는다 — Actions의 SEC 캐시는 토요일에만 새로 저장되어, 그 주에 새로 만든
+    # 카드는 회사 고유 태그 행이 없어 PSX 설비투자·LMT 감가상각이 빠졌다(2026-10-13 매일 실행: PSX 현금흐름 기본 $57 대 $80).
+    _ovp = os.path.join(V2, ".sec_cache", "overlay", f"{cik}.json")
+    _ov = json.load(open(_ovp)) if os.path.exists(_ovp) else {}
+    _has_ct = lambda ctag, stag: any(r.get("src") == f"company:{ctag}" for r in _ov.get("us-gaap", {}).get(stag, []))
+    if B.get("overlay") and (net or not _ov):
         print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장")
     if B.get("share_events") and net:   # v2.1 D-1(2026-10-05)
         print("· 분기 뒤 주식 발행 이벤트"); run([PY, "v2/adapters/share_events.py", T], show=r".")
-    for ctag, stag in (B.get("company_tags", []) if net else []):   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
+    for ctag, stag in [x for x in B.get("company_tags", []) if net or not _has_ct(*x)]:   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
         print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
     print("· EPS")
     eps = [PY, "scripts/fetch_eps_history.py", T, "--cik", cik, "--out", f"scripts/{T}_eps_history.json"]

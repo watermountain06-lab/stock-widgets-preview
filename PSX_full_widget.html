@@ -513,7 +513,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="back-bar-right"><button id="theme-toggle" type="button" role="switch" aria-label="다크 모드" aria-checked="false"><span aria-hidden="true">☀</span><span aria-hidden="true">☾</span><span class="theme-knob"></span></button>
     <a class="back-bar-nav" href="MO_full_widget.html">◀ MO</a>
     <span class="back-bar-current">PSX · 시총 106위</span>
-    <span class="back-bar-nav disabled">다음 ▶</span>
+    <a class="back-bar-nav" href="LMT_full_widget.html">다음 LMT ▶</a>
   </div>
 </div>
 
@@ -541,7 +541,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 10.4%)</span>
-      <span class="meta-value" id="psxDcfReq" style="font-size: 22px; color: var(--red);">8.3%</span>
+      <span class="meta-value" id="psxDcfReq" style="font-size: 22px; color: var(--red);">7.8%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="psxConfidenceLabel">밴드 적중률 (261/851일, 상단우세)</span>
@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="psxLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="psxDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="psxDcfBox">$57<span class="logic-denom"> · 보수 $134 · 낙관 $188</span></div>
+      <div class="logic-score" id="psxDcfBox">$80<span class="logic-denom"> · 보수 $134 · 낙관 $188</span></div>
     </div>
     <div class="logic-box logic-neutral" id="psxFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="psxFundVerdict">보통</span></div>
@@ -571,11 +571,11 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="psxPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="psxPeerVerdict">중간</span></div>
-      <div class="logic-score" id="psxPeerScore">56.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="psxPeerScore">52.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="psxSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="psxSelfVerdict">비싼 편</span></div>
-      <div class="logic-score" id="psxSelfScore">17.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="psxSelfScore">20.2<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -685,7 +685,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$57.02</td><td style="color: var(--red);" data-dcf-upside="base">−80.5%</td>
+          <td class="big scn-base" data-dcf-value="base">$79.88</td><td style="color: var(--red);" data-dcf-upside="base">−72.7%</td>
           <td class="story">매출이 5년 성장률(연 10.4%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 3.1%로 간다.</td>
         </tr>
         <tr>
@@ -695,7 +695,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $57.02~$188.01다. 영업이익률은 최근 4분기 6.6%, 2년 중앙값 3.1%, 5년 중앙값 5.0%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 5.2%·이익률 5.0%), 기본(10.4%·3.1%), 낙관(2.5%·6.6%).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $79.88~$188.01다. 영업이익률은 최근 4분기 6.6%, 2년 중앙값 3.1%, 5년 중앙값 5.0%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 5.2%·이익률 5.0%), 기본(10.4%·3.1%), 낙관(2.5%·6.6%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $57</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −80.5%</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $80</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −72.7%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -735,12 +735,12 @@ Chart.overrides.doughnut.animation = false;
   <div class="grid-4">
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
-      <div class="stat-value">해당 없음</div>
+      <div class="stat-value">$6.53B</div>
       <div class="stat-sub">영업현금흐름 − 설비투자·투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
-      <div class="stat-value">해당 없음</div>
+      <div class="stat-value">$0.73B</div>
       <div class="stat-sub">설비투자·투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
@@ -895,18 +895,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.10.13</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 PSX 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">17.2</div><div class="sc-tile lost" data-vc="self" data-m="per">35</div><div class="sc-tile low" data-vc="self" data-m="pbr">0</div><div class="sc-tile low" data-vc="self" data-m="psr">0</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">34</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$57</div><div class="vs-note">현재가 <span data-vs="price">$292.73</span> 대비 <strong data-vs="upside">−80.5%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 7.7% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다
-· 어떤 일정 성장률로도 현재가에 닿지 않는다
-· 잔존가치(5년 뒤)가 내재가치의 75%
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 5.13
-시나리오 범위: 1.56 ~ 5.13(세 시나리오 최대·최소 기준)
+      <div class="vs-name" title="지난 5년 PSX 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">20.2</div><div class="sc-tile lost" data-vc="self" data-m="per">35</div><div class="sc-tile low" data-vc="self" data-m="pbr">0</div><div class="sc-tile low" data-vc="self" data-m="psr">0</div><div class="sc-tile lost" data-vc="self" data-m="pcr">32</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">34</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$80</div><div class="vs-note">현재가 <span data-vs="price">$292.73</span> 대비 <strong data-vs="upside">−72.7%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 7.7% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다
+· 잔존가치(5년 뒤)가 내재가치의 61%
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 3.66
+시나리오 범위: 1.56 ~ 3.66(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 에너지 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">56.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">58</div><div class="sc-tile low" data-vc="peer" data-m="pbr">25</div><div class="sc-tile" data-vc="peer" data-m="psr">100</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">44</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 에너지 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">52.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">58</div><div class="sc-tile low" data-vc="peer" data-m="pbr">25</div><div class="sc-tile" data-vc="peer" data-m="psr">100</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">33</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">44</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 16.7배(4.6년 중앙값 13.8배)로 자기 이력 17.2점(비싸다), 동종업 56.7점(중간)이다. <strong>현금흐름 내재가치(기본 $57.02)는 현재가의 19%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $57.02)는 현재가의 19%다. 현재가를 정당화하려면 영업이익률이 8.3%까지 올라야 한다(최근 4분기 6.6%, 5년 중앙값 5.0%). 내재가치에서 차입금 $20.6B를 빼고 현금·단기투자 $4.1B를 더한다.</div>
+    <div class="vs-premise">PER 16.7배(4.6년 중앙값 13.8배)로 자기 이력 20.2점(비싸다), 동종업 52.0점(중간)이다. <strong>현금흐름 내재가치(기본 $79.88)는 현재가의 27%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $79.88)는 현재가의 27%다. 현재가를 정당화하려면 영업이익률이 7.8%까지 올라야 한다(최근 4분기 6.6%, 5년 중앙값 5.0%). 내재가치에서 차입금 $20.6B를 빼고 현금·단기투자 $4.1B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -951,14 +950,14 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
-          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">데이터 없음</span></span>
+          <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">유효 이력 4.3년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">—</span>
-            <span class="hist-badge mid" data-hist="badge">계산 불가</span>
+            <span class="val-number" data-hist="cur">18.3x</span>
+            <span class="hist-badge mid" data-hist="badge">4.3년 중 상위 32%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 0%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">—</span><span data-hist="median">—</span><span data-hist="max">—</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 67.9%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 4.8x</span><span data-hist="median">중앙 11.0x</span><span data-hist="max">최고 715.2x</span></div>
       </div>
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
@@ -989,8 +988,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $51.0B, 영업이익률 10.4%(1년 전 4.2%). 주가는 1년 새 +131%<span class="tag">배수 5년 고점권·매출 성장 빨라짐</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $57.02)는 현재가의 19%다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $51.0B, 영업이익률 10.4%(1년 전 4.2%). 주가는 1년 새 +131%<span class="tag">배수 비싼 쪽·매출 성장 빨라짐</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $79.88)는 현재가의 27%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 28일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
@@ -1079,8 +1078,8 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $57.02)는 현재가의 19%.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 17점(배수 4개) · PER 16.7배(4.6년 중앙값 13.8배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $79.88)는 현재가의 27%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 20점(배수 5개) · PER 16.7배(4.6년 중앙값 13.8배).</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">3년 매출 성장률 연 −0.6%, 5년 연 10.4%보다 낮다.</span></div>
     </div>
   </div>
@@ -1178,15 +1177,15 @@ const FUND_COMPARE = {
   yoy: {
     curLabel: 'Q2 2026', cmpLabel: 'Q2 2025',
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
-    chart: { cur: [51.0, 5.29, 3.85, null], cmp: [33.32, 1.38, 0.88, null] },
-    deltas: ['+53.1%', '+281.9%', '+338.7%', '—'],
+    chart: { cur: [51.0, 5.29, 3.85, 6.53], cmp: [33.32, 1.38, 0.88, 0.26] },
+    deltas: ['+53.1%', '+281.9%', '+338.7%', '약 25배'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자·투자 · 1년 전 분기 영업이익률이 4.2%로 5년 중앙값(5.0%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/1534701/000153470126000030/psx-20260630_erxsuppinfoxe.htm" target="_blank" rel="noopener">Phillips 66 Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
-    chart: { cur: [51.0, 5.29, 3.85, null], cmp: [32.54, 0.55, 0.21, null] },
-    deltas: ['+56.7%', '+867.9%', '약 19배', '—'],
+    chart: { cur: [51.0, 5.29, 3.85, 6.53], cmp: [32.54, 0.55, 0.21, -2.85] },
+    deltas: ['+56.7%', '+867.9%', '약 19배', '흑자 전환'],
     footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자·투자 · <a href="https://www.sec.gov/Archives/edgar/data/1534701/000153470126000030/psx-20260630_erxsuppinfoxe.htm" target="_blank" rel="noopener">Phillips 66 Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
@@ -1430,7 +1429,7 @@ const PSX_MA120 = [78.374,78.421,78.447,78.454,78.468,78.488,78.478,78.476,78.46
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let PSX_VERDICT = '계산 중';
 
-const PSX_DCF = {"low": 134.36, "base": 57.02, "high": 188.01, "requiredGrowth": null, "baseEquivGrowth": 0.0606, "reqMode": "margin", "requiredMargin": 0.0831, "marginNow": 0.066, "growth5y": 0.1036, "nonopPerShare": 0.0, "s2cFallback": true, "asOf": "2026-10-13", "hard": ["roic", "nosol"], "hardDetail": {"roic": 0.0768, "tax": 0.1904, "nonopShare": 0.0}, "tvShare": 0.7455};   // build_dcf_block.py
+const PSX_DCF = {"low": 134.36, "base": 79.88, "high": 188.01, "requiredGrowth": 0.7079, "baseEquivGrowth": 0.0831, "reqMode": "margin", "requiredMargin": 0.0785, "marginNow": 0.066, "growth5y": 0.1036, "nonopPerShare": 0.0, "s2cFallback": false, "asOf": "2026-10-13", "hard": ["roic"], "hardDetail": {"roic": 0.0768, "tax": 0.1904, "nonopShare": 0.0}, "tvShare": 0.6082};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1483,8 +1482,8 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py PSX
 const PSX_SCORES = {
   fundamental: 40.8,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 56.7,          // S&P500 에너지 대비 배수 순위 (v2/peer_universe/energy.json)
-  selfHistory: 17.2,   // 자기 5년 배수 분포 백분위 (2021-10-13 ~ 2026-10-13)
+  peer: 52.0,          // S&P500 에너지 대비 배수 순위 (v2/peer_universe/energy.json)
+  selfHistory: 20.2,   // 자기 5년 배수 분포 백분위 (2021-10-13 ~ 2026-10-13)
   asOf: "2026-10-13",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
@@ -1584,7 +1583,7 @@ const PSX_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py PSX
 /* DCF_GRID:BEGIN */
-const PSX_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[181.65, 153.17, 131.19, 113.7, 99.42], [186.55, 155.93, 132.69, 114.41, 99.62], [192.27, 159.07, 134.36, 115.19, 99.84], [199.04, 162.68, 136.23, 116.05, 100.08], [207.22, 166.88, 138.36, 117.01, 100.34]], "기본": [[96.38, 76.95, 62.05, 50.25, 40.67], [95.83, 75.21, 59.69, 47.59, 37.87], [95.17, 73.19, 57.02, 44.61, 34.77], [94.37, 70.83, 53.96, 41.25, 31.33], [93.38, 68.03, 50.42, 37.44, 27.47]], "낙관": [[240.75, 205.0, 177.52, 155.71, 137.96], [251.88, 212.34, 182.48, 159.09, 140.25], [264.84, 220.68, 188.01, 162.81, 142.74], [280.18, 230.27, 194.24, 166.93, 145.46], [298.68, 241.43, 201.31, 171.51, 148.45]]}};
+const PSX_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[181.65, 153.17, 131.19, 113.7, 99.42], [186.55, 155.93, 132.69, 114.41, 99.62], [192.27, 159.07, 134.36, 115.19, 99.84], [199.04, 162.68, 136.23, 116.05, 100.08], [207.22, 166.88, 138.36, 117.01, 100.34]], "기본": [[118.13, 98.58, 83.56, 71.66, 61.97], [118.27, 97.52, 81.88, 69.65, 59.81], [118.32, 96.19, 79.88, 67.33, 57.37], [118.23, 94.53, 77.5, 64.64, 54.57], [117.95, 92.43, 74.64, 61.51, 51.38]], "낙관": [[240.75, 205.0, 177.52, 155.71, 137.96], [251.88, 212.34, 182.48, 159.09, 140.25], [264.84, 220.68, 188.01, 162.81, 142.74], [280.18, 230.27, 194.24, 166.93, 145.46], [298.68, 241.43, 201.31, 171.51, 148.45]]}};
 /* DCF_GRID:END */
 (function(){
   const D = PSX_DCF, G = (typeof PSX_DCF_GRID !== 'undefined') ? PSX_DCF_GRID : null;
@@ -1801,7 +1800,7 @@ const PSX_FUNDAMENTAL = {"ticker": "PSX", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py PSX --self v2/PSX_multiples.json --card
 /* VALUATION:BEGIN */
-const PSX_VALUATION = {"peer": {"score": 56.7, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 57.9, "rank": 9, "peers": 19}, {"metric": "pbr", "score": 25.0, "rank": 16, "peers": 20}, {"metric": "psr", "score": 100.0, "rank": 1, "peers": 19}, {"metric": "evebitda", "score": 43.8, "rank": 10, "peers": 16}]}, "self": {"score": 17.2, "window": ["2021-10-13", "2026-10-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 34.6, "percentile": 65.4, "current": 16.68, "min": 3.47, "median": 13.84, "max": 44.13, "days": 1166, "currentNote": null}, {"metric": "pbr", "score": 0.1, "percentile": 99.9, "current": 3.71, "min": 1.38, "median": 1.89, "max": 3.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.1, "percentile": 99.9, "current": 0.77, "min": 0.24, "median": 0.36, "max": 0.77, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 34.1, "percentile": 65.9, "current": 10.63, "min": 3.11, "median": 9.15, "max": 39.25, "days": 1243, "currentNote": null}]}};
+const PSX_VALUATION = {"peer": {"score": 52.0, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 57.9, "rank": 9, "peers": 19}, {"metric": "pbr", "score": 25.0, "rank": 16, "peers": 20}, {"metric": "psr", "score": 100.0, "rank": 1, "peers": 19}, {"metric": "pcr", "score": 33.3, "rank": 11, "peers": 15}, {"metric": "evebitda", "score": 43.8, "rank": 10, "peers": 16}]}, "self": {"score": 20.2, "window": ["2021-10-13", "2026-10-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 34.6, "percentile": 65.4, "current": 16.68, "min": 3.47, "median": 13.84, "max": 44.13, "days": 1166, "currentNote": null}, {"metric": "pbr", "score": 0.1, "percentile": 99.9, "current": 3.71, "min": 1.38, "median": 1.89, "max": 3.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.1, "percentile": 99.9, "current": 0.77, "min": 0.24, "median": 0.36, "max": 0.77, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 32.1, "percentile": 67.9, "current": 18.27, "min": 4.8, "median": 11.04, "max": 715.18, "days": 1082, "currentNote": null}, {"metric": "evebitda", "score": 34.1, "percentile": 65.9, "current": 10.63, "min": 3.11, "median": 9.15, "max": 39.25, "days": 1243, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1907,16 +1906,6 @@ const PSX_VALUATION = {"peer": {"score": 56.7, "sector": "Energy (S&P500 21종�
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
     f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
-  });
-  const haveM = new Set(PSX_VALUATION.self.metrics.map(m => m.metric));   // 없는 배수 칸(카드 한정)
-  document.querySelectorAll('#valuation .val-item[data-metric]').forEach(item => {
-    if (haveM.has(item.dataset.metric)) return;
-    const f = sel => item.querySelector(`[data-hist="${sel}"]`);
-    if (f('cur')) f('cur').textContent = '—';
-    if (f('badge')) { f('badge').className = 'hist-badge mid'; f('badge').textContent = '계산 불가'; }
-    if (f('note')) f('note').textContent = "데이터 없음";
-    if (f('fill')) { f('fill').className = 'val-fill hist-fill mid'; f('fill').style.width = '0%'; }
-    ['min', 'median', 'max'].forEach(k => { if (f(k)) f(k).textContent = '—'; });
   });
   ['peer', 'self'].forEach(k => {
     const el = document.querySelector(`#valComp [data-vc-score="${k}"]`);
@@ -2159,7 +2148,7 @@ const PSX_ANALYST = { asOf: '2026-10-13', source: 'StockAnalysis (의견 집계 
   }
   put('psxPeerBox', 'psxPeerScore', 'psxPeerVerdict', S.peer, WORDS.val,
       `S&P500 에너지(PSX 제외)와 배수 순위를 매긴 값이다.`
-      + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 PCR를 뺀 4개를 평균했다.`
+      + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
       + `\n통합 석유사·탐사생산·정유·장비·가스관 회사가 섞여 있다. 정유사는 매출이 커 PSR이 낮게 나온다. 차트에는 정유·석유 6곳만 보인다.`);
   put('psxSelfBox', 'psxSelfScore', 'psxSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
