@@ -4,7 +4,7 @@
 방법론·산식의 기준은 따로 있다: 은행 `v2/research/bank_rim_prereg.md`, 판정 구조 `v2/research/verdict_structure_prereg.md`, 백테스트 `v2/refresh_backtest.py` 머리 설명.
 원칙(숫자 지어내지 않기, 배열 손으로 치지 않기, Codex·Fable 검토)은 `/ticker` 스킬 플레이북(stock-widgets-redesign/.claude/skills/ticker/playbook.md)과 같다.
 
-지금 카드 103장: 비은행 생성기 카드 92장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 9장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
+지금 카드 107장(2026-10-14 기준, VLO·MO·PSX·LMT 추가): 비은행 생성기 카드 96장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 9장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
 매일·토요일 실행은 `daily_price.py`(GitHub Actions `.github/workflows/v2_cards.yml`)가 cfg가 있는 카드를 모두 돈다 — 새 카드를 워크플로에 따로 등록하지 않는다.
 
 ## 파일
@@ -31,6 +31,31 @@
 - 저장소 루트에서 http 서버: `python3 -m http.server 8765`(포트를 쓰고 있으면 다른 포트 + `--sync-base http://localhost:PORT`, 은행은 `SYNC_BASE`). **그 포트가 이 저장소를 띄우고 있는지** `lsof -p $(lsof -t -iTCP:PORT -sTCP:LISTEN) | grep cwd`로 확인한다 — 다른 체크아웃을 띄운 서버가 200을 돌려준다(2026-10-13).
 - Node(JS 문법 검사), Chrome(`compare_render`·`sync_fallbacks`, 경로가 다르면 `CHROME`).
 
+## 종류별 경로 — 먼저 종목이 어느 종류인지 판별한다 (2026-10-14 사용자 결정)
+
+**경계(무엇을 어디서 고치나)** — 판정을 모든 카드가 같은 기준으로 매겨야 서로 비교된다.
+- **그 종목만의 준비**(태그 대체·EPS 고정·영업이익 합성식·회사 고유 태그 잇기·이자/비영업 손입력): 그 카드의 cfg와 종목별 표(아래 "쓸 장치")에서만 고친다. 기존 카드는 바뀌지 않는다.
+- **공통 틀·엔진의 버그**(틀린 문구, 매일 실행 버그): 묻지 않고 바로 고친다(2026-10-14 사용자 결정). 고친 뒤 영향 카드는 `--from-card` + `compare_render`로 바뀐 곳이 그것뿐인지 확인하고, 바뀐 기존 카드 범위를 결과 보고에 적는다.
+- **판정 계산 규칙**(일회성 빼기, 연금, 성장 하한처럼 판정에 닿는 것): 한 종류·한 카드에만 적용하지 않는다. 사전 등록 테스트(12-01 등)로만, 전 카드에 한 번에.
+- `/ticker` 스킬은 판별과 안내만 한다. 종류별 처리는 저장소 안(cfg·종목별 표·코드)에 있어야 매일 실행(GitHub Actions — 스킬을 읽지 않는다)에서도 같게 돈다.
+
+판별은 1~4단계(순위·등록·헤더·공시 기준) 직후, `--data` 출력과 SEC 공시 목록으로 한다. 여러 종류에 걸치면 모두 따른다.
+
+| 종류 | 알아보는 신호 | 경로·쓸 장치 | 전례 |
+|---|---|---|---|
+| **일반** | 아래 어디에도 안 걸림 | 아래 "새 종목 순서" 그대로 | VLO·MO |
+| **은행** | GICS Diversified·Regional Banks, 예대 사업 | 아래 "은행" 절(RIM, `bank/rebuild.sh`) — 일반 경로 아님 | JPM·BAC·COF 등 9장 |
+| **보험** | 손해·생명보험(GICS Insurance) | `BUILD['no_dcf']`(현금흐름 미적용, "판정 보류") | CB·PGR |
+| **영업이익 줄 없음** | `--data`에서 OPM·EV/EBITDA "계산 불가", 손익계산서에 Operating income 줄이 없음 | `build_multiple_history.DERIVED_OPINC`(세전 + 이자 = 정유·석유 규칙, 세전 − 영업외 = 제약 규칙 — 유도식이 무엇을 남기는지 원문 대조), 세전이익 태그가 다르면 `build_dcf.PRETAX_TAG_BY_CIK`, 이자 태그가 엔진 목록 밖이면 `interest_extra.json`. 카드 문구는 자동으로 "합성 영업이익(세전이익 기준)" | PSX·XOM·COP·LLY·JNJ·TJX·BX |
+| **핵심 줄이 회사 고유 태그·끊긴 태그** | `--data` 경고 `N일 뒤처짐`(capex·dda·debt·lease), EV/EBITDA·PCR "계산 불가" | 회사 고유 태그면 cfg `BUILD['company_tags']`(매일 실행도 캐시에 없으면 받는다), 표준 대체 태그면 `EXTRA_TAGS`·`EXCLUDE_TAGS`, 차입금은 `EV_TAGS_BY_CIK`, 재고는 `build_activity_score.INV_TAG_BY_CIK` | LMT(감가상각·재고)·PSX(설비투자·차입금)·COP·VLO(설비투자·감가상각·차입금) |
+| **분사·교환 공개매수 진행 중** | 최근 8-K 2.01항·1.01항, SC TO-I, 10-Q "discontinued operations" 예고 | 재작성 숫자가 나오기 전이면 **만들지 않고 보류**(아래 "분사 종목" 절), 나온 뒤면 `RESTATED_LATEST`·`HISTORY_START`·`bt_start` | SPGI·MDT(보류), GE·DELL·IBM·WDC·T |
+| **자본 음수** | 재무상태표 자본 < 0 | 일반 경로 그대로 — PBR은 자동 "해당 없음", 부채비율 1점 | MO |
+| **지분법 투자·상장 자회사가 큼** | "Investments in equity securities"·비지배지분이 큼 | 비영업 자산은 `nonop_extra.json`(장부가, 1차 출처 근거), 비지배지분은 엔진이 EV에 더함 | MO(ABI)·MPC(MPLX)·KO |
+| **외국 발행사** | 10-Q 대신 6-K·20-F, 또는 한국 공시 | `BUILD['feed']` 어댑터(`v2/adapters/{t}_feed.py`), cfg `AUTO_OUTSIDE` | ASML·TSM·SKHY |
+| **다중 클래스·Up-C** | 표지 주식 수가 클래스별, 파트너십 지분 | `cover_shares.py`, `build_dcf.ECON_SHARES`·`UNITS_EXTRA` | META·BX |
+
+어느 종류든 4분기 EPS 대조(`Q4_EPS_OVERRIDE`)·1차 출처 입력(`tax_oneoff`·`share_adjust`·`nonop_extra`)·아래 "점검"은 공통이다. 표에 없는 새 종류를 만나면 처리한 방법을 이 표에 한 줄로 더한다.
+
 ## 새 종목 순서 (비은행 → AUTO 카드)
 
 1. **순위** — `python3 ../stock-widgets-redesign/scripts/check_rank_gaps.py`(redesign 저장소에 있다). 시총 순위는 StockAnalysis `marketCap`. **카드 순위(cardRank)는 시총 순위가 아니라 카드 목록 끝 번호**(지금 104부터 — `site_data/stocks.json`, 검사기가 중복·공백을 막는다).
@@ -39,7 +64,7 @@
    `curl -A "Mozilla/5.0" "https://query1.finance.yahoo.com/v8/finance/chart/T?period1=1577836800&period2=$(date +%s)&interval=1d&events=div%2Csplits" -o v2/newcards/yahoo/t.json`
    (긴 브라우저 UA는 429. 기준일 뒤 봉은 `new_ticker_arrays.py`가 버리므로 지금 시각까지 받아도 된다). `events.splits`에 1.45 미만 비율이 있으면 분사 종목 — 아래 "분사". 일봉 1,375개(약 5.5년) 미만이면 이 경로로 못 만든다(짧은 상장 — 사용자에게 묻는다).
 4. **공시 기준 먼저** — 쓰는 공시는 **SEC 요약 자료(companyfacts)에 실린 가장 최근 원본 10-Q/10-K**다(재무 수집기가 원본만 읽는다). `v2/sec_approved.json`에 `"10자리 CIK": "그 접수일"`을 넣고, 기준일(asof)은 그 공시 접수 뒤 첫 확정 세션 이상. 그 원본 뒤에 정정(10-Q/A·10-K/A)이 있으면 **멈추고 사용자에게 묻는다**(정정 처리 방침 전까지 보류). `python3 v2/newcards/preflight.py T --asof <세션>`이 이 셋을 확인한다(build.py도 새 종목이면 자동으로 부른다). **기준표에 없는 카드가 있으면 매일 실행 전체가 멈춘다**(`daily_price.check_approved`).
-5. `python3 v2/newcards/build.py T --data --asof <세션>` — 숫자만. 아래 "점검"을 모두 본다.
+5. `python3 v2/newcards/build.py T --data --asof <세션>` — 숫자만. 출력으로 위 **"종류별 경로"의 종류를 판별**하고(은행·보험·분사 보류면 여기서 그 경로로), 아래 "점검"을 모두 본다.
 6. **cfg** — SEC 원문(10-Q·보도자료·8-K)으로 `cfg/cfg_{t}.py`를 쓴다(비슷한 AUTO 종목 cfg를 복사해 시작). 어떤 키를 손으로 쓰는지는 아래 "cfg 키". 문장에 계산값은 숫자가 아니라 `{표현식}`. 처음부터 AUTO로 만드는 카드는 덮어써지는 키를 쓰지 않는다(VLO가 첫 사례 — `cfg/cfg_vlo.py`가 최소 cfg 본보기). `ANALYST = {...}`는 **한 줄, 줄 뒤 주석 없이**(fetch_analyst가 줄째 바꾼다 — 아니면 "ANALYST 한 줄이 없다"). **뉴스**: 최신 분기 실적은 손으로 쓰지 않는다 — `news_auto`가 SEC 숫자로 붙이는데, 그 실적 발표보다 **뒤 날짜의 손 항목이 하나라도 있으면 자동 항목이 빠진다**(fill.py). `NEWS`의 반응일(세 번째 칸)은 카드 일봉에 있는 거래일, 실적 반응일은 SEC 접수 시각(UTC)을 동부 시간으로 바꿔 16시 이후면 다음 거래일. 8-K 내용은 원문에 있는 것만(같은 날 다른 발표를 합치지 않는다).
 7. **부문 지도** — `SEG`(원문 부문 표를 손으로) → `seg_map_propose.py T`(맞는 게 없으면 2판·3판) → **원문과 대조**(어느 축인지, 본사·상계 조정, 1년 전 값까지) → `ignore`·`adjust`·`strict`·`other`를 정해 `SEG_MAP`, `AUTO = True`(제안은 `seg_map_proposals.json`에 있다 — cfg 끝에 옮긴다). 빌드가 통과했다고 지도가 맞는 것은 아니다.
 8. `python3 v2/newcards/fetch_analyst.py T` · `python3 v2/newcards/news_auto.py T` · `python3 v2/newcards/quarter_auto.py T --check`(cfg 씨앗 분기 변수와 자동 값이 같아야 — 다르면 종료 코드 1. **새 종목 T만** 돌린다 — 인자 없이 돌리면 분기가 바뀐 옛 카드의 낡은 씨앗(MU·PEP·TENQ 등 8장, 2026-10-13)이 어긋남으로 나오지만 빌드는 자동 값을 쓰므로 영향 없다).
