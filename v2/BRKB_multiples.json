@@ -1,23 +1,23 @@
 {
  "ticker": "BRKB",
  "window": [
-  "2021-10-12",
-  "2026-10-12"
+  "2021-10-13",
+  "2026-10-13"
  ],
  "perBasis": "normalized_operating",
  "rule": "financial",
  "multiples": {
   "PER": {
    "days": 1175,
-   "current": 23.2,
+   "current": 23.33,
    "min": 19.24,
    "p10": 21.52,
    "median": 23.18,
-   "p90": 25.77,
+   "p90": 25.73,
    "max": 29.18,
    "mean": 23.4,
-   "percentile": 50.5,
-   "score": 49.5,
+   "percentile": 55.4,
+   "score": 44.6,
    "gapDays": 80
   },
   "PBR": {
@@ -29,8 +29,8 @@
    "p90": 1.64,
    "max": 1.79,
    "mean": 1.5,
-   "percentile": 47.9,
-   "score": 52.1,
+   "percentile": 51.0,
+   "score": 49.0,
    "gapDays": 80
   }
  },
@@ -254,10 +254,10 @@
  ],
  "fairBand": {
   "per_p25": 22.63,
-  "per_p75": 23.24,
+  "per_p75": 23.25,
   "low": 500,
   "high": 520,
-  "asOf": "2026-10-12",
+  "asOf": "2026-10-13",
   "basis": "normalized_operating",
   "days": 172
  }
