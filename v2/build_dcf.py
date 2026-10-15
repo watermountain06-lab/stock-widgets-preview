@@ -90,7 +90,8 @@ def latest(series, asof=None):
 
 # 투자자산이 영업 자산인 회사(CIK) — 투자 수익이 영업이익 안에 있다. 값은 근거.
 INVESTMENTS_OPERATING = {"0000731766": "UNH — 10-Q 손익계산서 Revenues에 'Investment and other income'(2026 Q2 $1,223M), Earnings from operations에 포함",
-                         "0000040545": "GE — 런오프 보험 투자증권 $37.9B가 보험 부채 $36.2B를 받친다. 투자수익은 'Insurance revenue'(2026 Q2 $715M)로 매출·영업이익 안(2026-09-30 사용자 결정)"}
+                         "0000040545": "GE — 런오프 보험 투자증권 $37.9B가 보험 부채 $36.2B를 받친다. 투자수익은 'Insurance revenue'(2026 Q2 $715M)로 매출·영업이익 안(2026-09-30 사용자 결정)",
+                         "0000064803": "CVS — 10-Q 손익계산서 Total revenues에 'Net investment income'(2026 Q2 $641M), Operating income에 포함 — 장기투자 $33.2B는 Aetna 보험 자산(UNH와 같은 처리, 2026-10-15)"}
 
 
 def base_inputs(ticker, asof=None):

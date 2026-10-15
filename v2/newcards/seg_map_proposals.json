@@ -1841,5 +1841,29 @@
     "#6aa84f"
    ]
   }
+ },
+ "CVS": {
+  "concepts": [
+   "cvs:PremiumsEarnedNetAndRevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "cvs:HealthServicesSegmentMember": [
+    "의료 서비스",
+    "#cc0000"
+   ],
+   "cvs:HealthCareBenefitsSegmentMember": [
+    "건강보험",
+    "#7a1fa2"
+   ],
+   "cvs:PharmacyAndConsumerHealthSegmentMember": [
+    "약국·소비자",
+    "#e07b39"
+   ]
+  },
+  "ignore_candidates": [
+   "cvs:CorporateAndOtherSegmentMember"
+  ]
  }
 }

@@ -4736,6 +4736,47 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "CVS",
+      "name": "CVS 헬스",
+      "sector": "헬스케어 — 건강보험·약국·의료 서비스",
+      "href": "CVS_full_widget.html",
+      "cardRank": 109,
+      "cardAsOf": "2026-10-14",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 90.39,
+        "prevClose": 87.55,
+        "session": "2026-10-14",
+        "prevSession": "2026-10-13",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1278970369,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-29",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000064803-26-000098 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 34.9,
+        "grade": "미흡",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-14",
+        "qualityFlags": []
+      }
     }
   ]
 }

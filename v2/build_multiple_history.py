@@ -1125,6 +1125,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0001035002": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # PSX: 1년 안 만기 차입금(DebtCurrent "Short-term debt" $1,797M, 2026-06-30)이 기본 목록에서 빠져 장기분 $18,768M만 잡혔다(MPC·VLO와 같은 조합, 2026-10-13).
                   "0001534701": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # CVS: 1년 안 만기 차입금(LongTermDebtAndCapitalLeaseObligationsCurrent $1,958M, 2026-06-30)이 빠져 장기분 $59,452M만 잡혔다.
+                  # 금융리스($1,326M, 10-K 리스 주석)는 재무상태표 장기차입금 두 줄 안이다. 기업어음은 ShortTermBorrowings(2025-09-30 $1,247M, ETN과 같은 조합, 2026-10-15).
+                  "0000064803": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DHR: 1년 안 만기 차입금을 DebtCurrent($1,411M, 2026-06-26)로 낸다 — 기본 목록(LongTermDebtCurrent는 2011년에 멈춤)에서 빠졌다(2026-10-02).
                   "0000313616": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # GLW: 장기차입금 태그만 잡혀 1년 안 만기·단기차입 $668M이 빠졌다(재무상태표 Total debt $8,424M, 2026-10-02).

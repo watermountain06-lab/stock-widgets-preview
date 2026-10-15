@@ -322,7 +322,11 @@ def apply(C, T):
         dv_pref = dv is not None and dps is None   # 최근 1년 안의 보통주 주당 배당이 없으면 우선주 배당(BA는 과거 보통주 이력이 있다, Codex)
     C._AUTO["dv_weeks"] = round(dvd.days / 7) if dvd else None
     yo_q3 = ends[ends.index(C.YO) - 1]
-    C.CAPITAL = [(f"자사주 매입 ({span(bbd)})" if bb is not None else "자사주 매입", (B(bb) if bb else "없음") if bb is not None else "공시 없음"),
+    # 매입이 없어 현금흐름표 줄·태그가 아예 빠진 회사는 10-Q 주석 문장으로 확인해 cfg BB_NONE = {분기 말일: 문구}에 적는다 — 그 분기에만 쓰인다.
+    # 다음 분기에는 다시 "공시 없음"이 되어 주석을 새로 확인하게 한다(CVS "did not repurchase any shares", Codex 2차 2026-10-15)
+    bb_none = getattr(C, "BB_NONE", {}).get(C.CUR) if bb is None else None
+    bb_lab = f"자사주 매입 ({span(bbd)})" if bb is not None else (f"자사주 매입 ({span(d(C.CUR) - fy_start - dt.timedelta(days=1))})" if bb_none else "자사주 매입")
+    C.CAPITAL = [(bb_lab, (B(bb) if bb else "없음") if bb is not None else (bb_none or "공시 없음")),
                  ((f"우선주 배당 ({span(dvd)})" if dv_pref else f"배당 지급 ({span(dvd)})") if dv is not None else "보통주 배당 지급",
                   B(dv) if dv is not None else ("공시 없음" if dps is not None else "없음")),   # 주당 배당이 있는데 지급액이 없으면 결측(GOOGL, Fable)
                  ((f"최근 분기 주당 배당 ({dlabel}, {d(dps_end).month}/{d(dps_end).day} 분기)",

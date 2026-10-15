@@ -4,7 +4,7 @@
 방법론·산식의 기준은 따로 있다: 은행 `v2/research/bank_rim_prereg.md`, 판정 구조 `v2/research/verdict_structure_prereg.md`, 백테스트 `v2/refresh_backtest.py` 머리 설명.
 원칙(숫자 지어내지 않기, 배열 손으로 치지 않기, Codex·Fable 검토)은 `/ticker` 스킬 플레이북(stock-widgets-redesign/.claude/skills/ticker/playbook.md)과 같다.
 
-지금 카드 107장(2026-10-14 기준, VLO·MO·PSX·LMT 추가): 비은행 생성기 카드 96장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 9장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
+지금 카드 109장(2026-10-15 기준, VLO·MO·PSX·LMT·MCK·CVS 추가): 비은행 생성기 카드 98장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 9장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
 매일·토요일 실행은 `daily_price.py`(GitHub Actions `.github/workflows/v2_cards.yml`)가 cfg가 있는 카드를 모두 돈다 — 새 카드를 워크플로에 따로 등록하지 않는다.
 
 ## 파일
@@ -51,6 +51,7 @@
 | **분사·교환 공개매수 진행 중** | 최근 8-K 2.01항·1.01항, SC TO-I, 10-Q "discontinued operations" 예고 | 재작성 숫자가 나오기 전이면 **만들지 않고 보류**(아래 "분사 종목" 절), 나온 뒤면 `RESTATED_LATEST`·`HISTORY_START`·`bt_start` | SPGI·MDT(보류), GE·DELL·IBM·WDC·T |
 | **자본 음수** | 재무상태표 자본 < 0 | 일반 경로 그대로 — PBR은 자동 "해당 없음", 부채비율 1점 | MO |
 | **지분법 투자·상장 자회사가 큼** | "Investments in equity securities"·비지배지분이 큼 | 비영업 자산은 `nonop_extra.json`(장부가, 1차 출처 근거), 비지배지분은 엔진이 EV에 더함 | MO(ABI)·MPC(MPLX)·KO |
+| **보험 투자수익이 영업이익 안** | 손익계산서 매출에 "Net investment income"·"Investment and other income", 장기투자가 큼(`--data`에서 비영업 자산이 내재가치의 큰 몫) | 투자자산을 영업 자산으로 — `build_dcf.INVESTMENTS_OPERATING`(비영업 자산에 더하지 않는다, 현금·단기투자는 순현금에 둔다) | UNH·CVS·GE |
 | **외국 발행사** | 10-Q 대신 6-K·20-F, 또는 한국 공시 | `BUILD['feed']` 어댑터(`v2/adapters/{t}_feed.py`), cfg `AUTO_OUTSIDE` | ASML·TSM·SKHY |
 | **다중 클래스·Up-C** | 표지 주식 수가 클래스별, 파트너십 지분 | `cover_shares.py`, `build_dcf.ECON_SHARES`·`UNITS_EXTRA` | META·BX |
 
@@ -83,7 +84,7 @@
 | 씨앗값(검사 기준) | SEG_ADJ — 원문에서 확인한 본사·상계 조정액. 부문 합 검사의 허용 기준(같은 부호 0.5~1.5배)으로 읽은 뒤 다시 정한다. 0이면 매출 3% 규칙만 남아 큰 조정이 있는 종목(GLW·TMO)은 멈춘다. SEC 자동 카드만(AUTO_OUTSIDE는 0) |
 | 제안기 입력 | SEG(seg_map_propose 입력 — 채울 때는 SEG_MAP에서 다시 만든다) |
 | auto가 덮어써 손으로 쓰지 않는 키 | SUMMARY·BULL·BEAR·PREMISE·RISK·STORIES·DCF_NOTE·HEALTH_NOTE·FUND_TIP·SELF_TIP·CHECK·CHECK_WHEN·YOY_EXTRA·SEG_NOTE·STAT3·CAPITAL·NEXT·NEXT_OP·FUND_ASOF_NOTE·OPM_RANGE·PR_CUR·FCF_SUB·CAPEX_SUB, RELEASE는 비움 |
-| 있을 때만 | CAPEX_LABEL(설비투자 태그가 다른 지출을 합칠 때 FCF·설비투자 칸 이름 — VLO)·OP_DISPLAY·NI_TAGS·SELF_SPAN·GROWTH_SPAN·REVERSE·ACT_REASON·REQ_MULT_EXACT·PBR_GAP_NEG_EQUITY·NO_DCF_SKEW·NONOP_NEG_SIGN·AUTO_OUTSIDE(외국 발행사 — ASML·TSM 6-K, SKHY OpenDART) |
+| 있을 때만 | CAPEX_LABEL(설비투자 태그가 다른 지출을 합칠 때 FCF·설비투자 칸 이름 — VLO)·BB_NONE(`{분기 말일: 문구}` — 자사주 매입 태그가 아예 없을 때 "공시 없음" 대신. 10-Q 주석으로 매입 0을 확인한 그 분기에만 쓰인다, CVS)·OP_DISPLAY·NI_TAGS·SELF_SPAN·GROWTH_SPAN·REVERSE·ACT_REASON·REQ_MULT_EXACT·PBR_GAP_NEG_EQUITY·NO_DCF_SKEW·NONOP_NEG_SIGN·AUTO_OUTSIDE(외국 발행사 — ASML·TSM 6-K, SKHY OpenDART) |
 
 `BUILD` 옵션: `overlay`(companyfacts 지연 — 인라인 XBRL 보충, 또는 재무 태그 별칭·합 `adapters/overlay_feed.py`의 `ALIAS`·`SUM`·`REPLACE`), `company_tags`(회사 고유 태그 — COP·PSX 설비투자, LMT 감가상각, NEM 재고·리스. 보충 자료는 `.sec_cache/overlay`에만 있고 Actions 캐시는 토요일에만 저장되므로, 캐시에 그 행이 없으면 매일 실행도 받아 온다 — 2026-10-13 PSX가 그날 밤 설비투자 없이 빌드됐다), `feed`(외국 기업 어댑터 `v2/adapters/{t}_feed.py`), `eps_cmd`(V), `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 시작일 — WDC·T), `sum_tags`(XOM 재고), `share_events`(분기 뒤 주식 발행), `no_dcf`(사유 — 현금흐름 미적용, "판정 보류": 보험 CB·PGR, 은행 기반 HTML 제작용 COF). 활동성 예외는 `build_activity_score.py`의 `COGS_TAG_BY_CIK`·`INV_SUM_BY_CIK`.
 
