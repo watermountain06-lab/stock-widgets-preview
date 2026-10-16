@@ -4778,6 +4778,88 @@
         "valuationAsOf": "2026-10-16",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "ADP",
+      "name": "ADP",
+      "sector": "산업재 — 급여·인사관리 서비스",
+      "href": "ADP_full_widget.html",
+      "cardRank": 110,
+      "cardAsOf": "2026-10-15",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 285.65,
+        "prevClose": 280.32,
+        "session": "2026-10-15",
+        "prevSession": "2026-10-14",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 397262737,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-05",
+        "filing": "10-K 0000008670-26-000030 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 63.1,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-15",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "SYK",
+      "name": "스트라이커",
+      "sector": "헬스케어 — 의료기기(정형외과·수술 장비)",
+      "href": "SYK_full_widget.html",
+      "cardRank": 111,
+      "cardAsOf": "2026-10-15",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 293.23,
+        "prevClose": 281.62,
+        "session": "2026-10-15",
+        "prevSession": "2026-10-14",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 383573046,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0000310764-26-000050 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 69.6,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-15",
+        "qualityFlags": []
+      }
     }
   ]
 }

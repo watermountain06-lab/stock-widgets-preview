@@ -399,6 +399,9 @@ EXTRA_TAGS = {
     # VLO: 2026년 10-Q부터 현금흐름표 설비투자·정기보수 줄을 VIE 차원으로만 태깅해 PaymentsToAcquireProductiveAssets가 2025-09에 멈췄다(PCR 계산 불가).
     # SegmentExpenditureAdditionToLongLivedAssets(차원 없음)가 겹치는 기간에 같은 값이다 — 2024년 $2,057M, 2025년 상반기 $1,066M, 2026년 상반기 $798M(2026-10-13).
     "0001035002": {"PaymentsToAcquirePropertyPlantAndEquipment": ["SegmentExpenditureAdditionToLongLivedAssets"]},
+    # ADP: 현금흐름표 "Capital expenditures"(FY2026 $196.6M)를 PaymentsToAcquireOtherPropertyPlantAndEquipment로 낸다 — 기본 목록 태그가 없어 PCR 계산 불가였다.
+    # 자본화 소프트웨어 "Additions to intangibles"($468.5M, PaymentsToAcquireIntangibleAssets)는 넣지 않는다(공통 안건 — MCK와 같은 정의, 2026-10-16).
+    "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
     "0000766704": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"],
                    "NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # COST: 세전이익을 FY2023부터 IncomeLossAttributableToParent로 낸다(FY2023 연간 8,487 = 손익계산서 세전이익,
@@ -424,6 +427,12 @@ DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이
                  # Q2 2026: 2,808 − 140 + 145 = 2,813 = 총매출 5,044 − (총비용 2,376 − 이자 145)(10-Q 대조, 2026-10-02).
                  "0001393818": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["OtherNonoperatingIncomeExpense"], 1), (["InterestExpense"], -1)]),
+                 # ADP: 영업이익 줄이 없다. 영업이익 = 세전이익 − "Other (income)/expense, net"(NonoperatingIncomeExpense, 수익이면 양수 — 회사 투자 이자 등) + 이자비용(총비용 안).
+                 # FY2026: 5,730.3 − 410.6 + 459.3 = 5,779.0 = 매출 21,947.4 − 원가 11,760.2 − 판관비 4,408.2(10-K 대조, 2026-10-16). 고객 자금 이자는 매출 안이라 영업.
+                 # 세전 태그가 FY2021까지 …MinorityInterestAndIncomeLossFromEquityMethodInvestments라 목록으로 잇는다(없으면 합성 이력이 2022-08 공시부터).
+                 "0000008670": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                 "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                                [(["NonoperatingIncomeExpense"], 1), (["InterestExpense"], -1)]),
                  # BMY: MRK와 같은 구조(영업이익 줄 없음). 영업이익 = 세전이익 − "Other (income)/expense, net"(이자비용·투자수익·구조조정·지분 평가 포함,
                  # 수익이면 양수). Q2 2026: 4,086 − 61 = 4,025 = 매출 12,973 − (총비용 8,887 + 61)(10-Q 대조, 2026-10-02).
                  "0000014272": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
@@ -531,7 +540,15 @@ def _derived_opinc(cik, taxonomy):
                 m.setdefault((r.get("start"), r["end"], r.get("accn")), mult * r["val"])
         maps.append((m, sign, optional))
     out = []
-    for r in concept(cik, pre_tag, taxonomy):
+    # 세전 태그는 하나 또는 목록(앞 태그 우선 — 이름이 바뀐 회사: ADP는 FY2021까지 …MinorityInterestAndIncomeLossFromEquityMethodInvestments)
+    pre_rows, seen_k = [], set()
+    for pt in ([pre_tag] if isinstance(pre_tag, str) else pre_tag):
+        for r in concept(cik, pt, taxonomy):
+            k = (r.get("start"), r["end"], r.get("accn"))
+            if k not in seen_k:
+                seen_k.add(k)
+                pre_rows.append(r)
+    for r in pre_rows:
         k = (r.get("start"), r["end"], r.get("accn"))
         if all(k in m or opt for m, _, opt in maps):
             out.append({**r, "val": r["val"] - sum(sign * m.get(k, 0) for m, sign, _ in maps)})
@@ -555,6 +572,9 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # MCK: DepreciationDepletionAndAmortization(연간 FY2026 $287M)은 현금흐름표 D&A(감가상각 $256M + 상각 $473M = DepreciationAndAmortization
                 # $729M)의 일부라 앞 태그가 이겨 EBITDA·DCF 감가상각이 절반 이하였다(MCD와 같은 유형, 2026-10-13).
                 "0000927653": ("DepreciationDepletionAndAmortization",),
+                # SYK: DepreciationDepletionAndAmortization(Q2 2026 $404M, 부문 주석 전체 D&A — 대여 수술기구 상각 등 포함)은 분기 값이 2024년부터라 EV/EBITDA 이력이
+                # 240일이었고, 대여기구 구입비가 설비투자 줄에 없어(어디에 잡히는지는 공시로 확정 못 함 — 추정) DCF 순투자와 정의가 어긋날 수 있다. 현금흐름표 "Depreciation"(Q2 $121M) + "Amortization of intangible assets"($175M)로 전 기간 같은 정의를 쓴다(구성요소 경로, 2026-10-16).
+                "0000310764": ("DepreciationDepletionAndAmortization",),
                 # MCD: DepreciationDepletionAndAmortization(분기 $111M)는 현금흐름표 D&A(DepreciationAndAmortization, 분기 $565M)의 일부라
                 # 앞 태그가 이겨 EBITDA·DCF 감가상각이 낮았다(최근 4분기 $0.47B 대 약 $2.2B, 2026-10-02).
                 "0000063908": ("DepreciationDepletionAndAmortization",),
@@ -1128,6 +1148,13 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # CVS: 1년 안 만기 차입금(LongTermDebtAndCapitalLeaseObligationsCurrent $1,958M, 2026-06-30)이 빠져 장기분 $59,452M만 잡혔다.
                   # 금융리스($1,326M, 10-K 리스 주석)는 재무상태표 장기차입금 두 줄 안이다. 기업어음은 ShortTermBorrowings(2025-09-30 $1,247M, ETN과 같은 조합, 2026-10-15).
                   "0000064803": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # ADP: 기본 목록(전환사채 태그 두 개는 ADP 자료 0건이라 뺌) + 환매조건부 차입("Obligations under reverse repurchase agreements" $139.3M, 2026-06-30 — 회사 고유 태그라 cfg_adp company_tags가
+                  # SecuritiesSoldUnderAgreementsToRepurchase 이름으로 싣는다). 담보인 장기 채권 $138.6M은 비영업 자산에 들어가므로 짝을 맞춘다(Codex 2026-10-16).
+                  # SYK: 1년 안 만기 차입금(DebtCurrent $750M — 기업어음 $250M 포함, 2026-06-30)이 빠지고 CommercialPaper만 더해져 $500M이 모자랐다
+                  # (10-Q 차입금 표 합계 $14,942M = 유동 750 + 비유동 14,192, DHR과 같은 조합, Codex 2026-10-16).
+                  "0000310764": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  "0000008670": ["LongTermDebtCurrent", "LongTermDebtNoncurrent", "ShortTermBorrowings", "CommercialPaper", "OtherShortTermBorrowings",
+                                 "SecuritiesSoldUnderAgreementsToRepurchase"],
                   # DHR: 1년 안 만기 차입금을 DebtCurrent($1,411M, 2026-06-26)로 낸다 — 기본 목록(LongTermDebtCurrent는 2011년에 멈춤)에서 빠졌다(2026-10-02).
                   "0000313616": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # GLW: 장기차입금 태그만 잡혀 1년 안 만기·단기차입 $668M이 빠졌다(재무상태표 Total debt $8,424M, 2026-10-02).
@@ -1255,6 +1282,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
+                  # SYK: MinorityInterest가 2018-03-31($9M)에 멈춰 그 값이 EV에 더해지고 자본에서 빠졌다 — 지금 재무상태표에 비지배지분 줄이 없다(Codex 2026-10-16).
+                  "0000310764": {"nci": []},
                   # MCK: 비지배지분 대부분이 상환 가능 비지배지분(재무상태표 메자닌, 2026-06-30 $2,563M — Core Ventures 30%(풋옵션)와 Apollo의
                   # 의료·수술 부문 전환우선주 약 13% $1.25B, 10-Q Note 5)이라 MinorityInterest($376M)만 잡혔다. 연결 EBITDA에 그 몫이 다 들어 있어 EV에 더한다(2026-10-13).
                   "0000927653": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCommonCarryingAmount"]},

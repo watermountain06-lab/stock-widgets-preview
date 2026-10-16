@@ -1865,5 +1865,41 @@
   "ignore_candidates": [
    "cvs:CorporateAndOtherSegmentMember"
   ]
+ },
+ "ADP": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "adp:EmployerServicesSegmentMember": [
+    "고용주 서비스",
+    "#d0271d"
+   ],
+   "adp:ProfessionalEmployeeOrganizationServicesSegmentMember": [
+    "PEO(전문 고용주)",
+    "#5a5a5a"
+   ]
+  }
+ },
+ "SYK": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "syk:MedSurgAndNeurotechnologyMember": [
+    "의료·수술·신경",
+    "#e3a008"
+   ],
+   "syk:OrthopaedicsAndSpineMember": [
+    "정형외과",
+    "#3a3a3a"
+   ]
+  }
  }
 }
