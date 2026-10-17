@@ -1,0 +1,80 @@
+/* 홈 "매수 기준가" 칸 (2026-10-07 시안, 10-08 hero 칸으로 이동). 초록은 theme.css가 어두운 테마에만 정의해서 칸 안에 따로 둔다.
+   hero 칸 폭은 화면 폭과 따로 움직이므로(2fr:.6fr ↔ 1fr:1fr) 컨테이너 쿼리로 배치를 바꾼다. */
+.value-gap{--vg-good:#1f8a5b;container-type:inline-size;min-width:0;align-self:start;color:var(--text)}
+:root[data-theme="dark"] .value-gap{--vg-good:#4cc38a}
+.vg-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.vg-head .feature-kicker{margin:10px 0 0}
+.vg-asof{font-size:11px;color:var(--text3);white-space:nowrap}
+.value-gap h2{font-size:22px;margin:10px 0 6px}
+.vg-viewport{margin-top:6px;overflow:hidden}
+.vg-list{list-style:none;margin:0;padding:0}
+.vg-row{display:grid;grid-template-columns:170px minmax(0,1fr);align-items:center;column-gap:20px;padding:13px 0;border-top:1px solid var(--border)}
+.vg-name{display:flex;align-items:center;gap:9px;color:var(--text);text-decoration:none;min-width:0}
+.vg-name img{width:26px;height:26px;border-radius:7px;object-fit:contain;background:#fff;flex:none}
+.vg-name strong{display:flex;align-items:center;gap:6px;font-size:14px}
+.vg-name small{display:block;font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vg-hard{white-space:nowrap;font-size:9.5px;font-weight:500;line-height:1.3;padding:1px 6px;border-radius:999px;border:1px dashed var(--border);color:var(--text3);cursor:help}
+.vg-gauge{position:relative;height:46px}
+.vg-track{position:absolute;left:0;right:0;top:19px;height:8px;border-radius:999px;background:color-mix(in srgb,var(--text3) 22%,transparent)}
+.vg-zone{position:absolute;left:0;top:0;bottom:0;border-radius:999px 0 0 999px;background:color-mix(in srgb,var(--vg-good) 22%,transparent)}
+.vg-line{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--text3)}
+.vg-dot{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--text2);border:2px solid var(--panel)}
+.vg-dot.is-under{background:var(--vg-good)}
+.vg-gap{position:absolute;top:0;transform:translateX(-50%);font-size:12px;font-weight:700;white-space:nowrap;color:var(--text2)}
+.vg-gap.is-under{color:var(--vg-good)}
+.vg-buy{position:absolute;top:31px;transform:translateX(-50%);font-size:10.5px;white-space:nowrap;color:var(--text3);cursor:help}
+.vg-empty{padding:20px 0;text-align:center;color:var(--text2);border-top:1px solid var(--border);margin:0}
+.vg-history{display:flex;align-items:flex-end;gap:14px;margin-top:6px;padding-top:10px;border-top:1px solid var(--border)}
+.vg-history p{flex:0 0 150px;font-size:11px;color:var(--text2);margin:0;line-height:1.4}
+.vg-history p small{display:block;color:var(--text3)}
+.vg-history ol{flex:1;list-style:none;margin:0;padding:0;display:flex;align-items:flex-end;gap:6px;min-width:0}
+.vg-history li{flex:1;min-width:0;display:flex}
+.vg-history button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;min-width:0;padding:4px 0;border:0;border-radius:6px;background:transparent;font:inherit;font-size:9.5px;color:var(--text3);cursor:pointer}
+.vg-history button:hover:not(:disabled),.vg-history button:focus-visible{background:color-mix(in srgb,var(--vg-good) 10%,transparent)}
+.vg-history button:disabled{cursor:default}
+.vg-history .vg-bar{flex:none;width:70%;min-height:2px;border-radius:2px 2px 0 0;background:color-mix(in srgb,var(--vg-good) 55%,transparent)}
+.vg-history button b{font-size:10.5px;color:var(--text);margin-top:2px}
+/* 좁은 칸(약 800px 이하 화면, 모바일): 이름 아래에 막대 */
+@container (max-width:440px){
+  .vg-row{grid-template-columns:1fr;row-gap:2px}
+  .vg-history{flex-direction:column;align-items:stretch;gap:6px}
+  .vg-history p{flex:none}
+  .vg-history p small{display:inline}
+}
+/* 한 열로 쌓이는 화면(700px 이하)에서는 '오늘의 발견' 메뉴를 먼저 보이고 이 칸은 그 아래로 */
+@media(max-width:700px){.home-feature .value-gap{order:2;margin-top:8px}}
+/* 분기 팝업 카드의 가로 막대(대화상자는 .value-gap 밖이라 색을 따로 둔다). 2026-10-13 시안: 뒤 예상밴드(반투명 초록, 점선),
+   앞 실제(노랑 앰버 - 카드의 '주의' 금색 #F0C040과 구분), 진입가 선이 두 띠를 관통 (Fable 색안) */
+.vg-q{--q-range:#e2b12f;--q-range-line:#a67f14;--q-band:rgba(140,196,169,.35);--q-band-line:#3f8a66;--q-band-text:#2f7553;--q-buy:#374151;--q-cur:#111827;position:relative;flex-basis:100%;height:86px;margin-top:2px;border-top:1px solid var(--border2);font-size:10.5px}
+:root[data-theme="dark"] .vg-q,:root[data-theme="dark"] .vg-q-info{--q-range:#e3b548;--q-range-line:#e3b548;--q-band:rgba(63,138,102,.4);--q-band-line:#8cc4a9;--q-band-text:#8cc4a9;--q-buy:#d1d5db;--q-cur:#f9fafb}
+.vg-q-info{--q-band-text:#2f7553;flex-basis:100%;font-size:11px;color:var(--text3)}
+.vg-q-info b{font-weight:600;color:var(--q-band-text)}
+.vg-q-track{position:absolute;left:0;right:0;top:43px;height:8px;border-radius:999px;background:color-mix(in srgb,var(--text3) 18%,transparent)}
+.vg-q-band{position:absolute;top:-3px;height:14px;box-sizing:border-box;border-radius:4px;background:var(--q-band);border:1px dashed var(--q-band-line)}
+.vg-q-range{position:absolute;top:0;bottom:0;box-sizing:border-box;border-radius:999px;background:var(--q-range);border:1px solid var(--q-range-line)}
+.vg-q-buy{position:absolute;top:-5px;bottom:-5px;width:2px;margin-left:-1px;background:var(--q-buy)}
+.vg-q-cur{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--q-cur);border:2px solid var(--panel)}
+.vg-q span[class*="-label"]{position:absolute;line-height:14px;transform:translateX(calc(-50% + var(--nudge,0px)));white-space:nowrap;color:var(--text2)}
+.vg-q-buy-label{top:6px}
+.vg-q-cur-label{top:6px;font-weight:700;color:var(--text)!important}.vg-q-cur-label.is-low{top:22px}
+.vg-q-end{position:absolute;top:58px;line-height:14px;white-space:nowrap;color:var(--text3)}
+.vg-q-low{transform:none}.vg-q-low.is-out{transform:translateX(calc(-100% - 4px))}
+.vg-q-high{transform:translateX(-100%)}.vg-q-high.is-out{transform:translateX(4px)}
+/* 범례: 분기 팝업 제목 아래 한 줄(좁으면 줄바꿈) */
+.vg-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11px;color:var(--text2)}
+.vg-legend>span{display:inline-flex;align-items:center;gap:6px}
+.vg-legend i{display:inline-block;flex:none}
+.vg-key-act{width:18px;height:8px;border-radius:4px;background:#e2b12f;border:1px solid #a67f14}
+.vg-key-band{width:18px;height:12px;border-radius:4px;background:rgba(140,196,169,.35);border:1px dashed #3f8a66}
+.vg-key-entry{width:2px;height:14px;background:#374151}
+.vg-key-cur{width:10px;height:10px;border-radius:50%;background:#111827}
+:root[data-theme="dark"] .vg-key-act{background:#e3b548;border-color:#e3b548}
+:root[data-theme="dark"] .vg-key-band{background:rgba(63,138,102,.4);border-color:#8cc4a9}
+:root[data-theme="dark"] .vg-key-entry{background:#d1d5db}
+:root[data-theme="dark"] .vg-key-cur{background:#f9fafb}
+/* 분기 팝업 카드 오른쪽: 분기 말·현재 두 줄(왼쪽 라벨, 오른쪽 숫자). 색은 줄마다 고정 - 분기 말은 예상밴드 초록, 현재는 본문색 */
+.discovery-quote.vg-stats{display:grid;grid-template-columns:auto auto;align-items:baseline;gap:2px 10px}
+.vg-stats small{font-size:10px!important;text-align:left}
+.vg-stats b{font-size:15px;font-weight:700;line-height:1.25;font-variant-numeric:tabular-nums}
+.vg-stat-end{color:#2f7553}:root[data-theme="dark"] .vg-stat-end{color:#8cc4a9}
+.vg-stat-now{color:var(--text)}
