@@ -1,0 +1,14 @@
+/* preview 전용 기능의 스타일(2026-10-17). 라이브(stock-widgets-redesign)로 옮기지 않는다 — pipeline/site_ui/UI_DIFF.md */
+
+/* 순위 구간 토글: "분석 대상 N개 종목" 줄 오른쪽 */
+.range-line{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.range-bar{display:inline-flex;padding:3px;background:#efece0;border-radius:9px;gap:2px;}
+.range-btn{padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--text2);cursor:pointer;border:none;background:none;font-family:inherit;white-space:nowrap;}
+.range-btn:hover{color:var(--text);}
+.range-btn[aria-pressed="true"]{background:#fff;color:var(--accent);box-shadow:0 1px 3px rgba(31,36,32,0.1);}
+:root[data-theme="dark"] .range-bar{background:var(--bg3,#2a2e3b);}
+:root[data-theme="dark"] .range-btn[aria-pressed="true"]{background:var(--panel);}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .range-bar{background:var(--bg3,#2a2e3b);}
+  :root:not([data-theme="light"]) .range-btn[aria-pressed="true"]{background:var(--panel);}
+}
