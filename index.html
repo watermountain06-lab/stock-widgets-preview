@@ -44,6 +44,12 @@
   .tag{font-size:12px;font-weight:500;color:var(--text2);background:transparent;border:1px solid var(--border);padding:3px 9px;border-radius:999px;}
   .star-cell{display:flex;justify-content:center;}
   .empty-state{padding:56px 20px;text-align:center;font-size:13px;color:var(--text3);}
+  .range-bar{display:inline-flex;padding:3px;background:#efece0;border-radius:9px;gap:2px;}
+  .range-btn{padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--text2);cursor:pointer;border:none;background:none;font-family:inherit;white-space:nowrap;}
+  .range-btn:hover{color:var(--text);}
+  .range-btn[aria-pressed="true"]{background:#fff;color:var(--accent);box-shadow:0 1px 3px rgba(31,36,32,0.1);}
+  :root[data-theme="dark"] .range-bar{background:var(--bg3,#2a2e3b);} :root[data-theme="dark"] .range-btn[aria-pressed="true"]{background:var(--panel);}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .range-bar{background:var(--bg3,#2a2e3b);} :root:not([data-theme="light"]) .range-btn[aria-pressed="true"]{background:var(--panel);}}
   .fav-toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;user-select:none;white-space:nowrap;}
   .fav-btn{border:none;background:none;padding:2px;cursor:pointer;line-height:0;}
   .fav-btn svg{fill:none;stroke:#c9c5b3;}
@@ -141,7 +147,13 @@
       <div class="box-w" style="font-size:11.5px;color:var(--text3);margin-bottom:14px;">
         ETF&middot;ETN 제외, 재무 수치는 SEC 공시 대조&middot; 현재가&middot;등락률은 별도 시세 기준(공시 대조 대상 아님)
       </div>
-      <div class="box-w num" style="font-size:12.5px;color:var(--text2);margin-bottom:14px;">분석 대상 <span id="ticker-count" style="color:var(--text);font-weight:700;">5</span>개 종목</div>
+      <div class="box-w num" style="font-size:12.5px;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;"><span>분석 대상 <span id="ticker-count" style="color:var(--text);font-weight:700;">5</span>개 종목</span>
+        <div class="range-bar" id="range-bar" role="group" aria-label="시총 순위 구간">
+          <button type="button" class="range-btn" data-range="all" aria-pressed="true">전체</button>
+          <button type="button" class="range-btn" data-range="1-100" aria-pressed="false">1~100위</button>
+          <button type="button" class="range-btn" data-range="101-200" aria-pressed="false">101~200위</button>
+        </div>
+      </div>
 
       <div class="box-w" id="data-panel" style="background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;"></div>
     </div>
@@ -315,6 +327,8 @@
   function favCell(d){ var on = favorites.has(d.ticker); return '<td class="fav-col"><button type="button" class="fav-btn" data-fav="'+d.ticker+'" aria-pressed="'+on+'" aria-label="'+d.ticker+' 즐겨찾기'+(on?' 해제':' 추가')+'">'+STAR+'</button></td>'; }
 
   var view = 'rank', sortKey=null, sortDirection=1;
+  var range = 'all';
+  function inRange(d){if(range==='all')return true;var lo=+range.split('-')[0],hi=+range.split('-')[1];return d.rank>=lo&&d.rank<=hi;}
   var panel = document.getElementById('data-panel');
   // 둘째 줄은 재무점수 대신 카드의 '예상밴드 백테스트' 현재 구간에 대한 현재가 위치와 밴드 점수(하단 100 · 상단 0,
   // 아래는 100 초과·위는 0 미만, −100~200에서 자름 — 2026-10-08 사용자 결정). 색은 넣지 않는다 —
@@ -329,7 +343,7 @@
   function render() {
     var query = document.getElementById('stock-search').value.trim().toLowerCase();
     var favOnly = document.getElementById('fav-only').checked;
-    var data = DATA.filter(function(d){return (d.ticker+' '+d.name).toLowerCase().includes(query) && (!favOnly || favorites.has(d.ticker));});
+    var data = DATA.filter(function(d){return (d.ticker+' '+d.name).toLowerCase().includes(query) && (!favOnly || favorites.has(d.ticker)) && inRange(d);});
     document.getElementById('ticker-count').textContent = data.length;
     panel.classList.add('table-view');
     if(view==='change') data.sort(function(a,b){return b.change-a.change;});
@@ -354,6 +368,8 @@
   panel.addEventListener('click',e=>{const fav=e.target.closest('[data-fav]');if(fav){const t=fav.dataset.fav;favorites.has(t)?favorites.delete(t):favorites.add(t);saveFavorites();render();const again=panel.querySelector('[data-fav="'+t+'"]');if(again)again.focus();return;}});
   document.getElementById('tab-bar').addEventListener('click',e=>{const tab=e.target.closest('[data-view]');if(!tab||tab.dataset.view===view)return;view=tab.dataset.view;sortKey=null;sortDirection=1;document.querySelectorAll('#tab-bar [data-view]').forEach(b=>{const on=b===tab;b.classList.toggle('active',on);b.setAttribute('aria-selected',on);});render();});
   document.getElementById('fav-only').addEventListener('change',render);
+  // 시총 순위 구간(그날 시총 순위 d.rank 기준). 탭 4개·검색·즐겨찾기와 함께 걸린다. 고른 구간은 저장하지 않는다.
+  document.getElementById('range-bar').addEventListener('click',e=>{const b=e.target.closest('[data-range]');if(!b||b.dataset.range===range)return;range=b.dataset.range;document.querySelectorAll('#range-bar [data-range]').forEach(x=>x.setAttribute('aria-pressed',x===b));render();});
   panel.addEventListener('click',e=>{const button=e.target.closest('[data-sort]');if(!button)return;const key=button.dataset.sort;if(sortKey!==key){sortKey=key;sortDirection=1;}else if(sortDirection===1){sortDirection=-1;}else{sortKey=null;sortDirection=1;}render();panel.querySelector('[data-sort="'+key+'"]').focus();});
   document.getElementById('stock-search').addEventListener('input',render);
   window.addEventListener('quotes-updated',()=>{render();renderDiscovery();});
