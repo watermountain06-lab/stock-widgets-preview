@@ -24,14 +24,13 @@
 | 묶음 | 함께 옮길 것 (index.html) |
 |---|---|
 | 탭 4개 | `#tab-bar` 버튼 HTML(라이브의 `<h2>매력도별 종목</h2>` 자리), 탭 클릭 처리, 기본 `view = 'rank'`, 순위별 보기를 표로(`function card()` 삭제, `panel.classList.add('table-view')`, 카드 분기 삭제, caption의 `rank:` 항목) — 라이브 render()의 sector·change 분기는 이미 있다 |
+| 카드 경로 데이터화 (먼저 옮길 것) | `today.js`의 `cardBase`·`card`, `value-gap.js`의 `STOCKS`·`CARD_BASE`·`cardHref`와 분기 팝업 링크. 카드 주소를 각 사이트 `stock-data.js`의 `href`에서 읽어(preview 루트, 라이브 `cards/`) 같은 코드가 두 사이트에서 그대로 맞다(2026-10-17). 옮기면 손으로 경로를 바꿀 일이 없다 — 이 묶음 없이 두 파일을 다른 이유로 옮기면 라이브 링크가 깨지므로 함께 옮긴다 |
 | 즐겨찾기 | `.fav-toggle`·`.fav-btn` CSS, `#data-panel` 7열 너비 CSS(즐겨찾기 열과 반드시 함께), "즐겨찾기만 보기" 체크박스, `FAV_KEY`·`favorites`·`saveFavorites`·`STAR`·`favCell`, 필터의 `(!favOnly || favorites.has(d.ticker))`, ★ 머리칸과 칸, 빈 목록 문구, ★ 클릭 처리 |
 
 ## 3. 라이브로 옮길 때 되돌리거나 빼는 것
 
 | 무엇 | preview | 라이브 |
 |---|---|---|
-| 카드 경로 `today.js` | `const card=t=>''+encodeURIComponent(t)+…` | `'cards/'+` |
-| 카드 경로 `value-gap.js` | `href="' + esc(s.ticker)` | `href="cards/' + esc(s.ticker)` |
 | index.html STOCKS_DATA 전용 `<script>` | 있음(build_index.py·validate와 라이브 build_home.py·승격 관문이 읽는다) | 옮기지 않는다 |
 | index.html `stock-data.js?v=` | `preview-1` | 라이브 값 유지 |
 
@@ -43,7 +42,7 @@
 4. 라이브 `python3 -m unittest discover -s tooling`, 로컬 서버로 화면 확인.
 5. 사용자 승인 뒤 라이브 커밋·push. 옮긴 묶음을 2절에서 지운다.
 
-한계: 누출 검사는 꼬리표·식별자만 본다. 꼬리표를 빼먹은 preview 전용 코드와 3절 경로 되돌리기 누락은 못 잡는다 —
+한계: 누출 검사는 꼬리표·식별자만 본다. 꼬리표를 빼먹은 preview 전용 코드는 못 잡는다 —
 4번 화면 확인과 라이브 diff가 최종 확인이다.
 
 ## 등락률별 순위 숫자 (2026-10-17 결정)

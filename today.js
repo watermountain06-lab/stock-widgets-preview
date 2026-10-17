@@ -12,7 +12,9 @@ const pct=r=>r==null?'—':(r>0?'+':r<0?'−':'')+Math.abs(r*100).toFixed(1)+'%'
 const cls=r=>r>0?'up':r<0?'down':'';
 const name=t=>(stocks.find(s=>s.ticker===t)||{}).name||t;
 const sign=v=>(v>0?'+':v<0?'−':'')+Math.abs(v);
-const card=t=>''+encodeURIComponent(t)+'_full_widget.html';
+// 카드 주소는 이 사이트의 stock-data.js href에서 읽는다(preview는 루트, 라이브는 cards/) — 화면 코드에 경로를 박지 않는다(2026-10-17)
+const cardBase=(f=>f?f.href.slice(0,f.href.length-(f.ticker+'_full_widget.html').length):'')(stocks[0]);
+const card=t=>((stocks.find(s=>s.ticker===t)||{}).href)||cardBase+encodeURIComponent(t)+'_full_widget.html';
 // 홈 '평가 · 밴드 점수' 칸과 같은 표기
 const bandText=b=>!b||b.pos==='none'?'밴드 없음':b.pos==='na'?'밴드 해당 없음':b.raw<-100?'밴드 표시 불가':'밴드 점수 '+String(b.score).replace('-','−');
 const D=()=>T.days[day];
