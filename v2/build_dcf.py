@@ -274,8 +274,21 @@ def base_inputs(ticker, asof=None):
                    for tag in ("EquitySecuritiesFvNi", "EquitySecuritiesWithoutReadilyDeterminableFairValueAmount")]
     # 존재는 None으로 판정한다 — 장기투자 값이 정상적인 0이어도 지분 태그로 넘어가면 안 된다(Codex 2차).
     has_lti = any(v is not None for v in lti_vals)
+    # 장기투자 태그가 장기 채권과 **같은 자산**이면(값이 0.5% 안에서 같다) 한 번만 더한다 — SBUX OtherLongTermInvestments $313.2M =
+    # AvailableForSaleSecuritiesDebtSecuritiesNoncurrent $313.2M(10-Q "Long-term investments" 한 줄)이 두 번 들어갔다(2026-10-16, 기존 카드 중 해당 0장).
+    # 결산일까지 같아야 같은 자산으로 본다(값만 비교하면 다른 시점 잔액이 우연히 같을 때도 걸린다 — Codex 2026-10-16).
+    def _last(tag):
+        r = as_of_rows(bmh.component_sum(cik, [tag]))
+        return r[-1] if r else None
+    _lm = out["lt_marketable"]
+    # 비교 날짜는 lt_marketable이 실제로 고른 태그의 행에서(앞 태그가 낡아 버려졌으면 대체 태그 — Codex 2차)
+    _lm_row = (_last("MarketableSecuritiesNoncurrent") if fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"]))
+               else _last("AvailableForSaleSecuritiesDebtSecuritiesNoncurrent"))
+    _dup = bool(_lm) and has_lti and _lm_row is not None and any(
+        r and r["end"] == _lm_row["end"] and abs(r["val"] - _lm) < 0.005 * abs(_lm)
+        for r in (_last("LongTermInvestments"), _last("OtherLongTermInvestments")))
     out["nonop_assets"] = (sum(v or 0 for v in lti_vals) if has_lti
-                           else sum(v or 0 for v in equity_vals)) + out["lt_marketable"]
+                           else sum(v or 0 for v in equity_vals)) + (0 if _dup else _lm)
     # 투자 수익을 매출·영업이익에 넣는 회사(보험 — UNH "Investment and other income")는 그 투자가 영업 자산이다.
     # 비영업 자산으로 또 더하면 수익을 두 번 센다(2026-09-30 사용자 결정 "장기투자는 빼고 현금은 두기").
     # 투하자본 계산에서도 영업 자산으로 남는다. 현금·단기투자는 다른 회사처럼 순현금에 둔다.

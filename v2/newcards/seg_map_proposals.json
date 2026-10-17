@@ -1901,5 +1901,177 @@
     "#3a3a3a"
    ]
   }
+ },
+ "LOW": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "low:HardlinesMember": [
+    "하드라인",
+    "#012169"
+   ],
+   "low:HomeDecorMember": [
+    "홈 데코",
+    "#2f6fd0"
+   ],
+   "low:BuildingProductsMember": [
+    "건축 자재",
+    "#7fa7e8"
+   ],
+   "low:OtherSalesMember": [
+    "기타 상품",
+    "#9a9a9a"
+   ]
+  }
+ },
+ "SBUX": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "sbux:NorthAmericaSegmentMember": [
+    "북미",
+    "#00704a"
+   ],
+   "sbux:InternationalSegmentMember": [
+    "해외",
+    "#d4a017"
+   ],
+   "sbux:ChannelDevelopmentMember": [
+    "채널 개발",
+    "#7a5c3e"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:CorporateAndOtherMember"
+  ]
+ },
+ "CME": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "cme:ClearingandtransactionfeesMember": [
+    "청산·거래 수수료",
+    "#1a6fb0"
+   ],
+   "cme:MarketDataMember": [
+    "시장 데이터",
+    "#439ee3"
+   ],
+   "cme:OtherRevenueMember": [
+    "기타",
+    "#9a9a9a"
+   ]
+  },
+  "ignore_candidates": [
+   "cme:InterestFromPerformanceBondsMember"
+  ]
+ },
+ "TT": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "srt:AmericasMember": [
+    "미주",
+    "#6400ff"
+   ],
+   "us-gaap:EMEAMember": [
+    "EMEA",
+    "#9c5cff"
+   ],
+   "srt:AsiaPacificMember": [
+    "아시아·태평양",
+    "#c9b0ff"
+   ]
+  }
+ },
+ "FCX": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "srt:MajorCustomersAxis": "fcx:UnaffiliatedCustomersMember"
+  },
+  "members": {
+   "fcx:GrasbergSegmentMember": [
+    "남미",
+    "#d8925d"
+   ],
+   "fcx:AtlanticCopperSmeltingAndRefiningSegmentMember": [
+    "스페인 제련",
+    "#5a6b7a"
+   ]
+  },
+  "ignore_candidates": [
+   "fcx:MorenciMember",
+   "fcx:CerroVerdeMember",
+   "fcx:RodAndRefiningSegmentMember"
+  ]
+ },
+ "NKE": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:SubsegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "us-gaap:StatementBusinessSegmentsAxis": "nke:NIKEBrandMember"
+  },
+  "members": {
+   "nke:NorthAmericaSegmentMember": [
+    "북미",
+    "#111111"
+   ],
+   "nke:EuropeMiddleEastAndAfricaSegmentMember": [
+    "유럽·중동·아프리카",
+    "#e85d1f"
+   ],
+   "nke:GreaterChinaSegmentMember": [
+    "중화권",
+    "#b74513"
+   ],
+   "nke:AsiaPacificAndLatinAmericaSegmentMember": [
+    "아시아·태평양·중남미",
+    "#f19972"
+   ]
+  }
+ },
+ "EQIX": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "eqix:AmericasSegmentMember": [
+    "미주",
+    "#e4002b"
+   ],
+   "eqix:EMEASegmentMember": [
+    "EMEA",
+    "#a8001f"
+   ],
+   "eqix:AsiaPacificSegmentMember": [
+    "아시아·태평양",
+    "#f0667f"
+   ]
+  }
  }
 }

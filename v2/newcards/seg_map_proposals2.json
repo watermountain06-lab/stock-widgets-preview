@@ -881,5 +881,82 @@
    ]
   },
   "ignore": []
+ },
+ "LOW": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "low:HardlinesMember": [
+    "하드라인",
+    "#012169"
+   ],
+   "low:HomeDecorMember": [
+    "홈 데코",
+    "#2f6fd0"
+   ],
+   "low:BuildingProductsMember": [
+    "건축 자재",
+    "#7fa7e8"
+   ],
+   "low:OtherSalesMember": [
+    "기타 상품",
+    "#9a9a9a"
+   ]
+  },
+  "ignore": []
+ },
+ "CME": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "cme:ClearingandtransactionfeesMember": [
+    "청산·거래 수수료",
+    "#1a6fb0"
+   ],
+   "cme:MarketDataMember": [
+    "시장 데이터",
+    "#439ee3"
+   ],
+   "cme:OtherRevenueMember": [
+    "기타",
+    "#9a9a9a"
+   ]
+  },
+  "ignore": [
+   "cme:InterestFromPerformanceBondsMember"
+  ]
+ },
+ "FCX": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "srt:MajorCustomersAxis": "fcx:UnaffiliatedCustomersMember"
+  },
+  "members": {
+   "fcx:GrasbergSegmentMember": [
+    "남미",
+    "#d8925d"
+   ],
+   "fcx:AtlanticCopperSmeltingAndRefiningSegmentMember": [
+    "스페인 제련",
+    "#5a6b7a"
+   ]
+  },
+  "ignore": [
+   "fcx:MorenciMember",
+   "fcx:CerroVerdeMember",
+   "fcx:RodAndRefiningSegmentMember"
+  ]
  }
 }

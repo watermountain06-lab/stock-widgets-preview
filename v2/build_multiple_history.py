@@ -95,7 +95,13 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # 구성요소 목록을 종목별로 바꿔야 하는 회사(CIK). MRK: 무형자산 상각을 분기엔 현금흐름표 "Amortization"
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
-DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"]}
+DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # CME: 손익계산서 "Depreciation and amortization" 줄을 10-Q는 Depreciation, 10-K 연간은 DepreciationAndAmortization으로 낸다 —
+                    # 둘을 한 구성요소로 합쳐야 4분기가 생긴다(없으면 4분기 감가상각이 빠져 TTM이 $233M, 2026-10-16). 무형자산 상각은 따로.
+                    "0001156375": [("Depreciation", "DepreciationAndAmortization"), "AmortizationOfIntangibleAssets"],
+                    # NKE: 현금흐름표 "Depreciation" 줄 태그가 Depreciation(~2025-02) → DepreciationDepletionAndAmortization(2023-05~)으로 바뀌었다 — 겹치는 기간 값 같음.
+                    # 기본 선택은 새 태그 9분기만 잡아 EV/EBITDA 이력이 138일뿐이었다(2026-10-17).
+                    "0000320187": [("Depreciation", "DepreciationDepletionAndAmortization")]}
 # 태그 의미가 도중에 바뀐 회사의 합산 감가상각(CIK). AMD의 OtherDepreciationAndAmortization(현금흐름표
 # "Depreciation and amortization")은 FY2024 10-K(2025-02-05) 전까지 인수 무형자산 상각을 **포함한** 합계였고,
 # 그 뒤로는 상각을 AmortizationOfIntangibleAssets 줄로 떼어 낸다(Fable, 2026-09-27). 분할 뒤 공시의 행에만
@@ -385,6 +391,9 @@ def concept(cik, tag, taxonomy="us-gaap"):
 # LLY: 설비투자 = PaymentsToAcquireOtherPropertyPlantAndEquipment(10-Q "Purchases of property and equipment"),
 #      인수 = OtherPaymentsToAcquireBusinesses("Cash paid for acquisitions, net of cash acquired", 2022년 이후).
 EXTRA_TAGS = {
+    # EQIX: 설비투자를 PaymentsToAcquireProductiveAssets로 내다가 2026년 2분기 누계부터 PaymentsToAcquireOtherPropertyPlantAndEquipment로만 낸다
+    # (겹치는 기간 값 같음 — 2025년 누계 $4,311M). 없으면 설비투자가 2026-03에 멈췄다(2026-10-17). 부동산 취득($224M 상반기)은 넣지 않는다.
+    "0001101239": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
     # VZ: 설비투자가 2019-09 뒤 PaymentsToAcquireOtherProductiveAssets(분기 약 $4B, "Capital expenditures (including capitalized
     # software)")로 옮겨 가 기본 목록이 2019년 값에 멈췄다 — PCR 계산 불가(2026-10-01).
     "0000732712": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets"]},
@@ -399,6 +408,9 @@ EXTRA_TAGS = {
     # VLO: 2026년 10-Q부터 현금흐름표 설비투자·정기보수 줄을 VIE 차원으로만 태깅해 PaymentsToAcquireProductiveAssets가 2025-09에 멈췄다(PCR 계산 불가).
     # SegmentExpenditureAdditionToLongLivedAssets(차원 없음)가 겹치는 기간에 같은 값이다 — 2024년 $2,057M, 2025년 상반기 $1,066M, 2026년 상반기 $798M(2026-10-13).
     "0001035002": {"PaymentsToAcquirePropertyPlantAndEquipment": ["SegmentExpenditureAdditionToLongLivedAssets"]},
+    # FCX: 2분기 10-Q는 설비투자를 부문 차원으로만 태깅해(합계 없음) PaymentsToAcquireProductiveAssets가 2026-03에 멈췄다 — 부문 설비투자 합계 태그가
+    # 같은 값이다(2025 상반기 2,433 = 2,433, 2026 상반기 2,077 = 496+285+972+49+275, VLO와 같은 처리, 2026-10-17).
+    "0000831259": {"PaymentsToAcquirePropertyPlantAndEquipment": ["SegmentExpenditureAdditionToLongLivedAssets"]},
     # ADP: 현금흐름표 "Capital expenditures"(FY2026 $196.6M)를 PaymentsToAcquireOtherPropertyPlantAndEquipment로 낸다 — 기본 목록 태그가 없어 PCR 계산 불가였다.
     # 자본화 소프트웨어 "Additions to intangibles"($468.5M, PaymentsToAcquireIntangibleAssets)는 넣지 않는다(공통 안건 — MCK와 같은 정의, 2026-10-16).
     "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
@@ -430,6 +442,12 @@ DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이
                  # ADP: 영업이익 줄이 없다. 영업이익 = 세전이익 − "Other (income)/expense, net"(NonoperatingIncomeExpense, 수익이면 양수 — 회사 투자 이자 등) + 이자비용(총비용 안).
                  # FY2026: 5,730.3 − 410.6 + 459.3 = 5,779.0 = 매출 21,947.4 − 원가 11,760.2 − 판관비 4,408.2(10-K 대조, 2026-10-16). 고객 자금 이자는 매출 안이라 영업.
                  # 세전 태그가 FY2021까지 …MinorityInterestAndIncomeLossFromEquityMethodInvestments라 목록으로 잇는다(없으면 합성 이력이 2022-08 공시부터).
+                 # NKE: 영업이익 줄이 없다. 영업이익 = 세전이익 − "Interest (income) expense, net"(InterestIncomeExpenseNonoperatingNet, 순이자수익이면 양수)
+                 # − "Other (income) expense, net"(OtherNonoperatingIncomeExpense, 수익이면 양수). Q1 FY27: 921 − 14 − 19 = 888 = 매출총이익 4,798 − 판관비 3,910(10-Q 대조, 2026-10-17).
+                 # 세전 태그가 FY2021까지 …MinorityInterestAndIncomeLossFromEquityMethodInvestments라 목록으로 잇는다(ADP 전례 — 없으면 합성 이력이 2022-10 공시부터).
+                 "0000320187": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                 "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                                [(["InterestIncomeExpenseNonoperatingNet"], 1), (["OtherNonoperatingIncomeExpense"], 1)]),
                  "0000008670": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                  "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                                 [(["NonoperatingIncomeExpense"], 1), (["InterestExpense"], -1)]),
@@ -561,6 +579,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # NKE: 합산 태그 DepreciationDepletionAndAmortization이 2023-05부터라 기본 선택이 그것만 잡는다 — 구성요소 튜플(DDA_PARTS_BY_CIK)로 옛 Depreciation과 잇는다.
+                "0000320187": ("DepreciationDepletionAndAmortization",),
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
                 # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아
@@ -575,6 +595,12 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # SYK: DepreciationDepletionAndAmortization(Q2 2026 $404M, 부문 주석 전체 D&A — 대여 수술기구 상각 등 포함)은 분기 값이 2024년부터라 EV/EBITDA 이력이
                 # 240일이었고, 대여기구 구입비가 설비투자 줄에 없어(어디에 잡히는지는 공시로 확정 못 함 — 추정) DCF 순투자와 정의가 어긋날 수 있다. 현금흐름표 "Depreciation"(Q2 $121M) + "Amortization of intangible assets"($175M)로 전 기간 같은 정의를 쓴다(구성요소 경로, 2026-10-16).
                 "0000310764": ("DepreciationDepletionAndAmortization",),
+                # CME: DepreciationAndAmortization은 2020년부터 연간에만 실려 분기 TTM이 2019-12에 멈췄다(EV/EBITDA 계산 불가) — 손익계산서 두 줄
+                # "Depreciation and amortization"(Depreciation, Q2 2026 $28.2M) + "Amortization of purchased intangibles"($56.0M)로(구성요소 경로, 2026-10-16).
+                "0001156375": ("DepreciationAndAmortization",),
+                # FCX: RevenueFromContractWithCustomerExcludingAssessedTax는 잠정 가격 조정을 뺀 "고객 계약 매출"(Q2 2026 $6,917M)이라 손익계산서 Revenues($7,029M)와
+                # 분기마다 다르다 — Revenues만(MA·GE와 같은 처리, 2026-10-17).
+                "0000831259": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # MCD: DepreciationDepletionAndAmortization(분기 $111M)는 현금흐름표 D&A(DepreciationAndAmortization, 분기 $565M)의 일부라
                 # 앞 태그가 이겨 EBITDA·DCF 감가상각이 낮았다(최근 4분기 $0.47B 대 약 $2.2B, 2026-10-02).
                 "0000063908": ("DepreciationDepletionAndAmortization",),
@@ -979,10 +1005,11 @@ def dda_quarters(cik, ticker):
     per_end = {}
     used = []
     for name in DDA_PARTS_BY_CIK.get(cik, DDA_PARTS):
-        part = concept(cik, name)
+        # 튜플은 **같은 줄의 두 태그 이름**(분기는 한 이름, 10-K 연간은 다른 이름 — CME) — 행을 합쳐 4분기를 연간 − 9개월로 만든다
+        part = sum((concept(cik, n) for n in name), []) if isinstance(name, tuple) else concept(cik, name)
         if not part:
             continue
-        used.append(name)
+        used.append("|".join(name) if isinstance(name, tuple) else name)
         # 판정은 그 분기가 **처음 알려진 날**로 한다 — 같은 결산일로 끝나는 행(3개월이든
         # 누계든) 가운데 가장 이른 공시일. quarterly_flow가 고른 행의 공시일로 판정하면,
         # 제때 누계 차이로 계산됐던 분기가 1년 뒤 비교 수치(직접값)로 다시 실릴 때 지워진다
@@ -995,9 +1022,17 @@ def dda_quarters(cik, ticker):
             known = first_known.get(e["end"], e["filed"])
             if (date.fromisoformat(known) - date.fromisoformat(e["end"])).days > LATE_PART_DAYS:
                 continue
-            slot = per_end.setdefault(e["end"], {"val": 0.0, "filed": e["filed"]})
+            # 튜플(이름만 바뀐 같은 줄)은 새 이름이 옛 분기를 비교 수치로 다시 실어 quarterly_flow가 그 늦은 행을 고른다 — 공개일은 처음 알려진 날로
+            # (NKE 2024-11·2025-02 분기가 2025-12·2026-04 공개로 잡혀 EV/EBITDA가 2025-07~2026-03 비었다, 2026-10-17)
+            # 단, 처음 알려진 날 공개된 행만으로 같은 값이 나올 때만 — 나중 비교 수치가 고쳐진 값이면 소급하지 않는다(Codex 2026-10-17)
+            f_ = e["filed"]
+            if isinstance(name, tuple) and known < e["filed"]:
+                _early = {x["end"]: x["val"] for x in quarterly_flow([r for r in part if r.get("filed", "9999") <= known], ticker)}
+                if e["end"] in _early and abs(_early[e["end"]] - e["val"]) <= 0.005 * max(abs(e["val"]), 1):
+                    f_ = known
+            slot = per_end.setdefault(e["end"], {"val": 0.0, "filed": f_})
             slot["val"] += e["val"]
-            slot["filed"] = max(slot["filed"], e["filed"])
+            slot["filed"] = max(slot["filed"], f_)
     out = [{"end": k, "val": v["val"], "filed": v["filed"], "start": k}
            for k, v in per_end.items()]
     return ("+".join(used) if used else None), sorted(out, key=lambda e: e["end"])
@@ -1130,6 +1165,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # EQIX: 기본 선택은 세부 태그가 끊긴 뒤 LongTermDebt만 잡아 금융리스 $2,280M이 빠졌다 — 선순위채·대출 원금(LongTermDebt $19,873M, 장부가 $19,709M)
+                  # + 금융리스(유동 176 + 비유동 2,104). 2026-06-30 합계 $22,153M(2026-10-17).
+                  "0001101239": ["LongTermDebt", "FinanceLeaseLiability"],
                   # ETN: 1년 안 만기 장기차입금을 LongTermDebtAndCapitalLeaseObligationsCurrent로 내 기본 목록에서 빠졌다(FY2025 말 $1,136M —
                   # 엔진 $8,759M 대 재무상태표 $9,895M, Codex 2026-10-01). 금융리스 포함 태그라 금융리스를 따로 더하지 않는다.
                   "0001551182": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -1153,6 +1191,12 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # SYK: 1년 안 만기 차입금(DebtCurrent $750M — 기업어음 $250M 포함, 2026-06-30)이 빠지고 CommercialPaper만 더해져 $500M이 모자랐다
                   # (10-Q 차입금 표 합계 $14,942M = 유동 750 + 비유동 14,192, DHR과 같은 조합, Codex 2026-10-16).
                   "0000310764": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # LOW: 1년 안 만기($2,352M, 2026-07-31)가 빠져 장기분 $35,204M만 잡혔다 — 리스 포함 태그 두 줄 + 단기차입(2026-05-01 기업어음 $380M)(ETN 조합, 2026-10-16).
+                  # CME: 차입금을 UnsecuredLongTermDebt($3,424.2M, 2026-06-30)로만 내 기본 목록이 단기차입 0만 잡아 차입금이 0이었다(2026-10-16).
+                  # TT: 1년 안 만기·단기차입(DebtCurrent $693.1M, 2026-06-30)이 빠져 장기분 $3,923.7M만 잡혔다(DHR 조합, 2026-10-16).
+                  "0001466258": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  "0001156375": ["UnsecuredLongTermDebt", "UnsecuredDebtCurrent", "ShortTermBorrowings"],
+                  "0000060667": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   "0000008670": ["LongTermDebtCurrent", "LongTermDebtNoncurrent", "ShortTermBorrowings", "CommercialPaper", "OtherShortTermBorrowings",
                                  "SecuritiesSoldUnderAgreementsToRepurchase"],
                   # DHR: 1년 안 만기 차입금을 DebtCurrent($1,411M, 2026-06-26)로 낸다 — 기본 목록(LongTermDebtCurrent는 2011년에 멈춤)에서 빠졌다(2026-10-02).
@@ -1282,8 +1326,23 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
+                  # EQIX: 우선주 태그가 2022-12(0)에 멈췄다 — 우선주 없음.
+                  "0001101239": {"preferred": []},
+                  # NKE: 재무상태표 "Short-term investments"를 2022-02까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent, 그 뒤로는
+                  # DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent로 낸다($1,465M, 2026-08-31). 기본 목록의 ShortTermInvestments는 2014년에 멈춤.
+                  "0000320187": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent"]},
                   # SYK: MinorityInterest가 2018-03-31($9M)에 멈춰 그 값이 EV에 더해지고 자본에서 빠졌다 — 지금 재무상태표에 비지배지분 줄이 없다(Codex 2026-10-16).
                   "0000310764": {"nci": []},
+                  # SBUX: CashAndCashEquivalentsAtCarryingValue가 2022-07-03($3,178M)에 멈춰 4년 넘게 옛 현금이 쓰였다 — 그 뒤로는
+                  # CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents만 낸다(2026-06-28 $3,450M = 재무상태표 현금 $3,449.8M, 2026-10-16).
+                  # CME: MinorityInterest가 2021-12에 멈췄다(지금 재무상태표에 비지배지분 줄 없음, 2026-10-16).
+                  "0001156375": {"nci": []},
+                  # FCX: 우선주 태그가 2009-03-31($832M, 옛 의무전환 우선주)에 멈춰 EV에 더해지고 DCF에서 빠졌다 — 지금 우선주 없음(2026-10-17).
+                  "0000831259": {"preferred": []},
+                  # TT: 현금 기본 태그는 연말에만 실려(분기는 …IncludingDisposalGroupAndDiscontinuedOperations, 2026-06-30 $1,318.3M) 2025-12 값이 9개월 쓰였다.
+                  # 리스는 유동·비유동 태그가 2020-09에 멈췄고 연간 OperatingLeaseLiability만 있다(2025-12 $824.7M — 2021~2024는 값이 없어 2020년 값이 이어진다, 2026-10-16).
+                  "0001466258": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"], "lease": ["OperatingLeaseLiability"]},
+                  "0000829224": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
                   # MCK: 비지배지분 대부분이 상환 가능 비지배지분(재무상태표 메자닌, 2026-06-30 $2,563M — Core Ventures 30%(풋옵션)와 Apollo의
                   # 의료·수술 부문 전환우선주 약 13% $1.25B, 10-Q Note 5)이라 MinorityInterest($376M)만 잡혔다. 연결 EBITDA에 그 몫이 다 들어 있어 EV에 더한다(2026-10-13).
                   "0000927653": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCommonCarryingAmount"]},
@@ -1552,11 +1611,13 @@ def dda_ttm(cik, ticker):
 
     per_tag = {}
     for tag in DDA_PARTS_BY_CIK.get(cik, DDA_PARTS):
-        part = concept(cik, tag)
+        # 튜플 = 같은 줄의 두 태그 이름(CME) — dda_quarters와 같게 행을 합친다. 연간 보충은 "pick"(대체 이름이라 더하지 않는다)
+        part = sum((concept(cik, n) for n in tag), []) if isinstance(tag, tuple) else concept(cik, tag)
         if not part:
             continue
         q = quarterly_flow(part, ticker)
-        series = with_annuals(ttm_series(q) if q else [], [tag], "sum")
+        series = (with_annuals(ttm_series(q) if q else [], list(tag), "pick") if isinstance(tag, tuple)
+                  else with_annuals(ttm_series(q) if q else [], [tag], "sum"))
         # 멈춘 구성요소(AVGO 금융리스 상각은 FY2024 10-K가 마지막)는 마지막 값이 영원히 더해진다.
         # 연 1회만 내는 항목(MSFT 감가상각)도 다음 10-K는 결산 뒤 약 425일 안에 나오므로,
         # 마지막 결산일에서 450일이 지난 평가 시점에는 넣지 않는다.
@@ -1586,7 +1647,7 @@ def dda_ttm(cik, ticker):
             out.append({"end": max(e["end"] for e in parts),
                         "val": sum(e["val"] for e in parts),
                         "available": day})
-    return "+".join(per_tag), out
+    return "+".join("|".join(t) if isinstance(t, tuple) else t for t in per_tag), out
 
 
 def check_fresh(series, last_day, max_lag_days=200):

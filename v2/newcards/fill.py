@@ -110,8 +110,17 @@ _vote = lambda s: 1 if s >= 70 else -1 if s < 30 else 0
 _dv = (1 if ratio <= 0.9 else 0 if ratio <= 1.1 else -1 if ratio <= 1.5 else -2) if ratio and DCF['base'] > 0 else -2
 if DCF.get('unavailable'):   # 현금흐름 미적용(보험사, 2026-10-02 사용자 결정) — 판정은 자기 이력·동종업 두 칸
     _dv = 0
-VOTES = (_vote(selfsc), _vote(peersc), _dv); TOTAL = sum(VOTES)
-VERDICT = '저평가' if TOTAL >= 3 else '적정~저평가' if TOTAL >= 1 else '적정' if TOTAL > -1 else '적정~고평가' if TOTAL > -3 else '고평가'
+# 기권 규칙(카드 JS와 같게 — 2026-09-25 사용자 결정): 배수 심판은 유효 배수 3개 이상일 때만 표를 던지고, 아니면 None(기권).
+# 기권이 있으면 4표 기준으로 늘려 같은 문턱을 쓴다. 예전에는 여기만 기권 없이 셌다 — CME 동종업(유효 배수 2개)이 −1로 들어가
+# 문장은 "합계 −3 고평가", 헤더(JS)는 "적정~고평가"로 갈렸다(Codex 2026-10-16). 일반 생성기 카드 중 해당은 CME뿐(은행·BRKB는 따로).
+_valid = lambda side: (VAL.get(side) or {}).get('score') is not None and len([m for m in (VAL[side].get('metrics') or []) if m.get('score') is not None]) >= 3
+VOTES = (_vote(selfsc) if _valid('self') else None, _vote(peersc) if _valid('peer') else None, _dv)
+_seated = [(v, w) for v, w in zip(VOTES, (1, 1, 2)) if v is not None]
+TOTAL = sum(v for v, _ in _seated); _maxw = sum(w for _, w in _seated)
+_n = TOTAL * 4 / _maxw if _maxw else 0
+VERDICT = '저평가' if _n >= 3 else '적정~저평가' if _n >= 1 else '적정' if _n > -1 else '적정~고평가' if _n > -3 else '고평가'
+if len(_seated) < 2:
+    VERDICT = '판정 보류'
 if DCF.get('unavailable'):   # 현금흐름이 기권하면 카드 JS가 '판정 보류'로 덮어쓴다(BRKB 선례, Fable 2026-10-02)
     VERDICT = '판정 보류'
 _refresh = None
@@ -122,13 +131,13 @@ if (VOTES, VERDICT) != (C.VOTES, C.VERDICT) and os.environ.get('REFRESH') == '1'
     print(f'표·판정 변경 {C.VOTES} {C.VERDICT} → {VOTES} {VERDICT}')
 else:
     assert (VOTES, VERDICT) == (C.VOTES, C.VERDICT), (VOTES, VERDICT, selfsc, peersc, ratio)
-sgn = lambda v: f'{v:+d}'.replace('-', '−') if v else '0'
+sgn = lambda v: '기권' if v is None else (f'{v:+d}'.replace('-', '−') if v else '0')
 # 점수 → 판정 단어(70 이상 싸다 · 30 미만 비싸다) — cfg 문장에 '(중간)' 같은 단어를 손으로 적으면 갱신 때 틀린다(2026-10-06 GILD·META·PFE·PLD·TMO·VRTX)
 score_word = lambda sc: '싸다' if sc >= 70 else '비싸다' if sc < 30 else '중간'
 # 부호 붙은 정수 뒤 조사(받침 기준 — 0 영·1 일·3 삼·6 육·7 칠·8 팔은 받침, ㄹ 받침(1·7·8)은 '로'): 표가 바뀌면 '−1는'·'0로'가 되던 것(Fable, 2026-10-05)
 jo = lambda v, a_, b_: a_ if abs(v) % 10 in (0, 1, 3, 6, 7, 8) else b_
 jo_ro = lambda v: '으로' if abs(v) % 10 in (0, 3, 6) else '로'
-VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현금흐름 ' + ('미적용' if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL)
+VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현금흐름 ' + ('미적용' if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL) + (f'(4표 기준 {_n:+.1f})'.replace('-', '−') if _maxw and _maxw < 4 else '')
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
 ch = (px / D[max(-253, -len(D))][4] - 1) * 100   # 일봉이 1년보다 짧으면 첫날부터(SKHY ADR, 2026-10-05)
 CH_TXT = ('제자리(' + format(ch, '+.1f') + '%)') if abs(ch) < 1 else format(ch, '+.0f') + '%'
@@ -523,7 +532,7 @@ if _ACT and (json.loads(_ACT.group(1)).get('now') or {}).get('dpo', 0) is None:
         "    const span = noAp ? A.now.op : Math.max(A.now.op, A.now.dpo);\n    if (noAp) bar.querySelectorAll('.tl-marker, .tl-marker-label, .tl-ccc-span').forEach(el => { el.style.display = 'none'; });")
     one("    bar.querySelectorAll('.tl-marker, .tl-marker-label').forEach(el => { el.style.left = pct(A.now.dpo); });",
         "    if (!noAp) bar.querySelectorAll('.tl-marker, .tl-marker-label').forEach(el => { el.style.left = pct(A.now.dpo); });")
-    one("    ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;", "    if (!noAp) ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;")
+    one("    ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;", "    if (!noAp) ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`; else ml.style.display = 'none';   // 매입채무 미공시면 틀(NVDA)의 51.8일이 남았다(ABBV·ASML·KO·PEP·FCX, Codex 2026-10-17)")
     one("    cs.style.left = pct(Math.min(A.now.dpo, A.now.op)); cs.style.width = pct(Math.abs(A.now.ccc));",
         "    if (!noAp) { cs.style.left = pct(Math.min(A.now.dpo, A.now.op)); cs.style.width = pct(Math.abs(A.now.ccc)); }")
     one("    if (A.now.ccc < 0) {", "    if (!noAp && A.now.ccc < 0) {")

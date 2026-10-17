@@ -1286,13 +1286,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 5476;
+  const total = 5476.200000000001;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["고용주 서비스", "PEO(전문 고용주)"],
       datasets:[{
-        data:[3697, 1779],
+        data:[3696.8, 1779.4],
         backgroundColor:["#d0271d", "#5a5a5a"],
         borderColor:'#8a8d9e',
         borderWidth:2

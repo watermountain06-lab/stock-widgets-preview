@@ -1293,13 +1293,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 105380;
+  const total = 105380.0;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["북미 의약품", "종양·다전문", "의료·수술", "처방 기술"],
       datasets:[{
-        data:[86773, 14222, 2819, 1566],
+        data:[86773.0, 14222.0, 2819.0, 1566.0],
         backgroundColor:["#005a8c", "#2e9bd6", "#e07b39", "#6aa84f"],
         borderColor:'#8a8d9e',
         borderWidth:2

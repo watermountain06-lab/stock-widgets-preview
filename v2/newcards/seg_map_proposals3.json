@@ -2018,5 +2018,92 @@
   "adjust": [
    "us-gaap:MembershipMember"
   ]
+ },
+ "LOW": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "low:OtherSalesMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "기타 상품",
+      "#9a9a9a"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "srt:ProductOrServiceAxis": "low:HardlinesMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "하드라인",
+      "#012169"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ProductOrServiceAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+    },
+    "members": {
+     "low:HomeDecorMember": [
+      "홈 데코",
+      "#2f6fd0"
+     ],
+     "low:BuildingProductsMember": [
+      "건축 자재",
+      "#7fa7e8"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {},
+    "members": {
+     "us-gaap:MaterialReconcilingItemsMember": [
+      "기타 부문",
+      "#e0a030"
+     ]
+    }
+   }
+  ]
+ },
+ "CME": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "cme:ClearingandtransactionfeesMember": [
+    "청산·거래 수수료",
+    "#1a6fb0"
+   ],
+   "cme:MarketDataMember": [
+    "시장 데이터",
+    "#439ee3"
+   ],
+   "cme:OtherRevenueMember": [
+    "기타",
+    "#9a9a9a"
+   ]
+  }
  }
 }

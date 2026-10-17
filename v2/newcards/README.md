@@ -4,7 +4,7 @@
 방법론·산식의 기준은 따로 있다: 은행 `v2/research/bank_rim_prereg.md`, 판정 구조 `v2/research/verdict_structure_prereg.md`, 백테스트 `v2/refresh_backtest.py` 머리 설명.
 원칙(숫자 지어내지 않기, 배열 손으로 치지 않기, Codex·Fable 검토)은 `/ticker` 스킬 플레이북(stock-widgets-redesign/.claude/skills/ticker/playbook.md)과 같다.
 
-지금 카드 111장(2026-10-16 기준, VLO·MO·PSX·LMT·MCK·CVS·ADP·SYK 추가): 비은행 생성기 카드 100장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 9장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
+지금 카드 118장(2026-10-17 기준, VLO·MO·PSX·LMT·MCK·CVS·ADP·SYK·LOW·SBUX·CME·TT·FCX·NKE·EQIX 추가): 비은행 생성기 카드 107장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 9장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
 매일·토요일 실행은 `daily_price.py`(GitHub Actions `.github/workflows/v2_cards.yml`)가 cfg가 있는 카드를 모두 돈다 — 새 카드를 워크플로에 따로 등록하지 않는다.
 
 ## 파일
@@ -47,14 +47,16 @@
 | **은행** | GICS Diversified·Regional Banks, 예대 사업 | 아래 "은행" 절(RIM, `bank/rebuild.sh`) — 일반 경로 아님 | JPM·BAC·COF 등 9장 |
 | **보험** | 손해·생명보험(GICS Insurance) | `BUILD['no_dcf']`(현금흐름 미적용, "판정 보류") | CB·PGR |
 | **영업이익 줄 없음** | `--data`에서 OPM·EV/EBITDA "계산 불가", 손익계산서에 Operating income 줄이 없음 | `build_multiple_history.DERIVED_OPINC`(세전 + 이자 = 정유·석유 규칙, 세전 − 영업외 = 제약 규칙 — 유도식이 무엇을 남기는지 원문 대조), 세전이익 태그가 다르면 `build_dcf.PRETAX_TAG_BY_CIK`, 이자 태그가 엔진 목록 밖이면 `interest_extra.json`. 카드 문구는 자동으로 "합성 영업이익(세전이익 기준)". 세전 태그 이름이 중간에 바뀌었으면 세전 태그를 목록으로(앞 태그 우선 — ADP) | PSX·XOM·COP·LLY·JNJ·TJX·BX·ADP |
-| **핵심 줄이 회사 고유 태그·끊긴 태그** | `--data` 경고 `N일 뒤처짐`(capex·dda·debt·lease), EV/EBITDA·PCR "계산 불가" | 회사 고유 태그면 cfg `BUILD['company_tags']`(매일 실행도 캐시에 없으면 받는다), 표준 대체 태그면 `EXTRA_TAGS`·`EXCLUDE_TAGS`, 차입금은 `EV_TAGS_BY_CIK`, 재고는 `build_activity_score.INV_TAG_BY_CIK` | LMT(감가상각·재고)·PSX(설비투자·차입금)·COP·VLO(설비투자·감가상각·차입금)·ADP(설비투자·환매조건부 차입)·SYK(차입금 유동분·멈춘 비지배지분) |
+| **핵심 줄이 회사 고유 태그·끊긴 태그** | `--data` 경고 `N일 뒤처짐`(capex·dda·debt·lease), EV/EBITDA·PCR "계산 불가" | 회사 고유 태그면 cfg `BUILD['company_tags']`(매일 실행도 캐시에 없으면 받는다), 표준 대체 태그면 `EXTRA_TAGS`·`EXCLUDE_TAGS`, 차입금은 `EV_TAGS_BY_CIK`, 재고는 `build_activity_score.INV_TAG_BY_CIK` | LMT(감가상각·재고)·PSX(설비투자·차입금)·COP·VLO(설비투자·감가상각·차입금)·ADP(설비투자·환매조건부 차입)·SYK(차입금 유동분·멈춘 비지배지분)·LOW(차입금 유동분, 이자비용 — 수집기 `CONCEPTS_BY_CIK`)·SBUX(멈춘 현금 태그)·CME(차입금 0·감가상각 연간만·순이익·자사주 태그)·TT(분기 현금 태그·유동 차입금·연간 리스)·FCX(연간 EPS 태그·매출·설비투자 부문 태깅·옛 우선주·재고 세 줄) |
+| **사업 일부 매각·합작사 전환(분사 아님)** | 8-K 2.01·7.01 매각 완료, 10-Q "held for sale"·"divestiture", 지분법 투자 급증 | 재작성이 없으니 일반 경로 — 매각 이익이 영업이익 밖인지, 남긴 지분의 이익이 영업이익 안이면 비영업 자산에 더하지 않는지 확인. 연결 제외 부문의 매출 급감은 부문 표 제목에 적는다 | SBUX(중국 소매) |
+| **기준 공시가 요약 자료에 없음** | `preflight`가 "companyfacts에 아직 없다"로 멈춤 — 결합 공시(지주회사 + 자회사)에서 몇 달씩 늦을 수 있다 | 만들지 않고 보류, 실린 뒤에 만든다(SO 2026-10-16: 7/30 Q2 10-Q가 10/16까지 없음) | SO(보류) |
 | **분사·교환 공개매수 진행 중** | 최근 8-K 2.01항·1.01항, SC TO-I, 10-Q "discontinued operations" 예고 | 재작성 숫자가 나오기 전이면 **만들지 않고 보류**(아래 "분사 종목" 절), 나온 뒤면 `RESTATED_LATEST`·`HISTORY_START`·`bt_start` | SPGI·MDT(보류), GE·DELL·IBM·WDC·T |
-| **자본 음수** | 재무상태표 자본 < 0 | 일반 경로 그대로 — PBR은 자동 "해당 없음", 부채비율 1점 | MO |
+| **자본 음수** | 재무상태표 자본 < 0 | 일반 경로 그대로 — PBR은 자동 "해당 없음", 부채비율 1점 | MO·LOW·SBUX |
 | **지분법 투자·상장 자회사가 큼** | "Investments in equity securities"·비지배지분이 큼 | 비영업 자산은 `nonop_extra.json`(장부가, 1차 출처 근거), 비지배지분은 엔진이 EV에 더함 | MO(ABI)·MPC(MPLX)·KO |
 | **보험 투자수익이 영업이익 안** | 손익계산서 매출에 "Net investment income"·"Investment and other income", 장기투자가 큼(`--data`에서 비영업 자산이 내재가치의 큰 몫) | 투자자산을 영업 자산으로 — `build_dcf.INVESTMENTS_OPERATING`(비영업 자산에 더하지 않는다, 현금·단기투자는 순현금에 둔다) | UNH·CVS·GE |
-| **고객 자금(통과 잔액)** | 재무상태표에 "Funds held for clients"와 "Client funds obligations"가 맞물려 있음(급여 대행) | 엔진 기본 태그가 현금·차입금에서 이미 뺀다 — 고객 자금 이자가 매출 안이면 영업. 고객 자금 조달 단기차입(기업어음)은 같은 날 단기투자와 맞물리는지 확인. 기본적 분석 비율(부채비율·유동비율)에는 섞인다(공통 안건) | ADP |
+| **고객 자금(통과 잔액)** | 재무상태표에 "Funds held for clients"와 "Client funds obligations"가 맞물려 있음(급여 대행) | 엔진 기본 태그가 현금·차입금에서 이미 뺀다 — 고객 자금 이자가 매출 안이면 영업. 고객 자금 조달 단기차입(기업어음)은 같은 날 단기투자와 맞물리는지 확인. 기본적 분석 비율(부채비율·유동비율)에는 섞인다(공통 안건) | ADP·CME(청산 증거금 — 운용 순이자는 영업외, 가치 반영은 결정 대기) |
 | **외국 발행사** | 10-Q 대신 6-K·20-F, 또는 한국 공시 | `BUILD['feed']` 어댑터(`v2/adapters/{t}_feed.py`), cfg `AUTO_OUTSIDE` | ASML·TSM·SKHY |
-| **다중 클래스·Up-C** | 표지 주식 수가 클래스별, 파트너십 지분 | `cover_shares.py`, `build_dcf.ECON_SHARES`·`UNITS_EXTRA` | META·BX |
+| **다중 클래스·Up-C** | 표지 주식 수가 클래스별, 파트너십 지분 | `cover_shares.py`(새 카드는 cfg `BUILD['cover_shares']`), `build_dcf.ECON_SHARES`·`UNITS_EXTRA` | META·BX·NKE |
 
 어느 종류든 4분기 EPS 대조(`Q4_EPS_OVERRIDE`)·1차 출처 입력(`tax_oneoff`·`share_adjust`·`nonop_extra`)·아래 "점검"은 공통이다. 표에 없는 새 종류를 만나면 처리한 방법을 이 표에 한 줄로 더한다.
 
@@ -85,7 +87,7 @@
 | 씨앗값(검사 기준) | SEG_ADJ — 원문에서 확인한 본사·상계 조정액. 부문 합 검사의 허용 기준(같은 부호 0.5~1.5배)으로 읽은 뒤 다시 정한다. 0이면 매출 3% 규칙만 남아 큰 조정이 있는 종목(GLW·TMO)은 멈춘다. SEC 자동 카드만(AUTO_OUTSIDE는 0) |
 | 제안기 입력 | SEG(seg_map_propose 입력 — 채울 때는 SEG_MAP에서 다시 만든다) |
 | auto가 덮어써 손으로 쓰지 않는 키 | SUMMARY·BULL·BEAR·PREMISE·RISK·STORIES·DCF_NOTE·HEALTH_NOTE·FUND_TIP·SELF_TIP·CHECK·CHECK_WHEN·YOY_EXTRA·SEG_NOTE·STAT3·CAPITAL·NEXT·NEXT_OP·FUND_ASOF_NOTE·OPM_RANGE·PR_CUR·FCF_SUB·CAPEX_SUB, RELEASE는 비움 |
-| 있을 때만 | CAPEX_LABEL(설비투자 태그가 다른 지출을 합칠 때 FCF·설비투자 칸 이름 — VLO)·BB_NONE(`{분기 말일: 문구}` — 자사주 매입 태그가 아예 없을 때 "공시 없음" 대신. 10-Q 주석으로 매입 0을 확인한 그 분기에만 쓰인다, CVS)·OP_DISPLAY·NI_TAGS·SELF_SPAN·GROWTH_SPAN·REVERSE·ACT_REASON·REQ_MULT_EXACT·PBR_GAP_NEG_EQUITY·NO_DCF_SKEW·NONOP_NEG_SIGN·AUTO_OUTSIDE(외국 발행사 — ASML·TSM 6-K, SKHY OpenDART) |
+| 있을 때만 | CAPEX_LABEL(설비투자 태그가 다른 지출을 합칠 때 FCF·설비투자 칸 이름 — VLO)·SEG_SUM_LABEL·SEG_ADJ_LABEL(부문 표 아래 "부문 합 … 부문 간 거래·조정" 문구의 이름 — 조정이 표에 안 넣은 다른 부문 매출일 때, LOW)·MODEL_NOTE(일반 모델이 맞지 않는 점 한 줄 — 경고·내재가치 설명 끝, EQIX 리츠)·NEXT_CONFIRMED(`{"quarter_end", "date", "src"}` — 회사가 공시한 다음 실적일, 그 분기에만 쓰임, FCX)·BB_TAGS(자사주 매입 대체 태그 — 현금흐름표 줄을 다른 태그로 낸 회사, CME)·BB_NONE(`{분기 말일: 문구}` — 자사주 매입 태그가 아예 없을 때 "공시 없음" 대신. 10-Q 주석으로 매입 0을 확인한 그 분기에만 쓰인다, CVS)·OP_DISPLAY·NI_TAGS·SELF_SPAN·GROWTH_SPAN·REVERSE·ACT_REASON·REQ_MULT_EXACT·PBR_GAP_NEG_EQUITY·NO_DCF_SKEW·NONOP_NEG_SIGN·AUTO_OUTSIDE(외국 발행사 — ASML·TSM 6-K, SKHY OpenDART) |
 
 `BUILD` 옵션: `overlay`(companyfacts 지연 — 인라인 XBRL 보충, 또는 재무 태그 별칭·합 `adapters/overlay_feed.py`의 `ALIAS`·`SUM`·`REPLACE`), `company_tags`(회사 고유 태그 — COP·PSX 설비투자, LMT 감가상각, NEM 재고·리스. 보충 자료는 `.sec_cache/overlay`에만 있고 Actions 캐시는 토요일에만 저장되므로, 캐시에 그 행이 없으면 매일 실행도 받아 온다 — 2026-10-13 PSX가 그날 밤 설비투자 없이 빌드됐다), `feed`(외국 기업 어댑터 `v2/adapters/{t}_feed.py`), `eps_cmd`(V), `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 시작일 — WDC·T), `sum_tags`(XOM 재고), `share_events`(분기 뒤 주식 발행), `no_dcf`(사유 — 현금흐름 미적용, "판정 보류": 보험 CB·PGR, 은행 기반 HTML 제작용 COF). 활동성 예외는 `build_activity_score.py`의 `COGS_TAG_BY_CIK`·`INV_SUM_BY_CIK`.
 
@@ -97,7 +99,13 @@
 - **감가상각** — EV/EBITDA 5년 최고가 수십~수백 배거나 EBITDA가 영업이익과 거의 같으면 D&A 태그가 일부 줄만 잡은 것이다(VLO 판관비 줄 D&A, AMGN, MCD) → `EXCLUDE_TAGS`로 빼고 현금흐름표 D&A와 대조. DCF 순투자(설비투자 − 감가상각)도 같은 값을 쓴다 — 그래서 감가상각에 설비투자 줄 밖에서 사는 자산의 상각(SYK 대여 수술기구)이 들면 잠정으로 현금흐름표 D&A를 쓰고 cfg `CHART_NOTE['evebitda']`에 그 사실을 적는다(EBITDA는 그만큼 낮게 잡힘, 공통 안건 — EBITDA·DCF 감가상각 분리).
 - **공시 시각** — 반응일은 SEC `acceptanceDateTime`(UTC) 전체로 본다. 접수일(`filingDate`)은 동부 17:30 뒤 접수면 다음 날이라 둘을 섞어 찍으면 하루 틀린다(SYK 2026-10-16).
 - **주식 수** — 다중 클래스는 `v2/adapters/cover_shares.py`(META), Up-C는 `build_dcf.UNITS_EXTRA`(BX), 단위 오류(MCD).
+- **감가상각 같은 줄 두 이름** — 10-Q와 10-K가 같은 손익계산서 줄을 다른 태그로 내면 4분기가 안 생긴다 → `DDA_PARTS_BY_CIK`에 튜플 `("분기 이름", "연간 이름")`(CME).
+- **판정 기권** — 배수 심판은 유효 배수 3개 이상일 때만 표를 던진다(카드 JS·fill.py 같은 규칙, 2026-10-16 fill.py 맞춤). 동종업 비교값이 적은 업종은 기권이 나온다(CME).
+- **이자비용** — 기본적 분석에 "이자비용 0" 만점이 나오면 수집기가 이자 표의 한 줄(`InterestExpenseOther`)을 잡은 것일 수 있다 → `vendor/fetch_financials.CONCEPTS_BY_CIK`로 손익계산서 줄 태그를 지정(LOW 순이자).
+- **이름·문장의 작은따옴표** — 회사 이름에 '가 있으면 JS 문자열이 깨진다(LOW) → cfg에서 ’(굽은 따옴표)로 쓴다.
 - **1차 출처로 확인할 입력** — 금액을 밝힌 일회성 법인세 `v2/tax_oneoff.json`(META), 성과 조건부 제한주 `v2/share_adjust.json`(TSLA), 표준 태그 없는 비영업 자산 `v2/nonop_extra.json`(비상장 지분·지분법·암호자산, 이미 단기투자에 든 상장주식은 `exclude`), 본업 기준 `v2/core_earnings.json`((세전 − 영업) ÷ 영업 ≥ 20%).
+- **태그 이름 교체로 이력이 끊김** — 세전이익·감가상각·단기투자·재고를 중간에 다른 이름으로 바꾼 회사(NKE 넷 다)는 배수 일수(1,255일 미만)·당좌비율 = 유동비율로 드러난다 → 목록·튜플·`EV_TAGS_BY_CIK`·`CONCEPTS_BY_CIK`로 잇는다.
+- **EPS 이력이 몇 년 전에 멈춤** — 10-K 연간 EPS를 다른 태그(계속사업 EPS 등)로 내면 4분기가 안 생겨 최근 4분기 합이 끊긴다(FCX 2022-09) → `BUILD['eps_tag']`에 두 태그.
 - **4분기 EPS** — "연간 − 9개월" 역산을 보도자료 4분기 희석 EPS와 대조, 다르면 `Q4_EPS_OVERRIDE`(BA·UBER·FTNT·CRWD·COF).
 - **현금흐름 시나리오** — 음수·순서 역전은 원인을 찾는다(문장은 auto가 쓰지만 원인 확인은 사람). 인수 대금이 큰 해는 매출/자본이 극단적이다.
 - **비교군** — S&P500 섹터 파일을 처음 만들면 이상값부터(부동산).

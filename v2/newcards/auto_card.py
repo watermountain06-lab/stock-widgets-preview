@@ -192,7 +192,12 @@ def latest_dps(cik, cur):
         if ks and (best is None or ks[-1] > best[3]):
             e = ks[-1]
             yo = [k for k, v in sr.items() if v > 0 and 350 <= (d(e) - d(k)).days <= 380]
-            best = (sr[e], (sr[yo[-1]] if yo else None), label, e)
+            # 한 분기에 다음 분기분까지 선언한 회사(TT — 6월에 3분기 배당도 선언): 그 분기 선언액이 직전 분기의 2배(±2%)면 라벨에 밝힌다(합계라는 사실만).
+            # 값은 그대로 둔다(1년 전도 같은 방식이라 증감률은 맞다, Codex·Fable 2026-10-16)
+            pq = [k for k in sr if 80 <= (d(e) - d(k)).days <= 100]
+            # 비율만으로는 두 분기분 선언·100% 인상·특별배당을 가를 수 없어 중립 문구로, 선언 태그에만(Codex 2차)
+            two = label == "선언 기준" and bool(pq) and sr[pq[-1]] > 0 and abs(sr[e] / sr[pq[-1]] - 2) < 0.04
+            best = (sr[e], (sr[yo[-1]] if yo else None), label + (", 그 분기 선언액 합계 — 직전 분기의 2배" if two else ""), e)
     return best or (None, None, None, None)
 
 
@@ -201,8 +206,10 @@ def adj_note(C):
     seg_sum = sum(v for _, v, _ in C.SEG)
     if abs(C.SEG_ADJ) < 0.01 * max(seg_sum, 1):
         return ""
-    return (f"부문 합 ${seg_sum / 1000:.2f}B에 부문 간 거래·조정 {'−' if C.SEG_ADJ < 0 else '+'}${abs(C.SEG_ADJ) / 1000:.2f}B를 더한 것이 매출이다"
-            "(비율은 부문 합 기준) · ")
+    # 조정이 부문 간 거래가 아니라 표에 안 넣은 다른 부문의 매출이면 cfg에서 이름을 바꾼다(LOW 기타 부문 — Codex 2026-10-16)
+    sl, al = getattr(C, "SEG_SUM_LABEL", "부문 합"), getattr(C, "SEG_ADJ_LABEL", "부문 간 거래·조정")
+    return (f"{sl} ${seg_sum / 1000:.2f}B에 {al} {'−' if C.SEG_ADJ < 0 else '+'}${abs(C.SEG_ADJ) / 1000:.2f}B를 더한 것이 매출이다"
+            f"(비율은 {sl} 기준) · ")
 
 
 def apply(C, T):
@@ -313,7 +320,8 @@ def apply(C, T):
         if st.month == 1 and st.day <= 7:
             return f"연초~{d(C.CUR).month}/{d(C.CUR).day}, {round(td.days / 7)}주"
         return f"회계연도 누계 {st.year}.{st.month}.{st.day}~{d(C.CUR).year}.{d(C.CUR).month}.{d(C.CUR).day}, {round(td.days / 7)}주"   # 해를 밝힌다(MU 53주, Fable)
-    bb, bbd = ytd(cik, ["PaymentsForRepurchaseOfCommonStock"], C.CUR, fy_start)
+    # 현금흐름표 매입 줄을 다른 태그로 낸 회사는 cfg BB_TAGS로 대체 태그를 더한다(CME — 현금흐름표 줄이 파생상품 재무활동 태그, 자본변동표 StockRepurchasedDuringPeriodValue가 같은 값, 2026-10-16)
+    bb, bbd = ytd(cik, ["PaymentsForRepurchaseOfCommonStock"] + list(getattr(C, "BB_TAGS", [])), C.CUR, fy_start)
     dps, dps_yo, dlabel, dps_end = latest_dps(cik, C.CUR)
     dv, dvd = ytd(cik, ["PaymentsOfDividendsCommonStock"], C.CUR, fy_start)
     dv_pref = False
@@ -332,7 +340,7 @@ def apply(C, T):
                  ((f"최근 분기 주당 배당 ({dlabel}, {d(dps_end).month}/{d(dps_end).day} 분기)",
                    ("1년 전 " + usd(dps_yo) + (f" · {chg(dps, dps_yo)}" if chg(dps, dps_yo) else "")) if dps_yo else "1년 전 배당 없음",
                    usd(dps)) if dps is not None else ("분기 주당 배당", "보통주 배당 없음", "—"))]
-    C._AUTO.update({"bb": bb, "dv": dv if not dv_pref else None, "dps": dps, "dps_yo": dps_yo})
+    C._AUTO.update({"bb": bb, "dv": dv if not dv_pref else None, "dps": dps, "dps_yo": dps_yo, "dps_two": "직전 분기의 2배" in (dlabel or "")})
     gw = {r["end"]: r["val"] for r in sorted(_flow_rows(cik, "Goodwill"), key=lambda r: r["filed"])}
     C._AUTO["acq"] = bool(gw.get(C.CUR) and C.YO in gw and gw[C.CUR] > (gw[C.YO] or 0) * 1.15)   # 1년 전 영업권 0에서 생긴 인수도(Codex)   # 영업권이 1년에 15% 넘게 늘면 인수가 매출 성장에 섞였다(ABT, Fable)
 
@@ -382,6 +390,14 @@ def apply(C, T):
         C.NEXT = ("미정", f"일정 · {nl}")
         C.NEXT_OP = ("미정", f"{nl}")
         C.CHECK_WHEN = f"{nl}"
+    # 회사가 다음 실적 발표일을 공시했으면(8-K 등) cfg NEXT_CONFIRMED = {"quarter_end", "date", "src"}로 추정 대신 — 그 분기가 다음 분기일 때만 쓰여
+    # 분기가 지나면 추정으로 돌아간다(FCX 10/2 8-K "October 27, 2026", Fable 2026-10-17)
+    _nc = getattr(C, "NEXT_CONFIRMED", None)
+    if _nc and abs((d(_nc["quarter_end"]) - nxt_end).days) <= 10 and _nc["date"] > C.CUR and _nc["date"] >= dt.date.today().isoformat():   # 발표일이 지나면 해제(Codex 2차)
+        _dd = d(_nc["date"])
+        C.NEXT = (f"{_dd.month}월 {_dd.day}일", f"일정 · {nl} ({_nc['src']})")
+        C.NEXT_OP = (f"{_dd.month}월 {_dd.day}일", f"{nl}")
+        C.CHECK_WHEN = f"{_dd.year}년 {_dd.month}월 {_dd.day}일 · {nl}"
     C._AUTO["next_label"] = nl
     C.FUND_ASOF_NOTE = f"{C.TENQ_NAME}"
     lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})   # 차트에 보이는 8분기 안에서만(Fable)
@@ -542,7 +558,7 @@ def texts(C, ns):
     trend = [yoy_at(k) for k in ks_all[-3:]]
     trend_ok = all(x is not None for x in trend)
     gx = ("매출 성장(인수 포함)" if A.get("acq") else "매출 성장 빨라짐" if trend_ok and trend[2] > trend[1] + 1 and trend[1] >= trend[0] - 0.5 else
-          "매출 성장 느려짐" if trend_ok and trend[2] < trend[1] - 1 and trend[1] <= trend[0] + 0.5 else "매출 성장 비슷")
+          (("매출 감소 커짐" if trend[1] < 0 else "매출 감소 전환") if trend[2] < 0 else "매출 성장 느려짐") if trend_ok and trend[2] < trend[1] - 1 and trend[1] <= trend[0] + 0.5 else "매출 성장 비슷")   # 최근 증감률이 음수면 '느려짐'이 아니다(NKE −4.3%, Fable 2026-10-17)
     trend_txt = " → ".join(f"{x:+.1f}%".replace("-", "−") for x in trend) if trend_ok else ""
     vx = ("배수 5년 최저권" if selfsc >= 80 else "배수 5년 고점권" if selfsc <= 20 else
           "배수 싼 쪽" if selfsc >= 70 or peersc >= 70 else "배수 비싼 쪽" if selfsc < 30 or peersc < 30 else "배수 중간")   # 동종업 점수도 본다(CRM, Fable)
@@ -550,7 +566,7 @@ def texts(C, ns):
           + f". 최근 4분기 영업이익률 {mn:.1f}%는 5년 중앙값 {m5:.1f}%보다 {rel(mn, m5)}.",
           (f"최근 4분기 FCF {B(fcf_ttm)}(매출의 {fcf_ttm / rev_ttm * 100:.1f}%), " if fcf_ok else "") + f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}."]
     if A.get("dps") is not None:
-        s = f"분기 주당 배당 {usd(A['dps'])}" + (f"(1년 전 {usd(A['dps_yo'])}, {chg(A['dps'], A['dps_yo'])})" if A.get("dps_yo") and chg(A["dps"], A["dps_yo"]) else "")
+        s = ("분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 주당 배당 ") + f"{usd(A['dps'])}" + (f"(1년 전 {usd(A['dps_yo'])}, {chg(A['dps'], A['dps_yo'])})" if A.get("dps_yo") and chg(A["dps"], A["dps_yo"]) else "")
         if A.get("dv") is not None:
             s += f", 올해 들어 배당 {B(A['dv'])}"
         if A.get("bb") is not None:
@@ -589,7 +605,7 @@ def texts(C, ns):
         cand.append(("성장", -0.7, f"3년 매출 성장률 연 {H['growth_3y'] * 100:.1f}%, 5년 연 {H['growth_5y'] * 100:.1f}%보다 낮다."))
     if A.get("dps") and A.get("dps_yo"):
         dg = (A["dps"] / A["dps_yo"] - 1) * 100
-        cand.append(("환원", 1.0 if dg >= 3 else -1.0 if dg < 0 else 0, f"분기 주당 배당 {usd(A['dps'])}(1년 전보다 {dg:+.1f}%).".replace("+-", "−")))
+        cand.append(("환원", 1.0 if dg >= 3 else -1.0 if dg < 0 else 0, (("분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 주당 배당 ") + f"{usd(A['dps'])}(1년 전보다 {dg:+.1f}%).").replace("+-", "−")))
     scored = [m for m in ns["VAL"]["self"]["metrics"] if m.get("current") is not None and m.get("score") is not None]
     span_y = lambda days: "5년" if (days or 0) >= 1200 else f"{(days or 0) / 252:.1f}년"
     name = {"per": "PER", "pbr": "PBR", "psr": "PSR", "pcr": "PCR", "evebitda": "EV/EBITDA"}
@@ -605,7 +621,7 @@ def texts(C, ns):
     if same_len:
         for n_, v_, _ in C.SEG:
             if n_ in yo_tab and yo_tab[n_] > 0 and v_ < yo_tab[n_] and v_ >= 0.1 * sum(x for _, x, _ in C.SEG):
-                cand.append(("부문", -0.6 - (yo_tab[n_] - v_) / yo_tab[n_] * 10, f"{n_} 매출 {chg(v_, yo_tab[n_])}(1년 전 같은 분기 대비)."))
+                cand.append(("부문", -0.6 - (yo_tab[n_] - v_) / yo_tab[n_] * 10, f"{n_} 매출 {chg(v_, yo_tab[n_]) or (f'{(v_ / yo_tab[n_] - 1) * 100:+.0f}%'.replace('-', '−'))}(1년 전 같은 분기 대비)."))   # ±50% 넘으면 chg가 None — 부문 주석 segchg와 같게(FCX 인도네시아 None, Codex 2026-10-17)
     _rows = {r_["metric"]: r_["value"] for ax in ns["FUND"]["axes"].values() for r_ in ax.get("rows", [])}
     if _rows.get("debtToEquity") and _rows["debtToEquity"] >= 300:
         cand.append(("부채", -1.0, f"부채비율(총부채 ÷ 자본) {_rows['debtToEquity']:.0f}%, 자본 {B(b.get('equity', 0))}."))
@@ -718,6 +734,12 @@ def texts(C, ns):
 
 
 def _finish(C):
+    # cfg MODEL_NOTE — 일반 모델이 이 회사에 맞지 않는 점을 경고 문장·내재가치 설명 끝에 한 줄로(EQIX 리츠, Codex 2026-10-17)
+    _mn = getattr(C, "MODEL_NOTE", "")
+    if _mn:
+        _nz = lambda t: (t or "").replace("$-", "−$").replace("-", "−")   # 음수 기호 후처리 뒤 글과도 같게 비교(Codex 2차)
+        C.RISK = C.RISK if _nz(_mn) in _nz(C.RISK) else C.RISK.rstrip() + " " + _mn
+        C.DCF_NOTE = C.DCF_NOTE if _nz(_mn) in _nz(C.DCF_NOTE) else ((C.DCF_NOTE or "").rstrip() + " " + _mn).strip()
     O = getattr(C, "AUTO_OUTSIDE", None)
     if O and O.get("fund_tip") and O["fund_tip"] not in C.FUND_TIP:   # 외국 발행사: 재무 통화·원문 설명을 덧붙인다
         C.FUND_TIP = C.FUND_TIP + " " + O["fund_tip"]

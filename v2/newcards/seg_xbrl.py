@@ -150,9 +150,9 @@ def table(M, vals):
         v0, c0 = agg.get(name, (0.0, color))
         agg[name] = (v0 + vals[k], c0)
     for name, (v, color) in agg.items():
-        rows.append((name, round(v / 1e6), color))
+        rows.append((name, round(v / 1e6, 1), color))   # 0.1백만 달러까지 — 정수로 자르면 증감률·$B 표시가 어긋났다(TT 아태 384.6→385, Codex 2026-10-16)
     for k in unknown:
         other += vals[k]
     if unknown:
-        rows.append((M["other"], round(other / 1e6), "#94a3b8"))
+        rows.append((M["other"], round(other / 1e6, 1), "#94a3b8"))
     return sorted(rows, key=lambda r: -r[1]), adj

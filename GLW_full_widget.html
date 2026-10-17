@@ -902,7 +902,7 @@ Chart.overrides.doughnut.animation = false;
           <span class="zone-val">공시 없음</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 6/30 분기)</span>
+          <span class="zone-label">최근 분기 주당 배당 (선언 기준, 그 분기 선언액 합계 — 직전 분기의 2배, 6/30 분기)</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 $0.56 · +0.0%</span>
             <span class="zone-val">$0.56</span>
@@ -1292,13 +1292,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 4738;
+  const total = 4738.0;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["광통신", "유리 혁신(디스플레이·특수소재)", "자동차", "태양광", "생명과학·신사업"],
       datasets:[{
-        data:[2072, 1463, 471, 438, 294],
+        data:[2072.0, 1463.0, 471.0, 438.0, 294.0],
         backgroundColor:["#005eb8", "#5aa9e6", "#f59e0b", "#22c55e", "#a78bfa"],
         borderColor:'#8a8d9e',
         borderWidth:2

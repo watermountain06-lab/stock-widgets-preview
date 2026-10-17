@@ -65,6 +65,17 @@ CONCEPTS = {
     "sharesOutstanding": ["EntityCommonStockSharesOutstanding", "CommonStockSharesOutstanding", "CommonStockSharesIssued"],
 }
 
+# 종목별로 후보 태그를 바꾸는 개념(CIK). LOW: 이자비용 후보 중 InterestExpenseOther는 순이자 표의 "Other" 한 줄(Q2 2026 $0)이라
+# 이자보상배율이 "이자비용 0" 만점이 됐다 — 손익계산서 "Interest – net"(InterestIncomeExpenseNonoperatingNet, 음수로 실림, 소비처는 절댓값)을 쓴다
+# (MO·PM 순이자 전례, 2026-10-16). 같은 태그를 쓰는 ANET은 공통 안건으로 남겼다.
+CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # CME: 이자비용을 "Interest and other borrowing costs"(InterestAndDebtExpense, Q2 2026 $43.6M)로만 낸다(2026-10-16)
+                   "0001156375": {"interestExpense": ["InterestAndDebtExpense"]},
+                   # FCX: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNet, Q2 2026 −$95M — 소비처는 절댓값)만 분기로 낸다(2026-10-17)
+                   "0000831259": {"interestExpense": ["InterestIncomeExpenseNet"]},
+                   # NKE: 재고를 InventoryFinishedGoodsNetOfReserves로만 낸다(InventoryNet은 2011년에 멈춤 — 당좌비율이 유동비율과 같게 나왔다, 2026-10-17)
+                   "0000320187": {"inventory": ["InventoryFinishedGoodsNetOfReserves"]}}
+
 # Balance-sheet concepts are point-in-time ("instant": only an "end" date,
 # no "start") rather than period durations like income-statement concepts.
 INSTANT_CONCEPTS = {"assets", "currentAssets", "currentLiabilities", "inventory",
@@ -236,6 +247,7 @@ def main():
         "entityName": data.get("entityName"),
     }
     for key, tags in CONCEPTS.items():
+        tags = CONCEPTS_BY_CIK.get(str(cik).zfill(10), {}).get(key, tags)
         result[key] = extract_concept(facts, tags, is_instant=key in INSTANT_CONCEPTS, n_years=args.years)
 
     out_path = args.out or f"{args.ticker.upper()}_financials.json"

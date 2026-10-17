@@ -98,6 +98,8 @@ def main():
         print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장")
     if B.get("share_events") and net:   # v2.1 D-1(2026-10-05)
         print("· 분기 뒤 주식 발행 이벤트"); run([PY, "v2/adapters/share_events.py", T], show=r".")
+    if B.get("cover_shares") and (net or not _ov.get("dei", {}).get("EntityCommonStockSharesOutstanding")):   # 표지 주식 수가 클래스별뿐인 종목(NKE A·B — META와 같은 방식)
+        print("· 표지 주식 수 클래스 합산"); run([PY, "v2/adapters/cover_shares.py", T], show=r"저장")
     for ctag, stag in [x for x in B.get("company_tags", []) if net or not _has_ct(*x)]:   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
         print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
     print("· EPS")
