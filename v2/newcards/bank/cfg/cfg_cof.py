@@ -7,6 +7,6 @@ PB = ['JPM', 'USB', 'FITB', 'RF', 'MTB', 'HBAN']   # 비교 차트에 그릴 은
 COLOR = '#004977'
 BV_NOTE = "회사 TBVPS는 인수 무형자산의 이연법인세를 더해, 우리 값(더하지 않음)이 2025년 2분기 인수 뒤 약 6% 낮게 나온다"
 ANALYST = {'rating': 'Buy', 'n': 24, 'nt': 19, 'mean': 254.47, 'median': 259, 'low': 219, 'high': 300, 'sb': 14, 'b': 5, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-13'
+ANALYST_ASOF = '2026-10-17'
 NEWS = []   # 손 뉴스 없음 — 실적 보도자료 8-K는 news_auto.py가 넣는다
 NEWS_DAYS = 400

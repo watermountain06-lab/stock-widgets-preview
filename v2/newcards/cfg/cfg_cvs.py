@@ -53,7 +53,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Strong Buy', 'n': 27, 'nt': 21, 'mean': 113, 'median': 113, 'low': 92, 'high': 125, 'sb': 18, 'b': 7, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-15'
+ANALYST_ASOF = '2026-10-17'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 부문 주석 외부 고객 매출 Q2 2026 36,999/45,389/23,054, 1년 전 35,831/40,118/22,466,

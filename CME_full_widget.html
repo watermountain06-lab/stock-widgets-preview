@@ -971,7 +971,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">거래소·금융 데이터 6곳 PER 비교 · 10/9 종가(CME 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">거래소·금융 데이터 6곳 PER 비교 · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1073,7 +1073,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 47.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 35.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 17.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-16</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
         <span class="op-val"><span data-an="mean">$283.77</span> <span class="op-sub op-down" data-an="upside">−3.4%</span></span>
       </div>
       <div class="op-cell">
@@ -1278,61 +1278,61 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '거래소·금융 데이터 6곳 PER 비교 · 10/9 종가(CME 막대는 10/16)',
+    title: '거래소·금융 데이터 6곳 PER 비교 · 10/16 종가',
     unit: 'PER', max: 40, cmeValue: null,
     peers: [
-      { name:'ICE', value:22.1, status:'reference' },
-      { name:'NDAQ', value:27.3, status:'reference' },
-      { name:'CBOE', value:23.7, status:'reference' },
-      { name:'SPGI', value:24.8, status:'reference' },
-      { name:'MCO', value:29.5, status:'reference' },
-      { name:'MSCI', value:30.9, status:'reference' }
+      { name:'ICE', value:22.8, status:'reference' },
+      { name:'NDAQ', value:27.4, status:'reference' },
+      { name:'CBOE', value:24.6, status:'reference' },
+      { name:'SPGI', value:26.1, status:'reference' },
+      { name:'MCO', value:30.8, status:'reference' },
+      { name:'MSCI', value:31.1, status:'reference' }
     ]
   },
   pbr: {
-    title: '거래소·금융 데이터 PBR 비교 (MSCI 값 없음) · 10/9 종가(CME 막대는 10/16)',
+    title: '거래소·금융 데이터 PBR 비교 (MSCI 값 없음) · 10/16 종가',
     unit: 'PBR', max: 35, cmeValue: null,
     peers: [
-      { name:'ICE', value:3.0, status:'reference' },
+      { name:'ICE', value:3.1, status:'reference' },
       { name:'NDAQ', value:4.4, status:'reference' },
-      { name:'CBOE', value:5.7, status:'reference' },
-      { name:'SPGI', value:3.8, status:'reference' },
-      { name:'MCO', value:26.6, status:'reference' }
+      { name:'CBOE', value:5.8, status:'reference' },
+      { name:'SPGI', value:4.0, status:'reference' },
+      { name:'MCO', value:27.8, status:'reference' }
     ]
   },
   psr: {
-    title: '거래소·금융 데이터 PSR 비교 · 10/9 종가(CME 막대는 10/16)',
+    title: '거래소·금융 데이터 PSR 비교 · 10/16 종가',
     unit: 'PSR(TTM)', max: 20, cmeValue: null,
     peers: [
-      { name:'ICE', value:6.5, status:'reference' },
+      { name:'ICE', value:6.8, status:'reference' },
       { name:'NDAQ', value:6.0, status:'reference' },
-      { name:'CBOE', value:6.3, status:'reference' },
-      { name:'SPGI', value:7.5, status:'reference' },
-      { name:'MCO', value:9.8, status:'reference' },
-      { name:'MSCI', value:12.3, status:'reference' }
+      { name:'CBOE', value:6.5, status:'reference' },
+      { name:'SPGI', value:7.9, status:'reference' },
+      { name:'MCO', value:10.3, status:'reference' },
+      { name:'MSCI', value:12.4, status:'reference' }
     ]
   },
   pcr: {
-    title: '거래소·금융 데이터 PCR(FCF) 비교 · 10/9 종가(CME 막대는 10/16)',
+    title: '거래소·금융 데이터 PCR(FCF) 비교 · 10/16 종가',
     unit: 'PCR(FCF)', max: 35, cmeValue: null,
     peers: [
-      { name:'ICE', value:17.3, status:'reference' },
-      { name:'NDAQ', value:26.8, status:'reference' },
-      { name:'CBOE', value:16.9, status:'reference' },
-      { name:'SPGI', value:21.6, status:'reference' },
-      { name:'MCO', value:27.1, status:'reference' },
-      { name:'MSCI', value:25.7, status:'reference' }
+      { name:'ICE', value:17.9, status:'reference' },
+      { name:'NDAQ', value:26.9, status:'reference' },
+      { name:'CBOE', value:17.6, status:'reference' },
+      { name:'SPGI', value:22.7, status:'reference' },
+      { name:'MCO', value:28.3, status:'reference' },
+      { name:'MSCI', value:25.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: '거래소·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/9 종가(CME 막대는 10/16)',
+    title: '거래소·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/16 종가',
     unit: 'EV/EBITDA', max: 30, cmeValue: null,
     peers: [
-      { name:'ICE', value:15.6, status:'reference' },
+      { name:'ICE', value:16.1, status:'reference' },
       { name:'NDAQ', value:22.2, status:'reference' },
-      { name:'CBOE', value:16.5, status:'reference' },
-      { name:'MCO', value:20.9, status:'reference' },
-      { name:'MSCI', value:25.1, status:'reference' }
+      { name:'CBOE', value:17.1, status:'reference' },
+      { name:'MCO', value:21.7, status:'reference' },
+      { name:'MSCI', value:25.3, status:'reference' }
     ]
   }
 };
@@ -2063,7 +2063,7 @@ const CME_ACTIVITY = {"ticker": "CME", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/cme/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CME_ANALYST = { asOf: '2026-10-16', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 17, nTargets: 13, mean: 283.77, median: 285,
+const CME_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 17, nTargets: 13, mean: 283.77, median: 285,
   low: 218, high: 337, strongBuy: 4, buy: 4, hold: 6, sell: 2, strongSell: 1 };
 (function(){
   const A = CME_ANALYST, last = (typeof CME_DAILY !== 'undefined' && CME_DAILY.length) ? CME_DAILY[CME_DAILY.length - 1] : null;

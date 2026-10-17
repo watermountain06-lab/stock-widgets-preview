@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="adpPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="adpPeerVerdict">중간</span></div>
-      <div class="logic-score" id="adpPeerScore">38.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="adpPeerScore">38.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="adpSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="adpSelfVerdict">싼 편</span></div>
@@ -932,9 +932,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.71 ~ 1.90(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">57</div><div class="sc-tile low" data-vc="peer" data-m="pbr">7</div><div class="sc-tile low" data-vc="peer" data-m="psr">27</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">57</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">43</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">57</div><div class="sc-tile low" data-vc="peer" data-m="pbr">5</div><div class="sc-tile low" data-vc="peer" data-m="psr">24</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">58</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">46</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 26.4배(5년 중앙값 30.0배)로 자기 이력 78.5점(싸다), 동종업 38.0점(중간)이다. <strong>현금흐름 내재가치(기본 $169.30)는 현재가의 59%다</strong>.</div>
+    <div class="vs-premise">PER 26.4배(5년 중앙값 30.0배)로 자기 이력 78.5점(싸다), 동종업 38.3점(중간)이다. <strong>현금흐름 내재가치(기본 $169.30)는 현재가의 59%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $169.30)는 현재가의 59%다. 현재가를 정당화하려면 매출이 5년간 연 19.8% 커야 한다. 내재가치에서 차입금 $5.1B를 빼고 현금·단기투자 $4.2B를 더한다.</div>
   </div>
 
@@ -1004,7 +1004,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">업무 서비스 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/9 종가(ADP 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">업무 서비스 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1110,7 +1110,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 22.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 66.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 11.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-16</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
         <span class="op-val"><span data-an="mean">$283.50</span> <span class="op-sub op-down" data-an="upside">−1.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1315,62 +1315,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '업무 서비스 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/9 종가(ADP 막대는 10/16)',
+    title: '업무 서비스 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/16 종가',
     unit: 'PER', max: 50, adpValue: null,
     peers: [
-      { name:'PAYX', value:20.6, status:'reference' },
-      { name:'BR', value:17.2, status:'reference' },
-      { name:'VRSK', value:27.3, status:'reference' },
-      { name:'EFX', value:25.6, status:'reference' },
-      { name:'CTAS', value:39.9, status:'reference' },
-      { name:'LDOS', value:11.3, status:'reference' }
+      { name:'PAYX', value:22.1, status:'reference' },
+      { name:'BR', value:18.2, status:'reference' },
+      { name:'VRSK', value:29.4, status:'reference' },
+      { name:'EFX', value:28.3, status:'reference' },
+      { name:'CTAS', value:42.1, status:'reference' },
+      { name:'LDOS', value:11.6, status:'reference' }
     ]
   },
   pbr: {
-    title: '업무 서비스 PBR 비교 (VRSK 값 없음) · 10/9 종가(ADP 막대는 10/16)',
+    title: '업무 서비스 PBR 비교 (VRSK 값 없음) · 10/16 종가',
     unit: 'PBR', max: 25, adpValue: null,
     peers: [
-      { name:'PAYX', value:10.0, status:'reference' },
-      { name:'BR', value:6.6, status:'reference' },
-      { name:'EFX', value:3.9, status:'reference' },
-      { name:'CTAS', value:15.8, status:'reference' },
-      { name:'LDOS', value:2.9, status:'reference' }
+      { name:'PAYX', value:10.7, status:'reference' },
+      { name:'BR', value:7.0, status:'reference' },
+      { name:'EFX', value:4.3, status:'reference' },
+      { name:'CTAS', value:16.3, status:'reference' },
+      { name:'LDOS', value:3.0, status:'reference' }
     ]
   },
   psr: {
-    title: '업무 서비스 PSR 비교 · 10/9 종가(ADP 막대는 10/16)',
+    title: '업무 서비스 PSR 비교 · 10/16 종가',
     unit: 'PSR(TTM)', max: 10, adpValue: null,
     peers: [
-      { name:'PAYX', value:5.6, status:'reference' },
-      { name:'BR', value:2.5, status:'reference' },
-      { name:'VRSK', value:7.4, status:'reference' },
-      { name:'EFX', value:2.7, status:'reference' },
-      { name:'CTAS', value:7.2, status:'reference' },
+      { name:'PAYX', value:6.0, status:'reference' },
+      { name:'BR', value:2.7, status:'reference' },
+      { name:'VRSK', value:7.9, status:'reference' },
+      { name:'EFX', value:2.9, status:'reference' },
+      { name:'CTAS', value:7.3, status:'reference' },
       { name:'LDOS', value:0.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '업무 서비스 PCR(FCF) 비교 · 10/9 종가(ADP 막대는 10/16)',
+    title: '업무 서비스 PCR(FCF) 비교 · 10/16 종가',
     unit: 'PCR(FCF)', max: 50, adpValue: null,
     peers: [
-      { name:'PAYX', value:18.4, status:'reference' },
-      { name:'BR', value:14.8, status:'reference' },
-      { name:'VRSK', value:18.7, status:'reference' },
-      { name:'EFX', value:15.5, status:'reference' },
-      { name:'CTAS', value:43.1, status:'reference' },
-      { name:'LDOS', value:7.1, status:'reference' }
+      { name:'PAYX', value:19.7, status:'reference' },
+      { name:'BR', value:15.6, status:'reference' },
+      { name:'VRSK', value:20.1, status:'reference' },
+      { name:'EFX', value:17.1, status:'reference' },
+      { name:'CTAS', value:41.7, status:'reference' },
+      { name:'LDOS', value:7.2, status:'reference' }
     ]
   },
   evebitda: {
-    title: '업무 서비스 EV/EBITDA 비교 · 10/9 종가(ADP 막대는 10/16)',
+    title: '업무 서비스 EV/EBITDA 비교 · 10/16 종가',
     unit: 'EV/EBITDA', max: 35, adpValue: null,
     peers: [
-      { name:'PAYX', value:13.4, status:'reference' },
-      { name:'BR', value:15.3, status:'reference' },
-      { name:'VRSK', value:16.4, status:'reference' },
-      { name:'EFX', value:11.1, status:'reference' },
-      { name:'CTAS', value:26.7, status:'reference' },
-      { name:'LDOS', value:9.1, status:'reference' }
+      { name:'PAYX', value:14.3, status:'reference' },
+      { name:'BR', value:16.1, status:'reference' },
+      { name:'VRSK', value:17.5, status:'reference' },
+      { name:'EFX', value:12.1, status:'reference' },
+      { name:'CTAS', value:27.2, status:'reference' },
+      { name:'LDOS', value:9.2, status:'reference' }
     ]
   }
 };
@@ -1500,7 +1500,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ADP
 const ADP_SCORES = {
   fundamental: 63.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 38.0,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 38.3,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 78.5,   // 자기 5년 배수 분포 백분위 (2021-10-18 ~ 2026-10-16)
   asOf: "2026-10-16",
   fundamentalAsOf: "2026-06-30",   // FY2026 10-K
@@ -1813,7 +1813,7 @@ const ADP_FUNDAMENTAL = {"ticker": "ADP", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py ADP --self v2/ADP_multiples.json --card
 /* VALUATION:BEGIN */
-const ADP_VALUATION = {"peer": {"score": 38.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 57.1, "rank": 34, "peers": 77}, {"metric": "pbr", "score": 6.8, "rank": 70, "peers": 74}, {"metric": "psr", "score": 26.9, "rank": 58, "peers": 78}, {"metric": "pcr", "score": 56.8, "rank": 33, "peers": 74}, {"metric": "evebitda", "score": 42.6, "rank": 40, "peers": 68}]}, "self": {"score": 78.5, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.6, "percentile": 20.4, "current": 26.41, "min": 18.15, "median": 30.01, "max": 39.24, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 70.2, "percentile": 29.8, "current": 19.03, "min": 11.89, "median": 22.4, "max": 43.46, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 70.4, "percentile": 29.6, "current": 5.23, "min": 3.58, "median": 5.57, "max": 6.8, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 85.6, "percentile": 14.4, "current": 21.88, "min": 15.64, "median": 26.84, "max": 40.79, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 86.5, "percentile": 13.5, "current": 18.23, "min": 13.31, "median": 21.07, "max": 26.79, "days": 1071, "currentNote": null}]}};
+const ADP_VALUATION = {"peer": {"score": 38.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 57.1, "rank": 34, "peers": 77}, {"metric": "pbr", "score": 5.4, "rank": 71, "peers": 74}, {"metric": "psr", "score": 24.4, "rank": 60, "peers": 78}, {"metric": "pcr", "score": 58.1, "rank": 32, "peers": 74}, {"metric": "evebitda", "score": 46.4, "rank": 38, "peers": 69}]}, "self": {"score": 78.5, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.6, "percentile": 20.4, "current": 26.41, "min": 18.15, "median": 30.01, "max": 39.24, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 70.2, "percentile": 29.8, "current": 19.03, "min": 11.89, "median": 22.4, "max": 43.46, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 70.4, "percentile": 29.6, "current": 5.23, "min": 3.58, "median": 5.57, "max": 6.8, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 85.6, "percentile": 14.4, "current": 21.88, "min": 15.64, "median": 26.84, "max": 40.79, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 86.5, "percentile": 13.5, "current": 18.23, "min": 13.31, "median": 21.07, "max": 26.79, "days": 1071, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2100,7 +2100,7 @@ const ADP_ACTIVITY = {"ticker": "ADP", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/adp/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ADP_ANALYST = { asOf: '2026-10-16', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 18, nTargets: 16, mean: 283.5, median: 287,
+const ADP_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 18, nTargets: 16, mean: 283.5, median: 287,
   low: 225, high: 322, strongBuy: 4, buy: 0, hold: 12, sell: 1, strongSell: 1 };
 (function(){
   const A = ADP_ANALYST, last = (typeof ADP_DAILY !== 'undefined' && ADP_DAILY.length) ? ADP_DAILY[ADP_DAILY.length - 1] : null;

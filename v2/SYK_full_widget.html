@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="sykPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="sykPeerVerdict">중간</span></div>
-      <div class="logic-score" id="sykPeerScore">40.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="sykPeerScore">41.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="sykSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="sykSelfVerdict">싼 편</span></div>
@@ -932,9 +932,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 3.00 ~ 4.72(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">40.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">45</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">42</div><div class="sc-tile lost" data-vc="peer" data-m="psr">40</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">35</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">40</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">41.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">43</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">44</div><div class="sc-tile lost" data-vc="peer" data-m="psr">40</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">35</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">42</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 30.5배(5년 중앙값 42.2배)로 자기 이력 97.3점(싸다), 동종업 40.5점(중간)이다. <strong>현금흐름 내재가치(기본 $98.14)는 현재가의 33%다</strong>.</div>
+    <div class="vs-premise">PER 30.5배(5년 중앙값 42.2배)로 자기 이력 97.3점(싸다), 동종업 41.0점(중간)이다. <strong>현금흐름 내재가치(기본 $98.14)는 현재가의 33%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $98.14)는 현재가의 33%다. 현재가를 정당화하려면 영업이익률이 41.8%까지 올라야 한다(최근 4분기 21.4%, 5년 중앙값 16.4%). 내재가치에서 차입금 $14.9B를 빼고 현금·단기투자 $3.5B를 더한다.</div>
   </div>
 
@@ -1004,7 +1004,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">의료기기 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/9 종가(SYK 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">의료기기 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1116,7 +1116,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 79.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 20.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-16</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
         <span class="op-val"><span data-an="mean">$364.83</span> <span class="op-sub op-up" data-an="upside">+23.8%</span></span>
       </div>
       <div class="op-cell">
@@ -1321,63 +1321,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/9 종가(SYK 막대는 10/16)',
-    unit: 'PER', max: 65, sykValue: null,
+    title: '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/16 종가',
+    unit: 'PER', max: 70, sykValue: null,
     peers: [
-      { name:'BSX', value:17.3, status:'reference' },
-      { name:'MDT', value:21.8, status:'reference' },
-      { name:'ABT', value:32.2, status:'reference' },
-      { name:'ISRG', value:48.7, status:'reference' },
-      { name:'ZBH', value:21.6, status:'reference' },
-      { name:'BDX', value:55.5, status:'reference' }
+      { name:'BSX', value:18.0, status:'reference' },
+      { name:'MDT', value:23.3, status:'reference' },
+      { name:'ABT', value:33.9, status:'reference' },
+      { name:'ISRG', value:49.0, status:'reference' },
+      { name:'ZBH', value:23.1, status:'reference' },
+      { name:'BDX', value:57.9, status:'reference' }
     ]
   },
   pbr: {
-    title: '의료기기 PBR 비교 · 10/9 종가(SYK 막대는 10/16)',
+    title: '의료기기 PBR 비교 · 10/16 종가',
     unit: 'PBR', max: 10, sykValue: null,
     peers: [
-      { name:'BSX', value:2.5, status:'reference' },
-      { name:'MDT', value:2.2, status:'reference' },
-      { name:'ABT', value:3.4, status:'reference' },
-      { name:'ISRG', value:8.2, status:'reference' },
+      { name:'BSX', value:2.6, status:'reference' },
+      { name:'MDT', value:2.4, status:'reference' },
+      { name:'ABT', value:3.5, status:'reference' },
+      { name:'ISRG', value:8.3, status:'reference' },
       { name:'ZBH', value:1.4, status:'reference' },
-      { name:'BDX', value:2.0, status:'reference' }
+      { name:'BDX', value:2.1, status:'reference' }
     ]
   },
   psr: {
-    title: '의료기기 PSR 비교 · 10/9 종가(SYK 막대는 10/16)',
+    title: '의료기기 PSR 비교 · 10/16 종가',
     unit: 'PSR(TTM)', max: 20, sykValue: null,
     peers: [
-      { name:'BSX', value:3.0, status:'reference' },
-      { name:'MDT', value:3.0, status:'reference' },
-      { name:'ABT', value:3.7, status:'reference' },
-      { name:'ISRG', value:13.6, status:'reference' },
-      { name:'ZBH', value:2.0, status:'reference' },
-      { name:'BDX', value:2.4, status:'reference' }
+      { name:'BSX', value:3.1, status:'reference' },
+      { name:'MDT', value:3.2, status:'reference' },
+      { name:'ABT', value:3.9, status:'reference' },
+      { name:'ISRG', value:13.7, status:'reference' },
+      { name:'ZBH', value:2.1, status:'reference' },
+      { name:'BDX', value:2.5, status:'reference' }
     ]
   },
   pcr: {
-    title: '의료기기 PCR(FCF) 비교 · 10/9 종가(SYK 막대는 10/16)',
+    title: '의료기기 PCR(FCF) 비교 · 10/16 종가',
     unit: 'PCR(FCF)', max: 55, sykValue: null,
     peers: [
-      { name:'BSX', value:17.1, status:'reference' },
-      { name:'MDT', value:18.5, status:'reference' },
-      { name:'ABT', value:22.0, status:'reference' },
-      { name:'ISRG', value:46.5, status:'reference' },
-      { name:'ZBH', value:11.2, status:'reference' },
-      { name:'BDX', value:18.3, status:'reference' }
+      { name:'BSX', value:17.8, status:'reference' },
+      { name:'MDT', value:19.8, status:'reference' },
+      { name:'ABT', value:23.2, status:'reference' },
+      { name:'ISRG', value:46.8, status:'reference' },
+      { name:'ZBH', value:11.9, status:'reference' },
+      { name:'BDX', value:19.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '의료기기 EV/EBITDA 비교 · SYK EBITDA는 현금흐름표 감가상각 기준(판관비 안 대여 수술기구 상각 등 제외)이라 부문 주석 전체 감가상각 기준보다 배수가 높게 나온다 · 10/9 종가(SYK 막대는 10/16)',
+    title: '의료기기 EV/EBITDA 비교 · SYK EBITDA는 현금흐름표 감가상각 기준(판관비 안 대여 수술기구 상각 등 제외)이라 부문 주석 전체 감가상각 기준보다 배수가 높게 나온다 · 10/16 종가',
     unit: 'EV/EBITDA', max: 50, sykValue: null,
     peers: [
-      { name:'BSX', value:13.1, status:'reference' },
-      { name:'MDT', value:13.6, status:'reference' },
-      { name:'ABT', value:18.6, status:'reference' },
-      { name:'ISRG', value:41.5, status:'reference' },
-      { name:'ZBH', value:10.5, status:'reference' },
-      { name:'BDX', value:14.6, status:'reference' }
+      { name:'BSX', value:13.6, status:'reference' },
+      { name:'MDT', value:14.4, status:'reference' },
+      { name:'ABT', value:19.5, status:'reference' },
+      { name:'ISRG', value:41.8, status:'reference' },
+      { name:'ZBH', value:11.0, status:'reference' },
+      { name:'BDX', value:15.1, status:'reference' }
     ]
   }
 };
@@ -1507,7 +1507,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py SYK
 const SYK_SCORES = {
   fundamental: 69.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 40.5,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 41.0,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 97.3,   // 자기 5년 배수 분포 백분위 (2021-10-18 ~ 2026-10-16)
   asOf: "2026-10-16",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1825,7 +1825,7 @@ const SYK_FUNDAMENTAL = {"ticker": "SYK", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py SYK --self v2/SYK_multiples.json --card
 /* VALUATION:BEGIN */
-const SYK_VALUATION = {"peer": {"score": 40.5, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 44.7, "rank": 27, "peers": 47}, {"metric": "pbr", "score": 42.3, "rank": 31, "peers": 52}, {"metric": "psr", "score": 40.4, "rank": 35, "peers": 57}, {"metric": "pcr", "score": 35.3, "rank": 34, "peers": 51}, {"metric": "evebitda", "score": 40.0, "rank": 31, "peers": 50}]}, "self": {"score": 97.3, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.8, "percentile": 2.2, "current": 30.53, "min": 27.95, "median": 42.18, "max": 55.89, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 97.8, "percentile": 2.2, "current": 4.71, "min": 4.31, "median": 6.45, "max": 7.57, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 95.3, "percentile": 4.7, "current": 4.37, "min": 4.0, "median": 5.75, "max": 6.94, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 97.7, "percentile": 2.3, "current": 24.04, "min": 22.01, "median": 40.86, "max": 56.48, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.8, "percentile": 2.2, "current": 18.5, "min": 17.09, "median": 28.64, "max": 36.65, "days": 1255, "currentNote": null}]}};
+const SYK_VALUATION = {"peer": {"score": 41.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 42.9, "rank": 29, "peers": 49}, {"metric": "pbr", "score": 44.2, "rank": 30, "peers": 52}, {"metric": "psr", "score": 40.4, "rank": 35, "peers": 57}, {"metric": "pcr", "score": 35.3, "rank": 34, "peers": 51}, {"metric": "evebitda", "score": 42.0, "rank": 30, "peers": 50}]}, "self": {"score": 97.3, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.8, "percentile": 2.2, "current": 30.53, "min": 27.95, "median": 42.18, "max": 55.89, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 97.8, "percentile": 2.2, "current": 4.71, "min": 4.31, "median": 6.45, "max": 7.57, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 95.3, "percentile": 4.7, "current": 4.37, "min": 4.0, "median": 5.75, "max": 6.94, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 97.7, "percentile": 2.3, "current": 24.04, "min": 22.01, "median": 40.86, "max": 56.48, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.8, "percentile": 2.2, "current": 18.5, "min": 17.09, "median": 28.64, "max": 36.65, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2112,7 +2112,7 @@ const SYK_ACTIVITY = {"ticker": "SYK", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/syk/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const SYK_ANALYST = { asOf: '2026-10-16', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 24, mean: 364.83, median: 370,
+const SYK_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 24, mean: 364.83, median: 370,
   low: 298, high: 420, strongBuy: 15, buy: 8, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = SYK_ANALYST, last = (typeof SYK_DAILY !== 'undefined' && SYK_DAILY.length) ? SYK_DAILY[SYK_DAILY.length - 1] : null;

@@ -1,55 +1,55 @@
 {
  "ticker": "PSA",
  "window": [
-  "2025-10-13",
-  "2026-10-09"
+  "2025-10-17",
+  "2026-10-16"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
-   "current": 27.68,
+   "days": 251,
+   "current": 28.49,
    "min": 26.81,
-   "p10": 27.56,
-   "median": 30.82,
-   "p90": 33.59,
+   "p10": 27.54,
+   "median": 30.73,
+   "p90": 33.58,
    "max": 34.65,
-   "mean": 30.67,
-   "percentile": 11.2,
-   "score": 88.8
+   "mean": 30.58,
+   "percentile": 25.9,
+   "score": 74.1
   },
   "PSR": {
-   "days": 250,
-   "current": 10.41,
+   "days": 251,
+   "current": 10.71,
    "min": 9.48,
    "p10": 9.87,
-   "median": 10.81,
+   "median": 10.78,
    "p90": 11.65,
    "max": 11.94,
-   "mean": 10.76,
-   "percentile": 34.8,
-   "score": 65.2
+   "mean": 10.74,
+   "percentile": 47.0,
+   "score": 53.0
   },
   "PBR": {
-   "days": 250,
-   "current": 5.54,
+   "days": 251,
+   "current": 5.7,
    "min": 4.87,
    "p10": 5.08,
    "median": 5.66,
    "p90": 6.17,
    "max": 6.3,
    "mean": 5.62,
-   "percentile": 40.8,
-   "score": 59.2
+   "percentile": 55.4,
+   "score": 44.6
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 28.57,
-  "per_p75": 32.87,
+  "per_p25": 28.45,
+  "per_p75": 32.85,
   "low": 300,
   "high": 340,
-  "asOf": "2026-10-09",
+  "asOf": "2026-10-16",
   "basis": "diluted"
  }
 }

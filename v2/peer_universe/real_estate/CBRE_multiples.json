@@ -1,79 +1,79 @@
 {
  "ticker": "CBRE",
  "window": [
-  "2025-10-13",
-  "2026-10-09"
+  "2025-10-17",
+  "2026-10-16"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
-   "current": 30.07,
+   "days": 251,
+   "current": 30.59,
    "min": 28.46,
-   "p10": 30.07,
-   "median": 34.95,
-   "p90": 41.04,
+   "p10": 30.03,
+   "median": 34.88,
+   "p90": 40.83,
    "max": 45.87,
-   "mean": 35.61,
-   "percentile": 10.0,
-   "score": 90.0
+   "mean": 35.38,
+   "percentile": 15.1,
+   "score": 84.9
   },
   "PSR": {
-   "days": 250,
-   "current": 0.88,
+   "days": 251,
+   "current": 0.9,
    "min": 0.86,
    "p10": 0.92,
-   "median": 1.02,
+   "median": 1.01,
    "p90": 1.27,
    "max": 1.32,
    "mean": 1.07,
-   "percentile": 3.2,
-   "score": 96.8
+   "percentile": 6.8,
+   "score": 93.2
   },
   "PBR": {
-   "days": 250,
-   "current": 4.51,
+   "days": 251,
+   "current": 4.59,
    "min": 4.28,
-   "p10": 4.48,
-   "median": 4.97,
+   "p10": 4.47,
+   "median": 4.94,
    "p90": 5.75,
    "max": 5.98,
-   "mean": 5.05,
-   "percentile": 15.6,
-   "score": 84.4
+   "mean": 5.04,
+   "percentile": 23.9,
+   "score": 76.1
   },
   "PCR": {
-   "days": 250,
-   "current": 40.38,
+   "days": 251,
+   "current": 41.08,
    "min": 32.6,
    "p10": 33.35,
-   "median": 39.52,
+   "median": 39.66,
    "p90": 46.52,
    "max": 48.74,
    "mean": 39.69,
-   "percentile": 52.4,
-   "score": 47.6
+   "percentile": 55.4,
+   "score": 44.6
   },
   "EV/EBITDA": {
-   "days": 250,
-   "current": 17.38,
+   "days": 251,
+   "current": 17.62,
    "min": 16.73,
-   "p10": 17.42,
-   "median": 19.54,
-   "p90": 23.53,
+   "p10": 17.41,
+   "median": 19.46,
+   "p90": 23.5,
    "max": 24.6,
-   "mean": 20.26,
-   "percentile": 7.2,
-   "score": 92.8
+   "mean": 20.15,
+   "percentile": 13.5,
+   "score": 86.5
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 32.13,
-  "per_p75": 39.34,
+  "per_p25": 32.0,
+  "per_p75": 38.94,
   "low": 140,
   "high": 170,
-  "asOf": "2026-10-09",
+  "asOf": "2026-10-16",
   "basis": "diluted"
  }
 }

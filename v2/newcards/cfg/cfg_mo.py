@@ -48,8 +48,8 @@ NEWS = [
      '순매출 $6.1B(−3.0%) · 희석 EPS $1.41(1년 전 $1.34)', 'q3', 'Altria 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Hold', 'n': 14, 'nt': 9, 'mean': 71, 'median': 71, 'low': 58, 'high': 82, 'sb': 4, 'b': 0, 'h': 8, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-13'
+ANALYST = {'rating': 'Hold', 'n': 14, 'nt': 8, 'mean': 69.63, 'median': 71, 'low': 58, 'high': 79, 'sb': 4, 'b': 0, 'h': 8, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-10-17'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판. 원문 대조: 10-Q 부문 주석 Q2 2026 5,392/713/6, 1년 전 5,357/753/−8, 합 = 연결 매출(6,111·6,102). 'All other'는 작고 음수가 나와 ignore(매출의 0.1%)(2026-10-13) ──

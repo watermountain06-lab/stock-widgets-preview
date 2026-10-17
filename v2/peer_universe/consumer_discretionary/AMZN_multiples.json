@@ -1,80 +1,80 @@
 {
  "ticker": "AMZN",
  "window": [
-  "2025-10-13",
-  "2026-10-09"
+  "2025-10-17",
+  "2026-10-16"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
-   "current": 38.47,
+   "days": 251,
+   "current": 36.65,
    "min": 32.34,
-   "p10": 34.14,
-   "median": 38.0,
-   "p90": 41.26,
+   "p10": 34.17,
+   "median": 38.01,
+   "p90": 41.25,
    "max": 42.95,
-   "mean": 37.83,
-   "percentile": 62.0,
-   "score": 38.0
+   "mean": 37.87,
+   "percentile": 29.1,
+   "score": 70.9
   },
   "PSR": {
-   "days": 250,
-   "current": 3.65,
+   "days": 251,
+   "current": 3.48,
    "min": 2.98,
    "p10": 3.15,
-   "median": 3.56,
+   "median": 3.57,
    "p90": 3.85,
    "max": 3.98,
-   "mean": 3.54,
-   "percentile": 68.4,
-   "score": 31.6
+   "mean": 3.55,
+   "percentile": 30.7,
+   "score": 69.3
   },
   "PBR": {
-   "days": 250,
-   "current": 5.13,
+   "days": 251,
+   "current": 4.89,
    "min": 4.81,
-   "p10": 5.05,
-   "median": 6.02,
-   "p90": 6.99,
+   "p10": 5.02,
+   "median": 5.99,
+   "p90": 6.97,
    "max": 7.36,
-   "mean": 6.05,
-   "percentile": 14.4,
-   "score": 85.6
+   "mean": 6.02,
+   "percentile": 3.6,
+   "score": 96.4
   },
   "PCR": {
-   "days": 137,
+   "days": 133,
    "current": null,
    "min": 168.54,
-   "p10": 204.77,
-   "median": 247.21,
-   "p90": 328.59,
+   "p10": 225.29,
+   "median": 247.42,
+   "p90": 331.23,
    "max": 368.28,
-   "mean": 260.11,
+   "mean": 262.78,
    "percentile": 100.0,
    "score": 0.0,
    "currentNote": "negative"
   },
   "EV/EBITDA": {
-   "days": 250,
-   "current": 17.38,
+   "days": 251,
+   "current": 16.59,
    "min": 14.88,
    "p10": 15.72,
-   "median": 17.56,
+   "median": 17.54,
    "p90": 19.15,
    "max": 20.0,
-   "mean": 17.55,
-   "percentile": 42.4,
-   "score": 57.6
+   "mean": 17.54,
+   "percentile": 23.5,
+   "score": 76.5
   }
  },
  "perBasis": "core",
  "perNA": null,
  "fairBand": {
-  "per_p25": 36.17,
-  "per_p75": 39.66,
+  "per_p25": 36.4,
+  "per_p75": 39.63,
   "low": 250,
   "high": 270,
-  "asOf": "2026-10-09",
+  "asOf": "2026-10-16",
   "basis": "core"
  }
 }

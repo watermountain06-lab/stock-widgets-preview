@@ -1089,8 +1089,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 80.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 19.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-13</span></span>
-        <span class="op-val"><span data-an="mean">$682.83</span> <span class="op-sub op-up" data-an="upside">+105.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
+        <span class="op-val"><span data-an="mean">$667.28</span> <span class="op-sub op-up" data-an="upside">+101.0%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1265,13 +1265,13 @@ function selectFundPeriod(period) {
 function renderSegmentChart() {
   const ctx = document.getElementById('segmentPieChart');
   if (!ctx) return;
-  const total = 3747;
+  const total = 3747.0;
   new Chart(ctx,{
     type:'doughnut',
     data:{
       labels:["클라우드", "클라이언트", "소비자"],
       datasets:[{
-        data:[3335, 225, 187],
+        data:[3335.0, 225.0, 187.0],
         backgroundColor:["#0b5ed7", "#a78bfa", "#f59e0b"],
         borderColor:'#8a8d9e',
         borderWidth:2
@@ -2077,8 +2077,8 @@ const WDC_ACTIVITY = {"ticker": "WDC", "status": "N/A", "reason": "SanDisk 분�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/wdc/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const WDC_ANALYST = { asOf: '2026-10-13', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 18, mean: 682.83, median: 676,
-  low: 470, high: 1050, strongBuy: 17, buy: 4, hold: 5, sell: 0, strongSell: 0 };
+const WDC_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 18, mean: 667.28, median: 650,
+  low: 450, high: 1050, strongBuy: 17, buy: 4, hold: 5, sell: 0, strongSell: 0 };
 (function(){
   const A = WDC_ANALYST, last = (typeof WDC_DAILY !== 'undefined' && WDC_DAILY.length) ? WDC_DAILY[WDC_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

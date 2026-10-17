@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="ttPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ttPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="ttPeerScore">25.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="ttPeerScore">24.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="ttSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="ttSelfVerdict">중간</span></div>
@@ -899,9 +899,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.25 ~ 2.90(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">25.3</div><div class="sc-tile low" data-vc="peer" data-m="per">25</div><div class="sc-tile low" data-vc="peer" data-m="pbr">22</div><div class="sc-tile lost" data-vc="peer" data-m="psr">33</div><div class="sc-tile low" data-vc="peer" data-m="pcr">29</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">18</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">24.3</div><div class="sc-tile low" data-vc="peer" data-m="per">26</div><div class="sc-tile low" data-vc="peer" data-m="pbr">22</div><div class="sc-tile lost" data-vc="peer" data-m="psr">31</div><div class="sc-tile low" data-vc="peer" data-m="pcr">27</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">16</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 34.8배(5년 중앙값 31.9배)로 자기 이력 34.2점(중간), 동종업 25.3점(비싸다)이다. <strong>현금흐름 내재가치(기본 $204.09)는 현재가의 44%다</strong>.</div>
+    <div class="vs-premise">PER 34.8배(5년 중앙값 31.9배)로 자기 이력 34.2점(중간), 동종업 24.3점(비싸다)이다. <strong>현금흐름 내재가치(기본 $204.09)는 현재가의 44%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $204.09)는 현재가의 44%다. 현재가를 정당화하려면 매출이 5년간 연 28.6% 커야 한다. 내재가치에서 차입금 $4.6B를 빼고 현금·단기투자 $1.3B를 더한다.</div>
   </div>
 
@@ -971,7 +971,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">공조·전기 설비 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/9 종가(TT 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">공조·전기 설비 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1079,7 +1079,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 65.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 30.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-16</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
         <span class="op-val"><span data-an="mean">$540.64</span> <span class="op-sub op-up" data-an="upside">+17.8%</span></span>
       </div>
       <div class="op-cell">
@@ -1284,61 +1284,61 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '공조·전기 설비 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/9 종가(TT 막대는 10/16)',
-    unit: 'PER', max: 55, ttValue: null,
+    title: '공조·전기 설비 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/16 종가',
+    unit: 'PER', max: 50, ttValue: null,
     peers: [
-      { name:'CARR', value:38.3, status:'reference' },
-      { name:'JCI', value:27.7, status:'reference' },
-      { name:'LII', value:15.7, status:'reference' },
-      { name:'ETN', value:43.8, status:'reference' },
-      { name:'EMR', value:35.4, status:'reference' },
-      { name:'HON', value:9.5, status:'reference' }
+      { name:'CARR', value:37.9, status:'reference' },
+      { name:'JCI', value:25.6, status:'reference' },
+      { name:'LII', value:15.8, status:'reference' },
+      { name:'ETN', value:39.8, status:'reference' },
+      { name:'EMR', value:35.3, status:'reference' },
+      { name:'HON', value:9.7, status:'reference' }
     ]
   },
   pbr: {
-    title: '공조·전기 설비 PBR 비교 · 10/9 종가(TT 막대는 10/16)',
+    title: '공조·전기 설비 PBR 비교 · 10/16 종가',
     unit: 'PBR', max: 15, ttValue: null,
     peers: [
       { name:'CARR', value:3.4, status:'reference' },
-      { name:'JCI', value:7.1, status:'reference' },
+      { name:'JCI', value:6.5, status:'reference' },
       { name:'LII', value:9.5, status:'reference' },
-      { name:'ETN', value:8.2, status:'reference' },
+      { name:'ETN', value:7.5, status:'reference' },
       { name:'EMR', value:4.4, status:'reference' },
-      { name:'HON', value:3.5, status:'reference' }
+      { name:'HON', value:3.6, status:'reference' }
     ]
   },
   psr: {
-    title: '공조·전기 설비 PSR 비교 · 10/9 종가(TT 막대는 10/16)',
+    title: '공조·전기 설비 PSR 비교 · 10/16 종가',
     unit: 'PSR(TTM)', max: 10, ttValue: null,
     peers: [
-      { name:'CARR', value:2.1, status:'reference' },
-      { name:'JCI', value:3.8, status:'reference' },
+      { name:'CARR', value:2.0, status:'reference' },
+      { name:'JCI', value:3.5, status:'reference' },
       { name:'LII', value:2.3, status:'reference' },
-      { name:'ETN', value:5.6, status:'reference' },
+      { name:'ETN', value:5.1, status:'reference' },
       { name:'EMR', value:4.8, status:'reference' },
       { name:'HON', value:1.7, status:'reference' }
     ]
   },
   pcr: {
-    title: '공조·전기 설비 PCR(FCF) 비교 · 10/9 종가(TT 막대는 10/16)',
-    unit: 'PCR(FCF)', max: 50, ttValue: null,
+    title: '공조·전기 설비 PCR(FCF) 비교 · 10/16 종가',
+    unit: 'PCR(FCF)', max: 45, ttValue: null,
     peers: [
-      { name:'CARR', value:25.0, status:'reference' },
-      { name:'JCI', value:30.1, status:'reference' },
+      { name:'CARR', value:24.8, status:'reference' },
+      { name:'JCI', value:27.8, status:'reference' },
       { name:'LII', value:16.7, status:'reference' },
-      { name:'ETN', value:42.4, status:'reference' },
-      { name:'EMR', value:26.1, status:'reference' },
-      { name:'HON', value:17.3, status:'reference' }
+      { name:'ETN', value:38.6, status:'reference' },
+      { name:'EMR', value:26.0, status:'reference' },
+      { name:'HON', value:17.6, status:'reference' }
     ]
   },
   evebitda: {
-    title: '공조·전기 설비 EV/EBITDA 비교 (JCI 값 없음·EMR 값 없음) · 10/9 종가(TT 막대는 10/16)',
+    title: '공조·전기 설비 EV/EBITDA 비교 (JCI 값 없음·EMR 값 없음) · 10/16 종가',
     unit: 'EV/EBITDA', max: 35, ttValue: null,
     peers: [
-      { name:'CARR', value:19.0, status:'reference' },
-      { name:'LII', value:12.4, status:'reference' },
-      { name:'ETN', value:28.9, status:'reference' },
-      { name:'HON', value:9.5, status:'reference' }
+      { name:'CARR', value:18.9, status:'reference' },
+      { name:'LII', value:12.5, status:'reference' },
+      { name:'ETN', value:26.6, status:'reference' },
+      { name:'HON', value:9.6, status:'reference' }
     ]
   }
 };
@@ -1468,7 +1468,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py TT
 const TT_SCORES = {
   fundamental: 56.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 25.3,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 24.3,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 34.2,   // 자기 5년 배수 분포 백분위 (2021-10-18 ~ 2026-10-16)
   asOf: "2026-10-16",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1781,7 +1781,7 @@ const TT_FUNDAMENTAL = {"ticker": "TT", "basis": "quarter", "asOf": "2026-06-30"
 //
 // 갱신: python3 v2/build_peer_score.py TT --self v2/TT_multiples.json --card
 /* VALUATION:BEGIN */
-const TT_VALUATION = {"peer": {"score": 25.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 24.7, "rank": 59, "peers": 77}, {"metric": "pbr", "score": 21.6, "rank": 59, "peers": 74}, {"metric": "psr", "score": 33.3, "rank": 53, "peers": 78}, {"metric": "pcr", "score": 28.8, "rank": 53, "peers": 73}, {"metric": "evebitda", "score": 17.9, "rank": 56, "peers": 67}]}, "self": {"score": 34.2, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 27.0, "percentile": 73.0, "current": 34.76, "min": 20.16, "median": 31.91, "max": 40.14, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 22.9, "percentile": 77.1, "current": 11.71, "min": 4.72, "median": 9.71, "max": 14.07, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 21.9, "percentile": 78.1, "current": 4.55, "min": 1.95, "median": 3.81, "max": 5.19, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 79.4, "percentile": 20.6, "current": 28.19, "min": 19.18, "median": 31.07, "max": 40.44, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.9, "percentile": 80.1, "current": 24.03, "min": 13.67, "median": 21.43, "max": 26.95, "days": 1255, "currentNote": null}]}};
+const TT_VALUATION = {"peer": {"score": 24.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 26.0, "rank": 58, "peers": 77}, {"metric": "pbr", "score": 21.6, "rank": 59, "peers": 74}, {"metric": "psr", "score": 30.8, "rank": 55, "peers": 78}, {"metric": "pcr", "score": 27.0, "rank": 55, "peers": 74}, {"metric": "evebitda", "score": 15.9, "rank": 59, "peers": 69}]}, "self": {"score": 34.2, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 27.0, "percentile": 73.0, "current": 34.76, "min": 20.16, "median": 31.91, "max": 40.14, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 22.9, "percentile": 77.1, "current": 11.71, "min": 4.72, "median": 9.71, "max": 14.07, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 21.9, "percentile": 78.1, "current": 4.55, "min": 1.95, "median": 3.81, "max": 5.19, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 79.4, "percentile": 20.6, "current": 28.19, "min": 19.18, "median": 31.07, "max": 40.44, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.9, "percentile": 80.1, "current": 24.03, "min": 13.67, "median": 21.43, "max": 26.95, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2068,7 +2068,7 @@ const TT_ACTIVITY = {"ticker": "TT", "status": "N/A", "reason": "5년 비교 이
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/tt/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TT_ANALYST = { asOf: '2026-10-16', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 14, mean: 540.64, median: 550,
+const TT_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 14, mean: 540.64, median: 550,
   low: 485, high: 575, strongBuy: 14, buy: 3, hold: 8, sell: 1, strongSell: 0 };
 (function(){
   const A = TT_ANALYST, last = (typeof TT_DAILY !== 'undefined' && TT_DAILY.length) ? TT_DAILY[TT_DAILY.length - 1] : null;

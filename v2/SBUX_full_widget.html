@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">외식·소매 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/9 종가(SBUX 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">외식·소매 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1091,7 +1091,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 40%; background: var(--green);"></div><div data-an-bar="hold" style="width: 54.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5.7%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-16</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
         <span class="op-val"><span data-an="mean">$116.47</span> <span class="op-sub op-up" data-an="upside">+19.4%</span></span>
       </div>
       <div class="op-cell">
@@ -1296,57 +1296,57 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '외식·소매 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/9 종가(SBUX 막대는 10/16)',
+    title: '외식·소매 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/16 종가',
     unit: 'PER', max: 60, sbuxValue: null,
     peers: [
-      { name:'MCD', value:19.1, status:'reference' },
-      { name:'CMG', value:29.0, status:'reference' },
-      { name:'YUM', value:18.2, status:'reference' },
-      { name:'DRI', value:19.0, status:'reference' },
-      { name:'DPZ', value:17.6, status:'reference' },
-      { name:'TJX', value:25.7, status:'reference' }
+      { name:'MCD', value:19.7, status:'reference' },
+      { name:'CMG', value:27.4, status:'reference' },
+      { name:'YUM', value:18.9, status:'reference' },
+      { name:'DRI', value:21.1, status:'reference' },
+      { name:'DPZ', value:17.0, status:'reference' },
+      { name:'TJX', value:27.3, status:'reference' }
     ]
   },
   pbr: {
-    title: '외식·소매 PBR 비교 (MCD 값 없음·YUM 값 없음·DPZ 값 없음) · 10/9 종가(SBUX 막대는 10/16)',
-    unit: 'PBR', max: 25, sbuxValue: null,
+    title: '외식·소매 PBR 비교 (MCD 값 없음·YUM 값 없음·DPZ 값 없음) · 10/16 종가',
+    unit: 'PBR', max: 20, sbuxValue: null,
     peers: [
-      { name:'CMG', value:18.2, status:'reference' },
-      { name:'DRI', value:10.2, status:'reference' },
-      { name:'TJX', value:14.3, status:'reference' }
+      { name:'CMG', value:17.2, status:'reference' },
+      { name:'DRI', value:11.8, status:'reference' },
+      { name:'TJX', value:15.2, status:'reference' }
     ]
   },
   psr: {
-    title: '외식·소매 PSR 비교 (DPZ 값 없음) · 10/9 종가(SBUX 막대는 10/16)',
+    title: '외식·소매 PSR 비교 (DPZ 값 없음) · 10/16 종가',
     unit: 'PSR(TTM)', max: 10, sbuxValue: null,
     peers: [
-      { name:'MCD', value:6.0, status:'reference' },
-      { name:'CMG', value:3.2, status:'reference' },
-      { name:'YUM', value:4.5, status:'reference' },
-      { name:'DRI', value:1.7, status:'reference' },
-      { name:'TJX', value:2.5, status:'reference' }
+      { name:'MCD', value:6.2, status:'reference' },
+      { name:'CMG', value:3.0, status:'reference' },
+      { name:'YUM', value:4.7, status:'reference' },
+      { name:'DRI', value:1.8, status:'reference' },
+      { name:'TJX', value:2.6, status:'reference' }
     ]
   },
   pcr: {
-    title: '외식·소매 PCR(FCF) 비교 (DPZ 값 없음) · 10/9 종가(SBUX 막대는 10/16)',
+    title: '외식·소매 PCR(FCF) 비교 (DPZ 값 없음) · 10/16 종가',
     unit: 'PCR(FCF)', max: 40, sbuxValue: null,
     peers: [
-      { name:'MCD', value:21.4, status:'reference' },
-      { name:'CMG', value:25.5, status:'reference' },
-      { name:'YUM', value:23.5, status:'reference' },
-      { name:'DRI', value:20.1, status:'reference' },
-      { name:'TJX', value:26.0, status:'reference' }
+      { name:'MCD', value:22.1, status:'reference' },
+      { name:'CMG', value:24.1, status:'reference' },
+      { name:'YUM', value:24.5, status:'reference' },
+      { name:'DRI', value:23.2, status:'reference' },
+      { name:'TJX', value:27.6, status:'reference' }
     ]
   },
   evebitda: {
-    title: '외식·소매 EV/EBITDA 비교 (DPZ 값 없음) · 10/9 종가(SBUX 막대는 10/16)',
+    title: '외식·소매 EV/EBITDA 비교 (DPZ 값 없음) · 10/16 종가',
     unit: 'EV/EBITDA', max: 35, sbuxValue: null,
     peers: [
-      { name:'MCD', value:14.6, status:'reference' },
-      { name:'CMG', value:20.3, status:'reference' },
-      { name:'YUM', value:18.8, status:'reference' },
-      { name:'DRI', value:13.0, status:'reference' },
-      { name:'TJX', value:17.4, status:'reference' }
+      { name:'MCD', value:15.0, status:'reference' },
+      { name:'CMG', value:19.4, status:'reference' },
+      { name:'YUM', value:19.3, status:'reference' },
+      { name:'DRI', value:13.8, status:'reference' },
+      { name:'TJX', value:18.4, status:'reference' }
     ]
   }
 };
@@ -2091,7 +2091,7 @@ const SBUX_ACTIVITY = {"ticker": "SBUX", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/sbux/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const SBUX_ANALYST = { asOf: '2026-10-16', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 35, nTargets: 19, mean: 116.47, median: 115,
+const SBUX_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 35, nTargets: 19, mean: 116.47, median: 115,
   low: 97, high: 143, strongBuy: 12, buy: 2, hold: 19, sell: 1, strongSell: 1 };
 (function(){
   const A = SBUX_ANALYST, last = (typeof SBUX_DAILY !== 'undefined' && SBUX_DAILY.length) ? SBUX_DAILY[SBUX_DAILY.length - 1] : null;

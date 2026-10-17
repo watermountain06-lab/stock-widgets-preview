@@ -1004,7 +1004,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (APD 값 없음) · 10/9 종가(FCX 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (APD 값 없음) · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1327,59 +1327,59 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '소재 6곳 PER 비교 (점수는 S&P500 소재 기준) (APD 값 없음) · 10/9 종가(FCX 막대는 10/16)',
+    title: '소재 6곳 PER 비교 (점수는 S&P500 소재 기준) (APD 값 없음) · 10/16 종가',
     unit: 'PER', max: 45, fcxValue: null,
     peers: [
-      { name:'NEM', value:14.0, status:'reference' },
-      { name:'NUE', value:20.0, status:'reference' },
-      { name:'LIN', value:31.2, status:'reference' },
-      { name:'SHW', value:29.5, status:'reference' },
-      { name:'ECL', value:37.8, status:'reference' }
+      { name:'NEM', value:14.1, status:'reference' },
+      { name:'NUE', value:20.5, status:'reference' },
+      { name:'LIN', value:32.2, status:'reference' },
+      { name:'SHW', value:30.9, status:'reference' },
+      { name:'ECL', value:38.8, status:'reference' }
     ]
   },
   pbr: {
-    title: '소재 PBR 비교 · 10/9 종가(FCX 막대는 10/16)',
+    title: '소재 PBR 비교 · 10/16 종가',
     unit: 'PBR', max: 25, fcxValue: null,
     peers: [
       { name:'NEM', value:3.5, status:'reference' },
       { name:'NUE', value:2.6, status:'reference' },
-      { name:'LIN', value:5.7, status:'reference' },
-      { name:'APD', value:4.5, status:'reference' },
-      { name:'SHW', value:20.1, status:'reference' },
-      { name:'ECL', value:7.9, status:'reference' }
+      { name:'LIN', value:5.9, status:'reference' },
+      { name:'APD', value:4.8, status:'reference' },
+      { name:'SHW', value:21.1, status:'reference' },
+      { name:'ECL', value:8.1, status:'reference' }
     ]
   },
   psr: {
-    title: '소재 PSR 비교 · 10/9 종가(FCX 막대는 10/16)',
+    title: '소재 PSR 비교 · 10/16 종가',
     unit: 'PSR(TTM)', max: 10, fcxValue: null,
     peers: [
       { name:'NEM', value:4.8, status:'reference' },
       { name:'NUE', value:1.6, status:'reference' },
-      { name:'LIN', value:6.3, status:'reference' },
-      { name:'APD', value:5.0, status:'reference' },
-      { name:'SHW', value:3.2, status:'reference' },
-      { name:'ECL', value:4.7, status:'reference' }
+      { name:'LIN', value:6.5, status:'reference' },
+      { name:'APD', value:5.3, status:'reference' },
+      { name:'SHW', value:3.3, status:'reference' },
+      { name:'ECL', value:4.8, status:'reference' }
     ]
   },
   pcr: {
-    title: '소재 PCR(FCF) 비교 (APD 값 없음) · 10/9 종가(FCX 막대는 10/16)',
+    title: '소재 PCR(FCF) 비교 (APD 값 없음) · 10/16 종가',
     unit: 'PCR(FCF)', max: 70, fcxValue: null,
     peers: [
       { name:'NEM', value:12.8, status:'reference' },
-      { name:'NUE', value:35.9, status:'reference' },
-      { name:'LIN', value:44.8, status:'reference' },
-      { name:'SHW', value:24.1, status:'reference' },
-      { name:'ECL', value:42.1, status:'reference' }
+      { name:'NUE', value:36.7, status:'reference' },
+      { name:'LIN', value:46.2, status:'reference' },
+      { name:'SHW', value:25.3, status:'reference' },
+      { name:'ECL', value:43.2, status:'reference' }
     ]
   },
   evebitda: {
-    title: '소재 EV/EBITDA 비교 (NUE 값 없음·SHW 값 없음) · 10/9 종가(FCX 막대는 10/16)',
-    unit: 'EV/EBITDA', max: 80, fcxValue: null,
+    title: '소재 EV/EBITDA 비교 (NUE 값 없음·SHW 값 없음) · 10/16 종가',
+    unit: 'EV/EBITDA', max: 85, fcxValue: null,
     peers: [
       { name:'NEM', value:7.7, status:'reference' },
-      { name:'LIN', value:18.8, status:'reference' },
-      { name:'APD', value:68.3, status:'reference' },
-      { name:'ECL', value:22.5, status:'reference' }
+      { name:'LIN', value:19.3, status:'reference' },
+      { name:'APD', value:72.6, status:'reference' },
+      { name:'ECL', value:23.0, status:'reference' }
     ]
   }
 };
@@ -1827,7 +1827,7 @@ const FCX_FUNDAMENTAL = {"ticker": "FCX", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py FCX --self v2/FCX_multiples.json --card
 /* VALUATION:BEGIN */
-const FCX_VALUATION = {"peer": {"score": 25.7, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 17.6, "rank": 15, "peers": 17}, {"metric": "pbr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "psr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "pcr", "score": 9.1, "rank": 21, "peers": 22}, {"metric": "evebitda", "score": 60.0, "rank": 7, "peers": 15}]}, "self": {"score": 14.7, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 25.7, "percentile": 74.3, "current": 34.26, "min": 7.25, "median": 28.22, "max": 48.12, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 7.7, "percentile": 92.3, "current": 4.97, "min": 2.38, "median": 3.64, "max": 5.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 3.4, "percentile": 96.6, "current": 3.86, "min": 1.48, "median": 2.57, "max": 4.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 32.6, "percentile": 67.4, "current": 56.67, "min": 6.2, "median": 38.75, "max": 165.23, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 4.2, "percentile": 95.8, "current": 13.04, "min": 4.03, "median": 8.47, "max": 14.68, "days": 1255, "currentNote": null}]}};
+const FCX_VALUATION = {"peer": {"score": 25.7, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 17.6, "rank": 15, "peers": 17}, {"metric": "pbr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "psr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "pcr", "score": 9.1, "rank": 21, "peers": 22}, {"metric": "evebitda", "score": 60.0, "rank": 7, "peers": 15}]}, "self": {"score": 14.7, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 25.7, "percentile": 74.3, "current": 34.26, "min": 7.25, "median": 28.22, "max": 48.12, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 7.7, "percentile": 92.3, "current": 4.97, "min": 2.38, "median": 3.64, "max": 5.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 3.4, "percentile": 96.6, "current": 3.86, "min": 1.48, "median": 2.57, "max": 4.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 32.6, "percentile": 67.4, "current": 56.67, "min": 6.2, "median": 38.75, "max": 165.23, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 4.2, "percentile": 95.8, "current": 13.04, "min": 4.03, "median": 8.47, "max": 14.68, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

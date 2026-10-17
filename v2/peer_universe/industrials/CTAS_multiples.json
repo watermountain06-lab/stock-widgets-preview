@@ -1,79 +1,79 @@
 {
  "ticker": "CTAS",
  "window": [
-  "2025-10-13",
-  "2026-10-09"
+  "2025-10-17",
+  "2026-10-16"
  ],
  "multiples": {
   "PER": {
-   "days": 250,
-   "current": 39.92,
+   "days": 251,
+   "current": 42.15,
    "min": 34.58,
-   "p10": 36.33,
-   "median": 40.9,
+   "p10": 36.34,
+   "median": 40.88,
    "p90": 42.74,
    "max": 45.43,
    "mean": 40.11,
-   "percentile": 35.2,
-   "score": 64.8
+   "percentile": 80.1,
+   "score": 19.9
   },
   "PSR": {
-   "days": 250,
-   "current": 7.19,
+   "days": 251,
+   "current": 7.34,
    "min": 5.93,
-   "p10": 6.23,
-   "median": 7.06,
-   "p90": 7.33,
+   "p10": 6.24,
+   "median": 7.05,
+   "p90": 7.34,
    "max": 7.8,
    "mean": 6.9,
-   "percentile": 72.8,
-   "score": 27.2
+   "percentile": 89.6,
+   "score": 10.4
   },
   "PBR": {
-   "days": 250,
-   "current": 15.76,
+   "days": 251,
+   "current": 16.3,
    "min": 13.67,
    "p10": 14.39,
    "median": 15.65,
    "p90": 17.5,
    "max": 18.36,
    "mean": 15.8,
-   "percentile": 55.6,
-   "score": 44.4
+   "percentile": 74.9,
+   "score": 25.1
   },
   "PCR": {
-   "days": 250,
-   "current": 43.06,
+   "days": 251,
+   "current": 41.73,
    "min": 36.57,
-   "p10": 38.25,
-   "median": 43.09,
+   "p10": 38.26,
+   "median": 42.93,
    "p90": 45.03,
    "max": 48.05,
-   "mean": 42.21,
-   "percentile": 49.6,
-   "score": 50.4
+   "mean": 42.11,
+   "percentile": 37.5,
+   "score": 62.5
   },
   "EV/EBITDA": {
-   "days": 130,
-   "current": 26.74,
+   "days": 135,
+   "current": 27.16,
    "min": 22.43,
-   "p10": 23.22,
-   "median": 24.84,
-   "p90": 27.12,
+   "p10": 23.23,
+   "median": 25.12,
+   "p90": 27.14,
    "max": 29.19,
-   "mean": 25.2,
-   "percentile": 79.2,
-   "score": 20.8
+   "mean": 25.23,
+   "percentile": 89.6,
+   "score": 10.4
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 37.8,
-  "per_p75": 41.81,
+  "per_p25": 37.83,
+  "per_p75": 41.82,
   "low": 190,
   "high": 210,
-  "asOf": "2026-10-09",
+  "asOf": "2026-10-16",
   "basis": "diluted"
  }
 }

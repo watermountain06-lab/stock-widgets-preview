@@ -59,8 +59,8 @@ NEWS = [
      '2056년 만기 A종 $1.0B(연 5.875%)·B종 $1.0B(연 6.200%)', 'notes', 'Phillips 66 공시 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 18, 'mean': 273.28, 'median': 284, 'low': 151, 'high': 340, 'sb': 8, 'b': 3, 'h': 7, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-13'
+ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 18, 'mean': 273.83, 'median': 284, 'low': 151, 'high': 345, 'sb': 8, 'b': 3, 'h': 7, 's': 0, 'ss': 2}
+ANALYST_ASOF = '2026-10-17'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 부문 표 외부 고객 매출 Q2 2026 31,297/13,618/5,231/849, 본사 9, 화학 0(CPChem 지분법) — 화학은 ignore(2026-10-13) ──

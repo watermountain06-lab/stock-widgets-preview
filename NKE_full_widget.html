@@ -1006,7 +1006,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">의류·신발 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/9 종가(NKE 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">의류·신발 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1330,59 +1330,59 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '의류·신발 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/9 종가(NKE 막대는 10/16)',
+    title: '의류·신발 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/16 종가',
     unit: 'PER', max: 35, nkeValue: null,
     peers: [
-      { name:'LULU', value:7.8, status:'reference' },
-      { name:'DECK', value:11.8, status:'reference' },
-      { name:'TPR', value:16.0, status:'reference' },
-      { name:'RL', value:23.4, status:'reference' },
-      { name:'TJX', value:25.7, status:'reference' },
-      { name:'ROST', value:26.9, status:'reference' }
+      { name:'LULU', value:8.0, status:'reference' },
+      { name:'DECK', value:12.2, status:'reference' },
+      { name:'TPR', value:16.5, status:'reference' },
+      { name:'RL', value:24.3, status:'reference' },
+      { name:'TJX', value:27.3, status:'reference' },
+      { name:'ROST', value:28.7, status:'reference' }
     ]
   },
   pbr: {
-    title: '의류·신발 PBR 비교 (RL 값 없음) · 10/9 종가(NKE 막대는 10/16)',
+    title: '의류·신발 PBR 비교 (RL 값 없음) · 10/16 종가',
     unit: 'PBR', max: 40, nkeValue: null,
     peers: [
       { name:'LULU', value:2.1, status:'reference' },
-      { name:'DECK', value:4.9, status:'reference' },
-      { name:'TPR', value:33.5, status:'reference' },
-      { name:'TJX', value:14.3, status:'reference' },
-      { name:'ROST', value:10.5, status:'reference' }
+      { name:'DECK', value:5.1, status:'reference' },
+      { name:'TPR', value:34.6, status:'reference' },
+      { name:'TJX', value:15.2, status:'reference' },
+      { name:'ROST', value:11.2, status:'reference' }
     ]
   },
   psr: {
-    title: '의류·신발 PSR 비교 (RL 값 없음) · 10/9 종가(NKE 막대는 10/16)',
+    title: '의류·신발 PSR 비교 (RL 값 없음) · 10/16 종가',
     unit: 'PSR(TTM)', max: 5, nkeValue: null,
     peers: [
       { name:'LULU', value:0.9, status:'reference' },
-      { name:'DECK', value:2.0, status:'reference' },
-      { name:'TPR', value:2.9, status:'reference' },
-      { name:'TJX', value:2.5, status:'reference' },
-      { name:'ROST', value:2.9, status:'reference' }
+      { name:'DECK', value:2.1, status:'reference' },
+      { name:'TPR', value:3.0, status:'reference' },
+      { name:'TJX', value:2.6, status:'reference' },
+      { name:'ROST', value:3.1, status:'reference' }
     ]
   },
   pcr: {
-    title: '의류·신발 PCR(FCF) 비교 (RL 값 없음) · 10/9 종가(NKE 막대는 10/16)',
+    title: '의류·신발 PCR(FCF) 비교 (RL 값 없음) · 10/16 종가',
     unit: 'PCR(FCF)', max: 35, nkeValue: null,
     peers: [
-      { name:'LULU', value:7.4, status:'reference' },
-      { name:'DECK', value:10.1, status:'reference' },
-      { name:'TPR', value:12.8, status:'reference' },
-      { name:'TJX', value:26.0, status:'reference' },
-      { name:'ROST', value:25.5, status:'reference' }
+      { name:'LULU', value:7.6, status:'reference' },
+      { name:'DECK', value:10.5, status:'reference' },
+      { name:'TPR', value:13.2, status:'reference' },
+      { name:'TJX', value:27.6, status:'reference' },
+      { name:'ROST', value:27.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '의류·신발 EV/EBITDA 비교 (RL 값 없음) · 10/9 종가(NKE 막대는 10/16)',
+    title: '의류·신발 EV/EBITDA 비교 (RL 값 없음) · 10/16 종가',
     unit: 'EV/EBITDA', max: 25, nkeValue: null,
     peers: [
-      { name:'LULU', value:4.5, status:'reference' },
-      { name:'DECK', value:7.7, status:'reference' },
-      { name:'TPR', value:12.4, status:'reference' },
-      { name:'TJX', value:17.4, status:'reference' },
-      { name:'ROST', value:18.3, status:'reference' }
+      { name:'LULU', value:4.6, status:'reference' },
+      { name:'DECK', value:7.9, status:'reference' },
+      { name:'TPR', value:12.8, status:'reference' },
+      { name:'TJX', value:18.4, status:'reference' },
+      { name:'ROST', value:19.5, status:'reference' }
     ]
   }
 };

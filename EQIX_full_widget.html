@@ -974,7 +974,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">리츠 6곳 PER 비교 (점수는 S&amp;P500 부동산 기준) · 10/9 종가(EQIX 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">리츠 6곳 PER 비교 (점수는 S&amp;P500 부동산 기준) · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1305,58 +1305,58 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) · 10/9 종가(EQIX 막대는 10/16)',
-    unit: 'PER', max: 120, eqixValue: null,
+    title: '리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) · 10/16 종가',
+    unit: 'PER', max: 125, eqixValue: null,
     peers: [
-      { name:'DLR', value:87.6, status:'reference' },
-      { name:'AMT', value:25.0, status:'reference' },
-      { name:'PLD', value:28.8, status:'reference' },
-      { name:'CCI', value:40.4, status:'reference' },
-      { name:'WELL', value:103.9, status:'reference' },
-      { name:'PSA', value:27.7, status:'reference' }
+      { name:'DLR', value:86.3, status:'reference' },
+      { name:'AMT', value:25.4, status:'reference' },
+      { name:'PLD', value:27.9, status:'reference' },
+      { name:'CCI', value:41.8, status:'reference' },
+      { name:'WELL', value:108.2, status:'reference' },
+      { name:'PSA', value:28.5, status:'reference' }
     ]
   },
   pbr: {
-    title: '리츠 PBR 비교 (CCI 값 없음) · 10/9 종가(EQIX 막대는 10/16)',
+    title: '리츠 PBR 비교 (CCI 값 없음) · 10/16 종가',
     unit: 'PBR', max: 30, eqixValue: null,
     peers: [
       { name:'DLR', value:2.4, status:'reference' },
-      { name:'AMT', value:22.8, status:'reference' },
+      { name:'AMT', value:23.2, status:'reference' },
       { name:'PLD', value:2.2, status:'reference' },
-      { name:'WELL', value:3.5, status:'reference' },
-      { name:'PSA', value:5.5, status:'reference' }
+      { name:'WELL', value:3.6, status:'reference' },
+      { name:'PSA', value:5.7, status:'reference' }
     ]
   },
   psr: {
-    title: '리츠 PSR 비교 · 10/9 종가(EQIX 막대는 10/16)',
+    title: '리츠 PSR 비교 · 10/16 종가',
     unit: 'PSR(TTM)', max: 20, eqixValue: null,
     peers: [
-      { name:'DLR', value:9.8, status:'reference' },
-      { name:'AMT', value:7.8, status:'reference' },
-      { name:'PLD', value:13.2, status:'reference' },
-      { name:'CCI', value:8.1, status:'reference' },
-      { name:'WELL', value:12.7, status:'reference' },
-      { name:'PSA', value:10.4, status:'reference' }
+      { name:'DLR', value:9.6, status:'reference' },
+      { name:'AMT', value:7.9, status:'reference' },
+      { name:'PLD', value:12.8, status:'reference' },
+      { name:'CCI', value:8.4, status:'reference' },
+      { name:'WELL', value:13.3, status:'reference' },
+      { name:'PSA', value:10.7, status:'reference' }
     ]
   },
   pcr: {
-    title: '리츠 PCR(FCF) 비교 (DLR 값 없음·PLD 값 없음·PSA 값 없음) · 10/9 종가(EQIX 막대는 10/16)',
-    unit: 'PCR(FCF)', max: 95, eqixValue: null,
+    title: '리츠 PCR(FCF) 비교 (DLR 값 없음·PLD 값 없음·PSA 값 없음) · 10/16 종가',
+    unit: 'PCR(FCF)', max: 100, eqixValue: null,
     peers: [
-      { name:'AMT', value:21.4, status:'reference' },
-      { name:'CCI', value:20.0, status:'reference' },
-      { name:'WELL', value:80.4, status:'reference' }
+      { name:'AMT', value:21.8, status:'reference' },
+      { name:'CCI', value:20.7, status:'reference' },
+      { name:'WELL', value:83.8, status:'reference' }
     ]
   },
   evebitda: {
-    title: '리츠 EV/EBITDA 비교 (PSA 값 없음) · 10/9 종가(EQIX 막대는 10/16)',
+    title: '리츠 EV/EBITDA 비교 (PSA 값 없음) · 10/16 종가',
     unit: 'EV/EBITDA', max: 75, eqixValue: null,
     peers: [
-      { name:'DLR', value:23.1, status:'reference' },
-      { name:'AMT', value:19.3, status:'reference' },
-      { name:'PLD', value:20.6, status:'reference' },
-      { name:'CCI', value:20.3, status:'reference' },
-      { name:'WELL', value:62.0, status:'reference' }
+      { name:'DLR', value:22.7, status:'reference' },
+      { name:'AMT', value:19.5, status:'reference' },
+      { name:'PLD', value:20.1, status:'reference' },
+      { name:'CCI', value:20.7, status:'reference' },
+      { name:'WELL', value:64.3, status:'reference' }
     ]
   }
 };
@@ -1804,7 +1804,7 @@ const EQIX_FUNDAMENTAL = {"ticker": "EQIX", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py EQIX --self v2/EQIX_multiples.json --card
 /* VALUATION:BEGIN */
-const EQIX_VALUATION = {"peer": {"score": 9.7, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-10-09", "2026-10-09"], "priceSession": null, "metrics": [{"metric": "per", "score": 18.5, "rank": 23, "peers": 27}, {"metric": "pbr", "score": 8.0, "rank": 24, "peers": 25}, {"metric": "psr", "score": 11.1, "rank": 25, "peers": 27}, {"metric": "pcr", "score": 0.0, "rank": 10, "peers": 9}, {"metric": "evebitda", "score": 11.1, "rank": 17, "peers": 18}]}, "self": {"score": 41.4, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.9, "percentile": 0.1, "current": 63.49, "min": 63.09, "median": 84.61, "max": 224.15, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 18.6, "percentile": 81.4, "current": 6.76, "min": 4.33, "median": 6.03, "max": 7.74, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 32.1, "percentile": 67.9, "current": 9.92, "min": 6.64, "median": 9.37, "max": 12.0, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 66.67, "median": 213.45, "max": 1963.73, "days": 878, "currentNote": "negative"}, {"metric": "evebitda", "score": 56.5, "percentile": 43.5, "current": 27.56, "min": 21.41, "median": 27.86, "max": 33.87, "days": 1255, "currentNote": null}]}};
+const EQIX_VALUATION = {"peer": {"score": 9.7, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 18.5, "rank": 23, "peers": 27}, {"metric": "pbr", "score": 8.0, "rank": 24, "peers": 25}, {"metric": "psr", "score": 11.1, "rank": 25, "peers": 27}, {"metric": "pcr", "score": 0.0, "rank": 10, "peers": 9}, {"metric": "evebitda", "score": 11.1, "rank": 17, "peers": 18}]}, "self": {"score": 41.4, "window": ["2021-10-18", "2026-10-16"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.9, "percentile": 0.1, "current": 63.49, "min": 63.09, "median": 84.61, "max": 224.15, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 18.6, "percentile": 81.4, "current": 6.76, "min": 4.33, "median": 6.03, "max": 7.74, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 32.1, "percentile": 67.9, "current": 9.92, "min": 6.64, "median": 9.37, "max": 12.0, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 66.67, "median": 213.45, "max": 1963.73, "days": 878, "currentNote": "negative"}, {"metric": "evebitda", "score": 56.5, "percentile": 43.5, "current": 27.56, "min": 21.41, "median": 27.86, "max": 33.87, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

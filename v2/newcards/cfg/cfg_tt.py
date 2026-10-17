@@ -54,7 +54,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 14, 'mean': 540.64, 'median': 550, 'low': 485, 'high': 575, 'sb': 14, 'b': 3, 'h': 8, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-16'
+ANALYST_ASOF = '2026-10-17'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 지역 축(StatementGeographicalAxis)이지만 값이 부문 주석과 같다:

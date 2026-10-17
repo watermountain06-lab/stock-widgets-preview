@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">소매 유통 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/9 종가(LOW 막대는 10/16)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">소매 유통 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/16 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1074,7 +1074,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 71.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 25.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 2.9%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-16</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
         <span class="op-val"><span data-an="mean">$252</span> <span class="op-sub op-up" data-an="upside">+27.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1279,62 +1279,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '소매 유통 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/9 종가(LOW 막대는 10/16)',
+    title: '소매 유통 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/16 종가',
     unit: 'PER', max: 35, lowValue: null,
     peers: [
-      { name:'HD', value:20.4, status:'reference' },
-      { name:'TSCO', value:17.6, status:'reference' },
-      { name:'TJX', value:25.7, status:'reference' },
-      { name:'WSM', value:24.8, status:'reference' },
-      { name:'BBY', value:14.5, status:'reference' },
-      { name:'ORLY', value:27.5, status:'reference' }
+      { name:'HD', value:21.7, status:'reference' },
+      { name:'TSCO', value:17.4, status:'reference' },
+      { name:'TJX', value:27.3, status:'reference' },
+      { name:'WSM', value:25.6, status:'reference' },
+      { name:'BBY', value:15.4, status:'reference' },
+      { name:'ORLY', value:28.4, status:'reference' }
     ]
   },
   pbr: {
-    title: '소매 유통 PBR 비교 (ORLY 값 없음) · 10/9 종가(LOW 막대는 10/16)',
+    title: '소매 유통 PBR 비교 (ORLY 값 없음) · 10/16 종가',
     unit: 'PBR', max: 25, lowValue: null,
     peers: [
-      { name:'HD', value:17.5, status:'reference' },
-      { name:'TSCO', value:6.7, status:'reference' },
-      { name:'TJX', value:14.3, status:'reference' },
-      { name:'WSM', value:13.3, status:'reference' },
-      { name:'BBY', value:5.7, status:'reference' }
+      { name:'HD', value:18.6, status:'reference' },
+      { name:'TSCO', value:6.6, status:'reference' },
+      { name:'TJX', value:15.2, status:'reference' },
+      { name:'WSM', value:13.8, status:'reference' },
+      { name:'BBY', value:6.1, status:'reference' }
     ]
   },
   psr: {
-    title: '소매 유통 PSR 비교 · 10/9 종가(LOW 막대는 10/16)',
+    title: '소매 유통 PSR 비교 · 10/16 종가',
     unit: 'PSR(TTM)', max: 5, lowValue: null,
     peers: [
-      { name:'HD', value:1.7, status:'reference' },
+      { name:'HD', value:1.8, status:'reference' },
       { name:'TSCO', value:1.1, status:'reference' },
-      { name:'TJX', value:2.5, status:'reference' },
-      { name:'WSM', value:3.6, status:'reference' },
-      { name:'BBY', value:0.4, status:'reference' },
-      { name:'ORLY', value:3.8, status:'reference' }
+      { name:'TJX', value:2.6, status:'reference' },
+      { name:'WSM', value:3.7, status:'reference' },
+      { name:'BBY', value:0.5, status:'reference' },
+      { name:'ORLY', value:3.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '소매 유통 PCR(FCF) 비교 · 10/9 종가(LOW 막대는 10/16)',
-    unit: 'PCR(FCF)', max: 70, lowValue: null,
+    title: '소매 유통 PCR(FCF) 비교 · 10/16 종가',
+    unit: 'PCR(FCF)', max: 65, lowValue: null,
     peers: [
-      { name:'HD', value:19.2, status:'reference' },
-      { name:'TSCO', value:57.2, status:'reference' },
-      { name:'TJX', value:26.0, status:'reference' },
-      { name:'WSM', value:21.2, status:'reference' },
-      { name:'BBY', value:10.3, status:'reference' },
-      { name:'ORLY', value:32.4, status:'reference' }
+      { name:'HD', value:20.5, status:'reference' },
+      { name:'TSCO', value:56.3, status:'reference' },
+      { name:'TJX', value:27.6, status:'reference' },
+      { name:'WSM', value:21.9, status:'reference' },
+      { name:'BBY', value:11.0, status:'reference' },
+      { name:'ORLY', value:33.5, status:'reference' }
     ]
   },
   evebitda: {
-    title: '소매 유통 EV/EBITDA 비교 · 10/9 종가(LOW 막대는 10/16)',
+    title: '소매 유통 EV/EBITDA 비교 · 10/16 종가',
     unit: 'EV/EBITDA', max: 25, lowValue: null,
     peers: [
-      { name:'HD', value:14.3, status:'reference' },
-      { name:'TSCO', value:12.9, status:'reference' },
-      { name:'TJX', value:17.4, status:'reference' },
-      { name:'WSM', value:16.4, status:'reference' },
-      { name:'BBY', value:8.0, status:'reference' },
-      { name:'ORLY', value:19.0, status:'reference' }
+      { name:'HD', value:15.1, status:'reference' },
+      { name:'TSCO', value:12.7, status:'reference' },
+      { name:'TJX', value:18.4, status:'reference' },
+      { name:'WSM', value:16.9, status:'reference' },
+      { name:'BBY', value:8.5, status:'reference' },
+      { name:'ORLY', value:19.6, status:'reference' }
     ]
   }
 };
@@ -2079,7 +2079,7 @@ const LOW_ACTIVITY = {"ticker": "LOW", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/low/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const LOW_ANALYST = { asOf: '2026-10-16', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 35, nTargets: 22, mean: 252, median: 258,
+const LOW_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 35, nTargets: 22, mean: 252, median: 258,
   low: 190, high: 275, strongBuy: 20, buy: 5, hold: 9, sell: 1, strongSell: 0 };
 (function(){
   const A = LOW_ANALYST, last = (typeof LOW_DAILY !== 'undefined' && LOW_DAILY.length) ? LOW_DAILY[LOW_DAILY.length - 1] : null;
