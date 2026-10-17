@@ -1,79 +1,79 @@
 {
  "ticker": "PANW",
  "window": [
-  "2021-10-15",
-  "2026-10-15"
+  "2021-10-18",
+  "2026-10-16"
  ],
  "multiples": {
   "PER": {
-   "days": 916,
-   "current": 494.68,
+   "days": 917,
+   "current": 456.91,
    "min": 79.97,
-   "p10": 98.55,
-   "median": 118.54,
-   "p90": 371.62,
+   "p10": 98.56,
+   "median": 118.55,
+   "p90": 376.03,
    "max": 6478.86,
-   "mean": 580.13,
-   "percentile": 90.5,
-   "score": 9.5
+   "mean": 579.99,
+   "percentile": 90.3,
+   "score": 9.7
   },
   "PSR": {
    "days": 1255,
-   "current": 26.38,
+   "current": 24.37,
    "min": 6.97,
    "p10": 9.26,
-   "median": 12.73,
-   "p90": 16.02,
+   "median": 12.74,
+   "p90": 16.03,
    "max": 30.43,
-   "mean": 13.38,
-   "percentile": 95.9,
-   "score": 4.1
+   "mean": 13.39,
+   "percentile": 93.9,
+   "score": 6.1
   },
   "PBR": {
    "days": 1255,
-   "current": 11.02,
+   "current": 10.18,
    "min": 7.67,
-   "p10": 14.11,
+   "p10": 14.09,
    "median": 24.36,
    "p90": 155.51,
    "max": 525.85,
-   "mean": 73.95,
-   "percentile": 4.9,
-   "score": 95.1
+   "mean": 73.9,
+   "percentile": 3.3,
+   "score": 96.7
   },
   "PCR": {
    "days": 1255,
-   "current": 73.64,
+   "current": 68.02,
    "min": 16.67,
    "p10": 23.21,
    "median": 35.35,
-   "p90": 44.84,
+   "p90": 44.88,
    "max": 85.08,
-   "mean": 36.66,
-   "percentile": 95.9,
-   "score": 4.1
+   "mean": 36.68,
+   "percentile": 93.9,
+   "score": 6.1
   },
   "EV/EBITDA": {
-   "days": 1105,
-   "current": 195.08,
+   "days": 1106,
+   "current": 180.16,
    "min": 62.82,
-   "p10": 81.07,
-   "median": 114.0,
-   "p90": 519.18,
+   "p10": 81.08,
+   "median": 114.02,
+   "p90": 519.1,
    "max": 4015.73,
-   "mean": 373.68,
-   "percentile": 79.8,
-   "score": 20.2
+   "mean": 373.51,
+   "percentile": 73.6,
+   "score": 26.4
   }
  },
  "perBasis": "core",
  "perNA": null,
  "fairBand": {
   "per_p25": 113.64,
-  "per_p75": 321.26,
+  "per_p75": 322.63,
   "low": 90,
   "high": 240,
-  "asOf": "2026-10-15",
+  "asOf": "2026-10-16",
   "basis": "core"
  }
 }
