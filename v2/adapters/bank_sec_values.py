@@ -28,7 +28,7 @@ CACHE = os.path.join(V2, ".sec_cache", "ixbrl_bank")
 UA = "kim research gptjhss@gmail.com"
 SINCE = "2020-06-30"   # 5년 자기 이력 + 출발 TTM·기초 자본
 CARDS = {"JPM": "0000019617", "BAC": "0000070858", "WFC": "0000072971", "GS": "0000886982", "MS": "0000895421",
-         "C": "0000831001", "AXP": "0000004962", "SCHW": "0000316709", "COF": "0000927628"}
+         "C": "0000831001", "AXP": "0000004962", "SCHW": "0000316709", "COF": "0000927628", "BNY": "0001390777"}
 IA_STD = ["us-gaap:IntangibleAssetsNetExcludingGoodwill", "us-gaap:FiniteLivedIntangibleAssetsNet",
           "us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill", "us-gaap:OtherIntangibleAssetsNet"]
 IA_CUSTOM = re.compile(r"^(?!us-gaap:)\w+:\w*Intangible\w*$", re.I)

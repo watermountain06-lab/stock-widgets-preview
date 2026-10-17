@@ -33,6 +33,10 @@ ACK = os.path.join(V2, "research", "bank_ack.json")   # 7판 N4 — 사람이 �
 # (PaymentsForRepurchaseOfCommonStock은 2013년에 멈춤, 2026-10-01). 우선주 잔액은 회사 고유 태그라 adapters/ms_preferred.py가 overlay에 싣는다.
 BUY_TAGS = {"MS": ["StockRepurchasedDuringPeriodValue"]}
 # 보통주 배당 현금을 PaymentsOfDividendsCommonStock 대신 다른 태그로 내는 은행(BAC: DividendsCommonStockCash, 2026-10-01)
+# 보통주 배당 현금 태그가 중간에 끊기고 배당 합계(보통주 + 우선주)만 남은 은행 — 빈 분기를 합계 − 우선주 배당으로 메운다.
+# BNY: PaymentsOfDividendsCommonStock은 2025-12까지, 2026년부터 "Cash dividends paid"(PaymentsOfDividends, 우선주 포함)만 — 2025년 비교 수치
+# 6개월 792 = 보통주 689 + 우선주 103으로 정의 확인(2026-10-17).
+DIV_COM_FILL = {"BNY"}
 DIV_COM_TAGS = {"BAC": ["DividendsCommonStockCash"],
                 "SCHW": ["DividendsCommonStockCash"]}   # SCHW: PaymentsOfDividends − DividendsPreferredStock 폴백의 우선주 태그가 없다(…Cash로만), BAC와 같은 선언 기준(2026-10-01)
 
@@ -141,6 +145,18 @@ class Bank:
         self.div_all = flow_q(c, ["PaymentsOfDividends"], ticker, asof)
         self.div_com = flow_q(c, DIV_COM_TAGS.get(ticker, ["PaymentsOfDividendsCommonStock"]), ticker, asof)
         self.div_pref = flow_q(c, ["DividendsPreferredStock"], ticker, asof)
+        if ticker in DIV_COM_FILL:
+            # 우선주 배당(DividendsPreferredStock, 손익계산서 차감액)에는 비현금 할인 상각이 섞인다 — 현금 배당 = 그 값 − PreferredStockAccretionOfRedemptionDiscount
+            # (BNY 2026 상반기 135 − 6 = 129 = 자본변동표 우선주 배당, Codex 2026-10-17). 상각은 누계로만 나와 같은 해 직전 분기 누계를 빼고, 없으면 0.
+            _acc = {(r["start"], r["end"]): r["val"] for r in _facts(c, "PreferredStockAccretionOfRedemptionDiscount")
+                    if "start" in r and r["start"][5:] == "01-01" and (not asof or r["filed"] <= asof)}
+            def _acc_q(e_):
+                y_ = e_[:4] + "-01-01"
+                prev_ = qends_before(e_, 1)[0]
+                return _acc.get((y_, e_), 0) - (_acc.get((y_, prev_), 0) if prev_[:4] == e_[:4] else 0)
+            for e_, (a_, fa_) in self.div_all.items():
+                if e_ not in self.div_com and e_ in self.div_pref:
+                    self.div_com[e_] = (a_ - (self.div_pref[e_][0] - _acc_q(e_)), max(fa_, self.div_pref[e_][1]))
         self.buy = flow_q(c, BUY_TAGS.get(ticker, ["PaymentsForRepurchaseOfCommonStock"]), ticker, asof)
         self.iss = flow_q(c, ["ProceedsFromIssuanceOfCommonStock"], ticker, asof)
         self.iss_ever = ever(c, "ProceedsFromIssuanceOfCommonStock", asof if self.ed >= 7 else None)

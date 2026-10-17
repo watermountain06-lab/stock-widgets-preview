@@ -575,7 +575,8 @@ def texts(C, ns):
     dcf_txt = ("현금흐름 내재가치(기본)는 음수라 계산할 수 없다" if neg_dcf else
                f"현금흐름 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}다" if ratio else "")
     risk = f"세 칸이 {ns['VOTES_TXT']}, 합계 {ns['TOTAL_TXT']} “{ns['VERDICT']}”이다." + (f" {dcf_txt}." if dcf_txt else "")
-    nxt = f"{C.CHECK_WHEN.split(' · ')[0]} {A['next_label']} 실적 공시."
+    _w = C.CHECK_WHEN.split(' · ')[0]
+    nxt = f"{_w} 실적 공시." if _w == A['next_label'] else f"{_w} {A['next_label']} 실적 공시."   # 일정 추정이 없으면 CHECK_WHEN이 분기 이름뿐 — "Q4 FY26 Q4 FY26" 겹침(ADBE 2026-10-17)
     if trend_txt:
         bl.insert(1, f"최근 세 분기 매출 증가율(1년 전 대비, 환율·인수 포함): {trend_txt}.")
     C.SUMMARY = (head, f"{vx}·{gx}", [], risk, nxt)   # 숫자 목록은 싣지 않는다(2026-10-10 사용자 결정) — 같은 숫자가 기본적 분석 탭에 있다

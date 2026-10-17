@@ -70,7 +70,7 @@ def hand_dates(C):
 ET = ZoneInfo("America/New_York")
 # 실적 보도자료 첫머리 — 2.02항이라도 가이던스 수정(ABBV IPR&D 2026-10-06)·인도량(TSLA 2026-10-02)처럼 실적 발표가 아닌 공시가 있다
 # 첫머리 300자(제목 부분)만 본다 — 본문의 "실적은 ○일에 발표한다"(TSLA 인도량 보도자료)에 걸리지 않게
-RESULTS = re.compile(r"\b(reports?|announces?)\b.{0,120}?\b(results|quarter|earnings)\b|earnings release|results for the (first|second|third|fourth|fiscal)", re.I)   # CB "Chubb Reports Second Quarter Per Share Net Income"(2026-10-11)
+RESULTS = re.compile(r"\b(reports?|announces?|delivers?)\b.{0,120}?(\b(results|quarter|earnings)\b|\bQ[1-4]\b.{0,40}?\b(results|revenue)\b(?!\s+(guidance|outlook)))|earnings release|results for the (first|second|third|fourth|fiscal)", re.I)   # CB "Chubb Reports Second Quarter Per Share Net Income"(2026-10-11), ADBE "Adobe Reports Record Q4 and FY2025 Revenue"(2026-10-17)
 
 
 def when(acc):

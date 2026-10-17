@@ -4,7 +4,7 @@
 방법론·산식의 기준은 따로 있다: 은행 `v2/research/bank_rim_prereg.md`, 판정 구조 `v2/research/verdict_structure_prereg.md`, 백테스트 `v2/refresh_backtest.py` 머리 설명.
 원칙(숫자 지어내지 않기, 배열 손으로 치지 않기, Codex·Fable 검토)은 `/ticker` 스킬 플레이북(stock-widgets-redesign/.claude/skills/ticker/playbook.md)과 같다.
 
-지금 카드 118장(2026-10-17 기준, VLO·MO·PSX·LMT·MCK·CVS·ADP·SYK·LOW·SBUX·CME·TT·FCX·NKE·EQIX 추가): 비은행 생성기 카드 107장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 9장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
+지금 카드 121장(2026-10-17 기준, VLO·MO·PSX·LMT·MCK·CVS·ADP·SYK·LOW·SBUX·CME·TT·FCX·NKE·EQIX·ADBE·BNY·PWR 추가): 비은행 생성기 카드 109장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 10장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
 매일·토요일 실행은 `daily_price.py`(GitHub Actions `.github/workflows/v2_cards.yml`)가 cfg가 있는 카드를 모두 돈다 — 새 카드를 워크플로에 따로 등록하지 않는다.
 
 ## 파일
@@ -30,6 +30,7 @@
 
 - 저장소 루트에서 http 서버: `python3 -m http.server 8765`(포트를 쓰고 있으면 다른 포트 + `--sync-base http://localhost:PORT`, 은행은 `SYNC_BASE`). **그 포트가 이 저장소를 띄우고 있는지** `lsof -p $(lsof -t -iTCP:PORT -sTCP:LISTEN) | grep cwd`로 확인한다 — 다른 체크아웃을 띄운 서버가 200을 돌려준다(2026-10-13).
 - Node(JS 문법 검사), Chrome(`compare_render`·`sync_fallbacks`, 경로가 다르면 `CHROME`).
+- **push 시점**: v2 카드 작업(Actions `v2 cards rebuild`)이 도는 동안에는 카드·`site_data/`를 push하지 않는다 — `gh run list -w v2_cards.yml -L 1`로 확인하고, 끝나면 `git pull` 뒤 올린다. 겹치면 그 실행의 rebase가 충돌해 주간 결과가 통째로 빠진다(2026-10-17 `tier_history.json` 충돌로 실패).
 
 ## 종류별 경로 — 먼저 종목이 어느 종류인지 판별한다 (2026-10-14 사용자 결정)
 
@@ -44,7 +45,7 @@
 | 종류 | 알아보는 신호 | 경로·쓸 장치 | 전례 |
 |---|---|---|---|
 | **일반** | 아래 어디에도 안 걸림 | 아래 "새 종목 순서" 그대로 | VLO·MO |
-| **은행** | GICS Diversified·Regional Banks, 예대 사업 | 아래 "은행" 절(RIM, `bank/rebuild.sh`) — 일반 경로 아님 | JPM·BAC·COF 등 9장 |
+| **은행** | GICS Diversified·Regional Banks, 예대 사업(수탁은행 BNY도 — 예금 조달·CET1 규제, 2026-10-17 사용자 결정) | 아래 "은행" 절(RIM, `bank/rebuild.sh`) — 일반 경로 아님 | JPM·BAC·COF 등 9장 |
 | **보험** | 손해·생명보험(GICS Insurance) | `BUILD['no_dcf']`(현금흐름 미적용, "판정 보류") | CB·PGR |
 | **영업이익 줄 없음** | `--data`에서 OPM·EV/EBITDA "계산 불가", 손익계산서에 Operating income 줄이 없음 | `build_multiple_history.DERIVED_OPINC`(세전 + 이자 = 정유·석유 규칙, 세전 − 영업외 = 제약 규칙 — 유도식이 무엇을 남기는지 원문 대조), 세전이익 태그가 다르면 `build_dcf.PRETAX_TAG_BY_CIK`, 이자 태그가 엔진 목록 밖이면 `interest_extra.json`. 카드 문구는 자동으로 "합성 영업이익(세전이익 기준)". 세전 태그 이름이 중간에 바뀌었으면 세전 태그를 목록으로(앞 태그 우선 — ADP) | PSX·XOM·COP·LLY·JNJ·TJX·BX·ADP |
 | **핵심 줄이 회사 고유 태그·끊긴 태그** | `--data` 경고 `N일 뒤처짐`(capex·dda·debt·lease), EV/EBITDA·PCR "계산 불가" | 회사 고유 태그면 cfg `BUILD['company_tags']`(매일 실행도 캐시에 없으면 받는다), 표준 대체 태그면 `EXTRA_TAGS`·`EXCLUDE_TAGS`, 차입금은 `EV_TAGS_BY_CIK`, 재고는 `build_activity_score.INV_TAG_BY_CIK` | LMT(감가상각·재고)·PSX(설비투자·차입금)·COP·VLO(설비투자·감가상각·차입금)·ADP(설비투자·환매조건부 차입)·SYK(차입금 유동분·멈춘 비지배지분)·LOW(차입금 유동분, 이자비용 — 수집기 `CONCEPTS_BY_CIK`)·SBUX(멈춘 현금 태그)·CME(차입금 0·감가상각 연간만·순이익·자사주 태그)·TT(분기 현금 태그·유동 차입금·연간 리스)·FCX(연간 EPS 태그·매출·설비투자 부문 태깅·옛 우선주·재고 세 줄) |

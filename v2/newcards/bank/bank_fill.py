@@ -75,7 +75,9 @@ def q(tags):
     return {e['end']: e['val'] for e in bmh.quarterly_flow(rows, T)}
 
 
-rev = q([K.REV_TAG]); ni = q(['NetIncomeLossAvailableToCommonStockholdersBasic'])
+# REV_TAG가 튜플이면 구성 태그의 합 — 총수익을 한 태그로 분기 공시하지 않는 은행(BNY: 비이자수익 + 순이자수익, 2026-10-17)
+_sum_q = lambda tags: (lambda ds: {k: sum(d_[k] for d_ in ds) for k in set.intersection(*(set(d_) for d_ in ds))})([q([t_]) for t_ in tags])
+rev = _sum_q(K.REV_TAG) if isinstance(K.REV_TAG, tuple) else q([K.REV_TAG]); ni = q(['NetIncomeLossAvailableToCommonStockholdersBasic'])
 nie = q(['NoninterestExpense']); nii = q(['InterestIncomeExpenseNet'])
 ks = sorted(k for k in rev if k <= L and k in ni and k in nie and k in nii)[-8:]
 assert ks[-1] == L, (ks[-1], L)
@@ -138,6 +140,18 @@ elif _cr:   # 작년 보도자료가 SEC 최근 공시 목록 밖이면(JPM·GS�
     NEXT_OP = (f'{_est.month}월 {_est.day}일 무렵', f'{_nl} 예상'); CHECK_WHEN = f'{_est.year}년 {_est.month}월 {_est.day}일 무렵 (예상) · {_nl}'
 else:
     NEXT, NEXT_OP, CHECK_WHEN = ('미정', f'일정 · {_nl}'), ('미정', _nl), _nl
+CHECK_TAIL = ' 실적 공시.'
+# 다음 분기 실적 보도자료가 카드 날짜까지 이미 나왔으면(은행은 10-Q보다 2~3주 먼저) '예상'이 아니라 '발표됨'으로 — 재무·RIM은 아직 이번 10-Q 기준(BNY 10/15, Codex 2026-10-17)
+_ny, _nm = int(cur[:4]) + (int(cur[5:7]) + 3 > 12), (int(cur[5:7]) + 3 - 1) % 12 + 1
+_nq_end = f'{_ny}-{_nm:02d}-{ {3: 31, 6: 30, 9: 30, 12: 31}[_nm] }'
+_nr = first_rel(_nq_end)
+if _nr and _nr[0] <= asof:
+    _d = dt.date.fromisoformat(_nr[0])
+    _rq, _rn = ('10-K' if cur.endswith('12-31') else '10-Q'), ('10-K' if _nq_end.endswith('12-31') else '10-Q')   # 4분기는 10-K(Codex 2차)
+    NEXT = (f'{_d.month}월 {_d.day}일 발표됨', f'{_nl} 실적 · 재무·내재가치는 {QL} {_rq} 기준({_nl} {_rn} 반영 전)')
+    NEXT_OP = (f'{_d.month}월 {_d.day}일 발표됨', f'{_nl} {_rn} 반영 전')
+    CHECK_WHEN = f'{_nl} {_rn}(실적은 {_d.month}월 {_d.day}일 발표됨)'
+    CHECK_TAIL = ' 반영.'
 
 # ── 1. 헤더 ──
 sub(r'<span class="meta-label">현재가 요구 성장 \(5년 · 실제 3년 [^)]*\)</span>',
@@ -244,7 +258,9 @@ def _ann(tag):
     return {k: v[0] for k, v in out.items()}
 
 
-_ra, _na = _ann(K.REV_TAG), _ann('NetIncomeLossAvailableToCommonStockholdersBasic')
+_ra = ((lambda ds: {k: sum(d_[k] for d_ in ds) for k in set.intersection(*(set(d_) for d_ in ds))})([_ann(t_) for t_ in K.REV_TAG])
+       if isinstance(K.REV_TAG, tuple) else _ann(K.REV_TAG))
+_na = _ann('NetIncomeLossAvailableToCommonStockholdersBasic')
 FY1 = max(k for k in _ra if k in _na); FY0 = f'{int(FY1[:4]) - 5}-12-31'
 cagr = lambda d_: ((d_[FY1] / d_[FY0]) ** (1 / 5) - 1) * 100 if FY0 in d_ and d_[FY0] > 0 and d_[FY1] > 0 else None
 CAGR_REV, CAGR_NI = cagr(_ra), cagr(_na)
@@ -313,7 +329,7 @@ _tbv = lambda e: (bank.tce(e)[0] / bank.shares(e)[0]) if bank.tce(e) and bank.sh
 BVPS, TBVPS = _bv(L), _tbv(L)
 extra = ((xrow('CET1 비율 (표준방식)', f'{CET1 * 100:.1f}%', f'{qd_(L)} 원문 공시') if CET1 else '')
          + (xrow('주당 장부가치 (BVPS)', f'${BVPS:.2f}', f'1년 전 대비 {pc(chg(BVPS, _bv(yo)))} · 보통주 자본 ÷ 분기말 주식 수(SEC 10-Q)' + (f' · {K.BV_NOTE}' if K.BV_NOTE and 'BVPS' in K.BV_NOTE + 'GS' and T == 'GS' else '')) if BVPS else '')
-         + (xrow('주당 유형 장부가치 (TBVPS)', f'${TBVPS:.2f}', f'1년 전 대비 {pc(chg(TBVPS, _tbv(yo)))} · 영업권·무형자산을 뺀 값, 이연법인세 미가산(카드의 P/TBV 분모)' + (f' · {K.BV_NOTE}' if K.BV_NOTE and T == 'COF' else '')) if TBVPS else ''))
+         + (xrow('주당 유형 장부가치 (TBVPS)', f'${TBVPS:.2f}', f'1년 전 대비 {pc(chg(TBVPS, _tbv(yo)))} · 영업권·무형자산을 뺀 값, 이연법인세 미가산(카드의 P/TBV 분모)' + (f' · {K.BV_NOTE}' if K.BV_NOTE and T != 'GS' else '')) if TBVPS else ''))   # BV_NOTE: GS는 BVPS 줄, 나머지는 TBVPS 줄(2026-10-17 COF 하드코딩 → BNY도)
 sub(r'(<span class="diag-note" id="fundNetCashNote">[^<]*</span></div>\n        <div class="diag-badge info">ℹ️ 참고</div>\n      </div>\n)', lambda m: m.group(1) + extra)
 sub(r'<div style="margin-top:14px;font-size:11\.5px;color:var\(--text2\);line-height:1\.6;">유동비율·당좌비율.*?</div>',
     '<div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">은행은 예금이 부채라 유동·당좌·차입 비율과 이자보상배율이 뜻이 없어 해당 없음으로 두고, '
@@ -437,8 +453,12 @@ _rank = (PEER.get('ptbv') or {}).get('rank'), (PEER.get('ptbv') or {}).get('peer
 _hy = f'{_ptd / 252:.1f}년' if _ptd and _ptd < 1200 else '5년'
 PREM = (f'P/TBV {_ptbv_now:.2f}배는 자기 {_hy} 이력의 {"위쪽" if (SH["ptbv"]["percentile"] >= 50) else "아래쪽"}(상위 {100 - SH["ptbv"]["percentile"]:.0f}%)' if isinstance(_ptbv_now, (int, float)) else 'P/TBV 이력이 없다')
 _ntot = (_rank[1] or 0) + 1
-PREM += ((f'이고 S&P500 은행 {_ntot}곳(본인 포함) 중 가장 비싸다. ' if _rank[0] == _ntot else f'이고 S&P500 은행 {_ntot}곳(본인 포함) 중 가장 싸다. ' if _rank[0] == 1
-          else f'이고 S&P500 은행 {_ntot}곳(본인 포함) 중 비싼 쪽부터 {_ntot - _rank[0] + 1}번째다. ') if _rank[0] else '. ')
+_inu = T in json.load(open(os.path.join(V2, 'peer_universe', 'banks.json')))['tickers']   # 비교군(S&P500 대형·지역 은행) 밖 은행 — BNY 수탁은행(2026-10-17)
+_grp = f'S&P500 은행 {_ntot}곳(본인 포함)' if _inu else f'비교군 S&P500 대형·지역 은행 {_ntot - 1}곳' + (f'({K.PEER_NOTE})' if getattr(K, 'PEER_NOTE', '') else '') + '과 견주면'
+PREM += ((f'이고 {_grp} 중 가장 비싸다. ' if _rank[0] == _ntot else f'이고 {_grp} 중 가장 싸다. ' if _rank[0] == 1
+          else f'이고 {_grp} 중 비싼 쪽부터 {_ntot - _rank[0] + 1}번째다. ') if _rank[0] else '. ')
+if not _inu:
+    PREM = PREM.replace(f'{_grp} 중 가장 비싸다', f'{_grp} 가장 비싸다').replace(f'{_grp} 중 가장 싸다', f'{_grp} 가장 싸다').replace(f'{_grp} 중 비싼 쪽부터', f'{_grp} 비싼 쪽부터')
 PREM += (f'<strong>초과이익모형 기본 가치 ${R["기본"]:.0f}은 현재가의 {1 / lvl * 100:.0f}%</strong>로, 지금 가격은 ROE {f1(R["required_roe"])}가 5년 이어진다는 값이다(최근 4분기 {f1(R["roe0"])}, GAAP).'
          if lvl is not None and R.get('required_roe') is not None else '')
 sub(r'<div class="vs-premise">.*?</div>\n    <div class="verdict-summary-risk">.*?</div>',
@@ -549,7 +569,7 @@ _tag = ('수익성 ' + ('높음' if _roe_now and _roe_now[0] >= 0.15 else '자�
 SUM = (f'<div class="verdict-summary-head">지배적 내러티브 · {HEAD}<span class="tag">{_tag}</span></div>\n'
        f'    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 {sgn(v_self)} · 동종업 {sgn(v_peer)} · 초과이익 {sgn(_d)}, 종합 "{VERD}"이다.'
        + (f' 초과이익모형 기본 가치(${R["기본"]:.0f})는 현재가의 {1 / lvl * 100:.0f}%다.' if lvl else '') + '</div>\n'
-       f'    <div class="verdict-summary-next">🔍 다음 확인 포인트 · {CHECK_WHEN} 실적 공시.</div>')
+       f'    <div class="verdict-summary-next">🔍 다음 확인 포인트 · {CHECK_WHEN}{CHECK_TAIL}</div>')
 sub(r'<div class="verdict-summary-head">지배적 내러티브.*?<div class="verdict-summary-next">.*?</div>', SUM)
 row = lambda k, head, t_: f'<div class="bb-row {k}"><span class="bb-icon">{"▲" if k == "bull" else "▼"}</span><span class="bb-head">{head}</span><span class="bb-text">{t_}</span></div>'
 cand = []

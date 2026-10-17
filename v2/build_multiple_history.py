@@ -791,6 +791,15 @@ def quarterly_flow(entries, ticker):
                 "filed": a["filed"],
                 "start": a["start"],
             }
+        elif ok and a["end"] in q and q[a["end"]]["filed"] > a["filed"]:
+            # 4분기 3개월 값을 나중 공시(다음 해 실적 8-K·10-K 비교 수치)가 처음 직접 실으면 그 늦은 행이 골라져 4분기 공개일이 1년 밀렸다
+            # (PWR: 2025-02-20 실적 8-K XBRL에 2023년 4분기 — 2023-12~2024-12 영업이익 TTM이 전부 2025-02-20 공개, EV/EBITDA 138일 빔, 2026-10-17).
+            # 연간 − 앞 세 분기로 같은 값(±0.5%)이 그때 알려졌으면 그 역산값과 그 날로 — 나중 값을 소급하지 않고, 기존 공개일보다 빠를 때만(Codex 2026-10-17).
+            _d = a["val"] - sum(p["val"] for p in parts)
+            _qv = q[a["end"]]["val"]
+            _cand = max([a["filed"]] + [p["filed"] for p in parts])
+            if abs(_d - _qv) <= 0.005 * max(abs(_qv), 1) and _cand < q[a["end"]]["filed"]:
+                q[a["end"]] = {**q[a["end"]], "val": _d, "filed": _cand}
     return sorted(q.values(), key=lambda e: e["end"])
 
 
@@ -1025,13 +1034,13 @@ def dda_quarters(cik, ticker):
             # 튜플(이름만 바뀐 같은 줄)은 새 이름이 옛 분기를 비교 수치로 다시 실어 quarterly_flow가 그 늦은 행을 고른다 — 공개일은 처음 알려진 날로
             # (NKE 2024-11·2025-02 분기가 2025-12·2026-04 공개로 잡혀 EV/EBITDA가 2025-07~2026-03 비었다, 2026-10-17)
             # 단, 처음 알려진 날 공개된 행만으로 같은 값이 나올 때만 — 나중 비교 수치가 고쳐진 값이면 소급하지 않는다(Codex 2026-10-17)
-            f_ = e["filed"]
+            f_, v_ = e["filed"], e["val"]
             if isinstance(name, tuple) and known < e["filed"]:
                 _early = {x["end"]: x["val"] for x in quarterly_flow([r for r in part if r.get("filed", "9999") <= known], ticker)}
                 if e["end"] in _early and abs(_early[e["end"]] - e["val"]) <= 0.005 * max(abs(e["val"]), 1):
-                    f_ = known
+                    f_, v_ = known, _early[e["end"]]   # 그때 알던 값으로(Codex PWR 검토 — 나중 값을 소급하지 않는다)
             slot = per_end.setdefault(e["end"], {"val": 0.0, "filed": f_})
-            slot["val"] += e["val"]
+            slot["val"] += v_
             slot["filed"] = max(slot["filed"], f_)
     out = [{"end": k, "val": v["val"], "filed": v["filed"], "start": k}
            for k, v in per_end.items()]
@@ -1168,6 +1177,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # EQIX: 기본 선택은 세부 태그가 끊긴 뒤 LongTermDebt만 잡아 금융리스 $2,280M이 빠졌다 — 선순위채·대출 원금(LongTermDebt $19,873M, 장부가 $19,709M)
                   # + 금융리스(유동 176 + 비유동 2,104). 2026-06-30 합계 $22,153M(2026-10-17).
                   "0001101239": ["LongTermDebt", "FinanceLeaseLiability"],
+                  # ADBE: LongTermDebt는 비유동분만 — 1년 안 만기분은 DebtCurrent($1,597M, 2026-08-28)라 기본 선택에서 빠졌다(엔진 $4,766M 대 재무상태표 $6,363M, 2026-10-17).
+                  "0000796343": ["DebtCurrent", "LongTermDebt"],
                   # ETN: 1년 안 만기 장기차입금을 LongTermDebtAndCapitalLeaseObligationsCurrent로 내 기본 목록에서 빠졌다(FY2025 말 $1,136M —
                   # 엔진 $8,759M 대 재무상태표 $9,895M, Codex 2026-10-01). 금융리스 포함 태그라 금융리스를 따로 더하지 않는다.
                   "0001551182": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],

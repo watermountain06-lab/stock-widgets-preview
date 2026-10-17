@@ -2073,5 +2073,43 @@
     "#f0667f"
    ]
   }
+ },
+ "ADBE": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "srt:AmericasMember": [
+    "미주",
+    "#eb1000"
+   ],
+   "us-gaap:EMEAMember": [
+    "EMEA",
+    "#b00c00"
+   ],
+   "srt:AsiaMember": [
+    "아시아·태평양",
+    "#f56b5c"
+   ]
+  }
+ },
+ "PWR": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "pwr:ElectricMember": [
+    "전력",
+    "#e87722"
+   ],
+   "pwr:UndergroundAndInfrastructureMember": [
+    "지하·인프라",
+    "#5a6b7a"
+   ]
+  }
  }
 }
