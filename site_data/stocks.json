@@ -3600,9 +3600,9 @@
         "status": "ok"
       },
       "tier": {
-        "value": "고평가~적정",
-        "raw": "적정~고평가",
-        "status": "normalized",
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
         "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
       },
       "score": {
@@ -5468,6 +5468,47 @@
         "total": 48.2,
         "grade": "보통",
         "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-16",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "MRSH",
+      "name": "마시(Marsh McLennan)",
+      "sector": "금융 — 보험 중개·컨설팅",
+      "href": "MRSH_full_widget.html",
+      "cardRank": 127,
+      "cardAsOf": "2026-10-16",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 188.35,
+        "prevClose": 186.54,
+        "session": "2026-10-16",
+        "prevSession": "2026-10-15",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 475514327,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-12",
+        "filedAt": "2026-10-15",
+        "filing": "10-Q 0000062709-26-000258 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 52.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
         "valuationAsOf": "2026-10-16",
         "qualityFlags": []
       }

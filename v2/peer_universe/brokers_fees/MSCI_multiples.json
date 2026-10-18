@@ -1,0 +1,67 @@
+{
+ "ticker": "MSCI",
+ "window": [
+  "2025-10-17",
+  "2026-10-16"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 31.13,
+   "min": 29.32,
+   "p10": 30.66,
+   "median": 34.54,
+   "p90": 36.87,
+   "max": 39.62,
+   "mean": 34.08,
+   "percentile": 17.9,
+   "score": 82.1
+  },
+  "PSR": {
+   "days": 251,
+   "current": 12.41,
+   "min": 11.69,
+   "p10": 12.13,
+   "median": 13.21,
+   "p90": 14.31,
+   "max": 15.36,
+   "mean": 13.21,
+   "percentile": 20.3,
+   "score": 79.7
+  },
+  "PCR": {
+   "days": 251,
+   "current": 25.89,
+   "min": 24.28,
+   "p10": 25.23,
+   "median": 27.12,
+   "p90": 29.6,
+   "max": 31.79,
+   "mean": 27.28,
+   "percentile": 26.3,
+   "score": 73.7
+  },
+  "EV/EBITDA": {
+   "days": 251,
+   "current": 25.28,
+   "min": 24.0,
+   "p10": 24.95,
+   "median": 27.01,
+   "p90": 29.21,
+   "max": 31.15,
+   "mean": 27.02,
+   "percentile": 18.7,
+   "score": 81.3
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 31.69,
+  "per_p75": 35.84,
+  "low": 580,
+  "high": 660,
+  "asOf": "2026-10-16",
+  "basis": "diluted"
+ }
+}

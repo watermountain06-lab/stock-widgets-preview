@@ -1405,3 +1405,13 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **Claude 시험** — NKE·CB 가격 재빌드 바이트 동일, ICE 고정 문장 두 번 빌드해도 1회, `free_axes` 없으면 EMR 부문 1개·있으면 5개·같은 멤버 값 둘이면 멈춤, `_past_next` 경계(어제만 바뀜, 조기 발표 → 발표됨).
 - **남긴 것** — IBM·NEM "4.5년"(실제 창), `sy`는 배수별 일수 최댓값(근사), UBER 기저효과·GE "성장 가정 같다" 안내 문구, cfg 92개의 죽은 `NEXT`·`CHECK_WHEN` 손값 정리, `HEALTH_EXTRA`와 외국 `health_extra` 두 경로 통합(Fable 권장·사소).
 
+## MRSH — 보험 중개·컨설팅(옛 Marsh McLennan), 중개사+수수료형 비교군 (2026-10-18, 카드 127, 시총 125위)
+
+- **판정 적정~고평가(+1, 0, −2)** — 자기 이력 83.1(+1, 다섯 배수 모두 5년 싼 쪽), 동종업 50.2(0), 현금흐름 기본 $103.79 대비 현재가 1.81배(−2). 기준 공시 Q3 2026 10-Q(10/15).
+- **비교군(사용자 결정)** — S&P500 보험 중개사는 5곳뿐(MIN_PEERS 8 미만) → 중개사 + 결제·거래소·금융 데이터 24곳 `peer_universe/brokers_fees.json`(`sector_universe.py --sub "Insurance Brokers,Transaction & Payment Processing Services,Financial Exchanges & Data" --name brokers_fees`, `build_peer_score.TICKER_UNIVERSE`). 결제사 저PER(FIS 5.5·FISV 9.1·PYPL 10.7)이 점수를 끌어올리고 중개사끼리면 MRSH가 비싼 쪽(Fable) → PEER_TIP에 고정 문장.
+- **엔진 입력** — 차입금 DebtCurrent + LongTermDebtNoncurrent($20,533M — 기본 합 $22,133M은 겹침), 단기투자 [](2012 값), 감가상각 = (Depreciation, DepreciationDepletionAndAmortization) 튜플 + AmortizationOfIntangibleAssets(합산 태그만이면 무형자산 상각 빠지고 252일; 2021~2023 연간 합산 태그에 무형자산 상각이 섞여 Depreciation 앞). 수탁 현금 $12.3B 제외(이자는 매출), HEALTH_EXTRA. 4분기 EPS 역산 = 보도자료.
+- **공통 엔진(Codex 3라운드 합의)** — `quarterly_flow` ① 누계 오태깅: 3개월 행 = 같은 결산일 반기·9개월 누계이고 직전 누계(이 분기 시작 전날 ±5일 종료, 0 아님, 같은 태그)가 있으면 버림(MRSH 2021 Q2 무형자산 상각 189 → 89) ② 늦게 처음 실린 3개월 직접값을 같은 값(±0.5%)의 더 이른 누계 차이·공개일로(4분기 규칙을 1~3분기로) ③ 누계 차이 새 행의 공개일 = 두 누계 중 늦은 쪽(7-2, Codex 2차 — 앞당긴 정보 차단). 엔진 회귀(카드 124, BASE 09031043): 27장 바뀜(대부분 EV/EBITDA·PCR 이력 일수 증가), 표 변경 FTNT 자기 이력 0 → −1(판정 불변)·**PFE 0 → −1, 적정~고평가 → 고평가**(EV/EBITDA 일수 440 → 613 — 2024 Q2·Q3 감가상각 공개일 복원, 2024-10 고점 63배는 영업손실 분기, Codex 재현으로 정당). 회귀 도구는 옛 `.regress`(10-11, 보존)와 별도로 `.regress_1018`에서 돌림.
+- **공통 표시** — auto_card 배당: 직전 분기 선언이 0이면 "분기 중 선언한 주당 배당 합계(직전 분기엔 선언 없음 — 두 분기분일 수 있다)"(MRSH 7월·9월 $0.99 두 번, PFE; 반기 배당과 숫자로 구분 불가라 중립, Codex·Fable 필수). 그 분기 10-Q가 배당 축(DividendsAxis)으로 회당 선언액을 실었으면 자동으로 "회당 $0.99 × 2회 선언"·"분기 배당 $0.99씩 분기 중 2번 선언 — 합계 $1.98"(Fable 2차 — 원문에 분기액이 있다; PFE는 축이 없어 중립 문구, TT는 '직전 분기의 2배' 그대로, NKE 바이트 동일, Codex 4라운드 합의).
+- **뉴스** — Q1 Greensill 호주 소송 비용 $425M(Q3 $144M, 6월 합의 — Fable 필수), Marsh Risk CEO 승계, COO·CFO 임명. 최신 Q3는 news_auto. 2026-01 브랜드 Marsh·티커 MRSH.
+- **공통 안건** — E28에 Greensill(영업 일회성이 이익률·낙관 시나리오를 누름), 1년 수익률 252거래일 기준이 급락 하루 전이라 −7.6%(10/16 기준이면 +1%, Fable), 유기 성장 4~5% 미표시.
+

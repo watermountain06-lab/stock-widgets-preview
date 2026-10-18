@@ -2234,5 +2234,28 @@
    "csx:MineralsMember",
    "csx:FertilizersMember"
   ]
+ },
+ "MRSH": {
+  "concepts": [
+   "mrsh:RevenueFromContractWithCustomerExcludingAssessedTaxExcludingFiduciaryInterestIncome"
+  ],
+  "axis": "us-gaap:SubsegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "us-gaap:StatementBusinessSegmentsAxis": "mrsh:RiskAndInsuranceServicesSegmentMember"
+  },
+  "members": {
+   "mrsh:RiskMember": [
+    "보험 중개(Marsh Risk)",
+    "#002c77"
+   ],
+   "mrsh:ReinsuranceMember": [
+    "재보험(Guy Carpenter)",
+    "#009de0"
+   ]
+  },
+  "ignore_candidates": [
+   "mrsh:RiskReinsuranceMember"
+  ]
  }
 }

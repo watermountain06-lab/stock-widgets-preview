@@ -197,7 +197,10 @@ def latest_dps(cik, cur):
             pq = [k for k in sr if 80 <= (d(e) - d(k)).days <= 100]
             # 비율만으로는 두 분기분 선언·100% 인상·특별배당을 가를 수 없어 중립 문구로, 선언 태그에만(Codex 2차)
             two = label == "선언 기준" and bool(pq) and sr[pq[-1]] > 0 and abs(sr[e] / sr[pq[-1]] - 2) < 0.04
-            best = (sr[e], (sr[yo[-1]] if yo else None), label + (", 그 분기 선언액 합계 — 직전 분기의 2배" if two else ""), e)
+            # 직전 분기 선언이 0이면 두 분기분을 한 번에 선언했을 수 있다(MRSH 7월·9월 $0.99 두 번, PFE) — 반기 배당과 숫자로는 못 가르므로 중립 문구(Codex 2026-10-18)
+            zero = label == "선언 기준" and bool(pq) and sr[pq[-1]] == 0
+            best = (sr[e], (sr[yo[-1]] if yo else None),
+                    label + (", 그 분기 선언액 합계 — 직전 분기의 2배" if two else ", 그 분기 선언액 합계 — 직전 분기엔 선언 없음" if zero else ""), e)
     return best or (None, None, None, None)
 
 
@@ -323,6 +326,18 @@ def apply(C, T):
     # 현금흐름표 매입 줄을 다른 태그로 낸 회사는 cfg BB_TAGS로 대체 태그를 더한다(CME — 현금흐름표 줄이 파생상품 재무활동 태그, 자본변동표 StockRepurchasedDuringPeriodValue가 같은 값, 2026-10-16)
     bb, bbd = ytd(cik, ["PaymentsForRepurchaseOfCommonStock"] + list(getattr(C, "BB_TAGS", [])), C.CUR, fy_start)
     dps, dps_yo, dlabel, dps_end = latest_dps(cik, C.CUR)
+    dps_each = None
+    if dlabel and ("직전 분기엔 선언 없음" in dlabel or "직전 분기의 2배" in dlabel) and dps_end == C.CUR:
+        # 그 분기 10-Q가 배당 축(DividendsAxis)으로 회당 선언액을 따로 실었으면(MRSH 7월·9월 $0.99) 회당 값·횟수를 밝힌다 — 손입력 없이(Fable 2차 2026-10-18)
+        try:
+            _qs = (d(C.QO) + dt.timedelta(days=1)).isoformat()
+            _each = [v for n_, s_, e_, dims, v in sx.facts(C.TENQ) if n_ == "us-gaap:CommonStockDividendsPerShareDeclared" and e_ <= C.CUR
+                     and s_ and s_ >= _qs and any(a_ == "us-gaap:DividendsAxis" for a_, _ in dims)]
+            if len(_each) >= 2 and len({round(x, 4) for x in _each}) == 1 and abs(sum(_each) - dps) < 0.005:
+                dps_each = (_each[0], len(_each))
+                dlabel = dlabel.split(", 그 분기 선언액 합계")[0] + f", 회당 {usd(_each[0])} × {len(_each)}회 선언"
+        except Exception:
+            pass
     dv, dvd = ytd(cik, ["PaymentsOfDividendsCommonStock"], C.CUR, fy_start)
     dv_pref = False
     if dv is None:   # 보통주 태그가 없으면 전체 배당 — 보통주 주당 배당이 없는 회사(BA)는 우선주 배당이라 따로 표시(Fable)
@@ -340,7 +355,7 @@ def apply(C, T):
                  ((f"최근 분기 주당 배당 ({dlabel}, {d(dps_end).month}/{d(dps_end).day} 분기)",
                    ("1년 전 " + usd(dps_yo) + (f" · {chg(dps, dps_yo)}" if chg(dps, dps_yo) else "")) if dps_yo else "1년 전 배당 없음",
                    usd(dps)) if dps is not None else ("분기 주당 배당", "보통주 배당 없음", "—"))]
-    C._AUTO.update({"bb": bb, "dv": dv if not dv_pref else None, "dps": dps, "dps_yo": dps_yo, "dps_two": "직전 분기의 2배" in (dlabel or "")})
+    C._AUTO.update({"bb": bb, "dv": dv if not dv_pref else None, "dps": dps, "dps_yo": dps_yo, "dps_two": "직전 분기의 2배" in (dlabel or ""), "dps_zero_prev": "직전 분기엔 선언 없음" in (dlabel or ""), "dps_each": dps_each})
     gw = {r["end"]: r["val"] for r in sorted(_flow_rows(cik, "Goodwill"), key=lambda r: r["filed"])}
     C._AUTO["acq"] = bool(gw.get(C.CUR) and C.YO in gw and gw[C.CUR] > (gw[C.YO] or 0) * 1.15)   # 1년 전 영업권 0에서 생긴 인수도(Codex)   # 영업권이 1년에 15% 넘게 늘면 인수가 매출 성장에 섞였다(ABT, Fable)
 
@@ -583,7 +598,7 @@ def texts(C, ns):
           + f". 최근 4분기 영업이익률 {mn:.1f}%는 {hy} 중앙값 {m5:.1f}%보다 {rel(mn, m5)}.",
           (f"최근 4분기 FCF {B(fcf_ttm)}(매출의 {fcf_ttm / rev_ttm * 100:.1f}%), " if fcf_ok else "") + f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}."]
     if A.get("dps") is not None:
-        s = ("분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 주당 배당 ") + f"{usd(A['dps'])}" + (f"(1년 전 {usd(A['dps_yo'])}, {chg(A['dps'], A['dps_yo'])})" if A.get("dps_yo") and chg(A["dps"], A["dps_yo"]) else "")
+        s = (f"분기 배당 {usd(A['dps_each'][0])}씩 분기 중 {A['dps_each'][1]}번 선언 — 합계 " if A.get("dps_each") else "분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 중 선언한 주당 배당 합계(직전 분기엔 선언 없음 — 두 분기분일 수 있다) " if A.get("dps_zero_prev") else "분기 주당 배당 ") + f"{usd(A['dps'])}" + (f"(1년 전 {usd(A['dps_yo'])}, {chg(A['dps'], A['dps_yo'])})" if A.get("dps_yo") and chg(A["dps"], A["dps_yo"]) else "")
         if A.get("dv") is not None:
             s += f", 올해 들어 배당 {B(A['dv'])}"
         if A.get("bb") is not None:
@@ -625,7 +640,7 @@ def texts(C, ns):
         cand.append(("성장", -0.7, f"{g3y} 매출 성장률 연 {H['growth_3y'] * 100:.1f}%, {gy} 연 {H['growth_5y'] * 100:.1f}%보다 낮다."))
     if A.get("dps") and A.get("dps_yo"):
         dg = (A["dps"] / A["dps_yo"] - 1) * 100
-        cand.append(("환원", 1.0 if dg >= 3 else -1.0 if dg < 0 else 0, (("분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 주당 배당 ") + f"{usd(A['dps'])}(1년 전보다 {dg:+.1f}%).").replace("+-", "−")))
+        cand.append(("환원", 1.0 if dg >= 3 else -1.0 if dg < 0 else 0, ((f"분기 배당 {usd(A['dps_each'][0])}씩 분기 중 {A['dps_each'][1]}번 선언 — 합계 " if A.get("dps_each") else "분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 중 선언한 주당 배당 합계(직전 분기엔 선언 없음 — 두 분기분일 수 있다) " if A.get("dps_zero_prev") else "분기 주당 배당 ") + f"{usd(A['dps'])}(1년 전보다 {dg:+.1f}%).").replace("+-", "−")))
     scored = [m for m in ns["VAL"]["self"]["metrics"] if m.get("current") is not None and m.get("score") is not None]
     span_y = lambda days: "5년" if (days or 0) >= 1200 else f"{(days or 0) / 252:.1f}년"
     name = {"per": "PER", "pbr": "PBR", "psr": "PSR", "pcr": "PCR", "evebitda": "EV/EBITDA"}

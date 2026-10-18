@@ -1,0 +1,178 @@
+{
+ "sector": "Financials",
+ "subIndustries": [
+  "Insurance Brokers",
+  "Transaction & Payment Processing Services",
+  "Financial Exchanges & Data"
+ ],
+ "asOf": "2026-10-16",
+ "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
+ "tickers": {
+  "AON": {
+   "per": 16.13,
+   "psr": 3.53,
+   "pbr": 6.47,
+   "pcr": 19.11,
+   "evebitda": 15.39
+  },
+  "AJG": {
+   "per": 42.27,
+   "psr": 4.15,
+   "pbr": 2.75
+  },
+  "XYZ": {},
+  "BRO": {
+   "per": 22.17,
+   "psr": 3.42,
+   "pbr": 1.84,
+   "pcr": 16.06
+  },
+  "CBOE": {
+   "per": 24.55,
+   "psr": 6.5,
+   "pbr": 5.85,
+   "pcr": 17.55,
+   "evebitda": 17.11
+  },
+  "CME": {
+   "per": 24.93,
+   "psr": 15.6,
+   "pbr": 3.98,
+   "pcr": 25.08,
+   "evebitda": 22.61
+  },
+  "COIN": {
+   "psr": 7.27,
+   "pbr": 3.49,
+   "evebitda": 49.89
+  },
+  "CPAY": {
+   "per": 24.35,
+   "psr": 5.23,
+   "pbr": 7.41,
+   "pcr": 16.02,
+   "evebitda": 10.53
+  },
+  "ERIE": {},
+  "FDS": {
+   "per": 19.87,
+   "psr": 4.4,
+   "pbr": 5.28,
+   "pcr": 15.15,
+   "evebitda": 13.37
+  },
+  "FIS": {
+   "per": 5.53,
+   "psr": 1.52,
+   "pbr": 1.16,
+   "pcr": 6.58,
+   "evebitda": 9.4
+  },
+  "FISV": {
+   "per": 9.13,
+   "psr": 1.21,
+   "pbr": 0.94,
+   "pcr": 6.44,
+   "evebitda": 7.38
+  },
+  "GPN": {
+   "psr": 2.16,
+   "pbr": 0.96,
+   "pcr": 26.91,
+   "evebitda": 10.99
+  },
+  "ICE": {
+   "per": 22.82,
+   "psr": 6.76,
+   "pbr": 3.07,
+   "pcr": 17.86,
+   "evebitda": 15.72
+  },
+  "JKHY": {
+   "per": 21.95,
+   "psr": 4.22,
+   "pbr": 5.23,
+   "pcr": 15.46,
+   "evebitda": 15.95
+  },
+  "MRSH": {
+   "per": 22.53,
+   "psr": 3.15,
+   "pbr": 6.01,
+   "pcr": 21.56,
+   "evebitda": 17.29
+  },
+  "MA": {
+   "per": 33.96,
+   "psr": 15.42,
+   "pbr": 96.39,
+   "pcr": 32.38,
+   "evebitda": 25.61
+  },
+  "MCO": {
+   "per": 30.78,
+   "psr": 10.3,
+   "pbr": 27.77,
+   "pcr": 28.32,
+   "evebitda": 21.73
+  },
+  "MSCI": {
+   "per": 31.13,
+   "psr": 12.41,
+   "pcr": 25.89,
+   "evebitda": 25.28
+  },
+  "NDAQ": {
+   "per": 27.4,
+   "psr": 6.0,
+   "pbr": 4.38,
+   "pcr": 26.92,
+   "evebitda": 22.24
+  },
+  "PYPL": {
+   "per": 10.72,
+   "psr": 1.42,
+   "pbr": 2.45,
+   "pcr": 7.36,
+   "evebitda": 7.09
+  },
+  "SPGI": {
+   "per": 26.15,
+   "psr": 7.86,
+   "pbr": 4.02,
+   "pcr": 22.73
+  },
+  "V": {
+   "per": 34.26,
+   "psr": 17.01,
+   "pbr": 21.52,
+   "pcr": 36.02,
+   "evebitda": 27.1
+  },
+  "WTW": {
+   "per": 19.55,
+   "psr": 2.98,
+   "pbr": 3.81,
+   "pcr": 17.35,
+   "evebitda": 13.04
+  }
+ },
+ "skipped": {},
+ "perNA": {
+  "rule": "기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다(A3·C9)",
+  "tickers": {
+   "XYZ": {
+    "netMargin": 0.0143,
+    "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+   },
+   "COIN": {
+    "netMargin": -0.1572,
+    "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+   },
+   "GPN": {
+    "netMargin": -0.0913,
+    "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+   }
+  }
+ }
+}

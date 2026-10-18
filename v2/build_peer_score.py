@@ -104,6 +104,9 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "BX": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
                    # CB: 카드 유니버스 금융은 은행·결제라 보험사와 맞지 않다 → S&P500 손해·종합·생명보험 16곳(중개사 제외, 2026-10-02, Claude 추천 — 리뷰 때 확인)
                    "CB": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   # MRSH: S&P500 보험 중개사는 5곳뿐(MIN_PEERS 8 미만) → 중개사 + 결제·거래소·금융 데이터(수수료형 자산 경량 서비스) 24곳
+                   # (2026-10-18 사용자 결정 — sector_universe.py --sub "Insurance Brokers,Transaction & Payment Processing Services,Financial Exchanges & Data" --name brokers_fees)
+                   "MRSH": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "brokers_fees.json"),
                    # PGR: CB와 같은 S&P500 보험사 비교군(2026-10-02)
                    "PGR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
                    # BKNG: HD·MCD·TJX와 같은 S&P500 경기소비재 비교군(2026-10-02, Claude 추천 — 리뷰 때 확인)

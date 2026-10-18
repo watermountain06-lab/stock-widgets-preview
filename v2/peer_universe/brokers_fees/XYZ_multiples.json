@@ -1,0 +1,27 @@
+{
+ "ticker": "XYZ",
+ "window": [
+  "2025-10-17",
+  "2026-10-16"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 139.09,
+   "min": 9.88,
+   "p10": 12.39,
+   "median": 33.11,
+   "p90": 141.07,
+   "max": 151.52,
+   "mean": 54.05,
+   "percentile": 87.6,
+   "score": null,
+   "currentNote": "per_na"
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": {
+  "netMargin": 0.0143,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+ }
+}
