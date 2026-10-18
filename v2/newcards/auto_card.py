@@ -525,6 +525,13 @@ def texts(C, ns):
     same_len = abs(A["qlen"].get(cur, 91) - A["qlen"].get(yo, 91)) <= 5   # 흐름(yoy_at)과 같은 기준 — MU 14주 대 13주(7일)는 다르다(Fable)
     opm, opm_yo = op[cur] / rev[cur] * 100, op[yo] / rev[yo] * 100
     m5, m2, mn = H.get("margin_5y", 0) * 100, H.get("margin_2y", 0) * 100, H.get("margin_now", 0) * 100
+    # 이력 기간 라벨 — 현금흐름 이력 창이 기본(최근 4분기 합 20개 안팎)보다 짧은 카드(분사·매각 — GE·DHR·T·EMR 등)는 '5년'이 아니라 실제 기간(Fable 2026-10-18)
+    # 분기 수가 아니라 창의 첫·끝 날짜로 — 영업이익이 빈 분기가 있어도 기간이 짧게 나오지 않게(Codex 2차)
+    _sp = H.get("span")
+    _hy = (dt.date.fromisoformat(_sp[1]) - dt.date.fromisoformat(_sp[0])).days / 365.25 if _sp else 5
+    hy = "5년" if _hy >= 4.7 else f"{_hy:.1f}년"
+    _sd = max([m.get("days") or 0 for m in (ns["VAL"].get("self") or {}).get("metrics", [])] or [1255])
+    sy = "5년" if _sd >= 1200 else f"{_sd / 252:.1f}년"   # 자기 이력(배수) 기간
     g3 = H["growth_3y"] * 100 if H.get("growth_3y") is not None else None   # 없으면 0으로 찍지 않는다(CB, Fable)
     _r = op[cur] / op[yo] - 1 if op[yo] > 0 else None
     odd_yo = op[yo] <= 0 or (_r is not None and abs(_r) > 0.5 and opm_yo < m5)   # 1년 전 분기 이익률이 낮아 이익 증감률이 크게 나온다 — 증감률 대신 수준
@@ -560,10 +567,10 @@ def texts(C, ns):
     gx = ("매출 성장(인수 포함)" if A.get("acq") else "매출 성장 빨라짐" if trend_ok and trend[2] > trend[1] + 1 and trend[1] >= trend[0] - 0.5 else
           (("매출 감소 커짐" if trend[1] < 0 else "매출 감소 전환") if trend[2] < 0 else "매출 성장 느려짐") if trend_ok and trend[2] < trend[1] - 1 and trend[1] <= trend[0] + 0.5 else "매출 성장 비슷")   # 최근 증감률이 음수면 '느려짐'이 아니다(NKE −4.3%, Fable 2026-10-17)
     trend_txt = " → ".join(f"{x:+.1f}%".replace("-", "−") for x in trend) if trend_ok else ""
-    vx = ("배수 5년 최저권" if selfsc >= 80 else "배수 5년 고점권" if selfsc <= 20 else
+    vx = (f"배수 {sy} 최저권" if selfsc >= 80 else f"배수 {sy} 고점권" if selfsc <= 20 else
           "배수 싼 쪽" if selfsc >= 70 or peersc >= 70 else "배수 비싼 쪽" if selfsc < 30 or peersc < 30 else "배수 중간")   # 동종업 점수도 본다(CRM, Fable)
     bl = [f"매출 {B(rev[cur])}" + (f"({r_rev})" if r_rev else "") + f", 영업이익 {B(op[cur])}" + (f"({r_op})" if r_op else "")
-          + f". 최근 4분기 영업이익률 {mn:.1f}%는 5년 중앙값 {m5:.1f}%보다 {rel(mn, m5)}.",
+          + f". 최근 4분기 영업이익률 {mn:.1f}%는 {hy} 중앙값 {m5:.1f}%보다 {rel(mn, m5)}.",
           (f"최근 4분기 FCF {B(fcf_ttm)}(매출의 {fcf_ttm / rev_ttm * 100:.1f}%), " if fcf_ok else "") + f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}."]
     if A.get("dps") is not None:
         s = ("분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 주당 배당 ") + f"{usd(A['dps'])}" + (f"(1년 전 {usd(A['dps_yo'])}, {chg(A['dps'], A['dps_yo'])})" if A.get("dps_yo") and chg(A["dps"], A["dps_yo"]) else "")
@@ -592,7 +599,7 @@ def texts(C, ns):
     if mn < 0:   # 영업적자는 강세 후보가 아니다(CRWD, Fable)
         cand.append(("마진", -1.0, f"최근 4분기 영업이익률 {mn:.1f}%(영업적자)."))
     else:
-        cand.append(("마진", (mn - m5) / 2, f"최근 4분기 영업이익률 {mn:.1f}%(5년 중앙값 {m5:.1f}%)."))
+        cand.append(("마진", (mn - m5) / 2, f"최근 4분기 영업이익률 {mn:.1f}%({hy} 중앙값 {m5:.1f}%)."))
     if cur in fcf and fcf[cur] < 0:   # 최근 분기 FCF 음수(투자 부담) — 4분기 합만 보면 가려진다(GOOGL, Fable)
         cand.append(("투자", -1.0, f"{QL} FCF {B(fcf[cur])}(설비투자 {B(capx.get(cur, 0))})."))
     if fcf_ok:
@@ -605,7 +612,7 @@ def texts(C, ns):
         lev = nd / op_ttm
         cand.append(("부채", 1.0 if lev <= 1 else -1.0 if lev >= 3 else 0, f"순차입금(리스 포함) {B(nd)}, 최근 4분기 영업이익의 {lev:.1f}배."))
     if H.get("growth_3y") is not None and H.get("growth_5y") and H["growth_3y"] * 100 < H["growth_5y"] * 100 - 1.5:
-        cand.append(("성장", -0.7, f"3년 매출 성장률 연 {H['growth_3y'] * 100:.1f}%, 5년 연 {H['growth_5y'] * 100:.1f}%보다 낮다."))
+        cand.append(("성장", -0.7, f"3년 매출 성장률 연 {H['growth_3y'] * 100:.1f}%, {hy} 연 {H['growth_5y'] * 100:.1f}%보다 낮다."))
     if A.get("dps") and A.get("dps_yo"):
         dg = (A["dps"] / A["dps_yo"] - 1) * 100
         cand.append(("환원", 1.0 if dg >= 3 else -1.0 if dg < 0 else 0, (("분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 주당 배당 ") + f"{usd(A['dps'])}(1년 전보다 {dg:+.1f}%).").replace("+-", "−")))
@@ -666,7 +673,7 @@ def texts(C, ns):
     if odd_yo and op[yo] <= 0:   # 음수 기저 — "낮아" 비교를 쓰지 않는다(BA, Fable)
         notes.append(f"1년 전 분기 영업이익이 0 이하(영업이익률 {opm_yo:.1f}%)라 영업이익 증감률을 쓰지 않는다")
     elif odd_yo:
-        notes.append(f"1년 전 분기 영업이익률이 {opm_yo:.1f}%로 5년 중앙값({m5:.1f}%)보다 낮아 영업이익 증감률이 크게 나온다")
+        notes.append(f"1년 전 분기 영업이익률이 {opm_yo:.1f}%로 {hy} 중앙값({m5:.1f}%)보다 낮아 영업이익 증감률이 크게 나온다")
     C.YOY_EXTRA = "".join(n + " · " for n in notes)
     yo_tab = A.get("seg_yo", {})
     def segchg(a, b_):   # ±50%를 넘어도 적는다(MU 전부 '—'였다, Fable)
@@ -693,7 +700,7 @@ def texts(C, ns):
                  if lead else f"자기 이력 {selfsc:.1f}점({word(selfsc)}), 동종업 {peersc:.1f}점({word(peersc)})이다. ") + \
         (f"<strong>{dcf_txt}</strong>." if dcf_txt else "")
     if req is not None:
-        tail = f" 현재가를 정당화하려면 영업이익률이 {req * 100:.1f}%까지 올라야 한다(최근 4분기 {mn:.1f}%, 5년 중앙값 {m5:.1f}%)."
+        tail = f" 현재가를 정당화하려면 영업이익률이 {req * 100:.1f}%까지 올라야 한다(최근 4분기 {mn:.1f}%, {hy} 중앙값 {m5:.1f}%)."
     elif DCF.get("reqMode") == "margin":
         tail = f" 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 {mn:.1f}%)."   # TXN(Fable)
     elif DCF.get("requiredGrowth"):
@@ -715,8 +722,8 @@ def texts(C, ns):
         grow = (f"매출이 {start_what}(연 {g * 100:.1f}%)로 시작해 {term * 100:.1f}%로 식고" if g > term
                 else f"{start_what}(연 {g * 100:.1f}%)이 영구성장률 {term * 100:.1f}%보다 낮아 5년 내내 {term * 100:.1f}%로 두고")
         return f"{grow}, 영업이익률이 {m_what} {m:.1f}%로 간다."
-    C.STORIES = [story((H.get("growth_5y") or term) / 2, "5년 성장률의 절반", m5, "5년 중앙값"),
-                 story(H.get("growth_5y"), "5년 성장률", m2, "최근 2년 중앙값"),
+    C.STORIES = [story((H.get("growth_5y") or term) / 2, f"{hy} 성장률의 절반", m5, f"{hy} 중앙값"),
+                 story(H.get("growth_5y"), f"{hy} 성장률", m2, "최근 2년 중앙값"),
                  story(H.get("growth_3y"), "3년 성장률", mn, "최근 4분기")]
     if DCF.get("low") is not None:
         vs = [DCF["low"], DCF["base"], DCF["high"]]
@@ -724,7 +731,7 @@ def texts(C, ns):
         neg_n = len(vs) - len(pos)
         note = ((f"세 시나리오는 ${min(vs):.2f}~${max(vs):.2f}다. " if not neg_n else
                  f"세 시나리오 중 {neg_n}개는 음수라 계산할 수 없다" + ((f"(나머지 ${min(pos):.2f}~${max(pos):.2f}). " if len(pos) > 1 else f"(나머지 ${pos[0]:.2f}). ") if pos else ". "))   # 음수를 드러내지 않는다(BA·TMO, Fable)
-                + f"영업이익률은 최근 4분기 {mn:.1f}%, 2년 중앙값 {m2:.1f}%, 5년 중앙값 {m5:.1f}%를 쓴다.")
+                + f"영업이익률은 최근 4분기 {mn:.1f}%, 2년 중앙값 {m2:.1f}%, {hy} 중앙값 {m5:.1f}%를 쓴다.")
         g_ = lambda g: max(g or term, term) * 100
         assume = (f"보수(성장 연 {g_((H.get('growth_5y') or term) / 2):.1f}%·이익률 {m5:.1f}%), 기본({g_(H.get('growth_5y')):.1f}%·{m2:.1f}%), "
                   f"낙관({g_(H.get('growth_3y')):.1f}%·{mn:.1f}%)")

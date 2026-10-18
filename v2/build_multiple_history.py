@@ -520,6 +520,11 @@ DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이
                  # 2024-09부터 InterestExpenseNonoperating(양수), 일부 재작성 공시는 InterestExpenseOperating(양수), 그 전은
                  # InterestIncomeExpenseNet(비용이면 음수, 부호를 뒤집는다). 같은 공시에 둘이 있으면 앞 태그를 쓴다.
                  # Q2 2026: 1,144 + 201 + 47 = 1,392 = 매출 8,531 − 매출원가 5,676 − 판관비 1,236 − R&D 227(10-Q 대조, 2026-10-01).
+                 # EMR: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그 없음). 영업이익 = 계속사업 세전이익 + 순이자비용
+                 # (InterestIncomeExpenseNonoperatingNet, 비용이면 음수). "Other deductions, net"(무형자산 상각·구조조정·인수 비용·환차손)은 영업비용으로 남긴다.
+                 # Q3 FY26: 916 + 85 = 1,001 = 매출 4,873 − 매출원가 2,218 − 판관비 1,343 − 기타 차감 311(10-Q 대조, 2026-10-18).
+                 "0000032604": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestIncomeExpenseNonoperatingNet"], 1)]),
                  "0001551182": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["InterestExpenseNonoperating", "InterestExpenseOperating", ("InterestIncomeExpenseNet", -1)], -1),
                                  # 기타 영업외손익도 공시마다 태그가 다르다 — 수익인 분기는 OtherNonoperatingIncome(양수, Q1 2026 $41M), 비용만이면
@@ -1187,6 +1192,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0001101239": ["LongTermDebt", "FinanceLeaseLiability"],
                   # ADBE: LongTermDebt는 비유동분만 — 1년 안 만기분은 DebtCurrent($1,597M, 2026-08-28)라 기본 선택에서 빠졌다(엔진 $4,766M 대 재무상태표 $6,363M, 2026-10-17).
                   "0000796343": ["DebtCurrent", "LongTermDebt"],
+                  # EMR: 재무상태표 "Short-term borrowings and current maturities of long-term debt"(DebtCurrent) + "Long-term debt"(LongTermDebtNoncurrent).
+                  # 2026-06-30 $5,587M + $7,526M = $13,113M(2026-10-18).
+                  "0000032604": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # ICE: 재무상태표 "Short-term debt" 한 줄을 ShortTermBorrowings·LongTermDebtCurrent·CommercialPaper(그 일부) 세 태그로 내
                   # 기본 합이 같은 $1,218M을 세 번 더했다($22,282M 대 원문 $19,846M, 2026-10-18). 2020~2026 내내 앞 둘은 같은 값.
                   "0001571949": ["ShortTermBorrowings", "LongTermDebtNoncurrent"],
@@ -1351,6 +1359,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # EQIX: 우선주 태그가 2022-12(0)에 멈췄다 — 우선주 없음.
                   "0001101239": {"preferred": []},
                   # ICE: ShortTermInvestments는 2017-12에 멈췄다($16M) — 그 뒤 단기투자 줄 없음("Short-term restricted investments"는 규제 자본, 현금 아님)
+                  # EMR: 현금 태그 CashAndCashEquivalentsAtCarryingValue가 2021-12에 멈춤 → 재무상태표 "Cash and equivalents"와 같은 값을 내는 합계 태그.
+                  # 단기투자 태그 2016·우선주 태그 2013에 멈춤(없음).
+                  "0000032604": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": [], "preferred": []},
                   "0001571949": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # 상환가능 비지배지분 $32M(자본 밖 별도 줄, Codex 2026-10-18 — MCK와 같은 처리)
                   # NKE: 재무상태표 "Short-term investments"를 2022-02까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent, 그 뒤로는
                   # DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent로 낸다($1,465M, 2026-08-31). 기본 목록의 ShortTermInvestments는 2014년에 멈춤.
@@ -1729,7 +1740,10 @@ HISTORY_START = {"GE": "2024-07-23",
                  "T": "2023-05-01",
                  # DHR: Veralto 분사(2023-09-30) 뒤 첫 재무상태표(2023-09-29)가 나온 3분기 10-Q 공시일(2026-10-02, GE 방식). 재작성 값이
                  # 2022년 분기부터 있어 그 날 최근 4분기 합은 모두 계속사업 기준이다.
-                 "DHR": "2023-10-24"}
+                 "DHR": "2023-10-24",
+                 # EMR: Climate Technologies(Copeland) 지분 55% 매각 완료(2023-05-31) 뒤 첫 재무상태표(2023-06-30)가 나온 3분기 10-Q 공시일
+                 # (2026-10-18 사용자 결정 "GE 방식 + 매각 뒤 창"). 재작성 분기 값이 FY22 1분기부터 있어 그날 최근 4분기 합은 모두 계속사업 기준.
+                 "EMR": "2023-08-02"}
 
 
 def history_daily(ticker, daily):

@@ -11,7 +11,8 @@ SEG_MAP = {"concepts": ["us-gaap:Revenues", ...],         # 앞의 것부터
            "ignore": ["us-gaap:ProductMember"],             # 같은 축의 소계 — 쓰지 않는다
            "adjust": ["us-gaap:MembershipMember"],          # 표에는 안 넣고 매출 합 대조에만 더한다(COST 회비 — 예전 SEG_ADJ)
            "alias": {"cost:FoodsAndSundriesMember": "cost:FoodandSundriesMember"},   # 같은 항목의 다른 이름(COST가 10-Q·10-K에서 다르게 붙였다)
-           "other": "기타"}                                  # 지도에 없는 멤버를 묶을 이름(없으면 새 멤버가 나오면 멈춘다)
+           "other": "기타",                                  # 지도에 없는 멤버를 묶을 이름(없으면 새 멤버가 나오면 멈춘다)
+           "free_axes": ["srt:ProductOrServiceAxis"]}        # 붙어 있어도 없어도 되는 축(EMR — 부문마다 그룹 축이 붙거나 안 붙는다). 같은 멤버에 값이 둘이면 멈춘다
 
 - 분기 값: 그 분기 말에 끝나는 약 1분기(70~125일) 기간. 10-K(4분기)는 연간 − 같은 회계연도 3분기 10-Q의 누계.
 - 1년 전 같은 분기: 같은 보고서의 비교 기간(10-K면 전년 연간 − 전년 3분기 누계, 3분기 10-Q의 비교 누계로).
@@ -86,13 +87,14 @@ def _days(s, e):
 def by_member(fs, M, start_ok, end):
     """end에 끝나고 기간 길이가 start_ok(일수)를 만족하는 값을 멤버별로 — 지정한 차원만 붙은 것."""
     want_extra = set(M.get("extra", {}).items())
+    free = set(M.get("free_axes", []))
     for concept in M["concepts"]:
         got = {}
         for name, s, e, dims, v in fs:
             if name != concept or e != end or not s or not start_ok(_days(s, e)):
                 continue
             ax = [m for d_, m in dims if d_ == M["axis"]]
-            rest = {(d_, m) for d_, m in dims if d_ != M["axis"]}
+            rest = {(d_, m) for d_, m in dims if d_ != M["axis"] and d_ not in free}
             if len(ax) == 1 and rest == want_extra:
                 ax = [M.get("alias", {}).get(ax[0], ax[0])]
                 if ax[0] in got and got[ax[0]] != v:

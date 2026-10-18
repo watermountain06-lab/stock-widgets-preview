@@ -68,7 +68,9 @@ HISTORY_WINDOW = {"GE": ("2024-03-31", 9), "SNDK": ("2024-09-27", 8), "GEV": ("2
                   # T: WarnerMedia 분사(2022-04). 네 분기가 모두 분사 뒤인 첫 최근 4분기 합은 2023-03-31(2026-10-02).
                   "T": ("2023-03-31", 13),
                   # DHR: Veralto 분사 — 재작성 값으로 네 분기가 모두 계속사업인 첫 최근 4분기 합은 2022년 말(2026-10-02).
-                  "DHR": ("2022-12-31", 13)}
+                  "DHR": ("2022-12-31", 13),
+                  # EMR: Copeland 매각 — 재작성 값으로 네 분기가 모두 계속사업인 첫 최근 4분기 합은 FY22 말(2022-09-30, 2026-10-18).
+                  "EMR": ("2022-09-30", 13)}
 
 
 def latest(series, asof=None):
@@ -683,6 +685,7 @@ def history(ticker, asof=None, window_start=None):
         "growth_3y": g3, "growth_5y": g3 if base_effect else g5,
         "growth_5y_raw": g5, "growth_base_effect": base_effect,
         "quarters": len(k),
+        "span": [k[0], k[-1]],   # 마진 이력 창의 첫·끝 결산일 — 문장의 기간 라벨(auto_card, 2026-10-18)
     }
 
 

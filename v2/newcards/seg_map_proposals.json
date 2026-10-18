@@ -2176,5 +2176,25 @@
    "ice:ServicingSoftwareMember",
    "ice:MortgageTechnologyDataAndAnalyticsMember"
   ]
+ },
+ "EMR": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "srt:ProductOrServiceAxis": "emr:SoftwareAndSystemsMember"
+  },
+  "members": {
+   "emr:ControlSystemsAndSoftwareMember": [
+    "제어 시스템·소프트웨어",
+    "#004b8d"
+   ],
+   "emr:TestAndMeasurementMember": [
+    "시험·계측",
+    "#3d7cc0"
+   ]
+  }
  }
 }

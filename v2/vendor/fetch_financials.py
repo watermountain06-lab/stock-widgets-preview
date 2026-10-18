@@ -74,7 +74,9 @@ CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNono
                    # FCX: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNet, Q2 2026 −$95M — 소비처는 절댓값)만 분기로 낸다(2026-10-17)
                    "0000831259": {"interestExpense": ["InterestIncomeExpenseNet"]},
                    # NKE: 재고를 InventoryFinishedGoodsNetOfReserves로만 낸다(InventoryNet은 2011년에 멈춤 — 당좌비율이 유동비율과 같게 나왔다, 2026-10-17)
-                   "0000320187": {"inventory": ["InventoryFinishedGoodsNetOfReserves"]}}
+                   "0000320187": {"inventory": ["InventoryFinishedGoodsNetOfReserves"]},
+                   # EMR: 손익계산서 "Interest expense (net of interest income)"(InterestIncomeExpenseNonoperatingNet, Q3 FY26 −$85M — LOW와 같은 방식)만 낸다(2026-10-18)
+                   "0000032604": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]}}
 
 # Balance-sheet concepts are point-in-time ("instant": only an "end" date,
 # no "start") rather than period durations like income-statement concepts.
