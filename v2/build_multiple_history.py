@@ -110,7 +110,11 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     # DepreciationDepletionAndAmortization으로(분기 약 $90M). 2021~2023 10-K의 DepreciationDepletionAndAmortization 연간에는 무형자산 상각을
                     # 합친 값(2021 747 = 382 + 365)이 섞여 있어 Depreciation을 앞에. "Amortization of intangible assets"(분기 약 $140M)는 따로 —
                     # 합산 태그만 쓰면 무형자산 상각이 빠지고 분기가 2024년부터라 EV/EBITDA가 252일이었다(2026-10-18).
-                    "0000062709": [("Depreciation", "DepreciationDepletionAndAmortization"), "AmortizationOfIntangibleAssets"]}
+                    "0000062709": [("Depreciation", "DepreciationDepletionAndAmortization"), "AmortizationOfIntangibleAssets"],
+                    # CEG: 기본 선택(현금흐름표 DepreciationAmortizationAndAccretionNet, 2026 상반기 $2,368M)에는 Calpine 인수 파생계약 상각($423M — 매출 차감)·
+                    # ARO 부채 증가분($338M)·인수 에너지 계약(UEC) 상각($240M)이 섞여 있다. 손익계산서 "Depreciation and amortization" 줄($886M = 고정자산 $870M +
+                    # 무형자산 $16M) + 핵연료 상각(AmortizationOfNuclearFuelLease $496M, 연료비 안 — 핵연료 구입은 설비투자 줄에 있다, 10-Q 보충 현금흐름 표, 2026-10-18).
+                    "0001868275": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization", "AmortizationOfNuclearFuelLease"]}
 # 태그 의미가 도중에 바뀐 회사의 합산 감가상각(CIK). AMD의 OtherDepreciationAndAmortization(현금흐름표
 # "Depreciation and amortization")은 FY2024 10-K(2025-02-05) 전까지 인수 무형자산 상각을 **포함한** 합계였고,
 # 그 뒤로는 상각을 AmortizationOfIntangibleAssets 줄로 떼어 낸다(Fable, 2026-09-27). 분할 뒤 공시의 행에만
@@ -605,6 +609,7 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0000320187": ("DepreciationDepletionAndAmortization",),
                 "0000277948": ("DepreciationDepletionAndAmortization",),   # CSX — 구성요소 튜플 경로로(DDA_PARTS_BY_CIK)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
+                "0001868275": ("DepreciationAmortizationAndAccretionNet",),   # CEG — 구성요소 경로로(DDA_PARTS_BY_CIK)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
                 # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아

@@ -2257,5 +2257,40 @@
   "ignore_candidates": [
    "mrsh:RiskReinsuranceMember"
   ]
+ },
+ "CEG": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "ceg:ConstellationMidAtlanticMember": [
+    "미드애틀랜틱(PJM 동부)",
+    "#1d4f91"
+   ],
+   "ceg:ConstellationMidwestMember": [
+    "중서부",
+    "#00a3e0"
+   ],
+   "ceg:ConstellationNewYorkMember": [
+    "뉴욕",
+    "#5b8fd1"
+   ],
+   "ceg:ConstellationERCOTMember": [
+    "텍사스(ERCOT)",
+    "#f2a900"
+   ],
+   "ceg:ConstellationOtherRegionsMember": [
+    "기타 전력 지역",
+    "#8fb3dc"
+   ],
+   "ceg:ConstellationCalpineMember": [
+    "Calpine",
+    "#0f2f5c"
+   ]
+  }
  }
 }

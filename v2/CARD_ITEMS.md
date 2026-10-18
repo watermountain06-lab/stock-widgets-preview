@@ -1415,3 +1415,15 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **뉴스** — Q1 Greensill 호주 소송 비용 $425M(Q3 $144M, 6월 합의 — Fable 필수), Marsh Risk CEO 승계, COO·CFO 임명. 최신 Q3는 news_auto. 2026-01 브랜드 Marsh·티커 MRSH.
 - **공통 안건** — E28에 Greensill(영업 일회성이 이익률·낙관 시나리오를 누름), 1년 수익률 252거래일 기준이 급락 하루 전이라 −7.6%(10/16 기준이면 +1%, Fable), 유기 성장 4~5% 미표시.
 
+
+## CEG — 원자력·발전, 짧은 상장(분사 2022-02) + Calpine 인수 (2026-10-18, 카드 128, 시총 126위)
+
+- **판정 고평가(0, −1, −2)** — 자기 이력 50.9(0, 상장 뒤 이력), 동종업 15.3(−1, S&P500 유틸리티 — 규제 유틸리티 위주라 발전사에 불리할 수 있음을 PEER_TIP에), 현금흐름 기본 −$1.23·보수 −$41.32·낙관 $9.20 대 $271.37(−2, 계산 어려움 roic·nosol). 기준 공시 Q2 2026 10-Q(8/6).
+- **짧은 상장(사용자 결정 "상장 뒤 이력으로")** — 일봉 1,191개(README 기준 1,375 미만). `new_ticker_arrays.py --short`·cfg `BUILD['short_listing']`: 이동평균 앞부분 null(SNDK·GEV 선례 — 매일 `price_arrays`가 null 앞부분을 유지하며 새 봉을 더하는 것 Codex 확인), `SELF_SPAN`·`GROWTH_SPAN`.
+- **EPS** — 분사 전 기간(2020·2021)을 희석 EPS 0으로 태깅 → 0을 실제 분기로 더해 2022-03-31 최근 4분기 합이 1분기 $0.32(PER 최고 209.9배). `fetch_eps_history.EPS_START = {"CEG": "2022-01-01"}`(그 날짜 이후 시작 기간만). 4분기 2023 보도자료 −$0.11(역산 −$0.10).
+- **엔진 입력** — 감가상각 = 손익계산서 D&A(CostOfGoodsAndServicesSoldDepreciationAndAmortization) + 핵연료 상각(AmortizationOfNuclearFuelLease, 핵연료 구입은 설비투자 줄) — 기본 선택 현금흐름표 합계 줄(DepreciationAmortizationAndAccretionNet)은 Calpine 파생계약 상각·ARO 증가분·UEC 상각이 섞여 EXCLUDE(EV/EBITDA 14.6 → 17.4). 비영업 자산: LongTermInvestments가 10-K에만 있어 2025년 말 $307M이 쓰였다 → `NONOP_FROM_EXTRA` + `nonop_extra.json` Investments($353M, 직원복지 신탁 포함 명시 — Codex 필수). 해체 신탁기금 $20.5B는 해체 충당부채와 묶여 제외(엔진 기본). 차입금 $24.7B·현금 $697M·비지배 $345M 원문 일치, 리스는 10-K만($505M).
+- **현금흐름 모델** — Calpine 인수(D31): 투하자본엔 인수 자산 전부, 최근 4분기 매출엔 두 분기만 + 매각 예정 발전소 $5.7B가 운전자본 → MODEL_NOTE(음수 = 모델 주주가치 0 이하, 낙관만 양수인 이유, 인수 계약 비현금 상각이 이익률을 누름 — Codex 2·3라운드). PCR 311배·이력 0.7년은 2022~2024년 DPP 회수를 투자활동으로 분류한 탓 → CHART_NOTE['pcr'](Fable).
+- **공통 표시** — auto_card `segchg`: 1년 전 매출 0인 부문(인수로 생긴 Calpine)을 "흑자 전환" 대신 "새 부문"(b_ == 0만 — 음수 부문은 그대로, Codex 권장). 기존 카드 영향 0장(해당 문구가 CEG에만 있었다).
+- **부문** — 보고 부문 6개(seg_map_propose 1판 일치). 부문 밖 +$260M은 미배분 활동 + 미실현 헤지 손익(−$320M) — 부문 간 제거가 아니다(Fable).
+- **뉴스** — PJM 용량 경매 2건($333·$325), Calpine 인수 완료, DOE 대출 보증(Crane 재가동), CFO 교체, 옛 Calpine 주주 지분 매각·자사주 200만 주 매입. 의장 교체 8-K(반응일 8/6)는 Q2 실적과 같은 날이라 자동 실적 항목이 빠져 넣지 않았다.
+- **공통 안건** — D31에 CEG, E29(음수 시나리오 문구·매각 예정 자산의 운전자본 포함·이자보상배율이 한 분기).

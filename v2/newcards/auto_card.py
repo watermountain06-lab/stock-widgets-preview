@@ -702,6 +702,8 @@ def texts(C, ns):
     C.YOY_EXTRA = "".join(n + " · " for n in notes)
     yo_tab = A.get("seg_yo", {})
     def segchg(a, b_):   # ±50%를 넘어도 적는다(MU 전부 '—'였다, Fable)
+        if b_ == 0 and a and a > 0:
+            return "새 부문"   # 매출이라 '흑자 전환'이 아니다 — 인수로 생긴 부문(CEG Calpine, 2026-10-18)
         c_ = chg(a, b_)
         if c_ or not (a and b_ and a > 0 and b_ > 0):
             return c_ or "—"

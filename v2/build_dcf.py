@@ -100,7 +100,9 @@ INVESTMENTS_OPERATING = {"0000731766": "UNH — 10-Q 손익계산서 Revenues에
 # 장기투자 합계 태그에 영업 자산이 섞인 회사 — 합계를 버리고 v2/nonop_extra.json의 tag 항목(원문 차원 값은 adapters/dim_fact_feed.py가
 # overlay에 싣는 이름 붙인 태그)만 비영업 자산으로 더한다. PWR: LongTermInvestments $433.9M 중 통합 지분법 투자 $283.3M은 이익이 영업이익 안
 # (영업 자산) — 비통합 지분법 + 비시장성 지분증권만(2026-10-17 dr, 분기마다 손입력 없음).
-NONOP_FROM_EXTRA = {"0001050915": "PWR — 비통합 지분법 투자(차원 값, dim_fact_feed) + 비시장성 지분증권(EquitySecuritiesWithoutReadilyDeterminableFairValueAmount)"}
+NONOP_FROM_EXTRA = {"0001050915": "PWR — 비통합 지분법 투자(차원 값, dim_fact_feed) + 비시장성 지분증권(EquitySecuritiesWithoutReadilyDeterminableFairValueAmount)",
+                    # CEG: LongTermInvestments는 10-K에만 있어 2025년 말 $307M이 Q2에도 쓰였다 — 10-Q 주석 18 "Investments" 합계($353M, 분기마다 태깅)로(2026-10-18 Codex)
+                    "0001868275": "CEG — 투자 합계(Investments: 지분법·직원복지 신탁·상장·비상장 지분·채권)"}
 
 
 def base_inputs(ticker, asof=None):

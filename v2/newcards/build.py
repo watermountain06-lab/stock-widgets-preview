@@ -7,6 +7,7 @@
 종목별 내용은 cfg/cfg_{t}.py, 빌드 옵션은 그 안의 BUILD 사전:
   eps_tag  : EPS 태그(분사 종목은 계속사업 EPS — WDC)
   bt_start : 백테스트에 쓸 일봉 시작일(분사 종목 — 재작성 숫자가 처음 나온 날)
+  short_listing : 상장이 짧아 일봉 1,375개 미만(사용자 승인 뒤) — 이동평균 앞부분 null, 일봉은 최근 1,255봉까지(CEG)
   company_tags : [(회사 고유 태그, 표준 태그)] — 설비투자 등을 회사 고유 태그로만 내는 종목(COP)
   no_dcf   : 현금흐름 모델 미적용 사유(보험사 — CB). DCF 칸은 '계산 불가 · 사유', 판정은 두 칸으로
   feed     : 외국 기업(IFRS·현지 통화 — ASML·TSM·SKHY) — EPS·재무를 v2/adapters/{t}_feed.py(eps|financials)로, 활동성은 그 캐시 facts로
@@ -141,6 +142,8 @@ def main():
         arr = [PY, "v2/new_ticker_arrays.py", T, "--yahoo", yahoo, "--asof", a.asof]
         if B.get("bt_start"):
             arr += ["--bt-start", B["bt_start"]]
+        if B.get("short_listing"):
+            arr += ["--short"]
         run(arr, show=r"^arrays|checkpoints")
     else:
         run([PY, os.path.join(HERE, "root_arrays.py"), T], show=r"^arrays")

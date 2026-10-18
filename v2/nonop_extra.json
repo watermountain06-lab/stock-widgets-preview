@@ -100,5 +100,11 @@
    "tag": "EquityMethodInvestments",
    "reason": "지분법 투자(OCC 40% 등, 2026-06-30 $499M) — 이익은 영업이익 아래 Other income(10-Q 주석). 비시장성 지분 $2,386M(Polymarket 우선주 약 $2.0B 등)은 엔진 기본(EquitySecuritiesWithoutReadilyDeterminableFairValueAmount)으로 이미 들어간다. Bakkt 지분 $62M(공정가치 공시 태그뿐)·NAV $6M은 넣지 않음(주당 약 $0.12)."
   }
+ ],
+ "CEG": [
+  {
+   "tag": "Investments",
+   "reason": "10-Q 주석 18 투자 합계(2026-06-30 $353M = 지분법 $45M(이익은 세후 영업외) + 직원복지 신탁 $124M + 상장 지분 $61M + 비상장 지분 $122M + 채권 $1M). 원전 해체 신탁기금($20.5B)은 해체 충당부채와 묶여 넣지 않는다. 직원복지 신탁(이연 보상 부채와 맞물림)도 합계 안이라 들어간다(주당 약 $0.35). LongTermInvestments는 10-K에만 있어 build_dcf.NONOP_FROM_EXTRA로 버린다(2026-10-18)."
+  }
  ]
 }
