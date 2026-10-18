@@ -137,7 +137,10 @@ score_word = lambda sc: '싸다' if sc >= 70 else '비싸다' if sc < 30 else '�
 # 부호 붙은 정수 뒤 조사(받침 기준 — 0 영·1 일·3 삼·6 육·7 칠·8 팔은 받침, ㄹ 받침(1·7·8)은 '로'): 표가 바뀌면 '−1는'·'0로'가 되던 것(Fable, 2026-10-05)
 jo = lambda v, a_, b_: a_ if abs(v) % 10 in (0, 1, 3, 6, 7, 8) else b_
 jo_ro = lambda v: '으로' if abs(v) % 10 in (0, 3, 6) else '로'
-VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현금흐름 ' + ('미적용' if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL) + (f'(4표 기준 {_n:+.1f})'.replace('-', '−') if _maxw and _maxw < 4 else '')
+RIM = DCF.get('model') == 'rim'   # 관리의료 보험 초과이익모형(research/insurer_rim_prereg.md) — 세 번째 심판 이름과 기권 표기
+if RIM and not DCF.get('unavailable'):   # 판정 점수: 엔진(insurer_rim.score_of)과 이 파일의 현금흐름 표가 같아야 한다(§5 대조)
+    assert _dv == DCF['score'], ('RIM 판정 점수가 엔진과 다르다', _dv, DCF['score'], ratio)
+VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · ' + ('초과이익 ' if RIM else '현금흐름 ') + (('기권' if RIM else '미적용') if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL) + (f'(4표 기준 {_n:+.1f})'.replace('-', '−') if _maxw and _maxw < 4 else '')
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
 ch = (px / D[max(-253, -len(D))][4] - 1) * 100   # 일봉이 1년보다 짧으면 첫날부터(SKHY ADR, 2026-10-05)
 CH_TXT = ('제자리(' + format(ch, '+.1f') + '%)') if abs(ch) < 1 else format(ch, '+.0f') + '%'
@@ -249,7 +252,7 @@ CHECK = (f'<div class="card-title">다음 실적 체크포인트 <span style="co
          + '\n'.join(f'      <div{" style=\"margin-bottom:8px;\"" if i < 3 else ""}><strong style="color:var(--accent2);">{"①②③④"[i]}</strong> {F(x)}</div>' for i, x in enumerate(C.CHECK)) + '\n    </div>')
 sub(r'<div class="card-title">다음 실적 체크포인트 <span[^>]*>[^<]*</span></div>\n    <div style="font-size:12px;color:var\(--text2\);line-height:1\.8;">.*?\n    </div>', CHECK)
 _usd = lambda v: ('−$' if v < 0 else '$') + f'{abs(v):.2f}'   # 음수 기본값(BA) — "$-63.51" 대신 "−$63.51"
-if DCF.get('nonopPerShare', 0) >= 0.5 and not (AUTO and DCF.get('base') is not None and DCF['base'] <= 0):   # 자동 카드: 음수 기본값은 이 줄에서도 드러내지 않는다(BA, Fable)
+if (DCF.get('nonopPerShare') or 0) >= 0.5 and not (AUTO and DCF.get('base') is not None and DCF['base'] <= 0):   # 자동 카드: 음수 기본값은 이 줄에서도 드러내지 않는다(BA, Fable)
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', f'<div class="note" data-dcf-nonop>기본 시나리오 {_usd(DCF["base"])} = 사업 가치 {_usd(DCF["base"] - DCF["nonopPerShare"])} + 비영업 자산 ${DCF["nonopPerShare"]:.2f}(주당, {C.NONOP_WHAT})</div>')
 else:
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', '<div class="note" data-dcf-nonop hidden></div>')
@@ -603,6 +606,9 @@ if '<div class="reverse">—</div>' in h and DCF.get('reqMode') == 'growth' and 
     _rev = F(C.REVERSE) if getattr(C, 'REVERSE', None) else (f'지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. '
         + f'기본 시나리오(<span data-dcf-basev>${(f'{DCF["base"]:.2f}' if abs(DCF["base"]) < 10 else f'{DCF["base"]:.0f}')}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.')
     one('<div class="reverse">—</div>', '<div class="reverse">' + _rev + '</div>')
+if RIM:   # 현금흐름 칸 라벨·탭·헤더를 RIM으로(newcards/rim_card.py — 문턱 대조 포함)
+    import rim_card as _rc
+    h = _rc.apply(h, T, DCF, px)
 if getattr(C, 'AUTO_OUTSIDE', None):   # 외국 발행사: 원문 링크는 모두 6-K다
     h = h.replace(' (SEC) →</a>', f" ({C.AUTO_OUTSIDE.get('link_tag', 'SEC 6-K')}) →</a>")   # SKHY는 한국 정기보고서 원문
 open(p, 'w', encoding='utf-8').write(h)

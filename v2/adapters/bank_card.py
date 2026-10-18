@@ -105,9 +105,10 @@ def self_history(bank, daily, eps_path):
             yr = sorted(v for dd, v in ser if isinstance(v, float) and dd >= start)
             yq = lambda p: yr[int((len(yr) - 1) * p)]
             px = daily[-1][4]
+            _u = 10 if px >= 100 else 1   # 주가 $100 미만은 $1 단위 — 10달러 반올림이 USB $57~$63을 "$60 ~ $60"으로 만들었다(Fable 2026-10-17)
             res["fairBand"] = {"per_p25": yq(0.25), "per_p75": yq(0.75),
-                               "low": int(round(px * yq(0.25) / cur_num / 10) * 10),
-                               "high": int(round(px * yq(0.75) / cur_num / 10) * 10), "asOf": last}
+                               "low": int(round(px * yq(0.25) / cur_num / _u) * _u),
+                               "high": int(round(px * yq(0.75) / cur_num / _u) * _u), "asOf": last}
     return res
 
 

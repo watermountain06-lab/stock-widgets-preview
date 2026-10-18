@@ -3,12 +3,16 @@
 # 출처: SEC XBRL, Q2 2026 10-Q(2026-08-10), 실적 보도자료(Q3 2025~Q2 2026), 8-K(이사 선임 11/18, CEO 옵션 2/23), StockAnalysis(2026-09-30).
 # 장기투자 $57.7B는 보험 자산으로 보고 내재가치에 더하지 않는다(2026-09-30 결정).
 # 재현 모드: python3 v2/newcards/build.py UNH --from-card (일봉·이동평균·백테스트는 지금 카드에서, 마지막 종가 2026-09-29).
+# 보험 RIM(2026-10-17 사용자 결정·research/insurer_rim_prereg.md 1판): 세 번째 심판을 현금흐름 대신 초과이익모형으로(adapters/insurer_rim.py),
+# 자기 이력·동종업에서 EV/EBITDA·PCR을 뺀다(보험 플로트 왜곡 — 배수 파일에서 빠지고 점수는 PER·PBR·PSR 셋).
+BUILD = {'rim': True, 'drop_multiples': ['pcr', 'evebitda']}
+NO_DCF_SKEW = True   # 쏠림 메모는 현금흐름 칸 통계라 RIM 칸에는 넣지 않는다
 CIK = '0000731766'
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 112032}   # Q2 2026 보도자료 매출(백만 달러, 투자·기타 수익 포함)
-VOTES, VERDICT = (0, 0, -1), '적정~고평가'
+VOTES, VERDICT = (0, 0, -2), '적정~고평가'
 CO = 'UnitedHealth Group'
 S_ = 'https://www.sec.gov/Archives/edgar/data/731766/'
 SEC = S_
@@ -22,7 +26,7 @@ FR = {r['metric']: r['value'] for ax in FUND['axes'].values() for r in ax['rows'
 ''']
 FAIRBAND_TITLE = ('id="unhFairBand" title="최근 1년 PER 25~75% 구간({FB[\'per_p25\']:.1f}~{FB[\'per_p75\']:.1f}배) × 최근 4분기 GAAP 희석 EPS 약 ${eps_ttm}'
                   '(최근 4분기 순이익 ÷ 현재 희석 주식 수, 분기 발표 합계는 $15.54). 이 EPS에는 2025년 4분기 일회성 비용(주당 약 $2.1)이 들어 있다. 회사 조정 EPS 최근 4분기 합계는 $18.64다."')
-HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +{HIST[\'growth_3y\'] * 100:.1f}%)</span>'
+HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 ROE (5년 일정 · 최근 4분기 {pct(DCF[\'roe0\']) if DCF.get(\'roe0\') is not None else \'—\'})</span>'
 OPM_RANGE, Y2 = (0, 12), (0, 12)
 FCF_SUB = '영업현금흐름 − 설비투자'
 CAPEX_SUB = '유형자산·소프트웨어 취득(현금흐름표)'
@@ -150,4 +154,4 @@ SEG_MAP = {
  "ignore": []
 }
 # 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
-POST = ['\n# 현재가 역산 문장(성장 모드)\none(\'<div class="reverse">—</div>\', \'<div class="reverse">\' + F(C.REVERSE) + \'</div>\')']
+POST = []   # 역산 문장은 RIM 칸(newcards/rim_card.py)이 쓴다 — 옛 성장 모드 문장을 되살리지 않는다(2026-10-17)

@@ -2111,5 +2111,70 @@
     "#5a6b7a"
    ]
   }
+ },
+ "ELV": {
+  "concepts": [
+   "elv:OperatingRevenue"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "elv:HealthBenefitsSegmentMember": [
+    "건강보험",
+    "#1355e9"
+   ],
+   "elv:CarelonRxSegmentMember": [
+    "CarelonRx(약제)",
+    "#6d95f2"
+   ],
+   "elv:CarelonServicesSegmentMember": [
+    "Carelon Services",
+    "#0d3ca6"
+   ]
+  },
+  "ignore_candidates": [
+   "elv:TotalCarelonMember",
+   "us-gaap:CorporateAndOtherMember"
+  ]
+ },
+ "ICE": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "ice:ExchangesMember": [
+    "거래소",
+    "#1b3d6d"
+   ],
+   "us-gaap:TechnologyServiceMember": [
+    "채권·데이터",
+    "#4f7fb8"
+   ],
+   "ice:MortgageTechnologyMember": [
+    "모기지 기술",
+    "#8fb3dc"
+   ]
+  },
+  "ignore_candidates": [
+   "ice:EnergyFuturesAndOptionsMember",
+   "ice:AgriculturalandMetalsFuturesandOptionsContractsMember",
+   "ice:FinancialFuturesAndOptionsMember",
+   "ice:CashEquityandEquityOptionsMember",
+   "ice:OTCandOtherTransactionsMember",
+   "ice:ExchangeDataMember",
+   "ice:ListingsMember",
+   "ice:FixedIncomeExecutionMember",
+   "ice:CDSClearingMember",
+   "ice:FixedIncomeDataAndAnalyticsMember",
+   "ice:OtherDataAndNetworkServicesMember",
+   "ice:OriginationTechnologyMember",
+   "ice:ClosingSolutionsMember",
+   "ice:ServicingSoftwareMember",
+   "ice:MortgageTechnologyDataAndAnalyticsMember"
+  ]
  }
 }

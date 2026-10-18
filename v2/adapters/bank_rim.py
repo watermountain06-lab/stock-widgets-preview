@@ -228,6 +228,9 @@ class Bank:
 
     def _ia7(self, end):
         """7판 11-3: 표준 태그 → 그 공시의 회사 고유 무형자산 태그 → 그 공시와 직전 네 공시에 무형자산 값이 하나도 없으면 0 → 아니면 400일 이어쓰기."""
+        # 무형자산 태그에 MSR이 섞인 은행(bank_sec_tags "ia_minus" — USB)은 원문 값(MSR을 뺀 값)을 먼저 쓴다(2026-10-17)
+        if self.t in SEC_TAGS.get("ia_minus", {}) and (self.secv.get(end) or {}).get("ia") is not None:
+            return (self.secv[end]["ia"], self.secv[end]["filed"])
         v = self._ia_std(end)
         if v is not None:
             return v
@@ -415,8 +418,8 @@ def rim_value(B0, roe0, roe_end, b, r=R, lam=FADE, years=5):
     return B0 + pv + tv / (1 + r) ** years
 
 
-def required_roe(B0, b, target, r=R, lam=FADE):
-    lo, hi = 0.0, 0.60
+def required_roe(B0, b, target, r=R, lam=FADE, hi=0.60):
+    lo = 0.0   # 탐색 상한은 인자 — 관리의료 보험은 80%(insurer_rim_prereg §3, UNH 해 33%)
     f = lambda x: rim_value(B0, x, x, b, r, lam)
     flo, fhi = f(lo), f(hi)
     if flo is None or fhi is None or not (flo <= target <= fhi):

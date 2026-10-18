@@ -5270,6 +5270,125 @@
         "valuationAsOf": "2026-10-16",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "ELV",
+      "name": "엘리번스 헬스",
+      "sector": "헬스케어 — 관리의료 건강보험",
+      "href": "ELV_full_widget.html",
+      "cardRank": 122,
+      "cardAsOf": "2026-10-16",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 428.26,
+        "prevClose": 428.43,
+        "session": "2026-10-16",
+        "prevSession": "2026-10-15",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 216869290,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-10",
+        "filedAt": "2026-07-15",
+        "filing": "10-Q 0001156039-26-000060 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 44.8,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-16",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "USB",
+      "name": "US 뱅코프",
+      "sector": "금융 — 지역 은행",
+      "href": "USB_full_widget.html",
+      "cardRank": 123,
+      "cardAsOf": "2026-10-16",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 58.73,
+        "prevClose": 57.39,
+        "session": "2026-10-16",
+        "prevSession": "2026-10-15",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1558051446,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0000036104-26-000044 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "excluded",
+        "reason": "v2 기본적 분석 점수 없음(financial)"
+      }
+    },
+    {
+      "ticker": "ICE",
+      "name": "인터컨티넨탈 익스체인지",
+      "sector": "금융 — 거래소·청산·모기지 기술",
+      "href": "ICE_full_widget.html",
+      "cardRank": 124,
+      "cardAsOf": "2026-10-16",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 161.56,
+        "prevClose": 158.41,
+        "session": "2026-10-16",
+        "prevSession": "2026-10-15",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 561394487,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-27",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0001571949-26-000011 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 66.2,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-16",
+        "qualityFlags": []
+      }
     }
   ]
 }

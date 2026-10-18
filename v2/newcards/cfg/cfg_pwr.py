@@ -2,8 +2,11 @@
 # 출처: SEC XBRL, Q2 2026 10-Q(2026-07-30), 실적 보도자료(Q3 2025~Q2 2026, 8-K 2.02항 — 모두 장 시작 전 접수), 8-K(선순위채 발행 2026-08-03 가격 결정·08-06 발행), StockAnalysis.
 # 엔진 입력(2026-10-17): 4분기 EPS 보도자료 값(2021 $0.71). 공통 수정 — 실적 8-K에 붙은 XBRL이 전년 4분기 3개월 값을 처음 직접 실어
 # 2023-12~2024-12 영업이익 TTM 공개일이 전부 2025-02-20으로 밀렸던 것을 고쳤다(build_multiple_history.quarterly_flow, EV/EBITDA 1,117일 → 1,255일).
-# 비영업 자산: 장기투자 $433.9M 중 통합 지분법 투자 $283.3M(이익이 영업이익 안)은 v2/nonop_extra.json 음수 항목으로 뺀다(분기마다 갱신, Codex 2026-10-17).
+# 비영업 자산: 장기투자 $433.9M 중 통합 지분법 투자 $283.3M(이익이 영업이익 안)은 영업 자산 — 합계를 버리고(build_dcf.NONOP_FROM_EXTRA) 비통합 지분법(원문 차원 값,
+# BUILD dim_facts → adapters/dim_fact_feed.py, 최신 공시에 없으면 빌드 멈춤) + 비시장성 지분증권(표준 태그)만 더한다 — 분기마다 손입력 없음(2026-10-17 dr). 비통합분은 2022-08 10-Q부터 공시(2021-12 비교 수치 포함) — 그 전 시점은 미공시라 0(주당 약 $0.2 과소).
 # 인수가 잦다 — 2025년 Dynamic Systems 포함 8건, 2026년 상반기 3건(현금 $930M), 6/30 뒤 1건. 매출 증가율에 인수분이 섞여 있다.
+BUILD = {'dim_facts': [('us-gaap:EquityMethodInvestments', 'srt:ScheduleOfEquityMethodInvestmentEquityMethodInvesteeNameAxis',
+                        'pwr:NonIntegralUnconsolidatedAffiliatesMember', 'EquityMethodInvestmentsNonIntegralPwr')]}   # 비영업 자산 — 원문 차원 값(nonop_extra tag)
 CIK = '0001050915'
 # 씨앗값 — quarter_auto가 매번 다시 정한다
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'

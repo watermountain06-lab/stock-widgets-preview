@@ -1,0 +1,23 @@
+{
+ "_note": "관리의료 보험 RIM 태그 표 — 사전 등록 research/insurer_rim_prereg.md 1판 §2. 근거는 10-Q·10-K 재무상태표·손익계산서·현금흐름표 줄(구현 첫 단계 대조 2026-10-17).",
+ "UNH": {
+  "cik": "0000731766",
+  "ce": {"plus": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest", "minus": "MinorityInterest"},
+  "ni": "NetIncomeLoss",
+  "shares": "CommonStockSharesOutstanding",
+  "div": "PaymentsOfDividendsCommonStock",
+  "buy": "PaymentsForRepurchaseOfCommonStock",
+  "iss": "ProceedsFromIssuanceOfCommonStock",
+  "_verified": "2026-10-17 — CE: 10-Q·10-K 재무상태표 'Total equity − Nonredeemable noncontrolling interests'와 2024-09~2026-06 8분기 모두 0.0% 차이(재무상태표에 'UnitedHealth Group shareholders' equity' 합계 줄은 없다 — 위 두 줄로 대조). NI: 'Net earnings (loss) attributable to UnitedHealth Group common shareholders'와 8개 기간(10-Q 3개월·10-K 연간) 일치."
+ },
+ "ELV": {
+  "cik": "0001156039",
+  "ce": {"tag": "StockholdersEquity"},
+  "ni": "NetIncomeLoss",
+  "shares": "CommonStockSharesOutstanding",
+  "div": "PaymentsOfDividends",
+  "buy": "PaymentsForRepurchaseOfCommonStock",
+  "iss": "ProceedsFromStockOptionsExercised",
+  "_verified": "2026-10-17 — NI: 'Shareholders’ net income'와 8개 기간 일치. 발행: Q2 2026 10-Q 현금흐름표 'Proceeds from issuance of common stock under employee stock plans' 63·21(6개월)이 ProceedsFromStockOptionsExercised(사전 등록의 UNVERIFIED 해소, ProceedsFromStockPlans 아님)."
+ }
+}

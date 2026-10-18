@@ -307,6 +307,8 @@ def main():
                     help="자기 이력 점수를 읽을 build_multiple_history 결과 JSON")
     ap.add_argument("--prices-today", action="store_true",
                     help="비교 종목을 오늘 stocks.json 종가로(기본은 카드 자기 이력 창 끝 날짜의 종가)")
+    ap.add_argument("--drop", default="",
+                    help="자기 이력·동종업 점수에서 뺄 배수(쉼표, per·pbr·psr·pcr·evebitda) — 보험 RIM 카드의 pcr·evebitda(사전 등록 insurer_rim_prereg §1)")
     ap.add_argument("--card", action="store_true",
                     help="v2/<T>_full_widget.html의 VALUATION 블록을 교체한다 (--self 필요)")
     args = ap.parse_args()
@@ -317,6 +319,11 @@ def main():
     if args.self_path and os.path.exists(args.self_path) and not args.prices_today:
         session = (json.load(open(args.self_path)).get("window") or [None, None])[1]
     r = peer_score(t, load_sectors(), load_prices(session), args.self_path)
+    drop = {x.strip() for x in args.drop.split(",") if x.strip()}
+    if drop:   # 사전 등록으로 뺀 배수 — 점수 평균과 카드 상자에서 모두 뺀다
+        r["dropped"] += [(row["metric"], "사전 등록으로 제외(보험 플로트 왜곡)") for row in r["metrics"] if row["metric"] in drop]
+        r["metrics"] = [row for row in r["metrics"] if row["metric"] not in drop]
+        r["score"] = round(sum(x["score"] for x in r["metrics"]) / len(r["metrics"]), 1) if r["metrics"] else None
     # 실제로 쓴 파일의 거래일 — S&P500 비교군 파일을 쓰는 카드는 종가를 쓰지 않으므로(파일 asOf 값 그대로) 비워 둔다
     _sec = load_sectors().get(t)
     _uni = TICKER_UNIVERSE.get(t) or (None if t in TICKER_BORROW else SECTOR_UNIVERSE.get(_sec))
@@ -336,7 +343,7 @@ def main():
     print(f"\n  동종업 대비 = {r['score']}")
 
     if args.self_path and os.path.exists(args.self_path):
-        d = json.load(open(args.self_path))["multiples"]
+        d = {k: v for k, v in json.load(open(args.self_path))["multiples"].items() if SELF_KEYS.get(k) not in drop}
         sc = [v["score"] for v in d.values() if v.get("score") is not None]
         s = round(sum(sc) / len(sc), 1) if sc else None
         r["selfScore"] = s
@@ -358,7 +365,7 @@ def main():
         if "selfScore" not in r:
             sys.exit("--card는 --self와 함께 쓴다 (두 점수를 한 블록에 싣는다)")
         sd = json.load(open(args.self_path))
-        write_card(t, r, sd["multiples"], sd.get("perBasis", "diluted"), sd.get("perNA"))
+        write_card(t, r, {k: v for k, v in sd["multiples"].items() if SELF_KEYS.get(k) not in drop}, sd.get("perBasis", "diluted"), sd.get("perNA"))
 
 
 SELF_KEYS = {"PER": "per", "PBR": "pbr", "PSR": "psr", "PCR": "pcr", "EV/EBITDA": "evebitda"}

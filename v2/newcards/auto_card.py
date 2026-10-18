@@ -572,8 +572,10 @@ def texts(C, ns):
         if A.get("bb") is not None:
             s += f"·자사주 매입 {B(A['bb'])}"
         bl.append(s + ".")
-    dcf_txt = ("현금흐름 내재가치(기본)는 음수라 계산할 수 없다" if neg_dcf else
-               f"현금흐름 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}다" if ratio else "")
+    rim = DCF.get("model") == "rim"   # 관리의료 보험 — 현금흐름 대신 초과이익모형(research/insurer_rim_prereg.md, 2026-10-17)
+    jw = "초과이익" if rim else "현금흐름"
+    dcf_txt = (f"{jw} 내재가치(기본)는 음수라 계산할 수 없다" if neg_dcf else
+               f"{jw} 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}다" if ratio else "")
     risk = f"세 칸이 {ns['VOTES_TXT']}, 합계 {ns['TOTAL_TXT']} “{ns['VERDICT']}”이다." + (f" {dcf_txt}." if dcf_txt else "")
     _w = C.CHECK_WHEN.split(' · ')[0]
     nxt = f"{_w} 실적 공시." if _w == A['next_label'] else f"{_w} {A['next_label']} 실적 공시."   # 일정 추정이 없으면 CHECK_WHEN이 분기 이름뿐 — "Q4 FY26 Q4 FY26" 겹침(ADBE 2026-10-17)
@@ -615,9 +617,9 @@ def texts(C, ns):
                f"({span_y(lead.get('days'))} 중앙값 {lead['median']:.1f}배)") if lead else f"자기 이력 {selfsc:.0f}점"
     cand.append(("밸류", (selfsc - 50) / 25, val_txt + "."))
     if neg_dcf:
-        cand.append(("내재가치", -1.5, "현금흐름 내재가치(기본)는 음수 — 지금 이익률·성장으로는 계산할 수 없다."))
+        cand.append(("내재가치", -1.5, f"{jw} 내재가치(기본)는 음수 — 지금 " + ("ROE로는" if rim else "이익률·성장으로는") + " 계산할 수 없다."))
     elif ratio:
-        cand.append(("내재가치", 1.0 if ratio >= 111 else -1.5 if ratio <= 67 else 0, f"현금흐름 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}."))
+        cand.append(("내재가치", 1.0 if ratio >= 111 else -1.5 if ratio <= 67 else 0, f"{jw} 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}."))
     yo_tab = A.get("seg_yo", {})
     if same_len:
         for n_, v_, _ in C.SEG:
@@ -698,6 +700,8 @@ def texts(C, ns):
         tail = f" 현재가를 정당화하려면 매출이 5년간 연 {DCF['requiredGrowth'] * 100:.1f}% 커야 한다."
     else:
         tail = ""
+    if rim:
+        return _rim_texts(C, DCF, risk, dcf_txt)
     if DCF.get("unavailable"):   # 보험사 등 현금흐름 미적용 — 내재가치 문장을 쓰지 않는다(CB, Fable)
         C.RISK = risk.replace(f" {dcf_txt}." if dcf_txt else "§", "")
         C.DCF_NOTE = "이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다)."
@@ -734,6 +738,60 @@ def texts(C, ns):
     return _finish(C)
 
 
+RIM_BIAS = "자산이 가벼운 사업은 장부 기준 모델에서 낮게 나온다 — 영업권이 크고 장부가 거의 필요 없는 서비스 이익과 자사주 매입이 있는 회사라, 이 값은 구조적으로 낮은 쪽이다."
+
+
+def _qlab(e):
+    return f"Q{int(e[5:7]) // 3} {e[:4]}"
+
+
+def _rim_texts(C, D, risk, dcf_txt):
+    """보험 RIM 카드의 내재가치 문장(insurer_rim_prereg §5·§6). 숫자는 모두 DCF 블록(adapters/insurer_rim.py)에서."""
+    p1 = lambda v: f"{v * 100:.1f}%"
+    if D.get("unavailable"):   # 기권 — 현행 규칙대로 카드 판정 보류(§4). 보험사 '현금흐름 미적용' 문구가 아니라 기권 사유(dr r4 Fable 권장)
+        why = f"이번에는 초과이익 내재가치를 계산하지 않았다 — {D['unavailable']}. 규칙대로 종합 판정을 보류한다."
+        C.RISK = risk.replace(f" {dcf_txt}." if dcf_txt else "§", "") + " " + why
+        C.DCF_NOTE = why
+        C.PREMISE = C.PREMISE.split("<strong>")[0].rstrip()
+        C.STORIES = ["계산하지 않음."] * 3
+        return _finish(C)
+    rq = D.get("requiredRoe")
+    C.RISK = risk + (f" 현재가를 정당화하려면 5년 내내 ROE가 {p1(rq)}여야 한다(최근 4분기 {p1(D['roe0'])}, 2년 중앙값 {p1(D['roe2y'])})."
+                     if rq is not None else " 0~80% 안의 어떤 일정 ROE로도 현재가에 닿지 않는다.") + " " + RIM_BIAS.split(" — ")[0] + "."
+    fade = "그 뒤 잔존가치는 ROE와 할인율 10%의 차이를 절반으로 줄여 잡는다"
+    C.STORIES = [(f"ROE가 최근 4분기 {p1(D['roe0'])}에서 5년 중앙값 {p1(D['roe5y'])}로 5년간 직선으로 가고, {fade}." if D.get("roe5y") is not None
+                  else "5년 ROE 중앙값을 낼 분기가 모자라(최소 16개) 계산하지 않는다."),
+                 f"ROE가 최근 4분기 {p1(D['roe0'])}에서 최근 2년 중앙값 {p1(D['roe2y'])}로 5년간 직선으로 가고, {fade}.",
+                 f"ROE가 최근 4분기 {p1(D['roe0'])}에 머물고, {fade}."]
+    R = D.get("rimDetail") or {}
+    vs = [v for v in (D["low"], D["base"], D["high"]) if v is not None]
+    note = (f"세 시나리오는 ${min(vs):.2f}~${max(vs):.2f}다. "
+            f"출발점은 {_qlab(R['L'])} 말 보통주 장부 자본 {B(R['ce'])}(주당 ${D['bvps']:.2f})이고, 해마다 순이익의 {p1(D['b'])}를 장부에 남긴다고 본다"
+            f"(유보율 — 최근 4분기 순이익 {B(R['ni'])}에서 배당 {B(R['div'])}·자사주 매입 {B(R['buy'])}을 빼고 발행 {B(R['iss'])}을 더한 몫"
+            + (f", 계산값 {p1(R['bRaw'])}를 0~100%로 잘랐다" if D.get("bClipped") else "") + ").")
+    if (D["low"] is not None and D["low"] > D["base"]) or D["high"] < D["base"]:
+        note += (f" 시나리오 순서가 이름과 다르다 — 과거 ROE가 지금보다 높았다(" + (f"5년 중앙값 {p1(D['roe5y'])}, " if D.get("roe5y") is not None else "")
+                 + f"2년 {p1(D['roe2y'])}, 최근 4분기 {p1(D['roe0'])}).")
+    if D.get("roe5y") is None:
+        note += " 5년 ROE 중앙값을 낼 분기가 모자라 보수 시나리오는 없다."
+    g = R.get("grid") or {}
+    if g.get("0.10|0.0") and g.get("0.10|1.0"):
+        note += f" 절반 수렴 대신 수렴 없음이면 기본 ${g['0.10|0.0']:.0f}, 완전 수렴이면 ${g['0.10|1.0']:.0f}다(아래 민감도 표)."
+    s4 = R.get("signal4")
+    if s4:
+        od = sorted(zip(s4["quarters"], s4["ratios"], s4.get("ni", [None] * len(s4["quarters"]))))   # 시간 순, 금액 병기(0.00배가 '0원'으로 읽히지 않게, Fable)
+        qs = "·".join(f"{_qlab(e)} {B(n)}" if n is not None else _qlab(e) for e, _, n in od)
+        rs = "·".join(f"{x:.2f}" for _, x, _ in od)
+        note += (f" 출발 4분기 가운데 {qs} 순이익이 최근 8분기 분기 중앙값 {B(s4['median_q_ni'])}의 {rs}배라, 그 분기를 중앙값으로 바꾸면 ROE는 {p1(s4['roe_at_median'])}다"
+                 " — 일회성일 수도, 실적 수준 변화·계절성일 수도 있다(표와 판정은 GAAP 그대로).")
+    if R.get("oci") is not None:
+        note += f" 기타포괄손익({B(R['oci'])}, 자본의 {abs(R['oci']) / R['ce'] * 100:.1f}%)은 앞으로 0으로 둔다."
+    if D.get("rimQuarter"):
+        note += f" 초과이익은 {_qlab(D['rimQuarter'])} 기준이다(그 뒤 분기가 관문을 통과하지 못했다)."
+    C.DCF_NOTE = note + " " + RIM_BIAS
+    return _finish(C)
+
+
 def _finish(C):
     # cfg MODEL_NOTE — 일반 모델이 이 회사에 맞지 않는 점을 경고 문장·내재가치 설명 끝에 한 줄로(EQIX 리츠, Codex 2026-10-17)
     _mn = getattr(C, "MODEL_NOTE", "")
@@ -741,6 +799,9 @@ def _finish(C):
         _nz = lambda t: (t or "").replace("$-", "−$").replace("-", "−")   # 음수 기호 후처리 뒤 글과도 같게 비교(Codex 2차)
         C.RISK = C.RISK if _nz(_mn) in _nz(C.RISK) else C.RISK.rstrip() + " " + _mn
         C.DCF_NOTE = C.DCF_NOTE if _nz(_mn) in _nz(C.DCF_NOTE) else ((C.DCF_NOTE or "").rstrip() + " " + _mn).strip()
+    _he = getattr(C, "HEALTH_EXTRA", "")   # cfg 고정 문장(숫자 없이) — 건전성 비율을 흔드는 회사 구조(ICE 청산 증거금, Fable 2026-10-18)
+    if _he and _he not in C.HEALTH_NOTE:
+        C.HEALTH_NOTE = C.HEALTH_NOTE + " " + _he
     O = getattr(C, "AUTO_OUTSIDE", None)
     if O and O.get("fund_tip") and O["fund_tip"] not in C.FUND_TIP:   # 외국 발행사: 재무 통화·원문 설명을 덧붙인다
         C.FUND_TIP = C.FUND_TIP + " " + O["fund_tip"]

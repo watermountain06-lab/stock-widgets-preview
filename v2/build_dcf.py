@@ -91,7 +91,14 @@ def latest(series, asof=None):
 # 투자자산이 영업 자산인 회사(CIK) — 투자 수익이 영업이익 안에 있다. 값은 근거.
 INVESTMENTS_OPERATING = {"0000731766": "UNH — 10-Q 손익계산서 Revenues에 'Investment and other income'(2026 Q2 $1,223M), Earnings from operations에 포함",
                          "0000040545": "GE — 런오프 보험 투자증권 $37.9B가 보험 부채 $36.2B를 받친다. 투자수익은 'Insurance revenue'(2026 Q2 $715M)로 매출·영업이익 안(2026-09-30 사용자 결정)",
+                         "0001156039": "ELV — 10-Q 손익계산서 Total revenues에 'Net investment income'(2026 Q2 $704M) — 영업이익을 세전 + 이자로 합성해 투자수익을 넣고(DERIVED_OPINC) 투자자산은 영업 자산(UNH·CVS와 같은 처리, 2026-10-17)",
                          "0000064803": "CVS — 10-Q 손익계산서 Total revenues에 'Net investment income'(2026 Q2 $641M), Operating income에 포함 — 장기투자 $33.2B는 Aetna 보험 자산(UNH와 같은 처리, 2026-10-15)"}
+
+
+# 장기투자 합계 태그에 영업 자산이 섞인 회사 — 합계를 버리고 v2/nonop_extra.json의 tag 항목(원문 차원 값은 adapters/dim_fact_feed.py가
+# overlay에 싣는 이름 붙인 태그)만 비영업 자산으로 더한다. PWR: LongTermInvestments $433.9M 중 통합 지분법 투자 $283.3M은 이익이 영업이익 안
+# (영업 자산) — 비통합 지분법 + 비시장성 지분증권만(2026-10-17 dr, 분기마다 손입력 없음).
+NONOP_FROM_EXTRA = {"0001050915": "PWR — 비통합 지분법 투자(차원 값, dim_fact_feed) + 비시장성 지분증권(EquitySecuritiesWithoutReadilyDeterminableFairValueAmount)"}
 
 
 def base_inputs(ticker, asof=None):
@@ -292,7 +299,7 @@ def base_inputs(ticker, asof=None):
     # 투자 수익을 매출·영업이익에 넣는 회사(보험 — UNH "Investment and other income")는 그 투자가 영업 자산이다.
     # 비영업 자산으로 또 더하면 수익을 두 번 센다(2026-09-30 사용자 결정 "장기투자는 빼고 현금은 두기").
     # 투하자본 계산에서도 영업 자산으로 남는다. 현금·단기투자는 다른 회사처럼 순현금에 둔다.
-    if cik in INVESTMENTS_OPERATING:
+    if cik in INVESTMENTS_OPERATING or cik in NONOP_FROM_EXTRA:
         out["nonop_assets"] = 0.0
     # 종목 지정 비영업자산(v2/nonop_extra.json). 같은 태그가 회사마다 다른 자산을 담아
     # (AvailableForSaleSecuritiesDebtSecurities는 흔히 단기 시장성 채권 전체다) 일괄 적용하면

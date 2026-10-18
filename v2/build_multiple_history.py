@@ -445,6 +445,12 @@ DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이
                  # NKE: 영업이익 줄이 없다. 영업이익 = 세전이익 − "Interest (income) expense, net"(InterestIncomeExpenseNonoperatingNet, 순이자수익이면 양수)
                  # − "Other (income) expense, net"(OtherNonoperatingIncomeExpense, 수익이면 양수). Q1 FY27: 921 − 14 − 19 = 888 = 매출총이익 4,798 − 판관비 3,910(10-Q 대조, 2026-10-17).
                  # 세전 태그가 FY2021까지 …MinorityInterestAndIncomeLossFromEquityMethodInvestments라 목록으로 잇는다(ADP 전례 — 없으면 합성 이력이 2022-10 공시부터).
+                 # ELV: OperatingIncomeLoss 태그는 영업 매출 − 의료비·상품원가·영업비용(Q2 2026 $1,763M) — 'Total revenues' 안의 투자수익($704M)·금융상품 손익과
+                 # 무형자산 상각이 빠진다. UNH·CVS처럼 투자수익을 영업으로 보고(INVESTMENTS_OPERATING) 영업이익 = 세전이익 + 이자비용
+                 # (Q2 2026: 1,937 + 364 = 2,301). 이자 태그가 2024-07부터 InterestExpenseNonoperating, 세전 태그는 FY2021까지 다른 이름(2026-10-17).
+                 "0001156039": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                 "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                                [(["InterestExpenseNonoperating", "InterestExpense"], -1)]),
                  "0000320187": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                  "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                                 [(["InterestIncomeExpenseNonoperatingNet"], 1), (["OtherNonoperatingIncomeExpense"], 1)]),
@@ -579,6 +585,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # ELV: DepreciationDepletionAndAmortization(2023-06~ 8행)은 0·659 같은 다른 항목 값 — 감가상각은 현금흐름표 DepreciationAmortizationAndAccretionNet만(2026-10-17)
+                "0001156039": ("DepreciationDepletionAndAmortization",),
                 # NKE: 합산 태그 DepreciationDepletionAndAmortization이 2023-05부터라 기본 선택이 그것만 잡는다 — 구성요소 튜플(DDA_PARTS_BY_CIK)로 옛 Depreciation과 잇는다.
                 "0000320187": ("DepreciationDepletionAndAmortization",),
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
@@ -1179,6 +1187,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0001101239": ["LongTermDebt", "FinanceLeaseLiability"],
                   # ADBE: LongTermDebt는 비유동분만 — 1년 안 만기분은 DebtCurrent($1,597M, 2026-08-28)라 기본 선택에서 빠졌다(엔진 $4,766M 대 재무상태표 $6,363M, 2026-10-17).
                   "0000796343": ["DebtCurrent", "LongTermDebt"],
+                  # ICE: 재무상태표 "Short-term debt" 한 줄을 ShortTermBorrowings·LongTermDebtCurrent·CommercialPaper(그 일부) 세 태그로 내
+                  # 기본 합이 같은 $1,218M을 세 번 더했다($22,282M 대 원문 $19,846M, 2026-10-18). 2020~2026 내내 앞 둘은 같은 값.
+                  "0001571949": ["ShortTermBorrowings", "LongTermDebtNoncurrent"],
                   # ETN: 1년 안 만기 장기차입금을 LongTermDebtAndCapitalLeaseObligationsCurrent로 내 기본 목록에서 빠졌다(FY2025 말 $1,136M —
                   # 엔진 $8,759M 대 재무상태표 $9,895M, Codex 2026-10-01). 금융리스 포함 태그라 금융리스를 따로 더하지 않는다.
                   "0001551182": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -1339,6 +1350,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
                   # EQIX: 우선주 태그가 2022-12(0)에 멈췄다 — 우선주 없음.
                   "0001101239": {"preferred": []},
+                  # ICE: ShortTermInvestments는 2017-12에 멈췄다($16M) — 그 뒤 단기투자 줄 없음("Short-term restricted investments"는 규제 자본, 현금 아님)
+                  "0001571949": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # 상환가능 비지배지분 $32M(자본 밖 별도 줄, Codex 2026-10-18 — MCK와 같은 처리)
                   # NKE: 재무상태표 "Short-term investments"를 2022-02까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent, 그 뒤로는
                   # DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent로 낸다($1,465M, 2026-08-31). 기본 목록의 ShortTermInvestments는 2014년에 멈춤.
                   "0000320187": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent"]},
@@ -1745,6 +1758,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
     ap.add_argument("--json", help="결과를 저장할 경로")
+    ap.add_argument("--drop", default="", help="계산하지 않을 배수(쉼표, PCR·EV/EBITDA) — 보험 RIM 카드(사전 등록 insurer_rim_prereg §1, CB처럼 파일에서 빠진다)")
     args = ap.parse_args()
     t = args.ticker.upper()
     cik = feh.CIKS.get(t)
@@ -1992,7 +2006,11 @@ def main():
         out["perNA"] = {"netMargin": None, "rule": "최근 4분기 EPS ≤ 0(적자) — 순이익률 계산 불가"}
         print("  PER 해당 없음: 순이익률은 못 구했지만 최근 4분기 EPS ≤ 0(적자) — 자기 이력·동종업 점수에서 PER을 뺀다(A3)")
 
+    _drop = {x.strip() for x in args.drop.split(",") if x.strip()}
     for label, fn in defs.items():
+        if label in _drop:
+            print(f"  {label}: 사전 등록으로 제외")
+            continue
         pts = []
         for b in daily:
             try:

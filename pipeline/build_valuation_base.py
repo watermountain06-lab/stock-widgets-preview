@@ -54,7 +54,8 @@ ROW = re.compile(
     r'<span class="val-high">(?P<high>[^<]*)</span>', re.S)
 # the cards' deliberate full bars for 0-weight metrics (not a width error)
 DELIBERATE = {("BRKB", "psr"), ("BRKB", "pcr"), ("BRKB", "evebitda"), ("GE", "evebitda"),
-              ("RTX", "pbr"), ("SNDK", "per"), ("SNDK", "pcr")}
+              ("RTX", "pbr"), ("SNDK", "per"), ("SNDK", "pcr"),
+              ("ELV", "pcr"), ("ELV", "evebitda"), ("UNH", "pcr"), ("UNH", "evebitda")}   # 보험 RIM 카드 — 사전 등록 insurer_rim_prereg §1(2026-10-17)
 PRICE_RATIO = {"per", "pbr", "psr", "pcr"}
 UNIT = {"": 1, "M": 1e-3, "B": 1, "T": 1e3}  # to billions
 

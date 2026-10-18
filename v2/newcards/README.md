@@ -4,7 +4,7 @@
 방법론·산식의 기준은 따로 있다: 은행 `v2/research/bank_rim_prereg.md`, 판정 구조 `v2/research/verdict_structure_prereg.md`, 백테스트 `v2/refresh_backtest.py` 머리 설명.
 원칙(숫자 지어내지 않기, 배열 손으로 치지 않기, Codex·Fable 검토)은 `/ticker` 스킬 플레이북(stock-widgets-redesign/.claude/skills/ticker/playbook.md)과 같다.
 
-지금 카드 121장(2026-10-17 기준, VLO·MO·PSX·LMT·MCK·CVS·ADP·SYK·LOW·SBUX·CME·TT·FCX·NKE·EQIX·ADBE·BNY·PWR 추가): 비은행 생성기 카드 109장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 10장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
+지금 카드 123장(2026-10-17 기준, VLO·MO·PSX·LMT·MCK·CVS·ADP·SYK·LOW·SBUX·CME·TT·FCX·NKE·EQIX·ADBE·BNY·PWR·ELV·USB 추가): 비은행 생성기 카드 110장이 **AUTO**(cfg `AUTO = True` — 새 10-Q·10-K를 매일 실행이 스스로 반영하고 문장도 규칙으로 다시 쓴다), 은행 11장은 `bank/`(사전 등록 7판, 공통 `bank_fill.py`), 손 카드는 BRKB(전용 생성기 `brkb/`)·SPCX(`hand_refresh.py`)뿐이다.
 매일·토요일 실행은 `daily_price.py`(GitHub Actions `.github/workflows/v2_cards.yml`)가 cfg가 있는 카드를 모두 돈다 — 새 카드를 워크플로에 따로 등록하지 않는다.
 
 ## 파일
@@ -47,10 +47,11 @@
 | **일반** | 아래 어디에도 안 걸림 | 아래 "새 종목 순서" 그대로 | VLO·MO |
 | **은행** | GICS Diversified·Regional Banks, 예대 사업(수탁은행 BNY도 — 예금 조달·CET1 규제, 2026-10-17 사용자 결정) | 아래 "은행" 절(RIM, `bank/rebuild.sh`) — 일반 경로 아님 | JPM·BAC·COF 등 9장 |
 | **보험** | 손해·생명보험(GICS Insurance) | `BUILD['no_dcf']`(현금흐름 미적용, "판정 보류") | CB·PGR |
+| **관리의료 보험(RIM)** | 건강보험이 주업이고 투자수익이 영업이익 안(현금흐름 모델이 투자수익과 그 원금을 두 번 센다) | `BUILD = {'rim': True, 'drop_multiples': ['pcr', 'evebitda']}` — 초과이익모형(`adapters/insurer_rim.py`, 사전 등록 `research/insurer_rim_prereg.md`), 태그는 `research/insurer_sec_tags.json`에 회사별로 넣고 원문 대조(§2), cfg `NO_DCF_SKEW = True`·`HEADER_REQ_LABEL` 요구 ROE. 새 회사는 사전 등록 범위 밖 — 먼저 새 판 | UNH·ELV |
 | **영업이익 줄 없음** | `--data`에서 OPM·EV/EBITDA "계산 불가", 손익계산서에 Operating income 줄이 없음 | `build_multiple_history.DERIVED_OPINC`(세전 + 이자 = 정유·석유 규칙, 세전 − 영업외 = 제약 규칙 — 유도식이 무엇을 남기는지 원문 대조), 세전이익 태그가 다르면 `build_dcf.PRETAX_TAG_BY_CIK`, 이자 태그가 엔진 목록 밖이면 `interest_extra.json`. 카드 문구는 자동으로 "합성 영업이익(세전이익 기준)". 세전 태그 이름이 중간에 바뀌었으면 세전 태그를 목록으로(앞 태그 우선 — ADP) | PSX·XOM·COP·LLY·JNJ·TJX·BX·ADP |
 | **핵심 줄이 회사 고유 태그·끊긴 태그** | `--data` 경고 `N일 뒤처짐`(capex·dda·debt·lease), EV/EBITDA·PCR "계산 불가" | 회사 고유 태그면 cfg `BUILD['company_tags']`(매일 실행도 캐시에 없으면 받는다), 표준 대체 태그면 `EXTRA_TAGS`·`EXCLUDE_TAGS`, 차입금은 `EV_TAGS_BY_CIK`, 재고는 `build_activity_score.INV_TAG_BY_CIK` | LMT(감가상각·재고)·PSX(설비투자·차입금)·COP·VLO(설비투자·감가상각·차입금)·ADP(설비투자·환매조건부 차입)·SYK(차입금 유동분·멈춘 비지배지분)·LOW(차입금 유동분, 이자비용 — 수집기 `CONCEPTS_BY_CIK`)·SBUX(멈춘 현금 태그)·CME(차입금 0·감가상각 연간만·순이익·자사주 태그)·TT(분기 현금 태그·유동 차입금·연간 리스)·FCX(연간 EPS 태그·매출·설비투자 부문 태깅·옛 우선주·재고 세 줄) |
 | **사업 일부 매각·합작사 전환(분사 아님)** | 8-K 2.01·7.01 매각 완료, 10-Q "held for sale"·"divestiture", 지분법 투자 급증 | 재작성이 없으니 일반 경로 — 매각 이익이 영업이익 밖인지, 남긴 지분의 이익이 영업이익 안이면 비영업 자산에 더하지 않는지 확인. 연결 제외 부문의 매출 급감은 부문 표 제목에 적는다 | SBUX(중국 소매) |
-| **기준 공시가 요약 자료에 없음** | `preflight`가 "companyfacts에 아직 없다"로 멈춤 — 결합 공시(지주회사 + 자회사)에서 몇 달씩 늦을 수 있다 | 만들지 않고 보류, 실린 뒤에 만든다(SO 2026-10-16: 7/30 Q2 10-Q가 10/16까지 없음) | SO(보류) |
+| **기준 공시가 요약 자료에 없음** | `preflight`가 "companyfacts에 아직 없다"로 멈춤 — 결합 공시(지주회사 + 자회사)에서 몇 달씩 늦을 수 있다 | 만들지 않고 보류, 실린 뒤에 만든다(SO 2026-10-16: 7/30 Q2 10-Q가 10/16까지 없음, DUK 2026-10-17: 8/4 Q2 10-Q 없음) | SO·DUK(보류) |
 | **분사·교환 공개매수 진행 중** | 최근 8-K 2.01항·1.01항, SC TO-I, 10-Q "discontinued operations" 예고 | 재작성 숫자가 나오기 전이면 **만들지 않고 보류**(아래 "분사 종목" 절), 나온 뒤면 `RESTATED_LATEST`·`HISTORY_START`·`bt_start` | SPGI·MDT(보류), GE·DELL·IBM·WDC·T |
 | **자본 음수** | 재무상태표 자본 < 0 | 일반 경로 그대로 — PBR은 자동 "해당 없음", 부채비율 1점 | MO·LOW·SBUX |
 | **지분법 투자·상장 자회사가 큼** | "Investments in equity securities"·비지배지분이 큼 | 비영업 자산은 `nonop_extra.json`(장부가, 1차 출처 근거), 비지배지분은 엔진이 EV에 더함 | MO(ABI)·MPC(MPLX)·KO |
@@ -88,9 +89,9 @@
 | 씨앗값(검사 기준) | SEG_ADJ — 원문에서 확인한 본사·상계 조정액. 부문 합 검사의 허용 기준(같은 부호 0.5~1.5배)으로 읽은 뒤 다시 정한다. 0이면 매출 3% 규칙만 남아 큰 조정이 있는 종목(GLW·TMO)은 멈춘다. SEC 자동 카드만(AUTO_OUTSIDE는 0) |
 | 제안기 입력 | SEG(seg_map_propose 입력 — 채울 때는 SEG_MAP에서 다시 만든다) |
 | auto가 덮어써 손으로 쓰지 않는 키 | SUMMARY·BULL·BEAR·PREMISE·RISK·STORIES·DCF_NOTE·HEALTH_NOTE·FUND_TIP·SELF_TIP·CHECK·CHECK_WHEN·YOY_EXTRA·SEG_NOTE·STAT3·CAPITAL·NEXT·NEXT_OP·FUND_ASOF_NOTE·OPM_RANGE·PR_CUR·FCF_SUB·CAPEX_SUB, RELEASE는 비움 |
-| 있을 때만 | CAPEX_LABEL(설비투자 태그가 다른 지출을 합칠 때 FCF·설비투자 칸 이름 — VLO)·SEG_SUM_LABEL·SEG_ADJ_LABEL(부문 표 아래 "부문 합 … 부문 간 거래·조정" 문구의 이름 — 조정이 표에 안 넣은 다른 부문 매출일 때, LOW)·MODEL_NOTE(일반 모델이 맞지 않는 점 한 줄 — 경고·내재가치 설명 끝, EQIX 리츠)·NEXT_CONFIRMED(`{"quarter_end", "date", "src"}` — 회사가 공시한 다음 실적일, 그 분기에만 쓰임, FCX)·BB_TAGS(자사주 매입 대체 태그 — 현금흐름표 줄을 다른 태그로 낸 회사, CME)·BB_NONE(`{분기 말일: 문구}` — 자사주 매입 태그가 아예 없을 때 "공시 없음" 대신. 10-Q 주석으로 매입 0을 확인한 그 분기에만 쓰인다, CVS)·OP_DISPLAY·NI_TAGS·SELF_SPAN·GROWTH_SPAN·REVERSE·ACT_REASON·REQ_MULT_EXACT·PBR_GAP_NEG_EQUITY·NO_DCF_SKEW·NONOP_NEG_SIGN·AUTO_OUTSIDE(외국 발행사 — ASML·TSM 6-K, SKHY OpenDART) |
+| 있을 때만 | CAPEX_LABEL(설비투자 태그가 다른 지출을 합칠 때 FCF·설비투자 칸 이름 — VLO)·SEG_SUM_LABEL·SEG_ADJ_LABEL(부문 표 아래 "부문 합 … 부문 간 거래·조정" 문구의 이름 — 조정이 표에 안 넣은 다른 부문 매출일 때, LOW)·MODEL_NOTE(일반 모델이 맞지 않는 점 한 줄 — 경고·내재가치 설명 끝, EQIX 리츠·ICE 인수형 투하자본·총매출)·HEALTH_EXTRA(건전성 칸 끝 고정 문장 — 비율을 흔드는 회사 구조, ICE 청산 증거금. 숫자는 쓰지 않는다)·NEXT_CONFIRMED(`{"quarter_end", "date", "src"}` — 회사가 공시한 다음 실적일, 그 분기에만 쓰임, FCX)·BB_TAGS(자사주 매입 대체 태그 — 현금흐름표 줄을 다른 태그로 낸 회사, CME)·BB_NONE(`{분기 말일: 문구}` — 자사주 매입 태그가 아예 없을 때 "공시 없음" 대신. 10-Q 주석으로 매입 0을 확인한 그 분기에만 쓰인다, CVS)·OP_DISPLAY·NI_TAGS·SELF_SPAN·GROWTH_SPAN·REVERSE·ACT_REASON·REQ_MULT_EXACT·PBR_GAP_NEG_EQUITY·NO_DCF_SKEW·NONOP_NEG_SIGN·AUTO_OUTSIDE(외국 발행사 — ASML·TSM 6-K, SKHY OpenDART) |
 
-`BUILD` 옵션: `overlay`(companyfacts 지연 — 인라인 XBRL 보충, 또는 재무 태그 별칭·합 `adapters/overlay_feed.py`의 `ALIAS`·`SUM`·`REPLACE`), `company_tags`(회사 고유 태그 — COP·PSX 설비투자, LMT 감가상각, NEM 재고·리스. 보충 자료는 `.sec_cache/overlay`에만 있고 Actions 캐시는 토요일에만 저장되므로, 캐시에 그 행이 없으면 매일 실행도 받아 온다 — 2026-10-13 PSX가 그날 밤 설비투자 없이 빌드됐다), `feed`(외국 기업 어댑터 `v2/adapters/{t}_feed.py`), `eps_cmd`(V), `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 시작일 — WDC·T), `sum_tags`(XOM 재고), `share_events`(분기 뒤 주식 발행), `no_dcf`(사유 — 현금흐름 미적용, "판정 보류": 보험 CB·PGR, 은행 기반 HTML 제작용 COF). 활동성 예외는 `build_activity_score.py`의 `COGS_TAG_BY_CIK`·`INV_SUM_BY_CIK`.
+`BUILD` 옵션: `overlay`(companyfacts 지연 — 인라인 XBRL 보충, 또는 재무 태그 별칭·합 `adapters/overlay_feed.py`의 `ALIAS`·`SUM`·`REPLACE`), `dim_facts`(원문 XBRL 차원 값 하나를 overlay 이름 붙인 태그로 — `adapters/dim_fact_feed.py`, 최신 원본 공시에 없으면 빌드 멈춤, `nonop_extra.json` tag 항목·`build_dcf.NONOP_FROM_EXTRA`와 함께 — PWR), `company_tags`(회사 고유 태그 — COP·PSX 설비투자, LMT 감가상각, NEM 재고·리스. 보충 자료는 `.sec_cache/overlay`에만 있고 Actions 캐시는 토요일에만 저장되므로, 캐시에 그 행이 없으면 매일 실행도 받아 온다 — 2026-10-13 PSX가 그날 밤 설비투자 없이 빌드됐다), `feed`(외국 기업 어댑터 `v2/adapters/{t}_feed.py`), `eps_cmd`(V), `eps_tag`(분사 종목 계속사업 EPS — WDC), `bt_start`(백테스트 시작일 — WDC·T), `sum_tags`(XOM 재고), `share_events`(분기 뒤 주식 발행), `no_dcf`(사유 — 현금흐름 미적용, "판정 보류": 보험 CB·PGR, 은행 기반 HTML 제작용 COF), `rim`(관리의료 보험 초과이익모형 — `adapters/insurer_rim.py` → 카드 `DCF` 블록 `model: "rim"`, 칸·탭은 `newcards/rim_card.py`, 기권이면 판정 보류: UNH·ELV), `drop_multiples`(자기 이력·동종업에서 뺄 배수 — 배수 파일에서도 빠진다: UNH·ELV의 pcr·evebitda). 활동성 예외는 `build_activity_score.py`의 `COGS_TAG_BY_CIK`·`INV_SUM_BY_CIK`.
 
 ## 점검 (`--data` 뒤, cfg 쓰기 전)
 
@@ -116,7 +117,7 @@
 
 1. 위 1~4(순위·등록·meta·일봉·공시 기준).
 2. 기반 HTML: `newcards/cfg/cfg_{t}.py`에 `CIK`와 `BUILD = {'no_dcf': '은행 — RIM으로 따로 계산'}`만 두고(일반 현금흐름 계산을 건너뛰게 — COF 선례 `cfg/cfg_cof.py`) `build.py T --data --asof <세션>` → 결과 카드를 `bank/base/{t}_base.html`로 복사.
-3. `bank/cfg/cfg_{t}.py`(CIK·CO·REV_TAG·PB·COLOR·BV_NOTE·ANALYST·NEWS=[] — 기존 은행 cfg 참고), `daily_price.BANKS`(순서 유지 — COF 먼저), `v2/adapters/bank_sec_values.py` `CARDS`, 우선주가 있으면 `v2/research/bank_sec_tags.json`, `v2/bank_items.json`(특별 항목), `fundamental_score_config_v1.json` `bank_exclude_tickers`, `sec_approved.json`.
+3. `bank/cfg/cfg_{t}.py`(CIK·CO·REV_TAG·PB·COLOR·BV_NOTE·ANALYST·NEWS=[] — 기존 은행 cfg 참고), `daily_price.BANKS`(순서 유지 — COF 먼저), `v2/adapters/bank_sec_values.py` `CARDS`, 우선주가 있으면 `v2/research/bank_sec_tags.json`(무형자산 태그에 MSR이 섞였으면 같은 파일 `ia_minus`), `v2/bank_items.json`(특별 항목), `fundamental_score_config_v1.json` `bank_exclude_tickers`, `sec_approved.json`.
 4. `bash v2/newcards/bank/rebuild.sh T` → 현행 백테스트(`build_backtest_pre.py T` → `refresh_backtest.py T`) → 카드의 `BACKTEST`를 `bank/base/{t}_base.html`에도 옮기고(`daily_price.py`의 은행 백테스트 처리와 같은 방식) `rebuild.sh T`를 다시 돌려 남는지 확인.
 5. `peer_universe/banks.json`은 `bank_card.py`가 S&P500 Diversified·Regional Banks에서 만드는 **산출물**이다 — 손으로 고치지 않는다. 기준일은 마지막으로 돌린 은행의 것이라 여러 장을 돌리면 최신 기준일 은행을 마지막에 돌린다.
 6. 홈 등록·기록은 위 11~13과 같다.

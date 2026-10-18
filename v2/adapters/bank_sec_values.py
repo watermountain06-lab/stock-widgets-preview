@@ -28,7 +28,7 @@ CACHE = os.path.join(V2, ".sec_cache", "ixbrl_bank")
 UA = "kim research gptjhss@gmail.com"
 SINCE = "2020-06-30"   # 5년 자기 이력 + 출발 TTM·기초 자본
 CARDS = {"JPM": "0000019617", "BAC": "0000070858", "WFC": "0000072971", "GS": "0000886982", "MS": "0000895421",
-         "C": "0000831001", "AXP": "0000004962", "SCHW": "0000316709", "COF": "0000927628", "BNY": "0001390777"}
+         "C": "0000831001", "AXP": "0000004962", "SCHW": "0000316709", "COF": "0000927628", "BNY": "0001390777", "USB": "0000036104"}
 IA_STD = ["us-gaap:IntangibleAssetsNetExcludingGoodwill", "us-gaap:FiniteLivedIntangibleAssetsNet",
           "us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill", "us-gaap:OtherIntangibleAssetsNet"]
 IA_CUSTOM = re.compile(r"^(?!us-gaap:)\w+:\w*Intangible\w*$", re.I)
@@ -161,6 +161,12 @@ def values(T, cik, fs, end, tags):
     if ia is None:   # 11-3: 회사 고유 무형자산 태그(MSR·영업권 포함 이름 제외)
         cust = sorted({n for n, s, e, d, x in fs if e == end and not s and not d and IA_CUSTOM.match(n) and not IA_SKIP.search(n)})
         ia, itag = pick(fs, end, cust) if cust else (None, None)
+    # 11-3 TCE는 무형자산에서 MSR을 뺀 값 — 무형자산 태그에 MSR을 함께 담는 은행은 지정한 태그만큼 덜어 낸다(USB "Other intangible assets"
+    # $4,999M 안에 MSR $3,177M, 2026-06-30 — Fable 2026-10-17). 지정이 없으면 그대로.
+    for mt in tags.get("ia_minus", {}).get(T, []):
+        m_, _ = pick(fs, end, [mt])
+        if ia is not None and m_ is not None:
+            ia, itag = ia - m_, f"{itag} − {mt}"
     ct = tags["cet1"].get(T, tags["cet1"]["_default"])["tag"]
     cet1, ctag = pick(fs, end, [ct, "us-gaap:CommonEquityTierOneCapitalRatio"])
     if cet1 is None:   # 표준방식(Standardized) 값 — 지주회사(연결·모회사) 것만, 은행 자회사 값은 뺀다(WFC 2026-06 10.26%, 자회사 12.07%)

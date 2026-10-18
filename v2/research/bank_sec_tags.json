@@ -13,6 +13,7 @@
    "why": "10-K는 us-gaap 태그(25,992), 10-Q는 회사 고유 태그(24,996) — 10-K의 회사 고유 태그 329는 다른 뜻이라 순서가 중요하다. 10-Q 세 분기 회사 CE와 일치"
   },
   "BNY": {"tags": ["us-gaap:PreferredStockValue"], "why": "재무상태표 우선주 장부금액 줄(2026-06-30 4,754·2025-12-31 4,836, Q2 2026 10-Q 원문 확인) — 액면가 $0.01이지만 태그 값은 장부금액"},
+  "USB": {"tags": ["us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount"], "why": "재무상태표 우선주 장부금액(2026-06-30 $6,808M = 청산우선액 $7,026M − 할인 $218M) — PreferredStockValue는 2013년에 멈춤(COF와 같은 태그)"},
   "C": {
    "tags": [
     "us-gaap:PreferredStockValue"
@@ -110,6 +111,7 @@
    "why": "회사 보통주 자본과 −0.09%(청산우선액은 −0.55%)"
   }
  },
+ "ia_minus": {"_note": "11-3 무형자산(MSR 제외) — 무형자산 태그에 MSR이 들어 있는 은행만 그 MSR 태그를 뺀다(bank_sec_values.values)", "USB": ["us-gaap:ServicingAssetAtFairValueAmount"]},
  "cet1": {
   "JPM": {
    "tag": "jpm:CommonEquityTier1CapitaltoRiskWeightedAssets"

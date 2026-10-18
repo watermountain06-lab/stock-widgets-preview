@@ -100,6 +100,15 @@ def main():
         print("· 분기 뒤 주식 발행 이벤트"); run([PY, "v2/adapters/share_events.py", T], show=r".")
     if B.get("cover_shares") and (net or not _ov.get("dei", {}).get("EntityCommonStockSharesOutstanding")):   # 표지 주식 수가 클래스별뿐인 종목(NKE A·B — META와 같은 방식)
         print("· 표지 주식 수 클래스 합산"); run([PY, "v2/adapters/cover_shares.py", T], show=r"저장")
+    # 원문 차원 값 → 이름 붙인 태그(adapters/dim_fact_feed.py — 최신 공시에 없으면 멈춘다, PWR 2026-10-17). 태그가 있어도 승인 공시보다 낡았으면
+    # 다시 돈다 — 매일 Actions는 SEC 캐시를 저장하지 않아(토요일만) 새 분기 다음 날 옛 overlay가 복원된다(dr r2 Codex·Fable 필수).
+    _appr = json.load(open(os.path.join(V2, "sec_approved.json"))).get(cik, "")
+    _ck = os.path.join(V2, ".sec_cache", "overlay", f"{cik}.dimcheck.json")
+    _marks = json.load(open(_ck)) if os.path.exists(_ck) else {}
+    _dim_stale = lambda tag: (not _ov.get("us-gaap", {}).get(tag)
+                              or max([r["filed"] for r in _ov["us-gaap"][tag]] + [_marks.get(tag, "")]) < _appr)
+    for concept, axis, member, stag in [x for x in B.get("dim_facts", []) if net or _dim_stale(x[3])]:
+        print(f"· 차원 값 {member} → {stag}"); run([PY, "v2/adapters/dim_fact_feed.py", cik, concept, axis, member, stag], show=r"저장|멈춤")
     for ctag, stag in [x for x in B.get("company_tags", []) if net or not _has_ct(*x)]:   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
         print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
     print("· EPS")
@@ -151,14 +160,17 @@ def main():
              "--out", f"v2/fundamental_data/{T}_financials.json"], show=r"Wrote")
     print("· 배수·비교군·기본적 분석·활동성")
     env_eps = dict(os.environ, EPS_HISTORY=f"scripts/{T}_eps_history.json")
-    r = subprocess.run([PY, "v2/build_multiple_history.py", T, "--json", f"v2/{T}_multiples.json"], cwd=REPO,
+    _dm = {"pcr": "PCR", "evebitda": "EV/EBITDA", "per": "PER", "pbr": "PBR", "psr": "PSR"}
+    r = subprocess.run([PY, "v2/build_multiple_history.py", T, "--json", f"v2/{T}_multiples.json"]
+                       + (["--drop", ",".join(_dm[x] for x in B["drop_multiples"])] if B.get("drop_multiples") else []), cwd=REPO,
                        capture_output=True, text=True, env=env_eps)
     for line in (r.stdout + r.stderr).splitlines():
         if re.search(r"적정주가|^  (PER|PBR|PSR|PCR|EV)|⚠", line):
             print("   ", line[:300])
     if r.returncode != 0:   # 실패하면 예전 배수 파일로 이어 가지 않는다(Codex 2026-10-06)
         sys.exit(f"build_multiple_history 실패({r.returncode}):\n{(r.stdout + r.stderr)[-1500:]}")
-    run([PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"], show=r"대비 =|^  (PER|PBR|PSR|PCR|EV)")
+    run([PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"]
+        + (["--drop", ",".join(B["drop_multiples"])] if B.get("drop_multiples") else []), show=r"대비 =|^  (PER|PBR|PSR|PCR|EV)")
     if B.get("sum_tags") and net:
         run([PY, "v2/adapters/financials_sum_tags.py", T], show=r".")
     run([PY, "v2/build_fundamental_score.py", T, "--card"], show=r"기본적 분석 =|^    ")
@@ -175,7 +187,29 @@ def main():
     else:
         run([PY, "v2/build_activity_score.py", T], show=r'"score"|"reason"')
     p = os.path.join(REPO, card)
-    if B.get("no_dcf"):   # 현금흐름 모델 미적용(보험사 — CB, 2026-10-02 사용자 결정, BRKB 방식). 카드 JS가 base == null이면 사유만 적는다.
+    if B.get("rim"):   # 관리의료 보험 — 현금흐름 대신 초과이익모형(research/insurer_rim_prereg.md 1판, 2026-10-17). 기권이면 unavailable + 세 값 null → 판정 보류(§4)
+        print("· 초과이익(RIM)")
+        run([PY, "v2/adapters/insurer_rim.py", T, "--json", f"v2/{T}_rim.json"], show=rf"^{T} |저장|관문|직전")
+        R_ = json.load(open(os.path.join(V2, f"{T}_rim.json")))
+        ok_ = R_.get("base") is not None
+        blk = {"model": "rim", "low": R_.get("low"), "base": R_.get("base"), "high": R_.get("high"), "asOf": a.asof,
+               "reqMode": "roe", "requiredRoe": R_.get("requiredRoe"), "roe0": R_.get("roe0"), "roe2y": R_.get("roe2y"), "roe5y": R_.get("roe5y"),
+               "b": R_.get("b"), "bClipped": R_.get("bClipped"), "bvps": R_.get("bvps"), "rimQuarter": R_.get("rimQuarter"),
+               "unavailable": R_.get("unavailable"), "score": R_.get("score"),
+               "requiredGrowth": None, "baseEquivGrowth": None, "requiredMargin": None, "marginNow": None, "growth5y": None,
+               "nonopPerShare": None, "s2cFallback": None,
+               "hard": R_.get("hard", []) if ok_ else [],
+               "hardDetail": ({"signal4": [f"Q{int(e[5:7]) // 3} {e[:4]}" for e in R_["signal4"]["quarters"]], "signal4Roe": R_["signal4"]["roe_at_median"]}
+                              if R_.get("signal4") else {}),
+               # 문장용(auto_card._rim_texts) — 장부·환원 구성과 민감도 격자
+               "rimDetail": ({"L": R_["L"], "ce": R_["ce"], "ni": R_["niTtm"], "div": R_["payout"]["div"], "buy": R_["payout"]["buy"], "iss": R_["payout"]["iss"],
+                              "bRaw": R_["bRaw"], "oci": R_.get("oci"), "grid": R_["grid"], "signal4": R_.get("signal4")} if ok_ else {})}
+        h = open(p, encoding="utf-8").read()
+        h = re.sub(rf"const {T}_DCF = \{{.*?\}};[^\n]*", lambda _: f"const {T}_DCF = {json.dumps(blk, ensure_ascii=False)};   // insurer_rim.py", h, count=1, flags=re.S)
+        h = re.sub(rf"const {T}_DCF_GRID = .*", f"const {T}_DCF_GRID = null;", h, count=1)
+        h = re.sub(rf"const {T}_DCF_TRACK = \[.*?\];", f"const {T}_DCF_TRACK = [];", h, count=1, flags=re.S)   # 현금흐름 추적선은 RIM과 섞지 않는다(§5)
+        open(p, "w", encoding="utf-8").write(h)
+    elif B.get("no_dcf"):   # 현금흐름 모델 미적용(보험사 — CB, 2026-10-02 사용자 결정, BRKB 방식). 카드 JS가 base == null이면 사유만 적는다.
         print("· 현금흐름 미적용 —", B["no_dcf"])
         h = open(p, encoding="utf-8").read()
         blk = {"low": None, "base": None, "high": None, "requiredGrowth": None, "baseEquivGrowth": None, "reqMode": "growth",
