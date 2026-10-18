@@ -252,7 +252,8 @@ def annual_is_newer(fin):
 # 재고를 InventoryNet이 아닌 태그로만 내는 회사 — fetch_financials가 재고를 못 찾아 당좌비율이 유동비율과 같아졌다
 # (UNP "Materials and supplies" = MaterialsSuppliesAndOther, 98.6% → 82.2%, 점수 구간 같음 — 안건 D43, 2026-10-05).
 # 카드 종목 가운데 재고 태그가 없는 20곳의 SEC 자료를 훑어 재고성 태그가 있는 곳은 UNP뿐이었다.
-INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther"}
+INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther",
+                 "0000277948": "MaterialsSuppliesAndOther"}   # CSX "Materials and Supplies"($406M, 2026-06-30) — 당좌비율 82.0% → 72.3%(Codex 2026-10-18)
 ROUNDED_COMMON_NI = {"0000001800"}   # ABT — 위 순이익률 주석 참고
 
 

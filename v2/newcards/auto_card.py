@@ -380,20 +380,25 @@ def apply(C, T):
     nl = qa.label("fy" if "FY" in C.QLABEL else "cal", fye, n, qa.name_offset(C, fy_ends))
     _fa = qa.fiscal(nxt_ago, fy_ends) if nxt_ago else (None, None)   # 다음 분기의 1년 전 분기 — 체크포인트 ②의 비교 기준(2026-10-12)
     C._AUTO.update({"nxt_ago": nxt_ago, "nxt_ago_label": qa.label("fy" if "FY" in C.QLABEL else "cal", _fa[0], _fa[1], qa.name_offset(C, fy_ends)) if _fa[0] else None})
+    _nr = first_release(nxt_end.isoformat())   # 다음 분기 실적 8-K가 이미 났나(Fable·Codex dr — 작년 이력이 없어도 본다)
+    _nrd = d(_nr[0]) if _nr else None
     if ago_rel:
         est = d(ago_rel[0]) + dt.timedelta(days=364)
         ago = d(ago_rel[0])
         C.NEXT = (f"{est.month}월 {est.day}일 무렵 예상", f"일정 · {nl} (작년 {ago.month}/{ago.day} 공시, 같은 요일로 추정)")
         C.NEXT_OP = (f"{est.month}월 {est.day}일 무렵", f"{nl} 예상")
         C.CHECK_WHEN = f"{est.year}년 {est.month}월 {est.day}일 무렵 (예상) · {nl}"
+        _past_next(C, est, ago, nl, released=_nrd)
     else:
         C.NEXT = ("미정", f"일정 · {nl}")
         C.NEXT_OP = ("미정", f"{nl}")
         C.CHECK_WHEN = f"{nl}"
+        if _nrd:
+            _released(C, nl, _nrd, "10-Q·10-K")
     # 회사가 다음 실적 발표일을 공시했으면(8-K 등) cfg NEXT_CONFIRMED = {"quarter_end", "date", "src"}로 추정 대신 — 그 분기가 다음 분기일 때만 쓰여
     # 분기가 지나면 추정으로 돌아간다(FCX 10/2 8-K "October 27, 2026", Fable 2026-10-17)
     _nc = getattr(C, "NEXT_CONFIRMED", None)
-    if _nc and abs((d(_nc["quarter_end"]) - nxt_end).days) <= 10 and _nc["date"] > C.CUR and _nc["date"] >= dt.date.today().isoformat():   # 발표일이 지나면 해제(Codex 2차)
+    if _nc and not _nrd and abs((d(_nc["quarter_end"]) - nxt_end).days) <= 10 and _nc["date"] > C.CUR and _nc["date"] >= dt.date.today().isoformat():   # 이미 발표했으면 '발표됨'이 우선(Codex dr 3차)   # 발표일이 지나면 해제(Codex 2차)
         _dd = d(_nc["date"])
         C.NEXT = (f"{_dd.month}월 {_dd.day}일", f"일정 · {nl} ({_nc['src']})")
         C.NEXT_OP = (f"{_dd.month}월 {_dd.day}일", f"{nl}")
@@ -490,18 +495,25 @@ def apply_outside(C, T):
     nl = qa.label("fy" if "FY" in C.QLABEL else "cal", fye2, n2, qa.name_offset(C, fy_ends))
     _fa = qa.fiscal(nxt_ago, fy_ends) if nxt_ago else (None, None)   # 다음 분기의 1년 전 분기 — 체크포인트 ②의 비교 기준(2026-10-12)
     C._AUTO.update({"nxt_ago": nxt_ago, "nxt_ago_label": qa.label("fy" if "FY" in C.QLABEL else "cal", _fa[0], _fa[1], qa.name_offset(C, fy_ends)) if _fa[0] else None})
+    _nr = oa.release(T, nxt_end.isoformat())
+    _nrd = d(_nr[0]) if _nr else None
+    _rep = O.get("q_src", "6-K") + " 등 실적 자료"
     if ago_rel:
         est, ago = d(ago_rel[0]) + dt.timedelta(days=364), d(ago_rel[0])
         C.NEXT = (f"{est.month}월 {est.day}일 무렵 예상", f"일정 · {nl} (작년 {ago.month}/{ago.day} 발표, 같은 요일로 추정)")
         C.NEXT_OP = (f"{est.month}월 {est.day}일 무렵", f"{nl} 예상")
         C.CHECK_WHEN = f"{est.year}년 {est.month}월 {est.day}일 무렵 (예상) · {nl}"
+        _past_next(C, est, ago, nl, report=_rep, released=_nrd)
     elif cur_rel:   # 작년 보도자료가 없으면(ADR 상장 1년 미만) 이번 분기 발표 + 13주
         est, a_ = d(cur_rel[0]) + dt.timedelta(days=91), d(cur_rel[0])
         C.NEXT = (f"{est.month}월 {est.day}일 무렵 예상", f"일정 · {nl} ({C.QLABEL} 발표 {a_.month}/{a_.day} + 13주로 추정)")
         C.NEXT_OP = (f"{est.month}월 {est.day}일 무렵", f"{nl} 예상")
         C.CHECK_WHEN = f"{est.year}년 {est.month}월 {est.day}일 무렵 (예상) · {nl}"
+        _past_next(C, est, a_, nl, basis=f"{C.QLABEL} 발표 + 13주", report=_rep, released=_nrd)
     else:
         C.NEXT, C.NEXT_OP, C.CHECK_WHEN = ("미정", f"일정 · {nl}"), ("미정", f"{nl}"), f"{nl}"
+        if _nrd:
+            _released(C, nl, _nrd, _rep)
     C._AUTO["next_label"] = nl
     C.FUND_ASOF_NOTE = f"{C.TENQ_NAME} ({rep['filed'][:10]} 공시)"
     lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})
@@ -527,9 +539,7 @@ def texts(C, ns):
     m5, m2, mn = H.get("margin_5y", 0) * 100, H.get("margin_2y", 0) * 100, H.get("margin_now", 0) * 100
     # 이력 기간 라벨 — 현금흐름 이력 창이 기본(최근 4분기 합 20개 안팎)보다 짧은 카드(분사·매각 — GE·DHR·T·EMR 등)는 '5년'이 아니라 실제 기간(Fable 2026-10-18)
     # 분기 수가 아니라 창의 첫·끝 날짜로 — 영업이익이 빈 분기가 있어도 기간이 짧게 나오지 않게(Codex 2차)
-    _sp = H.get("span")
-    _hy = (dt.date.fromisoformat(_sp[1]) - dt.date.fromisoformat(_sp[0])).days / 365.25 if _sp else 5
-    hy = "5년" if _hy >= 4.7 else f"{_hy:.1f}년"
+    hy, gy, g3y = _span_label(H.get("span"), 5), _span_label(H.get("growth_5y_span"), 5), _span_label(H.get("growth_3y_span"), 3)   # 마진 창·5년 성장·3년 성장 각각의 실제 구간
     _sd = max([m.get("days") or 0 for m in (ns["VAL"].get("self") or {}).get("metrics", [])] or [1255])
     sy = "5년" if _sd >= 1200 else f"{_sd / 252:.1f}년"   # 자기 이력(배수) 기간
     g3 = H["growth_3y"] * 100 if H.get("growth_3y") is not None else None   # 없으면 0으로 찍지 않는다(CB, Fable)
@@ -611,8 +621,8 @@ def texts(C, ns):
     elif op_ttm > 0:
         lev = nd / op_ttm
         cand.append(("부채", 1.0 if lev <= 1 else -1.0 if lev >= 3 else 0, f"순차입금(리스 포함) {B(nd)}, 최근 4분기 영업이익의 {lev:.1f}배."))
-    if H.get("growth_3y") is not None and H.get("growth_5y") and H["growth_3y"] * 100 < H["growth_5y"] * 100 - 1.5:
-        cand.append(("성장", -0.7, f"3년 매출 성장률 연 {H['growth_3y'] * 100:.1f}%, {hy} 연 {H['growth_5y'] * 100:.1f}%보다 낮다."))
+    if gy == "5년" and g3y == "3년" and H.get("growth_3y") is not None and H.get("growth_5y") and H["growth_3y"] * 100 < H["growth_5y"] * 100 - 1.5:   # 구간이 겹치면(분사·매각·기저효과) 비교할 정보가 없다(Fable dr)
+        cand.append(("성장", -0.7, f"{g3y} 매출 성장률 연 {H['growth_3y'] * 100:.1f}%, {gy} 연 {H['growth_5y'] * 100:.1f}%보다 낮다."))
     if A.get("dps") and A.get("dps_yo"):
         dg = (A["dps"] / A["dps_yo"] - 1) * 100
         cand.append(("환원", 1.0 if dg >= 3 else -1.0 if dg < 0 else 0, (("분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 주당 배당 ") + f"{usd(A['dps'])}(1년 전보다 {dg:+.1f}%).").replace("+-", "−")))
@@ -722,9 +732,9 @@ def texts(C, ns):
         grow = (f"매출이 {start_what}(연 {g * 100:.1f}%)로 시작해 {term * 100:.1f}%로 식고" if g > term
                 else f"{start_what}(연 {g * 100:.1f}%)이 영구성장률 {term * 100:.1f}%보다 낮아 5년 내내 {term * 100:.1f}%로 두고")
         return f"{grow}, 영업이익률이 {m_what} {m:.1f}%로 간다."
-    C.STORIES = [story((H.get("growth_5y") or term) / 2, f"{hy} 성장률의 절반", m5, f"{hy} 중앙값"),
-                 story(H.get("growth_5y"), f"{hy} 성장률", m2, "최근 2년 중앙값"),
-                 story(H.get("growth_3y"), "3년 성장률", mn, "최근 4분기")]
+    C.STORIES = [story((H.get("growth_5y") or term) / 2, f"{gy} 성장률의 절반", m5, f"{hy} 중앙값"),
+                 story(H.get("growth_5y"), f"{gy} 성장률", m2, "최근 2년 중앙값"),
+                 story(H.get("growth_3y"), f"{g3y} 성장률", mn, "최근 4분기")]
     if DCF.get("low") is not None:
         vs = [DCF["low"], DCF["base"], DCF["high"]]
         pos = [v for v in vs if v > 0]
@@ -797,6 +807,46 @@ def _rim_texts(C, D, risk, dcf_txt):
         note += f" 초과이익은 {_qlab(D['rimQuarter'])} 기준이다(그 뒤 분기가 관문을 통과하지 못했다)."
     C.DCF_NOTE = note + " " + RIM_BIAS
     return _finish(C)
+
+
+def _span_label(span, full):
+    """구간 [첫, 끝] → '5년'·'3년'(기본 길이에서 0.3년 안쪽이면 이름 그대로) 또는 실제 연수 '3.7년'. 구간이 없으면 기본 이름."""
+    if not span:
+        return f"{full}년"
+    y = (dt.date.fromisoformat(span[1]) - dt.date.fromisoformat(span[0])).days / 365.25
+    if y >= full - 0.3:
+        return f"{full}년"
+    return "3년" if abs(y - 3) <= 0.3 else f"{y:.1f}년"   # 기저효과로 5년 자리에 3년 값을 쓰면 '3년'(UBER — '3.0년'과 섞이지 않게)
+
+
+def _ny_today():
+    """오늘(뉴욕) — 매일 실행은 UTC에서 돌아 자정 무렵 날짜가 하루 어긋난다(Codex dr 권장)."""
+    try:
+        from zoneinfo import ZoneInfo
+        return dt.datetime.now(ZoneInfo("America/New_York")).date()
+    except Exception:
+        return dt.date.today()
+
+
+def _released(C, nl, released, report):
+    """그 분기 실적 보도자료(8-K 2.02·6-K)가 이미 났으면 '발표됨 · 보고서 접수 뒤 반영'(JNJ 10/13)."""
+    C.NEXT = (f"{released.month}월 {released.day}일 발표됨", f"일정 · {nl} 실적은 발표됐고 카드는 {report} 접수 뒤 반영")
+    C.NEXT_OP = (f"{released.month}월 {released.day}일 발표됨", f"{nl} · 반영 대기")
+    C.CHECK_WHEN = f"{nl} · 실적 {released.month}/{released.day} 발표, 보고서 반영 대기"   # ' · ' 앞이 분기 이름이면 체크포인트 문장은 '{분기} 실적 공시.'만
+
+
+def _past_next(C, est, ago, nl, basis=None, report="10-Q·10-K", released=None):
+    """추정한 다음 실적일이 이미 지났으면(카드는 아직 그 분기 전) 날짜 대신 '추정일 지남'(CSX 10/15 추정 — Codex·Fable 2026-10-18).
+    CHECK_WHEN은 ' · ' 앞을 체크포인트 시점으로 쓰므로 형식을 지킨다."""
+    if released:   # 추정일 전에 일찍 발표했어도 '발표됨'이 먼저(Codex dr 2차)
+        return _released(C, nl, released, report)
+    if est is None or est >= _ny_today():
+        return
+    why = basis or f"작년 {ago.month}/{ago.day} 공시 기준"
+    # 그 분기 실적 보도자료(8-K 2.02·6-K)가 이미 났으면 '발표됨 · 보고서 접수 뒤 반영'(JNJ 10/13), 없으면 '아직 발표 없음'(CSX) — Codex 2차·Fable dr
+    C.NEXT = (f"{est.month}/{est.day} 추정 · 지남", f"일정 · {nl} ({why} 추정일이 지났고 SEC에 실적 8-K가 아직 없음 — 다음 날짜 미확인)")
+    C.NEXT_OP = (f"{est.month}/{est.day} 추정 · 지남", f"{nl} 예상")
+    C.CHECK_WHEN = f"다음 날짜 미확인(추정일 {est.month}/{est.day} 지남) · {nl}"
 
 
 def _finish(C):

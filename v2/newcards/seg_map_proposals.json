@@ -2196,5 +2196,43 @@
     "#3d7cc0"
    ]
   }
+ },
+ "CSX": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "csx:TotalMerchandiseMember": [
+    "일반 화물",
+    "#00467f"
+   ],
+   "csx:IntermodalMember": [
+    "인터모달",
+    "#4a7fb3"
+   ],
+   "csx:CoalServicesMember": [
+    "석탄",
+    "#333f48"
+   ],
+   "csx:TruckingMember": [
+    "트럭(Quality Carriers)",
+    "#8fb3dc"
+   ],
+   "csx:OtherServicesMember": [
+    "기타",
+    "#9a9a9a"
+   ]
+  },
+  "ignore_candidates": [
+   "csx:ChemicalsMember",
+   "csx:AgriculturalandFoodProductsMember",
+   "csx:AutomotiveMember",
+   "csx:ForestProductsMember",
+   "csx:MetalsandEquipmentMember",
+   "csx:MineralsMember",
+   "csx:FertilizersMember"
+  ]
  }
 }

@@ -156,7 +156,14 @@ if FB:
     one(f'id="{t}FairBand" style=', F(C.FAIRBAND_TITLE) + ' style=')
 else:   # 같은 자리에 '해당 없음'(틀 구조 유지, CRWD 카드 한정 처리를 공통으로)
     sub(rf'id="{t}FairBand" style="[^"]*">[^<]*<', F(C.FAIRBAND_TITLE) + ' style="font-size:22px;color:var(--text3);">해당 없음<')
-one('<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%)</span>', F(C.HEADER_REQ_LABEL))
+# 헤더 '실제 5년'은 cfg 고정 글자 — 실제 성장 구간이 5년보다 짧으면(분사·매각·이력 부족 — NEM 4.5년) 그 길이로(Codex dr 2026-10-18)
+_gs = HIST.get('growth_5y_span')
+_gy = None
+if _gs:
+    import datetime as _dt
+    _y = (_dt.date.fromisoformat(_gs[1]) - _dt.date.fromisoformat(_gs[0])).days / 365.25
+    _gy = None if _y >= 4.7 else f'{_y:.1f}년'
+one('<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%)</span>', F(C.HEADER_REQ_LABEL).replace('실제 5년', f'실제 {_gy}') if _gy else F(C.HEADER_REQ_LABEL))
 
 # 루트 카드의 마지막 종목(DE)은 '다음'이 막혀 있다 — 새 종목 meta의 '이전'이 이 종목을 가리키면 그 종목으로 잇는다(ADI 추가 때 카드에 직접 고친 것, 2026-10-05)
 _nb = '<span class="back-bar-nav disabled">다음 ▶</span>'

@@ -101,7 +101,11 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     "0001156375": [("Depreciation", "DepreciationAndAmortization"), "AmortizationOfIntangibleAssets"],
                     # NKE: 현금흐름표 "Depreciation" 줄 태그가 Depreciation(~2025-02) → DepreciationDepletionAndAmortization(2023-05~)으로 바뀌었다 — 겹치는 기간 값 같음.
                     # 기본 선택은 새 태그 9분기만 잡아 EV/EBITDA 이력이 138일뿐이었다(2026-10-17).
-                    "0000320187": [("Depreciation", "DepreciationDepletionAndAmortization")]}
+                    "0000320187": [("Depreciation", "DepreciationDepletionAndAmortization")],
+                    # CSX: 손익계산서 "Depreciation and Amortization" 줄을 2022년 10-Q까지 Depreciation, 그 뒤(2021 비교부터) DepreciationDepletionAndAmortization으로.
+                    # 새 태그만 쓰면 2021년 분기 공개일이 1년 뒤 비교 수치로 밀려 EV/EBITDA 이력이 921일이었다. 분기 값은 겹치는 기간 같다. 새 태그를 앞에 —
+                    # Depreciation의 FY2022 연간 80은 다른 줄 값이라 같은 날(2023-02-15) 공시된 새 태그 1,500이 이겨야 한다(2026-10-18).
+                    "0000277948": [("DepreciationDepletionAndAmortization", "Depreciation")]}
 # 태그 의미가 도중에 바뀐 회사의 합산 감가상각(CIK). AMD의 OtherDepreciationAndAmortization(현금흐름표
 # "Depreciation and amortization")은 FY2024 10-K(2025-02-05) 전까지 인수 무형자산 상각을 **포함한** 합계였고,
 # 그 뒤로는 상각을 AmortizationOfIntangibleAssets 줄로 떼어 낸다(Fable, 2026-09-27). 분할 뒤 공시의 행에만
@@ -594,6 +598,7 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0001156039": ("DepreciationDepletionAndAmortization",),
                 # NKE: 합산 태그 DepreciationDepletionAndAmortization이 2023-05부터라 기본 선택이 그것만 잡는다 — 구성요소 튜플(DDA_PARTS_BY_CIK)로 옛 Depreciation과 잇는다.
                 "0000320187": ("DepreciationDepletionAndAmortization",),
+                "0000277948": ("DepreciationDepletionAndAmortization",),   # CSX — 구성요소 튜플 경로로(DDA_PARTS_BY_CIK)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
                 # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아
@@ -1195,6 +1200,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # EMR: 재무상태표 "Short-term borrowings and current maturities of long-term debt"(DebtCurrent) + "Long-term debt"(LongTermDebtNoncurrent).
                   # 2026-06-30 $5,587M + $7,526M = $13,113M(2026-10-18).
                   "0000032604": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # CSX: "Current Maturities of Long-term Debt" + "Long-term Debt"를 …AndCapitalLeaseObligations(Current) 두 태그로만 낸다 —
+                  # 기본 선택이 2012년에 멈춘 LongTermDebt($9,832M)를 잡았다(2026-06-30 원문 $1,702M + $17,162M = $18,864M, 2026-10-18).
+                  "0000277948": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # ICE: 재무상태표 "Short-term debt" 한 줄을 ShortTermBorrowings·LongTermDebtCurrent·CommercialPaper(그 일부) 세 태그로 내
                   # 기본 합이 같은 $1,218M을 세 번 더했다($22,282M 대 원문 $19,846M, 2026-10-18). 2020~2026 내내 앞 둘은 같은 값.
                   "0001571949": ["ShortTermBorrowings", "LongTermDebtNoncurrent"],
@@ -1361,6 +1369,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # ICE: ShortTermInvestments는 2017-12에 멈췄다($16M) — 그 뒤 단기투자 줄 없음("Short-term restricted investments"는 규제 자본, 현금 아님)
                   # EMR: 현금 태그 CashAndCashEquivalentsAtCarryingValue가 2021-12에 멈춤 → 재무상태표 "Cash and equivalents"와 같은 값을 내는 합계 태그.
                   # 단기투자 태그 2016·우선주 태그 2013에 멈춤(없음).
+                  # CSX: 현금 태그 CashAndCashEquivalentsAtCarryingValue가 2022-12에 멈춤($1,958M) → 합계 태그(2026-06-30 $1,007M = 원문).
+                  # 차입금 태그에 금융리스가 들어 있어 리스는 운용리스만(ETN 방식).
+                  "0000277948": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "lease": ["OperatingLeaseLiability"]},
                   "0000032604": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": [], "preferred": []},
                   "0001571949": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # 상환가능 비지배지분 $32M(자본 밖 별도 줄, Codex 2026-10-18 — MCK와 같은 처리)
                   # NKE: 재무상태표 "Short-term investments"를 2022-02까지 AvailableForSaleSecuritiesDebtSecuritiesCurrent, 그 뒤로는

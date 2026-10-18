@@ -671,9 +671,11 @@ def history(ticker, asof=None, window_start=None):
         yrs = (d1 - d0).days / 365.25
         if yrs <= 0:
             return None
+        gspan[quarters] = [start, rk[-1]]   # 실제로 쓴 매출 구간 — 문장 라벨용(Codex 2026-10-18)
         return (rev[rk[-1]]["val"] / rev[start]["val"]) ** (1 / yrs) - 1
 
     import statistics as st
+    gspan = {}
     g3, g5 = cagr(12), cagr(20)
     # 기저효과: 창 시작(2021-07)이 코로나 저점이라 5년 성장이 부푼 회사(NCLH 137%·CCL 119%)는
     # 5년이 3년보다 15%p 넘게 높고 30%를 넘으면 3년 성장으로 바꾼다(2026-09-25 사용자 결정).
@@ -686,6 +688,8 @@ def history(ticker, asof=None, window_start=None):
         "growth_5y_raw": g5, "growth_base_effect": base_effect,
         "quarters": len(k),
         "span": [k[0], k[-1]],   # 마진 이력 창의 첫·끝 결산일 — 문장의 기간 라벨(auto_card, 2026-10-18)
+        # 성장률마다 실제로 쓴 매출 구간 — 기저효과면 growth_5y 자리에 3년 값을 쓰므로 그 구간(Codex dr 2026-10-18)
+        "growth_3y_span": gspan.get(12), "growth_5y_span": gspan.get(12) if base_effect else gspan.get(20),
     }
 
 

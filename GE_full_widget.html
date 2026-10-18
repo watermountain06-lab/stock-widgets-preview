@@ -681,21 +681,21 @@ Chart.overrides.doughnut.animation = false;
         <tr>
           <td class="scn-name scn-low">보수</td>
           <td class="big scn-low" data-dcf-value="low">$77.69</td><td style="color: var(--red);" data-dcf-upside="low">−75.2%</td>
-          <td class="story">매출이 5년 성장률의 절반(연 7.9%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 16.4%로 간다.</td>
+          <td class="story">매출이 2.2년 성장률의 절반(연 7.9%)로 시작해 2.5%로 식고, 영업이익률이 2.2년 중앙값 16.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
           <td class="big scn-base" data-dcf-value="base">$104.40</td><td style="color: var(--red);" data-dcf-upside="base">−66.7%</td>
-          <td class="story">매출이 5년 성장률(연 15.7%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 17.5%로 간다.</td>
+          <td class="story">매출이 2.2년 성장률(연 15.7%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 17.5%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
           <td class="big scn-high" data-dcf-value="high">$101.50</td><td style="color: var(--red);" data-dcf-upside="high">−67.7%</td>
-          <td class="story">매출이 3년 성장률(연 15.7%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 18.5%로 간다.</td>
+          <td class="story">매출이 2.2년 성장률(연 15.7%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 18.5%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $77.69~$104.40다. 영업이익률은 최근 4분기 18.5%, 2년 중앙값 17.5%, 5년 중앙값 16.4%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 7.9%·이익률 16.4%), 기본(15.7%·17.5%), 낙관(15.7%·18.5%).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $77.69~$104.40다. 영업이익률은 최근 4분기 18.5%, 2년 중앙값 17.5%, 2.2년 중앙값 16.4%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 7.9%·이익률 16.4%), 기본(15.7%·17.5%), 낙관(15.7%·18.5%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">지금 가격(<span data-dcf-price>$313.83</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>40.6%</b>씩 커야 한다(마진은 기본 시나리오 경로). 기본 시나리오(<span data-dcf-basev>$104</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>9.7%</span>다.</div>
   </div>
@@ -1059,7 +1059,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q2 2026 매출 +21.1%(보고 기준, 3년 연평균 15.7%).</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 18.5%(5년 중앙값 16.4%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 18.5%(2.2년 중앙값 16.4%).</span></div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $8.4B, 매출의 16.5%.</span></div>
     </div>
     <div class="bb-box">
@@ -1284,10 +1284,10 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '항공우주·방산 PER 비교 · 10/16 종가',
-    unit: 'PER', max: 80, geValue: null,
+    unit: 'PER', max: 95, geValue: null,
     peers: [
       { name:'RTX', value:34.1, status:'reference' },
-      { name:'BA', value:68.4, status:'reference' },
+      { name:'BA', value:82.3, status:'reference' },
       { name:'TDG', value:34.6, status:'reference' },
       { name:'HWM', value:47.6, status:'reference' },
       { name:'GD', value:21.0, status:'reference' },
