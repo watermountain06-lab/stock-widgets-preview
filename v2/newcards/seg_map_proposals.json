@@ -2292,5 +2292,22 @@
     "#0f2f5c"
    ]
   }
+ },
+ "INTU": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "intu:GlobalBusinessSolutionsSegmentMember": [
+    "글로벌 비즈니스 솔루션(QuickBooks·Mailchimp)",
+    "#236cff"
+   ],
+   "intu:ConsumerSegmentMember": [
+    "소비자(TurboTax·Credit Karma)",
+    "#00b9a9"
+   ]
+  }
  }
 }

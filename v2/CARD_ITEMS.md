@@ -1427,3 +1427,12 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **부문** — 보고 부문 6개(seg_map_propose 1판 일치). 부문 밖 +$260M은 미배분 활동 + 미실현 헤지 손익(−$320M) — 부문 간 제거가 아니다(Fable).
 - **뉴스** — PJM 용량 경매 2건($333·$325), Calpine 인수 완료, DOE 대출 보증(Crane 재가동), CFO 교체, 옛 Calpine 주주 지분 매각·자사주 200만 주 매입. 의장 교체 8-K(반응일 8/6)는 Q2 실적과 같은 날이라 자동 실적 항목이 빠져 넣지 않았다.
 - **공통 안건** — D31에 CEG, E29(음수 시나리오 문구·매각 예정 자산의 운전자본 포함·이자보상배율이 한 분기).
+
+## INTU — 세무·소상공인 회계 소프트웨어, 10-K 기준 4분기 (2026-10-18, 카드 129, 시총 127위)
+
+- **판정 적정~저평가(+1, +1, −1)** — 자기 이력 94.6(다섯 배수 5년 최저권 — 주가 1년 −50%), 동종업 96.1(카드 유니버스 IT), 현금흐름 기본 $253.13 대 $325.15(−1; 순투자 음수라 매출/자본 평균 s2cFallback). 기준 공시 FY2026 10-K(9/9), 카드 분기 Q4 FY26.
+- **엔진 입력** — 단기투자 AvailableForSaleSecuritiesDebtSecuritiesCurrent 2023-01 멈춤($524M) → DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent($2,495M = 재무상태표 "Investments", EV_TAGS_BY_CIK). 감가상각 = Depreciation + AdjustmentForAmortization($187M + $659M — 기본 선택은 기타 무형자산 $485M만이라 인수 기술 상각 $174M 누락, DDA_PARTS_BY_CIK, MRK 구성). 고객 자금 $5,038M 제외(엔진 기본), 대출 채권은 운전자본. 4분기 EPS FY21~FY26 보도자료 값(Q4_EPS_OVERRIDE — 4분기가 손익분기 근처라 역산과 $0.02~0.07 차이).
+- **문장(Fable 필수)** — MODEL_NOTE: 5년 성장률에 Mailchimp(2021-11) 첫해 매출 포함 → 낙관(3년) < 기본(5년)인 이유, FY26 영업현금흐름의 OBBBA 법인세 효과(현금 납부 $281M 대 전년 $1,408M). 구조조정 뉴스에 4분기 실제 $293M(세전 비용 주당 환산 $1.08). HEALTH_EXTRA는 결제 처리·급여 대행 고객 자금(유동비율을 낮춤). CHART_NOTE['pcr'] OBBBA.
+- **차트 동종 6곳** — ADBE·NOW는 카드 유니버스 배수 값(build_peer_score.multiples_now)이 없어 fill.py가 날짜 None으로 멈춤 → CRM·MSFT·ORCL·PANW·IBM·CRWD.
+- **뉴스** — 선순위채 $1.75B, 구조조정(인력 17%), 소상공인 부문장 사임, 내부자 매도 계획 종료·자사주 가속, Q1~Q3 실적(Q1 8-K에 이사 선임). 최신 Q4는 news_auto.
+- **Codex 2라운드 합의** — r1 필수 2건(내부사용 소프트웨어 $46M 설비투자 누락 — 전 카드 공통 규칙, FCF 0.5%·판정 불변 / 4분기 EPS 공개일 = 10-K 제출일 — 기존 D66)은 공통 안건으로(Codex 동의). E30.

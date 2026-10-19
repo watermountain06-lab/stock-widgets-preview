@@ -114,7 +114,10 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     # CEG: 기본 선택(현금흐름표 DepreciationAmortizationAndAccretionNet, 2026 상반기 $2,368M)에는 Calpine 인수 파생계약 상각($423M — 매출 차감)·
                     # ARO 부채 증가분($338M)·인수 에너지 계약(UEC) 상각($240M)이 섞여 있다. 손익계산서 "Depreciation and amortization" 줄($886M = 고정자산 $870M +
                     # 무형자산 $16M) + 핵연료 상각(AmortizationOfNuclearFuelLease $496M, 연료비 안 — 핵연료 구입은 설비투자 줄에 있다, 10-Q 보충 현금흐름 표, 2026-10-18).
-                    "0001868275": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization", "AmortizationOfNuclearFuelLease"]}
+                    "0001868275": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization", "AmortizationOfNuclearFuelLease"],
+                    # INTU: 기본 선택 AmortizationOfIntangibleAssets는 "기타 인수 무형자산 상각"($485M)뿐 — 매출원가 안 "인수 기술 상각"($174M)이 빠졌다.
+                    # 현금흐름표 "Amortization of acquired intangible assets"(AdjustmentForAmortization, FY26 $659M = 174 + 485)로(MRK와 같은 구성, 2026-10-18).
+                    "0000896878": ["Depreciation", "AdjustmentForAmortization"]}
 # 태그 의미가 도중에 바뀐 회사의 합산 감가상각(CIK). AMD의 OtherDepreciationAndAmortization(현금흐름표
 # "Depreciation and amortization")은 FY2024 10-K(2025-02-05) 전까지 인수 무형자산 상각을 **포함한** 합계였고,
 # 그 뒤로는 상각을 AmortizationOfIntangibleAssets 줄로 떼어 낸다(Fable, 2026-09-27). 분할 뒤 공시의 행에만
@@ -1409,6 +1412,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # 차입금 태그에 금융리스가 들어 있어 리스는 운용리스만(ETN 방식).
                   # MRSH: 단기투자 줄 없음 — ShortTermInvestments는 2012년 값이 남아 있었다. 수탁 현금($12.3B)은 부채와 맞물린 통과 잔액이라 현금에 넣지 않는다(엔진 기본).
                   "0000062709": {"sti": []},
+                  # INTU: 단기투자 AvailableForSaleSecuritiesDebtSecuritiesCurrent가 2023-01에 멈춤($524M) → 재무상태표 "Investments"와 같은 값의
+                  # DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent(2022-07~, 2026-07-31 $2,495M). 고객 자금 증권은 "Funds receivable and amounts held for customers" 줄이라 따로(2026-10-18).
+                  "0000896878": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent"]},
                   "0000277948": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "lease": ["OperatingLeaseLiability"]},
                   "0000032604": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": [], "preferred": []},
                   "0001571949": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # 상환가능 비지배지분 $32M(자본 밖 별도 줄, Codex 2026-10-18 — MCK와 같은 처리)
