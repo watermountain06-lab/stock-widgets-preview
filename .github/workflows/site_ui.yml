@@ -7,7 +7,9 @@ name: Site UI data
 #   - 가격·카드 작업(Daily data refresh, v2 cards rebuild)이 끝나면 이어서 돈다. build_tracking이 원격의
 #     v2/daily_status.json 이력을 읽으므로 그 작업들이 push한 뒤에 돌아야 그날 세션이 들어간다.
 #   - 시장 뉴스(Google News RSS)는 라이브와 같은 매일 12:00 UTC에 받는다.
-# 이 작업이 커밋하는 것은 아래 다섯 파일뿐이다.
+#   - Portfolio 탭 전략 비교의 일별 고정 기록(site_data/strategy_ledger/, 2026-10-19 — pipeline/portfolio/STRATEGY_DESIGN.md)도
+#     여기서 쓴다. 그날 판정(v2 cards)이 끝난 뒤 한 번만 쓰고, 이미 있는 날짜 파일은 절대 바꾸지 않는다.
+# 이 작업이 커밋하는 것은 아래 다섯 파일과 strategy_ledger/뿐이다.
 
 on:
   workflow_run:
@@ -55,10 +57,20 @@ jobs:
           python3 pipeline/site_ui/build_stock_news.py
           python3 pipeline/site_ui/build_tracking.py
 
+      - name: Strategy ledger (Portfolio tab, preview only)
+        env:
+          GH_TOKEN: ${{ github.token }}   # 직전 기록의 push 시각(공개 시각)을 GitHub 활동 기록에서 읽는다
+        run: |
+          python3 pipeline/site_ui/test_strategy_ledger.py
+          python3 pipeline/site_ui/build_strategy_ledger.py
+          # 이미 있던 날짜 파일이 바뀌거나 지워지면 실패한다(index.json만 예외)
+          if git status --porcelain -- site_data/strategy_ledger | grep -v 'index.json' | grep -v '^??'; then
+            echo "strategy_ledger: an existing record changed"; exit 1; fi
+
       - name: Commit
         id: commit
         run: |
-          git add stock-data.js value-data.js stock-news.js tracking-data.js market-news-snapshot.json
+          git add stock-data.js value-data.js stock-news.js tracking-data.js market-news-snapshot.json site_data/strategy_ledger
           if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
