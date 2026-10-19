@@ -10,7 +10,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { firebaseConfig } from './preview-only-portfolio-config.js?v=1';
+import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
 const $ = (id) => document.getElementById(id);
 
@@ -96,7 +96,8 @@ function validate(d) {
     leaf(rest, 'scenarios');
     arr(entries, 'scenarios.entries').forEach((y) => { if (!isObj(y)) throw new Error('scenarios.entries 항목이 { }가 아닙니다.'); leaf(y, 'scenarios.entries'); });
   });
-  ['sample', 'updated'].forEach((k) => { if (d[k] != null && typeof d[k] === 'object') throw new Error(k + ' 값이 글자·참거짓이 아닙니다.'); });
+  if (d.sample != null && typeof d.sample !== 'boolean') throw new Error('sample 값은 true/false여야 합니다.');
+  if (d.updated != null && typeof d.updated !== 'string') throw new Error('updated 값은 글자(날짜)여야 합니다.');
   if (d.holdings) { const { rows, ...rest } = d.holdings; leaf(rest, 'holdings'); }
   return d;
 }
@@ -176,6 +177,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     else { show('out', quietOut); quietOut = ''; }
   });
 
+  if (persisted) $('pf-login').disabled = false; // 준비가 끝난 뒤에만 누를 수 있다(HTML에서는 꺼져 있다)
   if (persisted) $('pf-login').addEventListener('click', async () => {
     $('pf-login').disabled = true;
     $('pf-msg').textContent = '';
