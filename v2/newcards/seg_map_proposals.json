@@ -2309,5 +2309,30 @@
     "#00b9a9"
    ]
   }
+ },
+ "HWM": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "hwm:EngineProductsSegmentMember": [
+    "엔진 부품",
+    "#003da5"
+   ],
+   "hwm:FasteningSystemsMember": [
+    "체결재(패스너)",
+    "#4f8fdc"
+   ],
+   "hwm:EngineeredStructuresMember": [
+    "구조물(티타늄 등)",
+    "#8fb3dc"
+   ],
+   "hwm:ForgedWheelsMember": [
+    "단조 휠(트럭)",
+    "#6b7280"
+   ]
+  }
  }
 }

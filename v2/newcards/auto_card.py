@@ -341,7 +341,9 @@ def apply(C, T):
     dv, dvd = ytd(cik, ["PaymentsOfDividendsCommonStock"], C.CUR, fy_start)
     dv_pref = False
     if dv is None:   # 보통주 태그가 없으면 전체 배당 — 보통주 주당 배당이 없는 회사(BA)는 우선주 배당이라 따로 표시(Fable)
-        dv, dvd = ytd(cik, ["PaymentsOfDividends"], C.CUR, fy_start)
+        # PaymentsOfOrdinaryDividends(우선주·비지배지분 배당도 담을 수 있는 일반 태그)로 내는 회사도 있다 — HWM·JNJ·GOOGL 등 8장이
+        # "보통주 배당 지급 공시 없음"이었다. 일반 태그라 아래 우선주 판별을 같이 거친다(Codex 2026-10-19).
+        dv, dvd = ytd(cik, ["PaymentsOfOrdinaryDividends", "PaymentsOfDividends"], C.CUR, fy_start)
         dv_pref = dv is not None and dps is None   # 최근 1년 안의 보통주 주당 배당이 없으면 우선주 배당(BA는 과거 보통주 이력이 있다, Codex)
     C._AUTO["dv_weeks"] = round(dvd.days / 7) if dvd else None
     yo_q3 = ends[ends.index(C.YO) - 1]

@@ -1436,3 +1436,12 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **차트 동종 6곳** — ADBE·NOW는 카드 유니버스 배수 값(build_peer_score.multiples_now)이 없어 fill.py가 날짜 None으로 멈춤 → CRM·MSFT·ORCL·PANW·IBM·CRWD.
 - **뉴스** — 선순위채 $1.75B, 구조조정(인력 17%), 소상공인 부문장 사임, 내부자 매도 계획 종료·자사주 가속, Q1~Q3 실적(Q1 8-K에 이사 선임). 최신 Q4는 news_auto.
 - **Codex 2라운드 합의** — r1 필수 2건(내부사용 소프트웨어 $46M 설비투자 누락 — 전 카드 공통 규칙, FCF 0.5%·판정 불변 / 4분기 EPS 공개일 = 10-K 제출일 — 기존 D66)은 공통 안건으로(Codex 동의). E30.
+
+## HWM — 항공기 엔진 부품·체결재, CAM·Brunner 인수 (2026-10-19, 카드 130, 시총 128위)
+
+- **판정 고평가(0, −1, −2)** — 자기 이력 30.2(0), 동종업 5.9(−1, S&P500 산업재 — 다섯 배수 모두 상위), 현금흐름 기본 $58.94 대 $220.96(−2). 기준 공시 Q2 2026 10-Q(8/6).
+- **보류로 넘긴 순위** — JCI(7/29 Q3 10-Q)·CDNS(7/29)·GD(7/29)가 companyfacts에 없어 README 규칙대로 보류(JCI는 2025-07 주거용 HVAC 매각 재작성 종목 — 만들 때 매각 뒤 창이 1년 미만인 점을 사용자에게).
+- **엔진 입력** — 차입금 $4,501M(1년 안 $1 + 기업어음 $450 + 장기 $4,050)·현금 $563M·리스 $163M 원문 일치. 이자비용은 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet)만 분기 → `vendor/fetch_financials.CONCEPTS_BY_CIK`(LOW·EMR 방식). 우선주 2025-12 상환·비지배지분 0. 4분기 EPS 2024만 보도자료 $0.77.
+- **공통 수정(Codex 2라운드 합의)** — auto_card 배당 지급: 보통주 전용 PaymentsOfDividendsCommonStock이 없으면 일반 태그(PaymentsOfOrdinaryDividends → PaymentsOfDividends)로 넘어가 기존 우선주 판별(보통주 주당 배당 없음 → "우선주 배당")을 거친다. 기존 카드 ACN·GE·GLW·GOOGL·JNJ·PFE·QCOM의 "보통주 배당 지급 공시 없음"이 값으로 바뀌고 JNJ·PFE에 "FCF가 배당 지급을 넘는지" 체크포인트가 생겼다(--from-card 재빌드, 판정 불변). GE·GOOGL은 MRSH 때 푸시한 quarterly_flow 교정이 이번 재빌드에서 처음 반영돼 EV/EBITDA 이력·자기 이력 점수가 조금 바뀜(GE 64.0 → 63.8, GOOGL 25.9 → 27.3, 표 불변).
+- **문장(Fable)** — MODEL_NOTE: 투하자본의 인수 영업권으로 평균 매출/자본이 낮아 재투자 가정이 크고 실제 FCF보다 작은 현금흐름. CAM 완료 뉴스에 Brunner(2/6, 약 $120M), 체결재 +37%는 주로 두 인수와 항공 시장 성장, 구조물 −13%는 Savannah 공장 매각(10-Q). Q1 매각 이익 $93M은 뉴스로 명시(B2 — GAAP 유지). 선순위채는 가격 결정 8-K(2/17)로, CFO는 10/22 발표.
+- **공통 안건** — E31: 인수 대금 태그가 직전 해에 없으면 최근 4분기 합을 못 만들어 DCF 순투자에서 빠진다(HWM 2026 상반기 CAM·Brunner $1,929M — 판정 불변).
