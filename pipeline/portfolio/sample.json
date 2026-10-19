@@ -1,0 +1,31 @@
+{
+  "sample": true,
+  "updated": "2026-10-19",
+  "principles": [
+    {"title": "예시 원칙 1", "body": "가짜 데이터입니다. 실제 원칙은 vault에서 옮겨 옵니다."},
+    {"title": "예시 원칙 2", "body": "한 종목 비중 상한, 손절 기준 같은 규칙이 여기에 들어갑니다."}
+  ],
+  "holdings": {
+    "asOf": "2026-10-19",
+    "note": "가짜 데이터 — 입력한 값만 보여 주고 계산하지 않습니다.",
+    "rows": [
+      {"name": "예시 종목 A", "ticker": "AAA", "qty": 10, "avgPrice": 100.0, "currency": "USD", "account": "예시 계좌"},
+      {"name": "예시 종목 B", "ticker": "BBB", "qty": 5, "avgPrice": 250.0, "currency": "USD", "account": "예시 계좌"},
+      {"name": "예시 현금", "ticker": "", "qty": 1, "avgPrice": 1000000, "currency": "KRW", "account": "예시 계좌"}
+    ]
+  },
+  "watchlist": [
+    {"ticker": "CCC", "name": "예시 종목 C", "reason": "관심 이유가 여기에 들어갑니다.", "trigger": "이 가격 아래면 검토"},
+    {"ticker": "DDD", "name": "예시 종목 D", "reason": "가짜 데이터입니다.", "trigger": ""}
+  ],
+  "scenarios": [
+    {
+      "name": "예시 시나리오 1",
+      "rule": "규칙 설명(언제 사고 언제 파는지). 기록만 하고 성과는 아직 계산하지 않습니다.",
+      "start": "2026-10-19",
+      "entries": [
+        {"date": "2026-10-19", "action": "매수", "ticker": "AAA", "qty": 1, "price": 100.0, "note": "가짜 기록"}
+      ]
+    }
+  ]
+}

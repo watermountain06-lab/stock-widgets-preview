@@ -1,0 +1,17 @@
+rules_version = '2';
+// preview 전용 Portfolio 탭(2026-10-19) — Firestore 규칙 틀. 공개 저장소라 이메일은 자리표시자로 둔다.
+// Firebase 콘솔 → Firestore → 규칙 탭에 붙여 넣고, 콘솔에서 OWNER_EMAIL만 내 Gmail 주소로 바꾼 뒤 게시한다
+// (실제 이메일은 콘솔에만 있다 — 이 파일에는 넣지 않는다).
+// 나만 쓰기: 그 계정 한 개가 Google 로그인으로 자기 문서 users/{자기 uid}/portfolio/main 하나만 읽고 쓴다.
+// 다른 계정·로그아웃 상태·다른 경로는 모두 거부.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid}/portfolio/main {
+      allow read, write: if request.auth != null
+        && request.auth.uid == uid
+        && request.auth.token.firebase.sign_in_provider == 'google.com'
+        && request.auth.token.email == 'OWNER_EMAIL'
+        && request.auth.token.email_verified == true;
+    }
+  }
+}

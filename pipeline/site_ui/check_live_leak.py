@@ -25,6 +25,8 @@ NEEDLES = [
     "PreviewOnly",         # window.PreviewOnly (range toggle)
     "range-bar",           # range toggle markup and CSS
     "STOCKS_DATA_START",   # preview's source data block (stays in preview)
+    "pf-lock",             # Portfolio tab (2026-10-19): Google login screen markup and CSS
+    "pf-login",            # Portfolio tab login button (file names and menu href are caught by "preview-only")
 ]
 
 

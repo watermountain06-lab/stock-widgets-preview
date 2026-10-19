@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Portfolio — US stock 가치를 말하다</title>
+  <!-- preview 전용(2026-10-19). 라이브로 옮기지 않는다 — pipeline/site_ui/UI_DIFF.md 1절 portfolio. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="today.css?v=footer-padding-3">
+  <link rel="stylesheet" href="header.css?v=1">
+<link rel="stylesheet" href="theme.css?v=2">
+<script src="theme.js?v=2"></script>
+<link rel="stylesheet" href="preview-only-portfolio.css?v=2">
+</head>
+<body>
+  <header class="site-header"><div class="header-inner"><a class="brand" href="index.html">◧ US stock 가치를 말하다</a><span class="brand-note">공시로 읽는 기업의 흐름<br>하루씩, 한 종목씩</span><nav aria-label="주 메뉴"><a href="index.html">Home</a><a href="today.html">Tracking</a><a href="market-news.html">뉴스·영상</a><a href="preview-only-portfolio.html" aria-current="page">Portfolio</a></nav></div></header>
+  <main class="pf">
+    <section class="pf-lock" id="pf-lock" aria-labelledby="pf-lock-title">
+      <h1 id="pf-lock-title">Portfolio</h1>
+      <p>내 Google 계정으로만 열립니다. 로그인은 이 탭에서만 유지되고, 새 탭에서는 다시 묻습니다(닫은 탭 복원·탭 복제는 예외).</p>
+      <button type="button" id="pf-login">Google로 로그인</button>
+      <p class="pf-msg" id="pf-msg" role="status" aria-live="polite"></p>
+    </section>
+    <div id="pf-body" hidden>
+      <div class="pf-top"><h1>Portfolio</h1><span id="pf-updated"></span><span class="pf-account" id="pf-account"></span><button type="button" id="pf-logout">로그아웃</button></div>
+      <p class="pf-sample" id="pf-sample" hidden>가짜 데이터입니다. 실제 값은 아직 넣지 않았습니다.</p>
+      <section class="pf-sec" aria-labelledby="pf-h-principles"><h2 id="pf-h-principles">투자 원칙</h2><div id="pf-principles"></div></section>
+      <section class="pf-sec" aria-labelledby="pf-h-holdings"><h2 id="pf-h-holdings">실제 자산 <small id="pf-holdings-asof"></small></h2><p class="pf-note" id="pf-holdings-note"></p><div class="pf-scroll"><table class="pf-table" id="pf-holdings"></table></div></section>
+      <section class="pf-sec" aria-labelledby="pf-h-watch"><h2 id="pf-h-watch">관심 종목</h2><div class="pf-scroll"><table class="pf-table" id="pf-watch"></table></div></section>
+      <section class="pf-sec" aria-labelledby="pf-h-scen"><h2 id="pf-h-scen">모의 운용 기록 <small>기록만 · 성과 계산 전</small></h2><div id="pf-scenarios"></div></section>
+      <section class="pf-sec pf-upload-sec" aria-labelledby="pf-h-upload"><h2 id="pf-h-upload">데이터 올리기</h2><p class="pf-note">맥에 있는 JSON 파일(형식: <code>pipeline/portfolio/sample.json</code>)을 고르면 지금 데이터를 통째로 바꿉니다. 같은 파일을 한 번 더 골라야 저장됩니다. <strong>지금은 가짜 데이터만 올립니다</strong>(실제 값은 vault 규칙을 정한 뒤).</p><label class="pf-file">파일 고르기<input type="file" id="pf-upload" accept="application/json,.json"></label><p class="pf-note" id="pf-upload-msg" role="status" aria-live="polite"></p></section>
+    </div>
+  </main>
+  <footer><strong>◧ US stock 가치를 말하다</strong><p>기업의 숫자와 사업을 함께 읽습니다.</p><small>이 페이지의 내 데이터는 GitHub에 올라가지 않습니다. 정해 둔 내 계정만 읽을 수 있습니다.</small><a href="index.html">전체 종목 보기 ↗</a></footer>
+  <script type="module" src="preview-only-portfolio.js?v=4"></script>
+</body>
+</html>

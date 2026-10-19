@@ -44,3 +44,18 @@ window.PreviewOnly = (function () {
 
   return { filter: filter, init: init };
 })();
+
+// Portfolio 메뉴(2026-10-19, preview-only:portfolio). 페이지마다 머리 메뉴 줄은 라이브와 같게 두고, 이 파일이 링크를 덧붙인다.
+// index.html은 위 range 꼬리표 줄로, today.html·market-news.html은 `preview-only:portfolio` 꼬리표 줄로 이 파일을 싣는다.
+(function () {
+  function addLink() {
+    var nav = document.querySelector('.site-header nav');
+    if (!nav || nav.querySelector('[href="preview-only-portfolio.html"]')) return;
+    var a = document.createElement('a');
+    a.href = 'preview-only-portfolio.html';
+    a.textContent = 'Portfolio';
+    nav.appendChild(a);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addLink);
+  else addLink();
+})();
