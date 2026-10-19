@@ -606,6 +606,9 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # WMB: RevenueFromContractWithCustomerExcludingAssessedTax는 대리·트레이딩 거래를 순액으로 줄이기 전 계약 매출(Q2 2026 $3,379M — 10-Q 주석 4
+                # "Other adjustments" −$904M 전)이라 손익계산서 Total revenues($3,053M)보다 크다 — 섞여 최근 4분기 매출이 $15.4B(실제 $12.2B)였다. Revenues만(2026-10-19).
+                "0000107263": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # ELV: DepreciationDepletionAndAmortization(2023-06~ 8행)은 0·659 같은 다른 항목 값 — 감가상각은 현금흐름표 DepreciationAmortizationAndAccretionNet만(2026-10-17)
                 "0001156039": ("DepreciationDepletionAndAmortization",),
                 # NKE: 합산 태그 DepreciationDepletionAndAmortization이 2023-05부터라 기본 선택이 그것만 잡는다 — 구성요소 튜플(DDA_PARTS_BY_CIK)로 옛 Depreciation과 잇는다.
@@ -1228,6 +1231,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # WMB: 기업어음 + "Long-term debt due within one year" + "Long-term debt"(…AndCapitalLeaseObligations 두 태그). 기본 선택은 1년 안 만기분이 빠졌다
+                  # (2026-06-30 $475M + $2,197M + $28,121M = $30,793M — 엔진 $28,596M, 2026-10-19).
+                  "0000107263": ["CommercialPaper", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # EQIX: 기본 선택은 세부 태그가 끊긴 뒤 LongTermDebt만 잡아 금융리스 $2,280M이 빠졌다 — 선순위채·대출 원금(LongTermDebt $19,873M, 장부가 $19,709M)
                   # + 금융리스(유동 176 + 비유동 2,104). 2026-06-30 합계 $22,153M(2026-10-17).
                   "0001101239": ["LongTermDebt", "FinanceLeaseLiability"],
@@ -1433,6 +1439,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # 리스는 유동·비유동 태그가 2020-09에 멈췄고 연간 OperatingLeaseLiability만 있다(2025-12 $824.7M — 2021~2024는 값이 없어 2020년 값이 이어진다, 2026-10-16).
                   "0001466258": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"], "lease": ["OperatingLeaseLiability"]},
                   "0000829224": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
+                  # WMB: 현금 태그 CashAndCashEquivalentsAtCarryingValue가 2023-09에 멈춤($2,074M) → 합계 태그(2026-06-30 $203M = 재무상태표 현금).
+                  # 리스는 유동·비유동 태그가 2024-12에 멈추고 연간 OperatingLeaseLiability만 있다(2025-12 $183M, TT 방식, 2026-10-19).
+                  "0000107263": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "lease": ["OperatingLeaseLiability"]},
                   # MCK: 비지배지분 대부분이 상환 가능 비지배지분(재무상태표 메자닌, 2026-06-30 $2,563M — Core Ventures 30%(풋옵션)와 Apollo의
                   # 의료·수술 부문 전환우선주 약 13% $1.25B, 10-Q Note 5)이라 MinorityInterest($376M)만 잡혔다. 연결 EBITDA에 그 몫이 다 들어 있어 EV에 더한다(2026-10-13).
                   "0000927653": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCommonCarryingAmount"]},

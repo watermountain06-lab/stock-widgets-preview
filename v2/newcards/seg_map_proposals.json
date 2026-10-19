@@ -2334,5 +2334,35 @@
     "#6b7280"
    ]
   }
+ },
+ "WMB": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "wmb:TransmissionPowerGulfMember": [
+    "수송·전력·걸프(Transco 등)",
+    "#0b3c7d"
+   ],
+   "wmb:NortheastGPMember": [
+    "북동부 집하·처리",
+    "#2e7fc2"
+   ],
+   "wmb:WestMember": [
+    "서부 집하·처리",
+    "#7fb2e0"
+   ],
+   "wmb:GasNGLMarketingServicesMember": [
+    "가스·NGL 마케팅",
+    "#e0a030"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:ReportableSegmentAggregationBeforeOtherOperatingSegmentMember"
+  ]
  }
 }

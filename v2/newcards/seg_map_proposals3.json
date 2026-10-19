@@ -2105,5 +2105,84 @@
     "#9a9a9a"
    ]
   }
+ },
+ "WMB": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "wmb:WestMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "서부 집하·처리",
+      "#7fb2e0"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "wmb:TransmissionPowerGulfMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "수송·전력·걸프(Transco 등)",
+      "#0b3c7d"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "wmb:GasNGLMarketingServicesMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "가스·NGL 마케팅",
+      "#e0a030"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:CorporateNonSegmentMember"
+    },
+    "members": {
+     "us-gaap:AllOtherSegmentsMember": [
+      "기타(상류 등)",
+      "#6b7280"
+     ]
+    }
+   },
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "srt:ConsolidationItemsAxis",
+    "extra": {
+     "us-gaap:StatementBusinessSegmentsAxis": "wmb:NortheastGPMember"
+    },
+    "members": {
+     "us-gaap:OperatingSegmentsMember": [
+      "북동부 집하·처리",
+      "#2e7fc2"
+     ]
+    }
+   }
+  ]
  }
 }

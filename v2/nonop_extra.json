@@ -106,5 +106,11 @@
    "tag": "Investments",
    "reason": "10-Q 주석 18 투자 합계(2026-06-30 $353M = 지분법 $45M(이익은 세후 영업외) + 직원복지 신탁 $124M + 상장 지분 $61M + 비상장 지분 $122M + 채권 $1M). 원전 해체 신탁기금($20.5B)은 해체 충당부채와 묶여 넣지 않는다. 직원복지 신탁(이연 보상 부채와 맞물림)도 합계 안이라 들어간다(주당 약 $0.35). LongTermInvestments는 10-K에만 있어 build_dcf.NONOP_FROM_EXTRA로 버린다(2026-10-18)."
   }
+ ],
+ "WMB": [
+  {
+   "tag": "Investments",
+   "reason": "재무상태표 'Investments' $4,515M(2026-06-30) — 대부분 지분법 투자(Appalachia Midstream Investments 약 66%, Blue Racer 50%, Louisiana LNG·Cogentrix 등; 2025년 말 EquityMethodInvestments $4,518M / Investments $4,559M, 10-K). 지분법 이익(상반기 $320M)은 손익계산서 Operating income 아래 'Equity earnings'라 사업 가치(영업이익 기준)에 들어가지 않으므로 장부가를 더한다(KO·MO와 같은 규칙). 지분법 투자 태그는 연말에만 실려 분기마다 실리는 Investments 태그를 쓴다(2026-10-19)."
+  }
  ]
 }

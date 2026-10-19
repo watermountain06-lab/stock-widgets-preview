@@ -1445,3 +1445,12 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **공통 수정(Codex 2라운드 합의)** — auto_card 배당 지급: 보통주 전용 PaymentsOfDividendsCommonStock이 없으면 일반 태그(PaymentsOfOrdinaryDividends → PaymentsOfDividends)로 넘어가 기존 우선주 판별(보통주 주당 배당 없음 → "우선주 배당")을 거친다. 기존 카드 ACN·GE·GLW·GOOGL·JNJ·PFE·QCOM의 "보통주 배당 지급 공시 없음"이 값으로 바뀌고 JNJ·PFE에 "FCF가 배당 지급을 넘는지" 체크포인트가 생겼다(--from-card 재빌드, 판정 불변). GE·GOOGL은 MRSH 때 푸시한 quarterly_flow 교정이 이번 재빌드에서 처음 반영돼 EV/EBITDA 이력·자기 이력 점수가 조금 바뀜(GE 64.0 → 63.8, GOOGL 25.9 → 27.3, 표 불변).
 - **문장(Fable)** — MODEL_NOTE: 투하자본의 인수 영업권으로 평균 매출/자본이 낮아 재투자 가정이 크고 실제 FCF보다 작은 현금흐름. CAM 완료 뉴스에 Brunner(2/6, 약 $120M), 체결재 +37%는 주로 두 인수와 항공 시장 성장, 구조물 −13%는 Savannah 공장 매각(10-Q). Q1 매각 이익 $93M은 뉴스로 명시(B2 — GAAP 유지). 선순위채는 가격 결정 8-K(2/17)로, CFO는 10/22 발표.
 - **공통 안건** — E31: 인수 대금 태그가 직전 해에 없으면 최근 4분기 합을 못 만들어 DCF 순투자에서 빠진다(HWM 2026 상반기 CAM·Brunner $1,929M — 판정 불변).
+
+## WMB — 천연가스 수송관(Transco)·집하·처리, 전력 사업, Momentum 인수 (2026-10-19, 카드 131, 시총 129위)
+
+- **판정 고평가(−1, −1, −2)** — 자기 이력 18.5(−1), 동종업 7.4(−1, S&P500 에너지), 현금흐름 기본 $2.74 대 $71.28(−2, 사업 가치 −$0.95 + 투자자산 $3.69). 기준 공시 Q2 2026 10-Q(8/3, Williams·Transco·NWP 결합 공시).
+- **엔진 입력(전부 WMB CIK에만)** — ① 매출: 계약 매출 태그가 대리·트레이딩 순액 조정 전이라 Total revenues보다 커 섞였다(TTM $15.4B → $12,204M) → `EXCLUDE_TAGS` ② 차입금: 1년 안 만기 $2,197M 빠짐 → `DEBT_TOTAL_TAG` 기업어음 + 두 …AndCapitalLeaseObligations 태그($30,793M) ③ 현금 태그 2023-09 멈춤($2,074M) → 합계 태그($203M), 리스 연간 OperatingLeaseLiability($183M) ④ 투자자산 $4,515M(대부분 지분법, 이익은 영업이익 아래) → `nonop_extra.json` "Investments"(KO·MO 규칙) ⑤ 4분기 EPS 2022 0.55·2023 0.94·2024 0.40(보도자료).
+- **그대로 둔 것** — 최근 4분기 FCF −$108M(PCR 적자, 원문 계산 일치). 활동성은 매출원가·매출채권 표준 태그가 없어 판정하지 않음(ACT_REASON). 현금흐름 값이 작은 것은 자본수익률 8.4% < 할인율 10%와 차입금이 사업 EV의 대부분인 구조(NEE·CEG와 같은 꼴) — MODEL_NOTE로 설명.
+- **부문 지도** — 보고 부문 4개 + 기타(AllOtherSegments), `srt:ConsolidationItemsAxis`를 free_axes(부문은 OperatingSegments, 기타는 CorporateNonSegment), 소계 멤버 ignore, SEG_ADJ −392(상계). Q2·1년 전·Q1·Q4 2025 값 원문 일치.
+- **뉴스(dr 3라운드)** — Q2 실적 보도자료의 Momentum Midstream 인수(최대 $5.5B, 주식 약 $2B)를 넣으려고 Q2를 손 항목으로 썼다(같은 날 손 항목이 있으면 자동 항목이 빠진다 — 안건 E32). 그래서 그 뒤 8-K도 넣음: 9/3 인수 대가 주식 재매각 등록(424B2 — 인수는 그 전에 완료), 9/10 선순위채 $2.75B. Q3 실적부터 다시 자동.
+- **dr** — Codex·Fable 필수 공통 2건(MODEL_NOTE가 "재투자 비율 고정"으로 잘못 설명, Momentum 누락), Codex r2 필수 1건(9/3 주식 = 인수 대가). r3 남은 필수 없음.
