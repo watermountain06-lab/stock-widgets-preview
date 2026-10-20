@@ -150,7 +150,7 @@ jobs:
         continue-on-error: true
         run: python3 v2/etf/etf_fallback.py
 
-      # S&P 500 지수 카드(preview 전용, 2026-10-20): Yahoo ^GSPC 종가 → 기간별·월별 수익률·가격 사건, FRED SP500으로 대조.
+      # S&P 500 지수 카드(preview 전용, 2026-10-20, 종목 카드와 같은 틀): Yahoo ^GSPC 일봉 → 캔들·기간별·월별 수익률·시계열 사건, 종가는 FRED SP500으로 대조.
       # 실패하면 스스로 보류 페이지를 쓴다. 종목 게시를 막지 않는다.
       - name: Index card (S&P 500)
         continue-on-error: true
@@ -181,7 +181,7 @@ jobs:
           # ETF 산출물(2026-10-19): 경로마다 따로 — 하나가 없어도 나머지는 올라간다. 운용사 원본(v2/etf/.private)은 올리지 않는다.
           for p in v2/etf/SPY.json preview-only-etf-spy.html preview-only-etf-data.js; do if [ -e "$p" ]; then git add "$p"; fi; done
           # 지수 카드 산출물(2026-10-20)
-          for p in v2/index/SP500.json preview-only-index-sp500.html preview-only-index-sp500-events.html; do if [ -e "$p" ]; then git add "$p"; fi; done
+          for p in v2/index/SP500.json preview-only-index-sp500.html; do if [ -e "$p" ]; then git add "$p"; fi; done
           git add v2/sec_approved.json v2/fundamental_data v2/*_activity.json v2/*_dcf_track.json 2>/dev/null || true   # 자동 반영한 공시 날짜·새 분기 재무(2026-10-10)
           git add v2/adapters/asml_manifest.json v2/adapters/tsm_manifest.json v2/adapters/skhy_manifest.json 2>/dev/null || true   # 6-K 자동 카드가 받은 재무제표 목록(2026-10-11) — 원문·재무는 캐시라 이 목록으로 다시 만든다
           if git diff --cached --quiet; then
