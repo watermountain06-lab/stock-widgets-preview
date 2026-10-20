@@ -38,6 +38,9 @@ permissions:
 concurrency:
   group: daily-refresh
   cancel-in-progress: false
+  # keep every pending run (default "single" cancels an older pending one when a newer queues) -
+  # the refresh can now hold the group for up to 2 h waiting out Yahoo's blank close (2026-10-20)
+  queue: max
 
 defaults:
   run:
@@ -49,7 +52,8 @@ jobs:
     # worst case with every provider down: prices stop after 3 tickers x 3
     # attempts (~6 min), macro ~9 min (Yahoo 3 series + one FRED series at 60s),
     # cards stop the same way as prices (~6 min); a normal run takes ~3 min
-    timeout-minutes: 30
+    # plus up to 6 x 20 min in "Wait out Yahoo's blank close" (2026-10-20)
+    timeout-minutes: 160
     steps:
       - uses: actions/checkout@v4
         with:
@@ -62,6 +66,14 @@ jobs:
 
       - name: Offline tests (guard against broken pipeline code)
         run: python3 pipeline/test_pipeline.py
+
+      # Yahoo blanks the day's close on stocks' daily bars for a while in the evening (2026-10-19
+      # probe: 20:16-21:16 ET). Waits while it is blank, up to 2 h; fetch_prices falls back to
+      # meta after that. Never fails the job.
+      - name: Wait out Yahoo's blank close
+        timeout-minutes: 130
+        continue-on-error: true
+        run: python3 pipeline/wait_yahoo_close.py
 
       - name: Fetch prices
         run: python3 pipeline/fetch_prices.py --write | tee prices.log

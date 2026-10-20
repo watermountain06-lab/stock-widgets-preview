@@ -86,6 +86,112 @@ def test_price_rules():
             check(f"{name} raises", True)
 
 
+def with_meta(c, close_time=dtime(16, 0), day=None, price=200.0, **extra):
+    """A chart whose meta says the regular session of `day` (default: the last bar's) ended."""
+    r = c["chart"]["result"][0]
+    d = day or datetime.fromtimestamp(r["timestamp"][-1], ET).date()
+    r["meta"] = dict(regularMarketTime=int(datetime.combine(d, close_time, ET).timestamp()),
+                     regularMarketPrice=price, **extra)
+    return c
+
+
+def test_blank_close_fallback():
+    # 2026-10-19: Yahoo blanked the day's close on stocks' daily bars from ~20:16 to 21:16 ET
+    # while meta.regularMarketPrice stayed current. The last bar's close comes from meta.
+    blank = CLOSES[:-1] + [None]
+    r = fp.resolve_price(with_meta(chart(DAYS, blank)), AFTER)
+    check("a blank last close is filled from meta",
+          (r["session"], r["close"], r["prevClose"], r.get("closeSource")) == ("2026-09-10", 200.0, CLOSES[-2], "yahoo-meta"), r)
+    r = fp.resolve_price(with_meta(chart(DAYS, CLOSES)), AFTER)
+    check("a served close is never replaced by meta", (r["close"], r.get("closeSource")) == (CLOSES[-1], None), r)
+    r = fp.resolve_price(with_meta(chart(DAYS, blank), close_time=dtime(15, 59)), AFTER)
+    check("meta before 16:00 does not fill (session not over)", r["session"] == "2026-09-09", r)
+    r = fp.resolve_price(with_meta(chart(DAYS, blank), day=DAYS[-2]), AFTER)
+    check("meta for another date does not fill", r["session"] == "2026-09-09", r)
+    r = fp.resolve_price(with_meta(chart(DAYS, blank)), DURING)
+    check("no fill before the settle cutoff", r["session"] == "2026-09-09", r)
+    early = datetime(2026, 9, 10, 16, 10, tzinfo=ET)   # after meta's 16:00, before the 16:20 cutoff
+    check("fill_from_meta itself refuses before the settle cutoff",
+          fp.fill_from_meta(with_meta(chart(DAYS, blank))["chart"]["result"][0], early) is None)
+    r = fp.resolve_price(chart(DAYS, blank), AFTER)
+    check("no meta, no fill", r["session"] == "2026-09-09", r)
+    # the 2026-09-22 kind: an interior hole is not today's and meta can't speak for it
+    hole = CLOSES[:-2] + [None] + CLOSES[-1:]
+    r = fp.resolve_price(with_meta(chart(DAYS, hole)), AFTER)
+    check("an interior blank close is never filled from meta",
+          (r["prevSession"], r["close"], r.get("closeSource")) == ("2026-09-08", CLOSES[-1], None), r)
+    c = with_meta(chart(DAYS, blank), regularMarketDayHigh=210.0, regularMarketDayLow=190.0, regularMarketVolume=5)
+    q = c["chart"]["result"][0]["indicators"]["quote"][0]
+    q.update(high=[None] * len(DAYS), low=[1.0] * len(DAYS), open=[None] * len(DAYS))
+    q["volume"][-1] = None
+    fp.fill_from_meta(c["chart"]["result"][0], AFTER)
+    check("high/volume filled where blank, low kept as served, open left alone",
+          (q["close"][-1], q["high"][-1], q["low"][-1], q["volume"][-1], q["open"][-1]) == (200.0, 210.0, 1.0, 5, None), q)
+
+    import update_cards as uc
+    with tempfile.TemporaryDirectory() as tmp:
+        def card_fixture(opens):
+            c = with_meta(chart(DAYS, blank), regularMarketDayHigh=210.0, regularMarketDayLow=190.0)
+            q = c["chart"]["result"][0]["indicators"]["quote"][0]
+            q.update(open=list(opens), high=[x or 0 for x in CLOSES[:-1]] + [None],
+                     low=[x or 0 for x in CLOSES[:-1]] + [None])
+            Path(tmp, "ZZZ.json").write_text(json.dumps(c), encoding="utf-8")
+            return uc.fetch_bars("ZZZ", "1mo", tmp, AFTER, "2026-09-10")[0]
+        bars = card_fixture(CLOSES)
+        check("card bars take the meta-filled last bar when open was served",
+              bars[-1][0] == "2026-09-10" and bars[-1][4] == 200.0 and bars[-1][2:4] == (210.0, 190.0), bars[-1])
+        bars = card_fixture(CLOSES[:-1] + [None])
+        check("card bars skip it when open is blank too (no meta open)", bars[-1][0] == "2026-09-09", bars[-1])
+
+    # fetch_prices.main: a served close already held for the session is never swapped for meta
+    # (Codex r1), and a served close replacing a meta fill is logged with the difference (Fable r1)
+    tmp = Path(tempfile.mkdtemp())
+    data_path, fx = tmp / "stocks.json", tmp / "fx"
+    fx.mkdir()
+    sym = next(t.get("yahooSymbol", t["ticker"]) for t in seed_stocks(data_path)["tickers"] if t["ticker"] == "AAPL")
+    def aapl():
+        return next(t["price"] for t in json.loads(data_path.read_text())["tickers"] if t["ticker"] == "AAPL")
+    held = aapl()["close"]
+    (fx / f"{sym}.json").write_text(json.dumps(with_meta(chart(DAYS, blank), price=999.0)))
+    out = run("fetch_prices.py", "--data", str(data_path), "--tickers", "AAPL", "--fixtures", str(fx),
+              "--now", AFTER.isoformat(), "--write")
+    check("a held served close is kept over a later meta fill",
+          (aapl()["close"], aapl().get("closeSource")) == (held, None), out.stdout + out.stderr)
+    d = json.loads(data_path.read_text())
+    next(t for t in d["tickers"] if t["ticker"] == "AAPL")["price"].update(close=1.0, closeSource="yahoo-meta")
+    data_path.write_text(json.dumps(d))
+    (fx / f"{sym}.json").write_text(json.dumps(with_meta(chart(DAYS, CLOSES))))
+    out = run("fetch_prices.py", "--data", str(data_path), "--tickers", "AAPL", "--fixtures", str(fx),
+              "--now", AFTER.isoformat(), "--write")
+    check("a served close replaces a meta fill, and the difference is logged",
+          (aapl()["close"], aapl().get("closeSource")) == (CLOSES[-1], None) and "meta close 1.0 -> served" in out.stdout,
+          out.stdout + out.stderr)
+    shutil.rmtree(tmp)
+
+    # price_arrays: a card ending on the session at another close than the homepage is rebuilt
+    sys.path.insert(0, str(ROOT / "v2" / "newcards"))
+    import price_arrays as pa
+    arr = {"DAILY": {"tokens": ['["2026-09-10",1,2,0.5,101.50,10]']}}
+    ent = lambda c, sess="2026-09-10": {"price": {"session": sess, "close": c}}
+    check("card close off the homepage close is caught", pa.home_close_off(arr, ent(101.0), "2026-09-10"))
+    check("card close within the 0.005 tolerance is fine", not pa.home_close_off(arr, ent(101.505), "2026-09-10"))
+    check("homepage on another session: not this check's business",
+          not pa.home_close_off(arr, ent(101.0, "2026-09-09"), "2026-09-10"))
+    check("card behind the session: not this check's business (the date path handles it)",
+          not pa.home_close_off(arr, ent(101.0, "2026-09-11"), "2026-09-11"))
+
+    import wait_yahoo_close as wy
+    check("expected session after the cutoff is today", wy.expected_session(AFTER) == "2026-09-10")
+    check("expected session before the cutoff is the previous weekday", wy.expected_session(DURING) == "2026-09-09")
+    check("expected session on Saturday is Friday",
+          wy.expected_session(datetime(2026, 9, 12, 18, 0, tzinfo=ET)) == "2026-09-11")
+    check("wait: blank close on the expected session", wy.blank_close(chart(DAYS, blank), "2026-09-10"))
+    check("no wait: close served", not wy.blank_close(chart(DAYS, CLOSES), "2026-09-10"))
+    check("no wait: no bar for the expected session (holiday / late)",
+          not wy.blank_close(chart(DAYS[:-1], CLOSES[:-1]), "2026-09-10"))
+    check("no wait: chart error", not wy.blank_close({"chart": {"result": None}}, "2026-09-10"))
+
+
 def test_macro_rules():
     hours = [datetime.combine(date.fromisoformat(d), dtime(h, 0), ET)
              for d in ("2026-09-09", "2026-09-10") for h in range(24)]
@@ -1314,6 +1420,7 @@ if __name__ == "__main__":
     test_valuation_render()
     test_valuation_base_units()
     test_price_rules()
+    test_blank_close_fallback()
     test_macro_rules()
     test_end_to_end_with_failures()
     test_no_change_and_health()

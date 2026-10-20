@@ -11,6 +11,9 @@ When it writes session X (site_data/strategy_ledger/X.json):
     Before v2 cards finish X's verdicts nothing is written (the next run tries again).
   - X.json doesn't exist yet. An existing record is never touched.
   - a failed run writes nothing ("no file" means "no data" for that session).
+  - none of X's closes is a stand-in from Yahoo's meta (closeSource "yahoo-meta", 2026-10-20): such a
+    session waits for served closes, usually from the morning refresh (not guaranteed - if none comes
+    before the next session, X has no record).
 
 Each record:
   session, generatedAt (file creation time - NOT the public time), prevPublishedAt (when the previous
@@ -66,8 +69,14 @@ def splits_from_chart(chart, ticker, session, seen):
     return out
 
 
+class MetaClose(Exception):
+    """The session's close came from Yahoo's meta, not a served bar (fetch_prices.fill_from_meta)."""
+
+
 def close_on(chart, session, now_et):
-    bars, _ = fetch_prices.completed_bars(chart, now_et)
+    bars, r = fetch_prices.completed_bars(chart, now_et)
+    if r.get("_metaFilled") == session:
+        raise MetaClose(session)
     hit = [c for d, c, _v in bars if d == session]
     return round(hit[0], 4) if hit else None
 
@@ -106,6 +115,13 @@ def build(now_et, fixtures=None, lookup_publish=True):
     out = LEDGER / f"{session}.json"
     if out.exists():
         return None, f"skip: {out.name} already written"
+    # A record is never rewritten, so it must not freeze a stand-in close: when Yahoo blanked the
+    # day's bar and fetch_prices took meta's price instead (2026-10-20), wait for a later run to
+    # bring the served close (usually the morning refresh, which triggers this workflow again).
+    meta = [t["ticker"] for t in stocks["tickers"]
+            if t["price"].get("session") == session and t["price"].get("closeSource") == "yahoo-meta"]
+    if meta:
+        return None, f"skip: {session} closes for {len(meta)} cards are meta-filled ({', '.join(meta[:5])}) - waiting for served closes"
 
     prior = earlier_records()
     seen_splits = {s["id"] for rec in prior for s in rec.get("splits", [])}
@@ -141,7 +157,10 @@ def build(now_et, fixtures=None, lookup_publish=True):
             continue
         splits += splits_from_chart(chart, t, session, seen_splits)
         if t in extra:
-            c = close_on(chart, session, now_et)
+            try:
+                c = close_on(chart, session, now_et)
+            except MetaClose:
+                return None, f"skip: {t} {session} close is meta-filled - waiting for a served close"
             if c is None:
                 missing.append(t)
             else:

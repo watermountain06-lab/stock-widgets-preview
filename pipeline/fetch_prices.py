@@ -15,8 +15,9 @@ Rules (from the 2026-09-11 spike):
   - meta.chartPreviousClose is the close before the requested RANGE, not the
     previous session, so prevClose is the prior completed bar's close.
   - Raw close, not adjclose (they differ by dividend adjustment).
-  - Trailing null closes (holidays, gaps) are skipped; a duplicated date
-    keeps its last bar.
+  - Trailing null closes (holidays, gaps) are skipped, except that the LAST
+    bar's blank close may be filled from the response's meta (fill_from_meta,
+    2026-10-20); a duplicated date keeps its last bar.
 Kept but marked suspicious (excluded from the ±5% counts):
   - volume under 15% of the prior 20-bar mean (an intraday-looking bar);
   - a split inside the fetched window (prevClose, shares and market cap all
@@ -94,12 +95,59 @@ def fetch_chart(symbol, fixtures=None):
     return data
 
 
+def fill_from_meta(r, now_et):
+    """Fill a blanked close on the LATEST bar from the response's own meta, in place.
+
+    Yahoo blanks the day's close on individual stocks' daily bars for a while in the evening:
+    the 2026-10-19 probe saw the bar present with close null for SPY, AAPL and NVDA from 20:16
+    to 21:16 ET (fine at 19:56 and 21:36), on every URL form, while ^GSPC's bar and
+    meta.regularMarketPrice/Time stayed current. An evening run landing in that window read the
+    previous session for every ticker (2026-10-19 21:05 ET; the 2026-10-16 20:28 ET run's log shows
+    the same symptom, but that evening wasn't probed).
+    The workflow waits the window out first (wait_yahoo_close.py); this is the fallback after that.
+    Applies to every caller of completed_bars: fetch_macro's ^GSPC/^VIX bars get it too (their
+    meta time is after 16:00, so the same rule holds), and site_ui/build_strategy_ledger.py, whose
+    records are never rewritten, skips a session while any of its closes is meta-filled. Half-days (13:00 close) are never filled:
+    regularMarketTime is before 16:00 - the morning retry picks those up, as before.
+    Premise checked on one evening only: meta price == the close Yahoo later restores (AAPL, SPY
+    on 2026-10-19). fetch_prices.main logs the difference whenever a served close replaces a meta
+    one, and price_arrays/daily_price rebuild a card whose close no longer matches the homepage.
+
+    Only the last bar, only when meta says the regular session of that same ET date has ended
+    (regularMarketTime at or after 16:00 that day) and that session has settled by now_et. A
+    null close further back (the 2026-09-22 hole Yahoo never restored) is not touched: meta
+    describes today, not a past session. high/low/volume are filled only where null; open has
+    no meta counterpart and stays as served. Returns the filled date or None."""
+    ts = r.get("timestamp") or []
+    q = r["indicators"]["quote"][0]
+    closes = q.get("close") or []
+    if not ts or len(closes) != len(ts) or closes[-1] is not None:
+        return None
+    m = r.get("meta") or {}
+    rmt, rmp = m.get("regularMarketTime"), m.get("regularMarketPrice")
+    if not rmt or rmp is None:
+        return None
+    d = datetime.fromtimestamp(ts[-1], ET).date()
+    rt = datetime.fromtimestamp(rmt, ET)
+    if rt.date() != d or rt.time() < dtime(16, 0) or now_et < datetime.combine(d, SETTLE, ET):
+        return None
+    closes[-1] = rmp
+    for k, mk in (("high", "regularMarketDayHigh"), ("low", "regularMarketDayLow"),
+                  ("volume", "regularMarketVolume")):
+        col = q.get(k)
+        if col and len(col) == len(ts) and col[-1] is None and m.get(mk) is not None:
+            col[-1] = m[mk]
+    return d.isoformat()
+
+
 def completed_bars(chart, now_et):
-    """([(date, close, volume)] of completed sessions oldest first, result dict)."""
+    """([(date, close, volume)] of completed sessions oldest first, result dict).
+    r["_metaFilled"] is the date whose close came from meta (fill_from_meta), if any."""
     body = chart.get("chart") or {}
     if not body.get("result"):
         raise ValueError(f"no chart result ({body.get('error')})")
     r = body["result"][0]
+    r["_metaFilled"] = fill_from_meta(r, now_et)
     q = r["indicators"]["quote"][0]
     by_date = {}
     for ts, close, vol in zip(r.get("timestamp") or [], q["close"], q["volume"]):
@@ -123,6 +171,8 @@ def resolve_price(chart, now_et):
            # what the provider actually served, so main can tell a session it lost from one that
            # simply predates the window. main strips this key before anything is written.
            "_seen": [b[0] for b in bars]}
+    if r.get("_metaFilled") == day:
+        rec["closeSource"] = "yahoo-meta"   # the bar's close was blank; see fill_from_meta
     prior = [b[2] for b in bars[-21:-1] if b[2]]
     if prior and vol < VOLUME_FLOOR * statistics.mean(prior):
         rec.update(status="suspicious", statusReason="volume-anomaly")
@@ -175,6 +225,7 @@ def main():
     target = max(sessions[-1], data.get("priceSession") or sessions[-1])
 
     counts, notes, big = Counter(), [], []
+    meta_diffs = []   # fill_from_meta's premise failing: meta price != the served close
     for t in data["tickers"]:
         tk, r = t["ticker"], results.get(t["ticker"])
         if isinstance(r, Exception):
@@ -232,7 +283,22 @@ def main():
                 new = dict(t["price"], status=keep,
                            statusReason=f"provider withdrew {held}: its latest completed bar is now "
                                         f"{r['session']} - keeping the {held} close")
+            elif (have and r["session"] == held and r.get("closeSource") == "yahoo-meta"
+                  and not t["price"].get("closeSource")):
+                # Same session, and we already hold the SERVED close: a later run landing in Yahoo's
+                # blank-close window must not swap it for the meta price (Codex 2026-10-20).
+                new = dict(t["price"])
+                if abs(r["close"] - t["price"]["close"]) > 0.005:
+                    meta_diffs.append(f"{tk} served {t['price']['close']} vs meta {r['close']}")
             else:
+                if (have and r["session"] == held and t["price"].get("closeSource") == "yahoo-meta"
+                        and not r.get("closeSource")):
+                    # the served close replaces a meta fill: record how far meta was off, which is the
+                    # running check on fill_from_meta's premise (Fable 2026-10-20)
+                    notes.append(f"{tk}: meta close {t['price']['close']} -> served {r['close']} "
+                                 f"({r['close'] - t['price']['close']:+.4f})")
+                    if abs(r["close"] - t["price"]["close"]) > 0.005:
+                        meta_diffs.append(f"{tk} meta {t['price']['close']} -> served {r['close']}")
                 # The provider's series is what it is, current or lagging. Carry forward a repair
                 # already made across a hole, because the provider's own prevClose still spans it
                 # and this pipeline reads the same response three times a day. (Codex caught both
@@ -269,6 +335,9 @@ def main():
         print(f"  {n}")
     if big:
         print(f"  big moves (check the news before trusting): {', '.join(big)}")
+    if meta_diffs:
+        # an annotation on the run page, not buried in the summary; the card side already rebuilds
+        print(f"::warning::meta close differs from the served close: {'; '.join(meta_diffs[:10])}")
     if args.write:
         data["priceSession"] = target
         # a holiday repeats the same session: don't rewrite (and so don't

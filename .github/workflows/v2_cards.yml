@@ -16,7 +16,7 @@ on:
     types: [completed]
   schedule:
     # 토요일 15:00 UTC = 미국 토요일 11:00 ET(한국 일요일 00:00). 가격 작업의 토요일 재시도(09:00·13:00 UTC)와 겹치지 않게 —
-    # 같은 그룹은 대기 실행을 하나만 두므로 겹치면 토요일 실행이 밀려 사라질 수 있다(Codex 2026-10-07).
+    # 같은 그룹은 대기 실행을 하나만 두어 겹치면 토요일 실행이 밀려 사라질 수 있었다(Codex 2026-10-07) — 2026-10-20부터 queue: max로 사라지지 않는다.
     # Yahoo가 금요일 봉을 늦게 주는 종목까지 다 들어온 뒤이기도 하다 — 2026-10-06 시험에서 저녁 9시(ET)에 돌리자 섹터마다 7~11종목이 빠졌다.
     - cron: "7 15 * * 6"   # 정각을 비킨다(2026-10-08)
   workflow_dispatch:
@@ -39,6 +39,9 @@ permissions:
 concurrency:
   group: daily-refresh
   cancel-in-progress: false
+  # keep every pending run (default "single" cancels an older pending one when a newer queues) -
+  # the refresh can now hold the group for up to 2 h waiting out Yahoo's blank close (2026-10-20)
+  queue: max
 
 defaults:
   run:

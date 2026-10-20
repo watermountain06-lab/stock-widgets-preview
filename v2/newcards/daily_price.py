@@ -440,6 +440,29 @@ def check_approved():
         sys.exit(f"공시 기준표에 없는 카드 {len(miss)}장: {' '.join(miss)} — v2/sec_approved.json에 FUNDAMENTAL.filedAt을 넣을 것")
 
 
+def close_off_cards(cards, skip=()):
+    """Cards whose last bar is on their homepage session but at a different close (the homepage
+    replaced a meta-filled close with the served one, or Yahoo revised the bar). Dates match, so
+    without this --skip-if-current would skip them until the next session (Fable 2026-10-20). A card
+    this can't read counts as off too - better a rebuild than a skip on a guess (Codex 2026-10-20)."""
+    sys.path.insert(0, HERE)
+    import price_arrays as pa
+    uc = pa.uc
+    home = {e["ticker"]: e for e in json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["tickers"]}
+    off = []
+    for T in cards:
+        card = os.path.join(V2, f"{T}_full_widget.html")
+        if T in skip or T not in home or not os.path.exists(card):
+            continue
+        try:
+            _, arrays = uc.parse_card_arrays(pa.compact(open(card, encoding="utf-8").read(), T))
+            if pa.home_close_off(arrays, home[T], home[T]["price"].get("session")):
+                off.append(T)
+        except Exception:
+            off.append(T)
+    return off
+
+
 def main():
     weekly = "--weekly" in sys.argv
     check_approved()
@@ -451,10 +474,11 @@ def main():
         # (2026-10-08: 10/6 실행 때 10/5에 머문 11장이 그 뒤 "이미 끝났다"로 계속 건너뛰어져 건강 점검에 걸렸다)
         own = {e["ticker"]: e["price"].get("session") for e in json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["tickers"]}
         behind = [t for t, v in old.get("cards", {}).items() if own.get(t) and v.get("date") and v["date"] < own[t]]
+        behind += close_off_cards(old.get("cards", {}), behind)
         if old.get("session") == session and old.get("full") and not old.get("failed") and not old.get("problems") and old.get("finished") and not behind and not old.get("autoRetry"):
             print(f"{session} 세션은 이미 끝났다({old['finished']}) — 건너뜀"); return
         if behind:
-            print(f"자기 세션보다 뒤처진 카드 {len(behind)}장 — 다시 만든다: {' '.join(sorted(behind))}", flush=True)
+            print(f"자기 세션보다 뒤처졌거나 홈 종가와 다른 카드 {len(behind)}장이 있어 전체를 다시 만든다: {' '.join(sorted(behind))}", flush=True)
     want = [a.upper() for a in sys.argv[1:] if not a.startswith("--")]
     tickers = want or (gen_tickers() + BANKS + HAND)
     work = os.path.join(V2, ".sec_cache", "_work", "daily")

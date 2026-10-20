@@ -55,6 +55,19 @@ def compact(html, T):
     return "\n".join(out)
 
 
+def home_close_off(arrays, entry, session):
+    """True when the card already ends on `session` but its close differs from the homepage's
+    close for that session - e.g. the homepage took Yahoo's meta price while the day's bar was
+    blank (fetch_prices.fill_from_meta) and later got the served close, or Yahoo revised the
+    bar. Dates alone can't see this, so without it the card would keep the old close until the
+    next session's rebuild replaced the bar - a day in which the live gate, which checks dates only,
+    could publish a card that disagrees with the homepage (Fable 2026-10-20)."""
+    if not entry or entry["price"].get("session") != session or entry["price"].get("close") is None:
+        return False
+    tok = arrays["DAILY"]["tokens"][-1]
+    return uc.bar_values(tok)[0] == session and not uc.close_matches(entry["price"]["close"], tok)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
@@ -90,7 +103,7 @@ def main():
             if len(arrays[kind]["tokens"]) != n0:
                 raise uc.EditError(f"{kind} 길이 {len(arrays[kind]['tokens'])} ≠ DAILY {n0}")
         last = uc.bar_values(arrays["DAILY"]["tokens"][-1])[0]
-        if last >= session:
+        if last >= session and not home_close_off(arrays, entry, session):
             fixed = fix_header(html, T)
             if fixed != html and not a.dry:
                 path.write_text(fixed, encoding="utf-8")

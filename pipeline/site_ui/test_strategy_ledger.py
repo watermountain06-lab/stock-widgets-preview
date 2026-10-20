@@ -74,6 +74,26 @@ class LedgerTest(unittest.TestCase):
     def read(self, session):
         return json.loads((b.LEDGER / f"{session}.json").read_text())
 
+    def test_skips_meta_filled_closes(self):
+        # 2026-10-20: a record is never rewritten, so a stand-in close from Yahoo's meta must not land in one
+        self.stocks(session="2026-10-19", tickers=[
+            {"ticker": "AAA", "cardAsOf": "2026-10-19", "tier": {"value": "적정", "status": "valid"},
+             "price": {"close": 50.0, "session": "2026-10-19", "status": "fresh", "closeSource": "yahoo-meta"}}])
+        out, msg = self.run_build()
+        self.assertIsNone(out)
+        self.assertIn("meta-filled", msg)
+        self.assertFalse((b.LEDGER / "2026-10-19.json").exists())
+
+    def test_skips_meta_filled_etf_close(self):
+        blank = chart([("2026-10-16", 100.0), ("2026-10-19", None)])
+        r = blank["chart"]["result"][0]
+        r["meta"] = {"regularMarketPrice": 101.0,
+                     "regularMarketTime": int(datetime(2026, 10, 19, 16, 0, tzinfo=ET).timestamp())}
+        self.fixture("SPY", blank)
+        out, msg = self.run_build()
+        self.assertIsNone(out)
+        self.assertIn("SPY", msg)
+
     def test_skips_until_verdicts_finish(self):
         self.status(session="2026-10-16")
         self.assertIsNone(self.run_build()[0])
