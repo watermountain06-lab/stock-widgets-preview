@@ -102,7 +102,7 @@ def run(tmp, series, P=P, fred=True, fred_edit=None, yahoo_text=None, fred_serie
     (tmp / "page.html").write_text(ssga_page() if page is None else page)
     (tmp / "dgs10.csv").write_text("observation_date,DGS10\n2026-10-15,5.10\n2026-10-16,5.09\n2026-10-19,9.99\n" if spy is not None else "")
     (tmp / "spy.json").write_text(json.dumps(spy) if spy is not None else "")
-    args = [sys.executable, str(HERE / "index_daily.py"), "--out-root", str(tmp), "--yahoo", str(tmp / "y.json"),
+    args = [sys.executable, str(HERE / "index_daily.py"), "--card", "SP500", "--out-root", str(tmp), "--yahoo", str(tmp / "y.json"),
             "--stocks", str(tmp / "s.json"), "--ssga-page", str(tmp / "page.html"), "--spy", str(tmp / "spy.json"), "--dgs10", str(tmp / "dgs10.csv")]
     if fred:
         (tmp / "f.csv").write_text(fred_csv(fred_series or series, fred_edit))
@@ -275,14 +275,14 @@ def main():
             return real(res)
         ix.render = broken
         try:
-            ix.main(["--out-root", str(tmp), "--yahoo", str(tmp / "y.json"), "--fred", str(tmp / "f.csv"), "--stocks", str(tmp / "s.json")] + local)
+            ix.main(["--card", "SP500", "--out-root", str(tmp), "--yahoo", str(tmp / "y.json"), "--fred", str(tmp / "f.csv"), "--stocks", str(tmp / "s.json")] + local)
         finally:
             ix.render = real
         res = json.loads((tmp / "v2" / "index" / "SP500.json").read_text())
         pages = [(tmp / "preview-only-index-sp500.html").read_text()]
         check("화면 실패면 JSON·페이지 모두 보류", res["status"] == "held" and res["reason"] == "run_fail"
               and all('data-status="held"' in x for x in pages), (res.get("status"), calls))
-        args = ["--out-root", str(tmp), "--yahoo", str(tmp / "y.json"), "--fred", str(tmp / "f.csv"), "--stocks", str(tmp / "s.json")] + local
+        args = ["--card", "SP500", "--out-root", str(tmp), "--yahoo", str(tmp / "y.json"), "--fred", str(tmp / "f.csv"), "--stocks", str(tmp / "s.json")] + local
 
         def always_broken(res):
             raise KeyError("x")

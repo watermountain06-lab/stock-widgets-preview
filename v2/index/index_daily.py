@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""S&P 500 지수 카드(preview 전용, 2026-10-20) — 종목 카드와 같은 틀: 캔들 차트·기간별 수익률·월별 등락률·구성 종목·시계열 사건.
+"""지수 카드 틀(preview 전용, 2026-10-20) — 지금 게시하는 것은 --card SPY(SPY ETF 카드)뿐이다. S&P 500 지수 카드 페이지는
+같은 날 지웠고(사용자 결정: 지수를 나타내는 카드는 거래소에서 거래되는 ETF 기준), 아래 SP500 설명은 시험용 프로필이다.
+
+S&P 500 지수 카드 — 종목 카드와 같은 틀: 캔들 차트·기간별 수익률·월별 등락률·구성 종목·시계열 사건.
 
 구성 종목 탭과 머리 PER·국채 칸은 지수 시세 계산과 따로다: SSGA SPY 펀드 페이지(업종 비중·PER), FRED DGS10, v2/etf/SPY.json
 (상위 10개·카드 판정 비중)을 읽고, 못 읽거나 모양이 틀리면 그 칸만 비운다(카드는 보류하지 않는다).
@@ -14,7 +17,11 @@ FRED가 직전 세션까지 없으면 카드를 "보류"로 쓴다.
 종가 날짜가 그 둘과 다르면 보류.
 가격 지수라 배당은 빠진다. 사건은 가격으로만 감지하고 원인 설명을 붙이지 않는다.
 
-    python3 v2/index/index_daily.py [--out-root DIR] [--yahoo FILE] [--fred FILE] [--stocks FILE]
+    python3 v2/index/index_daily.py [--card SP500|SPY] [--out-root DIR] [--yahoo FILE] [--fred FILE] [--stocks FILE]
+
+--card SPY(2026-10-20 사용자 결정): 같은 틀로 SPY ETF 카드를 만든다 — 시세는 Yahoo SPY 일봉(시장 가격, 배당 제외),
+대조는 FRED 대신 운용사(State Street)가 공시하는 SPY NAV 이력(2003-12부터): 날짜가 빠짐없이 있고 종가가 NAV와 가까워야
+한다(아래 NAV_TOL). 계산·표시는 NAV 대조 구간만 쓴다. 판정 탭은 v2/etf/SPY.json(etf_daily.py 산출물)을 읽어 그린다.
 """
 import argparse
 import csv
@@ -35,7 +42,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 ET = timezone(timedelta(hours=-5))   # 날짜만 쓴다 — Yahoo 일봉 timestamp(개장 시각)는 서머타임과 무관하게 같은 날짜
-YAHOO = "https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?period1=0&period2={end}&interval=1d"
+YAHOO = "https://query1.finance.yahoo.com/v8/finance/chart/{sym}?period1=0&period2={end}&interval=1d"
+NAVHIST = "https://www.ssga.com/library-content/products/fund-data/etfs/us/navhist-us-en-{t}.xlsx"
+NAV_RECENT_TOL = 0.010   # 최근 250세션: 시장 종가가 NAV의 ±1.0% 안(2026-10-20 실측 최대 0.49%)
+NAV_OLD_TOL = 0.020      # 그 앞: ±2.0% 안(2003-12~ 실측 최대 −1.61%, 2008-10-10 금융위기; 2016-10~ 최대 0.90%)
+# 장이 쉰 날인데 NAV만 있는 날 — 이 목록만 허용한다(2026-10-20 실측 3일). 다른 날은 Yahoo가 거래일을 빠뜨린 것일 수 있어 불일치.
+NAV_ONLY_OK = {"2012-10-29", "2012-10-30", "2014-04-18"}   # 허리케인 샌디 휴장 2일, 성금요일
 FRED_CSV = "https://fred.stlouisfed.org/graph/fredgraph.csv?id={sid}"
 FRED_API = ("https://api.stlouisfed.org/fred/series/observations?series_id={sid}&api_key={key}"
             "&file_type=json&observation_start={start}")
@@ -49,7 +61,37 @@ YEARS_SHOWN = 10
 REASON_TEXT = {"fetch_fail": "Yahoo 시세를 받지 못함", "date_mismatch": "종가 날짜가 홈 세션과 다름",
                "cross_check": "FRED(S&P DJI) 대조 불일치", "run_fail": "스크립트 실행 실패",
                "short": "시세 기간이 모자람", "no_session": "홈 세션을 읽지 못함", "ohlc": "시가·고가·저가 이상", "cross_unavailable": "FRED(S&P DJI) 대조 못 함"}
+
+
+def use_profile(key):
+    global PROF
+    PROF = PROFILES[key]
+    REASON_TEXT.update(cross_check=f'{PROF["ref"]} 대조 불일치', cross_unavailable=f'{PROF["ref"]} 대조 못 함')
 EPS = 1e-9               # 경계(정확히 −10%·±3%)에서 부동소수점 오차로 사건을 놓치지 않게
+
+# 카드마다 다른 것(시세 심볼·대조 출처·글자·산출물). main이 --card로 PROF를 고른다.
+PROFILES = {
+    "SP500": {"key": "SP500", "name": "S&P 500", "sym": "%5EGSPC", "symText": "^GSPC", "ref": "FRED(S&P DJI)",
+              "json": "v2/index/SP500.json", "html": "preview-only-index-sp500.html",
+              "title": "S&amp;P 500 지수", "badge": "S&amp;P 500", "kind": "지수 · 미국 대형주 500개 · 가격 지수(배당 제외)",
+              "company": "S&amp;P 500 Index", "current": "S&amp;P 500 · 지수",
+              "backnav": '<a class="back-bar-nav" href="preview-only-etf-spy.html">SPY 카드 ▶</a>',
+              "chart": "지수 차트", "retTitle": "가격 지수(배당 제외)", "what": "지수 시세", "weightOf": "지수 비중",
+              "closeNote": "가격 지수(배당 제외), FRED와 대조한 종가(마지막 날은 FRED 게시 전이면 대조 전)",
+              "span": "FRED 대조 구간(최근 10년, 첫 날이 매일 하루씩 밀린다)",
+              "lede": "S&amp;P 500은 미국 대형주 약 500개를 시가총액 비중으로 묶은 지수다. 업종 비중은 지수 기준, 상위 10개 회사와 카드 비중은 지수를 따라가는 SPY(State Street) 보유 기준이다.",
+              "verdict": False},
+    "SPY": {"key": "SPY", "name": "SPY", "sym": "SPY", "symText": "SPY", "ref": "운용사 NAV",
+            "json": "v2/etf/SPY_card.json", "html": "preview-only-etf-spy.html",
+            "title": "SPY ETF", "badge": "SPY", "kind": "ETF · S&amp;P 500을 따라감 · 시장 가격(배당 제외)",
+            "company": "SPDR S&amp;P 500 ETF Trust", "current": "SPY · ETF", "backnav": "",
+            "chart": "SPY 차트", "retTitle": "SPY 시장 가격(배당 제외)", "what": "ETF 시세", "weightOf": "SPY 비중",
+            "closeNote": "SPY 시장 가격(배당 제외), 운용사 NAV와 대조한 종가(마지막 날은 NAV 게시 전이면 대조 전)",
+            "span": "운용사 NAV 대조 구간(2003년 12월부터)",
+            "lede": "SPY는 S&amp;P 500 지수를 따라가는 ETF다(State Street). 업종 비중은 운용사가 공개하는 지수 기준, 상위 10개 회사와 카드 비중은 SPY 보유 기준이다.",
+            "verdict": True},
+}
+PROF = PROFILES["SP500"]
 
 
 class Hold(Exception):
@@ -125,6 +167,72 @@ def fetch_fred(sid="SP500"):
         except Exception:   # noqa: BLE001 — 키가 틀리거나 API가 막히면 공개 CSV로
             pass
     return http_get(FRED_CSV.format(sid=sid))
+
+
+def parse_navhist(body):
+    """운용사 NAV 이력 xlsx → {날짜: NAV}. 표준 라이브러리 xlsx 읽기는 etf_daily.read_xlsx를 같이 쓴다."""
+    sys.path.insert(0, str(ROOT / "v2" / "etf"))
+    from etf_daily import read_xlsx   # noqa: E402
+    out, head = {}, False
+    for r in read_xlsx(body):
+        if r and str(r[0]).strip() == "Date" and len(r) > 1 and str(r[1]).strip() == "NAV":
+            head = True
+            continue
+        if not head or not r or not r[0]:
+            continue
+        if not re.fullmatch(r"\d{2}-[A-Z][a-z]{2}-\d{4}", str(r[0]).strip()):
+            continue   # 표 아래 안내 문구 줄(운용사 이름 바뀜 안내 등)
+        k = datetime.strptime(str(r[0]).strip(), "%d-%b-%Y").date().isoformat()
+        x = float(r[1])
+        if not math.isfinite(x) or x <= 0:
+            raise ValueError(f"NAV {k}: 값이 이상함")
+        out[k] = x
+    if not head:
+        raise ValueError("NAV 이력 머리 줄 없음")
+    return out
+
+
+def fetch_navhist(t="spy"):
+    req = urllib.request.Request(NAVHIST.format(t=t), headers={"User-Agent": "Mozilla/5.0 (stock-widgets-preview ETF card)"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        body = r.read()
+    if not body.startswith(b"PK"):
+        raise ValueError("NAV 이력이 xlsx가 아니다")
+    return body
+
+
+def cross_check_nav(series, nav, S, prevP):
+    """ETF 카드: 시장 종가(Yahoo)를 운용사 NAV 이력과 대조. 상태 ok | mismatch | unavailable — ok만 게시한다.
+    NAV는 적어도 prevP까지 있어야 하고(S 하루는 게시 전이면 대조 전), NAV 구간의 거래일은 모두 NAV가 있어야 한다.
+    장이 쉰 날 NAV만 있는 날은 NAV_ONLY_OK에 든 날만 둔다(그 밖은 Yahoo 거래일 누락으로 보고 불일치). 종가와 NAV 차이(괴리)는 최근 250세션 ±1.0%, 그 앞 ±2.0% 안."""
+    if not nav:
+        return "unavailable", "운용사 NAV 이력에 닿지 못함"
+    ys = dict(series)
+    f_days = sorted(k for k in nav if k <= S)
+    if len(f_days) < RECENT_EXACT:
+        return "unavailable", f"NAV 날짜가 {len(f_days)}개뿐"
+    lo, hi = f_days[0], f_days[-1]
+    if hi < prevP:
+        return "unavailable", f"NAV가 {hi}까지만 있음 — 직전 세션 {prevP}까지 없다"
+    lag = hi < S
+    only_y = [k for k, _ in series if lo <= k <= hi and k not in nav]
+    extra = [k for k in f_days if k not in ys]
+    if only_y or set(extra) - NAV_ONLY_OK:
+        odd = sorted(set(extra) - NAV_ONLY_OK)
+        return "mismatch", (f"날짜 불일치: NAV 없는 거래일 {len(only_y)}일, 시세 없는 NAV 날 {len(odd)}일 (첫 날 {(only_y or odd)[0]})"
+                            + (" — 실제 휴장일이면 NAV_ONLY_OK에 더한다" if odd and not only_y else ""))
+    both = [k for k in f_days if k in ys]
+    gaps = [(k, ys[k] / nav[k] - 1) for k in both]
+    recent, old = gaps[-RECENT_EXACT:], gaps[:-RECENT_EXACT]
+    bad = [k for k, g in recent if abs(g) > NAV_RECENT_TOL] + [k for k, g in old if abs(g) > NAV_OLD_TOL]
+    if bad:
+        return "mismatch", f"종가와 NAV 차이가 큰 날 {len(bad)}일 (첫 날 {min(bad)})"
+    worst = max(gaps, key=lambda t: abs(t[1]))
+    return "ok", (f"State Street SPY NAV 이력과 {len(both)}일({lo}~{hi}) 대조: 거래일마다 NAV 있음"
+                  + (f"(장이 쉰 날 NAV만 {len(extra)}일)" if extra else "")
+                  + f", 종가와 NAV 차이 최대 {worst[1] * 100:+.2f}%({worst[0]}), 최근 {RECENT_EXACT}세션 최대 "
+                  + f"{max(abs(g) for _, g in recent) * 100:.2f}%"
+                  + (f" · 마지막 {S} 종가는 NAV 게시 전이라 대조 전(Yahoo 값)" if lag else ""))
 
 
 # ---------- 계산 ----------
@@ -344,10 +452,10 @@ def compute(series, fred, P, prevP, ohlc):
     S = series[-1][0]
     if S != P or series[-2][0] != prevP:
         raise Hold("date_mismatch", f"마지막 두 종가 {series[-2][0]}·{S}, 홈 세션 {prevP}·{P}")
-    cc, cc_text = cross_check(series, fred, S, prevP)
+    cc, cc_text = (cross_check_nav if PROF["key"] == "SPY" else cross_check)(series, fred, S, prevP)
     if cc != "ok":
         raise Hold("cross_check" if cc == "mismatch" else "cross_unavailable", cc_text)
-    series = [p for p in series if p[0] >= min(fred)]   # 대조된 구간만(그 앞 Yahoo 값은 쓰지 않는다)
+    series = [p for p in series if p[0] >= min(fred)]   # 대조된 구간만(그 앞 Yahoo 값은 쓰지 않는다; fred = 대조 자료 — SPY는 NAV)
     close, prev = series[-1][1], series[-2][1]
     b1 = close_on_or_before(series, minus_months(d(S), 12))
     yr = [p for p in series if p[0] >= b1[0]]   # 1년 수익률·1년 그림과 같은 창(기준일 포함), 52주 아님
@@ -367,7 +475,7 @@ def compute(series, fred, P, prevP, ohlc):
 # 종목 카드(NVDA_full_widget.html)와 같은 틀: template/card_head.html(그 카드의 <head>) + template/index_card.html.
 
 MINUS = "−"
-CHART_HTML = """  <div class="section-title" id="techHeaderTitle">지수 차트 — 일봉 캔들스틱 · 1년 수익률 <span id="techHeaderReturn"></span></div>
+CHART_HTML = """  <div class="section-title" id="techHeaderTitle">{{CHARTNAME}} — 일봉 캔들스틱 · 1년 수익률 <span id="techHeaderReturn"></span></div>
   <div class="price-chart-container">
     <div style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
       <div class="range-toggle" id="spxRangeToggle">
@@ -378,7 +486,7 @@ CHART_HTML = """  <div class="section-title" id="techHeaderTitle">지수 차트 
         <button class="range-btn" data-range="5Y">5년</button>
       </div>
     </div>
-    <svg id="spxCandleSvg" viewBox="0 0 720 240" width="100%" style="display:block;background:var(--bg3);border-radius:8px;padding:4px;" role="img" aria-label="S&amp;P 500 일봉 캔들스틱 차트"></svg>
+    <svg id="spxCandleSvg" viewBox="0 0 720 240" width="100%" style="display:block;background:var(--bg3);border-radius:8px;padding:4px;" role="img" aria-label="{{BADGE}} 일봉 캔들스틱 차트"></svg>
     <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
       <div style="font-size:11px;color:var(--text3);" id="techRangeSummary"></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -522,7 +630,7 @@ def render_returns(res):
     years = [(str(x["year"]) + ("(YTD)" if x["annual"]["partial"] else ""), x["annual"]["ret"], x["annual"]["partial"])
              for x in res["monthly"]["rows"][-5:] if x["annual"]]
     return (
-        '  <div class="section-title">기간별 수익률 — 가격 지수(배당 제외)</div>\n'
+        f'  <div class="section-title">기간별 수익률 — {PROF["retTitle"]}</div>\n'
         f'  <div class="card"><div class="ret-strip">{"".join(cells)}</div></div>\n'
         f'{fold("기간 중 최고·최저 종가·최대 낙폭", range_cards(res))}\n'
         f'  <div class="card"><div class="card-title">연도별 수익률 — 최근 5년</div>{bars_svg(years, "연도별 수익률")}'
@@ -585,7 +693,7 @@ def render_events(res):
     return (f'  <div class="section-title">시계열 사건 ({since} ~ {kdate(res["S"])})</div>\n'
             '  <div class="card"><div class="card-title">읽는 법</div>'
             '<div style="font-size:12.5px;color:var(--text2);line-height:1.6;">종가만 보고 자동으로 찾은 날이다. 원인 설명이나 기사는 붙이지 않는다. '
-            '낙폭·회복의 고점과 최고 종가는 FRED 대조 구간(최근 10년, 첫 날이 매일 하루씩 밀린다) 안에서만 본다 — 그 앞 값은 쓰지 않는다. '
+            f'낙폭·회복의 고점과 최고 종가는 {PROF["span"]} 안에서만 본다 — 그 앞 값은 쓰지 않는다. '
             '전고점 회복은 −10% 이상 빠진 뒤 전고점 이상으로 돌아온 첫날이다. 색은 종목 카드와 같은 4색이다 — '
             '초대형 이벤트: 고점 대비 −20% 진입(약세장) · 긍정: 하루 +3% 이상, 전고점 회복 · 부정: 하루 −3% 이하, 고점 대비 −10% 진입 · '
             '중립: 해마다 묶은 최고 종가 경신.</div></div>\n'
@@ -687,7 +795,7 @@ def render_holdings(res):
     c = res.get("constituents") or {}
     sec, spy = c.get("sectors"), c.get("spy")
     parts = ['  <div class="section-title">구성 종목 — 무엇으로 이루어져 있나</div>\n'
-             '  <div class="lede">S&amp;P 500은 미국 대형주 약 500개를 시가총액 비중으로 묶은 지수다. 업종 비중은 지수 기준, 상위 10개 회사와 카드 비중은 지수를 따라가는 SPY(State Street) 보유 기준이다.</div>']
+             f'  <div class="lede">{PROF["lede"]}</div>']
     if sec:
         # 도넛(가운데 "11개 · 업종 · 날짜") + 오른쪽 색 막대 범례(가장 큰 업종을 끝으로). 색은 비중 순위로 정해 밝기가 서로 다르다.
         tot, stops, legend, mx = sum(w for _, w in sec["rows"]), [], [], sec["rows"][0][1]
@@ -735,10 +843,10 @@ def render_holdings(res):
             segs = "".join(f'<span style="width:{bar[k] * 100:.2f}%;background:{c}" title="{k} {bar[k] * 100:.1f}%"></span>'
                            for k, c in BAR_TIERS if bar.get(k))
             labs = "".join(f'<span><i style="background:{c}"></i>{k} <b>{bar[k] * 100:.1f}%</b></span>' for k, c in BAR_TIERS if bar.get(k))
-            head = (f'<div class="card-title">이 사이트에 카드가 있는 종목 {len(spy["cards"])}개 · 지수 비중의 {covered * 100:.1f}%</div>'
-                    f'<div class="vbar" role="img" aria-label="판정별 지수 비중">{segs}</div><div class="vbar-lab">{labs}</div>'
-                    f'<div class="note">막대 = 지수(SPY 주식 비중)를 그 회사 카드의 판정으로 나눈 것. 제목의 비중은 판정 보류·그 밖 제외 카드까지 포함한다 '
-                    '(SPY 판정 카드의 "덮은 비중"은 판정이 있는 카드만). 카드 없는 회사는 대부분 지수의 작은 회사들이다.</div>')
+            head = (f'<div class="card-title">이 사이트에 카드가 있는 종목 {len(spy["cards"])}개 · {PROF["weightOf"]}의 {covered * 100:.1f}%</div>'
+                    f'<div class="vbar" role="img" aria-label="판정별 {PROF["weightOf"]}">{segs}</div><div class="vbar-lab">{labs}</div>'
+                    f'<div class="note">막대 = SPY 주식 비중을 그 회사 카드의 판정으로 나눈 것. 제목의 비중은 판정 보류·그 밖 제외 카드까지 포함한다 '
+                    '(SPY 판정 카드의 "덮은 비중"은 판정이 있는 카드만). 카드 없는 회사는 대부분 작은 회사들이다.</div>')
         else:
             why = (f' SPY 판정 보류' + (f'({html.escape(spy["reasonText"])})' if spy.get("reasonText") else "")
                    + '라 판정별 비중 막대는 뺐다.') if spy.get("held") else ""
@@ -760,6 +868,73 @@ def safe_holdings(res):
                 '  <div class="card"><div class="note">구성 종목 자료를 그리지 못했다.</div></div>')
 
 
+def render_verdict(full, P):
+    """SPY 카드의 "카드 판정" 탭 — v2/etf/SPY.json(etf_daily.py)을 그대로 옮긴다. 규칙: v2/research/etf_verdict_prereg.md.
+    홈 줄과 같은 묵음 규칙: 판정 세션(builtFor)이 홈 세션 P와 다르면 판정을 지우고 사유만(운용사 파일 갱신 대기는 예외)."""
+    head = '  <div class="section-title">카드 판정 — 이 사이트 카드로 본 SPY</div>\n'
+    lede = ('  <div class="lede">SPY가 담은 종목 중 이 사이트에 카드가 있는 종목의 판정을 보유 비중으로 평균한 것이다. '
+            'SPY나 지수 자체의 내재가치 평가가 아니다. 참고용 · 매수 기준 아님 · 예측 신호로 검증되지 않음.</div>\n')
+    def box(title, text):
+        return head + lede + f'  <div class="card held-box"><div class="card-title">{title}</div><div class="note">{text}</div></div>'
+    try:
+        if full is None:
+            return box("판정 보류", "판정 자료를 불러오지 못했다.")
+        # 홈 줄(preview-only-etf.js valid() → 묵음 → 보류)과 같은 순서·같은 검사 — 같은 자료가 두 화면에서 다른 사유를 내지 않게
+        fin = lambda x: isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
+        tiers = [k for k, _ in BAR_TIERS]
+        bad = not isinstance(full, dict) or full.get("status") not in ("ok", "held")
+        if not bad and full["status"] == "held":
+            bad = not isinstance(full.get("reasonText"), str)
+        elif not bad:
+            v, nbar, cov, rng, bar = full.get("verdict"), full.get("nbar"), full.get("coverage"), full.get("range"), full.get("bar")
+            pdv = full.get("pending")
+            bad = (v not in VERDICT_ORDER[:5] or not fin(nbar) or not (-4 <= nbar <= 3) or not fin(cov) or not (0.7 <= cov <= 1)
+                   or not isinstance(bar, dict) or not all(fin(bar.get(k)) and 0 <= bar[k] <= 1 for k in tiers)
+                   or abs(sum(bar[k] for k in tiers) - 1) > 1e-6 or abs(sum(bar[k] for k in tiers[:5]) - cov) > 1e-6
+                   or not isinstance(full.get("S"), str)
+                   or (pdv is not None and not (isinstance(pdv, dict) and pdv.get("kind") in ("issuer_lag", "home_lag") and isinstance(pdv.get("P"), str))))
+        if bad:
+            return box("판정 보류", "판정 자료 형식 오류.")
+        pd = full.get("pending") if full.get("status") == "ok" and isinstance(full.get("pending"), dict) else None
+        lag_issuer = bool(pd and pd.get("kind") == "issuer_lag" and pd.get("P") == P)
+        lag_home = bool(pd and pd.get("kind") == "home_lag" and full.get("builtFor") == P)
+        if not full.get("builtFor") or (full["builtFor"] != P and not lag_issuer):
+            return box("판정 보류", f'묵음 — 판정 세션 {html.escape(kdate(full.get("builtFor") or "—"))}이 홈 세션 {html.escape(kdate(P or "—"))}과 다르다.')
+        if full["status"] != "ok":
+            return box("판정 보류", html.escape(full.get("reasonText") or "사유 미상") + (f' · {html.escape(full["detail"])}' if full.get("detail") else ""))
+        if not (isinstance(rng, list) and len(rng) == 2 and all(fin(x) for x in rng)):
+            rng = None   # 범위 칸만 비운다(홈 줄은 범위를 쓰지 않는다)
+        tag = ("운용사 파일 갱신 대기 · 판정 기준 " + kdate(full["builtFor"]) if lag_issuer else "홈 가격 세션 갱신 대기" if lag_home
+               else "경계 근처" if full.get("edgeNear") else "")
+        sg = lambda x: f"{x:+.2f}".replace("-", MINUS)
+        cells = [("ETF 판정", f'<span style="color:{verdict_color(v)}">{v}</span>', tag or "&nbsp;"),
+                 ("가중평균 점수 n̄", sg(nbar), "−4(고평가 쪽) ~ +3(저평가 쪽)"),
+                 ("카드가 덮은 비중", f"{cov * 100:.1f}%", "70% 미만이면 판정하지 않는다"),
+                 ("덮지 못한 비중을 극단에 둔 범위", f"{sg(rng[0])} ~ {sg(rng[1])}" if rng else "—", "&nbsp;")]
+        strip = "".join(f'<div class="op-cell"><span class="op-label">{a}</span><span class="op-val">{b}</span><span class="op-sub">{c}</span></div>'
+                        for a, b, c in cells)
+        segs = "".join(f'<span style="width:{bar[k] * 100:.2f}%;background:{c}" title="{k} {bar[k] * 100:.1f}%"></span>'
+                       for k, c in BAR_TIERS if bar.get(k))
+        labs = "".join(f'<span><i style="background:{c}"></i>{k} <b>{bar[k] * 100:.1f}%</b></span>' for k, c in BAR_TIERS if bar.get(k))
+        ex = full.get("expense") if isinstance(full.get("expense"), dict) else {}
+        if not (fin(ex.get("pct")) and isinstance(ex.get("url"), str) and isinstance(ex.get("source"), str)):
+            ex = {}   # 보수·출처가 이상하면 그 안내만 뺀다(판정은 그대로)
+        src = (f'보유 비중: {html.escape(full.get("holdingsSource") or "State Street")} (기준일 {kdate(full["S"])}) — 원본 파일은 다시 게시하지 않는다. '
+               f'카드 판정: 이 사이트 v2 카드, {kdate(full["builtFor"])} 종가. 규칙 {html.escape(str(full.get("ruleVersion") or "—"))}.'
+               + (f' 보수율 {ex["pct"]:.4f}% — <a href="{html.escape(ex["url"], quote=True)}">{html.escape(ex["source"])}</a>.' if ex.get("pct") is not None and ex.get("url") else ""))
+        return (head + lede
+                + f'  <div class="card"><div class="ret-strip verdict-strip">{strip}</div></div>\n'
+                + f'  <div class="card"><div class="card-title">등급별 보유 비중</div><div class="vbar" role="img" aria-label="등급별 보유 비중">{segs}</div>'
+                  f'<div class="vbar-lab">{labs}</div><div class="note">분모는 현금·권리 줄을 뺀 주식 보유 전체. 상위 10개 회사와 종목별 판정은 구성 종목 탭에 있다.</div></div>\n'
+                + '  <div class="card"><div class="card-title">읽는 법과 한계</div><div class="note">카드 점수는 −4(고평가 쪽)부터 +3(저평가 쪽)까지라 비대칭이다 — '
+                  '현금흐름 "매우 싸다"도 +1만 주기 때문에 평균은 아래로 기운다. 평균은 극단을 지우므로 막대를 함께 본다. 상위 10개 회사가 판정에 쓴 비중의 '
+                  '절반쯤을 차지한다. 카드가 없는 종목은 대부분 지수의 작은 쪽이라 이 점수는 대형주 평균에 가깝다.</div>'
+                  f'<div class="note">{src}</div></div>')
+    except Exception:   # noqa: BLE001 — 판정 탭만 비우고 카드는 낸다
+        traceback.print_exc()
+        return box("판정 보류", "판정 자료를 그리지 못했다.")
+
+
 def fill(tpl, m):
     for k, v in m.items():
         tpl = tpl.replace("{{" + k + "}}", v)
@@ -770,15 +945,19 @@ def render(res):
     head = (HERE / "template" / "card_head.html").read_text(encoding="utf-8")
     body = (HERE / "template" / "index_card.html").read_text(encoding="utf-8")
     cc = html.escape((res.get("crossCheck") or {}).get("text", ""))
-    common = {"TITLE": "S&amp;P 500 지수 — US stock 가치를 말하다", "STATUS": res["status"],
-              "S": kdate(res.get("S") or "—")}
+    common = {"TITLE": f'{PROF["title"]} — US stock 가치를 말하다', "STATUS": res["status"],
+              "S": kdate(res.get("S") or "—"), "BADGE": PROF["badge"], "KIND": PROF["kind"], "COMPANY": PROF["company"],
+              "CURRENT": PROF["current"], "BACKNAV": PROF["backnav"], "CHARTNAME": PROF["chart"], "WHAT": PROF["what"],
+              "NAVEXTRA": ('<button class="nav-btn" onclick="showSection(\'verdict\', this)">⚖️ 카드 판정</button>' if PROF["verdict"] else ""),
+              "VERDICT": (f'<div id="verdict" class="section">\n{render_verdict(res.get("verdictData"), res.get("builtFor"))}\n</div>'
+                          if PROF["verdict"] else "")}
     if res["status"] != "ok":
         msg = ('  <div class="card held-box"><div class="card-title">자료 보류</div>'
                f'<div style="font-size:14px;font-weight:700;color:var(--text);">{html.escape(res["reasonText"])}</div>'
                f'<div style="font-size:12px;color:var(--text2);margin-top:6px;">{html.escape(res.get("detail", ""))} · 홈 세션 '
                f'{html.escape(kdate(res.get("builtFor") or "—"))}</div></div>')
         m = dict(common, PRICE="—", META="", CHART=msg, RETURNS="", MONTHLY="", EVENTS="", HOLDINGS="",
-                 SOURCES="시세: Yahoo Finance ^GSPC 일봉.", DAILY="[]", MA='{"ma5":[],"ma20":[],"ma60":[],"ma120":[]}',
+                 SOURCES=f'시세: Yahoo Finance {PROF["symText"]} 일봉.', DAILY="[]", MA='{"ma5":[],"ma20":[],"ma60":[],"ma120":[]}',
                  RANGE_BASE="{}")
         return fill(head, m) + fill(body, m)
     by = {r["label"]: r for r in res["returns"]}
@@ -791,7 +970,7 @@ def render(res):
     ey_sub = ((f'SSGA {kdate(ch["peAsOf"])}' if ch else "PER 불러오지 못함") + " / "
               + (f'FRED {kdate(tsy["date"])}' if tsy else "국채 불러오지 못함"))
     meta = "\n".join([
-        meta_item("1년 수익률", pct(by["1년"]["ret"]), color(by["1년"]["ret"]), "가격 지수(배당 제외), FRED와 대조한 종가(마지막 날은 FRED 게시 전이면 대조 전)",
+        meta_item("1년 수익률", pct(by["1년"]["ret"]), color(by["1년"]["ret"]), PROF["closeNote"],
                   f'기준 {kdate(by["1년"]["base"])} 종가'),
         meta_item("5년 연 환산", pct(by["5년"]["annual"]), color(by["5년"]["annual"]), "5년 누적 수익률을 1년마다로 바꾼 값(배당 제외)",
                   f'5년 누적 {pct(by["5년"]["ret"])}'),
@@ -802,10 +981,12 @@ def render(res):
         '    <div style="grid-column:1 / -1;font-size:11px;color:var(--text3);">PER과 이익수익률은 오늘 값이라 과거와 비교하지 않는다. 이 값만으로 저평가·고평가를 판정하지 않는다.</div>',
     ])
     dl = res["daily"]
-    m = dict(common, PRICE=price, META=meta, CHART=CHART_HTML, RETURNS=render_returns(res),
+    m = dict(common, PRICE=price, META=meta, CHART=fill(CHART_HTML, common), RETURNS=render_returns(res),
              MONTHLY=render_monthly(res), EVENTS=render_events(res), HOLDINGS=safe_holdings(res),
-             SOURCES=(f'시세: Yahoo Finance ^GSPC 일봉. 종가는 FRED SP500(S&amp;P Dow Jones Indices)과 대조 — {cc}. '
-                      '시가·고가·저가(캔들과 차트의 최고·최저 표시)는 FRED에 없어 Yahoo 값 그대로다.'),
+             SOURCES=((f'시세: Yahoo Finance SPY 일봉(시장 가격, 배당 제외). 종가는 State Street가 공시하는 SPY NAV 이력과 대조 — {cc}. '
+                       '시가·고가·저가(캔들과 차트의 최고·최저 표시)는 NAV 이력에 없어 Yahoo 값 그대로다.') if PROF["key"] == "SPY" else
+                      (f'시세: Yahoo Finance ^GSPC 일봉. 종가는 FRED SP500(S&amp;P Dow Jones Indices)과 대조 — {cc}. '
+                       '시가·고가·저가(캔들과 차트의 최고·최저 표시)는 FRED에 없어 Yahoo 값 그대로다.')),
              DAILY=json.dumps(dl["rows"], separators=(",", ":")), MA=json.dumps(dl["ma"], separators=(",", ":")),
              RANGE_BASE=json.dumps(dl["base"]))
     return fill(head, m) + fill(body, m)
@@ -867,7 +1048,7 @@ def write_all(files):
 
 def held_res(reason, detail, P):
     return {"status": "held", "reason": reason, "reasonText": REASON_TEXT[reason], "detail": detail,
-            "builtFor": P, "S": None, "index": "SP500", "name": "S&P 500", "source": "Yahoo Finance ^GSPC 일봉 종가"}
+            "builtFor": P, "S": None, "index": PROF["key"], "name": PROF["name"], "source": f'Yahoo Finance {PROF["symText"]} 일봉 종가'}
 
 
 def pages_for(res, P):
@@ -876,28 +1057,32 @@ def pages_for(res, P):
         return res, render(res)
     except Exception as e:   # noqa: BLE001
         traceback.print_exc()
-        res = dict(held_res("run_fail", f"화면 만들기 실패({type(e).__name__})", P), runAt=res.get("runAt"))
+        res = dict(held_res("run_fail", f"화면 만들기 실패({type(e).__name__})", P), runAt=res.get("runAt"), verdictData=res.get("verdictData"))
     try:
         return res, render(res)
     except Exception:   # noqa: BLE001
         traceback.print_exc()
+        if PROF["verdict"]:
+            return res, None   # ETF 카드: 틀까지 깨졌으면 페이지를 쓰지 않는다 — ETF 단계가 쓴 판정 페이지가 남는다
         page = ('<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
-                '<title>S&amp;P 500 지수</title></head><body><main data-status="held" style="max-width:900px;margin:0 auto;padding:28px 16px">'
-                f'<a href="index.html">← 홈</a><h1>S&amp;P 500</h1><p>자료 보류 · {REASON_TEXT["run_fail"]}. 홈 세션 {html.escape(P or "—")}.</p>'
+                f'<title>{PROF["title"]}</title></head><body><main data-status="held" style="max-width:900px;margin:0 auto;padding:28px 16px">'
+                f'<a href="index.html">← 홈</a><h1>{PROF["badge"]}</h1><p>자료 보류 · {REASON_TEXT["run_fail"]}. 홈 세션 {html.escape(P or "—")}.</p>'
                 '</main></body></html>\n')
         return res, page
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
+    ap.add_argument("--card", choices=sorted(PROFILES), default="SPY")   # 지수 카드 페이지는 2026-10-20 지웠다 — SP500은 시험에서만 고른다
     ap.add_argument("--out-root", default=str(ROOT))
     ap.add_argument("--yahoo", help="Yahoo chart JSON 파일(시험용)")
-    ap.add_argument("--fred", help="FRED CSV/JSON 파일(시험용)")
+    ap.add_argument("--fred", help="FRED CSV/JSON 파일(시험용) — --card SPY면 운용사 NAV 이력 xlsx 파일")
     ap.add_argument("--stocks", default=str(ROOT / "site_data" / "stocks.json"))
     ap.add_argument("--spy", help="SPY 판정 공개 산출물(기본: <out-root>/v2/etf/SPY.json)")
     ap.add_argument("--ssga-page", help="SSGA SPY 펀드 페이지 HTML 파일(시험용; 없으면 받는다)")
     ap.add_argument("--dgs10", help="FRED DGS10 CSV 파일(시험용; 없으면 받는다)")
     a = ap.parse_args(argv)
+    use_profile(a.card)
     out = Path(a.out_root)
     P, prevP, series = None, None, []
     try:
@@ -906,13 +1091,16 @@ def main(argv=None):
         except Exception:
             pass
         try:
-            ytext = Path(a.yahoo).read_text(encoding="utf-8") if a.yahoo else http_get(YAHOO.format(end=int(time.time()) + 86400))
+            ytext = Path(a.yahoo).read_text(encoding="utf-8") if a.yahoo else http_get(YAHOO.format(sym=PROF["sym"], end=int(time.time()) + 86400))
             series = parse_yahoo(ytext)
             ohlc = parse_ohlc(ytext)
         except Exception as e:
             raise Hold("fetch_fail", type(e).__name__)
         try:
-            fred = parse_fred(Path(a.fred).read_text(encoding="utf-8") if a.fred else fetch_fred())
+            if PROF["key"] == "SPY":   # 대조 자료 = 운용사 NAV 이력
+                fred = parse_navhist(Path(a.fred).read_bytes() if a.fred else fetch_navhist())
+            else:
+                fred = parse_fred(Path(a.fred).read_text(encoding="utf-8") if a.fred else fetch_fred())
             if not fred:
                 fred = None
         except Exception:
@@ -943,14 +1131,21 @@ def main(argv=None):
         traceback.print_exc()
         res = {"status": "held", "reason": "run_fail", "reasonText": REASON_TEXT["run_fail"],
                "detail": type(e).__name__, "builtFor": P, "S": None}
-    res["index"], res["name"] = "SP500", "S&P 500"
+    res["index"], res["name"] = PROF["key"], PROF["name"]
     res["runAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    res["source"] = "Yahoo Finance ^GSPC 일봉 종가"
+    res["source"] = f'Yahoo Finance {PROF["symText"]} 일봉 종가'
+    if PROF["verdict"]:   # 판정 탭: 시세가 보류여도 판정은 따로 보인다
+        try:
+            res["verdictData"] = json.loads((Path(a.spy) if a.spy else out / "v2" / "etf" / "SPY.json").read_text(encoding="utf-8"))
+        except Exception:   # noqa: BLE001
+            res["verdictData"] = None
     res, page = pages_for(res, P)
-    public = {k: v for k, v in res.items() if k != "daily"}   # 캔들 자료는 페이지 안에만(같은 값을 두 번 싣지 않는다)
-    write_all({out / "v2" / "index" / "SP500.json": json.dumps(public, ensure_ascii=False, indent=1) + "\n",
-               out / "preview-only-index-sp500.html": page})
-    line = (f"INDEX SP500: {res['status']}"
+    public = {k: v for k, v in res.items() if k not in ("daily", "verdictData")}   # 캔들 자료는 페이지 안에만, 판정은 SPY.json에 이미 있다
+    files = {out / PROF["json"]: json.dumps(public, ensure_ascii=False, indent=1) + "\n"}
+    if page is not None:
+        files[out / PROF["html"]] = page
+    write_all(files)
+    line = (f"{'ETF CARD' if PROF['verdict'] else 'INDEX'} {PROF['key']}: {res['status']}"
             + (f" S={res['S']} close={res['close']} cross={res['crossCheck']['status']} events={len(res['events'])}"
                if res["status"] == "ok" else f" reason={res['reason']} ({res.get('detail', '')})"))
     print(line)

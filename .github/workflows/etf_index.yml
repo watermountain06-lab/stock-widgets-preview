@@ -1,6 +1,6 @@
 name: ETF and index cards
 
-# preview 전용 ETF 판정(SPY)과 S&P 500 지수 카드 — 종목 카드 파이프라인(v2 cards rebuild)과 분리(2026-10-20 사용자 결정, 설계 dr 합의).
+# preview 전용 ETF 판정(SPY)과 SPY ETF 카드 — 종목 카드 파이프라인(v2 cards rebuild)과 분리(2026-10-20 사용자 결정, 설계 dr 합의).
 # 카드가 확정된 뒤 돈다: v2 cards rebuild가 끝날 때마다(취소 제외 — 실패해도 카드 파일은 그대로라 평가는 한다).
 # daily_refresh가 하루 세 번(저녁·05:23·09:41 ET 무렵) 돌고 v2 cards가 그 뒤를 따르므로 ETF도 하루 여러 번 다시 평가된다 —
 # 저녁에 운용사 파일이 늦으면 직전 판정을 "갱신 대기"로 유지하고 아침에 같은 날 파일로 다시 계산한다(v2/etf/etf_daily.py).
@@ -60,19 +60,22 @@ jobs:
         continue-on-error: true
         run: python3 v2/etf/etf_fallback.py
 
-      # 지수 카드는 SPY 산출물(구성 종목 탭)을 읽으므로 ETF 다음. 실패하면 스스로 보류 페이지를 쓴다.
-      - name: Index card (S&P 500)
+      # SPY ETF 카드(2026-10-20 사용자 결정 — 지수 카드 틀에 SPY 시세·운용사 NAV 대조·카드 판정 탭; S&P 500 지수 카드 페이지는
+      # 같은 날 지웠다). SPY 산출물(구성 종목·판정 탭)을 읽으므로 ETF 다음. ETF 단계가 쓴 판정 페이지
+      # (preview-only-etf-spy.html)를 이 카드로 덮어쓴다. 시세·NAV 받기 실패·대조 실패는 "시세 보류 + 판정 탭" 페이지로 덮고,
+      # 시간 초과·인터프리터 중단이나 틀까지 깨진 경우에만 덮지 않아 판정만 있는 그 페이지가 남는다.
+      - name: ETF card (SPY)
         continue-on-error: true
         timeout-minutes: 10
         env:
-          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-        run: python3 v2/index/index_daily.py
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # 머리의 미 10년 국채(DGS10)
+        run: python3 v2/index/index_daily.py --card SPY
 
       - name: Commit
         id: commit
         run: |
           for p in v2/etf/SPY.json preview-only-etf-spy.html preview-only-etf-data.js v2/etf/date_obs.jsonl \
-                   v2/index/SP500.json preview-only-index-sp500.html; do
+                   v2/etf/SPY_card.json; do
             if [ -e "$p" ]; then git add "$p"; fi
           done
           if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
