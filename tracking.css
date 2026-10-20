@@ -122,3 +122,7 @@ main{--tk-up:#14804a;--tk-down:#c42b1c;--tk-soft:#efebfc;--tk-track:#f1eff6;--tk
 .tk-days-nav{flex:none;width:32px;height:48px;border:1px solid var(--line);border-radius:10px;background:var(--tk-panel);color:var(--ink);font:inherit;font-size:12px;cursor:pointer}
 .tk-days-nav:disabled{opacity:.3;cursor:default}
 .tk-days-nav[hidden]{display:none}
+
+/* 카드 흐름 높이(2026-10-20): Tracking 카드는 줄이 3개라 공통 높이(250px)보다 17px 길어 아래가 잘렸다.
+   카드(약 243px) + 위 여백 24px + 그림자 여유를 담는다. */
+.tracking .today-flow .coverflow{height:292px}
