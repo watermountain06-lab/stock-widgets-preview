@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S&amp;P 500 가격 사건 — US stock 가치를 말하다</title>
+<!-- preview 전용 지수 카드의 가격 사건 탭(v2/index/index_daily.py가 만든다 — 손으로 고치지 않는다). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap">
+<style>
+{{STYLE}}
+</style>
+<link rel="stylesheet" href="theme.css?v=2">
+<script src="theme.js?v=2"></script>
+</head>
+<body>
+<main data-status="{{STATUS}}">
+  <div class="top"><a href="index.html">← 홈</a><a href="preview-only-etf-spy.html">SPY ETF 판정 카드 →</a></div>
+  <h1>S&amp;P 500</h1>
+  <p class="sub">기준 <b class="num">{{S}}</b> 종가 · 홈 세션 <span class="num">{{BUILTFOR}}</span></p>
+  <nav class="tabs"><a href="preview-only-index-sp500.html">지수</a><a href="preview-only-index-sp500-events.html" aria-current="page">가격 사건</a></nav>
+  <section>
+    <h2>가격 사건</h2>
+    <p class="small">종가만 보고 자동으로 찾은 날이다. 원인 설명이나 기사를 붙이지 않는다. 하루 ±3% 이상, 고점 대비 −10%·−20% 첫 진입, 전고점 회복(−10% 이상 빠진 뒤 전고점 이상으로 돌아온 첫날), 최고 종가 경신(FRED 대조 구간의 첫 날 이후 기준 — 그 앞 값은 쓰지 않는다).</p>
+    {{COUNTS}}
+    <div class="filt-wrap">{{EVENTS}}</div>
+  </section>
+  <section>
+    <h2>출처</h2>
+    <dl>
+      <dt>시세</dt><dd>Yahoo Finance ^GSPC 일봉 종가 — 투자 권고가 아님</dd>
+      <dt>대조</dt><dd class="small">{{CHECK}}</dd>
+    </dl>
+  </section>
+</main>
+</body>
+</html>

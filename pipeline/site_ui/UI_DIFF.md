@@ -14,9 +14,11 @@
 |---|---|---|
 | `range` | 시총 순위 구간 토글 [전체][1~100위][101~200위] | `preview-only.js`, `preview-only.css`, index.html의 `preview-only:range` 꼬리표 줄 4개(파일 싣기 2, 필터 1, 초기화 1) |
 | `portfolio` | Google 로그인(Firebase, 나만 쓰기)으로 여는 Portfolio 탭(원칙·실제 자산·관심 종목·모의 운용 기록, 2026-10-19). 머리 메뉴에 `Portfolio` 링크를 덧붙인다 | `preview-only-portfolio.html`·`.js`·`.css`·`-config.js`, 설정 순서 `pipeline/portfolio/SETUP.md`, 전략 비교 설계 `pipeline/portfolio/STRATEGY_DESIGN.md`와 일별 고정 기록 `site_data/strategy_ledger/`(`pipeline/site_ui/build_strategy_ledger.py`, 공개 시세·판정만, 2026-10-19), 규칙 틀 `firestore.rules`(이메일은 자리표시자 — 실제 값은 Firebase 콘솔에만), 가짜 데이터 `sample.json`, `preview-only.js` 아래쪽 메뉴 함수, today.html·market-news.html의 `preview-only:portfolio` 꼬리표 줄 1개씩(index.html은 range 줄이 같은 파일을 싣는다) |
+| `etf` | 홈 "시장 지표" 접힘 구역 맨 위의 ETF 선택 칩과 요약 줄(판정·점수·덮은 비중·등급 막대·상위 5개), ETF 카드 페이지(2026-10-19, 첫 ETF SPY). 참고용·매수 기준 아님, 규칙은 `v2/research/etf_verdict_prereg.md` | `preview-only-etf.js`·`.css`, 매일 실행이 쓰는 `preview-only-etf-data.js`·`preview-only-etf-spy.html`(`v2/etf/etf_daily.py`, 대체 `etf_fallback.py`), index.html의 `preview-only:etf` 꼬리표 줄 3개(CSS·데이터·JS) |
+| `index` | S&P 500 지수 카드(2026-10-20): 가격 그림(1·5·10년)·기간별 수익률(1개월·6개월·1년·3년·5년·YTD)·월별 등락률(연도×월 색칸, 최근 12개월 막대) 탭과 가격 사건 탭(±3% 하루·낙폭·회복·사상 최고, 원인 설명 없음). 홈 시장 지표 S&P 500 칸 아래 링크, SPY 카드와 서로 링크 | 매일 실행이 쓰는 `preview-only-index-sp500.html`·`preview-only-index-sp500-events.html`·`v2/index/SP500.json`(`v2/index/index_daily.py`, 틀 `v2/index/template/`), 홈 링크는 `preview-only-etf.js`의 `linkIndex`(index.html 변경 없음) |
 
 portfolio의 내 데이터는 preview 저장소에 두지 않는다(저장소에는 가짜 `sample.json`만). Firestore에만 있고, 보호는 Firestore 규칙이 맡는다.
-소유자 이메일은 공개 저장소 어디에도 쓰지 않는다. index.html은 range 줄의 `preview-only.js?v=1`로 메뉴 함수를 싣는다 — 그 파일을 바꾸면 index의 버전도 함께 올린다(2026-10-19 portfolio 메뉴 추가 때는 index.html을 다른 세션이 고치는 중이라 미뤘다 — 다음에 index를 만질 때 `v=2`로).
+소유자 이메일은 공개 저장소 어디에도 쓰지 않는다. index.html은 range 줄의 `preview-only.js?v=2`로 메뉴 함수를 싣는다 — 그 파일을 바꾸면 index의 버전도 함께 올린다(2026-10-19 portfolio 메뉴 추가분은 etf 줄을 넣을 때 `v=2`로 올렸다).
 실제 값(보유·금액)은 vault `finance/portfolio.md` 규칙을 바꾸기 전에는 넣지 않는다(2026-10-19 사용자 보류) — 그때까지 가짜 데이터만.
 
 규칙: preview 전용 기능은 본체를 `preview-only.*`에 두고, index.html에는 꼬리표(`preview-only:<이름>`)를 단 **독립된 줄**로만

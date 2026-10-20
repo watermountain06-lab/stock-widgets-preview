@@ -27,6 +27,9 @@ NEEDLES = [
     "STOCKS_DATA_START",   # preview's source data block (stays in preview)
     "pf-lock",             # Portfolio tab (2026-10-19): Google login screen markup and CSS
     "pf-login",            # Portfolio tab login button (file names and menu href are caught by "preview-only")
+    "ETF_DATA",            # ETF strip data (2026-10-19; preview-only-etf-data.js, preview-only-etf.js)
+    "etf-strip",           # ETF strip markup and CSS in the market-indicator section
+    "etf-index-link",      # S&P 500 index-card link under the home S&P 500 cell (2026-10-20, preview-only-etf.js)
 ]
 
 

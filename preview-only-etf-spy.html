@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPY ETF 판정 — US stock 가치를 말하다</title>
+<!-- preview 전용 ETF 카드(v2/etf/etf_daily.py가 v2/etf/template/etf_template.html로 만든다 — 이 파일을 손으로 고치지 않는다).
+     규칙: v2/research/etf_verdict_prereg.md. 라이브로 옮기지 않는다(pipeline/site_ui/UI_DIFF.md 1절 etf). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{--bg:#f7f5ef;--panel:#fff;--border:#e6e2d3;--border2:#eeebe0;--text:#1f2420;--text2:#6b6a5e;--text3:#9c9a8c;--accent:#1c2b4a;--warn:#b54708;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.6}
+  a{color:var(--accent)}
+  .num{font-variant-numeric:tabular-nums}
+  main{max-width:900px;margin:0 auto;padding:28px 16px 64px}
+  .back{font-size:13px}
+  h1{font-size:24px;margin:10px 0 2px}
+  .sub{color:var(--text2);font-size:13px;margin:0 0 18px}
+  .note{font-size:12.5px;color:var(--warn);border:1px solid var(--border);background:var(--panel);border-radius:10px;padding:10px 14px;margin-bottom:18px}
+  .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+  .tile{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px}
+  .tile .k{font-size:12px;color:var(--text2)} .tile .v{font-size:20px;font-weight:800;margin-top:4px}
+  .tile.verdict .v{font-size:18px}
+  .edge{display:inline-block;margin-left:6px;font-size:11px;font-weight:600;color:var(--warn)}
+  section{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px}
+  h2{font-size:15px;margin:0 0 10px}
+  .bar{display:flex;height:16px;border-radius:6px;overflow:hidden;background:var(--border2)}
+  .seg{display:block;height:100%}
+  .seg-0{background:#1f7a4d}.seg-1{background:#5cae7f}.seg-2{background:#c9c5b3}.seg-3{background:#e6935a}.seg-4{background:#d92d20}
+  .seg-5{background:#9aa3b5}.seg-6{background:#6b7280}.seg-7{background:#4b5563}.seg-8{background:#111827}
+  .legend{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--text2)}
+  .legend .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:8px 6px;border-bottom:1px solid var(--border2);text-align:left}
+  th{font-size:11.5px;color:var(--text2);font-weight:600}
+  .scroll{overflow-x:auto}
+  .small{font-size:12px;color:var(--text2)}
+  dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;font-size:13px;margin:0}
+  dt{color:var(--text2)}
+  @media (max-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<link rel="stylesheet" href="theme.css?v=2">
+<script src="theme.js?v=2"></script>
+</head>
+<body>
+<main data-etf="{&quot;status&quot;: &quot;ok&quot;, &quot;reason&quot;: null, &quot;verdict&quot;: &quot;적정~고평가&quot;, &quot;nbar&quot;: -2.0203971363302955, &quot;coverage&quot;: 0.7773432568775157, &quot;range&quot;: [-2.461169062630935, -0.9025718607735452], &quot;bar&quot;: {&quot;저평가&quot;: 0.0014749940450348971, &quot;적정~저평가&quot;: 0.10251856571637102, &quot;적정&quot;: 0.00653813789014278, &quot;적정~고평가&quot;: 0.26440225184592403, &quot;고평가&quot;: 0.4024093073800428, &quot;카드 없음&quot;: 0.2037919200347582, &quot;판정 보류&quot;: 0.018864823087726183, &quot;그 밖 제외&quot;: 0.0, &quot;분류 안 됨&quot;: 0}, &quot;S&quot;: &quot;2026-10-16&quot;, &quot;builtFor&quot;: &quot;2026-10-16&quot;, &quot;ruleVersion&quot;: &quot;etf-v1&quot;}" data-status="ok">
+  <a class="back" href="index.html">← 홈</a> · <a class="back" href="preview-only-index-sp500.html">S&amp;P 500 지수 카드 →</a>
+  <h1>SPY · SPDR S&amp;P 500 ETF Trust</h1>
+  <p class="sub">보유 기준일 <b class="num">2026-10-16</b> · 카드 판정 세션 <b class="num">2026-10-16</b> · 규칙 etf-v1</p>
+  <div class="note">참고용 · 매수 기준 아님 · 예측 신호로 검증되지 않음. 이 판정은 SPY가 담은 종목 중 카드가 있는 종목의 판정을 보유 비중으로 평균한 것이지, 지수 자체의 내재가치 평가가 아니다.</div>
+
+  <div class="grid">
+    <div class="tile verdict"><div class="k">ETF 판정</div><div class="v">적정~고평가</div></div>
+    <div class="tile"><div class="k">가중평균 점수 n̄ (−4~+3)</div><div class="v num">−2.02</div></div>
+    <div class="tile"><div class="k">카드가 덮은 비중</div><div class="v num">77.7%</div></div>
+    <div class="tile"><div class="k">덮지 못한 비중을 극단에 둔 범위</div><div class="v num">−2.46 ~ −0.90</div></div>
+  </div>
+
+  <section>
+    <h2>등급별 보유 비중</h2>
+    <div class="bar" role="img" aria-label="등급별 보유 비중"><span class="seg seg-0" style="width:0.147%" title="저평가 0.1%"></span><span class="seg seg-1" style="width:10.252%" title="적정~저평가 10.3%"></span><span class="seg seg-2" style="width:0.654%" title="적정 0.7%"></span><span class="seg seg-3" style="width:26.440%" title="적정~고평가 26.4%"></span><span class="seg seg-4" style="width:40.241%" title="고평가 40.2%"></span><span class="seg seg-5" style="width:20.379%" title="카드 없음 20.4%"></span><span class="seg seg-6" style="width:1.886%" title="판정 보류 1.9%"></span></div>
+    <ul class="legend"><li><span class="sw seg-0"></span>저평가 <b class="num">0.1%</b></li><li><span class="sw seg-1"></span>적정~저평가 <b class="num">10.3%</b></li><li><span class="sw seg-2"></span>적정 <b class="num">0.7%</b></li><li><span class="sw seg-3"></span>적정~고평가 <b class="num">26.4%</b></li><li><span class="sw seg-4"></span>고평가 <b class="num">40.2%</b></li><li><span class="sw seg-5"></span>카드 없음 <b class="num">20.4%</b></li><li><span class="sw seg-6"></span>판정 보류 <b class="num">1.9%</b></li></ul>
+    <p class="small">분모는 현금·권리 줄을 뺀 주식 보유 전체. 판정에 쓴 카드 124장 / SPY와 맞은 카드 127장.</p>
+  </section>
+
+  <section>
+    <h2>상위 10개 보유(회사 단위)</h2>
+    <div class="scroll"><table>
+      <thead><tr><th>카드</th><th>이름</th><th>비중</th><th>카드 판정</th><th>점수</th></tr></thead>
+      <tbody><tr><td><a href="NVDA_full_widget.html">NVDA</a></td><td>NVIDIA CORP</td><td class="num">7.86%</td><td>적정~저평가</td><td class="num">+2.00</td></tr><tr><td><a href="AAPL_full_widget.html">AAPL</a></td><td>APPLE INC</td><td class="num">7.60%</td><td>고평가</td><td class="num">−3.00</td></tr><tr><td><a href="MSFT_full_widget.html">MSFT</a></td><td>MICROSOFT CORP</td><td class="num">5.96%</td><td>적정~고평가</td><td class="num">−2.00</td></tr><tr><td><a href="GOOGL_full_widget.html">GOOGL</a></td><td>ALPHABET INC CL A</td><td class="num">5.46%</td><td>고평가</td><td class="num">−3.00</td></tr><tr><td><a href="AMZN_full_widget.html">AMZN</a></td><td>AMAZON.COM INC</td><td class="num">3.72%</td><td>적정~고평가</td><td class="num">−2.00</td></tr><tr><td><a href="META_full_widget.html">META</a></td><td>META PLATFORMS INC CLASS A</td><td class="num">2.37%</td><td>적정~고평가</td><td class="num">−1.00</td></tr><tr><td><a href="AVGO_full_widget.html">AVGO</a></td><td>BROADCOM INC</td><td class="num">2.37%</td><td>적정~고평가</td><td class="num">−2.00</td></tr><tr><td><a href="LLY_full_widget.html">LLY</a></td><td>ELI LILLY + CO</td><td class="num">1.53%</td><td>고평가</td><td class="num">−3.00</td></tr><tr><td><a href="TSLA_full_widget.html">TSLA</a></td><td>TESLA INC</td><td class="num">1.52%</td><td>고평가</td><td class="num">−3.00</td></tr><tr><td><a href="MU_full_widget.html">MU</a></td><td>MICRON TECHNOLOGY INC</td><td class="num">1.50%</td><td>적정~저평가</td><td class="num">+1.00</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>읽는 법과 한계</h2>
+    <p class="small">카드 점수는 −4(고평가 쪽)부터 +3(저평가 쪽)까지라 비대칭이다 — 현금흐름 "매우 싸다"도 +1만 주기 때문에 평균은 아래로 기운다. 평균은 극단을 지우므로 막대를 함께 본다. 상위 10개 회사가 판정에 쓴 비중의 절반쯤을 차지한다. 카드가 없는 종목은 대부분 지수의 작은 쪽이라 이 점수는 대형주 평균에 가깝다. 덮은 비중이 70% 미만이면 판정을 내지 않는다.</p>
+  </section>
+
+  <section>
+    <h2>출처</h2>
+    <dl>
+      <dt>보유 비중</dt><dd>State Street Global Advisors 공개 일일 보유 파일 (기준일 2026-10-16) — 원본 파일은 다시 게시하지 않는다</dd>
+      <dt>보수율</dt><dd class="num">0.0945% — <a href="https://www.sec.gov/Archives/edgar/data/884394/000119312526022316/d77353d485bpos.htm">SEC 485BPOS 2026-01-26 제출(accession 0001193125-26-022316) Total Annual Trust Ordinary Operating Expenses</a></dd>
+      <dt>카드 판정</dt><dd>이 사이트 v2 카드, 2026-10-16 종가</dd>
+      <dt>보류 상세</dt><dd class="small"></dd>
+    </dl>
+  </section>
+</main>
+</body>
+</html>

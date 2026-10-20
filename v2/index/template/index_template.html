@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S&amp;P 500 지수 — US stock 가치를 말하다</title>
+<!-- preview 전용 지수 카드(v2/index/index_daily.py가 v2/index/template로 만든다 — 이 파일을 손으로 고치지 않는다).
+     라이브로 옮기지 않는다(pipeline/site_ui/UI_DIFF.md 1절 index). -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap">
+<style>
+{{STYLE}}
+</style>
+<link rel="stylesheet" href="theme.css?v=2">
+<script src="theme.js?v=2"></script>
+</head>
+<body>
+<main data-status="{{STATUS}}">
+  <div class="top"><a href="index.html">← 홈</a><a href="preview-only-etf-spy.html">SPY ETF 판정 카드 →</a></div>
+  <h1>S&amp;P 500</h1>
+  <p class="sub">미국 대형주 500개 지수(가격 지수) · 기준 <b class="num">{{S}}</b> 종가 · 홈 세션 <span class="num">{{BUILTFOR}}</span></p>
+  <nav class="tabs"><a href="preview-only-index-sp500.html" aria-current="page">지수</a><a href="preview-only-index-sp500-events.html">가격 사건</a></nav>
+  {{HEAD}}
+  {{BODY}}
+  <section>
+    <h2>출처</h2>
+    <dl>
+      <dt>시세</dt><dd>Yahoo Finance ^GSPC 일봉 종가 — 투자 권고가 아님</dd>
+      <dt>대조</dt><dd class="small">{{CHECK}}</dd>
+    </dl>
+  </section>
+</main>
+</body>
+</html>

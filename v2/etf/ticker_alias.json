@@ -1,0 +1,31 @@
+{
+  "_doc": "ETF 판정(etf-v1) 설정 — 손으로만 고친다. 규칙은 v2/research/etf_verdict_prereg.md. company: 보유 파일 티커 → 회사 키(카드 이름과 같으면 그 카드로 간다). nonEquity: 분모에서 빼는 줄(Identifier). approvedVerdictCode: 승인한 카드 판정 코드 해시(v2/etf/verdict_code_sig.js) — 새 해시가 나오면 ETF는 보류, 사람이 판정 코드 diff를 보고 여기에 더한다(해시는 IIFE 안 주석까지 포함하므로 주석만 고쳐도 바뀐다 — diff에서 주석만인지 확인).",
+  "ruleVersion": "etf-v1",
+  "dateRule": "same",
+  "funds": {
+    "SPY": {
+      "name": "SPDR S&P 500 ETF Trust",
+      "holdingsUrl": "https://www.ssga.com/us/en/intermediary/library-content/products/fund-data/etfs/us/holdings-daily-us-en-spy.xlsx",
+      "holdingsSource": "State Street Global Advisors 공개 일일 보유 파일",
+      "expensePct": 0.0945,
+      "expenseSource": "SEC 485BPOS 2026-01-26 제출(accession 0001193125-26-022316) Total Annual Trust Ordinary Operating Expenses",
+      "expenseUrl": "https://www.sec.gov/Archives/edgar/data/884394/000119312526022316/d77353d485bpos.htm"
+    }
+  },
+  "company": {
+    "BRK.B": "BRKB",
+    "GOOG": "GOOGL",
+    "FOX": "FOXA",
+    "NWS": "NWSA"
+  },
+  "nonEquity": {
+    "999USDZ92": "US DOLLAR(현금)",
+    "436CVR021": "TPG INC CVR(조건부 가치 권리)"
+  },
+  "approvedVerdictCode": {
+    "dd39c01febf4": "DCF 카드 공통(NVDA_template, 10-16 117장)",
+    "9077133219ae": "은행 RIM 카드(bank_fill, 10-16 11장)",
+    "4e7a8daafb8e": "건강보험 RIM 카드(ELV·UNH, 10-16 2장)",
+    "55e8ac0e3fb9": "BRKB 손 카드(10-16 1장)"
+  }
+}

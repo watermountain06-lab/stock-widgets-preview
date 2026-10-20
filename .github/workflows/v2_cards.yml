@@ -138,6 +138,27 @@ jobs:
           done
           python3 v2/newcards/daily_price.py "${args[@]}" | tee v2_cards.log
 
+      # ETF 판정(preview 전용, v2/research/etf_verdict_prereg.md): 카드 재빌드 뒤·홈 게시 앞. 어떤 실패에서도 보류 산출물을 쓰고
+      # 종목 게시를 막지 않는다 — 스크립트가 아예 못 돌면 다음 단계가 보류 산출물을 대신 쓴다(2026-10-19 dr 합의).
+      - name: ETF verdicts
+        id: etf
+        continue-on-error: true
+        run: python3 v2/etf/etf_daily.py
+
+      - name: ETF fallback
+        if: steps.etf.outcome == 'failure'
+        continue-on-error: true
+        run: python3 v2/etf/etf_fallback.py
+
+      # S&P 500 지수 카드(preview 전용, 2026-10-20): Yahoo ^GSPC 종가 → 기간별·월별 수익률·가격 사건, FRED SP500으로 대조.
+      # 실패하면 스스로 보류 페이지를 쓴다. 종목 게시를 막지 않는다.
+      - name: Index card (S&P 500)
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python3 v2/index/index_daily.py
+
       # v2 카드를 홈 카드로 내보낸다: 루트로 복사, stocks.json 등급(v2 판정)·점수(v2 기본적 분석), 홈 재생성, 검사.
       # 검사가 실패하면 커밋하지 않는다.
       - name: Publish to home
@@ -157,6 +178,10 @@ jobs:
           # 토요일 결과는 첫 토요일 실행(10/10) 뒤에야 생긴다 — 없는 경로를 위 목록에 넣으면 git add 전체가 실패한다(Codex 2026-10-08)
           if [ -f v2/weekly_status.json ]; then git add v2/weekly_status.json; fi
           if [ -f v2/news_auto.json ]; then git add v2/news_auto.json; fi
+          # ETF 산출물(2026-10-19): 경로마다 따로 — 하나가 없어도 나머지는 올라간다. 운용사 원본(v2/etf/.private)은 올리지 않는다.
+          for p in v2/etf/SPY.json preview-only-etf-spy.html preview-only-etf-data.js; do if [ -e "$p" ]; then git add "$p"; fi; done
+          # 지수 카드 산출물(2026-10-20)
+          for p in v2/index/SP500.json preview-only-index-sp500.html preview-only-index-sp500-events.html; do if [ -e "$p" ]; then git add "$p"; fi; done
           git add v2/sec_approved.json v2/fundamental_data v2/*_activity.json v2/*_dcf_track.json 2>/dev/null || true   # 자동 반영한 공시 날짜·새 분기 재무(2026-10-10)
           git add v2/adapters/asml_manifest.json v2/adapters/tsm_manifest.json v2/adapters/skhy_manifest.json 2>/dev/null || true   # 6-K 자동 카드가 받은 재무제표 목록(2026-10-11) — 원문·재무는 캐시라 이 목록으로 다시 만든다
           if git diff --cached --quiet; then
