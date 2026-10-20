@@ -32,6 +32,7 @@ function renderDays(){
  document.getElementById('tk-title').textContent=latest?'지금 저평가 목록':md(d.session)+' 저평가 목록';
  document.getElementById('tk-meta').textContent=md(d.session)+' 종가 · '+d.list.length+'종목';
  document.getElementById('tk-days').innerHTML=T.days.map((x,i)=>`<button type="button" aria-pressed="${i===day}" data-day="${i}"><strong>${md(x.session)}</strong><span>${x.list.length}종목</span></button>`).join('');
+ showDay();
  const rows=T.journal.filter(j=>j.session===d.session);
  document.getElementById('tk-change').textContent=day===0?'기록 시작일 · '+d.list.length+'종목이 이미 목록에 있었습니다'
   :rows.length?rows.map(j=>{const v=j.votes.length?' ('+j.votes.map(x=>`${x[0]} ${sign(x[1])} → ${sign(x[2])}`).join(', ')+')':'';
@@ -123,6 +124,21 @@ window.selectTodayStock=t=>{const i=tickers().indexOf(t);if(i>=0)select(i,false)
 // 흐르는 카드가 가운데로 오면 아래 칸도 그 종목으로(2026-10-09 사용자 결정: 원래대로 흐르게)
 window.centerTodayStock=i=>{if(i!==index&&i<tickers().length)select(i,true);};
 
+// 날짜 줄(2026-10-20): 한 줄로 두고 ◀ ▶로 한 화면씩 넘긴다. 날짜가 쌓여도 줄은 늘지 않는다.
+function showDay(){
+ const box=document.getElementById('tk-days'),b=box.querySelector('[aria-pressed="true"]');
+ if(b){const l=b.offsetLeft-box.offsetLeft,r=l+b.offsetWidth;
+  if(l<box.scrollLeft)box.scrollLeft=l;else if(r>box.scrollLeft+box.clientWidth)box.scrollLeft=r-box.clientWidth;}
+ navState();
+}
+function navState(){
+ const box=document.getElementById('tk-days'),max=box.scrollWidth-box.clientWidth;
+ document.querySelectorAll('.tk-days-nav').forEach(n=>{n.disabled=n.dataset.dir<0?box.scrollLeft<=1:box.scrollLeft>=max-1;n.hidden=max<=1;});
+}
+document.querySelectorAll('.tk-days-nav').forEach(n=>n.addEventListener('click',()=>{
+ const box=document.getElementById('tk-days');box.scrollBy({left:Number(n.dataset.dir)*box.clientWidth*0.9,behavior:'smooth'});}));
+document.getElementById('tk-days').addEventListener('scroll',navState,{passive:true});
+window.addEventListener('resize',showDay);
 document.getElementById('tk-days').addEventListener('click',e=>{const b=e.target.closest('[data-day]');if(!b)return;day=Number(b.dataset.day);index=0;renderDays();renderChips();renderStock();renderBars();publish();});
 document.getElementById('tk-chips').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(b)select(Number(b.dataset.i),false);});
 document.getElementById('summary-body').addEventListener('click',e=>{if(e.target.closest('#tk-why')){whyOpen=!whyOpen;renderStock();}});
