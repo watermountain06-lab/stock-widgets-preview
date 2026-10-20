@@ -1,0 +1,107 @@
+name: ETF and index cards
+
+# preview 전용 ETF 판정(SPY)과 S&P 500 지수 카드 — 종목 카드 파이프라인(v2 cards rebuild)과 분리(2026-10-20 사용자 결정, 설계 dr 합의).
+# 카드가 확정된 뒤 돈다: v2 cards rebuild가 끝날 때마다(취소 제외 — 실패해도 카드 파일은 그대로라 평가는 한다).
+# daily_refresh가 하루 세 번(저녁·05:23·09:41 ET 무렵) 돌고 v2 cards가 그 뒤를 따르므로 ETF도 하루 여러 번 다시 평가된다 —
+# 저녁에 운용사 파일이 늦으면 직전 판정을 "갱신 대기"로 유지하고 아침에 같은 날 파일로 다시 계산한다(v2/etf/etf_daily.py).
+# 규칙: v2/research/etf_verdict_prereg.md. 이 워크플로는 종목 카드 파일·홈(index.html·stocks.json)을 쓰지 않는다.
+
+on:
+  workflow_run:
+    workflows: ["v2 cards rebuild"]
+    types: [completed]
+  schedule:
+    # 카드 파이프라인이 안 돈 날을 위한 예비(평일 14:53 UTC = 10:53 EDT / 09:53 EST — 아침 재시도 뒤)
+    - cron: "53 14 * * 1-6"   # 토요일 포함 — 금요일 세션의 토요일 아침 재시도를 GitHub가 빠뜨린 날의 예비
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # 산출물 커밋
+  issues: write     # 사람 손이 필요한 보류 알림(v2/etf/etf_alerts.py)
+  pages: write
+
+# 자기 그룹 — 쓰는 파일(ETF·지수 산출물, 관측 기록)이 카드 파이프라인과 겹치지 않는다. push가 거절되면 받아서 다시.
+# 대기 중인 실행이 더 새 실행에 밀려 취소돼도 그 새 실행이 같은 일을 다시 평가하므로 무해하다.
+concurrency:
+  group: etf-index
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  etf-index:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion != 'cancelled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 어떤 실패에서도 보류 산출물을 쓴다 — 스크립트가 아예 못 돌면 다음 단계가 대신 쓴다(2026-10-19 dr 합의).
+      - name: ETF verdicts
+        id: etf
+        continue-on-error: true
+        timeout-minutes: 15
+        run: python3 v2/etf/etf_daily.py
+
+      - name: ETF fallback
+        if: steps.etf.outcome == 'failure'
+        continue-on-error: true
+        run: python3 v2/etf/etf_fallback.py
+
+      # 지수 카드는 SPY 산출물(구성 종목 탭)을 읽으므로 ETF 다음. 실패하면 스스로 보류 페이지를 쓴다.
+      - name: Index card (S&P 500)
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python3 v2/index/index_daily.py
+
+      - name: Commit
+        id: commit
+        run: |
+          for p in v2/etf/SPY.json preview-only-etf-spy.html preview-only-etf-data.js v2/etf/date_obs.jsonl \
+                   v2/index/SP500.json preview-only-index-sp500.html; do
+            if [ -e "$p" ]; then git add "$p"; fi
+          done
+          if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          session=$(python3 -c 'import json; print(json.load(open("site_data/stocks.json"))["priceSession"])')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "ETF and index cards: session ${session}"
+          # 목록 밖에서 바뀐 파일이 있으면 pull --rebase가 거부한다 — 치운다(이 워크플로는 그 파일을 올리지 않는다)
+          if [ -n "$(git status --porcelain --untracked-files=no)" ]; then git stash push -q; fi
+          pushed=false
+          for i in 1 2 3; do
+            if git pull --rebase && git push; then pushed=true; break; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 20))
+          done
+          git fetch -q origin main
+          if [ "$pushed" != true ] || [ -n "$(git rev-list origin/main..HEAD)" ]; then echo "push 실패"; exit 1; fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # 알림은 커밋 뒤 — 이슈 본문의 링크가 커밋된 파일을 가리키게. 실패해도 판정·관측은 이미 올라갔다.
+      # 반대로 커밋(push)이 실패하면 알림은 건너뛴다 — 다음 실행이 다시 평가한다.
+      - name: ETF alerts
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 v2/etf/etf_alerts.py
+
+      - name: Request a Pages build
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"

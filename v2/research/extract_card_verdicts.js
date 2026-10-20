@@ -8,8 +8,9 @@ function block(src, start) {            // start = '{' 또는 '(' 위치부터 �
     const c = src[i];
     if (q) { if (c === '\\') { i++; continue; } if (c === q) q = null; continue; }
     if (c === '"' || c === "'" || c === '`') { q = c; continue; }
-    if (c === '/' && src[i + 1] === '/') { i = src.indexOf('\n', i); continue; }
-    if (c === '/' && src[i + 1] === '*') { i = src.indexOf('*/', i) + 1; continue; }
+    // 주석 끝을 못 찾으면 -1(짝 없음) — 예전엔 indexOf가 -1을 돌려 처음부터 다시 훑어 끝나지 않았다(2026-10-20 dr, Codex·Fable)
+    if (c === '/' && src[i + 1] === '/') { const e = src.indexOf('\n', i); if (e < 0) return -1; i = e; continue; }
+    if (c === '/' && src[i + 1] === '*') { const e = src.indexOf('*/', i); if (e < 0) return -1; i = e + 1; continue; }
     if (c === '{' || c === '(' || c === '[') depth++;
     if (c === '}' || c === ')' || c === ']') { depth--; if (depth === 0) return i + 1; }
   }

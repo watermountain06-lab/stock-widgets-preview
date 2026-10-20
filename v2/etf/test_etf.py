@@ -154,7 +154,12 @@ def main():
 
         # 4 날짜
         p, r, _ = run(tmp, v2, asof="15-Oct-2026", P=P)
-        check("S ≠ P → 보유 파일 날짜 보류", r and r["reason"] == "file_date", (r or {}).get("reason"))
+        check("S < P이고 직전 판정이 P 세션 것 → 유지 + 갱신 대기(이번 평가는 날짜 보류)", r and r["status"] == "ok"
+              and {k: r["pending"][k] for k in ("kind", "P", "S")} == {"kind": "issuer_lag", "P": P, "S": "2026-10-15"} and r["evaluation"]["holds"] == ["file_date"]
+              and r["builtFor"] == P and r["checks"]["file_date"] == "bad", r and (r.get("pending"), r.get("evaluation")))
+        with tempfile.TemporaryDirectory() as d2:   # 직전 판정이 없으면 지금처럼 보류
+            p, r, _ = run(Path(d2), v2, asof="15-Oct-2026", P=P)
+            check("S ≠ P이고 직전 판정 없음 → 보유 파일 날짜 보류", r and r["reason"] == "file_date" and not r.get("pending"), (r or {}).get("reason"))
         with tempfile.TemporaryDirectory() as d2:
             t2 = Path(d2)
             v2m = tree(t2, lambda h, t: h.replace(f'["{P}",', '["2099-01-01",') if t == "NVDA" else h)

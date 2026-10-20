@@ -1,5 +1,5 @@
 {
-  "_doc": "ETF 판정(etf-v1) 설정 — 손으로만 고친다. 규칙은 v2/research/etf_verdict_prereg.md. company: 보유 파일 티커 → 회사 키(카드 이름과 같으면 그 카드로 간다). nonEquity: 분모에서 빼는 줄(Identifier). approvedVerdictCode: 승인한 카드 판정 코드 해시(v2/etf/verdict_code_sig.js) — 새 해시가 나오면 ETF는 보류, 사람이 판정 코드 diff를 보고 여기에 더한다(해시는 IIFE 안 주석까지 포함하므로 주석만 고쳐도 바뀐다 — diff에서 주석만인지 확인).",
+  "_doc": "ETF 판정(etf-v1) 설정 — 손으로 고치되, approvedVerdictCode는 etf_approve 워크플로(v2/etf/etf_approve.py)가 사람의 승인 실행으로 더한다. 규칙은 v2/research/etf_verdict_prereg.md. company: 보유 파일 티커 → 회사 키(카드 이름과 같으면 그 카드로 간다). nonEquity: 분모에서 빼는 줄(Identifier). approvedVerdictCode: 승인한 카드 판정 코드 해시(v2/etf/verdict_code_sig.js) — 새 해시가 나오면 ETF는 보류하고 GitHub 이슈로 알린다 — 사람이 이슈의 diff(승인 원문 v2/etf/approved_src/ 대비)를 보고 승인 워크플로를 실행한다(해시는 IIFE 안 주석까지 포함하므로 주석만 고쳐도 바뀐다 — diff에서 주석만인지 확인).",
   "ruleVersion": "etf-v1",
   "dateRule": "same",
   "funds": {

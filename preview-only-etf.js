@@ -28,6 +28,8 @@
     if (Math.abs(sum - 1) > 1e-6 || Math.abs(five - d.coverage) > 1e-6) return false;
     if (!Array.isArray(d.top) || !d.top.every(function (t) { return t && typeof t.company === 'string' && fin(t.weight) && t.weight >= 0 && t.weight <= 1; })) return false;
     if (d.expense != null && (typeof d.expense !== 'object' || !fin(d.expense.pct))) return false;
+    if (d.pending != null && (typeof d.pending !== 'object' || ['issuer_lag', 'home_lag'].indexOf(d.pending.kind) < 0
+        || typeof d.pending.P !== 'string')) return false;
     return typeof d.S === 'string';
   }
 
@@ -36,7 +38,12 @@
     var link = '<a class="etf-link" href="preview-only-etf-' + picked.toLowerCase() + '.html">카드 보기 ↗</a>';
     if (!d) return '<p class="etf-line etf-held">' + esc(picked) + ' · 판정 보류 · ETF 자료를 불러오지 못함 ' + link + '</p>';
     if (!valid(d)) return '<p class="etf-line etf-held">' + esc(picked) + ' · 판정 보류 · ETF 자료 형식 오류 ' + link + '</p>';
-    var stale = !d.builtFor || d.builtFor !== session;
+    // 갱신 대기(2026-10-20): ETF 단계가 "날짜만 어긋나 직전 판정을 유지했다"고 적은 경우만 묵음 대신 판정을 보인다.
+    // 브라우저는 달력을 다시 계산하지 않고 ETF 단계가 쓴 pending.P만 홈 세션과 비교한다.
+    var pd = d.status === 'ok' && d.pending ? d.pending : null;
+    var lagIssuer = !!(pd && pd.kind === 'issuer_lag' && pd.P === session);
+    var lagHome = !!(pd && pd.kind === 'home_lag' && d.builtFor === session);
+    var stale = !d.builtFor || (d.builtFor !== session && !lagIssuer);
     if (stale || d.status !== 'ok') {
       var why = stale ? '묵음(ETF ' + esc(d.builtFor || '—') + ' · 홈 ' + esc(session || '—') + ')' : esc(d.reasonText);
       return '<p class="etf-line etf-held"><b>' + esc(d.etf) + '</b> · 판정 보류 · ' + why + ' ' + link + '</p>';
@@ -50,6 +57,8 @@
     }).join('');
     return '<p class="etf-line"><b>' + esc(d.etf) + '</b> <span class="etf-verdict">' + esc(d.verdict) + '</span>'
       + (d.edgeNear ? ' <span class="etf-edge">경계 근처</span>' : '')
+      + (lagIssuer ? ' <span class="etf-edge">운용사 파일 갱신 대기 · 판정 기준 ' + esc(d.builtFor) + '</span>' : '')
+      + (lagHome ? ' <span class="etf-edge">홈 가격 세션 갱신 대기</span>' : '')
       + ' · 점수 <span class="num">' + sgn(d.nbar) + '</span>'
       + ' · 카드가 덮은 비중 <span class="num">' + pct(d.coverage) + '</span>'
       + (d.expense ? ' · 보수 <span class="num">' + d.expense.pct.toFixed(4) + '%</span>' : '')

@@ -240,8 +240,17 @@ def compute(etf, cfg, xlsx, P, v2, ctx):
     """규칙 1~11. 입력 오류(규칙 1)만 바로 멈추고, 나머지 보류 조건은 모두 모아 규칙 9 우선순위로 대표 하나를 고른다.
     ctx에는 파싱 직후 S를 넣는다(보류여도 S·P를 기록한다 — 규칙 7)."""
     fund = cfg["funds"][etf]
-    S, rows = parse_holdings(read_xlsx(xlsx), ctx)
-    holds = []   # (사유 키, 상세) — 상세에는 운용사 Identifier·비중을 넣지 않는다(공개된다)
+    ck, dt = ctx.setdefault("checks", {}), ctx.setdefault("checkDetail", {})
+    try:
+        S, rows = parse_holdings(read_xlsx(xlsx), ctx)
+    except Hold:
+        ck["input"] = "bad"
+        raise
+    except Exception:
+        ck["input"] = "bad"
+        raise
+    ck["input"] = "ok"
+    holds = []   # (사유 키, 상세) — 상세에는 운용사 Identifier·비중을 넣지 않는다(공개된다). 티커는 넣는다(설정 조치용, 이미 공개된 종류)
 
     # 규칙 7 날짜
     ok_s = {P}
@@ -251,12 +260,15 @@ def compute(etf, cfg, xlsx, P, v2, ctx):
             ok_s.add(ps)
     if S not in ok_s:
         holds.append(("file_date", f"보유 파일 기준일 {S} ≠ 허용 {sorted(ok_s)} (P={P}, 규칙 {cfg.get('dateRule')})"))
+    ck["file_date"] = "bad" if S not in ok_s else "ok"
 
     try:
         verdicts = run_node(v2 / "research" / "extract_card_verdicts.js")
         sigs = run_node(v2 / "etf" / "verdict_code_sig.js")
     except Hold as h:   # 카드 없이는 더 셀 수 없다 — 지금까지 모은 조건과 함께 멈춘다
+        ck["tools"] = "bad"
         raise Hold(h.key, h.detail, holds + [(h.key, h.detail)])
+    ck["tools"] = "ok"
     nonq, comp_map, approved = cfg["nonEquity"], cfg["company"], cfg["approvedVerdictCode"]
 
     # 규칙 2 분류, 규칙 3 분모
@@ -273,13 +285,16 @@ def compute(etf, cfg, xlsx, P, v2, ctx):
             x["cls"] = "분류 안 됨"
     D = sum(x["w_raw"] for x in rows if x["cls"] != "비주식")
     if not D > 0:
-        raise Hold("input", "분모 D가 0")
+        ck["input"] = "bad"
+        raise Hold("input", "분모 D가 0", holds + [("input", "분모 D가 0")])
     for x in rows:
         x["w"] = x["w_raw"] / D if x["cls"] != "비주식" else None
     unclassified = sum(x["w"] for x in rows if x["cls"] == "분류 안 됨")
     if unclassified > UNCLASSIFIED_MAX:
         n_un = sum(1 for x in rows if x["cls"] == "분류 안 됨")
         holds.append(("unclassified", f"분류 안 됨 {n_un}줄, D의 {unclassified:.2%} > 0.5%"))
+        dt["unclassified"] = sorted({x["ticker"][:12] for x in rows if x["cls"] == "분류 안 됨"})[:40]
+    ck["unclassified"] = "bad" if unclassified > UNCLASSIFIED_MAX else "ok"
 
     # 규칙 4 회사 단위로 합침
     comps = {}
@@ -319,6 +334,16 @@ def compute(etf, cfg, xlsx, P, v2, ctx):
                 rec["excl"].append("held_card")
         rec["excl"] = [k for k in CARD_EXCL if k in rec["excl"]]
         cards.append(rec)
+    ck["code_sig"], ck["sig_err"], ck["structure"] = ("bad" if bad_sig else "ok"), ("bad" if sig_err else "ok"), ("bad" if bad_struct else "ok")
+    if bad_sig:   # 알림·승인용 — 화면 문구를 다시 읽지 않게 구조화(해시 → 그 해시를 내는 카드)
+        un = {}
+        for t in bad_sig:
+            un.setdefault(sigs[t], []).append(t)
+        dt["code_sig"] = {h: sorted(ts) for h, ts in sorted(un.items())}
+    if sig_err:
+        dt["sig_err"] = sorted(sig_err)
+    if bad_struct:
+        dt["structure"] = sorted(bad_struct)
     if bad_sig or sig_err:
         parts = []
         if bad_sig:
@@ -400,13 +425,14 @@ def held(etf, cfg, key, detail, P, S=None, holds=None):
 
 # ── 산출물 ──────────────────────────────────────────────────
 
-CHECK_KEYS = ("status", "reason", "verdict", "nbar", "coverage", "range", "bar", "S", "builtFor", "ruleVersion")
+CHECK_KEYS = ("status", "reason", "verdict", "nbar", "coverage", "range", "bar", "S", "builtFor", "ruleVersion", "pending")
+CHECK_KINDS = ("fetch", "input", "file_date", "tools", "code_sig", "sig_err", "structure", "unclassified", "run")
 
 
 def summary(res):
     """홈 요약 — 카드 페이지·SPY.json과 같은 값(자체 검사가 대조한다)."""
     keys = ("etf", "name", "status", "reason", "reasonText", "verdict", "nbar", "coverage", "range", "edgeNear",
-            "bar", "S", "builtFor", "ruleVersion", "expense")
+            "bar", "S", "builtFor", "ruleVersion", "expense", "pending")
     s = {k: res.get(k) for k in keys}
     s["top"] = [{"company": t["company"], "weight": t["weight"], "verdict": t["verdict"], "card": t["card"]} for t in res.get("top10", [])[:5]]
     return s
@@ -458,8 +484,66 @@ def render_html(res):
         "RULE": e(res.get("ruleVersion") or ""),
         "DATA": e(json.dumps({k: res.get(k) for k in CHECK_KEYS}, ensure_ascii=False), quote=True),
         "STATUS": e(res["status"]),
+        "PENDING": pending_text(res),
     }
     return re.sub(r"\{\{([A-Z0-9_]+)\}\}", lambda m: val[m.group(1)], tpl)
+
+
+def pending_text(res):
+    """갱신 대기 꼬리표(유지한 판정일 때만). 판정 규칙은 그대로 — 계산하지 못한 실행에서 직전 판정을 날짜와 함께 남긴 것."""
+    pd = res.get("pending")
+    if not pd:
+        return ""
+    what = "운용사 보유 파일 갱신 대기" if pd.get("kind") == "issuer_lag" else "홈 가격 세션 갱신 대기"
+    return (f'<div class="note">{what} · 판정 기준 {html.escape(res.get("builtFor") or "—")}'
+            f' (이번 실행: 홈 세션 {html.escape(pd.get("P") or "—")}, 보유 파일 {html.escape(pd.get("S") or "—")})</div>')
+
+
+# ── 갱신 대기(날짜만 어긋날 때 직전 판정 유지) · 관측 기록 ─────────────────────────────
+
+def load_prev(path):
+    try:
+        d = json.loads(path.read_text(encoding="utf-8"))
+        return d if isinstance(d, dict) else None
+    except Exception:
+        return None
+
+
+def keep_on_lag(res, prev, P, v2):
+    """설계(2026-10-20 dr 합의): 모은 보류 사유가 보유 파일 날짜 하나뿐일 때만, 직전 정상 판정을 날짜 꼬리표와 함께 유지한다.
+    S < P(운용사 지연): 직전 ok가 P 직전 세션 판정(builtFor = S = prev(P))일 때(합의) 또는 이미 P 세션 판정일 때(구현 dr에서 넓힘 — 2026-10-20 사용자 채택). S > P(홈 지연): 직전 ok의 builtFor = P일 때.
+    그 밖(다른 사유가 섞임, 직전이 보류·더 오래됨, 달력에 P 없음, 그 뒤 규칙·날짜 규칙·분류표·추출기가 바뀜)은 None — 보류를 그대로 쓴다."""
+    S = res.get("S")
+    if res.get("status") != "held" or [r["key"] for r in res.get("reasons", [])] != ["file_date"] or not (S and P):
+        return None
+    if not prev or prev.get("status") != "ok" or not prev.get("builtFor"):
+        return None
+    # 옛 규칙으로 낸 판정을 새 규칙 아래서 "판정 기준 …"으로 내보내지 않는다
+    if any(prev.get(k) != res.get(k) for k in ("ruleVersion", "dateRule")) or any(
+            (prev.get("inputHash") or {}).get(k) != (res.get("inputHash") or {}).get(k) for k in ("alias", "extractor")):
+        return None
+    if S < P:
+        try:
+            ps = prev_session(P, v2)
+        except Exception:
+            return None
+        # 직전 판정이 P 직전 세션 것(저녁 흔한 경우)이거나 이미 P 세션 것(그 뒤 더 옛 파일이 다시 온 드문 경우)일 때만
+        if not ps or prev["builtFor"] not in (ps, P) or prev.get("S") != prev["builtFor"]:
+            return None
+        kind = "issuer_lag"
+    else:
+        if prev["builtFor"] != P or prev.get("S") != prev["builtFor"]:
+            return None
+        kind = "home_lag"
+    out = dict(prev)
+    out["pending"] = {"kind": kind, "P": P, "S": S}
+    return out
+
+
+def append_obs(path, rec):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(rec, ensure_ascii=False, sort_keys=True) + "\n")
 
 
 DATA_PREFIX = "window.ETF_DATA = "
@@ -541,9 +625,12 @@ def main():
         try:
             xlsx = Path(a.xlsx).read_bytes() if a.xlsx else fetch(cfg["funds"][etf]["holdingsUrl"])
         except Hold:
+            ctx.setdefault("checks", {})["fetch"] = "bad"
             raise
         except Exception as ex:
+            ctx.setdefault("checks", {})["fetch"] = "bad"
             raise Hold("fetch_fail", type(ex).__name__)
+        ctx.setdefault("checks", {})["fetch"] = "ok"
         fetched_at = now_utc()
         inputs["xlsx"] = sha(xlsx)
         for k, p in (("alias", Path(a.cfg)), ("extractor", v2 / "research" / "extract_card_verdicts.js"),
@@ -555,17 +642,32 @@ def main():
     except Exception as ex:
         # 공개 산출물·로그(공개 저장소 Actions)에는 예외 종류만 — 원본 값이 메시지에 섞일 수 있다. 전체는 비공개 폴더에.
         res = held(etf, cfg, "run_fail", type(ex).__name__, P, ctx["S"])
+        ctx.setdefault("checks", {})["run"] = "bad"
         pv.mkdir(parents=True, exist_ok=True)
         (pv / f"{etf}_traceback.txt").write_text(traceback.format_exc(), encoding="utf-8")
     meta = {"ruleVersion": (cfg or {}).get("ruleVersion"), "dateRule": (cfg or {}).get("dateRule"),
             "runAt": run_at, "fetchedAt": fetched_at, "inputHash": inputs}
     res.update(meta)
+    ev = {"status": res["status"], "holds": [r["key"] for r in res.get("reasons", [])], "S": res.get("S")}   # 이번 실행 자체의 평가
+    prev = load_prev(out_root / "v2" / "etf" / f"{etf}.json")
+    kept = keep_on_lag(res, prev, P, v2)
+    if kept is not None:   # 판정은 직전 그대로(그 판정을 낸 파일의 해시·받은 시각 포함), 이번 실행 정보만 새로
+        kept["pending"].update(at=run_at, fetchedAt=fetched_at, inputHash=inputs, ruleVersion=meta["ruleVersion"], dateRule=meta["dateRule"])
+        kept["runAt"] = run_at   # 규칙 버전·날짜 규칙도 판정을 낸 직전 것 그대로(이번 것은 pending에)
+        res, private = kept, None
+    res["evaluation"] = ev
+    res["checks"] = {k: ctx.get("checks", {}).get(k, "unchecked") for k in CHECK_KINDS}
+    res["checks"]["run"] = ctx.get("checks", {}).get("run", "ok")   # 실행 자체는 늘 검사된다(예외면 bad, 자체 검사 실패는 아래에서 bad)
+    res["checkDetail"] = ctx.get("checkDetail", {})
     paths = write_outputs(res, out_root, etf)
     errs = selfcheck(res, private, paths)
     if errs:
         prior = [(x["key"], x["detail"]) for x in res.get("reasons", [])]
         res = held(etf, cfg, "selfcheck", "; ".join(errs)[:300], P, ctx["S"], [("selfcheck", "; ".join(errs)[:300])] + prior)
         res.update(meta)
+        res["evaluation"] = {"status": "held", "holds": ["selfcheck"] + ev["holds"], "S": ev["S"]}
+        res["checks"] = dict({k: ctx.get("checks", {}).get(k, "unchecked") for k in CHECK_KINDS}, run="bad")
+        res["checkDetail"] = ctx.get("checkDetail", {})
         paths = write_outputs(res, out_root, etf)
         left = consistency(res, paths)
         if left:   # 보류로 다시 쓴 셋도 어긋나면 손으로 볼 일 — 로그에 남긴다(홈은 형식 검사로 보류를 그린다)
@@ -576,8 +678,18 @@ def main():
         (pv / f"{etf}_{tag}.xlsx").write_bytes(xlsx)
         if private:
             write_atomic(pv / f"{etf}_{tag}_calc.json", json.dumps(private, ensure_ascii=False, indent=1))
+    try:   # 관측 기록 — 실행마다 한 줄(이번 실행이 받은 바이트의 해시 — 유지한 실행이면 판정에 안 쓴 파일, 실패도 남긴다). 실패해도 판정 산출물은 이미 썼다.
+        append_obs(out_root / "v2" / "etf" / "date_obs.jsonl", {
+            "etf": etf, "run_id": os.environ.get("GITHUB_RUN_ID"), "attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+            "at": run_at, "P": P, "S": ctx["S"], "file_sha12": (inputs.get("xlsx") or "")[:12] or None,
+            "eval": res["evaluation"]["status"], "holds": res["evaluation"]["holds"],
+            "kept": res.get("builtFor") if res.get("pending") else None,
+            "pending": (res.get("pending") or {}).get("kind")})
+    except Exception as ex:
+        print(f"ETF 관측 기록 실패: {type(ex).__name__}")
     line = (f"ETF {etf}: {res['status']} " + (f"{res['verdict']} n̄={res['nbar']:+.3f} c={res['coverage']:.2%}"
-            if res["status"] == "ok" else f"보류({res['reasonText']}) {res.get('detail') or ''}") + f" S={res.get('S')} P={P}")
+            if res["status"] == "ok" else f"보류({res['reasonText']}) {res.get('detail') or ''}") + (f" P={P} · 갱신 대기({res['pending']['kind']}: 이번 파일 S={res['pending']['S']}) — 유지한 판정의 기준 {res['builtFor']}"
+               if res.get("pending") else f" S={res.get('S')} P={P}"))
     print(line if res["status"] == "ok" else "ETF_FAIL " + line)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:

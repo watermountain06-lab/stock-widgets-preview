@@ -17,7 +17,8 @@ ROOT = Path(__file__).resolve().parents[2]
 REASON = "run_fail"
 REASON_TEXT = "ETF 스크립트 실행 실패"
 # etf_daily.py CHECK_KEYS와 같은 목록(그 파일을 import하지 않으므로 여기 다시 적는다)
-CHECK_KEYS = ("status", "reason", "verdict", "nbar", "coverage", "range", "bar", "S", "builtFor", "ruleVersion")
+CHECK_KEYS = ("status", "reason", "verdict", "nbar", "coverage", "range", "bar", "S", "builtFor", "ruleVersion", "pending")
+CHECK_KINDS = ("fetch", "input", "file_date", "tools", "code_sig", "sig_err", "structure", "unclassified", "run")
 
 
 def write_atomic(path, text):
@@ -40,7 +41,9 @@ def main():
     res = {"etf": etf, "status": "held", "reason": REASON, "reasonText": REASON_TEXT, "verdict": None, "nbar": None,
            "coverage": None, "range": None, "edgeNear": False, "bar": None, "S": None, "builtFor": P,
            "ruleVersion": None, "top10": [], "runAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-           "detail": "etf_daily.py가 끝까지 돌지 못했다 — Actions 로그를 본다"}
+           "detail": "etf_daily.py가 끝까지 돌지 못했다 — Actions 로그를 본다", "pending": None,
+           "evaluation": {"status": "held", "holds": [REASON], "S": None},
+           "checks": dict({k: "unchecked" for k in CHECK_KINDS}, run="bad"), "checkDetail": {}}
     summary = {k: res[k] for k in ("etf", "status", "reason", "reasonText", "verdict", "nbar", "coverage", "range",
                                    "edgeNear", "bar", "S", "builtFor", "ruleVersion")}
     summary["top"] = []
@@ -64,6 +67,13 @@ def main():
                  f'<body><main data-status="held" data-etf="{html.escape(json.dumps({k: res[k] for k in CHECK_KEYS}, ensure_ascii=False), quote=True)}">'
                  f'<a href="index.html">← 홈</a><h1>{etf}</h1>'
                  f'<p>판정 보류 · {REASON_TEXT}. 카드 판정 세션 {P or "—"}.</p></main></body></html>\n')
+    try:   # 관측 한 줄(알림의 "이어짐" 판정이 이 실행도 세게)
+        with open(out / "v2" / "etf" / "date_obs.jsonl", "a", encoding="utf-8") as f:
+            f.write(json.dumps({"etf": etf, "run_id": os.environ.get("GITHUB_RUN_ID"), "attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+                                "at": res["runAt"], "P": P, "S": None, "file_sha12": None, "eval": "held", "holds": [REASON],
+                                "kept": None, "pending": None}, ensure_ascii=False, sort_keys=True) + "\n")
+    except Exception:
+        pass
     print(f"ETF_FAIL ETF {etf}: 대체 단계가 보류 산출물을 썼다 (P={P})")
     return 0
 
