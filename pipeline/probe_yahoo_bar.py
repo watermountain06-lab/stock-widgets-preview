@@ -8,7 +8,8 @@ pattern (19:48 ET hit, 21:14 ET missed). Suspect: a cached response for the
 fixed `range=1mo` URL. This polls a few symbols with the production URL and
 with variants that change the URL each time, and prints one line per fetch.
 Reviewed by Codex and Fable 2026-10-17 (raw last bar, per-request time,
-backend-cluster headers, runner region).
+backend-cluster headers, runner region). 2026-10-20: last bar's open/high/low
+and meta day high/low/volume, to see which fields Yahoo blanks in its evening window.
 Writes nothing to the site. Delete with its workflow once answered.
 """
 import json
@@ -54,12 +55,14 @@ def last_bar(url):
     m, q = r["meta"], r["indicators"]["quote"][0]
     ts = r.get("timestamp") or []
     tail = " ".join(f"{et(t)}:{c}/{v}" for t, c, v in list(zip(ts, q["close"], q["volume"]))[-3:])
+    ohl = f"o={q['open'][-1]} h={q['high'][-1]} l={q['low'][-1]}" if ts else "o=- h=- l=-"
+    day = f"dayH={m.get('regularMarketDayHigh')} dayL={m.get('regularMarketDayLow')} dayV={m.get('regularMarketVolume')}"
     reg = (m.get("currentTradingPeriod") or {}).get("regular") or {}
     head = " ".join(f"{k}={hdr[k]}" for k in
                     ("date", "age", "etag", "expires", "y-rid", "x-envoy-decorator-operation",
                      "x-envoy-upstream-service-time") if k in hdr)
     return (f"n={len(ts)} tail=[{tail}] rmt={et(m.get('regularMarketTime'))} "
-            f"rmp={m.get('regularMarketPrice')} range={m.get('range')!r} "
+            f"{ohl} rmp={m.get('regularMarketPrice')} {day} range={m.get('range')!r} "
             f"regular={et(reg.get('start'))}-{et(reg.get('end'))} | {head}")
 
 
