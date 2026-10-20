@@ -1068,13 +1068,30 @@
  "holdingsSource": "State Street Global Advisors 공개 일일 보유 파일",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-20T19:02:33Z",
- "fetchedAt": "2026-10-20T19:02:33Z",
+ "runAt": "2026-10-20T19:30:14Z",
+ "fetchedAt": "2026-10-20T19:30:14Z",
  "inputHash": {
   "xlsx": "3dfb682cee8802e3c1810b8fdfbb60027dbbfefee2571f83eb74ea7469cce261",
-  "alias": "dbacd9692610fced",
-  "extractor": "04030fdfc9961462",
-  "sigScript": "1ece312274417eca",
-  "script": "834aaa0e6626c4f2"
- }
+  "alias": "26e5dfec8c44ffc7",
+  "extractor": "b50460aad021b74b",
+  "sigScript": "819ec80766479439",
+  "script": "af515e2dfde24658"
+ },
+ "evaluation": {
+  "status": "ok",
+  "holds": [],
+  "S": "2026-10-19"
+ },
+ "checks": {
+  "fetch": "ok",
+  "input": "ok",
+  "file_date": "ok",
+  "tools": "ok",
+  "code_sig": "ok",
+  "sig_err": "ok",
+  "structure": "ok",
+  "unclassified": "ok",
+  "run": "ok"
+ },
+ "checkDetail": {}
 }
