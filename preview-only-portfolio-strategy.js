@@ -53,6 +53,18 @@ export function toEngineInput(bundle, records) {
   };
 }
 
+// 출발하지 않은 시나리오가 왜 기다리는지 한 줄로. 엔진이 waiting을 주면 그것, 아니면(출발 평가 미확정) 마지막 날의 사유
+// (예: noPrice:APPL → "출발 대기 — 가격 없음 APPL"). 가격 없음이면 카드 목록 밖이거나 티커 오타일 수 있다고 덧붙인다.
+export function waitText(s) {
+  if (s.started) return null;
+  if (s.waiting) return REASON[s.waiting] || s.waiting;
+  const d = [...(s.days || [])].reverse().find((x) => (x.why || []).some((w) => w !== 'notStarted'));
+  const why = (d?.why || []).filter((w) => w !== 'notStarted');
+  if (!why.length) return '아직 시작 전';
+  const text = why.map((w) => { const [k, t] = w.split(':'); return (REASON[k] || k) + (t ? ' ' + t : ''); }).join(', ');
+  return `출발 대기 — ${text}` + (why.some((w) => w.startsWith('noPrice:')) ? '(카드 목록 밖 종목이거나 티커 오타일 수 있음)' : '');
+}
+
 // 시나리오 결과 하나 → 비교 표 한 줄
 export function summarize(s) {
   const tail = s.started ? s.days.filter((d) => d.date >= s.started) : [];
@@ -64,6 +76,7 @@ export function summarize(s) {
     id: s.id,
     started: s.started || null,
     waiting: s.waiting || null,
+    waitText: waitText(s),
     halted: s.halted || null,
     asOf: last ? last.date : null,
     value: last ? last.value : null,
@@ -251,7 +264,7 @@ export function compareSection(result, byId) {
     if (s.strategy && s.strategy !== 'A') tag(STRATEGY[s.strategy]);
     (s.notes || []).forEach((n) => tag(NOTE[n] || n, n === 'offPrinciple'));
     if (s.engineMismatch) tag(`만든 때 ${s.engineCreated || '?'}, 지금 ${ENGINE_VERSION}로 계산`, true);
-    if (m.waiting) tag(REASON[m.waiting] || m.waiting, true);
+    if (m.waitText) tag(m.waitText, true);
     if (m.halted) tag(`${m.halted.since}부터 평가 불가(${REASON[m.halted.reason] || m.halted.reason})`, true);
     if (m.pause) tag(`가격 없음 ${m.pause}일 — 비교 일시 중단`, true);
     if (m.provisional) tag('잠정');
@@ -505,6 +518,10 @@ export function startForm(model, handlers, lastSession) {
   const msg = msgLine();
   f.appendChild(btn); f.appendChild(msg);
   const known = new Set((model.records || []).map((r) => r.session));
+  // 시작일 기록에 가격이 없는 티커(카드·고정 ETF 밖이거나 오타)는 저장 전에 한 번 경고한다 — 그대로면 비교가 출발하지 못한다
+  const startRec = (model.records || []).find((r) => r.session === lastSession);
+  const priced = new Set([...Object.keys(startRec?.cards || {}), ...Object.keys(startRec?.prices || {})]);
+  let ackUnknown = '';
   twoStep(btn, msg, '저장하면 고칠 수 없습니다. 맞으면 한 번 더 누르세요.', async () => {
     const d = date.value;
     // 앞으로만 쌓는다(설계 0절): 시작일은 마지막 일별 기록 날짜 하나만
@@ -521,6 +538,11 @@ export function startForm(model, handlers, lastSession) {
       if (holdings[t] != null) throw new Error('같은 티커가 두 줄에 있습니다.');
       holdings[t] = q;
       if (r.hc.checked) holdOnly.push(t);
+    }
+    const unknown = Object.keys(holdings).filter((t) => !priced.has(t)).sort().join(', ');
+    if (unknown && unknown !== ackUnknown) {
+      ackUnknown = unknown;
+      throw new Error(`⚠ ${d} 일별 기록에 가격이 없는 종목: ${unknown}. 티커 오타이거나 카드 목록 밖 종목이면 전략 비교가 출발하지 못합니다. 확인했고 그대로 저장하려면 다시 두 번 누르세요.`);
     }
     await handlers.create({ date: d, holdings, cash: c, holdOnly: holdOnly.sort() });
   }, f);

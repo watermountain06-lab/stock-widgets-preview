@@ -5,7 +5,7 @@
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 운용 계산에 넣지 않는다.
 import { el, table, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, compareSection, chartSection, detailSection,
-  depositSection, scenarioForm, bundleSection, startForm } from './preview-only-portfolio-strategy.js?v=5';
+  depositSection, scenarioForm, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=7';
 import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=1';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
@@ -348,7 +348,7 @@ function donutPanel(model, last, close, handlers, color, named, hasOther) {
     card.appendChild(el('div', 'pf-sc-name', label(s, model.byId)));
     card.appendChild(el('div', 'pf-sc-kind', (s.id === 'A' ? '입금만 비중대로 적립' : STRATEGY[s.strategy] || '') + (s.started ? ` · ${md(s.started)} 출발` : '')));
     if (!s.started) {
-      card.appendChild(el('p', 'pf-note', REASON[s.waiting] || '아직 시작 전'));
+      card.appendChild(el('p', 'pf-note', waitText(s)));
       grid.appendChild(card); continue;
     }
     const groups = new Map();

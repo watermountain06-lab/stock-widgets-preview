@@ -2,7 +2,7 @@
 // 화면 그리기는 브라우저에서 확인한다. 여기서는 Firestore 묶음 → 엔진 입력 변환, 비교 표 요약, 시나리오 입력 검사만 본다.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { toEngineInput, summarize, checkScenario, MAX_SCENARIOS } from '../../preview-only-portfolio-strategy.js';
+import { toEngineInput, summarize, checkScenario, waitText, MAX_SCENARIOS } from '../../preview-only-portfolio-strategy.js';
 
 const bundle = {
   snapshot: { date: '2026-10-16', holdings: { AAA: 10 }, cash: 5, holdOnly: ['AAA'], createdAt: '2026-10-16T22:00:00Z' },
@@ -159,4 +159,14 @@ import { etDate } from '../../preview-only-portfolio-home.js';
 test('etDate: 미국 동부 날짜(UTC 자정 넘어도 동부 저녁이면 그날)', () => {
   assert.equal(etDate(Date.parse('2026-10-21T01:00:00Z')), '2026-10-20');
   assert.equal(etDate(Date.parse('2026-10-21T05:00:00Z')), '2026-10-21');
+});
+
+test('waitText: 엔진 대기 사유, 출발 평가 미확정의 마지막 사유(가격 없음 안내), 사유 없으면 아직 시작 전', () => {
+  assert.equal(waitText({ started: '2026-10-19' }), null);
+  assert.equal(waitText({ started: null, waiting: 'notYet' }), '아직 시작 전');
+  const s = { started: null, days: [{ date: '2026-10-19', value: null, why: ['notStarted', 'noPrice:APPL'] }] };
+  assert.equal(waitText(s), '출발 대기 — 가격 없음 APPL(카드 목록 밖 종목이거나 티커 오타일 수 있음)');
+  assert.equal(waitText({ started: null, days: [{ date: 'd', value: null, why: ['notStarted', 'pipelineFailed'] }] }), '출발 대기 — 그날 기록 없음·실패');
+  assert.equal(waitText({ started: null, days: [] }), '아직 시작 전');
+  assert.equal(summarize({ ...s, cash: 0 }).waitText, waitText(s));
 });

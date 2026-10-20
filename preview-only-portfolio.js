@@ -11,8 +11,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { toEngineInput } from './preview-only-portfolio-strategy.js?v=5';
-import { renderTabs } from './preview-only-portfolio-home.js?v=8';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=7';
+import { renderTabs } from './preview-only-portfolio-home.js?v=9';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=1';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
