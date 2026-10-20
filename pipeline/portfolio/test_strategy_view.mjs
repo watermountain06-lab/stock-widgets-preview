@@ -1,0 +1,162 @@
+// Tests for preview-only-portfolio-strategy.js 순수 함수(2026-10-20). Run: node --test pipeline/portfolio/test_strategy_view.mjs
+// 화면 그리기는 브라우저에서 확인한다. 여기서는 Firestore 묶음 → 엔진 입력 변환, 비교 표 요약, 시나리오 입력 검사만 본다.
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { toEngineInput, summarize, checkScenario, MAX_SCENARIOS } from '../../preview-only-portfolio-strategy.js';
+
+const bundle = {
+  snapshot: { date: '2026-10-16', holdings: { AAA: 10 }, cash: 5, holdOnly: ['AAA'], createdAt: '2026-10-16T22:00:00Z' },
+  deposits: {
+    d1: { amount: 100, recordedAt: '2026-11-07T15:00:00Z' },
+    c1: { cancels: 'd1', recordedAt: '2026-11-08T15:00:00Z' },
+  },
+  scenarios: {
+    s2: { name: '둘', strategy: 'C', params: { splitWeeks: 2, cashReserve: 0 }, createdAt: '2026-11-02T15:00:00Z', engineVersion: 'v' },
+    s1: { name: '하나', strategy: 'B', params: { sellFraction: 0, splitWeeks: 4, cashReserve: 0 }, createdAt: '2026-10-16T22:00:00Z', engineVersion: 'v' },
+  },
+  lastKey: 's2',
+};
+
+test('toEngineInput: 스냅샷·holdOnly·입금(취소 포함)·시나리오(만든 순서)', () => {
+  const x = toEngineInput(bundle, ['R']);
+  assert.deepEqual(x.records, ['R']);
+  assert.deepEqual(x.snapshot, { date: '2026-10-16', holdings: { AAA: 10 }, cash: 5 });
+  assert.deepEqual(x.settings, { holdOnly: ['AAA'] });
+  assert.deepEqual(x.deposits, [
+    { id: 'd1', amount: 100, recordedAt: '2026-11-07T15:00:00Z' },
+    { id: 'c1', cancels: 'd1', recordedAt: '2026-11-08T15:00:00Z' },
+  ]);
+  assert.deepEqual(x.scenarios.map((s) => [s.id, s.strategy]), [['s1', 'B'], ['s2', 'C']]);
+  assert.equal('lastKey' in x, false);
+});
+
+test('summarize: 마지막 날 값, 미확정이면 마지막 확정값, 건너뜀은 넘긴 회차 제외', () => {
+  const s = {
+    id: 'B', started: '2026-10-16', cash: 50,
+    days: [
+      { date: '2026-10-15', value: null },
+      { date: '2026-10-16', value: 1000, deposits: 0, pnl: 0, twr: 0, vs: { SPY: 0 } },
+      { date: '2026-10-19', value: 1100, deposits: 0, pnl: 100, twr: 0.1, vs: { SPY: 2 } },
+      { date: '2026-10-20', value: null, deposits: 100, pnl: null, twr: null, vs: { SPY: null }, pause: 6 },
+    ],
+    trades: [{ ticker: 'AAA' }, { ticker: 'AAA' }, { ticker: 'BBB' }],
+    skips: [{ action: 'carried' }, { action: 'erased' }, { action: 'dropped' }],
+  };
+  const m = summarize(s);
+  assert.equal(m.value, null);
+  assert.deepEqual(m.lastKnown, { date: '2026-10-19', value: 1100 });
+  assert.equal(m.deposits, 100);
+  assert.equal(m.trades, 3);
+  assert.deepEqual(m.tradesByTicker, { AAA: 2, BBB: 1 });
+  assert.equal(m.skipped, 2);
+  assert.equal(m.elapsed, 2);
+  assert.equal(m.pause, 6);
+  assert.equal(m.cashShare, null);
+  const ok = summarize({ ...s, days: s.days.slice(0, 3) });
+  assert.equal(ok.cashShare, 50 / 1100);
+  assert.equal(ok.lastKnown, null);
+  assert.equal(summarize({ id: 'x', started: null, days: [{ date: 'd', value: null }], cash: 0, waiting: 'notYet' }).waiting, 'notYet');
+});
+
+test('checkScenario: 개수·이름·전략·사용자 정의 판정', () => {
+  const ok = { name: '시험', strategy: 'B', params: {} };
+  assert.equal(checkScenario(ok, 0), null);
+  assert.match(checkScenario(ok, MAX_SCENARIOS), /20개/);
+  assert.match(checkScenario({ ...ok, name: '  ' }, 0), /이름/);
+  assert.match(checkScenario({ ...ok, name: 'x'.repeat(41) }, 0), /40자/);
+  assert.match(checkScenario({ ...ok, strategy: 'A' }, 0), /전략/);
+  assert.match(checkScenario({ name: 'c', strategy: 'custom', params: { buyTiers: [] } }, 0), /판정/);
+});
+
+// ---- 한눈에(preview-only-portfolio-home.js) ----
+import { currentHoldings, monthView } from '../../preview-only-portfolio-home.js';
+
+test('currentHoldings: 올린 보유 + 기준일 뒤 매매(매수는 평균 단가·현금, 매도는 현금), 취소·기준일 전은 빼고, 현금 줄은 수량×단가', () => {
+  const rows = [
+    { ticker: 'AAA', qty: 10, avgPrice: 100, currency: 'USD', name: 'A' },
+    { ticker: 'aaa', qty: 10, avgPrice: 120, currency: 'USD' },          // 다른 계좌 같은 종목 → 합침
+    { ticker: '', qty: 1, avgPrice: 1000, currency: 'USD' },             // 현금
+    { ticker: 'KRW1', qty: 5, avgPrice: 1, currency: 'KRW' },            // 미국 달러가 아니면 뺌
+  ];
+  const trades = {
+    t1: { date: '2026-10-14', ticker: 'AAA', side: 'buy', qty: 5, price: 90, recordedAt: '2026-10-14T20:00:00Z' },   // 기준일 당일 → 이미 들어 있음
+    t2: { date: '2026-10-20', ticker: 'BBB', side: 'buy', qty: 2, price: 50, recordedAt: '2026-10-20T20:00:00Z' },
+    t3: { date: '2026-10-21', ticker: 'AAA', side: 'buy', qty: 5, price: 140, recordedAt: '2026-10-21T20:00:00Z' },
+    t4: { date: '2026-10-22', ticker: 'AAA', side: 'sell', qty: 10, price: 150, recordedAt: '2026-10-22T20:00:00Z' },
+    t5: { date: '2026-10-22', ticker: 'BBB', side: 'buy', qty: 100, price: 1, recordedAt: '2026-10-22T21:00:00Z' },
+    x5: { cancels: 't5', recordedAt: '2026-10-22T22:00:00Z' },
+  };
+  const c = currentHoldings(rows, '2026-10-14 기준', trades);
+  assert.deepEqual(c.skipped.map((x) => x.id), ['t1']);
+  assert.deepEqual(c.applied.map((x) => x.id), ['t2', 't3', 't4']);
+  const aaa = c.holdings.find((h) => h.ticker === 'AAA');
+  assert.equal(aaa.qty, 15);
+  assert.equal(Math.round(aaa.avgPrice * 1e6) / 1e6, 116);          // 20주 평균 110 → 5주@140 매수로 116, 팔아도 평균 단가는 그대로
+  assert.equal(c.holdings.find((h) => h.ticker === 'BBB').qty, 2);
+  assert.equal(c.cash, 1000 - 100 - 700 + 1500);
+  assert.equal(c.holdings.some((h) => h.ticker === 'KRW1'), false);
+});
+
+test('monthView: 내 원칙(B) 우선, 회차 상태(완료·건너뜀·넘김·예정·버림), 다음 회차, 모의 매수 합계', () => {
+  const mk = (id, strategy, extra = {}) => ({ id, strategy, started: '2026-10-16', trades: [], skips: [], months: [], ...extra });
+  const plan = { decisionDate: '2026-12-01', candidates: ['BBB'], budget: 500,
+    rounds: [{ date: '2026-12-01' }, { date: '2026-12-08' }, { date: '2026-12-15' }, { date: '2026-12-22' }, { date: '2027-01-04', dropped: true }],
+    fires: [{ ticker: 'AAA', observed: '고평가', warnOnly: true }, { ticker: 'DDD', observed: null, skip: 'stale' }] };
+  const B = mk('s1', 'B', { months: [plan],
+    trades: [{ date: '2026-12-01', side: 'buy', amount: 100 }, { date: '2026-11-20', side: 'buy', amount: 999 }],
+    skips: [{ date: '2026-12-08', action: 'carried' }, { date: '2026-12-15', action: 'erased' }] });
+  const r = { scenarios: [mk('A', 'A'), mk('s0', 'C'), B] };
+  const m = monthView(r, '2026-12-16');
+  assert.equal(m.scenario.id, 's1');
+  assert.deepEqual(m.steps.map((s) => s.state), ['done', 'done', 'carry', 'skip', 'todo', 'dropped']);
+  assert.equal(m.next.date, '2026-12-22');
+  assert.equal(m.spent, 100);
+  assert.deepEqual(m.alerts.map((f) => f.ticker), ['AAA']);
+  assert.equal(monthView({ scenarios: [mk('A', 'A')] }, '2026-12-16'), null);
+  assert.equal(monthView({ scenarios: [mk('A', 'A'), mk('s0', 'C')] }, '2026-12-16').plan, null);
+});
+
+test('currentHoldings: 초과 매도는 가진 만큼만(clipped), 같은 날은 매수 먼저, 현금 줄 없으면 현금 미반영, upTo 뒤는 future', () => {
+  const rows = [{ ticker: 'AAA', qty: 1, avgPrice: 100 }, { ticker: '', qty: 1, avgPrice: 50 }];
+  const trades = {
+    s1: { date: '2026-10-20', ticker: 'BBB', side: 'sell', qty: 2, price: 10, recordedAt: '2026-10-20T15:00:00Z' },   // 같은 날 매수보다 먼저 적음
+    b1: { date: '2026-10-20', ticker: 'BBB', side: 'buy', qty: 2, price: 8, recordedAt: '2026-10-20T16:00:00Z' },
+    s2: { date: '2026-10-21', ticker: 'AAA', side: 'sell', qty: 3, price: 120, recordedAt: '2026-10-21T15:00:00Z' },  // 1주뿐
+    f1: { date: '2026-10-30', ticker: 'AAA', side: 'buy', qty: 1, price: 1, recordedAt: '2026-10-21T16:00:00Z' },
+  };
+  const c = currentHoldings(rows, '2026-10-16', trades, '2026-10-21');
+  assert.deepEqual(c.holdings, []);
+  assert.equal(c.cash, 50 - 16 + 20 + 120);
+  assert.deepEqual(c.clipped, [{ id: 's2', ticker: 'AAA', short: 2 }]);
+  assert.deepEqual(c.future.map((x) => x.id), ['f1']);
+  assert.equal(c.hasCash, true);
+  const nc = currentHoldings([{ ticker: 'AAA', qty: 1, avgPrice: 100 }], '2026-10-16', { b1: trades.b1 });
+  assert.equal(nc.hasCash, false);
+  assert.equal(nc.cash, 0);
+  assert.equal(nc.holdings.find((h) => h.ticker === 'BBB').qty, 2);
+});
+
+test('monthView: 일부 건너뜀, 회차 당일은 끝난 것, 매도는 예산 사용에서 뺌, 건너뛴 발동은 알림 아님, 지난달 계획은 stale', () => {
+  const plan = { decisionDate: '2026-12-01', candidates: ['BBB'], budget: 500,
+    rounds: [{ date: '2026-12-01' }, { date: '2026-12-08' }],
+    fires: [{ ticker: 'AAA', observed: '고평가' }, { ticker: 'CCC', observed: '초고평가', skip: 'noPrice' }] };
+  const B = { id: 's1', strategy: 'B', started: '2026-10-16', months: [plan],
+    trades: [{ date: '2026-12-01', side: 'buy', amount: 100 }, { date: '2026-12-01', side: 'sell', amount: 70 }, { date: '2026-12-08', side: 'buy', amount: 50 }],
+    skips: [{ date: '2026-12-01', action: 'erased' }] };
+  const m = monthView({ scenarios: [{ id: 'A', strategy: 'A', started: '2026-10-16' }, B] }, '2026-12-08');
+  assert.deepEqual(m.steps.map((s) => s.state), ['done', 'partial', 'done']);
+  assert.equal(m.next, null);
+  assert.equal(m.spent, 150);
+  assert.deepEqual(m.alerts.map((f) => f.ticker), ['AAA']);
+  assert.equal(m.stale, false);
+  assert.equal(monthView({ scenarios: [B] }, '2027-01-04').stale, true);
+  // 기록은 아직 지난달(10-30)인데 오늘(동부)은 다음 달 — 지난달 계획을 이번 달로 보이지 않는다
+  assert.equal(monthView({ scenarios: [B] }, '2026-12-30', '2027-01-02').stale, true);
+  assert.equal(monthView({ scenarios: [B] }, '2026-12-30', '2026-12-31').stale, false);
+});
+
+import { etDate } from '../../preview-only-portfolio-home.js';
+test('etDate: 미국 동부 날짜(UTC 자정 넘어도 동부 저녁이면 그날)', () => {
+  assert.equal(etDate(Date.parse('2026-10-21T01:00:00Z')), '2026-10-20');
+  assert.equal(etDate(Date.parse('2026-10-21T05:00:00Z')), '2026-10-21');
+});

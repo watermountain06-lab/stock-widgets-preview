@@ -4,12 +4,16 @@
 // 누가 읽을 수 있는지는 Firestore 규칙(pipeline/portfolio/firestore.rules)이 정한다 — 이 파일은 보호하지 않는다.
 // 내 데이터는 GitHub 저장소에 올라가지 않는다(저장소에는 가짜 sample.json만). 로그인은 이 탭에서만 유지한다(사용자 결정):
 // sessionStorage 기반이라 새 탭에서는 다시 묻는다. 브라우저의 '닫은 탭 다시 열기'·탭 복제는 로그인을 되살릴 수 있다.
-// 화면은 입력한 값만 보여 준다. 평가액·수익률 같은 계산은 아직 없다(계산 정의는 다음 단계 dr).
+// 위 구역(원칙·실제 자산·관심 종목·모의 운용 기록)은 올린 값만 보여 준다. 전략 비교 구역(2026-10-20)은 따로 저장하는 묶음 문서
+// users/{uid}/portfolio/strategy_N 과 공개 일별 기록으로 계산한다 — preview-only-portfolio-strategy.js, 설계 STRATEGY_DESIGN.md.
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, setPersistence, browserSessionPersistence }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp }
+import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=5';
+import { renderTabs } from './preview-only-portfolio-home.js?v=8';
+import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=1';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
 const $ = (id) => document.getElementById(id);
@@ -107,7 +111,7 @@ function show(state, msg) {
   $('pf-lock').hidden = state === 'in';
   $('pf-body').hidden = state !== 'in';
   if (state !== 'in') {
-    ['pf-principles', 'pf-holdings', 'pf-watch', 'pf-scenarios', 'pf-account', 'pf-updated', 'pf-holdings-asof', 'pf-holdings-note', 'pf-upload-msg']
+    ['pf-principles', 'pf-holdings', 'pf-watch', 'pf-scenarios', 'pf-strategy', 'pf-home', 'pf-manage', 'pf-account', 'pf-updated', 'pf-holdings-asof', 'pf-holdings-note', 'pf-upload-msg']
       .forEach((id) => { $(id).textContent = ''; });
     $('pf-sample').hidden = true;
     pending = null;
@@ -154,15 +158,129 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     if (g !== gen) return;
     show('in');
     $('pf-account').textContent = user.email || '';
-    if (!snap.exists()) { render({}); $('pf-updated').textContent = '아직 올린 데이터가 없습니다'; return; }
-    try {
-      render(validate(JSON.parse(snap.data().json)));
-    } catch (e) {
-      // 저장된 데이터가 깨져도 올리기 칸은 남겨 둔다 — 새 파일로 바꿔 복구한다
-      render({});
-      $('pf-upload-msg').textContent = '저장된 데이터를 읽지 못했습니다(' + e.message + '). 새 파일을 올려 바꾸세요.';
+    let main = {};
+    if (!snap.exists()) { render({}); $('pf-updated').textContent = '아직 올린 데이터가 없습니다'; }
+    else {
+      try {
+        const d = validate(JSON.parse(snap.data().json));
+        render(d);
+        main = d;
+      } catch (e) {
+        // 저장된 데이터가 깨져도 올리기 칸은 남겨 둔다 — 새 파일로 바꿔 복구한다
+        render({});
+        $('pf-upload-msg').textContent = '저장된 데이터를 읽지 못했습니다(' + e.message + '). 새 파일을 올려 바꾸세요.';
+      }
     }
+    loadAll(user, g, main);
   }
+
+  // ---- 전략 비교 ----
+  // 묶음 문서 users/{uid}/portfolio/strategy_1, _2, … — 마지막 번호가 지금 묶음이다. 끝낸 묶음 뒤에는 새 번호로 시작한다.
+  // 규칙(pipeline/portfolio/firestore.rules)이 덧붙이기만 허용한다: 스냅샷은 만들 때 한 번, 입금·시나리오는 한 번에 하나씩 추가,
+  // 끝내기는 한 번. 기록 시각은 서버 시각이다.
+  const sref = (user, n) => doc(db, 'users', user.uid, 'portfolio', 'strategy_' + n);
+  let ledger = null;   // 공개 일별 기록 — 한 번 받으면 이 탭에서 다시 받지 않는다(기록은 고치지 않으므로)
+  async function loadLedger() {
+    if (ledger) return ledger;
+    const base = 'site_data/strategy_ledger/';
+    const res = await fetch(base + 'index.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('index');
+    const { sessions } = await res.json();
+    const recs = await Promise.all(sessions.map(async (d) => {
+      const r = await fetch(base + d + '.json');
+      if (!r.ok) throw new Error('record');
+      return r.json();
+    }));
+    ledger = recs;
+    return recs;
+  }
+  const iso = (v) => (v && typeof v.toDate === 'function' ? v.toDate().toISOString() : v ?? null);
+  const plain = (data) => {
+    const map = (m, f) => Object.fromEntries(Object.entries(m || {}).map(([k, v]) => [k, f(v)]));
+    return {
+      snapshot: { ...data.snapshot, createdAt: iso(data.snapshot && data.snapshot.createdAt) },
+      deposits: map(data.deposits, (x) => ({ ...x, recordedAt: iso(x.recordedAt) })),
+      scenarios: map(data.scenarios, (x) => ({ ...x, createdAt: iso(x.createdAt) })),
+      closed: data.closed ? { ...data.closed, at: iso(data.closed.at) } : null,
+    };
+  };
+  const newId = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const why = (e) => (e && e.code === 'permission-denied' ? '규칙이 막았습니다. 새로고침한 뒤 다시 해 보세요.' : '저장하지 못했습니다(' + ((e && (e.code || e.message)) || '알 수 없음') + ').');
+
+  // 실제 매매 기록: users/{uid}/portfolio/trades 문서 하나(덧붙이기만, 규칙 firestore.rules). 모의 운용 계산과는 따로다.
+  const tref = (user) => doc(db, 'users', user.uid, 'portfolio', 'trades');
+
+  async function loadAll(user, g, main) {
+    ['pf-home', 'pf-strategy', 'pf-manage'].forEach((id) => { $(id).textContent = '불러오는 중…'; });
+    let records = [], recordsError = false;
+    try { records = await loadLedger(); } catch (_) { recordsError = true; }
+    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false;
+    try {
+      for (; n < 100; n++) {
+        const s = await getDoc(sref(user, n));
+        if (!s.exists()) break;
+        cur = { no: n, data: s.data({ serverTimestamps: 'estimate' }) };
+        if (cur.data.closed) closedCount++;
+      }
+      const ts = await getDoc(tref(user));
+      if (ts.exists()) {
+        tradesExist = true;
+        const e = ts.data({ serverTimestamps: 'estimate' }).entries || {};
+        trades = Object.fromEntries(Object.entries(e).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }]));
+      }
+    } catch (e) {
+      if (g === gen) ['pf-home', 'pf-strategy', 'pf-manage'].forEach((id) => { $(id).textContent = '불러오지 못했습니다(' + (e.code || e.message) + '). 규칙을 새로 게시했는지 확인하세요(SETUP.md 7절).'; });
+      return;
+    }
+    if (g !== gen) return;
+    const bundle = cur ? plain(cur.data) : null;
+    const no = !cur ? 1 : cur.data.closed ? cur.no + 1 : cur.no;
+    const ref = sref(user, no);
+    const byId = (bundle && bundle.scenarios) || {};
+    let result = null, calcError = null;
+    if (bundle && !bundle.closed && records.length) {
+      try { result = replay(toEngineInput(bundle, records)); } catch (e) { calcError = e.message; }
+    }
+    const reload = async () => { if (g === gen && auth.currentUser === user) await loadAll(user, g, main); };
+    const act = (f) => async (...a) => {
+      try { await f(...a); } catch (e) { throw new Error(why(e)); }
+      await reload();
+    };
+    const addTrade = async (entry) => {
+      if (!tradesExist) { await setDoc(tref(user), { entries: {}, lastKey: '' }); tradesExist = true; }   // 다음 단계가 실패해 다시 눌러도 빈 문서를 또 만들지 않게
+      const k = newId('t');
+      await updateDoc(tref(user), { ['entries.' + k]: { ...entry, recordedAt: serverTimestamp() }, lastKey: k });
+    };
+    const handlers = {
+      // 입금·시나리오를 더할 때는 새 키를 lastKey에도 쓴다(규칙이 새 값을 찾는 방법 — firestore.rules)
+      create: act((snap) => setDoc(ref, { snapshot: { ...snap, createdAt: serverTimestamp() }, deposits: {}, scenarios: {}, lastKey: '' })),
+      deposit: act((amount) => { const k = newId('d'); return updateDoc(ref, { ['deposits.' + k]: { amount, recordedAt: serverTimestamp() }, lastKey: k }); }),
+      cancel: act((id) => { const k = newId('c'); return updateDoc(ref, { ['deposits.' + k]: { cancels: id, recordedAt: serverTimestamp() }, lastKey: k }); }),
+      scenario: act((sc) => { const k = newId('s'); return updateDoc(ref, { ['scenarios.' + k]: { ...sc, createdAt: serverTimestamp(), engineVersion: ENGINE_VERSION }, lastKey: k }); }),
+      close: act(() => updateDoc(ref, { closed: { reason: 'correction', at: serverTimestamp() } })),
+      trade: act((t) => addTrade(t)),
+      cancelTrade: act(async (id) => {
+        const k = newId('x');
+        await updateDoc(tref(user), { ['entries.' + k]: { cancels: id, recordedAt: serverTimestamp() }, lastKey: k });
+      }),
+      goto: (tab) => selectTab(tab),
+    };
+    const model = { main, trades, result, bundle, byId, records, now: Date.now() };
+
+    renderTabs({ home: $('pf-home'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,
+      { bundle, bundleNo: no, closedCount, records, recordsError, calcError, holdingsRows: (main.holdings && main.holdings.rows) || [] }, handlers);
+  }
+
+  // ---- 하위 탭 ----
+  const TAB_KEY = 'pf-tab';
+  function selectTab(name) {
+    document.querySelectorAll('.pf-tabs [role=tab]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+    document.querySelectorAll('.pf-tabpanel').forEach((p) => { p.hidden = p.dataset.panel !== name; });
+    try { sessionStorage.setItem(TAB_KEY, name); } catch (_) { /* 저장 못 해도 탭은 바뀐다 */ }
+    window.scrollTo({ top: 0 });
+  }
+  document.querySelectorAll('.pf-tabs [role=tab]').forEach((b) => b.addEventListener('click', () => selectTab(b.dataset.tab)));
+  try { const t = sessionStorage.getItem(TAB_KEY); if (t) selectTab(t); } catch (_) { /* 기본 탭 */ }
 
   // 로그인 유지 방식(이 탭만)을 먼저 정하고 나서 로그인 상태를 본다. 정하지 못하면 기본(계속 유지)으로
   // 넘어가지 않고 여기서 멈춘다 — '이 탭에서만' 결정을 지키지 못하는 상태로는 열지 않는다.
