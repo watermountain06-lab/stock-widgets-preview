@@ -171,7 +171,7 @@ jobs:
       - name: Commit
         id: commit
         run: |
-          git add v2/*_full_widget.html v2/*_multiples.json v2/*_bank.json v2/daily_status.json \
+          git add v2/*_full_widget.html v2/*_multiples.json v2/*_bank.json v2/*_rim.json v2/daily_status.json \
                   v2/newcards/cfg v2/newcards/bank/cfg v2/research/bank_sec_values.json v2/newcards/bank/base v2/newcards/refresh_changes.jsonl v2/peer_universe \
                   scripts/*_eps_history.json ./*_full_widget.html site_data/stocks.json site_data/tier_history.json \
                   index.html 2>/dev/null || true
@@ -191,6 +191,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "v2 cards (${{ steps.mode.outputs.mode }}): session ${session}"
+          # 위 목록 밖에서 바뀐 추적 파일이 남으면 git pull --rebase가 "unstaged changes"로 세 번 다 거부한다(2026-10-20,
+          # 424개 파일 커밋을 날림). 이름을 경고·요약에 남기고 치운다 — 이 실행에서는 올라가지 않으므로, 올려야 할
+          # 산출물이면 경고를 보고 목록에 넣는다(Codex 2026-10-20). 10-20의 범인은 v2/{ELV,UNH}_rim.json(build.py가 매번 다시 씀, Fable) — 목록에 넣었다.
+          stray=$(git status --porcelain --untracked-files=no)
+          if [ -n "$stray" ]; then
+            echo "::warning::커밋 목록 밖에서 바뀐 파일 $(printf '%s\n' "$stray" | wc -l)개 — 올리지 않음, 요약 참고"
+            { echo "### 커밋 목록 밖에서 바뀐 파일(올리지 않음)"; echo '```'; printf '%s\n' "$stray" | sed -n '1,50p'; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            printf '%s\n' "$stray"
+            git stash push -q
+          fi
           # 가격 작업과 push가 겹치면 거절된다 — 받아서 다시(경로는 겹치지 않는다, Codex)
           # 실행 중에 사람이 같은 카드 파일을 고친 커밋을 올리면 rebase가 충돌한다(2026-10-09 02:53 UTC, 9dcdf6a). 충돌한 rebase는
           # 되돌리고 다시 — 그래도 안 되면 실패로 끝낸다(메일). 감시 작업이 v2 재빌드를 다시 시작한다.
