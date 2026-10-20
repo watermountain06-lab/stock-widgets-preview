@@ -35,7 +35,10 @@ export const FIXED_NOTICE = '모의 운용입니다. 판정은 수익 예측이 
 
 // ---- 순수 함수 ----
 
-// Firestore 묶음 문서(시각은 ISO 문자열로 바꾼 뒤) + 일별 기록 → 엔진 입력
+// Firestore 묶음 문서(시각은 ISO 문자열로 바꾼 뒤) + 일별 기록 → 엔진 입력.
+// 모든 시나리오는 A와 같이 시작일의 스냅샷에서 출발한다(사용자 결정 10-20): 엔진에 넘기는 만든 시각을 시작일 장 마감 뒤
+// (그날 23:00 UTC = 동부 18~19시)로 맞춘다. 실제 만든 시각은 저장된 그대로이고 순서를 정하는 데만 쓴다.
+export const scenarioStartAt = (date) => (date ? date + 'T23:00:00Z' : null);
 export function toEngineInput(bundle, records) {
   const snap = bundle.snapshot || {};
   const deposits = Object.entries(bundle.deposits || {}).map(([id, d]) => (d.cancels
@@ -43,7 +46,7 @@ export function toEngineInput(bundle, records) {
     : { id, amount: d.amount, recordedAt: d.recordedAt }));
   const scenarios = Object.entries(bundle.scenarios || {})
     .sort(([, a], [, b]) => (a.createdAt < b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0))
-    .map(([id, s]) => ({ id, name: s.name, strategy: s.strategy, params: s.params || undefined, createdAt: s.createdAt, engineVersion: s.engineVersion }));
+    .map(([id, s]) => ({ id, name: s.name, strategy: s.strategy, params: s.params || undefined, createdAt: scenarioStartAt(snap.date) || s.createdAt, engineVersion: s.engineVersion }));
   return {
     records,
     snapshot: { date: snap.date, holdings: snap.holdings || {}, cash: snap.cash || 0 },
@@ -364,7 +367,7 @@ export function detailSection(result, byId) {
 export function depositSection(b, handlers, now) {
   const sec = el('div', 'pf-st-block');
   sec.appendChild(el('h3', null, '입금'));
-  sec.appendChild(el('p', 'pf-note', '이번 달 실제로 넣은 금액을 기록합니다. 기록한 뒤 처음 오는 장 시작(동부 09:30) 전에 모든 전략과 기준선에 같이 들어갑니다. 반영 전에만 취소할 수 있고, 반영된 입금은 고칠 수 없습니다(그때는 묶음을 끝내고 새로 시작).'));
+  sec.appendChild(el('p', 'pf-note', '이번 달 실제로 넣은 금액을 기록합니다. 기록한 뒤 처음 오는 장 시작(동부 09:30)부터 모든 전략과 기준선에 같이 들어갑니다. 금액은 언제든 고치거나 지울 수 있고, 그러면 처음부터 다시 계산합니다(사용자 결정 10-20).'));
   const form = el('div', 'pf-row');
   const input = el('input'); input.type = 'number'; input.min = '0.01'; input.step = '0.01'; input.placeholder = '금액(USD)'; input.setAttribute('aria-label', '입금 금액(USD)');
   const btn = el('button', 'pf-btn', '기록'); btn.type = 'button';
@@ -380,24 +383,36 @@ export function depositSection(b, handlers, now) {
   // 취소는 반영일 09:30 ET 전에 기록된 것만 효력이 있다(엔진과 같은 기준). 늦은 취소는 엔진이 무시한다.
   const cancelAt = new Map();
   for (const [, d] of deps) if (d.cancels && d.recordedAt && (!cancelAt.has(d.cancels) || d.recordedAt < cancelAt.get(d.cancels))) cancelAt.set(d.cancels, d.recordedAt);
+  const edit = el('div', 'pf-edit'); edit.hidden = true;
   const rows = deps.filter(([, d]) => !d.cancels).sort(([, x], [, y]) => (x.recordedAt < y.recordedAt ? 1 : -1)).map(([id, d]) => {
     const t = depositTiming(d.recordedAt);
-    let state, action = '';
+    // 예전 취소 기록(덧붙이기만 시절)은 엔진과 같은 기준으로 보여 준다
     const cAt = cancelAt.has(id) ? Date.parse(cancelAt.get(id)) : null;
-    if (cAt != null && t.day && cAt < t.cancelBefore) state = '취소됨';
-    else if (cAt != null) state = (t.day ? t.day + ' 반영' : '반영일 계산 불가') + '(취소가 반영 뒤라 무시됨)';
-    else if (t.day && now < t.cancelBefore) {
-      state = t.day + ' 반영 예정';
-      const c = el('button', 'pf-btn pf-btn-quiet', '취소'); c.type = 'button';
-      twoStep(c, msg, '이 입금을 취소합니다. 맞으면 취소를 한 번 더 누르세요.', () => {
-        if (Date.now() >= t.cancelBefore) throw new Error('반영일 장이 이미 열려 취소할 수 없습니다. 새로고침하세요.');
-        return handlers.cancel(id);
-      });
-      action = c;
-    } else state = t.day ? t.day + ' 반영' : '반영일 계산 불가';
-    return [d.recordedAt ? d.recordedAt.slice(0, 16).replace('T', ' ') + ' UTC' : '기록 중', usd(d.amount), state, action];
+    const state = cAt != null && t.day && cAt < t.cancelBefore ? '취소됨'
+      : (t.day ? t.day + (now < t.cancelBefore ? ' 반영 예정' : ' 반영') : '반영일 계산 불가') + (cAt != null ? '(취소가 반영 뒤라 무시됨)' : '');
+    const acts = el('div', 'pf-acts');
+    const fix = el('button', 'pf-btn pf-btn-quiet', '고치기'); fix.type = 'button';
+    fix.addEventListener('click', () => {
+      edit.textContent = ''; edit.hidden = false;
+      edit.appendChild(el('span', 'pf-note', `${d.recordedAt ? d.recordedAt.slice(0, 10) : ''} 입금 금액 고치기`));
+      const a = el('input'); a.type = 'number'; a.min = '0.01'; a.step = '0.01'; a.value = String(d.amount); a.setAttribute('aria-label', '새 금액(USD)');
+      const save = el('button', 'pf-btn', '저장'); save.type = 'button';
+      const close = el('button', 'pf-btn pf-btn-quiet', '닫기'); close.type = 'button'; close.addEventListener('click', () => { edit.hidden = true; });
+      const em = msgLine();
+      edit.appendChild(a); edit.appendChild(save); edit.appendChild(close); edit.appendChild(em);
+      twoStep(save, em, '이 금액으로 고칩니다(처음부터 다시 계산). 맞으면 한 번 더 누르세요.', async () => {
+        const v = Number(a.value);
+        if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
+        await handlers.editDeposit(id, v);
+      }, edit);
+    });
+    const del = el('button', 'pf-btn pf-btn-quiet', '지우기'); del.type = 'button';
+    twoStep(del, msg, '이 입금을 지웁니다(처음부터 다시 계산). 맞으면 지우기를 한 번 더 누르세요.', () => handlers.deleteDeposit(id));
+    acts.appendChild(fix); acts.appendChild(del);
+    return [d.recordedAt ? d.recordedAt.slice(0, 16).replace('T', ' ') + ' UTC' : '기록 중', usd(d.amount), state, acts];
   });
   sec.appendChild(table(['기록 시각', '금액', '상태', ''], rows, [1], true));
+  sec.appendChild(edit);
   return sec;
 }
 
@@ -405,7 +420,17 @@ export function scenarioForm(b, handlers) {
   const sec = el('div', 'pf-st-block');
   const n = Object.keys(b.scenarios || {}).length;
   sec.appendChild(el('h3', null, `시나리오 추가 (${n}/${MAX_SCENARIOS})`));
-  sec.appendChild(el('p', 'pf-note', '만든 다음 거래일부터 "A. 그대로 보유"의 그 전날 상태에서 출발합니다. 만든 뒤에는 고칠 수 없고, 설정을 바꾸려면 새로 만듭니다. 매도 단계는 고평가·초고평가로 고정입니다.'));
+  sec.appendChild(el('p', 'pf-note', '언제 만들어도 A와 같이 시작일의 스냅샷에서 출발해 처음부터 계산합니다. 설정을 바꾸려면 지우고 새로 만듭니다. 매도 단계는 고평가·초고평가로 고정입니다.'));
+  const list = Object.entries(b.scenarios || {}).sort(([, x], [, y]) => (x.createdAt < y.createdAt ? -1 : 1));
+  if (list.length) {
+    const lm = msgLine();
+    sec.appendChild(table(['이름', '전략', '만든 날', ''], list.map(([id, sc]) => {
+      const del = el('button', 'pf-btn pf-btn-quiet', '지우기'); del.type = 'button';
+      twoStep(del, lm, `"${sc.name}" 시나리오를 지웁니다. 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteScenario(id));
+      return [sc.name, STRATEGY[sc.strategy] || sc.strategy, (sc.createdAt || '').slice(0, 10), del];
+    }), [], true));
+    sec.appendChild(lm);
+  }
   const f = el('div', 'pf-form');
   const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
   const name = field('이름', el('input')); name.maxLength = NAME_MAX;
@@ -442,7 +467,7 @@ export function scenarioForm(b, handlers) {
   const btn = el('button', 'pf-btn', '시나리오 만들기'); btn.type = 'button';
   const msg = msgLine();
   f.appendChild(btn); f.appendChild(msg);
-  twoStep(btn, msg, '이 설정으로 만듭니다(고칠 수 없음). 맞으면 한 번 더 누르세요.', async () => {
+  twoStep(btn, msg, '이 설정으로 만듭니다. 맞으면 한 번 더 누르세요.', async () => {
     const s = strat.value, params = {};
     const pctNum = (inp, lo, hi, what) => {
       const v = Number(inp.value);
@@ -469,29 +494,40 @@ export function bundleSection(b, model, handlers) {
   sec.appendChild(el('p', 'pf-note', `${s.date} 장 마감 뒤 · 현금 ${usd(s.cash)}` + ((s.holdOnly || []).length ? ` · 그대로 두는 보유: ${s.holdOnly.join(', ')}` : '')));
   sec.appendChild(table(['티커', '수량'], Object.entries(s.holdings || {}).sort().map(([t, q]) => [t, shares(q)]), [1]));
   if (model.closedCount) sec.appendChild(el('p', 'pf-note', `끝낸 묶음 ${model.closedCount}개`));
-  sec.appendChild(el('p', 'pf-note', '시작 스냅샷을 잘못 넣었거나 이미 반영된 입금이 틀렸으면 이 묶음을 끝내고 새 스냅샷으로 다시 시작합니다. 끝낸 묶음은 "정정으로 종료"로 남습니다.'));
+  // 스냅샷은 언제든 고칠 수 있다(사용자 결정 10-20) — 고치면 모든 전략을 처음부터 다시 계산한다
+  const fixBtn = el('button', 'pf-btn pf-btn-quiet', '스냅샷 고치기'); fixBtn.type = 'button';
+  const fixBox = el('div'); fixBox.hidden = true;
+  fixBtn.addEventListener('click', () => {
+    fixBox.hidden = !fixBox.hidden;
+    if (!fixBox.hidden && !fixBox.firstChild) fixBox.appendChild(startForm(model, handlers, (model.records || []).at(-1)?.session || null, s));
+  });
+  sec.appendChild(fixBtn); sec.appendChild(fixBox);
+  sec.appendChild(el('p', 'pf-note', '처음부터 완전히 새로 하려면 이 묶음을 끝내고 새로 시작합니다. 끝낸 묶음은 "정정으로 종료"로 남고 계산에서 빠집니다.'));
   const btn = el('button', 'pf-btn pf-btn-quiet', '이 묶음 끝내기'); btn.type = 'button';
   const msg = msgLine();
   sec.appendChild(btn); sec.appendChild(msg);
-  twoStep(btn, msg, '이 묶음을 끝냅니다(되돌릴 수 없음). 맞으면 한 번 더 누르세요.', () => handlers.close());
+  twoStep(btn, msg, '이 묶음을 끝냅니다. 맞으면 한 번 더 누르세요.', () => handlers.close());
   return sec;
 }
 
-export function startForm(model, handlers, lastSession) {
+// existing(지금 스냅샷)을 주면 고치기 모드: 그 값으로 채우고 저장은 handlers.editSnapshot
+export function startForm(model, handlers, lastSession, existing) {
   const sec = el('div', 'pf-st-block');
-  sec.appendChild(el('h3', null, model.bundle?.closed ? '새 묶음 시작' : '전략 비교 시작'));
-  const pre = model.prefill || null;
-  sec.appendChild(el('p', 'pf-note', '시작일 장 마감 뒤의 실제 보유 수량과 현금을 증권사 거래 내역이나 앱 값으로 확인해 넣습니다. 저장한 뒤에는 고칠 수 없습니다.'
+  sec.appendChild(el('h3', null, existing ? '시작 스냅샷 고치기' : model.bundle?.closed ? '새 묶음 시작' : '전략 비교 시작'));
+  const pre = existing ? null : model.prefill || null;
+  sec.appendChild(el('p', 'pf-note', '시작일 장 마감 뒤의 실제 보유 수량과 현금을 증권사 거래 내역이나 앱 값으로 확인해 넣습니다. 저장한 뒤에도 고칠 수 있고, 고치면 처음부터 다시 계산합니다.'
     + (pre ? ` 아래 칸은 올린 보유(${pre.asOf || '기준일 없음'})에 ${pre.upTo || '—'}까지 체결한 실제 매매를 더한 값으로 미리 채웠습니다(미국 거래소 USD 종목만 지원).`
       + (pre.cash == null || pre.cash < 0 ? ' 현금은 올린 보유에 없거나 계산이 음수라 비워 두었습니다. 직접 넣으세요.' : '') : '')));
-  sec.appendChild(el('p', 'pf-warn', `일별 기록은 다음 날 오전(미국 동부)에 나옵니다. 그래서 시작일은 마지막 기록 날짜${lastSession ? `(${lastSession})` : ''}의 장 마감입니다. 증권사 앱이 그 뒤 날의 보유를 보여 주면, 그 뒤에 체결한 매매를 빼고 그날 마감 기준 수량·현금을 넣으세요.`));
+  const sessions = (model.records || []).map((r) => r.session).sort();
+  sec.appendChild(el('p', 'pf-note', `시작일은 일별 기록이 있는 거래일(${sessions[0] || '—'} ~ ${lastSession || '—'}) 가운데 아무 날이나 고를 수 있고, 그날 장 마감 기준 수량·현금을 넣습니다. 일별 기록은 다음 날 오전(미국 동부)에 나오므로 오늘 날짜는 아직 고를 수 없습니다. 미리 채운 값은 지금 기준이니, 지난 날로 시작하면 그 뒤 체결한 매매를 빼고 넣으세요.`));
   if (pre?.clipped?.length) sec.appendChild(el('p', 'pf-warn', `⚠ 보유보다 많이 판 기록 ${pre.clipped.length}건이 있어 미리 채운 수량이 실제와 다를 수 있습니다. 확인해 고치세요.`));
   const f = el('div', 'pf-form');
-  const dl = el('label', 'pf-field'); dl.appendChild(el('span', null, '시작일(마지막 일별 기록 날짜)'));
-  const date = el('input'); date.type = 'date'; date.value = lastSession || ''; date.min = date.max = lastSession || ''; dl.appendChild(date); f.appendChild(dl);
+  const dl = el('label', 'pf-field'); dl.appendChild(el('span', null, '시작일(일별 기록이 있는 거래일)'));
+  const date = el('input'); date.type = 'date'; date.value = existing?.date || lastSession || ''; date.min = sessions[0] || ''; date.max = lastSession || ''; dl.appendChild(date); f.appendChild(dl);
   const cl = el('label', 'pf-field'); cl.appendChild(el('span', null, '현금(USD)'));
   // 현금을 모르거나(올린 보유에 현금 줄 없음) 계산이 음수면 빈칸으로 두고 직접 넣게 한다
-  const cash = el('input'); cash.type = 'number'; cash.min = '0'; cash.step = '0.01'; cash.value = pre && pre.cash != null && pre.cash >= 0 ? String(pre.cash) : ''; cl.appendChild(cash); f.appendChild(cl);
+  const cash = el('input'); cash.type = 'number'; cash.min = '0'; cash.step = '0.01';
+  cash.value = existing ? String(existing.cash ?? '') : pre && pre.cash != null && pre.cash >= 0 ? String(pre.cash) : ''; cl.appendChild(cash); f.appendChild(cl);
   const rowsBox = el('div', 'pf-snap-rows');
   const rows = [];
   const addRow = (t = '', q = '', hold = false) => {
@@ -507,25 +543,26 @@ export function startForm(model, handlers, lastSession) {
     const rec = { ti, qi, hc };
     rows.push(rec);
   };
-  for (const h of pre?.holdings || []) addRow(h.ticker, String(Math.round(h.qty * 1e6) / 1e6));
+  if (existing) for (const [t, q] of Object.entries(existing.holdings || {}).sort()) addRow(t, String(q), (existing.holdOnly || []).includes(t));
+  else for (const h of pre?.holdings || []) addRow(h.ticker, String(Math.round(h.qty * 1e6) / 1e6));
   if (!rows.length) addRow();
   f.appendChild(el('p', 'pf-note', '"그대로 두기"를 고른 종목은 B·C·D가 사지도 팔지도 않습니다(A만 입금으로 비중대로 삽니다).'));
   f.appendChild(rowsBox);
   const add = el('button', 'pf-btn pf-btn-quiet', '종목 더하기'); add.type = 'button';
   add.addEventListener('click', () => addRow());
   f.appendChild(add);
-  const btn = el('button', 'pf-btn', '이 스냅샷으로 시작'); btn.type = 'button';
+  const btn = el('button', 'pf-btn', existing ? '이대로 고치기' : '이 스냅샷으로 시작'); btn.type = 'button';
   const msg = msgLine();
   f.appendChild(btn); f.appendChild(msg);
   const known = new Set((model.records || []).map((r) => r.session));
   // 시작일 기록에 가격이 없는 티커(카드·고정 ETF 밖이거나 오타)는 저장 전에 한 번 경고한다 — 그대로면 비교가 출발하지 못한다
-  const startRec = (model.records || []).find((r) => r.session === lastSession);
-  const priced = new Set([...Object.keys(startRec?.cards || {}), ...Object.keys(startRec?.prices || {})]);
   let ackUnknown = '';
-  twoStep(btn, msg, '저장하면 고칠 수 없습니다. 맞으면 한 번 더 누르세요.', async () => {
+  twoStep(btn, msg, existing ? '스냅샷을 이렇게 고칩니다(모든 전략을 처음부터 다시 계산). 맞으면 한 번 더 누르세요.' : '이 스냅샷으로 시작합니다. 맞으면 한 번 더 누르세요.', async () => {
     const d = date.value;
-    // 앞으로만 쌓는다(설계 0절): 시작일은 마지막 일별 기록 날짜 하나만
-    if (!lastSession || d !== lastSession || !isTradingDay(d) || !known.has(d)) throw new Error(`시작일은 마지막 일별 기록 날짜(${lastSession || '없음'})만 고를 수 있습니다.`);
+    // 시작일은 일별 기록이 있는 거래일 아무 날(사용자 결정 10-20)
+    if (!isTradingDay(d) || !known.has(d)) throw new Error('시작일은 일별 기록이 있는 거래일이어야 합니다.');
+    const startRec = (model.records || []).find((r) => r.session === d);
+    const priced = new Set([...Object.keys(startRec?.cards || {}), ...Object.keys(startRec?.prices || {})]);
     const c = cash.value.trim() === '' ? NaN : Number(cash.value);
     if (!(c >= 0) || Math.round(c * 100) / 100 !== c) throw new Error('현금은 0 이상, 센트 단위까지 넣으세요.');
     const holdings = {}, holdOnly = [];
@@ -544,7 +581,8 @@ export function startForm(model, handlers, lastSession) {
       ackUnknown = unknown;
       throw new Error(`⚠ ${d} 일별 기록에 가격이 없는 종목: ${unknown}. 티커 오타이거나 카드 목록 밖 종목이면 전략 비교가 출발하지 못합니다. 확인했고 그대로 저장하려면 다시 두 번 누르세요.`);
     }
-    await handlers.create({ date: d, holdings, cash: c, holdOnly: holdOnly.sort() });
+    const snap = { date: d, holdings, cash: c, holdOnly: holdOnly.sort() };
+    await (existing ? handlers.editSnapshot(snap) : handlers.create(snap));
   }, f);
   sec.appendChild(f);
   return sec;

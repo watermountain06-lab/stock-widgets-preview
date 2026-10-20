@@ -9,10 +9,10 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, setPersistence, browserSessionPersistence }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp }
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { toEngineInput } from './preview-only-portfolio-strategy.js?v=7';
-import { renderTabs } from './preview-only-portfolio-home.js?v=9';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=9';
+import { renderTabs } from './preview-only-portfolio-home.js?v=11';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=1';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
@@ -207,7 +207,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
   const newId = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
   const why = (e) => (e && e.code === 'permission-denied' ? '규칙이 막았습니다. 새로고침한 뒤 다시 해 보세요.' : '저장하지 못했습니다(' + ((e && (e.code || e.message)) || '알 수 없음') + ').');
 
-  // 실제 매매 기록: users/{uid}/portfolio/trades 문서 하나(덧붙이기만, 규칙 firestore.rules). 모의 운용 계산과는 따로다.
+  // 실제 매매 기록: users/{uid}/portfolio/trades 문서 하나(고치기·지우기 가능, 규칙 firestore.rules). 모의 운용 계산과는 따로다.
   const tref = (user) => doc(db, 'users', user.uid, 'portfolio', 'trades');
 
   async function loadAll(user, g, main) {
@@ -247,22 +247,25 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       await reload();
     };
     const addTrade = async (entry) => {
-      if (!tradesExist) { await setDoc(tref(user), { entries: {}, lastKey: '' }); tradesExist = true; }   // 다음 단계가 실패해 다시 눌러도 빈 문서를 또 만들지 않게
+      if (!tradesExist) { await setDoc(tref(user), { entries: {} }); tradesExist = true; }   // 다음 단계가 실패해 다시 눌러도 빈 문서를 또 만들지 않게
       const k = newId('t');
-      await updateDoc(tref(user), { ['entries.' + k]: { ...entry, recordedAt: serverTimestamp() }, lastKey: k });
+      await updateDoc(tref(user), { ['entries.' + k]: { ...entry, recordedAt: serverTimestamp() } });
     };
+    // 지운 입금을 가리키는 예전 취소 기록도 같이 지운다
+    const cancelsOf = (id) => Object.entries((bundle && bundle.deposits) || {}).filter(([, d]) => d.cancels === id).map(([k]) => k);
     const handlers = {
-      // 입금·시나리오를 더할 때는 새 키를 lastKey에도 쓴다(규칙이 새 값을 찾는 방법 — firestore.rules)
-      create: act((snap) => setDoc(ref, { snapshot: { ...snap, createdAt: serverTimestamp() }, deposits: {}, scenarios: {}, lastKey: '' })),
-      deposit: act((amount) => { const k = newId('d'); return updateDoc(ref, { ['deposits.' + k]: { amount, recordedAt: serverTimestamp() }, lastKey: k }); }),
-      cancel: act((id) => { const k = newId('c'); return updateDoc(ref, { ['deposits.' + k]: { cancels: id, recordedAt: serverTimestamp() }, lastKey: k }); }),
-      scenario: act((sc) => { const k = newId('s'); return updateDoc(ref, { ['scenarios.' + k]: { ...sc, createdAt: serverTimestamp(), engineVersion: ENGINE_VERSION }, lastKey: k }); }),
+      // 모든 값은 고치고 지울 수 있다(사용자 결정 10-20). 기록 시각(recordedAt·createdAt)은 반영일·출발일을 정하므로 고칠 때 그대로 둔다.
+      create: act((snap) => setDoc(ref, { snapshot: { ...snap, createdAt: serverTimestamp() }, deposits: {}, scenarios: {} })),
+      editSnapshot: act((snap) => updateDoc(ref, { 'snapshot.date': snap.date, 'snapshot.holdings': snap.holdings, 'snapshot.cash': snap.cash, 'snapshot.holdOnly': snap.holdOnly })),
+      deposit: act((amount) => updateDoc(ref, { ['deposits.' + newId('d')]: { amount, recordedAt: serverTimestamp() } })),
+      editDeposit: act((id, amount) => updateDoc(ref, { ['deposits.' + id + '.amount']: amount })),
+      deleteDeposit: act((id) => updateDoc(ref, Object.fromEntries([id, ...cancelsOf(id)].map((k) => ['deposits.' + k, deleteField()])))),
+      scenario: act((sc) => updateDoc(ref, { ['scenarios.' + newId('s')]: { ...sc, createdAt: serverTimestamp(), engineVersion: ENGINE_VERSION } })),
+      deleteScenario: act((id) => updateDoc(ref, { ['scenarios.' + id]: deleteField() })),
       close: act(() => updateDoc(ref, { closed: { reason: 'correction', at: serverTimestamp() } })),
       trade: act((t) => addTrade(t)),
-      cancelTrade: act(async (id) => {
-        const k = newId('x');
-        await updateDoc(tref(user), { ['entries.' + k]: { cancels: id, recordedAt: serverTimestamp() }, lastKey: k });
-      }),
+      editTrade: act((id, t) => updateDoc(tref(user), Object.fromEntries(['date', 'ticker', 'side', 'qty', 'price'].map((f) => ['entries.' + id + '.' + f, t[f]])))),
+      deleteTrade: act((id) => updateDoc(tref(user), Object.fromEntries([id, ...Object.entries(trades).filter(([, x]) => x.cancels === id).map(([k]) => k)].map((k) => ['entries.' + k, deleteField()])))),
       goto: (tab) => selectTab(tab),
     };
     const model = { main, trades, result, bundle, byId, records, now: Date.now() };

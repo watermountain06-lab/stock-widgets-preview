@@ -27,6 +27,8 @@ test('toEngineInput: 스냅샷·holdOnly·입금(취소 포함)·시나리오(�
     { id: 'c1', cancels: 'd1', recordedAt: '2026-11-08T15:00:00Z' },
   ]);
   assert.deepEqual(x.scenarios.map((s) => [s.id, s.strategy]), [['s1', 'B'], ['s2', 'C']]);
+  // 언제 만들었든 시작일 장 마감 뒤로 맞춰 A와 같이 출발한다(사용자 결정 10-20)
+  assert.deepEqual(x.scenarios.map((s) => s.createdAt), ['2026-10-16T23:00:00Z', '2026-10-16T23:00:00Z']);
   assert.equal('lastKey' in x, false);
 });
 
@@ -169,4 +171,17 @@ test('waitText: 엔진 대기 사유, 출발 평가 미확정의 마지막 사�
   assert.equal(waitText({ started: null, days: [{ date: 'd', value: null, why: ['notStarted', 'pipelineFailed'] }] }), '출발 대기 — 그날 기록 없음·실패');
   assert.equal(waitText({ started: null, days: [] }), '아직 시작 전');
   assert.equal(summarize({ ...s, cash: 0 }).waitText, waitText(s));
+});
+
+import { checkTrade } from '../../preview-only-portfolio-home.js';
+test('checkTrade: 기록·고치기 공통 검사', () => {
+  const ok = { date: '2026-10-20', ticker: 'AAPL', side: 'buy', qty: 1.5, price: 100 };
+  assert.equal(checkTrade(ok, '2026-10-20'), null);
+  assert.match(checkTrade({ ...ok, date: '2026-10-21' }, '2026-10-20'), /미래/);
+  assert.match(checkTrade({ ...ok, date: '' }, '2026-10-20'), /날짜/);
+  assert.match(checkTrade({ ...ok, ticker: 'aapl' }, '2026-10-20'), /티커/);
+  assert.match(checkTrade({ ...ok, side: 'hold' }, '2026-10-20'), /매수/);
+  assert.match(checkTrade({ ...ok, qty: 0.0000001 }, '2026-10-20'), /소수 6자리/);
+  assert.match(checkTrade({ ...ok, price: 0 }, '2026-10-20'), /체결가/);
+  assert.match(checkTrade({ ...ok, qty: 2e7 }, '2026-10-20'), /1천만/);
 });

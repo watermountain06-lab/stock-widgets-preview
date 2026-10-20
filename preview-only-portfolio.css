@@ -182,3 +182,8 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 @media(max-width:760px){.pf-grid2{grid-template-columns:1fr}.pf-panel{padding:20px 16px}.pf-big{font-size:32px}.pf-tradeform{grid-template-columns:1fr}.pf-todos{grid-template-columns:repeat(2,minmax(0,1fr))}.pf-step{font-size:11px}}
 #pf-home .pf-holdfold,:root[data-theme="dark"] #pf-home .pf-holdfold{background:none!important;color:inherit}
 :root[data-theme="dark"] #pf-home .pf-holdfold{border-color:var(--border)}
+/* 고치기·지우기(2026-10-20 자유 편집) */
+.pf-acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.pf-edit{margin-top:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#f8f7fc;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pf-edit .pf-form{width:100%}
+:root[data-theme="dark"] .pf-edit{background:var(--bg3);border-color:var(--border)}

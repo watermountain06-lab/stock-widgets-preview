@@ -5,7 +5,7 @@
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 운용 계산에 넣지 않는다.
 import { el, table, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, compareSection, chartSection, detailSection,
-  depositSection, scenarioForm, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=7';
+  depositSection, scenarioForm, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=9';
 import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=1';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
@@ -83,9 +83,21 @@ export function monthView(result, lastSession, today) {
   return { scenario: pick, plan, steps, spent, next, stale, alerts: (plan.fires || []).filter((f) => f.observed && !f.skip) };
 }
 
+// 실제 매매 입력 검사(기록·고치기 공통). 틀리면 사람이 읽을 문구, 맞으면 null.
+export function checkTrade(x, today) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(x.date || '')) return '날짜를 고르세요.';
+  if (x.date > today) return '미래 날짜는 기록할 수 없습니다(체결한 날, 미국 동부 기준).';
+  if (!/^[A-Z][A-Z0-9.-]{0,9}$/.test(x.ticker || '')) return '티커를 넣으세요.';
+  if (x.side !== 'buy' && x.side !== 'sell') return '매수·매도를 고르세요.';
+  if (!(x.qty > 0) || Math.round(x.qty * 1e6) / 1e6 !== x.qty) return '수량은 0보다 크고 소수 6자리까지입니다.';
+  if (!(x.price > 0)) return '체결가를 넣으세요.';
+  if (x.qty > 1e7 || x.price > 1e7) return '수량·체결가는 1천만 이하만 기록합니다.';
+  return null;
+}
+
 // ---- 그리기 ----
 // model = { main(올린 데이터), trades(실제 매매 지도), result|null, bundle|null, byId, records, now }
-// handlers = { trade({date, ticker, side, qty, price}), cancelTrade(id), goto(tab) }
+// handlers = { trade({date, ticker, side, qty, price}), editTrade(id, …), deleteTrade(id), goto(tab) }
 export function renderHome(root, model, handlers) {
   root.textContent = '';
   const recs = model.records || [];
@@ -217,7 +229,7 @@ function tradeForm(model, handlers, recs, mv, today) {
   const box = el('div', 'pf-tradebox');
   box.appendChild(el('div', 'pf-eyebrow', 'MY TRADES'));
   box.appendChild(el('h2', 'pf-h2', '실제 매매 기록'));
-  box.appendChild(el('p', 'pf-note', '실제로 사고판 것을 적으면 내 자산의 보유 수량·평균 단가·현금에 바로 반영됩니다(모의 운용 계산과는 따로). 잘못 적었으면 기록·관리 탭에서 취소합니다.'));
+  box.appendChild(el('p', 'pf-note', '실제로 사고판 것을 적으면 내 자산의 보유 수량·평균 단가·현금에 바로 반영됩니다(모의 운용 계산과는 따로). 잘못 적었으면 기록·관리 탭에서 고치거나 지웁니다.'));
   const f = el('div', 'pf-form pf-tradeform');
   const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
   const date = field('날짜(체결일, 미국 동부)', el('input')); date.type = 'date';
@@ -243,14 +255,10 @@ function tradeForm(model, handlers, recs, mv, today) {
   const msg = msgLine();
   f.appendChild(btn); f.appendChild(msg);
   twoStep(btn, msg, '이대로 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
-    const t = tick.value.trim().toUpperCase(), q = Number(qty.value), p = Number(price.value);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date.value)) throw new Error('날짜를 고르세요.');
-    if (date.value > etDate(Date.now())) throw new Error('미래 날짜는 기록할 수 없습니다(체결한 날, 미국 동부 기준).');
-    if (!/^[A-Z][A-Z0-9.-]{0,9}$/.test(t)) throw new Error('티커를 넣으세요.');
-    if (!(q > 0) || Math.round(q * 1e6) / 1e6 !== q) throw new Error('수량은 0보다 크고 소수 6자리까지입니다.');
-    if (!(p > 0)) throw new Error('체결가를 넣으세요.');
-    if (q > 1e7 || p > 1e7) throw new Error('수량·체결가는 1천만 이하만 기록합니다.');
-    await handlers.trade({ date: date.value, ticker: t, side: side.value, qty: q, price: p });
+    const x = { date: date.value, ticker: tick.value.trim().toUpperCase(), side: side.value, qty: Number(qty.value), price: Number(price.value) };
+    const bad = checkTrade(x, etDate(Date.now()));
+    if (bad) throw new Error(bad);
+    await handlers.trade(x);
   }, f);
   box.appendChild(f);
   return box;
@@ -332,7 +340,7 @@ function donutPanel(model, last, close, handlers, color, named, hasOther) {
     sec.appendChild(el('p', 'pf-note', '전략 비교를 시작하면 전략마다 지금 들고 있는 종목과 수익률이 여기에 보입니다.'));
     return sec;
   }
-  sec.appendChild(el('p', 'pf-note', 'A와 처음 만든 시나리오는 시작일의 같은 보유로, 나중에 만든 시나리오는 만든 다음 날 A 상태로 출발합니다(카드의 출발일). 도넛은 각 전략이 지금 들고 있는 종목과 현금의 비중, 가운데 숫자는 자기 출발일 뒤 수익률(TWR)이라 출발일이 다르면 기간도 다릅니다.'));
+  sec.appendChild(el('p', 'pf-note', '모든 전략이 시작일의 같은 보유로 출발합니다(카드의 출발일). 도넛은 각 전략이 지금 들고 있는 종목과 현금의 비중, 가운데 숫자는 자기 출발일 뒤 수익률(TWR)이라 출발일이 다르면 기간도 다릅니다.'));
   const started = r.scenarios.filter((s) => s.started);
   const val = (s, t) => { const c = close(t); return c == null ? null : s.holdings[t] * c; };
   const held = new Set(started.flatMap((s) => Object.keys(s.holdings)));
@@ -431,22 +439,48 @@ export function tradeList(model, handlers) {
   const skipped = new Set(cur.skipped.map((x) => x.id)), future = new Set(cur.future.map((x) => x.id));
   const clipped = new Map(cur.clipped.map((c) => [c.id, c.short]));
   const msg = msgLine();
+  const edit = el('div', 'pf-edit'); edit.hidden = true;
+  const openEdit = (id, x) => {
+    edit.textContent = ''; edit.hidden = false;
+    edit.appendChild(el('p', 'pf-note', `${x.date} ${x.ticker} 기록 고치기`));
+    const f = el('div', 'pf-form pf-tradeform');
+    const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
+    const d = field('날짜(체결일, 미국 동부)', el('input')); d.type = 'date'; d.value = x.date;
+    const sd = field('매매', el('select'));
+    for (const [v, t] of [['buy', '매수'], ['sell', '매도']]) { const o = el('option', null, t); o.value = v; sd.appendChild(o); }
+    sd.value = x.side;
+    const tk = field('종목(티커)', el('input')); tk.value = x.ticker; tk.className = 'pf-ticker';
+    const q = field('수량', el('input')); q.type = 'number'; q.step = 'any'; q.value = String(x.qty);
+    const pr = field('체결가(USD)', el('input')); pr.type = 'number'; pr.step = '0.0001'; pr.value = String(x.price);
+    const save = el('button', 'pf-btn', '저장'); save.type = 'button';
+    const close = el('button', 'pf-btn pf-btn-quiet', '닫기'); close.type = 'button'; close.addEventListener('click', () => { edit.hidden = true; });
+    const em = msgLine();
+    f.appendChild(save); f.appendChild(close); f.appendChild(em);
+    edit.appendChild(f);
+    twoStep(save, em, '이대로 고칩니다. 맞으면 한 번 더 누르세요.', async () => {
+      const y = { date: d.value, ticker: tk.value.trim().toUpperCase(), side: sd.value, qty: Number(q.value), price: Number(pr.value) };
+      const bad = checkTrade(y, etDate(Date.now()));
+      if (bad) throw new Error(bad);
+      await handlers.editTrade(id, y);
+    }, f);
+  };
   const rows = all.filter(([, x]) => !x.cancels).sort(([, a], [, b]) => (a.date < b.date ? 1 : -1)).map(([id, x]) => {
-    let state = '반영', action = '';
-    if (cancelled.has(id)) state = '취소됨';
-    else {
-      if (skipped.has(id)) state = '기준일 전(반영 안 함)';
-      else if (future.has(id)) state = '미래 날짜(그날부터 반영)';
-      else if (clipped.has(id)) state = `보유 초과 — ${shares(x.qty - clipped.get(id))}주만 반영`;
-      const c = el('button', 'pf-btn pf-btn-quiet', '취소'); c.type = 'button';
-      twoStep(c, msg, '이 기록을 취소합니다. 맞으면 취소를 한 번 더 누르세요.', () => handlers.cancelTrade(id));
-      action = c;
-    }
-    return [x.date, x.ticker, x.side === 'buy' ? '매수' : '매도', shares(x.qty), usd(x.price), usd(x.qty * x.price), state, action];
+    let state = '반영';
+    if (cancelled.has(id)) state = '취소됨';   // 예전 취소 기록(덧붙이기만 시절)
+    else if (skipped.has(id)) state = '기준일 전(반영 안 함)';
+    else if (future.has(id)) state = '미래 날짜(그날부터 반영)';
+    else if (clipped.has(id)) state = `보유 초과 — ${shares(x.qty - clipped.get(id))}주만 반영`;
+    const acts = el('div', 'pf-acts');
+    const fix = el('button', 'pf-btn pf-btn-quiet', '고치기'); fix.type = 'button'; fix.addEventListener('click', () => openEdit(id, x));
+    const del = el('button', 'pf-btn pf-btn-quiet', '지우기'); del.type = 'button';
+    twoStep(del, msg, '이 기록을 지웁니다. 맞으면 지우기를 한 번 더 누르세요.', () => handlers.deleteTrade(id));
+    acts.appendChild(fix); acts.appendChild(del);
+    return [x.date, x.ticker, x.side === 'buy' ? '매수' : '매도', shares(x.qty), usd(x.price), usd(x.qty * x.price), state, acts];
   });
   sec.appendChild(table(['날짜', '종목', '매매', '수량', '체결가', '금액', '상태', ''], rows, [3, 4, 5], true));
   sec.appendChild(msg);
-  sec.appendChild(el('p', 'pf-note', '기록은 고칠 수 없고 취소만 됩니다(취소 기록이 남습니다). 올린 보유의 기준일과 그 전 날짜의 매매는 이미 올린 보유에 들어 있다고 보고 반영하지 않습니다.'));
+  sec.appendChild(edit);
+  sec.appendChild(el('p', 'pf-note', '기록은 언제든 고치거나 지울 수 있습니다. 올린 보유의 기준일과 그 전 날짜의 매매는 이미 올린 보유에 들어 있다고 보고 반영하지 않습니다.'));
   return sec;
 }
 
