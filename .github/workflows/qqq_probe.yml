@@ -1,0 +1,45 @@
+name: QQQ source probe (temporary)
+
+# 임시(2026-10-21): Invesco QQQ 자료(보유 종목·NAV·특성·업종)가 Actions에서 받히는지 한 번 확인한다. 확인 뒤 지운다.
+# Invesco API는 스크립트(urllib·curl)를 406으로 막고 브라우저로는 받힌다(로컬 확인). 값은 찍지 않고 크기·날짜·건수만 찍는다.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe with urllib and headless Chrome
+        shell: bash
+        run: |
+          B="https://dng-api.invesco.com/cache/v1/accounts/en_US/shareclasses/46090E103"
+          for u in "holdings/fund?idType=cusip&productType=ETF" "navs?idType=cusip&productType=ETF" \
+                   "weightedHoldings/fund?idType=cusip&breakdown=sector&productType=ETF" \
+                   "?expand=nav&idType=cusip&variationType=fundCharacteristics&productType=ETF"; do
+            echo "== $u"
+            python3 - "$B/$u" <<'PY'
+          import sys, urllib.request
+          try:
+              r = urllib.request.urlopen(urllib.request.Request(sys.argv[1], headers={"User-Agent": "Mozilla/5.0"}), timeout=30)
+              print("urllib", r.status, len(r.read()))
+          except Exception as e:
+              print("urllib 실패", type(e).__name__, getattr(e, "code", ""))
+          PY
+            google-chrome --headless=new --disable-gpu --no-sandbox --virtual-time-budget=10000 --dump-dom "$B/$u" 2>/dev/null > out.html || true
+            python3 - <<'PY'
+          import json, re, html
+          t = open("out.html").read()
+          b = html.unescape(re.sub(r"^.*?<body>|</body>.*$", "", t, flags=re.S)).strip()
+          try:
+              d = json.loads(b)
+              n = len(d.get("holdings") or d.get("holdingWeights") or (d.get("lineChartData") or [{}])[0].get("data") or [])
+              print("chrome ok", len(t), "keys", sorted(d)[:6], "date", d.get("effectiveDate") or d.get("startDate"), "n", n)
+          except Exception:
+              print("chrome 실패", len(t), b[:120].replace("\n", " "))
+          PY
+          done
