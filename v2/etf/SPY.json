@@ -1068,7 +1068,7 @@
  "holdingsSource": "State Street Global Advisors 공개 일일 보유 파일",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-20T20:18:15Z",
+ "runAt": "2026-10-21T03:27:42Z",
  "fetchedAt": "2026-10-20T20:18:15Z",
  "inputHash": {
   "xlsx": "3dfb682cee8802e3c1810b8fdfbb60027dbbfefee2571f83eb74ea7469cce261",
@@ -1078,14 +1078,16 @@
   "script": "af515e2dfde24658"
  },
  "evaluation": {
-  "status": "ok",
-  "holds": [],
+  "status": "held",
+  "holds": [
+   "file_date"
+  ],
   "S": "2026-10-19"
  },
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "ok",
+  "file_date": "bad",
   "tools": "ok",
   "code_sig": "ok",
   "sig_err": "ok",
@@ -1093,5 +1095,21 @@
   "unclassified": "ok",
   "run": "ok"
  },
- "checkDetail": {}
+ "checkDetail": {},
+ "pending": {
+  "kind": "issuer_lag",
+  "P": "2026-10-20",
+  "S": "2026-10-19",
+  "at": "2026-10-21T03:27:42Z",
+  "fetchedAt": "2026-10-21T03:27:43Z",
+  "inputHash": {
+   "xlsx": "3dfb682cee8802e3c1810b8fdfbb60027dbbfefee2571f83eb74ea7469cce261",
+   "alias": "26e5dfec8c44ffc7",
+   "extractor": "b50460aad021b74b",
+   "sigScript": "819ec80766479439",
+   "script": "af515e2dfde24658"
+  },
+  "ruleVersion": "etf-v1",
+  "dateRule": "same"
+ }
 }
