@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-21T14:32:41Z",
+  "generatedAt": "2026-10-21T18:16:22Z",
   "priceSession": "2026-10-20",
   "indicators": {
     "sp500": {
@@ -27,20 +27,23 @@
       "lower": 3.75,
       "upper": 4.0,
       "asOf": "2026-10-21",
-      "status": "fresh",
-      "source": "FRED API DFEDTARL/DFEDTARU"
+      "status": "stale",
+      "source": "FRED API DFEDTARL/DFEDTARU",
+      "statusReason": "fetch-failed: Expecting value: line 1 column 1 (char 0)"
     },
     "unemployment": {
       "value": 4.2,
       "asOf": "2026-09",
-      "status": "fresh",
-      "source": "FRED API UNRATE"
+      "status": "stale",
+      "source": "FRED API UNRATE",
+      "statusReason": "fetch-failed: Expecting value: line 1 column 1 (char 0)"
     },
     "cpiYoy": {
       "value": 3.7,
       "asOf": "2026-09",
-      "status": "fresh",
-      "source": "FRED API CPIAUCSL, YoY computed"
+      "status": "stale",
+      "source": "FRED API CPIAUCSL, YoY computed",
+      "statusReason": "fetch-failed: Expecting value: line 1 column 1 (char 0)"
     }
   },
   "nextFomc": {
