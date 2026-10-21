@@ -210,3 +210,20 @@ test('paramsText: 전략 설정 한 줄 요약', () => {
   assert.equal(paramsText({ strategy: 'custom', params: { buyTiers: ['저평가', '적정'], sellFraction: 0.5, splitWeeks: 1, cashReserve: 0 } }), '살 판정 저평가·적정 · 매도 고평가면 50% · 1회 · 유보 0%');
   assert.equal(paramsText({ strategy: 'B', params: { sellFraction: 0 } }), '살 판정 초저평가~적정 · 매도 알림만 · 4회 · 유보 0%');
 });
+
+import { lossAlerts } from '../../preview-only-portfolio-home.js';
+
+test('lossAlerts: 평균 단가보다 20% 이상 내린 종목만, 하락 큰 순, 평균·가격 없으면 건너뜀', () => {
+  const px = { AAA: 8, BBB: 7.5, CCC: 8.01, DDD: 1, EEE: null };
+  const h = [
+    { ticker: 'AAA', qty: 1, avgPrice: 10 },     // 정확히 −20% → 알림
+    { ticker: 'BBB', qty: 1, avgPrice: 10 },     // −25%
+    { ticker: 'CCC', qty: 1, avgPrice: 10 },     // −19.9% → 아님
+    { ticker: 'DDD', qty: 1, avgPrice: null },   // 평균 없음
+    { ticker: 'EEE', qty: 1, avgPrice: 10 },     // 가격 없음
+  ];
+  const r = lossAlerts(h, (t) => px[t] ?? null);
+  assert.deepEqual(r.map((x) => x.ticker), ['BBB', 'AAA']);
+  assert.ok(Math.abs(r[0].drop + 0.25) < 1e-12);
+  assert.deepEqual(lossAlerts(h, (t) => px[t] ?? null, 0.3), []);
+});

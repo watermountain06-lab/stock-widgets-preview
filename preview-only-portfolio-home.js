@@ -60,6 +60,21 @@ export function currentHoldings(rows, asOf, trades, upTo) {
   return { holdings, cash: Math.round(cash * 100) / 100, hasCash, applied, skipped, future, clipped, base };
 }
 
+// 손실 한도(원칙 9, 2026-10-21 사용자 결정): 한 종목이 평균 단가보다 limit(20%) 이상 떨어지면 알림만 띄운다 — 엔진 계산·자동 매도는 없다.
+// holdings: currentHoldings().holdings, close(t): 최근 종가 또는 null. 평균 단가나 가격이 없는 종목은 건너뛴다. 하락이 큰 순.
+export const LOSS_LIMIT = 0.2;
+const dropText = (d) => (d * 100).toFixed(1).replace('-', '−') + '%';
+export function lossAlerts(holdings, close, limit = LOSS_LIMIT) {
+  const out = [];
+  for (const x of holdings || []) {
+    const c = close(x.ticker);
+    if (c == null || !(x.avgPrice > 0)) continue;
+    const drop = c / x.avgPrice - 1;
+    if (drop <= -limit + 1e-9) out.push({ ticker: x.ticker, drop, avgPrice: x.avgPrice, close: c });
+  }
+  return out.sort((a, b) => a.drop - b.drop || (a.ticker < b.ticker ? -1 : 1));
+}
+
 // 이번 달 운용에 보여 줄 시나리오(내 원칙 B가 있으면 그것, 없으면 처음 만든 시나리오)와 그달 계획
 // today(미국 동부 날짜)를 주면 '이번 달'은 그 달이다(없으면 lastSession의 달).
 export function monthView(result, lastSession, today) {
@@ -127,6 +142,8 @@ export function renderHome(root, model, handlers) {
     .map(([k, v]) => ['b0:' + k, v.cancels ? { ...v, cancels: 'b0:' + v.cancels } : v])), cur.base || '', today) : [];
   if (depIn.length) cur.cash = Math.round((cur.cash + depIn.reduce((a, p) => a + p.amount, 0)) * 100) / 100;
   const mv = monthView(model.result, last ? last.session : '', today);
+  const losses = lossAlerts(cur.holdings, close);
+  const lossOf = new Map(losses.map((l) => [l.ticker, l]));
 
   // 1) 내 자산 | 실제 매매 기록
   const top = el('section', 'pf-panel pf-grid2');
@@ -195,6 +212,8 @@ export function renderHome(root, model, handlers) {
     const dot = el('i', 'pf-dot'); dot.style.background = color(x.ticker); nm.appendChild(dot);
     nm.appendChild(el('strong', null, x.ticker));
     nm.appendChild(el('small', null, [x.name, shares(x.qty) + '주', x.avgPrice ? '평균 ' + usd(x.avgPrice) : ''].filter(Boolean).join(' · ')));
+    const loss = lossOf.get(x.ticker);
+    if (loss) { const w = el('span', 'pf-loss', `⚠ 평균 대비 ${dropText(loss.drop)}`); w.title = `원칙 9 손실 한도: 평균 ${usd(loss.avgPrice)} → 종가 ${usd(loss.close)}`; nm.appendChild(w); }
     row.appendChild(nm);
     row.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tier] || 'pf-t-none'), tier || '카드 없음'));
     row.appendChild(el('b', null, c == null ? '가격 없음' : usd0(x.qty * c)));
@@ -202,6 +221,8 @@ export function renderHome(root, model, handlers) {
   });
   fold.appendChild(list);
   if (cur.holdings.length) left.appendChild(fold);
+  // 목록이 접혀 있어도 보이게 위에 한 줄로 알린다
+  if (losses.length) left.insertBefore(el('p', 'pf-warn', `⚠ 손실 한도(원칙 9): ${losses.map((l) => l.ticker + ' ' + dropText(l.drop)).join(', ')} — 평균 단가보다 ${Math.round(LOSS_LIMIT * 100)}% 이상 내렸습니다. 자동으로 팔지 않습니다. 판정과 함께 직접 판단하세요.`), fold);
   if (cur.hasCash && cur.cash < 0) left.appendChild(el('p', 'pf-warn', `⚠ 현금이 ${usd0(cur.cash)}입니다. 빠진 입금이나 잘못 적은 매수가 없는지 확인하세요(막대는 현금을 빼고 그립니다).`));
   if (cur.clipped.length) left.appendChild(el('p', 'pf-warn', `⚠ 보유보다 많이 판 기록 ${cur.clipped.length}건(${cur.clipped.map((c) => c.ticker + ' ' + shares(c.short) + '주').join(', ')})은 가진 만큼만 반영했습니다. 올린 보유나 빠진 매수 기록을 확인하세요.`));
   if (h.asOf) left.appendChild(el('p', 'pf-note', `올린 보유 ${h.asOf} + 그 뒤 기록한 매매 ${cur.applied.length}건` + (depIn.length ? ` + 입금 ${depIn.length}건(오늘 반영분 포함)` : '')
