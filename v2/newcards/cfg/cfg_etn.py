@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 8531, 'op': 1392, 'ni': 821, 'ocf': 1127, 'cap': 253}   # 보도자료 손익(영업이익 = 매출 − 매출원가 − 판관비 − R&D), FCF $874M
-VOTES, VERDICT = (-1, -1, -2), '고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'Eaton'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1551182/'
 SEC = S_

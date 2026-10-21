@@ -1,79 +1,79 @@
 {
  "ticker": "UBER",
  "window": [
-  "2021-10-19",
-  "2026-10-19"
+  "2021-10-20",
+  "2026-10-20"
  ],
  "multiples": {
   "PER": {
-   "days": 739,
-   "current": 31.23,
+   "days": 740,
+   "current": 30.78,
    "min": 28.63,
    "p10": 30.99,
-   "median": 38.09,
-   "p90": 109.12,
+   "median": 38.02,
+   "p90": 109.09,
    "max": 149.34,
-   "mean": 56.7,
-   "percentile": 11.8,
-   "score": 88.2
+   "mean": 56.66,
+   "percentile": 8.4,
+   "score": 91.6
   },
   "PSR": {
    "days": 1255,
-   "current": 2.59,
+   "current": 2.55,
    "min": 1.68,
    "p10": 2.07,
-   "median": 3.35,
+   "median": 3.34,
    "p90": 4.33,
    "max": 7.3,
    "mean": 3.32,
-   "percentile": 25.7,
-   "score": 74.3
+   "percentile": 23.6,
+   "score": 76.4
   },
   "PBR": {
    "days": 1255,
-   "current": 5.23,
+   "current": 5.16,
    "min": 3.8,
    "p10": 5.2,
    "median": 8.61,
    "p90": 13.17,
    "max": 17.41,
    "mean": 8.73,
-   "percentile": 10.7,
-   "score": 89.3
+   "percentile": 9.1,
+   "score": 90.9
   },
   "PCR": {
-   "days": 1056,
-   "current": 14.13,
+   "days": 1057,
+   "current": 13.92,
    "min": 13.7,
-   "p10": 15.37,
-   "median": 32.23,
+   "p10": 15.36,
+   "median": 32.21,
    "p90": 104.65,
    "max": 188.21,
-   "mean": 48.72,
-   "percentile": 1.4,
-   "score": 98.6
+   "mean": 48.69,
+   "percentile": 0.7,
+   "score": 99.3
   },
   "EV/EBITDA": {
-   "days": 580,
-   "current": 20.45,
+   "days": 581,
+   "current": 20.17,
    "min": 19.88,
-   "p10": 21.77,
-   "median": 64.64,
-   "p90": 323.32,
+   "p10": 21.76,
+   "median": 64.63,
+   "p90": 323.2,
    "max": 361.41,
-   "mean": 90.33,
-   "percentile": 2.6,
-   "score": 97.4
+   "mean": 90.21,
+   "percentile": 1.2,
+   "score": 98.8
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 31.34,
+  "per_p25": 31.3,
   "per_p75": 38.0,
   "low": 70,
   "high": 90,
-  "asOf": "2026-10-19",
+  "asOf": "2026-10-20",
   "basis": "diluted"
  }
 }
