@@ -2443,5 +2443,43 @@
   "ignore_candidates": [
    "country:US"
   ]
+ },
+ "AMT": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "amt:PropertyUSAndCanadaMember": [
+    "미국·캐나다 통신탑",
+    "#0f4c81"
+   ],
+   "amt:PropertyLatinAmericaMember": [
+    "중남미",
+    "#4a90c8"
+   ],
+   "amt:PropertyAfricaAPACMember": [
+    "아프리카·아태",
+    "#7fb3de"
+   ],
+   "amt:PropertyDataCentersMember": [
+    "데이터센터(CoreSite)",
+    "#f2a33a"
+   ],
+   "amt:PropertyEuropeMember": [
+    "유럽",
+    "#a9c9e8"
+   ],
+   "amt:ServicesSegmentMember": [
+    "서비스(미국)",
+    "#9ca3af"
+   ]
+  },
+  "ignore_candidates": [
+   "amt:PropertyMember"
+  ]
  }
 }

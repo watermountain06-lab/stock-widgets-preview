@@ -5799,6 +5799,47 @@
         "valuationAsOf": "2026-10-20",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "AMT",
+      "name": "American Tower",
+      "sector": "부동산 — 통신탑 리츠",
+      "href": "AMT_full_widget.html",
+      "cardRank": 135,
+      "cardAsOf": "2026-10-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 183.56,
+        "prevClose": 183.03,
+        "session": "2026-10-20",
+        "prevSession": "2026-10-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 465960048,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-21",
+        "filedAt": "2026-07-28",
+        "filing": "10-Q 0001053507-26-000133 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 52.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-20",
+        "qualityFlags": []
+      }
     }
   ]
 }

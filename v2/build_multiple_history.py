@@ -1449,6 +1449,9 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   "0000829224": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
                   # WM: ShortTermInvestments는 2013-12($177M)에 멈췄다 — 지금 재무상태표에 단기투자 줄 없음. 금융리스는 차입금 태그 안이라 리스는 운용리스만(연간, 2025-12 $1,010M, 2026-10-21).
                   "0000823768": {"sti": [], "lease": ["OperatingLeaseLiability"]},
+                  # AMT: 단기투자 태그 2019-03($18.4M)·우선주 태그 2014-12에 멈춤 — 지금 재무상태표에 둘 다 없음. 금융리스는 "Long-term obligations" 안이라 리스는 운용리스만
+                  # (2026-06-30 $644.1M + $7,146.2M, 2026-10-21).
+                  "0001053507": {"sti": [], "preferred": [], "lease": ["OperatingLeaseLiabilityCurrent", "OperatingLeaseLiabilityNoncurrent"]},
                   # WMB: 현금 태그 CashAndCashEquivalentsAtCarryingValue가 2023-09에 멈춤($2,074M) → 합계 태그(2026-06-30 $203M = 재무상태표 현금).
                   # 리스는 유동·비유동 태그가 2024-12에 멈추고 연간 OperatingLeaseLiability만 있다(2025-12 $183M, TT 방식, 2026-10-19).
                   "0000107263": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "lease": ["OperatingLeaseLiability"]},
@@ -1817,7 +1820,10 @@ HISTORY_START = {"GE": "2024-07-23",
                  "DHR": "2023-10-24",
                  # EMR: Climate Technologies(Copeland) 지분 55% 매각 완료(2023-05-31) 뒤 첫 재무상태표(2023-06-30)가 나온 3분기 10-Q 공시일
                  # (2026-10-18 사용자 결정 "GE 방식 + 매각 뒤 창"). 재작성 분기 값이 FY22 1분기부터 있어 그날 최근 4분기 합은 모두 계속사업 기준.
-                 "EMR": "2023-08-02"}
+                 "EMR": "2023-08-02",
+                 # AMT: 인도 사업(ATC TIPL) 매각 완료 2024-09-12. 2024년 1·2분기는 인도 포함 값으로 처음 공시됐고, 계속사업 기준 분기·연간 재작성 값이
+                 # 처음 함께 나온 것은 FY2024 10-K(2025-02-25)다 — 그날부터(WDC 방식, 2026-10-21). 그날 최근 4분기 합 = 2024년 계속사업 연간.
+                 "AMT": "2025-02-25"}
 
 
 def history_daily(ticker, daily):

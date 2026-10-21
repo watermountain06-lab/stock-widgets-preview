@@ -106,6 +106,15 @@ def ytd(cik, tags, end, fy_start):
         if rows:   # 같은 기간이 정정되면 가장 나중 공시 값(Codex) — 기간도 그 행의 시작일로
             r = sorted(rows, key=lambda r: r["filed"])[-1]
             return r["val"], d(end) - d(r["start"])
+    # 누계 행이 없고 그 분기 3개월 값만 있으면(AMT 배당: 1분기 누계 + 2분기 3개월만 태깅) 직전 분기 말까지의 누계에 더한다 — 같은 태그끼리만(2026-10-21)
+    for tag in tags:
+        q = [r for r in _flow_rows(cik, tag) if r.get("end") == end and r.get("start") and 70 <= (d(end) - d(r["start"])).days <= 125
+             and (d(r["start"]) - fy_start).days > 10]
+        if q:
+            r = sorted(q, key=lambda r: r["filed"])[-1]
+            pv, pspan = ytd(cik, [tag], (d(r["start"]) - dt.timedelta(days=1)).isoformat(), fy_start)
+            if pv is not None:
+                return pv + r["val"], pspan + (d(end) - d(r["start"])) + dt.timedelta(days=1)
     return None, None
 
 
