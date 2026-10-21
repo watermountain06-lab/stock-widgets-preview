@@ -257,3 +257,6 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 .pf-recrow{grid-template-columns:64px minmax(0,1fr) auto;row-gap:4px}.pf-recdate{grid-column:1/4}.pf-recbadge{grid-row:2}.pf-acts{grid-column:1/4;justify-content:flex-start}}
 .pf-edpart{display:grid;gap:14px}.pf-edpart[hidden]{display:none}
 .pf-edleft,.pf-edpart{align-content:start}.pf-tierchips,.pf-segbox{align-items:center}
+button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;width:100%}button.pf-scard:hover{border-color:var(--purple)}.pf-pilladd{background:var(--purple);border-color:var(--purple);color:#fff}
+:root[data-theme="dark"] button.pf-scard{color:var(--text)}
+:root[data-theme="dark"] .pf-pilladd{background:#51428c;border-color:#51428c;color:#fff}

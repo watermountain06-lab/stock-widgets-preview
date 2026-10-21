@@ -382,7 +382,7 @@ function runScenario(ctx, prm, init, keepStates) {
   function addPendingA(amt) {   // 남는 센트는 현금으로 둔다
     if (!weights) return;
     // E: 출발 때 현금 비중만큼은 현금으로 두고 나머지만 비중대로 산다(현금 비중 유지). 현금 몫을 센트 내림하므로 1센트
-    //    입금처럼 아주 작은 입금은 전부 산다. 평가액이 0 이하(den ≤ 0)면 현금 몫 없이 비중대로 — 그런 출발에는 weights도 없다
+    //    입금처럼 아주 작은 입금은 현금 몫이 0이 되어 전부 매수 쪽으로 가고, 종목별로 나눈 몫마저 내림으로 0이면 현금에 남는다. 평가액이 0 이하(den ≤ 0)면 현금 몫 없이 비중대로 — 그런 출발에는 weights도 없다
     if (keepCash) amt -= keepCash.den > 0n ? Number((BigInt(amt) * keepCash.num) / keepCash.den) : 0;
     for (const [t, v] of weights.vs) {
       const a = Number((BigInt(amt) * v) / weights.tot);

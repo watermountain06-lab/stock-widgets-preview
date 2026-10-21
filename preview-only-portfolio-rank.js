@@ -86,7 +86,7 @@ export function spyLine(result) {
 // ---- 그리기 ----
 
 const VIEW_KEY = 'pf-rank-view';
-const view = (() => { try { return { sel: null, sort: 'twr', fold: false, ...JSON.parse(sessionStorage.getItem(VIEW_KEY) || '{}') }; } catch (_) { return { sel: null, sort: 'twr', fold: false }; } })();
+const view = (() => { try { return { sel: null, seed: null, sort: 'twr', fold: false, ...JSON.parse(sessionStorage.getItem(VIEW_KEY) || '{}') }; } catch (_) { return { sel: null, seed: null, sort: 'twr', fold: false }; } })();
 const keep = () => { try { sessionStorage.setItem(VIEW_KEY, JSON.stringify(view)); } catch (_) { /* 기억 못 해도 화면은 그대로 */ } };
 const dot = (slot) => el('i', 'pf-sdot' + (slot ? ' pf-c' + slot : ''));
 const btn = (text, cls) => { const b = el('button', cls || 'pf-btn pf-btn-quiet', text); b.type = 'button'; return b; };
@@ -100,6 +100,9 @@ export function renderStrategy(st, model, smodel, handlers) {
   const scen = b ? Object.entries(b.scenarios || {}).sort(([, x], [, y]) => (x.createdAt < y.createdAt ? -1 : 1)) : [];
   if (view.sel && view.sel !== '__new' && !AUTO.has(view.sel) && !scen.some(([id]) => id === view.sel)) view.sel = null;
   const rows = result ? rankRows(result, model.byId, view.sort) : [];
+  // 고르기(줄·카드·새 전략)는 순위 바로 아래 편집기를 연다 — 카드까지 내려가지 않게(사용자 요청 10-21)
+  const open = (id, seed) => { view.sel = id; view.seed = seed || null; keep(); draw(); st.querySelector('.pf-editor')?.scrollIntoView?.({ block: 'nearest' }); };
+  const canAdd = !!b && scen.length < MAX_SCENARIOS;
   const byRow = new Map(rows.map((r) => [r.id, r]));
   const frag = document.createDocumentFragment();
 
@@ -114,6 +117,7 @@ export function renderStrategy(st, model, smodel, handlers) {
       s.addEventListener('click', () => { view.sort = k; keep(); draw(); });
       sorts.appendChild(s);
     }
+    if (canAdd) { const add = btn('＋ 새 전략', 'pf-pill pf-pilladd'); add.addEventListener('click', () => open('__new')); sorts.appendChild(add); }
     head.appendChild(sorts);
     sec.appendChild(head);
     const spy = spyLine(result);
@@ -138,7 +142,7 @@ export function renderStrategy(st, model, smodel, handlers) {
       row.appendChild(el('strong', 'pf-ranknum', r.twr == null && view.sort !== 'value' ? '—' : main));
       row.appendChild(el('small', 'pf-ranksub', r.twr == null && view.sort === 'value' ? '' : sub));
       row.setAttribute('aria-label', `${r.name}, ${pct(r.twr)}, 눌러서 ${r.auto ? '설명' : '수정'} 열기`);
-      row.addEventListener('click', () => { view.sel = view.sel === r.id ? null : r.id; keep(); draw(); });
+      row.addEventListener('click', () => { if (view.sel === r.id) { view.sel = null; keep(); draw(); } else open(r.id); });
       list.appendChild(row);
     });
     sec.appendChild(list);
@@ -149,7 +153,8 @@ export function renderStrategy(st, model, smodel, handlers) {
   // 2) 편집기(고른 줄 또는 새 전략)
   if (view.sel) {
     const sc = scen.find(([id]) => id === view.sel);
-    const panel = editor(view.sel, sc ? sc[1] : null, byRow.get(view.sel), b, result, handlers, () => { view.sel = null; keep(); draw(); }, scen.length, st);
+    const panel = editor(view.sel, sc ? sc[1] : null, byRow.get(view.sel), b, result, handlers, () => { view.sel = null; keep(); draw(); }, scen.length, st,
+      canAdd ? (seed) => open('__new', seed) : null);
     if (panel) frag.appendChild(panel);
   }
 
@@ -157,11 +162,13 @@ export function renderStrategy(st, model, smodel, handlers) {
   if (b) {
     const sec = el('div', 'pf-st-block');
     sec.appendChild(el('h3', null, `내 전략 (${scen.length}/${MAX_SCENARIOS})`));
-    sec.appendChild(el('p', 'pf-note', '전략을 만들거나 고치면 시작일의 스냅샷에서 다시 계산합니다. "내 실제 계좌"와 "A. 그대로 보유"는 자동으로 있습니다.'));
+    sec.appendChild(el('p', 'pf-note', '카드나 위 순위 줄을 누르면 순위 바로 아래에서 고칩니다. 전략을 만들거나 고치면 시작일의 스냅샷에서 다시 계산합니다. "내 실제 계좌"와 "A. 그대로 보유"는 자동으로 있습니다.'));
     const grid = el('div', 'pf-scards');
     for (const [id, s] of scen) {
       const r = byRow.get(id);
-      const card = el('article', 'pf-scard' + (view.sel === id ? ' pf-on' : ''));
+      const card = btn(null, 'pf-scard' + (view.sel === id ? ' pf-on' : ''));
+      card.setAttribute('aria-pressed', String(view.sel === id));
+      card.addEventListener('click', () => open(id));
       const top = el('div', 'pf-scardtop'); top.appendChild(dot(r?.slot)); top.appendChild(el('h4', null, s.name)); top.appendChild(el('strong', null, r ? pct(r.twr) : '계산 전'));
       card.appendChild(top);
       const chips = el('div', 'pf-chips');
@@ -173,13 +180,12 @@ export function renderStrategy(st, model, smodel, handlers) {
       }
       card.appendChild(stats);
       if (r?.wait) card.appendChild(el('p', 'pf-warn', r.wait));
-      const fix = btn('수정'); fix.addEventListener('click', () => { view.sel = id; keep(); draw(); st.querySelector('.pf-editor')?.scrollIntoView?.({ block: 'nearest' }); });
-      card.appendChild(fix);
+      card.setAttribute('aria-label', `${s.name} 수정 열기`);
       grid.appendChild(card);
     }
     if (scen.length < MAX_SCENARIOS) {
       const add = btn('＋ 새 전략', 'pf-scard pf-scardnew');
-      add.addEventListener('click', () => { view.sel = '__new'; keep(); draw(); st.querySelector('.pf-editor')?.scrollIntoView?.({ block: 'nearest' }); });
+      add.addEventListener('click', () => open('__new'));
       grid.appendChild(add);
     }
     sec.appendChild(grid);
@@ -204,7 +210,7 @@ export function renderStrategy(st, model, smodel, handlers) {
 }
 
 // 편집기 패널. id = 'A'|'REAL'|'__new'|시나리오 id, sc = 저장된 시나리오(없으면 null), r = 순위 줄
-function editor(id, sc, r, b, result, handlers, close, count, st) {
+function editor(id, sc, r, b, result, handlers, close, count, st, openNew) {
   const isNew = id === '__new';
   if (!isNew && !AUTO.has(id) && !sc) return null;
   const panel = el('section', 'pf-st-block pf-editor');
@@ -225,13 +231,18 @@ function editor(id, sc, r, b, result, handlers, close, count, st) {
     panel.appendChild(el('p', 'pf-lockbox', id === 'REAL'
       ? '한눈에 탭의 실제 매매 기록과 기록·관리 탭의 입금으로 정해지는 줄이라 고칠 설정이 없습니다. 매매를 고치려면 기록·관리 탭에서 고칩니다.'
       : '시작 스냅샷을 그대로 들고 입금만 더하는 기준 줄이라 고칠 설정이 없습니다. 스냅샷은 기록·관리 탭에서 고칩니다.'));
-    panel.appendChild(tradesLink(id, result, st));
+    const acts = el('div', 'pf-acts pf-edacts');
+    // 자동 줄을 바탕으로 새 전략: A(내 종목 그대로)는 ETF 섞기로, 실제 계좌는 판정으로 사고팔기로 연다(사용자 요청 10-21)
+    if (openNew) { const nb = btn('이 줄을 바탕으로 새 전략 만들기', 'pf-btn'); nb.addEventListener('click', () => openNew(id === 'A' ? 'etf' : null)); acts.appendChild(nb); }
+    acts.appendChild(tradesLink(id, result, st));
+    panel.appendChild(acts);
     return panel;
   }
   if (!b) { panel.appendChild(el('p', 'pf-note', '전략 비교를 시작한 뒤(기록·관리 탭의 시작 스냅샷) 전략을 만들 수 있습니다.')); return panel; }
 
   const base = sc ? (sc.strategy === 'B' ? 'custom' : sc.strategy) : null;
   const d = draftOf(sc && sc.strategy === 'B' ? { strategy: 'custom', params: { ...sc.params, buyTiers: BUY_PRINCIPLE } } : sc);
+  if (isNew && view.seed === 'etf') d.kind = 'etf';
   const body = el('div', 'pf-edbody');
   const left = el('div', 'pf-edleft'), right = el('div', 'pf-edright');
   const nameL = el('label', 'pf-field'); nameL.appendChild(el('span', null, '이름'));
