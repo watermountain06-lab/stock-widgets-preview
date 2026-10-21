@@ -1,16 +1,15 @@
 // preview 전용 Portfolio 탭 — 전략 비교 화면(2026-10-20, 3단계). 라이브로 옮기지 않는다 — pipeline/site_ui/UI_DIFF.md 1절 portfolio.
 //
 // 설계: pipeline/portfolio/STRATEGY_DESIGN.md 7·8절. 계산은 preview-only-portfolio-engine.js(replay)가 하고, 이 파일은
-// Firestore 묶음 문서 → 엔진 입력 변환, 결과 요약, 전략 비교·기록 관리 구역 그리기만 한다(하위 탭 배치는 -home.js). Firebase를 직접 부르지 않는다 — 저장은
+// Firestore 묶음 문서 → 엔진 입력 변환, 결과 요약, 비교 표·그래프·매매 기록·시작 스냅샷 양식 그리기만 한다(하위 탭 배치는 -home.js, 순위·편집기는 -rank.js, 기록 목록은 -records.js). Firebase를 직접 부르지 않는다 — 저장은
 // preview-only-portfolio.js가 넘겨 준 함수(handlers)로 한다. 그래서 순수 함수(toEngineInput·summarize)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { depositTiming, isTradingDay, ENGINE_VERSION, BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=1';
+import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=1';
 
 export const MAX_SCENARIOS = 20;
 export const NAME_MAX = 40;
-const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
 export const STRATEGY = {
   A: '그대로 보유 + 입금 적립',
   B: '내 원칙(임시)',
@@ -370,181 +369,12 @@ export function detailSection(result, byId) {
   return sec;
 }
 
-export function depositSection(b, handlers, now) {
-  const sec = el('div', 'pf-st-block');
-  sec.appendChild(el('h3', null, '입금'));
-  sec.appendChild(el('p', 'pf-note', '이번 달 실제로 넣은 금액을 기록합니다. 기록한 뒤 처음 오는 장 시작(동부 09:30)부터 모든 전략과 기준선에 같이 들어갑니다. 금액은 언제든 고치거나 지울 수 있고, 그러면 처음부터 다시 계산합니다(사용자 결정 10-20).'));
-  const form = el('div', 'pf-row');
-  const input = el('input'); input.type = 'number'; input.min = '0.01'; input.step = '0.01'; input.placeholder = '금액(USD)'; input.setAttribute('aria-label', '입금 금액(USD)');
-  const btn = el('button', 'pf-btn', '기록'); btn.type = 'button';
-  const msg = msgLine();
-  form.appendChild(input); form.appendChild(btn);
-  sec.appendChild(form); sec.appendChild(msg);
-  twoStep(btn, msg, '같은 금액을 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
-    const v = Number(input.value);
-    if (!(v > 0) || Math.round(v * 100) / 100 !== v) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
-    await handlers.deposit(v);
-  }, form);
-  const deps = Object.entries(b.deposits || {});
-  // 취소는 반영일 09:30 ET 전에 기록된 것만 효력이 있다(엔진과 같은 기준). 늦은 취소는 엔진이 무시한다.
-  const cancelAt = new Map();
-  for (const [, d] of deps) if (d.cancels && d.recordedAt && (!cancelAt.has(d.cancels) || d.recordedAt < cancelAt.get(d.cancels))) cancelAt.set(d.cancels, d.recordedAt);
-  const edit = el('div', 'pf-edit'); edit.hidden = true;
-  const rows = deps.filter(([, d]) => !d.cancels).sort(([, x], [, y]) => (x.recordedAt < y.recordedAt ? 1 : -1)).map(([id, d]) => {
-    const t = depositTiming(d.recordedAt);
-    // 예전 취소 기록(덧붙이기만 시절)은 엔진과 같은 기준으로 보여 준다
-    const cAt = cancelAt.has(id) ? Date.parse(cancelAt.get(id)) : null;
-    const state = cAt != null && t.day && cAt < t.cancelBefore ? '취소됨'
-      : (t.day ? t.day + (now < t.cancelBefore ? ' 반영 예정' : ' 반영') : '반영일 계산 불가') + (cAt != null ? '(취소가 반영 뒤라 무시됨)' : '');
-    const acts = el('div', 'pf-acts');
-    const fix = el('button', 'pf-btn pf-btn-quiet', '고치기'); fix.type = 'button';
-    fix.addEventListener('click', () => {
-      edit.textContent = ''; edit.hidden = false;
-      edit.appendChild(el('span', 'pf-note', `${d.recordedAt ? d.recordedAt.slice(0, 10) : ''} 입금 금액 고치기`));
-      const a = el('input'); a.type = 'number'; a.min = '0.01'; a.step = '0.01'; a.value = String(d.amount); a.setAttribute('aria-label', '새 금액(USD)');
-      const save = el('button', 'pf-btn', '저장'); save.type = 'button';
-      const close = el('button', 'pf-btn pf-btn-quiet', '닫기'); close.type = 'button'; close.addEventListener('click', () => { edit.hidden = true; });
-      const em = msgLine();
-      edit.appendChild(a); edit.appendChild(save); edit.appendChild(close); edit.appendChild(em);
-      twoStep(save, em, '이 금액으로 고칩니다(처음부터 다시 계산). 맞으면 한 번 더 누르세요.', async () => {
-        const v = Number(a.value);
-        if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
-        await handlers.editDeposit(id, v);
-      }, edit);
-    });
-    const del = el('button', 'pf-btn pf-btn-quiet', '지우기'); del.type = 'button';
-    twoStep(del, msg, '이 입금을 지웁니다(처음부터 다시 계산). 맞으면 지우기를 한 번 더 누르세요.', () => handlers.deleteDeposit(id));
-    acts.appendChild(fix); acts.appendChild(del);
-    return [d.recordedAt ? d.recordedAt.slice(0, 16).replace('T', ' ') + ' UTC' : '기록 중', usd(d.amount), state, acts];
-  });
-  sec.appendChild(table(['기록 시각', '금액', '상태', ''], rows, [1], true));
-  sec.appendChild(edit);
-  return sec;
-}
-
 // 전략 설정 한 줄 요약(전략 비교 탭의 내 전략 목록)
 export function paramsText(sc) {
   const p = sc.params || {}, pc = (v) => Math.round((v || 0) * 100) + '%';
   const buy = sc.strategy === 'C' ? '초저평가·저평가' : sc.strategy === 'custom' ? (p.buyTiers || []).join('·') || '없음' : '초저평가~적정';
   const sell = sc.strategy === 'C' ? '안 팖' : sc.strategy === 'D' ? '고평가면 전부' : (p.sellFraction ? `고평가면 ${pc(p.sellFraction)}` : '알림만');
   return `살 판정 ${buy} · 매도 ${sell} · ${p.splitWeeks || 4}회 · 유보 ${pc(p.cashReserve)}`;
-}
-
-// 전략 비교 탭 위쪽: 내가 만든 전략 목록(수정·지우기)과 새 전략 만들기(2026-10-21 사용자 요청 — 기록·관리에서 옮김)
-export function strategyManager(b, handlers) {
-  const sec = el('div', 'pf-st-block');
-  const list = Object.entries(b.scenarios || {}).sort(([, x], [, y]) => (x.createdAt < y.createdAt ? -1 : 1));
-  sec.appendChild(el('h3', null, `내 전략 (${list.length}/${MAX_SCENARIOS})`));
-  sec.appendChild(el('p', 'pf-note', '전략을 만들거나 고치면 시작일의 스냅샷에서 다시 계산합니다. "내 실제 계좌"와 "A. 그대로 보유"는 자동으로 있습니다.'));
-  const box = el('div', 'pf-edit'); box.hidden = true;
-  const open = (existing) => { box.textContent = ''; box.hidden = false; box.appendChild(scenarioForm(b, handlers, existing, () => { box.hidden = true; })); box.scrollIntoView?.({ block: 'nearest' }); };
-  const lm = msgLine();
-  if (list.length) {
-    sec.appendChild(table(['이름', '설정', ''], list.map(([id, sc]) => {
-      const acts = el('div', 'pf-acts');
-      const fix = el('button', 'pf-btn pf-btn-quiet', '수정'); fix.type = 'button'; fix.addEventListener('click', () => open({ id, ...sc }));
-      const del = el('button', 'pf-btn pf-btn-quiet', '지우기'); del.type = 'button';
-      twoStep(del, lm, `"${sc.name}" 전략을 지웁니다. 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteScenario(id));
-      acts.appendChild(fix); acts.appendChild(del);
-      return [sc.name, (STRATEGY[sc.strategy] || sc.strategy) + ' — ' + paramsText(sc), acts];
-    }), [], true));
-  } else sec.appendChild(el('p', 'pf-empty', '아직 만든 전략이 없습니다.'));
-  sec.appendChild(lm);
-  const add = el('button', 'pf-btn', '＋ 새 전략'); add.type = 'button';
-  add.addEventListener('click', () => open(null));
-  if (list.length < MAX_SCENARIOS) sec.appendChild(add);
-  sec.appendChild(box);
-  return sec;
-}
-
-// existing({id, name, strategy, params})를 주면 고치기 모드. 예전 "내 원칙"(B)은 같은 동작의 사용자 정의(살 판정 = 원칙)로 고친다.
-export function scenarioForm(b, handlers, existing, onClose) {
-  const sec = el('div');
-  const n = Object.keys(b.scenarios || {}).length;
-  sec.appendChild(el('h4', null, existing ? `"${existing.name}" 고치기` : '새 전략'));
-  const ep = existing?.params || {};
-  const eStrat = existing ? (existing.strategy === 'B' ? 'custom' : existing.strategy) : null;
-  const f = el('div', 'pf-form');
-  const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
-  const name = field('이름', el('input')); name.maxLength = NAME_MAX; name.value = existing?.name || '';
-  const strat = field('전략', el('select'));
-  // 내 원칙(B)은 실제 계좌 줄이 대신한다(사용자 결정 10-21) — 새로 만들 수 있는 전략에서 뺀다. 예전에 만든 B는 그대로 보인다.
-  for (const k of ['C', 'D', 'custom']) { const o = el('option', null, STRATEGY[k]); o.value = k; strat.appendChild(o); }
-  if (eStrat) strat.value = eStrat;
-  const sell = field('매도 비율 %(남은 수량 기준)', el('input')); sell.type = 'number'; sell.min = '0'; sell.max = '100'; sell.step = '1'; sell.value = String(Math.round((ep.sellFraction || 0) * 100));
-  const weeks = field('나눠 체결 횟수', el('select'));
-  for (const k of [1, 2, 3, 4]) { const o = el('option', null, k + '회'); o.value = String(k); weeks.appendChild(o); }
-  weeks.value = String(ep.splitWeeks || 4);
-  const reserve = field('현금 유보 %', el('input')); reserve.type = 'number'; reserve.min = '0'; reserve.max = '50'; reserve.step = '1'; reserve.value = String(Math.round((ep.cashReserve || 0) * 100));
-  const tiers = el('fieldset', 'pf-tiers');
-  tiers.appendChild(el('legend', null, '살 판정'));
-  const boxes = ALL_TIERS.map((t) => {
-    const l = el('label'), c = el('input'); c.type = 'checkbox'; c.value = t;
-    c.checked = existing && existing.strategy === 'custom' ? (ep.buyTiers || []).includes(t) : BUY_PRINCIPLE.includes(t);
-    l.appendChild(c); l.appendChild(el('span', null, t)); tiers.appendChild(l); return c;
-  });
-  f.appendChild(tiers);
-  const hint = el('p', 'pf-note');
-  f.appendChild(hint);
-  const sync = () => {
-    const s = strat.value;
-    sell.disabled = !(s === 'B' || s === 'custom');
-    if (s === 'C') sell.value = '0';
-    if (s === 'D') sell.value = '100';
-    tiers.hidden = s !== 'custom';
-    hint.textContent = {
-      B: '판정이 초저평가~적정인 종목만 삽니다. 매도 비율이 0%면 고평가 발동을 알림(⚠)으로만 남깁니다(원칙 2 비율 미정).',
-      C: '판정이 초저평가·저평가인 종목만 삽니다. 팔지 않습니다.',
-      D: '고평가·초고평가가 되면 남은 수량을 모두 팔고, 초저평가~적정 종목을 삽니다.',
-      custom: '초저평가~적정 밖의 판정을 고르면 "원칙과 다름" 표시가 붙습니다.',
-    }[s];
-  };
-  strat.addEventListener('change', sync); sync();
-  const btn = el('button', 'pf-btn', existing ? '이대로 고치기' : '전략 만들기'); btn.type = 'button';
-  const close = el('button', 'pf-btn pf-btn-quiet', '닫기'); close.type = 'button'; close.addEventListener('click', () => onClose?.());
-  const msg = msgLine();
-  f.appendChild(btn); if (onClose) f.appendChild(close); f.appendChild(msg);
-  twoStep(btn, msg, existing ? '이 설정으로 고칩니다(처음부터 다시 계산). 맞으면 한 번 더 누르세요.' : '이 설정으로 만듭니다. 맞으면 한 번 더 누르세요.', async () => {
-    const s = strat.value, params = {};
-    const pctNum = (inp, lo, hi, what) => {
-      const v = Number(inp.value);
-      if (!Number.isInteger(v) || v < lo || v > hi) throw new Error(`${what}은(는) ${lo}~${hi} 사이 정수 %로 넣으세요.`);
-      return v / 100;
-    };
-    if (s === 'B' || s === 'custom') params.sellFraction = pctNum(sell, 0, 100, '매도 비율');
-    params.splitWeeks = Number(weeks.value);
-    params.cashReserve = pctNum(reserve, 0, 50, '현금 유보');
-    if (s === 'custom') params.buyTiers = boxes.filter((c) => c.checked).map((c) => c.value);
-    const sc = { name: name.value.trim(), strategy: s, params };
-    const bad = checkScenario(sc, existing ? 0 : n);
-    if (bad) throw new Error(bad);
-    await (existing ? handlers.editScenario(existing.id, sc) : handlers.scenario(sc));
-  }, f);
-  sec.appendChild(f);
-  return sec;
-}
-
-export function bundleSection(b, model, handlers) {
-  const sec = el('div', 'pf-st-block');
-  const s = b.snapshot || {};
-  sec.appendChild(el('h3', null, `시작 스냅샷 (묶음 ${model.bundleNo})`));
-  sec.appendChild(el('p', 'pf-note', `${s.date} 장 마감 뒤 · 현금 ${usd(s.cash)}` + ((s.holdOnly || []).length ? ` · 그대로 두는 보유: ${s.holdOnly.join(', ')}` : '')));
-  sec.appendChild(table(['티커', '수량'], Object.entries(s.holdings || {}).sort().map(([t, q]) => [t, shares(q)]), [1]));
-  if (model.closedCount) sec.appendChild(el('p', 'pf-note', `끝낸 묶음 ${model.closedCount}개`));
-  // 스냅샷은 언제든 고칠 수 있다(사용자 결정 10-20) — 고치면 모든 전략을 처음부터 다시 계산한다
-  const fixBtn = el('button', 'pf-btn pf-btn-quiet', '스냅샷 고치기'); fixBtn.type = 'button';
-  const fixBox = el('div'); fixBox.hidden = true;
-  fixBtn.addEventListener('click', () => {
-    fixBox.hidden = !fixBox.hidden;
-    if (!fixBox.hidden && !fixBox.firstChild) fixBox.appendChild(startForm(model, handlers, (model.records || []).at(-1)?.session || null, s));
-  });
-  sec.appendChild(fixBtn); sec.appendChild(fixBox);
-  sec.appendChild(el('p', 'pf-note', '처음부터 완전히 새로 하려면 이 묶음을 끝내고 새로 시작합니다. 끝낸 묶음은 "정정으로 종료"로 남고 계산에서 빠집니다.'));
-  const btn = el('button', 'pf-btn pf-btn-quiet', '이 묶음 끝내기'); btn.type = 'button';
-  const msg = msgLine();
-  sec.appendChild(btn); sec.appendChild(msg);
-  twoStep(btn, msg, '이 묶음을 끝냅니다. 맞으면 한 번 더 누르세요.', () => handlers.close());
-  return sec;
 }
 
 // existing(지금 스냅샷)을 주면 고치기 모드: 그 값으로 채우고 저장은 handlers.editSnapshot

@@ -227,3 +227,57 @@ test('lossAlerts: 평균 단가보다 20% 이상 내린 종목만, 하락 큰 �
   assert.ok(Math.abs(r[0].drop + 0.25) < 1e-12);
   assert.deepEqual(lossAlerts(h, (t) => px[t] ?? null, 0.3), []);
 });
+
+import { draftOf, shapeOf, sentenceOf, rankRows, spyLine } from '../../preview-only-portfolio-rank.js';
+
+test('편집기: 저장된 전략 ↔ 편집기 값, 저평가만·갈아타기는 값을 안 바꾸면 그대로', () => {
+  assert.deepEqual(draftOf(null), { tiers: ['초저평가', '저평가', '적정~저평가', '적정'], sell: 0, rounds: 4, reserve: 0 });
+  const C = { strategy: 'C', params: { splitWeeks: 2, cashReserve: 0.1 } };
+  assert.deepEqual(draftOf(C), { tiers: ['초저평가', '저평가'], sell: 0, rounds: 2, reserve: 10 });
+  assert.deepEqual(shapeOf('C', draftOf(C)), { strategy: 'C', params: { splitWeeks: 2, cashReserve: 0.1 } });
+  assert.equal(shapeOf('C', { ...draftOf(C), sell: 25 }).strategy, 'custom');
+  const D = { strategy: 'D', params: { splitWeeks: 4, cashReserve: 0 } };
+  assert.equal(draftOf(D).sell, 100);
+  assert.equal(shapeOf('D', draftOf(D)).strategy, 'D');
+  // 새 전략·사용자 정의는 사용자 정의로, 살 판정은 판정 순서대로
+  assert.deepEqual(shapeOf(null, { tiers: ['적정', '초저평가'], sell: 50, rounds: 1, reserve: 20 }),
+    { strategy: 'custom', params: { buyTiers: ['초저평가', '적정'], sellFraction: 0.5, splitWeeks: 1, cashReserve: 0.2 } });
+  const cu = { strategy: 'custom', params: { buyTiers: ['저평가'], sellFraction: 0.33, splitWeeks: 3, cashReserve: 0 } };
+  assert.deepEqual(draftOf(cu), { tiers: ['저평가'], sell: 33, rounds: 3, reserve: 0 });
+  assert.match(sentenceOf('C', draftOf(C)), /팔지 않습니다/);
+  assert.match(sentenceOf(null, draftOf(null)), /알림만/);
+  assert.match(sentenceOf(null, { tiers: ['고평가'], sell: 0, rounds: 4, reserve: 0 }), /원칙과 다름/);
+  assert.match(sentenceOf(null, { tiers: ['저평가'], sell: 25, rounds: 1, reserve: 10 }), /한 번에.*25%.*10%/);
+});
+
+test('순위: 수익률·SPY 대비 순, 값 없는 줄은 맨 뒤, 그래프와 같은 색 번호', () => {
+  const sc = (id, twr, spy, value) => ({ id, strategy: id === 'A' ? 'A' : 'custom', started: twr == null ? null : '2026-10-16',
+    days: twr == null ? [] : [{ date: '2026-10-16', value, deposits: 0, pnl: 0, twr, vs: { SPY: spy } }], trades: [], skips: [], cash: 0,
+    baselines: id === 'A' ? { SPY: [{ date: '2026-10-16', twr: 0.02 }, { date: '2026-10-17', twr: null }] } : undefined });
+  const result = { scenarios: [sc('REAL', 0.05, 3, 90), sc('A', 0.07, 5, 100), sc('s1', null), sc('s2', 0.09, 7, 80)] };
+  const byId = { s1: { name: '하나' }, s2: { name: '둘' } };
+  assert.deepEqual(rankRows(result, byId, 'twr').map((r) => r.id), ['s2', 'A', 'REAL', 's1']);
+  assert.deepEqual(rankRows(result, byId, 'value').map((r) => r.id), ['A', 'REAL', 's2', 's1']);
+  const r = rankRows(result, byId, 'spy');
+  assert.equal(r[0].name, '둘'); assert.equal(r[0].slot, 4); assert.equal(r.at(-1).twr, null);
+  assert.equal(r.find((x) => x.id === 'REAL').auto, true);
+  assert.equal(spyLine(result), 0.02);
+});
+
+import { timelineItems } from '../../preview-only-portfolio-records.js';
+
+test('기록 목록: 매매·입금·스냅샷·올린 보유를 최신순으로, 취소된 입금 표시', () => {
+  const trades = { t1: { date: '2026-10-19', ticker: 'BBB', side: 'buy', qty: 3, price: 54.1 }, t2: { date: '2026-10-10', ticker: 'AAA', side: 'sell', qty: 1, price: 10 } };
+  const cur = { skipped: [{ id: 't2' }], future: [], clipped: [] };
+  const bundle = { snapshot: { date: '2026-10-16', holdings: { AAA: 10 }, cash: 5 },
+    deposits: { d1: { amount: 100, recordedAt: '2026-11-07T15:00:00Z' }, c1: { cancels: 'd1', recordedAt: '2026-11-07T16:00:00Z' } } };
+  const items = timelineItems({ trades, cur, bundle, bundleNo: 1, holdings: { asOf: '2026-10-16 기준', rows: [{ ticker: 'AAA' }, { ticker: '' }] },
+    now: Date.parse('2026-12-01T00:00:00Z'), etDate });
+  assert.deepEqual(items.map((x) => x.kind + ':' + x.date), ['deposit:2026-11-07', 'trade:2026-10-19', 'snap:2026-10-16', 'upload:2026-10-16', 'trade:2026-10-10']);
+  assert.match(items[0].detail, /취소됨/);
+  assert.match(items[1].amount, /^−\$162\.30$/);
+  assert.match(items.at(-1).detail, /기준일 전/);
+  assert.match(items[3].detail, /1종목 \+ 현금/);
+  // 끝낸 묶음이면 입금·스냅샷은 목록에 없다
+  assert.deepEqual(timelineItems({ trades: {}, cur: { skipped: [], future: [], clipped: [] }, bundle: { ...bundle, closed: {} }, holdings: {}, now: 0, etDate }), []);
+});

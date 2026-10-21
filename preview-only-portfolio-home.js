@@ -4,8 +4,9 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, table, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, compareSection, chartSection, detailSection,
-  depositSection, strategyManager, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=13';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, waitText } from './preview-only-portfolio-strategy.js?v=14';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=1';
+import { renderManage } from './preview-only-portfolio-records.js?v=1';
 import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=1';
 import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=6';
 
@@ -470,61 +471,6 @@ function donut(parts, tot, color, center, tip) {
 }
 
 // 기록·관리 탭의 실제 매매 기록 목록(취소 포함)
-export function tradeList(model, handlers) {
-  const sec = el('div', 'pf-st-block');
-  sec.appendChild(el('h3', null, '실제 매매 기록'));
-  const h = model.main?.holdings || {};
-  const cur = currentHoldings(h.rows, h.asOf, model.trades, etDate(model.now ?? Date.now()));
-  const all = Object.entries(model.trades || {});
-  const cancelled = new Set(all.filter(([, x]) => x.cancels).map(([, x]) => x.cancels));
-  const skipped = new Set(cur.skipped.map((x) => x.id)), future = new Set(cur.future.map((x) => x.id));
-  const clipped = new Map(cur.clipped.map((c) => [c.id, c.short]));
-  const msg = msgLine();
-  const edit = el('div', 'pf-edit'); edit.hidden = true;
-  const openEdit = (id, x) => {
-    edit.textContent = ''; edit.hidden = false;
-    edit.appendChild(el('p', 'pf-note', `${x.date} ${x.ticker} 기록 고치기`));
-    const f = el('div', 'pf-form pf-tradeform');
-    const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
-    const d = field('날짜(체결일, 미국 동부)', el('input')); d.type = 'date'; d.value = x.date;
-    const sd = field('매매', el('select'));
-    for (const [v, t] of [['buy', '매수'], ['sell', '매도']]) { const o = el('option', null, t); o.value = v; sd.appendChild(o); }
-    sd.value = x.side;
-    const tk = field('종목(티커)', el('input')); tk.value = x.ticker; tk.className = 'pf-ticker';
-    const q = field('수량', el('input')); q.type = 'number'; q.step = 'any'; q.value = String(x.qty);
-    const pr = field('체결가(USD)', el('input')); pr.type = 'number'; pr.step = '0.0001'; pr.value = String(x.price);
-    const save = el('button', 'pf-btn', '저장'); save.type = 'button';
-    const close = el('button', 'pf-btn pf-btn-quiet', '닫기'); close.type = 'button'; close.addEventListener('click', () => { edit.hidden = true; });
-    const em = msgLine();
-    f.appendChild(save); f.appendChild(close); f.appendChild(em);
-    edit.appendChild(f);
-    twoStep(save, em, '이대로 고칩니다. 맞으면 한 번 더 누르세요.', async () => {
-      const y = { date: d.value, ticker: tk.value.trim().toUpperCase(), side: sd.value, qty: Number(q.value), price: Number(pr.value) };
-      const bad = checkTrade(y, etDate(Date.now()));
-      if (bad) throw new Error(bad);
-      await handlers.editTrade(id, y);
-    }, f);
-  };
-  const rows = all.filter(([, x]) => !x.cancels).sort(([, a], [, b]) => (a.date < b.date ? 1 : -1)).map(([id, x]) => {
-    let state = '반영';
-    if (cancelled.has(id)) state = '취소됨';   // 예전 취소 기록(덧붙이기만 시절)
-    else if (skipped.has(id)) state = '기준일 전(반영 안 함)';
-    else if (future.has(id)) state = '미래 날짜(그날부터 반영)';
-    else if (clipped.has(id)) state = `보유 초과 — ${shares(x.qty - clipped.get(id))}주만 반영`;
-    const acts = el('div', 'pf-acts');
-    const fix = el('button', 'pf-btn pf-btn-quiet', '고치기'); fix.type = 'button'; fix.addEventListener('click', () => openEdit(id, x));
-    const del = el('button', 'pf-btn pf-btn-quiet', '지우기'); del.type = 'button';
-    twoStep(del, msg, '이 기록을 지웁니다. 맞으면 지우기를 한 번 더 누르세요.', () => handlers.deleteTrade(id));
-    acts.appendChild(fix); acts.appendChild(del);
-    return [x.date, x.ticker, x.side === 'buy' ? '매수' : '매도', shares(x.qty), usd(x.price), usd(x.qty * x.price), state, acts];
-  });
-  sec.appendChild(table(['날짜', '종목', '매매', '수량', '체결가', '금액', '상태', ''], rows, [3, 4, 5], true));
-  sec.appendChild(msg);
-  sec.appendChild(edit);
-  sec.appendChild(el('p', 'pf-note', '기록은 언제든 고치거나 지울 수 있습니다. 올린 보유의 기준일과 그 전 날짜의 매매는 이미 올린 보유에 들어 있다고 보고 반영하지 않습니다.'));
-  return sec;
-}
-
 // 세 하위 탭(한눈에·전략 비교·기록·관리)을 한 번에 그린다. preview-only-portfolio.js와 화면 시험 페이지가 같이 쓴다.
 // model = renderHome과 같음, smodel = { bundle, bundleNo, closedCount, records, recordsError, calcError, holdingsRows }
 export function renderTabs(roots, model, smodel, handlers) {
@@ -536,25 +482,14 @@ export function renderTabs(roots, model, smodel, handlers) {
   if (smodel.recordsError) st.appendChild(el('p', 'pf-warn', '일별 기록을 불러오지 못했습니다. 새로고침해 보세요.'));
   else if (smodel.calcError) st.appendChild(el('p', 'pf-warn', '계산하지 못했습니다: ' + smodel.calcError));
   else if (!result && !(smodel.bundle && !smodel.bundle.closed)) st.appendChild(el('p', 'pf-note', '전략 비교를 시작하면(기록·관리 탭의 시작 스냅샷) 여기에 비교 표·그래프·매매 기록이 보입니다.'));
-  // 내 전략 만들기·고치기(2026-10-21 — 기록·관리에서 옮김)
-  if (smodel.bundle && !smodel.bundle.closed) st.appendChild(strategyManager(smodel.bundle, handlers));
-  if (result && !smodel.recordsError && !smodel.calcError) {
+  if (result && !smodel.recordsError && !smodel.calcError)
     st.appendChild(el('p', 'pf-note', `큰 사건 예외를 뺀 정기 운용 모형 · 엔진 ${ENGINE_VERSION} · 마지막 기록 ${lastRec} · 빠진 날 ${result.missingSessions.length}일`));
-    st.appendChild(compareSection(result, model.byId));
-    st.appendChild(chartSection(result, model.byId));
-    st.appendChild(detailSection(result, model.byId));
-  }
+  // 순위·편집기·내 전략 카드·접은 표(2026-10-21 디자인 시안 선택 — -rank.js)
+  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : model, smodel, handlers);
   // 시작 폼 미리 채우기: 내 자산과 같은 계산으로 마지막 기록일까지(그 뒤 매매는 빼고)
   const hh = model.main?.holdings || {};
   const pc = currentHoldings(hh.rows, hh.asOf, model.trades, lastRec || etDate(model.now ?? Date.now()));
   smodel = { ...smodel, prefill: { asOf: hh.asOf || null, upTo: lastRec, holdings: pc.holdings, cash: pc.hasCash ? pc.cash : null, clipped: pc.clipped } };
-  const mg = roots.manage;
-  mg.textContent = '';
-  mg.appendChild(tradeList(model, handlers));
-  const b = smodel.bundle;
-  if (!b || b.closed) mg.appendChild(startForm(smodel, handlers, lastRec));
-  else {
-    mg.appendChild(depositSection(b, handlers, model.now ?? Date.now()));
-    mg.appendChild(bundleSection(b, smodel, handlers));
-  }
+  // 기록·관리: 모든 기록 한 줄 타임라인(2026-10-21 디자인 시안 선택 — -records.js)
+  renderManage(roots.manage, model, smodel, handlers, { currentHoldings, checkTrade, etDate });
 }
