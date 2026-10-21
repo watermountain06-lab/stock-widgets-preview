@@ -317,6 +317,8 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
   // ---- 하위 탭 ----
   const TAB_KEY = 'pf-tab';
   function selectTab(name) {
+    // 없어진 탭(원칙·관심 종목은 2026-10-21 한눈에 아래 접는 칸으로 옮김)을 기억하고 있으면 한눈에로
+    if (!document.querySelector(`.pf-tabpanel[data-panel="${name}"]`)) name = 'home';
     document.querySelectorAll('.pf-tabs [role=tab]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
     document.querySelectorAll('.pf-tabpanel').forEach((p) => { p.hidden = p.dataset.panel !== name; });
     try { sessionStorage.setItem(TAB_KEY, name); } catch (_) { /* 저장 못 해도 탭은 바뀐다 */ }

@@ -189,3 +189,8 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 :root[data-theme="dark"] .pf-edit{background:var(--bg3);border-color:var(--border)}
 #pf-upload-confirm[hidden]{display:none}
 #pf-upload-confirm{margin-top:8px;gap:8px}
+/* 원칙·관심 종목: 한눈에 아래 접는 칸(2026-10-21) */
+.pf-foldsec{padding-top:0;padding-bottom:0}
+#pf-body .pf-fold,:root[data-theme="dark"] #pf-body .pf-fold{margin:0;padding:0;background:none!important;border-radius:0;color:inherit}
+.pf-fold summary{padding:16px 0;font-size:16px;font-weight:700;cursor:pointer}
+.pf-fold[open] summary{padding-bottom:10px}
