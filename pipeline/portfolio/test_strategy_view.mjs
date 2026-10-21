@@ -202,3 +202,11 @@ test('depositsSince: 기준일 뒤·오늘까지, 반영 전 취소 빼고, 끝�
     [['2026-10-20', 500], ['2026-10-20', 500], ['2026-10-21', 500], ['2026-10-21', 500]]);
   assert.equal(depositsSince(all, '2026-10-16', '2026-10-20').length, 2);   // 오늘 뒤 반영은 아직
 });
+
+import { paramsText } from '../../preview-only-portfolio-strategy.js';
+test('paramsText: 전략 설정 한 줄 요약', () => {
+  assert.equal(paramsText({ strategy: 'C', params: { splitWeeks: 4, cashReserve: 0 } }), '살 판정 초저평가·저평가 · 매도 안 팖 · 4회 · 유보 0%');
+  assert.equal(paramsText({ strategy: 'D', params: { splitWeeks: 2, cashReserve: 0.1 } }), '살 판정 초저평가~적정 · 매도 고평가면 전부 · 2회 · 유보 10%');
+  assert.equal(paramsText({ strategy: 'custom', params: { buyTiers: ['저평가', '적정'], sellFraction: 0.5, splitWeeks: 1, cashReserve: 0 } }), '살 판정 저평가·적정 · 매도 고평가면 50% · 1회 · 유보 0%');
+  assert.equal(paramsText({ strategy: 'B', params: { sellFraction: 0 } }), '살 판정 초저평가~적정 · 매도 알림만 · 4회 · 유보 0%');
+});

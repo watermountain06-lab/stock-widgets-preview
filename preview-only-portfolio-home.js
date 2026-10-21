@@ -5,7 +5,7 @@
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, table, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, compareSection, chartSection, detailSection,
-  depositSection, scenarioForm, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=12';
+  depositSection, strategyManager, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=13';
 import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=1';
 import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=6';
 
@@ -514,8 +514,10 @@ export function renderTabs(roots, model, smodel, handlers) {
   const lastRec = recs.length ? recs[recs.length - 1].session : null;
   if (smodel.recordsError) st.appendChild(el('p', 'pf-warn', '일별 기록을 불러오지 못했습니다. 새로고침해 보세요.'));
   else if (smodel.calcError) st.appendChild(el('p', 'pf-warn', '계산하지 못했습니다: ' + smodel.calcError));
-  else if (!result) st.appendChild(el('p', 'pf-note', '전략 비교를 시작하면(기록·관리 탭의 시작 스냅샷) 여기에 비교 표·그래프·매매 기록이 보입니다.'));
-  else {
+  else if (!result && !(smodel.bundle && !smodel.bundle.closed)) st.appendChild(el('p', 'pf-note', '전략 비교를 시작하면(기록·관리 탭의 시작 스냅샷) 여기에 비교 표·그래프·매매 기록이 보입니다.'));
+  // 내 전략 만들기·고치기(2026-10-21 — 기록·관리에서 옮김)
+  if (smodel.bundle && !smodel.bundle.closed) st.appendChild(strategyManager(smodel.bundle, handlers));
+  if (result && !smodel.recordsError && !smodel.calcError) {
     st.appendChild(el('p', 'pf-note', `큰 사건 예외를 뺀 정기 운용 모형 · 엔진 ${ENGINE_VERSION} · 마지막 기록 ${lastRec} · 빠진 날 ${result.missingSessions.length}일`));
     st.appendChild(compareSection(result, model.byId));
     st.appendChild(chartSection(result, model.byId));
@@ -532,7 +534,6 @@ export function renderTabs(roots, model, smodel, handlers) {
   if (!b || b.closed) mg.appendChild(startForm(smodel, handlers, lastRec));
   else {
     mg.appendChild(depositSection(b, handlers, model.now ?? Date.now()));
-    mg.appendChild(scenarioForm(b, handlers));
     mg.appendChild(bundleSection(b, smodel, handlers));
   }
 }

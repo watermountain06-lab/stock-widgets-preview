@@ -422,36 +422,65 @@ export function depositSection(b, handlers, now) {
   return sec;
 }
 
-export function scenarioForm(b, handlers) {
+// 전략 설정 한 줄 요약(전략 비교 탭의 내 전략 목록)
+export function paramsText(sc) {
+  const p = sc.params || {}, pc = (v) => Math.round((v || 0) * 100) + '%';
+  const buy = sc.strategy === 'C' ? '초저평가·저평가' : sc.strategy === 'custom' ? (p.buyTiers || []).join('·') || '없음' : '초저평가~적정';
+  const sell = sc.strategy === 'C' ? '안 팖' : sc.strategy === 'D' ? '고평가면 전부' : (p.sellFraction ? `고평가면 ${pc(p.sellFraction)}` : '알림만');
+  return `살 판정 ${buy} · 매도 ${sell} · ${p.splitWeeks || 4}회 · 유보 ${pc(p.cashReserve)}`;
+}
+
+// 전략 비교 탭 위쪽: 내가 만든 전략 목록(수정·지우기)과 새 전략 만들기(2026-10-21 사용자 요청 — 기록·관리에서 옮김)
+export function strategyManager(b, handlers) {
   const sec = el('div', 'pf-st-block');
-  const n = Object.keys(b.scenarios || {}).length;
-  sec.appendChild(el('h3', null, `시나리오 추가 (${n}/${MAX_SCENARIOS})`));
-  sec.appendChild(el('p', 'pf-note', '언제 만들어도 A와 같이 시작일의 스냅샷에서 출발해 처음부터 계산합니다. 설정을 바꾸려면 지우고 새로 만듭니다. 매도 단계는 고평가·초고평가로 고정입니다. 내 원칙은 따로 만들지 않습니다 — "내 실제 계좌" 줄이 실제 매매 기록으로 자동 계산되고, 이번 달 살 후보는 원칙 기준으로 한눈에 탭에 나옵니다.'));
   const list = Object.entries(b.scenarios || {}).sort(([, x], [, y]) => (x.createdAt < y.createdAt ? -1 : 1));
+  sec.appendChild(el('h3', null, `내 전략 (${list.length}/${MAX_SCENARIOS})`));
+  sec.appendChild(el('p', 'pf-note', '전략을 만들거나 고치면 시작일의 스냅샷에서 다시 계산합니다. "내 실제 계좌"와 "A. 그대로 보유"는 자동으로 있습니다.'));
+  const box = el('div', 'pf-edit'); box.hidden = true;
+  const open = (existing) => { box.textContent = ''; box.hidden = false; box.appendChild(scenarioForm(b, handlers, existing, () => { box.hidden = true; })); box.scrollIntoView?.({ block: 'nearest' }); };
+  const lm = msgLine();
   if (list.length) {
-    const lm = msgLine();
-    sec.appendChild(table(['이름', '전략', '만든 날', ''], list.map(([id, sc]) => {
+    sec.appendChild(table(['이름', '설정', ''], list.map(([id, sc]) => {
+      const acts = el('div', 'pf-acts');
+      const fix = el('button', 'pf-btn pf-btn-quiet', '수정'); fix.type = 'button'; fix.addEventListener('click', () => open({ id, ...sc }));
       const del = el('button', 'pf-btn pf-btn-quiet', '지우기'); del.type = 'button';
-      twoStep(del, lm, `"${sc.name}" 시나리오를 지웁니다. 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteScenario(id));
-      return [sc.name, STRATEGY[sc.strategy] || sc.strategy, (sc.createdAt || '').slice(0, 10), del];
+      twoStep(del, lm, `"${sc.name}" 전략을 지웁니다. 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteScenario(id));
+      acts.appendChild(fix); acts.appendChild(del);
+      return [sc.name, (STRATEGY[sc.strategy] || sc.strategy) + ' — ' + paramsText(sc), acts];
     }), [], true));
-    sec.appendChild(lm);
-  }
+  } else sec.appendChild(el('p', 'pf-empty', '아직 만든 전략이 없습니다.'));
+  sec.appendChild(lm);
+  const add = el('button', 'pf-btn', '＋ 새 전략'); add.type = 'button';
+  add.addEventListener('click', () => open(null));
+  if (list.length < MAX_SCENARIOS) sec.appendChild(add);
+  sec.appendChild(box);
+  return sec;
+}
+
+// existing({id, name, strategy, params})를 주면 고치기 모드. 예전 "내 원칙"(B)은 같은 동작의 사용자 정의(살 판정 = 원칙)로 고친다.
+export function scenarioForm(b, handlers, existing, onClose) {
+  const sec = el('div');
+  const n = Object.keys(b.scenarios || {}).length;
+  sec.appendChild(el('h4', null, existing ? `"${existing.name}" 고치기` : '새 전략'));
+  const ep = existing?.params || {};
+  const eStrat = existing ? (existing.strategy === 'B' ? 'custom' : existing.strategy) : null;
   const f = el('div', 'pf-form');
   const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
-  const name = field('이름', el('input')); name.maxLength = NAME_MAX;
+  const name = field('이름', el('input')); name.maxLength = NAME_MAX; name.value = existing?.name || '';
   const strat = field('전략', el('select'));
   // 내 원칙(B)은 실제 계좌 줄이 대신한다(사용자 결정 10-21) — 새로 만들 수 있는 전략에서 뺀다. 예전에 만든 B는 그대로 보인다.
   for (const k of ['C', 'D', 'custom']) { const o = el('option', null, STRATEGY[k]); o.value = k; strat.appendChild(o); }
-  const sell = field('매도 비율 %(남은 수량 기준)', el('input')); sell.type = 'number'; sell.min = '0'; sell.max = '100'; sell.step = '1'; sell.value = '0';
+  if (eStrat) strat.value = eStrat;
+  const sell = field('매도 비율 %(남은 수량 기준)', el('input')); sell.type = 'number'; sell.min = '0'; sell.max = '100'; sell.step = '1'; sell.value = String(Math.round((ep.sellFraction || 0) * 100));
   const weeks = field('나눠 체결 횟수', el('select'));
   for (const k of [1, 2, 3, 4]) { const o = el('option', null, k + '회'); o.value = String(k); weeks.appendChild(o); }
-  weeks.value = '4';
-  const reserve = field('현금 유보 %', el('input')); reserve.type = 'number'; reserve.min = '0'; reserve.max = '50'; reserve.step = '1'; reserve.value = '0';
+  weeks.value = String(ep.splitWeeks || 4);
+  const reserve = field('현금 유보 %', el('input')); reserve.type = 'number'; reserve.min = '0'; reserve.max = '50'; reserve.step = '1'; reserve.value = String(Math.round((ep.cashReserve || 0) * 100));
   const tiers = el('fieldset', 'pf-tiers');
   tiers.appendChild(el('legend', null, '살 판정'));
   const boxes = ALL_TIERS.map((t) => {
-    const l = el('label'), c = el('input'); c.type = 'checkbox'; c.value = t; c.checked = BUY_PRINCIPLE.includes(t);
+    const l = el('label'), c = el('input'); c.type = 'checkbox'; c.value = t;
+    c.checked = existing && existing.strategy === 'custom' ? (ep.buyTiers || []).includes(t) : BUY_PRINCIPLE.includes(t);
     l.appendChild(c); l.appendChild(el('span', null, t)); tiers.appendChild(l); return c;
   });
   f.appendChild(tiers);
@@ -471,10 +500,11 @@ export function scenarioForm(b, handlers) {
     }[s];
   };
   strat.addEventListener('change', sync); sync();
-  const btn = el('button', 'pf-btn', '시나리오 만들기'); btn.type = 'button';
+  const btn = el('button', 'pf-btn', existing ? '이대로 고치기' : '전략 만들기'); btn.type = 'button';
+  const close = el('button', 'pf-btn pf-btn-quiet', '닫기'); close.type = 'button'; close.addEventListener('click', () => onClose?.());
   const msg = msgLine();
-  f.appendChild(btn); f.appendChild(msg);
-  twoStep(btn, msg, '이 설정으로 만듭니다. 맞으면 한 번 더 누르세요.', async () => {
+  f.appendChild(btn); if (onClose) f.appendChild(close); f.appendChild(msg);
+  twoStep(btn, msg, existing ? '이 설정으로 고칩니다(처음부터 다시 계산). 맞으면 한 번 더 누르세요.' : '이 설정으로 만듭니다. 맞으면 한 번 더 누르세요.', async () => {
     const s = strat.value, params = {};
     const pctNum = (inp, lo, hi, what) => {
       const v = Number(inp.value);
@@ -486,9 +516,9 @@ export function scenarioForm(b, handlers) {
     params.cashReserve = pctNum(reserve, 0, 50, '현금 유보');
     if (s === 'custom') params.buyTiers = boxes.filter((c) => c.checked).map((c) => c.value);
     const sc = { name: name.value.trim(), strategy: s, params };
-    const bad = checkScenario(sc, n);
+    const bad = checkScenario(sc, existing ? 0 : n);
     if (bad) throw new Error(bad);
-    await handlers.scenario(sc);
+    await (existing ? handlers.editScenario(existing.id, sc) : handlers.scenario(sc));
   }, f);
   sec.appendChild(f);
   return sec;

@@ -11,8 +11,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { toEngineInput } from './preview-only-portfolio-strategy.js?v=12';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=19';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=13';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=20';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=1';
 import { attachActual } from './preview-only-portfolio-actual.js?v=6';
@@ -302,6 +302,9 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       deleteDeposit: act((id) => updateDoc(ref, Object.fromEntries([id, ...cancelsOf(id)].map((k) => ['deposits.' + k, deleteField()])))),
       scenario: act((sc) => updateDoc(ref, { ['scenarios.' + newId('s')]: { ...sc, createdAt: serverTimestamp(), engineVersion: ENGINE_VERSION } })),
       deleteScenario: act((id) => updateDoc(ref, { ['scenarios.' + id]: deleteField() })),
+      // 전략 고치기: 이름·전략·설정만 바꾸고 만든 시각은 그대로(순서·색 자리 유지). 엔진 판도 지금 것으로
+      editScenario: act((id, sc) => updateDoc(ref, { ['scenarios.' + id + '.name']: sc.name, ['scenarios.' + id + '.strategy']: sc.strategy,
+        ['scenarios.' + id + '.params']: sc.params, ['scenarios.' + id + '.engineVersion']: ENGINE_VERSION })),
       close: act(() => updateDoc(ref, { closed: { reason: 'correction', at: serverTimestamp() } })),
       trade: act((t) => addTrade(t)),
       editTrade: act((id, t) => updateDoc(tref(user), Object.fromEntries(['date', 'ticker', 'side', 'qty', 'price'].map((f) => ['entries.' + id + '.' + f, t[f]])))),
