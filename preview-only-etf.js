@@ -9,6 +9,8 @@
   var ORDER = ['SPY', 'QQQ', 'DIA', 'IWM', 'TLT', 'GLD'];
   // 가격형(판정 없음) — 값 = 허용 대조 방식(check). 카드 생성기(PROFILES homePrice)만 더하면 된다. 자료가 없어도 가격형으로 그린다.
   var PRICE_ONLY = {IWM: 'day', TLT: 'day', GLD: 'history'};
+  // 카드 머리: 티커를 크게, 옆에 무엇을 따라가는지(2026-10-21 — 11px 회색 한 줄이라 티커가 잘 안 보였다)
+  var NAMES = {SPY: 'S&P 500', QQQ: '나스닥 100', DIA: '다우존스 30', IWM: '러셀 2000', TLT: '미국 국채 20년+', GLD: '금'};
   var TIERS = ['저평가', '적정~저평가', '적정', '적정~고평가', '고평가', '카드 없음', '판정 보류', '그 밖 제외', '분류 안 됨'];
 
   function pct(x, d) { return x == null ? '—' : (x * 100).toFixed(d == null ? 1 : d) + '%'; }
@@ -37,6 +39,10 @@
   }
 
   // 카드 하나 — 시장 지표 카드(flow.css .macro-flow-card)와 같은 모양.
+  function head(t, kind) {
+    return '<span class="etf-tk">' + esc(t) + '</span><span class="etf-nm">' + esc(NAMES[t] || '') + '</span>'
+      + '<span class="etf-kind">' + kind + '</span>';
+  }
   function card(href, label, body) {
     return '<a class="macro-flow-card etf-card" href="' + href + '">'
       + '<div class="etf-card-label">' + label + '</div>' + body + '</a>';
@@ -65,7 +71,7 @@
   function priceCard(t, d) {
     var session = ((window.StockData || {}).meta || {}).priceSession;
     var href = 'preview-only-etf-' + t.toLowerCase() + '.html';
-    var label = esc(t) + ' · ETF · 가격 카드';
+    var label = head(t, 'ETF · 가격 카드');
     function held(why) {
       return card(href, label, '<div class="etf-card-main etf-held">시세 보류</div><div class="etf-card-sub etf-held">' + why + '</div>'
         + '<div class="etf-card-go">ETF 카드 ↗</div>');
@@ -95,7 +101,7 @@
     var session = ((window.StockData || {}).meta || {}).priceSession;
     var href = 'preview-only-etf-' + t.toLowerCase() + '.html';
     function held(why) {
-      return card(href, esc(t) + ' · ETF', '<div class="etf-card-main etf-held">판정 보류</div>'
+      return card(href, head(t, 'ETF'), '<div class="etf-card-main etf-held">판정 보류</div>'
         + '<div class="etf-card-sub etf-held">' + why + '</div><div class="etf-card-go">ETF 카드 ↗</div>');
     }
     if (!d) return held('ETF 자료를 불러오지 못함');
@@ -113,7 +119,7 @@
       return w ? '<span class="etf-seg etf-seg-' + i + '" style="width:' + (w * 100).toFixed(3) + '%" title="' + esc(k) + ' ' + pct(w) + '"></span>' : '';
     }).join('');
     var tag = lagIssuer ? '운용사 파일 갱신 대기 · 판정 기준 ' + esc(d.builtFor) : lagHome ? '홈 가격 세션 갱신 대기' : d.edgeNear ? '경계 근처' : '';
-    return card(href, esc(d.etf) + ' · ETF',
+    return card(href, head(t, 'ETF'),
       '<div class="etf-card-main">' + esc(d.verdict) + '</div>'
       + '<div class="etf-card-sub">점수 <b class="etf-tab">' + sgn(d.nbar) + '</b></div>'
       + '<div class="etf-card-tag">카드가 덮은 비중 <span class="etf-tab">' + pct(d.coverage) + '</span></div>'
@@ -126,7 +132,7 @@
     var all = window.ETF_DATA || {}, out = [];   // S&P 500 지수 카드는 빼고 ETF만(2026-10-20 사용자 결정 — 지수 카드 틀은 SPY 카드가 됐다)
     ORDER.forEach(function (t) {
       try { out.push(etfCard(t, all[t])); }
-      catch (e) { out.push(card('preview-only-etf-' + t.toLowerCase() + '.html', esc(t) + ' · ETF', '<div class="etf-card-main etf-held">판정 보류</div><div class="etf-card-sub etf-held">ETF 자료 형식 오류</div>')); }
+      catch (e) { out.push(card('preview-only-etf-' + t.toLowerCase() + '.html', head(t, 'ETF'), '<div class="etf-card-main etf-held">판정 보류</div><div class="etf-card-sub etf-held">ETF 자료 형식 오류</div>')); }
     });
     return out;
   }

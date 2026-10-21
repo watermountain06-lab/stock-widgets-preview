@@ -405,7 +405,7 @@ def main():
              "C('GLD',A(g,{check:'day',navDate:P})),C('TLT',A(t,{check:'history'})),C('TLT',A(t,{navDate:'2026-10-14'})),C('TLT',A(t,{check:undefined})),"
              "C('TLT',A(t,{close:0})),C('TLT',A(t,{prevSession:'2026-02-30'})),C('TLT',A(t,{etf:'GLD'}))],"
              "iwmOld:C('IWM',{etf:'IWM',kind:'price',status:'ok',builtFor:P,S:P,close:275.78,chg:0.01,ret1y:0.1,navDate:Q}),"
-             "order:window.__t.cardsHtml().map(x=>(x.match(/etf-card-label\">([A-Z]+)/)||[])[1])}))") % (P, json.dumps(str(js)), P, prevP)
+             "order:window.__t.cardsHtml().map(x=>(x.match(/etf-tk\">([A-Z]+)/)||[])[1])}))") % (P, json.dumps(str(js)), P, prevP)
     r = subprocess.run(["node", "-e", probe], capture_output=True, text=True)
     out = json.loads(r.stdout or "{}") if r.returncode == 0 else {}
     check("홈 JS: 카드 6장 순서(가격형 3)", out.get("order") == ["SPY", "QQQ", "DIA", "IWM", "TLT", "GLD"], (out.get("order"), r.stderr[-300:]))
