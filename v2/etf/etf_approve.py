@@ -14,6 +14,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -47,6 +48,8 @@ def main(argv=None):
     ap.add_argument("--hashes", default="", help="쉼표로 나눈 해시(12자)")
     ap.add_argument("--note", default="")
     ap.add_argument("--bootstrap", action="store_true")
+    ap.add_argument("--remaining", action="store_true",
+                    help="표준 입력의 이슈 본문 표식 <!-- etf-hashes: … --> 중 아직 승인 목록에 없는 해시를 찍는다(승인 워크플로 댓글용)")
     ap.add_argument("--v2", default=str(ETF_DIR.parent))
     ap.add_argument("--cfg", default=str(CFG))
     ap.add_argument("--src", default=str(SRC))
@@ -54,6 +57,12 @@ def main(argv=None):
     cfg_path, src = Path(a.cfg), Path(a.src)
     cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
     approved = cfg["approvedVerdictCode"]
+    if a.remaining:
+        m = re.search(r"<!-- etf-hashes: ([0-9a-f,]*) -->", sys.stdin.read())
+        hs = [h for h in (m.group(1).split(",") if m else []) if h]
+        rest = [h for h in hs if h not in approved]
+        print(", ".join(rest) if rest else ("없음" if hs else "이슈에 해시 표식 없음"))
+        return 0
     texts = current_texts(Path(a.v2))
     src.mkdir(parents=True, exist_ok=True)
     if a.bootstrap:

@@ -43,7 +43,8 @@ def main():
            "ruleVersion": None, "top10": [], "runAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
            "detail": "etf_daily.py가 끝까지 돌지 못했다 — Actions 로그를 본다", "pending": None,
            "evaluation": {"status": "held", "holds": [REASON], "S": None},
-           "checks": dict({k: "unchecked" for k in CHECK_KINDS}, run="bad"), "checkDetail": {}}
+           "checks": dict({k: "unchecked" for k in CHECK_KINDS}, run="bad"), "checkDetail": {},
+           "runId": (f'{os.environ["GITHUB_RUN_ID"]}.{os.environ.get("GITHUB_RUN_ATTEMPT", "1")}' if os.environ.get("GITHUB_RUN_ID") else None)}
     summary = {k: res[k] for k in ("etf", "status", "reason", "reasonText", "verdict", "nbar", "coverage", "range",
                                    "edgeNear", "bar", "S", "builtFor", "ruleVersion")}
     summary["top"] = []

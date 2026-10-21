@@ -85,6 +85,10 @@ jobs:
           ALREADY: ${{ steps.approve.outputs.already }}
         run: |
           if [ "$RERUN" = success ]; then again="ETF 워크플로를 다시 불렀다"; else again="ETF 워크플로 다시 부르기 실패 — 다음 예약 실행이 평가한다"; fi
-          n=$(gh issue list --label etf-alert --state open --json number,title -q '.[] | select(.title | startswith("[ETF SPY code_sig]")) | .number' | head -1)
+          # ETF 공통 code_sig 이슈(옛 제목 [ETF SPY code_sig]도). 이슈에 적힌 미승인 해시 중 아직 승인 목록에 없는 것을 따로 적는다.
+          n=$(gh issue list --label etf-alert --state open --json number,title -q '.[] | select((.title | startswith("[ETF code_sig]")) or (.title | startswith("[ETF SPY code_sig]"))) | .number' | head -1)
           if [ "$ALREADY" = true ]; then head="해시 ${HASHES}는 이미 main에 승인돼 있다(새 커밋 없음)"; else head="승인 적용 커밋 ${SHA} (해시 ${HASHES})"; fi
-          if [ -n "$n" ]; then gh issue comment "$n" --body "${head}. ${again}. 문제없음이 확인되면 이 이슈는 자동으로 닫힌다."; fi
+          if [ -n "$n" ]; then
+            left=$(gh issue view "$n" --json body -q .body | python3 v2/etf/etf_approve.py --remaining)
+            gh issue comment "$n" --body "${head}. ${again}. 이슈에 적힌 미승인 해시 중 남은 것: ${left}. 다음 ETF 실행이 문제없음을 확인하면 이 이슈는 자동으로 닫힌다."
+          fi

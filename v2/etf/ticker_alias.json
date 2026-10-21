@@ -1,5 +1,5 @@
 {
-  "_doc": "ETF 판정(etf-v1) 설정 — 손으로 고치되, approvedVerdictCode는 etf_approve 워크플로(v2/etf/etf_approve.py)가 사람의 승인 실행으로 더한다. 규칙은 v2/research/etf_verdict_prereg.md. company: 보유 파일 티커 → 회사 키(카드 이름과 같으면 그 카드로 간다). nonEquity: 분모에서 빼는 줄(Identifier). approvedVerdictCode: 승인한 카드 판정 코드 해시(v2/etf/verdict_code_sig.js) — 새 해시가 나오면 ETF는 보류하고 GitHub 이슈로 알린다 — 사람이 이슈의 diff(승인 원문 v2/etf/approved_src/ 대비)를 보고 승인 워크플로를 실행한다(해시는 IIFE 안 주석까지 포함하므로 주석만 고쳐도 바뀐다 — diff에서 주석만인지 확인).",
+  "_doc": "ETF 판정(etf-v1) 설정 — 손으로 고치되, approvedVerdictCode는 etf_approve 워크플로(v2/etf/etf_approve.py)가 사람의 승인 실행으로 더한다. 규칙은 v2/research/etf_verdict_prereg.md. company: 보유 파일 티커 → 회사 키(카드 이름과 같으면 그 카드로 간다). nonEquity: 분모에서 빼는 줄(Identifier, 형식 A). funds.<ETF>.format: ssga_xlsx(형식 A, 기본) | invesco_json(형식 B — equityTypes·nonEquityTypes로 securityTypeCode를 먼저 나눈다). approvedVerdictCode: 승인한 카드 판정 코드 해시(v2/etf/verdict_code_sig.js) — 새 해시가 나오면 ETF는 보류하고 GitHub 이슈로 알린다 — 사람이 이슈의 diff(승인 원문 v2/etf/approved_src/ 대비)를 보고 승인 워크플로를 실행한다(해시는 IIFE 안 주석까지 포함하므로 주석만 고쳐도 바뀐다 — diff에서 주석만인지 확인).",
   "ruleVersion": "etf-v1",
   "dateRule": "same",
   "funds": {
@@ -10,6 +10,26 @@
       "expensePct": 0.0945,
       "expenseSource": "SEC 485BPOS 2026-01-26 제출(accession 0001193125-26-022316) Total Annual Trust Ordinary Operating Expenses",
       "expenseUrl": "https://www.sec.gov/Archives/edgar/data/884394/000119312526022316/d77353d485bpos.htm"
+    },
+    "QQQ": {
+      "name": "Invesco QQQ Trust, Series 1",
+      "format": "invesco_json",
+      "holdingsUrl": "https://dng-api.invesco.com/cache/v1/accounts/en_US/shareclasses/46090E103/holdings/fund?idType=cusip&productType=ETF",
+      "holdingsSource": "Invesco 공개 보유 자료(QQQ, CUSIP 46090E103)",
+      "equityTypes": [
+        "COM",
+        "ADR",
+        "DRNY"
+      ],
+      "nonEquityTypes": [
+        "IFUT",
+        "CURR",
+        "CURRCOL",
+        "SYN"
+      ],
+      "expensePct": 0.18,
+      "expenseSource": "SEC 485BPOS 2025-12-19 제출(accession 0001104659-25-123273) Total Annual Fund Operating Expenses",
+      "expenseUrl": "https://www.sec.gov/Archives/edgar/data/1067839/000110465925123273/tm2529177d1_485bpos.htm"
     }
   },
   "company": {

@@ -183,6 +183,9 @@ def test_alerts(tmp, v2):
     spy, obs = root / "v2" / "etf" / "SPY.json", root / "v2" / "etf" / "date_obs.jsonl"
     allok = {k: "ok" for k in etf_daily.CHECK_KINDS}
 
+    def both(root, v2, gh):   # ETF별 알림 + ETF 공통 code_sig 이슈(2026-10-21) — 승인 목록은 비었다고 본다
+        return etf_alerts.run("SPY", root, v2, "o/r", runner=gh) + etf_alerts.run_code_sig(["SPY"], root, v2, "o/r", runner=gh, approved=set())
+
     def put(checks, detail=None, runs=(), S="2026-10-16", P="2026-10-19", last_at="t"):
         spy.write_text(json.dumps({"etf": "SPY", "runAt": "t", "builtFor": "2026-10-19", "checks": checks, "checkDetail": detail or {}, "reasons": []}))
         rows = [{"etf": "SPY", "holds": h, "S": S, "P": P, "at": "old"} for h in runs]
@@ -192,57 +195,57 @@ def test_alerts(tmp, v2):
 
     gh = FakeGH()
     put(dict(allok, code_sig="bad"), {"code_sig": {"aaaaaaaaaaaa": ["NVDA"]}})
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh)
-    check("알림: code_sig 새 이슈", acts_of(gh) == ["create"] and gh.issues[0]["title"].startswith("[ETF SPY code_sig]")
+    both(root, v2, gh)
+    check("알림: code_sig 새 이슈", acts_of(gh) == ["create"] and gh.issues[0]["title"].startswith("[ETF code_sig]")
           and "etf-key: " in gh.issues[0]["body"] and "hashes = `aaaaaaaaaaaa`" in gh.issues[0]["body"], acts_of(gh))
     gh.calls.clear()
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh)
+    both(root, v2, gh)
     check("알림: 같은 키 → 아무것도 안 함", acts_of(gh) == [], acts_of(gh))
     put(dict(allok, code_sig="bad"), {"code_sig": {"aaaaaaaaaaaa": ["NVDA"], "bbbbbbbbbbbb": ["JPM"]}})
     gh.calls.clear()
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh)
+    both(root, v2, gh)
     check("알림: 키 바뀜 → 같은 이슈에 댓글·본문 갱신(새 이슈 아님)", acts_of(gh) == ["comment", "edit"] and len(gh.issues) == 1, acts_of(gh))
     put(dict(allok, code_sig="unchecked", tools="bad", fetch="bad"), runs=[["fetch_fail"]])
     gh.calls.clear()
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh)
+    both(root, v2, gh)
     check("알림: 검사 못 함이면 code_sig 이슈 유지, 받기 실패 1회는 알림 없음", acts_of(gh) == [] and len(gh.issues) == 1, acts_of(gh))
     put(dict(allok, code_sig="unchecked", fetch="bad"), runs=[["fetch_fail"], ["fetch_fail"]])
     gh.calls.clear()
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh)
+    both(root, v2, gh)
     check("알림: 받기 실패 2회 연속 → 새 이슈(fetch)", acts_of(gh) == ["create"] and any(i["title"].startswith("[ETF SPY fetch]") for i in gh.issues))
     put(dict(allok, structure="bad"), {"structure": ["JPM"]}, runs=[["structure"]])
     gh.calls.clear()
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh)
+    both(root, v2, gh)
     titles = sorted(i["title"].split("]")[0] for i in gh.issues)
     check("알림: code_sig ok → code_sig만 닫고, fetch ok → 닫고, structure 새로", acts_of(gh).count("close") == 2 and titles == ["[ETF SPY structure"], (acts_of(gh), titles))
     gh2 = FakeGH()
     put(dict(allok, file_date="bad"), runs=[["file_date"]] * 5)
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh2)
+    both(root, v2, gh2)
     check("알림: 날짜 보류 5회 연속은 알림 없음(저녁마다 정상)", acts_of(gh2) == [])
     put(dict(allok, file_date="bad"), runs=[["file_date"]] * 6, S="2026-10-21", P="2026-10-20")
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh2)
+    both(root, v2, gh2)
     check("알림: 홈 세션 지연(S>P) 6회는 알림 없음", acts_of(gh2) == [])
     put(dict(allok, file_date="bad"), runs=[["file_date"]] * 6)
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh2)
+    both(root, v2, gh2)
     check("알림: 운용사 지연 6회 연속 → 알림", acts_of(gh2) == ["create"])
     gh4 = FakeGH()
     put(dict(allok, tools="ok"), runs=[["tools"], ["tools"]])
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh4)
+    both(root, v2, gh4)
     check("알림: 이번 실행 ok면 과거 연속 실패가 있어도 알림 없음", acts_of(gh4) == [])
     put(dict(allok, tools="unchecked"), runs=[["tools"], ["tools"]])
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh4)
+    both(root, v2, gh4)
     check("알림: 이번 실행이 검사 못 함이면 알림 없음", acts_of(gh4) == [])
     put(dict(allok, tools="bad"), runs=[["tools"], ["tools"]], last_at="다른 실행")
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh4)
+    both(root, v2, gh4)
     check("알림: 실행 기록 마지막 줄이 이번 실행이 아니면 판단 안 함", acts_of(gh4) == [])
     put(dict(allok, tools="bad"), runs=[["tools"], ["tools"]])
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh4)
+    both(root, v2, gh4)
     check("알림: 이번 bad + 2회 연속 → 알림(tools)", acts_of(gh4) == ["create"])
     gh5 = FakeGH()
     real_body, etf_alerts.code_sig_body = etf_alerts.code_sig_body, lambda res, v2, repo: "```diff\n" + "+x\n" * 30000 + "```\n링크"
     try:
         put(dict(allok, code_sig="bad"), {"code_sig": {"cccccccccccc": ["NVDA"]}})
-        etf_alerts.run("SPY", root, v2, "o/r", runner=gh5)
+        both(root, v2, gh5)
     finally:
         etf_alerts.code_sig_body = real_body
     b = gh5.issues[0]["body"] if gh5.issues else ""
@@ -251,9 +254,9 @@ def test_alerts(tmp, v2):
     gh6 = FakeGH()
     many = [f"T{i:05d}" for i in range(6000)]
     put(dict(allok, unclassified="bad"), {"unclassified": many})
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh6)
+    both(root, v2, gh6)
     gh6.calls.clear()
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh6)
+    both(root, v2, gh6)
     b = gh6.issues[0]["body"] if gh6.issues else ""
     check("알림: 아주 긴 본문도 한도 안 + 표식 보존 → 두 번째 실행 무동작", len(b) <= etf_alerts.BODY_MAX and "etf-key: " in b and acts_of(gh6) == [], (len(b), acts_of(gh6)))
     # 같은 실행이 두 줄(본 단계 + 대체 단계)이면 한 번으로 센다
@@ -263,11 +266,11 @@ def test_alerts(tmp, v2):
     for r in rows:
         r.update(run_id="9", attempt="1")
     obs.write_text("".join(json.dumps(r) + "\n" for r in rows))
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh7)
+    both(root, v2, gh7)
     check("알림: 같은 실행의 두 줄은 한 번 — 2회 연속 아님", acts_of(gh7) == [], acts_of(gh7))
     gh3 = FakeGH()
     put(dict(allok, unclassified="bad"), {"unclassified": ["ZZZ1"]})
-    etf_alerts.run("SPY", root, v2, "o/r", runner=gh3)
+    both(root, v2, gh3)
     check("알림: 분류 안 됨 → 새 이슈(대상 티커)", acts_of(gh3) == ["create"] and "ZZZ1" in gh3.issues[0]["body"])
 
 
@@ -310,6 +313,147 @@ def test_fallback_and_hang(tmp, v2, P, asof):
           and r["pending"].get("ruleVersion"), r.get("pending"))
 
 
+def test_code_sig_common(tmp, v2):
+    root = tmp / "cs"
+    (root / "v2" / "etf").mkdir(parents=True)
+    allok = {k: "ok" for k in etf_daily.CHECK_KINDS}
+
+    def put(etf, cs, hashes=None):
+        (root / "v2" / "etf" / f"{etf}.json").write_text(json.dumps({"etf": etf, "runAt": "t", "builtFor": "2026-10-19",
+            "checks": dict(allok, code_sig=cs), "checkDetail": {"code_sig": hashes} if hashes else {}, "reasons": []}))
+    gh = FakeGH()
+    put("SPY", "bad", {"aaaaaaaaaaaa": ["NVDA"]}); put("QQQ", "bad", {"aaaaaaaaaaaa": ["NVDA"], "bbbbbbbbbbbb": ["ASML"]})
+    a1 = etf_alerts.run_code_sig(["SPY", "QQQ"], root, v2, "o/r", runner=gh, approved=set())
+    b = gh.issues[0]["body"] if gh.issues else ""
+    check("공통 code_sig: 두 ETF가 같은 해시여도 이슈 하나, 키 = 합집합", [x for x, _ in a1] == ["create"] and len(gh.issues) == 1
+          and "etf-hashes: aaaaaaaaaaaa,bbbbbbbbbbbb" in b and gh.issues[0]["title"].startswith("[ETF code_sig]"), (a1, b[-120:]))
+    put("SPY", "ok"); put("QQQ", "unchecked")
+    a2 = etf_alerts.run_code_sig(["SPY", "QQQ"], root, v2, "o/r", runner=gh, approved=set())
+    check("공통 code_sig: 한 ETF가 검사 못 함이면 열린 채로(닫지 않음)", a2 == [] and len(gh.issues) == 1, a2)
+    put("SPY", "bad", {"cccccccccccc": ["JPM"]}); put("QQQ", "unchecked")
+    a3 = etf_alerts.run_code_sig(["SPY", "QQQ"], root, v2, "o/r", runner=gh, approved={"aaaaaaaaaaaa"})
+    b = gh.issues[0]["body"]
+    check("공통 code_sig: 검사 못 한 ETF의 옛 미승인 해시는 남김(승인된 것은 뺌)", [x for x, _ in a3] == ["comment"]
+          and "etf-hashes: bbbbbbbbbbbb,cccccccccccc" in b, b[-120:])
+    put("SPY", "ok"); put("QQQ", "unchecked")
+    a4 = etf_alerts.run_code_sig(["SPY", "QQQ"], root, v2, "o/r", runner=gh, approved={"bbbbbbbbbbbb", "cccccccccccc"})
+    check("공통 code_sig: 해시가 모두 승인됐어도 검사 못 한 ETF가 있으면 열린 채로", a4 == [] and len(gh.issues) == 1, a4)
+    put("SPY", "ok"); put("QQQ", "ok")
+    a4b = etf_alerts.run_code_sig(["SPY", "QQQ"], root, v2, "o/r", runner=gh, approved=set())
+    check("공통 code_sig: 모든 ETF가 이번 실행에서 ok → 닫음", [x for x, _ in a4b] == ["close"] and not gh.issues, a4b)
+    # 승인 목록을 실제 설정 파일 경로에서 읽는지(approved 인자 없이)
+    import shutil as _sh
+    _sh.copy(HERE / "ticker_alias.json", root / "v2" / "etf" / "ticker_alias.json")
+    real_ok = next(iter(json.loads((HERE / "ticker_alias.json").read_text(encoding="utf-8"))["approvedVerdictCode"]))
+    gh8 = FakeGH([{"number": 5, "title": "[ETF code_sig] x", "body": f"<!-- etf-hashes: {real_ok},ffffffffffff -->"}])
+    put("SPY", "bad", {"cccccccccccc": ["JPM"]}); put("QQQ", "unchecked")
+    etf_alerts.run_code_sig(["SPY", "QQQ"], root, v2, "o/r", runner=gh8)
+    b8 = gh8.issues[0]["body"]
+    check("공통 code_sig: 실제 설정의 승인 목록으로 옛 해시를 거른다", f"etf-hashes: cccccccccccc,ffffffffffff" in b8 and real_ok not in b8.split("etf-hashes:")[1], b8[-90:])
+    # 이번 실행 것이 아닌 산출물(runId 다름)은 검사 못 함
+    import os as _os
+    gh3 = FakeGH([{"number": 9, "title": "[ETF code_sig] x", "body": "<!-- etf-hashes: eeeeeeeeeeee -->"}])
+    put("SPY", "ok"); put("QQQ", "ok")
+    _os.environ["GITHUB_RUN_ID"], _os.environ["GITHUB_RUN_ATTEMPT"] = "77", "1"
+    try:
+        a6 = etf_alerts.run_code_sig(["SPY", "QQQ"], root, v2, "o/r", runner=gh3, approved=set())
+        st6 = etf_alerts.states(json.loads((root / "v2" / "etf" / "SPY.json").read_text()), [])
+    finally:
+        del _os.environ["GITHUB_RUN_ID"], _os.environ["GITHUB_RUN_ATTEMPT"]
+    check("공통 code_sig: 지난 실행의 산출물(runId 없음·다름)이면 ok여도 닫지 않음", a6 == [] and len(gh3.issues) == 1, a6)
+    check("알림: 지난 실행의 산출물이면 모든 종류 검사 못 함", all(v[0] == "unchecked" for v in st6.values()), st6)
+    # 지난 실행 산출물 + 이번 실행 관측에 실행 실패(복구 쓰기 실패) → run만 bad(2회 연속이면 알림), 다른 종류는 검사 못 함
+    _os.environ["GITHUB_RUN_ID"], _os.environ["GITHUB_RUN_ATTEMPT"] = "77", "1"
+    try:
+        old = json.loads((root / "v2" / "etf" / "SPY.json").read_text())
+        obs7 = [{"etf": "SPY", "holds": ["selfcheck"], "run_id": "76", "attempt": "1", "at": "a"},
+                {"etf": "SPY", "holds": ["selfcheck"], "run_id": "77", "attempt": "1", "at": "b"}]
+        st7 = etf_alerts.states(old, obs7)
+    finally:
+        del _os.environ["GITHUB_RUN_ID"], _os.environ["GITHUB_RUN_ATTEMPT"]
+    check("알림: 지난 산출물 + 이번 실행 관측 selfcheck → run bad, code_sig는 검사 못 함", st7["run"][0] == "bad" and st7["code_sig"][0] == "unchecked", st7)
+    gh2 = FakeGH([{"number": 7, "title": "[ETF SPY code_sig] 옛 제목", "body": "<!-- etf-hashes: dddddddddddd -->"}])
+    put("SPY", "ok"); put("QQQ", "ok")
+    a5 = etf_alerts.run_code_sig(["SPY", "QQQ"], root, v2, "o/r", runner=gh2, approved=set())
+    check("공통 code_sig: 옛 제목 이슈도 찾고, 모두 ok면 닫음", [x for x, _ in a5] == ["close"], a5)
+
+
+def test_isolation(tmp, v2, P, asof):
+    """두 ETF 격리: QQQ 본 단계·대체 단계가 홈 데이터의 SPY 칸과 SPY 산출물을 건드리지 않는다(설계 r2 C-1)."""
+    T.run(tmp, v2, asof=asof, P=P)   # tmp/out에 SPY 정상
+    out = tmp / "out"
+    data = lambda: etf_daily.read_data_js(out / "preview-only-etf-data.js")
+    spy0, spyj0 = data().get("SPY"), (out / "v2" / "etf" / "SPY.json").read_text()
+    subprocess.run([sys.executable, str(HERE / "etf_fallback.py"), "--etf", "QQQ", "--out-root", str(out)], capture_output=True, text=True)
+    d1 = data()
+    check("격리: QQQ 대체 단계 뒤 SPY 칸·SPY.json 그대로, QQQ 칸 보류", d1.get("SPY") == spy0 and d1.get("QQQ", {}).get("status") == "held"
+          and (out / "v2" / "etf" / "SPY.json").read_text() == spyj0 and (out / "preview-only-etf-qqq.html").exists(), list(d1))
+    (tmp / "qbad.json").write_text("not json")
+    subprocess.run([sys.executable, str(HERE / "etf_daily.py"), "--etf", "QQQ", "--json", str(tmp / "qbad.json"), "--out-root", str(out),
+                    "--v2", str(v2), "--stocks", str(tmp / "stocks.json"), "--private", str(tmp / "pvq"), "--cfg", str(HERE / "ticker_alias.json")],
+                   capture_output=True, text=True)
+    d2 = data()
+    check("격리: QQQ 본 단계 보류(입력 오류) 뒤에도 SPY 칸 그대로", d2.get("SPY") == spy0 and d2.get("QQQ", {}).get("status") == "held", d2.get("QQQ"))
+
+
+def test_invesco(tmp, v2, P):
+    """입력 형식 B(Invesco JSON) — 설계 dr r1~r3."""
+    cfg = json.loads((HERE / "ticker_alias.json").read_text(encoding="utf-8"))
+    fund = cfg["funds"]["QQQ"]
+
+    def row(t, w, typ="COM", cus=None):
+        return {"ticker": t, "issuerName": t, "cusip": cus if cus is not None else f"C{t}", "percentageOfTotalNetAssets": w, "securityTypeCode": typ}
+    base = [row("NVDA", 50.0), row("AAPL", 30.0), row("ZZZZ", 19.0), row("ASML", 1.0, "DRNY"),
+            row("NQZ6", 0.14, "IFUT", "NQZ6"), row(None, -0.14, "SYN", "NQZ6"), row("USDPDV", None, "CURR", None), row(None, 0.01, "CURRCOL", "USDMTM")]
+    doc = lambda rows, **k: json.dumps(dict({"effectiveDate": P, "holdings": rows}, **k)).encode()
+
+    def hold(body):
+        try:
+            etf_daily.parse_invesco(body, fund)
+            return None
+        except etf_daily.Hold as h:
+            return h.key
+    S, rows = etf_daily.parse_invesco(doc(base), fund)
+    pre = {r["ticker"] or r["ident"]: r["pre"] for r in rows}
+    check("형식 B: 비주식 4종(null·음수 비중·같은 식별자 공유 허용), 주식은 분류 대기", S == P and pre["NQZ6"] == "비주식" and pre["USDPDV"] == "비주식"
+          and pre["USDMTM"] == "비주식" and pre["NVDA"] is None and pre["ASML"] is None, pre)
+    check("형식 B: JSON 아님 → 받기 실패", hold(b"<html>blocked</html>") == "fetch_fail")
+    check("형식 B: 최상위가 배열 → 입력 오류", hold(b"[]") == "input")
+    check("형식 B: 날짜 칸 없음·가짜 날짜 → 입력 오류", hold(json.dumps({"holdings": base}).encode()) == "input"
+          and hold(doc(base, effectiveDate="2026-02-30")) == "input")
+    check("형식 B: 빈 holdings → 입력 오류", hold(doc([])) == "input")
+    for bad, name in ((None, "null"), (-1.0, "음수"), (True, "bool"), ("5", "문자열"), (float("inf"), "Infinity")):
+        b = doc([row("NVDA", bad)] + base[1:]) if name != "Infinity" else json.dumps({"effectiveDate": P, "holdings": [row("NVDA", 1e400)] + base[1:]}).encode()
+        check(f"형식 B: 주식 비중 {name} → 입력 오류", hold(b) == "input", hold(b))
+    check("형식 B: 모르는 종류의 비중이 null·음수 → 입력 오류", hold(doc(base + [row("XX", None, "WARR")])) == "input"
+          and hold(doc(base + [row("XX", -1.0, "WARR")])) == "input")
+    check("형식 B: ticker·cusip이 문자열·null이 아님 → 입력 오류", hold(doc(base + [dict(row("XY", 1.0), ticker=123)])) == "input"
+          and hold(doc(base + [dict(row("XY", 1.0), cusip={})])) == "input")
+    check("형식 B: 주식과 비주식이 같은 cusip → 입력 오류", hold(doc(base + [row("NQX", 1.0, "COM", "NQZ6")])) == "input")
+    check("형식 B: 같은 cusip 주식 두 줄 → 입력 오류", hold(doc(base + [row("NVDX", 1.0, "COM", "CNVDA")])) == "input")
+    S, rows = etf_daily.parse_invesco(doc(base + [row("NVDA", 0.5, "WARR", "W1"), row("MSFT", 0.5, "COM", "")]), fund)
+    pre = {(r["ticker"], r["type"]): r["pre"] for r in rows}
+    check("형식 B: 모르는 종류는 카드 티커와 같아도 분류 안 됨, cusip 빈 주식도 분류 안 됨", pre[("NVDA", "WARR")] == "분류 안 됨"
+          and pre[("MSFT", "COM")] == "분류 안 됨", pre)
+    # 계산까지: 분모 = 비주식 뺀 전부(분류 안 됨 포함)
+    tmpq = tmp / "inv"
+    tmpq.mkdir()
+    (tmpq / "q.json").write_bytes(doc(base))
+    (tmpq / "stocks.json").write_text(json.dumps({"priceSession": P}))
+    c2 = dict(cfg)
+    (tmpq / "cfg.json").write_text(json.dumps(c2, ensure_ascii=False))
+    p = subprocess.run([sys.executable, str(HERE / "etf_daily.py"), "--etf", "QQQ", "--json", str(tmpq / "q.json"), "--out-root", str(tmpq / "out"),
+                        "--v2", str(v2), "--stocks", str(tmpq / "stocks.json"), "--private", str(tmpq / "pv"), "--cfg", str(tmpq / "cfg.json")],
+                       capture_output=True, text=True)
+    r = json.loads((tmpq / "out" / "v2" / "etf" / "QQQ.json").read_text())
+    calc = json.loads(next((tmpq / "pv").glob("QQQ_*_calc.json")).read_text())
+    D = calc["D_raw"]
+    check("형식 B 계산: D = 비주식 뺀 비중 합(100), 산출물 inputFormat·json 해시", abs(D - 100.0) < 1e-9 and r["inputFormat"] == "invesco_json"
+          and "json" in r["inputHash"] and r["counts"]["nonEquity"] == 4, (D, r.get("inputFormat"), r.get("counts")))
+    obs = [json.loads(x) for x in (tmpq / "out" / "v2" / "etf" / "date_obs.jsonl").read_text().splitlines()]
+    check("형식 B: 관측 한 줄(etf QQQ, 파일 해시)", obs[-1]["etf"] == "QQQ" and len(obs[-1]["file_sha12"] or "") == 12, obs[-1:])
+
+
 def main():
     test_keep()
     with tempfile.TemporaryDirectory() as d:
@@ -322,6 +466,9 @@ def main():
         test_scanners(tmp)
         test_approve(tmp, v2)
         test_alerts(tmp, v2)
+        test_code_sig_common(tmp, v2)
+        test_invesco(tmp, v2, P)
+        test_isolation(tmp, v2, P, asof)
     print(f"\n{'모두 통과' if not FAILS else f'실패 {len(FAILS)}건: ' + ', '.join(FAILS)}")
     return 1 if FAILS else 0
 

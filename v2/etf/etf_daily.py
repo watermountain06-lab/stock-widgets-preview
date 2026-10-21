@@ -5,6 +5,7 @@
 
     python3 v2/etf/etf_daily.py                 # SPY: 운용사 파일을 받아 계산하고 세 산출물을 쓴다
     python3 v2/etf/etf_daily.py --xlsx F.xlsx   # 받지 않고 그 파일로(검사·재현용)
+    python3 v2/etf/etf_daily.py --etf QQQ [--json F.json]   # QQQ: 입력 형식 B(Invesco 보유 JSON, 2026-10-21)
     python3 v2/etf/etf_daily.py --out-root DIR  # 산출물을 DIR 아래에 쓴다(저장소를 건드리지 않는 검사용)
 
 산출물(어떤 실패에서도 셋 다 쓰고 종료 코드 0 — 실패는 "판정 보류 + 사유"로 쓴다):
@@ -72,6 +73,12 @@ class Hold(Exception):
         self.holds = holds or [(key, detail)]   # 함께 모인 다른 보류 조건(규칙 9 — 대표는 우선순위로)
 
 
+def run_id():
+    """Actions 실행 ID·시도(로컬이면 None)."""
+    r = os.environ.get("GITHUB_RUN_ID")
+    return f"{r}.{os.environ.get('GITHUB_RUN_ATTEMPT', '1')}" if r else None
+
+
 def now_utc():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -89,10 +96,16 @@ def write_atomic(path, text):
 
 # ── 보유 파일 ───────────────────────────────────────────────
 
-def fetch(url):
+def fetch(url, fmt="ssga_xlsx"):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (stock-widgets-preview ETF)"})
     with urllib.request.urlopen(req, timeout=60) as r:
         body = r.read()
+    if fmt == "invesco_json":
+        try:   # JSON 문법이 아니면(차단 페이지 등) 받기 실패 — 문법은 맞는데 모양이 틀리면 입력 오류(parse_invesco)
+            json.loads(body.decode("utf-8"))
+        except Exception:
+            raise Hold("fetch_fail", f"JSON이 아니다({len(body)}바이트)")
+        return body
     if not body.startswith(b"PK"):
         raise Hold("fetch_fail", f"xlsx가 아니다({len(body)}바이트)")
     return body
@@ -175,6 +188,60 @@ def parse_holdings(rows, ctx=None):
     return s_date, out
 
 
+def parse_invesco(body, fund, ctx=None):
+    """입력 형식 B(Invesco 보유 JSON, 2026-10-21 QQQ) 규칙 1 — 설계 dr r1~r3.
+    effectiveDate = S. 줄마다 securityTypeCode로 먼저 나눈다: 비주식(설정 nonEquityTypes, 비중 null·유한 음수 허용) →
+    모르는 종류(equityTypes 밖, 분류 안 됨) → 주식인데 ticker·cusip이 빈 줄(분류 안 됨) → 나머지는 형식 A와 같은 매핑 규칙.
+    비주식 밖의 모든 줄은 비중이 유한한 0 이상 수(bool·문자열 아님)여야 하고, 같은 cusip은 비주식 줄끼리만 나눠 쓸 수 있다."""
+    try:
+        d = json.loads(body.decode("utf-8"))
+    except Exception:
+        raise Hold("fetch_fail", "JSON이 아니다")
+    if not isinstance(d, dict):
+        raise Hold("input", "최상위가 객체가 아니다")
+    s_raw = d.get("effectiveDate")
+    try:
+        s_date = datetime.strptime(s_raw, "%Y-%m-%d").strftime("%Y-%m-%d") if isinstance(s_raw, str) else None
+    except ValueError:
+        s_date = None
+    if not s_date or s_date != s_raw:
+        raise Hold("input", "기준일(effectiveDate) 칸이 없거나 날짜가 아니다")
+    if ctx is not None:
+        ctx["S"] = s_date
+    hold = d.get("holdings")
+    if not isinstance(hold, list) or not hold:
+        raise Hold("input", "holdings가 비었거나 배열이 아니다")
+    non_eq, eq = set(fund["nonEquityTypes"]), set(fund["equityTypes"])
+    num = lambda v: isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+    out = []
+    for k_row, x in enumerate(hold, 1):
+        if not isinstance(x, dict) or not isinstance(x.get("securityTypeCode"), str):
+            raise Hold("input", f"데이터 {k_row}번째 줄의 모양이 다르다(securityTypeCode 없음)")
+        typ, w = x["securityTypeCode"], x.get("percentageOfTotalNetAssets")
+        for f in ("ticker", "cusip"):   # 문자열 또는 null만 — 다른 자료형은 입력 오류(빈 값은 아래 분류 순서로)
+            if x.get(f) is not None and not isinstance(x.get(f), str):
+                raise Hold("input", f"데이터 {k_row}번째 줄의 {f}가 문자열이 아니다")
+        tick, cus = x.get("ticker") or "", x.get("cusip") or ""
+        if typ in non_eq:
+            if w is not None and not num(w):
+                raise Hold("input", f"데이터 {k_row}번째 줄(비주식 {typ})의 비중이 수가 아니다")
+            pre = "비주식"
+        else:
+            if not num(w) or w < 0:
+                raise Hold("input", f"데이터 {k_row}번째 줄(티커 {tick[:8]})의 비중이 0 이상의 수가 아니다")
+            pre = "분류 안 됨" if (typ not in eq or not tick.strip() or not cus.strip()) else None
+        out.append({"name": str(x.get("issuerName") or "").strip(), "ticker": tick.strip(), "ident": cus.strip(),
+                    "w_raw": float(w) if num(w) else None, "type": typ, "pre": pre})
+    # 같은 cusip: 비주식 줄끼리만 나눠 쓸 수 있다(지수선물과 그 합성현금 NQZ6, 2026-10-20 실측). 주식 줄끼리, 주식·비주식 사이는 입력 오류
+    ids = [x["ident"] for x in out if x["ident"] and x["pre"] != "비주식"]
+    non_ids = {x["ident"] for x in out if x["ident"] and x["pre"] == "비주식"}
+    dup = sorted({i for i in ids if ids.count(i) > 1 or i in non_ids})
+    if dup:
+        tick = sorted({x["ticker"] for x in out if x["ident"] in dup and x["pre"] != "비주식"})[:5]
+        raise Hold("input", f"같은 cusip이 두 줄 이상인 묶음 {len(dup)}개(티커 {', '.join(tick)})")
+    return s_date, out
+
+
 # ── 카드 ────────────────────────────────────────────────────
 
 def run_node(script):
@@ -236,13 +303,16 @@ def prev_session(p, v2):
 
 # ── 계산 ────────────────────────────────────────────────────
 
-def compute(etf, cfg, xlsx, P, v2, ctx):
+def compute(etf, cfg, raw, P, v2, ctx):
     """규칙 1~11. 입력 오류(규칙 1)만 바로 멈추고, 나머지 보류 조건은 모두 모아 규칙 9 우선순위로 대표 하나를 고른다.
     ctx에는 파싱 직후 S를 넣는다(보류여도 S·P를 기록한다 — 규칙 7)."""
     fund = cfg["funds"][etf]
     ck, dt = ctx.setdefault("checks", {}), ctx.setdefault("checkDetail", {})
     try:
-        S, rows = parse_holdings(read_xlsx(xlsx), ctx)
+        if fund.get("format", "ssga_xlsx") == "invesco_json":
+            S, rows = parse_invesco(raw, fund, ctx)
+        else:
+            S, rows = parse_holdings(read_xlsx(raw), ctx)
     except Hold:
         ck["input"] = "bad"
         raise
@@ -275,7 +345,9 @@ def compute(etf, cfg, xlsx, P, v2, ctx):
     for x in rows:
         comp = comp_map.get(x["ticker"], x["ticker"])
         x["company"] = comp
-        if x["ident"] in nonq:
+        if x.get("pre"):   # 형식 B: 종류로 먼저 나눈 줄(비주식·모르는 종류·식별자 빈 주식)
+            x["cls"] = x["pre"]
+        elif x["ident"] in nonq:
             x["cls"] = "비주식"
         elif comp in verdicts:
             x["cls"] = "매핑"
@@ -406,7 +478,7 @@ def compute(etf, cfg, xlsx, P, v2, ctx):
                    "excluded": [CARD_EXCL_LABEL[k] for k in r["excl"]]} for r in sorted(cards, key=lambda r: r["card"])],
         "S": S, "builtFor": P,
         "expense": {"pct": fund["expensePct"], "source": fund["expenseSource"], "url": fund["expenseUrl"]},
-        "holdingsSource": fund["holdingsSource"],
+        "holdingsSource": fund["holdingsSource"], "inputFormat": fund.get("format", "ssga_xlsx"),
     }
     private = {"rows": rows, "cards": cards, "D_raw": D, "nbar_raw": nbar}
     return result, private
@@ -609,7 +681,8 @@ def consistency(res, paths):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--etf", default="SPY")
-    ap.add_argument("--xlsx", help="받지 않고 이 파일로")
+    ap.add_argument("--xlsx", help="받지 않고 이 파일로(형식 A)")
+    ap.add_argument("--json", help="받지 않고 이 파일로(형식 B, Invesco 보유 JSON)")
     ap.add_argument("--out-root", default=str(ROOT))
     ap.add_argument("--v2", default=str(ROOT / "v2"), help="카드·추출기가 있는 v2 폴더(검사용 사본)")
     ap.add_argument("--stocks", default=str(ROOT / "site_data" / "stocks.json"))
@@ -617,13 +690,17 @@ def main():
     ap.add_argument("--cfg", default=str(CFG_PATH), help="설정 파일(검사용 사본)")
     a = ap.parse_args()
     etf, out_root, v2, pv = a.etf, Path(a.out_root), Path(a.v2), Path(a.private)
-    run_at, fetched_at, cfg, P, xlsx = now_utc(), None, None, None, None
+    run_at, fetched_at, cfg, P, raw = now_utc(), None, None, None, None
+    fmt, ext = "ssga_xlsx", "xlsx"
     ctx, inputs, private = {"S": None}, {}, None
     try:
         cfg = json.loads(Path(a.cfg).read_text(encoding="utf-8"))
         P = json.loads(Path(a.stocks).read_text(encoding="utf-8"))["priceSession"]
+        fmt = cfg["funds"][etf].get("format", "ssga_xlsx")
+        ext = "json" if fmt == "invesco_json" else "xlsx"
         try:
-            xlsx = Path(a.xlsx).read_bytes() if a.xlsx else fetch(cfg["funds"][etf]["holdingsUrl"])
+            src = a.json or a.xlsx
+            raw = Path(src).read_bytes() if src else fetch(cfg["funds"][etf]["holdingsUrl"], fmt)
         except Hold:
             ctx.setdefault("checks", {})["fetch"] = "bad"
             raise
@@ -632,11 +709,11 @@ def main():
             raise Hold("fetch_fail", type(ex).__name__)
         ctx.setdefault("checks", {})["fetch"] = "ok"
         fetched_at = now_utc()
-        inputs["xlsx"] = sha(xlsx)
+        inputs[ext] = sha(raw)
         for k, p in (("alias", Path(a.cfg)), ("extractor", v2 / "research" / "extract_card_verdicts.js"),
                      ("sigScript", v2 / "etf" / "verdict_code_sig.js"), ("script", Path(__file__))):
             inputs[k] = sha(p.read_bytes())[:16]
-        res, private = compute(etf, cfg, xlsx, P, v2, ctx)
+        res, private = compute(etf, cfg, raw, P, v2, ctx)
     except Hold as h:
         res = held(etf, cfg, h.key, h.detail, P, ctx["S"], h.holds)
     except Exception as ex:
@@ -656,6 +733,7 @@ def main():
         kept["runAt"] = run_at   # 규칙 버전·날짜 규칙도 판정을 낸 직전 것 그대로(이번 것은 pending에)
         res, private = kept, None
     res["evaluation"] = ev
+    res["runId"] = run_id()   # 이 산출물을 쓴 실행 — 알림은 이번 실행 것만 결과로 센다(QQQ 구현 dr r1)
     res["checks"] = {k: ctx.get("checks", {}).get(k, "unchecked") for k in CHECK_KINDS}
     res["checks"]["run"] = ctx.get("checks", {}).get("run", "ok")   # 실행 자체는 늘 검사된다(예외면 bad, 자체 검사 실패는 아래에서 bad)
     res["checkDetail"] = ctx.get("checkDetail", {})
@@ -672,16 +750,16 @@ def main():
         left = consistency(res, paths)
         if left:   # 보류로 다시 쓴 셋도 어긋나면 손으로 볼 일 — 로그에 남긴다(홈은 형식 검사로 보류를 그린다)
             print("ETF_FAIL 자체 검사 재작성 뒤에도 불일치: " + "; ".join(left))
-    if xlsx is not None:   # 원본과 줄 단위 계산은 비공개 폴더에만(커밋하지 않는다)
+    if raw is not None:   # 원본과 줄 단위 계산은 비공개 폴더에만(커밋하지 않는다)
         pv.mkdir(parents=True, exist_ok=True)
         tag = ctx["S"] or "unknown"
-        (pv / f"{etf}_{tag}.xlsx").write_bytes(xlsx)
+        (pv / f"{etf}_{tag}.{ext}").write_bytes(raw)
         if private:
             write_atomic(pv / f"{etf}_{tag}_calc.json", json.dumps(private, ensure_ascii=False, indent=1))
     try:   # 관측 기록 — 실행마다 한 줄(이번 실행이 받은 바이트의 해시 — 유지한 실행이면 판정에 안 쓴 파일, 실패도 남긴다). 실패해도 판정 산출물은 이미 썼다.
         append_obs(out_root / "v2" / "etf" / "date_obs.jsonl", {
             "etf": etf, "run_id": os.environ.get("GITHUB_RUN_ID"), "attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
-            "at": run_at, "P": P, "S": ctx["S"], "file_sha12": (inputs.get("xlsx") or "")[:12] or None,
+            "at": run_at, "P": P, "S": ctx["S"], "file_sha12": (inputs.get(ext) or "")[:12] or None,
             "eval": res["evaluation"]["status"], "holds": res["evaluation"]["holds"],
             "kept": res.get("builtFor") if res.get("pending") else None,
             "pending": (res.get("pending") or {}).get("kind")})

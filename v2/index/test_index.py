@@ -133,7 +133,7 @@ def main():
               and dl["base"]["5Y"] == dl["rows"][0][0])
         c = res["constituents"]
         check("구성 종목 탭: 업종 11개·상위 10개·카드 3개", len(c["sectors"]["rows"]) == 11 and c["sectors"]["asOf"] == "2026-10-19"
-              and len(c["spy"]["top10"]) == 10 and len(c["spy"]["cards"]) == 3 and "showSection('holdings'" in pages[0]
+              and len(c["holdings"]["top10"]) == 10 and len(c["holdings"]["cards"]) == 3 and "showSection('holdings'" in pages[0]
               and 'href="T0_full_widget.html"' in pages[0] and "정보기술" in pages[0])
         ch = c["chars"]
         check("머리 4칸: 1년·5년 연 환산·PER·이익수익률/국채", ch == {"pe": 24.73, "peAsOf": "2026-10-19"}
@@ -144,15 +144,15 @@ def main():
               and r4["constituents"]["sectors"] is not None, r4["constituents"]["chars"])
         badbar = dict(SPY_FAKE, bar=dict(SPY_FAKE["bar"], 고평가=0.5))
         p, r5, pg5 = run(tmp, s, spy=badbar)
-        check("판정 비중 합이 1이 아니면 막대만 뺌", r5["constituents"]["spy"]["bar"] is None and 'class="vbar"' not in pg5[0]
+        check("판정 비중 합이 1이 아니면 막대만 뺌", r5["constituents"]["holdings"]["bar"] is None and 'class="vbar"' not in pg5[0]
               and "카드가 있는 종목 3개" in pg5[0])
         for name, spy_bad in (("cards에 null", dict(SPY_FAKE, cards=[None])), ("top10 비중 null", dict(SPY_FAKE, top10=[dict(SPY_FAKE["top10"][0], weight=None)]))):
             p, rb, _ = run(tmp, s, spy=spy_bad)
-            check(f"SPY 자료 모양이 틀려도({name}) 카드는 ok, 그 칸만 비움", rb["status"] == "ok" and rb["constituents"]["spy"] is None, rb.get("reason"))
+            check(f"SPY 자료 모양이 틀려도({name}) 카드는 ok, 그 칸만 비움", rb["status"] == "ok" and rb["constituents"]["holdings"] is None, rb.get("reason"))
         p, rb, pgb = run(tmp, s, spy=dict(SPY_FAKE, bar={"새분류": 1.0}))
-        check("판정 비중에 모르는 칸이 있으면 막대만 뺌", rb["constituents"]["spy"]["bar"] is None and 'class="vbar"' not in pgb[0])
+        check("판정 비중에 모르는 칸이 있으면 막대만 뺌", rb["constituents"]["holdings"]["bar"] is None and 'class="vbar"' not in pgb[0])
         p, rb, pgb = run(tmp, s, spy=dict(SPY_FAKE, status="held", reasonText="보유 파일 날짜"))
-        check("SPY 보류면 판정 비중 막대만 빼고 이유 표시", rb["constituents"]["spy"]["held"] and 'class="vbar"' not in pgb[0]
+        check("SPY 보류면 판정 비중 막대만 빼고 이유 표시", rb["constituents"]["holdings"]["held"] and 'class="vbar"' not in pgb[0]
               and "SPY 판정 보류(보유 파일 날짜)" in pgb[0] and "상위 10개 회사" in pgb[0])
         p, rb, _ = run(tmp, s, page=ssga_page().replace("<div>Price/Earnings</div><div>24.73</div>", "<div>Price/Earnings</div><div>—</div>"))
         check("PER 칸이 비면 예상 PER을 대신 읽지 않고 비움", rb["constituents"]["chars"] is None, rb["constituents"]["chars"])
@@ -163,14 +163,14 @@ def main():
         check("PER만 못 읽으면 국채는 그대로 보임", rb["constituents"]["chars"] is None and "— · 5.09%" in pgb[0]
               and "PER 불러오지 못함 / FRED 2026.10.16" in pgb[0])
         p, rb, _ = run(tmp, s, spy=dict(SPY_FAKE, top10=SPY_FAKE["top10"][:1] * 2))
-        check("상위 회사가 겹치면 그 칸만 비움", rb["constituents"]["spy"] is None)
+        check("상위 회사가 겹치면 그 칸만 비움", rb["constituents"]["holdings"] is None)
         p, rb, pgb = run(tmp, s, spy=dict(SPY_FAKE, top10=SPY_FAKE["top10"][:3]))
         check("상위 회사가 10개 미만이면 실제 개수로 표시", "상위 3개 회사" in pgb[0] and "10개가 다 오지 않았다" in pgb[0])
         evil = dict(SPY_FAKE, top10=[dict(SPY_FAKE["top10"][0], card='x" onclick="y')] + SPY_FAKE["top10"][1:])
         p, rb, pgb = run(tmp, s, spy=evil)
-        check("상위 회사 카드 이름이 티커 모양이 아니면 링크 안 함", 'onclick="y' not in pgb[0] and rb["constituents"]["spy"]["top10"][0]["card"] is None)
+        check("상위 회사 카드 이름이 티커 모양이 아니면 링크 안 함", 'onclick="y' not in pgb[0] and rb["constituents"]["holdings"]["top10"][0]["card"] is None)
         p, rb, _ = run(tmp, s, spy=dict(SPY_FAKE, cards=SPY_FAKE["cards"] + [{"card": "T9", "verdict": "새등급"}]))
-        check("모르는 판정의 카드는 세지 않음", len(rb["constituents"]["spy"]["cards"]) == 3)
+        check("모르는 판정의 카드는 세지 않음", len(rb["constituents"]["holdings"]["cards"]) == 3)
         p, rb, _ = run(tmp, s, page=ssga_page().replace("<div>Index Characteristics</div><div>as of Oct 19 2026</div>",
                                                      "<div>Index Characteristics</div><div>as of Oct 19 2026</div><div>Fund Characteristics</div>"))
         check("지수·펀드 구역이 섞이면 PER 칸만 비움", rb["constituents"]["chars"] is None)
@@ -178,7 +178,7 @@ def main():
         check("카드 비중 = 1 − 카드 없음(판정 보류 포함)", "카드가 있는 종목 3개 · 지수 비중의 79.6%" in pages[0] and 'class="vbar"' in pages[0])
         p, r2, pg2 = run(tmp, s, page="<html>nothing</html>", spy=None)
         check("업종 페이지·SPY 자료가 없어도 카드는 ok, 그 칸만 비움", r2["status"] == "ok" and r2["constituents"]["sectors"] is None
-              and r2["constituents"]["spy"] is None and "불러오지 못했다" in pg2[0] and r2["constituents"]["chars"] is None
+              and r2["constituents"]["holdings"] is None and "불러오지 못했다" in pg2[0] and r2["constituents"]["chars"] is None
               and "불러오지 못함" in pg2[0] and r2["constituents"]["dgs10"] is None)
         bad = [(n, "50.00" if n == "Energy" else w) for n, w in SECTORS]
         p, r3, _ = run(tmp, s, page=ssga_page(bad))

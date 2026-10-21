@@ -121,7 +121,7 @@ def main():
         # 판정 탭
         stale = dict(VERDICT_OK, builtFor="2026-10-15")
         p, res, page = run(tmp, s, verdict=stale)
-        check("판정 세션 ≠ 홈 세션 → 판정 탭 묵음", "묵음" in page and "적정~고평가" not in page.split('id="verdict"')[1])
+        check("판정 세션 ≠ 홈 세션 → 판정 탭 묵음(보이는 글자에 판정 없음)", "묵음" in page and "적정~고평가" not in page.split('id="verdict"')[1].split(">", 1)[1])
         lag = dict(VERDICT_OK, builtFor="2026-10-15", S="2026-10-15", pending={"kind": "issuer_lag", "P": P, "S": "2026-10-14"})
         p, res, page = run(tmp, s, verdict=lag)
         check("운용사 파일 갱신 대기 → 판정 + 꼬리표", "운용사 파일 갱신 대기" in page and "적정~고평가" in page.split('id="verdict"')[1])
