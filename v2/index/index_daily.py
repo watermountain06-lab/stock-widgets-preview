@@ -17,7 +17,7 @@ FRED가 직전 세션까지 없으면 카드를 "보류"로 쓴다.
 종가 날짜가 그 둘과 다르면 보류.
 가격 지수라 배당은 빠진다. 사건은 가격으로만 감지하고 원인 설명을 붙이지 않는다.
 
-    python3 v2/index/index_daily.py [--card SP500|SPY|QQQ|DIA] [--out-root DIR] [--yahoo FILE] [--fred FILE] [--stocks FILE]
+    python3 v2/index/index_daily.py [--card SP500|SPY|QQQ|DIA|IWM|TLT|GLD] [--out-root DIR] [--yahoo FILE] [--fred FILE] [--stocks FILE]
 
 --card SPY(2026-10-20 사용자 결정): 같은 틀로 SPY ETF 카드를 만든다 — 시세는 Yahoo SPY 일봉(시장 가격, 배당 제외),
 대조는 FRED 대신 운용사(State Street)가 공시하는 SPY NAV 이력(2003-12부터; --card DIA도 같은 방식, 2026-10-21): 날짜가 빠짐없이 있고 종가가 NAV와 가까워야
@@ -117,6 +117,37 @@ PROFILES = {
             "lede": "",
             "verdict": False, "noVerdict": True, "navKind": "page_nav", "verdictJson": None, "etf": "IWM", "nonEqText": "",
             "page": "https://www.ishares.com/us/products/239710/ishares-russell-2000-etf", "homePrice": True},
+    # GLD·TLT(2026-10-21, 사용자 결정 + 설계 dr r1~r5 합의): 가격 카드만(판정 없음). asset이 equity가 아니면 보유·SSGA 페이지·업종·PER·
+    # DGS10을 읽지도 부르지도 않고, 머리·출처 줄은 asset별 함수가 만든다. compute(대조·창 자르기)는 navKind로 가른다.
+    # GLD: 운용사(SPDR Gold Trust) 과거 자료 파일의 공식 종가와 카드 구간 전체를 날마다 대조(navKind gld_archive).
+    "GLD": {"key": "GLD", "name": "GLD", "sym": "GLD", "symText": "GLD", "ref": "운용사 종가",
+            "json": "v2/etf/GLD_card.json", "html": "preview-only-etf-gld.html",
+            "title": "GLD ETF", "badge": "GLD", "kind": "ETF · 금 실물을 담는 신탁 · 시장 가격(분배금 없음)",
+            "company": "SPDR Gold Shares (SPDR Gold Trust)", "current": "GLD · ETF", "backnav": "",
+            "chart": "GLD 차트", "retTitle": "GLD 시장 가격(분배금 없음)", "what": "ETF 시세", "weightOf": "GLD 비중",
+            "closeNote": "GLD 한 주의 시장 가격(분배금 없음). 운용사 과거 자료 파일의 종가와 날마다 대조한 종가(마지막 날은 운용사 게시 전이면 대조 전)",
+            "span": "운용사 종가 대조 구간({since}부터)", "lede": "", "retBasis": "분배금 없음",
+            "verdict": False, "noVerdict": True, "navKind": "gld_archive", "asset": "gold", "verdictJson": None, "etf": "GLD", "nonEqText": "",
+            "noVerdictText": "GLD는 금 실물을 담는 신탁이다 — 기업 이익으로 매기는 이 사이트 카드 판정을 할 대상이 없다. 이 카드는 가격·수익률만 보여 준다.",
+            "archive": "https://api.spdrgoldshares.com/api/v1/historical-archive?product=gld&exchange=NYSE&lang=en",
+            "page": "https://www.spdrgoldshares.com/usa/gld/",
+            "fee": ("스폰서 수수료 연 0.40%", "SEC 10-Q 2026-08-04",
+                    "https://www.sec.gov/Archives/edgar/data/1222333/000143774926025680/gld20260630_10q.htm"),
+            "homePrice": True},
+    # TLT: IWM과 같은 하루 NAV 대조(page_nav) — NAV는 TLT 펀드에 연결된 JSON-LD 요소에서만(parse_ishares_fund), 지표는 그 펀드 지표 블록에서만.
+    "TLT": {"key": "TLT", "name": "TLT", "sym": "TLT", "symText": "TLT", "ref": "운용사 NAV(최근 하루)",
+            "json": "v2/etf/TLT_card.json", "html": "preview-only-etf-tlt.html",
+            "title": "TLT ETF", "badge": "TLT", "kind": "ETF · 미국 국채(만기 20년 이상)를 담음 · 시장 가격(분배금 제외)",
+            "company": "iShares 20+ Year Treasury Bond ETF", "current": "TLT · ETF", "backnav": "",
+            "chart": "TLT 차트", "retTitle": "TLT 시장 가격(분배금 제외)", "what": "ETF 시세", "weightOf": "TLT 비중",
+            "closeNote": "TLT 시장 가격(분배금 제외). 과거 종가는 운용사 자료와 대조하지 못했다 — 최근 하루 NAV만 확인",
+            "span": "계산 구간({since}부터 — 표시에 필요한 범위만)", "lede": "", "retBasis": "분배금 제외",
+            "verdict": False, "noVerdict": True, "navKind": "page_nav", "asset": "bond", "verdictJson": None, "etf": "TLT", "nonEqText": "",
+            "noVerdictText": "TLT는 미국 국채를 담는 펀드다 — 기업 이익으로 매기는 이 사이트 카드 판정을 할 대상이 없다. 이 카드는 가격·수익률만 보여 준다.",
+            "page": "https://www.ishares.com/us/products/239454/ishares-20-year-treasury-bond-etf", "ticker": "TLT",
+            "fee": ("총보수 0.15%", "SEC 497K 2026-06-29",
+                    "https://www.sec.gov/Archives/edgar/data/1100663/000119312526287948/d128154d497k.htm"),
+            "homePrice": True},
     "QQQ": {"key": "QQQ", "name": "QQQ", "sym": "QQQ", "symText": "QQQ", "ref": "운용사 NAV",
             "json": "v2/etf/QQQ_card.json", "html": "preview-only-etf-qqq.html",
             "title": "QQQ ETF", "badge": "QQQ", "kind": "ETF · 나스닥 100을 따라감 · 시장 가격(배당 제외)",
@@ -129,6 +160,14 @@ PROFILES = {
             "nonEqText": "비주식으로 확인된 현금·통화·통화담보·지수선물·합성현금 줄"},
 }
 PROF = PROFILES["SP500"]
+
+
+def asset():
+    return PROF.get("asset", "equity")
+
+
+class _Done(Exception):
+    """금·채권 카드가 주식형 부가 자료 단계를 건너뛸 때(같은 try 안의 보류·실패 처리를 그대로 쓰려고)."""
 
 
 class Hold(Exception):
@@ -437,6 +476,371 @@ def cross_check_page(series, info, P, prevP):
                   + " · 그 앞 과거 종가는 운용사 이력 파일을 자동으로 받지 못해 대조하지 못했다")
 
 
+# ---------- GLD(금) — 운용사 과거 자료 파일 ----------
+# SPDR Gold Trust 과거 자료 xlsx(spdrgoldshares.com 과거 자료 페이지의 다운로드). 시트 "US GLD Historical Archive", 휴장일은 모든 칸이
+# "US Holiday". 파일 첫 시트에 재배포 금지 문구가 있어 파일은 대조에만 쓰고 다시 게시하지 않는다(2026-10-21 설계 dr r1~r5).
+GLD_SHEET = "US GLD Historical Archive"
+GLD_COLS = ("Date", "Closing Price", "Ounces of Gold per Share", "Tonnes of Gold")
+GLD_HOLIDAY = "US Holiday"
+GLD_TOL = 0.001   # 종가 대 종가: |Yahoo / 운용사 − 1| ≤ 0.1%(2015-11~2026-10 실측 최대 0.042%)
+# 운용사 달력 표기 예외 {날짜: 사유} — 처음엔 비어 있다. 면제하는 것은 달력 검사뿐(평일 줄 없음, "US Holiday"인데 Yahoo 종가 있음,
+# 운용사 숫자 종가인데 Yahoo 없음)이고, 가격 차이·값 이상은 면제하지 않는다. 면제된 날 수는 출처 줄에 "대조 제외 n일"로 적는다.
+GLD_CAL_OK = {}
+
+
+def read_xlsx_sheet(body, name):
+    """xlsx의 이름이 name인 시트를 [[셀…]…]로(표준 라이브러리만). 시트가 없으면 ValueError."""
+    import xml.etree.ElementTree as XT
+    import zipfile
+    ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main",
+          "r": "http://schemas.openxmlformats.org/officeDocument/2006/relationships"}
+    z = zipfile.ZipFile(io.BytesIO(body))
+    shared = []
+    if "xl/sharedStrings.xml" in z.namelist():
+        for si in XT.fromstring(z.read("xl/sharedStrings.xml")).findall("m:si", ns):
+            shared.append("".join(t.text or "" for t in si.iter(f"{{{ns['m']}}}t")))
+    wb = XT.fromstring(z.read("xl/workbook.xml"))
+    hit = [s for s in wb.findall("m:sheets/m:sheet", ns) if s.get("name") == name]
+    if len(hit) != 1:
+        raise ValueError(f"시트 {name!r} {len(hit)}개")
+    rid = hit[0].get(f"{{{ns['r']}}}id")
+    rels = XT.fromstring(z.read("xl/_rels/workbook.xml.rels"))
+    target = next(x.get("Target") for x in rels if x.get("Id") == rid)
+    sheet = XT.fromstring(z.read("xl/" + target.lstrip("/").removeprefix("xl/")))
+    rows = []
+    for row in sheet.iter(f"{{{ns['m']}}}row"):
+        cells = {}
+        for c in row.findall("m:c", ns):
+            idx = 0
+            for ch in re.match(r"[A-Z]+", c.get("r")).group(0):
+                idx = idx * 26 + (ord(ch) - 64)
+            t, v = c.get("t"), c.find("m:v", ns)
+            if t == "s":
+                val = shared[int(v.text)] if v is not None else None
+            elif t == "inlineStr":
+                val = "".join(x.text or "" for x in c.iter(f"{{{ns['m']}}}t"))
+            elif t in ("str", "b", "e"):
+                val = v.text if v is not None else None
+            else:
+                val = float(v.text) if v is not None and v.text not in (None, "") else None
+            cells[idx - 1] = val
+        rows.append([cells.get(i) for i in range(max(cells) + 1)] if cells else [])
+    return rows
+
+
+def fetch_gld_archive():
+    req = urllib.request.Request(PROF["archive"], headers={"User-Agent": "Mozilla/5.0 (stock-widgets-preview ETF card)"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return r.read()
+
+
+def parse_gld_archive(body):
+    """GLD 과거 자료 xlsx → [(날짜 iso, 줄)] 날짜 오름차순. 줄 = 원래 셀 목록(값 검사는 대조가 창 안 줄에만 한다).
+    파일 전체 검사: zip(xlsx)인가, 시트 이름, 머리 열 이름(필요한 열이 정확히 하나씩), 모든 줄의 날짜 파싱·엄격 오름차순·중복 없음.
+    하나라도 어긋나면 ValueError(→ 대조 못 함). 반환: {"rows": [...], "col": {열 이름: 위치}}."""
+    if not isinstance(body, (bytes, bytearray)) or not body.startswith(b"PK"):
+        raise ValueError("운용사 파일이 xlsx가 아니다(차단 페이지 등)")
+    rows = read_xlsx_sheet(body, GLD_SHEET)
+    if not rows or not rows[0]:
+        raise ValueError("머리 줄 없음")
+    head = [str(x).strip() if x is not None else "" for x in rows[0]]
+    col = {}
+    for name in GLD_COLS:
+        if head.count(name) != 1:
+            raise ValueError(f"머리 열 {name!r} {head.count(name)}개")
+        col[name] = head.index(name)
+    out, last = [], None
+    for r in rows[1:]:
+        if not r or all(x in (None, "") for x in r):
+            continue
+        raw = r[col["Date"]] if len(r) > col["Date"] else None
+        if not isinstance(raw, str) or not re.fullmatch(r"\d{1,2}-[A-Z][a-z]{2}-\d{4}", raw.strip()):
+            raise ValueError(f"날짜를 읽지 못함: {raw!r}")
+        k = datetime.strptime(raw.strip(), "%d-%b-%Y").date().isoformat()
+        if last is not None and k <= last:
+            raise ValueError(f"날짜 순서·중복 {last} → {k}")
+        last = k
+        out.append((k, r))
+    if not out:
+        raise ValueError("자료 줄 없음")
+    return {"rows": out, "col": col}
+
+
+def _pos(x):
+    return isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x) and x > 0
+
+
+def cross_check_gld(series, arch, S, prevP):
+    """GLD: 이미 창으로 자른 Yahoo 종가(series)를 운용사 종가와 날마다 대조. arch = parse_gld_archive 결과(None이면 대조 못 함).
+    반환 (상태, 글, 구조 칸) — 구조 칸 {since, checkedThrough, pendingDate, maxGap, maxGapDate, exempt, oz, ozAsOf, tonnes}."""
+    if not arch or arch.get("err"):
+        return "unavailable", "운용사 과거 자료 파일을 받지 못했거나 모양이 다름" + (f" — {arch['err']}" if arch and arch.get("err") else ""), None
+    first, P = series[0][0], S
+    col = arch["col"]
+    ci, oi, ti = col["Closing Price"], col["Ounces of Gold per Share"], col["Tonnes of Gold"]
+    rows = [(k, r) for k, r in arch["rows"] if first <= k <= P]   # 창 밖·P 이후 줄의 값은 보지 않는다
+    iss, hol = {}, set()
+    di = col["Date"]
+    for k, r in rows:
+        cells = [r[i] if len(r) > i else None for i in (ci, oi, ti)]
+        rest = [x for i, x in enumerate(r) if i != di and x not in (None, "")]   # 날짜 빼고 값이 있는 모든 칸
+        if all(isinstance(x, str) and x.strip() == GLD_HOLIDAY for x in cells) and all(isinstance(x, str) and x.strip() == GLD_HOLIDAY for x in rest):
+            hol.add(k)
+        elif _pos(cells[0]):
+            iss[k] = r
+        else:
+            return "unavailable", f"운용사 파일 {k} 줄의 종가가 숫자가 아니거나 0 이하({cells[0]!r})", None
+    if not iss:
+        return "unavailable", f"운용사 파일에 {first}~{P} 종가가 없음", None
+    through = max(iss)
+    if through < prevP:
+        return "unavailable", f"운용사 종가가 {through}까지만 있음 — 직전 세션 {prevP}까지 없다", None
+    ys = dict(series)
+    exempt = set()
+    # 평일 완전성: 창 첫날~through의 모든 평일이 운용사 파일에 줄(숫자 또는 US Holiday)로 있어야 한다(양쪽에서 같이 빠진 날을 잡는다)
+    day, end = d(first), d(through)
+    have = set(iss) | hol
+    while day <= end:
+        k = day.isoformat()
+        if day.weekday() < 5 and k not in have:
+            if k in GLD_CAL_OK:
+                exempt.add(k)
+            else:
+                return "unavailable", f"운용사 파일에 평일 {k} 줄이 없음", None
+        day += timedelta(days=1)
+    for k in sorted(hol):
+        if k in ys:
+            if k in GLD_CAL_OK:
+                exempt.add(k)
+                continue
+            return "mismatch", f"운용사가 휴장으로 표기한 {k}에 시장 종가가 있음(가격 차이 아님 — 달력 불일치)", None
+    for k, _ in series:
+        if k > through:
+            break
+        if k not in iss and k not in hol and k not in exempt:
+            if k in GLD_CAL_OK:
+                exempt.add(k)
+                continue
+            return "mismatch", f"{k} 시장 종가는 있는데 운용사 종가가 없음", None
+    worst = (None, 0.0)
+    for k in sorted(iss):
+        if k not in ys:
+            if k in GLD_CAL_OK:
+                exempt.add(k)
+                continue
+            return "mismatch", f"운용사 종가 {k}가 시세에 없음", None
+        g = ys[k] / iss[k][ci] - 1
+        if abs(g) > GLD_TOL + 1e-12:
+            return "mismatch", f"종가 차이가 허용 범위(±{GLD_TOL * 100:g}%)를 넘음: {k} 시장 {ys[k]:.2f} · 운용사 {iss[k][ci]:.2f} ({g * 100:+.3f}%)", None
+        if worst[0] is None or abs(g) > abs(worst[1]):
+            worst = (k, g)
+    pending = None
+    if through < P:
+        pending = P   # through == prevP(위에서 확인) — P 줄이 휴장 표기면 위 달력 검사가 이미 불일치로 냈다
+    last = iss[through]
+    oz, tn = (last[oi] if len(last) > oi else None), (last[ti] if len(last) > ti else None)
+    info = {"since": first, "checkedThrough": through, "pendingDate": pending, "maxGap": worst[1], "maxGapDate": worst[0],
+            "exempt": len(exempt), "oz": oz if _pos(oz) else None, "tonnes": tn if _pos(tn) else None, "ozAsOf": through}
+    same = all(abs(ys[k] - iss[k][ci]) < 0.005 for k in iss if k in ys)   # 센트 단위로 모두 같으면 "최대 0.000%" 대신 그렇게 적는다
+    text = (f"운용사 과거 자료 파일의 종가와 {first}~{through} 날마다 대조("
+            + ("모든 날 센트 단위까지 같음" if same else f"차이 최대 {abs(worst[1]) * 100:.3f}%, {worst[0]}") + ")"
+            + (f" · 대조 제외 {len(exempt)}일(운용사 달력 표기 예외)" if exempt else "")
+            + (f" · 마지막 {P} 종가는 운용사 게시 전이라 대조 전" if pending else ""))
+    return "ok", text, info
+
+
+# ---------- TLT(채권) — iShares 상품 페이지 ----------
+
+NUM = r"(?:[0-9]{1,3}(?:,[0-9]{3})+|[0-9]+)(?:\.[0-9]+)?"   # 숫자 전체 형식 — 쉼표는 세 자리 구분만
+
+
+def _ldjson_scripts(text):
+    """HTML 파서로 실제 <script type="application/ld+json"> 요소의 내용만(주석 속 글자는 요소가 아니라 빠진다)."""
+    from html.parser import HTMLParser
+
+    class J(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=False)
+            self.on, self.cur, self.out = False, [], []
+
+        def handle_starttag(self, tag, attrs):
+            if tag == "script" and dict(attrs).get("type") == "application/ld+json":
+                self.on, self.cur = True, []
+
+        def handle_endtag(self, tag):
+            if tag == "script" and self.on:
+                self.out.append("".join(self.cur))
+                self.on = False
+
+        def handle_data(self, data):
+            if self.on:
+                self.cur.append(data)
+
+    j = J()
+    j.feed(text)
+    j.close()
+    return j.out
+
+
+def parse_ishares_fund(text, ticker):
+    """iShares 상품 페이지 JSON-LD에서 ticker 펀드에 연결된 NAV(값·USD·기준일)와 12개월 분배수익률을 읽는다.
+    조건: identifier에 {propertyID ticker, value ticker}가 있는 InvestmentFund가 정확히 하나(@id 비어 있지 않음), "NAV as of"를 가진
+    요소가 정확히 하나이고 그 about.@id가 그 펀드 @id. 어긋나면 nav None과 why(구체 사유). NAV는 유한한 양수·단위 USD·날짜 파싱일 때만."""
+    out = {"nav": None, "navDate": None, "ty": None, "tyAsOf": None, "why": None}
+    graph = []
+    for body in _ldjson_scripts(text):
+        try:
+            j = json.loads(body)
+        except ValueError:
+            continue
+        for o in (j if isinstance(j, list) else j.get("@graph") or [j]):
+            if isinstance(o, dict):
+                graph.append(o)
+    def is_fund(o):
+        ty = o.get("@type")
+        ty = ty if isinstance(ty, list) else [ty]
+        ids = o.get("identifier") if isinstance(o.get("identifier"), list) else [o.get("identifier")]
+        return "InvestmentFund" in ty and any(isinstance(i, dict) and i.get("propertyID") == "ticker" and i.get("value") == ticker for i in ids)
+    funds = [o for o in graph if is_fund(o)]
+    if len(funds) != 1 or not isinstance(funds[0].get("@id"), str) or not funds[0]["@id"].strip():
+        out["why"] = f"페이지가 {ticker} 펀드를 가리키지 않음(펀드 객체 {len(funds)}개)"
+        return out
+    fid = funds[0]["@id"]
+    navs = [o for o in graph if any(isinstance(p, dict) and p.get("name") == "NAV as of" for p in o.get("additionalProperty") or [])]
+    if len(navs) != 1:
+        out["why"] = f"NAV 요소가 {len(navs)}개"
+        return out
+    about = (navs[0].get("about") or {}).get("@id") if isinstance(navs[0].get("about"), dict) else None
+    if not isinstance(about, str) or not about.strip() or about != fid:
+        out["why"] = f"NAV 요소가 {ticker} 펀드에 연결돼 있지 않음"
+        return out
+    props = [p for p in navs[0]["additionalProperty"] if isinstance(p, dict)]
+    def bundle(name, unit):
+        hit = [p for p in props if p.get("name") == name]
+        if len(hit) != 1:
+            return None
+        p = hit[0]
+        ref = p.get("valueReference") if isinstance(p.get("valueReference"), dict) else {}
+        v, dt_ = p.get("value"), ref.get("value") if ref.get("name") == "As of Dates" else None
+        if unit is not None and p.get("unitText") != unit:
+            return None
+        if not isinstance(v, str) or not isinstance(dt_, str):
+            return None
+        pat = rf"({NUM})%" if unit is None else rf"({NUM})"   # 숫자 전체 문자열(수익률은 % 하나)
+        mv = re.fullmatch(pat, v.strip())
+        if not mv:
+            return None
+        try:
+            x = float(mv.group(1).replace(",", ""))
+            k = datetime.strptime(dt_.strip(), "%b %d, %Y").date().isoformat()
+        except ValueError:
+            return None
+        return (x, k) if math.isfinite(x) else None
+    nb = bundle("NAV as of", "USD")
+    if not nb or not nb[0] > 0:
+        out["why"] = "운용사 페이지에서 NAV를 읽지 못함(값·단위·날짜)"
+        return out
+    out["nav"], out["navDate"] = nb
+    tb = bundle("12m Trailing Yield as of", None)
+    if tb and 0 < tb[0] < 30:
+        out["ty"], out["tyAsOf"] = tb[0] / 100, tb[1]
+    return out
+
+
+def _element_text(text, attr, value):
+    """HTML 파서로 attr="value"인 요소를 찾아, 정확히 하나면 그 안 글자(주석·script·style 제외)를, 아니면 None."""
+    from html.parser import HTMLParser
+    VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
+
+    class B(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.stack, self.hits, self.cap, self.buf, self.skip = [], 0, None, [], 0
+
+        def handle_starttag(self, tag, attrs):
+            if any(k == attr and v == value for k, v in attrs):
+                self.hits += 1
+                if self.cap is None and tag not in VOID:
+                    self.cap = len(self.stack)
+            if tag in ("script", "style"):
+                self.skip += 1
+            if tag not in VOID:
+                self.stack.append(tag)
+
+        def handle_startendtag(self, tag, attrs):
+            if any(k == attr and v == value for k, v in attrs):
+                self.hits += 1
+
+        def handle_endtag(self, tag):
+            if tag in ("script", "style") and self.skip:
+                self.skip -= 1
+            if tag in self.stack:
+                while self.stack:
+                    t = self.stack.pop()
+                    if self.cap is not None and len(self.stack) == self.cap:
+                        # 대상 요소가 자기 닫는 태그로 닫혀야 정상 — 바깥 태그에 밀려 닫히면 깨진 블록
+                        self.done, self.broken = (True, False) if t == tag else (False, True)
+                        self.cap = None
+                    if t == tag:
+                        break
+
+        def handle_data(self, data):
+            if self.cap is not None and not self.skip:
+                self.buf.append(data)
+
+    b = B()
+    b.done = b.broken = False
+    b.feed(text)
+    b.close()
+    if b.hits != 1 or not b.done or b.broken:
+        return None   # 요소가 없거나 둘 이상이거나 닫히지 않음
+    return re.sub(r"\s+", " ", " ".join(b.buf))
+
+
+BOND_METRICS = (("dur", "Effective Duration", "yrs"), ("wam", "Weighted Avg Maturity", "yrs"),
+                ("ytm", "Average Yield to Maturity", "%"), ("n", "Number of Holdings", ""))
+
+
+def parse_bond_metrics(text, P, prevP):
+    """TLT 펀드 지표 블록(data-id="fundamentalsAndRisk-container", 페이지에 정확히 하나) 안 글자에서만 네 지표를 읽는다.
+    지표 이름이 나올 때마다 후보 하나 — 뒤에 "값 단위 as of 날짜"가 오는지 검사, 하나라도 깨졌거나 서로 다른 묶음이 둘 이상이면 그 지표 None.
+    반환 {키: (값, 기준일) | None}."""
+    out = {k: None for k, _, _ in BOND_METRICS}
+    plain = _element_text(text, "data-id", "fundamentalsAndRisk-container")
+    if plain is None:
+        return out
+    for key, name, unit in BOND_METRICS:
+        cands, bad = set(), False
+        for m in re.finditer(re.escape(name) + r"(?! \()", plain):
+            tail = plain[m.end():m.end() + 160]
+            mm = re.match(rf" (?:More Info [^0-9\-]*?)?(-?{NUM})(?![0-9,.])(%| yrs|)\s*as of ([A-Z][a-z]{{2}} \d{{1,2}}, \d{{4}})(?![0-9A-Za-z])", tail)
+            if not mm or mm.group(2).strip() != unit:
+                bad = True
+                break
+            try:
+                x = float(mm.group(1).replace(",", ""))
+                k = datetime.strptime(mm.group(3), "%b %d, %Y").date().isoformat()
+            except ValueError:
+                bad = True
+                break
+            if not math.isfinite(x) or not (prevP <= k <= P):
+                bad = True
+                break
+            if key == "n":
+                ok = x == int(x) and x > 0 and "." not in mm.group(1)
+            elif key in ("dur", "wam"):
+                ok = x > 0
+            else:
+                ok = 0 < x < 30
+            if not ok:
+                bad = True
+                break
+            cands.add((x / 100 if unit == "%" else int(x) if key == "n" else x, k))
+        if not bad and len(cands) == 1:
+            out[key] = next(iter(cands))
+    return out
+
+
 # ---------- 계산 ----------
 
 def d(s):
@@ -654,8 +1058,19 @@ def compute(series, fred, P, prevP, ohlc):
     S = series[-1][0]
     if S != P or series[-2][0] != prevP:
         raise Hold("date_mismatch", f"마지막 두 종가 {series[-2][0]}·{S}, 홈 세션 {prevP}·{P}")
-    nav_date = None
-    if PROF["navKind"] == "page_nav":
+    nav_date, hist = None, None
+    if PROF["navKind"] == "gld_archive":
+        # 표시 범위(page_nav와 같은 창)로 먼저 자르고 그 안에서만 날마다 대조 — 창 밖(2004~2014) 차이는 보지 않는다
+        need = min(minus_months(d(S), 12 * YEARS_SHOWN).isoformat(), f"{int(S[:4]) - YEARS_SHOWN}-12-01")
+        k0 = max(i for i, p in enumerate(series) if p[0] < need) if series[0][0] < need else 0
+        series = series[k0:]
+        cc, cc_text, hist = cross_check_gld(series, fred, S, prevP)
+        if cc != "ok":
+            raise Hold("cross_check" if cc == "mismatch" else "cross_unavailable", cc_text)
+        fred = {series[0][0]: None}
+    elif PROF["navKind"] == "page_nav":
+        if asset() != "equity" and isinstance(fred, dict) and fred.get("why"):   # TLT: 상품 확인·NAV 읽기 실패의 구체 사유
+            raise Hold("cross_unavailable", fred["why"])
         cc, cc_text = cross_check_page(series, fred, S, prevP)
         nav_date = (fred or {}).get("navDate") if cc == "ok" else None   # 홈 칸이 산문을 다시 읽지 않게 구조 칸으로
         if cc != "ok":
@@ -690,7 +1105,9 @@ def compute(series, fred, P, prevP, ohlc):
             "rangeHigh": {"date": ath[0], "close": round(ath[1], 2), "from": close / ath[1] - 1}, "since": series[0][0],
             "returns": returns(series, S), "monthly": monthly(series, S), "events": events(series, S),
             "daily": daily_block(series, ohlc, S),
-            "crossCheck": {"status": cc, "text": cc_text, **({"navDate": nav_date} if nav_date else {})}}
+            "crossCheck": {"status": cc, "text": cc_text, **({"navDate": nav_date} if nav_date else {}),
+                           **({k: hist[k] for k in ("since", "checkedThrough", "pendingDate", "maxGap", "maxGapDate", "exempt")} if hist else {})},
+            **({"gold": {"oz": hist["oz"], "tonnes": hist["tonnes"], "asOf": hist["ozAsOf"]}} if hist else {})}
 
 
 # ---------- 화면 ----------
@@ -1208,13 +1625,66 @@ def render_verdict(full, P):
 
 
 def render_no_verdict():
-    """판정 없는 가격 카드(IWM)의 "카드 판정" 탭 — 하지 않는 이유만(덮은 비중은 재지 못했으니 숫자를 말하지 않는다)."""
+    """판정 없는 가격 카드(IWM·TLT·GLD)의 "카드 판정" 탭 — 하지 않는 이유만(덮은 비중은 재지 못했으니 숫자를 말하지 않는다)."""
     E = PROF["etf"]
+    if PROF.get("noVerdictText"):
+        return (f'  <div class="section-title">카드 판정 — 판정하지 않음</div>\n'
+                f'  <div class="card held-box"><div class="card-title">판정하지 않음</div><div class="note">{PROF["noVerdictText"]}</div></div>')
     return (f'  <div class="section-title">카드 판정 — 판정하지 않음</div>\n'
             f'  <div class="card held-box"><div class="card-title">판정하지 않음</div><div class="note">'
             f'{E}는 미국 소형주 약 2,000개를 담는다 — 카드 판정을 보유 비중으로 평균하는 방식은 이렇게 많은 소형 종목에 맞지 않는다(사용자 결정 2026-10-21). '
             '운용사 보유 파일도 자동으로 받지 못해 이 사이트 카드가 그 비중을 얼마나 덮는지 잴 수 없다. '
             '그래서 SPY·QQQ·DIA처럼 카드 판정을 보유 비중으로 평균하지 않는다. 이 카드는 가격·수익률만 보여 준다.</div></div>')
+
+
+def fee_html():
+    lab, src, url = PROF["fee"]
+    return f'{lab}(<a href="{html.escape(url, quote=True)}">{src}</a>)'
+
+
+def head_common(by):
+    return [meta_item("1년 수익률", pct(by["1년"]["ret"]), color(by["1년"]["ret"]), PROF["closeNote"], f'기준 {kdate(by["1년"]["base"])} 종가'),
+            meta_item("5년 연 환산", pct(by["5년"]["annual"]), color(by["5년"]["annual"]), f'5년 누적 수익률을 1년마다로 바꾼 값({PROF["retBasis"]})',
+                      f'5년 누적 {pct(by["5년"]["ret"])}')]
+
+
+def render_head_gold(res, by):
+    """GLD 머리: 1년·5년 + 1주당 금·보유 금(운용사 공개 자료, P 이하 마지막 대조일 값). 못 읽은 칸은 "—"(대체값 없음)."""
+    g = res.get("gold") or {}
+    oz, tn, asof = g.get("oz"), g.get("tonnes"), g.get("asOf")
+    src = f'SPDR Gold Trust 공개 자료 {kdate(asof)}' if asof else "불러오지 못함"
+    gold_note = (f'GLD 한 주의 거래 가격이다. 금 1온스 값이 아니다 — 1주에 든 금은 {oz:.4f}온스이고, 비용 충당으로 1주에 든 금은 조금씩 줄어든다.'
+                 if oz else 'GLD 한 주의 거래 가격이다. 금 1온스 값이 아니다 — 1주에 든 금은 1온스보다 적고, 비용 충당으로 조금씩 줄어든다.')
+    return "\n".join(head_common(by) + [
+        meta_item("1주당 금", f'{oz:.4f}온스' if oz else "—", "var(--text)", "운용사가 공개하는 1주당 금 보유량(Ounces of Gold per Share)", src),
+        meta_item("보유 금", f'{tn:,.1f}톤' if tn else "—", "var(--text)", "신탁이 보유한 금 전체(Tonnes of Gold)", src),
+        f'    <div style="grid-column:1 / -1;font-size:11px;color:var(--text3);">{gold_note} {fee_html()}. 분배금은 없다.</div>'])
+
+
+def render_head_bond(res, by):
+    """TLT 머리: 1년·5년 + 평균 만기수익률·유효 듀레이션(iShares 지표 블록). 미 국채 금리와 나란히 두지 않는다. 못 읽은 칸·문장은 뺀다."""
+    b = (res.get("constituents") or {}).get("bond") or {}
+    ytm, dur, wam, n, ty = b.get("ytm"), b.get("dur"), b.get("wam"), b.get("n"), b.get("ty")
+    sub = lambda x: f'iShares {kdate(x[1])}' if x else "불러오지 못함"
+    extra = [f'12개월 분배수익률 {ty[0] * 100:.2f}%(NAV 기준, iShares {kdate(ty[1])})' if ty else None,
+             f'보유 {n[0]:,}종목(iShares {kdate(n[1])})' if n else None,
+             f'가중 평균 만기 {wam[0]:.2f}년(iShares {kdate(wam[1])})' if wam else None, fee_html()]
+    return "\n".join(head_common(by) + [
+        meta_item("평균 만기수익률", f'{ytm[0] * 100:.2f}%' if ytm else "—", "var(--text)",
+                  "iShares Average Yield to Maturity — 보유 채권의 가중 평균, 보수 차감 전. 펀드는 만기가 없어 확정 수익이 아니다", sub(ytm)),
+        meta_item("유효 듀레이션", f'{dur[0]:.2f}년' if dur else "—", "var(--text)",
+                  (f"장기 국채 수익률이 고르게 1%p 오를 때 가격이 약 {round(dur[0])}% 내린다는 1차 근사(iShares Effective Duration)" if dur else ""), sub(dur)),
+        '    <div style="grid-column:1 / -1;font-size:11px;color:var(--text3);">' + " · ".join(x for x in extra if x) + '. '
+        '수익률은 분배금 수령·재투자를 넣지 않은 시장 가격 기준이다. TLT는 매달 분배금을 준다. '
+        '<b>과거 종가는 운용사 자료와 대조하지 못했다 — 최근 하루 NAV만 확인.</b></div>'])
+
+
+def sources_other(cc):
+    if asset() == "gold":
+        return (f'시세: Yahoo Finance GLD 일봉(시장 가격, 분배금 없음). 종가를 SPDR Gold Trust(스폰서 World Gold Trust Services) {cc}. '
+                '시가·고가·저가(캔들과 차트의 최고·최저 표시)는 Yahoo 값 그대로다(대조하지 않음). 운용사 파일은 다시 게시하지 않고, 금 현물 가격은 싣지 않는다.')
+    return (f'시세: Yahoo Finance TLT 일봉(시장 가격, 분배금 제외). {cc}. 시가·고가·저가도 Yahoo 값 그대로다. '
+            '만기수익률·듀레이션·가중 평균 만기·분배수익률·보유 수는 iShares 상품 페이지의 TLT 지표, 각 기준일.')
 
 
 def fill(tpl, m):
@@ -1233,7 +1703,7 @@ def render(res):
               "NAVEXTRA": ('<button class="nav-btn" onclick="showSection(\'verdict\', this)">⚖️ 카드 판정</button>' if PROF["verdict"] else
                            '<button class="nav-btn" onclick="showSection(\'verdict\', this)">⚖️ 판정하지 않음</button>' if PROF.get("noVerdict") else ""),
               # 구성 종목 탭은 상위 보유·업종을 읽을 수 있는 카드만(IWM은 숨김 — 운용사 자료를 확보하지 못함)
-              "HOLDINGSNAV": ("" if PROF["navKind"] == "page_nav" else '<button class="nav-btn" onclick="showSection(\'holdings\', this)">🧩 구성 종목</button>'),
+              "HOLDINGSNAV": ("" if PROF["navKind"] == "page_nav" or asset() != "equity" else '<button class="nav-btn" onclick="showSection(\'holdings\', this)">🧩 구성 종목</button>'),
               "VERDICT": (f'<div id="verdict" class="section" data-etf="{verdict_attr(res.get("verdictData"))}">\n'
                           f'{render_verdict(res.get("verdictData"), res.get("builtFor"))}\n</div>' if PROF["verdict"] else
                           f'<div id="verdict" class="section">\n{render_no_verdict()}\n</div>' if PROF.get("noVerdict") else "")}
@@ -1249,6 +1719,14 @@ def render(res):
     by = {r["label"]: r for r in res["returns"]}
     arrow = "▲" if res["chg"] > 0 else "▼" if res["chg"] < 0 else ""
     price = f'<span class="price-change" style="color:{color(res["chg"])};">{arrow} {pct(res["chg"], 2)}</span> {num(res["close"])}'
+    if asset() != "equity":   # 금·채권: 보유·PER·국채 칸을 만들지 않는다(주식형 경로는 아래 그대로)
+        meta = render_head_gold(res, by) if asset() == "gold" else render_head_bond(res, by)
+        dl = res["daily"]
+        m = dict(common, PRICE=price, META=meta, CHART=fill(CHART_HTML, common), RETURNS=render_returns(res),
+                 MONTHLY=render_monthly(res), EVENTS=render_events(res), HOLDINGS="", SOURCES=sources_other(cc),
+                 DAILY=json.dumps(dl["rows"], separators=(",", ":")), MA=json.dumps(dl["ma"], separators=(",", ":")),
+                 RANGE_BASE=json.dumps(dl["base"]))
+        return fill(head, m) + fill(body, m)
     cons = res.get("constituents") or {}
     ch, tsy = cons.get("chars"), cons.get("dgs10")
     na = "불러오지 못함"
@@ -1369,21 +1847,30 @@ def pages_for(res, P):
         return res, page
 
 
-def price_summary(res, P):
-    """홈 데이터 가격형 칸(kind price). 정상이면 종가·하루 등락·1년 수익률·NAV 확인 날짜, 아니면 보류 사유만."""
-    base = {"etf": PROF["etf"], "kind": "price", "status": res["status"], "builtFor": res.get("builtFor") or P, "S": res.get("S")}
+def price_summary(res, P, prevP=None):
+    """홈 데이터 가격형 칸(kind price). 정상이면 종가·하루 등락·1년 수익률·대조 정보, 아니면 보류 사유만.
+    check: "day"(IWM·TLT — 최근 하루 NAV, navDate) / "history"(GLD — since~checkedThrough 날마다, pendingDate). prevSession은 홈 직전 세션."""
+    hist = PROF["navKind"] == "gld_archive"
+    base = {"etf": PROF["etf"], "kind": "price", "status": res["status"], "builtFor": res.get("builtFor") or P, "S": res.get("S"),
+            "check": "history" if hist else "day", "prevSession": prevP}
     if res["status"] != "ok":
         return dict(base, reasonText=res.get("reasonText") or "자료 보류")
+    if res.get("prevSession") != prevP:
+        raise ValueError(f"직전 세션 불일치 {res.get('prevSession')} · {prevP}")
     by = {r["label"]: r for r in res["returns"]}
-    return dict(base, close=res["close"], chg=res["chg"], ret1y=by["1년"]["ret"], navDate=(res.get("crossCheck") or {}).get("navDate"))
+    cc = res.get("crossCheck") or {}
+    out = dict(base, close=res["close"], chg=res["chg"], ret1y=by["1년"]["ret"])
+    if hist:
+        return dict(out, since=cc.get("since"), checkedThrough=cc.get("checkedThrough"), pendingDate=cc.get("pendingDate"))
+    return dict(out, navDate=cc.get("navDate"))
 
 
-def write_home_price(out, res, P):
+def write_home_price(out, res, P, prevP=None):
     sys.path.insert(0, str(ROOT / "v2" / "etf"))
     import etf_daily as ED   # noqa: E402 — 홈 데이터 파일 읽기·쓰기 규칙을 같이 쓴다(다른 칸을 지우지 않게)
     d_ = out / "preview-only-etf-data.js"
     data = ED.read_data_js(d_)
-    data[PROF["etf"]] = price_summary(res, P)
+    data[PROF["etf"]] = price_summary(res, P, prevP)
     ED.write_atomic(d_, "// preview 전용 ETF 요약(v2/etf/etf_daily.py가 쓴다 — 손으로 고치지 않는다; 가격형 칸은 v2/index/index_daily.py)\n"
                         f"{ED.DATA_PREFIX}{json.dumps(data, ensure_ascii=False)};\n")
 
@@ -1418,6 +1905,14 @@ def main(argv=None):
         try:
             if PROF["navKind"] == "ssga":   # 대조 자료 = 운용사 NAV 이력
                 fred = parse_navhist(Path(a.fred).read_bytes() if a.fred else fetch_navhist(PROF["navFile"]))
+            elif PROF["navKind"] == "gld_archive":   # 운용사 과거 자료 xlsx — 모양이 다르면 그 사유를 대조 못 함 사유로
+                try:
+                    fred = parse_gld_archive(Path(a.fred).read_bytes() if a.fred else fetch_gld_archive())
+                except Exception as e:   # noqa: BLE001
+                    fred = {"err": f"{type(e).__name__}: {e}"[:200]}
+            elif PROF["navKind"] == "page_nav" and asset() == "bond":   # TLT: 펀드에 연결된 JSON-LD 요소에서만 NAV(원문은 지표에도 쓴다)
+                ptext = Path(a.fred).read_text(encoding="utf-8") if a.fred else http_get(PROF["page"])
+                fred = parse_ishares_fund(ptext, PROF["ticker"])
             elif PROF["navKind"] == "page_nav":   # 운용사 상품 페이지에서 최근 하루 NAV(+ PER·보유 수)
                 fred = parse_ishares_page(Path(a.fred).read_text(encoding="utf-8") if a.fred else http_get(PROF["page"]))
             elif PROF["navKind"] == "invesco":   # 날짜·값 쌍 그대로(중복·이상값은 대조가 "NAV 형식 변경"으로)
@@ -1430,6 +1925,19 @@ def main(argv=None):
             fred = None
         res = compute(series, fred, P, prevP, ohlc)
         selfcheck(res, [p for p in series if p[0] <= P])
+        if asset() != "equity":   # 금·채권: 보유·SSGA 페이지·업종·PER·DGS10을 읽지 않는다
+            cons = {"holdings": None, "sectors": None, "chars": None}
+            if asset() == "bond":   # 대조에 쓴 같은 페이지 원문에서(다시 받지 않는다)
+                try:
+                    bm = parse_bond_metrics(ptext, P, prevP)
+                except Exception:   # noqa: BLE001 — 지표만 비운다(NAV 대조는 그대로)
+                    traceback.print_exc()
+                    bm = {k: None for k, _, _ in BOND_METRICS}
+                ty, tya = fred.get("ty"), fred.get("tyAsOf")
+                bm["ty"] = (round(ty, 6), tya) if ty is not None and tya and prevP <= tya <= P else None
+                cons["bond"] = bm
+            res["constituents"] = cons
+            raise _Done()
         cons = {"holdings": read_spy(a.spy or out / (PROF["verdictJson"] or "v2/etf/SPY.json")) if PROF["navKind"] != "page_nav" else None,
                 "sectors": None, "chars": None}
         page = ""
@@ -1462,6 +1970,8 @@ def main(argv=None):
                 except Exception:   # noqa: BLE001
                     cons[key] = None
         res["constituents"] = cons
+    except _Done:
+        pass
     except Hold as h:
         res = {"status": "held", "reason": h.reason, "reasonText": REASON_TEXT[h.reason], "detail": h.detail,
                "builtFor": P, "S": None}
@@ -1484,12 +1994,24 @@ def main(argv=None):
     files = {out / PROF["json"]: json.dumps(public, ensure_ascii=False, indent=1) + "\n"}
     if page is not None:
         files[out / PROF["html"]] = page
-    write_all(files)
-    if PROF.get("homePrice"):   # 판정 단계가 없는 가격 카드: 홈 데이터의 자기 칸만 이 단계가 쓴다(쓰기 직전에 읽어 다른 ETF 칸 보존)
+    if PROF.get("homePrice"):
+        # 가격 카드(판정 단계 없음): ① 홈 칸 → ② 카드 HTML → ③ 카드 JSON. JSON(runId)이 "이번 실행이 끝까지 썼다"는 표시라 맨 마지막 —
+        # 앞이 실패하면 뒤를 쓰지 않고 멈춘다. 알림(etf_alerts run_price)은 JSON runId가 이번 실행이 아니면 "갱신 실패"를 연다(설계 dr r3~r5).
         try:
-            write_home_price(out, res, P)
-        except Exception as ex:   # noqa: BLE001 — 카드는 이미 썼다; 홈 칸은 옛것이 남아 "갱신 대기"로 보인다
-            print(f"ETF_FAIL {PROF['key']} 홈 칸 쓰기 실패 {type(ex).__name__}")
+            if page is None:   # 가격 카드는 틀 없는 최소 페이지까지 늘 만든다 — 없으면 완료 표시(JSON)를 쓰지 않는다
+                raise RuntimeError("카드 페이지 없음")
+            write_home_price(out, res, P, prevP)
+            write_all({out / PROF["html"]: page})
+            write_all({out / PROF["json"]: files[out / PROF["json"]]})
+        except Exception as ex:   # noqa: BLE001
+            line = f"ETF_FAIL {PROF['key']} 쓰기 실패 {type(ex).__name__} — 이번 실행 산출물 미완"
+            print(line)
+            if os.environ.get("GITHUB_STEP_SUMMARY"):
+                with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+                    f.write(line + "\n")
+            return 1
+    else:
+        write_all(files)
     line = (f"{'ETF CARD' if PROF['verdict'] or PROF.get('noVerdict') else 'INDEX'} {PROF['key']}: {res['status']}"
             + (f" S={res['S']} close={res['close']} cross={res['crossCheck']['status']} events={len(res['events'])}"
                if res["status"] == "ok" else f" reason={res['reason']} ({res.get('detail', '')})"))

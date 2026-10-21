@@ -262,27 +262,36 @@ def run_code_sig(etfs, root, v2, repo, dry=False, runner=gh, approved=None):
 
 
 def run_price(etf, root, repo, dry=False, runner=gh):
-    """가격형 카드(판정 없음, IWM)의 시세 보류 알림 — 이번 실행 산출물(runId)이 held면 이슈 "[ETF <ETF> price]", ok면 닫는다."""
+    """가격형 카드(판정 없음 — IWM·TLT·GLD)의 알림. 이슈 "[ETF <ETF> price]" 하나로:
+    - 카드 JSON이 이번 실행 것이 아니면(파일 없음 포함) "갱신 실패" — 카드 단계는 홈 → HTML → JSON 순으로 쓰고 JSON이 완료 표시다
+      (단계가 죽었거나 쓰기가 중간에 실패, 2026-10-21 설계 dr r3~r5).
+    - 이번 실행 JSON이 held면 "시세 보류", ok면 닫는다."""
     try:
         res = json.loads((root / "v2" / "etf" / f"{etf}_card.json").read_text(encoding="utf-8"))
     except Exception:   # noqa: BLE001
-        return []
-    if not fresh(res):
-        return []
+        res = None
+    stale = res is None or not fresh(res)
     issues = json.loads(runner(["issue", "list", "--label", LABEL, "--state", "open", "--limit", "100",
                                 "--json", "number,title,body"]) or "[]")
     prefix = f"[ETF {etf} price]"
     cur = next((i for i in issues if i["title"].startswith(prefix)), None)
     acts = []
-    if res.get("status") != "ok":
-        key = hashlib.sha256(f'{res.get("reason")}'.encode()).hexdigest()[:12]   # 사유 종류만 — 같은 사유에서 차이 %가 바뀌는 것은 새 사건으로 보지 않는다
-        body = (f"**{etf} 가격 카드 시세 보류** — 실행 {res.get('runAt')} · 홈 세션 {res.get('builtFor')}\n\n"
-                f"사유: {res.get('reasonText')} — {res.get('detail') or ''}\n\n<!-- etf-key: {key} -->")
+    if stale or res.get("status") != "ok":
+        if stale:
+            key, what = "stale", "가격 카드 갱신 실패"
+            body = (f"**{etf} 가격 카드 갱신 실패** — 이번 실행이 카드 JSON을 끝까지 쓰지 못했다(단계 실패 또는 쓰기 중단). "
+                    f"홈·카드에는 이전 실행 값이 남아 있을 수 있다. 남은 JSON: 실행 {(res or {}).get('runAt')} · 홈 세션 {(res or {}).get('builtFor')}\n\n"
+                    f"<!-- etf-key: {key} -->")
+        else:
+            key = hashlib.sha256(f'{res.get("reason")}'.encode()).hexdigest()[:12]   # 사유 종류만 — 같은 사유에서 차이 %가 바뀌는 것은 새 사건으로 보지 않는다
+            what = "가격 카드 시세 보류"
+            body = (f"**{etf} 가격 카드 시세 보류** — 실행 {res.get('runAt')} · 홈 세션 {res.get('builtFor')}\n\n"
+                    f"사유: {res.get('reasonText')} — {res.get('detail') or ''}\n\n<!-- etf-key: {key} -->")
         old = (re.search(r"<!-- etf-key: (.*?) -->", cur["body"] or "") or [None, None])[1] if cur else None
         if not cur:
             acts.append(("create", f"{etf} price"))
             if not dry:
-                runner(["issue", "create", "--label", LABEL, "--title", f"{prefix} 가격 카드 시세 보류", "--body-file", "-"], body)
+                runner(["issue", "create", "--label", LABEL, "--title", f"{prefix} {what}", "--body-file", "-"], body)
         elif old != key:
             acts.append(("comment", f"{etf} price"))
             if not dry:
@@ -298,7 +307,7 @@ def run_price(etf, root, repo, dry=False, runner=gh):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--etf", default="SPY,QQQ,DIA", help="쉼표로 여러 ETF")
-    ap.add_argument("--price", default="", help="가격형 카드(판정 없음, 쉼표로) — 시세 보류만 알린다(워크플로가 IWM을 넘긴다)")
+    ap.add_argument("--price", default="", help="가격형 카드(판정 없음, 쉼표로) — 시세 보류·갱신 실패를 알린다(워크플로가 IWM,TLT,GLD를 넘긴다)")
     ap.add_argument("--root", default=str(ETF_DIR.parents[1]))
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args(argv)

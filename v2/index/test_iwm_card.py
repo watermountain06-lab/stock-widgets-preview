@@ -122,11 +122,15 @@ def main():
             r = json.loads((root / "v2" / "etf" / "IWM_card.json").read_text())
             r["runId"] = "4.1"   # 지난 실행(이번 5.1이 아님) — 시험 환경의 실행 ID와 무관하게
             (root / "v2" / "etf" / "IWM_card.json").write_text(json.dumps(r))
-            check("알림: 지난 실행 산출물(runId 다름)이면 아무것도 안 함", EA.run_price("IWM", root, "o/r", runner=gh) == [])
+            # 2026-10-21 GLD·TLT 설계 dr r3~r5: 이번 실행 JSON이 아니면(단계 실패·쓰기 중단) "갱신 실패" 이슈 — 예전엔 아무것도 안 했다
+            a0 = EA.run_price("IWM", root, "o/r", runner=gh)
+            check("알림: 지난 실행 산출물(runId 다름) → 이슈 [ETF IWM price] 갱신 실패",
+                  [x for x, _ in a0] == ["create"] and gh.issues[0]["title"] == "[ETF IWM price] 가격 카드 갱신 실패", a0)
             r["runId"] = "5.1"
             (root / "v2" / "etf" / "IWM_card.json").write_text(json.dumps(r))
             a1 = EA.run_price("IWM", root, "o/r", runner=gh)
-            check("알림: 이번 실행 보류 → 이슈 [ETF IWM price]", [x for x, _ in a1] == ["create"] and gh.issues[0]["title"].startswith("[ETF IWM price]"), a1)
+            check("알림: 이어서 이번 실행 보류 → 같은 이슈에 사건 바뀜", [x for x, _ in a1] == ["comment"] and len(gh.issues) == 1
+                  and "시세 보류" in gh.issues[0]["body"], a1)
             r.update(status="ok")
             (root / "v2" / "etf" / "IWM_card.json").write_text(json.dumps(r))
             a2 = EA.run_price("IWM", root, "o/r", runner=gh)

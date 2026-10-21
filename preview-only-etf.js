@@ -5,8 +5,10 @@
 // 규칙(v2/research/etf_verdict_prereg.md): 참고용·매수 기준 아님. builtFor가 홈 세션(StockData.meta.priceSession)과 다르면
 // 묵음 — 판정·점수를 지우고 사유만 보인다. 데이터 파일이 없거나 깨져 ETF_DATA가 없으면 "불러오지 못함"을 보인다.
 (function () {
-  var ORDER = ['SPY', 'QQQ', 'DIA', 'IWM'];
-  var PRICE_ONLY = {IWM: true};   // 가격형(판정 없음) — 카드 생성기(PROFILES homePrice)만 더하면 된다. 자료가 없어도 가격형으로 그린다   // 카드 순서. 새 ETF는 etf_daily.py·사전 등록, 카드 생성기(v2/index/index_daily.py PROFILES)에 더한 뒤 여기에.
+  // 카드 순서. 새 ETF는 etf_daily.py·사전 등록, 카드 생성기(v2/index/index_daily.py PROFILES)에 더한 뒤 여기에.
+  var ORDER = ['SPY', 'QQQ', 'DIA', 'IWM', 'TLT', 'GLD'];
+  // 가격형(판정 없음) — 값 = 허용 대조 방식(check). 카드 생성기(PROFILES homePrice)만 더하면 된다. 자료가 없어도 가격형으로 그린다.
+  var PRICE_ONLY = {IWM: 'day', TLT: 'day', GLD: 'history'};
   var TIERS = ['저평가', '적정~저평가', '적정', '적정~고평가', '고평가', '카드 없음', '판정 보류', '그 밖 제외', '분류 안 됨'];
 
   function pct(x, d) { return x == null ? '—' : (x * 100).toFixed(d == null ? 1 : d) + '%'; }
@@ -40,11 +42,24 @@
       + '<div class="etf-card-label">' + label + '</div>' + body + '</a>';
   }
 
-  // 가격형 칸(kind price, 판정 없음 — IWM, 2026-10-21): 정상은 종가·하루 등락·1년 수익률·NAV 확인 날짜, 보류는 사유만.
-  function validPrice(d) {
-    if (!d || d.kind !== 'price' || (d.status !== 'ok' && d.status !== 'held') || typeof d.builtFor !== 'string') return false;
+  // 가격형 칸(kind price, 판정 없음 — IWM·TLT·GLD, 2026-10-21): 정상은 종가·하루 등락·1년 수익률·대조 정보, 보류는 사유만.
+  // check: day(최근 하루 NAV — navDate ∈ {builtFor, prevSession}) / history(GLD — 운용사 종가와 since~checkedThrough 날마다).
+  // check가 없는 칸은 IWM만 예전 형식으로 받는다(새 JS가 먼저 배포되고 카드 단계가 아직 돌지 않은 사이 — 설계 dr r3).
+  function isDay(s) {
+    if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+    var t = new Date(s + 'T00:00:00Z');   // 날짜만 — UTC로 읽고 UTC로 되돌린다(로컬 시간대 끼우지 않음)
+    return !isNaN(t.getTime()) && t.toISOString().slice(0, 10) === s;
+  }
+  function validPrice(t, d) {
+    if (!d || d.kind !== 'price' || d.etf !== t || (d.status !== 'ok' && d.status !== 'held') || typeof d.builtFor !== 'string') return false;
     if (d.status === 'held') return typeof d.reasonText === 'string';
-    return fin(d.close) && d.close > 0 && fin(d.chg) && fin(d.ret1y) && typeof d.S === 'string' && typeof d.navDate === 'string';
+    if (!(fin(d.close) && d.close > 0 && fin(d.chg) && fin(d.ret1y) && typeof d.S === 'string')) return false;
+    if (d.check == null) return t === 'IWM' && typeof d.navDate === 'string';   // 예전 IWM 칸
+    if (d.check !== PRICE_ONLY[t] || d.S !== d.builtFor || !isDay(d.builtFor) || !isDay(d.prevSession) || !(d.prevSession < d.builtFor)) return false;
+    if (d.check === 'day') return isDay(d.navDate) && (d.navDate === d.builtFor || d.navDate === d.prevSession);
+    if (!isDay(d.since) || !isDay(d.checkedThrough) || !(d.since <= d.checkedThrough)) return false;
+    return (d.checkedThrough === d.builtFor && d.pendingDate === null)
+      || (d.checkedThrough === d.prevSession && d.pendingDate === d.builtFor);
   }
 
   function priceCard(t, d) {
@@ -55,15 +70,24 @@
       return card(href, label, '<div class="etf-card-main etf-held">시세 보류</div><div class="etf-card-sub etf-held">' + why + '</div>'
         + '<div class="etf-card-go">ETF 카드 ↗</div>');
     }
-    if (!validPrice(d)) return held(d ? 'ETF 자료 형식 오류' : 'ETF 자료를 불러오지 못함');
+    if (!validPrice(t, d)) return held(d ? 'ETF 자료 형식 오류' : 'ETF 자료를 불러오지 못함');
     if (d.builtFor !== session) return held('갱신 대기(ETF ' + esc(d.builtFor) + ' · 홈 ' + esc(session || '—') + ')');
     if (d.status !== 'ok') return held(esc(d.reasonText));
     var up = function (x) { return '<span style="color:' + (x >= 0 ? 'var(--up)' : 'var(--down)') + '">' + (x >= 0 ? '+' : '−') + Math.abs(x * 100).toFixed(2) + '%</span>'; };
+    var dot = function (s) { return esc(s.replace(/-/g, '.')); };
+    var tag, ref;
+    if (d.check === 'history') {
+      tag = '판정하지 않음 · 운용사 종가와 ' + dot(d.since) + '~' + dot(d.checkedThrough) + ' 대조';
+      ref = d.pendingDate ? dot(d.pendingDate) + ' 종가는 대조 전' : '과거 가격도 운용사 자료와 날마다 대조';
+    } else {
+      tag = '판정하지 않음 · NAV는 ' + dot(d.navDate) + ' 하루만 대조';
+      ref = '과거 가격은 운용사 자료와 대조하지 못함';
+    }
     return card(href, label,
       '<div class="etf-card-main etf-tab">' + d.close.toFixed(2) + '</div>'
-      + '<div class="etf-card-sub">하루 ' + up(d.chg) + ' · 1년 ' + up(d.ret1y) + '</div>'
-      + '<div class="etf-card-tag">판정하지 않음 · NAV는 ' + esc(d.navDate.replace(/-/g, '.')) + ' 하루만 대조</div>'
-      + '<div class="etf-card-go">ETF 카드 ↗</div><div class="etf-ref">과거 가격은 운용사 자료와 대조하지 못함</div>');
+      + '<div class="etf-card-sub">하루 ' + up(d.chg) + ' · 1년 ' + up(d.ret1y) + (t === 'TLT' ? ' (분배금 제외)' : '') + '</div>'
+      + '<div class="etf-card-tag">' + tag + '</div>'
+      + '<div class="etf-card-go">ETF 카드 ↗</div><div class="etf-ref">' + ref + '</div>');
   }
 
   function etfCard(t, d) {
