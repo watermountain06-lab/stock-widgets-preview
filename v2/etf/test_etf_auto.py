@@ -407,6 +407,15 @@ def test_isolation(tmp, v2, P, asof):
     subprocess.run([sys.executable, str(HERE / "etf_fallback.py"), "--etf", "DIA", "--out-root", str(out)], capture_output=True, text=True)
     d4 = data()
     check("격리: DIA 대체 단계 뒤 SPY·QQQ 칸 그대로", d4.get("SPY") == spy0 and d4.get("QQQ") == qqq0 and d4["DIA"]["status"] == "held")
+    # 가격형 칸(IWM — 카드 생성기가 씀)을 판정 단계·대체 단계가 지우지 않는다
+    data_now = etf_daily.read_data_js(out / "preview-only-etf-data.js")
+    data_now["IWM"] = {"etf": "IWM", "kind": "price", "status": "ok", "builtFor": P}
+    etf_daily.write_atomic(out / "preview-only-etf-data.js", etf_daily.DATA_PREFIX + json.dumps(data_now, ensure_ascii=False) + ";\n")
+    subprocess.run([sys.executable, str(HERE / "etf_fallback.py"), "--etf", "QQQ", "--out-root", str(out)], capture_output=True, text=True)
+    subprocess.run([sys.executable, str(HERE / "etf_daily.py"), "--etf", "DIA", "--xlsx", str(tmp / "dia.xlsx"), "--out-root", str(out),
+                    "--v2", str(v2), "--stocks", str(tmp / "stocks.json"), "--private", str(tmp / "pvd"), "--cfg", str(HERE / "ticker_alias.json")],
+                   capture_output=True, text=True)
+    check("격리: 판정·대체 단계가 가격형 IWM 칸을 지우지 않음", data().get("IWM", {}).get("kind") == "price")
 
 
 def test_invesco(tmp, v2, P):

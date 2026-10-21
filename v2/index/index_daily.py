@@ -105,6 +105,18 @@ PROFILES = {
             "verdict": True, "navKind": "ssga", "verdictJson": "v2/etf/DIA.json", "etf": "DIA", "nonEqText": "현금·권리 줄",
             "page": "https://www.ssga.com/us/en/intermediary/etfs/spdr-dow-jones-industrial-average-etf-trust-dia", "navFile": "dia", "sectorCount": 9},
     # QQQ(2026-10-21, 설계 dr r1~r3): 대조는 Invesco NAV 이력(회전 창, 달력일 — 비거래일은 직전 값 반복). 업종(ICB)·PER은 펀드 기준.
+    # IWM(2026-10-21, 사용자 결정): 러셀 2000 — 가격 카드만(판정 없음). iShares가 보유·NAV 이력 파일을 막아(로컬·Actions) 과거 가격은
+    # 대조하지 못하고, 상품 페이지의 최근 하루 NAV만 대조한다(navKind page_nav). 구성 종목 탭 없음(상위 보유·업종을 읽을 수 없다).
+    "IWM": {"key": "IWM", "name": "IWM", "sym": "IWM", "symText": "IWM", "ref": "운용사 NAV(최근 하루)",
+            "json": "v2/etf/IWM_card.json", "html": "preview-only-etf-iwm.html",
+            "title": "IWM ETF", "badge": "IWM", "kind": "ETF · 러셀 2000(미국 소형주 약 2,000개)을 따라감 · 시장 가격(배당 제외)",
+            "company": "iShares Russell 2000 ETF", "current": "IWM · ETF", "backnav": "",
+            "chart": "IWM 차트", "retTitle": "IWM 시장 가격(배당 제외)", "what": "ETF 시세", "weightOf": "IWM 비중",
+            "closeNote": "IWM 시장 가격(배당 제외). 과거 종가는 운용사 자료와 대조하지 못했다 — 최근 하루 NAV만 확인",
+            "span": "계산 구간({since}부터 — 표시에 필요한 범위만)",
+            "lede": "",
+            "verdict": False, "noVerdict": True, "navKind": "page_nav", "verdictJson": None, "etf": "IWM", "nonEqText": "",
+            "page": "https://www.ishares.com/us/products/239710/ishares-russell-2000-etf", "homePrice": True},
     "QQQ": {"key": "QQQ", "name": "QQQ", "sym": "QQQ", "symText": "QQQ", "ref": "운용사 NAV",
             "json": "v2/etf/QQQ_card.json", "html": "preview-only-etf-qqq.html",
             "title": "QQQ ETF", "badge": "QQQ", "kind": "ETF · 나스닥 100을 따라감 · 시장 가격(배당 제외)",
@@ -371,6 +383,60 @@ def cross_check_invesco(series, nav_pairs, P, prevP):
                   + (f" · 마지막 {P} 종가는 NAV 게시 전이라 대조 전(Yahoo 값)" if lag else "")), {k: nav[k] for k in both}
 
 
+def parse_ishares_page(text):
+    """iShares 상품 페이지(서버 렌더)에서 최근 NAV·기준일(JSON-LD "NAV as of" 묶음 — 정확히 하나), 펀드 PER·기준일, 보유 종목 수.
+    NAV 묶음이 없거나 둘 이상이 서로 다르거나 숫자가 이상하면 nav None(→ 대조 못 함). PER·보유 수는 못 읽으면 그 칸만 None."""
+    out = {"nav": None, "navDate": None, "pe": None, "peAsOf": None, "holdings": None, "holdingsAsOf": None}
+    hits = set(re.findall(r'"name":"NAV as of","value":"([^"]+)","unitText":"USD","valueReference":\{"@type":"PropertyValue",'
+                          r'"name":"As of Dates","value":"([A-Z][a-z]{2} \d{1,2}, \d{4})"\}', text))
+    if len(hits) == 1:
+        v, dt_ = next(iter(hits))
+        try:
+            x = float(v.replace(",", ""))
+            if math.isfinite(x) and x > 0:
+                out["nav"], out["navDate"] = x, datetime.strptime(dt_, "%b %d, %Y").date().isoformat()
+        except ValueError:
+            pass
+    plain = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", text)))
+    try:   # PER·보유 수는 칸마다 따로 — 못 읽어도 NAV(대조)는 그대로
+        m = re.search(r"P/E Ratio ([0-9]+(?:\.[0-9]+)?) as of ([A-Z][a-z]{2} \d{1,2}, \d{4})", plain)
+        if m and 3 < float(m.group(1)) < 100:
+            out["pe"], out["peAsOf"] = float(m.group(1)), datetime.strptime(m.group(2), "%b %d, %Y").date().isoformat()
+    except ValueError:
+        out["pe"] = out["peAsOf"] = None
+    try:
+        m = re.search(r"Number of Holdings ([0-9,]+) as of ([A-Z][a-z]{2} \d{1,2}, \d{4})", plain)
+        if m:
+            out["holdings"], out["holdingsAsOf"] = int(m.group(1).replace(",", "")), datetime.strptime(m.group(2), "%b %d, %Y").date().isoformat()
+    except ValueError:
+        out["holdings"] = out["holdingsAsOf"] = None
+    return out
+
+
+NAV_DAY_TOL = 0.010   # 최근 하루: |종가 / NAV − 1| ≤ 1.0%(SPY·QQQ·DIA의 최근 250세션 허용 폭과 같다)
+
+
+def cross_check_page(series, info, P, prevP):
+    """page_nav(IWM): 운용사 페이지의 최근 하루 NAV를 그날 Yahoo 종가와 대조. NAV 날짜는 홈 세션 P 또는 직전 세션 prevP여야 한다
+    (저녁엔 P의 NAV가 아직일 수 있다). 미래 날짜·그날 종가 없음 → 불일치, prevP보다 이르면 대조 못 함. 과거 구간은 대조하지 않는다."""
+    if not info or info.get("nav") is None:
+        return "unavailable", "운용사 페이지에서 NAV를 읽지 못함"
+    nd = info["navDate"]
+    if nd > P:
+        return "mismatch", f"운용사 NAV 날짜 {nd}가 홈 세션 {P}보다 뒤"
+    if nd < prevP:
+        return "unavailable", f"운용사 NAV가 {nd}까지만 있음 — 직전 세션 {prevP}까지 없다"
+    ys = dict(series)
+    if nd not in ys:
+        return "mismatch", f"NAV 날짜 {nd}의 종가가 시세에 없음"
+    g = ys[nd] / info["nav"] - 1
+    if abs(g) > NAV_DAY_TOL + 1e-12:
+        return "mismatch", f"종가와 NAV 차이가 허용 범위(±1%)를 넘음: {nd} {g * 100:+.2f}%"
+    return "ok", (f"iShares 상품 페이지의 {nd} NAV와 그날 종가 차이 {g * 100:+.2f}%(±1% 안)"
+                  + (f" · 마지막 {P} 종가는 NAV 게시 전이라 대조 전" if nd < P else "")
+                  + " · 그 앞 과거 종가는 운용사 이력 파일을 자동으로 받지 못해 대조하지 못했다")
+
+
 # ---------- 계산 ----------
 
 def d(s):
@@ -588,7 +654,18 @@ def compute(series, fred, P, prevP, ohlc):
     S = series[-1][0]
     if S != P or series[-2][0] != prevP:
         raise Hold("date_mismatch", f"마지막 두 종가 {series[-2][0]}·{S}, 홈 세션 {prevP}·{P}")
-    if PROF["navKind"] == "invesco":
+    nav_date = None
+    if PROF["navKind"] == "page_nav":
+        cc, cc_text = cross_check_page(series, fred, S, prevP)
+        nav_date = (fred or {}).get("navDate") if cc == "ok" else None   # 홈 칸이 산문을 다시 읽지 않게 구조 칸으로
+        if cc != "ok":
+            raise Hold("cross_check" if cc == "mismatch" else "cross_unavailable", cc_text)
+        # 대조 구간이 없으니 표시에 필요한 범위만: 사건 10년(P − 120개월)·월별 표(P 연도 −10년 12월) 중 이른 날의 직전 종가부터
+        need = min(minus_months(d(S), 12 * YEARS_SHOWN).isoformat(), f"{int(S[:4]) - YEARS_SHOWN}-12-01")
+        k0 = max(i for i, p in enumerate(series) if p[0] < need) if series[0][0] < need else 0
+        series = series[k0:]
+        fred = {series[0][0]: None}   # 아래 공통 경로가 min(fred)로 자르는 자리 — 같은 첫 날
+    elif PROF["navKind"] == "invesco":
         cc, cc_text, fred = cross_check_invesco(series, fred, S, prevP)
     else:
         cc, cc_text = (cross_check_nav if PROF["navKind"] == "ssga" else cross_check)(series, fred, S, prevP)
@@ -613,7 +690,7 @@ def compute(series, fred, P, prevP, ohlc):
             "rangeHigh": {"date": ath[0], "close": round(ath[1], 2), "from": close / ath[1] - 1}, "since": series[0][0],
             "returns": returns(series, S), "monthly": monthly(series, S), "events": events(series, S),
             "daily": daily_block(series, ohlc, S),
-            "crossCheck": {"status": cc, "text": cc_text}}
+            "crossCheck": {"status": cc, "text": cc_text, **({"navDate": nav_date} if nav_date else {})}}
 
 
 # ---------- 화면 ----------
@@ -1130,6 +1207,16 @@ def render_verdict(full, P):
         return box("판정 보류", "판정 자료를 그리지 못했다.")
 
 
+def render_no_verdict():
+    """판정 없는 가격 카드(IWM)의 "카드 판정" 탭 — 하지 않는 이유만(덮은 비중은 재지 못했으니 숫자를 말하지 않는다)."""
+    E = PROF["etf"]
+    return (f'  <div class="section-title">카드 판정 — 판정하지 않음</div>\n'
+            f'  <div class="card held-box"><div class="card-title">판정하지 않음</div><div class="note">'
+            f'{E}는 미국 소형주 약 2,000개를 담는다 — 카드 판정을 보유 비중으로 평균하는 방식은 이렇게 많은 소형 종목에 맞지 않는다(사용자 결정 2026-10-21). '
+            '운용사 보유 파일도 자동으로 받지 못해 이 사이트 카드가 그 비중을 얼마나 덮는지 잴 수 없다. '
+            '그래서 SPY·QQQ·DIA처럼 카드 판정을 보유 비중으로 평균하지 않는다. 이 카드는 가격·수익률만 보여 준다.</div></div>')
+
+
 def fill(tpl, m):
     for k, v in m.items():
         tpl = tpl.replace("{{" + k + "}}", v)
@@ -1143,9 +1230,13 @@ def render(res):
     common = {"TITLE": f'{PROF["title"]} — US stock 가치를 말하다', "STATUS": res["status"],
               "S": kdate(res.get("S") or "—"), "BADGE": PROF["badge"], "KIND": PROF["kind"], "COMPANY": PROF["company"],
               "CURRENT": PROF["current"], "BACKNAV": PROF["backnav"], "CHARTNAME": PROF["chart"], "WHAT": PROF["what"],
-              "NAVEXTRA": ('<button class="nav-btn" onclick="showSection(\'verdict\', this)">⚖️ 카드 판정</button>' if PROF["verdict"] else ""),
+              "NAVEXTRA": ('<button class="nav-btn" onclick="showSection(\'verdict\', this)">⚖️ 카드 판정</button>' if PROF["verdict"] else
+                           '<button class="nav-btn" onclick="showSection(\'verdict\', this)">⚖️ 판정하지 않음</button>' if PROF.get("noVerdict") else ""),
+              # 구성 종목 탭은 상위 보유·업종을 읽을 수 있는 카드만(IWM은 숨김 — 운용사 자료를 확보하지 못함)
+              "HOLDINGSNAV": ("" if PROF["navKind"] == "page_nav" else '<button class="nav-btn" onclick="showSection(\'holdings\', this)">🧩 구성 종목</button>'),
               "VERDICT": (f'<div id="verdict" class="section" data-etf="{verdict_attr(res.get("verdictData"))}">\n'
-                          f'{render_verdict(res.get("verdictData"), res.get("builtFor"))}\n</div>' if PROF["verdict"] else "")}
+                          f'{render_verdict(res.get("verdictData"), res.get("builtFor"))}\n</div>' if PROF["verdict"] else
+                          f'<div id="verdict" class="section">\n{render_no_verdict()}\n</div>' if PROF.get("noVerdict") else "")}
     if res["status"] != "ok":
         msg = ('  <div class="card held-box"><div class="card-title">자료 보류</div>'
                f'<div style="font-size:14px;font-weight:700;color:var(--text);">{html.escape(res["reasonText"])}</div>'
@@ -1162,28 +1253,34 @@ def render(res):
     ch, tsy = cons.get("chars"), cons.get("dgs10")
     na = "불러오지 못함"
     ey_val = (f'{100 / ch["pe"]:.2f}%' if ch else "—") + " · " + (f'{tsy["value"] * 100:.2f}%' if tsy else "—")
-    fund_pe = PROF["navKind"] == "invesco"   # QQQ: 펀드 PER(Invesco) — SPY는 지수 PER(SSGA), 라벨·출처 줄로 구분(사용자 결정 2026-10-21)
-    src = "Invesco" if fund_pe else "SSGA"
-    ey_sub = (((f'펀드 PER {kdate(ch["peAsOf"])}' if fund_pe else f'SSGA {kdate(ch["peAsOf"])}') if ch else "PER 불러오지 못함") + " / "
+    fund_pe = PROF["navKind"] in ("invesco", "page_nav")   # QQQ·IWM: 펀드 PER(운용사) — SPY·DIA는 지수 PER(SSGA), 라벨·출처 줄로 구분
+    src = {"invesco": "Invesco", "page_nav": "iShares"}.get(PROF["navKind"], "SSGA")
+    pe_tip = {"invesco": "Invesco QQQ 펀드 특성 Price/earnings ratio — Invesco 페이지 설명: 가중 조화평균(Weighted Harmonic Average), 월말",
+              "page_nav": "iShares 상품 페이지 P/E Ratio — 페이지 설명: 보유 종목마다 최근 종가 ÷ 최근 회계연도 EPS, 음수 PER 제외(펀드 기준)"}.get(
+        PROF["navKind"], f"State Street {PROF['etf']} 펀드 페이지 Index Characteristics: Price/Earnings(페이지에 계산 정의 없음)")
+    ey_sub = (((f'펀드 PER{"(적자 종목 제외)" if PROF["navKind"] == "page_nav" else ""} {kdate(ch["peAsOf"])}' if fund_pe else f'SSGA {kdate(ch["peAsOf"])}') if ch else "PER 불러오지 못함") + " / "
               + (f'FRED {kdate(tsy["date"])}' if tsy else "국채 불러오지 못함"))
     meta = "\n".join([
         meta_item("1년 수익률", pct(by["1년"]["ret"]), color(by["1년"]["ret"]), PROF["closeNote"],
                   f'기준 {kdate(by["1년"]["base"])} 종가'),
         meta_item("5년 연 환산", pct(by["5년"]["annual"]), color(by["5년"]["annual"]), "5년 누적 수익률을 1년마다로 바꾼 값(배당 제외)",
                   f'5년 누적 {pct(by["5년"]["ret"])}'),
-        meta_item("PER (펀드)" if fund_pe else "PER (지수)", f'{ch["pe"]:.1f}배' if ch else "—", "var(--text)",
-                  ("Invesco QQQ 펀드 특성 Price/earnings ratio — Invesco 페이지 설명: 가중 조화평균(Weighted Harmonic Average), 월말" if fund_pe else
-                   f"State Street {PROF['etf']} 펀드 페이지 Index Characteristics: Price/Earnings(페이지에 계산 정의 없음)"),
+        meta_item("PER (펀드, 적자 종목 제외)" if PROF["navKind"] == "page_nav" else "PER (펀드)" if fund_pe else "PER (지수)", f'{ch["pe"]:.1f}배' if ch else "—", "var(--text)",
+                  pe_tip,
                   f'{src} {kdate(ch["peAsOf"])}' if ch else na),
         meta_item("이익수익률 · 미 10년 국채", ey_val, "var(--text)",
                   f"이익수익률 = 1 ÷ PER({src} {'펀드' if fund_pe else 'Price/Earnings'}). 미 10년 국채 = FRED DGS10. 두 숫자를 나란히 둘 뿐, 판정이 아니다", ey_sub),
-        '    <div style="grid-column:1 / -1;font-size:11px;color:var(--text3);">PER과 이익수익률은 오늘 값이라 과거와 비교하지 않는다. 이 값만으로 저평가·고평가를 판정하지 않는다.</div>',
+        '    <div style="grid-column:1 / -1;font-size:11px;color:var(--text3);">PER과 이익수익률은 오늘 값이라 과거와 비교하지 않는다. 이 값만으로 저평가·고평가를 판정하지 않는다.'
+        + ((f' 보유 {cons["count"]["holdings"]:,}종목(iShares, {kdate(cons["count"]["holdingsAsOf"])}) — 상위 보유·업종 자료는 싣지 않는다.'
+            if (cons.get("count") or {}).get("holdings") else " 상위 보유·업종 자료는 싣지 않는다.") if PROF["navKind"] == "page_nav" else "")
+        + (' <b>과거 종가는 운용사 자료와 대조하지 못했다 — 최근 하루 NAV만 확인.</b>' if PROF["navKind"] == "page_nav" else "") + '</div>',
     ])
     dl = res["daily"]
     m = dict(common, PRICE=price, META=meta, CHART=fill(CHART_HTML, common), RETURNS=render_returns(res),
              MONTHLY=render_monthly(res), EVENTS=render_events(res), HOLDINGS=safe_holdings(res),
              SOURCES=((f'시세: Yahoo Finance {PROF["symText"]} 일봉(시장 가격, 배당 제외). 종가를 State Street가 공시하는 {PROF["etf"]} NAV 이력과 대조 — 최근 250세션 ±1%, 그 앞 ±2% 안 확인 — {cc}. '
                        '시가·고가·저가(캔들과 차트의 최고·최저 표시)는 NAV 이력에 없어 Yahoo 값 그대로다.') if PROF["navKind"] == "ssga" else
+                      (f'시세: Yahoo Finance IWM 일봉(시장 가격, 배당 제외). {cc}. 시가·고가·저가도 Yahoo 값 그대로다.') if PROF["navKind"] == "page_nav" else
                       (f'시세: Yahoo Finance QQQ 일봉(시장 가격, 배당 제외). 종가를 Invesco가 공개하는 QQQ NAV와 대조 — 최근 {RECENT_EXACT}거래일 ±{NAV_RECENT_TOL * 100:g}%, 그 앞 ±{NAV_OLD_TOL * 100:g}% 안 확인 — {cc}. '
                        '거래일은 NYSE 휴장일 규칙으로 정한다. 시가·고가·저가는 NAV에 없어 Yahoo 값 그대로다.') if PROF["navKind"] == "invesco" else
                       (f'시세: Yahoo Finance ^GSPC 일봉. 종가는 FRED SP500(S&amp;P Dow Jones Indices)과 대조 — {cc}. '
@@ -1272,6 +1369,25 @@ def pages_for(res, P):
         return res, page
 
 
+def price_summary(res, P):
+    """홈 데이터 가격형 칸(kind price). 정상이면 종가·하루 등락·1년 수익률·NAV 확인 날짜, 아니면 보류 사유만."""
+    base = {"etf": PROF["etf"], "kind": "price", "status": res["status"], "builtFor": res.get("builtFor") or P, "S": res.get("S")}
+    if res["status"] != "ok":
+        return dict(base, reasonText=res.get("reasonText") or "자료 보류")
+    by = {r["label"]: r for r in res["returns"]}
+    return dict(base, close=res["close"], chg=res["chg"], ret1y=by["1년"]["ret"], navDate=(res.get("crossCheck") or {}).get("navDate"))
+
+
+def write_home_price(out, res, P):
+    sys.path.insert(0, str(ROOT / "v2" / "etf"))
+    import etf_daily as ED   # noqa: E402 — 홈 데이터 파일 읽기·쓰기 규칙을 같이 쓴다(다른 칸을 지우지 않게)
+    d_ = out / "preview-only-etf-data.js"
+    data = ED.read_data_js(d_)
+    data[PROF["etf"]] = price_summary(res, P)
+    ED.write_atomic(d_, "// preview 전용 ETF 요약(v2/etf/etf_daily.py가 쓴다 — 손으로 고치지 않는다; 가격형 칸은 v2/index/index_daily.py)\n"
+                        f"{ED.DATA_PREFIX}{json.dumps(data, ensure_ascii=False)};\n")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--card", choices=sorted(PROFILES), default="SPY")   # 지수 카드 페이지는 2026-10-20 지웠다 — SP500은 시험에서만 고른다
@@ -1302,6 +1418,8 @@ def main(argv=None):
         try:
             if PROF["navKind"] == "ssga":   # 대조 자료 = 운용사 NAV 이력
                 fred = parse_navhist(Path(a.fred).read_bytes() if a.fred else fetch_navhist(PROF["navFile"]))
+            elif PROF["navKind"] == "page_nav":   # 운용사 상품 페이지에서 최근 하루 NAV(+ PER·보유 수)
+                fred = parse_ishares_page(Path(a.fred).read_text(encoding="utf-8") if a.fred else http_get(PROF["page"]))
             elif PROF["navKind"] == "invesco":   # 날짜·값 쌍 그대로(중복·이상값은 대조가 "NAV 형식 변경"으로)
                 fred = parse_invesco_nav(Path(a.fred).read_text(encoding="utf-8") if a.fred else fetch_invesco("/navs?idType=cusip&productType=ETF"))
             else:
@@ -1312,9 +1430,14 @@ def main(argv=None):
             fred = None
         res = compute(series, fred, P, prevP, ohlc)
         selfcheck(res, [p for p in series if p[0] <= P])
-        cons = {"holdings": read_spy(a.spy or out / (PROF["verdictJson"] or "v2/etf/SPY.json")), "sectors": None, "chars": None}
+        cons = {"holdings": read_spy(a.spy or out / (PROF["verdictJson"] or "v2/etf/SPY.json")) if PROF["navKind"] != "page_nav" else None,
+                "sectors": None, "chars": None}
         page = ""
-        if PROF["navKind"] != "invesco":
+        if PROF["navKind"] == "page_nav":   # PER·보유 수는 대조에 쓴 같은 페이지에서(따로 받지 않는다)
+            info = fred if isinstance(fred, dict) else {}
+            cons["chars"] = {"pe": info["pe"], "peAsOf": info["peAsOf"]} if info.get("pe") else None
+            cons["count"] = {"holdings": info.get("holdings"), "holdingsAsOf": info.get("holdingsAsOf")}
+        elif PROF["navKind"] != "invesco":
             try:   # 운용사 페이지 실패는 그 칸들만 비운다
                 page = Path(a.ssga_page).read_text(encoding="utf-8") if a.ssga_page else http_get(PROF["page"])
             except Exception:   # noqa: BLE001
@@ -1332,7 +1455,7 @@ def main(argv=None):
                     cons[key] = fn(Path(arg).read_text(encoding="utf-8") if arg else fetch_invesco(path_))
                 except Exception:   # noqa: BLE001
                     cons[key] = None
-        else:
+        elif PROF["navKind"] != "page_nav":
             for key, fn in (("sectors", lambda t: parse_sectors(t, PROF["sectorCount"])), ("chars", parse_chars)):
                 try:
                     cons[key] = fn(page)
@@ -1347,6 +1470,8 @@ def main(argv=None):
         res = {"status": "held", "reason": "run_fail", "reasonText": REASON_TEXT["run_fail"],
                "detail": type(e).__name__, "builtFor": P, "S": None}
     res["index"], res["name"] = PROF["key"], PROF["name"]
+    r_id = os.environ.get("GITHUB_RUN_ID")   # 알림이 이번 실행 산출물인지 가린다(가격형 카드 보류 알림, 2026-10-21)
+    res["runId"] = f"{r_id}.{os.environ.get('GITHUB_RUN_ATTEMPT', '1')}" if r_id else None
     res["runAt"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     res["source"] = f'Yahoo Finance {PROF["symText"]} 일봉 종가'
     if PROF["verdict"]:   # 판정 탭: 시세가 보류여도 판정은 따로 보인다
@@ -1360,7 +1485,12 @@ def main(argv=None):
     if page is not None:
         files[out / PROF["html"]] = page
     write_all(files)
-    line = (f"{'ETF CARD' if PROF['verdict'] else 'INDEX'} {PROF['key']}: {res['status']}"
+    if PROF.get("homePrice"):   # 판정 단계가 없는 가격 카드: 홈 데이터의 자기 칸만 이 단계가 쓴다(쓰기 직전에 읽어 다른 ETF 칸 보존)
+        try:
+            write_home_price(out, res, P)
+        except Exception as ex:   # noqa: BLE001 — 카드는 이미 썼다; 홈 칸은 옛것이 남아 "갱신 대기"로 보인다
+            print(f"ETF_FAIL {PROF['key']} 홈 칸 쓰기 실패 {type(ex).__name__}")
+    line = (f"{'ETF CARD' if PROF['verdict'] or PROF.get('noVerdict') else 'INDEX'} {PROF['key']}: {res['status']}"
             + (f" S={res['S']} close={res['close']} cross={res['crossCheck']['status']} events={len(res['events'])}"
                if res["status"] == "ok" else f" reason={res['reason']} ({res.get('detail', '')})"))
     print(line)

@@ -261,9 +261,44 @@ def run_code_sig(etfs, root, v2, repo, dry=False, runner=gh, approved=None):
     return acts
 
 
+def run_price(etf, root, repo, dry=False, runner=gh):
+    """가격형 카드(판정 없음, IWM)의 시세 보류 알림 — 이번 실행 산출물(runId)이 held면 이슈 "[ETF <ETF> price]", ok면 닫는다."""
+    try:
+        res = json.loads((root / "v2" / "etf" / f"{etf}_card.json").read_text(encoding="utf-8"))
+    except Exception:   # noqa: BLE001
+        return []
+    if not fresh(res):
+        return []
+    issues = json.loads(runner(["issue", "list", "--label", LABEL, "--state", "open", "--limit", "100",
+                                "--json", "number,title,body"]) or "[]")
+    prefix = f"[ETF {etf} price]"
+    cur = next((i for i in issues if i["title"].startswith(prefix)), None)
+    acts = []
+    if res.get("status") != "ok":
+        key = hashlib.sha256(f'{res.get("reason")}'.encode()).hexdigest()[:12]   # 사유 종류만 — 같은 사유에서 차이 %가 바뀌는 것은 새 사건으로 보지 않는다
+        body = (f"**{etf} 가격 카드 시세 보류** — 실행 {res.get('runAt')} · 홈 세션 {res.get('builtFor')}\n\n"
+                f"사유: {res.get('reasonText')} — {res.get('detail') or ''}\n\n<!-- etf-key: {key} -->")
+        old = (re.search(r"<!-- etf-key: (.*?) -->", cur["body"] or "") or [None, None])[1] if cur else None
+        if not cur:
+            acts.append(("create", f"{etf} price"))
+            if not dry:
+                runner(["issue", "create", "--label", LABEL, "--title", f"{prefix} 가격 카드 시세 보류", "--body-file", "-"], body)
+        elif old != key:
+            acts.append(("comment", f"{etf} price"))
+            if not dry:
+                runner(["issue", "comment", str(cur["number"]), "--body-file", "-"], "사건이 바뀌었다.\n\n" + body)
+                runner(["issue", "edit", str(cur["number"]), "--body-file", "-"], body)
+    elif cur:
+        acts.append(("close", f"{etf} price"))
+        if not dry:
+            runner(["issue", "close", str(cur["number"]), "--comment", f"이번 실행({res.get('runAt')})에서 시세가 정상이라 닫는다."])
+    return acts
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--etf", default="SPY,QQQ,DIA", help="쉼표로 여러 ETF")
+    ap.add_argument("--price", default="", help="가격형 카드(판정 없음, 쉼표로) — 시세 보류만 알린다(워크플로가 IWM을 넘긴다)")
     ap.add_argument("--root", default=str(ETF_DIR.parents[1]))
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args(argv)
@@ -279,7 +314,12 @@ def main(argv=None):
             except Exception as ex:   # 한 ETF의 알림 실패가 다른 ETF를 막지 않게
                 acts.append(("실패", f"{e} {type(ex).__name__}"))
         acts += run_code_sig(etfs, root, root / "v2", repo, a.dry_run)
-        line = f"ETF 알림 {a.etf}: " + (", ".join(f"{x}:{k}" for x, k in acts) or "할 일 없음")
+        for e in [x.strip() for x in a.price.split(",") if x.strip()]:
+            try:
+                acts += run_price(e, root, repo, a.dry_run)
+            except Exception as ex:   # noqa: BLE001
+                acts.append(("실패", f"{e} price {type(ex).__name__}"))
+        line = f"ETF 알림 {a.etf}" + (f" + 가격형 {a.price}" if a.price else "") + ": " + (", ".join(f"{x}:{k}" for x, k in acts) or "할 일 없음")
     except Exception as ex:   # 알림 실패는 판정에 영향 없음 — 요약에만 남긴다
         line = f"ETF 알림 {a.etf} 실패: {type(ex).__name__} {str(ex)[:120]}"
     print(line)
