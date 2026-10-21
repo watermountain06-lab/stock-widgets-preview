@@ -6132,6 +6132,47 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "HOOD",
+      "name": "Robinhood",
+      "sector": "금융 — 온라인 증권·가상자산 거래",
+      "href": "HOOD_full_widget.html",
+      "cardRank": 143,
+      "cardAsOf": "2026-10-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 98.21,
+        "prevClose": 96.52,
+        "session": "2026-10-20",
+        "prevSession": "2026-10-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 899082273,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-23",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0001783879-26-000114 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 75.3,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-20",
+        "qualityFlags": []
+      }
     }
   ]
 }
