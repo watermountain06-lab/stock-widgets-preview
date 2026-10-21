@@ -187,3 +187,5 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 .pf-edit{margin-top:12px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:#f8f7fc;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .pf-edit .pf-form{width:100%}
 :root[data-theme="dark"] .pf-edit{background:var(--bg3);border-color:var(--border)}
+#pf-upload-confirm[hidden]{display:none}
+#pf-upload-confirm{margin-top:8px;gap:8px}

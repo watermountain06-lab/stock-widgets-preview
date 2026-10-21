@@ -116,18 +116,20 @@ function show(state, msg) {
       .forEach((id) => { $(id).textContent = ''; });
     $('pf-sample').hidden = true;
     pending = null;
+    $('pf-upload-confirm').hidden = true;
   }
   $('pf-msg').textContent = msg || '';
 }
 
-// 덮어쓰기 확인은 화면 안 문구로 한다(브라우저 확인 창을 쓰지 않는다): 같은 내용의 파일을 두 번째로 고르면 올린다.
-let pending = null;
-function confirmReplace(name, text, what) {
-  if (pending === text) { pending = null; return true; }
-  pending = text;
-  $('pf-upload-msg').textContent = (what || '지금 데이터를 ' + name + '(으)로 바꿉니다.') + ' 맞으면 같은 파일을 한 번 더 고르세요.';
-  return false;
+// 덮어쓰기 확인은 화면 안에서 한다(브라우저 확인 창을 쓰지 않는다): 파일을 고르면 무엇을 바꿀지 보여 주고
+// "이대로 올리기"를 눌러야 저장한다(2026-10-21 사용자 요청 — 같은 파일을 두 번 고르던 방식에서 바꿈).
+let pending = null;   // { save() } — 확인을 기다리는 올리기 하나
+function askConfirm(what, save) {
+  pending = { save };
+  $('pf-upload-msg').textContent = what + ' 맞으면 "이대로 올리기"를 누르세요.';
+  $('pf-upload-confirm').hidden = false;
 }
+function clearConfirm() { pending = null; $('pf-upload-confirm').hidden = true; }
 
 // Excel(.xlsx·.xls)은 고를 때만 SheetJS를 cdnjs에서 불러와 첫 시트를 CSV 글자로 바꾼다(무결성 해시로 고정)
 const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
@@ -357,6 +359,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     input.value = '';
     const user = auth.currentUser, g = gen;
     if (!file || !user) return;
+    clearConfirm();
     if (file.size > MAX_BYTES) { $('pf-upload-msg').textContent = '파일이 너무 큽니다(900KB 이하).'; return; }
     const current = () => g === gen && auth.currentUser === user; // 로그인 상태가 그대로인지 — 아니면 화면을 건드리지 않는다
     let d, text, json, what = null;
@@ -376,22 +379,29 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       json = JSON.stringify(d);
     } catch (err) {
       if (!current()) return;
-      pending = null;
       $('pf-upload-msg').textContent = err instanceof SyntaxError ? 'JSON 형식이 아닙니다.' : '읽지 못했습니다: ' + err.message;
       return;
     }
     if (!current()) return;
-    if (new TextEncoder().encode(json).length > MAX_BYTES) { pending = null; $('pf-upload-msg').textContent = '데이터가 너무 큽니다(900KB 이하).'; return; }
-    if (!confirmReplace(file.name, text, what)) return;
-    input.disabled = true;
-    try {
-      render(d); // 그려 보다 실패하면 저장하지 않는다
-      // 여기까지 오면 저장을 보낸다. 보낸 뒤 로그아웃해도 저장은 취소되지 않고, 결과 문구만 띄우지 않는다.
-      await setDoc(ref(user), { json, uploaded: serverTimestamp() });
-      currentMain = d;
-      if (current()) { $('pf-upload-msg').textContent = file.name + '을(를) 올렸습니다.'; if (refreshTabs) refreshTabs(d); }
-    } catch (err) {
-      if (current()) $('pf-upload-msg').textContent = '올리지 못했습니다(' + (err.code || err.message) + '). 새로고침하면 저장된 데이터가 보입니다.';
-    } finally { input.disabled = false; }
+    if (new TextEncoder().encode(json).length > MAX_BYTES) { $('pf-upload-msg').textContent = '데이터가 너무 큽니다(900KB 이하).'; return; }
+    const n = d.holdings?.rows?.filter((r) => r.ticker).length ?? 0;
+    askConfirm(what || `${file.name}: 원칙 ${(d.principles || []).length}개 · 보유 ${n}종목 · 관심 종목 ${(d.watchlist || []).length}개로 지금 데이터를 통째로 바꿉니다.`, async () => {
+      if (!current()) return;
+      input.disabled = true;
+      try {
+        render(d); // 그려 보다 실패하면 저장하지 않는다
+        // 여기까지 오면 저장을 보낸다. 보낸 뒤 로그아웃해도 저장은 취소되지 않고, 결과 문구만 띄우지 않는다.
+        await setDoc(ref(user), { json, uploaded: serverTimestamp() });
+        currentMain = d;
+        if (current()) { $('pf-upload-msg').textContent = file.name + '을(를) 올렸습니다.'; if (refreshTabs) refreshTabs(d); }
+      } catch (err) {
+        if (current()) $('pf-upload-msg').textContent = '올리지 못했습니다(' + (err.code || err.message) + '). 새로고침하면 저장된 데이터가 보입니다.';
+      } finally { input.disabled = false; }
+    });
   });
+  $('pf-upload-ok').addEventListener('click', async () => {
+    const p = pending; clearConfirm();
+    if (p) await p.save();
+  });
+  $('pf-upload-cancel').addEventListener('click', () => { clearConfirm(); $('pf-upload-msg').textContent = '올리지 않았습니다.'; });
 }
