@@ -513,7 +513,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="back-bar-right"><button id="theme-toggle" type="button" role="switch" aria-label="다크 모드" aria-checked="false"><span aria-hidden="true">☀</span><span aria-hidden="true">☾</span><span class="theme-knob"></span></button>
     <a class="back-bar-nav" href="DDOG_full_widget.html">◀ DDOG</a>
     <span class="back-bar-current">AMT · 시총 133위</span>
-    <span class="back-bar-nav disabled">다음 ▶</span>
+    <a class="back-bar-nav" href="SNPS_full_widget.html">다음 SNPS ▶</a>
   </div>
 </div>
 
@@ -2319,7 +2319,7 @@ function amtBandTone(cp){
   function updateHeader(rangeKey, data, prevClose){
     const base = prevClose != null ? prevClose : data[0][4];
     const last = data[data.length-1][4];
-    const retPct = ((last/base - 1) * 100).toFixed(1);
+    const retPct = ((last/base - 1) * 100).toFixed(1).replace(/^-0\.0$/, '0.0');   // −0.0은 0.0으로 — '-0.0' >= 0이 참이라 "+-0.0%"가 나왔다(SNPS 2026-10-21)
     const sign = retPct >= 0 ? '+' : '';
     const dateFrom = data[0][0].slice(0,7).replace('-','.');
     const dateTo = data[data.length-1][0].slice(0,7).replace('-','.');

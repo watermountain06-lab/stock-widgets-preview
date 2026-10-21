@@ -2481,5 +2481,22 @@
   "ignore_candidates": [
    "amt:PropertyMember"
   ]
+ },
+ "SNPS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "snps:DesignAutomationSegmentMember": [
+    "설계 자동화(EDA·Ansys)",
+    "#5a2d82"
+   ],
+   "snps:DesignIPSegmentMember": [
+    "설계 IP",
+    "#a888d4"
+   ]
+  }
  }
 }
