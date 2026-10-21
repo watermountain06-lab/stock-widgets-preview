@@ -2525,5 +2525,28 @@
     "#f2c9d5"
    ]
   }
+ },
+ "MMM": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "mmm:SafetyAndIndustrialSegmentMember": [
+    "안전·산업",
+    "#e4002b"
+   ],
+   "mmm:TransportationAndElectronicsSegmentMember": [
+    "운송·전자",
+    "#ff6b6b"
+   ],
+   "mmm:ConsumerSegmentMember": [
+    "소비자",
+    "#ffb3b3"
+   ]
+  }
  }
 }

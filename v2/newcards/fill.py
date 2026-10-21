@@ -316,9 +316,6 @@ one("+ `\\n(확인 필요 — NVDA 문장 자리)`);", "+ `\\n" + F(C.FUND_TIP) 
 one("+ `\\n(확인 필요 — NVDA 문장 자리)`\n", "+ `\\n" + F(C.SELF_TIP) + "`\n")
 if '`이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`' in h:   # 틀(NVDA)은 2026-10-05에 고쳐졌다(E13)
     one('`이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`', '`이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`')
-if getattr(C, 'GROWTH_SPAN', None):   # 현금흐름 이력이 5년보다 짧은 종목(분사) — 역산 설명의 "지난 5년"을 실제 이력으로(2026-10-02, DHR Codex 2차)
-    for _o in ('매출이 지난 5년 속도', '필요해 지난 5년의 3배', '필요해 지난 5년 실제의 3배'):
-        assert h.count(_o) >= 1, _o; h = h.replace(_o, _o.replace('지난 5년', C.GROWTH_SPAN))
 if getattr(C, 'SELF_SPAN', None):   # 자기 이력이 5년보다 짧은 종목(분사·흑자 전환) — "5년" 표기를 실제 이력으로(2026-10-02, DHR Codex)
     one('<div class="card-title">배수별 자기 5년 위치</div>', f'<div class="card-title">배수별 자기 이력 위치 ({C.SELF_SPAN})</div>')
     one(f'title="지난 5년 {T} 자신의 배수보다', f'title="{T} 자신의 배수 이력({C.SELF_SPAN})보다')
@@ -569,6 +566,14 @@ for _v, _f, _tail in (("d", "f1", "가 필요해 지난 5년의 "), ("D", "pc", 
     _m = re.search(re.escape(f"연 ${{{_f}({_v}.requiredGrowth)}}{_tail}") + r"([^`]*)`", h)
     if _m:
         h = h.replace(_m.group(0), f"연 ${{{_f}({_v}.requiredGrowth)}}` + ({_v}.growth5y <= 0 ? `가 필요하다(지난 5년 실제는 연 ${{{_f}({_v}.growth5y)}}로 줄었다).` : `{_tail}{_m.group(1)}`)", 1)
+# 현금흐름 이력이 5년보다 짧은 종목(분사) — 역산 설명의 "지난 5년"을 실제 이력으로(2026-10-02, DHR Codex 2차).
+# 위 성장 하한·감소 분기를 만든 **뒤**에 바꾼다 — 예전엔 먼저 바꿔 하한 분기 앵커가 사라져, 성장이 2.5% 아래인 종목도
+# "지난 … 속도로 크다가"가 나오고 하한 문장의 "지난 5년"은 남았다(MMM Fable 2026-10-21). 이 설정을 쓰는 6장 중 화면이 바뀐 것은 DHR(분사 뒤 성장 −1.7%)뿐 — AMT·CEG·EMR·IBM·GEV 렌더 글자 불변.
+if getattr(C, 'GROWTH_SPAN', None):
+    for _o in ('지난 5년 속도', '필요해 지난 5년의 ', '필요해 지난 5년 실제의 '):
+        assert h.count(_o) >= 1, _o
+    for _o in ('지난 5년 속도', '(지난 5년 연 ', '필요해 지난 5년의 ', '필요해 지난 5년 실제의 ', '(지난 5년 실제는 연 '):
+        h = h.replace(_o, _o.replace('지난 5년', C.GROWTH_SPAN))
 # 현금흐름 칸 쏠림 메모(A0, 86af3f2)는 비금융 카드에만 — 근거 패널에 금융이 없다. GICS Financials면 뺀다(cfg NO_DCF_SKEW는 예전 표시, 남겨 둬도 같음)
 _SECT = json.load(open('sectors.json')).get(T)   # GICS 섹터(v2/sectors.json)
 if getattr(C, 'NO_DCF_SKEW', False) or 'Financ' in json.dumps(_SECT or ''):   # 금융 섹터는 섹터로 정한다(v2.1 B-3, 2026-10-05 — MA·V에 남아 있었다)

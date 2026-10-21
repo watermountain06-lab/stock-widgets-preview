@@ -406,6 +406,12 @@ def concept(cik, tag, taxonomy="us-gaap"):
 # 회사 전용 태그 보강(CIK별). 표준 태그 대신 같은 항목을 다른 표준 태그로만 내는 회사.
 # LLY: 설비투자 = PaymentsToAcquireOtherPropertyPlantAndEquipment(10-Q "Purchases of property and equipment"),
 #      인수 = OtherPaymentsToAcquireBusinesses("Cash paid for acquisitions, net of cash acquired", 2022년 이후).
+# 한 항목을 두 표준 태그로 **나눠** 내는 회사 — 같은 공시(accn)·같은 기간 값을 더해 기본 태그 자리에 쓴다(pick_tag).
+# EOG: 현금흐름표 "Additions to Oil and Gas Properties"(PaymentsToAcquireOilAndGasPropertyAndEquipment, 상반기 2026 $3,129M)
+#      + "Additions to Other Property, Plant and Equipment"(PaymentsToAcquireOtherPropertyPlantAndEquipment, $297M) = 설비투자 $3,426M.
+#      기본 목록 태그가 없어 설비투자가 비었다(2026-10-21).
+SUM_TAGS_BY_CIK = {"0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
+                                                                              "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
     # EQIX: 설비투자를 PaymentsToAcquireProductiveAssets로 내다가 2026년 2분기 누계부터 PaymentsToAcquireOtherPropertyPlantAndEquipment로만 낸다
     # (겹치는 기간 값 같음 — 2025년 누계 $4,311M). 없으면 설비투자가 2026-03에 멈췄다(2026-10-17). 부동산 취득($224M 상반기)은 넣지 않는다.
@@ -729,6 +735,16 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
                 rows = [dict(r, _tag=name) for r in rows]
                 per_tag[name] = rows
             merged.extend(rows)
+    # 설비투자를 두 줄로 나눠 내는 회사(SUM_TAGS_BY_CIK)는 같은 공시·같은 기간의 두 값을 더한 행을 만든다 — 위 병합은 대체 태그용이라 더하지 않는다.
+    _sum = SUM_TAGS_BY_CIK.get(cik, {})
+    for _std, _parts in _sum.items():
+        if _std in names and taxonomy == "us-gaap":
+            _rows = {}
+            for _p in _parts:
+                for r in concept(cik, _p, taxonomy):
+                    _rows.setdefault((r.get("start"), r["end"], r.get("accn")), []).append(r)
+            merged = [dict(v[0], val=sum(x["val"] for x in v)) for v in _rows.values() if len(v) == len(_parts)]
+            used.append(f"합({'+'.join(_parts)} {len(merged)})")
     if rev_family and REV_TOTAL in per_tag and REV_CONTRACT in per_tag:
         merged = _prefer_total_revenue(merged, per_tag[REV_TOTAL], per_tag[REV_CONTRACT])
     # 합성 대상 회사는 영업이익 태그가 옛날에만 있어도(JNJ는 2015년까지) 합성값만 쓴다
@@ -1233,6 +1249,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # MMM: 단기 차입·1년 안 만기 DebtCurrent $2,439M + 장기 LongTermDebtNoncurrent $12,558M = 10-Q $14,997M(기본은 장기만, 2026-10-21).
+                  "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # MAR: "Current portion of long-term debt" + "Long-term debt"(…AndCapitalLeaseObligations 두 태그 — 금융리스 포함). 기본 선택은 LongTermDebt($23M, 다른 항목)를
                   # 잡아 차입금이 $0.02B였다(2026-06-30 $460M + $16,455M = $16,915M, 2026-10-21).
                   "0001048286": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -1419,7 +1437,11 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
+EV_TAGS_BY_CIK = {# MMM: 현금 줄은 제한 현금 포함 태그($4,835M = 재무상태표 "Cash and cash equivalents"), CashAndCashEquivalentsAtCarryingValue는 2017-03에 멈췄다.
+                  # 시장성 증권(유동) $310M은 매도가능 채권 태그(2026-10-21).
+                  "0000066740": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"],
+                                 "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # 상환가능 비지배지분 $971M(Bain의 Madison 합작사 49.9%, 2026-07 — Codex)
+                  "0001403161": {"sti": ["Investments"], "preferred": [], "nci": []},
                   # EQIX: 우선주 태그가 2022-12(0)에 멈췄다 — 우선주 없음.
                   "0001101239": {"preferred": []},
                   # ICE: ShortTermInvestments는 2017-12에 멈췄다($16M) — 그 뒤 단기투자 줄 없음("Short-term restricted investments"는 규제 자본, 현금 아님)
@@ -1809,6 +1831,9 @@ LOCAL_HISTORY = {"SKHY": {"loader": "skhy_krx", "ads_per_share": 10}}
 # (2분기 10-Q)부터 — 그 전 배수는 분사 조정된 주가와 복합기업 재무가 섞여 싸게 나온다(2026-09-30 사용자 결정). 2024-03-31
 # 재무상태표는 버노바를 포함해 자본 $29.9B(분사 뒤 $18.6B)였고, 1분기 현금흐름(2023 Q1)이 재작성되지 않아 2분기 누계 차감이 섞였다(Fable).
 HISTORY_START = {"GE": "2024-07-23",
+                 # MMM: Solventum 분사(2024-04-01) 뒤 첫 재무상태표(2024-06-30)가 나온 2분기 10-Q 공시일(2026-10-21, GE 방식). 2024년 1분기는
+                 # 원공시가 Solventum을 포함해 나중(10-K 2025-02-05)에 재작성됐고, RESTATED_LATEST로 재작성 값을 쓴다.
+                 "MMM": "2024-07-26",
                  # DELL: VMware 분사(2021-11-01) 뒤 첫 재무상태표(FY2022 말 2022-01-28)가 나온 10-K 공시일(2026-10-01 사용자 결정).
                  "DELL": "2022-03-24",
                  # IBM: Kyndryl 분사(2021-11-03) 뒤 첫 재무상태표(2021-12-31)가 나온 FY2021 10-K 공시일(2026-10-01, GE·DELL 방식).

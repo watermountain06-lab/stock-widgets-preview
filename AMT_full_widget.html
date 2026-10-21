@@ -1542,10 +1542,10 @@ const AMT_SCORES = {
     req.style.color = lv.color;   // 5단계와 같은 신호: 싸다 파랑 · 적정 노랑 · 비싸다 빨강
     const cell = req.closest('.meta-item');
     if (cell) cell.title = (mMode
-        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
+        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 ` + (d.growth5y < 0.0245 ? `연 2.5%(인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 연 ${f1(d.growth5y)}가 영구성장률보다 낮아 하한)로 크는 동안` : `인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`)
           + (d.requiredMargin != null ? ` 영업이익률이 ${f1(d.requiredMargin)}여야 한다(현재 ${f1(d.marginNow)}).` : ` 영업이익률을 100%로 올려도 모자란다(현재 ${f1(d.marginNow)}).`)
           + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
-            ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후)의 3배를 넘는다.`
+            ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}` + (d.growth5y <= 0 ? `가 필요하다(인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 실제는 연 ${f1(d.growth5y)}로 줄었다).` : `가 필요해 인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후)의 3배를 넘는다.`)
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
@@ -1615,10 +1615,10 @@ const AMT_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   fill('[data-dcf-baseeq]', D.baseEquivGrowth != null ? (D.baseEquivGrowth * 100).toFixed(1) + '%' : '—');
   const pc = v => (v * 100).toFixed(1) + '%';
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
-    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
+    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 ` + (D.growth5y < 0.0245 ? `연 2.5%(인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 연 ${pc(D.growth5y)}가 영구성장률보다 낮아 하한)로 크는 동안` : `인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`)
       + (D.requiredMargin != null ? ` 영업이익률이 <b>${pc(D.requiredMargin)}</b>여야 한다(지금 ${pc(D.marginNow)}).` : ` 영업이익률을 <b>100%</b>로 올려도 모자란다(지금 ${pc(D.marginNow)}).`)
       + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
-        ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 실제의 3배를 넘는다.`
+        ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}` + (D.growth5y <= 0 ? `가 필요하다(인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 실제는 연 ${pc(D.growth5y)}로 줄었다).` : `가 필요해 인도 사업을 뺀 계속사업 재작성 이력(2023-12 이후) 실제의 3배를 넘는다.`)
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
   // 비영업 자산 분리 표기 — 주주가치에 더한 지분·장기투자(주당). 사업이 버는 현금과 구분한다.

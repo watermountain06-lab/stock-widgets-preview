@@ -59,7 +59,14 @@ WINDOW_START = "2021-07-01"
 # 약 2.5년 CAGR(2026-10-01, SNDK와 같은 방식).
 # IBM: 2021-11 Kyndryl 분사 — 2021년 분기는 재작성(계속사업) 값이 있지만 2020년 4분기는 원공시라 최근 4분기 끝 2021-12-31부터 19개,
 # 약 4.5년 CAGR(2026-10-01, GE 방식).
-HISTORY_WINDOW = {"AMT": ("2023-12-31", 11),   # AMT: 2023년 분기부터 계속사업 재작성 값 — 네 분기가 모두 계속사업인 첫 최근 4분기 합은 2023년 말(2022년 분기는 재작성 없음, 2026-10-21)
+# 1년 전 같은 기간 인수 줄이 없는(인수 없음) 종목 — 올해 누계를 최근 4분기 인수 대금으로(위 base_inputs).
+# 원문 현금흐름표로 "인수 줄 없음 = 인수 0"을 확인한 (시작, 끝) 기간(위 base_inputs). 달력 회계연도 종목만. 새 분기마다 확인한 기간을 더한다.
+ACQ_MISSING_AS_ZERO = {# MMM: 2025 Q3 10-Q(9개월)·2025 10-K(연간) 현금흐름표에 인수 줄 없음 → 2026 9개월 Madison $1,910M이 최근 4분기(2026-10-21)
+                       "MMM": {("2025-01-01", "2025-09-30"), ("2025-01-01", "2025-12-31")},
+                       # EOG: 2025·2026 상반기 10-Q 현금흐름표에 인수 줄 없음 → 2025년 Encino $4,451M(8월)이 최근 4분기(2026-10-21)
+                       "EOG": {("2025-01-01", "2025-06-30"), ("2026-01-01", "2026-06-30")}}
+HISTORY_WINDOW = {"MMM": ("2024-03-31", 11),   # MMM: Solventum 분사(2024-04). 영업이익 재작성 값은 2023년 2분기부터(1분기는 원공시뿐) — 네 분기가 모두 계속사업인 첫 최근 4분기 합은 2024-03-31(2026-10-21)
+                  "AMT": ("2023-12-31", 11),   # AMT: 2023년 분기부터 계속사업 재작성 값 — 네 분기가 모두 계속사업인 첫 최근 4분기 합은 2023년 말(2022년 분기는 재작성 없음, 2026-10-21)
                   "GE": ("2024-03-31", 9), "SNDK": ("2024-09-27", 8), "GEV": ("2023-12-31", 11), "IBM": ("2021-12-31", 18),
                   # WDC: SanDisk 분사(2025-02). 분기 매출은 FY24부터 재작성 값이 있지만 영업이익은 FY25 1·2분기 10-Q가 비교 수치로 낸
                   # FY24 분기가 분사 전 원공시라(−596·−210·+94·−91, 계속사업 연간은 −403 — Codex) 네 분기가 모두 계속사업인 첫 최근
@@ -145,6 +152,25 @@ def base_inputs(ticker, asof=None):
             return None
         return s[-1]["val"]
     out["acquisitions"] = ttm_fresh(["PaymentsToAcquireBusinessesNetOfCashAcquired"], bmh.FLOW_TAGS["revenue"]) or 0
+    # 인수가 없던 기간에 회사가 인수 줄을 아예 내지 않으면 분기 값을 못 만들어 최근 4분기가 0이 된다(안건 E33 ⑥).
+    # 원문 현금흐름표로 "인수 줄 없음 = 0"을 확인한 기간(ACQ_MISSING_AS_ZERO의 (시작, 끝))만 빈 값을 0으로 보고
+    # 최근 4분기 = 직전 연간 + 올해 누계 − 작년 같은 누계로 만든다. 확인하지 않은 연도가 비면 계산하지 않는다(Codex r2).
+    if ticker in ACQ_MISSING_AS_ZERO and not out["acquisitions"]:
+        _ok = ACQ_MISSING_AS_ZERO[ticker]
+        _, arows = bmh.pick_tag(cik, ["PaymentsToAcquireBusinessesNetOfCashAcquired"])
+        arows = [r for r in arows or [] if r.get("start") and (asof is None or r["filed"] <= asof)]
+        _rev = [e for e in bmh.ttm_series(bmh.quarterly_flow(bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])[1], ticker))
+                if asof is None or e.get("available", e["end"]) <= asof]
+        if _rev and _rev[-1]["end"][5:] != "12-31":
+            _end = _rev[-1]["end"]; _y = int(_end[:4])
+            def _val(start, end):
+                c = [r for r in arows if r["start"] == start and r["end"] == end]
+                if c:
+                    return sorted(c, key=lambda r: r["filed"])[-1]["val"]
+                return 0 if (start, end) in _ok else None
+            parts = [_val(f"{_y-1}-01-01", f"{_y-1}-12-31"), _val(f"{_y}-01-01", _end), _val(f"{_y-1}-01-01", f"{_y-1}{_end[4:]}")]
+            if None not in parts:
+                out["acquisitions"] = parts[0] + parts[1] - parts[2]
     out["tax"] = ttm(["IncomeTaxExpenseBenefit"])
     # 회사가 밝힌 일회성 법인세 항목은 세율에서 뺀다(v2/tax_oneoff.json, META). 같은 시점의 TTM 결산일 기준.
     _, trows = bmh.pick_tag(cik, ["IncomeTaxExpenseBenefit"])
@@ -339,6 +365,9 @@ def base_inputs(ticker, asof=None):
         # 섞여 운전자본이 매출의 32.6%로 잡혔다(실제 18.5% 수준).
         invest_assets = 0 if "EquitySecuritiesFvNi" in excluded else (
             latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) or 0)
+        # 10-Q 값으로 적은 자산 중 유동자산 안에 든 것("current": true — MMM Solventum 지분, 기타 유동자산)도 운전자본에서 뺀다.
+        # 표준 태그가 3월에 멈춰 1년 전 시점에는 0으로 잡혀 운전자본 변화가 왜곡됐다(Codex 2026-10-21, 해당 종목 MMM뿐).
+        invest_assets += sum(x["value"] for x in fixed.values() if x.get("current"))
         out["invest_assets"] = invest_assets
         out["nwc"] = (ac - cash - invest_assets) - (lc - st_debt)
         _ac = [e for e in bmh.component_sum(cik, ["AssetsCurrent"]) if e.get("available", e["end"]) <= (asof or "9999")]
