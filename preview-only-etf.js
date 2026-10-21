@@ -1,7 +1,7 @@
 // preview 전용 ETF 홈 구역(2026-10-19, 2026-10-20 지수·ETF 탭). 라이브(stock-widgets-redesign)로 옮기지 않는다 — pipeline/site_ui/UI_DIFF.md 1절 etf.
 // index.html은 `preview-only:etf` 꼬리표가 붙은 줄 3개(CSS, 데이터, 이 파일)로만 연결된다. 홈 "시장 지표" 구역 제목 줄에
 // [시장 지표] [지수·ETF] 탭을 넣고, 지수·ETF 탭에서는 시장 지표와 같은 회전 화면에 ETF마다 카드 하나를 보인다(2026-10-20).
-// 카드를 누르면 ETF 카드(preview-only-etf-<티커>.html — 시세·수익률·구성 종목·사건·카드 판정 탭, v2/index/index_daily.py --card)로 간다. 값은 preview-only-etf-data.js(window.ETF_DATA, v2/etf/etf_daily.py가 쓴다)에서 읽는다.
+// 카드를 누르면 ETF 카드(preview-only-etf-<티커>.html — 시세·수익률·구성 종목·사건·카드 판정 탭, v2/index/index_daily.py --card)로 간다. 값은 preview-only-etf-data.js(window.ETF_DATA, v2/etf/etf_daily.py가 쓴다)에서 읽는다 — 캐시를 피해 5분 단위 시각을 붙여 직접 불러온다(loadData).
 // 규칙(v2/research/etf_verdict_prereg.md): 참고용·매수 기준 아님. builtFor가 홈 세션(StockData.meta.priceSession)과 다르면
 // 묵음 — 판정·점수를 지우고 사유만 보인다. 데이터 파일이 없거나 깨져 ETF_DATA가 없으면 "불러오지 못함"을 보인다.
 (function () {
@@ -186,8 +186,18 @@
       pane.hidden = !etf;
       tabs.querySelectorAll('[data-pane]').forEach(function (x) { x.setAttribute('aria-selected', String(x === b)); });
     });
-    build();
-    window.addEventListener('quotes-updated', build);
+    box.innerHTML = '<p class="coverflow-status">불러오는 중</p>';
+    loadData(build);
+    window.addEventListener('quotes-updated', function () { if (window.ETF_DATA !== undefined) build(); });
+  }
+
+  // 홈 데이터 파일은 매 실행 바뀌는데 주소가 같아 브라우저·Pages 캐시(최대 10분)에 옛 파일이 남는다 — 새 ETF가
+  // "불러오지 못함"으로 보였다(2026-10-21). 5분 단위 시각을 붙여 직접 불러온다(index.html의 정적 줄은 뺐다). 실패하면 그대로 그린다.
+  function loadData(done) {
+    var s = document.createElement('script');
+    s.src = 'preview-only-etf-data.js?t=' + Math.floor(Date.now() / 300000);
+    s.onload = s.onerror = function () { done(); };
+    document.head.appendChild(s);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
