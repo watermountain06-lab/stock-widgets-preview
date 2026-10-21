@@ -2338,7 +2338,7 @@ function baBandTone(cp){
   function updateHeader(rangeKey, data, prevClose){
     const base = prevClose != null ? prevClose : data[0][4];
     const last = data[data.length-1][4];
-    const retPct = ((last/base - 1) * 100).toFixed(1);
+    const retPct = ((last/base - 1) * 100).toFixed(1).replace(/^-0\.0$/, '0.0');   // −0.0은 0.0으로 — '-0.0' >= 0이 참이라 "+-0.0%"가 나왔다(SNPS 2026-10-21)
     const sign = retPct >= 0 ? '+' : '';
     const dateFrom = data[0][0].slice(0,7).replace('-','.');
     const dateTo = data[data.length-1][0].slice(0,7).replace('-','.');

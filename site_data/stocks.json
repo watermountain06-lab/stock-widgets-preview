@@ -6004,6 +6004,91 @@
         "valuationAsOf": "2026-10-20",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "VRT",
+      "name": "Vertiv",
+      "sector": "산업재 — 데이터센터 전력·냉각 장비",
+      "href": "VRT_full_widget.html",
+      "cardRank": 140,
+      "cardAsOf": "2026-10-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 203.56,
+        "prevClose": 206.08,
+        "session": "2026-10-20",
+        "prevSession": "2026-10-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 384988173,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-27",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q 0001628280-26-050609 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 68.2,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-20",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "TRV",
+      "name": "Travelers",
+      "sector": "금융 — 손해보험(기업·개인)",
+      "href": "TRV_full_widget.html",
+      "cardRank": 141,
+      "cardAsOf": "2026-10-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 395.73,
+        "prevClose": 385.45,
+        "session": "2026-10-20",
+        "prevSession": "2026-10-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 204946347,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-09",
+        "filedAt": "2026-10-16",
+        "filing": "10-Q 0000086312-26-000181 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 63.4,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-20",
+        "qualityFlags": [
+          "health_ratios_below_gate",
+          "operating_income_estimated"
+        ]
+      }
     }
   ]
 }

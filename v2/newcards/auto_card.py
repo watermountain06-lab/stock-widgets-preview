@@ -191,6 +191,19 @@ def dps_series(cik, tag):
     return {k: v for k, (f_, v) in out.items()}
 
 
+PREF_TAGS = (("PreferredStockValue", "USD"), ("PreferredStockSharesOutstanding", "shares"), ("DividendsPreferredStock", "USD"),
+             ("PreferredStockDividendsIncomeStatementImpact", "USD"), ("DividendsPreferredStockCash", "USD"))
+
+
+def has_preferred(cik, cur):
+    """최근 400일 안에 우선주 잔액·주식 수·우선주 배당 중 하나가 0보다 큰가."""
+    for tag, unit in PREF_TAGS:
+        rows = [r for r in _flow_rows(cik, tag, unit) if r["end"] <= cur and (d(cur) - d(r["end"])).days <= 400]
+        if rows and sorted(rows, key=lambda r: (r["end"], r["filed"]))[-1]["val"] > 0:
+            return True
+    return False
+
+
 YO_TWO_MARK = "; 1년 전 분기는 다음 분기분까지 함께 선언"
 
 
@@ -368,7 +381,10 @@ def apply(C, T):
         # PaymentsOfOrdinaryDividends(우선주·비지배지분 배당도 담을 수 있는 일반 태그)로 내는 회사도 있다 — HWM·JNJ·GOOGL 등 8장이
         # "보통주 배당 지급 공시 없음"이었다. 일반 태그라 아래 우선주 판별을 같이 거친다(Codex 2026-10-19).
         dv, dvd = ytd(cik, ["PaymentsOfOrdinaryDividends", "PaymentsOfDividends"], C.CUR, fy_start)
-        dv_pref = dv is not None and dps is None   # 최근 1년 안의 보통주 주당 배당이 없으면 우선주 배당(BA는 과거 보통주 이력이 있다, Codex)
+        # 최근 1년 안의 보통주 주당 배당이 없으면 우선주 배당(BA는 과거 보통주 이력이 있다, Codex) — 다만 우선주가 실제로 있을 때만:
+        # 최근 400일 안 우선주 잔액·주식 수·우선주 배당 태그 중 하나가 0보다 커야 한다. 주당 배당 태그 없이 일반 배당 태그만 내는
+        # 보통주 배당 회사(VRT 분기 $0.0625, DHR)가 "우선주 배당 · 보통주 배당 없음"으로 나왔다(2026-10-21 — 해당 DHR·VRT, BA는 그대로).
+        dv_pref = dv is not None and dps is None and has_preferred(cik, C.CUR)
     C._AUTO["dv_weeks"] = round(dvd.days / 7) if dvd else None
     yo_q3 = ends[ends.index(C.YO) - 1]
     # 매입이 없어 현금흐름표 줄·태그가 아예 빠진 회사는 10-Q 주석 문장으로 확인해 cfg BB_NONE = {분기 말일: 문구}에 적는다 — 그 분기에만 쓰인다.
@@ -381,7 +397,7 @@ def apply(C, T):
                  ((f"최근 분기 주당 배당 ({(dlabel or '').replace(YO_TWO_MARK, '')}, {d(dps_end).month}/{d(dps_end).day} 분기)",
                    ("1년 전 " + usd(dps_yo) + (f" · {chg(dps, dps_yo)}" if chg(dps, dps_yo) else "")) if dps_yo else
                    ("1년 전 분기는 두 분기분 선언 — 비교 안 함" if YO_TWO_MARK in (dlabel or "") else "1년 전 배당 없음"),
-                   usd(dps)) if dps is not None else ("분기 주당 배당", "보통주 배당 없음", "—"))]
+                   usd(dps)) if dps is not None else ("분기 주당 배당", "주당 배당 태그 없음(배당 지급은 위 칸)" if dv is not None and not dv_pref else "보통주 배당 없음", "—"))]
     C._AUTO.update({"bb": bb, "dv": dv if not dv_pref else None, "dps": dps, "dps_yo": dps_yo, "dps_two": "직전 분기의 2배" in (dlabel or ""), "dps_zero_prev": "직전 분기엔 선언 없음" in (dlabel or ""), "dps_each": dps_each})
     gw = {r["end"]: r["val"] for r in sorted(_flow_rows(cik, "Goodwill"), key=lambda r: r["filed"])}
     C._AUTO["acq"] = bool(gw.get(C.CUR) and C.YO in gw and gw[C.CUR] > (gw[C.YO] or 0) * 1.15)   # 1년 전 영업권 0에서 생긴 인수도(Codex)   # 영업권이 1년에 15% 넘게 늘면 인수가 매출 성장에 섞였다(ABT, Fable)
@@ -706,7 +722,9 @@ def texts(C, ns):
     # ② 비교 기준은 다음 분기의 1년 전 분기다(2026-10-12 사용자 결정 — 전에는 이번 분기와 그 1년 전을 적어, 다음 발표 때 대볼 숫자가 없었다)
     _na, _nal, _nl = A.get("nxt_ago"), A.get("nxt_ago_label"), A.get("next_label")
     # 영업이익 줄이 없어 합성한 회사(bmh.DERIVED_OPINC — PSX·XOM·COP 등)에 'GAAP 영업이익률'이라 쓰지 않는다(Codex·Fable 2026-10-13)
-    _gaap = "합성 영업이익률(세전이익 기준)" if str(C.CIK).zfill(10) in bmh.DERIVED_OPINC else "GAAP 영업이익률"
+    # 카드 표시용 영업이익을 세전이익 + 이자비용으로 만든 보험사(cfg OP_DISPLAY — CB·PGR·TRV)도 같다(Codex 2026-10-21)
+    _gaap = ("합성 영업이익률(세전이익 기준)" if str(C.CIK).zfill(10) in bmh.DERIVED_OPINC
+             else "추정 영업이익률(세전이익 + 이자비용)" if getattr(C, "OP_DISPLAY", None) else "GAAP 영업이익률")
     if _na and _nal and _nl and rev.get(_na, 0) > 0 and _na in op:
         _ck_opm = f"{_nl} {_gaap}이 1년 전 같은 분기({_nal} {op[_na] / rev[_na] * 100:.1f}%)보다 높은지(직전 {QL} {opm:.1f}%)"
     else:

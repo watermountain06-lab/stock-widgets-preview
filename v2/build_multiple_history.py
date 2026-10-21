@@ -96,6 +96,9 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # VRT: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 듬성듬성해(2021-12부터 13개) EV/EBITDA 이력이 250일뿐이었다 —
+                    # 현금흐름표 구성요소 Depreciation + AmortizationOfIntangibleAssets(2021~ 22개; 2026 상반기 66.9 + 156.6 = 223.5 = 합산 태그, 2026-10-21).
+                    "0001674101": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # CME: 손익계산서 "Depreciation and amortization" 줄을 10-Q는 Depreciation, 10-K 연간은 DepreciationAndAmortization으로 낸다 —
                     # 둘을 한 구성요소로 합쳐야 4분기가 생긴다(없으면 4분기 감가상각이 빠져 TTM이 $233M, 2026-10-16). 무형자산 상각은 따로.
                     "0001156375": [("Depreciation", "DepreciationAndAmortization"), "AmortizationOfIntangibleAssets"],
@@ -624,6 +627,7 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0000277948": ("DepreciationDepletionAndAmortization",),   # CSX — 구성요소 튜플 경로로(DDA_PARTS_BY_CIK)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
                 "0001868275": ("DepreciationAmortizationAndAccretionNet",),   # CEG — 구성요소 경로로(DDA_PARTS_BY_CIK)
+                "0001674101": ("DepreciationDepletionAndAmortization",),   # VRT — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-21)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
                 # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아
@@ -1251,6 +1255,8 @@ SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # MMM: 단기 차입·1년 안 만기 DebtCurrent $2,439M + 장기 LongTermDebtNoncurrent $12,558M = 10-Q $14,997M(기본은 장기만, 2026-10-21).
                   "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # TRV: 재무상태표 "Debt" $9,813M(사채 + CP $100M)은 DebtLongtermAndShorttermCombinedAmount — 기본 선택은 2025-12에 멈춘 태그였다(2026-10-21).
+                  "0000086312": "DebtLongtermAndShorttermCombinedAmount",
                   # MAR: "Current portion of long-term debt" + "Long-term debt"(…AndCapitalLeaseObligations 두 태그 — 금융리스 포함). 기본 선택은 LongTermDebt($23M, 다른 항목)를
                   # 잡아 차입금이 $0.02B였다(2026-06-30 $460M + $16,455M = $16,915M, 2026-10-21).
                   "0001048286": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -1437,7 +1443,11 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# EOG: 10-Q는 1년 안 운용리스($324M)만 태그하고 비유동분은 "Other Liabilities" 안 — 총 운용리스는 10-K 값(2025-12 $1,199M)을 쓴다(Codex 2026-10-21).
+EV_TAGS_BY_CIK = {# TRV: 재무상태표 현금 $766M(제한 현금 $147M 포함)은 Cash 태그 — 기본 태그가 없어 현금 $0이었다(Codex 2026-10-21). 단기 증권은 보험 운용자산이라 넣지 않는다.
+                  "0000086312": {"cash": ["Cash"]},
+                  # VRT: 단기투자 $300M은 만기보유 채권(유동) 태그, 10-Q "Long-term lease liabilities" $316.4M은 표준 태그가 없어 총 운용리스는 10-K 값(2025-12 $314.5M, 2026-10-21).
+                  "0001674101": {"sti": ["DebtSecuritiesHeldToMaturityAmortizedCostAfterAllowanceForCreditLossCurrent"], "lease": ["OperatingLeaseLiability"]},
+                  # EOG: 10-Q는 1년 안 운용리스($324M)만 태그하고 비유동분은 "Other Liabilities" 안 — 총 운용리스는 10-K 값(2025-12 $1,199M)을 쓴다(Codex 2026-10-21).
                   "0000821189": {"lease": ["OperatingLeaseLiability"]},
                   # MMM: 현금 줄은 제한 현금 포함 태그($4,835M = 재무상태표 "Cash and cash equivalents"), CashAndCashEquivalentsAtCarryingValue는 2017-03에 멈췄다.
                   # 시장성 증권(유동) $310M은 매도가능 채권 태그(2026-10-21).

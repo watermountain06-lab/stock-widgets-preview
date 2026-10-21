@@ -2569,5 +2569,26 @@
     "#f7b3b5"
    ]
   }
+ },
+ "VRT": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "vrt:AmericasSegmentMember": [
+    "미주",
+    "#e35205"
+   ],
+   "vrt:AsiaPacificSegmentMember": [
+    "아시아·태평양",
+    "#f58a4c"
+   ],
+   "vrt:EMEASegmentMember": [
+    "유럽·중동·아프리카",
+    "#f9c09e"
+   ]
+  }
  }
 }

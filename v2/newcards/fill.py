@@ -140,7 +140,7 @@ jo_ro = lambda v: '으로' if abs(v) % 10 in (0, 3, 6) else '로'
 RIM = DCF.get('model') == 'rim'   # 관리의료 보험 초과이익모형(research/insurer_rim_prereg.md) — 세 번째 심판 이름과 기권 표기
 if RIM and not DCF.get('unavailable'):   # 판정 점수: 엔진(insurer_rim.score_of)과 이 파일의 현금흐름 표가 같아야 한다(§5 대조)
     assert _dv == DCF['score'], ('RIM 판정 점수가 엔진과 다르다', _dv, DCF['score'], ratio)
-VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · ' + ('초과이익 ' if RIM else '현금흐름 ') + (('기권' if RIM else '미적용') if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL) + (f'(4표 기준 {_n:+.1f})'.replace('-', '−') if _maxw and _maxw < 4 else '')
+VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · ' + ('초과이익 ' if RIM else '현금흐름 ') + (('기권' if RIM else '미적용') if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL) + (f'(4표 기준 {_n:+.1f})'.replace('-', '−') if _maxw and _maxw < 4 and not DCF.get('unavailable') else '')   # 현금흐름 미적용(판정 보류)은 환산하지 않는다 — 여기선 미적용 칸을 0표(가중 2)로 세어 −1.3, 화면 JS는 −4.0이었다(TRV Codex 2026-10-21; 해당 TRV만)
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
 ch = (px / D[max(-253, -len(D))][4] - 1) * 100   # 일봉이 1년보다 짧으면 첫날부터(SKHY ADR, 2026-10-05)
 CH_TXT = ('제자리(' + format(ch, '+.1f') + '%)') if abs(ch) < 1 else format(ch, '+.0f') + '%'
