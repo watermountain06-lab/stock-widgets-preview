@@ -133,6 +133,15 @@ def base_inputs(ticker, asof=None):
     # 차감하면서 그 부채가 산 자산의 취득은 투자로 세지 않으면 앞뒤가 안 맞는다.
     # MSFT는 TTM $24.6B로 주당 약 $7이다(Fable 계산).
     fl_capex = ttm(["RightOfUseAssetObtainedInExchangeForFinanceLeaseLiability"])
+    # 금융리스 취득 태그는 분기 이력이 끊기는 회사가 많다 — 최근 4분기 매출보다 200일 넘게 뒤처진 값은 버린다(세전이익과 같은 규칙).
+    # 버리기 전에는 HLT가 2020-03 TTM $30M을, WMT $1.08B·NEM $731M·META $588M·VZ $564M 등 19장이 2019~2024년 값을 지금 설비투자에 더했다(Codex 2026-10-21).
+    if fl_capex:
+        _, _flr = bmh.pick_tag(cik, ["RightOfUseAssetObtainedInExchangeForFinanceLeaseLiability"])
+        _, _rvr = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
+        _fs = [e for e in bmh.ttm_series(bmh.quarterly_flow(_flr, ticker)) if asof is None or e.get("available", e["end"]) <= asof]
+        _rs = [e for e in bmh.ttm_series(bmh.quarterly_flow(_rvr, ticker)) if asof is None or e.get("available", e["end"]) <= asof] if _rvr else []
+        if _fs and _rs and (date.fromisoformat(_rs[-1]["end"]) - date.fromisoformat(_fs[-1]["end"])).days > 200:
+            fl_capex = None
     out["capex_finance_lease"] = fl_capex or 0
     if fl_capex:
         out["capex"] = (out["capex"] or 0) + fl_capex

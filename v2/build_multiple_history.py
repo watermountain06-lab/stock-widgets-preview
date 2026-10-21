@@ -1257,6 +1257,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # TRV: 재무상태표 "Debt" $9,813M(사채 + CP $100M)은 DebtLongtermAndShorttermCombinedAmount — 기본 선택은 2025-12에 멈춘 태그였다(2026-10-21).
                   "0000086312": "DebtLongtermAndShorttermCombinedAmount",
+                  # HLT: 1년 안 만기 $624M + 장기 $12,719M(둘 다 금융리스 포함 태그) = 10-Q $13,343M — 기본은 장기만이고 금융리스를 리스로 또 더했다(2026-10-21).
+                  "0001585689": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # MAR: "Current portion of long-term debt" + "Long-term debt"(…AndCapitalLeaseObligations 두 태그 — 금융리스 포함). 기본 선택은 LongTermDebt($23M, 다른 항목)를
                   # 잡아 차입금이 $0.02B였다(2026-06-30 $460M + $16,455M = $16,915M, 2026-10-21).
                   "0001048286": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -1443,7 +1445,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# TRV: 재무상태표 현금 $766M(제한 현금 $147M 포함)은 Cash 태그 — 기본 태그가 없어 현금 $0이었다(Codex 2026-10-21). 단기 증권은 보험 운용자산이라 넣지 않는다.
+EV_TAGS_BY_CIK = {# HLT: 상환가능 비지배지분 $5M(자본 밖 별도 줄)도 비지배에 — 합계 $33M(Codex 2026-10-21, MCK·SNPS와 같은 처리)
+                  "0001585689": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
+                  # TRV: 재무상태표 현금 $766M(제한 현금 $147M 포함)은 Cash 태그 — 기본 태그가 없어 현금 $0이었다(Codex 2026-10-21). 단기 증권은 보험 운용자산이라 넣지 않는다.
                   "0000086312": {"cash": ["Cash"]},
                   # VRT: 단기투자 $300M은 만기보유 채권(유동) 태그, 10-Q "Long-term lease liabilities" $316.4M은 표준 태그가 없어 총 운용리스는 10-K 값(2025-12 $314.5M, 2026-10-21).
                   "0001674101": {"sti": ["DebtSecuritiesHeldToMaturityAmortizedCostAfterAllowanceForCreditLossCurrent"], "lease": ["OperatingLeaseLiability"]},

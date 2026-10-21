@@ -2590,5 +2590,24 @@
     "#f9c09e"
    ]
   }
+ },
+ "HLT": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "hlt:ManagementAndFranchiseMember": [
+    "관리·프랜차이즈",
+    "#104c97"
+   ],
+   "hlt:OwnershipMember": [
+    "직영·임차 호텔",
+    "#7aa3d9"
+   ]
+  }
  }
 }
