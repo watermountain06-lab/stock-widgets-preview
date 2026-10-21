@@ -5881,6 +5881,49 @@
         "valuationAsOf": "2026-10-20",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "MAR",
+      "name": "Marriott",
+      "sector": "경기소비재 — 호텔 프랜차이즈·위탁 운영",
+      "href": "MAR_full_widget.html",
+      "cardRank": 137,
+      "cardAsOf": "2026-10-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 397.31,
+        "prevClose": 390.7,
+        "session": "2026-10-20",
+        "prevSession": "2026-10-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 260766288,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-27",
+        "filedAt": "2026-08-03",
+        "filing": "10-Q 0001048286-26-000035 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 43.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-20",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }

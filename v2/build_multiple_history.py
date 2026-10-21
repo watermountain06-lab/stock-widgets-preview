@@ -1233,6 +1233,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # MAR: "Current portion of long-term debt" + "Long-term debt"(…AndCapitalLeaseObligations 두 태그 — 금융리스 포함). 기본 선택은 LongTermDebt($23M, 다른 항목)를
+                  # 잡아 차입금이 $0.02B였다(2026-06-30 $460M + $16,455M = $16,915M, 2026-10-21).
+                  "0001048286": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DDOG: 전환사채만 — 장기분 ConvertibleLongTermNotesPayable(2026-06-30 $985.5M, 2029년 만기) + 1년 안 ConvertibleNotesPayableCurrent(2024-06~2025-03의
                   # 2025년 만기분). 기본 목록에 장기 태그가 없어 차입금 0이었다(두 태그는 같은 날 겹치지 않음, 2026-10-21).
                   "0001561550": ["ConvertibleNotesPayableCurrent", "ConvertibleLongTermNotesPayable"],
@@ -1452,6 +1455,8 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # AMT: 단기투자 태그 2019-03($18.4M)·우선주 태그 2014-12에 멈춤 — 지금 재무상태표에 둘 다 없음. 금융리스는 "Long-term obligations" 안이라 리스는 운용리스만
                   # (2026-06-30 $644.1M + $7,146.2M, 2026-10-21).
                   "0001053507": {"sti": [], "preferred": [], "lease": ["OperatingLeaseLiabilityCurrent", "OperatingLeaseLiabilityNoncurrent"]},
+                  # MAR: MinorityInterest가 2010-09에 멈춤 — 지금 재무상태표에 비지배지분 줄 없음(2026-10-21).
+                  "0001048286": {"nci": []},
                   # WMB: 현금 태그 CashAndCashEquivalentsAtCarryingValue가 2023-09에 멈춤($2,074M) → 합계 태그(2026-06-30 $203M = 재무상태표 현금).
                   # 리스는 유동·비유동 태그가 2024-12에 멈추고 연간 OperatingLeaseLiability만 있다(2025-12 $183M, TT 방식, 2026-10-19).
                   "0000107263": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "lease": ["OperatingLeaseLiability"]},

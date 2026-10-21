@@ -2498,5 +2498,32 @@
     "#a888d4"
    ]
   }
+ },
+ "MAR": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "mar:USAndCanadaSegmentMember": [
+    "미국·캐나다",
+    "#8c1d40"
+   ],
+   "mar:EMEASegmentMember": [
+    "유럽·중동·아프리카",
+    "#c0506f"
+   ],
+   "mar:APECMember": [
+    "아시아·태평양(중국 제외)",
+    "#e3a1b4"
+   ],
+   "mar:GreaterChinaMember": [
+    "중화권",
+    "#f2c9d5"
+   ]
+  }
  }
 }
