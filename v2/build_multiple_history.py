@@ -1437,7 +1437,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# MMM: 현금 줄은 제한 현금 포함 태그($4,835M = 재무상태표 "Cash and cash equivalents"), CashAndCashEquivalentsAtCarryingValue는 2017-03에 멈췄다.
+EV_TAGS_BY_CIK = {# EOG: 10-Q는 1년 안 운용리스($324M)만 태그하고 비유동분은 "Other Liabilities" 안 — 총 운용리스는 10-K 값(2025-12 $1,199M)을 쓴다(Codex 2026-10-21).
+                  "0000821189": {"lease": ["OperatingLeaseLiability"]},
+                  # MMM: 현금 줄은 제한 현금 포함 태그($4,835M = 재무상태표 "Cash and cash equivalents"), CashAndCashEquivalentsAtCarryingValue는 2017-03에 멈췄다.
                   # 시장성 증권(유동) $310M은 매도가능 채권 태그(2026-10-21).
                   "0000066740": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"],
                                  "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # 상환가능 비지배지분 $971M(Bain의 Madison 합작사 49.9%, 2026-07 — Codex)

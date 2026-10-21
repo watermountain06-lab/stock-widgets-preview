@@ -2548,5 +2548,26 @@
     "#ffb3b3"
    ]
   }
+ },
+ "EOG": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "eog:UnitedStatesOfAmericaSegmentMember": [
+    "미국",
+    "#d71920"
+   ],
+   "eog:TrinidadMember": [
+    "트리니다드",
+    "#f26b6f"
+   ],
+   "eog:OtherInternationalMember": [
+    "기타 해외",
+    "#f7b3b5"
+   ]
+  }
  }
 }

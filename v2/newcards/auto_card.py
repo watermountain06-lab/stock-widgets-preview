@@ -191,6 +191,9 @@ def dps_series(cik, tag):
     return {k: v for k, (f_, v) in out.items()}
 
 
+YO_TWO_MARK = "; 1년 전 분기는 다음 분기분까지 함께 선언"
+
+
 def latest_dps(cik, cur):
     """최근에 선언(없으면 지급)한 분기 배당과 1년 전 같은 값 — 분기에 선언이 없으면(BKNG는 1분기에 선언) 그 앞 분기.
     두 태그 가운데 더 최근 분기를 가진 쪽(선언 보고를 멈추고 지급으로 바꾼 회사, Codex)."""
@@ -208,8 +211,20 @@ def latest_dps(cik, cur):
             two = label == "선언 기준" and bool(pq) and sr[pq[-1]] > 0 and abs(sr[e] / sr[pq[-1]] - 2) < 0.04
             # 직전 분기 선언이 0이면 두 분기분을 한 번에 선언했을 수 있다(MRSH 7월·9월 $0.99 두 번, PFE) — 반기 배당과 숫자로는 못 가르므로 중립 문구(Codex 2026-10-18)
             zero = label == "선언 기준" and bool(pq) and sr[pq[-1]] == 0
-            best = (sr[e], (sr[yo[-1]] if yo else None),
-                    label + (", 그 분기 선언액 합계 — 직전 분기의 2배" if two else ", 그 분기 선언액 합계 — 직전 분기엔 선언 없음" if zero else ""), e)
+            # 1년 전 분기에 다음 분기분까지 미리 선언한 회사(EOG 2025 2분기 $0.975 + $1.02 = $1.995, 3분기 선언 없음): 1년 전 값이 그 앞 분기의
+            # 1.8배 이상이고 바로 다음 분기 선언이 없으면 두 분기분이라 증감률을 내지 않는다 — "−48.9%" 감배당처럼 읽혔다(Codex 2026-10-21).
+            yo_two = False
+            # 이번 분기도 두 분기분(직전 분기의 1.8배 이상 또는 직전 분기 선언 없음)이면 1년 전과 같은 방식이라 비교가 맞다(GLW·TT·RTX — RTX는 인상이 겹쳐 2배 ±4% 밖)
+            # 직전 분기 값이 없거나 0이면 판단하지 않는다(결측을 '두 분기분 아님'으로 읽지 않게 — Codex r2). 다음 분기도 0으로 실린 경우만(결측 ≠ 0).
+            cur_one = bool(pq) and sr[pq[-1]] > 0 and sr[e] < 1.8 * sr[pq[-1]]
+            if yo and label == "선언 기준" and cur_one:
+                _k = yo[-1]
+                _p = [k for k in sr if 80 <= (d(_k) - d(k)).days <= 100]
+                _n = [k for k in sr if 80 <= (d(k) - d(_k)).days <= 100]
+                yo_two = bool(_p) and sr[_p[-1]] > 0 and sr[_k] >= 1.8 * sr[_p[-1]] and bool(_n) and sr[_n[0]] == 0
+            best = (sr[e], (sr[yo[-1]] if yo and not yo_two else None),
+                    label + (", 그 분기 선언액 합계 — 직전 분기의 2배" if two else ", 그 분기 선언액 합계 — 직전 분기엔 선언 없음" if zero else "")
+                    + (YO_TWO_MARK if yo_two else ""), e)
     return best or (None, None, None, None)
 
 
@@ -363,8 +378,9 @@ def apply(C, T):
     C.CAPITAL = [(bb_lab, (B(bb) if bb else "없음") if bb is not None else (bb_none or "공시 없음")),
                  ((f"우선주 배당 ({span(dvd)})" if dv_pref else f"배당 지급 ({span(dvd)})") if dv is not None else "보통주 배당 지급",
                   B(dv) if dv is not None else ("공시 없음" if dps is not None else "없음")),   # 주당 배당이 있는데 지급액이 없으면 결측(GOOGL, Fable)
-                 ((f"최근 분기 주당 배당 ({dlabel}, {d(dps_end).month}/{d(dps_end).day} 분기)",
-                   ("1년 전 " + usd(dps_yo) + (f" · {chg(dps, dps_yo)}" if chg(dps, dps_yo) else "")) if dps_yo else "1년 전 배당 없음",
+                 ((f"최근 분기 주당 배당 ({(dlabel or '').replace(YO_TWO_MARK, '')}, {d(dps_end).month}/{d(dps_end).day} 분기)",
+                   ("1년 전 " + usd(dps_yo) + (f" · {chg(dps, dps_yo)}" if chg(dps, dps_yo) else "")) if dps_yo else
+                   ("1년 전 분기는 두 분기분 선언 — 비교 안 함" if YO_TWO_MARK in (dlabel or "") else "1년 전 배당 없음"),
                    usd(dps)) if dps is not None else ("분기 주당 배당", "보통주 배당 없음", "—"))]
     C._AUTO.update({"bb": bb, "dv": dv if not dv_pref else None, "dps": dps, "dps_yo": dps_yo, "dps_two": "직전 분기의 2배" in (dlabel or ""), "dps_zero_prev": "직전 분기엔 선언 없음" in (dlabel or ""), "dps_each": dps_each})
     gw = {r["end"]: r["val"] for r in sorted(_flow_rows(cik, "Goodwill"), key=lambda r: r["filed"])}
@@ -429,6 +445,9 @@ def apply(C, T):
         C.NEXT = (f"{_dd.month}월 {_dd.day}일", f"일정 · {nl} ({_nc['src']})")
         C.NEXT_OP = (f"{_dd.month}월 {_dd.day}일", f"{nl}")
         C.CHECK_WHEN = f"{_dd.year}년 {_dd.month}월 {_dd.day}일 · {nl}"
+        # 회사가 콜 날짜만 공지했으면 cfg NEXT_CONFIRMED "event"로 체크포인트 문장의 '실적 공시'를 바꾼다(EOG — Codex r2 2026-10-21)
+        if _nc.get("event"):
+            C._AUTO["next_event"] = _nc["event"]
     C._AUTO["next_label"] = nl
     C.FUND_ASOF_NOTE = f"{C.TENQ_NAME}"
     lens = sorted({round(qlen[e] / 7) for e in ends[-8:] if e in qlen and 70 <= qlen[e] <= 130})   # 차트에 보이는 8분기 안에서만(Fable)
@@ -621,7 +640,8 @@ def texts(C, ns):
                f"{jw} 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}다" if ratio else "")
     risk = f"세 칸이 {ns['VOTES_TXT']}, 합계 {ns['TOTAL_TXT']} “{ns['VERDICT']}”이다." + (f" {dcf_txt}." if dcf_txt else "")
     _w = C.CHECK_WHEN.split(' · ')[0]
-    nxt = f"{_w} 실적 공시." if _w == A['next_label'] else f"{_w} {A['next_label']} 실적 공시."   # 일정 추정이 없으면 CHECK_WHEN이 분기 이름뿐 — "Q4 FY26 Q4 FY26" 겹침(ADBE 2026-10-17)
+    _ev = A.get("next_event") or "실적 공시"
+    nxt = f"{_w} {_ev}." if _w == A['next_label'] else f"{_w} {A['next_label']} {_ev}."   # 일정 추정이 없으면 CHECK_WHEN이 분기 이름뿐 — "Q4 FY26 Q4 FY26" 겹침(ADBE 2026-10-17)
     if trend_txt:
         bl.insert(1, f"최근 세 분기 매출 증가율(1년 전 대비, 환율·인수 포함): {trend_txt}.")
     C.SUMMARY = (head, f"{vx}·{gx}", [], risk, nxt)   # 숫자 목록은 싣지 않는다(2026-10-10 사용자 결정) — 같은 숫자가 기본적 분석 탭에 있다
