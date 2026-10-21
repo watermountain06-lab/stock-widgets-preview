@@ -842,3 +842,125 @@ test('화면용 도우미: 입금 반영일·취소 마감, 거래일 여부', (
   assert.equal(isTradingDay('2026-11-27'), true);
   assert.equal(isTradingDay('2030-01-02'), false);
 });
+
+// ---- 내 실제 계좌 줄(preview-only-portfolio-actual.js, 2026-10-21) ----
+import { actualAccount, attachActual } from '../../preview-only-portfolio-actual.js';
+import { toEngineInput } from '../../preview-only-portfolio-strategy.js';
+import { monthView } from '../../preview-only-portfolio-home.js';
+
+test('실제 계좌: 스냅샷 출발, 매매(휴장일은 다음 거래일·같은 날 매수 먼저), 입금·늦은 취소, 분할, 가격 없음, TWR·SPY 대비', () => {
+  const recs = world({ end: '2026-10-30', close: (t, d) => (t === 'AAA' && d >= '2026-10-23' ? 110 : t === 'BBB' && d >= '2026-10-28' ? 25 : undefined),
+    splits: { '2026-10-28': [{ id: 'BBB-2026-10-28', ticker: 'BBB', effectiveDate: '2026-10-28', ratio: 2 }],
+      '2026-10-20': [{ id: 'AAA-2026-10-16', ticker: 'AAA', effectiveDate: '2026-10-16', ratio: 3 }] } });   // 시작일 효력 분할은 스냅샷에 이미 있음 → 무시
+  const deposits = {
+    d1: { amount: 500, recordedAt: '2026-10-21T20:00:00Z' },            // 10-22 반영
+    d2: { amount: 300, recordedAt: '2026-10-26T20:00:00Z' },            // 10-27 반영, 취소는 반영 뒤라 무시
+    c2: { cancels: 'd2', recordedAt: '2026-10-27T15:00:00Z' },
+    d3: { amount: 999, recordedAt: '2026-10-21T20:30:00Z' }, c3: { cancels: 'd3', recordedAt: '2026-10-21T21:00:00Z' },   // 반영 전 취소
+  };
+  const tr = {
+    t0: { date: '2026-10-16', ticker: 'AAA', side: 'buy', qty: 99, price: 1, recordedAt: '2026-10-16T20:00:00Z' },      // 시작일 당일 → 스냅샷에 이미 있음
+    t1: { date: '2026-10-25', ticker: 'BBB', side: 'sell', qty: 4, price: 50, recordedAt: '2026-10-25T19:00:00Z' },     // 일요일 → 10-26, 먼저 적었어도 매수 뒤
+    t2: { date: '2026-10-25', ticker: 'BBB', side: 'buy', qty: 4, price: 50, recordedAt: '2026-10-25T20:00:00Z' },
+    t3: { date: '2026-10-26', ticker: 'BBB', side: 'buy', qty: 2, price: 50, recordedAt: '2026-10-26T20:00:00Z' },
+    t4: { date: '2026-10-27', ticker: 'ZZZ', side: 'buy', qty: 1, price: 10, recordedAt: '2026-10-27T20:00:00Z' },      // 가격 없는 종목
+    x4: { cancels: 't4', recordedAt: '2026-10-27T21:00:00Z' },
+  };
+  const A = replay({ records: recs, snapshot: SNAP, deposits: toEngineInput({ snapshot: SNAP, deposits }, recs).deposits }).scenarios[0];
+  const r = actualAccount({ records: recs, snapshot: SNAP, deposits, trades: tr, baselines: A.baselines, baseStart: A.started, baseStartValue: A.startValue });
+  assert.equal(r.started, '2026-10-16');
+  assert.equal(day(r, '2026-10-16').value, 3000);
+  assert.equal(day(r, '2026-10-22').value, 3500);
+  assert.equal(day(r, '2026-10-23').value, 3600);                       // AAA 110
+  assert.deepEqual(r.trades.map((t) => [t.date, t.ticker, t.side]), [['2026-10-26', 'BBB', 'buy'], ['2026-10-26', 'BBB', 'sell'], ['2026-10-26', 'BBB', 'buy']]);
+  assert.equal(day(r, '2026-10-27').value, 3600 - 100 + 100 + 300);     // 2주 100달러 매수, 늦은 취소는 무시되어 300 반영
+  assert.equal(r.holdings.BBB, 4);                                       // 10-28 분할 2배
+  assert.equal(day(r, '2026-10-28').value, 1100 + 1000 + 4 * 25 + 1000 + 500 - 100 + 300);
+  assert.equal(day(r, '2026-10-27').deposits, 800);
+  assert.equal(day(r, '2026-10-16').twr, 0);
+  near(day(r, '2026-10-23').twr, 3600 / 3500 - 1);
+  near(day(r, '2026-10-23').vs.SPY, (day(r, '2026-10-23').twr - 0) * 100);   // SPY는 그대로라 기준선 TWR 0
+  // SPY가 움직이면 같은 날짜의 기준선 TWR을 뺀다
+  const recs2 = world({ end: '2026-10-23', close: (t, d) => (t === 'SPY' && d >= '2026-10-22' ? 550 : undefined) });
+  const A2 = replay({ records: recs2, snapshot: SNAP }).scenarios[0];
+  const r4 = actualAccount({ records: recs2, snapshot: SNAP, deposits: {}, trades: {}, baselines: A2.baselines, baseStart: A2.started, baseStartValue: A2.startValue });
+  near(day(r4, '2026-10-22').vs.SPY, (0 - 0.1) * 100);
+  near(day(r4, '2026-10-19').vs.SPY, 0);
+  // 출발일이 같아도 출발 평가액이 다르면 A의 기준선을 쓰지 않는다(dr r2)
+  const r5 = actualAccount({ records: recs2, snapshot: SNAP, deposits: {}, trades: {}, baselines: A2.baselines, baseStart: A2.started, baseStartValue: A2.startValue + 1 });
+  assert.equal(day(r5, '2026-10-22').vs.SPY, null);
+  assert.match(r5.warnings[0], /출발 평가액/);
+  const r6 = actualAccount({ records: recs2, snapshot: SNAP, deposits: {}, trades: {}, baselines: A2.baselines, baseStart: '2026-10-19', baseStartValue: A2.startValue });
+  assert.equal(day(r6, '2026-10-22').vs.SPY, null);
+  assert.match(r6.warnings[0], /출발일/);
+  // 가격 없는 종목을 사면 그날부터 미확정
+  const r2 = actualAccount({ records: recs, snapshot: SNAP, deposits: {}, trades: { t4: tr.t4 }, baselines: A.baselines, baseStart: A.started, baseStartValue: A.startValue });
+  assert.equal(day(r2, '2026-10-27').value, null);
+  assert.deepEqual(day(r2, '2026-10-27').why, ['noPrice:ZZZ']);
+  assert.equal(day(r2, '2026-10-26').value, 3100);                     // 입금 없음: 3000 + AAA 상승 100
+  // 보유보다 많이 판 기록은 가진 만큼만(현금도 그만큼만)
+  const r3 = actualAccount({ records: recs, snapshot: SNAP, deposits: {}, trades: { s: { date: '2026-10-21', ticker: 'DDD', side: 'sell', qty: 150, price: 10, recordedAt: 'x' } }, baselines: A.baselines, baseStart: A.started, baseStartValue: A.startValue });
+  assert.equal(r3.holdings.DDD, undefined);
+  assert.equal(r3.cash, 2000);
+  assert.equal(r3.warnings.length, 1);
+  assert.deepEqual(r3.trades.map((t) => [t.shares, t.amount, t.requested]), [[100, 1000, 150]]);   // 반영된 수량·대금으로 기록
+});
+
+test('실제 계좌: 분할은 기록이 늦어도 효력일에 선적용(기록 전 급변 날은 안전망으로 미확정), 대금은 체결마다 센트, 음수 현금 경고', () => {
+  // AAA 10주 보유. 10-20 효력 2:1 분할 기록이 10-23에야 실린다. 10-21에 분할 뒤 가격(50)으로 10주를 더 샀고, 10-22에 20주를 팔았다.
+  // 분할은 효력일(10-20) 장 시작 전에 적용한다 — 증권사처럼 그 뒤 매매는 분할 뒤 수량이다.
+  const recs = world({ end: '2026-10-27', close: (t, d) => (t === 'AAA' && d >= '2026-10-20' ? 50 : undefined),
+    splits: { '2026-10-23': [{ id: 'AAA-2026-10-20', ticker: 'AAA', effectiveDate: '2026-10-20', ratio: 2 }],
+      '2026-10-26': [{ id: 'AAA-2026-10-20', ticker: 'AAA', effectiveDate: '2026-10-20', ratio: 2 }] } });   // 같은 분할이 두 기록에 실려도 한 번
+  const tr = { b: { date: '2026-10-21', ticker: 'AAA', side: 'buy', qty: 10, price: 50, recordedAt: 'x' },
+    s: { date: '2026-10-22', ticker: 'AAA', side: 'sell', qty: 20, price: 50, recordedAt: 'y' } };
+  const r = actualAccount({ records: recs, snapshot: SNAP, deposits: {}, trades: tr, baselines: {}, baseStart: null });
+  assert.equal(r.holdings.AAA, 10);                                   // 10 × 2 + 10 − 20
+  assert.deepEqual(r.warnings.filter((w) => /보유/.test(w)), []);   // 보유 초과 경고 없음
+  assert.equal(r.cash, 1000 - 500 + 1000);
+  assert.equal(day(r, '2026-10-26').value, 10 * 50 + 1000 + 1500);
+  // 기록이 오기 전 가격 급변 날은 엔진의 분할 안전망이 미확정으로 둔다
+  assert.equal(day(r, '2026-10-21').value, null);
+  // 소수 주식 대금은 체결마다 센트로(0.001주 × $6 = $0.006 → $0.01씩)
+  const r2 = actualAccount({ records: recs, snapshot: { date: '2026-10-16', holdings: {}, cash: 1 }, deposits: {},
+    trades: { a: { date: '2026-10-19', ticker: 'BBB', side: 'buy', qty: 0.001, price: 6, recordedAt: '1' }, b: { date: '2026-10-19', ticker: 'BBB', side: 'buy', qty: 0.001, price: 6, recordedAt: '2' } },
+    baselines: {}, baseStart: null });
+  assert.equal(r2.cash, 0.98);
+  assert.deepEqual(r2.trades.map((t) => t.amount), [0.01, 0.01]);
+  // 현금이 음수가 되면 경고
+  const r3 = actualAccount({ records: recs, snapshot: { date: '2026-10-16', holdings: {}, cash: 10 }, deposits: {},
+    trades: { a: { date: '2026-10-19', ticker: 'BBB', side: 'buy', qty: 1, price: 50, recordedAt: '1' } }, baselines: {}, baseStart: null });
+  assert.equal(r3.cash, -40);
+  assert.ok(r3.warnings.some((w) => /음수/.test(w)));
+});
+
+test('attachActual: 숨은 원칙 시나리오는 result.plan으로, 실제 계좌는 A 바로 뒤', () => {
+  const recs = world({ end: '2026-11-10' });
+  const bundle = { snapshot: { ...SNAP, holdOnly: [], createdAt: '2026-10-16T22:00:00Z' }, deposits: {}, scenarios: { s1: { name: '저평가만', strategy: 'C', params: { splitWeeks: 4, cashReserve: 0 }, createdAt: '2026-10-20T15:00:00Z', engineVersion: ENGINE_VERSION } } };
+  const res = attachActual(replay(toEngineInput(bundle, recs, { plan: true })), { records: recs, bundle, trades: {} });
+  assert.deepEqual(res.scenarios.map((s) => s.id), ['A', 'REAL', 's1']);
+  assert.equal(res.plan.id, '__plan');
+  assert.equal(res.plan.started, '2026-10-16');
+  assert.equal(res.plan.months.length > 0, true);
+  // 매매·입금이 없으면 실제 계좌 = A(그대로 보유)
+  assert.deepEqual(res.scenarios[1].days.map((x) => x.value), res.scenarios[0].days.map((x) => x.value));
+  // 소수 주식이 반 센트 경계에 걸려도 매매·입금이 없으면 A와 같은 값·같은 출발 평가액(기준선 대비 유지)
+  const snapF = { date: '2026-10-16', holdings: { DDD: 1.0005 }, cash: 0 };
+  const bF = { snapshot: { ...snapF, holdOnly: [], createdAt: '2026-10-16T22:00:00Z' }, deposits: {}, scenarios: {} };
+  const resF = attachActual(replay(toEngineInput(bF, recs, { plan: true })), { records: recs, bundle: bF, trades: {} });
+  assert.equal(resF.scenarios[1].startValue, resF.scenarios[0].startValue);
+  assert.deepEqual(resF.scenarios[1].warnings, []);
+  // 여러 종목을 스냅샷 순서와 다르게 넣어도 엔진(티커순)과 같은 합(0.1+0.1+4.3 ≠ 4.3+0.1+0.1)
+  const recsG = world({ end: '2026-10-20', close: (t) => (t === 'AAA' || t === 'BBB' ? 1 : t === 'CCC' ? 43 : undefined) });
+  const snapG = { date: '2026-10-16', holdings: { CCC: 0.001, BBB: 0.001, AAA: 0.001 }, cash: 1000 };
+  const bG = { snapshot: { ...snapG, holdOnly: [], createdAt: '2026-10-16T22:00:00Z' }, deposits: {}, scenarios: {} };
+  const resG = attachActual(replay(toEngineInput(bG, recsG, { plan: true })), { records: recsG, bundle: bG, trades: {} });
+  assert.equal(resG.scenarios[1].startValue, resG.scenarios[0].startValue);
+  assert.deepEqual(resG.scenarios[1].warnings, []);
+  // 예전 B가 남아 있어도 이번 달 운용은 숨은 원칙을 쓴다
+  const withB = { ...bundle, scenarios: { ...bundle.scenarios, b0: { name: '옛 원칙', strategy: 'B', params: { sellFraction: 0, splitWeeks: 2, cashReserve: 0.1 }, createdAt: '2026-10-17T15:00:00Z', engineVersion: ENGINE_VERSION } } };
+  const resB = attachActual(replay(toEngineInput(withB, recs, { plan: true })), { records: recs, bundle: withB, trades: {} });
+  assert.equal(monthView(resB, '2026-11-10').scenario.id, '__plan');
+  // 원칙 시나리오가 없으면 이번 달 운용은 실제 계좌가 아니라 다른 모의 시나리오를 쓴다
+  assert.equal(monthView({ ...res, plan: null }, '2026-11-10').scenario.id, 's1');
+});

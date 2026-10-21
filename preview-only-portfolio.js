@@ -11,10 +11,11 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { toEngineInput } from './preview-only-portfolio-strategy.js?v=9';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=11';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=11';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=18';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=1';
+import { attachActual } from './preview-only-portfolio-actual.js?v=5';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
 const $ = (id) => document.getElementById(id);
@@ -250,12 +251,15 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     let records = [], recordsError = false;
     try { records = await loadLedger(); } catch (_) { recordsError = true; }
     let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false;
+    const allDeposits = {};
     try {
       for (; n < 100; n++) {
         const s = await getDoc(sref(user, n));
         if (!s.exists()) break;
         cur = { no: n, data: s.data({ serverTimestamps: 'estimate' }) };
         if (cur.data.closed) closedCount++;
+        // 실제로 넣은 돈은 묶음을 끝내도 사라지지 않는다 — 한눈에 내 자산은 모든 묶음의 입금을 본다(dr r2)
+        for (const [k, v] of Object.entries(cur.data.deposits || {})) allDeposits['b' + n + ':' + k] = { ...v, recordedAt: iso(v.recordedAt), ...(v.cancels ? { cancels: 'b' + n + ':' + v.cancels } : {}) };
       }
       const ts = await getDoc(tref(user));
       if (ts.exists()) {
@@ -274,7 +278,8 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     const byId = (bundle && bundle.scenarios) || {};
     let result = null, calcError = null;
     if (bundle && !bundle.closed && records.length) {
-      try { result = replay(toEngineInput(bundle, records)); } catch (e) { calcError = e.message; }
+      // 원칙 시나리오(숨김)를 같이 돌리고, 실제 매매 기록으로 "내 실제 계좌" 줄을 A 뒤에 넣는다(사용자 결정 10-21)
+      try { result = attachActual(replay(toEngineInput(bundle, records, { plan: true })), { records, bundle, trades }); } catch (e) { calcError = e.message; }
     }
     const reload = async () => { if (g === gen && auth.currentUser === user) await loadAll(user, g, main); };
     const act = (f) => async (...a) => {
@@ -303,7 +308,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       deleteTrade: act((id) => updateDoc(tref(user), Object.fromEntries([id, ...Object.entries(trades).filter(([, x]) => x.cancels === id).map(([k]) => k)].map((k) => ['entries.' + k, deleteField()])))),
       goto: (tab) => selectTab(tab),
     };
-    const model = { main, trades, result, bundle, byId, records, now: Date.now() };
+    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits };
 
     renderTabs({ home: $('pf-home'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,
       { bundle, bundleNo: no, closedCount, records, recordsError, calcError, holdingsRows: (main.holdings && main.holdings.rows) || [] }, handlers);

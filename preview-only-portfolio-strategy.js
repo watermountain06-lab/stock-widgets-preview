@@ -17,6 +17,7 @@ export const STRATEGY = {
   C: '저평가만 매수',
   D: '고평가면 팔고 갈아타기',
   custom: '사용자 정의',
+  REAL: '실제 매매 기록 반영',
 };
 const NOTE = {
   provisionalPrinciple: '임시 모형 — 매도 검토는 알림만 반영',
@@ -38,8 +39,9 @@ export const FIXED_NOTICE = '모의 운용입니다. 판정은 수익 예측이 
 // Firestore 묶음 문서(시각은 ISO 문자열로 바꾼 뒤) + 일별 기록 → 엔진 입력.
 // 모든 시나리오는 A와 같이 시작일의 스냅샷에서 출발한다(사용자 결정 10-20): 엔진에 넘기는 만든 시각을 시작일 장 마감 뒤
 // (그날 23:00 UTC = 동부 18~19시)로 맞춘다. 실제 만든 시각은 저장된 그대로이고 순서를 정하는 데만 쓴다.
+// opts.plan이면 화면에 보이지 않는 원칙 시나리오 '__plan'(B, 매도 0%, 4회)을 맨 뒤에 더한다 — 이번 달 살 후보·매도 검토를 계산한다.
 export const scenarioStartAt = (date) => (date ? date + 'T23:00:00Z' : null);
-export function toEngineInput(bundle, records) {
+export function toEngineInput(bundle, records, opts = {}) {
   const snap = bundle.snapshot || {};
   const deposits = Object.entries(bundle.deposits || {}).map(([id, d]) => (d.cancels
     ? { id, cancels: d.cancels, recordedAt: d.recordedAt }
@@ -47,6 +49,8 @@ export function toEngineInput(bundle, records) {
   const scenarios = Object.entries(bundle.scenarios || {})
     .sort(([, a], [, b]) => (a.createdAt < b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0))
     .map(([id, s]) => ({ id, name: s.name, strategy: s.strategy, params: s.params || undefined, createdAt: scenarioStartAt(snap.date) || s.createdAt, engineVersion: s.engineVersion }));
+  if (opts.plan) scenarios.push({ id: '__plan', name: '내 원칙', strategy: 'B', params: { sellFraction: 0, splitWeeks: 4, cashReserve: 0 },
+    createdAt: scenarioStartAt(snap.date), engineVersion: ENGINE_VERSION });
   return {
     records,
     snapshot: { date: snap.date, holdings: snap.holdings || {}, cash: snap.cash || 0 },
@@ -104,7 +108,7 @@ export function checkScenario(sc, count) {
   const name = (sc.name || '').trim();
   if (!name) return '이름을 넣으세요.';
   if (name.length > NAME_MAX) return `이름은 ${NAME_MAX}자까지입니다.`;
-  if (!['B', 'C', 'D', 'custom'].includes(sc.strategy)) return '전략을 고르세요.';
+  if (!['C', 'D', 'custom'].includes(sc.strategy)) return '전략을 고르세요.';   // 내 원칙(B)은 실제 계좌 줄이 대신한다(10-21)
   const p = sc.params || {};
   if (sc.strategy === 'custom' && !(p.buyTiers || []).length) return '살 판정을 하나 이상 고르세요.';
   return null;
@@ -162,7 +166,8 @@ export function twoStep(btn, msg, firstText, action, watch) {
     try { await action(); } catch (e) { msg.textContent = e.message || '저장하지 못했습니다.'; } finally { btn.disabled = false; }
   });
 }
-export const label = (s, scenarioById) => (s.id === 'A' ? 'A. ' + STRATEGY.A : (scenarioById[s.id]?.name || s.id));
+export const label = (s, scenarioById) => (s.id === 'A' ? 'A. ' + STRATEGY.A : s.id === 'REAL' ? '내 실제 계좌' : s.id === '__plan' ? '내 원칙'
+  : (scenarioById[s.id]?.name || s.id));
 
 // ---- 그래프: 누적 평가액(전략 최대 4개 + 기준선 3개), 빈칸은 끊어서 그린다 ----
 const SVG = 'http://www.w3.org/2000/svg';
@@ -268,6 +273,7 @@ export function compareSection(result, byId) {
     (s.notes || []).forEach((n) => tag(NOTE[n] || n, n === 'offPrinciple'));
     if (s.engineMismatch) tag(`만든 때 ${s.engineCreated || '?'}, 지금 ${ENGINE_VERSION}로 계산`, true);
     if (m.waitText) tag(m.waitText, true);
+    for (const w of s.warnings || []) tag('⚠ ' + w, true);
     if (m.halted) tag(`${m.halted.since}부터 평가 불가(${REASON[m.halted.reason] || m.halted.reason})`, true);
     if (m.pause) tag(`가격 없음 ${m.pause}일 — 비교 일시 중단`, true);
     if (m.provisional) tag('잠정');
@@ -420,7 +426,7 @@ export function scenarioForm(b, handlers) {
   const sec = el('div', 'pf-st-block');
   const n = Object.keys(b.scenarios || {}).length;
   sec.appendChild(el('h3', null, `시나리오 추가 (${n}/${MAX_SCENARIOS})`));
-  sec.appendChild(el('p', 'pf-note', '언제 만들어도 A와 같이 시작일의 스냅샷에서 출발해 처음부터 계산합니다. 설정을 바꾸려면 지우고 새로 만듭니다. 매도 단계는 고평가·초고평가로 고정입니다.'));
+  sec.appendChild(el('p', 'pf-note', '언제 만들어도 A와 같이 시작일의 스냅샷에서 출발해 처음부터 계산합니다. 설정을 바꾸려면 지우고 새로 만듭니다. 매도 단계는 고평가·초고평가로 고정입니다. 내 원칙은 따로 만들지 않습니다 — "내 실제 계좌" 줄이 실제 매매 기록으로 자동 계산되고, 이번 달 살 후보는 원칙 기준으로 한눈에 탭에 나옵니다.'));
   const list = Object.entries(b.scenarios || {}).sort(([, x], [, y]) => (x.createdAt < y.createdAt ? -1 : 1));
   if (list.length) {
     const lm = msgLine();
@@ -435,7 +441,8 @@ export function scenarioForm(b, handlers) {
   const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
   const name = field('이름', el('input')); name.maxLength = NAME_MAX;
   const strat = field('전략', el('select'));
-  for (const k of ['B', 'C', 'D', 'custom']) { const o = el('option', null, STRATEGY[k]); o.value = k; strat.appendChild(o); }
+  // 내 원칙(B)은 실제 계좌 줄이 대신한다(사용자 결정 10-21) — 새로 만들 수 있는 전략에서 뺀다. 예전에 만든 B는 그대로 보인다.
+  for (const k of ['C', 'D', 'custom']) { const o = el('option', null, STRATEGY[k]); o.value = k; strat.appendChild(o); }
   const sell = field('매도 비율 %(남은 수량 기준)', el('input')); sell.type = 'number'; sell.min = '0'; sell.max = '100'; sell.step = '1'; sell.value = '0';
   const weeks = field('나눠 체결 횟수', el('select'));
   for (const k of [1, 2, 3, 4]) { const o = el('option', null, k + '회'); o.value = String(k); weeks.appendChild(o); }

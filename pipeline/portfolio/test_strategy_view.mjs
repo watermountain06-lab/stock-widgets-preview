@@ -61,12 +61,13 @@ test('summarize: 마지막 날 값, 미확정이면 마지막 확정값, 건너�
 });
 
 test('checkScenario: 개수·이름·전략·사용자 정의 판정', () => {
-  const ok = { name: '시험', strategy: 'B', params: {} };
+  const ok = { name: '시험', strategy: 'C', params: {} };
   assert.equal(checkScenario(ok, 0), null);
   assert.match(checkScenario(ok, MAX_SCENARIOS), /20개/);
   assert.match(checkScenario({ ...ok, name: '  ' }, 0), /이름/);
   assert.match(checkScenario({ ...ok, name: 'x'.repeat(41) }, 0), /40자/);
   assert.match(checkScenario({ ...ok, strategy: 'A' }, 0), /전략/);
+  assert.match(checkScenario({ ...ok, strategy: 'B' }, 0), /전략/);
   assert.match(checkScenario({ name: 'c', strategy: 'custom', params: { buyTiers: [] } }, 0), /판정/);
 });
 
@@ -184,4 +185,20 @@ test('checkTrade: 기록·고치기 공통 검사', () => {
   assert.match(checkTrade({ ...ok, qty: 0.0000001 }, '2026-10-20'), /소수 6자리/);
   assert.match(checkTrade({ ...ok, price: 0 }, '2026-10-20'), /체결가/);
   assert.match(checkTrade({ ...ok, qty: 2e7 }, '2026-10-20'), /1천만/);
+});
+
+import { depositsSince } from '../../preview-only-portfolio-home.js';
+test('depositsSince: 기준일 뒤·오늘까지, 반영 전 취소 빼고, 끝낸 묶음 포함, 같은 날·같은 금액도 기록마다 한 건', () => {
+  const all = {
+    'b1:d1': { amount: 500, recordedAt: '2026-10-19T20:00:00Z' },   // 10-20 반영(끝낸 묶음)
+    'b1:d2': { amount: 100, recordedAt: '2026-10-19T20:05:00Z' },
+    'b1:c2': { cancels: 'b1:d2', recordedAt: '2026-10-19T21:00:00Z' },   // 반영 전 취소
+    'b2:e1': { amount: 500, recordedAt: '2026-10-19T22:00:00Z' },   // 다른 묶음의 같은 날·같은 금액 — 따로 센다
+    'b2:e2': { amount: 500, recordedAt: '2026-10-20T20:00:00Z' },   // 10-21 반영
+    'b2:e4': { amount: 500, recordedAt: '2026-10-20T20:30:00Z' },   // 같은 묶음 같은 날·같은 금액 — 따로 센다
+    'b2:e3': { amount: 70, recordedAt: '2026-10-14T20:00:00Z' },    // 기준일(10-16) 전 반영
+  };
+  assert.deepEqual(depositsSince(all, '2026-10-16', '2026-10-21').map((p) => [p.day, p.amount]),
+    [['2026-10-20', 500], ['2026-10-20', 500], ['2026-10-21', 500], ['2026-10-21', 500]]);
+  assert.equal(depositsSince(all, '2026-10-16', '2026-10-20').length, 2);   // 오늘 뒤 반영은 아직
 });

@@ -3,10 +3,11 @@
 // 내 자산(올린 보유 + 그 뒤 기록한 실제 매매), 실제 매매 기록 칸, 이번 달 할 일, 이번 달 운용(점검일 결정과 회차 진행),
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
-// (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 운용 계산에 넣지 않는다.
+// (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, table, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, compareSection, chartSection, detailSection,
-  depositSection, scenarioForm, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=9';
+  depositSection, scenarioForm, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=11';
 import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=1';
+import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=5';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -63,7 +64,8 @@ export function currentHoldings(rows, asOf, trades, upTo) {
 // today(미국 동부 날짜)를 주면 '이번 달'은 그 달이다(없으면 lastSession의 달).
 export function monthView(result, lastSession, today) {
   if (!result) return null;
-  const pick = result.scenarios.find((s) => s.strategy === 'B' && s.started) || result.scenarios.find((s) => s.id !== 'A' && s.started);
+  // 원칙 시나리오(attachActual이 떼어 둔 result.plan)가 있으면 그것, 없으면 예전처럼 B나 처음 만든 시나리오
+  const pick = (result.plan && result.plan.started ? result.plan : null) || result.scenarios.find((s) => s.strategy === 'B' && s.started) || result.scenarios.find((s) => s.id !== 'A' && s.id !== 'REAL' && s.started);
   if (!pick) return null;
   const plan = pick.months[pick.months.length - 1] || null;
   if (!plan) return { scenario: pick, plan: null };
@@ -95,6 +97,16 @@ export function checkTrade(x, today) {
   return null;
 }
 
+// 내 자산 현금에 더할 입금: 모든 묶음의 입금(키 '묶음:id', 끝낸 묶음 포함) 가운데 반영일이 기준일 뒤·오늘까지인 것.
+// 입금 기록 하나 = 실제 입금 하나로 센다(반영일·금액만으로는 다시 적은 것인지 알 수 없다 — dr r3). 취소는 묶음 안에서만 찾는다.
+export function depositsSince(all, base, today) {
+  const byBundle = new Map();
+  for (const [k, v] of Object.entries(all || {})) { const b = k.split(':')[0]; if (!byBundle.has(b)) byBundle.set(b, {}); byBundle.get(b)[k] = v; }
+  const out = [];
+  for (const deps of byBundle.values()) for (const p of effectiveDeposits(deps)) if (p.day > base && p.day <= today) out.push(p);
+  return out.sort((x, y) => (x.day < y.day ? -1 : 1));
+}
+
 // ---- 그리기 ----
 // model = { main(올린 데이터), trades(실제 매매 지도), result|null, bundle|null, byId, records, now }
 // handlers = { trade({date, ticker, side, qty, price}), editTrade(id, …), deleteTrade(id), goto(tab) }
@@ -109,6 +121,11 @@ export function renderHome(root, model, handlers) {
   const h = model.main?.holdings || {};
   const now = model.now ?? Date.now(), today = etDate(now);
   const cur = currentHoldings(h.rows, h.asOf, model.trades, today);
+  // 전략 비교에 기록한 입금(실제로 계좌에 넣은 돈)도 올린 보유 기준일 뒤·오늘까지 반영일이면 현금에 더한다(dr r1 — 실제 계좌 줄과 같은 돈).
+  // 끝낸 묶음의 입금도 실제 돈이므로 모든 묶음을 본다(dr r2, model.allDeposits — 없으면 지금 묶음)
+  const depIn = cur.hasCash ? depositsSince(model.allDeposits || Object.fromEntries(Object.entries(model.bundle?.deposits || {})
+    .map(([k, v]) => ['b0:' + k, v.cancels ? { ...v, cancels: 'b0:' + v.cancels } : v])), cur.base || '', today) : [];
+  if (depIn.length) cur.cash = Math.round((cur.cash + depIn.reduce((a, p) => a + p.amount, 0)) * 100) / 100;
   const mv = monthView(model.result, last ? last.session : '', today);
 
   // 1) 내 자산 | 실제 매매 기록
@@ -187,7 +204,8 @@ export function renderHome(root, model, handlers) {
   if (cur.holdings.length) left.appendChild(fold);
   if (cur.hasCash && cur.cash < 0) left.appendChild(el('p', 'pf-warn', `⚠ 현금이 ${usd0(cur.cash)}입니다. 빠진 입금이나 잘못 적은 매수가 없는지 확인하세요(막대는 현금을 빼고 그립니다).`));
   if (cur.clipped.length) left.appendChild(el('p', 'pf-warn', `⚠ 보유보다 많이 판 기록 ${cur.clipped.length}건(${cur.clipped.map((c) => c.ticker + ' ' + shares(c.short) + '주').join(', ')})은 가진 만큼만 반영했습니다. 올린 보유나 빠진 매수 기록을 확인하세요.`));
-  if (h.asOf) left.appendChild(el('p', 'pf-note', `올린 보유 ${h.asOf} + 그 뒤 기록한 매매 ${cur.applied.length}건` + (cur.future.length ? ` (미래 날짜 ${cur.future.length}건은 그날부터)` : '')));
+  if (h.asOf) left.appendChild(el('p', 'pf-note', `올린 보유 ${h.asOf} + 그 뒤 기록한 매매 ${cur.applied.length}건` + (depIn.length ? ` + 입금 ${depIn.length}건(오늘 반영분 포함)` : '')
+    + (cur.future.length ? ` (미래 날짜 ${cur.future.length}건은 그날부터)` : '')));
   top.appendChild(left);
   top.appendChild(tradeForm(model, handlers, recs, mv, today));
   root.appendChild(top);
@@ -229,7 +247,7 @@ function tradeForm(model, handlers, recs, mv, today) {
   const box = el('div', 'pf-tradebox');
   box.appendChild(el('div', 'pf-eyebrow', 'MY TRADES'));
   box.appendChild(el('h2', 'pf-h2', '실제 매매 기록'));
-  box.appendChild(el('p', 'pf-note', '실제로 사고판 것을 적으면 내 자산의 보유 수량·평균 단가·현금에 바로 반영됩니다(모의 운용 계산과는 따로). 잘못 적었으면 기록·관리 탭에서 고치거나 지웁니다.'));
+  box.appendChild(el('p', 'pf-note', '실제로 사고판 것을 적으면 내 자산의 보유 수량·평균 단가·현금에 바로 반영되고, 전략 비교의 "내 실제 계좌" 줄에도 들어갑니다(시작일 뒤 날짜, 그날 일별 기록이 나온 뒤부터). 잘못 적었으면 기록·관리 탭에서 고치거나 지웁니다.'));
   const f = el('div', 'pf-form pf-tradeform');
   const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
   const date = field('날짜(체결일, 미국 동부)', el('input')); date.type = 'date';
@@ -271,7 +289,7 @@ function monthPanel(mv, model, last, handlers) {
     sec.appendChild(el('h2', 'pf-h2', '이번 달 운용'));
     sec.appendChild(el('p', 'pf-note', !model.bundle || model.bundle.closed
       ? '전략 비교를 시작하면(기록·관리 탭의 시작 스냅샷) 매달 점검일 결정과 회차 진행이 여기에 보입니다.'
-      : !mv ? '"내 원칙" 같은 시나리오를 만들면(기록·관리 탭) 그 시나리오의 이번 달 결정이 여기에 보입니다.'
+      : !mv ? '원칙 계산이 아직 출발하지 못했습니다. 시작 스냅샷의 종목에 모두 그날 가격이 있어야 출발합니다(전략 비교 탭의 출발 대기 이유를 보세요).'
         : '첫 점검일(매달 1일, 휴장이면 다음 거래일)을 기다리는 중입니다.'));
     if (!model.bundle || model.bundle.closed || !mv) {
       const b = el('button', 'pf-btn pf-btn-quiet', '기록·관리로'); b.type = 'button'; b.addEventListener('click', () => handlers.goto('manage')); sec.appendChild(b);
@@ -281,7 +299,7 @@ function monthPanel(mv, model, last, handlers) {
   const { plan, scenario } = mv;
   sec.appendChild(el('div', 'pf-eyebrow', `${md(plan.decisionDate)} 점검일 결정 · ${label(scenario, model.byId)}`));
   const h = el('h2', 'pf-h2', mv.stale ? '지난달 계획 ' : '이번 달 운용 ');
-  h.appendChild(el('small', null, `매달 1일 정하고 ${plan.rounds.length}번에 나눠 삽니다`));
+  h.appendChild(el('small', null, `매달 1일 정하고 ${plan.rounds.length}번에 나눠 삽니다` + (scenario.id === '__plan' ? ' · 원칙 기준(유보 0%, 매도는 알림만)' : '')));
   sec.appendChild(h);
   const steps = el('ol', 'pf-steps');
   for (const s of mv.steps) {
@@ -305,7 +323,7 @@ function monthPanel(mv, model, last, handlers) {
     const tier = last?.cards?.[t]?.tier; head.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tier] || 'pf-t-none'), tier || '—'));
     c.appendChild(head);
     const sim = scenario.trades.filter((x) => x.ticker === t && x.side === 'buy' && x.date >= plan.decisionDate).reduce((a, x) => a + x.amount, 0);
-    c.appendChild(el('div', 'pf-note', `모의 ${usd0(sim)} 매수`));
+    c.appendChild(el('div', 'pf-note', `원칙 기준 ${usd0(sim)} 매수`));
     const mine = realBuys.filter((x) => x.ticker === t);
     const q = mine.reduce((a, x) => a + x.qty, 0);
     c.appendChild(el('div', 'pf-cand-real', mine.length ? `실제로 ${shares(q)}주 삼` : '실제 매수 기록 없음'));
@@ -314,7 +332,7 @@ function monthPanel(mv, model, last, handlers) {
   if (!plan.candidates.length) cards.appendChild(el('p', 'pf-note', '이번 달 살 후보가 없습니다(조건에 맞는 판정 없음).'));
   sec.appendChild(cards);
   if (plan.budget > 0) {
-    sec.appendChild(el('div', 'pf-note', '이번 달 예산 사용(모의)'));
+    sec.appendChild(el('div', 'pf-note', '이번 달 예산 사용(원칙 기준 모의)'));
     const bar = el('div', 'pf-bar'), fill = el('span'); fill.style.width = Math.min(100, (mv.spent / plan.budget) * 100) + '%'; bar.appendChild(fill);
     sec.appendChild(bar);
     sec.appendChild(el('p', 'pf-note', `${usd0(mv.spent)} / ${usd0(plan.budget)}`));
@@ -357,6 +375,7 @@ function donutPanel(model, last, close, handlers, color, named, hasOther) {
     card.appendChild(el('div', 'pf-sc-kind', (s.id === 'A' ? '입금만 비중대로 적립' : STRATEGY[s.strategy] || '') + (s.started ? ` · ${md(s.started)} 출발` : '')));
     if (!s.started) {
       card.appendChild(el('p', 'pf-note', waitText(s)));
+      for (const w of s.warnings || []) card.appendChild(el('p', 'pf-warn', '⚠ ' + w));
       grid.appendChild(card); continue;
     }
     const groups = new Map();
@@ -384,6 +403,7 @@ function donutPanel(model, last, close, handlers, color, named, hasOther) {
     row('체결 · 건너뜀', `${s.trades.length} · ${s.skips.filter((x) => x.action !== 'carried').length}`);
     card.appendChild(rows);
     if (s.halted) card.appendChild(el('p', 'pf-warn', `${s.halted.since}부터 평가 불가(${REASON[s.halted.reason] || s.halted.reason})`));
+    for (const w of s.warnings || []) card.appendChild(el('p', 'pf-warn', '⚠ ' + w));   // 내 실제 계좌: 보유 초과 매도·음수 현금
     grid.appendChild(card);
   }
   sec.appendChild(grid);
