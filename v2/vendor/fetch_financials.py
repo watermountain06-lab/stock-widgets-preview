@@ -69,6 +69,8 @@ CONCEPTS = {
 # 이자보상배율이 "이자비용 0" 만점이 됐다 — 손익계산서 "Interest – net"(InterestIncomeExpenseNonoperatingNet, 음수로 실림, 소비처는 절댓값)을 쓴다
 # (MO·PM 순이자 전례, 2026-10-16). 같은 태그를 쓰는 ANET은 공통 안건으로 남겼다.
 CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # WM: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q2 2026 −$233M)만 분기로 낸다 — InterestExpense는 2013년에 멈춤(2026-10-21)
+                   "0000823768": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "inventory": ["Supplies"]},   # 재고 = "Parts and supplies"(Supplies)
                    # CME: 이자비용을 "Interest and other borrowing costs"(InterestAndDebtExpense, Q2 2026 $43.6M)로만 낸다(2026-10-16)
                    "0001156375": {"interestExpense": ["InterestAndDebtExpense"]},
                    # FCX: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNet, Q2 2026 −$95M — 소비처는 절댓값)만 분기로 낸다(2026-10-17)

@@ -1231,6 +1231,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # WM: "Current portion of long-term debt"(DebtCurrent) + "Long-term debt, less current portion"(LongTermDebtAndCapitalLeaseObligations — 금융리스 포함).
+                  # 기본 선택은 1년 안 만기분이 빠졌다(2026-06-30 $1,075M + $22,281M = $23,356M = DebtAndCapitalLeaseObligations, 2026-10-21).
+                  "0000823768": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # WMB: 기업어음 + "Long-term debt due within one year" + "Long-term debt"(…AndCapitalLeaseObligations 두 태그). 기본 선택은 1년 안 만기분이 빠졌다
                   # (2026-06-30 $475M + $2,197M + $28,121M = $30,793M — 엔진 $28,596M, 2026-10-19).
                   "0000107263": ["CommercialPaper", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -1439,6 +1442,8 @@ EV_TAGS_BY_CIK = {"0001403161": {"sti": ["Investments"], "preferred": [], "nci":
                   # 리스는 유동·비유동 태그가 2020-09에 멈췄고 연간 OperatingLeaseLiability만 있다(2025-12 $824.7M — 2021~2024는 값이 없어 2020년 값이 이어진다, 2026-10-16).
                   "0001466258": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"], "lease": ["OperatingLeaseLiability"]},
                   "0000829224": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
+                  # WM: ShortTermInvestments는 2013-12($177M)에 멈췄다 — 지금 재무상태표에 단기투자 줄 없음. 금융리스는 차입금 태그 안이라 리스는 운용리스만(연간, 2025-12 $1,010M, 2026-10-21).
+                  "0000823768": {"sti": [], "lease": ["OperatingLeaseLiability"]},
                   # WMB: 현금 태그 CashAndCashEquivalentsAtCarryingValue가 2023-09에 멈춤($2,074M) → 합계 태그(2026-06-30 $203M = 재무상태표 현금).
                   # 리스는 유동·비유동 태그가 2024-12에 멈추고 연간 OperatingLeaseLiability만 있다(2025-12 $183M, TT 방식, 2026-10-19).
                   "0000107263": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "lease": ["OperatingLeaseLiability"]},

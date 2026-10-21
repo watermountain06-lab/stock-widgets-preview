@@ -5717,6 +5717,47 @@
         "valuationAsOf": "2026-10-20",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "WM",
+      "name": "WM",
+      "sector": "산업재 — 폐기물 수거·처리",
+      "href": "WM_full_widget.html",
+      "cardRank": 133,
+      "cardAsOf": "2026-10-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 231.73,
+        "prevClose": 226.41,
+        "session": "2026-10-20",
+        "prevSession": "2026-10-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 399715184,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-24",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q 0001104659-26-088016 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 46.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-20",
+        "qualityFlags": []
+      }
     }
   ]
 }

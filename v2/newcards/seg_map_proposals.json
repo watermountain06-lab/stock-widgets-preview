@@ -2386,5 +2386,42 @@
    "us-gaap:GrantMember",
    "mrna:LicenseAndRoyaltyMember"
   ]
+ },
+ "WM": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "wm:EastTierRegionAreasMember": [
+    "수거·매립 동부",
+    "#1c8a3e"
+   ],
+   "wm:WestTierRegionAreasMember": [
+    "수거·매립 서부",
+    "#5fb878"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타 부수 서비스",
+    "#a7d7b3"
+   ],
+   "wm:HealthcareSolutionsMember": [
+    "의료 폐기물(Stericycle)",
+    "#2b6cb0"
+   ],
+   "wm:RecyclingProcessingAndSalesMember": [
+    "재활용 처리·판매",
+    "#f2b81d"
+   ],
+   "wm:RenewableEnergySegmentMember": [
+    "재생에너지(매립가스)",
+    "#9ca3af"
+   ]
+  },
+  "ignore_candidates": [
+   "wm:CollectionAndDisposalMember",
+   "us-gaap:CorporateAndOtherMember"
+  ]
  }
 }
