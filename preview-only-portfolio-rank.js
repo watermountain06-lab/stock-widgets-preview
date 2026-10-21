@@ -4,37 +4,51 @@
 // 편집기는 살 판정 칩과 매도 비율·회차·현금 유보 버튼으로 고치고, 고른 값을 문장으로 보여 준다. 저장은 handlers(scenario·editScenario·deleteScenario).
 // 저평가만(C)·갈아타기(D)는 값을 바꾸지 않으면 그 전략 그대로 저장하고, 바꾸면 사용자 정의로 저장한다(C는 매도 알림을 남기지 않아 사용자 정의와 다르다).
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
-import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX,
-  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=14';
-import { BUY_PRINCIPLE } from './preview-only-portfolio-engine.js?v=1';
+import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
+  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=15';
+import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=2';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
 const C_TIERS = ['초저평가', '저평가'];
-const SELL_OPTS = [0, 25, 50, 100], ROUND_OPTS = [1, 2, 3, 4], RESERVE_OPTS = [0, 10, 20];
+const SELL_OPTS = [0, 25, 50, 100], ROUND_OPTS = [1, 2, 3, 4], RESERVE_OPTS = [0, 10, 20], ETF_SHARE_OPTS = [0, 25, 50, 75, 100];
+const ETFS = ETF_ORDER;
+// 저장된 비율(0~1, 소수 6자리) ↔ 편집기 %(소수 4자리) — 반올림 없이 오가서 열었다 저장해도 값이 바뀌지 않는다(dr r1)
+const toPct = (v) => Math.round(v * 1e6) / 1e4, fromPct = (v) => Math.round(v * 1e4) / 1e6;
 const AUTO = new Set(['A', 'REAL']);
 
 // ---- 순수 함수 ----
 
-// 저장된 시나리오({strategy, params}) → 편집기 값(살 판정 목록, 매도 %, 회차, 유보 %). 없으면 새 전략 기본값(원칙과 같음).
+// 저장된 시나리오({strategy, params}) → 편집기 값. kind = 'verdict'(판정으로 사고팔기: 살 판정 목록, 매도 %, 회차, 유보 %)
+// | 'etf'(ETF 섞기: 바꿀 비율 %, 고른 ETF). 두 종류의 값을 다 들고 있어 종류를 바꿔도 고른 값이 남는다. 없으면 새 전략 기본값(원칙과 같음).
+const etfDefault = () => ({ etfShare: 100, etfs: [...ETFS] });
 export function draftOf(sc) {
-  if (!sc) return { tiers: [...BUY_PRINCIPLE], sell: 0, rounds: 4, reserve: 0 };
+  if (!sc) return { kind: 'verdict', tiers: [...BUY_PRINCIPLE], sell: 0, rounds: 4, reserve: 0, ...etfDefault() };
   const p = sc.params || {};
+  if (sc.strategy === 'E') return { ...draftOf(null), kind: 'etf', etfShare: toPct(p.etfShare ?? 1), etfs: ETFS.filter((e) => (p.etfs || ETFS).includes(e)) };
   const tiers = sc.strategy === 'custom' ? [...(p.buyTiers || [])] : sc.strategy === 'C' ? [...C_TIERS] : [...BUY_PRINCIPLE];
-  const sell = sc.strategy === 'D' ? 100 : sc.strategy === 'C' ? 0 : Math.round((p.sellFraction || 0) * 100);
-  return { tiers, sell, rounds: p.splitWeeks || 4, reserve: Math.round((p.cashReserve || 0) * 100) };
+  const sell = sc.strategy === 'D' ? 100 : sc.strategy === 'C' ? 0 : toPct(p.sellFraction || 0);
+  return { kind: 'verdict', tiers, sell, rounds: p.splitWeeks || 4, reserve: toPct(p.cashReserve || 0), ...etfDefault() };
 }
 
 const sameSet = (a, b) => a.length === b.length && a.every((t) => b.includes(t));
 // 편집기 값 → 저장할 {strategy, params}. base = 고치기 전 전략('C'|'D'|'B'|'custom'|null)
 export function shapeOf(base, d) {
-  const common = { splitWeeks: d.rounds, cashReserve: d.reserve / 100 };
+  if (d.kind === 'etf') return { strategy: 'E', params: { etfShare: fromPct(d.etfShare), etfs: BASELINES.filter((e) => d.etfs.includes(e)) } };
+  const common = { splitWeeks: d.rounds, cashReserve: fromPct(d.reserve) };
   if (base === 'C' && sameSet(d.tiers, C_TIERS) && d.sell === 0) return { strategy: 'C', params: common };
   if (base === 'D' && sameSet(d.tiers, BUY_PRINCIPLE) && d.sell === 100) return { strategy: 'D', params: common };
-  return { strategy: 'custom', params: { buyTiers: ALL_TIERS.filter((t) => d.tiers.includes(t)), sellFraction: d.sell / 100, ...common } };
+  return { strategy: 'custom', params: { buyTiers: ALL_TIERS.filter((t) => d.tiers.includes(t)), sellFraction: fromPct(d.sell), ...common } };
 }
 
 // 편집기 값 → "이 전략이 하는 일" 한 문장
 export function sentenceOf(base, d) {
+  if (d.kind === 'etf') {
+    const etfs = ETFS.filter((e) => d.etfs.includes(e));
+    if (!etfs.length) return '살 ETF를 하나 이상 고르세요.';
+    if (!d.etfShare) return '보유 종목을 그대로 들고 입금도 시작 때 비중대로 나눠 넣습니다(ETF로 바꾸지 않음). 그 뒤로는 사고팔지 않습니다.';
+    return `시작일 종가에 보유 종목(고른 ETF는 빼고)${d.etfShare === 100 ? '을 모두' : `의 ${d.etfShare}%를`} 팔아 ${etfs.join('·')}에 똑같이 나눠 삽니다. `
+      + '고르지 않은 ETF를 가지고 있으면 그것도 같은 비율로 팝니다. 현금은 그대로 둡니다. 입금은 시작 때 비중대로 현금·주식·ETF에 나눠 넣고, 그 뒤로는 사고팔지 않습니다.';
+  }
   const shape = shapeOf(base, d);
   const tiers = ALL_TIERS.filter((t) => d.tiers.includes(t));
   const buy = `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 나눠'} 삽니다.`;
@@ -226,6 +240,19 @@ function editor(id, sc, r, b, result, handlers, close, count, st) {
   const msg = msgLine();
   const sync = () => { sentence.textContent = sentenceOf(base, d); };
 
+  // 전략 종류: 판정으로 사고팔기 | ETF 섞기(2026-10-21 사용자 요청 — ETF와 주식을 섞어 사면 어떤지 보려고)
+  const kindBox = el('fieldset', 'pf-edgroup'); kindBox.appendChild(el('legend', null, '전략 종류'));
+  const kindRow = el('div', 'pf-seg pf-segbox');
+  const verdictPart = el('div', 'pf-edpart'), etfPart = el('div', 'pf-edpart');
+  const showKind = () => { verdictPart.hidden = d.kind !== 'verdict'; etfPart.hidden = d.kind !== 'etf'; };
+  for (const [k, t] of [['verdict', '판정으로 사고팔기'], ['etf', 'ETF 섞기']]) {
+    const o = btn(t, 'pf-segbtn'); o.setAttribute('aria-pressed', String(d.kind === k));
+    o.addEventListener('click', () => { d.kind = k; kindRow.querySelectorAll('button').forEach((y) => y.setAttribute('aria-pressed', String(y === o))); showKind(); sync(); });
+    kindRow.appendChild(o);
+  }
+  kindBox.appendChild(kindRow); left.appendChild(kindBox);
+  left.appendChild(verdictPart); left.appendChild(etfPart);
+
   const tierBox = el('fieldset', 'pf-edgroup'); tierBox.appendChild(el('legend', null, '살 판정 · 원칙 1'));
   const chips = el('div', 'pf-tierchips');
   for (const t of ALL_TIERS) {
@@ -233,9 +260,9 @@ function editor(id, sc, r, b, result, handlers, close, count, st) {
     c.addEventListener('click', () => { d.tiers = d.tiers.includes(t) ? d.tiers.filter((y) => y !== t) : [...d.tiers, t]; c.setAttribute('aria-pressed', String(d.tiers.includes(t))); sync(); });
     chips.appendChild(c);
   }
-  tierBox.appendChild(chips); left.appendChild(tierBox);
+  tierBox.appendChild(chips); verdictPart.appendChild(tierBox);
   // 저장된 값이 버튼에 없으면(예전 양식으로 넣은 33% 등) 그 값도 버튼으로 둔다
-  const seg = (title, key, opts, unit) => {
+  const seg = (title, key, opts, unit, into = verdictPart) => {
     const g = el('fieldset', 'pf-edgroup'); g.appendChild(el('legend', null, title));
     const row = el('div', 'pf-seg pf-segbox');
     for (const v of [...new Set([...opts, d[key]])].sort((p, q) => p - q)) {
@@ -243,11 +270,21 @@ function editor(id, sc, r, b, result, handlers, close, count, st) {
       o.addEventListener('click', () => { d[key] = v; row.querySelectorAll('button').forEach((y) => y.setAttribute('aria-pressed', String(y === o))); sync(); });
       row.appendChild(o);
     }
-    g.appendChild(row); left.appendChild(g);
+    g.appendChild(row); into.appendChild(g);
   };
   seg('고평가가 되면 파는 비율 · 원칙 2·3', 'sell', SELL_OPTS, '%');
   seg('몇 번에 나눠 살까 · 원칙 5', 'rounds', ROUND_OPTS, '회');
   seg('남겨 둘 현금 · 원칙 7', 'reserve', RESERVE_OPTS, '%');
+  seg('ETF로 바꿀 비율 · 주식 평가액 기준', 'etfShare', ETF_SHARE_OPTS, '%', etfPart);
+  const etfBox = el('fieldset', 'pf-edgroup'); etfBox.appendChild(el('legend', null, '살 ETF · 고른 것끼리 똑같이'));
+  const etfChips = el('div', 'pf-tierchips');
+  for (const e of ETFS) {
+    const c = btn(e, 'pf-tierchip'); c.setAttribute('aria-pressed', String(d.etfs.includes(e)));
+    c.addEventListener('click', () => { d.etfs = d.etfs.includes(e) ? d.etfs.filter((y) => y !== e) : [...d.etfs, e]; c.setAttribute('aria-pressed', String(d.etfs.includes(e))); sync(); });
+    etfChips.appendChild(c);
+  }
+  etfBox.appendChild(etfChips); etfPart.appendChild(etfBox);
+  showKind();
 
   right.appendChild(el('small', 'pf-note', '이 전략이 하는 일'));
   right.appendChild(sentence);

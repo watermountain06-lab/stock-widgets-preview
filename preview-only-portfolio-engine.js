@@ -31,6 +31,7 @@ const HOLIDAYS = {
 
 const PRESETS = {
   A: { hold: true },
+  E: { hold: true, etf: true },   // ETF 섞기(2026-10-21 사용자 결정): 출발일에 주식 평가액의 일부를 기준선 ETF로 바꾸고 그 뒤 보유만
   B: { buyTiers: BUY_PRINCIPLE, sellFraction: 0, observeSells: true, editable: ['sellFraction', 'splitWeeks', 'cashReserve'] },
   C: { buyTiers: ['초저평가', '저평가'], sellFraction: 0, observeSells: false, editable: ['splitWeeks', 'cashReserve'] },
   D: { buyTiers: BUY_PRINCIPLE, sellFraction: 1, observeSells: true, editable: ['splitWeeks', 'cashReserve'] },
@@ -226,8 +227,16 @@ const inRange = (x, lo, hi) => typeof x === 'number' && Number.isFinite(x) && x 
 
 function scenarioParams(sc) {
   const p = PRESETS[sc.strategy];
-  if (!p) fail('scenario: strategy는 A·B·C·D·custom');
-  if (p.hold) return { hold: true, notes: [] };
+  if (!p) fail('scenario: strategy는 A·B·C·D·E·custom');
+  if (p.hold && !p.etf) return { hold: true, notes: [] };
+  if (p.etf) {
+    const given = sc.params || {};
+    for (const k of Object.keys(given)) if (!['etfShare', 'etfs'].includes(k)) fail(`scenario: E에서 바꿀 수 없는 값 ${k}`);
+    const share = given.etfShare ?? 1, etfs = given.etfs ?? [...BASELINES];
+    if (!inRange(share, 0, 1)) fail('scenario: etfShare는 0~1, 소수 6자리까지');
+    if (!Array.isArray(etfs) || !etfs.length || etfs.some((e) => !BASELINES.includes(e)) || new Set(etfs).size !== etfs.length) fail(`scenario: etfs는 ${BASELINES.join('·')} 가운데 겹치지 않게 하나 이상`);
+    return { hold: true, etf: { ppm: toPpm(share), etfs: [...etfs].sort() }, notes: [] };
+  }
   const given = sc.params || {};
   for (const k of Object.keys(given)) if (!p.editable.includes(k)) fail(`scenario: ${sc.strategy}에서 바꿀 수 없는 값 ${k}`);
   const q = { buyTiers: p.buyTiers, sellFraction: p.sellFraction, splitWeeks: 4, cashReserve: 0, observeSells: p.observeSells, ...given };
@@ -265,6 +274,8 @@ function runScenario(ctx, prm, init, keepStates) {
   const lastStage = new Map();
   let lastRule = null, plan = null, pendingDecision = null, weights = null, preDep = 0;
   const pendingA = new Map();   // A: 가격이 없어 못 산 입금 몫(T → 센트)
+  const pendingE = new Map();   // E: 출발일에 바꾼 금액 가운데 ETF 가격이 없어 아직 못 산 몫(T → 센트)
+  let keepCash = null;          // E: 입금 가운데 현금으로 둘 비율 {num, den}(출발 때 현금 ÷ 평가액, 출발 전 입금은 빼고)
   const states = keepStates ? new Map() : null;
 
   const hasShares = (t) => (st.shares.get(t) || 0) > 0;
@@ -319,11 +330,19 @@ function runScenario(ctx, prm, init, keepStates) {
       }
       out.started = d; out.startValue = v.v; out.startIdx = i;
       if (prm.hold) {
-        // 비중은 종목별 평가액(정수 센트)으로 두고 배분은 BigInt로 내림한다 — 실수 비중의 오차로 센트를 잃지 않게
-        const vs = [...st.shares].filter(([, q]) => q > 0).map(([t, q]) => [t, BigInt(Math.round((q * mk.close(t, d)) / 1e4))]).sort();
+        if (prm.etf) {
+          keepCash = { num: BigInt(st.cash - preDep), den: BigInt(v.v - preDep) };
+          convertToEtf(d);
+        }
+        // 비중은 종목별 평가액(정수 센트)으로 두고 배분은 BigInt로 내림한다 — 실수 비중의 오차로 센트를 잃지 않게.
+        // E의 ETF 몫은 이 시점에 아직 사기 전이므로 pendingE 금액(배정액)으로 넣는다(그날 가격이 없으면 돌아온 날 산다)
+        const val = new Map([...st.shares].filter(([, q]) => q > 0).map(([t, q]) => [t, BigInt(Math.round((q * mk.close(t, d)) / 1e4))]));
+        for (const [t, a] of pendingE) val.set(t, (val.get(t) || 0n) + BigInt(a));
+        const vs = [...val].sort();
         const tot = vs.reduce((a, [, x]) => a + x, 0n);
         weights = tot > 0n ? { vs, tot } : null;
-        if (preDep > 0) { addPendingA(preDep); buyPendingA(d); }
+        if (preDep > 0) addPendingA(preDep);
+        buyPendingA(d);
       }
       out.days.push({ date: d, value: value(d).v, why: [], flow: 0, start: true });
       dropUnstarted(d);   // 출발일에도 결정하지 않는다(출발 상태가 그날 장 마감 뒤라서)
@@ -362,15 +381,37 @@ function runScenario(ctx, prm, init, keepStates) {
 
   function addPendingA(amt) {   // 남는 센트는 현금으로 둔다
     if (!weights) return;
+    // E: 출발 때 현금 비중만큼은 현금으로 두고 나머지만 비중대로 산다(현금 비중 유지). 현금 몫을 센트 내림하므로 1센트
+    //    입금처럼 아주 작은 입금은 전부 산다. 평가액이 0 이하(den ≤ 0)면 현금 몫 없이 비중대로 — 그런 출발에는 weights도 없다
+    if (keepCash) amt -= keepCash.den > 0n ? Number((BigInt(amt) * keepCash.num) / keepCash.den) : 0;
     for (const [t, v] of weights.vs) {
       const a = Number((BigInt(amt) * v) / weights.tot);
       if (a > 0) pendingA.set(t, (pendingA.get(t) || 0) + a);
     }
   }
   function buyPendingA(d) {
+    for (const [t, amt] of [...pendingE].sort()) {
+      if (amt > 0 && mk.usable(t, d)) { buy(t, amt, d, { kind: 'etf' }); pendingE.delete(t); }
+    }
     for (const [t, amt] of [...pendingA].sort()) {
       if (amt > 0 && mk.usable(t, d)) { buy(t, amt, d, { kind: 'deposit' }); pendingA.delete(t); }
     }
+  }
+  // E 출발: 고른 ETF가 아닌 보유 종목마다 수량의 etfShare만큼(마이크로주 내림)을 그날 종가에 팔고, 대금 합을 고른 ETF에 똑같이
+  // 나눈다(센트 내림, 남는 센트는 현금). 출발일 평가가 확정됐으므로 보유 종목 가격은 모두 있다. 산 뒤로는 사고팔지 않는다.
+  function convertToEtf(d) {
+    let total = 0;
+    for (const [t, q] of [...st.shares].sort()) {
+      if (q <= 0 || prm.etf.etfs.includes(t)) continue;
+      const sq = Number((BigInt(q) * BigInt(prm.etf.ppm)) / 1000000n);
+      if (sq <= 0) continue;
+      const c = mk.close(t, d), amt = Math.round((sq * c) / 1e4);
+      st.shares.set(t, q - sq); st.cash += amt; total += amt;
+      out.trades.push({ date: d, ticker: t, side: 'sell', shares: sq / MICRO, price: c, amount: amt / 100, kind: 'etf' });
+      log.push({ i: curIdx, t, side: 'sell', q: sq });
+    }
+    const each = Math.floor(total / prm.etf.etfs.length);
+    if (each > 0) for (const e of prm.etf.etfs) pendingE.set(e, each);
   }
 
   function applySplit(s, d, i) {

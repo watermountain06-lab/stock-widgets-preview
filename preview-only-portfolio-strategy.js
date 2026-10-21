@@ -6,15 +6,17 @@
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=1';
+import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=2';
 
 export const MAX_SCENARIOS = 20;
+export const ETF_ORDER = ['SPY', 'QQQ', 'RSP'];   // ETF 섞기(E)에서 고르는 ETF의 화면 순서(엔진 BASELINES와 같은 세 개)
 export const NAME_MAX = 40;
 export const STRATEGY = {
   A: '그대로 보유 + 입금 적립',
   B: '내 원칙(임시)',
   C: '저평가만 매수',
   D: '고평가면 팔고 갈아타기',
+  E: 'ETF 섞기',
   custom: '사용자 정의',
   REAL: '실제 매매 기록 반영',
 };
@@ -107,8 +109,13 @@ export function checkScenario(sc, count) {
   const name = (sc.name || '').trim();
   if (!name) return '이름을 넣으세요.';
   if (name.length > NAME_MAX) return `이름은 ${NAME_MAX}자까지입니다.`;
-  if (!['C', 'D', 'custom'].includes(sc.strategy)) return '전략을 고르세요.';   // 내 원칙(B)은 실제 계좌 줄이 대신한다(10-21)
+  if (!['C', 'D', 'E', 'custom'].includes(sc.strategy)) return '전략을 고르세요.';   // 내 원칙(B)은 실제 계좌 줄이 대신한다(10-21)
   const p = sc.params || {};
+  if (sc.strategy === 'E') {   // 엔진과 같은 해석: etfs를 안 적으면 세 개 다, 적었으면 하나 이상·겹치지 않게
+    if (p.etfs !== undefined && (!Array.isArray(p.etfs) || !p.etfs.length)) return '살 ETF를 하나 이상 고르세요.';
+    if (p.etfs && (p.etfs.some((e) => !BASELINES.includes(e)) || new Set(p.etfs).size !== p.etfs.length)) return `ETF는 ${ETF_ORDER.join('·')} 가운데서 고르세요.`;
+    if (p.etfShare !== undefined && !(p.etfShare >= 0 && p.etfShare <= 1)) return 'ETF로 바꿀 비율은 0~100%입니다.';
+  }
   if (sc.strategy === 'custom' && !(p.buyTiers || []).length) return '살 판정을 하나 이상 고르세요.';
   return null;
 }
@@ -372,6 +379,7 @@ export function detailSection(result, byId) {
 // 전략 설정 한 줄 요약(전략 비교 탭의 내 전략 목록)
 export function paramsText(sc) {
   const p = sc.params || {}, pc = (v) => Math.round((v || 0) * 100) + '%';
+  if (sc.strategy === 'E') return `보유 종목의 ${pc(p.etfShare ?? 1)}를 ETF로 · ${ETF_ORDER.filter((e) => (p.etfs || ETF_ORDER).includes(e)).join('·')} · 현금 그대로 · 그 뒤 매매 없음`;
   const buy = sc.strategy === 'C' ? '초저평가·저평가' : sc.strategy === 'custom' ? (p.buyTiers || []).join('·') || '없음' : '초저평가~적정';
   const sell = sc.strategy === 'C' ? '안 팖' : sc.strategy === 'D' ? '고평가면 전부' : (p.sellFraction ? `고평가면 ${pc(p.sellFraction)}` : '알림만');
   return `살 판정 ${buy} · 매도 ${sell} · ${p.splitWeeks || 4}회 · 유보 ${pc(p.cashReserve)}`;

@@ -964,3 +964,91 @@ test('attachActual: 숨은 원칙 시나리오는 result.plan으로, 실제 계�
   // 원칙 시나리오가 없으면 이번 달 운용은 실제 계좌가 아니라 다른 모의 시나리오를 쓴다
   assert.equal(monthView({ ...res, plan: null }, '2026-11-10').scenario.id, 's1');
 });
+
+test('E(ETF 섞기): 출발일 종가에 주식을 팔아 고른 ETF에 똑같이 나누고, 현금은 그대로, 그 뒤 매매 없음', () => {
+  const r = run({ scenarios: [S('E', { etfShare: 1, etfs: ['SPY', 'RSP', 'QQQ'] })] });
+  const e = pick(r, 'E');
+  assert.equal(e.started, '2026-10-16');
+  assert.deepEqual(trades(e, { side: 'sell' }).map((t) => [t.ticker, t.shares, t.kind]), [['AAA', 10, 'etf'], ['DDD', 100, 'etf']]);
+  const buys = trades(e, { side: 'buy' });
+  assert.deepEqual(buys.map((t) => [t.date, t.ticker, t.kind]), [['2026-10-16', 'QQQ', 'etf'], ['2026-10-16', 'RSP', 'etf'], ['2026-10-16', 'SPY', 'etf']]);
+  for (const b of buys) assert.ok(b.amount <= 666.66 + 1e-9 && b.amount > 666.6, String(b.amount));
+  assert.deepEqual(Object.keys(e.holdings), ['QQQ', 'RSP', 'SPY']);
+  // 센트까지 정확히: 대금 200,000센트 ÷ 3 = 66,666센트씩(남는 2센트는 현금), 종가가 1센트 단위라 대금 = 배정액
+  assert.deepEqual(buys.map((b) => b.amount), [666.66, 666.66, 666.66]);
+  assert.equal(e.cash, 1000.02);
+  assert.equal(e.startValue, 3000);
+  assert.equal(day(e, '2026-10-16').value, 3000);
+  assert.equal(e.trades.length, 5);   // 그 뒤로는 사고팔지 않는다
+});
+
+test('E: 일부만 바꾸면 남은 주식은 그대로 들고, 이미 가진 고른 ETF는 팔지 않는다', () => {
+  const snap = { date: '2026-10-16', holdings: { AAA: 10, DDD: 100, SPY: 1 }, cash: 0 };
+  const e = pick(run({ snapshot: snap, scenarios: [S('E', { etfShare: 0.5, etfs: ['SPY'] })] }), 'E');
+  assert.deepEqual(e.holdings, { AAA: 5, DDD: 50, SPY: 3 });
+  assert.equal(trades(e, { side: 'sell', ticker: 'SPY' }).length, 0);
+  // 기본값은 100%·세 ETF
+  const d = pick(run({ scenarios: [S('E', {})] }), 'E');
+  assert.deepEqual(Object.keys(d.holdings), ['QQQ', 'RSP', 'SPY']);
+});
+
+test('E: 입금은 출발 때 현금 비중만큼 현금으로 두고 나머지를 비중대로 산다', () => {
+  const e = pick(run({ scenarios: [S('E', { etfShare: 1, etfs: ['SPY', 'RSP', 'QQQ'] })], deposits: [{ id: 'd1', amount: 300, recordedAt: '2026-11-02T15:00:00Z' }] }), 'E');
+  const dep = trades(e, { kind: 'deposit' });
+  assert.deepEqual(dep.map((t) => t.date), ['2026-11-03', '2026-11-03', '2026-11-03']);
+  const spent = dep.reduce((a, t) => a + t.amount, 0);
+  assert.ok(spent > 199.9 && spent <= 200, String(spent));   // 300 × (1 − 1000/3000)
+});
+
+test('E: 현금 없이 SPY 하나로 다 바꾸면 SPY 기준선과 같이 움직인다', () => {
+  const close = (t, d) => (t === 'SPY' ? 500 * (1 + cal.index(d) / 1000) : t === 'AAA' ? 100 * (1 - cal.index(d) / 2000) : undefined);
+  const snap = { date: '2026-10-16', holdings: { AAA: 30 }, cash: 0 };
+  const e = pick(run({ world: { close }, snapshot: snap, scenarios: [S('E', { etfShare: 1, etfs: ['SPY'] })] }), 'E');
+  const last = e.days.at(-1);
+  assert.ok(Math.abs(last.vs.SPY) < 0.01, String(last.vs.SPY));
+});
+
+test('E: 출발일에 ETF 가격이 없으면 그 몫은 현금으로 두었다가 가격이 돌아온 날 산다, 잘못된 값은 거부', () => {
+  const close = (t, d) => (t === 'QQQ' && d <= '2026-11-04' ? null : undefined);
+  const dep = [{ id: 'd1', amount: 300, recordedAt: '2026-11-02T15:00:00Z' }];   // 11-03 반영 — QQQ는 아직 가격 없음
+  const e = pick(run({ world: { close }, deposits: dep, scenarios: [S('E', { etfShare: 1, etfs: ['SPY', 'QQQ'] })] }), 'E');
+  // 바꾼 몫: 200,000센트 ÷ 2 = 1,000달러씩. 입금 300 중 1/3은 현금, 200은 비중(SPY 1,000·QQQ 1,000 → 반반)
+  assert.deepEqual(trades(e, { side: 'buy' }).map((t) => [t.date, t.ticker, t.kind, t.amount]),
+    [['2026-10-16', 'SPY', 'etf', 1000], ['2026-11-03', 'SPY', 'deposit', 100], ['2026-11-05', 'QQQ', 'etf', 1000], ['2026-11-05', 'QQQ', 'deposit', 100]]);
+  assert.equal(e.cash, 1100);
+  // 가격이 끝까지 안 돌아오면 그 몫은 현금으로 남는다
+  const never = pick(run({ world: { close: (t) => (t === 'QQQ' ? null : undefined) }, scenarios: [S('E', { etfShare: 1, etfs: ['SPY', 'QQQ'] })] }), 'E');
+  assert.deepEqual(Object.keys(never.holdings), ['SPY']);
+  assert.equal(never.cash, 2000);
+  assert.throws(() => run({ scenarios: [S('E', { etfs: ['GLD'] })] }), /etfs/);
+  assert.throws(() => run({ scenarios: [S('E', { etfs: [] })] }), /etfs/);
+  assert.throws(() => run({ scenarios: [S('E', { etfShare: 1.2 })] }), /etfShare/);
+  assert.throws(() => run({ scenarios: [S('E', { splitWeeks: 2 })] }), /바꿀 수 없는/);
+});
+
+test('E: 출발이 미뤄진 사이의 입금은 현금 비율 계산에서 빼고, 입금처럼 현금 몫만 남긴 채 산다', () => {
+  // AAA 가격이 10-16에 없어 출발이 10-19로 밀리고, 그 사이(10-19 장 시작 전) 입금 300이 들어온다
+  const close = (t, d) => (t === 'AAA' && d === '2026-10-16' ? null : undefined);
+  const dep = [{ id: 'd1', amount: 300, recordedAt: '2026-10-16T21:00:00Z' }];
+  const e = pick(run({ world: { close }, deposits: dep, scenarios: [S('E', { etfShare: 1, etfs: ['SPY', 'RSP', 'QQQ'] })] }), 'E');
+  assert.equal(e.started, '2026-10-19');
+  assert.equal(e.startValue, 3300);
+  // 현금 비율 = (1,300 − 300) ÷ (3,300 − 300) = 1/3 → 입금 300 중 100은 현금, 200을 세 ETF에(66.66씩)
+  assert.deepEqual(trades(e, { kind: 'deposit' }).map((t) => t.amount), [66.66, 66.66, 66.66]);
+  assert.deepEqual(trades(e, { kind: 'etf', side: 'buy' }).map((t) => t.amount), [666.66, 666.66, 666.66]);
+  near(e.cash, 1100.04, 1e-9);
+});
+
+test('E: 나중에 만들면 만든 날의 A 상태(입금으로 산 수량 포함)에서 출발해 그날 바꾼다', () => {
+  const dep = [{ id: 'd1', amount: 300, recordedAt: '2026-11-02T15:00:00Z' }];
+  const r = run({ deposits: dep, scenarios: [S('E', { etfShare: 1, etfs: ['SPY'] }, { createdAt: '2026-11-10T15:00:00Z' })] });
+  const a = pick(r, 'A'), e = pick(r, 'E');
+  assert.equal(e.started, '2026-11-10');   // S = 11-11, S 전 거래일 장 마감 뒤 A에서
+  const sells = trades(e, { side: 'sell' });
+  assert.ok(sells.every((t) => t.date === '2026-11-10' && t.kind === 'etf'));
+  // A가 입금으로 더 산 수량까지 판다
+  const aShares = (t) => a.trades.filter((x) => x.ticker === t).reduce((s2, x) => s2 + x.shares, 0);
+  assert.equal(sells.find((t) => t.ticker === 'AAA').shares, 10 + aShares('AAA'));
+  assert.deepEqual(Object.keys(e.holdings), ['SPY']);
+  assert.equal(trades(e, { kind: 'deposit' }).length, 0);   // 기다리는 동안의 입금은 A가 이미 샀다(현금 몫 없이 물려받음)
+});

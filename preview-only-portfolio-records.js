@@ -4,8 +4,8 @@
 // "＋ 기록 추가"는 매매·입금 입력을 연다. 묶음 끝내기는 맨 아래에 접어 둔다. 저장은 handlers(trade·editTrade·deleteTrade·deposit·editDeposit·deleteDeposit·close).
 // 한눈에 파일(-home.js)이 이 파일을 부르므로, 거기 있는 계산(currentHoldings·checkTrade·etDate)은 인자 h로 받는다(같은 모듈을 두 번 읽지 않게).
 // 순수 함수 timelineItems는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
-import { el, msgLine, twoStep, usd, shares, startForm } from './preview-only-portfolio-strategy.js?v=14';
-import { depositTiming } from './preview-only-portfolio-engine.js?v=1';
+import { el, msgLine, twoStep, usd, shares, startForm } from './preview-only-portfolio-strategy.js?v=15';
+import { depositTiming } from './preview-only-portfolio-engine.js?v=2';
 
 // ---- 순수 함수 ----
 

@@ -4,11 +4,11 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, waitText } from './preview-only-portfolio-strategy.js?v=14';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=1';
-import { renderManage } from './preview-only-portfolio-records.js?v=1';
-import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=1';
-import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=6';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, waitText } from './preview-only-portfolio-strategy.js?v=15';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=2';
+import { renderManage } from './preview-only-portfolio-records.js?v=2';
+import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=2';
+import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=7';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));

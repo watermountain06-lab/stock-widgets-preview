@@ -255,3 +255,5 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 :root[data-theme="dark"] .pf-ednums b,:root[data-theme="dark"] .pf-sstats b{color:var(--text)}
 @media(max-width:760px){.pf-rankrow{grid-template-columns:18px minmax(0,1fr) 70px;row-gap:4px}.pf-rankbar{grid-column:2/4;order:5}.pf-ranksub{display:none}
 .pf-recrow{grid-template-columns:64px minmax(0,1fr) auto;row-gap:4px}.pf-recdate{grid-column:1/4}.pf-recbadge{grid-row:2}.pf-acts{grid-column:1/4;justify-content:flex-start}}
+.pf-edpart{display:grid;gap:14px}.pf-edpart[hidden]{display:none}
+.pf-edleft,.pf-edpart{align-content:start}.pf-tierchips,.pf-segbox{align-items:center}

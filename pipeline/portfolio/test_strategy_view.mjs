@@ -231,23 +231,47 @@ test('lossAlerts: 평균 단가보다 20% 이상 내린 종목만, 하락 큰 �
 import { draftOf, shapeOf, sentenceOf, rankRows, spyLine } from '../../preview-only-portfolio-rank.js';
 
 test('편집기: 저장된 전략 ↔ 편집기 값, 저평가만·갈아타기는 값을 안 바꾸면 그대로', () => {
-  assert.deepEqual(draftOf(null), { tiers: ['초저평가', '저평가', '적정~저평가', '적정'], sell: 0, rounds: 4, reserve: 0 });
+  assert.deepEqual(draftOf(null), { kind: 'verdict', tiers: ['초저평가', '저평가', '적정~저평가', '적정'], sell: 0, rounds: 4, reserve: 0, etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
   const C = { strategy: 'C', params: { splitWeeks: 2, cashReserve: 0.1 } };
-  assert.deepEqual(draftOf(C), { tiers: ['초저평가', '저평가'], sell: 0, rounds: 2, reserve: 10 });
+  assert.deepEqual(draftOf(C), { kind: 'verdict', tiers: ['초저평가', '저평가'], sell: 0, rounds: 2, reserve: 10, etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
   assert.deepEqual(shapeOf('C', draftOf(C)), { strategy: 'C', params: { splitWeeks: 2, cashReserve: 0.1 } });
   assert.equal(shapeOf('C', { ...draftOf(C), sell: 25 }).strategy, 'custom');
   const D = { strategy: 'D', params: { splitWeeks: 4, cashReserve: 0 } };
   assert.equal(draftOf(D).sell, 100);
   assert.equal(shapeOf('D', draftOf(D)).strategy, 'D');
   // 새 전략·사용자 정의는 사용자 정의로, 살 판정은 판정 순서대로
-  assert.deepEqual(shapeOf(null, { tiers: ['적정', '초저평가'], sell: 50, rounds: 1, reserve: 20 }),
+  assert.deepEqual(shapeOf(null, { kind: 'verdict', tiers: ['적정', '초저평가'], sell: 50, rounds: 1, reserve: 20 }),
     { strategy: 'custom', params: { buyTiers: ['초저평가', '적정'], sellFraction: 0.5, splitWeeks: 1, cashReserve: 0.2 } });
   const cu = { strategy: 'custom', params: { buyTiers: ['저평가'], sellFraction: 0.33, splitWeeks: 3, cashReserve: 0 } };
-  assert.deepEqual(draftOf(cu), { tiers: ['저평가'], sell: 33, rounds: 3, reserve: 0 });
+  assert.deepEqual(draftOf(cu), { kind: 'verdict', tiers: ['저평가'], sell: 33, rounds: 3, reserve: 0, etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
   assert.match(sentenceOf('C', draftOf(C)), /팔지 않습니다/);
   assert.match(sentenceOf(null, draftOf(null)), /알림만/);
   assert.match(sentenceOf(null, { tiers: ['고평가'], sell: 0, rounds: 4, reserve: 0 }), /원칙과 다름/);
   assert.match(sentenceOf(null, { tiers: ['저평가'], sell: 25, rounds: 1, reserve: 10 }), /한 번에.*25%.*10%/);
+  // ETF 섞기(E): 비율·고른 ETF를 엔진 순서(SPY·RSP·QQQ)로 저장하고, 되읽으면 같은 값
+  const e = { ...draftOf(null), kind: 'etf', etfShare: 50, etfs: ['QQQ', 'SPY'] };
+  assert.deepEqual(shapeOf('custom', e), { strategy: 'E', params: { etfShare: 0.5, etfs: ['SPY', 'QQQ'] } });
+  assert.deepEqual(draftOf(shapeOf(null, e)), { ...e, etfs: ['SPY', 'QQQ'] });
+  assert.match(sentenceOf(null, e), /보유 종목\(고른 ETF는 빼고\)의 50%를 팔아 SPY·QQQ에/);
+  assert.match(sentenceOf(null, { ...e, etfShare: 100 }), /빼고\)을 모두/);
+  assert.match(sentenceOf(null, { ...e, etfs: [] }), /하나 이상/);
+  assert.equal(draftOf({ strategy: 'E' }).etfShare, 100);
+  assert.equal(checkScenario({ name: 'x', strategy: 'E', params: { etfShare: 1, etfs: [] } }, 0), '살 ETF를 하나 이상 고르세요.');
+  assert.equal(checkScenario({ name: 'x', strategy: 'E', params: { etfShare: 1 } }, 0), null);   // 안 적으면 엔진처럼 세 개 다
+  assert.match(checkScenario({ name: 'x', strategy: 'E', params: { etfs: ['GLD'] } }, 0), /가운데서/);
+  assert.match(checkScenario({ name: 'x', strategy: 'E', params: { etfs: ['SPY', 'SPY'] } }, 0), /가운데서/);
+  assert.match(checkScenario({ name: 'x', strategy: 'E', params: { etfShare: 1.5 } }, 0), /0~100%/);
+  // 소수 비율도 열었다 저장하면 그대로(dr r1): 0.333333 → 33.3333% → 0.333333
+  const odd = { strategy: 'E', params: { etfShare: 0.333333, etfs: ['SPY'] } };
+  assert.equal(draftOf(odd).etfShare, 33.3333);
+  assert.deepEqual(shapeOf('E', draftOf(odd)), { strategy: 'E', params: { etfShare: 0.333333, etfs: ['SPY'] } });
+  const oddC = { strategy: 'custom', params: { buyTiers: ['저평가'], sellFraction: 0.123457, splitWeeks: 2, cashReserve: 0.015 } };
+  assert.deepEqual(shapeOf('custom', draftOf(oddC)), oddC);
+  // 기본 ETF 목록은 draft마다 새 배열
+  draftOf(null).etfs.push('X'); assert.deepEqual(draftOf(null).etfs, ['SPY', 'QQQ', 'RSP']);
+  assert.equal(checkScenario({ name: 'x', strategy: 'E', params: { etfShare: 1, etfs: ['SPY'] } }, 0), null);
+  assert.equal(paramsText({ strategy: 'E', params: { etfShare: 0.25, etfs: ['SPY', 'QQQ'] } }), '보유 종목의 25%를 ETF로 · SPY·QQQ · 현금 그대로 · 그 뒤 매매 없음');
+  assert.match(paramsText({ strategy: 'E', params: { etfs: ['SPY', 'RSP', 'QQQ'] } }), /SPY·QQQ·RSP/);   // 편집기와 같은 순서
 });
 
 test('순위: 수익률·SPY 대비 순, 값 없는 줄은 맨 뒤, 그래프와 같은 색 번호', () => {
