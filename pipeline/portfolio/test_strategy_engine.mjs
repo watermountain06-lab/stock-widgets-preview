@@ -934,11 +934,11 @@ test('실제 계좌: 분할은 기록이 늦어도 효력일에 선적용(기록
   assert.ok(r3.warnings.some((w) => /음수/.test(w)));
 });
 
-test('attachActual: 숨은 원칙 시나리오는 result.plan으로, 실제 계좌는 A 바로 뒤', () => {
+test('attachActual: 숨은 원칙 시나리오는 result.plan으로, 실제 계좌는 맨 앞(그다음 A)', () => {
   const recs = world({ end: '2026-11-10' });
   const bundle = { snapshot: { ...SNAP, holdOnly: [], createdAt: '2026-10-16T22:00:00Z' }, deposits: {}, scenarios: { s1: { name: '저평가만', strategy: 'C', params: { splitWeeks: 4, cashReserve: 0 }, createdAt: '2026-10-20T15:00:00Z', engineVersion: ENGINE_VERSION } } };
   const res = attachActual(replay(toEngineInput(bundle, recs, { plan: true })), { records: recs, bundle, trades: {} });
-  assert.deepEqual(res.scenarios.map((s) => s.id), ['A', 'REAL', 's1']);
+  assert.deepEqual(res.scenarios.map((s) => s.id), ['REAL', 'A', 's1']);
   assert.equal(res.plan.id, '__plan');
   assert.equal(res.plan.started, '2026-10-16');
   assert.equal(res.plan.months.length > 0, true);
@@ -949,14 +949,14 @@ test('attachActual: 숨은 원칙 시나리오는 result.plan으로, 실제 계�
   const bF = { snapshot: { ...snapF, holdOnly: [], createdAt: '2026-10-16T22:00:00Z' }, deposits: {}, scenarios: {} };
   const resF = attachActual(replay(toEngineInput(bF, recs, { plan: true })), { records: recs, bundle: bF, trades: {} });
   assert.equal(resF.scenarios[1].startValue, resF.scenarios[0].startValue);
-  assert.deepEqual(resF.scenarios[1].warnings, []);
+  assert.deepEqual(resF.scenarios[0].warnings, []);   // 실제 계좌(맨 앞)
   // 여러 종목을 스냅샷 순서와 다르게 넣어도 엔진(티커순)과 같은 합(0.1+0.1+4.3 ≠ 4.3+0.1+0.1)
   const recsG = world({ end: '2026-10-20', close: (t) => (t === 'AAA' || t === 'BBB' ? 1 : t === 'CCC' ? 43 : undefined) });
   const snapG = { date: '2026-10-16', holdings: { CCC: 0.001, BBB: 0.001, AAA: 0.001 }, cash: 1000 };
   const bG = { snapshot: { ...snapG, holdOnly: [], createdAt: '2026-10-16T22:00:00Z' }, deposits: {}, scenarios: {} };
   const resG = attachActual(replay(toEngineInput(bG, recsG, { plan: true })), { records: recsG, bundle: bG, trades: {} });
   assert.equal(resG.scenarios[1].startValue, resG.scenarios[0].startValue);
-  assert.deepEqual(resG.scenarios[1].warnings, []);
+  assert.deepEqual(resG.scenarios[0].warnings, []);
   // 예전 B가 남아 있어도 이번 달 운용은 숨은 원칙을 쓴다
   const withB = { ...bundle, scenarios: { ...bundle.scenarios, b0: { name: '옛 원칙', strategy: 'B', params: { sellFraction: 0, splitWeeks: 2, cashReserve: 0.1 }, createdAt: '2026-10-17T15:00:00Z', engineVersion: ENGINE_VERSION } } };
   const resB = attachActual(replay(toEngineInput(withB, recs, { plan: true })), { records: recs, bundle: withB, trades: {} });

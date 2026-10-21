@@ -5,9 +5,9 @@
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, table, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, compareSection, chartSection, detailSection,
-  depositSection, scenarioForm, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=11';
+  depositSection, scenarioForm, bundleSection, startForm, waitText } from './preview-only-portfolio-strategy.js?v=12';
 import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=1';
-import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=5';
+import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=6';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -350,7 +350,7 @@ function donutPanel(model, last, close, handlers, color, named, hasOther) {
   const sec = el('section', 'pf-panel');
   sec.appendChild(el('div', 'pf-eyebrow', 'STRATEGY CHECK'));
   const r = model.result;
-  const A = r?.scenarios?.[0];
+  const A = r?.scenarios?.find((s) => s.id === 'A');
   const h = el('h2', 'pf-h2', '전략 비교 ');
   if (A?.started) h.appendChild(el('small', null, `${md(A.started)} 시작 · ${A.days.filter((d) => d.date >= A.started).length - 1}거래일`));
   sec.appendChild(h);

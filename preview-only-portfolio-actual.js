@@ -124,7 +124,7 @@ export function actualAccount({ records, snapshot, deposits, trades, baselines, 
   };
 }
 
-// 엔진 결과에서 숨은 원칙 시나리오를 떼어 result.plan으로 두고, A 바로 뒤에 실제 계좌 줄을 넣는다
+// 엔진 결과에서 숨은 원칙 시나리오를 떼어 result.plan으로 두고, 실제 계좌 줄을 맨 앞에(그다음 A, 만든 시나리오 — 사용자 요청 10-21) 둔다
 export function attachActual(result, { records, bundle, trades }) {
   if (!result) return result;
   const plan = result.scenarios.find((s) => s.id === PLAN_ID) || null;
@@ -134,5 +134,5 @@ export function attachActual(result, { records, bundle, trades }) {
   let real;
   try { real = actualAccount({ records, snapshot: bundle.snapshot, deposits: bundle.deposits, trades, baselines: A?.baselines, baseStart: A?.started, baseStartValue: A?.startValue }); }
   catch (e) { real = { id: REAL_ID, strategy: REAL_ID, name: '내 실제 계좌', started: null, days: [], trades: [], skips: [], months: [], holdings: {}, cash: 0, warnings: ['계산하지 못했습니다: ' + e.message] }; }
-  return { ...result, plan, scenarios: [A, real, ...rest.slice(1)] };
+  return { ...result, plan, scenarios: [real, A, ...rest.slice(1)] };
 }
