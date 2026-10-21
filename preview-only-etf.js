@@ -14,7 +14,6 @@
   var TIERS = ['저평가', '적정~저평가', '적정', '적정~고평가', '고평가', '카드 없음', '판정 보류', '그 밖 제외', '분류 안 됨'];
 
   function pct(x, d) { return x == null ? '—' : (x * 100).toFixed(d == null ? 1 : d) + '%'; }
-  function sgn(x) { return x == null ? '—' : (x > 0 ? '+' : x < 0 ? '−' : '') + Math.abs(x).toFixed(2); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }
 
   function fin(x) { return typeof x === 'number' && isFinite(x); }
@@ -121,7 +120,6 @@
     var tag = lagIssuer ? '운용사 파일 갱신 대기 · 판정 기준 ' + esc(d.builtFor) : lagHome ? '홈 가격 세션 갱신 대기' : d.edgeNear ? '경계 근처' : '';
     return card(href, head(t, 'ETF'),
       '<div class="etf-card-main">' + esc(d.verdict) + '</div>'
-      + '<div class="etf-card-sub">점수 <b class="etf-tab">' + sgn(d.nbar) + '</b></div>'
       + '<div class="etf-card-tag">카드가 덮은 비중 <span class="etf-tab">' + pct(d.coverage) + '</span></div>'
       + '<div class="etf-bar" role="img" aria-label="등급별 보유 비중">' + bar + '</div>'
       + (tag ? '<div class="etf-card-tag">' + tag + '</div>' : '')
