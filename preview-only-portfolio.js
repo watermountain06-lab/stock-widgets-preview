@@ -12,7 +12,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=9';
-import { renderTabs } from './preview-only-portfolio-home.js?v=11';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=11';
+import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=1';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
@@ -121,12 +122,43 @@ function show(state, msg) {
 
 // 덮어쓰기 확인은 화면 안 문구로 한다(브라우저 확인 창을 쓰지 않는다): 같은 내용의 파일을 두 번째로 고르면 올린다.
 let pending = null;
-function confirmReplace(name, text) {
+function confirmReplace(name, text, what) {
   if (pending === text) { pending = null; return true; }
   pending = text;
-  $('pf-upload-msg').textContent = '지금 데이터를 ' + name + '(으)로 바꿉니다. 맞으면 같은 파일을 한 번 더 고르세요.';
+  $('pf-upload-msg').textContent = (what || '지금 데이터를 ' + name + '(으)로 바꿉니다.') + ' 맞으면 같은 파일을 한 번 더 고르세요.';
   return false;
 }
+
+// Excel(.xlsx·.xls)은 고를 때만 SheetJS를 cdnjs에서 불러와 첫 시트를 CSV 글자로 바꾼다(무결성 해시로 고정)
+const XLSX_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+const XLSX_SRI = 'sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw';
+let xlsxLoading = null;
+function loadXLSX() {
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  xlsxLoading ??= new Promise((resolve, reject) => {
+    const sc = document.createElement('script');
+    sc.src = XLSX_SRC; sc.integrity = XLSX_SRI; sc.crossOrigin = 'anonymous';
+    sc.onload = () => (window.XLSX ? resolve(window.XLSX) : reject(new Error('Excel 읽기 도구가 비었습니다.')));
+    sc.onerror = () => { xlsxLoading = null; reject(new Error('Excel 읽기 도구를 불러오지 못했습니다(네트워크).')); };
+    document.head.appendChild(sc);
+  });
+  return xlsxLoading;
+}
+// 올린 파일 → 표 글자(CSV). JSON이면 null
+async function fileToCSV(file) {
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  if (ext === 'csv' || file.type === 'text/csv') return file.text();
+  if (ext === 'xlsx' || ext === 'xls') {
+    const X = await loadXLSX();
+    const wb = X.read(new Uint8Array(await file.arrayBuffer()), { type: 'array' });
+    const sh = wb.Sheets[wb.SheetNames[0]];
+    if (!sh) throw new Error('첫 시트가 비었습니다.');
+    return X.utils.sheet_to_csv(sh, { blankrows: false });
+  }
+  return null;
+}
+let currentMain = {};    // 지금 올라가 있는 원칙·보유·관심 종목 — CSV·Excel은 이 가운데 보유만 바꾼다
+let refreshTabs = null;  // 올린 뒤 한눈에·기록·관리를 새 보유로 다시 그린다
 
 if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authDomain || !firebaseConfig.appId) {
   show('out', '아직 설정 전입니다(pipeline/portfolio/SETUP.md).');
@@ -171,13 +203,14 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
         $('pf-upload-msg').textContent = '저장된 데이터를 읽지 못했습니다(' + e.message + '). 새 파일을 올려 바꾸세요.';
       }
     }
+    currentMain = main;
+    refreshTabs = (m) => { if (g === gen && auth.currentUser === user) loadAll(user, g, m); };
     loadAll(user, g, main);
   }
 
   // ---- 전략 비교 ----
   // 묶음 문서 users/{uid}/portfolio/strategy_1, _2, … — 마지막 번호가 지금 묶음이다. 끝낸 묶음 뒤에는 새 번호로 시작한다.
-  // 규칙(pipeline/portfolio/firestore.rules)이 덧붙이기만 허용한다: 스냅샷은 만들 때 한 번, 입금·시나리오는 한 번에 하나씩 추가,
-  // 끝내기는 한 번. 기록 시각은 서버 시각이다.
+  // 보안 규칙(pipeline/portfolio/firestore.rules)은 나만 읽고 쓰기다. 값은 고치고 지울 수 있다(2026-10-20 사용자 결정).
   const sref = (user, n) => doc(db, 'users', user.uid, 'portfolio', 'strategy_' + n);
   let ledger = null;   // 공개 일별 기록 — 한 번 받으면 이 탭에서 다시 받지 않는다(기록은 고치지 않으므로)
   async function loadLedger() {
@@ -316,7 +349,8 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     try { await signOut(auth); } catch (e) { show('out', '로그아웃하지 못했습니다(' + (e.code || e.message) + ').'); }
   });
 
-  // 데이터 올리기: 맥에 있는 JSON 파일(형식은 pipeline/portfolio/sample.json)을 골라 내 문서를 통째로 바꾼다.
+  // 데이터 올리기: JSON 파일(형식은 pipeline/portfolio/sample.json)은 내 문서를 통째로 바꾼다. CSV·Excel(2026-10-21)은
+  // Robinhood 거래 내역이나 보유 표에서 '올린 보유'만 만들어 바꾸고 원칙·관심 종목은 그대로 둔다(preview-only-portfolio-import.js).
   // 순서: 읽기 → 모양 검사 → 두 번 고르기 확인 → 화면에 그려 보기 → 저장. 앞 단계가 틀리면 저장하지 않는다.
   $('pf-upload').addEventListener('change', async (e) => {
     const input = e.target, file = input.files[0];
@@ -325,26 +359,37 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     if (!file || !user) return;
     if (file.size > MAX_BYTES) { $('pf-upload-msg').textContent = '파일이 너무 큽니다(900KB 이하).'; return; }
     const current = () => g === gen && auth.currentUser === user; // 로그인 상태가 그대로인지 — 아니면 화면을 건드리지 않는다
-    let d, text, json;
+    let d, text, json, what = null;
     try {
-      text = await file.text();
-      d = validate(JSON.parse(text));
+      const csv = await fileToCSV(file);
+      if (csv == null) {
+        text = await file.text();
+        d = validate(JSON.parse(text));
+      } else {
+        text = csv;
+        const res = importTable(parseCSV(csv));
+        const today = etDate(Date.now());
+        const holdings = { ...res.holdings, asOf: res.holdings.asOf || today + ' 올린 표 기준' };
+        d = validate({ ...currentMain, holdings, updated: today });
+        what = res.summary + ' 원칙·관심 종목은 그대로 두고 "올린 보유"만 바꿉니다.' + (res.warnings.length ? ' ⚠ ' + res.warnings.join(' · ') + '.' : '');
+      }
       json = JSON.stringify(d);
     } catch (err) {
       if (!current()) return;
       pending = null;
-      $('pf-upload-msg').textContent = err instanceof SyntaxError ? 'JSON 형식이 아닙니다.' : '모양이 맞지 않습니다: ' + err.message;
+      $('pf-upload-msg').textContent = err instanceof SyntaxError ? 'JSON 형식이 아닙니다.' : '읽지 못했습니다: ' + err.message;
       return;
     }
     if (!current()) return;
     if (new TextEncoder().encode(json).length > MAX_BYTES) { pending = null; $('pf-upload-msg').textContent = '데이터가 너무 큽니다(900KB 이하).'; return; }
-    if (!confirmReplace(file.name, text)) return;
+    if (!confirmReplace(file.name, text, what)) return;
     input.disabled = true;
     try {
       render(d); // 그려 보다 실패하면 저장하지 않는다
       // 여기까지 오면 저장을 보낸다. 보낸 뒤 로그아웃해도 저장은 취소되지 않고, 결과 문구만 띄우지 않는다.
       await setDoc(ref(user), { json, uploaded: serverTimestamp() });
-      if (current()) $('pf-upload-msg').textContent = file.name + '을(를) 올렸습니다.';
+      currentMain = d;
+      if (current()) { $('pf-upload-msg').textContent = file.name + '을(를) 올렸습니다.'; if (refreshTabs) refreshTabs(d); }
     } catch (err) {
       if (current()) $('pf-upload-msg').textContent = '올리지 못했습니다(' + (err.code || err.message) + '). 새로고침하면 저장된 데이터가 보입니다.';
     } finally { input.disabled = false; }
