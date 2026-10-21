@@ -2,7 +2,11 @@
 # 분사 종목(헬스케어 2023-01, 버노바 2024-04) — RESTATED_LATEST·HISTORY_START 2024-07-23·HISTORY_WINDOW(엔진), 계속사업 EPS 태그(아래 BUILD). CARD_ITEMS 'GE' 절.
 # 출처: SEC XBRL, Q2 2026 10-Q(2026-07-16), 실적 보도자료(Q3 2025~Q2 2026), 8-K(CPP 인수 9/8, CES 사장 1/15), StockAnalysis(2026-09-30).
 # 재현 모드: python3 v2/newcards/build.py GE --from-card (일봉·이동평균·백테스트는 지금 카드에서, 마지막 종가 2026-09-29).
-BUILD = {'eps_tag': 'IncomeLossFromContinuingOperationsPerDilutedShare'}   # 분사 종목 — 계속사업 EPS(GE 방식, CARD_ITEMS)
+BUILD = {'eps_tag': 'IncomeLossFromContinuingOperationsPerDilutedShare',   # 분사 종목 — 계속사업 EPS(GE 방식, CARD_ITEMS)
+         # 영업이익 합성 재료(build_multiple_history DERIVED_OPINC) — 처음엔 adapters/ge_income_items.py를 손으로만 돌려 새 분기 자동 반영 때
+         # Q3 2026 영업이익이 비었다(2026-10-20, auto_card KeyError). 이제 새 공시마다 원문에서 다시 받는다.
+         'company_tags': [('ge:InterestAndOtherFinancialCharges', 'GeInterestAndOtherFinancialCharges'),
+                          ('ge:BenefitCostIncomeNonoperating', 'GeBenefitCostIncomeNonoperating')]}
 CIK = '0000040545'
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'

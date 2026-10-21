@@ -501,8 +501,8 @@ DERIVED_OPINC = {# TJX: 손익계산서에 영업이익 줄이 없다. 영업이
                  "0000310158": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 "OtherNonoperatingIncomeExpense"),
                  # GE: 손익계산서에 영업이익 줄이 없다. 영업이익 = 세전이익 − 기타수익("Other income (loss)", 지분 매각·평가 손익)
-                 # + 이자·기타 금융비용 + 영업외 연금비용(수익이면 음수). 뒤 두 줄은 회사 고유 태그라 인라인 XBRL 어댑터
-                 # (adapters/ge_income_items.py)가 overlay에 싣는다. 보험(런오프) 수익·비용은 영업으로 둔다. Q2 2026: 2,801 − 313
+                 # + 이자·기타 금융비용 + 영업외 연금비용(수익이면 음수). 뒤 두 줄은 회사 고유 태그라 새 공시마다 cfg_ge BUILD
+                 # company_tags(adapters/company_tag_feed.py)가 overlay에 싣는다(2026-10-21; 2021년까지 옛 이름은 ge_income_items.py가 한 번 넣음). 보험(런오프) 수익·비용은 영업으로 둔다. Q2 2026: 2,801 − 313
                  # + 215 − 177 = 2,526 = 매출 13,349 − 영업비용 10,823(10-Q 대조).
                  "0000040545": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["NonoperatingIncomeExpense"], 1), (["GeInterestAndOtherFinancialCharges"], -1),

@@ -110,7 +110,11 @@ def main():
                               or max([r["filed"] for r in _ov["us-gaap"][tag]] + [_marks.get(tag, "")]) < _appr)
     for concept, axis, member, stag in [x for x in B.get("dim_facts", []) if net or _dim_stale(x[3])]:
         print(f"· 차원 값 {member} → {stag}"); run([PY, "v2/adapters/dim_fact_feed.py", cik, concept, axis, member, stag], show=r"저장|멈춤")
-    for ctag, stag in [x for x in B.get("company_tags", []) if net or not _has_ct(*x)]:   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
+    # 회사 고유 태그도 같은 이유로 승인 공시보다 낡았으면 다시 돈다 — 행이 있다는 것만 보면 새 분기 다음 날 복원된 옛 overlay로
+    # 건너뛰어 GE 영업이익 합성이 빠진다(2026-10-20 GE Q3: auto_card KeyError, Codex 2026-10-21)
+    _ct_stale = lambda ctag, stag: (not _has_ct(ctag, stag)
+                                    or max([r["filed"] for r in _ov["us-gaap"][stag]] + [_marks.get(f"company:{ctag}", "")]) < _appr)
+    for ctag, stag in [x for x in B.get("company_tags", []) if net or _ct_stale(*x)]:   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
         print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
     print("· EPS")
     eps = [PY, "scripts/fetch_eps_history.py", T, "--cik", cik, "--out", f"scripts/{T}_eps_history.json"]
