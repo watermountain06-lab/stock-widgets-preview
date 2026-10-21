@@ -391,7 +391,7 @@ def main():
                     os.environ[k] = v
 
     # ---- 홈 JS(node) ----
-    js = HERE.parents[1] / "preview-only-etf.js"
+    js = HERE.parents[1] / "etf.js"
     probe = ("global.window={StockData:{meta:{priceSession:'%s'}}};global.document={readyState:'loading',addEventListener(){}};"
              "global.matchMedia=()=>({matches:false});let src=require('fs').readFileSync(%s,'utf8').replace(\"if (document.readyState === 'loading')\","
              "'window.__t={etfCard:etfCard,cardsHtml:cardsHtml}; if (document.readyState === \\'loading\\')');eval(src);"
@@ -409,14 +409,36 @@ def main():
     r = subprocess.run(["node", "-e", probe], capture_output=True, text=True)
     out = json.loads(r.stdout or "{}") if r.returncode == 0 else {}
     check("홈 JS: 카드 6장 순서(가격형 3)", out.get("order") == ["SPY", "QQQ", "DIA", "IWM", "TLT", "GLD"], (out.get("order"), r.stderr[-300:]))
-    check("홈 JS: GLD history 문구", "운용사 종가와 2016.10.19~%s 대조" % P.replace("-", ".") in out.get("gok", "") and "날마다 대조" in out.get("gok", ""), out.get("gok"))
-    check("홈 JS: GLD 대조 전", "%s 종가는 대조 전" % P.replace("-", ".") in out.get("gpend", ""), out.get("gpend"))
-    check("홈 JS: TLT day 문구·분배금 제외, prevP NAV도 ok", "하루만 대조" in out.get("tok", "") and "(분배금 제외)" in out.get("tok", "")
+    # 카드 문구는 한 줄(2026-10-21 — 두 줄씩 접혀 가격형 카드가 칸보다 컸다)
+    check("홈 JS: GLD history 문구(한 줄)", "운용사 종가와 2016년부터 매일 대조" in out.get("gok", "") and "대조 전" not in out.get("gok", ""), out.get("gok"))
+    check("홈 JS: GLD 대조 전", "· %s 대조 전" % P[5:].replace("-", ".") in out.get("gpend", ""), out.get("gpend"))
+    check("홈 JS: TLT day 문구·분배금 제외, prevP NAV도 ok", "분배금 제외 · NAV 하루만 대조(%s)" % P[5:].replace("-", ".") in out.get("tok", "")
           and "80.13" in out.get("tprev", ""), (out.get("tok"), out.get("tprev")))
     bads = out.get("bad") or []
     check("홈 JS: 날짜 관계·대조 방식·필수 칸 어긋남 12가지 → 모두 형식 오류", len(bads) == 12 and all("형식 오류" in x for x in bads),
           [i for i, x in enumerate(bads) if "형식 오류" not in x])
     check("홈 JS: check 없는 옛 IWM 칸(navDate = 직전 세션)도 예전처럼 정상", "275.78" in out.get("iwmOld", ""), out.get("iwmOld"))
+    # 공용 화면 코드(2026-10-21 라이브 승격): 파일 이름은 window.ETF_FILES — 없으면 라이브 이름, preview는 설정 줄로 preview 이름
+    def names(cfg):
+        pr = ("global.window={StockData:{meta:{priceSession:'%s'}}%s};global.document={readyState:'loading',addEventListener(){}};"
+              "let src=require('fs').readFileSync(%s,'utf8').replace(\"if (document.readyState === 'loading')\","
+              "'window.__t={pageHref:pageHref,dataSrc:dataSrc,etfCard:etfCard}; if (document.readyState === \\'loading\\')');eval(src);"
+              "console.log(JSON.stringify([window.__t.pageHref('SPY'),window.__t.dataSrc(),"
+              "(window.__t.etfCard('GLD',undefined).match(/href=\"([^\"]+)\"/)||[])[1],(window.__t.etfCard('SPY',undefined).match(/href=\"([^\"]+)\"/)||[])[1]]))"
+              ) % (P, cfg, json.dumps(str(js)))
+        r_ = subprocess.run(["node", "-e", pr], capture_output=True, text=True)
+        return json.loads(r_.stdout or "null"), r_.stderr[-200:]
+    got, err = names("")
+    check("홈 JS: ETF_FILES 없으면 라이브 이름(etf-spy.html·etf-data.js), 가격형·판정형 주소 같은 함수",
+          got == ["etf-spy.html", "etf-data.js", "etf-gld.html", "etf-spy.html"], (got, err))
+    got, err = names(",ETF_FILES:{page:'preview-only-etf-',data:'preview-only-etf-data.js'}")
+    check("홈 JS: preview 설정 줄이면 preview 이름", got == ["preview-only-etf-spy.html", "preview-only-etf-data.js", "preview-only-etf-gld.html",
+                                                       "preview-only-etf-spy.html"], (got, err))
+    shared = [f for f in ("etf.js", "etf.css") if "preview-only" in (HERE.parents[1] / f).read_text(encoding="utf-8")]
+    check("공용 화면 코드(etf.js·etf.css)에 preview-only 글자 없음", not shared, shared)
+    idx = (HERE.parents[1] / "index.html").read_text(encoding="utf-8")
+    check("preview index: ETF_FILES 설정 줄이 etf.js보다 앞, 꼬리표 preview-only:etf-files",
+          0 <= idx.find("window.ETF_FILES") < idx.find('src="etf.js') and "<!-- preview-only:etf-files -->" in idx)
     print(f"\n{'모두 통과' if not FAILS else f'실패 {len(FAILS)}건: ' + ', '.join(FAILS)}")
     return 1 if FAILS else 0
 

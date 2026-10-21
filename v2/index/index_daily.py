@@ -1354,7 +1354,7 @@ SECTOR_KO = {"Information Technology": "정보기술", "Financials": "금융", "
 SECTOR_COLORS = ("#6551c9", "#2563eb", "#0e9f9e", "#d97706", "#db5a8a", "#64748b", "#a99bf0", "#92400e", "#7fb5f5", "#86dccd", "#cdd3dd")
 BAR_TIERS = (("저평가", "#1f7a4d"), ("적정~저평가", "#5cae7f"), ("적정", "#c9c5b3"), ("적정~고평가", "#e6935a"),
              ("고평가", "#d92d20"), ("판정 보류", "#6b7280"), ("카드 없음", "#9aa3b5"), ("그 밖 제외", "#4b5563"),
-             ("분류 안 됨", "#111827"))   # 홈 SPY 줄(preview-only-etf.css etf-seg)과 같은 색
+             ("분류 안 됨", "#111827"))   # 홈 SPY 줄(etf.css etf-seg)과 같은 색
 VERDICT_ORDER = ("저평가", "적정~저평가", "적정", "적정~고평가", "고평가", "판정 보류")
 
 
@@ -1562,7 +1562,7 @@ def render_verdict(full, P):
     try:
         if full is None:
             return box("판정 보류", "판정 자료를 불러오지 못했다.")
-        # 홈 줄(preview-only-etf.js valid() → 묵음 → 보류)과 같은 순서·같은 검사 — 같은 자료가 두 화면에서 다른 사유를 내지 않게
+        # 홈 줄(etf.js valid() → 묵음 → 보류)과 같은 순서·같은 검사 — 같은 자료가 두 화면에서 다른 사유를 내지 않게
         fin = lambda x: isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
         tiers = [k for k, _ in BAR_TIERS]
         bad = not isinstance(full, dict) or full.get("status") not in ("ok", "held")

@@ -1,5 +1,5 @@
-/* preview 전용 시장 지표 구역의 [시장 지표] [지수·ETF] 탭(2026-10-20) — preview-only-etf.js와 함께. 라이브로 옮기지 않는다
-   (pipeline/site_ui/UI_DIFF.md). 회전 화면·카드 모양은 flow.css(.coverflow, .macro-flow-card)를 그대로 쓴다. */
+/* 시장 지표 구역의 [시장 지표] [지수·ETF] 탭(2026-10-20; 2026-10-21부터 preview·라이브 공용) — etf.js와 함께
+   (pipeline/site_ui/UI_DIFF.md etf). 회전 화면·카드 모양은 flow.css(.coverflow, .macro-flow-card)를 그대로 쓴다. */
 .etf-tabs{display:inline-flex;gap:4px;vertical-align:middle}
 .etf-tabs button{font:inherit;font-size:12px;color:var(--text2);background:transparent;border:1px solid transparent;border-radius:999px;padding:3px 11px;cursor:pointer}
 .etf-tabs button[aria-selected="true"]{color:var(--accent);border-color:var(--accent);background:var(--panel);font-weight:600}

@@ -29,9 +29,9 @@ NEEDLES = [
     "pf-login",            # Portfolio tab login button (file names and menu href are caught by "preview-only")
     "pf-strategy",         # Portfolio tab strategy comparison section (2026-10-20)
     "pf-tabs",             # Portfolio tab sub-tab bar (2026-10-20)
-    "ETF_DATA",            # ETF strip data (2026-10-19; preview-only-etf-data.js, preview-only-etf.js)
-    "etf-strip",           # ETF strip markup and CSS in the market-indicator section
-    "etf-index-link",      # S&P 500 index-card link under the home S&P 500 cell (2026-10-20, preview-only-etf.js)
+    # ETF home tab and ETF card pages are shared with live since 2026-10-21 (etf.js, etf.css, etf-*.html via the
+    # live scripts/sync_etf.py) - their old needles ETF_DATA, etf-strip, etf-index-link were removed. The preview-only
+    # window.ETF_FILES line in preview index.html is still caught by "preview-only".
 ]
 
 

@@ -142,7 +142,7 @@ def main():
                 else:
                     os.environ[k] = v
     # 홈 가격형 카드(브라우저 코드를 node로): 정상·자료 없음·세션 다름·보류·형식 오류
-    js = HERE.parents[1] / "preview-only-etf.js"
+    js = HERE.parents[1] / "etf.js"
     probe = ("global.window={StockData:{meta:{priceSession:'%s'}}};global.document={readyState:'loading',addEventListener(){}};"
              "global.matchMedia=()=>({matches:false});let src=require('fs').readFileSync(%s,'utf8').replace(\"if (document.readyState === 'loading')\","
              "'window.__t={etfCard:etfCard}; if (document.readyState === \\'loading\\')');eval(src);const s=x=>x.replace(/<[^>]+>/g,' ').replace(/\\s+/g,' ');"
@@ -152,8 +152,8 @@ def main():
              "s(window.__t.etfCard('IWM',{etf:'IWM',kind:'price',status:'held',builtFor:'%s',reasonText:'대조 불일치'})),"
              "s(window.__t.etfCard('IWM',Object.assign({},ok,{close:-1})))]))") % (P, json.dumps(str(js)), P, P, P, P)
     out = json.loads(subprocess.run(["node", "-e", probe], capture_output=True, text=True).stdout or "[]")
-    check("홈 가격형: 정상(종가·판정하지 않음·하루만 대조)·자료 없음·세션 다름(갱신 대기)·보류(사유)·형식 오류",
-          len(out) == 5 and "275.78" in out[0] and "판정하지 않음" in out[0] and "하루만 대조" in out[0] and "불러오지 못함" in out[1]
+    check("홈 가격형: 정상(종가·가격 카드·NAV 하루만 대조)·자료 없음·세션 다름(갱신 대기)·보류(사유)·형식 오류",
+          len(out) == 5 and "275.78" in out[0] and "가격 카드" in out[0] and "NAV 하루만 대조" in out[0] and "불러오지 못함" in out[1]
           and "갱신 대기" in out[2] and "대조 불일치" in out[3] and "형식 오류" in out[4], out)
     print(f"\n{'모두 통과' if not FAILS else f'실패 {len(FAILS)}건: ' + ', '.join(FAILS)}")
     return 1 if FAILS else 0
