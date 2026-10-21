@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="header.css?v=1">
 <link rel="stylesheet" href="theme.css?v=2">
 <script src="theme.js?v=2"></script>
-<link rel="stylesheet" href="preview-only-portfolio.css?v=17">
+<link rel="stylesheet" href="preview-only-portfolio.css?v=18">
 </head>
 <body>
   <header class="site-header"><div class="header-inner"><a class="brand" href="index.html">◧ US stock 가치를 말하다</a><span class="brand-note">공시로 읽는 기업의 흐름<br>하루씩, 한 종목씩</span><nav aria-label="주 메뉴"><a href="index.html">Home</a><a href="today.html">Tracking</a><a href="market-news.html">뉴스·영상</a><a href="preview-only-portfolio.html" aria-current="page">Portfolio</a></nav></div></header>
@@ -25,18 +25,20 @@
     <div id="pf-body" hidden>
       <div class="pf-top"><h1>Portfolio</h1><span id="pf-updated"></span><span class="pf-account" id="pf-account"></span><button type="button" id="pf-logout">로그아웃</button></div>
       <p class="pf-sample" id="pf-sample" hidden>가짜 데이터입니다. 실제 값은 아직 넣지 않았습니다.</p>
-      <nav class="pf-tabs" role="tablist" aria-label="Portfolio 하위 탭"><button type="button" role="tab" data-tab="home" aria-selected="true">한눈에</button><button type="button" role="tab" data-tab="strategy" aria-selected="false">전략 비교</button><button type="button" role="tab" data-tab="manage" aria-selected="false">기록·관리</button></nav>
-      <div class="pf-tabpanel" role="tabpanel" data-panel="home"><div id="pf-home" class="pf-st"></div><section class="pf-sec pf-foldsec"><details class="pf-fold"><summary id="pf-h-principles">투자 원칙</summary><div id="pf-principles"></div></details></section><section class="pf-sec pf-foldsec"><details class="pf-fold"><summary id="pf-h-watch">관심 종목</summary><div class="pf-scroll"><table class="pf-table" id="pf-watch"></table></div></details></section></div>
-      <div class="pf-tabpanel" role="tabpanel" data-panel="strategy" hidden><section class="pf-sec" aria-labelledby="pf-h-strategy"><h2 id="pf-h-strategy">전략 비교 <small>모의 운용 · 공개 일별 기록으로 계산</small></h2><div id="pf-strategy" class="pf-st"></div></section></div>
-      <div class="pf-tabpanel" role="tabpanel" data-panel="manage" hidden>
-        <section class="pf-sec" aria-labelledby="pf-h-manage"><h2 id="pf-h-manage">기록·관리</h2><div id="pf-manage" class="pf-st"></div></section>
-        <section class="pf-sec" aria-labelledby="pf-h-holdings"><h2 id="pf-h-holdings">올린 보유 <small id="pf-holdings-asof"></small></h2><p class="pf-note" id="pf-holdings-note"></p><div class="pf-scroll"><table class="pf-table" id="pf-holdings"></table></div></section>
-        <section class="pf-sec" aria-labelledby="pf-h-scen"><h2 id="pf-h-scen">모의 운용 메모 <small>올린 데이터의 손으로 적은 기록</small></h2><div id="pf-scenarios"></div></section>
-        <section class="pf-sec pf-upload-sec" aria-labelledby="pf-h-upload"><h2 id="pf-h-upload">데이터 올리기</h2><p class="pf-note">JSON 파일(형식: <code>pipeline/portfolio/sample.json</code>)은 원칙·올린 보유·관심 종목을 통째로 바꿉니다. CSV·Excel은 "올린 보유"만 바꿉니다: Robinhood 거래 내역 CSV를 올리면 보유·평균 단가·현금을 계산하고, 보유 표(Ticker·Quantity·Avg Price 열, 현금은 티커 CASH 줄)는 그대로 옮깁니다. 전략 비교와 실제 매매 기록은 바뀌지 않습니다. 파일을 고르면 무엇이 바뀌는지 먼저 보여 주고, "이대로 올리기"를 눌러야 저장됩니다.</p><label class="pf-file">파일 고르기<input type="file" id="pf-upload" accept="application/json,.json,text/csv,.csv,.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"></label><p class="pf-note" id="pf-upload-msg" role="status" aria-live="polite"></p><div class="pf-row pf-st" id="pf-upload-confirm" hidden><button type="button" class="pf-btn" id="pf-upload-ok">이대로 올리기</button><button type="button" class="pf-btn pf-btn-quiet" id="pf-upload-cancel">취소</button></div></section>
+      <div class="pf-tabbar"><nav class="pf-tabs" role="tablist" aria-label="Portfolio 하위 탭"><button type="button" role="tab" data-tab="home" aria-selected="true">한눈에</button><button type="button" role="tab" data-tab="strategy" aria-selected="false">전략 비교</button><button type="button" role="tab" data-tab="manage" aria-selected="false">기록·관리</button></nav><button type="button" class="pf-btn pf-tradeopen" id="pf-trade-open">＋ 매매 기록</button></div>
+      <div class="pf-tabpanel" role="tabpanel" data-panel="home"><div id="pf-home" class="pf-st"></div><div class="pf-folds"><details class="pf-foldcard"><summary id="pf-h-principles">나의 투자 원칙</summary><div id="pf-principles"></div></details><details class="pf-foldcard"><summary id="pf-h-watch">관심 종목</summary><div class="pf-scroll"><table class="pf-table" id="pf-watch"></table></div></details></div></div>
+      <div class="pf-tabpanel" role="tabpanel" data-panel="strategy" hidden><div id="pf-strategy" class="pf-st"></div></div>
+      <div class="pf-tabpanel" role="tabpanel" data-panel="manage" hidden><div id="pf-manage" class="pf-st"></div></div>
+      <p class="pf-notice pf-notice-end">모의 운용입니다. 판정은 수익 예측이 검증된 신호가 아닙니다. 카드 목록은 직접 고른 종목이라 결과를 일반화할 수 없습니다. 배당·세금·환율·큰 사건 예외 제외.</p>
+      <!-- 기록·관리 탭의 데이터 관리 칸이 옮겨 쓰는 요소(preview-only-portfolio-records.js). id로 채우고 이벤트를 다는 것은 preview-only-portfolio.js -->
+      <div id="pf-static" hidden>
+        <div id="pf-upwrap" class="pf-st"><label class="pf-file">파일 고르기<input type="file" id="pf-upload" accept="application/json,.json,text/csv,.csv,.xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"></label><p class="pf-note" id="pf-upload-msg" role="status" aria-live="polite"></p><div class="pf-row pf-st" id="pf-upload-confirm" hidden><button type="button" class="pf-btn" id="pf-upload-ok">이대로 올리기</button><button type="button" class="pf-btn pf-btn-quiet" id="pf-upload-cancel">취소</button></div></div>
+        <div id="pf-holdwrap"><p class="pf-note" id="pf-holdings-asof"></p><p class="pf-note" id="pf-holdings-note"></p><div class="pf-scroll"><table class="pf-table" id="pf-holdings"></table></div></div>
+        <div id="pf-scenarios"></div>
       </div>
     </div>
   </main>
   <footer><strong>◧ US stock 가치를 말하다</strong><p>기업의 숫자와 사업을 함께 읽습니다.</p><small>이 페이지의 내 데이터는 GitHub에 올라가지 않습니다. 정해 둔 내 계정만 읽을 수 있습니다.</small><a href="index.html">전체 종목 보기 ↗</a></footer>
-  <script type="module" src="preview-only-portfolio.js?v=34"></script>
+  <script type="module" src="preview-only-portfolio.js?v=35"></script>
 </body>
 </html>

@@ -305,3 +305,19 @@ test('기록 목록: 매매·입금·스냅샷·올린 보유를 최신순으로
   // 끝낸 묶음이면 입금·스냅샷은 목록에 없다
   assert.deepEqual(timelineItems({ trades: {}, cur: { skipped: [], future: [], clipped: [] }, bundle: { ...bundle, closed: {} }, holdings: {}, now: 0, etDate }), []);
 });
+
+import { nextAction } from '../../preview-only-portfolio-home.js';
+
+test('다음 할 일: 다음 회차·결정 대기·회차 끝·첫 점검 대기', () => {
+  assert.equal(nextAction(null), null);
+  assert.match(nextAction({ plan: null }).title, /첫 점검일/);
+  const rounds = [{ date: '2026-12-01' }, { date: '2026-12-08' }, { date: '2026-12-15' }, { date: '2026-12-22' }];
+  const plan = { rounds, candidates: ['BBB', 'EEE'] };
+  const steps = [{ state: 'done' }, { state: 'done' }, { state: 'skip' }, { state: 'todo' }, { state: 'todo' }];
+  const a = nextAction({ plan, steps, next: rounds[2], stale: false });
+  assert.equal(a.title, '12월 15일, 3번째 나눠 사기');
+  assert.equal(a.sub, '살 후보 BBB · EEE · 4회 중 2회 진행');
+  assert.deepEqual([a.done, a.total], [2, 4]);
+  assert.equal(nextAction({ plan, steps, next: null, stale: true }).title, '이번 달 결정 대기');
+  assert.match(nextAction({ plan: { rounds, candidates: [] }, steps, next: null, stale: false }).sub, /살 후보 없음 · 다음 점검/);
+});

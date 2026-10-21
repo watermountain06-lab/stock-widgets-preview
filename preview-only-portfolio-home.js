@@ -4,9 +4,9 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, STRATEGY, REASON, FIXED_NOTICE, waitText } from './preview-only-portfolio-strategy.js?v=15';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=3';
-import { renderManage } from './preview-only-portfolio-records.js?v=2';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=15';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=4';
+import { renderManage } from './preview-only-portfolio-records.js?v=3';
 import { ENGINE_VERSION, depositTiming } from './preview-only-portfolio-engine.js?v=2';
 import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=7';
 
@@ -146,31 +146,84 @@ export function renderHome(root, model, handlers) {
   const losses = lossAlerts(cur.holdings, close);
   const lossOf = new Map(losses.map((l) => [l.ticker, l]));
 
-  // 1) 내 자산 | 실제 매매 기록
-  const top = el('section', 'pf-panel pf-grid2');
-  const left = el('div');
-  left.appendChild(el('div', 'pf-eyebrow', 'MY ASSETS'));
-  left.appendChild(el('h2', 'pf-h2', '내 자산'));
+  // 2026-10-21 최종 시안(Claude 안 + ChatGPT 안): 자산 요약 띠 → 왼쪽(다음 할 일·보유 자산) | 오른쪽(이번 달 운용·전략과 나란히).
+  // 경고 문구는 페이지 맨 아래 한 번(html), 매매 기록 양식은 탭 줄의 "＋ 매매 기록"이 여는 창(어느 탭에서나).
+  // 색은 종목에 고정: 7자리를 내 보유 평가액 큰 순으로 먼저 채우고, 남는 자리를 전략 보유 합산 큰 순으로 채운다
   let total = cur.cash, missing = [];
   for (const x of cur.holdings) { const c = close(x.ticker); if (c == null) missing.push(x.ticker); else total += x.qty * c; }
-  const hero = el('div', 'pf-hero');
-  const heroL = el('div');
-  heroL.appendChild(el('div', 'pf-big', cur.holdings.length || cur.hasCash ? usd(total) : '—'));
-  const sub = el('p', 'pf-sub');
-  sub.textContent = cur.holdings.length || cur.hasCash
-    ? (cur.hasCash ? `현금 ${usd0(cur.cash)}` : '현금 모름(올린 보유에 현금 줄 없음, 합계에서 뺌)') + ` · ${cur.holdings.length}종목`
-      + (lastFull ? ` · ${md(lastFull.session)} 종가 기준` : '') + (missing.length ? ` · 가격 없음 ${missing.join(', ')}(합계는 가격 있는 것만)` : '')
-    : '아직 올린 보유가 없습니다. 기록·관리 탭에서 데이터를 올리세요.';
-  heroL.appendChild(sub);
-  hero.appendChild(heroL);
-  // 색은 종목에 고정(아래 전략 도넛과 같은 색): 7자리를 내 보유 평가액 큰 순으로 먼저 채우고, 남는 자리를 전략 보유 합산 큰 순으로 채운다
   const myVal = new Map(cur.holdings.map((x) => { const c = close(x.ticker); return [x.ticker, c == null ? 0 : x.qty * c]; }));
   const simW = new Map();
   for (const sc of model.result?.scenarios || []) if (sc.started) for (const t of Object.keys(sc.holdings)) { const c = close(t); simW.set(t, (simW.get(t) || 0) + (c == null ? 0 : sc.holdings[t] * c)); }
   const byVal = (m) => [...m.entries()].filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([t]) => t);   // 가격 없는 종목은 색 자리를 받지 않는다
   const named = [...new Set([...byVal(myVal), ...byVal(simW)])].slice(0, SLOTS).sort();
-  const hasOther = new Set([...myVal.keys(), ...simW.keys()]).size > SLOTS;
   const color = (t) => (t === '현금' ? 'var(--pf-cash)' : named.includes(t) ? `var(--pf-k${named.indexOf(t) + 1})` : 'var(--pf-other)');
+  const has = cur.holdings.length || cur.hasCash;
+  const real = model.result?.scenarios?.find((s) => s.id === 'REAL');
+  const rs = real ? summarize(real) : null;
+
+  // 매매 기록 창: 탭 줄의 "＋ 매매 기록"(html #pf-trade-open)과 아래 "후보로 매수 기록"이 연다
+  const dlg = tradeDialog(model, handlers, recs, mv, today);
+  const openBtn = document.getElementById('pf-trade-open');
+  if (openBtn) openBtn.onclick = () => dlg.open();
+
+  // 1) 자산 요약 띠
+  const band = el('section', 'pf-panel pf-band');
+  const cell = (k, v, sub, cls) => { const d = el('div', 'pf-bandcell'); d.appendChild(el('div', 'pf-k', k)); d.appendChild(el('div', 'pf-v' + (cls ? ' ' + cls : ''), v)); if (sub) d.appendChild(el('div', 'pf-s', sub)); band.appendChild(d); };
+  cell('내 자산', has ? usd0(total) : '—', !has ? '기록·관리 탭에서 보유를 올리세요'
+    : (cur.hasCash ? `주식 ${usd0(total - cur.cash)} · 현금 ${usd0(cur.cash)}` : '현금 모름(올린 보유에 현금 줄 없음)') + (missing.length ? ` · 가격 없음 ${missing.join(', ')}` : ''));
+  cell('시작 뒤 수익률', rs?.twr != null ? pct(rs.twr) : '—', rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
+  cell('SPY 대비', rs?.vs?.SPY != null ? pp(rs.vs.SPY) : '—', lastFull ? `${md(lastFull.session)} 종가 기준` : '');
+  root.appendChild(band);
+
+  const grid = el('div', 'pf-homegrid');
+  const left = el('div', 'pf-homecol pf-homemain'), right = el('div', 'pf-homecol pf-homeside');
+
+  // 2) 이번 달, 다음 할 일
+  const next = el('section', 'pf-panel pf-next');
+  const na = nextAction(mv);
+  const nh = el('div', 'pf-nexthead');
+  const nt = el('div');
+  nt.appendChild(el('div', 'pf-eyebrow2', '이번 달, 다음 할 일'));
+  nt.appendChild(el('h2', 'pf-nexttitle', na ? na.title : !model.bundle || model.bundle.closed ? '전략 비교를 시작하세요' : '원칙 계산 출발 대기'));
+  nt.appendChild(el('p', 'pf-sub', na ? na.sub : !model.bundle || model.bundle.closed
+    ? '기록·관리 탭에서 시작 스냅샷을 정하면 매달 점검일 결정과 회차 진행이 여기에 보입니다.'
+    : '시작 스냅샷의 종목에 모두 그날 가격이 있어야 출발합니다(전략 비교 탭의 출발 대기 이유를 보세요).'));
+  nh.appendChild(nt);
+  const cands = mv?.plan && !mv.stale ? mv.plan.candidates : [];
+  const buyBtn = el('button', 'pf-btn', cands.length ? '후보로 매수 기록' : '매매 기록'); buyBtn.type = 'button';
+  buyBtn.addEventListener('click', () => dlg.open(cands[0]));
+  nh.appendChild(buyBtn);
+  next.appendChild(nh);
+  if (na && na.total) {
+    const seg = el('div', 'pf-segs'); seg.setAttribute('role', 'img'); seg.setAttribute('aria-label', `${na.total}회 중 ${na.done}회 진행`);
+    for (const s of mv.steps.slice(1)) seg.appendChild(el('span', 'pf-seg-' + s.state));
+    next.appendChild(seg);
+  }
+  for (const l of losses) {
+    const w = el('div', 'pf-lossline');
+    w.appendChild(el('strong', null, '손실 알림'));
+    w.appendChild(el('span', null, ` ${l.ticker} 평균 단가 대비 ${dropText(l.drop)} · 자동으로 팔지 않습니다(원칙 9). 판정과 함께 직접 판단하세요.`));
+    next.appendChild(w);
+  }
+  // 이번 달(미국 동부) 기록한 입금 중 효력 있는 취소(반영일 09:30 ET 전)를 뺀 것 — 엔진·기록·관리 탭과 같은 기준
+  const month = today.slice(0, 7);
+  const allDeps = Object.entries(model.bundle?.deposits || {});
+  const gone = new Set(allDeps.filter(([, c]) => c.cancels).filter(([, c]) => {
+    const dep = model.bundle.deposits[c.cancels]; if (!dep || dep.cancels) return false;
+    const t = depositTiming(dep.recordedAt); return t.day && Date.parse(c.recordedAt) < t.cancelBefore;
+  }).map(([, c]) => c.cancels));
+  const deps = allDeps.filter(([id, d]) => !d.cancels && !gone.has(id) && d.recordedAt && etDate(Date.parse(d.recordedAt)).slice(0, 7) === month).map(([, d]) => d);
+  const stats = el('div', 'pf-nextstats');
+  const stat = (k, v) => { const s = el('span', null, k + ' '); s.appendChild(el('strong', null, v)); stats.appendChild(s); };
+  stat('매도 검토', mv && mv.plan && !mv.stale ? mv.alerts.length + '건' : '—');
+  stat('이번 달 입금', deps.length ? usd0(deps.reduce((a, d) => a + d.amount, 0)) : '없음');
+  stat('마지막 기록', last ? md(last.session) : '없음');
+  next.appendChild(stats);
+  left.appendChild(next);
+
+  // 3) 보유 자산(비중 막대 + 접는 목록)
+  const hold = el('section', 'pf-panel');
+  const hh = el('h2', 'pf-h2s', '보유 자산 '); hh.appendChild(el('small', null, `${cur.holdings.length}종목`)); hold.appendChild(hh);
   const mine = new Map();
   for (const x of cur.holdings) { const v = myVal.get(x.ticker); if (!v) continue; const k = named.includes(x.ticker) ? x.ticker : '기타'; mine.set(k, (mine.get(k) || 0) + v); }
   // 조각 순서: 평가액 큰 순, 기타·현금은 끝
@@ -179,9 +232,7 @@ export function renderHome(root, model, handlers) {
   if (cur.hasCash && cur.cash > 0) myParts.push(['현금', cur.cash]);
   const myTot = myParts.reduce((a, [, v]) => a + v, 0);
   const share = (v, tot) => { const p = (v / tot) * 100; return p > 0 && p < 1 ? '<1%' : Math.round(p) + '%'; };
-  left.appendChild(hero);
   if (myTot > 0) {
-    // 비중 막대 한 줄 + 범례 한 줄(종목 목록은 아래에서 접고 편다)
     const bar = el('div', 'pf-mix'); bar.setAttribute('role', 'img');
     bar.setAttribute('aria-label', '보유 비중: ' + myParts.map(([t, v]) => `${t} ${share(v, myTot)}`).join(', '));
     const leg = el('ul', 'pf-legend pf-mixleg');
@@ -191,12 +242,12 @@ export function renderHome(root, model, handlers) {
       seg.title = `${t} ${p} · ${usd0(v)}`; bar.appendChild(seg);
       const li = el('li'); const sw = el('i'); sw.style.background = seg.style.background; li.appendChild(sw); li.appendChild(el('span', null, `${t} ${p}`)); leg.appendChild(li);
     }
-    left.appendChild(bar); left.appendChild(leg);
-  }
+    hold.appendChild(bar); hold.appendChild(leg);
+  } else if (!has) hold.appendChild(el('p', 'pf-note', '아직 올린 보유가 없습니다. 기록·관리 탭의 "보유 파일 올리기"로 올리세요.'));
   const fold = el('details', 'pf-holdfold');
   try { fold.open = sessionStorage.getItem('pf-holds-open') === '1'; } catch (_) { /* 기억 못 해도 접힌 채로 */ }
   fold.addEventListener('toggle', () => { try { sessionStorage.setItem('pf-holds-open', fold.open ? '1' : '0'); } catch (_) { /* 무시 */ } });
-  fold.appendChild(el('summary', null, `보유 종목 보기 (${cur.holdings.length})`));
+  fold.appendChild(el('summary', null, `보유 종목 ${cur.holdings.length}개 보기 · 판정·평균 단가·평가액`));
   // 펼친 목록은 평가액 큰 순(가격 없는 종목은 끝), 10종목 넘으면 나머지는 한 번 더 접는다(사용자 결정 10-20)
   const list = el('div', 'pf-holds');
   const sorted = cur.holdings.slice().sort((a, b) => (myVal.get(b.ticker) || 0) - (myVal.get(a.ticker) || 0) || (a.ticker < b.ticker ? -1 : 1));
@@ -221,55 +272,50 @@ export function renderHome(root, model, handlers) {
     (more || list).appendChild(row);
   });
   fold.appendChild(list);
-  if (cur.holdings.length) left.appendChild(fold);
-  // 목록이 접혀 있어도 보이게 위에 한 줄로 알린다
-  if (losses.length) left.insertBefore(el('p', 'pf-warn', `⚠ 손실 한도(원칙 9): ${losses.map((l) => l.ticker + ' ' + dropText(l.drop)).join(', ')} — 평균 단가보다 ${Math.round(LOSS_LIMIT * 100)}% 이상 내렸습니다. 자동으로 팔지 않습니다. 판정과 함께 직접 판단하세요.`), fold);
-  if (cur.hasCash && cur.cash < 0) left.appendChild(el('p', 'pf-warn', `⚠ 현금이 ${usd0(cur.cash)}입니다. 빠진 입금이나 잘못 적은 매수가 없는지 확인하세요(막대는 현금을 빼고 그립니다).`));
-  if (cur.clipped.length) left.appendChild(el('p', 'pf-warn', `⚠ 보유보다 많이 판 기록 ${cur.clipped.length}건(${cur.clipped.map((c) => c.ticker + ' ' + shares(c.short) + '주').join(', ')})은 가진 만큼만 반영했습니다. 올린 보유나 빠진 매수 기록을 확인하세요.`));
-  if (h.asOf) left.appendChild(el('p', 'pf-note', `올린 보유 ${h.asOf} + 그 뒤 기록한 매매 ${cur.applied.length}건` + (depIn.length ? ` + 입금 ${depIn.length}건(오늘 반영분 포함)` : '')
+  if (cur.holdings.length) hold.appendChild(fold);
+  if (cur.hasCash && cur.cash < 0) hold.appendChild(el('p', 'pf-warn', `⚠ 현금이 ${usd0(cur.cash)}입니다. 빠진 입금이나 잘못 적은 매수가 없는지 확인하세요(막대는 현금을 빼고 그립니다).`));
+  if (cur.clipped.length) hold.appendChild(el('p', 'pf-warn', `⚠ 보유보다 많이 판 기록 ${cur.clipped.length}건(${cur.clipped.map((c) => c.ticker + ' ' + shares(c.short) + '주').join(', ')})은 가진 만큼만 반영했습니다. 올린 보유나 빠진 매수 기록을 확인하세요.`));
+  if (h.asOf) hold.appendChild(el('p', 'pf-note', `올린 보유 ${h.asOf} + 그 뒤 기록한 매매 ${cur.applied.length}건` + (depIn.length ? ` + 입금 ${depIn.length}건(오늘 반영분 포함)` : '')
     + (cur.future.length ? ` (미래 날짜 ${cur.future.length}건은 그날부터)` : '')));
-  top.appendChild(left);
-  top.appendChild(tradeForm(model, handlers, recs, mv, today));
-  root.appendChild(top);
+  left.appendChild(hold);
 
-  // 2) 이번 달 할 일(가로 한 줄)
-  const tsec = el('section', 'pf-panel pf-todosec');
-  const head = el('div', 'pf-todohead');
-  const ht = el('div'); ht.appendChild(el('div', 'pf-eyebrow', 'THIS MONTH')); ht.appendChild(el('h2', 'pf-h2', '이번 달 할 일'));
-  head.appendChild(ht);
-  const right = el('div', 'pf-todos');
-  const todo = (a, b) => { const d = el('div', 'pf-todo'); d.appendChild(el('span', null, a)); d.appendChild(el('b', null, b)); right.appendChild(d); };
-  todo('다음 회차', !mv ? '시나리오 없음' : mv.stale ? '이번 달 결정 대기' : mv.next ? md(mv.next.date) : '다음 달 1일 점검');
-  todo('매도 검토 알림', mv && mv.plan && !mv.stale ? `${mv.alerts.length}건${mv.alerts.length ? ' ⚠' : ''}` : '—');
-  // 이번 달(미국 동부) 기록한 입금 중 효력 있는 취소(반영일 09:30 ET 전)를 뺀 것 — 엔진·기록·관리 탭과 같은 기준
-  const month = today.slice(0, 7);
-  const allDeps = Object.entries(model.bundle?.deposits || {});
-  const gone = new Set(allDeps.filter(([, c]) => c.cancels).filter(([, c]) => {
-    const dep = model.bundle.deposits[c.cancels]; if (!dep || dep.cancels) return false;
-    const t = depositTiming(dep.recordedAt); return t.day && Date.parse(c.recordedAt) < t.cancelBefore;
-  }).map(([, c]) => c.cancels));
-  const deps = allDeps.filter(([id, d]) => !d.cancels && !gone.has(id) && d.recordedAt && etDate(Date.parse(d.recordedAt)).slice(0, 7) === month).map(([, d]) => d);
-  todo('이번 달 입금', deps.length ? usd0(deps.reduce((a, d) => a + d.amount, 0)) + ' 기록' : '아직 없음');
-  todo('마지막 기록', last ? md(last.session) : '없음');
-  const go = el('button', 'pf-btn pf-btn-quiet', '＋ 입금 기록'); go.type = 'button';
-  go.addEventListener('click', () => handlers.goto('manage'));
-  head.appendChild(go);
-  tsec.appendChild(head);
-  tsec.appendChild(right);
-  root.appendChild(tsec);
-
-  // 3) 이번 달 운용
-  root.appendChild(monthPanel(mv, model, lastFull, handlers));
-  // 4) 전략 비교 도넛
-  root.appendChild(donutPanel(model, lastFull, close, handlers, color, named, hasOther));
-  root.appendChild(el('p', 'pf-notice', '모의 운용입니다. 판정은 수익 예측이 검증된 신호가 아닙니다. 카드 목록은 직접 고른 종목이라 결과를 일반화할 수 없습니다. 배당·세금·환율·큰 사건 예외 제외.'));
+  // 4) 이번 달 운용(오른쪽, 짧게)
+  right.appendChild(planPanel(mv, model, lastFull));
+  // 5) 전략과 나란히(내 실제 계좌·1위·A)
+  right.appendChild(miniRank(model, handlers));
+  grid.appendChild(left); grid.appendChild(right);
+  root.appendChild(grid);
 }
 
-function tradeForm(model, handlers, recs, mv, today) {
+const kday = (d) => (d ? `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일` : '');
+// 다음 할 일 카드의 제목·설명과 회차 진행(순수 함수, 시험이 부른다). mv = monthView 결과
+export function nextAction(mv) {
+  if (!mv) return null;
+  if (!mv.plan) return { title: '첫 점검일을 기다리는 중', sub: '매달 1일(휴장이면 다음 거래일)에 살 후보를 정하고 나눠 삽니다.', done: 0, total: 0 };
+  const rounds = mv.plan.rounds, total = rounds.length;
+  const done = mv.steps.slice(1).filter((s) => s.state !== 'todo').length;
+  const cands = mv.plan.candidates.length ? mv.plan.candidates.join(' · ') : '없음';
+  if (mv.stale) return { title: '이번 달 결정 대기', sub: '점검일 정보가 오면 살 후보를 정합니다. 회차 막대는 지난달 계획입니다.', done, total };
+  if (mv.next) return { title: `${kday(mv.next.date)}, ${rounds.indexOf(mv.next) + 1}번째 나눠 사기`, sub: `살 후보 ${cands} · ${total}회 중 ${done}회 진행`, done, total };
+  return { title: '이번 달 회차 끝', sub: `살 후보 ${cands} · 다음 점검은 다음 달 1일(휴장이면 다음 거래일)`, done, total };
+}
+
+// 매매 기록 창(<dialog>). 한 페이지에 하나만 두고 그릴 때마다 내용을 바꾼다. open(ticker)는 그 종목·매수로 채워 연다
+function tradeDialog(model, handlers, recs, mv, today) {
+  let dlg = document.getElementById('pf-tradedlg');
+  if (!dlg) { dlg = el('dialog', 'pf-dialog'); dlg.id = 'pf-tradedlg'; dlg.setAttribute('aria-labelledby', 'pf-tradedlg-h'); document.body.appendChild(dlg); }
+  dlg.textContent = '';
+  const box = tradeForm(model, handlers, recs, mv, today, () => dlg.close());
+  const x = el('button', 'pf-btn pf-btn-quiet pf-dlgclose', '닫기'); x.type = 'button'; x.addEventListener('click', () => dlg.close());
+  box.insertBefore(x, box.firstChild);
+  dlg.appendChild(box);
+  return { open: (ticker) => { box.fill?.(ticker); if (!dlg.open) dlg.showModal?.(); } };
+}
+
+function tradeForm(model, handlers, recs, mv, today, done) {
   const box = el('div', 'pf-tradebox');
-  box.appendChild(el('div', 'pf-eyebrow', 'MY TRADES'));
-  box.appendChild(el('h2', 'pf-h2', '실제 매매 기록'));
-  box.appendChild(el('p', 'pf-note', '실제로 사고판 것을 적으면 내 자산의 보유 수량·평균 단가·현금에 바로 반영되고, 전략 비교의 "내 실제 계좌" 줄에도 들어갑니다(시작일 뒤 날짜, 그날 일별 기록이 나온 뒤부터). 잘못 적었으면 기록·관리 탭에서 고치거나 지웁니다.'));
+  const hd = el('h2', 'pf-h2', '실제 매매 기록'); hd.id = 'pf-tradedlg-h'; box.appendChild(hd);
+  box.appendChild(el('p', 'pf-note', '실제로 사고판 것을 적으면 내 자산과 전략 비교의 "내 실제 계좌" 줄에 들어갑니다. 잘못 적었으면 기록·관리 탭에서 고치거나 지웁니다.'));
   const f = el('div', 'pf-form pf-tradeform');
   const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
   const date = field('날짜(체결일, 미국 동부)', el('input')); date.type = 'date';
@@ -299,193 +345,86 @@ function tradeForm(model, handlers, recs, mv, today) {
     const bad = checkTrade(x, etDate(Date.now()));
     if (bad) throw new Error(bad);
     await handlers.trade(x);
+    done?.();
   }, f);
   box.appendChild(f);
+  box.fill = (t) => { if (t) { tick.value = t; side.value = 'buy'; } };
   return box;
 }
 
-function monthPanel(mv, model, last, handlers) {
-  const sec = el('section', 'pf-panel');
-  if (!mv || !mv.plan) {
-    sec.appendChild(el('div', 'pf-eyebrow', 'THIS MONTH'));
-    sec.appendChild(el('h2', 'pf-h2', '이번 달 운용'));
-    sec.appendChild(el('p', 'pf-note', !model.bundle || model.bundle.closed
-      ? '전략 비교를 시작하면(기록·관리 탭의 시작 스냅샷) 매달 점검일 결정과 회차 진행이 여기에 보입니다.'
-      : !mv ? '원칙 계산이 아직 출발하지 못했습니다. 시작 스냅샷의 종목에 모두 그날 가격이 있어야 출발합니다(전략 비교 탭의 출발 대기 이유를 보세요).'
-        : '첫 점검일(매달 1일, 휴장이면 다음 거래일)을 기다리는 중입니다.'));
-    if (!model.bundle || model.bundle.closed || !mv) {
-      const b = el('button', 'pf-btn pf-btn-quiet', '기록·관리로'); b.type = 'button'; b.addEventListener('click', () => handlers.goto('manage')); sec.appendChild(b);
-    }
-    return sec;
-  }
-  const { plan, scenario } = mv;
-  sec.appendChild(el('div', 'pf-eyebrow', `${md(plan.decisionDate)} 점검일 결정 · ${label(scenario, model.byId)}`));
-  const h = el('h2', 'pf-h2', mv.stale ? '지난달 계획 ' : '이번 달 운용 ');
-  h.appendChild(el('small', null, `매달 1일 정하고 ${plan.rounds.length}번에 나눠 삽니다` + (scenario.id === '__plan' ? ' · 원칙 기준(유보 0%, 매도는 알림만)' : '')));
-  sec.appendChild(h);
-  const steps = el('ol', 'pf-steps');
-  for (const s of mv.steps) {
-    const li = el('li', 'pf-step pf-step-' + s.state);
-    li.appendChild(el('i', null, { done: '✓', partial: '!', skip: '!', carry: '→', dropped: '–', todo: '' }[s.state]));
-    li.appendChild(el('span', null, s.label));
-    li.appendChild(el('small', null, md(s.date) + ({ partial: ' 일부 건너뜀', skip: ' 건너뜀', carry: ' 다음으로', dropped: ' 버림' }[s.state] || '')));
-    steps.appendChild(li);
-  }
-  sec.appendChild(steps);
-  if (mv.stale) sec.appendChild(el('p', 'pf-warn', '이번 달 점검일 결정이 아직 없습니다(정보 없음이면 다음 거래일로 미룸). 아래는 지난달 계획입니다.'));
+// 이번 달 운용(오른쪽 칸): 점검일 결정, 살 후보(실제로 산 수량), 매도 검토, 예산 사용
+function planPanel(mv, model, last) {
+  const sec = el('section', 'pf-panel pf-side');
+  const head = el('div', 'pf-sidehead'); head.appendChild(el('h2', 'pf-h2s', '이번 달 운용'));
+  sec.appendChild(head);
+  if (!mv || !mv.plan) { sec.appendChild(el('p', 'pf-note', '첫 점검일(매달 1일, 휴장이면 다음 거래일)에 원칙 기준 살 후보와 매도 검토가 여기에 보입니다.')); return sec; }
+  const { plan } = mv;
+  head.appendChild(el('span', 'pf-badge', `${md(plan.decisionDate)} 점검` + (mv.stale ? ' · 지난달' : '')));
   if (plan.ruleChanged) sec.appendChild(el('p', 'pf-note', '이번 달은 판정 방식이 바뀌어 매매하지 않습니다(바뀐 판정으로 매도가 생기지 않게).'));
-  sec.appendChild(el('h3', 'pf-h3', `살 후보 ${plan.candidates.length}종목`));
-  const cards = el('div', 'pf-cands');
-  const real = Object.values(model.trades || {});
-  const cancelled = new Set(real.filter((x) => x.cancels).map((x) => x.cancels));
-  const realBuys = Object.entries(model.trades || {}).filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.side === 'buy' && x.date >= plan.decisionDate && x.date.slice(0, 7) === plan.decisionDate.slice(0, 7)).map(([, x]) => x);
+  const row = (k) => { const d = el('div', 'pf-siderow'); d.appendChild(el('div', 'pf-k', k)); sec.appendChild(d); return d; };
+  const cr = row(`살 후보 ${plan.candidates.length}종목`);
+  const chips = el('div', 'pf-candchips');
+  const real = Object.entries(model.trades || {});
+  const cancelled = new Set(real.filter(([, x]) => x.cancels).map(([, x]) => x.cancels));
+  const realBuys = real.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.side === 'buy' && x.date >= plan.decisionDate && x.date.slice(0, 7) === plan.decisionDate.slice(0, 7)).map(([, x]) => x);
   for (const t of plan.candidates) {
-    const c = el('div', 'pf-cand');
-    const head = el('div'); head.appendChild(el('b', null, t + ' '));
-    const tier = last?.cards?.[t]?.tier; head.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tier] || 'pf-t-none'), tier || '—'));
-    c.appendChild(head);
-    const sim = scenario.trades.filter((x) => x.ticker === t && x.side === 'buy' && x.date >= plan.decisionDate).reduce((a, x) => a + x.amount, 0);
-    c.appendChild(el('div', 'pf-note', `원칙 기준 ${usd0(sim)} 매수`));
-    const mine = realBuys.filter((x) => x.ticker === t);
-    const q = mine.reduce((a, x) => a + x.qty, 0);
-    c.appendChild(el('div', 'pf-cand-real', mine.length ? `실제로 ${shares(q)}주 삼` : '실제 매수 기록 없음'));
-    cards.appendChild(c);
+    const tier = last?.cards?.[t]?.tier;
+    const q = realBuys.filter((x) => x.ticker === t).reduce((a, x) => a + x.qty, 0);
+    const c = el('span', 'pf-candchip', t); c.title = (tier || '판정 없음') + (q ? ` · 실제로 ${shares(q)}주 삼` : ' · 실제 매수 기록 없음');
+    if (q) c.appendChild(el('small', null, ` ${shares(q)}주`));
+    chips.appendChild(c);
   }
-  if (!plan.candidates.length) cards.appendChild(el('p', 'pf-note', '이번 달 살 후보가 없습니다(조건에 맞는 판정 없음).'));
-  sec.appendChild(cards);
+  if (!plan.candidates.length) chips.appendChild(el('span', 'pf-note', '조건에 맞는 판정 없음'));
+  cr.appendChild(chips);
+  const ar = row('매도 검토');
+  if (!mv.alerts.length) ar.appendChild(el('span', 'pf-note', '없음'));
+  for (const f of mv.alerts) ar.appendChild(el('div', 'pf-sideval', `${f.ticker} ${f.observed} · ` + (f.warnOnly ? '비율은 아직 정하지 않음(알림만)' : `${shares(f.shares)}주 나눠 매도`)));
   if (plan.budget > 0) {
-    sec.appendChild(el('div', 'pf-note', '이번 달 예산 사용(원칙 기준 모의)'));
+    const br = row('원칙 기준 예산 사용(모의)');
     const bar = el('div', 'pf-bar'), fill = el('span'); fill.style.width = Math.min(100, (mv.spent / plan.budget) * 100) + '%'; bar.appendChild(fill);
-    sec.appendChild(bar);
-    sec.appendChild(el('p', 'pf-note', `${usd0(mv.spent)} / ${usd0(plan.budget)}`));
+    br.appendChild(bar); br.appendChild(el('span', 'pf-note', `${usd0(mv.spent)} / ${usd0(plan.budget)}`));
   }
-  const al = el('div', 'pf-alerts');
-  for (const f of mv.alerts) al.appendChild(el('p', null, `⚠ ${f.ticker} ${f.observed} — 매도 검토` + (f.warnOnly ? '(원칙 2 비율 미정이라 알림만)' : ` · ${shares(f.shares)}주 나눠 매도`)));
-  if (!mv.alerts.length) al.appendChild(el('p', 'pf-note', '매도 검토 알림 없음'));
-  sec.appendChild(al);
+  return sec;
+}
+
+// 전략과 나란히: 내 실제 계좌, 1위(실제 계좌 제외), A — 누르면 전략 비교 탭으로
+function miniRank(model, handlers) {
+  const sec = el('section', 'pf-panel pf-side');
+  const head = el('div', 'pf-sidehead'); head.appendChild(el('h2', 'pf-h2s', '전략과 나란히'));
+  const go = el('button', 'pf-linkbtn', '전체'); go.type = 'button'; go.addEventListener('click', () => handlers.goto('strategy')); head.appendChild(go);
+  sec.appendChild(head);
+  const sc = (model.result?.scenarios || []).map((s) => ({ s, m: summarize(s) })).filter(({ m }) => m.twr != null);
+  if (!sc.length) { sec.appendChild(el('p', 'pf-note', '전략 비교가 출발하면 내 실제 계좌와 다른 전략의 수익률이 여기에 보입니다.')); return sec; }
+  const real = sc.find(({ s }) => s.id === 'REAL'), A = sc.find(({ s }) => s.id === 'A');
+  const top = sc.filter(({ s }) => s.id !== 'REAL').sort((a, b) => b.m.twr - a.m.twr)[0];
+  const rows = [real, top && top !== A ? { ...top, top: true } : null, A].filter(Boolean);
+  const max = Math.max(...rows.map(({ m }) => Math.abs(m.twr)), 0.0001);
+  for (const r of rows) {
+    const d = el('div', 'pf-minirow' + (r.s.id === 'REAL' ? ' pf-mine' : ''));
+    d.appendChild(el('span', null, label(r.s, model.byId) + (r.top ? ' (1위)' : '')));
+    d.appendChild(el('strong', null, pct(r.m.twr)));
+    const b = el('i'); const f = el('b'); f.style.width = Math.round((Math.abs(r.m.twr) / max) * 100) + '%'; b.appendChild(f); d.appendChild(b);
+    sec.appendChild(d);
+  }
   return sec;
 }
 
 const HOLD_SHOWN = 10;   // 펼친 보유 목록에 바로 보이는 종목 수
 const SLOTS = 7;   // 종목 색 7개(검증된 팔레트) + 현금 회색. 8번째 종목부터는 '기타'로 묶는다
-function donutPanel(model, last, close, handlers, color, named, hasOther) {
-  const sec = el('section', 'pf-panel');
-  sec.appendChild(el('div', 'pf-eyebrow', 'STRATEGY CHECK'));
-  const r = model.result;
-  const A = r?.scenarios?.find((s) => s.id === 'A');
-  const h = el('h2', 'pf-h2', '전략 비교 ');
-  if (A?.started) h.appendChild(el('small', null, `${md(A.started)} 시작 · ${A.days.filter((d) => d.date >= A.started).length - 1}거래일`));
-  sec.appendChild(h);
-  if (!r) {
-    sec.appendChild(el('p', 'pf-note', '전략 비교를 시작하면 전략마다 지금 들고 있는 종목과 수익률이 여기에 보입니다.'));
-    return sec;
-  }
-  sec.appendChild(el('p', 'pf-note', '모든 전략이 시작일의 같은 보유로 출발합니다(카드의 출발일). 도넛은 각 전략이 지금 들고 있는 종목과 현금의 비중, 가운데 숫자는 자기 출발일 뒤 수익률(TWR)이라 출발일이 다르면 기간도 다릅니다.'));
-  const started = r.scenarios.filter((s) => s.started);
-  const val = (s, t) => { const c = close(t); return c == null ? null : s.holdings[t] * c; };
-  const held = new Set(started.flatMap((s) => Object.keys(s.holdings)));
-  const leg = el('ul', 'pf-legend');
-  for (const t of [...named.filter((x) => held.has(x)), ...(hasOther ? ['기타'] : []), '현금']) {
-    const li = el('li'); const i = el('i'); i.style.background = color(t === '기타' ? '__other' : t); li.appendChild(i); li.appendChild(el('span', null, t)); leg.appendChild(li);
-  }
-  sec.appendChild(leg);
-  const grid = el('div', 'pf-scards');
-  const tip = el('div', 'pf-tip'); tip.hidden = true;
-  for (const s of r.scenarios) {
-    const card = el('div', 'pf-sc');
-    card.appendChild(el('div', 'pf-sc-name', label(s, model.byId)));
-    card.appendChild(el('div', 'pf-sc-kind', (s.id === 'A' ? '입금만 비중대로 적립' : STRATEGY[s.strategy] || '') + (s.started ? ` · ${md(s.started)} 출발` : '')));
-    if (!s.started) {
-      card.appendChild(el('p', 'pf-note', waitText(s)));
-      for (const w of s.warnings || []) card.appendChild(el('p', 'pf-warn', '⚠ ' + w));
-      grid.appendChild(card); continue;
-    }
-    const groups = new Map();
-    let unknown = false;
-    for (const t of Object.keys(s.holdings)) {
-      const v = val(s, t); if (v == null) { unknown = true; continue; }
-      const k = named.includes(t) ? t : '기타'; groups.set(k, (groups.get(k) || 0) + v);
-    }
-    // 조각 순서는 내 자산 막대와 같게: 평가액 큰 순, 기타·현금은 끝
-    const parts = [...groups.entries()].filter(([t, v]) => v > 0 && t !== '기타').sort((a, b) => b[1] - a[1]);
-    if (groups.get('기타') > 0) parts.push(['기타', groups.get('기타')]);
-    if (s.cash > 0) parts.push(['현금', s.cash]);
-    const tot = parts.reduce((a, [, v]) => a + v, 0);
-    const last1 = [...s.days].reverse().find((d) => d.date >= s.started) || {};
-    // 엔진이 마지막 날 평가를 못 했으면(분할 확인·가격 없음 등) 비중도 확정값처럼 보이지 않게 가운데를 '미확정'으로
-    const unvalued = s.halted || last1.value == null;
-    card.appendChild(donut(parts, tot, color, s.halted ? { v: '평가 불가', l: '수익률' } : last1.value == null ? { v: '미확정', l: '마지막 날 평가 없음' }
-      : { v: pct(last1.twr), l: '수익률', cls: last1.twr == null ? '' : last1.twr >= 0 ? 'pf-up' : 'pf-down' }, tip));
-    const top3 = parts.slice().sort((a, b) => b[1] - a[1]).slice(0, 3).map(([t, v]) => `${t} ${Math.round((v / tot) * 100)}%`).join(' · ');
-    card.appendChild(el('div', 'pf-note pf-sc-top', top3 + (unknown ? ' · 가격 없는 종목 뺌' : '') + (unvalued ? ' · 참고용(평가 미확정)' : '')));
-    const rows = el('div', 'pf-sc-rows');
-    const row = (a, b) => { const d = el('div'); d.appendChild(el('span', null, a)); d.appendChild(el('b', null, b)); rows.appendChild(d); };
-    row('평가액', last1.value == null ? '미확정' : usd0(last1.value));
-    row('SPY 대비', pp(last1.vs ? last1.vs.SPY : null));
-    row('체결 · 건너뜀', `${s.trades.length} · ${s.skips.filter((x) => x.action !== 'carried').length}`);
-    card.appendChild(rows);
-    if (s.halted) card.appendChild(el('p', 'pf-warn', `${s.halted.since}부터 평가 불가(${REASON[s.halted.reason] || s.halted.reason})`));
-    for (const w of s.warnings || []) card.appendChild(el('p', 'pf-warn', '⚠ ' + w));   // 내 실제 계좌: 보유 초과 매도·음수 현금
-    grid.appendChild(card);
-  }
-  sec.appendChild(grid);
-  sec.appendChild(tip);
-  const more = el('button', 'pf-btn pf-btn-quiet', '그래프·매매 기록 보기'); more.type = 'button';
-  more.addEventListener('click', () => handlers.goto('strategy'));
-  sec.appendChild(more);
-  return sec;
-}
 
-const SVG = 'http://www.w3.org/2000/svg';
-function donut(parts, tot, color, center, tip) {
-  const svg = document.createElementNS(SVG, 'svg');
-  svg.setAttribute('viewBox', '0 0 150 150'); svg.setAttribute('class', 'pf-donut');
-  svg.setAttribute('role', 'img');
-  svg.setAttribute('aria-label', '보유 구성: ' + parts.map(([t, v]) => `${t} ${Math.round((v / tot) * 100)}%`).join(', '));
-  const P = (r, a) => [75 + r * Math.sin(a), 75 - r * Math.cos(a)];
-  let a = 0;
-  for (const [t, v] of parts) {
-    const a0 = a, a1 = parts.length === 1 ? a + Math.PI * 2 - 1e-4 : a + (v / tot) * Math.PI * 2; a = a1;
-    const big = a1 - a0 > Math.PI ? 1 : 0, [x0, y0] = P(72, a0), [x1, y1] = P(72, a1), [x2, y2] = P(46, a1), [x3, y3] = P(46, a0);
-    const path = document.createElementNS(SVG, 'path');
-    path.setAttribute('d', `M${x0} ${y0}A72 72 0 ${big} 1 ${x1} ${y1}L${x2} ${y2}A46 46 0 ${big} 0 ${x3} ${y3}Z`);
-    path.setAttribute('fill', color(t === '기타' ? '__other' : t));
-    const text = `${t} ${Math.round((v / tot) * 100)}% · ${usd0(v)}`;
-    path.addEventListener('pointermove', (e) => {
-      tip.textContent = text; tip.hidden = false;
-      const box = tip.parentElement.getBoundingClientRect();
-      tip.style.left = Math.max(0, Math.min(e.clientX - box.left + 12, box.width - tip.offsetWidth - 4)) + 'px'; tip.style.top = e.clientY - box.top + 12 + 'px';
-    });
-    path.addEventListener('pointerleave', () => { tip.hidden = true; });
-    svg.appendChild(path);
-  }
-  const t1 = document.createElementNS(SVG, 'text');
-  t1.setAttribute('x', 75); t1.setAttribute('y', 78); t1.setAttribute('text-anchor', 'middle');
-  t1.setAttribute('class', 'pf-donut-v ' + (center.cls || ''));
-  t1.textContent = center.v;
-  const t2 = document.createElementNS(SVG, 'text');
-  t2.setAttribute('x', 75); t2.setAttribute('y', 96); t2.setAttribute('text-anchor', 'middle'); t2.setAttribute('class', 'pf-donut-l');
-  t2.textContent = center.l;
-  svg.appendChild(t1); svg.appendChild(t2);
-  return svg;
-}
-
-// 기록·관리 탭의 실제 매매 기록 목록(취소 포함)
 // 세 하위 탭(한눈에·전략 비교·기록·관리)을 한 번에 그린다. preview-only-portfolio.js와 화면 시험 페이지가 같이 쓴다.
 // model = renderHome과 같음, smodel = { bundle, bundleNo, closedCount, records, recordsError, calcError, holdingsRows }
 export function renderTabs(roots, model, smodel, handlers) {
   renderHome(roots.home, model, handlers);
   const st = roots.strategy, { result } = model, recs = smodel.records || [];
   st.textContent = '';
-  st.appendChild(el('p', 'pf-note pf-fixed', FIXED_NOTICE));
   const lastRec = recs.length ? recs[recs.length - 1].session : null;
   if (smodel.recordsError) st.appendChild(el('p', 'pf-warn', '일별 기록을 불러오지 못했습니다. 새로고침해 보세요.'));
   else if (smodel.calcError) st.appendChild(el('p', 'pf-warn', '계산하지 못했습니다: ' + smodel.calcError));
   else if (!result && !(smodel.bundle && !smodel.bundle.closed)) st.appendChild(el('p', 'pf-note', '전략 비교를 시작하면(기록·관리 탭의 시작 스냅샷) 여기에 비교 표·그래프·매매 기록이 보입니다.'));
-  if (result && !smodel.recordsError && !smodel.calcError)
-    st.appendChild(el('p', 'pf-note', `큰 사건 예외를 뺀 정기 운용 모형 · 엔진 ${ENGINE_VERSION} · 마지막 기록 ${lastRec} · 빠진 날 ${result.missingSessions.length}일`));
-  // 순위·편집기·내 전략 카드·접은 표(2026-10-21 디자인 시안 선택 — -rank.js)
-  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : model, smodel, handlers);
+  // 순위·편집기·내 전략 카드·접은 표(2026-10-21 디자인 시안 선택 — -rank.js). 모형 설명은 순위 제목 옆 "?"에서 펼친다
+  const info = result ? `큰 사건 예외를 뺀 정기 운용 모형 · 엔진 ${ENGINE_VERSION} · 마지막 기록 ${lastRec} · 빠진 날 ${result.missingSessions.length}일` : '';
+  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : model, { ...smodel, info }, handlers);
   // 시작 폼 미리 채우기: 내 자산과 같은 계산으로 마지막 기록일까지(그 뒤 매매는 빼고)
   const hh = model.main?.holdings || {};
   const pc = currentHoldings(hh.rows, hh.asOf, model.trades, lastRec || etDate(model.now ?? Date.now()));

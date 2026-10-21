@@ -58,7 +58,7 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
   if (/^\d{4}-\d{2}-\d{2}/.test(asOf)) {
     const n = (holdings.rows || []).filter((r) => String(r.ticker || '').trim()).length;
     const cash = (holdings.rows || []).some((r) => !String(r.ticker || '').trim());
-    out.push({ kind: 'upload', id: 'upload', date: asOf.slice(0, 10), title: '올린 보유', detail: `${asOf} · ${n}종목${cash ? ' + 현금' : ''}`, amount: '', raw: null });
+    out.push({ kind: 'upload', id: 'upload', date: asOf.slice(0, 10), title: '보유 올림', detail: `${asOf} · ${n}종목${cash ? ' + 현금' : ''}`, amount: '', raw: null });
   }
   const order = { trade: 0, deposit: 1, snap: 2, upload: 3 };
   return out.sort((a, b) => (a.date !== b.date ? (a.date < b.date ? 1 : -1) : order[a.kind] - order[b.kind]));
@@ -66,135 +66,160 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
 
 // ---- 그리기 ----
 
-const KIND = { trade: '매매', deposit: '입금', snap: '스냅샷', upload: '올린 보유' };
+const KIND = { trade: '매매', deposit: '입금', snap: '시작 스냅샷', upload: '올린 보유' };
+const ICON = { trade: '↗', deposit: '+', snap: '≡', upload: '≡' };
+const FILTER = { all: ['전체', () => true], trade: ['매매', (x) => x.kind === 'trade'], deposit: ['입금', (x) => x.kind === 'deposit'], base: ['시작·보유', (x) => x.kind === 'snap' || x.kind === 'upload'] };
 const VIEW_KEY = 'pf-rec-view';
-const view = (() => { try { return { filter: 'all', form: false, kind: 'trade', ...JSON.parse(sessionStorage.getItem(VIEW_KEY) || '{}') }; } catch (_) { return { filter: 'all', form: false, kind: 'trade' }; } })();
+const view = (() => { try { return { filter: 'all', open: null, ...JSON.parse(sessionStorage.getItem(VIEW_KEY) || '{}') }; } catch (_) { return { filter: 'all', open: null }; } })();
 const keep = () => { try { sessionStorage.setItem(VIEW_KEY, JSON.stringify(view)); } catch (_) { /* 기억 못 해도 화면은 그대로 */ } };
 const btn = (text, cls) => { const b = el('button', cls || 'pf-btn pf-btn-quiet', text); b.type = 'button'; return b; };
 
 // mg = #pf-manage, h = { currentHoldings, checkTrade, etDate } (-home.js에서 넘긴다)
+// 2026-10-21 최종 시안: 왼쪽 "자산이 쌓인 기록"(줄마다 ⋯ 하나), 오른쪽 "데이터 관리" 목록(입금 추가·보유 파일 올리기·시작 스냅샷 고치기·
+// 올린 보유 표·모의 운용 메모)과 계산 방식·고급 관리 접기. 파일 올리기·올린 보유 표·메모는 html의 #pf-static에 있는 요소를 옮겨 쓴다
+// (preview-only-portfolio.js가 id로 채우고 이벤트를 단다).
 let latest = null;
 export function renderManage(mg, model, smodel, handlers, h) {
   latest = [mg, model, smodel, handlers, h];
   const draw = () => renderManage(...latest);   // 저장 뒤 늦게 부르는 닫기도 새로 받은 값으로 그린다
+  // 옮겨 쓰는 고정 요소는 지우기 전에 잡아 둔다
+  const upWrap = document.getElementById('pf-upwrap'), holdWrap = document.getElementById('pf-holdwrap'), memo = document.getElementById('pf-scenarios');
+  // 파일을 고른 뒤 확인을 기다리는 중이면 올리기 칸을 열어 둔다(지우기 전에 본다 — 지운 뒤엔 문서에서 찾을 수 없다)
+  const pendingUpload = !!upWrap && upWrap.querySelector('#pf-upload-confirm')?.hidden === false;
   mg.textContent = '';
   const b = smodel.bundle && !smodel.bundle.closed ? smodel.bundle : null;
   const lastRec = (smodel.records || []).at(-1)?.session || null;
-  if (!b) mg.appendChild(startForm(smodel, handlers, lastRec));
+  if (!b) { const s = el('section', 'pf-panel'); s.appendChild(startForm(smodel, handlers, lastRec)); mg.appendChild(s); }
   const now = model.now ?? Date.now(), today = h.etDate(now);
   const hold = model.main?.holdings || {};
   const cur = h.currentHoldings(hold.rows, hold.asOf, model.trades, today);
   const items = timelineItems({ trades: model.trades, cur, bundle: b, bundleNo: smodel.bundleNo, holdings: hold, now, etDate: h.etDate });
+  const grid = el('div', 'pf-recgrid');
 
-  const sec = el('div', 'pf-st-block pf-recs');
-  const head = el('div', 'pf-rankhead');
-  head.appendChild(el('h3', null, '모든 기록'));
-  const add = btn(view.form ? '닫기' : '＋ 기록 추가', 'pf-btn');
-  add.addEventListener('click', () => { view.form = !view.form; keep(); draw(); });
-  head.appendChild(add);
-  sec.appendChild(head);
-  if (view.form) sec.appendChild(addForm(b, handlers, h, today, draw));
-
-  const count = (k) => items.filter((x) => k === 'all' || x.kind === k).length;
-  const kinds = ['all', 'trade', 'deposit', 'snap'].filter((k) => k === 'all' || count(k));
-  if (!kinds.includes(view.filter)) view.filter = 'all';
-  const filters = el('div', 'pf-seg'); filters.setAttribute('role', 'group'); filters.setAttribute('aria-label', '보기');
-  for (const k of kinds) {
-    const f = btn(`${k === 'all' ? '전체' : KIND[k]} ${count(k)}`, 'pf-pill'); f.setAttribute('aria-pressed', String(view.filter === k));
+  // 왼쪽: 자산이 쌓인 기록
+  const sec = el('section', 'pf-panel pf-recs');
+  const t = el('div'); t.appendChild(el('h2', 'pf-h2q', '자산이 쌓인 기록')); t.appendChild(el('p', 'pf-sub', '매매·입금·시작 설정을 한곳에서. 새 매매는 위 "＋ 매매 기록"으로 적습니다.'));
+  sec.appendChild(t);
+  const keys = Object.keys(FILTER).filter((k) => k === 'all' || items.some(FILTER[k][1]));
+  if (!keys.includes(view.filter)) view.filter = 'all';
+  const filters = el('div', 'pf-seg pf-segbox'); filters.setAttribute('role', 'group'); filters.setAttribute('aria-label', '보기');
+  for (const k of keys) {
+    const f = btn(`${FILTER[k][0]} ${items.filter(FILTER[k][1]).length}`, 'pf-segbtn'); f.setAttribute('aria-pressed', String(view.filter === k));
     f.addEventListener('click', () => { view.filter = k; keep(); draw(); });
     filters.appendChild(f);
   }
   sec.appendChild(filters);
-
   const msg = msgLine();
   const list = el('div', 'pf-reclist');
-  const shown = items.filter((x) => view.filter === 'all' || x.kind === view.filter);
-  if (!shown.length) list.appendChild(el('p', 'pf-empty', '아직 기록이 없습니다. ＋ 기록 추가로 실제 매매나 입금을 적습니다.'));
+  const shown = items.filter(FILTER[view.filter][1]);
+  if (!shown.length) list.appendChild(el('p', 'pf-empty', '아직 기록이 없습니다. 위 "＋ 매매 기록"이나 오른쪽 "입금 추가"로 적습니다.'));
   for (const it of shown) {
     const row = el('div', 'pf-recrow');
     row.appendChild(el('span', 'pf-recdate', it.date || '—'));
-    row.appendChild(el('span', 'pf-recbadge pf-rb-' + it.kind, KIND[it.kind]));
-    const txt = el('span', 'pf-rectext'); txt.appendChild(el('strong', null, it.title)); txt.appendChild(el('small', null, it.detail)); row.appendChild(txt);
+    const ic = el('span', 'pf-recicon pf-rb-' + it.kind, ICON[it.kind]); ic.setAttribute('aria-hidden', 'true'); row.appendChild(ic);
+    const txt = el('span', 'pf-rectext'); txt.appendChild(el('strong', null, it.title)); txt.appendChild(el('small', null, (it.kind === 'trade' ? '매매 · ' : '') + it.detail)); row.appendChild(txt);   // 아이콘은 꾸밈이라 종류는 제목·설명 글로 읽힌다
     row.appendChild(el('strong', 'pf-recamt', it.amount));
-    const acts = el('span', 'pf-acts');
+    const more = btn('⋯', 'pf-more'); more.setAttribute('aria-label', `${it.title} 고치기·지우기`); more.setAttribute('aria-expanded', 'false');
+    row.appendChild(more);
     const edit = el('div', 'pf-edit'); edit.hidden = true;
-    const open = (fill) => { const was = !edit.hidden; list.querySelectorAll('.pf-edit').forEach((e) => { e.hidden = true; e.textContent = ''; }); if (was) return; edit.hidden = false; fill(edit); };
-    if (it.kind === 'trade') {
-      const fix = btn('고치기'); fix.addEventListener('click', () => open((box) => tradeEdit(box, it.id, it.raw, handlers, h)));
-      const del = btn('지우기'); twoStep(del, msg, `${it.title} 기록을 지웁니다. 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteTrade(it.id));
-      acts.appendChild(fix); acts.appendChild(del);
-    } else if (it.kind === 'deposit') {
-      const fix = btn('고치기'); fix.addEventListener('click', () => open((box) => depositEdit(box, it.id, it.raw, handlers)));
-      const del = btn('지우기'); twoStep(del, msg, '이 입금을 지웁니다(처음부터 다시 계산). 맞으면 지우기를 한 번 더 누르세요.', () => handlers.deleteDeposit(it.id));
-      acts.appendChild(fix); acts.appendChild(del);
-    } else if (it.kind === 'snap') {
-      const fix = btn('고치기'); fix.addEventListener('click', () => open((box) => box.appendChild(startForm(smodel, handlers, lastRec, it.raw))));
-      acts.appendChild(fix);
-    } else {
-      const go = btn('다시 올리기'); go.addEventListener('click', () => document.getElementById('pf-upload')?.closest('section')?.scrollIntoView?.({ block: 'start' }));
-      acts.appendChild(go);
-    }
-    row.appendChild(acts);
+    // ⋯ → 그 줄에 할 수 있는 일, 고치기를 누르면 그 자리에서 양식
+    const fill = (box) => {
+      const acts = el('div', 'pf-acts pf-edacts');
+      if (it.kind === 'trade') {
+        const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; tradeEdit(box, it.id, it.raw, handlers, h); });
+        const del = btn('지우기'); twoStep(del, msg, `${it.title} 기록을 지웁니다. 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteTrade(it.id));
+        acts.appendChild(fix); acts.appendChild(del);
+      } else if (it.kind === 'deposit') {
+        const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; depositEdit(box, it.id, it.raw, handlers); });
+        const del = btn('지우기'); twoStep(del, msg, '이 입금을 지웁니다(처음부터 다시 계산). 맞으면 지우기를 한 번 더 누르세요.', () => handlers.deleteDeposit(it.id));
+        acts.appendChild(fix); acts.appendChild(del);
+      } else if (it.kind === 'snap') {
+        const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; box.appendChild(startForm(smodel, handlers, lastRec, it.raw)); });
+        acts.appendChild(fix);
+      } else {
+        const go = btn('다시 올리기'); go.addEventListener('click', () => { view.open = 'upload'; keep(); draw(); document.getElementById('pf-upwrap')?.scrollIntoView?.({ block: 'nearest' }); });
+        acts.appendChild(go);
+      }
+      box.appendChild(acts);
+    };
+    more.addEventListener('click', () => {
+      const was = !edit.hidden;
+      list.querySelectorAll('.pf-edit').forEach((e) => { e.hidden = true; e.textContent = ''; });
+      list.querySelectorAll('.pf-more').forEach((m) => m.setAttribute('aria-expanded', 'false'));
+      if (was) return;
+      edit.hidden = false; more.setAttribute('aria-expanded', 'true'); fill(edit);
+    });
     list.appendChild(row);
     list.appendChild(edit);
   }
   sec.appendChild(list);
   sec.appendChild(msg);
-  sec.appendChild(el('p', 'pf-note', '기록은 언제든 고치거나 지울 수 있습니다. 올린 보유의 기준일과 그 전 날짜의 매매는 이미 올린 보유에 들어 있다고 보고 반영하지 않습니다. 입금·스냅샷을 고치면 모든 전략을 처음부터 다시 계산합니다.'));
-  mg.appendChild(sec);
+  grid.appendChild(sec);
 
+  // 오른쪽: 데이터 관리
+  const side = el('div', 'pf-homecol pf-recside');
+  const dm = el('section', 'pf-panel pf-side');
+  dm.appendChild(el('div', 'pf-eyebrow2', '데이터 관리'));
+  dm.appendChild(el('h2', 'pf-h2s', '내 기록의 출발점'));
+  const item = (key, title, sub, mark, body) => {
+    const b2 = btn(null, 'pf-dmrow'); b2.setAttribute('aria-expanded', String(view.open === key));
+    const tt = el('span', 'pf-dmtext'); tt.appendChild(el('strong', null, title)); if (sub) tt.appendChild(el('small', null, sub)); b2.appendChild(tt);
+    const mk = el('span', 'pf-dmmark' + (mark === '+' ? ' pf-dmplus' : ''), mark); mk.setAttribute('aria-hidden', 'true'); b2.appendChild(mk);
+    const area = el('div', 'pf-dmarea'); area.hidden = view.open !== key;
+    if (body) body(area);
+    b2.addEventListener('click', () => { view.open = view.open === key ? null : key; keep(); draw(); });
+    dm.appendChild(b2); dm.appendChild(area);
+  };
+  if (b) item('deposit', '입금 추가', '반영일 장 시작부터 모든 전략에 같이', '+', (a) => depositForm(a, handlers));
+  if (pendingUpload) view.open = 'upload';
+  item('upload', '보유 파일 올리기', 'CSV · Excel · JSON, 올리기 전 확인', '↗', (a) => {
+    a.appendChild(el('p', 'pf-note', 'JSON은 원칙·올린 보유·관심 종목을 통째로, CSV·Excel은 올린 보유만 바꿉니다(Robinhood 거래 내역 CSV는 보유·평균 단가·현금을 계산, 보유 표는 Ticker·Quantity·Avg Price 열과 현금 CASH 줄). 전략 비교와 실제 매매 기록은 바뀌지 않습니다.'));
+    if (upWrap) a.appendChild(upWrap);
+  });
   if (b) {
-    const fold = el('details', 'pf-st-block pf-stfold');
-    fold.appendChild(el('summary', null, `처음부터 다시 하기 (묶음 ${smodel.bundleNo} 끝내기)`));
-    fold.appendChild(el('p', 'pf-note', '이 묶음을 "정정으로 종료"로 남기고 계산에서 뺀 뒤, 새 시작 스냅샷으로 다시 시작합니다.' + (smodel.closedCount ? ` 끝낸 묶음 ${smodel.closedCount}개.` : '')));
-    const end = btn('이 묶음 끝내기'); const em = msgLine();
-    fold.appendChild(end); fold.appendChild(em);
-    twoStep(end, em, '이 묶음을 끝냅니다. 맞으면 한 번 더 누르세요.', () => handlers.close());
-    mg.appendChild(fold);
+    const s = b.snapshot || {};
+    item('snap', '시작 스냅샷 고치기', `${s.date ? md(s.date) + ' 장 마감' : '—'} · ${Object.keys(s.holdings || {}).length}종목 + 현금`, '→', (a) => a.appendChild(startForm(smodel, handlers, lastRec, s)));
   }
+  const n = (hold.rows || []).filter((r) => String(r.ticker || '').trim()).length;
+  item('holdings', '올린 보유 표', hold.asOf ? `${hold.asOf} · ${n}종목` : '아직 없음', '+', (a) => { if (holdWrap) a.appendChild(holdWrap); });
+  if (memo && memo.childElementCount) item('memo', '모의 운용 메모', '올린 데이터의 손으로 적은 기록', '+', (a) => a.appendChild(memo));
+  side.appendChild(dm);
+  const info = el('section', 'pf-panel pf-side');
+  info.appendChild(el('strong', null, '기록이 성과의 기준이 됩니다'));
+  info.appendChild(el('p', 'pf-sub', '입금은 수익과 따로 셉니다. 모든 전략은 같은 시작 스냅샷에서 출발합니다.'));
+  const how = el('details', 'pf-minifold'); how.appendChild(el('summary', null, '계산 방식'));
+  how.appendChild(el('p', 'pf-note', '기록은 언제든 고치거나 지울 수 있습니다. 올린 보유의 기준일과 그 전 날짜의 매매는 이미 올린 보유에 들어 있다고 보고 반영하지 않습니다. 입금은 기록한 뒤 처음 오는 장 시작(동부 09:30)부터 반영합니다. 입금·스냅샷을 고치면 모든 전략을 처음부터 다시 계산합니다.'));
+  info.appendChild(how);
+  if (b) {
+    const adv = el('details', 'pf-minifold pf-danger'); adv.appendChild(el('summary', null, `고급 관리 · 처음부터 다시 하기 (묶음 ${smodel.bundleNo})`));
+    adv.appendChild(el('p', 'pf-note', '이 묶음을 "정정으로 종료"로 남기고 계산에서 뺀 뒤, 새 시작 스냅샷으로 다시 시작합니다.' + (smodel.closedCount ? ` 끝낸 묶음 ${smodel.closedCount}개.` : '')));
+    const end = btn('이 묶음 끝내기'); const em = msgLine();
+    adv.appendChild(end); adv.appendChild(em);
+    twoStep(end, em, '이 묶음을 끝냅니다. 맞으면 한 번 더 누르세요.', () => handlers.close());
+    info.appendChild(adv);
+  }
+  side.appendChild(info);
+  grid.appendChild(side);
+  mg.appendChild(grid);
+  // 닫힌 칸에 들어가지 않은 고정 요소는 숨긴 보관 칸으로 돌려 둔다(id로 계속 찾을 수 있게)
+  const holder = document.getElementById('pf-static');
+  for (const x of [upWrap, holdWrap, memo]) if (x && !x.isConnected && holder) holder.appendChild(x);
 }
 
-// ＋ 기록 추가: 매매 또는 입금(입금은 전략 비교를 시작한 뒤에만)
-function addForm(b, handlers, h, today, draw) {
-  const box = el('div', 'pf-edit pf-addform');
-  const seg = el('div', 'pf-seg pf-segbox'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', '기록 종류');
-  for (const [k, t] of [['trade', '실제 매매'], ['deposit', '입금']]) {
-    const s = btn(t, 'pf-segbtn'); s.setAttribute('aria-pressed', String(view.kind === k));
-    s.addEventListener('click', () => { view.kind = k; keep(); draw(); });
-    seg.appendChild(s);
-  }
-  box.appendChild(seg);
+const md = (d) => (d ? d.slice(5).replace('-', '/') : '');
+// 입금 추가(데이터 관리 칸)
+function depositForm(box, handlers) {
   const f = el('div', 'pf-form pf-tradeform');
-  const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };
-  const msg = msgLine();
-  if (view.kind === 'deposit') {
-    if (!b) { box.appendChild(el('p', 'pf-note', '입금은 전략 비교를 시작한 뒤(위 시작 스냅샷) 기록합니다.')); return box; }
-    box.appendChild(el('p', 'pf-note', '실제로 넣은 금액을 적습니다. 기록한 뒤 처음 오는 장 시작(동부 09:30)부터 모든 전략과 기준선에 같이 들어갑니다.'));
-    const amt = field('입금액(USD)', el('input')); amt.type = 'number'; amt.min = '0.01'; amt.step = '0.01';
-    const save = btn('기록', 'pf-btn'); f.appendChild(save); f.appendChild(msg);
-    twoStep(save, msg, '이 금액을 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
-      const v = Number(amt.value);
-      if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
-      await handlers.deposit(v);
-    }, f);
-  } else {
-    box.appendChild(el('p', 'pf-note', '실제로 사고판 것을 적습니다. 내 자산과 전략 비교의 "내 실제 계좌" 줄에 들어갑니다.'));
-    const date = field('날짜(체결일, 미국 동부)', el('input')); date.type = 'date'; date.value = today; date.max = today;
-    const side = field('매매', el('select'));
-    for (const [v, t] of [['buy', '매수'], ['sell', '매도']]) { const o = el('option', null, t); o.value = v; side.appendChild(o); }
-    const tick = field('종목(티커)', el('input')); tick.className = 'pf-ticker'; tick.autocomplete = 'off'; tick.setAttribute('list', 'pf-tickers');
-    const qty = field('수량(주, 소수 가능)', el('input')); qty.type = 'number'; qty.min = '0'; qty.step = 'any';
-    const price = field('체결가(USD)', el('input')); price.type = 'number'; price.min = '0'; price.step = '0.0001';
-    const save = btn('기록', 'pf-btn'); f.appendChild(save); f.appendChild(msg);
-    twoStep(save, msg, '이대로 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
-      const x = { date: date.value, ticker: tick.value.trim().toUpperCase(), side: side.value, qty: Number(qty.value), price: Number(price.value) };
-      const bad = h.checkTrade(x, h.etDate(Date.now()));
-      if (bad) throw new Error(bad);
-      await handlers.trade(x);
-    }, f);
-  }
+  const l = el('label', 'pf-field'); l.appendChild(el('span', null, '입금액(USD)'));
+  const amt = el('input'); amt.type = 'number'; amt.min = '0.01'; amt.step = '0.01'; l.appendChild(amt); f.appendChild(l);
+  const save = btn('기록', 'pf-btn'); const msg = msgLine();
+  f.appendChild(save); f.appendChild(msg);
+  twoStep(save, msg, '이 금액을 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
+    const v = Number(amt.value);
+    if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
+    await handlers.deposit(v);
+  }, f);
   box.appendChild(f);
-  return box;
 }
 
 function tradeEdit(box, id, x, handlers, h) {
