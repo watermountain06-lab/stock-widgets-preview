@@ -3957,17 +3957,17 @@
  },
  "constituents": {
   "spy": {
-   "S": "2026-10-19",
+   "S": "2026-10-20",
    "held": false,
    "reasonText": null,
    "bar": {
-    "저평가": 0.0014803330793459852,
-    "적정~저평가": 0.10366605595888805,
-    "적정": 0.010072685507015983,
-    "적정~고평가": 0.259193495068522,
-    "고평가": 0.4046148749297276,
-    "카드 없음": 0.20219165509960477,
-    "판정 보류": 0.01878090035689589,
+    "저평가": 0.0015337201374545962,
+    "적정~저평가": 0.10306386771231006,
+    "적정": 0.010083783097615921,
+    "적정~고평가": 0.26674859876989754,
+    "고평가": 0.3954345552064498,
+    "카드 없음": 0.2041623556577133,
+    "판정 보류": 0.018973119418558934,
     "그 밖 제외": 0.0,
     "분류 안 됨": 0
    },
@@ -3975,72 +3975,72 @@
     {
      "company": "NVDA",
      "name": "NVIDIA CORP",
-     "weight": 0.07932727183463772,
+     "weight": 0.07887681834179658,
      "card": "NVDA",
      "verdict": "적정~저평가"
     },
     {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.0755729310717058,
+     "weight": 0.07460310280564249,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.05981598189319919,
+     "weight": 0.05946220223766508,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "GOOGL",
      "name": "ALPHABET INC CL A",
-     "weight": 0.05490839073099822,
+     "weight": 0.05413884379265247,
      "card": "GOOGL",
      "verdict": "고평가"
     },
     {
      "company": "AMZN",
      "name": "AMAZON.COM INC",
-     "weight": 0.03889619997874088,
+     "weight": 0.03881270034996103,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "AVGO",
      "name": "BROADCOM INC",
-     "weight": 0.024035648479615427,
+     "weight": 0.023951860669658345,
      "card": "AVGO",
      "verdict": "적정~고평가"
     },
     {
      "company": "META",
      "name": "META PLATFORMS INC CLASS A",
-     "weight": 0.023488309113337047,
+     "weight": 0.023050303983047037,
      "card": "META",
      "verdict": "적정~고평가"
     },
     {
      "company": "TSLA",
      "name": "TESLA INC",
-     "weight": 0.015663122432035704,
+     "weight": 0.015858545334568486,
      "card": "TSLA",
+     "verdict": "고평가"
+    },
+    {
+     "company": "LLY",
+     "name": "ELI LILLY + CO",
+     "weight": 0.015466213915241403,
+     "card": "LLY",
      "verdict": "고평가"
     },
     {
      "company": "MU",
      "name": "MICRON TECHNOLOGY INC",
-     "weight": 0.015431747836776125,
+     "weight": 0.015237920160130862,
      "card": "MU",
      "verdict": "적정~저평가"
-    },
-    {
-     "company": "LLY",
-     "name": "ELI LILLY + CO",
-     "weight": 0.01498671124664664,
-     "card": "LLY",
-     "verdict": "고평가"
     }
    ],
    "cards": [
@@ -4094,7 +4094,7 @@
     ],
     [
      "APH",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "AVGO",
@@ -4234,7 +4234,7 @@
     ],
     [
      "GE",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "GEV",
@@ -4555,31 +4555,31 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-10-19",
+   "asOf": "2026-10-20",
    "rows": [
     [
      "Information Technology",
-     38.11
+     37.88
     ],
     [
      "Financials",
-     11.7
-    ],
-    [
-     "Communication Services",
-     9.7
+     11.8
     ],
     [
      "Health Care",
-     9.6
+     9.79
+    ],
+    [
+     "Communication Services",
+     9.58
     ],
     [
      "Consumer Discretionary",
-     9.01
+     9.04
     ],
     [
      "Industrials",
-     8.0
+     7.98
     ],
     [
      "Consumer Staples",
@@ -4591,11 +4591,11 @@
     ],
     [
      "Utilities",
-     1.96
+     1.98
     ],
     [
      "Real Estate",
-     1.71
+     1.74
     ],
     [
      "Materials",
@@ -4604,8 +4604,8 @@
    ]
   },
   "chars": {
-   "pe": 24.73,
-   "peAsOf": "2026-10-19"
+   "pe": 24.74,
+   "peAsOf": "2026-10-20"
   },
   "dgs10": {
    "date": "2026-10-19",
@@ -4614,6 +4614,6 @@
  },
  "index": "SPY",
  "name": "SPY",
- "runAt": "2026-10-21T06:30:13Z",
+ "runAt": "2026-10-21T14:35:33Z",
  "source": "Yahoo Finance SPY 일봉 종가"
 }
