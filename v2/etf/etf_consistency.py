@@ -111,7 +111,7 @@ def run(out, etfs, card_page=splice_card):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--etf", default="SPY,QQQ")
+    ap.add_argument("--etf", default="SPY,QQQ,DIA")
     ap.add_argument("--out-root", default=str(ROOT))
     a = ap.parse_args(argv)
     return run(Path(a.out_root), [e.strip() for e in a.etf.split(",") if e.strip()])

@@ -263,7 +263,7 @@ def run_code_sig(etfs, root, v2, repo, dry=False, runner=gh, approved=None):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--etf", default="SPY,QQQ", help="쉼표로 여러 ETF")
+    ap.add_argument("--etf", default="SPY,QQQ,DIA", help="쉼표로 여러 ETF")
     ap.add_argument("--root", default=str(ETF_DIR.parents[1]))
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args(argv)

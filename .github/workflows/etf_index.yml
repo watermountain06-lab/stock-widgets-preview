@@ -1,6 +1,6 @@
 name: ETF and index cards
 
-# preview 전용 ETF 판정과 ETF 카드(SPY, 2026-10-21부터 QQQ) — 종목 카드 파이프라인(v2 cards rebuild)과 분리(2026-10-20 사용자 결정, 설계 dr 합의).
+# preview 전용 ETF 판정과 ETF 카드(SPY, 2026-10-21부터 QQQ·DIA) — 종목 카드 파이프라인(v2 cards rebuild)과 분리(2026-10-20 사용자 결정, 설계 dr 합의).
 # 카드가 확정된 뒤 돈다: v2 cards rebuild가 끝날 때마다(취소 제외 — 실패해도 카드 파일은 그대로라 평가는 한다).
 # daily_refresh가 하루 세 번(저녁·05:23·09:41 ET 무렵) 돌고 v2 cards가 그 뒤를 따르므로 ETF도 하루 여러 번 다시 평가된다 —
 # 저녁에 운용사 파일이 늦으면 직전 판정을 "갱신 대기"로 유지하고 아침에 같은 날 파일로 다시 계산한다(v2/etf/etf_daily.py).
@@ -73,6 +73,18 @@ jobs:
         continue-on-error: true
         run: python3 v2/etf/etf_fallback.py --etf QQQ
 
+      # DIA(다우존스, 2026-10-21): SPY와 같은 운용사·형식 A.
+      - name: ETF verdicts (DIA)
+        id: etf_dia
+        continue-on-error: true
+        timeout-minutes: 15
+        run: python3 v2/etf/etf_daily.py --etf DIA
+
+      - name: ETF fallback (DIA)
+        if: steps.etf_dia.outcome == 'failure'
+        continue-on-error: true
+        run: python3 v2/etf/etf_fallback.py --etf DIA
+
       # SPY ETF 카드(2026-10-20 사용자 결정 — 지수 카드 틀에 SPY 시세·운용사 NAV 대조·카드 판정 탭; S&P 500 지수 카드 페이지는
       # 같은 날 지웠다). SPY 산출물(구성 종목·판정 탭)을 읽으므로 ETF 다음. ETF 단계가 쓴 판정 페이지
       # (preview-only-etf-spy.html)를 이 카드로 덮어쓴다. 시세·NAV 받기 실패·대조 실패는 "시세 보류 + 판정 탭" 페이지로 덮고,
@@ -92,18 +104,26 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: python3 v2/index/index_daily.py --card QQQ
 
+      - name: ETF card (DIA)
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: python3 v2/index/index_daily.py --card DIA
+
       # 카드가 판정 페이지를 덮어쓴 뒤 ETF마다 JSON·홈 칸·최종 페이지의 판정을 대조한다. 어긋나면 그 ETF만 보류로 다시 쓰고
       # 다시 대조 — 그래도 어긋나면 실패해서 아래 커밋·게시를 건너뛴다(다음 실행이 다시 평가, 알림은 그대로 돈다).
       - name: ETF consistency
         id: consistency
         timeout-minutes: 5
-        run: python3 v2/etf/etf_consistency.py --etf SPY,QQQ
+        run: python3 v2/etf/etf_consistency.py --etf SPY,QQQ,DIA
 
       - name: Commit
         id: commit
         run: |
           for p in v2/etf/SPY.json preview-only-etf-spy.html preview-only-etf-data.js v2/etf/date_obs.jsonl \
-                   v2/etf/SPY_card.json v2/etf/QQQ.json preview-only-etf-qqq.html v2/etf/QQQ_card.json; do
+                   v2/etf/SPY_card.json v2/etf/QQQ.json preview-only-etf-qqq.html v2/etf/QQQ_card.json \
+                   v2/etf/DIA.json preview-only-etf-dia.html v2/etf/DIA_card.json; do
             if [ -e "$p" ]; then git add "$p"; fi
           done
           if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
@@ -131,7 +151,7 @@ jobs:
         continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 v2/etf/etf_alerts.py --etf SPY,QQQ
+        run: python3 v2/etf/etf_alerts.py --etf SPY,QQQ,DIA
 
       - name: Request a Pages build
         if: steps.commit.outputs.changed == 'true'

@@ -394,6 +394,19 @@ def test_isolation(tmp, v2, P, asof):
                    capture_output=True, text=True)
     d2 = data()
     check("격리: QQQ 본 단계 보류(입력 오류) 뒤에도 SPY 칸 그대로", d2.get("SPY") == spy0 and d2.get("QQQ", {}).get("status") == "held", d2.get("QQQ"))
+    # DIA(2026-10-21): 실제 설정으로 형식 A가 골라지고 DIA 산출물만 쓴다(SPY·QQQ 칸 그대로)
+    qqq0 = d2.get("QQQ")
+    T.xlsx(tmp / "dia.xlsx", T.holdings(asof, T.base_lines()))
+    subprocess.run([sys.executable, str(HERE / "etf_daily.py"), "--etf", "DIA", "--xlsx", str(tmp / "dia.xlsx"), "--out-root", str(out),
+                    "--v2", str(v2), "--stocks", str(tmp / "stocks.json"), "--private", str(tmp / "pvd"), "--cfg", str(HERE / "ticker_alias.json")],
+                   capture_output=True, text=True)
+    d3 = data()
+    rd = json.loads((out / "v2" / "etf" / "DIA.json").read_text())
+    check("DIA: 실제 설정 → 정상 판정(ok)·형식 A·DIA 산출물·보수 0.16, SPY·QQQ 칸 그대로", rd["status"] == "ok" and rd["verdict"] and rd["inputFormat"] == "ssga_xlsx" and rd["expense"]["pct"] == 0.16
+          and d3.get("SPY") == spy0 and d3.get("QQQ") == qqq0 and "DIA" in d3 and (out / "preview-only-etf-dia.html").exists(), (rd.get("status"), rd.get("reason")))
+    subprocess.run([sys.executable, str(HERE / "etf_fallback.py"), "--etf", "DIA", "--out-root", str(out)], capture_output=True, text=True)
+    d4 = data()
+    check("격리: DIA 대체 단계 뒤 SPY·QQQ 칸 그대로", d4.get("SPY") == spy0 and d4.get("QQQ") == qqq0 and d4["DIA"]["status"] == "held")
 
 
 def test_invesco(tmp, v2, P):

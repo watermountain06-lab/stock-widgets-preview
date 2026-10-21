@@ -1,0 +1,385 @@
+{
+ "etf": "DIA",
+ "name": "SPDR Dow Jones Industrial Average ETF Trust",
+ "status": "ok",
+ "reason": null,
+ "reasonText": null,
+ "reasons": [],
+ "detail": null,
+ "verdict": "적정~고평가",
+ "nbar": -2.4903345549240834,
+ "coverage": 0.8735974245356717,
+ "range": [
+  -2.6811601552711806,
+  -1.7963421270208824
+ ],
+ "edgeNear": false,
+ "bar": {
+  "저평가": 0.0,
+  "적정~저평가": 0.0245088064459988,
+  "적정": 0.031736800678799526,
+  "적정~고평가": 0.2927289451248934,
+  "고평가": 0.5246228722859799,
+  "카드 없음": 0.12640257546432826,
+  "판정 보류": 0.0,
+  "그 밖 제외": 0.0,
+  "분류 안 됨": 0
+ },
+ "top10": [
+  {
+   "company": "GS",
+   "name": "GOLDMAN SACHS GROUP INC",
+   "lines": [
+    "GS"
+   ],
+   "weight": 0.10017848525705896,
+   "card": "GS",
+   "verdict": "고평가",
+   "n": -3.0,
+   "excluded": []
+  },
+  {
+   "company": "CAT",
+   "name": "CATERPILLAR INC",
+   "lines": [
+    "CAT"
+   ],
+   "weight": 0.0821119205999726,
+   "card": "CAT",
+   "verdict": "고평가",
+   "n": -4.0,
+   "excluded": []
+  },
+  {
+   "company": "MSFT",
+   "name": "MICROSOFT CORP",
+   "lines": [
+    "MSFT"
+   ],
+   "weight": 0.060218501276190044,
+   "card": "MSFT",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "excluded": []
+  },
+  {
+   "company": "AMGN",
+   "name": "AMGEN INC",
+   "lines": [
+    "AMGN"
+   ],
+   "weight": 0.049696936560737925,
+   "card": "AMGN",
+   "verdict": "고평가",
+   "n": -3.0,
+   "excluded": []
+  },
+  {
+   "company": "UNH",
+   "name": "UNITEDHEALTH GROUP INC",
+   "lines": [
+    "UNH"
+   ],
+   "weight": 0.047468764129757764,
+   "card": "UNH",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "excluded": []
+  },
+  {
+   "company": "V",
+   "name": "VISA INC CLASS A SHARES",
+   "lines": [
+    "V"
+   ],
+   "weight": 0.04603199567066948,
+   "card": "V",
+   "verdict": "고평가",
+   "n": -4.0,
+   "excluded": []
+  },
+  {
+   "company": "TRV",
+   "name": "TRAVELERS COS INC/THE",
+   "lines": [
+    "TRV"
+   ],
+   "weight": 0.044804683842370456,
+   "card": null,
+   "verdict": null,
+   "n": null,
+   "excluded": []
+  },
+  {
+   "company": "GOOGL",
+   "name": "ALPHABET INC CL A",
+   "lines": [
+    "GOOGL"
+   ],
+   "weight": 0.038526056289839086,
+   "card": "GOOGL",
+   "verdict": "고평가",
+   "n": -3.0,
+   "excluded": []
+  },
+  {
+   "company": "AAPL",
+   "name": "APPLE INC",
+   "lines": [
+    "AAPL"
+   ],
+   "weight": 0.03843830256386419,
+   "card": "AAPL",
+   "verdict": "고평가",
+   "n": -3.0,
+   "excluded": []
+  },
+  {
+   "company": "SHW",
+   "name": "SHERWIN WILLIAMS CO/THE",
+   "lines": [
+    "SHW"
+   ],
+   "weight": 0.03804316573071861,
+   "card": null,
+   "verdict": null,
+   "n": null,
+   "excluded": []
+  }
+ ],
+ "counts": {
+  "lines": 31,
+  "nonEquity": 1,
+  "companies": 30,
+  "cardsMatched": 26,
+  "cardsUsed": 26,
+  "cardsExcluded": {
+   "추출 오류": 0,
+   "규칙 불일치": 0,
+   "날짜 불일치": 0,
+   "판정 보류": 0
+  }
+ },
+ "cards": [
+  {
+   "card": "AAPL",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "AMGN",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "AMZN",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "AXP",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "BA",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "CAT",
+   "verdict": "고평가",
+   "n": -4.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "CRM",
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "CSCO",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "CVX",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "DIS",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "GOOGL",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "GS",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "HD",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "IBM",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "JNJ",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "JPM",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "KO",
+   "verdict": "고평가",
+   "n": -4.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "MCD",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "MRK",
+   "verdict": "고평가",
+   "n": -4.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "MSFT",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "NKE",
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "NVDA",
+   "verdict": "적정~저평가",
+   "n": 2.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "PG",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "UNH",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "V",
+   "verdict": "고평가",
+   "n": -4.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "WMT",
+   "verdict": "고평가",
+   "n": -4.0,
+   "date": "2026-10-20",
+   "excluded": []
+  }
+ ],
+ "S": "2026-10-20",
+ "builtFor": "2026-10-20",
+ "expense": {
+  "pct": 0.16,
+  "source": "SEC 485BPOS 2026-02-24 제출(accession 0001193125-26-067237) Total Expenses(Trustee 0.05 + DJIA License 0.04 + Marketing 0.06 + Other 0.01)",
+  "url": "https://www.sec.gov/Archives/edgar/data/1041130/000119312526067237/d35140d485bpos.htm"
+ },
+ "holdingsSource": "State Street Global Advisors 공개 일일 보유 파일(DIA)",
+ "inputFormat": "ssga_xlsx",
+ "ruleVersion": "etf-v1",
+ "dateRule": "same",
+ "runAt": "2026-10-21T17:01:03Z",
+ "fetchedAt": "2026-10-21T17:01:03Z",
+ "inputHash": {
+  "xlsx": "fb33ca8c11f65feed40fd88b973bb995cbae3dd3eed7207178592d2b3005a0f2",
+  "alias": "cd884e524b4f6045",
+  "extractor": "b50460aad021b74b",
+  "sigScript": "819ec80766479439",
+  "script": "10d2ba9ea8dae2e2"
+ },
+ "evaluation": {
+  "status": "ok",
+  "holds": [],
+  "S": "2026-10-20"
+ },
+ "runId": null,
+ "checks": {
+  "fetch": "ok",
+  "input": "ok",
+  "file_date": "ok",
+  "tools": "ok",
+  "code_sig": "ok",
+  "sig_err": "ok",
+  "structure": "ok",
+  "unclassified": "ok",
+  "run": "ok"
+ },
+ "checkDetail": {}
+}

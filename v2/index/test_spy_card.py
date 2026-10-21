@@ -51,21 +51,21 @@ VERDICT_OK = {"etf": "SPY", "status": "ok", "verdict": "적정~고평가", "nbar
               "holdingsSource": "State Street", "top10": TI.SPY_FAKE["top10"], "cards": TI.SPY_FAKE["cards"]}
 
 
-def run(tmp, series, nav_edit=None, verdict=VERDICT_OK, nav=True, yahoo_text=None):
+def run(tmp, series, nav_edit=None, verdict=VERDICT_OK, nav=True, yahoo_text=None, card="SPY", page=None):
     (tmp / "y.json").write_text(yahoo_text if yahoo_text is not None else TI.yahoo_json(series))
     prev = max(k for k, _ in series if k < P)
     (tmp / "s.json").write_text(json.dumps({"priceSession": P, "tickers": [{"price": {"session": P, "prevSession": prev}}] * 3}))
-    (tmp / "page.html").write_text(TI.ssga_page())
+    (tmp / "page.html").write_text(page if page is not None else TI.ssga_page())
     (tmp / "dgs10.csv").write_text("observation_date,DGS10\n2026-10-15,5.10\n2026-10-16,5.09\n")
     (tmp / "spy.json").write_text(json.dumps(verdict) if verdict is not None else "")
     if nav:
         TE.xlsx(tmp / "nav.xlsx", nav_rows(series, nav_edit))
-    args = [sys.executable, str(HERE / "index_daily.py"), "--card", "SPY", "--out-root", str(tmp), "--yahoo", str(tmp / "y.json"),
+    args = [sys.executable, str(HERE / "index_daily.py"), "--card", card, "--out-root", str(tmp), "--yahoo", str(tmp / "y.json"),
             "--stocks", str(tmp / "s.json"), "--ssga-page", str(tmp / "page.html"), "--spy", str(tmp / "spy.json"),
             "--dgs10", str(tmp / "dgs10.csv"), "--fred", str(tmp / ("nav.xlsx" if nav else "missing.xlsx"))]
     p = subprocess.run(args, capture_output=True, text=True)
-    res = json.loads((tmp / "v2" / "etf" / "SPY_card.json").read_text())
-    page = (tmp / "preview-only-etf-spy.html").read_text()
+    res = json.loads((tmp / "v2" / "etf" / f"{card}_card.json").read_text())
+    page = (tmp / f"preview-only-etf-{card.lower()}.html").read_text()
     return p, res, page
 
 
@@ -144,6 +144,42 @@ def main():
         off = dict(VERDICT_OK["bar"]); off["고평가"], off["카드 없음"] = off["고평가"] - 0.05, off["카드 없음"] + 0.05
         p, res, page = run(tmp, s, verdict=dict(VERDICT_OK, bar=off))
         check("5등급 합 ≠ 덮은 비중 → 형식 오류(홈과 같음)", "형식 오류" in page.split('id="verdict"')[1])
+    with tempfile.TemporaryDirectory() as t:   # DIA(2026-10-21) — 같은 틀·SSGA 형식, 업종 9개(주가 가중 30종목)
+        tmp = Path(t)
+        nine = TI.SECTORS[:6] + [("Consumer Staples", "4.80"), ("Materials", "1.68"), ("Energy", str(round(100 - sum(float(w) for _, w in TI.SECTORS[:6]) - 4.80 - 1.68, 2)))]
+        p, res, page = run(tmp, s, verdict=dict(VERDICT_OK, etf="DIA"), card="DIA", page=TI.ssga_page(nine))
+        check("DIA: ok · 업종 9개 도넛 · 주가 가중 설명 · DIA 이름", res["status"] == "ok" and "업종 비중 (GICS 9개)" in page and "주가 가중" in page
+              and "이 사이트 카드로 본 DIA" in page and "State Street DIA NAV" in page and "SPY" not in page, (res.get("reason"), p.stderr[-200:]))
+        p, res, page = run(tmp, s, verdict=dict(VERDICT_OK, etf="DIA"), card="DIA", page=TI.ssga_page())
+        check("DIA: 업종이 11개면(기대 9) 업종 칸만 실패", res["status"] == "ok" and "업종 비중을 불러오지 못했다" in page)
+        p, res, page = run(tmp, s, card="SPY", page=TI.ssga_page(nine))
+        check("SPY: 업종 9개면(기대 11 그대로) 업종 칸만 실패 — 검사 강도 불변", res["status"] == "ok" and "업종 비중을 불러오지 못했다" in page)
+        import index_daily as ix2
+        for bad, name in ((nine[:-1] + [("Energy", "-1")], "음수"), (nine[:-1] + [("Technology Hardware", nine[-1][1])], "목록 밖 이름"),
+                          (nine[:-1] + [(nine[0][0], nine[-1][1])], "중복")):
+            try:
+                ix2.parse_sectors(TI.ssga_page(bad), 9)
+                ok = False
+            except Exception:
+                ok = True
+            check(f"업종 칸 검사(DIA 9개): {name} → 실패", ok)
+        # 실제 받기 호출에 DIA 주소가 들어가는지(받기 함수를 바꿔 끼워 인자를 본다)
+        asked = []
+        real_nav, real_get = ix2.fetch_navhist, ix2.http_get
+        ix2.fetch_navhist = lambda t="spy": asked.append(("nav", t)) or (tmp / "nav.xlsx").read_bytes()
+        ix2.http_get = lambda u, *a, **k: asked.append(("get", u)) or TI.ssga_page(nine)
+        try:
+            import contextlib, io
+            with contextlib.redirect_stdout(io.StringIO()):
+                ix2.main(["--card", "DIA", "--out-root", str(tmp / "wire"), "--yahoo", str(tmp / "y.json"), "--stocks", str(tmp / "s.json"),
+                          "--spy", str(tmp / "spy.json"), "--dgs10", str(tmp / "dgs10.csv")])
+        finally:
+            ix2.fetch_navhist, ix2.http_get = real_nav, real_get
+        check("DIA 실행이 DIA NAV 파일·DIA 펀드 페이지를 요청", ("nav", "dia") in asked and ("get", ix2.PROFILES["DIA"]["page"]) in asked
+              and not any(x[0] == "get" and x[1].endswith("-spy") for x in asked), asked)
+        check("프로필: SSGA 페이지·NAV 파일이 ETF마다(SP500·SPY는 SPY 주소)", ix2.PROFILES["DIA"]["page"].endswith("-dia") and ix2.PROFILES["DIA"]["navFile"] == "dia"
+              and ix2.PROFILES["SP500"]["page"] == ix2.PROFILES["SPY"]["page"] and ix2.PROFILES["SPY"]["page"].endswith("-spy")
+              and ix2.PROFILES["SPY"]["navFile"] == "spy")
     with tempfile.TemporaryDirectory() as t:   # 틀까지 깨지면 ETF 단계가 쓴 판정 페이지를 덮지 않는다
         tmp = Path(t)
         (tmp / "preview-only-etf-spy.html").write_text("VERDICT PAGE")

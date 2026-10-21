@@ -134,7 +134,7 @@ def main():
         p, res, page = run(tmp / "ok", s)
         check("카드: ok · 시작일 = 대조 첫 거래일", res["status"] == "ok" and res["since"] == "2016-09-01", (res.get("reason"), res.get("detail"), p.stderr[-300:]))
         check("카드: 머리 PER (펀드) + Invesco 날짜 · 이익수익률 펀드 PER 표시", "PER (펀드)" in page and "Invesco 2026.09.30" in page and "펀드 PER 2026.09.30" in page)
-        check("카드: 업종 ICB 도넛·비교 불가 주석", "업종 비중 (ICB, 펀드 기준)" in page and "GICS(SPY 카드)와 직접 비교 불가" in page and "기술" in page)
+        check("카드: 업종 ICB 도넛·비교 불가 주석", "업종 비중 (ICB, 펀드 기준)" in page and "GICS(SPY·DIA 카드)와 직접 비교 불가" in page and "기술" in page)
         check("카드: 판정 탭이 QQQ 이름·data-etf", "이 사이트 카드로 본 QQQ" in page and 'id="verdict" class="section" data-etf=' in page)
         check("카드: 출처 문구(NAV ±1%·±2% 안 확인·NYSE 휴장일)", "±1%, 그 앞 ±2% 안 확인" in page and "NYSE 휴장일" in page)
         check("카드: SPY 문구가 섞이지 않음", "SPY 보유" not in page and "SSGA" not in page and "본 SPY" not in page)

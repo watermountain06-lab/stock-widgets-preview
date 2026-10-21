@@ -5,7 +5,7 @@
 // 규칙(v2/research/etf_verdict_prereg.md): 참고용·매수 기준 아님. builtFor가 홈 세션(StockData.meta.priceSession)과 다르면
 // 묵음 — 판정·점수를 지우고 사유만 보인다. 데이터 파일이 없거나 깨져 ETF_DATA가 없으면 "불러오지 못함"을 보인다.
 (function () {
-  var ORDER = ['SPY', 'QQQ'];   // 카드 순서. 새 ETF는 etf_daily.py·사전 등록, 카드 생성기(v2/index/index_daily.py PROFILES)에 더한 뒤 여기에.
+  var ORDER = ['SPY', 'QQQ', 'DIA'];   // 카드 순서. 새 ETF는 etf_daily.py·사전 등록, 카드 생성기(v2/index/index_daily.py PROFILES)에 더한 뒤 여기에.
   var TIERS = ['저평가', '적정~저평가', '적정', '적정~고평가', '고평가', '카드 없음', '판정 보류', '그 밖 제외', '분류 안 됨'];
 
   function pct(x, d) { return x == null ? '—' : (x * 100).toFixed(d == null ? 1 : d) + '%'; }
