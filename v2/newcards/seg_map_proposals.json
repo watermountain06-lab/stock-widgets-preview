@@ -2364,5 +2364,27 @@
   "ignore_candidates": [
    "us-gaap:ReportableSegmentAggregationBeforeOtherOperatingSegmentMember"
   ]
+ },
+ "MRNA": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "mrna:COVID19Member": [
+    "COVID 백신(Spikevax·mNEXSPIKE)",
+    "#d71e28"
+   ]
+  },
+  "ignore_candidates": [
+   "mrna:ProductSalesMember",
+   "us-gaap:ProductAndServiceOtherMember",
+   "mrna:RSVMember",
+   "mrna:StandReadyManufacturingMember",
+   "mrna:CollaborationArrangementIncludingArrangementsWithAffiliateMember",
+   "us-gaap:GrantMember",
+   "mrna:LicenseAndRoyaltyMember"
+  ]
  }
 }

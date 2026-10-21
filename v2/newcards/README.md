@@ -56,6 +56,7 @@
 | **분사·교환 공개매수 진행 중** | 최근 8-K 2.01항·1.01항, SC TO-I, 10-Q "discontinued operations" 예고 | 재작성 숫자가 나오기 전이면 **만들지 않고 보류**(아래 "분사 종목" 절), 나온 뒤면 `RESTATED_LATEST`·`HISTORY_START`·`bt_start` | SPGI·MDT(보류), GE·DELL·IBM·WDC·T |
 | **사업 매각(중단사업 재작성, 주가 조정 없음)** | 10-K 비교 매출이 처음 공시보다 크게 작다(계속사업 재작성), Yahoo 분할 없음, 희석 EPS에 매각 이익 | 사용자 결정(2026-10-18) — 분사와 같은 GE 방식: `RESTATED_LATEST`·`HISTORY_START`(매각 완료 뒤 첫 재무상태표 공시일)·`build_dcf.HISTORY_WINDOW`(네 분기가 모두 계속사업인 첫 최근 4분기 합), `eps_tag` = 계속사업 EPS, 없는 분기는 희석 EPS(두 태그). cfg `SELF_SPAN`·`GROWTH_SPAN`은 길이(년) 없이 시작 시점만 | EMR |
 | **짧은 상장(일봉 1,375개 미만)** | `new_ticker_arrays.py`가 "이력이 짧다"로 멈춤(분사·신규 상장) | 사용자에게 묻고, 승인되면 cfg `BUILD['short_listing']`(이동평균 앞부분 null) + `SELF_SPAN`·`GROWTH_SPAN`. 분사 전 기간 EPS를 0으로 태깅했으면 `fetch_eps_history.EPS_START` | CEG(SNDK·GEV 선례) |
+| **적자 회사(PER 해당 없음)** | `--data`에서 "PER 해당 없음(A3)", DCF 음수, 백테스트 체크포인트 0 | 일반 경로 — FAIRBAND_TITLE은 FB가 없으면 멈추므로 조건식(흑자면 범위, 적자면 이유), 활동성 이력이 짧으면 ACT_REASON, MODEL_NOTE로 모델 한계. 큰 사건이 8-K 없이 보도자료로만 나오면(임상 결과·FDA 승인) 회사 보도자료를 출처로 쓰고 "SEC 공시 없음"을 적는다 | MRNA |
 | **자본 음수** | 재무상태표 자본 < 0 | 일반 경로 그대로 — PBR은 자동 "해당 없음", 부채비율 1점 | MO·LOW·SBUX |
 | **지분법 투자·상장 자회사가 큼** | "Investments in equity securities"·비지배지분이 큼 | 비영업 자산은 `nonop_extra.json`(장부가, 1차 출처 근거), 비지배지분은 엔진이 EV에 더함 | MO(ABI)·MPC(MPLX)·KO·WMB(Investments 태그 — 지분법 태그는 연말만) |
 | **보험 투자수익이 영업이익 안** | 손익계산서 매출에 "Net investment income"·"Investment and other income", 장기투자가 큼(`--data`에서 비영업 자산이 내재가치의 큰 몫) | 투자자산을 영업 자산으로 — `build_dcf.INVESTMENTS_OPERATING`(비영업 자산에 더하지 않는다, 현금·단기투자는 순현금에 둔다) | UNH·CVS·GE |

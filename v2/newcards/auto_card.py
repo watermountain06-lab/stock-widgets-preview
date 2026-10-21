@@ -705,7 +705,7 @@ def texts(C, ns):
     yo_tab = A.get("seg_yo", {})
     def segchg(a, b_):   # ±50%를 넘어도 적는다(MU 전부 '—'였다, Fable)
         if b_ == 0 and a and a > 0:
-            return "새 부문"   # 매출이라 '흑자 전환'이 아니다 — 인수로 생긴 부문(CEG Calpine, 2026-10-18)
+            return "1년 전 매출 0"   # 매출이라 '흑자 전환'이 아니다. 새 부문인지는 모른다 — MRNA RSV는 2024년부터 팔렸지만 1년 전 분기가 0(Codex 2026-10-21; 첫 사례 CEG Calpine)
         c_ = chg(a, b_)
         if c_ or not (a and b_ and a > 0 and b_ > 0):
             return c_ or "—"
