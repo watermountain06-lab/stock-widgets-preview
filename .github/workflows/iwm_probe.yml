@@ -1,0 +1,39 @@
+name: IWM source probe (temporary)
+
+# 임시(2026-10-21): iShares IWM 자료(보유 CSV·펀드 자료 xls)가 Actions에서 받히는지 한 번 확인한다. 확인 뒤 지운다.
+# 로컬에서는 파일 대신 웹페이지가 온다. 값은 찍지 않고 크기·첫 줄 모양만 찍는다.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe
+        shell: bash
+        run: |
+          B="https://www.ishares.com/us/products/239710/ishares-russell-2000-etf"
+          for u in "1467271812596.ajax?fileType=csv&fileName=IWM_holdings&dataType=fund" \
+                   "1521942788811.ajax?fileType=xls&fileName=iShares-Russell-2000-ETF_fund&dataType=fund" \
+                   "1467271812596.ajax?tab=all&fileType=json"; do
+            echo "== $u"
+            python3 - "$B/$u" <<'PY'
+          import sys, urllib.request
+          try:
+              r = urllib.request.urlopen(urllib.request.Request(sys.argv[1], headers={"User-Agent": "Mozilla/5.0"}), timeout=60)
+              b = r.read()
+              head = b[:60].decode("utf-8", "replace").replace("\n", " ")
+              kind = "html" if b.lstrip().lower().startswith((b"<!doctype", b"<html")) else "data"
+              print("urllib", r.status, len(b), kind, head[:40] if kind == "html" else "")
+              if kind == "data":
+                  lines = b.decode("utf-8-sig", "replace").splitlines()
+                  print("  lines", len(lines), "| first cells:", [l.split(",")[0][:20] for l in lines[:12]])
+          except Exception as e:
+              print("urllib 실패", type(e).__name__, getattr(e, "code", ""))
+          PY
+          done
