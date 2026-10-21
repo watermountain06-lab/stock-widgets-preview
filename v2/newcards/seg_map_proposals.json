@@ -2423,5 +2423,25 @@
    "wm:CollectionAndDisposalMember",
    "us-gaap:CorporateAndOtherMember"
   ]
+ },
+ "DDOG": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "srt:NorthAmericaMember": [
+    "북미",
+    "#632ca6"
+   ],
+   "ddog:InternationalMember": [
+    "해외",
+    "#b794e0"
+   ]
+  },
+  "ignore_candidates": [
+   "country:US"
+  ]
  }
 }

@@ -606,6 +606,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # DDOG: DepreciationDepletionAndAmortization(상반기 $34.1M)는 현금흐름표 "Depreciation and amortization"(DepreciationAndAmortization, $37.4M)보다 작다 — 현금흐름표 줄만(2026-10-21).
+                "0001561550": ("DepreciationDepletionAndAmortization",),
                 # WMB: RevenueFromContractWithCustomerExcludingAssessedTax는 대리·트레이딩 거래를 순액으로 줄이기 전 계약 매출(Q2 2026 $3,379M — 10-Q 주석 4
                 # "Other adjustments" −$904M 전)이라 손익계산서 Total revenues($3,053M)보다 크다 — 섞여 최근 4분기 매출이 $15.4B(실제 $12.2B)였다. Revenues만(2026-10-19).
                 "0000107263": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
@@ -1231,6 +1233,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # DDOG: 전환사채만 — 장기분 ConvertibleLongTermNotesPayable(2026-06-30 $985.5M, 2029년 만기) + 1년 안 ConvertibleNotesPayableCurrent(2024-06~2025-03의
+                  # 2025년 만기분). 기본 목록에 장기 태그가 없어 차입금 0이었다(두 태그는 같은 날 겹치지 않음, 2026-10-21).
+                  "0001561550": ["ConvertibleNotesPayableCurrent", "ConvertibleLongTermNotesPayable"],
                   # WM: "Current portion of long-term debt"(DebtCurrent) + "Long-term debt, less current portion"(LongTermDebtAndCapitalLeaseObligations — 금융리스 포함).
                   # 기본 선택은 1년 안 만기분이 빠졌다(2026-06-30 $1,075M + $22,281M = $23,356M = DebtAndCapitalLeaseObligations, 2026-10-21).
                   "0000823768": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],

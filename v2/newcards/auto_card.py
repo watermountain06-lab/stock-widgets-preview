@@ -662,7 +662,7 @@ def texts(C, ns):
     _rows = {r_["metric"]: r_["value"] for ax in ns["FUND"]["axes"].values() for r_ in ax.get("rows", [])}
     if _rows.get("debtToEquity") and _rows["debtToEquity"] >= 300:
         cand.append(("부채", -1.0, f"부채비율(총부채 ÷ 자본) {_rows['debtToEquity']:.0f}%, 자본 {B(b.get('equity', 0))}."))
-    if _rows.get("interestCoverage") is not None and _rows["interestCoverage"] < 3:
+    if _rows.get("interestCoverage") is not None and _rows["interestCoverage"] < 3 and nd >= 0:   # 순현금 회사는 이자 부담을 약점으로 적지 않는다(DDOG 무이자 전환사채 — 이자비용은 발행비 상각, Fable 2026-10-21)
         cand.append(("이자", -1.0, f"이자보상배율 {_rows['interestCoverage']:.1f}배."))
     seen = set()
     cand = [c_ for c_ in sorted(cand, key=lambda c_: -abs(c_[1])) if abs(c_[1]) >= 0.5 and not (c_[0] in seen or seen.add(c_[0]))]
