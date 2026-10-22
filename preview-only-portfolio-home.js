@@ -4,9 +4,9 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=16';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=5';
-import { renderManage } from './preview-only-portfolio-records.js?v=4';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=17';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=6';
+import { renderManage } from './preview-only-portfolio-records.js?v=5';
 import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=2';
 import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=7';
 
@@ -827,7 +827,7 @@ function tradeForm(model, handlers, recs, mv, today, done) {
   return box;
 }
 
-// 전략과 나란히: 내 실제 계좌, 1위(실제 계좌 제외 — ETF 전략·A가 아닐 때만 따로), ETF 섞기 전략(없으면 A) — 누르면 전략 비교 탭으로(사용자 결정 2026-10-22)
+// 전략과 나란히: 내 실제 계좌, 만든 전략 위 두 개(없으면 SPY) — 누르면 전략 비교 탭으로. A는 숨긴다(사용자 결정 2026-10-22)
 function miniRank(model, handlers) {
   const sec = el('section', 'pf-panel pf-side');
   const head = el('div', 'pf-sidehead'); head.appendChild(el('h2', 'pf-h2s', '전략과 나란히'));
@@ -835,15 +835,15 @@ function miniRank(model, handlers) {
   sec.appendChild(head);
   const sc = (model.result?.scenarios || []).map((s) => ({ s, m: summarizeKnown(s) })).filter(({ m }) => m.twr != null);
   if (!sc.length) { sec.appendChild(el('p', 'pf-note', '전략 비교가 출발하면 내 실제 계좌와 다른 전략의 수익률이 여기에 보입니다.')); return sec; }
-  const real = sc.find(({ s }) => s.id === 'REAL'), A = sc.find(({ s }) => s.id === 'A');
-  const top = sc.filter(({ s }) => s.id !== 'REAL').sort((a, b) => b.m.twr - a.m.twr)[0];
-  const etf = sc.find(({ s }) => s.strategy === 'E') || null;
-  const last = etf || A;   // ETF 전략이 있으면 그것, 없으면 A
-  const rows = [real, top && top !== last && top !== A ? { ...top, top: true } : null, last && last === top ? { ...last, top: true } : last].filter(Boolean);
+  // A(그대로 보유)는 계산의 기준선이라 화면에 보이지 않는다(사용자 결정 2026-10-22). 내 실제 계좌 + 만든 전략 가운데 위 두 개, 만든 전략이 없으면 SPY
+  const real = sc.find(({ s }) => s.id === 'REAL');
+  const mine = sc.filter(({ s }) => s.id !== 'REAL' && s.id !== 'A').sort((a, b) => b.m.twr - a.m.twr).slice(0, 2);
+  const rows = [real, ...mine.map((r, i) => (i === 0 && mine.length > 1 ? { ...r, top: true } : r))].filter(Boolean);
+  if (!mine.length && real?.m.vs?.SPY != null) rows.push({ s: { id: 'SPY' }, m: { twr: real.m.twr - real.m.vs.SPY / 100 }, name: 'SPY(같은 날 시작)' });
   const max = Math.max(...rows.map(({ m }) => Math.abs(m.twr)), 0.0001);
   for (const r of rows) {
     const d = el('div', 'pf-minirow' + (r.s.id === 'REAL' ? ' pf-mine' : ''));
-    d.appendChild(el('span', null, label(r.s, model.byId) + (r.top ? ' (1위)' : '')));
+    d.appendChild(el('span', null, (r.name || label(r.s, model.byId)) + (r.top ? ' (1위)' : '')));
     d.appendChild(el('strong', null, pct(r.m.twr)));
     const b = el('i'); const f = el('b'); f.style.width = Math.round((Math.abs(r.m.twr) / max) * 100) + '%'; b.appendChild(f); d.appendChild(b);
     sec.appendChild(d);
@@ -866,7 +866,9 @@ export function renderTabs(roots, model, smodel, handlers) {
   else if (!result && !(smodel.bundle && !smodel.bundle.closed)) st.appendChild(el('p', 'pf-note', '전략 비교를 시작하면(기록·관리 탭의 시작 스냅샷) 여기에 비교 표·그래프·매매 기록이 보입니다.'));
   // 순위·편집기·내 전략 카드·접은 표(2026-10-21 디자인 시안 선택 — -rank.js). 모형 설명은 순위 제목 옆 "?"에서 펼친다
   const info = result ? `큰 사건 예외를 뺀 정기 운용 모형 · 엔진 ${ENGINE_VERSION} · 마지막 기록 ${lastRec} · 빠진 날 ${result.missingSessions.length}일` : '';
-  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : model, { ...smodel, info }, handlers);
+  // A(그대로 보유)는 화면에서 숨긴다 — 계산(다른 전략 출발점·SPY 기준선)에는 그대로 쓰므로 baseA로 넘긴다(사용자 결정 2026-10-22)
+  const shown = result ? { ...result, scenarios: result.scenarios.filter((s) => s.id !== 'A'), baseA: result.scenarios.find((s) => s.id === 'A') || null } : null;
+  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : { ...model, result: shown }, { ...smodel, info }, handlers);
   // 시작 폼 미리 채우기: 내 자산과 같은 계산으로 마지막 기록일까지(그 뒤 매매는 빼고)
   const hh = model.main?.holdings || {};
   const pc = currentHoldings(hh.rows, hh.asOf, model.trades, lastRec || etDate(model.now ?? Date.now()));

@@ -314,9 +314,9 @@ export function chartSection(result, byId) {
   const draw = () => {
     body.textContent = '';
     const on = scen.filter((s) => show.includes(s.id) && slot.get(s.id));
-    const A = result.scenarios.find((s) => s.id === 'A');
+    const A = result.baseA || result.scenarios.find((s) => s.id === 'A');
     const series = on.map((s) => ({ name: label(s, byId), cls: 'pf-c' + slot.get(s.id), points: s.days.filter((d) => d.date >= s.started) }));
-    const bases = A.started ? BASELINES.map((e, k) => ({ name: e + '(A 출발 기준)', cls: 'pf-b' + (k + 1), points: A.baselines[e] || [] })) : [];
+    const bases = A.started ? BASELINES.map((e, k) => ({ name: e + '(시작 기준)', cls: 'pf-b' + (k + 1), points: A.baselines[e] || [] })) : [];
     body.appendChild(legend([
       ...scen.map((s) => ({
         name: label(s, byId), cls: slot.get(s.id) ? 'pf-c' + slot.get(s.id) : 'pf-cx', on: show.includes(s.id),

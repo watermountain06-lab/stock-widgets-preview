@@ -5,7 +5,7 @@
 // 저평가만(C)·갈아타기(D)는 값을 바꾸지 않으면 그 전략 그대로 저장하고, 바꾸면 사용자 정의로 저장한다(C는 매도 알림을 남기지 않아 사용자 정의와 다르다).
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
 import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
-  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=16';
+  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=17';
 import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=2';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
@@ -77,7 +77,7 @@ export function rankRows(result, byId, sort) {
 
 // A의 SPY 기준선 마지막 수익률(순위 막대의 세로선). 없으면 null
 export function spyLine(result) {
-  const A = result.scenarios.find((s) => s.id === 'A');
+  const A = result.baseA || result.scenarios.find((s) => s.id === 'A');   // A는 화면에서 숨겨도 기준선으로 남는다
   const pts = (A && A.baselines && A.baselines.SPY) || [];
   for (let i = pts.length - 1; i >= 0; i--) if (pts[i].twr != null) return pts[i].twr;
   return null;
@@ -129,7 +129,7 @@ export function renderStrategy(st, model, smodel, handlers) {
     sec.appendChild(head);
     const spy = spyLine(result);
     const helpBox = el('div', 'pf-helpbox'); helpBox.hidden = !view.help;
-    helpBox.appendChild(el('p', null, (spy != null ? `점선 = SPY(${pct(spy)}, A 출발 기준). ` : '') + '막대는 수익률(TWR)입니다. 모든 전략은 시작 스냅샷에서 같이 출발하고, 입금은 반영일부터 모든 전략에 같이 들어갑니다.'));
+    helpBox.appendChild(el('p', null, (spy != null ? `점선 = SPY(${pct(spy)}, 시작 스냅샷에서 같은 날 출발). ` : '') + '막대는 수익률(TWR)입니다. 모든 전략은 시작 스냅샷에서 같이 출발하고, 입금은 반영일부터 모든 전략에 같이 들어갑니다.'));
     helpBox.appendChild(el('p', null, '기준선 대비는 같은 출발 시점·평가액에서 SPY·RSP·QQQ만 산 경우와의 차이입니다. 종목 선택뿐 아니라 현금 유보·나눠 사기 시점의 효과도 섞여 있어 판정 신호의 성과로 읽지 않습니다.'));
     if (smodel.info) helpBox.appendChild(el('p', null, smodel.info));
     help.addEventListener('click', () => { view.help = !view.help; keep(); helpBox.hidden = !view.help; help.setAttribute('aria-expanded', String(view.help)); });
