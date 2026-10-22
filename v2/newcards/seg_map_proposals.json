@@ -2721,5 +2721,34 @@
     "#a9c4ea"
    ]
   }
+ },
+ "CMI": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "cmi:DistributionMember": [
+    "유통(Distribution)",
+    "#d71920"
+   ],
+   "cmi:ComponentsMember": [
+    "부품(Components)",
+    "#e86a6f"
+   ],
+   "cmi:EngineMember": [
+    "엔진(Engine)",
+    "#8f1015"
+   ],
+   "cmi:PowerSystemsMember": [
+    "발전(Power Systems)",
+    "#f2a7aa"
+   ],
+   "cmi:AcceleraMember": [
+    "Accelera(수소·전동화)",
+    "#4caf50"
+   ]
+  }
  }
 }

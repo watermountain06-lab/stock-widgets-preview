@@ -1277,6 +1277,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # LITE: 같은 1년 안 만기 전환사채($1,596.9M, 2026-06)를 ShortTermBorrowings와 LongTermDebtCurrent 두 태그로 실어 기본 합이 두 번 더했다($3,234M) —
                   # 단기 + 장기 비유동 = 10-K 재무상태표 1,596.9 + 40.5 = 1,637.4(DebtLongtermAndShorttermCombinedAmount와 같음, 그 태그는 2024-06부터만)(2026-10-22).
                   "0001633978": ["ShortTermBorrowings", "LongTermDebtNoncurrent"],
+                  # CMI: 단기 은행 차입 "Loans payable" $459M(ShortTermBankLoansAndNotesPayable)이 기본 목록에 없어 빠졌다 — 459 + CP 348 + 1년 안 151 + 장기 6,737
+                  # = 10-Q $7,695M(DebtInstrumentCarryingAmount와 같음). 장기 태그 이름에 CapitalLease가 있어 금융리스를 리스로 또 더하지 않는다(2026-10-22).
+                  "0000026172": ["ShortTermBankLoansAndNotesPayable", "CommercialPaper", "LongTermDebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # MMM: 단기 차입·1년 안 만기 DebtCurrent $2,439M + 장기 LongTermDebtNoncurrent $12,558M = 10-Q $14,997M(기본은 장기만, 2026-10-21).
                   "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # TRV: 재무상태표 "Debt" $9,813M(사채 + CP $100M)은 DebtLongtermAndShorttermCombinedAmount — 기본 선택은 2025-12에 멈춘 태그였다(2026-10-21).

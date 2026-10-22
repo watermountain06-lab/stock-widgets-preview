@@ -1603,3 +1603,11 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(CTAS에만)** — DDA_PARTS_BY_CIK Depreciation + AdjustmentForAmortization(합산 태그 분기 행이 드물어 EV/EBITDA 이력 138일 → 1255일), 2024-09 4:1 분할, 4분기 EPS FY23~25 보도자료 값.
 - **판단** — 투자 $448.9M(주로 보험 해약환급금)은 관련 이연보상 부채를 확인하지 못해 양쪽 모두 조정하지 않는 단순화 가정(더하면 주당 +$1.13). UniFirst 인수(완료 전)는 숫자에 없음.
 - **dr** — Codex 3라운드. **Fable은 한도로 검토 못 함(research/fable_pending.md).**
+
+## CMI — 엔진·발전기, Accelera 정리 (2026-10-22, 카드 151, 시총 149위)
+
+- **판정 고평가(−1, 0, −2)** — 자기 이력 28.5, 동종업 57.8(S&P500 산업재), 현금흐름 기본 $253 대 $542.21. 기준 Q2 2026 10-Q(8/4).
+- **엔진(CMI에만)** — DEBT_TOTAL_TAG(단기 은행 차입 $459M이 빠져 $7,236M → $7,695M, 장기 태그가 금융리스 포함), cfg NI_TAGS(귀속 순이익 — 2024 분기 NetIncomeLoss 결측으로 fill 멈춤).
+- **공통 장치(새로)** — vendor/fetch_financials LATEST_Q_BY_CIK: 연간 이력은 옛 태그, 최신 분기만 새 태그(CMI 매출·이자비용 — 옛 태그가 2025-09에 멈춰 카드 재무 기준이 10-K로 잡혀 preflight가 멈췄다). 지금은 CMI에만.
+- **안건 E36** — 같은 원인으로 이자보상배율이 "그 분기 이자비용 미공시"로 빠진 카드 5장(RTX·VRTX·HPE·AAPL·FTNT).
+- **dr** — Codex 2라운드(전해조 신규 영업 중단 계획 — 10-K, 연료전지 매각 순 $175M 지급). **Fable은 한도로 검토 못 함(research/fable_pending.md).**

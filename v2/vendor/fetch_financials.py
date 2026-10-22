@@ -85,6 +85,13 @@ CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNono
                    # 기본 후보에선 기타 한 줄만 잡혀 이자보상배율이 3,153배였다. 장기차입 이자를 쓴다(자본화 차감 전, 기타 $0.35M은 빠짐; Codex 2026-10-22)
                    "0000745732": {"interestExpense": ["InterestExpenseLongTermDebt"]}}
 
+# 최신 분기만 다른 태그에서 가져올 개념(CIK). 연간 이력이 있는 옛 태그가 순위에서 이겨, 분기만 새 태그로 옮긴 해에는
+# 최신 분기가 멈춘 옛 태그 값이 됐다 — CMI: 2026년부터 매출을 RevenueFromContractWithCustomerExcludingAssessedTax, 이자비용을
+# InterestExpenseNonoperating으로 내 Revenues·InterestExpense는 2025-09에 멈췄다(카드 재무 기준이 10-K로 잡혀 preflight가 멈춤, 2026-10-22).
+# 연간 이력은 옛 태그 그대로 두고, 새 태그의 최신 분기가 더 새로울 때만 바꾼다.
+LATEST_Q_BY_CIK = {"0000026172": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"],
+                                  "interestExpense": ["InterestExpenseNonoperating"]}}
+
 # Balance-sheet concepts are point-in-time ("instant": only an "end" date,
 # no "start") rather than period durations like income-statement concepts.
 INSTANT_CONCEPTS = {"assets", "currentAssets", "currentLiabilities", "inventory",
@@ -258,6 +265,13 @@ def main():
     for key, tags in CONCEPTS.items():
         tags = CONCEPTS_BY_CIK.get(str(cik).zfill(10), {}).get(key, tags)
         result[key] = extract_concept(facts, tags, is_instant=key in INSTANT_CONCEPTS, n_years=args.years)
+        alt_tags = LATEST_Q_BY_CIK.get(str(cik).zfill(10), {}).get(key)
+        if alt_tags:
+            alt = extract_concept(facts, alt_tags, is_instant=key in INSTANT_CONCEPTS, n_years=args.years)
+            q0, q1 = result[key].get("latestQuarter"), alt.get("latestQuarter")
+            if q1 and (not q0 or q1["end"] > q0["end"]):
+                result[key]["latestQuarter"] = q1
+                result[key]["latestQuarterTag"] = alt.get("tag")
 
     out_path = args.out or f"{args.ticker.upper()}_financials.json"
     with open(out_path, "w") as f:
