@@ -8,3 +8,4 @@ Fable 사용 한도(429)에 걸려 dr의 Fable 쪽을 건너뛴 카드다. 한�
 | SHW | 2026-10-22 | Codex | 영업이익 합성(DERIVED_OPINC) |
 | ROST | 2026-10-22 | Codex 2라운드 | 영업이익 합성(DERIVED_OPINC), 이자비용 태그, 관세 환급 |
 | LITE | 2026-10-22 | Codex 2라운드 | 차입금 이중 합산, 전환우선주 SHARES_ADD, 상환 손실 각주(YOY_NOTE) |
+| CTAS | 2026-10-22 | Codex 3라운드 | 감가상각 구성요소(DDA_PARTS), 보험 해약환급금 투자 처리, 대기 중 UniFirst 인수 |

@@ -2696,5 +2696,30 @@
     "#f9b4c0"
    ]
   }
+ },
+ "CTAS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "ctas:UniformRentalAndFacilityServicesSegmentMember": [
+    "유니폼 대여·시설 서비스",
+    "#0b4ea2"
+   ],
+   "ctas:FirstAidAndSafetyServicesSegmentMember": [
+    "구급·안전 서비스",
+    "#5b8fd6"
+   ],
+   "ctas:FireProtectionServicesMember": [
+    "방화 서비스",
+    "#e4572e"
+   ],
+   "ctas:UniformDirectSalesMember": [
+    "유니폼 직판",
+    "#a9c4ea"
+   ]
+  }
  }
 }

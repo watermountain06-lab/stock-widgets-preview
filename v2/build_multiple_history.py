@@ -99,6 +99,9 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     # VRT: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 듬성듬성해(2021-12부터 13개) EV/EBITDA 이력이 250일뿐이었다 —
                     # 현금흐름표 구성요소 Depreciation + AmortizationOfIntangibleAssets(2021~ 22개; 2026 상반기 66.9 + 156.6 = 223.5 = 합산 태그, 2026-10-21).
                     "0001674101": ["Depreciation", "AmortizationOfIntangibleAssets"],
+                    # CTAS: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 듬성듬성해(24개) EV/EBITDA 이력이 138일뿐이었다 —
+                    # 현금흐름표 Depreciation + "Amortization"(AdjustmentForAmortization — 계약 비용 상각 포함; AmortizationOfIntangibleAssets는 Q1 FY27에 무형자산만 14.9로 좁아짐) = 78.9 + 48.4 = 127.3 = 합산 태그(2026-10-22).
+                    "0000723254": ["Depreciation", "AdjustmentForAmortization"],
                     # CME: 손익계산서 "Depreciation and amortization" 줄을 10-Q는 Depreciation, 10-K 연간은 DepreciationAndAmortization으로 낸다 —
                     # 둘을 한 구성요소로 합쳐야 4분기가 생긴다(없으면 4분기 감가상각이 빠져 TTM이 $233M, 2026-10-16). 무형자산 상각은 따로.
                     "0001156375": [("Depreciation", "DepreciationAndAmortization"), "AmortizationOfIntangibleAssets"],
@@ -644,6 +647,7 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0000277948": ("DepreciationDepletionAndAmortization",),   # CSX — 구성요소 튜플 경로로(DDA_PARTS_BY_CIK)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
                 "0001868275": ("DepreciationAmortizationAndAccretionNet",),   # CEG — 구성요소 경로로(DDA_PARTS_BY_CIK)
+                "0000723254": ("DepreciationDepletionAndAmortization",),   # CTAS — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0001674101": ("DepreciationDepletionAndAmortization",),   # VRT — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-21)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
