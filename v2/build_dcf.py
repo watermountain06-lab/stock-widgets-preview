@@ -445,6 +445,12 @@ def base_inputs(ticker, asof=None):
         u = (ok[-1] if ok else rows[0])["value"]   # 공시 전 시점은 가장 이른 값(2024-09-30, 이후 값과 1% 안쪽)
         out["dq"].append(f"econ_shares:{out['shares']:.0f}->{u}")
         out["shares"] = u
+    # 보통주와 똑같이 이익에 참여하는 전환우선주(회사가 기본 EPS에도 전환된 것으로 넣는다)는 전환 주식 수를 더한다 — 표지 주식 수에는 없다.
+    if ticker in SHARES_ADD and out.get("shares"):
+        add = sum(x["shares"] for x in SHARES_ADD[ticker] if asof is None or x["filed"] <= asof)
+        if add:
+            out["dq"].append(f"shares_add:{out['shares']:.0f}+{add}")
+            out["shares"] += add
     # 차입금: 최근 4분기 이자비용 ÷ 차입금이 15%를 넘거나, 이자비용이 $1억 넘는데 차입금이 0이면
     # 차입금이 빠졌을 가능성(회사 자체 태그 — CMCSA 장기차입금). 고치지 않고 표시만 한다(검증 패널 제외).
     interest = ttm(["InterestExpense", "InterestExpenseNonoperating", "InterestExpenseDebt"])
@@ -577,6 +583,11 @@ ECON_SHARES = {"BX": [{"end": "2024-09-30", "value": 1221580941, "filed": "2024-
                       {"end": "2025-12-31", "value": 1228769322, "filed": "2026-01-29"},
                       {"end": "2026-03-31", "value": 1230169747, "filed": "2026-04-23"},
                       {"end": "2026-06-30", "value": 1243813031, "filed": "2026-07-23"}]}
+
+
+# 보통주 동등 전환우선주(전환 주식 수, 발행 8-K 접수일부터). LITE: NVIDIA Series A 2,876,415주($695.31, $2.0B, 2026-03-02 8-K) —
+# 배당 없이 전환 기준으로 참여해 회사가 기본·희석 EPS 모두 전환 주식을 넣는다(10-K 주당이익 주석). 재무상태표 우선주 2.9M주(2026-10-22).
+SHARES_ADD = {"LITE": [{"shares": 2876415, "filed": "2026-03-02", "src": "8-K 2026-03-02 3.02항"}]}
 
 
 def run_dcf(base, growth, wacc, terminal, exit_mult, years=5,

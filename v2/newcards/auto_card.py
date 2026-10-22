@@ -748,6 +748,10 @@ def texts(C, ns):
         notes.append(f"1년 전 분기 영업이익이 0 이하(영업이익률 {opm_yo:.1f}%)라 영업이익 증감률을 쓰지 않는다")
     elif odd_yo:
         notes.append(f"1년 전 분기 영업이익률이 {opm_yo:.1f}%로 {hy} 중앙값({m5:.1f}%)보다 낮아 영업이익 증감률이 크게 나온다")
+    # cfg YOY_NOTE {분기 말: 문장} — 그 분기 일회성 항목 설명(LITE 상환 손실, Codex 2026-10-22). 분기가 바뀌면 저절로 빠진다.
+    _yn = getattr(C, "YOY_NOTE", {}).get(C.CUR)
+    if _yn:
+        notes.append(_yn)
     C.YOY_EXTRA = "".join(n + " · " for n in notes)
     yo_tab = A.get("seg_yo", {})
     def segchg(a, b_):   # ±50%를 넘어도 적는다(MU 전부 '—'였다, Fable)
@@ -770,6 +774,8 @@ def texts(C, ns):
         extra_.append(f"이자보상배율 {ic:.1f}배" if abs(ic) < 10 else f"이자보상배율 {ic:.0f}배")   # 10배 아래는 소수 한 자리(BA 0.26, Fable)
     C.HEALTH_NOTE = hn + (" " + ", ".join(extra_) + "." if extra_ else "")   # 유동비율 없을 때 '., ' 구두점(CB, Fable)
     C.FUND_TIP = f"점수는 {C.TENQ_NAME} 기준 재무로 계산했다."
+    if getattr(C, "YOY_NOTE", {}).get(C.CUR):
+        C.FUND_TIP += " " + C.YOY_NOTE[C.CUR] + "."
     C.SELF_TIP = (f"{name[lead['metric']]} {lead['current']:.1f}배는 {span_y(lead.get('days'))} 분포의 하위 {lead.get('percentile', 0):.1f}%다(중앙값 {lead['median']:.1f}배)." if lead else "자기 이력 배수 분포 기준이다.")
     req = DCF.get("requiredMargin") if DCF.get("reqMode") == "margin" else None   # 0%도 해다 — is not None으로 본다(Codex)
     C.PREMISE = (f"{name[lead['metric']]} {lead['current']:.1f}배({span_y(lead.get('days'))} 중앙값 {lead['median']:.1f}배)로 자기 이력 {selfsc:.1f}점({word(selfsc)}), 동종업 {peersc:.1f}점({word(peersc)})이다. "

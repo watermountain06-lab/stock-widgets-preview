@@ -1270,6 +1270,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # LITE: 같은 1년 안 만기 전환사채($1,596.9M, 2026-06)를 ShortTermBorrowings와 LongTermDebtCurrent 두 태그로 실어 기본 합이 두 번 더했다($3,234M) —
+                  # 단기 + 장기 비유동 = 10-K 재무상태표 1,596.9 + 40.5 = 1,637.4(DebtLongtermAndShorttermCombinedAmount와 같음, 그 태그는 2024-06부터만)(2026-10-22).
+                  "0001633978": ["ShortTermBorrowings", "LongTermDebtNoncurrent"],
                   # MMM: 단기 차입·1년 안 만기 DebtCurrent $2,439M + 장기 LongTermDebtNoncurrent $12,558M = 10-Q $14,997M(기본은 장기만, 2026-10-21).
                   "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # TRV: 재무상태표 "Debt" $9,813M(사채 + CP $100M)은 DebtLongtermAndShorttermCombinedAmount — 기본 선택은 2025-12에 멈춘 태그였다(2026-10-21).

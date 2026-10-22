@@ -132,9 +132,11 @@ def quarter_values(M, form, url, end, q3_url=None, q3_end=None):
     if not q3_url:
         raise ValueError("10-K 4분기는 3분기 10-Q가 있어야 한다")
     ytd = by_member(facts(q3_url), M, lambda n: 230 <= n <= 290, q3_end)
-    if set(fy) - set(ytd):
-        raise ValueError(f"연간에만 있는 멤버 {sorted(set(fy) - set(ytd))} — 4분기 값을 만들 수 없다")
-    return {k: fy[k] - ytd[k] for k in fy}
+    # 지도에서 ignore로 뺀 멤버(지역 축의 나라별 소계 — LITE 태국은 10% 넘는 해에만 따로 나온다)는 누계에 없어도 된다(2026-10-22)
+    missing = set(fy) - set(ytd) - set(M.get("ignore", []))
+    if missing:
+        raise ValueError(f"연간에만 있는 멤버 {sorted(missing)} — 4분기 값을 만들 수 없다")
+    return {k: fy[k] - ytd[k] for k in fy if k in ytd}
 
 
 def table(M, vals):
