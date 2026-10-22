@@ -8,22 +8,22 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 49장: AAPL, ADBE, ADI, ADP, AMAT, AMD, AMGN, AMZN"
+   "detail": "승인 목록에 없는 판정 코드 해시 50장: AAPL, ADBE, ADI, ADP, AMAT, AMD, AMGN, AMZN"
   }
  ],
- "detail": "승인 목록에 없는 판정 코드 해시 49장: AAPL, ADBE, ADI, ADP, AMAT, AMD, AMGN, AMZN",
+ "detail": "승인 목록에 없는 판정 코드 해시 50장: AAPL, ADBE, ADI, ADP, AMAT, AMD, AMGN, AMZN",
  "verdict": null,
  "nbar": null,
- "coverage": 0.845029752809907,
+ "coverage": 0.8482405957602052,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.004333478824784914,
   "적정~저평가": 0.1359640097177007,
   "적정": 0.02020433128568761,
-  "적정~고평가": 0.2911136134683859,
+  "적정~고평가": 0.29432445641868415,
   "고평가": 0.39341431951334793,
-  "카드 없음": 0.12575660854068701,
+  "카드 없음": 0.12254576559038877,
   "판정 보류": 0.029213638649406043,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
@@ -157,8 +157,8 @@
   "lines": 106,
   "nonEquity": 5,
   "companies": 100,
-  "cardsMatched": 50,
-  "cardsUsed": 49,
+  "cardsMatched": 51,
+  "cardsUsed": 50,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -441,6 +441,13 @@
    "excluded": []
   },
   {
+   "card": "ROST",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
    "card": "SBUX",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -531,8 +538,8 @@
  "inputFormat": "invesco_json",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-22T13:27:26Z",
- "fetchedAt": "2026-10-22T13:27:26Z",
+ "runAt": "2026-10-22T14:46:31Z",
+ "fetchedAt": "2026-10-22T14:46:31Z",
  "inputHash": {
   "json": "73300daa61b0f93df4dfacc195c24eb402df841d51094287c9f360842b2c4087",
   "alias": "cd884e524b4f6045",
@@ -547,7 +554,7 @@
   ],
   "S": "2026-10-21"
  },
- "runId": "39786950095.1",
+ "runId": "39798589968.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -601,6 +608,7 @@
     "PLTR",
     "QCOM",
     "REGN",
+    "ROST",
     "SBUX",
     "SNDK",
     "SNPS",

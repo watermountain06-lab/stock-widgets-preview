@@ -8,22 +8,22 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 25장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX"
+   "detail": "승인 목록에 없는 판정 코드 해시 26장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX"
   }
  ],
- "detail": "승인 목록에 없는 판정 코드 해시 25장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX",
+ "detail": "승인 목록에 없는 판정 코드 해시 26장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8930668635532858,
+ "coverage": 0.9309924509780395,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0,
   "적정~저평가": 0.024960246260180674,
   "적정": 0.03140805764417057,
-  "적정~고평가": 0.3271808932222946,
+  "적정~고평가": 0.3651064806470483,
   "고평가": 0.50951766642664,
-  "카드 없음": 0.06207170886181737,
+  "카드 없음": 0.0241461214370636,
   "판정 보류": 0.04486142758489683,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
@@ -134,9 +134,9 @@
     "SHW"
    ],
    "weight": 0.03792558742475377,
-   "card": null,
-   "verdict": null,
-   "n": null,
+   "card": "SHW",
+   "verdict": "적정~고평가",
+   "n": -2.0,
    "excluded": []
   },
   {
@@ -156,8 +156,8 @@
   "lines": 31,
   "nonEquity": 1,
   "companies": 30,
-  "cardsMatched": 28,
-  "cardsUsed": 27,
+  "cardsMatched": 29,
+  "cardsUsed": 28,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -335,6 +335,13 @@
    "excluded": []
   },
   {
+   "card": "SHW",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
    "card": "TRV",
    "verdict": "판정 보류",
    "n": null,
@@ -376,8 +383,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-22T13:27:27Z",
- "fetchedAt": "2026-10-22T13:27:28Z",
+ "runAt": "2026-10-22T14:46:32Z",
+ "fetchedAt": "2026-10-22T14:46:32Z",
  "inputHash": {
   "xlsx": "384494a591274dcc39c4722454b15ef6f25209ca4632f042ae5dd994d39d559b",
   "alias": "cd884e524b4f6045",
@@ -392,7 +399,7 @@
   ],
   "S": "2026-10-21"
  },
- "runId": "39786950095.1",
+ "runId": "39798589968.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -431,6 +438,7 @@
     "NKE",
     "NVDA",
     "PG",
+    "SHW",
     "TRV",
     "V",
     "WMT"
