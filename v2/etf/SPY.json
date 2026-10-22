@@ -8,22 +8,22 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 132장: AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP, AMAT"
+   "detail": "승인 목록에 없는 판정 코드 해시 139장: AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP, AMAT"
   }
  ],
- "detail": "승인 목록에 없는 판정 코드 해시 132장: AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP, AMAT",
+ "detail": "승인 목록에 없는 판정 코드 해시 139장: AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP, AMAT",
  "verdict": null,
  "nbar": null,
- "coverage": 0.7971961265656581,
+ "coverage": 0.8049670566822369,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0015149776164328818,
   "적정~저평가": 0.10471095413337918,
-  "적정": 0.017531571799084152,
-  "적정~고평가": 0.3218412371947601,
-  "고평가": 0.351597385822002,
-  "카드 없음": 0.182739656708682,
+  "적정": 0.018611654329678394,
+  "적정~고평가": 0.3229566453191003,
+  "고평가": 0.3571728252836464,
+  "카드 없음": 0.17496872659210325,
   "판정 보류": 0.02006421672565991,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
@@ -155,8 +155,8 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 144,
-  "cardsUsed": 140,
+  "cardsMatched": 151,
+  "cardsUsed": 147,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -366,9 +366,23 @@
    "excluded": []
   },
   {
+   "card": "CL",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
    "card": "CME",
    "verdict": "고평가",
    "n": -4.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
+   "card": "CMI",
+   "verdict": "고평가",
+   "n": -3.0,
    "date": "2026-10-21",
    "excluded": []
   },
@@ -422,6 +436,13 @@
    "excluded": []
   },
   {
+   "card": "CTAS",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
    "card": "CVS",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -467,6 +488,13 @@
    "card": "DIS",
    "verdict": "적정~고평가",
    "n": -1.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
+   "card": "ECL",
+   "verdict": "고평가",
+   "n": -3.0,
    "date": "2026-10-21",
    "excluded": []
   },
@@ -667,6 +695,13 @@
    "excluded": []
   },
   {
+   "card": "LITE",
+   "verdict": "고평가",
+   "n": -4.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
    "card": "LLY",
    "verdict": "고평가",
    "n": -3.0,
@@ -829,6 +864,13 @@
   },
   {
    "card": "NKE",
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
+   "card": "NOC",
    "verdict": "적정",
    "n": 0.0,
    "date": "2026-10-21",
@@ -1091,6 +1133,13 @@
    "excluded": []
   },
   {
+   "card": "UPS",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
    "card": "USB",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -1193,8 +1242,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-22T14:46:29Z",
- "fetchedAt": "2026-10-22T14:46:30Z",
+ "runAt": "2026-10-22T18:13:43Z",
+ "fetchedAt": "2026-10-22T18:13:44Z",
  "inputHash": {
   "xlsx": "46f7858c921132ecdeddc48941f2ce9cc869b6e7b115b02f9d26aecdf6048d46",
   "alias": "cd884e524b4f6045",
@@ -1209,7 +1258,7 @@
   ],
   "S": "2026-10-21"
  },
- "runId": "39798589968.1",
+ "runId": "39829454976.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -1251,13 +1300,16 @@
     "CAT",
     "CB",
     "CEG",
+    "CL",
     "CME",
+    "CMI",
     "COP",
     "COST",
     "CRM",
     "CRWD",
     "CSCO",
     "CSX",
+    "CTAS",
     "CVS",
     "CVX",
     "DDOG",
@@ -1265,6 +1317,7 @@
     "DELL",
     "DHR",
     "DIS",
+    "ECL",
     "EMR",
     "EOG",
     "EQIX",
@@ -1290,6 +1343,7 @@
     "KLAC",
     "KO",
     "LIN",
+    "LITE",
     "LLY",
     "LMT",
     "LOW",
@@ -1313,6 +1367,7 @@
     "NEM",
     "NFLX",
     "NKE",
+    "NOC",
     "NOW",
     "NVDA",
     "ORCL",
@@ -1347,6 +1402,7 @@
     "TXN",
     "UBER",
     "UNP",
+    "UPS",
     "V",
     "VLO",
     "VRT",
