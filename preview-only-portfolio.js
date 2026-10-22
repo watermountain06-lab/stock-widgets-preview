@@ -2,12 +2,13 @@
 //
 // 나만 쓰기: Google 로그인(Firebase Auth) 뒤 Firestore `users/{uid}/portfolio/main` 문서 하나를 읽는다.
 // 누가 읽을 수 있는지는 Firestore 규칙(pipeline/portfolio/firestore.rules)이 정한다 — 이 파일은 보호하지 않는다.
-// 내 데이터는 GitHub 저장소에 올라가지 않는다(저장소에는 가짜 sample.json만). 로그인은 이 탭에서만 유지한다(사용자 결정):
-// sessionStorage 기반이라 새 탭에서는 다시 묻는다. 브라우저의 '닫은 탭 다시 열기'·탭 복제는 로그인을 되살릴 수 있다.
+// 내 데이터는 GitHub 저장소에 올라가지 않는다(저장소에는 가짜 sample.json만). 로그인은 이 브라우저에서 로그아웃할 때까지 유지한다
+// (2026-10-22 사용자 결정 — 예전 '이 탭에서만'은 Portfolio를 열 때마다 다시 로그인해야 해 바꿈). 데이터를 누가 읽는지는 그대로
+// Firestore 보안 규칙(소유자 이메일 한 개)이 정한다. 같은 브라우저를 쓰는 다른 사람이 볼 수 있으니 공용 컴퓨터에서는 로그아웃한다.
 // 위 구역(원칙·실제 자산·관심 종목·모의 운용 기록)은 올린 값만 보여 준다. 전략 비교 구역(2026-10-20)은 따로 저장하는 묶음 문서
 // users/{uid}/portfolio/strategy_N 과 공개 일별 기록으로 계산한다 — preview-only-portfolio-strategy.js, 설계 STRATEGY_DESIGN.md.
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, setPersistence, browserSessionPersistence }
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
@@ -330,12 +331,11 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
   document.querySelectorAll('.pf-tabs [role=tab]').forEach((b) => b.addEventListener('click', () => selectTab(b.dataset.tab)));
   try { const t = sessionStorage.getItem(TAB_KEY); if (t) selectTab(t); } catch (_) { /* 기본 탭 */ }
 
-  // 로그인 유지 방식(이 탭만)을 먼저 정하고 나서 로그인 상태를 본다. 정하지 못하면 기본(계속 유지)으로
-  // 넘어가지 않고 여기서 멈춘다 — '이 탭에서만' 결정을 지키지 못하는 상태로는 열지 않는다.
+  // 로그인 유지 방식(이 브라우저에서 계속 — 사용자 결정 10-22)을 먼저 정하고 나서 로그인 상태를 본다
   let persisted = true;
-  try { await setPersistence(auth, browserSessionPersistence); } catch (_) { persisted = false; }
+  try { await setPersistence(auth, browserLocalPersistence); } catch (_) { persisted = false; }
   if (!persisted) {
-    show('out', '이 브라우저에서는 탭 단위 로그인을 쓸 수 없어 열지 않습니다(사생활 보호 모드·저장소 차단을 확인하세요).');
+    show('out', '이 브라우저에서는 로그인을 저장할 수 없어 열지 않습니다(사생활 보호 모드·저장소 차단을 확인하세요).');
     $('pf-login').disabled = true;
   } else onAuthStateChanged(auth, (user) => {
     gen += 1;
