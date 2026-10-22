@@ -272,6 +272,14 @@ export function chainPreStart(pre, real, snapshot, startValue) {
   return { from: pre.from, preTwr, twr: total, vsSPY };
 }
 
+// 수익률을 아는 마지막 날 기준 요약(마지막 기록이 불완전해 그날 평가가 비면 그 전날 값 — 예: 10/21 pipelineFull false)
+export function summarizeKnown(s) {
+  const m = summarize(s);
+  if (m.twr != null || !s.started) return m;
+  const k = [...(s.days || [])].reverse().find((d) => d.date >= s.started && d.twr != null);
+  return k ? { ...m, twr: k.twr, vs: k.vs || null, asOf: k.date } : m;
+}
+
 // ---- 그리기 ----
 // model = { main(올린 데이터), trades(실제 매매 지도), result|null, bundle|null, byId, records, now }
 // handlers = { trade({date, ticker, side, qty, price}), editTrade(id, …), deleteTrade(id), deposit(amount), pick(month, [티커]), goto(tab) }
@@ -282,6 +290,16 @@ export function renderHome(root, model, handlers) {
   // 가격·판정은 마지막 '완전한' 기록에서 읽는다(파이프라인 실패 날은 엔진도 값을 쓰지 않는다)
   const lastFull = [...recs].reverse().find((r) => r.pipelineFull) || null;
   const close = (t) => { const c = lastFull && (lastFull.cards?.[t]?.close ?? lastFull.prices?.[t]); return typeof c === 'number' ? c : null; };
+  // 내 자산·보유 금액은 가장 최근 종가(불완전한 날 기록이라도 그 종목 종가가 있으면 — 사용자 결정 2026-10-22, 급락이 바로 보이게).
+  // 매수·매도 검토 같은 판단은 위의 close(마지막 완전한 기록, 원칙 6)를 그대로 쓴다
+  const priceDays = new Set();
+  const closeNow = (t) => {
+    for (let k = recs.length - 1; k >= 0; k--) {
+      const c = recs[k].cards?.[t]?.close ?? recs[k].prices?.[t];
+      if (typeof c === 'number' && !recs[k].cards?.[t]?.priceStale) { priceDays.add(recs[k].session); return c; }
+    }
+    return null;
+  };
   const tierOf = (t) => (lastFull && lastFull.cards?.[t] ? lastFull.cards[t].tier : null);
   const h = model.main?.holdings || {};
   const now = model.now ?? Date.now(), today = etDate(now);
@@ -303,8 +321,8 @@ export function renderHome(root, model, handlers) {
   // 경고 문구는 페이지 맨 아래 한 번(html), 매매 기록 양식은 탭 줄의 "＋ 매매 기록"이 여는 창(어느 탭에서나).
   // 색은 종목에 고정: 7자리를 내 보유 평가액 큰 순으로 먼저 채우고, 남는 자리를 전략 보유 합산 큰 순으로 채운다
   let total = cur.cash, missing = [];
-  for (const x of cur.holdings) { const c = close(x.ticker); if (c == null) missing.push(x.ticker); else total += x.qty * c; }
-  const myVal = new Map(cur.holdings.map((x) => { const c = close(x.ticker); return [x.ticker, c == null ? 0 : x.qty * c]; }));
+  for (const x of cur.holdings) { const c = closeNow(x.ticker); if (c == null) missing.push(x.ticker); else total += x.qty * c; }
+  const myVal = new Map(cur.holdings.map((x) => { const c = closeNow(x.ticker); return [x.ticker, c == null ? 0 : x.qty * c]; }));
   const simW = new Map();
   for (const sc of model.result?.scenarios || []) if (sc.started) for (const t of Object.keys(sc.holdings)) { const c = close(t); simW.set(t, (simW.get(t) || 0) + (c == null ? 0 : sc.holdings[t] * c)); }
   const byVal = (m) => [...m.entries()].filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([t]) => t);   // 가격 없는 종목은 색 자리를 받지 않는다
@@ -312,7 +330,8 @@ export function renderHome(root, model, handlers) {
   const color = (t) => (t === '현금' ? 'var(--pf-cash)' : named.includes(t) ? `var(--pf-k${named.indexOf(t) + 1})` : 'var(--pf-other)');
   const has = cur.holdings.length || cur.hasCash;
   const real = model.result?.scenarios?.find((s) => s.id === 'REAL');
-  const rs = real ? summarize(real) : null;
+  // 띠는 수익률을 아는 마지막 날 기준(마지막 기록이 불완전해 그날 평가가 비면 그 전날 — 예: 10/21 pipelineFull false)
+  const rs = real ? summarizeKnown(real) : null;
 
   // 매매 기록 창: 탭 줄의 "＋ 매매 기록"(html #pf-trade-open)과 아래 "후보로 매수 기록"이 연다
   const dlg = tradeDialog(model, handlers, recs, mv, today);
@@ -323,13 +342,14 @@ export function renderHome(root, model, handlers) {
   const band = el('section', 'pf-panel pf-band');
   const cell = (k, v, sub, cls) => { const d = el('div', 'pf-bandcell'); d.appendChild(el('div', 'pf-k', k)); d.appendChild(el('div', 'pf-v' + (cls ? ' ' + cls : ''), v)); if (sub) d.appendChild(el('div', 'pf-s', sub)); band.appendChild(d); };
   cell('내 자산', has ? usd0(total) : '—', !has ? '기록·관리 탭에서 보유를 올리세요'
-    : (cur.hasCash ? `주식 ${usd0(total - cur.cash)} · 현금 ${usd0(cur.cash)}` : '현금 모름(올린 보유에 현금 줄 없음)') + (missing.length ? ` · 가격 없음 ${missing.join(', ')}` : ''));
+    : (cur.hasCash ? `주식 ${usd0(total - cur.cash)} · 현금 ${usd0(cur.cash)}` : '현금 모름(올린 보유에 현금 줄 없음)') + (missing.length ? ` · 가격 없음 ${missing.join(', ')}` : '')
+      + (priceDays.size ? ` · ${[...priceDays].sort().map(md).join('·')} 종가` : ''));
   // 시작 전 실제 계좌 흐름(preStart)이 맞으면 그날부터 이어 붙인다(A안) — 전략 비교는 그대로 시작 스냅샷부터
   const pre = chainPreStart(model.main?.preStart, rs, model.bundle?.snapshot, real?.startValue);
   const ok = pre && !pre.why;
   cell('시작 뒤 수익률', ok ? pct(pre.twr) : rs?.twr != null ? pct(rs.twr) : '—',
     ok ? `${md(pre.from)}부터 · 내 실제 계좌(${md(rs.started)}까지는 Robinhood 기록)` : rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` + (pre?.why ? ` · ${md(model.main.preStart.from)} 기록 못 이음: ${pre.why}` : '') : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
-  cell('SPY 대비', ok ? (pre.vsSPY != null ? pp(pre.vsSPY) : '—') : rs?.vs?.SPY != null ? pp(rs.vs.SPY) : '—', lastFull ? (ok ? `${md(pre.from)}부터 · ` : '') + `${md(lastFull.session)} 종가 기준` : '');
+  cell('SPY 대비', ok ? (pre.vsSPY != null ? pp(pre.vsSPY) : '—') : rs?.vs?.SPY != null ? pp(rs.vs.SPY) : '—', rs?.asOf ? (ok ? `${md(pre.from)}부터 · ` : '') + `${md(rs.asOf)} 종가 기준` : lastFull ? `${md(lastFull.session)} 종가 기준` : '');
   root.appendChild(band);
 
   const grid = el('div', 'pf-homegrid');
@@ -452,7 +472,7 @@ export function renderHome(root, model, handlers) {
       more.appendChild(el('summary', null, `나머지 ${sorted.length - HOLD_SHOWN}종목 더 보기`));
       list.appendChild(more);
     }
-    const c = close(x.ticker), tier = tierOf(x.ticker);
+    const c = closeNow(x.ticker), tier = tierOf(x.ticker);
     const row = el('div', 'pf-hold');
     const nm = el('div');
     const dot = el('i', 'pf-dot'); dot.style.background = color(x.ticker); nm.appendChild(dot);
@@ -813,7 +833,7 @@ function miniRank(model, handlers) {
   const head = el('div', 'pf-sidehead'); head.appendChild(el('h2', 'pf-h2s', '전략과 나란히'));
   const go = el('button', 'pf-linkbtn', '전체'); go.type = 'button'; go.addEventListener('click', () => handlers.goto('strategy')); head.appendChild(go);
   sec.appendChild(head);
-  const sc = (model.result?.scenarios || []).map((s) => ({ s, m: summarize(s) })).filter(({ m }) => m.twr != null);
+  const sc = (model.result?.scenarios || []).map((s) => ({ s, m: summarizeKnown(s) })).filter(({ m }) => m.twr != null);
   if (!sc.length) { sec.appendChild(el('p', 'pf-note', '전략 비교가 출발하면 내 실제 계좌와 다른 전략의 수익률이 여기에 보입니다.')); return sec; }
   const real = sc.find(({ s }) => s.id === 'REAL'), A = sc.find(({ s }) => s.id === 'A');
   const top = sc.filter(({ s }) => s.id !== 'REAL').sort((a, b) => b.m.twr - a.m.twr)[0];

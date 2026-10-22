@@ -482,3 +482,13 @@ test('시작 전 실제 계좌 흐름 잇기(A안): 같은 날·보유·출발 �
   assert.equal(chainPreStart(null, real, snap, 1200), null);
   assert.equal(chainPreStart(pre, { ...real, vs: null }, snap, 1200).vsSPY, null);
 });
+
+import { summarizeKnown } from '../../preview-only-portfolio-home.js';
+
+test('마지막 날 평가가 비면 수익률을 아는 마지막 날 기준(summarizeKnown)', () => {
+  const s = { started: '2026-10-20', days: [{ date: '2026-10-20', value: 100, twr: 0, vs: { SPY: 0 } }, { date: '2026-10-21', value: null, twr: null }], trades: [], skips: [], cash: 0 };
+  const m = summarizeKnown(s);
+  assert.deepEqual([m.twr, m.vs, m.asOf], [0, { SPY: 0 }, '2026-10-20']);
+  const ok = { ...s, days: [s.days[0], { date: '2026-10-21', value: 110, twr: 0.1, vs: { SPY: 1 } }] };
+  assert.equal(summarizeKnown(ok).twr, 0.1);
+});
