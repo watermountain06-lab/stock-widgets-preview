@@ -2675,5 +2675,26 @@
     "#4c92d6"
    ]
   }
+ },
+ "SHW": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "shw:PaintStoresGroupMember": [
+    "도료 매장(Paint Stores)",
+    "#e4002b"
+   ],
+   "shw:PerformanceCoatingsGroupMember": [
+    "산업용 코팅",
+    "#f25c74"
+   ],
+   "shw:ConsumerBrandsGroupMember": [
+    "소비자 브랜드",
+    "#f9b4c0"
+   ]
+  }
  }
 }
