@@ -6999,6 +6999,47 @@
         "valuationAsOf": "2026-10-21",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "GM",
+      "name": "General Motors",
+      "sector": "경기소비재 — 자동차(Chevrolet·GMC·Cadillac·Buick), GM Financial",
+      "href": "GM_full_widget.html",
+      "cardRank": 164,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 76.11,
+        "prevClose": 77.09,
+        "session": "2026-10-21",
+        "prevSession": "2026-10-20",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 843549423,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-09",
+        "filedAt": "2026-10-20",
+        "filing": "10-Q 0001467858-26-000059 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 42.5,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": []
+      }
     }
   ]
 }

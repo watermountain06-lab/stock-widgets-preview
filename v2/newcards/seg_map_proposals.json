@@ -2866,5 +2866,28 @@
     "#c7d6ea"
    ]
   }
+ },
+ "GM": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "gm:GMNorthAmericaMember": [
+    "북미(GMNA)",
+    "#0b4da2"
+   ],
+   "gm:GMFinancialSegmentMember": [
+    "GM Financial",
+    "#5f95dd"
+   ],
+   "gm:GMIMember": [
+    "해외(GMI)",
+    "#06306a"
+   ]
+  }
  }
 }

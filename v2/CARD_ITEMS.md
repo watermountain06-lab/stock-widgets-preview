@@ -1707,3 +1707,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(MNST에만)** — KNOWN_SPLITS 2023-03-28·2026-08-11(두 번째는 기준 10-Q 뒤 — 주식 1,959M = 979.5M × 2), EV_ZERO_FROM_BY_CIK debt 2025-06-30부터 0(2025-04 차입 상환), eps_tag 계속사업 희석, NI_TAGS ProfitLoss.
 - **판단** — MODEL_NOTE(분기 EPS = 분할 전 본표 ÷ 2), 부문 표기(Reign은 Monster 에너지 음료 부문), 뉴스 분할 발표·자사주 $500M·미주 CEO 코카콜라 이동.
 - **dr** — Codex 2라운드·Fable. 별도: SPG 보류(유닛·안건 E41, Fable 지적 리츠 세율 안건 E42).
+
+## GM — 자동차, 금융 자회사 (2026-10-22, 카드 164, 시총 163위)
+
+- **판정 적정~저평가(0, +1, 0)** — 자기 이력 36.3, 동종업 99.3(S&P500 경기소비재 — 자동차는 늘 싸게 나옴), 현금흐름 기본 $70 대 $76.11. 기준 Q3 2026 10-Q(10/20 밤).
+- **엔진(GM에만)** — 차입금 자동차 부문만(CAT·DE 사용자 결정 규칙): dim_facts(gm:BusinessGroupAxis=Automotive) → overlay DebtCurrentAutoGm·LongTermDebtAutoGm + DEBT_TOTAL_TAG + DEBT_TOTAL_FALLBACK_SKIP. $15,799M. Q4 EPS 2024·2025 보도자료.
+- **판단** — 현금은 연결 값(CAT 선례) — 자동차 현금만 쓰면 현금흐름 칸이 바뀔 수 있어 안건 E43. 이자보상배율은 자동차 이자비용이 부문 축 태그라 빠짐(HEALTH_EXTRA·POST로 "미공시" 문구 보정, 안건 E36 계열). 시나리오 순서 역전 이유·EV 비용 규모(YOY_NOTE), 뉴스 자사주 $20B·배당 인상·IEEPA.
+- **dr** — Codex 2라운드·Fable. 별도: HCA 보류(요약 자료 지연).
