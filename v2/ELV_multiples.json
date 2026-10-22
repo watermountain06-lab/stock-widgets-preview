@@ -1,21 +1,21 @@
 {
  "ticker": "ELV",
  "window": [
-  "2021-10-20",
-  "2026-10-20"
+  "2021-10-21",
+  "2026-10-21"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 19.56,
+   "current": 19.29,
    "min": 11.18,
    "p10": 13.52,
    "median": 17.93,
    "p90": 20.16,
    "max": 21.45,
    "mean": 17.38,
-   "percentile": 79.3,
-   "score": 20.7
+   "percentile": 75.2,
+   "score": 24.8
   },
   "PSR": {
    "days": 1255,
@@ -26,30 +26,30 @@
    "p90": 0.81,
    "max": 0.91,
    "mean": 0.62,
-   "percentile": 28.0,
-   "score": 72.0
+   "percentile": 27.3,
+   "score": 72.7
   },
   "PBR": {
    "days": 1255,
-   "current": 2.13,
+   "current": 2.1,
    "min": 1.41,
    "p10": 1.69,
    "median": 2.85,
    "p90": 3.25,
    "max": 3.63,
    "mean": 2.59,
-   "percentile": 32.7,
-   "score": 67.3
+   "percentile": 31.3,
+   "score": 68.7
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 13.48,
-  "per_p75": 17.35,
+  "per_p75": 17.37,
   "low": 300,
   "high": 390,
-  "asOf": "2026-10-20",
+  "asOf": "2026-10-21",
   "basis": "diluted"
  }
 }
