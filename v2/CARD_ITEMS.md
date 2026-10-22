@@ -1664,3 +1664,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(ITW에만)** — 세전이익 태그(PRETAX_TAG_BY_CIK·CONCEPTS_BY_CIK), 무형자산 상각 company_tags(D&A $328M → $400M), DEBT_TOTAL_TAG(DebtCurrent + 장기, $8,649M → $9,694M), 활동성 매출원가 COGS_TAG_BY_CIK(CostOfRevenue는 부문 변동원가), NI_TAGS ProfitLoss, 4분기 EPS 2022·2024 보도자료 값. 로고는 공시에 없어 글자 로고.
 - **공통** — fetch_analyst: StockAnalysis 점수가 음수(매도 우세)면 수집이 실패하던 정규식을 고침.
 - **dr** — Codex 2라운드·Fable(차입금, 매출원가, 사채 $1.5B, Q2 손 항목).
+
+## RCL — 크루즈, 해운 면세·선박 투자 (2026-10-22, 카드 158, 시총 156위)
+
+- **판정 적정~고평가(0, +1, −2)** — 자기 이력 40.9, 동종업 70.8(S&P500 경기소비재), 현금흐름 기본 $129 대 $288.45. 기준 Q2 2026 10-Q(7/28 장 뒤). 다음 실적 10/27(10/8 공지).
+- **엔진(RCL에만)** — DEBT_TOTAL_TAG(1년 안 + 장기 $22,836M), STATUTORY_TAX 2%(국제 해운 소득 883조 면세, 세금 태그 듬성 — 21%로 떨어졌다), 4분기 EPS 2021~2024 보도자료 값(전환사채 희석 차이), 매출 = 수입 종류 축.
+- **판단** — Sandals 지분 인수(약 $3B 전액 차입, 2027년 초) 전 기준이라 CHECK_DEBT. Perfect Day Mexico는 장관 발언일(5/19) 기준.
+- **dr** — Codex 2라운드·Fable(Sandals 조건·선보도 반응, Mexico 날짜, 다음 실적 확정, 세율 문구).

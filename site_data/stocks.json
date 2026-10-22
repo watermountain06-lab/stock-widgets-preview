@@ -6751,6 +6751,47 @@
         "valuationAsOf": "2026-10-21",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "RCL",
+      "name": "Royal Caribbean",
+      "sector": "경기소비재 — 크루즈 여행(Royal Caribbean·Celebrity·Silversea)",
+      "href": "RCL_full_widget.html",
+      "cardRank": 158,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 288.45,
+        "prevClose": 287.81,
+        "session": "2026-10-21",
+        "prevSession": "2026-10-20",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 267452084,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-24",
+        "filedAt": "2026-07-28",
+        "filing": "10-Q 0000884887-26-000038 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": []
+      }
     }
   ]
 }
