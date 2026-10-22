@@ -13,7 +13,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=15';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=26';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=27';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=2';
 import { attachActual } from './preview-only-portfolio-actual.js?v=7';
@@ -304,7 +304,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       await reload();
     };
     const addTrade = async (entry) => {
-      if (!tradesExist) { await setDoc(tref(user), { entries: {} }); tradesExist = true; }   // 다음 단계가 실패해 다시 눌러도 빈 문서를 또 만들지 않게
+      if (!tradesExist) { await setDoc(tref(user), { entries: {} }, { merge: true }); tradesExist = true; }   // merge — 체크(picks)만 있는 문서를 지우지 않게   // 다음 단계가 실패해 다시 눌러도 빈 문서를 또 만들지 않게
       const k = newId('t');
       await updateDoc(tref(user), { ['entries.' + k]: { ...entry, recordedAt: serverTimestamp() } });
     };

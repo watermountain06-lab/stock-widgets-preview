@@ -322,24 +322,63 @@ test('다음 할 일: 다음 회차·결정 대기·회차 끝·첫 점검 대�
   assert.match(nextAction({ plan: { rounds, candidates: [] }, steps, next: null, stale: false }).sub, /살 후보 없음 · 다음 점검/);
 });
 
-import { buyPlan } from '../../preview-only-portfolio-home.js';
+import { buyPlan, monthDeposits, monthBuys } from '../../preview-only-portfolio-home.js';
 
-test('원칙 10 매수 금액: 체크한 종목만, 균등·시총 비중·판정 가중, 센트 내림, 회차 몫', () => {
+test('원칙 10 매수 금액: 체크한 종목만, 균등·시총 비중·판정 가중, 센트 내림', () => {
   const tiers = { BBB: '저평가', CCC: '적정~저평가', EEE: '적정' };
-  const p = buyPlan({ cands: ['BBB', 'CCC', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, tiers, caps: { BBB: 3e11, EEE: 1e11 }, rounds: 4 });
+  const p = buyPlan({ cands: ['BBB', 'CCC', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, tiers, caps: { BBB: 3e12, EEE: 1e12 }, rounds: 4 });
   assert.deepEqual(p.sel, ['BBB', 'EEE']);
   assert.deepEqual(p.by.equal, { BBB: 200, EEE: 200 });
-  assert.deepEqual(p.by.cap, { BBB: 300, EEE: 100 });
+  assert.deepEqual(p.by.cap, { BBB: 300, EEE: 100 });   // 큰 시총도 1센트 틀리지 않게
   assert.deepEqual(p.by.tier, { BBB: 300, EEE: 100 });   // 저평가 3 : 적정 1
   assert.deepEqual(p.round.equal, { BBB: 50, EEE: 50 });
-  // 나누어떨어지지 않으면 센트 내림(남는 센트는 쓰지 않는다)
-  const q = buyPlan({ cands: ['A', 'B', 'C'], picked: ['A', 'B', 'C'], budget: 100, rounds: 4 });
-  assert.deepEqual(q.by.equal, { A: 33.33, B: 33.33, C: 33.33 });
-  assert.deepEqual(q.round.equal, { A: 8.33, B: 8.33, C: 8.33 });
-  // 시총이 없는 종목이 하나라도 있으면 시총 방법은 계산하지 않는다. 판정이 무게 밖이어도 마찬가지
+  // 내림: 200/3 = 66.666… → 66.66, 회차 66.66/4 = 16.665 → 16.66
+  const q = buyPlan({ cands: ['A', 'B', 'C'], picked: ['A', 'B', 'C'], budget: 200, rounds: 4 });
+  assert.deepEqual(q.by.equal, { A: 66.66, B: 66.66, C: 66.66 });
+  assert.deepEqual(q.round.equal, { A: 16.66, B: 16.66, C: 16.66 });
+  // 달러 실수 오차로 1센트 빠지지 않게(1.16 × 100 = 115.999…)
+  assert.equal(buyPlan({ cands: ['A'], picked: ['A'], budget: 1.16, rounds: 4 }).round.equal.A, 0.29);
+  // 무게가 없는 종목이 하나라도 있으면 그 방법은 계산하지 않는다
   assert.equal(buyPlan({ cands: ['BBB', 'CCC'], picked: ['BBB', 'CCC'], budget: 100, tiers, caps: { BBB: 1 } }).by.cap, null);
   assert.equal(buyPlan({ cands: ['X'], picked: ['X'], budget: 100, tiers: { X: '고평가' } }).by.tier, null);
-  // 고른 것이 없거나 돈이 없으면
   assert.equal(buyPlan({ cands: ['BBB'], picked: [], budget: 100 }).by.equal, null);
-  assert.deepEqual(buyPlan({ cands: ['BBB'], picked: ['BBB'], budget: 0 }).by.equal, { BBB: 0 });
+  assert.deepEqual(buyPlan({ cands: ['BBB'], picked: ['BBB'], budget: 0 }).round.equal, { BBB: 0 });
+});
+
+test('원칙 10 놓친 회차: 남은 몫 ÷ 남은 회차, 남은 돈을 넘지 않음, 회차 끝이면 없음', () => {
+  // 달 몫 200씩, BBB는 이미 50 삼, 남은 회차 2 → BBB (200−50)/2 = 75(놓친 몫 포함), EEE 200/2 = 100
+  const p = buyPlan({ cands: ['BBB', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, spent: 50, bought: { BBB: 50 }, rounds: 4, roundsLeft: 2 });
+  assert.deepEqual(p.round.equal, { BBB: 75, EEE: 100 });
+  assert.deepEqual(p.missed.equal, ['BBB', 'EEE']);
+  // 후보 아닌 종목에 300을 써서 남은 돈이 100뿐이면 남은 몫(200+200)을 100에 맞춰 줄인다
+  const q = buyPlan({ cands: ['BBB', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, spent: 300, bought: { ZZZ: 300 }, rounds: 4, roundsLeft: 4 });
+  assert.deepEqual(q.rest.equal, { BBB: 50, EEE: 50 });
+  assert.deepEqual(q.round.equal, { BBB: 12.5, EEE: 12.5 });
+  assert.deepEqual(q.missed.equal, []);
+  // 넣은 돈보다 많이 샀으면 0, 회차가 끝났으면 회차 금액 없음
+  assert.deepEqual(buyPlan({ cands: ['A'], picked: ['A'], budget: 100, spent: 150, bought: { A: 150 }, roundsLeft: 1 }).round.equal, { A: 0 });
+  assert.equal(buyPlan({ cands: ['A'], picked: ['A'], budget: 100, roundsLeft: 0 }).round.equal, null);
+});
+
+test('원칙 10 넣은 돈·산 돈: 반영일 기준 달, 묶음 전부, 취소, 그달 1일~오늘 매수', () => {
+  const all = {
+    'b1:d1': { amount: 100, recordedAt: '2026-10-31T16:00:00Z' },   // 토요일 → 반영일 11-02
+    'b1:d2': { amount: 50, recordedAt: '2026-10-15T15:00:00Z' },
+    'b2:d1': { amount: 30, recordedAt: '2026-11-03T15:00:00Z' },
+    'b2:d2': { amount: 70, recordedAt: '2026-11-04T15:00:00Z' },
+    'b2:c1': { cancels: 'b2:d2', recordedAt: '2026-11-04T15:05:00Z' },
+  };
+  const oct = monthDeposits(all, '2026-10'), nov = monthDeposits(all, '2026-11');
+  assert.deepEqual(oct.now.map((d) => d.amount), [50]);
+  assert.deepEqual(oct.later.map((d) => [d.day, d.amount]), [['2026-11-02', 100], ['2026-11-04', 30]]);
+  assert.deepEqual(nov.now.map((d) => [d.day, d.amount]), [['2026-11-02', 100], ['2026-11-04', 30]]);
+  const trades = {
+    t1: { date: '2026-11-02', ticker: 'A', side: 'buy', qty: 2, price: 10 },
+    t2: { date: '2026-11-05', ticker: 'A', side: 'buy', qty: 1, price: 10 },
+    t3: { date: '2026-11-03', ticker: 'B', side: 'sell', qty: 1, price: 10 },
+    t4: { date: '2026-10-30', ticker: 'A', side: 'buy', qty: 1, price: 10 },
+    t5: { date: '2026-11-03', ticker: 'B', side: 'buy', qty: 1, price: 20 },
+    x5: { cancels: 't5' },
+  };
+  assert.deepEqual([...monthBuys(trades, '2026-11', '2026-11-04')], [['A', { qty: 2, amount: 20 }]]);
 });
