@@ -1289,6 +1289,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # CL: 재무상태표 "Debt payable within one-year"(2025-12 $1,117M, 2026-06 $34M)는 ShortTermBankLoansAndNotesPayable — 기본 목록은
                   # 그 일부인 LongTermDebtCurrent(2025-03 뒤 끊김)만 봐 2026-06 차입금이 장기 $7,823M뿐이었다. 34 + 7,823 = $7,857M(2026-10-22).
                   "0000021665": ["ShortTermBankLoansAndNotesPayable", "LongTermDebtNoncurrent"],
+                  # ECL: 재무상태표 "Short-term debt" $1,271.1M(DebtCurrent — 1년 안 만기 1,265.7 + 단기 차입 5.4) + 장기 11,905.1(LongTermDebtAndCapitalLeaseObligations) = $13,176.2M(2026-10-22).
+                  "0000031462": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # MMM: 단기 차입·1년 안 만기 DebtCurrent $2,439M + 장기 LongTermDebtNoncurrent $12,558M = 10-Q $14,997M(기본은 장기만, 2026-10-21).
                   "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # TRV: 재무상태표 "Debt" $9,813M(사채 + CP $100M)은 DebtLongtermAndShorttermCombinedAmount — 기본 선택은 2025-12에 멈춘 태그였다(2026-10-21).
@@ -1485,7 +1487,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# HPE: 비지배 태그 2024-07 멈춤(10-Q 비지배 $62M은 MinorityInterest로 안 냄) → nci 없음으로, 우선주 태그는 2021년(옛 우선주) — 2024-09 발행 Series C 의무전환 우선주는 nonop_extra 음수로(2026-10-21).
+EV_TAGS_BY_CIK = {# ECL: 운용리스 비유동분($576.7M)은 분기 태그가 없어 유동분(OperatingLeaseLiabilityCurrent $165.9M)만 잡혔다 — 합계 OperatingLeaseLiability(10-K, 2025-12 $761.0M)로(2026-10-22).
+                  "0000031462": {"lease": ["OperatingLeaseLiability"]},
+                  # HPE: 비지배 태그 2024-07 멈춤(10-Q 비지배 $62M은 MinorityInterest로 안 냄) → nci 없음으로, 우선주 태그는 2021년(옛 우선주) — 2024-09 발행 Series C 의무전환 우선주는 nonop_extra 음수로(2026-10-21).
                   "0001645590": {"nci": [], "preferred": []},
                   # HLT: 상환가능 비지배지분 $5M(자본 밖 별도 줄)도 비지배에 — 합계 $33M(Codex 2026-10-21, MCK·SNPS와 같은 처리)
                   "0001585689": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},

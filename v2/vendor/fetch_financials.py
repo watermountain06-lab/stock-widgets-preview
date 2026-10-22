@@ -90,7 +90,9 @@ CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNono
 # InterestExpenseNonoperating으로 내 Revenues·InterestExpense는 2025-09에 멈췄다(카드 재무 기준이 10-K로 잡혀 preflight가 멈춤, 2026-10-22).
 # 연간 이력은 옛 태그 그대로 두고, 새 태그의 최신 분기가 더 새로울 때만 바꾼다.
 LATEST_Q_BY_CIK = {"0000026172": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"],
-                                  "interestExpense": ["InterestExpenseNonoperating"]}}
+                                  "interestExpense": ["InterestExpenseNonoperating"]},
+                   # ECL: 이자비용 총액이 2025-06부터 InterestExpenseNonoperating(Q2 2026 $95.0M) — InterestExpense는 2026-03에 멈춤(2026-10-22)
+                   "0000031462": {"interestExpense": ["InterestExpenseNonoperating"]}}
 
 # Balance-sheet concepts are point-in-time ("instant": only an "end" date,
 # no "start") rather than period durations like income-statement concepts.
