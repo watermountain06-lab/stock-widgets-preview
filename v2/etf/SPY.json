@@ -13,24 +13,24 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 128장: AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP, AMAT"
+   "detail": "승인 목록에 없는 판정 코드 해시 130장: AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP, AMAT"
   }
  ],
  "detail": "보유 파일 기준일 2026-10-20 ≠ 허용 ['2026-10-21'] (P=2026-10-21, 규칙 same)",
  "verdict": null,
  "nbar": null,
- "coverage": 0.7871593694156819,
+ "coverage": 0.7942616538843312,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0015337201374545962,
   "적정~저평가": 0.10306386771231006,
   "적정": 0.018056391849873916,
-  "적정~고평가": 0.31462935363536265,
+  "적정~고평가": 0.321731638104012,
   "고평가": 0.3498760360806808,
   "카드 없음": 0.18552505712347467,
   "판정 보류": 0.020213288992194104,
-  "그 밖 제외": 0.007102284468649362,
+  "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
  "top10": [
@@ -161,11 +161,11 @@
   "nonEquity": 2,
   "companies": 500,
   "cardsMatched": 142,
-  "cardsUsed": 136,
+  "cardsUsed": 138,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
-   "날짜 불일치": 2,
+   "날짜 불일치": 0,
    "판정 보류": 4
   }
  },
@@ -478,11 +478,9 @@
   {
    "card": "ELV",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-10-20",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-10-21",
+   "excluded": []
   },
   {
    "card": "EMR",
@@ -1072,11 +1070,9 @@
   {
    "card": "UNH",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-10-20",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-10-21",
+   "excluded": []
   },
   {
    "card": "UNP",
@@ -1188,8 +1184,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-22T04:03:43Z",
- "fetchedAt": "2026-10-22T04:03:44Z",
+ "runAt": "2026-10-22T06:11:54Z",
+ "fetchedAt": "2026-10-22T06:11:54Z",
  "inputHash": {
   "xlsx": "d2bc6714cfd7f240da5b70eac6267b8c22622fdec49a224bbcf6bdcd163ac208",
   "alias": "cd884e524b4f6045",
@@ -1205,7 +1201,7 @@
   ],
   "S": "2026-10-20"
  },
- "runId": "39720224438.1",
+ "runId": "39732431797.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -1219,6 +1215,10 @@
  },
  "checkDetail": {
   "code_sig": {
+   "70a968020162": [
+    "ELV",
+    "UNH"
+   ],
    "9bc4a13021b1": [
     "AAPL",
     "ABBV",

@@ -13,24 +13,24 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 24장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX"
+   "detail": "승인 목록에 없는 판정 코드 해시 25장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX"
   }
  ],
  "detail": "보유 파일 기준일 2026-10-20 ≠ 허용 ['2026-10-21'] (P=2026-10-21, 규칙 same)",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8455312262776487,
+ "coverage": 0.8929999904074064,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0,
   "적정~저평가": 0.0245088064459988,
   "적정": 0.031736800678799526,
-  "적정~고평가": 0.2816237226058809,
+  "적정~고평가": 0.3290924867356387,
   "고평가": 0.5076618965469694,
   "카드 없음": 0.062195325750223074,
   "판정 보류": 0.044804683842370456,
-  "그 밖 제외": 0.047468764129757764,
+  "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
  "top10": [
@@ -91,10 +91,8 @@
    "weight": 0.047468764129757764,
    "card": "UNH",
    "verdict": "적정~고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "excluded": []
   },
   {
    "company": "V",
@@ -164,11 +162,11 @@
   "nonEquity": 1,
   "companies": 30,
   "cardsMatched": 28,
-  "cardsUsed": 26,
+  "cardsUsed": 27,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
-   "날짜 불일치": 1,
+   "날짜 불일치": 0,
    "판정 보류": 1
   }
  },
@@ -353,11 +351,9 @@
   {
    "card": "UNH",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-10-20",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-10-21",
+   "excluded": []
   },
   {
    "card": "V",
@@ -385,8 +381,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-22T04:03:49Z",
- "fetchedAt": "2026-10-22T04:03:49Z",
+ "runAt": "2026-10-22T06:11:57Z",
+ "fetchedAt": "2026-10-22T06:11:57Z",
  "inputHash": {
   "xlsx": "fb33ca8c11f65feed40fd88b973bb995cbae3dd3eed7207178592d2b3005a0f2",
   "alias": "cd884e524b4f6045",
@@ -402,7 +398,7 @@
   ],
   "S": "2026-10-20"
  },
- "runId": "39720224438.1",
+ "runId": "39732431797.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -416,6 +412,9 @@
  },
  "checkDetail": {
   "code_sig": {
+   "70a968020162": [
+    "UNH"
+   ],
    "9bc4a13021b1": [
     "AAPL",
     "AMGN",
