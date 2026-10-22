@@ -6,7 +6,7 @@
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=16';
 import { renderStrategy } from './preview-only-portfolio-rank.js?v=5';
-import { renderManage } from './preview-only-portfolio-records.js?v=3';
+import { renderManage } from './preview-only-portfolio-records.js?v=4';
 import { ENGINE_VERSION, BUY_PRINCIPLE, _internal } from './preview-only-portfolio-engine.js?v=2';
 import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=7';
 
