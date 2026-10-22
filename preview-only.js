@@ -54,7 +54,9 @@ window.PreviewOnly = (function () {
     var a = document.createElement('a');
     a.href = 'preview-only-portfolio.html';
     a.textContent = 'Portfolio';
-    nav.appendChild(a);
+    // 순서: Home · Tracking · Portfolio · 뉴스·영상(2026-10-22 사용자 결정) — 뉴스 링크 앞에 넣고, 없으면 끝에 붙인다
+    var news = nav.querySelector('[href="market-news.html"]');
+    nav.insertBefore(a, news);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addLink);
   else addLink();
