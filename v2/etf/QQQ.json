@@ -8,22 +8,22 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 52장: AAPL, ADBE, ADI, ADP, AMAT, AMD, AMGN, AMZN"
+   "detail": "승인 목록에 없는 판정 코드 해시 53장: AAPL, ADBE, ADI, ADP, AMAT, AMD, AMGN, AMZN"
   }
  ],
- "detail": "승인 목록에 없는 판정 코드 해시 52장: AAPL, ADBE, ADI, ADP, AMAT, AMD, AMGN, AMZN",
+ "detail": "승인 목록에 없는 판정 코드 해시 53장: AAPL, ADBE, ADI, ADP, AMAT, AMD, AMGN, AMZN",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8552677076924687,
+ "coverage": 0.8583519595605534,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.004333478824784914,
   "적정~저평가": 0.1359640097177007,
   "적정": 0.02020433128568761,
-  "적정~고평가": 0.29432445641868415,
+  "적정~고평가": 0.29740870828676885,
   "고평가": 0.40044143144561145,
-  "카드 없음": 0.11551865365812526,
+  "카드 없음": 0.11243440179004056,
   "판정 보류": 0.029213638649406043,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
@@ -157,8 +157,8 @@
   "lines": 106,
   "nonEquity": 5,
   "companies": 100,
-  "cardsMatched": 53,
-  "cardsUsed": 52,
+  "cardsMatched": 54,
+  "cardsUsed": 53,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -420,6 +420,13 @@
    "excluded": []
   },
   {
+   "card": "ORLY",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-21",
+   "excluded": []
+  },
+  {
    "card": "PANW",
    "verdict": "고평가",
    "n": -4.0,
@@ -552,8 +559,8 @@
  "inputFormat": "invesco_json",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-22T18:13:45Z",
- "fetchedAt": "2026-10-22T18:13:45Z",
+ "runAt": "2026-10-22T18:53:40Z",
+ "fetchedAt": "2026-10-22T18:53:40Z",
  "inputHash": {
   "json": "73300daa61b0f93df4dfacc195c24eb402df841d51094287c9f360842b2c4087",
   "alias": "cd884e524b4f6045",
@@ -568,7 +575,7 @@
   ],
   "S": "2026-10-21"
  },
- "runId": "39829454976.1",
+ "runId": "39835300246.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -619,6 +626,7 @@
     "MU",
     "NFLX",
     "NVDA",
+    "ORLY",
     "PANW",
     "PEP",
     "PLTR",
