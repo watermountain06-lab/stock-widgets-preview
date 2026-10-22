@@ -6173,6 +6173,47 @@
         "valuationAsOf": "2026-10-20",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "REGN",
+      "name": "Regeneron",
+      "sector": "헬스케어 — 바이오의약품(Eylea·Dupixent·Libtayo)",
+      "href": "REGN_full_widget.html",
+      "cardRank": 144,
+      "cardAsOf": "2026-10-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 807.48,
+        "prevClose": 782.04,
+        "session": "2026-10-20",
+        "prevSession": "2026-10-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 102954988,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-23",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0000872589-26-000025 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 78.3,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-20",
+        "qualityFlags": []
+      }
     }
   ]
 }
