@@ -343,6 +343,17 @@ test('원칙 10 매수 금액: 체크한 종목만, 균등·시총 비중·판�
   assert.equal(buyPlan({ cands: ['X'], picked: ['X'], budget: 100, tiers: { X: '고평가' } }).by.tier, null);
   assert.equal(buyPlan({ cands: ['BBB'], picked: [], budget: 100 }).by.equal, null);
   assert.deepEqual(buyPlan({ cands: ['BBB'], picked: ['BBB'], budget: 0 }).round.equal, { BBB: 0 });
+
+  // 정확한 정수 내림(dr r2): 무게 1·1·2·3·4(합 11)에 $0.55 → 저평가 3/11 = 15센트(실수 비율이면 14)
+  const T5 = { A: '적정', B: '적정', C: '적정~저평가', D: '저평가', E: '초저평가' };
+  assert.equal(buyPlan({ cands: ['A', 'B', 'C', 'D', 'E'], picked: ['A', 'B', 'C', 'D', 'E'], budget: 0.55, tiers: T5 }).by.tier.D, 0.15);
+  // 나누어떨어지지 않는 큰 시총: 각 몫이 정확한 내림값이고 합은 넣은 돈 이하
+  const caps = { A: 2345678901234, B: 1234567890123 };
+  const c = buyPlan({ cands: ['A', 'B'], picked: ['A', 'B'], budget: 1234.57, caps }).by.cap;
+  const tot = BigInt(caps.A + caps.B);
+  assert.equal(c.A, Number((123457n * BigInt(caps.A)) / tot) / 100);
+  assert.equal(c.B, Number((123457n * BigInt(caps.B)) / tot) / 100);
+  assert.ok(Math.round((c.A + c.B) * 100) <= 123457);
 });
 
 test('원칙 10 놓친 회차: 남은 몫 ÷ 남은 회차, 남은 돈을 넘지 않음, 회차 끝이면 없음', () => {
@@ -355,6 +366,15 @@ test('원칙 10 놓친 회차: 남은 몫 ÷ 남은 회차, 남은 돈을 넘지
   assert.deepEqual(q.rest.equal, { BBB: 50, EEE: 50 });
   assert.deepEqual(q.round.equal, { BBB: 12.5, EEE: 12.5 });
   assert.deepEqual(q.missed.equal, []);
+  assert.equal(q.capped.equal, true);
+  // 홀수 금액 비례 축소: 남은 몫 합·회차 금액 × 남은 회차 합이 남은 돈을 넘지 않는다
+  const o = buyPlan({ cands: ['A', 'B', 'C'], picked: ['A', 'B', 'C'], budget: 100.01, spent: 33.37, bought: { A: 3.33, Z: 30.04 }, rounds: 4, roundsLeft: 3 });
+  const restC = Object.values(o.rest.equal).reduce((a, v) => a + Math.round(v * 100), 0);
+  const roundC = Object.values(o.round.equal).reduce((a, v) => a + Math.round(v * 100) * 3, 0);
+  assert.ok(o.capped.equal && restC <= 6664 && roundC <= restC);
+  // 계획대로 1회차를 샀으면 놓친 몫이 아니다
+  const n = buyPlan({ cands: ['BBB'], picked: ['BBB'], budget: 200, spent: 50, bought: { BBB: 50 }, rounds: 4, roundsLeft: 3 });
+  assert.deepEqual([n.round.equal.BBB, n.missed.equal, n.capped.equal], [50, [], false]);
   // 넣은 돈보다 많이 샀으면 0, 회차가 끝났으면 회차 금액 없음
   assert.deepEqual(buyPlan({ cands: ['A'], picked: ['A'], budget: 100, spent: 150, bought: { A: 150 }, roundsLeft: 1 }).round.equal, { A: 0 });
   assert.equal(buyPlan({ cands: ['A'], picked: ['A'], budget: 100, roundsLeft: 0 }).round.equal, null);
