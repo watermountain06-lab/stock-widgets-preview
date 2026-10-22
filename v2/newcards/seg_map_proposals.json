@@ -2750,5 +2750,24 @@
     "#4caf50"
    ]
   }
+ },
+ "UPS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "ups:U.S.DomesticPackageSegmentMember": [
+    "미국 국내 소포",
+    "#351c15"
+   ],
+   "ups:InternationalSegmentMember": [
+    "국제 소포",
+    "#ffb500"
+   ]
+  }
  }
 }

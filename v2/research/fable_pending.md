@@ -4,9 +4,5 @@ Fable 사용 한도(429)에 걸려 dr의 Fable 쪽을 건너뛴 카드다. 한�
 
 | 카드 | 만든 날 | 받은 검토 | 메모 |
 |---|---|---|---|
-| MSI | 2026-10-21 | Codex 2라운드 | 인수 대금 ACQ_FIXED, 재무상태표 신선도 공통 변경 |
-| SHW | 2026-10-22 | Codex | 영업이익 합성(DERIVED_OPINC) |
-| ROST | 2026-10-22 | Codex 2라운드 | 영업이익 합성(DERIVED_OPINC), 이자비용 태그, 관세 환급 |
-| LITE | 2026-10-22 | Codex 2라운드 | 차입금 이중 합산, 전환우선주 SHARES_ADD, 상환 손실 각주(YOY_NOTE) |
-| CTAS | 2026-10-22 | Codex 3라운드 | 감가상각 구성요소(DDA_PARTS), 보험 해약환급금 투자 처리, 대기 중 UniFirst 인수 |
-| CMI | 2026-10-22 | Codex 2라운드 | 차입금 단기 은행 차입, 최신 분기 태그(LATEST_Q_BY_CIK), Accelera 비용 |
+
+(2026-10-22 한도가 풀려 MSI·SHW·ROST·LITE·CTAS·CMI 6장을 Fable로 사후 검토하고 필수를 모두 반영했다 — 목록 비움. 반영 내용은 CARD_ITEMS.md "Fable 사후 검토" 절.)

@@ -737,7 +737,9 @@ def texts(C, ns):
     if fcf_ok and _dv_ann and _dv_ann > 0.5 * fcf_ttm:   # 배당이 FCF의 절반을 넘는 회사만(AAPL처럼 여유가 큰 곳은 뺀다, Fable)
         ck.append(f"FCF(최근 4분기 {B(fcf_ttm)})가 배당 지급(연 환산 약 {B(_dv_ann)})을 넘는지")
     if debt > 0 and op_ttm > 0 and (debt - cash) / op_ttm >= 2:
-        ck.append(f"차입금 {B(debt)}이 줄어드는지")
+        # cfg CHECK_DEBT {분기 말: 문장} — 분기 뒤 새 차입·인수로 "줄어드는지"가 맞지 않을 때(MSI D-Fend 인수·사채, Fable 2026-10-22). 분기가 바뀌면 빠진다.
+        _cd = getattr(C, "CHECK_DEBT", {}).get(C.CUR)
+        ck.append(_cd.format(debt=B(debt)) if _cd else f"차입금 {B(debt)}이 줄어드는지")
     C.CHECK = ck
 
     # 각주·설명

@@ -84,3 +84,9 @@ SEG_MAP = {
  "ignore": ["country:US", "country:MX", "country:TH", "country:HK", "country:CN", "country:JP",
             "lite:AmericasExcludingUnitedStatesAndMexicoMember", "lite:OtherAsiaPacificNotIndividuallyIdentifiedMember"]
 }
+
+# 계산 어려움(roic) 설명: 예측 끝 자본수익률은 기본 시나리오의 가정 이익률(2년 중앙값)에서 나온 값이지 지금 실적이 아니다(Fable 2026-10-22 필수 — SNDK와 같은 치환).
+POST = [r'''
+one("    if (el && Array.isArray(D.hard)) {", "    const HM = " + repr(HIST['margin_2y']) + ";\n    if (el && Array.isArray(D.hard)) {")
+sub(r"roic: \(\) => `자본수익률 \$\{pct\(H\.roic\)\} < 할인율 10% — [^`]*`", "roic: () => `예측 끝 자본수익률 ${pct(H.roic)} < 할인율 10% — 기본 시나리오의 가정 이익률(2년 중앙값 ${(HM * 100).toFixed(1)}%)에서 나온 값이고 지금 실적이 아니다`")
+''']

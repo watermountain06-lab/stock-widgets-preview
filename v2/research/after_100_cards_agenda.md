@@ -189,6 +189,7 @@
 | E34 | **은행 7판 원문 값을 차원 값·규제자본 표에서 읽는 경로** — PNC는 우선주 장부금액이 재무상태표 줄 없이 자본 변동표 차원 값(StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest × StatementEquityComponentsAxis = PreferredStockIncludingAdditionalPaidInCapitalMember, 2026-06-30 $5,880M)으로만 실리고, 영업권 밖 무형자산은 재무상태표 줄이 없으며(규제자본 표 "Other disallowed intangibles, net of DTL" $666M뿐), CET1 비율 태그도 없다 → 관문 N 탈락. PNC는 다른 은행 카드의 비교 은행이라 확장하면 그 카드들의 동종업 점수가 바뀐다 | PNC(2026-10-21, 사용자 결정 보류) | 열림 | 사전 등록 새 판(차원 값 허용 범위·무형자산 대체 출처) 뒤 PNC 카드 |
 | E35 | **내가격 전환사채·전환우선주의 희석(LITE에서)** — 전환사채는 원금만 차입금이고 전환가를 넘은 초과분(원금 현금·초과분 주식 결제)은 주식 수에 없다(LITE 2032년 만기 $1,265M 전환가 $187.77 대 주가 약 $850, 대략 수백만 주 — capped call 상쇄 전). 보통주 동등 전환우선주는 build_dcf SHARES_ADD로 DCF에만 넣었고 배수의 시가총액(표지 주식 수)엔 없다(LITE 시가총액 약 3.2% 과소). 판정은 안 바뀜(Codex 2026-10-22). | LITE |
 | E36 | **최신 분기만 새 태그로 옮긴 회사의 기본적 분석(CMI에서)** — vendor/fetch_financials.extract_concept는 연간 이력이 있는 태그를 먼저 고르므로, 분기만 새 태그로 옮긴 해에는 최신 분기가 멈춘 옛 태그 값이 된다. 이자비용에서 이 때문에 이자보상배율이 "그 분기 이자비용 미공시"로 점수에서 빠진 카드: RTX(2024-09에 멈춤)·VRTX(2025-09)·HPE(2017)·AAPL(2023)·FTNT(2024). CMI는 LATEST_Q_BY_CIK로 고쳤다(매출·이자비용). 5장을 같은 장치로 고치면 기본적 분석 점수가 바뀐다 — 재계산·검토 뒤에. | CMI |
+| E37 | **"계산 어려움 — 자본수익률 x% < 할인율" 문구가 실적처럼 읽힌다(LITE에서, Fable)** — 템플릿 roic 설명의 자본수익률은 build_dcf가 기본 시나리오 끝의 **가정 이익률**로 계산한 값이다(LITE 2년 중앙값 −7.9% → −5.3%, 실제 FY26 영업이익으로는 +11.7%). SNDK·LITE는 카드별 POST로 "예측 끝 자본수익률 … 지금 실적이 아니다"로 바꿨다. 템플릿을 바꾸면 SNDK POST 패턴이 깨지므로 함께 정리. | LITE·SNDK |
 
 ## 쓰는 법
 

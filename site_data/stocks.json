@@ -6503,6 +6503,47 @@
         "valuationAsOf": "2026-10-21",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "UPS",
+      "name": "UPS",
+      "sector": "산업재 — 소포 배송·물류(미국 국내·국제·공급망)",
+      "href": "UPS_full_widget.html",
+      "cardRank": 152,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 99.57,
+        "prevClose": 98.52,
+        "session": "2026-10-21",
+        "prevSession": "2026-10-20",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 850781582,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0001628280-26-053249 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 29.9,
+        "grade": "미흡",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": []
+      }
     }
   ]
 }
