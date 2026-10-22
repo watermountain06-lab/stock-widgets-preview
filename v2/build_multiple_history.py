@@ -436,6 +436,8 @@ EXTRA_TAGS = {
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
     # 2020-09에 멈춘 PaymentsToAcquireProductiveAssets를 잡아 PCR 계산 불가였다(2026-10-02).
     "0000024741": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},
+    # AJG: 현금흐름표 "Capital expenditures"(상반기 2026 $87M)를 2015년부터 PaymentsForCapitalImprovements로 낸다 — 기본 목록은 2017년에 멈췄다(2026-10-22).
+    "0000354190": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},
     # VLO: 2026년 10-Q부터 현금흐름표 설비투자·정기보수 줄을 VIE 차원으로만 태깅해 PaymentsToAcquireProductiveAssets가 2025-09에 멈췄다(PCR 계산 불가).
     # SegmentExpenditureAdditionToLongLivedAssets(차원 없음)가 겹치는 기간에 같은 값이다 — 2024년 $2,057M, 2025년 상반기 $1,066M, 2026년 상반기 $798M(2026-10-13).
     "0001035002": {"PaymentsToAcquirePropertyPlantAndEquipment": ["SegmentExpenditureAdditionToLongLivedAssets"]},
@@ -462,7 +464,10 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# ROST: 영업이익 태그(OperatingIncomeLoss)는 2023년부터만 — 그 전엔 손익계산서에 영업이익 줄이 없어 현금흐름 이력이 비었다.
+DERIVED_OPINC = {# AJG(보험 중개): 영업이익 줄이 없다 — 손익계산서는 총수익 − 총비용(이자비용 포함) = 세전이익. 영업이익 = 세전이익 + 이자비용.
+                 # 수탁 자금 이자수익(총수익 안)과 인수 성과보수 추정 변동(비용 안)은 영업으로 둔다. Q2 2026: 414 + 168 = 582(10-Q 대조, 2026-10-22).
+                 "0000354190": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", [(["InterestExpense"], -1)]),
+# ROST: 영업이익 태그(OperatingIncomeLoss)는 2023년부터만 — 그 전엔 손익계산서에 영업이익 줄이 없어 현금흐름 이력이 비었다.
                  # 영업이익 = 세전이익 − 순이자수익(InterestIncomeExpenseNet, 순수익이면 양수). Q2 FY26: 1,134.8 − 31.1 = 1,103.6 = 영업이익 태그(2026-10-22).
                  "0000745732": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                  "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
@@ -1503,7 +1508,12 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# TGT: 재무상태표 현금 $5,411M은 CashCashEquivalentsAndShortTermInvestments — 기본 현금 태그는 2017년에 멈췄고, 단기투자 태그(2026-01 $4,611M)는 현금성 자산 안의 값이라 따로 더하면 두 번 센다(2026-10-22).
+EV_TAGS_BY_CIK = {# AJG: 재무상태표 현금 $1,386M(수탁 현금 $7,947M은 수탁 자산 안 — 고객 돈이라 빼지 않는다)은 2023-12부터 CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,
+                  # 그 전은 CashAndCashEquivalentsAtCarryingValue(2026-10-22). 2023년 표시 변경 전 제한 현금 태그에는 고객 수탁 현금이 들어 있어(2022-12 $4,964M 대 재무상태표 $342M)
+                  # 튜플로 날짜마다 앞 태그 우선(pick_instant) — 리스트로 두면 최신 태그를 통째로 써서 EV 이력이 낮게 깔렸다(Fable r1 필수). 프리미엄 금융 차입금($134M)은 영업 자금이라 차입금에 넣지 않는다(기본값과 같음).
+                  "0000354190": {"cash": ("CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"), "sti": [],
+                                 "lease": ["OperatingLeaseLiability"]},   # 리스: 분기엔 비유동분만 태그 — 10-K 합계(2025-12 $646M, Codex r1)
+# TGT: 재무상태표 현금 $5,411M은 CashCashEquivalentsAndShortTermInvestments — 기본 현금 태그는 2017년에 멈췄고, 단기투자 태그(2026-01 $4,611M)는 현금성 자산 안의 값이라 따로 더하면 두 번 센다(2026-10-22).
                   "0000027419": {"cash": ["CashCashEquivalentsAndShortTermInvestments"], "sti": [], "lease": ["OperatingLeaseLiability"]},   # 리스: 분기엔 비유동분만 태그 — 10-K 합계(2026-01 $3,834M)
                   # ECL: 운용리스 비유동분($576.7M)은 분기 태그가 없어 유동분(OperatingLeaseLiabilityCurrent $165.9M)만 잡혔다 — 합계 OperatingLeaseLiability(10-K, 2025-12 $761.0M)로(2026-10-22).
                   "0000031462": {"lease": ["OperatingLeaseLiability"]},
@@ -1744,6 +1754,8 @@ def _ev_component(cik, name, tags):
             if end in by_end:
                 by_end[end]["available"] = av
         return sorted(by_end.values(), key=lambda e: e["available"])
+    if isinstance(tags, tuple):   # EV_TAGS_BY_CIK 값이 튜플이면 날짜마다 앞 태그 우선(AJG 현금 — 표시 변경 전 태그를 옛 날짜에, 2026-10-22 Fable)
+        return pick_instant(cik, list(tags))
     out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
     # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다

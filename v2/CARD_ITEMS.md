@@ -1692,3 +1692,11 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(APD에만)** — 2023년부터 장기 차입금을 특수관계자 축으로만 실어 요약 자료에 없다 → BUILD dim_facts(overlay LongTermDebtNonrelatedApd·RelatedApd) + DEBT_TOTAL_TAG 튜플(표준 태그 먼저, 2023-03까지 특수관계자는 NotesPayableRelatedPartiesNoncurrent). $17,667.5M(기본은 $126.7M). Q4_EPS_OVERRIDE FY25 $0.02.
 - **판단** — MODEL_NOTE를 재투자 축으로(손상이 원인이 아님), 판정에서 현금흐름 −2 무게 명시. 뉴스: 6/30 철수·NEOM Yara 계약, 7/30 중립 색(손상은 6/30 예고분).
 - **dr** — Codex 2라운드·Fable(차입금 공개일·특수관계자 누락, FY24 Q4 EPS 계속사업 혼용, 0 이하 원인, NEOM).
+
+## AJG — 보험 중개, 인수로 크는 회사 (2026-10-22, 카드 162, 시총 160위)
+
+- **판정 적정~고평가(0, 동종업 표 없음 — brokers_fees 비교군은 HOOD처럼, −2)** — 자기 이력 67.3, 동종업 15.0, 현금흐름 0 이하(인수 지출 = 재투자, 안건 E40). 기준 Q2 2026 10-Q(8/5).
+- **엔진(AJG에만 + 공통 두 줄)** — DERIVED_OPINC(세전 + 이자비용), 설비투자 PaymentsForCapitalImprovements(태그 맵·CONCEPTS_BY_CIK), 인수 지출 company_tags(ajg 고유 태그), 리스 10-K 합계,
+  현금 튜플 — `_ev_component`가 EV_TAGS_BY_CIK 튜플 값을 날짜마다 앞 태그 우선(pick_instant)으로 쓰게 함(튜플 쓰는 다른 카드 없음 — 영향 0). 2023년 전 제한 현금 태그에 고객 수탁 현금이 들어 있었다(Fable 필수). Q4 EPS 2024 $1.12.
+- **판단** — MODEL_NOTE(투자 효율, 인수 전에도 괴리), HEALTH_EXTRA(수탁 자금이 유동비율·의존도를 왜곡, 제한 현금, 리스 기준일), NEXT_CONFIRMED 10/29, 뉴스 AssuredPartners 인수 완료(8/18).
+- **dr** — Codex 2라운드·Fable.
