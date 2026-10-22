@@ -9,7 +9,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 L8 = ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26']
 RELEASE = {'rev': 21204, 'op': 3950, 'ni': 3044}   # 4분기 = 연간(10-K) − 1~3분기(백만 달러, 보도자료 매출 $21.2B)
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (1, 0, -2), '적정~고평가'
 CO = 'P&amp;G'
 S_ = 'https://www.sec.gov/Archives/edgar/data/80424/'
 SEC = S_
