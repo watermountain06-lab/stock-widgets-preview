@@ -247,8 +247,8 @@ function scenarioParams(sc) {
   const notes = [];
   if (q.buyTiers.some((t) => !BUY_PRINCIPLE.includes(t))) notes.push('offPrinciple');
   if (sc.strategy === 'B') {
-    notes.push('provisionalPrinciple');                 // 원칙 2 비율 미정 — 매도 검토는 알림만 반영한 임시 모형
-    if (q.cashReserve === 0) notes.push('noPrinciple7');  // 원칙 7(급락 대비 현금) 미반영
+    notes.push('provisionalPrinciple');                 // 원칙 4(예전 2) 비율 미정 — 매도 검토는 알림만 반영한 임시 모형
+    if (q.cashReserve === 0) notes.push('noPrinciple7');  // 원칙 5(예전 7, 급락 대비 현금) 미반영
   }
   return { ...q, hold: false, notes, sellPpm: toPpm(q.sellFraction), reservePpm: toPpm(q.cashReserve) };
 }

@@ -12,8 +12,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { toEngineInput } from './preview-only-portfolio-strategy.js?v=15';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=28';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=16';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=29';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=2';
 import { attachActual } from './preview-only-portfolio-actual.js?v=7';
@@ -257,7 +257,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
   const why = (e) => (e && e.code === 'permission-denied' ? '규칙이 막았습니다. 새로고침한 뒤 다시 해 보세요.' : '저장하지 못했습니다(' + ((e && (e.code || e.message)) || '알 수 없음') + ').');
 
   // 실제 매매 기록: users/{uid}/portfolio/trades 문서 하나(고치기·지우기 가능, 규칙 firestore.rules). 모의 운용 계산과는 따로다.
-  // 같은 문서의 picks: {'YYYY-MM': [티커…]}는 다음 할 일 카드에서 그달 살 종목으로 체크한 것(원칙 10, 2026-10-22).
+  // 같은 문서의 picks: {'YYYY-MM': [티커…]}는 다음 할 일 카드에서 그달 살 종목으로 체크한 것(원칙 3, 2026-10-22).
   const tref = (user) => doc(db, 'users', user.uid, 'portfolio', 'trades');
 
   async function loadAll(user, g, main) {

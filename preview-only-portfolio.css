@@ -357,3 +357,4 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-sellline{padding:10px 12px;border-radius:12px;background:#f2f0f7;font-size:13px}.pf-sellline strong{color:#4f3aa8}
 :root[data-theme="dark"] .pf-sellline{background:var(--bg3)}:root[data-theme="dark"] .pf-sellline strong{color:#c9bcff}
 .pf-homeside .pf-hold{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px}.pf-homeside .pf-hold>b{grid-column:2;grid-row:1}.pf-homeside .pf-hold>.pf-chip{grid-column:1;justify-self:start}
+.pf-freshrow{cursor:default}

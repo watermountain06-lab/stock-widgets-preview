@@ -213,14 +213,15 @@ test('paramsText: 전략 설정 한 줄 요약', () => {
 
 import { lossAlerts } from '../../preview-only-portfolio-home.js';
 
-test('lossAlerts: 평균 단가보다 20% 이상 내린 종목만, 하락 큰 순, 평균·가격 없으면 건너뜀', () => {
-  const px = { AAA: 8, BBB: 7.5, CCC: 8.01, DDD: 1, EEE: null };
+test('lossAlerts: 평균 단가보다 20% 넘게 내린 종목만(원칙 4), 하락 큰 순, 평균·가격 없으면 건너뜀', () => {
+  const px = { AAA: 7.999, BBB: 7.5, CCC: 8.01, DDD: 1, EEE: null, FFF: 80 };
   const h = [
-    { ticker: 'AAA', qty: 1, avgPrice: 10 },     // 정확히 −20% → 알림
+    { ticker: 'AAA', qty: 1, avgPrice: 10 },     // −20.01% → 알림
     { ticker: 'BBB', qty: 1, avgPrice: 10 },     // −25%
     { ticker: 'CCC', qty: 1, avgPrice: 10 },     // −19.9% → 아님
     { ticker: 'DDD', qty: 1, avgPrice: null },   // 평균 없음
     { ticker: 'EEE', qty: 1, avgPrice: 10 },     // 가격 없음
+    { ticker: 'FFF', qty: 1, avgPrice: 100 },    // 정확히 −20% → 아님("넘게")
   ];
   const r = lossAlerts(h, (t) => px[t] ?? null);
   assert.deepEqual(r.map((x) => x.ticker), ['BBB', 'AAA']);
@@ -324,7 +325,7 @@ test('다음 할 일: 다음 회차·결정 대기·회차 끝·첫 점검 대�
 
 import { buyPlan, monthDeposits, monthBuys } from '../../preview-only-portfolio-home.js';
 
-test('원칙 10 매수 금액: 체크한 종목만, 균등·시총 비중·판정 가중, 센트 내림', () => {
+test('원칙 3 매수 금액: 체크한 종목만, 균등·시총 비중·판정 가중, 센트 내림', () => {
   const tiers = { BBB: '저평가', CCC: '적정~저평가', EEE: '적정' };
   const p = buyPlan({ cands: ['BBB', 'CCC', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, tiers, caps: { BBB: 3e12, EEE: 1e12 }, rounds: 4 });
   assert.deepEqual(p.sel, ['BBB', 'EEE']);
@@ -356,7 +357,7 @@ test('원칙 10 매수 금액: 체크한 종목만, 균등·시총 비중·판�
   assert.ok(Math.round((c.A + c.B) * 100) <= 123457);
 });
 
-test('원칙 10 놓친 회차: 남은 몫 ÷ 남은 회차, 남은 돈을 넘지 않음, 회차 끝이면 없음', () => {
+test('원칙 3 놓친 회차: 남은 몫 ÷ 남은 회차, 남은 돈을 넘지 않음, 회차 끝이면 없음', () => {
   // 달 몫 200씩, BBB는 이미 50 삼, 남은 회차 2 → BBB (200−50)/2 = 75(놓친 몫 포함), EEE 200/2 = 100
   const p = buyPlan({ cands: ['BBB', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, spent: 50, bought: { BBB: 50 }, rounds: 4, roundsLeft: 2 });
   assert.deepEqual(p.round.equal, { BBB: 75, EEE: 100 });
@@ -380,7 +381,7 @@ test('원칙 10 놓친 회차: 남은 몫 ÷ 남은 회차, 남은 돈을 넘지
   assert.equal(buyPlan({ cands: ['A'], picked: ['A'], budget: 100, roundsLeft: 0 }).round.equal, null);
 });
 
-test('원칙 10 넣은 돈·산 돈: 반영일 기준 달, 묶음 전부, 취소, 그달 1일~오늘 매수', () => {
+test('원칙 3 넣은 돈·산 돈: 반영일 기준 달, 묶음 전부, 취소, 그달 1일~오늘 매수', () => {
   const all = {
     'b1:d1': { amount: 100, recordedAt: '2026-10-31T16:00:00Z' },   // 토요일 → 반영일 11-02
     'b1:d2': { amount: 50, recordedAt: '2026-10-15T15:00:00Z' },
@@ -401,4 +402,59 @@ test('원칙 10 넣은 돈·산 돈: 반영일 기준 달, 묶음 전부, 취소
     x5: { cancels: 't5' },
   };
   assert.deepEqual([...monthBuys(trades, '2026-11', '2026-11-04')], [['A', { qty: 2, amount: 20 }]]);
+});
+
+import { monthSells, prevMonth } from '../../preview-only-portfolio-home.js';
+
+test('원칙 4 판 돈: 그달 매도 대금(취소 빼고 1일~오늘), 지난달 계산', () => {
+  const trades = {
+    s1: { date: '2026-11-03', ticker: 'A', side: 'sell', qty: 2, price: 10.5 },
+    s2: { date: '2026-11-20', ticker: 'B', side: 'sell', qty: 1, price: 30 },
+    s3: { date: '2026-11-05', ticker: 'C', side: 'sell', qty: 1, price: 99 },
+    x3: { cancels: 's3' },
+    b1: { date: '2026-11-04', ticker: 'A', side: 'buy', qty: 1, price: 10 },
+    s4: { date: '2026-10-30', ticker: 'A', side: 'sell', qty: 1, price: 7 },
+  };
+  assert.equal(monthSells(trades, '2026-11', '2026-11-10'), 21);
+  assert.equal(monthSells(trades, '2026-11', '2026-11-30'), 51);
+  assert.equal(monthSells(trades, '2026-10', '2026-11-30'), 7);
+  assert.equal(prevMonth('2026-11'), '2026-10');
+  assert.equal(prevMonth('2027-01'), '2026-12');
+});
+
+import { holdReason } from '../../preview-only-portfolio-home.js';
+
+test('원칙 6 보류 이유: 엔진과 같은 판단(tierStatus는 보지 않음), 기록 없음·기록 묵음', () => {
+  const rec = { session: '2026-10-21' };
+  assert.equal(holdReason({ tier: '저평가', tierStatus: 'normalized', verdictAsOf: '2026-10-21' }, rec), null);   // 실제 기록의 55종목이 normalized
+  assert.equal(holdReason(undefined, rec), 'noCard');
+  assert.equal(holdReason({ tier: null, verdictAsOf: '2026-10-21' }, rec), 'noVerdict');
+  assert.equal(holdReason({ tier: '저평가', priceStale: true, verdictAsOf: '2026-10-21' }, rec), 'stale');
+  assert.equal(holdReason({ tier: '저평가', verdictAsOf: '2026-10-01' }, rec), 'stale');   // 판정 날짜가 5거래일 넘게 묵음
+  assert.equal(holdReason({ tier: '저평가', verdictAsOf: '2026-10-21' }, null), 'noRecord');
+  // 기록 자체가 오늘보다 5거래일 넘게 묵었으면(파이프라인 여러 날 실패) 보류, 주말은 거래일이 아니라 세지 않는다
+  const ok = { tier: '저평가', verdictAsOf: '2026-10-21' };
+  assert.equal(holdReason(ok, rec, '2026-10-25'), null);          // 토·일 뒤 일요일: 10-22·23 두 거래일
+  assert.equal(holdReason(ok, rec, '2026-10-28'), null);          // 22·23·26·27·28 = 5거래일
+  assert.equal(holdReason(ok, rec, '2026-10-29'), 'recordStale'); // 6거래일
+  // 판정 날짜는 오늘까지 센다: 판정 10-14·기록 10-21(5거래일)·오늘 10-28(5거래일) → 판정은 10거래일 묵음
+  assert.equal(holdReason({ tier: '저평가', verdictAsOf: '2026-10-14' }, rec, '2026-10-28'), 'stale');
+  assert.equal(holdReason({ tier: '저평가', verdictAsOf: '2026-10-21' }, rec, '2026-10-28'), null);
+});
+
+test('원칙 3 산 돈: 매수도 거래마다 센트로 반올림해 더한다', () => {
+  const t = { a: { date: '2026-11-02', ticker: 'A', side: 'buy', qty: 0.0014, price: 10 }, b: { date: '2026-11-03', ticker: 'A', side: 'buy', qty: 0.0014, price: 10 } };
+  assert.equal(monthBuys(t, '2026-11', '2026-11-30').get('A').amount, 0.02);   // 거래당 $0.014 → 1센트씩
+});
+
+import { lossReviewable } from '../../preview-only-portfolio-home.js';
+
+test('원칙 4·6 20% 매도 검토 대상: 카드 있으면 원칙 6 통과, 카드 없으면 지수 ETF만', () => {
+  const rec = { session: '2026-10-21', cards: { AAA: { tier: '고평가', verdictAsOf: '2026-10-21' }, BBB: { tier: '저평가', priceStale: true, verdictAsOf: '2026-10-21' } } };
+  assert.equal(lossReviewable('AAA', rec, '2026-10-22'), true);
+  assert.equal(lossReviewable('BBB', rec, '2026-10-22'), false);   // 가격 묵음
+  assert.equal(lossReviewable('ZZZ', rec, '2026-10-22'), false);   // 카드 없는 개별 종목
+  assert.equal(lossReviewable('SPY', rec, '2026-10-22'), true);    // 지수 ETF는 카드 없어도
+  assert.equal(lossReviewable('SPY', rec, '2026-10-29'), false);   // 기록이 묵으면 ETF도 보류
+  assert.equal(lossReviewable('SPY', null, '2026-10-22'), false);
 });

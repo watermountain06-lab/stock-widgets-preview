@@ -22,7 +22,7 @@ export const STRATEGY = {
 };
 const NOTE = {
   provisionalPrinciple: '임시 모형 — 매도 검토는 알림만 반영',
-  noPrinciple7: '원칙 7(급락 대비 현금) 미반영',
+  noPrinciple7: '원칙 5(급락 대비 현금) 미반영',
   offPrinciple: '원칙과 다름',
 };
 export const REASON = {

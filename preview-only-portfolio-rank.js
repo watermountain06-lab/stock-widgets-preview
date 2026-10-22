@@ -5,7 +5,7 @@
 // 저평가만(C)·갈아타기(D)는 값을 바꾸지 않으면 그 전략 그대로 저장하고, 바꾸면 사용자 정의로 저장한다(C는 매도 알림을 남기지 않아 사용자 정의와 다르다).
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
 import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
-  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=15';
+  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=16';
 import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=2';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
@@ -302,9 +302,9 @@ function editor(id, sc, r, b, result, handlers, close, count, st, openNew) {
     }
     g.appendChild(row); into.appendChild(g);
   };
-  seg('고평가가 되면 파는 비율 · 원칙 2·3', 'sell', SELL_OPTS, '%');
-  seg('몇 번에 나눠 살까 · 원칙 5', 'rounds', ROUND_OPTS, '회');
-  seg('남겨 둘 현금 · 원칙 7', 'reserve', RESERVE_OPTS, '%');
+  seg('고평가가 되면 파는 비율 · 원칙 4', 'sell', SELL_OPTS, '%');
+  seg('몇 번에 나눠 살까 · 원칙 2', 'rounds', ROUND_OPTS, '회');
+  seg('남겨 둘 현금 · 원칙 5', 'reserve', RESERVE_OPTS, '%');
   seg('ETF로 바꿀 비율 · 주식 평가액 기준', 'etfShare', ETF_SHARE_OPTS, '%', etfPart);
   const etfBox = el('fieldset', 'pf-edgroup'); etfBox.appendChild(el('legend', null, '살 ETF · 고른 것끼리 똑같이'));
   const etfChips = el('div', 'pf-tierchips');
