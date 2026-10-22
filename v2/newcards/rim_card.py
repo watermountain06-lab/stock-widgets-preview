@@ -68,7 +68,7 @@ def apply(h, T, D, px):
     assert h.count("${D.hard.length}/5") == 2, "계산 어려움 개수 표기 자리"
     h = h.replace("${D.hard.length}/5", "${D.hard.length}/${D.model === 'rim' ? 4 : 5}")
     # 5년 중앙값이 없으면 보수 칸은 "없음"(부분 표시, §4) — 음수와 구분
-    h = _one(h, "el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';", "el.textContent = v0 == null ? '없음' : v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';")
+    h = _one(h, "el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '0 이하';", "el.textContent = v0 == null ? '없음' : v0 > 0 ? '$' + v0.toFixed(2) : '0 이하';")
     # ── 역산 문장 ──
     rq = D.get("requiredRoe")
     rev = ("—" if D.get("base") is None else
