@@ -112,8 +112,45 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Daily data refresh: session ${session}"
-          git pull --rebase
-          git push
+          # 실행 중에 사람이 새 카드를 올리면 같은 파일(index.html·stocks.json)의 다른 줄을 고쳐 rebase가 충돌한다
+          # (2026-10-21: 21:34 ET MSI 카드 push, 10-21 갱신이 못 올라가 새 카드 MMM의 가격이 비고 Site UI가 멈춤).
+          # 그래서 rebase하지 않는다: push가 거절되면 받은 main 위에서 홈·카드를 다시 만든다. 충돌 없이 합쳐지는 경우도
+          # 사람이 넣은 새 종목은 가격이 비어 있으므로 같은 길로 보낸다(리뷰 2026-10-21). 가격은 다시 받지 않고 이 실행이
+          # 받은 것을 옮긴다(carry_prices.py) - 새 종목과 사람이 가격·심볼을 고친 종목만 받는다. 매크로는 이 작업만 쓰므로
+          # 받은 값을 되살린다.
+          cp site_data/stocks.json "$RUNNER_TEMP/stocks.json"
+          git show HEAD~1:site_data/stocks.json > "$RUNNER_TEMP/base.json"   # 이 실행이 시작한 커밋
+          cp site_data/macro.json "$RUNNER_TEMP/macro.json"
+          pushed=false
+          for i in 1 2 3; do
+            if git push; then pushed=true; break; fi
+            [ "$i" = 3 ] && break
+            echo "::warning::push 거절 ${i}/3 - 받은 main 위에서 다시 만든다"
+            sleep $((i * 20))
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            cp "$RUNNER_TEMP/macro.json" site_data/macro.json
+            added=$(python3 pipeline/carry_prices.py carry "$RUNNER_TEMP/stocks.json" "$RUNNER_TEMP/base.json")
+            { echo "--- push 거절 ${i}: 받은 main 위에서 다시 (따로 받을 종목: ${added:-없음}, 매크로는 첫 조회 값)"; } \
+              | tee -a prices.log macro.log validate.log cards.log
+            if [ -n "$added" ]; then
+              # 사본에 받아 이 세션 값만 들인다 - 한 종목이 실패하거나 다른 세션을 줘도 세션 전체를 막거나 옮기지 않는다
+              cp site_data/stocks.json "$RUNNER_TEMP/fetched.json"
+              python3 pipeline/fetch_prices.py --data "$RUNNER_TEMP/fetched.json" --tickers "$added" --write 2>&1 \
+                | tee -a prices.log || echo "::warning::따로 받을 종목 조회 실패: ${added}"
+              python3 pipeline/carry_prices.py merge "$RUNNER_TEMP/fetched.json" "$added" | tee -a prices.log
+            fi
+            python3 pipeline/build_index.py
+            python3 pipeline/validate_site_data.py | tee -a validate.log
+            python3 pipeline/update_cards.py --write | tee -a cards.log
+            git add site_data/stocks.json site_data/macro.json index.html \
+                    ./*_full_widget.html site_data/card_status.json site_data/tech_state
+            if git diff --cached --quiet; then pushed=true; break; fi   # 받은 main이 이미 같은 세션·같은 값을 담고 있다
+            git commit -q -m "Daily data refresh: session ${session}"
+          done
+          # 성공 판정은 원격이 이 커밋을 담았는지로 한다(v2_cards.yml과 같은 방식)
+          git fetch -q origin main
+          if [ "$pushed" != true ] || [ -n "$(git rev-list origin/main..HEAD)" ]; then echo "push 실패 - 세 번 거절"; exit 1; fi
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       # Pushes made with GITHUB_TOKEN don't start other workflow runs, and the

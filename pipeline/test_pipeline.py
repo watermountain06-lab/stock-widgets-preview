@@ -1415,6 +1415,48 @@ def test_backfill():
         check("a hole nobody recorded still holds the card", "missing inside" in str(e), str(e))
 
 
+def test_carry_prices():
+    """The push-retry path (daily_refresh.yml, 2026-10-21): carry this run's prices onto a newer main."""
+    import carry_prices as cp
+    blk = lambda c, s, st="fresh": {"close": c, "session": s, "status": st}
+    saved = {"priceSession": "2026-10-21", "generatedAt": "g",
+             "tickers": [{"ticker": t, "price": blk(1.0, "2026-10-21")} for t in ("AAA", "BBB", "EEE")]}
+    base = {"priceSession": "2026-10-20",
+            "tickers": [{"ticker": t, "price": blk(0.5, "2026-10-20")} for t in ("AAA", "BBB", "EEE")]}
+    main = json.loads(json.dumps(base))
+    main["tickers"][0]["yahooSymbol"] = "AAA.X"                              # person changed a symbol
+    main["tickers"][2]["price"] = blk(0.7, "2026-10-20", "suspicious")      # person edited a block
+    main["tickers"].append({"ticker": "NEW", "price": {"close": None, "status": "unavailable"}})
+    fetch = cp.carry(saved, base, main)
+    got = {t["ticker"]: t["price"] for t in main["tickers"]}
+    check("carry: untouched ticker gets this run's block", got["BBB"] == blk(1.0, "2026-10-21"), got["BBB"])
+    check("carry: changed symbol, edited block and new ticker go to fetch",
+          fetch == ["AAA", "EEE", "NEW"], fetch)
+    check("carry: priceSession is this run's", main["priceSession"] == "2026-10-21", main["priceSession"])
+    try:
+        cp.carry(saved, base, {"priceSession": "2026-10-22", "tickers": []})
+        check("carry: refuses a main with a later session", False)
+    except SystemExit:
+        check("carry: refuses a main with a later session", True)
+
+    fetched = {"tickers": [
+        {"ticker": "AAA", "price": dict(blk(2.0, "2026-10-21", "stale"),
+                                        statusReason="latest completed bar 2026-10-21, target session 2026-10-22")},
+        {"ticker": "EEE", "price": blk(3.0, "2026-10-22")},                   # ran ahead: not taken
+        {"ticker": "NEW", "price": {"close": None, "status": "unavailable"}}]}
+    left = cp.merge(fetched, {"AAA", "EEE", "NEW"}, main)
+    got = {t["ticker"]: t["price"] for t in main["tickers"]}
+    check("merge: same-session block taken, stale-by-target restored to fresh",
+          got["AAA"] == blk(2.0, "2026-10-21"), got["AAA"])
+    check("merge: another session or no close is left out", left == ["EEE", "NEW"], left)
+    check("merge: a left-out block keeps main's value and status",
+          got["EEE"] == blk(0.7, "2026-10-20", "suspicious") and got["NEW"]["close"] is None, got)
+    m2 = {"priceSession": "2026-10-21", "tickers": [{"ticker": "X", "price": blk(1.0, "2026-10-20")}]}
+    cp.merge({"tickers": []}, {"X"}, m2)
+    check("merge: a fresh block of another session is downgraded to stale",
+          m2["tickers"][0]["price"]["status"] == "stale", m2)
+
+
 if __name__ == "__main__":
     test_prose_stamp()
     test_valuation_render()
@@ -1429,4 +1471,5 @@ if __name__ == "__main__":
     test_card_units()
     test_card_updater()
     test_backfill()
+    test_carry_prices()
     print(f"OK - {len(PASSED)} checks passed")
