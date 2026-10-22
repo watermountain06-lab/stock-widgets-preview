@@ -13,7 +13,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=15';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=25';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=26';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=2';
 import { attachActual } from './preview-only-portfolio-actual.js?v=7';
@@ -231,6 +231,18 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     ledger = recs;
     return recs;
   }
+  // 시가총액(다음 할 일 카드의 "시총 비중"): 공개 카드 데이터 site_data/stocks.json의 미국 기준 주식 수 × 종가. 못 받으면 빈 지도(그 방법만 계산 못 함)
+  let caps = null;
+  async function loadCaps() {
+    if (caps) return caps;
+    try {
+      const res = await fetch('site_data/stocks.json', { cache: 'no-cache' });
+      if (!res.ok) throw new Error('stocks');
+      const { tickers } = await res.json();
+      caps = Object.fromEntries((tickers || []).map((x) => [x.ticker, (x.shares?.usEquivalent || 0) * (x.price?.close || 0)]).filter(([, v]) => v > 0));
+    } catch (_) { return {}; }
+    return caps;
+  }
   const iso = (v) => (v && typeof v.toDate === 'function' ? v.toDate().toISOString() : v ?? null);
   const plain = (data) => {
     const map = (m, f) => Object.fromEntries(Object.entries(m || {}).map(([k, v]) => [k, f(v)]));
@@ -245,13 +257,15 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
   const why = (e) => (e && e.code === 'permission-denied' ? '규칙이 막았습니다. 새로고침한 뒤 다시 해 보세요.' : '저장하지 못했습니다(' + ((e && (e.code || e.message)) || '알 수 없음') + ').');
 
   // 실제 매매 기록: users/{uid}/portfolio/trades 문서 하나(고치기·지우기 가능, 규칙 firestore.rules). 모의 운용 계산과는 따로다.
+  // 같은 문서의 picks: {'YYYY-MM': [티커…]}는 다음 할 일 카드에서 그달 살 종목으로 체크한 것(원칙 10, 2026-10-22).
   const tref = (user) => doc(db, 'users', user.uid, 'portfolio', 'trades');
 
   async function loadAll(user, g, main) {
     ['pf-home', 'pf-strategy', 'pf-manage'].forEach((id) => { $(id).textContent = '불러오는 중…'; });
     let records = [], recordsError = false;
     try { records = await loadLedger(); } catch (_) { recordsError = true; }
-    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false;
+    const capsP = loadCaps();
+    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false, picks = {};
     const allDeposits = {};
     try {
       for (; n < 100; n++) {
@@ -265,7 +279,9 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       const ts = await getDoc(tref(user));
       if (ts.exists()) {
         tradesExist = true;
-        const e = ts.data({ serverTimestamps: 'estimate' }).entries || {};
+        const td = ts.data({ serverTimestamps: 'estimate' });
+        const e = td.entries || {};
+        picks = td.picks || {};
         trades = Object.fromEntries(Object.entries(e).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }]));
       }
     } catch (e) {
@@ -310,9 +326,11 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       trade: act((t) => addTrade(t)),
       editTrade: act((id, t) => updateDoc(tref(user), Object.fromEntries(['date', 'ticker', 'side', 'qty', 'price'].map((f) => ['entries.' + id + '.' + f, t[f]])))),
       deleteTrade: act((id) => updateDoc(tref(user), Object.fromEntries([id, ...Object.entries(trades).filter(([, x]) => x.cancels === id).map(([k]) => k)].map((k) => ['entries.' + k, deleteField()])))),
+      // 그달 살 종목 체크(문서가 없으면 만든다 — merge라 매매 기록은 그대로)
+      pick: act((month, list) => setDoc(tref(user), { picks: { [month]: list } }, { merge: true })),
       goto: (tab) => selectTab(tab),
     };
-    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits };
+    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, picks, caps: await capsP };
 
     renderTabs({ home: $('pf-home'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,
       { bundle, bundleNo: no, closedCount, records, recordsError, calcError, holdingsRows: (main.holdings && main.holdings.rows) || [] }, handlers);

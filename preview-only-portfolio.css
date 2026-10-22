@@ -153,8 +153,6 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 .pf-cands{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 16px}
 .pf-cand{flex:1;min-width:170px;border:1px solid var(--line);border-radius:16px;padding:14px}
 .pf-cand-real{margin-top:6px;font-weight:700;font-size:14px}
-.pf-bar{height:10px;border-radius:6px;background:#eceaf3;overflow:hidden;margin:6px 0}
-.pf-bar span{display:block;height:100%;background:var(--purple)}
 .pf-alerts p{margin:6px 0;font-size:14px}
 #pf-home .pf-legend{margin:4px 0 14px}
 #pf-home .pf-legend i{display:inline-block;width:10px;height:10px;border-radius:3px}
@@ -180,7 +178,6 @@ main.pf{width:min(1120px,calc(100% - 32px))}
 :root[data-theme="dark"] .pf-donut path{stroke:var(--panel)}
 :root[data-theme="dark"] .pf-sub{color:var(--text2)}
 :root[data-theme="dark"] .pf-step-done i{background:#51428c;border-color:#51428c}
-:root[data-theme="dark"] .pf-bar{background:var(--bg3)}
 @media(max-width:760px){.pf-grid2{grid-template-columns:1fr}.pf-panel{padding:20px 16px}.pf-big{font-size:32px}.pf-tradeform{grid-template-columns:1fr}.pf-todos{grid-template-columns:repeat(2,minmax(0,1fr))}.pf-step{font-size:11px}}
 #pf-home .pf-holdfold,:root[data-theme="dark"] #pf-home .pf-holdfold{background:none!important;color:inherit}
 :root[data-theme="dark"] #pf-home .pf-holdfold{border-color:var(--border)}
@@ -282,9 +279,6 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-side{padding:20px 22px;display:grid;gap:10px}
 .pf-sidehead{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .pf-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:#f2f0f7;color:#4f3aa8;white-space:nowrap}
-.pf-siderow{display:grid;gap:4px;padding-bottom:10px;border-bottom:1px solid var(--line)}.pf-siderow:last-child{border-bottom:0;padding-bottom:0}
-.pf-candchips{display:flex;gap:6px;flex-wrap:wrap}.pf-candchip{padding:3px 10px;border-radius:999px;background:#e6f6ee;color:#11734f;font-size:13px;font-weight:700}.pf-candchip small{font-weight:400}
-.pf-sideval{font-size:13px}
 .pf-linkbtn{border:0;background:none;padding:6px 0;font:inherit;font-size:13px;font-weight:700;color:#4f3aa8;cursor:pointer}
 .pf-minirow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;font-size:13px}.pf-minirow strong{text-align:right}
 .pf-minirow i{grid-column:1/-1;display:block;height:6px;border-radius:999px;background:#f2f0f7}.pf-minirow i b{display:block;height:100%;border-radius:999px;background:#b9b0e6}
@@ -319,10 +313,47 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 :root[data-theme="dark"] .pf-next{border-color:#3d3561}
 :root[data-theme="dark"] .pf-lossline{background:#3a3020}:root[data-theme="dark"] .pf-lossline strong{color:#f2c46b}
 :root[data-theme="dark"] .pf-badge,:root[data-theme="dark"] .pf-helpbox,:root[data-theme="dark"] .pf-segs span,:root[data-theme="dark"] .pf-minirow i,:root[data-theme="dark"] .pf-recicon{background:var(--bg3);color:var(--text)}
-:root[data-theme="dark"] .pf-candchip{background:#1f3a30;color:#7cddb6}
 :root[data-theme="dark"] .pf-foldcard,:root[data-theme="dark"] .pf-dialog,:root[data-theme="dark"] .pf-help,:root[data-theme="dark"] .pf-more{background:var(--panel)!important;color:var(--text);border-color:var(--border)}
 :root[data-theme="dark"] .pf-minifold{background:none!important}
 :root[data-theme="dark"] .pf-dmrow{color:var(--text)}
 @media(max-width:760px){.pf-bandcell+.pf-bandcell{border-left:0;padding-left:0}.pf-v{font-size:24px}.pf-rankrow{grid-template-columns:18px minmax(0,1fr) 70px 16px}.pf-rankmark{grid-column:4;grid-row:1}
 .pf-recrow{grid-template-columns:32px minmax(0,1fr) 36px}.pf-recdate{grid-column:1/-1}.pf-recamt{grid-column:2}.pf-tradeopen{width:100%}}
 :root[data-theme="dark"] .pf-tradeopen,:root[data-theme="dark"] .pf-dialog .pf-btn:not(.pf-btn-quiet){background:#51428c;color:#fff}
+
+/* 원칙 10 매수 금액(다음 할 일 카드 안, 2026-10-22 디자인 캔버스 최종안) */
+.pf-eyerow{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.pf-seg-now{background:transparent!important;box-shadow:inset 0 0 0 2px #6851cd}
+.pf-buy{display:grid;gap:16px}
+.pf-receipt{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pf-receiptrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.pf-receiptcell{display:flex;flex-direction:column;gap:2px;padding:14px 16px;min-width:0}.pf-receiptcell+.pf-receiptcell{border-left:1px solid var(--line)}
+.pf-receiptcell strong{font-size:22px;font-weight:800;letter-spacing:-.02em}.pf-receiptcell .pf-s{font-size:11px}
+.pf-receiptleft{background:#f3f0fc}.pf-receiptleft .pf-k,.pf-receiptleft strong,.pf-receiptleft .pf-s{color:#4f3aa8}.pf-receiptleft .pf-k{font-weight:700}
+.pf-receiptadd{display:flex;gap:8px;align-items:center;padding:10px 16px;border-top:1px solid var(--line);background:#fafafc}
+.pf-receiptadd label{display:flex;align-items:center;gap:8px;flex:1;min-width:0;font-size:13px;color:var(--muted)}
+.pf-receiptadd input{flex:1;min-width:0;min-height:44px;padding:0 12px;border:1px solid #dcd9e6;border-radius:10px;font:inherit;font-size:14px;background:#fff;color:inherit}
+.pf-receipt .pf-st-msg:empty{display:none}.pf-receipt .pf-st-msg{padding:0 16px 10px;margin:0;background:#fafafc}
+.pf-btn-dark{background:#23232d!important;color:#fff!important;min-height:44px}
+.pf-buysechead{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;flex-wrap:wrap;margin-bottom:-6px}.pf-buysechead .pf-note{margin:0}
+.pf-buylabel{font-size:13px;font-weight:700;color:var(--muted)}
+.pf-buyseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:4px;border-radius:14px;background:#f2f0f7}
+.pf-buyseg button{min-height:44px;border:0;border-radius:10px;background:transparent;color:#3d3d48;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.pf-buyseg button[aria-pressed="true"]{background:#fff;color:#4f3aa8;font-weight:800;box-shadow:0 1px 4px #2b204a1f}
+.pf-buylist{display:grid}
+.pf-buyrow{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:12px;align-items:center;min-height:60px;border-top:1px solid var(--line);cursor:pointer}
+.pf-buyrow input{width:20px;height:20px;margin:0;accent-color:#6851cd}
+.pf-buyname{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;min-width:0}.pf-buyname strong{font-size:15px}.pf-buyname .pf-note{margin:0}
+.pf-buyrow:not(.pf-on) .pf-buyname strong{color:var(--muted)}
+.pf-buyact{display:flex;align-items:center;gap:10px}.pf-buyact .pf-note{margin:0}
+.pf-buyamt{display:flex;flex-direction:column;align-items:flex-end}.pf-buyamt strong{font-size:16px;color:#4f3aa8}.pf-buyamt .pf-s{font-size:11px}
+.pf-buyact .pf-btn{min-height:44px}
+:root[data-theme="dark"] .pf-seg-now{box-shadow:inset 0 0 0 2px #8f7ce0}
+:root[data-theme="dark"] .pf-receiptleft{background:#2a2545}:root[data-theme="dark"] .pf-receiptleft .pf-k,:root[data-theme="dark"] .pf-receiptleft strong,:root[data-theme="dark"] .pf-receiptleft .pf-s{color:#c9bcff}
+:root[data-theme="dark"] .pf-receiptadd,:root[data-theme="dark"] .pf-receipt .pf-st-msg{background:var(--bg3)}:root[data-theme="dark"] .pf-receiptadd input{background:var(--bg2);border-color:var(--line)}
+:root[data-theme="dark"] .pf-buyseg{background:var(--bg3)}:root[data-theme="dark"] .pf-buyseg button{color:var(--text)}:root[data-theme="dark"] .pf-buyseg button[aria-pressed="true"]{background:#51428c;color:#fff}
+:root[data-theme="dark"] .pf-buyamt strong{color:#c9bcff}:root[data-theme="dark"] .pf-btn-dark{background:#51428c!important}
+@media (max-width:520px){.pf-receiptcell{padding:12px 10px}.pf-receiptcell strong{font-size:17px}.pf-receiptadd{padding:10px}.pf-receiptadd label>span{display:none}}
+.pf-nextmain{flex:1;min-width:0}
+.pf-sellline{padding:10px 12px;border-radius:12px;background:#f2f0f7;font-size:13px}.pf-sellline strong{color:#4f3aa8}
+:root[data-theme="dark"] .pf-sellline{background:var(--bg3)}:root[data-theme="dark"] .pf-sellline strong{color:#c9bcff}
+.pf-homeside .pf-hold{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px}.pf-homeside .pf-hold>b{grid-column:2;grid-row:1}.pf-homeside .pf-hold>.pf-chip{grid-column:1;justify-self:start}

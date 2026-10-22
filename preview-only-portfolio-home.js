@@ -123,6 +123,24 @@ export function depositsSince(all, base, today) {
   return out.sort((x, y) => (x.day < y.day ? -1 : 1));
 }
 
+// 원칙 10 매수 금액(2026-10-22 사용자 결정 — 초안): 그달 입금액만 쓰고, 카드가 보여 준 살 후보 중 내가 고른 종목에 나눠 4회(매주)에 산다.
+// 나누는 방법은 균등·시총 비중(시가총액 비례)·판정 가중(등급 무게(초저평가 4 : 저평가 3 : 적정~저평가 2 : 적정 1) 셋을 나란히 보여 준다.
+// budget·금액은 달러, 계산은 센트 정수(내림 — 남는 센트는 쓰지 않는다). caps에 없는 종목이 하나라도 고른 것에 있으면 시총 방법은 null.
+export const BUY_METHODS = [['equal', '균등'], ['cap', '시총 비중'], ['tier', '판정 가중']];
+export const TIER_WEIGHT = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 };
+export function buyPlan({ cands, picked, budget, tiers = {}, caps = {}, rounds = 4 }) {
+  const sel = cands.filter((t) => picked.includes(t));
+  const cents = Math.max(0, Math.round((budget || 0) * 100));
+  const split = (w) => {
+    const tot = sel.reduce((a, t) => a + w(t), 0);
+    if (!(tot > 0) || sel.some((t) => !(w(t) >= 0))) return null;
+    return Object.fromEntries(sel.map((t) => [t, Math.floor((cents * w(t)) / tot) / 100]));
+  };
+  const by = { equal: split(() => 1), cap: split((t) => caps[t]), tier: split((t) => TIER_WEIGHT[tiers[t]] ?? NaN) };
+  const per = (m) => (by[m] ? Object.fromEntries(Object.entries(by[m]).map(([t, v]) => [t, Math.floor((v * 100) / rounds) / 100])) : null);
+  return { sel, by, round: { equal: per('equal'), cap: per('cap'), tier: per('tier') } };
+}
+
 // ---- 그리기 ----
 // model = { main(올린 데이터), trades(실제 매매 지도), result|null, bundle|null, byId, records, now }
 // handlers = { trade({date, ticker, side, qty, price}), editTrade(id, …), deleteTrade(id), goto(tab) }
@@ -182,27 +200,40 @@ export function renderHome(root, model, handlers) {
   const next = el('section', 'pf-panel pf-next');
   const na = nextAction(mv);
   const nh = el('div', 'pf-nexthead');
-  const nt = el('div');
-  nt.appendChild(el('div', 'pf-eyebrow2', '이번 달, 다음 할 일'));
+  const nt = el('div', 'pf-nextmain');
+  const live = !!(mv?.plan && !mv.stale);   // 이번 달 계획이 있으면 아래에 돈·나누는 방법·후보 칸(buyBox)
+  const eye = el('div', 'pf-eyerow'); eye.appendChild(el('div', 'pf-eyebrow2', '이번 달, 다음 할 일'));
+  if (live && na.total) eye.appendChild(el('span', 'pf-badge', `${na.total}회 중 ${na.done}회 진행`));
+  nt.appendChild(eye);
   nt.appendChild(el('h2', 'pf-nexttitle', na ? na.title : !model.bundle || model.bundle.closed ? '전략 비교를 시작하세요' : '원칙 계산 출발 대기'));
-  nt.appendChild(el('p', 'pf-sub', na ? na.sub : !model.bundle || model.bundle.closed
+  if (!live) nt.appendChild(el('p', 'pf-sub', na ? na.sub : !model.bundle || model.bundle.closed
     ? '기록·관리 탭에서 시작 스냅샷을 정하면 매달 점검일 결정과 회차 진행이 여기에 보입니다.'
     : '시작 스냅샷의 종목에 모두 그날 가격이 있어야 출발합니다(전략 비교 탭의 출발 대기 이유를 보세요).'));
   nh.appendChild(nt);
   const cands = mv?.plan && !mv.stale ? mv.plan.candidates : [];
-  const buyBtn = el('button', 'pf-btn', cands.length ? '후보로 매수 기록' : '매매 기록'); buyBtn.type = 'button';
+  const buyBtn = el('button', 'pf-btn', '매매 기록'); buyBtn.type = 'button';
   buyBtn.addEventListener('click', () => dlg.open(cands[0]));
-  nh.appendChild(buyBtn);
+  if (!cands.length) nh.appendChild(buyBtn);   // 후보가 있으면 아래 줄마다 "기록" 버튼
   next.appendChild(nh);
   if (na && na.total) {
     const seg = el('div', 'pf-segs'); seg.setAttribute('role', 'img'); seg.setAttribute('aria-label', `${na.total}회 중 ${na.done}회 진행`);
-    for (const s of mv.steps.slice(1)) seg.appendChild(el('span', 'pf-seg-' + s.state));
+    const nowAt = mv.steps.slice(1).findIndex((s) => s.state === 'todo');   // 다음 회차는 테두리만
+    mv.steps.slice(1).forEach((s, i) => seg.appendChild(el('span', 'pf-seg-' + (i === nowAt && live ? 'now' : s.state))));
     next.appendChild(seg);
   }
+  const buySlot = el('div', 'pf-buyslot'); next.appendChild(buySlot);
   for (const l of losses) {
     const w = el('div', 'pf-lossline');
     w.appendChild(el('strong', null, '손실 알림'));
     w.appendChild(el('span', null, ` ${l.ticker} 평균 단가 대비 ${dropText(l.drop)} · 자동으로 팔지 않습니다(원칙 9). 판정과 함께 직접 판단하세요.`));
+    next.appendChild(w);
+  }
+  // 매도 검토(원칙 기준, 알림만 — 예전 '이번 달 운용' 칸에서 옮김)와 판정 방식이 바뀐 달 안내
+  if (live && mv.plan.ruleChanged) next.appendChild(el('p', 'pf-note', '이번 달은 판정 방식이 바뀌어 매매하지 않습니다(바뀐 판정으로 매도가 생기지 않게).'));
+  if (live) for (const f of mv.alerts) {
+    const w = el('div', 'pf-sellline');
+    w.appendChild(el('strong', null, '매도 검토'));
+    w.appendChild(el('span', null, ` ${f.ticker} ${f.observed} · ` + (f.warnOnly ? '비율은 아직 정하지 않음(알림만)' : `${shares(f.shares)}주 나눠 매도`)));
     next.appendChild(w);
   }
   // 이번 달(미국 동부) 기록한 입금 중 효력 있는 취소(반영일 09:30 ET 전)를 뺀 것 — 엔진·기록·관리 탭과 같은 기준
@@ -215,14 +246,15 @@ export function renderHome(root, model, handlers) {
   const deps = allDeps.filter(([id, d]) => !d.cancels && !gone.has(id) && d.recordedAt && etDate(Date.parse(d.recordedAt)).slice(0, 7) === month).map(([, d]) => d);
   const stats = el('div', 'pf-nextstats');
   const stat = (k, v) => { const s = el('span', null, k + ' '); s.appendChild(el('strong', null, v)); stats.appendChild(s); };
-  stat('매도 검토', mv && mv.plan && !mv.stale ? mv.alerts.length + '건' : '—');
-  stat('이번 달 입금', deps.length ? usd0(deps.reduce((a, d) => a + d.amount, 0)) : '없음');
+  if (!live) stat('이번 달 입금', deps.length ? usd0(deps.reduce((a, d) => a + d.amount, 0)) : '없음');
   stat('마지막 기록', last ? md(last.session) : '없음');
   next.appendChild(stats);
+  if (mv?.plan && !mv.stale) buySlot.appendChild(buyBox({ model, handlers, mv, dlg, close, tierOf, today, deps }));
+  else buySlot.remove();
   left.appendChild(next);
 
   // 3) 보유 자산(비중 막대 + 접는 목록)
-  const hold = el('section', 'pf-panel');
+  const hold = el('section', 'pf-panel pf-side');
   const hh = el('h2', 'pf-h2s', '보유 자산 '); hh.appendChild(el('small', null, `${cur.holdings.length}종목`)); hold.appendChild(hh);
   const mine = new Map();
   for (const x of cur.holdings) { const v = myVal.get(x.ticker); if (!v) continue; const k = named.includes(x.ticker) ? x.ticker : '기타'; mine.set(k, (mine.get(k) || 0) + v); }
@@ -247,7 +279,7 @@ export function renderHome(root, model, handlers) {
   const fold = el('details', 'pf-holdfold');
   try { fold.open = sessionStorage.getItem('pf-holds-open') === '1'; } catch (_) { /* 기억 못 해도 접힌 채로 */ }
   fold.addEventListener('toggle', () => { try { sessionStorage.setItem('pf-holds-open', fold.open ? '1' : '0'); } catch (_) { /* 무시 */ } });
-  fold.appendChild(el('summary', null, `보유 종목 ${cur.holdings.length}개 보기 · 판정·평균 단가·평가액`));
+  fold.appendChild(el('summary', null, `보유 종목 ${cur.holdings.length}개 보기`));
   // 펼친 목록은 평가액 큰 순(가격 없는 종목은 끝), 10종목 넘으면 나머지는 한 번 더 접는다(사용자 결정 10-20)
   const list = el('div', 'pf-holds');
   const sorted = cur.holdings.slice().sort((a, b) => (myVal.get(b.ticker) || 0) - (myVal.get(a.ticker) || 0) || (a.ticker < b.ticker ? -1 : 1));
@@ -277,11 +309,9 @@ export function renderHome(root, model, handlers) {
   if (cur.clipped.length) hold.appendChild(el('p', 'pf-warn', `⚠ 보유보다 많이 판 기록 ${cur.clipped.length}건(${cur.clipped.map((c) => c.ticker + ' ' + shares(c.short) + '주').join(', ')})은 가진 만큼만 반영했습니다. 올린 보유나 빠진 매수 기록을 확인하세요.`));
   if (h.asOf) hold.appendChild(el('p', 'pf-note', `올린 보유 ${h.asOf} + 그 뒤 기록한 매매 ${cur.applied.length}건` + (depIn.length ? ` + 입금 ${depIn.length}건(오늘 반영분 포함)` : '')
     + (cur.future.length ? ` (미래 날짜 ${cur.future.length}건은 그날부터)` : '')));
-  left.appendChild(hold);
+  right.appendChild(hold);   // 보유 자산은 오른쪽 단(사용자 결정 10-22): 왼쪽은 할 일, 오른쪽은 현황
 
-  // 4) 이번 달 운용(오른쪽, 짧게)
-  right.appendChild(planPanel(mv, model, lastFull));
-  // 5) 전략과 나란히(내 실제 계좌·1위·A)
+  // 4) 전략과 나란히(내 실제 계좌·1위·A). 예전 '이번 달 운용' 칸은 다음 할 일 카드와 겹쳐 뺐다(사용자 결정 10-22)
   right.appendChild(miniRank(model, handlers));
   grid.appendChild(left); grid.appendChild(right);
   root.appendChild(grid);
@@ -300,6 +330,113 @@ export function nextAction(mv) {
   return { title: '이번 달 회차 끝', sub: `살 후보 ${cands} · 다음 점검은 다음 달 1일(휴장이면 다음 거래일)`, done, total };
 }
 
+// 이번 달 실제 매수(취소 빼고, 점검일부터 그달 안) — 종목별 {qty, amount}
+function monthBuys(trades, plan) {
+  const real = Object.entries(trades || {});
+  const cancelled = new Set(real.filter(([, x]) => x.cancels).map(([, x]) => x.cancels));
+  const out = new Map();
+  for (const [id, x] of real) {
+    if (x.cancels || cancelled.has(id) || x.side !== 'buy' || x.date < plan.decisionDate || x.date.slice(0, 7) !== plan.decisionDate.slice(0, 7)) continue;
+    const o = out.get(x.ticker) || { qty: 0, amount: 0 }; o.qty += x.qty; o.amount += x.qty * x.price; out.set(x.ticker, o);
+  }
+  return out;
+}
+
+// 다음 할 일 카드 안의 "무엇을·얼마나"(2026-10-22 사용자 결정, 디자인 캔버스 최종안): 돈(넣은 돈 − 이번 달 산 돈 = 남은 돈, 더 넣을 돈 입력),
+// 나누는 방법(기본값 없음), 원칙 1·4·6을 통과한 살 후보(체크). 넣은 돈 = 이번 달 입금 기록(내 자산 현금·전략 비교에도 들어간다).
+// 방법을 고르면 체크한 종목마다 이번 회차 금액(달 몫 ÷ 회차 수)과 기록 버튼이 나온다.
+function buyBox(args) {
+  const { model, handlers, mv, dlg, close, tierOf, today, deps } = args;
+  const box = el('div', 'pf-buy');
+  const { plan } = mv, month = today.slice(0, 7), rounds = plan.rounds.length || 4;
+  const budget = Math.round(deps.reduce((a, d) => a + d.amount, 0) * 100) / 100;
+  const picked = (model.picks?.[month] || []).filter((t) => plan.candidates.includes(t));
+  const tiers = Object.fromEntries(plan.candidates.map((t) => [t, tierOf(t)]));
+  const bought = monthBuys(model.trades, plan);
+  const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
+
+  // 1) 돈: 넣은 돈 − 이번 달 산 돈 = 남은 돈, 아래에 더 넣을 돈
+  const money = el('div', 'pf-receipt');
+  const cells = el('div', 'pf-receiptrow');
+  const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); d.appendChild(el('span', 'pf-s', sub)); cells.appendChild(d); };
+  cell('넣은 돈', usd(budget), deps.length ? deps.map((d) => `${md(etDate(Date.parse(d.recordedAt)))} ${usd0(d.amount)}`).join(' · ') : '매달 1일 주식에 넣을 돈을 적으세요');
+  cell('− 이번 달 산 돈', usd(spent), bought.size ? [...bought.keys()].join(' · ') : '아직 없음');
+  cell('= 남은 돈', usd(Math.round((budget - spent) * 100) / 100), '이 돈만 씁니다(원칙 10)', 'pf-receiptleft');
+  money.appendChild(cells);
+  const f = el('div', 'pf-receiptadd');
+  const lab = el('label'); lab.appendChild(el('span', null, budget > 0 ? '더 넣을 돈' : '넣을 돈'));
+  const amt = el('input'); amt.type = 'number'; amt.min = '0.01'; amt.step = '0.01'; amt.placeholder = '$ 금액';
+  lab.appendChild(amt); f.appendChild(lab);
+  const save = el('button', 'pf-btn pf-btn-dark', '입금 기록'); save.type = 'button';
+  const msg = msgLine();
+  f.appendChild(save); money.appendChild(f); money.appendChild(msg);
+  twoStep(save, msg, '이 금액을 입금으로 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
+    const v = Number(amt.value);
+    if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
+    await handlers.deposit(v);
+  }, f);
+  box.appendChild(money);
+  if (!plan.candidates.length) { box.appendChild(el('p', 'pf-note', '이번 달 원칙 1·4·6을 통과한 살 후보가 없습니다.')); return box; }
+
+  // 2) 나누는 방법(기본값 없음 — 다시 누르면 끈다)
+  let method = null;
+  try { method = sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }
+  if (!BUY_METHODS.some(([k]) => k === method)) method = null;
+  const mh = el('div', 'pf-buysechead');
+  mh.appendChild(el('span', 'pf-buylabel', '나누는 방법'));
+  mh.appendChild(el('span', 'pf-note', method ? `이번 달 넣은 돈 ÷ 체크한 종목${method === 'equal' ? '' : method === 'cap' ? '(시총 비례)' : '(등급 4:3:2:1)'} ÷ ${rounds}회` : '아직 원칙으로 정하지 않음'));
+  box.appendChild(mh);
+  const seg = el('div', 'pf-buyseg'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', '나누는 방법');
+  for (const [k, t] of BUY_METHODS) {
+    const btn = el('button', null, t); btn.type = 'button'; btn.setAttribute('aria-pressed', String(k === method));
+    btn.addEventListener('click', () => { try { if (k === method) sessionStorage.removeItem('pf-buy-method'); else sessionStorage.setItem('pf-buy-method', k); } catch (_) { /* 무시 */ } box.replaceWith(buyBox(args)); });
+    seg.appendChild(btn);
+  }
+  box.appendChild(seg);
+
+  // 3) 내 기준대로 살 후보
+  const nextIdx = mv.next ? plan.rounds.indexOf(mv.next) + 1 : 0;
+  const lh = el('div', 'pf-buysechead');
+  lh.appendChild(el('span', 'pf-buylabel', `내 기준대로 살 후보 ${plan.candidates.length}`));
+  lh.appendChild(el('span', 'pf-note', `원칙 1·4·6 통과 · ${md(plan.decisionDate)} 점검 · 체크한 종목만 삽니다`));
+  box.appendChild(lh);
+  const bp = method ? buyPlan({ cands: plan.candidates, picked, budget, tiers, caps: model.caps || {}, rounds }) : null;
+  const list = el('div', 'pf-buylist');
+  for (const t of plan.candidates) {
+    const on = picked.includes(t);
+    const row = el('label', 'pf-buyrow' + (on ? ' pf-on' : ''));
+    const cb = el('input'); cb.type = 'checkbox'; cb.checked = on;
+    cb.addEventListener('change', () => { const nx = plan.candidates.filter((x) => (x === t ? cb.checked : picked.includes(x))); cb.disabled = true; Promise.resolve(handlers.pick?.(month, nx)).catch(() => { cb.disabled = false; cb.checked = on; }); });
+    row.appendChild(cb);
+    const nm = el('span', 'pf-buyname');
+    nm.appendChild(el('strong', null, t));
+    nm.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tiers[t]] || 'pf-t-none'), tiers[t] || '판정 없음'));
+    const b = bought.get(t);
+    if (b) nm.appendChild(el('span', 'pf-note', `이번 달 ${usd0(b.amount)} 삼`));
+    row.appendChild(nm);
+    const act = el('span', 'pf-buyact');
+    const r = bp?.round[method]?.[t], m = bp?.by[method]?.[t];
+    if (!on) act.appendChild(el('span', 'pf-note', '고르지 않음'));
+    else if (bp && budget > 0) {
+      const c = close(t);
+      const amtBox = el('span', 'pf-buyamt');
+      amtBox.appendChild(el('strong', null, r == null ? '계산 못 함' : usd(r)));
+      amtBox.appendChild(el('span', 'pf-s', r == null ? (method === 'cap' ? '시총 없는 종목이 있음' : '') : `${nextIdx ? nextIdx + '회차' : '회당'} · 달 몫 ${usd0(m)}`));
+      act.appendChild(amtBox);
+      const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button';
+      go.title = '이 금액으로 매수 기록 창을 엽니다(예상 수량은 최근 종가로 계산, 체결 뒤 실제 값으로 고치세요)';
+      go.disabled = r == null || c == null;
+      go.addEventListener('click', (e) => { e.preventDefault(); dlg.open(t, { qty: Math.floor((r / c) * 1e4) / 1e4, price: c }); });
+      act.appendChild(go);
+    } else if (!(budget > 0)) act.appendChild(el('span', 'pf-note', '넣은 돈 없음'));
+    else act.appendChild(el('span', 'pf-note', '방법을 고르면 금액'));
+    row.appendChild(act);
+    list.appendChild(row);
+  }
+  box.appendChild(list);
+  return box;
+}
+
 // 매매 기록 창(<dialog>). 한 페이지에 하나만 두고 그릴 때마다 내용을 바꾼다. open(ticker)는 그 종목·매수로 채워 연다
 function tradeDialog(model, handlers, recs, mv, today) {
   let dlg = document.getElementById('pf-tradedlg');
@@ -309,7 +446,7 @@ function tradeDialog(model, handlers, recs, mv, today) {
   const x = el('button', 'pf-btn pf-btn-quiet pf-dlgclose', '닫기'); x.type = 'button'; x.addEventListener('click', () => dlg.close());
   box.insertBefore(x, box.firstChild);
   dlg.appendChild(box);
-  return { open: (ticker) => { box.fill?.(ticker); if (!dlg.open) dlg.showModal?.(); } };
+  return { open: (ticker, pre) => { box.fill?.(ticker, pre); if (!dlg.open) dlg.showModal?.(); } };
 }
 
 function tradeForm(model, handlers, recs, mv, today, done) {
@@ -348,43 +485,8 @@ function tradeForm(model, handlers, recs, mv, today, done) {
     done?.();
   }, f);
   box.appendChild(f);
-  box.fill = (t) => { if (t) { tick.value = t; side.value = 'buy'; } };
+  box.fill = (t, pre) => { if (t) { tick.value = t; side.value = 'buy'; } if (pre) { qty.value = String(pre.qty); price.value = String(pre.price); } };
   return box;
-}
-
-// 이번 달 운용(오른쪽 칸): 점검일 결정, 살 후보(실제로 산 수량), 매도 검토, 예산 사용
-function planPanel(mv, model, last) {
-  const sec = el('section', 'pf-panel pf-side');
-  const head = el('div', 'pf-sidehead'); head.appendChild(el('h2', 'pf-h2s', '이번 달 운용'));
-  sec.appendChild(head);
-  if (!mv || !mv.plan) { sec.appendChild(el('p', 'pf-note', '첫 점검일(매달 1일, 휴장이면 다음 거래일)에 원칙 기준 살 후보와 매도 검토가 여기에 보입니다.')); return sec; }
-  const { plan } = mv;
-  head.appendChild(el('span', 'pf-badge', `${md(plan.decisionDate)} 점검` + (mv.stale ? ' · 지난달' : '')));
-  if (plan.ruleChanged) sec.appendChild(el('p', 'pf-note', '이번 달은 판정 방식이 바뀌어 매매하지 않습니다(바뀐 판정으로 매도가 생기지 않게).'));
-  const row = (k) => { const d = el('div', 'pf-siderow'); d.appendChild(el('div', 'pf-k', k)); sec.appendChild(d); return d; };
-  const cr = row(`살 후보 ${plan.candidates.length}종목`);
-  const chips = el('div', 'pf-candchips');
-  const real = Object.entries(model.trades || {});
-  const cancelled = new Set(real.filter(([, x]) => x.cancels).map(([, x]) => x.cancels));
-  const realBuys = real.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.side === 'buy' && x.date >= plan.decisionDate && x.date.slice(0, 7) === plan.decisionDate.slice(0, 7)).map(([, x]) => x);
-  for (const t of plan.candidates) {
-    const tier = last?.cards?.[t]?.tier;
-    const q = realBuys.filter((x) => x.ticker === t).reduce((a, x) => a + x.qty, 0);
-    const c = el('span', 'pf-candchip', t); c.title = (tier || '판정 없음') + (q ? ` · 실제로 ${shares(q)}주 삼` : ' · 실제 매수 기록 없음');
-    if (q) c.appendChild(el('small', null, ` ${shares(q)}주`));
-    chips.appendChild(c);
-  }
-  if (!plan.candidates.length) chips.appendChild(el('span', 'pf-note', '조건에 맞는 판정 없음'));
-  cr.appendChild(chips);
-  const ar = row('매도 검토');
-  if (!mv.alerts.length) ar.appendChild(el('span', 'pf-note', '없음'));
-  for (const f of mv.alerts) ar.appendChild(el('div', 'pf-sideval', `${f.ticker} ${f.observed} · ` + (f.warnOnly ? '비율은 아직 정하지 않음(알림만)' : `${shares(f.shares)}주 나눠 매도`)));
-  if (plan.budget > 0) {
-    const br = row('원칙 기준 예산 사용(모의)');
-    const bar = el('div', 'pf-bar'), fill = el('span'); fill.style.width = Math.min(100, (mv.spent / plan.budget) * 100) + '%'; bar.appendChild(fill);
-    br.appendChild(bar); br.appendChild(el('span', 'pf-note', `${usd0(mv.spent)} / ${usd0(plan.budget)}`));
-  }
-  return sec;
 }
 
 // 전략과 나란히: 내 실제 계좌, 1위(실제 계좌 제외), A — 누르면 전략 비교 탭으로

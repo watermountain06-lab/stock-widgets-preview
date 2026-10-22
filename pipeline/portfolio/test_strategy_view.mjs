@@ -321,3 +321,25 @@ test('다음 할 일: 다음 회차·결정 대기·회차 끝·첫 점검 대�
   assert.equal(nextAction({ plan, steps, next: null, stale: true }).title, '이번 달 결정 대기');
   assert.match(nextAction({ plan: { rounds, candidates: [] }, steps, next: null, stale: false }).sub, /살 후보 없음 · 다음 점검/);
 });
+
+import { buyPlan } from '../../preview-only-portfolio-home.js';
+
+test('원칙 10 매수 금액: 체크한 종목만, 균등·시총 비중·판정 가중, 센트 내림, 회차 몫', () => {
+  const tiers = { BBB: '저평가', CCC: '적정~저평가', EEE: '적정' };
+  const p = buyPlan({ cands: ['BBB', 'CCC', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, tiers, caps: { BBB: 3e11, EEE: 1e11 }, rounds: 4 });
+  assert.deepEqual(p.sel, ['BBB', 'EEE']);
+  assert.deepEqual(p.by.equal, { BBB: 200, EEE: 200 });
+  assert.deepEqual(p.by.cap, { BBB: 300, EEE: 100 });
+  assert.deepEqual(p.by.tier, { BBB: 300, EEE: 100 });   // 저평가 3 : 적정 1
+  assert.deepEqual(p.round.equal, { BBB: 50, EEE: 50 });
+  // 나누어떨어지지 않으면 센트 내림(남는 센트는 쓰지 않는다)
+  const q = buyPlan({ cands: ['A', 'B', 'C'], picked: ['A', 'B', 'C'], budget: 100, rounds: 4 });
+  assert.deepEqual(q.by.equal, { A: 33.33, B: 33.33, C: 33.33 });
+  assert.deepEqual(q.round.equal, { A: 8.33, B: 8.33, C: 8.33 });
+  // 시총이 없는 종목이 하나라도 있으면 시총 방법은 계산하지 않는다. 판정이 무게 밖이어도 마찬가지
+  assert.equal(buyPlan({ cands: ['BBB', 'CCC'], picked: ['BBB', 'CCC'], budget: 100, tiers, caps: { BBB: 1 } }).by.cap, null);
+  assert.equal(buyPlan({ cands: ['X'], picked: ['X'], budget: 100, tiers: { X: '고평가' } }).by.tier, null);
+  // 고른 것이 없거나 돈이 없으면
+  assert.equal(buyPlan({ cands: ['BBB'], picked: [], budget: 100 }).by.equal, null);
+  assert.deepEqual(buyPlan({ cands: ['BBB'], picked: ['BBB'], budget: 0 }).by.equal, { BBB: 0 });
+});
