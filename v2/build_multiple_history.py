@@ -1432,6 +1432,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # GM: 자동차 부문 빚만(CAT·DE와 같은 규칙, 2026-09-30 사용자 결정) — 재무상태표가 차입금을 gm:BusinessGroupAxis(Automotive/GM Financial)로만 싣는다.
                   # BUILD dim_facts가 overlay에 싣는다. Q3 2026: 1년 안 529 + 장기 15,270 = $15,799M(GM Financial $112,944M 제외, 2026-10-22).
                   "0001467858": ["DebtCurrentAutoGm", "LongTermDebtAutoGm"],
+                  # BSX: 1년 안 차입금(DebtCurrent, 2026-06 $1,709M — 기업어음 포함)이 기본 합에서 빠져 장기 $10,915M뿐이었다(2026-10-22).
+                  "0000885725": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DE: 장비 부문 빚만(CAT과 같은 규칙). 부문 차입금은 10-Q·10-K 보충 표에 태그 없이 있어 `adapters/de_equipment_debt.py`가
                   # 원문 장비 열을 오버레이에 싣는다(장비 + 금융 + 제거 = 연결 대조). 2026-08-02 $417 + $1 + $8,907 = $9,325M(연결 $63,836M).
                   "0000315189": ["DeEquipShortTermBorrowings", "DeEquipSecuritizationBorrowings", "DeEquipLongTermBorrowings"],

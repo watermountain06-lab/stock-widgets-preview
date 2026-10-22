@@ -1714,3 +1714,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(GM에만)** — 차입금 자동차 부문만(CAT·DE 사용자 결정 규칙): dim_facts(gm:BusinessGroupAxis=Automotive) → overlay DebtCurrentAutoGm·LongTermDebtAutoGm + DEBT_TOTAL_TAG + DEBT_TOTAL_FALLBACK_SKIP. $15,799M. Q4 EPS 2024·2025 보도자료.
 - **판단** — 현금은 연결 값(CAT 선례) — 자동차 현금만 쓰면 현금흐름 칸이 바뀔 수 있어 안건 E43. 이자보상배율은 자동차 이자비용이 부문 축 태그라 빠짐(HEALTH_EXTRA·POST로 "미공시" 문구 보정, 안건 E36 계열). 시나리오 순서 역전 이유·EV 비용 규모(YOY_NOTE), 뉴스 자사주 $20B·배당 인상·IEEPA.
 - **dr** — Codex 2라운드·Fable. 별도: HCA 보류(요약 자료 지연).
+
+## BSX — 의료기기, 1년 −56% 급락 (2026-10-22, 카드 165, 시총 164위)
+
+- **판정 적정~고평가(+1, 0, −2)** — 자기 이력 97.8, 동종업 69.5(S&P500 헬스케어), 현금흐름 기본 $18 대 $44.51(인수로 투하자본 증가 → 자본 효율 낮음). 기준 Q2 2026 10-Q(8/3).
+- **엔진(BSX에만)** — DEBT_TOTAL_TAG(1년 안 $1,709M + 장기 $10,915M), NI_TAGS 보통주 귀속.
+- **판단** — 급락의 1차 자료상 원인으로 연간 매출 성장 전망 경로(10.5~11.5% → 7.0~8.5% → 5.5~6.5%)를 뉴스에 숫자로 적었다(가이던스 미기재 원칙의 예외, Codex·Fable 공통 필수). 사이버 사고(8/25)·복구(9/9)·집단소송, 10-Q의 EP 경쟁·Watchman 둔화, NEXT_CONFIRMED 10/28, Penumbra 미완료.
+- **dr** — Codex 2라운드·Fable. 별도: FDX(분사)·KMI(Q3 10-Q 대기) 보류.
