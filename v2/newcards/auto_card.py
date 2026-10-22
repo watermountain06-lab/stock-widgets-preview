@@ -652,7 +652,7 @@ def texts(C, ns):
         bl.append(s + ".")
     rim = DCF.get("model") == "rim"   # 관리의료 보험 — 현금흐름 대신 초과이익모형(research/insurer_rim_prereg.md, 2026-10-17)
     jw = "초과이익" if rim else "현금흐름"
-    dcf_txt = (f"{jw} 내재가치(기본)는 음수라 계산할 수 없다" if neg_dcf else
+    dcf_txt = (f"{jw} 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다" if neg_dcf else
                f"{jw} 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}다" if ratio else "")
     risk = f"세 칸이 {ns['VOTES_TXT']}, 합계 {ns['TOTAL_TXT']} “{ns['VERDICT']}”이다." + (f" {dcf_txt}." if dcf_txt else "")
     _w = C.CHECK_WHEN.split(' · ')[0]
@@ -696,7 +696,7 @@ def texts(C, ns):
                f"({span_y(lead.get('days'))} 중앙값 {lead['median']:.1f}배)") if lead else f"자기 이력 {selfsc:.0f}점"
     cand.append(("밸류", (selfsc - 50) / 25, val_txt + "."))
     if neg_dcf:
-        cand.append(("내재가치", -1.5, f"{jw} 내재가치(기본)는 음수 — 지금 " + ("ROE로는" if rim else "이익률·성장으로는") + " 계산할 수 없다."))
+        cand.append(("내재가치", -1.5, f"{jw} 내재가치(기본)가 지금 " + ("ROE" if rim else "이익률·성장") + " 가정에서 0 이하로 나온다."))
     elif ratio:
         cand.append(("내재가치", 1.0 if ratio >= 111 else -1.5 if ratio <= 67 else 0, f"{jw} 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}."))
     yo_tab = A.get("seg_yo", {})
@@ -806,7 +806,7 @@ def texts(C, ns):
         pos = [v for v in vs if v > 0]
         neg_n = len(vs) - len(pos)
         note = ((f"세 시나리오는 ${min(vs):.2f}~${max(vs):.2f}다. " if not neg_n else
-                 f"세 시나리오 중 {neg_n}개는 음수라 계산할 수 없다" + ((f"(나머지 ${min(pos):.2f}~${max(pos):.2f}). " if len(pos) > 1 else f"(나머지 ${pos[0]:.2f}). ") if pos else ". "))   # 음수를 드러내지 않는다(BA·TMO, Fable)
+                 f"세 시나리오 중 {neg_n}개는 이 가정에서 0 이하로 나온다" + ((f"(나머지 ${min(pos):.2f}~${max(pos):.2f}). " if len(pos) > 1 else f"(나머지 ${pos[0]:.2f}). ") if pos else ". "))   # 음수를 드러내지 않는다(BA·TMO, Fable)
                 + f"영업이익률은 최근 4분기 {mn:.1f}%, 2년 중앙값 {m2:.1f}%, {hy} 중앙값 {m5:.1f}%를 쓴다.")
         g_ = lambda g: max(g or term, term) * 100
         assume = (f"보수(성장 연 {g_((H.get('growth_5y') or term) / 2):.1f}%·이익률 {m5:.1f}%), 기본({g_(H.get('growth_5y')):.1f}%·{m2:.1f}%), "

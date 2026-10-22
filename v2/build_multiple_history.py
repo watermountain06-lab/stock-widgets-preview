@@ -1268,6 +1268,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0001585689": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # HOOD: 차입금은 2026년 발행 전환사채 $2,170M(ConvertibleDebtNoncurrent)뿐 — 기본 목록에 없어 0이었다(2026-10-21).
                   "0001783879": "ConvertibleDebtNoncurrent",
+                  # HPE: "Notes payable and short-term borrowings" $2,901M(DebtCurrent) + 장기 $17,343M = $20,244M — 기본은 LongTermDebtCurrent $2,137M만 잡아 $764M이 빠졌다(2026-10-21).
+                  "0001645590": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # MAR: "Current portion of long-term debt" + "Long-term debt"(…AndCapitalLeaseObligations 두 태그 — 금융리스 포함). 기본 선택은 LongTermDebt($23M, 다른 항목)를
                   # 잡아 차입금이 $0.02B였다(2026-06-30 $460M + $16,455M = $16,915M, 2026-10-21).
                   "0001048286": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -1454,7 +1456,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# HLT: 상환가능 비지배지분 $5M(자본 밖 별도 줄)도 비지배에 — 합계 $33M(Codex 2026-10-21, MCK·SNPS와 같은 처리)
+EV_TAGS_BY_CIK = {# HPE: 비지배 태그 2024-07 멈춤(10-Q 비지배 $62M은 MinorityInterest로 안 냄) → nci 없음으로, 우선주 태그는 2021년(옛 우선주) — 2024-09 발행 Series C 의무전환 우선주는 nonop_extra 음수로(2026-10-21).
+                  "0001645590": {"nci": [], "preferred": []},
+                  # HLT: 상환가능 비지배지분 $5M(자본 밖 별도 줄)도 비지배에 — 합계 $33M(Codex 2026-10-21, MCK·SNPS와 같은 처리)
                   "0001585689": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
                   # TRV: 재무상태표 현금 $766M(제한 현금 $147M 포함)은 Cash 태그 — 기본 태그가 없어 현금 $0이었다(Codex 2026-10-21). 단기 증권은 보험 운용자산이라 넣지 않는다.
                   "0000086312": {"cash": ["Cash"]},

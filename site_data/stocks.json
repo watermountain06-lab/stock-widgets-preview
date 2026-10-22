@@ -6214,6 +6214,47 @@
         "valuationAsOf": "2026-10-20",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "HPE",
+      "name": "Hewlett Packard Enterprise",
+      "sector": "정보기술 — 서버·네트워크(Juniper)·하이브리드 클라우드",
+      "href": "HPE_full_widget.html",
+      "cardRank": 145,
+      "cardAsOf": "2026-10-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 56.09,
+        "prevClose": 55.87,
+        "session": "2026-10-20",
+        "prevSession": "2026-10-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1327464779,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-27",
+        "filedAt": "2026-09-03",
+        "filing": "10-Q 0001645590-26-000080 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 42.5,
+        "grade": "보통",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-10-20",
+        "qualityFlags": []
+      }
     }
   ]
 }

@@ -1559,3 +1559,11 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진 입력** — 주식 수 표지 값(보통주 + Class A, cover_shares — 주식 수 태그 2012년 멈춤), 4분기 EPS 2022~2025 보도자료 값. 금융리스 $720M은 차입금과 별도 줄(유동으로 이동, 순부채에 한 번만, 운전자본에서 제외 — Codex 확인). 비영업 자산 = 장기 시장성 증권 + 비상장 지분.
 - **dr(Codex 2라운드·Fable)** — 8-K 없는 큰 사건(fianlimab 3상 미달 5/18 −9.8%, Pasatru 승인 8/19 — FOP 치료제로는 두 번째), 9/30 CEO·CSO 10년 성과주식(상한 560만 주)이 Sanofi 발표와 같은 반응일, MODEL_NOTE(Sanofi 개발비 잔액 상환 — 모델 미반영, Eylea 감소 원인).
 - MDLZ 보류(7/28 Q2 10-Q가 요약 자료에 없음) — README 보류 표.
+
+## HPE — 서버·네트워크(Juniper), 의무전환 우선주 (2026-10-21, 카드 145, 시총 143위)
+
+- **판정 적정~고평가(−1, +1, −2)** — 자기 이력 13.9, 동종업 89.5(카드 유니버스 IT), 현금흐름 기본 0 이하. 기준 Q3 FY26 10-Q(9/3), 회계연도 10월.
+- **엔진 입력(HPE에만)** — 차입금 DebtCurrent + LongTermDebtNoncurrent $20,244M(기본은 $764M 누락), 낡은 nci·preferred 태그 끔(비지배 $62M은 태그 없음), Series C 의무전환 우선주 $1.5B는 nonop_extra "kind": "preferred"(주주가치에서만 차감), 4분기 EPS FY24·FY25 보도자료 값. PH의 WDC·GLW는 배수 날짜가 없어 STX·APH.
+- **엔진 공통** — build_dcf: nonop_extra "kind": "preferred"(쓰는 종목 HPE뿐). 음수 내재가치 표현 "음수라 계산할 수 없다·계산 불가(음수)" → "이 가정에서 0 이하"(auto_card 위험·Bear 문장, fill.py·템플릿 시나리오 표·툴팁·헤더 보수/낙관 칸; 옛 표기를 단 카드도 fill이 먼저 바꿈). CVS·BA·WELL·TMO 다시 만들어 글자만 바뀜을 확인, 나머지 해당 카드(AMT·CEG·DIS·EQIX·FCX·GILD·INTC·MRK·MRVL·MRNA·NEE·NOW·PANW·ORCL·PLD·SNPS 등)는 매일 실행이 다시 채울 때 바뀐다.
+- **dr(Codex 3라운드·Fable)** — 우선주 투하자본 중복, 음수 결과 표현, 금융 자회사 차입 해석, Elliott 협약 "수정", H3C 5/13·5/28 전량·반응 귀속 약함, 9/30 투자자 행사(시너지 $800M·Vultr $1.2B).
+- CMCSA 보류(2026-01 Versant 분사가 중단영업 처리 아님 — 재작성 없음, 분사 뒤 단독 분기 2개뿐) — README 분사 행.

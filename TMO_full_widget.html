@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="tmoLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="tmoDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="tmoDcfBox">$34<span class="logic-denom"> · 보수 계산 불가 · 낙관 $58</span></div>
+      <div class="logic-score" id="tmoDcfBox">$34<span class="logic-denom"> · 보수 0 이하 · 낙관 $58</span></div>
     </div>
     <div class="logic-box logic-neutral" id="tmoFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="tmoFundVerdict">보통</span></div>
@@ -680,7 +680,7 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
+          <td class="big scn-low" data-dcf-value="low">0 이하</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
           <td class="story">5년 성장률의 절반(연 2.0%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 17.2%로 간다.</td>
         </tr>
         <tr>
@@ -695,7 +695,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 1개는 음수라 계산할 수 없다(나머지 $33.51~$57.92). 영업이익률은 최근 4분기 17.6%, 2년 중앙값 17.2%, 5년 중앙값 17.2%를 쓴다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 1개는 이 가정에서 0 이하로 나온다(나머지 $33.51~$57.92). 영업이익률은 최근 4분기 17.6%, 2년 중앙값 17.2%, 5년 중앙값 17.2%를 쓴다.</div>
     <div class="note" data-dcf-nonop>기본 시나리오 $33.51 = 사업 가치 $32.98 + 비영업 자산 $0.53(주당, 지분 투자)</div>
     <div class="reverse">—</div>
   </div>
@@ -750,8 +750,8 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 21일 무렵 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 (작년 10/22 공시, 같은 요일로 추정)</div>
+      <div class="stat-value">10월 21일 발표됨</div>
+      <div class="stat-sub">일정 · Q3 2026 실적은 발표됐고 카드는 10-Q·10-K 접수 뒤 반영</div>
     </div>
   </div>
 
@@ -880,7 +880,7 @@ Chart.overrides.doughnut.animation = false;
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 21일 무렵 (예상) · Q3 2026</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">Q3 2026 · 실적 10/21 발표, 보고서 반영 대기</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
       <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+7.2% → +6.2% → +10.5%)보다 낮아지지 않는지</div>
       <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> Q3 2026 GAAP 영업이익률이 1년 전 같은 분기(Q3 2025 17.5%)보다 높은지(직전 Q2 2026 17.4%)</div>
@@ -992,7 +992,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $12.0B(+10.5%), 영업이익률 17.4%(1년 전 16.9%). 주가는 1년 새 +28%<span class="tag">배수 5년 고점권·매출 성장(인수 포함)</span></div>
     <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $33.51)는 현재가의 4.9%다.</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 21일 무렵 (예상) Q3 2026 실적 공시.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1095,7 +1095,7 @@ Chart.overrides.doughnut.animation = false;
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 21일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
+        <span class="op-val">10월 21일 발표됨 <span class="op-sub">Q3 2026 · 반영 대기</span></span>
       </div>
     </div>
   </div>
@@ -1552,12 +1552,12 @@ const TMO_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '0 이하' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
-    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
-    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '0 이하')
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '0 이하') + '</span>';
   const dv = $('tmoDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1604,7 +1604,7 @@ const TMO_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   }
 
   document.querySelectorAll('#dcf [data-dcf-value]').forEach(el => {
-    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';   // 카드 한정
+    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '0 이하';   // 카드 한정
   });
   if (price != null) document.querySelectorAll('#dcf [data-dcf-upside]').forEach(el => {
     const v = D[el.dataset.dcfUpside];
@@ -1662,7 +1662,7 @@ const TMO_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
     const vals = SCN.map(s => G.values[s[0]][st.term][st.wacc]);
     const pick = vals[st.scn], col = SCN[st.scn][2];
     const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
-    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '계산 불가(음수)'; pv.style.color = col;
+    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '0 이하'; pv.style.color = col;
     if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }
 
     const x = v => ((Math.log(v) - LO) / (HI - LO) * 100).toFixed(2) + '%';
@@ -1840,7 +1840,7 @@ const TMO_VALUATION = {"peer": {"score": 29.9, "sector": "Health Care (S&P500 59
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
       + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
-    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
+    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 && dcfIn ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
     + ` → ${TMO_VERDICT}`
     + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
@@ -1928,7 +1928,7 @@ const TMO_VALUATION = {"peer": {"score": 29.9, "sector": "Health Care (S&P500 59
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '0 이하'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
@@ -2322,7 +2322,7 @@ function tmoBandTone(cp){
   function updateHeader(rangeKey, data, prevClose){
     const base = prevClose != null ? prevClose : data[0][4];
     const last = data[data.length-1][4];
-    const retPct = ((last/base - 1) * 100).toFixed(1);
+    const retPct = ((last/base - 1) * 100).toFixed(1).replace(/^-0\.0$/, '0.0');   // −0.0은 0.0으로 — '-0.0' >= 0이 참이라 "+-0.0%"가 나왔다(SNPS 2026-10-21)
     const sign = retPct >= 0 ? '+' : '';
     const dateFrom = data[0][0].slice(0,7).replace('-','.');
     const dateTo = data[data.length-1][0].slice(0,7).replace('-','.');
@@ -2539,7 +2539,7 @@ function tmoBandTone(cp){
           hit.setAttribute('height', Math.max(yBot - yTop, 1));
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
-          const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정
+          const usd = x => x < 0 ? '0 이하' : '$' + x.toFixed(0);   // 카드 한정
           let txt = `${e.v.d} 공시 기준 · 보수 ${usd(e.v.low)}`
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')

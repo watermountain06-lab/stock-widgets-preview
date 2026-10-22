@@ -356,7 +356,12 @@ def base_inputs(ticker, asof=None):
         if "value" in x and (asof is None or x["filed"] <= asof):
             if x["name"] not in fixed or x["end"] > fixed[x["name"]]["end"]:
                 fixed[x["name"]] = x
-    out["nonop_extra"] += sum(x["value"] for x in fixed.values())
+    # "kind": "preferred"는 비영업 자산이 아니라 보통주 앞 청구권(우선주)이다 — 주주가치에서만 빼고 투하자본은 건드리지 않는다
+    # (음수 비영업 자산으로 넣으면 invested_capital이 그만큼 커졌다 — HPE Series C 의무전환 우선주, Codex 2026-10-21; 쓰는 종목 HPE뿐).
+    _pref_fixed = sum(x["value"] for x in fixed.values() if x.get("kind") == "preferred")
+    out["nonop_extra"] += sum(x["value"] for x in fixed.values() if x.get("kind") != "preferred")
+    if _pref_fixed:
+        out["preferred"] = (out.get("preferred") or 0) + _pref_fixed
     out["nonop_assets"] += out["nonop_extra"]
     # 이미 단기투자에 든 태그(META 상장주식 — 10-Q 공정가치 표의 시장성 증권 합계 안)는 뺀다
     excluded = {x["exclude"] for x in extra if "exclude" in x}

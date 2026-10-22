@@ -2609,5 +2609,54 @@
     "#7aa3d9"
    ]
   }
+ },
+ "REGN": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "regn:CollaborationRevenueMember": [
+    "협업 매출(Sanofi·Bayer)",
+    "#0b5e9e"
+   ],
+   "us-gaap:ProductMember": [
+    "제품 매출(Eylea·Libtayo 등)",
+    "#4d93cf"
+   ],
+   "us-gaap:ProductAndServiceOtherMember": [
+    "기타",
+    "#a9cbe8"
+   ]
+  },
+  "ignore_candidates": [
+   "regn:LIBTAYONetProductSalesMember",
+   "regn:LynozyficMember",
+   "regn:OtherProductsMember"
+  ]
+ },
+ "HPE": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "hpe:CloudAISegmentMember": [
+    "Cloud & AI(서버·스토리지·금융)",
+    "#01a982"
+   ],
+   "hpe:NetworkingMember": [
+    "네트워크(Juniper 포함)",
+    "#4fd1b1"
+   ],
+   "us-gaap:CorporateAndOtherMember": [
+    "기업 투자·기타",
+    "#a8e8d6"
+   ]
+  }
  }
 }

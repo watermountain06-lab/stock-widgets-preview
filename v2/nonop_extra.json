@@ -205,5 +205,15 @@
    "exclude": "EquitySecuritiesFvNi",
    "reason": "Solventum 지분 태그가 2026-03에 멈춤 — 위 10-Q 값으로 대신한다."
   }
+ ],
+ "HPE": [
+  {
+   "name": "Series C 의무전환 우선주",
+   "value": 1500000000,
+   "end": "2026-07-31",
+   "filed": "2026-09-03",
+   "reason": "7.625% Series C Mandatory Convertible Preferred 3,000만 주 × 청산 우선권 $50 = $1.5B(2024-09 발행, 2027-09 보통주로 의무 전환) — 분기 배당 $0.953125(10-Q). 우선주 태그(PreferredStockValue)는 2021년 옛 우선주라 버리고 보통주 앞 청구권으로 주주가치에서만 뺀다(\"kind\": \"preferred\" — 투하자본에는 넣지 않는다, Codex r1 2026-10-21). 청산 우선액이라 전환 조건의 경제적 가치와 다를 수 있다.",
+   "kind": "preferred"
+  }
  ]
 }

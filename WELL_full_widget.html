@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="wellLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="wellDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="wellDcfBox">0 이하<span class="logic-denom"> · 보수 계산 불가 · 낙관 계산 불가</span></div>
+      <div class="logic-score" id="wellDcfBox">0 이하<span class="logic-denom"> · 보수 0 이하 · 낙관 0 이하</span></div>
     </div>
     <div class="logic-box logic-neutral" id="wellFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="wellFundVerdict">해석 제한</span></div>
@@ -680,22 +680,22 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">계산 불가(음수)</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
+          <td class="big scn-low" data-dcf-value="low">0 이하</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
           <td class="story">매출이 5년 성장률의 절반(연 12.1%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 13.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="base">—</td>
+          <td class="big scn-base" data-dcf-value="base">0 이하</td><td style="color: var(--green);" data-dcf-upside="base">—</td>
           <td class="story">매출이 5년 성장률(연 24.2%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 13.6%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">계산 불가(음수)</td><td style="color: var(--green);" data-dcf-upside="high">—</td>
+          <td class="big scn-high" data-dcf-value="high">0 이하</td><td style="color: var(--green);" data-dcf-upside="high">—</td>
           <td class="story">매출이 3년 성장률(연 27.1%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 3.4%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 3개는 음수라 계산할 수 없다. 영업이익률은 최근 4분기 3.4%, 2년 중앙값 13.6%, 5년 중앙값 13.6%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 12.1%·이익률 13.6%), 기본(24.2%·13.6%), 낙관(27.1%·3.4%).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 3개는 이 가정에서 0 이하로 나온다. 영업이익률은 최근 4분기 3.4%, 2년 중앙값 13.6%, 5년 중앙값 13.6%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 12.1%·이익률 13.6%), 기본(24.2%·13.6%), 낙관(27.1%·3.4%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">계산 불가(음수)</span><span style="" id="dcfPickUpside">—</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">0 이하</span><span style="" id="dcfPickUpside">—</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -904,8 +904,8 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 부동산 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">8.5</div><div class="sc-tile low" data-vc="peer" data-m="per">7</div><div class="sc-tile low" data-vc="peer" data-m="pbr">24</div><div class="sc-tile low" data-vc="peer" data-m="psr">0</div><div class="sc-tile low" data-vc="peer" data-m="pcr">11</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 109.7배(5년 중앙값 118.5배)로 자기 이력 15.1점(비싸다), 동종업 8.5점(비싸다)이다. <strong>현금흐름 내재가치(기본)는 음수라 계산할 수 없다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본)는 음수라 계산할 수 없다. 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 3.4%). 내재가치에서 차입금·금융리스 $18.2B를 빼고 현금·단기투자 $2.0B를 더한다.</div>
+    <div class="vs-premise">PER 109.7배(5년 중앙값 118.5배)로 자기 이력 15.1점(비싸다), 동종업 8.5점(비싸다)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다. 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 3.4%). 내재가치에서 차입금·금융리스 $18.2B를 빼고 현금·단기투자 $2.0B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -989,7 +989,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $3.5B(+39.1%), 영업이익률 14.2%(1년 전 17.2%). 주가는 1년 새 +36%<span class="tag">배수 5년 고점권·매출 성장(인수 포함)</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본)는 음수라 계산할 수 없다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 26일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
@@ -1080,7 +1080,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 3.4%(5년 중앙값 13.6%).</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본)는 음수 — 지금 이익률·성장으로는 계산할 수 없다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본)가 지금 이익률·성장 가정에서 0 이하로 나온다.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 15점(배수 5개) · PER 109.7배(5년 중앙값 118.5배).</span></div>
     </div>
   </div>
@@ -1547,12 +1547,12 @@ const WELL_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '0 이하' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
-    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
-    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '0 이하')
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '0 이하') + '</span>';
   const dv = $('wellDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1599,7 +1599,7 @@ const WELL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   }
 
   document.querySelectorAll('#dcf [data-dcf-value]').forEach(el => {
-    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';   // 카드 한정
+    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '0 이하';   // 카드 한정
   });
   if (price != null) document.querySelectorAll('#dcf [data-dcf-upside]').forEach(el => {
     const v = D[el.dataset.dcfUpside];
@@ -1657,7 +1657,7 @@ const WELL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
     const vals = SCN.map(s => G.values[s[0]][st.term][st.wacc]);
     const pick = vals[st.scn], col = SCN[st.scn][2];
     const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
-    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '계산 불가(음수)'; pv.style.color = col;
+    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '0 이하'; pv.style.color = col;
     if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }
 
     const x = v => ((Math.log(v) - LO) / (HI - LO) * 100).toFixed(2) + '%';
@@ -1835,7 +1835,7 @@ const WELL_VALUATION = {"peer": {"score": 8.5, "sector": "Real Estate (S&P500 29
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
       + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
-    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
+    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 && dcfIn ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
     + ` → ${WELL_VERDICT}`
     + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
@@ -1923,7 +1923,7 @@ const WELL_VALUATION = {"peer": {"score": 8.5, "sector": "Real Estate (S&P500 29
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '0 이하'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
@@ -2317,7 +2317,7 @@ function wellBandTone(cp){
   function updateHeader(rangeKey, data, prevClose){
     const base = prevClose != null ? prevClose : data[0][4];
     const last = data[data.length-1][4];
-    const retPct = ((last/base - 1) * 100).toFixed(1);
+    const retPct = ((last/base - 1) * 100).toFixed(1).replace(/^-0\.0$/, '0.0');   // −0.0은 0.0으로 — '-0.0' >= 0이 참이라 "+-0.0%"가 나왔다(SNPS 2026-10-21)
     const sign = retPct >= 0 ? '+' : '';
     const dateFrom = data[0][0].slice(0,7).replace('-','.');
     const dateTo = data[data.length-1][0].slice(0,7).replace('-','.');
@@ -2534,7 +2534,7 @@ function wellBandTone(cp){
           hit.setAttribute('height', Math.max(yBot - yTop, 1));
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
-          const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정
+          const usd = x => x < 0 ? '0 이하' : '$' + x.toFixed(0);   // 카드 한정
           let txt = `${e.v.d} 공시 기준 · 보수 ${usd(e.v.low)}`
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
