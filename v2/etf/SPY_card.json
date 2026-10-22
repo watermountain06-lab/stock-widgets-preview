@@ -3957,80 +3957,80 @@
  },
  "constituents": {
   "holdings": {
-   "S": "2026-10-20",
+   "S": "2026-10-21",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "NVDA",
      "name": "NVIDIA CORP",
-     "weight": 0.07887681834179658,
+     "weight": 0.080416022212253,
      "card": "NVDA",
      "verdict": "적정~저평가"
     },
     {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.07460310280564249,
+     "weight": 0.07515529075970832,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.05946220223766508,
+     "weight": 0.059240490327647284,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "GOOGL",
      "name": "ALPHABET INC CL A",
-     "weight": 0.05413884379265247,
+     "weight": 0.05295541672897431,
      "card": "GOOGL",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMZN",
      "name": "AMAZON.COM INC",
-     "weight": 0.03881270034996103,
+     "weight": 0.03855142088994898,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "AVGO",
      "name": "BROADCOM INC",
-     "weight": 0.023951860669658345,
+     "weight": 0.024058480609786596,
      "card": "AVGO",
      "verdict": "적정~고평가"
     },
     {
      "company": "META",
      "name": "META PLATFORMS INC CLASS A",
-     "weight": 0.023050303983047037,
+     "weight": 0.023025772402363236,
      "card": "META",
      "verdict": "적정~고평가"
     },
     {
      "company": "TSLA",
      "name": "TESLA INC",
-     "weight": 0.015858545334568486,
+     "weight": 0.016305753681599856,
      "card": "TSLA",
-     "verdict": "고평가"
-    },
-    {
-     "company": "LLY",
-     "name": "ELI LILLY + CO",
-     "weight": 0.015466213915241403,
-     "card": "LLY",
      "verdict": "고평가"
     },
     {
      "company": "MU",
      "name": "MICRON TECHNOLOGY INC",
-     "weight": 0.015237920160130862,
+     "weight": 0.015447912166844,
      "card": "MU",
      "verdict": "적정~저평가"
+    },
+    {
+     "company": "LLY",
+     "name": "ELI LILLY + CO",
+     "weight": 0.015222658968649376,
+     "card": "LLY",
+     "verdict": "고평가"
     }
    ],
    "cards": [
@@ -4605,11 +4605,11 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-10-20",
+   "asOf": "2026-10-21",
    "rows": [
     [
      "Information Technology",
-     37.88
+     38.27
     ],
     [
      "Financials",
@@ -4617,45 +4617,45 @@
     ],
     [
      "Health Care",
-     9.79
+     9.69
     ],
     [
      "Communication Services",
-     9.58
+     9.4
     ],
     [
      "Consumer Discretionary",
-     9.04
+     9.01
     ],
     [
      "Industrials",
-     7.98
+     8.01
     ],
     [
      "Consumer Staples",
-     4.8
+     4.74
     ],
     [
      "Energy",
-     3.73
+     3.72
     ],
     [
      "Utilities",
-     1.98
+     1.97
     ],
     [
      "Real Estate",
-     1.74
+     1.71
     ],
     [
      "Materials",
-     1.68
+     1.67
     ]
    ]
   },
   "chars": {
-   "pe": 24.74,
-   "peAsOf": "2026-10-20"
+   "pe": 24.85,
+   "peAsOf": "2026-10-21"
   },
   "dgs10": {
    "date": "2026-10-20",
@@ -4664,7 +4664,7 @@
  },
  "index": "SPY",
  "name": "SPY",
- "runId": "39732431797.1",
- "runAt": "2026-10-22T06:12:01Z",
+ "runId": "39786950095.1",
+ "runAt": "2026-10-22T13:27:31Z",
  "source": "Yahoo Finance SPY 일봉 종가"
 }

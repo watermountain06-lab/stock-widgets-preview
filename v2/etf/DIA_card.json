@@ -3537,80 +3537,80 @@
  },
  "constituents": {
   "holdings": {
-   "S": "2026-10-20",
+   "S": "2026-10-21",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "GS",
      "name": "GOLDMAN SACHS GROUP INC",
-     "weight": 0.10017848525705896,
+     "weight": 0.10173463471806304,
      "card": "GS",
      "verdict": "고평가"
     },
     {
      "company": "CAT",
      "name": "CATERPILLAR INC",
-     "weight": 0.0821119205999726,
+     "weight": 0.08323569340241808,
      "card": "CAT",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.060218501276190044,
+     "weight": 0.05992956361395081,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMGN",
      "name": "AMGEN INC",
-     "weight": 0.049696936560737925,
+     "weight": 0.04929078635979676,
      "card": "AMGN",
      "verdict": "고평가"
     },
     {
      "company": "UNH",
      "name": "UNITEDHEALTH GROUP INC",
-     "weight": 0.047468764129757764,
+     "weight": 0.046891133163307806,
      "card": "UNH",
      "verdict": "적정~고평가"
     },
     {
      "company": "V",
      "name": "VISA INC CLASS A SHARES",
-     "weight": 0.04603199567066948,
+     "weight": 0.04586222166443059,
      "card": "V",
      "verdict": "고평가"
     },
     {
      "company": "TRV",
      "name": "TRAVELERS COS INC/THE",
-     "weight": 0.044804683842370456,
+     "weight": 0.04486142758489683,
      "card": "TRV",
      "verdict": "판정 보류"
     },
     {
-     "company": "GOOGL",
-     "name": "ALPHABET INC CL A",
-     "weight": 0.038526056289839086,
-     "card": "GOOGL",
-     "verdict": "적정~고평가"
-    },
-    {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.03843830256386419,
+     "weight": 0.03868124682059855,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
      "company": "SHW",
      "name": "SHERWIN WILLIAMS CO/THE",
-     "weight": 0.03804316573071861,
+     "weight": 0.03792558742475377,
      "card": null,
      "verdict": null
+    },
+    {
+     "company": "JPM",
+     "name": "JPMORGAN CHASE + CO",
+     "weight": 0.0376916957077464,
+     "card": "JPM",
+     "verdict": "고평가"
     }
    ],
    "cards": [
@@ -3729,49 +3729,49 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-10-20",
+   "asOf": "2026-10-21",
    "rows": [
     [
      "Financials",
-     26.5
+     26.65
     ],
     [
      "Information Technology",
-     19.01
+     19.11
     ],
     [
      "Industrials",
-     14.72
+     14.87
     ],
     [
      "Health Care",
-     14.33
+     14.2
     ],
     [
      "Consumer Discretionary",
-     9.76
+     9.67
     ],
     [
      "Communication Services",
-     5.12
+     5.02
     ],
     [
      "Consumer Staples",
-     4.2
+     4.13
     ],
     [
      "Materials",
-     3.8
+     3.79
     ],
     [
      "Energy",
-     2.56
+     2.55
     ]
    ]
   },
   "chars": {
-   "pe": 21.72,
-   "peAsOf": "2026-10-20"
+   "pe": 21.85,
+   "peAsOf": "2026-10-21"
   },
   "dgs10": {
    "date": "2026-10-20",
@@ -3780,7 +3780,7 @@
  },
  "index": "DIA",
  "name": "DIA",
- "runId": "39732431797.1",
- "runAt": "2026-10-22T06:12:04Z",
+ "runId": "39786950095.1",
+ "runAt": "2026-10-22T13:27:36Z",
  "source": "Yahoo Finance DIA 일봉 종가"
 }
