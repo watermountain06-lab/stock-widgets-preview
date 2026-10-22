@@ -6,3 +6,4 @@ Fable 사용 한도(429)에 걸려 dr의 Fable 쪽을 건너뛴 카드다. 한�
 |---|---|---|---|
 | MSI | 2026-10-21 | Codex 2라운드 | 인수 대금 ACQ_FIXED, 재무상태표 신선도 공통 변경 |
 | SHW | 2026-10-22 | Codex | 영업이익 합성(DERIVED_OPINC) |
+| ROST | 2026-10-22 | Codex 2라운드 | 영업이익 합성(DERIVED_OPINC), 이자비용 태그, 관세 환급 |

@@ -1580,3 +1580,11 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **판정 적정~고평가(+1, −1, −2)** — 자기 이력 71.9, 동종업 25.1(S&P500 소재), 현금흐름 기본 $102 대 $337.27. 기준 Q2 2026 10-Q(7/28), Q3는 10/27 장 전.
 - **엔진 입력(SHW에만)** — 영업이익 합성 DERIVED_OPINC(OperatingIncomeLoss 2024-09 멈춤 — 현금흐름 모델이 그 낡은 값을 쓰고 있었다; 전 카드 중 해당은 SHW뿐, AXP·TRV는 현금흐름 미사용), 본사 매각후리스 금융부채 $816.3M nonop_extra 음수, 자사주 BB_TAGS, 2021-04 3:1 분할, 4분기 EPS 2025 보도자료 값.
 - **dr** — Codex 2라운드(금융부채, Suvinil 완료 시점 2025-10-01, 자사주). **Fable은 한도로 검토 못 함(research/fable_pending.md).**
+
+## ROST — 할인 의류 매장, 관세 환급 분기 (2026-10-22, 카드 148, 시총 146위)
+
+- **판정 적정~고평가(−1, +1, −2)** — 자기 이력 24.2, 동종업 72.5(S&P500 경기소비재), 현금흐름 기본 $122 대 $234.18. 기준 Q2 FY26 10-Q(9/1). 회계연도 이름은 시작한 해(FY_NAME_OFFSET −1, HD 꼴).
+- **엔진 입력(ROST에만)** — DERIVED_OPINC(세전 − 순이자수익; OperatingIncomeLoss는 2023년부터만이라 현금흐름 이력이 비어 build_dcf_block이 멈췄다), 이자비용 InterestExpenseLongTermDebt(vendor/fetch_financials CONCEPTS_BY_CIK — 기본 후보가 기타 $0.35M만 잡아 이자보상배율 3,153배), 단일 부문(SEG_MAP 축 없음).
+- **공통 수정** — build_dcf_block marginNow 반올림 4→6자리(두 번 반올림으로 헤더 13.8% 대 문장 13.7%). 전 카드는 다음 일일 실행에서 반영.
+- **Q2 FY26 영업이익에 IEEPA 관세 환급 약 $253M** — 최근 4분기 이익률·현금흐름이 그만큼 높다(MODEL_NOTE, 뉴스).
+- **dr** — Codex 2라운드. **Fable은 한도로 검토 못 함(research/fable_pending.md).** 보류(권장): 공통 문구 "합성 영업이익률(세전이익 기준)"(26장), 10/12 출점 발표(SEC 밖).

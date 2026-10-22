@@ -6339,6 +6339,47 @@
         "valuationAsOf": "2026-10-21",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "ROST",
+      "name": "Ross Stores",
+      "sector": "경기소비재 — 할인 의류·잡화 매장(Ross Dress for Less·dd's)",
+      "href": "ROST_full_widget.html",
+      "cardRank": 148,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 234.18,
+        "prevClose": 237.24,
+        "session": "2026-10-21",
+        "prevSession": "2026-10-20",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 319453110,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-14",
+        "filedAt": "2026-09-01",
+        "filing": "10-Q 0000745732-26-000041 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 62.0,
+        "grade": "양호",
+        "financialsAsOf": "2026-08-01",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": []
+      }
     }
   ]
 }

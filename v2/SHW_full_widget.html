@@ -1439,7 +1439,7 @@ const SHW_MA120 = [288.282, 288.475, 288.695, 288.95, 289.201, 289.474, 289.731,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let SHW_VERDICT = '계산 중';
 
-const SHW_DCF = {"low": 88.48, "base": 102.43, "high": 101.03, "requiredGrowth": 0.4093, "baseEquivGrowth": 0.0361, "reqMode": "margin", "requiredMargin": 0.3645, "marginNow": 0.1635, "growth5y": 0.0465, "nonopPerShare": -3.36, "s2cFallback": false, "asOf": "2026-10-21", "hard": [], "hardDetail": {"roic": 0.1881, "tax": 0.2301, "nonopShare": -0.0328}, "tvShare": 0.7286};   // build_dcf_block.py
+const SHW_DCF = {"low": 88.48, "base": 102.43, "high": 101.03, "requiredGrowth": 0.4093, "baseEquivGrowth": 0.0361, "reqMode": "margin", "requiredMargin": 0.3645, "marginNow": 0.163521, "growth5y": 0.0465, "nonopPerShare": -3.36, "s2cFallback": false, "asOf": "2026-10-21", "hard": [], "hardDetail": {"roic": 0.1881, "tax": 0.2301, "nonopShare": -0.0328}, "tvShare": 0.7286};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).

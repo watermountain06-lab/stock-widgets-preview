@@ -80,7 +80,10 @@ CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNono
                    # EMR: 손익계산서 "Interest expense (net of interest income)"(InterestIncomeExpenseNonoperatingNet, Q3 FY26 −$85M — LOW와 같은 방식)만 낸다(2026-10-18)
                    "0000032604": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # HWM: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q2 2026 −$51M)만 분기로 낸다 — 총이자 InterestAndDebtExpense는 10-K 연간뿐(2026-10-19)
-                   "0000004281": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]}}
+                   "0000004281": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # ROST: 이자비용을 장기차입 이자(InterestExpenseLongTermDebt, Q2 FY26 $9.2M)와 기타(InterestExpenseOther, $0.35M)로 나눠 낸다 —
+                   # 기본 후보에선 기타 한 줄만 잡혀 이자보상배율이 3,153배였다. 장기차입 이자를 쓴다(자본화 차감 전, 기타 $0.35M은 빠짐; Codex 2026-10-22)
+                   "0000745732": {"interestExpense": ["InterestExpenseLongTermDebt"]}}
 
 # Balance-sheet concepts are point-in-time ("instant": only an "end" date,
 # no "start") rather than period durations like income-statement concepts.

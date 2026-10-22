@@ -459,7 +459,12 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# SHW: 영업이익 줄이 없다(OperatingIncomeLoss는 2024-09에 멈춤). 영업이익 = 세전이익 + 이자비용 − 이자수익 − 기타 영업외 수익
+DERIVED_OPINC = {# ROST: 영업이익 태그(OperatingIncomeLoss)는 2023년부터만 — 그 전엔 손익계산서에 영업이익 줄이 없어 현금흐름 이력이 비었다.
+                 # 영업이익 = 세전이익 − 순이자수익(InterestIncomeExpenseNet, 순수익이면 양수). Q2 FY26: 1,134.8 − 31.1 = 1,103.6 = 영업이익 태그(2026-10-22).
+                 "0000745732": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                 "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                                [(["InterestIncomeExpenseNet"], 1)]),
+                 # SHW: 영업이익 줄이 없다(OperatingIncomeLoss는 2024-09에 멈춤). 영업이익 = 세전이익 + 이자비용 − 이자수익 − 기타 영업외 수익
                  # = 매출총이익 − 판관비 − 기타 일반비용. Q2 2026: 1,112.5 + 135.9 − 5.4 − 12.1 = 1,230.9 = 3,338.0 − 2,103.7 − 3.4(10-Q 대조, 2026-10-22).
                  "0000089800": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["InterestExpenseNonoperating", "InterestExpense"], -1), (["InvestmentIncomeNet", "InvestmentIncomeInterest"], 1, True),
