@@ -1295,6 +1295,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0000049826": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # RCL: 1년 안 만기 $1,573M이 빠지고 장기만 남았다 — 1,573 + 21,263 = $22,836M(두 태그 모두 금융리스 포함이라 리스에서 또 더하지 않음, 2026-10-22).
                   "0000884887": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # DASH: 차입금은 2025년 Deliveroo 인수 자금 전환사채뿐(ConvertibleLongTermNotesPayable, 2026-06 $2,727M) — 기본 태그는 2021년에 멈춰 0이었다(2026-10-22).
+                  "0001792789": ["ConvertibleLongTermNotesPayable"],
                   # MMM: 단기 차입·1년 안 만기 DebtCurrent $2,439M + 장기 LongTermDebtNoncurrent $12,558M = 10-Q $14,997M(기본은 장기만, 2026-10-21).
                   "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # TRV: 재무상태표 "Debt" $9,813M(사채 + CP $100M)은 DebtLongtermAndShorttermCombinedAmount — 기본 선택은 2025-12에 멈춘 태그였다(2026-10-21).
