@@ -827,7 +827,7 @@ function tradeForm(model, handlers, recs, mv, today, done) {
   return box;
 }
 
-// 전략과 나란히: 내 실제 계좌, 1위(실제 계좌 제외), A — 누르면 전략 비교 탭으로
+// 전략과 나란히: 내 실제 계좌, 1위(실제 계좌 제외 — ETF 전략·A가 아닐 때만 따로), ETF 섞기 전략(없으면 A) — 누르면 전략 비교 탭으로(사용자 결정 2026-10-22)
 function miniRank(model, handlers) {
   const sec = el('section', 'pf-panel pf-side');
   const head = el('div', 'pf-sidehead'); head.appendChild(el('h2', 'pf-h2s', '전략과 나란히'));
@@ -837,7 +837,9 @@ function miniRank(model, handlers) {
   if (!sc.length) { sec.appendChild(el('p', 'pf-note', '전략 비교가 출발하면 내 실제 계좌와 다른 전략의 수익률이 여기에 보입니다.')); return sec; }
   const real = sc.find(({ s }) => s.id === 'REAL'), A = sc.find(({ s }) => s.id === 'A');
   const top = sc.filter(({ s }) => s.id !== 'REAL').sort((a, b) => b.m.twr - a.m.twr)[0];
-  const rows = [real, top && top !== A ? { ...top, top: true } : null, A].filter(Boolean);
+  const etf = sc.find(({ s }) => s.strategy === 'E') || null;
+  const last = etf || A;   // ETF 전략이 있으면 그것, 없으면 A
+  const rows = [real, top && top !== last && top !== A ? { ...top, top: true } : null, last && last === top ? { ...last, top: true } : last].filter(Boolean);
   const max = Math.max(...rows.map(({ m }) => Math.abs(m.twr)), 0.0001);
   for (const r of rows) {
     const d = el('div', 'pf-minirow' + (r.s.id === 'REAL' ? ' pf-mine' : ''));
