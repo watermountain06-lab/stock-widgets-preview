@@ -1,26 +1,29 @@
 {
  "etf": "QQQ",
  "name": "Invesco QQQ Trust, Series 1",
- "status": "ok",
- "reason": null,
- "reasonText": null,
- "reasons": [],
- "detail": null,
- "verdict": "적정~고평가",
- "nbar": -2.033991117177795,
- "coverage": 0.8421195253474995,
- "range": [
-  -2.344385532768797,
-  -1.239222210201293
+ "status": "held",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
+ "reasons": [
+  {
+   "key": "code_sig",
+   "text": "카드 판정 코드 변경 — 승인 필요",
+   "detail": "승인 목록에 없는 판정 코드 해시 1장: REGN"
+  }
  ],
+ "detail": "승인 목록에 없는 판정 코드 해시 1장: REGN",
+ "verdict": null,
+ "nbar": null,
+ "coverage": 0.8456492857785738,
+ "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.00441064841037812,
   "적정~저평가": 0.1347267935465262,
   "적정": 0.008641870770224625,
-  "적정~고평가": 0.24323328066243796,
+  "적정~고평가": 0.2467630410935123,
   "고평가": 0.4511069319579325,
-  "카드 없음": 0.13047608446414738,
+  "카드 없음": 0.12694632403307302,
   "판정 보류": 0.02740439018835309,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
@@ -154,8 +157,8 @@
   "lines": 106,
   "nonEquity": 5,
   "companies": 100,
-  "cardsMatched": 49,
-  "cardsUsed": 48,
+  "cardsMatched": 50,
+  "cardsUsed": 49,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -431,6 +434,13 @@
    "excluded": []
   },
   {
+   "card": "REGN",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
    "card": "SBUX",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -521,8 +531,8 @@
  "inputFormat": "invesco_json",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-21T21:17:34Z",
- "fetchedAt": "2026-10-21T21:17:34Z",
+ "runAt": "2026-10-22T01:43:58Z",
+ "fetchedAt": "2026-10-22T01:43:58Z",
  "inputHash": {
   "json": "62ba83592855061b56b65b973e510bc5e32c875476c5c6a666dfe6a8d6d39e59",
   "alias": "cd884e524b4f6045",
@@ -531,21 +541,29 @@
   "script": "10d2ba9ea8dae2e2"
  },
  "evaluation": {
-  "status": "ok",
-  "holds": [],
+  "status": "held",
+  "holds": [
+   "code_sig"
+  ],
   "S": "2026-10-20"
  },
- "runId": "39677544124.1",
+ "runId": "39707348461.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
   "file_date": "ok",
   "tools": "ok",
-  "code_sig": "ok",
+  "code_sig": "bad",
   "sig_err": "ok",
   "structure": "ok",
   "unclassified": "ok",
   "run": "ok"
  },
- "checkDetail": {}
+ "checkDetail": {
+  "code_sig": {
+   "9bc4a13021b1": [
+    "REGN"
+   ]
+  }
+ }
 }

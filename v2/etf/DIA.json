@@ -1,18 +1,21 @@
 {
  "etf": "DIA",
  "name": "SPDR Dow Jones Industrial Average ETF Trust",
- "status": "ok",
- "reason": null,
- "reasonText": null,
- "reasons": [],
- "detail": null,
- "verdict": "적정~고평가",
- "nbar": -2.4903345549240834,
- "coverage": 0.8735974245356717,
- "range": [
-  -2.6811601552711806,
-  -1.7963421270208824
+ "status": "held",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
+ "reasons": [
+  {
+   "key": "code_sig",
+   "text": "카드 판정 코드 변경 — 승인 필요",
+   "detail": "승인 목록에 없는 판정 코드 해시 3장: BA, MMM, TRV"
+  }
  ],
+ "detail": "승인 목록에 없는 판정 코드 해시 3장: BA, MMM, TRV",
+ "verdict": null,
+ "nbar": null,
+ "coverage": 0.8735974245356717,
+ "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0,
@@ -20,8 +23,8 @@
   "적정": 0.031736800678799526,
   "적정~고평가": 0.2927289451248934,
   "고평가": 0.5246228722859799,
-  "카드 없음": 0.10700000959259354,
-  "판정 보류": 0.0,
+  "카드 없음": 0.062195325750223074,
+  "판정 보류": 0.044804683842370456,
   "그 밖 제외": 0.01940256587173474,
   "분류 안 됨": 0
  },
@@ -105,10 +108,12 @@
     "TRV"
    ],
    "weight": 0.044804683842370456,
-   "card": null,
-   "verdict": null,
+   "card": "TRV",
+   "verdict": "판정 보류",
    "n": null,
-   "excluded": []
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "company": "GOOGL",
@@ -151,13 +156,13 @@
   "lines": 31,
   "nonEquity": 1,
   "companies": 30,
-  "cardsMatched": 27,
+  "cardsMatched": 28,
   "cardsUsed": 26,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
    "날짜 불일치": 1,
-   "판정 보류": 0
+   "판정 보류": 1
   }
  },
  "cards": [
@@ -332,6 +337,15 @@
    "excluded": []
   },
   {
+   "card": "TRV",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-10-20",
+   "excluded": [
+    "판정 보류"
+   ]
+  },
+  {
    "card": "UNH",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -364,8 +378,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-21T21:17:36Z",
- "fetchedAt": "2026-10-21T21:17:36Z",
+ "runAt": "2026-10-22T01:43:59Z",
+ "fetchedAt": "2026-10-22T01:44:00Z",
  "inputHash": {
   "xlsx": "fb33ca8c11f65feed40fd88b973bb995cbae3dd3eed7207178592d2b3005a0f2",
   "alias": "cd884e524b4f6045",
@@ -374,21 +388,31 @@
   "script": "10d2ba9ea8dae2e2"
  },
  "evaluation": {
-  "status": "ok",
-  "holds": [],
+  "status": "held",
+  "holds": [
+   "code_sig"
+  ],
   "S": "2026-10-20"
  },
- "runId": "39677544124.1",
+ "runId": "39707348461.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
   "file_date": "ok",
   "tools": "ok",
-  "code_sig": "ok",
+  "code_sig": "bad",
   "sig_err": "ok",
   "structure": "ok",
   "unclassified": "ok",
   "run": "ok"
  },
- "checkDetail": {}
+ "checkDetail": {
+  "code_sig": {
+   "9bc4a13021b1": [
+    "BA",
+    "MMM",
+    "TRV"
+   ]
+  }
+ }
 }

@@ -1,27 +1,30 @@
 {
  "etf": "SPY",
  "name": "SPDR S&P 500 ETF Trust",
- "status": "ok",
- "reason": null,
- "reasonText": null,
- "reasons": [],
- "detail": null,
- "verdict": "적정~고평가",
- "nbar": -2.0246238916093775,
- "coverage": 0.7846621581660526,
- "range": [
-  -2.449997119600556,
-  -0.9426322267629238
+ "status": "held",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
+ "reasons": [
+  {
+   "key": "code_sig",
+   "text": "카드 판정 코드 변경 — 승인 필요",
+   "detail": "승인 목록에 없는 판정 코드 해시 14장: BA, CB, CVS, HLT, HOOD, HPE, MMM, MSI"
+  }
  ],
+ "detail": "승인 목록에 없는 판정 코드 해시 14장: BA, CB, CVS, HLT, HOOD, HPE, MMM, MSI",
+ "verdict": null,
+ "nbar": null,
+ "coverage": 0.7929337513798648,
+ "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0015337201374545962,
   "적정~저평가": 0.10306386771231006,
-  "적정": 0.010083783097615921,
-  "적정~고평가": 0.27062504934789716,
-  "고평가": 0.39935573787077494,
-  "카드 없음": 0.19503681991092212,
-  "판정 보류": 0.018973119418558934,
+  "적정": 0.011330137107347102,
+  "적정~고평가": 0.2752564814741613,
+  "고평가": 0.40174954494859183,
+  "카드 없음": 0.18552505712347467,
+  "판정 보류": 0.020213288992194104,
   "그 밖 제외": 0.0013279025044664538,
   "분류 안 됨": 0
  },
@@ -152,13 +155,13 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 134,
-  "cardsUsed": 130,
+  "cardsMatched": 142,
+  "cardsUsed": 137,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
    "날짜 불일치": 1,
-   "판정 보류": 3
+   "판정 보류": 4
   }
  },
  "cards": [
@@ -482,6 +485,13 @@
    "excluded": []
   },
   {
+   "card": "EOG",
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
    "card": "EQIX",
    "verdict": "고평가",
    "n": -3.0,
@@ -555,6 +565,27 @@
    "card": "HD",
    "verdict": "적정~고평가",
    "n": -1.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "HLT",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "HOOD",
+   "verdict": "적정~고평가",
+   "n": -2.6666666666666665,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "HPE",
+   "verdict": "적정~고평가",
+   "n": -2.0,
    "date": "2026-10-20",
    "excluded": []
   },
@@ -764,6 +795,13 @@
    "excluded": []
   },
   {
+   "card": "MSI",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
    "card": "MU",
    "verdict": "적정~저평가",
    "n": 1.0,
@@ -906,6 +944,13 @@
    "excluded": []
   },
   {
+   "card": "REGN",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
    "card": "RTX",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -983,6 +1028,15 @@
    "excluded": []
   },
   {
+   "card": "TRV",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-10-20",
+   "excluded": [
+    "판정 보류"
+   ]
+  },
+  {
    "card": "TSLA",
    "verdict": "고평가",
    "n": -4.0,
@@ -1040,6 +1094,13 @@
   },
   {
    "card": "VLO",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-20",
+   "excluded": []
+  },
+  {
+   "card": "VRT",
    "verdict": "고평가",
    "n": -3.0,
    "date": "2026-10-20",
@@ -1120,8 +1181,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-21T21:17:32Z",
- "fetchedAt": "2026-10-21T21:17:33Z",
+ "runAt": "2026-10-22T01:43:57Z",
+ "fetchedAt": "2026-10-22T01:43:57Z",
  "inputHash": {
   "xlsx": "d2bc6714cfd7f240da5b70eac6267b8c22622fdec49a224bbcf6bdcd163ac208",
   "alias": "cd884e524b4f6045",
@@ -1130,21 +1191,42 @@
   "script": "10d2ba9ea8dae2e2"
  },
  "evaluation": {
-  "status": "ok",
-  "holds": [],
+  "status": "held",
+  "holds": [
+   "code_sig"
+  ],
   "S": "2026-10-20"
  },
- "runId": "39677544124.1",
+ "runId": "39707348461.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
   "file_date": "ok",
   "tools": "ok",
-  "code_sig": "ok",
+  "code_sig": "bad",
   "sig_err": "ok",
   "structure": "ok",
   "unclassified": "ok",
   "run": "ok"
  },
- "checkDetail": {}
+ "checkDetail": {
+  "code_sig": {
+   "9bc4a13021b1": [
+    "BA",
+    "CB",
+    "CVS",
+    "HLT",
+    "HOOD",
+    "HPE",
+    "MMM",
+    "MSI",
+    "PGR",
+    "REGN",
+    "TMO",
+    "TRV",
+    "VRT",
+    "WELL"
+   ]
+  }
+ }
 }
