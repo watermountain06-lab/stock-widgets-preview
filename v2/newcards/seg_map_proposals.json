@@ -2658,5 +2658,22 @@
     "#a8e8d6"
    ]
   }
+ },
+ "MSI": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "msi:ProductAndSystemsIntegrationSegmentMember": [
+    "제품·시스템 통합(무전기·영상 장비)",
+    "#005eb8"
+   ],
+   "msi:ServicesAndSoftwareSegmentMember": [
+    "소프트웨어·서비스",
+    "#4c92d6"
+   ]
+  }
  }
 }

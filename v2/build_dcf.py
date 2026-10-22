@@ -60,6 +60,9 @@ WINDOW_START = "2021-07-01"
 # IBM: 2021-11 Kyndryl 분사 — 2021년 분기는 재작성(계속사업) 값이 있지만 2020년 4분기는 원공시라 최근 4분기 끝 2021-12-31부터 19개,
 # 약 4.5년 CAGR(2026-10-01, GE 방식).
 # 1년 전 같은 기간 인수 줄이 없는(인수 없음) 종목 — 올해 누계를 최근 4분기 인수 대금으로(위 base_inputs).
+# MSI: 현금흐름표 "Acquisitions and investments, net"이 회사 고유 태그 — 최근 4분기 = 2025년 4,916 − 2025 상반기 464 + 2026 상반기 224 = $4,676M
+# (2025-08 Silvus $4.4B 포함, 소액 투자 포함 순액; 10-K 2025·Q2 2026 10-Q, Codex 2026-10-21). 새 분기마다 원문으로 줄을 더한다.
+ACQ_FIXED = {"MSI": [{"end": "2026-07-04", "filed": "2026-08-06", "value": 4676000000}]}   # filed = 공시 뒤 첫 세션(10-Q 8/5 20:53 동부 접수 → 8/6, Codex r2)
 # 원문 현금흐름표로 "인수 줄 없음 = 인수 0"을 확인한 (시작, 끝) 기간(위 base_inputs). 달력 회계연도 종목만. 새 분기마다 확인한 기간을 더한다.
 ACQ_MISSING_AS_ZERO = {# MMM: 2025 Q3 10-Q(9개월)·2025 10-K(연간) 현금흐름표에 인수 줄 없음 → 2026 9개월 Madison $1,910M이 최근 4분기(2026-10-21)
                        "MMM": {("2025-01-01", "2025-09-30"), ("2025-01-01", "2025-12-31")},
@@ -164,6 +167,11 @@ def base_inputs(ticker, asof=None):
     # 인수가 없던 기간에 회사가 인수 줄을 아예 내지 않으면 분기 값을 못 만들어 최근 4분기가 0이 된다(안건 E33 ⑥).
     # 원문 현금흐름표로 "인수 줄 없음 = 0"을 확인한 기간(ACQ_MISSING_AS_ZERO의 (시작, 끝))만 빈 값을 0으로 보고
     # 최근 4분기 = 직전 연간 + 올해 누계 − 작년 같은 누계로 만든다. 확인하지 않은 연도가 비면 계산하지 않는다(Codex r2).
+    # 인수 대금을 회사 고유 태그로만 내는 종목(요약 자료에 없음)은 10-Q·10-K 원문으로 계산한 최근 4분기 값을 공시일과 함께 적어 쓴다(ACQ_FIXED).
+    if ticker in ACQ_FIXED and not out["acquisitions"]:
+        _af = [x for x in ACQ_FIXED[ticker] if asof is None or x["filed"] <= asof]
+        if _af:
+            out["acquisitions"] = sorted(_af, key=lambda x: x["end"])[-1]["value"]
     if ticker in ACQ_MISSING_AS_ZERO and not out["acquisitions"]:
         _ok = ACQ_MISSING_AS_ZERO[ticker]
         _, arows = bmh.pick_tag(cik, ["PaymentsToAcquireBusinessesNetOfCashAcquired"])
@@ -209,6 +217,15 @@ def base_inputs(ticker, asof=None):
         # (현금·단기투자·차입금·리스가 그랬다 — Codex 지적으로 발견).
         ser = bmh.ev_component(cik, name, tags)
         out[name] = latest(ser, asof)
+        # 재무상태표 항목도 낡은 값을 버린다 — 그 시점 자기자본 결산일보다 200일(리스는 연간 보고서에만 싣는 회사가 많아 400일) 넘게
+        # 뒤처지면 없는 것으로 본다. MSI는 2015-10 단기투자 $276M을, LMT·PH·LLY는 멈춘 단기투자·비지배를 지금 값처럼 더했다(2026-10-21).
+        _okv = [x for x in ser if asof is None or x.get("available", x["end"]) <= asof]
+        _eqv = [x for x in bmh.component_sum(cik, ["StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"])
+                if asof is None or x.get("available", x["end"]) <= asof]
+        if _okv and _eqv and out[name]:
+            _lag = (date.fromisoformat(max(x["end"] for x in _eqv)) - date.fromisoformat(_okv[-1]["end"])).days
+            if _lag > (400 if name == "lease" else 200):
+                out[name] = None
         if name == "debt":   # F4 표식 — 그 시점에 쓴 차입금 점이 총계 대체면 dq에 남긴다(필터에는 쓰지 않는다)
             okp = [x for x in ser if asof is None or x.get("available", x["end"]) <= asof]
             out["_debt_fallback"] = bool(okp and okp[-1].get("_note"))
