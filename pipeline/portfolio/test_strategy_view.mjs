@@ -458,3 +458,27 @@ test('원칙 4·6 20% 매도 검토 대상: 카드 있으면 원칙 6 통과, �
   assert.equal(lossReviewable('SPY', rec, '2026-10-29'), false);   // 기록이 묵으면 ETF도 보류
   assert.equal(lossReviewable('SPY', null, '2026-10-22'), false);
 });
+
+import { chainPreStart } from '../../preview-only-portfolio-home.js';
+
+test('시작 전 실제 계좌 흐름 잇기(A안): 같은 날·보유·출발 평가액일 때만, 입출금은 사이트와 같은 규칙(장 시작 전)', () => {
+  const pre = { from: '2026-10-01', base: '2026-09-30', end: '2026-10-20', endHoldings: { AAA: 2 }, endCash: 50,
+    days: [{ d: '2026-09-30', v: 1000, f: 0 }, { d: '2026-10-08', v: 1600, f: 500 }, { d: '2026-10-20', v: 1200, f: 0 }],
+    spy: { base: 100, end: 105 } };
+  const snap = { date: '2026-10-20', holdings: { AAA: 2 }, cash: 50 };
+  const real = { started: '2026-10-20', twr: 0.1, vs: { SPY: 2 } };   // SPY 실제 구간 0.08
+  const r = chainPreStart(pre, real, snap, 1200);
+  // 시작 전: 1600/(1000+500) × 1200/1600 = 0.8 → −0.2. 전체 0.8 × 1.1 − 1 = −0.12. SPY 1.05 × 1.08 − 1 = 0.134 → −25.4%p
+  assert.ok(Math.abs(r.preTwr - -0.2) < 1e-12);
+  assert.ok(Math.abs(r.twr - -0.12) < 1e-12);
+  assert.ok(Math.abs(r.vsSPY - -25.4) < 1e-9);
+  assert.match(chainPreStart(pre, real, snap, 1210).why, /평가액/);          // 보유·현금이 같아도 평가액이 다르면 잇지 않음
+  assert.match(chainPreStart(pre, real, snap, undefined).why, /평가액/);
+  assert.match(chainPreStart(pre, real, { ...snap, cash: 51 }, 1200).why, /보유·현금/);
+  assert.match(chainPreStart(pre, real, { ...snap, holdings: { AAA: 2, BBB: 1 } }, 1200).why, /보유·현금/);
+  assert.match(chainPreStart({ ...pre, endCash: undefined }, real, { ...snap, cash: 0 }, 1200).why, /보유·현금/);   // 빈 값을 0으로 보지 않음
+  assert.match(chainPreStart(pre, { ...real, started: '2026-10-21' }, snap, 1200).why, /시작 스냅샷/);
+  assert.match(chainPreStart(pre, { started: null, twr: null }, snap, 1200).why, /출발 전/);
+  assert.equal(chainPreStart(null, real, snap, 1200), null);
+  assert.equal(chainPreStart(pre, { ...real, vs: null }, snap, 1200).vsSPY, null);
+});

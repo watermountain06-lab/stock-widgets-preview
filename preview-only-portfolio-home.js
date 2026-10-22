@@ -7,7 +7,7 @@
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=16';
 import { renderStrategy } from './preview-only-portfolio-rank.js?v=5';
 import { renderManage } from './preview-only-portfolio-records.js?v=4';
-import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming } from './preview-only-portfolio-engine.js?v=2';
+import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=2';
 import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=7';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
@@ -242,6 +242,36 @@ export function demoMonth(firstRec, month, lastSession) {
   return { plan, steps, next: rounds.find((r) => r.date > lastSession) || null, stale: false, alerts: [], demo: true };
 }
 
+// 시작 전 실제 계좌 흐름을 이어 붙인 수익률(사용자 결정 2026-10-22 A안): pre = {from, base, end, endHoldings, endCash, days:[{d, v, f}], spy:{base, end}}
+// (볼트 portfolio_site.json의 preStart — Robinhood CSV와 종가로 만든 base(9/30) 장 마감~end(시작 스냅샷일) 일별 평가액·입출금 f).
+// 시작 스냅샷과 같은 날·같은 보유일 때만 잇는다: 전체 = (1 + 시작 전 TWR) × (1 + 실제 계좌 TWR) − 1, SPY도 base 종가부터 같은 방식.
+// 맞지 않으면 {why}. 입출금은 수익에서 빼고 배당·이자는 평가액에 든다(현금).
+export function chainPreStart(pre, real, snapshot, startValue) {
+  if (!pre || !real) return null;
+  if (!real.started || real.twr == null) return { why: '실제 계좌가 아직 출발 전' };
+  if (pre.end !== real.started || !snapshot || snapshot.date !== pre.end) return { why: `시작 전 기록의 끝(${pre.end})과 시작 스냅샷(${snapshot?.date || '없음'})이 다름` };
+  const num = (x) => (typeof x === 'number' && Number.isFinite(x) ? x : NaN);   // 빈 값·글자를 0으로 보지 않는다(dr)
+  const a = pre.endHoldings || {}, b = snapshot.holdings || {};
+  const same = Object.keys({ ...a, ...b }).every((t) => Math.abs(num(a[t]) - num(b[t])) < 1e-6)
+    && Math.abs(num(pre.endCash) - num(snapshot.cash)) < 0.01;
+  if (!same) return { why: '시작 전 기록의 마지막 보유·현금이 시작 스냅샷과 다름' };
+  const days = pre.days || [];
+  if (days.length < 2 || days[0].d !== pre.base || days[days.length - 1].d !== pre.end) return { why: '시작 전 기록의 날짜가 맞지 않음' };
+  // 이어 붙이는 날의 평가액이 실제 계좌 출발 평가액과 같아야 한다(가격 출처·반올림이 다르면 이음새에 틈 — dr)
+  const vEnd = days[days.length - 1].v;
+  if (!(Math.abs(vEnd - num(startValue)) <= Math.max(1, vEnd * 1e-4))) return { why: '시작 전 기록의 마지막 평가액이 출발 평가액과 다름' };
+  // 입출금 시점은 사이트 실제 계좌와 같은 규칙(엔진 twr — 그날 입출금은 장 시작 전에 들어온 것으로 본다, dr)
+  const t = engineTwr(days.map((x) => ({ value: x.v, flow: x.f })));
+  const preTwr = t[t.length - 1];
+  if (!Number.isFinite(preTwr)) return { why: '시작 전 수익률을 계산하지 못함' };
+  const total = (1 + preTwr) * (1 + real.twr) - 1;
+  // SPY: 시작 전은 종가 비율, 실제 계좌 구간은 엔진 SPY 기준선(마이크로주로 종가 비율을 따라감)을 역산
+  const spyReal = real.vs?.SPY != null ? real.twr - real.vs.SPY / 100 : null;
+  const spyPre = pre.spy?.base > 0 && pre.spy?.end > 0 ? pre.spy.end / pre.spy.base - 1 : null;
+  const vsSPY = spyReal == null || spyPre == null ? null : (total - ((1 + spyPre) * (1 + spyReal) - 1)) * 100;
+  return { from: pre.from, preTwr, twr: total, vsSPY };
+}
+
 // ---- 그리기 ----
 // model = { main(올린 데이터), trades(실제 매매 지도), result|null, bundle|null, byId, records, now }
 // handlers = { trade({date, ticker, side, qty, price}), editTrade(id, …), deleteTrade(id), deposit(amount), pick(month, [티커]), goto(tab) }
@@ -294,8 +324,12 @@ export function renderHome(root, model, handlers) {
   const cell = (k, v, sub, cls) => { const d = el('div', 'pf-bandcell'); d.appendChild(el('div', 'pf-k', k)); d.appendChild(el('div', 'pf-v' + (cls ? ' ' + cls : ''), v)); if (sub) d.appendChild(el('div', 'pf-s', sub)); band.appendChild(d); };
   cell('내 자산', has ? usd0(total) : '—', !has ? '기록·관리 탭에서 보유를 올리세요'
     : (cur.hasCash ? `주식 ${usd0(total - cur.cash)} · 현금 ${usd0(cur.cash)}` : '현금 모름(올린 보유에 현금 줄 없음)') + (missing.length ? ` · 가격 없음 ${missing.join(', ')}` : ''));
-  cell('시작 뒤 수익률', rs?.twr != null ? pct(rs.twr) : '—', rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
-  cell('SPY 대비', rs?.vs?.SPY != null ? pp(rs.vs.SPY) : '—', lastFull ? `${md(lastFull.session)} 종가 기준` : '');
+  // 시작 전 실제 계좌 흐름(preStart)이 맞으면 그날부터 이어 붙인다(A안) — 전략 비교는 그대로 시작 스냅샷부터
+  const pre = chainPreStart(model.main?.preStart, rs, model.bundle?.snapshot, real?.startValue);
+  const ok = pre && !pre.why;
+  cell('시작 뒤 수익률', ok ? pct(pre.twr) : rs?.twr != null ? pct(rs.twr) : '—',
+    ok ? `${md(pre.from)}부터 · 내 실제 계좌(${md(rs.started)}까지는 Robinhood 기록)` : rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` + (pre?.why ? ` · ${md(model.main.preStart.from)} 기록 못 이음: ${pre.why}` : '') : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
+  cell('SPY 대비', ok ? (pre.vsSPY != null ? pp(pre.vsSPY) : '—') : rs?.vs?.SPY != null ? pp(rs.vs.SPY) : '—', lastFull ? (ok ? `${md(pre.from)}부터 · ` : '') + `${md(lastFull.session)} 종가 기준` : '');
   root.appendChild(band);
 
   const grid = el('div', 'pf-homegrid');

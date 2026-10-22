@@ -13,7 +13,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=16';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=31';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=32';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=2';
 import { attachActual } from './preview-only-portfolio-actual.js?v=7';
@@ -106,6 +106,22 @@ function validate(d) {
   if (d.sample != null && typeof d.sample !== 'boolean') throw new Error('sample 값은 true/false여야 합니다.');
   if (d.updated != null && typeof d.updated !== 'string') throw new Error('updated 값은 글자(날짜)여야 합니다.');
   if (d.holdings) { const { rows, ...rest } = d.holdings; leaf(rest, 'holdings'); }
+  // 시작 전 실제 계좌 흐름(preStart, 2026-10-22 사용자 결정 A안): Robinhood CSV + 종가로 만든 9/30~시작일 일별 평가액·입출금. 개인 문서에만 둔다
+  if (d.preStart != null) {
+    const p = d.preStart;
+    if (!isObj(p) || !isObj(p.endHoldings) || !isObj(p.spy)) throw new Error('preStart 모양이 맞지 않습니다.');
+    const { days, endHoldings, spy, ...rest } = p;
+    leaf(rest, 'preStart'); leaf(endHoldings, 'preStart.endHoldings'); leaf(spy, 'preStart.spy');
+    const isDay = (x) => typeof x === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x), fin = (x) => typeof x === 'number' && Number.isFinite(x);
+    if (!isDay(p.from) || !isDay(p.base) || !isDay(p.end) || !(p.base < p.from && p.from <= p.end)) throw new Error('preStart 날짜(from·base·end)가 맞지 않습니다.');
+    if (!fin(p.endCash) || !Object.values(endHoldings).every((q) => fin(q) && q > 0)) throw new Error('preStart 마지막 보유·현금이 숫자가 아닙니다.');
+    let prev = '';
+    arr(days, 'preStart.days').forEach((x) => {
+      if (!isObj(x) || !isDay(x.d) || !(x.d > prev) || !fin(x.v) || !(x.v > 0) || !fin(x.f)) throw new Error('preStart.days 항목이 맞지 않습니다(날짜 오름차순, 평가액·입출금 숫자).');
+      prev = x.d;
+    });
+    if (!days.length || days[0].d !== p.base || days[days.length - 1].d !== p.end) throw new Error('preStart.days의 처음·끝 날짜가 base·end와 다릅니다.');
+  }
   return d;
 }
 
