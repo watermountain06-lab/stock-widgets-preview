@@ -650,6 +650,9 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # UPS: DepreciationDepletionAndAmortization(2023-12~ 7행, 2026 상반기 $1,600M)는 유형자산 주석의 감가상각 일부 — 연결 D&A는 현금흐름표
                 # DepreciationAndAmortization(상반기 $1,965M, 최근 4분기 $3,863M). 합산 태그가 우선 잡혀 $940M 적었다(Codex 2026-10-22).
                 "0001090727": ("DepreciationDepletionAndAmortization",),
+                # TGT: DepreciationAndAmortization(분기 약 $650M)는 손익계산서 "매출원가 안 감가상각 제외" 줄 — 현금흐름표 합계 DepreciationDepletionAndAmortization(약 $780M)와 섞여
+                # 최근 4분기 D&A가 $2,916M(실제 $3,173M)이었다(Codex 2026-10-22). 손익계산서 줄을 뺀다.
+                "0000027419": ("DepreciationAndAmortization",),
                 "0000723254": ("DepreciationDepletionAndAmortization",),   # CTAS — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0001674101": ("DepreciationDepletionAndAmortization",),   # VRT — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-21)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
@@ -1297,6 +1300,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0000884887": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DASH: 차입금은 2025년 Deliveroo 인수 자금 전환사채뿐(ConvertibleLongTermNotesPayable, 2026-06 $2,727M) — 기본 태그는 2021년에 멈춰 0이었다(2026-10-22).
                   "0001792789": ["ConvertibleLongTermNotesPayable"],
+                  # TGT: 1년 안 $1,136M + 장기 $14,221M(둘 다 금융리스 포함 태그) = $15,357M — 기본은 장기만 잡고 금융리스 $2,113M을 리스로 따로 더했다(2026-10-22).
+                  "0000027419": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # MMM: 단기 차입·1년 안 만기 DebtCurrent $2,439M + 장기 LongTermDebtNoncurrent $12,558M = 10-Q $14,997M(기본은 장기만, 2026-10-21).
                   "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # TRV: 재무상태표 "Debt" $9,813M(사채 + CP $100M)은 DebtLongtermAndShorttermCombinedAmount — 기본 선택은 2025-12에 멈춘 태그였다(2026-10-21).
@@ -1493,7 +1498,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# ECL: 운용리스 비유동분($576.7M)은 분기 태그가 없어 유동분(OperatingLeaseLiabilityCurrent $165.9M)만 잡혔다 — 합계 OperatingLeaseLiability(10-K, 2025-12 $761.0M)로(2026-10-22).
+EV_TAGS_BY_CIK = {# TGT: 재무상태표 현금 $5,411M은 CashCashEquivalentsAndShortTermInvestments — 기본 현금 태그는 2017년에 멈췄고, 단기투자 태그(2026-01 $4,611M)는 현금성 자산 안의 값이라 따로 더하면 두 번 센다(2026-10-22).
+                  "0000027419": {"cash": ["CashCashEquivalentsAndShortTermInvestments"], "sti": [], "lease": ["OperatingLeaseLiability"]},   # 리스: 분기엔 비유동분만 태그 — 10-K 합계(2026-01 $3,834M)
+                  # ECL: 운용리스 비유동분($576.7M)은 분기 태그가 없어 유동분(OperatingLeaseLiabilityCurrent $165.9M)만 잡혔다 — 합계 OperatingLeaseLiability(10-K, 2025-12 $761.0M)로(2026-10-22).
                   "0000031462": {"lease": ["OperatingLeaseLiability"]},
                   # HPE: 비지배 태그 2024-07 멈춤(10-Q 비지배 $62M은 MinorityInterest로 안 냄) → nci 없음으로, 우선주 태그는 2021년(옛 우선주) — 2024-09 발행 Series C 의무전환 우선주는 nonop_extra 음수로(2026-10-21).
                   "0001645590": {"nci": [], "preferred": []},
