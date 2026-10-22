@@ -468,7 +468,9 @@ PRETAX_FROM_NI_TAX = {"0001341439", "0001835632"}
 # 세전이익을 다른 이름의 태그로 내는 회사. PSX는 손익계산서 "Income before income taxes"(Q2 2026 4,971, 비지배지분 몫 포함)를
 # IncomeLossIncludingPortionAttributableToNoncontrollingInterest로만 낸다 — 다른 회사에선 순이익 태그라 목록에 일괄로 넣지 않는다.
 # 순이익(귀속) + 법인세로 만들면 비지배지분 몫만큼 작다(4,939, Codex 2026-10-13).
-PRETAX_TAG_BY_CIK = {"0001534701": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest"}
+PRETAX_TAG_BY_CIK = {"0001534701": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest",
+                     # ITW: 손익계산서 "Income Before Taxes"(Q2 2026 $1,080M)를 이 태그로 낸다 — 표준 세전 태그는 2021-06에 멈춰 세율이 법정 21%로 떨어졌다(2026-10-22)
+                     "0000049826": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest"}
 
 
 S2C_MAX = 10.0   # 매출/자본 상한 — 자본을 거의 안 쓰는 회사의 발산 방지

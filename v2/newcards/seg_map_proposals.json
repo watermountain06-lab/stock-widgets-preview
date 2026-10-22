@@ -2796,5 +2796,44 @@
     "#c0392b"
    ]
   }
+ },
+ "ITW": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "itw:AutomotiveOEMSegmentMember": [
+    "자동차 부품(OEM)",
+    "#d81e05"
+   ],
+   "itw:TestandMeasurementandElectronicsSegmentMember": [
+    "계측·전자",
+    "#ef6a5a"
+   ],
+   "itw:FoodEquipmentSegmentMember": [
+    "식품 장비",
+    "#8e1403"
+   ],
+   "itw:WeldingSegmentMember": [
+    "용접",
+    "#f4a582"
+   ],
+   "itw:ConstructionProductsSegmentMember": [
+    "건설 자재",
+    "#92c5de"
+   ],
+   "itw:PolymersAndFluidsSegmentMember": [
+    "폴리머·유체",
+    "#4393c3"
+   ],
+   "itw:SpecialtyProductsSegmentMember": [
+    "특수 제품",
+    "#2166ac"
+   ]
+  }
  }
 }

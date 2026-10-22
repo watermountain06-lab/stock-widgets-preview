@@ -6710,6 +6710,47 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "ITW",
+      "name": "Illinois Tool Works",
+      "sector": "산업재 — 산업용 부품·장비(자동차 부품, 식품 장비, 용접, 건설 자재 등 7개 사업)",
+      "href": "ITW_full_widget.html",
+      "cardRank": 157,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 276.8,
+        "prevClose": 274.97,
+        "session": "2026-10-21",
+        "prevSession": "2026-10-20",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 284800000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-06-30",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0000049826-26-000049 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 50.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": []
+      }
     }
   ]
 }

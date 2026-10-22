@@ -25,7 +25,8 @@ def fetch(T):
     url = f"https://stockanalysis.com/stocks/{SLUG.get(T, T.lower())}/forecast/"
     # 짧은 브라우저 UA는 403 — curl UA(README)
     h = subprocess.run(["curl", "-s", "-A", "curl/8.4.0", url], capture_output=True, text=True, timeout=60).stdout
-    rec = re.findall(r"\{buy:(\d+),date:\"([\d-]+)\",hold:(\d+),sell:(\d+),month:\"[^\"]*\",score:[\d.]+,total:(\d+),updated:\"[\d-]+\",consensus:\"([^\"]+)\",strongBuy:(\d+),strongSell:(\d+)\}", h)
+    # score는 매도 의견이 많으면 음수다(ITW −1.39 — 음수를 못 받아 수집이 실패했다, 2026-10-22)
+    rec = re.findall(r"\{buy:(\d+),date:\"([\d-]+)\",hold:(\d+),sell:(\d+),month:\"[^\"]*\",score:-?[\d.]+,total:(\d+),updated:\"[\d-]+\",consensus:\"([^\"]+)\",strongBuy:(\d+),strongSell:(\d+)\}", h)
     tg = re.search(r"targets:\{low:([\d.]+),high:([\d.]+),count:(\d+),median:([\d.]+),average:([\d.]+),updated:\"([\d-]+)\"", h)
     if not rec or not tg:
         raise ValueError(f"{T}: 페이지에서 의견·목표가를 못 찾음({len(h)}자)")
