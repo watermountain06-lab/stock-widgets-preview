@@ -1685,3 +1685,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(TGT에만)** — DEBT_TOTAL_TAG(1년 안 + 장기, 금융리스 포함 $15,357M), EV_TAGS_BY_CIK(현금 = CashCashEquivalentsAndShortTermInvestments, 단기투자 없음, 리스 = 10-K 합계), D&A에서 손익계산서 줄 제외(현금흐름표 합계 $3,173M — 섞여 $2,916M이었다).
 - **판단** — Q2 관세 환급 $994M(EPS $1.65, 영업이익률 약 3.7%p)이 이익률·PER·PCR·이자보상배율을 부풀린다 — MODEL_NOTE·YOY_NOTE·POST(종합 해석 9.6% 옆 표기, 다음 분기에 지울 것).
 - **dr** — Codex 2라운드·Fable(D&A 태그 혼합, 리스, 관세 환급 표기).
+
+## APD — 산업용 가스, 수소 사업 철수 손상 (2026-10-22, 카드 161, 시총 159위)
+
+- **판정 고평가(−1, −1, −2)** — 자기 이력 11.5, 동종업 7.3(S&P500 소재), 현금흐름 0 이하(설비투자 부담·ROIC < 할인율, 안건 E40). 기준 Q3 FY26 10-Q(7/30).
+- **엔진(APD에만)** — 2023년부터 장기 차입금을 특수관계자 축으로만 실어 요약 자료에 없다 → BUILD dim_facts(overlay LongTermDebtNonrelatedApd·RelatedApd) + DEBT_TOTAL_TAG 튜플(표준 태그 먼저, 2023-03까지 특수관계자는 NotesPayableRelatedPartiesNoncurrent). $17,667.5M(기본은 $126.7M). Q4_EPS_OVERRIDE FY25 $0.02.
+- **판단** — MODEL_NOTE를 재투자 축으로(손상이 원인이 아님), 판정에서 현금흐름 −2 무게 명시. 뉴스: 6/30 철수·NEOM Yara 계약, 7/30 중립 색(손상은 6/30 예고분).
+- **dr** — Codex 2라운드·Fable(차입금 공개일·특수관계자 누락, FY24 Q4 EPS 계속사업 혼용, 0 이하 원인, NEOM).

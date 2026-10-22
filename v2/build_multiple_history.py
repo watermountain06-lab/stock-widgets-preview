@@ -1302,6 +1302,11 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0001792789": ["ConvertibleLongTermNotesPayable"],
                   # TGT: 1년 안 $1,136M + 장기 $14,221M(둘 다 금융리스 포함 태그) = $15,357M — 기본은 장기만 잡고 금융리스 $2,113M을 리스로 따로 더했다(2026-10-22).
                   "0000027419": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # APD: 2023년부터 장기 차입금을 특수관계자 축(비특수 $16,585.1M + 특수 $186.2M, 2026-06)으로만 실어 요약 자료에 차원 없는 값이 없다 —
+                  # BUILD dim_facts가 overlay에 LongTermDebtNonrelatedApd·LongTermDebtRelatedApd로 싣고, 그 전 날짜는 차원 없는 태그(튜플 앞 우선). 기본은 단기 $126.7M뿐이었다(2026-10-22).
+                  # 날짜마다 표준 태그 먼저(원래 공시일) — 2023-03까지는 차원 없는 장기 + NotesPayableRelatedPartiesNoncurrent(2022-12 $658.4M), 그 뒤는 overlay(Codex r1: overlay를 앞에 두면 2022-09가 2023-08 공시일로 밀렸다).
+                  "0000002969": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent",
+                                 ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNonrelatedApd"), ("NotesPayableRelatedPartiesNoncurrent", "LongTermDebtRelatedApd")],
                   # MMM: 단기 차입·1년 안 만기 DebtCurrent $2,439M + 장기 LongTermDebtNoncurrent $12,558M = 10-Q $14,997M(기본은 장기만, 2026-10-21).
                   "0000066740": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # TRV: 재무상태표 "Debt" $9,813M(사채 + CP $100M)은 DebtLongtermAndShorttermCombinedAmount — 기본 선택은 2025-12에 멈춘 태그였다(2026-10-21).

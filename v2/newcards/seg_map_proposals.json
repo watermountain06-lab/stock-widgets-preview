@@ -2835,5 +2835,36 @@
     "#2166ac"
    ]
   }
+ },
+ "APD": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "apd:AmericasSegmentMember": [
+    "미주",
+    "#00539b"
+   ],
+   "apd:AsiaSegmentMember": [
+    "아시아",
+    "#4a8fd1"
+   ],
+   "apd:EuropeSegmentMember": [
+    "유럽",
+    "#003366"
+   ],
+   "us-gaap:CorporateAndOtherMember": [
+    "본사·기타(설비 판매)",
+    "#9fb8d9"
+   ],
+   "apd:MiddleEastAndIndiaSegmentMember": [
+    "중동·인도",
+    "#c7d6ea"
+   ]
+  }
  }
 }
