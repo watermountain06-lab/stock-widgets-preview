@@ -2769,5 +2769,32 @@
     "#ffb500"
    ]
   }
+ },
+ "NOC": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "noc:AeronauticsSystemsMember": [
+    "항공(Aeronautics)",
+    "#00274c"
+   ],
+   "noc:MissionSystemsMember": [
+    "임무 시스템",
+    "#4f6f99"
+   ],
+   "noc:SpaceSystemsMember": [
+    "우주",
+    "#8fa9cc"
+   ],
+   "noc:DefenseSystemsMember": [
+    "방어 시스템",
+    "#c0392b"
+   ]
+  }
  }
 }

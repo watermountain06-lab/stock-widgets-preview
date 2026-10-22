@@ -92,7 +92,9 @@ CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNono
 LATEST_Q_BY_CIK = {"0000026172": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"],
                                   "interestExpense": ["InterestExpenseNonoperating"]},
                    # ECL: 이자비용 총액이 2025-06부터 InterestExpenseNonoperating(Q2 2026 $95.0M) — InterestExpense는 2026-03에 멈춤(2026-10-22)
-                   "0000031462": {"interestExpense": ["InterestExpenseNonoperating"]}}
+                   "0000031462": {"interestExpense": ["InterestExpenseNonoperating"]},
+                   # NOC: 이자비용을 InterestAndDebtExpense(Q3 2026 $158M)로만 낸다 — 이자보상배율이 "태그 없음"으로 빠졌다(Codex 2026-10-22)
+                   "0001133421": {"interestExpense": ["InterestAndDebtExpense"]}}
 
 # Balance-sheet concepts are point-in-time ("instant": only an "end" date,
 # no "start") rather than period durations like income-statement concepts.
