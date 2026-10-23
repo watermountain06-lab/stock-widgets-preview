@@ -1,32 +1,32 @@
 {
  "ticker": "IBM",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 34.4,
+  "dio": 19.0,
+  "dpo": 54.0,
+  "op": 53.4,
+  "ccc": -0.6
+ },
+ "prev": {
   "dso": 34.5,
   "dio": 17.6,
   "dpo": 53.1,
   "op": 52.2,
   "ccc": -0.9
  },
- "prev": {
-  "dso": 34.2,
-  "dio": 16.9,
-  "dpo": 52.2,
-  "op": 51.1,
-  "ccc": -1.1
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 50.8,
   "max": 100.0,
-  "longer": 15,
+  "longer": 11,
   "dsoLonger": 16,
-  "dioLonger": 14
+  "dioLonger": 10
  },
- "score": 75.0,
- "tone": "green"
+ "score": 55.0,
+ "tone": "yellow"
 }
