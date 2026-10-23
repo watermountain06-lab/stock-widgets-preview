@@ -475,7 +475,10 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# NUE: 영업이익 줄이 없다 — 손익계산서는 매출 − 비용(지분법 이익·자산 손상·순이자 포함) = 세전이익. 영업이익 = 세전이익 + 순이자비용(InterestRevenueExpenseNet, 음수로 실림).
+DERIVED_OPINC = {# PCAR: 영업이익 줄이 없다 — 손익계산서는 트럭·부품·기타 세전 + 금융 서비스 세전 + 투자수익 = 세전이익. 영업이익 = 세전이익 − 투자수익(InvestmentIncomeNet,
+                 # 트럭 부문 시장성 증권 수익). 금융 서비스 이자비용은 영업으로 둔다(CAT·DE 규칙). Q2 2026: 981.5 − 86.0 = 895.5(10-Q 대조, 2026-10-23)
+                 "0000075362": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", [(["InvestmentIncomeNet"], 1)]),
+# NUE: 영업이익 줄이 없다 — 손익계산서는 매출 − 비용(지분법 이익·자산 손상·순이자 포함) = 세전이익. 영업이익 = 세전이익 + 순이자비용(InterestRevenueExpenseNet, 음수로 실림).
                  # 지분법 이익·자산 손상은 영업으로 둔다. Q2 2026: 1,625 + 12 = 1,637(10-Q 대조, 2026-10-23)
                  "0000073309": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", [(["InterestRevenueExpenseNet"], 1)]),
 # AJG(보험 중개): 영업이익 줄이 없다 — 손익계산서는 총수익 − 총비용(이자비용 포함) = 세전이익. 영업이익 = 세전이익 + 이자비용.
@@ -654,6 +657,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # PCAR: DepreciationDepletionAndAmortization는 유형자산만(6개월 210.6) — 연결 D&A(DepreciationAndAmortization, 리스 장비 포함 415.1)로 이력을 맞춘다(Codex r1, 2026-10-23)
+                "0000075362": ("DepreciationDepletionAndAmortization",),
                 # GWW: DepreciationDepletionAndAmortization는 부문 주석 "감가상각·상각·비현금 리스비용" 합계(6개월 165) — 현금흐름표 D&A(DepreciationAndAmortization, 128)를 쓴다(Codex·Fable r1, 2026-10-23)
                 "0000277135": ("DepreciationDepletionAndAmortization",),
                 # DDOG: DepreciationDepletionAndAmortization(상반기 $34.1M)는 현금흐름표 "Depreciation and amortization"(DepreciationAndAmortization, $37.4M)보다 작다 — 현금흐름표 줄만(2026-10-21).
@@ -1545,7 +1550,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# OKE: 비지배지분 = 비상환 $100M + 상환 가능 $44M(2026-06, 상환 가능분은 2026년부터, 2026-10-23).
+EV_TAGS_BY_CIK = {# PCAR: 현금 = 연결 현금(트럭 5,407.8 + 금융 166.9 = 5,574.7 — 현금흐름표 태그, 재무상태표는 부문 차원만), 단기투자 = 트럭 부문 시장성 증권 3,259.6(BUILD dim_facts)(2026-10-23)
+                  "0000075362": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"], "sti": ["MarketableSecuritiesCurrentTruckPcar"]},
+# OKE: 비지배지분 = 비상환 $100M + 상환 가능 $44M(2026-06, 상환 가능분은 2026년부터, 2026-10-23).
                   "0001039684": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
 # TEL: 비지배지분은 상환 가능 비지배지분 $147M(재무상태표) — 기본 태그는 2024-03에 멈춤(2026-10-23).
                   "0001385157": {"nci": ["RedeemableNoncontrollingInterestEquityCarryingAmount"]},
@@ -1703,7 +1710,10 @@ EV_TAGS_BY_CIK = {# OKE: 비지배지분 = 비상환 $100M + 상환 가능 $44M(
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
-EV_ZERO_FROM_BY_CIK = {"0000200406": {"nci": ("2023-10-01", "2023-10-27")},
+EV_ZERO_FROM_BY_CIK = {# PCAR: 차입금은 트럭·부품·기타 부문만(CAT·DE·GM 규칙) — 그 부문엔 차입금이 없다(금융 서비스 CP·은행 차입 $4,789M·채권 $9,908M 제외, Q2 2026 10-Q).
+                       # 기본 태그가 금융 서비스 차입을 잡지 않게 전 기간 0(2026-10-23)
+                       "0000075362": {"debt": ("2000-01-01", "2000-01-01")},
+                       "0000200406": {"nci": ("2023-10-01", "2023-10-27")},
                        # MNST: 2024년 자사주 공개매수 자금 차입($750M)을 2025년 상반기에 다 갚았다 — 2025-03 $199M 뒤 차입금 태그가 없다(Q2 2025 10-Q 재무상태표에 차입금 줄 없음).
                        # 마지막 값이 계속 이어지지 않게 2025-06-30부터 0(가용일 = Q2 2025 10-Q 2025-08-08, 2026-10-22).
                        "0000865752": {"debt": ("2025-06-30", "2025-08-08")}}
@@ -1717,7 +1727,7 @@ DEBT_AVAILABLE_FIX = {"0001327567": {"2025-07-31": "2025-08-29"}}
 # F4(input_fix_prereg, 2026-10-10): 차입금 세부 태그가 일부만 잡히면 총계로 바꾸지 않는 회사들. 금융 섹터는 차입금 정의가 달라
 # 통째로 뺀다(은행 카드는 bank_items 경로). CAT·DE는 금융 자회사 부문 차입금을 뺀 값이 사용자 결정(2026-09-30)이라 총계와 다른 게 맞다.
 # BX는 LoansPayable, VRTX는 0.5배 규칙과 맞지 않는 회사별 결정.
-DEBT_TOTAL_FALLBACK_SKIP = {"0000018230", "0000315189", "0001393818", "0000875320", "0001467858"}
+DEBT_TOTAL_FALLBACK_SKIP = {"0000075362", "0000018230", "0000315189", "0001393818", "0000875320", "0001467858"}
 _FIN_CIKS = None
 
 
