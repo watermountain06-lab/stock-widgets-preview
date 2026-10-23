@@ -13,7 +13,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=18';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=38';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=39';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=3';
 import { attachActual } from './preview-only-portfolio-actual.js?v=8';
@@ -343,14 +343,23 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       trade: act((t) => addTrade(t)),
       editTrade: act((id, t) => updateDoc(tref(user), Object.fromEntries(['date', 'ticker', 'side', 'qty', 'price'].map((f) => ['entries.' + id + '.' + f, t[f]])))),
       deleteTrade: act((id) => updateDoc(tref(user), Object.fromEntries([id, ...Object.entries(trades).filter(([, x]) => x.cancels === id).map(([k]) => k)].map((k) => ['entries.' + k, deleteField()])))),
-      // 그달 살 종목 체크(문서가 없으면 만든다 — merge라 매매 기록은 그대로)
-      pick: act((month, list) => setDoc(tref(user), { picks: { [month]: list } }, { merge: true })),
+      // 그달 살 종목 체크(문서가 없으면 만든다 — merge라 매매 기록은 그대로). 계산에 쓰이지 않으므로 전체를 다시 불러오지 않고
+      // 저장한 값만 바꿔 화면을 다시 그린다(2026-10-23 — 체크할 때마다 "불러오는 중…"으로 깜빡이던 것)
+      pick: async (month, list) => {
+        try { await setDoc(tref(user), { picks: { [month]: list } }, { merge: true }); } catch (e) { throw new Error(why(e)); }
+        tradesExist = true;
+        picks[month] = list;
+        if (g === gen && auth.currentUser === user) draw();
+      },
       goto: (tab) => selectTab(tab),
     };
     const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, picks, caps: await capsP };
-
-    renderTabs({ home: $('pf-home'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,
-      { bundle, bundleNo: no, closedCount, records, recordsError, calcError, holdingsRows: (main.holdings && main.holdings.rows) || [] }, handlers);
+    // 다시 불러오지 않고 다시 그리기(picks처럼 계산과 무관한 값만 바뀐 때)
+    function draw() {
+      renderTabs({ home: $('pf-home'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,
+        { bundle, bundleNo: no, closedCount, records, recordsError, calcError, holdingsRows: (main.holdings && main.holdings.rows) || [] }, handlers);
+    }
+    draw();
   }
 
   // ---- 하위 탭 ----

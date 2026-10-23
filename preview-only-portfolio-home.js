@@ -516,9 +516,8 @@ export function nextAction(mv) {
 
 // 나누는 방법: 원칙으로 정하기 전이라 이 탭에서만 기억한다(sessionStorage). 저장소가 막혀도 메모리 값으로 동작한다(dr r1)
 let buyMethod;
-let pickSaving = false;
-let demoPicks = [];
-let tryAmount = null;   // "이 금액으로 계산해 보기"(저장 안 됨, 이 탭에서만 — 사용자 결정 2026-10-23)   // 시연 달 체크(저장하지 않음, 이 탭에서만)   // 체크 저장 중이면 다시 그린 목록·방법 버튼도 잠근다(dr r2)
+let pickSaving = false;   // 체크 저장 중이면 다시 그린 목록·방법 버튼도 잠근다(dr r2)
+let demoPicks = [];   // 시연 달 체크(저장하지 않음, 이 탭에서만)
 try { buyMethod = sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }
 if (!BUY_METHODS.some(([k]) => k === buyMethod)) buyMethod = null;
 
@@ -567,17 +566,6 @@ function buyBox(args) {
     await handlers.deposit(v);
   }, f);
   box.appendChild(money);
-  // 이 금액으로 계산해 보기: 쓸 돈이 없어도 나누는 방법별 금액·예상 주 수를 볼 수 있게(저장하지 않고 입금 기록과도 무관)
-  const tr = el('div', 'pf-tryrow');
-  const tl = el('label'); tl.appendChild(el('span', null, '이 금액으로 계산해 보기'));
-  const ti = el('input'); ti.type = 'number'; ti.min = '0.01'; ti.step = '0.01'; ti.placeholder = '$ 금액'; if (tryAmount) ti.value = String(tryAmount);
-  tl.appendChild(ti); tr.appendChild(tl);
-  const tb = el('button', 'pf-btn pf-btn-quiet', '계산'); tb.type = 'button';
-  tb.addEventListener('click', () => { const v = Number(ti.value); tryAmount = v > 0 ? Math.round(v * 100) / 100 : null; box.replaceWith(buyBox(args)); });
-  tr.appendChild(tb);
-  if (tryAmount) { const tx = el('button', 'pf-btn pf-btn-quiet', '지우기'); tx.type = 'button'; tx.addEventListener('click', () => { tryAmount = null; box.replaceWith(buyBox(args)); }); tr.appendChild(tx); }
-  box.appendChild(tr);
-  if (tryAmount) box.appendChild(el('p', 'pf-note', `${usd(tryAmount)}로 계산해 보는 중입니다(저장 안 됨, 이미 산 돈은 빼지 않음). 기록 버튼은 숨깁니다.`));
   // 지금 기록하면 어느 달 몫인지(반영일 = 기록 다음 장 시작, 엔진과 같은 기준) — 시연 달·미리 보기에서 다음 달 돈을 넣으려는 경우를 위해(dr)
   const nowDay = depositTiming(new Date(model.now ?? Date.now()).toISOString()).day;
   const useMonth = mv?.demo ? nextMonthOf(month) : month;   // 시연 달이면 실제로 쓰는 것은 다음 달
@@ -603,9 +591,7 @@ function buyBox(args) {
   mh.appendChild(el('span', 'pf-buylabel', '나누는 방법'));
   const tiers = Object.fromEntries(plan.candidates.map((t) => [t, planTier(t)]));
   const picked = ((mv.demo ? demoPicks : model.picks?.[month]) || []).filter((t) => plan.candidates.includes(t));
-  const trial = !!tryAmount;
-  const pBudget = trial ? tryAmount : budget;
-  const bp = method ? buyPlan({ cands: plan.candidates, picked, budget: pBudget, spent: trial ? 0 : spent, bought: trial ? {} : Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])),
+  const bp = method ? buyPlan({ cands: plan.candidates, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])),
     tiers, caps: model.caps || {}, rounds, roundsLeft }) : null;
   mh.appendChild(el('span', 'pf-note', !method ? '아직 원칙으로 정하지 않음' : !mv.next ? '이번 달 회차 끝'
     : `(종목 달 몫 − 그 종목에 산 돈) ÷ 남은 회차 ${roundsLeft}회` + (bp?.capped[method] ? ' · 남은 돈에 맞춰 비례로 줄임' : '')
@@ -669,11 +655,11 @@ function buyBox(args) {
     else if (!mv.next) note('이번 달 회차 끝');
     else if (!nowBuyable(t)) note(nowHold(t) ? `${HOLD_TEXT[nowHold(t)] || '데이터 문제'} — 보류(원칙 6)` : '살 단계 벗어남 — 이번 회차 건너뜀(원칙 2)');
     else if (!bp) note('방법을 고르면 금액');
-    else if (!(pBudget > 0)) note('쓸 돈 없음 — 위 "이 금액으로 계산해 보기"로 미리 볼 수 있음');
+    else if (!(budget > 0)) note('쓸 돈 없음');
     else if (!bp.by[method]) note(method === 'cap' ? '시총 없는 종목이 있음' : !hasRec ? '점검일 기록이 없어 판정 가중을 못 씀' : '무게 밖 판정이 있음(초저평가~적정만)');
     else {
       const r = bp.round[method][t];
-      if (!(r > 0)) note(bp.rest[method][t] > 0 ? '회차 몫 1센트 미만' : (!trial && leftUsd <= 0) || bp.capped[method] ? '남은 돈 없음' : '달 몫을 다 샀음');
+      if (!(r > 0)) note(bp.rest[method][t] > 0 ? '회차 몫 1센트 미만' : leftUsd <= 0 || bp.capped[method] ? '남은 돈 없음' : '달 몫을 다 샀음');
       else if (c == null) note(`${usd(r)} · 가격 없음`);
       else if (Math.floor((r / c) * 1e4) <= 0) note(`${usd(r)} · 0.0001주 미만`);
       else {
@@ -681,7 +667,7 @@ function buyBox(args) {
         amtBox.appendChild(el('strong', null, usd(r)));
         amtBox.appendChild(el('span', 'pf-s', `${nextIdx}회차 · 예상 ${shares(Math.floor((r / c) * 1e4) / 1e4)}주 · 달 몫 ${usd0(bp.by[method][t])}` + (bp.missed[method].includes(t) ? ' · 놓친 몫 포함' : '')));
         act.appendChild(amtBox);
-        if (!mv.demo && !trial) {   // 시연 달은 보여 주기만
+        if (!mv.demo) {   // 시연 달은 보여 주기만
           const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button';
           go.title = '이 금액으로 매수 기록 창을 엽니다(예상 수량은 최근 종가로 계산, 체결 뒤 실제 값으로 고치세요)';
           go.addEventListener('click', (e) => { e.preventDefault(); dlg.open(t, { qty: Math.floor((r / c) * 1e4) / 1e4, price: c }); });
@@ -703,7 +689,6 @@ function buyBox(args) {
 // 확정은 점검일에 한다. 체크는 그 점검 달(month) 몫으로 저장하고, 금액은 그달 쓸 돈을 4회로 나눈 회당 금액(회차 일정은 점검일에 생긴다)
 function previewSection(args, box, month, budget) {
   const { model, handlers, tierOf, nowBuyable, close } = args;
-  if (tryAmount) budget = tryAmount;   // 계산해 보기 금액(저장 안 됨)
   const cands = Object.keys(model.lastCards || {}).sort().filter((t) => nowBuyable(t));
   const ph = el('div', 'pf-buysechead');
   ph.appendChild(el('span', 'pf-buylabel', `${args.checkDay ? md(args.checkDay) + ' 점검 ' : ''}미리 보기 · 지금 판정 기준 후보 ${cands.length}`));
@@ -753,7 +738,7 @@ function previewSection(args, box, month, budget) {
     const note = (x) => act.appendChild(el('span', 'pf-note', x));
     if (!on) note('고르지 않음');
     else if (!bp) note('방법을 고르면 금액');
-    else if (!(budget > 0)) note(`${+month.slice(5)}월 쓸 돈 없음 — 위 "이 금액으로 계산해 보기"로 미리 볼 수 있음`);
+    else if (!(budget > 0)) note(`${+month.slice(5)}월 쓸 돈 없음`);
     else if (!bp.by[method]) note(method === 'cap' ? '시총 없는 종목이 있음' : '무게 밖 판정이 있음(초저평가~적정만)');
     else {
       const amtBox = el('span', 'pf-buyamt');

@@ -358,4 +358,3 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 :root[data-theme="dark"] .pf-sellline{background:var(--bg3)}:root[data-theme="dark"] .pf-sellline strong{color:#c9bcff}
 .pf-homeside .pf-hold{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px}.pf-homeside .pf-hold>b{grid-column:2;grid-row:1}.pf-homeside .pf-hold>.pf-chip{grid-column:1;justify-self:start}
 .pf-freshrow{cursor:default}
-.pf-tryrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pf-tryrow label{display:flex;align-items:center;gap:8px;flex:1;min-width:0;font-size:13px;color:var(--muted)}.pf-tryrow input{flex:1;min-width:0;min-height:40px;padding:0 10px;border:1px dashed #cfc8ee;border-radius:10px;font:inherit;font-size:14px;background:transparent;color:inherit}
