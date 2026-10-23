@@ -1316,6 +1316,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # A: 기본 합계가 대체값(debt_total_fallback)으로 잡혔다(값은 같다) — 단기 차입 + 장기. Q3 FY26: 304 + 3,645 = 3,949(10-Q 대조, 2026-10-23)
+                  "0001090872": ["ShortTermBorrowings", "LongTermDebt"],
                   # XEL: 기본 합계가 1년 안 장기부채(LongTermDebtAndCapitalLeaseObligationsCurrent $999M)를 빠뜨렸다 — 단기 + 1년 안 장기 + 장기.
                   # Q2 2026: 2,510 + 999 + 35,948 = 39,457(10-Q 대조, Codex·Fable r1, 2026-10-23)
                   "0000072903": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
