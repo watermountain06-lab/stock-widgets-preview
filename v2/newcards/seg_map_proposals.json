@@ -2908,5 +2908,34 @@
     "#8a63c2"
    ]
   }
+ },
+ "AON": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "country:US": [
+    "미국",
+    "#eb0017"
+   ],
+   "aon:EuropeMiddleEastAndAfricaOtherThanUnitedKingdomAndIrelandMember": [
+    "유럽·중동·아프리카(영국·아일랜드 외)",
+    "#f2707d"
+   ],
+   "srt:AsiaPacificMember": [
+    "아시아·태평양",
+    "#f7b0b7"
+   ],
+   "aon:AmericasOtherThanUnitedStatesMember": [
+    "미주(미국 외)",
+    "#5c1018"
+   ]
+  },
+  "ignore_candidates": [
+   "country:GB",
+   "country:IE"
+  ]
  }
 }

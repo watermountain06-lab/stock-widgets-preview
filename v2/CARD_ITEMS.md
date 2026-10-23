@@ -1735,3 +1735,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(COR에만)** — DDA_PARTS_BY_CIK(DepreciationNonproduction + AmortizationOfIntangibleAssets, 합산 태그 제외 — EV/EBITDA 이력 55일 → 1,232일), DEBT_TOTAL_TAG(단기 + 장기 $11,723M), BB_TAGS PaymentsForRepurchaseOfEquity, Q4 EPS FY25 −$1.75, NEXT_CONFIRMED 11/4.
 - **판단** — 매각 예정 MWI 재분류가 운전자본·재투자를 키움(안건 E46, 빼도 0 이하), 소송 부채 약 $4.2B는 차입금 밖. 급락일 뉴스에 공시 악재·FY26 매출 성장 전망 7~9% → 4~6%(BSX 선례), Walgreens 물량 이탈 8-K.
 - **dr** — Codex 2라운드·Fable.
+
+## AON — 보험 중개, USI 인수 진행 중 (2026-10-22, 카드 168, 시총 167위)
+
+- **판정 적정~고평가(+1, 동종업 표 없음 — brokers_fees, −2)** — 자기 이력 98.0, 동종업 32.8, 현금흐름 기본 $146 대 $294.35. 기준 Q2 2026 10-Q(7/29 장 마감 뒤).
+- **엔진(AON에만)** — company_tags(aon:AmortizationAndImpairmentOfIntangibleAssets → AmortizationOfIntangibleAssets) + DDA_PARTS_BY_CIK(TTM D&A $190M → $894M), DEBT_TOTAL_TAG(1년 안 + 장기 $14,967M), EV_TAGS nci, BB_TAGS PaymentsForRepurchaseOfEquity, Q4 EPS 2024.
+- **판단** — 매각 이익 제외 시 TTM EPS 약 $14·PER 약 21배(YOY_NOTE), USI 인수($17.0B, 미완료)·9월 회사채 $13.5B 미반영(MODEL_NOTE), POST로 체크포인트 ③ 방향 보정, 뉴스 CFO 교체·자사주 중단.
+- **dr** — Codex 2라운드·Fable.
