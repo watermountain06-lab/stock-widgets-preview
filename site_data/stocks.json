@@ -7081,6 +7081,50 @@
         "valuationAsOf": "2026-10-21",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "ALL",
+      "name": "Allstate",
+      "sector": "금융 — 손해보험(자동차·주택), 보호 상품",
+      "href": "ALL_full_widget.html",
+      "cardRank": 166,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 251.04,
+        "prevClose": 249.91,
+        "session": "2026-10-21",
+        "prevSession": "2026-10-20",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 252857950,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-16",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000899051-26-000118 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 60.1,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": [
+          "growth_metrics_below_gate",
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

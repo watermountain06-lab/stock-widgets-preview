@@ -1513,7 +1513,10 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# SPG: 비지배지분 $1,140M = 운영 파트너십 외부 파트너 $758M + 부동산 비지배 $382M. 유닛은 build_dcf SHARES_ADD로 주식에 더하므로 부동산분만(2026-10-22).
+EV_TAGS_BY_CIK = {# ALL(손해보험): 현금은 재무상태표 "Cash" $840M만(TRV와 같이 단기 증권 $4,872M는 보험 운용자산이라 뺀다), 우선주 $2,001M = PreferredStockIncludingAdditionalPaidInCapital
+                  # (기본 PreferredStockValue는 2010년에 멈춤 — 청산가치 $2,050M, 2026-10-22).
+                  "0000899051": {"cash": ["Cash"], "sti": [], "preferred": ["PreferredStockIncludingAdditionalPaidInCapital"]},
+# SPG: 비지배지분 $1,140M = 운영 파트너십 외부 파트너 $758M + 부동산 비지배 $382M. 유닛은 build_dcf SHARES_ADD로 주식에 더하므로 부동산분만(2026-10-22).
                   "0001063761": {"nci": ["OtherMinorityInterests"]},
 # AJG: 재무상태표 현금 $1,386M(수탁 현금 $7,947M은 수탁 자산 안 — 고객 돈이라 빼지 않는다)은 2023-12부터 CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents,
                   # 그 전은 CashAndCashEquivalentsAtCarryingValue(2026-10-22). 2023년 표시 변경 전 제한 현금 태그에는 고객 수탁 현금이 들어 있어(2022-12 $4,964M 대 재무상태표 $342M)
