@@ -506,3 +506,17 @@ test('출금(2026-10-22): 그달 넣은 돈에서 빠지고(음수 흐름), 입�
   assert.match(w.title, /^출금 /);
   assert.match(w.amount, /^−/);
 });
+
+import { roundStrip, monthBuyList } from '../../preview-only-portfolio-home.js';
+
+test('4회 띠: 지난 회차는 산 돈(없으면 놓침), 이번 회차·남은 회차는 계획, 첫 회차 전 매수는 회차 외', () => {
+  const dates = ['2026-11-02', '2026-11-09', '2026-11-16', '2026-11-23'];
+  const buys = [{ date: '2026-11-01', amount: 10 }, { date: '2026-11-03', amount: 100 }, { date: '2026-11-16', amount: 5 }];
+  const r = roundStrip(dates, '2026-11-16', buys, 75);
+  assert.deepEqual(r.rounds.map((x) => [x.state, x.amount]), [['done', 100], ['missed', 0], ['now', 75], ['plan', 75]]);
+  assert.equal(r.rounds[2].done, 5);
+  assert.equal(r.outside, 10);
+  assert.deepEqual(roundStrip(dates, null, buys, null).rounds.map((x) => x.state), ['done', 'missed', 'done', 'missed']);   // 회차 끝
+  const trades = { a: { date: '2026-11-03', side: 'buy', qty: 0.0014, price: 10 }, b: { date: '2026-11-04', side: 'sell', qty: 1, price: 5 }, c: { date: '2026-11-05', side: 'buy', qty: 1, price: 2 }, x: { cancels: 'c' } };
+  assert.deepEqual(monthBuyList(trades, '2026-11', '2026-11-30'), [{ date: '2026-11-03', amount: 0.01 }]);
+});

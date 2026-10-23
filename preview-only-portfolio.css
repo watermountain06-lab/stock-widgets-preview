@@ -358,3 +358,13 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 :root[data-theme="dark"] .pf-sellline{background:var(--bg3)}:root[data-theme="dark"] .pf-sellline strong{color:#c9bcff}
 .pf-homeside .pf-hold{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px}.pf-homeside .pf-hold>b{grid-column:2;grid-row:1}.pf-homeside .pf-hold>.pf-chip{grid-column:1;justify-self:start}
 .pf-freshrow{cursor:default}
+/* 4회 매수 띠(2026-10-23 dr 최적안) */
+.pf-strip{display:grid;gap:6px;margin-top:-4px}.pf-strip:empty{display:none}
+.pf-striprow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.pf-stripcell{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);min-width:0}
+.pf-stripcell strong{font-size:15px}.pf-stripcell .pf-s{font-size:11px}
+.pf-strip-now{border-color:#6851cd;box-shadow:inset 0 0 0 1px #6851cd}.pf-strip-now strong{color:#4f3aa8}
+.pf-strip-done{background:#f3f0fc}.pf-strip-missed{opacity:.6}.pf-strip-plan strong{color:var(--muted)}
+.pf-over strong,.pf-over .pf-s{color:#a3271f!important}
+:root[data-theme="dark"] .pf-strip-done{background:var(--bg3)}:root[data-theme="dark"] .pf-strip-now strong{color:#c9bcff}
+@media (max-width:520px){.pf-striprow{grid-template-columns:repeat(2,minmax(0,1fr))}}
