@@ -2960,5 +2960,53 @@
     "#b3cce8"
    ]
   }
+ },
+ "TDG": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "tdg:SalesMarketTypeAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "tdg:DefenseMember": [
+    "국방",
+    "#1b365d"
+   ],
+   "tdg:CommercialAftermarketMember": [
+    "상업 애프터마켓",
+    "#6d87b0"
+   ],
+   "tdg:CommercialOEMMember": [
+    "상업 OEM",
+    "#a9bbd6"
+   ],
+   "tdg:NonAviationMember": [
+    "비항공",
+    "#dbe3ef"
+   ]
+  }
+ },
+ "FAST": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "country:US": [
+    "미국",
+    "#0054a4"
+   ],
+   "fast:CanadaandMexicoMember": [
+    "캐나다·멕시코",
+    "#5c94d1"
+   ],
+   "fast:NonNorthAmericaMember": [
+    "북미 외",
+    "#b3cce8"
+   ]
+  }
  }
 }

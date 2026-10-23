@@ -7248,6 +7248,49 @@
         "valuationAsOf": "2026-10-21",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "TDG",
+      "name": "TransDigm",
+      "sector": "산업재 — 항공기 부품(독점 애프터마켓 부품 중심)",
+      "href": "TDG_full_widget.html",
+      "cardRank": 170,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 1129.38,
+        "prevClose": 1143.06,
+        "session": "2026-10-21",
+        "prevSession": "2026-10-20",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 55276525,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0001260221-26-000053 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 68.7,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-27",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }

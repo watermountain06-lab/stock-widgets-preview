@@ -1749,3 +1749,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — FL_IN_DEBT(build_dcf)·_finance_lease_extra(build_fundamental_score)에 TRGP(차입금 주석 합계에 금융리스 $794M 포함 — 이중 차감이었다), CONCEPTS_BY_CIK interestExpense 순이자, company_tags 배당 지급, BB_TAGS. 안건 E47(두 목록 불일치 — MCK·AMT·EOG).
 - **판단** — $30 이유(이익률 가정·투자 효율·순차입금), 금융리스 설비 대부분 압축기 리스 연장, 뉴스 ExxonMobil 20년 계약(8/17 장 마감 뒤 → 8/18)·Stakeholder 인수 완료, NEXT_CONFIRMED 11/5. 별도: KKR 보류(보험 자회사 연결), SPG 줄에 BX 선례 메모.
 - **dr** — Codex 2라운드·Fable.
+
+## TDG — 항공 부품, 음수 자본·인수 성장 (2026-10-22, 카드 170, 시총 169위)
+
+- **판정 적정~고평가(+1, −1, −2)** — 자기 이력 95.9, 동종업 24.6(S&P500 산업재), 현금흐름 기본 $313 대 $1,129.38. 기준 Q3 FY26 10-Q(8/4 장 마감 뒤).
+- **엔진(TDG에만)** — DDA_PARTS_BY_CIK(EV/EBITDA 이력 56일 → 1,255일), DEBT_TOTAL_TAG(1년 안 + 매출채권 유동화 $725M + 장기 튜플 = $33,485M), EV_TAGS nci, Q4 EPS FY24 $5.80.
+- **판단** — 유기 성장 +12.6%·인수 $220M(YOY_NOTE), 6월 말 뒤 P&I 인수·9월 회사채 미반영(MODEL_NOTE), POST로 체크포인트 ③·옵션 배당 상당액 라벨 보정, 뉴스 인수·철회·차환·특별배당 배당 상당액.
+- **dr** — Codex 2라운드·Fable.

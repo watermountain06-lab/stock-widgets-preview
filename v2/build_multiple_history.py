@@ -108,6 +108,11 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     # AON: 무형자산 상각을 2022-12부터 회사 고유 태그 aon:AmortizationAndImpairmentOfIntangibleAssets(손상 포함)로만 낸다 — BUILD company_tags가
                     # AmortizationOfIntangibleAssets 이름으로 overlay에 싣는다. 기본 D&A는 감가상각 $190M뿐이었다. 상반기 2026: 95 + 326 = 421(2026-10-22).
                     "0000315293": ["Depreciation", "AmortizationOfIntangibleAssets"],
+                    # TDG: 합산 태그 DepreciationDepletionAndAmortization는 30개뿐이라 EV/EBITDA 이력이 56일이었다 — 현금흐름표 Depreciation + AmortizationOfIntangibleAssets
+                    # (9개월 FY26 137 + 185 = 322, 합산 태그 324 — 제품 인증 비용 상각 2 차이, 2026-10-22).
+                    "0001260221": ["Depreciation", "AmortizationOfIntangibleAssets"],
+                    # FAST: 합산 D&A 태그는 10-K 4개뿐이라 EV/EBITDA를 아예 못 냈다 — 현금흐름표 Depreciation + AmortizationOfIntangibleAssets(9개월 2026 126.9 + 8.2, 2026-10-22).
+                    "0000815556": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # CME: 손익계산서 "Depreciation and amortization" 줄을 10-Q는 Depreciation, 10-K 연간은 DepreciationAndAmortization으로 낸다 —
                     # 둘을 한 구성요소로 합쳐야 4분기가 생긴다(없으면 4분기 감가상각이 빠져 TTM이 $233M, 2026-10-16). 무형자산 상각은 따로.
                     "0001156375": [("Depreciation", "DepreciationAndAmortization"), "AmortizationOfIntangibleAssets"],
@@ -667,6 +672,8 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0000723254": ("DepreciationDepletionAndAmortization",),   # CTAS — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0001140859": ("DepreciationDepletionAndAmortization",),   # COR — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0000315293": ("DepreciationDepletionAndAmortization", "DepreciationAndAmortization"),   # AON — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
+                "0001260221": ("DepreciationDepletionAndAmortization",),   # TDG — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
+                "0000815556": ("DepreciationDepletionAndAmortization",),   # FAST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0001674101": ("DepreciationDepletionAndAmortization",),   # VRT — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-21)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
@@ -1444,6 +1451,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   "0001140859": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # AON: 1년 안 차입금(DebtCurrent $2,020M — 기업어음·1년 안 만기)이 기본 합에서 빠져 장기 $12,947M뿐이었다(2026-10-22).
                   "0000315293": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # TDG: 매출채권 유동화 차입(ShortTermBankLoansAndNotesPayable $725M)이 빠져 1년 안 139 + 장기 32,621뿐이었다 — 합 $33,485M(2026-06, 10-Q 재무상태표).
+                  # 장기 태그는 2020-09부터 LongTermDebtAndCapitalLeaseObligations(금융리스 포함), 그 전 날짜는 LongTermDebtNoncurrent(튜플 앞 우선, 2026-10-22).
+                  "0001260221": ["LongTermDebtCurrent", "ShortTermBankLoansAndNotesPayable", ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],
                   # BSX: 1년 안 차입금(DebtCurrent, 2026-06 $1,709M — 기업어음 포함)이 기본 합에서 빠져 장기 $10,915M뿐이었다(2026-10-22).
                   "0000885725": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DE: 장비 부문 빚만(CAT과 같은 규칙). 부문 차입금은 10-Q·10-K 보충 표에 태그 없이 있어 `adapters/de_equipment_debt.py`가
@@ -1525,7 +1535,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# AON: 비지배지분 = 비상환 $88M + 상환 가능 $24M(2023-12부터 이 두 태그, 기본 태그는 2024-03에 멈춤, 2026-10-22).
+EV_TAGS_BY_CIK = {# TDG: 비지배지분 = 비상환 $9M + 상환 가능 $81M(2026-03부터, 2026-10-22).
+                  "0001260221": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
+# AON: 비지배지분 = 비상환 $88M + 상환 가능 $24M(2023-12부터 이 두 태그, 기본 태그는 2024-03에 멈춤, 2026-10-22).
                   "0000315293": {"nci": ["NonredeemableNoncontrollingInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
 # ALL(손해보험): 현금은 재무상태표 "Cash" $840M만(TRV와 같이 단기 증권 $4,872M는 보험 운용자산이라 뺀다), 우선주 $2,001M = PreferredStockIncludingAdditionalPaidInCapital
                   # (기본 PreferredStockValue는 2010년에 멈춤 — 청산가치 $2,050M, 2026-10-22).
