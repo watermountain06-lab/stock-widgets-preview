@@ -7580,6 +7580,47 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "AME",
+      "name": "AMETEK",
+      "sector": "산업재 — 전자 계측기(EIG)·전기기계(EMG)",
+      "href": "AME_full_widget.html",
+      "cardRank": 178,
+      "cardAsOf": "2026-10-22",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 238.82,
+        "prevClose": 250.28,
+        "session": "2026-10-22",
+        "prevSession": "2026-10-21",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 229261244,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-28",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0001037868-26-000175 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 67.0,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-22",
+        "qualityFlags": []
+      }
     }
   ]
 }

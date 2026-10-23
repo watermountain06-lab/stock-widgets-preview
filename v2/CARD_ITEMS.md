@@ -1805,3 +1805,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — DERIVED_OPINC 세전이익 − 투자수익, 차입금 = 트럭·부품·기타 부문만 0(EV_ZERO_FROM_BY_CIK, CAT·DE·GM 규칙), 현금 연결·단기투자 트럭 시장성 증권(dim_facts), EXCLUDE_TAGS로 연결 D&A(리스 장비 포함 $830M) 고정, DEBT_TOTAL_FALLBACK_SKIP.
 - **판단** — 금융 자회사 처리·FCF 한계(리스 장비 취득 제외, 안건 E50), 부문별 재무상태표라 유동비율·활동성 없음(HEALTH_EXTRA), 체크포인트 ③ 특별배당 이중 계산 보정(POST), Section 232 관세 언급, 8~10월 하락은 원인 미확인.
 - **dr** — Codex 2라운드·Fable. 남은 공통 문제: E45(장 마감 뒤 10-Q 반영일), E50.
+
+## AME — 전자 계측·전기기계 (2026-10-23, 카드 178)
+
+- **판정 고평가(−1, −1, −2)** — 자기 이력 16.1, 동종업 25.4(S&P500 산업재), 현금흐름 기본 $78 대 $238.82(10/22). 기준 Q2 2026 10-Q(8/4 장중).
+- **엔진** — DEBT_TOTAL_TAG 1년 안 + 장기($2,036M), CONCEPTS_BY_CIK interestExpense InterestExpenseNonoperating.
+- **판단** — Indicor $5.0B 현금 인수(8/26 장 마감 뒤 완료 → 반응 8/27, 텀론·리볼버 조달)는 Q2 뒤라 숫자에 없음 — Bull 부채·EV에 "인수 차입 전" 표시(POST), 내재가치가 낮은 이유(매출/투하자본으로 인수 성장 비용), Q2 매출 유기 +10%·인수 +5%, 다음 실적 11/3.
+- **dr** — Codex 2라운드·Fable. 별도: D·SRE·O·MPWR·DVN·BKR·BDX·AFL 보류(skipped_cards).
