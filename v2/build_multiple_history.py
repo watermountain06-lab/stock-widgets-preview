@@ -1537,7 +1537,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# TEL: 비지배지분은 상환 가능 비지배지분 $147M(재무상태표) — 기본 태그는 2024-03에 멈춤(2026-10-23).
+EV_TAGS_BY_CIK = {# OKE: 비지배지분 = 비상환 $100M + 상환 가능 $44M(2026-06, 상환 가능분은 2026년부터, 2026-10-23).
+                  "0001039684": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
+# TEL: 비지배지분은 상환 가능 비지배지분 $147M(재무상태표) — 기본 태그는 2024-03에 멈춤(2026-10-23).
                   "0001385157": {"nci": ["RedeemableNoncontrollingInterestEquityCarryingAmount"]},
 # TDG: 비지배지분 = 비상환 $9M + 상환 가능 $81M(2026-03부터, 2026-10-22).
                   "0001260221": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},

@@ -3025,5 +3025,32 @@
     "#5b84b8"
    ]
   }
+ },
+ "OKE": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "oke:RefinedProductsAndCrudeOilMember": [
+    "정제유·원유",
+    "#e31837"
+   ],
+   "oke:NaturalGasLiquidsMember": [
+    "NGL",
+    "#f06a7e"
+   ],
+   "oke:NaturalGasGatheringAndProcessingMember": [
+    "천연가스 수집·처리",
+    "#9e0f25"
+   ],
+   "oke:WhollyOwnedInterstateNaturalGasPipelinesMember": [
+    "천연가스 파이프라인",
+    "#f7b3bd"
+   ]
+  }
  }
 }
