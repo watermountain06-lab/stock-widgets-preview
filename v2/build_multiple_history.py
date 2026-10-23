@@ -96,6 +96,9 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # TER: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 2024-03부터만이라 EV/EBITDA 이력이 246일뿐이었다 —
+                    # 구성요소 Depreciation + AmortizationOfIntangibleAssets(2008~; 2026 상반기 58.9 + 7.2 = 66.1 ≈ 합산 66.3, Fable r1, 2026-10-23)
+                    "0000097210": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # VRT: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 듬성듬성해(2021-12부터 13개) EV/EBITDA 이력이 250일뿐이었다 —
                     # 현금흐름표 구성요소 Depreciation + AmortizationOfIntangibleAssets(2021~ 22개; 2026 상반기 66.9 + 156.6 = 223.5 = 합산 태그, 2026-10-21).
                     "0001674101": ["Depreciation", "AmortizationOfIntangibleAssets"],
@@ -685,6 +688,7 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0001260221": ("DepreciationDepletionAndAmortization",),   # TDG — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0000815556": ("DepreciationDepletionAndAmortization",),   # FAST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0001674101": ("DepreciationDepletionAndAmortization",),   # VRT — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-21)
+                "0000097210": ("DepreciationDepletionAndAmortization",),   # TER — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-23)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
                 # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아
@@ -1554,7 +1558,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# PCAR: 현금 = 연결 현금(트럭 5,407.8 + 금융 166.9 = 5,574.7 — 현금흐름표 태그, 재무상태표는 부문 차원만), 단기투자 = 트럭 부문 시장성 증권 3,259.6(BUILD dim_facts)(2026-10-23)
+EV_TAGS_BY_CIK = {# TER: 단기투자 = 매도가능 채무증권(AvailableForSaleSecuritiesDebtSecurities, 6월 말 $100.7M) — 기본 MarketableSecuritiesCurrent는 2014년에 멈춤. 이연보상용 뮤추얼펀드는 뺀다(Fable r1, 2026-10-23)
+                  "0000097210": {"sti": ["AvailableForSaleSecuritiesDebtSecurities"]},
+# PCAR: 현금 = 연결 현금(트럭 5,407.8 + 금융 166.9 = 5,574.7 — 현금흐름표 태그, 재무상태표는 부문 차원만), 단기투자 = 트럭 부문 시장성 증권 3,259.6(BUILD dim_facts)(2026-10-23)
                   "0000075362": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"], "sti": ["MarketableSecuritiesCurrentTruckPcar"]},
 # OKE: 비지배지분 = 비상환 $100M + 상환 가능 $44M(2026-06, 상환 가능분은 2026년부터, 2026-10-23).
                   "0001039684": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
