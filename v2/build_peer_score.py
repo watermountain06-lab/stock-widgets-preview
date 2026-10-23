@@ -222,6 +222,15 @@ NEGATIVE = "negative"
 PEER_NEG_DROP = {"evebitda", "pbr"}   # C11
 
 
+def peer_per_na(t, mp):
+    """동종 카드의 PER 해당 없음. 매일 실행이 카드를 동시에 만들 때는 실행 전에 떠 둔 값(V2_PERNA_SNAPSHOT)을 읽는다 —
+    다른 카드가 쓰는 중이거나 실패로 되돌릴 파일을 읽지 않게, 순서와 상관없이 같은 값이 되게(Codex 2026-10-23)."""
+    snap = os.environ.get("V2_PERNA_SNAPSHOT")
+    if snap:
+        return bool(json.load(open(snap)).get(t))
+    return os.path.exists(mp) and bool(json.load(open(mp)).get("perNA"))
+
+
 def peer_score(ticker, sectors, prices, self_path=None):
     sector = sectors.get(ticker)
     if not sector:
@@ -246,7 +255,7 @@ def peer_score(ticker, sectors, prices, self_path=None):
             data[t], asof[t] = multiples_now(t, prices)
             # 카드 유니버스 동종 종목도 A3(C9) — 그 카드가 PER 해당 없음이면 기준선 값이 양수여도 PER 비교에서 뺀다
             mp = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{t}_multiples.json")
-            if t != ticker and os.path.exists(mp) and json.load(open(mp)).get("perNA"):
+            if t != ticker and peer_per_na(t, mp):
                 data[t].pop("per", None)
     core = per_na = pbr_na = False
     if self_path and os.path.exists(self_path):

@@ -28,6 +28,8 @@ import signal
 import subprocess
 import sys
 import time
+import threading
+from concurrent.futures import ThreadPoolExecutor
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
@@ -36,6 +38,18 @@ PY = sys.executable
 BANKS = ["COF", "AXP", "BAC", "BNY", "C", "GS", "JPM", "MS", "SCHW", "USB", "WFC"]   # COF 먼저 — AXP 카드가 COF_bank.json(같은 날짜)을 참고로 읽는다
 HAND = ["BRKB", "SPCX"]   # NVDA는 2026-10-11부터 생성기 자동 카드(cfg_nvda.py). BRKB는 2026-10-12부터 전용 생성기(newcards/brkb/)
 STATUS = os.path.join(V2, "daily_status.json")
+CHANGES = "v2/newcards/refresh_changes.jsonl"
+# 매일 실행은 카드를 동시에 몇 장씩 만든다(V2_JOBS, 2026-10-23 — 146장이 2시간을 넘겼다). 카드끼리는 자기 파일만 쓴다:
+# 은행 공용 파일(banks.json·bank_sec_values.json, AXP가 COF를 읽음)은 은행만 쓰므로 은행은 한 줄로 차례대로 돈다.
+# fill.py가 모든 생성기 카드에서 덧붙이는 refresh_changes.jsonl은 카드별로 되돌리면 남의 줄을 지우므로 끝에 한 번 정리한다.
+# 토요일은 비교 종목 SEC 자료를 여러 카드가 같이 받아 쓰므로 지금처럼 한 장씩.
+PARALLEL = False
+_PRINT = threading.Lock()
+
+
+def say(msg):
+    with _PRINT:   # 동시 실행에서 두 카드의 줄이 섞이지 않게(Codex 2차)
+        print(msg, flush=True)
 
 
 def gen_tickers():
@@ -64,10 +78,14 @@ def touched(T):
     """실패하면 되돌릴 파일 — 카드, cfg(REFRESH가 표를 고친다), 배수 파일, 은행 기반·은행 자료."""
     t = T.lower()
     paths = [f"v2/{T}_full_widget.html", f"v2/newcards/cfg/cfg_{t}.py", f"v2/{T}_multiples.json",
-             f"v2/{T}_bank.json", f"v2/newcards/bank/base/{t}_base.html", "v2/newcards/refresh_changes.jsonl",
-             "v2/peer_universe/banks.json", f"scripts/{T}_eps_history.json", f"v2/{T}_dcf_track.json",
+             f"v2/{T}_bank.json", f"v2/newcards/bank/base/{t}_base.html",
+             f"scripts/{T}_eps_history.json", f"v2/{T}_dcf_track.json",
              f"v2/{T}_activity.json", f"v2/fundamental_data/{T}_financials.json",
-             "v2/research/bank_sec_values.json", f"v2/newcards/bank/cfg/cfg_{t}.py"]   # 자동 카드 분기 전환 때 함께 바뀐다(Codex 2026-10-10)
+             f"v2/newcards/bank/cfg/cfg_{t}.py"]   # 자동 카드 분기 전환 때 함께 바뀐다(Codex 2026-10-10)
+    if T in BANKS:   # 은행 스크립트만 쓰는 공용 파일 — 다른 카드가 되돌리면 동시에 돌던 은행의 값을 지운다
+        paths += ["v2/peer_universe/banks.json", "v2/research/bank_sec_values.json"]
+    if not PARALLEL:   # 동시 실행에서는 tidy_changes()가 끝에 정리한다
+        paths.append(CHANGES)
     return paths   # 없던 파일은 실패하면 지운다(Codex 2026-10-06 — 되돌린 판정 변경이 기록에 남지 않게)
 
 
@@ -400,6 +418,21 @@ def weekly_post(status, work):
         status["problems"].append("new_filings 실패: " + out.strip()[-300:])
 
 
+# 동시 실행: refresh_changes.jsonl에 있던 그 카드의 줄 수 — 실행 전(RUN_FROM)과 마지막 시도 시작 때(ATTEMPT_FROM)
+RUN_FROM, ATTEMPT_FROM = {}, {}
+
+
+def changes_of(T):
+    p = os.path.join(REPO, CHANGES)
+    n = 0
+    for l in (open(p, encoding="utf-8").read().splitlines() if os.path.exists(p) else []):
+        try:
+            n += json.loads(l).get("ticker") == T
+        except ValueError:   # 다른 카드가 쓰는 중인 마지막 줄
+            pass
+    return n
+
+
 def attempt(T, work):
     bk = {}
     for p in touched(T):
@@ -410,18 +443,23 @@ def attempt(T, work):
             bk[p] = None
     t0 = time.time()
     for _ in (1, 2):   # 렌더용 Chrome이 가끔 시간 초과로 멈춘다(2026-10-06 TMUS) — 한 번 더
+        if PARALLEL:   # 실패한 시도의 줄은 순서상 앞에 있다 — 마지막 시도의 줄만 남긴다(tidy_changes, Codex)
+            ATTEMPT_FROM[T] = changes_of(T)
+            RUN_FROM.setdefault(T, ATTEMPT_FROM[T])
         try:
             rc, out = one(T, work)
         except subprocess.TimeoutExpired:
             rc, out = 124, "시간 초과"
+        except Exception as e:   # build() 안의 예외(auto_quarter_due 등)도 그 카드를 되돌리고 실패로 — 동시 실행에서 반쯤 고친 카드가 커밋되지 않게(Fable 2026-10-23)
+            rc, out = 1, f"{type(e).__name__}: {e}"
         if rc == 0:
             break
         restore(bk)   # 전날 상태로
     if rc:
         tail = [l for l in out.strip().splitlines() if l.strip()][-6:]
-        print(f"{T}: 실패 — {tail[-1][:200] if tail else ''}", flush=True)
+        say(f"{T}: 실패 — {tail[-1][:200] if tail else ''}")
         return {"status": "failed", "seconds": round(time.time() - t0), "why": tail}
-    print(f"{T}: ok ({round(time.time() - t0)}초)", flush=True)
+    say(f"{T}: ok ({round(time.time() - t0)}초)")
     return {"status": "ok", "seconds": round(time.time() - t0)}
 
 
@@ -463,7 +501,46 @@ def close_off_cards(cards, skip=()):
     return off
 
 
+def run_cards(tickers, work, jobs):
+    """카드별 결과를 tickers 순서로 돌려준다. 은행은 한 묶음으로 차례대로(COF 먼저), 나머지는 jobs개씩 동시에."""
+    lanes = [[T for T in tickers if T in BANKS]] + [[T] for T in tickers if T not in BANKS]
+    lanes = [l for l in lanes if l]
+    def safe(T):   # 한 장의 예외가 다른 카드의 결과를 지우지 않게 — 그 카드만 실패로(Codex 2026-10-23)
+        try:
+            return attempt(T, work)
+        except Exception as e:
+            say(f"{T}: 실패 — {type(e).__name__}: {e}"[:300])
+            return {"status": "failed", "why": [f"{type(e).__name__}: {e}"[:300]]}
+
+    with ThreadPoolExecutor(max_workers=jobs) as ex:
+        done = {}
+        for res in ex.map(lambda lane: [(T, safe(T)) for T in lane], lanes):
+            done.update(res)
+    return {T: done[T] for T in tickers}
+
+
+def tidy_changes(ok):
+    """동시 실행 뒤 refresh_changes.jsonl을 한 장씩 돌린 것과 같게: 실패한 카드의 줄과, 성공한 카드라도 실패한 앞 시도의 줄을 뺀다.
+    한 장씩일 때는 attempt()가 시도마다 이 파일을 되돌려 같은 결과가 된다."""
+    p = os.path.join(REPO, CHANGES)
+    if not os.path.exists(p):
+        return
+    seen, out = {}, []
+    for l in open(p, encoding="utf-8").read().splitlines(keepends=True):
+        try:
+            T = json.loads(l).get("ticker")
+        except ValueError:
+            T = None
+        if T in ATTEMPT_FROM:   # 이번 실행에 돈 카드: 실행 전 줄은 두고, 그 뒤로는 성공한 마지막 시도의 줄만
+            k = seen[T] = seen.get(T, 0) + 1
+            if k > RUN_FROM[T] and not (T in ok and k > ATTEMPT_FROM[T]):
+                continue
+        out.append(l)
+    open(p, "w", encoding="utf-8").write("".join(out))
+
+
 def main():
+    global PARALLEL
     weekly = "--weekly" in sys.argv
     check_approved()
     session = json.load(open(os.path.join(REPO, "site_data", "stocks.json")))["priceSession"]
@@ -479,10 +556,18 @@ def main():
             print(f"{session} 세션은 이미 끝났다({old['finished']}) — 건너뜀"); return
         if behind:
             print(f"자기 세션보다 뒤처졌거나 홈 종가와 다른 카드 {len(behind)}장이 있어 전체를 다시 만든다: {' '.join(sorted(behind))}", flush=True)
-    want = [a.upper() for a in sys.argv[1:] if not a.startswith("--")]
+    want = list(dict.fromkeys(a.upper() for a in sys.argv[1:] if not a.startswith("--")))   # 같은 종목 두 번이면 동시에 같은 파일을 쓴다(Codex)
     tickers = want or (gen_tickers() + BANKS + HAND)
     work = os.path.join(V2, ".sec_cache", "_work", "daily")
     os.makedirs(work, exist_ok=True)
+    # 공시 자동 반영(기준표를 고친다)보다 먼저 — 여기서 실패하면 되돌릴 것이 없게(Codex 2차)
+    jobs = 1 if weekly else max(1, int(os.environ.get("V2_JOBS") or 1))
+    PARALLEL = jobs > 1
+    if PARALLEL:   # 동종 카드의 PER 해당 없음을 실행 전 값으로 고정한다(build_peer_score.peer_per_na)
+        snap = os.path.join(work, "perna_snapshot.json")
+        json.dump({f[:-len("_multiples.json")]: bool(json.load(open(os.path.join(V2, f))).get("perNA"))
+                   for f in os.listdir(V2) if f.endswith("_multiples.json")}, open(snap, "w"))
+        os.environ["V2_PERNA_SNAPSHOT"] = snap
     before = verdicts()
     status = {"mode": "weekly" if weekly else "daily", "session": session, "full": not want, "problems": [], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "cards": {}}
     if weekly:
@@ -491,9 +576,15 @@ def main():
     moved = auto_approve(status, session, set(tickers))
     omoved = outside_approve(status, session, set(tickers))
     try:
-        for T in tickers:
-            status["cards"][T] = attempt(T, work)
+        if PARALLEL:
+            print(f"카드 {len(tickers)}장을 {jobs}장씩 동시에(은행 {len([T for T in tickers if T in BANKS])}장은 차례대로)", flush=True)
+            status["cards"].update(run_cards(tickers, work, jobs))
+        else:
+            for T in tickers:
+                status["cards"][T] = attempt(T, work)
     finally:
+        if PARALLEL:
+            tidy_changes({T for T, v in status["cards"].items() if v["status"] == "ok"})
         # 자동 반영한 카드가 실패했거나(예외로 루프가 끊겨) 돌지 않았으면 그 회사의 기준표 날짜를 되돌린다 —
         # 카드는 attempt()가 이미 이전 분기로 되돌렸다(분기가 섞이지 않게, Codex)
         reverted = [T for T in moved if status["cards"].get(T, {}).get("status") != "ok"]

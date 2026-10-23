@@ -1457,6 +1457,29 @@ def test_carry_prices():
           m2["tickers"][0]["price"]["status"] == "stale", m2)
 
 
+def test_merge_tier_history():
+    """The v2 rebuild's push retry (v2_cards.yml, 2026-10-23): both sides appended to tier_history.json."""
+    import merge_tier_history as mt
+    e = lambda t, d, tier="적정": {"ticker": t, "evaluatedAt": d, "ruleVersion": "v2-verdict", "publishedTier": tier}
+    base = [e("AAA", "2026-10-20")]
+    ours = base + [e("TRGP", "2026-10-22"), e("TDG", "2026-10-22")]      # the person's card pushes
+    theirs = base + [e("ELV", "2026-10-22"), e("TDG", "2026-10-22")]     # the rebuild
+    got = mt.merge(base, ours, theirs)
+    check("tier merge: union in order, a shared entry once",
+          [x["ticker"] for x in got] == ["AAA", "TRGP", "TDG", "ELV"], got)
+    edited = [e("AAA", "2026-10-20", "고평가")]
+    check("tier merge: a one-sided edit is kept", mt.merge(base, base, edited) == edited)
+    check("tier merge: a one-sided removal is kept", mt.merge(base, [], base) == [])
+    for name, a, b in (("both edit one entry", edited, [e("AAA", "2026-10-20", "저평가")]),
+                       ("both add one key differently", base + [e("X", "d")], base + [e("X", "d", "고평가")]),
+                       ("a duplicate key", base + base, base)):
+        try:
+            mt.merge(base, a, b)
+            check(f"tier merge: refuses {name}", False)
+        except ValueError:
+            check(f"tier merge: refuses {name}", True)
+
+
 if __name__ == "__main__":
     test_prose_stamp()
     test_valuation_render()
@@ -1472,4 +1495,5 @@ if __name__ == "__main__":
     test_card_updater()
     test_backfill()
     test_carry_prices()
+    test_merge_tier_history()
     print(f"OK - {len(PASSED)} checks passed")

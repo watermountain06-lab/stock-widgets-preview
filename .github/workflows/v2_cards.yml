@@ -131,6 +131,7 @@ jobs:
           MODE: ${{ steps.mode.outputs.mode }}
           TICKERS: ${{ inputs.tickers }}
           OPENDART_KEY: ${{ secrets.OPENDART_KEY }}   # SKHY 정기보고서(OpenDART, 2026-10-12)
+          V2_JOBS: "4"   # 매일 실행은 카드 4장씩 동시에(러너 4코어, 2026-10-23) — 토요일은 daily_price.py가 한 장씩으로 되돌린다
         run: |
           # 종목 입력은 환경 변수로 받아 형식을 확인한다(셸에 직접 넣지 않는다 — Codex)
           args=()
@@ -184,6 +185,14 @@ jobs:
           # 가격 작업과 push가 겹치면 거절된다 — 받아서 다시(경로는 겹치지 않는다, Codex)
           # 실행 중에 사람이 같은 카드 파일을 고친 커밋을 올리면 rebase가 충돌한다(2026-10-09 02:53 UTC, 9dcdf6a). 충돌한 rebase는
           # 되돌리고 다시 — 그래도 안 되면 실패로 끝낸다(메일). 감시 작업이 v2 재빌드를 다시 시작한다.
+          # tier_history.json은 양쪽이 끝에 한 줄씩 더하는 목록이라, 실행 중 사람이 카드를 더하면 줄 단위 병합이 늘 충돌한다
+          # (2026-10-23: TRGP·TDG push와 겹쳐 세 번 다 실패, 10-22 카드를 날림). 항목 키(종목·날짜·규칙)로 합친다 — 같은
+          # 항목을 양쪽이 다르게 고쳤을 때만 충돌로 남긴다. 이 실행에만 건다(.git/info, 사람의 저장소 설정은 그대로).
+          # 스크립트는 이 실행이 시험한 판으로 고정한다 — rebase 중에는 받은 main 쪽 파일이 놓인다(Fable)
+          cp pipeline/merge_tier_history.py "$RUNNER_TEMP/merge_tier_history.py"
+          git config merge.tierhistory.driver "python3 $RUNNER_TEMP/merge_tier_history.py %O %A %B"
+          mkdir -p .git/info
+          echo 'site_data/tier_history.json merge=tierhistory' >> .git/info/attributes
           pushed=false
           for i in 1 2 3; do
             if git pull --rebase && git push; then pushed=true; break; fi
