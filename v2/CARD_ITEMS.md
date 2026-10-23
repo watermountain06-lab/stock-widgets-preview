@@ -1728,3 +1728,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(ALL에만)** — EV_TAGS_BY_CIK(현금 Cash $840M·단기 증권 제외, 우선주 PreferredStockIncludingAdditionalPaidInCapital $2,001M), OP_DISPLAY 순이익 + 법인세 + 이자비용(세전 태그 2025-12 멈춤), Q4 EPS 2025 $14.37.
 - **판단** — 최근 이익(PER 5배)에 보험료 인상·낮은 자연재해·준비금 환입·투자 이익·사업 매각 이익이 겹침(MODEL_NOTE·YOY_NOTE), 매출 구성은 부문 수익(보험료 + 기타). 안건 E44(PBR 분모 우선주)·E45(장 마감 뒤 공시의 반영일 — 전 카드 공통, Codex r2는 카드 표기도 권함).
 - **dr** — Codex 2라운드·Fable.
+
+## COR — 의약품 도매 유통 (2026-10-22, 카드 167, 시총 166위)
+
+- **판정 적정~고평가(0, 0, −2)** — 자기 이력 36.1(PER 제외 — 순이익률 2% 미만), 동종업 54.6, 현금흐름 0 이하. 기준 Q3 FY26 10-Q(8/5).
+- **엔진(COR에만)** — DDA_PARTS_BY_CIK(DepreciationNonproduction + AmortizationOfIntangibleAssets, 합산 태그 제외 — EV/EBITDA 이력 55일 → 1,232일), DEBT_TOTAL_TAG(단기 + 장기 $11,723M), BB_TAGS PaymentsForRepurchaseOfEquity, Q4 EPS FY25 −$1.75, NEXT_CONFIRMED 11/4.
+- **판단** — 매각 예정 MWI 재분류가 운전자본·재투자를 키움(안건 E46, 빼도 0 이하), 소송 부채 약 $4.2B는 차입금 밖. 급락일 뉴스에 공시 악재·FY26 매출 성장 전망 7~9% → 4~6%(BSX 선례), Walgreens 물량 이탈 8-K.
+- **dr** — Codex 2라운드·Fable.

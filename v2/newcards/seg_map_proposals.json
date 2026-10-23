@@ -2889,5 +2889,24 @@
     "#06306a"
    ]
   }
+ },
+ "COR": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "cor:USHealthcareSolutionsMember": [
+    "미국 헬스케어 솔루션",
+    "#461e7d"
+   ],
+   "cor:InternationalHealthcareSolutionsMember": [
+    "해외 헬스케어 솔루션",
+    "#8a63c2"
+   ]
+  }
  }
 }

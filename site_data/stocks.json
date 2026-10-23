@@ -7125,6 +7125,47 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "COR",
+      "name": "Cencora",
+      "sector": "헬스케어 — 의약품 도매 유통, 동물 의약품, 전문 의료 서비스",
+      "href": "COR_full_widget.html",
+      "cardRank": 167,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 340.43,
+        "prevClose": 343.27,
+        "session": "2026-10-21",
+        "prevSession": "2026-10-20",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 190827165,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0001140859-26-000034 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 37.5,
+        "grade": "미흡",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": []
+      }
     }
   ]
 }

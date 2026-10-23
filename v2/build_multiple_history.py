@@ -102,6 +102,9 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     # CTAS: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 듬성듬성해(24개) EV/EBITDA 이력이 138일뿐이었다 —
                     # 현금흐름표 Depreciation + "Amortization"(AdjustmentForAmortization — 계약 비용 상각 포함; AmortizationOfIntangibleAssets는 Q1 FY27에 무형자산만 14.9로 좁아짐) = 78.9 + 48.4 = 127.3 = 합산 태그(2026-10-22).
                     "0000723254": ["Depreciation", "AdjustmentForAmortization"],
+                    # COR: 합산 태그 DepreciationDepletionAndAmortization는 22개뿐이라 EV/EBITDA 이력이 55일이었다 — 손익계산서 "Depreciation"(DepreciationNonproduction)
+                    # + "Amortization"(AmortizationOfIntangibleAssets) = 9개월 FY26 417.4 + 361.8 = 779.2 = 합산 태그(2026-10-22). Depreciation(432.0)은 다른 범위라 쓰지 않는다.
+                    "0001140859": ["DepreciationNonproduction", "AmortizationOfIntangibleAssets"],
                     # CME: 손익계산서 "Depreciation and amortization" 줄을 10-Q는 Depreciation, 10-K 연간은 DepreciationAndAmortization으로 낸다 —
                     # 둘을 한 구성요소로 합쳐야 4분기가 생긴다(없으면 4분기 감가상각이 빠져 TTM이 $233M, 2026-10-16). 무형자산 상각은 따로.
                     "0001156375": [("Depreciation", "DepreciationAndAmortization"), "AmortizationOfIntangibleAssets"],
@@ -659,6 +662,7 @@ EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessed
                 # 최근 4분기 D&A가 $2,916M(실제 $3,173M)이었다(Codex 2026-10-22). 손익계산서 줄을 뺀다.
                 "0000027419": ("DepreciationAndAmortization",),
                 "0000723254": ("DepreciationDepletionAndAmortization",),   # CTAS — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
+                "0001140859": ("DepreciationDepletionAndAmortization",),   # COR — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0001674101": ("DepreciationDepletionAndAmortization",),   # VRT — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-21)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
@@ -1432,6 +1436,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # GM: 자동차 부문 빚만(CAT·DE와 같은 규칙, 2026-09-30 사용자 결정) — 재무상태표가 차입금을 gm:BusinessGroupAxis(Automotive/GM Financial)로만 싣는다.
                   # BUILD dim_facts가 overlay에 싣는다. Q3 2026: 1년 안 529 + 장기 15,270 = $15,799M(GM Financial $112,944M 제외, 2026-10-22).
                   "0001467858": ["DebtCurrentAutoGm", "LongTermDebtAutoGm"],
+                  # COR: 내재가치 입력이 장기 $11,444M만 잡았다 — 단기 차입금(DebtCurrent $279M)을 더한다(배수 쪽은 LongTermDebt $11,723M로 이미 같은 값, 2026-10-22).
+                  "0001140859": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # BSX: 1년 안 차입금(DebtCurrent, 2026-06 $1,709M — 기업어음 포함)이 기본 합에서 빠져 장기 $10,915M뿐이었다(2026-10-22).
                   "0000885725": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DE: 장비 부문 빚만(CAT과 같은 규칙). 부문 차입금은 10-Q·10-K 보충 표에 태그 없이 있어 `adapters/de_equipment_debt.py`가
