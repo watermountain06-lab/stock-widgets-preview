@@ -7289,6 +7289,45 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "FAST",
+      "name": "Fastenal",
+      "sector": "산업재 — 산업용 소모품·체결 부품 유통(자판기·현장 매장)",
+      "href": "FAST_full_widget.html",
+      "cardRank": 171,
+      "cardAsOf": "2026-10-21",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-21 ≠ 홈 가격 세션 2026-10-22, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 1147301488,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-13",
+        "filedAt": "2026-10-19",
+        "filing": "10-Q 0000815556-26-000049 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 75.8,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-21",
+        "qualityFlags": []
+      }
     }
   ]
 }
