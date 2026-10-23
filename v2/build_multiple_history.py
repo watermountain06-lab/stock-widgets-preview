@@ -447,6 +447,8 @@ EXTRA_TAGS = {
     # NEE: 손익계산서 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q2 2026 $7,534M)다. RevenueFromContractWithCustomerIncludingAssessedTax는
     # 주석의 고객 계약 매출(0.1B 단위 반올림, $6.7B)이라 뺀다(EXCLUDE_TAGS). 설비투자·이자비용은 회사 고유 태그라 표준 데이터에 없다(2026-10-02).
     "0000753308": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
+    # XEL: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q2 2026 $3,119M) — Revenues 태그는 2019-09에 멈췄다(NEE와 같은 경우, 2026-10-23)
+    "0000072903": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
     # 2020-09에 멈춘 PaymentsToAcquireProductiveAssets를 잡아 PCR 계산 불가였다(2026-10-02).
     "0000024741": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},
@@ -1314,6 +1316,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # XEL: 기본 합계가 1년 안 장기부채(LongTermDebtAndCapitalLeaseObligationsCurrent $999M)를 빠뜨렸다 — 단기 + 1년 안 장기 + 장기.
+                  # Q2 2026: 2,510 + 999 + 35,948 = 39,457(10-Q 대조, Codex·Fable r1, 2026-10-23)
+                  "0000072903": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # ADSK: 기본 합계가 대체값으로 떨어졌다($3,494M) — 단기 차입(CP) + 1년 안 사채 + 장기 사채. Q2 FY27: 994 + 499 + 1,985 = 3,478(10-Q 대조, 2026-10-23)
                   "0000769397": ["ShortTermBorrowings", "NotesPayableCurrent", "LongTermNotesPayable"],
                   # AME: 기본 합계가 장기만 잡았다($1,056M) — 1년 안 차입(CP 포함) + 장기. Q2 2026: 980.6 + 1,055.5 = 2,036.2(10-Q 대조, 2026-10-23)

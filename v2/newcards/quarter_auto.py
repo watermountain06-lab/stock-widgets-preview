@@ -55,7 +55,10 @@ def quarters(T, cik):
     ends = sorted(e["end"] for e in q)
     facts = bmh._facts(cik).get("facts", {}).get("us-gaap", {})
     fy_ends = set()
-    for tag in bmh.FLOW_TAGS["revenue"]:
+    # 회사별 추가 매출 태그(bmh.EXTRA_TAGS — XEL·NEE의 RegulatedAndUnregulatedOperatingRevenue)도 본다. 기본 목록만 보면 Revenues가 멈춘
+    # 해 뒤로 회계연도 말을 몰라 4분기를 다음 해 1분기로 셌다(XEL 2026-10-23)
+    _extra = [t_ for tg in bmh.FLOW_TAGS["revenue"] for t_ in bmh.EXTRA_TAGS.get(cik, {}).get(tg, [])]
+    for tag in list(bmh.FLOW_TAGS["revenue"]) + _extra:
         for r in facts.get(tag, {}).get("units", {}).get("USD", []):
             if r.get("form", "").startswith("10-K") and "start" in r and 350 <= (d(r["end"]) - d(r["start"])).days <= 380:
                 fy_ends.add(r["end"])
