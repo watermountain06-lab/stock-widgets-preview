@@ -1454,6 +1454,8 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
                   # TDG: 매출채권 유동화 차입(ShortTermBankLoansAndNotesPayable $725M)이 빠져 1년 안 139 + 장기 32,621뿐이었다 — 합 $33,485M(2026-06, 10-Q 재무상태표).
                   # 장기 태그는 2020-09부터 LongTermDebtAndCapitalLeaseObligations(금융리스 포함), 그 전 날짜는 LongTermDebtNoncurrent(튜플 앞 우선, 2026-10-22).
                   "0001260221": ["LongTermDebtCurrent", "ShortTermBankLoansAndNotesPayable", ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],
+                  # TEL: 단기 차입금(DebtCurrent $102M)이 기본 합에서 빠져 장기 $5,530M뿐이었다(2026-10-23).
+                  "0001385157": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # BSX: 1년 안 차입금(DebtCurrent, 2026-06 $1,709M — 기업어음 포함)이 기본 합에서 빠져 장기 $10,915M뿐이었다(2026-10-22).
                   "0000885725": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DE: 장비 부문 빚만(CAT과 같은 규칙). 부문 차입금은 10-Q·10-K 보충 표에 태그 없이 있어 `adapters/de_equipment_debt.py`가
@@ -1535,7 +1537,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# TDG: 비지배지분 = 비상환 $9M + 상환 가능 $81M(2026-03부터, 2026-10-22).
+EV_TAGS_BY_CIK = {# TEL: 비지배지분은 상환 가능 비지배지분 $147M(재무상태표) — 기본 태그는 2024-03에 멈춤(2026-10-23).
+                  "0001385157": {"nci": ["RedeemableNoncontrollingInterestEquityCarryingAmount"]},
+# TDG: 비지배지분 = 비상환 $9M + 상환 가능 $81M(2026-03부터, 2026-10-22).
                   "0001260221": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
 # AON: 비지배지분 = 비상환 $88M + 상환 가능 $24M(2023-12부터 이 두 태그, 기본 태그는 2024-03에 멈춤, 2026-10-22).
                   "0000315293": {"nci": ["NonredeemableNoncontrollingInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},

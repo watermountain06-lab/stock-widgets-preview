@@ -3008,5 +3008,22 @@
     "#b3cce8"
    ]
   }
+ },
+ "MCO": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "mco:MoodysInvestorsServiceMember": [
+    "신용평가(MIS)",
+    "#002b5c"
+   ],
+   "mco:MoodysAnalyticsMember": [
+    "데이터·분석(MA)",
+    "#5b84b8"
+   ]
+  }
  }
 }
