@@ -1819,3 +1819,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — CONCEPTS_BY_CIK InterestExpenseNonoperating, Q4_EPS_OVERRIDE FY2021·2023·2024·2025, build_dcf ACQ_FIXED + ACQ_FIXED_FORCE(인수 $2,052M − Viavi 매각 $399M = $1,653M).
 - **판단** — 2025-10 Spirent·OSG·PowerArtist 인수(Q3 성장 중 약 6%p), Q2 관세 환급 영업이익 약 $57M·Q1 세금 환입 등 일회성, 내재가치가 낮은 이유(인수 재투자·2년 중앙 이익률·21% 세율). 로고는 회사 사이트 아이콘(SEC 공시에 로고 이미지 없음).
 - **dr** — Codex 2라운드·Fable.
+
+## ADSK — 설계·엔지니어링 소프트웨어 (2026-10-23, 카드 180)
+
+- **판정 적정~고평가(+1, 0, −2)** — 자기 이력 93.3, 동종업 61.5(카드 유니버스 IT), 현금흐름 기본 $117 대 $254.95(10/22). 기준 Q2 FY27 10-Q(8/28 장 마감 뒤).
+- **엔진** — DEBT_TOTAL_TAG 단기 차입(CP) + 1년 안 사채 + 장기 사채($3,478M), Q4_EPS_OVERRIDE FY2021·2022·2024·2025·2026, interest_extra.json 이자비용 손입력(Q2 FY27 $23M — 이자보상배율 26배).
+- **판단** — MaintainX $3.5B 인수(8/3, 분기 뒤)·CP는 7월 말 포함·텀론 $1B를 9월 사채로 상환 → 순현금·내재가치는 인수 전 기준(지금은 순차입), PER이 낮은 데 이익 증가 영향, 이연수익·현금창출주기 해석 보정(HEALTH_EXTRA·POST — 정적 문장과 JS 템플릿 둘 다). 로고는 Wikimedia Commons.
+- **dr** — Codex 2라운드·Fable.

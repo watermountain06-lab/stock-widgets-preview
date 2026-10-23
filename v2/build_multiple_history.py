@@ -1310,6 +1310,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # ADSK: 기본 합계가 대체값으로 떨어졌다($3,494M) — 단기 차입(CP) + 1년 안 사채 + 장기 사채. Q2 FY27: 994 + 499 + 1,985 = 3,478(10-Q 대조, 2026-10-23)
+                  "0000769397": ["ShortTermBorrowings", "NotesPayableCurrent", "LongTermNotesPayable"],
                   # AME: 기본 합계가 장기만 잡았다($1,056M) — 1년 안 차입(CP 포함) + 장기. Q2 2026: 980.6 + 1,055.5 = 2,036.2(10-Q 대조, 2026-10-23)
                   "0001037868": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # NUE: 장기 비유동 태그(LongTermDebtNoncurrent)가 2019년에 멈춤 — 재무상태표 단기 차입 + 1년 안 장기·금융리스 + 1년 뒤 장기·금융리스.
