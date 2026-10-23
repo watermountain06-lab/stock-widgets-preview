@@ -246,6 +246,10 @@ def base_inputs(ticker, asof=None):
     if not fin_lease or _last_end(_fl_parts) > _last_end(_fl_tot):
         fin_lease = latest(_fl_parts, asof) or fin_lease
     fin_lease = fin_lease or 0
+    # GWW: FinanceLeaseLiability가 2019-01-01(ASC 842 도입일) 한 번뿐 — 10-Q 재무상태표에 금융리스 줄이 없다. 낡은 $205M을 쓰지 않는다(Codex·Fable r1, 2026-10-23).
+    # 금융리스에 낡음 필터가 없는 것은 전 카드 공통(안건 E49)
+    if cik in ("0000277135",):
+        fin_lease = 0
     # 총차입금 태그를 지정한 회사(bmh.DEBT_TOTAL_TAG, MU = DebtAndCapitalLeaseObligations)는 금융리스가
     # 차입금에 이미 들어 있다 — 리스에 또 더하면 두 번 뺀다(MU 2026-05 $2.67B, 2026-09-26).
     # 합계 태그가 금융리스를 포함하는지는 태그 이름으로 가른다(LLY의 DebtCurrent+LongTermDebtNoncurrent는 불포함 — Fable).

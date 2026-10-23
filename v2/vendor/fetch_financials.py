@@ -77,6 +77,9 @@ CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNono
                    "0001059556": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # OKE: InterestExpense 태그가 2024-03에 멈춤 — 손익계산서 "Interest expense (net of capitalized interest)"(InterestExpenseNonoperating, 2022년부터)(2026-10-23, Codex·Fable r1)
                    "0001039684": {"interestExpense": ["InterestExpenseNonoperating"]},
+                   # GWW: InterestExpense 태그가 2019-09에 멈춤 — 손익계산서 "Interest expense – net"(InterestIncomeExpenseNet, 음수로 실림)(2026-10-23)
+                   "0000277135": {"interestExpense": ["InterestIncomeExpenseNet"],
+                                  "accountsPayable": ["AccountsPayableTradeCurrentAndNoncurrent", "AccountsPayableCurrent"]},   # 매입채무 $1,280M(Codex r1)
                    # WM: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q2 2026 −$233M)만 분기로 낸다 — InterestExpense는 2013년에 멈춤(2026-10-21)
                    "0000823768": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "inventory": ["Supplies"]},   # 재고 = "Parts and supplies"(Supplies)
                    # CME: 이자비용을 "Interest and other borrowing costs"(InterestAndDebtExpense, Q2 2026 $43.6M)로만 낸다(2026-10-16)

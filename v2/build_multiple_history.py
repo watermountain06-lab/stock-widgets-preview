@@ -651,6 +651,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # GWW: DepreciationDepletionAndAmortization는 부문 주석 "감가상각·상각·비현금 리스비용" 합계(6개월 165) — 현금흐름표 D&A(DepreciationAndAmortization, 128)를 쓴다(Codex·Fable r1, 2026-10-23)
+                "0000277135": ("DepreciationDepletionAndAmortization",),
                 # DDOG: DepreciationDepletionAndAmortization(상반기 $34.1M)는 현금흐름표 "Depreciation and amortization"(DepreciationAndAmortization, $37.4M)보다 작다 — 현금흐름표 줄만(2026-10-21).
                 "0001561550": ("DepreciationDepletionAndAmortization",),
                 # WMB: RevenueFromContractWithCustomerExcludingAssessedTax는 대리·트레이딩 거래를 순액으로 줄이기 전 계약 매출(Q2 2026 $3,379M — 10-Q 주석 4

@@ -1784,3 +1784,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — EV_TAGS nci(비상환 + 상환 가능), CONCEPTS_BY_CIK interestExpense InterestExpenseNonoperating(이자보상배율 약 4배), SEG_ADJ −2,005(부문 간 거래).
 - **판단** — Apollo $9B 소수 지분 투자(9/10 완료, 지주회사 재편 — CIK 그대로)·Brazos $4.425B 인수(10/6 완료)는 Q2 뒤라 숫자에 없음, 과거 성장 24.9%는 인수·상품 가격 포함(헤더 표기), 체크포인트 ①·시나리오 문장 POST, 다음 실적 10/27 장 마감 뒤.
 - **dr** — Codex 3라운드·Fable. 별도: TFC 보류(Q3 10-Q 전·은행), NXPI 해외 발행사(대상 아님).
+
+## GWW — MRO 산업용품 유통 (2026-10-23, 카드 175)
+
+- **판정 고평가(−1, −1, −2)** — 자기 이력 5.2, 동종업 23.6(S&P500 산업재), 현금흐름 기본 $611 대 $1,360.08(10/22). 기준 Q2 2026 10-Q(8/4 장 마감 뒤).
+- **엔진** — CONCEPTS_BY_CIK interestExpense 순이자·accountsPayable, EXCLUDE_TAGS D&A(부문 주석 합계 대신 현금흐름표 $257M), 낡은 금융리스 $205M(2019-01-01) 제외(build_dcf GWW, 일반 필터는 안건 E49), build_activity_score AP_TAG_BY_CIK(DPO 36.3일).
+- **판단** — Q3 2025 영국 철수 손실이 TTM EPS에(체크포인트 ② 손실 제외 15.2% 병기), Q2 관세 환급 $43M, MonotaRO 비지배지분 장부가 한계, 8/3 CFO 사임, 다음 실적 11/4(회사 IR 이벤트 피드).
+- **dr** — Codex 3라운드·Fable.
