@@ -603,8 +603,8 @@ function buyBox(args) {
   const nowDay = depositTiming(new Date(model.now ?? Date.now()).toISOString()).day;
   const useMonth = mv?.demo ? nextMonthOf(month) : month;   // 시연 달이면 실제로 쓰는 것은 다음 달
   if (nowDay && (mv?.demo || ahead || nowDay.slice(0, 7) !== month)) {
-    money.appendChild(el('p', 'pf-note pf-depnote', `지금 기록하면 반영일 ${md(nowDay)} → ${+nowDay.slice(5, 7)}월 몫입니다.`
-      + (useMonth && nowDay.slice(0, 7) < useMonth ? ` ${+useMonth.slice(5)}월에 쓰려면 반영일이 ${+useMonth.slice(5)}월이어야 합니다(그달 첫 거래일 전날 장 마감 뒤 기록).` : '')));
+    money.appendChild(el('p', 'pf-note pf-depnote', `지금 기록하면 ${+nowDay.slice(5, 7)}월 몫(${md(nowDay)} 반영).`
+      + (useMonth && nowDay.slice(0, 7) < useMonth ? ` ${+useMonth.slice(5)}월 몫은 ${+useMonth.slice(5)}월 첫 거래일 전날 장 마감 뒤에 기록.` : '')));
   }
   const D = Math.round(deps.now.filter((d) => d.amount > 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const X = Math.round(-deps.now.filter((d) => d.amount < 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
@@ -614,30 +614,28 @@ function buyBox(args) {
   const fillCells = ({ week, weekLabel, weekNote, future, dates, next, preview }) => {
     const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); d.appendChild(el('span', 'pf-s', sub)); cells.appendChild(d); return d; };
     const laterSum = deps.later.reduce((a, d) => a + d.amount, 0);
-    const p1 = deps.now.filter((d) => d.amount > 0).map((d) => `${md(d.day)} ${usd(d.amount)}` + (d.day > today ? ' 반영 예정' : ''));
-    if (!p1.length) p1.push(`반영일(기록 다음 장 시작)이 ${mLabel}인 입금 없음`);
+    const p1 = deps.now.filter((d) => d.amount > 0).map((d) => `${md(d.day)} ${usd(d.amount)}` + (d.day > today ? ' 예정' : ''));
+    if (!p1.length) p1.push('입금 없음');
     if (X > 0) p1.push(`출금 −${usd(X)}`);
-    if (soldPrev > 0) p1.push(`${ahead ? '이번 달' : '지난달'} 판 돈 +${usd(soldPrev)}`);
-    if (carry > 0) p1.push(`${ahead ? '이번 달' : '지난달'} 잔금 +${usd(carry)}`);
-    if (deps.later.length) p1.push(`다음 달 이후 ${laterSum < 0 ? '출금 ' + usd0(-laterSum) : '몫 ' + usd0(laterSum)}`);
-    if (soldNow > 0) p1.push(`${mLabel} 판 돈 ${usd0(soldNow)}은 다음 달 몫`);
-    p1.push(`→ 매수 한도 ${usd(budget)}`);
+    if (soldPrev > 0) p1.push(`판 돈 +${usd(soldPrev)}`);
+    if (carry > 0) p1.push(`잔금 +${usd(carry)}`);
+    if (deps.later.length) p1.push(`다음 달 ${laterSum < 0 ? '출금 ' + usd0(-laterSum) : usd0(laterSum)}`);
+    if (soldNow > 0) p1.push(`판 돈 ${usd0(soldNow)} 다음 달로`);
+    p1.push(`한도 ${usd(budget)}`);
     cell(`${mLabel} 입금` + (ahead ? '(예상)' : ''), usd(D), p1.join(' · '));
     // 매수 완료 A와 앞으로 P는 늘 보이고(P를 모르면 —), 상태 안내는 앞에 붙인다(dr)
-    cell(weekLabel, week == null ? '—' : usd(week), (weekNote ? weekNote + ' · ' : '') + `${mLabel} 매수 완료 ${usd(spent)} · 앞으로 ${future == null ? '—' : usd(future)}`);
+    cell(weekLabel, week == null ? '—' : usd(week), (weekNote ? weekNote + ' · ' : '') + `산 돈 ${usd(spent)} · 남음 ${future == null ? '—' : usd(future)}`);
     const ended = !preview && dates && dates.length && !next;
     const c3 = cell('계좌 현금' + (ahead ? ` (${md(today)} 기준)` : ''), C == null ? '—' : usd(C),
-      over > 0 ? `한도 초과 ${usd(over)} — 평소 안 쓰는 현금을 썼습니다(원칙 5)`
-        : C == null ? '현금 모름(올린 보유에 현금 줄 없음)'
-        : ahead ? (budget > 0 ? `${mLabel} 매수는 매수 한도 ${usd(budget)}(입금·판 돈·잔금)로 합니다 · 그 밖의 현금은 평소 안 쓰는 현금(원칙 5)` : `${mLabel} 매수는 ${mLabel} 입금으로 합니다 · 지금 현금은 평소 안 쓰는 현금(원칙 5)`)   // 미래 입금을 지금 현금에서 빼지 않는다(dr)
-        : ended ? `${mLabel} 4회 끝 · 남은 ${usd(R)}는 다음 달 몫 · 나머지 ${usd(Math.max(0, C - R))}는 평소 안 쓰는 현금(원칙 5)`
-        : `${mLabel} 더 쓸 수 있는 돈 ${usd(Math.min(R, Math.max(0, C)))} · 나머지 ${usd(Math.max(0, C - R))}는 평소 안 쓰는 현금(원칙 5)`, 'pf-receiptleft');
+      over > 0 ? `한도 초과 ${usd(over)}(원칙 5)`
+        : C == null ? '현금 모름'
+        : ahead ? (budget > 0 ? `${mLabel}엔 한도 ${usd(budget)}만 씀 · 나머지는 안 쓰는 돈(원칙 5)` : '안 쓰는 돈(원칙 5)')   // 미래 입금을 지금 현금에서 빼지 않는다(dr)
+        : ended ? `${usd(R)} 다음 달로 · 나머지는 안 쓰는 돈(원칙 5)`
+        : `쓸 수 있음 ${usd(Math.min(R, Math.max(0, C)))} · 나머지는 안 쓰는 돈(원칙 5)`, 'pf-receiptleft');
     if (over > 0) c3.classList.add('pf-over');
     // 잔금 칸: 지난달에서 넘어온 돈, 회차가 끝났으면 이번 달 남은 돈이 다음 달로 간다
     cell(ended ? '다음 달로 넘길 잔금' : ahead ? `${mLabel}로 넘어올 잔금(예상)` : '지난달 잔금', usd(ended ? R : carry),
-      ended ? `남은 ${usd(R)} → 다음 달 쓸 돈에 더함(원칙 3)`
-      : carry > 0 ? (ahead ? '지금 기록 기준 · 이번 달 매수·매도에 따라 바뀜 · ' : '') + '매수 한도에 이미 들어 있음'
-      : '4회가 끝나고 남는 돈은 다음 달로(원칙 3)');
+      ended ? '다음 달 한도에 더함(원칙 3)' : carry > 0 ? '한도에 포함' + (ahead ? ' · 이번 달 매매로 바뀜' : '') : '4회 뒤 남은 돈은 다음 달로(원칙 3)');
     // 4회 띠
     strip.textContent = '';
     if (!dates || !dates.length) return;
@@ -669,7 +667,7 @@ function buyBox(args) {
     return box;
   }
   const { plan } = mv;
-  if (!plan.candidates.length) { const act0 = plan.rounds.filter((r) => !r.dropped); fillCells({ week: null, weekLabel: '이번 주 매수', weekNote: '이번 달 후보 없음', future: null, dates: act0.map((r) => r.date), next: mv.next ? mv.next.date : null }); box.appendChild(el('p', 'pf-note', '이번 달 원칙 1·6을 통과한 살 후보가 없습니다.')); freshSection(args, box, plan, bought); return box; }
+  if (!plan.candidates.length) { const act0 = plan.rounds.filter((r) => !r.dropped); fillCells({ week: null, weekLabel: '이번 주 매수', weekNote: '후보 없음', future: null, dates: act0.map((r) => r.date), next: mv.next ? mv.next.date : null }); box.appendChild(el('p', 'pf-note', '이번 달 원칙 1·6을 통과한 살 후보가 없습니다.')); freshSection(args, box, plan, bought); return box; }
 
   // 2) 나누는 방법(기본값 없음 — 다시 누르면 끈다)
   const method = buyMethod;
@@ -775,7 +773,7 @@ function buyBox(args) {
   const week = ok.length ? Math.round(ok.reduce((a, t) => a + (bp.round[method][t] || 0), 0) * 100) / 100 : null;
   const future = bp && bp.rest[method] ? Math.round(picked.reduce((a, t) => a + (bp.rest[method][t] || 0), 0) * 100) / 100 : null;
   fillCells({ week, weekLabel: mv.next ? `이번 주 매수(${nextIdx}/${rounds}회)` : '이번 주 매수',
-    weekNote: !mv.next ? '이번 달 회차 끝 · 다음 점검은 다음 달 첫 거래일' : !method || !picked.length ? '종목·방법을 고르세요'
+    weekNote: !mv.next ? '회차 끝' : !method || !picked.length ? '종목·방법을 고르세요'
       : bp && !bp.by[method] ? (method === 'cap' ? '시총 없는 종목이 있음' : '무게 밖 판정이 있음') : null,
     future, dates: active.map((r) => r.date), next: mv.next ? mv.next.date : null });
   freshSection(args, box, plan, bought);
