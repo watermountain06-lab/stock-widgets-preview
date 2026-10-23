@@ -540,7 +540,7 @@ function buyBox(args) {
 
   // 1) 돈: 쓸 돈 − 이번 달 산 돈 = 남은 돈(계획 전에는 쓸 돈만), 아래에 더 넣을 돈
   const money = el('div', 'pf-receipt');
-  const cells = el('div', 'pf-receiptrow' + (mv ? '' : ' pf-receiptone'));
+  const cells = el('div', 'pf-receiptrow');
   const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); d.appendChild(el('span', 'pf-s', sub)); cells.appendChild(d); };
   const laterSum = deps.later.reduce((a, d) => a + d.amount, 0);
   const later = (deps.later.length ? ` · 다음 달 이후 ${laterSum < 0 ? '출금 ' + usd0(-laterSum) : '몫 ' + usd0(laterSum)}(${deps.later.map((d) => md(d.day)).join('·')} 반영)` : '')
@@ -548,10 +548,9 @@ function buyBox(args) {
   const parts = deps.now.map((d) => `${md(d.day)} ${d.amount < 0 ? '출금 ' + usd0(-d.amount) : usd0(d.amount)}` + (d.day > today ? ' 반영 예정' : ''));
   if (soldPrev > 0) parts.push(`${ahead ? '이번 달' : '지난달'} 판 돈 ${usd0(soldPrev)}`);
   cell(ahead ? `${+month.slice(5)}월 쓸 돈` : '쓸 돈', usd(budget), (parts.length ? parts.join(' · ') : `반영일(기록 다음 장 시작)이 ${ahead ? +month.slice(5) + '월' : '이번 달'}인 입금`) + later);
-  if (mv) {
-    cell('− 이번 달 산 돈', usd(spent), bought.size ? [...bought.keys()].join(' · ') : '아직 없음');
-    cell('= 남은 돈', usd(Math.max(0, leftUsd)), leftUsd < 0 ? `쓸 돈보다 ${usd(-leftUsd)} 더 샀습니다` : '이 돈만 씁니다(원칙 3)', 'pf-receiptleft');
-  }
+  // 세 칸은 늘 보인다(사용자 결정 2026-10-23 — 점검 전 미리 보기에서도). 미리 보기면 그 점검 달(예: 11월) 기준
+  cell(ahead ? `− ${+month.slice(5)}월 산 돈` : '− 이번 달 산 돈', usd(spent), bought.size ? [...bought.keys()].join(' · ') : '아직 없음');
+  cell('= 남은 돈', usd(Math.max(0, leftUsd)), leftUsd < 0 ? `쓸 돈보다 ${usd(-leftUsd)} 더 샀습니다` : '이 돈만 씁니다(원칙 3)', 'pf-receiptleft');
   money.appendChild(cells);
   const f = el('div', 'pf-receiptadd');
   const lab = el('label'); lab.appendChild(el('span', null, budget > 0 ? '더 넣을 돈' : '넣을 돈'));
