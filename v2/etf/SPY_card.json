@@ -3953,84 +3953,84 @@
  ],
  "crossCheck": {
   "status": "ok",
-  "text": "State Street SPY NAV 이력과 5759일(2003-12-01~2026-10-21) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.61%(2008-10-10), 최근 250세션 최대 0.49% · 마지막 2026-10-22 종가는 NAV 게시 전이라 대조 전(Yahoo 값)"
+  "text": "State Street SPY NAV 이력과 5760일(2003-12-01~2026-10-22) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.61%(2008-10-10), 최근 250세션 최대 0.49%"
  },
  "constituents": {
   "holdings": {
-   "S": "2026-10-21",
+   "S": "2026-10-22",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "NVDA",
      "name": "NVIDIA CORP",
-     "weight": 0.080416022212253,
+     "weight": 0.0778226569777126,
      "card": "NVDA",
      "verdict": "적정~저평가"
     },
     {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.07515529075970832,
+     "weight": 0.07701216734217645,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.059240490327647284,
+     "weight": 0.058631154690383894,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "GOOGL",
      "name": "ALPHABET INC CL A",
-     "weight": 0.05295541672897431,
+     "weight": 0.0519334641720288,
      "card": "GOOGL",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMZN",
      "name": "AMAZON.COM INC",
-     "weight": 0.03855142088994898,
+     "weight": 0.037240691253276954,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "AVGO",
      "name": "BROADCOM INC",
-     "weight": 0.024058480609786596,
+     "weight": 0.023303736172378506,
      "card": "AVGO",
      "verdict": "적정~고평가"
     },
     {
      "company": "META",
      "name": "META PLATFORMS INC CLASS A",
-     "weight": 0.023025772402363236,
+     "weight": 0.021681706097946004,
      "card": "META",
      "verdict": "적정~고평가"
     },
     {
      "company": "TSLA",
      "name": "TESLA INC",
-     "weight": 0.016305753681599856,
+     "weight": 0.015997860684450475,
      "card": "TSLA",
      "verdict": "고평가"
     },
     {
-     "company": "MU",
-     "name": "MICRON TECHNOLOGY INC",
-     "weight": 0.015447912166844,
-     "card": "MU",
-     "verdict": "적정~저평가"
-    },
-    {
      "company": "LLY",
      "name": "ELI LILLY + CO",
-     "weight": 0.015222658968649376,
+     "weight": 0.015845113906483785,
      "card": "LLY",
      "verdict": "고평가"
+    },
+    {
+     "company": "BRKB",
+     "name": "BERKSHIRE HATHAWAY INC CL B",
+     "weight": 0.01543775247051876,
+     "card": "BRKB",
+     "verdict": "판정 보류"
     }
    ],
    "cards": [
@@ -4116,7 +4116,7 @@
     ],
     [
      "BA",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "BAC",
@@ -4176,7 +4176,7 @@
     ],
     [
      "CMI",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "COF",
@@ -4196,7 +4196,7 @@
     ],
     [
      "CRM",
-     "적정"
+     "적정~고평가"
     ],
     [
      "CRWD",
@@ -4204,7 +4204,7 @@
     ],
     [
      "CSCO",
-     "적정~고평가"
+     "고평가"
     ],
     [
      "CSX",
@@ -4271,6 +4271,10 @@
      "고평가"
     ],
     [
+     "FAST",
+     "고평가"
+    ],
+    [
      "FCX",
      "고평가"
     ],
@@ -4296,7 +4300,7 @@
     ],
     [
      "GM",
-     "적정~저평가"
+     "적정"
     ],
     [
      "GOOGL",
@@ -4348,7 +4352,7 @@
     ],
     [
      "ITW",
-     "적정~고평가"
+     "고평가"
     ],
     [
      "JNJ",
@@ -4384,7 +4388,7 @@
     ],
     [
      "LOW",
-     "적정~저평가"
+     "적정"
     ],
     [
      "LRCX",
@@ -4460,7 +4464,7 @@
     ],
     [
      "NEE",
-     "적정~고평가"
+     "고평가"
     ],
     [
      "NEM",
@@ -4568,7 +4572,7 @@
     ],
     [
      "SHW",
-     "적정~고평가"
+     "고평가"
     ],
     [
      "SNDK",
@@ -4588,7 +4592,7 @@
     ],
     [
      "T",
-     "적정"
+     "적정~고평가"
     ],
     [
      "TDG",
@@ -4640,7 +4644,7 @@
     ],
     [
      "UNP",
-     "적정~고평가"
+     "고평가"
     ],
     [
      "UPS",
@@ -4656,7 +4660,7 @@
     ],
     [
      "VLO",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "VRT",
@@ -4701,57 +4705,57 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-10-21",
+   "asOf": "2026-10-22",
    "rows": [
     [
      "Information Technology",
-     38.27
+     37.57
     ],
     [
      "Financials",
-     11.8
+     12.08
     ],
     [
      "Health Care",
-     9.69
+     9.94
     ],
     [
      "Communication Services",
-     9.4
+     9.23
     ],
     [
      "Consumer Discretionary",
-     9.01
+     8.97
     ],
     [
      "Industrials",
-     8.01
+     8.03
     ],
     [
      "Consumer Staples",
-     4.74
+     4.95
     ],
     [
      "Energy",
-     3.72
+     3.73
     ],
     [
      "Utilities",
-     1.97
+     2.04
     ],
     [
      "Real Estate",
-     1.71
+     1.75
     ],
     [
      "Materials",
-     1.67
+     1.7
     ]
    ]
   },
   "chars": {
-   "pe": 24.85,
-   "peAsOf": "2026-10-21"
+   "pe": 24.48,
+   "peAsOf": "2026-10-22"
   },
   "dgs10": {
    "date": "2026-10-21",
@@ -4760,7 +4764,7 @@
  },
  "index": "SPY",
  "name": "SPY",
- "runId": "39901085384.1",
- "runAt": "2026-10-23T04:35:19Z",
+ "runId": "39978566805.1",
+ "runAt": "2026-10-23T15:28:56Z",
  "source": "Yahoo Finance SPY 일봉 종가"
 }
