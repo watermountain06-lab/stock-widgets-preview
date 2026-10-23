@@ -492,3 +492,17 @@ test('마지막 날 평가가 비면 수익률을 아는 마지막 날 기준(su
   const ok = { ...s, days: [s.days[0], { date: '2026-10-21', value: 110, twr: 0.1, vs: { SPY: 1 } }] };
   assert.equal(summarizeKnown(ok).twr, 0.1);
 });
+
+test('출금(2026-10-22): 그달 넣은 돈에서 빠지고(음수 흐름), 입출금 목록에 출금으로 보인다', () => {
+  const all = {
+    'b1:d1': { amount: 500, recordedAt: '2026-11-03T15:00:00Z' },
+    'b1:w1': { amount: 200, kind: 'withdraw', recordedAt: '2026-11-05T15:00:00Z' },
+  };
+  const m = monthDeposits(all, '2026-11');
+  assert.deepEqual(m.now.map((d) => d.amount), [500, -200]);
+  const items = timelineItems({ trades: {}, cur: { skipped: [], future: [], clipped: [] }, bundle: { snapshot: {}, deposits: { d1: all['b1:d1'], w1: all['b1:w1'] } },
+    bundleNo: 1, holdings: {}, now: Date.parse('2026-11-10T00:00:00Z'), etDate });
+  const w = items.find((x) => x.id === 'w1');
+  assert.match(w.title, /^출금 /);
+  assert.match(w.amount, /^−/);
+});

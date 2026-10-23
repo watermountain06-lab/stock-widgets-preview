@@ -291,6 +291,7 @@ function runScenario(ctx, prm, init, keepStates) {
   };
   // 금액 기준 매수: 수량 = 금액 ÷ 종가(내림), 대금 = 수량 × 종가(센트 반올림, 금액을 넘지 않는다). 남은 금액은 현금.
   const buy = (t, amt, d, extra) => {
+    amt = Math.min(amt, Math.max(0, st.cash));   // 현금을 넘겨 사지 않는다(출금 뒤 이미 정한 회차 몫이 현금보다 클 수 있다 — 2026-10-22)
     const c = mk.close(t, d), q = Math.floor((amt * 1e4) / c);
     if (q <= 0) return 0;
     const cost = Math.min(amt, Math.round((q * c) / 1e4));
@@ -310,6 +311,7 @@ function runScenario(ctx, prm, init, keepStates) {
     // 1) 장 시작 전: 입금, 분할
     if (i > init.idx) {
       for (const dep of depositsBy.get(d) || []) {
+        if (dep.amount < 0) { flow -= withdraw(-dep.amount, d, started); continue; }   // 출금(2026-10-22 사용자 결정): 현금에서만
         st.cash += dep.amount; flow += dep.amount;
         if (!started) preDep += dep.amount;
         else if (prm.hold) addPendingA(dep.amount);
@@ -377,6 +379,23 @@ function runScenario(ctx, prm, init, keepStates) {
   // 출발 전·출발일에 지나간 점검일은 결정하지 않는다 — 화면이 설명할 수 있게 사건으로 남긴다
   function dropUnstarted(d) {
     if (!prm.hold && d === cal.checkDay(d) && d >= init.noDecisionBefore) out.events.push({ date: d, kind: 'decisionDropped', checkDate: d, reason: 'notStarted' });
+  }
+
+  // 출금(사용자 결정 2026-10-22): 모든 전략이 현금에서만 뺀다 — 종목은 팔지 않는다. 현금이 모자라면 뺄 수 있는 만큼만 빼고
+  // 못 뺀 돈을 사건(withdrawShort)으로 남긴다. 아직 사지 못한 입금·ETF 몫(pendingA·pendingE)은 현금이므로 남은 현금을 넘지 않게
+  // 같은 비율로 줄인다. 출발 전 출금은 출발 전 입금(preDep)부터 줄인다. 실제로 뺀 센트를 돌려준다(그날 흐름).
+  function withdraw(want, d, started) {
+    const w = Math.min(want, Math.max(0, st.cash));
+    st.cash -= w;
+    if (!started) preDep = Math.max(0, preDep - w);
+    if (w < want) out.events.push({ date: d, kind: 'withdrawShort', amount: (want - w) / 100 });
+    // 두 예약(A 입금 몫·E ETF 몫)을 합쳐 같은 비율로 줄인다(dr — 따로 비교하면 합이 현금을 넘을 수 있다). 정수 내림은 BigInt로
+    const tot = [...pendingA.values(), ...pendingE.values()].reduce((a, x) => a + x, 0);
+    if (tot > st.cash && tot > 0) {
+      const left = BigInt(Math.max(0, st.cash)), T = BigInt(tot);
+      for (const pend of [pendingA, pendingE]) for (const [t, a] of pend) pend.set(t, Number((BigInt(a) * left) / T));
+    }
+    return w;
   }
 
   function addPendingA(amt) {   // 남는 센트는 현금으로 둔다
@@ -642,7 +661,10 @@ function runBaseline(ctx, etf, startIdx, startValue, depositsFrom) {
     const d = cal.sessions[i];
     let flow = 0;
     if (i > startIdx) {
-      for (const dep of depositsBy.get(d) || []) if (i >= depositsFrom) { cash += dep.amount; pending += dep.amount; flow += dep.amount; }
+      for (const dep of depositsBy.get(d) || []) if (i >= depositsFrom) {
+        if (dep.amount < 0) { const w = Math.min(-dep.amount, Math.max(0, cash)); cash -= w; pending = Math.min(pending, cash); flow -= w; continue; }   // 출금: 기준선도 현금에서만
+        cash += dep.amount; pending += dep.amount; flow += dep.amount;
+      }
       for (const s of mk.splitsOn(d)) {
         if (s.ticker !== etf) continue;
         const r = splitAction(s, d, i, cal.sessions[startIdx], seen, valued, own, log, mk, cal);
@@ -747,7 +769,7 @@ function finish(res, ctx, depositsFrom) {
 // input = {
 //   records: [ledger 기록 …],
 //   snapshot: { date: 'YYYY-MM-DD'(시작일, 장 마감 뒤 수량), holdings: {T: 주식 수}, cash: 달러 },
-//   deposits: [{ id, amount(달러), recordedAt(ISO, 서버 시각) } | { id, cancels: 입금 id, recordedAt }],
+//   deposits: [{ id, amount(달러), kind?('withdraw'면 출금), recordedAt(ISO, 서버 시각) } | { id, cancels: 입금 id, recordedAt }],
 //   settings: { holdOnly: [T] },
 //   scenarios: [{ id, name, strategy: 'B'|'C'|'D'|'custom', params?, createdAt(ISO), engineVersion }],
 // }
@@ -774,7 +796,7 @@ export function replay(input) {
     const ms = toMs(x?.recordedAt);
     if (!Number.isFinite(ms)) fail('deposits: recordedAt 형식 오류');
     if (x.cancels) cancels.push({ ...x, ms });
-    else deps.push({ id: x.id, amount: cents(x.amount, 'deposits.amount'), ms, day: effective(ms) });
+    else deps.push({ id: x.id, amount: (x.kind === 'withdraw' ? -1 : 1) * cents(x.amount, 'deposits.amount'), ms, day: effective(ms) });   // 출금은 음수
   }
   const gone = new Set();
   for (const c of cancels) {
@@ -788,6 +810,8 @@ export function replay(input) {
     if (p.day <= snapshot.date) { warnings.push({ kind: 'depositBeforeStart', id: p.id }); continue; }
     (depositsBy.get(p.day) || depositsBy.set(p.day, []).get(p.day)).push(p);
   }
+  // 같은 반영일의 입출금은 기록 시각 순서로 처리한다(출금은 순서에 따라 결과가 달라진다 — dr). 시각이 같으면 입금 먼저, 그다음 id
+  for (const list of depositsBy.values()) list.sort((a, b) => a.ms - b.ms || (a.amount < 0) - (b.amount < 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   const ctx = { cal, mk, holdOnly, depositsBy };
 
   const aInit = {

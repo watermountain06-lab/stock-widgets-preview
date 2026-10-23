@@ -5,8 +5,8 @@
 // 저평가만(C)·갈아타기(D)는 값을 바꾸지 않으면 그 전략 그대로 저장하고, 바꾸면 사용자 정의로 저장한다(C는 매도 알림을 남기지 않아 사용자 정의와 다르다).
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
 import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
-  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=17';
-import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=2';
+  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=18';
+import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=3';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
 const C_TIERS = ['초저평가', '저평가'];

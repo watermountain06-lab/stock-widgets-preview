@@ -4,8 +4,8 @@
 // "＋ 기록 추가"는 매매·입금 입력을 연다. 묶음 끝내기는 맨 아래에 접어 둔다. 저장은 handlers(trade·editTrade·deleteTrade·deposit·editDeposit·deleteDeposit·close).
 // 한눈에 파일(-home.js)이 이 파일을 부르므로, 거기 있는 계산(currentHoldings·checkTrade·etDate)은 인자 h로 받는다(같은 모듈을 두 번 읽지 않게).
 // 순수 함수 timelineItems는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
-import { el, msgLine, twoStep, usd, shares, startForm } from './preview-only-portfolio-strategy.js?v=17';
-import { depositTiming } from './preview-only-portfolio-engine.js?v=2';
+import { el, msgLine, twoStep, usd, shares, startForm } from './preview-only-portfolio-strategy.js?v=18';
+import { depositTiming } from './preview-only-portfolio-engine.js?v=3';
 
 // ---- 순수 함수 ----
 
@@ -43,8 +43,9 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
     for (const [id, d] of deps) {
       if (d.cancels) continue;
       const rec = d.recordedAt ? etDate(Date.parse(d.recordedAt)) : null;
-      out.push({ kind: 'deposit', id, date: rec || '', title: `입금 ${usd(d.amount)}`,
-        detail: `${rec ? rec + ' 기록' : '기록 중'} · ${depositState(id, d, cancelAt, now)}`, amount: '+' + usd(d.amount), raw: d });
+      const out_ = d.kind === 'withdraw';   // 출금(2026-10-22) — 같은 입금 지도에 kind:'withdraw'로 둔다
+      out.push({ kind: 'deposit', id, date: rec || '', title: `${out_ ? '출금' : '입금'} ${usd(d.amount)}`,
+        detail: `${rec ? rec + ' 기록' : '기록 중'} · ${depositState(id, d, cancelAt, now)}`, amount: (out_ ? '−' : '+') + usd(d.amount), raw: d });
     }
     const s = bundle.snapshot || {};
     if (s.date) {
@@ -66,9 +67,9 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
 
 // ---- 그리기 ----
 
-const KIND = { trade: '매매', deposit: '입금', snap: '시작 스냅샷', upload: '올린 보유' };
+const KIND = { trade: '매매', deposit: '입출금', snap: '시작 스냅샷', upload: '올린 보유' };
 const ICON = { trade: '↗', deposit: '+', snap: '≡', upload: '≡' };
-const FILTER = { all: ['전체', () => true], trade: ['매매', (x) => x.kind === 'trade'], deposit: ['입금', (x) => x.kind === 'deposit'], base: ['시작·보유', (x) => x.kind === 'snap' || x.kind === 'upload'] };
+const FILTER = { all: ['전체', () => true], trade: ['매매', (x) => x.kind === 'trade'], deposit: ['입출금', (x) => x.kind === 'deposit'], base: ['시작·보유', (x) => x.kind === 'snap' || x.kind === 'upload'] };
 const VIEW_KEY = 'pf-rec-view';
 const view = (() => { try { return { filter: 'all', open: null, ...JSON.parse(sessionStorage.getItem(VIEW_KEY) || '{}') }; } catch (_) { return { filter: 'all', open: null }; } })();
 const keep = () => { try { sessionStorage.setItem(VIEW_KEY, JSON.stringify(view)); } catch (_) { /* 기억 못 해도 화면은 그대로 */ } };
@@ -131,7 +132,7 @@ export function renderManage(mg, model, smodel, handlers, h) {
         acts.appendChild(fix); acts.appendChild(del);
       } else if (it.kind === 'deposit') {
         const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; depositEdit(box, it.id, it.raw, handlers); });
-        const del = btn('지우기'); twoStep(del, msg, '이 입금을 지웁니다(처음부터 다시 계산). 맞으면 지우기를 한 번 더 누르세요.', () => handlers.deleteDeposit(it.id));
+        const del = btn('지우기'); twoStep(del, msg, `이 ${it.raw.kind === 'withdraw' ? '출금' : '입금'}을 지웁니다(처음부터 다시 계산). 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteDeposit(it.id));
         acts.appendChild(fix); acts.appendChild(del);
       } else if (it.kind === 'snap') {
         const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; box.appendChild(startForm(smodel, handlers, lastRec, it.raw)); });
@@ -170,7 +171,7 @@ export function renderManage(mg, model, smodel, handlers, h) {
     b2.addEventListener('click', () => { view.open = view.open === key ? null : key; keep(); draw(); });
     dm.appendChild(b2); dm.appendChild(area);
   };
-  if (b) item('deposit', '입금 추가', '반영일 장 시작부터 모든 전략에 같이', '+', (a) => depositForm(a, handlers));
+  if (b) item('deposit', '입금·출금 추가', '반영일 장 시작부터 모든 전략에 같이(출금은 현금에서만)', '+', (a) => depositForm(a, handlers));
   if (pendingUpload) view.open = 'upload';
   item('upload', '보유 파일 올리기', 'CSV · Excel · JSON, 올리기 전 확인', '↗', (a) => {
     a.appendChild(el('p', 'pf-note', 'JSON은 원칙·올린 보유·관심 종목을 통째로, CSV·Excel은 올린 보유만 바꿉니다(Robinhood 거래 내역 CSV는 보유·평균 단가·현금을 계산, 보유 표는 Ticker·Quantity·Avg Price 열과 현금 CASH 줄). 전략 비교와 실제 매매 기록은 바뀌지 않습니다.'));
@@ -207,17 +208,21 @@ export function renderManage(mg, model, smodel, handlers, h) {
 }
 
 const md = (d) => (d ? d.slice(5).replace('-', '/') : '');
-// 입금 추가(데이터 관리 칸)
+// 입금·출금 추가(데이터 관리 칸). 출금은 모든 전략에서 현금에서만 뺀다(현금이 모자라면 뺄 수 있는 만큼 — 2026-10-22 사용자 결정)
 function depositForm(box, handlers) {
   const f = el('div', 'pf-form pf-tradeform');
-  const l = el('label', 'pf-field'); l.appendChild(el('span', null, '입금액(USD)'));
+  const kl = el('label', 'pf-field'); kl.appendChild(el('span', null, '종류'));
+  const kind = el('select');
+  for (const [v, t] of [['deposit', '입금(넣은 돈)'], ['withdraw', '출금(뺀 돈)']]) { const o = el('option', null, t); o.value = v; kind.appendChild(o); }
+  kl.appendChild(kind); f.appendChild(kl);
+  const l = el('label', 'pf-field'); l.appendChild(el('span', null, '금액(USD)'));
   const amt = el('input'); amt.type = 'number'; amt.min = '0.01'; amt.step = '0.01'; l.appendChild(amt); f.appendChild(l);
   const save = btn('기록', 'pf-btn'); const msg = msgLine();
   f.appendChild(save); f.appendChild(msg);
   twoStep(save, msg, '이 금액을 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
     const v = Number(amt.value);
     if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
-    await handlers.deposit(v);
+    await handlers.deposit(v, kind.value);
   }, f);
   box.appendChild(f);
 }
@@ -247,7 +252,7 @@ function tradeEdit(box, id, x, handlers, h) {
 }
 
 function depositEdit(box, id, d, handlers) {
-  box.appendChild(el('span', 'pf-note', `${d.recordedAt ? d.recordedAt.slice(0, 10) : ''} 입금 금액 고치기`));
+  box.appendChild(el('span', 'pf-note', `${d.recordedAt ? d.recordedAt.slice(0, 10) : ''} ${d.kind === 'withdraw' ? '출금' : '입금'} 금액 고치기`));
   const a = el('input'); a.type = 'number'; a.min = '0.01'; a.step = '0.01'; a.value = String(d.amount); a.setAttribute('aria-label', '새 금액(USD)');
   const save = btn('저장', 'pf-btn');
   const close = btn('닫기'); close.addEventListener('click', () => { box.hidden = true; box.textContent = ''; });

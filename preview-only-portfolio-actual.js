@@ -10,7 +10,7 @@
 //   · 평가 = 일별 기록 종가(엔진과 같은 사용 가능 판정) · TWR·기준선 대비 = 엔진 twr과 A의 기준선(같은 출발).
 // 결과는 엔진 시나리오와 같은 모양이라 비교 표·그래프·도넛·매매 기록이 그대로 그린다. 배당·세금은 다른 전략처럼 뺀다.
 // 이번 달 운용(살 후보·매도 검토)은 화면에 보이지 않는 원칙 시나리오 '__plan'(B, 매도 0%)이 계산한다(attachActual).
-import { twr, depositTiming, BASELINES, _internal } from './preview-only-portfolio-engine.js?v=2';
+import { twr, depositTiming, BASELINES, _internal } from './preview-only-portfolio-engine.js?v=3';
 
 export const REAL_ID = 'REAL';
 export const PLAN_ID = '__plan';
@@ -28,7 +28,7 @@ const effectiveDeposits = (deposits) => {
     const tm = depositTiming(d.recordedAt);
     if (!tm.day) continue;
     if (cancelAt.has(id) && cancelAt.get(id) < tm.cancelBefore) continue;
-    out.push({ day: tm.day, amount: d.amount });
+    out.push({ day: tm.day, amount: d.kind === 'withdraw' ? -d.amount : d.amount });   // 출금은 음수(2026-10-22)
   }
   return out;
 };

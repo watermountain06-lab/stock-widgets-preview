@@ -1052,3 +1052,63 @@ test('E: 나중에 만들면 만든 날의 A 상태(입금으로 산 수량 포�
   assert.deepEqual(Object.keys(e.holdings), ['SPY']);
   assert.equal(trades(e, { kind: 'deposit' }).length, 0);   // 기다리는 동안의 입금은 A가 이미 샀다(현금 몫 없이 물려받음)
 });
+
+// 출금(2026-10-22 사용자 결정): 모든 전략이 현금에서만 뺀다. 모자라면 뺄 수 있는 만큼만 빼고 withdrawShort 사건을 남긴다
+const W = (id, amount, recordedAt) => ({ id, amount, kind: 'withdraw', recordedAt });
+test('withdraw: 현금에서만 빼고 종목은 팔지 않는다, 흐름은 음수라 수익률은 그대로', () => {
+  const res = run({ deposits: [W('w1', 300, '2026-11-07T15:00:00Z')] });   // 토 → 11-09
+  const a = pick(res, 'A');
+  assert.equal(trades(a).filter((t) => t.side === 'sell').length, 0);
+  near(day(a, '2026-11-09').value, 2700, 0.01);
+  near(day(a, '2026-11-09').deposits, -300, 0.01);
+  near(day(a, '2026-11-09').twr, 0);
+  assert.equal(a.events.filter((e) => e.kind === 'withdrawShort').length, 0);
+});
+
+test('withdraw: 현금보다 많이 빼면 있는 만큼만, 못 뺀 돈은 사건으로', () => {
+  const res = run({ deposits: [W('w1', 1500, '2026-11-07T15:00:00Z')] });
+  const a = pick(res, 'A');
+  near(day(a, '2026-11-09').value, 2000, 0.01);
+  near(day(a, '2026-11-09').deposits, -1000, 0.01);
+  assert.deepEqual(a.events.filter((e) => e.kind === 'withdrawShort').map((e) => [e.date, e.amount]), [['2026-11-09', 500]]);
+  // 기준선(SPY 6주, 현금 0)은 뺄 현금이 없어 그대로
+  near(a.baselines.SPY.find((x) => x.date === '2026-11-09').value, 3000, 0.01);
+});
+
+test('withdraw: 아직 사지 못한 입금 몫은 남은 현금을 넘지 않게 줄인다', () => {
+  const res = run({ snapshot: { ...SNAP, cash: 0 },
+    deposits: [{ id: 'd1', amount: 1000, recordedAt: '2026-11-07T15:00:00Z' }, W('w1', 600, '2026-11-07T15:01:00Z')] });
+  const a = pick(res, 'A');
+  assert.deepEqual(trades(a).map((t) => [t.date, t.ticker, t.amount]), [['2026-11-09', 'AAA', 200], ['2026-11-09', 'DDD', 200]]);
+  near(day(a, '2026-11-09').deposits, 400, 0.01);
+});
+
+test('withdraw: 점검일 뒤 출금이면 남은 회차는 현금을 넘겨 사지 않는다', () => {
+  const res = run({ scenarios: [S('B')], deposits: [W('w1', 900, '2026-11-02T22:00:00Z')] });   // 11-03 반영
+  const b = pick(res, 'B');
+  const after = trades(b).filter((t) => t.side === 'buy' && t.date >= '2026-11-03' && t.date < '2026-12-01');
+  assert.equal(after.length, 0);
+  assert.ok(b.events.some((e) => e.kind === 'withdrawShort' && e.date === '2026-11-03'));
+  for (const x of b.days) if (x.value != null) assert.ok(x.value >= 0);
+});
+
+test('withdraw: 같은 반영일 입출금은 기록 시각 순서 — 입력 배열 순서와 상관없다', () => {
+  const dep = { id: 'd1', amount: 1000, recordedAt: '2026-11-07T15:00:00Z' }, wd = W('w1', 1000, '2026-11-07T15:01:00Z');
+  const a = pick(run({ snapshot: { ...SNAP, cash: 0 }, deposits: [wd, dep] }), 'A');
+  const b = pick(run({ snapshot: { ...SNAP, cash: 0 }, deposits: [dep, wd] }), 'A');
+  assert.deepEqual(a.days.map((x) => x.value), b.days.map((x) => x.value));
+  near(day(a, '2026-11-09').deposits, 0, 0.01);                     // 입금 뒤 출금이라 다 뺐다
+  assert.equal(a.events.filter((e) => e.kind === 'withdrawShort').length, 0);
+});
+
+test('withdraw: 두 예약(A 입금 몫·E ETF 몫)을 합쳐 같은 비율로 줄인다', () => {
+  // E 출발일(10-16) SPY 가격이 없으면 ETF 몫이 예약으로 남는다. 그 사이 입금·출금
+  const res = run({ world: { close: (t, d) => (t === 'SPY' && d <= '2026-11-09' ? null : undefined) },
+    scenarios: [S('E', { etfShare: 1, etfs: ['SPY'] })],
+    deposits: [W('w1', 2000, '2026-11-07T15:00:00Z')] });
+  const e = pick(res, 'E');
+  const buys = trades(e).filter((t) => t.kind === 'etf');
+  // 출발 때 종목 2000을 팔아 SPY 예약 2000 + 현금 1000. 11-09 출금 2000 → 현금 1000, 예약은 1000으로 줄어 그 돈으로 SPY를 산다
+  assert.ok(buys.every((t) => t.amount <= 1000 + 1e-9));
+  for (const x of e.days) if (x.value != null) assert.ok(x.value >= -1e-9);
+});

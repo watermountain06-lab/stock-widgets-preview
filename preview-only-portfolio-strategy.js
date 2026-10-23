@@ -6,7 +6,7 @@
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=2';
+import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=3';
 
 export const MAX_SCENARIOS = 20;
 export const ETF_ORDER = ['SPY', 'QQQ', 'RSP'];   // ETF 섞기(E)에서 고르는 ETF의 화면 순서(엔진 BASELINES와 같은 세 개)
@@ -46,7 +46,7 @@ export function toEngineInput(bundle, records, opts = {}) {
   const snap = bundle.snapshot || {};
   const deposits = Object.entries(bundle.deposits || {}).map(([id, d]) => (d.cancels
     ? { id, cancels: d.cancels, recordedAt: d.recordedAt }
-    : { id, amount: d.amount, recordedAt: d.recordedAt }));
+    : { id, amount: d.amount, ...(d.kind === 'withdraw' ? { kind: 'withdraw' } : {}), recordedAt: d.recordedAt }));
   const scenarios = Object.entries(bundle.scenarios || {})
     .sort(([, a], [, b]) => (a.createdAt < b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0))
     .map(([id, s]) => ({ id, name: s.name, strategy: s.strategy, params: s.params || undefined, createdAt: scenarioStartAt(snap.date) || s.createdAt, engineVersion: s.engineVersion }));
@@ -370,6 +370,13 @@ export function detailSection(result, byId) {
     if (ev.length) {
       d.appendChild(el('h4', null, '결정하지 못한 점검일'));
       d.appendChild(table(['점검일', '사유'], ev.map((e) => [e.checkDate, e.kind === 'decisionPending' ? '정보를 기다리는 중' : (REASON[e.reason] || '다음 점검일까지 정보 없음')])));
+    }
+    // 출금 가운데 현금이 모자라 못 뺀 돈(전략은 현금에서만 출금 — 2026-10-22 사용자 결정)
+    const short = (s.events || []).filter((e) => e.kind === 'withdrawShort');
+    if (short.length) {
+      d.appendChild(el('h4', null, '현금이 모자라 못 뺀 출금'));
+      d.appendChild(el('p', 'pf-note', '전략은 출금을 현금에서만 뺍니다. 그래서 전략마다 뺀 돈이 다를 수 있고, 수익률(TWR)은 실제로 뺀 돈만 흐름으로 셉니다. SPY·RSP·QQQ 기준선도 현금에서만 빼므로 대부분 다 빼지 못합니다.'));
+      d.appendChild(table(['반영일', '못 뺀 돈'], short.map((e) => [e.date, usd(e.amount)]), [1]));
     }
     sec.appendChild(d);
   }

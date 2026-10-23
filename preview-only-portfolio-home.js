@@ -4,11 +4,11 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=17';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=6';
-import { renderManage } from './preview-only-portfolio-records.js?v=5';
-import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=2';
-import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=7';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=18';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=7';
+import { renderManage } from './preview-only-portfolio-records.js?v=6';
+import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=3';
+import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=8';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -530,8 +530,8 @@ function buyBox(args) {
   const ahead = month !== today.slice(0, 7);
   // 쓸 돈 = 반영일이 그달인 입금 + 그 전달에 판 돈(원칙 3·4). 그달에 판 돈은 다음 달 몫
   const soldPrev = monthSells(model.trades, prevMonth(month), today), soldNow = monthSells(model.trades, month, today);
-  const deposited = Math.round(deps.now.reduce((a, d) => a + d.amount, 0) * 100) / 100;
-  const budget = Math.round((deposited + soldPrev) * 100) / 100;
+  const deposited = Math.round(deps.now.reduce((a, d) => a + d.amount, 0) * 100) / 100;   // 그달 입금 − 그달 출금(음수일 수 있음)
+  const budget = Math.max(0, Math.round((deposited + soldPrev) * 100) / 100);   // 쓸 돈 = 입금 − 출금 + 지난달 판 돈, 0 아래로 안 감(사용자 결정, dr)
   const bought = monthBuys(model.trades, month, today);
   const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
   const leftUsd = Math.round((budget - spent) * 100) / 100;
@@ -540,9 +540,10 @@ function buyBox(args) {
   const money = el('div', 'pf-receipt');
   const cells = el('div', 'pf-receiptrow' + (mv ? '' : ' pf-receiptone'));
   const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); d.appendChild(el('span', 'pf-s', sub)); cells.appendChild(d); };
-  const later = (deps.later.length ? ` · 다음 달 이후 몫 ${usd0(deps.later.reduce((a, d) => a + d.amount, 0))}(${deps.later.map((d) => md(d.day)).join('·')} 반영)` : '')
+  const laterSum = deps.later.reduce((a, d) => a + d.amount, 0);
+  const later = (deps.later.length ? ` · 다음 달 이후 ${laterSum < 0 ? '출금 ' + usd0(-laterSum) : '몫 ' + usd0(laterSum)}(${deps.later.map((d) => md(d.day)).join('·')} 반영)` : '')
     + (soldNow > 0 ? ` · 이번 달 판 돈 ${usd0(soldNow)}은 다음 달 몫` : '');
-  const parts = deps.now.map((d) => `${md(d.day)} ${usd0(d.amount)}` + (d.day > today ? ' 반영 예정' : ''));
+  const parts = deps.now.map((d) => `${md(d.day)} ${d.amount < 0 ? '출금 ' + usd0(-d.amount) : usd0(d.amount)}` + (d.day > today ? ' 반영 예정' : ''));
   if (soldPrev > 0) parts.push(`${ahead ? '이번 달' : '지난달'} 판 돈 ${usd0(soldPrev)}`);
   cell(ahead ? `${+month.slice(5)}월 쓸 돈` : '쓸 돈', usd(budget), (parts.length ? parts.join(' · ') : `반영일(기록 다음 장 시작)이 ${ahead ? +month.slice(5) + '월' : '이번 달'}인 입금`) + later);
   if (mv) {

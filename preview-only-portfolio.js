@@ -12,11 +12,11 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { toEngineInput } from './preview-only-portfolio-strategy.js?v=17';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=36';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=18';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=37';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
-import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=2';
-import { attachActual } from './preview-only-portfolio-actual.js?v=7';
+import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=3';
+import { attachActual } from './preview-only-portfolio-actual.js?v=8';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
 const $ = (id) => document.getElementById(id);
@@ -330,7 +330,8 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       // 모든 값은 고치고 지울 수 있다(사용자 결정 10-20). 기록 시각(recordedAt·createdAt)은 반영일·출발일을 정하므로 고칠 때 그대로 둔다.
       create: act((snap) => setDoc(ref, { snapshot: { ...snap, createdAt: serverTimestamp() }, deposits: {}, scenarios: {} })),
       editSnapshot: act((snap) => updateDoc(ref, { 'snapshot.date': snap.date, 'snapshot.holdings': snap.holdings, 'snapshot.cash': snap.cash, 'snapshot.holdOnly': snap.holdOnly })),
-      deposit: act((amount) => updateDoc(ref, { ['deposits.' + newId('d')]: { amount, recordedAt: serverTimestamp() } })),
+      // 출금은 같은 입금 지도에 kind:'withdraw'(금액은 양수) — 엔진·실제 계좌가 음수 흐름으로 본다(2026-10-22)
+      deposit: act((amount, kind) => updateDoc(ref, { ['deposits.' + newId(kind === 'withdraw' ? 'w' : 'd')]: { amount, ...(kind === 'withdraw' ? { kind: 'withdraw' } : {}), recordedAt: serverTimestamp() } })),
       editDeposit: act((id, amount) => updateDoc(ref, { ['deposits.' + id + '.amount']: amount })),
       deleteDeposit: act((id) => updateDoc(ref, Object.fromEntries([id, ...cancelsOf(id)].map((k) => ['deposits.' + k, deleteField()])))),
       scenario: act((sc) => updateDoc(ref, { ['scenarios.' + newId('s')]: { ...sc, createdAt: serverTimestamp(), engineVersion: ENGINE_VERSION } })),
