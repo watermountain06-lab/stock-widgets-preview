@@ -475,7 +475,10 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# AJG(보험 중개): 영업이익 줄이 없다 — 손익계산서는 총수익 − 총비용(이자비용 포함) = 세전이익. 영업이익 = 세전이익 + 이자비용.
+DERIVED_OPINC = {# NUE: 영업이익 줄이 없다 — 손익계산서는 매출 − 비용(지분법 이익·자산 손상·순이자 포함) = 세전이익. 영업이익 = 세전이익 + 순이자비용(InterestRevenueExpenseNet, 음수로 실림).
+                 # 지분법 이익·자산 손상은 영업으로 둔다. Q2 2026: 1,625 + 12 = 1,637(10-Q 대조, 2026-10-23)
+                 "0000073309": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", [(["InterestRevenueExpenseNet"], 1)]),
+# AJG(보험 중개): 영업이익 줄이 없다 — 손익계산서는 총수익 − 총비용(이자비용 포함) = 세전이익. 영업이익 = 세전이익 + 이자비용.
                  # 수탁 자금 이자수익(총수익 안)과 인수 성과보수 추정 변동(비용 안)은 영업으로 둔다. Q2 2026: 414 + 168 = 582(10-Q 대조, 2026-10-22).
                  "0000354190": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", [(["InterestExpense"], -1)]),
 # ROST: 영업이익 태그(OperatingIncomeLoss)는 2023년부터만 — 그 전엔 손익계산서에 영업이익 줄이 없어 현금흐름 이력이 비었다.
@@ -1302,6 +1305,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # NUE: 장기 비유동 태그(LongTermDebtNoncurrent)가 2019년에 멈춤 — 재무상태표 단기 차입 + 1년 안 장기·금융리스 + 1년 뒤 장기·금융리스.
+                  # Q2 2026: 129 + 581 + 6,389 = 7,099(10-Q 대조, 2026-10-23)
+                  "0000073309": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # LITE: 같은 1년 안 만기 전환사채($1,596.9M, 2026-06)를 ShortTermBorrowings와 LongTermDebtCurrent 두 태그로 실어 기본 합이 두 번 더했다($3,234M) —
                   # 단기 + 장기 비유동 = 10-K 재무상태표 1,596.9 + 40.5 = 1,637.4(DebtLongtermAndShorttermCombinedAmount와 같음, 그 태그는 2024-06부터만)(2026-10-22).
                   "0001633978": ["ShortTermBorrowings", "LongTermDebtNoncurrent"],
