@@ -1812,3 +1812,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — DEBT_TOTAL_TAG 1년 안 + 장기($2,036M), CONCEPTS_BY_CIK interestExpense InterestExpenseNonoperating.
 - **판단** — Indicor $5.0B 현금 인수(8/26 장 마감 뒤 완료 → 반응 8/27, 텀론·리볼버 조달)는 Q2 뒤라 숫자에 없음 — Bull 부채·EV에 "인수 차입 전" 표시(POST), 내재가치가 낮은 이유(매출/투하자본으로 인수 성장 비용), Q2 매출 유기 +10%·인수 +5%, 다음 실적 11/3.
 - **dr** — Codex 2라운드·Fable. 별도: D·SRE·O·MPWR·DVN·BKR·BDX·AFL 보류(skipped_cards).
+
+## KEYS — 전자 계측·설계 소프트웨어 (2026-10-23, 카드 179)
+
+- **판정 고평가(−1, 0, −2)** — 자기 이력 18.8, 동종업 55.5(카드 유니버스 IT), 현금흐름 기본 $67 대 $311.52(10/22). 기준 Q3 FY26 10-Q(9/2 장 마감 뒤).
+- **엔진** — CONCEPTS_BY_CIK InterestExpenseNonoperating, Q4_EPS_OVERRIDE FY2021·2023·2024·2025, build_dcf ACQ_FIXED + ACQ_FIXED_FORCE(인수 $2,052M − Viavi 매각 $399M = $1,653M).
+- **판단** — 2025-10 Spirent·OSG·PowerArtist 인수(Q3 성장 중 약 6%p), Q2 관세 환급 영업이익 약 $57M·Q1 세금 환입 등 일회성, 내재가치가 낮은 이유(인수 재투자·2년 중앙 이익률·21% 세율). 로고는 회사 사이트 아이콘(SEC 공시에 로고 이미지 없음).
+- **dr** — Codex 2라운드·Fable.

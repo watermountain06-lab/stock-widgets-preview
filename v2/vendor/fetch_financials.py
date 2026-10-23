@@ -68,7 +68,9 @@ CONCEPTS = {
 # 종목별로 후보 태그를 바꾸는 개념(CIK). LOW: 이자비용 후보 중 InterestExpenseOther는 순이자 표의 "Other" 한 줄(Q2 2026 $0)이라
 # 이자보상배율이 "이자비용 0" 만점이 됐다 — 손익계산서 "Interest – net"(InterestIncomeExpenseNonoperatingNet, 음수로 실림, 소비처는 절댓값)을 쓴다
 # (MO·PM 순이자 전례, 2026-10-16). 같은 태그를 쓰는 ANET은 공통 안건으로 남겼다.
-CONCEPTS_BY_CIK = {# AME: InterestExpense가 2024-03에 멈춤 — InterestExpenseNonoperating(2022년부터)(2026-10-23)
+CONCEPTS_BY_CIK = {# KEYS: InterestExpense가 FY2025(2025-10)에 멈춤 — InterestExpenseNonoperating(2026-10-23)
+                   "0001601046": {"interestExpense": ["InterestExpenseNonoperating", "InterestExpense"]},
+                   # AME: InterestExpense가 2024-03에 멈춤 — InterestExpenseNonoperating(2022년부터)(2026-10-23)
                    "0001037868": {"interestExpense": ["InterestExpenseNonoperating", "InterestExpense"]},
                    "0000060667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # AJG: 설비투자 "Capital expenditures"(상반기 2026 $87M)는 PaymentsForCapitalImprovements(2026-10-22)

@@ -64,8 +64,11 @@ WINDOW_START = "2021-07-01"
 # (2025-08 Silvus $4.4B 포함, 소액 투자 포함 순액; 10-K 2025·Q2 2026 10-Q, Codex 2026-10-21). 새 분기마다 원문으로 줄을 더한다.
 ACQ_FIXED = {"MSI": [{"end": "2026-07-04", "filed": "2026-08-06", "value": 4676000000}],   # MSI filed = 공시 뒤 첫 세션(10-Q 8/5 20:53 동부 접수 → 8/6, Codex r2)
              # TEL: FY26 1분기 10-Q에 인수 줄이 없어 분기 값을 못 만들었다 — 최근 4분기 = FY25 2,628 + FY26 9개월 200 − FY25 9개월 2,628 = $200M(Codex r1, 2026-10-23). filed = 10-Q 7/24 장중 접수 → 7/27
-             "TEL": [{"end": "2026-06-26", "filed": "2026-07-27", "value": 200000000}]}
+             "TEL": [{"end": "2026-06-26", "filed": "2026-07-27", "value": 200000000}],
+             # KEYS: 최근 4분기 인수 $2,052M에서 Spirent 일부 사업을 Viavi에 판 대금 $399M(같은 인수의 일부, 10-Q 주석)을 뺀다 = $1,653M(Codex r1, 2026-10-23). filed = 10-Q 9/2 장 마감 뒤 → 9/3
+             "KEYS": [{"end": "2026-07-31", "filed": "2026-09-03", "value": 1653000000}]}
 # 원문 현금흐름표로 "인수 줄 없음 = 인수 0"을 확인한 (시작, 끝) 기간(위 base_inputs). 달력 회계연도 종목만. 새 분기마다 확인한 기간을 더한다.
+ACQ_FIXED_FORCE = {"KEYS"}
 ACQ_MISSING_AS_ZERO = {# MMM: 2025 Q3 10-Q(9개월)·2025 10-K(연간) 현금흐름표에 인수 줄 없음 → 2026 9개월 Madison $1,910M이 최근 4분기(2026-10-21)
                        "MMM": {("2025-01-01", "2025-09-30"), ("2025-01-01", "2025-12-31")},
                        # EOG: 2025·2026 상반기 10-Q 현금흐름표에 인수 줄 없음 → 2025년 Encino $4,451M(8월)이 최근 4분기(2026-10-21)
@@ -170,7 +173,8 @@ def base_inputs(ticker, asof=None):
     # 원문 현금흐름표로 "인수 줄 없음 = 0"을 확인한 기간(ACQ_MISSING_AS_ZERO의 (시작, 끝))만 빈 값을 0으로 보고
     # 최근 4분기 = 직전 연간 + 올해 누계 − 작년 같은 누계로 만든다. 확인하지 않은 연도가 비면 계산하지 않는다(Codex r2).
     # 인수 대금을 회사 고유 태그로만 내는 종목(요약 자료에 없음)은 10-Q·10-K 원문으로 계산한 최근 4분기 값을 공시일과 함께 적어 쓴다(ACQ_FIXED).
-    if ticker in ACQ_FIXED and not out["acquisitions"]:
+    # ACQ_FIXED_FORCE: 태그 값이 있어도 원문 계산 값으로 바꾸는 종목(KEYS — 같은 인수의 일부 사업 매각 대금을 빼야 인수로 늘어난 매출과 범위가 맞다)
+    if ticker in ACQ_FIXED and (not out["acquisitions"] or ticker in ACQ_FIXED_FORCE):
         _af = [x for x in ACQ_FIXED[ticker] if asof is None or x["filed"] <= asof]
         if _af:
             out["acquisitions"] = sorted(_af, key=lambda x: x["end"])[-1]["value"]
