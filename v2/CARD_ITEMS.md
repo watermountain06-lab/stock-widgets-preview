@@ -1742,3 +1742,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진(AON에만)** — company_tags(aon:AmortizationAndImpairmentOfIntangibleAssets → AmortizationOfIntangibleAssets) + DDA_PARTS_BY_CIK(TTM D&A $190M → $894M), DEBT_TOTAL_TAG(1년 안 + 장기 $14,967M), EV_TAGS nci, BB_TAGS PaymentsForRepurchaseOfEquity, Q4 EPS 2024.
 - **판단** — 매각 이익 제외 시 TTM EPS 약 $14·PER 약 21배(YOY_NOTE), USI 인수($17.0B, 미완료)·9월 회사채 $13.5B 미반영(MODEL_NOTE), POST로 체크포인트 ③ 방향 보정, 뉴스 CFO 교체·자사주 중단.
 - **dr** — Codex 2라운드·Fable.
+
+## TRGP — 미드스트림, 성장 투자 단계 (2026-10-22, 카드 169, 시총 168위)
+
+- **판정 고평가(−1, −1, −2)** — 자기 이력 16.3, 동종업 10.1(S&P500 에너지), 현금흐름 기본 $29.87 대 $295.60. 기준 Q2 2026 10-Q(8/6).
+- **엔진** — FL_IN_DEBT(build_dcf)·_finance_lease_extra(build_fundamental_score)에 TRGP(차입금 주석 합계에 금융리스 $794M 포함 — 이중 차감이었다), CONCEPTS_BY_CIK interestExpense 순이자, company_tags 배당 지급, BB_TAGS. 안건 E47(두 목록 불일치 — MCK·AMT·EOG).
+- **판단** — $30 이유(이익률 가정·투자 효율·순차입금), 금융리스 설비 대부분 압축기 리스 연장, 뉴스 ExxonMobil 20년 계약(8/17 장 마감 뒤 → 8/18)·Stakeholder 인수 완료, NEXT_CONFIRMED 11/5. 별도: KKR 보류(보험 자회사 연결), SPG 줄에 BX 선례 메모.
+- **dr** — Codex 2라운드·Fable.

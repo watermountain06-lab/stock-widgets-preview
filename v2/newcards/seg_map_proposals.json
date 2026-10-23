@@ -2937,5 +2937,28 @@
    "country:GB",
    "country:IE"
   ]
+ },
+ "TRGP": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "trgp:LogisticsAndTransportationMember": [
+    "물류·운송(NGL)",
+    "#00539b"
+   ],
+   "trgp:GatheringAndProcessingMember": [
+    "수집·처리",
+    "#5f95d0"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타(헤지 등)",
+    "#b3cce8"
+   ]
+  }
  }
 }

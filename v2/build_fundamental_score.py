@@ -262,7 +262,8 @@ def _finance_lease_extra(cik, end):
     import build_multiple_history as bmh
     tt = bmh.DEBT_TOTAL_TAG.get(cik)
     flat = [x for t in ([tt] if isinstance(tt, str) else (tt or [])) for x in (t if isinstance(t, tuple) else (t,))]
-    if any("CapitalLease" in t or "FinanceLease" in t for t in flat) or cik in ("0000315189", "0000063908"):
+    # TRGP: 차입금 주석 합계에 금융리스 포함(build_dcf FL_IN_DEBT와 같은 이유, 2026-10-22). MCK·AMT·EOG도 build_dcf에는 있는데 여기는 빠져 있다 — 안건 E47.
+    if any("CapitalLease" in t or "FinanceLease" in t for t in flat) or cik in ("0000315189", "0000063908", "0001389170"):
         return 0
     def last(rows):
         ok = [e for e in rows if e["end"] <= end]

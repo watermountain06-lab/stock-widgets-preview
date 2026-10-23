@@ -71,6 +71,8 @@ CONCEPTS = {
 CONCEPTS_BY_CIK = {"0000060667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # AJG: 설비투자 "Capital expenditures"(상반기 2026 $87M)는 PaymentsForCapitalImprovements(2026-10-22)
                    "0000354190": {"capex": ["PaymentsForCapitalImprovements"]},
+                   # TRGP: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet)만 분기로 낸다 — InterestExpense는 2014년에 멈춤(2026-10-22, WM 선례)
+                   "0001389170": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # WM: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q2 2026 −$233M)만 분기로 낸다 — InterestExpense는 2013년에 멈춤(2026-10-21)
                    "0000823768": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "inventory": ["Supplies"]},   # 재고 = "Parts and supplies"(Supplies)
                    # CME: 이자비용을 "Interest and other borrowing costs"(InterestAndDebtExpense, Q2 2026 $43.6M)로만 낸다(2026-10-16)
