@@ -325,7 +325,7 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-seg-now{background:transparent!important;box-shadow:inset 0 0 0 2px #6851cd}
 .pf-buy{display:grid;gap:16px}
 .pf-receipt{border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.pf-receiptrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.pf-receiptone{grid-template-columns:minmax(0,1fr)}
+.pf-receiptrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}.pf-receiptone{grid-template-columns:minmax(0,1fr)}
 .pf-receiptcell{display:flex;flex-direction:column;gap:2px;padding:14px 16px;min-width:0}.pf-receiptcell+.pf-receiptcell{border-left:1px solid var(--line)}
 .pf-receiptcell strong{font-size:22px;font-weight:800;letter-spacing:-.02em}.pf-receiptcell .pf-s{font-size:11px}
 .pf-receiptleft{background:#f3f0fc}.pf-receiptleft .pf-k,.pf-receiptleft strong,.pf-receiptleft .pf-s{color:#4f3aa8}.pf-receiptleft .pf-k{font-weight:700}
@@ -368,3 +368,4 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-over strong,.pf-over .pf-s{color:#a3271f!important}
 :root[data-theme="dark"] .pf-strip-done{background:var(--bg3)}:root[data-theme="dark"] .pf-strip-now strong{color:#c9bcff}
 @media (max-width:520px){.pf-striprow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:720px){.pf-receiptrow{grid-template-columns:repeat(2,minmax(0,1fr))}.pf-receiptcell:nth-child(3){border-left:0}.pf-receiptcell:nth-child(n+3){border-top:1px solid var(--line)}.pf-receiptone{grid-template-columns:minmax(0,1fr)}}

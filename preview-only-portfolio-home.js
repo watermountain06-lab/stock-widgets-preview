@@ -283,6 +283,26 @@ export function summarizeKnown(s) {
   return k ? { ...m, twr: k.twr, vs: k.vs || null, asOf: k.date } : m;
 }
 
+// 잔금(원칙 3, 사용자 결정 2026-10-23): 4회가 끝나고 쓰지 못한 돈은 다음 달 쓸 돈에 더한다.
+// 그달 매수 한도 B(m) = max(0, 그달 입금 − 출금 + 지난달 판 돈 + 잔금(m)), 잔금(m) = max(0, B(m−1) − 산 돈(m−1)).
+// 잔금은 회차가 있던 달에서만 생긴다: 첫 실제 점검 달은 시작 달(전략 비교 시작 스냅샷의 달) 다음 달이라, 시작 달 다음 달까지는 잔금 0(dr).
+// 점검일이 그달 첫 거래일이고 회차는 7일 간격 4번이라 한 달 안에 끝난다. net(m)·sold(m)·spent(m)는 달 → 달러 함수
+export function carryIn(month, startMonth, { net, sold, spent }) {
+  const memo = new Map();
+  const prev = (m) => { const [y, n] = m.split('-').map(Number); return n === 1 ? `${y - 1}-12` : `${y}-${String(n - 1).padStart(2, '0')}`; };
+  const cents = (v) => Math.round(v * 100);
+  const carry = (m) => {
+    const p = prev(m);
+    if (!startMonth || p <= startMonth) return 0;
+    if (memo.has(m)) return memo.get(m);
+    const B = Math.max(0, cents(net(p)) + cents(sold(prev(p))) + carry(p));
+    const c = Math.max(0, B - cents(spent(p)));
+    memo.set(m, c);
+    return c;
+  };
+  return carry(month) / 100;
+}
+
 // 회차 띠(사용자 결정 2026-10-23 최적안): 회차 날짜들(dates, 오름차순)과 다음 회차(next — 없으면 회차 끝),
 // 그달 실제 매수 목록 buys [{date, amount}], 이번·남은 회차 하나당 계획 금액(planEach, 달러|null)으로
 // 회차마다 {date, state: 'done'|'missed'|'now'|'plan', amount}과 첫 회차 전 매수(outside)를 낸다.
@@ -452,7 +472,7 @@ export function renderHome(root, model, handlers) {
     const target = firstMonth && checkDay ? checkDay.slice(0, 7) : month;
     const preview = !live && !!lastFull && !recStale;
     buySlot.appendChild(buyBox({ model: { ...model, lastCards: lastFull?.cards }, handlers, mv: live ? mv : null, dlg, close, tierOf, planTier, hasRec: !!rec, nowBuyable, nowHold,
-      waiting, preview, checkDay, month: target, today, cash: cur.hasCash ? cur.cash : null, deps: target === month ? deps : monthDeposits(depMap, target) }));
+      waiting, preview, checkDay, month: target, today, cash: cur.hasCash ? cur.cash : null, depMap, startMonth: (model.bundle?.snapshot?.date || '').slice(0, 7) || null, deps: target === month ? deps : monthDeposits(depMap, target) }));
   } else buySlot.remove();
   left.appendChild(next);
 
@@ -552,7 +572,11 @@ function buyBox(args) {
   // 쓸 돈 = 반영일이 그달인 입금 + 그 전달에 판 돈(원칙 3·4). 그달에 판 돈은 다음 달 몫
   const soldPrev = monthSells(model.trades, prevMonth(month), today), soldNow = monthSells(model.trades, month, today);
   const deposited = Math.round(deps.now.reduce((a, d) => a + d.amount, 0) * 100) / 100;   // 그달 입금 − 그달 출금(음수일 수 있음)
-  const budget = Math.max(0, Math.round((deposited + soldPrev) * 100) / 100);   // 쓸 돈 = 입금 − 출금 + 지난달 판 돈, 0 아래로 안 감(사용자 결정, dr)
+  // 지난달 잔금(원칙 3): 4회가 끝나고 쓰지 못한 돈은 다음 달 쓸 돈에 더한다
+  const netOf = (m) => monthDeposits(args.depMap || {}, m).now.reduce((a, d) => a + d.amount, 0);
+  const spentOf = (m) => [...monthBuys(model.trades, m, today).values()].reduce((a, b) => a + b.amount, 0);
+  const carry = carryIn(month, args.startMonth, { net: netOf, sold: (m) => monthSells(model.trades, m, today), spent: spentOf });
+  const budget = Math.max(0, Math.round((deposited + soldPrev + carry) * 100) / 100);   // 쓸 돈 = 입금 − 출금 + 지난달 판 돈 + 잔금, 0 아래로 안 감
   const bought = monthBuys(model.trades, month, today);
   const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
   const leftUsd = Math.round((budget - spent) * 100) / 100;
@@ -594,18 +618,26 @@ function buyBox(args) {
     if (!p1.length) p1.push(`반영일(기록 다음 장 시작)이 ${mLabel}인 입금 없음`);
     if (X > 0) p1.push(`출금 −${usd(X)}`);
     if (soldPrev > 0) p1.push(`${ahead ? '이번 달' : '지난달'} 판 돈 +${usd(soldPrev)}`);
+    if (carry > 0) p1.push(`${ahead ? '이번 달' : '지난달'} 잔금 +${usd(carry)}`);
     if (deps.later.length) p1.push(`다음 달 이후 ${laterSum < 0 ? '출금 ' + usd0(-laterSum) : '몫 ' + usd0(laterSum)}`);
     if (soldNow > 0) p1.push(`${mLabel} 판 돈 ${usd0(soldNow)}은 다음 달 몫`);
     p1.push(`→ 매수 한도 ${usd(budget)}`);
     cell(`${mLabel} 입금` + (ahead ? '(예상)' : ''), usd(D), p1.join(' · '));
     // 매수 완료 A와 앞으로 P는 늘 보이고(P를 모르면 —), 상태 안내는 앞에 붙인다(dr)
     cell(weekLabel, week == null ? '—' : usd(week), (weekNote ? weekNote + ' · ' : '') + `${mLabel} 매수 완료 ${usd(spent)} · 앞으로 ${future == null ? '—' : usd(future)}`);
+    const ended = !preview && dates && dates.length && !next;
     const c3 = cell('계좌 현금' + (ahead ? ` (${md(today)} 기준)` : ''), C == null ? '—' : usd(C),
       over > 0 ? `한도 초과 ${usd(over)} — 평소 안 쓰는 현금을 썼습니다(원칙 5)`
         : C == null ? '현금 모름(올린 보유에 현금 줄 없음)'
-        : ahead ? (D > 0 ? `${mLabel} 매수는 ${mLabel} 입금 ${usd(D)}으로 합니다 · 그 밖의 현금은 평소 안 쓰는 현금(원칙 5)` : `${mLabel} 매수는 ${mLabel} 입금으로 합니다 · 지금 현금은 평소 안 쓰는 현금(원칙 5)`)   // 미래 입금을 지금 현금에서 빼지 않는다(dr)
+        : ahead ? (budget > 0 ? `${mLabel} 매수는 매수 한도 ${usd(budget)}(입금·판 돈·잔금)로 합니다 · 그 밖의 현금은 평소 안 쓰는 현금(원칙 5)` : `${mLabel} 매수는 ${mLabel} 입금으로 합니다 · 지금 현금은 평소 안 쓰는 현금(원칙 5)`)   // 미래 입금을 지금 현금에서 빼지 않는다(dr)
+        : ended ? `${mLabel} 4회 끝 · 남은 ${usd(R)}는 다음 달 몫 · 나머지 ${usd(Math.max(0, C - R))}는 평소 안 쓰는 현금(원칙 5)`
         : `${mLabel} 더 쓸 수 있는 돈 ${usd(Math.min(R, Math.max(0, C)))} · 나머지 ${usd(Math.max(0, C - R))}는 평소 안 쓰는 현금(원칙 5)`, 'pf-receiptleft');
     if (over > 0) c3.classList.add('pf-over');
+    // 잔금 칸: 지난달에서 넘어온 돈, 회차가 끝났으면 이번 달 남은 돈이 다음 달로 간다
+    cell(ended ? '다음 달로 넘길 잔금' : ahead ? `${mLabel}로 넘어올 잔금(예상)` : '지난달 잔금', usd(ended ? R : carry),
+      ended ? `남은 ${usd(R)} → 다음 달 쓸 돈에 더함(원칙 3)`
+      : carry > 0 ? (ahead ? '지금 기록 기준 · 이번 달 매수·매도에 따라 바뀜 · ' : '') + '매수 한도에 이미 들어 있음'
+      : '4회가 끝나고 남는 돈은 다음 달로(원칙 3)');
     // 4회 띠
     strip.textContent = '';
     if (!dates || !dates.length) return;

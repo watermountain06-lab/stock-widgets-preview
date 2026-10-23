@@ -520,3 +520,25 @@ test('4회 띠: 지난 회차는 산 돈(없으면 놓침), 이번 회차·남�
   const trades = { a: { date: '2026-11-03', side: 'buy', qty: 0.0014, price: 10 }, b: { date: '2026-11-04', side: 'sell', qty: 1, price: 5 }, c: { date: '2026-11-05', side: 'buy', qty: 1, price: 2 }, x: { cancels: 'c' } };
   assert.deepEqual(monthBuyList(trades, '2026-11', '2026-11-30'), [{ date: '2026-11-03', amount: 0.01 }]);
 });
+
+import { carryIn } from '../../preview-only-portfolio-home.js';
+
+test('잔금(원칙 3): 4회가 끝나고 못 쓴 돈은 다음 달 한도에 더한다, 시작 달은 0, 음수는 0', () => {
+  const net = { '2026-10': 0, '2026-11': 500, '2026-12': 400 }, sold = { '2026-11': 101 }, spent = { '2026-10': 76, '2026-11': 300, '2026-12': 650 };
+  const f = { net: (m) => net[m] || 0, sold: (m) => sold[m] || 0, spent: (m) => spent[m] || 0 };
+  assert.equal(carryIn('2026-10', '2026-10', f), 0);
+  assert.equal(carryIn('2026-11', '2026-10', f), 0);                // 10월 한도 0인데 76 삼 → 넘어갈 돈 없음
+  assert.equal(carryIn('2026-12', '2026-10', f), 200);              // 11월 500 − 300
+  assert.equal(carryIn('2027-01', '2026-10', f), 51);               // 12월 400 + 11월 판 돈 101 + 잔금 200 = 701 − 650
+  assert.equal(carryIn('2026-12', null, f), 0);
+});
+
+test('잔금: 시작 달은 회차가 없어 다음 달로 안 넘긴다, 출금이 잔금을 먹고 0 아래는 안 넘어간다', () => {
+  const net = { '2026-10': 300, '2026-11': 500, '2026-12': 400, '2027-01': -300, '2027-02': -20 }, sold = { '2026-11': 101 }, spent = { '2026-11': 300, '2026-12': 650 };
+  const f = { net: (m) => net[m] || 0, sold: (m) => sold[m] || 0, spent: (m) => spent[m] || 0 };
+  assert.equal(carryIn('2026-11', '2026-10', f), 0);                // 10월(시작 달) 300은 원칙 5 현금
+  assert.equal(carryIn('2027-02', '2026-10', f), 0);                // 1월: 51 − 300 → 한도 0
+  assert.equal(carryIn('2027-03', '2026-10', f), 0);                // 빚은 안 넘어감 → 2월 한도 0
+  const g = { ...f, net: (m) => (m === '2027-01' ? -20 : net[m] || 0) };
+  assert.equal(carryIn('2027-02', '2026-10', g), 31);               // 51 − 20
+});
