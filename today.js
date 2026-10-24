@@ -12,6 +12,11 @@ const pct=r=>r==null?'—':(r>0?'+':r<0?'−':'')+Math.abs(r*100).toFixed(1)+'%'
 const cls=r=>r>0?'up':r<0?'down':'';
 const name=t=>(stocks.find(s=>s.ticker===t)||{}).name||t;
 const sign=v=>(v>0?'+':v<0?'−':'')+Math.abs(v);
+// 일지 문구: 저평가 목록 ↔ 관찰 목록(적정) 이동은 build_tracking이 저평가 목록 줄 하나로 합치므로 옮겨 간 곳을 말한다(2026-10-24)
+const moveText=j=>j.list!=='list'?(j.move==='in'?'관찰 목록에 들어옴':'관찰 목록에서 나감')
+ :j.move==='out'&&j.to==='적정'?'저평가 목록에서 관찰 목록으로'
+ :j.move==='in'&&j.from==='적정'?'관찰 목록에서 저평가 목록으로'
+ :j.move==='in'?'저평가 목록에 들어옴':'저평가 목록에서 나감';
 // 카드 주소는 이 사이트의 stock-data.js href에서 읽는다(preview는 루트, 라이브는 cards/) — 화면 코드에 경로를 박지 않는다(2026-10-17)
 const cardBase=(f=>f?f.href.slice(0,f.href.length-(f.ticker+'_full_widget.html').length):'')(stocks[0]);
 const card=t=>((stocks.find(s=>s.ticker===t)||{}).href)||cardBase+encodeURIComponent(t)+'_full_widget.html';
@@ -36,7 +41,7 @@ function renderDays(){
  const rows=T.journal.filter(j=>j.session===d.session);
  document.getElementById('tk-change').textContent=day===0?'기록 시작일 · '+d.list.length+'종목이 이미 목록에 있었습니다'
   :rows.length?rows.map(j=>{const v=j.votes.length?' ('+j.votes.map(x=>`${x[0]} ${sign(x[1])} → ${sign(x[2])}`).join(', ')+')':'';
-   return `${j.move==='in'?'▲':'▼'} ${j.ticker} ${j.list==='list'?'저평가 목록':'관찰 목록'}${j.move==='in'?'에 들어옴':'에서 나감'}${v}`;}).join(' · ')
+   return `${j.move==='in'?'▲':'▼'} ${j.ticker} ${moveText(j)}${v}`;}).join(' · ')
   :'목록 변화 없음';
  document.getElementById('watch-count').textContent=d.watch.length+'종목';
  document.getElementById('tk-watch-list').innerHTML=d.watch.map(t=>`<a class="tk-chip" href="${card(t)}">${esc(t)} <small>${esc(name(t))}</small></a>`).join('')||'<span class="tk-note">없음</span>';
@@ -99,7 +104,7 @@ function renderTable(){
    if(j.session!==last){html+=`<li class="tk-day">${md(j.session)} 종가 기준</li>`;last=j.session;}
    const votes=j.votes.map(v=>`${esc(v[0])} ${sign(v[1])} → ${sign(v[2])}`).join(' · ');
    html+=`<li class="tk-row ${j.move}"><span class="tk-arrow">${j.move==='in'?'▲':'▼'}</span><a href="${card(j.ticker)}"><strong>${esc(j.ticker)}</strong> ${esc(j.name)}</a>`
-    +`<span>${esc(j.from||'—')} → ${esc(j.to||'—')} <em>${j.list==='list'?'저평가 목록':'관찰 목록'}${j.move==='in'?'에 들어옴':'에서 나감'}</em></span>${votes?`<small>${votes}</small>`:''}<small>종가 ${money(j.close)}</small></li>`;
+    +`<span>${esc(j.from||'—')} → ${esc(j.to||'—')} <em>${moveText(j)}</em></span>${votes?`<small>${votes}</small>`:''}<small>종가 ${money(j.close)}</small></li>`;
   }
   list.innerHTML=(html||'<li class="tk-day">아직 목록을 드나든 기록이 없습니다.</li>')+(days.length>shown?'<li><button type="button" class="tk-more">이전 기록 더 보기</button></li>':'');
  }
