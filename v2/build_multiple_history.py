@@ -447,6 +447,9 @@ EXTRA_TAGS = {
     # NEE: 손익계산서 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q2 2026 $7,534M)다. RevenueFromContractWithCustomerIncludingAssessedTax는
     # 주석의 고객 계약 매출(0.1B 단위 반올림, $6.7B)이라 뺀다(EXCLUDE_TAGS). 설비투자·이자비용은 회사 고유 태그라 표준 데이터에 없다(2026-10-02).
     "0000753308": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
+    # VEEV: 현금흐름표 "Long-term assets"(설비·소프트웨어 취득, 상반기 FY27 $9.8M)를 PaymentsForSoftware로, 감가상각("Depreciation and amortization" $22.5M)을
+    # OtherDepreciationAndAmortization으로 낸다 — 기본 설비투자 태그는 2020-04에, D&A 태그는 2020-01에 멈췄다(2026-10-23)
+    "0001393052": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForSoftware"], "DepreciationDepletionAndAmortization": ["OtherDepreciationAndAmortization"]},
     # XEL: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q2 2026 $3,119M) — Revenues 태그는 2019-09에 멈췄다(NEE와 같은 경우, 2026-10-23)
     "0000072903": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은

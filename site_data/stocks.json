@@ -7826,6 +7826,49 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "VEEV",
+      "name": "Veeva Systems",
+      "sector": "생명과학 산업용 클라우드 소프트웨어(CRM·Vault) — GICS 헬스케어, 비교는 소프트웨어",
+      "href": "VEEV_full_widget.html",
+      "cardRank": 184,
+      "cardAsOf": "2026-10-22",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 322.55,
+        "prevClose": 320.55,
+        "session": "2026-10-22",
+        "prevSession": "2026-10-21",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 161908850,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-25",
+        "filedAt": "2026-08-27",
+        "filing": "10-Q 0001393052-26-000036 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 92.4,
+        "grade": "우수",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-10-22",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

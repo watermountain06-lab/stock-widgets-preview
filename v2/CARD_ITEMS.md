@@ -1847,3 +1847,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — DEBT_TOTAL_TAG 단기 + 장기($3,949M, 대체값 경고 해소), Q4_EPS_OVERRIDE FY2022·2023·2024·2025, 동종업 차트 PBR 상한 60(MTD).
 - **판단** — Biocare $950M 인수(6/24, 사채 $600M), 내재가치가 낮은 주원인은 할인율 대비 낮은 FCF 수익률(인수 전에도 비슷), Q3 관세 환급 일회성(회사 조정 실적 기준), 핵심 성장 표현. 로고는 Wikimedia Commons(스파크 마크).
 - **dr** — Codex 2라운드·Fable.
+
+## VEEV — 생명과학 클라우드 소프트웨어 (2026-10-23, 카드 184)
+
+- **판정 적정~고평가(0, 0, −2)** — 자기 이력 63.2, 동종업 42.9(카드 유니버스 IT — GICS는 헬스케어), 현금흐름 기본 $131 대 $322.55(10/22). 기준 Q2 FY27 10-Q(8/27 장 마감 뒤).
+- **엔진** — EXTRA_TAGS 설비투자 PaymentsForSoftware·D&A OtherDepreciationAndAmortization(기본 태그 2020년 멈춤), CONCEPTS_BY_CIK capex, build_dcf ACQ_FIXED 인수 $81.8M·낡은 금융리스(2020) 제외, Q4_EPS_OVERRIDE FY2023·2025·2026.
+- **판단** — 주식보상·선수금 구조(OCF > 영업이익, DCF는 세후 GAAP 영업이익 출발), 현금창출주기 해석 보정(POST — 정적·JS), 자사주 $2B 승인, Ostro·Copli 인수.
+- **dr** — Codex 2라운드·Fable. 사전 조사 방식으로 진행. 별도 보류: PSA·VYLR·FITB·STT·EXC·IQV·F·KDP·ROK·LHX.

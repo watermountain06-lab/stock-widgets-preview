@@ -66,7 +66,9 @@ ACQ_FIXED = {"MSI": [{"end": "2026-07-04", "filed": "2026-08-06", "value": 46760
              # TEL: FY26 1분기 10-Q에 인수 줄이 없어 분기 값을 못 만들었다 — 최근 4분기 = FY25 2,628 + FY26 9개월 200 − FY25 9개월 2,628 = $200M(Codex r1, 2026-10-23). filed = 10-Q 7/24 장중 접수 → 7/27
              "TEL": [{"end": "2026-06-26", "filed": "2026-07-27", "value": 200000000}],
              # KEYS: 최근 4분기 인수 $2,052M에서 Spirent 일부 사업을 Viavi에 판 대금 $399M(같은 인수의 일부, 10-Q 주석)을 뺀다 = $1,653M(Codex r1, 2026-10-23). filed = 10-Q 9/2 장 마감 뒤 → 9/3
-             "KEYS": [{"end": "2026-07-31", "filed": "2026-09-03", "value": 1653000000}]}
+             "KEYS": [{"end": "2026-07-31", "filed": "2026-09-03", "value": 1653000000}],
+             # VEEV: FY26에는 인수가 없고(현금흐름표 인수 줄 없음) FY27 상반기 Ostro·Copli $81.8M — 분기 값을 못 만들어 0이었다(Codex r1, 2026-10-23). filed = 10-Q 8/27 장 마감 뒤 → 8/28
+             "VEEV": [{"end": "2026-07-31", "filed": "2026-08-28", "value": 81833000}]}
 # 원문 현금흐름표로 "인수 줄 없음 = 인수 0"을 확인한 (시작, 끝) 기간(위 base_inputs). 달력 회계연도 종목만. 새 분기마다 확인한 기간을 더한다.
 ACQ_FIXED_FORCE = {"KEYS"}
 ACQ_MISSING_AS_ZERO = {# MMM: 2025 Q3 10-Q(9개월)·2025 10-K(연간) 현금흐름표에 인수 줄 없음 → 2026 9개월 Madison $1,910M이 최근 4분기(2026-10-21)
@@ -252,7 +254,7 @@ def base_inputs(ticker, asof=None):
     fin_lease = fin_lease or 0
     # GWW: FinanceLeaseLiability가 2019-01-01(ASC 842 도입일) 한 번뿐 — 10-Q 재무상태표에 금융리스 줄이 없다. 낡은 $205M을 쓰지 않는다(Codex·Fable r1, 2026-10-23).
     # 금융리스에 낡음 필터가 없는 것은 전 카드 공통(안건 E49)
-    if cik in ("0000277135",):
+    if cik in ("0000277135", "0001393052"):   # VEEV: FinanceLeaseLiability가 2020-10($0.6M)에 멈춤(Codex r1, 2026-10-23)
         fin_lease = 0
     # 총차입금 태그를 지정한 회사(bmh.DEBT_TOTAL_TAG, MU = DebtAndCapitalLeaseObligations)는 금융리스가
     # 차입금에 이미 들어 있다 — 리스에 또 더하면 두 번 뺀다(MU 2026-05 $2.67B, 2026-09-26).
