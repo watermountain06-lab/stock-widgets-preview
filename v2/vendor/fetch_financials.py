@@ -70,7 +70,7 @@ CONCEPTS = {
 # (MO·PM 순이자 전례, 2026-10-16). 같은 태그를 쓰는 ANET은 공통 안건으로 남겼다.
 CONCEPTS_BY_CIK = {# RSG: 손익계산서 매출 RevenueFromContractWithCustomerExcludingAssessedTax — Revenues는 부문 간 상계 전 합계(2026-10-23)
                    "0001060391": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"]},
-                                      # VEEV: 설비투자 PaymentsForSoftware("Long-term assets") — 기본 태그는 2020-04에 멈춤(2026-10-23)
+                   # VEEV: 설비투자 PaymentsForSoftware("Long-term assets") — 기본 태그는 2020-04에 멈춤(2026-10-23)
                    "0001393052": {"capex": ["PaymentsForSoftware"]},
                    # XEL: 총매출 RegulatedAndUnregulatedOperatingRevenue — Revenues 태그는 2019-09에 멈춤(2026-10-23)
                    "0000072903": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"]},

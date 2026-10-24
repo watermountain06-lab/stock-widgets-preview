@@ -96,6 +96,9 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # CIEN: 현금흐름표 무형자산 상각($35.4M, FY26 9개월)은 회사 고유 태그(BUILD company_tags → AmortizationOfIntangibleAssetsCashFlowCien)뿐이고
+                    # 표준 AmortizationOfIntangibleAssets는 영업비용 몫($12.2M)만이다 — 감가상각 + 현금흐름표 상각(TTM 129.8 + 45.2 = 175.1, Codex r1, 2026-10-23)
+                    "0000936395": ["Depreciation", "AmortizationOfIntangibleAssetsCashFlowCien"],
                     # TER: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 2024-03부터만이라 EV/EBITDA 이력이 246일뿐이었다 —
                     # 구성요소 Depreciation + AmortizationOfIntangibleAssets(2008~; 2026 상반기 58.9 + 7.2 = 66.1 ≈ 합산 66.3, Fable r1, 2026-10-23)
                     "0000097210": ["Depreciation", "AmortizationOfIntangibleAssets"],
