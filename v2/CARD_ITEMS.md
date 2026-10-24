@@ -1854,3 +1854,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — EXTRA_TAGS 설비투자 PaymentsForSoftware·D&A OtherDepreciationAndAmortization(기본 태그 2020년 멈춤), CONCEPTS_BY_CIK capex, build_dcf ACQ_FIXED 인수 $81.8M·낡은 금융리스(2020) 제외, Q4_EPS_OVERRIDE FY2023·2025·2026.
 - **판단** — 주식보상·선수금 구조(OCF > 영업이익, DCF는 세후 GAAP 영업이익 출발), 현금창출주기 해석 보정(POST — 정적·JS), 자사주 $2B 승인, Ostro·Copli 인수.
 - **dr** — Codex 2라운드·Fable. 사전 조사 방식으로 진행. 별도 보류: PSA·VYLR·FITB·STT·EXC·IQV·F·KDP·ROK·LHX.
+
+## RSG — 폐기물·환경 서비스 (2026-10-23, 카드 185)
+
+- **판정 고평가(−1, 0, −2)** — 자기 이력 23.8, 동종업 38.5(S&P500 산업재), 현금흐름 기본 $39 대 $241.90(10/22). 기준 Q2 2026 10-Q(8/7 장 전).
+- **엔진** — EXCLUDE_TAGS Revenues(차원 없는 Revenues는 부문 간 상계 전 총액), CONCEPTS_BY_CIK revenue, DEBT_TOTAL_TAG 1년 안 + 장기($14,069M), build_dcf INVESTMENTS_OPERATING(세액공제 투자 $715M을 비영업 자산에서 뺌 — 가치는 낮은 실효세율로 반영).
+- **판단** — 세액공제 투자 손실·세금 혜택 상쇄, 내재가치가 낮은 경로(인수 포함 재투자·순차입금), 10/22 상승은 동종사 WCN 실적 다음 날, 템플릿 문구 두 곳 POST(공통은 안건 E52). 사전 조사 자료표로 진행.
+- **dr** — Codex 3라운드·Fable.

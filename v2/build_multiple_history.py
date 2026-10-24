@@ -665,6 +665,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # RSG: 차원 없는 Revenues(Q2 2026 $5,076M)는 부문 간 거래 상계 전 합계 — 손익계산서 매출은 RevenueFromContractWithCustomerExcludingAssessedTax $4,430M(2026-10-23)
+                "0001060391": ("Revenues",),
                 # PCAR: DepreciationDepletionAndAmortization는 유형자산만(6개월 210.6) — 연결 D&A(DepreciationAndAmortization, 리스 장비 포함 415.1)로 이력을 맞춘다(Codex r1, 2026-10-23)
                 "0000075362": ("DepreciationDepletionAndAmortization",),
                 # GWW: DepreciationDepletionAndAmortization는 부문 주석 "감가상각·상각·비현금 리스비용" 합계(6개월 165) — 현금흐름표 D&A(DepreciationAndAmortization, 128)를 쓴다(Codex·Fable r1, 2026-10-23)
@@ -1319,6 +1321,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # RSG: 기본 장기 태그가 2018년에 멈추고 합계가 연말 값(2025-12)에 머물렀다 — 1년 안 + 장기(금융리스 포함). Q2 2026: 548 + 13,521 = 14,069(10-Q 대조, 2026-10-23)
+                  "0001060391": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # A: 기본 합계가 대체값(debt_total_fallback)으로 잡혔다(값은 같다) — 단기 차입 + 장기. Q3 FY26: 304 + 3,645 = 3,949(10-Q 대조, 2026-10-23)
                   "0001090872": ["ShortTermBorrowings", "LongTermDebt"],
                   # XEL: 기본 합계가 1년 안 장기부채(LongTermDebtAndCapitalLeaseObligationsCurrent $999M)를 빠뜨렸다 — 단기 + 1년 안 장기 + 장기.
