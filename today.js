@@ -26,10 +26,12 @@ const D=()=>T.days[day];
 const tickers=()=>D()?D().list:[];
 const session=()=>D()?D().session:T.asOf;
 // 판정일부터 고른 날까지(그 전에 목록에서 나갔으면 나간 날까지)
+// 같은 분기 안에 나갔다 다시 들어온 건은 한 건(gaps: [나간 날, 다시 들어온 날]) — 나가 있던 날을 고르면 그날 기준 '나감'(2026-10-24)
 function callOn(c,s){
  if(c.start>s)return null;
- const ended=c.end&&c.end<=s,at=ended?c.end:s,close=(T.closes[c.ticker]||{})[at];
- return close==null?null:{...c,at,close,ret:close/c.startClose-1,open:!ended,days:T.sessions.indexOf(at)-T.sessions.indexOf(c.start)};
+ const gap=(c.gaps||[]).find(g=>g[0]<=s&&s<g[1]),ended=gap?true:!!(c.end&&c.end<=s),at=gap?gap[0]:ended?c.end:s,close=(T.closes[c.ticker]||{})[at];
+ const back=(c.gaps||[]).filter(g=>g[1]<=s).map(g=>g[1]);
+ return close==null?null:{...c,at,close,back,ret:close/c.startClose-1,open:!ended,days:T.sessions.indexOf(at)-T.sessions.indexOf(c.start)};
 }
 
 function renderDays(){
@@ -83,7 +85,7 @@ function renderBars(){
    +`<div class="tk-bar"><i class="zero"></i><i class="fill ${up?'up':'down'}${r.open?' open':''}" style="${up?'left':'right'}:50%;width:${w}%"></i>`
    +`<span class="p0" style="${up?'right:50%':'left:50%'}">판정 ${money(r.startClose)}</span>`
    +`<span class="p1 ${cls(r.ret)}" style="${up?'left':'right'}:${50+w}%">${money(r.close)}</span></div>`
-   +`<b class="${cls(r.ret)}">${pct(r.ret)}</b><small>${md(r.start)} · ${r.days}일${r.open?'':' · 나감'}</small></div>`;
+   +`<b class="${cls(r.ret)}">${pct(r.ret)}</b><small>${md(r.start)} · ${r.days}일${r.open?'':' · 나감'}${r.back.length?'<br>다시 들어옴 '+r.back.map(md).join('·'):''}</small></div>`;
  }).join('')||'<p class="tk-note">이 날짜까지 기록된 판정이 없습니다.</p>';
 }
 
@@ -92,7 +94,7 @@ function renderTable(){
  document.getElementById('tracking-calls').innerHTML='<thead><tr><th>종목</th><th>판정</th><th>판정일 · 종가</th><th>나간 날 · 종가</th><th>목록에 있던 동안</th><th>판정일 → 오늘</th><th>결과</th></tr></thead><tbody>'
   +T.calls.map(c=>`<tr><td><a href="${card(c.ticker)}"><strong>${esc(c.ticker)}</strong><small>${esc(c.name)}</small></a></td>`
    +`<td>${esc(c.verdict)}</td><td>${md(c.start)} · ${money(c.startClose)}${c.fromStart?'<small title="v2 판정 기록이 시작된 날에 이미 목록에 있었다">기록 시작일</small>':''}</td>`
-   +`<td>${c.end?md(c.end)+' · '+money(c.endClose)+'<small>'+esc(c.endVerdict||'')+'(으)로</small>':'<small>목록에 있음</small>'}</td>`
+   +`<td>${c.end?md(c.end)+' · '+money(c.endClose)+'<small>'+esc(c.endVerdict||'')+'(으)로</small>':'<small>목록에 있음</small>'}${(c.gaps||[]).map(g=>`<small>${md(g[0])} 나갔다 ${md(g[1])} 다시 들어옴</small>`).join('')}</td>`
    +`<td class="num ${cls(c.onList)}">${pct(c.onList)}</td><td class="num ${cls(c.sinceStart)}">${pct(c.sinceStart)}</td><td>${result(c)}</td></tr>`).join('')
   +'</tbody>';
  // 변화 일지: 최근 10거래일, '더 보기'로 10거래일씩
