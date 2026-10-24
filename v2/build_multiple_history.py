@@ -668,6 +668,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # NDAQ: DepreciationDepletionAndAmortization는 10-K 한 해(2025 $145M, 유형자산 감가상각만)뿐 — 현금흐름표 D&A(DepreciationAndAmortization, 인수 무형자산 상각 포함 TTM $657M)와 섞이면 D&A가 $169M으로 줄었다(Codex r1, 2026-10-23)
+                "0001120193": ("DepreciationDepletionAndAmortization",),
                 # RSG: 차원 없는 Revenues(Q2 2026 $5,076M)는 부문 간 거래 상계 전 합계 — 손익계산서 매출은 RevenueFromContractWithCustomerExcludingAssessedTax $4,430M(2026-10-23)
                 "0001060391": ("Revenues",),
                 # PCAR: DepreciationDepletionAndAmortization는 유형자산만(6개월 210.6) — 연결 D&A(DepreciationAndAmortization, 리스 장비 포함 415.1)로 이력을 맞춘다(Codex r1, 2026-10-23)

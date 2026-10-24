@@ -7992,6 +7992,45 @@
         "valuationAsOf": "2026-10-22",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "NDAQ",
+      "name": "Nasdaq",
+      "sector": "금융 — 거래소·시장 서비스, 금융 기술, 자본 접근(데이터·지수)",
+      "href": "NDAQ_full_widget.html",
+      "cardRank": 188,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-23 ≠ 홈 가격 세션 2026-10-22, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 554962751,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-16",
+        "filedAt": "2026-10-22",
+        "filing": "10-Q 0001120193-26-000020 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 59.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }
