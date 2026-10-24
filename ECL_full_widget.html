@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="eclPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="eclPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="eclPeerScore">11.6<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="eclPeerScore">11.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="eclSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="eclSelfVerdict">중간</span></div>
@@ -934,9 +934,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 3.93 ~ 6.91(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">11.6</div><div class="sc-tile low" data-vc="peer" data-m="per">12</div><div class="sc-tile low" data-vc="peer" data-m="pbr">4</div><div class="sc-tile low" data-vc="peer" data-m="psr">13</div><div class="sc-tile low" data-vc="peer" data-m="pcr">23</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">7</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">11.5</div><div class="sc-tile low" data-vc="peer" data-m="per">12</div><div class="sc-tile low" data-vc="peer" data-m="pbr">4</div><div class="sc-tile low" data-vc="peer" data-m="psr">8</div><div class="sc-tile low" data-vc="peer" data-m="pcr">27</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">6</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 38.7배(5년 중앙값 40.7배)로 자기 이력 37.1점(중간), 동종업 11.6점(비싸다)이다. <strong>현금흐름 내재가치(기본 $73.42)는 현재가의 25%다</strong>.</div>
+    <div class="vs-premise">PER 38.7배(5년 중앙값 40.7배)로 자기 이력 37.1점(중간), 동종업 11.5점(비싸다)이다. <strong>현금흐름 내재가치(기본 $73.42)는 현재가의 25%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $73.42)는 현재가의 25%다. 현재가를 정당화하려면 영업이익률이 47.1%까지 올라야 한다(최근 4분기 16.9%, 5년 중앙값 13.5%). 내재가치에서 차입금 $13.2B를 빼고 현금·단기투자 $5.1B를 더한다. 분기 말 현금에는 분기 직후 마친 CoolIT(데이터센터 액체 냉각) 인수 대금으로 쓸 사채 자금이 들어 있어, 이 카드는 인수 전 재무로 본 평가이고 CoolIT 실적은 다음 분기부터 들어온다. 2024년 3분기 영업이익에는 수술 사업 매각 차익이 들어 있어 그 분기 이익률과 과거 이익률 이력이 높게 나오고, 이 이력에서 고른 기본 시나리오 이익률과 내재가치도 그만큼 높다.</div>
   </div>
 
@@ -1006,7 +1006,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">화학·소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (APD 값 없음·DD 값 없음) · 10/16 종가(ECL 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">화학·소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (APD 값 없음·DD 값 없음) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1114,7 +1114,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 83.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
         <span class="op-val"><span data-an="mean">$324.50</span> <span class="op-sub op-up" data-an="upside">+12.5%</span></span>
       </div>
       <div class="op-cell">
@@ -1319,57 +1319,58 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '화학·소재 6곳 PER 비교 (점수는 S&P500 소재 기준) (APD 값 없음·DD 값 없음) · 10/16 종가(ECL 막대는 10/23)',
-    unit: 'PER', max: 100, eclValue: null,
+    title: '화학·소재 6곳 PER 비교 (점수는 S&P500 소재 기준) (APD 값 없음·DD 값 없음) · 10/23 종가',
+    unit: 'PER', max: 105, eclValue: null,
     peers: [
-      { name:'LIN', value:32.2, status:'reference' },
-      { name:'SHW', value:30.9, status:'reference' },
-      { name:'PPG', value:15.4, status:'reference' },
-      { name:'IFF', value:86.4, status:'reference' }
+      { name:'LIN', value:32.8, status:'reference' },
+      { name:'SHW', value:31.1, status:'reference' },
+      { name:'PPG', value:15.8, status:'reference' },
+      { name:'IFF', value:89.7, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/16 종가(ECL 막대는 10/23)',
+    title: 'PBR 비교 · 10/23 종가',
     unit: 'PBR', max: 25, eclValue: null,
     peers: [
-      { name:'LIN', value:5.9, status:'reference' },
-      { name:'APD', value:4.8, status:'reference' },
-      { name:'SHW', value:21.1, status:'reference' },
-      { name:'PPG', value:2.8, status:'reference' },
+      { name:'LIN', value:6.0, status:'reference' },
+      { name:'APD', value:4.9, status:'reference' },
+      { name:'SHW', value:21.2, status:'reference' },
+      { name:'PPG', value:2.9, status:'reference' },
       { name:'DD', value:1.3, status:'reference' },
       { name:'IFF', value:1.7, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/16 종가(ECL 막대는 10/23)',
+    title: 'PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 10, eclValue: null,
     peers: [
-      { name:'LIN', value:6.5, status:'reference' },
-      { name:'APD', value:5.3, status:'reference' },
-      { name:'SHW', value:3.3, status:'reference' },
-      { name:'PPG', value:1.4, status:'reference' },
-      { name:'DD', value:2.1, status:'reference' },
-      { name:'IFF', value:2.3, status:'reference' }
+      { name:'LIN', value:6.6, status:'reference' },
+      { name:'APD', value:5.4, status:'reference' },
+      { name:'SHW', value:3.4, status:'reference' },
+      { name:'PPG', value:1.5, status:'reference' },
+      { name:'DD', value:2.2, status:'reference' },
+      { name:'IFF', value:2.4, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (APD 값 없음) · 10/16 종가(ECL 막대는 10/23)',
+    title: 'PCR(FCF) 비교 (APD 값 없음) · 10/23 종가',
     unit: 'PCR(FCF)', max: 75, eclValue: null,
     peers: [
-      { name:'LIN', value:46.2, status:'reference' },
-      { name:'SHW', value:25.3, status:'reference' },
-      { name:'PPG', value:17.0, status:'reference' },
-      { name:'DD', value:62.2, status:'reference' },
-      { name:'IFF', value:42.9, status:'reference' }
+      { name:'LIN', value:47.1, status:'reference' },
+      { name:'SHW', value:25.5, status:'reference' },
+      { name:'PPG', value:17.5, status:'reference' },
+      { name:'DD', value:65.2, status:'reference' },
+      { name:'IFF', value:44.5, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (SHW 값 없음·PPG 값 없음·DD 값 없음) · 10/16 종가(ECL 막대는 10/23)',
-    unit: 'EV/EBITDA', max: 85, eclValue: null,
+    title: 'EV/EBITDA 비교 (PPG 값 없음·DD 값 없음) · 10/23 종가',
+    unit: 'EV/EBITDA', max: 90, eclValue: null,
     peers: [
-      { name:'LIN', value:19.3, status:'reference' },
-      { name:'APD', value:72.6, status:'reference' },
-      { name:'IFF', value:16.7, status:'reference' }
+      { name:'LIN', value:19.7, status:'reference' },
+      { name:'APD', value:75.2, status:'reference' },
+      { name:'SHW', value:20.3, status:'reference' },
+      { name:'IFF', value:17.2, status:'reference' }
     ]
   }
 };
@@ -1499,7 +1500,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ECL
 const ECL_SCORES = {
   fundamental: 58.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 11.6,          // S&P500 소재 대비 배수 순위 (v2/peer_universe/materials.json)
+  peer: 11.5,          // S&P500 소재 대비 배수 순위 (v2/peer_universe/materials.json)
   selfHistory: 37.1,   // 자기 5년 배수 분포 백분위 (2021-10-25 ~ 2026-10-23)
   asOf: "2026-10-23",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1817,7 +1818,7 @@ const ECL_FUNDAMENTAL = {"ticker": "ECL", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py ECL --self v2/ECL_multiples.json --card
 /* VALUATION:BEGIN */
-const ECL_VALUATION = {"peer": {"score": 11.6, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 11.8, "rank": 16, "peers": 17}, {"metric": "pbr", "score": 4.2, "rank": 24, "peers": 24}, {"metric": "psr", "score": 12.5, "rank": 22, "peers": 24}, {"metric": "pcr", "score": 22.7, "rank": 18, "peers": 22}, {"metric": "evebitda", "score": 6.7, "rank": 15, "peers": 15}]}, "self": {"score": 37.1, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 58.6, "percentile": 41.4, "current": 38.73, "min": 30.58, "median": 40.7, "max": 63.79, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 35.0, "percentile": 65.0, "current": 8.04, "min": 5.28, "median": 7.7, "max": 9.82, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 17.9, "percentile": 82.1, "current": 4.8, "min": 2.76, "median": 4.32, "max": 5.43, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 35.3, "percentile": 64.7, "current": 43.14, "min": 28.64, "median": 39.94, "max": 55.53, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 38.5, "percentile": 61.5, "current": 23.1, "min": 18.97, "median": 22.59, "max": 29.73, "days": 1255, "currentNote": null}]}};
+const ECL_VALUATION = {"peer": {"score": 11.5, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 11.8, "rank": 16, "peers": 17}, {"metric": "pbr", "score": 4.2, "rank": 24, "peers": 24}, {"metric": "psr", "score": 8.3, "rank": 23, "peers": 24}, {"metric": "pcr", "score": 27.3, "rank": 17, "peers": 22}, {"metric": "evebitda", "score": 5.9, "rank": 17, "peers": 17}]}, "self": {"score": 37.1, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 58.6, "percentile": 41.4, "current": 38.73, "min": 30.58, "median": 40.7, "max": 63.79, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 35.0, "percentile": 65.0, "current": 8.04, "min": 5.28, "median": 7.7, "max": 9.82, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 17.9, "percentile": 82.1, "current": 4.8, "min": 2.76, "median": 4.32, "max": 5.43, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 35.3, "percentile": 64.7, "current": 43.14, "min": 28.64, "median": 39.94, "max": 55.53, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 38.5, "percentile": 61.5, "current": 23.1, "min": 18.97, "median": 22.59, "max": 29.73, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2106,7 +2107,7 @@ const ECL_ACTIVITY = {"ticker": "ECL", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ecl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ECL_ANALYST = { asOf: '2026-10-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 16, mean: 324.5, median: 330,
+const ECL_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 16, mean: 324.5, median: 330,
   low: 295, high: 360, strongBuy: 15, buy: 5, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = ECL_ANALYST, last = (typeof ECL_DAILY !== 'undefined' && ECL_DAILY.length) ? ECL_DAILY[ECL_DAILY.length - 1] : null;

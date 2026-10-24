@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">호텔·여행 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/16 종가(MAR 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">호텔·여행 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1068,8 +1068,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 48.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 44.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 6.9%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-21</span></span>
-        <span class="op-val"><span data-an="mean">$394.35</span> <span class="op-sub op-up" data-an="upside">+0.9%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
+        <span class="op-val"><span data-an="mean">$395.30</span> <span class="op-sub op-up" data-an="upside">+1.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1273,59 +1273,59 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '호텔·여행 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/16 종가(MAR 막대는 10/23)',
+    title: '호텔·여행 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/23 종가',
     unit: 'PER', max: 60, marValue: null,
     peers: [
-      { name:'HLT', value:50.7, status:'reference' },
-      { name:'BKNG', value:18.1, status:'reference' },
+      { name:'HLT', value:51.3, status:'reference' },
+      { name:'BKNG', value:17.3, status:'reference' },
       { name:'EXPE', value:18.1, status:'reference' },
-      { name:'RCL', value:17.2, status:'reference' },
-      { name:'CCL', value:11.2, status:'reference' },
-      { name:'MCD', value:19.7, status:'reference' }
+      { name:'RCL', value:17.1, status:'reference' },
+      { name:'CCL', value:11.3, status:'reference' },
+      { name:'MCD', value:20.2, status:'reference' }
     ]
   },
   pbr: {
-    title: '호텔·여행 PBR 비교 (HLT 값 없음·BKNG 값 없음·MCD 값 없음) · 10/16 종가(MAR 막대는 10/23)',
+    title: '호텔·여행 PBR 비교 (HLT 값 없음·BKNG 값 없음·MCD 값 없음) · 10/23 종가',
     unit: 'PBR', max: 35, marValue: null,
     peers: [
       { name:'EXPE', value:27.4, status:'reference' },
-      { name:'RCL', value:7.3, status:'reference' },
+      { name:'RCL', value:7.2, status:'reference' },
       { name:'CCL', value:2.5, status:'reference' }
     ]
   },
   psr: {
-    title: '호텔·여행 PSR 비교 · 10/16 종가(MAR 막대는 10/23)',
+    title: '호텔·여행 PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 10, marValue: null,
     peers: [
-      { name:'HLT', value:6.2, status:'reference' },
-      { name:'BKNG', value:4.3, status:'reference' },
+      { name:'HLT', value:6.3, status:'reference' },
+      { name:'BKNG', value:4.2, status:'reference' },
       { name:'EXPE', value:2.1, status:'reference' },
       { name:'RCL', value:4.0, status:'reference' },
       { name:'CCL', value:1.3, status:'reference' },
-      { name:'MCD', value:6.2, status:'reference' }
+      { name:'MCD', value:6.3, status:'reference' }
     ]
   },
   pcr: {
-    title: '호텔·여행 PCR(FCF) 비교 (RCL 적자) · 10/16 종가(MAR 막대는 10/23)',
+    title: '호텔·여행 PCR(FCF) 비교 (RCL 적자) · 10/23 종가',
     unit: 'PCR(FCF)', max: 45, marValue: null,
     peers: [
-      { name:'HLT', value:38.3, status:'reference' },
-      { name:'BKNG', value:12.9, status:'reference' },
+      { name:'HLT', value:38.8, status:'reference' },
+      { name:'BKNG', value:12.3, status:'reference' },
       { name:'EXPE', value:7.4, status:'reference' },
-      { name:'CCL', value:11.0, status:'reference' },
-      { name:'MCD', value:22.1, status:'reference' }
+      { name:'CCL', value:11.1, status:'reference' },
+      { name:'MCD', value:22.6, status:'reference' }
     ]
   },
   evebitda: {
-    title: '호텔·여행 EV/EBITDA 비교 · 10/16 종가(MAR 막대는 10/23)',
+    title: '호텔·여행 EV/EBITDA 비교 · 10/23 종가',
     unit: 'EV/EBITDA', max: 35, marValue: null,
     peers: [
-      { name:'HLT', value:29.0, status:'reference' },
-      { name:'BKNG', value:12.8, status:'reference' },
+      { name:'HLT', value:29.5, status:'reference' },
+      { name:'BKNG', value:12.2, status:'reference' },
       { name:'EXPE', value:9.3, status:'reference' },
-      { name:'RCL', value:13.8, status:'reference' },
-      { name:'CCL', value:8.0, status:'reference' },
-      { name:'MCD', value:15.0, status:'reference' }
+      { name:'RCL', value:14.0, status:'reference' },
+      { name:'CCL', value:8.1, status:'reference' },
+      { name:'MCD', value:15.2, status:'reference' }
     ]
   }
 };
@@ -2057,8 +2057,8 @@ const MAR_ACTIVITY = {"ticker": "MAR", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mar/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MAR_ANALYST = { asOf: '2026-10-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 20, mean: 394.35, median: 400,
-  low: 343, high: 426, strongBuy: 13, buy: 1, hold: 13, sell: 1, strongSell: 1 };
+const MAR_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 20, mean: 395.3, median: 400,
+  low: 343, high: 426, strongBuy: 13, buy: 1, hold: 13, sell: 0, strongSell: 2 };
 (function(){
   const A = MAR_ANALYST, last = (typeof MAR_DAILY !== 'undefined' && MAR_DAILY.length) ? MAR_DAILY[MAR_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

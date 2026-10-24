@@ -974,7 +974,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">리츠 6곳 PER 비교 (점수는 S&amp;P500 부동산 기준) · 10/16 종가(EQIX 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">리츠 6곳 PER 비교 (점수는 S&amp;P500 부동산 기준) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1095,13 +1095,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">34명 · 목표가 27</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">34명 · 목표가 28</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">28</span> · 유지 <span data-an="hold">6</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 82.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 17.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
-        <span class="op-val"><span data-an="mean">$1241.81</span> <span class="op-sub op-up" data-an="upside">+30.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
+        <span class="op-val"><span data-an="mean">$1240.32</span> <span class="op-sub op-up" data-an="upside">+29.9%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1305,58 +1305,58 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) · 10/16 종가(EQIX 막대는 10/23)',
-    unit: 'PER', max: 125, eqixValue: null,
+    title: '리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) · 10/23 종가',
+    unit: 'PER', max: 130, eqixValue: null,
     peers: [
-      { name:'DLR', value:86.3, status:'reference' },
-      { name:'AMT', value:25.4, status:'reference' },
-      { name:'PLD', value:27.9, status:'reference' },
-      { name:'CCI', value:41.8, status:'reference' },
-      { name:'WELL', value:108.2, status:'reference' },
-      { name:'PSA', value:28.5, status:'reference' }
+      { name:'DLR', value:84.5, status:'reference' },
+      { name:'AMT', value:26.0, status:'reference' },
+      { name:'PLD', value:28.1, status:'reference' },
+      { name:'CCI', value:43.6, status:'reference' },
+      { name:'WELL', value:109.4, status:'reference' },
+      { name:'PSA', value:29.6, status:'reference' }
     ]
   },
   pbr: {
-    title: '리츠 PBR 비교 (CCI 값 없음) · 10/16 종가(EQIX 막대는 10/23)',
+    title: '리츠 PBR 비교 (CCI 값 없음) · 10/23 종가',
     unit: 'PBR', max: 30, eqixValue: null,
     peers: [
-      { name:'DLR', value:2.4, status:'reference' },
-      { name:'AMT', value:23.2, status:'reference' },
+      { name:'DLR', value:2.3, status:'reference' },
+      { name:'AMT', value:23.7, status:'reference' },
       { name:'PLD', value:2.2, status:'reference' },
-      { name:'WELL', value:3.6, status:'reference' },
-      { name:'PSA', value:5.7, status:'reference' }
+      { name:'WELL', value:3.7, status:'reference' },
+      { name:'PSA', value:5.9, status:'reference' }
     ]
   },
   psr: {
-    title: '리츠 PSR 비교 · 10/16 종가(EQIX 막대는 10/23)',
+    title: '리츠 PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 20, eqixValue: null,
     peers: [
-      { name:'DLR', value:9.6, status:'reference' },
-      { name:'AMT', value:7.9, status:'reference' },
+      { name:'DLR', value:9.4, status:'reference' },
+      { name:'AMT', value:8.1, status:'reference' },
       { name:'PLD', value:12.8, status:'reference' },
-      { name:'CCI', value:8.4, status:'reference' },
-      { name:'WELL', value:13.3, status:'reference' },
-      { name:'PSA', value:10.7, status:'reference' }
+      { name:'CCI', value:8.8, status:'reference' },
+      { name:'WELL', value:13.4, status:'reference' },
+      { name:'PSA', value:11.1, status:'reference' }
     ]
   },
   pcr: {
-    title: '리츠 PCR(FCF) 비교 (DLR 값 없음·PLD 값 없음·PSA 값 없음) · 10/16 종가(EQIX 막대는 10/23)',
+    title: '리츠 PCR(FCF) 비교 (DLR 값 없음·PLD 값 없음·PSA 값 없음) · 10/23 종가',
     unit: 'PCR(FCF)', max: 100, eqixValue: null,
     peers: [
-      { name:'AMT', value:21.8, status:'reference' },
-      { name:'CCI', value:20.7, status:'reference' },
-      { name:'WELL', value:83.8, status:'reference' }
+      { name:'AMT', value:22.2, status:'reference' },
+      { name:'CCI', value:21.6, status:'reference' },
+      { name:'WELL', value:84.7, status:'reference' }
     ]
   },
   evebitda: {
-    title: '리츠 EV/EBITDA 비교 (PSA 값 없음) · 10/16 종가(EQIX 막대는 10/23)',
+    title: '리츠 EV/EBITDA 비교 (PSA 값 없음) · 10/23 종가',
     unit: 'EV/EBITDA', max: 75, eqixValue: null,
     peers: [
-      { name:'DLR', value:22.7, status:'reference' },
-      { name:'AMT', value:19.5, status:'reference' },
-      { name:'PLD', value:20.1, status:'reference' },
-      { name:'CCI', value:20.7, status:'reference' },
-      { name:'WELL', value:64.3, status:'reference' }
+      { name:'DLR', value:22.3, status:'reference' },
+      { name:'AMT', value:19.8, status:'reference' },
+      { name:'PLD', value:20.2, status:'reference' },
+      { name:'CCI', value:21.3, status:'reference' },
+      { name:'WELL', value:64.9, status:'reference' }
     ]
   }
 };
@@ -1804,7 +1804,7 @@ const EQIX_FUNDAMENTAL = {"ticker": "EQIX", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py EQIX --self v2/EQIX_multiples.json --card
 /* VALUATION:BEGIN */
-const EQIX_VALUATION = {"peer": {"score": 10.5, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 18.5, "rank": 23, "peers": 27}, {"metric": "pbr", "score": 8.0, "rank": 24, "peers": 25}, {"metric": "psr", "score": 14.8, "rank": 24, "peers": 27}, {"metric": "pcr", "score": 0.0, "rank": 10, "peers": 9}, {"metric": "evebitda", "score": 11.1, "rank": 17, "peers": 18}]}, "self": {"score": 48.3, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.9, "percentile": 0.1, "current": 61.5, "min": 61.34, "median": 84.52, "max": 224.15, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 27.0, "percentile": 73.0, "current": 6.55, "min": 4.33, "median": 6.03, "max": 7.74, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 41.2, "percentile": 58.8, "current": 9.61, "min": 6.64, "median": 9.37, "max": 12.0, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 66.67, "median": 213.45, "max": 1963.73, "days": 878, "currentNote": "negative"}, {"metric": "evebitda", "score": 73.5, "percentile": 26.5, "current": 26.85, "min": 21.41, "median": 27.82, "max": 33.87, "days": 1255, "currentNote": null}]}};
+const EQIX_VALUATION = {"peer": {"score": 10.5, "sector": "Real Estate (S&P500 29종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 18.5, "rank": 23, "peers": 27}, {"metric": "pbr", "score": 8.0, "rank": 24, "peers": 25}, {"metric": "psr", "score": 14.8, "rank": 24, "peers": 27}, {"metric": "pcr", "score": 0.0, "rank": 10, "peers": 9}, {"metric": "evebitda", "score": 11.1, "rank": 17, "peers": 18}]}, "self": {"score": 48.3, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.9, "percentile": 0.1, "current": 61.5, "min": 61.34, "median": 84.52, "max": 224.15, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 27.0, "percentile": 73.0, "current": 6.55, "min": 4.33, "median": 6.03, "max": 7.74, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 41.2, "percentile": 58.8, "current": 9.61, "min": 6.64, "median": 9.37, "max": 12.0, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 66.67, "median": 213.45, "max": 1963.73, "days": 878, "currentNote": "negative"}, {"metric": "evebitda", "score": 73.5, "percentile": 26.5, "current": 26.85, "min": 21.41, "median": 27.82, "max": 33.87, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2093,7 +2093,7 @@ const EQIX_ACTIVITY = {"ticker": "EQIX", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/eqix/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const EQIX_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 34, nTargets: 27, mean: 1241.81, median: 1250,
+const EQIX_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 34, nTargets: 28, mean: 1240.32, median: 1250,
   low: 1015, high: 1400, strongBuy: 23, buy: 5, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = EQIX_ANALYST, last = (typeof EQIX_DAILY !== 'undefined' && EQIX_DAILY.length) ? EQIX_DAILY[EQIX_DAILY.length - 1] : null;

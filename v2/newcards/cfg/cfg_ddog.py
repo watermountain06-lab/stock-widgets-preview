@@ -60,8 +60,8 @@ NEWS = [
      '매출 $886M(+28%) · 희석 EPS $0.10(1년 전 $0.14) · GAAP 영업손실 $6M', 'q3', 'Datadog 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Strong Buy', 'n': 48, 'nt': 38, 'mean': 295.76, 'median': 300, 'low': 158, 'high': 350, 'sb': 33, 'b': 10, 'h': 3, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-21'
+ANALYST = {'rating': 'Strong Buy', 'n': 48, 'nt': 37, 'mean': 299.97, 'median': 300, 'low': 158, 'high': 350, 'sb': 34, 'b': 10, 'h': 2, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(지역 축 2개). 미국(country:US)은 북미 안이라 ignore. 원문 대조: Q2 2026 824.7/296.8, 1년 전 586.7/240.1(2026-10-21) ──

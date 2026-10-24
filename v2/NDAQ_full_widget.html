@@ -1006,7 +1006,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">거래소·금융 데이터 6곳 PER 비교 · 10/16 종가(NDAQ 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">거래소·금융 데이터 6곳 PER 비교 · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1101,7 +1101,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 77.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-23</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
         <span class="op-val"><span data-an="mean">$116.60</span> <span class="op-sub op-up" data-an="upside">+13.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1306,61 +1306,61 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '거래소·금융 데이터 6곳 PER 비교 · 10/16 종가(NDAQ 막대는 10/23)',
-    unit: 'PER', max: 40, ndaqValue: null,
+    title: '거래소·금융 데이터 6곳 PER 비교 · 10/23 종가',
+    unit: 'PER', max: 45, ndaqValue: null,
     peers: [
-      { name:'ICE', value:22.8, status:'reference' },
-      { name:'CME', value:24.9, status:'reference' },
-      { name:'CBOE', value:24.6, status:'reference' },
-      { name:'SPGI', value:26.1, status:'reference' },
-      { name:'MCO', value:30.8, status:'reference' },
-      { name:'MSCI', value:31.1, status:'reference' }
+      { name:'ICE', value:23.0, status:'reference' },
+      { name:'CME', value:25.9, status:'reference' },
+      { name:'CBOE', value:26.5, status:'reference' },
+      { name:'SPGI', value:27.4, status:'reference' },
+      { name:'MCO', value:30.7, status:'reference' },
+      { name:'MSCI', value:35.0, status:'reference' }
     ]
   },
   pbr: {
-    title: '거래소·금융 데이터 PBR 비교 (MSCI 값 없음) · 10/16 종가(NDAQ 막대는 10/23)',
-    unit: 'PBR', max: 35, ndaqValue: null,
+    title: '거래소·금융 데이터 PBR 비교 (MSCI 값 없음) · 10/23 종가',
+    unit: 'PBR', max: 30, ndaqValue: null,
     peers: [
       { name:'ICE', value:3.1, status:'reference' },
-      { name:'CME', value:4.0, status:'reference' },
-      { name:'CBOE', value:5.8, status:'reference' },
-      { name:'SPGI', value:4.0, status:'reference' },
-      { name:'MCO', value:27.8, status:'reference' }
+      { name:'CME', value:4.1, status:'reference' },
+      { name:'CBOE', value:6.3, status:'reference' },
+      { name:'SPGI', value:4.2, status:'reference' },
+      { name:'MCO', value:25.5, status:'reference' }
     ]
   },
   psr: {
-    title: '거래소·금융 데이터 PSR 비교 · 10/16 종가(NDAQ 막대는 10/23)',
+    title: '거래소·금융 데이터 PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 20, ndaqValue: null,
     peers: [
       { name:'ICE', value:6.8, status:'reference' },
-      { name:'CME', value:15.6, status:'reference' },
-      { name:'CBOE', value:6.5, status:'reference' },
-      { name:'SPGI', value:7.9, status:'reference' },
-      { name:'MCO', value:10.3, status:'reference' },
-      { name:'MSCI', value:12.4, status:'reference' }
+      { name:'CME', value:16.2, status:'reference' },
+      { name:'CBOE', value:7.0, status:'reference' },
+      { name:'SPGI', value:8.2, status:'reference' },
+      { name:'MCO', value:10.2, status:'reference' },
+      { name:'MSCI', value:12.8, status:'reference' }
     ]
   },
   pcr: {
-    title: '거래소·금융 데이터 PCR(FCF) 비교 · 10/16 종가(NDAQ 막대는 10/23)',
+    title: '거래소·금융 데이터 PCR(FCF) 비교 · 10/23 종가',
     unit: 'PCR(FCF)', max: 35, ndaqValue: null,
     peers: [
-      { name:'ICE', value:17.9, status:'reference' },
-      { name:'CME', value:25.1, status:'reference' },
-      { name:'CBOE', value:17.6, status:'reference' },
-      { name:'SPGI', value:22.7, status:'reference' },
-      { name:'MCO', value:28.3, status:'reference' },
-      { name:'MSCI', value:25.9, status:'reference' }
+      { name:'ICE', value:18.0, status:'reference' },
+      { name:'CME', value:26.1, status:'reference' },
+      { name:'CBOE', value:19.0, status:'reference' },
+      { name:'SPGI', value:23.8, status:'reference' },
+      { name:'MCO', value:28.0, status:'reference' },
+      { name:'MSCI', value:30.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: '거래소·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/16 종가(NDAQ 막대는 10/23)',
+    title: '거래소·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/23 종가',
     unit: 'EV/EBITDA', max: 30, ndaqValue: null,
     peers: [
-      { name:'ICE', value:16.1, status:'reference' },
-      { name:'CME', value:22.6, status:'reference' },
-      { name:'CBOE', value:17.1, status:'reference' },
-      { name:'MCO', value:21.7, status:'reference' },
-      { name:'MSCI', value:25.3, status:'reference' }
+      { name:'ICE', value:15.8, status:'reference' },
+      { name:'CME', value:23.5, status:'reference' },
+      { name:'CBOE', value:18.5, status:'reference' },
+      { name:'MCO', value:21.6, status:'reference' },
+      { name:'MSCI', value:24.0, status:'reference' }
     ]
   }
 };
@@ -2102,7 +2102,7 @@ const NDAQ_ACTIVITY = {"ticker": "NDAQ", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ndaq/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const NDAQ_ANALYST = { asOf: '2026-10-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 18, nTargets: 15, mean: 116.6, median: 118,
+const NDAQ_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 18, nTargets: 15, mean: 116.6, median: 118,
   low: 107, high: 133, strongBuy: 8, buy: 6, hold: 3, sell: 1, strongSell: 0 };
 (function(){
   const A = NDAQ_ANALYST, last = (typeof NDAQ_DAILY !== 'undefined' && NDAQ_DAILY.length) ? NDAQ_DAILY[NDAQ_DAILY.length - 1] : null;

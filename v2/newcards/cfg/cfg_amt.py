@@ -69,7 +69,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 17, 'mean': 214.82, 'median': 210, 'low': 188, 'high': 248, 'sb': 15, 'b': 7, 'h': 3, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-21'
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(보고 부문 축 6개, 부문 매출). 부동산 소계(PropertyMember)는 ignore.

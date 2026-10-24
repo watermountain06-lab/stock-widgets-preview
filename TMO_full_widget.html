@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="tmoPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="tmoPeerVerdict">중간</span></div>
-      <div class="logic-score" id="tmoPeerScore">30.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="tmoPeerScore">32.4<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="tmoSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="tmoSelfVerdict">비싼 편</span></div>
@@ -904,9 +904,9 @@ Chart.overrides.doughnut.animation = false;
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 3/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 20.11
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">30.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">33</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">42</div><div class="sc-tile lost" data-vc="peer" data-m="psr">37</div><div class="sc-tile low" data-vc="peer" data-m="pcr">20</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">22</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">32.4</div><div class="sc-tile lost" data-vc="peer" data-m="per">34</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">46</div><div class="sc-tile lost" data-vc="peer" data-m="psr">37</div><div class="sc-tile low" data-vc="peer" data-m="pcr">23</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">22</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 36.2배(5년 중앙값 31.6배)로 자기 이력 20.3점(비싸다), 동종업 30.7점(중간)이다. <strong>현금흐름 내재가치(기본 $33.51)는 현재가의 5.0%다</strong>.</div>
+    <div class="vs-premise">PER 36.2배(5년 중앙값 31.6배)로 자기 이력 20.3점(비싸다), 동종업 32.4점(중간)이다. <strong>현금흐름 내재가치(기본 $33.51)는 현재가의 5.0%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $33.51)는 현재가의 5.0%다. 현재가를 정당화하려면 영업이익률이 61.6%까지 올라야 한다(최근 4분기 17.6%, 5년 중앙값 17.2%). 내재가치에서 차입금 $42.5B를 빼고 현금·단기투자 $4.1B를 더한다.</div>
   </div>
 
@@ -976,7 +976,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">생명과학 도구·진단 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/16 종가(TMO 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">생명과학 도구·진단 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1091,13 +1091,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">28명 · 목표가 22</span>명</span>
-        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">24</span> · 유지 <span data-an="hold">3</span> · 매도 <span data-an="sell">1</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 85.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 10.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.6%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">27명 · 목표가 23</span>명</span>
+        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">23</span> · 유지 <span data-an="hold">3</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 85.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 11.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.7%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
-        <span class="op-val"><span data-an="mean">$654.86</span> <span class="op-sub op-down" data-an="upside">−2.8%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
+        <span class="op-val"><span data-an="mean">$696.70</span> <span class="op-sub op-up" data-an="upside">+3.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1301,63 +1301,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '생명과학 도구·진단 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/16 종가(TMO 막대는 10/23)',
-    unit: 'PER', max: 85, tmoValue: null,
+    title: '생명과학 도구·진단 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/23 종가',
+    unit: 'PER', max: 90, tmoValue: null,
     peers: [
-      { name:'DHR', value:40.7, status:'reference' },
-      { name:'A', value:34.0, status:'reference' },
-      { name:'IQV', value:33.2, status:'reference' },
-      { name:'ABT', value:33.9, status:'reference' },
-      { name:'BDX', value:57.9, status:'reference' },
-      { name:'RVTY', value:73.0, status:'reference' }
+      { name:'DHR', value:37.7, status:'reference' },
+      { name:'A', value:34.1, status:'reference' },
+      { name:'IQV', value:34.8, status:'reference' },
+      { name:'ABT', value:33.6, status:'reference' },
+      { name:'BDX', value:60.1, status:'reference' },
+      { name:'RVTY', value:76.0, status:'reference' }
     ]
   },
   pbr: {
-    title: '생명과학 도구 PBR 비교 · 10/16 종가(TMO 막대는 10/23)',
+    title: '생명과학 도구 PBR 비교 · 10/23 종가',
     unit: 'PBR', max: 10, tmoValue: null,
     peers: [
-      { name:'DHR', value:3.1, status:'reference' },
+      { name:'DHR', value:3.0, status:'reference' },
       { name:'A', value:6.6, status:'reference' },
-      { name:'IQV', value:7.1, status:'reference' },
+      { name:'IQV', value:7.5, status:'reference' },
       { name:'ABT', value:3.5, status:'reference' },
-      { name:'BDX', value:2.1, status:'reference' },
-      { name:'RVTY', value:2.4, status:'reference' }
+      { name:'BDX', value:2.2, status:'reference' },
+      { name:'RVTY', value:2.5, status:'reference' }
     ]
   },
   psr: {
-    title: '생명과학 도구 PSR 비교 · 10/16 종가(TMO 막대는 10/23)',
+    title: '생명과학 도구 PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 10, tmoValue: null,
     peers: [
-      { name:'DHR', value:6.4, status:'reference' },
+      { name:'DHR', value:6.3, status:'reference' },
       { name:'A', value:6.6, status:'reference' },
-      { name:'IQV', value:2.6, status:'reference' },
+      { name:'IQV', value:2.7, status:'reference' },
       { name:'ABT', value:3.9, status:'reference' },
-      { name:'BDX', value:2.5, status:'reference' },
-      { name:'RVTY', value:5.8, status:'reference' }
+      { name:'BDX', value:2.6, status:'reference' },
+      { name:'RVTY', value:6.1, status:'reference' }
     ]
   },
   pcr: {
-    title: '생명과학 도구 PCR(FCF) 비교 · 10/16 종가(TMO 막대는 10/23)',
+    title: '생명과학 도구 PCR(FCF) 비교 · 10/23 종가',
     unit: 'PCR(FCF)', max: 45, tmoValue: null,
     peers: [
-      { name:'DHR', value:29.5, status:'reference' },
+      { name:'DHR', value:28.3, status:'reference' },
       { name:'A', value:38.5, status:'reference' },
-      { name:'IQV', value:20.1, status:'reference' },
-      { name:'ABT', value:23.2, status:'reference' },
-      { name:'BDX', value:19.1, status:'reference' },
-      { name:'RVTY', value:29.9, status:'reference' }
+      { name:'IQV', value:21.1, status:'reference' },
+      { name:'ABT', value:22.9, status:'reference' },
+      { name:'BDX', value:19.9, status:'reference' },
+      { name:'RVTY', value:31.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '생명과학 도구 EV/EBITDA 비교 · 10/16 종가(TMO 막대는 10/23)',
+    title: '생명과학 도구 EV/EBITDA 비교 · 10/23 종가',
     unit: 'EV/EBITDA', max: 35, tmoValue: null,
     peers: [
-      { name:'DHR', value:24.1, status:'reference' },
+      { name:'DHR', value:23.5, status:'reference' },
       { name:'A', value:26.8, status:'reference' },
-      { name:'IQV', value:17.2, status:'reference' },
-      { name:'ABT', value:19.5, status:'reference' },
-      { name:'BDX', value:15.1, status:'reference' },
-      { name:'RVTY', value:25.1, status:'reference' }
+      { name:'IQV', value:17.8, status:'reference' },
+      { name:'ABT', value:19.3, status:'reference' },
+      { name:'BDX', value:15.5, status:'reference' },
+      { name:'RVTY', value:26.0, status:'reference' }
     ]
   }
 };
@@ -1487,7 +1487,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py TMO
 const TMO_SCORES = {
   fundamental: 45.9,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 30.7,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 32.4,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 20.3,   // 자기 5년 배수 분포 백분위 (2021-10-25 ~ 2026-10-23)
   asOf: "2026-10-23",
   fundamentalAsOf: "2026-06-27",   // Q2 2026 10-Q
@@ -1805,7 +1805,7 @@ const TMO_FUNDAMENTAL = {"ticker": "TMO", "basis": "quarter", "asOf": "2026-06-2
 //
 // 갱신: python3 v2/build_peer_score.py TMO --self v2/TMO_multiples.json --card
 /* VALUATION:BEGIN */
-const TMO_VALUATION = {"peer": {"score": 30.7, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 32.7, "rank": 34, "peers": 49}, {"metric": "pbr", "score": 42.3, "rank": 31, "peers": 52}, {"metric": "psr", "score": 36.8, "rank": 37, "peers": 57}, {"metric": "pcr", "score": 19.6, "rank": 42, "peers": 51}, {"metric": "evebitda", "score": 22.0, "rank": 40, "peers": 50}]}, "self": {"score": 20.3, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 15.5, "percentile": 84.5, "current": 36.25, "min": 22.89, "median": 31.6, "max": 39.88, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 44.7, "percentile": 55.3, "current": 4.73, "min": 2.98, "median": 4.66, "max": 6.86, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 17.8, "percentile": 82.2, "current": 5.38, "min": 3.43, "median": 4.87, "max": 6.73, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 22.1, "percentile": 77.9, "current": 34.05, "min": 21.77, "median": 30.91, "max": 42.36, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 1.4, "percentile": 98.6, "current": 26.07, "min": 16.74, "median": 21.43, "max": 26.83, "days": 1255, "currentNote": null}]}};
+const TMO_VALUATION = {"peer": {"score": 32.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 34.0, "rank": 34, "peers": 50}, {"metric": "pbr", "score": 46.2, "rank": 29, "peers": 52}, {"metric": "psr", "score": 36.8, "rank": 37, "peers": 57}, {"metric": "pcr", "score": 23.1, "rank": 41, "peers": 52}, {"metric": "evebitda", "score": 22.0, "rank": 40, "peers": 50}]}, "self": {"score": 20.3, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 15.5, "percentile": 84.5, "current": 36.25, "min": 22.89, "median": 31.6, "max": 39.88, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 44.7, "percentile": 55.3, "current": 4.73, "min": 2.98, "median": 4.66, "max": 6.86, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 17.8, "percentile": 82.2, "current": 5.38, "min": 3.43, "median": 4.87, "max": 6.73, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 22.1, "percentile": 77.9, "current": 34.05, "min": 21.77, "median": 30.91, "max": 42.36, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 1.4, "percentile": 98.6, "current": 26.07, "min": 16.74, "median": 21.43, "max": 26.83, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2094,8 +2094,8 @@ const TMO_ACTIVITY = {"ticker": "TMO", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/tmo/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TMO_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 28, nTargets: 22, mean: 654.86, median: 639,
-  low: 535, high: 780, strongBuy: 20, buy: 4, hold: 3, sell: 1, strongSell: 0 };
+const TMO_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 27, nTargets: 23, mean: 696.7, median: 730,
+  low: 535, high: 830, strongBuy: 20, buy: 3, hold: 3, sell: 1, strongSell: 0 };
 (function(){
   const A = TMO_ANALYST, last = (typeof TMO_DAILY !== 'undefined' && TMO_DAILY.length) ? TMO_DAILY[TMO_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

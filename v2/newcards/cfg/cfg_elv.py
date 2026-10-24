@@ -62,8 +62,8 @@ NEWS = [
      '매출 $50.71B(+12.4%) · 희석 EPS $5.32(1년 전 $4.36)', 'q3', 'Elevance Health 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 22, 'nt': 18, 'mean': 451.39, 'median': 465, 'low': 393, 'high': 498, 'sb': 12, 'b': 2, 'h': 8, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-17'
+ANALYST = {'rating': 'Buy', 'n': 22, 'nt': 18, 'mean': 469.78, 'median': 476, 'low': 395, 'high': 523, 'sb': 12, 'b': 2, 'h': 8, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 부문 표 영업 매출 Q2 2026 42,720/11,250/7,975, 1년 전 41,582/10,643/7,441.

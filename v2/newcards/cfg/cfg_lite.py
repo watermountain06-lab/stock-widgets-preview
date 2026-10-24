@@ -66,7 +66,7 @@ NEWS = [
      '매출 $534M(1년 전 $337M) · 희석 EPS $0.05(1년 전 −$1.21)', 'q1', 'Lumentum 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 24, 'mean': 1123.42, 'median': 1140, 'low': 820, 'high': 1400, 'sb': 17, 'b': 5, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-22'
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 손으로(지역 축 3개, 나라별 소계는 ignore). 10-K는 ExcludingAssessedTax, 10-Q는 IncludingAssessedTax로 실어 둘 다 둔다.

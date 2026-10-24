@@ -58,7 +58,7 @@ NEWS = [
      '매출 $21.4B(−3.7%) · 희석 EPS $1.55(1년 전 $1.80) — 부동산 매각후리스 차익 세전 $330M·구조조정 비용 포함', 'q3', 'UPS 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 29, 'nt': 19, 'mean': 113.68, 'median': 115, 'low': 76, 'high': 132, 'sb': 14, 'b': 0, 'h': 12, 's': 2, 'ss': 1}
-ANALYST_ASOF = '2026-10-22'
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 손으로(seg_map_propose는 2/3 — 공급망은 부문 표에서 CorporateNonSegment로 실림). 매출 분해 표의 부문 축을 쓴다:

@@ -67,8 +67,8 @@ NEWS = [
      '매출 $2.32B(+5.2%) · 희석 EPS $3.81(1년 전 $3.10)', 'q3', 'Equinix 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 34, 'nt': 27, 'mean': 1241.81, 'median': 1250, 'low': 1015, 'high': 1400, 'sb': 23, 'b': 5, 'h': 6, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-17'
+ANALYST = {'rating': 'Buy', 'n': 34, 'nt': 28, 'mean': 1240.32, 'median': 1250, 'low': 1015, 'high': 1400, 'sb': 23, 'b': 5, 'h': 6, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 부문 주석 Q2 2026 1,251/845/529, 1년 전 1,004/767/485 = 연결 매출(2026-10-17) ──

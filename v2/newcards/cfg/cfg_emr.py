@@ -70,8 +70,8 @@ NEWS = [
      '매출 $4.86B(+5%) · 계속사업 희석 EPS $1.12(1년 전 $0.97) · FY2025 매출 $18.02B·EPS $4.03', 'q4', 'Emerson 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 30, 'nt': 15, 'mean': 173.67, 'median': 175, 'low': 135, 'high': 190, 'sb': 16, 'b': 4, 'h': 8, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-18'
+ANALYST = {'rating': 'Buy', 'n': 30, 'nt': 15, 'mean': 174.33, 'median': 175, 'low': 145, 'high': 190, 'sb': 16, 'b': 4, 'h': 8, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도: 부문마다 그룹 축(ProductOrServiceAxis — Software & Systems·Intelligent Devices, 안전·생산성은 없음)이 붙어 seg_map_propose는 2/5만 맞췄다.

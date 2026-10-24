@@ -572,7 +572,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="xelPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="xelPeerVerdict">중간</span></div>
-      <div class="logic-score" id="xelPeerScore">36.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="xelPeerScore">40.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="xelSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="xelSelfVerdict">중간</span></div>
@@ -901,9 +901,9 @@ Chart.overrides.doughnut.animation = false;
 · 잔존가치 비중 — 내재가치가 0 이하라 의미 없음
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="기본 내재가치가 0 이하다
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 유틸리티 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">36.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">43</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">60</div><div class="sc-tile lost" data-vc="peer" data-m="psr">30</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">12</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 유틸리티 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">40.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">50</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">60</div><div class="sc-tile lost" data-vc="peer" data-m="psr">30</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">20</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 21.4배(5년 중앙값 20.9배)로 자기 이력 31.3점(중간), 동종업 36.3점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
+    <div class="vs-premise">PER 21.4배(5년 중앙값 20.9배)로 자기 이력 31.3점(중간), 동종업 40.0점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다. 현금흐름 값이 0 이하라 현재가 요구 성장률은 해석할 수 없다. 내재가치에서 차입금 $39.5B를 빼고 현금·단기투자 $2.0B를 더한다. 규제 유틸리티는 승인된 요금으로 투자 원금과 수익을 회수하는 구조라, 설비투자가 영업현금흐름보다 커서 FCF가 음수인 해에도 이익은 늘 수 있다 — 현금흐름 모델과 PCR은 이런 회사에서 의미가 약하고, 세 시나리오가 모두 0 이하라 현재가 요구 성장률도 해석할 수 없다(판정에는 다른 유틸리티 카드처럼 그대로 들어간다). 연료·구매 전력·가스 원가는 요금으로 그대로 넘기므로 원가가 내리면 매출도 줄지만 이익에는 영향이 없다 — 매출 감소를 사업 위축으로 읽으면 안 된다. 차입금에는 후순위채가 들어 있고, 설비투자 자금 일부는 신주(선도 매각)로 조달해 주식 수가 늘고 있다.</div>
   </div>
 
@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">유틸리티 6곳 PER 비교 (점수는 S&amp;P500 유틸리티 기준) · 10/16 종가(XEL 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">유틸리티 6곳 PER 비교 (점수는 S&amp;P500 유틸리티 기준) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1086,7 +1086,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 89.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 10.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-23</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
         <span class="op-val"><span data-an="mean">$88.69</span> <span class="op-sub op-up" data-an="upside">+13.6%</span></span>
       </div>
       <div class="op-cell">
@@ -1291,58 +1291,58 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '유틸리티 6곳 PER 비교 (점수는 S&P500 유틸리티 기준) · 10/16 종가(XEL 막대는 10/23)',
-    unit: 'PER', max: 35, xelValue: null,
+    title: '유틸리티 6곳 PER 비교 (점수는 S&P500 유틸리티 기준) · 10/23 종가',
+    unit: 'PER', max: 30, xelValue: null,
     peers: [
-      { name:'NEE', value:17.9, status:'reference' },
-      { name:'CEG', value:26.4, status:'reference' },
-      { name:'DUK', value:18.3, status:'reference' },
-      { name:'SO', value:22.0, status:'reference' },
-      { name:'AEP', value:22.0, status:'reference' },
-      { name:'D', value:22.1, status:'reference' }
+      { name:'NEE', value:18.4, status:'reference' },
+      { name:'CEG', value:24.7, status:'reference' },
+      { name:'DUK', value:18.8, status:'reference' },
+      { name:'SO', value:22.4, status:'reference' },
+      { name:'AEP', value:22.5, status:'reference' },
+      { name:'D', value:22.6, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/16 종가(XEL 막대는 10/23)',
+    title: 'PBR 비교 · 10/23 종가',
     unit: 'PBR', max: 5, xelValue: null,
     peers: [
-      { name:'NEE', value:2.9, status:'reference' },
-      { name:'CEG', value:3.0, status:'reference' },
-      { name:'DUK', value:1.7, status:'reference' },
+      { name:'NEE', value:3.0, status:'reference' },
+      { name:'CEG', value:2.8, status:'reference' },
+      { name:'DUK', value:1.8, status:'reference' },
       { name:'SO', value:2.5, status:'reference' },
       { name:'AEP', value:2.2, status:'reference' },
-      { name:'D', value:1.9, status:'reference' }
+      { name:'D', value:2.0, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/16 종가(XEL 막대는 10/23)',
+    title: 'PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 10, xelValue: null,
     peers: [
-      { name:'NEE', value:5.8, status:'reference' },
-      { name:'CEG', value:3.1, status:'reference' },
-      { name:'DUK', value:2.9, status:'reference' },
+      { name:'NEE', value:6.0, status:'reference' },
+      { name:'CEG', value:2.9, status:'reference' },
+      { name:'DUK', value:3.0, status:'reference' },
       { name:'SO', value:3.5, status:'reference' },
       { name:'AEP', value:3.1, status:'reference' },
-      { name:'D', value:3.1, status:'reference' }
+      { name:'D', value:3.2, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (NEE 값 없음·DUK 값 없음·SO 값 없음·D 값 없음) · 10/16 종가(XEL 막대는 10/23)',
-    unit: 'PCR(FCF)', max: 360, xelValue: null,
+    title: 'PCR(FCF) 비교 (NEE 값 없음·DUK 값 없음·SO 값 없음·D 값 없음) · 10/23 종가',
+    unit: 'PCR(FCF)', max: 335, xelValue: null,
     peers: [
-      { name:'CEG', value:311.2, status:'reference' },
-      { name:'AEP', value:16.1, status:'reference' }
+      { name:'CEG', value:290.6, status:'reference' },
+      { name:'AEP', value:16.5, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (AEP 값 없음) · 10/16 종가(XEL 막대는 10/23)',
+    title: 'EV/EBITDA 비교 (AEP 값 없음) · 10/23 종가',
     unit: 'EV/EBITDA', max: 25, xelValue: null,
     peers: [
-      { name:'NEE', value:18.5, status:'reference' },
-      { name:'CEG', value:14.6, status:'reference' },
-      { name:'DUK', value:11.2, status:'reference' },
-      { name:'SO', value:13.0, status:'reference' },
-      { name:'D', value:17.7, status:'reference' }
+      { name:'NEE', value:18.8, status:'reference' },
+      { name:'CEG', value:16.5, status:'reference' },
+      { name:'DUK', value:11.3, status:'reference' },
+      { name:'SO', value:13.2, status:'reference' },
+      { name:'D', value:17.9, status:'reference' }
     ]
   }
 };
@@ -1472,7 +1472,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py XEL
 const XEL_SCORES = {
   fundamental: 41.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 36.3,          // S&P500 유틸리티 대비 배수 순위 (v2/peer_universe/utilities.json)
+  peer: 40.0,          // S&P500 유틸리티 대비 배수 순위 (v2/peer_universe/utilities.json)
   selfHistory: 31.3,   // 자기 5년 배수 분포 백분위 (2021-10-25 ~ 2026-10-23)
   asOf: "2026-10-23",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1786,7 +1786,7 @@ const XEL_FUNDAMENTAL = {"ticker": "XEL", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py XEL --self v2/XEL_multiples.json --card
 /* VALUATION:BEGIN */
-const XEL_VALUATION = {"peer": {"score": 36.3, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 43.3, "rank": 18, "peers": 30}, {"metric": "pbr", "score": 60.0, "rank": 13, "peers": 30}, {"metric": "psr", "score": 30.0, "rank": 22, "peers": 30}, {"metric": "evebitda", "score": 12.0, "rank": 23, "peers": 25}]}, "self": {"score": 31.3, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 44.9, "percentile": 55.1, "current": 21.38, "min": 15.09, "median": 20.85, "max": 25.72, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 63.3, "percentile": 36.7, "current": 2.03, "min": 1.53, "median": 2.07, "max": 2.65, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 11.2, "percentile": 88.8, "current": 3.34, "min": 1.89, "median": 2.81, "max": 3.56, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 5.8, "percentile": 94.2, "current": 15.22, "min": 10.87, "median": 13.49, "max": 15.69, "days": 1255, "currentNote": null}]}};
+const XEL_VALUATION = {"peer": {"score": 40.0, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 50.0, "rank": 16, "peers": 30}, {"metric": "pbr", "score": 60.0, "rank": 13, "peers": 30}, {"metric": "psr", "score": 30.0, "rank": 22, "peers": 30}, {"metric": "evebitda", "score": 20.0, "rank": 21, "peers": 25}]}, "self": {"score": 31.3, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 44.9, "percentile": 55.1, "current": 21.38, "min": 15.09, "median": 20.85, "max": 25.72, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 63.3, "percentile": 36.7, "current": 2.03, "min": 1.53, "median": 2.07, "max": 2.65, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 11.2, "percentile": 88.8, "current": 3.34, "min": 1.89, "median": 2.81, "max": 3.56, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 5.8, "percentile": 94.2, "current": 15.22, "min": 10.87, "median": 13.49, "max": 15.69, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2085,7 +2085,7 @@ const XEL_ACTIVITY = {"ticker": "XEL", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/xel/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const XEL_ANALYST = { asOf: '2026-10-23', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 19, nTargets: 16, mean: 88.69, median: 89,
+const XEL_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 19, nTargets: 16, mean: 88.69, median: 89,
   low: 77, high: 97, strongBuy: 13, buy: 4, hold: 2, sell: 0, strongSell: 0 };
 (function(){
   const A = XEL_ANALYST, last = (typeof XEL_DAILY !== 'undefined' && XEL_DAILY.length) ? XEL_DAILY[XEL_DAILY.length - 1] : null;

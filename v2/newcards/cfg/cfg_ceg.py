@@ -83,8 +83,8 @@ NEWS = [
      '매출 $6.57B(+0.3%) · 희석 EPS $2.97(1년 전 $3.82)', 'q3', 'Constellation 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 24, 'nt': 19, 'mean': 346.37, 'median': 355, 'low': 290, 'high': 392, 'sb': 14, 'b': 6, 'h': 3, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-18'
+ANALYST = {'rating': 'Buy', 'n': 24, 'nt': 20, 'mean': 346.25, 'median': 355, 'low': 290, 'high': 392, 'sb': 14, 'b': 6, 'h': 3, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치, 보고 부문 축 6개). Calpine은 2026년 1월 인수라 1년 전 값이 없다.

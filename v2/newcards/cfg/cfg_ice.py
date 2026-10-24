@@ -67,7 +67,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 15, 'mean': 185.4, 'median': 180, 'low': 160, 'high': 243, 'sb': 8, 'b': 5, 'h': 2, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-18'
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도: seg_map_propose 1판은 매출 종류 축(ProductOrServiceAxis — 채권·데이터가 us-gaap:TechnologyServiceMember)을 골랐지만,

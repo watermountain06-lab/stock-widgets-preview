@@ -66,8 +66,8 @@ NEWS = [
     ('green', '2025년 10월 16일 — Q3 2025 실적', '2025-10-16',
      '순이익 $1.89B · 희석 EPS $8.24(1년 전 $5.42) · 합산비율 87.3%(5.9%p 개선) · 자연재해 손실 $402M(1년 전 $939M)', 'q3p', 'Travelers 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 29, 'nt': 21, 'mean': 373.95, 'median': 378, 'low': 297, 'high': 450, 'sb': 5, 'b': 1, 'h': 17, 's': 2, 'ss': 4}
-ANALYST_ASOF = '2026-10-21'
+ANALYST = {'rating': 'Hold', 'n': 29, 'nt': 21, 'mean': 374.9, 'median': 378, 'low': 297, 'high': 450, 'sb': 5, 'b': 1, 'h': 17, 's': 2, 'ss': 4}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 손으로(seg_map_propose가 "맞는 값 없음" — 매출이 아니라 경과보험료 기준이라). 10-Q XBRL PremiumsEarnedNet × 부문 축으로 확인:

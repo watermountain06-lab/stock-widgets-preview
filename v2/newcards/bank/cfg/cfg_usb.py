@@ -7,6 +7,6 @@ PB = ['JPM', 'PNC', 'TFC', 'FITB', 'MTB', 'HBAN']   # 비교 차트에 그릴 �
 COLOR = '#d71e28'
 BV_NOTE = "회사 TBVPS는 영업권·무형자산 관련 이연법인세를 더해 우리 값(이연법인세 미가산)보다 크다 — 무형자산에서 MSR은 빼고 계산한다(사전 등록 11-3)"
 ANALYST = {'rating': 'Buy', 'n': 24, 'nt': 20, 'mean': 69, 'median': 68, 'low': 61, 'high': 76, 'sb': 13, 'b': 3, 'h': 8, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-17'
+ANALYST_ASOF = '2026-10-24'
 NEWS = []   # 손 뉴스 없음 — 실적 보도자료 8-K는 news_auto.py가 넣는다
 NEWS_DAYS = 400

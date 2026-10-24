@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="wmbPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="wmbPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="wmbPeerScore">7.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="wmbPeerScore">8.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="wmbSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="wmbSelfVerdict">비싼 편</span></div>
@@ -907,9 +907,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 9.61 ~ 58.29(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 에너지 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">7.4</div><div class="sc-tile low" data-vc="peer" data-m="per">11</div><div class="sc-tile low" data-vc="peer" data-m="pbr">15</div><div class="sc-tile low" data-vc="peer" data-m="psr">5</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">6</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 에너지 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">8.5</div><div class="sc-tile low" data-vc="peer" data-m="per">16</div><div class="sc-tile low" data-vc="peer" data-m="pbr">15</div><div class="sc-tile low" data-vc="peer" data-m="psr">5</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">6</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 28.6배(5년 중앙값 25.5배)로 자기 이력 17.8점(비싸다), 동종업 7.4점(비싸다)이다. <strong>현금흐름 내재가치(기본 $2.74)는 현재가의 3.8%다</strong>.</div>
+    <div class="vs-premise">PER 28.6배(5년 중앙값 25.5배)로 자기 이력 17.8점(비싸다), 동종업 8.5점(비싸다)이다. <strong>현금흐름 내재가치(기본 $2.74)는 현재가의 3.8%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $2.74)는 현재가의 3.8%다. 현재가를 정당화하려면 영업이익률이 95.0%까지 올라야 한다(최근 4분기 38.2%, 5년 중앙값 33.5%). 내재가치에서 차입금 $30.8B를 빼고 현금·단기투자 $203M를 더한다. 수송관·전력 설비 투자가 감가상각보다 훨씬 커 최근 잉여현금흐름이 음수다. 이 모델이 추정한 자본수익률이 할인율 근처나 그 아래라 추가 성장이 가치를 늘리지 못하거나 낮출 수 있고, 사업 가치의 대부분이 차입금으로 빠져 주당 값이 작게 나온다 — 규제 요금·장기 계약 자산에도 같은 할인율을 쓰고, 공사 중인 사업의 준공 뒤 계약 현금흐름은 따로 넣지 않는다.</div>
   </div>
 
@@ -979,7 +979,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">가스관·석유 6곳 PER 비교 (점수는 S&amp;P500 에너지 기준) · 10/16 종가(WMB 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">가스관·석유 6곳 PER 비교 (점수는 S&amp;P500 에너지 기준) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1111,8 +1111,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 92%; background: var(--green);"></div><div data-an-bar="hold" style="width: 8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-19</span></span>
-        <span class="op-val"><span data-an="mean">$86.73</span> <span class="op-sub op-up" data-an="upside">+21.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
+        <span class="op-val"><span data-an="mean">$86.59</span> <span class="op-sub op-up" data-an="upside">+20.8%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1316,63 +1316,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '가스관·석유 6곳 PER 비교 (점수는 S&P500 에너지 기준) · 10/16 종가(WMB 막대는 10/23)',
+    title: '가스관·석유 6곳 PER 비교 (점수는 S&P500 에너지 기준) · 10/23 종가',
     unit: 'PER', max: 35, wmbValue: null,
     peers: [
-      { name:'KMI', value:21.9, status:'reference' },
-      { name:'OKE', value:16.1, status:'reference' },
-      { name:'TRGP', value:28.2, status:'reference' },
-      { name:'XOM', value:23.0, status:'reference' },
-      { name:'CVX', value:21.6, status:'reference' },
-      { name:'COP', value:19.4, status:'reference' }
+      { name:'KMI', value:21.2, status:'reference' },
+      { name:'OKE', value:16.5, status:'reference' },
+      { name:'TRGP', value:28.9, status:'reference' },
+      { name:'XOM', value:23.6, status:'reference' },
+      { name:'CVX', value:22.4, status:'reference' },
+      { name:'COP', value:19.9, status:'reference' }
     ]
   },
   pbr: {
-    title: '가스관·석유 PBR 비교 · 10/16 종가(WMB 막대는 10/23)',
-    unit: 'PBR', max: 20, wmbValue: null,
+    title: '가스관·석유 PBR 비교 · 10/23 종가',
+    unit: 'PBR', max: 25, wmbValue: null,
     peers: [
       { name:'KMI', value:2.4, status:'reference' },
       { name:'OKE', value:2.6, status:'reference' },
-      { name:'TRGP', value:17.3, status:'reference' },
-      { name:'XOM', value:2.8, status:'reference' },
-      { name:'CVX', value:2.3, status:'reference' },
-      { name:'COP', value:2.7, status:'reference' }
+      { name:'TRGP', value:17.7, status:'reference' },
+      { name:'XOM', value:2.9, status:'reference' },
+      { name:'CVX', value:2.4, status:'reference' },
+      { name:'COP', value:2.8, status:'reference' }
     ]
   },
   psr: {
-    title: '가스관·석유 PSR 비교 · 10/16 종가(WMB 막대는 10/23)',
+    title: '가스관·석유 PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 10, wmbValue: null,
     peers: [
       { name:'KMI', value:4.2, status:'reference' },
       { name:'OKE', value:1.5, status:'reference' },
-      { name:'TRGP', value:3.8, status:'reference' },
+      { name:'TRGP', value:3.9, status:'reference' },
       { name:'XOM', value:2.0, status:'reference' },
       { name:'CVX', value:2.1, status:'reference' },
-      { name:'COP', value:2.8, status:'reference' }
+      { name:'COP', value:2.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '가스관·석유 PCR(FCF) 비교 · 10/16 종가(WMB 막대는 10/23)',
-    unit: 'PCR(FCF)', max: 100, wmbValue: null,
+    title: '가스관·석유 PCR(FCF) 비교 · 10/23 종가',
+    unit: 'PCR(FCF)', max: 105, wmbValue: null,
     peers: [
-      { name:'KMI', value:24.1, status:'reference' },
-      { name:'OKE', value:20.2, status:'reference' },
-      { name:'TRGP', value:85.3, status:'reference' },
-      { name:'XOM', value:24.1, status:'reference' },
-      { name:'CVX', value:16.5, status:'reference' },
-      { name:'COP', value:17.5, status:'reference' }
+      { name:'KMI', value:24.9, status:'reference' },
+      { name:'OKE', value:20.8, status:'reference' },
+      { name:'TRGP', value:87.5, status:'reference' },
+      { name:'XOM', value:24.7, status:'reference' },
+      { name:'CVX', value:17.1, status:'reference' },
+      { name:'COP', value:18.0, status:'reference' }
     ]
   },
   evebitda: {
-    title: '가스관·석유 EV/EBITDA 비교 · 10/16 종가(WMB 막대는 10/23)',
+    title: '가스관·석유 EV/EBITDA 비교 · 10/23 종가',
     unit: 'EV/EBITDA', max: 20, wmbValue: null,
     peers: [
       { name:'KMI', value:13.9, status:'reference' },
-      { name:'OKE', value:12.0, status:'reference' },
-      { name:'TRGP', value:15.1, status:'reference' },
-      { name:'XOM', value:10.3, status:'reference' },
-      { name:'CVX', value:8.7, status:'reference' },
-      { name:'COP', value:7.0, status:'reference' }
+      { name:'OKE', value:12.2, status:'reference' },
+      { name:'TRGP', value:15.4, status:'reference' },
+      { name:'XOM', value:10.5, status:'reference' },
+      { name:'CVX', value:9.0, status:'reference' },
+      { name:'COP', value:7.2, status:'reference' }
     ]
   }
 };
@@ -1502,7 +1502,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py WMB
 const WMB_SCORES = {
   fundamental: 49.9,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 7.4,          // S&P500 에너지 대비 배수 순위 (v2/peer_universe/energy.json)
+  peer: 8.5,          // S&P500 에너지 대비 배수 순위 (v2/peer_universe/energy.json)
   selfHistory: 17.8,   // 자기 5년 배수 분포 백분위 (2021-10-25 ~ 2026-10-23)
   asOf: "2026-10-23",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1820,7 +1820,7 @@ const WMB_FUNDAMENTAL = {"ticker": "WMB", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py WMB --self v2/WMB_multiples.json --card
 /* VALUATION:BEGIN */
-const WMB_VALUATION = {"peer": {"score": 7.4, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 10.5, "rank": 18, "peers": 19}, {"metric": "pbr", "score": 15.0, "rank": 18, "peers": 20}, {"metric": "psr", "score": 5.3, "rank": 19, "peers": 19}, {"metric": "pcr", "score": 0.0, "rank": 17, "peers": 16}, {"metric": "evebitda", "score": 6.2, "rank": 16, "peers": 16}]}, "self": {"score": 17.8, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 40.4, "percentile": 59.6, "current": 28.57, "min": 13.24, "median": 25.49, "max": 37.62, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 12.0, "percentile": 88.0, "current": 6.65, "min": 2.75, "median": 3.88, "max": 7.47, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 12.2, "percentile": 87.8, "current": 7.19, "min": 3.02, "median": 4.37, "max": 8.14, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 11.57, "median": 15.78, "max": 117.28, "days": 1196, "currentNote": "negative"}, {"metric": "evebitda", "score": 24.6, "percentile": 75.4, "current": 17.26, "min": 10.49, "median": 14.87, "max": 19.1, "days": 1255, "currentNote": null}]}};
+const WMB_VALUATION = {"peer": {"score": 8.5, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 15.8, "rank": 17, "peers": 19}, {"metric": "pbr", "score": 15.0, "rank": 18, "peers": 20}, {"metric": "psr", "score": 5.3, "rank": 19, "peers": 19}, {"metric": "pcr", "score": 0.0, "rank": 18, "peers": 17}, {"metric": "evebitda", "score": 6.2, "rank": 16, "peers": 16}]}, "self": {"score": 17.8, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 40.4, "percentile": 59.6, "current": 28.57, "min": 13.24, "median": 25.49, "max": 37.62, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 12.0, "percentile": 88.0, "current": 6.65, "min": 2.75, "median": 3.88, "max": 7.47, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 12.2, "percentile": 87.8, "current": 7.19, "min": 3.02, "median": 4.37, "max": 8.14, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 11.57, "median": 15.78, "max": 117.28, "days": 1196, "currentNote": "negative"}, {"metric": "evebitda", "score": 24.6, "percentile": 75.4, "current": 17.26, "min": 10.49, "median": 14.87, "max": 19.1, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2109,7 +2109,7 @@ const WMB_ACTIVITY = {"ticker": "WMB", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/wmb/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const WMB_ANALYST = { asOf: '2026-10-19', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 25, nTargets: 22, mean: 86.73, median: 85,
+const WMB_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 25, nTargets: 22, mean: 86.59, median: 85,
   low: 82, high: 103, strongBuy: 17, buy: 6, hold: 2, sell: 0, strongSell: 0 };
 (function(){
   const A = WMB_ANALYST, last = (typeof WMB_DAILY !== 'undefined' && WMB_DAILY.length) ? WMB_DAILY[WMB_DAILY.length - 1] : null;

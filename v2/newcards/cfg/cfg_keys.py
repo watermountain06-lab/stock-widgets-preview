@@ -55,7 +55,7 @@ NEWS = [
      '통신 시험 회사 Spirent 인수 마무리(일부 사업은 Viavi에 $399M에 매각) — 10/17에는 Synopsys 광학 솔루션 사업(OSG)·PowerArtist 인수도 완료', 'spirent', 'Keysight 보도자료'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 12, 'nt': 10, 'mean': 426.6, 'median': 425, 'low': 400, 'high': 487, 'sb': 7, 'b': 3, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-23'
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 2개(수동 지도). 원문 대조: Q3 FY26 1,345/501(2026-10-23) ──

@@ -1007,7 +1007,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">여행·숙박 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/16 종가(RCL 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">여행·숙박 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1114,7 +1114,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 79.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 20.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-22</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
         <span class="op-val"><span data-an="mean">$350.48</span> <span class="op-sub op-up" data-an="upside">+26.8%</span></span>
       </div>
       <div class="op-cell">
@@ -1319,19 +1319,19 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '여행·숙박 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/16 종가(RCL 막대는 10/23)',
+    title: '여행·숙박 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 10/23 종가',
     unit: 'PER', max: 60, rclValue: null,
     peers: [
-      { name:'CCL', value:11.2, status:'reference' },
-      { name:'NCLH', value:9.1, status:'reference' },
-      { name:'BKNG', value:18.1, status:'reference' },
-      { name:'MAR', value:40.1, status:'reference' },
-      { name:'HLT', value:50.7, status:'reference' },
+      { name:'CCL', value:11.3, status:'reference' },
+      { name:'NCLH', value:9.2, status:'reference' },
+      { name:'BKNG', value:17.3, status:'reference' },
+      { name:'MAR', value:40.4, status:'reference' },
+      { name:'HLT', value:51.3, status:'reference' },
       { name:'EXPE', value:18.1, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (BKNG 값 없음·MAR 값 없음·HLT 값 없음) · 10/16 종가(RCL 막대는 10/23)',
+    title: 'PBR 비교 (BKNG 값 없음·MAR 값 없음·HLT 값 없음) · 10/23 종가',
     unit: 'PBR', max: 35, rclValue: null,
     peers: [
       { name:'CCL', value:2.5, status:'reference' },
@@ -1340,36 +1340,36 @@ const MULTIPLE_DATA = {
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/16 종가(RCL 막대는 10/23)',
+    title: 'PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 10, rclValue: null,
     peers: [
       { name:'CCL', value:1.3, status:'reference' },
       { name:'NCLH', value:0.7, status:'reference' },
-      { name:'BKNG', value:4.3, status:'reference' },
+      { name:'BKNG', value:4.2, status:'reference' },
       { name:'MAR', value:3.8, status:'reference' },
-      { name:'HLT', value:6.2, status:'reference' },
+      { name:'HLT', value:6.3, status:'reference' },
       { name:'EXPE', value:2.1, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (NCLH 값 없음) · 10/16 종가(RCL 막대는 10/23)',
+    title: 'PCR(FCF) 비교 (NCLH 값 없음) · 10/23 종가',
     unit: 'PCR(FCF)', max: 45, rclValue: null,
     peers: [
-      { name:'CCL', value:11.0, status:'reference' },
-      { name:'BKNG', value:12.9, status:'reference' },
-      { name:'MAR', value:32.3, status:'reference' },
-      { name:'HLT', value:38.3, status:'reference' },
+      { name:'CCL', value:11.1, status:'reference' },
+      { name:'BKNG', value:12.3, status:'reference' },
+      { name:'MAR', value:32.5, status:'reference' },
+      { name:'HLT', value:38.8, status:'reference' },
       { name:'EXPE', value:7.4, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (MAR 값 없음) · 10/16 종가(RCL 막대는 10/23)',
+    title: 'EV/EBITDA 비교 (MAR 값 없음) · 10/23 종가',
     unit: 'EV/EBITDA', max: 35, rclValue: null,
     peers: [
-      { name:'CCL', value:8.0, status:'reference' },
+      { name:'CCL', value:8.1, status:'reference' },
       { name:'NCLH', value:3.3, status:'reference' },
-      { name:'BKNG', value:12.8, status:'reference' },
-      { name:'HLT', value:29.0, status:'reference' },
+      { name:'BKNG', value:12.2, status:'reference' },
+      { name:'HLT', value:29.5, status:'reference' },
       { name:'EXPE', value:9.3, status:'reference' }
     ]
   }
@@ -2102,7 +2102,7 @@ const RCL_ACTIVITY = {"ticker": "RCL", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/rcl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const RCL_ANALYST = { asOf: '2026-10-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 21, mean: 350.48, median: 355,
+const RCL_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 21, mean: 350.48, median: 355,
   low: 298, high: 425, strongBuy: 19, buy: 4, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = RCL_ANALYST, last = (typeof RCL_DAILY !== 'undefined' && RCL_DAILY.length) ? RCL_DAILY[RCL_DAILY.length - 1] : null;

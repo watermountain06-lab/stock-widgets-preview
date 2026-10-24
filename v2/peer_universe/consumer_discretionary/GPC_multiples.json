@@ -1,63 +1,63 @@
 {
  "ticker": "GPC",
  "window": [
-  "2025-10-17",
-  "2026-10-16"
+  "2025-10-24",
+  "2026-10-23"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 515.23,
+   "current": 473.15,
    "min": 20.55,
    "p10": 21.78,
-   "median": 228.95,
+   "median": 232.41,
    "p90": 511.23,
    "max": 536.5,
-   "mean": 232.55,
-   "percentile": 91.2,
+   "mean": 241.74,
+   "percentile": 74.1,
    "score": null,
    "currentNote": "per_na"
   },
   "PSR": {
    "days": 251,
-   "current": 0.74,
+   "current": 0.67,
    "min": 0.52,
    "p10": 0.57,
    "median": 0.71,
-   "p90": 0.77,
+   "p90": 0.76,
    "max": 0.86,
    "mean": 0.69,
-   "percentile": 70.1,
-   "score": 29.9
+   "percentile": 36.3,
+   "score": 63.7
   },
   "PBR": {
    "days": 251,
-   "current": 4.08,
+   "current": 3.65,
    "min": 2.84,
    "p10": 3.14,
    "median": 3.7,
    "p90": 4.1,
    "max": 4.34,
-   "mean": 3.67,
-   "percentile": 87.3,
-   "score": 12.7
+   "mean": 3.66,
+   "percentile": 43.0,
+   "score": 57.0
   },
   "PCR": {
    "days": 251,
-   "current": 24.32,
+   "current": 22.23,
    "min": 21.63,
-   "p10": 23.53,
-   "median": 32.4,
-   "p90": 137.49,
+   "p10": 23.33,
+   "median": 31.51,
+   "p90": 137.17,
    "max": 155.51,
-   "mean": 64.24,
-   "percentile": 17.9,
-   "score": 82.1
+   "mean": 62.45,
+   "percentile": 1.2,
+   "score": 98.8
   }
  },
  "perBasis": "diluted",
  "perNA": {
-  "netMargin": 0.0013,
+  "netMargin": 0.0012,
   "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

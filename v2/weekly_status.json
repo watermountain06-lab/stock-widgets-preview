@@ -1,42 +1,95 @@
 {
- "session": "2026-10-16",
- "started": "2026-10-17T20:40:58+0000",
- "finished": "2026-10-17T23:03:48+0000",
- "newFilings": [],
+ "session": "2026-10-23",
+ "started": "2026-10-24T18:14:14+0000",
+ "finished": "2026-10-24T22:23:53+0000",
+ "newFilings": [
+  {
+   "ticker": "CME",
+   "form": "10-Q",
+   "period": "2026-09-30",
+   "filed": "2026-10-23",
+   "cardAsOf": "2026-06-30"
+  },
+  {
+   "ticker": "NEE",
+   "form": "10-Q",
+   "period": "2026-09-30",
+   "filed": "2026-10-21",
+   "cardAsOf": "2026-06-30"
+  },
+  {
+   "ticker": "SPCX",
+   "form": "10-Q",
+   "period": "2026-09-30",
+   "filed": "2026-10-22",
+   "cardAsOf": "2026-06-30"
+  },
+  {
+   "ticker": "WDC",
+   "form": "10-Q",
+   "period": "2026-10-02",
+   "filed": "2026-10-23",
+   "cardAsOf": "2026-07-03"
+  }
+ ],
  "filingChecksMissed": [],
  "peerDrift": [
+  "A",
   "ABT",
+  "ADP",
+  "AME",
   "AMGN",
   "BKNG",
+  "BLK",
   "BMY",
+  "BSX",
+  "CMI",
+  "CSX",
+  "DE",
   "DHR",
+  "DIS",
+  "ELV",
+  "EMR",
+  "GE",
+  "GWW",
   "HD",
   "ISRG",
   "JNJ",
-  "LIN",
   "LLY",
+  "MA",
   "MCD",
+  "MCK",
   "MRK",
+  "PCAR",
   "PFE",
+  "REGN",
+  "RSG",
+  "RTX",
+  "SHW",
   "SPCX",
   "SYK",
+  "TDG",
+  "TJX",
   "TMO",
+  "UBER",
   "UNH",
-  "VRTX"
+  "V",
+  "VRTX",
+  "WM"
  ],
  "peerFiles": [
-  "communication_services: 21종목 · 제외 2 · 기준일 2026-10-16",
-  "consumer_discretionary: 47종목 · 제외 0 · 기준일 2026-10-16",
-  "consumer_staples: 34종목 · 제외 0 · 기준일 2026-10-16",
-  "energy: 21종목 · 제외 1 · 기준일 2026-10-16",
-  "health_care: 59종목 · 제외 0 · 기준일 2026-10-16",
-  "industrials: 81종목 · 제외 0 · 기준일 2026-10-16",
-  "materials: 25종목 · 제외 1 · 기준일 2026-10-16",
-  "real_estate: 29종목 · 제외 2 · 기준일 2026-10-16",
-  "utilities: 31종목 · 제외 0 · 기준일 2026-10-16",
-  "asset_managers: 12종목 · 제외 1 · 기준일 2026-10-16",
-  "insurers: 16종목 · 제외 2 · 기준일 2026-10-16",
-  "payments_exchanges: 18종목 · 제외 0 · 기준일 2026-10-16"
+  "communication_services: 20종목 · 제외 3 · 기준일 2026-10-23",
+  "consumer_discretionary: 47종목 · 제외 0 · 기준일 2026-10-23",
+  "consumer_staples: 34종목 · 제외 1 · 기준일 2026-10-23",
+  "energy: 21종목 · 제외 1 · 기준일 2026-10-23",
+  "health_care: 59종목 · 제외 0 · 기준일 2026-10-23",
+  "industrials: 81종목 · 제외 0 · 기준일 2026-10-23",
+  "materials: 25종목 · 제외 1 · 기준일 2026-10-23",
+  "real_estate: 29종목 · 제외 2 · 기준일 2026-10-23",
+  "utilities: 31종목 · 제외 0 · 기준일 2026-10-23",
+  "asset_managers: 12종목 · 제외 2 · 기준일 2026-10-23",
+  "insurers: 16종목 · 제외 2 · 기준일 2026-10-23",
+  "payments_exchanges: 18종목 · 제외 0 · 기준일 2026-10-23"
  ],
  "peerFilesKept": [],
  "peerSecRefresh": {
@@ -46,25 +99,48 @@
  "analystFailed": [],
  "verdictChanges": [
   {
-   "ticker": "GS",
+   "ticker": "MCK",
    "old": [
     [
-     0,
+     -1,
      0,
      -2
     ],
-    "적정~고평가"
+    "고평가"
    ],
    "new": [
     [
-     0,
      -1,
+     1,
+     -2
+    ],
+    "적정~고평가"
+   ]
+  },
+  {
+   "ticker": "PM",
+   "old": [
+    [
+     -1,
+     -1,
+     -2
+    ],
+    "고평가"
+   ],
+   "new": [
+    [
+     -1,
+     0,
      -2
     ],
     "고평가"
    ]
   }
  ],
- "failed": [],
- "problems": []
+ "failed": [
+  "WDC"
+ ],
+ "problems": [
+  "WDC: 새 공시(2026-10-23) 자동 반영 실패 — 이전 분기에 둠"
+ ]
 }

@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="fcxPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="fcxPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="fcxPeerScore">27.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="fcxPeerScore">28.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="fcxSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="fcxSelfVerdict">비싼 편</span></div>
@@ -932,9 +932,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$28</div><div class="vs-note">현재가 <span data-vs="price">$65.18</span> 대비 <strong data-vs="upside">−57.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.36
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">27.7</div><div class="sc-tile low" data-vc="peer" data-m="per">24</div><div class="sc-tile low" data-vc="peer" data-m="pbr">21</div><div class="sc-tile low" data-vc="peer" data-m="psr">25</div><div class="sc-tile low" data-vc="peer" data-m="pcr">9</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">60</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">28.3</div><div class="sc-tile low" data-vc="peer" data-m="per">24</div><div class="sc-tile low" data-vc="peer" data-m="pbr">25</div><div class="sc-tile low" data-vc="peer" data-m="psr">25</div><div class="sc-tile low" data-vc="peer" data-m="pcr">9</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">59</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 32.1배(5년 중앙값 28.3배)로 자기 이력 20.1점(비싸다), 동종업 27.7점(비싸다)이다. <strong>현금흐름 내재가치(기본 $27.62)는 현재가의 42%다</strong>.</div>
+    <div class="vs-premise">PER 32.1배(5년 중앙값 28.3배)로 자기 이력 20.1점(비싸다), 동종업 28.3점(비싸다)이다. <strong>현금흐름 내재가치(기본 $27.62)는 현재가의 42%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $27.62)는 현재가의 42%다. 현재가를 정당화하려면 영업이익률이 45.3%까지 올라야 한다(최근 4분기 26.8%, 5년 중앙값 27.1%). 내재가치에서 차입금 $9.4B를 빼고 현금·단기투자 $4.1B를 더한다.</div>
   </div>
 
@@ -1004,7 +1004,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (APD 값 없음) · 10/16 종가(FCX 막대는 10/23)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (APD 값 없음) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1122,8 +1122,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 78.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 17.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-17</span></span>
-        <span class="op-val"><span data-an="mean">$80.80</span> <span class="op-sub op-up" data-an="upside">+24.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
+        <span class="op-val"><span data-an="mean">$80.87</span> <span class="op-sub op-up" data-an="upside">+24.1%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1327,59 +1327,61 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '소재 6곳 PER 비교 (점수는 S&P500 소재 기준) (APD 값 없음) · 10/16 종가(FCX 막대는 10/23)',
+    title: '소재 6곳 PER 비교 (점수는 S&P500 소재 기준) (APD 값 없음) · 10/23 종가',
     unit: 'PER', max: 45, fcxValue: null,
     peers: [
-      { name:'NEM', value:14.1, status:'reference' },
-      { name:'NUE', value:20.5, status:'reference' },
-      { name:'LIN', value:32.2, status:'reference' },
-      { name:'SHW', value:30.9, status:'reference' },
-      { name:'ECL', value:38.8, status:'reference' }
+      { name:'NEM', value:12.9, status:'reference' },
+      { name:'NUE', value:20.6, status:'reference' },
+      { name:'LIN', value:32.8, status:'reference' },
+      { name:'SHW', value:31.1, status:'reference' },
+      { name:'ECL', value:38.7, status:'reference' }
     ]
   },
   pbr: {
-    title: '소재 PBR 비교 · 10/16 종가(FCX 막대는 10/23)',
+    title: '소재 PBR 비교 · 10/23 종가',
     unit: 'PBR', max: 25, fcxValue: null,
     peers: [
-      { name:'NEM', value:3.5, status:'reference' },
+      { name:'NEM', value:3.2, status:'reference' },
       { name:'NUE', value:2.6, status:'reference' },
-      { name:'LIN', value:5.9, status:'reference' },
-      { name:'APD', value:4.8, status:'reference' },
-      { name:'SHW', value:21.1, status:'reference' },
-      { name:'ECL', value:8.1, status:'reference' }
+      { name:'LIN', value:6.0, status:'reference' },
+      { name:'APD', value:4.9, status:'reference' },
+      { name:'SHW', value:21.2, status:'reference' },
+      { name:'ECL', value:8.0, status:'reference' }
     ]
   },
   psr: {
-    title: '소재 PSR 비교 · 10/16 종가(FCX 막대는 10/23)',
+    title: '소재 PSR 비교 · 10/23 종가',
     unit: 'PSR(TTM)', max: 10, fcxValue: null,
     peers: [
-      { name:'NEM', value:4.8, status:'reference' },
+      { name:'NEM', value:4.2, status:'reference' },
       { name:'NUE', value:1.6, status:'reference' },
-      { name:'LIN', value:6.5, status:'reference' },
-      { name:'APD', value:5.3, status:'reference' },
-      { name:'SHW', value:3.3, status:'reference' },
+      { name:'LIN', value:6.6, status:'reference' },
+      { name:'APD', value:5.4, status:'reference' },
+      { name:'SHW', value:3.4, status:'reference' },
       { name:'ECL', value:4.8, status:'reference' }
     ]
   },
   pcr: {
-    title: '소재 PCR(FCF) 비교 (APD 값 없음) · 10/16 종가(FCX 막대는 10/23)',
+    title: '소재 PCR(FCF) 비교 (APD 값 없음) · 10/23 종가',
     unit: 'PCR(FCF)', max: 65, fcxValue: null,
     peers: [
-      { name:'NEM', value:12.8, status:'reference' },
-      { name:'NUE', value:36.7, status:'reference' },
-      { name:'LIN', value:46.2, status:'reference' },
-      { name:'SHW', value:25.3, status:'reference' },
-      { name:'ECL', value:43.2, status:'reference' }
+      { name:'NEM', value:11.2, status:'reference' },
+      { name:'NUE', value:37.0, status:'reference' },
+      { name:'LIN', value:47.1, status:'reference' },
+      { name:'SHW', value:25.5, status:'reference' },
+      { name:'ECL', value:43.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '소재 EV/EBITDA 비교 (NUE 값 없음·SHW 값 없음) · 10/16 종가(FCX 막대는 10/23)',
-    unit: 'EV/EBITDA', max: 85, fcxValue: null,
+    title: '소재 EV/EBITDA 비교 · 10/23 종가',
+    unit: 'EV/EBITDA', max: 90, fcxValue: null,
     peers: [
-      { name:'NEM', value:7.7, status:'reference' },
-      { name:'LIN', value:19.3, status:'reference' },
-      { name:'APD', value:72.6, status:'reference' },
-      { name:'ECL', value:23.0, status:'reference' }
+      { name:'NEM', value:6.7, status:'reference' },
+      { name:'NUE', value:11.3, status:'reference' },
+      { name:'LIN', value:19.7, status:'reference' },
+      { name:'APD', value:75.2, status:'reference' },
+      { name:'SHW', value:20.3, status:'reference' },
+      { name:'ECL', value:23.1, status:'reference' }
     ]
   }
 };
@@ -1509,7 +1511,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py FCX
 const FCX_SCORES = {
   fundamental: 57.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 27.7,          // S&P500 소재 대비 배수 순위 (v2/peer_universe/materials.json)
+  peer: 28.3,          // S&P500 소재 대비 배수 순위 (v2/peer_universe/materials.json)
   selfHistory: 20.1,   // 자기 5년 배수 분포 백분위 (2021-10-25 ~ 2026-10-23)
   asOf: "2026-10-23",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1827,7 +1829,7 @@ const FCX_FUNDAMENTAL = {"ticker": "FCX", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py FCX --self v2/FCX_multiples.json --card
 /* VALUATION:BEGIN */
-const FCX_VALUATION = {"peer": {"score": 27.7, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-16", "2026-10-16"], "priceSession": null, "metrics": [{"metric": "per", "score": 23.5, "rank": 14, "peers": 17}, {"metric": "pbr", "score": 20.8, "rank": 20, "peers": 24}, {"metric": "psr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "pcr", "score": 9.1, "rank": 21, "peers": 22}, {"metric": "evebitda", "score": 60.0, "rank": 7, "peers": 15}]}, "self": {"score": 20.1, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 35.7, "percentile": 64.3, "current": 32.11, "min": 7.25, "median": 28.33, "max": 48.12, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 14.3, "percentile": 85.7, "current": 4.65, "min": 2.38, "median": 3.64, "max": 5.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 6.9, "percentile": 93.1, "current": 3.62, "min": 1.48, "median": 2.57, "max": 4.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 36.7, "percentile": 63.3, "current": 53.12, "min": 6.2, "median": 39.01, "max": 165.23, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 6.7, "percentile": 93.3, "current": 12.35, "min": 4.03, "median": 8.47, "max": 14.68, "days": 1255, "currentNote": null}]}};
+const FCX_VALUATION = {"peer": {"score": 28.3, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 23.5, "rank": 14, "peers": 17}, {"metric": "pbr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "psr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "pcr", "score": 9.1, "rank": 21, "peers": 22}, {"metric": "evebitda", "score": 58.8, "rank": 8, "peers": 17}]}, "self": {"score": 20.1, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 35.7, "percentile": 64.3, "current": 32.11, "min": 7.25, "median": 28.33, "max": 48.12, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 14.3, "percentile": 85.7, "current": 4.65, "min": 2.38, "median": 3.64, "max": 5.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 6.9, "percentile": 93.1, "current": 3.62, "min": 1.48, "median": 2.57, "max": 4.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 36.7, "percentile": 63.3, "current": 53.12, "min": 6.2, "median": 39.01, "max": 165.23, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 6.7, "percentile": 93.3, "current": 12.35, "min": 4.03, "median": 8.47, "max": 14.68, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2125,7 +2127,7 @@ const FCX_ACTIVITY = {"ticker": "FCX", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/fcx/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const FCX_ANALYST = { asOf: '2026-10-17', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 23, nTargets: 15, mean: 80.8, median: 80,
+const FCX_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 23, nTargets: 15, mean: 80.87, median: 80,
   low: 72, high: 92, strongBuy: 12, buy: 6, hold: 4, sell: 0, strongSell: 1 };
 (function(){
   const A = FCX_ANALYST, last = (typeof FCX_DAILY !== 'undefined' && FCX_DAILY.length) ? FCX_DAILY[FCX_DAILY.length - 1] : null;

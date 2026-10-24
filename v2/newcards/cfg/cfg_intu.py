@@ -67,7 +67,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 34, 'nt': 24, 'mean': 384.88, 'median': 400, 'low': 290, 'high': 550, 'sb': 15, 'b': 5, 'h': 12, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-18'
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(보고 부문 축 2개, 10-K 연간 − Q3 9개월). 원문 대조: 4분기 3,424/930(합 4,354 = 연결), 1년 전 3,013/818(2026-10-18) ──

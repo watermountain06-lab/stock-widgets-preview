@@ -11,7 +11,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q1 FY27', 'Q1 FY26', 'Q4 FY26'
 L8 = ['Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26', 'Q1 FY27']
 FY_ENDS, FY_LABEL = ('2026-03-31', '2025-03-31'), 'FY2026'
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, 1, -2), '적정~고평가'
 CO = 'McKesson'
 S_ = 'https://www.sec.gov/Archives/edgar/data/927653/'
 SEC = S_
@@ -57,8 +57,8 @@ NEWS = [
      '매출 $103.2B(+10%) · 희석 EPS $8.92 · 2분기부터 4개 부문으로 공시', 'q2', 'McKesson 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 14, 'mean': 996.86, 'median': 1000, 'low': 845, 'high': 1200, 'sb': 10, 'b': 3, 'h': 3, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-17'
+ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 14, 'mean': 1005.07, 'median': 1006, 'low': 845, 'high': 1200, 'sb': 10, 'b': 3, 'h': 3, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q Note 13 Q1 FY27 86,773/14,222/2,819/1,566, 1년 전 82,729/10,658/2,701/1,434 + Other 305(노르웨이, 2026-01 매각) = 97,827(2026-10-14) ──

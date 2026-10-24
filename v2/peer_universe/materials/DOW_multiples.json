@@ -1,38 +1,38 @@
 {
  "ticker": "DOW",
  "window": [
-  "2025-10-17",
-  "2026-10-16"
+  "2025-10-24",
+  "2026-10-23"
  ],
  "multiples": {
   "PSR": {
    "days": 251,
-   "current": 0.52,
+   "current": 0.55,
    "min": 0.36,
    "p10": 0.4,
    "median": 0.53,
    "p90": 0.7,
    "max": 0.75,
    "mean": 0.54,
-   "percentile": 45.0,
-   "score": 55.0
+   "percentile": 60.6,
+   "score": 39.4
   },
   "PBR": {
    "days": 251,
-   "current": 1.36,
+   "current": 1.46,
    "min": 0.85,
-   "p10": 0.93,
-   "median": 1.37,
+   "p10": 0.94,
+   "median": 1.38,
    "p90": 1.78,
    "max": 1.93,
-   "mean": 1.36,
-   "percentile": 46.6,
-   "score": 53.4
+   "mean": 1.37,
+   "percentile": 67.7,
+   "score": 32.3
   }
  },
  "perBasis": "diluted",
  "perNA": {
-  "netMargin": -0.0241,
+  "netMargin": -0.014,
   "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

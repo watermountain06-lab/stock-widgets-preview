@@ -54,7 +54,7 @@ NEWS = [
      '약 $1.05B — 2025년 7월 Evident 검사 기술(약 $1.8B), 12월 Frauscher(철도 신호)에 이은 세 번째 인수(별도 8-K 없음, 10-Q 인수 주석)', 'tenq', 'Wabtec Q3 2026 10-Q (SEC)'),
 ]
 ANALYST = {'rating': 'Strong Buy', 'n': 12, 'nt': 6, 'mean': 331, 'median': 332, 'low': 315, 'high': 355, 'sb': 9, 'b': 1, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-23'
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 2개(수동 지도). 원문 대조: Q3 2026 2,237/883(2026-10-23) ──

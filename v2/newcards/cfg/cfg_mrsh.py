@@ -63,8 +63,8 @@ NEWS = [
      '매출 $6.35B(+11%) · 희석 EPS $1.51(1년 전 $1.51)', 'q3_25', 'Marsh McLennan 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Hold', 'n': 23, 'nt': 16, 'mean': 202.5, 'median': 201, 'low': 180, 'high': 234, 'sb': 5, 'b': 2, 'h': 15, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-18'
+ANALYST = {'rating': 'Hold', 'n': 23, 'nt': 16, 'mean': 203.31, 'median': 201, 'low': 180, 'high': 234, 'sb': 5, 'b': 2, 'h': 15, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드 — 부문 지도: 사업(SubsegmentsAxis)마다 부문 축(StatementBusinessSegmentsAxis — 보험·재보험은 RIS, 나머지는 Consulting)이 달라 seg_map_propose는 2/4만 맞췄다.
