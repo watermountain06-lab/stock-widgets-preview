@@ -1602,7 +1602,9 @@ DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# P(옛 PSTG): 단기투자 = 유동 매도가능 채무증권(DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent, Q2 FY27 $622.2M) — 기본 태그는 2021-05에 멈췄다(2026-10-24)
+EV_TAGS_BY_CIK = {# MCHP: 7.5% 의무전환 우선주 청산가치 $1,485M(PreferredStockLiquidationPreferenceValue) — 장부 우선주 값은 0(추가납입자본 안, 2026-10-24)
+                  "0000827054": {"preferred": ["PreferredStockLiquidationPreferenceValue"]},
+# P(옛 PSTG): 단기투자 = 유동 매도가능 채무증권(DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent, Q2 FY27 $622.2M) — 기본 태그는 2021-05에 멈췄다(2026-10-24)
                   "0001474432": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"]},
 # WAB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($489M, 제한 현금 포함 — 재무상태표 줄) — 기본 현금 태그는 2022-09에 멈췄다(2026-10-23)
                   "0000943452": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
