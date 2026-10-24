@@ -1006,7 +1006,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">헬스케어 6곳 PER 비교 — HUM·CNC·MCK는 순이익률 2% 미만이라 PER 없음 (HUM 값 없음·CNC 값 없음·MCK 값 없음) · 10/23 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">헬스케어 6곳 PER 비교 — HUM·CNC·MCK는 순이익률 2% 미만이라 PER 없음 (HUM 값 없음·CNC 값 없음) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1311,12 +1311,13 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '헬스케어 6곳 PER 비교 — HUM·CNC·MCK는 순이익률 2% 미만이라 PER 없음 (HUM 값 없음·CNC 값 없음·MCK 값 없음) · 10/23 종가',
+    title: '헬스케어 6곳 PER 비교 — HUM·CNC·MCK는 순이익률 2% 미만이라 PER 없음 (HUM 값 없음·CNC 값 없음) · 10/23 종가',
     unit: 'PER', max: 35, cvsValue: null,
     peers: [
       { name:'UNH', value:26.8, status:'reference' },
-      { name:'ELV', value:19.5, status:'reference' },
-      { name:'CI', value:12.7, status:'reference' }
+      { name:'ELV', value:18.8, status:'reference' },
+      { name:'CI', value:12.7, status:'reference' },
+      { name:'MCK', value:26.8, status:'reference' }
     ]
   },
   pbr: {

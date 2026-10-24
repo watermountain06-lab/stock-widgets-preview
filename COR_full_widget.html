@@ -1005,7 +1005,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">의약품 유통·의료 서비스 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) (MCK 값 없음·CAH 값 없음·CVS 값 없음) · 10/23 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">의약품 유통·의료 서비스 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) (CAH 값 없음) · 10/23 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1328,11 +1328,13 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '의약품 유통·의료 서비스 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (MCK 값 없음·CAH 값 없음·CVS 값 없음) · 10/23 종가',
+    title: '의약품 유통·의료 서비스 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (CAH 값 없음) · 10/23 종가',
     unit: 'PER', max: 35, corValue: null,
     peers: [
+      { name:'MCK', value:26.8, status:'reference' },
       { name:'HSIC', value:24.8, status:'reference' },
       { name:'UNH', value:26.8, status:'reference' },
+      { name:'CVS', value:24.7, status:'reference' },
       { name:'CI', value:12.7, status:'reference' }
     ]
   },
