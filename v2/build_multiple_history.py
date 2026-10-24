@@ -97,6 +97,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # FIX: DepreciationAndAmortization는 FY2025 10-K 한 해($62.4M, 감가상각만)뿐 — 감가상각 + 무형자산 상각(Q3 2026 21.9 + 25.7)으로(2026-10-24)
+                    "0001035983": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # MSCI: DepreciationDepletionAndAmortization는 유형자산 감가상각만($23M/년) — 손익계산서 '무형자산 상각'(인수 무형자산 + 자본화 소프트웨어, Q3 2026 $45M)을 더한다(2026-10-23)
                     "0001408198": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # CIEN: 현금흐름표 무형자산 상각($35.4M, FY26 9개월)은 회사 고유 태그(BUILD company_tags → AmortizationOfIntangibleAssetsCashFlowCien)뿐이고
@@ -685,6 +687,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # FIX: 한 해짜리 DDA 합계 태그를 빼야 DDA_PARTS가 쓰인다(2026-10-24)
+                "0001035983": ("DepreciationAndAmortization",),
                 # MSCI: 감가상각만인 DDA 합계 태그를 빼야 DDA_PARTS(감가상각 + 무형자산 상각)가 쓰인다(2026-10-23)
                 "0001408198": ("DepreciationDepletionAndAmortization",),
                 # NDAQ: DepreciationDepletionAndAmortization는 10-K 한 해(2025 $145M, 유형자산 감가상각만)뿐 — 현금흐름표 D&A(DepreciationAndAmortization, 인수 무형자산 상각 포함 TTM $657M)와 섞이면 D&A가 $169M으로 줄었다(Codex r1, 2026-10-23)
