@@ -12,6 +12,7 @@ CUR, YO, QO = '2026-07-03', '2025-06-27', '2026-04-03'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 L8 = ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26']
 NI_TAGS = ['IncomeLossFromContinuingOperations']   # FY25 분기 총순이익에는 SanDisk 중단사업이 섞인다(Fable) — 계속사업 순이익
+NI_CONTINUE = 'NetIncomeLoss'   # FY27부터 계속사업 태그가 없다(중단사업 0) — 그 뒤 기간만 총순이익으로 잇는다(fill.py continue_rows, 2026-10-24)
 RELEASE = {'rev': 3747, 'op': 1563, 'ni': 3195}   # 보도자료 GAAP(순이익은 SanDisk 지분 평가이익 포함)
 VOTES, VERDICT = (0, 0, -2), '적정~고평가'
 CO = 'Western Digital'

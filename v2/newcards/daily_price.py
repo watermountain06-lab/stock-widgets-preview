@@ -170,10 +170,14 @@ def first_session_after(accepted_utc):
     return day.isoformat()
 
 
+RETRY_SESSIONS = 3   # 요약 자료에 아직 없는 새 공시로 같은 세션을 다시 도는 기간 — 접수 뒤 첫 세션부터 평일 세션 수(휴일은 세지 않는다)
+
+
 def auto_approve(status, session, tickers):
     """자동 카드의 새 10-Q·10-K를 기준표(v2/sec_approved.json)에 스스로 올린다(2026-10-10 사용자 결정: 새 공시는 자동 반영).
     조건: 10-Q·10-K(정정 10-Q/A·10-K/A 포함 — 아래 주석, 정정 처리 방침은 사용자 결정 대기), SEC 요약 자료(companyfacts)에 그 공시가 이미 실림, 접수 뒤 첫 종가가 오늘 세션까지 들어옴.
     요약 자료에 아직 없으면 '대기'로 두고 다음 실행에서 다시 본다. 반환: {T: (CIK, 예전 날짜, 새 날짜)} — 카드가 실패하면 되돌린다."""
+    import datetime as dt
     import importlib.util
     sys.path.insert(0, V2)
     import auto_card as ac
@@ -222,7 +226,14 @@ def auto_approve(status, session, tickers):
                        for tg in tx.values() for rows in tg.get("units", {}).values() for x in rows)
             if not have:
                 waiting.append(f"{T}: {filed} {form} — SEC 요약 자료에 아직 없음")
-                status["autoRetry"] = True   # 같은 세션에서 다시 돌 수 있게(--skip-if-current가 건너뛰지 않게)
+                # 같은 세션에서 다시 돌 수 있게(--skip-if-current가 건너뛰지 않게) — 접수 뒤 첫 세션부터 RETRY_SESSIONS세션까지만. 그 뒤에도 없으면 SEC 쪽이
+                # 몇 달씩 비우는 경우라(2026-10-24: NEE·SO·DUK·ED·BIIB의 Q2·Q3가 요약 자료에서 빠짐) 매번 전체를 다시 만들지 않는다.
+                # '대기'에는 남고, 다음 세션 실행(그날은 건너뛴다)에서 다시 본다 — 실리면 그때 반영된다(2026-10-24 사용자 결정)
+                # 달력 날짜로 세면 금요일 접수는 월요일 하루만 다시 돈다 — 첫 세션 뒤 평일 수로(Fable)
+                first = dt.date.fromisoformat(first_session_after(accepted))
+                gone = sum(1 for i in range(1, (dt.date.fromisoformat(session) - first).days + 1) if (first + dt.timedelta(i)).weekday() < 5)
+                if gone < RETRY_SESSIONS:
+                    status["autoRetry"] = True
                 continue
             pick = filed
             break

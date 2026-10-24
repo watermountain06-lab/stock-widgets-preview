@@ -51,13 +51,44 @@ def F(s):
     return re.sub(r'\{([^{}]+)\}', rep, s)
 
 
-def q(tags):
+DISC_NI = ('IncomeLossFromDiscontinuedOperationsNetOfTax', 'IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity',
+           'DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTax')
+
+
+def continue_rows(rows, tag):
+    """계속사업 순이익 태그(NI_TAGS)가 끊긴 뒤의 기간을 tag(NI_CONTINUE, 총순이익)로 잇는다 — 중단사업이 없어진 분기부터 회사가
+    계속사업 태그를 싣지 않는다(WDC 2027 회계 1분기 10-Q, 2026-10-23: NetIncomeLoss만 실려 새 분기 순이익이 비고 카드가 멈췄다).
+    EPS 이력의 forward_fill(scripts/fetch_eps_history.py)과 같은 규칙: 기간 전체가 마지막 계속사업 기간 뒤인 행만, 그리고 경계까지의
+    마지막 중단사업 손익 행이 있고 0이며 받는 기간과 겹치는 0 아닌 중단사업 손익이 없을 때만. 행은 _facts가 승인일까지로 자른다."""
+    own = [r for r in rows if 'start' in r]
+    if not own:
+        return []
+    last = max(r['end'] for r in own)
+    newer = [r for r in bmh.concept(CIK, tag) if 'start' in r and r['start'] > last
+             and r.get('form') in ('10-Q', '10-K', '10-Q/A', '10-K/A')]   # 위임장(DEF 14A)이 다른 값으로 태깅한 연간 행이 4분기를 바꾸지 않게(Fable)
+    if not newer:
+        return []
+    disc = [d for t_ in DISC_NI for d in bmh.concept(CIK, t_) if 'start' in d]
+    before = [d for d in disc if d['end'] <= last]
+    tail = max((d['end'] for d in before), default=None)
+    if tail is None or any(d.get('val') != 0 for d in before if d['end'] == tail):   # 값이 빈 행은 0의 증거가 아니다(Codex)
+        raise SystemExit(f'{T}: 계속사업 순이익이 {last}에서 끝났지만 그 직전 중단사업 손익이 0이라는 기록이 없다 — {tag}로 이을 수 없다')
+    for r in newer:
+        hit = [d for d in disc if d['start'] <= r['end'] and d['end'] >= r['start'] and d.get('val') != 0]
+        if hit:
+            raise SystemExit(f"{T}: {r['start']}~{r['end']}에 중단사업 손익 {hit[0]['val']}가 있다 — {tag}로 이을 수 없다")
+    return newer
+
+
+def q(tags, cont=None):
     _, rows = bmh.pick_tag(CIK, tags)
+    if cont:
+        rows = rows + continue_rows(rows, cont)
     return {e['end']: e['val'] for e in bmh.quarterly_flow(rows, T)}
 
 
 pct = lambda v: f'{v * 100:.1f}%'
-rev = q(bmh.FLOW_TAGS['revenue']); op = q(['OperatingIncomeLoss']); ni = q(getattr(C, 'NI_TAGS', ['NetIncomeLoss']))
+rev = q(bmh.FLOW_TAGS['revenue']); op = q(['OperatingIncomeLoss']); ni = q(getattr(C, 'NI_TAGS', ['NetIncomeLoss']), getattr(C, 'NI_CONTINUE', None))
 ocf = q(bmh.FLOW_TAGS['ocf']); cap = q(bmh.FLOW_TAGS['capex'])   # 엔진과 같은 태그 목록 — T는 2026년부터 계속사업 영업현금흐름 태그로만 냈다(2026-10-02)
 if getattr(C, 'OP_DISPLAY', None):   # 영업이익 줄이 없는 종목의 카드 표시용 영업이익(엔진 배수에는 안 씀) — CB 보험사: 세전이익 + 이자비용(2026-10-02)
     _pt_tags, _adds = C.OP_DISPLAY
