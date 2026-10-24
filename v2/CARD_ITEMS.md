@@ -1960,3 +1960,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — EV_TAGS nci(자본 안 + 상환가능 $1.5B), Q4_EPS_OVERRIDE 2024·2025.
 - **판단** — 매각 이익 포함, Arcosa 인수(10/23 완료, 재무는 인수 전), NEXT_CONFIRMED 10/29, 배당 칸 보정, 자기 이력·현금흐름 다리 문장.
 - **dr** — Codex 2라운드·Fable.
+
+## DHI — 주택 건설 (2026-10-24, 카드 200)
+
+- **판정 적정(0, 1, −1)** — 자기 이력 38.2, 동종업 76.3(S&P500 경기소비재 — build_peer_score TICKER_UNIVERSE에 DHI, 사용자 결정), 현금흐름 보수 $163 · 기본 $129 · 낙관 $103 대 $147.48(10/23). 기준 Q3 FY26 10-Q, FY26 4분기 실적 10/29 장 전.
+- **엔진** — DERIVED_OPINC 세전이익(영업이익 줄 없음, 이자 자본화), DEBT_TOTAL_TAG NotesPayable(모기지 환매 약정 포함), 비지배지분(Forestar 38%), Q4_EPS_OVERRIDE FY2021~2025.
+- **판단** — 정점 뒤 이익률 하락, 시나리오 순서는 이익률이 정함, 판매 대기 모기지 미가산(보수적), 유동 미구분 재무상태표(HEALTH_EXTRA), 자사주 $5B 추가 승인.
+- **dr** — Codex 2라운드·Fable. 보류(이번 11개 중): SO·DUK·ED·BIIB(preflight), FERG·KVUE·HIG·DLR·O.

@@ -8486,6 +8486,49 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "DHI",
+      "name": "D.R. Horton",
+      "sector": "경기소비재 — 미국 최대 주택 건설사(단독주택·임대 주택), 택지 개발(Forestar)·주택 금융",
+      "href": "DHI_full_widget.html",
+      "cardRank": 200,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 147.48,
+        "prevClose": 147.66,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 279701267,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-16",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0000882184-26-000096 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 49.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

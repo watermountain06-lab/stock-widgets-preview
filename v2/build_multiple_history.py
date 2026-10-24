@@ -507,7 +507,10 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# PCAR: 영업이익 줄이 없다 — 손익계산서는 트럭·부품·기타 세전 + 금융 서비스 세전 + 투자수익 = 세전이익. 영업이익 = 세전이익 − 투자수익(InvestmentIncomeNet,
+DERIVED_OPINC = {# DHI: 손익계산서에 영업이익 줄이 없다(주택 건설사) — 영업이익 = 세전이익. 기타 영업외 손익(Q3 FY26 $71.2M)에는 임대·모기지 이자수익 같은
+                 # 반복 영업 수익이 섞여 있고, 이자비용은 대부분 자본화돼 매출원가로 나가 세전이익이 사실상 이자 차감 전이다(Codex r1, 2026-10-24)
+                 "0000882184": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", []),
+# PCAR: 영업이익 줄이 없다 — 손익계산서는 트럭·부품·기타 세전 + 금융 서비스 세전 + 투자수익 = 세전이익. 영업이익 = 세전이익 − 투자수익(InvestmentIncomeNet,
                  # 트럭 부문 시장성 증권 수익). 금융 서비스 이자비용은 영업으로 둔다(CAT·DE 규칙). Q2 2026: 981.5 − 86.0 = 895.5(10-Q 대조, 2026-10-23)
                  "0000075362": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", [(["InvestmentIncomeNet"], 1)]),
 # NUE: 영업이익 줄이 없다 — 손익계산서는 매출 − 비용(지분법 이익·자산 손상·순이자 포함) = 세전이익. 영업이익 = 세전이익 + 순이자비용(InterestRevenueExpenseNet, 음수로 실림).
@@ -1351,6 +1354,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # DHI: 재무상태표 차입금은 한 줄 "Notes payable"(NotesPayable, Q3 FY26 $7,112.6M — 주택 금융의 모기지 환매 약정 $1.8B 포함, 2026-10-24)
+                  "0000882184": "NotesPayable",
                   # RMD: 기본 선택이 단기 차입($260M)만 잡았다 — 재무상태표 합계 DebtLongtermAndShorttermCombinedAmount(FY2026 말 260 + 399.4 = $659.4M)(2026-10-24)
                   "0000943819": "DebtLongtermAndShorttermCombinedAmount",
                   # IDXX: 기본 목록에 신용한도 차입(LinesOfCreditCurrent, 텀론 $250M 포함 — Q2 2026 $519M)이 빠졌다 — 신용한도 + 1년 안 사채 + 장기 사채. Q2 2026: 519 + 150 + 299.9 = 968.9(10-Q 대조, 2026-10-24)
