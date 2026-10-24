@@ -68,6 +68,51 @@ def cap_rows(rows, cap):
     return [e for e in rows if e.get("filed") and e["filed"] <= cap] if cap else rows
 
 
+DILUTED = "EarningsPerShareDiluted"
+DISCONTINUED = ("IncomeLossFromDiscontinuedOperationsNetOfTaxPerDilutedShare",
+                "IncomeLossFromDiscontinuedOperationsNetOfTaxPerBasicShare",
+                "DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTaxPerDilutedShare",
+                "IncomeLossFromDiscontinuedOperationsNetOfTaxPerBasicAndDilutedShare")
+
+
+def forward_fill(entries, gaap, tag, cap, ticker):
+    """계속사업 EPS 태그 하나만 쓰는 분사 종목(GE·WDC)에 더할 행: entries에 없는 그 태그의 companyfacts 행, 그리고 그 태그의 마지막
+    기간 뒤 희석 EPS 행. 중단사업이 없어진 분기부터 회사가 계속사업 태그를 싣지 않는다 — WDC 2027 회계 1분기 10-Q(2026-10-23)가
+    희석 $4.63만 실어 새 분기 EPS를 못 찾고 카드가 멈췄다.
+    - 모든 행은 승인일(cap)까지만 본다. 승인 전 공시가 승인된 결과를 바꾸지 않게(Codex dr 2026-10-24).
+    - 경계(last)는 entries(companyconcept일 수 있음)와 companyfacts의 그 태그 행을 합쳐 잡고, companyfacts에만 있던 행도 돌려준다 —
+      색인 지연으로 경계가 뒤로 밀리거나 행이 빠지지 않게(Fable·Codex).
+    - 기간 전체가 경계 뒤인 행만 받는다. 연간·누적 행이 계속사업 기간을 걸치면 Q4 역산에 전체 EPS가 섞인다(Codex).
+    - 희석 EPS = 계속사업 EPS라는 양성 증거가 있어야 잇는다: 경계까지의 마지막 중단사업 EPS 행이 있고 0이며, 받는 기간에 0 아닌
+      중단사업 EPS가 없다(기간이 겹치는 누계·연간 행 포함). 태그가 없다는 것은 0의 증거가 아니다 — WDC 10-K 4분기 행은 중단사업 태그 없이 두 값이 달랐다(Fable).
+      GE는 매 분기 중단사업 EPS가 있어 계속사업 태그를 그만 쓰면 여기서 멈춘다.
+    - 회계연도 중간에 태그가 끊기고 연간 계속사업 행이 없으면 그해 4분기를 만들지 못해 카드가 멈춘다(틀린 값은 넣지 않는다).
+    그 앞(분사 전 회사 전체 EPS)은 채우지 않는다. 여러 태그("A,B")는 main()의 다른 길이 맡는다."""
+    rows = lambda t: cap_rows([e for e in gaap.get(t, {}).get("units", {}).get("USD/shares", []) if "start" in e], cap)
+    mine = cap_rows([e for e in entries if "start" in e], cap)   # 승인 뒤 행이 승인된 보충을 막지 않게(Codex r3)
+    have = {(e["start"], e["end"]) for e in mine}
+    extra = [e for e in rows(tag) if (e["start"], e["end"]) not in have]
+    own = mine + extra
+    if not own:
+        return extra
+    last = max(e["end"] for e in own)
+    taken = have | {(e["start"], e["end"]) for e in extra}
+    newer = [e for e in rows(DILUTED) if e["start"] > last and (e["start"], e["end"]) not in taken]
+    if newer:
+        disc = [d for t in DISCONTINUED for d in rows(t)]
+        before = [d for d in disc if d["end"] <= last]
+        tail = max((d["end"] for d in before), default=None)
+        if tail is None or any(d.get("val") for d in before if d["end"] == tail):
+            raise SystemExit(f"{ticker}: {tag}가 {last}에서 끝났지만 그 직전 중단사업 EPS가 0이라는 기록이 없다 — "
+                             f"희석 EPS로 이을 수 없다. 원문을 보고 정할 것")
+        for e in newer:   # 누계·연간 중단사업 행도 본다 — 기간이 겹치기만 해도(Codex r3: 9개월 누계에만 실린 중단사업 손익)
+            hit = [d for d in disc if d["start"] <= e["end"] and d["end"] >= e["start"] and d.get("val")]
+            if hit:
+                raise SystemExit(f"{ticker}: {e['start']}~{e['end']}에 {tag}가 없고 중단사업 EPS {hit[0]['val']}가 있다 — "
+                                 f"희석 EPS로 이을 수 없다. 원문을 보고 정할 것")
+    return extra + newer
+
+
 def split_ratio(filed, split_dates):
     ratio = 1
     for eff_date, r in split_dates:
@@ -612,6 +657,13 @@ def main():
         if _add:
             print(f"NOTE: overlay에서 {len(_add)}개 행 보충({args.ticker})", file=sys.stderr)
             entries = list(entries) + _add
+
+    if len(tags) == 1 and args.tag != DILUTED:
+        newer = forward_fill(entries, curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{args.cik}.json")["facts"]["us-gaap"],
+                             args.tag, cap, args.ticker)
+        if newer:
+            print(f"NOTE: {args.tag} 보충 {len(newer)}개 행(companyfacts 행·끝난 뒤 {DILUTED})({args.ticker})", file=sys.stderr)
+            entries = list(entries) + newer
 
     entries = cap_rows(entries, cap)   # 원문 오버레이 행까지 합친 뒤, 중복 제거·TTM 계산 전에 자른다(Codex 2026-10-08)
 

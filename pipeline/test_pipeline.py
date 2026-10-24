@@ -1480,6 +1480,54 @@ def test_merge_tier_history():
             check(f"tier merge: refuses {name}", True)
 
 
+def _raises(f):
+    try:
+        f()
+    except SystemExit:
+        return True
+    return False
+
+
+def test_eps_forward_fill():
+    """fetch_eps_history.forward_fill (2026-10-24, WDC): a continuing-ops EPS tag that stops is continued with diluted EPS."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+    import fetch_eps_history as feh
+    r = lambda s, e, v, f: {"start": s, "end": e, "val": v, "filed": f}
+    A, D = "IncomeLossFromContinuingOperationsPerDilutedShare", feh.DILUTED
+    cont = [r("2026-01-01", "2026-03-31", 1.0, "2026-04-30"), r("2026-04-01", "2026-06-30", 1.0, "2026-07-30")]
+    dil = [r("2026-01-01", "2026-03-31", 0.9, "2026-04-30"), r("2026-04-01", "2026-06-30", 0.9, "2026-07-30"),
+           r("2026-07-01", "2026-09-30", 1.2, "2026-10-30"), r("2026-01-01", "2026-09-30", 3.0, "2026-10-30")]
+    gaap = {A: {"units": {"USD/shares": cont}}, D: {"units": {"USD/shares": dil}},
+            feh.DISCONTINUED[0]: {"units": {"USD/shares": [r("2026-04-01", "2026-06-30", 0, "2026-07-30")]}}}
+    got = feh.forward_fill(cont, gaap, A, "2026-10-30", "X")
+    check("eps fill: only whole periods after the last continuing-ops row",
+          [(e["start"], e["end"]) for e in got] == [("2026-07-01", "2026-09-30")], got)
+    check("eps fill: nothing past the approval cap", feh.forward_fill(cont, gaap, A, "2026-08-01", "X") == [])
+    late = dict(gaap, **{A: {"units": {"USD/shares": cont + [r("2026-07-01", "2026-09-30", 1.1, "2026-11-30")]}}})
+    check("eps fill: an unapproved continuing-ops row does not move the boundary",
+          len(feh.forward_fill(cont, late, A, "2026-10-30", "X")) == 1)
+    check("eps fill: no continuing-ops rows -> no fill", feh.forward_fill([], {D: gaap[D]}, A, None, "X") == [])
+    zero = [r("2026-04-01", "2026-06-30", 0, "2026-07-30")]   # 경계 직전 중단사업 EPS 0 = 양성 증거
+    stops = lambda name, g, cap="2026-10-30": check(f"eps fill: stops {name}", _raises(lambda: feh.forward_fill(cont, g, A, cap, "X")))
+    stops("when discontinued-ops EPS is non-zero in the filled period",
+          dict(gaap, **{feh.DISCONTINUED[0]: {"units": {"USD/shares": zero + [r("2026-07-01", "2026-09-30", -0.1, "2026-10-30")]}}}))
+    stops("without a zero discontinued-ops row before the boundary", {k: v for k, v in gaap.items() if k in (A, D)})
+    stops("when the last discontinued-ops row before the boundary is non-zero",
+          dict(gaap, **{feh.DISCONTINUED[0]: {"units": {"USD/shares": [r("2026-04-01", "2026-06-30", -0.2, "2026-07-30")]}}}))
+    later = dict(gaap, **{feh.DISCONTINUED[0]: {"units": {"USD/shares": zero + [r("2026-07-01", "2026-09-30", -0.1, "2026-11-30")]}}})
+    check("eps fill: a discontinued-ops row filed after the cap does not change the result",
+          len(feh.forward_fill(cont, later, A, "2026-10-30", "X")) == 1)
+    stops("when only a year-to-date discontinued-ops row overlapping the filled quarter is non-zero",
+          dict(gaap, **{feh.DISCONTINUED[0]: {"units": {"USD/shares": zero + [r("2026-01-01", "2026-09-30", -0.1, "2026-10-30")]}}}))
+    late_row = cont + [r("2026-07-01", "2026-09-30", 1.1, "2026-11-30")]   # companyconcept가 승인 뒤 행을 실었다
+    check("eps fill: an unapproved row in entries does not block the approved fill",
+          [(e["start"], e["end"]) for e in feh.forward_fill(late_row, gaap, A, "2026-10-30", "X")] == [("2026-07-01", "2026-09-30")])
+    q3 = r("2026-07-01", "2026-09-30", 1.1, "2026-10-30")
+    lag = dict(gaap, **{A: {"units": {"USD/shares": cont + [q3]}}})
+    check("eps fill: a continuing-ops row only in companyfacts is returned, not replaced by diluted",
+          feh.forward_fill(cont, lag, A, "2026-10-30", "X") == [q3])
+
+
 if __name__ == "__main__":
     test_prose_stamp()
     test_valuation_render()
@@ -1496,4 +1544,5 @@ if __name__ == "__main__":
     test_backfill()
     test_carry_prices()
     test_merge_tier_history()
+    test_eps_forward_fill()
     print(f"OK - {len(PASSED)} checks passed")

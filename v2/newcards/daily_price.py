@@ -563,7 +563,9 @@ def main():
     # 공시 자동 반영(기준표를 고친다)보다 먼저 — 여기서 실패하면 되돌릴 것이 없게(Codex 2차)
     jobs = 1 if weekly else max(1, int(os.environ.get("V2_JOBS") or 1))
     PARALLEL = jobs > 1
-    if PARALLEL:   # 동종 카드의 PER 해당 없음을 실행 전 값으로 고정한다(build_peer_score.peer_per_na)
+    # 동종 카드의 PER 해당 없음을 실행 전 값으로 고정한다(build_peer_score.peer_per_na). 한 장씩 돌 때는 앞 차례 카드가 이번에 바꾼
+    # 값을 뒤 카드가 보므로, 실행 중 perNA가 바뀐 카드가 있으면 두 방식의 동종업 점수가 다를 수 있다 — 그날은 실행 전 값을 쓴다(dr 2026-10-24)
+    if PARALLEL:
         snap = os.path.join(work, "perna_snapshot.json")
         json.dump({f[:-len("_multiples.json")]: bool(json.load(open(os.path.join(V2, f))).get("perNA"))
                    for f in os.listdir(V2) if f.endswith("_multiples.json")}, open(snap, "w"))
