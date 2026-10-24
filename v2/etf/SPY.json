@@ -13,22 +13,22 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 167장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP"
+   "detail": "승인 목록에 없는 판정 코드 해시 174장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP"
   }
  ],
  "detail": "보유 파일 기준일 2026-10-22 ≠ 허용 ['2026-10-23'] (P=2026-10-23, 규칙 same)",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8242919676951423,
+ "coverage": 0.8292233778568391,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0016266936398215163,
-  "적정~저평가": 0.10276071262001225,
+  "적정~저평가": 0.10347324736707708,
   "적정": 0.01825797858979147,
-  "적정~고평가": 0.33153008137781514,
-  "고평가": 0.3701165014677022,
-  "카드 없음": 0.1521072490340315,
+  "적정~고평가": 0.3336364517400845,
+  "고평가": 0.37222900652006485,
+  "카드 없음": 0.14717583887233468,
   "판정 보류": 0.02166685474378872,
   "그 밖 제외": 0.0019339285270374908,
   "분류 안 됨": 0
@@ -162,8 +162,8 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 179,
-  "cardsUsed": 173,
+  "cardsMatched": 186,
+  "cardsUsed": 180,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -431,6 +431,13 @@
    "excluded": []
   },
   {
+   "card": "CIEN",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "CL",
    "verdict": "고평가",
    "n": -3.0,
@@ -525,6 +532,13 @@
    "card": "CVX",
    "verdict": "고평가",
    "n": -3.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
+   "card": "DAL",
+   "verdict": "적정~저평가",
+   "n": 2.0,
    "date": "2026-10-23",
    "excluded": []
   },
@@ -949,6 +963,13 @@
    "excluded": []
   },
   {
+   "card": "MSCI",
+   "verdict": "적정~고평가",
+   "n": -1.3333333333333333,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "MSFT",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -966,6 +987,13 @@
    "card": "MU",
    "verdict": "적정~저평가",
    "n": 1.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
+   "card": "NDAQ",
+   "verdict": "적정~고평가",
+   "n": -2.6666666666666665,
    "date": "2026-10-23",
    "excluded": []
   },
@@ -1161,6 +1189,13 @@
    "excluded": []
   },
   {
+   "card": "RSG",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "RTX",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -1352,6 +1387,13 @@
    "excluded": []
   },
   {
+   "card": "VEEV",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "VLO",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -1376,6 +1418,13 @@
    "card": "VZ",
    "verdict": "적정~고평가",
    "n": -1.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
+   "card": "WAB",
+   "verdict": "고평가",
+   "n": -3.0,
    "date": "2026-10-23",
    "excluded": []
   },
@@ -1449,10 +1498,10 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-24T02:44:26Z",
- "fetchedAt": "2026-10-24T02:44:27Z",
+ "runAt": "2026-10-24T14:40:59Z",
+ "fetchedAt": "2026-10-24T14:41:00Z",
  "inputHash": {
-  "xlsx": "521026a4f69c5ee12f6d3b8d24cd0fc3928ce151153242fddf0a9d1d4c6d234a",
+  "xlsx": "df96332ee05f95e11cdfb3a69991b162bfb349564e91010333840a35373a708a",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -1466,7 +1515,7 @@
   ],
   "S": "2026-10-22"
  },
- "runId": "40055408913.1",
+ "runId": "40103564818.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -1516,6 +1565,7 @@
     "CAT",
     "CB",
     "CEG",
+    "CIEN",
     "CL",
     "CME",
     "CMI",
@@ -1529,6 +1579,7 @@
     "CTAS",
     "CVS",
     "CVX",
+    "DAL",
     "DASH",
     "DDOG",
     "DE",
@@ -1585,9 +1636,11 @@
     "MRNA",
     "MRSH",
     "MRVL",
+    "MSCI",
     "MSFT",
     "MSI",
     "MU",
+    "NDAQ",
     "NEE",
     "NEM",
     "NFLX",
@@ -1615,6 +1668,7 @@
     "RCL",
     "REGN",
     "ROST",
+    "RSG",
     "RTX",
     "SBUX",
     "SHW",
@@ -1639,10 +1693,12 @@
     "UNP",
     "UPS",
     "V",
+    "VEEV",
     "VLO",
     "VRT",
     "VRTX",
     "VZ",
+    "WAB",
     "WDC",
     "WELL",
     "WM",
