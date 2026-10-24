@@ -1354,6 +1354,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # SO: 1년 안 만기 사채(LongTermDebtAndCapitalLeaseObligationsCurrent $5,701M)가 빠졌다 — 단기 차입 + 1년 안 + 장기(XEL과 같은 구성). Q1 2026: 1,673 + 5,701 + 67,148 = 74,522(10-Q 대조, 2026-10-24)
+                  "0000092122": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DHI: 재무상태표 차입금은 한 줄 "Notes payable"(NotesPayable, Q3 FY26 $7,112.6M — 주택 금융의 모기지 환매 약정 $1.8B 포함, 2026-10-24)
                   "0000882184": "NotesPayable",
                   # RMD: 기본 선택이 단기 차입($260M)만 잡았다 — 재무상태표 합계 DebtLongtermAndShorttermCombinedAmount(FY2026 말 260 + 399.4 = $659.4M)(2026-10-24)

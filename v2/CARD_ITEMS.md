@@ -1967,3 +1967,11 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — DERIVED_OPINC 세전이익(영업이익 줄 없음, 이자 자본화), DEBT_TOTAL_TAG NotesPayable(모기지 환매 약정 포함), 비지배지분(Forestar 38%), Q4_EPS_OVERRIDE FY2021~2025.
 - **판단** — 정점 뒤 이익률 하락, 시나리오 순서는 이익률이 정함, 판매 대기 모기지 미가산(보수적), 유동 미구분 재무상태표(HEALTH_EXTRA), 자사주 $5B 추가 승인.
 - **dr** — Codex 2라운드·Fable. 보류(이번 11개 중): SO·DUK·ED·BIIB(preflight), FERG·KVUE·HIG·DLR·O.
+
+## SO — 미국 남동부 유틸리티 (2026-10-24, 카드 201)
+
+- **판정 고평가(0, −1, −2)** — 자기 이력 34.6, 동종업 28.7(S&P500 유틸리티), 현금흐름 세 값 0 이하 대 $92.89(10/23).
+- **요약 자료 누락 처리(사용자 결정)** — SEC companyfacts에서 Q2가 빠져 Q1 2026 10-Q(4/30) 기준. preflight.py ALLOW_LAGGED(SO·DUK·ED·BIIB, 고른 원본 뒤 정정 재검사), sec_approved 2026-04-30 = 카드 재무 접수일, auto_quarter_due 거짓. 자료가 돌아오면 auto_approve가 넘겨받는다(daily_price.py의 autoRetry 문제는 다른 세션이 고침).
+- **엔진** — DEBT_TOTAL_TAG 단기 + 1년 안 + 장기($74.5B), fetch_financials 이자비용 InterestAndDebtExpense, Q4_EPS_OVERRIDE 2022.
+- **판단** — 회사 제외 항목(가속상각 등)이 최근 4분기 EPS를 낮춤, 0 이하 DCF는 PEG와 같은 POST, '다음 실적' 칸 POST(Q2 실적·10-Q는 나왔고 요약 자료 반영 대기), 자본·비지배지분은 연말 값.
+- **dr** — Codex·Fable 1라운드(필수 반영).

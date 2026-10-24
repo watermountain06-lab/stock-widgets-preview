@@ -39,6 +39,12 @@ def cik_of(T):
     return str(feh.CIKS[T]).zfill(10)
 
 
+# SEC 요약 자료(companyfacts·companyconcept)에서 최근 분기가 빠진 종목 — 최신 원본이 아직 안 실렸으면 실린 것 중 가장 최근 원본을 기준으로 만든다
+# (2026-10-24 사용자 결정). 합산 공시 때문이 아니다: BIIB는 단일 법인이고, NEE는 10-02에 받은 자료에 Q2가 있었는데 지금은 Q1까지만 있다 — SEC 쪽에서 빠진 상태로 본다.
+# 기준표(sec_approved)를 그 공시일로 두면 매일 실행(auto_approve)이 자료가 돌아온 날 그때 실린 가장 최근 공시로 스스로 넘겨받는다.
+ALLOW_LAGGED = {"SO", "DUK", "ED", "BIIB"}
+
+
 def before(T, asof):
     import daily_price as dp
     import fetch_eps_history as feh
@@ -60,6 +66,18 @@ def before(T, asof):
     facts = feh.curl_json(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json")
     have = any(x.get("filed") == filed and x.get("form") == form for tx in facts.get("facts", {}).values()
                for tg in tx.values() for rows_ in tg.get("units", {}).values() for x in rows_)
+    if not have and T in ALLOW_LAGGED:
+        for x in rows:
+            if x[2] in ("10-Q", "10-K") and any(y.get("filed") == x[0] and y.get("form") == x[2] for tx in facts.get("facts", {}).values()
+                                              for tg in tx.values() for rows_ in tg.get("units", {}).values() for y in rows_):
+                print(f"{T}: 최신 {form} {filed}이 요약 자료에 아직 없다 — 실린 {x[2]} {x[0]}를 기준으로(ALLOW_LAGGED)")
+                filed, accepted, form, accn = x
+                have = True
+                # 고른 원본 뒤 정정도 다시 본다 — 최신 원본 기준 검사는 그 사이의 정정(예: Q1/A)을 놓친다(Codex r1)
+                am2 = [y for y in rows if y[2].endswith("/A") and y[1] > accepted and y not in amend]
+                if am2:
+                    bad.append(f"{T}: 원본 {form} {filed} 뒤에 정정 공시가 있다({', '.join(f'{y[2]} {y[0]}' for y in am2)}) — 사람이 처리")
+                break
     if not have:
         bad.append(f"{T}: {form} {filed}({accn})이 SEC 요약 자료(companyfacts)에 아직 없다 — 실린 뒤에 만든다")
     else:
