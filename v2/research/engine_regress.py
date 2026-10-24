@@ -47,7 +47,7 @@ UNTRACKED_INPUTS = ["v2/.sec_cache", "data", "v2/research/.prices10y", "v2/resea
 # 엔진으로 보는 파일(바꿔 끼우는 대상). 카드 HTML·일봉·공시 승인일 같은 입력 자료는 넣지 않는다.
 ENGINE_GLOBS = [":(glob)v2/*.py", ":(glob)v2/adapters/*.py", ":(glob)v2/research/*.py", ":(glob)scripts/*.py",   # 하위 폴더는 넣지 않는다
                 "v2/core_earnings.json", "v2/tax_oneoff.json", "v2/share_adjust.json", "v2/nonop_extra.json",
-                "v2/interest_extra.json", "v2/tax_rate_addback.json", "v2/sectors.json"]
+                "v2/interest_extra.json", "v2/tax_rate_addback.json", "v2/sectors.json", "v2/fact_fixes.json"]   # fact_fixes: E55
 BANKS = ["COF", "AXP", "BAC", "C", "GS", "JPM", "MS", "SCHW", "WFC"]      # newcards/daily_price.py와 같다
 HAND = ["BRKB", "SPCX"]                                                     # NVDA는 엔진 단계를 거친다
 NO_NET = {k: "http://127.0.0.1:9" for k in ("http_proxy", "https_proxy", "HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "all_proxy")}

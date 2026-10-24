@@ -40,7 +40,7 @@ import os
 import re
 import sys
 import time
-from datetime import date
+from datetime import date, timedelta
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
 import fetch_eps_history as feh  # noqa: E402
@@ -430,13 +430,125 @@ def _overlay(cik, data):
 
 
 def concept(cik, tag, taxonomy="us-gaap"):
-    """companyfacts 캐시에서 한 태그의 항목들을 꺼낸다."""
+    """companyfacts 캐시에서 한 태그의 항목들을 꺼낸다. 잘못된 개별 사실 보정(v2/fact_fixes.json, E55)을 사본으로 적용한다."""
     facts = _facts(cik).get("facts", {}).get(taxonomy, {})
     units = facts.get(tag, {}).get("units", {})
     for key in ("USD", "shares", "USD/shares"):
         if units.get(key):
-            return units[key]
+            return _apply_fact_fixes(cik, tag, taxonomy, key, units[key])
     return []
+
+
+# E55(2026-10-24 사용자 승인, 설계 research/e55_fact_fixes_design.md): companyfacts의 잘못된 개별 사실·기간 정보를 CIK·태그·기간·값으로
+# 지정해 빼거나(drop) 시작일을 고친다(set_start). concept()가 고칠 행만 새 dict로 바꾼 목록을 돌려준다 — 캐시 원본·연구의 시점별
+# 자료(pit.filtered가 행 dict를 얕게 공유)는 그대로다. concept 안에서는 일치 여부를 따지지 않는다(연구 평가일이 공시 전이면 행이 없는 게
+# 정상, Codex·Fable). 일치·기대값 검사는 validate_fixes()가 카드·동종업 빌드(main)에서 CIK마다 한 번 한다.
+FACT_FIXES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fact_fixes.json")
+_FIXES_CACHE = {}
+
+
+def _fact_fixes():
+    """{cik: [고침]} — 환경변수 FACT_FIXES=off면 빈 dict(고침 전 자료로 스캔·비교할 때), FACT_FIXES=경로면 그 파일."""
+    path = os.environ.get("FACT_FIXES", FACT_FIXES)
+    if path == "off" or not os.path.exists(path):
+        return {}
+    if path not in _FIXES_CACHE:
+        raw = json.load(open(path))
+        out, ids = {}, set()
+        for cik, items in raw.items():
+            if cik.startswith("_"):
+                continue
+            for f in items:
+                if f["id"] in ids:
+                    raise SystemExit(f"fact_fixes: id 중복 {f['id']}")
+                ids.add(f["id"])
+                if f["scope"] not in ("fact", "context") or f["action"] not in ("drop", "set_start"):
+                    raise SystemExit(f"fact_fixes {f['id']}: scope·action 값")
+                if f["action"] == "set_start" and not f.get("new_start"):
+                    raise SystemExit(f"fact_fixes {f['id']}: new_start 없음")
+                if f["scope"] == "fact" and not (f.get("tag") and f.get("unit") and "val" in f["match"]):
+                    raise SystemExit(f"fact_fixes {f['id']}: fact 범위는 tag·unit·match.val 필수")
+                if f["scope"] == "context" and not f.get("expect_tags"):
+                    raise SystemExit(f"fact_fixes {f['id']}: context 범위는 expect_tags 필수")
+                if "..." in f.get("source", "...") or not f.get("source", "").startswith("https://www.sec.gov/"):
+                    raise SystemExit(f"fact_fixes {f['id']}: source는 정확한 SEC 주소")
+                out.setdefault(cik.zfill(10), []).append(f)
+        _FIXES_CACHE[path] = out
+    return _FIXES_CACHE[path]
+
+
+def _fix_hits(f, taxonomy, tag, unit, r):
+    m = f["match"]
+    if r.get("accn") != m["accn"] or r.get("start") != m["start"] or r.get("end") != m["end"]:
+        return False
+    if f["scope"] == "fact":
+        return f.get("taxonomy", "us-gaap") == taxonomy and f["tag"] == tag and f["unit"] == unit and r.get("val") == m["val"]
+    return True
+
+
+def _apply_fact_fixes(cik, tag, taxonomy, unit, rows):
+    fixes = _fact_fixes().get(str(cik).zfill(10))
+    if not fixes:
+        return rows
+    out = []
+    for r in rows:
+        f = next((f for f in fixes if _fix_hits(f, taxonomy, tag, unit, r)), None)
+        if f is None:
+            out.append(r)
+        elif f["action"] == "set_start":
+            nr = {k: v for k, v in r.items() if k != "frame"}   # 분기 frame(CY2025Q4)이 연간 기간과 한 행에 남지 않게
+            nr["start"] = f["new_start"]
+            out.append(nr)
+        # drop: 넣지 않는다
+    return out
+
+
+def validate_fixes(cik, ticker=None, strict=None):
+    """그 CIK의 고침이 지금 자료(카드가 보는 _facts — overlay 포함·공시 승인일 절단 그대로)에 맞는지 검사하고 문제 목록을 돌려준다.
+
+    (a) 일치 수 — 0개: 낡은 고침(SEC가 고쳤거나 승인일이 그 공시 전), 같은 값 중복: 경고 (b) context 범위는 걸린 (분류, 태그, 단위, 값)
+    집합 == expect_tags (c) 고친 뒤 기간 길이 — 연간 350~380일(set_start) (d) set_start면 new_start 전날이 같은 태그 직전 연간 행의 end
+    (e) expect — pick_tag → quarterly_flow 결과의 분기 값(정확히). strict(기본: 환경변수 FACT_FIXES_STRICT=1)면 문제가 있을 때 멈춘다."""
+    cik = str(cik).zfill(10)
+    fixes = _fact_fixes().get(cik)
+    if not fixes:
+        return []
+    strict = os.environ.get("FACT_FIXES_STRICT") == "1" if strict is None else strict
+    facts = _facts(cik).get("facts", {})
+    probs = []
+    for f in fixes:
+        hits = []
+        for tx, tags in facts.items():
+            for tg, v in tags.items():
+                for u, rows in v.get("units", {}).items():
+                    hits += [(tx, tg, u, r) for r in rows if _fix_hits(f, tx, tg, u, r)]
+        if not hits:
+            probs.append(f"{f['id']}: 일치하는 행 없음(낡은 고침이거나 승인일이 그 공시 전)")
+            continue
+        got = {(tx, tg, u, r["val"]) for tx, tg, u, r in hits}
+        if len(got) < len(hits):
+            print(f"  ⚠ fact_fixes {f['id']}: 같은 값 중복 행 {len(hits) - len(got)}개 — 모두 적용")
+        if f["scope"] == "context" and got != {tuple(x) for x in f["expect_tags"]}:
+            probs.append(f"{f['id']}: 걸린 사실 집합이 expect_tags와 다름 — {sorted(got ^ {tuple(x) for x in f['expect_tags']})}")
+        if f["action"] == "set_start":
+            n = (date.fromisoformat(f["match"]["end"]) - date.fromisoformat(f["new_start"])).days
+            if not 350 <= n <= 380:
+                probs.append(f"{f['id']}: 고친 기간 {n}일(연간 350~380 아님)")
+            prev = (date.fromisoformat(f["new_start"]) - timedelta(days=1)).isoformat()
+            for tx, tg, u, _ in hits:
+                ends = {r["end"] for r in facts[tx][tg]["units"][u] if r.get("start") and 350 <= feh.days_between(r) <= 380}
+                if ends and prev not in ends:
+                    probs.append(f"{f['id']}: {tg} 직전 연간 결산일 {prev}이 없음(new_start 오타?)")
+        for x in f.get("expect", []):
+            tags = {"revenue": FLOW_TAGS["revenue"], "opinc": EBITDA_TAGS["opinc"]}[x["series"]]
+            q = {e["end"]: e["val"] for e in quarterly_flow(pick_tag(cik, tags)[1], ticker or cik)}
+            if q.get(x["quarter_end"]) != x["val"]:
+                probs.append(f"{f['id']}: {x['series']} {x['quarter_end']} = {q.get(x['quarter_end'])}, 기대 {x['val']}")
+    for p in probs:
+        print(f"  ⚠ fact_fixes {p}")
+    if probs and strict:
+        raise SystemExit(f"fact_fixes 검사 실패({len(probs)}건) — FACT_FIXES_STRICT=1")
+    return probs
 
 
 # 회사 전용 태그 보강(CIK별). 표준 태그 대신 같은 항목을 다른 표준 태그로만 내는 회사.
@@ -2116,6 +2228,7 @@ def main():
     cik = feh.CIKS.get(t)
     if not cik:
         sys.exit(f"{t}: CIK를 모른다. fetch_eps_history.py의 CIKS에 추가할 것")
+    validate_fixes(cik, t)   # E55 — 카드·동종업 빌드마다 그 종목 고침이 자료와 맞는지(카드 빌드는 경고, FACT_FIXES_STRICT=1이면 멈춤)
 
     daily = history_daily(t, load_daily(t))
     print(f"{t}: 일봉 {len(daily)}개 ({daily[0][0]} ~ {daily[-1][0]})"

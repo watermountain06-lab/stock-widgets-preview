@@ -228,7 +228,7 @@ def provenance():
     import hashlib
     git = lambda *a: subprocess.run(["git", "-C", V2, *a], capture_output=True, text=True).stdout.strip()
     engine = ["build_dcf.py", "build_multiple_history.py", "build_peer_score.py", "splits.py", "fx.py",
-              "core_earnings.json", "tax_oneoff.json", "share_adjust.json", "sectors.json"]
+              "core_earnings.json", "tax_oneoff.json", "share_adjust.json", "sectors.json", "fact_fixes.json"]   # fact_fixes: E55(concept에서 적용)
     return {"engine_commit": git("rev-parse", "HEAD"),
             "engine_dirty": git("status", "--porcelain", "--", *engine),
             "script_sha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()[:HASH_LEN],
