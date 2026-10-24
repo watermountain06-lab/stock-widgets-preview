@@ -691,7 +691,19 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# DHI: 손익계산서에 영업이익 줄이 없다(주택 건설사) — 영업이익 = 세전이익. 기타 영업외 손익(Q3 FY26 $71.2M)에는 임대·모기지 이자수익 같은
+DERIVED_OPINC = {# BIIB: 영업이익 줄이 없다(OperatingIncomeLoss는 2022-03에 멈춤) — "Total cost and expenses" 안에 "Other (income) expense, net"이 들어 있다
+                 # (이자비용·투자수익·지분증권 손익. XBRL은 수익이면 양수 — 분기는 OtherOperatingIncomeExpenseNet, 10-K 연간은 NonoperatingIncomeExpense).
+                 # 영업이익 = 세전이익 − 그 줄. 인수 IPR&D·조건부 대가 변동은 영업으로 둔다. Q1 2026: 377.7 − (−19.7) = 397.4(10-Q 대조, 2026-10-24)
+                 # 세전 태그는 2025년부터 …ExtraordinaryItemsNoncontrollingInterest, 그 전은 …MinorityInterestAndIncomeLossFromEquityMethodInvestments(ROST와 같은 방식).
+                 "0000875045": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                 "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                                [(["OtherOperatingIncomeExpenseNet", "NonoperatingIncomeExpense"], 1),
+                                 # 비용 안 별도 줄의 일회성 매각 이익도 뺀다(ETN 전례) — Q2 2022 Samsung Bioepis 지분 $1,505.4M, Q3 2022 건물 $503.7M(Fable r1),
+                                 # Q2 2024 무형자산(우선 심사권) 매각 $88.6M — 그 이익을 10-Q 누계는 GainLossOnSaleOfPropertyPlantEquipment로도, 10-K 연간은
+                                 # GainLossOnDispositionOfIntangibleAssets로만(유형자산 태그는 0) 냈다. 한 항목에 두 태그를 두고 0인 행을 건너뛰어 기간마다 한 번만 뺀다(Codex r2).
+                                 (["EquityMethodInvestmentRealizedGainLossOnDisposal"], 1, True),
+                                 (["GainLossOnSaleOfPropertyPlantEquipment", "GainLossOnDispositionOfIntangibleAssets"], 1, True, True)]),
+                 # DHI: 손익계산서에 영업이익 줄이 없다(주택 건설사) — 영업이익 = 세전이익. 기타 영업외 손익(Q3 FY26 $71.2M)에는 임대·모기지 이자수익 같은
                  # 반복 영업 수익이 섞여 있고, 이자비용은 대부분 자본화돼 매출원가로 나가 세전이익이 사실상 이자 차감 전이다(Codex r1, 2026-10-24)
                  "0000882184": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest", []),
 # PCAR: 영업이익 줄이 없다 — 손익계산서는 트럭·부품·기타 세전 + 금융 서비스 세전 + 투자수익 = 세전이익. 영업이익 = 세전이익 − 투자수익(InvestmentIncomeNet,
@@ -848,10 +860,13 @@ def _derived_opinc(cik, taxonomy):
     for it in items:
         tags, sign = it[0], it[1]
         optional = len(it) > 2 and it[2]        # 선택 항목: 그 공시에 없으면 0(KLAC 채무 상환 손익 — 일부 분기만)
+        skip_zero = len(it) > 3 and it[3]       # 0인 행은 건너뛰고 뒤 태그 값을 쓴다(BIIB — 같은 이익을 기간마다 다른 태그로, 안 쓴 태그엔 0)
         m = {}
         for t in tags:                          # 앞 태그 우선(이름이 바뀐 태그는 뒤에)
             t, mult = t if isinstance(t, tuple) else (t, 1)   # (태그, 배수): 같은 줄을 부호가 반대인 태그로 낸 공시(ETN 이자)
             for r in concept(cik, t, taxonomy):
+                if skip_zero and not r["val"]:
+                    continue
                 m.setdefault((r.get("start"), r["end"], r.get("accn")), mult * r["val"])
         maps.append((m, sign, optional))
     out = []
@@ -1813,6 +1828,8 @@ EV_TAGS_BY_CIK = {# CRH: 상환가능 비지배지분(자본 밖, Q2 2026 $435M)
                   "0000827054": {"preferred": ["PreferredStockLiquidationPreferenceValue"]},
 # P(옛 PSTG): 단기투자 = 유동 매도가능 채무증권(DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent, Q2 FY27 $622.2M) — 기본 태그는 2021-05에 멈췄다(2026-10-24)
                   "0001474432": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"]},
+# BIIB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($3,382.7M = 재무상태표 "Cash and cash equivalents") — 기본 현금 태그는 2019-12에 멈췄다(2026-10-24)
+                  "0000875045": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # WAB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($489M, 제한 현금 포함 — 재무상태표 줄) — 기본 현금 태그는 2022-09에 멈췄다(2026-10-23)
                   "0000943452": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # TER: 단기투자 = 매도가능 채무증권(AvailableForSaleSecuritiesDebtSecurities, 6월 말 $100.7M) — 기본 MarketableSecuritiesCurrent는 2014년에 멈춤. 이연보상용 뮤추얼펀드는 뺀다(Fable r1, 2026-10-23)
