@@ -513,7 +513,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="back-bar-right"><button id="theme-toggle" type="button" role="switch" aria-label="다크 모드" aria-checked="false"><span aria-hidden="true">☀</span><span aria-hidden="true">☾</span><span class="theme-knob"></span></button>
     <a class="back-bar-nav" href="WAB_full_widget.html">◀ WAB</a>
     <span class="back-bar-current">NDAQ · 시총 약 $57B</span>
-    <span class="back-bar-nav disabled">다음 ▶</span>
+    <a class="back-bar-nav" href="DAL_full_widget.html">다음 DAL ▶</a>
   </div>
 </div>
 
@@ -1805,7 +1805,7 @@ const NDAQ_FUNDAMENTAL = {"ticker": "NDAQ", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py NDAQ --self v2/NDAQ_multiples.json --card
 /* VALUATION:BEGIN */
-const NDAQ_VALUATION = {"peer": {"score": 19.1, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-10-22", "metrics": [{"metric": "per", "score": 18.2, "rank": 10, "peers": 11}, {"metric": "pbr", "score": 20.0, "rank": 9, "peers": 10}]}, "self": {"score": 40.1, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 48.4, "percentile": 51.6, "current": 28.02, "min": 20.38, "median": 27.82, "max": 50.16, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 22.2, "percentile": 77.8, "current": 4.74, "min": 2.98, "median": 4.27, "max": 5.77, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 23.7, "percentile": 76.3, "current": 6.2, "min": 3.8, "median": 5.67, "max": 7.06, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 40.6, "percentile": 59.4, "current": 25.21, "min": 14.97, "median": 24.05, "max": 50.67, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 65.7, "percentile": 34.3, "current": 19.4, "min": 15.49, "median": 20.33, "max": 26.1, "days": 1255, "currentNote": null}]}};
+const NDAQ_VALUATION = {"peer": {"score": 19.1, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-10-23", "metrics": [{"metric": "per", "score": 18.2, "rank": 10, "peers": 11}, {"metric": "pbr", "score": 20.0, "rank": 9, "peers": 10}]}, "self": {"score": 40.1, "window": ["2021-10-25", "2026-10-23"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 48.4, "percentile": 51.6, "current": 28.02, "min": 20.38, "median": 27.82, "max": 50.16, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 22.2, "percentile": 77.8, "current": 4.74, "min": 2.98, "median": 4.27, "max": 5.77, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 23.7, "percentile": 76.3, "current": 6.2, "min": 3.8, "median": 5.67, "max": 7.06, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 40.6, "percentile": 59.4, "current": 25.21, "min": 14.97, "median": 24.05, "max": 50.67, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 65.7, "percentile": 34.3, "current": 19.4, "min": 15.49, "median": 20.33, "max": 26.1, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
