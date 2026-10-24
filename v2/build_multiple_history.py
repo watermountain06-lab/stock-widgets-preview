@@ -96,6 +96,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # MSCI: DepreciationDepletionAndAmortization는 유형자산 감가상각만($23M/년) — 손익계산서 '무형자산 상각'(인수 무형자산 + 자본화 소프트웨어, Q3 2026 $45M)을 더한다(2026-10-23)
+                    "0001408198": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # CIEN: 현금흐름표 무형자산 상각($35.4M, FY26 9개월)은 회사 고유 태그(BUILD company_tags → AmortizationOfIntangibleAssetsCashFlowCien)뿐이고
                     # 표준 AmortizationOfIntangibleAssets는 영업비용 몫($12.2M)만이다 — 감가상각 + 현금흐름표 상각(TTM 129.8 + 45.2 = 175.1, Codex r1, 2026-10-23)
                     "0000936395": ["Depreciation", "AmortizationOfIntangibleAssetsCashFlowCien"],
@@ -433,7 +435,9 @@ def concept(cik, tag, taxonomy="us-gaap"):
 # EOG: 현금흐름표 "Additions to Oil and Gas Properties"(PaymentsToAcquireOilAndGasPropertyAndEquipment, 상반기 2026 $3,129M)
 #      + "Additions to Other Property, Plant and Equipment"(PaymentsToAcquireOtherPropertyPlantAndEquipment, $297M) = 설비투자 $3,426M.
 #      기본 목록 태그가 없어 설비투자가 비었다(2026-10-21).
-SUM_TAGS_BY_CIK = {# DAL: 설비투자 = 항공기(PaymentsForFlightEquipment) + 지상 설비·기타(PaymentsToAcquireOtherProductiveAssets) — 합계 태그는 2026년 1분기에 멈췄다(겹치는 기간 합 = 합계, FY2025 4,499, 2026-10-23)
+SUM_TAGS_BY_CIK = {# MSCI: 설비투자 = 유형자산(PaymentsToAcquirePropertyPlantAndEquipment) + 자본화 소프트웨어(PaymentsForSoftware) — D&A에 소프트웨어 상각이 들어가므로 맞춘다(TTM 약 $40M + $106M, 2026-10-23)
+                   "0001408198": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsForSoftware"]},
+# DAL: 설비투자 = 항공기(PaymentsForFlightEquipment) + 지상 설비·기타(PaymentsToAcquireOtherProductiveAssets) — 합계 태그는 2026년 1분기에 멈췄다(겹치는 기간 합 = 합계, FY2025 4,499, 2026-10-23)
                    "0000027904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForFlightEquipment", "PaymentsToAcquireOtherProductiveAssets"]},
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
@@ -670,6 +674,8 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # MSCI: 감가상각만인 DDA 합계 태그를 빼야 DDA_PARTS(감가상각 + 무형자산 상각)가 쓰인다(2026-10-23)
+                "0001408198": ("DepreciationDepletionAndAmortization",),
                 # NDAQ: DepreciationDepletionAndAmortization는 10-K 한 해(2025 $145M, 유형자산 감가상각만)뿐 — 현금흐름표 D&A(DepreciationAndAmortization, 인수 무형자산 상각 포함 TTM $657M)와 섞이면 D&A가 $169M으로 줄었다(Codex r1, 2026-10-23)
                 "0001120193": ("DepreciationDepletionAndAmortization",),
                 # RSG: 차원 없는 Revenues(Q2 2026 $5,076M)는 부문 간 거래 상계 전 합계 — 손익계산서 매출은 RevenueFromContractWithCustomerExcludingAssessedTax $4,430M(2026-10-23)

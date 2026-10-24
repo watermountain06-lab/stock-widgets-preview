@@ -8070,6 +8070,47 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "MSCI",
+      "name": "MSCI",
+      "sector": "금융 — 지수·분석·ESG 데이터(ETF 지수 사용료 중심)",
+      "href": "MSCI_full_widget.html",
+      "cardRank": 190,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-23 ≠ 홈 가격 세션 2026-10-22, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 71500000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-13",
+        "filedAt": "2026-10-20",
+        "filing": "10-Q 0001408198-26-000056 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }
