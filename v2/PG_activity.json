@@ -1,32 +1,32 @@
 {
  "ticker": "PG",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 26.2,
+  "dio": 66.1,
+  "dpo": 129.9,
+  "op": 92.3,
+  "ccc": -37.6
+ },
+ "prev": {
   "dso": 26.4,
   "dio": 66.0,
   "dpo": 129.6,
   "op": 92.5,
   "ccc": -37.1
  },
- "prev": {
-  "dso": 26.5,
-  "dio": 65.3,
-  "dpo": 128.8,
-  "op": 91.8,
-  "ccc": -36.9
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 80.1,
-  "max": 92.4,
-  "longer": 0,
-  "dsoLonger": 8,
+  "max": 92.5,
+  "longer": 2,
+  "dsoLonger": 9,
   "dioLonger": 0
  },
- "score": 0.0,
+ "score": 10.0,
  "tone": "red"
 }
