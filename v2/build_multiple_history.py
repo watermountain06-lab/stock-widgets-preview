@@ -468,6 +468,8 @@ EXTRA_TAGS = {
     # VEEV: 현금흐름표 "Long-term assets"(설비·소프트웨어 취득, 상반기 FY27 $9.8M)를 PaymentsForSoftware로, 감가상각("Depreciation and amortization" $22.5M)을
     # OtherDepreciationAndAmortization으로 낸다 — 기본 설비투자 태그는 2020-04에, D&A 태그는 2020-01에 멈췄다(2026-10-23)
     "0001393052": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForSoftware"], "DepreciationDepletionAndAmortization": ["OtherDepreciationAndAmortization"]},
+    # WDAY: 현금흐름표 "Depreciation and amortization"(FY2026 $347M — 감가상각 + 무형자산 상각)을 OtherDepreciationAndAmortization으로 낸다. 기본으로는 감가상각(Depreciation)만 잡혀 TTM $227M이었다(Codex r1, 2026-10-24)
+    "0001327811": {"DepreciationDepletionAndAmortization": ["OtherDepreciationAndAmortization"]},
     # XEL: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q2 2026 $3,119M) — Revenues 태그는 2019-09에 멈췄다(NEE와 같은 경우, 2026-10-23)
     "0000072903": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은

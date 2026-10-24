@@ -1903,3 +1903,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — DEBT_TOTAL_TAG 신용한도 + 1년 안 + 장기 사채($450M → $969M), Q4_EPS_OVERRIDE 2021·2023·2025.
 - **판단** — 자기 이력·현금흐름 다리 문장(MSCI와 같음), 1년 하락 구간에 결정적 공시 악재 미확인으로 한정, CEO 내부 승진·Executive Chair 전환, CoVetAI 인수(금액 비공개), Q2 검사기 −19%(inVue 기저).
 - **dr** — Codex 3라운드·Fable. 동종업 차트는 health_care 동종업 파일(카드 유니버스 헬스케어는 대부분 값이 없어 TypeError).
+
+## WDAY — 기업용 클라우드 소프트웨어 (2026-10-24, 카드 192)
+
+- **판정 적정~고평가(0, 0, −2)** — 자기 이력 66.5, 동종업 57.6(카드 유니버스 IT), 현금흐름 기본 $12 대 $209.99(10/23). 기준 Q2 FY27 10-Q(8/27 장 마감 뒤).
+- **엔진** — BUILD cover_shares(A·B 클래스, 주식 220M(2018) → 241M), EXTRA_TAGS D&A → OtherDepreciationAndAmortization($227M → $365M), tax_oneoff Q2 FY27 세금 혜택 $374M, Q4_EPS_OVERRIDE 5개 연도.
+- **판단** — 내재가치가 낮은 원인(GAAP 이익률·인수 대금 재투자·자본수익률 < 할인율), 10/23 사채 $2.5B는 다음 분기부터(용도·이자 부담 문장), 구조조정 2건·CEO 복귀 뉴스.
+- **dr** — Codex 2라운드·Fable. 보류: VTR·VST·FERG·ED·AMP·AIG·ROP·NTAP·FANG(안건 E54·E55).
