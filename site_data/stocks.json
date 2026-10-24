@@ -8445,6 +8445,47 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "CRH",
+      "name": "CRH",
+      "sector": "소재 — 골재·시멘트·아스팔트·건축 자재(북미·유럽 인프라)",
+      "href": "CRH_full_widget.html",
+      "cardRank": 199,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 84.89,
+        "prevClose": 86.43,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 665284511,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-20",
+        "filedAt": "2026-07-30",
+        "filing": "10-Q 0001628280-26-050755 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 53.5,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }
