@@ -131,7 +131,7 @@ jobs:
           MODE: ${{ steps.mode.outputs.mode }}
           TICKERS: ${{ inputs.tickers }}
           OPENDART_KEY: ${{ secrets.OPENDART_KEY }}   # SKHY 정기보고서(OpenDART, 2026-10-12)
-          V2_JOBS: "4"   # 매일 실행은 카드 4장씩 동시에(러너 4코어, 2026-10-23) — 토요일은 daily_price.py가 한 장씩으로 되돌린다
+          V2_JOBS: "4"   # 카드 4장씩 동시에(러너 4코어, 2026-10-23 매일 · 2026-10-24 토요일도)
         run: |
           # 종목 입력은 환경 변수로 받아 형식을 확인한다(셸에 직접 넣지 않는다 — Codex)
           args=()

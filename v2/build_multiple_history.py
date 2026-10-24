@@ -39,6 +39,7 @@ import json
 import os
 import re
 import sys
+import time
 from datetime import date
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
@@ -307,6 +308,9 @@ PER_NA_MARGIN = 0.02   # A3: 최근 4분기 GAAP 순이익률이 이보다 낮�
 
 
 CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".sec_cache")
+# 이 프로세스에서 이미 새로 받아 본 회사 — 요약 자료에 승인한 공시가 아직 없으면(SEC가 비운 종목, 2026-10-24 KO·XOM·WELL) 아래 조건이
+# 늘 참이라 태그마다 다시 받고 큰 파일을 다시 써서 카드 한 장이 10분 걸렸다(build_dcf_grid KO: 191번, 515초 중 약 500초). 한 번만 받는다
+_TRIED = set()
 
 
 def _facts(cik):
@@ -332,12 +336,17 @@ def _facts(cik):
     run_id = None if appr else os.environ.get("SEC_REFRESH_UNLISTED")
     done = os.path.join(CACHE_DIR, "_work", f"refreshed_{run_id}.txt")
     stale = bool(run_id) and cik not in (open(done).read().split() if os.path.exists(done) else [])
-    if data is None or stale or (appr and _max_filed(data) < appr):   # 캐시가 없거나 이번 실행에 아직 안 받았거나 기준일보다 앞서면 새로 받는다
+    if (data is None or stale or (appr and _max_filed(data) < appr)) and cik not in _TRIED:   # 캐시가 없거나 이번 실행에 아직 안 받았거나 기준일보다 앞서면 새로 받는다
+        _TRIED.add(cik)
         url = f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json"
-        try:
-            fresh = feh.curl_json(url)
-        except Exception:
-            fresh = {}
+        for _try in (1, 2):   # 한 번만 받으므로 일시 오류(429 등)에 한 번 더 — 예전에는 태그마다 다시 받아 우연히 가려졌다(Fable)
+            try:
+                fresh = feh.curl_json(url)
+            except Exception:
+                fresh = {}
+            if "facts" in fresh:
+                break
+            time.sleep(2)
         ok = "facts" in fresh
         if ok:
             json.dump(fresh, open(path, "w"))
@@ -349,8 +358,8 @@ def _facts(cik):
             if not ok:
                 with open(os.path.join(CACHE_DIR, "_refresh_failed.txt"), "a") as f:
                     f.write(f"{cik} facts\n")
-        if data is None:
-            return {}
+    if data is None:
+        return {}
     merged = _overlay(cik, data)
     if appr:   # 보충 자료(overlay)까지 합친 뒤에 자른다 — 앞에서 자르면 overlay의 승인 뒤 행이 다시 들어온다(Codex)
         if not any(r.get("filed") == appr and r.get("form") in ("10-Q", "10-K", "10-Q/A", "10-K/A", "20-F", "40-F")

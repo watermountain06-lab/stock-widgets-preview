@@ -42,7 +42,8 @@ CHANGES = "v2/newcards/refresh_changes.jsonl"
 # 매일 실행은 카드를 동시에 몇 장씩 만든다(V2_JOBS, 2026-10-23 — 146장이 2시간을 넘겼다). 카드끼리는 자기 파일만 쓴다:
 # 은행 공용 파일(banks.json·bank_sec_values.json, AXP가 COF를 읽음)은 은행만 쓰므로 은행은 한 줄로 차례대로 돈다.
 # fill.py가 모든 생성기 카드에서 덧붙이는 refresh_changes.jsonl은 카드별로 되돌리면 남의 줄을 지우므로 끝에 한 번 정리한다.
-# 토요일은 비교 종목 SEC 자료를 여러 카드가 같이 받아 쓰므로 지금처럼 한 장씩.
+# 토요일도 같다(2026-10-24 — 190장이 4시간 넘게 걸렸다). 비교 종목 SEC 자료는 weekly_pre가 카드 전에 한 번에 받고, 카드는 매일과
+# 같은 길로 만든다(은행만 원문 값까지 — 은행 줄은 차례대로). 동종업 어긋남으로 다시 만드는 카드도 같이 동시에(weekly_post).
 PARALLEL = False
 _PRINT = threading.Lock()
 
@@ -406,7 +407,7 @@ def weekly_pre(status):
         status["problems"].append(f"애널리스트 받기 실패 {len(status['analystFailed'])}종목(rc {rc})")
 
 
-def weekly_post(status, work):
+def weekly_post(status, work, jobs=1):
     """비교군 파일에 카드 값을 넣고(sync_peer_rows), 동종업 칸이 어긋난 카드를 다시 만들고, 새 분기 보고서를 점검한다."""
     rc, out = run([PY, "v2/adapters/sync_peer_rows.py"])
     if rc:
@@ -418,7 +419,19 @@ def weekly_post(status, work):
     status["peerDrift"] = drifted
     for T in drifted:
         print(f"{T}: 동종업 어긋남 — 다시 만든다", flush=True)
-        status["cards"][T] = attempt(T, work)
+    if PARALLEL and drifted:
+        # 카드 루프의 정리(tidy_changes)는 끝났다 — 셈을 비워 이 단계를 새 실행으로 센다. 그래야 카드 루프에서 성공한 줄은 남고
+        # 이 단계의 실패한 시도 줄만 빠진다(한 장씩일 때 attempt()가 시도마다 이 파일을 되돌리는 것과 같은 결과)
+        RUN_FROM.clear(); ATTEMPT_FROM.clear()
+        res = {}
+        try:
+            res = run_cards(drifted, work, jobs)
+        finally:   # 루프가 끊겨도 실패한 시도의 줄이 남지 않게 — 카드 루프의 "ok"가 아니라 이 단계의 결과로(Codex·Fable)
+            tidy_changes({T for T, v in res.items() if v["status"] == "ok"})
+        status["cards"].update(res)
+    else:
+        for T in drifted:
+            status["cards"][T] = attempt(T, work)
     rc, out = run([PY, "v2/newcards/new_filings.py"])
     try:
         nf = json.loads(out.strip().splitlines()[-1])
@@ -572,7 +585,7 @@ def main():
     work = os.path.join(V2, ".sec_cache", "_work", "daily")
     os.makedirs(work, exist_ok=True)
     # 공시 자동 반영(기준표를 고친다)보다 먼저 — 여기서 실패하면 되돌릴 것이 없게(Codex 2차)
-    jobs = 1 if weekly else max(1, int(os.environ.get("V2_JOBS") or 1))
+    jobs = max(1, int(os.environ.get("V2_JOBS") or 1))
     PARALLEL = jobs > 1
     # 동종 카드의 PER 해당 없음을 실행 전 값으로 고정한다(build_peer_score.peer_per_na). 한 장씩 돌 때는 앞 차례 카드가 이번에 바꾼
     # 값을 뒤 카드가 보므로, 실행 중 perNA가 바뀐 카드가 있으면 두 방식의 동종업 점수가 다를 수 있다 — 그날은 실행 전 값을 쓴다(dr 2026-10-24)
@@ -617,7 +630,7 @@ def main():
                 _oa.revert(T)
                 status["problems"].append(f"{T}: 새 재무제표 6-K({cur}) 자동 반영 실패 — 이전 분기에 둠")
     if weekly:
-        weekly_post(status, work)
+        weekly_post(status, work, jobs)
     after = verdicts()
     changes = []
     for T in tickers:
