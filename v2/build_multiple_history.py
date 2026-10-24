@@ -550,6 +550,7 @@ def validate_fixes(cik, ticker=None, strict=None):
         raise SystemExit(f"fact_fixes 검사 실패({len(probs)}건) — FACT_FIXES_STRICT=1")
     return probs
 
+
 # E57(2026-10-24 사용자 승인, 설계 research/e57_ocf_netting_design.md): 청산소가 있는 거래소의 영업현금흐름에 섞인 회원 담보금·디폴트 펀드
 # 유출입을 뺀다. CBOE만 영업활동에 이 줄이 있다(Cboe Clear Europe — "Restricted cash and cash equivalents and customer bank deposits
 # (included in margin deposits, default fund, and interoperability fund)" Q1 2026 +$1,878M). NDAQ·ICE·CME는 재무·투자활동에 둔다.
@@ -618,7 +619,6 @@ def check_ocf_netting(cik):
                                f"company_tag_feed.py {cik} {cfg['company_tag']} {cfg['tag']} 를 먼저 돌린다(PCR·FCF 계산 불가)")
 
 
-
 # 회사 전용 태그 보강(CIK별). 표준 태그 대신 같은 항목을 다른 표준 태그로만 내는 회사.
 # LLY: 설비투자 = PaymentsToAcquireOtherPropertyPlantAndEquipment(10-Q "Purchases of property and equipment"),
 #      인수 = OtherPaymentsToAcquireBusinesses("Cash paid for acquisitions, net of cash acquired", 2022년 이후).
@@ -654,6 +654,10 @@ EXTRA_TAGS = {
     "0001327811": {"DepreciationDepletionAndAmortization": ["OtherDepreciationAndAmortization"]},
     # XEL: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q2 2026 $3,119M) — Revenues 태그는 2019-09에 멈췄다(NEE와 같은 경우, 2026-10-23)
     "0000072903": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
+    # ED: 설비투자는 "Utility construction expenditures"(PaymentsForConstructionInProcess, Q1 2026 $1,172M) — 기본 태그는 2019년에 멈췄다(2026-10-24)
+    "0001047862": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForConstructionInProcess"]},
+    # DUK: 총매출은 RegulatedAndUnregulatedOperatingRevenue — Revenues 태그는 2017년에 멈췄다(XEL과 같은 경우, 2026-10-24)
+    "0001326160": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # PEG: 감가상각은 손익계산서 "Depreciation and Amortization" 줄(CostOfGoodsAndServicesSoldDepreciationAndAmortization, Q2 2026 $321M)뿐 — 기본 D&A 태그가 없어 0이었다(2026-10-24)
     "0000788784": {"DepreciationDepletionAndAmortization": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
@@ -872,6 +876,10 @@ def _derived_opinc(cik, taxonomy):
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
 EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # ED: 손익계산서 총매출은 Revenues(Q1 2026 $5,095M) — 고객 계약 매출 태그($5,231M)는 대체 수익 조정 전이라 크다(2026-10-24)
+                "0001047862": ("RevenueFromContractWithCustomerExcludingAssessedTax", "PaymentsToAcquirePropertyPlantAndEquipment"),   # 설비투자 옛 태그(10-K 연간만, 비유틸리티·철거비 포함)가 섞이면 4분기 역산이 틀어진다(Fable r1)
+                # DUK: 고객 계약 매출 태그(Q1 2026 $8,995M — 대체 매출 빠짐)를 빼야 RegulatedAndUnregulatedOperatingRevenue($9,178M)가 쓰인다(2026-10-24)
+                "0001326160": ("RevenueFromContractWithCustomerIncludingAssessedTax", "RevenueFromContractWithCustomerExcludingAssessedTax", "SalesRevenueNet"),
                 # FIX: 한 해짜리 DDA 합계 태그를 빼야 DDA_PARTS가 쓰인다(2026-10-24)
                 "0001035983": ("DepreciationAndAmortization",),
                 # MSCI: 감가상각만인 DDA 합계 태그를 빼야 DDA_PARTS(감가상각 + 무형자산 상각)가 쓰인다(2026-10-23)
@@ -1537,6 +1545,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # ED: 장기차입금을 분기에는 LongTermDebtFairValue(장부가와 같은 값 — 태그 오용)로, 연말에는 LongTermDebtNoncurrent로 낸다. 기본 선택은 CP $869M만 잡았다.
+                  # CP + 은행 텀론(LoansPayableToBankCurrent — 2024~2025 $500~700M, Q1 2026 0) + 1년 안(날짜마다 앞 태그 우선) + 장기(날짜마다 앞 태그 우선). Q1 2026: 869 + 0 + 250 + 25,554 = 26,673(10-Q 대조, 2026-10-24)
+                  "0001047862": ["NotesPayableCurrent", "LoansPayableToBankCurrent", ("OtherLongTermDebtCurrent", "LongTermDebtCurrent"), ("LongTermDebtNoncurrent", "LongTermDebtFairValue")],
                   # SO: 1년 안 만기 사채(LongTermDebtAndCapitalLeaseObligationsCurrent $5,701M)가 빠졌다 — 단기 차입 + 1년 안 + 장기(XEL과 같은 구성). Q1 2026: 1,673 + 5,701 + 67,148 = 74,522(10-Q 대조, 2026-10-24)
                   "0000092122": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # DHI: 재무상태표 차입금은 한 줄 "Notes payable"(NotesPayable, Q3 FY26 $7,112.6M — 주택 금융의 모기지 환매 약정 $1.8B 포함, 2026-10-24)

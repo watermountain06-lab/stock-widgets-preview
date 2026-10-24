@@ -1975,3 +1975,21 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — DEBT_TOTAL_TAG 단기 + 1년 안 + 장기($74.5B), fetch_financials 이자비용 InterestAndDebtExpense, Q4_EPS_OVERRIDE 2022.
 - **판단** — 회사 제외 항목(가속상각 등)이 최근 4분기 EPS를 낮춤, 0 이하 DCF는 PEG와 같은 POST, '다음 실적' 칸 POST(Q2 실적·10-Q는 나왔고 요약 자료 반영 대기), 자본·비지배지분은 연말 값.
 - **dr** — Codex·Fable 1라운드(필수 반영).
+
+## DUK — 미국 남동부·중서부 유틸리티 (2026-10-24, 카드 202)
+
+- **판정 적정~고평가(0, 0, −2)** — 자기 이력 51.3, 동종업 69.3(S&P500 유틸리티), 현금흐름 세 값 0 이하 대 $124.98(10/23).
+- **요약 자료 누락 처리(SO와 같음)** — Q1 2026 10-Q(5/5) 기준, sec_approved 2026-05-05 = 카드 재무 접수일, auto_quarter_due 거짓. 다음 실적 11/5(회사 공지)를 POST로 표시(엔진은 기준 분기 다음인 Q2를 잡는다).
+- **엔진** — EXTRA_TAGS 매출 RegulatedAndUnregulatedOperatingRevenue(Revenues 2017 멈춤), EXCLUDE_TAGS 고객 계약 매출 3종, fetch_financials 매출·이자비용(InterestExpenseNonoperating — 이자보상배율 2.8배), INVENTORY_ALT PublicUtilitiesInventory(당좌비율), Q4_EPS_OVERRIDE 2021·2023·2025.
+- **판단** — Q1 테네시 가스 매각 이익(영업이익의 약 14%)과 우선주(약 $1.0B, 최근 태그 없음)는 모델 문장에 적음.
+- **dr** — Codex 3라운드·Fable 1라운드(필수 반영: 이자비용·기본적 분석 매출·다음 실적 일정·다음 확인 포인트).
+
+## ED — 뉴욕시 유틸리티 (2026-10-24, 카드 203)
+
+- **판정 고평가(−1, 0, −2)** — 자기 이력 13.1, 동종업 68.8(S&P500 유틸리티), 현금흐름 세 값 0 이하 대 $115.74(10/23).
+- **요약 자료 누락 처리(SO와 같음)** — Q1 2026 10-Q(5/7) 기준, sec_approved 2026-05-07, auto_quarter_due 거짓.
+- **엔진** — DEBT_TOTAL_TAG CP + 은행 텀론 + 1년 안 + 장기(분기에는 LongTermDebtFairValue로 장부가를 낸다 — 진짜 공정가치는 companyfacts에 없음, 2013~2016 공정가치 행은 앞 태그 우선이라 안 섞임) $26.7B, 설비투자 PaymentsForConstructionInProcess(옛 PTAPPE는 EXCLUDE — 연간·분기 섞임 방지), 매출 Revenues(고객 계약 매출 EXCLUDE·fetch_financials), Q4_EPS_OVERRIDE 2025.
+- **판단** — Q1 MVP 지분 매각 이익(EPS $0.37, 영업이익 밖)은 모델 문장에. 주당 배당 칸은 지급 기준 마지막 값(Q3 2025 $0.85)에 멈춰 POST로 표시(선언 $0.89 — 엔진 공통 과제). 매출 구성은 법인 축(CECONY·O&R).
+- **dr** — Codex 2회(1회는 판정 없이 끊김)·Fable 1라운드(필수: 배당 칸 표시 — 반영).
+- **SO 수정(같은 커밋)** — '다음 확인 포인트'를 요약 자료 Q2 반영·Q3 실적으로, '한두 분기 이전'.
+

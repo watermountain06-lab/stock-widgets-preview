@@ -8570,6 +8570,88 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "DUK",
+      "name": "Duke Energy",
+      "sector": "유틸리티 — 미국 남동부·중서부 규제 전력(캐롤라이나·플로리다·인디애나 등)·가스 배전",
+      "href": "DUK_full_widget.html",
+      "cardRank": 202,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 124.98,
+        "prevClose": 125.4,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 779596217,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-04-30",
+        "filedAt": "2026-05-05",
+        "filing": "10-Q 0001326160-26-000026 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 46.8,
+        "grade": "보통",
+        "financialsAsOf": "2026-03-31",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "ED",
+      "name": "Consolidated Edison",
+      "sector": "유틸리티 — 뉴욕시·웨스트체스터 전력·가스·증기 배전(CECONY), 오렌지 앤 록랜드",
+      "href": "ED_full_widget.html",
+      "cardRank": 203,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 115.74,
+        "prevClose": 116.26,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 368529705,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-04-30",
+        "filedAt": "2026-05-07",
+        "filing": "10-Q 0001047862-26-000091 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 49.6,
+        "grade": "보통",
+        "financialsAsOf": "2026-03-31",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }

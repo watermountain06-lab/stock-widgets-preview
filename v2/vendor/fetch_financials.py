@@ -96,6 +96,10 @@ CONCEPTS_BY_CIK = {# RSG: 손익계산서 매출 RevenueFromContractWithCustomer
                    "0001156375": {"interestExpense": ["InterestAndDebtExpense"]},
                    # SO: 이자비용을 InterestAndDebtExpense(Q1 2026 $778M)로만 낸다 — CME와 같은 경우(Fable r1, 2026-10-24)
                    "0000092122": {"interestExpense": ["InterestAndDebtExpense"]},
+                   # DUK: 총매출 RegulatedAndUnregulatedOperatingRevenue(Q1 2026 $9,178M — 고객 계약 매출 $8,995M은 대체 매출 빠짐), 이자비용 InterestExpenseNonoperating($968M — InterestExpense는 연간만)(Codex·Fable r1, 2026-10-24)
+                   "0001326160": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"], "interestExpense": ["InterestExpenseNonoperating"]},
+                   # ED: 총매출 Revenues(Q1 2026 $5,095M — 고객 계약 매출 태그 $5,231M은 대체 수익 조정 전)(2026-10-24)
+                   "0001047862": {"revenue": ["Revenues"]},
                    # FCX: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNet, Q2 2026 −$95M — 소비처는 절댓값)만 분기로 낸다(2026-10-17)
                    "0000831259": {"interestExpense": ["InterestIncomeExpenseNet"]},
                    # NKE: 재고를 InventoryFinishedGoodsNetOfReserves로만 낸다(InventoryNet은 2011년에 멈춤 — 당좌비율이 유동비율과 같게 나왔다, 2026-10-17)
