@@ -253,6 +253,7 @@ def annual_is_newer(fin):
 # (UNP "Materials and supplies" = MaterialsSuppliesAndOther, 98.6% → 82.2%, 점수 구간 같음 — 안건 D43, 2026-10-05).
 # 카드 종목 가운데 재고 태그가 없는 20곳의 SEC 자료를 훑어 재고성 태그가 있는 곳은 UNP뿐이었다.
 INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther",
+                 "0000027904": "AirlineRelatedInventoryNet",   # DAL 항공 관련 재고(연료·부품, $2,637M) — 당좌비율 40.2% → 32.3%(Fable r1 2026-10-23)
                  "0000277948": "MaterialsSuppliesAndOther"}   # CSX "Materials and Supplies"($406M, 2026-06-30) — 당좌비율 82.0% → 72.3%(Codex 2026-10-18)
 ROUNDED_COMMON_NI = {"0000001800"}   # ABT — 위 순이익률 주석 참고
 

@@ -433,7 +433,9 @@ def concept(cik, tag, taxonomy="us-gaap"):
 # EOG: 현금흐름표 "Additions to Oil and Gas Properties"(PaymentsToAcquireOilAndGasPropertyAndEquipment, 상반기 2026 $3,129M)
 #      + "Additions to Other Property, Plant and Equipment"(PaymentsToAcquireOtherPropertyPlantAndEquipment, $297M) = 설비투자 $3,426M.
 #      기본 목록 태그가 없어 설비투자가 비었다(2026-10-21).
-SUM_TAGS_BY_CIK = {"0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
+SUM_TAGS_BY_CIK = {# DAL: 설비투자 = 항공기(PaymentsForFlightEquipment) + 지상 설비·기타(PaymentsToAcquireOtherProductiveAssets) — 합계 태그는 2026년 1분기에 멈췄다(겹치는 기간 합 = 합계, FY2025 4,499, 2026-10-23)
+                   "0000027904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForFlightEquipment", "PaymentsToAcquireOtherProductiveAssets"]},
+                   "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
     # EQIX: 설비투자를 PaymentsToAcquireProductiveAssets로 내다가 2026년 2분기 누계부터 PaymentsToAcquireOtherPropertyPlantAndEquipment로만 낸다
