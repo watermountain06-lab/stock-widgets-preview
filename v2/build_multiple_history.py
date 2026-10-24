@@ -550,6 +550,74 @@ def validate_fixes(cik, ticker=None, strict=None):
         raise SystemExit(f"fact_fixes 검사 실패({len(probs)}건) — FACT_FIXES_STRICT=1")
     return probs
 
+# E57(2026-10-24 사용자 승인, 설계 research/e57_ocf_netting_design.md): 청산소가 있는 거래소의 영업현금흐름에 섞인 회원 담보금·디폴트 펀드
+# 유출입을 뺀다. CBOE만 영업활동에 이 줄이 있다(Cboe Clear Europe — "Restricted cash and cash equivalents and customer bank deposits
+# (included in margin deposits, default fund, and interoperability fund)" Q1 2026 +$1,878M). NDAQ·ICE·CME는 재무·투자활동에 둔다.
+# 회사 고유 태그라 company_tags 피드(adapters/company_tag_feed.py)가 overlay에 빌린 이름으로 싣는다. 영향 = sign × XBRL 값(CBOE −1,
+# 10-K·10-Q 같음 — 원문 확인), 뺀 값 = OCF − 영향. 누계 행끼리 같은 (start, end, accn)로 빼므로 분기 역산이 그대로 맞는다.
+# 담보금 시대(era — 태그 첫 공시 Q3 2020 10-Q, EuroCCP 인수 2020-07 뒤) 안의 행은 짝이 있어야 쓴다 — 없으면 그 행을 뺀다(태그 변경·
+# 파싱 실패·피드 미실행을 담보금 포함 값으로 조용히 통과시키지 않는다, Codex·Fable). 인수 전 기간(결산일 ≤ 2020-06-30)은 공시일과 상관없이 그대로.
+OCF_NETTING = {
+    "0001374310": {"tag": "IncreaseDecreaseInRestrictedCashClearingFundCboe", "company_tag": "cboe:IncreaseDecreaseInRestrictedCashClearingFund",
+                   "sign": -1, "era_filed": "2020-10-30", "era_accn": "0001558370-20-012101",
+                   "exempt_period_end_through": "2020-06-30", "confirmed_none": []},
+}
+
+
+def net_ocf(cik, rows):
+    """영업현금흐름 행에서 담보금 영향을 뺀 새 목록(사본). 시대 안 짝 없는 행은 빼고 경고(OCF_NETTING_STRICT=1이면 멈춤)."""
+    cfg = OCF_NETTING.get(str(cik).zfill(10))
+    if not cfg or not rows:
+        return rows
+    coll = {(r.get("start"), r["end"], r.get("accn")): r["val"] for r in concept(cik, cfg["tag"])}
+    out, dropped = [], []
+    for r in rows:
+        if r.get("filed", "") < cfg["era_filed"] or r["end"] <= cfg["exempt_period_end_through"]:
+            out.append(r)
+            continue
+        k = (r.get("start"), r["end"], r.get("accn"))
+        if k in coll:
+            out.append(dict(r, val=r["val"] - cfg["sign"] * coll[k]))
+        elif r.get("accn") in cfg["confirmed_none"]:
+            out.append(r)
+        else:
+            dropped.append(r)
+    if dropped:
+        msg = ", ".join(f"{r.get('start')}~{r['end']}({r.get('accn')})" for r in dropped[:4]) + (" …" if len(dropped) > 4 else "")
+        print(f"  ⚠ ocf_netting {cik}: 담보금 짝 없는 영업현금흐름 {len(dropped)}행 제외 — {msg}")
+        if os.environ.get("OCF_NETTING_STRICT") == "1":
+            raise RuntimeError(f"ocf_netting {cik}: 짝 없는 행 {len(dropped)}개 — OCF_NETTING_STRICT=1")
+    return out
+
+
+def check_ocf_netting(cik):
+    """빌드 시작 검사: (a) 원본 companyfacts의 시대 안 영업현금흐름에 같은 (start, end, filed)·다른 accn이 있으면 오류(짝짓기가 accn 기준이라)
+    (b) 시대 안 form은 10-K·10-Q만 (c) 가장 최근 영업현금흐름 행에 담보금 짝이 있어야 한다 — 없으면 피드를 안 돌린 것이라 옛 TTM이 현재처럼
+    쓰인다(PCR·FCF 계산 불가로 멈춘다). RuntimeError라 동종업 유니버스(sector_universe의 except Exception)에서는 그 종목만 빠진다."""
+    cfg = OCF_NETTING.get(str(cik).zfill(10))
+    if not cfg:
+        return
+    raw = os.path.join(CACHE_DIR, f"{str(cik).zfill(10)}_facts.json")
+    rows = json.load(open(raw)).get("facts", {}).get("us-gaap", {}).get("NetCashProvidedByUsedInOperatingActivities", {}).get("units", {}).get("USD", []) \
+        if os.path.exists(raw) else []
+    era = [r for r in rows if r.get("filed", "") >= cfg["era_filed"] and r["end"] > cfg["exempt_period_end_through"]]
+    seen = {}
+    for r in era:
+        k = (r.get("start"), r["end"], r.get("filed"))
+        if k in seen and seen[k] != r.get("accn"):
+            raise RuntimeError(f"ocf_netting {cik}: 같은 기간·공시일에 accn 둘({seen[k]}, {r.get('accn')}) — accn 짝짓기 불가")
+        seen[k] = r.get("accn")
+    bad_forms = sorted({r.get("form") for r in era} - {"10-K", "10-Q"})
+    if bad_forms:
+        raise RuntimeError(f"ocf_netting {cik}: 시대 안 영업현금흐름 form {bad_forms} — 피드가 받지 않는 양식")
+    if era:
+        last = max(era, key=lambda r: (r["filed"], r["end"]))
+        coll = {(r.get("start"), r["end"], r.get("accn")) for r in concept(cik, cfg["tag"])}
+        if (last.get("start"), last["end"], last.get("accn")) not in coll and last.get("accn") not in cfg["confirmed_none"]:
+            raise RuntimeError(f"ocf_netting {cik}: 최근 영업현금흐름({last['end']}, {last.get('accn')})에 담보금 짝이 없다 — "
+                               f"company_tag_feed.py {cik} {cfg['company_tag']} {cfg['tag']} 를 먼저 돌린다(PCR·FCF 계산 불가)")
+
+
 
 # 회사 전용 태그 보강(CIK별). 표준 태그 대신 같은 항목을 다른 표준 태그로만 내는 회사.
 # LLY: 설비투자 = PaymentsToAcquireOtherPropertyPlantAndEquipment(10-Q "Purchases of property and equipment"),
@@ -946,6 +1014,9 @@ def pick_tag(cik, names, taxonomy="us-gaap"):
             if disc:
                 rows = [dict(r, val=r["val"] - disc[(r.get("start"), r["end"], r.get("accn"))])
                         if (r.get("start"), r["end"], r.get("accn")) in disc else r for r in rows]
+            rows = net_ocf(cik, rows)   # E57 — 청산소 담보금 유출입(CBOE). 짝 없으면 통과가 아니라 제외(위 중단영업 방식과 다르다)
+        elif rows and name in FLOW_TAGS["ocf"]:
+            rows = net_ocf(cik, rows)   # E57 — 다른 영업현금흐름 후보 태그(…ContinuingOperations)도 같은 규칙(시대 안 짝 없으면 제외)
         if rows:
             used.append(f"{name}({len(rows)})")
             if rev_family:   # 매출 행에는 태그를 적어 둔다(F2 — 사본이라 concept 캐시를 건드리지 않는다)
@@ -2229,6 +2300,7 @@ def main():
     if not cik:
         sys.exit(f"{t}: CIK를 모른다. fetch_eps_history.py의 CIKS에 추가할 것")
     validate_fixes(cik, t)   # E55 — 카드·동종업 빌드마다 그 종목 고침이 자료와 맞는지(카드 빌드는 경고, FACT_FIXES_STRICT=1이면 멈춤)
+    check_ocf_netting(cik)   # E57 — 담보금 빼기 대상(CBOE)이면 accn 충돌·양식·최신 행 짝 검사
 
     daily = history_daily(t, load_daily(t))
     print(f"{t}: 일봉 {len(daily)}개 ({daily[0][0]} ~ {daily[-1][0]})"
