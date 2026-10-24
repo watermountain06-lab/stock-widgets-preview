@@ -1343,6 +1343,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+                  # IDXX: 기본 목록에 신용한도 차입(LinesOfCreditCurrent, 텀론 $250M 포함 — Q2 2026 $519M)이 빠졌다 — 신용한도 + 1년 안 사채 + 장기 사채. Q2 2026: 519 + 150 + 299.9 = 968.9(10-Q 대조, 2026-10-24)
+                  "0000874716": ["LinesOfCreditCurrent", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],
                   # RSG: 기본 장기 태그가 2018년에 멈추고 합계가 연말 값(2025-12)에 머물렀다 — 1년 안 + 장기(금융리스 포함). Q2 2026: 548 + 13,521 = 14,069(10-Q 대조, 2026-10-23)
                   "0001060391": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # A: 기본 합계가 대체값(debt_total_fallback)으로 잡혔다(값은 같다) — 단기 차입 + 장기. Q3 FY26: 304 + 3,645 = 3,949(10-Q 대조, 2026-10-23)
