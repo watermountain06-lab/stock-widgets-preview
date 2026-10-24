@@ -1945,3 +1945,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — DEBT_TOTAL_TAG DebtLongtermAndShorttermCombinedAmount($260M → $659M), Q4_EPS_OVERRIDE FY2022·2023·2024.
 - **판단** — MatrixCare 매각(계속사업, 대금 유입), 현금흐름 재투자가 인수·매각 예정 재분류로 무거움(안건 E46 보충), 이자보상배율 사유 POST, HEALTH_EXTRA(매각 예정 자산·순이자수익), 감사인 교체(이견 없음).
 - **dr** — Codex 2라운드·Fable. 보류: KMB·CBRE.
+
+## PEG — 뉴저지 전력·가스 + 원전 (2026-10-24, 카드 198)
+
+- **판정 적정~고평가(0, 0, −2)** — 자기 이력 68.1, 동종업 56.1(S&P500 유틸리티), 현금흐름 세 값 0 이하 대 $72.02(10/23). 기준 Q2 2026 10-Q(8/4).
+- **엔진** — EXTRA_TAGS D&A → CostOfGoodsAndServicesSoldDepreciationAndAmortization(0 → $1,279M).
+- **판단** — 시가평가(영업이익 안)·해체기금(밖) 손익, FCF는 작은 양수지만 큰 차입금을 뺀 지분가치 0 이하(XEL POST 일부, 요구 이익률 48.4%는 유지), −2는 현행 규칙(안건 E51), 원전 세액공제로 낮은 세율.
+- **dr** — Codex 2라운드·Fable. 보류: CBOE(청산 담보금 현금흐름, 안건 E57).

@@ -474,6 +474,8 @@ EXTRA_TAGS = {
     "0001327811": {"DepreciationDepletionAndAmortization": ["OtherDepreciationAndAmortization"]},
     # XEL: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q2 2026 $3,119M) — Revenues 태그는 2019-09에 멈췄다(NEE와 같은 경우, 2026-10-23)
     "0000072903": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
+    # PEG: 감가상각은 손익계산서 "Depreciation and Amortization" 줄(CostOfGoodsAndServicesSoldDepreciationAndAmortization, Q2 2026 $321M)뿐 — 기본 D&A 태그가 없어 0이었다(2026-10-24)
+    "0000788784": {"DepreciationDepletionAndAmortization": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
     # 2020-09에 멈춘 PaymentsToAcquireProductiveAssets를 잡아 PCR 계산 불가였다(2026-10-02).
     "0000024741": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},
