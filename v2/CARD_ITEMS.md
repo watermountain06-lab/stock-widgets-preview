@@ -2116,3 +2116,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — 영업이익 = 세전 + 순이자비용(DERIVED_OPINC, 10-K 연간 세전은 IncomeLossAttributableToParent 태그 — 세 번째 세전 태그), DCF 세전 = 순이익 + 법인세(PRETAX_FROM_NI_TAX — 4분기가 비어 세율이 21%로 떨어졌다), 차입금 = LongTermDebtCurrent + Noncurrent(DEBT_TOTAL_TAG), 금융리스는 그 안(FL_IN_DEBT), Q4_EPS_OVERRIDE FY21~23. 단일 보고 부문(한 조각). 로고는 배지(위키미디어 검색이 다른 로고만 찾음).
 - **dr** — Codex·Fable 1라운드(필수: 금융리스 이중 차감·세율 — 반영, 표 불변. 텍스트 덤프의 "비탐욕 정규식" 문장은 모든 카드의 HTML 주석 안 — 화면에 안 보임).
 
+## IR — 유체 기계 (2026-10-25, 카드 221)
+
+- **판정 적정~고평가(+1, 0, −2)** — 자기 이력 89.9(PER·EV/EBITDA 5년 최저 부근), 동종업 56.5(S&P500 산업재), 현금흐름 기본 $20.58 대 $73.48(10/23).
+- **엔진** — 차입금 = DebtCurrent + LongTermDebtAndCapitalLeaseObligations(비유동만), D&A = 무형자산 상각 + 매출원가 감가상각(DDA_PARTS_BY_CIK·EXCLUDE — 합산 태그 분기 행이 2024년부터; FY21~25 연간 합 일치), 계속사업 EPS 우선(BUILD eps_tag), Q4_EPS_OVERRIDE 2021·2022.
+- **민감도** — Q2 2025 손상(영업이익 안)·지분법 손실(밖)을 빼도 자기 이력 약 89.3~89.7 — 문장 공개.
+- **dr** — Codex·Fable 1라운드(필수 없음).
+

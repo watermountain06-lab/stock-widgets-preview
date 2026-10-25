@@ -5,30 +5,18 @@
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
 | 348 | XYL | $25.39B | Xylem Inc. | — |
-| 349 | IR | $28.51B | Ingersoll Rand Inc. | — |
 | 350 | CHD | $24.95B | Church & Dwight Co., Inc. | — |
-| 355 | CPRT | $26.86B | Copart, Inc. | 거래 공시: 2026-10-16 8-K 2.01,7.01,9.01; 2026-09-17 SC TO-T  |
-| 356 | IFF | $24.02B | International Flavors & Fragrances Inc. | — |
-| 357 | DLTR | $23.51B | Dollar Tree, Inc. | 거래 공시: 2025-07-07 8-K 2.01,9.01 |
 | 362 | DOW | $23.69B | Dow Inc. | 최근 4분기 적자(PER 없음); 영업이익 태그 멈춤 — 합성 필요 |
-| 370 | PKG | $21.90B | Packaging Corporation of America | — |
 | 372 | CMS | $21.82B | CMS Energy Corporation | — |
-| 373 | EXE | $21.58B | Expand Energy Corporation | — |
 | 374 | KHC | $29.41B | The Kraft Heinz Company | 최근 4분기 적자(PER 없음) |
 | 375 | EFX | $21.34B | Equifax Inc. | — |
 | 376 | AMCR | $21.30B | Amcor plc | 거래 공시: 2025-07-15 S-4  |
-| 380 | BR | $20.69B | Broadridge Financial Solutions, Inc. | — |
-| 381 | PTC | $21.03B | PTC Inc. | — |
 | 383 | NI | $20.76B | NiSource Inc. | — |
 | 384 | VTRS | $20.67B | Viatris Inc. | 최근 4분기 적자(PER 없음) |
 | 385 | CDW | $20.64B | CDW Corporation | — |
-| 386 | LUV | $20.44B | Southwest Airlines Co. | — |
-| 387 | TPL | $23.33B | Texas Pacific Land Corporation | — |
 | 392 | NRG | $19.40B | NRG Energy, Inc. | 거래 공시: 2026-01-30 8-K 1.01,2.01,2.03,3.02,7.01,9.01 |
 | 395 | SWKS | $12.55B | Skyworks Solutions, Inc. | 거래 공시: 2026-10-05 8-K 2.01,5.02,8.01,9.01; 2026-05-20 S-4 ; 2025-12-04 S-4  |
-| 396 | ZBH | $18.80B | Zimmer Biomet Holdings, Inc. | — |
 | 397 | DD | $18.44B | DuPont de Nemours, Inc. | 거래 공시: 2026-08-04 S-4 ; 2025-11-03 8-K 1.01,2.01,5.02,7.01,8.01,9.01; 영업이익 태그 멈춤 — 합성 필요 |
-| 398 | SMCI | $21.64B | Super Micro Computer, Inc. | — |
 | 399 | FSLR | $18.48B | First Solar, Inc. | — |
 | 400 | SNA | $18.42B | Snap-on Incorporated | — |
 | 401 | ZBRA | $18.28B | Zebra Technologies Corporation | — |

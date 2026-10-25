@@ -97,6 +97,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # IR: 합산 태그는 분기 행이 2024년부터 — 무형자산 상각 + 매출원가 감가상각(FY21~25 연간 합이 합산 태그와 정확히 같다, 2026-10-25)
+                    "0001699150": ["AmortizationOfIntangibleAssets", "CostOfGoodsAndServicesSoldDepreciation"],
                     # WST: 합산 태그는 분기 행이 2024년부터라 EV/EBITDA 이력이 252일뿐이었다 — 감가상각 + 상각(2021~, Codex r1 2026-10-25)
                     "0000105770": ["Depreciation", "AdjustmentForAmortization"],
                     # MTD: 현금흐름표 D&A = 감가상각 + "Amortization"(AmortizationOfDeferredCharges — 무형자산·소프트웨어 포함, FY25 $74.5M). 무형자산 상각 태그는 그 안의 일부(Fable r1 2026-10-25)
@@ -943,6 +945,7 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 # NKE: 합산 태그 DepreciationDepletionAndAmortization이 2023-05부터라 기본 선택이 그것만 잡는다 — 구성요소 튜플(DDA_PARTS_BY_CIK)로 옛 Depreciation과 잇는다.
                 "0000320187": ("DepreciationDepletionAndAmortization",),
                 "0000277948": ("DepreciationDepletionAndAmortization",),   # CSX — 구성요소 튜플 경로로(DDA_PARTS_BY_CIK)
+                "0001699150": ("DepreciationDepletionAndAmortization",),   # IR — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
@@ -1587,7 +1590,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000726958": ["LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # CASY: 1년 안 $104.3M + 장기 $2,326.2M(Q1 FY27 10-Q — LongTermDebt 합계 태그는 연간만, 2026-10-25)
+DEBT_TOTAL_TAG = {
+                  "0001699150": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # IR: 1년 안 $699.8M + 장기(이름과 달리 비유동만) $4,068.7M(Q2 2026 10-Q, 2026-10-25)
+                  "0000726958": ["LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # CASY: 1년 안 $104.3M + 장기 $2,326.2M(Q1 FY27 10-Q — LongTermDebt 합계 태그는 연간만, 2026-10-25)
                   "0000029905": ["LongTermDebt"],   # DOV: LongTermDebt $3,264.6M(1년 안 $683.4M 포함) — ShortTermBorrowings가 같은 1년 안 금액이라 기본 합산이 두 번 셌다(Q3 2026 10-Q, 2026-10-25)
                   "0001781335": ["ShortTermBorrowings", "LongTermDebt"],   # OTIS: 단기 $210M + LongTermDebt(1년 안 포함) $8,226M = $8,436M(Q2 2026 10-Q, 2026-10-25)
                   "0000731802": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # ATO: 1년 안 $502.5M + 장기 $9,748.7M(Q3 FY26 10-Q, 2026-10-25)
