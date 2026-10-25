@@ -1578,7 +1578,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001037646": "DebtLongtermAndShorttermCombinedAmount",   # MTD: 1년 안 + 장기 합계 $2,112.0M(매 분기 있음 — DebtCurrent는 3월 분기에 없다, Fable r1 2026-10-25)
+DEBT_TOTAL_TAG = {"0000029534": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # DG: 1년 안 $12.7M + 장기 $4,558.1M(Q2 FY26 10-Q, 2026-10-25)
+                  "0001002910": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # AEE: 단기 $1,220M + 1년 안 $1,524M + 장기 $19,064M = $21,808M(Q2 2026 10-Q, 2026-10-25)
+                  "0001037646": "DebtLongtermAndShorttermCombinedAmount",   # MTD: 1년 안 + 장기 합계 $2,112.0M(매 분기 있음 — DebtCurrent는 3월 분기에 없다, Fable r1 2026-10-25)
                   "0000100517": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # UAL: 1년 안 $1,848M + 장기 $24,550M(금융리스 포함) = $26,398M(Q3 2026 10-Q, 2026-10-25)
                   "0000723125": "DebtAndCapitalLeaseObligations",
                   # ED: 장기차입금을 분기에는 LongTermDebtFairValue(장부가와 같은 값 — 태그 오용)로, 연말에는 LongTermDebtNoncurrent로 낸다. 기본 선택은 CP $869M만 잡았다.

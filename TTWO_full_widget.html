@@ -542,7 +542,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 15.5%)</span>
-      <span class="meta-value" id="ttwoDcfReq" style="font-size: 22px; color: var(--red);">43.2%</span>
+      <span class="meta-value" id="ttwoDcfReq" style="font-size: 22px; color: var(--text3);">해석 부적합</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="ttwoConfidenceLabel">밴드 적중률</span>
@@ -1518,7 +1518,8 @@ const TTWO_SCORES = {
         + (_ps ? (_ps > 10 ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델 상한(세후 이익률 100% ÷ (할인율 − 영구성장) ≈ 매출의 10배)을 넘는 성장·마진 기대가 들어 있다.` : ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로 모델 상한(≈ 매출의 10배)보다 낮다. 해가 없는 것은 순부채·재투자 가정이 사업 가치를 깎기 때문이다.`) : '.');
     }
   }
-  if (req && price != null) {
+  if (req && d.base <= 0) { req.textContent = '해석 부적합'; req.style.color = 'var(--text3)'; const _c = req.closest('.meta-item'); if (_c) _c.title = '해석 부적합(현금흐름 0 이하) — 현금흐름 내재가치가 0 이하라 현재가 요구 성장률을 해석할 수 없다.'; }
+  if (req && price != null && d.base > 0) {
     const lv = dcfLevel(price, d);
     req.style.color = lv.color;   // 5단계와 같은 신호: 싸다 파랑 · 적정 노랑 · 비싸다 빨강
     const cell = req.closest('.meta-item');

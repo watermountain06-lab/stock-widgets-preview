@@ -8939,6 +8939,88 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "AEE",
+      "name": "Ameren",
+      "sector": "유틸리티 — 미주리·일리노이 전력·가스 배전, 송전",
+      "href": "AEE_full_widget.html",
+      "cardRank": 211,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 108.04,
+        "prevClose": 108.94,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 276843251,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-30",
+        "filedAt": "2026-08-03",
+        "filing": "10-Q 0001002910-26-000023 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 44.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "DG",
+      "name": "Dollar General",
+      "sector": "필수소비재 — 저가 잡화 체인(미국 소도시)",
+      "href": "DG_full_widget.html",
+      "cardRank": 212,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 132.69,
+        "prevClose": 139.11,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 220616790,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-25",
+        "filedAt": "2026-08-27",
+        "filing": "10-Q 0001104659-26-101932 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 41.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }

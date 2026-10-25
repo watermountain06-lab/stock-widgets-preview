@@ -59,6 +59,12 @@ h = h.replace('Q2 2026 실적은 발표됐고 카드는 10-Q·10-K 접수 뒤 �
 POST.append(r'''
 h = h.replace('최근 분기 주당 배당 (지급 기준, 9/30 분기)', '주당 배당 (지급 기준 마지막 값 — Q3 2025, Q1 2026 선언은 $0.89)', 1)
 ''')
+# 헤더 '현재가 요구 성장' 칸 — 현금흐름 값이 0 이하이면 숫자 대신 '해석 부적합'(AEE Fable r1, 2026-10-25)
+POST.append(r'''
+h = h.replace("  if (req && price != null) {", "  if (req && d.base <= 0) { req.textContent = '해석 부적합'; req.style.color = 'var(--text3)'; const _c = req.closest('.meta-item'); if (_c) _c.title = '해석 부적합(현금흐름 0 이하) — 현금흐름 내재가치가 0 이하라 현재가 요구 성장률을 해석할 수 없다.'; }\n  if (req && price != null && d.base > 0) {", 1)
+import re as _re2
+h = _re2.sub(r'(id="edDcfReq"[^>]*>)연 [−-][0-9.]+%', lambda m: m.group(1) + '해석 부적합', h)
+''')
 PH = ['NEE', 'SO', 'DUK', 'AEP', 'XEL', 'PEG']
 PEER_FILE = 'peer_universe/utilities.json'
 CHART_CAP, SELF_CAP, CHART_NOTE = {}, {}, {}

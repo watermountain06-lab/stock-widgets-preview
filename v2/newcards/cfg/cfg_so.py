@@ -56,6 +56,12 @@ h = h.replace('실적 7/30 발표, 보고서 반영 대기', '실적 7/30 발표
 h = h.replace('<span class="op-sub">Q2 2026 · 반영 대기</span>', '<span class="op-sub">Q2 2026 · 요약 자료 반영 대기</span>', 1)
 h = h.replace('Q2 2026 실적은 발표됐고 카드는 10-Q·10-K 접수 뒤 반영', 'Q2 2026 실적·10-Q는 나왔고 카드는 SEC 요약 자료에 실린 뒤 반영(다음은 Q3, 10월 말 예상)', 1)
 ''')
+# 헤더 '현재가 요구 성장' 칸 — 현금흐름 값이 0 이하이면 숫자 대신 '해석 부적합'(AEE Fable r1, 2026-10-25)
+POST.append(r'''
+h = h.replace("  if (req && price != null) {", "  if (req && d.base <= 0) { req.textContent = '해석 부적합'; req.style.color = 'var(--text3)'; const _c = req.closest('.meta-item'); if (_c) _c.title = '해석 부적합(현금흐름 0 이하) — 현금흐름 내재가치가 0 이하라 현재가 요구 성장률을 해석할 수 없다.'; }\n  if (req && price != null && d.base > 0) {", 1)
+import re as _re2
+h = _re2.sub(r'(id="soDcfReq"[^>]*>)연 [−-][0-9.]+%', lambda m: m.group(1) + '해석 부적합', h)
+''')
 PH = ['NEE', 'DUK', 'AEP', 'XEL', 'PEG', 'CEG']
 PEER_FILE = 'peer_universe/utilities.json'
 CHART_CAP, SELF_CAP, CHART_NOTE = {}, {}, {}
