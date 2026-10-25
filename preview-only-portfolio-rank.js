@@ -167,7 +167,7 @@ export function renderStrategy(st, model, smodel, handlers) {
       list.appendChild(row);
     });
     sec.appendChild(list);
-    sec.appendChild(el('p', 'pf-note', (spy != null ? `점선 = SPY ${pct(spy)}. ` : '') + '바꿀 수 있는 줄은 누르면 바로 아래에서 고칩니다.'));
+    sec.appendChild(el('p', 'pf-note', (smodel.since ? smodel.since + ' ' : '') + (spy != null ? `점선 = SPY ${pct(spy)}. ` : '') + '바꿀 수 있는 줄은 누르면 바로 아래에서 고칩니다.'));
     frag.appendChild(sec);
   }
 

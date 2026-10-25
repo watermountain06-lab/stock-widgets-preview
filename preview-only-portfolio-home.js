@@ -5,7 +5,7 @@
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=20';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=9';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=10';
 import { renderManage } from './preview-only-portfolio-records.js?v=9';
 import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=5';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=11';
@@ -280,32 +280,36 @@ export function chainPreStart(pre, real, snapshot, startValue) {
   return { from: pre.from, preTwr, twr: total, vsSPY };
 }
 
-// 끝낸 묶음까지 이어 붙이기(사용자 결정 2026-10-25 — 전략 비교를 새로 시작해도 10/01부터): past = 끝낸 묶음 [{snapshot, deposits}](번호순),
-// cur = 지금 묶음의 실제 계좌 요약(rs). 끝낸 묶음마다 그 묶음 시작 스냅샷부터 실제 계좌를 다시 계산해 다음 묶음 시작일까지의 수익률을 잇는다.
-// SPY는 같은 구간의 기록 종가 비율. 돌려주는 값은 chainPreStart가 받는 모양({started, twr, vs:{SPY}})과 첫 묶음({snapshot, startValue}) — 못 이으면 {why}
-export function chainBundles(past, cur, curSnapshot, { records, trades }) {
-  if (!past.length || !cur) return null;
-  if (!cur.started || cur.twr == null) return { why: '실제 계좌가 아직 출발 전' };
-  // 바로 끝낸(다음 묶음과 시작일이 같거나 뒤인) 묶음은 거치지 않는다 — 고치려고 시작하자마자 끝낸 경우
-  past = past.filter((b, k) => { const nx = (past[k + 1]?.snapshot || curSnapshot)?.date; return b.snapshot?.date && nx && b.snapshot.date < nx; });
-  if (!past.length) return null;
+// 10/01부터의 공통 과거(사용자 결정 2026-10-25 — 전략 비교를 새로 시작해도 모든 줄을 10/01부터): pre(볼트 preStart, 9/30~첫 시작일
+// Robinhood 기록) × 끝낸 묶음마다 그 실제 계좌(그 묶음 시작 스냅샷 + 매매·입금 기록, 다음 묶음 시작일까지 — 마지막은 endDate까지).
+// endDate = 지금 비교가 출발한 날(평가가 처음 확정된 날). 끝낸 묶음이 없으면 pre만(지금 시작 스냅샷이 pre 끝과 같아야 함).
+// 돌려주는 값: {from, twr, spy}(공통 과거의 수익률·같은 구간 SPY) 또는 {why}. 시작하자마자 끝낸 묶음(다음 시작일과 같거나 뒤)은 거치지 않는다.
+export function historyPrefix(pre, past, curSnapshot, endDate, curStartValue, { records, trades }) {
+  if (!pre || !endDate) return null;
+  past = (past || []).filter((b, k) => { const nx = (past[k + 1]?.snapshot || curSnapshot)?.date; return b.snapshot?.date && nx && b.snapshot.date < nx; });
   const spyOn = (d) => { const r = (records || []).find((x) => x.session === d); const v = r?.prices?.SPY ?? r?.cards?.SPY?.close; return typeof v === 'number' && v > 0 ? v : null; };
-  let g = 1, gs = 1, first = null;
+  let g = 1, gs = 1, first = { snapshot: curSnapshot, startValue: curStartValue, started: endDate };
   for (let k = 0; k < past.length; k++) {
-    const b = past[k], end = (past[k + 1]?.snapshot || curSnapshot)?.date;
+    const b = past[k], end = k + 1 < past.length ? past[k + 1].snapshot.date : endDate;
     let r;
-    try { r = actualAccount({ records, snapshot: b.snapshot, deposits: b.deposits || {}, trades }); } catch (e) { return { why: '끝낸 묶음 계산 실패' }; }
+    try { r = actualAccount({ records, snapshot: b.snapshot, deposits: b.deposits || {}, trades }); } catch (e) { return { why: '끝낸 비교 계산 실패' }; }
     const day = (r.days || []).find((x) => x.date === end);
-    if (!r.started || !day || day.twr == null) return { why: `끝낸 묶음의 ${end} 평가가 없음` };
+    if (!r.started || !day || day.twr == null) return { why: `끝낸 비교의 ${end} 평가가 없음` };
     const s0 = spyOn(r.started), s1 = spyOn(end);
     g *= 1 + day.twr;
     gs = gs != null && s0 && s1 ? gs * (s1 / s0) : null;
     if (k === 0) first = { snapshot: b.snapshot, startValue: r.startValue, started: r.started };
   }
-  const spyCur = cur.vs?.SPY != null ? cur.twr - cur.vs.SPY / 100 : null;
-  const twr = g * (1 + cur.twr) - 1;
-  const spy = gs == null || spyCur == null ? null : gs * (1 + spyCur) - 1;
-  return { real: { started: first.started, twr, vs: spy == null ? null : { SPY: (twr - spy) * 100 } }, snapshot: first.snapshot, startValue: first.startValue, n: past.length };
+  const c = chainPreStart(pre, { started: first.started, twr: g - 1, vs: gs == null ? null : { SPY: (g - gs) * 100 } }, first.snapshot, first.startValue);
+  if (!c || c.why) return c;
+  return { from: pre.from, twr: c.twr, spy: c.vsSPY == null ? null : c.twr - c.vsSPY / 100, n: past.length };
+}
+// 공통 과거를 앞에 곱한다: (1 + 과거) × (1 + 그 뒤) − 1. SPY 대비도 같은 방식(RSP·QQQ 대비는 과거 자료가 없어 비운다)
+export function withPrefix(twr, vsSPY, h) {
+  if (twr == null || !h || h.why) return { twr, vsSPY };
+  const t = (1 + h.twr) * (1 + twr) - 1;
+  const spy = h.spy == null || vsSPY == null ? null : (1 + h.spy) * (1 + (twr - vsSPY / 100)) - 1;
+  return { twr: t, vsSPY: spy == null ? null : (t - spy) * 100 };
 }
 
 // 수익률을 아는 마지막 날 기준 요약(마지막 기록이 불완전해 그날 평가가 비면 그 전날 값 — 예: 10/21 pipelineFull false)
@@ -424,13 +428,13 @@ export function renderHome(root, model, handlers) {
     : (cur.hasCash ? `주식 ${usd0(total - cur.cash)} · 현금 ${usd0(cur.cash)}` : '현금 모름(올린 보유에 현금 줄 없음)') + (missing.length ? ` · 가격 없음 ${missing.join(', ')}` : '')
       + (priceDays.size ? ` · ${[...priceDays].sort().map(md).join('·')} 종가` : ''));
   // 시작 전 실제 계좌 흐름(preStart)이 맞으면 그날부터 이어 붙인다(A안) — 전략 비교는 그대로 시작 스냅샷부터
-  // 끝낸 묶음이 있으면 그 실제 계좌를 거쳐 이어 붙인다(10-25) — 없으면 지금 묶음에 바로
-  const cb = chainBundles(model.pastBundles || [], rs, model.bundle?.snapshot, { records: model.records, trades: model.trades });
-  const pre = cb && cb.why ? { why: cb.why } : cb ? chainPreStart(model.main?.preStart, cb.real, cb.snapshot, cb.startValue)
-    : chainPreStart(model.main?.preStart, rs, model.bundle?.snapshot, real?.startValue);
+  // 10/01부터의 공통 과거(끝낸 비교를 거침, 10-25)를 지금 비교의 실제 계좌 수익률 앞에 곱한다
+  const hist = rs?.started ? historyPrefix(model.main?.preStart, model.pastBundles, model.bundle?.snapshot, rs.started, real?.startValue, { records: model.records, trades: model.trades }) : null;
+  const pre = !model.main?.preStart ? null : !rs?.started || rs.twr == null ? { why: '실제 계좌가 아직 출발 전' } : hist?.why ? hist
+    : hist ? { from: hist.from, twr: withPrefix(rs.twr, null, hist).twr } : null;
   const ok = pre && !pre.why;
   cell('시작 뒤 수익률', ok ? pct(pre.twr) : rs?.twr != null ? pct(rs.twr) : '—',
-    ok ? `${md(pre.from)}부터 · 내 실제 계좌(${md(cb ? cb.real.started : rs.started)}까지는 Robinhood 기록` + (cb ? `, 끝낸 비교 ${cb.n}개를 거쳐 이음)` : ')') : rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` + (pre?.why ? ` · ${md(model.main.preStart.from)} 기록 못 이음: ${pre.why}` : '') : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
+    ok ? `${md(pre.from)}부터 · 내 실제 계좌` + (hist.n ? `(끝낸 비교 ${hist.n}개를 거쳐 이음)` : `(${md(rs.started)}까지는 Robinhood 기록)`) : rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` + (pre?.why ? ` · ${md(model.main.preStart.from)} 기록 못 이음: ${pre.why}` : '') : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
   cell('SPY 대비', ok ? (pre.vsSPY != null ? pp(pre.vsSPY) : '—') : rs?.vs?.SPY != null ? pp(rs.vs.SPY) : '—', rs?.asOf ? (ok ? `${md(pre.from)}부터 · ` : '') + `${md(rs.asOf)} 종가 기준` : lastFull ? `${md(lastFull.session)} 종가 기준` : '');
   root.appendChild(band);
 
@@ -1035,10 +1039,21 @@ export function renderTabs(roots, model, smodel, handlers) {
   else if (smodel.calcError) st.appendChild(el('p', 'pf-warn', '계산하지 못했습니다: ' + smodel.calcError));
   else if (!result && !(smodel.bundle && !smodel.bundle.closed)) st.appendChild(el('p', 'pf-note', '전략 비교를 시작하면(기록·관리 탭의 시작 스냅샷) 여기에 비교 표·그래프·매매 기록이 보입니다.'));
   // 순위·편집기·내 전략 카드·접은 표(2026-10-21 디자인 시안 선택 — -rank.js). 모형 설명은 순위 제목 옆 "?"에서 펼친다
-  const info = result ? `큰 사건 예외를 뺀 정기 운용 모형 · 엔진 ${ENGINE_VERSION} · 마지막 기록 ${lastRec} · 빠진 날 ${result.missingSessions.length}일` : '';
+  const infoBase = (r) => r ? `큰 사건 예외를 뺀 정기 운용 모형 · 엔진 ${ENGINE_VERSION} · 마지막 기록 ${lastRec} · 빠진 날 ${r.missingSessions.length}일` : '';
   // A(그대로 보유)는 화면에서 숨긴다 — 계산(다른 전략 출발점·SPY 기준선)에는 그대로 쓰므로 baseA로 넘긴다(사용자 결정 2026-10-22)
-  const shown = result ? { ...result, scenarios: result.scenarios.filter((s) => s.id !== 'A'), baseA: result.scenarios.find((s) => s.id === 'A') || null } : null;
-  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : { ...model, result: shown }, { ...smodel, info }, handlers);
+  let shown = result ? { ...result, scenarios: result.scenarios.filter((s) => s.id !== 'A'), baseA: result.scenarios.find((s) => s.id === 'A') || null } : null;
+  // 모든 줄을 10/01부터(사용자 결정 2026-10-25): 출발일까지의 공통 과거(내 실제 계좌)를 각 줄의 날마다 수익률·SPY 대비와 SPY 점선 앞에 곱한다
+  const A0 = shown?.baseA, hist = A0?.started ? historyPrefix(model.main?.preStart, model.pastBundles, smodel.bundle?.snapshot, A0.started, A0.startValue, { records: recs, trades: model.trades }) : null;
+  let histNote = '', since = '';
+  if (shown && hist && !hist.why) {
+    const fix = (s) => ({ ...s, days: (s.days || []).map((d) => { if (d.twr == null) return d; const w = withPrefix(d.twr, d.vs?.SPY ?? null, hist); return { ...d, twr: w.twr, vs: d.vs ? { SPY: w.vsSPY } : d.vs }; }),
+      baselines: s.baselines ? { ...s.baselines, SPY: (s.baselines.SPY || []).map((p) => (p.twr == null || hist.spy == null ? p : { ...p, twr: (1 + hist.spy) * (1 + p.twr) - 1 })) } : s.baselines });
+    shown = { ...shown, scenarios: shown.scenarios.map(fix), baseA: fix(shown.baseA) };
+    histNote = ` · ${md(hist.from)}부터 이어 봄(${md(A0.started)}까지는 모든 줄이 내 실제 계좌)`;
+    since = `수익률은 ${md(hist.from)}부터 — ${md(A0.started)}까지는 모든 줄이 내 실제 계좌 기록이고, 차이는 그 뒤에만 생깁니다.`;
+  } else if (hist?.why) { histNote = ` · ${md(model.main.preStart.from)} 기록 못 이음: ${hist.why}`; since = `${md(model.main.preStart.from)}부터 이어 보지 못함: ${hist.why}.`; }
+  else if (shown && model.main?.preStart && !A0?.started) since = `${md(model.main.preStart.from)}부터 이어 보기는 비교가 출발하면(시작 뒤 첫 완전한 기록) 붙습니다.`;
+  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : { ...model, result: shown }, { ...smodel, info: infoBase(result) + histNote, since }, handlers);
   // 시작 폼 미리 채우기: 내 자산과 같은 계산으로 마지막 기록일까지(그 뒤 매매는 빼고)
   const hh = model.main?.holdings || {};
   const pc = currentHoldings(hh.rows, hh.asOf, model.trades, lastRec || etDate(model.now ?? Date.now()));
