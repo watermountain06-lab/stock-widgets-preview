@@ -1578,7 +1578,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000029534": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # DG: 1년 안 $12.7M + 장기 $4,558.1M(Q2 FY26 10-Q, 2026-10-25)
+DEBT_TOTAL_TAG = {"0001093557": ["ConvertibleNotesPayableCurrent", "ConvertibleLongTermNotesPayable"],   # DXCM: 전환사채 1년 안 + 장기(Q2 2026 장기 $1,242.8M — 기본 목록에 전환사채 태그가 없어 0이었다, 2026-10-25)
+                  "0000029534": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # DG: 1년 안 $12.7M + 장기 $4,558.1M(Q2 FY26 10-Q, 2026-10-25)
                   "0001002910": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # AEE: 단기 $1,220M + 1년 안 $1,524M + 장기 $19,064M = $21,808M(Q2 2026 10-Q, 2026-10-25)
                   "0001037646": "DebtLongtermAndShorttermCombinedAmount",   # MTD: 1년 안 + 장기 합계 $2,112.0M(매 분기 있음 — DebtCurrent는 3월 분기에 없다, Fable r1 2026-10-25)
                   "0000100517": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # UAL: 1년 안 $1,848M + 장기 $24,550M(금융리스 포함) = $26,398M(Q3 2026 10-Q, 2026-10-25)
@@ -1845,7 +1846,9 @@ DEBT_TOTAL_TAG = {"0000029534": ["LongTermDebtAndCapitalLeaseObligationsCurrent"
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# CRH: 상환가능 비지배지분(자본 밖, Q2 2026 $435M) + 자본 안 비지배지분 $1,065M(ICE 방식, 2026-10-24)
+EV_TAGS_BY_CIK = {# DXCM: 단기투자 = 유동 매도가능 채무증권(2025-06까지 AvailableForSale…Current, 그 뒤 DebtSecuritiesAvailableForSale…Current — Q2 2026 $704.8M, 2026-10-25)
+                  "0001093557": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent"]},
+# CRH: 상환가능 비지배지분(자본 밖, Q2 2026 $435M) + 자본 안 비지배지분 $1,065M(ICE 방식, 2026-10-24)
                   "0000849395": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
 # MCHP: 7.5% 의무전환 우선주 청산가치 $1,485M(PreferredStockLiquidationPreferenceValue) — 장부 우선주 값은 0(추가납입자본 안, 2026-10-24)
                   "0000827054": {"preferred": ["PreferredStockLiquidationPreferenceValue"]},

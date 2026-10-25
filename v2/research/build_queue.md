@@ -4,8 +4,6 @@
 
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
-| 314 | DXCM | $29.41B | DexCom, Inc. | — |
-| 315 | HAL | $28.88B | Halliburton Company | — |
 | 316 | ATO | $29.10B | Atmos Energy Corporation | — |
 | 317 | TDY | $28.79B | Teledyne Technologies Incorporated | — |
 | 318 | JBL | $28.21B | Jabil Inc. | — |
