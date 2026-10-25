@@ -588,3 +588,23 @@ import { byCap } from '../../preview-only-portfolio-home.js';
 test('후보 줄 순서: 시총 큰 순, 시총 모르면 맨 뒤 티커순', () => {
   assert.deepEqual(byCap(['AAA', 'BBB', 'CCC', 'DDD'], { BBB: 5e11, DDD: 2e12, AAA: 1e9 }), ['DDD', 'BBB', 'AAA', 'CCC']);
 });
+
+import { chainBundles } from '../../preview-only-portfolio-home.js';
+import { _internal as _eng, openUtcMs as _open } from '../../preview-only-portfolio-engine.js';
+test('끝낸 묶음을 거쳐 잇기: 묶음1(10/16~10/21 실제 계좌) × 지금 묶음, SPY도 같은 구간 종가로', () => {
+  const cal = _eng.makeCalendar();
+  const days = cal.sessions.filter((d) => d >= '2026-10-16' && d <= '2026-10-23');
+  const px = { '2026-10-16': 100, '2026-10-19': 104, '2026-10-20': 106, '2026-10-21': 110, '2026-10-22': 111, '2026-10-23': 112 };
+  const spy = { '2026-10-16': 500, '2026-10-19': 505, '2026-10-20': 507, '2026-10-21': 510, '2026-10-22': 511, '2026-10-23': 512 };
+  const recs = days.map((d, i) => ({ session: d, generatedAt: new Date(_open(cal.sessions[cal.index(d) + 1]) + 90 * 60e3).toISOString(), ruleVersion: 'v2-verdict', pipelineFull: true,
+    cards: { AAA: { tier: '적정', tierStatus: 'valid', close: px[d], verdictAsOf: d, priceStale: false } }, prices: { SPY: spy[d] }, splits: [], missing: [], prevSession: i ? days[i - 1] : null, prevPublishedAt: null }));
+  const past = [{ snapshot: { date: '2026-10-16', holdings: { AAA: 10 }, cash: 0 }, deposits: {} }];
+  const cur = { started: '2026-10-21', twr: 0.1, vs: { SPY: 5 } };   // 지금 묶음: 10% , SPY 5%(= 10% − 5%p)
+  const r = chainBundles(past, cur, { date: '2026-10-21' }, { records: recs, trades: {} });
+  assert.equal(r.snapshot.date, '2026-10-16'); assert.equal(r.real.started, '2026-10-16');
+  assert.ok(Math.abs(r.real.twr - (1.1 * 1.1 - 1)) < 1e-9, String(r.real.twr));
+  const spyAll = (510 / 500) * 1.05 - 1;
+  assert.ok(Math.abs(r.real.vs.SPY - (r.real.twr - spyAll) * 100) < 1e-9);
+  // 시작하자마자 끝낸 묶음(다음 시작일과 같은 날)은 거치지 않는다
+  assert.equal(chainBundles([{ snapshot: { date: '2026-10-21', holdings: {}, cash: 0 } }], cur, { date: '2026-10-21' }, { records: recs, trades: {} }), null);
+});

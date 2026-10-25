@@ -13,7 +13,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=20';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=51';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=52';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=5';
 import { attachActual } from './preview-only-portfolio-actual.js?v=11';
@@ -283,13 +283,16 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     try { records = await loadLedger(); } catch (_) { recordsError = true; }
     const capsP = loadCaps();
     let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false, picks = {};
-    const allDeposits = {};
+    const allDeposits = {}, pastBundles = [];   // pastBundles: 끝낸 묶음(시작 뒤 수익률을 10/01부터 잇는 데 씀, 10-25)
     try {
       for (; n < 100; n++) {
         const s = await getDoc(sref(user, n));
         if (!s.exists()) break;
         cur = { no: n, data: s.data({ serverTimestamps: 'estimate' }) };
-        if (cur.data.closed) closedCount++;
+        if (cur.data.closed) {
+          closedCount++;
+          pastBundles.push({ no: n, snapshot: cur.data.snapshot, deposits: Object.fromEntries(Object.entries(cur.data.deposits || {}).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }])) });
+        }
         // 실제로 넣은 돈은 묶음을 끝내도 사라지지 않는다 — 한눈에 내 자산은 모든 묶음의 입금을 본다(dr r2)
         for (const [k, v] of Object.entries(cur.data.deposits || {})) allDeposits['b' + n + ':' + k] = { ...v, recordedAt: iso(v.recordedAt), ...(v.cancels ? { cancels: 'b' + n + ':' + v.cancels } : {}) };
       }
@@ -355,7 +358,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       },
       goto: (tab) => selectTab(tab),
     };
-    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, picks, caps: await capsP };
+    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, pastBundles, picks, caps: await capsP };
     // 다시 불러오지 않고 다시 그리기(picks처럼 계산과 무관한 값만 바뀐 때)
     function draw() {
       renderTabs({ home: $('pf-home'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,
