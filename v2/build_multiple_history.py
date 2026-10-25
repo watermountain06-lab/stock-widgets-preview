@@ -1630,7 +1630,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {
+DEBT_TOTAL_TAG = {"0001145197": ["LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"],   # PODD: 1년 안 포함 합계 $948.4M(Q2 2026 10-Q, 2026-10-25)
                   "0000008818": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AVY: 1년 안 $500.5M + 장기 $3,177.7M(Q2 2026 10-Q — LongTermDebt는 2025-12에 끊김, 2026-10-25)
                   "0000009389": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # BALL: 1년 안 $692M(만기 649 포함) + 장기 $6,528M(Q2 2026 10-Q, 2026-10-25)
                   "0001336920": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LDOS: 1년 안 $22M + 장기 $6,009M(Q2 FY26 10-Q, 2026-10-25)
@@ -1932,6 +1932,8 @@ EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $
                   "0001324404": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # HII: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($12M — 기본 현금 태그는 2024-03에 멈췄다, 2026-10-25)
                   "0001501585": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
+# PODD: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($534.9M — 기본 현금 태그는 2021-09에 멈췄다, 2026-10-25)
+                  "0001145197": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # DOV: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($1,693.2M = 재무상태표 줄) — 기본 현금 태그를 쓰지 않는다(2026-10-25)
                   "0000029905": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # BIIB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($3,382.7M = 재무상태표 "Cash and cash equivalents") — 기본 현금 태그는 2019-12에 멈췄다(2026-10-24)
