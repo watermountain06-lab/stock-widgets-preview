@@ -9763,6 +9763,88 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "LDOS",
+      "name": "Leidos",
+      "sector": "산업재 — 미국 정부 IT·국방·정보·보건 서비스와 시스템",
+      "href": "LDOS_full_widget.html",
+      "cardRank": 231,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 136.08,
+        "prevClose": 134.73,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 125492209,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-28",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0001336920-26-000246 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 55.0,
+        "grade": "보통",
+        "financialsAsOf": "2026-07-03",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "BALL",
+      "name": "Ball",
+      "sector": "소재 — 알루미늄 음료캔(북미·유럽·남미)",
+      "href": "BALL_full_widget.html",
+      "cardRank": 232,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 64.76,
+        "prevClose": 65.81,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 264703357,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-04",
+        "filing": "10-Q 0001104659-26-090226 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 40.0,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }

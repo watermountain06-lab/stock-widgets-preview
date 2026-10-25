@@ -97,7 +97,7 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
-                    # NDSN: 10-K가 합산 태그에 무형자산 상각만 싣는 해가 있다(FY25 79.3 = 상각, 9개월 누계 112.5보다 작음 → 4분기 −33.2) — 감가상각 + 상각(FY21~24 합 일치, 2026-10-25)
+                    # NDSN: 10-K가 합산 태그에 무형자산 상각만 싣는 해가 있다(FY25 79.3 = 상각, 9개월 누계 112.5보다 작음 → 4분기 −33.2) — 감가상각 + 상각(FY21~24 합 일치, 2026-10-25) [엔진수정대기]
                     "0000072331": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # IEX: 합산 태그가 2024-09에 멈춤 — 감가상각 + 무형자산 상각(FY20~23 연간 합 일치, 2026-10-25)
                     "0000832101": ["Depreciation", "AmortizationOfIntangibleAssets"],
@@ -697,6 +697,8 @@ EXTRA_TAGS = {
     "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
     # ALLE: 2025-04 뒤 10-Q는 순이익을 ProfitLoss로만 낸다(비지배지분 없음, NetIncomeLoss는 10-K·Q1 2025만) — 분기 순이익 차트가 비어 build가 멈췄다(2026-10-25)
     "0001579241": {"NetIncomeLoss": ["ProfitLoss"]},
+    # BALL: 순이익을 ProfitLoss로 낸다(NetIncomeLoss 없음) — 비지배지분 몫(분기 약 $2M)이 섞인다(2026-10-25)
+    "0000009389": {"NetIncomeLoss": ["ProfitLoss"]},
     # PNW: 순이익은 보통주 귀속 태그만 낸다(NetIncomeLoss 없음, Q2 2026 $178.6M) — 분기 순이익 차트가 비어 build가 멈췄다(2026-10-25)
     "0000764622": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     "0000766704": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"],
@@ -716,7 +718,10 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# CASY: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그가 한 번도 없음) — 영업이익 = 세전이익 + 이자비용(MTD 방식).
+DERIVED_OPINC = {# BALL: OperatingIncomeLoss 태그가 2024-03에 멈췄다 — 영업이익 = 세전이익 + 부채 이자비용(InterestExpenseDebt)(MTD 방식, 2026-10-25).
+                 "0000009389": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                                [(["InterestExpenseDebt"], -1)]),
+                 # CASY: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그가 한 번도 없음) — 영업이익 = 세전이익 + 이자비용(MTD 방식).
                  # Q1 FY27: 347.0 + 22.1 = 369.1(10-Q 대조, 2026-10-25). 세전 태그는 FY2022부터 …ExtraordinaryItemsNoncontrollingInterest, 그 전은 옛 태그.
                  "0000726958": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                  "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
@@ -960,13 +965,14 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 "0000320187": ("DepreciationDepletionAndAmortization",),
                 "0000277948": ("DepreciationDepletionAndAmortization",),   # CSX — 구성요소 튜플 경로로(DDA_PARTS_BY_CIK)
                 "0001699150": ("DepreciationDepletionAndAmortization",),   # IR — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
-                "0000091440": ("DepreciationDepletionAndAmortization",),   # SNA — 연간 합산(상각 포함)이 분기 감가상각과 섞여 4분기만 커졌다 → 감가상각만(2026-10-25)
+                "0000091440": ("DepreciationDepletionAndAmortization",),   # SNA — 연간 합산(상각 포함)이 분기 감가상각과 섞여 4분기만 커졌다 → 감가상각만(2026-10-25) [엔진수정대기]
                 "0000313927": ("DepreciationDepletionAndAmortization",),   # CHD — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0001524472": ("DepreciationDepletionAndAmortization",),   # XYL — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000832101": ("DepreciationDepletionAndAmortization",),   # IEX — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000033185": ("DepreciationDepletionAndAmortization",),   # EFX — 손익 D&A(DepreciationAndAmortization)와 현금흐름 D&A가 섞여 TTM $755M(손익 $751.4M)이 되었다 → 손익 줄만(Codex r1, 2026-10-25)
                 "0000072331": ("DepreciationDepletionAndAmortization",),   # NDSN — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
-                "0001579241": ("DepreciationDepletionAndAmortization",),   # ALLE — 합산 태그는 연간만이라 분기 DepreciationAmortizationAndAccretionNet과 섞여 4분기가 작아졌다 → 현금흐름 줄만(2026-10-25)
+                "0001579241": ("DepreciationDepletionAndAmortization",),   # ALLE — 합산 태그는 연간만이라 분기 DepreciationAmortizationAndAccretionNet과 섞여 4분기가 작아졌다 → 현금흐름 줄만(2026-10-25) [엔진수정대기]
+                "0001336920": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # LDOS — 총매출(Revenues, Q2 FY26 $4,558M)로 통일: 고객 계약 매출($4,548M)과 섞여 YoY·TTM 정의가 달랐다(Codex r1, 2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
@@ -1611,8 +1617,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {
-                  "0000033185": ["DebtCurrent", "LongTermDebtNoncurrent"],   # EFX: 1년 안 $157.7M + 장기 $5,049.0M(Q3 2026 10-Q — LongTermDebt 태그는 10-K만, 2026-10-25)
+DEBT_TOTAL_TAG = {"0000009389": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # BALL: 1년 안 $692M(만기 649 포함) + 장기 $6,528M(Q2 2026 10-Q, 2026-10-25)
+                  "0001336920": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LDOS: 1년 안 $22M + 장기 $6,009M(Q2 FY26 10-Q, 2026-10-25)
+                  "0000033185": ["DebtCurrent", "LongTermDebtNoncurrent"],   # EFX: 1년 안 $157.7M + 장기 $5,049.0M(Q3 2026 10-Q — LongTermDebt 태그는 10-K만, 2026-10-25) [엔진수정대기]
                   "0001524472": ["DebtCurrent", "LongTermDebtNoncurrent"],   # XYL: 단기·1년 안 $531M + 장기 $2,395M(Q2 2026 10-Q — 기본은 장기만, 2026-10-25)
                   "0001111711": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # NI: 단기 $692.0M + 1년 안 $1,098.4M + 장기 $15,612.6M(Q2 2026 10-Q — 기본 합산은 1년 안을 빠뜨렸다, 2026-10-25)
                   "0000313927": ["ShortTermBorrowings", "LongTermDebt"],   # CHD: 기업어음 $49.9M + 장기 $2,206.3M — 기본 합산이 CommercialPaper(같은 금액)를 또 더했다(Q2 2026 10-Q, 2026-10-25)
@@ -1904,7 +1911,7 @@ EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $
                   "0000827054": {"preferred": ["PreferredStockLiquidationPreferenceValue"]},
 # P(옛 PSTG): 단기투자 = 유동 매도가능 채무증권(DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent, Q2 FY27 $622.2M) — 기본 태그는 2021-05에 멈췄다(2026-10-24)
                   "0001474432": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"]},
-# ALLE: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($388.1M — 2025-03부터 재무상태표 줄, 기본 현금 태그는 10-K만, 2026-10-25)
+# ALLE: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($388.1M — 2025-03부터 재무상태표 줄, 기본 현금 태그는 10-K만, 2026-10-25) [엔진수정대기]
                   "0001579241": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # DOV: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($1,693.2M = 재무상태표 줄) — 기본 현금 태그를 쓰지 않는다(2026-10-25)
                   "0000029905": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},

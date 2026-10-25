@@ -7,8 +7,6 @@
 | 401 | ZBRA | $18.28B | Zebra Technologies Corporation | — |
 | 407 | CF | $18.26B | CF Industries Holdings, Inc. | — |
 | 411 | FICO | $17.61B | Fair Isaac Corporation | — |
-| 414 | BALL | $17.14B | Ball Corporation | 영업이익 태그 멈춤 — 합성 필요 |
-| 417 | LDOS | $17.08B | Leidos Holdings, Inc. | 거래 공시: 2026-03-30 8-K 2.01,7.01,9.01 |
 | 429 | TSN | $19.90B | Tyson Foods, Inc. | — |
 | 445 | AVY | $13.78B | Avery Dennison Corporation | 영업이익 태그 멈춤 — 합성 필요 |
 | 448 | AKAM | $13.44B | Akamai Technologies, Inc. | — |

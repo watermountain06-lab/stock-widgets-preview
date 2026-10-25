@@ -2181,3 +2181,17 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — 현금 = 제한 현금 포함 줄(EV_TAGS cash), D&A = 현금흐름 줄만(EXCLUDE 연간 합산 태그), 순이익 = ProfitLoss(EV_TAGS 대체), 인수 ACQ_FIXED $72.9M, Q4_EPS_OVERRIDE 2022. 로고는 배지(검색이 Schlage 상표만 찾음).
 - **dr** — Codex·Fable 1라운드(필수 없음).
 
+## LDOS — 정부 IT·국방 서비스 (2026-10-25, 카드 231)
+
+- **판정 적정(+1, +1, −2)** — 자기 이력 82.3, 동종업 91.2(S&P500 산업재), 현금흐름 기본 $84.47 대 $136.08(비율 1.61).
+- **엔진** — 차입금 = DebtCurrent + LongTermDebtAndCapitalLeaseObligations, 매출 = 총매출로 통일(EXCLUDE 고객 계약 매출), Q4_EPS_OVERRIDE FY24 2.12·FY25 2.53.
+- **정의 민감도** — 현금흐름은 Entrust 인수 대금 $2.35B를 재투자로 넣는다(매출은 약 14주만). 인수를 평소 수준으로 보면 비율 1.24, Entrust 매출 1년치면 1.42 → −1(판정 적정~저평가). MSI·KEYS 선례대로 원모델 유지 + 숫자 공개.
+- **dr** — Codex 2라운드·Fable 1라운드(필수: EPS 보정·매출 정의·SES 시점·민감도 공개·인수 대상 이름 — 반영).
+
+## BALL — 알루미늄 음료캔 (2026-10-25, 카드 232)
+
+- **판정 적정~고평가(+1, 0, −2)** — 자기 이력 78.5, 동종업 64.3(S&P500 소재), 현금흐름 비율 약 4.2.
+- **엔진** — 영업이익 = 세전 + 부채 이자(DERIVED_OPINC — OperatingIncomeLoss 2024-03 멈춤), 차입금 = DebtCurrent + 장기, 순이익 = ProfitLoss, 계속사업 EPS(BUILD eps_tag·RESTATED_LATEST — 2024 항공우주 매각 이익 제외; 희석 EPS로는 자기 이력 70.1), Q4_EPS_OVERRIDE 2022(총 EPS로 통일)·2025, 부문 3개 + 나머지.
+- **민감도** — 사우디 지분 매각 이익($86M)·통합 비용을 빼도 자기 이력 75.5~80.4.
+- **dr** — Codex·Fable 1라운드(Codex 필수: 2022 Q4 EPS 혼합 — 반영).
+
