@@ -5,38 +5,18 @@
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
 | 375 | EFX | $21.34B | Equifax Inc. | — |
-| 376 | AMCR | $21.30B | Amcor plc | 거래 공시: 2025-07-15 S-4  |
-| 392 | NRG | $19.40B | NRG Energy, Inc. | 거래 공시: 2026-01-30 8-K 1.01,2.01,2.03,3.02,7.01,9.01 |
-| 395 | SWKS | $12.55B | Skyworks Solutions, Inc. | 거래 공시: 2026-10-05 8-K 2.01,5.02,8.01,9.01; 2026-05-20 S-4 ; 2025-12-04 S-4  |
-| 397 | DD | $18.44B | DuPont de Nemours, Inc. | 거래 공시: 2026-08-04 S-4 ; 2025-11-03 8-K 1.01,2.01,5.02,7.01,8.01,9.01; 영업이익 태그 멈춤 — 합성 필요 |
 | 401 | ZBRA | $18.28B | Zebra Technologies Corporation | — |
-| 402 | APA | $17.65B | APA Corporation | 거래 공시: 2025-08-08 S-4  |
 | 407 | CF | $18.26B | CF Industries Holdings, Inc. | — |
-| 410 | RVTY | $17.72B | Revvity, Inc. | — |
 | 411 | FICO | $17.61B | Fair Isaac Corporation | — |
-| 412 | IP | $17.58B | International Paper Company | 거래 공시: 2026-01-23 8-K 2.01,7.01,9.01; 최근 4분기 적자(PER 없음); 영업이익 태그 멈춤 — 합성 필요 |
 | 414 | BALL | $17.14B | Ball Corporation | 영업이익 태그 멈춤 — 합성 필요 |
-| 416 | J | $16.98B | Jacobs Solutions Inc. | — |
 | 417 | LDOS | $17.08B | Leidos Holdings, Inc. | 거래 공시: 2026-03-30 8-K 2.01,7.01,9.01 |
-| 418 | IEX | $16.89B | IDEX Corporation | — |
 | 421 | NDSN | $17.76B | Nordson Corporation | — |
 | 422 | JBHT | $21.07B | J.B. Hunt Transport Services, Inc. | — |
-| 423 | CHRW | $16.30B | C.H. Robinson Worldwide, Inc. | — |
-| 424 | CRL | $16.49B | Charles River Laboratories International, Inc. | — |
 | 429 | TSN | $19.90B | Tyson Foods, Inc. | — |
 | 431 | ALLE | $15.09B | Allegion plc | — |
-| 434 | SWK | $14.99B | Stanley Black & Decker, Inc. | 영업이익 태그 멈춤 — 합성 필요 |
-| 436 | TYL | $15.98B | Tyler Technologies, Inc. | — |
-| 437 | INVH | $16.33B | Invitation Homes Inc. | 영업이익 태그 멈춤 — 합성 필요 |
-| 438 | IT | $14.54B | Gartner, Inc. | — |
 | 445 | AVY | $13.78B | Avery Dennison Corporation | 영업이익 태그 멈춤 — 합성 필요 |
-| 447 | CSGP | $13.74B | CoStar Group, Inc. | — |
 | 448 | AKAM | $13.44B | Akamai Technologies, Inc. | — |
-| 449 | GEN | $14.89B | Gen Digital Inc. | — |
-| 450 | DOC | $13.52B | Healthpeak Properties, Inc. | 리츠 — 리츠 규칙(E41·E42) 결정 |
-| 453 | BAX | $13.08B | Baxter International Inc. | — |
 | 455 | PNW | $12.83B | Pinnacle West Capital Corporation | — |
-| 459 | MKC | $12.95B | McCormick & Company, Incorporated | — |
 | 463 | COO | $11.64B | The Cooper Companies, Inc. | — |
 | 467 | TECH | $11.38B | Bio-Techne Corporation | 거래 공시: 2026-08-20 DEFM14A  |
 | 469 | ALB | $11.05B | Albemarle Corporation | 거래 공시: 2026-03-06 8-K 2.01,7.01,8.01,9.01 |
@@ -44,14 +24,11 @@
 | 472 | HII | $10.80B | Huntington Ingalls Industries, Inc. | — |
 | 473 | AES | $10.70B | The AES Corporation | 거래 공시: 2026-05-15 DEFM14A ; 영업이익 태그 멈춤 — 합성 필요 |
 | 478 | PODD | $10.33B | Insulet Corporation | — |
-| 479 | CPT | $10.62B | Camden Property Trust | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 480 | ROL | $16.65B | Rollins, Inc. | — |
 | 482 | ALGN | $10.98B | Align Technology, Inc. | — |
-| 483 | BXP | $11.03B | BXP, Inc. | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 484 | UHS | $11.01B | Universal Health Services, Inc. | — |
 | 490 | HSIC | $9.47B | Henry Schein, Inc. | — |
 | 493 | AOS | $8.38B | A. O. Smith Corporation | — |
-| 494 | ARE | $7.50B | Alexandria Real Estate Equities, Inc. | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 496 | DVA | $11.71B | DaVita Inc. | — |
 | 497 | HRL | $11.59B | Hormel Foods Corporation | — |
 | 498 | MOS | $5.67B | The Mosaic Company | — |

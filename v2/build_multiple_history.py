@@ -97,6 +97,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # IEX: 합산 태그가 2024-09에 멈춤 — 감가상각 + 무형자산 상각(FY20~23 연간 합 일치, 2026-10-25)
+                    "0000832101": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # XYL: 합산 태그가 2024-09에 멈춤(연간만 2025) — 감가상각 + 무형자산 상각(FY20~25 연간 합 일치, 2026-10-25)
                     "0001524472": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # CHD: 합산 태그가 2026-03에 멈춤(누계는 2025-09) — 감가상각 + 상각(FY2025 89.7 + 157.7 = 247.4, 2026-10-25)
@@ -955,6 +957,7 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 "0000091440": ("DepreciationDepletionAndAmortization",),   # SNA — 연간 합산(상각 포함)이 분기 감가상각과 섞여 4분기만 커졌다 → 감가상각만(2026-10-25)
                 "0000313927": ("DepreciationDepletionAndAmortization",),   # CHD — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0001524472": ("DepreciationDepletionAndAmortization",),   # XYL — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
+                "0000832101": ("DepreciationDepletionAndAmortization",),   # IEX — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
@@ -1599,7 +1602,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001524472": ["DebtCurrent", "LongTermDebtNoncurrent"],   # XYL: 단기·1년 안 $531M + 장기 $2,395M(Q2 2026 10-Q — 기본은 장기만, 2026-10-25)
+DEBT_TOTAL_TAG = {
+                  "0001524472": ["DebtCurrent", "LongTermDebtNoncurrent"],   # XYL: 단기·1년 안 $531M + 장기 $2,395M(Q2 2026 10-Q — 기본은 장기만, 2026-10-25)
                   "0001111711": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # NI: 단기 $692.0M + 1년 안 $1,098.4M + 장기 $15,612.6M(Q2 2026 10-Q — 기본 합산은 1년 안을 빠뜨렸다, 2026-10-25)
                   "0000313927": ["ShortTermBorrowings", "LongTermDebt"],   # CHD: 기업어음 $49.9M + 장기 $2,206.3M — 기본 합산이 CommercialPaper(같은 금액)를 또 더했다(Q2 2026 10-Q, 2026-10-25)
                   "0000091440": ["LongTermDebt"],   # SNA: LongTermDebt $1,205.1M = 1년 안 만기·어음 $317.9M 포함 합계(Q3 2026 10-Q, 2026-10-25)

@@ -9517,6 +9517,47 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "IEX",
+      "name": "IDEX",
+      "sector": "산업재 — 정밀 펌프·유량계·광학·소방 장비 등 특수 유체 기술",
+      "href": "IEX_full_widget.html",
+      "cardRank": 225,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 229.05,
+        "prevClose": 226.88,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 73719896,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-24",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q 0000832101-26-000022 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 62.8,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }

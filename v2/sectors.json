@@ -1,6 +1,18 @@
 {
   "_note": "GICS 11 섹터. 밸류에이션 점수의 배수 그룹 가중치를 업종별로 다르게 적용하기 위한 매핑. 2026-09-20 작성.",
-  "_sectors": ["Information Technology","Communication Services","Health Care","Financials","Consumer Discretionary","Consumer Staples","Industrials","Energy","Materials","Utilities","Real Estate"],
+  "_sectors": [
+    "Information Technology",
+    "Communication Services",
+    "Health Care",
+    "Financials",
+    "Consumer Discretionary",
+    "Consumer Staples",
+    "Industrials",
+    "Energy",
+    "Materials",
+    "Utilities",
+    "Real Estate"
+  ],
   "AAPL": "Information Technology",
   "ABBV": "Health Care",
   "AMAT": "Information Technology",
@@ -225,5 +237,6 @@
   "IR": "Industrials",
   "CHD": "Consumer Staples",
   "CDW": "Information Technology",
-  "XYL": "Industrials"
+  "XYL": "Industrials",
+  "IEX": "Industrials"
 }
