@@ -97,6 +97,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # CHD: 합산 태그가 2026-03에 멈춤(누계는 2025-09) — 감가상각 + 상각(FY2025 89.7 + 157.7 = 247.4, 2026-10-25)
+                    "0000313927": ["Depreciation", "AdjustmentForAmortization"],
                     # IR: 합산 태그는 분기 행이 2024년부터 — 무형자산 상각 + 매출원가 감가상각(FY21~25 연간 합이 합산 태그와 정확히 같다, 2026-10-25)
                     "0001699150": ["AmortizationOfIntangibleAssets", "CostOfGoodsAndServicesSoldDepreciation"],
                     # WST: 합산 태그는 분기 행이 2024년부터라 EV/EBITDA 이력이 252일뿐이었다 — 감가상각 + 상각(2021~, Codex r1 2026-10-25)
@@ -665,6 +667,8 @@ EXTRA_TAGS = {
     "0000072903": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # ED: 설비투자는 "Utility construction expenditures"(PaymentsForConstructionInProcess, Q1 2026 $1,172M) — 기본 태그는 2019년에 멈췄다(2026-10-24)
     "0001047862": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForConstructionInProcess"]},
+    # SNA: 설비투자는 PaymentsForCapitalImprovements(9개월 $69.0M), D&A는 감가상각(Depreciation)만 분기로 — 합산 태그는 연간만, 무형자산 상각(연 약 $22M)은 2026년 분기에 표준 태그가 없다(2026-10-25)
+    "0000091440": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"], "DepreciationDepletionAndAmortization": ["Depreciation"]},
     # CBOE: 설비투자를 2026 2분기부터 PaymentsToAcquireProductiveAssets(유형자산 + 소프트웨어 개발비 합)로 낸다 — EQIX와 같은 경우(2026-10-24)
     "0001374310": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireProductiveAssets"]},
     # DUK: 총매출은 RegulatedAndUnregulatedOperatingRevenue — Revenues 태그는 2017년에 멈췄다(XEL과 같은 경우, 2026-10-24)
@@ -946,6 +950,8 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 "0000320187": ("DepreciationDepletionAndAmortization",),
                 "0000277948": ("DepreciationDepletionAndAmortization",),   # CSX — 구성요소 튜플 경로로(DDA_PARTS_BY_CIK)
                 "0001699150": ("DepreciationDepletionAndAmortization",),   # IR — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
+                "0000091440": ("DepreciationDepletionAndAmortization",),   # SNA — 연간 합산(상각 포함)이 분기 감가상각과 섞여 4분기만 커졌다 → 감가상각만(2026-10-25)
+                "0000313927": ("DepreciationDepletionAndAmortization",),   # CHD — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
@@ -1590,7 +1596,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {
+DEBT_TOTAL_TAG = {"0000313927": ["ShortTermBorrowings", "LongTermDebt"],   # CHD: 기업어음 $49.9M + 장기 $2,206.3M — 기본 합산이 CommercialPaper(같은 금액)를 또 더했다(Q2 2026 10-Q, 2026-10-25)
+                  "0000091440": ["LongTermDebt"],   # SNA: LongTermDebt $1,205.1M = 1년 안 만기·어음 $317.9M 포함 합계(Q3 2026 10-Q, 2026-10-25)
                   "0001699150": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # IR: 1년 안 $699.8M + 장기(이름과 달리 비유동만) $4,068.7M(Q2 2026 10-Q, 2026-10-25)
                   "0000726958": ["LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # CASY: 1년 안 $104.3M + 장기 $2,326.2M(Q1 FY27 10-Q — LongTermDebt 합계 태그는 연간만, 2026-10-25)
                   "0000029905": ["LongTermDebt"],   # DOV: LongTermDebt $3,264.6M(1년 안 $683.4M 포함) — ShortTermBorrowings가 같은 1년 안 금액이라 기본 합산이 두 번 셌다(Q3 2026 10-Q, 2026-10-25)
