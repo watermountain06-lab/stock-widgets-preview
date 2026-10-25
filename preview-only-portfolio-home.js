@@ -697,6 +697,15 @@ function buyBox(args) {
   const picked = ((mv.demo ? demoPicks : model.picks?.[month]) || []).filter((t) => plan.candidates.includes(t));
   const bp = method ? buyPlan({ cands: plan.candidates, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])),
     tiers, caps: model.caps || {}, rounds, roundsLeft }) : null;
+  // 체크 안 한 줄에도 '체크하면' 금액을 흐리게(사용자 결정 2026-10-25): 아무것도 안 골랐으면 전부 체크한 것으로, 골랐으면 그 종목을 더한 것으로 계산
+  const hintPlans = new Map();
+  const hint = (t, c) => {
+    if (!method || !mv.next || !(budget > 0)) return null;
+    const hp = picked.length ? [...picked, t] : plan.candidates, key = picked.length ? t : '*';
+    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands: plan.candidates, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), tiers, caps: model.caps || {}, rounds, roundsLeft }));
+    const r = hintPlans.get(key)?.round[method]?.[t];
+    return r > 0 ? `체크하면 ${shareTxt(r, c)}${usd(r)}` : null;
+  };
   mh.appendChild(el('span', 'pf-note', !method ? '아직 원칙으로 정하지 않음' : !mv.next ? '이번 달 회차 끝'
     : `(종목 달 몫 − 그 종목에 산 돈) ÷ 남은 회차 ${roundsLeft}회` + (bp?.capped[method] ? ' · 남은 돈에 맞춰 비례로 줄임' : '')
       + (method === 'cap' ? ' · 시총은 오늘 기준' : method === 'tier' ? ' · 무게는 점검일 판정 4:3:2:1' : '')));
@@ -755,7 +764,7 @@ function buyBox(args) {
     const act = el('span', 'pf-buyact');
     const note = (x) => act.appendChild(el('span', 'pf-note', x));
     const c = close(t);
-    if (!on) note('고르지 않음');
+    if (!on) note(hint(t, c) || '고르지 않음');
     else if (!mv.next) note('이번 달 회차 끝');
     else if (!nowBuyable(t)) note(nowHold(t) ? `${HOLD_TEXT[nowHold(t)] || '데이터 문제'} — 보류(원칙 6)` : '살 단계 벗어남 — 이번 회차 건너뜀(원칙 2)');
     else if (!bp) note('방법을 고르면 금액');
@@ -824,6 +833,14 @@ function previewSection(args, box, month, budget) {
   const bought = monthBuys(model.trades, month, args.today);   // 같은 달 결정 대기 중 이미 산 돈은 다시 나누지 않는다(dr)
   const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
   const bp = method ? buyPlan({ cands, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])), tiers, caps: model.caps || {}, rounds: 4, roundsLeft: 4 }) : null;
+  const hintPlans = new Map();   // 체크 안 한 줄의 '체크하면' 금액(라이브 카드와 같은 규칙)
+  const hint = (t, c) => {
+    if (!method || !(budget > 0)) return null;
+    const hp = picked.length ? [...picked, t] : cands, key = picked.length ? t : '*';
+    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), tiers, caps: model.caps || {}, rounds: 4, roundsLeft: 4 }));
+    const r = hintPlans.get(key)?.round[method]?.[t];
+    return r > 0 ? `체크하면 ${shareTxt(r, c)}${usd(r)}` : null;
+  };
   const list = el('div', 'pf-buylist');
   const pickMsg = msgLine();
   for (const t of cands) {
@@ -849,7 +866,7 @@ function previewSection(args, box, month, budget) {
     row.appendChild(nm);
     const act = el('span', 'pf-buyact');
     const note = (x) => act.appendChild(el('span', 'pf-note', x));
-    if (!on) note('고르지 않음');
+    if (!on) note(hint(t, close(t)) || '고르지 않음');
     else if (!bp) note('방법을 고르면 금액');
     else if (!(budget > 0)) note(`${+month.slice(5)}월 쓸 돈 없음`);
     else if (!bp.by[method]) note(method === 'cap' ? '시총 없는 종목이 있음' : '무게 밖 판정이 있음(초저평가~적정만)');
