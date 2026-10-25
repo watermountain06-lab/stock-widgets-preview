@@ -724,7 +724,12 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# AVY: OperatingIncomeLoss 태그가 한 번도 없다 — 영업이익 = 세전이익 + 이자비용(MTD 방식, 2026-10-25). 세전 태그는 2023까지 옛 이름, 이자 태그는 2024-03까지 InterestExpense.
+DERIVED_OPINC = {# PPG: 손익계산서에 영업이익 줄이 없다 — OperatingIncomeLoss 태그(Q2 2026 $743M)는 4분기 행이 없고 세전이익($569M)보다 커서 부문 이익 합계로 보인다(ROK와 같은 경우).
+                 # 영업이익 = 세전이익 + 이자비용(MTD 방식, 2026-10-25). 구조조정·환경 정화 등 "기타 비용"은 영업으로 둔다.
+                 "0000079879": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestExpense", "InterestExpenseNonoperating"], -1),   # 10-K 연간 이자는 InterestExpenseNonoperating에만 있다(없으면 4분기가 빈다)
+                                 (["InvestmentIncomeInterest"], 1, True)]),   # 이자수익(Q2 2026 $42M)은 빼서 금융손익 제외 — 현금을 따로 더하는 DCF와 겹치지 않게(Codex r1)
+                 # AVY: OperatingIncomeLoss 태그가 한 번도 없다 — 영업이익 = 세전이익 + 이자비용(MTD 방식, 2026-10-25). 세전 태그는 2023까지 옛 이름, 이자 태그는 2024-03까지 InterestExpense.
                  "0000008818": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                  "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                                 [(["InterestExpenseNonoperating", "InterestExpense"], -1),
@@ -1630,7 +1635,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001145197": ["LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"],   # PODD: 1년 안 포함 합계 $948.4M(Q2 2026 10-Q, 2026-10-25)
+DEBT_TOTAL_TAG = {"0001103982": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # MDLZ: 단기 $2,327M + 1년 안 $2,663M + 장기 $16,460M(Q2 2026 10-Q — 기본 합산은 1년 안을 빠뜨렸다, 2026-10-25)
+                  "0000079879": ["DebtCurrent", "LongTermDebtNoncurrent"],   # PPG: 1년 안·단기 $691M + 장기 $6,195M(Q2 2026 10-Q — LongTermDebt $6,876M은 1년 안 포함이라 DebtCurrent와 겹침, 2026-10-25)
+                  "0001145197": ["LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"],   # PODD: 1년 안 포함 합계 $948.4M(Q2 2026 10-Q, 2026-10-25)
                   "0000008818": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AVY: 1년 안 $500.5M + 장기 $3,177.7M(Q2 2026 10-Q — LongTermDebt는 2025-12에 끊김, 2026-10-25)
                   "0000009389": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # BALL: 1년 안 $692M(만기 649 포함) + 장기 $6,528M(Q2 2026 10-Q, 2026-10-25)
                   "0001336920": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LDOS: 1년 안 $22M + 장기 $6,009M(Q2 FY26 10-Q, 2026-10-25)
@@ -1934,6 +1941,8 @@ EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $
                   "0001501585": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # PODD: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($534.9M — 기본 현금 태그는 2021-09에 멈췄다, 2026-10-25)
                   "0001145197": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
+# MDLZ: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($1,759M — 기본 현금 태그를 쓰지 않는다, 2026-10-25)
+                  "0001103982": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # DOV: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($1,693.2M = 재무상태표 줄) — 기본 현금 태그를 쓰지 않는다(2026-10-25)
                   "0000029905": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # BIIB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($3,382.7M = 재무상태표 "Cash and cash equivalents") — 기본 현금 태그는 2019-12에 멈췄다(2026-10-24)

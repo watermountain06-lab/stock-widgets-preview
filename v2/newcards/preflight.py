@@ -45,6 +45,41 @@ def cik_of(T):
 ALLOW_LAGGED = {"SO", "DUK", "ED", "BIIB"}
 
 
+# 인라인 XBRL 보충으로 만들 수 있게 허용한 종목 — 시험 3장(2026-10-25 사용자 결정). 넓힐 때 여기에 더한다.
+OVERLAY_OK = {"PPG", "MDLZ"}   # JCI는 시험 중 보류(이자 정의 — skipped_cards E)
+
+
+def overlay_has(T, cik, accn, form=None, filed=None):
+    """cfg에 BUILD overlay를 켠 종목이고, 인라인 XBRL 보충 파일(.sec_cache/overlay/{cik}.json)에 그 공시(접수 번호)의 행이 실제로 있는가.
+    요약 자료가 몇 달째 최신 10-Q를 싣지 않는 종목을 원문 보충으로 만들 때만 쓴다(2026-10-25 사용자 결정 — 시험 3장 PPG·MDLZ·JCI, JCI는 보류)."""
+    p = os.path.join(HERE, "cfg", f"cfg_{T.lower()}.py")
+    if not os.path.exists(p):
+        return False
+    sp = importlib.util.spec_from_file_location("cfg_ov", p)
+    C = importlib.util.module_from_spec(sp)
+    sp.loader.exec_module(C)
+    if T not in OVERLAY_OK or not getattr(C, "BUILD", {}).get("overlay"):
+        return False
+    op = os.path.join(V2, ".sec_cache", "overlay", f"{cik}.json")
+    if not os.path.exists(op):
+        return False
+    ov = json.load(open(op))
+    # 그 공시 행이 하나만 있어도 통과하던 것을 막는다(Codex r1): 그 공시 기간말에 희석 EPS 행과 태그 30개 이상이 있어야 한다
+    hit = {}
+    for tx in ov.values():
+        if not isinstance(tx, dict):
+            continue
+        for tag, rows_ in tx.items():
+            for x in rows_ if isinstance(rows_, list) else []:
+                if (x.get("accn") == accn and x.get("src") == "ixbrl" and (form is None or x.get("form") == form)
+                        and (filed is None or x.get("filed") == filed)):
+                    hit.setdefault(x.get("end"), set()).add(tag)
+    if not hit:
+        return False
+    tags = max(hit.values(), key=len)   # 그 공시 기간말(태그가 가장 많은 날짜) — 표지 주식수 날짜(MDLZ 7/24)는 태그가 하나뿐
+    return len(tags) >= 30 and bool(tags & {"EarningsPerShareDiluted", "IncomeLossFromContinuingOperationsPerDilutedShare"})
+
+
 def before(T, asof):
     import daily_price as dp
     import fetch_eps_history as feh
@@ -78,6 +113,9 @@ def before(T, asof):
                 if am2:
                     bad.append(f"{T}: 원본 {form} {filed} 뒤에 정정 공시가 있다({', '.join(f'{y[2]} {y[0]}' for y in am2)}) — 사람이 처리")
                 break
+    if not have and overlay_has(T, cik, accn, form, filed):
+        print(f"{T}: 최신 {form} {filed}이 요약 자료에 아직 없다 — 인라인 XBRL 보충 파일에 그 공시 행이 있어 그것으로 만든다(BUILD overlay)")
+        have = True
     if not have:
         bad.append(f"{T}: {form} {filed}({accn})이 SEC 요약 자료(companyfacts)에 아직 없다 — 실린 뒤에 만든다")
     else:
