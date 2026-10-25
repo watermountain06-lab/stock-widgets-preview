@@ -695,6 +695,8 @@ EXTRA_TAGS = {
     # ADP: 현금흐름표 "Capital expenditures"(FY2026 $196.6M)를 PaymentsToAcquireOtherPropertyPlantAndEquipment로 낸다 — 기본 목록 태그가 없어 PCR 계산 불가였다.
     # 자본화 소프트웨어 "Additions to intangibles"($468.5M, PaymentsToAcquireIntangibleAssets)는 넣지 않는다(공통 안건 — MCK와 같은 정의, 2026-10-16).
     "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
+    # ALLE: 2025-04 뒤 10-Q는 순이익을 ProfitLoss로만 낸다(비지배지분 없음, NetIncomeLoss는 10-K·Q1 2025만) — 분기 순이익 차트가 비어 build가 멈췄다(2026-10-25)
+    "0001579241": {"NetIncomeLoss": ["ProfitLoss"]},
     # PNW: 순이익은 보통주 귀속 태그만 낸다(NetIncomeLoss 없음, Q2 2026 $178.6M) — 분기 순이익 차트가 비어 build가 멈췄다(2026-10-25)
     "0000764622": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     "0000766704": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"],
@@ -964,6 +966,7 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 "0000832101": ("DepreciationDepletionAndAmortization",),   # IEX — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000033185": ("DepreciationDepletionAndAmortization",),   # EFX — 손익 D&A(DepreciationAndAmortization)와 현금흐름 D&A가 섞여 TTM $755M(손익 $751.4M)이 되었다 → 손익 줄만(Codex r1, 2026-10-25)
                 "0000072331": ("DepreciationDepletionAndAmortization",),   # NDSN — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
+                "0001579241": ("DepreciationDepletionAndAmortization",),   # ALLE — 합산 태그는 연간만이라 분기 DepreciationAmortizationAndAccretionNet과 섞여 4분기가 작아졌다 → 현금흐름 줄만(2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
@@ -1608,7 +1611,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000033185": ["DebtCurrent", "LongTermDebtNoncurrent"],   # EFX: 1년 안 $157.7M + 장기 $5,049.0M(Q3 2026 10-Q — LongTermDebt 태그는 10-K만, 2026-10-25)
+DEBT_TOTAL_TAG = {
+                  "0000033185": ["DebtCurrent", "LongTermDebtNoncurrent"],   # EFX: 1년 안 $157.7M + 장기 $5,049.0M(Q3 2026 10-Q — LongTermDebt 태그는 10-K만, 2026-10-25)
                   "0001524472": ["DebtCurrent", "LongTermDebtNoncurrent"],   # XYL: 단기·1년 안 $531M + 장기 $2,395M(Q2 2026 10-Q — 기본은 장기만, 2026-10-25)
                   "0001111711": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # NI: 단기 $692.0M + 1년 안 $1,098.4M + 장기 $15,612.6M(Q2 2026 10-Q — 기본 합산은 1년 안을 빠뜨렸다, 2026-10-25)
                   "0000313927": ["ShortTermBorrowings", "LongTermDebt"],   # CHD: 기업어음 $49.9M + 장기 $2,206.3M — 기본 합산이 CommercialPaper(같은 금액)를 또 더했다(Q2 2026 10-Q, 2026-10-25)
@@ -1900,6 +1904,8 @@ EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $
                   "0000827054": {"preferred": ["PreferredStockLiquidationPreferenceValue"]},
 # P(옛 PSTG): 단기투자 = 유동 매도가능 채무증권(DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent, Q2 FY27 $622.2M) — 기본 태그는 2021-05에 멈췄다(2026-10-24)
                   "0001474432": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"]},
+# ALLE: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($388.1M — 2025-03부터 재무상태표 줄, 기본 현금 태그는 10-K만, 2026-10-25)
+                  "0001579241": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # DOV: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($1,693.2M = 재무상태표 줄) — 기본 현금 태그를 쓰지 않는다(2026-10-25)
                   "0000029905": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # BIIB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($3,382.7M = 재무상태표 "Cash and cash equivalents") — 기본 현금 태그는 2019-12에 멈췄다(2026-10-24)
