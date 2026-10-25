@@ -4,7 +4,6 @@
 
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
-| 407 | CF | $18.26B | CF Industries Holdings, Inc. | — |
 | 411 | FICO | $17.61B | Fair Isaac Corporation | — |
 | 445 | AVY | $13.78B | Avery Dennison Corporation | 영업이익 태그 멈춤 — 합성 필요 |
 | 448 | AKAM | $13.44B | Akamai Technologies, Inc. | — |

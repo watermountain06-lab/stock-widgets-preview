@@ -695,6 +695,8 @@ EXTRA_TAGS = {
     # ADP: 현금흐름표 "Capital expenditures"(FY2026 $196.6M)를 PaymentsToAcquireOtherPropertyPlantAndEquipment로 낸다 — 기본 목록 태그가 없어 PCR 계산 불가였다.
     # 자본화 소프트웨어 "Additions to intangibles"($468.5M, PaymentsToAcquireIntangibleAssets)는 넣지 않는다(공통 안건 — MCK와 같은 정의, 2026-10-16).
     "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
+    # CF: 순이익은 보통주 귀속 태그만 낸다(NetIncomeLoss 2012 멈춤, Q2 2026 $727M)(2026-10-25)
+    "0001324404": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # ALLE: 2025-04 뒤 10-Q는 순이익을 ProfitLoss로만 낸다(비지배지분 없음, NetIncomeLoss는 10-K·Q1 2025만) — 분기 순이익 차트가 비어 build가 멈췄다(2026-10-25)
     "0001579241": {"NetIncomeLoss": ["ProfitLoss"]},
     # BALL: 순이익을 ProfitLoss로 낸다(NetIncomeLoss 없음) — 비지배지분 몫(분기 약 $2M)이 섞인다(2026-10-25)
@@ -718,7 +720,8 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# BALL: OperatingIncomeLoss 태그가 2024-03에 멈췄다 — 영업이익 = 세전이익 + 부채 이자비용(InterestExpenseDebt)(MTD 방식, 2026-10-25).
+DERIVED_OPINC = {# AVY: OperatingIncomeLoss 태그가 한 번도 없다 — 영업이익 = 세전이익 + 이자비용(MTD 방식, 2026-10-25). 세전 태그는 2023까지 옛 이름, 이자 태그는 2024-03까지 InterestExpense.
+                 # BALL: OperatingIncomeLoss 태그가 2024-03에 멈췄다 — 영업이익 = 세전이익 + 부채 이자비용(InterestExpenseDebt)(MTD 방식, 2026-10-25).
                  "0000009389": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                                 [(["InterestExpenseDebt"], -1)]),
                  # CASY: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그가 한 번도 없음) — 영업이익 = 세전이익 + 이자비용(MTD 방식).
@@ -1617,7 +1620,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000009389": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # BALL: 1년 안 $692M(만기 649 포함) + 장기 $6,528M(Q2 2026 10-Q, 2026-10-25)
+DEBT_TOTAL_TAG = {
+                  "0000009389": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # BALL: 1년 안 $692M(만기 649 포함) + 장기 $6,528M(Q2 2026 10-Q, 2026-10-25)
                   "0001336920": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LDOS: 1년 안 $22M + 장기 $6,009M(Q2 FY26 10-Q, 2026-10-25)
                   "0000033185": ["DebtCurrent", "LongTermDebtNoncurrent"],   # EFX: 1년 안 $157.7M + 장기 $5,049.0M(Q3 2026 10-Q — LongTermDebt 태그는 10-K만, 2026-10-25) [엔진수정대기]
                   "0001524472": ["DebtCurrent", "LongTermDebtNoncurrent"],   # XYL: 단기·1년 안 $531M + 장기 $2,395M(Q2 2026 10-Q — 기본은 장기만, 2026-10-25)
@@ -1913,6 +1917,8 @@ EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $
                   "0001474432": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"]},
 # ALLE: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($388.1M — 2025-03부터 재무상태표 줄, 기본 현금 태그는 10-K만, 2026-10-25) [엔진수정대기]
                   "0001579241": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
+# CF: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($2,480M = 재무상태표 "Cash and cash equivalents") — 기본 현금 태그는 2019년에 멈췄다(2026-10-25)
+                  "0001324404": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # DOV: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($1,693.2M = 재무상태표 줄) — 기본 현금 태그를 쓰지 않는다(2026-10-25)
                   "0000029905": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # BIIB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($3,382.7M = 재무상태표 "Cash and cash equivalents") — 기본 현금 태그는 2019-12에 멈췄다(2026-10-24)
