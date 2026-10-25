@@ -6,5 +6,4 @@
 |---|---|---|---|---|
 | 472 | HII | $10.80B | Huntington Ingalls Industries, Inc. | — |
 | 478 | PODD | $10.33B | Insulet Corporation | — |
-| 480 | ROL | $16.65B | Rollins, Inc. | — |
 | 493 | AOS | $8.38B | A. O. Smith Corporation | — |

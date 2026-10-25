@@ -10011,6 +10011,47 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "ROL",
+      "name": "Rollins",
+      "sector": "산업재 — 해충 방제 서비스(Orkin 등) 주거·상업",
+      "href": "ROL_full_widget.html",
+      "cardRank": 237,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 34.82,
+        "prevClose": 35.31,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 478045280,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-12",
+        "filedAt": "2026-10-22",
+        "filing": "10-Q 0000084839-26-000045 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 54.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }
