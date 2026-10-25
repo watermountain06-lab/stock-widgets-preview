@@ -113,7 +113,62 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    # PGR: CB와 같은 S&P500 보험사 비교군(2026-10-02)
                    "PGR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
                    # BKNG: HD·MCD·TJX와 같은 S&P500 경기소비재 비교군(2026-10-02, Claude 추천 — 리뷰 때 확인)
-                   "BKNG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json")}
+                   "BKNG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): S&P500 경기소비재(HD·DHI와 같은 비교군)
+                   "WYNN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "NCLH": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "APTV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "LVS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "LULU": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "DPZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "DECK": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "RL": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "NVR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "LEN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "HAS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "GPC": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "TSCO": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "BBY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "TPR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "PHM": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "DRI": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "ULTA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "WSM": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "EXPE": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "CCL": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "CMG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): S&P500 커뮤니케이션(VZ·TTWO와 같은 비교군)
+                   "FOX": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "FOXA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "NWSA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "CHTR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "ECHO": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "OMC": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "LYV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): 보험(PGR·CB와 같은 비교군, EG는 파일 밖 재보험사)
+                   "AIZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "WRB": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "L": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "CINF": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "ACGL": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "EG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): 보험 중개·수수료(AJG·AON·MRSH가 같은 파일)
+                   "BRO": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "brokers_fees.json"),
+                   "WTW": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "brokers_fees.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): 자산운용(BLK·BX와 같은 비교군, RJF는 파일 밖 — 자산관리 AMP와 가장 가까움)
+                   "BEN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   "IVZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   "TROW": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   "RJF": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): 결제·거래소·데이터(V·MA와 같은 비교군, SYF는 MA와 연결 — 사용자 결정)
+                   "GPN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "FIS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "FISV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "CPAY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "JKHY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "XYZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "FDS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "SYF": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
