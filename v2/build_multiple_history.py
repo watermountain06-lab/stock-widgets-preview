@@ -1581,7 +1581,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001781335": ["ShortTermBorrowings", "LongTermDebt"],   # OTIS: 단기 $210M + LongTermDebt(1년 안 포함) $8,226M = $8,436M(Q2 2026 10-Q, 2026-10-25)
+DEBT_TOTAL_TAG = {"0000029905": ["LongTermDebt"],   # DOV: LongTermDebt $3,264.6M(1년 안 $683.4M 포함) — ShortTermBorrowings가 같은 1년 안 금액이라 기본 합산이 두 번 셌다(Q3 2026 10-Q, 2026-10-25)
+                  "0001781335": ["ShortTermBorrowings", "LongTermDebt"],   # OTIS: 단기 $210M + LongTermDebt(1년 안 포함) $8,226M = $8,436M(Q2 2026 10-Q, 2026-10-25)
                   "0000731802": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # ATO: 1년 안 $502.5M + 장기 $9,748.7M(Q3 FY26 10-Q, 2026-10-25)
                   "0001093557": ["ConvertibleNotesPayableCurrent", "ConvertibleLongTermNotesPayable"],   # DXCM: 전환사채 1년 안 + 장기(Q2 2026 장기 $1,242.8M — 기본 목록에 전환사채 태그가 없어 0이었다, 2026-10-25)
                   "0000029534": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # DG: 1년 안 $12.7M + 장기 $4,558.1M(Q2 FY26 10-Q, 2026-10-25)
