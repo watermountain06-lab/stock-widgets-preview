@@ -2031,3 +2031,16 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **판단** — 적정주가 밴드는 '해당 없음'(POST — 짧은 흑자 이력의 수백 배 PER), 판매 후 리스 금융 의무 약 $0.2B는 차입금 밖(MODEL_NOTE), 고객 집중·공매도 보고서·집단소송 문장.
 - **dr** — Codex·Fable 1라운드(필수: EPS 단위 오류·흑자 표현·뉴스 링크 — 반영. 표는 어느 수정으로도 불변 — Fable).
 
+## ODFL — 소량화물 트럭 운송 (2026-10-25, 카드 208)
+
+- **판정 고평가(0, −1, −2)** — 자기 이력 59.2, 동종업 19.6(S&P500 산업재), 현금흐름 기본 $69.11 대 $182.70(10/23).
+- **엔진** — 기본 경로(매출 IncludingAssessedTax, 분할 2020·2024 KNOWN_SPLITS), Q4_EPS_OVERRIDE 2025.
+- **판단** — 물동량 감소 완화·단가 개선(회복 확정 아님) 표현, 설비투자는 모델이 직접 빼지 않음을 명시. 로고는 위키미디어에 없어 티커 배지.
+- **dr** — Codex·Fable 1라운드(필수: 경기 반등 표현 — 반영, 표 불변).
+
+## MTD — 정밀 계측기 (2026-10-25, 카드 209)
+
+- **판정 고평가(−1, −1, −2)** — 자기 이력 24.9, 동종업 15.8(S&P500 헬스케어), 현금흐름 기본 약 $500 대 $1,670.29(10/23).
+- **엔진** — DERIVED_OPINC 세전이익 + 이자비용(영업이익 태그가 한 번도 없음, 옛 세전 태그 포함), DEBT_TOTAL_TAG DebtLongtermAndShorttermCombinedAmount, D&A = 감가상각 + AmortizationOfDeferredCharges(DDA_PARTS_BY_CIK), EXCLUDE CommonStockSharesOutstanding(자사주 미차감 낡은 값 — 표지 20.04M만), cover_shares, Q4_EPS_OVERRIDE 2021~2025.
+- **dr** — Codex·Fable 1라운드(필수: 주식 수·D&A — 반영, 표 불변).
+

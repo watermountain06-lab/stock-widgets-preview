@@ -97,6 +97,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # MTD: 현금흐름표 D&A = 감가상각 + "Amortization"(AmortizationOfDeferredCharges — 무형자산·소프트웨어 포함, FY25 $74.5M). 무형자산 상각 태그는 그 안의 일부(Fable r1 2026-10-25)
+                    "0001037646": ["Depreciation", "AmortizationOfDeferredCharges"],
                     # TTWO: DepreciationDepletionAndAmortization(Q1 FY27 $48.2M)는 유형자산분만 — 현금흐름표 "무형자산 상각·손상"(회사 고유 태그 →
                     # BUILD company_tags → AmortizationAndImpairmentOfIntangibleAssetsTtwo, Q1 FY27 $168.5M)을 더한다. 표준 AmortizationOfIntangibleAssets는 10-K 연간뿐(2026-10-24)
                     "0000946581": ["DepreciationDepletionAndAmortization", "AmortizationAndImpairmentOfIntangibleAssetsTtwo"],
@@ -696,7 +698,12 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# BIIB: 영업이익 줄이 없다(OperatingIncomeLoss는 2022-03에 멈춤) — "Total cost and expenses" 안에 "Other (income) expense, net"이 들어 있다
+DERIVED_OPINC = {# MTD: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그가 한 번도 없음) — "Earnings before taxes"에서 끝난다. 영업이익 = 세전이익 + 이자비용.
+                 # 구조조정·기타 비용(수익)은 영업으로 둔다. Q2 2026: 289.4 + 17.2 = 306.6(10-Q 대조, 2026-10-25)
+                 "0001037646": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                 "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],   # 2021-06까지 옛 세전 태그(Fable r1)
+                                [(["InterestExpense", "InterestExpenseNonoperating"], -1)]),
+                 # BIIB: 영업이익 줄이 없다(OperatingIncomeLoss는 2022-03에 멈춤) — "Total cost and expenses" 안에 "Other (income) expense, net"이 들어 있다
                  # (이자비용·투자수익·지분증권 손익. XBRL은 수익이면 양수 — 분기는 OtherOperatingIncomeExpenseNet, 10-K 연간은 NonoperatingIncomeExpense).
                  # 영업이익 = 세전이익 − 그 줄. 인수 IPR&D·조건부 대가 변동은 영업으로 둔다. Q1 2026: 377.7 − (−19.7) = 397.4(10-Q 대조, 2026-10-24)
                  # 세전 태그는 2025년부터 …ExtraordinaryItemsNoncontrollingInterest, 그 전은 …MinorityInterestAndIncomeLossFromEquityMethodInvestments(ROST와 같은 방식).
@@ -895,7 +902,9 @@ def _derived_opinc(cik, taxonomy):
 # 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
-EXCLUDE_TAGS = {# BE: 손익계산서 매출은 Revenues(Q3 2026 $1,235.8M) — 고객 계약 매출 태그($1,231.0M)는 전력 판매·리스 일부가 빠진다(2026-10-24)
+EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 빼지 않은 낡은 값이 분기마다 반복된다 — 표지 dei 주식 수(20.04M)만 쓴다(Fable r1 2026-10-25)
+                "0001037646": ("CommonStockSharesOutstanding",),
+                # BE: 손익계산서 매출은 Revenues(Q3 2026 $1,235.8M) — 고객 계약 매출 태그($1,231.0M)는 전력 판매·리스 일부가 빠진다(2026-10-24)
                 "0001664703": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # NTAP: D&A는 현금흐름표 DepreciationAndAmortization(분기·연간 모두)만 — 10-K의 DepreciationDepletionAndAmortization(유형자산분 $179M)과 섞이면 Q4 FY26이 $28M으로 줄었다(Fable r1, 2026-10-24)
                 "0001002047": ("DepreciationDepletionAndAmortization",),
@@ -1569,7 +1578,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000723125": "DebtAndCapitalLeaseObligations",
+DEBT_TOTAL_TAG = {"0001037646": "DebtLongtermAndShorttermCombinedAmount",   # MTD: 1년 안 + 장기 합계 $2,112.0M(매 분기 있음 — DebtCurrent는 3월 분기에 없다, Fable r1 2026-10-25)
+                  "0000723125": "DebtAndCapitalLeaseObligations",
                   # ED: 장기차입금을 분기에는 LongTermDebtFairValue(장부가와 같은 값 — 태그 오용)로, 연말에는 LongTermDebtNoncurrent로 낸다. 기본 선택은 CP $869M만 잡았다.
                   # CP + 은행 텀론(LoansPayableToBankCurrent — 2024~2025 $500~700M, Q1 2026 0) + 1년 안(날짜마다 앞 태그 우선) + 장기(날짜마다 앞 태그 우선). Q1 2026: 869 + 0 + 250 + 25,554 = 26,673(10-Q 대조, 2026-10-24)
                   "0001047862": ["NotesPayableCurrent", "LoansPayableToBankCurrent", ("OtherLongTermDebtCurrent", "LongTermDebtCurrent"), ("LongTermDebtNoncurrent", "LongTermDebtFairValue")],
