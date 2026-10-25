@@ -143,6 +143,8 @@ export function depositsSince(all, base, today) {
 // budget·spent·bought 값은 달러. 고른 것 가운데 무게가 없는 종목(시총 없음·무게 밖 판정)이 있으면 그 방법은 null.
 // 돌려주는 값(모두 방법별): by(달 몫)·rest(남은 몫)·round(이번 회차 금액, 남은 회차 0이면 null) {티커: 달러}, missed(지난 회차 계획보다 덜 산 종목), capped(남은 돈에 맞춰 줄임).
 export const BUY_METHODS = [['equal', '균등'], ['cap', '시총 비중'], ['tier', '판정 가중']];
+// 후보 줄 순서(사용자 요청 2026-10-25): 시가총액 큰 순, 시총을 모르는 종목은 맨 뒤 티커순 — 보여 주는 순서만, 계산과 무관
+export const byCap = (list, caps = {}) => [...list].sort((a, b) => (caps[b] || 0) - (caps[a] || 0) || (a < b ? -1 : 1));
 export const TIER_WEIGHT = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 };
 const toC = (v) => Math.max(0, Math.round((v || 0) * 100));
 // a × b ÷ c 내림을 정확히(정수만, BigInt — 실수 비율로 하면 3/11 같은 무게에서 1센트가 빠진다, dr r2)
@@ -730,7 +732,7 @@ function buyBox(args) {
   box.appendChild(lh);
   const list = el('div', 'pf-buylist');
   const pickMsg = msgLine();
-  for (const t of plan.candidates) {
+  for (const t of byCap(plan.candidates, model.caps || {})) {
     const on = picked.includes(t);
     const row = el('label', 'pf-buyrow' + (on ? ' pf-on' : ''));
     const cb = el('input'); cb.type = 'checkbox'; cb.checked = on; cb.value = t; cb.disabled = pickSaving;
@@ -843,7 +845,7 @@ function previewSection(args, box, month, budget) {
   };
   const list = el('div', 'pf-buylist');
   const pickMsg = msgLine();
-  for (const t of cands) {
+  for (const t of byCap(cands, model.caps || {})) {
     const on = picked.includes(t);
     const row = el('label', 'pf-buyrow' + (on ? ' pf-on' : ''));
     const cb = el('input'); cb.type = 'checkbox'; cb.checked = on; cb.value = t; cb.disabled = pickSaving;

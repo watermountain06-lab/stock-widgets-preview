@@ -580,3 +580,8 @@ test('미리 넣은 돈: 연 넘김(12월에 1월 몫), 없는 달·같은 달 �
   assert.deepEqual(monthDeposits(all, '2027-01').now.map((p) => p.amount), [300]);
   assert.deepEqual(monthDeposits(all, '2026-12').now.map((p) => [p.amount, !!p.forMonth]).sort(), [[40, false], [60, false]]);
 });
+
+import { byCap } from '../../preview-only-portfolio-home.js';
+test('후보 줄 순서: 시총 큰 순, 시총 모르면 맨 뒤 티커순', () => {
+  assert.deepEqual(byCap(['AAA', 'BBB', 'CCC', 'DDD'], { BBB: 5e11, DDD: 2e12, AAA: 1e9 }), ['DDD', 'BBB', 'AAA', 'CCC']);
+});
