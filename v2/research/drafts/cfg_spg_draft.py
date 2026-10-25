@@ -1,6 +1,7 @@
-# 보류 초안(2026-10-22) — v2/research/skipped_cards.md SPG 줄. 다시 만들 때 v2/newcards/cfg/cfg_spg.py로 옮기고 등록(fetch_eps CIKS·activity·sectors·sec_approved)부터.
+# 보류 초안(2026-10-24 재시도 뒤 다시 보류) — Fable r2: Taubman 재평가 이익(주당 약 $8.76)을 빼면 PER 약 39배(5년 최고 초과) → 자기 이력 0→−1(판정 고평가). 상환가능 지분은 EV_TAGS nci에 TemporaryEquityCarryingAmount…를 더하면 됨(되돌림). 다시 만들 때 등록부터.
 # SPG(사이먼 프로퍼티) v2 카드 설정 — 자동 카드(AUTO). 회계연도 12월 31일. 카드 순위 163(시총 161위). 쇼핑몰·프리미엄 아웃렛 리츠(UPREIT).
 # 출처: SEC XBRL, Q2 2026 10-Q(2026-08-10), 실적 보도자료(Q3 2025~Q2 2026, 8-K 2.02항 — 모두 동부 오후 4시대 접수 = 장 마감 뒤), 8-K(자사주 2/5, 경영진 3/24), StockAnalysis.
+# 2026-10-24 다시 만듦(사용자 결정 — BX 선례: 배수 시가총액에 유닛 가치가 없는 점은 문장으로 밝힌다). 상환가능 지분 $271.8M도 EV·주주가치에서 뺀다(Codex r1 ①).
 # 리츠: WELL·PLD·EQIX 선례대로 일반 규칙(영업이익 = 10-Q "Operating income before other items"), FFO는 판정에 쓰지 않는다. 순이익 = 보통주 귀속(NI_TAGS).
 # 엔진 입력(2026-10-22): 운영 파트너십 외부 파트너 유닛 55,826,340(지분 14.7%, 보통주와 1:1 교환) — build_dcf SHARES_ADD로 주식에 더하고 비지배지분은 부동산분($382M, EV_TAGS_BY_CIK)만.
 # 주식 수는 보통주 + B주 8,000(표지 클래스별, BUILD cover_shares). 합작 지분법 투자($5.4B, 손실 초과 배분 $1.8B 차감 전)와 그 이익은 모델에 없다(안건 E41).
@@ -28,8 +29,29 @@ NONOP_WHAT = '투자'
 YOY_NOTE = {'2026-06-30': '최근 4분기 순이익에는 Q4 2025 Taubman 잔여 지분 인수 재평가 이익 $2.89B(일회성·비현금)가 들어 있어 PER이 실제보다 낮게 나온다'}
 # 고정 문장(숫자 없음). 리츠에 일반 모델, 유닛, 합작 지분, 일회성 이익.
 MODEL_NOTE = ('리츠에 일반 기업용 모델을 그대로 쓴 참고 값이다 — 현금흐름 내재가치는 영업이익·재투자 모델이라 리츠의 FFO 기반 평가가 아니고, 합작 쇼핑몰 지분(지분법 투자)과 그 이익은 모델에 들어 있지 않다. '
-              '운영 파트너십 외부 파트너 유닛은 보통주와 1:1로 교환되므로 주당 내재가치는 주식과 유닛을 합친 수로 나눈다. 최근 4분기 순이익에는 큰 일회성 재평가 이익이 있어 PER과 자기 이력 PER 점수가 실제보다 싸게 보인다.')
+              '운영 파트너십 외부 파트너 유닛은 보통주와 1:1로 교환되므로 주당 내재가치는 주식과 유닛을 합친 수로 나눈다. 다만 PER·PSR·EV/EBITDA 같은 배수의 시가총액에는 유닛 가치(주식 수의 약 17%)가 들어 있지 않아 배수가 그만큼 낮게(싸게) 보인다. 최근 4분기 순이익에는 큰 일회성 재평가 이익이 있어 PER과 자기 이력 PER 점수가 실제보다 싸게 보인다.')
 HEALTH_EXTRA = '부채비율이 매우 높게 나오는 것은 누적 배당과 감가상각으로 장부상 자본이 작기 때문이다 — 리츠는 보통 부채를 자산 가치나 이익 대비로 본다.'
+# 현금흐름 0 이하 — SO와 같은 문구 보정
+POST = [r'''
+_R = '현금흐름 모델의 주당 지분가치가 0 이하라(큰 차입금을 뺀 뒤) 기본 시나리오 환산 성장률은 해석할 수 없다.'
+_pairs = [
+ ("fill('[data-dcf-basev]', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)));",
+  "fill('[data-dcf-basev]', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)));\n  if (D.base <= 0) { const _rv = document.querySelector('#dcf .reverse'); if (_rv) _rv.textContent = _XR; }"),
+ ("const tv = D.tvShare != null ? `잔존가치(5년 뒤)가 내재가치의 ${Math.round(D.tvShare * 100)}%` : '';",
+  "const tv = D.base <= 0 ? '잔존가치 비중 — 내재가치가 0 이하라 의미 없음' : (D.tvShare != null ? `잔존가치(5년 뒤)가 내재가치의 ${Math.round(D.tvShare * 100)}%` : '');"),
+ ("`현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`\n          + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)",
+  "(d.base <= 0 ? _XR : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`\n          + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`))"),
+]
+for _x, _y in _pairs:
+    if _x in h:
+        h = h.replace(_x, _y)
+if 'const _XR' not in h:
+    h = h.replace('<script>', '<script>\nconst _XR = ' + repr(_R) + ';', 1)
+import re as _re
+h = _re.sub(r'잔존가치\(5년 뒤\)가 내재가치의 [0-9,]+%', '잔존가치 비중 — 내재가치가 0 이하라 의미 없음', h)
+h = _re.sub(r'(id="spgDcfReq"[^>]*>)연 -[0-9.]+%', lambda m: m.group(1) + '해석 부적합', h)
+h = _re.sub(r'현재가를 정당화하려면 매출이 5년간 연 [−-][0-9.]+% 커야 한다\. ', '현금흐름 값이 0 이하라 현재가 요구 성장률은 해석할 수 없다. ', h)
+''']
 PH = ['PLD', 'WELL', 'EQIX', 'O', 'AMT', 'PSA']
 PEER_FILE = 'peer_universe/real_estate.json'
 CHART_CAP, SELF_CAP, CHART_NOTE = {}, {}, {}
@@ -63,9 +85,8 @@ NEWS = [
      '희석 EPS $1.86(1년 전 $1.46)', 'q3', 'Simon 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 18, 'mean': 227.56, 'median': 222, 'low': 205, 'high': 275, 'sb': 5, 'b': 1, 'h': 15, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-22'
-# Codex r1 필수(반영 전 보류): ① 상환가능 지분 $271.8M(외부 우선유닛 $10.5M + 기타 $261.3M, TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests)도 EV·주주가치에서 뺄 것
-# ② 배수 시가총액에 유닛 가치(55.8M × 주가) — 배수 엔진에 시점별 유닛 수 장치가 필요. 권장: 2025-10-31 Taubman 잔여 12% 인수·연결 뉴스, 적정주가 밴드에 일회성 경고.
+ANALYST_ASOF = '2026-10-24'
+# Codex r1(2026-10-22): ① 상환가능 지분 — EV_TAGS nci에 더함(2026-10-24) ② 배수 시가총액의 유닛 가치 — 장치 없음, MODEL_NOTE로 공개(BX 선례).
 
 # ── 자동 카드 — 손익계산서 항목 3개(축 없음). 원문 대조: Q2 2026 1,659.7/90.1/40.8, 1년 전 1,379.5/81.1/37.9(2026-10-22) ──
 AUTO = True
