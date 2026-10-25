@@ -2136,3 +2136,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — 기본 경로, Q4_EPS_OVERRIDE 2025, 부문 4개(2026 재편), 이자비용 손입력(interest_extra — InterestIncomeExpenseNonoperatingNet만 씀). 2026-09 사채 $1.5B는 재무상태표 뒤(문장 공개). 비교 차트는 카드 있는 IT 하드웨어 6곳(HPQ·HPE·NTAP·ACN은 배수 값이 없어 build 실패).
 - **dr** — Codex·Fable 1라운드(필수 없음).
 
+## XYL — 물 기술 (2026-10-25, 카드 224)
+
+- **판정 적정~고평가(+1, 0, −2)** — 자기 이력 95.3(배수 5년 최저 부근), 동종업 63.2(S&P500 산업재), 현금흐름 기본 $23.62 대 $108.74(10/23).
+- **엔진** — 차입금 = DebtCurrent + LongTermDebtNoncurrent, D&A = 감가상각 + 무형자산 상각(DDA_PARTS_BY_CIK·EXCLUDE — 합산 태그 2024-09 멈춤), 비지배지분 = 상환가능 포함(EV_TAGS nci), Q4_EPS_OVERRIDE 2023(Evoqua 신주로 역산 1.17 대 보도자료 1.10)·2024.
+- **공개** — 펌프 인수 $1.46B(미종결)·9월 사채 $1.5B는 재무상태표 뒤, 10-Q 리스가 1년 안 분만(안건 E61).
+- **dr** — Codex·Fable 1라운드(Codex 필수: 리스 입력 — 표 불변, 엔진 공통이라 안건 E61로).
+

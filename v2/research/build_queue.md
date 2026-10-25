@@ -4,31 +4,21 @@
 
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
-| 348 | XYL | $25.39B | Xylem Inc. | — |
-| 362 | DOW | $23.69B | Dow Inc. | 최근 4분기 적자(PER 없음); 영업이익 태그 멈춤 — 합성 필요 |
-| 372 | CMS | $21.82B | CMS Energy Corporation | — |
-| 374 | KHC | $29.41B | The Kraft Heinz Company | 최근 4분기 적자(PER 없음) |
 | 375 | EFX | $21.34B | Equifax Inc. | — |
 | 376 | AMCR | $21.30B | Amcor plc | 거래 공시: 2025-07-15 S-4  |
-| 383 | NI | $20.76B | NiSource Inc. | — |
-| 384 | VTRS | $20.67B | Viatris Inc. | 최근 4분기 적자(PER 없음) |
 | 392 | NRG | $19.40B | NRG Energy, Inc. | 거래 공시: 2026-01-30 8-K 1.01,2.01,2.03,3.02,7.01,9.01 |
 | 395 | SWKS | $12.55B | Skyworks Solutions, Inc. | 거래 공시: 2026-10-05 8-K 2.01,5.02,8.01,9.01; 2026-05-20 S-4 ; 2025-12-04 S-4  |
 | 397 | DD | $18.44B | DuPont de Nemours, Inc. | 거래 공시: 2026-08-04 S-4 ; 2025-11-03 8-K 1.01,2.01,5.02,7.01,8.01,9.01; 영업이익 태그 멈춤 — 합성 필요 |
 | 401 | ZBRA | $18.28B | Zebra Technologies Corporation | — |
 | 402 | APA | $17.65B | APA Corporation | 거래 공시: 2025-08-08 S-4  |
-| 404 | GIS | $18.39B | General Mills, Inc. | 최근 4분기 적자(PER 없음) |
 | 407 | CF | $18.26B | CF Industries Holdings, Inc. | — |
-| 408 | ESS | $18.50B | Essex Property Trust, Inc. | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 410 | RVTY | $17.72B | Revvity, Inc. | — |
 | 411 | FICO | $17.61B | Fair Isaac Corporation | — |
 | 412 | IP | $17.58B | International Paper Company | 거래 공시: 2026-01-23 8-K 2.01,7.01,9.01; 최근 4분기 적자(PER 없음); 영업이익 태그 멈춤 — 합성 필요 |
 | 414 | BALL | $17.14B | Ball Corporation | 영업이익 태그 멈춤 — 합성 필요 |
-| 415 | LYB | $21.47B | LyondellBasell Industries N.V. | 최근 4분기 적자(PER 없음) |
 | 416 | J | $16.98B | Jacobs Solutions Inc. | — |
 | 417 | LDOS | $17.08B | Leidos Holdings, Inc. | 거래 공시: 2026-03-30 8-K 2.01,7.01,9.01 |
 | 418 | IEX | $16.89B | IDEX Corporation | — |
-| 420 | HST | $17.17B | Host Hotels & Resorts, Inc. | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 421 | NDSN | $17.76B | Nordson Corporation | — |
 | 422 | JBHT | $21.07B | J.B. Hunt Transport Services, Inc. | — |
 | 423 | CHRW | $16.30B | C.H. Robinson Worldwide, Inc. | — |
@@ -36,13 +26,10 @@
 | 429 | TSN | $19.90B | Tyson Foods, Inc. | — |
 | 431 | ALLE | $15.09B | Allegion plc | — |
 | 434 | SWK | $14.99B | Stanley Black & Decker, Inc. | 영업이익 태그 멈춤 — 합성 필요 |
-| 435 | TRMB | $14.80B | Trimble Inc. | 최근 4분기 적자(PER 없음) |
 | 436 | TYL | $15.98B | Tyler Technologies, Inc. | — |
 | 437 | INVH | $16.33B | Invitation Homes Inc. | 영업이익 태그 멈춤 — 합성 필요 |
 | 438 | IT | $14.54B | Gartner, Inc. | — |
-| 444 | WY | $14.05B | Weyerhaeuser Company | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 445 | AVY | $13.78B | Avery Dennison Corporation | 영업이익 태그 멈춤 — 합성 필요 |
-| 446 | SJM | $13.88B | The J. M. Smucker Company | 최근 4분기 적자(PER 없음) |
 | 447 | CSGP | $13.74B | CoStar Group, Inc. | — |
 | 448 | AKAM | $13.44B | Akamai Technologies, Inc. | — |
 | 449 | GEN | $14.89B | Gen Digital Inc. | — |
