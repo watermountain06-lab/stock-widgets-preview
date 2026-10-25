@@ -9312,6 +9312,47 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "CASY",
+      "name": "Casey's General Stores",
+      "sector": "필수소비재 — 미국 중서부 편의점(피자·식품)과 주유소",
+      "href": "CASY_full_widget.html",
+      "cardRank": 220,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 699.26,
+        "prevClose": 713.65,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 36960167,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-02",
+        "filedAt": "2026-09-08",
+        "filing": "10-Q 0000726958-26-000085 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 51.0,
+        "grade": "보통",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }

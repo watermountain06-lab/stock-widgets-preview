@@ -700,7 +700,13 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# MTD: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그가 한 번도 없음) — "Earnings before taxes"에서 끝난다. 영업이익 = 세전이익 + 이자비용.
+DERIVED_OPINC = {# CASY: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그가 한 번도 없음) — 영업이익 = 세전이익 + 이자비용(MTD 방식).
+                 # Q1 FY27: 347.0 + 22.1 = 369.1(10-Q 대조, 2026-10-25). 세전 태그는 FY2022부터 …ExtraordinaryItemsNoncontrollingInterest, 그 전은 옛 태그.
+                 "0000726958": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                 "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments",
+                                 "IncomeLossAttributableToParent"],   # 10-K 연간 세전이익은 이 태그로만 실린다(FY26 $937.0M = 손익계산서 "Income before income taxes", 10-K만)
+                                [(["InterestExpense"], -1)]),
+                 # MTD: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그가 한 번도 없음) — "Earnings before taxes"에서 끝난다. 영업이익 = 세전이익 + 이자비용.
                  # 구조조정·기타 비용(수익)은 영업으로 둔다. Q2 2026: 289.4 + 17.2 = 306.6(10-Q 대조, 2026-10-25)
                  "0001037646": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                  "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],   # 2021-06까지 옛 세전 태그(Fable r1)
@@ -1581,7 +1587,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000029905": ["LongTermDebt"],   # DOV: LongTermDebt $3,264.6M(1년 안 $683.4M 포함) — ShortTermBorrowings가 같은 1년 안 금액이라 기본 합산이 두 번 셌다(Q3 2026 10-Q, 2026-10-25)
+DEBT_TOTAL_TAG = {"0000726958": ["LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # CASY: 1년 안 $104.3M + 장기 $2,326.2M(Q1 FY27 10-Q — LongTermDebt 합계 태그는 연간만, 2026-10-25)
+                  "0000029905": ["LongTermDebt"],   # DOV: LongTermDebt $3,264.6M(1년 안 $683.4M 포함) — ShortTermBorrowings가 같은 1년 안 금액이라 기본 합산이 두 번 셌다(Q3 2026 10-Q, 2026-10-25)
                   "0001781335": ["ShortTermBorrowings", "LongTermDebt"],   # OTIS: 단기 $210M + LongTermDebt(1년 안 포함) $8,226M = $8,436M(Q2 2026 10-Q, 2026-10-25)
                   "0000731802": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # ATO: 1년 안 $502.5M + 장기 $9,748.7M(Q3 FY26 10-Q, 2026-10-25)
                   "0001093557": ["ConvertibleNotesPayableCurrent", "ConvertibleLongTermNotesPayable"],   # DXCM: 전환사채 1년 안 + 장기(Q2 2026 장기 $1,242.8M — 기본 목록에 전환사채 태그가 없어 0이었다, 2026-10-25)

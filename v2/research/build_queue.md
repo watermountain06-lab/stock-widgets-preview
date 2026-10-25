@@ -4,7 +4,6 @@
 
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
-| 342 | CASY | $25.84B | Casey's General Stores, Inc. | 영업이익 태그 멈춤 — 합성 필요 |
 | 348 | XYL | $25.39B | Xylem Inc. | — |
 | 349 | IR | $28.51B | Ingersoll Rand Inc. | — |
 | 350 | CHD | $24.95B | Church & Dwight Co., Inc. | — |
@@ -25,9 +24,7 @@
 | 385 | CDW | $20.64B | CDW Corporation | — |
 | 386 | LUV | $20.44B | Southwest Airlines Co. | — |
 | 387 | TPL | $23.33B | Texas Pacific Land Corporation | — |
-| 390 | SBAC | $19.60B | SBA Communications Corporation | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 392 | NRG | $19.40B | NRG Energy, Inc. | 거래 공시: 2026-01-30 8-K 1.01,2.01,2.03,3.02,7.01,9.01 |
-| 394 | KEY | $22.31B | KeyCorp | 은행 — 은행 규칙 확장(E34) 결정 |
 | 395 | SWKS | $12.55B | Skyworks Solutions, Inc. | 거래 공시: 2026-10-05 8-K 2.01,5.02,8.01,9.01; 2026-05-20 S-4 ; 2025-12-04 S-4  |
 | 396 | ZBH | $18.80B | Zimmer Biomet Holdings, Inc. | — |
 | 397 | DD | $18.44B | DuPont de Nemours, Inc. | 거래 공시: 2026-08-04 S-4 ; 2025-11-03 8-K 1.01,2.01,5.02,7.01,8.01,9.01; 영업이익 태그 멈춤 — 합성 필요 |

@@ -279,7 +279,8 @@ def base_inputs(ticker, asof=None):
     # AMT: 기본 차입금 태그 합계에 금융리스($14.4M, 10-Q 차입금 표 "Finance lease obligations")가 이미 들어 있다(Codex 2026-10-21).
     # EOG: 10-K 차입금 표 "Finance Leases (see Note 17) 117"이 Total Long-Term Debt 안 — 10-Q 1년 안 만기 $27M = 금융리스 1년 안 분(Codex 2026-10-21).
     # TRGP: 10-Q 차입금 주석 Total debt obligations $19,578M에 금융리스(유동 107.0 + 비유동 687.1)가 이미 들어 있다(Codex 2026-10-22).
-    FL_IN_DEBT = ("0000315189", "0000063908", "0000927653", "0001053507", "0000821189", "0001389170")
+    # CASY: 재무상태표 "Long-term debt and finance lease obligations"(1년 안·장기 모두 LongTermDebtCurrent·Noncurrent 태그)에 금융리스 $113.8M이 이미 들어 있다(Fable r1, 2026-10-25).
+    FL_IN_DEBT = ("0000315189", "0000063908", "0000927653", "0001053507", "0000821189", "0001389170", "0000726958")
     fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in FL_IN_DEBT   # DE(장비 부문 차입금에 금융리스 포함)·MCD(리스 태그가 운용 + 금융 합계)·MCK
     if out.get("_debt_fallback"):
         # F4로 총계(합계 태그 또는 LongTermDebt + 단기 차입)를 쓴 시점에는 회사별 목록의 리스 포함 태그가 아니므로 금융리스를 따로 더한다(Codex 2026-10-10)
@@ -486,7 +487,8 @@ def base_inputs(ticker, asof=None):
 
 # 세전이익을 표준 태그로 내지 않는 회사(CIK) — 순이익 + 법인세로 만든다. ORCL은 2018-08 뒤로 회사 고유 태그만 쓴다.
 # MRVL: 세전이익을 연간에만 태그해 분기 TTM이 없다 → 순이익 + 법인세(2026-10-01, 본업 기준 PER·순이익률·DCF 세율)
-PRETAX_FROM_NI_TAX = {"0001341439", "0001835632"}
+# CASY: 분기 세전은 표준 태그, 10-K 연간 세전은 IncomeLossAttributableToParent에만 있어 4분기가 비고 세율이 21%로 떨어졌다 → 순이익 + 법인세(Codex r1, 2026-10-25)
+PRETAX_FROM_NI_TAX = {"0001341439", "0001835632", "0000726958"}
 # 세전이익을 다른 이름의 태그로 내는 회사. PSX는 손익계산서 "Income before income taxes"(Q2 2026 4,971, 비지배지분 몫 포함)를
 # IncomeLossIncludingPortionAttributableToNoncontrollingInterest로만 낸다 — 다른 회사에선 순이익 태그라 목록에 일괄로 넣지 않는다.
 # 순이익(귀속) + 법인세로 만들면 비지배지분 몫만큼 작다(4,939, Codex 2026-10-13).
