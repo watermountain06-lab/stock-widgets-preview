@@ -4,10 +4,8 @@
 
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
-| 401 | ZBRA | $18.28B | Zebra Technologies Corporation | — |
 | 407 | CF | $18.26B | CF Industries Holdings, Inc. | — |
 | 411 | FICO | $17.61B | Fair Isaac Corporation | — |
-| 429 | TSN | $19.90B | Tyson Foods, Inc. | — |
 | 445 | AVY | $13.78B | Avery Dennison Corporation | 영업이익 태그 멈춤 — 합성 필요 |
 | 448 | AKAM | $13.44B | Akamai Technologies, Inc. | — |
 | 463 | COO | $11.64B | The Cooper Companies, Inc. | — |
