@@ -45,20 +45,20 @@ def check(cik, code):
     filings = [(r["form"][i], r["reportDate"][i], r["filingDate"][i], r["accessionNumber"][i])
                for i in range(len(r["form"])) if r["form"][i] in ("10-Q", "10-K")]
     if code == "SEC":
-        want = filings[:1]
+        want = filings[:4]   # 최근 4개 보고서가 모두 실려야 최근 4분기를 만든다(CAH — 10-K는 실렸는데 앞 10-Q가 빠짐, 2026-10-24)
     else:
         form, day = re.match(r"(10-[QK])≥(\d{4}-\d{2}-\d{2})", code).groups()
         want = [f for f in filings if f[0] == form and f[1] >= day][-1:]
     if not want:
         return "대기", "아직 해당 보고서 없음"
-    form, rep, filed, accn = want[0]
     facts = get(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json").get("facts", {}).get("us-gaap", {})
-    loaded = any(x.get("end") == rep and x.get("accn") == accn
-                 for tag in ("EarningsPerShareDiluted", "EarningsPerShareBasic")
-                 for x in facts.get(tag, {}).get("units", {}).get("USD/shares", []))
-    if loaded:
-        return "준비됨", f"{form} {rep}(접수 {filed}) 요약 자료에 있음"
-    return "자료 대기", f"{form} {rep}(접수 {filed}) 나왔지만 요약 자료에 없음"
+    rows = [x for tag in ("EarningsPerShareDiluted", "EarningsPerShareBasic") for x in facts.get(tag, {}).get("units", {}).get("USD/shares", [])]
+    missing = [f for f in want if not any(x.get("end") == f[1] and x.get("accn") == f[3] for x in rows)]
+    form, rep, filed, accn = want[0]
+    if not missing:
+        return "준비됨", f"{form} {rep}(접수 {filed}) 요약 자료에 있음" + (" — 최근 보고서 4개 모두" if code == "SEC" else "")
+    m = missing[0]
+    return "자료 대기", f"{m[0]} {m[1]}(접수 {m[2]}) 나왔지만 요약 자료에 없음" + (f" 외 {len(missing) - 1}건" if len(missing) > 1 else "")
 
 
 def main():
