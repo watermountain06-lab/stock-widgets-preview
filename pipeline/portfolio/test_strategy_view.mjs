@@ -200,7 +200,8 @@ test('depositsSince: 기준일 뒤·오늘까지, 반영 전 취소 빼고, 끝�
   };
   assert.deepEqual(depositsSince(all, '2026-10-16', '2026-10-21').map((p) => [p.day, p.amount]),
     [['2026-10-20', 500], ['2026-10-20', 500], ['2026-10-21', 500], ['2026-10-21', 500]]);
-  assert.equal(depositsSince(all, '2026-10-16', '2026-10-20').length, 2);   // 오늘 뒤 반영은 아직
+  assert.equal(depositsSince(all, '2026-10-16', '2026-10-20').length, 4);   // 계좌 현금은 기록한 날부터(10-25 사용자 결정) — 10-20 기록분도 10-20에 든다
+  assert.equal(depositsSince(all, '2026-10-16', '2026-10-19').length, 2);   // 기록 전 날에는 아직
 });
 
 import { paramsText } from '../../preview-only-portfolio-strategy.js';
@@ -541,4 +542,36 @@ test('잔금: 시작 달은 회차가 없어 다음 달로 안 넘긴다, 출금
   assert.equal(carryIn('2027-03', '2026-10', f), 0);                // 빚은 안 넘어감 → 2월 한도 0
   const g = { ...f, net: (m) => (m === '2027-01' ? -20 : net[m] || 0) };
   assert.equal(carryIn('2027-02', '2026-10', g), 31);               // 51 − 20
+});
+
+test('미리 넣은 돈(forMonth): 다음 달 몫이면 그 달 한도, 앞당기기·출금은 반영일 달 그대로', () => {
+  const all = {
+    'b1:d1': { amount: 500, forMonth: '2026-11', recordedAt: '2026-10-26T15:00:00Z' },   // 10-26 반영, 11월 몫
+    'b1:d2': { amount: 50, forMonth: '2026-09', recordedAt: '2026-10-26T15:05:00Z' },    // 앞당기기 → 10월
+    'b1:w1': { amount: 30, kind: 'withdraw', forMonth: '2026-11', recordedAt: '2026-10-26T15:10:00Z' },   // 출금은 무시 → 10월
+  };
+  assert.deepEqual(monthDeposits(all, '2026-11').now.map((p) => p.amount), [500]);
+  assert.deepEqual(monthDeposits(all, '2026-10').now.map((p) => p.amount).sort((a, b) => a - b), [-30, 50]);
+  assert.deepEqual(monthDeposits(all, '2026-10').later.map((p) => p.amount), [500]);
+});
+
+test('입금 즉시 반영: 기준일까지 기록한 입금은 올린 현금에 든 것으로 보고, 반영 전 취소는 현금에서도 빠진다', () => {
+  const all = {
+    'b1:d1': { amount: 100, recordedAt: '2026-10-23T21:00:00Z' },   // 10-23 기록, 10-26 반영 — 기준일 10-23에 이미 포함
+    'b1:d2': { amount: 200, recordedAt: '2026-10-24T15:00:00Z' },   // 10-24 기록(토)
+    'b1:d3': { amount: 50, recordedAt: '2026-10-24T16:00:00Z' },
+    'b1:c3': { cancels: 'b1:d3', recordedAt: '2026-10-25T16:00:00Z' },   // 반영(10-26) 전 취소
+  };
+  assert.deepEqual(depositsSince(all, '2026-10-23', '2026-10-25').map((p) => p.amount), [200]);
+  assert.deepEqual(depositsSince(all, '2026-10-23', '2026-10-23').map((p) => p.amount), []);
+});
+
+test('미리 넣은 돈: 연 넘김(12월에 1월 몫), 없는 달·같은 달 몫은 무시', () => {
+  const all = {
+    'b1:d1': { amount: 300, forMonth: '2027-01', recordedAt: '2026-12-10T15:00:00Z' },
+    'b1:d2': { amount: 40, forMonth: '2026-13', recordedAt: '2026-12-10T15:05:00Z' },
+    'b1:d3': { amount: 60, forMonth: '2026-12', recordedAt: '2026-12-10T15:10:00Z' },
+  };
+  assert.deepEqual(monthDeposits(all, '2027-01').now.map((p) => p.amount), [300]);
+  assert.deepEqual(monthDeposits(all, '2026-12').now.map((p) => [p.amount, !!p.forMonth]).sort(), [[40, false], [60, false]]);
 });

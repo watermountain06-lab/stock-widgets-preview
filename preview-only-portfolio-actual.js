@@ -28,7 +28,11 @@ const effectiveDeposits = (deposits) => {
     const tm = depositTiming(d.recordedAt);
     if (!tm.day) continue;
     if (cancelAt.has(id) && cancelAt.get(id) < tm.cancelBefore) continue;
-    out.push({ day: tm.day, amount: d.kind === 'withdraw' ? -d.amount : d.amount });   // 출금은 음수(2026-10-22)
+    // rec: 기록한 날(뉴욕), forMonth: 미리 넣은 돈의 몫 달(2026-10-25 사용자 결정 — 카드 한도만 쓰고, 엔진·실제 계좌는 반영일 그대로)
+    const rec = new Date(Date.parse(d.recordedAt)).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    // forMonth는 있는 달이고 반영일 달보다 뒤일 때만 남긴다 — 계산·표시가 같은 값을 쓴다(dr)
+    const pre = d.kind !== 'withdraw' && /^\d{4}-(0[1-9]|1[0-2])$/.test(d.forMonth || '') && d.forMonth > tm.day.slice(0, 7);
+    out.push({ day: tm.day, rec, amount: d.kind === 'withdraw' ? -d.amount : d.amount, ...(pre ? { forMonth: d.forMonth } : {}) });   // 출금은 음수(2026-10-22)
   }
   return out;
 };

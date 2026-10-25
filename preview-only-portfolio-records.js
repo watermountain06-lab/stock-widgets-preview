@@ -45,7 +45,7 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
       const rec = d.recordedAt ? etDate(Date.parse(d.recordedAt)) : null;
       const out_ = d.kind === 'withdraw';   // 출금(2026-10-22) — 같은 입금 지도에 kind:'withdraw'로 둔다
       out.push({ kind: 'deposit', id, date: rec || '', title: `${out_ ? '출금' : '입금'} ${usd(d.amount)}`,
-        detail: `${rec ? rec + ' 기록' : '기록 중'} · ${depositState(id, d, cancelAt, now)}`, amount: (out_ ? '−' : '+') + usd(d.amount), raw: d });
+        detail: `${rec ? rec + ' 기록' : '기록 중'}` + (d.forMonth && !out_ ? ` · ${+d.forMonth.slice(5)}월 몫(미리)` : '') + ` · ${depositState(id, d, cancelAt, now)}`, amount: (out_ ? '−' : '+') + usd(d.amount), raw: d });
     }
     const s = bundle.snapshot || {};
     if (s.date) {

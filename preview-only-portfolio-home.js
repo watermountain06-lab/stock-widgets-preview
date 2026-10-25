@@ -6,9 +6,9 @@
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=18';
 import { renderStrategy } from './preview-only-portfolio-rank.js?v=7';
-import { renderManage } from './preview-only-portfolio-records.js?v=6';
+import { renderManage } from './preview-only-portfolio-records.js?v=7';
 import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=3';
-import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=8';
+import { effectiveDeposits } from './preview-only-portfolio-actual.js?v=9';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -130,7 +130,9 @@ export function depositsSince(all, base, today) {
   const byBundle = new Map();
   for (const [k, v] of Object.entries(all || {})) { const b = k.split(':')[0]; if (!byBundle.has(b)) byBundle.set(b, {}); byBundle.get(b)[k] = v; }
   const out = [];
-  for (const deps of byBundle.values()) for (const p of effectiveDeposits(deps)) if (p.day > base && p.day <= today) out.push(p);
+  // 계좌 현금 칸은 기록한 날부터 더한다(2026-10-25 사용자 결정 "바로 더하기") — 전략 비교는 반영일 그대로
+  // 올린 보유 기준일도 기록일로 비교한다 — 기준일까지 기록한 입금은 올린 현금에 이미 들어 있다고 본다(dr)
+  for (const deps of byBundle.values()) for (const p of effectiveDeposits(deps)) { const d0 = p.rec || p.day; if (d0 > base && d0 <= today) out.push(p); }
   return out.sort((x, y) => (x.day < y.day ? -1 : 1));
 }
 
@@ -178,7 +180,8 @@ export function monthDeposits(all, month) {
   for (const [k, v] of Object.entries(all || {})) { const b = k.split(':')[0]; if (!byBundle.has(b)) byBundle.set(b, {}); byBundle.get(b)[k] = v; }
   const now = [], later = [];
   for (const deps of byBundle.values()) for (const p of effectiveDeposits(deps)) {
-    const m = p.day.slice(0, 7);
+    // 미리 넣은 돈(forMonth가 반영일 달보다 뒤)은 그 달 몫 — 앞당기는 것은 받지 않는다(2026-10-25 사용자 결정)
+    const m = p.forMonth || p.day.slice(0, 7);   // forMonth는 effectiveDeposits가 '반영일 달보다 뒤'인 것만 남긴다
     if (m === month) now.push(p); else if (m > month) later.push(p);
   }
   const by = (x, y) => (x.day < y.day ? -1 : 1);
@@ -590,31 +593,36 @@ function buyBox(args) {
   const lab = el('label'); lab.appendChild(el('span', null, budget > 0 ? '더 넣을 돈' : '넣을 돈'));
   const amt = el('input'); amt.type = 'number'; amt.min = '0.01'; amt.step = '0.01'; amt.placeholder = '$ 금액';
   lab.appendChild(amt); f.appendChild(lab);
+  // 몫 고르기(2026-10-25 사용자 결정): 기본은 반영일 달, 미리 넣는 돈은 다음 달 몫
+  const nowDay = depositTiming(new Date(model.now ?? Date.now()).toISOString()).day;
+  const forSel = el('select', 'pf-formonth'); forSel.setAttribute('aria-label', '어느 달 몫');
+  if (nowDay) for (const m of [nowDay.slice(0, 7), nextMonthOf(nowDay.slice(0, 7))]) { const o = el('option', null, `${+m.slice(5)}월 몫`); o.value = m; forSel.appendChild(o); }
+  if (nowDay && ahead && [...forSel.options].some((o) => o.value === month)) forSel.value = month;   // 미리 보기 카드(다음 달)를 보고 있으면 그 달 몫이 기본
+  if (nowDay) f.appendChild(forSel);
   const save = el('button', 'pf-btn pf-btn-dark', '입금 기록'); save.type = 'button';
   const msg = msgLine();
   f.appendChild(save); money.appendChild(f); money.appendChild(msg);
   twoStep(save, msg, '이 금액을 입금으로 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
     const v = Number(amt.value);
     if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
-    await handlers.deposit(v);
+    const d1 = depositTiming(new Date().toISOString()).day;   // 저장 시각 기준으로 다시 본다 — 화면을 열어 둔 사이 달이 바뀌면 다음 달 표시가 뜻을 잃는다(dr)
+    await handlers.deposit(v, 'deposit', nowDay && forSel.value > (d1 || nowDay).slice(0, 7) ? forSel.value : null);
   }, f);
+  if (nowDay) save.addEventListener('click', () => { if (save.dataset.armed) msg.textContent = `${+forSel.value.slice(5)}월 몫 입금으로 기록합니다. 맞으면 한 번 더 누르세요.`; });   // 고른 달을 확인 단계에 보인다(dr)
   box.appendChild(money);
-  // 지금 기록하면 어느 달 몫인지(반영일 = 기록 다음 장 시작, 엔진과 같은 기준) — 시연 달·미리 보기에서 다음 달 돈을 넣으려는 경우를 위해(dr)
-  const nowDay = depositTiming(new Date(model.now ?? Date.now()).toISOString()).day;
-  const useMonth = mv?.demo ? nextMonthOf(month) : month;   // 시연 달이면 실제로 쓰는 것은 다음 달
-  if (nowDay && (mv?.demo || ahead || nowDay.slice(0, 7) !== month)) {
-    money.appendChild(el('p', 'pf-note pf-depnote', `지금 기록하면 ${+nowDay.slice(5, 7)}월 몫(${md(nowDay)} 반영).`
-      + (useMonth && nowDay.slice(0, 7) < useMonth ? ` ${+useMonth.slice(5)}월 몫은 ${+useMonth.slice(5)}월 첫 거래일 전날 장 마감 뒤에 기록.` : '')));
-  }
+  // 몫 안내(짧게): 미리 넣는 돈은 다음 달 몫으로 고른다
+  if (nowDay) { const nm = nextMonthOf(nowDay.slice(0, 7)); money.appendChild(el('p', 'pf-note pf-depnote', `기본은 ${+nowDay.slice(5, 7)}월 몫(${md(nowDay)} 반영) · ${+nm.slice(5)}월 돈을 미리 넣을 때만 ${+nm.slice(5)}월 몫`)); }
   const D = Math.round(deps.now.filter((d) => d.amount > 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const X = Math.round(-deps.now.filter((d) => d.amount < 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const R = Math.max(0, leftUsd), C = typeof args.cash === 'number' ? args.cash : null, over = Math.max(0, -leftUsd);
+  // 계좌 현금에 이미 더한 다음 달 이후 몫 입금 — 이번 달 '쓸 수 있음'에서 뺀다(원칙 5, dr)
+  const laterIn = Math.round(deps.later.filter((d) => d.amount > 0 && (d.rec || d.day) <= today).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const mLabel = ahead ? `${+month.slice(5)}월` : '이번 달';
   const strip = el('div', 'pf-strip');
   const fillCells = ({ week, weekLabel, weekNote, future, dates, next, preview }) => {
     const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); d.appendChild(el('span', 'pf-s', sub)); cells.appendChild(d); return d; };
     const laterSum = deps.later.reduce((a, d) => a + d.amount, 0);
-    const p1 = deps.now.filter((d) => d.amount > 0).map((d) => `${md(d.day)} ${usd(d.amount)}` + (d.day > today ? ' 예정' : ''));
+    const p1 = deps.now.filter((d) => d.amount > 0).map((d) => (d.forMonth ? `${md(d.rec)} ${usd(d.amount)} 미리` : `${md(d.day)} ${usd(d.amount)}` + (d.day > today ? ' 예정' : '')));
     if (!p1.length) p1.push('입금 없음');
     if (X > 0) p1.push(`출금 −${usd(X)}`);
     if (soldPrev > 0) p1.push(`판 돈 +${usd(soldPrev)}`);
@@ -631,7 +639,7 @@ function buyBox(args) {
         : C == null ? '현금 모름'
         : ahead ? (budget > 0 ? `${mLabel}엔 한도 ${usd(budget)}만 씀 · 나머지는 안 쓰는 돈(원칙 5)` : '안 쓰는 돈(원칙 5)')   // 미래 입금을 지금 현금에서 빼지 않는다(dr)
         : ended ? `${usd(R)} 다음 달로 · 나머지는 안 쓰는 돈(원칙 5)`
-        : `쓸 수 있음 ${usd(Math.min(R, Math.max(0, C)))} · 나머지는 안 쓰는 돈(원칙 5)`, 'pf-receiptleft');
+        : `쓸 수 있음 ${usd(Math.min(R, Math.max(0, C - laterIn)))}` + (laterIn > 0 ? ` · 다음 달 몫 ${usd0(laterIn)} 제외` : '') + ' · 나머지는 안 쓰는 돈(원칙 5)', 'pf-receiptleft');
     if (over > 0) c3.classList.add('pf-over');
     // 잔금 칸: 지난달에서 넘어온 돈, 회차가 끝났으면 이번 달 남은 돈이 다음 달로 간다
     cell(ended ? '다음 달로 넘길 잔금' : ahead ? `${mLabel}로 넘어올 잔금(예상)` : '지난달 잔금', usd(ended ? R : carry),

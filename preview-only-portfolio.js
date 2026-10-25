@@ -13,10 +13,10 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=18';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=43';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=44';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=3';
-import { attachActual } from './preview-only-portfolio-actual.js?v=8';
+import { attachActual } from './preview-only-portfolio-actual.js?v=9';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
 const $ = (id) => document.getElementById(id);
@@ -331,7 +331,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       create: act((snap) => setDoc(ref, { snapshot: { ...snap, createdAt: serverTimestamp() }, deposits: {}, scenarios: {} })),
       editSnapshot: act((snap) => updateDoc(ref, { 'snapshot.date': snap.date, 'snapshot.holdings': snap.holdings, 'snapshot.cash': snap.cash, 'snapshot.holdOnly': snap.holdOnly })),
       // 출금은 같은 입금 지도에 kind:'withdraw'(금액은 양수) — 엔진·실제 계좌가 음수 흐름으로 본다(2026-10-22)
-      deposit: act((amount, kind) => updateDoc(ref, { ['deposits.' + newId(kind === 'withdraw' ? 'w' : 'd')]: { amount, ...(kind === 'withdraw' ? { kind: 'withdraw' } : {}), recordedAt: serverTimestamp() } })),
+      deposit: act((amount, kind, forMonth) => updateDoc(ref, { ['deposits.' + newId(kind === 'withdraw' ? 'w' : 'd')]: { amount, ...(kind === 'withdraw' ? { kind: 'withdraw' } : {}), ...(kind !== 'withdraw' && forMonth ? { forMonth } : {}), recordedAt: serverTimestamp() } })),   // forMonth: 미리 넣은 돈의 몫 달(10-25)
       editDeposit: act((id, amount) => updateDoc(ref, { ['deposits.' + id + '.amount']: amount })),
       deleteDeposit: act((id) => updateDoc(ref, Object.fromEntries([id, ...cancelsOf(id)].map((k) => ['deposits.' + k, deleteField()])))),
       scenario: act((sc) => updateDoc(ref, { ['scenarios.' + newId('s')]: { ...sc, createdAt: serverTimestamp(), engineVersion: ENGINE_VERSION } })),

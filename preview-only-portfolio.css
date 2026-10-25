@@ -369,3 +369,4 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 :root[data-theme="dark"] .pf-strip-done{background:var(--bg3)}:root[data-theme="dark"] .pf-strip-now strong{color:#c9bcff}
 @media (max-width:520px){.pf-striprow{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:720px){.pf-receiptrow{grid-template-columns:repeat(2,minmax(0,1fr))}.pf-receiptcell:nth-child(3){border-left:0}.pf-receiptcell:nth-child(n+3){border-top:1px solid var(--line)}.pf-receiptone{grid-template-columns:minmax(0,1fr)}}
+.pf-formonth{min-height:44px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--card,#fff);color:inherit;font:inherit;font-size:14px}
