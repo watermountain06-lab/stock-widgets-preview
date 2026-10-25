@@ -1579,6 +1579,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0001037646": "DebtLongtermAndShorttermCombinedAmount",   # MTD: 1년 안 + 장기 합계 $2,112.0M(매 분기 있음 — DebtCurrent는 3월 분기에 없다, Fable r1 2026-10-25)
+                  "0000100517": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # UAL: 1년 안 $1,848M + 장기 $24,550M(금융리스 포함) = $26,398M(Q3 2026 10-Q, 2026-10-25)
                   "0000723125": "DebtAndCapitalLeaseObligations",
                   # ED: 장기차입금을 분기에는 LongTermDebtFairValue(장부가와 같은 값 — 태그 오용)로, 연말에는 LongTermDebtNoncurrent로 낸다. 기본 선택은 CP $869M만 잡았다.
                   # CP + 은행 텀론(LoansPayableToBankCurrent — 2024~2025 $500~700M, Q1 2026 0) + 1년 안(날짜마다 앞 태그 우선) + 장기(날짜마다 앞 태그 우선). Q1 2026: 869 + 0 + 250 + 25,554 = 26,673(10-Q 대조, 2026-10-24)

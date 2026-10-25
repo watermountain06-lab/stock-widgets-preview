@@ -2044,3 +2044,10 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — DERIVED_OPINC 세전이익 + 이자비용(영업이익 태그가 한 번도 없음, 옛 세전 태그 포함), DEBT_TOTAL_TAG DebtLongtermAndShorttermCombinedAmount, D&A = 감가상각 + AmortizationOfDeferredCharges(DDA_PARTS_BY_CIK), EXCLUDE CommonStockSharesOutstanding(자사주 미차감 낡은 값 — 표지 20.04M만), cover_shares, Q4_EPS_OVERRIDE 2021~2025.
 - **dr** — Codex·Fable 1라운드(필수: 주식 수·D&A — 반영, 표 불변).
 
+## UAL — 항공 (2026-10-25, 카드 210)
+
+- **판정 적정~저평가(0, +1, +1)** — 자기 이력 41.2, 동종업 84.3(S&P500 산업재), 현금흐름 기본 $167.5(비율 0.58) 대 $97.93(10/23).
+- **엔진** — DEBT_TOTAL_TAG 1년 안 + 장기(금융리스 포함) $26.4B, Q4_EPS_OVERRIDE 2021~2025.
+- **판단** — 영업 특별 항목(판매 후 리스 이익 등, 최근 4분기 $757M)이 GAAP 이익을 키우지만 빼고 재계산해도 세 표 불변(Codex: 동종업 83.8·비율 0.63, Fable: 83.9·0.57) — E54 보류 중에도 만듦. 기본 성장률에 코로나 회복기가 들어 있음을 MODEL_NOTE에. 로고 배지.
+- **dr** — Codex·Fable 1라운드(필수 0).
+

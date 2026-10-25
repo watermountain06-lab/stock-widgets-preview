@@ -5,7 +5,6 @@
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
 | 290 | CNC | $34.66B | Centene Corporation | 보험업 코드(63xx — 손해보험·건강보험·중개, 경로 확인); 최근 4분기 적자(PER 없음) |
-| 304 | UAL | $31.82B | United Airlines Holdings, Inc. | — |
 | 308 | MLM | $36.02B | Martin Marietta Materials, Inc. | 거래 공시: 2026-08-24 8-K 1.01,2.01,3.02,5.02,7.01,9.01; 2026-02-23 8-K 2.01,7.01,9.01 |
 | 309 | EXR | $31.64B | Extra Space Storage Inc. | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 311 | AEE | $29.91B | Ameren Corporation | — |
