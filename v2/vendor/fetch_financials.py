@@ -100,6 +100,8 @@ CONCEPTS_BY_CIK = {# RSG: 손익계산서 매출 RevenueFromContractWithCustomer
                    "0001326160": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"], "interestExpense": ["InterestExpenseNonoperating"]},
                    # ED: 총매출 Revenues(Q1 2026 $5,095M — 고객 계약 매출 태그 $5,231M은 대체 수익 조정 전)(2026-10-24)
                    "0001047862": {"revenue": ["Revenues"]},
+                   # NTAP: 차원 없는 Revenues 태그에 하이브리드 클라우드 부문 매출만 실렸다(Q1 FY27 $1,819M, FY2026 $6,237M) — 연결 매출은 고객 계약 매출 태그($2,025M)(Codex r1, 2026-10-24)
+                   "0001002047": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"]},
                    # FCX: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNet, Q2 2026 −$95M — 소비처는 절댓값)만 분기로 낸다(2026-10-17)
                    "0000831259": {"interestExpense": ["InterestIncomeExpenseNet"]},
                    # NKE: 재고를 InventoryFinishedGoodsNetOfReserves로만 낸다(InventoryNet은 2011년에 멈춤 — 당좌비율이 유동비율과 같게 나왔다, 2026-10-17)

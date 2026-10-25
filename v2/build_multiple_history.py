@@ -892,7 +892,9 @@ def _derived_opinc(cik, taxonomy):
 # 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
-EXCLUDE_TAGS = {"0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+EXCLUDE_TAGS = {# NTAP: D&A는 현금흐름표 DepreciationAndAmortization(분기·연간 모두)만 — 10-K의 DepreciationDepletionAndAmortization(유형자산분 $179M)과 섞이면 Q4 FY26이 $28M으로 줄었다(Fable r1, 2026-10-24)
+                "0001002047": ("DepreciationDepletionAndAmortization",),
+                "0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # ED: 손익계산서 총매출은 Revenues(Q1 2026 $5,095M) — 고객 계약 매출 태그($5,231M)는 대체 수익 조정 전이라 크다(2026-10-24)
                 "0001047862": ("RevenueFromContractWithCustomerExcludingAssessedTax", "PaymentsToAcquirePropertyPlantAndEquipment"),   # 설비투자 옛 태그(10-K 연간만, 비유틸리티·철거비 포함)가 섞이면 4분기 역산이 틀어진다(Fable r1)
                 # DUK: 고객 계약 매출 태그(Q1 2026 $8,995M — 대체 매출 빠짐)를 빼야 RegulatedAndUnregulatedOperatingRevenue($9,178M)가 쓰인다(2026-10-24)

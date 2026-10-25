@@ -23,6 +23,23 @@
    ],
    "reason": "같은 10-Q(Q3 FY22)·같은 날 실린 같은 기간 중복 — 시작일이 하루 다르다(2021-10-31 대 2021-10-30). 손익계산서 매출은 $1,614M(start 2021-10-30 행, frame CY2021Q4). 엔진이 $796M을 골라 TTM 매출이 $818M 줄고 PSR 최저 0.3 같은 이상값이 자기 이력에 들어갔다(skipped_cards NTAP).",
    "source": "https://www.sec.gov/Archives/edgar/data/1002047/000095017022002669/"
+  },
+  {
+   "id": "NTAP-shares-FY24Q3-cover-typo",
+   "scope": "fact",
+   "taxonomy": "dei",
+   "tag": "EntityCommonStockSharesOutstanding",
+   "unit": "shares",
+   "match": {
+    "accn": "0000950170-24-023115",
+    "start": null,
+    "end": "2024-02-23",
+    "val": 20637666
+   },
+   "action": "drop",
+   "expect": [],
+   "reason": "Q3 FY24 10-Q 표지 주식 수 오타 — 원문 숫자 206,376,661의 마지막 '1'이 XBRL 태그 밖에 있어 태그 값이 20,637,666주. 앞뒤 공시는 2억 600만 주대(2024-01-26 206.0M, 2024-04-26 206.0M). 그 날짜 하나로 시총이 1/10이 되어 PSR 최저 0.3·EV/EBITDA 최저 1.2 같은 이상값이 자기 이력에 들어갔다(카드 세션 2026-10-24).",
+   "source": "https://www.sec.gov/Archives/edgar/data/1002047/000095017024023115/ntap-20240126.htm"
   }
  ],
  "0000202058": [
