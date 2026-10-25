@@ -2015,3 +2015,12 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **판단** — FY2027 53주(Q1 14주) 표시(MODEL_NOTE·EPS 칸), 비교 차트는 가격 자료가 있는 STX·DELL·CSCO·ANET·IBM·MU(P·WDC·HPE 빠짐).
 - **dr** — Codex 2라운드·Fable 1라운드(필수: 기본적 분석 매출 분모 — 반영).
 
+## TTWO — 게임 (2026-10-24, 카드 207)
+
+- **판정 고평가(0, −1, −2)** — 자기 이력 43.5(PER 없음 — 최근 4분기 적자), 동종업 5.9(S&P500 커뮤니케이션), 현금흐름 0 이하 대 $203.69(10/23).
+- **보류였던 카드(일회성 손상, E54 보류)** — 사용자 결정 "왜곡 작은 카드만"으로 만들었다. Codex·Fable 민감도: 영업권·무형 손상을 빼도 영업이익률이 전 기간 음수라 현금흐름 −2 유지, 자기 이력·동종업도 중립·−1 유지 → 판정 불변.
+- **엔진** — D&A = DepreciationDepletionAndAmortization + 회사 고유 태그 무형자산 상각·손상(company_tags → AmortizationAndImpairmentOfIntangibleAssetsTtwo, DDA_PARTS_BY_CIK, EXCLUDE로 구성요소 경로) — EV/EBITDA 1,120→52배. build_peer_score TICKER_UNIVERSE TTWO → communication_services.json(사용자 승인 한 줄 — 전에는 카드 유니버스 IT 포함으로 계산돼 표시와 달랐다).
+- **판단** — 4분기 EPS는 역산 유지(손실 분기 주식 수로 몇 센트 차이), 순예약은 매출 지표로 구분, GTA VI 연기(2025-11) 뉴스에 명시, 현금흐름 0 이하 문구 보정(SO와 같음).
+- **남은 것** — peer_universe/communication_services.json의 TTWO EV/EBITDA가 D&A 고침 전 값(1,120배) — 다음 동종업 파일 갱신 때 바뀐다(다른 커뮤니케이션 카드의 동종업 점수에 영향 가능).
+- **dr** — Codex·Fable 1라운드(필수: 순예약 문구·GTA VI 연기·Xbox 링크·비교군 — 반영).
+

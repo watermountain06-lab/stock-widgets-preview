@@ -97,6 +97,9 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # TTWO: DepreciationDepletionAndAmortization(Q1 FY27 $48.2M)는 유형자산분만 — 현금흐름표 "무형자산 상각·손상"(회사 고유 태그 →
+                    # BUILD company_tags → AmortizationAndImpairmentOfIntangibleAssetsTtwo, Q1 FY27 $168.5M)을 더한다. 표준 AmortizationOfIntangibleAssets는 10-K 연간뿐(2026-10-24)
+                    "0000946581": ["DepreciationDepletionAndAmortization", "AmortizationAndImpairmentOfIntangibleAssetsTtwo"],
                     # FIX: DepreciationAndAmortization는 FY2025 10-K 한 해($62.4M, 감가상각만)뿐 — 감가상각 + 무형자산 상각(Q3 2026 21.9 + 25.7)으로(2026-10-24)
                     "0001035983": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # MSCI: DepreciationDepletionAndAmortization는 유형자산 감가상각만($23M/년) — 손익계산서 '무형자산 상각'(인수 무형자산 + 자본화 소프트웨어, Q3 2026 $45M)을 더한다(2026-10-23)
@@ -921,6 +924,7 @@ EXCLUDE_TAGS = {# NTAP: D&A는 현금흐름표 DepreciationAndAmortization(분�
                 # NKE: 합산 태그 DepreciationDepletionAndAmortization이 2023-05부터라 기본 선택이 그것만 잡는다 — 구성요소 튜플(DDA_PARTS_BY_CIK)로 옛 Depreciation과 잇는다.
                 "0000320187": ("DepreciationDepletionAndAmortization",),
                 "0000277948": ("DepreciationDepletionAndAmortization",),   # CSX — 구성요소 튜플 경로로(DDA_PARTS_BY_CIK)
+                "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
                 "0001868275": ("DepreciationAmortizationAndAccretionNet",),   # CEG — 구성요소 경로로(DDA_PARTS_BY_CIK)
                 # UPS: DepreciationDepletionAndAmortization(2023-12~ 7행, 2026 상반기 $1,600M)는 유형자산 주석의 감가상각 일부 — 연결 D&A는 현금흐름표
