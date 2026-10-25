@@ -12,11 +12,9 @@
 | 376 | AMCR | $21.30B | Amcor plc | 거래 공시: 2025-07-15 S-4  |
 | 383 | NI | $20.76B | NiSource Inc. | — |
 | 384 | VTRS | $20.67B | Viatris Inc. | 최근 4분기 적자(PER 없음) |
-| 385 | CDW | $20.64B | CDW Corporation | — |
 | 392 | NRG | $19.40B | NRG Energy, Inc. | 거래 공시: 2026-01-30 8-K 1.01,2.01,2.03,3.02,7.01,9.01 |
 | 395 | SWKS | $12.55B | Skyworks Solutions, Inc. | 거래 공시: 2026-10-05 8-K 2.01,5.02,8.01,9.01; 2026-05-20 S-4 ; 2025-12-04 S-4  |
 | 397 | DD | $18.44B | DuPont de Nemours, Inc. | 거래 공시: 2026-08-04 S-4 ; 2025-11-03 8-K 1.01,2.01,5.02,7.01,8.01,9.01; 영업이익 태그 멈춤 — 합성 필요 |
-| 399 | FSLR | $18.48B | First Solar, Inc. | — |
 | 401 | ZBRA | $18.28B | Zebra Technologies Corporation | — |
 | 402 | APA | $17.65B | APA Corporation | 거래 공시: 2025-08-08 S-4  |
 | 404 | GIS | $18.39B | General Mills, Inc. | 최근 4분기 적자(PER 없음) |
