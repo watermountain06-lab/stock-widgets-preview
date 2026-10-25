@@ -895,7 +895,9 @@ def _derived_opinc(cik, taxonomy):
 # 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
-EXCLUDE_TAGS = {# NTAP: D&A는 현금흐름표 DepreciationAndAmortization(분기·연간 모두)만 — 10-K의 DepreciationDepletionAndAmortization(유형자산분 $179M)과 섞이면 Q4 FY26이 $28M으로 줄었다(Fable r1, 2026-10-24)
+EXCLUDE_TAGS = {# BE: 손익계산서 매출은 Revenues(Q3 2026 $1,235.8M) — 고객 계약 매출 태그($1,231.0M)는 전력 판매·리스 일부가 빠진다(2026-10-24)
+                "0001664703": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
+                # NTAP: D&A는 현금흐름표 DepreciationAndAmortization(분기·연간 모두)만 — 10-K의 DepreciationDepletionAndAmortization(유형자산분 $179M)과 섞이면 Q4 FY26이 $28M으로 줄었다(Fable r1, 2026-10-24)
                 "0001002047": ("DepreciationDepletionAndAmortization",),
                 "0001141391": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # ED: 손익계산서 총매출은 Revenues(Q1 2026 $5,095M) — 고객 계약 매출 태그($5,231M)는 대체 수익 조정 전이라 크다(2026-10-24)
