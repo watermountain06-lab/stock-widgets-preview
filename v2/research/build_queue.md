@@ -13,7 +13,6 @@
 | 431 | ALLE | $15.09B | Allegion plc | — |
 | 445 | AVY | $13.78B | Avery Dennison Corporation | 영업이익 태그 멈춤 — 합성 필요 |
 | 448 | AKAM | $13.44B | Akamai Technologies, Inc. | — |
-| 455 | PNW | $12.83B | Pinnacle West Capital Corporation | — |
 | 463 | COO | $11.64B | The Cooper Companies, Inc. | — |
 | 467 | TECH | $11.38B | Bio-Techne Corporation | 거래 공시: 2026-08-20 DEFM14A  |
 | 469 | ALB | $11.05B | Albemarle Corporation | 거래 공시: 2026-03-06 8-K 2.01,7.01,8.01,9.01 |

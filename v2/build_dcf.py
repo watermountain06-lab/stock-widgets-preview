@@ -495,6 +495,8 @@ PRETAX_FROM_NI_TAX = {"0001341439", "0001835632", "0000726958"}
 # IncomeLossIncludingPortionAttributableToNoncontrollingInterest로만 낸다 — 다른 회사에선 순이익 태그라 목록에 일괄로 넣지 않는다.
 # 순이익(귀속) + 법인세로 만들면 비지배지분 몫만큼 작다(4,939, Codex 2026-10-13).
 PRETAX_TAG_BY_CIK = {"0001534701": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest",
+                     # PNW: 10-Q가 세전이익("Income before income taxes", Q2 2026 $212.1M)을 이 태그로 낸다(10-K 연간도 같은 값 738.4) — 표준 태그는 10-K만이라 세율이 21%로 떨어졌다(2026-10-25)
+                     "0000764622": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest",
                      # NI: 손익계산서 "Income before income taxes"(상반기 2026 $689.1M, 비지배지분 몫 포함)를 이 태그로만 낸다 — 표준 세전 태그가 없어 세율이 21%로 떨어졌다(2026-10-25)
                      "0001111711": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic",
                      # ITW: 손익계산서 "Income Before Taxes"(Q2 2026 $1,080M)를 이 태그로 낸다 — 표준 세전 태그는 2021-06에 멈춰 세율이 법정 21%로 떨어졌다(2026-10-22)
