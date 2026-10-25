@@ -9,7 +9,6 @@
 | 411 | FICO | $17.61B | Fair Isaac Corporation | — |
 | 414 | BALL | $17.14B | Ball Corporation | 영업이익 태그 멈춤 — 합성 필요 |
 | 417 | LDOS | $17.08B | Leidos Holdings, Inc. | 거래 공시: 2026-03-30 8-K 2.01,7.01,9.01 |
-| 421 | NDSN | $17.76B | Nordson Corporation | — |
 | 429 | TSN | $19.90B | Tyson Foods, Inc. | — |
 | 431 | ALLE | $15.09B | Allegion plc | — |
 | 445 | AVY | $13.78B | Avery Dennison Corporation | 영업이익 태그 멈춤 — 합성 필요 |

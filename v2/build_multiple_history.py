@@ -97,6 +97,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # NDSN: 10-K가 합산 태그에 무형자산 상각만 싣는 해가 있다(FY25 79.3 = 상각, 9개월 누계 112.5보다 작음 → 4분기 −33.2) — 감가상각 + 상각(FY21~24 합 일치, 2026-10-25)
+                    "0000072331": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # IEX: 합산 태그가 2024-09에 멈춤 — 감가상각 + 무형자산 상각(FY20~23 연간 합 일치, 2026-10-25)
                     "0000832101": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # XYL: 합산 태그가 2024-09에 멈춤(연간만 2025) — 감가상각 + 무형자산 상각(FY20~25 연간 합 일치, 2026-10-25)
@@ -959,6 +961,7 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 "0001524472": ("DepreciationDepletionAndAmortization",),   # XYL — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000832101": ("DepreciationDepletionAndAmortization",),   # IEX — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000033185": ("DepreciationDepletionAndAmortization",),   # EFX — 손익 D&A(DepreciationAndAmortization)와 현금흐름 D&A가 섞여 TTM $755M(손익 $751.4M)이 되었다 → 손익 줄만(Codex r1, 2026-10-25)
+                "0000072331": ("DepreciationDepletionAndAmortization",),   # NDSN — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
