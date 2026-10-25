@@ -12,11 +12,11 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { toEngineInput } from './preview-only-portfolio-strategy.js?v=19';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=50';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=20';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=51';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
-import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=4';
-import { attachActual } from './preview-only-portfolio-actual.js?v=10';
+import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=5';
+import { attachActual } from './preview-only-portfolio-actual.js?v=11';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
 const $ = (id) => document.getElementById(id);
@@ -248,7 +248,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     return recs;
   }
   // 시가총액(다음 할 일 카드의 "시총 비중"): 공개 카드 데이터 site_data/stocks.json의 미국 기준 주식 수 × 종가. 못 받으면 빈 지도(그 방법만 계산 못 함)
-  let caps = null;
+  let caps = null, sharesMap = {};   // sharesMap: 오늘 카드의 미국 기준 주식 수(시총 비중 전략이 10/27 전 기록에 쓴다, 10-25)
   async function loadCaps() {
     if (caps) return caps;
     try {
@@ -256,6 +256,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       if (!res.ok) throw new Error('stocks');
       const { tickers } = await res.json();
       caps = Object.fromEntries((tickers || []).map((x) => [x.ticker, (x.shares?.usEquivalent || 0) * (x.price?.close || 0)]).filter(([, v]) => v > 0));
+      sharesMap = Object.fromEntries((tickers || []).filter((x) => x.shares?.usEquivalent > 0).map((x) => [x.ticker, x.shares.usEquivalent]));
     } catch (_) { return {}; }
     return caps;
   }
@@ -312,7 +313,8 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     let result = null, calcError = null;
     if (bundle && !bundle.closed && records.length) {
       // 원칙 시나리오(숨김)를 같이 돌리고, 실제 매매 기록으로 "내 실제 계좌" 줄을 A 뒤에 넣는다(사용자 결정 10-21)
-      try { result = attachActual(replay(toEngineInput(bundle, records, { plan: true })), { records, bundle, trades }); } catch (e) { calcError = e.message; }
+      if (Object.values(bundle.scenarios || {}).some((s) => s.params?.buyMode === 'cap')) await loadCaps();   // 시총 비중 전략이 있으면 주식 수를 먼저 받는다
+      try { result = attachActual(replay(toEngineInput(bundle, records, { plan: true, shares: sharesMap })), { records, bundle, trades }); } catch (e) { calcError = e.message; }
     }
     const reload = async () => { if (g === gen && auth.currentUser === user) await loadAll(user, g, main); };
     const act = (f) => async (...a) => {

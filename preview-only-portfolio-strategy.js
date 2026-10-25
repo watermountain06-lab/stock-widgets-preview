@@ -6,7 +6,7 @@
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=4';
+import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=5';
 
 export const MAX_SCENARIOS = 20;
 export const ETF_ORDER = ['SPY', 'QQQ', 'RSP'];   // ETF 섞기(E)에서 고르는 ETF의 화면 순서(엔진 BASELINES와 같은 세 개)
@@ -55,7 +55,7 @@ export function toEngineInput(bundle, records, opts = {}) {
   return {
     records,
     snapshot: { date: snap.date, holdings: snap.holdings || {}, cash: snap.cash || 0 },
-    settings: { holdOnly: snap.holdOnly || [] },
+    settings: { holdOnly: snap.holdOnly || [], ...(opts.shares && Object.keys(opts.shares).length ? { shares: opts.shares } : {}) },
     deposits,
     scenarios,
   };
@@ -360,7 +360,7 @@ export function detailSection(result, byId) {
     if ((s.months || []).length) {
       d.appendChild(el('h4', null, '월별 결정'));
       d.appendChild(table(['점검일', '결정일', '쓴 기록', '후보', '발동', '예산', '종목별 완료 회차', '쓰지 않은 몫'],
-        s.months.slice().reverse().map((mo) => [mo.checkDate, mo.decisionDate, mo.record, mo.candidates.join(', ') || '없음',
+        s.months.slice().reverse().map((mo) => [mo.checkDate, mo.decisionDate, mo.record, (mo.candidates.join(', ') || '없음') + ((mo.noWeight || []).length ? ` (무게 없어 안 삼: ${mo.noWeight.join(', ')})` : ''),
           mo.ruleChanged ? '판정 방식 변경 — 그달 매매 없음' : (mo.fires || []).map((f) => f.skip ? `${f.ticker}(${REASON[f.skip] || f.skip})` : `${f.ticker} ${f.observed}${f.warnOnly ? ' ⚠ 알림만' : ''}`).join(', ') || '없음',
           usd(mo.budget),
           [mo.rank ? `순위 1주씩 ${mo.rank.shares}주 ${usd(mo.rank.spent)}` : '', ...(mo.summary || []).map((x) => `${x.ticker} ${x.side === 'buy' ? '매수' : '매도'} ${x.roundsDone}회`)].filter(Boolean).join(', '),
@@ -389,7 +389,7 @@ export function paramsText(sc) {
   if (sc.strategy === 'E') return `보유 종목의 ${pc(p.etfShare ?? 1)}를 ETF로 · ${ETF_ORDER.filter((e) => (p.etfs || ETF_ORDER).includes(e)).join('·')} · 현금 그대로 · 그 뒤 매매 없음`;
   const buy = sc.strategy === 'C' ? '초저평가·저평가' : sc.strategy === 'custom' ? (p.buyTiers || []).join('·') || '없음' : '초저평가~적정';
   const sell = sc.strategy === 'C' ? '안 팖' : sc.strategy === 'D' ? '고평가면 전부' : (p.sellFraction ? `고평가면 ${pc(p.sellFraction)}` : '알림만');
-  return `살 판정 ${buy} · 매도 ${sell} · ${p.splitWeeks || 4}회` + (p.buyMode === 'rank1' ? ' · 순위 1주씩' : '') + ` · 유보 ${pc(p.cashReserve)}`;
+  return `살 판정 ${buy} · 매도 ${sell} · ${p.splitWeeks || 4}회` + ({ rank1: ' · 순위 1주씩', cap: ' · 시총 비중', tier: ' · 판정 가중' }[p.buyMode] || '') + ` · 유보 ${pc(p.cashReserve)}`;
 }
 
 // existing(지금 스냅샷)을 주면 고치기 모드: 그 값으로 채우고 저장은 handlers.editSnapshot

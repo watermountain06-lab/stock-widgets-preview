@@ -242,7 +242,7 @@ function scenarioParams(sc) {
   const given = sc.params || {};
   for (const k of Object.keys(given)) if (!p.editable.includes(k)) fail(`scenario: ${sc.strategy}에서 바꿀 수 없는 값 ${k}`);
   const q = { buyTiers: p.buyTiers, sellFraction: p.sellFraction, splitWeeks: 4, cashReserve: 0, observeSells: p.observeSells, buyMode: 'split', ...given };
-  if (!['split', 'rank1'].includes(q.buyMode)) fail('scenario: buyMode는 split·rank1');
+  if (!['split', 'cap', 'tier', 'rank1'].includes(q.buyMode)) fail('scenario: buyMode는 split·cap·tier·rank1');
   if (!Array.isArray(q.buyTiers) || !q.buyTiers.length || q.buyTiers.some((t) => typeof t !== 'string')) fail('scenario: buyTiers 형식 오류');
   if (!inRange(q.sellFraction, 0, 1)) fail('scenario: sellFraction은 0~1, 소수 6자리까지');
   if (!Number.isInteger(q.splitWeeks) || q.splitWeeks < 1 || q.splitWeeks > 4) fail('scenario: splitWeeks는 1~4 정수');
@@ -261,7 +261,7 @@ function scenarioParams(sc) {
 //         splitBase, noDecisionBefore(이 날짜 전 점검일에는 결정하지 않음), depositsFrom(기준선이 입금을 받기 시작하는 위치 —
 //         시나리오 자신은 init.idx 다음 날부터 받는다), log·own·preEvents(파생이 A에서 물려받는 것) }
 function runScenario(ctx, prm, init, keepStates) {
-  const { cal, mk, holdOnly, depositsBy } = ctx;
+  const { cal, mk, holdOnly, depositsBy, fallbackShares } = ctx;
   const last = cal.index(mk.lastSession);
   const st = { shares: new Map(init.shares), cash: init.cash };
   const seen = new Set(init.seen);
@@ -538,6 +538,33 @@ function runScenario(ctx, prm, init, keepStates) {
         const order = [...cands].sort((a, b) => w(b) - w(a) || sc(b) - sc(a) || (a < b ? -1 : 1));
         plan.rank = { order, amt: split(order.length ? st.cash : 0, N), carry: 0, cursor: 0, notUsed: 0, spent: 0, shares: 0 };
         if (!order.length) plan.unallocated = st.cash;   // 후보가 없으면 예산 전부가 현금으로 남는다(나눠 사기와 같은 집계, dr)
+      } else if (prm.buyMode === 'cap' || prm.buyMode === 'tier') {
+        // 시총 비중·판정 가중(2026-10-25 사용자 결정 — 카드의 나누는 방법과 같은 무게): 점검일 현금을 무게대로 나눈다(BigInt 내림).
+        // 시총 = 그날 기록의 주식 수(없으면 오늘 카드 주식 수) × 그 기록 종가(달러 정수), 판정 무게는 결정 기록 판정 4:3:2:1.
+        // 무게를 모르는 후보(시총 없음·원칙 밖 판정)는 그달 사지 않는다(plan.noWeight)
+        // 오늘 주식 수(settings.shares)는 주식 수 칸이 아직 없던 옛 기록(어느 카드에도 shares가 없음)에만 쓴다 — 칸이 있는 기록에서
+        // 그 종목만 빠졌으면 수집 실패로 보고 무게 없음(dr). 옛 기록과 오늘 사이 액면분할은 보정하지 않는다(10/26 전 몇 주뿐이라 한계로 둠)
+        const oldRec = !Object.values(R.cards || {}).some((c) => typeof c?.shares === 'number');
+        const wOf = (t) => {
+          const c = R.cards[t];
+          if (prm.buyMode === 'tier') return RANK_W[c.tier] || 0;
+          const sh = typeof c.shares === 'number' && c.shares > 0 ? c.shares : oldRec ? fallbackShares[t] : null;
+          const v = typeof sh === 'number' && sh > 0 && typeof c.close === 'number' && c.close > 0 ? Math.round(sh * c.close) : 0;
+          return Number.isSafeInteger(v) ? v : 0;
+        };
+        // 무게를 모르는 후보는 그 종목만 빼고 나머지에 무게대로 나눈다(카드는 방법 전체를 '계산 못 함'으로 두지만, 엔진은 사람이
+        // 체크를 고칠 수 없어 달마다 결과를 내야 하므로 — dr 판정). 빠진 종목은 월별 표에 '무게 없음'으로 보인다
+        const ws = cands.map((t) => [t, wOf(t)]).filter(([, w]) => w > 0);
+        plan.noWeight = cands.filter((t) => !ws.some(([x]) => x === t));
+        const tot = ws.reduce((a, [, w]) => a + BigInt(w), 0n);
+        plan.weights = ws;   // 매도 대금도 같은 무게로 나눈다(dr)
+        let used = 0;
+        for (const [t, w] of ws) {
+          const each = Number((BigInt(st.cash) * BigInt(w)) / tot);
+          used += each;
+          plan.legs.push({ ticker: t, side: 'buy', amt: split(each, N), done: 0, notUsed: 0 });
+        }
+        plan.unallocated = st.cash - used;
       } else {
         const each = cands.length ? Math.floor(st.cash / cands.length) : 0;
         plan.unallocated = st.cash - each * cands.length;   // 후보 수로 나눈 잔돈(현금으로 남음)
@@ -612,6 +639,17 @@ function runScenario(ctx, prm, init, keepStates) {
       if (plan.rank && plan.rank.order.length && rest.length) {   // 순위 1주씩: 남은 회차 돈에 똑같이 더한다
         split(proceeds, rest.length).forEach((a, x) => { plan.rank.amt[rest[x]] += a; });
         out.events.push({ date: d, kind: 'proceedsSpread', amount: proceeds / 100, candidates: plan.rank.order.length, rounds: rest.length });
+      } else if (plan.weights && buys.length && rest.length) {   // 시총 비중·판정 가중: 점검일 무게대로
+        const tot = plan.weights.reduce((a, [, w]) => a + BigInt(w), 0n);
+        let used = 0;
+        for (const leg of buys) {
+          const w = plan.weights.find(([t]) => t === leg.ticker)?.[1] || 0;
+          const a = Number((BigInt(proceeds) * BigInt(w)) / tot);
+          used += a;
+          split(a, rest.length).forEach((v, x) => { leg.amt[rest[x]] += v; });
+        }
+        plan.unallocated += proceeds - used;
+        out.events.push({ date: d, kind: 'proceedsSpread', amount: proceeds / 100, candidates: buys.length, rounds: rest.length });
       } else if (buys.length && rest.length) {
         const each = Math.floor(proceeds / buys.length);
         plan.unallocated += proceeds - each * buys.length;
@@ -875,6 +913,8 @@ export function replay(input) {
   for (const [t, q] of Object.entries(snapshot.holdings || {})) shares0.set(t, micro(q, 'snapshot.holdings'));
   const cash0 = cents(snapshot.cash ?? 0, 'snapshot.cash');
   const holdOnly = new Set(settings.holdOnly || []);
+  // 시총 비중의 주식 수: 그날 기록의 cards.T.shares, 없으면(10/27 전 기록) settings.shares(오늘 카드의 주식 수)
+  const fallbackShares = settings.shares && typeof settings.shares === 'object' ? settings.shares : {};
   const snapIdx = cal.index(snapshot.date);
   const lastIdx = cal.index(mk.lastSession);
 
@@ -902,7 +942,7 @@ export function replay(input) {
   }
   // 같은 반영일의 입출금은 기록 시각 순서로 처리한다(출금은 순서에 따라 결과가 달라진다 — dr). 시각이 같으면 입금 먼저, 그다음 id
   for (const list of depositsBy.values()) list.sort((a, b) => a.ms - b.ms || (a.amount < 0) - (b.amount < 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
-  const ctx = { cal, mk, holdOnly, depositsBy };
+  const ctx = { cal, mk, holdOnly, depositsBy, fallbackShares };
 
   const aInit = {
     idx: snapIdx, shares: shares0, cash: cash0, seen: new Set(), splitBase: snapshot.date,

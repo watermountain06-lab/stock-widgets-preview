@@ -251,6 +251,9 @@ test('편집기: 저장된 전략 ↔ 편집기 값, 저평가만·갈아타기�
   assert.deepEqual(r1, { strategy: 'custom', params: { buyTiers: ['초저평가', '저평가'], sellFraction: 0, splitWeeks: 2, cashReserve: 0.1, buyMode: 'rank1' } });
   assert.equal(draftOf(r1).mode, 'rank1');
   assert.match(sentenceOf(null, { ...draftOf(null), mode: 'rank1' }), /1주씩/);
+  for (const m of ['cap', 'tier']) { const x = shapeOf(null, { ...draftOf(null), mode: m }); assert.equal(x.params.buyMode, m); assert.equal(draftOf(x).mode, m); }
+  assert.equal(shapeOf(null, draftOf(null)).params.buyMode, undefined);   // 균등은 칸을 두지 않는다
+  assert.match(sentenceOf(null, { ...draftOf(null), mode: 'cap' }), /시가총액 비례/);
   assert.match(sentenceOf('C', draftOf(C)), /팔지 않습니다/);
   assert.match(sentenceOf(null, draftOf(null)), /알림만/);
   assert.match(sentenceOf(null, { tiers: ['고평가'], sell: 0, rounds: 4, reserve: 0 }), /원칙과 다름/);

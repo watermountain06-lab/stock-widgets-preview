@@ -1157,3 +1157,39 @@ test('순위 1주씩: 돈 맞추기(매수 + 쓰지 않은 돈 + 예정 = 예산
   const sk = pick(blocked, 'r5').skips.filter((x) => x.date === d1 && x.reason === 'noneBuyable');
   assert.equal(sk.length, 1); assert.equal(sk[0].action, 'erased');
 });
+
+// ---- 시총 비중·판정 가중(buyMode cap·tier, 2026-10-25 사용자 결정) ----
+test('시총 비중·판정 가중: 점검일 현금을 무게대로 나눈다, 주식 수는 그날 기록 → 없으면 settings.shares, 무게 없으면 그달 안 삼', () => {
+  const nm = (s) => s.months.find((x) => x.decisionDate.slice(0, 7) === '2026-11');
+  const P = { buyTiers: ['저평가', '적정'] };
+  // 판정 가중: AAA 적정 1 : BBB 저평가 3
+  const tier = pick(run({ scenarios: [S('custom', { ...P, buyMode: 'tier' }, { id: 't' })] }), 't');
+  { const m0 = tier.months.find((x) => x.decisionDate.slice(0, 7) === '2026-11'); near(nov(trades(tier, { side: 'buy' })).reduce((a, x) => a + x.amount, 0) + m0.unallocated + m0.summary.filter((x) => x.side === 'buy').reduce((a, x) => a + x.notUsed + x.scheduled, 0), m0.budget, 1e-6); }
+  const nov1 = (s, t) => nov(trades(s, { side: 'buy', ticker: t })).reduce((a, x) => a + x.amount, 0);
+  const m = nm(tier);
+  near(nov1(tier, 'AAA') / m.budget, 0.25, 0.01); near(nov1(tier, 'BBB') / m.budget, 0.75, 0.01);
+  // 시총 비중: 기록의 주식 수(AAA 10주×100 = 1000, BBB 60주×50 = 3000)
+  const recs = world();
+  for (const r of recs) { r.cards.AAA.shares = 10; r.cards.BBB.shares = 20; }   // 1000 : 1000 → 반반(판정 가중 1:3과 다르게)
+  const cap = pick(replay({ records: recs, snapshot: SNAP, deposits: [], settings: { shares: { AAA: 999, BBB: 1 } }, scenarios: [S('custom', { ...P, buyMode: 'cap' }, { id: 'c' })] }), 'c');
+  near(nov1(cap, 'AAA') / nm(cap).budget, 0.5, 0.01);   // 기록의 주식 수가 settings.shares보다 먼저
+  // 기록에 주식 수가 없으면 settings.shares로 같은 결과
+  const fb = pick(replay({ records: world(), snapshot: SNAP, deposits: [], settings: { shares: { AAA: 10, BBB: 20 } }, scenarios: [S('custom', { ...P, buyMode: 'cap' }, { id: 'f' })] }), 'f');
+  near(nov1(fb, 'AAA'), nov1(cap, 'AAA'), 1e-6);
+  // 주식 수를 모르면 그 종목은 그달 안 삼
+  const nos = pick(replay({ records: world(), snapshot: SNAP, deposits: [], settings: { shares: { BBB: 60 } }, scenarios: [S('custom', { ...P, buyMode: 'cap' }, { id: 'n' })] }), 'n');
+  assert.deepEqual(nm(nos).noWeight, ['AAA']);
+  assert.equal(nov1(nos, 'AAA'), 0);
+  near(nov1(nos, 'BBB') + nm(nos).unallocated + nm(nos).summary.filter((x) => x.side === 'buy').reduce((a, x) => a + x.notUsed + x.scheduled, 0), nm(nos).budget, 1e-6);   // 돈 맞추기
+  // 주식 수 칸이 있는 기록에서 한 종목만 빠졌으면 오늘 값으로 메우지 않는다(수집 실패)
+  const part = world(); for (const r of part) r.cards.BBB.shares = 20;
+  const pt = pick(replay({ records: part, snapshot: SNAP, deposits: [], settings: { shares: { AAA: 10 } }, scenarios: [S('custom', { ...P, buyMode: 'cap' }, { id: 'p' })] }), 'p');
+  assert.deepEqual(nm(pt).noWeight, ['AAA']);
+});
+
+test('판정 가중: 매도 대금도 점검일 무게대로 나눈다', () => {
+  const s = pick(run({ scenarios: [S('custom', { buyTiers: ['저평가', '적정'], sellFraction: 1, buyMode: 'tier' }, { id: 'ts' })] }), 'ts');
+  assert.ok(nov(trades(s, { side: 'sell' })).length > 0, '매도가 있어야 시험이 뜻이 있다');
+  const a = nov(trades(s, { side: 'buy', ticker: 'AAA' })).reduce((x, t) => x + t.amount, 0), b = nov(trades(s, { side: 'buy', ticker: 'BBB' })).reduce((x, t) => x + t.amount, 0);
+  near(a / (a + b), 0.25, 0.01);
+});

@@ -5,8 +5,8 @@
 // 저평가만(C)·갈아타기(D)는 값을 바꾸지 않으면 그 전략 그대로 저장하고, 바꾸면 사용자 정의로 저장한다(C는 매도 알림을 남기지 않아 사용자 정의와 다르다).
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
 import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
-  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=19';
-import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=4';
+  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=20';
+import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=5';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
 const C_TIERS = ['초저평가', '저평가'];
@@ -27,7 +27,7 @@ export function draftOf(sc) {
   if (sc.strategy === 'E') return { ...draftOf(null), kind: 'etf', etfShare: toPct(p.etfShare ?? 1), etfs: ETFS.filter((e) => (p.etfs || ETFS).includes(e)) };
   const tiers = sc.strategy === 'custom' ? [...(p.buyTiers || [])] : sc.strategy === 'C' ? [...C_TIERS] : [...BUY_PRINCIPLE];
   const sell = sc.strategy === 'D' ? 100 : sc.strategy === 'C' ? 0 : toPct(p.sellFraction || 0);
-  return { kind: 'verdict', tiers, sell, rounds: p.splitWeeks || 4, reserve: toPct(p.cashReserve || 0), mode: p.buyMode === 'rank1' ? 'rank1' : 'split', ...etfDefault() };
+  return { kind: 'verdict', tiers, sell, rounds: p.splitWeeks || 4, reserve: toPct(p.cashReserve || 0), mode: ['rank1', 'cap', 'tier'].includes(p.buyMode) ? p.buyMode : 'split', ...etfDefault() };
 }
 
 const sameSet = (a, b) => a.length === b.length && a.every((t) => b.includes(t));
@@ -35,10 +35,10 @@ const sameSet = (a, b) => a.length === b.length && a.every((t) => b.includes(t))
 export function shapeOf(base, d) {
   if (d.kind === 'etf') return { strategy: 'E', params: { etfShare: fromPct(d.etfShare), etfs: BASELINES.filter((e) => d.etfs.includes(e)) } };
   const common = { splitWeeks: d.rounds, cashReserve: fromPct(d.reserve) };
-  const rank1 = d.mode === 'rank1';   // 순위 1주씩은 직접 만든 전략(custom)에서만 — 나눠 사기면 칸을 두지 않아 예전 전략과 같은 값
+  const rank1 = ['rank1', 'cap', 'tier'].includes(d.mode);   // 균등이 아닌 방법은 직접 만든 전략(custom)에서만 — 균등이면 칸을 두지 않아 예전 전략과 같은 값
   if (!rank1 && base === 'C' && sameSet(d.tiers, C_TIERS) && d.sell === 0) return { strategy: 'C', params: common };
   if (!rank1 && base === 'D' && sameSet(d.tiers, BUY_PRINCIPLE) && d.sell === 100) return { strategy: 'D', params: common };
-  return { strategy: 'custom', params: { buyTiers: ALL_TIERS.filter((t) => d.tiers.includes(t)), sellFraction: fromPct(d.sell), ...common, ...(rank1 ? { buyMode: 'rank1' } : {}) } };
+  return { strategy: 'custom', params: { buyTiers: ALL_TIERS.filter((t) => d.tiers.includes(t)), sellFraction: fromPct(d.sell), ...common, ...(rank1 ? { buyMode: d.mode } : {}) } };
 }
 
 // 편집기 값 → "이 전략이 하는 일" 한 문장
@@ -54,7 +54,8 @@ export function sentenceOf(base, d) {
   const tiers = ALL_TIERS.filter((t) => d.tiers.includes(t));
   const buy = d.mode === 'rank1'
     ? `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 판정 순(같으면 기업 점수 순)으로 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 걸쳐'} 1주씩 이어서 삽니다. 1주 값이 모자라면 그 회차는 멈추고 남은 돈은 다음 회차로 넘깁니다. 그달 남은 돈으로도 1주가 안 되는 종목은 건너뜁니다.`
-    : `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 나눠'} 삽니다.`;
+    : `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 ${d.mode === 'cap' ? '시가총액 비례로' : d.mode === 'tier' ? '판정 무게(초저평가 4 : 저평가 3 : 적정~저평가 2 : 적정 1) 비례로' : '똑같이'} 나눠 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 걸쳐'} 삽니다.`
+      + (d.mode === 'cap' ? ' 시가총액을 모르는 종목은 그달 사지 않고 그 몫은 나머지에 돌아갑니다.' : d.mode === 'tier' ? ' 그 밖의 판정은 무게가 없어 사지 않습니다.' : '');
   const sell = d.sell ? `판정이 고평가·초고평가가 되면 남은 수량의 ${d.sell}%를 팝니다.`
     : shape.strategy === 'C' ? '팔지 않습니다.' : '고평가가 되어도 팔지 않고 매도 검토 알림만 남깁니다.';
   const cash = d.reserve ? `현금은 ${d.reserve}%를 남겨 둡니다.` : '현금은 남기지 않습니다.';
@@ -307,7 +308,7 @@ function editor(id, sc, r, b, result, handlers, close, count, st, openNew) {
   };
   const modeBox = el('fieldset', 'pf-edgroup'); modeBox.appendChild(el('legend', null, '어떻게 살까'));
   const modeRow = el('div', 'pf-seg pf-segbox');
-  for (const [v, t] of [['split', '나눠 사기(소수점)'], ['rank1', '순위 1주씩']]) {
+  for (const [v, t] of [['split', '균등'], ['cap', '시총 비중'], ['tier', '판정 가중'], ['rank1', '순위 1주씩']]) {
     const o = btn(t, 'pf-segbtn'); o.setAttribute('aria-pressed', String((d.mode ?? 'split') === v));
     o.addEventListener('click', () => { d.mode = v; modeRow.querySelectorAll('button').forEach((y) => y.setAttribute('aria-pressed', String(y === o))); sync(); });
     modeRow.appendChild(o);
