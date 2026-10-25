@@ -4,14 +4,10 @@
 
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
-| 326 | CFG | $27.44B | Citizens Financial Group, Inc. | 은행 — 은행 규칙 확장(E34) 결정 |
-| 341 | VICI | $26.16B | VICI Properties Inc. | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 342 | CASY | $25.84B | Casey's General Stores, Inc. | 영업이익 태그 멈춤 — 합성 필요 |
-| 343 | EXPD | $25.51B | Expeditors International of Washington, Inc. | — |
 | 348 | XYL | $25.39B | Xylem Inc. | — |
 | 349 | IR | $28.51B | Ingersoll Rand Inc. | — |
 | 350 | CHD | $24.95B | Church & Dwight Co., Inc. | — |
-| 354 | RF | $24.20B | Regions Financial Corporation | 은행 — 은행 규칙 확장(E34) 결정 |
 | 355 | CPRT | $26.86B | Copart, Inc. | 거래 공시: 2026-10-16 8-K 2.01,7.01,9.01; 2026-09-17 SC TO-T  |
 | 356 | IFF | $24.02B | International Flavors & Fragrances Inc. | — |
 | 357 | DLTR | $23.51B | Dollar Tree, Inc. | 거래 공시: 2025-07-07 8-K 2.01,9.01 |
