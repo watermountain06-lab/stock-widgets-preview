@@ -5,8 +5,8 @@
 // 저평가만(C)·갈아타기(D)는 값을 바꾸지 않으면 그 전략 그대로 저장하고, 바꾸면 사용자 정의로 저장한다(C는 매도 알림을 남기지 않아 사용자 정의와 다르다).
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
 import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
-  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=18';
-import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=3';
+  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=19';
+import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=4';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
 const C_TIERS = ['초저평가', '저평가'];
@@ -22,12 +22,12 @@ const AUTO = new Set(['A', 'REAL']);
 // | 'etf'(ETF 섞기: 바꿀 비율 %, 고른 ETF). 두 종류의 값을 다 들고 있어 종류를 바꿔도 고른 값이 남는다. 없으면 새 전략 기본값(원칙과 같음).
 const etfDefault = () => ({ etfShare: 100, etfs: [...ETFS] });
 export function draftOf(sc) {
-  if (!sc) return { kind: 'verdict', tiers: [...BUY_PRINCIPLE], sell: 0, rounds: 4, reserve: 0, ...etfDefault() };
+  if (!sc) return { kind: 'verdict', tiers: [...BUY_PRINCIPLE], sell: 0, rounds: 4, reserve: 0, mode: 'split', ...etfDefault() };
   const p = sc.params || {};
   if (sc.strategy === 'E') return { ...draftOf(null), kind: 'etf', etfShare: toPct(p.etfShare ?? 1), etfs: ETFS.filter((e) => (p.etfs || ETFS).includes(e)) };
   const tiers = sc.strategy === 'custom' ? [...(p.buyTiers || [])] : sc.strategy === 'C' ? [...C_TIERS] : [...BUY_PRINCIPLE];
   const sell = sc.strategy === 'D' ? 100 : sc.strategy === 'C' ? 0 : toPct(p.sellFraction || 0);
-  return { kind: 'verdict', tiers, sell, rounds: p.splitWeeks || 4, reserve: toPct(p.cashReserve || 0), ...etfDefault() };
+  return { kind: 'verdict', tiers, sell, rounds: p.splitWeeks || 4, reserve: toPct(p.cashReserve || 0), mode: p.buyMode === 'rank1' ? 'rank1' : 'split', ...etfDefault() };
 }
 
 const sameSet = (a, b) => a.length === b.length && a.every((t) => b.includes(t));
@@ -35,9 +35,10 @@ const sameSet = (a, b) => a.length === b.length && a.every((t) => b.includes(t))
 export function shapeOf(base, d) {
   if (d.kind === 'etf') return { strategy: 'E', params: { etfShare: fromPct(d.etfShare), etfs: BASELINES.filter((e) => d.etfs.includes(e)) } };
   const common = { splitWeeks: d.rounds, cashReserve: fromPct(d.reserve) };
-  if (base === 'C' && sameSet(d.tiers, C_TIERS) && d.sell === 0) return { strategy: 'C', params: common };
-  if (base === 'D' && sameSet(d.tiers, BUY_PRINCIPLE) && d.sell === 100) return { strategy: 'D', params: common };
-  return { strategy: 'custom', params: { buyTiers: ALL_TIERS.filter((t) => d.tiers.includes(t)), sellFraction: fromPct(d.sell), ...common } };
+  const rank1 = d.mode === 'rank1';   // 순위 1주씩은 직접 만든 전략(custom)에서만 — 나눠 사기면 칸을 두지 않아 예전 전략과 같은 값
+  if (!rank1 && base === 'C' && sameSet(d.tiers, C_TIERS) && d.sell === 0) return { strategy: 'C', params: common };
+  if (!rank1 && base === 'D' && sameSet(d.tiers, BUY_PRINCIPLE) && d.sell === 100) return { strategy: 'D', params: common };
+  return { strategy: 'custom', params: { buyTiers: ALL_TIERS.filter((t) => d.tiers.includes(t)), sellFraction: fromPct(d.sell), ...common, ...(rank1 ? { buyMode: 'rank1' } : {}) } };
 }
 
 // 편집기 값 → "이 전략이 하는 일" 한 문장
@@ -51,7 +52,9 @@ export function sentenceOf(base, d) {
   }
   const shape = shapeOf(base, d);
   const tiers = ALL_TIERS.filter((t) => d.tiers.includes(t));
-  const buy = `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 나눠'} 삽니다.`;
+  const buy = d.mode === 'rank1'
+    ? `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 판정 순(같으면 기업 점수 순)으로 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 걸쳐'} 1주씩 이어서 삽니다. 1주 값이 모자라면 그 회차는 멈추고 남은 돈은 다음 회차로 넘깁니다. 그달 남은 돈으로도 1주가 안 되는 종목은 건너뜁니다.`
+    : `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 나눠'} 삽니다.`;
   const sell = d.sell ? `판정이 고평가·초고평가가 되면 남은 수량의 ${d.sell}%를 팝니다.`
     : shape.strategy === 'C' ? '팔지 않습니다.' : '고평가가 되어도 팔지 않고 매도 검토 알림만 남깁니다.';
   const cash = d.reserve ? `현금은 ${d.reserve}%를 남겨 둡니다.` : '현금은 남기지 않습니다.';
@@ -302,6 +305,14 @@ function editor(id, sc, r, b, result, handlers, close, count, st, openNew) {
     }
     g.appendChild(row); into.appendChild(g);
   };
+  const modeBox = el('fieldset', 'pf-edgroup'); modeBox.appendChild(el('legend', null, '어떻게 살까'));
+  const modeRow = el('div', 'pf-seg pf-segbox');
+  for (const [v, t] of [['split', '나눠 사기(소수점)'], ['rank1', '순위 1주씩']]) {
+    const o = btn(t, 'pf-segbtn'); o.setAttribute('aria-pressed', String((d.mode ?? 'split') === v));
+    o.addEventListener('click', () => { d.mode = v; modeRow.querySelectorAll('button').forEach((y) => y.setAttribute('aria-pressed', String(y === o))); sync(); });
+    modeRow.appendChild(o);
+  }
+  modeBox.appendChild(modeRow); verdictPart.appendChild(modeBox);
   seg('고평가가 되면 파는 비율 · 원칙 4', 'sell', SELL_OPTS, '%');
   seg('몇 번에 나눠 살까 · 원칙 2', 'rounds', ROUND_OPTS, '회');
   seg('남겨 둘 현금 · 원칙 5', 'reserve', RESERVE_OPTS, '%');

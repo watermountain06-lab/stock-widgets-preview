@@ -1112,3 +1112,48 @@ test('withdraw: 두 예약(A 입금 몫·E ETF 몫)을 합쳐 같은 비율로 �
   assert.ok(buys.every((t) => t.amount <= 1000 + 1e-9));
   for (const x of e.days) if (x.value != null) assert.ok(x.value >= -1e-9);
 });
+
+// ---- 순위 1주씩(buyMode 'rank1', 2026-10-25 사용자 결정) ----
+test('순위 1주씩: 판정 → 점수 → 티커 순으로 회차마다 1주씩 이어 사고, 남은 돈은 다음 회차로, 모두 정수 주', () => {
+  const recs = world({ tier: (t) => (t === 'CCC' ? '적정' : undefined) });
+  for (const r of recs) { r.cards.CCC.score = 90; r.cards.AAA.score = 50; }   // 같은 적정이면 점수 높은 CCC가 먼저
+  const res = run({ records: recs, scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'rank1' }, { id: 'r1' })] });
+  const s = pick(res, 'r1');
+  const buys = nov(trades(s, { side: 'buy' }));
+  assert.ok(buys.length > 0);
+  assert.ok(buys.every((t) => t.shares === 1), '모두 1주');
+  const m = s.months.find((x) => x.decisionDate.slice(0, 7) === '2026-11');
+  assert.deepEqual(m.rank.order, ['BBB', 'CCC', 'AAA']);
+  const r1 = buys.filter((t) => t.date === m.rounds[0].date).map((t) => t.ticker);
+  // 1회 250(1000/4): BBB 50 · CCC 20 · AAA 100 · BBB 50 · CCC 20 = 240, AAA 100 > 10 멈춤
+  assert.deepEqual(r1, ['BBB', 'CCC', 'AAA', 'BBB', 'CCC']);
+  // 2회 250 + 남은 10 = 260, AAA부터 이어서: AAA 100 · BBB 50 · CCC 20 = 170, 다음 AAA 100 > 90 멈춤(뒤의 싼 종목으로 건너뛰지 않는다)
+  assert.deepEqual(buys.filter((t) => t.date === m.rounds[1].date).map((t) => t.ticker), ['AAA', 'BBB', 'CCC']);
+  const spent = buys.reduce((a, t) => a + t.amount, 0);
+  assert.ok(spent <= m.budget + 1e-9 && m.budget - spent < 100, `${spent} / ${m.budget}`);   // 쓰지 못한 돈은 가장 비싼 1주 값보다 작다
+  near(spent + m.rank.notUsed, m.budget, 1e-6);
+});
+
+test('순위 1주씩: 남은 달 돈 전부로도 1주가 안 되는 종목은 건너뛰고, buyMode는 split·rank1만', () => {
+  const recs = world({ close: (t) => (t === 'BBB' ? 5000 : undefined) });   // BBB 1주 5000 > 1000
+  const res = run({ records: recs, scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'rank1' }, { id: 'r2' })] });
+  const buys = nov(trades(pick(res, 'r2'), { side: 'buy' }));
+  assert.ok(buys.length && buys.every((t) => t.ticker === 'AAA' && t.shares === 1));
+  assert.throws(() => run({ scenarios: [S('custom', { buyTiers: ['적정'], buyMode: 'whole' }, { id: 'bad' })] }), /buyMode/);
+  assert.throws(() => run({ scenarios: [S('C', { buyMode: 'rank1' }, { id: 'c' })] }), /바꿀 수 없는 값 buyMode/);   // 순위 1주씩은 직접 만든 전략에서만
+});
+
+test('순위 1주씩: 돈 맞추기(매수 + 쓰지 않은 돈 + 예정 = 예산), 후보 0명이면 전부 unallocated, 모든 후보가 막힌 회차는 지움', () => {
+  const res = run({ scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'rank1' }, { id: 'r3' })] });
+  for (const m of pick(res, 'r3').months.filter((x) => x.rank)) near(m.rank.spent + m.rank.notUsed + m.rank.scheduled + m.unallocated, m.budget, 1e-6);
+  const none = run({ scenarios: [S('custom', { buyTiers: ['초저평가'], buyMode: 'rank1' }, { id: 'r4' })] });
+  const m0 = pick(none, 'r4').months.find((x) => x.rank);
+  near(m0.unallocated, m0.budget, 1e-6);
+  // 1회차 날 두 후보 모두 가격 없음 → 그 회차 돈은 지움(다음 회차로 넘기지 않는다)
+  const base = pick(res, 'r3').months.find((x) => x.decisionDate.slice(0, 7) === '2026-11');
+  const d1 = base.rounds[0].date;
+  const blocked = run({ world: { close: (t, d) => (d === d1 && (t === 'AAA' || t === 'BBB') ? null : undefined) }, scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'rank1' }, { id: 'r5' })] });
+  const bs = pick(blocked, 'r5');
+  const sk = pick(blocked, 'r5').skips.filter((x) => x.date === d1 && x.reason === 'noneBuyable');
+  assert.equal(sk.length, 1); assert.equal(sk[0].action, 'erased');
+});

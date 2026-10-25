@@ -233,9 +233,9 @@ test('lossAlerts: 평균 단가보다 20% 넘게 내린 종목만(원칙 4), 하
 import { draftOf, shapeOf, sentenceOf, rankRows, spyLine } from '../../preview-only-portfolio-rank.js';
 
 test('편집기: 저장된 전략 ↔ 편집기 값, 저평가만·갈아타기는 값을 안 바꾸면 그대로', () => {
-  assert.deepEqual(draftOf(null), { kind: 'verdict', tiers: ['초저평가', '저평가', '적정~저평가', '적정'], sell: 0, rounds: 4, reserve: 0, etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
+  assert.deepEqual(draftOf(null), { kind: 'verdict', tiers: ['초저평가', '저평가', '적정~저평가', '적정'], sell: 0, rounds: 4, reserve: 0, mode: 'split', etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
   const C = { strategy: 'C', params: { splitWeeks: 2, cashReserve: 0.1 } };
-  assert.deepEqual(draftOf(C), { kind: 'verdict', tiers: ['초저평가', '저평가'], sell: 0, rounds: 2, reserve: 10, etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
+  assert.deepEqual(draftOf(C), { kind: 'verdict', tiers: ['초저평가', '저평가'], sell: 0, rounds: 2, reserve: 10, mode: 'split', etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
   assert.deepEqual(shapeOf('C', draftOf(C)), { strategy: 'C', params: { splitWeeks: 2, cashReserve: 0.1 } });
   assert.equal(shapeOf('C', { ...draftOf(C), sell: 25 }).strategy, 'custom');
   const D = { strategy: 'D', params: { splitWeeks: 4, cashReserve: 0 } };
@@ -245,7 +245,12 @@ test('편집기: 저장된 전략 ↔ 편집기 값, 저평가만·갈아타기�
   assert.deepEqual(shapeOf(null, { kind: 'verdict', tiers: ['적정', '초저평가'], sell: 50, rounds: 1, reserve: 20 }),
     { strategy: 'custom', params: { buyTiers: ['초저평가', '적정'], sellFraction: 0.5, splitWeeks: 1, cashReserve: 0.2 } });
   const cu = { strategy: 'custom', params: { buyTiers: ['저평가'], sellFraction: 0.33, splitWeeks: 3, cashReserve: 0 } };
-  assert.deepEqual(draftOf(cu), { kind: 'verdict', tiers: ['저평가'], sell: 33, rounds: 3, reserve: 0, etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
+  assert.deepEqual(draftOf(cu), { kind: 'verdict', tiers: ['저평가'], sell: 33, rounds: 3, reserve: 0, mode: 'split', etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
+  // 순위 1주씩(10-25): 저평가만·갈아타기에서 골라도 직접 만든 전략으로, 저장 값에 buyMode, 되읽으면 mode
+  const r1 = shapeOf('C', { ...draftOf(C), mode: 'rank1' });
+  assert.deepEqual(r1, { strategy: 'custom', params: { buyTiers: ['초저평가', '저평가'], sellFraction: 0, splitWeeks: 2, cashReserve: 0.1, buyMode: 'rank1' } });
+  assert.equal(draftOf(r1).mode, 'rank1');
+  assert.match(sentenceOf(null, { ...draftOf(null), mode: 'rank1' }), /1주씩/);
   assert.match(sentenceOf('C', draftOf(C)), /팔지 않습니다/);
   assert.match(sentenceOf(null, draftOf(null)), /알림만/);
   assert.match(sentenceOf(null, { tiers: ['고평가'], sell: 0, rounds: 4, reserve: 0 }), /원칙과 다름/);

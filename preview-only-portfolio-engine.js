@@ -35,8 +35,10 @@ const PRESETS = {
   B: { buyTiers: BUY_PRINCIPLE, sellFraction: 0, observeSells: true, editable: ['sellFraction', 'splitWeeks', 'cashReserve'] },
   C: { buyTiers: ['초저평가', '저평가'], sellFraction: 0, observeSells: false, editable: ['splitWeeks', 'cashReserve'] },
   D: { buyTiers: BUY_PRINCIPLE, sellFraction: 1, observeSells: true, editable: ['splitWeeks', 'cashReserve'] },
-  custom: { buyTiers: null, sellFraction: 0, observeSells: true, editable: ['buyTiers', 'sellFraction', 'splitWeeks', 'cashReserve'] },
+  custom: { buyTiers: null, sellFraction: 0, observeSells: true, editable: ['buyTiers', 'sellFraction', 'splitWeeks', 'cashReserve', 'buyMode'] },
 };
+// 순위 1주씩(2026-10-25 사용자 결정, buyMode 'rank1'): 판정 무게가 큰 순, 같으면 그날 기록의 기업 점수가 높은 순, 같으면 티커순
+const RANK_W = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 };
 
 class EngineInputError extends Error {}
 const fail = (msg) => { throw new EngineInputError(msg); };
@@ -239,7 +241,8 @@ function scenarioParams(sc) {
   }
   const given = sc.params || {};
   for (const k of Object.keys(given)) if (!p.editable.includes(k)) fail(`scenario: ${sc.strategy}에서 바꿀 수 없는 값 ${k}`);
-  const q = { buyTiers: p.buyTiers, sellFraction: p.sellFraction, splitWeeks: 4, cashReserve: 0, observeSells: p.observeSells, ...given };
+  const q = { buyTiers: p.buyTiers, sellFraction: p.sellFraction, splitWeeks: 4, cashReserve: 0, observeSells: p.observeSells, buyMode: 'split', ...given };
+  if (!['split', 'rank1'].includes(q.buyMode)) fail('scenario: buyMode는 split·rank1');
   if (!Array.isArray(q.buyTiers) || !q.buyTiers.length || q.buyTiers.some((t) => typeof t !== 'string')) fail('scenario: buyTiers 형식 오류');
   if (!inRange(q.sellFraction, 0, 1)) fail('scenario: sellFraction은 0~1, 소수 6자리까지');
   if (!Number.isInteger(q.splitWeeks) || q.splitWeeks < 1 || q.splitWeeks > 4) fail('scenario: splitWeeks는 1~4 정수');
@@ -300,6 +303,17 @@ function runScenario(ctx, prm, init, keepStates) {
     st.cash -= cost;
     out.trades.push({ date: d, ticker: t, side: 'buy', shares: q / MICRO, price: c, amount: cost / 100, ...extra });
     log.push({ i: curIdx, t, side: 'buy', q });
+    return cost;
+  };
+  // 1주 매수(순위 1주씩): 대금 = 1주 × 종가(센트 반올림 — buy()의 1주 대금과 같다). 현금이 모자라면 사지 않는다
+  const buyWhole = (t, d, extra) => {
+    const c = mk.close(t, d), cost = Math.round(c * 100);
+    if (!(cost > 0) || cost > st.cash) return 0;
+    if (!hasShares(t)) lastStage.delete(t);
+    st.shares.set(t, (st.shares.get(t) || 0) + MICRO);
+    st.cash -= cost;
+    out.trades.push({ date: d, ticker: t, side: 'buy', shares: 1, price: c, amount: cost / 100, ...extra });
+    log.push({ i: curIdx, t, side: 'buy', q: MICRO });
     return cost;
   };
 
@@ -518,9 +532,17 @@ function runScenario(ctx, prm, init, keepStates) {
         !holdOnly.has(t) && !blocked(R.cards[t], R, cal) && prm.buyTiers.includes(R.cards[t].tier));
       plan.candidates = cands;
       plan.budget = st.cash;
-      const each = cands.length ? Math.floor(st.cash / cands.length) : 0;
-      plan.unallocated = st.cash - each * cands.length;   // 후보 수로 나눈 잔돈(현금으로 남음)
-      for (const t of cands) plan.legs.push({ ticker: t, side: 'buy', amt: split(each, N), done: 0, notUsed: 0 });
+      if (prm.buyMode === 'rank1') {
+        // 순위 1주씩: 점검일 현금을 회차로 나누고(다른 전략과 같은 돈), 회차마다 순위대로 1주씩 사며 멈춘 자리부터 이어 간다
+        const w = (t) => RANK_W[R.cards[t].tier] || 0, sc = (t) => (typeof R.cards[t].score === 'number' ? R.cards[t].score : -1);
+        const order = [...cands].sort((a, b) => w(b) - w(a) || sc(b) - sc(a) || (a < b ? -1 : 1));
+        plan.rank = { order, amt: split(order.length ? st.cash : 0, N), carry: 0, cursor: 0, notUsed: 0, spent: 0, shares: 0 };
+        if (!order.length) plan.unallocated = st.cash;   // 후보가 없으면 예산 전부가 현금으로 남는다(나눠 사기와 같은 집계, dr)
+      } else {
+        const each = cands.length ? Math.floor(st.cash / cands.length) : 0;
+        plan.unallocated = st.cash - each * cands.length;   // 후보 수로 나눈 잔돈(현금으로 남음)
+        for (const t of cands) plan.legs.push({ ticker: t, side: 'buy', amt: split(each, N), done: 0, notUsed: 0 });
+      }
     }
     out.months.push(plan);
   }
@@ -587,7 +609,10 @@ function runScenario(ctx, prm, init, keepStates) {
     if (proceeds > 0) {
       const rest = plan.rounds.map((r, j) => j).filter((j) => j > k && !plan.rounds[j].dropped);
       const buys = plan.legs.filter((l) => l.side === 'buy');
-      if (buys.length && rest.length) {
+      if (plan.rank && plan.rank.order.length && rest.length) {   // 순위 1주씩: 남은 회차 돈에 똑같이 더한다
+        split(proceeds, rest.length).forEach((a, x) => { plan.rank.amt[rest[x]] += a; });
+        out.events.push({ date: d, kind: 'proceedsSpread', amount: proceeds / 100, candidates: plan.rank.order.length, rounds: rest.length });
+      } else if (buys.length && rest.length) {
         const each = Math.floor(proceeds / buys.length);
         plan.unallocated += proceeds - each * buys.length;
         for (const leg of buys) split(each, rest.length).forEach((a, x) => { leg.amt[rest[x]] += a; });
@@ -596,6 +621,7 @@ function runScenario(ctx, prm, init, keepStates) {
         out.events.push({ date: d, kind: 'proceedsToCash', amount: proceeds / 100 });
       }
     }
+    if (plan.rank) { rankRound(k, d, info, prov, pre, proceeds); return; }
     const ready = [];
     for (const leg of plan.legs.filter((l) => l.side === 'buy')) {
       if (leg.amt[k] <= 0) continue;
@@ -621,6 +647,56 @@ function runScenario(ctx, prm, init, keepStates) {
     }
   }
 
+  // 순위 1주씩 회차: 이번 회차 돈 = 이 회차 몫 + 앞 회차에서 남은 돈. 정보 없음·파이프라인 실패면 통째로 다음 회차로(다른 전략과 같은 규칙),
+  // 규칙 판 바뀜·유보 계산 불가면 지운다(현금으로 남음). 종목별로 못 사는 날(보류·판정 벗어남·가격 없음)은 그 종목만 건너뛴다.
+  // 남은 달 돈(이번 회차 돈 + 뒤 회차 몫) 전부로도 1주가 안 되는 종목은 건너뛰고, 다음 종목 1주가 이번 회차 돈보다 크면 멈춘다.
+  // 쓰지 못한 돈은 다음 회차로 넘기고, 마지막 회차 뒤에는 현금으로 남는다.
+  function rankRound(k, d, info, prov, pre, proceeds) {
+    const rk = plan.rank;
+    let pool = rk.carry + rk.amt[k];
+    rk.carry = 0; rk.amt[k] = 0;
+    if (pool <= 0 || !rk.order.length) return;
+    const nxt = plan.rounds.findIndex((r, j) => j > k && !r.dropped);
+    const pass = (reason, carry) => {
+      const action = carry ? (nxt === k + 1 ? 'carried' : 'dropped') : 'erased';
+      if (action === 'carried') rk.carry = pool; else rk.notUsed += pool;
+      out.skips.push({ date: d, ticker: '순위 1주씩', side: 'buy', round: k + 1, reason, action, amount: pool / 100, provisional: prov.provisional });
+    };
+    if (!info) return pass('noInfo', true);
+    if (info.rec.ruleVersion !== plan.ruleVersion) return pass('ruleVersion', false);
+    if (!mk.dayOk(d)) return pass('pipelineFailed', true);
+    let reserve = 0;
+    if (prm.cashReserve > 0) {
+      if (pre.v === null) return pass('reserveUnknown', false);
+      reserve = mulFloor(pre.v, prm.reservePpm);
+    }
+    let cap = Math.min(pool, Math.max(0, st.cash - proceeds - reserve));
+    let monthLeft = pool + plan.rounds.reduce((a, r, j) => a + (j > k && !r.dropped ? rk.amt[j] : 0), 0);
+    const n = rk.order.length;
+    let i = rk.cursor, misses = 0, spent = 0, limited = false;
+    const bads = new Map();   // 그 회차에 못 산 종목과 사유(회차마다 한 번 기록)
+    while (misses < n) {
+      const t = rk.order[i];
+      const bad = check({ ticker: t, side: 'buy' }, d, info);
+      if (bad && !bads.has(t)) bads.set(t, bad[0]);
+      const cost = bad ? 0 : Math.round(mk.close(t, d) * 100);
+      if (bad || !(cost > 0) || cost > monthLeft) { i = (i + 1) % n; misses++; continue; }
+      if (cost > cap) { limited = cost <= pool - spent; break; }   // 유보·현금 한도 때문에 멈췄는가
+      const got = buyWhole(t, d, prov);
+      if (!got) break;
+      cap -= got; monthLeft -= got; spent += got; rk.spent += got; rk.shares++; i = (i + 1) % n; misses = 0;
+    }
+    rk.cursor = i;
+    for (const [t, why] of bads) out.skips.push({ date: d, ticker: t, side: 'buy', round: k + 1, reason: why, action: 'skipped', amount: 0, provisional: prov.provisional });
+    const left = pool - spent;
+    if (left <= 0) return;
+    // 그 회차에 모든 후보가 지움 사유(보류·판정 벗어남·가격 없음 등)로 못 샀으면 회차 돈을 지운다(나눠 사기의 지움 규칙과 같게, dr).
+    // 일부라도 살 수 있었으면 남은 돈은 다음 회차로(순위 1주씩은 종목별 몫이 없어 막힌 종목의 차례는 다음 순위로 넘어간다)
+    if (bads.size === n && !spent) { rk.notUsed += left; out.skips.push({ date: d, ticker: '순위 1주씩', side: 'buy', round: k + 1, reason: 'noneBuyable', action: 'erased', amount: left / 100, provisional: prov.provisional }); return; }
+    if (limited) out.skips.push({ date: d, ticker: '순위 1주씩', side: 'buy', round: k + 1, reason: 'cashLimit', action: nxt === k + 1 ? 'carried' : 'dropped', amount: left / 100, provisional: prov.provisional });
+    if (nxt === k + 1) rk.carry = left; else rk.notUsed += left;
+  }
+
   function closePlan(why) {
     const p = plan;
     for (const leg of p.legs) {
@@ -633,6 +709,20 @@ function runScenario(ctx, prm, init, keepStates) {
           leg.amt[j] = 0;
         }
       });
+    }
+    if (p.rank) {   // 순위 1주씩: 밀린·멈춘 회차 몫은 사유를 남기고 쓰지 않은 돈으로, 진행 중인 달의 남은 몫은 예정으로(나눠 사기와 같은 규칙, dr)
+      const rk = p.rank; let sched = 0;
+      p.rounds.forEach((r, j) => {
+        if (rk.amt[j] <= 0) return;
+        if (r.dropped || why === 'halted') {
+          out.skips.push({ date: r.date === END ? null : r.date, ticker: '순위 1주씩', side: 'buy', round: j + 1,
+            reason: why === 'halted' ? 'halted' : r.date === END ? 'beyondCalendar' : 'pastNextCheck', action: 'dropped', amount: rk.amt[j] / 100, provisional: p.provisional });
+          rk.notUsed += rk.amt[j];
+        } else sched += rk.amt[j];
+        rk.amt[j] = 0;
+      });
+      if (why === 'halted') rk.notUsed += rk.carry; else sched += rk.carry;
+      p.rank = { order: rk.order, spent: rk.spent / 100, shares: rk.shares, notUsed: rk.notUsed / 100, scheduled: sched / 100 };
     }
     p.closed = why;
     p.unallocated /= 100;

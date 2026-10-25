@@ -120,6 +120,22 @@ class LedgerTest(unittest.TestCase):
         self.assertEqual(r["prices"], {"QQQ": 101.0, "RSP": 101.0, "SPY": 101.0})
         self.assertEqual(r["ruleVersion"], "v2-verdict")
 
+    def test_score_kept_only_when_available(self):
+        tickers = [
+            {"ticker": "AAA", "cardAsOf": "2026-10-19", "price": {"close": 50.0, "session": "2026-10-19", "status": "fresh"},
+             "tier": {"value": "적정", "status": "valid"}, "score": {"status": "available", "total": 81.5}},
+            {"ticker": "BBB", "cardAsOf": "2026-10-19", "price": {"close": 20.0, "session": "2026-10-19", "status": "fresh"},
+             "tier": {"value": "저평가", "status": "valid"}, "score": {"status": "missing", "total": None}},
+            {"ticker": "CCC", "cardAsOf": "2026-10-19", "price": {"close": 20.0, "session": "2026-10-19", "status": "fresh"},
+             "tier": {"value": "적정", "status": "valid"}, "score": {"status": "available", "total": True}},
+        ]
+        self.stocks(session="2026-10-19", tickers=tickers)
+        self.run_build()
+        r = self.read("2026-10-19")
+        self.assertEqual(r["cards"]["AAA"]["score"], 81.5)
+        self.assertNotIn("score", r["cards"]["BBB"])
+        self.assertNotIn("score", r["cards"]["CCC"])           # True is not a score
+
     def test_stale_price_and_failed_card(self):
         self.stocks(session="2026-10-19", tickers=[
             {"ticker": "AAA", "cardAsOf": "2026-10-16", "price": {"close": 49.0, "session": "2026-10-16", "status": "fresh"},

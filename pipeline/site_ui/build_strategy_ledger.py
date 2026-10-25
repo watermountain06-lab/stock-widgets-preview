@@ -18,7 +18,7 @@ When it writes session X (site_data/strategy_ledger/X.json):
 Each record:
   session, generatedAt (file creation time - NOT the public time), prevPublishedAt (when the previous
   record first reached the public repo, from GitHub's push activity; the engine uses this as that
-  record's public time), ruleVersion, cards {T: tier, tierStatus, close, verdictAsOf, priceStale},
+  record's public time), ruleVersion, cards {T: tier, tierStatus, close, verdictAsOf, priceStale, score?},
   prices {T: close} for dropped cards and FIXED_ETFS, splits [{id, ticker, effectiveDate, ratio}] not on
   any earlier record with effectiveDate <= session, missing [T].
 
@@ -30,6 +30,7 @@ Usage: python3 pipeline/site_ui/build_strategy_ledger.py [--fixtures DIR] [--now
 """
 import argparse
 import json
+import math
 import re
 import subprocess
 import sys
@@ -140,6 +141,11 @@ def build(now_et, fixtures=None, lookup_publish=True):
             "verdictAsOf": t.get("cardAsOf"),
             "priceStale": (not ok_price) or p.get("status") != "fresh" or t["ticker"] in failed_cards,
         }
+        # 기업 점수(2026-10-25, 전략 비교의 '순위 1주씩'이 같은 판정 안 순서로 쓴다). 점수가 없으면 칸을 두지 않는다
+        sc = t.get("score")
+        total = sc.get("total") if isinstance(sc, dict) and sc.get("status") == "available" else None
+        if isinstance(total, (int, float)) and not isinstance(total, bool) and math.isfinite(total):
+            cards[t["ticker"]]["score"] = total
         if t.get("yahooSymbol"):   # e.g. BRKB -> BRK-B; kept so a dropped card can still be fetched
             cards[t["ticker"]]["yahooSymbol"] = symbol[t["ticker"]] = t["yahooSymbol"]
         if not ok_price:

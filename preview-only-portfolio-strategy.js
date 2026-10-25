@@ -6,7 +6,7 @@
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=3';
+import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=4';
 
 export const MAX_SCENARIOS = 20;
 export const ETF_ORDER = ['SPY', 'QQQ', 'RSP'];   // ETF 섞기(E)에서 고르는 ETF의 화면 순서(엔진 BASELINES와 같은 세 개)
@@ -31,7 +31,7 @@ export const REASON = {
   splitCheck: '분할 확인 필요', reserveUnknown: '평가 미확정(유보 계산 불가)', cashLimit: '현금 한도로 줄임',
   noShares: '보유 없음', pastNextCheck: '다음 점검일 지남', beyondCalendar: '달력 밖', halted: '평가 중단',
   notStarted: '출발 전', splitDelay: '분할 지연', corporateEvent: '지원하지 않는 기업 사건', notYet: '아직 시작 전',
-  aUndetermined: '출발 상태 미확정',
+  aUndetermined: '출발 상태 미확정', noneBuyable: '그 회차에 살 수 있는 후보 없음',
 };
 export const FIXED_NOTICE = '모의 운용입니다. 판정은 수익 예측이 검증된 신호가 아닙니다. 카드 목록은 직접 고른 종목이라 결과를 일반화할 수 없습니다. 배당·세금·환율·큰 사건 예외 제외.';
 
@@ -354,7 +354,7 @@ export function detailSection(result, byId) {
       d.appendChild(el('h4', null, '건너뛴 회차'));
       d.appendChild(table(['날짜', '종목', '매매', '회차', '사유', '처리', '몫'],
         s.skips.slice().reverse().map((x) => [x.date || '—', x.ticker, x.side === 'buy' ? '매수' : '매도', x.round, REASON[x.reason] || x.reason,
-          { erased: '지움', carried: '다음 회차로', dropped: '버림' }[x.action] || x.action,
+          { erased: '지움', carried: '다음 회차로', dropped: '버림', skipped: '그 종목만 건너뜀' }[x.action] || x.action,
           x.amount != null ? usd(x.amount) : shares(x.shares) + '주']), [6]));
     }
     if ((s.months || []).length) {
@@ -363,8 +363,8 @@ export function detailSection(result, byId) {
         s.months.slice().reverse().map((mo) => [mo.checkDate, mo.decisionDate, mo.record, mo.candidates.join(', ') || '없음',
           mo.ruleChanged ? '판정 방식 변경 — 그달 매매 없음' : (mo.fires || []).map((f) => f.skip ? `${f.ticker}(${REASON[f.skip] || f.skip})` : `${f.ticker} ${f.observed}${f.warnOnly ? ' ⚠ 알림만' : ''}`).join(', ') || '없음',
           usd(mo.budget),
-          (mo.summary || []).map((x) => `${x.ticker} ${x.side === 'buy' ? '매수' : '매도'} ${x.roundsDone}회`).join(', '),
-          (mo.summary || []).filter((x) => x.notUsed > 0).map((x) => `${x.ticker} ${x.side === 'buy' ? usd(x.notUsed) : shares(x.notUsed) + '주'}`).join(', ') || '—']), [5]));
+          [mo.rank ? `순위 1주씩 ${mo.rank.shares}주 ${usd(mo.rank.spent)}` : '', ...(mo.summary || []).map((x) => `${x.ticker} ${x.side === 'buy' ? '매수' : '매도'} ${x.roundsDone}회`)].filter(Boolean).join(', '),
+          [mo.rank && mo.rank.notUsed > 0 ? `순위 1주씩 ${usd(mo.rank.notUsed)}` : '', ...(mo.summary || []).filter((x) => x.notUsed > 0).map((x) => `${x.ticker} ${x.side === 'buy' ? usd(x.notUsed) : shares(x.notUsed) + '주'}`)].filter(Boolean).join(', ') || '—']), [5]));
     }
     const ev = (s.events || []).filter((e) => e.kind === 'decisionDropped' || e.kind === 'decisionPending');
     if (ev.length) {
@@ -389,7 +389,7 @@ export function paramsText(sc) {
   if (sc.strategy === 'E') return `보유 종목의 ${pc(p.etfShare ?? 1)}를 ETF로 · ${ETF_ORDER.filter((e) => (p.etfs || ETF_ORDER).includes(e)).join('·')} · 현금 그대로 · 그 뒤 매매 없음`;
   const buy = sc.strategy === 'C' ? '초저평가·저평가' : sc.strategy === 'custom' ? (p.buyTiers || []).join('·') || '없음' : '초저평가~적정';
   const sell = sc.strategy === 'C' ? '안 팖' : sc.strategy === 'D' ? '고평가면 전부' : (p.sellFraction ? `고평가면 ${pc(p.sellFraction)}` : '알림만');
-  return `살 판정 ${buy} · 매도 ${sell} · ${p.splitWeeks || 4}회 · 유보 ${pc(p.cashReserve)}`;
+  return `살 판정 ${buy} · 매도 ${sell} · ${p.splitWeeks || 4}회` + (p.buyMode === 'rank1' ? ' · 순위 1주씩' : '') + ` · 유보 ${pc(p.cashReserve)}`;
 }
 
 // existing(지금 스냅샷)을 주면 고치기 모드: 그 값으로 채우고 저장은 handlers.editSnapshot
