@@ -1630,7 +1630,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000008818": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AVY: 1년 안 $500.5M + 장기 $3,177.7M(Q2 2026 10-Q — LongTermDebt는 2025-12에 끊김, 2026-10-25)
+DEBT_TOTAL_TAG = {
+                  "0000008818": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AVY: 1년 안 $500.5M + 장기 $3,177.7M(Q2 2026 10-Q — LongTermDebt는 2025-12에 끊김, 2026-10-25)
                   "0000009389": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # BALL: 1년 안 $692M(만기 649 포함) + 장기 $6,528M(Q2 2026 10-Q, 2026-10-25)
                   "0001336920": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LDOS: 1년 안 $22M + 장기 $6,009M(Q2 FY26 10-Q, 2026-10-25)
                   "0000033185": ["DebtCurrent", "LongTermDebtNoncurrent"],   # EFX: 1년 안 $157.7M + 장기 $5,049.0M(Q3 2026 10-Q — LongTermDebt 태그는 10-K만, 2026-10-25) [엔진수정대기]

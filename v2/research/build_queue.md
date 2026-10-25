@@ -5,4 +5,3 @@
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
 | 478 | PODD | $10.33B | Insulet Corporation | — |
-| 493 | AOS | $8.38B | A. O. Smith Corporation | — |
