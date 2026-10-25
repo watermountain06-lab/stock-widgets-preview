@@ -5,13 +5,8 @@
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
 | 316 | ATO | $29.10B | Atmos Energy Corporation | — |
-| 317 | TDY | $28.79B | Teledyne Technologies Incorporated | — |
-| 318 | JBL | $28.21B | Jabil Inc. | — |
 | 319 | EME | $28.57B | EMCOR Group, Inc. | — |
 | 320 | OTIS | $28.61B | Otis Worldwide Corporation | — |
-| 321 | AWK | $28.37B | American Water Works Company, Inc. | 거래 공시: 2025-12-17 S-4  |
-| 322 | FLEX | $28.28B | Flex Ltd. | 거래 공시: 2026-10-14 8-K 1.01,2.01,2.03,8.01,9.01 |
-| 323 | ON | $28.13B | ON Semiconductor Corporation | 거래 공시: 2026-08-21 S-4  |
 | 325 | WST | $27.60B | West Pharmaceutical Services, Inc. | — |
 | 326 | CFG | $27.44B | Citizens Financial Group, Inc. | 은행 — 은행 규칙 확장(E34) 결정 |
 | 333 | DOV | $26.50B | Dover Corporation | — |
