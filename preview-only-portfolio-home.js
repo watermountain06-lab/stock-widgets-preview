@@ -593,12 +593,11 @@ function buyBox(args) {
   const lab = el('label'); lab.appendChild(el('span', null, budget > 0 ? '더 넣을 돈' : '넣을 돈'));
   const amt = el('input'); amt.type = 'number'; amt.min = '0.01'; amt.step = '0.01'; amt.placeholder = '$ 금액';
   lab.appendChild(amt); f.appendChild(lab);
-  // 몫 고르기(2026-10-25 사용자 결정): 기본은 반영일 달, 미리 넣는 돈은 다음 달 몫
+  // 몫은 자동(2026-10-25 사용자 결정 — 고르는 칸은 뺐다): 이번 달 회차가 남았으면 이번 달 몫(남은 회차에 나눠 삼),
+  // 회차가 없거나 끝났으면(점검 전 미리 보기·시연 달·4회 끝) 다음 회차가 있는 달 몫
   const nowDay = depositTiming(new Date(model.now ?? Date.now()).toISOString()).day;
-  const forSel = el('select', 'pf-formonth'); forSel.setAttribute('aria-label', '어느 달 몫');
-  if (nowDay) for (const m of [nowDay.slice(0, 7), nextMonthOf(nowDay.slice(0, 7))]) { const o = el('option', null, `${+m.slice(5)}월 몫`); o.value = m; forSel.appendChild(o); }
-  if (nowDay && ahead && [...forSel.options].some((o) => o.value === month)) forSel.value = month;   // 미리 보기 카드(다음 달)를 보고 있으면 그 달 몫이 기본
-  if (nowDay) f.appendChild(forSel);
+  const noRoundsLeft = ahead || !!mv?.demo || (mv && !mv.next);
+  const autoMonth = noRoundsLeft ? (ahead ? month : nextMonthOf(month)) : null;
   const save = el('button', 'pf-btn pf-btn-dark', '입금 기록'); save.type = 'button';
   const msg = msgLine();
   f.appendChild(save); money.appendChild(f); money.appendChild(msg);
@@ -606,12 +605,12 @@ function buyBox(args) {
     const v = Number(amt.value);
     if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
     const d1 = depositTiming(new Date().toISOString()).day;   // 저장 시각 기준으로 다시 본다 — 화면을 열어 둔 사이 달이 바뀌면 다음 달 표시가 뜻을 잃는다(dr)
-    await handlers.deposit(v, 'deposit', nowDay && forSel.value > (d1 || nowDay).slice(0, 7) ? forSel.value : null);
+    await handlers.deposit(v, 'deposit', autoMonth && autoMonth > (d1 || nowDay || '').slice(0, 7) ? autoMonth : null);
   }, f);
-  if (nowDay) save.addEventListener('click', () => { if (save.dataset.armed) msg.textContent = `${+forSel.value.slice(5)}월 몫 입금으로 기록합니다. 맞으면 한 번 더 누르세요.`; });   // 고른 달을 확인 단계에 보인다(dr)
+  if (autoMonth) save.addEventListener('click', () => { if (save.dataset.armed) msg.textContent = `${+autoMonth.slice(5)}월 몫 입금으로 기록합니다. 맞으면 한 번 더 누르세요.`; });   // 어느 달 몫인지 확인 단계에 보인다(dr)
   box.appendChild(money);
-  // 몫 안내(짧게): 미리 넣는 돈은 다음 달 몫으로 고른다
-  if (nowDay) { const nm = nextMonthOf(nowDay.slice(0, 7)); money.appendChild(el('p', 'pf-note pf-depnote', `${+nowDay.slice(5, 7)}월 몫은 ${md(nowDay)} 반영 · ${+nm.slice(5)}월 몫은 미리 넣는 돈`)); }   // 선택 기본값과 어긋나지 않게 '기본' 말을 뺐다
+  // 몫 안내(짧게)
+  money.appendChild(el('p', 'pf-note pf-depnote', autoMonth ? `지금 넣는 돈은 ${+autoMonth.slice(5)}월 몫` : '지금 넣는 돈은 남은 회차에 나눠 삼'));
   const D = Math.round(deps.now.filter((d) => d.amount > 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const X = Math.round(-deps.now.filter((d) => d.amount < 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const R = Math.max(0, leftUsd), C = typeof args.cash === 'number' ? args.cash : null, over = Math.max(0, -leftUsd);
@@ -647,26 +646,31 @@ function buyBox(args) {
     // 4회 띠
     strip.textContent = '';
     if (!dates || !dates.length) return;
-    const rs = roundStrip(dates, preview ? null : next, monthBuyList(model.trades, month, today), week);
-    if (preview) rs.rounds = rs.rounds.map((r, i) => (r.amount > 0 ? r : { ...r, state: i === 0 ? 'first' : 'plan', amount: week }));   // 점검 전: 모두 예정(첫 회차만 표시)
+    // 방법·종목을 고르기 전에는 남은 한도 ÷ 남은 회차를 '약'으로 보인다(사용자 요청 2026-10-25)
+    const nLeft = preview ? dates.length : next ? dates.filter((d) => d >= next).length : 0;
+    const est = week == null && nLeft && R > 0 ? Math.floor((R * 100) / nLeft) / 100 : null;
+    const each = week ?? est;
+    const rs = roundStrip(dates, preview ? null : next, monthBuyList(model.trades, month, today), each);
+    if (preview) rs.rounds = rs.rounds.map((r, i) => (r.amount > 0 ? r : { ...r, state: i === 0 ? 'first' : 'plan', amount: each }));   // 점검 전: 모두 예정(첫 회차만 표시)
     strip.appendChild(el('div', 'pf-k', `${mLabel} ${dates.length}회 매수`));
     const row = el('div', 'pf-striprow');
     const TXT = { done: '샀음', missed: next ? '놓침 → 남은 회차에' : '놓침', now: '이번 주', plan: preview ? '예정(예상)' : '예정', first: '1회차(예상)' };
     rs.rounds.forEach((r, i) => {
       const c = el('div', 'pf-stripcell pf-strip-' + r.state);
       c.appendChild(el('span', 'pf-s', `${i + 1}회 · ${md(r.date)}`));
-      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.amount == null ? '—' : usd(r.amount)));
+      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.amount == null ? '—' : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
       if (r.state === 'first') c.classList.add('pf-strip-now');
       c.appendChild(el('span', 'pf-s', TXT[r.state] + (r.state === 'now' && r.done > 0 ? ` · 오늘까지 ${usd(r.done)} 삼` : '')));
       row.appendChild(c);
     });
     strip.appendChild(row);
     if (rs.outside > 0) strip.appendChild(el('p', 'pf-note', `회차 외 매수 ${usd(rs.outside)}(첫 회차 전)`));
+    if (est != null) strip.appendChild(el('p', 'pf-note', '남은 한도 ÷ 남은 회차 · 방법·종목을 고르면 종목별로 나뉨'));
   };
   money.after(strip);
 
   if (!mv) {
-    box.appendChild(el('p', 'pf-note', args.waiting ? `이번 달 점검(${md(args.checkDay)}) 결정이 오면 이 돈으로 살 후보를 확정합니다.` : `${md(args.checkDay)} 점검일에 이 돈으로 살 후보를 확정합니다. 주말에 넣어도 반영일이 ${+month.slice(5)}월이면 ${+month.slice(5)}월 몫입니다.`));
+    box.appendChild(el('p', 'pf-note', args.waiting ? `이번 달 점검(${md(args.checkDay)}) 결정이 오면 이 돈으로 살 후보를 확정합니다.` : `${md(args.checkDay)} 점검일에 이 돈으로 살 후보를 확정합니다.`));
     const pv = args.preview ? previewSection(args, box, month, budget) : null;
     // 점검 전: 회차는 점검일부터 매주 4회(예정), 이번 주 칸은 1회차 금액(예상)
     const S0 = cal().sessions, plus = (d, n) => new Date(Date.parse(d + 'T12:00:00Z') + n * 864e5).toISOString().slice(0, 10);
