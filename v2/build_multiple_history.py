@@ -1862,6 +1862,8 @@ EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $
                   "0000827054": {"preferred": ["PreferredStockLiquidationPreferenceValue"]},
 # P(옛 PSTG): 단기투자 = 유동 매도가능 채무증권(DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent, Q2 FY27 $622.2M) — 기본 태그는 2021-05에 멈췄다(2026-10-24)
                   "0001474432": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"]},
+# DOV: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($1,693.2M = 재무상태표 줄) — 기본 현금 태그를 쓰지 않는다(2026-10-25)
+                  "0000029905": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # BIIB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($3,382.7M = 재무상태표 "Cash and cash equivalents") — 기본 현금 태그는 2019-12에 멈췄다(2026-10-24)
                   "0000875045": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # WAB: 현금 = CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents($489M, 제한 현금 포함 — 재무상태표 줄) — 기본 현금 태그는 2022-09에 멈췄다(2026-10-23)

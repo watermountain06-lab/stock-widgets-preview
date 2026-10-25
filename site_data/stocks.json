@@ -9228,6 +9228,47 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "DOV",
+      "name": "Dover",
+      "sector": "산업재 — 펌프·연료 장비·냉장 설비·마킹 장비 등 산업 기계",
+      "href": "DOV_full_widget.html",
+      "cardRank": 218,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 199.2,
+        "prevClose": 195.49,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 133007687,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-16",
+        "filedAt": "2026-10-22",
+        "filing": "10-Q 0000029905-26-000033 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }
