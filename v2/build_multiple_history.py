@@ -97,6 +97,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # AVY: 합산 태그는 분기 행이 2024년부터라 EV/EBITDA 이력이 249일뿐이었다 — 감가상각 + 무형자산 상각(5년 전 구간). 소프트웨어 상각(연 약 $30M, 합산의 약 9%)은 표준 태그가 없어 빠진다(2026-10-25)
+                    "0000008818": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # NDSN: 10-K가 합산 태그에 무형자산 상각만 싣는 해가 있다(FY25 79.3 = 상각, 9개월 누계 112.5보다 작음 → 4분기 −33.2) — 감가상각 + 상각(FY21~24 합 일치, 2026-10-25) [엔진수정대기]
                     "0000072331": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # IEX: 합산 태그가 2024-09에 멈춤 — 감가상각 + 무형자산 상각(FY20~23 연간 합 일치, 2026-10-25)
@@ -721,6 +723,10 @@ EXTRA_TAGS = {
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
 DERIVED_OPINC = {# AVY: OperatingIncomeLoss 태그가 한 번도 없다 — 영업이익 = 세전이익 + 이자비용(MTD 방식, 2026-10-25). 세전 태그는 2023까지 옛 이름, 이자 태그는 2024-03까지 InterestExpense.
+                 "0000008818": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                 "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                                [(["InterestExpenseNonoperating", "InterestExpense"], -1),
+                                 (["OtherNonoperatingIncomeExpense"], 1, True)]),   # 기타 영업외 수익(연금 등, 최근 4분기 약 $17M)은 뺀다 — 그 분기에 없으면 0(Fable r1)
                  # BALL: OperatingIncomeLoss 태그가 2024-03에 멈췄다 — 영업이익 = 세전이익 + 부채 이자비용(InterestExpenseDebt)(MTD 방식, 2026-10-25).
                  "0000009389": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                                 [(["InterestExpenseDebt"], -1)]),
@@ -976,6 +982,7 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 "0000072331": ("DepreciationDepletionAndAmortization",),   # NDSN — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0001579241": ("DepreciationDepletionAndAmortization",),   # ALLE — 합산 태그는 연간만이라 분기 DepreciationAmortizationAndAccretionNet과 섞여 4분기가 작아졌다 → 현금흐름 줄만(2026-10-25) [엔진수정대기]
                 "0001336920": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # LDOS — 총매출(Revenues, Q2 FY26 $4,558M)로 통일: 고객 계약 매출($4,548M)과 섞여 YoY·TTM 정의가 달랐다(Codex r1, 2026-10-25)
+                "0000008818": ("DepreciationDepletionAndAmortization",),   # AVY — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
                 "0000062709": ("DepreciationDepletionAndAmortization",),   # MRSH — 구성요소 경로로(DDA_PARTS_BY_CIK)
@@ -1620,7 +1627,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {
+DEBT_TOTAL_TAG = {"0000008818": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AVY: 1년 안 $500.5M + 장기 $3,177.7M(Q2 2026 10-Q — LongTermDebt는 2025-12에 끊김, 2026-10-25)
                   "0000009389": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # BALL: 1년 안 $692M(만기 649 포함) + 장기 $6,528M(Q2 2026 10-Q, 2026-10-25)
                   "0001336920": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LDOS: 1년 안 $22M + 장기 $6,009M(Q2 FY26 10-Q, 2026-10-25)
                   "0000033185": ["DebtCurrent", "LongTermDebtNoncurrent"],   # EFX: 1년 안 $157.7M + 장기 $5,049.0M(Q3 2026 10-Q — LongTermDebt 태그는 10-K만, 2026-10-25) [엔진수정대기]

@@ -69,7 +69,9 @@ ACQ_FIXED = {"MSI": [{"end": "2026-07-04", "filed": "2026-08-06", "value": 46760
              "KEYS": [{"end": "2026-07-31", "filed": "2026-09-03", "value": 1653000000}],
              # ALLE: 인수 대금을 PaymentsToAcquireBusinessesAndInterestInAffiliates로만 낸다 — 최근 4분기 = FY25 592.2 + 2026 9개월 74.7 − 2025 9개월 594.0 = $72.9M(2026-10-25). filed = 10-Q 10/22 장 전 → 10/22
              "ALLE": [{"end": "2026-09-30", "filed": "2026-10-22", "value": 72900000}],
+             # AVY: 인수 대금을 PaymentsToAcquireBusinessesAndInterestInAffiliates로만 낸다 — 최근 4분기 = FY25 401.8 + 2026 상반기 75.5 − 2025 상반기 10.7 = 466.6에서
              # Wiliot 소수 지분 투자 약 $75M(비연결 지분 투자, 사업 인수 아님)을 뺀 $391.6M(Taylor Adhesives $390M 포함, 2026-10-25). filed = 10-Q 8/4 장 마감 뒤 → 8/5
+             "AVY": [{"end": "2026-06-30", "filed": "2026-08-05", "value": 391600000}],
              # VEEV: FY26에는 인수가 없고(현금흐름표 인수 줄 없음) FY27 상반기 Ostro·Copli $81.8M — 분기 값을 못 만들어 0이었다(Codex r1, 2026-10-23). filed = 10-Q 8/27 장 마감 뒤 → 8/28
              "VEEV": [{"end": "2026-07-31", "filed": "2026-08-28", "value": 81833000}],
              # CIEN: 최근 4분기 = FY25 연간 $231.1M(2025-10 Nubis) + FY26 9개월 0 − FY25 9개월 0 — 분기 값을 못 만들어 0이었다(2026-10-23). filed = 10-Q 9/3 장 마감 뒤 → 9/4

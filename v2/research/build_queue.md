@@ -5,7 +5,6 @@
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
 | 411 | FICO | $17.61B | Fair Isaac Corporation | — |
-| 445 | AVY | $13.78B | Avery Dennison Corporation | 영업이익 태그 멈춤 — 합성 필요 |
 | 448 | AKAM | $13.44B | Akamai Technologies, Inc. | — |
 | 463 | COO | $11.64B | The Cooper Companies, Inc. | — |
 | 467 | TECH | $11.38B | Bio-Techne Corporation | 거래 공시: 2026-08-20 DEFM14A  |
