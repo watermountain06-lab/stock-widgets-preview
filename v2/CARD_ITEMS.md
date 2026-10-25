@@ -2149,3 +2149,9 @@ companyfacts는 표준 태그만 모은다. 회사가 한동안 **다른 태그�
 - **엔진** — D&A = 감가상각 + 무형자산 상각(DDA_PARTS_BY_CIK·EXCLUDE — 합산 태그 2024-09 멈춤; 감가상각 2021 Q1~Q3 없어 EV/EBITDA 이력 1,191일), 이자비용 손입력(interest_extra), Q4_EPS_OVERRIDE 2023·2024. 로고는 배지.
 - **dr** — Codex·Fable 1라운드(필수 없음).
 
+## EFX — 신용정보 (2026-10-25, 카드 226)
+
+- **판정 적정~고평가(+1, 0, −2)** — 자기 이력 92.2(배수 5년 최저 부근), 동종업 62.7(S&P500 산업재), 현금흐름 기본 $40.79 대 $182.36(10/23).
+- **엔진** — 차입금 = DebtCurrent + LongTermDebtNoncurrent(LongTermDebt는 10-K만), 비지배지분 = 상환가능 포함(EV_TAGS nci), D&A = 손익 줄만(EXCLUDE — 현금흐름 D&A와 섞였다), Q4_EPS_OVERRIDE 2021·2024. 운용리스는 10-Q에 태깅 없음(문장 공개, 안건 E61).
+- **dr** — Codex·Fable 1라운드(Codex 필수: D&A 혼합 — 반영, 리스 — 공개. 표 불변).
+

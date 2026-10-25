@@ -4,7 +4,6 @@
 
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
-| 375 | EFX | $21.34B | Equifax Inc. | — |
 | 401 | ZBRA | $18.28B | Zebra Technologies Corporation | — |
 | 407 | CF | $18.26B | CF Industries Holdings, Inc. | — |
 | 411 | FICO | $17.61B | Fair Isaac Corporation | — |

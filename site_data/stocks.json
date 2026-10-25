@@ -9558,6 +9558,47 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "EFX",
+      "name": "Equifax",
+      "sector": "산업재 — 신용정보(소비자·기업)·소득·고용 확인(The Work Number)",
+      "href": "EFX_full_widget.html",
+      "cardRank": 226,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 182.36,
+        "prevClose": 187.14,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 117017174,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-09",
+        "filedAt": "2026-10-20",
+        "filing": "10-Q 0000033185-26-000044 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 51.6,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }
