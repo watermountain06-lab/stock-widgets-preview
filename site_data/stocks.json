@@ -9062,6 +9062,90 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "ATO",
+      "name": "Atmos Energy",
+      "sector": "유틸리티 — 천연가스 배전(텍사스 등 8개 주)·파이프라인·저장",
+      "href": "ATO_full_widget.html",
+      "cardRank": 214,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 172.21,
+        "prevClose": 173.91,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 168988553,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000731802-26-000102 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 60.3,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "OTIS",
+      "name": "Otis Worldwide",
+      "sector": "산업재 — 엘리베이터·에스컬레이터 신규 설치와 유지보수",
+      "href": "OTIS_full_widget.html",
+      "cardRank": 215,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 75.15,
+        "prevClose": 75.6,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 380669339,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-15",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0001781335-26-000113 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 38.6,
+        "grade": "미흡",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }

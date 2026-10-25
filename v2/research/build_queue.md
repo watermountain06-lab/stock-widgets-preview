@@ -4,9 +4,7 @@
 
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
-| 316 | ATO | $29.10B | Atmos Energy Corporation | — |
 | 319 | EME | $28.57B | EMCOR Group, Inc. | — |
-| 320 | OTIS | $28.61B | Otis Worldwide Corporation | — |
 | 325 | WST | $27.60B | West Pharmaceutical Services, Inc. | — |
 | 326 | CFG | $27.44B | Citizens Financial Group, Inc. | 은행 — 은행 규칙 확장(E34) 결정 |
 | 333 | DOV | $26.50B | Dover Corporation | — |
