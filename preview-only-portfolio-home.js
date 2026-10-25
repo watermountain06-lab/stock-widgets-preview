@@ -611,7 +611,7 @@ function buyBox(args) {
   if (nowDay) save.addEventListener('click', () => { if (save.dataset.armed) msg.textContent = `${+forSel.value.slice(5)}월 몫 입금으로 기록합니다. 맞으면 한 번 더 누르세요.`; });   // 고른 달을 확인 단계에 보인다(dr)
   box.appendChild(money);
   // 몫 안내(짧게): 미리 넣는 돈은 다음 달 몫으로 고른다
-  if (nowDay) { const nm = nextMonthOf(nowDay.slice(0, 7)); money.appendChild(el('p', 'pf-note pf-depnote', `기본은 ${+nowDay.slice(5, 7)}월 몫(${md(nowDay)} 반영) · ${+nm.slice(5)}월 돈을 미리 넣을 때만 ${+nm.slice(5)}월 몫`)); }
+  if (nowDay) { const nm = nextMonthOf(nowDay.slice(0, 7)); money.appendChild(el('p', 'pf-note pf-depnote', `${+nowDay.slice(5, 7)}월 몫은 ${md(nowDay)} 반영 · ${+nm.slice(5)}월 몫은 미리 넣는 돈`));   // 선택 기본값과 어긋나지 않게 '기본' 말을 뺐다 }
   const D = Math.round(deps.now.filter((d) => d.amount > 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const X = Math.round(-deps.now.filter((d) => d.amount < 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const R = Math.max(0, leftUsd), C = typeof args.cash === 'number' ? args.cash : null, over = Math.max(0, -leftUsd);
