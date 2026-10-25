@@ -97,6 +97,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # GD: 합산 태그 DepreciationAndAmortization이 2019~2023 분기에 없어 EV/EBITDA 이력이 251일뿐이었다 — 감가상각 + 무형자산 상각. 금융리스 사용권 상각은 연간 태그뿐이라 빠져 회사 합계보다 7~11% 작다(FY21~25, Fable r1 2026-10-25)
+                    "0000040533": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # HII: 합산 태그는 분기 행이 2024년부터 — 감가상각 + 무형자산 상각(FY20~25 연간 합 일치, 2026-10-25)
                     "0001501585": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # AVY: 합산 태그는 분기 행이 2024년부터라 EV/EBITDA 이력이 249일뿐이었다 — 감가상각 + 무형자산 상각(5년 전 구간). 소프트웨어 상각(연 약 $30M, 합산의 약 9%)은 표준 태그가 없어 빠진다(2026-10-25)
@@ -993,6 +995,7 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 "0001579241": ("DepreciationDepletionAndAmortization",),   # ALLE — 합산 태그는 연간만이라 분기 DepreciationAmortizationAndAccretionNet과 섞여 4분기가 작아졌다 → 현금흐름 줄만(2026-10-25) [엔진수정대기]
                 "0001336920": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # LDOS — 총매출(Revenues, Q2 FY26 $4,558M)로 통일: 고객 계약 매출($4,548M)과 섞여 YoY·TTM 정의가 달랐다(Codex r1, 2026-10-25)
                 "0000008818": ("DepreciationDepletionAndAmortization",),   # AVY — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
+                "0000040533": ("DepreciationAndAmortization",),   # GD — 합산 태그가 2019~2023 분기에 없다 → 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0001501585": ("DepreciationDepletionAndAmortization", "PaymentsToAcquireProductiveAssets"),   # HII — 구성요소 경로로(DDA_PARTS_BY_CIK), 설비투자는 PP&E 태그만(ProductiveAssets가 Q3 2025에 섞여 TTM $429M — 원문 $432M, Codex r1, 2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000946581": ("DepreciationDepletionAndAmortization",),   # TTWO — 구성요소 경로로(DDA_PARTS_BY_CIK, 무형자산 상각 더함, 2026-10-24)
@@ -1638,7 +1641,10 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000860730": ["DebtLongtermAndShorttermCombinedAmount"],   # HCA: 단기·CP·1년 안 포함 총차입금 $49,718M(Q2 2026 10-Q — 기본은 장기 비유동만 $43,454M, 2026-10-25)
+DEBT_TOTAL_TAG = {
+                  "0000813672": ["UnsecuredLongTermDebt"],   # CDNS: 무담보 사채 $2,482M(Q2 2026 10-Q — 주석 LongTermDebt는 발행 때 순조달액이라 쓰지 않는다, 2026-10-25)
+                  "0000040533": ["DebtCurrent", "LongTermDebtNoncurrent"],   # GD: 1년 안 $1,256M + 장기 $6,260M = $7,516M(Q2 2026 10-Q — 기본은 장기만, 2026-10-25)
+                  "0000860730": ["DebtLongtermAndShorttermCombinedAmount"],   # HCA: 단기·CP·1년 안 포함 총차입금 $49,718M(Q2 2026 10-Q — 기본은 장기 비유동만 $43,454M, 2026-10-25)
                   "0001103982": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # MDLZ: 단기 $2,327M + 1년 안 $2,663M + 장기 $16,460M(Q2 2026 10-Q — 기본 합산은 1년 안을 빠뜨렸다, 2026-10-25)
                   "0000079879": ["DebtCurrent", "LongTermDebtNoncurrent"],   # PPG: 1년 안·단기 $691M + 장기 $6,195M(Q2 2026 10-Q — LongTermDebt $6,876M은 1년 안 포함이라 DebtCurrent와 겹침, 2026-10-25)
                   "0001145197": ["LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"],   # PODD: 1년 안 포함 합계 $948.4M(Q2 2026 10-Q, 2026-10-25)
@@ -1955,6 +1961,8 @@ EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $
                   "0000943452": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
 # TER: 단기투자 = 매도가능 채무증권(AvailableForSaleSecuritiesDebtSecurities, 6월 말 $100.7M) — 기본 MarketableSecuritiesCurrent는 2014년에 멈춤. 이연보상용 뮤추얼펀드는 뺀다(Fable r1, 2026-10-23)
                   "0000097210": {"sti": ["AvailableForSaleSecuritiesDebtSecurities"]},
+                  # CDNS: ShortTermInvestments는 10-K에만(2025-12 $154M) — 10-Q 시장성 채권 $80.2M(지분 $11.2M은 투자 자산 쪽, Codex·Fable r1 2026-10-25)
+                  "0000813672": {"sti": ["AvailableForSaleSecuritiesDebtSecurities"]},
 # PCAR: 현금 = 연결 현금(트럭 5,407.8 + 금융 166.9 = 5,574.7 — 현금흐름표 태그, 재무상태표는 부문 차원만), 단기투자 = 트럭 부문 시장성 증권 3,259.6(BUILD dim_facts)(2026-10-23)
                   "0000075362": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"], "sti": ["MarketableSecuritiesCurrentTruckPcar"]},
 # OKE: 비지배지분 = 비상환 $100M + 상환 가능 $44M(2026-06, 상환 가능분은 2026년부터, 2026-10-23).
