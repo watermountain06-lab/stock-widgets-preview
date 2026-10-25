@@ -9968,6 +9968,49 @@
         "valuationAsOf": "2026-10-23",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "FICO",
+      "name": "Fair Isaac",
+      "sector": "IT — FICO 신용점수(B2B·B2C)와 의사결정 분석 소프트웨어",
+      "href": "FICO_full_widget.html",
+      "cardRank": 236,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 815.31,
+        "prevClose": 823.27,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 21597635,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-17",
+        "filedAt": "2026-07-29",
+        "filing": "10-Q 0000814547-26-000030 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 65.4,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }
