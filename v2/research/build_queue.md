@@ -5,17 +5,12 @@
 | 순위 | 카드 | 시총 | 회사 | 1차 점검 메모 |
 |---|---|---|---|---|
 | 319 | EME | $28.57B | EMCOR Group, Inc. | — |
-| 325 | WST | $27.60B | West Pharmaceutical Services, Inc. | — |
 | 326 | CFG | $27.44B | Citizens Financial Group, Inc. | 은행 — 은행 규칙 확장(E34) 결정 |
 | 333 | DOV | $26.50B | Dover Corporation | — |
-| 334 | DGX | $26.61B | Quest Diagnostics Incorporated | — |
-| 335 | EL | $39.32B | The Estée Lauder Companies Inc. | — |
-| 339 | LH | $26.68B | Labcorp Holdings Inc. | — |
 | 341 | VICI | $26.16B | VICI Properties Inc. | 리츠 — 리츠 규칙(E41·E42) 결정 |
 | 342 | CASY | $25.84B | Casey's General Stores, Inc. | 영업이익 태그 멈춤 — 합성 필요 |
 | 343 | EXPD | $25.51B | Expeditors International of Washington, Inc. | — |
 | 344 | FFIV | $25.79B | F5, Inc. | — |
-| 346 | ES | $25.41B | Eversource Energy | — |
 | 348 | XYL | $25.39B | Xylem Inc. | — |
 | 349 | IR | $28.51B | Ingersoll Rand Inc. | — |
 | 350 | CHD | $24.95B | Church & Dwight Co., Inc. | — |

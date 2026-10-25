@@ -9146,6 +9146,47 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "WST",
+      "name": "West Pharmaceutical Services",
+      "sector": "헬스케어 — 주사제 포장 부품(고무 마개·주사기 부품)·위탁 생산",
+      "href": "WST_full_widget.html",
+      "cardRank": 216,
+      "cardAsOf": "2026-10-23",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 392.15,
+        "prevClose": 394.03,
+        "session": "2026-10-23",
+        "prevSession": "2026-10-22",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 70375762,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-20",
+        "filedAt": "2026-07-23",
+        "filing": "10-Q 0000105770-26-000099 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 66.7,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-23",
+        "qualityFlags": []
+      }
     }
   ]
 }
