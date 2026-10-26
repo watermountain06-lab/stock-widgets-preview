@@ -609,6 +609,9 @@ def texts(C, ns):
     r_rev = chg(rev[cur], rev[yo]) if same_len else None
     r_op = None if (odd_yo or not same_len) else chg(op[cur], op[yo])   # 길이가 다른 분기는 이익도 견주지 않는다(Codex)
     debt, cash = (b.get("debt") or 0), (b.get("cash") or 0) + (b.get("sti") or 0)
+    # 엔진 r7(2026-10-26): 차입금·현금 등 큰 재무상태표 항목이 200일 넘게 멈추면 DCF가 '계산 보류'(base None) — 그 값으로 차입금·현금 문장을 단정하지 않는다
+    _hold = DCF.get("base") is None and "계산 보류" in str(DCF.get("unavailable") or "")
+    _hold_txt = "차입금·현금은 자료 확인 중(재무상태표 일부 항목의 갱신이 200일 넘게 멈춤)."
     lease = (b.get("lease") or 0) or 0   # 카드 Net Cash 줄과 같은 정의(차입금 + 리스, Fable)
     ttm_k = sorted(k for k in rev if k <= cur)[-4:]
     op_ttm = sum(op[k] for k in ttm_k)
@@ -642,7 +645,7 @@ def texts(C, ns):
           "배수 싼 쪽" if selfsc >= 70 or peersc >= 70 else "배수 비싼 쪽" if selfsc < 30 or peersc < 30 else "배수 중간")   # 동종업 점수도 본다(CRM, Fable)
     bl = [f"매출 {B(rev[cur])}" + (f"({r_rev})" if r_rev else "") + f", 영업이익 {B(op[cur])}" + (f"({r_op})" if r_op else "")
           + f". 최근 4분기 영업이익률 {mn:.1f}%는 {hy} 중앙값 {m5:.1f}%보다 {rel(mn, m5)}.",
-          (f"최근 4분기 FCF {B(fcf_ttm)}(매출의 {fcf_ttm / rev_ttm * 100:.1f}%), " if fcf_ok else "") + f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}."]
+          (f"최근 4분기 FCF {B(fcf_ttm)}(매출의 {fcf_ttm / rev_ttm * 100:.1f}%), " if fcf_ok else "") + (_hold_txt if _hold else f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}.")]
     if A.get("dps") is not None:
         s = (f"분기 배당 {usd(A['dps_each'][0])}씩 분기 중 {A['dps_each'][1]}번 선언 — 합계 " if A.get("dps_each") else "분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 중 선언한 주당 배당 합계(직전 분기엔 선언 없음 — 두 분기분일 수 있다) " if A.get("dps_zero_prev") else "분기 주당 배당 ") + f"{usd(A['dps'])}" + (f"(1년 전 {usd(A['dps_yo'])}, {chg(A['dps'], A['dps_yo'])})" if A.get("dps_yo") and chg(A["dps"], A["dps_yo"]) else "")
         if A.get("dv") is not None:
@@ -677,8 +680,10 @@ def texts(C, ns):
     if fcf_ok:
         fm = fcf_ttm / rev_ttm * 100
         cand.append(("현금", 1.0 if fm >= 10 else -1.0 if fm < 3 else 0, f"최근 4분기 FCF {B(fcf_ttm)}, 매출의 {fm:.1f}%."))
-    nd = debt + lease - cash
-    if nd < 0:   # 순현금이면 배수 대신 금액(MU, Fable)
+    nd = None if _hold else debt + lease - cash
+    if nd is None:
+        pass
+    elif nd < 0:   # 순현금이면 배수 대신 금액(MU, Fable)
         cand.append(("부채", 1.0, f"현금·단기투자가 차입금·리스보다 {B(-nd)} 많다(순현금)."))
     elif op_ttm > 0:
         lev = nd / op_ttm
@@ -707,7 +712,7 @@ def texts(C, ns):
     _rows = {r_["metric"]: r_["value"] for ax in ns["FUND"]["axes"].values() for r_ in ax.get("rows", [])}
     if _rows.get("debtToEquity") and _rows["debtToEquity"] >= 300:
         cand.append(("부채", -1.0, f"부채비율(총부채 ÷ 자본) {_rows['debtToEquity']:.0f}%, 자본 {B(b.get('equity', 0))}."))
-    if _rows.get("interestCoverage") is not None and _rows["interestCoverage"] < 3 and nd >= 0:   # 순현금 회사는 이자 부담을 약점으로 적지 않는다(DDOG 무이자 전환사채 — 이자비용은 발행비 상각, Fable 2026-10-21)
+    if _rows.get("interestCoverage") is not None and _rows["interestCoverage"] < 3 and nd is not None and nd >= 0:   # 순현금 회사는 이자 부담을 약점으로 적지 않는다(DDOG 무이자 전환사채 — 이자비용은 발행비 상각, Fable 2026-10-21)
         cand.append(("이자", -1.0, f"이자보상배율 {_rows['interestCoverage']:.1f}배."))
     seen = set()
     cand = [c_ for c_ in sorted(cand, key=lambda c_: -abs(c_[1])) if abs(c_[1]) >= 0.5 and not (c_[0] in seen or seen.add(c_[0]))]
@@ -736,7 +741,7 @@ def texts(C, ns):
     _dv_ann = (A["dv"] / max(1, A.get("dv_weeks") or 52) * 52) if A.get("dv") else None
     if fcf_ok and _dv_ann and _dv_ann > 0.5 * fcf_ttm:   # 배당이 FCF의 절반을 넘는 회사만(AAPL처럼 여유가 큰 곳은 뺀다, Fable)
         ck.append(f"FCF(최근 4분기 {B(fcf_ttm)})가 배당 지급(연 환산 약 {B(_dv_ann)})을 넘는지")
-    if debt > 0 and op_ttm > 0 and (debt - cash) / op_ttm >= 2:
+    if not _hold and debt > 0 and op_ttm > 0 and (debt - cash) / op_ttm >= 2:
         # cfg CHECK_DEBT {분기 말: 문장} — 분기 뒤 새 차입·인수로 "줄어드는지"가 맞지 않을 때(MSI D-Fend 인수·사채, Fable 2026-10-22). 분기가 바뀌면 빠진다.
         _cd = getattr(C, "CHECK_DEBT", {}).get(C.CUR)
         ck.append(_cd.format(debt=B(debt)) if _cd else f"차입금 {B(debt)}이 줄어드는지")
@@ -767,7 +772,7 @@ def texts(C, ns):
     C.SEG_NOTE = adj_note(C) + ("1년 전 같은 분기보다 " + ", ".join(segs) + " · " if segs and same_len else "") + \
         f'출처: <a href="{C.TENQ}" target="_blank" rel="noopener">{C.TENQ_NAME} 부문 표 (SEC) →</a>'
     rows = {r["metric"]: r["value"] for ax in ns["FUND"]["axes"].values() for r in ax.get("rows", [])}
-    hn = f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}, 자본 {B((b.get('equity') or 0))}."
+    hn = (_hold_txt[:-1] + f", 자본 {B((b.get('equity') or 0))}.") if _hold else f"차입금 {B(debt)}, 현금·단기투자 {B(cash)}, 자본 {B((b.get('equity') or 0))}."
     extra_ = []
     if rows.get("currentRatio") is not None:
         extra_.append(f"유동비율 {rows['currentRatio']:.0f}%")
@@ -795,7 +800,8 @@ def texts(C, ns):
         return _rim_texts(C, DCF, risk, dcf_txt)
     if DCF.get("unavailable"):   # 보험사 등 현금흐름 미적용 — 내재가치 문장을 쓰지 않는다(CB, Fable)
         C.RISK = risk.replace(f" {dcf_txt}." if dcf_txt else "§", "")
-        C.DCF_NOTE = "이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다)."
+        C.DCF_NOTE = ("재무상태표 일부 항목(차입금·현금·단기투자·비지배지분·우선주 중)이 200일 넘게 갱신되지 않아 현금흐름 내재가치 계산을 보류했다." if _hold else
+                      "이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다).")
         C.PREMISE = C.PREMISE.split("<strong>")[0].rstrip()
         return _finish(C)
     fin_debt = debt + lease - (b.get("op_lease") or 0)   # build_dcf와 같은 정의 — 운용리스는 영업비용이라 빼지 않는다(Codex)
