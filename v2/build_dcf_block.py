@@ -74,7 +74,7 @@ def compute(t):
             # 큰 재무상태표 항목을 그 시점 공시에서 못 찾았다 — 0으로 계산하지 않고 보류(newcards/build.py no_dcf 블록과 같은 모양, 2026-10-25)
             return ({"low": None, "base": None, "high": None, "requiredGrowth": None, "baseEquivGrowth": None, "reqMode": "growth",
                      "requiredMargin": None, "marginNow": None, "growth5y": None, "nonopPerShare": 0, "s2cFallback": False,
-                     "asOf": asof, "unavailable": "계산 보류 — SEC 자료에서 최근 " + base["dcf_hold"] + "을 찾지 못함", "hard": [], "hardDetail": {}},
+                     "asOf": asof, "unavailable": "계산 보류 — SEC 자료에서 최근 값을 찾지 못함: " + base["dcf_hold"], "hard": [], "hardDetail": {}},
                     price, base.get("dq") or [])
         hist = d.history(t, asof)
         s = d.scenarios(base, hist, WACC, TERM)

@@ -352,6 +352,18 @@ def score_items(fin, config, basis):
     elif (sd or ld) and assets and cik not in bmh.DEBT_TOTAL_TAG:
         # 총차입금 태그를 지정한 회사는 그 태그가 비면 결측으로 둔다 — VRTX는 2011년에 멈춘 LongTermDebt만 남아 있다
         items["debtDependency"] = {"value": ((latest_instant(sd) or 0) + (latest_instant(ld) or 0)) / assets * 100}
+    # DCF가 계산 보류(차입금·현금 등 큰 항목이 낡음)면 차입금의존도도 내지 않는다 — 카드는 이 줄을 '계산 보류'로 가리는데(0f610d69)
+    # 점수는 낡은 값으로 총점에 들어가 화면과 어긋났다(2026-10-26). base_inputs가 실패하는 종목은 전과 같다.
+    if "debtDependency" in items and fin.get("ticker"):
+        import build_dcf as d
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                _hold = d.base_inputs(fin["ticker"]).get("dcf_hold")
+        except Exception:
+            _hold = None
+        if _hold:
+            del items["debtDependency"]
+            flags.append("debt_dependency_dcf_hold")
 
     # 이자보상배율 — 분기 기준이면 최신 분기 영업이익·이자비용(같은 분기)
     if basis == "quarter" and q_end:
