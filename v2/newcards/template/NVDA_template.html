@@ -1682,9 +1682,17 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
   // 루트 카드는 "기준 150%↑" 같은 손 기준으로 배지를 달아 4점 항목도 "✅ 양호"였다 — 그래서
   // 배지 말을 점수에 묶는다: 5점 양호 · 3~4점 보통 · 1~2점 주의 · 결측 —.
   const BADGE = p => p == null ? ['info', '—'] : p >= 5 ? ['safe', '✅ 양호'] : p >= 3 ? ['watch', '보통'] : ['alert', '⚠️ 주의'];
+  // 엔진 r7(2026-10-26): 큰 재무상태표 항목이 200일 넘게 멈춰 DCF를 '계산 보류'한 카드 — netCash가 null(키가 없어도)이고 DCF 사유에 '계산 보류'.
+  // 은행처럼 netCash null이 다른 뜻인 카드는 DCF base가 있거나 사유가 달라 걸리지 않는다(Codex·Fable)
+  const DCF_HOLD = F.netCash == null && typeof NVDA_DCF !== 'undefined' && NVDA_DCF.base == null && /계산 보류/.test(NVDA_DCF.unavailable || '');
   document.querySelectorAll('[data-fund-metric]').forEach(el => {
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
+    if (DCF_HOLD && r.metric === 'debtDependency') {   // 같은 낡은 차입금이라 순현금 줄('계산 보류')과 어긋나지 않게 값·배지를 쓰지 않는다(Fable)
+      v.textContent = '계산 보류';
+      const b0 = el.querySelector('.diag-badge'); if (b0) { b0.className = 'diag-badge'; b0.textContent = ''; b0.title = ''; }
+      return;
+    }
     v.textContent = r.value == null ? (r.note || '—')
       : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
@@ -1716,8 +1724,7 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
     $('fundNetCashNote').textContent = `순현금 ${B(N.net)}` + (N.shares ? ` ÷ ${(N.shares / 1e9).toFixed(2)}B주` : ' (주식 수 자료 없음)') + ' · '
       + `현금·단기투자 ${B(N.cash + N.sti)}` + (N.lt_marketable ? ` + 장기 채권 ${B(N.lt_marketable)}` : '')
       + ` − 차입금·리스 ${B(N.debt + N.lease)}`;
-  } else if (F.netCash === null && $('fundNetCashPs') && typeof NVDA_DCF !== 'undefined' && NVDA_DCF.base == null
-             && /계산 보류/.test(NVDA_DCF.unavailable || '')) {
+  } else if (DCF_HOLD && $('fundNetCashPs')) {
     // 큰 재무상태표 항목이 200일 넘게 멈춰 DCF를 보류한 카드만(엔진 r7, 2026-10-26) — 정적 대체값(옛 순현금)이 남지 않게.
     // netCash null이 다른 뜻인 경우(은행 bank_fill '해당 없음')를 덮지 않도록 DCF의 보류 사유까지 본다(Codex)
     $('fundNetCashPs').textContent = '계산 보류';
