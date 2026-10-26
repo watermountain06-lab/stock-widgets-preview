@@ -78,7 +78,8 @@
   },
   "PNC": {
    "tags": [],
-   "why": "우선주가 자본잉여금(AdditionalPaidInCapital)에 합쳐져 분리 불가 — N5-2로 CE·TCE 없음(PER은 남는다)"
+   "why": "우선주가 자본잉여금(AdditionalPaidInCapital)에 합쳐져 분리 불가 — N5-2로 CE·TCE 없음(PER은 남는다)",
+   "equity_member": {"concept": "us-gaap:StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest", "axis": "us-gaap:StatementEquityComponentsAxis", "member": "us-gaap:PreferredStockIncludingAdditionalPaidInCapitalMember", "why": "8판 §1(research/bank_v8_design.md) — 자본변동표 차원 값 우선주. 7판은 이 칸을 읽지 않는다(tags: [] 그대로)."}
   },
   "RF": {
    "tags": [
