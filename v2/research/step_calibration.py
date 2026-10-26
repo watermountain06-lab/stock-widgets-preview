@@ -97,7 +97,7 @@ def build():
 
 
 def analyze(rows):
-    bad = lambda r: any(str(x).startswith(("debt_suspect", "shares_missing")) for x in r["dq"])
+    bad = lambda r: any(str(x).startswith(("debt_suspect", "shares_missing", "dcf_hold")) for x in r["dq"])   # dcf_hold: verdict_replay와 같게(2026-10-25)
     before = len(rows)
     rows = [r for r in rows if not bad(r)]
     v.add_returns(rows)

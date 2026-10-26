@@ -1185,7 +1185,9 @@ def quarterly_flow(entries, ticker):
         for y in _ytd.get(e["end"], []):
             if y["val"] != e["val"] or y["start"] >= e["start"] or (e.get("_tag") and y.get("_tag") != e.get("_tag")):
                 continue
-            if any(r["start"] == y["start"] and r["val"] != 0 and abs((date.fromisoformat(e["start"]) - date.fromisoformat(r["end"])).days - 1) <= 5
+            # 직전 누계는 이 분기 시작 **전에** 끝나야 한다(0~6일 앞) — 시작 뒤에 끝나는 다른 달력의 누계를 인정하면 VTRS 2020 분기(셸 회사 52주 달력 0)가
+            # Upjohn 달력 1분기 누계 $2,588M과 이어져 버려지고 누계 차이로 −$2,588M이 만들어졌다(Codex 2026-10-25).
+            if any(r["start"] == y["start"] and r["val"] != 0 and 0 <= (date.fromisoformat(e["start"]) - date.fromisoformat(r["end"])).days <= 6
                    and (not e.get("_tag") or r.get("_tag") == e.get("_tag")) for r in rows):
                 return True
         # F2 (b)(2026-10-10): 매출(태그가 적힌 행)은 **같은 태그**의 연간 값과 2% 안이면 같은 값으로 본다 — ORCL FY2018은 재작성 연간
@@ -1573,7 +1575,9 @@ def component_sum(cik, tags):
     seen_by_date = {}
     per_tag = {}
     for tag in tags:
-        rows = [e for e in concept(cik, tag) if "end" in e and "filed" in e and "start" not in e]
+        # 결산일이 공시일보다 늦은 행(만기일·오태깅 — GD 2012-12-31 현금을 2012-05-01 10-Q에)은 버린다. 같은 결산일의 가장 먼저 공시된 행을
+        # 고르기 전에 걸러야 뒤에 나온 정상 행(GD 10-K 3,296)이 살아남는다(Fable r3, 2026-10-25).
+        rows = [e for e in concept(cik, tag) if "end" in e and "filed" in e and "start" not in e and e["end"] <= e["filed"]]
         best = {}
         for e in rows:
             if e["end"] not in best or e["filed"] < best[e["end"]]["filed"]:
@@ -1618,7 +1622,7 @@ def pick_instant(cik, tags):
     per_date = {}
     for tag in tags:
         for e in concept(cik, tag):
-            if "end" not in e or "filed" not in e or "start" in e:
+            if "end" not in e or "filed" not in e or "start" in e or e["end"] > e["filed"]:   # 미래 날짜 행 — component_sum과 같게(2026-10-25)
                 continue
             cur = per_date.get(e["end"])
             if cur is None or (cur["tag"] == tag and e["filed"] < cur["filed"]):
@@ -1641,7 +1645,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {
+DEBT_TOTAL_TAG = {# NCLH: 차입금을 금융리스 포함 장기차입 비유동(LongTermDebtAndCapitalLeaseObligations) + 1년 안(…Current)으로만 낸다(2012~, 분기마다) — 기본 태그는
+                  # LongTermDebt 2020-12-31 $1,552M에서 멈춰 그 뒤 차입금이 0이 됐다(Fable r2). 2025-12-31 13,730 + 876 = 14,606 = DebtAndCapitalLeaseObligations(10-K, 2026-10-25).
+                  "0001513761": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   "0000813672": ["UnsecuredLongTermDebt"],   # CDNS: 무담보 사채 $2,482M(Q2 2026 10-Q — 주석 LongTermDebt는 발행 때 순조달액이라 쓰지 않는다, 2026-10-25)
                   "0000040533": ["DebtCurrent", "LongTermDebtNoncurrent"],   # GD: 1년 안 $1,256M + 장기 $6,260M = $7,516M(Q2 2026 10-Q — 기본은 장기만, 2026-10-25)
                   "0000860730": ["DebtLongtermAndShorttermCombinedAmount"],   # HCA: 단기·CP·1년 안 포함 총차입금 $49,718M(Q2 2026 10-Q — 기본은 장기 비유동만 $43,454M, 2026-10-25)
@@ -2120,6 +2126,9 @@ EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $
                   "0000080424": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]},
                   # GEV: 재무상태표 첫 줄이 "Cash, cash equivalents, and restricted cash" $13,120M 합계뿐이라 현금이 비어 있었다(2026-10-01, GE·PG 선례).
                   "0001996810": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]}}
+# 회사별 태그가 그 시점에 없어도 기본 태그로 돌아가지 않는 항목 — 기본 태그가 다른 범위를 잡는다(build_dcf.base_inputs).
+# SPG: 기본 MinorityInterest(2021-10 $476M)에 운영 파트너십 유닛이 들어 있어 SHARES_ADD와 겹친다(r6 회귀, 2026-10-25).
+EV_TAGS_NO_DEFAULT = {"0001063761": {"nci"}}
 # 이 결산일부터 0인 구성요소(CIK) — 잔액이 사라졌는데 태그가 멈춰 마지막 값이 계속 쓰이는 경우. JNJ 비지배지분은
 # 2023-07-02(Kenvue 분리 중) $1,260M이 마지막이고 8월 교환 공개매수로 사라졌다 → 2023-10-01 분기(10-Q 2023-10-27)부터 0.
 # 전 기간 0으로 두면 실제 잔액이 있던 2023년 EV까지 빠진다(Codex, 2026-09-28).
@@ -2127,6 +2136,9 @@ EV_ZERO_FROM_BY_CIK = {# PCAR: 차입금은 트럭·부품·기타 부문만(CAT
                        # 기본 태그가 금융 서비스 차입을 잡지 않게 전 기간 0(2026-10-23)
                        "0000075362": {"debt": ("2000-01-01", "2000-01-01")},
                        "0000200406": {"nci": ("2023-10-01", "2023-10-27")},
+                       # KHC: Berkshire 보유 9% 누적 우선주 $8,320M을 2016-06-07 전액 상환·소각(8-K 2016-06-07, 현금흐름표 2016-07-03 상반기 상환 $8,320M) —
+                       # 그 뒤 우선주 태그가 없어 2015-06-28 값이 낡은 값으로 남았다(Codex r2, 2026-10-25). 상반기 10-Q 공시일부터 0.
+                       "0001637459": {"preferred": ("2016-07-03", "2016-08-05")},
                        # MNST: 2024년 자사주 공개매수 자금 차입($750M)을 2025년 상반기에 다 갚았다 — 2025-03 $199M 뒤 차입금 태그가 없다(Q2 2025 10-Q 재무상태표에 차입금 줄 없음).
                        # 마지막 값이 계속 이어지지 않게 2025-06-30부터 0(가용일 = Q2 2025 10-Q 2025-08-08, 2026-10-22).
                        "0000865752": {"debt": ("2025-06-30", "2025-08-08")}}
@@ -2201,10 +2213,24 @@ def _debt_total_fallback(cik, out):
     return sorted(have.values(), key=lambda e: e["available"]) if changed else out
 
 
+# 원문으로 **그 시점에 없어진 것**을 확인한 EV 구성요소 — 그 결산일에 0 관측 하나를 끼운다(공개일 = 그 공시). EV_ZERO_FROM_BY_CIK와 달리
+# 그 뒤 실제 값은 지우지 않는다(ULTA는 2020-09 차입금 $800M을 다 갚고 2023-10 다시 $195M을 빌렸다). 확인 출처는 Codex r3(2026-10-25).
+EV_ZERO_AT_BY_CIK = {"0000879169": {"debt": [("2020-12-31", "2021-02-09")]},    # INCY: 남은 2020 전환사채를 만기 전 주식으로 전환(10-K 2020)
+                     "0001001250": {"sti": [("2019-03-31", "2019-05-01")]},     # EL: 단기투자 2019-03-31 재무상태표 '—'(10-Q)
+                     "0001513761": {"sti": [("2022-03-31", "2022-05-10")]},     # NCLH: 1분기 만기 회수 $240M·신규 매입 0, 재무상태표 0(10-Q)
+                     "0001524472": {"sti": [("2020-12-31", "2021-02-26")]},     # XYL: 단기투자 $200M 연간 매입·회수 같고 연말 재무상태표에 없음(10-K 2020)
+                     "0001403568": {"debt": [("2020-10-31", "2020-12-03")]}}    # ULTA: 2020-09-02 신용한도 $800M 전액 상환, 10-Q 차입금 0
+
+
 def ev_component(cik, name, tags):
     out = _ev_component(cik, name, tags)
     if name == "debt" and not EV_ZERO_FROM_BY_CIK.get(cik, {}).get(name):
         out = _debt_total_fallback(cik, out)
+    # 확인된 0은 총계 대체 **뒤에** 끼운다 — 앞에 끼우면 그 날짜의 LongTermDebt 행이 0을 덮어쓸 수 있다(Fable r4)
+    zat = EV_ZERO_AT_BY_CIK.get(cik, {}).get(name)
+    if zat:
+        have = {e["end"] for e in out}
+        out = sorted(out + [{"end": e, "val": 0.0, "available": a} for e, a in zat if e not in have], key=lambda e: e["available"])
     return out
 
 

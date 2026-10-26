@@ -108,6 +108,23 @@ HISTORY_WINDOW = {# CRH: 2024년 미국 상장 이전(10-K·10-Q 전환) — 미
                   "EMR": ("2022-09-30", 13)}
 
 
+def newest(series, asof=None):
+    """그 시점까지 공개된 행 가운데 **결산일이 가장 늦은 행**(같은 결산일이면 늦게 공개된 정정값, 그다음 시리즈 순서).
+
+    component_sum·ev_component 시리즈는 공개일 순서라 마지막 원소가 최신 결산이 아닐 수 있다 — ADI ShortTermBorrowings는
+    2014-07-22 행(2014-12-10 공개)이 2014-08-02 행(2014-08-26 공개) 뒤에 와서 옛 결산 값이 골라졌다(Codex 2026-10-25).
+    """
+    # 결산일이 공개일보다 늦은 행은 오태깅(WMT 2012-12-31 현금을 2012-03-27 10-K에, ROP 2015-12-31을 2015-05-06에 — Fable r2)이라 고르지 않는다
+    ok = [(i, e) for i, e in enumerate(series or []) if (asof is None or e.get("available", e.get("end")) <= asof)
+          and e.get("end", "") <= e.get("available", e.get("end", ""))]
+    if not ok:
+        return None
+    return max(ok, key=lambda p: (p[1].get("end", ""), p[1].get("available", p[1].get("end", "")), p[0]))[1]
+
+
+_HOLD_NAME = {"debt": "차입금", "cash": "현금", "sti": "단기투자", "nci": "비지배지분", "preferred": "우선주"}
+
+
 def latest(series, asof=None):
     """그 시점까지 **공개돼 있던** 가장 최근 값. asof가 없으면 최신값.
 
@@ -115,14 +132,9 @@ def latest(series, asof=None):
     없으면 내재가치가 시점마다 어떻게 변했는지 재현할 수 없고, 오늘 값 하나를
     과거 전체에 가로줄로 긋게 된다.
     """
-    if not series:
-        return None
-    if asof is None:
-        return series[-1]["val"]
-    # 끝까지 훑는다 — 시리즈가 공시일 순서가 아니어도 그날까지 공개된 마지막 값을 놓치지 않게(C8, Codex). 공시일 순서인
-    # 시리즈(component_sum·instant_series·ttm_series)는 예전과 결과가 같다(2026-10-03 계측: 뒤바뀐 입력 0건).
-    ok = [e for e in series if e.get("available", e.get("end")) <= asof]
-    return ok[-1]["val"] if ok else None
+    # 그날까지 공개된 행 중 결산일이 가장 늦은 행(newest) — 공개일 순서의 마지막 원소가 아니다(2026-10-25).
+    e = newest(series, asof)
+    return e["val"] if e else None
 
 
 # 투자자산이 영업 자산인 회사(CIK) — 투자 수익이 영업이익 안에 있다. 값은 근거.
@@ -163,12 +175,24 @@ def base_inputs(ticker, asof=None):
     fl_capex = ttm(["RightOfUseAssetObtainedInExchangeForFinanceLeaseLiability"])
     # 금융리스 취득 태그는 분기 이력이 끊기는 회사가 많다 — 최근 4분기 매출보다 200일 넘게 뒤처진 값은 버린다(세전이익과 같은 규칙).
     # 버리기 전에는 HLT가 2020-03 TTM $30M을, WMT $1.08B·NEM $731M·META $588M·VZ $564M 등 19장이 2019~2024년 값을 지금 설비투자에 더했다(Codex 2026-10-21).
-    if fl_capex:
-        _, _flr = bmh.pick_tag(cik, ["RightOfUseAssetObtainedInExchangeForFinanceLeaseLiability"])
+    # 분기 TTM을 못 만드는 해(10-K에만 싣는 회사 — WMT FY2021 $1,547M)는 직전 연간 값을 최근 1년으로 쓴다(매출 TTM보다 400일 안, 리스 잔액과 같은 문턱).
+    # 버리기만 하면 연간 값이 있는데 0이 됐다(WMT 2021-10 $1,081M → 0, Codex 2026-10-25). 연간 대용은 dq fl_capex_annual로 남긴다.
+    _, _flr = bmh.pick_tag(cik, ["RightOfUseAssetObtainedInExchangeForFinanceLeaseLiability"])
+    if _flr:
         _, _rvr = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
-        _fs = [e for e in bmh.ttm_series(bmh.quarterly_flow(_flr, ticker)) if asof is None or e.get("available", e["end"]) <= asof]
-        _rs = [e for e in bmh.ttm_series(bmh.quarterly_flow(_rvr, ticker)) if asof is None or e.get("available", e["end"]) <= asof] if _rvr else []
-        if _fs and _rs and (date.fromisoformat(_rs[-1]["end"]) - date.fromisoformat(_fs[-1]["end"])).days > 200:
+        _fs = newest(bmh.ttm_series(bmh.quarterly_flow(_flr, ticker)), asof)
+        _rs = newest(bmh.ttm_series(bmh.quarterly_flow(_rvr, ticker)), asof) if _rvr else None
+        _fa = [e for e in _flr if "start" in e and e.get("filed") and (asof is None or e["filed"] <= asof) and feh.days_between(e) > 350
+               and e["end"] <= e["filed"]]
+        _fa = max(_fa, key=lambda e: (e["end"], e["filed"])) if _fa else None
+        # 매출 TTM이 없으면 신선도를 잴 수 없다 — 연간 대용 없이 예전 처리(Codex r2)
+        _lag = (lambda e: (date.fromisoformat(_rs["end"]) - date.fromisoformat(e["end"])).days) if _rs else (lambda e: 0)
+        if not _rs or (_fs and _lag(_fs) <= 200):
+            pass
+        elif _fa and (not _fs or _fa["end"] >= _fs["end"]) and _lag(_fa) <= 400:   # 같은 결산일이면 연간 값(TDG — Fable r2)
+            fl_capex = _fa["val"]
+            out["_fl_annual"] = _fa["end"]
+        elif _fs and _rs:
             fl_capex = None
     out["capex_finance_lease"] = fl_capex or 0
     if fl_capex:
@@ -238,23 +262,84 @@ def base_inputs(ticker, asof=None):
         # 반복적 비공제 영업외 항목(v2/tax_rate_addback.json — ABBV 조건부 대가 평가손)은 세율 분모에 되돌려 더한다(2026-10-05)
         out["pretax"] += bmh.rate_addback(ticker, cik, tser[-1]["end"], asof or "9999-12-31")
 
+    # 연간 보고 항목 판정용 회계연도 결산일(그날까지 공개된 연간 매출 행의 결산일)
+    _, _fy_rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
+    # 10-K 행만 — 10-Q에 실린 인수 대상의 연간 매출(EMR 2023-08 NI pro-forma 2022-12-31)이 회계연도 말로 섞이지 않게(Fable r2)
+    _fy_ends = sorted({e["end"] for e in (_fy_rows or []) if "start" in e and e.get("filed") and (asof is None or e["filed"] <= asof)
+                       and feh.days_between(e) > 350 and str(e.get("form", "10-K")).startswith("10-K") and e["end"] <= e["filed"]})
+    _stale, _annual, _alt = {}, {}, {}
+
+    def _fresh(ser, name):
+        """(그날 최신 행, 판정) — 판정은 'ok'(문턱 안), 'annual'(연간 보고 항목의 직전 10-K 값, 400일 안), 'stale'."""
+        row = newest(ser, asof)
+        eqr = newest(bmh.component_sum(cik, ["StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"]), asof)
+        if not row or not eqr:
+            return row, "ok"
+        re_ = date.fromisoformat(row["end"])
+        lag = (date.fromisoformat(eqr["end"]) - re_).days
+        if lag <= (400 if name == "lease" else 200):
+            return row, "ok"
+        near_fy = lambda d: any(abs((d - date.fromisoformat(f)).days) <= 7 for f in _fy_ends)
+        recent = [date.fromisoformat(x["end"]) for x in ser if (asof is None or x.get("available", x["end"]) <= asof)
+                  and x.get("end", "") <= x.get("available", x.get("end", "")) and (re_ - date.fromisoformat(x["end"])).days <= 730]
+        if (_fy_ends and all(near_fy(d) for d in recent) and abs((re_ - date.fromisoformat(_fy_ends[-1])).days) <= 7 and lag <= 400):
+            return row, "annual"
+        return row, "stale"
     for name, tags in bmh.EV_COMPONENTS.items():
         # asof를 빠뜨리면 과거 시점 계산에 오늘 대차대조표가 섞인다
         # (현금·단기투자·차입금·리스가 그랬다 — Codex 지적으로 발견).
         ser = bmh.ev_component(cik, name, tags)
+        if (name in bmh.EV_TAGS_BY_CIK.get(cik, {}) and newest(ser, asof) is None and name not in bmh.EV_ZERO_FROM_BY_CIK.get(cik, {})
+                and name not in bmh.EV_TAGS_NO_DEFAULT.get(cik, set())):
+            # 회사별 태그가 그 시점에 아직 없으면(TT 지정 현금 태그는 2020-12부터 — 2013~2021 현금이 표식 없이 0, Fable r4) 기본 태그로
+            _d = bmh.EV_TAGS_BY_CIK.get(cik, {})[name]
+            if _d:
+                ser = (bmh.pick_instant(cik, tags) if name in bmh.PICK_COMPONENTS else bmh.component_sum(cik, tags))
         out[name] = latest(ser, asof)
         # 재무상태표 항목도 낡은 값을 버린다 — 그 시점 자기자본 결산일보다 200일(리스는 연간 보고서에만 싣는 회사가 많아 400일) 넘게
         # 뒤처지면 없는 것으로 본다. MSI는 2015-10 단기투자 $276M을, LMT·PH·LLY는 멈춘 단기투자·비지배를 지금 값처럼 더했다(2026-10-21).
-        _okv = [x for x in ser if asof is None or x.get("available", x["end"]) <= asof]
-        _eqv = [x for x in bmh.component_sum(cik, ["StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"])
-                if asof is None or x.get("available", x["end"]) <= asof]
-        if _okv and _eqv and out[name]:
-            _lag = (date.fromisoformat(max(x["end"] for x in _eqv)) - date.fromisoformat(_okv[-1]["end"])).days
-            if _lag > (400 if name == "lease" else 200):
-                out[name] = None
+        # 연간 보고 항목(그 항목의 최근 2년 결산일이 모두 회계연도 말)은 직전 10-K 값이면 다음 10-K까지 둔다 — 200일 문턱만 쓰면
+        # 해마다 3분기 10-Q부터 다음 10-K까지 빠졌다(SO 비지배지분 $4,402M, TGT 단기투자, HAL 현금 — Codex 2026-10-25).
+        # 버린 값은 0으로 계산되므로 _stale에 남겨 아래 dq 표식으로 드러낸다(결측과 확인된 0을 가른다).
+        _row, _st = _fresh(ser, name)
+        if out[name] and _st == "annual":
+            _annual[name] = _row["end"]
+        elif out[name] and _st == "stale":
+            _stale[name] = (out[name], _row["end"])
+            out[name] = None
+        # 현금: 기본 태그가 없거나 낡으면 현금 + 제한현금 합계(재무상태표·현금흐름표 기말 현금)로 — 기본 태그를 끊고 합계 태그로 옮긴
+        # 회사가 많다(CF·GLW·EL·LULU·MDLZ·INTC·MMM: 패널 30개월 현금 0, 카드 세션 ALLE·DOV·BIIB 종목별 우회와 같은 처리, 2026-10-25).
+        # 단기투자 대용으로는 쓰지 않는다(TGT 합계에 단기투자가 겹친다 — Codex r1). 회사별 현금 태그를 지정한 종목도 그 태그가 낡았을 때만
+        # (MMM: 지정 태그가 2019-09-30 $7,731M에서 멈춰 패널 18개월 보류였다, r4 회귀 2026-10-25).
+        if name == "cash" and not out[name]:
+            _cs = bmh.pick_instant(cik, ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+                                         "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"])
+            _crow, _cst = _fresh(_cs, name)
+            # 같은 결산일이어도 기본 태그 쪽이 낡음 판정이면 합계 태그로(TT 2022-12-31 연간값이 r6에서 보류로 바뀌었다, 2026-10-25)
+            if _crow and _cst != "stale" and (not _row or _crow["end"] > _row["end"] or (_crow["end"] == _row["end"] and _st == "stale")):
+                # 같은 결산일의 제한현금이 태깅돼 있으면 뺀다 — 합계에는 다른 자산 줄의 제한현금이 들어 있다(MDLZ 2026-03 합계 1,631 = 현금 1,524 + 제한 107, Codex r3).
+                # 총계 태그가 없으면 유동 + 비유동. 둘 다 없으면 합계 그대로(표식 cash_total_tag로 남는다).
+                _rc = {e["end"]: e["val"] for e in bmh.pick_instant(cik, ["RestrictedCashAndCashEquivalents", "RestrictedCash",
+                                                                          "RestrictedCashAndCashEquivalentsAtCarryingValue"])
+                       if asof is None or e["available"] <= asof}
+                if _crow["end"] not in _rc:
+                    _rp = [{e["end"]: e["val"] for e in bmh.component_sum(cik, [t]) if asof is None or e["available"] <= asof}
+                           for t in ("RestrictedCashCurrent", "RestrictedCashAndCashEquivalentsCurrent")] + \
+                          [{e["end"]: e["val"] for e in bmh.component_sum(cik, [t]) if asof is None or e["available"] <= asof}
+                           for t in ("RestrictedCashNoncurrent", "RestrictedCashAndCashEquivalentsNoncurrent")]
+                    _cur = next((p[_crow["end"]] for p in _rp[:2] if _crow["end"] in p), None)
+                    _non = next((p[_crow["end"]] for p in _rp[2:] if _crow["end"] in p), None)
+                    if _cur is not None or _non is not None:
+                        _rc[_crow["end"]] = (_cur or 0) + (_non or 0)
+                _r = max(_rc.get(_crow["end"], 0), 0)
+                # 제한현금 태그에 합계와 같은 값을 넣는 회사가 있다(DVN 22개 날짜, CPRT FY19~22 — Fable r4) — 합계의 90% 이상이면 빼지 않는다(표식은 cash_total_tag)
+                out[name] = _crow["val"] - (_r if _r < 0.9 * _crow["val"] else 0)
+                _alt[name] = _crow["end"]
+                _stale.pop(name, None)
+                if _cst == "annual":
+                    _annual[name] = _crow["end"]
         if name == "debt":   # F4 표식 — 그 시점에 쓴 차입금 점이 총계 대체면 dq에 남긴다(필터에는 쓰지 않는다)
-            okp = [x for x in ser if asof is None or x.get("available", x["end"]) <= asof]
-            out["_debt_fallback"] = bool(okp and okp[-1].get("_note"))
+            out["_debt_fallback"] = bool(_row and _row.get("_note"))
     # 금융리스부채는 운용리스와 별개 태그라 EV_COMPONENTS["lease"]에 안 잡힌다.
     # MSFT는 $66.6B가 순부채에서 통째로 빠져 있었다(주당 약 $9).
     # 총계 태그가 있으면 그것만 쓴다. 셋을 모두 더하면 총계와 세부가 겹쳐
@@ -262,8 +347,8 @@ def base_inputs(ticker, asof=None):
     # 총계 태그가 세부(유동 + 비유동)보다 오래된 결산일에 멈췄으면 세부를 쓴다 — TMUS는 총계를 10-K에만 내
     # 2026-06-30에도 2025-12-31 $2,270M이 쓰였다(10-Q 세부 $1,178M + $1,121M = $2,299M, Codex, 2026-10-01).
     def _last_end(rows):
-        ok = [e for e in rows if asof is None or e.get("available", e.get("end")) <= asof]
-        return ok[-1]["end"] if ok else ""
+        e = newest(rows, asof)
+        return e["end"] if e else ""
     _fl_tot = bmh.component_sum(cik, ["FinanceLeaseLiability"])
     _fl_parts = bmh.component_sum(cik, ["FinanceLeaseLiabilityCurrent", "FinanceLeaseLiabilityNoncurrent"])
     fin_lease = latest(_fl_tot, asof)
@@ -319,8 +404,7 @@ def base_inputs(ticker, asof=None):
     incl_rows = bmh.component_sum(cik, ["StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"])
 
     def _last(series):
-        r = [e for e in series if asof is None or e.get("available", e.get("end")) <= asof]
-        return r[-1] if r else None
+        return newest(series, asof)
 
     se_last, incl_last = _last(se_rows), _last(incl_rows)
     if incl_last and (not se_last or (date.fromisoformat(incl_last["end"])
@@ -343,12 +427,12 @@ def base_inputs(ticker, asof=None):
         return [e for e in series if e.get("available", e.get("end")) <= asof]
 
     def fresh_latest(series):
-        s, eq = as_of_rows(series), as_of_rows(eq_rows)
+        s, eq = newest(series, asof), newest(eq_rows, asof)
         if not s:
             return None
-        if eq and (date.fromisoformat(eq[-1]["end"]) - date.fromisoformat(s[-1]["end"])).days > 200:
+        if eq and (date.fromisoformat(eq["end"]) - date.fromisoformat(s["end"])).days > 200:
             return None
-        return s[-1]["val"]
+        return s["val"]
 
     # 순현금 표시(build_fundamental_score.net_cash)가 채권성 장기투자만 따로 쓰므로 분리해 둔다.
     # MU는 같은 자산(10-Q "Long-term marketable investments", 2026-05 $4,106M)을 매도가능 채권 태그로만 낸다.
@@ -376,8 +460,7 @@ def base_inputs(ticker, asof=None):
     # AvailableForSaleSecuritiesDebtSecuritiesNoncurrent $313.2M(10-Q "Long-term investments" 한 줄)이 두 번 들어갔다(2026-10-16, 기존 카드 중 해당 0장).
     # 결산일까지 같아야 같은 자산으로 본다(값만 비교하면 다른 시점 잔액이 우연히 같을 때도 걸린다 — Codex 2026-10-16).
     def _last(tag):
-        r = as_of_rows(bmh.component_sum(cik, [tag]))
-        return r[-1] if r else None
+        return newest(bmh.component_sum(cik, [tag]), asof)
     _lm = out["lt_marketable"]
     # 비교 날짜는 lt_marketable이 실제로 고른 태그의 행에서(앞 태그가 낡아 버려졌으면 대체 태그 — Codex 2차)
     _lm_row = (_last("MarketableSecuritiesNoncurrent") if fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"]))
@@ -434,8 +517,8 @@ def base_inputs(ticker, asof=None):
         invest_assets += sum(x["value"] for x in fixed.values() if x.get("current"))
         out["invest_assets"] = invest_assets
         out["nwc"] = (ac - cash - invest_assets) - (lc - st_debt)
-        _ac = [e for e in bmh.component_sum(cik, ["AssetsCurrent"]) if e.get("available", e["end"]) <= (asof or "9999")]
-        out["nwc_end"] = _ac[-1]["end"] if _ac else None
+        _ac = newest(bmh.component_sum(cik, ["AssetsCurrent"]), asof)
+        out["nwc_end"] = _ac["end"] if _ac else None
     out["ticker"], out["asof"] = ticker, asof   # 한계 매출/자본 계산용(scenarios)
 
     # ── 데이터 품질(2026-09-25 사용자 결정) — 유니버스 427종목 중 34%가 아래 신호 하나 이상 ──
@@ -491,6 +574,29 @@ def base_inputs(ticker, asof=None):
         out["dq"].append(f"debt_suspect:interest={interest / 1e9:.2f}B,debt={debt_all / 1e9:.2f}B")
     if effective_tax(out) != (out["tax"] / out["pretax"] if out.get("tax") is not None and out.get("pretax") else None):
         out["dq"].append("tax_fallback")
+    # 재무상태표 항목을 낡아서 버렸으면(0으로 계산) 표식 — 총자산의 1% 이상이면 bs_stale, 미만이면 bs_stale_minor(2026-10-25)
+    _assets_rows = [e for e in bmh.component_sum(cik, ["Assets"]) if asof is None or e["available"] <= asof]
+    _hold = []
+    for _n, (_v, _e) in sorted(_stale.items()):
+        # 문턱은 그 시점(asof) 총자산의 1%. 옛 결산일 총자산으로 재면 10년 넘게 전에 없어진 작은 값(FAST 2012 단기투자 $30M, FIX 2015 비지배 $20M,
+        # SO 2009 우선주)이 커 보여 카드 판정이 통째로 보류됐다(r3 회귀 2026-10-25) — 지금 규모에서 1% 미만이면 bs_stale_minor로 표시만.
+        _ar = newest(_assets_rows, asof)
+        _big = bool(_ar and _ar["val"]) and abs(_v) >= 0.01 * _ar["val"]
+        out["dq"].append(f"{'bs_stale' if _big else 'bs_stale_minor'}:{_n}={_v / 1e9:.2f}B@{_e}")
+        if _big and _n in ("debt", "cash", "sti", "nci", "preferred"):   # 비지배지분·우선주도(APA 이집트 합작 비지배 $0.9B, SRE — Fable r3)
+            _hold.append((_n, _e))
+    for _n, _e in sorted(_annual.items()):
+        out["dq"].append(f"bs_annual:{_n}@{_e}")
+    for _n, _e in sorted(_alt.items()):
+        out["dq"].append(f"cash_total_tag@{_e}")
+    # 큰 차입금·현금·단기투자·비지배지분·우선주를 그 시점 공시에서 못 찾으면(낡아서 버림 — 0으로 두면 차입금 누락은 가치가 부풀고 현금 누락은 줄어든다)
+    # DCF를 보류한다: 카드는 '계산 보류 · 사유', 연구 패널은 dq 필터로 뺀다(2026-10-25 사용자 결정). 실제로 없어진 것을 원문으로
+    # 확인한 항목은 bmh.EV_ZERO_FROM_BY_CIK에 0으로 적어 보류에서 뺀다.
+    if _hold:
+        out["dcf_hold"] = ", ".join(f"{_HOLD_NAME[n]}(마지막 값 {e})" for n, e in _hold)
+        out["dq"].append("dcf_hold:" + ",".join(n for n, _ in _hold))
+    if out.get("_fl_annual"):
+        out["dq"].append(f"fl_capex_annual:{out.pop('_fl_annual')}")
     return out
 
 
@@ -538,7 +644,7 @@ def current_debt(cik, asof):
     ac_rows = [e for e in bmh.component_sum(cik, ["AssetsCurrent"]) if e.get("available", e["end"]) <= (asof or "9999")]
     if not ac_rows:
         return 0
-    end = ac_rows[-1]["end"]
+    end = max(e["end"] for e in ac_rows)   # 공개일 순서의 마지막이 아니라 가장 늦은 결산일(2026-10-25)
 
     def pick(tag):
         rows = [e for e in bmh.component_sum(cik, [tag]) if e.get("available", e["end"]) <= (asof or "9999")

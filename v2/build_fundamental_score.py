@@ -604,6 +604,8 @@ def net_cash(ticker):
     """
     import build_dcf as d
     b = d.base_inputs(ticker)
+    if b.get("dcf_hold"):   # 차입금·현금 등을 못 찾은 계산 보류면 순현금을 보이지 않는다(카드 순현금 칸은 "계산 보류", 2026-10-25)
+        return None
     # 장기 채권(MarketableSecuritiesNoncurrent, 국채·회사채)은 만기만 길 뿐 현금에 가깝다.
     # 빼면 AAPL이 순현금 $48.4B인데 순부채 −$2.44/주로 보인다(2026-09-24 사용자 결정으로 포함).
     # 지분증권은 여전히 넣지 않는다.

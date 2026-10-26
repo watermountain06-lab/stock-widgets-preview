@@ -832,7 +832,8 @@ def main():
         meta, rows = build()
     add_returns(rows)
     peer_scores(rows)    # 동종업은 필터와 무관하게 그날 섹터 전체로(카드도 데이터 품질로 동종업을 거르지 않는다)
-    bad = lambda r: any(str(x).startswith(("debt_suspect", "shares_missing")) for x in r["dq"])
+    # dcf_hold(큰 차입금·현금·단기투자를 그 시점 공시에서 못 찾음)도 뺀다 — 2026-10-25 사용자 결정(five_year_gate_prereg 개정 기록)
+    bad = lambda r: any(str(x).startswith(("debt_suspect", "shares_missing", "dcf_hold")) for x in r["dq"])
     res = {"meta": meta}
     for label, rs in (("dq_filtered", [r for r in rows if not bad(r)]), ("dq_unfiltered", rows)):
         rs = [dict(r) for r in rs]
