@@ -259,6 +259,90 @@ def extract_concept(facts, tag_candidates, is_instant=False, n_years=3):
     return best[1]
 
 
+# 안건 E36(2026-10-26, research/e36_d61_design.md): 연간 이력이 있는 옛 태그가 순위에서 이겨 최신 분기가 멈춘 경우,
+# 더 새 후보 태그의 3개월 값을 쓴다 — 같은 (start, end) 겹침이 2개 이상이고 0 아닌 값이 있고 모두 2% 안일 때만.
+# 분기 점수에 쓰이는 손익 항목만(현금흐름·배당은 XBRL이 누계로 내는 관행이라 대상 아님). LATEST_Q_BY_CIK 지정 키는 건너뛴다.
+REFINE_KEYS = {"revenue", "costOfRevenue", "operatingIncome", "pretaxIncome", "netIncome",
+               "netIncomeAttributableToParent", "interestExpense", "epsBasic", "epsDiluted"}
+PER_SHARE_KEYS = {"epsBasic", "epsDiluted"}
+
+
+def _norm_by_period(entries):
+    """(start, end)마다 filed가 가장 늦은 사실 하나(같으면 accn 사전순 마지막)."""
+    by = {}
+    for e in entries:
+        if "start" not in e or e.get("val") is None:
+            continue
+        k = (e["start"], e["end"])
+        if k not in by or (e.get("filed", ""), e.get("accn", "")) > (by[k].get("filed", ""), by[k].get("accn", "")):
+            by[k] = e
+    return by
+
+
+def _latest_3m_10q(entries):
+    qs = [e for e in entries if e.get("form") == "10-Q" and "start" in e and e.get("val") is not None and 80 <= _days(e) <= 100]
+    return max(qs, key=lambda e: (e["end"], e.get("filed", ""))) if qs else None
+
+
+def _latest_10q_end(entries):
+    ends = [e["end"] for e in entries if e.get("form") == "10-Q" and "start" in e]
+    return max(ends) if ends else None
+
+
+def refine_latest_quarter(facts, tags, res, key):
+    """res(extract_concept 결과)의 최신 분기를 더 새 후보 태그에서 가져올 수 있으면 바꾼다. 경고는 res["warnings"]에."""
+    a_tag = res.get("tag")
+    if not a_tag or a_tag not in facts:
+        return res
+    unit = "USD/shares" if key in PER_SHARE_KEYS else "USD"
+    ua = facts[a_tag]["units"].get(unit, [])
+    qa = _latest_3m_10q(ua)
+    cands, warns = [], []
+    for i, b_tag in enumerate(tags):
+        if b_tag == a_tag or b_tag not in facts:
+            continue
+        ub = facts[b_tag]["units"].get(unit, [])
+        qb, le = _latest_3m_10q(ub), _latest_10q_end(ub)
+        if le and (not qb or le > qb["end"]) and (not qa or le > qa["end"]):
+            warns.append(f"quarter_tag_ytd_only: {a_tag}→{b_tag}")   # 7항: 더 새 10-Q가 누계뿐
+            continue
+        if qb and (not qa or qb["end"] > qa["end"]):
+            cands.append((qb["end"], -i, b_tag, ub, qb))
+    na = _norm_by_period(ua)
+    for _, _, b_tag, ub, qb in sorted(cands, reverse=True):
+        nb = _norm_by_period(ub)
+        common = set(na) & set(nb)
+        ok = (len(common) >= 2
+              and any(na[c]["val"] != 0 or nb[c]["val"] != 0 for c in common)
+              and all(abs(na[c]["val"] - nb[c]["val"]) <= 0.02 * max(abs(na[c]["val"]), abs(nb[c]["val"])) for c in common))
+        if ok:
+            res["latestQuarter"] = qb
+            res["latestQuarterTag"] = b_tag
+            return res
+        warns.append(f"quarter_tag_mismatch: {a_tag}→{b_tag} (겹침 {len(common)})")
+    if warns:
+        res["warnings"] = warns
+    return res
+
+
+def build_result(facts, cik, n_years=3):
+    """facts(us-gaap + dei 표지)에서 개념별 결과를 만든다 — main()과 오프라인 비교(캐시)가 같이 쓴다."""
+    result = {}
+    for key, tags in CONCEPTS.items():
+        tags = CONCEPTS_BY_CIK.get(str(cik).zfill(10), {}).get(key, tags)
+        result[key] = extract_concept(facts, tags, is_instant=key in INSTANT_CONCEPTS, n_years=n_years)
+        alt_tags = LATEST_Q_BY_CIK.get(str(cik).zfill(10), {}).get(key)
+        if alt_tags:
+            alt = extract_concept(facts, alt_tags, is_instant=key in INSTANT_CONCEPTS, n_years=n_years)
+            q0, q1 = result[key].get("latestQuarter"), alt.get("latestQuarter")
+            if q1 and (not q0 or q1["end"] > q0["end"]):
+                result[key]["latestQuarter"] = q1
+                result[key]["latestQuarterTag"] = alt.get("tag")
+        elif key in REFINE_KEYS:
+            refine_latest_quarter(facts, tags, result[key], key)
+    return result
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
@@ -299,16 +383,7 @@ def main():
         "cik": cik,
         "entityName": data.get("entityName"),
     }
-    for key, tags in CONCEPTS.items():
-        tags = CONCEPTS_BY_CIK.get(str(cik).zfill(10), {}).get(key, tags)
-        result[key] = extract_concept(facts, tags, is_instant=key in INSTANT_CONCEPTS, n_years=args.years)
-        alt_tags = LATEST_Q_BY_CIK.get(str(cik).zfill(10), {}).get(key)
-        if alt_tags:
-            alt = extract_concept(facts, alt_tags, is_instant=key in INSTANT_CONCEPTS, n_years=args.years)
-            q0, q1 = result[key].get("latestQuarter"), alt.get("latestQuarter")
-            if q1 and (not q0 or q1["end"] > q0["end"]):
-                result[key]["latestQuarter"] = q1
-                result[key]["latestQuarterTag"] = alt.get("tag")
+    result.update(build_result(facts, cik, n_years=args.years))
 
     out_path = args.out or f"{args.ticker.upper()}_financials.json"
     with open(out_path, "w") as f:

@@ -257,6 +257,30 @@ INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther",
                  "0000027904": "AirlineRelatedInventoryNet",   # DAL 항공 관련 재고(연료·부품, $2,637M) — 당좌비율 40.2% → 32.3%(Fable r1 2026-10-23)
                  "0000277948": "MaterialsSuppliesAndOther"}   # CSX "Materials and Supplies"($406M, 2026-06-30) — 당좌비율 82.0% → 72.3%(Codex 2026-10-18)
 ROUNDED_COMMON_NI = {"0000001800"}   # ABT — 위 순이익률 주석 참고
+# D61(2026-10-26): 순이자 태그 — 비용이 음수로 실린다(EMR·FCX·GWW·HWM·LOW·MCO·TRGP·WM, fetch_financials CONCEPTS_BY_CIK 회사별 지정).
+# 손입력 순이자(PM·MO·IEX·DAL·DG·CDW·ZBRA·TMUS)는 interest_extra.json 항목의 "net": true로 가린다.
+NET_INTEREST_TAGS = {"InterestIncomeExpenseNonoperatingNet", "InterestIncomeExpenseNet"}
+
+
+def interest_coverage_item(op, iv, src_tag, manual, adj):
+    """이자보상배율 항목(영업이익 op > 0일 때). D61(2026-10-26, research/e36_d61_design.md §2): 실제로 쓴 값의 출처로
+    순이자 여부를 정하고, 비용 크기 b로 바꾼 뒤 조정 adj(비용 크기 기준, 양수 = 비용을 늘림)를 더한 최종 비용 c 하나로 판정·계산한다.
+    돌려주는 값: (항목, 경고 플래그 또는 None)."""
+    net = bool(manual.get("net")) if manual else src_tag in NET_INTEREST_TAGS
+    b = -iv if (net and not manual) else abs(iv)   # 순이자 태그는 비용이 음수로 실린다, 총이자·손입력은 절댓값
+    note = None if net or iv >= 0 else "음수 부호로 공시(절댓값)"   # DIS 10-K InterestExpense
+    c = b + adj
+    if c > 0:
+        item = {"value": op / c}
+        if net or note:
+            item["note"] = "순이자 기준" if net else note
+        return item, None
+    if c == 0:
+        return ({"value": None, "points": None, "note": "순이자 0(이자비용 미공시)"} if net
+                else {"value": None, "points": 5, "note": "이자비용 0"}), None
+    if net:
+        return {"value": None, "points": None, "note": "순이자 수익(이자비용 미공시)"}, None
+    return {"value": None, "points": None, "note": "이자비용 자료 이상(조정이 비용보다 큼)"}, "interest_adjust_exceeds_cost"
 
 
 def _finance_lease_extra(cik, end):
@@ -355,21 +379,25 @@ def score_items(fin, config, basis):
             _nodebt = not dv and not (sd or ld)
             items["interestCoverage"] = {"value": None, "points": None, "note": "해당 없음(차입금·이자비용 태그 없음)" if _nodebt else "이자비용 태그 없음"}
         else:
-            iv = (quarter_flow(fin, "interestExpense", op_end) if basis == "quarter" and q_end
+            use_q = basis == "quarter" and q_end
+            iv = (quarter_flow(fin, "interestExpense", op_end) if use_q
                   else value_at(_rows(fin, "interestExpense"), op_end))
+            ie = fin.get("interestExpense", {})
+            src_tag = (ie.get("latestQuarterTag") or ie.get("tag")) if use_q else ie.get("tag")
             extra = os.path.join(os.path.dirname(os.path.abspath(__file__)), "interest_extra.json")
             rows = json.load(open(extra)).get(fin.get("ticker", ""), []) if os.path.exists(extra) else []
+            manual = None
             if iv is None and basis == "quarter":
                 # 태그가 없는 분기는 손입력(v2/interest_extra.json, 10-Q 원문 표)을 쓴다 — LLY 부문 주석 $345M
-                iv = next((r["value"] for r in rows if r["end"] == op_end and "value" in r), None)
-            elif iv is not None and basis == "quarter":
+                manual = next((r for r in rows if r["end"] == op_end and "value" in r), None)
+                iv = manual["value"] if manual else None
+            if iv is not None:
                 # 회사가 금액을 밝힌 일회성 이자비용 조정은 되돌린다(v2/tax_oneoff.json이 일회성 세금에 쓰는 원칙과 같다, 분기 기준만) —
                 # WMT Q2 FY27: 미인식 세무 혜택 변동으로 이자비용 $0.5B 감소(10-Q 법인세 주석)
-                iv += sum(r["adjust"] for r in rows if r["end"] == op_end and "adjust" in r)
-            if iv == 0:
-                items["interestCoverage"] = {"value": None, "points": 5, "note": "이자비용 0"}
-            elif iv is not None:
-                items["interestCoverage"] = {"value": op / abs(iv)}
+                adj = sum(r["adjust"] for r in rows if r["end"] == op_end and "adjust" in r) if basis == "quarter" else 0
+                items["interestCoverage"], flag = interest_coverage_item(op, iv, src_tag, manual, adj)
+                if flag:
+                    flags.append(flag)
             else:   # 태그는 쓰는데 그 분기 값만 없다 — 결측(사유를 남긴다, v2.1 B-2·Fable 2026-10-05)
                 items["interestCoverage"] = {"value": None, "points": None, "note": "그 분기 이자비용 미공시"}
 
