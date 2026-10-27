@@ -1,21 +1,21 @@
 {
  "ticker": "TMUS",
  "window": [
-  "2021-10-25",
-  "2026-10-23"
+  "2021-10-26",
+  "2026-10-26"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 15.33,
+   "current": 15.37,
    "min": 15.33,
-   "p10": 19.53,
-   "median": 25.4,
+   "p10": 19.47,
+   "median": 25.37,
    "p90": 99.02,
    "max": 124.93,
-   "mean": 40.12,
-   "percentile": 0.0,
-   "score": 100.0
+   "mean": 40.1,
+   "percentile": 0.1,
+   "score": 99.9
   },
   "PSR": {
    "days": 1255,
@@ -26,54 +26,54 @@
    "p90": 3.32,
    "max": 3.83,
    "mean": 2.49,
-   "percentile": 1.0,
-   "score": 99.0
+   "percentile": 1.2,
+   "score": 98.8
   },
   "PBR": {
    "days": 1255,
-   "current": 2.79,
+   "current": 2.8,
    "min": 1.85,
-   "p10": 2.3,
+   "p10": 2.31,
    "median": 3.01,
    "p90": 4.41,
    "max": 5.05,
    "mean": 3.21,
-   "percentile": 42.9,
-   "score": 57.1
+   "percentile": 43.1,
+   "score": 56.9
   },
   "PCR": {
    "days": 1255,
-   "current": 8.54,
+   "current": 8.57,
    "min": 8.54,
    "p10": 11.63,
-   "median": 22.0,
-   "p90": 105.89,
+   "median": 21.99,
+   "p90": 105.88,
    "max": 696.35,
-   "mean": 47.62,
-   "percentile": 0.0,
-   "score": 100.0
+   "mean": 47.07,
+   "percentile": 0.1,
+   "score": 99.9
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 8.28,
+   "current": 8.29,
    "min": 8.28,
    "p10": 9.91,
    "median": 11.32,
    "p90": 13.96,
    "max": 15.32,
    "mean": 11.66,
-   "percentile": 0.0,
-   "score": 100.0
+   "percentile": 0.1,
+   "score": 99.9
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 18.81,
-  "per_p75": 20.36,
+  "per_p25": 18.8,
+  "per_p75": 20.34,
   "low": 180,
   "high": 190,
-  "asOf": "2026-10-23",
+  "asOf": "2026-10-26",
   "basis": "diluted"
  }
 }
