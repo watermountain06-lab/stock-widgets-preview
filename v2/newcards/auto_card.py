@@ -803,6 +803,8 @@ def texts(C, ns):
         C.DCF_NOTE = ("재무상태표 일부 항목(차입금·현금·단기투자·비지배지분·우선주 중)이 200일 넘게 갱신되지 않아 현금흐름 내재가치 계산을 보류했다." if _hold else
                       "이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다).")
         C.PREMISE = C.PREMISE.split("<strong>")[0].rstrip()
+        # 보류·미적용 카드엔 시나리오 가정이 없다 — cfg가 문장을 들고 있지 않은 자동 카드(MSI 보류)에서 STORIES 없이 _finish로 가 멈췄다(2026-10-26)
+        C.STORIES = ["계산을 보류했다."] * 3 if _hold else getattr(C, "STORIES", ["계산하지 않음."] * 3)
         return _finish(C)
     fin_debt = debt + lease - (b.get("op_lease") or 0)   # build_dcf와 같은 정의 — 운용리스는 영업비용이라 빼지 않는다(Codex)
     C.RISK = risk + tail + f" 내재가치에서 차입금" + ("·금융리스" if lease - (b.get("op_lease") or 0) > 0 else "") + f" {B(fin_debt)}를 빼고 현금·단기투자 {B(cash)}를 더한다."
@@ -955,7 +957,10 @@ def _finish(C):
         _fix0 = fix
         fix = lambda t: _fix0(t.replace("GAAP ", "") if isinstance(t, str) else t)
     deep = lambda v: [deep(x) for x in v] if isinstance(v, list) else tuple(deep(x) for x in v) if isinstance(v, tuple) else fix(v)
-    for k in ("SUMMARY", "BULL", "BEAR", "CHECK", "YOY_EXTRA", "SEG_NOTE", "HEALTH_NOTE", "PREMISE", "RISK", "DCF_NOTE", "STORIES", "SELF_TIP"):
+    keys = ("SUMMARY", "BULL", "BEAR", "CHECK", "YOY_EXTRA", "SEG_NOTE", "HEALTH_NOTE", "PREMISE", "RISK", "DCF_NOTE", "STORIES", "SELF_TIP")
+    miss = [k for k in keys if not hasattr(C, k)]   # 빈 칸을 한 번에 다 보여준다 — STORIES 하나만 알려주고 멈췄다(MSI 2026-10-26, dr r1 Fable)
+    assert not miss, "채워지지 않은 칸: " + ", ".join(miss)   # AUTO 카드는 cfg가 아니라 texts()가 채운다(dr r2 Fable)
+    for k in keys:
         setattr(C, k, deep(getattr(C, k)))
 
     return None
