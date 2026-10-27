@@ -13,22 +13,22 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 60장: AAPL, ADBE, ADI, ADP, ADSK, AMAT, AMD, AMGN"
+   "detail": "승인 목록에 없는 판정 코드 해시 69장: AAPL, ADBE, ADI, ADP, ADSK, AMAT, AMD, AMGN"
   }
  ],
  "detail": "보유 파일 기준일 2026-10-24 ≠ 허용 ['2026-10-23'] (P=2026-10-23, 규칙 same)",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8767807981156244,
+ "coverage": 0.8962102777391098,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.004616189647350547,
   "적정~저평가": 0.13400703235866432,
   "적정": 0.02253094808653146,
-  "적정~고평가": 0.2849958689149117,
-  "고평가": 0.43063075910816634,
-  "카드 없음": 0.0953652329881916,
+  "적정~고평가": 0.299312737662577,
+  "고평가": 0.43574336998398644,
+  "카드 없음": 0.07593575336470622,
   "판정 보류": 0.027853968896184078,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
@@ -162,8 +162,8 @@
   "lines": 106,
   "nonEquity": 5,
   "companies": 100,
-  "cardsMatched": 61,
-  "cardsUsed": 60,
+  "cardsMatched": 70,
+  "cardsUsed": 69,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -257,6 +257,13 @@
    "excluded": []
   },
   {
+   "card": "CDNS",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "CEG",
    "verdict": "고평가",
    "n": -3.0,
@@ -313,6 +320,13 @@
    "excluded": []
   },
   {
+   "card": "DXCM",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "FAST",
    "verdict": "고평가",
    "n": -4.0,
@@ -335,6 +349,13 @@
   },
   {
    "card": "GOOGL",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
+   "card": "IDXX",
    "verdict": "적정~고평가",
    "n": -2.0,
    "date": "2026-10-23",
@@ -397,6 +418,20 @@
    "excluded": []
   },
   {
+   "card": "MCHP",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
+   "card": "MDLZ",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "META",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -453,6 +488,13 @@
    "excluded": []
   },
   {
+   "card": "ODFL",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "ORLY",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -463,6 +505,13 @@
    "card": "PANW",
    "verdict": "고평가",
    "n": -4.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
+   "card": "PAYX",
+   "verdict": "적정~고평가",
+   "n": -1.0,
    "date": "2026-10-23",
    "excluded": []
   },
@@ -567,6 +616,13 @@
    "excluded": []
   },
   {
+   "card": "TTWO",
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
    "card": "TXN",
    "verdict": "고평가",
    "n": -3.0,
@@ -577,6 +633,13 @@
    "card": "VRTX",
    "verdict": "고평가",
    "n": -4.0,
+   "date": "2026-10-23",
+   "excluded": []
+  },
+  {
+   "card": "WDAY",
+   "verdict": "적정~고평가",
+   "n": -2.0,
    "date": "2026-10-23",
    "excluded": []
   },
@@ -613,8 +676,8 @@
  "inputFormat": "invesco_json",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-24T23:43:49Z",
- "fetchedAt": "2026-10-24T23:43:50Z",
+ "runAt": "2026-10-26T20:11:41Z",
+ "fetchedAt": "2026-10-26T20:11:42Z",
  "inputHash": {
   "json": "d5e866b940d51fcfbdac8c6d2e6f7ef5102c83345db3130e8c734893f8bdead6",
   "alias": "cd884e524b4f6045",
@@ -630,7 +693,7 @@
   ],
   "S": "2026-10-24"
  },
- "runId": "40143887799.1",
+ "runId": "40393393524.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -657,6 +720,7 @@
     "ASML",
     "AVGO",
     "BKNG",
+    "CDNS",
     "CEG",
     "COST",
     "CRWD",
@@ -665,10 +729,12 @@
     "CTAS",
     "DASH",
     "DDOG",
+    "DXCM",
     "FAST",
     "FTNT",
     "GILD",
     "GOOGL",
+    "IDXX",
     "INTC",
     "INTU",
     "ISRG",
@@ -677,6 +743,8 @@
     "LITE",
     "LRCX",
     "MAR",
+    "MCHP",
+    "MDLZ",
     "META",
     "MNST",
     "MRNA",
@@ -685,8 +753,10 @@
     "MU",
     "NFLX",
     "NVDA",
+    "ODFL",
     "ORLY",
     "PANW",
+    "PAYX",
     "PCAR",
     "PEP",
     "PLTR",
@@ -700,8 +770,10 @@
     "TER",
     "TMUS",
     "TSLA",
+    "TTWO",
     "TXN",
     "VRTX",
+    "WDAY",
     "WDC",
     "WMT",
     "XEL"
