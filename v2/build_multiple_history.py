@@ -1823,7 +1823,9 @@ DEBT_TOTAL_TAG = {# NCLH: 차입금을 금융리스 포함 장기차입 비유�
                   # NOW: 단기차입(기업어음, ShortTermBorrowings $2,082M)과 장기 사채(LongTermDebt $5,435M) — 엔진 조합은 $4,182M였다(2026-10-02).
                   # 2022~2025-09 사채($1.48~1.49B)는 ConvertibleLongTermNotesPayable로만 냈다 — 날짜마다 LongTermDebt 우선, 없으면 그 태그(튜플).
                   # 기본 경로는 LongTermDebtNoncurrent가 2021-09에 멈추고 1년 안 0만 이어져 차입금 0이었다(재봉인 dr r1 2026-10-27).
-                  "0001373715": ["ShortTermBorrowings", ("LongTermDebt", "ConvertibleLongTermNotesPayable")],
+                  # 2021 분기 사채는 LongTermDebtNoncurrent로만, 1년 안 만기분(2022 전환사채)은 LongTermDebtCurrent(2022-12까지)로 냈다 — 튜플 끝과 더하는 항목.
+                  # 빼면 지정 총계가 2020-06에 시작해 2021 분기가 기본 경로에서 잘리고 2021-10~2022-01이 낡은 값 보류가 됐다(재봉인 r8 점검).
+                  "0001373715": ["ShortTermBorrowings", ("LongTermDebt", "ConvertibleLongTermNotesPayable", "LongTermDebtNoncurrent"), "LongTermDebtCurrent"],
                   # BMY: ShortTermBorrowings($1,027M = 재무상태표 "Short-term debt obligations")에 1년 안 만기 사채 $768M가 이미 들어 있어 기본 조합이 두 번 셌다($43.9B 대 $43.1B, 2026-10-02).
                   "0000014272": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # VRTX: 차입금이 없다 — LongTermDebt가 2011-09($105M)에 멈춘 값이라 쓰지 않는다(금융리스는 따로 잡힌다, 2026-10-02).
