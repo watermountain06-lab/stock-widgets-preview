@@ -35,6 +35,9 @@ def dump(url, ticker):
     # 브라우저 실패·빈 출력·서버 404를 "같음"으로 보지 않는다 — 양쪽이 같이 실패하면 빈 출력끼리 같았다(dr 2026-10-13)
     if r.returncode != 0 or 'class="company-name"' not in out or f"const {ticker}_DAILY" not in out:
         print(f"{ticker}: 렌더 실패({url}, 반환 코드 {r.returncode}) — 서버·CHROME 확인"); sys.exit(2)   # 1(내용 차이)과 구분
+    # HTML 주석을 먼저 지운다 — 주석 안의 "<div …>"·"</div>" 글자가 아래 태그 제거에 걸려 주석 뒷부분이 보이는 글자로 남았다
+    # (TODAY_NEWS_ANCHOR 주석, 전 카드 — Codex가 "화면에 보인다"로 읽음, 2026-10-27). 브라우저에는 원래 보이지 않는다.
+    out = re.sub(r"<!--.*?-->", "", out, flags=re.S)
     out = re.sub(r"<script.*?</script>|<style.*?</style>|<svg.*?</svg>|<canvas[^>]*>.*?</canvas>", "", out, flags=re.S)
     titles = [hm.unescape(x) for x in re.findall(r'title="([^"]*)"', out)]
     text = [l.strip() for l in hm.unescape(re.sub(r"<[^>]+>", "\n", out)).split("\n") if l.strip()]
