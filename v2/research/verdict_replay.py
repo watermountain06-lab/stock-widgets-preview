@@ -11,7 +11,7 @@ V3 업종 백분위)으로 카드 JS와 같은 합산 규칙의 판정을 낸다
 - 동종업: 평가일 같은 날 S&P500 같은 GICS 섹터(자기 제외) 배수 순위 — build_peer_score.peer_score와 같은 산식.
   동종업 쪽은 모두 공시 희석 EPS 기준 PER(카드의 S&P500 비교군 파일과 같은 기준), 본인 PER이 본업 기준이면 PER을 뺀다.
 
-자료: research/.prices10y(10년 일봉·분할), .facts_20261002(지금 엔진 태그), .eps_20261002 — fetch_replay_data.py.
+자료: research/.prices10y(10년 일봉·분할), .facts_20261002_t1026(10-02 자료 + 2026-10-26 엔진 태그, refresh_facts_tags.py), .eps_20261002 — fetch_replay_data.py.
 
     python3 v2/research/verdict_replay.py            # 패널 생성 + 분석
     python3 v2/research/verdict_replay.py --analyze  # 저장된 패널로 분석만
@@ -45,7 +45,8 @@ import splits as _splits  # noqa: E402
 
 d = v.d
 PRICES = os.path.join(HERE, ".prices10y")
-FACTS = os.path.join(HERE, ".facts_20261002")
+# 2026-10-26: 10-02 자료에 지금 엔진 태그를 채운 스냅샷(refresh_facts_tags.py) — 옛 스냅샷은 태그 47개가 없어 패널이 카드와 달랐다(five_year_gate 재봉인)
+FACTS = os.path.join(HERE, ".facts_20261002_t1026")
 EPS_DIR = os.path.join(HERE, ".eps_20261002")
 PANEL = os.path.join(HERE, "verdict_replay_panel.json")
 RESULT = os.path.join(HERE, "verdict_replay_result.json")

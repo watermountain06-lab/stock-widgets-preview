@@ -42,7 +42,7 @@ PY = sys.executable
 SELF = "v2/research/engine_regress.py"
 
 # git이 추적하지 않는 입력 — 나무에 복제로 붙인다
-UNTRACKED_INPUTS = ["v2/.sec_cache", "data", "v2/research/.prices10y", "v2/research/.facts_20261002",
+UNTRACKED_INPUTS = ["v2/.sec_cache", "data", "v2/research/.prices10y", "v2/research/.facts_20261002", "v2/research/.facts_20261002_t1026",
                     "v2/research/.eps_20261002", "v2/research/.sp500_wiki_20261008"]
 # 엔진으로 보는 파일(바꿔 끼우는 대상). 카드 HTML·일봉·공시 승인일 같은 입력 자료는 넣지 않는다.
 ENGINE_GLOBS = [":(glob)v2/*.py", ":(glob)v2/adapters/*.py", ":(glob)v2/research/*.py", ":(glob)scripts/*.py",   # 하위 폴더는 넣지 않는다

@@ -2234,28 +2234,43 @@ def ev_component(cik, name, tags):
     return out
 
 
-def _ev_component(cik, name, tags):
+def _debt_total_tag_rows(cik):
+    """DEBT_TOTAL_TAG로 지정한 차입금 총계 행 — 문자열 항목은 더하고, 튜플 항목은 날짜마다 앞 태그 우선(pick_instant)."""
+    tags = DEBT_TOTAL_TAG[cik]
+    tags = tags if isinstance(tags, list) else [tags]
+    if not any(isinstance(t, tuple) for t in tags):
+        return component_sum(cik, tags)
+    # 튜플 항목은 날짜마다 앞 태그 우선(pick_instant), 문자열 항목은 그대로 더한다(KO).
+    by_end = {}
+    for t in tags:
+        for e in (pick_instant(cik, list(t)) if isinstance(t, tuple) else component_sum(cik, [t])):
+            slot = by_end.setdefault(e["end"], {"end": e["end"], "val": 0.0, "available": e["available"]})
+            slot["val"] += e["val"]
+            slot["available"] = max(slot["available"], e["available"])
+    for end, av in DEBT_AVAILABLE_FIX.get(cik, {}).items():
+        if end in by_end:
+            by_end[end]["available"] = av
+    return sorted(by_end.values(), key=lambda e: e["available"])
+
+
+def _ev_component(cik, name, tags, _no_total=False):
     tags = EV_TAGS_BY_CIK.get(cik, {}).get(name, tags)
     zf = EV_ZERO_FROM_BY_CIK.get(cik, {}).get(name)
     if zf:
         rows = [e for e in component_sum(cik, tags) if e["end"] < zf[0]]
         return rows + [{"end": zf[0], "val": 0.0, "available": zf[1]}]
-    if name == "debt" and cik in DEBT_TOTAL_TAG:
-        tags = DEBT_TOTAL_TAG[cik]
-        tags = tags if isinstance(tags, list) else [tags]
-        if not any(isinstance(t, tuple) for t in tags):
-            return component_sum(cik, tags)
-        # 튜플 항목은 날짜마다 앞 태그 우선(pick_instant), 문자열 항목은 그대로 더한다(KO).
-        by_end = {}
-        for t in tags:
-            for e in (pick_instant(cik, list(t)) if isinstance(t, tuple) else component_sum(cik, [t])):
-                slot = by_end.setdefault(e["end"], {"end": e["end"], "val": 0.0, "available": e["available"]})
-                slot["val"] += e["val"]
-                slot["available"] = max(slot["available"], e["available"])
-        for end, av in DEBT_AVAILABLE_FIX.get(cik, {}).items():
-            if end in by_end:
-                by_end[end]["available"] = av
-        return sorted(by_end.values(), key=lambda e: e["available"])
+    if name == "debt" and cik in DEBT_TOTAL_TAG and not _no_total:
+        des = _debt_total_tag_rows(cik)
+        # 지정 총계가 시작하기 **전** 결산일은 기본 경로로 — UAL 지정 태그는 2023-12부터라 그 전이 2014년에 멈춘 LongTermDebt로
+        # 보류됐고, NOW(2025-12부터)는 사채 약 $1.5B가 표식 없이 0이었다(재봉인 점검 2026-10-26). 지정 총계가 아직 하나도 없으면
+        # (연구 패널은 공시일로 자르므로 지정 태그를 처음 낸 공시 전 평가일이 그렇다) 전부 기본 경로 — 오래 멈춘 값은 build_dcf가 낡음으로 거른다.
+        # 기본 경로가 다른 범위를 잡는 회사(DEBT_TOTAL_FALLBACK_SKIP — CAT·DE·GM은 금융 부문 빼고, 지정 값이 부문 차원 자료라 연구
+        # 스냅샷에 없다)는 돌아가지 않는다 — 돌아가면 금융 자회사 차입금까지 더해 CAT 현금흐름 칸이 '매우 비싸다'로 바뀌었다(q2 회귀).
+        if cik in DEBT_TOTAL_FALLBACK_SKIP:
+            return des
+        first = min((e["end"] for e in des), default="9999-12-31")
+        old = [e for e in _ev_component(cik, name, tags, _no_total=True) if e["end"] < first]
+        return sorted(old + des, key=lambda e: e["available"])
     if isinstance(tags, tuple):   # EV_TAGS_BY_CIK 값이 튜플이면 날짜마다 앞 태그 우선(AJG 현금 — 표시 변경 전 태그를 옛 날짜에, 2026-10-22 Fable)
         return pick_instant(cik, list(tags))
     out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
