@@ -22,6 +22,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 from cover_shares import get  # noqa: E402
+from ixbrl_supplement import facts_cache  # noqa: E402
 
 CACHE = os.path.join(V2, ".sec_cache")
 
@@ -42,7 +43,7 @@ def contexts(h, dim, member):
 def main(cik, name, dim, member, since):
     cik = cik.zfill(10)
     tax, tag = name.split(":")
-    facts = json.load(open(os.path.join(CACHE, f"{cik}_facts.json")))
+    facts = facts_cache(cik)   # 캐시에 없으면 받는다(ixbrl_supplement, 2026-10-26)
     have = {(r["end"], r["filed"]) for rows in facts["facts"].get(tax, {}).get(tag, {}).get("units", {}).values() for r in rows}
     sub = json.loads(get(f"https://data.sec.gov/submissions/CIK{cik}.json"))["filings"]["recent"]
     op = os.path.join(CACHE, "overlay", f"{cik}.json")
