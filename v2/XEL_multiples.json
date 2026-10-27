@@ -1,0 +1,67 @@
+{
+ "ticker": "XEL",
+ "window": [
+  "2021-10-26",
+  "2026-10-26"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 1255,
+   "current": 21.33,
+   "min": 15.09,
+   "p10": 17.93,
+   "median": 20.85,
+   "p90": 24.11,
+   "max": 25.72,
+   "mean": 21.02,
+   "percentile": 54.7,
+   "score": 45.3
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 3.33,
+   "min": 1.89,
+   "p10": 2.17,
+   "median": 2.81,
+   "p90": 3.35,
+   "max": 3.56,
+   "mean": 2.76,
+   "percentile": 88.4,
+   "score": 11.6
+  },
+  "PBR": {
+   "days": 1255,
+   "current": 2.02,
+   "min": 1.53,
+   "p10": 1.84,
+   "median": 2.07,
+   "p90": 2.43,
+   "max": 2.65,
+   "mean": 2.11,
+   "percentile": 35.7,
+   "score": 64.3
+  },
+  "EV/EBITDA": {
+   "days": 1255,
+   "current": 15.2,
+   "min": 10.87,
+   "p10": 11.87,
+   "median": 13.49,
+   "p90": 15.07,
+   "max": 15.69,
+   "mean": 13.45,
+   "percentile": 93.5,
+   "score": 6.5
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 22.06,
+  "per_p75": 23.54,
+  "low": 80,
+  "high": 90,
+  "asOf": "2026-10-26",
+  "basis": "diluted"
+ }
+}

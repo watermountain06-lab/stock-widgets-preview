@@ -2,8 +2,8 @@ name: v2 cards rebuild
 
 # v2 카드 103장을 다시 만든다(2026-10-06 사용자 결정 — v2/research/pipeline_checks.md 0절).
 #   매일: "Daily data refresh"가 새 세션 가격을 커밋한 뒤 이어서 돈다. 103장을 새 종가로 재빌드
-#         (점수·판정·문장 숫자가 그날 종가에 맞춰진다). SEC 재무·비교군 파일·애널리스트는 받지 않는다.
-#   토요일: 비교군 파일·애널리스트를 새로 받고 103장 재빌드, 비교군 어긋남 점검, 새 분기 보고서 점검(확인 대기 목록만).
+#         (점수·판정·문장 숫자가 그날 종가에 맞춰진다). AUTO 카드·은행은 새 10-Q·10-K를 스스로 반영한다(2026-10-10, auto_approve).
+#   토요일: 비교군 파일·애널리스트를 새로 받고 103장 재빌드, 비교군 어긋남 점검, 새 분기 보고서 점검(손 카드 확인 대기 목록).
 # 판정이 바뀐 카드는 그대로 반영하고 v2/daily_status.json에 남긴다. 실패한 카드는 전날 상태로 두고 실행을 실패로
 # 끝내 소유자에게 메일이 가게 한다. 라이브(stock-widgets-redesign)는 건드리지 않는다.
 #
@@ -16,7 +16,7 @@ on:
     types: [completed]
   schedule:
     # 토요일 15:00 UTC = 미국 토요일 11:00 ET(한국 일요일 00:00). 가격 작업의 토요일 재시도(09:00·13:00 UTC)와 겹치지 않게 —
-    # 같은 그룹은 대기 실행을 하나만 두므로 겹치면 토요일 실행이 밀려 사라질 수 있다(Codex 2026-10-07).
+    # 같은 그룹은 대기 실행을 하나만 두어 겹치면 토요일 실행이 밀려 사라질 수 있었다(Codex 2026-10-07) — 2026-10-20부터 queue: max로 사라지지 않는다.
     # Yahoo가 금요일 봉을 늦게 주는 종목까지 다 들어온 뒤이기도 하다 — 2026-10-06 시험에서 저녁 9시(ET)에 돌리자 섹터마다 7~11종목이 빠졌다.
     - cron: "7 15 * * 6"   # 정각을 비킨다(2026-10-08)
   workflow_dispatch:
@@ -39,6 +39,9 @@ permissions:
 concurrency:
   group: daily-refresh
   cancel-in-progress: false
+  # keep every pending run (default "single" cancels an older pending one when a newer queues) -
+  # the refresh can now hold the group for up to 2 h waiting out Yahoo's blank close (2026-10-20)
+  queue: max
 
 defaults:
   run:
@@ -127,6 +130,8 @@ jobs:
         env:
           MODE: ${{ steps.mode.outputs.mode }}
           TICKERS: ${{ inputs.tickers }}
+          OPENDART_KEY: ${{ secrets.OPENDART_KEY }}   # SKHY 정기보고서(OpenDART, 2026-10-12)
+          V2_JOBS: "4"   # 카드 4장씩 동시에(러너 4코어, 2026-10-23 매일 · 2026-10-24 토요일도)
         run: |
           # 종목 입력은 환경 변수로 받아 형식을 확인한다(셸에 직접 넣지 않는다 — Codex)
           args=()
@@ -136,6 +141,8 @@ jobs:
             args+=("$t")
           done
           python3 v2/newcards/daily_price.py "${args[@]}" | tee v2_cards.log
+
+      # ETF 판정·S&P 500 지수 카드는 별도 워크플로(etf_index.yml)가 이 실행이 끝난 뒤 돈다(2026-10-20 분리).
 
       # v2 카드를 홈 카드로 내보낸다: 루트로 복사, stocks.json 등급(v2 판정)·점수(v2 기본적 분석), 홈 재생성, 검사.
       # 검사가 실패하면 커밋하지 않는다.
@@ -149,7 +156,7 @@ jobs:
       - name: Commit
         id: commit
         run: |
-          git add v2/*_full_widget.html v2/*_multiples.json v2/*_bank.json v2/daily_status.json \
+          git add v2/*_full_widget.html v2/*_multiples.json v2/*_bank.json v2/*_rim.json v2/daily_status.json \
                   v2/newcards/cfg v2/newcards/bank/cfg v2/research/bank_sec_values.json v2/newcards/bank/base v2/newcards/refresh_changes.jsonl v2/peer_universe \
                   scripts/*_eps_history.json ./*_full_widget.html site_data/stocks.json site_data/tier_history.json \
                   index.html 2>/dev/null || true
@@ -157,7 +164,7 @@ jobs:
           if [ -f v2/weekly_status.json ]; then git add v2/weekly_status.json; fi
           if [ -f v2/news_auto.json ]; then git add v2/news_auto.json; fi
           git add v2/sec_approved.json v2/fundamental_data v2/*_activity.json v2/*_dcf_track.json 2>/dev/null || true   # 자동 반영한 공시 날짜·새 분기 재무(2026-10-10)
-          git add v2/adapters/asml_manifest.json v2/adapters/tsm_manifest.json 2>/dev/null || true   # 6-K 자동 카드가 받은 재무제표 목록(2026-10-11) — 원문·재무는 캐시라 이 목록으로 다시 만든다
+          git add v2/adapters/asml_manifest.json v2/adapters/tsm_manifest.json v2/adapters/skhy_manifest.json 2>/dev/null || true   # 6-K 자동 카드가 받은 재무제표 목록(2026-10-11) — 원문·재무는 캐시라 이 목록으로 다시 만든다
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
           fi
@@ -165,9 +172,27 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "v2 cards (${{ steps.mode.outputs.mode }}): session ${session}"
+          # 위 목록 밖에서 바뀐 추적 파일이 남으면 git pull --rebase가 "unstaged changes"로 세 번 다 거부한다(2026-10-20,
+          # 424개 파일 커밋을 날림). 이름을 경고·요약에 남기고 치운다 — 이 실행에서는 올라가지 않으므로, 올려야 할
+          # 산출물이면 경고를 보고 목록에 넣는다(Codex 2026-10-20). 10-20의 범인은 v2/{ELV,UNH}_rim.json(build.py가 매번 다시 씀, Fable) — 목록에 넣었다.
+          stray=$(git status --porcelain --untracked-files=no)
+          if [ -n "$stray" ]; then
+            echo "::warning::커밋 목록 밖에서 바뀐 파일 $(printf '%s\n' "$stray" | wc -l)개 — 올리지 않음, 요약 참고"
+            { echo "### 커밋 목록 밖에서 바뀐 파일(올리지 않음)"; echo '```'; printf '%s\n' "$stray" | sed -n '1,50p'; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            printf '%s\n' "$stray"
+            git stash push -q
+          fi
           # 가격 작업과 push가 겹치면 거절된다 — 받아서 다시(경로는 겹치지 않는다, Codex)
           # 실행 중에 사람이 같은 카드 파일을 고친 커밋을 올리면 rebase가 충돌한다(2026-10-09 02:53 UTC, 9dcdf6a). 충돌한 rebase는
           # 되돌리고 다시 — 그래도 안 되면 실패로 끝낸다(메일). 감시 작업이 v2 재빌드를 다시 시작한다.
+          # tier_history.json은 양쪽이 끝에 한 줄씩 더하는 목록이라, 실행 중 사람이 카드를 더하면 줄 단위 병합이 늘 충돌한다
+          # (2026-10-23: TRGP·TDG push와 겹쳐 세 번 다 실패, 10-22 카드를 날림). 항목 키(종목·날짜·규칙)로 합친다 — 같은
+          # 항목을 양쪽이 다르게 고쳤을 때만 충돌로 남긴다. 이 실행에만 건다(.git/info, 사람의 저장소 설정은 그대로).
+          # 스크립트는 이 실행이 시험한 판으로 고정한다 — rebase 중에는 받은 main 쪽 파일이 놓인다(Fable)
+          cp pipeline/merge_tier_history.py "$RUNNER_TEMP/merge_tier_history.py"
+          git config merge.tierhistory.driver "python3 $RUNNER_TEMP/merge_tier_history.py %O %A %B"
+          mkdir -p .git/info
+          echo 'site_data/tier_history.json merge=tierhistory' >> .git/info/attributes
           pushed=false
           for i in 1 2 3; do
             if git pull --rebase && git push; then pushed=true; break; fi

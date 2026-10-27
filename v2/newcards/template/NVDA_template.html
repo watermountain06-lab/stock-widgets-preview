@@ -1528,12 +1528,12 @@ const NVDA_SCORES = {
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '0 이하' : '$' + Math.round(d.base)} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
-    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
-    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '0 이하')
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '0 이하') + '</span>';
   const dv = $('nvdaDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1682,9 +1682,17 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
   // 루트 카드는 "기준 150%↑" 같은 손 기준으로 배지를 달아 4점 항목도 "✅ 양호"였다 — 그래서
   // 배지 말을 점수에 묶는다: 5점 양호 · 3~4점 보통 · 1~2점 주의 · 결측 —.
   const BADGE = p => p == null ? ['info', '—'] : p >= 5 ? ['safe', '✅ 양호'] : p >= 3 ? ['watch', '보통'] : ['alert', '⚠️ 주의'];
+  // 엔진 r7(2026-10-26): 큰 재무상태표 항목이 200일 넘게 멈춰 DCF를 '계산 보류'한 카드 — netCash가 null(키가 없어도)이고 DCF 사유에 '계산 보류'.
+  // 은행처럼 netCash null이 다른 뜻인 카드는 DCF base가 있거나 사유가 달라 걸리지 않는다(Codex·Fable)
+  const DCF_HOLD = F.netCash == null && typeof NVDA_DCF !== 'undefined' && NVDA_DCF.base == null && /계산 보류/.test(NVDA_DCF.unavailable || '');
   document.querySelectorAll('[data-fund-metric]').forEach(el => {
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
+    if (DCF_HOLD && r.metric === 'debtDependency') {   // 같은 낡은 차입금이라 순현금 줄('계산 보류')과 어긋나지 않게 값·배지를 쓰지 않는다(Fable)
+      v.textContent = '계산 보류';
+      const b0 = el.querySelector('.diag-badge'); if (b0) { b0.className = 'diag-badge'; b0.textContent = ''; b0.title = ''; }
+      return;
+    }
     v.textContent = r.value == null ? (r.note || '—')
       : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
@@ -1716,6 +1724,11 @@ const NVDA_FUNDAMENTAL = {"ticker": "NVDA", "basis": "quarter", "asOf": "2026-07
     $('fundNetCashNote').textContent = `순현금 ${B(N.net)}` + (N.shares ? ` ÷ ${(N.shares / 1e9).toFixed(2)}B주` : ' (주식 수 자료 없음)') + ' · '
       + `현금·단기투자 ${B(N.cash + N.sti)}` + (N.lt_marketable ? ` + 장기 채권 ${B(N.lt_marketable)}` : '')
       + ` − 차입금·리스 ${B(N.debt + N.lease)}`;
+  } else if (DCF_HOLD && $('fundNetCashPs')) {
+    // 큰 재무상태표 항목이 200일 넘게 멈춰 DCF를 보류한 카드만(엔진 r7, 2026-10-26) — 정적 대체값(옛 순현금)이 남지 않게.
+    // netCash null이 다른 뜻인 경우(은행 bank_fill '해당 없음')를 덮지 않도록 DCF의 보류 사유까지 본다(Codex)
+    $('fundNetCashPs').textContent = '계산 보류';
+    $('fundNetCashNote').textContent = '재무상태표 일부 항목(차입금·현금·단기투자·비지배지분·우선주 중)이 200일 넘게 갱신되지 않아 순현금을 계산하지 않았다';
   }
   const hx = $('fundHealthAxis');
   if (hx && F.axes.health.points != null) hx.textContent = `${F.axes.health.points.toFixed(1)}/${F.axes.health.max}`;
@@ -1816,7 +1829,7 @@ const NVDA_VALUATION = {"peer": {"score": 47.5, "sector": "Information Technolog
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
       + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
-    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
+    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 && dcfIn ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
     + ` → ${NVDA_VERDICT}`
     + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
@@ -1880,7 +1893,9 @@ const NVDA_VALUATION = {"peer": {"score": 47.5, "sector": "Information Technolog
     const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `최근 ${(m.days / 252).toFixed(1)}년 이력` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
-    f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
+    // 유효 이력이 3개월도 안 되면(자본 음수로 거의 다 빠진 PBR — ORLY 2021년 짧은 양수 구간의 200배대) 최저·중앙·최고를 비운다(Fable 2026-10-22)
+    const thin = m.days == null || m.days < 63;
+    f('min').textContent = '최저 ' + (thin ? '—' : x(m.min)); f('median').textContent = '중앙 ' + (thin ? '—' : x(m.median)); f('max').textContent = '최고 ' + (thin ? '—' : x(m.max));
   });
   ['peer', 'self'].forEach(k => {
     const el = document.querySelector(`#valComp [data-vc-score="${k}"]`);
@@ -1904,7 +1919,7 @@ const NVDA_VALUATION = {"peer": {"score": 47.5, "sector": "Information Technolog
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '0 이하'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
@@ -2298,7 +2313,7 @@ function nvdaBandTone(cp){
   function updateHeader(rangeKey, data, prevClose){
     const base = prevClose != null ? prevClose : data[0][4];
     const last = data[data.length-1][4];
-    const retPct = ((last/base - 1) * 100).toFixed(1);
+    const retPct = ((last/base - 1) * 100).toFixed(1).replace(/^-0\.0$/, '0.0');   // −0.0은 0.0으로 — '-0.0' >= 0이 참이라 "+-0.0%"가 나왔다(SNPS 2026-10-21)
     const sign = retPct >= 0 ? '+' : '';
     const dateFrom = data[0][0].slice(0,7).replace('-','.');
     const dateTo = data[data.length-1][0].slice(0,7).replace('-','.');

@@ -18,6 +18,9 @@ sys.path.insert(0, HERE)
 import quarter_auto as qa  # noqa: E402
 import seg_xbrl as sx  # noqa: E402
 
+_BANK_CFG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bank/cfg")
+BANK_TICKERS = {f[4:-3].upper() for f in os.listdir(_BANK_CFG) if f.startswith("cfg_") and f.endswith(".py")}   # 은행 카드(은행 RIM 경로) — 이름 하드코딩 대신 bank/cfg 목록(dr 2026-10-13)
+
 REV_HINT = ("Revenue", "Sales")
 
 
@@ -78,7 +81,7 @@ def main():
         tickers = sorted(f[4:-3].upper() for f in os.listdir(os.path.join(HERE, "cfg")) if f.startswith("cfg_"))
     out, summary = {}, collections.Counter()
     for T in tickers:
-        if T in ("ASML", "TSM", "SKHY", "COF"):
+        if T in ("ASML", "TSM", "SKHY") or T in BANK_TICKERS:   # 외국 발행사와 은행 카드는 부문 지도를 쓰지 않는다
             continue
         try:
             M, note = propose(T)
@@ -88,7 +91,9 @@ def main():
         print(f"{T}: {note}" + (f" — {M['axis']} {len(M['members'])}개" + (f" · 다른 멤버 {len(M.get('ignore_candidates', []))}" if M.get('ignore_candidates') else "") if M else ""))
         if M:
             out[T] = M
-    json.dump(out, open(os.path.join(HERE, "seg_map_proposals.json"), "w"), ensure_ascii=False, indent=1)
+    _p = os.path.join(HERE, "seg_map_proposals.json")   # 종목 몇 개만 돌려도 다른 종목 제안이 지워지지 않게 합친다(VLO 2026-10-13)
+    out = {**(json.load(open(_p)) if os.path.exists(_p) else {}), **out}
+    json.dump(out, open(_p, "w"), ensure_ascii=False, indent=1)
     print(dict(summary))
 
 

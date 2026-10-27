@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>US stock 가치를 말하다 — 미국 거래소 상장 주식 분석</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap">
 <style>
   :root{
     --bg:#f7f5ef; --panel:#ffffff; --border:#e6e2d3; --border2:#eeebe0;
@@ -41,111 +41,99 @@
   .sector-head{padding:10px 20px;font-size:12.5px;font-weight:700;color:var(--text);background:#f3f1e8;border-bottom:1px solid var(--border);border-top:1px solid var(--border);}
   .logo-box{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;padding:5px;}
   .logo-box img{width:100%;height:100%;object-fit:contain;}
-  /* 로고 파일이 없을 때: 빈 상자 대신 티커를 보여준다 (자세한 내용은 logoFail) */
-  .logo-box.logo-missing{padding:0;background:var(--border2);font-size:9px;font-weight:800;letter-spacing:-.2px;color:var(--text2);}
   .tag{font-size:12px;font-weight:500;color:var(--text2);background:transparent;border:1px solid var(--border);padding:3px 9px;border-radius:999px;}
   .star-cell{display:flex;justify-content:center;}
   .empty-state{padding:56px 20px;text-align:center;font-size:13px;color:var(--text3);}
+  .fav-toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;user-select:none;white-space:nowrap;}
+  .fav-btn{border:none;background:none;padding:2px;cursor:pointer;line-height:0;}
+  .fav-btn svg{fill:none;stroke:#c9c5b3;}
+  .fav-btn[aria-pressed="true"] svg{fill:#e0a72e;stroke:#e0a72e;}
+  /* 즐겨찾기 열이 앞에 붙어 7열이다. theme.css의 6열 너비(nth-child)를 id로 덮어쓴다 */
+  #data-panel .stock-table th:nth-child(1){width:6%} #data-panel .stock-table th:nth-child(2){width:11%}
+  #data-panel .stock-table th:nth-child(3){width:20%} #data-panel .stock-table th:nth-child(4){width:18%}
+  #data-panel .stock-table th:nth-child(5){width:14%} #data-panel .stock-table th:nth-child(6){width:14%}
+  #data-panel .stock-table th:nth-child(7){width:17%}
+  #data-panel .stock-table th.fav-col,#data-panel .stock-table td.fav-col{text-align:center;padding-left:4px;padding-right:4px;}
 </style>
+<link rel="stylesheet" href="styles.css?v=restore-source-4">
+<link rel="stylesheet" href="header.css?v=1">
+<script src="data-status.js?v=main-1009" defer></script>
+<link rel="stylesheet" href="theme.css?v=2">
+<script src="theme.js?v=2"></script>
+<link rel="stylesheet" href="flow.css?v=16">
+<link rel="stylesheet" href="value-gap.css?v=12">
+<link rel="stylesheet" href="preview-only.css?v=1"><!-- preview-only:range -->
+<script src="preview-only.js?v=3"></script><!-- preview-only:range -->
+<script>window.ETF_FILES = {page: 'preview-only-etf-', data: 'preview-only-etf-data.js'};</script><!-- preview-only:etf-files -->
+<link rel="stylesheet" href="etf.css?v=7">
+<script src="etf.js?v=19" defer></script>
 </head>
-<body>
+<body class="home-page">
 
 <div style="min-height:100vh;background:var(--bg);display:flex;flex-direction:column;">
 
-  <!-- 1. 브랜딩 바 -->
-  <div style="border-bottom:1px solid var(--border);">
-    <div class="wrap" style="padding:26px 40px 22px;">
-      <div style="display:flex;align-items:baseline;gap:14px;">
-        <span style="font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.01em;">US stock 가치를 말하다</span>
-        <span style="font-size:13px;color:var(--text2);">미국 거래소 상장 주식(ADR 포함)을 공시 원문 기준으로 정리합니다</span>
-      </div>
-    </div>
-  </div>
+  <header class="site-header"><div class="header-inner"><a class="brand" href="index.html">◧ US stock 가치를 말하다</a><span class="brand-note">공시로 읽는 기업의 흐름<br>하루씩, 한 종목씩</span><nav aria-label="주 메뉴"><a href="index.html" aria-current="page">Home</a><a href="today.html">Tracking</a><a href="market-news.html">뉴스·영상</a></nav></div></header>
 
-  <!-- 1.5 매크로 지표 스트립 (하단 스크립트가 MACRO에서 채움. 값이 없으면 대시) -->
+  <section class="home-feature" aria-label="오늘의 종목 미리보기">
+<div class="hero-space value-gap" id="value-gap" role="region" aria-label="매수 기준가와의 거리"></div><div class="hero-menu"><p class="feature-kicker">DAILY DISCOVERY</p><h1>오늘의 발견</h1><p class="feature-intro">관심 있는 흐름을 선택하세요.</p><div id="discovery-tabs" class="discovery-tabs" aria-label="오늘의 종목 분류"></div><a class="today-shortcut" href="today.html">Today 전체 보기 ↗</a></div>
+<dialog id="discovery-dialog" aria-labelledby="discovery-title"><div class="dialog-heading"><div><p class="feature-kicker">STOCK LIST</p><h2 id="discovery-title">오늘의 종목</h2></div><button id="discovery-close" aria-label="팝업 닫기">✕</button></div><p id="discovery-note" class="feature-intro"></p><div id="discovery-grid"></div><div class="discovery-timing"><span id="discovery-position"></span></div></dialog>
+  </section>
+  <details class="market-demo" open><summary>시장 지표 <span class="market-note" id="macro-note">불러오는 중</span></summary>
+  <!-- 매크로 지표 스트립. 값은 preview의 MACRO에서 stock-data.js의 meta.macro로 실려 오고,
+       아래 JS가 채운다. 채우지 못하면 대시가 남는다 - 틀린 숫자를 보여주느니 빈칸이 낫다. -->
   <div style="border-bottom:1px solid var(--border);background:var(--panel);">
     <div class="wrap">
-      <div class="box-w" style="display:grid;grid-template-columns:repeat(6,1fr);padding:14px 0;text-align:center;">
+      <div class="box-w macro-grid" style="display:grid;grid-template-columns:repeat(6,1fr);padding:14px 0;text-align:center;">
         <div style="padding-right:16px;">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">S&amp;P 500</div>
-          <div id="mc-sp500" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
-          <div id="mc-sp500-sub" class="num" style="font-size:11.5px;font-weight:600;color:var(--text3);">&nbsp;</div>
+          <div class="num" style="font-size:15px;font-weight:700;" id="m-sp500">&mdash;</div>
+          <div class="num" style="font-size:11.5px;font-weight:600;" id="m-sp500-chg">&mdash;</div>
         </div>
         <div style="padding:0 16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">VIX</div>
-          <div id="mc-vix" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
-          <div id="mc-vix-sub" class="num" style="font-size:11.5px;font-weight:600;color:var(--text3);">&nbsp;</div>
+          <div class="num" style="font-size:15px;font-weight:700;" id="m-vix">&mdash;</div>
+          <div class="num" style="font-size:11.5px;font-weight:600;" id="m-vix-chg">&mdash;</div>
         </div>
         <div style="padding:0 16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">원/달러</div>
-          <div id="mc-usdkrw" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
-          <div id="mc-usdkrw-sub" class="num" style="font-size:11.5px;font-weight:600;color:var(--text3);">&nbsp;</div>
+          <div class="num" style="font-size:15px;font-weight:700;" id="m-usdkrw">&mdash;</div>
+          <div class="num" style="font-size:11.5px;font-weight:600;" id="m-usdkrw-chg">&mdash;</div>
         </div>
         <div style="padding:0 16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">기준금리</div>
-          <div id="mc-rate" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
-          <div id="mc-rate-sub" style="font-size:11.5px;color:var(--text3);">&nbsp;</div>
+          <div class="num" style="font-size:15px;font-weight:700;" id="m-fed">&mdash;</div>
+          <div style="font-size:11.5px;color:var(--text3);" id="m-fomc">&mdash;</div>
         </div>
         <div style="padding:0 16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">실업률</div>
-          <div id="mc-unemp" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
-          <div id="mc-unemp-sub" style="font-size:11.5px;color:var(--text3);">&nbsp;</div>
+          <div class="num" style="font-size:15px;font-weight:700;" id="m-unemp">&mdash;</div>
+          <div style="font-size:11.5px;color:var(--text3);" id="m-unemp-asof">&mdash;</div>
         </div>
         <div style="padding-left:16px;border-left:1px solid var(--border2);">
           <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">물가상승률</div>
-          <div id="mc-cpi" class="num" style="font-size:15px;font-weight:700;">&ndash;</div>
-          <div id="mc-cpi-sub" style="font-size:11.5px;color:var(--text3);">&nbsp;</div>
+          <div class="num" style="font-size:15px;font-weight:700;" id="m-cpi">&mdash;</div>
+          <div style="font-size:11.5px;color:var(--text3);" id="m-cpi-asof">&mdash;</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. 스탯 카드 4개 (하단 스크립트가 DATA에서 계산해 채움) -->
-  <div>
-    <div class="wrap" style="padding:24px 40px 0;">
-      <div class="box-w" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
-        <div class="stat-card">
-          <div class="stat-label">5% 이상 상승</div>
-          <div><span id="stat-up" class="stat-value num" style="color:var(--up);">&ndash;</span><span class="stat-unit">개</span></div>
-          <div id="stat-up-sub" style="font-size:11.5px;color:var(--text3);margin-top:4px;min-height:1.4em;"></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">5% 이상 하락</div>
-          <div><span id="stat-down" class="stat-value num" style="color:var(--down);">&ndash;</span><span class="stat-unit">개</span></div>
-          <div id="stat-down-sub" style="font-size:11.5px;color:var(--text3);margin-top:4px;min-height:1.4em;"></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">저평가</div>
-          <div><span id="stat-under" class="stat-value num" style="color:var(--green-soft);">&ndash;</span><span class="stat-unit">개</span></div>
-          <div id="stat-under-sub" style="font-size:11.5px;color:var(--text3);margin-top:4px;min-height:1.4em;"></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">초저평가</div>
-          <div><span id="stat-deep" class="stat-value num" style="color:var(--green-deep);">&ndash;</span><span class="stat-unit">개</span></div>
-          <div id="stat-deep-sub" style="font-size:11.5px;color:var(--text3);margin-top:4px;min-height:1.4em;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  </details>
   <!-- 3. 탭 + 검색 바 -->
   <div>
     <div class="wrap" style="padding:20px 40px 18px;">
       <div class="box-w" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
-        <div class="tab-pillbar" id="tab-bar">
-          <button class="tab-btn active" data-view="rank">순위별</button>
-          <button class="tab-btn" data-view="sector">업종별</button>
-          <button class="tab-btn" data-view="attract">매력도별</button>
-          <button class="tab-btn" data-view="change">등락률별</button>
+        <div class="tab-pillbar" id="tab-bar" role="tablist" aria-label="보기 방식">
+          <button type="button" class="tab-btn active" role="tab" data-view="rank" aria-selected="true">순위별</button>
+          <button type="button" class="tab-btn" role="tab" data-view="sector" aria-selected="false">업종별</button>
+          <button type="button" class="tab-btn" role="tab" data-view="attract" aria-selected="false">매력도별</button>
+          <button type="button" class="tab-btn" role="tab" data-view="change" aria-selected="false">등락률별</button>
         </div>
-        <div style="display:flex;align-items:center;gap:14px;">
-          <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text2);">
-            <span style="width:14px;height:14px;border:1.5px solid var(--border);border-radius:4px;display:inline-block;"></span>
-            즐겨찾기만 보기
-          </label>
-          <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--border);border-radius:999px;background:var(--panel);">
+        <div class="toolbar-tools" style="display:flex;align-items:center;gap:14px;">
+          <label class="fav-toggle"><input type="checkbox" id="fav-only"> 즐겨찾기만 보기</label>
+          <div class="search-box" style="display:flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--border);border-radius:999px;background:var(--panel);">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9c9a8c" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span style="font-size:12.5px;color:var(--text3);">티커나 종목명으로 찾기 (예: NVDA, 엔비디아)</span>
+            <input id="stock-search" type="search" aria-label="티커나 종목명으로 찾기" placeholder="티커나 종목명으로 찾기">
           </div>
         </div>
       </div>
@@ -158,9 +146,7 @@
       <div class="box-w" style="font-size:11.5px;color:var(--text3);margin-bottom:14px;">
         ETF&middot;ETN 제외, 재무 수치는 SEC 공시 대조&middot; 현재가&middot;등락률은 별도 시세 기준(공시 대조 대상 아님)
       </div>
-      <div class="box-w num" style="font-size:12.5px;color:var(--text2);margin-bottom:6px;">분석 대상 <span id="ticker-count" style="color:var(--text);font-weight:700;">5</span>개 종목</div>
-      <!-- 값마다 출처 날짜가 달라 한 날짜로 뭉치지 않고 따로 표시 (하단 스크립트가 META에서 채움) -->
-      <div class="box-w" id="asof-line" style="font-size:11.5px;color:var(--text3);margin-bottom:14px;"></div>
+      <div class="box-w num" style="font-size:12.5px;color:var(--text2);margin-bottom:14px;">분석 대상 <span id="ticker-count" style="color:var(--text);font-weight:700;">5</span>개 종목</div>
 
       <div class="box-w" id="data-panel" style="background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;"></div>
     </div>
@@ -177,389 +163,396 @@
 </div>
 
 <script>
+// 원천 데이터 블록. pipeline/build_index.py가 마커 사이만 다시 쓰고, pipeline/site_ui/build_stock_data.py와
+// 라이브 저장소의 build_home.py·자동 승격 관문이 이 블록을 읽는다. 화면은 이 값을 쓰지 않고 stock-data.js를 쓴다.
 (function(){
-  var STAR = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c9c5b3" stroke-width="1.6"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
-
-  // DATA는 pipeline/build_index.py가 site_data/stocks.json에서 생성한다. 마커 사이는 직접 수정하지 말 것.
-  // 매크로 지표 스트립은 MACRO(site_data/macro.json), 스탯카드 숫자와 날짜는 DATA에서 계산한다.
-  // 2026-09-11부터 전부 실데이터 - 예전 목업 값(11/7/9/6 등)은 남아 있지 않다.
   /*STOCKS_DATA_START*/
   var DATA = [
-    {"rank": 1, "ticker": "NVDA", "name": "엔비디아", "sector": "반도체", "price": 229.28, "change": -0.52, "marketCap": 5525648000000, "href": "NVDA_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 96.1, "scoreFlags": []},
-    {"rank": 2, "ticker": "AAPL", "name": "애플", "sector": "하드웨어", "price": 336.64, "change": -1.11, "marketCap": 4912984755200, "href": "AAPL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 52.7, "scoreFlags": []},
-    {"rank": 3, "ticker": "GOOGL", "name": "알파벳", "sector": "인터넷·플랫폼", "price": 351.66, "change": 0.97, "marketCap": 4300801800000, "href": "GOOGL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 86.5, "scoreFlags": []},
-    {"rank": 4, "ticker": "MSFT", "name": "마이크로소프트", "sector": "소프트웨어", "price": 535.07, "change": 2.38, "marketCap": 3973186625869, "href": "MSFT_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 79.2, "scoreFlags": []},
-    {"rank": 5, "ticker": "AMZN", "name": "아마존", "sector": "유통·클라우드", "price": 262.43, "change": 3.29, "marketCap": 2830652270700, "href": "AMZN_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 62.5, "scoreFlags": []},
-    {"rank": 6, "ticker": "TSM", "name": "TSMC", "sector": "반도체·파운드리", "price": 453.31, "change": -1.02, "marketCap": 2351094538032, "href": "TSM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 87.0, "scoreFlags": []},
-    {"rank": 7, "ticker": "SPCX", "name": "스페이스X", "sector": "우주항공·위성통신·AI", "price": 162.57, "change": 1.25, "marketCap": 2142961965659, "href": "SPCX_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": 43.6, "scoreFlags": []},
-    {"rank": 8, "ticker": "AVGO", "name": "브로드컴", "sector": "반도체·인프라SW", "price": 361.54, "change": 0.39, "marketCap": 1725858141392, "href": "AVGO_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 79.2, "scoreFlags": []},
-    {"rank": 9, "ticker": "META", "name": "메타 플랫폼스", "sector": "SNS 광고·AI", "price": 718.67, "change": -0.31, "marketCap": 1830816298721, "href": "META_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 81.1, "scoreFlags": []},
-    {"rank": 10, "ticker": "TSLA", "name": "테슬라", "sector": "EV·자율주행", "price": 382.7, "change": 2.05, "marketCap": 1511491787684, "href": "TSLA_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 51.3, "scoreFlags": []},
-    {"rank": 11, "ticker": "BRKB", "name": "버크셔 해서웨이", "sector": "금융·복합기업", "price": 515.62, "change": 0.89, "marketCap": 1103792973215, "href": "BRKB_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 12, "ticker": "MU", "name": "마이크론 테크놀로지", "sector": "반도체·메모리", "price": 1029.0, "change": -0.66, "marketCap": 1162145552379, "href": "MU_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 95.5, "scoreFlags": []},
-    {"rank": 13, "ticker": "LLY", "name": "일라이 릴리", "sector": "헬스케어·제약(GLP-1)", "price": 1179.27, "change": 0.83, "marketCap": 1051150646043, "href": "LLY_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 74.4, "scoreFlags": []},
-    {"rank": 14, "ticker": "JPM", "name": "JP모건 체이스", "sector": "금융·대형은행", "price": 332.99, "change": 0.47, "marketCap": 885149421073, "href": "JPM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 15, "ticker": "SKHY", "name": "SK하이닉스", "sector": "반도체·메모리(HBM)", "price": 169.03, "change": -0.86, "marketCap": 1201930917650, "href": "SKHY_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 92.1, "scoreFlags": []},
-    {"rank": 16, "ticker": "WMT", "name": "월마트", "sector": "필수소비재·유통", "price": 111.35, "change": 0.71, "marketCap": 883422643935, "href": "WMT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 47.0, "scoreFlags": []},
-    {"rank": 17, "ticker": "AMD", "name": "어드밴스드 마이크로 디바이시스", "sector": "반도체·팹리스(CPU/GPU)", "price": 608.1, "change": -2.03, "marketCap": 992708073040, "href": "AMD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 83.9, "scoreFlags": []},
-    {"rank": 18, "ticker": "V", "name": "비자", "sector": "금융·결제 네트워크", "price": 385.45, "change": 2.76, "marketCap": 724646000000, "href": "V_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 66.2, "scoreFlags": []},
-    {"rank": 19, "ticker": "JNJ", "name": "존슨앤드존슨", "sector": "헬스케어·제약·메드테크", "price": 261.44, "change": 1.93, "marketCap": 630043889200, "href": "JNJ_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 61.1, "scoreFlags": []},
-    {"rank": 20, "ticker": "ASML", "name": "ASML", "sector": "반도체·장비(EUV)", "price": 1780.34, "change": 0.6, "marketCap": 686174485706, "href": "ASML_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 70.3, "scoreFlags": []},
-    {"rank": 21, "ticker": "XOM", "name": "엑슨모빌", "sector": "에너지·통합 석유·가스 메이저", "price": 168.94, "change": 0.26, "marketCap": 694666406522, "href": "XOM_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 51.8, "scoreFlags": []},
-    {"rank": 22, "ticker": "MA", "name": "마스터카드", "sector": "금융·결제 네트워크", "price": 589.14, "change": 2.5, "marketCap": 516092496052, "href": "MA_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 66.8, "scoreFlags": []},
-    {"rank": 23, "ticker": "INTC", "name": "인텔", "sector": "반도체·IDM+파운드리", "price": 104.7, "change": -2.22, "marketCap": 528106800000, "href": "INTC_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 40.3, "scoreFlags": []},
-    {"rank": 24, "ticker": "ORCL", "name": "오라클", "sector": "소프트웨어·클라우드 인프라", "price": 141.4, "change": 4.21, "marketCap": 427556270400, "href": "ORCL_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 57.2, "scoreFlags": []},
-    {"rank": 25, "ticker": "ABBV", "name": "애브비", "sector": "제약·바이오", "price": 276.47, "change": 1.49, "marketCap": 488554915784, "href": "ABBV_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 48.7, "scoreFlags": []},
-    {"rank": 26, "ticker": "BAC", "name": "뱅크오브아메리카", "sector": "금융·대형 은행", "price": 54.32, "change": 1.32, "marketCap": 379846091187, "href": "BAC_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 27, "ticker": "CSCO", "name": "시스코", "sector": "네트워킹·보안·협업 솔루션", "price": 118.39, "change": 3.05, "marketCap": 466762859894, "href": "CSCO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 51.6, "scoreFlags": []},
-    {"rank": 28, "ticker": "PLTR", "name": "팔란티어", "sector": "소프트웨어·AI/데이터 플랫폼", "price": 209.05, "change": 5.17, "marketCap": 502359375244, "href": "PLTR_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 97.5, "scoreFlags": []},
-    {"rank": 29, "ticker": "CVX", "name": "셰브론", "sector": "에너지·통합 석유·가스 메이저", "price": 211.98, "change": 0.2, "marketCap": 418823994663, "href": "CVX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 54.4, "scoreFlags": []},
-    {"rank": 30, "ticker": "COST", "name": "코스트코", "sector": "소비재 유통·회원제 창고형", "price": 946.92, "change": -0.11, "marketCap": 419938949084, "href": "COST_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 52.4, "scoreFlags": []},
-    {"rank": 31, "ticker": "LRCX", "name": "램리서치", "sector": "반도체 장비·식각·증착(WFE)", "price": 318.84, "change": -0.55, "marketCap": 398971187640, "href": "LRCX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 78.0, "scoreFlags": []},
-    {"rank": 32, "ticker": "KO", "name": "코카콜라", "sector": "소비재·음료", "price": 88.05, "change": 0.32, "marketCap": 378839460846, "href": "KO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 61.1, "scoreFlags": []},
-    {"rank": 33, "ticker": "CAT", "name": "캐터필러", "sector": "건설기계·중장비", "price": 800.47, "change": 0.54, "marketCap": 367955958398, "href": "CAT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 52.6, "scoreFlags": []},
-    {"rank": 34, "ticker": "MRK", "name": "머크", "sector": "헬스케어·제약", "price": 145.6, "change": 2.26, "marketCap": 359220190493, "href": "MRK_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 33.0, "scoreFlags": []},
-    {"rank": 35, "ticker": "AMAT", "name": "어플라이드 머티어리얼즈", "sector": "반도체 장비·식각·증착·CMP", "price": 507.03, "change": -0.5, "marketCap": 402377711524, "href": "AMAT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 70.4, "scoreFlags": []},
-    {"rank": 36, "ticker": "UNH", "name": "유나이티드헬스 그룹", "sector": "헬스케어·건강보험", "price": 379.3, "change": 2.25, "marketCap": 340457725467, "href": "UNH_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 42.0, "scoreFlags": []},
-    {"rank": 37, "ticker": "GE", "name": "GE 에어로스페이스", "sector": "항공우주·방위산업·항공기 엔진", "price": 308.2, "change": 0.84, "marketCap": 319776766507, "href": "GE_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 57.8, "scoreFlags": []},
-    {"rank": 38, "ticker": "DELL", "name": "델 테크놀로지스", "sector": "IT 인프라·서버·PC", "price": 586.06, "change": 2.0, "marketCap": 372624420265, "href": "DELL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 42.6, "scoreFlags": []},
-    {"rank": 39, "ticker": "MS", "name": "모건스탠리", "sector": "금융·투자은행·자산관리", "price": 190.02, "change": 1.38, "marketCap": 298439006806, "href": "MS_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 40, "ticker": "PG", "name": "프록터앤드갬블", "sector": "소비재·생활용품", "price": 151.23, "change": 0.42, "marketCap": 351524011664, "href": "PG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 49.6, "scoreFlags": []},
-    {"rank": 41, "ticker": "NFLX", "name": "넷플릭스", "sector": "미디어·구독형 스트리밍", "price": 70.3, "change": -1.77, "marketCap": 292724959223, "href": "NFLX_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 72.7, "scoreFlags": []},
-    {"rank": 42, "ticker": "HD", "name": "홈디포", "sector": "소매·주택개량", "price": 290.74, "change": -1.6, "marketCap": 290068281863, "href": "HD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 40.0, "scoreFlags": []},
-    {"rank": 43, "ticker": "GS", "name": "골드만삭스", "sector": "금융·투자은행·트레이딩", "price": 895.32, "change": 1.44, "marketCap": 260691585011, "href": "GS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 44, "ticker": "PM", "name": "필립모리스", "sector": "담배·니코틴 제품", "price": 201.19, "change": 0.34, "marketCap": 313577437792, "href": "PM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 55.8, "scoreFlags": []},
-    {"rank": 45, "ticker": "PANW", "name": "팔로알토 네트웍스", "sector": "사이버보안·플랫폼", "price": 418.78, "change": 5.09, "marketCap": 342562040000, "href": "PANW_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 62.0, "scoreFlags": []},
-    {"rank": 46, "ticker": "WFC", "name": "웰스파고", "sector": "금융·상업은행·소비자금융", "price": 83.55, "change": 1.85, "marketCap": 252655144523, "href": "WFC_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 47, "ticker": "RTX", "name": "RTX", "sector": "항공우주·방위산업", "price": 185.97, "change": 0.9, "marketCap": 250642582040, "href": "RTX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 54.1, "scoreFlags": []},
-    {"rank": 48, "ticker": "SNDK", "name": "샌디스크", "sector": "반도체·NAND 플래시 메모리", "price": 1581.8199, "change": -1.72, "marketCap": 231608489520, "href": "SNDK_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 91.6, "scoreFlags": []},
-    {"rank": 49, "ticker": "GEV", "name": "GE 버노바", "sector": "전력설비·발전·전력망", "price": 1004.73, "change": 0.54, "marketCap": 267593338838, "href": "GEV_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 50.1, "scoreFlags": []},
-    {"rank": 50, "ticker": "ANET", "name": "아리스타 네트웍스", "sector": "네트워크 장비·데이터센터 스위치", "price": 216.74, "change": 2.73, "marketCap": 273357830208, "href": "ANET_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 92.6, "scoreFlags": []},
-    {"rank": 51, "ticker": "TXN", "name": "텍사스 인스트루먼츠", "sector": "반도체·아날로그·임베디드", "price": 283.74, "change": -1.55, "marketCap": 259124898426, "href": "TXN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 67.9, "scoreFlags": []},
-    {"rank": 52, "ticker": "KLAC", "name": "KLA", "sector": "반도체·검사·계측 장비", "price": 195.57, "change": -0.58, "marketCap": 255521354351, "href": "KLAC_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 72.1, "scoreFlags": []},
-    {"rank": 53, "ticker": "C", "name": "씨티그룹", "sector": "금융·글로벌 유니버설 뱅크", "price": 129.64, "change": 1.22, "marketCap": 217462904548, "href": "C_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 54, "ticker": "IBM", "name": "인터내셔널 비즈니스 머신즈", "sector": "IT 서비스", "price": 227.13, "change": 0.23, "marketCap": 213986984001, "href": "IBM_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 45.6, "scoreFlags": []},
-    {"rank": 55, "ticker": "TMO", "name": "써모피셔사이언티픽", "sector": "헬스케어 — 생명과학 도구·서비스", "price": 658.02, "change": 0.93, "marketCap": 243301109134, "href": "TMO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 45.9, "scoreFlags": []},
-    {"rank": 56, "ticker": "AXP", "name": "아메리칸 익스프레스", "sector": "금융·결제 네트워크·카드", "price": 308.17, "change": 0.02, "marketCap": 208110231236, "href": "AXP_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 57, "ticker": "LIN", "name": "린데", "sector": "산업가스·화학", "price": 483.73, "change": 0.42, "marketCap": 222989934248, "href": "LIN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 59.2, "scoreFlags": []},
-    {"rank": 58, "ticker": "CRWD", "name": "크라우드스트라이크", "sector": "정보기술 — 사이버보안", "price": 275.04, "change": 4.57, "marketCap": 281623038944, "href": "CRWD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 47.9, "scoreFlags": []},
-    {"rank": 59, "ticker": "VZ", "name": "버라이즌", "sector": "통신서비스 — 무선·광대역", "price": 41.65, "change": -10.14, "marketCap": 173046387163, "href": "VZ_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 38.6, "scoreFlags": []},
-    {"rank": 60, "ticker": "MRVL", "name": "마벨 테크놀로지", "sector": "정보기술 — 반도체(데이터센터)", "price": 275.28, "change": 0.23, "marketCap": 241393032000, "href": "MRVL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 74.9, "scoreFlags": []},
-    {"rank": 61, "ticker": "APH", "name": "앰페놀", "sector": "정보기술 — 커넥터·인터커넥트", "price": 87.24, "change": 2.25, "marketCap": 107565476789, "href": "APH_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 68.2, "scoreFlags": []},
-    {"rank": 62, "ticker": "AMGN", "name": "암젠", "sector": "헬스케어 — 바이오의약품", "price": 414.87, "change": 1.82, "marketCap": 224291999914, "href": "AMGN_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 52.7, "scoreFlags": []},
-    {"rank": 63, "ticker": "CRM", "name": "세일즈포스", "sector": "정보기술 — 기업용 소프트웨어", "price": 229.13, "change": 0.58, "marketCap": 188573990000, "href": "CRM_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 55.2, "scoreFlags": []},
-    {"rank": 64, "ticker": "TMUS", "name": "티모바일", "sector": "통신서비스 — 무선", "price": 148.58, "change": -13.27, "marketCap": 159377548260, "href": "TMUS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 50.7, "scoreFlags": []},
-    {"rank": 65, "ticker": "QCOM", "name": "퀄컴", "sector": "정보기술 — 반도체", "price": 175.5, "change": -0.29, "marketCap": 184275000000, "href": "QCOM_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 54.9, "scoreFlags": []},
-    {"rank": 66, "ticker": "STX", "name": "시게이트", "sector": "정보기술 — 스토리지(HDD)", "price": 783.0, "change": 1.05, "marketCap": 177462657594, "href": "STX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 68.7, "scoreFlags": []},
-    {"rank": 67, "ticker": "PEP", "name": "펩시코", "sector": "필수소비재 — 음료·스낵", "price": 125.97, "change": -1.85, "marketCap": 171935389561, "href": "PEP_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 45.1, "scoreFlags": []},
-    {"rank": 68, "ticker": "SCHW", "name": "찰스슈왑", "sector": "금융 — 증권·자산관리", "price": 96.7, "change": -0.18, "marketCap": 167226763544, "href": "SCHW_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 69, "ticker": "DIS", "name": "월트디즈니", "sector": "커뮤니케이션 서비스 — 미디어·엔터테인먼트", "price": 108.05, "change": 0.96, "marketCap": 186568519761, "href": "DIS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 54.1, "scoreFlags": []},
-    {"rank": 70, "ticker": "DE", "name": "디어", "sector": "산업재 — 농기계·건설장비", "price": 620.93, "change": -4.85, "marketCap": 167418507073, "href": "DE_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 40.7, "scoreFlags": []},
-    {"rank": 71, "ticker": "ADI", "name": "아날로그 디바이스", "sector": "정보기술 — 반도체(아날로그)", "price": 406.19, "change": 0.06, "marketCap": 196825646228, "href": "ADI_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 60.0, "scoreFlags": []},
-    {"rank": 72, "ticker": "GILD", "name": "길리어드 사이언스", "sector": "헬스케어 — 바이오", "price": 151.17, "change": 2.77, "marketCap": 187444020781, "href": "GILD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 33.5, "scoreFlags": []},
-    {"rank": 73, "ticker": "BLK", "name": "블랙록", "sector": "금융 — 자산운용", "price": 1082.39, "change": 1.6, "marketCap": 167690549053, "href": "BLK_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 68.4, "scoreFlags": []},
-    {"rank": 74, "ticker": "ETN", "name": "이튼", "sector": "산업재 — 전기 장비", "price": 429.65, "change": 1.21, "marketCap": 166876060000, "href": "ETN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 54.7, "scoreFlags": []},
-    {"rank": 75, "ticker": "ABT", "name": "애보트 래버러토리스", "sector": "헬스케어 — 의료기기·진단", "price": 99.6, "change": 1.13, "marketCap": 172346176282, "href": "ABT_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 41.4, "scoreFlags": []},
-    {"rank": 76, "ticker": "WDC", "name": "웨스턴 디지털", "sector": "정보기술 — 데이터 저장장치(HDD)", "price": 397.28, "change": 1.01, "marketCap": 143235706232, "href": "WDC_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 75.2, "scoreFlags": []},
-    {"rank": 77, "ticker": "T", "name": "에이티앤티", "sector": "커뮤니케이션 — 통신", "price": 22.18, "change": -10.82, "marketCap": 151985913717, "href": "T_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 46.2, "scoreFlags": []},
-    {"rank": 78, "ticker": "MCD", "name": "맥도날드", "sector": "경기소비재 — 외식(프랜차이즈)", "price": 235.23, "change": -0.7, "marketCap": 166458517337, "href": "MCD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 60.3, "scoreFlags": []},
-    {"rank": 79, "ticker": "WELL", "name": "웰타워", "sector": "부동산 — 헬스케어 리츠(시니어 주택)", "price": 225.47, "change": 1.09, "marketCap": 162506364102, "href": "WELL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 54.9, "scoreFlags": []},
-    {"rank": 80, "ticker": "UNP", "name": "유니언 퍼시픽", "sector": "산업재 — 철도", "price": 278.34, "change": 0.05, "marketCap": 165354974113, "href": "UNP_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 48.2, "scoreFlags": []},
-    {"rank": 81, "ticker": "PFE", "name": "화이자", "sector": "헬스케어 — 제약", "price": 28.28, "change": 1.65, "marketCap": 161186769097, "href": "PFE_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 36.9, "scoreFlags": []},
-    {"rank": 82, "ticker": "NEE", "name": "넥스트에라 에너지", "sector": "유틸리티 — 전력·재생에너지", "price": 77.38, "change": 0.01, "marketCap": 161399450765, "href": "NEE_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 56.4, "scoreFlags": []},
-    {"rank": 83, "ticker": "COP", "name": "코노코필립스", "sector": "에너지 — 석유·가스 탐사·생산", "price": 134.1, "change": -0.07, "marketCap": 161099355934, "href": "COP_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 58.9, "scoreFlags": []},
-    {"rank": 84, "ticker": "DHR", "name": "다나허", "sector": "헬스케어 — 생명과학 장비·진단", "price": 219.81, "change": 1.08, "marketCap": 154523364530, "href": "DHR_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 51.8, "scoreFlags": []},
-    {"rank": 85, "ticker": "BA", "name": "보잉", "sector": "산업재 — 항공기·방산", "price": 190.37, "change": 1.4, "marketCap": 150462740707, "href": "BA_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 38.6, "scoreFlags": []},
-    {"rank": 86, "ticker": "TJX", "name": "TJX 컴퍼니스", "sector": "경기소비재 — 할인 의류 소매", "price": 138.76, "change": 0.01, "marketCap": 152632400704, "href": "TJX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 50.1, "scoreFlags": []},
-    {"rank": 87, "ticker": "BX", "name": "블랙스톤", "sector": "금융 — 대체투자 운용", "price": 114.29, "change": 1.43, "marketCap": 85788944279, "href": "BX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 69.4, "scoreFlags": []},
-    {"rank": 88, "ticker": "GLW", "name": "코닝", "sector": "IT — 특수 유리·광통신 소재", "price": 156.68, "change": 2.52, "marketCap": 134962323701, "href": "GLW_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 55.5, "scoreFlags": []},
-    {"rank": 89, "ticker": "NOW", "name": "서비스나우", "sector": "IT — 기업용 업무 자동화 소프트웨어", "price": 140.86, "change": 0.79, "marketCap": 145649240000, "href": "NOW_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 50.1, "scoreFlags": []},
-    {"rank": 90, "ticker": "ISRG", "name": "인튜이티브 서지컬", "sector": "헬스케어 — 수술 로봇", "price": 423.96, "change": 2.06, "marketCap": 149775756990, "href": "ISRG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 92.4, "scoreFlags": []},
-    {"rank": 91, "ticker": "UBER", "name": "우버", "sector": "산업재 — 모빌리티·배달 플랫폼", "price": 71.51, "change": 1.81, "marketCap": 146063474253, "href": "UBER_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 59.2, "scoreFlags": []},
-    {"rank": 92, "ticker": "FTNT", "name": "포티넷", "sector": "IT — 네트워크 보안", "price": 194.75, "change": 2.99, "marketCap": 142890733922, "href": "FTNT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 70.2, "scoreFlags": []},
-    {"rank": 93, "ticker": "VRTX", "name": "버텍스 파마슈티컬스", "sector": "헬스케어 — 낭포성 섬유증·유전자 치료제", "price": 510.08, "change": 1.36, "marketCap": 129285348114, "href": "VRTX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 81.5, "scoreFlags": []},
-    {"rank": 94, "ticker": "CB", "name": "처브", "sector": "금융 — 손해보험", "price": 341.2, "change": -0.75, "marketCap": 131634911891, "href": "CB_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": 65.1, "scoreFlags": []},
-    {"rank": 95, "ticker": "PLD", "name": "프로로지스", "sector": "부동산 — 물류 리츠", "price": 129.49, "change": 0.15, "marketCap": 120824011240, "href": "PLD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 66.9, "scoreFlags": []},
-    {"rank": 96, "ticker": "BMY", "name": "브리스톨마이어스 스퀴브", "sector": "헬스케어 — 제약", "price": 59.12, "change": -0.77, "marketCap": 120765290463, "href": "BMY_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 56.6, "scoreFlags": []},
-    {"rank": 97, "ticker": "PH", "name": "파커 하니핀", "sector": "산업재 — 모션·제어 기술", "price": 962.56, "change": 1.65, "marketCap": 121328251761, "href": "PH_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 56.1, "scoreFlags": []},
-    {"rank": 98, "ticker": "PGR", "name": "프로그레시브", "sector": "금융 — 자동차 보험", "price": 217.43, "change": -0.59, "marketCap": 126407663951, "href": "PGR_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": 70.9, "scoreFlags": []},
-    {"rank": 99, "ticker": "BKNG", "name": "부킹 홀딩스", "sector": "경기소비재 — 온라인 여행", "price": 160.34, "change": 0.23, "marketCap": 120476349370, "href": "BKNG_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 62.8, "scoreFlags": []},
-    {"rank": 100, "ticker": "NEM", "name": "뉴몬트", "sector": "소재 — 금 채굴", "price": 117.84, "change": 1.98, "marketCap": 124167097215, "href": "NEM_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 87.6, "scoreFlags": []},
-    {"rank": 101, "ticker": "ACN", "name": "액센츄어", "sector": "IT — 컨설팅·IT 서비스", "price": 209.06, "change": 0.34, "marketCap": 128695958086, "href": "ACN_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 56.9, "scoreFlags": []},
-    {"rank": 102, "ticker": "COF", "name": "캐피털 원", "sector": "금융 — 신용카드·소비자 은행", "price": 199.26, "change": -0.07, "marketCap": 122242988421, "href": "COF_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
-    {"rank": 103, "ticker": "MPC", "name": "마라톤 페트롤리엄", "sector": "에너지 — 정유", "price": 455.03, "change": -1.79, "marketCap": 127783691908, "href": "MPC_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 39.4, "scoreFlags": []}
+    {"rank": 1, "ticker": "NVDA", "name": "엔비디아", "sector": "반도체", "price": 216.0, "change": 2.39, "marketCap": 5205600000000, "href": "NVDA_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 96.1, "scoreFlags": []},
+    {"rank": 2, "ticker": "AAPL", "name": "애플", "sector": "하드웨어", "price": 343.91, "change": -1.1, "marketCap": 5019084443800, "href": "AAPL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 52.7, "scoreFlags": []},
+    {"rank": 3, "ticker": "GOOGL", "name": "알파벳", "sector": "인터넷·플랫폼", "price": 316.8, "change": -1.06, "marketCap": 3874464000000, "href": "GOOGL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 86.5, "scoreFlags": []},
+    {"rank": 4, "ticker": "MSFT", "name": "마이크로소프트", "sector": "소프트웨어", "price": 532.6, "change": 1.54, "marketCap": 3954845528507, "href": "MSFT_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 79.2, "scoreFlags": []},
+    {"rank": 5, "ticker": "AMZN", "name": "아마존", "sector": "유통·클라우드", "price": 249.09, "change": 0.44, "marketCap": 2686762847649, "href": "AMZN_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 62.5, "scoreFlags": []},
+    {"rank": 6, "ticker": "TSM", "name": "TSMC", "sector": "반도체·파운드리", "price": 424.37, "change": 1.4, "marketCap": 2200997086110, "href": "TSM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 87.0, "scoreFlags": []},
+    {"rank": 7, "ticker": "SPCX", "name": "스페이스X", "sector": "우주항공·위성통신·AI", "price": 146.9, "change": -0.4, "marketCap": 1936403473920, "href": "SPCX_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": 43.6, "scoreFlags": []},
+    {"rank": 8, "ticker": "AVGO", "name": "브로드컴", "sector": "반도체·인프라SW", "price": 329.17, "change": 2.33, "marketCap": 1571335742662, "href": "AVGO_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 79.2, "scoreFlags": []},
+    {"rank": 9, "ticker": "META", "name": "메타 플랫폼스", "sector": "SNS 광고·AI", "price": 630.56, "change": -1.88, "marketCap": 1606355525236, "href": "META_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 74.1, "scoreFlags": []},
+    {"rank": 10, "ticker": "TSLA", "name": "테슬라", "sector": "EV·자율주행", "price": 391.62, "change": 5.21, "marketCap": 1546721750438, "href": "TSLA_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 46.7, "scoreFlags": []},
+    {"rank": 11, "ticker": "BRKB", "name": "버크셔 해서웨이", "sector": "금융·복합기업", "price": 548.56, "change": 1.17, "marketCap": 1174307965918, "href": "BRKB_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 12, "ticker": "MU", "name": "마이크론 테크놀로지", "sector": "반도체·메모리", "price": 903.7, "change": 2.98, "marketCap": 1020632590559, "href": "MU_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 95.5, "scoreFlags": []},
+    {"rank": 13, "ticker": "LLY", "name": "일라이 릴리", "sector": "헬스케어·제약(GLP-1)", "price": 1279.14, "change": 0.45, "marketCap": 1140170476124, "href": "LLY_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 74.4, "scoreFlags": []},
+    {"rank": 14, "ticker": "JPM", "name": "JP모건 체이스", "sector": "금융·대형은행", "price": 334.04, "change": 0.74, "marketCap": 887940516578, "href": "JPM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 15, "ticker": "SKHY", "name": "SK하이닉스", "sector": "반도체·메모리(HBM)", "price": 142.62, "change": 4.09, "marketCap": 1014135878100, "href": "SKHY_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 92.1, "scoreFlags": []},
+    {"rank": 16, "ticker": "WMT", "name": "월마트", "sector": "필수소비재·유통", "price": 120.29, "change": 0.33, "marketCap": 954350335330, "href": "WMT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 47.0, "scoreFlags": []},
+    {"rank": 17, "ticker": "AMD", "name": "어드밴스드 마이크로 디바이시스", "sector": "반도체·팹리스(CPU/GPU)", "price": 531.28, "change": 2.8, "marketCap": 867301340314, "href": "AMD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 83.9, "scoreFlags": []},
+    {"rank": 18, "ticker": "V", "name": "비자", "sector": "금융·결제 네트워크", "price": 404.16, "change": -0.92, "marketCap": 759820800000, "href": "V_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 66.2, "scoreFlags": []},
+    {"rank": 19, "ticker": "JNJ", "name": "존슨앤드존슨", "sector": "헬스케어·제약·메드테크", "price": 266.3, "change": 0.94, "marketCap": 641755996381, "href": "JNJ_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 51.0, "scoreFlags": []},
+    {"rank": 20, "ticker": "ASML", "name": "ASML", "sector": "반도체·장비(EUV)", "price": 1590.9, "change": 1.22, "marketCap": 613160963248, "href": "ASML_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 70.3, "scoreFlags": []},
+    {"rank": 21, "ticker": "XOM", "name": "엑슨모빌", "sector": "에너지·통합 석유·가스 메이저", "price": 184.54, "change": 0.73, "marketCap": 758812233098, "href": "XOM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 51.8, "scoreFlags": []},
+    {"rank": 22, "ticker": "MA", "name": "마스터카드", "sector": "금융·결제 네트워크", "price": 613.5, "change": -1.62, "marketCap": 537432098190, "href": "MA_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 66.8, "scoreFlags": []},
+    {"rank": 23, "ticker": "INTC", "name": "인텔", "sector": "반도체·IDM+파운드리", "price": 90.47, "change": 4.04, "marketCap": 456330680000, "href": "INTC_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 40.3, "scoreFlags": []},
+    {"rank": 24, "ticker": "ORCL", "name": "오라클", "sector": "소프트웨어·클라우드 인프라", "price": 126.06, "change": -0.08, "marketCap": 381172160160, "href": "ORCL_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 57.2, "scoreFlags": []},
+    {"rank": 25, "ticker": "ABBV", "name": "애브비", "sector": "제약·바이오", "price": 286.74, "change": 0.39, "marketCap": 506703210301, "href": "ABBV_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 48.7, "scoreFlags": []},
+    {"rank": 26, "ticker": "BAC", "name": "뱅크오브아메리카", "sector": "금융·대형 은행", "price": 50.52, "change": -0.08, "marketCap": 353273647400, "href": "BAC_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 27, "ticker": "CSCO", "name": "시스코", "sector": "네트워킹·보안·협업 솔루션", "price": 110.24, "change": 3.51, "marketCap": 434630776880, "href": "CSCO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 51.6, "scoreFlags": []},
+    {"rank": 28, "ticker": "PLTR", "name": "팔란티어", "sector": "소프트웨어·AI/데이터 플랫폼", "price": 198.84, "change": 1.06, "marketCap": 477824148163, "href": "PLTR_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 97.5, "scoreFlags": []},
+    {"rank": 29, "ticker": "CVX", "name": "셰브론", "sector": "에너지·통합 석유·가스 메이저", "price": 232.01, "change": -0.51, "marketCap": 458398693281, "href": "CVX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 54.4, "scoreFlags": []},
+    {"rank": 30, "ticker": "COST", "name": "코스트코", "sector": "소비재 유통·회원제 창고형", "price": 1005.16, "change": 0.18, "marketCap": 445767154629, "href": "COST_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 52.4, "scoreFlags": []},
+    {"rank": 31, "ticker": "LRCX", "name": "램리서치", "sector": "반도체 장비·식각·증착(WFE)", "price": 237.5, "change": 3.22, "marketCap": 297188737500, "href": "LRCX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 80.0, "scoreFlags": []},
+    {"rank": 32, "ticker": "KO", "name": "코카콜라", "sector": "소비재·음료", "price": 92.7, "change": -0.01, "marketCap": 398846314826, "href": "KO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 61.1, "scoreFlags": []},
+    {"rank": 33, "ticker": "CAT", "name": "캐터필러", "sector": "건설기계·중장비", "price": 692.13, "change": 0.75, "marketCap": 318154780924, "href": "CAT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 52.6, "scoreFlags": []},
+    {"rank": 34, "ticker": "MRK", "name": "머크", "sector": "헬스케어·제약", "price": 140.61, "change": -3.21, "marketCap": 346909004019, "href": "MRK_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 33.0, "scoreFlags": []},
+    {"rank": 35, "ticker": "AMAT", "name": "어플라이드 머티어리얼즈", "sector": "반도체 장비·식각·증착·CMP", "price": 387.59, "change": 2.74, "marketCap": 307590432932, "href": "AMAT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 70.4, "scoreFlags": []},
+    {"rank": 36, "ticker": "UNH", "name": "유나이티드헬스 그룹", "sector": "헬스케어·건강보험", "price": 410.7, "change": -1.77, "marketCap": 368642203663, "href": "UNH_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 42.0, "scoreFlags": []},
+    {"rank": 37, "ticker": "GE", "name": "GE 에어로스페이스", "sector": "항공우주·방위산업·항공기 엔진", "price": 288.43, "change": 0.98, "marketCap": 299264155625, "href": "GE_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 57.8, "scoreFlags": []},
+    {"rank": 38, "ticker": "DELL", "name": "델 테크놀로지스", "sector": "IT 인프라·서버·PC", "price": 467.09, "change": 2.33, "marketCap": 296981777398, "href": "DELL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 42.6, "scoreFlags": []},
+    {"rank": 39, "ticker": "MS", "name": "모건스탠리", "sector": "금융·투자은행·자산관리", "price": 183.49, "change": 2.23, "marketCap": 288183208919, "href": "MS_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 40, "ticker": "PG", "name": "프록터앤드갬블", "sector": "소비재·생활용품", "price": 159.92, "change": -0.68, "marketCap": 371723334955, "href": "PG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 54.1, "scoreFlags": []},
+    {"rank": 41, "ticker": "NFLX", "name": "넷플릭스", "sector": "미디어·구독형 스트리밍", "price": 63.9, "change": -2.96, "marketCap": 266075745296, "href": "NFLX_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 70.7, "scoreFlags": []},
+    {"rank": 42, "ticker": "HD", "name": "홈디포", "sector": "소매·주택개량", "price": 319.38, "change": -0.14, "marketCap": 318642112752, "href": "HD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 40.0, "scoreFlags": []},
+    {"rank": 43, "ticker": "GS", "name": "골드만삭스", "sector": "금융·투자은행·트레이딩", "price": 893.28, "change": 2.01, "marketCap": 260097595338, "href": "GS_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 44, "ticker": "PM", "name": "필립모리스", "sector": "담배·니코틴 제품", "price": 201.87, "change": 1.2, "marketCap": 314637294931, "href": "PM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 52.8, "scoreFlags": []},
+    {"rank": 45, "ticker": "PANW", "name": "팔로알토 네트웍스", "sector": "사이버보안·플랫폼", "price": 390.46, "change": 2.6, "marketCap": 319396280000, "href": "PANW_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 62.0, "scoreFlags": []},
+    {"rank": 46, "ticker": "WFC", "name": "웰스파고", "sector": "금융·상업은행·소비자금융", "price": 82.65, "change": 0.32, "marketCap": 249933545120, "href": "WFC_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 47, "ticker": "RTX", "name": "RTX", "sector": "항공우주·방위산업", "price": 197.48, "change": 3.39, "marketCap": 266155278277, "href": "RTX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 52.6, "scoreFlags": []},
+    {"rank": 48, "ticker": "SNDK", "name": "샌디스크", "sector": "반도체·NAND 플래시 메모리", "price": 1255.58, "change": 1.42, "marketCap": 183840769276, "href": "SNDK_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 91.6, "scoreFlags": []},
+    {"rank": 49, "ticker": "GEV", "name": "GE 버노바", "sector": "전력설비·발전·전력망", "price": 855.12, "change": 4.92, "marketCap": 227747171785, "href": "GEV_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 50.1, "scoreFlags": []},
+    {"rank": 50, "ticker": "ANET", "name": "아리스타 네트웍스", "sector": "네트워크 장비·데이터센터 스위치", "price": 177.24, "change": 2.83, "marketCap": 223539456612, "href": "ANET_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 92.6, "scoreFlags": []},
+    {"rank": 51, "ticker": "TXN", "name": "텍사스 인스트루먼츠", "sector": "반도체·아날로그·임베디드", "price": 298.12, "change": 4.72, "marketCap": 272257400150, "href": "TXN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 67.4, "scoreFlags": []},
+    {"rank": 52, "ticker": "KLAC", "name": "KLA", "sector": "반도체·검사·계측 장비", "price": 149.21, "change": 2.47, "marketCap": 194949845491, "href": "KLAC_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 72.1, "scoreFlags": []},
+    {"rank": 53, "ticker": "C", "name": "씨티그룹", "sector": "금융·글로벌 유니버설 뱅크", "price": 121.04, "change": 0.35, "marketCap": 203036948214, "href": "C_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 54, "ticker": "IBM", "name": "인터내셔널 비즈니스 머신즈", "sector": "IT 서비스", "price": 253.44, "change": -0.05, "marketCap": 238774539802, "href": "IBM_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 45.6, "scoreFlags": []},
+    {"rank": 55, "ticker": "TMO", "name": "써모피셔사이언티픽", "sector": "헬스케어 — 생명과학 도구·서비스", "price": 684.89, "change": 1.64, "marketCap": 253236218709, "href": "TMO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 45.9, "scoreFlags": []},
+    {"rank": 56, "ticker": "AXP", "name": "아메리칸 익스프레스", "sector": "금융·결제 네트워크·카드", "price": 315.05, "change": 0.58, "marketCap": 212756362887, "href": "AXP_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 57, "ticker": "LIN", "name": "린데", "sector": "산업가스·화학", "price": 507.56, "change": -0.25, "marketCap": 233975091532, "href": "LIN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 59.2, "scoreFlags": []},
+    {"rank": 58, "ticker": "CRWD", "name": "크라우드스트라이크", "sector": "정보기술 — 사이버보안", "price": 261.83, "change": 1.65, "marketCap": 268096859681, "href": "CRWD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 47.9, "scoreFlags": []},
+    {"rank": 59, "ticker": "VZ", "name": "버라이즌", "sector": "통신서비스 — 무선·광대역", "price": 43.1, "change": -3.49, "marketCap": 179070811206, "href": "VZ_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 38.6, "scoreFlags": []},
+    {"rank": 60, "ticker": "MRVL", "name": "마벨 테크놀로지", "sector": "정보기술 — 반도체(데이터센터)", "price": 233.78, "change": 2.31, "marketCap": 205001682000, "href": "MRVL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 74.9, "scoreFlags": []},
+    {"rank": 61, "ticker": "APH", "name": "앰페놀", "sector": "정보기술 — 커넥터·인터커넥트", "price": 75.27, "change": 1.59, "marketCap": 185613329617, "href": "APH_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 68.2, "scoreFlags": []},
+    {"rank": 62, "ticker": "AMGN", "name": "암젠", "sector": "헬스케어 — 바이오의약품", "price": 444.63, "change": 1.22, "marketCap": 240381208383, "href": "AMGN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 52.7, "scoreFlags": []},
+    {"rank": 63, "ticker": "CRM", "name": "세일즈포스", "sector": "정보기술 — 기업용 소프트웨어", "price": 247.61, "change": -0.39, "marketCap": 203783030000, "href": "CRM_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 55.2, "scoreFlags": []},
+    {"rank": 64, "ticker": "TMUS", "name": "티모바일", "sector": "통신서비스 — 무선", "price": 146.93, "change": 0.27, "marketCap": 157607640098, "href": "TMUS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 50.7, "scoreFlags": []},
+    {"rank": 65, "ticker": "QCOM", "name": "퀄컴", "sector": "정보기술 — 반도체", "price": 179.6, "change": 2.1, "marketCap": 188580000000, "href": "QCOM_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 54.9, "scoreFlags": []},
+    {"rank": 66, "ticker": "STX", "name": "시게이트", "sector": "정보기술 — 스토리지(HDD)", "price": 644.21, "change": 2.18, "marketCap": 146006664941, "href": "STX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 68.7, "scoreFlags": []},
+    {"rank": 67, "ticker": "PEP", "name": "펩시코", "sector": "필수소비재 — 음료·스낵", "price": 135.46, "change": -0.23, "marketCap": 184888210447, "href": "PEP_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 45.1, "scoreFlags": []},
+    {"rank": 68, "ticker": "SCHW", "name": "찰스슈왑", "sector": "금융 — 증권·자산관리", "price": 89.73, "change": -0.94, "marketCap": 155173293617, "href": "SCHW_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 69, "ticker": "DIS", "name": "월트디즈니", "sector": "커뮤니케이션 서비스 — 미디어·엔터테인먼트", "price": 110.4, "change": -1.88, "marketCap": 190626233981, "href": "DIS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 54.1, "scoreFlags": []},
+    {"rank": 70, "ticker": "DE", "name": "디어", "sector": "산업재 — 농기계·건설장비", "price": 641.25, "change": -0.76, "marketCap": 172897295445, "href": "DE_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 40.7, "scoreFlags": []},
+    {"rank": 71, "ticker": "ADI", "name": "아날로그 디바이스", "sector": "정보기술 — 반도체(아날로그)", "price": 407.93, "change": 4.31, "marketCap": 197668790137, "href": "ADI_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 60.0, "scoreFlags": []},
+    {"rank": 72, "ticker": "GILD", "name": "길리어드 사이언스", "sector": "헬스케어 — 바이오", "price": 158.69, "change": 1.7, "marketCap": 196768483547, "href": "GILD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 33.5, "scoreFlags": []},
+    {"rank": 73, "ticker": "BLK", "name": "블랙록", "sector": "금융 — 자산운용", "price": 1127.66, "change": 0.84, "marketCap": 183217895905, "href": "BLK_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 68.4, "scoreFlags": []},
+    {"rank": 74, "ticker": "ETN", "name": "이튼", "sector": "산업재 — 전기 장비", "price": 371.92, "change": 1.59, "marketCap": 144453728000, "href": "ETN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 54.7, "scoreFlags": []},
+    {"rank": 75, "ticker": "ABT", "name": "애보트 래버러토리스", "sector": "헬스케어 — 의료기기·진단", "price": 104.88, "change": 1.14, "marketCap": 181482600084, "href": "ABT_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 41.4, "scoreFlags": []},
+    {"rank": 76, "ticker": "WDC", "name": "웨스턴 디지털", "sector": "정보기술 — 데이터 저장장치(HDD)", "price": 356.13, "change": 3.63, "marketCap": 128399446387, "href": "WDC_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 79.7, "scoreFlags": []},
+    {"rank": 77, "ticker": "T", "name": "에이티앤티", "sector": "커뮤니케이션 — 통신", "price": 20.85, "change": -0.38, "marketCap": 142872240802, "href": "T_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 38.6, "scoreFlags": []},
+    {"rank": 78, "ticker": "MCD", "name": "맥도날드", "sector": "경기소비재 — 외식(프랜차이즈)", "price": 250.83, "change": 0.95, "marketCap": 177497725221, "href": "MCD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 60.3, "scoreFlags": []},
+    {"rank": 79, "ticker": "WELL", "name": "웰타워", "sector": "부동산 — 헬스케어 리츠(시니어 주택)", "price": 240.61, "change": 1.39, "marketCap": 173418442660, "href": "WELL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 54.9, "scoreFlags": []},
+    {"rank": 80, "ticker": "UNP", "name": "유니언 퍼시픽", "sector": "산업재 — 철도", "price": 296.97, "change": 1.4, "marketCap": 176422600641, "href": "UNP_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 50.1, "scoreFlags": []},
+    {"rank": 81, "ticker": "PFE", "name": "화이자", "sector": "헬스케어 — 제약", "price": 29.79, "change": -0.8, "marketCap": 169793276216, "href": "PFE_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 36.9, "scoreFlags": []},
+    {"rank": 82, "ticker": "NEE", "name": "넥스트에라 에너지", "sector": "유틸리티 — 전력·재생에너지", "price": 82.04, "change": -0.07, "marketCap": 171119293626, "href": "NEE_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 56.4, "scoreFlags": []},
+    {"rank": 83, "ticker": "COP", "name": "코노코필립스", "sector": "에너지 — 석유·가스 탐사·생산", "price": 151.37, "change": 0.38, "marketCap": 181846454196, "href": "COP_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 58.9, "scoreFlags": []},
+    {"rank": 84, "ticker": "DHR", "name": "다나허", "sector": "헬스케어 — 생명과학 장비·진단", "price": 232.97, "change": 1.07, "marketCap": 163774661000, "href": "DHR_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 52.4, "scoreFlags": []},
+    {"rank": 85, "ticker": "BA", "name": "보잉", "sector": "산업재 — 항공기·방산", "price": 188.31, "change": -0.02, "marketCap": 148834578466, "href": "BA_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 38.6, "scoreFlags": []},
+    {"rank": 86, "ticker": "TJX", "name": "TJX 컴퍼니스", "sector": "경기소비재 — 할인 의류 소매", "price": 143.7, "change": -0.94, "marketCap": 158066272566, "href": "TJX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 50.1, "scoreFlags": []},
+    {"rank": 87, "ticker": "BX", "name": "블랙스톤", "sector": "금융 — 대체투자 운용", "price": 119.06, "change": 0.92, "marketCap": 142452877725, "href": "BX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 69.4, "scoreFlags": []},
+    {"rank": 88, "ticker": "GLW", "name": "코닝", "sector": "IT — 특수 유리·광통신 소재", "price": 127.74, "change": 3.27, "marketCap": 110033745402, "href": "GLW_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 55.5, "scoreFlags": []},
+    {"rank": 89, "ticker": "NOW", "name": "서비스나우", "sector": "IT — 기업용 업무 자동화 소프트웨어", "price": 158.18, "change": -0.49, "marketCap": 163558120000, "href": "NOW_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 50.1, "scoreFlags": []},
+    {"rank": 90, "ticker": "ISRG", "name": "인튜이티브 서지컬", "sector": "헬스케어 — 수술 로봇", "price": 451.63, "change": -0.15, "marketCap": 159550960302, "href": "ISRG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 84.0, "scoreFlags": []},
+    {"rank": 91, "ticker": "UBER", "name": "우버", "sector": "산업재 — 모빌리티·배달 플랫폼", "price": 66.13, "change": -0.85, "marketCap": 135074500802, "href": "UBER_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 59.2, "scoreFlags": []},
+    {"rank": 92, "ticker": "FTNT", "name": "포티넷", "sector": "IT — 네트워크 보안", "price": 183.33, "change": 1.86, "marketCap": 134511724004, "href": "FTNT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 70.2, "scoreFlags": []},
+    {"rank": 93, "ticker": "VRTX", "name": "버텍스 파마슈티컬스", "sector": "헬스케어 — 낭포성 섬유증·유전자 치료제", "price": 517.49, "change": -1.23, "marketCap": 131163493561, "href": "VRTX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 81.5, "scoreFlags": []},
+    {"rank": 94, "ticker": "CB", "name": "처브", "sector": "금융 — 손해보험", "price": 356.74, "change": 0.46, "marketCap": 137630241700, "href": "CB_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": 65.1, "scoreFlags": []},
+    {"rank": 95, "ticker": "PLD", "name": "프로로지스", "sector": "부동산 — 물류 리츠", "price": 126.31, "change": -0.11, "marketCap": 117856829560, "href": "PLD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 66.9, "scoreFlags": []},
+    {"rank": 96, "ticker": "BMY", "name": "브리스톨마이어스 스퀴브", "sector": "헬스케어 — 제약", "price": 61.61, "change": 0.21, "marketCap": 125851649956, "href": "BMY_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 56.6, "scoreFlags": []},
+    {"rank": 97, "ticker": "PH", "name": "파커 하니핀", "sector": "산업재 — 모션·제어 기술", "price": 904.43, "change": 2.71, "marketCap": 114001112388, "href": "PH_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 56.1, "scoreFlags": []},
+    {"rank": 98, "ticker": "PGR", "name": "프로그레시브", "sector": "금융 — 자동차 보험", "price": 229.25, "change": 0.52, "marketCap": 133279478272, "href": "PGR_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": 70.9, "scoreFlags": []},
+    {"rank": 99, "ticker": "BKNG", "name": "부킹 홀딩스", "sector": "경기소비재 — 온라인 여행", "price": 153.14, "change": -1.73, "marketCap": 115066409770, "href": "BKNG_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 62.8, "scoreFlags": []},
+    {"rank": 100, "ticker": "NEM", "name": "뉴몬트", "sector": "소재 — 금 채굴", "price": 110.39, "change": 1.4, "marketCap": 116317089796, "href": "NEM_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 85.1, "scoreFlags": []},
+    {"rank": 101, "ticker": "ACN", "name": "액센츄어", "sector": "IT — 컨설팅·IT 서비스", "price": 247.23, "change": -0.86, "marketCap": 152193158507, "href": "ACN_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 62.0, "scoreFlags": []},
+    {"rank": 102, "ticker": "COF", "name": "캐피털 원", "sector": "금융 — 신용카드·소비자 은행", "price": 202.35, "change": 0.5, "marketCap": 124138656565, "href": "COF_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 103, "ticker": "MPC", "name": "마라톤 페트롤리엄", "sector": "에너지 — 정유", "price": 470.64, "change": 2.94, "marketCap": 132167366458, "href": "MPC_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 39.4, "scoreFlags": []},
+    {"rank": 104, "ticker": "VLO", "name": "발레로 에너지", "sector": "에너지 — 정유", "price": 426.76, "change": 1.78, "marketCap": 122875923256, "href": "VLO_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 49.3, "scoreFlags": []},
+    {"rank": 105, "ticker": "MO", "name": "알트리아", "sector": "필수소비재 — 담배", "price": 73.62, "change": -0.93, "marketCap": 122926547832, "href": "MO_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 46.2, "scoreFlags": []},
+    {"rank": 106, "ticker": "PSX", "name": "필립스 66", "sector": "에너지 — 정유·미드스트림·화학", "price": 288.85, "change": 2.0, "marketCap": 115257191587, "href": "PSX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 40.8, "scoreFlags": []},
+    {"rank": 107, "ticker": "LMT", "name": "록히드 마틴", "sector": "산업재 — 항공우주·방위", "price": 635.2, "change": 5.13, "marketCap": 146598286306, "href": "LMT_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 42.0, "scoreFlags": []},
+    {"rank": 108, "ticker": "MCK", "name": "맥케슨", "sector": "헬스케어 — 의약품 유통", "price": 992.87, "change": -0.79, "marketCap": 115759073712, "href": "MCK_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 46.5, "scoreFlags": []},
+    {"rank": 109, "ticker": "CVS", "name": "CVS 헬스", "sector": "헬스케어 — 건강보험·약국·의료 서비스", "price": 92.53, "change": -1.01, "marketCap": 118343128244, "href": "CVS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 34.9, "scoreFlags": []},
+    {"rank": 110, "ticker": "ADP", "name": "ADP", "sector": "산업재 — 급여·인사관리 서비스", "price": 301.12, "change": -1.0, "marketCap": 119623755365, "href": "ADP_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 63.1, "scoreFlags": []},
+    {"rank": 111, "ticker": "SYK", "name": "스트라이커", "sector": "헬스케어 — 의료기기(정형외과·수술 장비)", "price": 306.13, "change": -0.33, "marketCap": 117423216572, "href": "SYK_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 69.6, "scoreFlags": []},
+    {"rank": 112, "ticker": "LOW", "name": "로우스", "sector": "경기소비재 — 주택 개량 소매", "price": 198.22, "change": -0.23, "marketCap": 111212127646, "href": "LOW_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 36.1, "scoreFlags": []},
+    {"rank": 113, "ticker": "SBUX", "name": "스타벅스", "sector": "경기소비재 — 커피 전문점", "price": 102.69, "change": 1.88, "marketCap": 117066600000, "href": "SBUX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 38.0, "scoreFlags": []},
+    {"rank": 114, "ticker": "CME", "name": "CME 그룹", "sector": "금융 — 파생상품 거래소·청산", "price": 308.06, "change": 0.77, "marketCap": 110771987760, "href": "CME_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 70.1, "scoreFlags": []},
+    {"rank": 115, "ticker": "TT", "name": "트레인 테크놀로지스", "sector": "산업재 — 냉난방·공조(HVAC)", "price": 455.03, "change": 2.28, "marketCap": 100117146230, "href": "TT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 56.1, "scoreFlags": []},
+    {"rank": 116, "ticker": "FCX", "name": "프리포트-맥모란", "sector": "소재 — 구리·금·몰리브덴 광산", "price": 65.16, "change": -0.03, "marketCap": 93570901799, "href": "FCX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 57.5, "scoreFlags": []},
+    {"rank": 117, "ticker": "NKE", "name": "나이키", "sector": "경기소비재 — 운동화·의류", "price": 37.91, "change": 1.64, "marketCap": 56308057707, "href": "NKE_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 44.8, "scoreFlags": []},
+    {"rank": 118, "ticker": "EQIX", "name": "이퀴닉스", "sector": "부동산 — 데이터센터 리츠", "price": 967.65, "change": 1.32, "marketCap": 95479656958, "href": "EQIX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 57.2, "scoreFlags": []},
+    {"rank": 119, "ticker": "ADBE", "name": "어도비", "sector": "정보기술 — 크리에이티브·문서 소프트웨어", "price": 258.62, "change": -1.97, "marketCap": 100654904000, "href": "ADBE_full_widget.html", "priceStale": false, "tier": "저평가", "tierConflict": false, "score": 63.7, "scoreFlags": []},
+    {"rank": 120, "ticker": "BNY", "name": "BNY 멜론", "sector": "금융 — 수탁·자산운용 은행", "price": 147.18, "change": 1.31, "marketCap": 99862239620, "href": "BNY_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 121, "ticker": "PWR", "name": "콴타 서비스", "sector": "산업재 — 전력망·통신 인프라 시공", "price": 563.93, "change": 3.2, "marketCap": 84783149614, "href": "PWR_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 56.1, "scoreFlags": []},
+    {"rank": 122, "ticker": "ELV", "name": "엘리번스 헬스", "sector": "헬스케어 — 관리의료 건강보험", "price": 431.32, "change": -1.96, "marketCap": 93540062163, "href": "ELV_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 40.8, "scoreFlags": []},
+    {"rank": 123, "ticker": "USB", "name": "US 뱅코프", "sector": "금융 — 지역 은행", "price": 59.7, "change": 0.2, "marketCap": 93015671326, "href": "USB_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": null, "scoreFlags": []},
+    {"rank": 124, "ticker": "ICE", "name": "인터컨티넨탈 익스체인지", "sector": "금융 — 거래소·청산·모기지 기술", "price": 160.05, "change": -1.65, "marketCap": 89851187644, "href": "ICE_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 66.2, "scoreFlags": []},
+    {"rank": 125, "ticker": "EMR", "name": "에머슨 일렉트릭", "sector": "산업재 — 자동화 제어·계측 소프트웨어", "price": 161.7, "change": 0.07, "marketCap": 90196260000, "href": "EMR_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 49.6, "scoreFlags": []},
+    {"rank": 126, "ticker": "CSX", "name": "CSX", "sector": "산업재 — 철도 화물", "price": 51.31, "change": 1.02, "marketCap": 95050487991, "href": "CSX_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 48.2, "scoreFlags": []},
+    {"rank": 127, "ticker": "MRSH", "name": "마시(Marsh McLennan)", "sector": "금융 — 보험 중개·컨설팅", "price": 194.72, "change": -1.4, "marketCap": 92592149753, "href": "MRSH_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 52.1, "scoreFlags": []},
+    {"rank": 128, "ticker": "CEG", "name": "Constellation Energy", "sector": "유틸리티 — 원자력·발전", "price": 252.48, "change": -0.38, "marketCap": 89455527050, "href": "CEG_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 49.6, "scoreFlags": []},
+    {"rank": 129, "ticker": "INTU", "name": "Intuit", "sector": "정보기술 — 세무·회계 소프트웨어", "price": 339.89, "change": -1.02, "marketCap": 90830844040, "href": "INTU_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 74.1, "scoreFlags": []},
+    {"rank": 130, "ticker": "HWM", "name": "Howmet Aerospace", "sector": "산업재 — 항공기 엔진 부품·체결재", "price": 194.36, "change": 4.55, "marketCap": 77511039910, "href": "HWM_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 66.2, "scoreFlags": []},
+    {"rank": 131, "ticker": "WMB", "name": "Williams", "sector": "에너지 — 천연가스 수송관", "price": 71.75, "change": 0.07, "marketCap": 87762266116, "href": "WMB_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 49.9, "scoreFlags": []},
+    {"rank": 132, "ticker": "MRNA", "name": "Moderna", "sector": "헬스케어 — mRNA 백신·치료제", "price": 198.85, "change": -0.62, "marketCap": 79388056528, "href": "MRNA_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 41.7, "scoreFlags": []},
+    {"rank": 133, "ticker": "WM", "name": "WM", "sector": "산업재 — 폐기물 수거·처리", "price": 241.02, "change": 0.69, "marketCap": 96339353648, "href": "WM_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 46.2, "scoreFlags": []},
+    {"rank": 134, "ticker": "DDOG", "name": "Datadog", "sector": "정보기술 — 클라우드 관측·보안 소프트웨어", "price": 280.24, "change": 3.93, "marketCap": 100627184726, "href": "DDOG_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 60.3, "scoreFlags": []},
+    {"rank": 135, "ticker": "AMT", "name": "American Tower", "sector": "부동산 — 통신탑 리츠", "price": 188.28, "change": -0.37, "marketCap": 87730957837, "href": "AMT_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 52.4, "scoreFlags": []},
+    {"rank": 136, "ticker": "SNPS", "name": "Synopsys", "sector": "정보기술 — 반도체 설계 소프트웨어(EDA)·시뮬레이션", "price": 454.33, "change": 5.62, "marketCap": 87066277377, "href": "SNPS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 51.0, "scoreFlags": []},
+    {"rank": 137, "ticker": "MAR", "name": "Marriott", "sector": "경기소비재 — 호텔 프랜차이즈·위탁 운영", "price": 394.75, "change": 1.03, "marketCap": 102937492188, "href": "MAR_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 43.7, "scoreFlags": []},
+    {"rank": 138, "ticker": "MMM", "name": "3M", "sector": "산업재 — 산업용·안전·소비자 소재", "price": 172.79, "change": -0.39, "marketCap": 89285703091, "href": "MMM_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 47.0, "scoreFlags": []},
+    {"rank": 139, "ticker": "EOG", "name": "EOG Resources", "sector": "에너지 — 원유·천연가스 탐사·생산", "price": 163.68, "change": 0.4, "marketCap": 85854935528, "href": "EOG_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 67.9, "scoreFlags": []},
+    {"rank": 140, "ticker": "VRT", "name": "Vertiv", "sector": "산업재 — 데이터센터 전력·냉각 장비", "price": 199.78, "change": 2.81, "marketCap": 76912937202, "href": "VRT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 68.2, "scoreFlags": []},
+    {"rank": 141, "ticker": "TRV", "name": "Travelers", "sector": "금융 — 손해보험(기업·개인)", "price": 400.17, "change": 0.47, "marketCap": 82013379679, "href": "TRV_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": 63.4, "scoreFlags": []},
+    {"rank": 142, "ticker": "HLT", "name": "Hilton", "sector": "경기소비재 — 호텔 프랜차이즈·위탁 운영", "price": 351.89, "change": 0.65, "marketCap": 79198091180, "href": "HLT_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 48.7, "scoreFlags": []},
+    {"rank": 143, "ticker": "HOOD", "name": "Robinhood", "sector": "금융 — 온라인 증권·가상자산 거래", "price": 92.84, "change": -2.35, "marketCap": 83470798225, "href": "HOOD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 75.3, "scoreFlags": []},
+    {"rank": 144, "ticker": "REGN", "name": "Regeneron", "sector": "헬스케어 — 바이오의약품(Eylea·Dupixent·Libtayo)", "price": 807.67, "change": 0.33, "marketCap": 83153655158, "href": "REGN_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 78.3, "scoreFlags": []},
+    {"rank": 145, "ticker": "HPE", "name": "Hewlett Packard Enterprise", "sector": "정보기술 — 서버·네트워크(Juniper)·하이브리드 클라우드", "price": 58.72, "change": 3.58, "marketCap": 77948731823, "href": "HPE_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 42.5, "scoreFlags": []},
+    {"rank": 146, "ticker": "MSI", "name": "Motorola Solutions", "sector": "정보기술 — 공공안전 무전·영상보안·관제 소프트웨어", "price": 485.62, "change": 0.79, "marketCap": 80367093329, "href": "MSI_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 57.8, "scoreFlags": []},
+    {"rank": 147, "ticker": "SHW", "name": "Sherwin-Williams", "sector": "소재 — 건축용 도료·코팅(직영 매장·소매·산업용)", "price": 335.16, "change": -0.56, "marketCap": 81362821889, "href": "SHW_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 43.7, "scoreFlags": []},
+    {"rank": 148, "ticker": "ROST", "name": "Ross Stores", "sector": "경기소비재 — 할인 의류·잡화 매장(Ross Dress for Less·dd's)", "price": 234.11, "change": 2.1, "marketCap": 74787167582, "href": "ROST_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 62.0, "scoreFlags": []},
+    {"rank": 149, "ticker": "LITE", "name": "Lumentum", "sector": "IT — 광통신 부품·레이저(데이터센터 광 트랜시버, 산업용 레이저)", "price": 818.1, "change": 8.19, "marketCap": 73383570000, "href": "LITE_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 62.0, "scoreFlags": []},
+    {"rank": 150, "ticker": "CTAS", "name": "Cintas", "sector": "산업재 — 유니폼 대여·세탁, 위생·안전 용품, 방화 서비스", "price": 225.93, "change": 0.82, "marketCap": 89711175761, "href": "CTAS_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 60.6, "scoreFlags": []},
+    {"rank": 151, "ticker": "CMI", "name": "Cummins", "sector": "산업재 — 디젤·천연가스 엔진, 발전기, 동력 전달 부품", "price": 522.13, "change": 0.91, "marketCap": 71878758597, "href": "CMI_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 57.5, "scoreFlags": []},
+    {"rank": 152, "ticker": "UPS", "name": "UPS", "sector": "산업재 — 소포 배송·물류(미국 국내·국제·공급망)", "price": 100.32, "change": -0.73, "marketCap": 85350408306, "href": "UPS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 29.9, "scoreFlags": []},
+    {"rank": 153, "ticker": "CL", "name": "Colgate-Palmolive", "sector": "필수소비재 — 치약·칫솔, 비누·세제, 반려동물 사료(Hill's)", "price": 93.1, "change": -1.0, "marketCap": 74216790380, "href": "CL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 47.0, "scoreFlags": []},
+    {"rank": 154, "ticker": "ECL", "name": "Ecolab", "sector": "소재 — 위생·세척, 수처리, 해충 방제 솔루션", "price": 288.89, "change": 0.12, "marketCap": 80984130121, "href": "ECL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 58.0, "scoreFlags": []},
+    {"rank": 155, "ticker": "NOC", "name": "Northrop Grumman", "sector": "산업재 — 방산(전략 폭격기·미사일 방어·우주·임무 시스템)", "price": 565.41, "change": 2.53, "marketCap": 80324682725, "href": "NOC_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 48.4, "scoreFlags": []},
+    {"rank": 156, "ticker": "ORLY", "name": "O’Reilly Automotive", "sector": "경기소비재 — 자동차 부품 소매(정비업체·DIY 고객)", "price": 91.05, "change": 1.26, "marketCap": 73655880112, "href": "ORLY_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 45.6, "scoreFlags": []},
+    {"rank": 157, "ticker": "ITW", "name": "Illinois Tool Works", "sector": "산업재 — 산업용 부품·장비(자동차 부품, 식품 장비, 용접, 건설 자재 등 7개 사업)", "price": 276.22, "change": 0.17, "marketCap": 78667456000, "href": "ITW_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 50.1, "scoreFlags": []},
+    {"rank": 158, "ticker": "RCL", "name": "Royal Caribbean", "sector": "경기소비재 — 크루즈 여행(Royal Caribbean·Celebrity·Silversea)", "price": 280.6, "change": 1.49, "marketCap": 75047054770, "href": "RCL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 56.9, "scoreFlags": []},
+    {"rank": 159, "ticker": "DASH", "name": "DoorDash", "sector": "경기소비재 — 음식·생활용품 배달 플랫폼(DoorDash·Wolt·Deliveroo)", "price": 168.44, "change": -6.1, "marketCap": 72984319960, "href": "DASH_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 60.0, "scoreFlags": []},
+    {"rank": 160, "ticker": "TGT", "name": "Target", "sector": "필수소비재 — 대형 할인점(일반 상품·식품, 온라인 주문)", "price": 148.53, "change": -2.77, "marketCap": 67476694198, "href": "TGT_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 40.0, "scoreFlags": []},
+    {"rank": 161, "ticker": "APD", "name": "Air Products", "sector": "소재 — 산업용 가스(산소·질소·수소), 가스 설비", "price": 305.72, "change": -0.47, "marketCap": 68079420232, "href": "APD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 27.9, "scoreFlags": []},
+    {"rank": 162, "ticker": "AJG", "name": "Arthur J. Gallagher", "sector": "금융 — 보험 중개·위험 관리 컨설팅·재보험 중개", "price": 266.79, "change": -0.47, "marketCap": 68378277000, "href": "AJG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 52.1, "scoreFlags": []},
+    {"rank": 163, "ticker": "MNST", "name": "Monster Beverage", "sector": "필수소비재 — 에너지 음료(Monster·Reign·Bang), 주류", "price": 46.44, "change": 0.54, "marketCap": 90978363920, "href": "MNST_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 84.8, "scoreFlags": []},
+    {"rank": 164, "ticker": "GM", "name": "General Motors", "sector": "경기소비재 — 자동차(Chevrolet·GMC·Cadillac·Buick), GM Financial", "price": 76.31, "change": 0.51, "marketCap": 64371256469, "href": "GM_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 42.5, "scoreFlags": []},
+    {"rank": 165, "ticker": "BSX", "name": "Boston Scientific", "sector": "헬스케어 — 의료기기(심장 전기생리·Watchman·스텐트·신경조절·비뇨기)", "price": 45.58, "change": -0.24, "marketCap": 66055881795, "href": "BSX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 65.6, "scoreFlags": []},
+    {"rank": 166, "ticker": "ALL", "name": "Allstate", "sector": "금융 — 손해보험(자동차·주택), 보호 상품", "price": 255.95, "change": 1.09, "marketCap": 64718992302, "href": "ALL_full_widget.html", "priceStale": false, "tier": null, "tierConflict": false, "score": 60.1, "scoreFlags": []},
+    {"rank": 167, "ticker": "COR", "name": "Cencora", "sector": "헬스케어 — 의약품 도매 유통, 동물 의약품, 전문 의료 서비스", "price": 330.0, "change": -0.3, "marketCap": 62972964450, "href": "COR_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 37.5, "scoreFlags": []},
+    {"rank": 168, "ticker": "AON", "name": "Aon", "sector": "금융 — 보험·재보험 중개, 위험·건강·인재 컨설팅", "price": 302.06, "change": -0.48, "marketCap": 64074608594, "href": "AON_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 51.6, "scoreFlags": []},
+    {"rank": 169, "ticker": "TRGP", "name": "Targa Resources", "sector": "에너지 — 미드스트림(천연가스 수집·처리, NGL 운송·분별·수출)", "price": 304.68, "change": 0.76, "marketCap": 65332843478, "href": "TRGP_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 48.7, "scoreFlags": []},
+    {"rank": 170, "ticker": "TDG", "name": "TransDigm", "sector": "산업재 — 항공기 부품(독점 애프터마켓 부품 중심)", "price": 1129.7, "change": 2.25, "marketCap": 62445890292, "href": "TDG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 68.7, "scoreFlags": []},
+    {"rank": 171, "ticker": "FAST", "name": "Fastenal", "sector": "산업재 — 산업용 소모품·체결 부품 유통(자판기·현장 매장)", "price": 52.47, "change": 1.08, "marketCap": 60198909075, "href": "FAST_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 75.8, "scoreFlags": []},
+    {"rank": 172, "ticker": "MCO", "name": "Moody's", "sector": "금융 — 신용평가(MIS), 데이터·분석(Moody’s Analytics)", "price": 484.45, "change": 0.21, "marketCap": 83519180000, "href": "MCO_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 69.3, "scoreFlags": []},
+    {"rank": 173, "ticker": "TEL", "name": "TE Connectivity", "sector": "IT — 커넥터·센서(자동차·산업·데이터센터)", "price": 213.86, "change": 2.79, "marketCap": 61915298940, "href": "TEL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 58.9, "scoreFlags": []},
+    {"rank": 174, "ticker": "OKE", "name": "ONEOK", "sector": "에너지 — 미드스트림(천연가스·NGL·정제유 파이프라인)", "price": 96.36, "change": 0.55, "marketCap": 60742421112, "href": "OKE_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 50.7, "scoreFlags": []},
+    {"rank": 175, "ticker": "GWW", "name": "Grainger", "sector": "산업재 — MRO(유지·보수·운영) 산업용품 유통", "price": 1357.6, "change": 0.57, "marketCap": 63944238859, "href": "GWW_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 63.4, "scoreFlags": []},
+    {"rank": 176, "ticker": "NUE", "name": "Nucor", "sector": "소재 — 철강(전기로 제강)·철강 제품·원자재", "price": 257.35, "change": -0.29, "marketCap": 58386455219, "href": "NUE_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 55.8, "scoreFlags": []},
+    {"rank": 177, "ticker": "PCAR", "name": "PACCAR", "sector": "산업재 — 대형 트럭(Kenworth·Peterbilt·DAF), 부품, 금융 서비스", "price": 104.37, "change": -2.42, "marketCap": 54936710145, "href": "PCAR_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 52.2, "scoreFlags": []},
+    {"rank": 178, "ticker": "AME", "name": "AMETEK", "sector": "산업재 — 전자 계측기(EIG)·전기기계(EMG)", "price": 242.81, "change": 1.16, "marketCap": 55666922656, "href": "AME_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 67.0, "scoreFlags": []},
+    {"rank": 179, "ticker": "KEYS", "name": "Keysight", "sector": "IT — 전자 계측·설계 소프트웨어(통신·전자 산업 솔루션)", "price": 326.04, "change": 3.58, "marketCap": 55506596660, "href": "KEYS_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 60.8, "scoreFlags": []},
+    {"rank": 180, "ticker": "ADSK", "name": "Autodesk", "sector": "IT — 설계·엔지니어링 소프트웨어(AutoCAD·Revit·Fusion)", "price": 249.45, "change": -1.09, "marketCap": 52135050000, "href": "ADSK_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 59.7, "scoreFlags": []},
+    {"rank": 181, "ticker": "TER", "name": "Teradyne", "sector": "IT — 반도체 시험 장비, 로봇(UR·MiR)", "price": 309.0, "change": 0.05, "marketCap": 48309291750, "href": "TER_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 73.8, "scoreFlags": []},
+    {"rank": 182, "ticker": "XEL", "name": "Xcel Energy", "sector": "유틸리티 — 전력·가스(미네소타·콜로라도·텍사스 등 8개 주)", "price": 77.86, "change": -0.24, "marketCap": 48634027065, "href": "XEL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 41.1, "scoreFlags": []},
+    {"rank": 183, "ticker": "A", "name": "Agilent", "sector": "헬스케어 — 생명과학·진단 분석 장비, 소모품·서비스", "price": 175.96, "change": 1.67, "marketCap": 49608201150, "href": "A_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 60.8, "scoreFlags": []},
+    {"rank": 184, "ticker": "VEEV", "name": "Veeva Systems", "sector": "생명과학 산업용 클라우드 소프트웨어(CRM·Vault) — GICS 헬스케어, 비교는 소프트웨어", "price": 318.18, "change": -1.5, "marketCap": 51516157893, "href": "VEEV_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 92.4, "scoreFlags": []},
+    {"rank": 185, "ticker": "RSG", "name": "Republic Services", "sector": "산업재 — 폐기물 수거·매립·재활용·환경 서비스", "price": 241.31, "change": 0.36, "marketCap": 73892253721, "href": "RSG_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 50.1, "scoreFlags": []},
+    {"rank": 186, "ticker": "CIEN", "name": "Ciena", "sector": "IT — 광통신 네트워크 장비·소프트웨어", "price": 335.93, "change": 4.89, "marketCap": 47637737803, "href": "CIEN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 65.3, "scoreFlags": []},
+    {"rank": 187, "ticker": "WAB", "name": "Wabtec", "sector": "산업재 — 철도 장비·서비스(화물 기관차·부품, 여객 철도 시스템)", "price": 277.67, "change": 1.95, "marketCap": 46593687965, "href": "WAB_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 56.6, "scoreFlags": []},
+    {"rank": 188, "ticker": "NDAQ", "name": "Nasdaq", "sector": "금융 — 거래소·시장 서비스, 금융 기술, 자본 접근(데이터·지수)", "price": 104.72, "change": 2.11, "marketCap": 58115699285, "href": "NDAQ_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 59.2, "scoreFlags": []},
+    {"rank": 189, "ticker": "DAL", "name": "Delta Air Lines", "sector": "산업재 — 항공 여객·화물(미국 최대 항공사 중 하나)", "price": 79.16, "change": 3.1, "marketCap": 52080344001, "href": "DAL_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 45.1, "scoreFlags": []},
+    {"rank": 190, "ticker": "MSCI", "name": "MSCI", "sector": "금융 — 지수·분석·ESG 데이터(ETF 지수 사용료 중심)", "price": 617.67, "change": 0.33, "marketCap": 44163405000, "href": "MSCI_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 56.4, "scoreFlags": []},
+    {"rank": 191, "ticker": "IDXX", "name": "IDEXX Laboratories", "sector": "헬스케어 — 반려동물 진단(검사기·시약·소프트웨어), 수질·축산 검사", "price": 570.21, "change": 1.75, "marketCap": 44921780154, "href": "IDXX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 68.2, "scoreFlags": []},
+    {"rank": 192, "ticker": "WDAY", "name": "Workday", "sector": "IT — 기업용 클라우드 인사·재무 소프트웨어(구독)", "price": 208.5, "change": -0.71, "marketCap": 50248500000, "href": "WDAY_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 59.2, "scoreFlags": []},
+    {"rank": 193, "ticker": "FIX", "name": "Comfort Systems USA", "sector": "산업재 — 기계·전기 설비 시공(데이터센터·병원·공장 공조·전기)", "price": 1244.1899, "change": 7.18, "marketCap": 43529108399, "href": "FIX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 74.1, "scoreFlags": []},
+    {"rank": 194, "ticker": "P", "name": "Everpure", "sector": "IT — 기업용 올플래시 데이터 스토리지·구독 서비스(옛 Pure Storage)", "price": 131.33, "change": 6.49, "marketCap": 43762734874, "href": "P_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 58.9, "scoreFlags": []},
+    {"rank": 195, "ticker": "MCHP", "name": "Microchip Technology", "sector": "IT — 마이크로컨트롤러·아날로그 반도체(산업·자동차·데이터센터)", "price": 75.9, "change": 2.5, "marketCap": 41214359647, "href": "MCHP_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 45.9, "scoreFlags": []},
+    {"rank": 196, "ticker": "PAYX", "name": "Paychex", "sector": "산업재 — 급여·인사 아웃소싱(중소기업 급여 처리·PEO·보험)", "price": 115.7, "change": -1.98, "marketCap": 41186940726, "href": "PAYX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 61.7, "scoreFlags": []},
+    {"rank": 197, "ticker": "RMD", "name": "ResMed", "sector": "헬스케어 — 수면무호흡 치료 기기(CPAP)·마스크, 재택 의료 소프트웨어", "price": 253.2, "change": 0.13, "marketCap": 36524683879, "href": "RMD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 82.5, "scoreFlags": []},
+    {"rank": 198, "ticker": "PEG", "name": "Public Service Enterprise Group", "sector": "유틸리티 — 뉴저지 전력·가스 배전, 원전 발전(PSEG Power)", "price": 72.11, "change": 0.12, "marketCap": 35941068363, "href": "PEG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 48.7, "scoreFlags": []},
+    {"rank": 199, "ticker": "CRH", "name": "CRH", "sector": "소재 — 골재·시멘트·아스팔트·건축 자재(북미·유럽 인프라)", "price": 85.43, "change": 0.64, "marketCap": 56835255775, "href": "CRH_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 53.5, "scoreFlags": []},
+    {"rank": 200, "ticker": "DHI", "name": "D.R. Horton", "sector": "경기소비재 — 미국 최대 주택 건설사(단독주택·임대 주택), 택지 개발(Forestar)·주택 금융", "price": 146.52, "change": -0.65, "marketCap": 40981829641, "href": "DHI_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 49.9, "scoreFlags": []},
+    {"rank": 201, "ticker": "SO", "name": "Southern Company", "sector": "유틸리티 — 미국 남동부 전력(조지아·앨라배마·미시시피)·가스 배전, 발전", "price": 92.57, "change": -0.34, "marketCap": 104354262642, "href": "SO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 46.2, "scoreFlags": []},
+    {"rank": 202, "ticker": "DUK", "name": "Duke Energy", "sector": "유틸리티 — 미국 남동부·중서부 규제 전력(캐롤라이나·플로리다·인디애나 등)·가스 배전", "price": 124.44, "change": -0.43, "marketCap": 97012953243, "href": "DUK_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 46.8, "scoreFlags": []},
+    {"rank": 203, "ticker": "ED", "name": "Consolidated Edison", "sector": "유틸리티 — 뉴욕시·웨스트체스터 전력·가스·증기 배전(CECONY), 오렌지 앤 록랜드", "price": 115.42, "change": -0.28, "marketCap": 42535698551, "href": "ED_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 49.6, "scoreFlags": []},
+    {"rank": 204, "ticker": "BIIB", "name": "Biogen", "sector": "헬스케어 — 바이오의약품(다발성 경화증·희귀질환·알츠하이머)", "price": 252.26, "change": 0.63, "marketCap": 37242939134, "href": "BIIB_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 60.8, "scoreFlags": []},
+    {"rank": 205, "ticker": "NTAP", "name": "NetApp", "sector": "IT — 데이터 스토리지(올플래시·하이브리드 클라우드)", "price": 222.08, "change": 3.06, "marketCap": 43620732630, "href": "NTAP_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 58.6, "scoreFlags": []},
+    {"rank": 206, "ticker": "TTWO", "name": "Take-Two Interactive", "sector": "커뮤니케이션 — 게임(GTA·NBA 2K·Zynga 모바일)", "price": 203.35, "change": -0.17, "marketCap": 38022473084, "href": "TTWO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 36.9, "scoreFlags": []},
+    {"rank": 207, "ticker": "BE", "name": "Bloom Energy", "sector": "산업재 — 고체산화물 연료전지 발전 설비(데이터센터·전력망)", "price": 203.92, "change": 5.49, "marketCap": 60290312021, "href": "BE_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 73.5, "scoreFlags": []},
+    {"rank": 208, "ticker": "ODFL", "name": "Old Dominion Freight Line", "sector": "산업재 — 미국 소량화물(LTL) 트럭 운송", "price": 182.47, "change": -0.13, "marketCap": 37836362816, "href": "ODFL_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 64.8, "scoreFlags": []},
+    {"rank": 209, "ticker": "MTD", "name": "Mettler-Toledo", "sector": "헬스케어 — 정밀 계측기(실험실 저울·분석·산업 계량)", "price": 1669.62, "change": -0.04, "marketCap": 33453439638, "href": "MTD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 47.6, "scoreFlags": []},
+    {"rank": 210, "ticker": "UAL", "name": "United Airlines Holdings", "sector": "산업재 — 항공(국제선·국내선), 화물, 마일리지", "price": 100.69, "change": 2.82, "marketCap": 32713614619, "href": "UAL_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 45.6, "scoreFlags": []},
+    {"rank": 211, "ticker": "AEE", "name": "Ameren", "sector": "유틸리티 — 미주리·일리노이 전력·가스 배전, 송전", "price": 108.08, "change": 0.04, "marketCap": 29921218568, "href": "AEE_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 44.2, "scoreFlags": []},
+    {"rank": 212, "ticker": "DG", "name": "Dollar General", "sector": "필수소비재 — 저가 잡화 체인(미국 소도시)", "price": 128.42, "change": -3.22, "marketCap": 28331608172, "href": "DG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 41.4, "scoreFlags": []},
+    {"rank": 213, "ticker": "DXCM", "name": "DexCom", "sector": "헬스케어 — 연속혈당측정기(CGM)", "price": 78.57, "change": 0.81, "marketCap": 29649235306, "href": "DXCM_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 69.6, "scoreFlags": []},
+    {"rank": 214, "ticker": "ATO", "name": "Atmos Energy", "sector": "유틸리티 — 천연가스 배전(텍사스 등 8개 주)·파이프라인·저장", "price": 171.29, "change": -0.53, "marketCap": 28946049243, "href": "ATO_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 60.3, "scoreFlags": []},
+    {"rank": 215, "ticker": "OTIS", "name": "Otis Worldwide", "sector": "산업재 — 엘리베이터·에스컬레이터 신규 설치와 유지보수", "price": 75.27, "change": 0.16, "marketCap": 28652981147, "href": "OTIS_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 38.6, "scoreFlags": []},
+    {"rank": 216, "ticker": "WST", "name": "West Pharmaceutical Services", "sector": "헬스케어 — 주사제 포장 부품(고무 마개·주사기 부품)·위탁 생산", "price": 394.73, "change": 0.66, "marketCap": 27779424534, "href": "WST_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 66.7, "scoreFlags": []},
+    {"rank": 217, "ticker": "EME", "name": "EMCOR Group", "sector": "산업재 — 전기·기계 설비 공사(데이터센터 등)와 건물 서비스", "price": 665.93, "change": 2.82, "marketCap": 29374106373, "href": "EME_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 62.5, "scoreFlags": []},
+    {"rank": 218, "ticker": "DOV", "name": "Dover", "sector": "산업재 — 펌프·연료 장비·냉장 설비·마킹 장비 등 산업 기계", "price": 202.51, "change": 1.66, "marketCap": 26935386694, "href": "DOV_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 56.9, "scoreFlags": []},
+    {"rank": 219, "ticker": "EXPD", "name": "Expeditors International", "sector": "산업재 — 국제 화물 운송 주선(항공·해상)과 통관 대행", "price": 196.43, "change": 0.11, "marketCap": 25534057879, "href": "EXPD_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 44.8, "scoreFlags": []},
+    {"rank": 220, "ticker": "CASY", "name": "Casey's General Stores", "sector": "필수소비재 — 미국 중서부 편의점(피자·식품)과 주유소", "price": 703.93, "change": 0.67, "marketCap": 26017370356, "href": "CASY_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 51.0, "scoreFlags": []},
+    {"rank": 221, "ticker": "IR", "name": "Ingersoll Rand", "sector": "산업재 — 압축기·진공 펌프·블로어 등 유체 기계와 정밀 펌프", "price": 74.52, "change": 1.42, "marketCap": 28913717449, "href": "IR_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 60.0, "scoreFlags": []},
+    {"rank": 222, "ticker": "CHD", "name": "처치앤드와이트", "sector": "필수소비재 — 베이킹소다(Arm and Hammer)·세제·위생용품·OxiClean·TheraBreath", "price": 105.38, "change": 0.18, "marketCap": 24996547720, "href": "CHD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 56.1, "scoreFlags": []},
+    {"rank": 223, "ticker": "CDW", "name": "CDW", "sector": "IT — 기업·정부·교육 기관용 IT 하드웨어·소프트웨어·서비스 유통", "price": 163.23, "change": -1.14, "marketCap": 20406594446, "href": "CDW_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 36.9, "scoreFlags": []},
+    {"rank": 224, "ticker": "XYL", "name": "Xylem", "sector": "산업재 — 물 펌프·처리 설비·계량기(스마트 미터)·수처리 서비스", "price": 108.24, "change": -0.46, "marketCap": 25272612531, "href": "XYL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 69.0, "scoreFlags": []},
+    {"rank": 225, "ticker": "IEX", "name": "IDEX", "sector": "산업재 — 정밀 펌프·유량계·광학·소방 장비 등 특수 유체 기술", "price": 231.06, "change": 0.88, "marketCap": 17033719170, "href": "IEX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 62.8, "scoreFlags": []},
+    {"rank": 226, "ticker": "EFX", "name": "Equifax", "sector": "산업재 — 신용정보(소비자·기업)·소득·고용 확인(The Work Number)", "price": 178.56, "change": -2.08, "marketCap": 20894586589, "href": "EFX_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 51.6, "scoreFlags": []},
+    {"rank": 227, "ticker": "JBHT", "name": "J.B. Hunt", "sector": "산업재 — 철도 연계 컨테이너 운송(인터모달)·전용 트럭·중개", "price": 224.48, "change": -0.69, "marketCap": 20925738715, "href": "JBHT_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 44.8, "scoreFlags": []},
+    {"rank": 228, "ticker": "NDSN", "name": "Nordson", "sector": "산업재 — 정밀 디스펜싱·코팅 장비, 의료용 유체 부품, 반도체·전자 검사 장비", "price": 321.98, "change": 0.98, "marketCap": 17934081865, "href": "NDSN_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 62.0, "scoreFlags": []},
+    {"rank": 229, "ticker": "PNW", "name": "Pinnacle West Capital", "sector": "유틸리티 — 애리조나 전력(APS, 원전 Palo Verde 지분 포함)", "price": 105.34, "change": -0.51, "marketCap": 12766916630, "href": "PNW_full_widget.html", "priceStale": false, "tier": "고평가", "tierConflict": false, "score": 46.2, "scoreFlags": []},
+    {"rank": 230, "ticker": "ALLE", "name": "Allegion", "sector": "산업재 — 자물쇠·출입 통제·도어 하드웨어(Schlage, LCN, Von Duprin)", "price": 178.22, "change": -0.42, "marketCap": 15027765611, "href": "ALLE_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 61.4, "scoreFlags": []},
+    {"rank": 231, "ticker": "LDOS", "name": "Leidos", "sector": "산업재 — 미국 정부 IT·국방·정보·보건 서비스와 시스템", "price": 139.86, "change": 2.78, "marketCap": 17551340351, "href": "LDOS_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 55.0, "scoreFlags": []},
+    {"rank": 232, "ticker": "BALL", "name": "Ball", "sector": "소재 — 알루미늄 음료캔(북미·유럽·남미)", "price": 64.45, "change": -0.48, "marketCap": 17060131359, "href": "BALL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 40.0, "scoreFlags": []},
+    {"rank": 233, "ticker": "ZBRA", "name": "Zebra Technologies", "sector": "IT — 바코드 스캐너·라벨 프린터·현장용 모바일 컴퓨터·RFID", "price": 384.15, "change": -0.6, "marketCap": 18174390039, "href": "ZBRA_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 45.6, "scoreFlags": []},
+    {"rank": 234, "ticker": "CF", "name": "CF Industries", "sector": "소재 — 질소 비료(암모니아·요소·UAN), 저탄소 암모니아", "price": 120.84, "change": 0.13, "marketCap": 18287699629, "href": "CF_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 67.9, "scoreFlags": []},
+    {"rank": 235, "ticker": "AVY", "name": "Avery Dennison", "sector": "소재 — 라벨·포장 소재, RFID 태그, 의류용 라벨·브랜드 솔루션", "price": 183.43, "change": 0.88, "marketCap": 13901818887, "href": "AVY_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 37.5, "scoreFlags": []},
+    {"rank": 236, "ticker": "FICO", "name": "Fair Isaac", "sector": "IT — FICO 신용점수(B2B·B2C)와 의사결정 분석 소프트웨어", "price": 708.07, "change": -13.15, "marketCap": 15292637414, "href": "FICO_full_widget.html", "priceStale": false, "tier": "적정", "tierConflict": false, "score": 65.4, "scoreFlags": []},
+    {"rank": 237, "ticker": "ROL", "name": "Rollins", "sector": "산업재 — 해충 방제 서비스(Orkin 등) 주거·상업", "price": 34.55, "change": -0.78, "marketCap": 16516464424, "href": "ROL_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 54.1, "scoreFlags": []},
+    {"rank": 238, "ticker": "HII", "name": "Huntington Ingalls Industries", "sector": "산업재 — 미 해군 항공모함·잠수함·구축함 건조, 국방 기술 서비스", "price": 281.05, "change": 2.54, "marketCap": 11074662268, "href": "HII_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 48.4, "scoreFlags": []},
+    {"rank": 239, "ticker": "AOS", "name": "A. O. Smith", "sector": "산업재 — 가정용·상업용 온수기와 보일러, 정수기", "price": 61.91, "change": 0.42, "marketCap": 8414099754, "href": "AOS_full_widget.html", "priceStale": false, "tier": "적정~저평가", "tierConflict": false, "score": 62.0, "scoreFlags": []},
+    {"rank": 240, "ticker": "PPG", "name": "PPG 인더스트리즈", "sector": "소재 — 도료·코팅(건축·자동차·산업·항공)", "price": 109.9, "change": -0.64, "marketCap": 24430770000, "href": "PPG_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 51.0, "scoreFlags": []},
+    {"rank": 241, "ticker": "MDLZ", "name": "몬델리즈", "sector": "필수소비재 — 과자·초콜릿·껌(Oreo, Cadbury, Milka, Toblerone)", "price": 62.97, "change": -1.3, "marketCap": 80369118349, "href": "MDLZ_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 50.1, "scoreFlags": []},
+    {"rank": 242, "ticker": "GD", "name": "제너럴 다이내믹스", "sector": "산업재 — 비즈니스 제트기(Gulfstream), 잠수함·함정, 전차·탄약, 국방 IT", "price": 357.04, "change": 2.2, "marketCap": 96599740903, "href": "GD_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 52.5, "scoreFlags": []},
+    {"rank": 243, "ticker": "CDNS", "name": "케이던스", "sector": "IT — 반도체 설계 소프트웨어(EDA)·설계 IP·시스템 해석", "price": 322.17, "change": 1.79, "marketCap": 88723362810, "href": "CDNS_full_widget.html", "priceStale": false, "tier": "고평가~적정", "tierConflict": false, "score": 71.6, "scoreFlags": []}
   ];
-  var META = {"priceSession": "2026-10-09", "cardAsOfMin": "2026-10-09", "cardAsOfMax": "2026-10-09", "scoreValuationAsOfMin": "2026-10-09", "scoreValuationAsOfMax": "2026-10-09", "scoreVersion": "v2"};
-  var MACRO = {"generatedAt": "2026-10-10T15:27:14Z", "priceSession": "2026-10-09", "indicators": {"sp500": {"value": 7811.54, "changePct": 0.59, "asOf": "2026-10-09", "status": "fresh", "source": "Yahoo ^GSPC daily close"}, "vix": {"value": 14.84, "changePct": -3.7, "asOf": "2026-10-09", "status": "fresh", "source": "Yahoo ^VIX daily close"}, "usdkrw": {"value": 1341.1, "changePct": -0.13, "asOf": "2026-10-09", "status": "fresh", "source": "Yahoo KRW=X hourly bar ending 16:00 ET"}, "fedTarget": {"lower": 3.75, "upper": 4.0, "asOf": "2026-10-10", "status": "fresh", "source": "FRED API DFEDTARL/DFEDTARU"}, "unemployment": {"value": 4.2, "asOf": "2026-09", "status": "fresh", "source": "FRED API UNRATE"}, "cpiYoy": {"value": 3.4, "asOf": "2026-08", "status": "fresh", "source": "FRED API CPIAUCSL, YoY computed"}}, "nextFomc": {"start": "2026-10-27", "end": "2026-10-28"}, "fomcScheduleThrough": "2027-12"};
+  var META = {"priceSession": "2026-10-26", "cardAsOfMin": "2026-10-26", "cardAsOfMax": "2026-10-26", "scoreValuationAsOfMin": "2026-10-26", "scoreValuationAsOfMax": "2026-10-26", "scoreVersion": "v2"};
+  var MACRO = {"generatedAt": "2026-10-27T15:26:35Z", "priceSession": "2026-10-26", "indicators": {"sp500": {"value": 7676.77, "changePct": 0.7, "asOf": "2026-10-26", "status": "fresh", "source": "Yahoo ^GSPC daily close"}, "vix": {"value": 18.39, "changePct": -5.45, "asOf": "2026-10-26", "status": "fresh", "source": "Yahoo ^VIX daily close"}, "usdkrw": {"value": 1325.89, "changePct": 0.13, "asOf": "2026-10-26", "status": "fresh", "source": "Yahoo KRW=X hourly bar ending 16:00 ET"}, "fedTarget": {"lower": 3.75, "upper": 4.0, "asOf": "2026-10-27", "status": "fresh", "source": "FRED API DFEDTARL/DFEDTARU"}, "unemployment": {"value": 4.2, "asOf": "2026-09", "status": "fresh", "source": "FRED API UNRATE"}, "cpiYoy": {"value": 3.7, "asOf": "2026-09", "status": "fresh", "source": "FRED API CPIAUCSL, YoY computed"}}, "nextFomc": {"start": "2026-10-27", "end": "2026-10-28"}, "fomcScheduleThrough": "2027-12"};
   /*STOCKS_DATA_END*/
+})();
+</script>
+<script src="stock-data.js?v=preview-1"></script>
+<script src="reading.js?v=resume-only"></script>
+<script src="navigation.js?v=local-20260913-2"></script>
+<script>
+(function(){
+
+  // 종목 시세·평가·점수는 main의 저장 데이터. 매크로 지표와 Today 편성 날짜는 예시.
+  var DATA = window.StockData.stocks;
 
   document.getElementById('ticker-count').textContent = DATA.length;
 
-  // 값이 없는 칸(시세 수집 실패, 전일 종가 없음 등)은 0처럼 보이지 않게 대시로 표시
-  var NA = '<span style="color:var(--text3);">&ndash;</span>';
-
-  function fmtPrice(x){
-    if(x == null) return NA;
-    return '$' + x.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-  }
-
-  // 추정 시가총액(미국 상장가 × 미국 상장주 환산 주식수). 1조 달러 이상은 T 소수 둘째 자리, 미만은 B 소수 첫째 자리
-  function fmtCap(x){
-    if(x == null) return NA;
-    return x >= 1e12 ? '$' + (x / 1e12).toFixed(2) + 'T' : '$' + (x / 1e9).toFixed(1) + 'B';
-  }
-
   function changeCell(c){
-    if(c == null) return NA;
+    if(!Number.isFinite(c))return '<span>—</span>';
     var color = c >= 0 ? 'var(--up)' : 'var(--down)';
     var sign = c >= 0 ? '+' : '&minus;';
     return '<span class="num" style="font-size:14px;font-weight:700;color:'+color+';">'+sign+Math.abs(c).toFixed(2)+'%</span>';
   }
 
-  // 로고 파일이 없으면 <img>는 조용히 빈 상자로 그려진다 - PEP·SCHW·DIS·DE 넷이
-  // 만들어진 날부터 그렇게 비어 있었고 아무 오류도 나지 않았다. 티커를 대신
-  // 세워 두면 빠진 것이 눈에 보인다.
-  function logoFail(img){
-    var box = img.parentNode;
-    box.textContent = (img.dataset.tk || '').slice(0, 4);
-    box.classList.add('logo-missing');
-  }
 
-  function nameCell(d){
-    return '<div style="display:flex;align-items:center;gap:12px;overflow:hidden;">'
-      + '<div class="logo-box"><img src="logos/'+d.ticker.toLowerCase()+'.png" alt="" loading="lazy" data-tk="'+d.ticker+'" onerror="logoFail(this)"></div>'
-      + '<div style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+d.ticker+' <span style="font-weight:400;color:var(--text2);font-size:12.5px;">'+d.name+'</span></div>'
-      + '</div>';
-  }
+  // 즐겨찾기는 이 브라우저에만 저장한다(기기마다 따로). 저장소를 못 쓰면 이번 방문 동안만 기억한다.
+  var FAV_KEY = 'sw-favorites';
+  var favorites = new Set();
+  try { favorites = new Set(JSON.parse(localStorage.getItem(FAV_KEY) || '[]')); } catch (e) {}
+  function saveFavorites(){ try { localStorage.setItem(FAV_KEY, JSON.stringify([...favorites])); } catch (e) {} }
+  var STAR = '<svg width="18" height="18" viewBox="0 0 24 24" stroke-width="1.6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+  function favCell(d){ var on = favorites.has(d.ticker); return '<td class="fav-col"><button type="button" class="fav-btn" data-fav="'+d.ticker+'" aria-pressed="'+on+'" aria-label="'+d.ticker+' 즐겨찾기'+(on?' 해제':' 추가')+'">'+STAR+'</button></td>'; }
 
-  function emptyState(){
-    return '<div class="empty-state">표시할 종목이 없습니다</div>';
-  }
-
-  function renderRank(){
-    if(DATA.length===0) return emptyState();
-    var cols = '56px 300px 130px 1fr 110px 100px 44px';
-    var head = '<div class="head-grid" style="grid-template-columns:'+cols+';max-width:900px;">'
-      + '<div class="head-cell">순위</div><div class="head-cell">종목</div><div class="head-cell">업종</div><div></div>'
-      + '<div class="head-cell num" style="text-align:right;">현재가</div><div class="head-cell num" style="text-align:right;">등락률</div><div></div></div>';
-    var rows = DATA.map(function(d){
-      return '<div class="row-grid" data-href="'+d.href+'" style="grid-template-columns:'+cols+';max-width:900px;">'
-        + '<div class="num" style="font-size:13.5px;color:var(--text2);font-weight:600;">'+d.rank+'</div>'
-        + nameCell(d)
-        + '<div><span class="tag">'+d.sector+'</span></div>'
-        + '<div></div>'
-        + '<div class="num" style="font-size:14.5px;font-weight:700;text-align:right;">'+fmtPrice(d.price)+'</div>'
-        + '<div style="text-align:right;">'+changeCell(d.change)+'</div>'
-        + '<div class="star-cell">'+STAR+'</div></div>';
-    }).join('');
-    return head + rows;
-  }
-
-  function renderSector(){
-    if(DATA.length===0) return emptyState();
-    var cols = '300px 1fr 120px 100px 44px';
-    var bySector = {};
-    var order = [];
-    DATA.forEach(function(d){
-      if(!bySector[d.sector]){ bySector[d.sector]=[]; order.push(d.sector); }
-      bySector[d.sector].push(d);
-    });
-    var out = '';
-    order.forEach(function(sec){
-      out += '<div class="sector-head">'+sec+' <span style="font-weight:400;color:var(--text3);">'+bySector[sec].length+'</span></div>';
-      out += bySector[sec].map(function(d){
-        return '<div class="row-grid" data-href="'+d.href+'" style="grid-template-columns:'+cols+';max-width:900px;">'
-          + nameCell(d)
-          + '<div></div>'
-          + '<div class="num" style="font-size:14.5px;font-weight:700;text-align:right;">'+fmtPrice(d.price)+'</div>'
-          + '<div style="text-align:right;">'+changeCell(d.change)+'</div>'
-          + '<div class="star-cell">'+STAR+'</div></div>';
-      }).join('');
-    });
-    return out;
-  }
-
-  function renderChange(){
-    if(DATA.length===0) return emptyState();
-    var cols = '56px 300px 130px 110px 100px 120px 44px';
-    // 등락률이 없는 종목은 0으로 취급하지 않고 맨 뒤로 보냄
-    var sorted = DATA.slice().sort(function(a,b){
-      if(a.change == null) return b.change == null ? 0 : 1;
-      if(b.change == null) return -1;
-      return b.change - a.change;
-    });
-    var head = '<div class="head-grid" style="grid-template-columns:'+cols+';max-width:900px;">'
-      + '<div class="head-cell">순위</div><div class="head-cell">종목명</div><div class="head-cell">업종</div>'
-      + '<div class="head-cell num" style="text-align:right;">현재가</div><div class="head-cell num" style="text-align:right;">등락률</div>'
-      + '<div class="head-cell num" style="text-align:right;">시가총액</div><div></div></div>';
-    var rows = sorted.map(function(d,i){
-      return '<div class="row-grid" data-href="'+d.href+'" style="grid-template-columns:'+cols+';max-width:900px;">'
-        + '<div class="num" style="font-size:13.5px;color:var(--text2);font-weight:600;">'+(i+1)+'</div>'
-        + nameCell(d)
-        + '<div><span class="tag">'+d.sector+'</span></div>'
-        + '<div class="num" style="font-size:14.5px;font-weight:700;text-align:right;">'+fmtPrice(d.price)+'</div>'
-        + '<div style="text-align:right;">'+changeCell(d.change)+'</div>'
-        + '<div class="num" style="font-size:13.5px;color:var(--text2);text-align:right;">'+fmtCap(d.marketCap)+'</div>'
-        + '<div class="star-cell">'+STAR+'</div></div>';
-    }).join('');
-    return head + rows;
-  }
-
-  var TIER_ORDER = ['초저평가','저평가','적정~저평가','적정','고평가~적정','고평가','초고평가'];
-
-  // 월.일 표기 (2026-09-04 -> 09.04)
-  function md(iso){ return iso ? iso.slice(5).replace('-', '.') : '?'; }
-
-  // ---- 스탯 박스 ----
-  function setStat(id, value, sub){
-    var el = document.getElementById(id);
-    el.textContent = value;
-    el.nextElementSibling.hidden = (value === '–');  // 값이 없을 때 "–개"로 보이지 않게 단위를 숨김
-    document.getElementById(id + '-sub').textContent = sub;
-  }
-
-  // ±5%는 전일 종가 대비. 시세가 지연(stale)이거나 등락률이 없는 종목은 세지 않고, 센 종목 수를 함께 표시
-  var fresh = DATA.filter(function(d){ return !d.priceStale && d.change != null; });
-  if(fresh.length === 0){
-    setStat('stat-up', '–', '일일 시세 갱신 전');
-    setStat('stat-down', '–', '일일 시세 갱신 전');
-  } else {
-    var basis = fresh.length === DATA.length ? '전일 종가 대비' : '시세 확인된 ' + fresh.length + '개 중';
-    setStat('stat-up', fresh.filter(function(d){ return d.change >= 5; }).length, basis);
-    setStat('stat-down', fresh.filter(function(d){ return d.change <= -5; }).length, basis);
-  }
-
-  // 저평가 박스는 '적정~저평가'까지 포함, 초저평가 박스는 초저평가만 센다
-  var graded = DATA.filter(function(d){ return d.tier != null; }).length;
-  var under = DATA.filter(function(d){ return d.tier === '저평가' || d.tier === '적정~저평가'; }).length;
-  var deep = DATA.filter(function(d){ return d.tier === '초저평가'; }).length;
-  setStat('stat-under', under, '적정~저평가 포함');
-  setStat('stat-deep', deep, deep === 0 ? '현재 해당 종목 없음' : '등급 있는 ' + graded + '개 중');
-
-  // ---- 기준일 줄: 시세·등급·점수의 출처 날짜가 서로 달라 각각 표시 ----
-  // 일부 종목만 시세가 갱신된 날에도 전체가 그날 종가인 것처럼 보이지 않게 이전 시세 종목 수를 함께 적는다
-  function mdRange(a, b){ return a === b ? md(a) : md(a) + '~' + md(b); }
-  var cardRange = mdRange(META.cardAsOfMin, META.cardAsOfMax);
-  var staleCount = DATA.filter(function(d){ return d.priceStale; }).length;
-  var priceText = !META.priceSession ? '시세 카드별 ' + cardRange + ' (일일 갱신 전)'
-    : '시세 ' + md(META.priceSession) + ' 종가' + (staleCount ? ' (' + staleCount + '개는 이전 시세)' : '');
-  document.getElementById('asof-line').textContent = priceText
-    + ' · 등급 카드별 ' + cardRange
-    + ' · 기본 점수 최근 분기 재무제표(재무건전성·성장·수익성, 밸류에이션 제외)';   // v2 카드 점수(2026-10-07)
-
-  // ---- 매크로 지표 스트립: 값마다 상태(fresh/stale/unavailable)와 기준일이 따로 있다 ----
-  var MI = (MACRO && MACRO.indicators) || {};
-  function has(ind){ return ind && ind.status !== 'unavailable'; }
-  function ym(s){ return s ? s.replace('-', '.') : ''; }
-  function fmt2(x){ return x.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
-  function mcSet(key, value, sub, subColor){
-    document.getElementById('mc-' + key).textContent = value;
-    var s = document.getElementById('mc-' + key + '-sub');
-    s.textContent = sub || ' ';
-    s.style.color = subColor || 'var(--text3)';
-  }
-  // 시장 지표: 당일 값이면 전일 대비 등락, 이전 값을 유지 중이면 그 날짜를 적는다
-  [['sp500', ''], ['vix', ''], ['usdkrw', '₩']].forEach(function(p){
-    var ind = MI[p[0]];
-    if(!has(ind)) return mcSet(p[0], '–');
-    if(ind.status !== 'fresh') return mcSet(p[0], p[1] + fmt2(ind.value), md(ind.asOf) + ' 기준');
-    var c = ind.changePct;
-    mcSet(p[0], p[1] + fmt2(ind.value), (c >= 0 ? '+' : '−') + Math.abs(c).toFixed(2) + '%',
-          c >= 0 ? 'var(--up)' : 'var(--down)');
-  });
-  var rate = MI.fedTarget, fomc = MACRO && MACRO.nextFomc;
-  var rateSub = !has(rate) ? '' : rate.status !== 'fresh' ? md(rate.asOf) + ' 기준'
-    : fomc ? '다음 FOMC ' + Number(fomc.start.slice(5, 7)) + '/' + Number(fomc.start.slice(8, 10)) : 'FOMC 일정 갱신 필요';
-  mcSet('rate', has(rate) ? rate.lower.toFixed(2) + '–' + rate.upper.toFixed(2) + '%' : '–', rateSub);
-  mcSet('unemp', has(MI.unemployment) ? MI.unemployment.value.toFixed(1) + '%' : '–', has(MI.unemployment) ? ym(MI.unemployment.asOf) : '');
-  mcSet('cpi', has(MI.cpiYoy) ? MI.cpiYoy.value.toFixed(1) + '%' : '–', has(MI.cpiYoy) ? ym(MI.cpiYoy.asOf) : '');
-
-  // 그룹은 카드의 밸류에이션 판정(v2 — 자기 이력·동종업·현금흐름), 그룹 안은 기본 점수 내림차순. 점수 없는 종목은 그룹 끝(카드 순위순)
-  function renderAttract(){
-    if(DATA.length===0) return emptyState();
-    var cols = '300px 1fr 90px 120px 100px 44px';
-    var out = '<div class="head-grid" style="grid-template-columns:'+cols+';max-width:900px;">'
-      + '<div class="head-cell">종목</div><div></div>'
-      + '<div class="head-cell num" style="text-align:right;">기본 점수</div>'
-      + '<div class="head-cell num" style="text-align:right;">현재가</div><div class="head-cell num" style="text-align:right;">등락률</div><div></div></div>';
-    var FLAG_LABEL = {
-      valuation_target_only: '밸류에이션 축이 애널리스트 목표주가 하나에만 근거합니다 \u2014 자기 과거 PER/PBR과 비교할 이력이 없어, 다른 종목이 받는 고평가 감점을 받지 않았습니다',
-      stale_financials: '재무제표가 오래되어 현재가와 같은 시점으로 볼 수 없습니다'
-    };
-    function scoreSort(a, b){
-      if(a.score == null || b.score == null){
-        if(a.score == null && b.score == null) return a.rank - b.rank;
-        return a.score == null ? 1 : -1;
-      }
-      return (b.score - a.score) || (a.rank - b.rank);
-    }
-    function attractRow(d, muted){
-      var why = (d.scoreFlags || []).map(function(f){ return FLAG_LABEL[f] || f; }).join(' / ');
-      var scoreCell = d.score == null ? NA
-        : (muted ? d.score.toFixed(1) + '<span title="' + why + '" style="color:var(--text3);">*</span>'
-                 : d.score.toFixed(1));
-      return '<div class="row-grid" data-href="'+d.href+'" style="grid-template-columns:'+cols+';max-width:900px;'
-          + (muted ? 'opacity:0.72;' : '')+'">'
-        + nameCell(d)
-        + '<div>'+(d.tierConflict ? '<span class="tag" title="카드 안의 등급 표기가 서로 달라 헤드라인 등급으로 분류함">등급 확인 필요</span>' : '')+'</div>'
-        + '<div class="num" style="font-size:13.5px;color:var(--text2);text-align:right;">'+scoreCell+'</div>'
-        + '<div class="num" style="font-size:14.5px;font-weight:700;text-align:right;">'+fmtPrice(d.price)+'</div>'
-        + '<div style="text-align:right;">'+changeCell(d.change)+'</div>'
-        + '<div class="star-cell">'+STAR+'</div></div>';
-    }
-    var flaggedTotal = 0;
-    TIER_ORDER.concat([null]).forEach(function(tier){
-      var items = DATA.filter(function(d){ return d.tier === tier; });
-      if(items.length === 0) return;
-      // A score built on a different set of inputs is not the same measurement,
-      // so it is not sorted into the same ordering - a badge alone still reads
-      // as a like-for-like rank.
-      var plain = items.filter(function(d){ return !(d.scoreFlags && d.scoreFlags.length); }).sort(scoreSort);
-      var flagged = items.filter(function(d){ return d.scoreFlags && d.scoreFlags.length; }).sort(scoreSort);
-      flaggedTotal += flagged.length;
-      out += '<div class="sector-head">'+(tier || '등급 없음')+' <span style="font-weight:400;color:var(--text3);">'+items.length+'</span></div>';
-      out += plain.map(function(d){ return attractRow(d, false); }).join('');
-      if(flagged.length){
-        out += '<div class="sector-head" style="font-size:11.5px;font-weight:600;color:var(--text3);background:none;">'
-          + '\u21b3 점수 비교 주의 <span style="font-weight:400;">'+flagged.length+'</span></div>';
-        out += flagged.map(function(d){ return attractRow(d, true); }).join('');
-      }
-    });
-    var foot = '기본 점수가 없는 종목은 은행·보험(일반 재무비율 산식이 맞지 않는 업종)입니다';
-    if(flaggedTotal){
-      foot += '<br>* 표시된 '+flaggedTotal+'개 종목은 나머지와 다른 입력으로 점수가 산출되어 같은 순서에 넣지 않았습니다. '
-        + '점수 자체는 그대로이며, 숫자에 마우스를 올리면 사유가 나옵니다.';
-    }
-    return out + '<div style="padding:12px 20px;font-size:11.5px;color:var(--text3);border-top:1px solid var(--border2);line-height:1.6;">'
-      + foot + '</div>';
-  }
-
-  var RENDER = { rank: renderRank, sector: renderSector, change: renderChange, attract: renderAttract };
-
+  var view = 'rank', sortKey=null, sortDirection=1;
   var panel = document.getElementById('data-panel');
-  var tabs = document.querySelectorAll('.tab-btn');
-
-  function bindRowClicks(){
-    panel.querySelectorAll('.row-grid[data-href]').forEach(function(row){
-      row.addEventListener('click', function(){
-        window.location.href = row.getAttribute('data-href');
-      });
-    });
+  // 둘째 줄은 재무점수 대신 카드의 '예상밴드 백테스트' 현재 구간에 대한 현재가 위치와 밴드 점수(하단 100 · 상단 0,
+  // 아래는 100 초과·위는 0 미만, −100~200에서 자름 — 2026-10-08 사용자 결정). 색은 넣지 않는다 —
+  // S&P500 검정에서 밴드 아래 무리가 이후 더 나빴다(band_breach_prereg.md), '아래'는 매수 신호가 아니라 위치다.
+  function bandText(b){
+    if(!b||b.pos==='none')return '밴드 없음';
+    if(b.pos==='na')return '밴드 해당 없음';
+    if(b.raw<-100)return '밴드 표시 불가';   // 밴드가 무너진 종목(PANW·MRK·PFE, 2026-10-08 사용자 결정)
+    return '밴드 점수 '+String(b.score).replace('-','−');
   }
+  function valuationCell(d){return (d.tier||'미평가')+(d.tierConflict?' · 평가 충돌':'')+'<small>'+bandText(d.band)+'</small>';}
+  function render() {
+    var query = document.getElementById('stock-search').value.trim().toLowerCase();
+    var favOnly = document.getElementById('fav-only').checked;
+    var data = DATA.filter(function(d){return (d.ticker+' '+d.name).toLowerCase().includes(query) && (!favOnly || favorites.has(d.ticker));});
+    if(window.PreviewOnly) data = data.filter(window.PreviewOnly.filter); /* preview-only:range */
+    document.getElementById('ticker-count').textContent = data.length;
+    panel.classList.add('table-view');
+    if(view==='change') data.sort(function(a,b){return b.change-a.change;});
+    // 종합평가(v2 판정) 싼 순, 미평가는 맨 뒤. 같은 평가 안에서는 밴드 점수 높은 순(자르기 전 값 — 밴드 밖에서도 더 아래가 위),
+    // 밴드가 없으면 맨 뒤(2026-10-08 사용자 요청)
+    const TIER_ORDER=['초저평가','저평가','적정~저평가','적정','고평가~적정','적정~고평가','고평가'];
+    function tierRank(d){const i=TIER_ORDER.indexOf(d.tier);return i<0?TIER_ORDER.length:i;}
+    function bandKey(d){const b=d.band;return b&&typeof b.raw==='number'?-b.raw:Infinity;}
+    if(view==='attract') data.sort((a,b)=>tierRank(a)-tierRank(b)||bandKey(a)-bandKey(b)||a.rank-b.rank);
+    {
+      if(view==='sector') data.sort((a,b)=>a.sector.localeCompare(b.sector,'ko')||a.rank-b.rank);
+      const changeRanks=new Map([...DATA].sort((a,b)=>b.change-a.change).map((d,i)=>[d.ticker,i+1]));
+      const columns=[['rank',view==='change'?'등락 순위':'시총 순위'],['ticker','종목'],['sector','업종'],['price','주가'],['change','등락률'],[view==='attract'?'valuation':'marketCap',view==='attract'?'평가 · 밴드 점수':'시가총액']];
 
-  function setView(view){
-    panel.innerHTML = RENDER[view]();
-    tabs.forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-view') === view); });
-    bindRowClicks();
+      function numeric(value){const n=parseFloat(String(value).replace(/[^0-9.-]/g,''));return n*(String(value).includes('T')?1e12:String(value).includes('B')?1e9:String(value).includes('M')?1e6:1);}
+      function sortValue(d){if(sortKey==='rank')return view==='change'?changeRanks.get(d.ticker):d.rank;if(sortKey==='price'||sortKey==='marketCap')return numeric(d[sortKey]);return d[sortKey]??'';}
+      if(sortKey)data.sort((a,b)=>{const av=sortValue(a),bv=sortValue(b);return sortDirection*(typeof av==='number'?av-bv:String(av).localeCompare(String(bv),'ko'))||a.rank-b.rank;});
+      panel.innerHTML='<div class="stock-table-scroll"><table class="stock-table"><caption>'+({rank:'시가총액 순위 · 그날 종가 기준',sector:'업종별 · 시가총액 순위',change:'등락률 순위 · 등록 종목 기준',attract:'종합평가 순 · 같은 평가 안에서는 밴드 점수 높은 순 · 밴드 점수는 각 카드 예상밴드 백테스트의 현재 구간에서 하단 100 · 상단 0 (아래는 100 초과, 위는 0 미만)'})[view]+'</caption><thead><tr><th scope="col" class="fav-col"><span aria-label="즐겨찾기">★</span></th>'+columns.map(([key,label])=>'<th scope="col" aria-sort="'+(sortKey===key?(sortDirection===1?'ascending':'descending'):'none')+'">'+(key==='valuation'?label:'<button type="button" data-sort="'+key+'">'+label+' <span aria-hidden="true">'+(sortKey===key?(sortDirection===1?'↑':'↓'):'↕')+'</span></button>')+'</th>').join('')+'</tr></thead><tbody>'+data.map(d=>'<tr>'+favCell(d)+'<td>'+(view==='change'?changeRanks.get(d.ticker):d.rank)+'위</td><td><a href="'+d.href+'"><strong>'+d.ticker+'</strong><small>'+d.name+'</small></a></td><td>'+d.sector+'</td><td>'+d.price+'</td><td>'+changeCell(d.change)+'</td><td>'+(view==='attract'?valuationCell(d):d.marketCap)+'</td></tr>').join('')+'</tbody></table></div>';
+    }
+    if(!data.length) panel.innerHTML='<div class="empty-state">'+(favOnly&&!favorites.size?'즐겨찾기한 종목이 없습니다. 표의 ★를 눌러 추가하세요':'표시할 종목이 없습니다')+'</div>';
   }
+  panel.addEventListener('click',e=>{const fav=e.target.closest('[data-fav]');if(fav){const t=fav.dataset.fav;favorites.has(t)?favorites.delete(t):favorites.add(t);saveFavorites();render();const again=panel.querySelector('[data-fav="'+t+'"]');if(again)again.focus();return;}});
+  document.getElementById('tab-bar').addEventListener('click',e=>{const tab=e.target.closest('[data-view]');if(!tab||tab.dataset.view===view)return;view=tab.dataset.view;sortKey=null;sortDirection=1;document.querySelectorAll('#tab-bar [data-view]').forEach(b=>{const on=b===tab;b.classList.toggle('active',on);b.setAttribute('aria-selected',on);});render();});
+  document.getElementById('fav-only').addEventListener('change',render);
+  panel.addEventListener('click',e=>{const button=e.target.closest('[data-sort]');if(!button)return;const key=button.dataset.sort;if(sortKey!==key){sortKey=key;sortDirection=1;}else if(sortDirection===1){sortDirection=-1;}else{sortKey=null;sortDirection=1;}render();panel.querySelector('[data-sort="'+key+'"]').focus();});
+  document.getElementById('stock-search').addEventListener('input',render);
+  window.addEventListener('quotes-updated',()=>{render();renderDiscovery();});
+  if(window.PreviewOnly) window.PreviewOnly.init(render); /* preview-only:range */
+  render();
 
-  tabs.forEach(function(t){
-    t.addEventListener('click', function(){ setView(t.getAttribute('data-view')); });
-  });
+  // 시장 지표. meta.macro는 preview의 MACRO를 그대로 옮긴 것이고, 지표 하나가
+  // 빠지거나 status가 fresh가 아니면 그 칸만 대시로 남긴다. 값을 지어내지 않는다.
+  (function(){
+    var macro = (window.StockData.meta || {}).macro;
+    var note = document.getElementById('macro-note');
+    function set(id, text){var el=document.getElementById(id); if(el) el.innerHTML=text;}
+    function live(ind){return ind && ind.status === 'fresh' ? ind : null;}
+    function num(v, digits){return v.toLocaleString('en-US',{minimumFractionDigits:digits,maximumFractionDigits:digits});}
+    function pct(v){
+      if(!Number.isFinite(v)) return '&mdash;';
+      var color = v >= 0 ? 'var(--up)' : 'var(--down)';
+      return '<span style="color:'+color+';">'+(v>=0?'+':'&minus;')+Math.abs(v).toFixed(2)+'%</span>';
+    }
+    if(!macro){ note.textContent = '불러오지 못함'; return; }
+    var ind = macro.indicators || {};
+    var sp = live(ind.sp500), vx = live(ind.vix), fx = live(ind.usdkrw),
+        fed = live(ind.fedTarget), un = live(ind.unemployment), cpi = live(ind.cpiYoy);
+    if(sp){ set('m-sp500', num(sp.value,2)); set('m-sp500-chg', pct(sp.changePct)); }
+    if(vx){ set('m-vix', num(vx.value,2)); set('m-vix-chg', pct(vx.changePct)); }
+    if(fx){ set('m-usdkrw', '&#8361;'+num(fx.value,2)); set('m-usdkrw-chg', pct(fx.changePct)); }
+    if(fed){ set('m-fed', fed.lower.toFixed(2)+'~'+fed.upper.toFixed(2)+'%'); }
+    if(un){ set('m-unemp', un.value.toFixed(1)+'%'); set('m-unemp-asof', un.asOf.replace('-','.')); }
+    if(cpi){ set('m-cpi', cpi.value.toFixed(1)+'%'); set('m-cpi-asof', cpi.asOf.replace('-','.')); }
+    var fomc = macro.nextFomc;
+    if(fomc && fomc.start){
+      var p = fomc.start.split('-');
+      set('m-fomc', '다음 FOMC ' + Number(p[1]) + '/' + Number(p[2]));
+    }
+    // The strip says which session it speaks for, so a figure that stops updating
+    // is visible as a date rather than as a number that merely looks current.
+    var asOf = (sp && sp.asOf) || macro.priceSession || (window.StockData.meta || {}).asOf;
+    note.textContent = asOf ? asOf.replace(/-/g,'.') + ' 기준' : '기준일 미상';
+  })();
 
-  setView('rank');
+  var category='up';
+  var discoveryIndex=0, discoveryElapsed=0;
+  const discoveryDuration=3500;
+  var categories=[['up','5% 이상 상승'],['down','5% 이상 하락'],['value','저평가'],['deep','초저평가']];
+  function selectedStocks(key){return DATA.filter(d=>(key==='all'||key==='up'&&d.change>=5||key==='down'&&d.change<=-5||key==='value'&&d.valuation==='undervalued'||key==='deep'&&d.valuation==='deep-value'));}
+  function renderDiscovery(){
+    const list=selectedStocks(category);
+    discoveryIndex=Math.min(discoveryIndex,Math.max(0,list.length-1));
+    document.getElementById('discovery-position').textContent=list.length?`${list.length}개 종목`:'해당 종목 없음';
+    document.getElementById('discovery-tabs').innerHTML=categories.map(([key,label])=>'<button type="button" data-category="'+key+'" aria-haspopup="dialog" aria-pressed="'+(key===category)+'"><span class="discovery-icon" aria-hidden="true">'+({up:'↗',down:'↘',value:'◇',deep:'◆'})[key]+'</span><span class="discovery-name">'+label+'</span><span class="discovery-count" aria-label="'+selectedStocks(key).length+'개 종목">'+selectedStocks(key).length+'<span>종목</span></span></button>').join('');
+    document.getElementById('discovery-note').textContent=category==='value'||category==='deep'?(category==='value'?'v2 판정 기준 · 저평가와 적정~저평가 포함':'v2 판정 기준 · 초저평가만'):'등록 종목의 저장 시세 기준';
+    document.getElementById('discovery-grid').innerHTML=list.map(d=>'<a class="discovery-card" href="'+d.href+'"><img src="logos/'+d.ticker.toLowerCase()+'.png" alt=""><span><strong>'+d.ticker+'</strong><small>'+d.name+'</small></span><span class="discovery-quote"><strong>'+d.price+'</strong>'+changeCell(d.change)+'</span><small class="selection-reason">'+window.StockData.quoteLabel(d)+' '+'</small></a>').join('')||'<p class="empty-state">현재 조건에 해당하는 종목이 없습니다.</p>';
+  }
+  document.getElementById('discovery-tabs').addEventListener('click',e=>{const button=e.target.closest('[data-category]');if(button){category=button.dataset.category;discoveryIndex=0;discoveryElapsed=0;renderDiscovery();document.getElementById('discovery-title').textContent=categories.find(c=>c[0]===category)[1];document.getElementById('discovery-dialog').showModal();}});
+  renderDiscovery();
+
+  const dialog=document.getElementById('discovery-dialog');
+  document.getElementById('discovery-close').onclick=()=>dialog.close();
+  dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
+
 })();
 </script>
 
+<script src="flow.js?v=8"></script>
+<script src="value-data.js?v=5"></script>
+<script src="value-gap.js?v=19"></script>
 </body>
 </html>
+
+
+

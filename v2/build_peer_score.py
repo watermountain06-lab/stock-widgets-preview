@@ -84,6 +84,8 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    # HD: 카드 유니버스 경기소비재+IT 대신 S&P500 경기소비재 47종목(2026-10-01 사용자 결정). 섹터 전체에 걸지 않은 것은
                    # 이미 커밋된 AMZN·TSLA 카드의 비교군을 바꾸지 않기 위해서다(다음 경기소비재 카드 때 다시 묻는다).
                    "HD": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # DHI: HD와 같은 S&P500 경기소비재 비교군(2026-10-24 사용자 결정 — 카드 유니버스 경기소비재+IT로는 IT와 비교돼 98.6점)
+                   "DHI": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    # VZ: 커뮤니케이션 섹터는 IT를 빌려 쓰는데(GOOGL·META) 통신사가 IT와 비교되면 모든 배수가 가장 싸다(98.6점) →
                    # S&P500 커뮤니케이션 22종목(2026-10-01, Claude 추천·사용자 위임). 섹터 전체에 걸지 않은 것은 커밋된 GOOGL·META·NFLX를 바꾸지 않기 위해서다.
                    "VZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
@@ -91,6 +93,7 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "TMUS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
                    # DIS: VZ·TMUS와 같은 커뮤니케이션 비교군(2026-10-01, Claude 추천·사용자 위임). 기본 섹터(IT 포함 34종목)면 91.3점.
                    "DIS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "TTWO": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),   # 2026-10-24 사용자 승인(카드 표시와 맞춤)
                    # BLK: 카드 유니버스 금융은 은행·결제라 자산운용사와 맞지 않고 표본도 모자랐다(PER·PBR만 남음) →
                    # S&P500 자산운용·수탁은행 12종목(2026-10-01, Claude 추천·사용자 위임 — 리뷰 때 확인)
                    "BLK": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
@@ -104,10 +107,68 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "BX": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
                    # CB: 카드 유니버스 금융은 은행·결제라 보험사와 맞지 않다 → S&P500 손해·종합·생명보험 16곳(중개사 제외, 2026-10-02, Claude 추천 — 리뷰 때 확인)
                    "CB": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   # MRSH: S&P500 보험 중개사는 5곳뿐(MIN_PEERS 8 미만) → 중개사 + 결제·거래소·금융 데이터(수수료형 자산 경량 서비스) 24곳
+                   # (2026-10-18 사용자 결정 — sector_universe.py --sub "Insurance Brokers,Transaction & Payment Processing Services,Financial Exchanges & Data" --name brokers_fees)
+                   "MRSH": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "brokers_fees.json"),
                    # PGR: CB와 같은 S&P500 보험사 비교군(2026-10-02)
                    "PGR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
                    # BKNG: HD·MCD·TJX와 같은 S&P500 경기소비재 비교군(2026-10-02, Claude 추천 — 리뷰 때 확인)
-                   "BKNG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json")}
+                   "BKNG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): S&P500 경기소비재(HD·DHI와 같은 비교군)
+                   "WYNN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "NCLH": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "APTV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "LVS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "LULU": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "DPZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "DECK": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "RL": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "NVR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "LEN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "HAS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "GPC": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "TSCO": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "BBY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "TPR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "PHM": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "DRI": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "ULTA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "WSM": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "EXPE": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "CCL": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   "CMG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): S&P500 커뮤니케이션(VZ·TTWO와 같은 비교군)
+                   "FOX": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "FOXA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "NWSA": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "CHTR": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "ECHO": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "OMC": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   "LYV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "communication_services.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): 보험(PGR·CB와 같은 비교군, EG는 파일 밖 재보험사)
+                   "AIZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "WRB": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "L": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "CINF": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "ACGL": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   "EG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "insurers.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): 보험 중개·수수료(AJG·AON·MRSH가 같은 파일)
+                   "BRO": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "brokers_fees.json"),
+                   "WTW": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "brokers_fees.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): 자산운용(BLK·BX와 같은 비교군, RJF는 파일 밖 — 자산관리 AMP와 가장 가까움)
+                   "BEN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   "IVZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   "TROW": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   "RJF": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "asset_managers.json"),
+                   # 2026-10-25 사용자 결정(카드 세션 4번): 결제·거래소·데이터(V·MA와 같은 비교군, SYF는 MA와 연결 — 사용자 결정)
+                   "GPN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "FIS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "FISV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "CPAY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "JKHY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "XYZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "FDS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   "SYF": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json")}
 STOCKS = os.path.join(REPO, "site_data", "stocks.json")
 VBASE = os.path.join(REPO, "site_data", "valuation_base")
 
@@ -219,6 +280,15 @@ NEGATIVE = "negative"
 PEER_NEG_DROP = {"evebitda", "pbr"}   # C11
 
 
+def peer_per_na(t, mp):
+    """동종 카드의 PER 해당 없음. 매일 실행이 카드를 동시에 만들 때는 실행 전에 떠 둔 값(V2_PERNA_SNAPSHOT)을 읽는다 —
+    다른 카드가 쓰는 중이거나 실패로 되돌릴 파일을 읽지 않게, 순서와 상관없이 같은 값이 되게(Codex 2026-10-23)."""
+    snap = os.environ.get("V2_PERNA_SNAPSHOT")
+    if snap:
+        return bool(json.load(open(snap)).get(t))
+    return os.path.exists(mp) and bool(json.load(open(mp)).get("perNA"))
+
+
 def peer_score(ticker, sectors, prices, self_path=None):
     sector = sectors.get(ticker)
     if not sector:
@@ -243,7 +313,7 @@ def peer_score(ticker, sectors, prices, self_path=None):
             data[t], asof[t] = multiples_now(t, prices)
             # 카드 유니버스 동종 종목도 A3(C9) — 그 카드가 PER 해당 없음이면 기준선 값이 양수여도 PER 비교에서 뺀다
             mp = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{t}_multiples.json")
-            if t != ticker and os.path.exists(mp) and json.load(open(mp)).get("perNA"):
+            if t != ticker and peer_per_na(t, mp):
                 data[t].pop("per", None)
     core = per_na = pbr_na = False
     if self_path and os.path.exists(self_path):
@@ -307,6 +377,8 @@ def main():
                     help="자기 이력 점수를 읽을 build_multiple_history 결과 JSON")
     ap.add_argument("--prices-today", action="store_true",
                     help="비교 종목을 오늘 stocks.json 종가로(기본은 카드 자기 이력 창 끝 날짜의 종가)")
+    ap.add_argument("--drop", default="",
+                    help="자기 이력·동종업 점수에서 뺄 배수(쉼표, per·pbr·psr·pcr·evebitda) — 보험 RIM 카드의 pcr·evebitda(사전 등록 insurer_rim_prereg §1)")
     ap.add_argument("--card", action="store_true",
                     help="v2/<T>_full_widget.html의 VALUATION 블록을 교체한다 (--self 필요)")
     args = ap.parse_args()
@@ -317,6 +389,11 @@ def main():
     if args.self_path and os.path.exists(args.self_path) and not args.prices_today:
         session = (json.load(open(args.self_path)).get("window") or [None, None])[1]
     r = peer_score(t, load_sectors(), load_prices(session), args.self_path)
+    drop = {x.strip() for x in args.drop.split(",") if x.strip()}
+    if drop:   # 사전 등록으로 뺀 배수 — 점수 평균과 카드 상자에서 모두 뺀다
+        r["dropped"] += [(row["metric"], "사전 등록으로 제외(보험 플로트 왜곡)") for row in r["metrics"] if row["metric"] in drop]
+        r["metrics"] = [row for row in r["metrics"] if row["metric"] not in drop]
+        r["score"] = round(sum(x["score"] for x in r["metrics"]) / len(r["metrics"]), 1) if r["metrics"] else None
     # 실제로 쓴 파일의 거래일 — S&P500 비교군 파일을 쓰는 카드는 종가를 쓰지 않으므로(파일 asOf 값 그대로) 비워 둔다
     _sec = load_sectors().get(t)
     _uni = TICKER_UNIVERSE.get(t) or (None if t in TICKER_BORROW else SECTOR_UNIVERSE.get(_sec))
@@ -336,7 +413,7 @@ def main():
     print(f"\n  동종업 대비 = {r['score']}")
 
     if args.self_path and os.path.exists(args.self_path):
-        d = json.load(open(args.self_path))["multiples"]
+        d = {k: v for k, v in json.load(open(args.self_path))["multiples"].items() if SELF_KEYS.get(k) not in drop}
         sc = [v["score"] for v in d.values() if v.get("score") is not None]
         s = round(sum(sc) / len(sc), 1) if sc else None
         r["selfScore"] = s
@@ -358,7 +435,7 @@ def main():
         if "selfScore" not in r:
             sys.exit("--card는 --self와 함께 쓴다 (두 점수를 한 블록에 싣는다)")
         sd = json.load(open(args.self_path))
-        write_card(t, r, sd["multiples"], sd.get("perBasis", "diluted"), sd.get("perNA"))
+        write_card(t, r, {k: v for k, v in sd["multiples"].items() if SELF_KEYS.get(k) not in drop}, sd.get("perBasis", "diluted"), sd.get("perNA"))
 
 
 SELF_KEYS = {"PER": "per", "PBR": "pbr", "PSR": "psr", "PCR": "pcr", "EV/EBITDA": "evebitda"}

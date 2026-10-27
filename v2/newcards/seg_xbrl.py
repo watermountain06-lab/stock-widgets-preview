@@ -11,7 +11,8 @@ SEG_MAP = {"concepts": ["us-gaap:Revenues", ...],         # 앞의 것부터
            "ignore": ["us-gaap:ProductMember"],             # 같은 축의 소계 — 쓰지 않는다
            "adjust": ["us-gaap:MembershipMember"],          # 표에는 안 넣고 매출 합 대조에만 더한다(COST 회비 — 예전 SEG_ADJ)
            "alias": {"cost:FoodsAndSundriesMember": "cost:FoodandSundriesMember"},   # 같은 항목의 다른 이름(COST가 10-Q·10-K에서 다르게 붙였다)
-           "other": "기타"}                                  # 지도에 없는 멤버를 묶을 이름(없으면 새 멤버가 나오면 멈춘다)
+           "other": "기타",                                  # 지도에 없는 멤버를 묶을 이름(없으면 새 멤버가 나오면 멈춘다)
+           "free_axes": ["srt:ProductOrServiceAxis"]}        # 붙어 있어도 없어도 되는 축(EMR — 부문마다 그룹 축이 붙거나 안 붙는다). 같은 멤버에 값이 둘이면 멈춘다
 
 - 분기 값: 그 분기 말에 끝나는 약 1분기(70~125일) 기간. 10-K(4분기)는 연간 − 같은 회계연도 3분기 10-Q의 누계.
 - 1년 전 같은 분기: 같은 보고서의 비교 기간(10-K면 전년 연간 − 전년 3분기 누계, 3분기 10-Q의 비교 누계로).
@@ -86,13 +87,14 @@ def _days(s, e):
 def by_member(fs, M, start_ok, end):
     """end에 끝나고 기간 길이가 start_ok(일수)를 만족하는 값을 멤버별로 — 지정한 차원만 붙은 것."""
     want_extra = set(M.get("extra", {}).items())
+    free = set(M.get("free_axes", []))
     for concept in M["concepts"]:
         got = {}
         for name, s, e, dims, v in fs:
             if name != concept or e != end or not s or not start_ok(_days(s, e)):
                 continue
             ax = [m for d_, m in dims if d_ == M["axis"]]
-            rest = {(d_, m) for d_, m in dims if d_ != M["axis"]}
+            rest = {(d_, m) for d_, m in dims if d_ != M["axis"] and d_ not in free}
             if len(ax) == 1 and rest == want_extra:
                 ax = [M.get("alias", {}).get(ax[0], ax[0])]
                 if ax[0] in got and got[ax[0]] != v:
@@ -130,9 +132,11 @@ def quarter_values(M, form, url, end, q3_url=None, q3_end=None):
     if not q3_url:
         raise ValueError("10-K 4분기는 3분기 10-Q가 있어야 한다")
     ytd = by_member(facts(q3_url), M, lambda n: 230 <= n <= 290, q3_end)
-    if set(fy) - set(ytd):
-        raise ValueError(f"연간에만 있는 멤버 {sorted(set(fy) - set(ytd))} — 4분기 값을 만들 수 없다")
-    return {k: fy[k] - ytd[k] for k in fy}
+    # 지도에서 ignore로 뺀 멤버(지역 축의 나라별 소계 — LITE 태국은 10% 넘는 해에만 따로 나온다)는 누계에 없어도 된다(2026-10-22)
+    missing = set(fy) - set(ytd) - set(M.get("ignore", []))
+    if missing:
+        raise ValueError(f"연간에만 있는 멤버 {sorted(missing)} — 4분기 값을 만들 수 없다")
+    return {k: fy[k] - ytd[k] for k in fy if k in ytd}
 
 
 def table(M, vals):
@@ -150,9 +154,9 @@ def table(M, vals):
         v0, c0 = agg.get(name, (0.0, color))
         agg[name] = (v0 + vals[k], c0)
     for name, (v, color) in agg.items():
-        rows.append((name, round(v / 1e6), color))
+        rows.append((name, round(v / 1e6, 1), color))   # 0.1백만 달러까지 — 정수로 자르면 증감률·$B 표시가 어긋났다(TT 아태 384.6→385, Codex 2026-10-16)
     for k in unknown:
         other += vals[k]
     if unknown:
-        rows.append((M["other"], round(other / 1e6), "#94a3b8"))
+        rows.append((M["other"], round(other / 1e6, 1), "#94a3b8"))
     return sorted(rows, key=lambda r: -r[1]), adj

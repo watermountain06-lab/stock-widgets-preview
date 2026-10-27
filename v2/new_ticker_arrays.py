@@ -11,6 +11,8 @@
     python3 v2/new_ticker_arrays.py ADI --yahoo /path/adi_yahoo.json --asof 2026-09-30
 """
 import argparse
+import shutil
+import tempfile
 import json
 import os
 import re
@@ -54,24 +56,34 @@ def main():
     ap.add_argument("--asof", required=True)
     # 백테스트만 이 날짜 이후 일봉으로 — 분사 종목(WDC)은 재작성 EPS가 처음 나온 날 전 PER이 원공시와 섞인다(Codex 2026-10-02)
     ap.add_argument("--bt-start")
+    ap.add_argument("--short", action="store_true")
     a = ap.parse_args()
     t = a.ticker.upper()
     allbars = bars_from_yahoo(a.yahoo, a.asof)
     assert allbars and allbars[-1][0] == a.asof, ("기준일 봉이 없다", allbars[-1][0] if allbars else None)
-    assert len(allbars) >= N_DAYS + 120, ("이력이 짧다 — 이동평균 앞부분을 채울 수 없다", len(allbars))
+    # 상장이 짧은 종목(일봉 1,375개 미만)은 사용자 승인 뒤에만 --short — 이동평균 앞부분을 null로 두고 받은 일봉으로(최근 1,255봉까지 — SNDK·GEV 선례, CEG 2026-10-18)
+    if not a.short:
+        assert len(allbars) >= N_DAYS + 120, ("이력이 짧다 — 이동평균 앞부분을 채울 수 없다(사용자 승인 뒤 --short)", len(allbars))
     closes = [b[4] for b in allbars]
     ma = {n: sma(closes, n)[-N_DAYS:] for n in (5, 20, 60, 120)}
     daily = allbars[-N_DAYS:]
-    assert all(x is not None for n in ma for x in ma[n])
+    extra = len(allbars) - len(daily)   # 창 앞에 더 받은 봉
+    lead = {n: max(0, n - 1 - extra) for n in ma}
+    assert all(x is None for n in ma for x in ma[n][:lead[n]]) and all(x is not None for n in ma for x in ma[n][lead[n]:])
 
-    tmp = f"/tmp/{t}_daily_for_backtest.json"
+    # 실행마다 새 임시 폴더 — 고정 /tmp 경로는 실패한 재생성이 옛 결과를 읽을 수 있었다(dr 2026-10-13)
+    wd = tempfile.mkdtemp(prefix=f"{t}_bt_")
+    tmp = os.path.join(wd, "daily_for_backtest.json")
     json.dump({"daily": [b for b in daily if not a.bt_start or b[0] >= a.bt_start]}, open(tmp, "w"))
     eps = os.path.join(REPO, "scripts", f"{t}_eps_history.json")
-    out = f"/tmp/{t}_backtest.json"
+    out = os.path.join(wd, "backtest.json")
     r = subprocess.run([sys.executable, os.path.join(REPO, "scripts", "compute_earnings_backtest_band.py"), t,
                         "--eps", eps, "--daily-json", tmp, "--out", out], capture_output=True, text=True)
     print(r.stdout.strip() or r.stderr.strip()[-500:])
+    if r.returncode != 0 or not os.path.exists(out):
+        sys.exit(f"{t}: 백테스트 계산 실패(반환 코드 {r.returncode}) — {r.stderr.strip()[-300:]}")
     bt = json.load(open(out))["checkpoints"]
+    shutil.rmtree(wd, ignore_errors=True)
 
     p = os.path.join(HERE, f"{t}_full_widget.html")
     h = open(p, encoding="utf-8").read()

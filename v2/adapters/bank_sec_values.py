@@ -11,6 +11,7 @@ companyfacts(SEC 요약 자료)에는 표준 태그만 있다. 우선주 장부�
 결과: v2/research/bank_sec_values.json
   {T: {분기말: {"form", "accn", "filed", "pref", "pref_tag", "ia", "ia_tag", "cet1", "cet1_tag"}}}
   pref·ia·cet1이 None이면 그 공시 원문에 없다는 뜻(0이 아니다). 받기·읽기에 실패한 분기는 적지 않는다(다음 실행에서 다시).
+  8판 §1(research/bank_v8_design.md): bank_sec_tags.json 우선주 항목에 equity_member가 있는 은행(PNC)은 "pref_member"·"apic"도 적는다.
 """
 import html as htmlmod
 import json
@@ -26,9 +27,10 @@ OUT = os.path.join(V2, "research", "bank_sec_values.json")
 TAGS = os.path.join(V2, "research", "bank_sec_tags.json")
 CACHE = os.path.join(V2, ".sec_cache", "ixbrl_bank")
 UA = "kim research gptjhss@gmail.com"
+EXTRACT_VERSION = 2   # 8판 §1-3: 캐시에 단위(measure)도 저장 — 1판 캐시(판 키 없는 목록)는 단위가 없다
 SINCE = "2020-06-30"   # 5년 자기 이력 + 출발 TTM·기초 자본
 CARDS = {"JPM": "0000019617", "BAC": "0000070858", "WFC": "0000072971", "GS": "0000886982", "MS": "0000895421",
-         "C": "0000831001", "AXP": "0000004962", "SCHW": "0000316709", "COF": "0000927628"}
+         "C": "0000831001", "AXP": "0000004962", "SCHW": "0000316709", "COF": "0000927628", "BNY": "0001390777", "USB": "0000036104"}
 IA_STD = ["us-gaap:IntangibleAssetsNetExcludingGoodwill", "us-gaap:FiniteLivedIntangibleAssetsNet",
           "us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill", "us-gaap:OtherIntangibleAssetsNet"]
 IA_CUSTOM = re.compile(r"^(?!us-gaap:)\w+:\w*Intangible\w*$", re.I)
@@ -101,6 +103,10 @@ def _parse(h):
 
 def _parse_instance(x):
     """XBRL 인스턴스(EDGAR가 인라인 원문에서 뽑아 둔 {문서}_htm.xml) — 사실이 한 파일에 다 있다(여러 문서로 나뉜 10-K도)."""
+    units = {}
+    for m in re.finditer(r'<(?:xbrli:)?unit id="([^"]+)">(.*?)</(?:xbrli:)?unit>', x, re.S):
+        ms = [u.strip() for u in re.findall(r"<(?:xbrli:)?measure>([^<]+)<", m.group(2))]
+        units[m.group(1)] = "/".join(ms) if "divide" in m.group(2) else "*".join(ms)
     ctx = {}
     for m in re.finditer(r'<(?:xbrli:)?context id="([^"]+)">(.*?)</(?:xbrli:)?context>', x, re.S):
         body = m.group(2)
@@ -120,26 +126,53 @@ def _parse_instance(x):
         except ValueError:
             continue
         c = ctx[cref]
-        out.append((name, c[0], c[1], c[2], v))
+        u = re.search(r'unitRef="([^"]+)"', attrs)
+        out.append((name, c[0], c[1], c[2], v, units.get(u.group(1))))
     return out
 
 
-def facts(cik, accn, primary, end):
-    """그 공시의 XBRL 사실(인스턴스 파일). 접수번호마다 한 번 받아 둔다."""
+def cache_version(accn):
+    """캐시 판 — 없으면 None, 판 키 없는 목록(옛 캐시)은 1."""
+    p = os.path.join(CACHE, f"{accn}.json")
+    if not os.path.exists(p):
+        return None
+    raw = json.load(open(p))
+    return raw.get("v", 1) if isinstance(raw, dict) else 1
+
+
+def facts6(cik, accn, primary, end, refetch=False):
+    """그 공시의 XBRL 사실 (이름, 시작, 끝, 차원, 값, 단위). 접수번호마다 한 번 받아 둔다 — 1판 캐시면 단위 None.
+    refetch면 캐시를 무시하고 원문을 다시 받는다(8판 §1-3 — 판단은 main이 한다)."""
     os.makedirs(CACHE, exist_ok=True)
     p = os.path.join(CACHE, f"{accn}.json")
-    if os.path.exists(p):
-        return [tuple(x[:3]) + (tuple(tuple(d) for d in x[3]), x[4]) for x in json.load(open(p))]
+    if os.path.exists(p) and not refetch:
+        raw = json.load(open(p))
+        rows = raw["facts"] if isinstance(raw, dict) else raw
+        return [tuple(x[:3]) + (tuple(tuple(d) for d in x[3]), x[4], x[5] if len(x) > 5 else None) for x in rows]
     base = f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{accn.replace('-', '')}/"
     names = [x["name"] for x in json.loads(_get(base + "index.json"))["directory"]["item"]]
     inst = [n for n in names if n.endswith("_htm.xml")] or [n for n in names if re.search(r"\d{8}\.xml$", n) and not re.search(r"_(cal|def|lab|pre)\.xml$", n)]
     if not inst:
         raise ValueError(f"{accn}: XBRL 인스턴스 파일이 없다")
     fs = _parse_instance(_get(base + inst[0]))
-    if not any(n == "us-gaap:StockholdersEquity" and e == end and not s and not d for n, s, e, d, v in fs):
+    if not any(x[0] == "us-gaap:StockholdersEquity" and x[2] == end and not x[1] and not x[3] for x in fs):
         raise ValueError(f"{accn}: {end} 자본이 인스턴스에 없다")
-    json.dump(fs, open(p, "w"))
+    json.dump({"v": EXTRACT_VERSION, "facts": fs}, open(p, "w"))
     return fs
+
+
+def facts(cik, accn, primary, end, refetch=False):
+    """그 공시의 XBRL 사실 (이름, 시작, 끝, 차원, 값) — 단위 없이(7판 값 계산용)."""
+    return [x[:5] for x in facts6(cik, accn, primary, end, refetch)]
+
+
+def member_values(fs6, end, em):
+    """8판 §1-2: concept·결산일 시점·차원이 정확히 그 축·멤버 하나이고 단위 USD인 사실, 차원 없는 AdditionalPaidInCapital(USD).
+    같은 결산일 값이 여럿이면 모두 같을 때만 그 값, 다르면 None."""
+    one = lambda vs: vs[0] if vs and len(set(vs)) == 1 else None
+    pm = [v for n, s, e, d, v, u in fs6 if n == em["concept"] and not s and e == end and d == ((em["axis"], em["member"]),) and u == "iso4217:USD"]
+    ap = [v for n, s, e, d, v, u in fs6 if n == "us-gaap:AdditionalPaidInCapital" and not s and e == end and not d and u == "iso4217:USD"]
+    return {"pref_member": one(pm), "apic": one(ap)}
 
 
 def pick(fs, end, names):
@@ -161,6 +194,12 @@ def values(T, cik, fs, end, tags):
     if ia is None:   # 11-3: 회사 고유 무형자산 태그(MSR·영업권 포함 이름 제외)
         cust = sorted({n for n, s, e, d, x in fs if e == end and not s and not d and IA_CUSTOM.match(n) and not IA_SKIP.search(n)})
         ia, itag = pick(fs, end, cust) if cust else (None, None)
+    # 11-3 TCE는 무형자산에서 MSR을 뺀 값 — 무형자산 태그에 MSR을 함께 담는 은행은 지정한 태그만큼 덜어 낸다(USB "Other intangible assets"
+    # $4,999M 안에 MSR $3,177M, 2026-06-30 — Fable 2026-10-17). 지정이 없으면 그대로.
+    for mt in tags.get("ia_minus", {}).get(T, []):
+        m_, _ = pick(fs, end, [mt])
+        if ia is not None and m_ is not None:
+            ia, itag = ia - m_, f"{itag} − {mt}"
     ct = tags["cet1"].get(T, tags["cet1"]["_default"])["tag"]
     cet1, ctag = pick(fs, end, [ct, "us-gaap:CommonEquityTierOneCapitalRatio"])
     if cet1 is None:   # 표준방식(Standardized) 값 — 지주회사(연결·모회사) 것만, 은행 자회사 값은 뺀다(WFC 2026-06 10.26%, 자회사 12.07%)
@@ -193,6 +232,7 @@ def main():
     data = json.load(open(OUT)) if os.path.exists(OUT) else {}
     for T, cik in sorted(banks.items()):
         have = data.setdefault(T, {})
+        em = tags["preferred"].get(T, {}).get("equity_member")
         try:
             fl = filings(cik)
         except Exception as e:
@@ -200,14 +240,18 @@ def main():
             continue
         added = 0
         for end, filed, accn, primary, form in fl:
-            if end in have and have[end].get("accn") == accn:
+            # 8판 §1-3: equity_member 은행은 레코드에 pref_member가 없거나 캐시가 단위 없는 옛 판이면 건너뛰지 않고, 옛 판 캐시는 다시 받는다
+            refetch = bool(em) and cache_version(accn) != EXTRACT_VERSION
+            if end in have and have[end].get("accn") == accn and not (em and ("pref_member" not in have[end] or refetch)):
                 continue
             try:
-                fs = facts(cik, accn, primary, end)
+                fs6 = facts6(cik, accn, primary, end, refetch)
             except Exception as e:
                 print(f"  {T} {end}: 받기 실패 {type(e).__name__}")
                 continue
-            have[end] = {"form": form, "accn": accn, "filed": filed, **values(T, cik, fs, end, tags)}
+            have[end] = {"form": form, "accn": accn, "filed": filed, **values(T, cik, [x[:5] for x in fs6], end, tags)}
+            if em:
+                have[end].update(member_values(fs6, end, em))
             added += 1
         print(f"{T}: 분기 {len(have)}개(새로 {added})", flush=True)
         json.dump(data, open(OUT, "w"), ensure_ascii=False, indent=0, sort_keys=True)

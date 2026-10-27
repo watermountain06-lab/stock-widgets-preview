@@ -53,7 +53,14 @@ def cover_classes(h):
         if c not in ctx:
             continue
         scale = int(re.search(r'scale="(-?\d+)"', attrs).group(1)) if 'scale="' in attrs else 0
-        got[ctx[c]] = float(txt.replace(",", "") or 0) * 10 ** scale
+        t = txt.replace(",", "").strip()
+        # 발행 없는 클래스를 숫자 대신 "no"·"none"(ixt:fixed-zero 등)으로 적는다 — ABNB Class H(2026-10-22)
+        if not re.fullmatch(r"[\d.]*", t):
+            if t.lower() in ("no", "none", "nil", "-", "—"):
+                t = "0"
+            else:
+                raise ValueError(f"표지 주식 수를 읽을 수 없다: {t!r}")
+        got[ctx[c]] = float(t or 0) * 10 ** scale
     return got
 
 

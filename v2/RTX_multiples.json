@@ -1,79 +1,79 @@
 {
  "ticker": "RTX",
  "window": [
-  "2021-10-11",
-  "2026-10-09"
+  "2021-10-26",
+  "2026-10-26"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 32.74,
+   "current": 32.06,
    "min": 18.4,
    "p10": 27.05,
-   "median": 36.2,
-   "p90": 44.31,
-   "max": 74.08,
-   "mean": 37.32,
-   "percentile": 24.1,
-   "score": 75.9
+   "median": 36.09,
+   "p90": 43.73,
+   "max": 73.38,
+   "mean": 36.96,
+   "percentile": 21.2,
+   "score": 78.8
   },
   "PSR": {
    "days": 1255,
-   "current": 2.68,
+   "current": 2.78,
    "min": 1.43,
    "p10": 1.78,
    "median": 2.14,
    "p90": 2.87,
    "max": 3.25,
-   "mean": 2.23,
-   "percentile": 84.0,
-   "score": 16.0
+   "mean": 2.24,
+   "percentile": 87.3,
+   "score": 12.7
   },
   "PBR": {
    "days": 1255,
-   "current": 3.78,
+   "current": 3.85,
    "min": 1.39,
    "p10": 1.75,
-   "median": 2.21,
+   "median": 2.23,
    "p90": 3.91,
    "max": 4.58,
-   "mean": 2.56,
-   "percentile": 87.6,
-   "score": 12.4
+   "mean": 2.58,
+   "percentile": 88.7,
+   "score": 11.3
   },
   "PCR": {
    "days": 1255,
-   "current": 21.97,
+   "current": 28.05,
    "min": 17.29,
    "p10": 20.15,
-   "median": 30.59,
+   "median": 30.43,
    "p90": 44.76,
    "max": 71.18,
-   "mean": 33.16,
-   "percentile": 19.0,
-   "score": 81.0
+   "mean": 33.01,
+   "percentile": 34.6,
+   "score": 65.4
   },
   "EV/EBITDA": {
-   "days": 1075,
-   "current": 19.01,
+   "days": 1255,
+   "current": 19.0,
    "min": 13.06,
-   "p10": 16.95,
-   "median": 19.56,
-   "p90": 24.43,
-   "max": 26.49,
-   "mean": 19.99,
-   "percentile": 43.4,
-   "score": 56.6
+   "p10": 17.07,
+   "median": 19.37,
+   "p90": 22.59,
+   "max": 29.4,
+   "mean": 19.77,
+   "percentile": 42.5,
+   "score": 57.5
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 34.66,
+  "per_p25": 34.2,
   "per_p75": 39.32,
-  "low": 200,
-  "high": 220,
-  "asOf": "2026-10-09",
+  "low": 210,
+  "high": 240,
+  "asOf": "2026-10-26",
   "basis": "diluted"
  }
 }

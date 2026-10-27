@@ -86,6 +86,112 @@ def test_price_rules():
             check(f"{name} raises", True)
 
 
+def with_meta(c, close_time=dtime(16, 0), day=None, price=200.0, **extra):
+    """A chart whose meta says the regular session of `day` (default: the last bar's) ended."""
+    r = c["chart"]["result"][0]
+    d = day or datetime.fromtimestamp(r["timestamp"][-1], ET).date()
+    r["meta"] = dict(regularMarketTime=int(datetime.combine(d, close_time, ET).timestamp()),
+                     regularMarketPrice=price, **extra)
+    return c
+
+
+def test_blank_close_fallback():
+    # 2026-10-19: Yahoo blanked the day's close on stocks' daily bars from ~20:16 to 21:16 ET
+    # while meta.regularMarketPrice stayed current. The last bar's close comes from meta.
+    blank = CLOSES[:-1] + [None]
+    r = fp.resolve_price(with_meta(chart(DAYS, blank)), AFTER)
+    check("a blank last close is filled from meta",
+          (r["session"], r["close"], r["prevClose"], r.get("closeSource")) == ("2026-09-10", 200.0, CLOSES[-2], "yahoo-meta"), r)
+    r = fp.resolve_price(with_meta(chart(DAYS, CLOSES)), AFTER)
+    check("a served close is never replaced by meta", (r["close"], r.get("closeSource")) == (CLOSES[-1], None), r)
+    r = fp.resolve_price(with_meta(chart(DAYS, blank), close_time=dtime(15, 59)), AFTER)
+    check("meta before 16:00 does not fill (session not over)", r["session"] == "2026-09-09", r)
+    r = fp.resolve_price(with_meta(chart(DAYS, blank), day=DAYS[-2]), AFTER)
+    check("meta for another date does not fill", r["session"] == "2026-09-09", r)
+    r = fp.resolve_price(with_meta(chart(DAYS, blank)), DURING)
+    check("no fill before the settle cutoff", r["session"] == "2026-09-09", r)
+    early = datetime(2026, 9, 10, 16, 10, tzinfo=ET)   # after meta's 16:00, before the 16:20 cutoff
+    check("fill_from_meta itself refuses before the settle cutoff",
+          fp.fill_from_meta(with_meta(chart(DAYS, blank))["chart"]["result"][0], early) is None)
+    r = fp.resolve_price(chart(DAYS, blank), AFTER)
+    check("no meta, no fill", r["session"] == "2026-09-09", r)
+    # the 2026-09-22 kind: an interior hole is not today's and meta can't speak for it
+    hole = CLOSES[:-2] + [None] + CLOSES[-1:]
+    r = fp.resolve_price(with_meta(chart(DAYS, hole)), AFTER)
+    check("an interior blank close is never filled from meta",
+          (r["prevSession"], r["close"], r.get("closeSource")) == ("2026-09-08", CLOSES[-1], None), r)
+    c = with_meta(chart(DAYS, blank), regularMarketDayHigh=210.0, regularMarketDayLow=190.0, regularMarketVolume=5)
+    q = c["chart"]["result"][0]["indicators"]["quote"][0]
+    q.update(high=[None] * len(DAYS), low=[1.0] * len(DAYS), open=[None] * len(DAYS))
+    q["volume"][-1] = None
+    fp.fill_from_meta(c["chart"]["result"][0], AFTER)
+    check("high/volume filled where blank, low kept as served, open left alone",
+          (q["close"][-1], q["high"][-1], q["low"][-1], q["volume"][-1], q["open"][-1]) == (200.0, 210.0, 1.0, 5, None), q)
+
+    import update_cards as uc
+    with tempfile.TemporaryDirectory() as tmp:
+        def card_fixture(opens):
+            c = with_meta(chart(DAYS, blank), regularMarketDayHigh=210.0, regularMarketDayLow=190.0)
+            q = c["chart"]["result"][0]["indicators"]["quote"][0]
+            q.update(open=list(opens), high=[x or 0 for x in CLOSES[:-1]] + [None],
+                     low=[x or 0 for x in CLOSES[:-1]] + [None])
+            Path(tmp, "ZZZ.json").write_text(json.dumps(c), encoding="utf-8")
+            return uc.fetch_bars("ZZZ", "1mo", tmp, AFTER, "2026-09-10")[0]
+        bars = card_fixture(CLOSES)
+        check("card bars take the meta-filled last bar when open was served",
+              bars[-1][0] == "2026-09-10" and bars[-1][4] == 200.0 and bars[-1][2:4] == (210.0, 190.0), bars[-1])
+        bars = card_fixture(CLOSES[:-1] + [None])
+        check("card bars skip it when open is blank too (no meta open)", bars[-1][0] == "2026-09-09", bars[-1])
+
+    # fetch_prices.main: a served close already held for the session is never swapped for meta
+    # (Codex r1), and a served close replacing a meta fill is logged with the difference (Fable r1)
+    tmp = Path(tempfile.mkdtemp())
+    data_path, fx = tmp / "stocks.json", tmp / "fx"
+    fx.mkdir()
+    sym = next(t.get("yahooSymbol", t["ticker"]) for t in seed_stocks(data_path)["tickers"] if t["ticker"] == "AAPL")
+    def aapl():
+        return next(t["price"] for t in json.loads(data_path.read_text())["tickers"] if t["ticker"] == "AAPL")
+    held = aapl()["close"]
+    (fx / f"{sym}.json").write_text(json.dumps(with_meta(chart(DAYS, blank), price=999.0)))
+    out = run("fetch_prices.py", "--data", str(data_path), "--tickers", "AAPL", "--fixtures", str(fx),
+              "--now", AFTER.isoformat(), "--write")
+    check("a held served close is kept over a later meta fill",
+          (aapl()["close"], aapl().get("closeSource")) == (held, None), out.stdout + out.stderr)
+    d = json.loads(data_path.read_text())
+    next(t for t in d["tickers"] if t["ticker"] == "AAPL")["price"].update(close=1.0, closeSource="yahoo-meta")
+    data_path.write_text(json.dumps(d))
+    (fx / f"{sym}.json").write_text(json.dumps(with_meta(chart(DAYS, CLOSES))))
+    out = run("fetch_prices.py", "--data", str(data_path), "--tickers", "AAPL", "--fixtures", str(fx),
+              "--now", AFTER.isoformat(), "--write")
+    check("a served close replaces a meta fill, and the difference is logged",
+          (aapl()["close"], aapl().get("closeSource")) == (CLOSES[-1], None) and "meta close 1.0 -> served" in out.stdout,
+          out.stdout + out.stderr)
+    shutil.rmtree(tmp)
+
+    # price_arrays: a card ending on the session at another close than the homepage is rebuilt
+    sys.path.insert(0, str(ROOT / "v2" / "newcards"))
+    import price_arrays as pa
+    arr = {"DAILY": {"tokens": ['["2026-09-10",1,2,0.5,101.50,10]']}}
+    ent = lambda c, sess="2026-09-10": {"price": {"session": sess, "close": c}}
+    check("card close off the homepage close is caught", pa.home_close_off(arr, ent(101.0), "2026-09-10"))
+    check("card close within the 0.005 tolerance is fine", not pa.home_close_off(arr, ent(101.505), "2026-09-10"))
+    check("homepage on another session: not this check's business",
+          not pa.home_close_off(arr, ent(101.0, "2026-09-09"), "2026-09-10"))
+    check("card behind the session: not this check's business (the date path handles it)",
+          not pa.home_close_off(arr, ent(101.0, "2026-09-11"), "2026-09-11"))
+
+    import wait_yahoo_close as wy
+    check("expected session after the cutoff is today", wy.expected_session(AFTER) == "2026-09-10")
+    check("expected session before the cutoff is the previous weekday", wy.expected_session(DURING) == "2026-09-09")
+    check("expected session on Saturday is Friday",
+          wy.expected_session(datetime(2026, 9, 12, 18, 0, tzinfo=ET)) == "2026-09-11")
+    check("wait: blank close on the expected session", wy.blank_close(chart(DAYS, blank), "2026-09-10"))
+    check("no wait: close served", not wy.blank_close(chart(DAYS, CLOSES), "2026-09-10"))
+    check("no wait: no bar for the expected session (holiday / late)",
+          not wy.blank_close(chart(DAYS[:-1], CLOSES[:-1]), "2026-09-10"))
+    check("no wait: chart error", not wy.blank_close({"chart": {"result": None}}, "2026-09-10"))
+
+
 def test_macro_rules():
     hours = [datetime.combine(date.fromisoformat(d), dtime(h, 0), ET)
              for d in ("2026-09-09", "2026-09-10") for h in range(24)]
@@ -1309,11 +1415,125 @@ def test_backfill():
         check("a hole nobody recorded still holds the card", "missing inside" in str(e), str(e))
 
 
+def test_carry_prices():
+    """The push-retry path (daily_refresh.yml, 2026-10-21): carry this run's prices onto a newer main."""
+    import carry_prices as cp
+    blk = lambda c, s, st="fresh": {"close": c, "session": s, "status": st}
+    saved = {"priceSession": "2026-10-21", "generatedAt": "g",
+             "tickers": [{"ticker": t, "price": blk(1.0, "2026-10-21")} for t in ("AAA", "BBB", "EEE")]}
+    base = {"priceSession": "2026-10-20",
+            "tickers": [{"ticker": t, "price": blk(0.5, "2026-10-20")} for t in ("AAA", "BBB", "EEE")]}
+    main = json.loads(json.dumps(base))
+    main["tickers"][0]["yahooSymbol"] = "AAA.X"                              # person changed a symbol
+    main["tickers"][2]["price"] = blk(0.7, "2026-10-20", "suspicious")      # person edited a block
+    main["tickers"].append({"ticker": "NEW", "price": {"close": None, "status": "unavailable"}})
+    fetch = cp.carry(saved, base, main)
+    got = {t["ticker"]: t["price"] for t in main["tickers"]}
+    check("carry: untouched ticker gets this run's block", got["BBB"] == blk(1.0, "2026-10-21"), got["BBB"])
+    check("carry: changed symbol, edited block and new ticker go to fetch",
+          fetch == ["AAA", "EEE", "NEW"], fetch)
+    check("carry: priceSession is this run's", main["priceSession"] == "2026-10-21", main["priceSession"])
+    try:
+        cp.carry(saved, base, {"priceSession": "2026-10-22", "tickers": []})
+        check("carry: refuses a main with a later session", False)
+    except SystemExit:
+        check("carry: refuses a main with a later session", True)
+
+    fetched = {"tickers": [
+        {"ticker": "AAA", "price": dict(blk(2.0, "2026-10-21", "stale"),
+                                        statusReason="latest completed bar 2026-10-21, target session 2026-10-22")},
+        {"ticker": "EEE", "price": blk(3.0, "2026-10-22")},                   # ran ahead: not taken
+        {"ticker": "NEW", "price": {"close": None, "status": "unavailable"}}]}
+    left = cp.merge(fetched, {"AAA", "EEE", "NEW"}, main)
+    got = {t["ticker"]: t["price"] for t in main["tickers"]}
+    check("merge: same-session block taken, stale-by-target restored to fresh",
+          got["AAA"] == blk(2.0, "2026-10-21"), got["AAA"])
+    check("merge: another session or no close is left out", left == ["EEE", "NEW"], left)
+    check("merge: a left-out block keeps main's value and status",
+          got["EEE"] == blk(0.7, "2026-10-20", "suspicious") and got["NEW"]["close"] is None, got)
+    m2 = {"priceSession": "2026-10-21", "tickers": [{"ticker": "X", "price": blk(1.0, "2026-10-20")}]}
+    cp.merge({"tickers": []}, {"X"}, m2)
+    check("merge: a fresh block of another session is downgraded to stale",
+          m2["tickers"][0]["price"]["status"] == "stale", m2)
+
+
+def test_merge_tier_history():
+    """The v2 rebuild's push retry (v2_cards.yml, 2026-10-23): both sides appended to tier_history.json."""
+    import merge_tier_history as mt
+    e = lambda t, d, tier="적정": {"ticker": t, "evaluatedAt": d, "ruleVersion": "v2-verdict", "publishedTier": tier}
+    base = [e("AAA", "2026-10-20")]
+    ours = base + [e("TRGP", "2026-10-22"), e("TDG", "2026-10-22")]      # the person's card pushes
+    theirs = base + [e("ELV", "2026-10-22"), e("TDG", "2026-10-22")]     # the rebuild
+    got = mt.merge(base, ours, theirs)
+    check("tier merge: union in order, a shared entry once",
+          [x["ticker"] for x in got] == ["AAA", "TRGP", "TDG", "ELV"], got)
+    edited = [e("AAA", "2026-10-20", "고평가")]
+    check("tier merge: a one-sided edit is kept", mt.merge(base, base, edited) == edited)
+    check("tier merge: a one-sided removal is kept", mt.merge(base, [], base) == [])
+    for name, a, b in (("both edit one entry", edited, [e("AAA", "2026-10-20", "저평가")]),
+                       ("both add one key differently", base + [e("X", "d")], base + [e("X", "d", "고평가")]),
+                       ("a duplicate key", base + base, base)):
+        try:
+            mt.merge(base, a, b)
+            check(f"tier merge: refuses {name}", False)
+        except ValueError:
+            check(f"tier merge: refuses {name}", True)
+
+
+def _raises(f):
+    try:
+        f()
+    except SystemExit:
+        return True
+    return False
+
+
+def test_eps_forward_fill():
+    """fetch_eps_history.forward_fill (2026-10-24, WDC): a continuing-ops EPS tag that stops is continued with diluted EPS."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+    import fetch_eps_history as feh
+    r = lambda s, e, v, f: {"start": s, "end": e, "val": v, "filed": f}
+    A, D = "IncomeLossFromContinuingOperationsPerDilutedShare", feh.DILUTED
+    cont = [r("2026-01-01", "2026-03-31", 1.0, "2026-04-30"), r("2026-04-01", "2026-06-30", 1.0, "2026-07-30")]
+    dil = [r("2026-01-01", "2026-03-31", 0.9, "2026-04-30"), r("2026-04-01", "2026-06-30", 0.9, "2026-07-30"),
+           r("2026-07-01", "2026-09-30", 1.2, "2026-10-30"), r("2026-01-01", "2026-09-30", 3.0, "2026-10-30")]
+    gaap = {A: {"units": {"USD/shares": cont}}, D: {"units": {"USD/shares": dil}},
+            feh.DISCONTINUED[0]: {"units": {"USD/shares": [r("2026-04-01", "2026-06-30", 0, "2026-07-30")]}}}
+    got = feh.forward_fill(cont, gaap, A, "2026-10-30", "X")
+    check("eps fill: only whole periods after the last continuing-ops row",
+          [(e["start"], e["end"]) for e in got] == [("2026-07-01", "2026-09-30")], got)
+    check("eps fill: nothing past the approval cap", feh.forward_fill(cont, gaap, A, "2026-08-01", "X") == [])
+    late = dict(gaap, **{A: {"units": {"USD/shares": cont + [r("2026-07-01", "2026-09-30", 1.1, "2026-11-30")]}}})
+    check("eps fill: an unapproved continuing-ops row does not move the boundary",
+          len(feh.forward_fill(cont, late, A, "2026-10-30", "X")) == 1)
+    check("eps fill: no continuing-ops rows -> no fill", feh.forward_fill([], {D: gaap[D]}, A, None, "X") == [])
+    zero = [r("2026-04-01", "2026-06-30", 0, "2026-07-30")]   # 경계 직전 중단사업 EPS 0 = 양성 증거
+    stops = lambda name, g, cap="2026-10-30": check(f"eps fill: stops {name}", _raises(lambda: feh.forward_fill(cont, g, A, cap, "X")))
+    stops("when discontinued-ops EPS is non-zero in the filled period",
+          dict(gaap, **{feh.DISCONTINUED[0]: {"units": {"USD/shares": zero + [r("2026-07-01", "2026-09-30", -0.1, "2026-10-30")]}}}))
+    stops("without a zero discontinued-ops row before the boundary", {k: v for k, v in gaap.items() if k in (A, D)})
+    stops("when the last discontinued-ops row before the boundary is non-zero",
+          dict(gaap, **{feh.DISCONTINUED[0]: {"units": {"USD/shares": [r("2026-04-01", "2026-06-30", -0.2, "2026-07-30")]}}}))
+    later = dict(gaap, **{feh.DISCONTINUED[0]: {"units": {"USD/shares": zero + [r("2026-07-01", "2026-09-30", -0.1, "2026-11-30")]}}})
+    check("eps fill: a discontinued-ops row filed after the cap does not change the result",
+          len(feh.forward_fill(cont, later, A, "2026-10-30", "X")) == 1)
+    stops("when only a year-to-date discontinued-ops row overlapping the filled quarter is non-zero",
+          dict(gaap, **{feh.DISCONTINUED[0]: {"units": {"USD/shares": zero + [r("2026-01-01", "2026-09-30", -0.1, "2026-10-30")]}}}))
+    late_row = cont + [r("2026-07-01", "2026-09-30", 1.1, "2026-11-30")]   # companyconcept가 승인 뒤 행을 실었다
+    check("eps fill: an unapproved row in entries does not block the approved fill",
+          [(e["start"], e["end"]) for e in feh.forward_fill(late_row, gaap, A, "2026-10-30", "X")] == [("2026-07-01", "2026-09-30")])
+    q3 = r("2026-07-01", "2026-09-30", 1.1, "2026-10-30")
+    lag = dict(gaap, **{A: {"units": {"USD/shares": cont + [q3]}}})
+    check("eps fill: a continuing-ops row only in companyfacts is returned, not replaced by diluted",
+          feh.forward_fill(cont, lag, A, "2026-10-30", "X") == [q3])
+
+
 if __name__ == "__main__":
     test_prose_stamp()
     test_valuation_render()
     test_valuation_base_units()
     test_price_rules()
+    test_blank_close_fallback()
     test_macro_rules()
     test_end_to_end_with_failures()
     test_no_change_and_health()
@@ -1322,4 +1542,7 @@ if __name__ == "__main__":
     test_card_units()
     test_card_updater()
     test_backfill()
+    test_carry_prices()
+    test_merge_tier_history()
+    test_eps_forward_fill()
     print(f"OK - {len(PASSED)} checks passed")

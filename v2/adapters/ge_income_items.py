@@ -8,6 +8,10 @@ GE 손익계산서에는 영업이익 줄이 없다. 영업이익 = 세전이익
 Q2 2026 대조: 세전 2,801 − 기타수익 313 + 이자 215 + 연금 (−177) = 2,526 = 매출 13,349 − (원가·판관·분리·R&D·보험 비용) 10,823.
 
     python3 v2/adapters/ge_income_items.py
+
+2026-10-21부터 새 분기 값은 cfg_ge BUILD company_tags(adapters/company_tag_feed.py)가 받는다. 이 스크립트는 2021년까지의
+옛 태그 이름까지 한 번 채운 초기값이고, 다시 돌리면 태그 목록 전체를 바꿔 써서 company_tag_feed 표식(src company:…)이 지워지니
+다시 돌리지 않는다(Fable 2026-10-21).
 """
 import html
 import json

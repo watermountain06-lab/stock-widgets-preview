@@ -12,7 +12,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 31558, 'op': 7038, 'ni': 4627}   # 보도자료 GAAP(순이익은 AT&T 귀속)
-VOTES, VERDICT = (1, 1, -2), '적정'
+VOTES, VERDICT = (0, 1, -2), '적정~고평가'
 CO = 'AT&T'
 S_ = 'https://www.sec.gov/Archives/edgar/data/732717/'
 SEC = S_
@@ -102,8 +102,8 @@ BULL = [('주주환원', '2026년 자사주 약 $10B, 2026~2028년 $45B 이상 �
 BEAR = [('부채', '차입금 $144.0B에 7월 인수 차입 $14.5B 추가.'),
         ('저성장', '매출 +2~3%, 구리선 유선 −26%.'),
         ('일회성 이익', '최근 4분기 EPS에 DirecTV 지분 매각 이익 포함.')]
-ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 17, 'mean': 28.97, 'median': 29, 'low': 20, 'high': 36, 'sb': 12, 'b': 3, 'h': 9, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 17, 'mean': 28.09, 'median': 28, 'low': 20, 'high': 34, 'sb': 11, 'b': 3, 'h': 10, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-24'
 POST = [r'''
 h = re.sub(r'(selfHistory: [\d.]+,   // )[^\n]*', lambda m: m.group(1) + '자기 배수 분포 백분위 (2023-05-01 ~ ' + D[-1][0] + ')', h, count=1)   # D38 주석(18cf363)
 ''']

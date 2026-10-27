@@ -1,0 +1,75 @@
+{
+ "ticker": "LITE",
+ "window": [
+  "2021-10-26",
+  "2026-10-26"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 634,
+   "current": null,
+   "min": 15.92,
+   "p10": 18.56,
+   "median": 38.32,
+   "p90": 274.48,
+   "max": 931.65,
+   "mean": 148.39,
+   "percentile": 100.0,
+   "score": null,
+   "currentNote": "per_na"
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 24.35,
+   "min": 1.36,
+   "p10": 1.92,
+   "median": 3.43,
+   "p90": 24.68,
+   "max": 33.73,
+   "mean": 6.97,
+   "percentile": 89.4,
+   "score": 10.6
+  },
+  "PBR": {
+   "days": 1255,
+   "current": 15.8,
+   "min": 1.77,
+   "p10": 2.28,
+   "median": 3.34,
+   "p90": 24.18,
+   "max": 83.88,
+   "mean": 9.66,
+   "percentile": 80.8,
+   "score": 19.2
+  },
+  "PCR": {
+   "days": 632,
+   "current": 244.53,
+   "min": 8.39,
+   "p10": 10.16,
+   "median": 16.16,
+   "p90": 485.55,
+   "max": 718.69,
+   "mean": 102.38,
+   "percentile": 81.3,
+   "score": 18.7
+  },
+  "EV/EBITDA": {
+   "days": 873,
+   "current": 91.62,
+   "min": 7.82,
+   "p10": 9.61,
+   "median": 20.6,
+   "p90": 177.98,
+   "max": 268.94,
+   "mean": 72.73,
+   "percentile": 58.9,
+   "score": 41.1
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": {
+  "netMargin": -2.301,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+ }
+}

@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 8531, 'op': 1392, 'ni': 821, 'ocf': 1127, 'cap': 253}   # 보도자료 손익(영업이익 = 매출 − 매출원가 − 판관비 − R&D), FCF $874M
-VOTES, VERDICT = (-1, -1, -2), '고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'Eaton'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1551182/'
 SEC = S_
@@ -98,8 +98,8 @@ BULL = [('수주', 'Electrical Americas 12개월 평균 수주 +41%, Electrical 
 BEAR = [('GAAP 이익', '인수 비용으로 2분기 EPS −16%, 연간 GAAP 가이던스 두 번 하향.'),
         ('부채', '차입금 $20.6B(연초 $9.9B), 이자비용 분기 $201M.'),
         ('밸류에이션', 'PER {SM[\'PER\'][\'current\']:.1f}배로 5년 중 가장 비싼 쪽.')]
-ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 11, 'mean': 490.45, 'median': 502, 'low': 392, 'high': 534, 'sb': 18, 'b': 5, 'h': 4, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 11, 'mean': 495.18, 'median': 502, 'low': 392, 'high': 534, 'sb': 18, 'b': 5, 'h': 4, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──

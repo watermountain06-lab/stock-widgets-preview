@@ -1,0 +1,27 @@
+rules_version = '2';
+// preview 전용 Portfolio 탭(2026-10-19, 전략 비교·실제 매매 기록 2026-10-20) — Firestore 규칙 틀. 공개 저장소라 이메일은 자리표시자로 둔다.
+// Firebase 콘솔 → Firestore → 규칙 탭에 붙여 넣고, 콘솔에서 OWNER_EMAIL만 내 Gmail 주소로 바꾼 뒤 게시한다
+// (실제 이메일은 콘솔에만 있다 — 이 파일에는 넣지 않는다).
+// 나만 쓰기: 그 계정 한 개가 Google 로그인으로 자기 문서만 읽고 쓴다. 쓰는 사람이 나 하나라 값은 자유롭게 고치고 지울 수 있다
+// (사용자 결정 2026-10-20 — 그 전의 '덧붙이기만' 규칙을 풀었다). 화면이 입력을 검사하고, 고치면 처음부터 다시 계산한다.
+//   users/{자기 uid}/portfolio/main          — 원칙·실제 자산·관심 종목(통째로 바꾸기)
+//   users/{자기 uid}/portfolio/trades        — 실제 매매 기록 + 그달 살 종목 체크(picks, 2026-10-22)
+//   users/{자기 uid}/portfolio/strategy_N    — 전략 비교 묶음(N = 1~99): 시작 스냅샷·입금·시나리오
+// 다른 계정·로그아웃 상태·다른 문서 이름은 모두 거부.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth != null
+        && request.auth.uid == uid
+        && request.auth.token.firebase.sign_in_provider == 'google.com'
+        && request.auth.token.email == 'OWNER_EMAIL'
+        && request.auth.token.email_verified == true;
+    }
+    function isPortfolioDoc(id) {
+      return id == 'main' || id == 'trades' || id.matches('strategy_[1-9][0-9]?');
+    }
+    match /users/{uid}/portfolio/{docId} {
+      allow read, write: if isOwner(uid) && isPortfolioDoc(docId);
+    }
+  }
+}

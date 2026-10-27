@@ -1,0 +1,253 @@
+#!/usr/bin/env python3
+"""Refresh the data this repo's homepage reads, without touching its design.
+
+What changed and why: this script used to overwrite index.html with preview's
+rendered homepage. That kept the numbers honest but made preview the owner of
+the page's design too, so every promotion silently discarded this repo's own
+layout - the carousel, the Today section, the theme - and the public domain
+ended up serving preview's plain page under a placeholder title. The design
+belongs here; only the numbers belong to preview.
+
+So the split is now explicit:
+  - index.html, theme.css, today.html and friends are this repo's, hand-owned,
+    and nothing generated writes to them;
+  - stock-data.js carries the numbers, and this script rewrites exactly two
+    regions of it from preview's rendered homepage.
+
+stock-data.js is hand-written JS, not JSON: window.StockData is an object with
+three keys and two functions hung off it afterwards. Only `stocks` and `meta`
+are generated. `days` is the Today schedule - which tickers were featured on
+which day - and is an editorial choice preview knows nothing about, so it is
+preserved byte for byte, as are StockData.selectionReason and .quoteLabel,
+which today.js calls at render time.
+
+Usage: python3 scripts/build_home.py [--check]
+  --check  write nothing; exit non-zero if stock-data.js is not up to date
+"""
+import argparse
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+def live_tickers():  # 라이브의 새 종목 건너뛰기용 목록 — preview는 카드 전부를 쓴다
+    return None
+
+REPO = Path(__file__).resolve().parents[2]  # preview 루트(pipeline/site_ui에서 두 단계 위)
+HERE = Path(__file__).resolve().parent
+PREVIEW_HOME = REPO / "index.html"
+OUT = REPO / "stock-data.js"
+
+# What the page says about where its numbers came from. Preview runs the daily
+# pipeline; this repo does not, so the page must not imply a live quote.
+QUOTE_SOURCE = "preview 일일 파이프라인"
+META_SOURCE = "저장 시세·공시 분석"
+
+# The page groups non-comparable scores separately and marks the cheap end of
+# the tier scale. Only these tiers carry a valuation badge; everything else
+# renders without one, which is what `null` means here. 적정~저평가 counts as
+# 저평가, the same rule preview's homepage uses (2026-10-07): under the v2
+# verdicts no card reaches a plain 저평가, so the exact-match rule left both
+# discovery tabs permanently empty.
+VALUATION = {"적정~저평가": "undervalued", "저평가": "undervalued", "초저평가": "deep-value"}
+
+
+def card_bands(only=None):
+    """Each card's current '예상밴드 백테스트' band (the open checkpoint), via node.
+
+    The cards hold BACKTEST as JSON in some files and as a JS object literal in others,
+    so scripts/extract_card_bands.js evaluates them rather than parsing here.
+    """
+    try:
+        out = subprocess.run(["node", str(HERE / "extract_card_bands.js")],
+                             capture_output=True, text=True, check=True).stdout
+    except (OSError, subprocess.CalledProcessError) as e:
+        raise BuildError(f"cannot read the cards' bands: {e}") from e
+    bands = json.loads(out)
+    bad = sorted(t for t, v in bands.items() if "error" in v and (only is None or t in only))
+    if bad:
+        raise BuildError(f"band extraction failed for: {', '.join(bad)}")
+    return bands
+
+
+def band_position(price, b):
+    """Where today's price sits against the card's current band (2026-10-08 user decision).
+
+    The table shows the position only, without colour: the 2026-09-25 S&P500 test found
+    that names below their band went on to do worse, not better (band_breach_prereg.md),
+    so "below" is a fact about the price, not a buy signal. gap is measured from the
+    nearer edge the price has crossed.
+    """
+    if b is None or b.get("perNA"):
+        return {"pos": "na"}
+    if b.get("low") is None or b.get("high") is None:
+        return {"pos": "none"}
+    out = {"low": b["low"], "high": b["high"], "checkpoint": b["checkpoint"]}
+    # 밴드 점수(2026-10-08 사용자 결정): 하단이면 100, 상단이면 0, 하단 아래는 100 초과·상단 위는 0 미만. 화면은 숫자 하나로
+    # 보여 주고 −100~200에서 자른다(밴드가 무너진 PANW −357 같은 극단값만 걸린다). 순서는 자르기 전 값(raw)으로 매긴다.
+    raw = (b["high"] - price) / (b["high"] - b["low"]) * 100
+    out.update(score=round(min(200, max(-100, raw))), raw=round(raw, 2))
+    if price < b["low"]:
+        out.update(pos="below", gap=round(price / b["low"] - 1, 4))
+    elif price > b["high"]:
+        out.update(pos="above", gap=round(price / b["high"] - 1, 4))
+    else:
+        out["pos"] = "inside"
+    return out
+
+
+class BuildError(Exception):
+    """Refuse to write rather than publish a page built on a guess."""
+
+
+def preview_data():
+    """DATA, META and MACRO as preview's build_index.py inlined them.
+
+    MACRO is null until preview's first macro run, and an indicator can be absent or
+    carry status "unavailable" when a source failed. That is passed through rather than
+    smoothed over: the strip is supposed to say a figure is missing, not invent one.
+    """
+    src = PREVIEW_HOME.read_text(encoding="utf-8")
+    try:
+        a = src.index("var DATA = [")
+        b = src.index("\n  ];", a)
+        rows = json.loads(src[a + len("var DATA = "): b + len("\n  ]")])
+        m = re.search(r"var META = (\{.*?\});", src, re.S)
+        meta = json.loads(m.group(1))
+        mc = re.search(r"var MACRO = (\{.*?\}|null);\n", src, re.S)
+        macro = json.loads(mc.group(1)) if mc else None
+    except (ValueError, AttributeError) as e:
+        raise BuildError(f"cannot read DATA/META from {PREVIEW_HOME}: {e}") from e
+    if not rows:
+        raise BuildError("preview's homepage lists no tickers")
+    live = live_tickers()
+    if live is not None:
+        rows = [r for r in rows if r["ticker"] in live]   # 자동 승격: 라이브에 아직 없는 새 종목은 뺀다
+    # 순위는 그날 시가총액 순(2026-10-15 사용자 결정: 주가·등락률처럼 시총 순위도 매일 바뀐 대로 보여 준다).
+    # preview의 rank는 카드를 만든 순서라 고정돼 있었다. 카드의 "시총 N위"와 이전/다음 링크(fix_backbar_chain)도 이 순서를 쓴다.
+    if any(not isinstance(r.get("marketCap"), (int, float)) or r["marketCap"] <= 0 for r in rows):
+        raise BuildError("a homepage row has no positive marketCap - cannot rank by market cap")
+    rows = [dict(r, rank=i + 1) for i, r in enumerate(sorted(rows, key=lambda r: (-r["marketCap"], r["ticker"])))]
+    return rows, meta, macro
+
+
+def money(v):
+    """$1575.15 - no thousands separator, matching every price already on the page."""
+    return f"${v:.2f}"
+
+
+def cap(v):
+    """$5.08T above a trillion, $930.7B below it - the two forms the page uses."""
+    return f"${v / 1e12:.2f}T" if v >= 1e12 else f"${v / 1e9:.1f}B"
+
+
+def record(r, session, bands):
+    """One preview row as the homepage's JS expects it.
+
+    The thirteen fields preview publishes are carried across unchanged, so the
+    page and preview can never disagree about a number. The six extra fields
+    are derived here: two formatted strings beside their raw values (the tables
+    sort on the raw ones), the session the prices came from, a label saying the
+    quote is stored rather than live, the valuation badge, which is a pure
+    function of the tier preview already maintains, and the price's position
+    against the card's current band (read from the card itself).
+    """
+    out = dict(r)
+    out["href"] = r["href"]
+    out["priceValue"] = r["price"]
+    out["marketCapValue"] = r["marketCap"]
+    out["price"] = money(r["price"])
+    out["marketCap"] = cap(r["marketCap"])
+    out["quoteDate"] = session
+    out["quoteSource"] = QUOTE_SOURCE
+    out["valuation"] = VALUATION.get(r["tier"])
+    out["band"] = band_position(r["price"], bands.get(r["ticker"]))
+    return out
+
+
+def check_assets(rows):
+    """A missing card is a 404 and a missing logo is a blank box - both render quietly."""
+    missing = [r["ticker"] for r in rows
+               if not (REPO / f"{r['ticker']}_full_widget.html").exists()]
+    if missing:
+        raise BuildError(f"preview lists {len(missing)} card(s) this repo does not have: "
+                         f"{', '.join(missing)}")
+    have = {f.name.lower() for f in (REPO / "logos").glob("*.png")}
+    no_logo = sorted(r["ticker"] for r in rows if f"{r['ticker'].lower()}.png" not in have)
+    if no_logo:
+        raise BuildError(f"no logos/<ticker>.png in this repo for: {', '.join(no_logo)}")
+
+
+def splice(cur, rows, meta, macro, bands):
+    """Replace the `stocks` array and the `meta` object, leave everything else alone.
+
+    The macro indicators ride inside `meta` rather than as a fourth top-level key. The
+    page's strip needs them, but `meta` is already fully regenerated here, so reusing
+    that one replacement keeps the file's structure untouched - there is no second
+    splice boundary to get wrong, and a stray brace in this file blanks the whole page.
+    """
+    i, j = cur.find("stocks:["), cur.find("days:[")
+    k = cur.find("meta:{")
+    if i < 0 or j < 0 or k < 0 or not (i < j < k):
+        raise BuildError("stock-data.js does not have stocks/days/meta in the expected order")
+    # `end` is the brace that closes the meta object itself, not the object literal
+    # around it: the file ends "...delayMinutes":null}};". json.dumps below writes
+    # meta's own closing brace, so the tail has to resume AFTER it - slicing from
+    # `end` instead of `end + 1` leaves "}}};" and the whole file stops parsing,
+    # which takes window.StockData with it and blanks the page.
+    end = cur.find("}};", k)
+    if end < 0:
+        raise BuildError("stock-data.js: no closing }}; after meta")
+
+    body = ",\n  ".join(json.dumps(record(r, meta["priceSession"], bands), ensure_ascii=False)
+                        for r in rows)
+    m = dict(meta)
+    m.update({"mode": "snapshot", "source": META_SOURCE, "asOf": meta["priceSession"],
+              "updatedAt": None, "delayMinutes": None, "macro": macro})
+    out = (cur[:i] + "stocks:[\n  " + body + "],\n"
+           + cur[j:k] + "meta:" + json.dumps(m, ensure_ascii=False) + cur[end + 1:])
+
+    # the Today schedule survived, and still points at tickers the page has
+    kept = re.search(r"days:\[(.*?)\],?\s*meta:", out, re.S)
+    if not kept:
+        raise BuildError("the Today schedule did not survive the splice")
+    listed = {r["ticker"] for r in rows}
+    orphans = sorted(set(re.findall(r"'([A-Z][A-Z0-9._-]*)'", kept.group(1))) - listed)
+    if orphans:
+        raise BuildError(f"the Today schedule names tickers the homepage no longer lists: "
+                         f"{', '.join(orphans)}")
+    for fn in ("window.StockData.selectionReason=", "window.StockData.quoteLabel="):
+        if out.count(fn) != 1:
+            raise BuildError(f"{fn} is not intact after the splice")
+    return out
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--check", action="store_true")
+    args = ap.parse_args()
+    try:
+        rows, meta, macro = preview_data()
+        check_assets(rows)
+        cur = OUT.read_text(encoding="utf-8")
+        # 밴드 추출 오류는 자동 승격(새 종목 건너뛰기)일 때만 라이브 종목으로 좁혀 본다 — 손 승격은 예전처럼 전부(Codex)
+        only = {r["ticker"] for r in rows} if live_tickers() is not None else None
+        new = splice(cur, rows, meta, macro, card_bands(only))
+    except BuildError as e:
+        sys.exit(f"build_home: {e}")
+
+    if args.check:
+        if new != cur:
+            sys.exit("stock-data.js is stale - run python3 scripts/build_home.py")
+        print(f"OK - stock-data.js matches preview ({len(rows)} tickers, {meta['priceSession']})")
+        return
+    if new == cur:
+        print("stock-data.js already up to date")
+        return
+    OUT.write_text(new, encoding="utf-8")
+    print(f"Wrote {OUT} ({len(rows)} tickers, session {meta['priceSession']})")
+
+
+if __name__ == "__main__":
+    main()

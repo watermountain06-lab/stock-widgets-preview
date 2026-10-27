@@ -69,5 +69,166 @@
    "filed": "2026-08-06",
    "reason": "재무상태표 'Marketable securities' $3,252.6M 가운데 상장 지분증권 $46.8M — 10-K 공정가치 주석. 단기투자 태그(AvailableForSaleSecuritiesDebtSecurities $3,205.8M)는 채권만 담고, 지분증권 태그(EquitySecuritiesFvNiCurrentAndNoncurrent)는 2023-12에 멈췄다(Codex, 2026-10-01)."
   }
+ ],
+ "MO": [
+  {
+   "tag": "Investments",
+   "reason": "재무상태표 'Investments in equity securities' $8,896M(2026-06-30) = ABI 지분 약 8.1% 장부가 $8,577M + Cronos $319M, 모두 지분법 — 10-Q Note 4. 표준 지분법 태그가 아니라 일반 'Investments' 태그로 낸다. 장부가 기준(KO·META 전례) — ABI 공정가치는 $13.2B(같은 주석)(2026-10-13)."
+  }
+ ],
+ "PWR": [
+  {
+   "tag": "EquityMethodInvestmentsNonIntegralPwr",
+   "reason": "비통합 지분법 투자(이익은 영업이익 아래 Other income) — 원문 XBRL 차원 값(srt:ScheduleOfEquityMethodInvestmentEquityMethodInvesteeNameAxis = pwr:NonIntegralUnconsolidatedAffiliatesMember, 2026-06-30 $94.7M)을 adapters/dim_fact_feed.py가 overlay에 싣는다(cfg BUILD dim_facts, 최신 공시에 없으면 빌드 멈춤). 장기투자 합계는 build_dcf.NONOP_FROM_EXTRA로 버린다(통합 지분법 $283.3M은 영업 자산, 2026-10-17 dr)."
+  },
+  {
+   "tag": "EquitySecuritiesWithoutReadilyDeterminableFairValueAmount",
+   "reason": "비시장성 지분증권(2026-06-30 $56.0M) — 표준 태그(10-Q·10-K 연속)."
+  }
+ ],
+ "CME": [
+  {
+   "name": "S&P Dow Jones Indices 지분",
+   "value": 1400000000,
+   "end": "2025-12-31",
+   "filed": "2026-02-26",
+   "reason": "S&P Global과의 합작사 S&P Dow Jones Indices LLC 지분(지분법) 장부가 — FY2025 10-K 'The carrying amount of the company's investment in S&P Dow Jones Indices LLC was $1.4 billion at December 31, 2025'. 지분법 이익(Q2 2026 $97.7M 등)은 영업이익 아래라 비영업 자산(MO·KO 전례, 2026-10-16). 분기 보고서에는 장부가가 없어 연간마다 갱신."
+  }
+ ],
+ "ICE": [
+  {
+   "tag": "EquityMethodInvestments",
+   "reason": "지분법 투자(OCC 40% 등, 2026-06-30 $499M) — 이익은 영업이익 아래 Other income(10-Q 주석). 비시장성 지분 $2,386M(Polymarket 우선주 약 $2.0B 등)은 엔진 기본(EquitySecuritiesWithoutReadilyDeterminableFairValueAmount)으로 이미 들어간다. Bakkt 지분 $62M(공정가치 공시 태그뿐)·NAV $6M은 넣지 않음(주당 약 $0.12)."
+  }
+ ],
+ "CEG": [
+  {
+   "tag": "Investments",
+   "reason": "10-Q 주석 18 투자 합계(2026-06-30 $353M = 지분법 $45M(이익은 세후 영업외) + 직원복지 신탁 $124M + 상장 지분 $61M + 비상장 지분 $122M + 채권 $1M). 원전 해체 신탁기금($20.5B)은 해체 충당부채와 묶여 넣지 않는다. 직원복지 신탁(이연 보상 부채와 맞물림)도 합계 안이라 들어간다(주당 약 $0.35). LongTermInvestments는 10-K에만 있어 build_dcf.NONOP_FROM_EXTRA로 버린다(2026-10-18)."
+  }
+ ],
+ "WMB": [
+  {
+   "tag": "Investments",
+   "reason": "재무상태표 'Investments' $4,515M(2026-06-30) — 대부분 지분법 투자(Appalachia Midstream Investments 약 66%, Blue Racer 50%, Louisiana LNG·Cogentrix 등; 2025년 말 EquityMethodInvestments $4,518M / Investments $4,559M, 10-K). 지분법 이익(상반기 $320M)은 손익계산서 Operating income 아래 'Equity earnings'라 사업 가치(영업이익 기준)에 들어가지 않으므로 장부가를 더한다(KO·MO와 같은 규칙). 지분법 투자 태그는 연말에만 실려 분기마다 실리는 Investments 태그를 쓴다(2026-10-19)."
+  }
+ ],
+ "MMM": [
+  {
+   "name": "Solventum 지분",
+   "value": 1817000000,
+   "end": "2024-06-30",
+   "filed": "2024-07-26",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 2396000000,
+   "end": "2024-09-30",
+   "filed": "2024-10-22",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 2270000000,
+   "end": "2024-12-31",
+   "filed": "2025-02-05",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 2613000000,
+   "end": "2025-03-31",
+   "filed": "2025-04-22",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 2607000000,
+   "end": "2025-06-30",
+   "filed": "2025-07-18",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 1867000000,
+   "end": "2025-09-30",
+   "filed": "2025-10-21",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 2026000000,
+   "end": "2025-12-31",
+   "filed": "2026-02-03",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 1670000000,
+   "end": "2026-03-31",
+   "filed": "2026-04-21",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 1973000000,
+   "end": "2026-06-30",
+   "filed": "2026-07-21",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외."
+  },
+  {
+   "name": "Solventum 지분",
+   "value": 2254000000,
+   "end": "2026-09-30",
+   "filed": "2026-10-20",
+   "current": true,
+   "reason": "2024-04 분사 뒤 남은 Solventum 보통주 공정가치 — 그 분기 10-Q/10-K 공정가치 표 'Solventum common stock'(기타 유동자산 안). 평가 손익은 영업외. 표준 태그 EquitySecuritiesFvNi는 10-K 2025(2026-02-03)부터 2026-03까지만 있어 exclude로 빼고, 분기마다 이 값을 쓴다 — 과거 시점도 그때 공시값(Codex 2026-10-21 r1·r2)."
+  },
+  {
+   "name": "Bain 순풋옵션",
+   "value": -340000000,
+   "end": "2026-09-30",
+   "filed": "2026-10-20",
+   "reason": "Madison 합작사 Bain 지분의 순풋옵션 파생부채 $340M(Q3 2026 10-Q 주석 13, Level 3). 상환가능 비지배지분 $971M은 이 파생상품 가치를 고려해 측정하므로 둘을 합한 것이 Bain 청구권 — 비지배지분은 EV_TAGS nci로 뺀다."
+  },
+  {
+   "exclude": "EquitySecuritiesFvNi",
+   "reason": "Solventum 지분 태그가 2026-03에 멈춤 — 위 10-Q 값으로 대신한다."
+  }
+ ],
+ "HPE": [
+  {
+   "name": "Series C 의무전환 우선주",
+   "value": 1500000000,
+   "end": "2026-07-31",
+   "filed": "2026-09-03",
+   "reason": "7.625% Series C Mandatory Convertible Preferred 3,000만 주 × 청산 우선권 $50 = $1.5B(2024-09 발행, 2027-09 보통주로 의무 전환) — 분기 배당 $0.953125(10-Q). 우선주 태그(PreferredStockValue)는 2021년 옛 우선주라 버리고 보통주 앞 청구권으로 주주가치에서만 뺀다(\"kind\": \"preferred\" — 투하자본에는 넣지 않는다, Codex r1 2026-10-21). 청산 우선액이라 전환 조건의 경제적 가치와 다를 수 있다.",
+   "kind": "preferred"
+  }
+ ],
+ "SHW": [
+  {
+   "name": "부동산 금융부채",
+   "value": -816300000,
+   "end": "2026-06-30",
+   "filed": "2026-07-29",
+   "reason": "본사 등 매각후리스(자산 매각으로 인정되지 않는 거래)의 금융부채 — 단기 $51.4M(기타 미지급) + 장기 $764.9M(기타 부채) = $816.3M(Q2 2026 10-Q 주석 13). 차입금·리스 태그 어디에도 없어 보통주 앞 청구권으로 뺀다(Codex 2026-10-22). 공시일 = 접수(7/28 21:54 UTC는 동부 17:54 장 마감 뒤) 다음 날."
+  }
+ ],
+ "TER": [
+  {
+   "tag": "EquityMethodInvestments",
+   "reason": "Technoprobe(이탈리아 상장 프로브 카드 회사) 지분법 투자 — 2026-06-28 장부가 $515.0M, 공정가치 약 $2,458M(10-Q 지분법 투자 주석). 지분법 손익은 영업이익 밖이라 비영업 자산이다. META와 같이 장부가로 넣는다(Codex r1, 2026-10-23)."
+  }
  ]
 }

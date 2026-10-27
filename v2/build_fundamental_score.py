@@ -252,8 +252,35 @@ def annual_is_newer(fin):
 # 재고를 InventoryNet이 아닌 태그로만 내는 회사 — fetch_financials가 재고를 못 찾아 당좌비율이 유동비율과 같아졌다
 # (UNP "Materials and supplies" = MaterialsSuppliesAndOther, 98.6% → 82.2%, 점수 구간 같음 — 안건 D43, 2026-10-05).
 # 카드 종목 가운데 재고 태그가 없는 20곳의 SEC 자료를 훑어 재고성 태그가 있는 곳은 UNP뿐이었다.
-INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther"}
+INVENTORY_ALT = {"0000100885": "MaterialsSuppliesAndOther",
+                 "0001326160": "PublicUtilitiesInventory",   # DUK 유틸리티 재고(연료·자재, $4,572M) — InventoryNet은 2012에 멈춤(Fable r1 2026-10-24)
+                 "0000027904": "AirlineRelatedInventoryNet",   # DAL 항공 관련 재고(연료·부품, $2,637M) — 당좌비율 40.2% → 32.3%(Fable r1 2026-10-23)
+                 "0000277948": "MaterialsSuppliesAndOther"}   # CSX "Materials and Supplies"($406M, 2026-06-30) — 당좌비율 82.0% → 72.3%(Codex 2026-10-18)
 ROUNDED_COMMON_NI = {"0000001800"}   # ABT — 위 순이익률 주석 참고
+# D61(2026-10-26): 순이자 태그 — 비용이 음수로 실린다(EMR·FCX·GWW·HWM·LOW·MCO·TRGP·WM, fetch_financials CONCEPTS_BY_CIK 회사별 지정).
+# 손입력 순이자(PM·MO·IEX·DAL·DG·CDW·ZBRA·TMUS)는 interest_extra.json 항목의 "net": true로 가린다.
+NET_INTEREST_TAGS = {"InterestIncomeExpenseNonoperatingNet", "InterestIncomeExpenseNet"}
+
+
+def interest_coverage_item(op, iv, src_tag, manual, adj):
+    """이자보상배율 항목(영업이익 op > 0일 때). D61(2026-10-26, research/e36_d61_design.md §2): 실제로 쓴 값의 출처로
+    순이자 여부를 정하고, 비용 크기 b로 바꾼 뒤 조정 adj(비용 크기 기준, 양수 = 비용을 늘림)를 더한 최종 비용 c 하나로 판정·계산한다.
+    돌려주는 값: (항목, 경고 플래그 또는 None)."""
+    net = bool(manual.get("net")) if manual else src_tag in NET_INTEREST_TAGS
+    b = -iv if (net and not manual) else abs(iv)   # 순이자 태그는 비용이 음수로 실린다, 총이자·손입력은 절댓값
+    note = None if net or iv >= 0 else "음수 부호로 공시(절댓값)"   # DIS 10-K InterestExpense
+    c = b + adj
+    if c > 0:
+        item = {"value": op / c}
+        if net or note:
+            item["note"] = "순이자 기준" if net else note
+        return item, None
+    if c == 0:
+        return ({"value": None, "points": None, "note": "순이자 0(이자비용 미공시)"} if net
+                else {"value": None, "points": 5, "note": "이자비용 0"}), None
+    if net:
+        return {"value": None, "points": None, "note": "순이자 수익(이자비용 미공시)"}, None
+    return {"value": None, "points": None, "note": "이자비용 자료 이상(조정이 비용보다 큼)"}, "interest_adjust_exceeds_cost"
 
 
 def _finance_lease_extra(cik, end):
@@ -261,7 +288,8 @@ def _finance_lease_extra(cik, end):
     import build_multiple_history as bmh
     tt = bmh.DEBT_TOTAL_TAG.get(cik)
     flat = [x for t in ([tt] if isinstance(tt, str) else (tt or [])) for x in (t if isinstance(t, tuple) else (t,))]
-    if any("CapitalLease" in t or "FinanceLease" in t for t in flat) or cik in ("0000315189", "0000063908"):
+    # TRGP: 차입금 주석 합계에 금융리스 포함(build_dcf FL_IN_DEBT와 같은 이유, 2026-10-22). MCK·AMT·EOG도 build_dcf에는 있는데 여기는 빠져 있다 — 안건 E47.
+    if any("CapitalLease" in t or "FinanceLease" in t for t in flat) or cik in ("0000315189", "0000063908", "0001389170"):
         return 0
     def last(rows):
         ok = [e for e in rows if e["end"] <= end]
@@ -324,6 +352,18 @@ def score_items(fin, config, basis):
     elif (sd or ld) and assets and cik not in bmh.DEBT_TOTAL_TAG:
         # 총차입금 태그를 지정한 회사는 그 태그가 비면 결측으로 둔다 — VRTX는 2011년에 멈춘 LongTermDebt만 남아 있다
         items["debtDependency"] = {"value": ((latest_instant(sd) or 0) + (latest_instant(ld) or 0)) / assets * 100}
+    # DCF가 계산 보류(차입금·현금 등 큰 항목이 낡음)면 차입금의존도도 내지 않는다 — 카드는 이 줄을 '계산 보류'로 가리는데(0f610d69)
+    # 점수는 낡은 값으로 총점에 들어가 화면과 어긋났다(2026-10-26). base_inputs가 실패하는 종목은 전과 같다.
+    if "debtDependency" in items and fin.get("ticker"):
+        import build_dcf as d
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                _hold = d.base_inputs(fin["ticker"]).get("dcf_hold")
+        except Exception:
+            _hold = None
+        if _hold:
+            del items["debtDependency"]
+            flags.append("debt_dependency_dcf_hold")
 
     # 이자보상배율 — 분기 기준이면 최신 분기 영업이익·이자비용(같은 분기)
     if basis == "quarter" and q_end:
@@ -351,21 +391,25 @@ def score_items(fin, config, basis):
             _nodebt = not dv and not (sd or ld)
             items["interestCoverage"] = {"value": None, "points": None, "note": "해당 없음(차입금·이자비용 태그 없음)" if _nodebt else "이자비용 태그 없음"}
         else:
-            iv = (quarter_flow(fin, "interestExpense", op_end) if basis == "quarter" and q_end
+            use_q = basis == "quarter" and q_end
+            iv = (quarter_flow(fin, "interestExpense", op_end) if use_q
                   else value_at(_rows(fin, "interestExpense"), op_end))
+            ie = fin.get("interestExpense", {})
+            src_tag = (ie.get("latestQuarterTag") or ie.get("tag")) if use_q else ie.get("tag")
             extra = os.path.join(os.path.dirname(os.path.abspath(__file__)), "interest_extra.json")
             rows = json.load(open(extra)).get(fin.get("ticker", ""), []) if os.path.exists(extra) else []
+            manual = None
             if iv is None and basis == "quarter":
                 # 태그가 없는 분기는 손입력(v2/interest_extra.json, 10-Q 원문 표)을 쓴다 — LLY 부문 주석 $345M
-                iv = next((r["value"] for r in rows if r["end"] == op_end and "value" in r), None)
-            elif iv is not None and basis == "quarter":
+                manual = next((r for r in rows if r["end"] == op_end and "value" in r), None)
+                iv = manual["value"] if manual else None
+            if iv is not None:
                 # 회사가 금액을 밝힌 일회성 이자비용 조정은 되돌린다(v2/tax_oneoff.json이 일회성 세금에 쓰는 원칙과 같다, 분기 기준만) —
                 # WMT Q2 FY27: 미인식 세무 혜택 변동으로 이자비용 $0.5B 감소(10-Q 법인세 주석)
-                iv += sum(r["adjust"] for r in rows if r["end"] == op_end and "adjust" in r)
-            if iv == 0:
-                items["interestCoverage"] = {"value": None, "points": 5, "note": "이자비용 0"}
-            elif iv is not None:
-                items["interestCoverage"] = {"value": op / abs(iv)}
+                adj = sum(r["adjust"] for r in rows if r["end"] == op_end and "adjust" in r) if basis == "quarter" else 0
+                items["interestCoverage"], flag = interest_coverage_item(op, iv, src_tag, manual, adj)
+                if flag:
+                    flags.append(flag)
             else:   # 태그는 쓰는데 그 분기 값만 없다 — 결측(사유를 남긴다, v2.1 B-2·Fable 2026-10-05)
                 items["interestCoverage"] = {"value": None, "points": None, "note": "그 분기 이자비용 미공시"}
 
@@ -572,6 +616,8 @@ def net_cash(ticker):
     """
     import build_dcf as d
     b = d.base_inputs(ticker)
+    if b.get("dcf_hold"):   # 차입금·현금 등을 못 찾은 계산 보류면 순현금을 보이지 않는다(카드 순현금 칸은 "계산 보류", 2026-10-25)
+        return None
     # 장기 채권(MarketableSecuritiesNoncurrent, 국채·회사채)은 만기만 길 뿐 현금에 가깝다.
     # 빼면 AAPL이 순현금 $48.4B인데 순부채 −$2.44/주로 보인다(2026-09-24 사용자 결정으로 포함).
     # 지분증권은 여전히 넣지 않는다.

@@ -155,6 +155,9 @@ def main():
         if not base.get("revenue") or not base.get("shares") or not hist:
             skipped.append({"date": day, "why": "기초 입력 없음" if hist else "이력 분기 부족"})
             continue
+        if base.get("dcf_hold"):   # 그 시점 큰 재무상태표 항목을 못 찾았다 — 0으로 계산한 점을 그리지 않는다(2026-10-25, Fable r3)
+            skipped.append({"date": day, "why": "계산 보류 — " + base["dcf_hold"]})
+            continue
         try:
             # 재무가 현지 통화(TSM)면 그 시점 환율로 달러로 되돌려 그날 ADR 가격과 비교한다(v2/fx.py).
             r = fx.rate(t, day)
@@ -170,6 +173,15 @@ def main():
             "forward_price": fwd,
             "forward_return": (fwd / px - 1) if (fwd and px) else None,
         })
+    # 보류 분기를 빼기만 하면 카드 차트가 직전 점을 보류 기간 내내 이어 그린다(LITE 2023-11 값이 2024-02~08 보류 구간에 — Codex r4).
+    # 차트 코드는 그대로 두고, 마지막 보류 분기 **뒤의** 점만 남긴다(최신 분기가 보류면 블록도 보류라 추적선은 빈다 — no_dcf 카드와 같다).
+    _held = [s["date"] for s in skipped if s["why"].startswith("계산 보류")]
+    if _held:
+        _cut = max(_held)
+        _drop = [p["date"] for p in points if p["date"] < _cut]
+        points = [p for p in points if p["date"] > _cut]
+        if _drop:
+            skipped.append({"date": _cut, "why": f"계산 보류 이전 점 {len(_drop)}개 제외({_drop[0]}~{_drop[-1]})"})
     for s in skipped:
         print(f"  (건너뜀 {s['date']}: {s['why']})")
     if t in FRONT_EXCLUDE:

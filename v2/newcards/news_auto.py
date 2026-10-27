@@ -4,8 +4,8 @@
 카드 뉴스(cfg의 NEWS)는 사람이 쓴 목록이라 매일 재빌드에서 바뀌지 않아, 실적 시즌에 옛 분기 소식에 머물렀다.
 여기서는 각 카드의 마지막 손 뉴스보다 뒤에 나온 실적 발표 8-K를 찾아 v2/news_auto.json에 적는다.
 fill.py가 카드를 만들 때 이 목록을 뉴스 맨 위에 넣는다. 항목에는 날짜·제목·보도자료 링크만 있다 —
-매출·이익 숫자는 넣지 않는다(검증 없이 숫자를 카드에 올리지 않는다). 숫자는 분기 반영(v2/QUARTERLY_UPDATE.md) 때
-사람이 손 뉴스로 쓰고, 그러면 같은 발표의 자동 항목은 빠진다(fill.py의 중복 판정).
+매출·이익 숫자는 넣지 않는다(검증 없이 숫자를 카드에 올리지 않는다). AUTO 카드는 이번 분기 항목이면 fill.py가 SEC 숫자를 붙인다.
+손 카드는 분기 반영(v2/QUARTERLY_UPDATE.md) 때 사람이 손 뉴스로 쓰고, 그러면 같은 발표의 자동 항목은 빠진다(fill.py의 중복 판정) (2026-10-13 고침).
 
 배당·임원 변경 등 다른 공시는 8.01·5.02항에 여러 사건이 섞여 있어 목록만으로 무엇인지 알 수 없다 — 넣지 않는다.
 ASML·TSM(자동 카드)은 실적 보도자료 6-K를 찾는다(outside_auto.py, 2026-10-11). 은행(bank/cfg)도 넣는다(2026-10-11). SKHY(한국 공시)와 BRKB·SPCX(cfg 없음)는 이 점검 밖이다.
@@ -70,7 +70,7 @@ def hand_dates(C):
 ET = ZoneInfo("America/New_York")
 # 실적 보도자료 첫머리 — 2.02항이라도 가이던스 수정(ABBV IPR&D 2026-10-06)·인도량(TSLA 2026-10-02)처럼 실적 발표가 아닌 공시가 있다
 # 첫머리 300자(제목 부분)만 본다 — 본문의 "실적은 ○일에 발표한다"(TSLA 인도량 보도자료)에 걸리지 않게
-RESULTS = re.compile(r"\b(reports?|announces?)\b.{0,120}?\b(results|quarter|earnings)\b|earnings release|results for the (first|second|third|fourth|fiscal)", re.I)   # CB "Chubb Reports Second Quarter Per Share Net Income"(2026-10-11)
+RESULTS = re.compile(r"\b(reports?|announces?|delivers?)\b.{0,120}?(\b(results|quarter|earnings)\b|\bQ[1-4]\b.{0,40}?\b(results|revenue)\b(?!\s+(guidance|outlook)))|earnings release|results for the (first|second|third|fourth|fiscal)", re.I)   # CB "Chubb Reports Second Quarter Per Share Net Income"(2026-10-11), ADBE "Adobe Reports Record Q4 and FY2025 Revenue"(2026-10-17)
 
 
 def when(acc):

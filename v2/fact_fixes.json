@@ -1,0 +1,173 @@
+{
+ "_note": "companyfacts의 잘못된 개별 사실·기간 정보 보정(안건 E55, 2026-10-24 사용자 승인 — 설계 research/e55_fact_fixes_design.md). build_multiple_history.concept()가 그 CIK·태그 행을 꺼낼 때 사본으로 적용한다(엔진·분기 차트·동종업·연구가 같은 값을 받는다). scope=fact: 한 태그·한 단위의 한 행(accn·start·end·val 모두 일치). scope=context: 그 accn·start·end를 가진 모든 태그(expect_tags와 정확히 같아야 함). action=drop: 행을 뺀다 / set_start: start만 바꾸고 frame을 지운다(val·filed·accn·form 그대로). expect는 고친 뒤 엔진 분기 값(pick_tag → quarterly_flow) 단언 — validate_fixes()가 본다. 원문으로 확인한 것만 넣는다.",
+ "0001002047": [
+  {
+   "id": "NTAP-rev-FY22Q3-dup",
+   "scope": "fact",
+   "taxonomy": "us-gaap",
+   "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+   "unit": "USD",
+   "match": {
+    "accn": "0000950170-22-002669",
+    "start": "2021-10-31",
+    "end": "2022-01-28",
+    "val": 796000000
+   },
+   "action": "drop",
+   "expect": [
+    {
+     "series": "revenue",
+     "quarter_end": "2022-01-28",
+     "val": 1614000000
+    }
+   ],
+   "reason": "같은 10-Q(Q3 FY22)·같은 날 실린 같은 기간 중복 — 시작일이 하루 다르다(2021-10-31 대 2021-10-30). 손익계산서 매출은 $1,614M(start 2021-10-30 행, frame CY2021Q4). 엔진이 $796M을 골라 TTM 매출이 $818M 줄고 PSR 최저 0.3 같은 이상값이 자기 이력에 들어갔다(skipped_cards NTAP).",
+   "source": "https://www.sec.gov/Archives/edgar/data/1002047/000095017022002669/"
+  },
+  {
+   "id": "NTAP-shares-FY24Q3-cover-typo",
+   "scope": "fact",
+   "taxonomy": "dei",
+   "tag": "EntityCommonStockSharesOutstanding",
+   "unit": "shares",
+   "match": {
+    "accn": "0000950170-24-023115",
+    "start": null,
+    "end": "2024-02-23",
+    "val": 20637666
+   },
+   "action": "drop",
+   "expect": [],
+   "reason": "Q3 FY24 10-Q 표지 주식 수 오타 — 원문 숫자 206,376,661의 마지막 '1'이 XBRL 태그 밖에 있어 태그 값이 20,637,666주. 앞뒤 공시는 2억 600만 주대(2024-01-26 206.0M, 2024-04-26 206.0M). 그 날짜 하나로 시총이 1/10이 되어 PSR 최저 0.3·EV/EBITDA 최저 1.2 같은 이상값이 자기 이력에 들어갔다(카드 세션 2026-10-24).",
+   "source": "https://www.sec.gov/Archives/edgar/data/1002047/000095017024023115/ntap-20240126.htm"
+  }
+ ],
+ "0000202058": [
+  {
+   "id": "LHX-FY25-context",
+   "scope": "context",
+   "match": {
+    "accn": "0000202058-26-000015",
+    "start": "2025-10-04",
+    "end": "2026-01-02"
+   },
+   "action": "set_start",
+   "new_start": "2025-01-04",
+   "expect_tags": [
+    [
+     "us-gaap",
+     "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "USD",
+     21865000000
+    ],
+    [
+     "us-gaap",
+     "CostOfGoodsAndServicesSold",
+     "USD",
+     16240000000
+    ],
+    [
+     "us-gaap",
+     "OperatingIncomeLoss",
+     "USD",
+     2110000000
+    ],
+    [
+     "us-gaap",
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "USD",
+     1932000000
+    ],
+    [
+     "us-gaap",
+     "InterestIncomeExpenseNonoperatingNet",
+     "USD",
+     -597000000
+    ],
+    [
+     "us-gaap",
+     "OtherNonoperatingIncomeExpense",
+     "USD",
+     419000000
+    ]
+   ],
+   "expect": [
+    {
+     "series": "revenue",
+     "quarter_end": "2026-01-02",
+     "val": 5648000000
+    },
+    {
+     "series": "opinc",
+     "quarter_end": "2026-01-02",
+     "val": 393000000
+    }
+   ],
+   "reason": "FY2025 10-K가 연간 값(매출 $21,865M 등 6개 태그)을 4분기 기간(2025-10-04~2026-01-02, frame CY2025Q4)으로 달았다. 연간 기간 매출 행이 따로 없어 엔진이 4분기 매출을 $21,865M로 읽었다(TTM $39.1B). 연간(start 2025-01-04)으로 고치면 4분기 = 연간 − 9개월(매출 21,865 − 16,217 = 5,648). 영업이익·세전이익은 같은 값의 연간 행이 따로 있어 이미 맞았다(393).",
+   "source": "https://www.sec.gov/Archives/edgar/data/202058/000020205826000015/"
+  },
+  {
+   "id": "LHX-FY24-comparative-context",
+   "scope": "context",
+   "match": {
+    "accn": "0000202058-26-000015",
+    "start": "2024-09-28",
+    "end": "2025-01-03"
+   },
+   "action": "set_start",
+   "new_start": "2023-12-30",
+   "expect_tags": [
+    [
+     "us-gaap",
+     "RevenueFromContractWithCustomerExcludingAssessedTax",
+     "USD",
+     21325000000
+    ],
+    [
+     "us-gaap",
+     "CostOfGoodsAndServicesSold",
+     "USD",
+     15801000000
+    ],
+    [
+     "us-gaap",
+     "OperatingIncomeLoss",
+     "USD",
+     1918000000
+    ],
+    [
+     "us-gaap",
+     "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "USD",
+     1597000000
+    ],
+    [
+     "us-gaap",
+     "InterestIncomeExpenseNonoperatingNet",
+     "USD",
+     -675000000
+    ],
+    [
+     "us-gaap",
+     "OtherNonoperatingIncomeExpense",
+     "USD",
+     354000000
+    ]
+   ],
+   "expect": [
+    {
+     "series": "revenue",
+     "quarter_end": "2025-01-03",
+     "val": 5523000000
+    },
+    {
+     "series": "opinc",
+     "quarter_end": "2025-01-03",
+     "val": 569000000
+    }
+   ],
+   "reason": "같은 FY2025 10-K가 FY2024 비교 열(연간 $21,325M 등 6개 태그)도 4분기 기간(2024-09-28~2025-01-03)으로 달았다(scan_bad_facts (b)로 발견). 원래 FY2024 10-K(2025-02-14)의 바른 연간 행이 먼저 공시돼 지금 엔진 값(4분기 매출 5,523)은 맞다 — 같은 공시의 같은 오류라 함께 고친다(결과 불변).",
+   "source": "https://www.sec.gov/Archives/edgar/data/202058/000020205826000015/"
+  }
+ ]
+}

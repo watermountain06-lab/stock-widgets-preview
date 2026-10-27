@@ -1,0 +1,79 @@
+{
+ "ticker": "BSX",
+ "window": [
+  "2021-10-26",
+  "2026-10-26"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 1255,
+   "current": 18.45,
+   "min": 16.83,
+   "p10": 30.35,
+   "median": 68.15,
+   "p90": 100.34,
+   "max": 119.78,
+   "mean": 67.28,
+   "percentile": 3.3,
+   "score": 96.7
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 3.15,
+   "min": 2.87,
+   "p10": 4.23,
+   "median": 5.78,
+   "p90": 8.53,
+   "max": 9.84,
+   "mean": 6.2,
+   "percentile": 3.1,
+   "score": 96.9
+  },
+  "PBR": {
+   "days": 1255,
+   "current": 2.65,
+   "min": 2.42,
+   "p10": 3.18,
+   "median": 4.26,
+   "p90": 6.82,
+   "max": 7.56,
+   "mean": 4.7,
+   "percentile": 4.9,
+   "score": 95.1
+  },
+  "PCR": {
+   "days": 1255,
+   "current": 18.22,
+   "min": 16.62,
+   "p10": 24.53,
+   "median": 52.6,
+   "p90": 96.42,
+   "max": 125.17,
+   "mean": 55.57,
+   "percentile": 2.5,
+   "score": 97.5
+  },
+  "EV/EBITDA": {
+   "days": 1248,
+   "current": 14.18,
+   "min": 13.14,
+   "p10": 19.39,
+   "median": 29.95,
+   "p90": 38.93,
+   "max": 44.18,
+   "mean": 29.9,
+   "percentile": 2.5,
+   "score": 97.5
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 19.03,
+  "per_p75": 49.05,
+  "low": 50,
+  "high": 120,
+  "asOf": "2026-10-26",
+  "basis": "diluted"
+ }
+}

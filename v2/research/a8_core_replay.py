@@ -294,7 +294,7 @@ def rows_for(panel, per, var):
 
 
 def analyze(panel, per):
-    bad = lambda r: any(str(x).startswith(("debt_suspect", "shares_missing")) for x in r["dq"])
+    bad = lambda r: any(str(x).startswith(("debt_suspect", "shares_missing", "dcf_hold")) for x in r["dq"])   # dcf_hold: verdict_replay와 같게(2026-10-25)
     res = {"meta": json.load(open(OUT_PER))["meta"] if os.path.exists(OUT_PER) else None}
     # 패널 대조: A의 PER 자기 점수가 패널과 다른 행
     diff = sum(1 for r in panel["rows"] if (per.get(r["t"], {}).get(r["d"], {}).get("A") or {}).get("self") != r["self"].get("PER")

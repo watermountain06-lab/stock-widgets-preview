@@ -1,0 +1,130 @@
+# 시가총액 주식 수·보통주 자본 설계 r7 (안건 ① 다 — E44·E35·D28·D46, B7 잔여)
+
+## 0. 배경과 결정
+- 안건: E44(PBR 분모에 우선주 포함, ALL), E35(내가격 전환 증권 희석이 시가총액에 없음, LITE), B7 잔여(MRVL 워런트 등), D28(BLK 교환 단위), D46(Up-C BX — 배수 시가총액에 교환 단위 없음).
+- 사전 등록: 비은행 PBR 정의·시가총액 주식 수를 검정하는 봉인 사전 등록은 없다. 은행 경로(`bank_rim_prereg.md` 1-1)는 이미 보통주 자본 = StockholdersEquity − 우선주. 12-01 판정 패널은 엔진 PBR·시가총액을 그대로 쓰므로 이 설계는 **연구 경로를 바꾸지 않는다**(§5).
+- 사용자 결정(2026-10-25, r1 검토 뒤):
+  - **(가) 범위**: 우선주(E44)는 엔진 규칙, 전환·교환 증권은 **카드별 손입력 표**. r1의 "희석 EPS 전환 증분 태그로 자동 판정"은 버린다 — 증분은 주가가 아니라 그 분기 EPS 희석 여부로 정해져 적자·반희석 분기마다 0으로 바뀌고(HPE 76M/0/80M/0/76M), 지난 분기 평균값이라 표지와 날짜가 어긋나며 전환 때 이중 계산된다(Codex·Fable r1).
+  - **D13**: 원래 결정 기록 미확인 — 지금 엔진 동작 유지(표지 주식 수, 희석 가중평균과 0.5~2배 밖이면 희석). 워런트·옵션·RSU·성과 주식 희석은 시가총액·DCF에 넣지 않는다(PER은 희석 EPS). MRVL 워런트도 같음. D13은 열어 둔다.
+- 영향 조사(2026-10-25, SEC 캐시 읽기 전용, 카드 241장): E44 일반 배수 경로 비전환 우선주 ÷ 자본 > 5% — BNY 10.6%(`PreferredStockValue` 4,754M)·USB 10.1%(`…NetOfDiscount` 6,808M)·ALL 5.9%(`…IncludingAdditionalPaidInCapital` 2,001M)(은행 경로 GS·C·WFC·JPM·SCHW는 해당 없음). **ORCL 7.4%는 E44가 아니라 표 대상** — 6.50% **Series D** 의무전환 우선주(2026-02-05 마감, 8-K 0001193125-26-039344·424B5 0001193125-26-037818, 예탁주 1/2,000, 청산 $100,000/주 5만 주, 2029-01-15 전환, 비율 499.8126~624.7657주, Initial Price $160.06·Threshold Appreciation Price $200.07, 자본 안 `PreferredStockValue` $4,954M — 발행 비용 차감, 희석 EPS에서 지금까지 반희석, r7 원문 확인). GOOGL은 2026-06-30 `ConvertiblePreferredStockNonredeemableOrRedeemableIssuerOptionValue` $18,023M(자본의 2.8%) — r7 원문 확인으로 **표 대상**(`conv_pref_mandatory` 두 항목): 6.25% Series A(Class A로 전환)·Series B(Class C로 전환) 각 9,625,000주, 청산 $1,000/주, 예탁주 1/20, 2026-06-05 마감(8-K 0001193125-26-259830), 2029-05-15 의무 전환, Series A 비율 2.2520~2.8160·Initial $355.1136·Threshold $444.0497, Series B 2.2740~2.8420·$351.8649·$439.7537, 보유자 조기 전환(최소 비율)·회사 상환 없음, 자본 안. 장부가 $18,023M = 총액 $19.25B − 발행 비용 − capped call 프리미엄 $1.0B. 희석 EPS에 if-converted로 들어감(2분기 16M주). **MCHP**는 7.5% 의무전환 우선주, 청산가 $1,485M(2026-06-30, 자본 $6,451M의 23%) — ORCL·HPE와 같은 유형이라 표 대상(Fable r3). 전환·교환 후보 — LITE(전환사채·Series A 참여 전환우선주 — $2.0B는 StockholdersEquity 안, 임시자본 0, 캐시 확인)·HPE·ORCL·MCHP·GOOGL(의무전환)·BE(전환사채)·BX(Up-C)·BLK(Subco 교환 단위 — **HPS 거래만**, 2025-07-01 마감 약 8.5M → 2026-07-31 7,606,927, 1대1 교환. GIP 대가는 Subco 단위가 아니라 보통주 4.0M~5.2M주 조건부 대가(부채)라 표 대상 아님. Subco 장부가는 **지배주주 자본 밖** — 2026-06-30 임시자본 "Redeemable NCI - BlackRock Saturn Subco" $2,828M(BlackRock 주주 자본 57,613과 별도), 2026-07-01 현금 정산 조항 만료로 3분기부터 영구 비지배지분. HPS 조건부 2.8M~4.4M 단위는 6월까지 부채, 3분기에 2.8M을 자본으로 옮긴다고 예고 — 10-Q 0001193125-26-337177, r7 원문 확인)·SPG(UPREIT 유닛, 지금 SHARES_ADD).
+
+## 1. 원칙
+어떤 증권을 보통주로 볼 때는 시가총액 주식 수에 더하고, 같은 증권을 EV 청구권·DCF 차감·자본 차감에서 뺀다. 보통주로 보지 않으면 주식 수에 넣지 않고 청구권으로 남긴다. **한 증권은 한쪽으로만** 센다. 카드별 표는 이 연결을 증권마다 **명시적으로** 적는다(추론하지 않음).
+
+## 2. 우선주 규칙(E44) — 엔진 규칙, 카드·비교군 공통
+### 2.1 보통주 자본 CE(d)
+- 출발값: 지배주주 자본 `StockholdersEquity`(차원 없음). 엔진 equity 시리즈가 그 날짜에 비지배지분 포함 총계(`…IncludingPortionAttributableToNoncontrollingInterest`)로 대체됐으면, 같은 결산일 `MinorityInterest`를 빼서 지배주주 자본으로 되돌린다. 같은 결산일 비지배지분 값이 없으면 그 날짜 PBR은 None.
+- CE = 지배주주 자본 − P(d) [+ 카드별 표의 `ce_add`, §3]. P(d) = **자본 안에 있는 비전환(또는 카드별 표에서 보통주로 보지 않은) 우선주의 장부가**.
+- P의 태그: 이 규칙 전용 우선순위 목록 `CE_PREF_TAGS` = [`PreferredStockValue`, `PreferredStockIncludingAdditionalPaidInCapital`, `PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount`, `PreferredStockValueOutstanding`, `ConvertiblePreferredStockNonredeemableOrRedeemableIssuerOptionValue`, `PreferredStockLiquidationPreferenceValue`(경고)] — 그 결산일에 **값이 0보다 큰 첫 태그 하나**(합산하지 않음). 액면만 태깅하고 실제 금액은 추가납입자본에 둔 회사(MCHP·LITE — 장부 태그 0)는 0인 태그를 건너뛰어 다음 태그(청산가 등)를 쓴다. 0보다 큰 태그가 그 결산일에 없으면 §2.2. 임시자본(mezzanine, `TemporaryEquity…`)은 StockholdersEquity 밖이라 넣지 않는다 — 카드별 표 증권이 임시자본이면 그 항목의 `ce_add`로 따로 다룬다(§3). EV의 회사별 우선주 덮어쓰기(HPE·EQIX `preferred: []`, ALL·MCHP 태그 지정)는 **EV 전용**이고 CE는 따르지 않는다 — 대신 회사별 `CE_PREF_OVERRIDE`(빈 목록 = 우선주 없음, 태그 지정)를 따로 둔다(EQIX는 []).
+- 카드별 표(§3)에서 보통주로 본 우선주(HPE·ORCL 의무전환, LITE Series A)는 P에서 뺀다. 빼는 금액 = 그 날짜 P에 **실제로 실린 그 증권의 금액**(`pref_in_p` — 항목에 적음, P가 그 증권을 담지 않으면 0. HPE는 `PreferredStockValue`가 2021년 옛 우선주라 0). 결과는 min(P, …)으로 0 아래로 가지 않게 하고, 차감 뒤 P가 음수가 될 입력이면 경고. 전환 주식을 S에 더하는 것과 CE에서 그 우선주를 빼지 않는 것이 짝이다.
+### 2.2 P(d)가 그 결산일에 없을 때(0보다 큰 태그가 없을 때)
+- `filed ≤ d`인 사실만 본다. 그 결산일 e에 0보다 큰 CE_PREF_TAGS 값이 있으면 그 값(§2.1).
+- 없으면(태그가 없거나 모두 0): **상환 증거**가 있을 때만 P = 0 — 상환 증거는 그 결산일 `PreferredStockSharesOutstanding`(또는 `…SharesIssued`) = 0, 또는 회사별 `pref_redeemed`(상환일·출처 손입력), 또는 카드별 표(§3) 우선주 항목의 `redeemed`·`redeemed_filed`(같은 사건을 두 곳에 적지 않게 — 표에 있으면 그것으로 상환 증거를 인정). 단 표 항목의 상환은 **그 증권 몫만** 끝낸다 — 이어 쓰는 옛 P에서 그 항목의 마지막 `pref_in_p`를 빼고(0 아래로 안 감), 회사 전체 P = 0은 위 주식 수 0·`pref_redeemed`처럼 회사 전체 우선주가 없어졌다는 증거가 있거나 이어 쓰는 P가 모두 상환된 표 항목 몫일 때만. 액면 0 태그는 상환 증거가 아니다(MET·BMY처럼 액면 0을 분기마다 태깅하고 청산가는 일부 공시에만 넣는 회사).
+- 상환 증거가 없으면 e 이전 마지막 0보다 큰 P(결산일 e′)를 이어 쓴다 — e − e′ ≤ 400일이면 그 값 + 경고, 넘으면 그 날짜 PBR은 None(기권). e 이전에 0보다 큰 P가 한 번도 없으면 0. **단 e′ 뒤 e 이전에 상환 증거가 확인된 결산일이 있으면** — 회사 전체 상환 증거(주식 수 0·`pref_redeemed`)면 이어 쓰지 않고 0, 표 항목의 개별 상환이면 이어 쓰는 P에서 그 증권의 마지막 `pref_in_p`만 뺀다(새 0보다 큰 태그가 나오기 전까지 — 상환 뒤 옛 값이 되살아나지 않게). 우선주 주식 수가 직전보다 줄었는데 금액 태그가 없으면(부분 상환 — MET 2025-09) 경고.
+- 연간에만 태깅하는 회사(ES·AES)도 이 규칙으로 흔들리지 않는다.
+
+### 2.3 PBR
+PBR(d) = mcap(d) ÷ CE(d). CE ≤ 0의 처리는 **지금 엔진 그대로**(람다는 0이 아닌지만 보고, 오늘 값의 음수 자본 표시는 C11 `pbr_na`) — 음수 자본 PBR 이력 처리는 안건 D63에서 따로. 우선주를 빼서 새로 CE ≤ 0이 되는 날짜도 같은 처리를 받는다(그런 카드는 전후 비교표에 따로).
+### 2.4 범위
+- 카드 모드의 모든 PBR(현재·자기 이력 5년·동종업)과 비교군 파일 재생성(같은 함수). 비교군 파일을 다시 만들 때 S&P500 전 종목 PBR이 보통주 기준이 된다 — 재생성 뒤 `check_peer_drift`로 어긋난 카드를 다시 계산(지금 절차).
+- 은행 경로는 따로(바뀌지 않음). 기본적 분석 점수(부채비율 등)는 지금 자본 그대로.
+
+## 3. 카드별 표 — 전환·교환 증권(E35·D28·D46, B7 잔여)
+### 3.1 파일 `v2/share_claims.json`
+종목마다 증권 목록. 항목 칸:
+- 공통 칸: `id`, `kind` ∈ {`exchange_units`, `econ_shares`, `conv_debt_net`, `conv_debt_full`, `conv_pref_fixed`, `conv_pref_mandatory`}, `rows`(주식 수 쪽 시점별 값: [{end, filed, `wa_shares`, 주식 수·조건 칸}]), `paired`(재무상태표 짝 금액: [{end, filed, `ce_add`·`nci_remove`·`pref_in_p`·`pref_ev`·`dcf_pref`·`principal_in_debt` 중 그 kind의 칸}] — `rows`와 결산일 집합이 달라도 된다, §3.3), `carry_paired`(계약상 고정 금액이라 이어 써도 되면 true + 근거), 기간 칸 `start`·`end_shares`·`end_claims`·`redeemed`·`redeemed_filed`·`converted`(아래), `backfill_first`(§3.3), `source`(공시 원문 링크), `note`.
+- kind별 칸(주식 수·조건은 `rows`에, 금액 짝 칸은 `paired`에): `econ_shares` — 경제적 전체 주식 수·`nci_remove`·`ce_add` / `exchange_units` — 발행 단위 수·`nci_remove`·`ce_add` / `conv_debt_net` — 원금·K / `conv_debt_full` — 원금·K·`principal_in_debt` / `conv_pref_fixed` — 전환 주식 수·`pref_ev`·`dcf_pref`·`pref_in_p`·`ce_add` / `conv_pref_mandatory` — 우선주 수(우선주 기준, 예탁주 아님)·`liq_per_share`(우선주 1주의 청산가 — ORCL $100,000, GOOGL $1,000; 장부가를 쓰지 않음)·최소·최대 비율·Initial·Threshold 가격·`pref_ev`·`dcf_pref`·`pref_in_p`. 칸이 없으면 불러오기 오류(0이면 0을 적는다).
+- `kind`별 값과 연결(명시):
+| kind | 주식 수 S에 더하는 값 | EV 청구권에서 제거할 금액 | DCF 주주가치 차감에서 제거할 금액 | CE |
+|---|---|---|---|---|
+| `econ_shares`(BX) | 표지를 `rows`의 경제적 전체 주식 수로 **대체** | `nci_remove`(그 단위의 EV 비지배지분 금액 — BX는 지금 EV에 비지배지분이 0이라 0) | 같음 | `ce_add`(그 단위의 장부가, BX `MinorityInterestInOperatingPartnerships` 같은 결산일) |
+| `exchange_units`(BLK·SPG) | `rows`의 **발행된** 단위 수 — 결산일 수(BLK 2026-06-30: 7,606,927 — 2분기 희석 가중평균과 2026-07-31 표지 단위 수가 같아 분기 중 불변 확인, 백만 단위 "162.6M − 155.0M"과도 맞음; `wa_shares`는 희석 표의 가중평균 값으로 따로 적는다). BLK 조건부 단위(10-Q의 contingent consideration — 이 문서 용어 "조건부 단위")는 넣지 않음 — 6월까지 부채, 3분기에 자본으로 옮겨지는 2.8M의 처리는 3분기 10-Q 확인 뒤 정함·그전까지 미확인. 바탕 주식 수는 엔진의 보통주 수(BLK는 us-gaap `CommonStockSharesOutstanding` 결산일 값 — 154,996,807, 2026-06-30)이고, 차원 붙은 표지 `FullyDilutedSharesMember`(162,476,186 = 154,869,259 + 7,606,927)를 바탕으로 쓰면 단위를 두 번 더하므로 쓰지 않는다(시험: 바탕 + 단위 = 회사 공시 "including Subco Units" 값) | `nci_remove` = 그 날짜 엔진 EV 비지배지분 시리즈에 **실제로 든** 그 단위 몫(SPG는 이미 EV 덮어쓰기로 유닛분을 뺐으므로 0; BLK는 엔진 nci 태그가 `MinorityInterest`뿐이라 임시자본이던 2026-06-30까지 0, 3분기부터는 10-Q 태그로 확인) | 같음 | `ce_add` = 같은 결산일 **S에 넣은 발행 단위**의 장부가만(BLK Subco — 지배주주 자본 밖: 2026-06-30 임시자본 $2,828M, 3분기부터 영구 비지배지분. 3분기 재분류 뒤에는 조건부 단위 몫·CIPs 비지배지분과 나눠 적고, 나눌 수 없으면 그 행은 미확정 — 아래 §3.3 새 행 규칙으로 계산 보류 / SPG 유닛 $758M). 검산: BLK ($57,613M + $2,828M) ÷ (154,996,807 + 7,606,927주) ≈ $371.70 = 회사 공시 BVPS $371.70 |
+| `conv_debt_net`(원금 현금·초과분 주식) | max(0, N × (1 − K ÷ 가격d)), N = 원금 ÷ K | 없음(원금은 차입금에 남음) | 없음 | 0 |
+| `conv_debt_full`(전부 주식) | 가격d ≥ K면 N, 아니면 0 | 가격d ≥ K면 `principal_in_debt`(엔진 차입금 시리즈에 그 사채가 들어간 금액 — 10-Q 장부가, 같은 결산일) | 같음 | 가격d ≥ K면 `principal_in_debt` 더함(전환되면 자본) |
+| `conv_pref_fixed`(LITE Series A 참여 전환우선주) | `rows`의 전환 주식 수 | `pref_ev`(EV 우선주에 그 우선주가 들어간 금액, 없으면 0) | `dcf_pref`(DCF 우선주·`nonop_extra`에서 빼던 금액) | P에서 `pref_in_p` 제외. 임시자본이면 `ce_add` = 장부가. LITE는 **자본 안**(10-K 2026-06-27 `TemporaryEquityCarryingAmountAttributableToParent` 0 — 임시자본에 없음, `TemporaryEquitySharesOutstanding` 2.9M은 우선주 주식 수를 그 태그로 단 것으로 보임; 자본 안 어느 줄인지는 주석 원문 미확인) → `ce_add` 0. `pref_in_p`는 §2 적용 결과에서 정한다 — LITE는 CE_PREF_TAGS가 모두 0이거나 없어(`PreferredStockValue` 0, 나머지 태그 없음) §2.2 "0보다 큰 P가 한 번도 없음 → 0"이라 P에 그 우선주가 없으므로 0 |
+| `conv_pref_mandatory`(HPE·ORCL·MCHP·GOOGL A·GOOGL B) | 가격d에 따른 회사 공시 전환 비율 × 우선주 수(최소·최대 비율과 Initial·Threshold 가격을 `rows`에; 가격d > Threshold면 최소 비율, Initial ≤ 가격d ≤ Threshold면 `liq_per_share` ÷ 가격d, 가격d < Initial이면 최대 비율) — 실제 비율은 전환일 직전 20거래일 VWAP 평균(GOOGL·ORCL 지정 증서 확인, 다른 증권은 그 증서로 확인)이라 가격d 스냅샷은 근사(한계). 예탁주 구조(ORCL 1/2,000·GOOGL 1/20)는 우선주 수를 **우선주 기준**으로 적어 따로 곱하지 않는다. 가격d는 **카드 종목 종가**(시가총액과 같은 가격)다. GOOGL은 전환 대상이 시리즈마다 다르지만(A → Class A, B → Class C) 엔진 시가총액이 전 클래스 주식 수(us-gaap 결산일 합계) × GOOGL(Class A) 종가이고 Class C 가격 시리즈가 엔진에 없으므로, 두 시리즈 모두 GOOGL 종가로 비율을 구하고 더하는 주식 수는 합친다(한계 §7 — 두 가격이 같은 고정 비율 구간(Initial 아래 또는 Threshold 위)에 있으면 차이가 없고, 중간 구간에 있거나 경계를 걸치면 차이가 난다; Series B가 중간 구간이고 A/C 가격차가 약 1%면 약 0.27M주). 여러 항목이 한 회사 금액을 나눠 가지면 Σ`pref_in_p`·Σ`pref_ev`·Σ`dcf_pref`가 각각 그 경로에 실린 **그 증권들의** 금액과 같아야 한다(불러오기 검사 — 표 밖 비전환 우선주가 함께 있으면 회사 전체 금액과 다르다) | `pref_ev` | `dcf_pref`(HPE `nonop_extra` preferred $1.5B, ORCL·GOOGL은 엔진 우선주 차감분) | P에서 `pref_in_p` 제외(ORCL `PreferredStockValue` $4,954M, GOOGL $18,023M — 시리즈 두 항목이 같은 태그 값을 나눠 가지므로 항목마다 그 시리즈 장부가, 회사가 나눠 밝히지 않으면 청산가 비율로 반씩) |
+- K(전환가)·원금·주식 수는 공시 원문 값. 가격d는 그날 종가(배수 이력은 그날, DCF는 카드 기준일). `conv_debt_full`은 가격이 K를 넘는 날 S·EV·CE가 함께 계단처럼 바뀐다(의도 — 전환 가정이 바뀌는 점).
+- 표에 없는 증권은 지금처럼 다룬다(표지 주식 수, EV 청구권 그대로, 우선주면 §2로 CE 차감 — r6까지 기본 처리였던 GOOGL 전환우선주는 r7에서 표 대상). 비교군 파일은 이 표를 쓰지 않는다(비교 종목은 표지 기준 — 한계, §7).
+- 모든 행에 `wa_shares`(그 분기 희석 가중평균에 이 증권 몫으로 들어간 주식 수, 분기마다 다를 수 있음)를 적는다(§3.2 대체 날짜용). 전환 전 분기는 10-Q 주당이익 주석의 그 증권 희석 몫(안 들어갔으면 0). 전환이 분기 중간인 분기는 그 희석 몫 + 전환 주식 × (전환일부터 분기 말까지 일수 ÷ 분기 일수)(전환 뒤 보통주로 가중평균에 든 몫 — `converted`로 계산). 분기 시작일 ≥ `converted`인 분기는 0(그 항목은 §3.3에 따라 더하지도 빼지도 않음). 일수는 **전환일을 포함해** 센다 — (분기 말 − `converted` + 1) ÷ (분기 말 − 분기 시작 + 1). 전환 주식은 전환일부터 발행 주식으로 가중한다는 ASC 260 관례와 같다(분기 91일, 마지막 날 전환 → 1/91). 회사 주석 값은 그 값이 무엇을 담는지에 따라 쓴다 — 전환 전 희석 증분만이면 그 값을 "희석 몫" 자리에 넣고 전환 뒤 보통주 가중분은 위 식으로 더하며, 전환 뒤 가중분까지 포함한 전체 몫이면 그 값으로 전체를 대신한다(어느 쪽인지 `note`에 적음). 전환일 하루는 한쪽에만 센다(희석 몫이 전환일까지 가중됐으면 보통주 몫은 다음 날부터). 2026년 2분기 예: BLK Subco `wa_shares` 7,606,927(if-converted), ORCL 0(반희석 — 분기마다 주석으로 다시 확인, EPS가 오르면 희석으로 뒤집힐 수 있음), GOOGL 16M(두 시리즈 합 — 주석의 Class A 8M·Class C 8M).
+- 기간 칸: `start`(발행 공시일), `end_shares`(주식 수 더하기를 끝내는 날 — 전환이면 전환 주식을 처음 담은 표지 관측의 end), `end_claims`(EV·DCF·CE 연결을 끝내는 날 — 전환이면 그 청구권이 사라진 첫 재무상태표 결산일), `redeemed`(현금 상환이면 상환일과 그 사실의 공시일 `redeemed_filed` — **상환이 끝났다고 알린 공시**(완료 8-K, 또는 상환 뒤 10-Q·10-K의 해당 문장)만. 상환 예고(call notice) 공시는 아니다 — 예고 뒤 취소·연기가 있을 수 있다), `converted`(전환으로 끝나면 실제 전환일 — 희석 가중평균 대체 날짜의 종료 판정용, §3.3). r3의 `from`·`until`·`until_cover`를 대신한다.
+### 3.2 기존 상수와의 관계
+- 카드 모드: `ECON_SHARES`(BX)·`SHARES_ADD`(LITE·SPG)를 이 표로 옮긴다(같은 숫자). 카드 모드에서는 표만 쓰고 상수는 읽지 않는다(이중 금지 — 같은 종목이 상수와 표에 둘 다 있고 카드 모드면 불러오기 오류가 아니라 **상수를 무시**, 상수는 연구 모드 전용으로 남김).
+- 연구 모드: 상수를 지금처럼 DCF에만(§5).
+- `share_adjust.json`(TSLA·LLY 빼기)은 그대로, 표지 주식 수에서 먼저 빼고 그 뒤 표를 적용. 엔진이 표지 대신 희석 가중평균을 쓰는 날짜(배수 시리즈는 표지와 20배 넘게 다르면 대체·2~20배는 표시만, DCF는 0.5~2배 밖이면 대체 — 각 경로가 자기 규칙으로)에는: S = 희석 가중평균 − Σ(그 분기 각 항목의 `wa_shares`) + Σ(날짜 d의 각 항목 주식 수). 가중평균에 들어간 몫(지난 분기 평균값)을 빼고 날짜 d의 값으로 바꾼다. EV·DCF·CE 연결은 모든 항목에 그대로 적용한다. **`econ_shares`는 대체 날짜에도 S를 그 값으로 대체한다**(희석 가중 대체보다 우선, 다른 항목의 더하기는 그 위에 하지 않음 — BX는 경제적 전체 수가 이미 모든 참여 지분을 담음). SPG(늘 대체, 유닛 `wa_shares` 0)는 유닛이 계속 더해진다(지금 엔진과 같은 결과).
+### 3.3 시점·이력
+- 각 항목은 결산일 `end` 행마다 `filed`를 두고, 날짜 d에는 `filed ≤ d`인 가장 최근 행을 쓴다. 이것은 **주식 수 쪽 `rows`**의 규칙이다(`backfill_first`도 여기에만 쓴다).
+- **짝 금액 `paired`**는 날짜 d에 엔진이 쓰는 관측의 결산일로 찾는다 — `ce_add`·`pref_in_p`는 그날 자본(equity) 관측의 결산일, `nci_remove`·`pref_ev`·`principal_in_debt`는 그날 해당 EV 구성요소 시리즈(비지배지분·우선주·차입금) 관측의 결산일, `dcf_pref`는 DCF가 쓰는 그 금액(예: `nonop_extra` 항목)의 결산일. 그 결산일과 `end`가 같고 `filed ≤ d`인 행을 쓴다(표 행이 엔진 관측보다 앞서도 뒤서도 쓰지 않음 — BX는 경제적 주식 수가 실적 발표일에, 자본은 10-Q에 나와 약 2주 어긋난다). 짝 시리즈가 엔진에 없거나 덮어쓰기로 비었으면(HPE `nci: []`·`preferred: []`) 그 칸은 0이어야 하고 날짜 검사는 하지 않는다. 같은 결산일 행이 없으면: `carry_paired: true`(계약상 고정 금액 — ORCL $4,954M·GOOGL 전환 전 $18,023M·LITE 0, 근거 note)면 그 결산일 이전 마지막 행, 아니면 **그 종목 카드만 보류 + dq 표시**(빌드 전체는 멈추지 않음). BX `ce_add`(`MinorityInterestInOperatingPartnerships`)·SPG·BLK처럼 분기마다 바뀌는 금액은 엔진 관측 결산일마다 `paired` 행을 XBRL·10-Q에서 채운다 — BX 2024-09-30 이전은 주식 수만 backfill이고 `ce_add`는 그 결산일 실제 값(2022-03-31 6,792M·2023-03-31 4,920M 등).
+- **전환으로 끝날 때** 종료는 둘로 나눈다. 주식 수: 날짜 d에 엔진이 쓰는 **표지 관측**의 end ≥ `end_shares`면 그 항목 주식 수 0(표지가 이미 담음). 청구권 연결(EV·DCF·CE): 날짜 d에 쓰는 **재무상태표 관측**(차입금·우선주·자본 시리즈)의 end ≥ `end_claims`면 끝. 엔진 주식 시리즈는 us-gaap 결산일 관측과 dei 표지 관측을 섞어 쓰므로(같은 공시에서는 dei가 뒤에 와서 이김), 분기말과 표지일 사이에 전환되면 표지가 먼저 새 주식을 담고 재무상태표는 다음 결산일에 바뀐다 — 그 사이에는 주식은 표지에서, 청구권은 표에서 빼 둘 다 한 번씩만 센다.
+- **희석 가중평균 대체 날짜**(§3.2)에는 표지를 쓰지 않으므로 주식 수 종료를 표지로 판정하지 않는다: 엔진이 쓰는 WA 분기의 시작일 ≥ `converted`면 그 항목 주식 수 0(그 분기 WA가 전환 주식을 보통주로 온전히 담음). 그 전 분기(전환이 분기 중간)에는 그 분기 `wa_shares`에 전환 전 희석 몫과 전환 뒤 보통주 몫(가중)을 모두 넣고, 날짜 d 값은 전환 주식 전체를 더한다(WA 110·몫 10·전환 20 → 120).
+- **현금 상환으로 끝날 때**: `redeemed_filed ≤ d`이면 주식 수 더하기와 청구권 연결을 **함께 같은 날** 끝낸다. 옛 재무상태표의 현금은 아직 상환 전이라 청구권(우선주·사채)이 다시 EV·DCF에 들어가야 옛 현금과 맞물린다(EV = 시가총액 + 차입금 − 현금 + 우선주 — 상환 뒤 실제 값과 같음).
+- 자기 이력 5년 창 안에 그 증권이 이미 있었으면(교환 단위는 대개 상장 때부터) `rows`가 창 시작까지 있어야 한다 — 없으면 불러오기 오류. 첫 행 이전을 첫 값으로 채우는 것은 `backfill_first: true`와 근거(note)가 있을 때만(BX 2024-09-30 이전 — 회사가 같은 지표를 그 전에도 공시했는지 확인 뒤, 아니면 10-K 단위 수로 채움).
+- 새로 발행된 증권(LITE Series A 2026-03-02)은 그 날짜 전에는 없음.
+### 3.4 발견(새 카드)
+preflight에서 희석 EPS 주석의 전환 증분 태그(`IncrementalCommonSharesAttributableToConversionOf…`) 최근 4분기 중 하나라도 표지의 0.5% 이상이거나, `MinorityInterestInOperatingPartnerships`·교환 단위 관련 태그가 있으면 **경고**한다(값으로 쓰지 않음 — 사람이 10-Q를 읽고 표에 넣을지 정하게).
+
+## 4. 바뀌지 않는 것
+일반 PER(가격 ÷ 희석 EPS)은 S를 쓰지 않으므로 바뀌지 않는다. 본업 PER(core 10종목, 시가총액 ÷ 본업 이익)은 S를 쓰므로 표 대상이 core 종목이면 바뀐다(지금 core 종목 중 표 후보 없음 — 생기면 전후 비교에). PSR·PCR·EV/EBITDA는 분모 그대로, 분자(시가총액·EV)만 §3대로. 기본적 분석 점수·은행 경로는 그대로.
+
+## 5. 연구 경로
+`bmh.ASOF_REF`가 있으면: §2의 CE(우선주 차감·NCI 되돌림)를 쓰지 않고 지금 equity 그대로, §3의 표를 읽지 않는다. 지금 상수(ECON_SHARES·SHARES_ADD)는 지금처럼 DCF에만. 결과적으로 연구 재현 숫자는 지금과 같다(시험으로 확인). 연구의 동종업은 비교군 파일을 읽지 않고 평가일마다 S&P500 같은 섹터를 엔진으로 직접 계산하므로(`verdict_replay.py` peer_scores) §2.4의 비교군 파일 재생성은 연구에 닿지 않는다. 12-01 패널 사전 등록 변경 기록에 "카드는 보통주 자본 PBR·카드별 증권 표 적용, 연구는 옛 정의" + 영향 카드 목록을 적는다.
+
+## 6. 엔진 자리·제약
+- 배수: `build_multiple_history` equity 시리즈·PBR 람다(2596)·mcap(2603)·ev(2608). 우선주·NCI 시리즈는 EV용 시리즈와 별도로(덮어쓰기 공유 금지).
+- DCF: `build_dcf` 주식 수(440~486 — 표지·share_adjust·희석 대체 뒤에 표), 우선주·`nonop_extra` 차감(395~412), 순부채의 전환사채 원금(`conv_debt_full`) — **순부채 줄은 엔진 세션 금지 영역**이라 구현은 엔진 세션 수정이 끝난 뒤.
+- 공용 파일 커밋 전 diff 확인, 해시 전달.
+
+## 7. 한계
+- 비교군 종목의 전환·교환 증권은 반영되지 않는다(표지 기준). 대상 카드의 동종업 비교는 "카드는 보통주 기준 + 표, 비교 종목은 우선주만 보통주 기준". 방향은 배수마다 다르다 — 분모가 고정인 PSR·PCR은 시가총액이 커져 비싸 보이는 쪽, PBR·EV/EBITDA는 표가 CE를 늘리거나 EV 청구권을 빼면 반대로 갈 수 있다(전후 비교표의 숫자로만 말함).
+- GOOGL capped call(cap 가격 Class A $532.6704·Class C $527.7974 — 공모가의 150%, 회사 공시상 최소 비율 주식 수 기준)은 표에 넣지 않는다 — S는 capped call 효과를 반영하지 않은 총전환 주식 수이고, 순희석과의 차이는 행사·정산 조건 확인 전이라 산정하지 않는다.
+- GOOGL 의무전환 비율은 두 시리즈 모두 GOOGL(Class A) 종가로 구한다(위 §3.1 — Class C 가격 시리즈가 엔진에 없음).
+- BLK Subco 조건부 단위(3분기에 2.8M을 자본으로 옮긴다고 예고)는 3분기 10-Q가 나오기 전까지 처리를 정하지 않는다 — 구현 때 그 10-Q로 `ce_add`·`nci_remove`·단위 수를 확인.
+- BLK EV에도 상환가능 비지배지분 − CIPs $3,872M(임시자본)이 지금 없다(엔진 nci는 `MinorityInterest` $227M = 영구 비지배지분 CIPs뿐) — BX와 같은 기존 공백, 이 설계 범위 밖. 3분기 뒤 BLK가 영구 비지배지분 합계(CIPs + Subco)를 `MinorityInterest`로 내면 엔진 nci에 Subco 금액이 들어오고(6월 장부가 $2,828M 기준이면 그 정도 — 3분기 금액은 미확인), 그때 `nci_remove` = 엔진 nci에 실제 포함된 금액 중 **S에 넣은 발행 단위에 대응하는 몫**(조건부 단위·CIPs 몫 제외).
+- BX EV에는 연결 펀드 비지배지분($7.1B)·상환가능 비지배지분($1.37B, 임시자본)이 지금도 없다(엔진 비지배지분 태그 `MinorityInterest`를 BX가 안 씀) — 이 설계 범위 밖의 기존 공백으로 기록. econ_shares에는 미가득 참여분이 들어가 CE에 대응 자본이 없어 PBR이 약간 높다(사소).
+- 순효과 방향: E44는 대상 카드 PBR을 높인다(비싸지는 쪽), 비교군도 같이 바뀌어 동종업 칸은 일부 상쇄, 자기 이력 칸은 과거도 같은 기준이라 위치 변화는 창 안에서 비전환 우선주 비중이 바뀐 카드에서 주로(지금 BNY·USB·ALL은 창 안 비중 변화를 전후 비교에서 확인).
+
+## 8. 검증
+1. 시험(가짜 종목, 기대 숫자):
+   - E44: 우선주 장부가 차감, 0보다 큰 첫 태그만(합산 안 함), 장부 태그 0 → 다음 태그, 전환우선주 태그(GOOGL형), 청산가 경고, NCI 포함 총계 대체 날짜의 되돌림·NCI 없으면 None, 0보다 큰 P 없음 — 우선주 주식 수 0 또는 pref_redeemed → 0 / 액면 0만(MET형) → 이어 쓰기 / 400일 넘음 → None / 한 번도 없음 → 0, 연간만 태깅(ES형) 분기 흔들림 없음, CE ≤ 0은 지금과 같은 처리, CE_PREF_OVERRIDE(EQIX [])와 EV 덮어쓰기 독립, 표 증권 `pref_in_p` 0(HPE형)일 때 오류 없음.
+   - 표: kind별 S·EV·DCF·CE 기대값(net 초과분 공식 가격 3개, full 내가격/외가격·K 경계, mandatory 비율 구간 3개), 희석 대체 날짜 — `wa_shares` 빼고 날짜 d 값 더하기(가중평균 10주·현재 20주 → S = WA − 10 + 20), econ_shares가 대체 날짜에도 이김, SPG형 늘 대체 + 유닛, 상수와 표 동시 → 카드 모드 상수 무시, `end_shares`·`end_claims` — 분기말~표지일 사이 전환(주식은 표지·청구권은 표에서 한 번씩), WA 대체 날짜의 전환(분기 시작일 기준), 현금 상환(같은 날 둘 다 끝, 옛 표지·옛 재무상태표 조합에서 EV가 상환 뒤 실제와 같음), 상환 확인 뒤 옛 P 되살아나지 않음, 창 시작 미달 → 오류, backfill_first, BLK 조건부 단위 제외, BLK 바탕 + 단위 = 회사 "including Subco Units"(표지 FullyDiluted를 바탕으로 쓰면 오류), `paired`는 엔진 관측 결산일로 찾음(BX 실적 발표일~10-Q 사이 옛 결산일 짝 유지, backfill 구간 `ce_add`는 실제 값), 같은 결산일 행 없음 → `carry_paired`면 이어 쓰기·아니면 그 종목 보류, 짝 시리즈 없음(HPE) → 0·검사 생략, 표 항목 상환은 그 증권 몫만(다른 우선주 남음), GOOGL 두 항목 Σ`pref_in_p`·Σ`pref_ev`·Σ`dcf_pref` = 각 경로에 실린 그 증권들 금액, 표 `redeemed`가 §2.2 상환 증거로 인정, `liq_per_share`로 Initial~Threshold 구간 비율, 임시자본 우선주 `ce_add`.
+   - 연구 모드: ASOF_REF면 전 숫자가 지금 엔진과 같다(대상 종목 전체 비교).
+2. 변이: 0보다 큰 첫 태그 대신 합산, EV 덮어쓰기를 CE에 공유, 400일 초과 기권 제거, 액면 0을 상환으로 봄, 표 항목의 EV 빼기 제거(주식만 더함), 대체 날짜 `wa_shares` 빼기 제거, econ_shares 우선 제거, `end_shares`·`end_claims`를 하나로 합침, 음수 자본 처리를 바꿈(지금 엔진과 달라짐), ASOF_REF 스위치 제거 → 시험 빨강.
+3. 손 계산: ALL·BNY(우선주 장부가), ORCL·MCHP(mandatory 우선주 — ORCL 새 발행, MCHP 청산가 태그), GOOGL(mandatory 두 시리즈 — 가격 구간 세 곳 중 지금 가격이 드는 곳), LITE(net 초과분 + 우선주), HPE(mandatory + nonop_extra), BX(econ_shares + ce_add), BLK(exchange_units — S·CE·EV와 BVPS $371.70 대조; BLK는 표지/WA 0.94라 WA 대체 날짜가 실제로 없어 WA 경로는 가짜 종목 시험으로만) — 10-Q 원문으로 S·CE·EV·DCF 주당 가치.
+4. 전후 비교표: E44 영향 카드, 표 대상 카드, 비교군 재생성으로 동종업 점수가 바뀌는 카드 — PBR·PSR·PCR·EV/EBITDA 현재값·5년 위치·자기 이력·동종업 점수·DCF 주당 가치·판정.
+5. 영향 밖 카드 diff 0, pipeline/test_pipeline.py.
+
+## r6 → r7에서 바뀐 것(2026-10-26, 구현 전 권장·원문 확인)
+- 원문 확인(SEC): **BLK** Subco 단위는 HPS 거래만이고 지배주주 자본 밖(임시자본 → 3분기 영구 비지배지분) — r6의 "BLK 장부가가 자본 안, ce_add 0"은 틀렸음 → `ce_add` = Subco 장부가, `nci_remove`는 엔진 EV에 실제로 든 몫, `wa_shares` 7.6M, 조건부 단위는 3분기 10-Q 뒤. **GOOGL** 표 대상(시리즈 A·B 두 항목, 장부가 순액, capped call 한계). **ORCL** 이름 Series D·예탁주 1/2,000·`PreferredStockValue` $4,954M·반희석.
+- 칸 목록 정리(공통·kind별, 없으면 오류), `redeemed_filed`는 상환 완료 공시로 한정, 전환 분기 일수는 전환일 포함(ASC 260), LITE 줄은 자본 안으로 확정(`ce_add` 0).
+- 검토 3라운드 반영(Codex 필수): §2.2 이어 쓰기 금지 문장도 전체 상환·개별 상환을 나눔, `paired` 칸 목록에 `dcf_pref`.
+- 검토 2라운드 반영: 주식 수 `rows`와 짝 금액 `paired`를 나눔(Fable 필수 — 1라운드의 "같은 결산일 행만"이 BX backfill과 충돌), 짝 금액은 엔진 관측 결산일로 찾고 없으면 `carry_paired`·아니면 그 종목 보류, 표 상환은 그 증권 몫만(Codex 필수), §7 BLK `nci_remove`를 발행 단위 몫으로·금액 미확인 표시(Codex 필수), LITE 추가납입자본 근거 삭제, GOOGL 가격 구간 경계 문구, BVPS 단위, Σ 검사는 그 증권들 금액, BLK 단위 수 7,606,927.
+- 검토(Codex·Fable 1라운드) 반영: `liq_per_share` 칸(필수), 가격d = 카드 종목 종가(GOOGL 두 시리즈 모두 Class A), 여러 항목 합계 검사, LITE `pref_in_p`는 §2.2에서 도출, BLK 바탕 = 보통주(FullyDiluted 표지 금지)·`ce_add`는 S에 넣은 단위 몫만·재무상태표 짝 칸은 같은 결산일 행만(이어 쓰기 금지), 표 `redeemed`를 §2.2 상환 증거로, 주석 `wa_shares`의 범위·전환일 한쪽, capped call 문구, BLK EV 공백, 용어 "조건부 단위", BLK 손 계산은 BVPS 대조(Fable 확인 $371.7 = 공시 $371.70).
+
+## r5 → r6에서 바뀐 것(필수만)
+- `converted`(전환일) 칸 추가, WA 대체 날짜 종료를 그 칸으로, 전환 분기 `wa_shares` = 희석 몫 + 전환 주식 × 전환 뒤 일수 비율, 전환 뒤 분기 0.
+
+## r4 → r5에서 바뀐 것(필수만)
+- §2.1 "모두 0이면 P = 0" 삭제 → §2.2로(같은 입력 두 답 해소), 상환 확인 뒤 이어 쓰기 금지, 부분 상환 경고.
+- 현금 상환: `redeemed`·`redeemed_filed`로 주식 수와 청구권 연결을 같은 날 끝냄(옛 현금과 맞물림).
+- 희석 가중평균 대체 날짜의 전환 종료는 WA 분기 시작일 기준, 전환 분기 `wa_shares` 정의.
+
+## r3 → r4에서 바뀐 것(필수만)
+- P 없음: 액면 0은 상환 증거가 아님 — 우선주 주식 수 0·pref_redeemed만 상환, 아니면 400일 이어 쓰기(MET형).
+- MCHP·GOOGL을 표 후보(의무전환)로, LITE 임시자본 0 확인 반영.
+- 희석 대체 날짜: `wa_shares`(가중평균에 든 몫)를 빼고 날짜 d 값으로 바꿈, econ_shares 우선.
+- 종료를 `end_shares`(표지 관측)·`end_claims`(재무상태표 관측)로 나눔, 현금 상환 포함, r3의 from·until·until_cover 대체.
+- 변이 목록을 r3·r4 규칙에 맞춤, 편향 방향을 배수별로, ORCL 예시 정정.
+
+## r2 → r3에서 바뀐 것
+- ORCL을 E44에서 표(의무전환)로, GOOGL 전환우선주 기본 처리 명시, E44 대상 BNY·USB·ALL.
+- 우선주 태그: 0보다 큰 첫 태그(MCHP·LITE 액면 0 건너뜀), 전환우선주 태그 추가, 표 증권 차감은 `pref_in_p`(P에 실린 금액, 오류 대신 0 하한·경고).
+- P 없음: 누락은 상환으로 보지 않음 — 400일 이어 쓰기, 넘으면 None, 명시적 0만 상환.
+- CE ≤ 0: 지금 엔진 처리 유지(D63으로).
+- 희석 대체 날짜: `in_diluted_wa` 칸으로 S만 조정, EV·DCF·CE 연결은 유지(SPG 늘 대체 사례), 배수 20배·DCF 0.5~2배 규칙 차이 명시.
+- 실제 전환: `until_cover`(표지 관측 날짜와 비교).
+- PER 설명 바로잡음(일반 PER 불변, 본업 PER만), 연구 동종업은 비교군 파일을 안 읽음(확인), 표 머리글, conv_debt_full 계단·mandatory 근사·BLK 이연 단위·LITE 임시자본·BX 기존 EV 공백·편향 방향.
+
+## r1 → r2에서 바뀐 것
+- 범위 (가): 전환 증분 태그 자동 판정 폐기 → 카드별 표(증권마다 S·EV·DCF·CE 연결 명시), 태그는 preflight 경고로만.
+- D13: 지금 엔진 동작 유지로 바로잡음(r1은 D13을 "표지 기준"으로 잘못 인용).
+- E44: 지배주주 자본 출발값(NCI 포함 대체 되돌림), CE 전용 우선주 태그·덮어쓰기(EV와 분리), 첫 태그 하나, 임시자본 제외, P 없음 처리(200일), CE ≤ 0 명시.
+- HPE `nonop_extra`, SPG 기존 NCI 처리, BX EV 비지배지분 0·ce_add, BLK 장부가 이미 자본 안, 희석 대체 날짜, 이력 단층(backfill), 핵심 PER 분자 변화, 비교군 범위, 연구 경로 동일성 시험.

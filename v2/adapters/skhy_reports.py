@@ -13,6 +13,7 @@ KIND(한국거래소 공시)는 같은 원문을 싣고, 회사별 공시 목록
     python3 v2/adapters/skhy_reports.py          # manifest 갱신 + 없는 원문 받기
 """
 import json
+import sys
 import os
 import re
 import subprocess
@@ -61,8 +62,11 @@ def doc_path(docno):
 def refresh():
     man = json.load(open(MANIFEST)) if os.path.exists(MANIFEST) else []
     have = {m["acptno"] for m in man}
+    dart_days = {m["filed"][:10].replace("-", "") for m in man if m.get("source") == "dart"}
     for when, acpt, title in disclosures():
         if "기재정정" in title or acpt in have:
+            continue
+        if acpt[:8] in dart_days:   # 같은 날 DART로 받은 보고서가 있다 — 같은 분기를 두 번 넣지 않는다(접수번호가 KIND·DART에서 다르다, Codex)
             continue
         kind = None
         if re.match(r"(분기|반기)보고서", title):
@@ -90,6 +94,10 @@ def refresh():
     os.makedirs(REPORTS, exist_ok=True)
     for m in man:
         p = os.path.join(REPORTS, m["file"])
+        if m.get("source") == "dart":   # DART 항목의 주소는 보기 화면이다 — 원문은 skhy_dart.py(키 필요)로만 받는다(Codex)
+            if not os.path.exists(p):
+                raise SystemExit(f"{m['file']}: DART 원문이 없고 OpenDART 키도 없다 — OPENDART_KEY를 넣고 다시")
+            continue
         if not os.path.exists(p):
             raw = subprocess.run(["curl", "-s", "-A", UA, m["url"]], capture_output=True, check=True).stdout
             open(p, "wb").write(raw)
@@ -98,5 +106,12 @@ def refresh():
 
 
 if __name__ == "__main__":
-    man = refresh()
-    print(len(man), "건")
+    sys.path.insert(0, HERE)
+    import skhy_dart
+    if skhy_dart.key():   # OpenDART 키가 있으면 DART로(2026-10-12 — KIND 화면 긁기는 키가 없을 때만)
+        for e in skhy_dart.fetch_new():
+            print("추가(DART):", e["filed"], e["title"], e["acptno"])
+        print(len(json.load(open(MANIFEST))), "건")
+    else:
+        man = refresh()
+        print(len(man), "건")

@@ -36,8 +36,11 @@ ALIAS = {"0000766704": {"InterestExpense": "InterestExpenseBorrowings"},
 SUM = {"0001467373": {"Liabilities": ("LiabilitiesCurrent", "LiabilitiesNoncurrent")},
        # NEM: 당좌비율의 재고 = 재고 1,478 + 유동 광석 비축분 1,321(둘 다 회사 고유 태그, cfg_nem company_tags; Codex 2026-10-02).
        # InventoryNet은 2015년에 멈춘 옛 행이 있어 덮어쓴다(REPLACE).
-       "0001164727": {"InventoryNet": ("InventoryNet", "InventoryOreStockpilesCurrentNem")}}
-REPLACE = {"0001164727": {"InventoryNet"}}
+       "0001164727": {"InventoryNet": ("InventoryNet", "InventoryOreStockpilesCurrentNem")},
+       # FCX: 재고 합계 줄이 없다 — 제품(fcx:Product) + 자재(InventoryRawMaterialsAndSuppliesNetOfReserves) + 유동 광석 비축분(fcx:…Current),
+       # 회사 고유 태그 둘은 cfg_fcx company_tags가 빌린 이름으로 싣는다. Q2 2026: 3,363 + 2,924 + 1,577 = 7,864(10-Q 재무상태표, 2026-10-17)
+       "0000831259": {"InventoryNet": ("InventoryProductFcx", "InventoryRawMaterialsAndSuppliesNetOfReserves", "InventoryStockpilesCurrentFcx")}}
+REPLACE = {"0001164727": {"InventoryNet"}, "0000831259": {"InventoryNet"}}
 # 함께 지울 태그(엔진 EXCLUDE_TAGS와 같은 기준) — NEE 주석의 고객 계약 매출(0.1B 반올림)
 DROP = {"0000753308": ("RevenueFromContractWithCustomerIncludingAssessedTax",)}
 

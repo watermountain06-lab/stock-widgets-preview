@@ -5,7 +5,8 @@
     python3 v2/newcards/compare_render.py KO OLD.html --base http://localhost:8765
 
 저장소 루트에서 http 서버가 떠 있어야 한다(sync_fallbacks와 같다). 옛 사본은 v2/ 안에 임시 이름으로 복사해 띄우고 지운다.
-출력: 보이는 글자 줄 차이, title 속성 차이(판정 칸은 research/extract_card_verdicts.js로 따로 본다). 종료 코드 0 = 같음, 1 = 다름.
+출력: 보이는 글자 줄 차이, title 속성 차이(판정 칸은 research/extract_card_verdicts.js로 따로 본다). 종료 코드 0 = 같음, 1 = 다름, 2 = 렌더 실패.
+배열·스크립트 안 숫자는 비교하지 않는다(script·canvas를 지운다) — 배열·판정 불변은 따로 본다.
 """
 import argparse
 import difflib
@@ -23,10 +24,17 @@ sys.path.insert(0, V2)
 CHROME = os.environ.get("CHROME") or next((c for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium") if os.path.exists(c)), "google-chrome")   # 맥·리눅스(Actions) 둘 다
 
 
-def dump(url):
-    out = subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--window-size=1440,900",
-                          "--virtual-time-budget=6000", "--dump-dom", url],
-                         capture_output=True, text=True, timeout=120).stdout
+def dump(url, ticker):
+    try:
+        r = subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--window-size=1440,900",
+                            "--virtual-time-budget=6000", "--dump-dom", url],
+                           capture_output=True, text=True, timeout=120)
+    except Exception as e:
+        print(f"{ticker}: 렌더 실패({url}) — {type(e).__name__}"); sys.exit(2)
+    out = r.stdout
+    # 브라우저 실패·빈 출력·서버 404를 "같음"으로 보지 않는다 — 양쪽이 같이 실패하면 빈 출력끼리 같았다(dr 2026-10-13)
+    if r.returncode != 0 or 'class="company-name"' not in out or f"const {ticker}_DAILY" not in out:
+        print(f"{ticker}: 렌더 실패({url}, 반환 코드 {r.returncode}) — 서버·CHROME 확인"); sys.exit(2)   # 1(내용 차이)과 구분
     out = re.sub(r"<script.*?</script>|<style.*?</style>|<svg.*?</svg>|<canvas[^>]*>.*?</canvas>", "", out, flags=re.S)
     titles = [hm.unescape(x) for x in re.findall(r'title="([^"]*)"', out)]
     text = [l.strip() for l in hm.unescape(re.sub(r"<[^>]+>", "\n", out)).split("\n") if l.strip()]
@@ -47,8 +55,8 @@ def main():
     shutil.copy(a.old, tmp_old)
     shutil.copy(new, tmp_new)
     try:
-        to, ho = dump(f"{a.base}/v2/{os.path.basename(tmp_old)}")
-        tn, hn = dump(f"{a.base}/v2/{os.path.basename(tmp_new)}")
+        to, ho = dump(f"{a.base}/v2/{os.path.basename(tmp_old)}", T)
+        tn, hn = dump(f"{a.base}/v2/{os.path.basename(tmp_new)}", T)
     finally:
         os.remove(tmp_old)
         os.remove(tmp_new)

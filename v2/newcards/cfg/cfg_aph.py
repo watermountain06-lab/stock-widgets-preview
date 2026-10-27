@@ -9,7 +9,7 @@ QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 8758.1, 'op': 2584.6, 'ni': 1769.2, 'ocf': 1557.2, 'cap': 355.5}
 RELEASE_TOL = 0.2
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (0, 0, -2), '적정~고평가'
 CO = 'Amphenol'
 S_ = 'https://www.sec.gov/Archives/edgar/data/820313/'
 SEC = S_
@@ -94,8 +94,8 @@ BULL = [('성장', '매출 +55%, 유기적 +30%, 수주/매출 1.23.'),
 BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배로 5년 중 비싼 쪽이다.'),
         ('부채', 'CommScope 사업 인수 뒤 차입금 $18.8B, 현금·단기투자 $5.4B.'),
         ('일회성', '2분기 이익에 IEEPA 관세 환급 순효과 $80M(분할 전 주당 $0.04)이 들어 있다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 19, 'nt': 12, 'mean': 101.92, 'median': 105, 'low': 88.5, 'high': 116, 'sb': 13, 'b': 4, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Strong Buy', 'n': 19, 'nt': 12, 'mean': 102.88, 'median': 105, 'low': 88.5, 'high': 116, 'sb': 13, 'b': 4, 'h': 2, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-24'
 MISS_WHY = {('DELL', 'pbr'): ' 자본 음수'}
 PRE = [r'''
 _G = json.loads(re.search(r'^const APH_DCF_GRID = (\{.*?\});', h, re.M).group(1))

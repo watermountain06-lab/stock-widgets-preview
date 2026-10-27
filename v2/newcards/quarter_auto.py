@@ -29,6 +29,9 @@ V2 = os.path.dirname(HERE)
 sys.path.insert(0, V2)
 import build_multiple_history as bmh  # noqa: E402
 
+_BANK_CFG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bank/cfg")
+BANK_TICKERS = {f[4:-3].upper() for f in os.listdir(_BANK_CFG) if f.startswith("cfg_") and f.endswith(".py")}   # 은행 카드(은행 RIM 경로) — 이름 하드코딩 대신 bank/cfg 목록(dr 2026-10-13)
+
 feh = bmh.feh
 UA = "kim research gptjhss@gmail.com"
 FIELDS = ("CUR", "YO", "QO", "QLABEL", "YL", "QQL", "L8", "TENQ", "TENQ_NAME", "FY_ENDS", "FY_LABEL")
@@ -52,7 +55,10 @@ def quarters(T, cik):
     ends = sorted(e["end"] for e in q)
     facts = bmh._facts(cik).get("facts", {}).get("us-gaap", {})
     fy_ends = set()
-    for tag in bmh.FLOW_TAGS["revenue"]:
+    # 회사별 추가 매출 태그(bmh.EXTRA_TAGS — XEL·NEE의 RegulatedAndUnregulatedOperatingRevenue)도 본다. 기본 목록만 보면 Revenues가 멈춘
+    # 해 뒤로 회계연도 말을 몰라 4분기를 다음 해 1분기로 셌다(XEL 2026-10-23)
+    _extra = [t_ for tg in bmh.FLOW_TAGS["revenue"] for t_ in bmh.EXTRA_TAGS.get(cik, {}).get(tg, [])]
+    for tag in list(bmh.FLOW_TAGS["revenue"]) + _extra:
         for r in facts.get(tag, {}).get("units", {}).get("USD", []):
             if r.get("form", "").startswith("10-K") and "start" in r and 350 <= (d(r["end"]) - d(r["start"])).days <= 380:
                 fy_ends.add(r["end"])
@@ -185,7 +191,7 @@ def main():
     tickers = [x.upper() for x in a.tickers] or sorted(f[4:-3].upper() for f in os.listdir(os.path.join(HERE, "cfg")) if f.startswith("cfg_"))
     bad = 0
     for T in tickers:
-        if T in ("ASML", "TSM", "SKHY", "COF"):
+        if T in ("ASML", "TSM", "SKHY") or T in BANK_TICKERS:   # 외국 발행사(AUTO_OUTSIDE)와 은행 카드는 이 경로 밖
             continue
         try:
             got = resolve(T, a.cap, net=a.check or True)
@@ -209,6 +215,8 @@ def main():
         else:
             print(f"{T}: 같음")
     print(f"끝 — 어긋남 {bad}")
+    if bad:
+        sys.exit(1)   # 어긋남·실패가 있으면 비정상 종료 — 종료 코드만 보고 통과로 읽지 않게(dr 2026-10-13)
 
 
 if __name__ == "__main__":

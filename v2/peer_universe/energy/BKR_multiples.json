@@ -1,58 +1,45 @@
 {
  "ticker": "BKR",
  "window": [
-  "2025-10-10",
-  "2026-10-09"
+  "2025-10-24",
+  "2026-10-23"
  ],
  "multiples": {
   "PSR": {
    "days": 251,
-   "current": 2.03,
+   "current": 2.0,
    "min": 1.58,
-   "p10": 1.68,
+   "p10": 1.7,
    "median": 2.07,
    "p90": 2.31,
    "max": 2.48,
-   "mean": 2.04,
-   "percentile": 41.4,
-   "score": 58.6
+   "mean": 2.05,
+   "percentile": 33.1,
+   "score": 66.9
   },
   "PBR": {
    "days": 251,
-   "current": 2.83,
+   "current": 2.79,
    "min": 2.42,
-   "p10": 2.58,
+   "p10": 2.6,
    "median": 3.01,
    "p90": 3.33,
    "max": 3.58,
-   "mean": 2.98,
-   "percentile": 32.3,
-   "score": 67.7
+   "mean": 2.99,
+   "percentile": 27.1,
+   "score": 72.9
   },
   "PCR": {
    "days": 251,
-   "current": 17.99,
-   "min": 17.42,
-   "p10": 19.2,
+   "current": 17.73,
+   "min": 17.02,
+   "p10": 18.18,
    "median": 23.32,
    "p90": 27.75,
    "max": 30.16,
-   "mean": 23.27,
-   "percentile": 3.2,
-   "score": 96.8
-  },
-  "EV/EBITDA": {
-   "days": 10,
-   "current": null,
-   "min": 9.27,
-   "p10": 9.3,
-   "median": 9.47,
-   "p90": 9.97,
-   "max": 10.3,
-   "mean": 9.6,
-   "percentile": 100.0,
-   "score": null,
-   "currentNote": "missing"
+   "mean": 23.14,
+   "percentile": 3.6,
+   "score": 96.4
   }
  },
  "perBasis": "diluted",

@@ -2,13 +2,17 @@
 # 분사 종목(헬스케어 2023-01, 버노바 2024-04) — RESTATED_LATEST·HISTORY_START 2024-07-23·HISTORY_WINDOW(엔진), 계속사업 EPS 태그(아래 BUILD). CARD_ITEMS 'GE' 절.
 # 출처: SEC XBRL, Q2 2026 10-Q(2026-07-16), 실적 보도자료(Q3 2025~Q2 2026), 8-K(CPP 인수 9/8, CES 사장 1/15), StockAnalysis(2026-09-30).
 # 재현 모드: python3 v2/newcards/build.py GE --from-card (일봉·이동평균·백테스트는 지금 카드에서, 마지막 종가 2026-09-29).
-BUILD = {'eps_tag': 'IncomeLossFromContinuingOperationsPerDilutedShare'}   # 분사 종목 — 계속사업 EPS(GE 방식, CARD_ITEMS)
+BUILD = {'eps_tag': 'IncomeLossFromContinuingOperationsPerDilutedShare',   # 분사 종목 — 계속사업 EPS(GE 방식, CARD_ITEMS)
+         # 영업이익 합성 재료(build_multiple_history DERIVED_OPINC) — 처음엔 adapters/ge_income_items.py를 손으로만 돌려 새 분기 자동 반영 때
+         # Q3 2026 영업이익이 비었다(2026-10-20, auto_card KeyError). 이제 새 공시마다 원문에서 다시 받는다.
+         'company_tags': [('ge:InterestAndOtherFinancialCharges', 'GeInterestAndOtherFinancialCharges'),
+                          ('ge:BenefitCostIncomeNonoperating', 'GeBenefitCostIncomeNonoperating')]}
 CIK = '0000040545'
 CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 13349, 'ocf': 3258}   # Q2 2026 보도자료 GAAP 표(백만 달러) — 영업이익은 회사 비GAAP만 있어 대조하지 않는다
-VOTES, VERDICT = (0, -1, -2), '고평가'
+VOTES, VERDICT = (1, -1, -2), '적정~고평가'
 CO = 'GE Aerospace'
 S_ = 'https://www.sec.gov/Archives/edgar/data/40545/'
 SEC = S_
@@ -69,8 +73,8 @@ NEWS = [
 SUMMARY = ('엔진 서비스 수요와 인도 증가로 매출이 20%대 성장 중이고, 공급망 투자를 늘리고 있다', '고성장·밸류 부담', ['2분기 매출이 1년 전보다 21% 늘었고, 회사는 7월에 연간 전망을 전 항목 올렸다. 수주 잔고는 $210.8B다.', '9월에 주조 부품 업체 CPP를 $11.75B에 사기로 했다. 회사는 주조 생산능력을 늘려 엔진·애프터마켓·방산 수요를 받치려는 투자라고 설명했다.', '주가는 1년 새 {ch:+.0f}%이고, 8월 초 고점($381.22)보다 17% 낮다. 실적 발표일 반응은 네 번 중 세 번 하락이었다.'], '배수는 S&P500 산업재 안에서 비싼 쪽이고, 기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%다. 분사 뒤 이력이 약 2년이라 성장률 가정이 짧은 구간에 기대고 있다.', 'Q3 2026 실적(10월 하순 예상)의 전망 달성, CPP 인수 진행.')
 BULL = [('성장', '2분기 매출 +21%, 연간 전망 전 항목 상향.'), ('잔고', '수주 잔고 $210.8B, 그중 서비스가 $178.7B다.'), ('현금', '2분기 영업현금흐름 $3.26B(+39%), 자사주 잔여 한도 $18.0B.')]
 BEAR = [('밸류', 'S&P500 산업재 안에서 다섯 배수 모두 비싼 쪽이고, 기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%다.'), ('인수', 'CPP 인수 $11.75B 현금 — 현금 $9.3B보다 크다.'), ('마진', 'CES 부문 이익률이 28.9%에서 27.3%로 내려왔다(회사 설명: GE9X 등 새 엔진 설치 증가·투자·물가).')]
-ANALYST = {'rating': 'Buy', 'n': 22, 'nt': 13, 'mean': 402.23, 'median': 400, 'low': 350, 'high': 450, 'sb': 15, 'b': 3, 'h': 3, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 14, 'mean': 386.79, 'median': 380, 'low': 350, 'high': 435, 'sb': 16, 'b': 3, 'h': 3, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-10-24'
 REQ_MULT_EXACT = False   # 옛 카드는 "3배를 넘는다"(틀 문구)
 SELF_SPAN = '버노바 분사 뒤 2024-07부터 약 2.2년'   # 제목·툴팁 모두(fill.py SELF_SPAN, E13 앵커 해결 뒤 — Fable 2026-10-05)
 POST = [r'''

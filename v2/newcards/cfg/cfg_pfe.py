@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-28', '2025-06-29', '2026-03-29'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 15034, 'op': 3063, 'ni': -248}   # 10-Q 손익(영업이익은 세전 −653 − 기타 영업외 −3,716)
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (-1, 0, -2), '고평가'
 CO = 'Pfizer'
 S_ = 'https://www.sec.gov/Archives/edgar/data/78003/'
 SEC = S_
@@ -97,8 +97,8 @@ BULL = [('신제품', '출시·인수 제품 매출 +18%, Eliquis +21%.'),
 BEAR = [('GAAP 이익', '2분기 무형자산 손상 $4.3B로 순손실.'),
         ('부채', '차입금 $63.2B.'),
         ('코로나 제품', 'Comirnaty·Paxlovid 매출 감소가 이어짐.')]
-ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 20, 'mean': 29.19, 'median': 29, 'low': 25, 'high': 36, 'sb': 8, 'b': 2, 'h': 16, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 20, 'mean': 29.44, 'median': 29, 'low': 25, 'high': 36, 'sb': 8, 'b': 2, 'h': 16, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-10-24'
 
 
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──

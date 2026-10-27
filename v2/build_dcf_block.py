@@ -70,6 +70,12 @@ def compute(t):
         price_local = price * r
         # 기준일은 카드 일봉의 마지막 날 — 그 뒤 공시가 캐시에 있어도 쓰지 않는다(Codex).
         base = d.base_inputs(t, asof)
+        if base.get("dcf_hold"):
+            # 큰 재무상태표 항목을 그 시점 공시에서 못 찾았다 — 0으로 계산하지 않고 보류(newcards/build.py no_dcf 블록과 같은 모양, 2026-10-25)
+            return ({"low": None, "base": None, "high": None, "requiredGrowth": None, "baseEquivGrowth": None, "reqMode": "growth",
+                     "requiredMargin": None, "marginNow": None, "growth5y": None, "nonopPerShare": 0, "s2cFallback": False,
+                     "asOf": asof, "unavailable": "계산 보류 — SEC 자료에서 최근 값을 찾지 못함: " + base["dcf_hold"], "hard": [], "hardDetail": {}},
+                    price, base.get("dq") or [])
         hist = d.history(t, asof)
         s = d.scenarios(base, hist, WACC, TERM)
         mp = d.margin_path_for(hist, "기본")
@@ -91,7 +97,8 @@ def compute(t):
         "baseEquivGrowth": round(beq, 4) if beq is not None else None,
         "reqMode": mode,
         "requiredMargin": round(rm, 4) if rm is not None else None,
-        "marginNow": round(hist["margin_now"], 4), "growth5y": round(g5, 4) if g5 else None,
+        "marginNow": round(hist["margin_now"], 6),   # 4자리로 두면 13.7495%가 0.1375 → 화면 13.8%로 두 번 반올림돼 카드 문장의 13.7%와 어긋났다(ROST, Codex 2026-10-22)
+        "growth5y": round(g5, 4) if g5 else None,
         "nonopPerShare": round(s[1]["nonop_per_share"] / r, 2),
         "s2cFallback": any(x["s2c_fallback"] for x in s),
         "asOf": asof,

@@ -2,57 +2,44 @@
  "ticker": "PSKY",
  "window": [
   "2026-07-29",
-  "2026-10-09"
+  "2026-10-16"
  ],
  "multiples": {
-  "PER": {
-   "days": 10,
-   "current": 48.21,
-   "min": 44.11,
-   "p10": 46.52,
-   "median": 49.11,
-   "p90": 53.42,
-   "max": 57.21,
-   "mean": 49.75,
-   "percentile": 20.0,
-   "score": null,
-   "currentNote": "per_na"
-  },
   "PSR": {
-   "days": 10,
-   "current": 0.67,
-   "min": 0.58,
-   "p10": 0.61,
+   "days": 15,
+   "current": 0.5,
+   "min": 0.5,
+   "p10": 0.52,
    "median": 0.67,
-   "p90": 0.72,
+   "p90": 0.7,
    "max": 0.79,
-   "mean": 0.67,
-   "percentile": 30.0,
-   "score": 70.0
+   "mean": 0.64,
+   "percentile": 0.0,
+   "score": 100.0
   },
   "PBR": {
-   "days": 10,
-   "current": 0.83,
-   "min": 0.73,
-   "p10": 0.76,
-   "median": 0.84,
-   "p90": 0.9,
+   "days": 15,
+   "current": 0.63,
+   "min": 0.63,
+   "p10": 0.65,
+   "median": 0.83,
+   "p90": 0.88,
    "max": 0.99,
-   "mean": 0.84,
-   "percentile": 30.0,
-   "score": 70.0
+   "mean": 0.8,
+   "percentile": 0.0,
+   "score": 100.0
   },
   "EV/EBITDA": {
-   "days": 9,
-   "current": 29.77,
-   "min": 28.76,
-   "p10": 29.29,
-   "median": 29.92,
-   "p90": 30.84,
+   "days": 14,
+   "current": 26.87,
+   "min": 26.87,
+   "p10": 27.14,
+   "median": 29.79,
+   "p90": 30.46,
    "max": 31.97,
-   "mean": 30.05,
-   "percentile": 22.2,
-   "score": 77.8
+   "mean": 29.39,
+   "percentile": 0.0,
+   "score": 100.0
   }
  },
  "perBasis": "diluted",

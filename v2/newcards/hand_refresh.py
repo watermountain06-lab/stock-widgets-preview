@@ -66,12 +66,20 @@ def brkb():
         h, n = re.subn(r'(id="brkbFairBand"[^>]*title=")[^"]*(">)[^<]*',
                        lambda m_: m_.group(1) + f'최근 252거래일 정상화 PER의 25~75% 구간({fb["per_p25"]:.1f}~{fb["per_p75"]:.1f}배) × 현재 정상화 이익. 분기 주식 수 태그가 없는 구간을 뺀 {fb["days"]}일로 계산했다($10 단위).' + m_.group(2) + f'${fb["low"]} ~ ${fb["high"]}', h, count=1)
         assert n == 1, "BRKB 밴드"
-    # 손 문장 속 숫자(두 배수가 5년 가운데쯤 → 0표). 표 방향이 바뀌면 문장이 틀린다 — 멈추고 문제로 알린다(분기 반영 때 손으로)
+    # 밸류 전제 문장 — 표 방향에 따라 규칙으로 쓴다(2026-10-12 BRKB 생성기; 전에는 0표가 아니면 멈추고 손으로 고쳤다).
+    # 금융 규칙(사전 등록 §2): 두 배수가 같은 쪽일 때만 표 — 둘 다 70 이상 +1, 둘 다 30 미만 −1, 나머지 0
     _sc = [m.get("score") for m in mets]
-    if any(x is None for x in _sc) or all(x >= 70 for x in _sc) or all(x < 30 for x in _sc):
-        raise SystemExit(f"BRKB: 자기 이력 표가 0이 아니다({_sc}) — '가운데쯤이라 0표' 문장을 손으로 고칠 것")
-    h, n = re.subn(r"정상화 PER\([\d.]+배\)과 PBR\([\d.]+배\)", f"정상화 PER({mets[0]['current']:.1f}배)과 PBR({mets[1]['current']:.2f}배)", h)
-    assert n >= 1, "BRKB 문장"
+    if any(x is None for x in _sc):
+        raise SystemExit(f"BRKB: 자기 이력 점수가 비었다({_sc})")
+    word = lambda x: "싼 쪽" if x >= 70 else "비싼 쪽" if x < 30 else "가운데쯤"
+    pe, pb = f"정상화 PER({mets[0]['current']:.1f}배)", f"PBR({mets[1]['current']:.2f}배)"
+    if all(x >= 70 for x in _sc) or all(x < 30 for x in _sc) or all(30 <= x < 70 for x in _sc):
+        vote = "+1표" if _sc[0] >= 70 else "−1표" if _sc[0] < 30 else "0표"
+        lead = f"{pe}과 {pb}이 모두 지난 5년 {word(_sc[0])}이라 자기 이력은 {vote}다."
+    else:
+        lead = f"{pe}는 지난 5년 {word(_sc[0])}, {pb}는 {word(_sc[1])}이라 방향이 엇갈려 자기 이력은 0표다."
+    h, n = re.subn(r'(<div class="vs-premise">)[^<]*?자기 이력은 [^<]*?표다\.', lambda m_: m_.group(1) + lead, h)
+    assert n == 1, "BRKB 문장"
     open(p, "w", encoding="utf-8").write(h)
     print(f"BRKB: 자기 이력 {V['self']['score']} (PER {mets[0].get('current')}·PBR {mets[1].get('current')}), 밴드 {fb and (fb['low'], fb['high'])}, 창 {M['window']}")
 

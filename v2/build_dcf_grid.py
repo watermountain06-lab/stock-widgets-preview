@@ -33,6 +33,8 @@ BEGIN, END = "/* DCF_GRID:BEGIN */", "/* DCF_GRID:END */"
 def build(ticker):
     asof = d.bmh.load_daily(ticker)[-1][0]   # 블록(build_dcf_block)과 같은 시점 — 카드 마지막 종가 날짜까지 공개된 자료만(2026-10-07 COST: 10-K가 격자에만 들어갔다)
     base = d.base_inputs(ticker, asof)
+    if base.get("dcf_hold"):   # 계산 보류(build_dcf_block과 같은 판단) — 격자도 비운다(no_dcf 카드처럼 null, 2026-10-25)
+        return None
     hist = d.history(ticker, asof)
     r = fx.rate(ticker, asof)   # 달러 재무 종목은 1.0
     values = {n: [] for n in NAMES}          # values[시나리오][영구성장 i][할인율 j]
@@ -55,6 +57,17 @@ def main():
     t = args.ticker.upper()
 
     grid = build(t)
+    if grid is None:
+        print(f"  {t}: 계산 보류 — 격자 null")
+        if args.dry_run:
+            return
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f"{t}_full_widget.html")
+        html = open(path, encoding="utf-8").read()
+        pat = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
+        if len(pat.findall(html)) != 1:
+            sys.exit(f"{path}: DCF_GRID 블록이 정확히 하나가 아니다")
+        open(path, "w", encoding="utf-8").write(pat.sub(lambda _: f"{BEGIN}\nconst {t}_DCF_GRID = null;\n{END}", html))
+        return
     gi, wi = TERMS.index(DEFAULT[1]), WACCS.index(DEFAULT[0])
     for n in NAMES:
         print(f"  {n} @ 할인율 {DEFAULT[0]:.1%} · 영구 {DEFAULT[1]:.1%}  ${grid['values'][n][gi][wi]:.2f}")

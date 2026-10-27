@@ -219,6 +219,7 @@ def fetch_bars(symbol, rng, fixtures, now_et, max_date):
     if not body.get("result"):
         raise ValueError(f"no chart result ({body.get('error')})")
     r = body["result"][0]
+    fp.fill_from_meta(r, now_et)   # the same blanked-close fallback as the homepage price (open must still be served)
     q = r["indicators"]["quote"][0]
     bars = {}
     for i, ts in enumerate(r.get("timestamp") or []):

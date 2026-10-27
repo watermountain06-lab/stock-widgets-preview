@@ -11,7 +11,7 @@ V3 업종 백분위)으로 카드 JS와 같은 합산 규칙의 판정을 낸다
 - 동종업: 평가일 같은 날 S&P500 같은 GICS 섹터(자기 제외) 배수 순위 — build_peer_score.peer_score와 같은 산식.
   동종업 쪽은 모두 공시 희석 EPS 기준 PER(카드의 S&P500 비교군 파일과 같은 기준), 본인 PER이 본업 기준이면 PER을 뺀다.
 
-자료: research/.prices10y(10년 일봉·분할), .facts_20261002(지금 엔진 태그), .eps_20261002 — fetch_replay_data.py.
+자료: research/.prices10y(10년 일봉·분할), .facts_20261002_t1026(10-02 자료 + 2026-10-26 엔진 태그, refresh_facts_tags.py), .eps_20261002 — fetch_replay_data.py.
 
     python3 v2/research/verdict_replay.py            # 패널 생성 + 분석
     python3 v2/research/verdict_replay.py --analyze  # 저장된 패널로 분석만
@@ -45,7 +45,8 @@ import splits as _splits  # noqa: E402
 
 d = v.d
 PRICES = os.path.join(HERE, ".prices10y")
-FACTS = os.path.join(HERE, ".facts_20261002")
+# 2026-10-26: 10-02 자료에 지금 엔진 태그를 채운 스냅샷(refresh_facts_tags.py) — 옛 스냅샷은 태그 48개가 없어 패널이 카드와 달랐다(five_year_gate 재봉인)
+FACTS = os.path.join(HERE, ".facts_20261002_t1026")
 EPS_DIR = os.path.join(HERE, ".eps_20261002")
 PANEL = os.path.join(HERE, "verdict_replay_panel.json")
 RESULT = os.path.join(HERE, "verdict_replay_result.json")
@@ -285,7 +286,7 @@ def provenance():
     import hashlib
     git = lambda *a: subprocess.run(["git", "-C", V2, *a], capture_output=True, text=True).stdout.strip()
     engine = ["build_dcf.py", "build_multiple_history.py", "build_peer_score.py", "splits.py", "fx.py",
-              "core_earnings.json", "tax_oneoff.json", "share_adjust.json", "sectors.json"]
+              "core_earnings.json", "tax_oneoff.json", "share_adjust.json", "sectors.json", "fact_fixes.json"]   # fact_fixes: E55(concept에서 적용)
     return {"engine_commit": git("rev-parse", "HEAD"),
             "engine_dirty": git("status", "--porcelain", "--", *engine),
             "script_sha256": hashlib.sha256(open(os.path.abspath(__file__), "rb").read()).hexdigest()[:HASH_LEN],
@@ -895,7 +896,8 @@ def main():
         meta, rows = build()
     add_returns(rows)
     peer_scores(rows)    # 동종업은 필터와 무관하게 그날 섹터 전체로(카드도 데이터 품질로 동종업을 거르지 않는다)
-    bad = lambda r: any(str(x).startswith(("debt_suspect", "shares_missing")) for x in r["dq"])
+    # dcf_hold(큰 차입금·현금·단기투자를 그 시점 공시에서 못 찾음)도 뺀다 — 2026-10-25 사용자 결정(five_year_gate_prereg 개정 기록)
+    bad = lambda r: any(str(x).startswith(("debt_suspect", "shares_missing", "dcf_hold")) for x in r["dq"])
     res = {"meta": meta}
     for label, rs in (("dq_filtered", [r for r in rows if not bad(r)]), ("dq_unfiltered", rows)):
         rs = [dict(r) for r in rs]

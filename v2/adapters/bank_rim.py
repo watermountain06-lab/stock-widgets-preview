@@ -28,11 +28,24 @@ _ST = os.path.join(V2, "research", "bank_sec_tags.json")
 _SV = os.path.join(V2, "research", "bank_sec_values.json")
 SEC_TAGS = json.load(open(_ST)) if os.path.exists(_ST) else {"preferred": {}, "cet1": {"_default": {"tag": ""}}}
 SEC_VALUES = json.load(open(_SV)) if os.path.exists(_SV) else {}
-ACK = os.path.join(V2, "research", "bank_ack.json")   # 7판 N4 — 사람이 확인한 급변 분기 {은행: {분기말: 사유}}
+ACK = os.path.join(V2, "research", "bank_ack.json")   # 7판 N4 — 사람이 확인한 급변 분기 {은행: {분기말: 사유 또는 {reason, edition_min, source}}}
+# 8판 §3(research/bank_v8_design.md): 우선주 배당 분기 값은 그 분기에 값이 있는 첫 태그(DividendsPreferredStock은 일부 은행에서 2024년에 끊긴다 — PNC)
+PREF_DIV_TAGS8 = ["DividendsPreferredStock", "DividendsPreferredStockCash", "PreferredStockDividendsIncomeStatementImpact"]
+
+
+def ack_map(ticker, edition):
+    """N4 승인 {분기말: 사유}. 값이 문자열이면 그대로, 객체면 edition ≥ edition_min일 때만 — 7판도 이 함수로 읽어야 8판 항목이 7판 재현에 새지 않는다(8판 §4)."""
+    raw = json.load(open(ACK)).get(ticker, {}) if os.path.exists(ACK) else {}
+    return {e: (v if isinstance(v, str) else v.get("reason", "")) for e, v in raw.items()
+            if isinstance(v, str) or edition >= v.get("edition_min", 0)}
 # 자사주 매입 현금 태그가 다른 은행. MS는 현금흐름표 "Repurchases of common stock"을 StockRepurchasedDuringPeriodValue로 낸다
 # (PaymentsForRepurchaseOfCommonStock은 2013년에 멈춤, 2026-10-01). 우선주 잔액은 회사 고유 태그라 adapters/ms_preferred.py가 overlay에 싣는다.
 BUY_TAGS = {"MS": ["StockRepurchasedDuringPeriodValue"]}
 # 보통주 배당 현금을 PaymentsOfDividendsCommonStock 대신 다른 태그로 내는 은행(BAC: DividendsCommonStockCash, 2026-10-01)
+# 보통주 배당 현금 태그가 중간에 끊기고 배당 합계(보통주 + 우선주)만 남은 은행 — 빈 분기를 합계 − 우선주 배당으로 메운다.
+# BNY: PaymentsOfDividendsCommonStock은 2025-12까지, 2026년부터 "Cash dividends paid"(PaymentsOfDividends, 우선주 포함)만 — 2025년 비교 수치
+# 6개월 792 = 보통주 689 + 우선주 103으로 정의 확인(2026-10-17).
+DIV_COM_FILL = {"BNY"}
 DIV_COM_TAGS = {"BAC": ["DividendsCommonStockCash"],
                 "SCHW": ["DividendsCommonStockCash"]}   # SCHW: PaymentsOfDividends − DividendsPreferredStock 폴백의 우선주 태그가 없다(…Cash로만), BAC와 같은 선언 기준(2026-10-01)
 
@@ -117,6 +130,7 @@ class Bank:
         # 공시 기준표(sec_approved.json) 날짜도 넘지 않는다 — companyfacts는 그 날짜에서 잘리는데 원문 값만 앞서 섞이면 분기가 어긋난다(2026-10-11 JPM 시험)
         self.secv = {e: r for e, r in SEC_VALUES.get(ticker, {}).items() if not _cap or r["filed"] <= _cap} if self.ed >= 7 else {}
         self.pref_tbl = SEC_TAGS["preferred"].get(ticker) if self.ed >= 7 else None
+        self.eq_mem = (self.pref_tbl or {}).get("equity_member") if self.ed >= 8 else None   # 8판 §1: 표에 적힌 은행(PNC)만
         self.se = instant(c, "StockholdersEquity", asof)
         self.pref_liq = instant(c, "PreferredStockLiquidationPreferenceValue", asof)
         self.pref_val = instant(c, "PreferredStockValue", asof)
@@ -141,6 +155,18 @@ class Bank:
         self.div_all = flow_q(c, ["PaymentsOfDividends"], ticker, asof)
         self.div_com = flow_q(c, DIV_COM_TAGS.get(ticker, ["PaymentsOfDividendsCommonStock"]), ticker, asof)
         self.div_pref = flow_q(c, ["DividendsPreferredStock"], ticker, asof)
+        if ticker in DIV_COM_FILL:
+            # 우선주 배당(DividendsPreferredStock, 손익계산서 차감액)에는 비현금 할인 상각이 섞인다 — 현금 배당 = 그 값 − PreferredStockAccretionOfRedemptionDiscount
+            # (BNY 2026 상반기 135 − 6 = 129 = 자본변동표 우선주 배당, Codex 2026-10-17). 상각은 누계로만 나와 같은 해 직전 분기 누계를 빼고, 없으면 0.
+            _acc = {(r["start"], r["end"]): r["val"] for r in _facts(c, "PreferredStockAccretionOfRedemptionDiscount")
+                    if "start" in r and r["start"][5:] == "01-01" and (not asof or r["filed"] <= asof)}
+            def _acc_q(e_):
+                y_ = e_[:4] + "-01-01"
+                prev_ = qends_before(e_, 1)[0]
+                return _acc.get((y_, e_), 0) - (_acc.get((y_, prev_), 0) if prev_[:4] == e_[:4] else 0)
+            for e_, (a_, fa_) in self.div_all.items():
+                if e_ not in self.div_com and e_ in self.div_pref:
+                    self.div_com[e_] = (a_ - (self.div_pref[e_][0] - _acc_q(e_)), max(fa_, self.div_pref[e_][1]))
         self.buy = flow_q(c, BUY_TAGS.get(ticker, ["PaymentsForRepurchaseOfCommonStock"]), ticker, asof)
         self.iss = flow_q(c, ["ProceedsFromIssuanceOfCommonStock"], ticker, asof)
         self.iss_ever = ever(c, "ProceedsFromIssuanceOfCommonStock", asof if self.ed >= 7 else None)
@@ -162,6 +188,8 @@ class Bank:
             return (o["ce_m"] * 1e6, o["filed"])
         if end not in self.se:
             return None
+        if self.eq_mem:
+            return self._ce8m(end)
         if self.pref_tbl is not None and not self.pref_tbl.get("path"):
             return self._ce7(end)
         p = self.pref_liq.get(end) or self.pref_val.get(end)
@@ -201,6 +229,28 @@ class Bank:
         v = self.se[end][0] - p[0]
         return (v, max(self.se[end][1], p[1])) if v > 0 else None
 
+    def _pref8m(self, end):
+        """8판 §1: 자본변동표 차원 값 우선주(bank_sec_values "pref_member") — 0보다 크고 같은 공시 AdditionalPaidInCapital 이하일 때만. (값, 접수일) 또는 None."""
+        r = self.secv.get(end) or {}
+        pm, ap = r.get("pref_member"), r.get("apic")
+        return (pm, r["filed"]) if pm is not None and ap is not None and 0 < pm <= ap else None
+
+    def _ce8m(self, end):
+        p = self._pref8m(end)
+        if p is None:   # 1-1 청산가·액면 경로로 떨어지지 않는다 — PNC는 액면 0이 실려 있어 떨어지면 CE = SE가 된다
+            return None
+        v = self.se[end][0] - p[0]
+        return (v, max(self.se[end][1], p[1])) if v > 0 else None
+
+    def pref_div_q8(self, end):
+        """8판 §3: 그 분기 우선주 배당 — PREF_DIV_TAGS8 중 그 분기에 값이 있는 첫 태그(0도 값). (값, 가용일, 태그) 또는 None."""
+        if not hasattr(self, "_pdq8"):
+            self._pdq8 = [(t, flow_q(self.cik, [t], self.t, self.asof)) for t in PREF_DIV_TAGS8]
+        for t, q in self._pdq8:
+            if end in q:
+                return q[end] + (t,)
+        return None
+
     def _ia_std(self, end):
         if end in self.ia:
             return self.ia[end]
@@ -212,6 +262,9 @@ class Bank:
 
     def _ia7(self, end):
         """7판 11-3: 표준 태그 → 그 공시의 회사 고유 무형자산 태그 → 그 공시와 직전 네 공시에 무형자산 값이 하나도 없으면 0 → 아니면 400일 이어쓰기."""
+        # 무형자산 태그에 MSR이 섞인 은행(bank_sec_tags "ia_minus" — USB)은 원문 값(MSR을 뺀 값)을 먼저 쓴다(2026-10-17)
+        if self.t in SEC_TAGS.get("ia_minus", {}) and (self.secv.get(end) or {}).get("ia") is not None:
+            return (self.secv[end]["ia"], self.secv[end]["filed"])
         v = self._ia_std(end)
         if v is not None:
             return v
@@ -399,8 +452,8 @@ def rim_value(B0, roe0, roe_end, b, r=R, lam=FADE, years=5):
     return B0 + pv + tv / (1 + r) ** years
 
 
-def required_roe(B0, b, target, r=R, lam=FADE):
-    lo, hi = 0.0, 0.60
+def required_roe(B0, b, target, r=R, lam=FADE, hi=0.60):
+    lo = 0.0   # 탐색 상한은 인자 — 관리의료 보험은 80%(insurer_rim_prereg §3, UNH 해 33%)
     f = lambda x: rim_value(B0, x, x, b, r, lam)
     flo, fhi = f(lo), f(hi)
     if flo is None or fhi is None or not (flo <= target <= fhi):
@@ -651,7 +704,19 @@ def checks7(bank, end):
     # N3 우선주 연속성 — 자본 이동 전체 대조는 자본변동표의 비표준 항목 때문에 정상 분기를 멈췄다(COF 2026 2분기 +$1.9B 미설명),
     # 발행·상환 현금 대조는 회사 고유 태그 때문에 정상 발행을 멈췄다(WFC 2024 3분기 +$2.0B, 2026-10-11 시험).
     # 목적(우선주 태그가 잘못 잡혀 CE가 계단처럼 뛰는 것 — BAC 10-K 회사 고유 태그 329)에 맞춰: 1년 전 같은 분기와 같은 태그이고 값이 절반~2배 안.
-    if bank.pref_tbl is not None and not bank.pref_tbl.get("path") and bank.pref_tbl.get("tags"):
+    if bank.eq_mem:   # 8판 §1-7: 차원 값 경로 — 이번 분기와 1년 전 같은 분기가 둘 다 이 경로 값이고 0.5~2.0배
+        ya = qends_before(end, 4)[-1]
+        p1, p0 = bank._pref8m(end), bank._pref8m(ya)
+        if p1 and p0:
+            res["N3"] = {"pass": 0.5 <= p1[0] / p0[0] <= 2.0, "path": "equity_member", "ratio": round(p1[0] / p0[0], 3)}
+        elif not p1 and not p0:
+            res["N3"] = {"pass": True, "note": "차원 값 없음 — N1이 정지"}
+        else:
+            res["N3"] = {"pass": False, "note": "차원 값이 한쪽 분기에만 있다", "now": p1 and round(p1[0] / 1e6), "yago": p0 and round(p0[0] / 1e6)}
+        ds = [bank.pref_div_q8(e) for e in [end] + qends_before(end, 3)]
+        if p1 and all(ds):   # §1-4 ② 참고 기록(관문 아님) — 멤버 오선택을 못 가른다(정상 최저 3.48% 대 오선택 최고 3.36%)
+            res["N3"]["div_yield_ref"] = round(sum(d[0] for d in ds) / p1[0], 4)
+    elif bank.pref_tbl is not None and not bank.pref_tbl.get("path") and bank.pref_tbl.get("tags"):
         ya = qends_before(end, 4)[-1]
         p1, p0 = bank._pref7(end), bank._pref7(ya)
         t1, t0 = getattr(bank, "_pref_tag", {}).get(end), getattr(bank, "_pref_tag", {}).get(ya)
@@ -698,7 +763,7 @@ def checks7(bank, end):
     g0, g1 = bank.gw.get(prev) or bank._carry_goodwill(prev), bank.gw.get(end)
     if g0 and g1 and g1[0] > g0[0] * 1.2:
         jumps.append("영업권 20% 넘게 증가")
-    ackd = json.load(open(ACK)).get(bank.t, {}) if os.path.exists(ACK) else {}
+    ackd = ack_map(bank.t, bank.ed)
     def _jumps(e):
         p_ = qends_before(e, 1)[0]
         a1, a0, s1, s0 = bank.ce(e), bank.ce(p_), bank.shares(e), bank.shares(p_)
@@ -728,9 +793,17 @@ def checks7(bank, end):
         if d3 and wa and s and abs(s[0] - wa) / s[0] > 0.02:   # 4분기는 연간 평균이라 자사주 매입 은행이 늘 걸린다 — 1~3분기만
             flags.append(f"분기말 주식 수가 기본 가중평균과 {abs(s[0] - wa) / s[0] * 100:.1f}% 다르다")
     # N5-2 우선주 배당이 있는데 우선주 차감 0
-    pd = bank.ttm(bank.div_pref, end)
-    pz = bank.pref_tbl is not None and not bank.pref_tbl.get("path") and bank.pref_tbl.get("tags") and bank._pref7(end) is None and ce
-    res["N5_2"] = {"pass": not (pd and pd[0] > 0 and (pz or (ce and bank.se.get(end) and abs(bank.se[end][0] - ce[0]) < 1)))}
+    if bank.ed >= 8:   # 8판 §3: 최근 4분기 각 분기 — 배당이 양수이고 그 분기 CE가 있으면서 |SE − CE| < $1이면 정지(CE 없는 분기는 대상 아님)
+        hit = []
+        for e in [end] + qends_before(end, 3):
+            d, c_ = bank.pref_div_q8(e), bank.ce(e)
+            if d and d[0] > 0 and c_ and bank.se.get(e) and abs(bank.se[e][0] - c_[0]) < 1:
+                hit.append(e)
+        res["N5_2"] = {"pass": not hit, **({"quarters": hit} if hit else {})}
+    else:
+        pd = bank.ttm(bank.div_pref, end)
+        pz = bank.pref_tbl is not None and not bank.pref_tbl.get("path") and bank.pref_tbl.get("tags") and bank._pref7(end) is None and ce
+        res["N5_2"] = {"pass": not (pd and pd[0] > 0 and (pz or (ce and bank.se.get(end) and abs(bank.se[end][0] - ce[0]) < 1)))}
     for k in ("N3", "N3b"):   # 사람이 확인한 분기(research/bank_ack.json)는 N3·N3b도 푼다 — 우선주 새 발행·전액 상환(Fable 2차)
         if res.get(k, {}).get("pass") is False and end in ackd:
             res[k]["pass"], res[k]["ack"] = True, ackd[end]

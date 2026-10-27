@@ -1717,5 +1717,1340 @@
     "#00837c"
    ]
   }
+ },
+ "VLO": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "vlo:RefiningMember": [
+    "정유",
+    "#1d4f91"
+   ],
+   "vlo:RenewableDieselMember": [
+    "재생 디젤",
+    "#6aa84f"
+   ],
+   "vlo:EthanolMember": [
+    "에탄올",
+    "#e0a030"
+   ]
+  }
+ },
+ "MO": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "mo:SmokeableProductsSegmentMember": [
+    "흡연 제품",
+    "#033787"
+   ],
+   "mo:OralTobaccoSegmentMember": [
+    "구강 담배",
+    "#68b820"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타",
+    "#c51100"
+   ]
+  }
+ },
+ "PSX": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "psx:MarketingSpecialitySegmentMember": [
+    "판매·특수제품",
+    "#e2241b"
+   ],
+   "psx:RefiningSegmentMember": [
+    "정유",
+    "#5a5a5a"
+   ],
+   "psx:MidstreamSegmentMember": [
+    "미드스트림",
+    "#1f6fb2"
+   ],
+   "psx:RenewableFuelsMember": [
+    "재생 연료",
+    "#6aa84f"
+   ]
+  },
+  "ignore_candidates": [
+   "psx:ChemicalsSegmentMember"
+  ]
+ },
+ "LMT": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "lmt:AeronauticsMember": [
+    "항공",
+    "#000080"
+   ],
+   "lmt:RotaryAndMissionSystemsMember": [
+    "회전익·임무 체계",
+    "#4a6fa5"
+   ],
+   "lmt:MissilesAndFireControlMember": [
+    "미사일·화력",
+    "#b22222"
+   ],
+   "lmt:SpaceMember": [
+    "우주",
+    "#6a6a6a"
+   ]
+  }
+ },
+ "MCK": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "mck:NorthAmericanPharmaceuticalSegmentMember": [
+    "북미 의약품",
+    "#005a8c"
+   ],
+   "mck:OncologyAndMultispecialtySegmentMember": [
+    "종양·다전문",
+    "#2e9bd6"
+   ],
+   "mck:MedicalSurgicalSolutionsSegmentMember": [
+    "의료·수술",
+    "#e07b39"
+   ],
+   "mck:PrescriptionTechnologySolutionsSegmentMember": [
+    "처방 기술",
+    "#6aa84f"
+   ]
+  }
+ },
+ "CVS": {
+  "concepts": [
+   "cvs:PremiumsEarnedNetAndRevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "cvs:HealthServicesSegmentMember": [
+    "의료 서비스",
+    "#cc0000"
+   ],
+   "cvs:HealthCareBenefitsSegmentMember": [
+    "건강보험",
+    "#7a1fa2"
+   ],
+   "cvs:PharmacyAndConsumerHealthSegmentMember": [
+    "약국·소비자",
+    "#e07b39"
+   ]
+  },
+  "ignore_candidates": [
+   "cvs:CorporateAndOtherSegmentMember"
+  ]
+ },
+ "ADP": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "adp:EmployerServicesSegmentMember": [
+    "고용주 서비스",
+    "#d0271d"
+   ],
+   "adp:ProfessionalEmployeeOrganizationServicesSegmentMember": [
+    "PEO(전문 고용주)",
+    "#5a5a5a"
+   ]
+  }
+ },
+ "SYK": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "syk:MedSurgAndNeurotechnologyMember": [
+    "의료·수술·신경",
+    "#e3a008"
+   ],
+   "syk:OrthopaedicsAndSpineMember": [
+    "정형외과",
+    "#3a3a3a"
+   ]
+  }
+ },
+ "LOW": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "low:HardlinesMember": [
+    "하드라인",
+    "#012169"
+   ],
+   "low:HomeDecorMember": [
+    "홈 데코",
+    "#2f6fd0"
+   ],
+   "low:BuildingProductsMember": [
+    "건축 자재",
+    "#7fa7e8"
+   ],
+   "low:OtherSalesMember": [
+    "기타 상품",
+    "#9a9a9a"
+   ]
+  }
+ },
+ "SBUX": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "sbux:NorthAmericaSegmentMember": [
+    "북미",
+    "#00704a"
+   ],
+   "sbux:InternationalSegmentMember": [
+    "해외",
+    "#d4a017"
+   ],
+   "sbux:ChannelDevelopmentMember": [
+    "채널 개발",
+    "#7a5c3e"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:CorporateAndOtherMember"
+  ]
+ },
+ "CME": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "cme:ClearingandtransactionfeesMember": [
+    "청산·거래 수수료",
+    "#1a6fb0"
+   ],
+   "cme:MarketDataMember": [
+    "시장 데이터",
+    "#439ee3"
+   ],
+   "cme:OtherRevenueMember": [
+    "기타",
+    "#9a9a9a"
+   ]
+  },
+  "ignore_candidates": [
+   "cme:InterestFromPerformanceBondsMember"
+  ]
+ },
+ "TT": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "srt:AmericasMember": [
+    "미주",
+    "#6400ff"
+   ],
+   "us-gaap:EMEAMember": [
+    "EMEA",
+    "#9c5cff"
+   ],
+   "srt:AsiaPacificMember": [
+    "아시아·태평양",
+    "#c9b0ff"
+   ]
+  }
+ },
+ "FCX": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "srt:MajorCustomersAxis": "fcx:UnaffiliatedCustomersMember"
+  },
+  "members": {
+   "fcx:GrasbergSegmentMember": [
+    "남미",
+    "#d8925d"
+   ],
+   "fcx:AtlanticCopperSmeltingAndRefiningSegmentMember": [
+    "스페인 제련",
+    "#5a6b7a"
+   ]
+  },
+  "ignore_candidates": [
+   "fcx:MorenciMember",
+   "fcx:CerroVerdeMember",
+   "fcx:RodAndRefiningSegmentMember"
+  ]
+ },
+ "NKE": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:SubsegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "us-gaap:StatementBusinessSegmentsAxis": "nke:NIKEBrandMember"
+  },
+  "members": {
+   "nke:NorthAmericaSegmentMember": [
+    "북미",
+    "#111111"
+   ],
+   "nke:EuropeMiddleEastAndAfricaSegmentMember": [
+    "유럽·중동·아프리카",
+    "#e85d1f"
+   ],
+   "nke:GreaterChinaSegmentMember": [
+    "중화권",
+    "#b74513"
+   ],
+   "nke:AsiaPacificAndLatinAmericaSegmentMember": [
+    "아시아·태평양·중남미",
+    "#f19972"
+   ]
+  }
+ },
+ "EQIX": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "eqix:AmericasSegmentMember": [
+    "미주",
+    "#e4002b"
+   ],
+   "eqix:EMEASegmentMember": [
+    "EMEA",
+    "#a8001f"
+   ],
+   "eqix:AsiaPacificSegmentMember": [
+    "아시아·태평양",
+    "#f0667f"
+   ]
+  }
+ },
+ "ADBE": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "srt:AmericasMember": [
+    "미주",
+    "#eb1000"
+   ],
+   "us-gaap:EMEAMember": [
+    "EMEA",
+    "#b00c00"
+   ],
+   "srt:AsiaMember": [
+    "아시아·태평양",
+    "#f56b5c"
+   ]
+  }
+ },
+ "PWR": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "pwr:ElectricMember": [
+    "전력",
+    "#e87722"
+   ],
+   "pwr:UndergroundAndInfrastructureMember": [
+    "지하·인프라",
+    "#5a6b7a"
+   ]
+  }
+ },
+ "ELV": {
+  "concepts": [
+   "elv:OperatingRevenue"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "elv:HealthBenefitsSegmentMember": [
+    "건강보험",
+    "#1355e9"
+   ],
+   "elv:CarelonRxSegmentMember": [
+    "CarelonRx(약제)",
+    "#6d95f2"
+   ],
+   "elv:CarelonServicesSegmentMember": [
+    "Carelon Services",
+    "#0d3ca6"
+   ]
+  },
+  "ignore_candidates": [
+   "elv:TotalCarelonMember",
+   "us-gaap:CorporateAndOtherMember"
+  ]
+ },
+ "ICE": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "ice:ExchangesMember": [
+    "거래소",
+    "#1b3d6d"
+   ],
+   "us-gaap:TechnologyServiceMember": [
+    "채권·데이터",
+    "#4f7fb8"
+   ],
+   "ice:MortgageTechnologyMember": [
+    "모기지 기술",
+    "#8fb3dc"
+   ]
+  },
+  "ignore_candidates": [
+   "ice:EnergyFuturesAndOptionsMember",
+   "ice:AgriculturalandMetalsFuturesandOptionsContractsMember",
+   "ice:FinancialFuturesAndOptionsMember",
+   "ice:CashEquityandEquityOptionsMember",
+   "ice:OTCandOtherTransactionsMember",
+   "ice:ExchangeDataMember",
+   "ice:ListingsMember",
+   "ice:FixedIncomeExecutionMember",
+   "ice:CDSClearingMember",
+   "ice:FixedIncomeDataAndAnalyticsMember",
+   "ice:OtherDataAndNetworkServicesMember",
+   "ice:OriginationTechnologyMember",
+   "ice:ClosingSolutionsMember",
+   "ice:ServicingSoftwareMember",
+   "ice:MortgageTechnologyDataAndAnalyticsMember"
+  ]
+ },
+ "EMR": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "srt:ProductOrServiceAxis": "emr:SoftwareAndSystemsMember"
+  },
+  "members": {
+   "emr:ControlSystemsAndSoftwareMember": [
+    "제어 시스템·소프트웨어",
+    "#004b8d"
+   ],
+   "emr:TestAndMeasurementMember": [
+    "시험·계측",
+    "#3d7cc0"
+   ]
+  }
+ },
+ "CSX": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "csx:TotalMerchandiseMember": [
+    "일반 화물",
+    "#00467f"
+   ],
+   "csx:IntermodalMember": [
+    "인터모달",
+    "#4a7fb3"
+   ],
+   "csx:CoalServicesMember": [
+    "석탄",
+    "#333f48"
+   ],
+   "csx:TruckingMember": [
+    "트럭(Quality Carriers)",
+    "#8fb3dc"
+   ],
+   "csx:OtherServicesMember": [
+    "기타",
+    "#9a9a9a"
+   ]
+  },
+  "ignore_candidates": [
+   "csx:ChemicalsMember",
+   "csx:AgriculturalandFoodProductsMember",
+   "csx:AutomotiveMember",
+   "csx:ForestProductsMember",
+   "csx:MetalsandEquipmentMember",
+   "csx:MineralsMember",
+   "csx:FertilizersMember"
+  ]
+ },
+ "MRSH": {
+  "concepts": [
+   "mrsh:RevenueFromContractWithCustomerExcludingAssessedTaxExcludingFiduciaryInterestIncome"
+  ],
+  "axis": "us-gaap:SubsegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "us-gaap:StatementBusinessSegmentsAxis": "mrsh:RiskAndInsuranceServicesSegmentMember"
+  },
+  "members": {
+   "mrsh:RiskMember": [
+    "보험 중개(Marsh Risk)",
+    "#002c77"
+   ],
+   "mrsh:ReinsuranceMember": [
+    "재보험(Guy Carpenter)",
+    "#009de0"
+   ]
+  },
+  "ignore_candidates": [
+   "mrsh:RiskReinsuranceMember"
+  ]
+ },
+ "CEG": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "ceg:ConstellationMidAtlanticMember": [
+    "미드애틀랜틱(PJM 동부)",
+    "#1d4f91"
+   ],
+   "ceg:ConstellationMidwestMember": [
+    "중서부",
+    "#00a3e0"
+   ],
+   "ceg:ConstellationNewYorkMember": [
+    "뉴욕",
+    "#5b8fd1"
+   ],
+   "ceg:ConstellationERCOTMember": [
+    "텍사스(ERCOT)",
+    "#f2a900"
+   ],
+   "ceg:ConstellationOtherRegionsMember": [
+    "기타 전력 지역",
+    "#8fb3dc"
+   ],
+   "ceg:ConstellationCalpineMember": [
+    "Calpine",
+    "#0f2f5c"
+   ]
+  }
+ },
+ "INTU": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "intu:GlobalBusinessSolutionsSegmentMember": [
+    "글로벌 비즈니스 솔루션(QuickBooks·Mailchimp)",
+    "#236cff"
+   ],
+   "intu:ConsumerSegmentMember": [
+    "소비자(TurboTax·Credit Karma)",
+    "#00b9a9"
+   ]
+  }
+ },
+ "HWM": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "hwm:EngineProductsSegmentMember": [
+    "엔진 부품",
+    "#003da5"
+   ],
+   "hwm:FasteningSystemsMember": [
+    "체결재(패스너)",
+    "#4f8fdc"
+   ],
+   "hwm:EngineeredStructuresMember": [
+    "구조물(티타늄 등)",
+    "#8fb3dc"
+   ],
+   "hwm:ForgedWheelsMember": [
+    "단조 휠(트럭)",
+    "#6b7280"
+   ]
+  }
+ },
+ "WMB": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "wmb:TransmissionPowerGulfMember": [
+    "수송·전력·걸프(Transco 등)",
+    "#0b3c7d"
+   ],
+   "wmb:NortheastGPMember": [
+    "북동부 집하·처리",
+    "#2e7fc2"
+   ],
+   "wmb:WestMember": [
+    "서부 집하·처리",
+    "#7fb2e0"
+   ],
+   "wmb:GasNGLMarketingServicesMember": [
+    "가스·NGL 마케팅",
+    "#e0a030"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:ReportableSegmentAggregationBeforeOtherOperatingSegmentMember"
+  ]
+ },
+ "MRNA": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "mrna:COVID19Member": [
+    "COVID 백신(Spikevax·mNEXSPIKE)",
+    "#d71e28"
+   ]
+  },
+  "ignore_candidates": [
+   "mrna:ProductSalesMember",
+   "us-gaap:ProductAndServiceOtherMember",
+   "mrna:RSVMember",
+   "mrna:StandReadyManufacturingMember",
+   "mrna:CollaborationArrangementIncludingArrangementsWithAffiliateMember",
+   "us-gaap:GrantMember",
+   "mrna:LicenseAndRoyaltyMember"
+  ]
+ },
+ "WM": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "wm:EastTierRegionAreasMember": [
+    "수거·매립 동부",
+    "#1c8a3e"
+   ],
+   "wm:WestTierRegionAreasMember": [
+    "수거·매립 서부",
+    "#5fb878"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타 부수 서비스",
+    "#a7d7b3"
+   ],
+   "wm:HealthcareSolutionsMember": [
+    "의료 폐기물(Stericycle)",
+    "#2b6cb0"
+   ],
+   "wm:RecyclingProcessingAndSalesMember": [
+    "재활용 처리·판매",
+    "#f2b81d"
+   ],
+   "wm:RenewableEnergySegmentMember": [
+    "재생에너지(매립가스)",
+    "#9ca3af"
+   ]
+  },
+  "ignore_candidates": [
+   "wm:CollectionAndDisposalMember",
+   "us-gaap:CorporateAndOtherMember"
+  ]
+ },
+ "DDOG": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "srt:NorthAmericaMember": [
+    "북미",
+    "#632ca6"
+   ],
+   "ddog:InternationalMember": [
+    "해외",
+    "#b794e0"
+   ]
+  },
+  "ignore_candidates": [
+   "country:US"
+  ]
+ },
+ "AMT": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "amt:PropertyUSAndCanadaMember": [
+    "미국·캐나다 통신탑",
+    "#0f4c81"
+   ],
+   "amt:PropertyLatinAmericaMember": [
+    "중남미",
+    "#4a90c8"
+   ],
+   "amt:PropertyAfricaAPACMember": [
+    "아프리카·아태",
+    "#7fb3de"
+   ],
+   "amt:PropertyDataCentersMember": [
+    "데이터센터(CoreSite)",
+    "#f2a33a"
+   ],
+   "amt:PropertyEuropeMember": [
+    "유럽",
+    "#a9c9e8"
+   ],
+   "amt:ServicesSegmentMember": [
+    "서비스(미국)",
+    "#9ca3af"
+   ]
+  },
+  "ignore_candidates": [
+   "amt:PropertyMember"
+  ]
+ },
+ "SNPS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "snps:DesignAutomationSegmentMember": [
+    "설계 자동화(EDA·Ansys)",
+    "#5a2d82"
+   ],
+   "snps:DesignIPSegmentMember": [
+    "설계 IP",
+    "#a888d4"
+   ]
+  }
+ },
+ "MAR": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "mar:USAndCanadaSegmentMember": [
+    "미국·캐나다",
+    "#8c1d40"
+   ],
+   "mar:EMEASegmentMember": [
+    "유럽·중동·아프리카",
+    "#c0506f"
+   ],
+   "mar:APECMember": [
+    "아시아·태평양(중국 제외)",
+    "#e3a1b4"
+   ],
+   "mar:GreaterChinaMember": [
+    "중화권",
+    "#f2c9d5"
+   ]
+  }
+ },
+ "MMM": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "mmm:SafetyAndIndustrialSegmentMember": [
+    "안전·산업",
+    "#e4002b"
+   ],
+   "mmm:TransportationAndElectronicsSegmentMember": [
+    "운송·전자",
+    "#ff6b6b"
+   ],
+   "mmm:ConsumerSegmentMember": [
+    "소비자",
+    "#ffb3b3"
+   ]
+  }
+ },
+ "EOG": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "eog:UnitedStatesOfAmericaSegmentMember": [
+    "미국",
+    "#d71920"
+   ],
+   "eog:TrinidadMember": [
+    "트리니다드",
+    "#f26b6f"
+   ],
+   "eog:OtherInternationalMember": [
+    "기타 해외",
+    "#f7b3b5"
+   ]
+  }
+ },
+ "VRT": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "vrt:AmericasSegmentMember": [
+    "미주",
+    "#e35205"
+   ],
+   "vrt:AsiaPacificSegmentMember": [
+    "아시아·태평양",
+    "#f58a4c"
+   ],
+   "vrt:EMEASegmentMember": [
+    "유럽·중동·아프리카",
+    "#f9c09e"
+   ]
+  }
+ },
+ "HLT": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "hlt:ManagementAndFranchiseMember": [
+    "관리·프랜차이즈",
+    "#104c97"
+   ],
+   "hlt:OwnershipMember": [
+    "직영·임차 호텔",
+    "#7aa3d9"
+   ]
+  }
+ },
+ "REGN": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "regn:CollaborationRevenueMember": [
+    "협업 매출(Sanofi·Bayer)",
+    "#0b5e9e"
+   ],
+   "us-gaap:ProductMember": [
+    "제품 매출(Eylea·Libtayo 등)",
+    "#4d93cf"
+   ],
+   "us-gaap:ProductAndServiceOtherMember": [
+    "기타",
+    "#a9cbe8"
+   ]
+  },
+  "ignore_candidates": [
+   "regn:LIBTAYONetProductSalesMember",
+   "regn:LynozyficMember",
+   "regn:OtherProductsMember"
+  ]
+ },
+ "HPE": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "hpe:CloudAISegmentMember": [
+    "Cloud & AI(서버·스토리지·금융)",
+    "#01a982"
+   ],
+   "hpe:NetworkingMember": [
+    "네트워크(Juniper 포함)",
+    "#4fd1b1"
+   ],
+   "us-gaap:CorporateAndOtherMember": [
+    "기업 투자·기타",
+    "#a8e8d6"
+   ]
+  }
+ },
+ "MSI": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "msi:ProductAndSystemsIntegrationSegmentMember": [
+    "제품·시스템 통합(무전기·영상 장비)",
+    "#005eb8"
+   ],
+   "msi:ServicesAndSoftwareSegmentMember": [
+    "소프트웨어·서비스",
+    "#4c92d6"
+   ]
+  }
+ },
+ "SHW": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "shw:PaintStoresGroupMember": [
+    "도료 매장(Paint Stores)",
+    "#e4002b"
+   ],
+   "shw:PerformanceCoatingsGroupMember": [
+    "산업용 코팅",
+    "#f25c74"
+   ],
+   "shw:ConsumerBrandsGroupMember": [
+    "소비자 브랜드",
+    "#f9b4c0"
+   ]
+  }
+ },
+ "CTAS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "ctas:UniformRentalAndFacilityServicesSegmentMember": [
+    "유니폼 대여·시설 서비스",
+    "#0b4ea2"
+   ],
+   "ctas:FirstAidAndSafetyServicesSegmentMember": [
+    "구급·안전 서비스",
+    "#5b8fd6"
+   ],
+   "ctas:FireProtectionServicesMember": [
+    "방화 서비스",
+    "#e4572e"
+   ],
+   "ctas:UniformDirectSalesMember": [
+    "유니폼 직판",
+    "#a9c4ea"
+   ]
+  }
+ },
+ "CMI": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "cmi:DistributionMember": [
+    "유통(Distribution)",
+    "#d71920"
+   ],
+   "cmi:ComponentsMember": [
+    "부품(Components)",
+    "#e86a6f"
+   ],
+   "cmi:EngineMember": [
+    "엔진(Engine)",
+    "#8f1015"
+   ],
+   "cmi:PowerSystemsMember": [
+    "발전(Power Systems)",
+    "#f2a7aa"
+   ],
+   "cmi:AcceleraMember": [
+    "Accelera(수소·전동화)",
+    "#4caf50"
+   ]
+  }
+ },
+ "UPS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "ups:U.S.DomesticPackageSegmentMember": [
+    "미국 국내 소포",
+    "#351c15"
+   ],
+   "ups:InternationalSegmentMember": [
+    "국제 소포",
+    "#ffb500"
+   ]
+  }
+ },
+ "NOC": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "noc:AeronauticsSystemsMember": [
+    "항공(Aeronautics)",
+    "#00274c"
+   ],
+   "noc:MissionSystemsMember": [
+    "임무 시스템",
+    "#4f6f99"
+   ],
+   "noc:SpaceSystemsMember": [
+    "우주",
+    "#8fa9cc"
+   ],
+   "noc:DefenseSystemsMember": [
+    "방어 시스템",
+    "#c0392b"
+   ]
+  }
+ },
+ "ITW": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "itw:AutomotiveOEMSegmentMember": [
+    "자동차 부품(OEM)",
+    "#d81e05"
+   ],
+   "itw:TestandMeasurementandElectronicsSegmentMember": [
+    "계측·전자",
+    "#ef6a5a"
+   ],
+   "itw:FoodEquipmentSegmentMember": [
+    "식품 장비",
+    "#8e1403"
+   ],
+   "itw:WeldingSegmentMember": [
+    "용접",
+    "#f4a582"
+   ],
+   "itw:ConstructionProductsSegmentMember": [
+    "건설 자재",
+    "#92c5de"
+   ],
+   "itw:PolymersAndFluidsSegmentMember": [
+    "폴리머·유체",
+    "#4393c3"
+   ],
+   "itw:SpecialtyProductsSegmentMember": [
+    "특수 제품",
+    "#2166ac"
+   ]
+  }
+ },
+ "APD": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "apd:AmericasSegmentMember": [
+    "미주",
+    "#00539b"
+   ],
+   "apd:AsiaSegmentMember": [
+    "아시아",
+    "#4a8fd1"
+   ],
+   "apd:EuropeSegmentMember": [
+    "유럽",
+    "#003366"
+   ],
+   "us-gaap:CorporateAndOtherMember": [
+    "본사·기타(설비 판매)",
+    "#9fb8d9"
+   ],
+   "apd:MiddleEastAndIndiaSegmentMember": [
+    "중동·인도",
+    "#c7d6ea"
+   ]
+  }
+ },
+ "GM": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "gm:GMNorthAmericaMember": [
+    "북미(GMNA)",
+    "#0b4da2"
+   ],
+   "gm:GMFinancialSegmentMember": [
+    "GM Financial",
+    "#5f95dd"
+   ],
+   "gm:GMIMember": [
+    "해외(GMI)",
+    "#06306a"
+   ]
+  }
+ },
+ "COR": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "cor:USHealthcareSolutionsMember": [
+    "미국 헬스케어 솔루션",
+    "#461e7d"
+   ],
+   "cor:InternationalHealthcareSolutionsMember": [
+    "해외 헬스케어 솔루션",
+    "#8a63c2"
+   ]
+  }
+ },
+ "AON": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "country:US": [
+    "미국",
+    "#eb0017"
+   ],
+   "aon:EuropeMiddleEastAndAfricaOtherThanUnitedKingdomAndIrelandMember": [
+    "유럽·중동·아프리카(영국·아일랜드 외)",
+    "#f2707d"
+   ],
+   "srt:AsiaPacificMember": [
+    "아시아·태평양",
+    "#f7b0b7"
+   ],
+   "aon:AmericasOtherThanUnitedStatesMember": [
+    "미주(미국 외)",
+    "#5c1018"
+   ]
+  },
+  "ignore_candidates": [
+   "country:GB",
+   "country:IE"
+  ]
+ },
+ "TRGP": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "trgp:LogisticsAndTransportationMember": [
+    "물류·운송(NGL)",
+    "#00539b"
+   ],
+   "trgp:GatheringAndProcessingMember": [
+    "수집·처리",
+    "#5f95d0"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타(헤지 등)",
+    "#b3cce8"
+   ]
+  }
+ },
+ "TDG": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "tdg:SalesMarketTypeAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "tdg:DefenseMember": [
+    "국방",
+    "#1b365d"
+   ],
+   "tdg:CommercialAftermarketMember": [
+    "상업 애프터마켓",
+    "#6d87b0"
+   ],
+   "tdg:CommercialOEMMember": [
+    "상업 OEM",
+    "#a9bbd6"
+   ],
+   "tdg:NonAviationMember": [
+    "비항공",
+    "#dbe3ef"
+   ]
+  }
+ },
+ "FAST": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "country:US": [
+    "미국",
+    "#0054a4"
+   ],
+   "fast:CanadaandMexicoMember": [
+    "캐나다·멕시코",
+    "#5c94d1"
+   ],
+   "fast:NonNorthAmericaMember": [
+    "북미 외",
+    "#b3cce8"
+   ]
+  }
+ },
+ "MCO": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "mco:MoodysInvestorsServiceMember": [
+    "신용평가(MIS)",
+    "#002b5c"
+   ],
+   "mco:MoodysAnalyticsMember": [
+    "데이터·분석(MA)",
+    "#5b84b8"
+   ]
+  }
+ },
+ "OKE": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "oke:RefinedProductsAndCrudeOilMember": [
+    "정제유·원유",
+    "#e31837"
+   ],
+   "oke:NaturalGasLiquidsMember": [
+    "NGL",
+    "#f06a7e"
+   ],
+   "oke:NaturalGasGatheringAndProcessingMember": [
+    "천연가스 수집·처리",
+    "#9e0f25"
+   ],
+   "oke:WhollyOwnedInterstateNaturalGasPipelinesMember": [
+    "천연가스 파이프라인",
+    "#f7b3bd"
+   ]
+  }
  }
 }

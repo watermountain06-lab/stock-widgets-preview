@@ -9,7 +9,7 @@ CUR, YO, QO = '2026-07-03', '2025-06-27', '2026-04-03'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 L8 = ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26']
 RELEASE = {'rev': 8965, 'op': 7037, 'ni': 6903}   # Q4 FY26 보도자료(백만 달러)
-VOTES, VERDICT = (0, 1, -2), '적정~고평가'
+VOTES, VERDICT = (1, 1, -2), '적정'
 CO = 'Sandisk'
 S_ = 'https://www.sec.gov/Archives/edgar/data/2023554/'
 SEC = S_
@@ -98,7 +98,7 @@ BEAR = [('밸류', '현금흐름 기본 ${DCF[\'base\']:.0f} — 마진이 이�
         ('가격', 'FY2026 매출 +175% 가운데 출하량 증가는 10%대 중반, 나머지는 가격.'),
         ('물량', 'WDC가 남은 SNDK 지분을 2026년 말까지 처분할 예정이다.')]
 ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 19, 'mean': 2174.47, 'median': 2200, 'low': 1470, 'high': 3000, 'sb': 17, 'b': 4, 'h': 3, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-11'
+ANALYST_ASOF = '2026-10-24'
 PRE = [r'''
 # SELF_SPAN 보조: fill.py의 SELF_SPAN 세 번째 교체가 찾는 옛 틀 문구('…분포에서 지금보다')가 E13(2026-10-05) 뒤 틀에 없다 —
 # 표지(\x00)를 끼워 찾게 하고 POST에서 옛 카드 문구로 정리한다(공통 후보)

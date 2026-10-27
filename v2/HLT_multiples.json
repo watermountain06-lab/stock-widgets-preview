@@ -1,0 +1,67 @@
+{
+ "ticker": "HLT",
+ "window": [
+  "2021-10-26",
+  "2026-10-26"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 1254,
+   "current": 51.67,
+   "min": 29.04,
+   "p10": 31.94,
+   "median": 43.25,
+   "p90": 94.7,
+   "max": 1128.57,
+   "mean": 105.86,
+   "percentile": 80.5,
+   "score": 19.5
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 6.34,
+   "min": 3.78,
+   "p10": 4.14,
+   "median": 5.23,
+   "p90": 6.77,
+   "max": 10.0,
+   "mean": 5.37,
+   "percentile": 88.0,
+   "score": 12.0
+  },
+  "PCR": {
+   "days": 1177,
+   "current": 39.03,
+   "min": 20.73,
+   "p10": 22.07,
+   "median": 29.28,
+   "p90": 41.34,
+   "max": 615.39,
+   "mean": 55.49,
+   "percentile": 87.2,
+   "score": 12.8
+  },
+  "EV/EBITDA": {
+   "days": 1255,
+   "current": 29.69,
+   "min": 18.79,
+   "p10": 20.04,
+   "median": 26.83,
+   "p90": 39.67,
+   "max": 157.85,
+   "mean": 29.1,
+   "percentile": 81.1,
+   "score": 18.9
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 43.47,
+  "per_p75": 50.47,
+  "low": 300,
+  "high": 340,
+  "asOf": "2026-10-26",
+  "basis": "diluted"
+ }
+}

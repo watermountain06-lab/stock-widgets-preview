@@ -1,0 +1,79 @@
+{
+ "ticker": "AON",
+ "window": [
+  "2025-10-17",
+  "2026-10-16"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 251,
+   "current": 16.13,
+   "min": 14.85,
+   "p10": 16.8,
+   "median": 19.49,
+   "p90": 28.51,
+   "max": 29.45,
+   "mean": 21.47,
+   "percentile": 7.6,
+   "score": 92.4
+  },
+  "PSR": {
+   "days": 251,
+   "current": 3.53,
+   "min": 3.25,
+   "p10": 3.68,
+   "median": 4.17,
+   "p90": 4.43,
+   "max": 4.66,
+   "mean": 4.11,
+   "percentile": 7.6,
+   "score": 92.4
+  },
+  "PBR": {
+   "days": 251,
+   "current": 6.47,
+   "min": 5.96,
+   "p10": 6.73,
+   "median": 7.68,
+   "p90": 9.48,
+   "max": 9.66,
+   "mean": 7.91,
+   "percentile": 7.6,
+   "score": 92.4
+  },
+  "PCR": {
+   "days": 251,
+   "current": 19.11,
+   "min": 17.6,
+   "p10": 19.15,
+   "median": 21.92,
+   "p90": 24.81,
+   "max": 25.66,
+   "mean": 22.06,
+   "percentile": 9.6,
+   "score": 90.4
+  },
+  "EV/EBITDA": {
+   "days": 251,
+   "current": 15.39,
+   "min": 14.38,
+   "p10": 15.93,
+   "median": 18.23,
+   "p90": 20.38,
+   "max": 21.23,
+   "mean": 18.31,
+   "percentile": 7.6,
+   "score": 92.4
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 17.98,
+  "per_p75": 27.82,
+  "low": 330,
+  "high": 500,
+  "asOf": "2026-10-16",
+  "basis": "diluted"
+ }
+}

@@ -49,6 +49,15 @@ def main():
             rows.append(row); added += 1; n += 1
         print(f"{form} {filed}: {n}행")
     json.dump(data, open(op, "w"), indent=1)
+    # 확인한 마지막 공시 접수일 — 태그가 10-K에만 있는 종목(LMT 감가상각)은 분기 공시 뒤 행이 승인일보다 앞서 매일 다시 받게 된다.
+    # build.py가 dim_facts와 같은 파일(.dimcheck.json)의 "company:{태그}" 키로 "이 공시까지 봤다"를 읽는다(2026-10-21).
+    scanned = [f for fm, f, d in zip(sub["form"], sub["filingDate"], sub["primaryDocument"])
+               if fm in ("10-Q", "10-K") and f >= a.since and d.endswith(".htm")]
+    if scanned:
+        ck = os.path.join(CACHE, "overlay", f"{cik}.dimcheck.json")
+        marks = json.load(open(ck)) if os.path.exists(ck) else {}
+        marks[f"company:{a.company_tag}"] = max(scanned)   # 출처별 키 — dim_facts·다른 회사 태그의 표식이 대신하지 않게(Codex)
+        json.dump(marks, open(ck, "w"), indent=1)
     print(f"저장: {op} ({a.std_tag} +{added}행)")
 
 

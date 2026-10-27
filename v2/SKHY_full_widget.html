@@ -524,14 +524,14 @@ Chart.overrides.doughnut.animation = false;
       <div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
           <span class="ticker-badge">SKHY</span>
-          <span style="font-size:11px;color:var(--accent);font-weight:600;">NASDAQ ADR(2026.07.10 첫 거래 · 1 ADR = 보통주 0.1주) · 원주 KRX:000660 · ADR이 원주보다 +43% 비싸다(원주 09/23 종가·환율 09/18 기준)</span>
+          <span style="font-size:11px;color:var(--accent);font-weight:600;">NASDAQ ADR(2026.07.10 첫 거래 · 1 ADR = 보통주 0.1주) · 원주 KRX:000660</span>
         </div>
         <img class="hdr-logo" src="logos/skhy.png" alt="" onerror="if(!this.dataset.r){this.dataset.r=1;this.src='../logos/skhy.png'}else{this.remove()}"><div class="company-name">SK hynix Inc.</div>
       </div>
     </div>
     <div class="price-block">
-      <div style="font-size:11px;color:var(--text3);margin-bottom:2px;">현재가 (2026.10.09)</div>
-      <div class="price-main"><span class="price-change" style="color:var(--red);">▼ −0.86%</span> $169.03</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:2px;">현재가 (2026.10.26)</div>
+      <div class="price-main"><span class="price-change" style="color:var(--green);">▲ +4.09%</span> $142.62</div>
     </div>
   </div>
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
@@ -541,7 +541,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +83%)</span>
-      <span class="meta-value" id="skhyDcfReq" style="font-size:22px;color:#0ea5e9;">연 15.8%</span>
+      <span class="meta-value" id="skhyDcfReq" style="font-size:22px;color:#0ea5e9;">연 10.1%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="skhyConfidenceLabel">밴드 적중률</span>
@@ -549,7 +549,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="skhyFairBand" title="원주 최근 1년 PER(본업 기준) 25~75% 구간 × 현재 본업 EPS. 원주 가격 분포라 ADR 프리미엄이 없다 — 원주 환산가는 $134." style="font-size:22px;color:var(--green);">$130 ~ $220</span>
+      <span class="meta-value" id="skhyFairBand" title="원주 최근 1년 PER(본업 기준) 25~75% 구간 × 현재 본업 EPS. 원주 가격 분포라 ADR 프리미엄이 없다." style="font-size:22px;color:var(--green);">$140 ~ $220</span>
     </div>
   </div>
   </div>
@@ -562,8 +562,8 @@ Chart.overrides.doughnut.animation = false;
        스크립트가 꺼졌을 때를 위한 대비용이다. -->
   <div class="logic-grid" id="skhyLogicGrid">
     <div class="logic-box logic-info">
-      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="skhyDcfVerdict">싸다 · 갈림</span></div>
-      <div class="logic-score" id="skhyDcfBox">$206<span class="logic-denom"> · 보수 $106 · 낙관 $595</span></div>
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="skhyDcfVerdict">매우 싸다 · 갈림</span></div>
+      <div class="logic-score" id="skhyDcfBox">$210<span class="logic-denom"> · 보수 $108 · 낙관 $605</span></div>
     </div>
     <div class="logic-box logic-positive" id="skhyFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="skhyFundVerdict">우수</span></div>
@@ -571,15 +571,15 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="skhyPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="skhyPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="skhyPeerScore">87.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="skhyPeerScore">91.4<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="skhySelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="skhySelfVerdict">비싼 편</span></div>
-      <div class="logic-score" id="skhySelfScore">21.1<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="skhySelfScore">27.7<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
-  <div class="section-title" id="techHeaderTitle">주가 차트 — 일봉 캔들스틱 (2026.07 ~ 2026.10) · 상장 이후 수익률 <span id="techHeaderReturn" style="color: var(--green);">+0.6%</span></div>
+  <div class="section-title" id="techHeaderTitle">주가 차트 — 일봉 캔들스틱 (2026.07 ~ 2026.10) · 상장 이후 수익률 <span id="techHeaderReturn" style="color: var(--red);">-15.1%</span></div>
 
   <!-- ══════════ 1. 차트 ══════════ -->
   <div class="price-chart-container">
@@ -600,7 +600,7 @@ Chart.overrides.doughnut.animation = false;
     <svg id="skhyCandleSvg" viewBox="0 0 720 240" width="100%" style="display:block;background:var(--bg3);border-radius:8px 8px 0 0;padding:4px;" role="img" aria-label="SKHY 일봉 캔들스틱 차트"></svg>
     <svg id="skhyVolumeSvg" viewBox="0 0 720 70" width="100%" style="display:block;background:var(--bg3);border-radius:0 0 8px 8px;padding:0 4px 4px;" role="img" aria-label="SKHY 거래량 차트"></svg>
     <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <div style="font-size:11px;color:var(--text3);" id="techRangeSummary">상장 이후 최저 $124.80 (2026.07) → 상장 이후 최고 $199.87 (2026.09) → 현재 $169.03</div>
+      <div style="font-size:11px;color:var(--text3);" id="techRangeSummary">상장 이후 최저 $124.80 (2026.07) → 상장 이후 최고 $199.87 (2026.09) → 현재 $142.62</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <button class="ma-toggle-btn" data-ma="ma5" style="color:var(--ma5);border-color:var(--ma5);">● MA5</button>
         <button class="ma-toggle-btn" data-ma="ma20" style="color:var(--ma20);border-color:var(--ma20);">● MA20</button>
@@ -680,24 +680,24 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$106.21</td><td style="color: var(--red);" data-dcf-upside="low">−37.2%</td>
-          <td class="story">5년 성장률의 절반(연 20%)에서 식고, 영업이익률이 5년 중앙값 28.1%로 내려간다.</td>
+          <td class="big scn-low" data-dcf-value="low">$107.87</td><td style="color: var(--red);" data-dcf-upside="low">−24.4%</td>
+          <td class="story">매출이 5년 성장률의 절반(연 19.9%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 28.1%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$206.47</td><td style="color: var(--green);" data-dcf-upside="base">+22.1%</td>
-          <td class="story">5년 성장률(연 40%)에서 식고, 영업이익률이 최근 2년 중앙값 42.0%로 내려간다. 5년 뒤 매출 약 ₩479조.</td>
+          <td class="big scn-base" data-dcf-value="base">$209.69</td><td style="color: var(--green);" data-dcf-upside="base">+47.0%</td>
+          <td class="story">매출이 5년 성장률(연 39.8%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 42.0%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$595.42</td><td style="color: var(--green);" data-dcf-upside="high">+252.3%</td>
-          <td class="story">3년 성장률(연 83%)에서 출발하고 최근 4분기 영업이익률 68.0%가 이어진다. 5년 뒤 매출 약 ₩1,006조.</td>
+          <td class="big scn-high" data-dcf-value="high">$604.71</td><td style="color: var(--green);" data-dcf-upside="high">+324.0%</td>
+          <td class="story">매출이 3년 성장률(연 82.6%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 68.0%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $206.47 = 사업 가치 $197.05 + 비영업 자산 $9.42(주당, 지분·장기투자)</div>
-    <div class="reverse">지금 가격(<span data-dcf-price>$169.03</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>15.8%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$206</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>21.9%</span>다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $107.87~$604.71다. 영업이익률은 최근 4분기 68.0%, 2년 중앙값 42.0%, 5년 중앙값 28.1%를 쓴다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $209.69 = 사업 가치 $200.12 + 비영업 자산 $9.57(주당, 지분·장기투자)</div>
+    <div class="reverse">지금 가격(<span data-dcf-price>$142.62</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>10.1%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$210</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>21.9%</span>다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $206</span><span style="color: var(--green);" id="dcfPickUpside">현재가 대비 +22.1%</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $210</span><span style="color: var(--green);" id="dcfPickUpside">현재가 대비 +47.0%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -729,7 +729,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="chart-wrap" style="height:260px;">
       <canvas id="skhyRevChart"></canvas>
     </div>
-    <div class="yoy-footnote" style="margin-top:8px;">K-IFRS 원화 실적을 분기 평균 환율(연준 H.10)로 달러 환산했다. 순이익은 본업 기준(영업이익 × (1 − 그 분기 실효세율))이다 — 2분기 공시 순이익 ₩93.8조에는 금융수익 ₩65.9조(금융상품평가이익 ₩53.2조·배당금수익 ₩10.0조)가 들어 있다.</div>
+    <div class="yoy-footnote" style="margin-top:8px;">K-IFRS 원화 실적을 분기 평균 환율(연준 H.10)로 달러 환산했다. 순이익은 본업 기준(영업이익 × (1 − 그 분기 실효세율))이다 — 공시 순이익에는 금융상품 평가손익 등 영업외 항목이 크게 들어 있다.</div>
   </div>
 
   <!-- ══════════ 2. FCF / Capex / R&D / 다음실적 ══════════ -->
@@ -737,22 +737,22 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q2 2026)</div>
       <div class="stat-value">$36.48B</div>
-      <div class="stat-sub">현금창출력</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q2 2026)</div>
       <div class="stat-value">$7.11B</div>
-      <div class="stat-sub">미래 재투자</div>
+      <div class="stat-sub">설비투자(현금흐름표)</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">R&amp;D (Q2 2026)</div>
-      <div class="stat-value">$2.3B</div>
-      <div class="stat-sub">기술 경쟁력 투자</div>
+      <div class="stat-label">희석 EPS (Q2 2026)</div>
+      <div class="stat-value">₩13,148</div>
+      <div class="stat-sub">K-IFRS · ADR 1주(보통주 0.1주, 원화) · 1년 전 ₩958 (+1272%)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">다음 실적</div>
-      <div class="stat-value">10월 말 예상</div>
-      <div class="stat-sub">일정 · Q3 2026 잠정실적</div>
+      <div class="stat-value">10월 28일 무렵 예상</div>
+      <div class="stat-sub">일정 · Q3 2026 (작년 10/29 발표, 같은 요일로 추정)</div>
     </div>
   </div>
 
@@ -791,16 +791,16 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">32.8%</span></div>
       <div class="diag-badge watch" title="구성표 배점 4/5점">보통</div></div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+46.9%</span><span class="diag-note">FY25 ₩176.1조(전기 ₩119.9조) · 원화 기준 연간 지표, FY26 마감 전까지 동일</span></div>
+        <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+46.9%</span><span class="diag-note">FY2025 ₩176.1조(전기 ₩119.9조) · 원화 기준 연간 지표, 다음 사업보고서 전까지 동일</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$6.81</span><span class="diag-note" id="fundNetCashNote">순현금 $49.7B ÷ 7.29B주 · 현금·단기투자 $65.4B − 차입금·리스 $15.7B</span></div>
+        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$6.92</span><span class="diag-note" id="fundNetCashNote">순현금 $50.4B ÷ 7.29B주 · 현금·단기투자 $66.4B − 차입금·리스 $15.9B</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
     </div>
 
-    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">현금·단기금융상품·단기투자 ₩88.0조가 차입금 ₩18.6조보다 ₩69.4조 많다. 이자보상배율은 손익계산서에 이자비용 줄이 없어 현금흐름표의 분기 이자 지급액으로 계산했다(2분기 약 441배). 장기투자자산(Kioxia 투자 법인 지분 포함)은 여기서 빼고 셌다. <a href="https://kind.krx.co.kr/common/disclsviewer.do?method=search&acptno=20260814002925" target="_blank" rel="noopener">2026 반기보고서 (KIND) →</a></div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--text2);line-height:1.6;">차입금 ₩18.6조, 현금·단기투자 ₩88.0조, 자본 ₩262.4조. 유동비율 259%, 이자보상배율 441배. <a href="https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003509" target="_blank" rel="noopener">Q2 2026 반기보고서 (원문) →</a></div>
     </div>
 
     <div class="section-label" style="margin-top:14px;"><span class="dot" style="background:var(--blue);"></span>활동성 — 회수·재고소진·지급 속도 (<span id="actPeriod">TTM 기준 · 2026.06.30까지 4분기</span>)</div>
@@ -886,66 +886,60 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">회사는 반도체 단일 부문이라 제품(D램·낸드)별 매출을 정기보고서에 따로 싣지 않는다. 지역은 고객 소재지 기준 · 출처: <a href="https://kind.krx.co.kr/common/disclsviewer.do?method=search&acptno=20260814002925" target="_blank" rel="noopener">SK하이닉스 2026 반기보고서 연결재무제표 주석 (KIND) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 미국 3.4배, 중국 4.2배, 아시아(중국 제외) 4.0배, 유럽 4.5배, 국내 +18.1% · 출처: <a href="https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003509" target="_blank" rel="noopener">Q2 2026 반기보고서 부문 표 (원문) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
-      <div class="card-title">자본배분 · 주주환원 (2026년 · 2026.08.21 기준)</div>
+      <div class="card-title">자본배분 · 주주환원 (Q2 2026 · 2026.06.30 기준)</div>
       <div class="zone-list">
         <div class="zone-item">
-          <span class="zone-label">설비투자 (상반기, 유형자산 취득)</span>
+          <span class="zone-label">자사주 매입 (연초~6/30, 26주)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">₩18.3조</span>
+            <span class="zone-val">없음</span>
           </div>
         </div>
         <div class="zone-item">
-          <span class="zone-label">자사주 매입·소각 결정 (8/20~11/19, 최대 2,407만 주)</span>
-          <span class="zone-val">₩40.0조</span>
+          <span class="zone-label">배당 지급 (연초~6/30, 26주)</span>
+          <span class="zone-val">₩1.6조</span>
         </div>
         <div class="zone-item">
-          <span class="zone-label">배당 지급 (상반기)</span>
+          <span class="zone-label">최근 분기 주당 배당 (보통주 1주 · ADR 1주는 0.1배 · DART 배당에 관한 사항)</span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="zone-val">₩1.6조</span>
+            <span class="zone-tag" style="background:rgba(212,160,23,0.18);color:var(--gold);">1년 전 ₩375 · +0.0%</span>
+            <span class="zone-val">₩375</span>
           </div>
-        </div>
-        <div class="zone-item">
-          <span class="zone-label">ADR 신주 발행 (7/14 납입, 1,779만 주)</span>
-          <span class="zone-val">₩39.9조</span>
         </div>
       </div>
-      <div class="yoy-footnote" style="margin-top:14px;">회사는 2025~2027년 누적 잉여현금흐름의 50% 이상을 자사주 매입·소각과 배당으로 돌려주겠다고 밝혔다(8/19 공정공시) · 2월에 기존 자사주 1,530만 주를 소각했다 · 출처: <a href="https://kind.krx.co.kr/common/disclsviewer.do?method=search&acptno=20260819000318" target="_blank" rel="noopener">자기주식 취득 결정 (KIND) →</a></div>
     </div>
   </div>
 
   <!-- ══════════ 6. 다음 실적 체크포인트 ══════════ -->
   <div class="card" style="margin-top:16px;">
-    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 말 (예상) · Q3 2026 잠정실적</span></div>
+    <div class="card-title">다음 실적 체크포인트 <span style="color:var(--gold);font-weight:600;">2026년 10월 28일 무렵 (예상) · Q3 2026</span></div>
     <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 분기 매출(2분기 ₩79.3조)과 영업이익률(76.3%)이 더 오르는지, 꺾이는지</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> ₩40조 자사주 매입(11/19 종료)이 얼마나 진행됐는지 — 소각 뒤 주식 수가 최대 3.3% 줄어든다</div>
-      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">③</strong> Kioxia 투자 법인 평가손익이 다시 영업외 이익을 크게 흔드는지 (상반기 평가이익 ₩59.3조)</div>
-      <div><strong style="color:var(--accent2);">④</strong> ADR과 원주의 가격 차이(9월 +40%대)가 좁혀지는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">①</strong> 매출 증가율(1년 전 대비)이 최근 흐름(+66.1% → +198.1% → +256.8%)보다 낮아지지 않는지</div>
+      <div style="margin-bottom:8px;"><strong style="color:var(--accent2);">②</strong> Q3 2026 영업이익률이 1년 전 같은 분기(Q3 2025 46.6%)보다 높은지(직전 Q2 2026 76.3%)</div>
     </div>
   </div>
 </div>
 
 <div id="valuation" class="section">
-  <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$169.03</span></div>
+  <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$142.62</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~저평가</span><span class="vs-asof"><span data-vs="asof">2026.10.09</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~저평가</span><span class="vs-asof"><span data-vs="asof">2026.10.26</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 SKHY 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">21.1</div><div class="sc-tile low" data-vc="self" data-m="per">22</div><div class="sc-tile low" data-vc="self" data-m="pbr">7</div><div class="sc-tile low" data-vc="self" data-m="psr">6</div><div class="sc-tile lost" data-vc="self" data-m="pcr">41</div><div class="sc-tile low" data-vc="self" data-m="evebitda">30</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$206</div><div class="vs-note">현재가 <span data-vs="price">$169.03</span> 대비 <strong data-vs="upside">+22.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 0.82
-시나리오 범위: 0.28 ~ 1.59(세 시나리오 최대·최소 기준)
+      <div class="vs-name" title="지난 5년 SKHY 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">27.7</div><div class="sc-tile lost" data-vc="self" data-m="per">32</div><div class="sc-tile low" data-vc="self" data-m="pbr">11</div><div class="sc-tile low" data-vc="self" data-m="psr">9</div><div class="sc-tile lost" data-vc="self" data-m="pcr">54</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">34</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$210</div><div class="vs-note">현재가 <span data-vs="price">$142.62</span> 대비 <strong data-vs="upside">+47.0%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 0.68
+시나리오 범위: 0.24 ~ 1.32(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.
-보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">싸다 · 갈림</div></div>
-      <div class="vs-name" title="같은 IT 섹터(카드 유니버스 28종목)보다 배수가 얼마나 낮은가. 높을수록 싸다. ADR 가격 기준.">동종업 대비</div><div class="vs-val" data-vc-score="peer">87.0</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">74</div><div class="sc-tile" data-vc="peer" data-m="pcr">87</div><div class="sc-tile" data-vc="peer" data-m="evebitda">100</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">매우 싸다 · 갈림</div></div>
+      <div class="vs-name" title="같은 IT 섹터(카드 유니버스 28종목)보다 배수가 얼마나 낮은가. 높을수록 싸다. ADR 가격 기준.">동종업 대비</div><div class="vs-val" data-vc-score="peer">91.4</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">96</div><div class="sc-tile" data-vc="peer" data-m="psr">74</div><div class="sc-tile" data-vc="peer" data-m="pcr">96</div><div class="sc-tile" data-vc="peer" data-m="evebitda">100</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">IT 28종목 안에서는 싼 쪽(동종업 87.0점)이지만, 원주의 5년 배수 분포에 ADR 가격을 대 보면 다섯 배수 모두 비싼 쪽(자기 이력 21.1점)이다. <strong>ADR이 원주보다 약 43% 비싸서 그 차이가 그대로 얹힌다.</strong> 동종업 점수는 PER을 빼고(본업 기준이라) 네 배수로 셌고, PCR·EV/EBITDA는 정점 이익이 분모라 낮게 나온다. 현금흐름 내재가치(기본 $206)는 현재가의 122%로, 영업이익률이 최근 4분기 68%에서 최근 2년 중앙값 42%로 내려온다고 본 값이다.</div>
-    <div class="verdict-summary-risk">⚠️ 메모리는 가격이 크게 오르내린다. 2023년 영업손실이 ₩7.7조였고, 지금 마진(2분기 76.3%)은 5년 중앙값(연 28%)의 두 배를 넘는다. 현재가가 정당하려면 5년간 매출이 매년 <strong data-vs="req">15.8%</strong>씩 커야 한다(최근 3년 실제 연 83%).</div>
+    <div class="vs-premise">PER 13.7배(3.6년 중앙값 10.6배)로 자기 이력 27.7점(비싸다), 동종업 91.4점(싸다)이다. <strong>현금흐름 내재가치(기본 $209.69)는 현재가의 147%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 +1 · 현금흐름 +1, 합계 +1 “적정~저평가”이다. 현금흐름 내재가치(기본 $209.69)는 현재가의 147%다. 현재가를 정당화하려면 매출이 5년간 연 10.1% 커야 한다. 내재가치에서 차입금·금융리스 ₩21.1조를 빼고 현금·단기투자 ₩88.0조를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -956,23 +950,23 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (본업 기준) <span class="hist-note" data-hist="note">유효 이력 3.6년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">16.4x</span>
-            <span class="hist-badge bad" data-hist="badge">3.6년 중 상위 22%</span>
+            <span class="val-number" data-hist="cur">13.7x</span>
+            <span class="hist-badge mid" data-hist="badge">3.6년 중 상위 32%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 78.4%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 5.0x</span><span data-hist="median">중앙 11.0x</span><span data-hist="max">최고 34.5x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 67.9%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 5.0x</span><span data-hist="median">중앙 10.6x</span><span data-hist="max">최고 34.5x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
         <div class="val-header">
           <span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">6.3x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 7%</span>
+            <span class="val-number" data-hist="cur">5.3x</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 11%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 92.7%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 89.1%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 0.8x</span><span data-hist="median">중앙 1.8x</span><span data-hist="max">최고 12.6x</span></div>
       </div>
 
@@ -980,41 +974,41 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PSR (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">8.8x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 6%</span>
+            <span class="val-number" data-hist="cur">7.3x</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 9%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 94.1%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 1.1x</span><span data-hist="median">중앙 2.4x</span><span data-hist="max">최고 15.7x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 91.5%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 1.1x</span><span data-hist="median">중앙 2.5x</span><span data-hist="max">최고 15.7x</span></div>
       </div>
 
       <div class="val-item" data-metric="pcr" onclick="selectMultiple('pcr')">
         <div class="val-header">
           <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note">유효 이력 3.6년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">18.1x</span>
-            <span class="hist-badge mid" data-hist="badge">3.6년 중 상위 41%</span>
+            <span class="val-number" data-hist="cur">15.0x</span>
+            <span class="hist-badge mid" data-hist="badge">3.6년 중 하위 46%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 58.9%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 7.4x</span><span data-hist="median">중앙 16.4x</span><span data-hist="max">최고 53.6x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 46.3%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 7.4x</span><span data-hist="median">중앙 16.2x</span><span data-hist="max">최고 53.6x</span></div>
       </div>
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">11.1x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 30%</span>
+            <span class="val-number" data-hist="cur">9.1x</span>
+            <span class="hist-badge mid" data-hist="badge">5년 중 상위 34%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 70.5%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 2.5x</span><span data-hist="median">중앙 6.3x</span><span data-hist="max">최고 35.3x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 66.5%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 2.5x</span><span data-hist="median">중앙 6.4x</span><span data-hist="max">최고 35.3x</span></div>
       </div>
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">메모리·반도체 PER 비교 (SNDK 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/9)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">메모리·반도체 PER 비교 (SNDK 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/26)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1024,18 +1018,13 @@ Chart.overrides.doughnut.animation = false;
 </div>
 
 <div id="news" class="section">
-  <div class="section-title">시계열 주요 뉴스 (2026.01 ~ 2026.09)</div>
+  <div class="section-title">시계열 주요 뉴스 (2026.01 ~ 2026.10)</div>
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · AI 메모리 호황으로 이익이 폭증했고, 증설과 주주환원을 함께 키운다<span class="tag">초호황·ADR 웃돈</span></div>
-    <ol class="news-list">
-      <li>분기 매출이 ₩24.4조(Q3 2025) → ₩32.8조 → ₩52.6조 → ₩79.3조로 세 분기 만에 3배가 됐고, 영업이익률은 46.6%에서 76.3%로 올랐다.</li>
-      <li>2분기 공시 순이익 ₩93.8조에는 금융수익 ₩65.9조(금융상품평가이익 ₩53.2조·배당금수익 ₩10.0조)가 섞여 있다. 평가이익의 대부분은 Kioxia 투자 법인 몫이다(상반기 ₩59.3조). 그래서 이 카드의 PER은 본업 이익 기준이다.</li>
-      <li>7월 ADR 상장으로 ₩39.9조를 조달했고, 8월에 ₩40조 자사주 매입·소각과 용인·청주 신규 팹 ₩54.3조 투자를 결정했다.</li>
-    </ol>
-    <div class="verdict-summary-counter">⚠️ ADR이 원주보다 약 43% 비싸게 거래된다. 메모리 가격이 꺾이면 마진이 빠르게 줄어든다(2023년 영업손실 ₩7.7조).</div>
-    <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 잠정실적(10월 말 예상)의 매출·마진 추세, 자사주 매입 진행(11/19 종료), ADR과 원주의 가격 차이.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 ₩79.3조, 영업이익률 76.3%(1년 전 41.4%). 주가는 상장 이후 −15%<span class="tag">배수 싼 쪽·매출 성장 빨라짐</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 +1 · 현금흐름 +1, 합계 +1 “적정~저평가”이다. 현금흐름 내재가치(기본 $209.69)는 현재가의 147%다.</div>
+    <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 10월 28일 무렵 (예상) Q3 2026 실적 공시.</div>
   </div>
 
   <!-- TODAY_NEWS_ANCHOR: 정적 스크립트가 "오늘의 뉴스" 카드를 여기에 삽입. 종합 해석 카드 바로 뒤, 타임라인 카드 바로 앞. 삽입 시 이 주석 앵커를 유일한 시작 마커로, 다음 줄의 legend 시작(<div style="display:flex;gap:14px)을 끝 마커로 사용해 그 사이만 교체할 것 — 카드 내부에 </div>가 여러 번 나올 수 있으므로 비탐욕 정규식으로 카드 자체를 통째로 지우거나 자르지 말 것. -->
@@ -1049,6 +1038,12 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="timeline" id="newsTimeline">
+      <div class="tl-item">
+        <div class="tl-dot neutral"></div>
+        <div class="tl-date">2026년 10월 14일 — 실적 발표<span class="tl-reaction down" data-react="2026-10-14">−6.1%</span></div>
+        <div class="tl-title">실적 보도자료 공시(6-K) — 매출·이익 숫자는 분기 재무제표가 나오면 이 카드에 반영된다</div>
+        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/2120882/000119312526420934/d413172d6k.htm" target="_blank" rel="noopener">SK hynix 실적 보도자료 (SEC 6-K) →</a>
+      </div>
       <div class="tl-item">
         <div class="tl-dot green"></div>
         <div class="tl-date">2026년 8월 19일 15:41(한국) — ₩40조 자사주 매입·소각<span class="tl-reaction flat" data-react="2026-08-19">+0.3%</span></div>
@@ -1112,15 +1107,13 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">수요</span><span class="bb-text">2분기 매출 ₩79.3조(+257%), 영업이익률 76.3%로 네 분기 연속 올랐다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">주주환원</span><span class="bb-text">₩40조 자사주 매입·소각을 결정했고, 3년 누적 잉여현금흐름의 50% 이상을 돌려준다.</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">재무</span><span class="bb-text">현금·단기금융 ₩88.0조가 차입금 ₩18.6조의 네 배를 넘는다.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 68.0%(5년 중앙값 28.1%).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF ₩91.7조, 매출의 48.5%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">부채</span><span class="bb-text">현금·단기투자가 차입금·리스보다 ₩66.8조 많다(순현금).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">ADR 웃돈</span><span class="bb-text">ADR이 원주보다 약 43% 비싸다. 같은 회사를 원주로는 그만큼 싸게 산다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">사이클</span><span class="bb-text">2023년 영업손실 ₩7.7조였다. 메모리 가격이 꺾이면 마진이 빠르게 줄어든다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">설비투자</span><span class="bb-text">8월에만 신규 팹 ₩54.3조 투자를 결정했고, 상반기 설비투자가 ₩18.3조였다.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 28점(배수 5개) · PER 13.7배(3.6년 중앙값 10.6배).</span></div>
     </div>
   </div>
 
@@ -1133,12 +1126,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 93.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 6.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-11</span></span>
-        <span class="op-val"><span data-an="mean">$254.70</span> <span class="op-sub op-up" data-an="upside">+50.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
+        <span class="op-val"><span data-an="mean">$254.70</span> <span class="op-sub op-up" data-an="upside">+78.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
-        <span class="op-val">10월 말 <span class="op-sub">Q3 2026 잠정실적 예상</span></span>
+        <span class="op-val">10월 28일 무렵 <span class="op-sub">Q3 2026 예상</span></span>
       </div>
     </div>
   </div>
@@ -1219,14 +1212,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [52.86, 40.35, 30.88, 36.48], cmp: [15.88, 6.58, 5.28, 3.45] },
     deltas: ['+256.8%', '+557.2%', '+527.1%', '+1032.3%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · K-IFRS 연결재무제표 · 금액은 분기 평균 환율로 달러 환산, 증감률은 원화 기준 · 순이익은 본업 기준(영업이익 × (1 − 실효세율)) · FCF는 영업현금흐름 − 유형자산 취득 · <a href="https://kind.krx.co.kr/common/disclsviewer.do?method=search&acptno=20260814002925" target="_blank" rel="noopener">SK하이닉스 2026 반기보고서 (KIND) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · K-IFRS 연결재무제표 · 금액은 분기 평균 환율로 달러 환산, 증감률은 원화 기준 · 순이익은 본업 기준(영업이익 × (1 − 실효세율)) · FCF는 영업현금흐름 − 유형자산 취득 · <a href="https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003509" target="_blank" rel="noopener">SK하이닉스 Q2 2026 반기보고서 (원문) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
     chart: { cur: [52.86, 40.35, 30.88, 36.48], cmp: [35.87, 25.66, 20.06, 12.74] },
     deltas: ['+50.9%', '+61.0%', '+57.6%', '+193.2%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · K-IFRS 연결재무제표 · 금액은 분기 평균 환율로 달러 환산, 증감률은 원화 기준 · 순이익은 본업 기준(영업이익 × (1 − 실효세율)) · FCF는 영업현금흐름 − 유형자산 취득 · <a href="https://kind.krx.co.kr/common/disclsviewer.do?method=search&acptno=20260814002925" target="_blank" rel="noopener">SK하이닉스 2026 반기보고서 (KIND) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · K-IFRS 연결재무제표 · 금액은 분기 평균 환율로 달러 환산, 증감률은 원화 기준 · 순이익은 본업 기준(영업이익 × (1 − 실효세율)) · FCF는 영업현금흐름 − 유형자산 취득 · <a href="https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003509" target="_blank" rel="noopener">SK하이닉스 Q2 2026 반기보고서 (원문) →</a>'
   }
 };
 
@@ -1338,54 +1331,54 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '메모리·반도체 PER 비교 (SNDK 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/9)',
-    unit: 'PER', max: 55, skhyValue: null,
+    title: '메모리·반도체 PER 비교 (SNDK 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/26)',
+    unit: 'PER', max: 50, skhyValue: null,
     peers: [
-      { name:'MU', value:23.3, status:'reference' },
-      { name:'NVDA', value:29.0, status:'reference' },
-      { name:'TSM', value:32.7, status:'reference' },
-      { name:'AVGO', value:46.1, status:'reference' }
+      { name:'MU', value:20.5, status:'reference' },
+      { name:'NVDA', value:27.3, status:'reference' },
+      { name:'TSM', value:30.6, status:'reference' },
+      { name:'AVGO', value:41.9, status:'reference' }
     ]
   },
   pbr: {
-    title: '메모리·반도체 PBR 비교 · 08/27~09/09 카드 기준(SKHY 막대는 10/9)',
+    title: '메모리·반도체 PBR 비교 · 08/27~09/09 카드 기준(SKHY 막대는 10/26)',
     unit: 'PBR', max: 30, skhyValue: null,
     peers: [
-      { name:'MU', value:11.5, status:'reference' },
-      { name:'SNDK', value:14.7, status:'reference' },
-      { name:'NVDA', value:24.3, status:'reference' },
-      { name:'TSM', value:11.4, status:'reference' },
-      { name:'AVGO', value:17.7, status:'reference' }
+      { name:'MU', value:10.1, status:'reference' },
+      { name:'SNDK', value:11.7, status:'reference' },
+      { name:'NVDA', value:22.9, status:'reference' },
+      { name:'TSM', value:10.7, status:'reference' },
+      { name:'AVGO', value:16.1, status:'reference' }
     ]
   },
   psr: {
-    title: '메모리·반도체 PSR 비교 · 08/27~09/09 카드 기준(SKHY 막대는 10/9)',
+    title: '메모리·반도체 PSR 비교 · 08/27~09/09 카드 기준(SKHY 막대는 10/26)',
     unit: 'PSR(TTM)', max: 25, skhyValue: null,
     peers: [
-      { name:'MU', value:12.9, status:'reference' },
-      { name:'SNDK', value:11.4, status:'reference' },
-      { name:'NVDA', value:18.4, status:'reference' },
-      { name:'TSM', value:16.5, status:'reference' },
-      { name:'AVGO', value:19.8, status:'reference' }
+      { name:'MU', value:11.3, status:'reference' },
+      { name:'SNDK', value:9.1, status:'reference' },
+      { name:'NVDA', value:17.3, status:'reference' },
+      { name:'TSM', value:15.4, status:'reference' },
+      { name:'AVGO', value:18.0, status:'reference' }
     ]
   },
   pcr: {
-    title: '메모리·반도체 PCR(FCF) 비교 (SNDK 값 없음·AVGO 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/9)',
-    unit: 'PCR(FCF)', max: 75, skhyValue: null,
+    title: '메모리·반도체 PCR(FCF) 비교 (SNDK 값 없음·AVGO 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/26)',
+    unit: 'PCR(FCF)', max: 70, skhyValue: null,
     peers: [
-      { name:'MU', value:44.4, status:'reference' },
-      { name:'NVDA', value:43.9, status:'reference' },
-      { name:'TSM', value:64.1, status:'reference' }
+      { name:'MU', value:39.0, status:'reference' },
+      { name:'NVDA', value:41.3, status:'reference' },
+      { name:'TSM', value:60.0, status:'reference' }
     ]
   },
   evebitda: {
-    title: '메모리·반도체 EV/EBITDA 비교 (TSM 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/9)',
-    unit: 'EV/EBITDA', max: 45, skhyValue: null,
+    title: '메모리·반도체 EV/EBITDA 비교 (TSM 값 없음) · 08/27~09/09 카드 기준(SKHY 막대는 10/26)',
+    unit: 'EV/EBITDA', max: 40, skhyValue: null,
     peers: [
-      { name:'MU', value:16.8, status:'reference' },
-      { name:'SNDK', value:18.1, status:'reference' },
-      { name:'NVDA', value:27.3, status:'reference' },
-      { name:'AVGO', value:35.0, status:'reference' }
+      { name:'MU', value:14.7, status:'reference' },
+      { name:'SNDK', value:14.3, status:'reference' },
+      { name:'NVDA', value:25.7, status:'reference' },
+      { name:'AVGO', value:31.9, status:'reference' }
     ]
   }
 };
@@ -1441,11 +1434,11 @@ function selectMultiple(key) {
 }
 
 // ══════ #tech (runs immediately, #tech is the default active tab) ══════
-const SKHY_DAILY = [["2026-07-10",170.0,177.0,166.19,168.01,107674700],["2026-07-13",152.62,162.28,151.3,152.35,57284300],["2026-07-14",168.11,194.8,165.5,193.92,72647700],["2026-07-15",181.81,187.95,166.48,176.46,76307700],["2026-07-16",165.91,168.2,151.38,152.31,56250500],["2026-07-17",152.11,167.37,145.57,154.03,73978300],["2026-07-20",163.42,163.43,149.74,151.16,37817500],["2026-07-21",161.75,173.22,160.54,171.94,38925600],["2026-07-22",162.16,170.09,162.0,165.27,27122800],["2026-07-23",170.72,177.93,167.02,169.5,36234900],["2026-07-24",163.91,164.2,153.1,154.57,26255500],["2026-07-27",159.7,159.71,139.01,143.02,50747400],["2026-07-28",135.91,136.49,128.29,130.17,51088300],["2026-07-29",129.95,137.19,124.8,126.79,65810000],["2026-07-30",136.51,150.36,134.5,149.0,52881200],["2026-07-31",159.88,162.65,143.51,143.73,46065100],["2026-08-03",139.92,144.17,134.58,142.72,29619600],["2026-08-04",150.18,155.47,146.7,154.38,34369800],["2026-08-05",150.22,155.95,149.84,151.03,19977000],["2026-08-06",139.0,147.24,137.71,143.53,22257500],["2026-08-07",143.48,143.65,133.8,137.91,34377400],["2026-08-10",135.03,139.08,134.28,135.29,17486200],["2026-08-11",139.22,141.87,137.33,141.65,17091000],["2026-08-12",150.7,155.16,147.26,154.41,25793200],["2026-08-13",154.13,168.5,153.41,165.67,32480200],["2026-08-14",169.32,171.58,163.76,166.33,20684800],["2026-08-17",172.6,178.43,169.57,171.38,24223300],["2026-08-18",161.78,163.88,154.53,155.62,22821900],["2026-08-19",162.78,163.8,155.62,156.16,33980100],["2026-08-20",162.07,166.39,160.13,163.08,21693000],["2026-08-21",167.05,167.46,162.57,163.41,15475700],["2026-08-24",157.37,157.55,151.5,155.37,16711100],["2026-08-25",159.9,161.2,156.24,159.53,12287300],["2026-08-26",158.61,161.21,157.59,158.02,10327400],["2026-08-27",163.88,164.73,158.61,161.61,13394000],["2026-08-28",159.2,163.56,157.97,161.04,11712000],["2026-08-31",160.75,165.07,160.5,164.58,12183300],["2026-09-01",161.5,164.04,158.52,160.78,10875700],["2026-09-02",159.77,165.47,158.67,164.98,11261900],["2026-09-03",160.82,164.63,157.73,163.68,14757700],["2026-09-04",164.61,177.7,164.61,177.0,20803200],["2026-09-08",184.67,189.82,183.96,185.55,23156300],["2026-09-09",188.08,199.87,187.53,198.63,30460300],["2026-09-10",189.43,193.55,187.17,188.3,22099400],["2026-09-11",192.94,192.94,187.0,190.07,14934600],["2026-09-14",174.93,179.9,174.59,175.63,20965200],["2026-09-15",179.25,181.29,172.23,174.83,14158600],["2026-09-16",180.34,180.66,172.78,174.87,15889400],["2026-09-17",181.98,185.33,181.26,182.99,16880700],["2026-09-18",184.91,192.01,182.8,187.5,71104200],["2026-09-21",188.31,190.25,185.91,188.86,20475200],["2026-09-22",187.05,196.48,186.37,195.37,18693800],["2026-09-23",191.6,193.08,186.11,189.28,13960700],["2026-09-24",185.57,188.9,184.74,186.37,9582400],["2026-09-25",189.36,192.83,187.8,191.56,13710500],["2026-09-28",185.8,186.7,179.31,181.92,16342100],["2026-09-29",185.1,188.41,183.05,186.68,13140600],["2026-09-30",186.18,187.7,183.9,184.15,11066900],["2026-10-01",185.5,193.83,182.68,193.5,17483700],["2026-10-02",194.2,195.53,191.39,195.13,15606600],["2026-10-05",193.64,195.97,190.42,195.02,12266200],["2026-10-06",191.8,191.84,180.91,182.56,21911600],["2026-10-07",178.27,181.14,176.7,178.25,20918200],["2026-10-08",176.4,177.18,167.21,170.5,22531100],["2026-10-09",172.79,173.3,168.77,169.03,12028800]];
-const SKHY_MA5 = [null,null,null,null,168.61,165.814,165.576,161.18,158.942,162.38,162.488,160.86,152.506,144.81,140.71,138.542,138.482,143.324,148.172,147.078,145.914,144.428,141.882,142.558,146.986,152.67,159.888,162.682,163.032,162.514,161.93,158.728,159.51,159.882,159.588,159.114,160.956,161.206,162.598,163.012,166.204,170.398,177.968,182.632,187.91,187.636,185.492,180.74,179.678,179.164,181.81,185.918,188.8,189.476,190.288,188.9,187.162,186.136,187.562,188.276,190.896,190.072,188.892,184.292,179.072];
-const SKHY_MA20 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,154.695,153.19,152.337,149.723,148.62,149.288,149.904,150.915,150.099,149.643,149.322,149.764,150.382,151.849,153.411,154.041,154.907,156.0,156.32,157.017,158.025,159.98,162.493,165.342,167.036,168.256,168.721,168.894,169.856,171.198,172.419,173.691,175.691,177.179,178.596,180.094,181.138,182.243,183.411,184.837,186.41,187.311,187.161,186.142,185.252,184.2];
-const SKHY_MA60 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,166.38,166.83,167.33,167.07,166.97,167.25];
-const SKHY_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+const SKHY_DAILY = [["2026-07-10",170.0,177.0,166.19,168.01,107674700],["2026-07-13",152.62,162.28,151.3,152.35,57284300],["2026-07-14",168.11,194.8,165.5,193.92,72647700],["2026-07-15",181.81,187.95,166.48,176.46,76307700],["2026-07-16",165.91,168.2,151.38,152.31,56250500],["2026-07-17",152.11,167.37,145.57,154.03,73978300],["2026-07-20",163.42,163.43,149.74,151.16,37817500],["2026-07-21",161.75,173.22,160.54,171.94,38925600],["2026-07-22",162.16,170.09,162.0,165.27,27122800],["2026-07-23",170.72,177.93,167.02,169.5,36234900],["2026-07-24",163.91,164.2,153.1,154.57,26255500],["2026-07-27",159.7,159.71,139.01,143.02,50747400],["2026-07-28",135.91,136.49,128.29,130.17,51088300],["2026-07-29",129.95,137.19,124.8,126.79,65810000],["2026-07-30",136.51,150.36,134.5,149.0,52881200],["2026-07-31",159.88,162.65,143.51,143.73,46065100],["2026-08-03",139.92,144.17,134.58,142.72,29619600],["2026-08-04",150.18,155.47,146.7,154.38,34369800],["2026-08-05",150.22,155.95,149.84,151.03,19977000],["2026-08-06",139.0,147.24,137.71,143.53,22257500],["2026-08-07",143.48,143.65,133.8,137.91,34377400],["2026-08-10",135.03,139.08,134.28,135.29,17486200],["2026-08-11",139.22,141.87,137.33,141.65,17091000],["2026-08-12",150.7,155.16,147.26,154.41,25793200],["2026-08-13",154.13,168.5,153.41,165.67,32480200],["2026-08-14",169.32,171.58,163.76,166.33,20684800],["2026-08-17",172.6,178.43,169.57,171.38,24223300],["2026-08-18",161.78,163.88,154.53,155.62,22821900],["2026-08-19",162.78,163.8,155.62,156.16,33980100],["2026-08-20",162.07,166.39,160.13,163.08,21693000],["2026-08-21",167.05,167.46,162.57,163.41,15475700],["2026-08-24",157.37,157.55,151.5,155.37,16711100],["2026-08-25",159.9,161.2,156.24,159.53,12287300],["2026-08-26",158.61,161.21,157.59,158.02,10327400],["2026-08-27",163.88,164.73,158.61,161.61,13394000],["2026-08-28",159.2,163.56,157.97,161.04,11712000],["2026-08-31",160.75,165.07,160.5,164.58,12183300],["2026-09-01",161.5,164.04,158.52,160.78,10875700],["2026-09-02",159.77,165.47,158.67,164.98,11261900],["2026-09-03",160.82,164.63,157.73,163.68,14757700],["2026-09-04",164.61,177.7,164.61,177.0,20803200],["2026-09-08",184.67,189.82,183.96,185.55,23156300],["2026-09-09",188.08,199.87,187.53,198.63,30460300],["2026-09-10",189.43,193.55,187.17,188.3,22099400],["2026-09-11",192.94,192.94,187.0,190.07,14934600],["2026-09-14",174.93,179.9,174.59,175.63,20965200],["2026-09-15",179.25,181.29,172.23,174.83,14158600],["2026-09-16",180.34,180.66,172.78,174.87,15889400],["2026-09-17",181.98,185.33,181.26,182.99,16880700],["2026-09-18",184.91,192.01,182.8,187.5,71104200],["2026-09-21",188.31,190.25,185.91,188.86,20475200],["2026-09-22",187.05,196.48,186.37,195.37,18693800],["2026-09-23",191.6,193.08,186.11,189.28,13960700],["2026-09-24",185.57,188.9,184.74,186.37,9582400],["2026-09-25",189.36,192.83,187.8,191.56,13710500],["2026-09-28",185.8,186.7,179.31,181.92,16342100],["2026-09-29",185.1,188.41,183.05,186.68,13140600],["2026-09-30",186.18,187.7,183.9,184.15,11066900],["2026-10-01",185.5,193.83,182.68,193.5,17483700],["2026-10-02",194.2,195.53,191.39,195.13,15606600],["2026-10-05",193.64,195.97,190.42,195.02,12266200],["2026-10-06",191.8,191.84,180.91,182.56,21911600],["2026-10-07",178.27,181.14,176.7,178.25,20918200],["2026-10-08",176.4,177.18,167.21,170.5,22531100],["2026-10-09",172.79,173.3,168.77,169.03,12087400],["2026-10-12",164.32,164.49,161.31,162.23,14724500],["2026-10-13",152.02,157.3,151.92,157.06,22199300],["2026-10-14",150.55,152.37,147.13,147.55,23746500],["2026-10-15",137.88,146.39,137.8,146.11,34072700],["2026-10-16",141.33,141.51,136.23,136.49,29664000],["2026-10-19",143.25,148.0,141.27,142.87,19608000],["2026-10-20",137.61,142.45,137.14,139.79,15769600],["2026-10-21",145.36,145.97,139.93,143.25,14058800],["2026-10-22",137.01,139.3,130.79,131.69,24312600],["2026-10-23",136.61,138.52,135.21,137.02,16311700],["2026-10-26",140.59,143.47,139.15,142.62,16912500]];
+const SKHY_MA5 = [null,null,null,null,168.61,165.814,165.576,161.18,158.942,162.38,162.488,160.86,152.506,144.81,140.71,138.542,138.482,143.324,148.172,147.078,145.914,144.428,141.882,142.558,146.986,152.67,159.888,162.682,163.032,162.514,161.93,158.728,159.51,159.882,159.588,159.114,160.956,161.206,162.598,163.012,166.204,170.398,177.968,182.632,187.91,187.636,185.492,180.74,179.678,179.164,181.81,185.918,188.8,189.476,190.288,188.9,187.162,186.136,187.562,188.276,190.896,190.072,188.892,184.292,179.072,172.514,167.414,161.274,156.396,149.888,146.016,142.562,141.702,138.818,138.924,138.874];
+const SKHY_MA20 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,154.695,153.19,152.337,149.723,148.62,149.288,149.904,150.915,150.099,149.643,149.322,149.764,150.382,151.849,153.411,154.041,154.907,156.0,156.32,157.017,158.025,159.98,162.493,165.342,167.036,168.256,168.721,168.894,169.856,171.198,172.419,173.691,175.691,177.179,178.596,180.094,181.138,182.243,183.411,184.837,186.41,187.311,187.161,186.142,185.252,184.2,183.53,182.642,181.276,179.432,176.881,174.582,171.803,169.501,166.767,164.04,162.075];
+const SKHY_MA60 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,166.38,166.83,167.33,167.07,166.97,167.25,167.38,167.48,167.08,166.76,166.21,166.01,165.96,166.18,166.26,166.06,166.04];
+const SKHY_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
 // DCF 시나리오 결과 — **화면의 DCF 숫자는 전부 여기서 나온다.**
 // 가정은 전부 회사 자기 이력에서 나온다 — 성장은 5년/3년 매출 CAGR, 마진은
 // 5년·최근 2년 중앙값과 현재값. 범위가 아니라 가정 세 개의 결과다.
@@ -1462,7 +1455,7 @@ const SKHY_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let SKHY_VERDICT = '계산 중';
 
-const SKHY_DCF = {"low": 106.21, "base": 206.47, "high": 595.42, "requiredGrowth": 0.1576, "baseEquivGrowth": 0.2192, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.6804, "growth5y": 0.3977, "nonopPerShare": 9.42, "s2cFallback": false, "asOf": "2026-10-09", "hard": [], "hardDetail": {"roic": 0.6094, "tax": 0.216, "nonopShare": 0.0456}, "tvShare": 0.7052};   // build_dcf_block.py
+const SKHY_DCF = {"low": 107.87, "base": 209.69, "high": 604.71, "requiredGrowth": 0.1008, "baseEquivGrowth": 0.2192, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.680369, "growth5y": 0.3977, "nonopPerShare": 9.57, "s2cFallback": false, "asOf": "2026-10-26", "hard": [], "hardDetail": {"roic": 0.6094, "tax": 0.216, "nonopShare": 0.0456}, "tvShare": 0.7052};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1515,10 +1508,10 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py SKHY
 const SKHY_SCORES = {
   fundamental: 92.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 87.0,          // GICS Information Technology 대비 배수 순위 (ADR 가격 × 그날 환율 ÷ 원화 재무)
-  selfHistory: 21.1,   // 자기 5년 배수 분포 백분위 (2026-07-10 ~ 2026-10-09)
-  asOf: "2026-10-09",
-  fundamentalAsOf: "2026-06-30",   // 2026 반기보고서 (2026-08-14 공시)
+  peer: 91.4,          // GICS Information Technology 대비 배수 순위 (ADR 가격 × 그날 환율 ÷ 원화 재무)
+  selfHistory: 27.7,   // 자기 5년 배수 분포 백분위 (2026-07-10 ~ 2026-10-26)
+  asOf: "2026-10-26",
+  fundamentalAsOf: "2026-06-30",   // Q2 2026 반기보고서 (2026-08-14 공시)
 };
 // 헤더와 근거 박스를 위 상수에서 다시 그린다. HTML에 적힌 값은 스크립트가
 // 꺼졌을 때를 위한 대비용일 뿐이고, 진짜 출처는 SKHY_DCF 하나다.
@@ -1574,19 +1567,19 @@ const SKHY_SCORES = {
     req.style.color = lv.color;   // 5단계와 같은 신호: 싸다 파랑 · 적정 노랑 · 비싸다 빨강
     const cell = req.closest('.meta-item');
     if (cell) cell.title = (mMode
-        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`
+        ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 ` + (d.growth5y < 0.0245 ? `연 2.5%(지난 5년 연 ${f1(d.growth5y)}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`)
           + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
           + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
-            ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}가 필요해 지난 5년의 3배를 넘는다.`
+            ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}` + (d.growth5y <= 0 ? `가 필요하다(지난 5년 실제는 연 ${f1(d.growth5y)}로 줄었다).` : `가 필요해 지난 5년의 3배를 넘는다.`)
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
         : `현재가 $${price.toFixed(2)} 가 정당화되려면 5년 내내`
           + ` 연 ${(d.requiredGrowth*100).toFixed(1)}% 매출 성장이 필요하다.`)
-      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '계산 불가(음수)' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
+      + `\n현재가 ÷ 내재가치 ${d.base <= 0 ? '0 이하' : '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))} = ${lv.ratio != null ? lv.ratio.toFixed(2) : '—'} → ${lv.label}`
       + ` (${DCF_RULE_TEXT})`;
   }
   if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')
-    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')
-    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';
+    + '<span class="logic-denom"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '0 이하')
+    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '0 이하') + '</span>';
   const dv = $('skhyDcfVerdict');
   if (dv && price != null) {
     const lv = dcfLevel(price, d);
@@ -1611,7 +1604,7 @@ const SKHY_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py SKHY
 /* DCF_GRID:BEGIN */
-const SKHY_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[122.99, 110.03, 100.07, 92.17, 85.74], [128.56, 113.96, 102.96, 94.36, 87.44], [135.1, 118.47, 106.21, 96.79, 89.31], [142.92, 123.71, 109.91, 99.51, 91.36], [152.43, 129.86, 114.15, 102.57, 93.65]], "기본": [[242.49, 212.96, 190.35, 172.48, 157.99], [256.65, 223.11, 197.93, 178.31, 162.59], [273.31, 234.77, 206.47, 184.79, 167.64], [293.23, 248.32, 216.19, 192.04, 173.23], [317.49, 264.27, 227.35, 200.22, 179.43]], "낙관": [[713.91, 612.71, 535.46, 474.62, 425.47], [765.86, 650.19, 563.6, 496.38, 442.71], [827.15, 693.37, 595.42, 520.64, 461.72], [900.58, 743.65, 631.71, 547.88, 482.8], [990.2, 802.97, 673.5, 578.69, 506.29]]}};
+const SKHY_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[124.91, 111.75, 101.63, 93.61, 87.08], [130.56, 115.74, 104.57, 95.83, 88.81], [137.21, 120.32, 107.87, 98.3, 90.7], [145.15, 125.64, 111.63, 101.06, 92.79], [154.81, 131.89, 115.94, 104.17, 95.11]], "기본": [[246.28, 216.29, 193.32, 175.17, 160.46], [260.66, 226.6, 201.02, 181.09, 165.13], [277.58, 238.44, 209.69, 187.68, 170.26], [297.81, 252.2, 219.56, 195.04, 175.93], [322.45, 268.39, 230.9, 203.35, 182.23]], "낙관": [[725.06, 622.27, 543.83, 482.03, 432.12], [777.82, 660.35, 572.4, 504.13, 449.63], [840.06, 704.2, 604.71, 528.77, 468.93], [914.64, 755.26, 641.57, 556.44, 490.33], [1005.66, 815.51, 684.02, 587.73, 514.2]]}};
 /* DCF_GRID:END */
 (function(){
   const D = SKHY_DCF, G = (typeof SKHY_DCF_GRID !== 'undefined') ? SKHY_DCF_GRID : null;
@@ -1633,7 +1626,7 @@ const SKHY_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   }
 
   document.querySelectorAll('#dcf [data-dcf-value]').forEach(el => {
-    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';   // 카드 한정
+    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '0 이하';   // 카드 한정
   });
   if (price != null) document.querySelectorAll('#dcf [data-dcf-upside]').forEach(el => {
     const v = D[el.dataset.dcfUpside];
@@ -1647,10 +1640,10 @@ const SKHY_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
   fill('[data-dcf-baseeq]', D.baseEquivGrowth != null ? (D.baseEquivGrowth * 100).toFixed(1) + '%' : '—');
   const pc = v => (v * 100).toFixed(1) + '%';
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
-    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`
+    el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 ` + (D.growth5y < 0.0245 ? `연 2.5%(지난 5년 연 ${pc(D.growth5y)}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`)
       + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
       + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
-        ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}가 필요해 지난 5년 실제의 3배를 넘는다.`
+        ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}` + (D.growth5y <= 0 ? `가 필요하다(지난 5년 실제는 연 ${pc(D.growth5y)}로 줄었다).` : `가 필요해 지난 5년 실제의 3배를 넘는다.`)
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
   });
   // 비영업 자산 분리 표기 — 주주가치에 더한 지분·장기투자(주당). 사업이 버는 현금과 구분한다.
@@ -1691,7 +1684,7 @@ const SKHY_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
     const vals = SCN.map(s => G.values[s[0]][st.term][st.wacc]);
     const pick = vals[st.scn], col = SCN[st.scn][2];
     const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
-    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '계산 불가(음수)'; pv.style.color = col;
+    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '0 이하'; pv.style.color = col;
     if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }
 
     const x = v => ((Math.log(v) - LO) / (HI - LO) * 100).toFixed(2) + '%';
@@ -1721,7 +1714,7 @@ const SKHY_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py SKHY --card
 /* FUNDAMENTAL:BEGIN */
-const SKHY_FUNDAMENTAL = {"ticker": "SKHY", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-08-15", "periodSource": "10-Q", "score": 92.1, "grade": "우수", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 259.1496785994389, "points": 4, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 229.30137752675614, "points": 4, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 5.327786516885431, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 440.88703757646374, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 32.84121719207833, "points": 4, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 27.72, "points": 27.7, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 29.599108436547116, "points": 5, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 90.6482394441155, "points": 5, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 76.32824654086185, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 59.84324043530109, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 34.0, "points": 34.0, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 19941286271.595764, "sti": 45418493033.624374, "lt_marketable": 0.0, "debt": 13811357235.742151, "lease": 1877395504.3655953, "shares": 7288665960, "net": 49671026565.1124, "perShare": 6.814830976986136}};
+const SKHY_FUNDAMENTAL = {"ticker": "SKHY", "basis": "quarter", "asOf": "2026-06-30", "filedAt": "2026-08-15", "periodSource": "10-Q", "score": 92.1, "grade": "우수", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 259.1496785994389, "points": 4, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 229.30137752675614, "points": 4, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 5.327786516885431, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": 440.88703757646374, "points": 5, "note": null, "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 32.84121719207833, "points": 4, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 5, "pointsRaw": 27.72, "points": 27.7, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 29.599108436547116, "points": 5, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 90.6482394441155, "points": 5, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 76.32824654086185, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 59.84324043530109, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 34.0, "points": 34.0, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 20252657238.1628, "sti": 46127674973.20876, "lt_marketable": 0.0, "debt": 14027013116.387182, "lease": 1906709884.8354037, "shares": 7288665960, "net": 50446609210.14898, "perShare": 6.921240387061033}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof SKHY_FUNDAMENTAL !== 'undefined') ? SKHY_FUNDAMENTAL : null;
@@ -1735,9 +1728,17 @@ const SKHY_FUNDAMENTAL = {"ticker": "SKHY", "basis": "quarter", "asOf": "2026-06
   // 루트 카드는 "기준 150%↑" 같은 손 기준으로 배지를 달아 4점 항목도 "✅ 양호"였다 — 그래서
   // 배지 말을 점수에 묶는다: 5점 양호 · 3~4점 보통 · 1~2점 주의 · 결측 —.
   const BADGE = p => p == null ? ['info', '—'] : p >= 5 ? ['safe', '✅ 양호'] : p >= 3 ? ['watch', '보통'] : ['alert', '⚠️ 주의'];
+  // 엔진 r7(2026-10-26): 큰 재무상태표 항목이 200일 넘게 멈춰 DCF를 '계산 보류'한 카드 — netCash가 null(키가 없어도)이고 DCF 사유에 '계산 보류'.
+  // 은행처럼 netCash null이 다른 뜻인 카드는 DCF base가 있거나 사유가 달라 걸리지 않는다(Codex·Fable)
+  const DCF_HOLD = F.netCash == null && typeof SKHY_DCF !== 'undefined' && SKHY_DCF.base == null && /계산 보류/.test(SKHY_DCF.unavailable || '');
   document.querySelectorAll('[data-fund-metric]').forEach(el => {
     const r = rows[el.dataset.fundMetric], v = el.querySelector('.diag-value');
     if (!r || !v) return;
+    if (DCF_HOLD && r.metric === 'debtDependency') {   // 같은 낡은 차입금이라 순현금 줄('계산 보류')과 어긋나지 않게 값·배지를 쓰지 않는다(Fable)
+      v.textContent = '계산 보류';
+      const b0 = el.querySelector('.diag-badge'); if (b0) { b0.className = 'diag-badge'; b0.textContent = ''; b0.title = ''; }
+      return;
+    }
     v.textContent = r.value == null ? (r.note || '—')
       : r.metric === 'interestCoverage' ? (Math.abs(r.value) < 1 ? r.value.toFixed(2) : Math.round(r.value)) + 'x' : r.value.toFixed(1) + '%';
     let b = el.querySelector('.diag-badge');
@@ -1769,6 +1770,11 @@ const SKHY_FUNDAMENTAL = {"ticker": "SKHY", "basis": "quarter", "asOf": "2026-06
     $('fundNetCashNote').textContent = `순현금 ${B(N.net)}` + (N.shares ? ` ÷ ${(N.shares / 1e9).toFixed(2)}B주` : ' (주식 수 자료 없음)') + ' · '
       + `현금·단기투자 ${B(N.cash + N.sti)}` + (N.lt_marketable ? ` + 장기 채권 ${B(N.lt_marketable)}` : '')
       + ` − 차입금·리스 ${B(N.debt + N.lease)}`;
+  } else if (DCF_HOLD && $('fundNetCashPs')) {
+    // 큰 재무상태표 항목이 200일 넘게 멈춰 DCF를 보류한 카드만(엔진 r7, 2026-10-26) — 정적 대체값(옛 순현금)이 남지 않게.
+    // netCash null이 다른 뜻인 경우(은행 bank_fill '해당 없음')를 덮지 않도록 DCF의 보류 사유까지 본다(Codex)
+    $('fundNetCashPs').textContent = '계산 보류';
+    $('fundNetCashNote').textContent = '재무상태표 일부 항목(차입금·현금·단기투자·비지배지분·우선주 중)이 200일 넘게 갱신되지 않아 순현금을 계산하지 않았다';
   }
   const hx = $('fundHealthAxis');
   if (hx && F.axes.health.points != null) hx.textContent = `${F.axes.health.points.toFixed(1)}/${F.axes.health.max}`;
@@ -1828,7 +1834,7 @@ const SKHY_FUNDAMENTAL = {"ticker": "SKHY", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py SKHY --self v2/SKHY_multiples.json --card
 /* VALUATION:BEGIN */
-const SKHY_VALUATION = {"peer": {"score": 87.0, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-10-09", "metrics": [{"metric": "pbr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "psr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "pcr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 24}]}, "self": {"score": 21.1, "window": ["2021-10-12", "2026-10-09"], "perBasis": "core", "metrics": [{"metric": "per", "score": 21.6, "percentile": 78.4, "current": 16.43, "min": 5.01, "median": 10.96, "max": 34.51, "days": 898, "currentNote": null}, {"metric": "pbr", "score": 7.3, "percentile": 92.7, "current": 6.32, "min": 0.75, "median": 1.78, "max": 12.58, "days": 1206, "currentNote": null}, {"metric": "psr", "score": 5.9, "percentile": 94.1, "current": 8.76, "min": 1.05, "median": 2.44, "max": 15.65, "days": 1206, "currentNote": null}, {"metric": "pcr", "score": 41.1, "percentile": 58.9, "current": 18.08, "min": 7.42, "median": 16.43, "max": 53.63, "days": 917, "currentNote": null}, {"metric": "evebitda", "score": 29.5, "percentile": 70.5, "current": 11.08, "min": 2.49, "median": 6.33, "max": 35.26, "days": 1206, "currentNote": null}]}};
+const SKHY_VALUATION = {"peer": {"score": 91.4, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-10-26", "metrics": [{"metric": "pbr", "score": 95.7, "rank": 2, "peers": 23}, {"metric": "psr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "pcr", "score": 95.7, "rank": 2, "peers": 23}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 24}]}, "self": {"score": 27.7, "window": ["2021-10-26", "2026-10-26"], "perBasis": "core", "metrics": [{"metric": "per", "score": 32.1, "percentile": 67.9, "current": 13.65, "min": 5.01, "median": 10.62, "max": 34.51, "days": 898, "currentNote": null}, {"metric": "pbr", "score": 10.9, "percentile": 89.1, "current": 5.25, "min": 0.75, "median": 1.79, "max": 12.58, "days": 1206, "currentNote": null}, {"metric": "psr", "score": 8.5, "percentile": 91.5, "current": 7.28, "min": 1.05, "median": 2.49, "max": 15.65, "days": 1206, "currentNote": null}, {"metric": "pcr", "score": 53.7, "percentile": 46.3, "current": 15.02, "min": 7.42, "median": 16.17, "max": 53.63, "days": 917, "currentNote": null}, {"metric": "evebitda", "score": 33.5, "percentile": 66.5, "current": 9.13, "min": 2.49, "median": 6.4, "max": 35.26, "days": 1206, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1869,7 +1875,7 @@ const SKHY_VALUATION = {"peer": {"score": 87.0, "sector": "Information Technolog
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
       + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
-    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
+    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 && dcfIn ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
     + ` → ${SKHY_VERDICT}`
     + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
@@ -1933,7 +1939,9 @@ const SKHY_VALUATION = {"peer": {"score": 87.0, "sector": "Information Technolog
     const nt = f('note'); if (nt) nt.textContent = m.days < 1200 ? `유효 이력 ${(m.days / 252).toFixed(1)}년(${m.metric === 'pbr' ? '자본 음수·결측' : '적자·결측'} 구간 제외)` : '';
     f('fill').className = 'val-fill hist-fill ' + (m.score == null ? 'mid' : histCls(m.score));
     f('fill').style.width = (m.score == null || perNA || pbrNA ? 0 : Math.max(m.percentile, 2)) + '%';
-    f('min').textContent = '최저 ' + x(m.min); f('median').textContent = '중앙 ' + x(m.median); f('max').textContent = '최고 ' + x(m.max);
+    // 유효 이력이 3개월도 안 되면(자본 음수로 거의 다 빠진 PBR — ORLY 2021년 짧은 양수 구간의 200배대) 최저·중앙·최고를 비운다(Fable 2026-10-22)
+    const thin = m.days == null || m.days < 63;
+    f('min').textContent = '최저 ' + (thin ? '—' : x(m.min)); f('median').textContent = '중앙 ' + (thin ? '—' : x(m.median)); f('max').textContent = '최고 ' + (thin ? '—' : x(m.max));
   });
   ['peer', 'self'].forEach(k => {
     const el = document.querySelector(`#valComp [data-vc-score="${k}"]`);
@@ -1957,7 +1965,7 @@ const SKHY_VALUATION = {"peer": {"score": 87.0, "sector": "Information Technolog
   const f1 = v => v == null ? '—' : v.toFixed(1);
   put('self', f1(V.self.score)); put('peer', f1(V.peer.score));
   if (D && D.base == null) { put('dcf', '—'); put('low', '—'); put('req', '—'); }
-  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
+  else if (D) { put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하'); put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '0 이하'); put('req', D.reqMode === 'margin' ? (D.requiredMargin != null ? (D.requiredMargin * 100).toFixed(1) + '%' : '—') : (D.requiredGrowth * 100).toFixed(1) + '%'); }
   if (last) {
     put('asof', last[0].replaceAll('-', '.'));
     put('price', '$' + last[4].toFixed(2));
@@ -2115,7 +2123,7 @@ const SKHY_ACTIVITY = {"ticker": "SKHY", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/skhy/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const SKHY_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 15, nTargets: 10, mean: 254.7, median: 250,
+const SKHY_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 15, nTargets: 10, mean: 254.7, median: 250,
   low: 200, high: 320, strongBuy: 9, buy: 5, hold: 1, sell: 0, strongSell: 0 };
 (function(){
   const A = SKHY_ANALYST, last = (typeof SKHY_DAILY !== 'undefined' && SKHY_DAILY.length) ? SKHY_DAILY[SKHY_DAILY.length - 1] : null;
@@ -2157,8 +2165,8 @@ const SKHY_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계
   };
   put('skhyFundBox', 'skhyFundScore', 'skhyFundVerdict', S.fundamental, WORDS.fund,
       `재무건전성과 성장·수익성만 본 점수다(밸류에이션 축 제외).`
-      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 반기보고서), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
-      + `\nK-IFRS 연결재무제표(KIND 원문)를 원화 그대로 계산했다(v2/adapters/skhy_ifrs.py). 순이익률은 본업 기준(영업이익 × (1 − 실효세율))이다. 이자보상배율은 손익계산서에 이자비용 줄이 없어 현금흐름표의 분기 이자 지급액으로 계산했다. 감가상각은 비용의 성격별 분류 주석 값이라 재고에 남은 몫이 빠져 EBITDA가 약간 작다.`);
+      + `\n대차대조표와 마진은 ${S.fundamentalAsOf} 분기(Q2 2026, 분기·반기보고서), 성장률은 연간 시계열(FY2025까지)을 쓴다.`
+      + `\n점수는 Q2 2026 반기보고서 기준 재무로 계산했다. 재무는 K-IFRS 연결재무제표(원화)다. ADR은 2026-07 상장이라 SEC에 10-Q가 없어 한국 정기보고서(OpenDART)를 읽는다. 분기 차트·FCF는 분기 평균 환율로 달러 환산하고, 부문·EPS·자본배분은 원화로 적는다. 자기 이력은 원주(KRX 000660) 가격 분포다.`);
   // 단어는 동결 설정의 등급(우수 80 · 양호 60 · 보통 40 · 미흡)에서 가져온다. 색은 카드
   // 공통 30/70 그대로다. 예전엔 70 이상을 "우수"라 불러 70~79점이 격자에선 우수,
   // 등급으론 양호가 됐다. 음수 자본·추정 영업이익·항목 부족·최신 분기 없음이면
@@ -2180,7 +2188,7 @@ const SKHY_ANALYST = { asOf: '2026-10-11', source: 'StockAnalysis (의견 집계
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);
   put('skhySelfBox', 'skhySelfScore', 'skhySelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\n5년 분포는 원주(KRX 000660) 가격으로, 현재 값은 ADR 가격으로 계산했다. ADR 상장이 2026년 7월이라 ADR만으로는 이력이 없다. 그래서 현재 위치에 ADR 프리미엄(약 43%)이 그대로 들어간다. PER은 본업 이익 기준이다.`
+      + `\nPER 13.7배는 3.6년 분포의 하위 67.9%다(중앙값 10.6배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
@@ -2353,7 +2361,7 @@ function skhyBandTone(cp){
     const FULL = {'1M':21,'6M':126,'1Y':252,'3Y':756,'5Y':1260};
     const LBL = (prevClose == null && data.length < FULL[rangeKey] * 0.9) ? '상장 이후' : RANGE_LABELS[rangeKey];
     const last = data[data.length-1][4];
-    const retPct = ((last/base - 1) * 100).toFixed(1);
+    const retPct = ((last/base - 1) * 100).toFixed(1).replace(/^-0\.0$/, '0.0');   // −0.0은 0.0으로 — '-0.0' >= 0이 참이라 "+-0.0%"가 나왔다(SNPS 2026-10-21)
     const sign = retPct >= 0 ? '+' : '';
     const dateFrom = data[0][0].slice(0,7).replace('-','.');
     const dateTo = data[data.length-1][0].slice(0,7).replace('-','.');
@@ -2570,7 +2578,7 @@ function skhyBandTone(cp){
           hit.setAttribute('height', Math.max(yBot - yTop, 1));
           hit.setAttribute('fill','transparent');
           const tt = document.createElementNS(NS,'title');
-          const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정
+          const usd = x => x < 0 ? '0 이하' : '$' + x.toFixed(0);   // 카드 한정
           let txt = `${e.v.d} 공시 기준 · 보수 ${usd(e.v.low)}`
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')

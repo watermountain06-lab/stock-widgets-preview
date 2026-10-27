@@ -105,9 +105,10 @@ def self_history(bank, daily, eps_path):
             yr = sorted(v for dd, v in ser if isinstance(v, float) and dd >= start)
             yq = lambda p: yr[int((len(yr) - 1) * p)]
             px = daily[-1][4]
+            _u = 10 if px >= 100 else 1   # 주가 $100 미만은 $1 단위 — 10달러 반올림이 USB $57~$63을 "$60 ~ $60"으로 만들었다(Fable 2026-10-17)
             res["fairBand"] = {"per_p25": yq(0.25), "per_p75": yq(0.75),
-                               "low": int(round(px * yq(0.25) / cur_num / 10) * 10),
-                               "high": int(round(px * yq(0.75) / cur_num / 10) * 10), "asOf": last}
+                               "low": int(round(px * yq(0.25) / cur_num / _u) * _u),
+                               "high": int(round(px * yq(0.75) / cur_num / _u) * _u), "asOf": last}
     return res
 
 
@@ -130,13 +131,22 @@ def peers(asof, self_ticker):
                     m.pop("ptbv"); m["ptbv_missing"] = f"7판 동종업 관문: {why7}"
             if "ptbv" not in m:
                 out["skipped"][t + ":ptbv"] = m.get("ptbv_missing", "분기말 자본 자료 없음")
-            m["tags"] = {"equity": "StockholdersEquity", "preferred": ("7판 표: " + (bank.pref_tbl.get("path") or "·".join(bank.pref_tbl.get("tags") or ["분리 불가"]))) if bank.pref_tbl is not None else "PreferredStockLiquidationPreferenceValue" if bank.pref_liq else ("PreferredStockValue" if bank.pref_val else "없음(우선주 이력 없음)" if not bank.pref_ever else "결측"),
+            m["tags"] = {"equity": "StockholdersEquity", "preferred": ("8판 표: 자본변동표 차원 값(" + bank.eq_mem["member"].split(":")[1] + ")") if bank.eq_mem else ("7판 표: " + (bank.pref_tbl.get("path") or "·".join(bank.pref_tbl.get("tags") or ["분리 불가"]))) if bank.pref_tbl is not None else "PreferredStockLiquidationPreferenceValue" if bank.pref_liq else ("PreferredStockValue" if bank.pref_val else "없음(우선주 이력 없음)" if not bank.pref_ever else "결측"),
                          "intangibles": "IntangibleAssetsNetExcludingGoodwill" if bank.ia else "Finite+Indefinite" if (bank.fin or bank.ind) else "OtherIntangibleAssetsNet" if bank.oth else "없음",
                          "shares": "Issued−Treasury" if bank.issued else "CommonStockSharesOutstanding"}
+            if bank.eq_mem and "ptbv" in m:   # 8판 §2: 차원 값 경로 은행(PNC)은 무형자산 0 규칙으로 TCE가 커 P/TBV가 싼 쪽 — 툴팁용
+                m["ia_note"] = ("무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모: 규제자본 차감 무형자산 $666M(2026-06, TCE 약 1.5%)·"
+                                "2026-01 FirstBank 인수 식별 무형자산 $761M(약 1.7%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).")
             out["tickers"][t] = {k: (round(v, 4) if isinstance(v, float) else v) for k, v in m.items()}
         except Exception as e:
             out["skipped"][t] = f"오류: {type(e).__name__}: {e}"
         time.sleep(0.4)
+    # 8판 §2: 결과표에서 무형자산 편향 은행(PNC)과 동종업 P/TBV가 2% 안인 이웃 은행에 표시(2%는 표시 문턱일 뿐 누락 폭의 증명이 아님)
+    biased = {t: v["ptbv"] for t, v in out["tickers"].items() if v.get("ia_note") and isinstance(v.get("ptbv"), float)}
+    for t, v in out["tickers"].items():
+        near = [b for b, bv in biased.items() if b != t and isinstance(v.get("ptbv"), float) and bv and abs(v["ptbv"] / bv - 1) <= 0.02]
+        if near:
+            v["near_biased"] = near
     json.dump(out, open(os.path.join(V2, "peer_universe", "banks.json"), "w"), ensure_ascii=False, indent=1)
     return out
 
@@ -158,6 +168,9 @@ def peer_scores(self_ticker, mine, uni):
         score = 0.0 if mv == "negative" else 100 - cheaper / len(vals) * 100
         res[k] = {"score": round(score, 1), "rank": cheaper + 1, "peers": len(vals),
                   "median": nums[len(nums) // 2] if nums else None, "value": mv}
+        near = [t for t, v in vals.items() if k == "ptbv" and uni["tickers"][t].get("ia_note") and v != "negative" and mv != "negative" and mv and abs(v / mv - 1) <= 0.02]
+        if near:   # 8판 §2: 무형자산 편향 은행과 2% 안 — 순위가 그 편향으로 갈렸을 수 있다(2%는 표시 문턱일 뿐)
+            res[k]["near_biased"] = near
     return res
 
 

@@ -51,13 +51,44 @@ def F(s):
     return re.sub(r'\{([^{}]+)\}', rep, s)
 
 
-def q(tags):
+DISC_NI = ('IncomeLossFromDiscontinuedOperationsNetOfTax', 'IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity',
+           'DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTax')
+
+
+def continue_rows(rows, tag):
+    """계속사업 순이익 태그(NI_TAGS)가 끊긴 뒤의 기간을 tag(NI_CONTINUE, 총순이익)로 잇는다 — 중단사업이 없어진 분기부터 회사가
+    계속사업 태그를 싣지 않는다(WDC 2027 회계 1분기 10-Q, 2026-10-23: NetIncomeLoss만 실려 새 분기 순이익이 비고 카드가 멈췄다).
+    EPS 이력의 forward_fill(scripts/fetch_eps_history.py)과 같은 규칙: 기간 전체가 마지막 계속사업 기간 뒤인 행만, 그리고 경계까지의
+    마지막 중단사업 손익 행이 있고 0이며 받는 기간과 겹치는 0 아닌 중단사업 손익이 없을 때만. 행은 _facts가 승인일까지로 자른다."""
+    own = [r for r in rows if 'start' in r]
+    if not own:
+        return []
+    last = max(r['end'] for r in own)
+    newer = [r for r in bmh.concept(CIK, tag) if 'start' in r and r['start'] > last
+             and r.get('form') in ('10-Q', '10-K', '10-Q/A', '10-K/A')]   # 위임장(DEF 14A)이 다른 값으로 태깅한 연간 행이 4분기를 바꾸지 않게(Fable)
+    if not newer:
+        return []
+    disc = [d for t_ in DISC_NI for d in bmh.concept(CIK, t_) if 'start' in d]
+    before = [d for d in disc if d['end'] <= last]
+    tail = max((d['end'] for d in before), default=None)
+    if tail is None or any(d.get('val') != 0 for d in before if d['end'] == tail):   # 값이 빈 행은 0의 증거가 아니다(Codex)
+        raise SystemExit(f'{T}: 계속사업 순이익이 {last}에서 끝났지만 그 직전 중단사업 손익이 0이라는 기록이 없다 — {tag}로 이을 수 없다')
+    for r in newer:
+        hit = [d for d in disc if d['start'] <= r['end'] and d['end'] >= r['start'] and d.get('val') != 0]
+        if hit:
+            raise SystemExit(f"{T}: {r['start']}~{r['end']}에 중단사업 손익 {hit[0]['val']}가 있다 — {tag}로 이을 수 없다")
+    return newer
+
+
+def q(tags, cont=None):
     _, rows = bmh.pick_tag(CIK, tags)
+    if cont:
+        rows = rows + continue_rows(rows, cont)
     return {e['end']: e['val'] for e in bmh.quarterly_flow(rows, T)}
 
 
 pct = lambda v: f'{v * 100:.1f}%'
-rev = q(bmh.FLOW_TAGS['revenue']); op = q(['OperatingIncomeLoss']); ni = q(getattr(C, 'NI_TAGS', ['NetIncomeLoss']))
+rev = q(bmh.FLOW_TAGS['revenue']); op = q(['OperatingIncomeLoss']); ni = q(getattr(C, 'NI_TAGS', ['NetIncomeLoss']), getattr(C, 'NI_CONTINUE', None))
 ocf = q(bmh.FLOW_TAGS['ocf']); cap = q(bmh.FLOW_TAGS['capex'])   # 엔진과 같은 태그 목록 — T는 2026년부터 계속사업 영업현금흐름 태그로만 냈다(2026-10-02)
 if getattr(C, 'OP_DISPLAY', None):   # 영업이익 줄이 없는 종목의 카드 표시용 영업이익(엔진 배수에는 안 씀) — CB 보험사: 세전이익 + 이자비용(2026-10-02)
     _pt_tags, _adds = C.OP_DISPLAY
@@ -110,8 +141,17 @@ _vote = lambda s: 1 if s >= 70 else -1 if s < 30 else 0
 _dv = (1 if ratio <= 0.9 else 0 if ratio <= 1.1 else -1 if ratio <= 1.5 else -2) if ratio and DCF['base'] > 0 else -2
 if DCF.get('unavailable'):   # 현금흐름 미적용(보험사, 2026-10-02 사용자 결정) — 판정은 자기 이력·동종업 두 칸
     _dv = 0
-VOTES = (_vote(selfsc), _vote(peersc), _dv); TOTAL = sum(VOTES)
-VERDICT = '저평가' if TOTAL >= 3 else '적정~저평가' if TOTAL >= 1 else '적정' if TOTAL > -1 else '적정~고평가' if TOTAL > -3 else '고평가'
+# 기권 규칙(카드 JS와 같게 — 2026-09-25 사용자 결정): 배수 심판은 유효 배수 3개 이상일 때만 표를 던지고, 아니면 None(기권).
+# 기권이 있으면 4표 기준으로 늘려 같은 문턱을 쓴다. 예전에는 여기만 기권 없이 셌다 — CME 동종업(유효 배수 2개)이 −1로 들어가
+# 문장은 "합계 −3 고평가", 헤더(JS)는 "적정~고평가"로 갈렸다(Codex 2026-10-16). 일반 생성기 카드 중 해당은 CME뿐(은행·BRKB는 따로).
+_valid = lambda side: (VAL.get(side) or {}).get('score') is not None and len([m for m in (VAL[side].get('metrics') or []) if m.get('score') is not None]) >= 3
+VOTES = (_vote(selfsc) if _valid('self') else None, _vote(peersc) if _valid('peer') else None, _dv)
+_seated = [(v, w) for v, w in zip(VOTES, (1, 1, 2)) if v is not None]
+TOTAL = sum(v for v, _ in _seated); _maxw = sum(w for _, w in _seated)
+_n = TOTAL * 4 / _maxw if _maxw else 0
+VERDICT = '저평가' if _n >= 3 else '적정~저평가' if _n >= 1 else '적정' if _n > -1 else '적정~고평가' if _n > -3 else '고평가'
+if len(_seated) < 2:
+    VERDICT = '판정 보류'
 if DCF.get('unavailable'):   # 현금흐름이 기권하면 카드 JS가 '판정 보류'로 덮어쓴다(BRKB 선례, Fable 2026-10-02)
     VERDICT = '판정 보류'
 _refresh = None
@@ -122,16 +162,21 @@ if (VOTES, VERDICT) != (C.VOTES, C.VERDICT) and os.environ.get('REFRESH') == '1'
     print(f'표·판정 변경 {C.VOTES} {C.VERDICT} → {VOTES} {VERDICT}')
 else:
     assert (VOTES, VERDICT) == (C.VOTES, C.VERDICT), (VOTES, VERDICT, selfsc, peersc, ratio)
-sgn = lambda v: f'{v:+d}'.replace('-', '−') if v else '0'
+sgn = lambda v: '기권' if v is None else (f'{v:+d}'.replace('-', '−') if v else '0')
 # 점수 → 판정 단어(70 이상 싸다 · 30 미만 비싸다) — cfg 문장에 '(중간)' 같은 단어를 손으로 적으면 갱신 때 틀린다(2026-10-06 GILD·META·PFE·PLD·TMO·VRTX)
 score_word = lambda sc: '싸다' if sc >= 70 else '비싸다' if sc < 30 else '중간'
 # 부호 붙은 정수 뒤 조사(받침 기준 — 0 영·1 일·3 삼·6 육·7 칠·8 팔은 받침, ㄹ 받침(1·7·8)은 '로'): 표가 바뀌면 '−1는'·'0로'가 되던 것(Fable, 2026-10-05)
 jo = lambda v, a_, b_: a_ if abs(v) % 10 in (0, 1, 3, 6, 7, 8) else b_
 jo_ro = lambda v: '으로' if abs(v) % 10 in (0, 3, 6) else '로'
-VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · 현금흐름 ' + ('미적용' if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL)
+RIM = DCF.get('model') == 'rim'
+DCF_HOLD = DCF.get('base') is None and '계산 보류' in str(DCF.get('unavailable') or '')   # 엔진 r7 — 낡은 재무상태표로 DCF 계산 보류(MSI, 2026-10-26). 보험사 '미적용'과 문구를 가른다(Fable)   # 관리의료 보험 초과이익모형(research/insurer_rim_prereg.md) — 세 번째 심판 이름과 기권 표기
+if RIM and not DCF.get('unavailable'):   # 판정 점수: 엔진(insurer_rim.score_of)과 이 파일의 현금흐름 표가 같아야 한다(§5 대조)
+    assert _dv == DCF['score'], ('RIM 판정 점수가 엔진과 다르다', _dv, DCF['score'], ratio)
+VOTES_TXT = f'자기 이력 {sgn(VOTES[0])} · 동종업 {sgn(VOTES[1])} · ' + ('초과이익 ' if RIM else '현금흐름 ') + (('기권' if RIM else '보류' if DCF_HOLD else '미적용') if DCF.get('unavailable') else sgn(VOTES[2])); TOTAL_TXT = sgn(TOTAL) + (f'(4표 기준 {_n:+.1f})'.replace('-', '−') if _maxw and _maxw < 4 and not DCF.get('unavailable') else '')   # 현금흐름 미적용(판정 보류)은 환산하지 않는다 — 여기선 미적용 칸을 0표(가중 2)로 세어 −1.3, 화면 JS는 −4.0이었다(TRV Codex 2026-10-21; 해당 TRV만)
 SEC = C.SEC; PR = C.PR; TENQ = C.TENQ; LINKS = getattr(C, 'LINKS', {})
 ch = (px / D[max(-253, -len(D))][4] - 1) * 100   # 일봉이 1년보다 짧으면 첫날부터(SKHY ADR, 2026-10-05)
 CH_TXT = ('제자리(' + format(ch, '+.1f') + '%)') if abs(ch) < 1 else format(ch, '+.0f') + '%'
+CH_SPAN = '1년 새' if len(D) >= 253 else '상장 이후'   # 문장용 기간(SKHY ADR 2026-07 상장 — '1년 새'가 틀렸다, Fable 2026-10-12)
 if AUTO:
     _ac.texts(C, globals())
 for _code in getattr(C, 'PRE', []):
@@ -143,7 +188,14 @@ if FB:
     one(f'id="{t}FairBand" style=', F(C.FAIRBAND_TITLE) + ' style=')
 else:   # 같은 자리에 '해당 없음'(틀 구조 유지, CRWD 카드 한정 처리를 공통으로)
     sub(rf'id="{t}FairBand" style="[^"]*">[^<]*<', F(C.FAIRBAND_TITLE) + ' style="font-size:22px;color:var(--text3);">해당 없음<')
-one('<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%)</span>', F(C.HEADER_REQ_LABEL))
+# 헤더 '실제 5년'은 cfg 고정 글자 — 실제 성장 구간이 5년보다 짧으면(분사·매각·이력 부족 — NEM 4.5년) 그 길이로(Codex dr 2026-10-18)
+_gs = HIST.get('growth_5y_span')
+_gy = None
+if _gs:
+    import datetime as _dt
+    _y = (_dt.date.fromisoformat(_gs[1]) - _dt.date.fromisoformat(_gs[0])).days / 365.25
+    _gy = None if _y >= 4.7 else f'{_y:.1f}년'
+one('<span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +110%)</span>', F(C.HEADER_REQ_LABEL).replace('실제 5년', f'실제 {_gy}') if _gy else F(C.HEADER_REQ_LABEL))
 
 # 루트 카드의 마지막 종목(DE)은 '다음'이 막혀 있다 — 새 종목 meta의 '이전'이 이 종목을 가리키면 그 종목으로 잇는다(ADI 추가 때 카드에 직접 고친 것, 2026-10-05)
 _nb = '<span class="back-bar-nav disabled">다음 ▶</span>'
@@ -198,7 +250,7 @@ sub(r"curLabel: 'Q2 FY27', cmpLabel: 'Q2 FY26',\n    titleSuffix: '[^']*',\n    
     f"curLabel: '{QL}', cmpLabel: '{C.YL}',\n    titleSuffix: 'YoY ({QL} vs {C.YL})',\n    chart: {{ cur: {vec(cur)}, cmp: {vec(yo)} }},\n    deltas: [{tq(yd)}],")
 sub(r"curLabel: 'Q2 FY27', cmpLabel: 'Q1 FY27',\n    titleSuffix: '[^']*',\n    chart: \{ cur: \[[^\]]*\], cmp: \[[^\]]*\] \},\n    deltas: \[[^\]]*\],",
     f"curLabel: '{QL}', cmpLabel: '{C.QQL}',\n    titleSuffix: 'QoQ ({QL} vs {C.QQL})',\n    chart: {{ cur: {vec(cur)}, cmp: {vec(qo)} }},\n    deltas: [{tq(qd)}],")
-fn = lambda a, extra='': (f"footnote: '기준일: {C.CUR.replace('-', '.')}({QL}) vs {a} · GAAP 기준{(', 순이익은 본업 기준(공시 순이익 ' + QL + ' $' + str(r1(ni_gaap[cur])) + 'B)') if CORE else ''} · FCF는 영업현금흐름 − 설비투자 · {extra}"
+fn = lambda a, extra='': (f"footnote: '기준일: {C.CUR.replace('-', '.')}({QL}) vs {a} · GAAP 기준{(', 순이익은 본업 기준(공시 순이익 ' + QL + ' $' + str(r1(ni_gaap[cur])) + 'B)') if CORE else ''} · FCF는 영업현금흐름 − {getattr(C, 'CAPEX_LABEL', '설비투자')} · {extra}"
                           f"<a href=\"{PR[getattr(C, 'PR_CUR', 'q2')]}\" target=\"_blank\" rel=\"noopener\">{C.CO} {QL} 실적 보도자료 (SEC 8-K) →</a>'")
 sub(r"footnote: '기준일: 2026\.07\.26\(Q2 FY27\) vs 2025\.07\.27\(Q2 FY26\)[^\n]*'", fn(f'{C.YO.replace("-", ".")}({C.YL})', F(C.YOY_EXTRA)))
 sub(r"footnote: '기준일: 2026\.07\.26\(Q2 FY27\) vs 2026\.04\.26\(Q1 FY27\)[^\n]*'", fn(f'{C.QO.replace("-", ".")}({C.QQL})'))
@@ -239,7 +291,7 @@ CHECK = (f'<div class="card-title">다음 실적 체크포인트 <span style="co
          + '\n'.join(f'      <div{" style=\"margin-bottom:8px;\"" if i < 3 else ""}><strong style="color:var(--accent2);">{"①②③④"[i]}</strong> {F(x)}</div>' for i, x in enumerate(C.CHECK)) + '\n    </div>')
 sub(r'<div class="card-title">다음 실적 체크포인트 <span[^>]*>[^<]*</span></div>\n    <div style="font-size:12px;color:var\(--text2\);line-height:1\.8;">.*?\n    </div>', CHECK)
 _usd = lambda v: ('−$' if v < 0 else '$') + f'{abs(v):.2f}'   # 음수 기본값(BA) — "$-63.51" 대신 "−$63.51"
-if DCF.get('nonopPerShare', 0) >= 0.5 and not (AUTO and DCF.get('base') is not None and DCF['base'] <= 0):   # 자동 카드: 음수 기본값은 이 줄에서도 드러내지 않는다(BA, Fable)
+if (DCF.get('nonopPerShare') or 0) >= 0.5 and not (AUTO and DCF.get('base') is not None and DCF['base'] <= 0):   # 자동 카드: 음수 기본값은 이 줄에서도 드러내지 않는다(BA, Fable)
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', f'<div class="note" data-dcf-nonop>기본 시나리오 {_usd(DCF["base"])} = 사업 가치 {_usd(DCF["base"] - DCF["nonopPerShare"])} + 비영업 자산 ${DCF["nonopPerShare"]:.2f}(주당, {C.NONOP_WHAT})</div>')
 else:
     one('<div class="note" data-dcf-nonop>기본 시나리오 $314 = 사업 가치 $310 + 비영업 자산 $4(주당, 지분·장기투자)</div>', '<div class="note" data-dcf-nonop hidden></div>')
@@ -296,9 +348,6 @@ one("+ `\\n(확인 필요 — NVDA 문장 자리)`);", "+ `\\n" + F(C.FUND_TIP) 
 one("+ `\\n(확인 필요 — NVDA 문장 자리)`\n", "+ `\\n" + F(C.SELF_TIP) + "`\n")
 if '`이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`' in h:   # 틀(NVDA)은 2026-10-05에 고쳐졌다(E13)
     one('`이 종목 자신의 5년 배수 분포에서 현재값이 하위 몇 %인지를 점수로 쓴 값이다.`', '`이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`')
-if getattr(C, 'GROWTH_SPAN', None):   # 현금흐름 이력이 5년보다 짧은 종목(분사) — 역산 설명의 "지난 5년"을 실제 이력으로(2026-10-02, DHR Codex 2차)
-    for _o in ('매출이 지난 5년 속도', '필요해 지난 5년의 3배', '필요해 지난 5년 실제의 3배'):
-        assert h.count(_o) >= 1, _o; h = h.replace(_o, _o.replace('지난 5년', C.GROWTH_SPAN))
 if getattr(C, 'SELF_SPAN', None):   # 자기 이력이 5년보다 짧은 종목(분사·흑자 전환) — "5년" 표기를 실제 이력으로(2026-10-02, DHR Codex)
     one('<div class="card-title">배수별 자기 5년 위치</div>', f'<div class="card-title">배수별 자기 이력 위치 ({C.SELF_SPAN})</div>')
     one(f'title="지난 5년 {T} 자신의 배수보다', f'title="{T} 자신의 배수 이력({C.SELF_SPAN})보다')
@@ -316,23 +365,26 @@ for o, n in zip(olds, new):
     assert h.count(o) == 1
     h = h.replace(o, n)
 if DCF.get('unavailable'):   # 현금흐름 미적용 — 계산했다는 문구를 빼고 사유만(CB)
-    one('<div class="lede">회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치다.</div>', '<div class="lede">이 종목은 현금흐름 내재가치를 계산하지 않는다.</div>')
+    one('<div class="lede">회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치다.</div>', '<div class="lede">' + ('재무상태표 일부 항목이 오래돼 현금흐름 내재가치 계산을 보류했다.' if DCF_HOLD else '이 종목은 현금흐름 내재가치를 계산하지 않는다.') + '</div>')
     one('<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>', '<div class="note">' + F(C.DCF_NOTE) + '</div>')
 else:
  one('<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.</div>',
     '<div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다.' + (' ' + F(C.DCF_NOTE) if getattr(C, 'DCF_NOTE', '') else '') + '</div>')
 # 음수·$10 미만 시나리오, 이력 기간 표기(카드 한정 패치 모음 — PANW·TMO·LIN·CRWD에서 쓴 것과 같다)
-one_done("    el.textContent = '$' + D[el.dataset.dcfValue].toFixed(2);", "    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '계산 불가(음수)';   // 카드 한정")
+h = h.replace("'계산 불가(음수)'", "'0 이하'")   # 옛 표기를 단 카드도 새 표기로(2026-10-21 HPE Codex) — 아래 one_done이 새 문구를 찾는다
+h = re.sub(r"(Math\.round\((?:d|D)\.(?:low|high)\)\) : )'계산 불가'", r"\1'0 이하'", h)   # 보수·낙관 칸의 옛 '계산 불가'(계산된 음수 값)도
+h = h.replace("${d.base <= 0 ? '계산 불가(음수)'", "${d.base <= 0 ? '0 이하'")
+one_done("    el.textContent = '$' + D[el.dataset.dcfValue].toFixed(2);", "    const v0 = D[el.dataset.dcfValue]; el.textContent = v0 > 0 ? '$' + v0.toFixed(2) : '0 이하';   // 카드 한정")
 one_done("    const v = D[el.dataset.dcfUpside];\n    el.textContent = pct(v); el.style.color = tone(v);",
     "    const v = D[el.dataset.dcfUpside];\n    if (!(v > 0)) { el.textContent = '—'; return; }   // 음수 시나리오(카드 한정)\n    el.textContent = pct(v); el.style.color = tone(v);")
-one_done("    + ' · 높은 성장 $' + Math.round(d.high) + '</span>';", "    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '계산 불가') + '</span>';")
-one_done("    + '<span class=\"logic-denom\"> · 낮은 성장 $' + Math.round(d.low)", "    + '<span class=\"logic-denom\"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '계산 불가')")
+one_done("    + ' · 높은 성장 $' + Math.round(d.high) + '</span>';", "    + ' · 낙관 ' + (d.high > 0 ? '$' + (d.high < 10 ? d.high.toFixed(2) : Math.round(d.high)) : '0 이하') + '</span>';")
+one_done("    + '<span class=\"logic-denom\"> · 낮은 성장 $' + Math.round(d.low)", "    + '<span class=\"logic-denom\"> · 보수 ' + (d.low > 0 ? '$' + (d.low < 10 ? d.low.toFixed(2) : Math.round(d.low)) : '0 이하')")
 one("m.percentile >= 50 ? `5년 중 상위 ${Math.round(100 - m.percentile)}%` : `5년 중 하위 ${Math.round(m.percentile)}%`;",
     "m.percentile >= 50 ? `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 상위 ${Math.round(100 - m.percentile)}%` : `${m.days < 1200 ? (m.days / 252).toFixed(1) + '년' : '5년'} 중 하위 ${Math.round(m.percentile)}%`;   // 이력이 짧은 배수는 실제 기간(카드 한정)")
 one_done("  const every = SCN.flatMap(s => G.values[s[0]].flat()).concat(price != null ? [price] : []);",
     "  const every = SCN.flatMap(s => G.values[s[0]].flat()).filter(v => v != null && v > 0).concat(price != null ? [price] : []);   // 음수 칸 제외(카드 한정)")
 one_done("    pv.textContent = '주당 $' + Math.round(pick); pv.style.color = col;",
-    "    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '계산 불가(음수)'; pv.style.color = col;")
+    "    pv.textContent = pick > 0 ? '주당 $' + (pick < 10 ? pick.toFixed(2) : Math.round(pick)) : '0 이하'; pv.style.color = col;")
 one_done("    if (price != null) { pu.textContent = '현재가 대비 ' + pct(pick); pu.style.color = tone(pick); }",
     "    if (price != null) { pu.textContent = pick > 0 ? '현재가 대비 ' + pct(pick) : '—'; pu.style.color = pick > 0 ? tone(pick) : ''; }")
 one_done("      + SCN.map((s, i) => `<div class=\"ruler-pt${i === st.scn ? ' on' : ''}\" style=\"left:${x(vals[i])};color:${s[2]}\">`\n        + `<div class=\"ruler-lab\">${s[0]}<br>$${Math.round(vals[i])}</div><div class=\"ruler-dot\" style=\"background:${s[2]}\"></div></div>`).join('');",
@@ -341,11 +393,11 @@ h = h.replace("'$' + Math.round(d.base)", "'$' + (Math.abs(d.base) < 10 ? d.base
 h = h.replace("'$' + Math.round(D.base)", "'$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base))")
 h = h.replace("${Math.round(d.base)}", "${Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)}").replace("${Math.round(D.base)}", "${Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)}")
 sub(r'<div class="reverse">.*?</div>', '<div class="reverse">—</div>')   # JS가 문장으로 채운다(틀 NVDA 숫자 제거)
-# 기본 내재가치가 0 이하면 헤더·밸류에이션 칸을 "0 이하"·"—"로 — 시나리오 표의 "계산 불가(음수)"와 맞춘다(T·WELL, Fable 2026-10-02)
+# 기본 내재가치가 0 이하면 헤더·밸류에이션 칸을 "0 이하"·"—"로 — 시나리오 표의 "0 이하"와 맞춘다(옛 표기 "계산 불가(음수)" — 계산된 음수 값이라 2026-10-21 HPE Codex로 바꿈)(T·WELL, Fable 2026-10-02)
 one_done("put('dcf', '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)));", "put('dcf', D.base > 0 ? '$' + (Math.abs(D.base) < 10 ? D.base.toFixed(2) : Math.round(D.base)) : '0 이하');")
 one_done("    if (D && D.base != null) { const u = (D.base / last[4] - 1) * 100;", "    if (D && D.base != null && D.base > 0) { const u = (D.base / last[4] - 1) * 100;")
 one_done("  if (box)  box.innerHTML = '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base))", "  if (box)  box.innerHTML = (d.base > 0 ? '$' + (Math.abs(d.base) < 10 ? d.base.toFixed(2) : Math.round(d.base)) : '0 이하')")
-one_done("put('low', '$' + Math.round(D.low));", "put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '계산 불가');")
+one_done("put('low', '$' + Math.round(D.low));", "put('low', D.low > 0 ? '$' + (D.low < 10 ? D.low.toFixed(2) : Math.round(D.low)) : '0 이하');")
 # 시나리오 범위·갈림은 세 값 최소·최대(이름 순서가 뒤집힌 카드가 많다 — AXP·CRWD·LIN)
 one_done("  const split = D.low > 0 && D.high > 0 && D.low < price && price < D.high;\n  const range = (D.low > 0 && D.high > 0)\n    ? `시나리오 범위: 낙관 기준 ${(price / D.high).toFixed(2)} ~ 보수 기준 ${(price / D.low).toFixed(2)}` : '';",
     "  const _mn = Math.min(D.low, D.base, D.high), _mx = Math.max(D.low, D.base, D.high);   // 세 시나리오 최소·최대(카드 한정)\n  const split = _mn > 0 && _mn < price && price < _mx;\n  const range = _mn > 0\n    ? `시나리오 범위: ${(price / _mx).toFixed(2)} ~ ${(price / _mn).toFixed(2)}(세 시나리오 최대·최소 기준)` : '';")
@@ -353,7 +405,7 @@ one_done("  const split = D.low > 0 && D.high > 0 && D.low < price && price < D.
 one_done("      : dcfVisible.flatMap(t => [clipDcf(t.low), clipDcf(t.high)]);", "      : dcfVisible.flatMap(t => [t.low, t.base, t.high].filter(v => v > 0).map(clipDcf));   // 음수는 빼고 기본도 축에 넣는다(카드 한정, Codex)")
 one_done("          const yTop = overlapOnly ? py(clipDcf(e.v.base)) - 6 : py(clipDcf(e.v.high));\n          const yBot = overlapOnly ? py(clipDcf(e.v.base)) + 6 : py(clipDcf(e.v.low));",
     "          const _vmx = Math.max(e.v.low, e.v.base, e.v.high), _vmn = Math.max(Math.min(e.v.low, e.v.base, e.v.high), 0);   // 순서가 뒤집힌 시나리오도 잡히게(카드 한정, Codex)\n          const yTop = overlapOnly ? py(clipDcf(e.v.base)) - 6 : py(clipDcf(_vmx));\n          const yBot = overlapOnly ? py(clipDcf(e.v.base)) + 6 : py(clipDcf(_vmn));")
-one_done("          const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);", "          const usd = x => x < 0 ? '계산 불가(음수)' : '$' + x.toFixed(0);   // 카드 한정")
+one_done("          const usd = x => (x < 0 ? '−$' : '$') + Math.abs(x).toFixed(0);", "          const usd = x => x < 0 ? '0 이하' : '$' + x.toFixed(0);   // 카드 한정")
 # 재고 없는 회사의 회전율·현금순환 문장(카드 한정, CRWD)
 # 틀(NVDA)에 2026-10-05 '재고 없음' 가드가 들어갔다(META Infinity회) — 그 줄이면 옛 줄로 되돌린 뒤 아래 교체를 그대로 적용한다
 _TPL_TURN = "  document.querySelectorAll('[data-act-turn]').forEach(el => { el.textContent = A.now[el.dataset.actTurn] > 0 ? (365 / A.now[el.dataset.actTurn]).toFixed(2) + '회' : (el.dataset.actTurn === 'dio' ? '재고 없음' : '해당 없음'); });   // 회전기간 0(재고 없음)이면 Infinity회가 찍혔다(META, 2026-10-05)"
@@ -427,7 +479,7 @@ if _auto:
             _e = {x['quarter_end']: x['quarter_eps'] for x in _eps}
             _rc = _ac.chg(rev[C.CUR], rev.get(C.YO))
             _sym, _ac.SYM = _ac.SYM, ('$' if _out else _ac.SYM)   # 외국 발행사: 여기 매출·이익은 PRE가 달러로 바꾼 값(증감률은 달러 기준)
-            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + (', 영업이익 ' if _out else ', GAAP 영업이익 ') + _ac.B(op[C.CUR]))
+            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + (', 영업이익 ' if _out else ', 합성 영업이익(세전이익 기준) ' if str(C.CIK).zfill(10) in bmh.DERIVED_OPINC else ', GAAP 영업이익 ') + _ac.B(op[C.CUR]))
             _ac.SYM = _sym
             _body += ((f', 희석 EPS {_ac.money(_e[C.CUR])}(1년 전 {_ac.money(_e[C.YO])})' if C.CUR in _e and C.YO in _e else '')
                       + (f' · {C.TENQ_NAME} 기준, 매출·이익은 분기 평균 환율로 달러 환산' if _out else ' · SEC 10-K 기준' if C.TENQ_NAME.endswith('10-K') else ' · SEC 10-Q 기준'))   # 실제 문서만(Fable)
@@ -522,7 +574,7 @@ if _ACT and (json.loads(_ACT.group(1)).get('now') or {}).get('dpo', 0) is None:
         "    const span = noAp ? A.now.op : Math.max(A.now.op, A.now.dpo);\n    if (noAp) bar.querySelectorAll('.tl-marker, .tl-marker-label, .tl-ccc-span').forEach(el => { el.style.display = 'none'; });")
     one("    bar.querySelectorAll('.tl-marker, .tl-marker-label').forEach(el => { el.style.left = pct(A.now.dpo); });",
         "    if (!noAp) bar.querySelectorAll('.tl-marker, .tl-marker-label').forEach(el => { el.style.left = pct(A.now.dpo); });")
-    one("    ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;", "    if (!noAp) ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;")
+    one("    ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`;", "    if (!noAp) ml.textContent = `매입채무 지급 ${d1(A.now.dpo)}일`; else ml.style.display = 'none';   // 매입채무 미공시면 틀(NVDA)의 51.8일이 남았다(ABBV·ASML·KO·PEP·FCX, Codex 2026-10-17)")
     one("    cs.style.left = pct(Math.min(A.now.dpo, A.now.op)); cs.style.width = pct(Math.abs(A.now.ccc));",
         "    if (!noAp) { cs.style.left = pct(Math.min(A.now.dpo, A.now.op)); cs.style.width = pct(Math.abs(A.now.ccc)); }")
     one("    if (A.now.ccc < 0) {", "    if (!noAp && A.now.ccc < 0) {")
@@ -539,6 +591,24 @@ if _tt_old in h:
 if getattr(C, 'REQ_MULT_EXACT', False):
     one("가 필요해 지난 5년의 3배를 넘는다.`", "가 필요해 지난 5년의 ${Math.round(d.requiredGrowth / d.growth5y)}배다.`")
     one("가 필요해 지난 5년 실제의 3배를 넘는다.`", "가 필요해 지난 5년 실제의 ${Math.round(D.requiredGrowth / D.growth5y)}배다.`")
+# 요구 영업이익률의 성장 경로: build_dcf_block은 5년 성장이 영구성장률(2.5%)보다 낮으면 2.5%에서 시작한다 — "지난 5년 속도로 크다가"는 그때 틀리다.
+# 문턱 0.0245 — 화면에 2.5%로 반올림되는 값(DE 2.49%)에 "연 2.5%(지난 5년 연 2.5%가 … 낮아)"가 나오지 않게(2026-10-13).
+# 5년 성장이 0 이하면 "지난 5년의 N배"도 뜻이 없다(MO −2.2%·BX, Codex 2026-10-13). 그 경우만 문장이 바뀌고 나머지 카드는 그대로다.
+for _v, _f in (("d", "f1"), ("D", "pc")):
+    h = h.replace(f"지난 5년 속도(연 ${{{_f}({_v}.growth5y)}})로 크다가 식는 동안`",
+                  f"` + ({_v}.growth5y < 0.0245 ? `연 2.5%(지난 5년 연 ${{{_f}({_v}.growth5y)}}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${{{_f}({_v}.growth5y)}})로 크다가 식는 동안`)")
+for _v, _f, _tail in (("d", "f1", "가 필요해 지난 5년의 "), ("D", "pc", "가 필요해 지난 5년 실제의 ")):
+    _m = re.search(re.escape(f"연 ${{{_f}({_v}.requiredGrowth)}}{_tail}") + r"([^`]*)`", h)
+    if _m:
+        h = h.replace(_m.group(0), f"연 ${{{_f}({_v}.requiredGrowth)}}` + ({_v}.growth5y <= 0 ? `가 필요하다(지난 5년 실제는 연 ${{{_f}({_v}.growth5y)}}로 줄었다).` : `{_tail}{_m.group(1)}`)", 1)
+# 현금흐름 이력이 5년보다 짧은 종목(분사) — 역산 설명의 "지난 5년"을 실제 이력으로(2026-10-02, DHR Codex 2차).
+# 위 성장 하한·감소 분기를 만든 **뒤**에 바꾼다 — 예전엔 먼저 바꿔 하한 분기 앵커가 사라져, 성장이 2.5% 아래인 종목도
+# "지난 … 속도로 크다가"가 나오고 하한 문장의 "지난 5년"은 남았다(MMM Fable 2026-10-21). 이 설정을 쓰는 6장 중 화면이 바뀐 것은 DHR(분사 뒤 성장 −1.7%)뿐 — AMT·CEG·EMR·IBM·GEV 렌더 글자 불변.
+if getattr(C, 'GROWTH_SPAN', None):
+    for _o in ('지난 5년 속도', '필요해 지난 5년의 ', '필요해 지난 5년 실제의 '):
+        assert h.count(_o) >= 1, _o
+    for _o in ('지난 5년 속도', '(지난 5년 연 ', '필요해 지난 5년의 ', '필요해 지난 5년 실제의 ', '(지난 5년 실제는 연 '):
+        h = h.replace(_o, _o.replace('지난 5년', C.GROWTH_SPAN))
 # 현금흐름 칸 쏠림 메모(A0, 86af3f2)는 비금융 카드에만 — 근거 패널에 금융이 없다. GICS Financials면 뺀다(cfg NO_DCF_SKEW는 예전 표시, 남겨 둬도 같음)
 _SECT = json.load(open('sectors.json')).get(T)   # GICS 섹터(v2/sectors.json)
 if getattr(C, 'NO_DCF_SKEW', False) or 'Financ' in json.dumps(_SECT or ''):   # 금융 섹터는 섹터로 정한다(v2.1 B-3, 2026-10-05 — MA·V에 남아 있었다)
@@ -583,8 +653,11 @@ if '<div class="reverse">—</div>' in h and DCF.get('reqMode') == 'growth' and 
     _rev = F(C.REVERSE) if getattr(C, 'REVERSE', None) else (f'지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. '
         + f'기본 시나리오(<span data-dcf-basev>${(f'{DCF["base"]:.2f}' if abs(DCF["base"]) < 10 else f'{DCF["base"]:.0f}')}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.')
     one('<div class="reverse">—</div>', '<div class="reverse">' + _rev + '</div>')
+if RIM:   # 현금흐름 칸 라벨·탭·헤더를 RIM으로(newcards/rim_card.py — 문턱 대조 포함)
+    import rim_card as _rc
+    h = _rc.apply(h, T, DCF, px)
 if getattr(C, 'AUTO_OUTSIDE', None):   # 외국 발행사: 원문 링크는 모두 6-K다
-    h = h.replace(' (SEC) →</a>', ' (SEC 6-K) →</a>')
+    h = h.replace(' (SEC) →</a>', f" ({C.AUTO_OUTSIDE.get('link_tag', 'SEC 6-K')}) →</a>")   # SKHY는 한국 정기보고서 원문
 open(p, 'w', encoding='utf-8').write(h)
 if _refresh:
     _cp = os.path.join(HERE, 'cfg', f'cfg_{t}.py'); _cs = open(_cp, encoding='utf-8').read()

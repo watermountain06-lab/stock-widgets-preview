@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 22974}   # Q2 2026 보도자료 매출(제품 합, 백만 달러)
-VOTES, VERDICT = (1, -1, -2), '적정~고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'Lilly'
 S_ = 'https://www.sec.gov/Archives/edgar/data/59478/'
 SEC = S_
@@ -100,8 +100,8 @@ BULL = [('수요', '2분기 판매량이 60% 늘었고 올해 매출 가이던�
 BEAR = [('가격', '2분기 실현 가격이 13% 내렸고 미국 밖은 36% 내렸다.'),
         ('집중', 'Mounjaro와 Zepbound가 2분기 매출의 65%다.'),
         ('사업개발 비용', 'IPR&amp;D 비용이 2분기 $2.8B로 이익을 흔들고, 인수로 차입금이 $54.9B로 늘었다.')]
-ANALYST = {'rating': 'Buy', 'n': 30, 'nt': 22, 'mean': 1361.64, 'median': 1400, 'low': 940, 'high': 1600, 'sb': 19, 'b': 6, 'h': 3, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Buy', 'n': 31, 'nt': 23, 'mean': 1363.91, 'median': 1400, 'low': 940, 'high': 1600, 'sb': 20, 'b': 6, 'h': 3, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-10-24'
 
 # 현재가 역산 문장(성장 모드) — 생성기는 틀 문장을 지우고 '—'만 남긴다(JS는 마진 모드만 문장을 쓴다). 옛 카드 문장을 되살린다(JS가 data-dcf-* 칸을 채운다).
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다. '

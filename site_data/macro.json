@@ -1,32 +1,32 @@
 {
-  "generatedAt": "2026-10-10T15:27:14Z",
-  "priceSession": "2026-10-09",
+  "generatedAt": "2026-10-27T15:26:35Z",
+  "priceSession": "2026-10-26",
   "indicators": {
     "sp500": {
-      "value": 7811.54,
-      "changePct": 0.59,
-      "asOf": "2026-10-09",
+      "value": 7676.77,
+      "changePct": 0.7,
+      "asOf": "2026-10-26",
       "status": "fresh",
       "source": "Yahoo ^GSPC daily close"
     },
     "vix": {
-      "value": 14.84,
-      "changePct": -3.7,
-      "asOf": "2026-10-09",
+      "value": 18.39,
+      "changePct": -5.45,
+      "asOf": "2026-10-26",
       "status": "fresh",
       "source": "Yahoo ^VIX daily close"
     },
     "usdkrw": {
-      "value": 1341.1,
-      "changePct": -0.13,
-      "asOf": "2026-10-09",
+      "value": 1325.89,
+      "changePct": 0.13,
+      "asOf": "2026-10-26",
       "status": "fresh",
       "source": "Yahoo KRW=X hourly bar ending 16:00 ET"
     },
     "fedTarget": {
       "lower": 3.75,
       "upper": 4.0,
-      "asOf": "2026-10-10",
+      "asOf": "2026-10-27",
       "status": "fresh",
       "source": "FRED API DFEDTARL/DFEDTARU"
     },
@@ -37,8 +37,8 @@
       "source": "FRED API UNRATE"
     },
     "cpiYoy": {
-      "value": 3.4,
-      "asOf": "2026-08",
+      "value": 3.7,
+      "asOf": "2026-09",
       "status": "fresh",
       "source": "FRED API CPIAUCSL, YoY computed"
     }

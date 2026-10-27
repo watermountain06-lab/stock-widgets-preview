@@ -6,7 +6,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 10054, 'op': 3514, 'ni': 2375, 'ocf': 4002, 'cap': 513}
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (-1, 0, -2), '고평가'
 CO = 'Amgen'
 S_ = 'https://www.sec.gov/Archives/edgar/data/318154/'
 SEC = S_
@@ -91,8 +91,8 @@ BULL = [('성장', 'Repatha +37%, EVENITY +38%, TEZSPIRE +42%, UPLIZNA +90%.'),
 BEAR = [('특허·가격', 'Prolia −32%는 바이오시밀러 출시, Otezla −21%는 가격(−9%)·물량(−6%) 하락 때문이다.'),
         ('사건', '7월 사이버 침해로 환자 건강 정보 등 데이터가 빠져나갔다(조사 중, 회사는 재무 영향이 중대하지 않을 것으로 본다).'),
         ('부채', '차입금 $57.3B, 자기자본 $11.7B.')]
-ANALYST = {'rating': 'Hold', 'n': 34, 'nt': 24, 'mean': 403.5, 'median': 425, 'low': 230, 'high': 500, 'sb': 8, 'b': 4, 'h': 17, 's': 2, 'ss': 3}
-ANALYST_ASOF = '2026-10-11'
+ANALYST = {'rating': 'Hold', 'n': 34, 'nt': 24, 'mean': 403.96, 'median': 415, 'low': 230, 'high': 500, 'sb': 8, 'b': 4, 'h': 17, 's': 2, 'ss': 3}
+ANALYST_ASOF = '2026-10-24'
 PRE = [r'''
 NDPS = ((b.get('debt') or 0) - (b.get('cash') or 0) - (b.get('sti') or 0)) / b['shares']
 ''']

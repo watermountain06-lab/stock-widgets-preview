@@ -1,5 +1,5 @@
 {
- "_note": "표준 태그(차원 없는 InterestExpense*)로 분기 이자비용을 내지 않는 회사의 손입력 값. build_fundamental_score가 같은 분기 태그 값이 없을 때만 쓴다. 10-Q 원문 표에서 옮기고 source를 적는다(2026-09-27 사용자 결정, LLY). \"adjust\" 항목은(분기 기준에만 적용, 연간 기준엔 적용하지 않음) 태그 값이 있어도 더한다 — 회사가 금액을 밝힌 일회성 이자비용 조정을 되돌린다(2026-09-27, WMT).",
+ "_note": "표준 태그(차원 없는 InterestExpense*)로 분기 이자비용을 내지 않는 회사의 손입력 값. build_fundamental_score가 같은 분기 태그 값이 없을 때만 쓴다. 10-Q 원문 표에서 옮기고 source를 적는다(2026-09-27 사용자 결정, LLY). \"adjust\" 항목은(분기 기준에만 적용, 연간 기준엔 적용하지 않음) 태그 값이 있어도 더한다 — 회사가 금액을 밝힌 일회성 이자비용 조정을 되돌린다(2026-09-27, WMT). \"net\": true는 이자수익을 차감한 순이자비용(총이자비용을 따로 공시하지 않음) — 이자보상배율에 \"순이자 기준\"을 표기한다(안건 D61, 2026-10-26).",
  "LLY": [
   {
    "end": "2026-06-30",
@@ -24,7 +24,8 @@
    "value": 243000000,
    "filed": "2026-07-24",
    "desc": "Q2 2026 순이자비용 — 10-Q 손익계산서 'Interest expense, net $243'(이자수익 차감 후). PM은 총이자비용을 따로 내지 않아 순액으로 계산한다(2026-10-01 사용자 결정).",
-   "source": "https://www.sec.gov/Archives/edgar/data/1413329/000162828026049493/pm-20260630.htm"
+   "source": "https://www.sec.gov/Archives/edgar/data/1413329/000162828026049493/pm-20260630.htm",
+   "net": true
   }
  ],
  "RTX": [
@@ -69,7 +70,8 @@
    "value": 1055000000,
    "filed": "2026-07-23",
    "desc": "Q2 2026 이자비용 — 10-Q 손익계산서 'Interest expense, net (1,055)'(3개월). 2022년 이후 차원 없는 이자비용 태그가 없고 InterestIncomeExpenseNonoperatingNet(음수 순액)으로만 낸다(2026-10-01).",
-   "source": "https://www.sec.gov/Archives/edgar/data/1283699/000128369926000101/tmus-20260630.htm"
+   "source": "https://www.sec.gov/Archives/edgar/data/1283699/000128369926000101/tmus-20260630.htm",
+   "net": true
   }
  ],
  "NEE": [
@@ -115,6 +117,117 @@
    "filed": "2026-07-23",
    "desc": "Q2 2026 이자비용 — 10-Q 손익계산서 'Interest expense, net of capitalized interest (35)'(3개월). 표준 InterestExpense 태그가 2013년에 멈춰 재무 데이터의 이자비용이 비었다.",
    "source": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000036/nem-20260630.htm"
+  }
+ ],
+ "MO": [
+  {
+   "end": "2026-06-30",
+   "value": 295000000,
+   "filed": "2026-07-30",
+   "desc": "Q2 2026 순이자비용 — 10-Q 손익계산서 'Interest and other debt expense, net $295'(이자수익 차감 후). MO는 분기 총이자비용을 따로 내지 않아 순액으로 계산한다(PM 전례, 2026-10-13).",
+   "source": "https://www.sec.gov/Archives/edgar/data/764180/000076418026000094/mo-20260630.htm",
+   "net": true
+  }
+ ],
+ "PSX": [
+  {
+   "end": "2026-06-30",
+   "value": 314000000,
+   "filed": "2026-08-05",
+   "desc": "Q2 2026 이자비용 — 10-Q 손익계산서 'Interest and debt expense $314'. 회사는 InterestAndDebtExpense 태그로만 내 엔진이 읽는 이자비용 태그 목록에 없다(TXN 전례, 2026-10-13).",
+   "source": "https://www.sec.gov/Archives/edgar/data/1534701/000153470126000032/psx-20260630.htm"
+  }
+ ],
+ "ADSK": [
+  {
+   "end": "2026-07-31",
+   "value": 23000000,
+   "filed": "2026-08-31",
+   "desc": "Q2 FY27 이자비용 — 10-Q 부문 기타 공시 표의 'Interest expense $23'(6개월 $44, 전년 $19·$37). InterestExpense 태그는 2026-04에 멈췄다(Codex·Fable r1, 2026-10-23).",
+   "source": "https://www.sec.gov/Archives/edgar/data/769397/000076939726000061/adsk-20260731.htm"
+  }
+ ],
+ "DAL": [
+  {
+   "end": "2025-09-30",
+   "value": 171000000,
+   "filed": "2026-10-10",
+   "desc": "Q3 2025 이자비용(순) — 10-Q 손익계산서 'Interest expense, net'(이자수익 차감, 총 이자비용은 공시 안 함). InterestExpense 태그는 2018-03에 멈췄다(2026-10-23).",
+   "source": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000038/dal-20260930.htm",
+   "net": true
+  },
+  {
+   "end": "2026-03-31",
+   "value": 151000000,
+   "filed": "2026-10-10",
+   "desc": "Q1 2026 이자비용(순) — Q1 2026 10-Q 'Interest expense, net' 151(이자수익 차감, 총 이자비용은 공시 안 함)(2026-10-23).",
+   "source": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000038/dal-20260930.htm",
+   "net": true
+  },
+  {
+   "end": "2026-06-30",
+   "value": 144000000,
+   "filed": "2026-10-10",
+   "desc": "Q2 2026 이자비용(순) — 10-Q 'Interest expense, net'(이자수익 차감)(2026-10-23).",
+   "source": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000038/dal-20260930.htm",
+   "net": true
+  },
+  {
+   "end": "2026-09-30",
+   "value": 146000000,
+   "filed": "2026-10-10",
+   "desc": "Q3 2026 이자비용(순) — 10-Q 손익계산서 'Interest expense, net'(이자수익 차감, 총 이자비용은 공시 안 함). InterestExpense 태그는 2018-03에 멈췄다(2026-10-23).",
+   "source": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000038/dal-20260930.htm",
+   "net": true
+  }
+ ],
+ "NTAP": [
+  {
+   "end": "2026-07-31",
+   "value": 29000000,
+   "filed": "2026-09-02",
+   "desc": "Q1 FY27(14주) 이자비용 — 10-Q MD&A 'Other income (expense), net' 표의 'Interest expense (29)'. 이 분기엔 InterestExpenseNonoperating 행이 없다(FY26 분기는 있음).",
+   "source": "https://www.sec.gov/Archives/edgar/data/1002047/000119312526380207/ntap-20260731.htm"
+  }
+ ],
+ "DG": [
+  {
+   "end": "2026-07-31",
+   "value": 42900000,
+   "filed": "2026-08-27",
+   "desc": "Q2 FY26 이자비용(순) — 손익계산서 'Interest expense, net' $42.9M을 InterestIncomeExpenseNonoperatingNet(−42.9)으로만 태그한다(Fable r1).",
+   "source": "https://www.sec.gov/Archives/edgar/data/29534/000110465926101932/dg-20260731x10q.htm",
+   "net": true
+  }
+ ],
+ "CDW": [
+  {
+   "end": "2026-06-30",
+   "value": 60200000,
+   "filed": "2026-08-05",
+   "desc": "Q2 2026 이자비용 — 10-Q 손익계산서 'Interest expense, net' $(60.2)M(InterestIncomeExpenseNonoperatingNet 태그). 표준 InterestExpense 태그는 2014년 뒤로 쓰지 않는다(Fable r1, 2026-10-25).",
+   "source": "https://www.sec.gov/Archives/edgar/data/1402057/000140205726000065/cdw-20260630.htm",
+   "net": true
+  }
+ ],
+ "IEX": [
+  {
+   "end": "2026-06-30",
+   "value": 15100000,
+   "filed": "2026-07-29",
+   "desc": "Q2 2026 이자비용 — 10-Q 손익계산서 'Interest expense, net' $(15.1)M(InterestIncomeExpenseNonoperatingNet 태그). 표준 InterestExpense 태그가 분기에 없다(Fable r1, 2026-10-25).",
+   "source": "https://www.sec.gov/Archives/edgar/data/832101/000083210126000022/iex-20260630.htm",
+   "net": true
+  }
+ ],
+ "ZBRA": [
+  {
+   "end": "2026-07-04",
+   "value": 35000000,
+   "filed": "2026-08-04",
+   "desc": "Q2 2026 이자비용 — 10-Q 손익계산서 'Interest expense, net' $(35)M(InterestIncomeExpenseNonoperatingNet 태그). 표준 InterestExpense 태그가 분기에 없다(Fable r1, 2026-10-25).",
+   "source": "https://www.sec.gov/Archives/edgar/data/877212/000162828026052550/zbra-20260704.htm",
+   "net": true
   }
  ]
 }

@@ -195,7 +195,7 @@ def analyze(rows):
     # 차입금 누락 의심(이자비용 ÷ 차입금 > 15% 또는 차입금 0) 행은 검증에서 뺀다 — 회사 자체 태그라
     # 자동으로 고칠 수 없고, 빠진 차입금만큼 내재가치가 부풀어 "매우 싸다"를 오염시킨다(2026-09-25 사용자 결정).
     before = len(rows)
-    rows = [r for r in rows if not any(str(x).startswith("debt_suspect") for x in (r.get("dq") or []))]
+    rows = [r for r in rows if not any(str(x).startswith(("debt_suspect", "dcf_hold")) for x in (r.get("dq") or []))]   # dcf_hold: 2026-10-25
     res = {"n_rows": len(rows), "n_tickers": len({r["t"] for r in rows}), "excluded_debt_suspect": before - len(rows)}
     # ① 분포
     def level(x):

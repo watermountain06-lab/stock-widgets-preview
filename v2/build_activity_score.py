@@ -60,7 +60,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801", "TSLA": "0001318605", "MU": "0000723125", "LLY": "0000059478", "SKHY": "0002120882", "WMT": "0000104169", "AMD": "0000002488", "V": "0001403161", "JNJ": "0000200406", "ASML": "0000937966", "XOM": "0000034088", "INTC": "0000050863", "MA": "0001141391", "ABBV": "0001551152", "PLTR": "0001321655", "CVX": "0000093410", "COST": "0000909832", "LRCX": "0000707549", "KO": "0000021344", "CAT": "0000018230", "MRK": "0000310158", "AMAT": "0000006951", "UNH": "0000731766", "GE": "0000040545", "DELL": "0001571996", "MS": "0000895421", "PG": "0000080424", "NFLX": "0001065280", "HD": "0000354950", "GS": "0000886982", "PM": "0001413329", "PANW": "0001327567", "WFC": "0000072971", "ORCL": "0001341439", "BAC": "0000070858", "CSCO": "0000858877", "RTX": "0000101829", "SNDK": "0002023554", "GEV": "0001996810", "ANET": "0001596532", "TXN": "0000097476", "KLAC": "0000319201", "C": "0000831001", "IBM": "0000051143", "TMO": "0000097745", "AXP": "0000004962", "LIN": "0001707925", "CRWD": "0001535527", "VZ": "0000732712", "MRVL": "0001835632", "APH": "0000820313", "AMGN": "0000318154", "CRM": "0001108524", "TMUS": "0001283699", "QCOM": "0000804328", "STX": "0001137789", "PEP": "0000077476", "SCHW": "0000316709", "DIS": "0001744489", "DE": "0000315189", "ADI": "0000006281", "GILD": "0000882095", "BLK": "0002012383", "ETN": "0001551182", "ABT": "0000001800", "WDC": "0000106040", "T": "0000732717", "MCD": "0000063908", "WELL": "0000766704", "UNP": "0000100885", "PFE": "0000078003", "NEE": "0000753308", "COP": "0001163165", "DHR": "0000313616", "BA": "0000012927", "TJX": "0000109198", "BX": "0001393818", "GLW": "0000024741", "NOW": "0001373715", "ISRG": "0001035267", "UBER": "0001543151", "FTNT": "0001262039", "VRTX": "0000875320", "CB": "0000896159", "PLD": "0001045609", "BMY": "0000014272", "PH": "0000076334", "PGR": "0000080661", "BKNG": "0001075531", "NEM": "0001164727", "ACN": "0001467373", "COF": "0000927628", "MPC": "0001510295"}
+CIKS = {"NVDA": "0001045810", "AAPL": "0000320193", "GOOGL": "0001652044", "MSFT": "0000789019", "AMZN": "0001018724", "TSM": "0001046179", "SPCX": "0001181412", "AVGO": "0001730168", "META": "0001326801", "TSLA": "0001318605", "MU": "0000723125", "LLY": "0000059478", "SKHY": "0002120882", "WMT": "0000104169", "AMD": "0000002488", "V": "0001403161", "JNJ": "0000200406", "ASML": "0000937966", "XOM": "0000034088", "INTC": "0000050863", "MA": "0001141391", "ABBV": "0001551152", "PLTR": "0001321655", "CVX": "0000093410", "COST": "0000909832", "LRCX": "0000707549", "KO": "0000021344", "CAT": "0000018230", "MRK": "0000310158", "AMAT": "0000006951", "UNH": "0000731766", "GE": "0000040545", "DELL": "0001571996", "MS": "0000895421", "PG": "0000080424", "NFLX": "0001065280", "HD": "0000354950", "GS": "0000886982", "PM": "0001413329", "PANW": "0001327567", "WFC": "0000072971", "ORCL": "0001341439", "BAC": "0000070858", "CSCO": "0000858877", "RTX": "0000101829", "SNDK": "0002023554", "GEV": "0001996810", "ANET": "0001596532", "TXN": "0000097476", "KLAC": "0000319201", "C": "0000831001", "IBM": "0000051143", "TMO": "0000097745", "AXP": "0000004962", "LIN": "0001707925", "CRWD": "0001535527", "VZ": "0000732712", "MRVL": "0001835632", "APH": "0000820313", "AMGN": "0000318154", "CRM": "0001108524", "TMUS": "0001283699", "QCOM": "0000804328", "STX": "0001137789", "PEP": "0000077476", "SCHW": "0000316709", "DIS": "0001744489", "DE": "0000315189", "ADI": "0000006281", "GILD": "0000882095", "BLK": "0002012383", "ETN": "0001551182", "ABT": "0000001800", "WDC": "0000106040", "T": "0000732717", "MCD": "0000063908", "WELL": "0000766704", "UNP": "0000100885", "PFE": "0000078003", "NEE": "0000753308", "COP": "0001163165", "DHR": "0000313616", "BA": "0000012927", "TJX": "0000109198", "BX": "0001393818", "GLW": "0000024741", "NOW": "0001373715", "ISRG": "0001035267", "UBER": "0001543151", "FTNT": "0001262039", "VRTX": "0000875320", "CB": "0000896159", "PLD": "0001045609", "BMY": "0000014272", "PH": "0000076334", "PGR": "0000080661", "BKNG": "0001075531", "NEM": "0001164727", "ACN": "0001467373", "COF": "0000927628", "MPC": "0001510295", "VLO": "0001035002", "MO": "0000764180", "PSX": "0001534701", "LMT": "0000936468", "MCK": "0000927653", "CVS": "0000064803", "ADP": "0000008670", "SYK": "0000310764", "LOW": "0000060667", "SBUX": "0000829224", "CME": "0001156375", "TT": "0001466258", "FCX": "0000831259", "NKE": "0000320187", "EQIX": "0001101239", "ADBE": "0000796343", "BNY": "0001390777", "PWR": "0001050915", "ELV": "0001156039", "USB": "0000036104", "ICE": "0001571949", "EMR": "0000032604", "CSX": "0000277948", "MRSH": "0000062709", "CEG": "0001868275", "INTU": "0000896878", "HWM": "0000004281", "WMB": "0000107263", "MRNA": "0001682852", "WM": "0000823768", "DDOG": "0001561550", "AMT": "0001053507", "SNPS": "0000883241", "MAR": "0001048286", "MMM": "0000066740", "EOG": "0000821189", "VRT": "0001674101", "TRV": "0000086312", "HLT": "0001585689", "HOOD": "0001783879", "REGN": "0000872589", "HPE": "0001645590", "MSI": "0000068505", "SHW": "0000089800", "ROST": "0000745732", "LITE": "0001633978", "CTAS": "0000723254", "CMI": "0000026172", "UPS": "0001090727", "CL": "0000021665", "ECL": "0000031462", "NOC": "0001133421", "ORLY": "0000898173", "ITW": "0000049826", "RCL": "0000884887", "DASH": "0001792789", "TGT": "0000027419", "APD": "0000002969", "AJG": "0000354190", "MNST": "0000865752", "GM": "0001467858", "BSX": "0000885725", "ALL": "0000899051", "COR": "0001140859", "AON": "0000315293", "TRGP": "0001389170", "TDG": "0001260221", "FAST": "0000815556", "MCO": "0001059556", "TEL": "0001385157", "OKE": "0001039684", "GWW": "0000277135", "NUE": "0000073309", "PCAR": "0000075362", "AME": "0001037868", "KEYS": "0001601046", "ADSK": "0000769397", "TER": "0000097210", "XEL": "0000072903", "A": "0001090872", "VEEV": "0001393052", "RSG": "0001060391", "CIEN": "0000936395", "WAB": "0000943452", "NDAQ": "0001120193", "DAL": "0000027904", "MSCI": "0001408198", "IDXX": "0000874716", "WDAY": "0001327811", "FIX": "0001035983", "P": "0001474432", "MCHP": "0000827054", "PAYX": "0000723531", "RMD": "0000943819", "PEG": "0000788784", "CRH": "0000849395", "DHI": "0000882184", "SO": "0000092122", "DUK": "0001326160", "ED": "0001047862", "BIIB": "0000875045", "CBOE": "0001374310", "NTAP": "0001002047", "TTWO": "0000946581", "BE": "0001664703", "ODFL": "0000878927", "MTD": "0001037646", "UAL": "0000100517", "AEE": "0001002910", "DG": "0000029534", "DXCM": "0001093557", "ATO": "0000731802", "OTIS": "0001781335", "WST": "0000105770", "EME": "0000105634", "DOV": "0000029905", "EXPD": "0000746515", "CASY": "0000726958", "IR": "0001699150", "CHD": "0000313927", "CDW": "0001402057", "XYL": "0001524472", "IEX": "0000832101", "EFX": "0000033185", "JBHT": "0000728535", "NDSN": "0000072331", "PNW": "0000764622", "ALLE": "0001579241", "LDOS": "0001336920", "BALL": "0000009389", "ZBRA": "0000877212", "CF": "0001324404", "AVY": "0000008818", "FICO": "0000814547", "ROL": "0000084839", "HII": "0001501585", "AOS": "0000091142", "MDLZ": "0001103982", "PPG": "0000079879", "GD": "0000040533", "CDNS": "0000813672"}
 UA = "stock-widgets research gptjhss@gmail.com"
 
 # 앞에 있는 태그가 우선한다. 같은 분기에 둘 다 있으면 뒤 태그는 버린다.
@@ -71,16 +71,28 @@ TAGS = {
     "inventory": ["InventoryNet"],
     "ap": ["AccountsPayableCurrent", "AccountsPayableTradeCurrent"],   # META는 2021~2026-03을 뒤 태그로만 냈다(겹치는 2020-12·2025-12 값 같음)
 }
+# GWW: 매입채무를 AccountsPayableTradeCurrentAndNoncurrent로만 낸다(10-Q "Trade accounts payable" $1,280M, Codex r1 2026-10-23)
+AP_TAG_BY_CIK = {"0000277135": ["AccountsPayableTradeCurrentAndNoncurrent"]}
 AR_TAG_BY_CIK = {"0000804328": ["AccountsAndOtherReceivablesNetCurrent"],   # QCOM — series() 주석
                  "0000077476": ["AccountsNotesAndLoansReceivableNetCurrent"]}   # PEP — 매출채권 단독 태그를 낸 적 없음(“매출채권·어음”), 2026-10-01
 # 재고를 InventoryNet이 아닌 이름으로만 내는 회사(2026-10-02, Codex·Fable). BA는 "Inventories"(장기 프로그램 재고에서 고객 선수금·
 # 진행 청구를 뺀 순액, 2026-06-30 $88,388M)를 InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings로 낸다 — 없으면 재고 0으로 계산됐다.
-INV_TAG_BY_CIK = {"0000012927": ["InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings"]}
+# LMT: 2011~2025-12 "Inventories"를 같은 순액 태그로 내다가 2026년부터 InventoryNet으로만 낸다(겹치는 2024-03~2025-12 값 같음) —
+# InventoryNet만 읽으면 행이 7개라 활동성이 "5년 비교 이력 부족"이었다(Fable 2026-10-14). 앞 태그 우선, 2026년은 뒤 태그로 잇는다.
+INV_TAG_BY_CIK = {"0000012927": ["InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings"],
+                  # WM: "Parts and supplies"를 Supplies로 낸다(2026-06-30 $232M) — InventoryNet이 없어 재고 0으로 계산됐다(Codex 2026-10-21)
+                  "0000823768": ["Supplies"],
+                  "0000936468": ["InventoryNetOfAllowancesCustomerAdvancesAndProgressBillings", "InventoryNet"],
+                  # NKE: "Inventories"를 InventoryFinishedGoodsNetOfReserves로만 낸다(InventoryNet은 2011년에 멈춤, 2026-10-17)
+                  "0000320187": ["InventoryFinishedGoodsNetOfReserves"]}
 # 매출원가를 표준 목록 밖 이름으로만 내는 회사 — NEM 판매원가(감가상각 제외, CostOfGoodsAndServiceExcludingDepreciation…).
 # 재고는 회사 고유 태그라 cfg_nem의 company_tags로 InventoryNet에 싣는다(2026-10-02).
-COGS_TAG_BY_CIK = {"0001164727": ["CostOfGoodsAndServiceExcludingDepreciationDepletionAndAmortization"]}
+COGS_TAG_BY_CIK = {"0001164727": ["CostOfGoodsAndServiceExcludingDepreciationDepletionAndAmortization"],
+                   # ITW: CostOfRevenue(Q2 2026 $2,033M)는 부문 주석의 변동원가 — 손익계산서 매출원가는 CostOfGoodsAndServicesSold($2,403M)(Codex 2026-10-22)
+                   "0000049826": ["CostOfGoodsAndServicesSold"]}
 # 재고를 여러 줄의 합으로 보는 회사 — NEM 재고 + 유동 광석 비축분(둘 다 회사 고유 태그를 company_tags로 실은 이름, 같은 날짜만 더한다).
-INV_SUM_BY_CIK = {"0001164727": ["InventoryNet", "InventoryOreStockpilesCurrentNem"]}
+INV_SUM_BY_CIK = {"0001164727": ["InventoryNet", "InventoryOreStockpilesCurrentNem"],
+                  "0000831259": ["InventoryProductFcx", "InventoryRawMaterialsAndSuppliesNetOfReserves", "InventoryStockpilesCurrentFcx"]}   # FCX 재고 세 줄(2026-10-17)
 HISTORY = 20            # 비교할 직전 분기 수 (5년)
 GREEN, RED = 70, 30     # 카드 공통 문턱
 
@@ -156,6 +168,8 @@ def series(facts):
     # 매출채권 $2,855M 대 합산 $4,315M(2026-10-01, Claude 추천·사용자 위임).
     if str(facts.get("cik", "")).zfill(10) in AR_TAG_BY_CIK:
         ar = instant(gaap, AR_TAG_BY_CIK[str(facts["cik"]).zfill(10)])
+    if str(facts.get("cik", "")).zfill(10) in AP_TAG_BY_CIK:
+        ap = instant(gaap, AP_TAG_BY_CIK[str(facts["cik"]).zfill(10)])
     if str(facts.get("cik", "")).zfill(10) in INV_TAG_BY_CIK:
         inv = instant(gaap, INV_TAG_BY_CIK[str(facts["cik"]).zfill(10)])
     if str(facts.get("cik", "")).zfill(10) in INV_SUM_BY_CIK:
@@ -174,7 +188,7 @@ def series(facts):
     # 비워 둔다. 점수는 원래 DSO+DIO(영업순환주기)라 그대로 매긴다(2026-09-28).
     # 10-K에만 있고 10-Q에는 한 번도 없는 매입채무(ABBV — 분기는 "매입채무 + 미지급비용" 합산 태그뿐, 제약사는 미지급 리베이트가
     # 커서 합산으로 DPO를 재면 크게 부푼다)도 분기 매입채무가 없는 것으로 본다(2026-09-29).
-    ap_q = any(u.get("form") == "10-Q" for tg in TAGS["ap"] for u in gaap.get(tg, {}).get("units", {}).get("USD", []))
+    ap_q = any(u.get("form") == "10-Q" for tg in AP_TAG_BY_CIK.get(str(facts.get("cik", "")).zfill(10), TAGS["ap"]) for u in gaap.get(tg, {}).get("units", {}).get("USD", []))
     no_ap = not ap or not ap_q
     qs = [e for e in sorted(rev) if all(e in d for d in (cogs, ar, inv) + (() if no_ap else (ap,)))]
 

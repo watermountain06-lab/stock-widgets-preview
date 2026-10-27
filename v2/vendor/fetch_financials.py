@@ -65,6 +65,70 @@ CONCEPTS = {
     "sharesOutstanding": ["EntityCommonStockSharesOutstanding", "CommonStockSharesOutstanding", "CommonStockSharesIssued"],
 }
 
+# 종목별로 후보 태그를 바꾸는 개념(CIK). LOW: 이자비용 후보 중 InterestExpenseOther는 순이자 표의 "Other" 한 줄(Q2 2026 $0)이라
+# 이자보상배율이 "이자비용 0" 만점이 됐다 — 손익계산서 "Interest – net"(InterestIncomeExpenseNonoperatingNet, 음수로 실림, 소비처는 절댓값)을 쓴다
+# (MO·PM 순이자 전례, 2026-10-16). 같은 태그를 쓰는 ANET은 공통 안건으로 남겼다.
+CONCEPTS_BY_CIK = {# RSG: 손익계산서 매출 RevenueFromContractWithCustomerExcludingAssessedTax — Revenues는 부문 간 상계 전 합계(2026-10-23)
+                   "0001060391": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"]},
+                   # VEEV: 설비투자 PaymentsForSoftware("Long-term assets") — 기본 태그는 2020-04에 멈춤(2026-10-23)
+                   "0001393052": {"capex": ["PaymentsForSoftware"]},
+                   # XEL: 총매출 RegulatedAndUnregulatedOperatingRevenue — Revenues 태그는 2019-09에 멈춤(2026-10-23)
+                   "0000072903": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"]},
+                   # KEYS: InterestExpense가 FY2025(2025-10)에 멈춤 — InterestExpenseNonoperating(2026-10-23)
+                   "0001601046": {"interestExpense": ["InterestExpenseNonoperating", "InterestExpense"]},
+                   # AME: InterestExpense가 2024-03에 멈춤 — InterestExpenseNonoperating(2022년부터)(2026-10-23)
+                   "0001037868": {"interestExpense": ["InterestExpenseNonoperating", "InterestExpense"]},
+                   "0000060667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # AJG: 설비투자 "Capital expenditures"(상반기 2026 $87M)는 PaymentsForCapitalImprovements(2026-10-22)
+                   "0000354190": {"capex": ["PaymentsForCapitalImprovements"]},
+                   # TRGP: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet)만 분기로 낸다 — InterestExpense는 2014년에 멈춤(2026-10-22, WM 선례)
+                   "0001389170": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # MCO: "Interest expense, net"(InterestIncomeExpenseNonoperatingNet)만 분기로 — InterestExpense 태그는 2024년 이후 없음(2026-10-23, Fable)
+                   "0001059556": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # OKE: InterestExpense 태그가 2024-03에 멈춤 — 손익계산서 "Interest expense (net of capitalized interest)"(InterestExpenseNonoperating, 2022년부터)(2026-10-23, Codex·Fable r1)
+                   "0001039684": {"interestExpense": ["InterestExpenseNonoperating"]},
+                   # GWW: InterestExpense 태그가 2019-09에 멈춤 — 손익계산서 "Interest expense – net"(InterestIncomeExpenseNet, 음수로 실림)(2026-10-23)
+                   "0000277135": {"interestExpense": ["InterestIncomeExpenseNet"],
+                                  "accountsPayable": ["AccountsPayableTradeCurrentAndNoncurrent", "AccountsPayableCurrent"]},   # 매입채무 $1,280M(Codex r1)
+                   # WM: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q2 2026 −$233M)만 분기로 낸다 — InterestExpense는 2013년에 멈춤(2026-10-21)
+                   "0000823768": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "inventory": ["Supplies"]},   # 재고 = "Parts and supplies"(Supplies)
+                   # CME: 이자비용을 "Interest and other borrowing costs"(InterestAndDebtExpense, Q2 2026 $43.6M)로만 낸다(2026-10-16)
+                   "0001156375": {"interestExpense": ["InterestAndDebtExpense"]},
+                   # SO: 이자비용을 InterestAndDebtExpense(Q1 2026 $778M)로만 낸다 — CME와 같은 경우(Fable r1, 2026-10-24)
+                   "0000092122": {"interestExpense": ["InterestAndDebtExpense"]},
+                   # DUK: 총매출 RegulatedAndUnregulatedOperatingRevenue(Q1 2026 $9,178M — 고객 계약 매출 $8,995M은 대체 매출 빠짐), 이자비용 InterestExpenseNonoperating($968M — InterestExpense는 연간만)(Codex·Fable r1, 2026-10-24)
+                   "0001326160": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"], "interestExpense": ["InterestExpenseNonoperating"]},
+                   # ED: 총매출 Revenues(Q1 2026 $5,095M — 고객 계약 매출 태그 $5,231M은 대체 수익 조정 전)(2026-10-24)
+                   "0001047862": {"revenue": ["Revenues"]},
+                   # BE: 매출은 Revenues(전력 판매·리스 포함, 고객 계약 매출 태그보다 약간 크다, 2026-10-24)
+                   "0001664703": {"revenue": ["Revenues"]},
+                   # NTAP: 차원 없는 Revenues 태그에 하이브리드 클라우드 부문 매출만 실렸다(Q1 FY27 $1,819M, FY2026 $6,237M) — 연결 매출은 고객 계약 매출 태그($2,025M)(Codex r1, 2026-10-24)
+                   "0001002047": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"]},
+                   # FCX: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNet, Q2 2026 −$95M — 소비처는 절댓값)만 분기로 낸다(2026-10-17)
+                   "0000831259": {"interestExpense": ["InterestIncomeExpenseNet"]},
+                   # NKE: 재고를 InventoryFinishedGoodsNetOfReserves로만 낸다(InventoryNet은 2011년에 멈춤 — 당좌비율이 유동비율과 같게 나왔다, 2026-10-17)
+                   "0000320187": {"inventory": ["InventoryFinishedGoodsNetOfReserves"]},
+                   # EMR: 손익계산서 "Interest expense (net of interest income)"(InterestIncomeExpenseNonoperatingNet, Q3 FY26 −$85M — LOW와 같은 방식)만 낸다(2026-10-18)
+                   "0000032604": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # HWM: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q2 2026 −$51M)만 분기로 낸다 — 총이자 InterestAndDebtExpense는 10-K 연간뿐(2026-10-19)
+                   "0000004281": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # ROST: 이자비용을 장기차입 이자(InterestExpenseLongTermDebt, Q2 FY26 $9.2M)와 기타(InterestExpenseOther, $0.35M)로 나눠 낸다 —
+                   # 기본 후보에선 기타 한 줄만 잡혀 이자보상배율이 3,153배였다. 장기차입 이자를 쓴다(자본화 차감 전, 기타 $0.35M은 빠짐; Codex 2026-10-22)
+                   "0000745732": {"interestExpense": ["InterestExpenseLongTermDebt"]},
+                   # ITW: 세전이익을 IncomeLossIncludingPortionAttributableToNoncontrollingInterest로 낸다(2026-10-22)
+                   "0000049826": {"pretaxIncome": ["IncomeLossIncludingPortionAttributableToNoncontrollingInterest"], "costOfRevenue": ["CostOfGoodsAndServicesSold"]}}
+
+# 최신 분기만 다른 태그에서 가져올 개념(CIK). 연간 이력이 있는 옛 태그가 순위에서 이겨, 분기만 새 태그로 옮긴 해에는
+# 최신 분기가 멈춘 옛 태그 값이 됐다 — CMI: 2026년부터 매출을 RevenueFromContractWithCustomerExcludingAssessedTax, 이자비용을
+# InterestExpenseNonoperating으로 내 Revenues·InterestExpense는 2025-09에 멈췄다(카드 재무 기준이 10-K로 잡혀 preflight가 멈춤, 2026-10-22).
+# 연간 이력은 옛 태그 그대로 두고, 새 태그의 최신 분기가 더 새로울 때만 바꾼다.
+LATEST_Q_BY_CIK = {"0000026172": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"],
+                                  "interestExpense": ["InterestExpenseNonoperating"]},
+                   # ECL: 이자비용 총액이 2025-06부터 InterestExpenseNonoperating(Q2 2026 $95.0M) — InterestExpense는 2026-03에 멈춤(2026-10-22)
+                   "0000031462": {"interestExpense": ["InterestExpenseNonoperating"]},
+                   # NOC: 이자비용을 InterestAndDebtExpense(Q3 2026 $158M)로만 낸다 — 이자보상배율이 "태그 없음"으로 빠졌다(Codex 2026-10-22)
+                   "0001133421": {"interestExpense": ["InterestAndDebtExpense"]}}
+
 # Balance-sheet concepts are point-in-time ("instant": only an "end" date,
 # no "start") rather than period durations like income-statement concepts.
 INSTANT_CONCEPTS = {"assets", "currentAssets", "currentLiabilities", "inventory",
@@ -195,6 +259,90 @@ def extract_concept(facts, tag_candidates, is_instant=False, n_years=3):
     return best[1]
 
 
+# 안건 E36(2026-10-26, research/e36_d61_design.md): 연간 이력이 있는 옛 태그가 순위에서 이겨 최신 분기가 멈춘 경우,
+# 더 새 후보 태그의 3개월 값을 쓴다 — 같은 (start, end) 겹침이 2개 이상이고 0 아닌 값이 있고 모두 2% 안일 때만.
+# 분기 점수에 쓰이는 손익 항목만(현금흐름·배당은 XBRL이 누계로 내는 관행이라 대상 아님). LATEST_Q_BY_CIK 지정 키는 건너뛴다.
+REFINE_KEYS = {"revenue", "costOfRevenue", "operatingIncome", "pretaxIncome", "netIncome",
+               "netIncomeAttributableToParent", "interestExpense", "epsBasic", "epsDiluted"}
+PER_SHARE_KEYS = {"epsBasic", "epsDiluted"}
+
+
+def _norm_by_period(entries):
+    """(start, end)마다 filed가 가장 늦은 사실 하나(같으면 accn 사전순 마지막)."""
+    by = {}
+    for e in entries:
+        if "start" not in e or e.get("val") is None:
+            continue
+        k = (e["start"], e["end"])
+        if k not in by or (e.get("filed", ""), e.get("accn", "")) > (by[k].get("filed", ""), by[k].get("accn", "")):
+            by[k] = e
+    return by
+
+
+def _latest_3m_10q(entries):
+    qs = [e for e in entries if e.get("form") == "10-Q" and "start" in e and e.get("val") is not None and 80 <= _days(e) <= 100]
+    return max(qs, key=lambda e: (e["end"], e.get("filed", ""))) if qs else None
+
+
+def _latest_10q_end(entries):
+    ends = [e["end"] for e in entries if e.get("form") == "10-Q" and "start" in e]
+    return max(ends) if ends else None
+
+
+def refine_latest_quarter(facts, tags, res, key):
+    """res(extract_concept 결과)의 최신 분기를 더 새 후보 태그에서 가져올 수 있으면 바꾼다. 경고는 res["warnings"]에."""
+    a_tag = res.get("tag")
+    if not a_tag or a_tag not in facts:
+        return res
+    unit = "USD/shares" if key in PER_SHARE_KEYS else "USD"
+    ua = facts[a_tag]["units"].get(unit, [])
+    qa = _latest_3m_10q(ua)
+    cands, warns = [], []
+    for i, b_tag in enumerate(tags):
+        if b_tag == a_tag or b_tag not in facts:
+            continue
+        ub = facts[b_tag]["units"].get(unit, [])
+        qb, le = _latest_3m_10q(ub), _latest_10q_end(ub)
+        if le and (not qb or le > qb["end"]) and (not qa or le > qa["end"]):
+            warns.append(f"quarter_tag_ytd_only: {a_tag}→{b_tag}")   # 7항: 더 새 10-Q가 누계뿐
+            continue
+        if qb and (not qa or qb["end"] > qa["end"]):
+            cands.append((qb["end"], -i, b_tag, ub, qb))
+    na = _norm_by_period(ua)
+    for _, _, b_tag, ub, qb in sorted(cands, reverse=True):
+        nb = _norm_by_period(ub)
+        common = set(na) & set(nb)
+        ok = (len(common) >= 2
+              and any(na[c]["val"] != 0 or nb[c]["val"] != 0 for c in common)
+              and all(abs(na[c]["val"] - nb[c]["val"]) <= 0.02 * max(abs(na[c]["val"]), abs(nb[c]["val"])) for c in common))
+        if ok:
+            res["latestQuarter"] = qb
+            res["latestQuarterTag"] = b_tag
+            return res
+        warns.append(f"quarter_tag_mismatch: {a_tag}→{b_tag} (겹침 {len(common)})")
+    if warns:
+        res["warnings"] = warns
+    return res
+
+
+def build_result(facts, cik, n_years=3):
+    """facts(us-gaap + dei 표지)에서 개념별 결과를 만든다 — main()과 오프라인 비교(캐시)가 같이 쓴다."""
+    result = {}
+    for key, tags in CONCEPTS.items():
+        tags = CONCEPTS_BY_CIK.get(str(cik).zfill(10), {}).get(key, tags)
+        result[key] = extract_concept(facts, tags, is_instant=key in INSTANT_CONCEPTS, n_years=n_years)
+        alt_tags = LATEST_Q_BY_CIK.get(str(cik).zfill(10), {}).get(key)
+        if alt_tags:
+            alt = extract_concept(facts, alt_tags, is_instant=key in INSTANT_CONCEPTS, n_years=n_years)
+            q0, q1 = result[key].get("latestQuarter"), alt.get("latestQuarter")
+            if q1 and (not q0 or q1["end"] > q0["end"]):
+                result[key]["latestQuarter"] = q1
+                result[key]["latestQuarterTag"] = alt.get("tag")
+        elif key in REFINE_KEYS:
+            refine_latest_quarter(facts, tags, result[key], key)
+    return result
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ticker")
@@ -235,8 +383,7 @@ def main():
         "cik": cik,
         "entityName": data.get("entityName"),
     }
-    for key, tags in CONCEPTS.items():
-        result[key] = extract_concept(facts, tags, is_instant=key in INSTANT_CONCEPTS, n_years=args.years)
+    result.update(build_result(facts, cik, n_years=args.years))
 
     out_path = args.out or f"{args.ticker.upper()}_financials.json"
     with open(out_path, "w") as f:

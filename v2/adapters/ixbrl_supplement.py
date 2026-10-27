@@ -21,6 +21,28 @@ from cover_shares import get  # noqa: E402
 CACHE = os.path.join(V2, ".sec_cache")
 
 
+def facts_cache(cik):
+    """companyfacts 캐시를 읽는다 — 없으면 받아서 저장한다. Actions의 SEC 캐시는 토요일에만 저장되므로 주중에 새로 만든 카드는
+    캐시에 없고, 읽기만 하던 이 단계가 FileNotFoundError로 멈췄다(2026-10-26 매일 실행에서 CDNS 실패 — 10-25 추가된 카드)."""
+    p = os.path.join(CACHE, f"{cik}_facts.json")
+    if os.path.exists(p):
+        try:
+            return json.load(open(p))
+        except ValueError:   # 토요일 캐시 저장이 중간에 끊겨 잘린 파일 — 없는 것으로 보고 받는다(Fable)
+            pass
+    try:
+        d = json.loads(get(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik}.json") or "{}")
+    except ValueError:   # 오류 쪽지(HTML·빈 응답)를 캐시에 쓰지 않는다
+        d = {}
+    if not isinstance(d, dict) or not isinstance(d.get("facts"), dict):   # null·오류 쪽지도 같은 문장으로(Codex)
+        sys.exit(f"{cik}: companyfacts를 받지 못했고 캐시에도 없다 — 보충을 할 수 없다")
+    os.makedirs(CACHE, exist_ok=True)
+    tmp = p + ".part"   # 중간에 끊겨 반쪽 파일이 남으면 다음 실행이 받지 않고 그 파일로 멈춘다(Codex)
+    json.dump(d, open(tmp, "w"))
+    os.replace(tmp, p)
+    return d
+
+
 def parse(h, prefixes=("us-gaap:", "dei:")):
     ctx = {}
     for m in re.finditer(r'<xbrli:context id="([^"]+)">(.*?)</xbrli:context>', h, re.S):
@@ -54,7 +76,7 @@ def parse(h, prefixes=("us-gaap:", "dei:")):
 
 def main(cik):
     cik = cik.zfill(10)
-    facts = json.load(open(os.path.join(CACHE, f"{cik}_facts.json")))
+    facts = facts_cache(cik)
     have = {r["filed"] for t in facts["facts"].get("us-gaap", {}).values() for rows in t["units"].values() for r in rows}
     last = max(have)
     sub = json.loads(get(f"https://data.sec.gov/submissions/CIK{cik}.json"))["filings"]["recent"]
@@ -64,7 +86,10 @@ def main(cik):
     os.makedirs(raw, exist_ok=True)
     added = 0
     for form, acc, filed, doc in zip(sub["form"], sub["accessionNumber"], sub["filingDate"], sub["primaryDocument"]):
-        if form not in ("10-Q", "10-K") or filed <= last:
+        # 공시별로 본다 — companyfacts가 더 새 공시는 싣고 그 앞 공시를 빠뜨리면(SEC가 가끔 그런다) 마지막 날짜로 재면 그 앞
+        # 공시를 건너뛰어 보충이 비고, _facts가 "승인한 공시가 SEC 자료에 없다"로 멈춘다. 2026-10-24~26 12개사 실측으로
+        # 더 받게 되는 공시는 0건이었다(Fable)
+        if form not in ("10-Q", "10-K") or filed in have:
             continue
         h = get(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc.replace('-', '')}/{doc}", os.path.join(raw, doc))
         fp = "FY" if form == "10-K" else "Q"
