@@ -45,7 +45,7 @@ import splits as _splits  # noqa: E402
 
 d = v.d
 PRICES = os.path.join(HERE, ".prices10y")
-# 2026-10-26: 10-02 자료에 지금 엔진 태그를 채운 스냅샷(refresh_facts_tags.py) — 옛 스냅샷은 태그 47개가 없어 패널이 카드와 달랐다(five_year_gate 재봉인)
+# 2026-10-26: 10-02 자료에 지금 엔진 태그를 채운 스냅샷(refresh_facts_tags.py) — 옛 스냅샷은 태그 48개가 없어 패널이 카드와 달랐다(five_year_gate 재봉인)
 FACTS = os.path.join(HERE, ".facts_20261002_t1026")
 EPS_DIR = os.path.join(HERE, ".eps_20261002")
 PANEL = os.path.join(HERE, "verdict_replay_panel.json")

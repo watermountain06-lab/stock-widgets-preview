@@ -1741,6 +1741,17 @@ DEBT_TOTAL_TAG = {# NCLH: 차입금을 금융리스 포함 장기차입 비유�
                   # DDOG: 전환사채만 — 장기분 ConvertibleLongTermNotesPayable(2026-06-30 $985.5M, 2029년 만기) + 1년 안 ConvertibleNotesPayableCurrent(2024-06~2025-03의
                   # 2025년 만기분). 기본 목록에 장기 태그가 없어 차입금 0이었다(두 태그는 같은 날 겹치지 않음, 2026-10-21).
                   "0001561550": ["ConvertibleNotesPayableCurrent", "ConvertibleLongTermNotesPayable"],
+                  # AKAM: 차입금이 전환사채뿐 — 1년 안(ConvertibleNotesPayableCurrent) + 장기(ConvertibleLongTermNotesPayable, 2026-06-30 $5,857M).
+                  # 기본 목록에 장기 태그가 없어 2019년부터 장기분이 통째로 빠졌다(재봉인 dr r1 2026-10-27 전환사채 전수 점검).
+                  "0001086222": ["ConvertibleNotesPayableCurrent", "ConvertibleLongTermNotesPayable"],
+                  # SMCI: 신용한도·기한부 대출(DebtLongtermAndShorttermCombinedAmount — 10-Q "Lines of credit and term loans" 유동 + 비유동,
+                  # 2026-03-31 $2,095M + $2,019M = $4,114M) + 전환사채(ConvertibleLongTermNotesPayable $4,659M, 재무상태표 "Convertible notes" 한 줄 — 합계 태그와
+                  # 겹치지 않음, 10-Q 2026-03-31·2025-12-31 원문). 기본 목록은 전환사채가 빠졌다(2024-06~, 재봉인 dr r1 2026-10-27).
+                  "0001375365": ["DebtLongtermAndShorttermCombinedAmount", "ConvertibleLongTermNotesPayable"],
+                  # CIEN·AXON: 같은 사채를 분기에 따라 일반 태그(LongTermDebt…)나 전환사채 태그로 낸다 — 날짜마다 앞 태그 우선(튜플).
+                  # CIEN 2019-07~2022-07, AXON 2022-12~2024-06 분기가 전환사채 장기 태그뿐이라 차입금이 0~7이었다(재봉인 dr r1 2026-10-27).
+                  "0000936395": [("LongTermDebtNoncurrent", "ConvertibleLongTermNotesPayable"), ("LongTermDebtCurrent", "ConvertibleNotesPayableCurrent")],
+                  "0001069183": [("LongTermDebtNoncurrent", "ConvertibleLongTermNotesPayable"), ("LongTermDebtCurrent", "ConvertibleNotesPayableCurrent")],
                   # WM: "Current portion of long-term debt"(DebtCurrent) + "Long-term debt, less current portion"(LongTermDebtAndCapitalLeaseObligations — 금융리스 포함).
                   # 기본 선택은 1년 안 만기분이 빠졌다(2026-06-30 $1,075M + $22,281M = $23,356M = DebtAndCapitalLeaseObligations, 2026-10-21).
                   "0000823768": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -1810,7 +1821,9 @@ DEBT_TOTAL_TAG = {# NCLH: 차입금을 금융리스 포함 장기차입 비유�
                   # 유동 2,120 + 장기 30,696 = 32,816(2026-06-30 10-Q, MPLX 포함 연결, 2026-10-02).
                   "0001510295": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # NOW: 단기차입(기업어음, ShortTermBorrowings $2,082M)과 장기 사채(LongTermDebt $5,435M) — 엔진 조합은 $4,182M였다(2026-10-02).
-                  "0001373715": ["ShortTermBorrowings", "LongTermDebt"],
+                  # 2022~2025-09 사채($1.48~1.49B)는 ConvertibleLongTermNotesPayable로만 냈다 — 날짜마다 LongTermDebt 우선, 없으면 그 태그(튜플).
+                  # 기본 경로는 LongTermDebtNoncurrent가 2021-09에 멈추고 1년 안 0만 이어져 차입금 0이었다(재봉인 dr r1 2026-10-27).
+                  "0001373715": ["ShortTermBorrowings", ("LongTermDebt", "ConvertibleLongTermNotesPayable")],
                   # BMY: ShortTermBorrowings($1,027M = 재무상태표 "Short-term debt obligations")에 1년 안 만기 사채 $768M가 이미 들어 있어 기본 조합이 두 번 셌다($43.9B 대 $43.1B, 2026-10-02).
                   "0000014272": ["DebtCurrent", "LongTermDebtNoncurrent"],
                   # VRTX: 차입금이 없다 — LongTermDebt가 2011-09($105M)에 멈춘 값이라 쓰지 않는다(금융리스는 따로 잡힌다, 2026-10-02).
@@ -2268,15 +2281,18 @@ def _ev_component(cik, name, tags, _no_total=False):
         return rows + [{"end": zf[0], "val": 0.0, "available": zf[1]}]
     if name == "debt" and cik in DEBT_TOTAL_TAG and not _no_total:
         des = _debt_total_tag_rows(cik)
-        # 지정 총계가 시작하기 **전** 결산일은 기본 경로로 — UAL 지정 태그는 2023-12부터라 그 전이 2014년에 멈춘 LongTermDebt로
-        # 보류됐고, NOW(2025-12부터)는 사채 약 $1.5B가 표식 없이 0이었다(재봉인 점검 2026-10-26). 지정 총계가 아직 하나도 없으면
+        # 지정 총계가 시작하기 **전**은 기본 경로로 — UAL 지정 태그는 2023-12부터라 그 전이 2014년에 멈춘 LongTermDebt로
+        # 보류됐다(재봉인 점검 2026-10-26). 지정 총계가 아직 하나도 없으면
         # (연구 패널은 공시일로 자르므로 지정 태그를 처음 낸 공시 전 평가일이 그렇다) 전부 기본 경로 — 오래 멈춘 값은 build_dcf가 낡음으로 거른다.
         # 기본 경로가 다른 범위를 잡는 회사(DEBT_TOTAL_FALLBACK_SKIP — CAT·DE·GM은 금융 부문 빼고, 지정 값이 부문 차원 자료라 연구
         # 스냅샷에 없다)는 돌아가지 않는다 — 돌아가면 금융 자회사 차입금까지 더해 CAT 현금흐름 칸이 '매우 비싸다'로 바뀌었다(q2 회귀).
         if cik in DEBT_TOTAL_FALLBACK_SKIP:
             return des
-        first = min((e["end"] for e in des), default="9999-12-31")
-        old = [e for e in _ev_component(cik, name, tags, _no_total=True) if e["end"] < first]
+        # 자르는 기준은 지정 행이 처음 **공개된 날**이다(결산일이 아니라). UAL 지정 태그는 2025-02-27 10-K가 2023-12 결산까지 거슬러 처음
+        # 실었다 — 결산일로 자르면 그 공시 뒤에 과거를 볼 때 2024-03·06·09 분기가 빠지고 2023-09 값이 이어졌다(재봉인 dr r1 2026-10-27).
+        # 같은 결산일이 둘 다 있으면 newest()가 늦게 공개된 지정 행을 고른다.
+        first = min((e["available"] for e in des), default="9999-12-31")
+        old = [e for e in _ev_component(cik, name, tags, _no_total=True) if e["available"] < first]
         return sorted(old + des, key=lambda e: e["available"])
     if isinstance(tags, tuple):   # EV_TAGS_BY_CIK 값이 튜플이면 날짜마다 앞 태그 우선(AJG 현금 — 표시 변경 전 태그를 옛 날짜에, 2026-10-22 Fable)
         return pick_instant(cik, list(tags))
