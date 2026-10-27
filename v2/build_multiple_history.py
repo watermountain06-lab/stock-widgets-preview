@@ -1645,7 +1645,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {# NCLH: 차입금을 금융리스 포함 장기차입 비유동(LongTermDebtAndCapitalLeaseObligations) + 1년 안(…Current)으로만 낸다(2012~, 분기마다) — 기본 태그는
+DEBT_TOTAL_TAG = {"0001506307": ["DebtCurrent", "LongTermDebtNoncurrent"],   # KMI: 1년 안(CP 포함) $1,726M + 장기 $31,347M = $33,073M(Q3 2026 10-Q — 기본은 장기만, 2026-10-27)
+                  # NCLH: 차입금을 금융리스 포함 장기차입 비유동(LongTermDebtAndCapitalLeaseObligations) + 1년 안(…Current)으로만 낸다(2012~, 분기마다) — 기본 태그는
                   # LongTermDebt 2020-12-31 $1,552M에서 멈춰 그 뒤 차입금이 0이 됐다(Fable r2). 2025-12-31 13,730 + 876 = 14,606 = DebtAndCapitalLeaseObligations(10-K, 2026-10-25).
                   "0001513761": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   "0000813672": ["UnsecuredLongTermDebt"],   # CDNS: 무담보 사채 $2,482M(Q2 2026 10-Q — 주석 LongTermDebt는 발행 때 순조달액이라 쓰지 않는다, 2026-10-25)
@@ -1950,7 +1951,9 @@ DEBT_TOTAL_TAG = {# NCLH: 차입금을 금융리스 포함 장기차입 비유�
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# OTIS: 비지배지분 $188M + 상환가능 비지배지분 $106M(2026-10-25)
+EV_TAGS_BY_CIK = {# DGX: 비지배지분 = 자본 안 $318M(2026 Corewell 합작으로 $36M에서 증가) + 상환가능(메자닌) $81M(Q3 2026 10-Q, 2026-10-27)
+                  "0001022079": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
+                  # OTIS: 비지배지분 $188M + 상환가능 비지배지분 $106M(2026-10-25)
                   "0001781335": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
 # DXCM: 단기투자 = 유동 매도가능 채무증권(2025-06까지 AvailableForSale…Current, 그 뒤 DebtSecuritiesAvailableForSale…Current — Q2 2026 $704.8M, 2026-10-25)
                   "0001093557": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent"]},
