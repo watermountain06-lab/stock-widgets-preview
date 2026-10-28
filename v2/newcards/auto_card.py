@@ -690,7 +690,9 @@ def texts(C, ns):
         cand.append(("부채", 1.0 if lev <= 1 else -1.0 if lev >= 3 else 0, f"순차입금(리스 포함) {B(nd)}, 최근 4분기 영업이익의 {lev:.1f}배."))
     if gy == "5년" and g3y == "3년" and H.get("growth_3y") is not None and H.get("growth_5y") and H["growth_3y"] * 100 < H["growth_5y"] * 100 - 1.5:   # 구간이 겹치면(분사·매각·기저효과) 비교할 정보가 없다(Fable dr)
         cand.append(("성장", -0.7, f"{g3y} 매출 성장률 연 {H['growth_3y'] * 100:.1f}%, {gy} 연 {H['growth_5y'] * 100:.1f}%보다 낮다."))
-    if A.get("dps") and A.get("dps_yo"):
+    # 1년 전 분기 선언액이 지금의 약 2배면 그 분기에 선언이 두 번 들어간 것으로 본다(GEHC Q3 2025 $0.035 × 2 = $0.07 → 감배 −42.9%로 잘못 적었다, Fable·Codex 2026-10-28)
+    _dps_double = A.get("dps") and A.get("dps_yo") and 1.7 <= A["dps_yo"] / A["dps"] <= 2.3
+    if A.get("dps") and A.get("dps_yo") and not _dps_double:
         dg = (A["dps"] / A["dps_yo"] - 1) * 100
         cand.append(("환원", 1.0 if dg >= 3 else -1.0 if dg < 0 else 0, ((f"분기 배당 {usd(A['dps_each'][0])}씩 분기 중 {A['dps_each'][1]}번 선언 — 합계 " if A.get("dps_each") else "분기 중 선언한 주당 배당 합계(직전 분기의 2배) " if A.get("dps_two") else "분기 중 선언한 주당 배당 합계(직전 분기엔 선언 없음 — 두 분기분일 수 있다) " if A.get("dps_zero_prev") else "분기 주당 배당 ") + f"{usd(A['dps'])}(1년 전보다 {dg:+.1f}%).").replace("+-", "−")))
     scored = [m for m in ns["VAL"]["self"]["metrics"] if m.get("current") is not None and m.get("score") is not None]

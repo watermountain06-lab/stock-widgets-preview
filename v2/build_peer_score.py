@@ -116,6 +116,8 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "BKNG": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    # 2026-10-25 사용자 결정(카드 세션 4번): S&P500 경기소비재(HD·DHI와 같은 비교군)
                    "WYNN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # GRMN: 경기소비재 비교군(2026-10-28 — 없으면 옛 경로 경기소비재 + IT 카드 유니버스로 떨어졌다, Fable r1)
+                   "GRMN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    "NCLH": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    "APTV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    "LVS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
@@ -164,6 +166,8 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "GPN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
                    "FIS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
                    "FISV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
+                   # PYPL: 결제·거래소 비교군(2026-10-28 사용자 승인 — 없으면 카드 유니버스 금융으로 떨어져 동종업이 기권했다, Fable r1)
+                   "PYPL": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
                    "CPAY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
                    "JKHY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),
                    "XYZ": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "payments_exchanges.json"),

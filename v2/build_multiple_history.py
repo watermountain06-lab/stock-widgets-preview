@@ -97,6 +97,10 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    # GRMN: 합산 태그 없음 — 감가상각 + 상각(AdjustmentForAmortization, 분기 약 $10M; AmortizationOfIntangibleAssets는 연간만, Fable·Codex r1 2026-10-28)
+                    "0001121788": ["Depreciation", "AdjustmentForAmortization"],
+                    # AEP: 분기 감가상각은 손익계산서·현금흐름표가 함께 쓰는 유틸리티 비용 태그뿐 — 합산 태그 분기 행이 2011년에 멈춰 TTM이 2025 연간값에 묶였다(2026-10-28)
+                    "0000004904": ["UtilitiesOperatingExpenseDepreciationAndAmortization"],
                     # GD: 합산 태그 DepreciationAndAmortization이 2019~2023 분기에 없어 EV/EBITDA 이력이 251일뿐이었다 — 감가상각 + 무형자산 상각. 금융리스 사용권 상각은 연간 태그뿐이라 빠져 회사 합계보다 7~11% 작다(FY21~25, Fable r1 2026-10-25)
                     "0000040533": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # HII: 합산 태그는 분기 행이 2024년부터 — 감가상각 + 무형자산 상각(FY20~25 연간 합 일치, 2026-10-25)
@@ -649,7 +653,9 @@ def check_ocf_netting(cik):
 # EOG: 현금흐름표 "Additions to Oil and Gas Properties"(PaymentsToAcquireOilAndGasPropertyAndEquipment, 상반기 2026 $3,129M)
 #      + "Additions to Other Property, Plant and Equipment"(PaymentsToAcquireOtherPropertyPlantAndEquipment, $297M) = 설비투자 $3,426M.
 #      기본 목록 태그가 없어 설비투자가 비었다(2026-10-21).
-SUM_TAGS_BY_CIK = {# MSCI: 설비투자 = 유형자산(PaymentsToAcquirePropertyPlantAndEquipment) + 자본화 소프트웨어(PaymentsForSoftware) — D&A에 소프트웨어 상각이 들어가므로 맞춘다(TTM 약 $40M + $106M, 2026-10-23)
+SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionInProcess)만 — 발전소 인수 태그는 2023-12부터라 함께 합산하면 그 전 이력이 사라졌다(Codex·Fable r1, 2026-10-28)
+                   "0000004904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForConstructionInProcess"]},
+                   # MSCI: 설비투자 = 유형자산(PaymentsToAcquirePropertyPlantAndEquipment) + 자본화 소프트웨어(PaymentsForSoftware) — D&A에 소프트웨어 상각이 들어가므로 맞춘다(TTM 약 $40M + $106M, 2026-10-23)
                    "0001408198": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsForSoftware"]},
 # DAL: 설비투자 = 항공기(PaymentsForFlightEquipment) + 지상 설비·기타(PaymentsToAcquireOtherProductiveAssets) — 합계 태그는 2026년 1분기에 멈췄다(겹치는 기간 합 = 합계, FY2025 4,499, 2026-10-23)
                    "0000027904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForFlightEquipment", "PaymentsToAcquireOtherProductiveAssets"]},
@@ -703,6 +709,8 @@ EXTRA_TAGS = {
     "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
     # CF: 순이익은 보통주 귀속 태그만 낸다(NetIncomeLoss 2012 멈춤, Q2 2026 $727M)(2026-10-25)
     "0001324404": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
+    # AEP: 지배 순이익은 NetIncomeLoss가 없고 보통주 귀속 순이익뿐 — ProfitLoss는 비지배 포함(2026-10-28)
+    "0000004904": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic", "NetIncomeLossAvailableToCommonStockholdersDiluted"]},
     # EXC: NetIncomeLoss 태그는 2013에 멈췄다 — 보통주 귀속 순이익(Q2 2026 $396M, 비지배 없음)으로(2026-10-28)
     "0001109357": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # ETR: 연결 NetIncomeLoss는 2023에 멈췄다(이후 자회사 축 값만) — 보통주 귀속 순이익(Q2 2026 $482.6M)으로(2026-10-28)
@@ -999,6 +1007,7 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
                 "0001579241": ("DepreciationDepletionAndAmortization",),   # ALLE — 합산 태그는 연간만이라 분기 DepreciationAmortizationAndAccretionNet과 섞여 4분기가 작아졌다 → 현금흐름 줄만(2026-10-25) [엔진수정대기]
                 "0001336920": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # LDOS — 총매출(Revenues, Q2 FY26 $4,558M)로 통일: 고객 계약 매출($4,548M)과 섞여 YoY·TTM 정의가 달랐다(Codex r1, 2026-10-25)
                 "0000008818": ("DepreciationDepletionAndAmortization",),   # AVY — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
+                "0000004904": ("DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "PaymentsToAcquireProductiveAssets"),   # AEP — 감가상각은 구성요소 경로, 발전소 인수는 설비투자에서 뺌(2026-10-28)   # AEP — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-28)
                 "0000040533": ("DepreciationAndAmortization",),   # GD — 합산 태그가 2019~2023 분기에 없다 → 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0001501585": ("DepreciationDepletionAndAmortization", "PaymentsToAcquireProductiveAssets"),   # HII — 구성요소 경로로(DDA_PARTS_BY_CIK), 설비투자는 PP&E 태그만(ProductiveAssets가 Q3 2025에 섞여 TTM $429M — 원문 $432M, Codex r1, 2026-10-25)
                 "0000105770": ("DepreciationDepletionAndAmortization",),   # WST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
@@ -1053,7 +1062,8 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0000078003": ("Revenues",),
+PREFER_TAGS = {"0000004904": ("Revenues",),   # AEP: 손익계산서 총매출(Q3 2026 $6,832M) — 계약 매출(6,793)과 섞이면 성장률·마진이 어긋났다(Codex·Fable r1, 2026-10-28)
+               "0000078003": ("Revenues",),
                # COP: 손익계산서 "Sales and other operating revenues"는 Revenues(Q2 2026 $19,161M)이고 RevenueFromContract…는 그중 고객 계약분
                # ($18,088M, 파생 계약 매출 제외)이다(10-Q 매출 주석, 2026-10-02).
                "0001163165": ("Revenues",)}
@@ -1649,7 +1659,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {
+DEBT_TOTAL_TAG = {"0001932393": ["LongTermDebt"],   # GEHC: ShortTermBorrowings가 1년 안 장기차입을 이미 담아 기본 합산이 이중으로 셌다(2025-09 $2,005M + $2,002M) — 총계 $9,973M(Fable·Codex r1, 2026-10-28)
+                  "0001633917": ["DebtCurrent", "LongTermDebtNoncurrent"],   # PYPL: 1년 안(장기채 유동분 + CP $200M) $2,533M + 장기 $10,939M = $13,472M(기본은 CP를 빠뜨렸다, 2026-10-28)
+                  "0000004904": ["ShortTermBorrowings", "LongTermDebt"],   # AEP: 단기(유동화 900 + CP 등) + 장기(1년 안 포함) — 기본은 CP를 한 번 더 셌다(Q3 2026 $54,416M, 2026-10-28)
                   "0001109357": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtNoncurrent", "LongTermDebtToFinancingTrusts"],   # EXC: 단기 $1,243M + 1년 안 $727M + 장기 $50,313M + 금융신탁 $390M = $52,673M(Q2 2026 10-Q, 2026-10-28) — 금융신탁은 회사 태그 exc:LongTermDebtToFinancingTrusts라 us-gaap 이름으로는 안 잡혀 엔진 값은 $52,283M
                   "0001506307": ["DebtCurrent", "LongTermDebtNoncurrent"],   # KMI: 1년 안(CP 포함) $1,726M + 장기 $31,347M = $33,073M(Q3 2026 10-Q — 기본은 장기만, 2026-10-27)
                   # NCLH: 차입금을 금융리스 포함 장기차입 비유동(LongTermDebtAndCapitalLeaseObligations) + 1년 안(…Current)으로만 낸다(2012~, 분기마다) — 기본 태그는
@@ -1957,7 +1969,9 @@ DEBT_TOTAL_TAG = {
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# DGX: 비지배지분 = 자본 안 $318M(2026 Corewell 합작으로 $36M에서 증가) + 상환가능(메자닌) $81M(Q3 2026 10-Q, 2026-10-27)
+EV_TAGS_BY_CIK = {# GEHC: 비지배지분 = 자본 안 $17M + 상환가능(메자닌) $234M(Q3 2026 10-Q, 2026-10-28)
+                  "0001932393": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
+                  # DGX: 비지배지분 = 자본 안 $318M(2026 Corewell 합작으로 $36M에서 증가) + 상환가능(메자닌) $81M(Q3 2026 10-Q, 2026-10-27)
                   "0001022079": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
                   # OTIS: 비지배지분 $188M + 상환가능 비지배지분 $106M(2026-10-25)
                   "0001781335": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},

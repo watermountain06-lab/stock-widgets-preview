@@ -608,7 +608,8 @@ PRETAX_FROM_NI_TAX = {"0001341439", "0001835632", "0000726958"}
 # 세전이익을 다른 이름의 태그로 내는 회사. PSX는 손익계산서 "Income before income taxes"(Q2 2026 4,971, 비지배지분 몫 포함)를
 # IncomeLossIncludingPortionAttributableToNoncontrollingInterest로만 낸다 — 다른 회사에선 순이익 태그라 목록에 일괄로 넣지 않는다.
 # 순이익(귀속) + 법인세로 만들면 비지배지분 몫만큼 작다(4,939, Codex 2026-10-13).
-PRETAX_TAG_BY_CIK = {"0001534701": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest",
+PRETAX_TAG_BY_CIK = {"0001633917": "IncomeLossAttributableToParent",   # PYPL: 손익계산서 "Income before income taxes"를 이 태그로 낸다(Q3 2026 $1,374M, 표준 세전 태그 없음, 2026-10-28)
+                     "0001534701": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest",
                      # PNW: 10-Q가 세전이익("Income before income taxes", Q2 2026 $212.1M)을 이 태그로 낸다(10-K 연간도 같은 값 738.4) — 표준 태그는 10-K만이라 세율이 21%로 떨어졌다(2026-10-25)
                      "0000764622": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest",
                      # NI: 손익계산서 "Income before income taxes"(상반기 2026 $689.1M, 비지배지분 몫 포함)를 이 태그로만 낸다 — 표준 세전 태그가 없어 세율이 21%로 떨어졌다(2026-10-25)
@@ -626,7 +627,7 @@ IFRS_LEASE = {"TSM", "SKHY"}     # IFRS 16 — 리스 비용이 영업이익 밖
 CURRENT_DEBT_FRESH_DAYS = 200
 # 단기차입(ShortTermBorrowings) 태그가 유동 장기차입을 이미 담은 합계인 회사 — 같은 결산일 두 값이 2% 안(Fable 감사 2026-10-03).
 # IBM(5.775 대 5.772)·PM·DVN·LITE·DOV·COO·HWM·APTV. 숫자가 비슷하다는 것만으로 일반화하지 않는다(Codex — 우연히 같을 수 있음).
-STB_INCLUDES_CURRENT_LTD = {"0000051143", "0001413329", "0001090012", "0001633978", "0000029905", "0000711404", "0000004281", "0001521332"}
+STB_INCLUDES_CURRENT_LTD = {"0001932393", "0000051143", "0001413329", "0001090012", "0001633978", "0000029905", "0000711404", "0000004281", "0001521332"}
 
 
 def current_debt(cik, asof):
