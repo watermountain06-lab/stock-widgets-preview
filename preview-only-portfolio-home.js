@@ -4,13 +4,13 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=22';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=15';
-import { renderManage } from './preview-only-portfolio-records.js?v=11';
-import { ENGINE_VERSION, principleFor, tierWeights, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=6';
-import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=13';
-import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=2';
-import { renderAccounts } from './preview-only-portfolio-acctview.js?v=2';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=23';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=16';
+import { renderManage } from './preview-only-portfolio-records.js?v=12';
+import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=7';
+import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=14';
+import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=3';
+import { renderAccounts } from './preview-only-portfolio-acctview.js?v=3';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -87,6 +87,47 @@ export function lossAlerts(holdings, close, limit = LOSS_LIMIT) {
     if (drop < -limit - 1e-9) out.push({ ticker: x.ticker, drop, avgPrice: x.avgPrice, close: c });
   }
   return out.sort((a, b) => a.drop - b.drop || (a.ticker < b.ticker ? -1 : 1));
+}
+
+// 매주 판정 매도(원칙 4, 2026-10-28 사용자 결정 — 11월 계획부터): 실제 보유(계좌별)를 마지막 완전한 기록의 판정으로 보고
+// 고평가면 전부를 그달 남은 회차(다음 회차 포함)에 나눠, 초고평가면 남은 것 전부를 이번 회차에 판다. 고평가~적정 이하로 내려오면 줄이 사라진다(멈춤).
+// 놓친 회차는 남은 보유를 남은 회차로 다시 나눈다. 같은 회차에 이미 판 것은 그 회차 몫에서 뺀다(dr — 기록 뒤 몫이 다시 커지지 않게).
+// 수량 단위: 보유·판 것이 모두 정수 주면 정수로 올림, 아니면 소수 6자리 올림(dr r1 — 내림이면 적은 보유가 앞 회차에 0주가 된다), 몫이 남은 보유를
+// 넘지 않게. 마지막 회차·초고평가는 지금 보유 전부(dr r1). 계좌가 다르면 따로 계산한다. 전략 비교에서 '그대로 두는 보유'(holdOnly)는 빼고(엔진과 같게, dr r1)
+// holdings: [{ticker, qty, account}], rounds: 그달 회차 날짜(오름차순), lastSession: 판정을 본 기록 날짜(마지막 완전한 기록), trades: 실제 매매 지도
+export function weeklySells({ holdings, rec, today, rounds, lastSession, trades, holdOnly = [] }) {
+  if (!rec) return [];
+  const nextDate = (rounds || []).find((d) => d > (lastSession || '')) || null;
+  const real = Object.entries(trades || {});
+  const cancelled = new Set(real.filter(([, x]) => x.cancels).map(([, x]) => x.cancels));
+  const out = [];
+  for (const h of holdings || []) {
+    if (!(h.qty > 1e-9) || holdOnly.includes(h.ticker)) continue;
+    const card = rec.cards?.[h.ticker];
+    if (!card || holdReason(card, rec, today)) continue;
+    if (card.tier !== '고평가' && card.tier !== '초고평가') continue;
+    const base = { ticker: h.ticker, account: h.account, tier: card.tier, round: nextDate };
+    if (!nextDate) { out.push({ ...base, shares: null, remaining: 0 }); continue; }   // 이번 달 회차 끝 — 다음 점검일에 다시
+    const soldSince = real.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.side === 'sell' && x.ticker === h.ticker
+      && acctOf(x) === h.account && x.date >= nextDate && x.date <= today).reduce((a, [, x]) => a + x.qty, 0);
+    const remaining = rounds.filter((d) => d >= nextDate).length;
+    const start = h.qty + soldSince;
+    const all = card.tier === '초고평가' || remaining <= 1;
+    const isInt = (v) => Math.abs(v - Math.round(v)) < 1e-9;
+    const whole = isInt(h.qty) && isInt(soldSince);
+    const up = (v) => (whole ? Math.ceil(v - 1e-9) : Math.ceil(v * 1e6 - 1e-6) / 1e6);
+    const left = all ? h.qty : Math.max(0, Math.min(h.qty, up(start / remaining) - soldSince));
+    out.push({ ...base, shares: Math.round(left * 1e6) / 1e6, remaining, sold: soldSince, all });
+  }
+  return out.sort((a, b) => (a.ticker < b.ticker ? -1 : a.ticker > b.ticker ? 1 : a.account < b.account ? -1 : 1));
+}
+// 그달 회차 날짜(원칙 2): 첫 거래일부터 매주 같은 요일, 휴장이면 다음 거래일, 4회
+export function monthRounds(month) {
+  const S = cal().sessions;
+  const d0 = S.find((d) => d.slice(0, 7) === month);
+  if (!d0) return [];
+  const plus = (d, n) => new Date(Date.parse(d + 'T12:00:00Z') + n * 864e5).toISOString().slice(0, 10);
+  return [0, 1, 2, 3].map((k) => S.find((d) => d >= plus(d0, 7 * k))).filter(Boolean);
 }
 
 // 다음 할 일 카드에 쓸 시나리오(숨은 원칙 시나리오, 없으면 B나 처음 만든 시나리오)와 그달 계획
@@ -493,7 +534,22 @@ export function renderHome(root, model, handlers) {
   if (recStale) next.appendChild(el('p', 'pf-warn', `⚠ 마지막 완전한 기록이 ${md(lastFull.session)}로 ${recordGap(lastFull, today)}거래일 지났습니다. 새 기록이 올 때까지 사지도 팔지도 않습니다(원칙 6).`));
   if (live && mv.plan.ruleChanged) next.appendChild(el('p', 'pf-note', '판정 방식이 바뀐 달입니다. 전략 비교의 모의 계산은 이번 달 매매하지 않습니다(바뀐 판정으로 매도가 생기지 않게).'));
   // 판정 매도 검토도 지금 데이터가 원칙 6을 통과한 종목만(기록 묵음·종목별 묵음 — dr r3·r4). 목록과 건수가 같은 배열을 쓴다
-  const sellAlerts = live && !recStale ? mv.alerts.filter((f) => !holdReason(lastFull?.cards?.[f.ticker], lastFull, today)) : [];
+  // 11월부터(원칙 4 개정, 2026-10-28): 실제 보유를 매주 회차 기준으로 보고 이번 회차에 팔 양을 보여 준다. 그전 달은 예전 점검일 알림
+  const weekly = today.slice(0, 7) >= PRINCIPLE_FROM;
+  const wSells = weekly && !recStale ? weeklySells({ holdings: [...rhHold.map((x) => ({ ...x, account: RH })), ...kw.holdings.map((x) => ({ ...x, account: KW }))],
+    rec: lastFull, today, rounds: monthRounds(today.slice(0, 7)), lastSession: lastFull ? lastFull.session : '', trades: model.trades,
+    holdOnly: model.bundle?.snapshot?.holdOnly || [] }) : [];
+  const qty = (v) => (Math.abs(v - Math.round(v)) < 1e-9 ? String(Math.round(v)) : String(+v.toFixed(6)));
+  for (const w0 of wSells) {
+    const w = el('div', 'pf-sellline');
+    const who = w0.account === KW ? '(키움)' : cur.kwUsed ? '(Robinhood)' : '';
+    w.appendChild(el('strong', null, '매도'));
+    w.appendChild(el('span', null, ` ${w0.ticker}${who} ${w0.tier} · ` + (!w0.round ? '이번 달 회차가 끝났습니다. 다음 점검일 첫 회차부터 팝니다(원칙 4).'
+      : w0.shares > 0 ? `${md(w0.round)} 회차에 ${qty(w0.shares)}주 팔기` + (w0.tier === '초고평가' ? ' — 남은 것 전부(초고평가)' : w0.all ? ' — 마지막 회차라 전부' : ` — 전부 팔 때까지 남은 ${w0.remaining}회에 나눠서`) + '.'
+      : `${md(w0.round)} 회차 몫은 이미 팔았습니다.`) + (w0.tier === '고평가' && w0.round ? ' 판정이 고평가~적정 이하로 내려오면 멈춥니다.' : '')));
+    next.appendChild(w);
+  }
+  const sellAlerts = !weekly && live && !recStale ? mv.alerts.filter((f) => !holdReason(lastFull?.cards?.[f.ticker], lastFull, today)) : [];
   for (const f of sellAlerts) {
     const w = el('div', 'pf-sellline');
     w.appendChild(el('strong', null, '매도 검토'));
@@ -516,8 +572,8 @@ export function renderHome(root, model, handlers) {
   const stats = el('div', 'pf-nextstats');
   const stat = (k, v) => { const s = el('span', null, k + ' '); s.appendChild(el('strong', null, v)); stats.appendChild(s); };
   // 매도 검토 = 판정(고평가·초고평가) 알림 + 20% 하락(원칙 4), 종목 기준
-  const sellN = new Set([...sellAlerts.map((f) => f.ticker), ...losses.map((l) => l.ticker)]).size;
-  if (live || sellN) stat('매도 검토', sellN ? sellN + '종목' : '없음');
+  const sellN = new Set([...sellAlerts.map((f) => f.ticker), ...wSells.map((f) => f.ticker), ...losses.map((l) => l.ticker)]).size;
+  if (live || sellN) stat(weekly ? '매도·검토' : '매도 검토', sellN ? sellN + '종목' : '없음');
   if (!live && !canDeposit) stat('이번 달 넣은 돈', deps.now.length ? usd0(deps.now.reduce((a, d) => a + d.amount, 0)) : '없음');
   stat('마지막 기록', last ? md(last.session) : '없음');
   next.appendChild(stats);

@@ -6,8 +6,8 @@
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { isTradingDay, ENGINE_VERSION, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=6';
-import { ledgerActive, ledgerDeposits, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=2';
+import { isTradingDay, ENGINE_VERSION, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=7';
+import { ledgerActive, ledgerDeposits, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=3';
 
 export const MAX_SCENARIOS = 20;
 export const ETF_ORDER = ['SPY', 'QQQ', 'RSP'];   // ETF 섞기(E)에서 고르는 ETF의 화면 순서(엔진 BASELINES와 같은 세 개)
@@ -397,7 +397,8 @@ export function paramsText(sc) {
   const p = sc.params || {}, pc = (v) => Math.round((v || 0) * 100) + '%';
   if (sc.strategy === 'E') return `보유 종목의 ${pc(p.etfShare ?? 1)}를 ETF로 · ${ETF_ORDER.filter((e) => (p.etfs || ETF_ORDER).includes(e)).join('·')} · 현금 그대로 · 그 뒤 매매 없음`;
   const buy = sc.strategy === 'C' ? '초저평가·저평가' : sc.strategy === 'custom' && !followsPrinciple(p.buyTiers) ? (p.buyTiers || []).join('·') || '없음' : '원칙 1(초저평가·저평가·적정~저평가)';
-  const sell = sc.strategy === 'C' ? '안 팖' : sc.strategy === 'D' ? '고평가면 전부' : (p.sellFraction ? `고평가면 ${pc(p.sellFraction)}` : '알림만');
+  const principleSell = !p.sellFraction && (sc.strategy === 'B' || (sc.strategy === 'custom' && followsPrinciple(p.buyTiers)));   // 11월부터 원칙 4(2026-10-28)
+  const sell = sc.strategy === 'C' ? '안 팖' : sc.strategy === 'D' ? '고평가면 전부' : (p.sellFraction ? `고평가면 ${pc(p.sellFraction)}` : principleSell ? '원칙 4(고평가 나눠 전부·초고평가 한 번에)' : '알림만');
   return `살 판정 ${buy} · 매도 ${sell} · ${p.splitWeeks || 4}회` + ({ rank1: ' · 순위 1주씩', cap: ' · 시총 비중', tier: ' · 판정 가중' }[p.buyMode] || '') + ` · 유보 ${pc(p.cashReserve)}`;
 }
 

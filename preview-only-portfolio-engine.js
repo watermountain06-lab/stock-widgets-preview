@@ -267,7 +267,10 @@ function scenarioParams(sc) {
     notes.push('provisionalPrinciple');                 // 원칙 4(예전 2) 비율 미정 — 매도 검토는 알림만 반영한 임시 모형
     if (q.cashReserve === 0) notes.push('noPrinciple7');  // 원칙 5(예전 7, 급락 대비 현금) 미반영
   }
-  return { ...q, principle, hold: false, notes, sellPpm: toPpm(q.sellFraction), reservePpm: toPpm(q.cashReserve) };
+  // 매도 규칙(2026-10-28 사용자 결정, 11월 계획부터): 'principle' = 원칙 전략(원칙과 같은 살 판정 + 비율 0% — 10월 계획까지는 알림만) — 매주 회차일에
+  // 판정을 보고 회차마다 다시 계산해 고평가면 보유 ÷ 남은 회차를, 초고평가면 남은 것 전부를 그 회차에 판다. 'fraction' = 직접 고른 비율을 매주 관측으로. 'none' = 안 봄(C)
+  const sellRule = !q.observeSells ? 'none' : q.sellFraction > 0 ? 'fraction' : principle ? 'principle' : 'warn';
+  return { ...q, principle, sellRule, hold: false, notes, sellPpm: toPpm(q.sellFraction), reservePpm: toPpm(q.cashReserve) };
 }
 
 // ---- 시나리오 하나 재생 ----
@@ -275,7 +278,7 @@ function scenarioParams(sc) {
 //         splitBase, noDecisionBefore(이 날짜 전 점검일에는 결정하지 않음), depositsFrom(기준선이 입금을 받기 시작하는 위치 —
 //         시나리오 자신은 init.idx 다음 날부터 받는다), log·own·preEvents(파생이 A에서 물려받는 것) }
 function runScenario(ctx, prm, init, keepStates) {
-  const { cal, mk, holdOnly, depositsBy, fallbackShares } = ctx;
+  const { cal, mk, holdOnly, depositsBy, fallbackShares, ruleFrom } = ctx;
   const last = cal.index(mk.lastSession);
   const st = { shares: new Map(init.shares), cash: init.cash };
   const seen = new Set(init.seen);
@@ -519,16 +522,18 @@ function runScenario(ctx, prm, init, keepStates) {
     }
     plan = {
       checkDate: pendingDecision, decisionDate: d, record: R.session, ruleVersion: R.ruleVersion,
-      provisional: info.provisional, rounds, legs: [], candidates: [], ruleChanged: changed, fires: [], budget: 0, unallocated: 0,
+      provisional: info.provisional, rounds, legs: [], candidates: [], ruleChanged: changed, fires: [], budget: 0, unallocated: 0, held: 0,
     };
     // 그달 살 판정·무게 — 점검일(없으면 결정일)의 달로 원칙 판을 고른다
     const pm = (pendingDecision || d).slice(0, 7);
     plan.buyTiers = prm.principle && pm >= PRINCIPLE_FROM ? BUY_PRINCIPLE : prm.buyTiers;
     // 무게도 원칙을 따르는 전략만 새 판 — 직접 적정을 고른 전략은 옛 무게라 판정 가중에서 적정을 계속 산다(dr r1)
     const RANK_W = prm.principle ? tierWeights(pm) : W_OLD;
+    // 11월 계획부터 매도 판정은 점검일 한 번이 아니라 매주 회차일에 본다(observeWeek), 매도 대금은 그달 매수에 쓰지 않고 다음 달로
+    plan.weekly = pm >= ruleFrom;
     // 매도 발동(상태표) — 점검일 결정 때 보유 종목만 관측한다. 0주에서 새로 사면 buy()가 상태를 "없음"으로 되돌리므로,
     // 다 판 뒤 다시 산 종목이나 고평가에서 산 종목도 다음 점검일에 시작 보유와 같은 기준으로 발동한다.
-    if (prm.observeSells) {
+    if (prm.observeSells && !plan.weekly) {
       for (const t of [...st.shares.keys()].sort()) {
         if (!hasShares(t) || holdOnly.has(t)) continue;
         const why = blocked(R.cards?.[t], R, cal);
@@ -630,17 +635,66 @@ function runScenario(ctx, prm, init, keepStates) {
     return null;
   }
 
+  // 매주 매도 관측(11월 계획부터, 2026-10-28 사용자 결정): 회차일 d에 보유 종목의 판정을 그 회차 정보 기록으로 본다(아래 observeWeek 주석).
+  // 비율 전략이 고평가 → 초고평가로 오르면 진행 중 다리에 새 다리를 더한다(남은 보유의 비율을 또 판다, 체결은 보유를 넘지 않음 — 예전 월 관측과 같은 뜻).
+  // 원칙 전략 몫은 마이크로주 내림이라 카드(정수 주면 정수 올림)와 회차당 1주 안쪽으로 다를 수 있다.
+  function closeLeg(leg, k, d, reason, prov) {
+    let sum = 0;
+    for (let j = k; j < leg.amt.length; j++) { sum += leg.amt[j]; leg.amt[j] = 0; }
+    leg.open = false; leg.notUsed += sum;
+    if (sum > 0) out.skips.push({ date: d, ticker: leg.ticker, side: 'sell', round: k + 1, reason, action: 'erased', shares: sum / MICRO, provisional: prov.provisional });
+  }
+  // 원칙 전략은 회차마다 상태로 다시 계산한다(dr d1 — 카드와 같은 산식): 초고평가면 보유 전부, 고평가면 보유 ÷ 남은 회차(이번 포함, 마지막이면 전부),
+  // 그 외 0. 그 회차만의 다리라 못 판 몫은 넘기지 않고 다음 회차 계산이 메운다. 비율 전략 다리는 판정이 내려오면 닫는다(dr d1 — 겹쳐 보유보다 많이 팔지 않게).
+  // 판 바뀐 달·판 다른 기록이면 발동 없이 lastStage만 새 판정으로 맞춘다(dr d1 — 다음 전이 기준)
+  function observeWeek(k, d, info, prov) {
+    if (!info) return;
+    const R = info.rec;
+    if (plan.ruleChanged || R.ruleVersion !== plan.ruleVersion) {
+      for (const t of [...st.shares.keys()]) if (hasShares(t) && !holdOnly.has(t) && !blocked(R.cards?.[t], R, cal)) lastStage.set(t, SELL_TIERS.includes(R.cards[t].tier) ? R.cards[t].tier : 'out');
+      return;
+    }
+    const rest = plan.rounds.map((r, j) => j).filter((j) => j >= k && !plan.rounds[j].dropped);
+    const spread = (q) => { const amt = plan.rounds.map(() => 0); split(q, rest.length).forEach((a, x) => { amt[rest[x]] += a; }); return amt; };
+    for (const t of [...st.shares.keys()].sort()) {
+      if (!hasShares(t) || holdOnly.has(t)) continue;
+      const why = blocked(R.cards?.[t], R, cal);
+      if (why) { plan.fires.push({ date: d, ticker: t, observed: null, skip: why }); continue; }
+      const tier = R.cards[t].tier;
+      const obs = SELL_TIERS.includes(tier) ? tier : 'out';
+      const prev = lastStage.get(t) || 'none';
+      lastStage.set(t, obs);
+      const have = st.shares.get(t);
+      if (prm.sellRule === 'principle') {
+        if (obs === 'out') continue;
+        const q = obs === '초고평가' || rest.length <= 1 ? have : Math.floor(have / rest.length);
+        if (q <= 0) continue;
+        const amt = plan.rounds.map(() => 0); amt[k] = q;
+        plan.legs.push({ ticker: t, side: 'sell', amt, done: 0, notUsed: 0, recalc: true });
+        plan.fires.push({ date: d, ticker: t, observed: obs, prev, shares: q / MICRO, rounds: rest.length, all: q === have });
+        continue;
+      }
+      if (obs === 'out') for (const l of plan.legs.filter((x) => x.side === 'sell' && x.ticker === t && x.open)) closeLeg(l, k, d, 'tierOut', prov);
+      const fire = (obs === '고평가' && (prev === 'none' || prev === 'out')) || (obs === '초고평가' && prev !== '초고평가');
+      if (!fire) continue;
+      const q = mulFloor(have, prm.sellPpm);
+      plan.fires.push({ date: d, ticker: t, observed: obs, prev, shares: q / MICRO, warnOnly: q <= 0 });
+      if (q > 0) plan.legs.push({ ticker: t, side: 'sell', amt: spread(q), done: 0, notUsed: 0, open: true });
+    }
+  }
+
   function runRound(d) {
     const k = plan.rounds.findIndex((r) => r.date === d && !r.dropped);
     if (k < 0) return;
     const info = mk.infoFor(d);
     const prov = { provisional: !!info?.provisional || plan.provisional, round: k + 1 };
+    if (plan.weekly && prm.observeSells) observeWeek(k, d, info, prov);
     const pre = value(d);                       // 유보 기준(그날 종가, 매매 전)
     let proceeds = 0;
     for (const leg of plan.legs.filter((l) => l.side === 'sell')) {
       if (leg.amt[k] <= 0) continue;
       const bad = check(leg, d, info);
-      if (bad) { skip(leg, k, d, bad[0], bad[1], info); continue; }
+      if (bad) { skip(leg, k, d, bad[0], bad[1] && !leg.recalc, info); continue; }   // 원칙 매도는 넘기지 않는다 — 다음 회차가 다시 계산
       const q = Math.min(leg.amt[k], st.shares.get(leg.ticker) || 0);
       if (q <= 0) { skip(leg, k, d, 'noShares', false, info); continue; }
       const c = mk.close(leg.ticker, d), p = Math.round((q * c) / 1e4);
@@ -652,7 +706,9 @@ function runScenario(ctx, prm, init, keepStates) {
       log.push({ i: curIdx, t: leg.ticker, side: 'sell', q });
     }
     // 매도 대금: 그달 후보 수로 똑같이 나눠 각 후보의 다음 회차부터 남은 회차에 더한다. 같은 날 매수에는 쓰지 않는다.
-    if (proceeds > 0) {
+    // 11월 계획부터는 현금으로 두었다가 다음 달 점검일 예산에 들어간다(원칙 4, 2026-10-28 사용자 결정)
+    if (proceeds > 0 && plan.weekly) { plan.held = (plan.held || 0) + proceeds; out.events.push({ date: d, kind: 'proceedsToCash', amount: proceeds / 100 }); }
+    else if (proceeds > 0) {
       const rest = plan.rounds.map((r, j) => j).filter((j) => j > k && !plan.rounds[j].dropped);
       const buys = plan.legs.filter((l) => l.side === 'buy');
       if (plan.rank && plan.rank.order.length && rest.length) {   // 순위 1주씩: 남은 회차 돈에 똑같이 더한다
@@ -692,7 +748,7 @@ function runScenario(ctx, prm, init, keepStates) {
       reserve = mulFloor(pre.v, prm.reservePpm);
     }
     // 매수 한도 = max(0, 현금 − 당일 매도 대금 − 유보액). 넘치면 그날 회차들을 같은 비율로 줄인다(순서와 무관).
-    const limit = Math.max(0, st.cash - proceeds - reserve);
+    const limit = Math.max(0, st.cash - (plan.weekly ? plan.held || 0 : proceeds) - reserve);   // 11월 계획부터는 그달 판 돈 전부를 뺀다(dr d1)
     const want = ready.reduce((a, l) => a + l.amt[k], 0);
     for (const leg of ready) {
       const a = leg.amt[k], spend = want > limit ? Number((BigInt(a) * BigInt(limit)) / BigInt(want)) : a;   // 정수로 내림
@@ -727,7 +783,7 @@ function runScenario(ctx, prm, init, keepStates) {
       if (pre.v === null) return pass('reserveUnknown', false);
       reserve = mulFloor(pre.v, prm.reservePpm);
     }
-    let cap = Math.min(pool, Math.max(0, st.cash - proceeds - reserve));
+    let cap = Math.min(pool, Math.max(0, st.cash - (plan.weekly ? plan.held || 0 : proceeds) - reserve));
     let monthLeft = pool + plan.rounds.reduce((a, r, j) => a + (j > k && !r.dropped ? rk.amt[j] : 0), 0);
     const n = rk.order.length;
     let i = rk.cursor, misses = 0, spent = 0, limited = false;
@@ -917,7 +973,8 @@ function finish(res, ctx, depositsFrom) {
 //   records: [ledger 기록 …],
 //   snapshot: { date: 'YYYY-MM-DD'(시작일, 장 마감 뒤 수량), holdings: {T: 주식 수}, cash: 달러 },
 //   deposits: [{ id, amount(달러), kind?('withdraw'면 출금), recordedAt(ISO, 서버 시각) } | { id, cancels: 입금 id, recordedAt }],
-//   settings: { holdOnly: [T] },
+//   settings: { holdOnly: [T], ruleFrom('YYYY-MM' — 매주 매도 규칙이 시작하는 계획 달, 기본 PRINCIPLE_FROM. 옛 매도 규칙을 11월 이후 날짜로
+//     시험할 때만 늦춘다) },
 //   scenarios: [{ id, name, strategy: 'B'|'C'|'D'|'custom', params?, createdAt(ISO), engineVersion }],
 // }
 // A(그대로 보유 + 입금 적립)는 늘 계산해 맨 앞에 둔다 — 파생 시나리오의 출발점이기 때문이다.
@@ -961,7 +1018,8 @@ export function replay(input) {
   }
   // 같은 반영일의 입출금은 기록 시각 순서로 처리한다(출금은 순서에 따라 결과가 달라진다 — dr). 시각이 같으면 입금 먼저, 그다음 id
   for (const list of depositsBy.values()) list.sort((a, b) => a.ms - b.ms || (a.amount < 0) - (b.amount < 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
-  const ctx = { cal, mk, holdOnly, depositsBy, fallbackShares };
+  const ruleFrom = typeof settings.ruleFrom === 'string' ? settings.ruleFrom : PRINCIPLE_FROM;
+  const ctx = { cal, mk, holdOnly, depositsBy, fallbackShares, ruleFrom };
 
   const aInit = {
     idx: snapIdx, shares: shares0, cash: cash0, seen: new Set(), splitBase: snapshot.date,

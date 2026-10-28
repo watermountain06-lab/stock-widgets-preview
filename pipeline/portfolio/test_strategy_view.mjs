@@ -209,7 +209,7 @@ test('paramsText: 전략 설정 한 줄 요약', () => {
   assert.equal(paramsText({ strategy: 'C', params: { splitWeeks: 4, cashReserve: 0 } }), '살 판정 초저평가·저평가 · 매도 안 팖 · 4회 · 유보 0%');
   assert.equal(paramsText({ strategy: 'D', params: { splitWeeks: 2, cashReserve: 0.1 } }), '살 판정 원칙 1(초저평가·저평가·적정~저평가) · 매도 고평가면 전부 · 2회 · 유보 10%');
   assert.equal(paramsText({ strategy: 'custom', params: { buyTiers: ['저평가', '적정'], sellFraction: 0.5, splitWeeks: 1, cashReserve: 0 } }), '살 판정 저평가·적정 · 매도 고평가면 50% · 1회 · 유보 0%');
-  assert.equal(paramsText({ strategy: 'B', params: { sellFraction: 0 } }), '살 판정 원칙 1(초저평가·저평가·적정~저평가) · 매도 알림만 · 4회 · 유보 0%');
+  assert.equal(paramsText({ strategy: 'B', params: { sellFraction: 0 } }), '살 판정 원칙 1(초저평가·저평가·적정~저평가) · 매도 원칙 4(고평가 나눠 전부·초고평가 한 번에) · 4회 · 유보 0%');
 });
 
 import { lossAlerts } from '../../preview-only-portfolio-home.js';
@@ -255,6 +255,8 @@ test('편집기: 저장된 전략 ↔ 편집기 값, 저평가만·갈아타기�
   assert.equal(shapeOf(null, draftOf(null)).params.buyMode, undefined);   // 균등은 칸을 두지 않는다
   assert.match(sentenceOf(null, { ...draftOf(null), mode: 'cap' }), /시가총액 비례/);
   assert.match(sentenceOf('C', draftOf(C)), /팔지 않습니다/);
+  assert.match(sentenceOf(null, draftOf(null)), /매주 회차일에 판정을 보고, 고평가면 전부/);   // 원칙 전략(비율 0%)은 원칙 4 매도(2026-10-28)
+  assert.match(sentenceOf(null, { ...draftOf(null), tiers: ['저평가'] }), /알림만/);              // 직접 고른 판정 + 비율 0%는 알림만
   assert.match(sentenceOf(null, draftOf(null)), /알림만/);
   assert.match(sentenceOf(null, { tiers: ['고평가'], sell: 0, rounds: 4, reserve: 0 }), /원칙과 다름/);
   assert.match(sentenceOf(null, { tiers: ['저평가'], sell: 25, rounds: 1, reserve: 10 }), /한 번에.*25%.*10%/);
@@ -619,4 +621,38 @@ test('10/01부터 공통 과거: Robinhood 기록 × 끝낸 비교의 실제 계
   assert.ok(Math.abs(h0.twr - (1000 / 900 - 1)) < 1e-9);
   // 끝낸 비교의 그날 평가가 없으면 이유
   assert.match(historyPrefix(pre, past, { date: '2026-10-26' }, '2026-10-26', 1, { records: recs, trades: {} }).why, /평가가 없음/);
+});
+
+import { weeklySells, monthRounds } from '../../preview-only-portfolio-home.js';
+test('매주 판정 매도(카드, 2026-10-28): 고평가는 남은 회차에 나눠, 초고평가는 전부, 같은 회차에 판 것은 빼고, 계좌 따로', () => {
+  assert.deepEqual(monthRounds('2026-11'), ['2026-11-02', '2026-11-09', '2026-11-16', '2026-11-23']);
+  const card = (tier, d = '2026-11-06') => ({ tier, tierStatus: 'valid', verdictAsOf: d, priceStale: false, close: 10 });
+  const rec = { session: '2026-11-06', ruleVersion: 'r', cards: { DDD: card('고평가'), EEE: card('초고평가'), AAA: card('고평가~적정'), FFF: card('고평가') } };
+  const recAt = (d) => ({ session: d, ruleVersion: 'r', cards: { DDD: card('고평가', d) } });   // 원칙 6에 안 걸리게 그날 기록
+  const rounds = monthRounds('2026-11');
+  const base = { rec, today: '2026-11-07', rounds, lastSession: '2026-11-06' };
+  const r = weeklySells({ ...base, holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }, { ticker: 'DDD', qty: 2.5, account: 'kw' }, { ticker: 'EEE', qty: 4, account: 'rh' }, { ticker: 'AAA', qty: 5, account: 'rh' }], trades: {} });
+  assert.deepEqual(r.map((x) => [x.ticker, x.account, x.shares, x.remaining, x.round]), [
+    ['DDD', 'kw', 0.833334, 3, '2026-11-09'], ['DDD', 'rh', 3, 3, '2026-11-09'], ['EEE', 'rh', 4, 3, '2026-11-09']]);   // 고평가~적정(AAA)은 보유
+  // 회차 당일 3주를 팔아 기록하면(기록은 아직 전날) 그 회차 몫은 0, 다음 회차는 남은 6주 ÷ 2회
+  const sold = { t1: { date: '2026-11-09', ticker: 'DDD', side: 'sell', qty: 3, price: 10 } };
+  const a = weeklySells({ ...base, today: '2026-11-09', holdings: [{ ticker: 'DDD', qty: 6, account: 'rh' }], trades: sold });
+  assert.equal(a[0].shares, 0);
+  // 10주 가운데 1주만 팔았으면 그 회차 몫은 ⌈10 ÷ 3⌉ − 1 = 3주 남음(지금 보유 9주로 다시 나누면 ⌈9/3⌉ − 1 = 2로 줄어든다)
+  assert.equal(weeklySells({ ...base, today: '2026-11-09', holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }], trades: { t1: { ...sold.t1, qty: 1 } } })[0].shares, 3);
+  const b = weeklySells({ ...base, today: '2026-11-10', lastSession: '2026-11-09', rec: recAt('2026-11-09'), holdings: [{ ticker: 'DDD', qty: 6, account: 'rh' }], trades: sold });
+  assert.deepEqual([b[0].shares, b[0].remaining, b[0].round], [3, 2, '2026-11-16']);
+  // 놓친 회차: 11/09에 안 팔았으면 11/16 회차는 9주 ÷ 2회 = 5주(정수 올림), 마지막 회차는 전부
+  assert.equal(weeklySells({ ...base, today: '2026-11-10', lastSession: '2026-11-09', rec: recAt('2026-11-09'), holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }], trades: {} })[0].shares, 5);
+  // 적은 보유: 1주 ÷ 4회 → 첫 회차에 1주(0주로 '이미 팔았음'처럼 보이지 않게, dr r1)
+  assert.equal(weeklySells({ ...base, today: '2026-11-01', lastSession: '2026-10-30', holdings: [{ ticker: 'DDD', qty: 1, account: 'rh' }], trades: {} })[0].shares, 1);
+  // 소수와 정수가 섞여도 마지막 회차는 지금 보유 전부(9.5주), 그대로 두는 보유는 빠진다(dr r1)
+  assert.equal(weeklySells({ ...base, today: '2026-11-23', lastSession: '2026-11-20', rec: recAt('2026-11-20'), holdings: [{ ticker: 'DDD', qty: 9.5, account: 'rh' }], trades: { t9: { date: '2026-11-23', ticker: 'DDD', side: 'sell', qty: 0.5, price: 10 } } })[0].shares, 9.5);
+  assert.deepEqual(weeklySells({ ...base, holdOnly: ['DDD'], holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }], trades: {} }), []);
+  assert.equal(weeklySells({ ...base, today: '2026-11-20', lastSession: '2026-11-19', rec: recAt('2026-11-19'), holdings: [{ ticker: 'DDD', qty: 5, account: 'rh' }], trades: {} })[0].shares, 5);
+  // 회차가 끝난 뒤(11/23 뒤)는 수량 없이 '다음 점검일'
+  const end = weeklySells({ ...base, today: '2026-11-27', lastSession: '2026-11-25', rec: recAt('2026-11-25'), holdings: [{ ticker: 'DDD', qty: 5, account: 'rh' }], trades: {} });
+  assert.deepEqual([end[0].shares, end[0].round], [null, null]);
+  // 원칙 6(묵은 판정)이면 빠진다
+  assert.deepEqual(weeklySells({ ...base, rec: { ...rec, cards: { DDD: { ...card('고평가'), priceStale: true } } }, holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }], trades: {} }), []);
 });

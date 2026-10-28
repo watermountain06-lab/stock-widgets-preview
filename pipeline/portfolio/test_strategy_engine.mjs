@@ -50,8 +50,10 @@ function world(opts = {}) {
 const SNAP = { date: '2026-10-16', holdings: { AAA: 10, DDD: 100 }, cash: 1000 };   // 평가 3000달러
 const run = (o = {}) => replay({
   records: o.records || world(o.world), snapshot: o.snapshot || SNAP, deposits: o.deposits || [],
-  settings: o.settings || {}, scenarios: o.scenarios || [],
+  // 기존 시험은 11월·12월 날짜로 옛 매도 규칙(점검일 한 번 관측, 대금은 그달 매수)을 시험한다 — 매주 매도 규칙은 weekly 시험이 따로 본다
+  settings: { ruleFrom: '9999-12', ...(o.settings || {}) }, scenarios: o.scenarios || [],
 });
+const OLD_RULE = { ruleFrom: '9999-12' };
 const S = (strategy, params, extra = {}) => ({ id: extra.id || strategy, name: 'x', strategy, params, createdAt: extra.createdAt || '2026-10-16T22:00:00Z', engineVersion: ENGINE_VERSION });
 const pick = (res, id) => res.scenarios.find((s) => s.id === id);
 const day = (s, d) => s.days.find((x) => x.date === d);
@@ -1227,4 +1229,56 @@ test('원칙 1 판(2026-10-28): 11월 계획부터 적정 제외, 원칙과 같�
   assert.deepEqual(nm(tw).noWeight, []);
   const a = nov(trades(tw, { side: 'buy', ticker: 'AAA' })).reduce((x, t) => x + t.amount, 0), b = nov(trades(tw, { side: 'buy', ticker: 'BBB' })).reduce((x, t) => x + t.amount, 0);
   near(a / (a + b), 0.25, 0.01);
+});
+
+// ---- 매주 매도 규칙(2026-10-28 사용자 결정, 11월 계획부터) ----
+const NEW_RULE = { ruleFrom: '2026-11' };
+const sells = (s, t) => nov(trades(s, { side: 'sell', ticker: t })).map((x) => [x.date, Math.round(x.shares * 1e6) / 1e6]);
+
+test('매주 매도(원칙): 고평가면 전부를 그달 남은 회차에 나눠 판다, 대금은 그달 매수에 안 씀', () => {
+  const res = run({ settings: NEW_RULE, scenarios: [S('B')] });   // DDD 100주 내내 고평가
+  const b = pick(res, 'B');
+  assert.deepEqual(sells(b, 'DDD'), [['2026-11-02', 25], ['2026-11-09', 25], ['2026-11-16', 25], ['2026-11-23', 25]]);
+  assert.ok(b.events.some((e) => e.kind === 'proceedsToCash'));
+  assert.ok(!b.events.some((e) => e.kind === 'proceedsSpread' && e.date < '2026-12-01'));
+  // 그달 판 돈은 그달 매수 한도에서 뺀다(dr d1): 유보 20%면 앞 회차 대금이 쌓여도 매수가 그 돈으로 늘지 않는다
+  const rv = pick(run({ settings: NEW_RULE, scenarios: [S('B', { cashReserve: 0.2 })] }), 'B');
+  assert.ok(nov(rv.skips).some((x) => x.reason === 'cashLimit'), JSON.stringify(nov(rv.skips)));
+  // 옛 규칙(점검일 관측, 비율 0%)이면 알림만이라 팔지 않는다
+  assert.deepEqual(sells(pick(run({ scenarios: [S('B')] }), 'B'), 'DDD'), []);
+});
+
+test('매주 매도(원칙): 나눠 팔던 중 초고평가면 남은 것 전부를 그 회차에, 내려오면 멈추고 다시 고평가면 남은 회차로 새로', () => {
+  const up = run({ settings: NEW_RULE, world: { tier: (t, d) => (t === 'DDD' ? (d >= '2026-11-05' ? '초고평가' : '고평가') : undefined) }, scenarios: [S('B')] });
+  assert.deepEqual(sells(pick(up, 'B'), 'DDD'), [['2026-11-02', 25], ['2026-11-09', 75]]);
+  const tier = (t, d) => (t === 'DDD' ? (d >= '2026-11-12' ? '고평가' : d >= '2026-11-05' ? '고평가~적정' : '고평가') : undefined);
+  const down = pick(run({ settings: NEW_RULE, world: { tier }, scenarios: [S('B')] }), 'B');
+  assert.deepEqual(sells(down, 'DDD'), [['2026-11-02', 25], ['2026-11-16', 37.5], ['2026-11-23', 37.5]]);
+  // 원칙 매도는 회차마다 다시 계산(dr d1): 11/09에 원칙 6으로 못 팔면 그 회차는 0, 다음 회차가 남은 보유 ÷ 남은 회차로 메운다
+  const miss = pick(run({ settings: NEW_RULE, world: { asOf: (t, d) => (t === 'DDD' && d >= '2026-11-04' && d < '2026-11-12' ? '2026-10-01' : undefined) }, scenarios: [S('B')] }), 'B');
+  assert.deepEqual(sells(miss, 'DDD'), [['2026-11-02', 25], ['2026-11-16', 37.5], ['2026-11-23', 37.5]]);
+});
+
+test('매주 매도(비율 전략): 발동 조건은 그대로, 점검일을 기다리지 않고 그 주 회차부터 남은 회차에 나눈다', () => {
+  const tier = (t, d) => (t === 'DDD' ? (d >= '2026-11-12' ? '고평가' : '고평가~적정') : undefined);
+  const q = pick(run({ settings: NEW_RULE, world: { tier }, scenarios: [S('custom', { buyTiers: ['저평가'], sellFraction: 0.5 }, { id: 'q' })] }), 'q');
+  assert.deepEqual(sells(q, 'DDD'), [['2026-11-16', 25], ['2026-11-23', 25]]);
+  // 비율 전략: 발동 뒤 내려오면 진행 중 매도를 닫고, 다시 올라오면 그때 보유 × 비율로 새로(dr d1 — 겹쳐 보유보다 많이 팔지 않게)
+  const zig = (t, d) => (t === 'DDD' ? (d >= '2026-11-12' ? '고평가' : d >= '2026-11-05' ? '고평가~적정' : '고평가') : undefined);
+  const zq = pick(run({ settings: NEW_RULE, world: { tier: zig }, scenarios: [S('D')] }), 'D');
+  assert.deepEqual(sells(zq, 'DDD'), [['2026-11-02', 25], ['2026-11-16', 37.5], ['2026-11-23', 37.5]]);
+  // 알림만 전략(직접 고른 판정, 비율 0%): 매주 관측해 발동만 기록한다
+  const w = pick(run({ settings: NEW_RULE, world: { tier }, scenarios: [S('custom', { buyTiers: ['저평가'], sellFraction: 0 }, { id: 'w' })] }), 'w');
+  assert.deepEqual(sells(w, 'DDD'), []);
+  assert.ok(w.months.some((m) => (m.fires || []).some((f) => f.ticker === 'DDD' && f.date === '2026-11-16' && f.warnOnly)));
+  // 저평가만(C)은 관측하지 않는다
+  assert.deepEqual(sells(pick(run({ settings: NEW_RULE, scenarios: [S('C')] }), 'C'), 'DDD'), []);
+});
+
+test('매주 매도: 10월 계획은 옛 규칙(점검일 관측), 11월 계획부터 매주', () => {
+  const res = run({ settings: NEW_RULE, world: { start: '2026-09-30' }, snapshot: { ...SNAP, date: '2026-09-30' },
+    scenarios: [S('B', undefined, { createdAt: '2026-09-29T22:00:00Z' })] });
+  const b = pick(res, 'B');
+  assert.deepEqual(trades(b, { side: 'sell' }).filter((x) => x.date < '2026-11-01'), []);    // 10월: 원칙 비율 0%라 알림만
+  assert.equal(trades(b, { side: 'sell' }).filter((x) => x.date.slice(0, 7) === '2026-11').length, 4);
 });

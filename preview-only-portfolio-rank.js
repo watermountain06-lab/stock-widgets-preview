@@ -5,8 +5,8 @@
 // 저평가만(C)·갈아타기(D)는 값을 바꾸지 않으면 그 전략 그대로 저장하고, 바꾸면 사용자 정의로 저장한다(C는 매도 알림을 남기지 않아 사용자 정의와 다르다).
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
 import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
-  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=22';
-import { BUY_PRINCIPLE, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=6';
+  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=23';
+import { BUY_PRINCIPLE, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=7';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
 const C_TIERS = ['초저평가', '저평가'];
@@ -57,8 +57,12 @@ export function sentenceOf(base, d) {
     ? `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 판정 순(같으면 기업 점수 순)으로 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 걸쳐'} 1주씩 이어서 삽니다. 1주 값이 모자라면 그 회차는 멈추고 남은 돈은 다음 회차로 넘깁니다. 그달 남은 돈으로도 1주가 안 되는 종목은 건너뜁니다.`
     : `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 ${d.mode === 'cap' ? '시가총액 비례로' : d.mode === 'tier' ? '판정 무게(초저평가 3 : 저평가 2 : 적정~저평가 1, 10월 계획까지는 적정 포함 4:3:2:1) 비례로' : '똑같이'} 나눠 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 걸쳐'} 삽니다.`
       + (d.mode === 'cap' ? ' 시가총액을 모르는 종목은 그달 사지 않고 그 몫은 나머지에 돌아갑니다.' : d.mode === 'tier' ? ' 그 밖의 판정은 무게가 없어 사지 않습니다.' : '');
-  const sell = d.sell ? `판정이 고평가·초고평가가 되면 남은 수량의 ${d.sell}%를 팝니다.`
-    : shape.strategy === 'C' ? '팔지 않습니다.' : '고평가가 되어도 팔지 않고 매도 검토 알림만 남깁니다.';
+  // 매도(2026-10-28 사용자 결정, 11월 계획부터 매주 회차일에 판정을 본다): 원칙과 같은 살 판정 + 비율 0%면 원칙 4(고평가면 전부를 남은 회차에 나눠, 초고평가면 한 번에)
+  const principleSell = !d.sell && shape.strategy !== 'C' && followsPrinciple(d.tiers);
+  const sell = d.sell ? `판정이 고평가·초고평가가 되면 남은 수량의 ${d.sell}%를 팝니다(11월부터 매주 회차일에 봅니다).`
+    : shape.strategy === 'C' ? '팔지 않습니다.'
+    : principleSell ? '11월부터 매주 회차일에 판정을 보고, 고평가면 전부를 그달 남은 회차에 나눠 팔고 초고평가면 남은 것을 한 번에 팝니다(원칙 4). 10월까지는 알림만이었습니다.'
+    : '고평가가 되어도 팔지 않고 매도 검토 알림만 남깁니다.';
   const cash = d.reserve ? `현금은 ${d.reserve}%를 남겨 둡니다.` : '현금은 남기지 않습니다.';
   const off = tiers.some((t) => !BUY_PRINCIPLE.includes(t)) ? ' 원칙 1 밖의 판정도 사므로 "원칙과 다름" 표시가 붙습니다.' : '';
   return `${buy} ${sell} ${cash}${off}`;
