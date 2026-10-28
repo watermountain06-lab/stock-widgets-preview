@@ -47,7 +47,7 @@ h = h.replace('Q2 2026 실적은 발표됐고 카드는 10-Q·10-K 접수 뒤 �
 SEG = [('다발성 경화증', 957.5, '#0a3d7a'), ('희귀질환(Spinraza 등)', 557.2, '#3f7fc4'), ('항CD20(Ocrevus 로열티 등)', 419.1, '#7fb0e0'),
        ('위탁 생산·기타', 246.9, '#a9c6e6'), ('바이오시밀러', 182.2, '#5b8fb9'), ('알츠하이머 협업(Leqembi)', 59.5, '#c8d9ee'), ('기타 제품(Zurzuvae)', 55.4, '#dbe6f3')]
 SEG_ADJ = 0
-SEG_TITLE = '매출 구성 — 제품·수익 종류별(Q1 2026)'
+SEG_TITLE = '매출 구성 — 제품·수익 종류별'   # 분기는 fill.py가 실제 값으로 붙인다 — 손으로 적으면 분기를 넘길 때 두 번 나온다(2026-10-28)
 # IPR&D는 보도자료의 비용 총액($M)으로 쓴다 — 주당 값은 사전 안내 8-K에만 있다(Fable r1). Apellis 조달: Q1 10-Q MD&A 현금·증권 약 $3.6B + 은행 차입 약 $2.0B, 완료 8-K 지급 약 $5.3B.
 # 손 뉴스: 실적 4건(Q2 2026 포함 — 재무는 Q1 기준, EPS는 GAAP 희석, 비GAAP·가이던스는 쓰지 않는다) + Apellis 인수 계약. 반응일: 보도자료 장 전 → 같은 날.
 # Apellis 계약 3/31 공동 보도자료·웹캐스트(8-K 접수는 장 마감 뒤) → 3/31. 인수 완료(5/14)는 Q2 실적 줄에. 넣지 않은 8-K: IPR&D 비용 사전 안내(2.02항), 임원·주총.
@@ -77,9 +77,12 @@ SEG_MAP = {
  "members": {"biib:MSProductRevenuesMember": ["다발성 경화증", "#0a3d7a"], "biib:RareDiseaseProductRevenueMember": ["희귀질환(Spinraza 등)", "#3f7fc4"],
              "biib:Revenuesfromanticd20therapeuticprogramsMember": ["항CD20(Ocrevus 로열티 등)", "#7fb0e0"], "us-gaap:ProductAndServiceOtherMember": ["위탁 생산·기타", "#a9c6e6"],
              "biib:BiosimilarsMember": ["바이오시밀러", "#5b8fb9"], "biib:LEQEMBICollaborationMember": ["알츠하이머 협업(Leqembi)", "#c8d9ee"],
-             "biib:OtherProductsMember": ["기타 제품(Zurzuvae)", "#dbe6f3"]},
+             "biib:OtherProductsMember": ["기타 제품(Zurzuvae)", "#dbe6f3"],
+             # 2026 Q2 10-Q부터 새 제품군(Apellis 제품 — Q2 $127.8M = Syfovre 97.4 + Empaveli 30.4, Q3 $242.8M). 2025년 비교 분기는 0(2026-10-28)
+             "biib:SpecializedImmunologyMember": ["특수 면역(Syfovre·Empaveli)", "#2a6ba8"]},
  "ignore": ["us-gaap:ProductMember", "biib:AlzheimersCollaborationMember", "biib:RoyaltyAttributedToOCREVUSMember", "biib:ContractManufacturingAndOtherRevenueMember", "us-gaap:RoyaltyMember",
             "biib:TECFIDERAMember", "biib:VUMERITYMember", "biib:FumarateMember", "biib:AVONEXMember", "biib:PLEGRIDYMember", "biib:InterferonMember", "biib:TysabriProductMember",
             "biib:FAMPYRAMember", "biib:SPINRAZAMember", "biib:SKYCLARYSMember", "biib:QALSODYMember", "biib:BENEPALIMember", "biib:IMRALDIMember", "biib:FLIXABIMember",
-            "biib:BYOOVIZMember", "biib:TOFIDENCEMember", "biib:ZURZUVAEMember", "biib:FUMADERMAndADUHELMMember"]
+            "biib:BYOOVIZMember", "biib:TOFIDENCEMember", "biib:ZURZUVAEMember", "biib:FUMADERMAndADUHELMMember",
+            "biib:SYFOVREMember", "biib:EMPAVELIMember"]   # 특수 면역 제품군의 개별 제품(2026-10-28)
 }
