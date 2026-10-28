@@ -5,7 +5,7 @@
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=21';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=11';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=13';
 import { renderManage } from './preview-only-portfolio-records.js?v=10';
 import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=5';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=12';
@@ -1134,14 +1134,14 @@ export function renderTabs(roots, model, smodel, handlers) {
   const A0 = shown?.baseA, hist = A0?.started ? historyPrefix(model.main?.preStart, model.pastBundles, smodel.bundle?.snapshot, A0.started, A0.startValue, { records: recs, trades: model.trades }) : null;
   let histNote = '', since = '';
   if (shown && hist && !hist.why) {
-    const fix = (s) => ({ ...s, days: (s.days || []).map((d) => { if (d.twr == null) return d; const w = withPrefix(d.twr, d.vs?.SPY ?? null, hist); return { ...d, twr: w.twr, vs: d.vs ? { SPY: w.vsSPY } : d.vs }; }),
+    const fix = (s) => ({ ...s, twrSince: summarize(s).twr, days: (s.days || []).map((d) => { if (d.twr == null) return d; const w = withPrefix(d.twr, d.vs?.SPY ?? null, hist); return { ...d, twr: w.twr, vs: d.vs ? { SPY: w.vsSPY } : d.vs }; }),
       baselines: s.baselines ? { ...s.baselines, SPY: (s.baselines.SPY || []).map((p) => (p.twr == null || hist.spy == null ? p : { ...p, twr: (1 + hist.spy) * (1 + p.twr) - 1 })) } : s.baselines });
     shown = { ...shown, scenarios: shown.scenarios.map(fix), baseA: fix(shown.baseA) };
     histNote = ` · ${md(hist.from)}부터 이어 봄(${md(A0.started)}까지는 모든 줄이 내 실제 계좌)`;
     since = `수익률은 ${md(hist.from)}부터 — ${md(A0.started)}까지는 모든 줄이 내 실제 계좌 기록이고, 차이는 그 뒤에만 생깁니다.`;
   } else if (hist?.why) { histNote = ` · ${md(model.main.preStart.from)} 기록 못 이음: ${hist.why}`; since = `${md(model.main.preStart.from)}부터 이어 보지 못함: ${hist.why}.`; }
   else if (shown && model.main?.preStart && !A0?.started) since = `${md(model.main.preStart.from)}부터 이어 보기는 비교가 출발하면(시작 뒤 첫 완전한 기록) 붙습니다.`;
-  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : { ...model, result: shown }, { ...smodel, info: infoBase(result) + histNote, since }, handlers);
+  renderStrategy(st, smodel.recordsError || smodel.calcError ? { ...model, result: null } : { ...model, result: shown }, { ...smodel, info: infoBase(result) + histNote, since, from: hist && !hist.why ? hist.from : A0?.started || null, startDay: A0?.started || null }, handlers);
   // 시작 폼 미리 채우기: 내 자산과 같은 계산으로 마지막 기록일까지(그 뒤 매매는 빼고)
   const hh = model.main?.holdings || {};
   const pc = currentHoldings(hh.rows, hh.asOf, model.trades, lastRec || etDate(model.now ?? Date.now()));

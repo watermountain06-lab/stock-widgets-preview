@@ -403,3 +403,15 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-accfxrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:13px;padding:8px 0;border-top:1px solid var(--pf-grid)}
 .pf-accfxrow small{color:var(--muted,#5f5f6b)}
 @media (max-width:760px){.pf-accgrid{grid-template-columns:1fr}.pf-acctbig{font-size:26px}}
+/* 전략 비교 막대(2026-10-28, Tracking 탭 판정 성적표처럼) */
+.pf-rankbar.pf-sc{height:40px;border-radius:0;background:transparent;border:0}
+.pf-sc .pf-sc-zero{position:absolute;top:16px;bottom:0;left:50%;width:1px;background:var(--muted);border-radius:0}
+.pf-sc .pf-sc-fill{position:absolute;top:20px;bottom:4px;border-radius:3px;border:1px solid currentColor;background:color-mix(in srgb,currentColor 18%,transparent)}
+.pf-sc-up{color:#14804a}.pf-sc-down{color:#c42b1c}
+:root[data-theme="dark"] .pf-sc-up{color:#7cddb6}:root[data-theme="dark"] .pf-sc-down{color:#ff8799}
+.pf-sc span{position:absolute;top:0;font-size:11px;line-height:16px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pf-sc .pf-sc-p0{color:var(--muted);padding:0 6px}
+.pf-sc .pf-sc-p1{font-weight:700;padding:0 4px}
+.pf-sc .pf-sc-spy{position:absolute;top:14px;bottom:0;width:0;margin-left:0;background:transparent;border-left:1.5px dashed var(--muted)}
+.pf-sc small{top:20px}
+:root[data-theme="dark"] .pf-rankbar.pf-sc{background:transparent}

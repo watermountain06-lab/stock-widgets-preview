@@ -69,7 +69,7 @@ export function rankRows(result, byId, sort) {
   const rows = result.scenarios.map((s, i) => {
     const m = summarize(s);
     return { id: s.id, idx: i, name: label(s, byId), auto: AUTO.has(s.id), slot: i < 8 ? i + 1 : null,
-      twr: m.twr, spy: m.vs ? m.vs.SPY ?? null : null, value: m.value, trades: m.trades, cashShare: m.cashShare, wait: m.waitText };
+      twr: m.twr, twrSince: s.twrSince ?? null, spy: m.vs ? m.vs.SPY ?? null : null, value: m.value, trades: m.trades, cashShare: m.cashShare, wait: m.waitText };
   });
   const key = (r) => (sort === 'spy' ? r.spy : sort === 'value' ? r.value : r.twr);
   return rows.sort((a, b) => {
@@ -138,9 +138,14 @@ export function renderStrategy(st, model, smodel, handlers) {
     if (smodel.info) helpBox.appendChild(el('p', null, smodel.info));
     help.addEventListener('click', () => { view.help = !view.help; keep(); helpBox.hidden = !view.help; help.setAttribute('aria-expanded', String(view.help)); });
     sec.appendChild(helpBox);
-    const vals = rows.map((r) => r.twr).filter((v) => v != null).concat(spy == null ? [] : [spy], [0]);
-    const lo = Math.min(...vals), hi = Math.max(...vals) === lo ? lo + 0.01 : Math.max(...vals);
-    const at = (v) => ((v - lo) / (hi - lo)) * 100;
+    // 막대(2026-10-28 사용자 요청 — Tracking 탭 '판정 성적표'처럼): 가운데 0% 선, 오르면 오른쪽 초록·내리면 왼쪽 빨강(옅은 채움 + 테두리),
+    // 위에 작은 글씨로 0선 옆 출발일, 막대 끝에 평가액. SPY는 점선. 길이는 가장 큰 절댓값이 반쪽의 80%가 되게
+    // 막대는 새 비교 시작 뒤 수익률(사용자 결정 2026-10-28 (나) — 10/01부터의 공통 과거가 막대를 다 같게 만들어서), 오른쪽 숫자는 10/01부터
+    const since = true;
+    const bv = (r) => (since ? r.twrSince ?? r.twr : r.twr);
+    const mx = Math.max(0.02, ...rows.map((r) => Math.abs(bv(r) ?? 0)), since ? 0 : Math.abs(spy ?? 0));
+    const half = (v) => (Math.abs(v) / mx) * 40;
+    const md = (d) => (d ? `${+d.slice(5, 7)}/${d.slice(8, 10)}` : '');
     const list = el('div', 'pf-ranklist');
     rows.forEach((r, n) => {
       const row = btn(null, 'pf-rankrow'); row.setAttribute('aria-pressed', String(view.sel === r.id));
@@ -149,17 +154,24 @@ export function renderStrategy(st, model, smodel, handlers) {
       const nl = el('span', 'pf-ranknl'); nl.appendChild(dot(r.slot)); nl.appendChild(el('span', null, r.name)); nm.appendChild(nl);
       nm.appendChild(el('small', null, r.id === 'REAL' ? '고정 비교 · 실제 매매 기록' : r.auto ? '고정 비교 · 수정 불가' : '모의 전략 · 눌러서 설정'));
       row.appendChild(nm);
-      const track = el('span', 'pf-rankbar');
+      const track = el('span', 'pf-rankbar pf-sc');
+      track.appendChild(el('i', 'pf-sc-zero'));
       if (r.twr != null) {
-        const bar = el('i', r.slot ? 'pf-c' + r.slot : '');
-        bar.style.left = Math.min(at(0), at(r.twr)) + '%'; bar.style.width = Math.max(Math.abs(at(r.twr) - at(0)), 0.5) + '%';
+        const up = bv(r) >= 0, w = Math.max(half(bv(r)), 0.6);
+        const bar = el('i', 'pf-sc-fill ' + (up ? 'pf-sc-up' : 'pf-sc-down'));
+        bar.style[up ? 'left' : 'right'] = '50%'; bar.style.width = w + '%';
         track.appendChild(bar);
+        const p0t = since ? (smodel.startDay ? md(smodel.startDay) + ' 시작' : '') : md(smodel.from);
+        if (p0t) { const p0 = el('span', 'pf-sc-p0', p0t); p0.style[up ? 'right' : 'left'] = '50%'; track.appendChild(p0); }
+        if (since) { const p1 = el('span', 'pf-sc-p1 ' + (up ? 'pf-sc-up' : 'pf-sc-down'), pct(bv(r))); p1.style[up ? 'left' : 'right'] = 50 + w + '%'; track.appendChild(p1); }
+        if (!since && r.value != null) { const p1 = el('span', 'pf-sc-p1 ' + (up ? 'pf-sc-up' : 'pf-sc-down'), usd(r.value)); p1.style[up ? 'left' : 'right'] = 50 + w + '%'; track.appendChild(p1); }
       } else track.appendChild(el('small', null, r.wait || '미확정'));
-      if (spy != null) { const ln = el('b'); ln.style.left = at(spy) + '%'; ln.title = 'SPY ' + pct(spy); track.appendChild(ln); }
+      if (spy != null && !since) { const ln = el('b', 'pf-sc-spy'); ln.style.left = 50 + (spy >= 0 ? 1 : -1) * half(spy) + '%'; ln.title = 'SPY ' + pct(spy); track.appendChild(ln); }
       row.appendChild(track);
       const main = view.sort === 'value' ? usd(r.value) : view.sort === 'spy' ? pp(r.spy) : pct(r.twr);
-      const sub = view.sort === 'value' ? pct(r.twr) : usd(r.value);
-      row.appendChild(el('strong', 'pf-ranknum', r.twr == null && view.sort !== 'value' ? '—' : main));
+      const sub = view.sort === 'value' ? pct(r.twr) : usd(r.value);   // 수익률 옆에 평가액(사용자 요청 2026-10-28)
+      const numCls = view.sort === 'spy' ? (r.spy == null ? '' : r.spy >= 0 ? ' pf-sc-up' : ' pf-sc-down') : view.sort === 'twr' ? (r.twr == null ? '' : r.twr >= 0 ? ' pf-sc-up' : ' pf-sc-down') : '';
+      row.appendChild(el('strong', 'pf-ranknum' + numCls, r.twr == null && view.sort !== 'value' ? '—' : main));
       row.appendChild(el('small', 'pf-ranksub', r.twr == null && view.sort === 'value' ? '' : sub));
       const mk = el('span', 'pf-rankmark', r.auto ? '—' : view.sel === r.id ? '⌃' : '⌄'); mk.setAttribute('aria-hidden', 'true'); row.appendChild(mk);
       row.setAttribute('aria-label', `${r.name}, ${pct(r.twr)}, 눌러서 ${r.auto ? '설명' : '수정'} 열기`);
@@ -167,7 +179,7 @@ export function renderStrategy(st, model, smodel, handlers) {
       list.appendChild(row);
     });
     sec.appendChild(list);
-    sec.appendChild(el('p', 'pf-note', (smodel.since ? smodel.since + ' ' : '') + (spy != null ? `점선 = SPY ${pct(spy)}. ` : '') + '바꿀 수 있는 줄은 누르면 바로 아래에서 고칩니다.'));
+    sec.appendChild(el('p', 'pf-note', (smodel.since ? smodel.since + ' ' : '') + '막대는 새 비교 시작 뒤 수익률, 오른쪽 숫자는 10/01부터입니다. ' + (spy != null ? `같은 기간(10/01부터) SPY ${pct(spy)}. ` : '') + '바꿀 수 있는 줄은 누르면 바로 아래에서 고칩니다.'));
     frag.appendChild(sec);
   }
 
