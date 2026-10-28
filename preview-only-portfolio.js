@@ -13,7 +13,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=23';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=58';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=59';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=7';
 import { attachActual } from './preview-only-portfolio-actual.js?v=14';
