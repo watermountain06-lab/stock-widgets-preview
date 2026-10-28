@@ -1,17 +1,28 @@
 /* preview 전용 기능의 스타일(2026-10-17). 라이브(stock-widgets-redesign)로 옮기지 않는다 — pipeline/site_ui/UI_DIFF.md */
 
-/* 순위 구간 토글: "분석 대상 N개 종목" 줄 오른쪽 */
+/* 순위 구간 드롭다운(2026-10-28 시안 B): "분석 대상 N개 종목" 줄 오른쪽 */
 .range-line{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-.range-bar{display:inline-flex;padding:3px;background:#efece0;border-radius:9px;gap:2px;max-width:100%;overflow-x:auto;scrollbar-width:none;}
-.range-bar::-webkit-scrollbar{display:none;}
-.range-btn{flex:none;}
-@media (max-width:600px){.range-btn{padding:5px 9px;font-size:12px;}}
-.range-btn{padding:5px 12px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--text2);cursor:pointer;border:none;background:none;font-family:inherit;white-space:nowrap;}
-.range-btn:hover{color:var(--text);}
-.range-btn[aria-pressed="true"]{background:#fff;color:var(--accent);box-shadow:0 1px 3px rgba(31,36,32,0.1);}
-:root[data-theme="dark"] .range-bar{background:var(--bg3,#2a2e3b);}
-:root[data-theme="dark"] .range-btn[aria-pressed="true"]{background:var(--panel);}
+.range-dd{position:relative;}
+.range-dd-btn{display:flex;align-items:center;gap:9px;height:36px;padding:0 12px 0 14px;border:1px solid var(--border);border-radius:10px;background:var(--panel);color:var(--text2);font:inherit;font-size:12.5px;cursor:pointer;}
+.range-dd-btn:hover{border-color:var(--text2);}
+.range-dd-btn[aria-expanded="true"]{border-color:var(--accent);}
+.range-dd-btn:focus-visible,.range-dd-opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.range-dd-val{font-weight:700;color:var(--accent);}
+.range-dd-n{font-size:11px;}
+.range-dd-list{position:absolute;right:0;top:calc(100% + 6px);z-index:20;width:240px;box-sizing:border-box;padding:6px;border:1px solid var(--border);border-radius:12px;background:var(--panel);box-shadow:0 12px 28px rgba(31,36,32,0.14);display:flex;flex-direction:column;gap:2px;}
+.range-dd-list[hidden]{display:none;}
+.range-dd-opt{display:flex;justify-content:space-between;align-items:center;height:36px;padding:0 10px;border:0;border-radius:8px;background:transparent;color:var(--text);font:inherit;font-size:13px;cursor:pointer;text-align:left;}
+.range-dd-opt:hover{background:#efece0;}
+.range-dd-opt[aria-selected="true"]{background:#efece0;color:var(--accent);font-weight:700;}
+.range-dd-opt[aria-disabled="true"]{color:var(--text2);opacity:.55;cursor:default;background:transparent;}
+.range-dd-count{font-size:11.5px;font-weight:500;color:var(--text2);}
+@media (max-width:600px){
+  .range-dd-btn{height:44px;font-size:13px;}
+  .range-dd-list{width:min(358px,calc(100vw - 32px));display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;}
+  .range-dd-opt{height:44px;justify-content:center;gap:6px;}
+}
+:root[data-theme="dark"] .range-dd-opt:hover,:root[data-theme="dark"] .range-dd-opt[aria-selected="true"]{background:var(--bg3,#2a2e3b);}
+:root[data-theme="dark"] .range-dd-list{box-shadow:0 12px 28px rgba(0,0,0,0.4);}
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]) .range-bar{background:var(--bg3,#2a2e3b);}
-  :root:not([data-theme="light"]) .range-btn[aria-pressed="true"]{background:var(--panel);}
+  :root:not([data-theme="light"]) .range-dd-opt:hover,:root:not([data-theme="light"]) .range-dd-opt[aria-selected="true"]{background:var(--bg3,#2a2e3b);}
 }

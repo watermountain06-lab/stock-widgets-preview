@@ -23,7 +23,8 @@ from pathlib import Path
 NEEDLES = [
     "preview-only",        # line markers and the preview-only.js / .css file names
     "PreviewOnly",         # window.PreviewOnly (range toggle)
-    "range-bar",           # range toggle markup and CSS
+    "range-bar",           # old range toggle markup and CSS
+    "range-dd",            # range dropdown markup and CSS (2026-10-28)
     "STOCKS_DATA_START",   # preview's source data block (stays in preview)
     "pf-lock",             # Portfolio tab (2026-10-19): Google login screen markup and CSS
     "pf-login",            # Portfolio tab login button (file names and menu href are caught by "preview-only")
