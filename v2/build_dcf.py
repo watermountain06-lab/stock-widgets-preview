@@ -138,7 +138,8 @@ def latest(series, asof=None):
 
 
 # 투자자산이 영업 자산인 회사(CIK) — 투자 수익이 영업이익 안에 있다. 값은 근거.
-INVESTMENTS_OPERATING = {"0000731766": "UNH — 10-Q 손익계산서 Revenues에 'Investment and other income'(2026 Q2 $1,223M), Earnings from operations에 포함",
+INVESTMENTS_OPERATING = {"0000065984": "ETR — LongTermInvestments $7,645M = 원자력 해체 신탁 $6,722M(해체 부채 전용) + 비유틸리티 부동산 $480M(영업 자산) + 폭풍 대비 예치금 $314M(용도 제한) + 기타 $129M — 주주 몫 비영업 자산이 아니라 더하지 않는다(DUK·AEE는 별도 태그라 0; 전부 더해도 주당 +$1.98, Codex·Fable r1 2026-10-28)",
+                         "0000731766": "UNH — 10-Q 손익계산서 Revenues에 'Investment and other income'(2026 Q2 $1,223M), Earnings from operations에 포함",
                          "0000040545": "GE — 런오프 보험 투자증권 $37.9B가 보험 부채 $36.2B를 받친다. 투자수익은 'Insurance revenue'(2026 Q2 $715M)로 매출·영업이익 안(2026-09-30 사용자 결정)",
                          "0001156039": "ELV — 10-Q 손익계산서 Total revenues에 'Net investment income'(2026 Q2 $704M) — 영업이익을 세전 + 이자로 합성해 투자수익을 넣고(DERIVED_OPINC) 투자자산은 영업 자산(UNH·CVS와 같은 처리, 2026-10-17)",
                          "0001060391": "RSG — 기타 장기투자 $715M의 대부분은 세액공제 투자(지분법, 장부가가 손실로 줄어든다). 그 가치는 예측기간의 낮은 실효세율로 이미 모델에 들어가므로 비영업 자산으로 또 더하지 않는다(Codex r2, 2026-10-23)",

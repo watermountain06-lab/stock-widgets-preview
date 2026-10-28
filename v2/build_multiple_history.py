@@ -703,6 +703,10 @@ EXTRA_TAGS = {
     "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
     # CF: 순이익은 보통주 귀속 태그만 낸다(NetIncomeLoss 2012 멈춤, Q2 2026 $727M)(2026-10-25)
     "0001324404": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
+    # EXC: NetIncomeLoss 태그는 2013에 멈췄다 — 보통주 귀속 순이익(Q2 2026 $396M, 비지배 없음)으로(2026-10-28)
+    "0001109357": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
+    # ETR: 연결 NetIncomeLoss는 2023에 멈췄다(이후 자회사 축 값만) — 보통주 귀속 순이익(Q2 2026 $482.6M)으로(2026-10-28)
+    "0000065984": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # ALLE: 2025-04 뒤 10-Q는 순이익을 ProfitLoss로만 낸다(비지배지분 없음, NetIncomeLoss는 10-K·Q1 2025만) — 분기 순이익 차트가 비어 build가 멈췄다(2026-10-25)
     "0001579241": {"NetIncomeLoss": ["ProfitLoss"]},
     # BALL: 순이익을 ProfitLoss로 낸다(NetIncomeLoss 없음) — 비지배지분 몫(분기 약 $2M)이 섞인다(2026-10-25)
@@ -1645,7 +1649,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001506307": ["DebtCurrent", "LongTermDebtNoncurrent"],   # KMI: 1년 안(CP 포함) $1,726M + 장기 $31,347M = $33,073M(Q3 2026 10-Q — 기본은 장기만, 2026-10-27)
+DEBT_TOTAL_TAG = {
+                  "0001109357": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtNoncurrent", "LongTermDebtToFinancingTrusts"],   # EXC: 단기 $1,243M + 1년 안 $727M + 장기 $50,313M + 금융신탁 $390M = $52,673M(Q2 2026 10-Q, 2026-10-28) — 금융신탁은 회사 태그 exc:LongTermDebtToFinancingTrusts라 us-gaap 이름으로는 안 잡혀 엔진 값은 $52,283M
+                  "0001506307": ["DebtCurrent", "LongTermDebtNoncurrent"],   # KMI: 1년 안(CP 포함) $1,726M + 장기 $31,347M = $33,073M(Q3 2026 10-Q — 기본은 장기만, 2026-10-27)
                   # NCLH: 차입금을 금융리스 포함 장기차입 비유동(LongTermDebtAndCapitalLeaseObligations) + 1년 안(…Current)으로만 낸다(2012~, 분기마다) — 기본 태그는
                   # LongTermDebt 2020-12-31 $1,552M에서 멈춰 그 뒤 차입금이 0이 됐다(Fable r2). 2025-12-31 13,730 + 876 = 14,606 = DebtAndCapitalLeaseObligations(10-K, 2026-10-25).
                   "0001513761": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
@@ -2468,6 +2474,9 @@ LOCAL_HISTORY = {"SKHY": {"loader": "skhy_krx", "ads_per_share": 10}}
 # (2분기 10-Q)부터 — 그 전 배수는 분사 조정된 주가와 복합기업 재무가 섞여 싸게 나온다(2026-09-30 사용자 결정). 2024-03-31
 # 재무상태표는 버노바를 포함해 자본 $29.9B(분사 뒤 $18.6B)였고, 1분기 현금흐름(2023 Q1)이 재작성되지 않아 2분기 누계 차감이 섞였다(Fable).
 HISTORY_START = {"GE": "2024-07-23",
+                 # EXC: Constellation 분사(2022-02-01). 최근 4분기가 모두 분사 뒤인 첫 시점(FY2022 10-K, 2023-02-14 — T 방식). 그 전은 재작성 연간 − 원공시 9개월로
+                 # 2020년 4분기 매출이 −$8,262M이 되어 PSR이 8배로 튀었다(2026-10-28, Fable r1 후속).
+                 "EXC": "2023-02-14",
                  # MMM: Solventum 분사(2024-04-01) 뒤 첫 재무상태표(2024-06-30)가 나온 2분기 10-Q 공시일(2026-10-21, GE 방식). 2024년 1분기는
                  # 원공시가 Solventum을 포함해 나중(10-K 2025-02-05)에 재작성됐고, RESTATED_LATEST로 재작성 값을 쓴다.
                  "MMM": "2024-07-26",
