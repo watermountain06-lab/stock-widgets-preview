@@ -5,7 +5,7 @@
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=21';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=13';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=14';
 import { renderManage } from './preview-only-portfolio-records.js?v=10';
 import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=5';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=12';

@@ -290,10 +290,10 @@ test('순위: 수익률·SPY 대비 순, 값 없는 줄은 맨 뒤, 그래프와
     baselines: id === 'A' ? { SPY: [{ date: '2026-10-16', twr: 0.02 }, { date: '2026-10-17', twr: null }] } : undefined });
   const result = { scenarios: [sc('REAL', 0.05, 3, 90), sc('A', 0.07, 5, 100), sc('s1', null), sc('s2', 0.09, 7, 80)] };
   const byId = { s1: { name: '하나' }, s2: { name: '둘' } };
-  assert.deepEqual(rankRows(result, byId, 'twr').map((r) => r.id), ['s2', 'A', 'REAL', 's1']);
-  assert.deepEqual(rankRows(result, byId, 'value').map((r) => r.id), ['A', 'REAL', 's2', 's1']);
+  assert.deepEqual(rankRows(result, byId, 'twr').map((r) => r.id), ['REAL', 's2', 'A', 's1']);
+  assert.deepEqual(rankRows(result, byId, 'value').map((r) => r.id), ['REAL', 'A', 's2', 's1']);
   const r = rankRows(result, byId, 'spy');
-  assert.equal(r[0].name, '둘'); assert.equal(r[0].slot, 4); assert.equal(r.at(-1).twr, null);
+  assert.equal(r[0].id, 'REAL'); assert.equal(r[1].name, '둘'); assert.equal(r[1].slot, 4); assert.equal(r.at(-1).twr, null);
   assert.equal(r.find((x) => x.id === 'REAL').auto, true);
   assert.equal(spyLine(result), 0.02);
 });

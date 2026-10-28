@@ -73,6 +73,7 @@ export function rankRows(result, byId, sort) {
   });
   const key = (r) => (sort === 'spy' ? r.spy : sort === 'value' ? r.value : r.twr);
   return rows.sort((a, b) => {
+    if ((a.id === 'REAL') !== (b.id === 'REAL')) return a.id === 'REAL' ? -1 : 1;   // 내 실제 계좌는 늘 맨 위(사용자 요청 2026-10-28), 나머지만 순위
     const x = key(a), y = key(b);
     if (x == null || y == null) return x == null && y == null ? a.idx - b.idx : x == null ? 1 : -1;
     return y - x || a.idx - b.idx;
@@ -147,9 +148,10 @@ export function renderStrategy(st, model, smodel, handlers) {
     const half = (v) => (Math.abs(v) / mx) * 40;
     const md = (d) => (d ? `${+d.slice(5, 7)}/${d.slice(8, 10)}` : '');
     const list = el('div', 'pf-ranklist');
-    rows.forEach((r, n) => {
+    let rank = 0;
+    rows.forEach((r) => {
       const row = btn(null, 'pf-rankrow'); row.setAttribute('aria-pressed', String(view.sel === r.id));
-      row.appendChild(el('span', 'pf-rankn', r.twr == null ? '–' : String(n + 1)));
+      row.appendChild(el('span', 'pf-rankn', r.id === 'REAL' ? '' : r.twr == null ? '–' : String(++rank)));
       const nm = el('span', 'pf-rankname' + (r.auto ? ' pf-auto' : ''));
       const nl = el('span', 'pf-ranknl'); nl.appendChild(dot(r.slot)); nl.appendChild(el('span', null, r.name)); nm.appendChild(nl);
       nm.appendChild(el('small', null, r.id === 'REAL' ? '고정 비교 · 실제 매매 기록' : r.auto ? '고정 비교 · 수정 불가' : '모의 전략 · 눌러서 설정'));
