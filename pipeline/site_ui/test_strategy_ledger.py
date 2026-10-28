@@ -211,3 +211,14 @@ class LedgerTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)
+
+
+class FxForTest(unittest.TestCase):
+    def test_previous_completed_london_bar(self):
+        from build_strategy_ledger import fx_for
+        # KRW=X bars are stamped at London midnight (UTC 23:00 in summer, 00:00 in winter)
+        ts = [1792623600, 1792710000, 1792972800, 1793059200]   # 10-22, 10-23, 10-26, 10-27 London dates
+        chart = {"chart": {"result": [{"timestamp": ts, "indicators": {"quote": [{"close": [1325.99, 1326.5, 1321.76, 1324.77]}]}}]}}
+        self.assertEqual(fx_for("2026-10-27", chart), {"USDKRW": 1321.76, "src": "yahoo-1d-prev", "bar": "2026-10-26"})
+        self.assertEqual(fx_for("2026-10-26", chart)["bar"], "2026-10-23")   # Monday uses Friday's bar
+        self.assertIsNone(fx_for("2026-10-22", chart))

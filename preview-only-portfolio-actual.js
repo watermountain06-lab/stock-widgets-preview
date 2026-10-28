@@ -11,6 +11,7 @@
 // 결과는 엔진 시나리오와 같은 모양이라 비교 표·그래프·도넛·매매 기록이 그대로 그린다. 배당·세금은 다른 전략처럼 뺀다.
 // 이번 달 운용(살 후보·매도 검토)은 화면에 보이지 않는 원칙 시나리오 '__plan'(B, 매도 0%)이 계산한다(attachActual).
 import { twr, depositTiming, BASELINES, _internal } from './preview-only-portfolio-engine.js?v=5';
+import { ledgerActive, ledgerDeposits, incomeList, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=1';
 
 export const REAL_ID = 'REAL';
 export const PLAN_ID = '__plan';
@@ -31,7 +32,7 @@ const effectiveDeposits = (deposits) => {
     // rec: 기록한 날(뉴욕), forMonth: 미리 넣은 돈의 몫 달(2026-10-25 사용자 결정 — 카드 한도만 쓰고, 엔진·실제 계좌는 반영일 그대로)
     const rec = new Date(Date.parse(d.recordedAt)).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
     // forMonth는 있는 달이고 반영일 달보다 뒤일 때만 남긴다 — 계산·표시가 같은 값을 쓴다(dr)
-    const pre = d.kind !== 'withdraw' && /^\d{4}-(0[1-9]|1[0-2])$/.test(d.forMonth || '') && d.forMonth > tm.day.slice(0, 7);
+    const pre = (d.kind !== 'withdraw' || d.account === 'kw') && /^\d{4}-(0[1-9]|1[0-2])$/.test(d.forMonth || '') && d.forMonth > tm.day.slice(0, 7);   // 출금(역환전)도 저장된 몫 달(2026-10-28 dr) — Robinhood 출금은 forMonth를 저장하지 않아 그대로
     out.push({ day: tm.day, rec, amount: d.kind === 'withdraw' ? -d.amount : d.amount, ...(pre ? { forMonth: d.forMonth } : {}) });   // 출금은 음수(2026-10-22)
   }
   return out;
@@ -40,15 +41,19 @@ const effectiveDeposits = (deposits) => {
 // records: 일별 기록, snapshot: {date, holdings, cash}, deposits·trades: Firestore 지도, baselines: A의 기준선(같은 출발일일 때만 대비를 낸다)
 export { effectiveDeposits };
 // baseStart·baseStartValue: A의 출발일·출발 평가액 — 둘 다 같을 때만 A의 기준선으로 대비를 낸다(dr r2: 출발 평가액이 다르면 기준선도 다르다)
-export function actualAccount({ records, snapshot, deposits, trades, baselines, baseStart, baseStartValue }) {
+// account: 'rh'|'kw'를 주면 그 계좌 매매만(계좌 칸 없는 옛 매매는 rh), income: [{date, amount}] 배당·이자(그날 장 시작 전 현금, 외부 흐름 아님 — 2026-10-28 한국 계좌),
+// 매매 수수료(fee, 달러)는 매수 대금에 더하고 매도 대금에서 뺀다
+// kwStart: 합계 줄일 때 시작 보유 중 키움 몫 {티커: 수량} — 매도는 계좌별 보유까지만 체결한다(한 계좌에 없는 주식을 다른 계좌 보유로 팔지 않게, dr)
+export function actualAccount({ records, snapshot, deposits, trades, baselines, baseStart, baseStartValue, account, income, kwStart }) {
   const cal = _internal.makeCalendar(), mk = _internal.makeMarket(records, cal);
   const i0 = cal.index(snapshot.date), i1 = cal.index(mk.lastSession);
   const shares = new Map(Object.entries(snapshot.holdings || {}).map(([t, q]) => [t, Number(q)]));
+  const kwHave = new Map(Object.entries(kwStart || {}).map(([t, q]) => [t, Number(q)]));   // 합계 줄에서 키움 몫(나머지는 Robinhood 몫)
   let cash = Number(snapshot.cash) || 0;
   const deps = effectiveDeposits(deposits);
   const all = Object.entries(trades || {});
   const cancelled = new Set(all.filter(([, x]) => x.cancels).map(([, x]) => x.cancels));
-  const list = all.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.date > snapshot.date)
+  const list = all.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.date > snapshot.date && (!account || (x.account === 'kw' ? 'kw' : 'rh') === account))
     .map(([id, x]) => ({ id, ...x, day: cal.onOrAfter(x.date) }))
     .sort((a, b) => (a.date !== b.date ? (a.date < b.date ? -1 : 1) : a.side !== b.side ? (a.side === 'buy' ? -1 : 1) : (a.recordedAt || '') < (b.recordedAt || '') ? -1 : 1));
   const warnings = [], done = [];
@@ -68,21 +73,28 @@ export function actualAccount({ records, snapshot, deposits, trades, baselines, 
     let flow = 0;
     if (i > i0) {
       for (const p of deps) if (p.day === d) { cash = cents(cash + p.amount); flow += p.amount; }
-      for (const sp of splits.get(d) || []) if (shares.get(sp.ticker) > 0) shares.set(sp.ticker, micro(shares.get(sp.ticker) * sp.ratio));
+      for (const p of income || []) if (p.date > snapshot.date && cal.onOrAfter(p.date) === d) cash = cents(cash + p.amount);   // 배당·이자: 수익(흐름 아님)
+      for (const sp of splits.get(d) || []) {
+        if (shares.get(sp.ticker) > 0) shares.set(sp.ticker, micro(shares.get(sp.ticker) * sp.ratio));
+        if (kwHave.get(sp.ticker) > 0) kwHave.set(sp.ticker, micro(kwHave.get(sp.ticker) * sp.ratio));
+      }
       for (const x of list) {
         if (x.day !== d) continue;
         const have = shares.get(x.ticker) || 0;
+        const isKw = x.account === 'kw', kwQ = kwHave.get(x.ticker) || 0;
+        const acctHave = account ? have : isKw ? kwQ : Math.max(0, have - kwQ);   // 합계 줄은 그 계좌 몫까지만 판다
         let q = x.qty;
-        if (x.side === 'buy') shares.set(x.ticker, micro(have + q));
+        if (x.side === 'buy') { shares.set(x.ticker, micro(have + q)); if (!account && isKw) kwHave.set(x.ticker, micro(kwQ + q)); }
         else {
-          q = Math.min(x.qty, have);
+          q = Math.min(x.qty, acctHave);
+          if (!account && isKw) kwHave.set(x.ticker, micro(kwQ - q));
           if (x.qty - q > 1e-9) warnings.push(`${x.date} ${x.ticker} 보유(${Math.round(have * 1e6) / 1e6}주)보다 많이 판 기록(${x.qty}주) — 가진 만큼만 반영`);
           shares.set(x.ticker, micro(have - q));
         }
         if (!(q > 0)) continue;
-        const amt = cents(q * x.price);
-        cash = cents(cash + (x.side === 'buy' ? -amt : amt));
-        done.push({ date: d, ticker: x.ticker, side: x.side, shares: q, price: x.price, amount: amt, ...(q !== x.qty ? { requested: x.qty } : {}) });
+        const amt = cents(q * x.price), fee = Number(x.fee) > 0 ? cents(Number(x.fee)) : 0;
+        cash = cents(cash + (x.side === 'buy' ? -(amt + fee) : amt - fee));
+        done.push({ date: d, ticker: x.ticker, side: x.side, shares: q, price: x.price, amount: amt, ...(fee ? { fee } : {}), ...(x.account === 'kw' ? { account: 'kw' } : {}), ...(q !== x.qty ? { requested: x.qty } : {}) });
       }
     }
     let v = null;
@@ -112,7 +124,7 @@ export function actualAccount({ records, snapshot, deposits, trades, baselines, 
   const days = raw.map((x, k) => {
     const j = j0 < 0 ? -1 : k - j0;
     if (j > 0) cum += x.flow;
-    const row = { date: x.date, value: x.value, deposits: cum, pnl: x.value === null || j < 0 ? null : Math.round((x.value - startValue - cum) * 100) / 100,
+    const row = { date: x.date, value: x.value, deposits: cum, flowUsd: x.flow, pnl: x.value === null || j < 0 ? null : Math.round((x.value - startValue - cum) * 100) / 100,
       twr: j < 0 ? null : t[j], provisional: false, why: x.why.length ? (j < 0 ? ['notStarted', ...x.why] : x.why) : [] };
     if (j >= 0) row.vs = Object.fromEntries(BASELINES.map((e) => {
       const b = sameStart ? (baselines?.[e] || []).find((p) => p.date === x.date)?.twr : null;
@@ -129,14 +141,24 @@ export function actualAccount({ records, snapshot, deposits, trades, baselines, 
 }
 
 // 엔진 결과에서 숨은 원칙 시나리오를 떼어 result.plan으로 두고, 실제 계좌 줄을 맨 앞에(그다음 A, 만든 시나리오 — 사용자 요청 10-21) 둔다
-export function attachActual(result, { records, bundle, trades }) {
+// ledger(계좌 장부, 2026-10-28)가 있으면: 실제 계좌 줄 = Robinhood + 키움 합계(시작 = rh 스냅샷 + 키움의 반영일 ≤ 시작일 상태, 흐름 = rh 입금 ∪ 환전),
+// result.accounts = { rh, kw }(계좌별 줄 — 내 계좌 탭), 장부 사건·정정 충돌
+export function attachActual(result, { records, bundle, trades, ledger }) {
   if (!result) return result;
   const plan = result.scenarios.find((s) => s.id === PLAN_ID) || null;
   const rest = result.scenarios.filter((s) => s.id !== PLAN_ID);
   const A = rest[0];
   // 실제 계좌 계산이 실패해도 다른 전략은 그대로 보이게 한다
   let real;
-  try { real = actualAccount({ records, snapshot: bundle.snapshot, deposits: bundle.deposits, trades, baselines: A?.baselines, baseStart: A?.started, baseStartValue: A?.startValue }); }
-  catch (e) { real = { id: REAL_ID, strategy: REAL_ID, name: '내 실제 계좌', started: null, days: [], trades: [], skips: [], months: [], holdings: {}, cash: 0, warnings: ['계산하지 못했습니다: ' + e.message] }; }
-  return { ...result, plan, scenarios: [real, A, ...rest.slice(1)] };
+  const { events, conflicts } = ledgerActive(ledger);
+  // 시작일까지 반영된 장부 사건은 시작 상태(kw0)에 있으므로 흐름에서 뺀다(엔진과 같게 명시적으로, dr)
+  const L = ledgerDeposits(events.filter((e) => e.kind === 'income' || e.day > bundle.snapshot.date)), income = incomeList(events);
+  const kw0 = kwState(events, trades, bundle.snapshot.date, 'eff', records);
+  const fail = (e, name) => ({ id: REAL_ID, strategy: REAL_ID, name, started: null, days: [], trades: [], skips: [], months: [], holdings: {}, cash: 0, warnings: ['계산하지 못했습니다: ' + e.message] });
+  try { real = actualAccount({ records, snapshot: mergeStart(bundle.snapshot, kw0), deposits: { ...(bundle.deposits || {}), ...L }, trades, income, kwStart: Object.fromEntries(kw0.holdings.map((h) => [h.ticker, h.qty])), baselines: A?.baselines, baseStart: A?.started, baseStartValue: A?.startValue }); }
+  catch (e) { real = fail(e, '내 실제 계좌'); }
+  let rh, kw;
+  try { rh = actualAccount({ records, snapshot: bundle.snapshot, deposits: bundle.deposits, trades, account: 'rh' }); } catch (e) { rh = fail(e, 'Robinhood'); }
+  try { kw = actualAccount({ records, snapshot: mergeStart({ date: bundle.snapshot.date, holdings: {}, cash: 0 }, kw0), deposits: L, trades, account: 'kw', income }); } catch (e) { kw = fail(e, '키움'); }
+  return { ...result, plan, scenarios: [real, A, ...rest.slice(1)], accounts: { rh, kw, events, conflicts } };
 }

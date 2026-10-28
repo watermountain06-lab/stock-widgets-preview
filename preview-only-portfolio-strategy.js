@@ -7,6 +7,7 @@
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
 import { isTradingDay, ENGINE_VERSION, BASELINES } from './preview-only-portfolio-engine.js?v=5';
+import { ledgerActive, ledgerDeposits, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=1';
 
 export const MAX_SCENARIOS = 20;
 export const ETF_ORDER = ['SPY', 'QQQ', 'RSP'];   // ETF 섞기(E)에서 고르는 ETF의 화면 순서(엔진 BASELINES와 같은 세 개)
@@ -42,9 +43,17 @@ export const FIXED_NOTICE = '모의 운용입니다. 판정은 수익 예측이 
 // (그날 23:00 UTC = 동부 18~19시)로 맞춘다. 실제 만든 시각은 저장된 그대로이고 순서를 정하는 데만 쓴다.
 // opts.plan이면 화면에 보이지 않는 원칙 시나리오 '__plan'(B, 매도 0%, 4회)을 맨 뒤에 더한다 — 이번 달 살 후보·매도 검토를 계산한다.
 export const scenarioStartAt = (date) => (date ? date + 'T23:00:00Z' : null);
+// opts.ledger·opts.trades(2026-10-28 한국 계좌): 환전·역환전을 같은 달러 입출금으로 모든 전략에 넣고(id L:…), 시작 상태에 키움의 반영일 ≤ 시작일 상태를 합친다
 export function toEngineInput(bundle, records, opts = {}) {
-  const snap = bundle.snapshot || {};
-  const deposits = Object.entries(bundle.deposits || {}).map(([id, d]) => (d.cancels
+  let snap = bundle.snapshot || {};
+  let depMap = bundle.deposits || {};
+  if (opts.ledger) {
+    const { events } = ledgerActive(opts.ledger);
+    const kw0 = snap.date ? kwState(events, opts.trades || {}, snap.date, 'eff', records) : null;
+    if (kw0 && (kw0.holdings.length || kw0.cash)) snap = { ...snap, ...mergeStart(snap, kw0) };   // 실제 계좌 합계 줄과 같은 조건(dr)
+    if (events.length) depMap = { ...depMap, ...ledgerDeposits(events.filter((e) => !snap.date || e.day > snap.date)) };   // 시작일까지 반영된 것은 시작 상태에(dr)
+  }
+  const deposits = Object.entries(depMap).map(([id, d]) => (d.cancels
     ? { id, cancels: d.cancels, recordedAt: d.recordedAt }
     : { id, amount: d.amount, ...(d.kind === 'withdraw' ? { kind: 'withdraw' } : {}), recordedAt: d.recordedAt }));
   const scenarios = Object.entries(bundle.scenarios || {})

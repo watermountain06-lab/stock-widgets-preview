@@ -12,11 +12,11 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import { toEngineInput } from './preview-only-portfolio-strategy.js?v=20';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=53';
+import { toEngineInput } from './preview-only-portfolio-strategy.js?v=21';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=54';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=5';
-import { attachActual } from './preview-only-portfolio-actual.js?v=11';
+import { attachActual } from './preview-only-portfolio-actual.js?v=12';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
 const $ = (id) => document.getElementById(id);
@@ -260,6 +260,13 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     } catch (_) { return {}; }
     return caps;
   }
+  // 지난 날짜 원/달러(site_data/fx_history.json — 공개 자료, 2026-10-28). 못 받으면 null(그 구간 원화 미확정)
+  let fxHist;
+  async function loadFx() {
+    if (fxHist !== undefined) return fxHist;
+    try { const r = await fetch('site_data/fx_history.json', { cache: 'no-cache' }); fxHist = r.ok ? await r.json() : null; } catch (_) { fxHist = null; }
+    return fxHist;
+  }
   const iso = (v) => (v && typeof v.toDate === 'function' ? v.toDate().toISOString() : v ?? null);
   const plain = (data) => {
     const map = (m, f) => Object.fromEntries(Object.entries(m || {}).map(([k, v]) => [k, f(v)]));
@@ -278,11 +285,11 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
   const tref = (user) => doc(db, 'users', user.uid, 'portfolio', 'trades');
 
   async function loadAll(user, g, main) {
-    ['pf-home', 'pf-strategy', 'pf-manage'].forEach((id) => { $(id).textContent = '불러오는 중…'; });
+    ['pf-home', 'pf-accounts', 'pf-strategy', 'pf-manage'].forEach((id) => { $(id).textContent = '불러오는 중…'; });
     let records = [], recordsError = false;
     try { records = await loadLedger(); } catch (_) { recordsError = true; }
     const capsP = loadCaps();
-    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false, picks = {};
+    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false, picks = {}, ledger = {};   // ledger: 한국 계좌 장부(2026-10-28)
     const allDeposits = {}, pastBundles = [];   // pastBundles: 끝낸 묶음(시작 뒤 수익률을 10/01부터 잇는 데 씀, 10-25)
     try {
       for (; n < 100; n++) {
@@ -303,9 +310,10 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
         const e = td.entries || {};
         picks = td.picks || {};
         trades = Object.fromEntries(Object.entries(e).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }]));
+        ledger = Object.fromEntries(Object.entries(td.ledger || {}).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }]));
       }
     } catch (e) {
-      if (g === gen) ['pf-home', 'pf-strategy', 'pf-manage'].forEach((id) => { $(id).textContent = '불러오지 못했습니다(' + (e.code || e.message) + '). 규칙을 새로 게시했는지 확인하세요(SETUP.md 7절).'; });
+      if (g === gen) ['pf-home', 'pf-accounts', 'pf-strategy', 'pf-manage'].forEach((id) => { $(id).textContent = '불러오지 못했습니다(' + (e.code || e.message) + '). 규칙을 새로 게시했는지 확인하세요(SETUP.md 7절).'; });
       return;
     }
     if (g !== gen) return;
@@ -317,7 +325,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     if (bundle && !bundle.closed && records.length) {
       // 원칙 시나리오(숨김)를 같이 돌리고, 실제 매매 기록으로 "내 실제 계좌" 줄을 A 뒤에 넣는다(사용자 결정 10-21)
       if (Object.values(bundle.scenarios || {}).some((s) => s.params?.buyMode === 'cap')) await loadCaps();   // 시총 비중 전략이 있으면 주식 수를 먼저 받는다
-      try { result = attachActual(replay(toEngineInput(bundle, records, { plan: true, shares: sharesMap })), { records, bundle, trades }); } catch (e) { calcError = e.message; }
+      try { result = attachActual(replay(toEngineInput(bundle, records, { plan: true, shares: sharesMap, ledger, trades })), { records, bundle, trades, ledger }); } catch (e) { calcError = e.message; }
     }
     const reload = async () => { if (g === gen && auth.currentUser === user) await loadAll(user, g, main); };
     const act = (f) => async (...a) => {
@@ -329,6 +337,14 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       const k = newId('t');
       await updateDoc(tref(user), { ['entries.' + k]: { ...entry, recordedAt: serverTimestamp() } });
     };
+    // 한국 계좌 장부(2026-10-28): 사건 하나 = ledger.<id>. 정정은 취소 기록과 새 기록(root·replaces)을 한 번의 갱신으로 쓴다(원자적)
+    const ensureTrades = async () => { if (!tradesExist) { await setDoc(tref(user), { entries: {} }, { merge: true }); tradesExist = true; } };
+    const ledgerAdd = async (ev) => { await ensureTrades(); await updateDoc(tref(user), { ['ledger.' + newId('l')]: { ...ev, recordedAt: serverTimestamp() } }); };
+    const ledgerCancel = async (id) => updateDoc(tref(user), { ['ledger.' + newId('x')]: { cancels: id, recordedAt: serverTimestamp() } });
+    const ledgerCorrect = async (id, root, ev) => updateDoc(tref(user), {
+      ['ledger.' + newId('x')]: { cancels: id, recordedAt: serverTimestamp() },
+      ['ledger.' + newId('l')]: { ...ev, root, replaces: id, recordedAt: serverTimestamp() },
+    });
     // 지운 입금을 가리키는 예전 취소 기록도 같이 지운다
     const cancelsOf = (id) => Object.entries((bundle && bundle.deposits) || {}).filter(([, d]) => d.cancels === id).map(([k]) => k);
     const handlers = {
@@ -346,7 +362,13 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
         ['scenarios.' + id + '.params']: sc.params, ['scenarios.' + id + '.engineVersion']: ENGINE_VERSION })),
       close: act(() => updateDoc(ref, { closed: { reason: 'correction', at: serverTimestamp() } })),
       trade: act((t) => addTrade(t)),
-      editTrade: act((id, t) => updateDoc(tref(user), Object.fromEntries(['date', 'ticker', 'side', 'qty', 'price'].map((f) => ['entries.' + id + '.' + f, t[f]])))),
+      // 계좌·수수료는 고치는 폼이 넘길 때만 쓴다(넘기지 않으면 그대로 — 키움 매매가 Robinhood로 바뀌지 않게, dr)
+      editTrade: act((id, t) => updateDoc(tref(user), Object.fromEntries([...['date', 'ticker', 'side', 'qty', 'price'].map((f) => ['entries.' + id + '.' + f, t[f]]),
+        ...(t.account !== undefined ? [['entries.' + id + '.account', t.account === 'kw' ? 'kw' : 'rh']] : []),
+        ...(t.fee !== undefined ? [['entries.' + id + '.fee', Number(t.fee) > 0 ? Number(t.fee) : 0]] : [])]))),
+      ledgerAdd: act((ev) => ledgerAdd(ev)),
+      ledgerCancel: act((id) => ledgerCancel(id)),
+      ledgerCorrect: act((id, root, ev) => ledgerCorrect(id, root, ev)),
       deleteTrade: act((id) => updateDoc(tref(user), Object.fromEntries([id, ...Object.entries(trades).filter(([, x]) => x.cancels === id).map(([k]) => k)].map((k) => ['entries.' + k, deleteField()])))),
       // 그달 살 종목 체크(문서가 없으면 만든다 — merge라 매매 기록은 그대로). 계산에 쓰이지 않으므로 전체를 다시 불러오지 않고
       // 저장한 값만 바꿔 화면을 다시 그린다(2026-10-23 — 체크할 때마다 "불러오는 중…"으로 깜빡이던 것)
@@ -358,10 +380,10 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
       },
       goto: (tab) => selectTab(tab),
     };
-    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, pastBundles, picks, caps: await capsP };
+    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, pastBundles, picks, caps: await capsP, ledger, fxHistory: await loadFx() };
     // 다시 불러오지 않고 다시 그리기(picks처럼 계산과 무관한 값만 바뀐 때)
     function draw() {
-      renderTabs({ home: $('pf-home'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,
+      renderTabs({ home: $('pf-home'), accounts: $('pf-accounts'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,
         { bundle, bundleNo: no, closedCount, records, recordsError, calcError, holdingsRows: (main.holdings && main.holdings.rows) || [] }, handlers);
     }
     draw();

@@ -18,7 +18,7 @@ When it writes session X (site_data/strategy_ledger/X.json):
 Each record:
   session, generatedAt (file creation time - NOT the public time), prevPublishedAt (when the previous
   record first reached the public repo, from GitHub's push activity; the engine uses this as that
-  record's public time), ruleVersion, cards {T: tier, tierStatus, close, verdictAsOf, priceStale, score?, shares?},
+  record's public time), ruleVersion, cards {T: tier, tierStatus, close, verdictAsOf, priceStale, score?, shares?}, fx? {USDKRW, src, bar},
   prices {T: close} for dropped cards and FIXED_ETFS, splits [{id, ticker, effectiveDate, ratio}] not on
   any earlier record with effectiveDate <= session, missing [T].
 
@@ -30,6 +30,7 @@ Usage: python3 pipeline/site_ui/build_strategy_ledger.py [--fixtures DIR] [--now
 """
 import argparse
 import json
+from zoneinfo import ZoneInfo
 import math
 import re
 import subprocess
@@ -42,6 +43,7 @@ sys.path.insert(0, str(REPO / "pipeline"))
 import fetch_prices  # noqa: E402  (same Yahoo chart request, retries and completed-bar rule as the price job)
 
 LEDGER = REPO / "site_data" / "strategy_ledger"
+LONDON = ZoneInfo("Europe/London")
 FIXED_ETFS = ["SPY", "RSP", "QQQ"]   # benchmarks; never extended from anyone's holdings
 USABLE_TIER = {"valid", "normalized"}
 OWNER_REPO = "watermountain06-lab/stock-widgets-preview"
@@ -72,6 +74,26 @@ def splits_from_chart(chart, ticker, session, seen):
 
 class MetaClose(Exception):
     """The session's close came from Yahoo's meta, not a served bar (fetch_prices.fill_from_meta)."""
+
+
+def fx_for(session, chart):
+    """USD/KRW for US session `session`: the close of the last Yahoo KRW=X daily bar whose London date is
+    before `session`. KRW=X bars are stamped at London midnight, so the bar for the session's own date is
+    still open when the ledger is built after the US close; using the previous completed bar makes the
+    live record and a later backfill (build_fx_history.py) pick the same bar."""
+    r = (chart.get("chart") or {}).get("result") or []
+    if not r:
+        return None
+    r = r[0]
+    closes = r["indicators"]["quote"][0]["close"]
+    bars = [(datetime.fromtimestamp(ts, LONDON).date().isoformat(), c) for ts, c in zip(r.get("timestamp") or [], closes) if c]
+    done = [(d, c) for d, c in bars if d < session]
+    if not done:
+        return None
+    d, c = max(done)
+    if (datetime.fromisoformat(session) - datetime.fromisoformat(d)).days > 6:
+        return None   # a bar more than a week old is not "the previous bar" - leave the date empty (shown as undetermined)
+    return {"USDKRW": round(c, 2), "src": "yahoo-1d-prev", "bar": d}
 
 
 def close_on(chart, session, now_et):
@@ -177,6 +199,13 @@ def build(now_et, fixtures=None, lookup_publish=True):
             else:
                 prices[t] = c
 
+    # 원/달러(2026-10-28 한국 계좌): fx_for 규칙(평가일 전날까지 완성된 KRW=X 일봉). 못 받으면 칸을 두지 않는다(그날은 fx_history·직전 값)
+    fx = None
+    try:
+        fx = fx_for(session, fetch_prices.fetch_chart("KRW=X", fixtures))
+    except Exception as e:  # noqa: BLE001 - FX is optional
+        print(f"  KRW=X: chart failed ({e})", file=sys.stderr)
+
     prev = sorted(LEDGER.glob("[0-9]*.json"))[-1] if prior else None
     rec = {
         "session": session,
@@ -191,6 +220,8 @@ def build(now_et, fixtures=None, lookup_publish=True):
         "splits": sorted(splits, key=lambda s: s["id"]),
         "missing": sorted(set(missing)),
     }
+    if fx:
+        rec["fx"] = fx
     LEDGER.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(rec, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n", encoding="utf-8")
     index = sorted(p.stem for p in LEDGER.glob("[0-9]*.json"))

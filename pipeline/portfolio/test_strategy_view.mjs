@@ -552,15 +552,16 @@ test('잔금: 시작 달은 회차가 없어 다음 달로 안 넘긴다, 출금
   assert.equal(carryIn('2027-02', '2026-10', g), 31);               // 51 − 20
 });
 
-test('미리 넣은 돈(forMonth): 다음 달 몫이면 그 달 한도, 앞당기기·출금은 반영일 달 그대로', () => {
+test('미리 넣은 돈(forMonth): 다음 달 몫이면 그 달 한도, 앞당기기는 반영일 달, 출금(역환전)도 저장된 몫 달(2026-10-28 dr)', () => {
   const all = {
     'b1:d1': { amount: 500, forMonth: '2026-11', recordedAt: '2026-10-26T15:00:00Z' },   // 10-26 반영, 11월 몫
     'b1:d2': { amount: 50, forMonth: '2026-09', recordedAt: '2026-10-26T15:05:00Z' },    // 앞당기기 → 10월
-    'b1:w1': { amount: 30, kind: 'withdraw', forMonth: '2026-11', recordedAt: '2026-10-26T15:10:00Z' },   // 출금은 무시 → 10월
+    'b1:w1': { amount: 30, kind: 'withdraw', account: 'kw', forMonth: '2026-11', recordedAt: '2026-10-26T15:10:00Z' },   // 역환전 몫 11월 → 11월에서 뺀다
+    'b1:w2': { amount: 7, kind: 'withdraw', forMonth: '2026-11', recordedAt: '2026-10-26T15:20:00Z' },   // Robinhood 출금은 몫 달을 쓰지 않음 → 10월
   };
-  assert.deepEqual(monthDeposits(all, '2026-11').now.map((p) => p.amount), [500]);
-  assert.deepEqual(monthDeposits(all, '2026-10').now.map((p) => p.amount).sort((a, b) => a - b), [-30, 50]);
-  assert.deepEqual(monthDeposits(all, '2026-10').later.map((p) => p.amount), [500]);
+  assert.deepEqual(monthDeposits(all, '2026-11').now.map((p) => p.amount).sort((a, b) => a - b), [-30, 500]);
+  assert.deepEqual(monthDeposits(all, '2026-10').now.map((p) => p.amount).sort((a, b) => a - b), [-7, 50]);
+  assert.deepEqual(monthDeposits(all, '2026-10').later.map((p) => p.amount).sort((a, b) => a - b), [-30, 500]);
 });
 
 test('입금 즉시 반영: 기준일까지 기록한 입금은 올린 현금에 든 것으로 보고, 반영 전 취소는 현금에서도 빠진다', () => {

@@ -4,11 +4,13 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=20';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=10';
-import { renderManage } from './preview-only-portfolio-records.js?v=9';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=21';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=11';
+import { renderManage } from './preview-only-portfolio-records.js?v=10';
 import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=5';
-import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=11';
+import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=12';
+import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=1';
+import { renderAccounts } from './preview-only-portfolio-acctview.js?v=1';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -197,20 +199,22 @@ export function monthBuys(trades, month, today) {
   const out = new Map();
   for (const [id, x] of real) {
     if (x.cancels || cancelled.has(id) || x.side !== 'buy' || x.date.slice(0, 7) !== month || x.date > today) continue;
-    const o = out.get(x.ticker) || { qty: 0, amount: 0 }; o.qty += x.qty; o.amount = Math.round(o.amount * 100 + Math.round(x.qty * x.price * 100)) / 100; out.set(x.ticker, o);   // 거래마다 센트(매도와 같은 단위)
+    const o = out.get(x.ticker) || { qty: 0, amount: 0 }; o.qty += x.qty; o.amount = Math.round(o.amount * 100 + Math.round(x.qty * x.price * 100) + Math.round((Number(x.fee) || 0) * 100)) / 100; out.set(x.ticker, o);   // 거래마다 센트(매도와 같은 단위), 수수료 포함(산 돈 = 대금 + fee, 2026-10-28)
   }
   return out;
 }
 
 // 그달 실제 매도 대금(취소 빼고, 그달 1일~오늘). 원칙 4: 판 돈은 다음 달 점검일에 그달 돈에 더한다.
-export function monthSells(trades, month, today) {
+// income: [{date, amount}] 배당·이자 — 매도 대금처럼 다음 달 한도로(한국 계좌 설계 3절)
+export function monthSells(trades, month, today, income) {
   const real = Object.entries(trades || {});
   const cancelled = new Set(real.filter(([, x]) => x.cancels).map(([, x]) => x.cancels));
   let sum = 0;
   for (const [id, x] of real) {
     if (x.cancels || cancelled.has(id) || x.side !== 'sell' || x.date.slice(0, 7) !== month || x.date > today) continue;
-    sum += Math.round(x.qty * x.price * 100);   // 거래마다 센트로 반올림해 더한다(엔진·실제 계좌 대금과 같은 단위)
+    sum += Math.round(x.qty * x.price * 100) - Math.round((Number(x.fee) || 0) * 100);   // 거래마다 센트, 수수료를 뺀 실제 받은 돈
   }
+  for (const p of income || []) if (p.date.slice(0, 7) === month && p.date <= today) sum += Math.round(p.amount * 100);
   return sum / 100;
 }
 // 원칙 6 보류 이유(엔진 blocked와 같은 판단 — 카드 없음·판정 없음·가격 묵음·판정 날짜 5거래일 넘게 묵음). rec = 일별 기록. 통과하면 null.
@@ -386,19 +390,37 @@ export function renderHome(root, model, handlers) {
   const tierOf = (t) => (lastFull && lastFull.cards?.[t] ? lastFull.cards[t].tier : null);
   const h = model.main?.holdings || {};
   const now = model.now ?? Date.now(), today = etDate(now);
-  const cur = currentHoldings(h.rows, h.asOf, model.trades, today);
+  // 한국 계좌(2026-10-28): 올린 보유표와 그 뒤 매매는 Robinhood만, 키움은 장부·키움 매매로(카드 표시라 기록일 기준)
+  const { events: lev } = ledgerActive(model.ledger);
+  const inc = incomeList(lev);
+  const cur = currentHoldings(h.rows, h.asOf, tradesOf(model.trades, RH), today);
   // 전략 비교에 기록한 입금(실제로 계좌에 넣은 돈)도 올린 보유 기준일 뒤·오늘까지 반영일이면 현금에 더한다(dr r1 — 실제 계좌 줄과 같은 돈).
   // 끝낸 묶음의 입금도 실제 돈이므로 모든 묶음을 본다(dr r2, model.allDeposits — 없으면 지금 묶음)
   const depIn = cur.hasCash ? depositsSince(model.allDeposits || Object.fromEntries(Object.entries(model.bundle?.deposits || {})
     .map(([k, v]) => ['b0:' + k, v.cancels ? { ...v, cancels: 'b0:' + v.cancels } : v])), cur.base || '', today) : [];
   if (depIn.length) cur.cash = Math.round((cur.cash + depIn.reduce((a, p) => a + p.amount, 0)) * 100) / 100;
+  const kw = kwState(lev, model.trades, today, 'rec', recs);
+  const rhHold = cur.holdings;
+  cur.cashBy = { rh: cur.cash, kw: kw.cash };
+  cur.kwUsed = lev.length > 0 || kw.holdings.length > 0;
+  if (cur.kwUsed) {
+    cur.cash = Math.round((cur.cash + kw.cash) * 100) / 100;
+    const m = new Map(rhHold.map((x) => [x.ticker, { ...x }]));
+    for (const x of kw.holdings) {
+      const o = m.get(x.ticker);
+      if (!o) m.set(x.ticker, { ...x });
+      else { const q = o.qty + x.qty; o.avgPrice = o.avgPrice != null && x.avgPrice != null ? (o.qty * o.avgPrice + x.qty * x.avgPrice) / q : null; o.qty = q; }   // 합산 단가는 참고(원칙 4는 계좌별)
+    }
+    cur.holdings = [...m.values()].sort((a, b) => (a.ticker < b.ticker ? -1 : 1));
+  }
   let mv = monthView(model.result, last ? last.session : '', today);
   // 첫 달 시연: 전략 비교가 출발했고 이번 달 점검 결정이 아직 없으며 일별 기록이 이번 달에 시작했으면(사용자 결정 10-22)
   if (mv && !mv.plan && model.bundle && !model.bundle.closed) mv = demoMonth(recs.find((r) => r.pipelineFull) || null, today.slice(0, 7), last ? last.session : '') || mv;
   // 20% 하락 매도 검토(원칙 4). 원칙 6에 걸리면 뺀다 — 카드 없는 종목은 지수 ETF만 본다(사용자 결정 10-22)
   const recStale = !!lastFull && recordGap(lastFull, today) > RECORD_STALE;   // 기록 자체가 묵었으면 사지도 팔지도 않는다(원칙 6)
-  const losses = recStale ? [] : lossAlerts(cur.holdings, close).filter((l) => lossReviewable(l.ticker, lastFull, today));
-  const lossOf = new Map(losses.map((l) => [l.ticker, l]));
+  // 원칙 4 매도 검토는 계좌별(사용자 결정 2026-10-28 — 매도는 계좌 단위)
+  const losses = recStale ? [] : [...lossAlerts(rhHold, close), ...lossAlerts(kw.holdings, close).map((l) => ({ ...l, account: KW }))].filter((l) => lossReviewable(l.ticker, lastFull, today));
+  const lossOf = new Map(losses.map((l) => [l.ticker, l]));   // 합산 보유표 행 표시용(어느 계좌인지는 알림 줄에)
 
   // 2026-10-21 최종 시안(Claude 안 + ChatGPT 안): 자산 요약 띠 → 왼쪽(다음 할 일·보유 자산) | 오른쪽(이번 달 운용·전략과 나란히).
   // 경고 문구는 페이지 맨 아래 한 번(html), 매매 기록 양식은 탭 줄의 "＋ 매매 기록"이 여는 창(어느 탭에서나).
@@ -425,13 +447,13 @@ export function renderHome(root, model, handlers) {
   const band = el('section', 'pf-panel pf-band');
   const cell = (k, v, sub, cls) => { const d = el('div', 'pf-bandcell'); d.appendChild(el('div', 'pf-k', k)); d.appendChild(el('div', 'pf-v' + (cls ? ' ' + cls : ''), v)); if (sub) d.appendChild(el('div', 'pf-s', sub)); band.appendChild(d); };
   cell('내 자산', has ? usd0(total) : '—', !has ? '기록·관리 탭에서 보유를 올리세요'
-    : (cur.hasCash ? `주식 ${usd0(total - cur.cash)} · 현금 ${usd0(cur.cash)}` : '현금 모름(올린 보유에 현금 줄 없음)') + (missing.length ? ` · 가격 없음 ${missing.join(', ')}` : '')
+    : (cur.hasCash ? `주식 ${usd0(total - cur.cash)} · 현금 ${usd0(cur.cash)}` + (cur.kwUsed ? ' · 키움 포함' : '') : '현금 모름(올린 보유에 현금 줄 없음)') + (missing.length ? ` · 가격 없음 ${missing.join(', ')}` : '')
       + (priceDays.size ? ` · ${[...priceDays].sort().map(md).join('·')} 종가` : ''));
   // 시작 전 실제 계좌 흐름(preStart)이 맞으면 그날부터 이어 붙인다(A안) — 전략 비교는 그대로 시작 스냅샷부터
   // 10/01부터의 공통 과거(끝낸 비교를 거침, 10-25)를 지금 비교의 실제 계좌 수익률 앞에 곱한다
   const hist = rs?.started ? historyPrefix(model.main?.preStart, model.pastBundles, model.bundle?.snapshot, rs.started, real?.startValue, { records: model.records, trades: model.trades }) : null;
   const pre = !model.main?.preStart ? null : !rs?.started || rs.twr == null ? { why: '실제 계좌가 아직 출발 전' } : hist?.why ? hist
-    : hist ? { from: hist.from, twr: withPrefix(rs.twr, null, hist).twr } : null;
+    : hist ? (() => { const w = withPrefix(rs.twr, rs.vs?.SPY ?? null, hist); return { from: hist.from, twr: w.twr, vsSPY: w.vsSPY }; })() : null;   // SPY 대비도 10/01부터(10-25 이음에서 빠졌던 것)
   const ok = pre && !pre.why;
   cell('시작 뒤 수익률', ok ? pct(pre.twr) : rs?.twr != null ? pct(rs.twr) : '—',
     ok ? `${md(pre.from)}부터 · 내 실제 계좌` + (hist.n ? `(끝낸 비교 ${hist.n}개를 거쳐 이음)` : `(${md(rs.started)}까지는 Robinhood 기록)`) : rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` + (pre?.why ? ` · ${md(model.main.preStart.from)} 기록 못 이음: ${pre.why}` : '') : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
@@ -465,7 +487,7 @@ export function renderHome(root, model, handlers) {
   for (const l of losses) {
     const w = el('div', 'pf-lossline');
     w.appendChild(el('strong', null, '매도 검토(20% 하락)'));
-    w.appendChild(el('span', null, ` ${l.ticker} 평균 단가 대비 ${dropText(l.drop)} · 매도 검토를 시작합니다(원칙 4). 팔지·얼마나는 판정과 함께 직접 판단하세요.`));
+    w.appendChild(el('span', null, ` ${l.ticker}${l.account === KW ? '(키움)' : cur.kwUsed ? '(Robinhood)' : ''} 평균 단가 대비 ${dropText(l.drop)} · 매도 검토를 시작합니다(원칙 4). 팔지·얼마나는 판정과 함께 직접 판단하세요.`));
     next.appendChild(w);
   }
   // 매도 검토(원칙 기준, 알림만 — 예전 '이번 달 운용' 칸에서 옮김)와 판정 방식이 바뀐 달 안내
@@ -481,8 +503,15 @@ export function renderHome(root, model, handlers) {
   }
   // 넣은 돈(원칙 3): 모든 묶음의 입금 가운데 반영일이 이번 달(미국 동부)인 것 — 엔진·기록·관리 탭과 같은 반영일·취소 기준(dr r1)
   const month = today.slice(0, 7);
-  const depMap = model.allDeposits || Object.fromEntries(Object.entries(model.bundle?.deposits || {})
+  const depMap0 = model.allDeposits || Object.fromEntries(Object.entries(model.bundle?.deposits || {})
     .map(([k, v]) => ['b0:' + k, v.cancels ? { ...v, cancels: 'b0:' + v.cancels } : v]));
+  // 환전·역환전도 같은 입금 지도로(한도 몫은 저장된 forMonth — 한국 계좌 설계 2절)
+  const depMap = { ...depMap0, ...ledgerDeposits(lev) };
+  // 잔금 시작 달 = 첫 묶음 달과 가장 이른 몫 달 중 이른 쪽(설계 4절 — 새 묶음을 시작해도 잔금이 끊기지 않게)
+  const firstMonth = [...(model.pastBundles || []).map((b) => b.snapshot?.date), model.bundle?.snapshot?.date].filter(Boolean).map((d) => d.slice(0, 7)).sort()[0] || null;
+  // 통합 입금 지도 전체(Robinhood 입금 포함)에서 가장 이른 몫 달(dr)
+  const earliestFor = Object.values(depMap).filter((d) => d && !d.cancels && d.recordedAt).map((d) => d.forMonth || (depositTiming(d.recordedAt).day || '').slice(0, 7)).filter(Boolean).sort()[0] || null;   // 몫 달이 없으면 반영일 달(한도 계산과 같게)
+  const startMonth0 = [firstMonth, earliestFor].filter(Boolean).sort()[0] || null;
   const deps = monthDeposits(depMap, month);
   const canDeposit = !!(model.bundle && !model.bundle.closed);   // 입금은 지금 묶음 문서에 쓴다
   const stats = el('div', 'pf-nextstats');
@@ -512,7 +541,7 @@ export function renderHome(root, model, handlers) {
     const target = firstMonth && checkDay ? checkDay.slice(0, 7) : month;
     const preview = !live && !!lastFull && !recStale;
     buySlot.appendChild(buyBox({ model: { ...model, lastCards: lastFull?.cards }, handlers, mv: live ? mv : null, dlg, close, tierOf, planTier, hasRec: !!rec, nowBuyable, nowHold,
-      waiting, preview, checkDay, month: target, today, cash: cur.hasCash ? cur.cash : null, depMap, startMonth: (model.bundle?.snapshot?.date || '').slice(0, 7) || null, deps: target === month ? deps : monthDeposits(depMap, target) }));
+      waiting, preview, checkDay, month: target, today, cash: cur.hasCash ? cur.cash : null, cashBy: cur.kwUsed ? cur.cashBy : null, income: inc, depMap, startMonth: startMonth0, deps: target === month ? deps : monthDeposits(depMap, target) }));
   } else buySlot.remove();
   left.appendChild(next);
 
@@ -610,12 +639,12 @@ function buyBox(args) {
   const month = args.month || today.slice(0, 7);   // 미리 보기면 다음 점검 달(그달 쓸 돈·체크)
   const ahead = month !== today.slice(0, 7);
   // 쓸 돈 = 반영일이 그달인 입금 + 그 전달에 판 돈(원칙 3·4). 그달에 판 돈은 다음 달 몫
-  const soldPrev = monthSells(model.trades, prevMonth(month), today), soldNow = monthSells(model.trades, month, today);
+  const soldPrev = monthSells(model.trades, prevMonth(month), today, args.income), soldNow = monthSells(model.trades, month, today, args.income);
   const deposited = Math.round(deps.now.reduce((a, d) => a + d.amount, 0) * 100) / 100;   // 그달 입금 − 그달 출금(음수일 수 있음)
   // 지난달 잔금(원칙 3): 4회가 끝나고 쓰지 못한 돈은 다음 달 쓸 돈에 더한다
   const netOf = (m) => monthDeposits(args.depMap || {}, m).now.reduce((a, d) => a + d.amount, 0);
   const spentOf = (m) => [...monthBuys(model.trades, m, today).values()].reduce((a, b) => a + b.amount, 0);
-  const carry = carryIn(month, args.startMonth, { net: netOf, sold: (m) => monthSells(model.trades, m, today), spent: spentOf });
+  const carry = carryIn(month, args.startMonth, { net: netOf, sold: (m) => monthSells(model.trades, m, today, args.income), spent: spentOf });
   const budget = Math.max(0, Math.round((deposited + soldPrev + carry) * 100) / 100);   // 쓸 돈 = 입금 − 출금 + 지난달 판 돈 + 잔금, 0 아래로 안 감
   const bought = monthBuys(model.trades, month, today);
   const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
@@ -681,6 +710,7 @@ function buyBox(args) {
         : ended ? `${usd(R)} 다음 달로 · 나머지는 안 쓰는 돈(원칙 5)`
         : `쓸 수 있음 ${usd(Math.min(R, Math.max(0, C - laterIn)))}` + (laterIn > 0 ? ` · 다음 달 몫 ${usd0(laterIn)} 제외` : '') + ' · 나머지는 안 쓰는 돈(원칙 5)', 'pf-receiptleft');
     if (over > 0) c3.classList.add('pf-over');
+    if (args.cashBy) c3.appendChild(el('span', 'pf-s', `미국 ${usd(args.cashBy.rh)} · 한국 ${usd(args.cashBy.kw)}`));   // 계좌별 현금(한국 계좌, 2026-10-28) — 한도는 하나지만 산 계좌에 돈이 있어야 한다
     // 잔금 칸: 지난달에서 넘어온 돈, 회차가 끝났으면 이번 달 남은 돈이 다음 달로 간다
     cell(ended ? '다음 달로 넘길 잔금' : ahead ? `${mLabel}로 넘어올 잔금(예상)` : '지난달 잔금', usd(ended ? R : carry),
       ended ? '다음 달 한도에 더함(원칙 3)' : carry > 0 ? '한도에 포함' + (ahead ? ' · 이번 달 매매로 바뀜' : '') : '4회 뒤 남은 돈은 다음 달로(원칙 3)');
@@ -984,13 +1014,21 @@ function tradeForm(model, handlers, recs, mv, today, done) {
     for (const t of cands) { const b = el('button', 'pf-btn pf-btn-quiet', t); b.type = 'button'; b.addEventListener('click', () => { tick.value = t; side.value = 'buy'; }); quick.appendChild(b); }
     f.appendChild(quick);
   }
+  // 계좌(2026-10-28 한국 계좌): Robinhood | 키움. 키움은 수수료(달러)를 함께 적는다
+  const acct = field('계좌', el('select'));
+  for (const [v, t] of [['rh', 'Robinhood'], ['kw', '키움']]) { const o = el('option', null, t); o.value = v; acct.appendChild(o); }
   const qty = field('수량(주, 소수 가능)', el('input')); qty.type = 'number'; qty.min = '0'; qty.step = 'any';
   const price = field('체결가(USD)', el('input')); price.type = 'number'; price.min = '0'; price.step = '0.0001';
+  const fee = field('수수료(USD, 키움만)', el('input')); fee.type = 'number'; fee.min = '0'; fee.step = '0.01';
+  const feeLab = fee.closest('label'); const syncFee = () => { feeLab.hidden = acct.value !== 'kw'; if (acct.value !== 'kw') fee.value = ''; };
+  acct.addEventListener('change', syncFee); syncFee();   // Robinhood는 수수료 0(카드 보유 계산과 맞게, dr)
   const btn = el('button', 'pf-btn', '기록'); btn.type = 'button';
   const msg = msgLine();
   f.appendChild(btn); f.appendChild(msg);
   twoStep(btn, msg, '이대로 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
-    const x = { date: date.value, ticker: tick.value.trim().toUpperCase(), side: side.value, qty: Number(qty.value), price: Number(price.value) };
+    const x = { date: date.value, ticker: tick.value.trim().toUpperCase(), side: side.value, qty: Number(qty.value), price: Number(price.value),
+      ...(acct.value === 'kw' ? { account: 'kw' } : {}), ...(Number(fee.value) > 0 ? { fee: Math.round(Number(fee.value) * 100) / 100 } : {}) };
+    if (fee.value && !(Number(fee.value) >= 0)) throw new Error('수수료는 0 이상 숫자로 넣으세요.');
     const bad = checkTrade(x, etDate(Date.now()));
     if (bad) throw new Error(bad);
     await handlers.trade(x);
@@ -1030,8 +1068,58 @@ const SLOTS = 7;   // 종목 색 7개(검증된 팔레트) + 현금 회색. 8번
 
 // 세 하위 탭(한눈에·전략 비교·기록·관리)을 한 번에 그린다. preview-only-portfolio.js와 화면 시험 페이지가 같이 쓴다.
 // model = renderHome과 같음, smodel = { bundle, bundleNo, closedCount, records, recordsError, calcError, holdingsRows }
+// 내 계좌 탭(2026-10-28 C안)의 숫자: 계좌별 평가액·현금·보유(기록일 기준, 한눈에 탭과 같은 계산), 수익률(달러 — 실제 계좌 계좌별 줄,
+// Robinhood·합계는 10/01부터의 공통 과거를 곱함), 키움 원화 성과·환율 수익률, 오늘 환율
+export function accountsState(model) {
+  const recs = model.records || [];
+  const now = model.now ?? Date.now(), today = etDate(now);
+  const closeNow = (t) => { for (let k = recs.length - 1; k >= 0; k--) { const c = recs[k].cards?.[t]?.close ?? recs[k].prices?.[t]; if (typeof c === 'number' && !recs[k].cards?.[t]?.priceStale) return c; } return null; };
+  const { events, conflicts } = ledgerActive(model.ledger);
+  const h = model.main?.holdings || {};
+  const rh = currentHoldings(h.rows, h.asOf, tradesOf(model.trades, RH), today);
+  const depIn = rh.hasCash ? depositsSince(model.allDeposits || Object.fromEntries(Object.entries(model.bundle?.deposits || {})
+    .map(([k, v]) => ['b0:' + k, v.cancels ? { ...v, cancels: 'b0:' + v.cancels } : v])), rh.base || '', today) : [];   // 한눈에 탭과 같은 폴백(dr)
+  if (depIn.length) rh.cash = Math.round((rh.cash + depIn.reduce((a, p) => a + p.amount, 0)) * 100) / 100;
+  const kw = kwState(events, model.trades, today, 'rec', recs);
+  const rows = (list) => list.map((x) => { const c = closeNow(x.ticker); return { ticker: x.ticker, qty: x.qty, value: c == null ? null : x.qty * c, vsAvg: c != null && x.avgPrice ? c / x.avgPrice - 1 : null }; })
+    .sort((a, b) => (b.value || 0) - (a.value || 0));
+  // 가격 없는 종목이 있으면 평가액은 '확인된 부분합'이고 missing에 남긴다(0달러로 합치지 않음을 화면에 알림, dr)
+  const val = (r, cash) => r.reduce((a, x) => a + (x.value || 0), 0) + (cash || 0);
+  const miss = (r) => r.filter((x) => x.value == null).map((x) => x.ticker);
+  const rhRows = rows(rh.holdings), kwRows = rows(kw.holdings);
+  const fxAt = fxSeries(recs, model.fxHistory);
+  const lastS = recs.length ? recs[recs.length - 1].session : null;
+  const fxNow = lastS ? fxAt(lastS) : null;
+  const acc = model.result?.accounts || null;
+  const real = model.result?.scenarios?.find((s) => s.id === 'REAL');
+  const rs = real ? summarizeKnown(real) : null;
+  const hist = rs?.started ? historyPrefix(model.main?.preStart, model.pastBundles, model.bundle?.snapshot, rs.started, real?.startValue, { records: recs, trades: model.trades }) : null;
+  const pre = (t) => (t == null ? null : hist && !hist.why ? withPrefix(t, null, hist).twr : t);
+  // Robinhood 줄은 Robinhood 줄의 출발로 따로 잇는다(키움 시작 상태가 있으면 합계 출발과 달라지므로, dr)
+  const rhLine = acc?.rh;
+  const histRh = rhLine?.started ? historyPrefix(model.main?.preStart, model.pastBundles, model.bundle?.snapshot, rhLine.started, rhLine.startValue, { records: recs, trades: tradesOf(model.trades, RH) }) : null;
+  const rhPre = (t) => (t == null ? null : histRh && !histRh.why ? withPrefix(t, null, histRh).twr : t);
+  const rhS = acc?.rh ? summarizeKnown(acc.rh) : null, kwS = acc?.kw ? summarizeKnown(acc.kw) : null;
+  const kwValue = val(kwRows, kw.cash);
+  const krw = acc?.kw ? krwPerformance(acc.kw, events, fxAt, miss(kwRows).length ? null : kwValue, fxNow) : null;
+  return {
+    today, fx: fxNow, hasCash: rh.hasCash, from: hist && !hist.why ? hist.from : rs?.started || null,
+    total: { value: val(rhRows, rh.cash) + val(kwRows, kw.cash), twr: pre(rs?.twr ?? null) },
+    rh: { value: val(rhRows, rh.cash), cash: rh.cash, rows: rhRows, missing: miss(rhRows), twr: rhPre(rhS?.twr ?? null) },
+    kw: { value: val(kwRows, kw.cash), cash: kw.cash, rows: kwRows, missing: miss(kwRows), twr: kwS?.twr ?? null, started: (acc?.kw?.days || []).find((x) => (x.value || 0) > 0 || (x.flowUsd || 0) > 0)?.date || null, krw, used: events.length > 0 || kw.holdings.length > 0 },   // started: 첫 돈이 들어온 날(시작 스냅샷 날의 0원은 출발로 보지 않음)
+    events, conflicts,
+    autoMonth: (dEff) => {   // 환전 기록의 몫 달(카드의 몫 자동 규칙과 같음): 반영일 달에 남은 회차가 있으면 그 달, 없으면 다음 달
+      const mv = monthView(model.result, lastS || '', today);
+      const m = dEff.slice(0, 7), planM = mv?.plan && !mv.demo ? mv.plan.decisionDate?.slice(0, 7) : null;
+      if (!planM || m > planM) return m;   // 아직 시작 안 한 달(점검 전)이면 그 달 몫(dr — 월말 주말 기록이 두 달 밀리지 않게)
+      return (mv.plan.rounds || []).some((r) => !r.dropped && r.date >= dEff) ? m : nextMonthOf(m) || m;
+    },
+  };
+}
+
 export function renderTabs(roots, model, smodel, handlers) {
   renderHome(roots.home, model, handlers);
+  if (roots.accounts) renderAccounts(roots.accounts, accountsState(model), handlers);
   const st = roots.strategy, { result } = model, recs = smodel.records || [];
   st.textContent = '';
   const lastRec = recs.length ? recs[recs.length - 1].session : null;
