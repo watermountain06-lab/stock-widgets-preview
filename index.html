@@ -53,6 +53,9 @@
   #data-panel .stock-table th:nth-child(3){width:20%} #data-panel .stock-table th:nth-child(4){width:18%}
   #data-panel .stock-table th:nth-child(5){width:14%} #data-panel .stock-table th:nth-child(6){width:14%}
   #data-panel .stock-table th:nth-child(7){width:17%}
+  /* 숫자 칸(주가·등락률·시가총액/평가)은 오른쪽 정렬 — 자릿수 끝이 맞아 훑기 쉽다(2026-10-28, Fable·/design 검토) */
+  #data-panel .stock-table th:nth-child(n+5),#data-panel .stock-table td:nth-child(n+5){text-align:right}
+  #data-panel .stock-table th:nth-child(n+5) button{text-align:right}
   #data-panel .stock-table th.fav-col,#data-panel .stock-table td.fav-col{text-align:center;padding-left:4px;padding-right:4px;}
 </style>
 <link rel="stylesheet" href="styles.css?v=restore-source-4">
@@ -62,8 +65,8 @@
 <script src="theme.js?v=2"></script>
 <link rel="stylesheet" href="flow.css?v=16">
 <link rel="stylesheet" href="value-gap.css?v=12">
-<link rel="stylesheet" href="preview-only.css?v=3"><!-- preview-only:range -->
-<script src="preview-only.js?v=5"></script><!-- preview-only:range -->
+<link rel="stylesheet" href="preview-only.css?v=4"><!-- preview-only:range -->
+<script src="preview-only.js?v=6"></script><!-- preview-only:range -->
 <script>window.ETF_FILES = {page: 'preview-only-etf-', data: 'preview-only-etf-data.js'};</script><!-- preview-only:etf-files -->
 <link rel="stylesheet" href="etf.css?v=7">
 <script src="etf.js?v=19" defer></script>

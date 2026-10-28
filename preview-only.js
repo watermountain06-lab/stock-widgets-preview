@@ -28,14 +28,24 @@ window.PreviewOnly = (function () {
     return out;
   }
 
+  // 자리(2026-10-28, /design 시안 A + Fable): 드롭다운은 "즐겨찾기만 보기" 옆에 둔다 → [즐겨찾기][시총 순위 ▾] ··· [검색].
+  // "분석 대상 N개 종목" 줄은 숨긴다(개수는 드롭다운이 보여 준다). ETF·ETN 주석 줄은 표 아래 각주로 옮긴다.
+  // index.html의 그 줄들은 라이브와 같은 모양 그대로 두고, 이 파일이 화면에서만 옮긴다.
   function init(rerender) {
     var count = document.getElementById('ticker-count');
     if (!count) return;
     var line = count.parentNode;
-    var label = document.createElement('span');
-    while (line.firstChild) label.appendChild(line.firstChild);
-    line.appendChild(label);
-    line.classList.add('range-line');
+    line.classList.add('range-count-line');
+    var fav = document.querySelector('.fav-toggle');
+    var group = document.createElement('div');
+    group.className = 'range-group';
+    if (fav) { fav.parentNode.insertBefore(group, fav); group.appendChild(fav); }
+    else line.parentNode.insertBefore(group, line);
+    var note = line.previousElementSibling, panelBox = document.getElementById('data-panel');
+    if (note && /ETF/.test(note.textContent) && panelBox) {
+      note.classList.add('range-footnote');
+      panelBox.parentNode.insertBefore(note, panelBox.nextSibling);
+    }
 
     var n = counts();
     var wrap = document.createElement('div');
@@ -53,7 +63,7 @@ window.PreviewOnly = (function () {
             '<span>' + r[1] + '</span><span class="range-dd-count">' + (empty ? '카드 없음' : n[r[0]]) + '</span></button>';
         }).join('') +
       '</div>';
-    line.appendChild(wrap);
+    group.appendChild(wrap);
 
     var btn = wrap.querySelector('.range-dd-btn'), list = wrap.querySelector('.range-dd-list');
     var opts = [].slice.call(list.querySelectorAll('.range-dd-opt'));

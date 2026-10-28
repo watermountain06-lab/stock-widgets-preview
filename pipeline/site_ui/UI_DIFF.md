@@ -12,7 +12,7 @@
 
 | 이름 | 무엇 | 위치 |
 |---|---|---|
-| `range` | 시총 순위 구간 드롭다운 [전체][1~100위]…[401~500위](100위 단위, 2026-10-28 500위까지·같은 날 시안 B 드롭다운) | `preview-only.js`, `preview-only.css`, index.html의 `preview-only:range` 꼬리표 줄 4개(파일 싣기 2, 필터 1, 초기화 1) |
+| `range` | 시총 순위 구간 드롭다운 [전체][1~100위]…[401~500위](100위 단위, 2026-10-28 500위까지·같은 날 시안 B 드롭다운). 자리: 즐겨찾기 옆, "분석 대상 N개 종목" 줄은 숨기고 ETF·ETN 주석은 표 아래로 옮긴다(화면에서만, index.html 줄은 라이브 모양 그대로) | `preview-only.js`, `preview-only.css`, index.html의 `preview-only:range` 꼬리표 줄 4개(파일 싣기 2, 필터 1, 초기화 1) |
 | `portfolio` | Google 로그인(Firebase, 나만 쓰기)으로 여는 Portfolio 탭(원칙·실제 자산·관심 종목·모의 운용 기록, 2026-10-19). 머리 메뉴에 `Portfolio` 링크를 덧붙인다 | `preview-only-portfolio.html`·`.js`·`.css`·`-config.js`, 설정 순서 `pipeline/portfolio/SETUP.md`, 전략 비교 설계 `pipeline/portfolio/STRATEGY_DESIGN.md`와 일별 고정 기록 `site_data/strategy_ledger/`(`pipeline/site_ui/build_strategy_ledger.py`, 공개 시세·판정만, 2026-10-19), 재생 엔진 `preview-only-portfolio-engine.js`, 전략 비교·기록 관리 구역 `preview-only-portfolio-strategy.js`, 하위 탭과 "한눈에"(자산 요약 띠·다음 할 일 카드·보유 자산·전략과 나란히, 2026-10-22 기준) `preview-only-portfolio-home.js`(시험 `pipeline/portfolio/test_strategy_engine.mjs`·`test_strategy_view.mjs`, 2026-10-20), 전략 비교의 "내 실제 계좌" 줄 `preview-only-portfolio-actual.js`(2026-10-21), 전략 비교 탭의 수익률 순위·편집기·내 전략 카드 `preview-only-portfolio-rank.js`와 기록·관리 탭의 모든 기록 타임라인 `preview-only-portfolio-records.js`(디자인 시안 선택, 2026-10-21), 손실 한도 알림(원칙 9, 한눈에 보유 목록, 2026-10-21), 다음 할 일 카드의 매수 금액(넣은 돈·나누는 방법·후보 체크, 체크는 Firestore trades 문서 picks, 시총은 `site_data/stocks.json`, 2026-10-22), CSV·Excel 올리기 `preview-only-portfolio-import.js`(Robinhood 거래 내역·보유 표, Excel은 SheetJS를 cdnjs에서 무결성 해시로, 시험 `test_portfolio_import.mjs`, 2026-10-21), 규칙 틀 `firestore.rules`(이메일은 자리표시자 — 실제 값은 Firebase 콘솔에만), 가짜 데이터 `sample.json`, `preview-only.js` 아래쪽 메뉴 함수, today.html·market-news.html의 `preview-only:portfolio` 꼬리표 줄 1개씩(index.html은 range 줄이 같은 파일을 싣는다) |
 
 portfolio의 내 데이터는 preview 저장소에 두지 않는다(저장소에는 가짜 `sample.json`만). Firestore에만 있고, 보호는 Firestore 규칙이 맡는다.
@@ -38,6 +38,7 @@ portfolio의 내 데이터는 preview 저장소에 두지 않는다(저장소에
 | 묶음 | 함께 옮길 것 (index.html) |
 |---|---|
 | 탭 4개 | `#tab-bar` 버튼 HTML(라이브의 `<h2>매력도별 종목</h2>` 자리), 탭 클릭 처리, 기본 `view = 'rank'`, 순위별 보기를 표로(`function card()` 삭제, `panel.classList.add('table-view')`, 카드 분기 삭제, caption의 `rank:` 항목) — 라이브 render()의 sector·change 분기는 이미 있다 |
+| 숫자 칸 오른쪽 정렬 (2026-10-28) | index.html `<style>`의 `#data-panel .stock-table th/td:nth-child(n+5){text-align:right}` 두 줄(주가·등락률·시가총액/평가) |
 | 즐겨찾기 | `.fav-toggle`·`.fav-btn` CSS, `#data-panel` 7열 너비 CSS(즐겨찾기 열과 반드시 함께), "즐겨찾기만 보기" 체크박스, `FAV_KEY`·`favorites`·`saveFavorites`·`STAR`·`favCell`, 필터의 `(!favOnly || favorites.has(d.ticker))`, ★ 머리칸과 칸, 빈 목록 문구, ★ 클릭 처리 |
 
 ## 3. 라이브로 옮길 때 되돌리거나 빼는 것
