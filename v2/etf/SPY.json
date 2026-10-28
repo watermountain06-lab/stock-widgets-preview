@@ -2,35 +2,30 @@
  "etf": "SPY",
  "name": "SPDR S&P 500 ETF Trust",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-10-26 ≠ 허용 ['2026-10-27'] (P=2026-10-27, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
    "detail": "승인 목록에 없는 판정 코드 해시 230장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP"
   }
  ],
- "detail": "보유 파일 기준일 2026-10-26 ≠ 허용 ['2026-10-27'] (P=2026-10-27, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 230장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8614708531928486,
+ "coverage": 0.8626888752095152,
  "range": null,
  "edgeNear": false,
  "bar": {
-  "저평가": 0.0015521859048285476,
-  "적정~저평가": 0.10899294962709039,
-  "적정": 0.01837252211519894,
-  "적정~고평가": 0.3531577661361025,
-  "고평가": 0.37939542940962806,
-  "카드 없음": 0.11654417487939177,
-  "판정 보류": 0.02160290263377817,
-  "그 밖 제외": 0.0003820692939814404,
+  "저평가": 0.001481759788203825,
+  "적정~저평가": 0.10927460032241837,
+  "적정": 0.018705080653678444,
+  "적정~고평가": 0.3521635018945681,
+  "고평가": 0.38106393255064663,
+  "카드 없음": 0.11605271562104374,
+  "판정 보류": 0.021258409169441012,
+  "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
  "top10": [
@@ -40,7 +35,7 @@
    "lines": [
     "NVDA"
    ],
-   "weight": 0.0790717308403538,
+   "weight": 0.07930873574055149,
    "card": "NVDA",
    "verdict": "적정~저평가",
    "n": 2.0,
@@ -52,7 +47,7 @@
    "lines": [
     "AAPL"
    ],
-   "weight": 0.07592375487338006,
+   "weight": 0.07617353178506349,
    "card": "AAPL",
    "verdict": "고평가",
    "n": -3.0,
@@ -64,7 +59,7 @@
    "lines": [
     "MSFT"
    ],
-   "weight": 0.05982084065552751,
+   "weight": 0.05932425368660304,
    "card": "MSFT",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -77,7 +72,7 @@
     "GOOGL",
     "GOOG"
    ],
-   "weight": 0.05071010375978022,
+   "weight": 0.050931554637130026,
    "card": "GOOGL",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -89,7 +84,7 @@
    "lines": [
     "AMZN"
    ],
-   "weight": 0.036982960602187726,
+   "weight": 0.037355468498748656,
    "card": "AMZN",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -101,7 +96,7 @@
    "lines": [
     "AVGO"
    ],
-   "weight": 0.023689076838341316,
+   "weight": 0.024490048605944358,
    "card": "AVGO",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -113,7 +108,7 @@
    "lines": [
     "META"
    ],
-   "weight": 0.02103309627596778,
+   "weight": 0.02056451605235934,
    "card": "META",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -125,10 +120,22 @@
    "lines": [
     "TSLA"
    ],
-   "weight": 0.016695878716592644,
+   "weight": 0.017268145950516928,
    "card": "TSLA",
    "verdict": "고평가",
    "n": -4.0,
+   "excluded": []
+  },
+  {
+   "company": "MU",
+   "name": "MICRON TECHNOLOGY INC",
+   "lines": [
+    "MU"
+   ],
+   "weight": 0.015773215853780914,
+   "card": "MU",
+   "verdict": "적정~저평가",
+   "n": 1.0,
    "excluded": []
   },
   {
@@ -137,25 +144,11 @@
    "lines": [
     "LLY"
    ],
-   "weight": 0.01548342894406333,
+   "weight": 0.015424903226004025,
    "card": "LLY",
    "verdict": "고평가",
    "n": -3.0,
    "excluded": []
-  },
-  {
-   "company": "BRKB",
-   "name": "BERKSHIRE HATHAWAY INC CL B",
-   "lines": [
-    "BRK.B"
-   ],
-   "weight": 0.015455106757878784,
-   "card": "BRKB",
-   "verdict": "판정 보류",
-   "n": null,
-   "excluded": [
-    "판정 보류"
-   ]
   }
  ],
  "counts": {
@@ -163,11 +156,11 @@
   "nonEquity": 2,
   "companies": 500,
   "cardsMatched": 242,
-  "cardsUsed": 236,
+  "cardsUsed": 237,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
-   "날짜 불일치": 1,
+   "날짜 불일치": 0,
    "판정 보류": 5
   }
  },
@@ -1864,12 +1857,10 @@
   },
   {
    "card": "XYL",
-   "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-10-26",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-10-27",
+   "excluded": []
   },
   {
    "card": "ZBRA",
@@ -1879,7 +1870,7 @@
    "excluded": []
   }
  ],
- "S": "2026-10-26",
+ "S": "2026-10-27",
  "builtFor": "2026-10-27",
  "expense": {
   "pct": 0.0945,
@@ -1890,10 +1881,10 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-28T03:33:06Z",
- "fetchedAt": "2026-10-28T03:33:07Z",
+ "runAt": "2026-10-28T18:04:09Z",
+ "fetchedAt": "2026-10-28T18:04:09Z",
  "inputHash": {
-  "xlsx": "1005d97b776750533a645ef42d570481f30a846864682c2dfec98cdcb5d6a6b1",
+  "xlsx": "2f2f553ac5c186db3ad1b731fa34587c318c8a6189a6c9e8e7761e022edb6c4a",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -1902,16 +1893,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
    "code_sig"
   ],
-  "S": "2026-10-26"
+  "S": "2026-10-27"
  },
- "runId": "40627303927.1",
+ "runId": "40741579561.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",

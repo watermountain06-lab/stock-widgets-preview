@@ -3953,84 +3953,84 @@
  ],
  "crossCheck": {
   "status": "ok",
-  "text": "State Street SPY NAV 이력과 5762일(2003-12-01~2026-10-26) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.61%(2008-10-10), 최근 250세션 최대 0.49% · 마지막 2026-10-27 종가는 NAV 게시 전이라 대조 전(Yahoo 값)"
+  "text": "State Street SPY NAV 이력과 5763일(2003-12-01~2026-10-27) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.61%(2008-10-10), 최근 250세션 최대 0.49%"
  },
  "constituents": {
   "holdings": {
-   "S": "2026-10-26",
+   "S": "2026-10-27",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "NVDA",
      "name": "NVIDIA CORP",
-     "weight": 0.0790717308403538,
+     "weight": 0.07930873574055149,
      "card": "NVDA",
      "verdict": "적정~저평가"
     },
     {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.07592375487338006,
+     "weight": 0.07617353178506349,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.05982084065552751,
+     "weight": 0.05932425368660304,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "GOOGL",
      "name": "ALPHABET INC CL A",
-     "weight": 0.05071010375978022,
+     "weight": 0.050931554637130026,
      "card": "GOOGL",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMZN",
      "name": "AMAZON.COM INC",
-     "weight": 0.036982960602187726,
+     "weight": 0.037355468498748656,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "AVGO",
      "name": "BROADCOM INC",
-     "weight": 0.023689076838341316,
+     "weight": 0.024490048605944358,
      "card": "AVGO",
      "verdict": "적정~고평가"
     },
     {
      "company": "META",
      "name": "META PLATFORMS INC CLASS A",
-     "weight": 0.02103309627596778,
+     "weight": 0.02056451605235934,
      "card": "META",
      "verdict": "적정~고평가"
     },
     {
      "company": "TSLA",
      "name": "TESLA INC",
-     "weight": 0.016695878716592644,
+     "weight": 0.017268145950516928,
      "card": "TSLA",
      "verdict": "고평가"
     },
     {
-     "company": "LLY",
-     "name": "ELI LILLY + CO",
-     "weight": 0.01548342894406333,
-     "card": "LLY",
-     "verdict": "고평가"
+     "company": "MU",
+     "name": "MICRON TECHNOLOGY INC",
+     "weight": 0.015773215853780914,
+     "card": "MU",
+     "verdict": "적정~저평가"
     },
     {
-     "company": "BRKB",
-     "name": "BERKSHIRE HATHAWAY INC CL B",
-     "weight": 0.015455106757878784,
-     "card": "BRKB",
-     "verdict": "판정 보류"
+     "company": "LLY",
+     "name": "ELI LILLY + CO",
+     "weight": 0.015424903226004025,
+     "card": "LLY",
+     "verdict": "고평가"
     }
    ],
    "cards": [
@@ -4996,7 +4996,7 @@
     ],
     [
      "XYL",
-     "적정~고평가"
+     "적정"
     ],
     [
      "ZBRA",
@@ -5005,27 +5005,27 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-10-26",
+   "asOf": "2026-10-27",
    "rows": [
     [
      "Information Technology",
-     38.2
+     38.54
     ],
     [
      "Financials",
-     11.93
+     11.82
     ],
     [
      "Health Care",
-     9.81
-    ],
-    [
-     "Communication Services",
-     8.96
+     9.75
     ],
     [
      "Consumer Discretionary",
-     8.93
+     8.99
+    ],
+    [
+     "Communication Services",
+     8.92
     ],
     [
      "Industrials",
@@ -5033,11 +5033,11 @@
     ],
     [
      "Consumer Staples",
-     4.85
+     4.77
     ],
     [
      "Energy",
-     3.84
+     3.73
     ],
     [
      "Utilities",
@@ -5045,17 +5045,17 @@
     ],
     [
      "Real Estate",
-     1.76
+     1.73
     ],
     [
      "Materials",
-     1.68
+     1.69
     ]
    ]
   },
   "chars": {
-   "pe": 24.5,
-   "peAsOf": "2026-10-26"
+   "pe": 24.54,
+   "peAsOf": "2026-10-27"
   },
   "dgs10": {
    "date": "2026-10-26",
@@ -5064,7 +5064,7 @@
  },
  "index": "SPY",
  "name": "SPY",
- "runId": "40627303927.1",
- "runAt": "2026-10-28T03:33:13Z",
+ "runId": "40741579561.1",
+ "runAt": "2026-10-28T18:04:18Z",
  "source": "Yahoo Finance SPY 일봉 종가"
 }
