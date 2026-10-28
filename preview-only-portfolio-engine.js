@@ -10,7 +10,21 @@
 // 반올림한다. 내림으로 남는 금액은 현금으로 남는다.
 
 export const ENGINE_VERSION = 'strategy-engine-1';
-export const BUY_PRINCIPLE = ['초저평가', '저평가', '적정~저평가', '적정'];   // 원칙 1
+// 원칙 1(살 판정). 2026-10-28 사용자 결정: 11월 계획(점검일이 2026-11 이후인 달)부터 '적정'을 뺀다 — 그전 달 계획은 옛 판 그대로라
+// 전략 비교의 지난 결과는 바뀌지 않는다. 이미 가진 적정 종목은 그대로 보유(파는 규칙 SELL_TIERS는 그대로)
+export const BUY_PRINCIPLE_OLD = ['초저평가', '저평가', '적정~저평가', '적정'];
+export const BUY_PRINCIPLE = ['초저평가', '저평가', '적정~저평가'];
+export const PRINCIPLE_FROM = '2026-11';
+export const principleFor = (month) => (month < PRINCIPLE_FROM ? BUY_PRINCIPLE_OLD : BUY_PRINCIPLE);
+// 판정 무게(판정 가중·순위 1주씩): 옛 판 4:3:2:1, 11월부터 3:2:1(적정은 무게 없음 → 판정 가중에서 사지 않음)
+const W_OLD = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 }, W_NEW = { '초저평가': 3, '저평가': 2, '적정~저평가': 1 };
+export const tierWeights = (month) => (month < PRINCIPLE_FROM ? W_OLD : W_NEW);
+const sameTiers = (a, b) => a.length === b.length && a.every((t) => b.includes(t));
+// 살 판정이 원칙 1(옛 판이든 새 판이든)과 같은 전략(B·D 포함)은 '원칙을 따름'으로 보고 11월 계획부터 새 원칙을 쓴다 — 저장된 전략을
+// 고치지 않고도 원칙과 같게 만든 전략이 함께 바뀌게(사용자 결정 '원칙 1 전체'). 그전 달 계획은 저장된 목록 그대로라(B·D는 옛 원칙)
+// 지난 결과가 바뀌지 않는다(dr r1: 3개만 고른 옛 전략의 10월 계획에 적정이 다시 들어가지 않게).
+// ENGINE_VERSION은 그대로 — 지난 달 결과는 같고, 버전은 '만든 때와 다른 엔진' 표시에만 쓴다
+export const followsPrinciple = (tiers) => Array.isArray(tiers) && (sameTiers(tiers, BUY_PRINCIPLE) || sameTiers(tiers, BUY_PRINCIPLE_OLD));
 export const SELL_TIERS = ['고평가', '초고평가'];                           // 이번 버전 고정
 export const BASELINES = ['SPY', 'RSP', 'QQQ'];
 const MICRO = 1e6;
@@ -32,13 +46,12 @@ const HOLIDAYS = {
 const PRESETS = {
   A: { hold: true },
   E: { hold: true, etf: true },   // ETF 섞기(2026-10-21 사용자 결정): 출발일에 주식 평가액의 일부를 기준선 ETF로 바꾸고 그 뒤 보유만
-  B: { buyTiers: BUY_PRINCIPLE, sellFraction: 0, observeSells: true, editable: ['sellFraction', 'splitWeeks', 'cashReserve'] },
+  B: { buyTiers: BUY_PRINCIPLE_OLD, sellFraction: 0, observeSells: true, editable: ['sellFraction', 'splitWeeks', 'cashReserve'] },
   C: { buyTiers: ['초저평가', '저평가'], sellFraction: 0, observeSells: false, editable: ['splitWeeks', 'cashReserve'] },
-  D: { buyTiers: BUY_PRINCIPLE, sellFraction: 1, observeSells: true, editable: ['splitWeeks', 'cashReserve'] },
+  D: { buyTiers: BUY_PRINCIPLE_OLD, sellFraction: 1, observeSells: true, editable: ['splitWeeks', 'cashReserve'] },
   custom: { buyTiers: null, sellFraction: 0, observeSells: true, editable: ['buyTiers', 'sellFraction', 'splitWeeks', 'cashReserve', 'buyMode'] },
 };
-// 순위 1주씩(2026-10-25 사용자 결정, buyMode 'rank1'): 판정 무게가 큰 순, 같으면 그날 기록의 기업 점수가 높은 순, 같으면 티커순
-const RANK_W = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 };
+// 순위 1주씩(2026-10-25 사용자 결정, buyMode 'rank1'): 판정 무게(tierWeights)가 큰 순, 같으면 그날 기록의 기업 점수가 높은 순, 같으면 티커순
 
 class EngineInputError extends Error {}
 const fail = (msg) => { throw new EngineInputError(msg); };
@@ -248,12 +261,13 @@ function scenarioParams(sc) {
   if (!Number.isInteger(q.splitWeeks) || q.splitWeeks < 1 || q.splitWeeks > 4) fail('scenario: splitWeeks는 1~4 정수');
   if (!inRange(q.cashReserve, 0, 0.5)) fail('scenario: cashReserve는 0~0.5, 소수 6자리까지');
   const notes = [];
-  if (q.buyTiers.some((t) => !BUY_PRINCIPLE.includes(t))) notes.push('offPrinciple');
+  const principle = followsPrinciple(q.buyTiers);
+  if (!principle && q.buyTiers.some((t) => !BUY_PRINCIPLE.includes(t))) notes.push('offPrinciple');
   if (sc.strategy === 'B') {
     notes.push('provisionalPrinciple');                 // 원칙 4(예전 2) 비율 미정 — 매도 검토는 알림만 반영한 임시 모형
     if (q.cashReserve === 0) notes.push('noPrinciple7');  // 원칙 5(예전 7, 급락 대비 현금) 미반영
   }
-  return { ...q, hold: false, notes, sellPpm: toPpm(q.sellFraction), reservePpm: toPpm(q.cashReserve) };
+  return { ...q, principle, hold: false, notes, sellPpm: toPpm(q.sellFraction), reservePpm: toPpm(q.cashReserve) };
 }
 
 // ---- 시나리오 하나 재생 ----
@@ -507,6 +521,11 @@ function runScenario(ctx, prm, init, keepStates) {
       checkDate: pendingDecision, decisionDate: d, record: R.session, ruleVersion: R.ruleVersion,
       provisional: info.provisional, rounds, legs: [], candidates: [], ruleChanged: changed, fires: [], budget: 0, unallocated: 0,
     };
+    // 그달 살 판정·무게 — 점검일(없으면 결정일)의 달로 원칙 판을 고른다
+    const pm = (pendingDecision || d).slice(0, 7);
+    plan.buyTiers = prm.principle && pm >= PRINCIPLE_FROM ? BUY_PRINCIPLE : prm.buyTiers;
+    // 무게도 원칙을 따르는 전략만 새 판 — 직접 적정을 고른 전략은 옛 무게라 판정 가중에서 적정을 계속 산다(dr r1)
+    const RANK_W = prm.principle ? tierWeights(pm) : W_OLD;
     // 매도 발동(상태표) — 점검일 결정 때 보유 종목만 관측한다. 0주에서 새로 사면 buy()가 상태를 "없음"으로 되돌리므로,
     // 다 판 뒤 다시 산 종목이나 고평가에서 산 종목도 다음 점검일에 시작 보유와 같은 기준으로 발동한다.
     if (prm.observeSells) {
@@ -529,7 +548,7 @@ function runScenario(ctx, prm, init, keepStates) {
     // 매수 예산: 그날 쓸 수 있는 현금만(아직 체결 안 된 매도 대금 제외). 새 돈만 후보에 같은 금액.
     if (!changed) {
       const cands = Object.keys(R.cards || {}).sort().filter((t) =>
-        !holdOnly.has(t) && !blocked(R.cards[t], R, cal) && prm.buyTiers.includes(R.cards[t].tier));
+        !holdOnly.has(t) && !blocked(R.cards[t], R, cal) && plan.buyTiers.includes(R.cards[t].tier));
       plan.candidates = cands;
       plan.budget = st.cash;
       if (prm.buyMode === 'rank1') {
@@ -540,7 +559,7 @@ function runScenario(ctx, prm, init, keepStates) {
         if (!order.length) plan.unallocated = st.cash;   // 후보가 없으면 예산 전부가 현금으로 남는다(나눠 사기와 같은 집계, dr)
       } else if (prm.buyMode === 'cap' || prm.buyMode === 'tier') {
         // 시총 비중·판정 가중(2026-10-25 사용자 결정 — 카드의 나누는 방법과 같은 무게): 점검일 현금을 무게대로 나눈다(BigInt 내림).
-        // 시총 = 그날 기록의 주식 수(없으면 오늘 카드 주식 수) × 그 기록 종가(달러 정수), 판정 무게는 결정 기록 판정 4:3:2:1.
+        // 시총 = 그날 기록의 주식 수(없으면 오늘 카드 주식 수) × 그 기록 종가(달러 정수), 판정 무게는 결정 기록 판정(tierWeights — 옛 판 4:3:2:1, 11월부터 3:2:1).
         // 무게를 모르는 후보(시총 없음·원칙 밖 판정)는 그달 사지 않는다(plan.noWeight)
         // 오늘 주식 수(settings.shares)는 주식 수 칸이 아직 없던 옛 기록(어느 카드에도 shares가 없음)에만 쓴다 — 칸이 있는 기록에서
         // 그 종목만 빠졌으면 수집 실패로 보고 무게 없음(dr). 옛 기록과 오늘 사이 액면분할은 보정하지 않는다(10/26 전 몇 주뿐이라 한계로 둠)
@@ -604,7 +623,7 @@ function runScenario(ctx, prm, init, keepStates) {
     if (R.ruleVersion !== plan.ruleVersion) return ['ruleVersion', false];
     const why = blocked(R.cards?.[leg.ticker], R, cal);
     if (why) return [why, false];
-    const tiers = leg.side === 'sell' ? SELL_TIERS : prm.buyTiers;
+    const tiers = leg.side === 'sell' ? SELL_TIERS : plan.buyTiers;
     if (!tiers.includes(R.cards[leg.ticker].tier)) return ['tierOut', false];
     if (!mk.dayOk(d)) return ['pipelineFailed', true];
     if (!mk.usable(leg.ticker, d)) return [mk.flagged(leg.ticker, d) ? 'splitCheck' : 'noPrice', false];

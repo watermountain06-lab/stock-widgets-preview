@@ -207,9 +207,9 @@ test('depositsSince: 기준일 뒤·오늘까지, 반영 전 취소 빼고, 끝�
 import { paramsText } from '../../preview-only-portfolio-strategy.js';
 test('paramsText: 전략 설정 한 줄 요약', () => {
   assert.equal(paramsText({ strategy: 'C', params: { splitWeeks: 4, cashReserve: 0 } }), '살 판정 초저평가·저평가 · 매도 안 팖 · 4회 · 유보 0%');
-  assert.equal(paramsText({ strategy: 'D', params: { splitWeeks: 2, cashReserve: 0.1 } }), '살 판정 초저평가~적정 · 매도 고평가면 전부 · 2회 · 유보 10%');
+  assert.equal(paramsText({ strategy: 'D', params: { splitWeeks: 2, cashReserve: 0.1 } }), '살 판정 원칙 1(초저평가·저평가·적정~저평가) · 매도 고평가면 전부 · 2회 · 유보 10%');
   assert.equal(paramsText({ strategy: 'custom', params: { buyTiers: ['저평가', '적정'], sellFraction: 0.5, splitWeeks: 1, cashReserve: 0 } }), '살 판정 저평가·적정 · 매도 고평가면 50% · 1회 · 유보 0%');
-  assert.equal(paramsText({ strategy: 'B', params: { sellFraction: 0 } }), '살 판정 초저평가~적정 · 매도 알림만 · 4회 · 유보 0%');
+  assert.equal(paramsText({ strategy: 'B', params: { sellFraction: 0 } }), '살 판정 원칙 1(초저평가·저평가·적정~저평가) · 매도 알림만 · 4회 · 유보 0%');
 });
 
 import { lossAlerts } from '../../preview-only-portfolio-home.js';
@@ -233,7 +233,7 @@ test('lossAlerts: 평균 단가보다 20% 넘게 내린 종목만(원칙 4), 하
 import { draftOf, shapeOf, sentenceOf, rankRows, spyLine } from '../../preview-only-portfolio-rank.js';
 
 test('편집기: 저장된 전략 ↔ 편집기 값, 저평가만·갈아타기는 값을 안 바꾸면 그대로', () => {
-  assert.deepEqual(draftOf(null), { kind: 'verdict', tiers: ['초저평가', '저평가', '적정~저평가', '적정'], sell: 0, rounds: 4, reserve: 0, mode: 'split', etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
+  assert.deepEqual(draftOf(null), { kind: 'verdict', tiers: ['초저평가', '저평가', '적정~저평가'], sell: 0, rounds: 4, reserve: 0, mode: 'split', etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
   const C = { strategy: 'C', params: { splitWeeks: 2, cashReserve: 0.1 } };
   assert.deepEqual(draftOf(C), { kind: 'verdict', tiers: ['초저평가', '저평가'], sell: 0, rounds: 2, reserve: 10, mode: 'split', etfShare: 100, etfs: ['SPY', 'QQQ', 'RSP'] });
   assert.deepEqual(shapeOf('C', draftOf(C)), { strategy: 'C', params: { splitWeeks: 2, cashReserve: 0.1 } });
@@ -333,14 +333,19 @@ test('다음 할 일: 다음 회차·결정 대기·회차 끝·첫 점검 대�
 });
 
 import { buyPlan, monthDeposits, monthBuys } from '../../preview-only-portfolio-home.js';
+import { tierWeights } from '../../preview-only-portfolio-engine.js';
+const W_OLD = tierWeights('2026-10');
 
 test('원칙 3 매수 금액: 체크한 종목만, 균등·시총 비중·판정 가중, 센트 내림', () => {
   const tiers = { BBB: '저평가', CCC: '적정~저평가', EEE: '적정' };
-  const p = buyPlan({ cands: ['BBB', 'CCC', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, tiers, caps: { BBB: 3e12, EEE: 1e12 }, rounds: 4 });
+  const p = buyPlan({ cands: ['BBB', 'CCC', 'EEE'], picked: ['BBB', 'EEE'], budget: 400, tiers, caps: { BBB: 3e12, EEE: 1e12 }, rounds: 4, weights: W_OLD });
   assert.deepEqual(p.sel, ['BBB', 'EEE']);
   assert.deepEqual(p.by.equal, { BBB: 200, EEE: 200 });
   assert.deepEqual(p.by.cap, { BBB: 300, EEE: 100 });   // 큰 시총도 1센트 틀리지 않게
-  assert.deepEqual(p.by.tier, { BBB: 300, EEE: 100 });   // 저평가 3 : 적정 1
+  assert.deepEqual(p.by.tier, { BBB: 300, EEE: 100 });   // 옛 판: 저평가 3 : 적정 1
+  // 새 판(11월 계획부터, 기본값): 저평가 2 : 적정~저평가 1, 적정은 무게 없음 → 판정 가중 계산 안 함
+  assert.deepEqual(buyPlan({ cands: ['BBB', 'CCC'], picked: ['BBB', 'CCC'], budget: 300, tiers }).by.tier, { BBB: 200, CCC: 100 });
+  assert.equal(buyPlan({ cands: ['BBB', 'EEE'], picked: ['BBB', 'EEE'], budget: 300, tiers }).by.tier, null);
   assert.deepEqual(p.round.equal, { BBB: 50, EEE: 50 });
   // 내림: 200/3 = 66.666… → 66.66, 회차 66.66/4 = 16.665 → 16.66
   const q = buyPlan({ cands: ['A', 'B', 'C'], picked: ['A', 'B', 'C'], budget: 200, rounds: 4 });
@@ -356,7 +361,7 @@ test('원칙 3 매수 금액: 체크한 종목만, 균등·시총 비중·판정
 
   // 정확한 정수 내림(dr r2): 무게 1·1·2·3·4(합 11)에 $0.55 → 저평가 3/11 = 15센트(실수 비율이면 14)
   const T5 = { A: '적정', B: '적정', C: '적정~저평가', D: '저평가', E: '초저평가' };
-  assert.equal(buyPlan({ cands: ['A', 'B', 'C', 'D', 'E'], picked: ['A', 'B', 'C', 'D', 'E'], budget: 0.55, tiers: T5 }).by.tier.D, 0.15);
+  assert.equal(buyPlan({ cands: ['A', 'B', 'C', 'D', 'E'], picked: ['A', 'B', 'C', 'D', 'E'], budget: 0.55, tiers: T5, weights: W_OLD }).by.tier.D, 0.15);
   // 나누어떨어지지 않는 큰 시총: 각 몫이 정확한 내림값이고 합은 넣은 돈 이하
   const caps = { A: 2345678901234, B: 1234567890123 };
   const c = buyPlan({ cands: ['A', 'B'], picked: ['A', 'B'], budget: 1234.57, caps }).by.cap;

@@ -3,19 +3,19 @@
 // (v2 cards가 다음 날 동부 오전에 끝나는 실제 일정과 같은 모양 — 그래서 D의 결정에는 보통 D−2 기록이 쓰인다).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { replay, twr, openUtcMs, depositTiming, isTradingDay, ENGINE_VERSION, _internal } from '../../preview-only-portfolio-engine.js';
+import { replay, twr, openUtcMs, depositTiming, isTradingDay, ENGINE_VERSION, principleFor, tierWeights, _internal } from '../../preview-only-portfolio-engine.js';
 
 const cal = _internal.makeCalendar();
 const next = (d) => cal.sessions[cal.index(d) + 1];
 const between = (a, b) => cal.sessions.slice(cal.index(a), cal.index(b) + 1);
 const DEF_CLOSE = { AAA: 100, BBB: 50, CCC: 20, DDD: 10, SPY: 500, RSP: 200, QQQ: 400 };
-const DEF_TIER = { AAA: '적정', BBB: '저평가', CCC: '고평가~적정', DDD: '고평가' };
+const DEF_TIER = { AAA: '적정~저평가', BBB: '저평가', CCC: '고평가~적정', DDD: '고평가' };
 const CARDS = ['AAA', 'BBB', 'CCC', 'DDD'];
 
-// opts: end, omit[sessions], failed[sessions], tier(t,d), close(t,d), rule(d), asOf(t,d), drop(t,d)(카드에서 뺌),
+// opts: start, end, omit[sessions], failed[sessions], tier(t,d), close(t,d), rule(d), asOf(t,d), drop(t,d)(카드에서 뺌),
 //       splits{session: [split]}, nullPub[sessions](그 기록의 공개 시각을 모름)
 function world(opts = {}) {
-  const days = between('2026-10-16', opts.end || '2026-12-31').filter((d) => !(opts.omit || []).includes(d));
+  const days = between(opts.start || '2026-10-16', opts.end || '2026-12-31').filter((d) => !(opts.omit || []).includes(d));
   const recs = [];
   for (const d of days) {
     const cards = {}, prices = {};
@@ -206,10 +206,10 @@ test('recheck: 원칙 6 — 카드 없음·판정 없음·묵음은 결정에서
 // ---------------- 매도 발동 상태표 ----------------
 test('lastStage: 발동 표(재진입 포함)', () => {
   const byMonth = { '2026-10': '고평가', '2026-11': '고평가', '2026-12': '초고평가', '2027-01': '고평가',
-    '2027-02': '초고평가', '2027-03': '적정', '2027-04': '고평가', '2027-05': '고평가' };
+    '2027-02': '초고평가', '2027-03': '적정~저평가', '2027-04': '고평가', '2027-05': '고평가' };
   const res = run({
     world: { end: '2027-06-04', tier: (t, d) => (t === 'DDD' ? byMonth[d.slice(0, 7)] ?? '고평가' : undefined) },
-    scenarios: [S('custom', { buyTiers: ['적정'], sellFraction: 0.5 })],
+    scenarios: [S('custom', { buyTiers: ['적정~저평가'], sellFraction: 0.5 })],
   });
   const c = pick(res, 'custom');
   const fires = c.months.flatMap((m) => m.fires.map((f) => [m.checkDate.slice(0, 7), f.prev, f.observed]));
@@ -269,7 +269,7 @@ test('cashReserve: 매수 한도 = max(0, 현금 − 당일 매도 대금 − �
   // 같은 날 매도 대금은 한도에 넣지 않는다
   const c = pick(run({
     snapshot: { date: '2026-10-16', holdings: { DDD: 100 }, cash: 100 },
-    scenarios: [S('custom', { buyTiers: ['적정'], sellFraction: 1, splitWeeks: 1, cashReserve: 0.5 })],
+    scenarios: [S('custom', { buyTiers: ['적정~저평가'], sellFraction: 1, splitWeeks: 1, cashReserve: 0.5 })],
   }), 'custom');
   assert.equal(trades(c, { side: 'sell', date: '2026-11-02' })[0].amount, 1000);
   assert.equal(nov(trades(c, { side: 'buy' })).length, 0);      // 한도 = 1100 − 1000 − 550 < 0
@@ -554,7 +554,7 @@ test('derived: 만든 다음 거래일 S부터, S 전 거래일 장 마감 뒤 A
 });
 
 test('lastStage: 다 판 뒤 적정으로 내려가 다시 산 종목이 고평가가 되면 재발동', () => {
-  const res = run({ world: { end: '2027-01-29', tier: (t, d) => (t === 'DDD' ? (d >= '2026-12-30' ? '고평가' : d >= '2026-11-27' ? '적정' : '고평가') : undefined) },
+  const res = run({ world: { end: '2027-01-29', tier: (t, d) => (t === 'DDD' ? (d >= '2026-12-30' ? '고평가' : d >= '2026-11-27' ? '적정~저평가' : '고평가') : undefined) },
     scenarios: [S('D')] });
   const d = pick(res, 'D');
   assert.ok(trades(d, { ticker: 'DDD', side: 'buy' }).some((t) => t.date.startsWith('2026-12')));
@@ -595,8 +595,8 @@ test('A 입금 배분은 정수 센트로(실수 비중 오차로 센트를 잃�
 });
 
 test('후보 수로 나눈 잔돈은 월 기록의 unallocated로 남는다', () => {
-  const c = pick(run({ world: { close: (t) => (['AAA', 'BBB', 'CCC'].includes(t) ? 1 : undefined), tier: (t) => (t === 'DDD' ? undefined : '적정') },
-    snapshot: { date: '2026-10-16', holdings: {}, cash: 1 }, scenarios: [S('custom', { buyTiers: ['적정'], splitWeeks: 1 })] }), 'custom');
+  const c = pick(run({ world: { close: (t) => (['AAA', 'BBB', 'CCC'].includes(t) ? 1 : undefined), tier: (t) => (t === 'DDD' ? undefined : '적정~저평가') },
+    snapshot: { date: '2026-10-16', holdings: {}, cash: 1 }, scenarios: [S('custom', { buyTiers: ['적정~저평가'], splitWeeks: 1 })] }), 'custom');
   const m = c.months[0];
   assert.equal(m.unallocated, 0.01);
   assert.equal(m.summary.reduce((a, x) => a + x.notUsed, 0), 0);
@@ -620,7 +620,7 @@ test('기업 사건: 사건일 전날 보유했으면 그날 전량 팔았어도
   assert.equal(d.halted?.since, '2026-11-02');
   const r2 = world();
   r2.find((r) => r.session === '2026-11-05').events = [{ ticker: 'AAA', kind: 'spinoff', date: '2026-10-20' }];
-  const c = pick(run({ records: r2, snapshot: { date: '2026-10-16', holdings: {}, cash: 1000 }, scenarios: [S('custom', { buyTiers: ['적정'] })] }), 'custom');
+  const c = pick(run({ records: r2, snapshot: { date: '2026-10-16', holdings: {}, cash: 1000 }, scenarios: [S('custom', { buyTiers: ['적정~저평가'] })] }), 'custom');
   assert.ok(trades(c, { ticker: 'AAA' }).length > 0);
   assert.equal(c.halted, null);
 });
@@ -671,7 +671,7 @@ test('유보율·매도 비율은 정수 백만분율로 곱한다(0.29 × 100�
   const b = pick(run({ world: { close: (t) => (t === 'AAA' || t === 'BBB' ? 1 : undefined) }, snapshot: { date: '2026-10-16', holdings: {}, cash: 1 },
     scenarios: [S('B', { splitWeeks: 1, cashReserve: 0.29 })] }), 'B');
   assert.deepEqual(trades(b, { date: '2026-11-02' }).map((t) => t.amount), [0.35, 0.35]);
-  const c = pick(run({ snapshot: { date: '2026-10-16', holdings: { DDD: 100 }, cash: 0 }, scenarios: [S('custom', { buyTiers: ['적정'], sellFraction: 0.29, splitWeeks: 1 })] }), 'custom');
+  const c = pick(run({ snapshot: { date: '2026-10-16', holdings: { DDD: 100 }, cash: 0 }, scenarios: [S('custom', { buyTiers: ['적정~저평가'], sellFraction: 0.29, splitWeeks: 1 })] }), 'custom');
   assert.equal(trades(c, { side: 'sell' })[0].shares, 29);   // 실수 곱이면 28.999999
 });
 
@@ -705,7 +705,7 @@ test('늦은 분할: 효력일에 전량 매도했으면(분할 전 수량으로
 test('늦은 분할: 효력일 뒤에 처음 산 종목에는 곱하지 않고 멈추지도 않는다', () => {
   const res = run({ world: { end: '2026-12-31',
     close: (t, x) => (t === 'BBB' && x >= '2026-11-10' ? 25 : undefined), splits: { '2026-12-10': [sp('BBB', '2026-11-10', 2)] },
-    tier: (t, x) => (t === 'BBB' ? (x >= '2026-11-25' ? '저평가' : '적정') : undefined) },   // C는 12월에야 BBB를 처음 산다
+    tier: (t, x) => (t === 'BBB' ? (x >= '2026-11-25' ? '저평가' : '적정~저평가') : undefined) },   // C는 12월에야 BBB를 처음 산다
   scenarios: [S('C'), S('C', undefined, { id: 'mid', createdAt: '2026-11-19T20:00:00Z' })] });
   const c = pick(res, 'C'), mid = pick(res, 'mid');
   const bought = trades(c, { ticker: 'BBB', side: 'buy' }).reduce((a, t) => a + t.shares, 0);
@@ -727,7 +727,7 @@ test('늦은 분할: 그 사이 다른 분할이 있어도 효력일 전날 보�
   // C: 12월에 처음 산 BBB에 12-09 정상 분할이 끼고 11-10 효력 늦은 분할이 온다 → 효력일엔 0주였으니 무시
   const c = pick(run({ world: { end: '2026-12-10',
     close: (t, d) => (t === 'BBB' ? (d >= '2026-12-09' ? 20 : d >= '2026-11-10' ? 40 : undefined) : undefined),
-    tier: (t, d) => (t === 'BBB' ? (d >= '2026-11-25' ? '저평가' : '적정') : undefined),
+    tier: (t, d) => (t === 'BBB' ? (d >= '2026-11-25' ? '저평가' : '적정~저평가') : undefined),
     splits: { '2026-12-09': [sp('BBB', '2026-12-09', 2)], '2026-12-10': [sp('BBB', '2026-11-10', 1.25)] } }, scenarios: [S('C')] }), 'C');
   const bought = trades(c, { ticker: 'BBB', side: 'buy' }).reduce((x, t) => x + t.shares, 0);
   near(c.holdings.BBB, bought * 2);
@@ -737,7 +737,7 @@ test('늦은 분할: 그 사이 다른 분할이 있어도 효력일 전날 보�
 test('늦은 분할: 효력일 뒤에 사서 판 종목도 무시한다(매도가 있어도)', () => {
   const c = pick(run({ snapshot: { date: '2026-10-16', holdings: {}, cash: 1000 }, world: { end: '2026-12-10',
     tier: (t, d) => (t === 'AAA' && d >= '2026-11-25' ? '고평가' : undefined), splits: { '2026-12-10': [sp('AAA', '2026-10-20', 1.5)] } },
-  scenarios: [S('custom', { buyTiers: ['적정'], sellFraction: 0.5 })] }), 'custom');
+  scenarios: [S('custom', { buyTiers: ['적정~저평가'], sellFraction: 0.5 })] }), 'custom');
   assert.ok(trades(c, { ticker: 'AAA', side: 'sell' }).length > 0);
   assert.equal(c.halted, null);
   const net = c.trades.filter((t) => t.ticker === 'AAA').reduce((x, t) => x + (t.side === 'buy' ? t.shares : -t.shares), 0);
@@ -777,7 +777,7 @@ test('출발 전에 지나간 점검일은 사건(decisionDropped, notStarted)�
 });
 
 test('입력 방어: 소수 6자리 넘는 비율, 효력일이 기록보다 뒤인 분할·사건은 거부, 시작일 전 사건은 무시', () => {
-  assert.throws(() => run({ scenarios: [S('custom', { buyTiers: ['적정'], sellFraction: 0.1234567 })] }), /소수 6자리/);
+  assert.throws(() => run({ scenarios: [S('custom', { buyTiers: ['적정~저평가'], sellFraction: 0.1234567 })] }), /소수 6자리/);
   assert.throws(() => run({ world: { splits: { '2026-11-10': [sp('AAA', '2026-11-12', 2)] } } }), /효력일이 기록 날짜보다 뒤/);
   const recs = world();
   recs.find((r) => r.session === '2026-11-05').events = [{ ticker: 'AAA', kind: 'spinoff', date: '2026-10-15' }, { ticker: 'SPY', kind: 'spinoff', date: '2026-10-15' }];
@@ -795,7 +795,7 @@ test('멈추면 그달 남은 회차는 예정이 아니라 쓰지 않은 몫으
 
 test('매수 수량 내림으로 남는 금액은 현금으로 남는다', () => {
   const c = pick(run({ world: { close: (t) => (t === 'AAA' ? 600000 : undefined) }, snapshot: { date: '2026-10-16', holdings: {}, cash: 1 },
-    scenarios: [S('custom', { buyTiers: ['적정'], splitWeeks: 1 })] }), 'custom');
+    scenarios: [S('custom', { buyTiers: ['적정~저평가'], splitWeeks: 1 })] }), 'custom');
   const t = trades(c, { ticker: 'AAA' })[0];
   assert.deepEqual([t.shares, t.amount], [0.000001, 0.6]);
   near(day(c, '2026-11-02').value, 1, 1e-9);
@@ -813,14 +813,14 @@ test('engine version과 표시', () => {
   assert.deepEqual(pick(res, 'custom').notes, ['offPrinciple']);
   assert.deepEqual(pick(res, 'B').notes, ['provisionalPrinciple', 'noPrinciple7']);
   assert.throws(() => run({ scenarios: [S('C', { sellFraction: 0.5 })] }), /바꿀 수 없는 값/);
-  assert.throws(() => run({ scenarios: [S('custom', { buyTiers: ['적정'], splitWeeks: 5 })] }), /splitWeeks/);
+  assert.throws(() => run({ scenarios: [S('custom', { buyTiers: ['적정~저평가'], splitWeeks: 5 })] }), /splitWeeks/);
   assert.throws(() => run({ scenarios: [S('B', { cashReserve: NaN })] }), /cashReserve/);
   assert.throws(() => run({ scenarios: [S('B', { sellFraction: NaN })] }), /sellFraction/);
 });
 
 test('결정적: 기록·시나리오·보유 순서를 섞어도 결과가 같다', () => {
   const recs = world({ tier: (t, d) => (t === 'AAA' && d === '2026-11-05' ? '고평가' : undefined) });
-  const scen = [S('B'), S('D'), S('custom', { buyTiers: ['적정', '저평가'], sellFraction: 0.3, splitWeeks: 3, cashReserve: 0.1 })];
+  const scen = [S('B'), S('D'), S('custom', { buyTiers: ['적정~저평가', '저평가'], sellFraction: 0.3, splitWeeks: 3, cashReserve: 0.1 })];
   const deposits = [{ id: 'd', amount: 777.77, recordedAt: '2026-11-07T15:00:00Z' }];
   const one = replay({ records: recs, snapshot: SNAP, deposits, scenarios: scen });
   const two = replay({ records: [...recs].reverse(), snapshot: { ...SNAP, holdings: { DDD: 100, AAA: 10 } }, deposits, scenarios: [...scen].reverse() });
@@ -1115,9 +1115,9 @@ test('withdraw: 두 예약(A 입금 몫·E ETF 몫)을 합쳐 같은 비율로 �
 
 // ---- 순위 1주씩(buyMode 'rank1', 2026-10-25 사용자 결정) ----
 test('순위 1주씩: 판정 → 점수 → 티커 순으로 회차마다 1주씩 이어 사고, 남은 돈은 다음 회차로, 모두 정수 주', () => {
-  const recs = world({ tier: (t) => (t === 'CCC' ? '적정' : undefined) });
+  const recs = world({ tier: (t) => (t === 'CCC' ? '적정~저평가' : undefined) });
   for (const r of recs) { r.cards.CCC.score = 90; r.cards.AAA.score = 50; }   // 같은 적정이면 점수 높은 CCC가 먼저
-  const res = run({ records: recs, scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'rank1' }, { id: 'r1' })] });
+  const res = run({ records: recs, scenarios: [S('custom', { buyTiers: ['저평가', '적정~저평가'], buyMode: 'rank1' }, { id: 'r1' })] });
   const s = pick(res, 'r1');
   const buys = nov(trades(s, { side: 'buy' }));
   assert.ok(buys.length > 0);
@@ -1136,15 +1136,15 @@ test('순위 1주씩: 판정 → 점수 → 티커 순으로 회차마다 1주�
 
 test('순위 1주씩: 남은 달 돈 전부로도 1주가 안 되는 종목은 건너뛰고, buyMode는 split·rank1만', () => {
   const recs = world({ close: (t) => (t === 'BBB' ? 5000 : undefined) });   // BBB 1주 5000 > 1000
-  const res = run({ records: recs, scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'rank1' }, { id: 'r2' })] });
+  const res = run({ records: recs, scenarios: [S('custom', { buyTiers: ['저평가', '적정~저평가'], buyMode: 'rank1' }, { id: 'r2' })] });
   const buys = nov(trades(pick(res, 'r2'), { side: 'buy' }));
   assert.ok(buys.length && buys.every((t) => t.ticker === 'AAA' && t.shares === 1));
-  assert.throws(() => run({ scenarios: [S('custom', { buyTiers: ['적정'], buyMode: 'whole' }, { id: 'bad' })] }), /buyMode/);
+  assert.throws(() => run({ scenarios: [S('custom', { buyTiers: ['적정~저평가'], buyMode: 'whole' }, { id: 'bad' })] }), /buyMode/);
   assert.throws(() => run({ scenarios: [S('C', { buyMode: 'rank1' }, { id: 'c' })] }), /바꿀 수 없는 값 buyMode/);   // 순위 1주씩은 직접 만든 전략에서만
 });
 
 test('순위 1주씩: 돈 맞추기(매수 + 쓰지 않은 돈 + 예정 = 예산), 후보 0명이면 전부 unallocated, 모든 후보가 막힌 회차는 지움', () => {
-  const res = run({ scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'rank1' }, { id: 'r3' })] });
+  const res = run({ scenarios: [S('custom', { buyTiers: ['저평가', '적정~저평가'], buyMode: 'rank1' }, { id: 'r3' })] });
   for (const m of pick(res, 'r3').months.filter((x) => x.rank)) near(m.rank.spent + m.rank.notUsed + m.rank.scheduled + m.unallocated, m.budget, 1e-6);
   const none = run({ scenarios: [S('custom', { buyTiers: ['초저평가'], buyMode: 'rank1' }, { id: 'r4' })] });
   const m0 = pick(none, 'r4').months.find((x) => x.rank);
@@ -1152,7 +1152,7 @@ test('순위 1주씩: 돈 맞추기(매수 + 쓰지 않은 돈 + 예정 = 예산
   // 1회차 날 두 후보 모두 가격 없음 → 그 회차 돈은 지움(다음 회차로 넘기지 않는다)
   const base = pick(res, 'r3').months.find((x) => x.decisionDate.slice(0, 7) === '2026-11');
   const d1 = base.rounds[0].date;
-  const blocked = run({ world: { close: (t, d) => (d === d1 && (t === 'AAA' || t === 'BBB') ? null : undefined) }, scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'rank1' }, { id: 'r5' })] });
+  const blocked = run({ world: { close: (t, d) => (d === d1 && (t === 'AAA' || t === 'BBB') ? null : undefined) }, scenarios: [S('custom', { buyTiers: ['저평가', '적정~저평가'], buyMode: 'rank1' }, { id: 'r5' })] });
   const bs = pick(blocked, 'r5');
   const sk = pick(blocked, 'r5').skips.filter((x) => x.date === d1 && x.reason === 'noneBuyable');
   assert.equal(sk.length, 1); assert.equal(sk[0].action, 'erased');
@@ -1161,16 +1161,16 @@ test('순위 1주씩: 돈 맞추기(매수 + 쓰지 않은 돈 + 예정 = 예산
 // ---- 시총 비중·판정 가중(buyMode cap·tier, 2026-10-25 사용자 결정) ----
 test('시총 비중·판정 가중: 점검일 현금을 무게대로 나눈다, 주식 수는 그날 기록 → 없으면 settings.shares, 무게 없으면 그달 안 삼', () => {
   const nm = (s) => s.months.find((x) => x.decisionDate.slice(0, 7) === '2026-11');
-  const P = { buyTiers: ['저평가', '적정'] };
-  // 판정 가중: AAA 적정 1 : BBB 저평가 3
+  const P = { buyTiers: ['저평가', '적정~저평가'] };
+  // 판정 가중(직접 만든 전략이라 옛 무게): AAA 적정~저평가 2 : BBB 저평가 3
   const tier = pick(run({ scenarios: [S('custom', { ...P, buyMode: 'tier' }, { id: 't' })] }), 't');
   { const m0 = tier.months.find((x) => x.decisionDate.slice(0, 7) === '2026-11'); near(nov(trades(tier, { side: 'buy' })).reduce((a, x) => a + x.amount, 0) + m0.unallocated + m0.summary.filter((x) => x.side === 'buy').reduce((a, x) => a + x.notUsed + x.scheduled, 0), m0.budget, 1e-6); }
   const nov1 = (s, t) => nov(trades(s, { side: 'buy', ticker: t })).reduce((a, x) => a + x.amount, 0);
   const m = nm(tier);
-  near(nov1(tier, 'AAA') / m.budget, 0.25, 0.01); near(nov1(tier, 'BBB') / m.budget, 0.75, 0.01);
+  near(nov1(tier, 'AAA') / m.budget, 0.4, 0.01); near(nov1(tier, 'BBB') / m.budget, 0.6, 0.01);
   // 시총 비중: 기록의 주식 수(AAA 10주×100 = 1000, BBB 60주×50 = 3000)
   const recs = world();
-  for (const r of recs) { r.cards.AAA.shares = 10; r.cards.BBB.shares = 20; }   // 1000 : 1000 → 반반(판정 가중 1:3과 다르게)
+  for (const r of recs) { r.cards.AAA.shares = 10; r.cards.BBB.shares = 20; }   // 1000 : 1000 → 반반(판정 가중 2:3과 다르게)
   const cap = pick(replay({ records: recs, snapshot: SNAP, deposits: [], settings: { shares: { AAA: 999, BBB: 1 } }, scenarios: [S('custom', { ...P, buyMode: 'cap' }, { id: 'c' })] }), 'c');
   near(nov1(cap, 'AAA') / nm(cap).budget, 0.5, 0.01);   // 기록의 주식 수가 settings.shares보다 먼저
   // 기록에 주식 수가 없으면 settings.shares로 같은 결과
@@ -1188,8 +1188,43 @@ test('시총 비중·판정 가중: 점검일 현금을 무게대로 나눈다, 
 });
 
 test('판정 가중: 매도 대금도 점검일 무게대로 나눈다', () => {
-  const s = pick(run({ scenarios: [S('custom', { buyTiers: ['저평가', '적정'], sellFraction: 1, buyMode: 'tier' }, { id: 'ts' })] }), 'ts');
+  const s = pick(run({ scenarios: [S('custom', { buyTiers: ['저평가', '적정~저평가'], sellFraction: 1, buyMode: 'tier' }, { id: 'ts' })] }), 'ts');
   assert.ok(nov(trades(s, { side: 'sell' })).length > 0, '매도가 있어야 시험이 뜻이 있다');
   const a = nov(trades(s, { side: 'buy', ticker: 'AAA' })).reduce((x, t) => x + t.amount, 0), b = nov(trades(s, { side: 'buy', ticker: 'BBB' })).reduce((x, t) => x + t.amount, 0);
+  near(a / (a + b), 0.4, 0.01);
+});
+
+test('원칙 1 판(2026-10-28): 11월 계획부터 적정 제외, 원칙과 같은 저장 목록(옛 4개)도 따라 바뀌고, 직접 고른 적정은 그대로', () => {
+  assert.ok(principleFor('2026-10').includes('적정')); assert.ok(!principleFor('2026-11').includes('적정'));
+  assert.deepEqual(tierWeights('2026-10'), { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 });
+  assert.deepEqual(tierWeights('2026-11'), { '초저평가': 3, '저평가': 2, '적정~저평가': 1 });
+  const tier = (t) => (t === 'AAA' ? '적정' : undefined);   // AAA 적정, BBB 저평가
+  const OLD = ['초저평가', '저평가', '적정~저평가', '적정'];
+  const res = run({ world: { tier }, scenarios: [S('B'), S('custom', { buyTiers: OLD }, { id: 'old' }), S('custom', { buyTiers: ['저평가', '적정'] }, { id: 'mine' })] });
+  const nm = (s) => s.months.find((x) => x.decisionDate.slice(0, 7) === '2026-11');
+  for (const id of ['B', 'old']) {
+    const s = pick(res, id);
+    assert.deepEqual(nm(s).candidates, ['BBB'], id);
+    assert.equal(nov(trades(s, { side: 'buy', ticker: 'AAA' })).length, 0, id);
+  }
+  assert.ok(!pick(res, 'old').notes.includes('offPrinciple'));   // 옛 원칙 목록은 '원칙과 다름'이 아니다
+  const mine = pick(res, 'mine');
+  assert.deepEqual(nm(mine).candidates, ['AAA', 'BBB']);          // 직접 고른 적정은 원칙 밖이라도 산다
+  assert.ok(mine.notes.includes('offPrinciple'));
+  // 원칙 전략의 판정 가중은 11월부터 새 무게(저평가 2 : 적정~저평가 1)
+  const bt = pick(run({ world: { tier: (t) => (t === 'AAA' ? '적정~저평가' : undefined) }, scenarios: [S('custom', { buyTiers: OLD, buyMode: 'tier' }, { id: 'bt' })] }), 'bt');
+  { const a = nov(trades(bt, { side: 'buy', ticker: 'AAA' })).reduce((x, t) => x + t.amount, 0), b = nov(trades(bt, { side: 'buy', ticker: 'BBB' })).reduce((x, t) => x + t.amount, 0); near(a / (a + b), 1 / 3, 0.01); }
+  // 10월 계획(9/30 시작 → 10/01 점검)은 저장된 목록 그대로(dr r2): B는 옛 원칙이라 적정을 사고, 3개만 고른 직접 전략은 사지 않는다.
+  // 같은 전략이 11월 계획부터는 둘 다 새 원칙
+  const oct = run({ world: { tier, start: '2026-09-30' }, snapshot: { ...SNAP, date: '2026-09-30' },
+    scenarios: [S('B', undefined, { createdAt: '2026-09-29T22:00:00Z' }), S('custom', { buyTiers: ['초저평가', '저평가', '적정~저평가'] }, { id: 'new3', createdAt: '2026-09-29T22:00:00Z' })] });
+  const om = (s) => s.months.find((x) => x.decisionDate.slice(0, 7) === '2026-10');
+  assert.deepEqual(om(pick(oct, 'B')).candidates, ['AAA', 'BBB']);
+  assert.deepEqual(om(pick(oct, 'new3')).candidates, ['BBB']);
+  assert.deepEqual(nm(pick(oct, 'B')).candidates, ['BBB']);
+  // 직접 고른 적정은 판정 가중에서도 옛 무게로 산다(dr r1): 저평가 3 : 적정 1
+  const tw = pick(run({ world: { tier }, scenarios: [S('custom', { buyTiers: ['저평가', '적정'], buyMode: 'tier' }, { id: 'tw' })] }), 'tw');
+  assert.deepEqual(nm(tw).noWeight, []);
+  const a = nov(trades(tw, { side: 'buy', ticker: 'AAA' })).reduce((x, t) => x + t.amount, 0), b = nov(trades(tw, { side: 'buy', ticker: 'BBB' })).reduce((x, t) => x + t.amount, 0);
   near(a / (a + b), 0.25, 0.01);
 });

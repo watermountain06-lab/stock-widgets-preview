@@ -4,13 +4,13 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=21';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=14';
-import { renderManage } from './preview-only-portfolio-records.js?v=10';
-import { ENGINE_VERSION, BUY_PRINCIPLE, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=5';
-import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=12';
-import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=1';
-import { renderAccounts } from './preview-only-portfolio-acctview.js?v=1';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=22';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=15';
+import { renderManage } from './preview-only-portfolio-records.js?v=11';
+import { ENGINE_VERSION, principleFor, tierWeights, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=6';
+import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=13';
+import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=2';
+import { renderAccounts } from './preview-only-portfolio-acctview.js?v=2';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -139,7 +139,7 @@ export function depositsSince(all, base, today) {
 }
 
 // 원칙 3 매수 금액(2026-10-22 사용자 결정, dr r1 반영 — 예전 초안 '원칙 10'): 그달 넣은 돈(+지난달 판 돈)만 쓰고, 카드가 보여 준 살 후보 중 내가 고른 종목에 나눠 산다.
-// 나누는 방법은 균등·시총 비중(시가총액 비례)·판정 가중(등급 무게 초저평가 4 : 저평가 3 : 적정~저평가 2 : 적정 1) 가운데 고른다(기본값 없음).
+// 나누는 방법은 균등·시총 비중(시가총액 비례)·판정 가중(등급 무게 — 엔진 tierWeights: 옛 판 4:3:2:1, 11월 계획부터 3:2:1) 가운데 고른다(기본값 없음).
 // 놓친 회차(사용자 결정 10-22 Q2): 이번 회차 금액 = (그 종목 달 몫 − 이번 달 그 종목에 산 돈) ÷ 남은 회차 수(이번 회차 포함).
 // 모든 종목의 남은 몫 합은 남은 돈(쓸 돈 − 이번 달 산 돈 전부)을 넘지 않게 비례로 줄인다. 계산은 끝까지 센트 정수(내림 — 남는 센트는 쓰지 않는다).
 // budget·spent·bought 값은 달러. 고른 것 가운데 무게가 없는 종목(시총 없음·무게 밖 판정)이 있으면 그 방법은 null.
@@ -147,11 +147,10 @@ export function depositsSince(all, base, today) {
 export const BUY_METHODS = [['equal', '균등'], ['cap', '시총 비중'], ['tier', '판정 가중']];
 // 후보 줄 순서(사용자 요청 2026-10-25): 시가총액 큰 순, 시총을 모르는 종목은 맨 뒤 티커순 — 보여 주는 순서만, 계산과 무관
 export const byCap = (list, caps = {}) => [...list].sort((a, b) => (caps[b] || 0) - (caps[a] || 0) || (a < b ? -1 : 1));
-export const TIER_WEIGHT = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 };
 const toC = (v) => Math.max(0, Math.round((v || 0) * 100));
 // a × b ÷ c 내림을 정확히(정수만, BigInt — 실수 비율로 하면 3/11 같은 무게에서 1센트가 빠진다, dr r2)
 const mulDiv = (a, b, c) => Number((BigInt(a) * BigInt(b)) / BigInt(c));
-export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, tiers = {}, caps = {}, rounds = 4, roundsLeft = rounds }) {
+export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, tiers = {}, caps = {}, rounds = 4, roundsLeft = rounds, weights = tierWeights('9999-12') }) {
   const sel = cands.filter((t) => picked.includes(t));
   const cents = toC(budget), left = Math.max(0, cents - toC(spent)), passed = Math.max(0, rounds - roundsLeft);
   const plan = (w) => {
@@ -170,7 +169,7 @@ export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, tiers =
   };
   const out = { sel, by: {}, round: {}, rest: {}, missed: {}, capped: {} };
   const usdOf = (o) => (o ? Object.fromEntries(Object.entries(o).map(([t, c]) => [t, c / 100])) : null);
-  for (const [k, w] of [['equal', () => 1], ['cap', (t) => caps[t]], ['tier', (t) => TIER_WEIGHT[tiers[t]]]]) {
+  for (const [k, w] of [['equal', () => 1], ['cap', (t) => caps[t]], ['tier', (t) => weights[tiers[t]]]]) {
     const r = plan(w);
     out.by[k] = usdOf(r?.share); out.round[k] = usdOf(r?.round); out.rest[k] = usdOf(r?.rest); out.missed[k] = r ? r.missed : []; out.capped[k] = !!r?.capped;
   }
@@ -246,7 +245,7 @@ export function demoMonth(firstRec, month, lastSession) {
   if (!d0) return null;
   const plus = (d, n) => new Date(Date.parse(d + 'T12:00:00Z') + n * 864e5).toISOString().slice(0, 10);
   const rounds = [0, 1, 2, 3].map((k) => ({ date: S.find((d) => d >= plus(d0, 7 * k)), dropped: false })).filter((r) => r.date);
-  const candidates = Object.keys(firstRec.cards || {}).sort().filter((t) => !holdReason(firstRec.cards[t], firstRec) && BUY_PRINCIPLE.includes(firstRec.cards[t].tier));
+  const candidates = Object.keys(firstRec.cards || {}).sort().filter((t) => !holdReason(firstRec.cards[t], firstRec) && principleFor(month).includes(firstRec.cards[t].tier));
   const plan = { decisionDate: d0, record: firstRec.session, rounds, candidates, fires: [] };
   const steps = [{ label: '결정', date: d0, state: 'done' }, ...rounds.map((r, i) => ({ label: i + 1 + '회차', date: r.date, state: r.date > lastSession ? 'todo' : 'done' }))];
   const next = rounds.find((r) => r.date > lastSession) || null;
@@ -528,7 +527,8 @@ export function renderHome(root, model, handlers) {
     const planTier = (t) => rec?.cards?.[t]?.tier ?? null;   // 무게는 점검일 판정으로 고정(dr r1)
     // 지금 살 단계인가(원칙 1·6): 마지막 완전한 기록에서 판정이 살 단계·유효하고 가격이 묵지 않음 — 엔진 회차 재확인의 화면용 근사
     const nowHold = (t) => holdReason(lastFull?.cards?.[t], lastFull, today);   // 원칙 6 — 엔진 회차 재확인과 같은 판단 + 기록 자체의 묵음
-    const nowBuyable = (t) => !nowHold(t) && BUY_PRINCIPLE.includes(lastFull.cards[t].tier);
+    // 원칙 1은 그 계획의 달(진행 중이면 점검일의 달, 미리 보기면 목표 달)의 판으로 — 11월부터 적정 제외(2026-10-28)
+    const nowBuyable = (t) => !nowHold(t) && principleFor(live ? (mv.plan.checkDate || mv.plan.decisionDate).slice(0, 7) : target).includes(lastFull.cards[t].tier);
     // 점검일 전 미리 보기(B안): 결정 대기면 이번 달, 아니면 다음 점검일(오늘 뒤 첫 '그달 첫 거래일')의 달을 목표로 한다
     // 목표 달과 점검일을 함께 정한다(dr): 이번 달 점검일이 아직 안 왔으면 이번 달, 지났는데 결정이 없으면(지연·결정 대기) 이번 달을 기다리고,
     // 이번 달 점검일이 전략 비교 시작 전이었으면(첫 달) 다음 달 점검일
@@ -761,21 +761,23 @@ function buyBox(args) {
   const mh = el('div', 'pf-buysechead');
   mh.appendChild(el('span', 'pf-buylabel', '나누는 방법'));
   const tiers = Object.fromEntries(plan.candidates.map((t) => [t, planTier(t)]));
+  const wMonth = (plan.checkDate || plan.decisionDate || month).slice(0, 7), weights = tierWeights(wMonth);
+  const wText = Object.values(weights).join(':');
   const picked = ((mv.demo ? demoPicks : model.picks?.[month]) || []).filter((t) => plan.candidates.includes(t));
   const bp = method ? buyPlan({ cands: plan.candidates, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])),
-    tiers, caps: model.caps || {}, rounds, roundsLeft }) : null;
+    tiers, caps: model.caps || {}, rounds, roundsLeft, weights }) : null;
   // 체크 안 한 줄에도 '체크하면' 금액을 흐리게(사용자 결정 2026-10-25): 아무것도 안 골랐으면 전부 체크한 것으로, 골랐으면 그 종목을 더한 것으로 계산
   const hintPlans = new Map();
   const hint = (t, c) => {
     if (!method || !mv.next || !(budget > 0)) return null;
     const hp = picked.length ? [...picked, t] : plan.candidates, key = picked.length ? t : '*';
-    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands: plan.candidates, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), tiers, caps: model.caps || {}, rounds, roundsLeft }));
+    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands: plan.candidates, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), tiers, caps: model.caps || {}, rounds, roundsLeft, weights }));
     const r = hintPlans.get(key)?.round[method]?.[t];
     return r > 0 ? `체크하면 ${shareTxt(r, c)}${usd(r)}` : null;
   };
   mh.appendChild(el('span', 'pf-note', !method ? '아직 원칙으로 정하지 않음' : !mv.next ? '이번 달 회차 끝'
     : `(종목 달 몫 − 그 종목에 산 돈) ÷ 남은 회차 ${roundsLeft}회` + (bp?.capped[method] ? ' · 남은 돈에 맞춰 비례로 줄임' : '')
-      + (method === 'cap' ? ' · 시총은 오늘 기준' : method === 'tier' ? ' · 무게는 점검일 판정 4:3:2:1' : '')));
+      + (method === 'cap' ? ' · 시총은 오늘 기준' : method === 'tier' ? ` · 무게는 점검일 판정 ${wText}` : '')));
   box.appendChild(mh);
   const seg = el('div', 'pf-buyseg'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', '나누는 방법');
   for (const [k, t] of BUY_METHODS) {

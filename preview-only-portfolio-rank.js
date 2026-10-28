@@ -5,8 +5,8 @@
 // 저평가만(C)·갈아타기(D)는 값을 바꾸지 않으면 그 전략 그대로 저장하고, 바꾸면 사용자 정의로 저장한다(C는 매도 알림을 남기지 않아 사용자 정의와 다르다).
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
 import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
-  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=21';
-import { BUY_PRINCIPLE, BASELINES } from './preview-only-portfolio-engine.js?v=5';
+  compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=22';
+import { BUY_PRINCIPLE, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=6';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
 const C_TIERS = ['초저평가', '저평가'];
@@ -25,7 +25,8 @@ export function draftOf(sc) {
   if (!sc) return { kind: 'verdict', tiers: [...BUY_PRINCIPLE], sell: 0, rounds: 4, reserve: 0, mode: 'split', ...etfDefault() };
   const p = sc.params || {};
   if (sc.strategy === 'E') return { ...draftOf(null), kind: 'etf', etfShare: toPct(p.etfShare ?? 1), etfs: ETFS.filter((e) => (p.etfs || ETFS).includes(e)) };
-  const tiers = sc.strategy === 'custom' ? [...(p.buyTiers || [])] : sc.strategy === 'C' ? [...C_TIERS] : [...BUY_PRINCIPLE];
+  // 원칙과 같은 살 판정(옛 판 포함)은 지금 원칙으로 보여 준다 — 엔진도 달마다 그달 원칙으로 계산(2026-10-28)
+  const tiers = sc.strategy === 'custom' && !followsPrinciple(p.buyTiers) ? [...(p.buyTiers || [])] : sc.strategy === 'C' ? [...C_TIERS] : [...BUY_PRINCIPLE];
   const sell = sc.strategy === 'D' ? 100 : sc.strategy === 'C' ? 0 : toPct(p.sellFraction || 0);
   return { kind: 'verdict', tiers, sell, rounds: p.splitWeeks || 4, reserve: toPct(p.cashReserve || 0), mode: ['rank1', 'cap', 'tier'].includes(p.buyMode) ? p.buyMode : 'split', ...etfDefault() };
 }
@@ -54,7 +55,7 @@ export function sentenceOf(base, d) {
   const tiers = ALL_TIERS.filter((t) => d.tiers.includes(t));
   const buy = d.mode === 'rank1'
     ? `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 판정 순(같으면 기업 점수 순)으로 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 걸쳐'} 1주씩 이어서 삽니다. 1주 값이 모자라면 그 회차는 멈추고 남은 돈은 다음 회차로 넘깁니다. 그달 남은 돈으로도 1주가 안 되는 종목은 건너뜁니다.`
-    : `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 ${d.mode === 'cap' ? '시가총액 비례로' : d.mode === 'tier' ? '판정 무게(초저평가 4 : 저평가 3 : 적정~저평가 2 : 적정 1) 비례로' : '똑같이'} 나눠 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 걸쳐'} 삽니다.`
+    : `매달 1일 판정이 ${tiers.length ? tiers.join('·') : '(없음)'}인 종목을 ${d.mode === 'cap' ? '시가총액 비례로' : d.mode === 'tier' ? '판정 무게(초저평가 3 : 저평가 2 : 적정~저평가 1, 10월 계획까지는 적정 포함 4:3:2:1) 비례로' : '똑같이'} 나눠 ${d.rounds === 1 ? '한 번에' : d.rounds + '주에 걸쳐'} 삽니다.`
       + (d.mode === 'cap' ? ' 시가총액을 모르는 종목은 그달 사지 않고 그 몫은 나머지에 돌아갑니다.' : d.mode === 'tier' ? ' 그 밖의 판정은 무게가 없어 사지 않습니다.' : '');
   const sell = d.sell ? `판정이 고평가·초고평가가 되면 남은 수량의 ${d.sell}%를 팝니다.`
     : shape.strategy === 'C' ? '팔지 않습니다.' : '고평가가 되어도 팔지 않고 매도 검토 알림만 남깁니다.';
