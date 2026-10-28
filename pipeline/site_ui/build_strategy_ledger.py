@@ -214,7 +214,10 @@ def build(now_et, fixtures=None, lookup_publish=True):
         "prevPublishedAt": (published_at(prev) if lookup_publish else None) if prev else None,
         "ruleVersion": rule_version(),
         "scoreVersion": stocks.get("scoreVersion"),
-        "pipelineFull": bool(status.get("full")) and not status.get("failed"),
+        # 2026-10-28: 카드 단계가 끝까지 돌았으면 완전. 몇 장의 카드 실패는 그 카드만 priceStale(위)로 표시하고 그날 전체를
+        # 버리지 않는다 - 카드가 늘어난 뒤 거의 매일 한두 장이 실패해 10/22~10/26이 통째로 불완전이 되던 것(사용자 결정)
+        "pipelineFull": bool(status.get("full")),
+        "failedCards": sorted(failed_cards),
         "cards": cards,
         "prices": prices,
         "splits": sorted(splits, key=lambda s: s["id"]),

@@ -59,8 +59,8 @@ class LedgerTest(unittest.TestCase):
         (self.tmp / "site_data" / "stocks.json").write_text(json.dumps(
             {"priceSession": session, "scoreVersion": "v2", "tickers": tickers}))
 
-    def status(self, session, finished=True, cards=None):
-        d = {"session": session, "full": True, "failed": [], "cards": cards or {}}
+    def status(self, session, finished=True, cards=None, failed=None, full=True):
+        d = {"session": session, "full": full, "failed": failed or [], "cards": cards or {}}
         if finished:
             d["finished"] = "2026-10-20T15:00:00+0000"
         (self.tmp / "v2" / "daily_status.json").write_text(json.dumps(d))
@@ -147,13 +147,20 @@ class LedgerTest(unittest.TestCase):
              "tier": {"value": "적정", "status": "valid"}},
             {"ticker": "BBB", "cardAsOf": "2026-10-19", "price": {"close": 20.0, "session": "2026-10-19", "status": "fresh"},
              "tier": {"value": "저평가", "status": "valid"}}])
-        self.status(session="2026-10-19", cards={"BBB": {"status": "failed"}})
+        self.status(session="2026-10-19", cards={"BBB": {"status": "failed"}}, failed=["BBB"])
         self.run_build()
         r = self.read("2026-10-19")
         self.assertIsNone(r["cards"]["AAA"]["close"])
         self.assertTrue(r["cards"]["AAA"]["priceStale"])
         self.assertIn("AAA", r["missing"])
         self.assertTrue(r["cards"]["BBB"]["priceStale"])      # v2 card run failed -> verdict not fresh
+        self.assertTrue(r["pipelineFull"])                     # 2026-10-28: one failed card no longer voids the whole day
+        self.assertEqual(r["failedCards"], ["BBB"])
+
+    def test_partial_card_run_is_not_full(self):
+        self.status(session="2026-10-19", full=False)
+        self.run_build()
+        self.assertFalse(self.read("2026-10-19")["pipelineFull"])   # the card stage did not finish (e.g. 2026-10-21)
 
     def test_dropped_card_keeps_a_price_and_its_symbol(self):
         b.LEDGER.mkdir(parents=True)
