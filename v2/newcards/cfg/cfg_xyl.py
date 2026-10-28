@@ -62,5 +62,8 @@ SEG_MAP = {
  "extra": {"srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"},
  "members": {"xyl:WaterInfrastructureSegmentMember": ["수처리 인프라", "#0076c0"], "xyl:WaterSolutionsServicesSegmentMember": ["수처리 서비스", "#00a19a"],
              "xyl:MeasurementAndControlSolutionsSegmentMember": ["계측·제어(스마트 미터)", "#5aa9dc"], "xyl:AppliedWaterSegmentMember": ["응용 펌프(건물·산업)", "#9cc9e8"]},
+ # 2026 Q3 10-Q부터 회사가 두 부문의 태그 이름을 바꿨다(사업부는 그대로) — 옛 이름을 그대로 쓰는 지난 분기와 맞추려고 되돌려 읽는다(2026-10-28)
+ "alias": {"xyl:AppliedWaterMember": "xyl:AppliedWaterSegmentMember",
+           "xyl:MeasurementandControlSolutionsMember": "xyl:MeasurementAndControlSolutionsSegmentMember"},
  "ignore": []
 }

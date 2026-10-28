@@ -229,6 +229,9 @@ jobs:
           import json
           d = json.load(open("v2/daily_status.json"))
           print("실패:", d.get("failed"))
+          for t_ in (d.get("failed") or []):   # 실패 카드의 오류 줄도 메일에 — 마지막 한 줄만 와서 원인을 따로 파야 했다(2026-10-28)
+              for l_ in (d.get("cards", {}).get(t_, {}).get("why") or []):
+                  print(f"   {t_}| {l_}")
           print("판정·표 변경:", d.get("verdictChanges"))
           print("새 분기 보고서(확인 대기):", d.get("newFilings"))
           ' 2>/dev/null || true
