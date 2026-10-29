@@ -103,6 +103,17 @@ def run():
     o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": [("2025-12-31", 100.0, "2026-02-10")],
                         "PreferredStockLiquidationPreferenceValue": [("2025-12-31", 120.0, "2026-02-10")]}), E1)
     check("장부 태그가 청산가에 가까우면 장부 태그 그대로", vals(o) == [900.0])
+    o = run_ce(facts(**{SE: [("2025-12-31", 1e10, "2026-02-10")], "PreferredStockValue": [("2025-12-31", 6e6, "2026-02-10")],
+                        "PreferredStockIncludingAdditionalPaidInCapital": [("2025-12-31", 5.5e9, "2026-02-10")],
+                        "PreferredStockLiquidationPreferenceValue": [("2025-12-31", 5.9e9, "2026-02-10")]}), eq(("2025-12-31", 1e10, "2026-02-10")))
+    check("액면 건너뛴 뒤 다른 장부가 태그가 청산가보다 먼저", vals(o) == [1e10 - 5.5e9])
+    o = run_ce(facts(**{SE: [("2025-12-31", 1e10, "2026-02-10")],
+                        "PreferredStockValue": [("2025-03-31", 2e7, "2025-05-01"), ("2025-12-31", 0.0, "2026-02-10")],
+                        "PreferredStockIncludingAdditionalPaidInCapital": [("2025-06-30", 1e9, "2025-08-01")]}), eq(("2025-12-31", 1e10, "2026-02-10")))
+    check("다른 태그의 명시적 0은 상환 증거 아님(직전 P를 낸 태그만)", vals(o) == [1e10 - 1e9])
+    o = run_ce(facts(**{SE: [("2025-09-30", 900.0, "2026-03-01")], TOT: [("2025-09-30", 900.0, "2026-03-01"), ("2025-12-31", 1000.0, "2026-02-10")],
+                        "MinorityInterest": [("2025-06-30", 80.0, "2025-08-01")]}), E1)
+    check("나중 공시의 0 관측은 앞 시점 판단에 안 씀", vals(o) == [920.0])
     # r9: 의미 있던 금액 태그가 명시적 0 → 상환(DHR·PGR형)
     o = run_ce(facts(**{SE: [("2025-12-31", 1e10, "2026-02-10")],
                         "PreferredStockValue": [("2025-06-30", 1.6e9, "2025-08-01"), ("2025-12-31", 0.0, "2026-02-10")]}),
@@ -149,12 +160,15 @@ MUTANTS = [
     ("액면·청산가 비교 제거", "                    if lq and lq > PAR_RATIO * v:", "                    if False:"),
     ("400일 주식 수 표시 제거", "            if so and so[1] > 0 and _days(end, so[0]) <= CARRY_DAYS:", "            if False:"),
     ("400일 기권 규칙 제거", "        if _days(end, e1) > CARRY_DAYS:", "        if False:"),
-    ("금액 없음 + 주식 수 > 0 표시 제거", "        if not prev:\n            if so and so[1] > 0:", "        if not prev:\n            if False:"),
+    ("금액 없음 + 주식 수 > 0 표시 제거", "        if not prev:\n            if so and so[1] > 0 and _days(end, so[0]) <= CARRY_DAYS:", "        if not prev:\n            if False:"),
     ("명시적 0 상환 증거 제거", "        if self.explicit_zero(end, avail):\n            return True", "        if False:\n            return True"),
-    ("명시적 0 하한 제거(액면 0도 상환)", "                if prior and max(prior, key=lambda r: (r[\"end\"], r[\"filed\"]))[\"val\"] >= MATERIAL:", "                if True:"),
+    ("명시적 0 하한 제거(액면 0도 상환)", "                if d[0] < MATERIAL:\n                    return False", "                if False:\n                    return False"),
+    ("명시적 0을 아무 태그에나", "                return _val_at(rows, end, avail) == 0", "                return any(_val_at(r, end, avail) == 0 for _, r in self.tags)"),
+    ("액면 뒤 청산가 먼저", "                        par_skipped = True\n                        continue", "                        return lq, LIQ_TAG"),
+    ("0 관측 공시일 무시", " and zf <= av for z, zf in zero_obs", " for z, zf in zero_obs"),
     ("상환 뒤 재관측 표시 제거", "            if so and so[1] > 0 and so[0] > max(red):", "            if False:"),
     ("비지배지분 이어 쓰기 제거(늘 0)", "                    if recent and not any(", "                    if False and not any("),
-    ("비지배지분 0 관측 무시(JNJ)", " and not any(recent[-1][\"end\"] < z < end for z in zero_obs)", ""),
+    ("비지배지분 0 관측 무시(JNJ)", " and not any(recent[-1][\"end\"] < z < end and zf <= av for z, zf in zero_obs)", ""),
     ("되돌림 제거", "                v = tv - n", "                pass"),
     ("상환 뒤 되살아남", "        if red:", "        if False:"),
     ("EQIX 덮어쓰기 무시", "        tags = CE_PREF_OVERRIDE.get(cik, CE_PREF_TAGS)", "        tags = CE_PREF_TAGS"),
