@@ -105,6 +105,14 @@ SEG_MAP = {
    "#9ca3af"
   ]
  },
+ # 2026 Q3 10-Q부터 동부 부문 태그 이름이 바뀌었다(서부는 그대로) — 지난 분기와 맞추려고 되돌려 읽는다(2026-10-29)
+ "alias": {
+  "wm:EastTierMember": "wm:EastTierRegionAreasMember"
+ },
+ # 같은 공시에서 새로 생긴 본사 항목($8M, 매출의 0.1%) — 표에는 넣지 않고 매출 합 대조에만 더한다(2026-10-29)
+ "adjust": [
+  "us-gaap:CorporateAndOtherMember"
+ ],
  "ignore": [
   "wm:CollectionAndDisposalMember"
  ],
