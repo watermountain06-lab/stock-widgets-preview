@@ -342,6 +342,16 @@ CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".sec_cache
 _TRIED = set()
 
 
+# (cik, 승인 공시일, 캐시 파일 표식, overlay 파일 표식, 갱신 실행 표식) → 합친 facts. 한 프로세스가 같은 회사를
+# 수천 번 묻는다(build_dcf_track PPG 5,556번 — 승인 공시가 한 분기 더 가면 5,797번) — 그때마다 10MB 캐시를 다시 해석하고 overlay·자르기를 다시 했다.
+# 키에 두 파일의 수정 시각·크기와 승인일을 넣어, 그 사이 누가 파일을 다시 쓰거나 기준표를 고치면 새로 만든다. 키의
+# 표식은 **그 자료를 읽은 시점**의 것이고, 만드는 동안 파일이 바뀌면 아예 기억하지 않는다
+# (서버는 카드 4장이 같은 .sec_cache를 쓴다 — dr r1·r2 Codex·Fable). CACHE_DIR은 프로세스 안에서 상수로 본다.
+# 최대 두 칸만 두고 오래 쓰지 않은 것부터 버린다 — 비교 종목까지 도는 실행에서 메모리가 쌓이지 않게.
+_FACTS_MEMO = {}
+_FACTS_MEMO_HITS = [0, 0]   # [적중, 버림] — 시험·점검용
+
+
 def _facts(cik):
     """회사의 XBRL 전체(companyfacts)를 **한 번만** 받아 캐시한다.
 
@@ -353,6 +363,13 @@ def _facts(cik):
     os.makedirs(CACHE_DIR, exist_ok=True)
     path = os.path.join(CACHE_DIR, f"{cik}_facts.json")
     appr = _approved().get(cik)   # 분기 반영을 승인한 공시 제출일(v2/sec_approved.json) — 없으면 캐시 그대로
+    ovp = os.path.join(CACHE_DIR, "overlay", f"{cik}.json")
+    key = (cik, appr, _stamp(path), _stamp(ovp), os.environ.get("SEC_REFRESH_UNLISTED"))
+    if key in _FACTS_MEMO:   # 두 번째부터는 만들어 둔 것을 그대로 — 아래 파일 읽기·overlay·자르기를 다시 하지 않는다
+        _FACTS_MEMO[key] = _FACTS_MEMO.pop(key)   # 최근 쓴 것으로(두 칸 LRU)
+        _FACTS_MEMO_HITS[0] += 1
+        return _FACTS_MEMO[key]
+    fst = _stamp(path)   # 지금 읽는 파일의 표식 — 아래에서 받아 다시 쓰면 그때 다시 잡는다
     data = None
     if os.path.exists(path):
         try:
@@ -380,6 +397,8 @@ def _facts(cik):
         if ok:
             json.dump(fresh, open(path, "w"))
             data = fresh
+            fst = None   # 내가 방금 쓴 경우는 이번 호출에서 기억하지 않는다 — 쓰고 표식을 재는 사이 남이 또 쓸 수 있다
+            # (dr r4 Codex). 다음 호출이 파일을 읽어서 기억한다 — 받은 회사당 해석 한 번이 더 든다
         if run_id:   # 성공·실패 모두 이번 실행에는 다시 받지 않는다(태그마다 재요청하지 않게)
             os.makedirs(os.path.dirname(done), exist_ok=True)
             with open(done, "a") as f:
@@ -387,8 +406,9 @@ def _facts(cik):
             if not ok:
                 with open(os.path.join(CACHE_DIR, "_refresh_failed.txt"), "a") as f:
                     f.write(f"{cik} facts\n")
-    if data is None:
+    if data is None:   # 받기 실패는 기억하지 않는다 — 다른 프로세스가 캐시 파일을 만들면 이 프로세스도 다음 호출에서 집는다(dr r1 Codex)
         return {}
+    ovst = _stamp(ovp)
     merged = _overlay(cik, data)
     if appr:   # 보충 자료(overlay)까지 합친 뒤에 자른다 — 앞에서 자르면 overlay의 승인 뒤 행이 다시 들어온다(Codex)
         if not any(r.get("filed") == appr and r.get("form") in ("10-Q", "10-K", "10-Q/A", "10-K/A", "20-F", "40-F")
@@ -396,6 +416,29 @@ def _facts(cik):
             # 승인한 공시가 자료에 없다(SEC 반영 지연·받기 실패) — 옛 분기로 계속 계산하지 않고 멈춘다(Codex). 매일 재빌드는 이 카드를 전날 상태로 둔다
             raise RuntimeError(f"{cik}: 승인한 공시({appr} 제출)가 SEC 자료에 없다 — sec_approved.json 확인")
         merged = _cap_filed(merged, appr)
+    # 만드는 동안 다른 프로세스가 파일을 다시 썼으면 기억하지 않는다 — 옛 자료를 새 파일 표식으로 두면
+    # 이 프로세스가 끝까지 옛 자료를 쓴다(dr r3 Codex). 기억하지 않으면 다음 호출이 새 파일로 다시 만든다.
+    if fst is None or (_stamp(path), _stamp(ovp)) != (fst, ovst):
+        return merged
+    return _memo((cik, appr, fst, ovst, os.environ.get("SEC_REFRESH_UNLISTED")), merged)
+
+
+def _stamp(path):
+    """파일의 수정 시각·크기 — 같은 프로세스에서 그 파일이 바뀌면 메모를 다시 만들게 하는 표식."""
+    try:
+        st = os.stat(path)
+    except OSError:
+        return None
+    return (st.st_mtime_ns, st.st_size)
+
+
+def _memo(key, merged):
+    """만든 facts를 프로세스 안에 둔다. 두 칸을 넘으면 오래 쓰지 않은 것부터 버린다 —
+    카드 본체처럼 (내 회사, 비교 종목, 내 회사, …)로 번갈아 물을 때 내 회사가 남는다(dr r1 Fable)."""
+    while len(_FACTS_MEMO) >= 2:
+        _FACTS_MEMO.pop(next(iter(_FACTS_MEMO)))
+        _FACTS_MEMO_HITS[1] += 1
+    _FACTS_MEMO[key] = merged
     return merged
 
 
@@ -1659,7 +1702,9 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001932393": ["LongTermDebt"],   # GEHC: ShortTermBorrowings가 1년 안 장기차입을 이미 담아 기본 합산이 이중으로 셌다(2025-09 $2,005M + $2,002M) — 총계 $9,973M(Fable·Codex r1, 2026-10-28)
+DEBT_TOTAL_TAG = {"0000048898": ["DebtCurrent", "LongTermDebtNoncurrent"],   # HUBB: 1년 안(CP 313 + 유동 채권 300) $613.8M + 장기 $4,506.4M = $5,120.2M(Q3 2026 10-Q — 기본은 $4,821M로 CP가 빠졌다, 2026-10-29)
+                  "0001069202": ["CommercialPaper", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LII: CP $455.1M + 1년 안 $319.2M + 장기 $847.1M = 주석 총차입 $1,621.4M(금융리스 포함, Q3 2026 10-Q — 기본은 1년 안을 빼 $1,302M, 2026-10-29)
+                  "0001932393": ["LongTermDebt"],   # GEHC: ShortTermBorrowings가 1년 안 장기차입을 이미 담아 기본 합산이 이중으로 셌다(2025-09 $2,005M + $2,002M) — 총계 $9,973M(Fable·Codex r1, 2026-10-28)
                   "0001633917": ["DebtCurrent", "LongTermDebtNoncurrent"],   # PYPL: 1년 안(장기채 유동분 + CP $200M) $2,533M + 장기 $10,939M = $13,472M(기본은 CP를 빠뜨렸다, 2026-10-28)
                   "0000004904": ["ShortTermBorrowings", "LongTermDebt"],   # AEP: 단기(유동화 900 + CP 등) + 장기(1년 안 포함) — 기본은 CP를 한 번 더 셌다(Q3 2026 $54,416M, 2026-10-28)
                   "0001109357": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtNoncurrent", "LongTermDebtToFinancingTrusts"],   # EXC: 단기 $1,243M + 1년 안 $727M + 장기 $50,313M + 금융신탁 $390M = $52,673M(Q2 2026 10-Q, 2026-10-28) — 금융신탁은 회사 태그 exc:LongTermDebtToFinancingTrusts라 us-gaap 이름으로는 안 잡혀 엔진 값은 $52,283M
