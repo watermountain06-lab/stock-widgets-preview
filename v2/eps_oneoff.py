@@ -371,6 +371,13 @@ def _judge(ticker, rec, eps_rows, E, cap):
     if not same:
         _warn(f"{ticker} {E}: cap {cap}까지 공개된 EPS 파일 행 없음 — 조정 안 함")
         return None
+    if _ordered_quarters(eps_rows).index(E) < 3:
+        # E 앞 고유 결산 분기가 3개 미만(분사·상장 직후 — 파일 첫 세 분기)이면 구성 분기를 증명할 수 없다. 깨진 파일이 아니므로 오류가 아니라
+        # 조정 안 함 + 경고(E 행이 없을 때와 같은 처리, 2026-10-29 CARR 시범 — 2019-12~2020-06). 같은 결산일 행이 둘이면 그대로 오류.
+        if len(same) > 1:
+            raise OneoffError(f"{ticker} {E}: 같은 결산일 EPS 행 둘 이상(파일 첫 세 분기)")
+        _warn(f"{ticker} {E}: E 앞 결산 분기가 3개 미만 — 조정 안 함")
+        return None
     pr = proof([e for e in eps_rows if e.get("quarter_end") != E] + same, E)
     if pr is None:
         raise OneoffError(f"{ticker} {E}: EPS 파일 구성 분기 증명 실패(v1 3.1 — 합 ±0.011·310일)")

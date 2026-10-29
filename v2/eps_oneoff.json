@@ -1,3 +1,1508 @@
 {
- "_note": "일회성 손익 장치(안건 E54, 설계 v2/research/e54_v2_design.md r13). 종목마다 {\"scan\": {quarters, sources, gain_scan, quarter_facts}, \"items\": [...]}. 부호: adj 칸은 GAAP에 더하면 항목이 빠지는 값(손실 +, 이익 −). 1단계는 PER EPS·현금흐름 세율·A8 세율만 바꾼다."
+ "_note": "일회성 손익 장치(안건 E54, 설계 v2/research/e54_v2_design.md r13). 종목마다 {\"scan\": {quarters, sources, gain_scan, quarter_facts}, \"items\": [...]}. 부호: adj 칸은 GAAP에 더하면 항목이 빠지는 값(손실 +, 이익 −). 1단계는 PER EPS·현금흐름 세율·A8 세율만 바꾼다.",
+ "CARR": {
+  "scan": {
+   "quarters": [
+    "2019-12-31",
+    "2020-03-31",
+    "2020-06-30",
+    "2020-09-30",
+    "2020-12-31",
+    "2021-03-31",
+    "2021-06-30",
+    "2021-09-30",
+    "2021-12-31",
+    "2022-03-31",
+    "2022-06-30",
+    "2022-09-30",
+    "2022-12-31",
+    "2023-03-31",
+    "2023-06-30",
+    "2023-09-30",
+    "2023-12-31",
+    "2024-03-31",
+    "2024-06-30",
+    "2024-09-30",
+    "2024-12-31",
+    "2025-03-31",
+    "2025-06-30",
+    "2025-09-30",
+    "2025-12-31",
+    "2026-03-31",
+    "2026-06-30",
+    "2026-09-30"
+   ],
+   "sources": {
+    "2019-12-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000013/a8-kerexhibit99xq12020.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000011/carr-20201231.htm"
+    ],
+    "2020-03-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000013/a8-kerexhibit99xq12020.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000019/carr-20200331.htm"
+    ],
+    "2020-06-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000045/a8-kerexhibit99xq22020.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000052/carr-20200630.htm"
+    ],
+    "2020-09-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000063/a8-kerexhibit99xq32020.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000067/carr-20200930.htm"
+    ],
+    "2020-12-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000009/a8-kerexhibit99xq42020.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000011/carr-20201231.htm"
+    ],
+    "2021-03-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000029/a8-kerexhibit99xq12021.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000032/carr-20210331.htm"
+    ],
+    "2021-06-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000049/a991-q22021earningsrelease.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000050/carr-20210630.htm"
+    ],
+    "2021-09-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000062/a991-q32021earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000065/carr-20210930.htm"
+    ],
+    "2021-12-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000008/a8-kerexhibit99xq42021.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000010/carr-20211231.htm"
+    ],
+    "2022-03-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000032/a991-q12022earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000034/carr-20220331.htm"
+    ],
+    "2022-06-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000045/a99-q22022earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000048/carr-20220630.htm"
+    ],
+    "2022-09-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000054/a99-q32022earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000056/carr-20220930.htm"
+    ],
+    "2022-12-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000010/a8-kerexhibit99xq42022.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000012/carr-20221231.htm"
+    ],
+    "2023-03-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000036/a99-q12023earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000038/carr-20230331.htm"
+    ],
+    "2023-06-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000053/a99-q22023earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000056/carr-20230630.htm"
+    ],
+    "2023-09-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000063/a99-q32023earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000065/carr-20230930.htm"
+    ],
+    "2023-12-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000007/a8-kerexhibit99xq42023.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000009/carr-20231231.htm"
+    ],
+    "2024-03-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000042/a99-q12024earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000044/carr-20240331.htm"
+    ],
+    "2024-06-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000075/a99-q22024earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000077/carr-20240630.htm"
+    ],
+    "2024-09-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000084/a99-q32024earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000088/carr-20240930.htm"
+    ],
+    "2024-12-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000006/a8-kerexhibit99xq42024.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000008/carr-20241231.htm"
+    ],
+    "2025-03-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000028/a991-q12025earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000030/carr-20250331.htm"
+    ],
+    "2025-06-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000047/a99-q22025earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000052/carr-20250630.htm"
+    ],
+    "2025-09-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000063/a99-q32025earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000066/carr-20250930.htm"
+    ],
+    "2025-12-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000005/a8-kerexhibit99xq42025.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000008/carr-20251231.htm"
+    ],
+    "2026-03-31": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000023/a99-q12026earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000026/carr-20260331.htm"
+    ],
+    "2026-06-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000030/a99-q22026earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000032/carr-20260630.htm"
+    ],
+    "2026-09-30": [
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000035/a99-q32026earningsexhibit.htm",
+     "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000037/carr-20260930.htm"
+    ]
+   },
+   "gain_scan": true,
+   "scope_note": "EPS 파일 첫 분기 2019-12-31부터 2026-09-30까지 28분기(설계 §2 입구 2 — 2026-09-30 적용 판정으로 5년 범위 확장). 2019-12-31은 분리 전 분기라 실적 보도자료가 없고 2020-05-08 Q1 2020 보도자료의 2019 분기별 조정표와 10-K 2020 비교 연도를 씀",
+   "quarter_facts": {
+    "2026-09-30": {
+     "ni_q": -2593000000,
+     "eps_q": -3.16,
+     "shares_gaap_q": 821800000,
+     "shares_basic_q": 821800000,
+     "shares_adj_q": 821800000,
+     "qf_filed": "2026-10-29",
+     "note": "NetIncomeLoss −2,593M(지배주주, 계속영업 −2,593 + 중단영업 0). −2,593/821.8 = −3.155. 조정 EPS 0.87도 821.8M 사용(ex99 각주: 희석주 포함해도 영향 미미). 반희석 제외 20.7M"
+    }
+   },
+   "eps_tag": "EarningsPerShareDiluted(중단영업 포함 순이익 기준) — EPS 파일이 이 태그 사용(fetch_eps_history.DILUTED). 그래서 중단영업 매각 차익·AFFF 충당도 파일 EPS에 들어 있어 disc_ops 항목으로 기록",
+   "pretax_recast_note": "2024년 F&S 중단영업 재분류로 companyfacts 세전 태그에 2024-03-31·06-30·2023-09-30 등 원 공시값과 재작성값이 함께 있음. 항목의 pretax_includes는 원 공시값 기준",
+   "recon_check": "생략 — 모든 분기 조정표에 범위 밖 줄(인수 무형자산 상각·인수/매각/분리 비용·Viessmann 헤지·세금 항목 등)이 있어 조정표 전체 대조 불가",
+   "excluded_notes": [
+    "사용자 결정(2026-10-29): 2026-09-30 IEEPA 관세 환급 이익 $133M(영업이익, 매출원가 감소; ex99 '~$0.10 benefit net of ~($0.02) NCI') — 회사가 당사자인 소송이 아니라 일반 환급 명령이고 환급 대상 관세는 앞 분기 비용에 남아 있어 빼지 않음 — 회사도 조정 EPS에 포함. 다른 분기의 관세 환급류도 같은 이유로 넣지 않음",
+    "현금흐름표 합계 줄 '(Gain) loss on sale of investments / deconsolidation'만 있는 투자 매각 이익 — 2025-03-31 (5), 2025-12-31 (15)(연간 32 − 9개월 17), 2026-03-31 (3): 손익계산서·주석에 특정 매각 금액이 없어 제외",
+    "10-K 2025 Note 16 'CST gain on sale of equity method investment 6'(2025년): 분기 미상 — 10-Q 2025-Q1~Q3 어디에도 없어 Q4일 가능성이 높으나 회사가 분기를 밝히지 않아 제외",
+    "2019-12-31 Pension plan amendment 7, 각 분기 Separation costs·Chubb transaction costs·Acquisition(/divestiture)-related costs·Giwee 비용: 범주 밖(인수·분리·매각 비용, 연금)",
+    "2020-Q1~Q2 Debt issuance costs, 2021-Q1 Debt prepayment costs 19, 2022-Q1 Debt extinguishment gain (28), 2023 Bridge loan financing costs, 2024 Debt prepayment costs·2024-Q3 Debt extinguishment gain (97): 부채 관련 — 범주 밖",
+    "2021-Q1 Other 3, 2026-Q2 Other (5), 2026-Q3 Other 5: 회사 '기타' — 제외",
+    "2023-Q2~Q4·2024-Q1 Viessmann-related hedges: 헤지 평가손익 — 제외",
+    "2022-Q3 이후 Amortization of acquired intangibles·Acquisition step-up amortization: 인수 상각 — 제외",
+    "2024-Q1 Gain on liability adjustment (46)(10-K 2025 'TMA-related gain'): UTC 세금 분담 부채 조정 — 범주 밖",
+    "2025-Q3 Defined benefit pension settlement 11: 연금 정산 — 범주 밖",
+    "2025-Q4 VCS pre-acquisition product replacement cost 38: 제품 교체 비용 — 범주 밖",
+    "2026-Q3 CSE 전기 오류 정정 ~100bp 순이익: 범주 밖",
+    "2023 지분법 합작사 유리한 세무 판정 이익 16, 2020~2026 각종 세금 조정(UK 평가충당금·재투자 방침·Chubb 재편 세금·VCS 재편 650·중단영업 세금 이익 +1,237·스위스 평가충당금 등): 세금 항목(tax_oneoff 몫)",
+    "중단영업 Divestiture-related costs(2024-Q3 세후 33)·Tax specific adjustments: 매각 비용·세금 항목 — 제외",
+    "2022-09-30 TCC 기존 지분 재측정 이익 −732M과 조정 +27M(2022-12-31)·+8M(2023-03-31): 지배력 취득 때 기존 지분을 공정가치로 다시 잰 이익 — 설계 §2 '지분 평가손익'으로 제외(2026-10-29 Codex 검토). 판정 영향 없음(그 창은 divestiture 반복)."
+   ],
+   "unverified": [
+    "2020년 소송 비용 합계 $19M(10-K 2020) 중 2020-Q3 $11M 외 나머지 $8M의 분기·세금 — 조정표에 없음",
+    "2021년 OCI 재분류 '해외 법인 투자 매각 이익 8'(10-K 2022 포괄손익) — 분기 미상",
+    "2019-12-31 항목의 공시일: 분기 금액은 2020-05-08 보도자료가 처음(Form 10은 연간만으로 보임, 미확인)",
+    "2024-Q3·Q4 중단영업 구조조정(연간 세후 15, 분기 배분 미공시)",
+    "2025-Q2 현금흐름표 투자 매각 이익 12 중 CCR 7 외 나머지 5의 내용",
+    "2026-Q2 현금흐름표 '(Gain) loss on sale of investments and impairments, net' 3개월 40 중 Riello 손상 46 외 −6의 내용",
+    "2026-Q3 같은 줄 3개월 8 중 Riello 2 외 6(Noresco 매각 손익일 수 있으나 회사 미기재)",
+    "Noresco 매각(2026-08-03) 손익 금액 — 공시 없음"
+   ]
+  },
+  "items": [
+   {
+    "id": "CARR-2019-12-31-restructuring",
+    "quarter_end": "2019-12-31",
+    "filed": "2020-05-08",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 29000000,
+    "adj_tax": 6090000,
+    "tax_basis": "statutory_assumed",
+    "shares": 866000000,
+    "shares_source": "2020-05-08 ex99 2019 분기별 표 Diluted 866M(분리 때 배분 주식 수 기준)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Restructuring costs $29M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000013/a8-kerexhibit99xq12020.htm",
+    "opinc_includes": true,
+    "mismatch_note": "분리(2020-04-03) 전 분기. 분기 금액은 2020-05-08 Q1 2020 보도자료의 2019 분기별 조정표에서 처음 공시",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2020-03-31-restructuring",
+    "quarter_end": "2020-03-31",
+    "filed": "2020-05-08",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 5000000,
+    "adj_tax": 1050000,
+    "tax_basis": "statutory_assumed",
+    "shares": 866000000,
+    "shares_source": "2020-05-08 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $5M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000013/a8-kerexhibit99xq12020.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2020-06-30-restructuring",
+    "quarter_end": "2020-06-30",
+    "filed": "2020-07-30",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 11000000,
+    "adj_tax": 2310000,
+    "tax_basis": "statutory_assumed",
+    "shares": 870900000,
+    "shares_source": "2020-07-30 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $11M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000045/a8-kerexhibit99xq22020.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2020-09-30-restructuring",
+    "quarter_end": "2020-09-30",
+    "filed": "2020-10-29",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 3000000,
+    "adj_tax": 630000,
+    "tax_basis": "statutory_assumed",
+    "shares": 881500000,
+    "shares_source": "2020-10-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $3M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000063/a8-kerexhibit99xq32020.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2020-12-31-restructuring",
+    "quarter_end": "2020-12-31",
+    "filed": "2021-02-09",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 30000000,
+    "adj_tax": 6300000,
+    "tax_basis": "statutory_assumed",
+    "shares": 888400000,
+    "shares_source": "2021-02-09 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Restructuring costs $30M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000009/a8-kerexhibit99xq42020.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2021-03-31-restructuring",
+    "quarter_end": "2021-03-31",
+    "filed": "2021-04-29",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 18000000,
+    "adj_tax": 3780000,
+    "tax_basis": "statutory_assumed",
+    "shares": 889800000,
+    "shares_source": "2021-04-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $18M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000029/a8-kerexhibit99xq12021.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2021-06-30-restructuring",
+    "quarter_end": "2021-06-30",
+    "filed": "2021-07-29",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 21000000,
+    "adj_tax": 4410000,
+    "tax_basis": "statutory_assumed",
+    "shares": 890900000,
+    "shares_source": "2021-07-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $21M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000049/a991-q22021earningsrelease.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2021-09-30-restructuring",
+    "quarter_end": "2021-09-30",
+    "filed": "2021-10-28",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 13000000,
+    "adj_tax": 2730000,
+    "tax_basis": "statutory_assumed",
+    "shares": 892000000,
+    "shares_source": "2021-10-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $13M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000062/a991-q32021earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2021-12-31-restructuring",
+    "quarter_end": "2021-12-31",
+    "filed": "2022-02-08",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 37000000,
+    "adj_tax": 7770000,
+    "tax_basis": "statutory_assumed",
+    "shares": 888500000,
+    "shares_source": "2022-02-08 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Restructuring costs $37M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000008/a8-kerexhibit99xq42021.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-03-31-restructuring",
+    "quarter_end": "2022-03-31",
+    "filed": "2022-04-28",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 10000000,
+    "adj_tax": 2100000,
+    "tax_basis": "statutory_assumed",
+    "shares": 874100000,
+    "shares_source": "2022-04-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $10M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000032/a991-q12022earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-06-30-restructuring",
+    "quarter_end": "2022-06-30",
+    "filed": "2022-07-28",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 13000000,
+    "adj_tax": 2730000,
+    "tax_basis": "statutory_assumed",
+    "shares": 862700000,
+    "shares_source": "2022-07-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $13M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000045/a99-q22022earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-09-30-restructuring",
+    "quarter_end": "2022-09-30",
+    "filed": "2022-10-27",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 6000000,
+    "adj_tax": 1260000,
+    "tax_basis": "statutory_assumed",
+    "shares": 856500000,
+    "shares_source": "2022-10-27 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $6M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000054/a99-q32022earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-12-31-restructuring",
+    "quarter_end": "2022-12-31",
+    "filed": "2023-02-07",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 2000000,
+    "adj_tax": 420000,
+    "tax_basis": "statutory_assumed",
+    "shares": 852200000,
+    "shares_source": "2023-02-07 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Restructuring costs $2M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000010/a8-kerexhibit99xq42022.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2023-03-31-restructuring",
+    "quarter_end": "2023-03-31",
+    "filed": "2023-04-25",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 17000000,
+    "adj_tax": 3570000,
+    "tax_basis": "statutory_assumed",
+    "shares": 852200000,
+    "shares_source": "2023-04-25 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $17M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000036/a99-q12023earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2023-06-30-restructuring",
+    "quarter_end": "2023-06-30",
+    "filed": "2023-07-27",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 9000000,
+    "adj_tax": 1890000,
+    "tax_basis": "statutory_assumed",
+    "shares": 850900000,
+    "shares_source": "2023-07-27 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $9M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000053/a99-q22023earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2023-09-30-restructuring",
+    "quarter_end": "2023-09-30",
+    "filed": "2023-10-26",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 28000000,
+    "adj_tax": 5880000,
+    "tax_basis": "statutory_assumed",
+    "shares": 854700000,
+    "shares_source": "2023-10-26 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $28M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000063/a99-q32023earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2023-12-31-restructuring",
+    "quarter_end": "2023-12-31",
+    "filed": "2024-02-06",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 43000000,
+    "adj_tax": 9030000,
+    "tax_basis": "statutory_assumed",
+    "shares": 854200000,
+    "shares_source": "2024-02-06 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Restructuring costs $43M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000007/a8-kerexhibit99xq42023.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2024-03-31-restructuring",
+    "quarter_end": "2024-03-31",
+    "filed": "2024-04-25",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 15000000,
+    "adj_tax": 3150000,
+    "tax_basis": "statutory_assumed",
+    "shares": 913000000,
+    "shares_source": "2024-04-25 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $15M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000042/a99-q12024earningsexhibit.htm",
+    "opinc_includes": true,
+    "mismatch_note": "원 보도자료 15(HVAC 7·F&S 7·기타 1). 이후 F&S가 중단영업으로 재분류돼 재작성 계속영업 세전(244M, 2025-05-01 공시)에는 8만 포함 — pretax_includes는 원 공시 세전 335M 기준",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2024-06-30-restructuring",
+    "quarter_end": "2024-06-30",
+    "filed": "2024-07-25",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 32000000,
+    "adj_tax": 6720000,
+    "tax_basis": "statutory_assumed",
+    "shares": 915300000,
+    "shares_source": "2024-07-25 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $32M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000075/a99-q22024earningsexhibit.htm",
+    "opinc_includes": true,
+    "mismatch_note": "원 보도자료 32(F&S 3 포함). 재작성 계속영업 세전(567M)에는 29만 포함 — pretax_includes는 원 공시 세전 3,524M 기준",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2024-09-30-restructuring",
+    "quarter_end": "2024-09-30",
+    "filed": "2024-10-24",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 60000000,
+    "adj_tax": 12600000,
+    "tax_basis": "statutory_assumed",
+    "shares": 915000000,
+    "shares_source": "2024-10-24 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $60M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000084/a99-q32024earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2024-12-31-restructuring",
+    "quarter_end": "2024-12-31",
+    "filed": "2025-02-11",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 11000000,
+    "adj_tax": 2310000,
+    "tax_basis": "statutory_assumed",
+    "shares": 903400000,
+    "shares_source": "2025-02-11 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Restructuring costs $11M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000006/a8-kerexhibit99xq42024.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2025-03-31-restructuring",
+    "quarter_end": "2025-03-31",
+    "filed": "2025-05-01",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 8000000,
+    "adj_tax": 1680000,
+    "tax_basis": "statutory_assumed",
+    "shares": 878300000,
+    "shares_source": "2025-05-01 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $8M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000028/a991-q12025earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2025-06-30-restructuring",
+    "quarter_end": "2025-06-30",
+    "filed": "2025-07-29",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 47000000,
+    "adj_tax": 9870000,
+    "tax_basis": "statutory_assumed",
+    "shares": 866300000,
+    "shares_source": "2025-07-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $47M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000047/a99-q22025earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2025-09-30-restructuring",
+    "quarter_end": "2025-09-30",
+    "filed": "2025-10-28",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 50000000,
+    "adj_tax": 10500000,
+    "tax_basis": "statutory_assumed",
+    "shares": 858600000,
+    "shares_source": "2025-10-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $50M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000063/a99-q32025earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2025-12-31-restructuring",
+    "quarter_end": "2025-12-31",
+    "filed": "2026-02-05",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 73000000,
+    "adj_tax": 15330000,
+    "tax_basis": "statutory_assumed",
+    "shares": 846700000,
+    "shares_source": "2026-02-05 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Restructuring costs $73M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000005/a8-kerexhibit99xq42025.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2026-03-31-restructuring",
+    "quarter_end": "2026-03-31",
+    "filed": "2026-04-30",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 108000000,
+    "adj_tax": 22680000,
+    "tax_basis": "statutory_assumed",
+    "shares": 842800000,
+    "shares_source": "2026-04-30 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $108M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000023/a99-q12026earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2026-06-30-restructuring",
+    "quarter_end": "2026-06-30",
+    "filed": "2026-07-28",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 8000000,
+    "adj_tax": 1680000,
+    "tax_basis": "statutory_assumed",
+    "shares": 836500000,
+    "shares_source": "2026-07-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $8M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000030/a99-q22026earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2026-09-30-restructuring",
+    "quarter_end": "2026-09-30",
+    "filed": "2026-10-29",
+    "categories": [
+     "restructuring"
+    ],
+    "line": "opinc",
+    "adj_pretax": 45000000,
+    "adj_tax": 9450000,
+    "tax_basis": "statutory_assumed",
+    "shares": 821800000,
+    "shares_source": "2026-10-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Restructuring costs $45M (보도자료 GAAP→조정 조정표; 10-Q/10-K 구조조정 주석)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000035/a99-q32026earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2019-12-31-jv-sale-gain",
+    "quarter_end": "2019-12-31",
+    "filed": "2020-05-08",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -23000000,
+    "adj_tax": -4830000,
+    "tax_basis": "statutory_assumed",
+    "shares": 866000000,
+    "shares_source": "2020-05-08 ex99 2019 분기별 표 Diluted 866M",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "HVAC 합작사 지분 매각 이익 $(23)M ('Gain on sale of interests in joint ventures')",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000013/a8-kerexhibit99xq12020.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2019-12-31-expropriation-gain",
+    "quarter_end": "2019-12-31",
+    "filed": "2020-05-08",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -22000000,
+    "adj_tax": -4620000,
+    "tax_basis": "statutory_assumed",
+    "shares": 866000000,
+    "shares_source": "2020-05-08 ex99 2019 분기별 표 Diluted 866M",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Refrigeration 공장 수용 순이익 $(22)M ('Net gain on expropriated plant')",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000013/a8-kerexhibit99xq12020.htm",
+    "opinc_includes": true,
+    "mismatch_note": "정부 수용에 따른 보상 차익 — 자산 처분 손익으로 보고 divestiture로 분류(판단)",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2020-03-31-jv-impairment",
+    "quarter_end": "2020-03-31",
+    "filed": "2020-05-08",
+    "categories": [
+     "impairment"
+    ],
+    "line": "opinc",
+    "adj_pretax": 71000000,
+    "adj_tax": 0,
+    "tax_basis": "nontaxable",
+    "shares": 866000000,
+    "shares_source": "2020-05-08 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "소수지분 합작사 투자 손상 $71M (석유·가스 시장 합작사, Other income(expense), net)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000013/a8-kerexhibit99xq12020.htm",
+    "tax_note": "10-Q 2020-Q1 세율 서술: 'non-deductible impairment charge of $71 million'",
+    "tax_source_filed": "2020-05-11",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000019/carr-20200331.htm 세율 서술",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2020-09-30-beijer-gain-1",
+    "quarter_end": "2020-09-30",
+    "filed": "2020-10-29",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -252000000,
+    "adj_tax": -58000000,
+    "tax_basis": "disclosed",
+    "shares": 881500000,
+    "shares_source": "2020-10-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Beijer Ref B주 925만 주 매각 차익 $252M (Other income(expense), net)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000063/a8-kerexhibit99xq32020.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000067/carr-20200930.htm MD&A: 'pre-tax $252 million ($194 million, net of tax) gain' → 세금 58",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2020-09-30-litigation-charge",
+    "quarter_end": "2020-09-30",
+    "filed": "2020-10-29",
+    "categories": [
+     "litigation"
+    ],
+    "line": "opinc",
+    "adj_pretax": 11000000,
+    "adj_tax": 2310000,
+    "tax_basis": "statutory_assumed",
+    "shares": 881500000,
+    "shares_source": "2020-10-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "소송 관련 비용 $11M ('Charge resulting from a litigation matter')",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000063/a8-kerexhibit99xq32020.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318020000067/carr-20200930.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false,
+    "mismatch_note": "비공제 서술이 10-Q 2020 Q3 원문에 없어 21% 추정으로(2026-10-29 Fable)."
+   },
+   {
+    "id": "CARR-2020-12-31-beijer-gain-2",
+    "quarter_end": "2020-12-31",
+    "filed": "2021-02-09",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -871000000,
+    "adj_tax": -182910000,
+    "tax_basis": "statutory_assumed",
+    "shares": 888400000,
+    "shares_source": "2021-02-09 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Beijer Ref 잔여 A·B주 전량 매각 차익 $871M (Other income(expense), net)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000009/a8-kerexhibit99xq42020.htm",
+    "opinc_includes": true,
+    "tax_note": "항목별 세금 미공시(ex99는 세금 납부 $272M만 언급, 현금 기준) — 21% 추정",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2021-09-30-jv-impairment",
+    "quarter_end": "2021-09-30",
+    "filed": "2021-10-28",
+    "categories": [
+     "impairment"
+    ],
+    "line": "opinc",
+    "adj_pretax": 2000000,
+    "adj_tax": 420000,
+    "tax_basis": "statutory_assumed",
+    "shares": 892000000,
+    "shares_source": "2021-10-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "소수지분 합작사 투자 손상 $2M — 10-Q 2021-Q3 현금흐름표 9개월 2(상반기 0), 10-K 2021 Note 'Impairment charge on minority-owned joint venture investments (2)'",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318021000065/carr-20210930.htm",
+    "opinc_includes": true,
+    "mismatch_note": "분기는 현금흐름표 누적값(상반기 0 → 9개월 2)으로 확인. 금액은 이후 10-K 주석 표에도 명시",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-03-31-chubb-gain",
+    "quarter_end": "2022-03-31",
+    "filed": "2022-04-28",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -1112000000,
+    "adj_tax": -233520000,
+    "tax_basis": "statutory_assumed",
+    "shares": 874100000,
+    "shares_source": "2022-04-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Chubb Fire & Security 매각 차익 $1,112M (Other income(expense), net)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000032/a991-q12022earningsexhibit.htm",
+    "opinc_includes": true,
+    "tax_note": "회사는 'Chubb 차익에 미국 법정세율보다 낮은 실효세율'이라고만 적음, 금액 미공시 — 21% 추정은 세금을 과대 계상할 수 있음 세금은 순서 6 추정(21%) — 회사는 '낮은 실효세율'이라고만 밝혀 실제보다 클 수 있음.",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-03-31-russia-impairment",
+    "quarter_end": "2022-03-31",
+    "filed": "2022-04-28",
+    "categories": [
+     "impairment"
+    ],
+    "line": "opinc",
+    "adj_pretax": 9000000,
+    "adj_tax": 1890000,
+    "tax_basis": "statutory_assumed",
+    "shares": 874100000,
+    "shares_source": "2022-04-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "러시아·우크라이나 관련 자산 손상 $9M (러시아 사업 중단)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000032/a991-q12022earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-06-30-legal-charge",
+    "quarter_end": "2022-06-30",
+    "filed": "2022-07-28",
+    "categories": [
+     "litigation"
+    ],
+    "line": "opinc",
+    "adj_pretax": 22000000,
+    "adj_tax": 4620000,
+    "tax_basis": "statutory_assumed",
+    "shares": 862700000,
+    "shares_source": "2022-07-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "소송 관련 비용 $22M ('Charge resulting from legal matter')",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000045/a99-q22022earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-06-30-russia-impairment",
+    "quarter_end": "2022-06-30",
+    "filed": "2022-07-28",
+    "categories": [
+     "impairment"
+    ],
+    "line": "opinc",
+    "adj_pretax": -4000000,
+    "adj_tax": -840000,
+    "tax_basis": "statutory_assumed",
+    "shares": 862700000,
+    "shares_source": "2022-07-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "러시아·우크라이나 자산 손상 조정(환입) $(4)M",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000045/a99-q22022earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-06-30-cost-inv-sale-gain",
+    "quarter_end": "2022-06-30",
+    "filed": "2022-07-28",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -7000000,
+    "adj_tax": -1470000,
+    "tax_basis": "statutory_assumed",
+    "shares": 862700000,
+    "shares_source": "2022-07-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Refrigeration 원가법 투자 지분 매각 이익 $(7)M — 조정표에 없음, 10-Q MD&A에만 기재",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000048/carr-20220630.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-06-30-tcc-jv-sub-sale-gain",
+    "quarter_end": "2022-06-30",
+    "filed": "2022-07-28",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -27000000,
+    "adj_tax": 0,
+    "tax_basis": "equity_method",
+    "shares": 862700000,
+    "shares_source": "2022-07-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "TCC(당시 지분법 합작사)의 소수지분 자회사 2곳 매각 이익 중 Carrier 몫 $(27)M — 지분법 이익에 포함, 조정표에 없음",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000048/carr-20220630.htm",
+    "opinc_includes": true,
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000048/carr-20220630.htm MD&A 'Equity method investment net earnings ... $27 million gain on the sale of two minority owned subsidiaries'",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-09-30-chubb-true-up",
+    "quarter_end": "2022-09-30",
+    "filed": "2022-10-27",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": 7000000,
+    "adj_tax": 1470000,
+    "tax_basis": "statutory_assumed",
+    "shares": 856500000,
+    "shares_source": "2022-10-27 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Chubb 매각 운전자본 정산 비용 $7M (차익 감소)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000054/a99-q32022earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false,
+    "tax_note": "세금은 순서 6 추정(21%) — 회사는 '낮은 실효세율'이라고만 밝혀 실제보다 클 수 있음."
+   },
+   {
+    "id": "CARR-2022-09-30-russia-impairment",
+    "quarter_end": "2022-09-30",
+    "filed": "2022-10-27",
+    "categories": [
+     "impairment"
+    ],
+    "line": "opinc",
+    "adj_pretax": -2000000,
+    "adj_tax": -420000,
+    "tax_basis": "statutory_assumed",
+    "shares": 856500000,
+    "shares_source": "2022-10-27 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "러시아·우크라이나 자산 손상 조정(환입) $(2)M",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318022000054/a99-q32022earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2022-12-31-russia-impairment",
+    "quarter_end": "2022-12-31",
+    "filed": "2023-02-07",
+    "categories": [
+     "impairment"
+    ],
+    "line": "opinc",
+    "adj_pretax": 1000000,
+    "adj_tax": 210000,
+    "tax_basis": "statutory_assumed",
+    "shares": 852200000,
+    "shares_source": "2023-02-07 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "러시아·우크라이나 자산 손상 $1M",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000010/a8-kerexhibit99xq42022.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2023-03-31-transport-business-sale-gain",
+    "quarter_end": "2023-03-31",
+    "filed": "2023-04-26",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -24000000,
+    "adj_tax": -5040000,
+    "tax_basis": "statutory_assumed",
+    "shares": 852200000,
+    "shares_source": "2023-04-25 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Transport refrigeration 사업 매각 이익 $(24)M — 조정표에 없음, 10-Q 부문 설명에만 기재",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000038/carr-20230331.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2023-06-30-kfi-deconsolidation",
+    "quarter_end": "2023-06-30",
+    "filed": "2023-07-27",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": 293000000,
+    "adj_tax": 0,
+    "tax_basis": "nontaxable",
+    "shares": 850900000,
+    "shares_source": "2023-07-27 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "KFI(AFFF 소송 자회사) 파산 신청에 따른 디콘솔 손실 $293M (Other income(expense), net)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000053/a99-q22023earningsexhibit.htm",
+    "tax_note": "10-Q 2023-Q2 세율 서술: 'non-deductible losses of $293 million on the deconsolidation of KFI'",
+    "tax_source_filed": "2023-07-27",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000056/carr-20230630.htm",
+    "opinc_includes": true,
+    "mismatch_note": "KFI는 AFFF 소송 때문에 파산한 자회사 — 지배력 상실 손실로 divestiture에 넣음(litigation 성격도 있으나 회사 표기는 'deconsolidation'). 2024년 재작성에서 중단영업으로 옮겨짐 — pretax_includes는 원 공시 기준 범주 선택이 결과를 정한다: divestiture(회사 표기 'Gain (loss) on divestitures and deconsolidation')면 2024-09-30 AFFF 적용(3.82 → 4.279), litigation이면 AFFF가 반복으로 빠지고 2023-06-30에 KFI 적용(2.52 → 2.864) — 회사 분류대로 divestiture.",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2023-09-30-kfi-deconsolidation-adj",
+    "quarter_end": "2023-09-30",
+    "filed": "2023-10-26",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": 4000000,
+    "adj_tax": 0,
+    "tax_basis": "nontaxable",
+    "shares": 854700000,
+    "shares_source": "2023-10-26 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "KFI 디콘솔 손실 추가 $4M",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000063/a99-q32023earningsexhibit.htm",
+    "tax_note": "10-Q 2023-Q3 9개월 세율 서술: 'non-deductible loss of $297 million on the deconsolidation of KFI'",
+    "tax_source_filed": "2023-10-26",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318023000065/carr-20230930.htm",
+    "opinc_includes": true,
+    "mismatch_note": "2023-09-30 계속영업 세전은 2024-10-25 재작성에서 594M → 471M — pretax_includes는 원 공시 기준 범주 선택이 결과를 정한다: divestiture(회사 표기 'Gain (loss) on divestitures and deconsolidation')면 2024-09-30 AFFF 적용(3.82 → 4.279), litigation이면 AFFF가 반복으로 빠지고 2023-06-30에 KFI 적용(2.52 → 2.864) — 회사 분류대로 divestiture.",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2024-06-30-access-gain",
+    "quarter_end": "2024-06-30",
+    "filed": "2024-07-25",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -2881000000,
+    "adj_tax": -1100000000,
+    "tax_basis": "disclosed",
+    "shares": 915300000,
+    "shares_source": "2024-07-25 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Access Solutions 매각 차익 $2,881M (Fire & Security; 원 10-Q에서는 Other income(expense), net → 영업이익 안). 2024-Q3부터 중단영업으로 재분류",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000075/a99-q22024earningsexhibit.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000077/carr-20240630.htm Note 세율 서술: '$1.1 billion tax on the $2.9 billion gain on the sale of Access Solutions'",
+    "tax_source_filed": "2024-07-25",
+    "opinc_includes": true,
+    "tax_note": "처음 공시(2024-07-25 10-Q)는 반올림값 $1.1B. 정확값 1,076은 2024-10-25 10-Q(9개월 'Tax on divestitures (1,275)' − 3분기 (199))로 계산 가능, 2025-07-29 10-Q 중단영업 표에 직접 기재 — 시점 일관성 위해 1,100 사용",
+    "mismatch_note": "세후 = 2,881 − 1,100 = 1,781(회사 '$1.8 billion net gain'). EPS 파일은 중단영업 포함 EPS라 재분류와 무관하게 2.55에 포함. 세전 태그: 원 공시값 3,524M에는 포함, 재작성값 567M(2025-07-29)에는 미포함 — 엔진이 원 공시값을 고르는지 확인 필요",
+    "disc_ops_later": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2024-09-30-indfire-gain",
+    "quarter_end": "2024-09-30",
+    "filed": "2024-10-25",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "pretax",
+    "adj_pretax": -509000000,
+    "adj_tax": -199000000,
+    "tax_basis": "disclosed",
+    "shares": 915000000,
+    "shares_source": "2024-10-24 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": false
+    },
+    "desc": "Industrial Fire 매각 차익(중단영업) 세전 $509M, 세금 $199M, 세후 $310M",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000088/carr-20240930.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000088/carr-20240930.htm 중단영업 구성표 'Gain (loss) on divestitures 509' / 'Tax on divestitures (199)'; ex99(2024-10-24) 'Gain on sale of Industrial business (310)'(세후)",
+    "disc_ops": true,
+    "mismatch_note": "중단영업 항목 — 계속영업 세전 태그에 없음(pretax_includes false). EPS 파일(EarningsPerShareDiluted)에는 포함. ex99(10-24)는 세후 310만, 세전은 10-Q(10-25)에 처음"
+   },
+   {
+    "id": "CARR-2024-09-30-afff-reserve",
+    "quarter_end": "2024-09-30",
+    "filed": "2024-10-25",
+    "categories": [
+     "litigation"
+    ],
+    "line": "pretax",
+    "adj_pretax": 565000000,
+    "adj_tax": 145000000,
+    "tax_basis": "disclosed",
+    "shares": 915000000,
+    "shares_source": "2024-10-24 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": false
+    },
+    "desc": "AFFF 소송 합의 충당(중단영업 Other income(expense)) 세전 $565M, 세후 $420M",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000088/carr-20240930.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318024000088/carr-20240930.htm Note(AFFF: 'recorded a liability in the amount of $565 million'); ex99(2024-10-24) 중단영업 조정표 'AFFF legal reserve 420'(세후) → 세금 145",
+    "disc_ops": true,
+    "mismatch_note": "중단영업 항목 — 계속영업 세전 태그에 없음. ex99(10-24)는 세후 420만, 세전 565는 10-Q(10-25)에 처음"
+   },
+   {
+    "id": "CARR-2024-12-31-ccr-gain",
+    "quarter_end": "2024-12-31",
+    "filed": "2025-02-11",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -318000000,
+    "adj_tax": -26000000,
+    "tax_basis": "disclosed",
+    "shares": 903400000,
+    "shares_source": "2025-02-11 ex99 손익계산서 Diluted 903.4M(순이익 흑자; 계속영업 −0.05도 회사는 903.4 사용)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "Commercial Refrigeration(CCR) 매각 총차익 $318M (계속영업 Other income(expense), net)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000006/a8-kerexhibit99xq42024.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000008/carr-20241231.htm Item 1 'net gain on the sale of $292 million' 대 Note 'gross gain ... $318 million' → 세금 26",
+    "tax_source_filed": "2025-02-11",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2024-12-31-discops-gain",
+    "quarter_end": "2024-12-31",
+    "filed": "2025-02-11",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "pretax",
+    "adj_pretax": -1786000000,
+    "adj_tax": -454000000,
+    "tax_basis": "disclosed",
+    "shares": 903400000,
+    "shares_source": "2025-02-11 ex99 손익계산서 Diluted 903.4M",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": false,
+     "tag_note": "companyfacts에 이 태그의 3개월 값 없음(연간만) — Q4는 연간 − 9개월로 만들어짐"
+    },
+    "desc": "중단영업 매각 차익 Q4 세전 $1,786M(주로 CRF 매각, 회사 'net gain $1.4 billion'), 세금 $454M — 연간 − 9개월로 계산",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000008/carr-20241231.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000008/carr-20241231.htm 중단영업 표 연간 'Gain (loss) on divestitures 5,176'·'Tax on divestitures (1,729)' − https://www.sec.gov/Archives/edgar/data/1783180/000178318024000088/carr-20240930.htm 9개월 3,390·(1,275)",
+    "tax_source_filed": "2025-02-11",
+    "disc_ops": true,
+    "mismatch_note": "분기값은 회사가 직접 적지 않음(연간 − 9개월). 이전 매각(Access·Industrial) 정산분이 섞였을 수 있음. 중단영업 Q4의 세금 이익 +1,237(VCS 재편 관련)은 세금 항목이라 제외"
+   },
+   {
+    "id": "CARR-2025-06-30-ccr-true-up",
+    "quarter_end": "2025-06-30",
+    "filed": "2025-07-29",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": -7000000,
+    "adj_tax": -1470000,
+    "tax_basis": "statutory_assumed",
+    "shares": 866300000,
+    "shares_source": "2025-07-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "CCR 매각 운전자본 정산 이익 $(7)M (ex99 'CCR gain (7)'; 10-K 2025 Note 16 'CCR gain 7')",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000047/a99-q22025earningsexhibit.htm",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2025-06-30-discops-div-loss",
+    "quarter_end": "2025-06-30",
+    "filed": "2025-07-29",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "pretax",
+    "adj_pretax": 22000000,
+    "adj_tax": 5000000,
+    "tax_basis": "disclosed",
+    "shares": 866300000,
+    "shares_source": "2025-07-29 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": false
+    },
+    "desc": "중단영업 매각 손실(정산) 세전 $22M, 세금 이익 $5M, 세후 $17M",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000052/carr-20250630.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318025000052/carr-20250630.htm 중단영업 구성표 'Gain (loss) on divestitures (22)' / 'Tax on divestitures 5'",
+    "disc_ops": true
+   },
+   {
+    "id": "CARR-2026-06-30-riello-impairment",
+    "quarter_end": "2026-06-30",
+    "filed": "2026-07-28",
+    "categories": [
+     "impairment"
+    ],
+    "line": "opinc",
+    "adj_pretax": 46000000,
+    "adj_tax": 0,
+    "tax_basis": "nontaxable",
+    "shares": 836500000,
+    "shares_source": "2026-07-28 실적 8-K ex99 손익계산서 Weighted-average shares Diluted(적자 분기는 기본=희석)",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Riello(매각 예정 사업) 손상 $46M, Other income(expense), net",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000030/a99-q22026earningsexhibit.htm",
+    "tax_note": "10-Q 2026-Q2 Note 13 세율 서술: '$46 million non-deductible impairment charge on Riello'",
+    "tax_source_filed": "2026-07-28",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000032/carr-20260630.htm Note 13",
+    "opinc_includes": true,
+    "mismatch_note": "회사 표기가 'Riello impairment'(매각 예정 자산을 공정가치까지 낮춘 평가손)이라 impairment만 — 매각 완료 손실은 2026-09-30 항목(divestiture)",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2026-09-30-riello-loss",
+    "quarter_end": "2026-09-30",
+    "filed": "2026-10-29",
+    "categories": [
+     "divestiture"
+    ],
+    "line": "opinc",
+    "adj_pretax": 2000000,
+    "adj_tax": -12000000,
+    "tax_basis": "disclosed",
+    "shares": 821800000,
+    "shares_source": "2026-10-29 ex99·10-Q: 적자 분기 기본=희석 821.8M",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Riello 매각 완료 추가 손실 $2M (Other income(expense), net) + 매각 관련 세금 비용 $12M",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000035/a99-q32026earningsexhibit.htm",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000037/carr-20260930.htm Note 13: 'tax charge of $12 million related to the disposition of Riello'; 9개월 서술 '$48 million non-deductible impairment charge on Riello'(손실 자체는 비공제)",
+    "disclosed_anomalous": true,
+    "opinc_includes": true,
+    "tax_note": "회사 조정표는 세금 조정 없음 — tax_oneoff로 옮길지 미정",
+    "mismatch_note": "세전 손실 2는 비공제(세금 0), 매각에 딸린 세금 비용 12가 따로 있음 → 항목을 빼면 세금 비용 12가 줄어 adj_tax −12(부호가 세전과 반대)",
+    "dda_includes_item": false
+   },
+   {
+    "id": "CARR-2026-09-30-goodwill-impairment-cse",
+    "quarter_end": "2026-09-30",
+    "filed": "2026-10-29",
+    "categories": [
+     "impairment"
+    ],
+    "line": "opinc",
+    "adj_pretax": 3100000000,
+    "adj_tax": 0,
+    "tax_basis": "nontaxable",
+    "shares": 821800000,
+    "shares_source": "2026-10-29 ex99·10-Q: 적자 분기 기본=희석 821.8M",
+    "tags": {
+     "pretax_dcf": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+     "pretax_includes": true
+    },
+    "desc": "Climate Solutions Europe 영업권 손상 $3,100M (손익계산서 별도 줄 'Goodwill impairment', 영업이익 위)",
+    "source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000035/a99-q32026earningsexhibit.htm",
+    "tax_note": "10-Q 2026-Q3 Note 13: 'non-deductible $3.1 billion goodwill impairment charge'",
+    "tax_source_filed": "2026-10-29",
+    "tax_source": "https://www.sec.gov/Archives/edgar/data/1783180/000178318026000037/carr-20260930.htm Note 13",
+    "opinc_includes": true,
+    "dda_includes_item": false
+   }
+  ]
+ }
 }

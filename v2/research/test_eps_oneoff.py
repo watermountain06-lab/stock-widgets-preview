@@ -263,6 +263,11 @@ def run():
     check("분기 행 결손(310일 넘음) → 오류", raises(lambda: eo.eps_adjust(T, Rg, E, CAP)))
     setup([item(QS[2], eps=0.30)])
     check("항목이 400일 밖이면 증명 안 함", approx(eo.eps_adjust(T, Rb, E, CAP), 0.0))
+    setup([item(QS[1], eps=0.30)])
+    v = eo.eps_adjust(T, R, QS[2], CAP)
+    check("파일 첫 세 행(앞선 분기 < 3)은 오류가 아니라 조정 안 함 + 경고", approx(v, 0.0) and any("3개 미만" in x for x in eo.warnings))
+    setup([item(QS[1], eps=0.30)])
+    check("파일 첫 세 분기라도 같은 결산일 행 둘 → 오류", raises(lambda: eo.eps_adjust(T, R + [dict(R[2], available_date="2021-12-01")], QS[2], CAP)))
     # ---- 세율(§6·§12)
     setup([item(E, eps=0.30, pre=500.0, tax=100.0)])
     ta = eo.tax_adjust(T, R, E, "PT", "dcf", CAP)
@@ -430,6 +435,8 @@ MUTANTS = [
     ("캐시 키를 리스트 id로", "_fingerprint(eps_rows))", "id(eps_rows))"),
     ("여러 태그 공급 검사 제거", "        if len(chosen) > 1 and not _tag_has_quarter(", "        if False and not _tag_has_quarter("),
     ("태그 전환 예외에서 다른 태그 공급 검사 제거", "            if not any(_tag_has_quarter(ticker, [x], it[\"quarter_end\"]) for x in chosen - {decl}) \\\n                    and _tag", "            if _tag"),
+    ("파일 첫 세 행 예외 제거", "    if _ordered_quarters(eps_rows).index(E) < 3:", "    if False:"),
+    ("첫 세 분기 중복 검사 제거", "        if len(same) > 1:\n            raise OneoffError(f\"{ticker} {E}: 같은 결산일 EPS 행 둘 이상(파일 첫 세 분기)\")", "        if False:\n            raise OneoffError(\"x\")"),
     ("역산 세금 검사 제거", "        if abs(tax - want) > max(1e6, 0.005 * abs(want)):", "        if False:"),
     ("총액 비례 검사 제거", "            if abs(it[\"adj_tax\"] - want) > max(1e6, 0.005 * abs(want)):", "            if False:"),
 ]
