@@ -10909,6 +10909,45 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "CNP",
+      "name": "센터포인트 에너지",
+      "sector": "유틸리티 — 텍사스(휴스턴)·인디애나·오하이오 전력 송배전, 천연가스 배관 공급",
+      "href": "CNP_full_widget.html",
+      "cardRank": 259,
+      "cardAsOf": "2026-10-29",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-29 ≠ 홈 가격 세션 2026-10-28, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 662879606,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-21",
+        "filedAt": "2026-10-27",
+        "filing": "10-Q 0001130310-26-000048 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 50.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-29",
+        "qualityFlags": []
+      }
     }
   ]
 }

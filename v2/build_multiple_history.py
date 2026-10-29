@@ -1106,7 +1106,8 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0000004904": ("Revenues",),   # AEP: 손익계산서 총매출(Q3 2026 $6,832M) — 계약 매출(6,793)과 섞이면 성장률·마진이 어긋났다(Codex·Fable r1, 2026-10-28)
+PREFER_TAGS = {"0001130310": ("Revenues",),   # CNP: 손익계산서 총매출(Q3 2026 $2,191M) — 계약 매출(2,201)이 골라져 성장률·마진이 보도자료·부문표와 어긋났다(Codex·Fable r1, 2026-10-29)
+               "0000004904": ("Revenues",),   # AEP: 손익계산서 총매출(Q3 2026 $6,832M) — 계약 매출(6,793)과 섞이면 성장률·마진이 어긋났다(Codex·Fable r1, 2026-10-28)
                "0000078003": ("Revenues",),
                # COP: 손익계산서 "Sales and other operating revenues"는 Revenues(Q2 2026 $19,161M)이고 RevenueFromContract…는 그중 고객 계약분
                # ($18,088M, 파생 계약 매출 제외)이다(10-Q 매출 주석, 2026-10-02).
@@ -1703,7 +1704,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000048898": ["DebtCurrent", "LongTermDebtNoncurrent"],   # HUBB: 1년 안(CP 313 + 유동 채권 300) $613.8M + 장기 $4,506.4M = $5,120.2M(Q3 2026 10-Q — 기본은 $4,821M로 CP가 빠졌다, 2026-10-29)
+DEBT_TOTAL_TAG = {"0001130310": ["ShortTermBorrowings", "OtherLongTermDebtCurrent", "LongTermDebtNoncurrent"],   # CNP: 단기 0 + 1년 안 기타 1,106 + 장기 23,677(증권화 1,747 + 기타 21,930) = $24,783M(Q3 2026 10-Q — 기본은 장기만 $23,677M; 1년 안 증권화채 $120M은 회사 고유 태그 cnp:라 엔진이 못 읽어 빠진다, 0.5%, 2026-10-29)
+                  "0000048898": ["DebtCurrent", "LongTermDebtNoncurrent"],   # HUBB: 1년 안(CP 313 + 유동 채권 300) $613.8M + 장기 $4,506.4M = $5,120.2M(Q3 2026 10-Q — 기본은 $4,821M로 CP가 빠졌다, 2026-10-29)
                   "0001069202": ["CommercialPaper", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LII: CP $455.1M + 1년 안 $319.2M + 장기 $847.1M = 주석 총차입 $1,621.4M(금융리스 포함, Q3 2026 10-Q — 기본은 1년 안을 빼 $1,302M, 2026-10-29)
                   "0001932393": ["LongTermDebt"],   # GEHC: ShortTermBorrowings가 1년 안 장기차입을 이미 담아 기본 합산이 이중으로 셌다(2025-09 $2,005M + $2,002M) — 총계 $9,973M(Fable·Codex r1, 2026-10-28)
                   "0001633917": ["DebtCurrent", "LongTermDebtNoncurrent"],   # PYPL: 1년 안(장기채 유동분 + CP $200M) $2,533M + 장기 $10,939M = $13,472M(기본은 CP를 빠뜨렸다, 2026-10-28)
@@ -2015,7 +2017,8 @@ DEBT_TOTAL_TAG = {"0000048898": ["DebtCurrent", "LongTermDebtNoncurrent"],   # H
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {# GEHC: 비지배지분 = 자본 안 $17M + 상환가능(메자닌) $234M(Q3 2026 10-Q, 2026-10-28)
+EV_TAGS_BY_CIK = {"0001130310": {"sti": []},   # CNP: 단기투자 $425M은 ZENS(교환사채) 기초 주식 — 짝인 ZENS 지수부채 파생 $468M이 차입금에 없어 한쪽만 더하면 지분가치가 부푼다, 현금성에서 뺀다(Codex·Fable r1, 2026-10-29)
+                  # GEHC: 비지배지분 = 자본 안 $17M + 상환가능(메자닌) $234M(Q3 2026 10-Q, 2026-10-28)
                   "0001932393": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
                   # DGX: 비지배지분 = 자본 안 $318M(2026 Corewell 합작으로 $36M에서 증가) + 상환가능(메자닌) $81M(Q3 2026 10-Q, 2026-10-27)
                   "0001022079": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
