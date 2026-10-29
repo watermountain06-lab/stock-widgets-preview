@@ -23,7 +23,6 @@ PAIRED_OBS = {"nci_remove": "nci", "ce_add": "equity", "pref_in_p": "equity", "p
               "principal_in_debt": "debt"}
 
 _cache = {}
-warnings = []
 
 
 class ClaimError(Exception):
@@ -32,11 +31,6 @@ class ClaimError(Exception):
 
 class ClaimHold(Exception):
     """짝 금액이 그 결산일에 없다 — 그 종목 카드만 보류(dq), 빌드 전체는 멈추지 않는다."""
-
-
-def _warn(msg):
-    if msg not in warnings:
-        warnings.append(msg)
 
 
 def _bmh():
@@ -87,7 +81,6 @@ def has(ticker):
 
 def reset():
     _cache.clear()
-    warnings.clear()
 
 
 def _row(it, d):
@@ -127,6 +120,8 @@ def _shares_of(it, r, price):
         return r["conv_shares"]
     if k == "conv_pref_mandatory":
         return r["pref_shares"] * _mandatory_rate(r, price)
+    if r.get("converted_shares") is not None and not r["principal"]:
+        return r["converted_shares"]     # 전환이 끝난 분기 — 가격·남은 원금으로 다시 계산하지 않고 실제 결제 주식(§3.3, Codex)
     n = r["principal"] / r["conv_price"]
     if price is None:
         return 0.0
@@ -149,16 +144,24 @@ def adjusted_shares(ticker, d, price, base, base_end, base_is_wa=False, wa_start
             continue
         r = _row(it, d)
         if r is None:
+            if it.get("start") and d >= it["start"]:
+                raise ClaimHold(f"{ticker} {it['id']}: 발행({it['start']}) 뒤 {d}에 쓸 주식 수 행 없음(사건 행 필요)")
+            if not it.get("start"):
+                raise ClaimHold(f"{ticker} {it['id']}: {d}에 쓸 주식 수 행 없음(창 시작 전부터 있던 증권 — backfill_first 또는 이른 행)")
             continue
         if it["kind"] == "econ_shares":
             return float(r["econ_shares"])
         if base_is_wa:
             if it.get("converted") and wa_start and wa_start >= it["converted"]:
                 continue                 # 그 분기 WA가 전환 주식을 보통주로 온전히 담음
-            wr = [x for x in it["rows"] if x["end"] == wa_end]
-            if wr and wr[-1]["wa_shares"] is None:
+            wr = [x for x in it["rows"] if x["end"] == wa_end and x["filed"] <= d]
+            if not wr:
+                if not (it.get("start") and wa_end < it["start"]):
+                    raise ClaimHold(f"{ticker} {it['id']}: 희석 가중평균 대체 분기 {wa_end}의 wa_shares 행 없음")
+            elif wr[-1]["wa_shares"] is None:
                 raise ClaimHold(f"{ticker} {it['id']}: 희석 가중평균 대체 분기 {wa_end}의 wa_shares 미확인")
-            sub += wr[-1]["wa_shares"] if wr else 0
+            else:
+                sub += wr[-1]["wa_shares"]
         elif it.get("end_shares") and base_end and base_end >= it["end_shares"]:
             continue                     # 표지가 이미 전환 주식을 담음
         add += _shares_of(it, r, price)
@@ -179,22 +182,27 @@ def claims(ticker, d, price, obs_end):
         r = _row(it, d)
         for f in PAIRED_FIELDS[it["kind"]]:
             series = PAIRED_OBS[f]
-            e = obs_end.get(series)
+            if series not in obs_end:
+                continue                  # 이 호출자는 그 칸을 쓰지 않는다(배수 엔진에는 DCF 우선주 dcf_pref가 없다)
+            e = obs_end[series]
             if e is None:
-                continue                  # 짝 시리즈가 엔진에 없다(덮어쓰기로 비었음 — HPE) → 그 칸은 0이어야 함, 검사 생략
+                # 짝 시리즈가 엔진에 없다(덮어쓰기로 비었음 — HPE) → 그 칸은 0이어야 한다(아니면 표 금액이 어디에도 실리지 않은 것)
+                if any((p.get(f) or 0) != 0 for p in it["paired"] if p["filed"] <= d):
+                    raise ClaimHold(f"{ticker} {it['id']}: {series} 시리즈가 엔진에 없는데 표 {f}가 0이 아님")
+                continue
             if it.get("end_claims") and e >= it["end_claims"]:
                 continue                  # 그 재무상태표 결산일에는 청구권이 이미 사라졌다
             if f == "principal_in_debt" and (r is None or price is None or price < r["conv_price"]):
                 continue                  # conv_debt_full 외가격 — 원금은 차입금에 남는다
-            if f == "ce_add" and it["kind"] == "conv_debt_full":
-                continue
             same = [p for p in it["paired"] if p["end"] == e and p["filed"] <= d]
             if same:
                 v = same[-1][f]
             elif it.get("carry_paired"):
                 prior = [p for p in it["paired"] if p["end"] <= e and p["filed"] <= d]
                 if not prior:
-                    continue
+                    if it.get("start") and e < it["start"]:
+                        continue          # 발행 전 결산일 — 그 증권은 아직 없었다
+                    raise ClaimHold(f"{ticker} {it['id']}: carry_paired인데 {e} 이전 짝 행 없음")
                 v = prior[-1][f]
             else:
                 if it.get("start") and e < it["start"][:10] and not [p for p in it["paired"] if p["end"] <= e]:

@@ -592,6 +592,7 @@ def base_inputs(ticker, asof=None):
     # 카드별 전환·교환 증권 표(v2/share_claims.json, E44 §3)가 있는 종목은 카드 모드에서 표만 쓰고 아래 상수(ECON_SHARES·SHARES_ADD)는
     # 읽지 않는다(이중 금지 — 상수는 연구 모드 전용, §3.2). 연구 모드(ASOF_REF)에서는 표가 꺼져 지금처럼 상수.
     _sc_card = _sc.has(ticker)
+    _sc_hold = None
     # Up-C 구조(지주회사 주식 + 교환 가능한 파트너십 지분)는 영업이익 전체를 쓰므로 주식 수를 회사가 밝힌 경제적 전체 주식 수
     # (보통주·파트너십 지분, 미가득 참여분 포함 — BX "Distributable Earnings Shares Outstanding")로 바꾼다. 그대로 두면 BX는
     # Blackstone Holdings 지분(이익의 약 43%) 몫까지 Class A 7.5억 주에 몰려 주당 가치가 약 1.66배가 됐다(2026-10-02, Codex 1차 반영).
@@ -612,16 +613,30 @@ def base_inputs(ticker, asof=None):
         _daily = [b for b in bmh.load_daily(ticker) if b[0] <= _d]
         _px = _daily[-1][4] if _daily else None
         _wa = _sh_wa
-        out["shares"] = _sc.adjusted_shares(ticker, _d, _px, out["shares"], _sh_end, base_is_wa=bool(_wa),
-                                            wa_start=_wa[0] if _wa else None, wa_end=_wa[1] if _wa else None)
+        # 관측 결산일은 최종 채택된 값에만 — 낡아서 버린(0·None) 구성요소의 결산일로 표 금액을 빼면 버린 청구권을 다시 뺀다(Codex)
+        _ob = lambda k: _obs.get(k) if out.get(k) else None
         _pf = [x["end"] for x in fixed.values() if x.get("kind") == "preferred"]
-        _c = _sc.claims(ticker, _d, _px, {"equity": (newest(eq_rows, asof) or {}).get("end"), "nci": _obs.get("nci"),
-                                         "preferred": _obs.get("preferred"), "debt": _obs.get("debt"),
-                                         "dcf_pref": max(_pf) if _pf else _obs.get("preferred")})
-        for _k, _f in (("preferred", "dcf_pref"), ("nci", "nci_remove"), ("debt", "principal_in_debt")):
-            if _c[_f]:
-                out[_k] = (out.get(_k) or 0) - _c[_f]
-        out["dq"].append("share_claims")
+        try:
+            _sh_new = _sc.adjusted_shares(ticker, _d, _px, out["shares"], _sh_end, base_is_wa=bool(_wa),
+                                          wa_start=_wa[0] if _wa else None, wa_end=_wa[1] if _wa else None)
+            _c = _sc.claims(ticker, _d, _px, {"equity": (newest(eq_rows, asof) or {}).get("end"), "nci": _ob("nci"),
+                                             "preferred": _ob("preferred"), "debt": _ob("debt"),
+                                             "dcf_pref": max(_pf) if _pf else _ob("preferred")})
+        except _sc.ClaimHold as _ex:
+            # 표 짝 금액이 그 결산일에 없다 — 그 종목 DCF만 계산 보류(dq claim_hold, 설계 §3.3)
+            out["dq"].append(f"claim_hold:{_ex}")
+            _sc_hold = "카드별 증권 표 짝 금액 없음"
+        else:
+            out["shares"] = _sh_new
+            for _k, _f in (("preferred", "dcf_pref"), ("nci", "nci_remove"), ("debt", "principal_in_debt")):
+                if _c[_f]:
+                    out[_k] = (out.get(_k) or 0) - _c[_f]
+            # 보통주로 본 증권의 장부가는 투하자본에도 자본으로 남긴다 — 내가격 전환사채(차입금에서 뺀 만큼)·교환 단위(ce_add, 지배주주 자본 밖).
+            # 빼기만 하면 투하자본이 그만큼 사라져 ROIC가 튄다(BE 7.4% → 37.1%, Codex·Fable). 우선주(pref_in_p)는 투하자본에 원래 없다.
+            _eq_add = _c["principal_in_debt"] + _c["ce_add"]
+            if _eq_add and out.get("equity") is not None:
+                out["equity"] += _eq_add
+            out["dq"].append("share_claims")
     # 차입금: 최근 4분기 이자비용 ÷ 차입금이 15%를 넘거나, 이자비용이 $1억 넘는데 차입금이 0이면
     # 차입금이 빠졌을 가능성(회사 자체 태그 — CMCSA 장기차입금). 고치지 않고 표시만 한다(검증 패널 제외).
     interest = ttm(["InterestExpense", "InterestExpenseNonoperating", "InterestExpenseDebt"])
@@ -648,9 +663,9 @@ def base_inputs(ticker, asof=None):
     # 큰 차입금·현금·단기투자·비지배지분·우선주를 그 시점 공시에서 못 찾으면(낡아서 버림 — 0으로 두면 차입금 누락은 가치가 부풀고 현금 누락은 줄어든다)
     # DCF를 보류한다: 카드는 '계산 보류 · 사유', 연구 패널은 dq 필터로 뺀다(2026-10-25 사용자 결정). 실제로 없어진 것을 원문으로
     # 확인한 항목은 bmh.EV_ZERO_FROM_BY_CIK에 0으로 적어 보류에서 뺀다.
-    if _hold:
-        out["dcf_hold"] = ", ".join(f"{_HOLD_NAME[n]}(마지막 값 {e})" for n, e in _hold)
-        out["dq"].append("dcf_hold:" + ",".join(n for n, _ in _hold))
+    if _hold or _sc_hold:
+        out["dcf_hold"] = ", ".join([f"{_HOLD_NAME[n]}(마지막 값 {e})" for n, e in _hold] + ([_sc_hold] if _sc_hold else []))
+        out["dq"].append("dcf_hold:" + ",".join([n for n, _ in _hold] + (["claim_hold"] if _sc_hold else [])))
     if out.get("_fl_annual"):
         out["dq"].append(f"fl_capex_annual:{out.pop('_fl_annual')}")
     return out

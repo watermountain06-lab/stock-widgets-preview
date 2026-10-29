@@ -61,7 +61,7 @@ def run():
     c = sc.claims(T, D, 50, obs)
     check("짝 금액: 같은 결산일 행", c["pref_ev"] == 5 and c["dcf_pref"] == 6 and c["pref_in_p"] == 7)
     check("CE 되돌림 = ce_add + pref_in_p", approx(sc.ce_extra(c), 7))
-    check("filed > d인 행은 안 씀", approx(sc.adjusted_shares(T, "2026-07-15", 50, 100, "2026-06-30"), 100))
+    check("filed > d인 행은 안 씀(쓸 행이 없으면 보류)", raises(lambda: sc.adjusted_shares(T, "2026-07-15", 50, 100, "2026-06-30"), sc.ClaimHold))
     # 의무전환 비율 구간
     r = {"end": "2026-06-30", "filed": "2026-08-01", "wa_shares": 0, "pref_shares": 10, "liq_per_share": 1000,
          "min_rate": 2.0, "max_rate": 2.5, "initial_price": 400, "threshold_price": 500}
@@ -96,7 +96,7 @@ def run():
     setup([it("exchange_units", [{"end": "2026-06-30", "filed": "2026-08-01", "wa_shares": 0, "units": 55}],
               [{"end": "2026-03-31", "filed": "2026-05-01", "nci_remove": 0, "ce_add": 700.0}], carry_paired=True)])
     check("carry_paired → 이전 행 이어 씀", sc.claims(T, D, 50, obs)["ce_add"] == 700)
-    check("짝 시리즈가 엔진에 없음(None) → 검사 생략", sc.claims(T, D, 50, dict(obs, equity=None))["ce_add"] == 0)
+    check("짝 시리즈가 엔진에 없는데 표 금액 ≠ 0 → 보류", raises(lambda: sc.claims(T, D, 50, dict(obs, equity=None)), sc.ClaimHold))
     # 기간: 전환·상환
     base_rows = [{"end": "2026-03-31", "filed": "2026-05-01", "wa_shares": 20, "conv_shares": 20}]
     base_pair = [{"end": "2026-03-31", "filed": "2026-05-01", "pref_ev": 5, "dcf_pref": 5, "pref_in_p": 5, "ce_add": 0}]
@@ -111,10 +111,30 @@ def run():
           and sc.claims(T, D, 50, dict(obs, preferred="2026-03-31", equity="2026-03-31", dcf_pref="2026-03-31"))["pref_ev"] == 0)
     setup([it("conv_pref_fixed", base_rows, base_pair, start="2026-04-01")])
     check("발행 전 날짜 → 없음", approx(sc.adjusted_shares(T, "2026-03-15", 50, 100, "2026-03-31"), 100))
-    setup([it("conv_pref_fixed", base_rows, base_pair)])
-    check("첫 행 이전은 backfill_first 없으면 없음", approx(sc.adjusted_shares(T, "2026-04-15", 50, 100, "2025-12-31"), 100))
+    setup([it("conv_pref_fixed", base_rows, base_pair, start="2026-04-20")])
+    check("발행 전 날짜(시작일 있음) → 없음", approx(sc.adjusted_shares(T, "2026-04-15", 50, 100, "2025-12-31"), 100))
     setup([it("conv_pref_fixed", base_rows, base_pair, backfill_first=True)])
     check("backfill_first → 첫 값", approx(sc.adjusted_shares(T, "2026-04-15", 50, 100, "2025-12-31"), 120))
+    # 검토 1라운드 보강
+    setup([it("conv_pref_fixed", base_rows, base_pair, start="2026-02-01")])
+    check("발행 뒤 첫 행 공시 전 → 보류(사건 행 필요)", raises(lambda: sc.adjusted_shares(T, "2026-03-01", 50, 100, "2025-12-31"), sc.ClaimHold))
+    setup([it("conv_pref_fixed", base_rows, base_pair)])
+    check("시작일 없는 증권이 첫 행 전 → 보류(backfill_first 필요)", raises(lambda: sc.adjusted_shares(T, "2026-04-15", 50, 100, "2025-12-31"), sc.ClaimHold))
+    rows2 = base_rows + [{"end": "2026-03-31", "filed": "2026-09-01", "wa_shares": 30, "conv_shares": 20}]
+    setup([it("conv_pref_fixed", rows2, base_pair)])
+    check("WA 대체: 뒤 공시의 정정 몫은 안 씀(110 − 20 + 20 = 110)",
+          approx(sc.adjusted_shares(T, "2026-08-15", 50, 110, "2026-03-31", True, "2026-01-01", "2026-03-31"), 110))
+    setup([it("conv_pref_fixed", base_rows, base_pair, start="2025-01-01")])
+    check("WA 대체 분기 행 없음(발행 뒤) → 보류",
+          raises(lambda: sc.adjusted_shares(T, D, 50, 110, "2026-06-30", True, "2026-04-01", "2026-06-30"), sc.ClaimHold))
+    setup([it("conv_debt_full", [{"end": "2026-06-30", "filed": "2026-08-01", "wa_shares": 70, "principal": 0, "conv_price": 16.21,
+                                  "converted_shares": 137606}], [{"end": "2026-06-30", "filed": "2026-08-01", "principal_in_debt": 0}])])
+    check("전환 끝난 사채 → 실제 전환 주식(가격 무관)", approx(sc.adjusted_shares(T, D, 1, 0, "2026-06-30"), 137606))
+    setup([it("conv_pref_fixed", base_rows, [{"end": "2026-03-31", "filed": "2026-05-01", "pref_ev": 9, "dcf_pref": 0, "pref_in_p": 0, "ce_add": 0}])])
+    check("짝 시리즈 없는데 표 금액 ≠ 0 → 보류", raises(lambda: sc.claims(T, D, 50, dict(obs, preferred=None)), sc.ClaimHold))
+    setup([it("conv_pref_fixed", base_rows, [{"end": "2026-06-30", "filed": "2026-08-01", "pref_ev": 1, "dcf_pref": 1, "pref_in_p": 1, "ce_add": 0}],
+              carry_paired=True)])
+    check("carry_paired인데 이전 행 없음 → 보류", raises(lambda: sc.claims(T, D, 50, dict(obs, preferred="2026-03-31")), sc.ClaimHold))
     # 형식·연구 모드
     setup([it("conv_pref_fixed", [{"end": "2026-03-31", "filed": "2026-05-01", "conv_shares": 20}], base_pair)])
     check("rows에 wa_shares 없음 → 형식 오류", raises(lambda: sc.load(T), sc.ClaimError))
@@ -126,7 +146,7 @@ def run():
 
 
 MUTANTS = [
-    ("WA 대체 날짜 wa_shares 빼기 제거", "            sub += wr[-1][\"wa_shares\"] if wr else 0", "            pass"),
+    ("WA 대체 날짜 wa_shares 빼기 제거", "                sub += wr[-1][\"wa_shares\"]", "                pass"),
     ("econ_shares 대체 제거", "        if it[\"kind\"] == \"econ_shares\":\n            return float(r[\"econ_shares\"])", "        if False:\n            return 0"),
     ("end_shares 검사 제거", "        elif it.get(\"end_shares\") and base_end and base_end >= it[\"end_shares\"]:", "        elif False:"),
     ("end_claims 검사 제거", "            if it.get(\"end_claims\") and e >= it[\"end_claims\"]:", "            if False:"),
@@ -140,6 +160,12 @@ MUTANTS = [
     ("CE 되돌림 pref_in_p 뺌", "    return c[\"ce_add\"] + c[\"pref_in_p\"] + c[\"principal_in_debt\"]", "    return c[\"ce_add\"] + c[\"principal_in_debt\"]"),
     ("backfill_first 무시(늘 채움)", "    if it.get(\"backfill_first\") and it[\"rows\"]:", "    if it[\"rows\"]:"),
     ("연구 모드 스위치 제거", "    if _bmh().ASOF_REF is not None:\n        return None", "    if False:\n        return None"),
+    ("발행 뒤 행 없음 보류 제거", "            if it.get(\"start\") and d >= it[\"start\"]:\n                raise", "            if False:\n                raise"),
+    ("WA 정정 행 공시일 무시", "            wr = [x for x in it[\"rows\"] if x[\"end\"] == wa_end and x[\"filed\"] <= d]", "            wr = [x for x in it[\"rows\"] if x[\"end\"] == wa_end]"),
+    ("WA 행 없음 보류 제거", "                if not (it.get(\"start\") and wa_end < it[\"start\"]):\n                    raise", "                if False:\n                    raise"),
+    ("전환 주식 보존 제거", "    if r.get(\"converted_shares\") is not None and not r[\"principal\"]:", "    if False:"),
+    ("짝 시리즈 없음 검사 제거", "                if any((p.get(f) or 0) != 0 for p in it[\"paired\"] if p[\"filed\"] <= d):", "                if False:"),
+    ("carry 이전 행 없음 보류 제거", "                    raise ClaimHold(f\"{ticker} {it['id']}: carry_paired인데", "                    continue\n                    raise ClaimHold(f\"{ticker} {it['id']}: carry_paired인데"),
     ("filed 검사 제거", "    c = [r for r in it[\"rows\"] if r[\"filed\"] <= d]", "    c = list(it[\"rows\"])"),
 ]
 

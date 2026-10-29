@@ -71,10 +71,10 @@
    "redeemed": "2024-03-15",
    "redeemed_filed": "2024-05-07",
    "converted": null,
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/1633978/000162828021021632/lite-20211002.htm",
-   "note": "0.25% Convertible Senior Notes due 2024($450.0M, 2017-03 발행, 창 이전부터 존재 — 첫 행 2021-10-02). 전환가 $60.62(16.4965주/$1,000). 결제 방식: 원금은 현금, 초과분은 현금·주식·혼합(회사 선택) — FY26 10-K: 'we are required to satisfy our conversion obligation ... by delivering cash equal to the principal amount ... and cash, shares of common stock or a combination ... with respect to any conversion value in excess thereof'(2024-09-25 취소 불능 결제 방식 선택·2026 Notes 제1 보충 증서). 그 전(FY22)에는 'we have the ability and intent to settle the face value of the Notes in cash'(FY22 10-K 주당이익 주석, 자기주식법). → conv_debt_net. FY22 4분기 전환 $1.8M은 'settled with a combination of $1.8 million of cash and approximately 9 thousand shares'. 2023-06 $125.0M 현금 재매입(→$323.1M). 2024-03-15 만기 현금 상환: 10-Q(2024-03-30) 'The 2024 Notes matured on March 15, 2024', 현금흐름 'Payment, repurchase and conversion of 2024 Notes (323.1)'. start = 발행일 2017-03-08(FY22 10-K 'As of the issuance date, March 8, 2017'), 발행 8-K 미확인.",
+   "note": "0.25% Convertible Senior Notes due 2024($450.0M, 2017-03 발행, 창 이전부터 존재 — 첫 행 2021-10-02). 전환가 $60.62(16.4965주/$1,000). 결제 방식: 원금은 현금, 초과분은 현금·주식·혼합(회사 선택) — FY26 10-K: 'we are required to satisfy our conversion obligation ... by delivering cash equal to the principal amount ... and cash, shares of common stock or a combination ... with respect to any conversion value in excess thereof'(2024-09-25 취소 불능 결제 방식 선택·2026 Notes 제1 보충 증서). 그 전(FY22)에는 'we have the ability and intent to settle the face value of the Notes in cash'(FY22 10-K 주당이익 주석, 자기주식법). → conv_debt_net. FY22 4분기 전환 $1.8M은 'settled with a combination of $1.8 million of cash and approximately 9 thousand shares'. 2023-06 $125.0M 현금 재매입(→$323.1M). 2024-03-15 만기 현금 상환: 10-Q(2024-03-30) 'The 2024 Notes matured on March 15, 2024', 현금흐름 'Payment, repurchase and conversion of 2024 Notes (323.1)'. start = 발행일 2017-03-08(FY22 10-K 'As of the issuance date, March 8, 2017'), 발행 8-K 미확인. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-10-02",
@@ -180,10 +180,10 @@
    "redeemed": null,
    "redeemed_filed": null,
    "converted": null,
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/1633978/000162828021021632/lite-20211002.htm",
-   "note": "0.50% Convertible Senior Notes due 2026-12-15($1,050.0M, 2019-12 발행, 창 이전부터). 전환가 $99.29(10.0711주/$1,000). 결제 방식: 원금은 현금, 초과분은 현금·주식·혼합(회사 선택) — FY26 10-K: 'we are required to satisfy our conversion obligation ... by delivering cash equal to the principal amount ... and cash, shares of common stock or a combination ... with respect to any conversion value in excess thereof'(2024-09-25 취소 불능 결제 방식 선택·2026 Notes 제1 보충 증서). 그 전(FY22)에는 'we have the ability and intent to settle the face value of the Notes in cash'(FY22 10-K 주당이익 주석, 자기주식법). → conv_debt_net. 2025-09-08 $581.1M 유도 전환 재매입(현금 $843.1M), 2026-04-07 $264.8M 주식 교환(8-K 2026-04-08), FY26 현금 원금 전환 $149.3M. 10-K: 2026-08-14까지 전 시리즈 조기 전환 요청 $757.8M(원금 현금) — 2026-09-26 분기 10-Q 미공시라 반영 안 함. wa_shares: FY26 1~3분기 값은 전 시리즈 합계를 이 항목에 실음(아래 행 note). start null: 2019-12 발행('In December 2019'), 정확한 발행 공시일 미확인 — 창 이전 증권이라 rows는 창 첫 결산일 2021-10-02부터.",
+   "note": "0.50% Convertible Senior Notes due 2026-12-15($1,050.0M, 2019-12 발행, 창 이전부터). 전환가 $99.29(10.0711주/$1,000). 결제 방식: 원금은 현금, 초과분은 현금·주식·혼합(회사 선택) — FY26 10-K: 'we are required to satisfy our conversion obligation ... by delivering cash equal to the principal amount ... and cash, shares of common stock or a combination ... with respect to any conversion value in excess thereof'(2024-09-25 취소 불능 결제 방식 선택·2026 Notes 제1 보충 증서). 그 전(FY22)에는 'we have the ability and intent to settle the face value of the Notes in cash'(FY22 10-K 주당이익 주석, 자기주식법). → conv_debt_net. 2025-09-08 $581.1M 유도 전환 재매입(현금 $843.1M), 2026-04-07 $264.8M 주식 교환(8-K 2026-04-08), FY26 현금 원금 전환 $149.3M. 10-K: 2026-08-14까지 전 시리즈 조기 전환 요청 $757.8M(원금 현금) — 2026-09-26 분기 10-Q 미공시라 반영 안 함. wa_shares: FY26 1~3분기 값은 전 시리즈 합계를 이 항목에 실음(아래 행 note). start null: 2019-12 발행('In December 2019'), 정확한 발행 공시일 미확인 — 창 이전 증권이라 rows는 창 첫 결산일 2021-10-02부터. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-10-02",
@@ -553,6 +553,14 @@
      "note": "4분기 순손실 — 실적 보도자료 희석 = 기본(반희석 제외)",
      "src": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026057358/lite-20260627.htm",
      "src_wa": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026055726/lite_ex991xq4fy26.htm"
+    },
+    {
+     "end": "2022-03-08",
+     "filed": "2022-03-08",
+     "wa_shares": 0,
+     "principal": 861000000,
+     "conv_price": 131.03,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)"
     }
    ],
    "paired": []
@@ -691,6 +699,15 @@
      "note": "4분기 순손실 — 실적 보도자료 희석 = 기본(반희석 제외)",
      "src": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026057358/lite-20260627.htm",
      "src_wa": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026055726/lite_ex991xq4fy26.htm"
+    },
+    {
+     "end": "2023-06-16",
+     "filed": "2023-06-16",
+     "wa_shares": 0,
+     "principal": 603700000,
+     "conv_price": 69.54,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)",
+     "src_wa": "https://www.sec.gov/Archives/edgar/data/1633978/000162828023029741/lite_ex991xq4fy23.htm"
     }
    ],
    "paired": []
@@ -745,6 +762,14 @@
      "note": "4분기 순손실 — 실적 보도자료 희석 = 기본(반희석 제외)",
      "src": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026057358/lite-20260627.htm",
      "src_wa": "https://www.sec.gov/Archives/edgar/data/1633978/000162828026055726/lite_ex991xq4fy26.htm"
+    },
+    {
+     "end": "2025-09-08",
+     "filed": "2025-09-08",
+     "wa_shares": 0,
+     "principal": 1265000000,
+     "conv_price": 187.77,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)"
     }
    ],
    "paired": []
@@ -1391,6 +1416,18 @@
      "threshold_price": 200.07,
      "src": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526389274/orcl-20260831.htm",
      "wa_note": "10-Q 1분기(FY27): 반희석으로 제외(Stock awards and shares excluded 64M에 포함) → 0"
+    },
+    {
+     "end": "2026-02-05",
+     "filed": "2026-02-05",
+     "wa_shares": 0,
+     "pref_shares": 50000,
+     "liq_per_share": 100000,
+     "min_rate": 499.8126,
+     "max_rate": 624.7657,
+     "initial_price": 160.06,
+     "threshold_price": 200.07,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)"
     }
    ],
    "paired": [
@@ -1458,6 +1495,18 @@
      "threshold_price": 444.0497,
      "src": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm",
      "wa_note": "10-Q 3분기(2026-10-29 제출): 3개월 'Conversion of preferred stock' 0(반희석; 9개월 누적은 A 12·C 12)"
+    },
+    {
+     "end": "2026-06-05",
+     "filed": "2026-06-05",
+     "wa_shares": 0,
+     "pref_shares": 9625000,
+     "liq_per_share": 1000,
+     "min_rate": 2.252,
+     "max_rate": 2.816,
+     "initial_price": 355.1136,
+     "threshold_price": 444.0497,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)"
     }
    ],
    "paired": [
@@ -1516,6 +1565,18 @@
      "threshold_price": 439.7537,
      "src": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000084/goog-20260930.htm",
      "wa_note": "10-Q 3분기(2026-10-29 제출): 3개월 'Conversion of preferred stock' 0(반희석; 9개월 누적은 A 12·C 12)"
+    },
+    {
+     "end": "2026-06-05",
+     "filed": "2026-06-05",
+     "wa_shares": 0,
+     "pref_shares": 9625000,
+     "liq_per_share": 1000,
+     "min_rate": 2.274,
+     "max_rate": 2.842,
+     "initial_price": 351.8649,
+     "threshold_price": 439.7537,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)"
     }
    ],
    "paired": [
@@ -1628,6 +1689,18 @@
      "threshold_price": 62.4766,
      "src": "https://www.sec.gov/Archives/edgar/data/827054/000082705426000038/mchp-20260630.htm",
      "wa_note": "10-Q 'Dilutive effect of Series A Preferred Stock —' → 0"
+    },
+    {
+     "end": "2025-03-25",
+     "filed": "2025-03-25",
+     "wa_shares": 0,
+     "pref_shares": 1485000,
+     "liq_per_share": 1000,
+     "min_rate": 16.006,
+     "max_rate": 19.608,
+     "initial_price": 50.9996,
+     "threshold_price": 62.4766,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)"
     }
    ],
    "paired": [
@@ -1684,10 +1757,10 @@
    "redeemed": "2025-02-15",
    "redeemed_filed": "2025-05-23",
    "converted": null,
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/827054/000082705421000280/mchp-20210930.htm ; 만기 확인 https://www.sec.gov/Archives/edgar/data/827054/000082705425000077/mchp-20250331.htm",
-   "note": "1.625% Convertible Senior Subordinated Notes due 2025-02-15('2015 Senior Convertible Debt'). 창 시작 이전부터 존재(rows는 2021-09-30부터). 2021~2023 사적 협상 정산으로 원금 축소, 2025-02-15 만기 상환('2015 Senior Convertible Debt, matured on February 15, 2025' — 10-K FY25 2025-05-23). 결제: 2022-04-01 회사가 원금 현금 결제를 취소 불가로 선택('On April 1, 2022, the Company irrevocably elected cash settlement for the principal amount') — 원금 현금, 초과분 현금·주식(회사 선택) → conv_debt_net. 그 전(2021-09~2022-03)은 '현금·주식·혼합 회사 선택'이었으나 희석 EPS가 초과분만 반영(순주식 결제 가정) — 같은 kind로 둠. 전환가는 현금배당마다 조정되는 '배당 조정' 값(분기 10-Q 표 'Approximate Conversion Price'), conv_rate는 $1,000당 주식 수(참고 칸). 분할: 2021-10-13 2대1 — 2021-09-30 10-Q(2021-11-04 제출)의 값은 이미 분할 반영. 출처 10-Q 'Debt' 주석의 원금 표·'Dividend adjusted rates' 표. 주의: 2015·2017 선순위 사채는 주가가 전환가를 넘으면 'Incremental Share Factor'만큼 전환 비율이 늘어난다(최대 비율 한도) — conv_debt_net 공식 N×(1−K/가격)은 기본 비율만 써서 초과분 주식을 과소 계산한다(원금이 작아 금액은 작음; 2026-06-30 2017 사채 원금 $37.9M, 증분 계수 11.8140, 최대 33.6672).",
+   "note": "1.625% Convertible Senior Subordinated Notes due 2025-02-15('2015 Senior Convertible Debt'). 창 시작 이전부터 존재(rows는 2021-09-30부터). 2021~2023 사적 협상 정산으로 원금 축소, 2025-02-15 만기 상환('2015 Senior Convertible Debt, matured on February 15, 2025' — 10-K FY25 2025-05-23). 결제: 2022-04-01 회사가 원금 현금 결제를 취소 불가로 선택('On April 1, 2022, the Company irrevocably elected cash settlement for the principal amount') — 원금 현금, 초과분 현금·주식(회사 선택) → conv_debt_net. 그 전(2021-09~2022-03)은 '현금·주식·혼합 회사 선택'이었으나 희석 EPS가 초과분만 반영(순주식 결제 가정) — 같은 kind로 둠. 전환가는 현금배당마다 조정되는 '배당 조정' 값(분기 10-Q 표 'Approximate Conversion Price'), conv_rate는 $1,000당 주식 수(참고 칸). 분할: 2021-10-13 2대1 — 2021-09-30 10-Q(2021-11-04 제출)의 값은 이미 분할 반영. 출처 10-Q 'Debt' 주석의 원금 표·'Dividend adjusted rates' 표. 주의: 2015·2017 선순위 사채는 주가가 전환가를 넘으면 'Incremental Share Factor'만큼 전환 비율이 늘어난다(최대 비율 한도) — conv_debt_net 공식 N×(1−K/가격)은 기본 비율만 써서 초과분 주식을 과소 계산한다(원금이 작아 금액은 작음; 2026-06-30 2017 사채 원금 $37.9M, 증분 계수 11.8140, 최대 33.6672). | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",
@@ -1841,10 +1914,10 @@
    "redeemed": null,
    "redeemed_filed": null,
    "converted": null,
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/827054/000082705421000280/mchp-20210930.htm ; 최신 https://www.sec.gov/Archives/edgar/data/827054/000082705426000038/mchp-20260630.htm",
-   "note": "1.625% Convertible Senior Subordinated Notes due 2027-02-15('2017 Senior Convertible Debt'). 창 시작 이전부터 존재. 2026-06-30 원금 $37.9M, 보유자 전환권 2026-07-01~09-30 열림. 결제: 2022-04-01 회사가 원금 현금 결제를 취소 불가로 선택('On April 1, 2022, the Company irrevocably elected cash settlement for the principal amount') — 원금 현금, 초과분 현금·주식(회사 선택) → conv_debt_net. 그 전(2021-09~2022-03)은 '현금·주식·혼합 회사 선택'이었으나 희석 EPS가 초과분만 반영(순주식 결제 가정) — 같은 kind로 둠. 전환가는 현금배당마다 조정되는 '배당 조정' 값(분기 10-Q 표 'Approximate Conversion Price'), conv_rate는 $1,000당 주식 수(참고 칸). 분할: 2021-10-13 2대1 — 2021-09-30 10-Q(2021-11-04 제출)의 값은 이미 분할 반영. 출처 10-Q 'Debt' 주석의 원금 표·'Dividend adjusted rates' 표. 주의: 2015·2017 선순위 사채는 주가가 전환가를 넘으면 'Incremental Share Factor'만큼 전환 비율이 늘어난다(최대 비율 한도) — conv_debt_net 공식 N×(1−K/가격)은 기본 비율만 써서 초과분 주식을 과소 계산한다(원금이 작아 금액은 작음; 2026-06-30 2017 사채 원금 $37.9M, 증분 계수 11.8140, 최대 33.6672).",
+   "note": "1.625% Convertible Senior Subordinated Notes due 2027-02-15('2017 Senior Convertible Debt'). 창 시작 이전부터 존재. 2026-06-30 원금 $37.9M, 보유자 전환권 2026-07-01~09-30 열림. 결제: 2022-04-01 회사가 원금 현금 결제를 취소 불가로 선택('On April 1, 2022, the Company irrevocably elected cash settlement for the principal amount') — 원금 현금, 초과분 현금·주식(회사 선택) → conv_debt_net. 그 전(2021-09~2022-03)은 '현금·주식·혼합 회사 선택'이었으나 희석 EPS가 초과분만 반영(순주식 결제 가정) — 같은 kind로 둠. 전환가는 현금배당마다 조정되는 '배당 조정' 값(분기 10-Q 표 'Approximate Conversion Price'), conv_rate는 $1,000당 주식 수(참고 칸). 분할: 2021-10-13 2대1 — 2021-09-30 10-Q(2021-11-04 제출)의 값은 이미 분할 반영. 출처 10-Q 'Debt' 주석의 원금 표·'Dividend adjusted rates' 표. 주의: 2015·2017 선순위 사채는 주가가 전환가를 넘으면 'Incremental Share Factor'만큼 전환 비율이 늘어난다(최대 비율 한도) — conv_debt_net 공식 N×(1−K/가격)은 기본 비율만 써서 초과분 주식을 과소 계산한다(원금이 작아 금액은 작음; 2026-06-30 2017 사채 원금 $37.9M, 증분 계수 11.8140, 최대 33.6672). | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",
@@ -2058,10 +2131,10 @@
    "redeemed": "2023-05-31",
    "redeemed_filed": "2023-08-03",
    "converted": null,
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/827054/000082705423000132/mchp-20230630.htm",
-   "note": "2.25% Convertible Junior Subordinated Debentures due 2037('2017 Junior Convertible Debt'). 10-Q 2023-06-30: '2017 Junior Convertible Debt which was fully settled in May 2023' — 정산표 'May 2023 ... 2017 Junior Convertible Debt $6.5 principal, $14.9 total cash consideration'(현금). redeemed 일자는 원문이 'May 2023'(월)만이라 월말 2023-05-31을 상한으로 적음(일자 미확인). redeemed_filed = 그 사실을 처음 알린 10-Q 2023-08-03. 결제: 2022-04-01 회사가 원금 현금 결제를 취소 불가로 선택('On April 1, 2022, the Company irrevocably elected cash settlement for the principal amount') — 원금 현금, 초과분 현금·주식(회사 선택) → conv_debt_net. 그 전(2021-09~2022-03)은 '현금·주식·혼합 회사 선택'이었으나 희석 EPS가 초과분만 반영(순주식 결제 가정) — 같은 kind로 둠. 전환가는 현금배당마다 조정되는 '배당 조정' 값(분기 10-Q 표 'Approximate Conversion Price'), conv_rate는 $1,000당 주식 수(참고 칸). 분할: 2021-10-13 2대1 — 2021-09-30 10-Q(2021-11-04 제출)의 값은 이미 분할 반영. 출처 10-Q 'Debt' 주석의 원금 표·'Dividend adjusted rates' 표.",
+   "note": "2.25% Convertible Junior Subordinated Debentures due 2037('2017 Junior Convertible Debt'). 10-Q 2023-06-30: '2017 Junior Convertible Debt which was fully settled in May 2023' — 정산표 'May 2023 ... 2017 Junior Convertible Debt $6.5 principal, $14.9 total cash consideration'(현금). redeemed 일자는 원문이 'May 2023'(월)만이라 월말 2023-05-31을 상한으로 적음(일자 미확인). redeemed_filed = 그 사실을 처음 알린 10-Q 2023-08-03. 결제: 2022-04-01 회사가 원금 현금 결제를 취소 불가로 선택('On April 1, 2022, the Company irrevocably elected cash settlement for the principal amount') — 원금 현금, 초과분 현금·주식(회사 선택) → conv_debt_net. 그 전(2021-09~2022-03)은 '현금·주식·혼합 회사 선택'이었으나 희석 EPS가 초과분만 반영(순주식 결제 가정) — 같은 kind로 둠. 전환가는 현금배당마다 조정되는 '배당 조정' 값(분기 10-Q 표 'Approximate Conversion Price'), conv_rate는 $1,000당 주식 수(참고 칸). 분할: 2021-10-13 2대1 — 2021-09-30 10-Q(2021-11-04 제출)의 값은 이미 분할 반영. 출처 10-Q 'Debt' 주석의 원금 표·'Dividend adjusted rates' 표. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",
@@ -2145,10 +2218,10 @@
    "redeemed": "2024-11-15",
    "redeemed_filed": "2025-02-06",
    "converted": null,
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/827054/000082705421000280/mchp-20210930.htm ; 만기 확인 https://www.sec.gov/Archives/edgar/data/827054/000082705425000019/mchp-20241231.htm",
-   "note": "0.125% Convertible Senior Subordinated Notes due 2024-11-15('2020 Senior Convertible Debt'), 원금 $665.5M 불변. 전환가 약 $91~93으로 창 내내 희석 0. 만기 상환('2020 Senior Convertible Debt, matured on November 15, 2024' — 10-Q 2024-12-31, 2025-02-06 제출). 결제: 2022-04-01 회사가 원금 현금 결제를 취소 불가로 선택('On April 1, 2022, the Company irrevocably elected cash settlement for the principal amount') — 원금 현금, 초과분 현금·주식(회사 선택) → conv_debt_net. 그 전(2021-09~2022-03)은 '현금·주식·혼합 회사 선택'이었으나 희석 EPS가 초과분만 반영(순주식 결제 가정) — 같은 kind로 둠. 전환가는 현금배당마다 조정되는 '배당 조정' 값(분기 10-Q 표 'Approximate Conversion Price'), conv_rate는 $1,000당 주식 수(참고 칸). 분할: 2021-10-13 2대1 — 2021-09-30 10-Q(2021-11-04 제출)의 값은 이미 분할 반영. 출처 10-Q 'Debt' 주석의 원금 표·'Dividend adjusted rates' 표.",
+   "note": "0.125% Convertible Senior Subordinated Notes due 2024-11-15('2020 Senior Convertible Debt'), 원금 $665.5M 불변. 전환가 약 $91~93으로 창 내내 희석 0. 만기 상환('2020 Senior Convertible Debt, matured on November 15, 2024' — 10-Q 2024-12-31, 2025-02-06 제출). 결제: 2022-04-01 회사가 원금 현금 결제를 취소 불가로 선택('On April 1, 2022, the Company irrevocably elected cash settlement for the principal amount') — 원금 현금, 초과분 현금·주식(회사 선택) → conv_debt_net. 그 전(2021-09~2022-03)은 '현금·주식·혼합 회사 선택'이었으나 희석 EPS가 초과분만 반영(순주식 결제 가정) — 같은 kind로 둠. 전환가는 현금배당마다 조정되는 '배당 조정' 값(분기 10-Q 표 'Approximate Conversion Price'), conv_rate는 $1,000당 주식 수(참고 칸). 분할: 2021-10-13 2대1 — 2021-09-30 10-Q(2021-11-04 제출)의 값은 이미 분할 반영. 출처 10-Q 'Debt' 주석의 원금 표·'Dividend adjusted rates' 표. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",
@@ -2386,6 +2459,15 @@
      "conv_rate": 8.2105,
      "src": "https://www.sec.gov/Archives/edgar/data/827054/000082705426000038/mchp-20260630.htm",
      "wa_note": "10-Q 주당이익 표 'Dilutive effect of 2024 Senior Convertible Debt' 0.0M (3개월, 백만 반올림; '—'은 0)"
+    },
+    {
+     "end": "2024-05-31",
+     "filed": "2024-05-31",
+     "wa_shares": 0,
+     "principal": 1250000000,
+     "conv_price": 121.84,
+     "conv_rate": 8.2076,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)"
     }
    ],
    "paired": []
@@ -2423,6 +2505,15 @@
      "conv_rate": 9.5993,
      "src": "https://www.sec.gov/Archives/edgar/data/827054/000082705426000038/mchp-20260630.htm",
      "wa_note": "10-Q 주당이익 표 'Dilutive effect of 2026 Senior Convertible Debt' 0.0M (3개월, 백만 반올림; '—'은 0)"
+    },
+    {
+     "end": "2026-02-11",
+     "filed": "2026-02-11",
+     "wa_shares": 0,
+     "principal": 900000000,
+     "conv_price": 104.17,
+     "conv_rate": 9.5993,
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준)"
     }
    ],
    "paired": []
@@ -2438,10 +2529,10 @@
    "redeemed": null,
    "redeemed_filed": null,
    "converted": null,
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/1403161/000140316126000104/v-20260630.htm (Note 11 Stockholders' Equity 'As-converted class A common stock' 표) ; https://www.sec.gov/Archives/edgar/data/1403161/000140316121000060/v-20210930.htm",
-   "note": "Series A·B·C convertible participating preferred(B = UK&I, C = Europe — 2016-06-21 Visa Europe 인수 대가, A = 2020-09 '4주년 해제'부터 B·C 일부를 바꿔 발행, 클래스 A 100주로 전환). B·C 전환 비율은 VE 지역 손실 회수 때마다 낮아지고(예 2026-06-30 B 0.5830·C 0.7140) 해제 때 일부가 A로 바뀐다. **표지가 이미 담음 — 이중 계산 주의**: 엔진의 V 주식 수는 us-gaap/dei 표지(클래스 A만)가 아니라 adapters/visa_classA.py가 overlay에 dei EntityCommonStockSharesOutstanding로 넣은 v:SharesOutstandingAsConvertedBasis(차원 없음 = 클래스 A + B-1·B-2·B-3·C 보통주 + Series A·B·C 우선주를 A로 환산한 합계, 2026-06-30 1,880M)다. 그래서 이 항목의 conv_shares는 0(더하면 우선주가 두 번 들어감)이고 wa_shares도 0(엔진 WA도 클래스 A 환산 희석 가중평균이라 우선주를 이미 담음). 참고로 표지 안의 우선주 환산 몫을 `as_converted_in_cover`(백만 반올림 XBRL 값 합)와 `as_converted_by_series`에 적었다(엔진 계산에 쓰지 않는 칸). 클래스 B/C 보통주도 같은 표지 합계에 이미 들어 있어 별도 항목을 만들지 않았다. 금액 쪽: EV_TAGS_BY_CIK V = {'preferred': []} → pref_ev 0, DCF도 같은 ev_component라 dcf_pref 0(우선주를 보통주로 보는 처리와 이미 맞음). CE P = CE_PREF_TAGS의 `PreferredStockValueOutstanding`(차원 없는 합계, 자본 안) — 2022-09-30부터 태그가 생겨 그 값, 2021-09~2022-06은 회사가 시리즈 차원 값만 내 엔진 P가 0(pref_est0)이었으므로 pref_in_p 0. 2021-09-30 합계 $3,080M은 2022-11-16 10-K 비교값으로만 나옴(엔진은 2021-11-18 관측을 씀). 자본 안이라 ce_add 0. 분기마다 금액이 바뀌어 carry_paired false. 2026-09-30(FY26 10-K) 아직 미제출 — 행 없음.",
+   "note": "Series A·B·C convertible participating preferred(B = UK&I, C = Europe — 2016-06-21 Visa Europe 인수 대가, A = 2020-09 '4주년 해제'부터 B·C 일부를 바꿔 발행, 클래스 A 100주로 전환). B·C 전환 비율은 VE 지역 손실 회수 때마다 낮아지고(예 2026-06-30 B 0.5830·C 0.7140) 해제 때 일부가 A로 바뀐다. **표지가 이미 담음 — 이중 계산 주의**: 엔진의 V 주식 수는 us-gaap/dei 표지(클래스 A만)가 아니라 adapters/visa_classA.py가 overlay에 dei EntityCommonStockSharesOutstanding로 넣은 v:SharesOutstandingAsConvertedBasis(차원 없음 = 클래스 A + B-1·B-2·B-3·C 보통주 + Series A·B·C 우선주를 A로 환산한 합계, 2026-06-30 1,880M)다. 그래서 이 항목의 conv_shares는 0(더하면 우선주가 두 번 들어감)이고 wa_shares도 0(엔진 WA도 클래스 A 환산 희석 가중평균이라 우선주를 이미 담음). 참고로 표지 안의 우선주 환산 몫을 `as_converted_in_cover`(백만 반올림 XBRL 값 합)와 `as_converted_by_series`에 적었다(엔진 계산에 쓰지 않는 칸). 클래스 B/C 보통주도 같은 표지 합계에 이미 들어 있어 별도 항목을 만들지 않았다. 금액 쪽: EV_TAGS_BY_CIK V = {'preferred': []} → pref_ev 0, DCF도 같은 ev_component라 dcf_pref 0(우선주를 보통주로 보는 처리와 이미 맞음). CE P = CE_PREF_TAGS의 `PreferredStockValueOutstanding`(차원 없는 합계, 자본 안) — 2022-09-30부터 태그가 생겨 그 값, 2021-09~2022-06은 회사가 시리즈 차원 값만 내 엔진 P가 0(pref_est0)이었으므로 pref_in_p 0. 2021-09-30 합계 $3,080M은 2022-11-16 10-K 비교값으로만 나옴(엔진은 2021-11-18 관측을 씀). 자본 안이라 ce_add 0. 분기마다 금액이 바뀌어 carry_paired false. 2026-09-30(FY26 10-K) 아직 미제출 — 행 없음. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",
@@ -2907,10 +2998,10 @@
    "redeemed": null,
    "redeemed_filed": null,
    "converted": "2025-08-15",
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/1664703/000119312520216305/d74238d8k.htm",
-   "note": "2.5% Green Convertible Senior Secured Notes due August 2025, 발행 2020-08-11 $230.0M(창 시작 전부터 존재). \"The initial conversion rate is 61.6808 shares of Class A common stock per $1,000 principal amount of notes, which represents an initial conversion price of approximately $16.21\"(10-K 2021). 2024-05-29 $115.0M 현금 재매입(122.6%, 부분 — 원금 행으로 반영), 2025-05-13 $112.8M을 3.0% 2029 사채 $115.7M로 교환(원금 행 반영), 잔여 $2.231M은 만기 2025-08-15 주식 137,606주로 결제(\"the notes were fully settled in equity\", Q3 2025 10-Q) → converted 2025-08-15, end_claims 2025-09-30(첫 재무상태표에서 사라짐), end_shares 2025-10-22(Q3 2025 10-Q 표지 날짜 — 그 표지 236,510,755주가 전환 주식을 담음). 결제 조건(발행 8-K 원문): \"The Company will settle conversions by paying or delivering, as applicable, cash, shares of its Class A common stock ... or a combination of cash and shares of its Class A common stock, at the Company's election.\" — 회사 선택. conv_debt_full로 분류한 근거: 실제 정규 전환을 주식으로만 결제함 — 2.5% 사채 만기(2025-08-15) 잔여 $2.2M \"fully settled in equity through the issuance of 137,606 shares\"(현금 결제 선택 기한 2025-05-15에 선택 안 함), 2026년 1~3분기 녹색 사채 $152.0M 전환에 \"we issued 7,796,169 shares\" + 장부가를 추가납입자본으로(Q3 2026 10-Q). 희석 EPS는 if-converted(ASU 2020-06). 반대 사례: 2025-10-30 유도 전환(2028·2029 사채 $975.9M)은 현금 $988.4M(경과이자 $12.4M 포함) + 주식 42,407,945주 — 원금 상당 현금·초과분 주식(net 형태)이었으나 정규 조건이 아닌 유도 교환(10-K 2025 Note 8 \"Induced Conversions of the Existing Notes\"). 회사가 원금 현금 결제 의사를 밝힌 문장은 찾지 못함 → kind 판단은 사용자 확인 권장. principal_in_debt = 부채 요약 표 순장부가. 엔진 BE 차입금은 덮어쓰기 없이 기본 태그 합(LongTermDebtCurrent + LongTermDebtNoncurrent + ShortTermBorrowings …)이고 전환사채는 LongTermDebtCurrent/Noncurrent에 들어 있음. 주의(엔진 발견): BE는 2024-09-30부터 ShortTermBorrowings(114.1M·114.4M·114.6M·3.7M·1.4M·4.2M·4.0M·7.3M·3.0M)를 LongTermDebtCurrent(114.139M·114.385M·114.631M·3.707M·1.424M·4.153M·3.959M·7.269M·2.950M)와 같은 금액(반올림)으로 함께 태깅 — 엔진 기본 debt 태그 목록이 두 태그를 합산하므로 1년 안 차입금이 두 번 더해질 가능성(엔진 출력으로는 미검증). 2024-09~2025-03의 2.5% 사채 1년 안 분류분 약 $114M이 두 번 들어감(principal_in_debt에는 한 번만 적음).",
+   "note": "2.5% Green Convertible Senior Secured Notes due August 2025, 발행 2020-08-11 $230.0M(창 시작 전부터 존재). \"The initial conversion rate is 61.6808 shares of Class A common stock per $1,000 principal amount of notes, which represents an initial conversion price of approximately $16.21\"(10-K 2021). 2024-05-29 $115.0M 현금 재매입(122.6%, 부분 — 원금 행으로 반영), 2025-05-13 $112.8M을 3.0% 2029 사채 $115.7M로 교환(원금 행 반영), 잔여 $2.231M은 만기 2025-08-15 주식 137,606주로 결제(\"the notes were fully settled in equity\", Q3 2025 10-Q) → converted 2025-08-15, end_claims 2025-09-30(첫 재무상태표에서 사라짐), end_shares 2025-10-22(Q3 2025 10-Q 표지 날짜 — 그 표지 236,510,755주가 전환 주식을 담음). 결제 조건(발행 8-K 원문): \"The Company will settle conversions by paying or delivering, as applicable, cash, shares of its Class A common stock ... or a combination of cash and shares of its Class A common stock, at the Company's election.\" — 회사 선택. conv_debt_full로 분류한 근거: 실제 정규 전환을 주식으로만 결제함 — 2.5% 사채 만기(2025-08-15) 잔여 $2.2M \"fully settled in equity through the issuance of 137,606 shares\"(현금 결제 선택 기한 2025-05-15에 선택 안 함), 2026년 1~3분기 녹색 사채 $152.0M 전환에 \"we issued 7,796,169 shares\" + 장부가를 추가납입자본으로(Q3 2026 10-Q). 희석 EPS는 if-converted(ASU 2020-06). 반대 사례: 2025-10-30 유도 전환(2028·2029 사채 $975.9M)은 현금 $988.4M(경과이자 $12.4M 포함) + 주식 42,407,945주 — 원금 상당 현금·초과분 주식(net 형태)이었으나 정규 조건이 아닌 유도 교환(10-K 2025 Note 8 \"Induced Conversions of the Existing Notes\"). 회사가 원금 현금 결제 의사를 밝힌 문장은 찾지 못함 → kind 판단은 사용자 확인 권장. principal_in_debt = 부채 요약 표 순장부가. 엔진 BE 차입금은 덮어쓰기 없이 기본 태그 합(LongTermDebtCurrent + LongTermDebtNoncurrent + ShortTermBorrowings …)이고 전환사채는 LongTermDebtCurrent/Noncurrent에 들어 있음. 주의(엔진 발견): BE는 2024-09-30부터 ShortTermBorrowings(114.1M·114.4M·114.6M·3.7M·1.4M·4.2M·4.0M·7.3M·3.0M)를 LongTermDebtCurrent(114.139M·114.385M·114.631M·3.707M·1.424M·4.153M·3.959M·7.269M·2.950M)와 같은 금액(반올림)으로 함께 태깅 — 엔진 기본 debt 태그 목록이 두 태그를 합산하므로 1년 안 차입금이 두 번 더해질 가능성(엔진 출력으로는 미검증). 2024-09~2025-03의 2.5% 사채 1년 안 분류분 약 $114M이 두 번 들어감(principal_in_debt에는 한 번만 적음). | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",
@@ -3080,7 +3171,18 @@
      "conv_price": 16.21,
      "conv_rate_per_1000": 61.6808,
      "source": "https://www.sec.gov/Archives/edgar/data/1664703/000162828025046844/be-20250930.htm",
-     "note": "만기 2025-08-15 잔여 원금이 주식 137,606주로 결제돼 2025-09-30 원금 0(부채 표에 없음). wa_shares 70,300 = 전환 전 희석 몫 0(3분기 반희석 표 Convertible notes 62,029천에 포함) + 137,606 × (9/30 − 8/15 + 1 = 47일) ÷ 92일 — 설계 §3.1 식으로 계산한 값(회사 공시 아님)"
+     "note": "만기 2025-08-15 잔여 원금이 주식 137,606주로 결제돼 2025-09-30 원금 0(부채 표에 없음). wa_shares 70,300 = 전환 전 희석 몫 0(3분기 반희석 표 Convertible notes 62,029천에 포함) + 137,606 × (9/30 − 8/15 + 1 = 47일) ÷ 92일 — 설계 §3.1 식으로 계산한 값(회사 공시 아님)",
+     "converted_shares": 137606
+    },
+    {
+     "end": "2021-06-30",
+     "filed": "2021-08-06",
+     "wa_shares": 0,
+     "principal": 230000000,
+     "conv_price": 16.21,
+     "conv_rate_per_1000": 61.6808,
+     "source": "https://www.sec.gov/Archives/edgar/data/1664703/000166470321000135/be-20210630.htm",
+     "note": "2026-10-29 보충: 창 시작 때 희석 가중평균 대체 분기. 2분기 순손실(희석 EPS −0.31, 희석 WA 172,749천 = 기본) → 사채 몫 0(반희석). 원금 230,000천 달러는 다음 분기 행과 같음(그 사이 전환·상환 공시 없음)"
     }
    ],
    "paired": [
@@ -3195,6 +3297,13 @@
      "principal_in_debt": 2229000,
      "source": "https://www.sec.gov/Archives/edgar/data/1664703/000162828025037074/be-20250630.htm",
      "note": "부채 요약 표 순장부가(Net Carrying Value) 2,229천 달러 — 엔진 차입금 기본 태그 LongTermDebtCurrent/Noncurrent(XBRL)에 들어 있음"
+    },
+    {
+     "end": "2021-06-30",
+     "filed": "2021-08-06",
+     "principal_in_debt": 221879000,
+     "source": "https://www.sec.gov/Archives/edgar/data/1664703/000166470321000135/be-20210630.htm",
+     "note": "공정가치 주석 표 '2.5 % Green Convertible Senior Notes due August 2025 221,879'(순장부가, 천 달러) — 2026-10-29 보충(창 시작 때 엔진 차입금 관측 결산일)"
     }
    ]
   },
@@ -4152,6 +4261,14 @@
      "units": 7606927,
      "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526337177/blk-20260630.htm",
      "note": "10-Q 희석 표 \"Subco Units 7,606,927\"(3개월, 6개월 7,624,315), 2026-07-31 표지 \"162,476,186 on a fully diluted basis, including 7,606,927 Class B-2 common units\". 10-Q \"7.6 million Subco Units outstanding\"(6-30). 설계 §3.1 검산: (57,613 + 2,828)M ÷ (154,996,807 + 7,606,927) ≈ $371.70 = 회사 BVPS"
+    },
+    {
+     "end": "2025-07-01",
+     "filed": "2025-07-01",
+     "wa_shares": 0,
+     "units": 8113867,
+     "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312525267043/blk-20250930.htm",
+     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준), BLK 단위 수는 마감 때 약 8.5M — 정확값 미확인이라 첫 분기말 값"
     }
    ],
    "paired": [
@@ -4200,10 +4317,10 @@
    "redeemed": null,
    "redeemed_filed": null,
    "converted": null,
-   "backfill_first": false,
+   "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/1063761/000110465926093360/spg-20260630x10q.htm",
-   "note": "Simon Property Group, L.P.(운영 파트너십) 외부 유한책임 파트너 유닛. 1993 상장 때부터 있던 UPREIT 유닛이라 창(2021-09-30) 전부터 존재 — start null, rows가 창 시작부터 있음(backfill 불필요). 조건 원문(Q2 2026 10-Q): \"Limited partners of the Operating Partnership have the right under the Operating Partnership's partnership agreement to exchange their units for shares of common stock or cash, as selected by Simon as the sole general partner. Accordingly, we classify units held by limited partners in permanent equity\". units = LP 재무상태표 \"Limited Partners, X and Y units outstanding\"의 결산일 값(LTIP 유닛 포함 여부는 원문 미확인). 표지 주식 수(Simon 보통주)는 유닛을 담지 않음 — 이중 계산 없음. nci_remove 0: 엔진 EV nci는 EV_TAGS_BY_CIK SPG {\"nci\": [\"OtherMinorityInterests\"]} + EV_TAGS_NO_DEFAULT {\"nci\"}로 부동산 비지배분만 — 유닛 몫은 이미 EV에 없음(검산: MinorityInterest = MinorityInterestInOperatingPartnerships + OtherMinorityInterests, 예 2021-09-30 496,594 = 479,827 + 16,767천 달러). ce_add = us-gaap MinorityInterestInOperatingPartnerships(Simon 재무상태표 비지배지분 중 운영 파트너십 유한 파트너 몫, 영구 자본이지만 지배주주 자본 StockholdersEquity 밖). 2026-06-30 $758,156천. 엔진 build_dcf SHARES_ADD SPG 55,826,340(filed 2026-08-10) 한 값을 분기별 이력으로 대체. Q3 2026 10-Q 미공시(2026-10-29 기준) — 2026-09-30 행 미확인.",
+   "note": "Simon Property Group, L.P.(운영 파트너십) 외부 유한책임 파트너 유닛. 1993 상장 때부터 있던 UPREIT 유닛이라 창(2021-09-30) 전부터 존재 — start null, rows가 창 시작부터 있음(backfill 불필요). 조건 원문(Q2 2026 10-Q): \"Limited partners of the Operating Partnership have the right under the Operating Partnership's partnership agreement to exchange their units for shares of common stock or cash, as selected by Simon as the sole general partner. Accordingly, we classify units held by limited partners in permanent equity\". units = LP 재무상태표 \"Limited Partners, X and Y units outstanding\"의 결산일 값(LTIP 유닛 포함 여부는 원문 미확인). 표지 주식 수(Simon 보통주)는 유닛을 담지 않음 — 이중 계산 없음. nci_remove 0: 엔진 EV nci는 EV_TAGS_BY_CIK SPG {\"nci\": [\"OtherMinorityInterests\"]} + EV_TAGS_NO_DEFAULT {\"nci\"}로 부동산 비지배분만 — 유닛 몫은 이미 EV에 없음(검산: MinorityInterest = MinorityInterestInOperatingPartnerships + OtherMinorityInterests, 예 2021-09-30 496,594 = 479,827 + 16,767천 달러). ce_add = us-gaap MinorityInterestInOperatingPartnerships(Simon 재무상태표 비지배지분 중 운영 파트너십 유한 파트너 몫, 영구 자본이지만 지배주주 자본 StockholdersEquity 밖). 2026-06-30 $758,156천. 엔진 build_dcf SHARES_ADD SPG 55,826,340(filed 2026-08-10) 한 값을 분기별 이력으로 대체. Q3 2026 10-Q 미공시(2026-10-29 기준) — 2026-09-30 행 미확인. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",

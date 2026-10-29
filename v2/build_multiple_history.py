@@ -1493,10 +1493,11 @@ def check_shares(points, cik, ticker):
                 dq.append(f"shares_suspect:{day}")
         if note:
             dq.append(note)
-        if prev is None or (p["end"], val) != prev:
-            # wa_q: 이 값이 희석 가중평균(그 분기 시작·결산일)이면 — 카드별 증권 표가 그 분기 wa_shares를 빼고 날짜 값으로 바꾼다(E44 §3.2)
+        if prev is None or (p["end"], val, wa_q) != prev:
+            # wa_q: 이 값이 희석 가중평균(그 분기 시작·결산일)이면 — 카드별 증권 표가 그 분기 wa_shares를 빼고 날짜 값으로 바꾼다(E44 §3.2).
+            # 값이 같아도 WA 분기가 바뀌면 새 행(표가 뺄 몫이 달라진다, Codex)
             out.append({"end": p["end"], "val": val, "available": day, **({"wa_q": wa_q} if wa_q else {})})
-            prev = (p["end"], val)
+            prev = (p["end"], val, wa_q)
     return out, dq
 
 
@@ -2025,6 +2026,7 @@ DEBT_TOTAL_TAG = {"0001014473": ["SeniorNotesCurrent", "SeniorLongTermNotes"],  
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001014473": {"nci": []},   # VRSN: 비지배지분 없음 — MinorityInterest 마지막 값이 2010-06($0.05B)이라 낡은 값으로 DCF가 보류됐다(Q3 2026 10-Q, 2026-10-29)
+                  "0001664703": {"debt": ["LongTermDebtCurrent", "LongTermDebtNoncurrent"]},   # BE: ShortTermBorrowings를 1년 안 장기차입금과 같은 금액으로 함께 태깅 — 기본 목록이면 두 번 더해진다(2024-09 $114M, Fable 2026-10-29). LongTermDebt 총계 = 유동 + 비유동 확인
                   "0001130310": {"sti": []},   # CNP: 단기투자 $425M은 ZENS(교환사채) 기초 주식 — 짝인 ZENS 지수부채 파생 $468M이 차입금에 없어 한쪽만 더하면 지분가치가 부푼다, 현금성에서 뺀다(Codex·Fable r1, 2026-10-29)
                   # GEHC: 비지배지분 = 자본 안 $17M + 상환가능(메자닌) $234M(Q3 2026 10-Q, 2026-10-28)
                   "0001932393": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
@@ -2833,10 +2835,15 @@ def main():
 
     def equity_ce(d, px=None):
         """PBR 분모 — 보통주 자본(common_equity) + 표 증권의 ce_add·pref_in_p(보통주로 보는 우선주는 P에서 되돌림)."""
-        v = as_of(series.get("equity", []), d)
+        e = as_of_entry(series.get("equity", []), d) if series.get("equity") else None
+        v = e["val"] if e else None
         if v is None or not _sc_on:
             return v
-        return v + _sc.ce_extra(_claims(d, px if px is not None else _px_at(d)))
+        c = _claims(d, px if px is not None else _px_at(d))
+        if c["pref_in_p"] > (e.get("pref") or 0) + 1:
+            # 표가 P에서 되돌리는 금액이 그날 P에 실제로 실린 우선주보다 크면 이중 되돌림(GOOGL 두 시리즈 합 등, §3.1)
+            raise _sc.ClaimHold(f"{t} {e['end']}: 표 pref_in_p {c['pref_in_p']:,.0f} > 엔진 P {e.get('pref') or 0:,.0f}")
+        return v + _sc.ce_extra(c)
 
     def ev(d, px):
         m = mcap(d, px)
