@@ -135,6 +135,13 @@ def run():
     setup([it("conv_pref_fixed", base_rows, [{"end": "2026-06-30", "filed": "2026-08-01", "pref_ev": 1, "dcf_pref": 1, "pref_in_p": 1, "ce_add": 0}],
               carry_paired=True)])
     check("carry_paired인데 이전 행 없음 → 보류", raises(lambda: sc.claims(T, D, 50, dict(obs, preferred="2026-03-31")), sc.ClaimHold))
+    # 검토 2라운드
+    setup([it("conv_debt_full", [{"end": "2026-06-30", "filed": "2026-08-01", "wa_shares": 0, "principal": 0, "conv_price": 16.21,
+                                  "converted_shares": 137606}], [{"end": "2026-03-31", "filed": "2026-05-01", "principal_in_debt": 99}])])
+    check("전환 끝난 사채는 외가격이어도 이전 결산일 차입금을 뺀다", approx(sc.claims(T, D, 1, dict(obs, debt="2026-03-31"))["principal_in_debt"], 99))
+    setup([it("conv_pref_fixed", base_rows, [{"end": "2025-12-31", "filed": "2026-02-01", "pref_ev": 9, "dcf_pref": 9, "pref_in_p": 0, "ce_add": 0},
+                                             {"end": "2026-03-31", "filed": "2026-05-01", "pref_ev": 0, "dcf_pref": 0, "pref_in_p": 0, "ce_add": 0}])])
+    check("시리즈 없음: 최신 짝 행이 0이면 과거 금액 무관하게 통과", sc.claims(T, D, 50, {"preferred": None})["pref_ev"] == 0)
     # 형식·연구 모드
     setup([it("conv_pref_fixed", [{"end": "2026-03-31", "filed": "2026-05-01", "conv_shares": 20}], base_pair)])
     check("rows에 wa_shares 없음 → 형식 오류", raises(lambda: sc.load(T), sc.ClaimError))
@@ -160,11 +167,13 @@ MUTANTS = [
     ("CE 되돌림 pref_in_p 뺌", "    return c[\"ce_add\"] + c[\"pref_in_p\"] + c[\"principal_in_debt\"]", "    return c[\"ce_add\"] + c[\"principal_in_debt\"]"),
     ("backfill_first 무시(늘 채움)", "    if it.get(\"backfill_first\") and it[\"rows\"]:", "    if it[\"rows\"]:"),
     ("연구 모드 스위치 제거", "    if _bmh().ASOF_REF is not None:\n        return None", "    if False:\n        return None"),
+    ("전환 완료 차입금 예외 제거", "            if f == \"principal_in_debt\" and not _done and", "            if f == \"principal_in_debt\" and"),
+    ("시리즈 없음 검사가 과거 전체를 봄", "                if _cur and (max(_cur, key=lambda p: (p[\"end\"], p[\"filed\"])).get(f) or 0) != 0 \\", "                if any((p.get(f) or 0) != 0 for p in _cur) \\"),
     ("발행 뒤 행 없음 보류 제거", "            if it.get(\"start\") and d >= it[\"start\"]:\n                raise", "            if False:\n                raise"),
     ("WA 정정 행 공시일 무시", "            wr = [x for x in it[\"rows\"] if x[\"end\"] == wa_end and x[\"filed\"] <= d]", "            wr = [x for x in it[\"rows\"] if x[\"end\"] == wa_end]"),
     ("WA 행 없음 보류 제거", "                if not (it.get(\"start\") and wa_end < it[\"start\"]):\n                    raise", "                if False:\n                    raise"),
     ("전환 주식 보존 제거", "    if r.get(\"converted_shares\") is not None and not r[\"principal\"]:", "    if False:"),
-    ("짝 시리즈 없음 검사 제거", "                if any((p.get(f) or 0) != 0 for p in it[\"paired\"] if p[\"filed\"] <= d):", "                if False:"),
+    ("짝 시리즈 없음 검사 제거", "                if _cur and (max(", "                if False and (max("),
     ("carry 이전 행 없음 보류 제거", "                    raise ClaimHold(f\"{ticker} {it['id']}: carry_paired인데", "                    continue\n                    raise ClaimHold(f\"{ticker} {it['id']}: carry_paired인데"),
     ("filed 검사 제거", "    c = [r for r in it[\"rows\"] if r[\"filed\"] <= d]", "    c = list(it[\"rows\"])"),
 ]

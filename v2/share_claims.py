@@ -187,13 +187,16 @@ def claims(ticker, d, price, obs_end):
             e = obs_end[series]
             if e is None:
                 # 짝 시리즈가 엔진에 없다(덮어쓰기로 비었음 — HPE) → 그 칸은 0이어야 한다(아니면 표 금액이 어디에도 실리지 않은 것)
-                if any((p.get(f) or 0) != 0 for p in it["paired"] if p["filed"] <= d):
+                _cur = [p for p in it["paired"] if p["filed"] <= d]
+                if _cur and (max(_cur, key=lambda p: (p["end"], p["filed"])).get(f) or 0) != 0 \
+                        and not (it.get("end_claims") and _cur[-1]["end"] >= it["end_claims"]):   # 지금 적용되는(최신) 짝 행만 본다(Codex r2)
                     raise ClaimHold(f"{ticker} {it['id']}: {series} 시리즈가 엔진에 없는데 표 {f}가 0이 아님")
                 continue
             if it.get("end_claims") and e >= it["end_claims"]:
                 continue                  # 그 재무상태표 결산일에는 청구권이 이미 사라졌다
-            if f == "principal_in_debt" and (r is None or price is None or price < r["conv_price"]):
-                continue                  # conv_debt_full 외가격 — 원금은 차입금에 남는다
+            _done = r is not None and r.get("converted_shares") is not None and not r["principal"]
+            if f == "principal_in_debt" and not _done and (r is None or price is None or price < r["conv_price"]):
+                continue                  # conv_debt_full 외가격 — 원금은 차입금에 남는다(전환이 끝났으면 가격 무관하게 뺀다, Codex r2)
             same = [p for p in it["paired"] if p["end"] == e and p["filed"] <= d]
             if same:
                 v = same[-1][f]

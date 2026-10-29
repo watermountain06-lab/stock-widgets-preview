@@ -614,7 +614,7 @@ def base_inputs(ticker, asof=None):
         _px = _daily[-1][4] if _daily else None
         _wa = _sh_wa
         # 관측 결산일은 최종 채택된 값에만 — 낡아서 버린(0·None) 구성요소의 결산일로 표 금액을 빼면 버린 청구권을 다시 뺀다(Codex)
-        _ob = lambda k: _obs.get(k) if out.get(k) else None
+        _ob = lambda k: None if k in _stale else _obs.get(k)    # 채택된 0은 관측으로 둔다(소멸·상환된 구성요소, Codex r2)
         _pf = [x["end"] for x in fixed.values() if x.get("kind") == "preferred"]
         try:
             _sh_new = _sc.adjusted_shares(ticker, _d, _px, out["shares"], _sh_end, base_is_wa=bool(_wa),
@@ -629,7 +629,11 @@ def base_inputs(ticker, asof=None):
         else:
             out["shares"] = _sh_new
             for _k, _f in (("preferred", "dcf_pref"), ("nci", "nci_remove"), ("debt", "principal_in_debt")):
-                if _c[_f]:
+                if _c[_f] and _c[_f] > (out.get(_k) or 0) + 1:
+                    # 표가 빼는 금액이 엔진에 실린 잔액보다 크다 — 짝 금액 배분 오류(음수 잔액이 된다, Codex r2) → 보류
+                    _sc_hold = "카드별 증권 표 짝 금액 > 엔진 잔액"
+                    out["dq"].append(f"claim_hold:{_k} 표 {_c[_f]:,.0f} > 엔진 {out.get(_k) or 0:,.0f}")
+                elif _c[_f]:
                     out[_k] = (out.get(_k) or 0) - _c[_f]
             # 보통주로 본 증권의 장부가는 투하자본에도 자본으로 남긴다 — 내가격 전환사채(차입금에서 뺀 만큼)·교환 단위(ce_add, 지배주주 자본 밖).
             # 빼기만 하면 투하자본이 그만큼 사라져 ROIC가 튄다(BE 7.4% → 37.1%, Codex·Fable). 우선주(pref_in_p)는 투하자본에 원래 없다.

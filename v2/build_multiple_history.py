@@ -2855,6 +2855,10 @@ def main():
         if _sc_on:
             # 보통주로 본 증권은 EV 청구권에서 뺀다(주식 수에 더했으므로 — 한 증권은 한쪽으로만, E44 §1)
             c = _claims(d, px)
+            for _n, _f in (("debt", "principal_in_debt"), ("nci", "nci_remove"), ("preferred", "pref_ev")):
+                if c[_f] > (as_of(series.get(_n, []), d) or 0) + 1:
+                    # 표가 빼는 금액이 그날 엔진 잔액보다 크다 — 짝 금액 배분 오류(Codex r2)
+                    raise _sc.ClaimHold(f"{t} {d}: 표 {_f} {c[_f]:,.0f} > 엔진 {_n} {as_of(series.get(_n, []), d) or 0:,.0f}")
             debt -= c["principal_in_debt"]
             extra -= c["nci_remove"] + c["pref_ev"]
         return m + debt - cash + extra
