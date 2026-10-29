@@ -121,6 +121,24 @@ export function weeklySells({ holdings, rec, today, rounds, lastSession, trades,
   }
   return out.sort((a, b) => (a.ticker < b.ticker ? -1 : a.ticker > b.ticker ? 1 : a.account < b.account ? -1 : 1));
 }
+// 판정이 묵은 보유(원칙 6, 사용자 결정 2026-10-29): 카드는 있는데 판정이 없거나 가격·판정 날짜가 묵어 판정으로 사고팔 수 없는 보유.
+// 알림 칸에 '확인 필요'로 보여 준다. 카드가 없는 종목은 넣지 않는다(사용자 결정). 기록 자체가 묵었으면(recordStale) 칸 위 경고 한 줄로 충분해 뺀다
+export function staleHoldings({ holdings, rec, today, holdOnly = [] }) {
+  if (!rec) return [];
+  const out = [];
+  for (const h of holdings || []) {
+    if (!(h.qty > 1e-9) || holdOnly.includes(h.ticker) || !rec.cards?.[h.ticker]) continue;
+    const why = holdReason(rec.cards[h.ticker], rec, today);
+    if (why && why !== 'recordStale' && why !== 'noCard') out.push({ ticker: h.ticker, account: h.account, why });
+  }
+  return out.sort((a, b) => (a.ticker < b.ticker ? -1 : a.ticker > b.ticker ? 1 : a.account < b.account ? -1 : 1));
+}
+// 매도 안내에 쓸 회차: 마지막 완전한 기록 뒤 회차가 이번 달에 남았으면 이번 달, 아니면 다음 달 회차(10월에도 11/02부터 미리 보여 줌, 2026-10-29)
+export function sellRounds(month, ref) {
+  const nm = (m) => { const [y, mo] = m.split('-').map(Number); return mo === 12 ? `${y + 1}-01` : `${y}-${String(mo + 1).padStart(2, '0')}`; };
+  const cur = monthRounds(month);
+  return cur.some((d) => d > ref) ? cur : monthRounds(nm(month));
+}
 // 그달 회차 날짜(원칙 2): 첫 거래일부터 매주 같은 요일, 휴장이면 다음 거래일, 4회
 export function monthRounds(month) {
   const S = cal().sessions;
@@ -525,40 +543,50 @@ export function renderHome(root, model, handlers) {
   // 회차 진행은 돈 칸 아래 4회 띠(실제 매매 기록)가 보여 준다 — 모의 계산 기준 진행 막대는 뺐다(사용자 결정 2026-10-23, 둘이 달라 보임)
   const buySlot = el('div', 'pf-buyslot'); next.appendChild(buySlot);
   // 알림 칸(사용자 결정 2026-10-28): 매도 안내·20% 하락 검토·기록 묵음 경고를 '다음 할 일'에서 옮겨 보유 자산 위 칸에 모은다. 없으면 '알림 없음 · 다음 판정 확인'
+  // 알림 칸(2026-10-29 사용자 결정 B안): 한 줄 목록 — 배지(팔기·검토·확인) · 종목(계좌 · 이유) · 숫자, 팔기는 아래 작은 설명 한 줄
   const alerts = el('section', 'pf-panel pf-side pf-alerts');
-  const ah = el('h2', 'pf-h2s', '알림 '); alerts.appendChild(ah);
-  for (const l of losses) {
-    const w = el('div', 'pf-lossline');
-    w.appendChild(el('strong', null, '매도 검토(20% 하락)'));
-    w.appendChild(el('span', null, ` ${l.ticker}${l.account === KW ? '(키움)' : cur.kwUsed ? '(Robinhood)' : ''} 평균 단가 대비 ${dropText(l.drop)} · 매도 검토를 시작합니다(원칙 4). 팔지·얼마나는 판정과 함께 직접 판단하세요.`));
-    alerts.appendChild(w);
-  }
-  // 매도 검토(원칙 기준, 알림만 — 예전 '이번 달 운용' 칸에서 옮김)와 판정 방식이 바뀐 달 안내
+  const ahead = el('div', 'pf-alerthead');
+  const ah = el('h2', 'pf-h2s', '알림 '); ahead.appendChild(ah); alerts.appendChild(ahead);
+  // 기록 묵음·판정 방식이 바뀐 달 안내는 목록 위 한 줄
   if (recStale) alerts.appendChild(el('p', 'pf-warn', `⚠ 마지막 완전한 기록이 ${md(lastFull.session)}로 ${recordGap(lastFull, today)}거래일 지났습니다. 새 기록이 올 때까지 사지도 팔지도 않습니다(원칙 6).`));
   if (live && mv.plan.ruleChanged) alerts.appendChild(el('p', 'pf-note', '판정 방식이 바뀐 달입니다. 전략 비교의 모의 계산은 이번 달 매매하지 않습니다(바뀐 판정으로 매도가 생기지 않게).'));
-  // 판정 매도 검토도 지금 데이터가 원칙 6을 통과한 종목만(기록 묵음·종목별 묵음 — dr r3·r4). 목록과 건수가 같은 배열을 쓴다
-  // 11월부터(원칙 4 개정, 2026-10-28): 실제 보유를 매주 회차 기준으로 보고 이번 회차에 팔 양을 보여 준다. 그전 달은 예전 점검일 알림
+  // 원칙 4 개정(2026-10-28): 실제 보유를 매주 회차 기준으로 보고 이번 회차에 팔 양을 보여 준다. 10월에도 11/02 첫 회차부터 팔 양을 미리 보여 준다(2026-10-29)
   const weekly = today.slice(0, 7) >= PRINCIPLE_FROM;
-  const wSells = weekly && !recStale ? weeklySells({ holdings: [...rhHold.map((x) => ({ ...x, account: RH })), ...kw.holdings.map((x) => ({ ...x, account: KW }))],
-    rec: lastFull, today, rounds: monthRounds(today.slice(0, 7)), lastSession: lastFull ? lastFull.session : '', trades: model.trades,
-    holdOnly: model.bundle?.snapshot?.holdOnly || [] }) : [];
+  const allHold = [...rhHold.map((x) => ({ ...x, account: RH })), ...kw.holdings.map((x) => ({ ...x, account: KW }))];
+  const holdOnly0 = model.bundle?.snapshot?.holdOnly || [];
+  const sRounds = sellRounds(today.slice(0, 7), lastFull ? lastFull.session : today);
+  const wSells = !recStale ? weeklySells({ holdings: allHold, rec: lastFull, today, rounds: sRounds,
+    lastSession: lastFull ? lastFull.session : '', trades: model.trades, holdOnly: holdOnly0 }) : [];
+  const staleH = !recStale ? staleHoldings({ holdings: allHold, rec: lastFull, today, holdOnly: holdOnly0 }) : [];
   const qty = (v) => (Math.abs(v - Math.round(v)) < 1e-9 ? String(Math.round(v)) : String(+v.toFixed(6)));
+  const acct = (a) => (a === KW ? '키움' : cur.kwUsed ? 'RH' : '');
+  const alist = el('div', 'pf-alertlist');
+  const arow = (kind, badge, ticker, sub, val, valCls, detail) => {
+    const r = el('div', 'pf-alertrow');
+    r.appendChild(el('span', 'pf-abadge pf-ab-' + kind, badge));
+    const nm = el('span', 'pf-aname'); nm.appendChild(el('strong', null, ticker)); nm.appendChild(el('small', null, ' ' + sub)); r.appendChild(nm);
+    r.appendChild(el('strong', 'pf-aval' + (valCls ? ' ' + valCls : ''), val));
+    alist.appendChild(r);
+    if (detail) alist.appendChild(el('p', 'pf-adetail', detail));
+  };
   for (const w0 of wSells) {
-    const w = el('div', 'pf-sellline');
-    const who = w0.account === KW ? '(키움)' : cur.kwUsed ? '(Robinhood)' : '';
-    w.appendChild(el('strong', null, '매도'));
-    w.appendChild(el('span', null, ` ${w0.ticker}${who} ${w0.tier} · ` + (!w0.round ? '이번 달 회차가 끝났습니다. 다음 점검일 첫 회차부터 팝니다(원칙 4).'
-      : w0.shares > 0 ? `${md(w0.round)} 회차에 ${qty(w0.shares)}주 팔기` + (w0.tier === '초고평가' ? ' — 남은 것 전부(초고평가)' : w0.all ? ' — 마지막 회차라 전부' : ` — 전부 팔 때까지 남은 ${w0.remaining}회에 나눠서`) + '.'
-      : `${md(w0.round)} 회차 몫은 이미 팔았습니다.`) + (w0.tier === '고평가' && w0.round ? ' 판정이 고평가~적정 이하로 내려오면 멈춥니다.' : '')));
-    alerts.appendChild(w);
+    const sub = [acct(w0.account), w0.tier].filter(Boolean).join(' · ');
+    const val = !w0.round ? '다음 달' : w0.shares > 0 ? qty(w0.shares) + '주' : '팔았음';
+    const detail = (!w0.round ? '이번 달 회차가 끝나 다음 점검일 첫 회차부터'
+      : w0.shares <= 0 ? `${md(w0.round)} 회차 몫은 이미 팔았음`
+      : w0.tier === '초고평가' ? `${md(w0.round)} 회차에 남은 것 전부`
+      : w0.all ? `${md(w0.round)} 마지막 회차라 전부`
+      : `${md(w0.round)} 회차 · 전부 팔 때까지 남은 ${w0.remaining}회에 나눠서`) + (!weekly && w0.round ? ' · 11월부터' : '');
+    arow('sell', '팔기', w0.ticker, sub, val, 'pf-aval-sell', detail);
   }
-  const sellAlerts = !weekly && live && !recStale ? mv.alerts.filter((f) => !holdReason(lastFull?.cards?.[f.ticker], lastFull, today)) : [];
-  for (const f of sellAlerts) {
-    const w = el('div', 'pf-sellline');
-    w.appendChild(el('strong', null, '매도 검토'));
-    w.appendChild(el('span', null, ` ${f.ticker} ${f.observed} · ` + '팔지·얼마나는 직접 판단(원칙 4)'));
-    alerts.appendChild(w);
+  for (const l of losses) arow('review', '검토', l.ticker, [acct(l.account), '20% 하락'].filter(Boolean).join(' · '), dropText(l.drop), 'pf-aval-down', null);
+  for (const s0 of staleH) arow('check', '확인', s0.ticker, [acct(s0.account), HOLD_TEXT[s0.why] || '데이터 문제'].filter(Boolean).join(' · '), '보류', 'pf-aval-muted', null);
+  if (alist.children.length) {
+    alerts.appendChild(alist);
+    const kinds = [wSells.length && '팔기는 고평가가 내려오면 멈춤', losses.length && '검토는 직접 판단', staleH.length && '확인은 카드 갱신 전까지 사고팔지 않음'].filter(Boolean);
+    alerts.appendChild(el('p', 'pf-afoot', kinds.join(' · ')));
   }
+  // 예전 점검일 알림(모의 계산의 발동)은 실제 보유 기준 안내(wSells)로 바꿈(2026-10-29)
   // 넣은 돈(원칙 3): 모든 묶음의 입금 가운데 반영일이 이번 달(미국 동부)인 것 — 엔진·기록·관리 탭과 같은 반영일·취소 기준(dr r1)
   const month = today.slice(0, 7);
   const depMap0 = model.allDeposits || Object.fromEntries(Object.entries(model.bundle?.deposits || {})
@@ -575,14 +603,16 @@ export function renderHome(root, model, handlers) {
   const stats = el('div', 'pf-nextstats');
   const stat = (k, v) => { const s = el('span', null, k + ' '); s.appendChild(el('strong', null, v)); stats.appendChild(s); };
   // 매도 검토 = 판정(고평가·초고평가) 알림 + 20% 하락(원칙 4), 종목 기준 — 알림 칸 제목에 센다
-  const sellN = new Set([...sellAlerts.map((f) => f.ticker), ...wSells.map((f) => f.ticker), ...losses.map((l) => l.ticker)]).size;
-  if (sellN) ah.appendChild(el('small', null, `매도·검토 ${sellN}종목`));
-  if (alerts.children.length === 1) {
-    // 다음 판정 확인 = 마지막 완전한 기록 뒤 첫 회차(이번 달에 없으면 다음 달 첫 회차). 10월은 다음 점검일
-    const ref = lastFull ? lastFull.session : today;
-    const nm = (m) => { const [y, mo] = m.split('-').map(Number); return mo === 12 ? `${y + 1}-01` : `${y}-${String(mo + 1).padStart(2, '0')}`; };
-    const nextCheck = (weekly ? monthRounds(month).find((d) => d > ref) : null) || monthRounds(nm(month))[0] || null;
-    alerts.appendChild(el('p', 'pf-note', '지금 알림 없음' + (nextCheck ? ` · 다음 판정 확인 ${md(nextCheck)}` : '')));
+  const sellN = new Set([...wSells.map((f) => f.ticker), ...losses.map((l) => l.ticker), ...staleH.map((f) => f.ticker)]).size;
+  if (sellN) ah.appendChild(el('small', null, String(sellN)));
+  // 머리 오른쪽: 다음 회차(판정 확인) 날짜. 알림이 없으면 초록 한 줄(B안 공통)
+  const nextCheck = sRounds.find((d) => d > (lastFull ? lastFull.session : today)) || null;
+  if (nextCheck) ahead.appendChild(el('span', 'pf-anext', `다음 회차 ${md(nextCheck)}`));
+  if (!alist.children.length && !recStale) {
+    const ok = el('div', 'pf-alertok');
+    ok.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>';
+    const t = el('div'); t.appendChild(el('strong', null, '지금 할 매도·검토 없음')); if (nextCheck) t.appendChild(el('small', null, `다음 판정 확인 ${md(nextCheck)}`)); ok.appendChild(t);
+    alerts.appendChild(ok);
   }
   if (!live && !canDeposit) stat('이번 달 넣은 돈', deps.now.length ? usd0(deps.now.reduce((a, d) => a + d.amount, 0)) : '없음');
   stat('마지막 기록', last ? md(last.session) : '없음');

@@ -656,3 +656,18 @@ test('매주 판정 매도(카드, 2026-10-28): 고평가는 남은 회차에 �
   // 원칙 6(묵은 판정)이면 빠진다
   assert.deepEqual(weeklySells({ ...base, rec: { ...rec, cards: { DDD: { ...card('고평가'), priceStale: true } } }, holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }], trades: {} }), []);
 });
+
+import { staleHoldings, sellRounds } from '../../preview-only-portfolio-home.js';
+test('알림 칸(2026-10-29): 10월에도 다음 달 첫 회차부터 팔 양, 판정이 묵은 보유는 확인 필요(카드 없는 종목·그대로 두는 보유 제외)', () => {
+  assert.deepEqual(sellRounds('2026-10', '2026-10-28'), ['2026-11-02', '2026-11-09', '2026-11-16', '2026-11-23']);   // 10월 회차는 다 지남
+  assert.deepEqual(sellRounds('2026-11', '2026-11-06'), ['2026-11-02', '2026-11-09', '2026-11-16', '2026-11-23']);
+  assert.equal(sellRounds('2026-11', '2026-11-25')[0], '2026-12-01');                                                // 11월 회차가 끝난 주는 12월
+  const card = (o) => ({ tier: '적정', tierStatus: 'valid', verdictAsOf: '2026-10-27', priceStale: false, close: 10, ...o });
+  const rec = { session: '2026-10-28', ruleVersion: 'r', cards: { AAA: card({ priceStale: true }), BBB: card({ tier: null }), CCC: card({}), OLD: card({ verdictAsOf: '2026-10-01' }) } };
+  const hold = [['AAA', 'rh'], ['BBB', 'kw'], ['CCC', 'rh'], ['OLD', 'rh'], ['ZZZ', 'rh']].map(([ticker, account]) => ({ ticker, account, qty: 3 }));
+  assert.deepEqual(staleHoldings({ holdings: hold, rec, today: '2026-10-29' }).map((x) => [x.ticker, x.account, x.why]),
+    [['AAA', 'rh', 'stale'], ['BBB', 'kw', 'noVerdict'], ['OLD', 'rh', 'stale']]);   // 카드 없는 ZZZ·정상 CCC는 빠짐
+  assert.deepEqual(staleHoldings({ holdings: hold, rec, today: '2026-10-29', holdOnly: ['AAA', 'BBB', 'OLD'] }), []);
+  // 기록 자체가 묵었으면 줄마다 띄우지 않는다(칸 위 경고 한 줄)
+  assert.deepEqual(staleHoldings({ holdings: hold, rec, today: '2026-11-20' }), []);
+});

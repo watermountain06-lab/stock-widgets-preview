@@ -415,3 +415,19 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-sc .pf-sc-spy{position:absolute;top:14px;bottom:0;width:0;margin-left:0;background:transparent;border-left:1.5px dashed var(--muted)}
 .pf-sc small{top:20px}
 :root[data-theme="dark"] .pf-rankbar.pf-sc{background:transparent}
+/* 알림 칸 B안(2026-10-29): 한 줄 목록 — 배지 · 종목 · 숫자 */
+.pf-alerthead{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.pf-alerthead h2 small{font-size:12px;font-weight:500;color:var(--muted)}
+.pf-anext{font-size:12px;color:var(--muted)}
+.pf-alertlist{display:flex;flex-direction:column}
+.pf-alertrow{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;min-height:46px;border-top:1px solid var(--line)}
+.pf-abadge{font-size:11px;font-weight:700;border-radius:999px;padding:3px 0;text-align:center}
+.pf-ab-sell{background:#4f3aa8;color:#fff}.pf-ab-review{background:#fdf1e6;color:#8a4a12}.pf-ab-check{background:#ecebf3;color:#3d3d48}
+.pf-aname{font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pf-aname small{font-size:11px;color:var(--muted)}
+.pf-aval{font-size:15px;font-variant-numeric:tabular-nums}.pf-aval-sell{color:#4f3aa8}.pf-aval-down{color:#b42318}.pf-aval-muted{font-size:12px;font-weight:500;color:var(--muted)}
+.pf-alerts .pf-adetail{margin:-4px 0 8px 62px;font-size:12px;color:var(--muted)}
+.pf-alerts .pf-afoot{margin:0;padding-top:8px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+.pf-alertok{display:flex;align-items:center;gap:10px;border-radius:12px;background:#eef7f2;color:#11734f;padding:12px 14px}
+.pf-alertok div{display:flex;flex-direction:column;gap:2px}.pf-alertok strong{font-size:14px}.pf-alertok small{font-size:12px;color:var(--muted)}
+:root[data-theme="dark"] .pf-ab-sell{background:#b3a3ff;color:#1b1630}:root[data-theme="dark"] .pf-ab-review{background:#3a3020;color:#f2c46b}:root[data-theme="dark"] .pf-ab-check{background:var(--bg3);color:var(--text)}
+:root[data-theme="dark"] .pf-aval-sell{color:#c9bcff}:root[data-theme="dark"] .pf-aval-down{color:#ff8799}:root[data-theme="dark"] .pf-alertok{background:#1f3329;color:#7cddb6}
