@@ -4612,82 +4612,82 @@
  ],
  "crossCheck": {
   "status": "ok",
-  "text": "Invesco QQQ NAV 이력과 2552거래일(2016-09-01~2026-10-27) 대조: 거래일마다 NAV 있음, 비거래일 NAV는 직전 값 반복, 종가와 NAV 차이 최대 -1.43%(2020-03-13), 최근 250거래일 최대 0.25% · 마지막 2026-10-28 종가는 NAV 게시 전이라 대조 전(Yahoo 값)"
+  "text": "Invesco QQQ NAV 이력과 2553거래일(2016-09-01~2026-10-28) 대조: 거래일마다 NAV 있음, 비거래일 NAV는 직전 값 반복, 종가와 NAV 차이 최대 -1.43%(2020-03-13), 최근 250거래일 최대 0.25%"
  },
  "constituents": {
   "holdings": {
-   "S": "2026-10-27",
+   "S": "2026-10-28",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "NVDA",
      "name": "NVIDIA Corp",
-     "weight": 0.08179990134611995,
+     "weight": 0.08040357100258413,
      "card": "NVDA",
      "verdict": "적정~저평가"
     },
     {
      "company": "AAPL",
      "name": "Apple Inc",
-     "weight": 0.07889197928893417,
+     "weight": 0.07772781275340611,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "Microsoft Corp",
-     "weight": 0.06144398628331321,
+     "weight": 0.061076230067138325,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "GOOGL",
      "name": "Alphabet Inc",
-     "weight": 0.056564939433295394,
+     "weight": 0.05708515607137639,
      "card": "GOOGL",
      "verdict": "적정~고평가"
     },
     {
      "company": "MU",
      "name": "Micron Technology Inc",
-     "weight": 0.045102795035708555,
+     "weight": 0.04749037250805116,
      "card": "MU",
      "verdict": "적정"
     },
     {
      "company": "AMZN",
      "name": "Amazon.com Inc",
-     "weight": 0.042514112095451195,
+     "weight": 0.04253567302110012,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMD",
      "name": "Advanced Micro Devices Inc",
-     "weight": 0.039320709471533585,
+     "weight": 0.04037801119195626,
      "card": "AMD",
      "verdict": "고평가"
     },
     {
      "company": "TSLA",
      "name": "Tesla Inc",
-     "weight": 0.033333669149624226,
+     "weight": 0.03289044483504448,
      "card": "TSLA",
      "verdict": "고평가"
     },
     {
      "company": "META",
      "name": "Meta Platforms Inc",
-     "weight": 0.028719022549469744,
+     "weight": 0.02820972063974237,
      "card": "META",
      "verdict": "적정~고평가"
     },
     {
      "company": "SPCX",
      "name": "Space Exploration Technologies Corp",
-     "weight": 0.02740243909180427,
+     "weight": 0.026640319023932102,
      "card": "SPCX",
      "verdict": "판정 보류"
     }
@@ -5044,7 +5044,7 @@
  },
  "index": "QQQ",
  "name": "QQQ",
- "runId": "40814186699.1",
- "runAt": "2026-10-29T03:48:50Z",
+ "runId": "40927837042.1",
+ "runAt": "2026-10-29T18:08:08Z",
  "source": "Yahoo Finance QQQ 일봉 종가"
 }
