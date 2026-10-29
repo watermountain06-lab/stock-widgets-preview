@@ -1,0 +1,79 @@
+{
+ "ticker": "HUBB",
+ "window": [
+  "2021-10-29",
+  "2026-10-29"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 1255,
+   "current": 25.69,
+   "min": 18.68,
+   "p10": 22.62,
+   "median": 27.38,
+   "p90": 31.46,
+   "max": 34.04,
+   "mean": 27.06,
+   "percentile": 33.1,
+   "score": 66.9
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 3.51,
+   "min": 1.97,
+   "p10": 2.34,
+   "median": 3.55,
+   "p90": 4.34,
+   "max": 5.07,
+   "mean": 3.42,
+   "percentile": 48.8,
+   "score": 51.2
+  },
+  "PBR": {
+   "days": 1255,
+   "current": 5.64,
+   "min": 4.15,
+   "p10": 4.89,
+   "median": 6.38,
+   "p90": 7.31,
+   "max": 8.1,
+   "mean": 6.21,
+   "percentile": 29.0,
+   "score": 71.0
+  },
+  "PCR": {
+   "days": 1255,
+   "current": 24.95,
+   "min": 20.91,
+   "p10": 24.13,
+   "median": 28.27,
+   "p90": 31.42,
+   "max": 35.3,
+   "mean": 28.04,
+   "percentile": 15.6,
+   "score": 84.4
+  },
+  "EV/EBITDA": {
+   "days": 1255,
+   "current": 17.42,
+   "min": 14.02,
+   "p10": 15.9,
+   "median": 18.03,
+   "p90": 20.25,
+   "max": 22.24,
+   "mean": 18.05,
+   "percentile": 36.3,
+   "score": 63.7
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 27.61,
+  "per_p75": 30.02,
+  "low": 470,
+  "high": 510,
+  "asOf": "2026-10-29",
+  "basis": "diluted"
+ }
+}
