@@ -221,7 +221,13 @@ def main():
         work = tempfile.mkdtemp(prefix=f"{t}_bt_")
         # 회사가 밝힌 일회성 법인세 항목(v2/tax_oneoff.json)은 카드 PER과 같게 TTM EPS에서 뺀다(A8 ①, 2026-10-04)
         import build_multiple_history as bmh2
-        adj = [{**e, "ttm_eps": round(e["ttm_eps"] + bmh2.oneoff_in_ttm(t, e.get("quarter_end"), "eps"), 6)}
+        # 일회성 손익(v2/eps_oneoff.json, 안건 E54)도 카드 PER과 같은 판정·같은 공시 기준(cap)으로 뺀다. 흑자 초기 구간(ramp_windows)은
+        # 위에서 원본 행으로 이미 정했다 — 봉인된 A9 규칙대로 GAAP(설계 e54_v2_design §6, r13).
+        import eps_oneoff as _eo
+        _eo_on = _eo.has(t)
+        _cap = bmh2._approved().get(str(bmh2.feh.CIKS[t]).zfill(10)) if _eo_on else None
+        adj = [{**e, "ttm_eps": round(e["ttm_eps"] + bmh2.oneoff_in_ttm(t, e.get("quarter_end"), "eps")
+                                      + (_eo.eps_adjust(t, eps_rows, e.get("quarter_end"), _cap, row=e) if _eo_on else 0.0), 6)}
                if e.get("ttm_eps") is not None else e for e in eps_rows]
         # 늦게 실린 옛 분기 행(그 공시일에 이미 더 최근 분기가 나와 있던 행 — ADI 2022-11-22의 2020·2021 분기, 10-K 비교 열)은 빼고 넘긴다.
         # compute는 공시일 순으로만 정렬해 같은 날 행마다 체크포인트를 만들고(구간 0일 → 끝까지 '진행 중'), TTM도 파일 순서에 기댄다(2026-10-08).

@@ -46,6 +46,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import fetch_eps_history as feh  # noqa: E402
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fx  # noqa: E402  재무 통화가 달러가 아닌 종목(TSM)의 환율
+import eps_oneoff as _eo  # noqa: E402  일회성 손익 장치(안건 E54) — 함수 안에서만 이 모듈을 되부른다
 
 REPO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
@@ -2606,9 +2607,15 @@ def main():
     if eps_path and os.path.exists(eps_path):
         # 일회성 세금을 뺀 EPS — 항목은 그 분기 실적과 같은 공시에서 밝혀지므로 같은 시점에 반영한다
         cap = _approved().get(str(cik).zfill(10))   # 카드 공시 기준표 — 그 뒤에 알려진 EPS는 쓰지 않는다(비교군으로 쓰일 때도, Codex 2026-10-08)
+        # 일회성 손익(v2/eps_oneoff.json, 안건 E54)도 TTM 결산일마다 반복·문턱 판정 뒤 뺀다. 이 장치가 있는 종목은 EPS 0 행도 읽어
+        # 조정 뒤 값으로 0·음수를 가른다(설계 e54_v2_design §6). 연구 모드(ASOF_REF)에서는 eps_oneoff가 빈 목록을 돌려준다.
+        _rows = json.load(open(eps_path))
+        _eo_on = _eo.has(t)
         eps = [{"available": e["available_date"],
-                "val": e["ttm_eps"] + oneoff_in_ttm(t, e.get("quarter_end"), "eps")}
-               for e in json.load(open(eps_path)) if e.get("ttm_eps") and (not cap or e["available_date"] <= cap)]
+                "val": e["ttm_eps"] + oneoff_in_ttm(t, e.get("quarter_end"), "eps")
+                       + (_eo.eps_adjust(t, _rows, e.get("quarter_end"), cap, row=e) if _eo_on else 0.0)}
+               for e in _rows if (e.get("ttm_eps") is not None if _eo_on else e.get("ttm_eps"))
+               and (not cap or e["available_date"] <= cap)]
         eps.sort(key=lambda e: e["available"])
 
     series = {}
@@ -2683,25 +2690,34 @@ def main():
               f"{check_fresh(series[name], daily[-1][0])}")
 
     core = t in core_tickers()
+    _eo_tag, _a8_q = None, {}
     if core:
         # 공시 순이익에 투자 평가이익이 크게 섞인 종목은 PER을 본업 이익으로 낸다.
         # GOOGL 2026 Q2: 영업이익 $40.8B, 영업외이익 $98.0B, 희석 EPS $9.11(본업만 약 $2.7).
         for name, tags in CORE_TAX_TAGS.items():
             tag, rows = pick_tag(cik, tags)
-            series[name] = ttm_series(quarterly_flow(rows, t)) if rows else []
+            _a8_q[name] = quarterly_flow(rows, t) if rows else []
+            series[name] = ttm_series(_a8_q[name]) if rows else []
             if name == "pretax" and not series[name]:
                 # 세전이익을 연간에만 태그한 회사(MRVL)는 분기 세전 = 순이익 + 법인세로 만든다 — build_dcf.base_inputs와 같은 대체(2026-10-01)
                 _, nr = pick_tag(cik, ["NetIncomeLoss"]); _, tr = pick_tag(cik, CORE_TAX_TAGS["tax"])
                 nq = {e["end"]: e for e in quarterly_flow(nr, t)}; tq = {e["end"]: e for e in quarterly_flow(tr, t)}
                 merged = [dict(nq[k], val=nq[k]["val"] + tq[k]["val"], filed=max(nq[k]["filed"], tq[k]["filed"])) for k in sorted(nq) if k in tq]
                 series[name] = ttm_series(merged)
+                _a8_q[name] = merged
                 tag = "NetIncomeLoss + 법인세(분기 세전 태그 없음)"
             print(f"  {name}: {tag} — TTM {len(series[name])}개 (본업 기준 PER용)")
+            if name == "pretax":
+                _eo_tag = "NI+TAX" if str(tag).startswith("NetIncomeLoss + ") else tag   # 일회성 장치 세전 태그 대조(E54)
         nis = net_interest_series(cik, t)
         lastni = net_interest_at(nis, series["opinc"][-1]["end"]) if series.get("opinc") else None
         print(f"  순이자(A8): 최근 {'결측 — 영업이익만' if lastni is None else f'{lastni / 1e6:,.0f}M'}")
     else:
         nis = None
+    # 일회성 손익 장치(E54)의 A8 세율 조정 재료 — 판정은 카드 EPS 파일 행으로, 시점은 카드 공시 기준(cap)
+    _eo_rows = _eo.eps_rows_for(t) if core and _eo.has(t) else None
+    _eo_on = _eo_rows is not None
+    _eo_cap = _approved().get(str(cik).zfill(10)) if _eo_on else None
 
     def core_earnings(d):
         """그날 공개돼 있던 최근 4분기 본업 이익 = 영업이익 × (1 − 법인세/세전이익), 같은 분기끼리."""
@@ -2716,6 +2732,23 @@ def main():
         if (date.fromisoformat(lead) - date.fromisoformat(end)).days > MAX_PAIR_LAG_DAYS:
             return None
         o, tx, pt = ([e for e in parts[n] if e["end"] == end][-1]["val"] for n in ("opinc", "tax", "pretax"))
+        # 일회성 손익(v2/eps_oneoff.json, 안건 E54)이 그 결산일에 적용됐으면 세율만 조정하고(영업이익은 그대로 — 설계 §12),
+        # 양수 검사는 조정 뒤 세전이익으로 한다. 적용된 항목이 없으면 아래 지금 코드 그대로.
+        _ea = None
+        if _eo_on:
+            _tq = [_eo.ttm_quarters(_a8_q.get(n, []), end) for n in ("tax", "pretax")]
+            _ea = _eo.tax_adjust(t, _eo_rows, end, _eo_tag, "a8", _eo_cap,
+                                 tax_quarters=set(_tq[0]) & set(_tq[1]) if None not in _tq else set())
+        if _ea:
+            r = _eo.a8_rate(o, pt, tx, oneoff_in_ttm(t, end, "pretax", d), oneoff_in_ttm(t, end, "tax", d),
+                            rate_addback(t, cik, end, d), _ea)
+            if r is None:
+                return None
+            if core_tickers().get(t, {}).get("statutory_fallback") and not 0.0 <= r <= 0.40:
+                r = 0.21
+            ni = net_interest_at(nis, end, d) if nis else None
+            base = o + ni if ni is not None else o
+            return base * (1 - r) if base > 0 else None
         if pt <= 0 or o <= 0:
             return None
         # 회사가 금액을 밝힌 일회성 법인세 항목(v2/tax_oneoff.json)은 현금흐름 세율(build_dcf.effective_tax)과 같게 세율에서 뺀다

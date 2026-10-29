@@ -43,6 +43,7 @@ from datetime import date
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
 import build_multiple_history as bmh  # noqa: E402
+import eps_oneoff as _eo  # noqa: E402  일회성 손익 장치(안건 E54)
 import fetch_eps_history as feh  # noqa: E402
 
 # 이력 창 시작일. 중앙값은 창 선택에 흔들린다 — NVDA 마진 중앙값이 창을
@@ -262,6 +263,35 @@ def base_inputs(ticker, asof=None):
         out["pretax"] -= bmh.oneoff_in_ttm(ticker, tser[-1]["end"], "pretax", asof)
         # 반복적 비공제 영업외 항목(v2/tax_rate_addback.json — ABBV 조건부 대가 평가손)은 세율 분모에 되돌려 더한다(2026-10-05)
         out["pretax"] += bmh.rate_addback(ticker, cik, tser[-1]["end"], asof or "9999-12-31")
+    # 일회성 손익(v2/eps_oneoff.json, 안건 E54): 그 결산일에 적용된 항목을 세율에서도 뺀다 — 세금·세전이익 TTM 결산일이 같을 때만,
+    # 엔진이 고른 세전 태그가 항목 선언(tags.pretax_dcf)과 같고 그 태그가 항목을 담을 때만(설계 e54_v2_design §6). 영업이익은 그대로(§12).
+    if out["tax"] is not None and out["pretax"] is not None and tser and _eo.has(ticker):
+        if cik in PRETAX_FROM_NI_TAX:
+            _ptag, _ptags = "NI+TAX", ["NetIncomeLoss"]
+        elif cik in PRETAX_TAG_BY_CIK:
+            _ptag, _ptags = PRETAX_TAG_BY_CIK[cik], [PRETAX_TAG_BY_CIK[cik]]
+        else:
+            _ptags = ["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                      "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"]
+            _ptag = bmh.pick_tag(cik, _ptags)[0]
+        _, _prow = bmh.pick_tag(cik, _ptags)
+        _pq = bmh.quarterly_flow(_prow, ticker) if _prow else []
+        _pser = [e for e in bmh.ttm_series(_pq)
+                 if asof is None or e.get("available", e["end"]) <= asof] if _prow else []
+        _E = tser[-1]["end"]
+        if _pser and _pser[-1]["end"] == _E:
+            # 세금·세전 TTM의 구성 분기(v1 3.1) — 항목 분기가 그 안에 있어야 세율에 넣는다
+            _tq = [_eo.ttm_quarters(bmh.quarterly_flow(trows, ticker), _E),
+                   _eo.ttm_quarters(_pq, _E)]
+            _ea = _eo.tax_adjust(ticker, _eo.eps_rows_for(ticker), _E, _ptag, "dcf",
+                                 asof or bmh._approved().get(str(cik).zfill(10)),
+                                 tax_quarters=set(_tq[0]) & set(_tq[1]) if None not in _tq else set())
+            if _ea:
+                out["pretax"] += _ea[0]
+                out["tax"] += _ea[1]
+                out["_eps_oneoff_tax"] = _ea[2]
+        else:
+            _eo._warn(f"{ticker}: 세금 TTM {_E}와 세전이익 TTM {_pser[-1]['end'] if _pser else '없음'} 결산일이 달라 일회성 세율 조정 건너뜀")
 
     # 연간 보고 항목 판정용 회계연도 결산일(그날까지 공개된 연간 매출 행의 결산일)
     _, _fy_rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
