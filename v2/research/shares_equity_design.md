@@ -1,4 +1,4 @@
-# 시가총액 주식 수·보통주 자본 설계 r7 (안건 ① 다 — E44·E35·D28·D46, B7 잔여)
+# 시가총액 주식 수·보통주 자본 설계 r8 (안건 ① 다 — E44·E35·D28·D46, B7 잔여)
 
 ## 0. 배경과 결정
 - 안건: E44(PBR 분모에 우선주 포함, ALL), E35(내가격 전환 증권 희석이 시가총액에 없음, LITE), B7 잔여(MRVL 워런트 등), D28(BLK 교환 단위), D46(Up-C BX — 배수 시가총액에 교환 단위 없음).
@@ -13,14 +13,14 @@
 
 ## 2. 우선주 규칙(E44) — 엔진 규칙, 카드·비교군 공통
 ### 2.1 보통주 자본 CE(d)
-- 출발값: 지배주주 자본 `StockholdersEquity`(차원 없음). 엔진 equity 시리즈가 그 날짜에 비지배지분 포함 총계(`…IncludingPortionAttributableToNoncontrollingInterest`)로 대체됐으면, 같은 결산일 `MinorityInterest`를 빼서 지배주주 자본으로 되돌린다. 같은 결산일 비지배지분 값이 없으면 그 날짜 PBR은 None.
+- 출발값: 지배주주 자본 `StockholdersEquity`(차원 없음). 엔진 equity 시리즈가 그 날짜에 비지배지분 포함 총계(`…IncludingPortionAttributableToNoncontrollingInterest`)로 대체됐으면, 같은 결산일 `MinorityInterest`를 빼서 지배주주 자본으로 되돌린다. 같은 결산일 비지배지분 값이 없으면 — 그 결산일 앞 400일 안에 비지배지분 보고가 있으면 그 값을 이어 쓰고(경고 — SO처럼 띄엄띄엄 내는 회사, 우선주 이어 쓰기와 같은 400일), 마지막 보고가 400일보다 오래됐거나 한 번도 없으면 비지배지분이 없어 보고를 멈춘 것으로 보고 0(경고)(r8 — AVGO는 2018, V는 2011, SYK는 2018 뒤로 비지배지분 태그 없이 총계 태그만 내 r7 규칙으로는 PBR이 몇 년씩 사라졌다).
 - CE = 지배주주 자본 − P(d) [+ 카드별 표의 `ce_add`, §3]. P(d) = **자본 안에 있는 비전환(또는 카드별 표에서 보통주로 보지 않은) 우선주의 장부가**.
 - P의 태그: 이 규칙 전용 우선순위 목록 `CE_PREF_TAGS` = [`PreferredStockValue`, `PreferredStockIncludingAdditionalPaidInCapital`, `PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount`, `PreferredStockValueOutstanding`, `ConvertiblePreferredStockNonredeemableOrRedeemableIssuerOptionValue`, `PreferredStockLiquidationPreferenceValue`(경고)] — 그 결산일에 **값이 0보다 큰 첫 태그 하나**(합산하지 않음). 액면만 태깅하고 실제 금액은 추가납입자본에 둔 회사(MCHP·LITE — 장부 태그 0)는 0인 태그를 건너뛰어 다음 태그(청산가 등)를 쓴다. 0보다 큰 태그가 그 결산일에 없으면 §2.2. 임시자본(mezzanine, `TemporaryEquity…`)은 StockholdersEquity 밖이라 넣지 않는다 — 카드별 표 증권이 임시자본이면 그 항목의 `ce_add`로 따로 다룬다(§3). EV의 회사별 우선주 덮어쓰기(HPE·EQIX `preferred: []`, ALL·MCHP 태그 지정)는 **EV 전용**이고 CE는 따르지 않는다 — 대신 회사별 `CE_PREF_OVERRIDE`(빈 목록 = 우선주 없음, 태그 지정)를 따로 둔다(EQIX는 []).
 - 카드별 표(§3)에서 보통주로 본 우선주(HPE·ORCL 의무전환, LITE Series A)는 P에서 뺀다. 빼는 금액 = 그 날짜 P에 **실제로 실린 그 증권의 금액**(`pref_in_p` — 항목에 적음, P가 그 증권을 담지 않으면 0. HPE는 `PreferredStockValue`가 2021년 옛 우선주라 0). 결과는 min(P, …)으로 0 아래로 가지 않게 하고, 차감 뒤 P가 음수가 될 입력이면 경고. 전환 주식을 S에 더하는 것과 CE에서 그 우선주를 빼지 않는 것이 짝이다.
 ### 2.2 P(d)가 그 결산일에 없을 때(0보다 큰 태그가 없을 때)
 - `filed ≤ d`인 사실만 본다. 그 결산일 e에 0보다 큰 CE_PREF_TAGS 값이 있으면 그 값(§2.1).
 - 없으면(태그가 없거나 모두 0): **상환 증거**가 있을 때만 P = 0 — 상환 증거는 그 결산일 `PreferredStockSharesOutstanding`(또는 `…SharesIssued`) = 0, 또는 회사별 `pref_redeemed`(상환일·출처 손입력), 또는 카드별 표(§3) 우선주 항목의 `redeemed`·`redeemed_filed`(같은 사건을 두 곳에 적지 않게 — 표에 있으면 그것으로 상환 증거를 인정). 단 표 항목의 상환은 **그 증권 몫만** 끝낸다 — 이어 쓰는 옛 P에서 그 항목의 마지막 `pref_in_p`를 빼고(0 아래로 안 감), 회사 전체 P = 0은 위 주식 수 0·`pref_redeemed`처럼 회사 전체 우선주가 없어졌다는 증거가 있거나 이어 쓰는 P가 모두 상환된 표 항목 몫일 때만. 액면 0 태그는 상환 증거가 아니다(MET·BMY처럼 액면 0을 분기마다 태깅하고 청산가는 일부 공시에만 넣는 회사).
-- 상환 증거가 없으면 e 이전 마지막 0보다 큰 P(결산일 e′)를 이어 쓴다 — e − e′ ≤ 400일이면 그 값 + 경고, 넘으면 그 날짜 PBR은 None(기권). e 이전에 0보다 큰 P가 한 번도 없으면 0. **단 e′ 뒤 e 이전에 상환 증거가 확인된 결산일이 있으면** — 회사 전체 상환 증거(주식 수 0·`pref_redeemed`)면 이어 쓰지 않고 0, 표 항목의 개별 상환이면 이어 쓰는 P에서 그 증권의 마지막 `pref_in_p`만 뺀다(새 0보다 큰 태그가 나오기 전까지 — 상환 뒤 옛 값이 되살아나지 않게). 우선주 주식 수가 직전보다 줄었는데 금액 태그가 없으면(부분 상환 — MET 2025-09) 경고.
+- 상환 증거가 없으면 e 이전 마지막 0보다 큰 P(결산일 e′)를 이어 쓴다 — e − e′ ≤ 400일이면 그 값 + 경고, 넘으면 — 그 결산일 우선주 주식 수(`PreferredStockSharesOutstanding`·`…Issued`)가 0보다 크면(아직 있다는 증거) 그 날짜 PBR은 None(기권), 그런 증거가 없으면 상환된 것으로 보고 0(경고)(r8 — MRK 2009·CL 2010·AMT 2014·PEP 2017처럼 오래전 우선주를 주식 수 0 태그 없이 없앤 회사가 r7 규칙으로는 그 뒤 몇 년씩 기권됐다). e 이전에 0보다 큰 P가 한 번도 없으면 0. **단 e′ 뒤 e 이전에 상환 증거가 확인된 결산일이 있으면** — 회사 전체 상환 증거(주식 수 0·`pref_redeemed`)면 이어 쓰지 않고 0, 표 항목의 개별 상환이면 이어 쓰는 P에서 그 증권의 마지막 `pref_in_p`만 뺀다(새 0보다 큰 태그가 나오기 전까지 — 상환 뒤 옛 값이 되살아나지 않게). 우선주 주식 수가 직전보다 줄었는데 금액 태그가 없으면(부분 상환 — MET 2025-09) 경고.
 - 연간에만 태깅하는 회사(ES·AES)도 이 규칙으로 흔들리지 않는다.
 
 ### 2.3 PBR
@@ -91,6 +91,10 @@ preflight에서 희석 EPS 주석의 전환 증분 태그(`IncrementalCommonShar
 3. 손 계산: ALL·BNY(우선주 장부가), ORCL·MCHP(mandatory 우선주 — ORCL 새 발행, MCHP 청산가 태그), GOOGL(mandatory 두 시리즈 — 가격 구간 세 곳 중 지금 가격이 드는 곳), LITE(net 초과분 + 우선주), HPE(mandatory + nonop_extra), BX(econ_shares + ce_add), BLK(exchange_units — S·CE·EV와 BVPS $371.70 대조; BLK는 표지/WA 0.94라 WA 대체 날짜가 실제로 없어 WA 경로는 가짜 종목 시험으로만) — 10-Q 원문으로 S·CE·EV·DCF 주당 가치.
 4. 전후 비교표: E44 영향 카드, 표 대상 카드, 비교군 재생성으로 동종업 점수가 바뀌는 카드 — PBR·PSR·PCR·EV/EBITDA 현재값·5년 위치·자기 이력·동종업 점수·DCF 주당 가치·판정.
 5. 영향 밖 카드 diff 0, pipeline/test_pipeline.py.
+
+## r7 → r8에서 바뀐 것(2026-10-29, A단계 구현 중 실제 자료로 발견)
+- A단계(우선주 차감, `v2/common_equity.py`)를 전 카드에 돌리자 r7 규칙으로 62장이 바뀌고 14장은 PBR이 사라졌다. 원인 둘을 고쳤다: §2.1 비지배지분이 같은 결산일에 없을 때 400일 안 보고면 이어 쓰기(SO), 넘으면 0(보고를 멈춘 회사), §2.2 오래전 우선주(400일 넘게 값 없음 + 주식 수 > 0 증거 없음 → 상환으로 보고 0).
+- §0 영향 조사에서 빠졌던 것: 비지배지분 포함 총계를 지배주주 자본으로 되돌리는 §2.1 규칙도 PBR을 바꾼다(T −13%·UNH −6%·VZ·MRSH·HOOD 등 — 자본 태그가 총계뿐인 날짜). V 우선주 $514M(Series B·C, 보통주로 전환)은 차감되지만 표(§3) 후보로 볼지 B단계에서 정한다. SO는 비지배지분을 띄엄띄엄 내 r7 규칙으로는 현재 PBR이 사라졌다(엔진 세션 넘길 것 3번과 같은 현상) — 400일 안 이어 쓰기로 해결. MCHP·ORCL·GOOGL은 A단계만 들어가면 의무전환 우선주가 빠져 PBR이 오르므로(MCHP 6.7 → 8.7) B단계 표와 함께 반영한다.
 
 ## r6 → r7에서 바뀐 것(2026-10-26, 구현 전 권장·원문 확인)
 - 원문 확인(SEC): **BLK** Subco 단위는 HPS 거래만이고 지배주주 자본 밖(임시자본 → 3분기 영구 비지배지분) — r6의 "BLK 장부가가 자본 안, ce_add 0"은 틀렸음 → `ce_add` = Subco 장부가, `nci_remove`는 엔진 EV에 실제로 든 몫, `wa_shares` 7.6M, 조건부 단위는 3분기 10-Q 뒤. **GOOGL** 표 대상(시리즈 A·B 두 항목, 장부가 순액, capped call 한계). **ORCL** 이름 Series D·예탁주 1/2,000·`PreferredStockValue` $4,954M·반희석.

@@ -47,6 +47,7 @@ import fetch_eps_history as feh  # noqa: E402
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fx  # noqa: E402  재무 통화가 달러가 아닌 종목(TSM)의 환율
 import eps_oneoff as _eo  # noqa: E402  일회성 손익 장치(안건 E54) — 함수 안에서만 이 모듈을 되부른다
+import common_equity  # noqa: E402  보통주 자본(안건 E44)
 
 REPO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
@@ -2659,6 +2660,9 @@ def main():
             print(f"  {name}: 태그 없음")
             continue
         series[name] = instant_series(rows, t, is_share_count=(name == "shares"))
+        if name == "equity":
+            # PBR 분모는 보통주 자본 — 자본 안 비전환 우선주를 빼고 비지배지분 포함 총계는 지배주주 자본으로 되돌린다(안건 E44, v2/common_equity.py)
+            series[name] = common_equity.ce_series(cik, t, series[name])
         if name == "shares":   # F3 (a) — DCF와 같은 대조를 배수 시리즈에도
             series[name], _sdq = check_shares(series[name], cik, t)
             for x in _sdq:
