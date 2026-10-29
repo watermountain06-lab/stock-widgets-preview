@@ -2984,6 +2984,24 @@
      "dcf_pref": 0,
      "pref_in_p": 514000000,
      "ce_add": 0
+    },
+    {
+     "end": "2020-12-31",
+     "filed": "2021-01-28",
+     "pref_ev": 0,
+     "dcf_pref": 0,
+     "pref_in_p": 0,
+     "ce_add": 0,
+     "note": "DCF 추세 시작(2021-04-01) 때 자본 관측 결산일 — 2021-06-30 행과 같은 이유로 0(엔진 P 0, 우선주는 시리즈별 차원 값만 공시). 2026-10-29 보충(Fable r2)"
+    },
+    {
+     "end": "2021-03-31",
+     "filed": "2021-04-27",
+     "pref_ev": 0,
+     "dcf_pref": 0,
+     "pref_in_p": 0,
+     "ce_add": 0,
+     "note": "DCF 추세 시작(2021-04-01) 때 자본 관측 결산일 — 2021-06-30 행과 같은 이유로 0(엔진 P 0, 우선주는 시리즈별 차원 값만 공시). 2026-10-29 보충(Fable r2)"
     }
    ]
   }
@@ -4054,6 +4072,22 @@
      "econ_shares": 1243405297,
      "source": "https://www.sec.gov/Archives/edgar/data/1393818/000119312526428297/d160590dex991.htm",
      "note": "실적 보도자료 Share Summary: Participating Common Shares 799,723,058 + Participating Partnership Units 443,682,239 = Distributable Earnings Shares Outstanding 1,243,405,297. wa_shares 0 — Q3 2026 10-Q 미공시. 보도자료 3Q'26 GAAP 가중평균 기본 799,758,418·희석 799,980,341 — 단위 4.4억이 빠져 있으므로 0"
+    },
+    {
+     "end": "2020-12-31",
+     "filed": "2021-01-27",
+     "wa_shares": 0,
+     "econ_shares": 1200020244,
+     "source": "https://www.sec.gov/Archives/edgar/data/1393818/000119312521018371/d68195dex991.htm",
+     "note": "실적 보도자료 Share Summary: Participating Common Shares + Participating Partnership Units = 703,959,789 + 496,060,455 = Distributable Earnings Shares Outstanding 1,200,020,244. wa_shares 0(Holdings 단위는 희석 가중평균 밖, 다른 분기와 같음). 2026-10-29 보충(DCF 추세 시작 2021-04-01, Fable r2)"
+    },
+    {
+     "end": "2021-03-31",
+     "filed": "2021-04-22",
+     "wa_shares": 0,
+     "econ_shares": 1201782072,
+     "source": "https://www.sec.gov/Archives/edgar/data/1393818/000119312521125573/d172043dex991.htm",
+     "note": "실적 보도자료 Share Summary: Participating Common Shares + Participating Partnership Units = 711,065,543 + 490,716,529 = Distributable Earnings Shares Outstanding 1,201,782,072. wa_shares 0(Holdings 단위는 희석 가중평균 밖, 다른 분기와 같음). 2026-10-29 보충(DCF 추세 시작 2021-04-01, Fable r2)"
     }
    ],
    "paired": [
@@ -4211,6 +4245,22 @@
      "ce_add": 4833199000,
      "source": "https://www.sec.gov/Archives/edgar/data/1393818/000119312526428297/d160590dex991.htm",
      "note": "Q3 2026 10-Q 미공시 — 실적 보도자료 GAAP 재무상태표 \"Non-Controlling Interests in Blackstone Holdings 4,833,199\"(천 달러). 엔진 자본 관측은 10-Q 공시 뒤에 2026-09-30이 되므로 그전에는 이 행이 쓰이지 않음. 10-Q 공시 뒤 같은 값인지 확인 필요"
+    },
+    {
+     "end": "2020-12-31",
+     "filed": "2021-02-26",
+     "nci_remove": 0,
+     "ce_add": 3831148000,
+     "source": "companyfacts us-gaap MinorityInterestInOperatingPartnerships",
+     "note": "Blackstone Holdings 파트너십 단위 비지배지분 장부가(다른 분기 행과 같은 태그) — 2026-10-29 보충"
+    },
+    {
+     "end": "2021-03-31",
+     "filed": "2021-05-07",
+     "nci_remove": 0,
+     "ce_add": 4524898000,
+     "source": "companyfacts us-gaap MinorityInterestInOperatingPartnerships",
+     "note": "Blackstone Holdings 파트너십 단위 비지배지분 장부가(다른 분기 행과 같은 태그) — 2026-10-29 보충"
     }
    ]
   }
@@ -4266,9 +4316,9 @@
      "end": "2025-07-01",
      "filed": "2025-07-01",
      "wa_shares": 0,
-     "units": 8113867,
+     "units": 8448427,
      "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312525267043/blk-20250930.htm",
-     "note": "발행일 사건 행(2026-10-29 보충) — 발행 조건은 첫 분기 행과 같음(발행 공시 기준), BLK 단위 수는 마감 때 약 8.5M — 정확값 미확인이라 첫 분기말 값"
+     "note": "발행일 사건 행 — 10-K 2025 자본변동표 Subco 열 'Issuance of Subco Units/common shares in connection with acquisitions … 8,448,427'(마감 때 발행), 같은 표 환매 (705,118) → 2025-12-31 7,743,309와 일치. 10-Q 'approximately 8.5 million … at close'. 2026-10-29 Fable r2"
     }
    ],
    "paired": [
