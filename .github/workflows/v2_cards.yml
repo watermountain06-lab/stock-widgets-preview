@@ -103,6 +103,18 @@ jobs:
           zstd -d -c "$RUNNER_TEMP/sec_cache.tar.zst" | tar -xf - -C v2/.sec_cache
           du -sh v2/.sec_cache
 
+      # 보충 자료(overlay)는 저장소가 기준이다 — 복원한 캐시·씨앗(2026-10-07)에는 새 분기가 빠진 옛 보충이 남을 수 있다.
+      # CI가 아직 빌드한 적 없는 종목(맥에서 그 주에 만든 카드)은 첫 판에 머문다 — 이미 도는 카드는 토요일 net 실행이 덧붙인다.
+      # 매일 가격 실행(net=False)에서는 통짜 보충(`overlay: True`)에 낡음 검사가 없어, 읽은 보충이 비어 있지 않으면 다시 받지 않는다.
+      # 그래서 _facts가 "승인한 공시가 SEC 자료에 없다"로 멈췄다 — AEP 2026-10-29. 맥 실측: 보충 파일은 10-04 생성(그때 원문은 Q2뿐),
+      # Q3 원문은 10-28 도착, cfg 첫 커밋도 10-28 → Q2까지의 옛 보충이 씨앗에 들어갔을 것으로 본다(압축본 내부는 열지 않았다).
+      # clean까지 하는 이유: 맥에서 지운 보충이 옛 캐시에서 되살아나 아래 커밋 단계로 돌아간다. 지운 목록은 로그에 남긴다.
+      - name: Overlay from repo
+        run: |
+          git clean -fd -- v2/.sec_cache/overlay
+          git checkout -- v2/.sec_cache/overlay
+          echo "보충 자료 파일 $(ls v2/.sec_cache/overlay | wc -l)개(.dimcheck 표식 포함)"
+
       - name: Local server for render checks
         run: |
           mkdir -p v2/.sec_cache/_work
@@ -164,6 +176,7 @@ jobs:
           if [ -f v2/weekly_status.json ]; then git add v2/weekly_status.json; fi
           if [ -f v2/news_auto.json ]; then git add v2/news_auto.json; fi
           git add v2/sec_approved.json v2/fundamental_data v2/*_activity.json v2/*_dcf_track.json 2>/dev/null || true   # 자동 반영한 공시 날짜·새 분기 재무(2026-10-10)
+          git add v2/.sec_cache/overlay   # 이 실행이 원문에서 보충한 행(adapters/ixbrl_supplement 등) — 저장소가 기준이라 캐시에만 두면 다음 실행의 복구 단계가 지운다. 디렉터리 단위라 이 실행이 새로 만든 종목 파일도 들어간다(2026-10-29)
           git add v2/adapters/asml_manifest.json v2/adapters/tsm_manifest.json v2/adapters/skhy_manifest.json 2>/dev/null || true   # 6-K 자동 카드가 받은 재무제표 목록(2026-10-11) — 원문·재무는 캐시라 이 목록으로 다시 만든다
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0

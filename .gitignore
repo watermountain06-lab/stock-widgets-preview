@@ -4,7 +4,11 @@ data/
 .env
 .env.*
 *.env
-v2/.sec_cache/
+v2/.sec_cache/*
+# 보충 자료(overlay)만 저장소에 둔다 — SEC 요약 자료가 공시를 싣지 않는 회사의 수치는 이 파일에만 있는데,
+# Actions 캐시(토요일·캐시 미스에만 저장)와 씨앗 릴리스(2026-10-07)로는 새 분기가 빠진 옛 판이 복원될 수 있어
+# 카드가 분기를 넘길 때 멈췄다(AEP 2026-10-29). 지금 144개 12MB — 나머지 캐시(수 GB)는 그대로 뺀다.
+!v2/.sec_cache/overlay/
 v2/research/.facts/
 v2/research/valuation_judges_panel.json
 v2/research/step_calibration_panel.json
