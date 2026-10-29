@@ -1005,7 +1005,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 10/23 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 10/28 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1304,52 +1304,52 @@ function renderSegmentChart() {
 // 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3)에서 고른 6곳. 값이 없는 은행은 뺀다.
 const MULTIPLE_DATA = {
   "per": {
-    "title": "S&P500 은행 PER 비교 · 10/23 종가",
+    "title": "S&P500 은행 PER 비교 · 10/28 종가",
     "unit": "PER(TTM)",
     "max": 25,
     "axpValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 14.2,
+        "value": 14.53,
         "status": "reference"
       },
       {
         "name": "USB",
-        "value": 11.89,
+        "value": 11.9,
         "status": "reference"
       },
       {
         "name": "FITB",
-        "value": 18.14,
+        "value": 18.31,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 11.57,
+        "value": 11.54,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 11.73,
+        "value": 11.66,
         "status": "reference"
       },
       {
         "name": "HBAN",
-        "value": 12.1,
+        "value": 12.08,
         "status": "reference"
       }
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 10/23 종가 (PNC는 유형자본을 만들 수 없음)",
+    "title": "S&P500 은행 P/TBV 비교 · 10/28 종가 (PNC는 유형자본을 만들 수 없음)",
     "unit": "P/TBV",
     "max": 4,
     "axpValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 2.96,
+        "value": 3.03,
         "status": "reference"
       },
       {
@@ -1359,17 +1359,17 @@ const MULTIPLE_DATA = {
       },
       {
         "name": "FITB",
-        "value": 2.28,
+        "value": 2.3,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 2.09,
+        "value": 2.08,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 1.89,
+        "value": 1.88,
         "status": "reference"
       },
       {
