@@ -156,6 +156,8 @@ def adjusted_shares(ticker, d, price, base, base_end, base_is_wa=False, wa_start
             if it.get("converted") and wa_start and wa_start >= it["converted"]:
                 continue                 # 그 분기 WA가 전환 주식을 보통주로 온전히 담음
             wr = [x for x in it["rows"] if x["end"] == wa_end]
+            if wr and wr[-1]["wa_shares"] is None:
+                raise ClaimHold(f"{ticker} {it['id']}: 희석 가중평균 대체 분기 {wa_end}의 wa_shares 미확인")
             sub += wr[-1]["wa_shares"] if wr else 0
         elif it.get("end_shares") and base_end and base_end >= it["end_shares"]:
             continue                     # 표지가 이미 전환 주식을 담음

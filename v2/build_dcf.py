@@ -618,9 +618,9 @@ def base_inputs(ticker, asof=None):
         _c = _sc.claims(ticker, _d, _px, {"equity": (newest(eq_rows, asof) or {}).get("end"), "nci": _obs.get("nci"),
                                          "preferred": _obs.get("preferred"), "debt": _obs.get("debt"),
                                          "dcf_pref": max(_pf) if _pf else _obs.get("preferred")})
-        out["preferred"] = (out.get("preferred") or 0) - _c["dcf_pref"]
-        out["nci"] = (out.get("nci") or 0) - _c["nci_remove"]
-        out["debt"] = (out.get("debt") or 0) - _c["principal_in_debt"]
+        for _k, _f in (("preferred", "dcf_pref"), ("nci", "nci_remove"), ("debt", "principal_in_debt")):
+            if _c[_f]:
+                out[_k] = (out.get(_k) or 0) - _c[_f]
         out["dq"].append("share_claims")
     # 차입금: 최근 4분기 이자비용 ÷ 차입금이 15%를 넘거나, 이자비용이 $1억 넘는데 차입금이 0이면
     # 차입금이 빠졌을 가능성(회사 자체 태그 — CMCSA 장기차입금). 고치지 않고 표시만 한다(검증 패널 제외).
