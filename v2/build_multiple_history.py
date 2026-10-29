@@ -48,6 +48,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fx  # noqa: E402  재무 통화가 달러가 아닌 종목(TSM)의 환율
 import eps_oneoff as _eo  # noqa: E402  일회성 손익 장치(안건 E54) — 함수 안에서만 이 모듈을 되부른다
 import common_equity  # noqa: E402  보통주 자본(안건 E44)
+import share_claims as _sc  # noqa: E402  카드별 전환·교환 증권 표(안건 E44 §3)
 
 REPO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
@@ -1444,7 +1445,8 @@ def wa_quarters(cik, ticker):
     out = []
     for e in rows or []:
         if "start" in e and e.get("filed") and 80 <= (date.fromisoformat(e["end"]) - date.fromisoformat(e["start"])).days <= 100:
-            out.append({"end": e["end"], "filed": e["filed"], "val": e["val"] * (feh.split_ratio(e["filed"], sp) if sp else 1)})
+            out.append({"end": e["end"], "start": e["start"], "filed": e["filed"],
+                        "val": e["val"] * (feh.split_ratio(e["filed"], sp) if sp else 1)})
     return sorted(out, key=lambda e: (e["filed"], e["end"]))
 
 
@@ -1464,6 +1466,7 @@ def check_shares(points, cik, ticker):
         p = [x for x in pts if x["available"] <= day][-1]   # as_of와 같은 동률 규칙(목록 뒤쪽 — CRWD 2025-06 정정, Fable)
         cand = [w for w in wq if w["filed"] <= day]
         note = None
+        wa_q = None
         if not cand:
             if p["val"] < 1e7:
                 val, note = None, f"series_shares_missing:{day}:{p['val']}"
@@ -1479,6 +1482,7 @@ def check_shares(points, cik, ticker):
             if r_ is not None and not (1 / 20 <= r_ <= 20):
                 # 20배 넘게 다르면 단위 오류(FOX 1주·SPG 8,000·CMG·PKG ×1000·TER 천 단위) — WA로(2026-10-10 사용자 결정)
                 val = wa
+                wa_q = (w["start"], w["end"])
                 note = f"shares_fallback_series:{day}:{p['val']}->{wa:.0f}"
                 if unit or wa < 1e5:
                     dq.append(f"shares_suspect:{day}")
@@ -1490,7 +1494,8 @@ def check_shares(points, cik, ticker):
         if note:
             dq.append(note)
         if prev is None or (p["end"], val) != prev:
-            out.append({"end": p["end"], "val": val, "available": day})
+            # wa_q: 이 값이 희석 가중평균(그 분기 시작·결산일)이면 — 카드별 증권 표가 그 분기 wa_shares를 빼고 날짜 값으로 바꾼다(E44 §3.2)
+            out.append({"end": p["end"], "val": val, "available": day, **({"wa_q": wa_q} if wa_q else {})})
             prev = (p["end"], val)
     return out, dq
 
@@ -2510,6 +2515,17 @@ def check_fresh(series, last_day, max_lag_days=200):
     return f"  ← ⚠ {lag}일 뒤처짐" if lag > max_lag_days else ""
 
 
+def as_of_entry(series, day):
+    """그날까지 공개돼 있던 가장 최근 행(as_of와 같은 동률 규칙 — 목록 뒤쪽)."""
+    row = None
+    for e in series:
+        if e["available"] <= day:
+            row = e
+        else:
+            break
+    return row
+
+
 def as_of(series, day):
     """그날까지 공개돼 있던 가장 최근 값."""
     val = None
@@ -2780,13 +2796,17 @@ def main():
 
     out = {"ticker": t, "window": [daily[0][0], daily[-1][0]], "multiples": {},
            "perBasis": "core" if core else "diluted"}
+    # 카드별 전환·교환 증권 표(E44 §3) — 표에 있는 종목만, 연구 모드는 끔
+    _sc_on = _sc.has(t)
+    _px_by = {b[0]: b[4] for b in daily}          # 일봉 [날짜, 시가, 고가, 저가, 종가, …] — 아래 배수 계산과 같은 종가
+    _px_at = lambda d: _px_by.get(d, daily[-1][4])
     defs = {
         "PER": (lambda d, px: (mcap(d, px) / core_earnings(d)) if mcap(d, px) and core_earnings(d) else None) if core
         else (lambda d, px: px * fx.rate(t, d) / as_of(eps, d) if eps and as_of(eps, d) and as_of(eps, d) > 0 else None),
         "PSR": lambda d, px: mcap(d, px) / as_of(series.get("revenue", []), d)
         if mcap(d, px) and as_of(series.get("revenue", []), d) else None,
-        "PBR": lambda d, px: mcap(d, px) / as_of(series.get("equity", []), d)
-        if mcap(d, px) and as_of(series.get("equity", []), d) else None,
+        "PBR": lambda d, px: mcap(d, px) / equity_ce(d, px)
+        if mcap(d, px) and equity_ce(d, px) else None,
         "PCR": lambda d, px: (mcap(d, px) / fcf(d)) if mcap(d, px) and fcf(d) and fcf(d) > 0 else None,
         "EV/EBITDA": lambda d, px: (ev(d, px) / ebitda(d))
         if ev(d, px) and ebitda(d) and ebitda(d) > 0 else None,
@@ -2795,7 +2815,28 @@ def main():
     def mcap(d, px):
         # 재무가 현지 통화(TSM 대만달러)면 달러 가격을 그날 환율로 바꿔 같은 통화끼리 나눈다(v2/fx.py).
         sh = as_of(series.get("shares", []), d)
+        if sh and _sc_on:
+            # 카드별 전환·교환 증권 표(v2/share_claims.json, E44 §3) — 보통주로 보는 증권의 주식 수를 그날 값으로
+            e = as_of_entry(series["shares"], d)
+            wq = e.get("wa_q")
+            sh = _sc.adjusted_shares(t, d, px, sh, e["end"], base_is_wa=bool(wq), wa_start=wq[0] if wq else None,
+                                     wa_end=wq[1] if wq else None)
         return px * fx.rate(t, d) * sh if sh else None
+
+    def _claims(d, px):
+        """그날 엔진 관측 결산일에 맞춘 표의 짝 금액(E44 §3.3)."""
+        obs = {}
+        for k in ("equity", "nci", "preferred", "debt"):
+            e = as_of_entry(series.get(k, []), d) if series.get(k) else None
+            obs[k] = e["end"] if e else None
+        return _sc.claims(t, d, px, obs)
+
+    def equity_ce(d, px=None):
+        """PBR 분모 — 보통주 자본(common_equity) + 표 증권의 ce_add·pref_in_p(보통주로 보는 우선주는 P에서 되돌림)."""
+        v = as_of(series.get("equity", []), d)
+        if v is None or not _sc_on:
+            return v
+        return v + _sc.ce_extra(_claims(d, px if px is not None else _px_at(d)))
 
     def ev(d, px):
         m = mcap(d, px)
@@ -2804,6 +2845,11 @@ def main():
         cash = (as_of(series.get("cash", []), d) or 0) + (as_of(series.get("sti", []), d) or 0)
         debt = (as_of(series.get("debt", []), d) or 0) + (as_of(series.get("lease", []), d) or 0)
         extra = (as_of(series.get("nci", []), d) or 0) + (as_of(series.get("preferred", []), d) or 0)
+        if _sc_on:
+            # 보통주로 본 증권은 EV 청구권에서 뺀다(주식 수에 더했으므로 — 한 증권은 한쪽으로만, E44 §1)
+            c = _claims(d, px)
+            debt -= c["principal_in_debt"]
+            extra -= c["nci_remove"] + c["pref_ev"]
         return m + debt - cash + extra
 
     def ebitda(d):
@@ -2847,7 +2893,7 @@ def main():
     # 적자면 None을 돌려 가를 수 없어 넣지 않는다.
     DENOMS = {"PCR": fcf, "EV/EBITDA": ebitda,
               "PSR": lambda d: as_of(series.get("revenue", []), d),
-              "PBR": lambda d: as_of(series.get("equity", []), d)}
+              "PBR": lambda d: equity_ce(d)}
     if not core:
         DENOMS["PER"] = lambda d: as_of(eps, d) if eps else None
 
@@ -2888,6 +2934,8 @@ def main():
         for b in daily:
             try:
                 v = fn(b[0], b[4])
+            except _sc.ClaimHold:
+                raise                       # 표 짝 금액이 그 결산일에 없다 — 그 종목 카드만 보류(E44 §3.3)
             except Exception:
                 v = None
             if v and v > 0:

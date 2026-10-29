@@ -44,6 +44,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
 import build_multiple_history as bmh  # noqa: E402
 import eps_oneoff as _eo  # noqa: E402  일회성 손익 장치(안건 E54)
+import share_claims as _sc  # noqa: E402  카드별 전환·교환 증권 표(안건 E44 §3)
 import fetch_eps_history as feh  # noqa: E402
 
 # 이력 창 시작일. 중앙값은 창 선택에 흔들린다 — NVDA 마진 중앙값이 창을
@@ -316,6 +317,7 @@ def base_inputs(ticker, asof=None):
         if (_fy_ends and all(near_fy(d) for d in recent) and abs((re_ - date.fromisoformat(_fy_ends[-1])).days) <= 7 and lag <= 400):
             return row, "annual"
         return row, "stale"
+    _obs = {}   # EV 구성요소마다 그 시점 관측의 결산일 — 카드별 증권 표의 짝 금액을 같은 결산일로 찾는다(E44 §3.3)
     for name, tags in bmh.EV_COMPONENTS.items():
         # asof를 빠뜨리면 과거 시점 계산에 오늘 대차대조표가 섞인다
         # (현금·단기투자·차입금·리스가 그랬다 — Codex 지적으로 발견).
@@ -327,6 +329,7 @@ def base_inputs(ticker, asof=None):
             if _d:
                 ser = (bmh.pick_instant(cik, tags) if name in bmh.PICK_COMPONENTS else bmh.component_sum(cik, tags))
         out[name] = latest(ser, asof)
+        _obs[name] = (newest(ser, asof) or {}).get("end")
         # 재무상태표 항목도 낡은 값을 버린다 — 그 시점 자기자본 결산일보다 200일(리스는 연간 보고서에만 싣는 회사가 많아 400일) 넘게
         # 뒤처지면 없는 것으로 본다. MSI는 2015-10 단기투자 $276M을, LMT·PH·LLY는 멈춘 단기투자·비지배를 지금 값처럼 더했다(2026-10-21).
         # 연간 보고 항목(그 항목의 최근 2년 결산일이 모두 회계연도 말)은 직전 10-K 값이면 다음 10-K까지 둔다 — 200일 문턱만 쓰면
@@ -425,7 +428,10 @@ def base_inputs(ticker, asof=None):
 
     _, srows = bmh.pick_tag(cik, ["CommonStockSharesOutstanding"], "us-gaap")
     _, drows = bmh.pick_tag(cik, ["EntityCommonStockSharesOutstanding"], "dei")
-    out["shares"] = latest(bmh.instant_series(srows + drows, ticker, is_share_count=True), asof)
+    _sh_ser = bmh.instant_series(srows + drows, ticker, is_share_count=True)
+    out["shares"] = latest(_sh_ser, asof)
+    _sh_end = (newest(_sh_ser, asof) or {}).get("end")
+    _sh_wa = None    # 주식 수를 희석 가중평균으로 바꿨으면 그 분기(시작, 결산일) — 카드별 증권 표가 그 분기 wa_shares를 뺀다
 
     # 지배주주 자본 태그가 멈추고 비지배지분 포함 총계만 내는 회사가 있다. AVGO는
     # StockholdersEquity가 2019-11($24.9B)에서 끝나고 그 뒤로는 포함 총계만 낸다
@@ -577,26 +583,45 @@ def base_inputs(ticker, asof=None):
         if not sh or not (0.5 <= sh / wd <= 2.0):
             out["dq"].append(f"shares_fallback:{sh}->{wd:.0f}")
             out["shares"] = wd
+            _sh_wa = (wq[-1]["start"], wq[-1]["end"])
     elif not out.get("shares") or out["shares"] < 1e7:
         # 대조할 희석 가중평균도 없는데 주식 수가 없거나 1,000만 주 미만(S&P500 기업으로는 불가능)이면
         # 계산하지 않는다(SPG는 2013년 이후 주식 수를 표준 태그로 내지 않아 8,000주가 잡혔다).
         out["dq"].append(f"shares_missing:{out.get('shares')}")
         out["shares"] = None
+    # 카드별 전환·교환 증권 표(v2/share_claims.json, E44 §3)가 있는 종목은 카드 모드에서 표만 쓰고 아래 상수(ECON_SHARES·SHARES_ADD)는
+    # 읽지 않는다(이중 금지 — 상수는 연구 모드 전용, §3.2). 연구 모드(ASOF_REF)에서는 표가 꺼져 지금처럼 상수.
+    _sc_card = _sc.has(ticker)
     # Up-C 구조(지주회사 주식 + 교환 가능한 파트너십 지분)는 영업이익 전체를 쓰므로 주식 수를 회사가 밝힌 경제적 전체 주식 수
     # (보통주·파트너십 지분, 미가득 참여분 포함 — BX "Distributable Earnings Shares Outstanding")로 바꾼다. 그대로 두면 BX는
     # Blackstone Holdings 지분(이익의 약 43%) 몫까지 Class A 7.5억 주에 몰려 주당 가치가 약 1.66배가 됐다(2026-10-02, Codex 1차 반영).
-    if ticker in ECON_SHARES and out.get("shares"):
+    if ticker in ECON_SHARES and out.get("shares") and not _sc_card:
         rows = sorted(ECON_SHARES[ticker], key=lambda x: x["end"])
         ok = [x for x in rows if asof is None or x["filed"] <= asof]
         u = (ok[-1] if ok else rows[0])["value"]   # 공시 전 시점은 가장 이른 값(2024-09-30, 이후 값과 1% 안쪽)
         out["dq"].append(f"econ_shares:{out['shares']:.0f}->{u}")
         out["shares"] = u
     # 보통주와 똑같이 이익에 참여하는 전환우선주(회사가 기본 EPS에도 전환된 것으로 넣는다)는 전환 주식 수를 더한다 — 표지 주식 수에는 없다.
-    if ticker in SHARES_ADD and out.get("shares"):
+    if ticker in SHARES_ADD and out.get("shares") and not _sc_card:
         add = sum(x["shares"] for x in SHARES_ADD[ticker] if asof is None or x["filed"] <= asof)
         if add:
             out["dq"].append(f"shares_add:{out['shares']:.0f}+{add}")
             out["shares"] += add
+    if _sc_card and out.get("shares"):
+        _d = asof or date.today().isoformat()
+        _daily = [b for b in bmh.load_daily(ticker) if b[0] <= _d]
+        _px = _daily[-1][4] if _daily else None
+        _wa = _sh_wa
+        out["shares"] = _sc.adjusted_shares(ticker, _d, _px, out["shares"], _sh_end, base_is_wa=bool(_wa),
+                                            wa_start=_wa[0] if _wa else None, wa_end=_wa[1] if _wa else None)
+        _pf = [x["end"] for x in fixed.values() if x.get("kind") == "preferred"]
+        _c = _sc.claims(ticker, _d, _px, {"equity": (newest(eq_rows, asof) or {}).get("end"), "nci": _obs.get("nci"),
+                                         "preferred": _obs.get("preferred"), "debt": _obs.get("debt"),
+                                         "dcf_pref": max(_pf) if _pf else _obs.get("preferred")})
+        out["preferred"] = (out.get("preferred") or 0) - _c["dcf_pref"]
+        out["nci"] = (out.get("nci") or 0) - _c["nci_remove"]
+        out["debt"] = (out.get("debt") or 0) - _c["principal_in_debt"]
+        out["dq"].append("share_claims")
     # 차입금: 최근 4분기 이자비용 ÷ 차입금이 15%를 넘거나, 이자비용이 $1억 넘는데 차입금이 0이면
     # 차입금이 빠졌을 가능성(회사 자체 태그 — CMCSA 장기차입금). 고치지 않고 표시만 한다(검증 패널 제외).
     interest = ttm(["InterestExpense", "InterestExpenseNonoperating", "InterestExpenseDebt"])
