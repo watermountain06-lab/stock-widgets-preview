@@ -1,0 +1,171 @@
+{
+ "_note": "비전환 우선주 장부가 손입력(안건 E44, 설계 shares_equity_design.md r9 §2.1 CE_PREF_MANUAL) — 표준 태그가 없거나(DUK·AXP·T: 금액이 추가납입자본 안) 액면만 태깅(GE)한 회사. {cik: [{from, until(그 금액이 유지된 마지막 결산일, 지금도면 null), value(달러), filed(처음 공개일), source, basis, note}]}. 2026-10-29 원문 확인(10-Q·10-K).",
+ "0001326160": [
+  {
+   "from": "2020-12-31",
+   "until": "2024-06-30",
+   "value": 1962000000,
+   "filed": "2021-02-25",
+   "source": "https://www.sec.gov/Archives/edgar/data/1326160/000132616021000063/duk-20201231.htm",
+   "basis": "stated",
+   "note": "Balance sheet lines: Preferred stock, Series A (40M depositary shares) 973 + Series B (1M shares) 989 = 1,962 ($M); equity statement Preferred Stock column 1,962. Same in every 10-Q/10-K through 2024-06-30 (10-Q filed 2024-08-06).",
+   "ticker": "DUK"
+  },
+  {
+   "from": "2024-09-30",
+   "until": null,
+   "value": 973000000,
+   "filed": "2024-11-07",
+   "source": "https://www.sec.gov/Archives/edgar/data/1326160/000132616024000181/duk-20240930.htm",
+   "basis": "stated",
+   "note": "Series B redeemed 2024-09-16 at $1,000/share ($1B total; $16M preferred redemption costs). Notice of Redemption issued 2024-08-16, disclosed in 8-K filed 2024-08-22 (https://www.sec.gov/Archives/edgar/data/1326160/000110465924092007/tm2421766d4_8k.htm). Only Series A 973 remains; latest confirmed 2026-06-30 (10-Q filed 2026-08-04). Series A not redeemed per filings through 2026-09-25 8-K (still listed DUK PR A). Q3 2026 10-Q not yet filed as of 2026-10-29.",
+   "ticker": "DUK"
+  }
+ ],
+ "0000004962": [
+  {
+   "from": "2020-12-31",
+   "until": "2021-06-30",
+   "value": 1584000000,
+   "filed": "2021-02-12",
+   "source": "https://www.sec.gov/Archives/edgar/data/4962/000000496221000013/axp-20201231.htm",
+   "basis": "stated_aggregate",
+   "note": "Carried in Additional paid-in capital (balance-sheet Preferred shares line shows —; par $1.66 2/3 x 1,600 shares). 1,600 shares = Series B 750 ($750M, 5.20%) + Series C 850 ($850M, 4.90%); liquidation $1.6B. APIC carrying 1,584 = amount removed from APIC on 2021 redemptions of B+C per 2021 10-K equity statement (C 841 stated in Q3-21 10-Q; B 743 = 1,584-841).",
+   "ticker": "AXP"
+  },
+  {
+   "from": "2021-09-30",
+   "until": "2021-09-30",
+   "value": 2327000000,
+   "filed": "2021-10-22",
+   "source": "https://www.sec.gov/Archives/edgar/data/4962/000000496221000060/axp-20210930.htm",
+   "basis": "derived",
+   "note": "2,350 shares outstanding. Series D issued 2021-08-03 ($1.6B, 3.55%; APIC +1,584 net); Series C redeemed 2021-09-15 (APIC -841, RE -9). Remaining Series B 743 (derived) + D 1,584 = 2,327. Liquidation $2.35B.",
+   "ticker": "AXP"
+  },
+  {
+   "from": "2021-12-31",
+   "until": null,
+   "value": 1584000000,
+   "filed": "2022-02-11",
+   "source": "https://www.sec.gov/Archives/edgar/data/4962/000000496222000008/axp-20211231.htm",
+   "basis": "stated",
+   "note": "Series B redeemed 2021-11-15. Series D 1,600 shares, $1.6B liquidation, APIC 1,584. 2026-Q3: Series E issued 2026-08-12 ($1.6B, 6.450%; APIC +1,584) and Series D redeemed 2026-09-15 (APIC -1,584, RE -16) per 10-Q filed 2026-10-23 (https://www.sec.gov/Archives/edgar/data/4962/000000496226000409/axp-20260930.htm); amount unchanged at 1,584 with 1,600 shares (Series E) at 2026-09-30.",
+   "ticker": "AXP"
+  }
+ ],
+ "0000732717": [
+  {
+   "from": "2020-12-31",
+   "until": "2024-12-31",
+   "value": 5033000000,
+   "filed": "2021-02-25",
+   "source": "https://www.sec.gov/Archives/edgar/data/732717/000073271721000012/t-20201231.htm",
+   "basis": "derived",
+   "note": "Carried in APIC (balance-sheet preferred lines show — at $1 par). APIC 'Issuance of preferred stock' 1,164 (2019, Series A 48,000 sh, $1.2B, 5.000%) + 3,869 (Feb 2020, Series B 20,000 sh EUR2.0B 2.875% + Series C 70,000 sh $1.75B 4.75%). B carrying 2,165 = APIC redemption amount in 2025; C = 3,869-2,165 = 1,704 (derived). Liquidation ~ $1.2B + EUR2.0B + $1.75B. Excludes Telco LLC / Mobility II preferred interests (NCI).",
+   "ticker": "T"
+  },
+  {
+   "from": "2025-03-31",
+   "until": null,
+   "value": 2868000000,
+   "filed": "2025-04-29",
+   "source": "https://www.sec.gov/Archives/edgar/data/732717/000073271725000023/t-20250331.htm",
+   "basis": "derived",
+   "note": "Series B redeemed 2025-03-03 for $2,075 (APIC -2,165, RE +90 redemption gain); call notice 2025-01-31 disclosed in 10-K filed 2025-02-12. Remaining Series A 1,164 + Series C 1,704 (derived) = 2,868; liquidation $2.95B. Series A and C still outstanding at 2026-09-30 (10-Q filed 2026-10-21).",
+   "ticker": "T"
+  }
+ ],
+ "0000040545": [
+  {
+   "from": "2020-12-31",
+   "until": "2020-12-31",
+   "value": 5918000000,
+   "filed": "2021-02-12",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054521000011/ge-20201231.htm",
+   "basis": "stated",
+   "note": "'The total carrying value of GE Industrial preferred stock at December 31, 2020 was $5,918 million and will increase to $5,940 million by the respective call dates through periodic accretion.' Carried mostly in Other capital; balance-sheet Preferred stock line = par 6.",
+   "ticker": "GE"
+  },
+  {
+   "from": "2021-03-31",
+   "until": "2021-03-31",
+   "value": 5930000000,
+   "filed": "2021-04-27",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054521000026/ge-20210331.htm",
+   "basis": "stated",
+   "note": "'The total carrying value of GE preferred stock at March 31, 2021 was $5,930 million'.",
+   "ticker": "GE"
+  },
+  {
+   "from": "2021-06-30",
+   "until": "2021-09-30",
+   "value": 5930000000,
+   "filed": "2021-07-27",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054521000052/ge-20210630.htm",
+   "basis": "carried",
+   "note": "Not disclosed in Q2/Q3-21 10-Qs. Bounded 5,930-5,935 ($M): 5,939,875 shares unchanged, accretion only. 미공시 분기 — 직전 공시 5,930(2021-03-31) 이어 씀(2026-10-29 결정)",
+   "ticker": "GE"
+  },
+  {
+   "from": "2021-12-31",
+   "until": "2021-12-31",
+   "value": 5935000000,
+   "filed": "2022-02-11",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054522000008/ge-20211231.htm",
+   "basis": "stated",
+   "note": "'The total carrying value of GE preferred stock at December 31, 2021 was $5,935 million' (Series D 5,694 + A/B/C 245 liquidation).",
+   "ticker": "GE"
+  },
+  {
+   "from": "2022-03-31",
+   "until": "2022-06-30",
+   "value": 5935000000,
+   "filed": "2022-04-26",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054522000027/ge-20220331.htm",
+   "basis": "carried",
+   "note": "Not disclosed. 2022-03/06: 5,939,875 shares, bounded 5,935-5,940. 2022-09-30: $104M of Series D repurchased in Q3-22 (shares 5,835,763), roughly 5,835 but not stated (10-Q filed 2022-10-25). 미공시 분기 — 직전 공시 5,935(2021-12-31) 이어 씀",
+   "ticker": "GE"
+  },
+  {
+   "from": "2022-09-30",
+   "until": "2022-09-30",
+   "value": 5835000000,
+   "filed": "2022-10-25",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054522000027/ge-20220331.htm",
+   "basis": "derived",
+   "note": "2022 3분기 Series D $104M 매입 뒤 5,835,763주 × $1,000 ≈ 5,835 — 회사 미명시(2026-10-29)",
+   "ticker": "GE"
+  },
+  {
+   "from": "2022-12-31",
+   "until": "2022-12-31",
+   "value": 5795000000,
+   "filed": "2023-02-10",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054523000023/ge-20221231.htm",
+   "basis": "stated",
+   "note": "'The total carrying value of GE preferred stock at December 31, 2022 was $5,795 million' (Series D 5,550 + A/B/C 245; 5,795,444 shares; $144M Series D repurchased in 2022).",
+   "ticker": "GE"
+  },
+  {
+   "from": "2023-03-31",
+   "until": "2023-06-30",
+   "value": 2795000000,
+   "filed": "2023-04-25",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054523000136/ge-20230331.htm",
+   "basis": "derived",
+   "note": "3,000,000 Series D shares redeemed 2023-03-15 at $1,000 (notice 2023-02-13, 8-K https://www.sec.gov/Archives/edgar/data/40545/000004054523000025/ge-20230213.htm); equity footnote: '$3,000 million decrease substantially all in Other capital'. 5,795-3,000 = 2,795 = 2,795,444 shares x $1,000.",
+   "ticker": "GE"
+  },
+  {
+   "from": "2023-09-30",
+   "until": null,
+   "value": 0,
+   "filed": "2023-10-24",
+   "source": "https://www.sec.gov/Archives/edgar/data/40545/000004054523000238/ge-20230930.htm",
+   "basis": "stated",
+   "note": "All remaining Series A/B/C/D redeemed 2023-09-15 (notice 8-K filed 2023-07-25 https://www.sec.gov/Archives/edgar/data/40545/000004054523000200/ge-20230725.htm); 'decreases of $2,795 million and $5,795 million ... related to our redemption of GE preferred stock'. Balance-sheet line — thereafter through 2026-09-30.",
+   "ticker": "GE"
+  }
+ ]
+}

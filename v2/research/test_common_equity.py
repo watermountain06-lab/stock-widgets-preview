@@ -81,7 +81,7 @@ def run():
     old = [("2023-06-30", 100.0, "2023-08-01")]
     o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": old,
                         "PreferredStockSharesOutstanding": [("2025-12-31", 5.0, "2026-02-10")]}), E1)
-    check("400일 넘음 + 주식 수 > 0 → None(기권)", vals(o) == [None])
+    check("400일 넘음 + 주식 수 > 0 → 0 + 점검 표시", vals(o) == [1000.0] and o[0].get("ce_note") == ["pref_shares_no_amount"])
     o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": old}), E1)
     check("400일 넘음 + 주식 수 증거 없음 → 상환으로 보고 0(MRK형)", vals(o) == [1000.0])
     o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")]}), E1)
@@ -96,6 +96,40 @@ def run():
     check("액면 0만(MET형) → 상환 증거 아님, 우선주 없음이면 0", vals(o) == [1000.0])
     o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": pv + [("2025-12-31", 0.0, "2026-02-10")]}), E1)
     check("액면 0 태그가 있어도 직전 양수 이어 씀(MET형)", vals(o) == [900.0])
+    # r9: 액면 태그가 청산가를 가림(GE)
+    o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": [("2025-12-31", 6.0, "2026-02-10")],
+                        "PreferredStockLiquidationPreferenceValue": [("2025-12-31", 590.0, "2026-02-10")]}), E1)
+    check("액면 태그 < 청산가/10 → 청산가(GE형)", vals(o) == [410.0])
+    o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": [("2025-12-31", 100.0, "2026-02-10")],
+                        "PreferredStockLiquidationPreferenceValue": [("2025-12-31", 120.0, "2026-02-10")]}), E1)
+    check("장부 태그가 청산가에 가까우면 장부 태그 그대로", vals(o) == [900.0])
+    # r9: 의미 있던 금액 태그가 명시적 0 → 상환(DHR·PGR형)
+    o = run_ce(facts(**{SE: [("2025-12-31", 1e10, "2026-02-10")],
+                        "PreferredStockValue": [("2025-06-30", 1.6e9, "2025-08-01"), ("2025-12-31", 0.0, "2026-02-10")]}),
+               eq(("2025-12-31", 1e10, "2026-02-10")))
+    check("양수 금액 태그가 0이 되면 상환(DHR형)", vals(o) == [1e10])
+    # r9: 과거 금액이 없는데 주식 수 > 0 → 기권
+    o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockSharesOutstanding": [("2025-12-31", 1600.0, "2026-02-10")]}), E1)
+    check("금액이 한 번도 없는데 주식 수 > 0 → 0 + 점검 표시(수권·명목 주식이 섞임)", vals(o) == [1000.0] and o[0].get("ce_note") == ["pref_shares_no_amount"])
+    # r9: 중간 상환 뒤 주식 수 > 0 다시 관측(AXP형) → 기권
+    o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": [("2024-12-31", 100.0, "2025-02-10")],
+                        "PreferredStockSharesOutstanding": [("2025-03-31", 0.0, "2025-05-01"), ("2025-09-30", 1600.0, "2025-11-01")]}), E1)
+    check("상환 뒤 주식 수가 다시 관측되면 0 + 점검 표시(AXP형 — 실제는 손입력)", vals(o) == [1000.0] and o[0].get("ce_note") == ["pref_shares_no_amount"])
+    # r9: 400일 넘음 — 그 결산일이 아니라 마지막 주식 수 관측 기준
+    o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": [("2023-06-30", 100.0, "2023-08-01")],
+                        "PreferredStockSharesOutstanding": [("2025-09-30", 5.0, "2025-11-01")]}), E1)
+    check("400일 넘음 + 마지막 주식 수 관측 > 0(400일 안) → 점검 표시", vals(o) == [1000.0] and o[0].get("ce_note") == ["pref_shares_no_amount"])
+    # r9: 지배주주 = 총계 관측 뒤로는 옛 비지배지분 안 이어 씀(JNJ형)
+    o = run_ce(facts(**{SE: [("2025-09-30", 900.0, "2025-11-01")], TOT: [("2025-09-30", 900.0, "2025-11-01"), ("2025-12-31", 1000.0, "2026-02-10")],
+                        "MinorityInterest": [("2025-06-30", 80.0, "2025-08-01")]}), E1)
+    check("지배주주 = 총계 관측 뒤 → 비지배지분 0(JNJ형)", vals(o) == [1000.0])
+    # r9: 손입력 금액
+    ce.CE_PREF_MANUAL[CIK] = [{"from": "2025-01-01", "until": None, "value": 250.0, "filed": "2025-01-01", "source": "x"}]
+    o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")]}), E1)
+    ce.CE_PREF_MANUAL.pop(CIK)
+    check("손입력 금액(DUK·AXP·T형)", vals(o) == [750.0] and o[0].get("ce_note") == ["pref_manual"])
+    o = run_ce(facts(**{SE: [("2025-12-31", 1000.0, "2026-02-10")], "PreferredStockValue": [("2023-06-30", 100.0, "2023-08-01")]}), E1)
+    check("정책상 0 추정은 ce_note에 남김", o[0].get("ce_note") == ["pref_est0"])
     # 음수 CE는 지금 엔진 처리 그대로(값만 넘김)
     o = run_ce(facts(**{SE: [("2025-12-31", 50.0, "2026-02-10")], "PreferredStockValue": [("2025-12-31", 100.0, "2026-02-10")]}),
                eq(("2025-12-31", 50.0, "2026-02-10")))
@@ -110,17 +144,21 @@ def run():
 
 
 MUTANTS = [
-    ("합산(첫 태그 대신)", "            if v is not None and v > 0:\n                return v, tg\n        return None",
-     "            pass\n        tot = sum(max(_val_at(rows, end, avail) or 0, 0) for tg, rows in self.tags)\n        return (tot, self.tags[0][0]) if tot > 0 else None"),
-    ("400일 기권 주식 수 증거 무시", "            if any((_val_at(rows, end, avail) or 0) > 0 for rows in self.share_rows):", "            if True:"),
+    ("합산(첫 태그 대신)", "                return v, tg\n        return None",
+     "                pass\n        tot = sum(max(_val_at(rows, end, avail) or 0, 0) for tg, rows in self.tags)\n        return (tot, self.tags[0][0]) if tot > 0 else None"),
+    ("액면·청산가 비교 제거", "                    if lq and lq > PAR_RATIO * v:", "                    if False:"),
+    ("400일 주식 수 표시 제거", "            if so and so[1] > 0 and _days(end, so[0]) <= CARRY_DAYS:", "            if False:"),
     ("400일 기권 규칙 제거", "        if _days(end, e1) > CARRY_DAYS:", "        if False:"),
-    ("액면 0을 상환으로 봄", "            if v is not None and v == 0:\n                return True", "            if v is not None and v == 0:\n                return True\n        for tg, rows in self.tags:\n            if _val_at(rows, end, avail) == 0:\n                return True"),
-    ("비지배지분 400일 이어 쓰기 제거(늘 0)", "                    if recent:", "                    if False:"),
-    ("비지배지분 없으면 늘 기권", "                        n = 0", "                        out.append(dict(e, val=None, pref=None))\n                        continue"),
-    ("비지배지분 이어 쓰기 400일 창 제거", " and _days(end, r[\"end\"]) <= CARRY_DAYS],", "],"),
+    ("금액 없음 + 주식 수 > 0 표시 제거", "        if not prev:\n            if so and so[1] > 0:", "        if not prev:\n            if False:"),
+    ("명시적 0 상환 증거 제거", "        if self.explicit_zero(end, avail):\n            return True", "        if False:\n            return True"),
+    ("명시적 0 하한 제거(액면 0도 상환)", "                if prior and max(prior, key=lambda r: (r[\"end\"], r[\"filed\"]))[\"val\"] >= MATERIAL:", "                if True:"),
+    ("상환 뒤 재관측 표시 제거", "            if so and so[1] > 0 and so[0] > max(red):", "            if False:"),
+    ("비지배지분 이어 쓰기 제거(늘 0)", "                    if recent and not any(", "                    if False and not any("),
+    ("비지배지분 0 관측 무시(JNJ)", " and not any(recent[-1][\"end\"] < z < end for z in zero_obs)", ""),
     ("되돌림 제거", "                v = tv - n", "                pass"),
-    ("상환 뒤 되살아남", "        if any(self.redeemed(m, avail) for m in mids) or \\", "        if False and any(self.redeemed(m, avail) for m in mids) or \\"),
+    ("상환 뒤 되살아남", "        if red:", "        if False:"),
     ("EQIX 덮어쓰기 무시", "        tags = CE_PREF_OVERRIDE.get(cik, CE_PREF_TAGS)", "        tags = CE_PREF_TAGS"),
+    ("손입력 무시", "        for x in self.manual:", "        for x in []:"),
     ("연구 모드 스위치 제거", "    if bmh.ASOF_REF is not None or not equity:", "    if not equity:"),
     ("공시일 검사 제거", "    c = [r for r in rows if r[\"end\"] == end and r[\"filed\"] <= avail]", "    c = [r for r in rows if r[\"end\"] == end]"),
 ]
