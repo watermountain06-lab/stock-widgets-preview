@@ -187,9 +187,9 @@ def claims(ticker, d, price, obs_end):
             e = obs_end[series]
             if e is None:
                 # 짝 시리즈가 엔진에 없다(덮어쓰기로 비었음 — HPE) → 그 칸은 0이어야 한다(아니면 표 금액이 어디에도 실리지 않은 것)
-                _cur = [p for p in it["paired"] if p["filed"] <= d]
-                if _cur and (max(_cur, key=lambda p: (p["end"], p["filed"])).get(f) or 0) != 0 \
-                        and not (it.get("end_claims") and _cur[-1]["end"] >= it["end_claims"]):   # 지금 적용되는(최신) 짝 행만 본다(Codex r2)
+                _cur = max((p for p in it["paired"] if p["filed"] <= d), key=lambda p: (p["end"], p["filed"]), default=None)
+                if _cur and (_cur.get(f) or 0) != 0 \
+                        and not (it.get("end_claims") and _cur["end"] >= it["end_claims"]):   # 지금 적용되는(최신) 짝 행 하나로 금액·소멸을 함께 본다(Codex r2·r3)
                     raise ClaimHold(f"{ticker} {it['id']}: {series} 시리즈가 엔진에 없는데 표 {f}가 0이 아님")
                 continue
             if it.get("end_claims") and e >= it["end_claims"]:
