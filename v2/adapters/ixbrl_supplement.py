@@ -11,12 +11,14 @@ SEC companyfacts는 가끔 최근 공시를 몇 달씩 싣지 않는다(JPM 카�
 import json
 import os
 import re
+import subprocess
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
-from cover_shares import get  # noqa: E402
+from cover_shares import UA, get  # noqa: E402
 
 CACHE = os.path.join(V2, ".sec_cache")
 
@@ -74,6 +76,69 @@ def parse(h, prefixes=("us-gaap:", "dei:")):
     return out
 
 
+def fetch_doc(url, path):
+    """공시 원문을 받아 **성공했을 때만** 캐시하고, 이 어댑터가 확인해 받은 파일만 다시 쓴다.
+
+    공통 `cover_shares.get(url, path)`은 `curl -s`(−f 없음)의 출력을 성공 여부와 상관없이 캐시하고 다음 호출에 그대로
+    돌려준다. 빈 응답·403·429 쪽지나 중간에 끊긴 본문이 한 번 박히면 다시 받을 길이 없어, build.py가 낡음을 보고 다시
+    불러도 0행으로 끝난다(dr r1 Fable 필수). 본문에 `ix:nonFraction`이 있는지만 보면 끊긴 본문을 못 걸러내고(dr r2 Codex 필수),
+    `</html>`로 끝나는 완결된 오류 페이지도 못 걸러낸다(dr r3 Codex 필수) — 게다가 이 원문 폴더(`ix_{cik}`)는 company_tag_feed·
+    ixbrl_class_eps·dim_member_supplement도 공통 get으로 쓴다. 그래서 **내용으로 판정하지 않고** 이 어댑터가 종료 코드로
+    확인해 받은 파일에만 `.ok` 표식을 두고, 표식 없는 파일은 출처를 알 수 없는 것으로 보아 지우고 다시 받는다.
+    재시도는 curl 안의 `--retry`가 아니라 시도마다 따로 부른다 — 내부 재시도는 앞 시도의 부분 본문이 stdout에 남아
+    성공 본문과 이어붙은 채 종료 코드 0으로 올 수 있다(dr r3 Codex 필수).
+    """
+    ok = path + ".ok"
+    if os.path.exists(path) and os.path.exists(ok):
+        return open(path, encoding="utf-8", errors="ignore").read()
+    # 쌍이 맞지 않으면 둘 다 치운다 — 표식만 남은 채 원문을 다시 쓰다 끊기면, 그 표식이 반쪽 원문을 인증해 다음 실행이
+    # 그대로 쓴다(dr r4 Codex 필수). 원문은 임시 이름에 쓰고 교체한 뒤에 표식을 만든다.
+    for f in (path, ok):
+        try:
+            os.remove(f)
+            print(f"원문 캐시와 표식이 맞지 않다 — 지우고 다시 받는다: {os.path.basename(f)}")
+        except FileNotFoundError:
+            pass
+    # 시도 셋을 다 써도 최악 3×120초 + 대기 7.5초로, 카드 하나의 제한 시간(daily_price 900초)과 SEC 요청 속도 안에 둔다.
+    # 가장 큰 원문이 20MB라 120초면 170KB/s 이상이면 되고, 넘기면 종료 코드 28로 끝나 캐시하지 않는다(dr r4 Codex 권장).
+    for i, wait in ((1, 0.5), (2, 2), (3, 5)):
+        r = subprocess.run(["curl", "-sS", "-f", "--max-time", "120", "-A", UA, url], capture_output=True, text=True)
+        time.sleep(wait)
+        if r.returncode == 0:
+            tmp = f"{path}.{os.getpid()}.part"
+            try:
+                with open(tmp, "w") as f:
+                    f.write(r.stdout)
+                os.replace(tmp, path)
+            except BaseException:
+                try:
+                    os.remove(tmp)
+                except FileNotFoundError:
+                    pass
+                raise
+            open(ok, "w").close()
+            return r.stdout
+        print(f"원문 받기 실패(curl {r.returncode}, {i}번째 시도) — 캐시하지 않는다: {url}"
+              + (f" [{r.stderr.strip()[:200]}]" if r.stderr.strip() else ""))   # -sS가 이유를 stderr에 쓴다(403인지 시간 초과인지)
+    return ""
+
+
+def save(path, obj):
+    """반쪽 파일을 남기지 않고 쓴다 — 이 파일들은 저장소에 커밋되므로(2026-10-29) 잘린 JSON이 올라가면 그 종목의 모든 실행이
+    json.load에서 죽고, 저장소 판이 기준이라 캐시 복원으로도 벗어나지 못한다(dr r1 Codex·Fable 권장). facts_cache와 같은 꼴."""
+    tmp = f"{path}.{os.getpid()}.part"   # 같은 폴더에 둔다(os.replace는 같은 파일시스템이어야 한다). .gitignore가 *.part를 뺀다
+    try:
+        with open(tmp, "w") as f:
+            json.dump(obj, f, indent=1)
+        os.replace(tmp, path)
+    except BaseException:
+        try:
+            os.remove(tmp)
+        except FileNotFoundError:
+            pass
+        raise
+
+
 def main(cik):
     cik = cik.zfill(10)
     facts = facts_cache(cik)
@@ -91,7 +156,13 @@ def main(cik):
         # 더 받게 되는 공시는 0건이었다(Fable)
         if form not in ("10-Q", "10-K") or filed in have:
             continue
-        h = get(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc.replace('-', '')}/{doc}", os.path.join(raw, doc))
+        h = fetch_doc(f"https://www.sec.gov/Archives/edgar/data/{int(cik)}/{acc.replace('-', '')}/{doc}",
+                      os.path.join(raw, doc))
+        if "ix:nonFraction" not in h:
+            # 받기 실패(빈 문자열)이거나, 인라인 XBRL 도입 전의 평문 HTML이다. 어느 쪽이든 이 공시는 보충할 수 없다 —
+            # 받기 실패는 fetch_doc이 캐시하지 않으므로 다음 실행이 다시 받고, 승인 공시가 이 경우면 아래에서 표식을 남기지 않는다.
+            print(f"{form} {filed} {doc}: 인라인 XBRL 사실이 없다({len(h)}바이트) — 건너뛴다")
+            continue
         fp = "FY" if form == "10-K" else "Q"
         seen = set()
         for name, s, e, v, u in parse(h):
@@ -110,8 +181,30 @@ def main(cik):
             added += 1
         print(f"{form} {filed} {doc}: 보충 {len(seen)}개 사실")
     os.makedirs(os.path.dirname(op), exist_ok=True)
-    json.dump(data, open(op, "w"), indent=1)
+    save(op, data)
     print(f"저장: {op} (+{added}행, companyfacts 마지막 공시 {last})")
+    # build.py가 "승인 공시는 더 채울 것이 없다"를 읽는 표식(dim_facts·회사 태그와 같은 .dimcheck.json의 "ixbrl" 키, 2026-10-29).
+    # 보충을 저장소에 두기 시작하면서 build.py가 "승인 공시보다 낡은 보충"을 보면 다시 받게 했는데, 받을 것이 없는 종목까지
+    # 매일 원문을 받게 되므로 한 번 훑은 사실을 남긴다. 채우지 못했는데 표식을 남기면(받기 실패·빈 응답) 조용히 빠진 채로
+    # 굳으므로, 승인 공시가 companyfacts에 있거나 이번에 보충에 들어왔을 때, 또는 이 스크립트가 다룰 수 없는 서식(10-Q/A 등)일
+    # 때만 남긴다 — 그 밖에는 표식 없이 두어 다음 실행이 다시 받고, 그때까지 카드는 _facts에서 멈춘다.
+    appr = json.load(open(os.path.join(V2, "sec_approved.json"))).get(cik, "")
+    if appr:
+        forms = {fm for fm, f in zip(sub["form"], sub["filingDate"]) if f == appr}
+        filled = appr in have or any(r.get("filed") == appr and r.get("src") == "ixbrl"
+                                     for tags in data.values() for rows in tags.values() for r in rows)
+        # 제출 목록에서 승인일 공시를 찾지 못했으면(목록 지연·기준표 날짜 오기입) "다룰 수 없는 서식"이 아니다 — 표식을 남기면
+        # 재시도가 영구히 막힌다(dr r1 Codex 필수). 서식을 실제로 찾았고 그것이 10-Q·10-K가 아닐 때만 미지원으로 본다.
+        unsupported = bool(forms) and not (forms & {"10-Q", "10-K"})
+        if filled or unsupported:
+            ck = os.path.join(CACHE, "overlay", f"{cik}.dimcheck.json")
+            marks = json.load(open(ck)) if os.path.exists(ck) else {}
+            marks["ixbrl"] = max(appr, marks.get("ixbrl", ""))
+            save(ck, marks)
+            print(f"표식: ixbrl {marks['ixbrl']}" + ("" if filled else f" (이 스크립트가 다루지 않는 서식 {sorted(forms)})"))
+        else:
+            why = f"{appr}를 채우지 못했다" if forms else f"{appr}가 제출 목록에 없다"
+            print(f"표식 없음: 승인 공시 {why} — 다음 실행이 다시 받는다")
 
 
 if __name__ == "__main__":

@@ -95,17 +95,29 @@ def main():
     _ovp = os.path.join(V2, ".sec_cache", "overlay", f"{cik}.json")
     _ov = json.load(open(_ovp)) if os.path.exists(_ovp) else {}
     _has_ct = lambda ctag, stag: any(r.get("src") == f"company:{ctag}" for r in _ov.get("us-gaap", {}).get(stag, []))
-    if B.get("overlay") and (net or not _ov):
-        print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장")
+    _appr = json.load(open(os.path.join(V2, "sec_approved.json"))).get(cik, "")
+    _ck = os.path.join(V2, ".sec_cache", "overlay", f"{cik}.dimcheck.json")
+    _marks = json.load(open(_ck)) if os.path.exists(_ck) else {}
+    # 통짜 보충도 차원·회사 태그와 같이 승인 공시보다 낡았으면 다시 받는다 — 보충을 저장소에 두기 시작하면서(2026-10-29) 매일 실행이
+    # 늘 저장소 판을 복원하므로, "파일이 있다"만 보는 조건은 분기 승인 때 사람이 보충을 같이 올리지 않으면 영구히 건너뛴다
+    # (AEP 2026-10-29: companyfacts에 없는 Q3가 빠진 채 _facts가 "승인한 공시가 SEC 자료에 없다"로 멈췄다).
+    # 판정은 "승인 공시 날짜의 ixbrl 행이 있는가"로 한다 — 가장 새 행과 견주면 승인 공시는 못 채웠는데 그보다 뒤 공시가 채워져
+    # 있을 때 다 된 것으로 본다(PPG·DUK·SO·ED의 보충에 승인일보다 뒤의 행이 있다, dr r1 Codex 필수).
+    # 출처가 ixbrl인 행만 센다 — 같은 overlay에 든 차원·회사 태그 행이 승인 공시를 대신 만족시키면 통짜 보충이 조용히 빠진다
+    # (FCX·NEM은 둘을 함께 쓴다, dr r1 Fable). 표식(ixbrl_supplement가 "더 채울 것이 없다"고 남긴 날짜)은 companyfacts가 그 공시를
+    # 이미 실은 종목(CDNS·NEM·WELL)에서 매일 원문을 받지 않게 한다. 보충이 아예 없는 종목도 표식이 있으면 받지 않는다 —
+    # 빈 보충({})인 MPC가 매일 받고 있었다(dr r1 Fable 권장).
+    _ix_stale = bool(_appr) and _marks.get("ixbrl", "") < _appr and not any(
+        r.get("filed") == _appr and r.get("src") == "ixbrl"
+        for tags in _ov.values() for rows in tags.values() for r in rows)
+    if B.get("overlay") and (net or (not _ov and not _marks.get("ixbrl")) or _ix_stale):
+        print("· 인라인 XBRL 보충"); run([PY, "v2/adapters/ixbrl_supplement.py", cik], show=r"보충|저장|표식")
     if B.get("share_events") and net:   # v2.1 D-1(2026-10-05)
         print("· 분기 뒤 주식 발행 이벤트"); run([PY, "v2/adapters/share_events.py", T], show=r".")
     if B.get("cover_shares") and (net or not _ov.get("dei", {}).get("EntityCommonStockSharesOutstanding")):   # 표지 주식 수가 클래스별뿐인 종목(NKE A·B — META와 같은 방식)
         print("· 표지 주식 수 클래스 합산"); run([PY, "v2/adapters/cover_shares.py", T], show=r"저장")
     # 원문 차원 값 → 이름 붙인 태그(adapters/dim_fact_feed.py — 최신 공시에 없으면 멈춘다, PWR 2026-10-17). 태그가 있어도 승인 공시보다 낡았으면
     # 다시 돈다 — 매일 Actions는 SEC 캐시를 저장하지 않아(토요일만) 새 분기 다음 날 옛 overlay가 복원된다(dr r2 Codex·Fable 필수).
-    _appr = json.load(open(os.path.join(V2, "sec_approved.json"))).get(cik, "")
-    _ck = os.path.join(V2, ".sec_cache", "overlay", f"{cik}.dimcheck.json")
-    _marks = json.load(open(_ck)) if os.path.exists(_ck) else {}
     _dim_stale = lambda tag: (not _ov.get("us-gaap", {}).get(tag)
                               or max([r["filed"] for r in _ov["us-gaap"][tag]] + [_marks.get(tag, "")]) < _appr)
     for concept, axis, member, stag in [x for x in B.get("dim_facts", []) if net or _dim_stale(x[3])]:

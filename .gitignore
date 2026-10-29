@@ -9,6 +9,8 @@ v2/.sec_cache/*
 # Actions 캐시(토요일·캐시 미스에만 저장)와 씨앗 릴리스(2026-10-07)로는 새 분기가 빠진 옛 판이 복원될 수 있어
 # 카드가 분기를 넘길 때 멈췄다(AEP 2026-10-29). 지금 144개 12MB — 나머지 캐시(수 GB)는 그대로 뺀다.
 !v2/.sec_cache/overlay/
+# 쓰다 끊긴 임시 파일은 올리지 않는다 — 어댑터가 .part + 교체로 쓴다(2026-10-29)
+v2/.sec_cache/overlay/*.part
 v2/research/.facts/
 v2/research/valuation_judges_panel.json
 v2/research/step_calibration_panel.json
