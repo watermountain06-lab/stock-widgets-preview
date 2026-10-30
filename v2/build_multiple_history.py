@@ -1685,9 +1685,10 @@ def component_sum(cik, tags):
             if e["end"] not in best or e["filed"] < best[e["end"]]["filed"]:
                 best[e["end"]] = e
         for end, e in best.items():
-            slot = per_date.setdefault(end, {"val": 0.0, "filed": e["filed"]})
+            slot = per_date.setdefault(end, {"val": 0.0, "filed": e["filed"], "parts": []})
             slot["val"] += e["val"]
             slot["filed"] = max(slot["filed"], e["filed"])
+            slot["parts"].append((e["filed"], e["val"]))
             seen_by_date.setdefault(end, []).append(tag)
             per_tag.setdefault(tag, {})[end] = e["val"]
     # 총계 태그와 그 세부내역 태그를 함께 보고하는 회사가 있다. 그런 날짜를
@@ -1709,8 +1710,20 @@ def component_sum(cik, tags):
     if suspicious:
         print(f"    ⚠ 총계와 세부내역을 함께 보고한 날짜 {len(suspicious)}건"
               f" (예: {sorted(suspicious)[-1]}) — 이중계상 가능")
-    return sorted(({"end": k, "val": v["val"], "available": v["filed"]}
-                   for k, v in per_date.items()), key=lambda e: e["available"])
+    # 시점 인식 합산(안건 E65): 결산일마다 구성요소 첫 공시일 순서로 **그날까지 공개된 구성요소의 합**을 행으로 낸다. 마지막 행은
+    # 예전과 같은 완전한 합·최대 공시일이다. 예전에는 슬롯 공개일 = 구성요소 공시일 최대라, 1년 뒤 비교 열로 처음 태깅된
+    # 구성요소 하나가 분기말 총계 전체를 1년 "미공개"로 만들었다(META 차입 2026-01-29~04-29에 2025-09-30 $28.8B — 12-31 $58.7B는
+    # 10-K 2026-01-29 공시, 54종목 5,247거래일 — Fable 2026-10-29). 결산일별로 한 줄을 기대하는 호출부({end: 행})는 마지막 행 = 예전 값을 받는다.
+    out = []
+    for k, v in per_date.items():
+        acc, parts, i = 0.0, sorted(v["parts"]), 0
+        while i < len(parts):
+            f = parts[i][0]
+            while i < len(parts) and parts[i][0] == f:
+                acc += parts[i][1]
+                i += 1
+            out.append({"end": k, "val": acc, "available": f})
+    return sorted(out, key=lambda e: (e["available"], e["end"]))
 
 
 # 같은 항목의 **대체 태그**라 더하면 안 되는 EV 구성요소. 날짜마다 앞 태그 우선으로 하나만 쓴다.

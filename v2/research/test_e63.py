@@ -83,6 +83,22 @@ def run():
         check("총자산에 없는 결산일도 자본 결산일로 인정", bmh._near_period_end("0", "2026-06-30"))
     finally:
         bmh.concept = keep_c
+    # E65 시점 인식 합산: 구성요소가 늦게(비교 열로) 태깅돼도 먼저 공개된 구성요소 합은 그날부터 보인다
+    keep_c, keep_pe = bmh.concept, bmh._period_ends
+    facts = {"LongTermDebtNoncurrent": [{"end": "2025-12-31", "filed": "2026-01-29", "val": 58.0},
+                                        {"end": "2025-09-30", "filed": "2025-10-30", "val": 28.0}],
+             "LongTermDebtCurrent": [{"end": "2025-12-31", "filed": "2026-10-29", "val": 1.0},
+                                     {"end": "2025-09-30", "filed": "2025-10-30", "val": 0.8}]}
+    bmh.concept = lambda cik, tag, taxonomy="us-gaap": facts.get(tag, [])
+    bmh._period_ends = lambda cik: [_d(2025, 9, 30), _d(2025, 12, 31)]
+    try:
+        cs = bmh.component_sum("0", ["LongTermDebtNoncurrent", "LongTermDebtCurrent"])
+        check("E65 10-K 날부터 12-31 부분 합(58)", bmh.as_of(cs, "2026-02-01") == 58.0)
+        check("E65 늦은 구성요소 공개 뒤 완전한 합(59)", bmh.as_of(cs, "2026-11-01") == 59.0)
+        check("E65 결산일별 마지막 행 = 예전 값(합 59·최대 공시일)", {e["end"]: e for e in cs}["2025-12-31"]["available"] == "2026-10-29")
+        check("E65 10-K 전에는 9-30 값", bmh.as_of(cs, "2026-01-01") == 28.8)
+    finally:
+        bmh.concept, bmh._period_ends = keep_c, keep_pe
     check("newest_row 모든 행 오태깅 → None", bmh.newest_row([row("2025-01-01", "2024-05-01", 1)]) is None)
 
     # 결산일 ±7일 가드
@@ -113,6 +129,7 @@ MUTANTS = [
     ("자본 결산일 무시", "    for tag in (\"Assets\", \"StockholdersEquity\",", "    for tag in (\"Assets\","),
     ("instant_series 선제외 제거", "    rows = [e for e in entries if \"end\" in e and \"filed\" in e and \"start\" not in e and e[\"end\"] <= e[\"filed\"]]", "    rows = [e for e in entries if \"end\" in e and \"filed\" in e and \"start\" not in e]"),
     ("component_sum 가드 미적용", "        rows = [e for e in rows if _near_period_end(cik, e[\"end\"])]", "        rows = rows"),
+    ("E65 시점 합산 제거(마지막 행만)", "            out.append({\"end\": k, \"val\": acc, \"available\": f})", "            pass\n        out.append({\"end\": k, \"val\": acc, \"available\": f})"),
     ("근거 없을 때 막음", "        return True                      # 결산일 근거가 없으면 거르지 않는다", "        return False"),
 ]
 
