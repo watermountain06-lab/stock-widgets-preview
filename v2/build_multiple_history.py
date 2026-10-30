@@ -182,7 +182,10 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
 # 같은 (start, end, accn)의 상각을 더해 한 줄기 합산 시리즈로 만든다. Depreciation 태그는 10-K 연간(설비만)뿐이다.
 # (처음엔 두 태그를 구성요소로 더했다가 2023~24년이 이중 계상되고 2024 Q4가 음수가 됐다.)
 DDA_SPLIT_BY_CIK = {"0000002488": {"total": "OtherDepreciationAndAmortization", "add": "AmortizationOfIntangibleAssets",
-                                   "split_from": "2025-02-05"}}
+                                   "split_from": "2025-02-05"},
+                    # VRSK: DepreciationAndAmortization은 고정자산 감가상각뿐이고 무형자산 상각(TTM $64.1M)은 AmortizationOfIntangibleAssets로 따로 낸다 —
+                    # 합계 태그로 오인해 EBITDA에서 상각이 빠졌다(EV/EBITDA 17.64 → 16.98배, Codex r1 2026-10-30). 전 기간 같은 구조라 처음부터 더한다.
+                    "0001442145": {"total": "DepreciationAndAmortization", "add": "AmortizationOfIntangibleAssets", "split_from": "2000-01-01"}}
 
 
 def split_era_dda(cik):
@@ -1747,7 +1750,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001065088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EBAY: 1년 안 $1,599M(CP $750M·장기 유동 $850M 포함) + 장기 $5,134M = $6,733M(Q3 2026 10-Q) — 기본은 $5,989M(2026-10-30)
+DEBT_TOTAL_TAG = {"0001442145": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # VRSK: 1년 안 $257.7M(364일 텀론 $249.4M + 금융리스) + 장기 $4,215.8M(선순위채 8건 + 금융리스) = $4,473.5M(Q2 2026 10-Q, 2026-10-30)
+                  "0001065088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EBAY: 1년 안 $1,599M(CP $750M·장기 유동 $850M 포함) + 장기 $5,134M = $6,733M(Q3 2026 10-Q) — 기본은 $5,989M(2026-10-30)
                   "0000927066": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # DVA: 1년 안 $112.5M + 장기 $10,656.6M = $10,769.1M(금융리스 $151.6M 포함, Q3 2026 10-Q) — 기본은 장기만 잡고 금융리스를 또 더했다(2026-10-30)
                   "0001014473": ["SeniorNotesCurrent", "SeniorLongTermNotes"],   # VRSN: 1년 안 선순위 채권 + 장기 선순위 채권 = $1,785.9M(Q3 2026 10-Q, 7/20 상환 뒤 — 기본은 태그를 못 찾아 0, Codex r1 2026-10-29)
                   "0001130310": ["ShortTermBorrowings", "OtherLongTermDebtCurrent", "LongTermDebtNoncurrent"],   # CNP: 단기 0 + 1년 안 기타 1,106 + 장기 23,677(증권화 1,747 + 기타 21,930) = $24,783M(Q3 2026 10-Q — 기본은 장기만 $23,677M; 1년 안 증권화채 $120M은 회사 고유 태그 cnp:라 엔진이 못 읽어 빠진다, 0.5%, 2026-10-29)
@@ -2641,6 +2645,8 @@ HISTORY_START = {"GE": "2024-07-23",
                  # AMT: 인도 사업(ATC TIPL) 매각 완료 2024-09-12. 2024년 1·2분기는 인도 포함 값으로 처음 공시됐고, 계속사업 기준 분기·연간 재작성 값이
                  # 처음 함께 나온 것은 FY2024 10-K(2025-02-25)다 — 그날부터(WDC 방식, 2026-10-21). 그날 최근 4분기 합 = 2024년 계속사업 연간.
                  "AMT": "2025-02-25",
+                 # VRSK: 에너지(Wood Mackenzie) 중단사업 재작성 — 계속사업 연간이 처음 나온 FY2022 10-K(2023-02-28)부터. 그 전 최근 4분기 합은 에너지 포함 원공시와 섞였다(2021 Q4 매출 $229.9M, Codex r1 2026-10-30).
+                 "VRSK": "2023-02-28",
                  # NWSA: Foxtel 매각(DAZN, 2025-04-02 완료). 계속사업 기준 분기·연간 재작성 값이 처음 함께 나온 것은 FY2025 10-K(2025-08-06) — 그날부터(AMT 방식, 2026-10-30).
                  # 그 전 최근 4분기 합은 Foxtel 포함 원공시(FY2022 매출 $10,385M 대 재작성 FY2023 $8,012M)와 섞여 PSR이 싸게 나왔다.
                  "NWSA": "2025-08-06"}
