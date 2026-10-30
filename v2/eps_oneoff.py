@@ -411,7 +411,7 @@ def _judge(ticker, rec, eps_rows, E, cap):
         ni = net_income_ttm(ticker, E, cap)
         if ni is None:
             _warn(f"{ticker} {E}: 최근 4분기 순이익 없음 — 매출 1% 바닥 없이 판정")
-        elif abs(ni) < LOW_MARGIN * abs(rev):
+        elif rev > 0 and ni / rev < LOW_MARGIN:   # 부호를 살린 순이익률(적자 −5%도 2% 미만 — Codex r16)
             floor_usd = REV_FLOOR * abs(rev)     # 이익이 0 근처일 때만(r16)
     # 반복 셈(r15, 2026-10-30 사용자 결정): 그 분기 그 범주 항목의 합이 문턱(E의 |G| 10%, 그리고 매출 1%)을 넘을 때만 1번.
     # 예전에는 크기를 보지 않아 매 분기 소액 IPR&D·처분 손익이 큰 일회성까지 반복으로 만들었다(MRK IPR&D $13.8B, E54 입구 선별).
@@ -454,8 +454,14 @@ def _flow_ttm_series(ticker, tags, cap):
         cik = feh.CIKS.get(ticker)
         ser = None
         if cik:
-            _, rows = bmh.pick_tag(cik, list(tags))
-            rows = [e for e in rows if e.get("filed", "") <= cap]
+            # cap 거르기는 pick_tag **안의** 태그 우선 선택(_prefer_total_revenue 등)보다 먼저여야 한다 — 뒤에 거르면 cap 뒤 공시를 보고
+            # 지운 과거 행이 되살아나지 않는다(Codex r16). pick_tag가 읽는 concept()를 이 호출 동안만 cap으로 감싼다.
+            _concept = bmh.concept
+            bmh.concept = lambda c, tag, taxonomy="us-gaap": [e for e in _concept(c, tag, taxonomy) if e.get("filed", "") <= cap]
+            try:
+                _, rows = bmh.pick_tag(cik, list(tags))
+            finally:
+                bmh.concept = _concept
             if rows:
                 ser = [e for e in bmh.ttm_series(bmh.quarterly_flow(rows, ticker)) if e["available"] <= cap]
         _cache[key] = ser

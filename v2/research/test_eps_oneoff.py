@@ -138,6 +138,12 @@ def run():
         eo.net_income_ttm = lambda t, e, c: 50000.0             # 순이익률 5% ≥ 2% → 바닥 없음(r16, COR형)
         setup([item(E, eps=0.30, pre=9000.0)])
         check("r16 순이익률 2% 이상이면 매출 바닥 없음 → 세전 $9,000도 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+        eo.net_income_ttm = lambda t, e, c: -50000.0            # 순손실 −5% < 2% → 바닥 적용(r16, Codex)
+        setup([item(E, eps=0.30, pre=9000.0)])
+        check("r16 적자(순이익률 −5%)면 바닥 적용 → 세전 $9,000 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
+        eo.net_income_ttm = lambda t, e, c: 20000.0             # 정확히 2% → 바닥 없음
+        setup([item(E, eps=0.30, pre=9000.0)])
+        check("r16 순이익률 정확히 2%면 바닥 없음", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
         eo.net_income_ttm = lambda t, e, c: None
         setup([item(E, eps=0.30, pre=9000.0)])
         check("r16 순이익 없으면 바닥 없이 판정", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
@@ -150,14 +156,15 @@ def run():
     check("r16 소액 항목 E 포함 5번 → 반복 아님 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
     # r15 실제 매출 경로(revenue_ttm): cap 뒤 재작성은 분기화 전에 버린다(Codex r15 필수)
     import fetch_eps_history as _feh
-    _pt, _ck, _rl = bmh.pick_tag, dict(_feh.CIKS), set(_feh.RESTATED_LATEST)
+    _pt, _ck, _rl = bmh.concept, dict(_feh.CIKS), set(_feh.RESTATED_LATEST)
     try:
         _feh.CIKS[T] = "0000000000"
         _feh.RESTATED_LATEST.add(T)
         _qs = [("2024-01-01", "2024-03-31"), ("2024-04-01", "2024-06-30"), ("2024-07-01", "2024-09-30"), ("2024-10-01", "2024-12-31")]
         _rv = [{"start": a_, "end": b_, "val": 100.0, "filed": "2025-02-01", "form": "10-K"} for a_, b_ in _qs] + \
               [{"start": a_, "end": b_, "val": 200.0, "filed": "2026-02-01", "form": "10-K"} for a_, b_ in _qs]
-        bmh.pick_tag = lambda cik, names, taxonomy="us-gaap": ("Revenues", [dict(x) for x in _rv])
+        # concept 단계에서 주입 — pick_tag 안의 태그 선택까지 실제 경로로(cap은 그보다 먼저 걸려야 한다, Codex r16)
+        bmh.concept = lambda cik, tag, taxonomy="us-gaap": [dict(x) for x in _rv] if tag == "Revenues" else []
         eo.reset()
         check("r15 매출 TTM은 cap 당시 값(재작성 전 400)", approx(eo.revenue_ttm(T, "2024-12-31", "2025-03-01"), 400.0))
         eo.reset()
@@ -166,7 +173,7 @@ def run():
         eo.reset()
         check("r15 CIK 없으면 매출 None(바닥 없이 판정)", eo.revenue_ttm(T, "2024-12-31", "2026-03-01") is None)
     finally:
-        bmh.pick_tag = _pt
+        bmh.concept = _pt
         _feh.CIKS.clear(); _feh.CIKS.update(_ck)
         _feh.RESTATED_LATEST.clear(); _feh.RESTATED_LATEST.update(_rl)
         eo.reset()
@@ -460,10 +467,11 @@ def run():
 MUTANTS = [
     ("r15 반복 셈 크기 무시", "        if abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and (e_ or u_):", "        if True:"),
     ("r15 반복 셈 매출 바닥 제거", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and"),
-    ("r15 매출 cap 선필터 제거", "            rows = [e for e in rows if e.get(\"filed\", \"\") <= cap]\n", ""),
+    ("r15 매출 cap 선필터 제거", "[e for e in _concept(c, tag, taxonomy) if e.get(\"filed\", \"\") <= cap]", "_concept(c, tag, taxonomy)"),
     ("r16 만성 6번 규칙 제거", "REPEAT_PRESENT = 6", "REPEAT_PRESENT = 99"),
     ("r16 만성 문턱 6 → 5", "REPEAT_PRESENT = 6", "REPEAT_PRESENT = 5"),
-    ("r16 저마진 조건 제거(항상 바닥)", "        elif abs(ni) < LOW_MARGIN * abs(rev):", "        elif True:"),
+    ("r16 저마진 조건 제거(항상 바닥)", "        elif rev > 0 and ni / rev < LOW_MARGIN:", "        elif True:"),
+    ("r16 순이익률 절댓값", "        elif rev > 0 and ni / rev < LOW_MARGIN:", "        elif abs(ni) < LOW_MARGIN * abs(rev):"),
     ("r16 순이익 없으면 바닥", "        if ni is None:\n", "        if False:\n"),
     ("r15 적용 매출 바닥 제거", "    if abs(sum(it[\"adj_pretax\"] for it in cand)) < floor_usd:", "    if False:"),
     ("r15 반복 셈 분기 합 대신 항목별", "                s_[0] += adj_eps_gaap(it, cap) / _split_ratio(it[\"filed\"], sp)", "                s_[0] = max(s_[0], adj_eps_gaap(it, cap) / _split_ratio(it[\"filed\"], sp))"),
