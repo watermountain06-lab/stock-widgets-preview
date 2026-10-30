@@ -266,8 +266,9 @@ def _split_ratio(filed, sp):
 
 
 def item_tax(it, cap):
-    """그 cap에서 쓸 adj_tax. 비과세(순서 4)가 cap 뒤에 확인됐으면 그 전 계산은 법정 21% 추정(설계 §5 — tax_source_filed)."""
-    if it["tax_basis"] == "nontaxable" and it.get("tax_source_filed", "") > cap:
+    """그 cap에서 쓸 adj_tax. 세금 근거가 항목보다 늦게 공시됐고(tax_source_filed) 그날이 cap 뒤면 그 전 계산은 법정 21% 추정
+    (설계 §5). 예전에는 비과세(순서 4)만 검사해, 나중 재작성표의 공시 세금(JNJ 2022 소송 — 2023-08-30 표)이 과거 cap에 새어 들어갔다(Codex E54 입력 검토)."""
+    if it.get("tax_source_filed", "") > cap:
         return STATUTORY * it["adj_pretax"]
     return it["adj_tax"]
 

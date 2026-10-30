@@ -181,6 +181,9 @@ def run():
         eo.reset()
     setup([item(E, eps=0.30), item(w[1], eps=0.30, id="o1"), item(w[1], eps=-0.25, id="o1b", desc="o1b"), item(w[2], eps=0.25, id="o2")])
     check("r15 같은 분기 상쇄(+0.30 −0.25 = 0.05)는 안 셈 → E·w2 2번 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+    it = item(E, eps=None, pre=1000.0, tax=300.0, shares=1000, tax_basis="disclosed", tax_source_filed="2027-06-01")
+    check("늦게 공시된 세금(disclosed)은 그 전 cap에서 21%", approx(eo.adj_eps_gaap(it, CAP), 0.79))
+    check("늦게 공시된 세금은 공시 뒤 cap에서 공시값", approx(eo.adj_eps_gaap(it, "2027-07-01"), 0.70))
     setup([item(E, eps=0.30, out_of_scope_mixed=True)])
     check("out_of_scope_mixed는 적용 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
     setup([item(E, eps=0.30)], scan_q=[q for q in QS if q != w[3]])
@@ -467,6 +470,7 @@ def run():
 
 
 MUTANTS = [
+    ("늦은 세금 검사를 비과세만", "    if it.get(\"tax_source_filed\", \"\") > cap:", "    if it[\"tax_basis\"] == \"nontaxable\" and it.get(\"tax_source_filed\", \"\") > cap:"),
     ("r15 반복 셈 크기 무시", "        if abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and (e_ or u_):", "        if True:"),
     ("r15 반복 셈 매출 바닥 제거", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and"),
     ("r15 매출 cap 선필터 제거", "[e for e in _concept(c, tag, taxonomy) if e.get(\"filed\", \"\") <= cap]", "_concept(c, tag, taxonomy)"),
