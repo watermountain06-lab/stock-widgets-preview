@@ -8,10 +8,10 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 238장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP"
+   "detail": "승인 목록에 없는 판정 코드 해시 246장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP"
   }
  ],
- "detail": "승인 목록에 없는 판정 코드 해시 238장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP",
+ "detail": "승인 목록에 없는 판정 코드 해시 246장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP",
  "verdict": null,
  "nbar": null,
  "coverage": 0.8689262284239894,
@@ -21,11 +21,11 @@
   "저평가": 0.0022089348909883257,
   "적정~저평가": 0.09233336035109738,
   "적정": 0.031719668937883534,
-  "적정~고평가": 0.37044885239537023,
-  "고평가": 0.3722154118486503,
-  "카드 없음": 0.10996668968897742,
+  "적정~고평가": 0.36887105033707696,
+  "고평가": 0.3737932139069436,
+  "카드 없음": 0.10738924704133716,
   "판정 보류": 0.021107081887033127,
-  "그 밖 제외": 0.0,
+  "그 밖 제외": 0.0025774426476402636,
   "분류 안 됨": 0
  },
  "top10": [
@@ -155,12 +155,12 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 250,
+  "cardsMatched": 258,
   "cardsUsed": 245,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
-   "날짜 불일치": 0,
+   "날짜 불일치": 8,
    "판정 보류": 5
   }
  },
@@ -550,6 +550,15 @@
    "excluded": []
   },
   {
+   "card": "CNP",
+   "verdict": "고평가",
+   "n": null,
+   "date": "2026-10-29",
+   "excluded": [
+    "날짜 불일치"
+   ]
+  },
+  {
    "card": "COF",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -618,6 +627,15 @@
    "n": -3.0,
    "date": "2026-10-28",
    "excluded": []
+  },
+  {
+   "card": "CTSH",
+   "verdict": "저평가",
+   "n": null,
+   "date": "2026-10-29",
+   "excluded": [
+    "날짜 불일치"
+   ]
   },
   {
    "card": "CVS",
@@ -956,6 +974,15 @@
    "excluded": []
   },
   {
+   "card": "HUBB",
+   "verdict": "적정~고평가",
+   "n": null,
+   "date": "2026-10-29",
+   "excluded": [
+    "날짜 불일치"
+   ]
+  },
+  {
    "card": "HWM",
    "verdict": "고평가",
    "n": -3.0,
@@ -1089,6 +1116,15 @@
    "excluded": []
   },
   {
+   "card": "LII",
+   "verdict": "적정~저평가",
+   "n": null,
+   "date": "2026-10-29",
+   "excluded": [
+    "날짜 불일치"
+   ]
+  },
+  {
    "card": "LIN",
    "verdict": "고평가",
    "n": -4.0,
@@ -1143,6 +1179,15 @@
    "n": -3.0,
    "date": "2026-10-28",
    "excluded": []
+  },
+  {
+   "card": "MAS",
+   "verdict": "적정",
+   "n": null,
+   "date": "2026-10-29",
+   "excluded": [
+    "날짜 불일치"
+   ]
   },
   {
    "card": "MCD",
@@ -1497,6 +1542,15 @@
    "excluded": []
   },
   {
+   "card": "PODD",
+   "verdict": "적정",
+   "n": null,
+   "date": "2026-10-29",
+   "excluded": [
+    "날짜 불일치"
+   ]
+  },
+  {
    "card": "PPG",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -1617,8 +1671,8 @@
   },
   {
    "card": "SO",
-   "verdict": "적정~고평가",
-   "n": -2.0,
+   "verdict": "고평가",
+   "n": -3.0,
    "date": "2026-10-28",
    "excluded": []
   },
@@ -1656,6 +1710,15 @@
    "n": -2.0,
    "date": "2026-10-28",
    "excluded": []
+  },
+  {
+   "card": "TDY",
+   "verdict": "적정~고평가",
+   "n": null,
+   "date": "2026-10-29",
+   "excluded": [
+    "날짜 불일치"
+   ]
   },
   {
    "card": "TEL",
@@ -1814,6 +1877,15 @@
    "excluded": []
   },
   {
+   "card": "VRSN",
+   "verdict": "고평가",
+   "n": null,
+   "date": "2026-10-29",
+   "excluded": [
+    "날짜 불일치"
+   ]
+  },
+  {
    "card": "VRT",
    "verdict": "고평가",
    "n": -3.0,
@@ -1937,8 +2009,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-29T19:54:29Z",
- "fetchedAt": "2026-10-29T19:54:29Z",
+ "runAt": "2026-10-30T02:20:52Z",
+ "fetchedAt": "2026-10-30T02:20:52Z",
  "inputHash": {
   "xlsx": "2f15378289e03f25dc5f0ff84ba8563bbdcf2525a74d003f329302222bb83362",
   "alias": "cd884e524b4f6045",
@@ -1953,7 +2025,7 @@
   ],
   "S": "2026-10-28"
  },
- "runId": "40944222633.1",
+ "runId": "40991120284.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -2021,6 +2093,7 @@
     "CL",
     "CME",
     "CMI",
+    "CNP",
     "COP",
     "COR",
     "COST",
@@ -2030,6 +2103,7 @@
     "CSCO",
     "CSX",
     "CTAS",
+    "CTSH",
     "CVS",
     "CVX",
     "DAL",
@@ -2076,6 +2150,7 @@
     "HLT",
     "HOOD",
     "HPE",
+    "HUBB",
     "HWM",
     "IBM",
     "ICE",
@@ -2094,6 +2169,7 @@
     "KMI",
     "KO",
     "LDOS",
+    "LII",
     "LIN",
     "LITE",
     "LLY",
@@ -2102,6 +2178,7 @@
     "LRCX",
     "MA",
     "MAR",
+    "MAS",
     "MCD",
     "MCHP",
     "MCK",
@@ -2151,6 +2228,7 @@
     "PLTR",
     "PM",
     "PNW",
+    "PODD",
     "PPG",
     "PSX",
     "PWR",
@@ -2173,6 +2251,7 @@
     "SYK",
     "T",
     "TDG",
+    "TDY",
     "TEL",
     "TER",
     "TGT",
@@ -2193,6 +2272,7 @@
     "VEEV",
     "VLO",
     "VMC",
+    "VRSN",
     "VRT",
     "VRTX",
     "VZ",
