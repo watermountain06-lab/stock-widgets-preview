@@ -54,6 +54,25 @@ def run():
     finally:
         bmh.wa_quarters = keep
 
+    # 연결 경로: instant_series 오태깅 선제외 — 같은 결산일의 잘못된 첫 공시 뒤 정상 공시가 살아남는다
+    ent = [{"end": "2024-12-31", "filed": "2024-05-01", "val": 1.0, "form": "10-Q"},
+           {"end": "2024-12-31", "filed": "2025-02-20", "val": 5.0, "form": "10-K"}]
+    ser = bmh.instant_series(ent, "ZZZ", False)
+    check("instant_series 오태깅 첫 공시 대신 정상 공시", [e["val"] for e in ser] == [5.0])
+    # 연결 경로: component_sum이 분기 중간 날짜 행을 실제로 뺀다
+    keep_c, keep_pe = bmh.concept, bmh._period_ends
+    from datetime import date as _d
+    facts = {"LongTermDebt": [{"end": "2024-03-31", "filed": "2024-05-01", "val": 40.0}],
+             "CommercialPaper": [{"end": "2024-05-15", "filed": "2024-05-17", "val": 3.6}]}
+    bmh.concept = lambda cik, tag, taxonomy="us-gaap": facts.get(tag, [])
+    bmh._period_ends = lambda cik: [_d(2024, 3, 31), _d(2024, 6, 30)]
+    try:
+        cs = bmh.component_sum("0", ["LongTermDebt", "CommercialPaper"])
+        check("component_sum 분기 중간 단독 행 제외 → 총계 40", bmh.as_of(cs, "2024-05-20") == 40.0)
+    finally:
+        bmh.concept, bmh._period_ends = keep_c, keep_pe
+    check("newest_row 모든 행 오태깅 → None", bmh.newest_row([row("2025-01-01", "2024-05-01", 1)]) is None)
+
     # 결산일 ±7일 가드
     keep_pe = bmh._period_ends
     from datetime import date
@@ -76,6 +95,8 @@ MUTANTS = [
     ("공개 전 행 포함", "    while i < len(series) and series[i][\"available\"] <= day:", "    while i < len(series):"),
     ("check_shares 목록 마지막", "        p = newest_row([x for x in pts if x[\"available\"] <= day])", "        p = [x for x in pts if x[\"available\"] <= day][-1]"),
     ("가드 문턱 넓힘", "def _near_period_end(cik, end, days=7):", "def _near_period_end(cik, end, days=60):"),
+    ("instant_series 선제외 제거", "    rows = [e for e in entries if \"end\" in e and \"filed\" in e and \"start\" not in e and e[\"end\"] <= e[\"filed\"]]", "    rows = [e for e in entries if \"end\" in e and \"filed\" in e and \"start\" not in e]"),
+    ("component_sum 가드 미적용", "        rows = [e for e in rows if _near_period_end(cik, e[\"end\"])]", "        rows = rows"),
     ("근거 없을 때 막음", "        return True                      # 결산일 근거가 없으면 거르지 않는다", "        return False"),
 ]
 

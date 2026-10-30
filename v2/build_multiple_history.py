@@ -1465,6 +1465,8 @@ def check_shares(points, cik, ticker):
     out, dq, prev = [], [], None
     for day in days:
         p = newest_row([x for x in pts if x["available"] <= day])   # as_of와 같은 규칙(결산일이 가장 늦은 행 — 같은 공시일의 분기 WA보다 표지, CRWD 2025-06, E63)
+        if p is None:
+            continue                     # 그날까지 공개된 행이 모두 오태깅(결산일 > 공개일)
         cand = [w for w in wq if w["filed"] <= day]
         note = None
         wa_q = None
@@ -2794,10 +2796,16 @@ def main():
         if not common:
             return None
         end = max(common)
-        lead = max(newest_row(v)["end"] for v in parts.values())
+        _nw = [newest_row(v) for v in parts.values()]
+        if None in _nw:
+            return None
+        lead = max(x["end"] for x in _nw)
         if (date.fromisoformat(lead) - date.fromisoformat(end)).days > MAX_PAIR_LAG_DAYS:
             return None
-        o, tx, pt = (newest_row([e for e in parts[n] if e["end"] == end])["val"] for n in ("opinc", "tax", "pretax"))
+        _at = [newest_row([e for e in parts[n] if e["end"] == end]) for n in ("opinc", "tax", "pretax")]
+        if None in _at:
+            return None
+        o, tx, pt = (x["val"] for x in _at)
         # 일회성 손익(v2/eps_oneoff.json, 안건 E54)이 그 결산일에 적용됐으면 세율만 조정하고(영업이익은 그대로 — 설계 §12),
         # 양수 검사는 조정 뒤 세전이익으로 한다. 적용된 항목이 없으면 아래 지금 코드 그대로.
         _ea = None
@@ -2917,6 +2925,8 @@ def main():
         if not ea or not eb:
             return None, None
         na, nb = newest_row(ea), newest_row(eb)    # 목록 마지막이 아니라 결산일이 가장 늦은 행(E63)
+        if na is None or nb is None:
+            return None, None
         if na["end"] != nb["end"]:
             # 한쪽이 앞서 있으면 둘 다 가진 가장 최근 분기로 맞춘다
             common = {x["end"] for x in ea} & {x["end"] for x in eb}
@@ -2934,6 +2944,8 @@ def main():
                 return None, None
             na = newest_row([x for x in ea if x["end"] == end])
             nb = newest_row([x for x in eb if x["end"] == end])
+            if na is None or nb is None:
+                return None, None
         return na["val"], nb["val"]
 
     def fcf(d):
@@ -2958,6 +2970,8 @@ def main():
         if not rv_s:
             return None
         rv = newest_row(rv_s)    # 목록 마지막이 아니라 결산일이 가장 늦은 행(E63)
+        if rv is None:
+            return None
         rv_end = date.fromisoformat(rv["end"])
         for tags in (["NetIncomeLoss"], ["ProfitLoss"], ["NetIncomeLossAvailableToCommonStockholdersBasic"]):
             _, nr = pick_tag(cik, tags)
