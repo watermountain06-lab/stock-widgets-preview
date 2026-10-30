@@ -1750,7 +1750,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001442145": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # VRSK: 1년 안 $257.7M(364일 텀론 $249.4M + 금융리스) + 장기 $4,215.8M(선순위채 8건 + 금융리스) = $4,473.5M(Q2 2026 10-Q, 2026-10-30)
+DEBT_TOTAL_TAG = {"0001711269": [("ShortTermBankLoansAndNotesPayable", "CommercialPaper"), "TransfersAccountedForAsSecuredBorrowingsAssociatedLiabilitiesCarryingAmount", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # EVRG: 어음·CP $2,331.0M + 매출채권 담보차입 $356.0M + 1년 안 장기부채 $1,495.3M(전환사채 포함) + 장기 $12,315.7M = $16,498.0M(Q2 2026 10-Q, 증권화 채권 $288.1M은 장기부채 안, 2026-10-30). 어음·CP 줄이 없는 분기는 CommercialPaper(튜플 — 이력 2025-12가 $13,487.9M으로 덜 잡혔다, Codex r1)
+                  "0001442145": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # VRSK: 1년 안 $257.7M(364일 텀론 $249.4M + 금융리스) + 장기 $4,215.8M(선순위채 8건 + 금융리스) = $4,473.5M(Q2 2026 10-Q, 2026-10-30)
                   "0001065088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EBAY: 1년 안 $1,599M(CP $750M·장기 유동 $850M 포함) + 장기 $5,134M = $6,733M(Q3 2026 10-Q) — 기본은 $5,989M(2026-10-30)
                   "0000927066": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # DVA: 1년 안 $112.5M + 장기 $10,656.6M = $10,769.1M(금융리스 $151.6M 포함, Q3 2026 10-Q) — 기본은 장기만 잡고 금융리스를 또 더했다(2026-10-30)
                   "0001014473": ["SeniorNotesCurrent", "SeniorLongTermNotes"],   # VRSN: 1년 안 선순위 채권 + 장기 선순위 채권 = $1,785.9M(Q3 2026 10-Q, 7/20 상환 뒤 — 기본은 태그를 못 찾아 0, Codex r1 2026-10-29)
@@ -2647,6 +2648,8 @@ HISTORY_START = {"GE": "2024-07-23",
                  "AMT": "2025-02-25",
                  # VRSK: 에너지(Wood Mackenzie) 중단사업 재작성 — 계속사업 연간이 처음 나온 FY2022 10-K(2023-02-28)부터. 그 전 최근 4분기 합은 에너지 포함 원공시와 섞였다(2021 Q4 매출 $229.9M, Codex r1 2026-10-30).
                  "VRSK": "2023-02-28",
+                 # EVRG: 2021년 1~3분기 장기부채가 SEC 요약 자료에 없다(차원·고유 태그) — 차입금이 $1.0~1.7B로만 잡혀 EV/EBITDA가 6.6배로 낮게 나왔다. 장기부채가 다시 잡히는 FY2021 10-K(2022-02-25)부터(Codex r1, 2026-10-30).
+                 "EVRG": "2022-02-25",
                  # NWSA: Foxtel 매각(DAZN, 2025-04-02 완료). 계속사업 기준 분기·연간 재작성 값이 처음 함께 나온 것은 FY2025 10-K(2025-08-06) — 그날부터(AMT 방식, 2026-10-30).
                  # 그 전 최근 4분기 합은 Foxtel 포함 원공시(FY2022 매출 $10,385M 대 재작성 FY2023 $8,012M)와 섞여 PSR이 싸게 나왔다.
                  "NWSA": "2025-08-06"}

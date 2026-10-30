@@ -11266,6 +11266,45 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "EVRG",
+      "name": "에버지",
+      "sector": "유틸리티 — 캔자스·미주리 규제 전력(발전·송배전)",
+      "href": "EVRG_full_widget.html",
+      "cardRank": 268,
+      "cardAsOf": "2026-10-29",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-29 ≠ 홈 가격 세션 2026-10-28, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 230567172,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0001711269-26-000100 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 41.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-29",
+        "qualityFlags": []
+      }
     }
   ]
 }
