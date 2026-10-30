@@ -11186,6 +11186,45 @@
         "valuationAsOf": "2026-10-30",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "FFIV",
+      "name": "F5",
+      "sector": "정보기술 — 애플리케이션 보안·전송(BIG-IP·NGINX·분산 클라우드)",
+      "href": "FFIV_full_widget.html",
+      "cardRank": 266,
+      "cardAsOf": "2026-10-29",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-29 ≠ 홈 가격 세션 2026-10-28, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 56627182,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-03",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0001048695-26-000067 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 69.9,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-29",
+        "qualityFlags": []
+      }
     }
   ]
 }
