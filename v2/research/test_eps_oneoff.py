@@ -122,9 +122,10 @@ def run():
     check("r15 문턱(|G| 2.00의 10%) 아래 0.19는 안 셈 → 2번 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
     setup([item(E, eps=0.30), item(w[1], eps=0.15, id="o1"), item(w[1], eps=0.10, id="o1b", desc="o1b"), item(w[2], eps=0.25, id="o2")])
     check("r15 같은 분기 같은 범주는 합으로 셈(0.15 + 0.10) → 3번 → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
-    _rev = eo.revenue_ttm
+    _rev, _ni = eo.revenue_ttm, eo.net_income_ttm
     try:
         eo.revenue_ttm = lambda t, e, c: 1e6                    # 매출 1% 바닥 = $10,000
+        eo.net_income_ttm = lambda t, e, c: 1000.0              # 순이익률 0.1% < 2% → 바닥 적용(r16)
         setup([item(E, eps=0.30, pre=9000.0)])
         check("r15 매출 1% 바닥 아래(세전 $9,000) → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
         setup([item(E, eps=0.30, pre=11000.0)])
@@ -134,8 +135,19 @@ def run():
         check("r15 반복 셈도 매출 바닥 — 세전 $5,000 분기는 안 셈 → 3번 → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
         setup([item(E, eps=0.30, pre=20000.0), item(w[1], eps=0.25, pre=5000.0, id="o1"), item(w[2], eps=0.25, pre=20000.0, id="o2")])
         check("r15 매출 바닥 아래 분기 빼면 2번 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+        eo.net_income_ttm = lambda t, e, c: 50000.0             # 순이익률 5% ≥ 2% → 바닥 없음(r16, COR형)
+        setup([item(E, eps=0.30, pre=9000.0)])
+        check("r16 순이익률 2% 이상이면 매출 바닥 없음 → 세전 $9,000도 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+        eo.net_income_ttm = lambda t, e, c: None
+        setup([item(E, eps=0.30, pre=9000.0)])
+        check("r16 순이익 없으면 바닥 없이 판정", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
     finally:
-        eo.revenue_ttm = _rev
+        eo.revenue_ttm, eo.net_income_ttm = _rev, _ni
+    # r16 만성 항목: 크기와 상관없이 8분기 중 6번 이상이면 반복
+    setup([item(E, eps=0.30)] + [item(w[k], eps=0.0001, id=f"c{k}") for k in range(1, 6)])
+    check("r16 소액 항목 E 포함 6번 → 반복 → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
+    setup([item(E, eps=0.30)] + [item(w[k], eps=0.0001, id=f"c{k}") for k in range(0, 4)])   # 구성 4분기(w4~w7) 밖 4번 + E
+    check("r16 소액 항목 E 포함 5번 → 반복 아님 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
     # r15 실제 매출 경로(revenue_ttm): cap 뒤 재작성은 분기화 전에 버린다(Codex r15 필수)
     import fetch_eps_history as _feh
     _pt, _ck, _rl = bmh.pick_tag, dict(_feh.CIKS), set(_feh.RESTATED_LATEST)
@@ -449,6 +461,10 @@ MUTANTS = [
     ("r15 반복 셈 크기 무시", "        if abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and (e_ or u_):", "        if True:"),
     ("r15 반복 셈 매출 바닥 제거", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and"),
     ("r15 매출 cap 선필터 제거", "            rows = [e for e in rows if e.get(\"filed\", \"\") <= cap]\n", ""),
+    ("r16 만성 6번 규칙 제거", "REPEAT_PRESENT = 6", "REPEAT_PRESENT = 99"),
+    ("r16 만성 문턱 6 → 5", "REPEAT_PRESENT = 6", "REPEAT_PRESENT = 5"),
+    ("r16 저마진 조건 제거(항상 바닥)", "        elif abs(ni) < LOW_MARGIN * abs(rev):", "        elif True:"),
+    ("r16 순이익 없으면 바닥", "        if ni is None:\n", "        if False:\n"),
     ("r15 적용 매출 바닥 제거", "    if abs(sum(it[\"adj_pretax\"] for it in cand)) < floor_usd:", "    if False:"),
     ("r15 반복 셈 분기 합 대신 항목별", "                s_[0] += adj_eps_gaap(it, cap) / _split_ratio(it[\"filed\"], sp)", "                s_[0] = max(s_[0], adj_eps_gaap(it, cap) / _split_ratio(it[\"filed\"], sp))"),
     ("반복 셈 3 → 4", "REPEAT_MIN = 3", "REPEAT_MIN = 4"),
