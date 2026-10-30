@@ -1381,7 +1381,8 @@ def share_adjustments(ticker):
 
 
 def instant_series(entries, ticker, is_share_count):
-    rows = [e for e in entries if "end" in e and "filed" in e and "start" not in e]
+    # 결산일이 공시일보다 늦은 행(오태깅)은 결산일별 처음 공시를 고르기 **전에** 버린다 — 뒤에 나온 정상 행이 살아남게(component_sum과 같은 순서, E63 Codex)
+    rows = [e for e in entries if "end" in e and "filed" in e and "start" not in e and e["end"] <= e["filed"]]
     rows = feh.dedup_earliest_filed_instant(rows) if hasattr(feh, "dedup_earliest_filed_instant") else rows
     best = {}
     for e in rows:
@@ -1463,7 +1464,7 @@ def check_shares(points, cik, ticker):
     days = sorted({p["available"] for p in pts} | {w["filed"] for w in wq if w["filed"] >= pts[0]["available"]})
     out, dq, prev = [], [], None
     for day in days:
-        p = [x for x in pts if x["available"] <= day][-1]   # as_of와 같은 동률 규칙(목록 뒤쪽 — CRWD 2025-06 정정, Fable)
+        p = newest_row([x for x in pts if x["available"] <= day])   # as_of와 같은 규칙(결산일이 가장 늦은 행 — 같은 공시일의 분기 WA보다 표지, CRWD 2025-06, E63)
         cand = [w for w in wq if w["filed"] <= day]
         note = None
         wa_q = None
@@ -1630,6 +1631,31 @@ def days_between_safe(e):
         return -1
 
 
+_PERIOD_ENDS = {}
+
+
+def _period_ends(cik):
+    """그 회사 재무상태표 결산일(총자산 Assets, 없으면 자본 StockholdersEquity의 시점 행 결산일) — component_sum 날짜 가드용."""
+    if cik not in _PERIOD_ENDS:
+        ends = set()
+        for tag in ("Assets", "StockholdersEquity"):
+            ends = {date.fromisoformat(e["end"]) for e in concept(cik, tag) if "end" in e and "start" not in e}
+            if ends:
+                break
+        _PERIOD_ENDS[cik] = sorted(ends)
+    return _PERIOD_ENDS[cik]
+
+
+def _near_period_end(cik, end, days=7):
+    import bisect
+    ends = _period_ends(cik)
+    if not ends:
+        return True                      # 결산일 근거가 없으면 거르지 않는다
+    d = date.fromisoformat(end)
+    i = bisect.bisect_left(ends, d)
+    return any(abs((ends[j] - d).days) <= days for j in (i - 1, i) if 0 <= j < len(ends))
+
+
 def component_sum(cik, tags):
     """구성요소 태그들을 **더해서** 하나의 시점 시리즈로 만든다.
 
@@ -1644,6 +1670,9 @@ def component_sum(cik, tags):
         # 결산일이 공시일보다 늦은 행(만기일·오태깅 — GD 2012-12-31 현금을 2012-05-01 10-Q에)은 버린다. 같은 결산일의 가장 먼저 공시된 행을
         # 고르기 전에 걸러야 뒤에 나온 정상 행(GD 10-K 3,296)이 살아남는다(Fable r3, 2026-10-25).
         rows = [e for e in concept(cik, tag) if "end" in e and "filed" in e and "start" not in e and e["end"] <= e["filed"]]
+        # 재무상태표 결산일 ±7일 밖 날짜(분기 중간 거래일·분사일 단독 태그 행 — JNJ CommercialPaper 2024-05-15 $3.6B, VMC 2022-08-31)는
+        # 그 항목의 총계가 아니다. 결산일이 늦다는 이유만으로 분기말 총계를 이기지 않게 버린다(안건 E63, Codex·Fable 2026-10-29).
+        rows = [e for e in rows if _near_period_end(cik, e["end"])]
         best = {}
         for e in rows:
             if e["end"] not in best or e["filed"] < best[e["end"]]["filed"]:
@@ -2517,26 +2546,36 @@ def check_fresh(series, last_day, max_lag_days=200):
     return f"  ← ⚠ {lag}일 뒤처짐" if lag > max_lag_days else ""
 
 
+def newest_row(rows):
+    """공개된 행들 가운데 **결산일이 가장 늦은 행**(같은 결산일이면 늦게 공개된 정정값, 그다음 목록 순서) — DCF `build_dcf.newest`와 같은 규칙.
+    결산일이 공개일보다 늦은 행은 오태깅이라 고르지 않는다. 결산일이 없는 행(end 없음)은 가장 이른 결산일로 본다."""
+    best = None
+    for i, e in enumerate(rows):
+        if e.get("end") and e["end"] > e["available"]:
+            continue
+        k = (e.get("end") or "", e["available"], i)
+        if best is None or k > best[0]:
+            best = (k, e)
+    return best[1] if best else None
+
+
 def as_of_entry(series, day):
-    """그날까지 공개돼 있던 가장 최근 행(as_of와 같은 동률 규칙 — 목록 뒤쪽)."""
-    row = None
-    for e in series:
-        if e["available"] <= day:
-            row = e
-        else:
-            break
-    return row
+    """그날까지 공개돼 있던 행 가운데 결산일이 가장 늦은 행(newest_row). 시리즈는 공개일 순서다.
+
+    예전에는 공개일 순서의 마지막 원소를 골라, 옛 결산일이 나중 공시에서 처음 나오면(분사·신규 상장의 분사 전 비교 열,
+    분기 중간 날짜 단독 태그 행) 그 옛 값이 그날의 최신 값을 덮었다 — GEHC 2023-07~2024-04 자본 2022-06-30 $17.1B가
+    최신 자본을 덮어 PBR 이력이 절반으로, VMC 차입금 CommercialPaper 2022-08-31 단독 행이 분기말 총 차입금 $4.19B를
+    125거래일 덮었다(안건 E63, Codex·Fable 2026-10-29). DCF는 2026-10-25에 같은 규칙으로 고쳤다."""
+    i = 0
+    while i < len(series) and series[i]["available"] <= day:
+        i += 1
+    return newest_row(series[:i])
 
 
 def as_of(series, day):
-    """그날까지 공개돼 있던 가장 최근 값."""
-    val = None
-    for e in series:
-        if e["available"] <= day:
-            val = e["val"]
-        else:
-            break
-    return val
+    """그날까지 공개돼 있던 가장 최근 결산일의 값(as_of_entry)."""
+    e = as_of_entry(series, day)
+    return e["val"] if e else None
 
 
 def load_daily(ticker):
@@ -2635,7 +2674,7 @@ def main():
         # 조정 뒤 값으로 0·음수를 가른다(설계 e54_v2_design §6). 연구 모드(ASOF_REF)에서는 eps_oneoff가 빈 목록을 돌려준다.
         _rows = json.load(open(eps_path))
         _eo_on = _eo.has(t)
-        eps = [{"available": e["available_date"],
+        eps = [{"available": e["available_date"], **({"end": e["quarter_end"]} if e.get("quarter_end") else {}),   # 결산일(E63 newest_row)
                 "val": e["ttm_eps"] + oneoff_in_ttm(t, e.get("quarter_end"), "eps")
                        + (_eo.eps_adjust(t, _rows, e.get("quarter_end"), cap, row=e) if _eo_on else 0.0)}
                for e in _rows if (e.get("ttm_eps") is not None if _eo_on else e.get("ttm_eps"))
@@ -2755,10 +2794,10 @@ def main():
         if not common:
             return None
         end = max(common)
-        lead = max(v[-1]["end"] for v in parts.values())
+        lead = max(newest_row(v)["end"] for v in parts.values())
         if (date.fromisoformat(lead) - date.fromisoformat(end)).days > MAX_PAIR_LAG_DAYS:
             return None
-        o, tx, pt = ([e for e in parts[n] if e["end"] == end][-1]["val"] for n in ("opinc", "tax", "pretax"))
+        o, tx, pt = (newest_row([e for e in parts[n] if e["end"] == end])["val"] for n in ("opinc", "tax", "pretax"))
         # 일회성 손익(v2/eps_oneoff.json, 안건 E54)이 그 결산일에 적용됐으면 세율만 조정하고(영업이익은 그대로 — 설계 §12),
         # 양수 검사는 조정 뒤 세전이익으로 한다. 적용된 항목이 없으면 아래 지금 코드 그대로.
         _ea = None
@@ -2877,7 +2916,8 @@ def main():
         eb = [e for e in series.get(name_b, []) if e["available"] <= d]
         if not ea or not eb:
             return None, None
-        if ea[-1]["end"] != eb[-1]["end"]:
+        na, nb = newest_row(ea), newest_row(eb)    # 목록 마지막이 아니라 결산일이 가장 늦은 행(E63)
+        if na["end"] != nb["end"]:
             # 한쪽이 앞서 있으면 둘 다 가진 가장 최근 분기로 맞춘다
             common = {x["end"] for x in ea} & {x["end"] for x in eb}
             if not common:
@@ -2889,12 +2929,12 @@ def main():
             # "가장 최근" 분기를 찾다가 2012-10-28까지 거슬러 가서, 10년 전
             # FCF $0.6B를 2021~2024년 주가의 분모로 썼다(PCR 910배, 5년 중앙값
             # 64.97 → 381, 2026-09-23 발견). 그런 날은 값을 내지 않는다.
-            lead = max(ea[-1]["end"], eb[-1]["end"])
+            lead = max(na["end"], nb["end"])
             if (date.fromisoformat(lead) - date.fromisoformat(end)).days > MAX_PAIR_LAG_DAYS:
                 return None, None
-            ea = [x for x in ea if x["end"] == end]
-            eb = [x for x in eb if x["end"] == end]
-        return ea[-1]["val"], eb[-1]["val"]
+            na = newest_row([x for x in ea if x["end"] == end])
+            nb = newest_row([x for x in eb if x["end"] == end])
+        return na["val"], nb["val"]
 
     def fcf(d):
         o, c = paired("ocf", "capex", d)
@@ -2917,12 +2957,14 @@ def main():
         rv_s = [e for e in series.get("revenue", []) if e["available"] <= day]
         if not rv_s:
             return None
-        rv_end = date.fromisoformat(rv_s[-1]["end"])
+        rv = newest_row(rv_s)    # 목록 마지막이 아니라 결산일이 가장 늦은 행(E63)
+        rv_end = date.fromisoformat(rv["end"])
         for tags in (["NetIncomeLoss"], ["ProfitLoss"], ["NetIncomeLossAvailableToCommonStockholdersBasic"]):
             _, nr = pick_tag(cik, tags)
             ni_s = [e for e in (ttm_series(quarterly_flow(nr, t)) if nr else []) if e["available"] <= day]
-            if ni_s and abs((rv_end - date.fromisoformat(ni_s[-1]["end"])).days) <= 120 and rv_s[-1]["val"]:
-                return ni_s[-1]["val"] / rv_s[-1]["val"]
+            ni = newest_row(ni_s) if ni_s else None
+            if ni and abs((rv_end - date.fromisoformat(ni["end"])).days) <= 120 and rv["val"]:
+                return ni["val"] / rv["val"]
         return None
     per_margin = _net_margin_now()
     per_na = per_margin is not None and per_margin < PER_NA_MARGIN
