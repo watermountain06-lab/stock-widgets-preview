@@ -2408,6 +2408,10 @@ def _debt_total_fallback(cik, out):
 # 원문으로 **그 시점에 없어진 것**을 확인한 EV 구성요소 — 그 결산일에 0 관측 하나를 끼운다(공개일 = 그 공시). EV_ZERO_FROM_BY_CIK와 달리
 # 그 뒤 실제 값은 지우지 않는다(ULTA는 2020-09 차입금 $800M을 다 갚고 2023-10 다시 $195M을 빌렸다). 확인 출처는 Codex r3(2026-10-25).
 EV_ZERO_AT_BY_CIK = {"0000879169": {"debt": [("2020-12-31", "2021-02-09")]},    # INCY: 남은 2020 전환사채를 만기 전 주식으로 전환(10-K 2020)
+                     # HOOD: 2021-02 전환사채 $3.55B(공정가치 $5.19B)가 2021-07 상장 때 보통주로 전환 — 10-Q 2021-09-30 자본변동표 "Conversion of
+                     # convertible notes to common stock … 5,217,597"(천 달러). 신용한도는 같은 분기 전액 상환. 표지가 없어 2021-06 $5.19B가
+                     # 2025-12까지 차입금으로 남았다(안건 E66, 2026-10-30)
+                     "0001783879": {"debt": [("2021-09-30", "2021-10-29")]},
                      "0001001250": {"sti": [("2019-03-31", "2019-05-01")]},     # EL: 단기투자 2019-03-31 재무상태표 '—'(10-Q)
                      "0001513761": {"sti": [("2022-03-31", "2022-05-10")]},     # NCLH: 1분기 만기 회수 $240M·신규 매입 0, 재무상태표 0(10-Q)
                      "0001524472": {"sti": [("2020-12-31", "2021-02-26")]},     # XYL: 단기투자 $200M 연간 매입·회수 같고 연말 재무상태표에 없음(10-K 2020)
@@ -2421,8 +2425,40 @@ EV_ZERO_AT_BY_CIK = {"0000879169": {"debt": [("2020-12-31", "2021-02-09")]},    
                      "0000068505": {"sti": [("2017-09-30", "2017-11-03")]}}
 
 
+EV_TAGS_NO_DEFAULT_CASH_FILL = set()   # 현금 합계 대체를 쓰지 않을 회사(필요하면 원문 확인 뒤 추가)
+CASH_TOTAL_TAGS = ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+                   "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"]
+
+
+def _cash_total_fill(cik, out):
+    """현금 기본 태그가 끊긴 뒤의 결산일을 현금 + 제한현금 합계 태그(재무상태표·현금흐름표 기말 현금)로 채운다 — DCF base_inputs와 같은
+    대체(2026-10-25). 배수 엔진에는 없어 INTC는 2021-09 현금 $7.9B가 2023-01~2025-07 EV에 쓰였다(안건 E66, 2026-10-30).
+    기본 태그가 **200일 넘게 비는 구간**(중간의 끊김 또는 마지막 결산일 뒤)의 결산일만 채운다 — 둘 다 있는 결산일과 정상 분기 간격 안은
+    기본 태그(제한현금만큼 크지 않게, 분기 태깅만 빠진 회사는 그대로)."""
+    if not out:
+        return out
+    import bisect
+    ends = sorted({date.fromisoformat(e["end"]) for e in out})
+    fill = []
+    for e in pick_instant(cik, CASH_TOTAL_TAGS):
+        d = date.fromisoformat(e["end"])
+        i = bisect.bisect_left(ends, d)
+        if i < len(ends) and ends[i] == d:
+            continue
+        prev = ends[i - 1] if i > 0 else None
+        nxt = ends[i] if i < len(ends) else None
+        # 마지막 결산일 뒤도 200일 넘게 지난 결산일만 — 한 분기 늦게 태깅하는 회사(BAC·JPM)는 그 분기 합계(제한현금 포함)가 끼어들었다
+        if prev is not None and ((nxt is None and (d - prev).days > 200) or (nxt is not None and (nxt - prev).days > 200)):
+            fill.append(dict(e, _note="cash_total_tag"))
+    return sorted(out + fill, key=lambda e: (e["available"], e["end"])) if fill else out
+
+
 def ev_component(cik, name, tags):
     out = _ev_component(cik, name, tags)
+    # 금융회사(은행 카드는 따로 정한 현금 정의)·현금 태그를 회사별로 지정한 회사는 그 결정을 따른다 — 대체하지 않는다
+    if (name == "cash" and cik not in EV_TAGS_NO_DEFAULT_CASH_FILL and cik not in _financial_ciks()
+            and "cash" not in EV_TAGS_BY_CIK.get(cik, {})):
+        out = _cash_total_fill(cik, out)
     if name == "debt" and not EV_ZERO_FROM_BY_CIK.get(cik, {}).get(name):
         out = _debt_total_fallback(cik, out)
     # 확인된 0은 총계 대체 **뒤에** 끼운다 — 앞에 끼우면 그 날짜의 LongTermDebt 행이 0을 덮어쓸 수 있다(Fable r4)

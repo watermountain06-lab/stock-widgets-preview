@@ -117,6 +117,24 @@ def run():
         check("E65 GS형 연말 태그 늦음 → 부분 합 안 냄(9-30 값 4 유지)", bmh.as_of(cs, "2026-03-01") == 4.0)
     finally:
         bmh.concept, bmh._period_ends = keep_c, keep_pe
+    # E66 현금 합계 대체: 기본 태그가 200일 넘게 비는 구간만 합계 태그로(중간 끊김·마지막 뒤), 정상 간격·같은 결산일은 기본 태그
+    keep_pi = bmh.pick_instant
+    try:
+        tot = [{"end": q, "val": v, "available": f} for q, v, f in (("2021-12-31", 5.0, "2022-02-01"), ("2022-03-31", 6.0, "2022-05-01"),
+                                                                    ("2024-06-30", 7.0, "2024-08-01"), ("2024-09-30", 8.5, "2024-11-01"))]
+        bmh.pick_instant = lambda cik, tags: [dict(x) for x in tot]
+        base_cash = [{"end": "2021-09-30", "val": 4.0, "available": "2021-11-01"}, {"end": "2024-09-30", "val": 8.0, "available": "2024-11-01"}]
+        f = bmh._cash_total_fill("0", base_cash)
+        check("E66 중간 끊김(2021-09→2024-09)을 합계 태그로 채움", bmh.as_of(f, "2023-01-01") == 6.0)
+        check("E66 같은 결산일은 기본 태그(8.0, 합계 8.5 아님)", bmh.as_of(f, "2024-12-01") == 8.0)
+        base2 = [{"end": "2024-03-31", "val": 4.0, "available": "2024-05-01"}, {"end": "2024-09-30", "val": 8.0, "available": "2024-11-01"}]
+        check("E66 정상 간격(183일)은 채우지 않음", len(bmh._cash_total_fill("0", base2)) == 2)
+        base3 = [{"end": "2024-03-31", "val": 4.0, "available": "2024-05-01"}]
+        tot[:] = [{"end": "2024-06-30", "val": 4.5, "available": "2024-08-01"}, {"end": "2025-03-31", "val": 6.0, "available": "2025-05-01"}]
+        f3 = bmh._cash_total_fill("0", base3)
+        check("E66 마지막 뒤 한 분기(91일)는 안 채우고 200일 넘으면 채움", [e["end"] for e in f3] == ["2024-03-31", "2025-03-31"])
+    finally:
+        bmh.pick_instant = keep_pi
     check("newest_row 모든 행 오태깅 → None", bmh.newest_row([row("2025-01-01", "2024-05-01", 1)]) is None)
 
     # 결산일 ±7일 가드
@@ -150,6 +168,8 @@ MUTANTS = [
     ("E65 시점 합산 제거(마지막 행만)", "            out.append({\"end\": k, \"val\": acc, \"available\": f})", "            pass\n        out.append({\"end\": k, \"val\": acc, \"available\": f})"),
     ("E65 태그 포함 조건 제거", "            if i == len(parts) or (prev_tags is not None and seen >= prev_tags):", "            if True:"),
     ("E65 직전 4개 → 직전 1개", "        recent = (recent + [{t for _, _, t in parts}])[-4:]", "        recent = [{t for _, _, t in parts}]"),
+    ("E66 현금 대체 간격 문턱 200 → 60", "        if prev is not None and ((nxt is None and (d - prev).days > 200) or (nxt is not None and (nxt - prev).days > 200)):", "        if prev is not None and (nxt is None or (nxt - prev).days > 200):"),
+    ("E66 같은 결산일도 합계로", "        if i < len(ends) and ends[i] == d:\n            continue", "        if False:\n            continue"),
     ("근거 없을 때 막음", "        return True                      # 결산일 근거가 없으면 거르지 않는다", "        return False"),
 ]
 
