@@ -11067,6 +11067,45 @@
         "valuationAsOf": "2026-10-29",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "NWSA",
+      "name": "뉴스코프",
+      "sector": "커뮤니케이션 — 다우존스(WSJ)·하퍼콜린스 출판·디지털 부동산(REA Group 62%)",
+      "href": "NWSA_full_widget.html",
+      "cardRank": 263,
+      "cardAsOf": "2026-10-29",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-29 ≠ 홈 가격 세션 2026-10-28, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 541052638,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-07",
+        "filing": "10-K 0001564708-26-000175 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 59.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-10-29",
+        "qualityFlags": []
+      }
     }
   ]
 }

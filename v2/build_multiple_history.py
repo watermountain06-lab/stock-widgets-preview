@@ -924,6 +924,11 @@ DERIVED_OPINC = {# HCA: 손익계산서에 영업이익 줄이 없다(이자·�
                                  # "Other income (expense), net"(DraftKings 평가손 등, 분기에 따라 없음 → 선택 항목). FY2022 −$667M,
                                  # Q3 FY24 −$65M을 영업이익에서 뺀다(Codex, 2026-10-01).
                                  (["OtherNonoperatingIncomeExpense", "NonoperatingIncomeExpense"], 1, True)]),
+                 # NWSA: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그 없음) — DIS와 같은 규칙: 세전이익 − 순이자 − 기타 영업외손익.
+                 # 지분법 손실·구조조정·손상은 영업에 둔다. FY2026: 1,046 − 29 − (−4) = 1,021(10-K 대조, 2026-10-30).
+                 "0001564708": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
+                                [(["InterestIncomeExpenseNonoperatingNet"], 1),
+                                 (["OtherNonoperatingIncomeExpense"], 1, True)]),
                  "0000315189": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments", []),
                  "0000319201": ("IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest",
                                 [(["InterestExpenseNonoperating", "InterestExpense"], -1), (["OtherNonoperatingIncomeExpense"], 1),
@@ -2631,7 +2636,10 @@ HISTORY_START = {"GE": "2024-07-23",
                  "EMR": "2023-08-02",
                  # AMT: 인도 사업(ATC TIPL) 매각 완료 2024-09-12. 2024년 1·2분기는 인도 포함 값으로 처음 공시됐고, 계속사업 기준 분기·연간 재작성 값이
                  # 처음 함께 나온 것은 FY2024 10-K(2025-02-25)다 — 그날부터(WDC 방식, 2026-10-21). 그날 최근 4분기 합 = 2024년 계속사업 연간.
-                 "AMT": "2025-02-25"}
+                 "AMT": "2025-02-25",
+                 # NWSA: Foxtel 매각(DAZN, 2025-04-02 완료). 계속사업 기준 분기·연간 재작성 값이 처음 함께 나온 것은 FY2025 10-K(2025-08-06) — 그날부터(AMT 방식, 2026-10-30).
+                 # 그 전 최근 4분기 합은 Foxtel 포함 원공시(FY2022 매출 $10,385M 대 재작성 FY2023 $8,012M)와 섞여 PSR이 싸게 나왔다.
+                 "NWSA": "2025-08-06"}
 
 
 def history_daily(ticker, daily):
