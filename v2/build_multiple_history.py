@@ -1688,7 +1688,7 @@ def component_sum(cik, tags):
             slot = per_date.setdefault(end, {"val": 0.0, "filed": e["filed"], "parts": []})
             slot["val"] += e["val"]
             slot["filed"] = max(slot["filed"], e["filed"])
-            slot["parts"].append((e["filed"], e["val"]))
+            slot["parts"].append((e["filed"], e["val"], tag))
             seen_by_date.setdefault(end, []).append(tag)
             per_tag.setdefault(tag, {})[end] = e["val"]
     # 총계 태그와 그 세부내역 태그를 함께 보고하는 회사가 있다. 그런 날짜를
@@ -1714,15 +1714,23 @@ def component_sum(cik, tags):
     # 예전과 같은 완전한 합·최대 공시일이다. 예전에는 슬롯 공개일 = 구성요소 공시일 최대라, 1년 뒤 비교 열로 처음 태깅된
     # 구성요소 하나가 분기말 총계 전체를 1년 "미공개"로 만들었다(META 차입 2026-01-29~04-29에 2025-09-30 $28.8B — 12-31 $58.7B는
     # 10-K 2026-01-29 공시, 54종목 5,247거래일 — Fable 2026-10-29). 결산일별로 한 줄을 기대하는 호출부({end: 행})는 마지막 행 = 예전 값을 받는다.
+    # 부분 합은 그날까지 모인 태그가 **직전 결산일의 태그를 모두 포함할 때만** 낸다(Fable·Codex E65 r1). 큰 구성요소가 늦게 오는 회사
+    # (EXC: 10-K에는 단기 + 1년 안 만기만, 장기 비유동분 $47B는 다음 10-Q 비교 열에서 처음)는 부분 합이 완전한 합의 5%라, 직전 분기
+    # 완전한 합을 쓰던 예전보다 훨씬 틀렸다. 직전 결산일이 없으면 부분 합을 내지 않는다.
     out = []
-    for k, v in per_date.items():
-        acc, parts, i = 0.0, sorted(v["parts"]), 0
+    prev_tags = None
+    for k in sorted(per_date):
+        v = per_date[k]
+        acc, parts, i, seen = 0.0, sorted(v["parts"]), 0, set()
         while i < len(parts):
             f = parts[i][0]
             while i < len(parts) and parts[i][0] == f:
                 acc += parts[i][1]
+                seen.add(parts[i][2])
                 i += 1
-            out.append({"end": k, "val": acc, "available": f})
+            if i == len(parts) or (prev_tags is not None and seen >= prev_tags):
+                out.append({"end": k, "val": acc, "available": f})
+        prev_tags = {t for _, _, t in parts}
     return sorted(out, key=lambda e: (e["available"], e["end"]))
 
 
@@ -2330,7 +2338,7 @@ def _debt_total_fallback(cik, out):
     if not ltd and not comb:
         return out
     import build_dcf as _bd
-    have = {e["end"]: e for e in out}
+    have = {e["end"]: e for e in sorted(out, key=lambda e: e["available"])}   # 결산일마다 마지막 행(완전한 합)으로 판정
     stb = {e["end"]: e for e in component_sum(cik, ["ShortTermBorrowings"])}
     cp = {e["end"]: e for e in component_sum(cik, ["CommercialPaper"])}
     nonc = {e["end"]: e for e in component_sum(cik, ["LongTermDebtNoncurrent"])}
@@ -2363,7 +2371,20 @@ def _debt_total_fallback(cik, out):
         val = sum(x["val"] for x in parts)
         have[end] = {"end": end, "val": val, "available": max(x["available"] for x in parts), "_note": "debt_total_fallback"}
         changed = True
-    return sorted(have.values(), key=lambda e: e["available"]) if changed else out
+    # 결산일당 여러 행(E65)은 살린다 — 대체한 결산일은 그 결산일 행을 모두 대체 행 하나로, 나머지 결산일의 부분 행은 그날 이미 공개된
+    # 총계(LongTermDebt)의 절반 미만이면 버린다(미래의 완전한 합으로만 판정하면 그 사이 부분 합이 그대로 통과 — Codex E65 r1, EXC)
+    rows = []
+    for e in out:
+        h = have.get(e["end"])
+        if h is not None and h.get("_note") == "debt_total_fallback":
+            continue
+        L = ltd.get(e["end"])
+        if h is not None and e is not h and L is not None and L["available"] <= e["available"] and e["val"] < 0.5 * L["val"]:
+            changed = True
+            continue
+        rows.append(e)
+    rows += [h for h in have.values() if h.get("_note") == "debt_total_fallback"]
+    return sorted(rows, key=lambda e: (e["available"], e["end"])) if changed else out
 
 
 # 원문으로 **그 시점에 없어진 것**을 확인한 EV 구성요소 — 그 결산일에 0 관측 하나를 끼운다(공개일 = 그 공시). EV_ZERO_FROM_BY_CIK와 달리
@@ -2475,17 +2496,24 @@ def _ev_component(cik, name, tags, _no_total=False):
     # (SPCX 2026-06 $38.3B + $36.8B = $75.1B로 두 번 잡혔다, Fable).
     if name == "debt" and out and not fell_back:
         nonc = {e["end"] for e in component_sum(cik, ["LongTermDebtNoncurrent"])}
-        by_end = {e["end"]: e for e in out}
+        rows_by_end = {}
+        for e in out:
+            rows_by_end.setdefault(e["end"], []).append(dict(e))
         for e in component_sum(cik, ["LongTermDebtAndCapitalLeaseObligations"]):
             if e["end"] in nonc or e["end"] in total_dates:
                 continue
-            if e["end"] in by_end:
-                slot = by_end[e["end"]]
-                slot["val"] += e["val"]
-                slot["available"] = max(slot["available"], e["available"])
-            else:
-                by_end[e["end"]] = dict(e)
-        out = sorted(by_end.values(), key=lambda e: e["available"])
+            rows = rows_by_end.get(e["end"])
+            if not rows:
+                rows_by_end[e["end"]] = [dict(e)]
+                continue
+            # 결산일당 여러 행(E65 시점 합산)을 살린다 — 보충 행이 공개된 뒤의 행에만 더하고, 보충이 마지막 행보다 늦으면 그 날짜에 새 행
+            for r in rows:
+                if e["available"] <= r["available"]:
+                    r["val"] += e["val"]
+            last = max(rows, key=lambda r: r["available"])
+            if e["available"] > last["available"]:
+                rows.append({"end": e["end"], "val": last["val"] + e["val"], "available": e["available"]})
+        out = sorted((r for rs in rows_by_end.values() for r in rs), key=lambda e: (e["available"], e["end"]))
     return out
 
 
