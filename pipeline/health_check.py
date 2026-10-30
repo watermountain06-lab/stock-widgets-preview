@@ -6,7 +6,8 @@ data just committed is degraded. The data itself is still published with
 honest status labels; this step only makes sure a person hears about it.
 
 Fails when:
-  - MAX_NOT_FRESH or more tickers are not fresh (stale/suspicious/unavailable)
+  - MAX_NOT_FRESH or more tickers are not fresh (stale/suspicious/unavailable),
+    not counting a new ticker still waiting for its first home price (see below)
   - any market series in macro.json (sp500, vix, usdkrw) is not fresh
   - macro.json is missing, or its FOMC schedule has run out
   - priceSession is MAX_SESSION_LAG or more weekdays behind the session that
@@ -21,6 +22,16 @@ holiday is not reported as a failure.
 Warns without failing when a card reports no valuation baseline. That is the
 expected state while a new ticker is being onboarded, so it must not fail the
 run - but it must not pass with no trace either.
+
+The same goes for a new ticker's empty home price: add_v2_ticker.py writes
+"unavailable: 새 종목 ..." until a price run fills it, so the row is not fresh
+while cardAsOf is still ahead of priceSession. Counting those as failures hit
+2026-10-30: eight cards added in one evening put 8 rows in that state, the
+not-fresh limit failed this check, and because test_pipeline.py runs it on a
+copy of the live stocks.json, the refresh job that would have filled the prices
+stopped before fetching them - the cards stayed empty and every later run broke
+the same way. Once priceSession reaches cardAsOf an empty price is a real
+problem again, so the exemption ends there.
 
 The session-lag check exists because of 2026-09-14: Yahoo answered with a
 well-formed chart whose newest bar was three days old, so every ticker stayed
@@ -48,6 +59,9 @@ MARKET_KEYS = ("sp500", "vix", "usdkrw")
 NEEDS_PERSON = ("rebuild", "missing inside", "Yahoo doesn't")
 # update_cards.py's note for a card with no valuation baseline yet - warn, never fail
 NO_BASELINE = "no valuation baseline"
+# add_v2_ticker.py's statusReason prefix for a new ticker's empty home price - warn while
+# the price session hasn't reached the card's session yet (2026-10-30)
+ONBOARDING_PRICE = "새 종목"
 ET = ZoneInfo("America/New_York")
 SETTLE = dtime(16, 20)   # the cutoff fetch_prices.py uses to call a bar complete
 MAX_SESSION_LAG = 2      # weekdays behind before a quiet provider counts as a failure
@@ -95,6 +109,14 @@ def session_age(session, now_et):
     return None, None
 
 
+def iso_day(value):
+    """YYYY-MM-DD면 그대로, 아니면 빈 문자열 — 날짜로 읽히지 않는 값이 비교를 통과하지 못하게 한다(Codex 2026-10-30)."""
+    try:
+        return date.fromisoformat(str(value)).isoformat()
+    except (TypeError, ValueError):
+        return ""
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stocks", default=str(ROOT / "site_data" / "stocks.json"))
@@ -113,10 +135,24 @@ def main():
     if warn:
         warnings.append(warn)
 
-    not_fresh = [f"{t['ticker']} ({t['price']['status']}: {t['price'].get('statusReason', '')})"
-                 for t in stocks["tickers"] if t["price"]["status"] != "fresh"]
+    session = stocks.get("priceSession") or ""
+    not_fresh, onboarding = [], []
+    for t in stocks["tickers"]:
+        price = t["price"]
+        if price["status"] == "fresh":
+            continue
+        line = f"{t['ticker']} ({price['status']}: {price.get('statusReason', '')})"
+        # 새 종목의 빈 홈 가격은 가격 실행이 카드 세션을 따라올 때까지의 정상 상태다. 따라온 뒤에도 비어 있으면 진짜 문제라
+        # 그때부터 다시 센다 — 면제를 무기한 두면 못 채우는 종목이 조용히 묻힌다.
+        if (price["status"] == "unavailable" and str(price.get("statusReason", "")).startswith(ONBOARDING_PRICE)
+                and iso_day(t.get("cardAsOf")) > iso_day(session)):
+            onboarding.append(line)
+        else:
+            not_fresh.append(line)
     if len(not_fresh) >= MAX_NOT_FRESH:
         problems.append(f"{len(not_fresh)} tickers not fresh (limit {MAX_NOT_FRESH - 1})")
+    if onboarding:
+        warnings.append(f"{len(onboarding)} new tickers waiting for their first home price")
 
     macro_path = Path(args.macro)
     if not macro_path.exists():
@@ -167,10 +203,13 @@ def main():
                 if c["status"] == "failed" or any(k in why for k in NEEDS_PERSON):
                     problems.append(f"card {tk} {c['status']}: {why}")
 
-    print(f"priceSession {stocks.get('priceSession')}: {len(stocks['tickers']) - len(not_fresh)} fresh, "
-          f"{len(not_fresh)} not fresh")
+    print(f"priceSession {stocks.get('priceSession')}: "
+          f"{len(stocks['tickers']) - len(not_fresh) - len(onboarding)} fresh, {len(not_fresh)} not fresh"
+          + (f", {len(onboarding)} onboarding" if onboarding else ""))
     for line in not_fresh:
         print(f"  - {line}")
+    for line in onboarding:
+        print(f"  - (onboarding) {line}")
     if args.cards:
         print(f"cards: {len(card_lines)} held or failed")
         for line in card_lines:

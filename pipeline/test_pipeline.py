@@ -234,16 +234,27 @@ def run(script, *args, env=None):
 def seed_stocks(path):
     """A copy of the site's stocks.json moved back to the fixtures' session, so these tests don't drift
     as the real site advances: the top-level session and every priced ticker read as that day's close.
-    Prices themselves are kept (a fetch failure still falls back to one), and records without a close
-    are left alone - "unavailable" must keep a null close to pass the validator."""
+    Prices themselves are kept (a fetch failure still falls back to one).
+
+    Records with no close are dropped, because they are live, transient state - a new ticker waiting for
+    its first price, a lookup that failed last night - and carrying them in made these offline tests
+    depend on what the site happened to look like. 2026-10-30: eight cards added the evening before
+    arrived as "unavailable", the health check in this very test counted them, "health check passes on
+    fresh data" failed, and the refresh job stopped there - before fetching the prices that would have
+    cleared them. A check that gates the price run must not read the price run's own output.
+    A test that needs a non-fresh row builds one itself (see test_no_change_and_health)."""
     data = json.loads((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"))
     session, prev = DAYS[-1].isoformat(), DAYS[-2].isoformat()
     data["priceSession"] = session
+    kept = []
     for t in data["tickers"]:
         p = t["price"]
-        if isinstance(p.get("close"), (int, float)) and p["close"] > 0:
-            t["price"] = {"close": p["close"], "prevClose": p.get("prevClose") or p["close"],
-                          "session": session, "prevSession": prev, "status": "fresh"}
+        if not (isinstance(p.get("close"), (int, float)) and p["close"] > 0):
+            continue
+        t["price"] = {"close": p["close"], "prevClose": p.get("prevClose") or p["close"],
+                      "session": session, "prevSession": prev, "status": "fresh"}
+        kept.append(t)
+    data["tickers"] = kept
     path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
     return data
 
@@ -528,6 +539,31 @@ def test_no_change_and_health():
                                    "nextFomc": {"start": "2026-09-15", "end": "2026-09-16"}}))
     out = run("health_check.py", "--stocks", str(stocks), "--macro", str(healthy), "--now", AFTER.isoformat())
     check("health check passes on fresh data", out.returncode == 0, out.stdout)
+
+    # 2026-10-30: 새 종목의 빈 홈 가격(add_v2_ticker.py의 "새 종목 ..." 사유)은 가격 실행이 카드 세션을 따라올 때까지
+    # 경고로 센다. 그날 카드 8장이 한꺼번에 그 상태가 되어 위 검사가 깨지고, 그 가격을 채워 줄 작업이 멈췄다.
+    onb_path = tmp / "onboarding.json"
+    def onboarding(card_as_of, drop_card_as_of=False):
+        d = json.loads(stocks.read_text(encoding="utf-8"))
+        for t in d["tickers"][:8]:
+            t["price"] = {"close": None, "status": "unavailable",
+                          "statusReason": f"새 종목 — 카드 마지막 봉 {card_as_of} ≠ 홈 가격 세션 {d['priceSession']}, "
+                                          "다음 매일 실행이 채운다"}
+            if drop_card_as_of:
+                t.pop("cardAsOf", None)
+            else:
+                t["cardAsOf"] = card_as_of
+        onb_path.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        return run("health_check.py", "--stocks", str(onb_path), "--macro", str(healthy), "--now", AFTER.isoformat())
+
+    out = onboarding((DAYS[-1] + timedelta(days=1)).isoformat())
+    check("new tickers waiting for their first home price warn instead of failing",
+          out.returncode == 0 and "8 new tickers waiting for their first home price" in out.stdout, out.stdout)
+    out = onboarding(DAYS[-1].isoformat())
+    check("once the price session reaches the card's session an empty price fails again",
+          out.returncode == 1 and "8 tickers not fresh" in out.stdout, out.stdout)
+    out = onboarding((DAYS[-1] + timedelta(days=1)).isoformat(), drop_card_as_of=True)
+    check("an onboarding row with no cardAsOf is counted, not exempt", out.returncode == 1, out.stdout)
 
     # 2026-09-14: the provider answered with a clean chart whose newest bar was days old,
     # so everything read "fresh" on a session the market had moved past. stocks is on
