@@ -11305,6 +11305,45 @@
         "valuationAsOf": "2026-10-29",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "LNT",
+      "name": "얼라이언트 에너지",
+      "sector": "유틸리티 — 아이오와·위스콘신 규제 전력·가스(IPL·WPL)",
+      "href": "LNT_full_widget.html",
+      "cardRank": 269,
+      "cardAsOf": "2026-10-30",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-30 ≠ 홈 가격 세션 2026-10-28, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 259361652,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-30",
+        "filedAt": "2026-10-30",
+        "filing": "10-Q 0000352541-26-000047 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 48.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-30",
+        "qualityFlags": []
+      }
     }
   ]
 }

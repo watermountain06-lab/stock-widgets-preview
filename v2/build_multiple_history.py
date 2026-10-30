@@ -1750,7 +1750,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001711269": [("ShortTermBankLoansAndNotesPayable", "CommercialPaper"), "TransfersAccountedForAsSecuredBorrowingsAssociatedLiabilitiesCarryingAmount", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # EVRG: 어음·CP $2,331.0M + 매출채권 담보차입 $356.0M + 1년 안 장기부채 $1,495.3M(전환사채 포함) + 장기 $12,315.7M = $16,498.0M(Q2 2026 10-Q, 증권화 채권 $288.1M은 장기부채 안, 2026-10-30). 어음·CP 줄이 없는 분기는 CommercialPaper(튜플 — 이력 2025-12가 $13,487.9M으로 덜 잡혔다, Codex r1)
+DEBT_TOTAL_TAG = {"0000352541": [("CommercialPaper", "ShortTermBorrowings"), "OtherShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # LNT: CP $708M + 기타 단기(텀론) $400M + 1년 안 장기부채 $374M + 장기 $10,636M = $12,118M(Q2 2026 10-Q MD&A "Total debt"와 같다, 2026-10-30)
+                  "0001711269": [("ShortTermBankLoansAndNotesPayable", "CommercialPaper"), "TransfersAccountedForAsSecuredBorrowingsAssociatedLiabilitiesCarryingAmount", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # EVRG: 어음·CP $2,331.0M + 매출채권 담보차입 $356.0M + 1년 안 장기부채 $1,495.3M(전환사채 포함) + 장기 $12,315.7M = $16,498.0M(Q2 2026 10-Q, 증권화 채권 $288.1M은 장기부채 안, 2026-10-30). 어음·CP 줄이 없는 분기는 CommercialPaper(튜플 — 이력 2025-12가 $13,487.9M으로 덜 잡혔다, Codex r1)
                   "0001442145": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # VRSK: 1년 안 $257.7M(364일 텀론 $249.4M + 금융리스) + 장기 $4,215.8M(선순위채 8건 + 금융리스) = $4,473.5M(Q2 2026 10-Q, 2026-10-30)
                   "0001065088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EBAY: 1년 안 $1,599M(CP $750M·장기 유동 $850M 포함) + 장기 $5,134M = $6,733M(Q3 2026 10-Q) — 기본은 $5,989M(2026-10-30)
                   "0000927066": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # DVA: 1년 안 $112.5M + 장기 $10,656.6M = $10,769.1M(금융리스 $151.6M 포함, Q3 2026 10-Q) — 기본은 장기만 잡고 금융리스를 또 더했다(2026-10-30)
@@ -2068,7 +2069,8 @@ DEBT_TOTAL_TAG = {"0001711269": [("ShortTermBankLoansAndNotesPayable", "Commerci
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001065088": {"sti": ["AvailableForSaleSecuritiesDebtMaturitiesWithinOneYearFairValue"]},   # EBAY: 단기투자 $809M(재무상태표 "Short-term investments"는 회사 고유 태그, 같은 금액이 매도가능 채권 만기 1년 안 태그에 있다) — 기본은 2025-06에 멈춘 ShortTermInvestments $26M(Fable r1, 2026-10-30)
+EV_TAGS_BY_CIK = {"0000352541": {"sti": [], "preferred": [], "nci": []},   # LNT: 단기투자 $250M은 2025-09 한 번뿐, 우선주 $200M(2014)·비지배지분 $29M(2022)은 사라진 항목 — 낡은 값이 EV에 더해졌다(Codex r1, 2026-10-30)
+                  "0001065088": {"sti": ["AvailableForSaleSecuritiesDebtMaturitiesWithinOneYearFairValue"]},   # EBAY: 단기투자 $809M(재무상태표 "Short-term investments"는 회사 고유 태그, 같은 금액이 매도가능 채권 만기 1년 안 태그에 있다) — 기본은 2025-06에 멈춘 ShortTermInvestments $26M(Fable r1, 2026-10-30)
                   "0000927066": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # DVA: 상환 가능 비지배지분 $1,484M(임시자본, 투석 합작 파트너 풋) + 자본 내 $233M(Q3 2026 10-Q, 2026-10-30)
                   "0001014473": {"nci": []},   # VRSN: 비지배지분 없음 — MinorityInterest 마지막 값이 2010-06($0.05B)이라 낡은 값으로 DCF가 보류됐다(Q3 2026 10-Q, 2026-10-29)
                   "0001664703": {"debt": ["LongTermDebtCurrent", "LongTermDebtNoncurrent"]},   # BE: ShortTermBorrowings를 1년 안 장기차입금과 같은 금액으로 함께 태깅 — 기본 목록이면 두 번 더해진다(2024-09 $114M, Fable 2026-10-29). LongTermDebt 총계 = 유동 + 비유동 확인
