@@ -71,6 +71,18 @@ def run():
         check("component_sum 분기 중간 단독 행 제외 → 총계 40", bmh.as_of(cs, "2024-05-20") == 40.0)
     finally:
         bmh.concept, bmh._period_ends = keep_c, keep_pe
+    # 결산일 목록을 기억하지 않는다 — 연구 재현처럼 자료를 바꿔 끼우면 새 결산일이 바로 보인다(Fable r2 필수)
+    keep_c = bmh.concept
+    try:
+        bmh.concept = lambda cik, tag, taxonomy="us-gaap": [{"end": "2016-03-31"}] if tag == "Assets" else []
+        a1 = bmh._near_period_end("0", "2026-06-30")
+        bmh.concept = lambda cik, tag, taxonomy="us-gaap": [{"end": "2016-03-31"}, {"end": "2026-06-30"}] if tag == "Assets" else []
+        check("자료가 바뀌면 결산일 목록도 바뀜(캐시 없음)", (not a1) and bmh._near_period_end("0", "2026-06-30"))
+        bmh.concept = lambda cik, tag, taxonomy="us-gaap": ([{"end": "2026-06-30"}] if tag == "StockholdersEquity"
+                                                           else [{"end": "2016-03-31"}] if tag == "Assets" else [])
+        check("총자산에 없는 결산일도 자본 결산일로 인정", bmh._near_period_end("0", "2026-06-30"))
+    finally:
+        bmh.concept = keep_c
     check("newest_row 모든 행 오태깅 → None", bmh.newest_row([row("2025-01-01", "2024-05-01", 1)]) is None)
 
     # 결산일 ±7일 가드
@@ -79,8 +91,9 @@ def run():
     bmh._period_ends = lambda cik: [date(2024, 3, 31), date(2024, 6, 30)]
     try:
         check("분기 중간 날짜는 결산일 근처 아님", not bmh._near_period_end("0", "2024-05-15"))
-        check("결산일 ±7일 안은 통과", bmh._near_period_end("0", "2024-07-06") and bmh._near_period_end("0", "2024-03-25"))
-        check("±8일은 막음", not bmh._near_period_end("0", "2024-07-08"))
+        check("결산일 이전 7일 안은 통과", bmh._near_period_end("0", "2024-03-25") and bmh._near_period_end("0", "2024-06-30"))
+        check("결산일 다음 날짜는 막음(도입일·분사일)", not bmh._near_period_end("0", "2024-07-01") and not bmh._near_period_end("0", "2024-04-02"))
+        check("결산일 이전 8일은 막음", not bmh._near_period_end("0", "2024-06-22"))
         bmh._period_ends = lambda cik: []
         check("결산일 근거 없으면 거르지 않음", bmh._near_period_end("0", "2024-05-15"))
     finally:
@@ -94,7 +107,10 @@ MUTANTS = [
     ("정정 공개일 무시", "        k = (e.get(\"end\") or \"\", e[\"available\"], i)", "        k = (e.get(\"end\") or \"\", \"\", -i)"),
     ("공개 전 행 포함", "    while i < len(series) and series[i][\"available\"] <= day:", "    while i < len(series):"),
     ("check_shares 목록 마지막", "        p = newest_row([x for x in pts if x[\"available\"] <= day])", "        p = [x for x in pts if x[\"available\"] <= day][-1]"),
-    ("가드 문턱 넓힘", "def _near_period_end(cik, end, days=7):", "def _near_period_end(cik, end, days=60):"),
+    ("가드 문턱 넓힘", "def _near_period_end(cik, end, before=7, after=0):", "def _near_period_end(cik, end, before=60, after=0):"),
+    ("결산일 다음 날 허용", "def _near_period_end(cik, end, before=7, after=0):", "def _near_period_end(cik, end, before=7, after=7):"),
+    ("결산일 목록 캐시", "    return sorted(ends)", "    return globals().setdefault(\"_PE_MEMO\", {}).setdefault(cik, sorted(ends))"),
+    ("자본 결산일 무시", "    for tag in (\"Assets\", \"StockholdersEquity\",", "    for tag in (\"Assets\","),
     ("instant_series 선제외 제거", "    rows = [e for e in entries if \"end\" in e and \"filed\" in e and \"start\" not in e and e[\"end\"] <= e[\"filed\"]]", "    rows = [e for e in entries if \"end\" in e and \"filed\" in e and \"start\" not in e]"),
     ("component_sum 가드 미적용", "        rows = [e for e in rows if _near_period_end(cik, e[\"end\"])]", "        rows = rows"),
     ("근거 없을 때 막음", "        return True                      # 결산일 근거가 없으면 거르지 않는다", "        return False"),

@@ -1633,29 +1633,29 @@ def days_between_safe(e):
         return -1
 
 
-_PERIOD_ENDS = {}
-
-
 def _period_ends(cik):
-    """그 회사 재무상태표 결산일(총자산 Assets, 없으면 자본 StockholdersEquity의 시점 행 결산일) — component_sum 날짜 가드용."""
-    if cik not in _PERIOD_ENDS:
-        ends = set()
-        for tag in ("Assets", "StockholdersEquity"):
-            ends = {date.fromisoformat(e["end"]) for e in concept(cik, tag) if "end" in e and "start" not in e}
-            if ends:
-                break
-        _PERIOD_ENDS[cik] = sorted(ends)
-    return _PERIOD_ENDS[cik]
+    """그 회사 재무상태표 결산일 — 총자산·자본·부채와자본 합계 시점 행 결산일의 합집합(component_sum 날짜 가드용).
+    캐시하지 않는다: 연구 재현(pit)은 한 프로세스에서 평가일마다 자료를 바꿔 끼우므로 CIK만 키로 남기면 첫 평가일 결산일로
+    뒤 평가일 행을 통째로 버렸다(Fable E63 r2). concept()가 이미 자료 단위로 기억한다."""
+    ends = set()
+    for tag in ("Assets", "StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
+                "LiabilitiesAndStockholdersEquity"):
+        ends |= {date.fromisoformat(e["end"]) for e in concept(cik, tag) if "end" in e and "start" not in e}
+    return sorted(ends)
 
 
-def _near_period_end(cik, end, days=7):
+def _near_period_end(cik, end, before=7, after=0):
+    """end가 재무상태표 결산일 **이전 7일 ~ 당일** 안인가. 결산일 다음 날짜(ASC 842 도입일 2019-01-01 리스, 분사일 개시 재무상태표)는
+    결산일보다 늦어 '결산일이 가장 늦은 행' 규칙이 고르는 꼴이라 막는다(Fable E63 r2). 52/53주 회계연도 차이는 결산일 쪽 태그가 덮는다."""
     import bisect
     ends = _period_ends(cik)
     if not ends:
         return True                      # 결산일 근거가 없으면 거르지 않는다
     d = date.fromisoformat(end)
-    i = bisect.bisect_left(ends, d)
-    return any(abs((ends[j] - d).days) <= days for j in (i - 1, i) if 0 <= j < len(ends))
+    i = bisect.bisect_left(ends, d)                  # ends[i] ≥ d
+    if i < len(ends) and (ends[i] - d).days <= before:
+        return True                                  # 결산일 이전 before일 ~ 당일
+    return i > 0 and (d - ends[i - 1]).days <= after
 
 
 def component_sum(cik, tags):
