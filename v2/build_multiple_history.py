@@ -2058,6 +2058,13 @@ DEBT_TOTAL_TAG = {"0001014473": ["SeniorNotesCurrent", "SeniorLongTermNotes"],  
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001014473": {"nci": []},   # VRSN: 비지배지분 없음 — MinorityInterest 마지막 값이 2010-06($0.05B)이라 낡은 값으로 DCF가 보류됐다(Q3 2026 10-Q, 2026-10-29)
                   "0001664703": {"debt": ["LongTermDebtCurrent", "LongTermDebtNoncurrent"]},   # BE: ShortTermBorrowings를 1년 안 장기차입금과 같은 금액으로 함께 태깅 — 기본 목록이면 두 번 더해진다(2024-09 $114M, Fable 2026-10-29). LongTermDebt 총계 = 유동 + 비유동 확인
+                  # VMC: CommercialPaper 태그는 잔액이 아니라 프로그램 한도 $1,600.0M("Our $1,600.0 million commercial paper program",
+                  # 10-Q 2022-09-30·2025-03-31). 실제 기업어음 잔액은 차입금 표의 장기차입(2022-09 $550M → LongTermDebtNoncurrent) 또는
+                  # 단기차입(2024-06 $95M·2025-06 $550M → ShortTermBorrowings)에 들어 있다 — 기본 목록이면 한도가 더해져 2025-03-31 차입금이
+                  # $6,508M(실제 $4,908.4M, +33%)이 됐다. 2015~2026-09 캐시 CommercialPaper 17행 모두 한도, 장기 유동+비유동 = LongTermDebt 47분기 확인
+                  # (안건 E64, Fable·Codex 2026-10-29~30)
+                  "0001396009": {"debt": ["LongTermDebtCurrent", "LongTermDebtNoncurrent", "ShortTermBorrowings", "OtherShortTermBorrowings",
+                                          "ConvertibleNotesPayableCurrent", "ConvertibleNotesPayableNoncurrent"]},
                   "0001130310": {"sti": []},   # CNP: 단기투자 $425M은 ZENS(교환사채) 기초 주식 — 짝인 ZENS 지수부채 파생 $468M이 차입금에 없어 한쪽만 더하면 지분가치가 부푼다, 현금성에서 뺀다(Codex·Fable r1, 2026-10-29)
                   # GEHC: 비지배지분 = 자본 안 $17M + 상환가능(메자닌) $234M(Q3 2026 10-Q, 2026-10-28)
                   "0001932393": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
