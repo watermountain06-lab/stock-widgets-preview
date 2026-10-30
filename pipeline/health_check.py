@@ -136,6 +136,7 @@ def main():
         warnings.append(warn)
 
     session = stocks.get("priceSession") or ""
+    session_day = iso_day(session)   # 세션이 날짜로 읽히지 않으면 면제하지 않는다 — 그 경우는 session_age가 따로 잡는다(Codex r2)
     not_fresh, onboarding = [], []
     for t in stocks["tickers"]:
         price = t["price"]
@@ -145,7 +146,7 @@ def main():
         # 새 종목의 빈 홈 가격은 가격 실행이 카드 세션을 따라올 때까지의 정상 상태다. 따라온 뒤에도 비어 있으면 진짜 문제라
         # 그때부터 다시 센다 — 면제를 무기한 두면 못 채우는 종목이 조용히 묻힌다.
         if (price["status"] == "unavailable" and str(price.get("statusReason", "")).startswith(ONBOARDING_PRICE)
-                and iso_day(t.get("cardAsOf")) > iso_day(session)):
+                and session_day and iso_day(t.get("cardAsOf")) > session_day):
             onboarding.append(line)
         else:
             not_fresh.append(line)

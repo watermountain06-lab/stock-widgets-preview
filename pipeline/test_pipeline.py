@@ -242,7 +242,11 @@ def seed_stocks(path):
     arrived as "unavailable", the health check in this very test counted them, "health check passes on
     fresh data" failed, and the refresh job stopped there - before fetching the prices that would have
     cleared them. A check that gates the price run must not read the price run's own output.
-    A test that needs a non-fresh row builds one itself (see test_no_change_and_health)."""
+    A test that needs a non-fresh row builds one itself (see test_no_change_and_health).
+
+    Dropping rows means this fixture no longer satisfies validate_site_data's file-level rules (cardRank
+    running 1..N with no gaps, and the card files on disk matching the href set), so use it with
+    check_ticker, not with the whole-file validator."""
     data = json.loads((ROOT / "site_data" / "stocks.json").read_text(encoding="utf-8"))
     session, prev = DAYS[-1].isoformat(), DAYS[-2].isoformat()
     data["priceSession"] = session
@@ -255,6 +259,10 @@ def seed_stocks(path):
                       "session": session, "prevSession": prev, "status": "fresh"}
         kept.append(t)
     data["tickers"] = kept
+    # 이 fixture를 쓰는 시험들이 기대는 전제 — 깨지면 KeyError·IndexError 대신 읽히는 실패로 나오게 한다
+    assert len(kept) >= 8, f"fixture has only {len(kept)} priced tickers"
+    named, have = {"NVDA", "AAPL", "MSFT", "AMZN", "TSLA"}, {x["ticker"] for x in kept}
+    assert named <= have, f"fixture lost tickers these tests name: {sorted(named - have)}"
     path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
     return data
 
@@ -543,8 +551,10 @@ def test_no_change_and_health():
     # 2026-10-30: 새 종목의 빈 홈 가격(add_v2_ticker.py의 "새 종목 ..." 사유)은 가격 실행이 카드 세션을 따라올 때까지
     # 경고로 센다. 그날 카드 8장이 한꺼번에 그 상태가 되어 위 검사가 깨지고, 그 가격을 채워 줄 작업이 멈췄다.
     onb_path = tmp / "onboarding.json"
-    def onboarding(card_as_of, drop_card_as_of=False):
+    def onboarding(card_as_of, drop_card_as_of=False, session=None):
         d = json.loads(stocks.read_text(encoding="utf-8"))
+        if session is not None:
+            d["priceSession"] = session
         for t in d["tickers"][:8]:
             t["price"] = {"close": None, "status": "unavailable",
                           "statusReason": f"새 종목 — 카드 마지막 봉 {card_as_of} ≠ 홈 가격 세션 {d['priceSession']}, "
@@ -563,7 +573,18 @@ def test_no_change_and_health():
     check("once the price session reaches the card's session an empty price fails again",
           out.returncode == 1 and "8 tickers not fresh" in out.stdout, out.stdout)
     out = onboarding((DAYS[-1] + timedelta(days=1)).isoformat(), drop_card_as_of=True)
-    check("an onboarding row with no cardAsOf is counted, not exempt", out.returncode == 1, out.stdout)
+    check("an onboarding row with no cardAsOf is counted, not exempt",
+          out.returncode == 1 and "8 tickers not fresh" in out.stdout, out.stdout)
+    out = onboarding(DAYS[-2].isoformat())   # 카드 날짜가 홈 가격 세션보다 이전 - 기다리는 상태가 아니라 못 채운 것이다
+    check("a card session behind the price session is counted, not exempt",
+          out.returncode == 1 and "8 tickers not fresh" in out.stdout, out.stdout)
+    out = onboarding("2026-13-99")           # 날짜로 읽히지 않는 cardAsOf
+    check("an unparsable cardAsOf is counted, not exempt",
+          out.returncode == 1 and "8 tickers not fresh" in out.stdout, out.stdout)
+    # 세션이 날짜로 읽히지 않으면 면제하지 않는다 - 그러지 않으면 "빈 문자열 < 유효한 날짜"로 면제 쪽으로 기운다
+    out = onboarding((DAYS[-1] + timedelta(days=1)).isoformat(), session="세션없음")
+    check("an unparsable priceSession exempts nothing",
+          out.returncode == 1 and "8 tickers not fresh" in out.stdout, out.stdout)
 
     # 2026-09-14: the provider answered with a clean chart whose newest bar was days old,
     # so everything read "fresh" on a session the market had moved past. stocks is on
