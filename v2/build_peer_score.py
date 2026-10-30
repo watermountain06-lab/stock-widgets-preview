@@ -118,6 +118,8 @@ TICKER_UNIVERSE = {"V": os.path.join(os.path.dirname(os.path.abspath(__file__)),
                    "WYNN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    # GRMN: 경기소비재 비교군(2026-10-28 — 없으면 옛 경로 경기소비재 + IT 카드 유니버스로 떨어졌다, Fable r1)
                    "GRMN": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
+                   # EBAY: 경기소비재 비교군(2026-10-30 — 없으면 옛 경로 경기소비재 + IT 카드 유니버스로 떨어져 72.7, 지정 파일로는 27.4, Codex r1)
+                   "EBAY": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    "NCLH": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    "APTV": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),
                    "LVS": os.path.join(os.path.dirname(os.path.abspath(__file__)), "peer_universe", "consumer_discretionary.json"),

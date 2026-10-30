@@ -11106,6 +11106,86 @@
         "valuationAsOf": "2026-10-29",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "DVA",
+      "name": "다비타",
+      "sector": "헬스케어 — 신장 투석 서비스(미국 투석 센터·해외 투석·통합 신장 관리)",
+      "href": "DVA_full_widget.html",
+      "cardRank": 264,
+      "cardAsOf": "2026-10-30",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-30 ≠ 홈 가격 세션 2026-10-28, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 62900000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-27",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0000927066-26-000134 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 43.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-30",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
+    },
+    {
+      "ticker": "EBAY",
+      "name": "이베이",
+      "sector": "경기소비재 — 온라인 마켓플레이스(중고·수집품·부품, Depop)",
+      "href": "EBAY_full_widget.html",
+      "cardRank": 265,
+      "cardAsOf": "2026-10-30",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-30 ≠ 홈 가격 세션 2026-10-28, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 439000000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-23",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001065088-26-000212 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 43.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-10-30",
+        "qualityFlags": []
+      }
     }
   ]
 }
