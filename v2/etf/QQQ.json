@@ -14,18 +14,18 @@
  "detail": "승인 목록에 없는 판정 코드 해시 73장: AAPL, ADBE, ADI, ADP, ADSK, AEP, AMAT, AMD",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8445369654817685,
+ "coverage": 0.9063652743733456,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0063873647291200295,
   "적정~저평가": 0.15350724132918983,
   "적정": 0.01227523523695074,
-  "적정~고평가": 0.24196179505167412,
+  "적정~고평가": 0.30379010394325123,
   "고평가": 0.43040532913483354,
   "카드 없음": 0.0668713337077587,
   "판정 보류": 0.026763391918895776,
-  "그 밖 제외": 0.06182830889157702,
+  "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
  "top10": [
@@ -62,10 +62,8 @@
    "weight": 0.06182830889157702,
    "card": "MSFT",
    "verdict": "적정~고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "excluded": []
   },
   {
    "company": "GOOGL",
@@ -160,11 +158,11 @@
   "nonEquity": 5,
   "companies": 100,
   "cardsMatched": 74,
-  "cardsUsed": 72,
+  "cardsUsed": 73,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
-   "날짜 불일치": 1,
+   "날짜 불일치": 0,
    "판정 보류": 1
   }
  },
@@ -480,11 +478,9 @@
   {
    "card": "MSFT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-10-28",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-10-29",
+   "excluded": []
   },
   {
    "card": "MU",
@@ -703,8 +699,8 @@
  "inputFormat": "invesco_json",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-30T17:08:20Z",
- "fetchedAt": "2026-10-30T17:08:21Z",
+ "runAt": "2026-10-30T18:12:22Z",
+ "fetchedAt": "2026-10-30T18:12:23Z",
  "inputHash": {
   "json": "c768f595145465b84eae9d993a6bacb576ada267b4e7fc48a436a1aa5deb62ca",
   "alias": "cd884e524b4f6045",
@@ -719,7 +715,7 @@
   ],
   "S": "2026-10-29"
  },
- "runId": "41096115515.1",
+ "runId": "41104823560.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
