@@ -102,19 +102,40 @@ def run():
     R = eps_rows()
     # ---- 반복(§3)
     w = QS[QS.index(E) - 7:QS.index(E) + 1]       # E로 끝나는 8분기 창
-    setup([item(E, eps=0.30), item(w[1], eps=0.0001, id="old1")])
+    setup([item(E, eps=0.30), item(w[1], eps=0.25, id="old1")])
     check("반복 창에 2번 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
-    setup([item(E, eps=0.30), item(w[1], eps=0.0001, id="o1"), item(w[2], eps=0.0001, id="o2")])
+    setup([item(E, eps=0.30), item(w[1], eps=0.25, id="o1"), item(w[2], eps=0.25, id="o2")])
     check("반복 창에 3번 → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
     E2 = QS[QS.index(E) - 1]                        # 셋 중 하나가 창 밖으로 나간 다음 E를 흉내: 창 시작 앞 분기에 셋째
     w2 = QS[QS.index(E2) - 7:QS.index(E2) + 1]
-    setup([item(E2, eps=0.30), item(w2[1], eps=0.0001, id="o1"), item(QS[QS.index(w2[0]) - 1], eps=0.0001, id="o2")])
+    setup([item(E2, eps=0.30), item(w2[1], eps=0.25, id="o1"), item(QS[QS.index(w2[0]) - 1], eps=0.25, id="o2")])
     check("셋째가 창 밖이면 다시 적용", approx(eo.eps_adjust(T, R, E2, CAP), 0.30))
-    setup([item(E, cats=("impairment", "restructuring"), eps=0.30), item(w[1], cats=("restructuring",), eps=0.0001, id="o1"),
-           item(w[2], cats=("restructuring",), eps=0.0001, id="o2")])
+    setup([item(E, cats=("impairment", "restructuring"), eps=0.30), item(w[1], cats=("restructuring",), eps=0.25, id="o1"),
+           item(w[2], cats=("restructuring",), eps=0.25, id="o2")])
     check("묶음은 든 범주마다 셈 — restructuring 반복이면 묶음 전체 안 씀", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
-    setup([item(E, eps=0.30), item(w[1], eps=0.0001, id="o1"), item(w[2], eps=0.0001, id="o2", out_of_scope_mixed=True)])
+    setup([item(E, eps=0.30), item(w[1], eps=0.25, id="o1"), item(w[2], eps=0.25, id="o2", out_of_scope_mixed=True)])
     check("out_of_scope_mixed는 세기만(반복 3번)", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
+    # r15(2026-10-30): 반복 셈은 문턱을 넘는 분기만 — 소액 항목 셋은 반복이 아니다
+    setup([item(E, eps=0.30), item(w[1], eps=0.0001, id="o1"), item(w[2], eps=0.0001, id="o2")])
+    check("r15 소액 항목(문턱 아래) 3번은 반복 아님 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+    setup([item(E, eps=0.30), item(w[1], eps=0.19, id="o1"), item(w[2], eps=0.21, id="o2")])
+    check("r15 문턱(|G| 2.00의 10%) 아래 0.19는 안 셈 → 2번 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+    setup([item(E, eps=0.30), item(w[1], eps=0.15, id="o1"), item(w[1], eps=0.10, id="o1b", desc="o1b"), item(w[2], eps=0.25, id="o2")])
+    check("r15 같은 분기 같은 범주는 합으로 셈(0.15 + 0.10) → 3번 → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
+    _rev = eo.revenue_ttm
+    try:
+        eo.revenue_ttm = lambda t, e, c: 1e6                    # 매출 1% 바닥 = $10,000
+        setup([item(E, eps=0.30, pre=9000.0)])
+        check("r15 매출 1% 바닥 아래(세전 $9,000) → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
+        setup([item(E, eps=0.30, pre=11000.0)])
+        check("r15 매출 1% 바닥 위(세전 $11,000) → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+        setup([item(E, eps=0.30, pre=20000.0), item(w[1], eps=0.25, pre=5000.0, id="o1"), item(w[2], eps=0.25, pre=20000.0, id="o2"),
+               item(w[3], eps=0.25, pre=20000.0, id="o3")])
+        check("r15 반복 셈도 매출 바닥 — 세전 $5,000 분기는 안 셈 → 3번 → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
+        setup([item(E, eps=0.30, pre=20000.0), item(w[1], eps=0.25, pre=5000.0, id="o1"), item(w[2], eps=0.25, pre=20000.0, id="o2")])
+        check("r15 매출 바닥 아래 분기 빼면 2번 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+    finally:
+        eo.revenue_ttm = _rev
     setup([item(E, eps=0.30, out_of_scope_mixed=True)])
     check("out_of_scope_mixed는 적용 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
     setup([item(E, eps=0.30)], scan_q=[q for q in QS if q != w[3]])
@@ -220,7 +241,7 @@ def run():
     check("적자 → 흑자 Δ = 100/120 − (−1.00) = 1.833333", approx(eo.eps_adjust(T, Rd, E, CAP), 1.833333, 1e-5))
     setup([item(E, eps=None, pre=80.0, tax=0.0, shares=100, id="a"),
            item(E, eps=None, pre=50.0, tax=0.0, shares=100, id="b", desc="b", categories=["litigation"]),
-           item(w[1], cats=("litigation",), eps=0.0001, id="o1"), item(w[2], cats=("litigation",), eps=0.0001, id="o2")], facts=f)
+           item(w[1], cats=("litigation",), eps=0.25, id="o1"), item(w[2], cats=("litigation",), eps=0.25, id="o2")], facts=f)
     check("반복으로 빠진 +50 → N* −20 → 분모 그대로, 조정 0.80", approx(eo.eps_adjust(T, Rd, E, CAP), 0.80))
     f2 = {E: dict(f[E], shares_adj_q=100)}
     setup([item(E, eps=None, pre=200.0, tax=0.0, shares=100)], facts=f2,
@@ -401,6 +422,10 @@ def run():
 
 
 MUTANTS = [
+    ("r15 반복 셈 크기 무시", "        if abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and (e_ or u_):", "        if True:"),
+    ("r15 반복 셈 매출 바닥 제거", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and"),
+    ("r15 적용 매출 바닥 제거", "    if abs(sum(it[\"adj_pretax\"] for it in cand)) < floor_usd:", "    if False:"),
+    ("r15 반복 셈 분기 합 대신 항목별", "                s_[0] += adj_eps_gaap(it, cap) / _split_ratio(it[\"filed\"], sp)", "                s_[0] = max(s_[0], adj_eps_gaap(it, cap) / _split_ratio(it[\"filed\"], sp))"),
     ("반복 셈 3 → 4", "REPEAT_MIN = 3", "REPEAT_MIN = 4"),
     ("안 훑은 분기 검사 제거", "    if not set(window) <= scan_q:\n        return None", "    if False:\n        return None"),
     ("반복 창 8 → 4", "REPEAT_WINDOW = 8", "REPEAT_WINDOW = 4"),

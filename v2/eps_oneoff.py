@@ -1,7 +1,8 @@
 """일회성 손익 빼기 장치(안건 E54, 설계 `research/e54_v2_design.md` r13 — 1단계).
 
 `v2/eps_oneoff.json`에는 회사 공시에서 찾은 **사실**만 둔다(6개 범주 항목, 계산 재료, 훑은 분기). 적용 여부는 엔진이
-TTM 결산일 E마다 정한다 — 반복 판정(같은 범주가 8분기 중 3번 이상이면 빼지 않음) → 크기 문턱(최근 4분기 EPS의 10%) → 적용.
+TTM 결산일 E마다 정한다 — 반복 판정(같은 범주가 8분기 중 3번 이상이면 빼지 않음 — 그 분기 그 범주 항목이 문턱을 넘을 때만 1번)
+→ 크기 문턱(최근 4분기 EPS의 10% **그리고** 최근 4분기 매출의 1%) → 적용. 문턱 두 조건은 설계 r15(2026-10-30 사용자 결정).
 1단계(12-01 v2.1 A-2 전)는 세 곳만 바꾼다: PER EPS(현재·자기 이력·밴드·백테스트), 현금흐름 세율, A8 본업 이익의 세율.
 영업이익·이익률·D&A·EV/EBITDA는 바꾸지 않는다(설계 §12 — 이 경로의 코드는 만들지 않는다).
 
@@ -31,6 +32,7 @@ REPEAT_WINDOW = 8      # 반복 창: E로 끝나는 연속 8개 분기
 REPEAT_MIN = 3         # 창 안에서 같은 범주가 있는 분기 수가 이 이상이면 반복
 QUARTER_GAP_MAX = 160  # 창 안 이웃 결산일 간격이 이보다 길면 분기가 빠진 것 — 정상은 84~98일, 16주 4분기(COST·PEP) 112~130일, 한 분기 결손은 168일 이상
 THRESHOLD = 0.10       # |A| ≥ 10% × max(|G|, |G + A|)
+REV_FLOOR = 0.01       # 그리고 |Σ adj_pretax| ≥ 1% × 최근 4분기 매출 — 이익이 0 근처면 10% 문턱이 거의 0이 돼 작은 항목도 넘었다(CRWD $38M = 10.3%, r15)
 EPS_TOL = 1e-9         # 문턱 경계(A = G/9 등)를 부동소수 오차로 떨어뜨리지 않게
 PROOF_SUM_TOL = 0.011  # v1 3.1 (a) ttm_eps = 구성 4행 quarter_eps 합
 PROOF_SPAN_DAYS = 310  # v1 3.1 (b) 첫~끝 결산일
@@ -392,25 +394,56 @@ def _judge(ticker, rec, eps_rows, E, cap):
         return None
     if not set(window) <= scan_q:
         return None                      # 안 훑은 분기가 창에 있으면 판정하지 않는다(0번으로 세지 않음)
-    counts = {}
+    bmh = _bmh()
+    sp = _splits(ticker)
+    G = row["ttm_eps"] + bmh.oneoff_in_ttm(ticker, E, "eps")
+    rev = revenue_ttm(ticker, E, cap)
+    if rev is None:
+        _warn(f"{ticker} {E}: 최근 4분기 매출 없음 — 매출 1% 바닥 없이 판정")
+    floor_usd = REV_FLOOR * abs(rev) if rev else 0.0
+    # 반복 셈(r15, 2026-10-30 사용자 결정): 그 분기 그 범주 항목의 합이 문턱(E의 |G| 10%, 그리고 매출 1%)을 넘을 때만 1번.
+    # 예전에는 크기를 보지 않아 매 분기 소액 IPR&D·처분 손익이 큰 일회성까지 반복으로 만들었다(MRK IPR&D $13.8B, E54 입구 선별).
+    sums = {}
     for it in items:
         if it["quarter_end"] in window:
             for c in set(it["categories"]):
-                counts.setdefault(c, set()).add(it["quarter_end"])
+                s_ = sums.setdefault((c, it["quarter_end"]), [0.0, 0.0])
+                s_[0] += adj_eps_gaap(it, cap) / _split_ratio(it["filed"], sp)
+                s_[1] += it["adj_pretax"]
+    counts = {}
+    for (c, q), (e_, u_) in sums.items():
+        if abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and (e_ or u_):
+            counts.setdefault(c, set()).add(q)
     repeat = {c for c, qset in counts.items() if len(qset) >= REPEAT_MIN}
     cand = [it for it in items if it["quarter_end"] in four and not (set(it["categories"]) & repeat)
             and not it.get("out_of_scope_mixed") and not _nci_blocked(ticker, it)]
     if not cand:
         return None
-    sp = _splits(ticker)
     A = sum(adj_eps_gaap(it, cap) / _split_ratio(it["filed"], sp) for it in cand)
     if A == 0:
         return None
-    bmh = _bmh()
-    G = row["ttm_eps"] + bmh.oneoff_in_ttm(ticker, E, "eps")
     if abs(A) + EPS_TOL < THRESHOLD * max(abs(G), abs(G + A)):
         return None
+    if abs(sum(it["adj_pretax"] for it in cand)) < floor_usd:
+        return None                      # 매출 1% 바닥(r15)
     return {"applied": cand, "four": four, "row": row, "A": A, "G": G}
+
+
+def revenue_ttm(ticker, E, cap):
+    """엔진 매출 TTM(FLOW_TAGS revenue → quarterly_flow → ttm_series) 가운데 결산일 E, 공개일 ≤ cap인 값. 없으면 None."""
+    key = ("_rev", ticker, E, cap)
+    if key not in _cache:
+        import fetch_eps_history as feh
+        bmh = _bmh()
+        cik = feh.CIKS.get(ticker)
+        v = None
+        if cik:
+            _, rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
+            if rows:
+                ok = [e for e in bmh.ttm_series(bmh.quarterly_flow(rows, ticker)) if e["end"] == E and e["available"] <= cap]
+                v = ok[-1]["val"] if ok else None
+        _cache[key] = v
+    return _cache[key]
 
 
 def _tax_oneoff_items(ticker, E, q):
