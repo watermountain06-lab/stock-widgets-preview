@@ -32,11 +32,13 @@ HEALTH_NOTE = ('유동비율은 기준보다 낮지만 차입금의존도 {FR[\'
                '데이터센터 확충을 금융리스로도 조달해 금융리스 부채가 $66.6B다(FY26 10-K).')
 ACT_REASON = ''
 YOY_EXTRA = ''
-SEG = [('Intelligent Cloud', 39300, '#3498db'), ('Productivity and Business Processes', 37800, '#a2c3fa'), ('More Personal Computing', 12900, '#5c6282')]
-SEG_ADJ = 7   # 옛 카드 도넛은 부문 매출을 $0.1B 단위로 적었다(합 90,000 대 보고 매출 90,007)
+# 자동 카드라 빌드가 추출값으로 다시 쓴다(auto_card.py의 C.SEG) — 이 줄은 기록용. Q1 FY27 원문 값(백만 달러)
+SEG = [('Agents and Infra', 76795, '#3498db'), ('Devices and Consumer', 15484, '#5c6282')]
+SEG_ADJ = 0   # 두 부문 합 92,279 = 매출 92,279(Q1 FY27, 차이 없음). 옛 세 부문 때의 7은 도넛을 $0.1B 단위로 적던 탓이었다
 SEG_TITLE = '매출 구성 — 사업 부문'
-SEG_NOTE = ('출처: <a href="{PR[\'q4\']}" target="_blank" rel="noopener">Microsoft Q4 FY26 실적발표 (SEC 8-K) →</a> · Azure +43% · '
-            'FY27부터 두 부문(Agents and Infra / Devices and Consumer)으로 개편')
+# 자동 카드에서는 이 글이 화면에 안 나온다 — auto_card.py가 부문 변화율과 출처 링크로 통째로 다시 쓴다(fill.py가 그 값을 쓴다).
+# 기록용으로만 두고, 분기마다 손으로 고쳐야 하는 문장은 넣지 않는다(2026-10-30 사용자 결정). 옛 글의 Q4 FY26 링크·Azure +43%도 표시된 적이 없다.
+SEG_NOTE = 'FY27부터 두 부문(Agents and Infra / Devices and Consumer)으로 개편'
 CAPITAL = [('자사주 매입 (Q4 FY26)', '$4.6B'),
            ('잔여 매입 승인 한도 ($60B 중)', '$40.6B'),
            ('배당 (Q4 FY26 · 주당 $0.91)', '', '$6.8B')]
@@ -128,16 +130,12 @@ SEG_MAP = {
  "axis": "us-gaap:StatementBusinessSegmentsAxis",
  "extra": {},
  "members": {
-  "msft:IntelligentCloudMember": [
-   "Intelligent Cloud",
+  "msft:AgentsAndInfraMember": [
+   "Agents and Infra",
    "#3498db"
   ],
-  "msft:ProductivityAndBusinessProcessesMember": [
-   "Productivity and Business Processes",
-   "#a2c3fa"
-  ],
-  "msft:MorePersonalComputingMember": [
-   "More Personal Computing",
+  "msft:DevicesAndConsumerMember": [
+   "Devices and Consumer",
    "#5c6282"
   ]
  },
