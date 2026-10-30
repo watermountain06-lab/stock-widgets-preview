@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="unhPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="unhPeerVerdict">중간</span></div>
-      <div class="logic-score" id="unhPeerScore">65.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="unhPeerScore">64.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="unhSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="unhSelfVerdict">중간</span></div>
@@ -898,9 +898,9 @@ Chart.overrides.doughnut.animation = false;
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/4</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.33
 시나리오 범위: 1.61 ~ 2.55(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">65.4</div><div class="sc-tile lost" data-vc="peer" data-m="per">60</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">52</div><div class="sc-tile" data-vc="peer" data-m="psr">84</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">64.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">60</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">48</div><div class="sc-tile" data-vc="peer" data-m="psr">84</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 26.1배(5년 중앙값 25.5배)로 자기 이력 65.3점(중간), 동종업 65.4점(중간)이다. <strong>초과이익 내재가치(기본 $174.59)는 현재가의 43%다</strong>.</div>
+    <div class="vs-premise">PER 26.1배(5년 중앙값 25.5배)로 자기 이력 65.3점(중간), 동종업 64.1점(중간)이다. <strong>초과이익 내재가치(기본 $174.59)는 현재가의 43%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 초과이익 −2, 합계 −2 “적정~고평가”이다. 초과이익 내재가치(기본 $174.59)는 현재가의 43%다. 현재가를 정당화하려면 5년 내내 ROE가 33.1%여야 한다(최근 4분기 14.9%, 2년 중앙값 16.6%). 자산이 가벼운 사업은 장부 기준 모델에서 낮게 나온다.</div>
   </div>
 
@@ -924,12 +924,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">3.5x</span>
+            <span class="val-number" data-hist="cur">3.7x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 26%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 25.5%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 2.1x</span><span data-hist="median">중앙 5.3x</span><span data-hist="max">최고 6.8x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 2.3x</span><span data-hist="median">중앙 5.6x</span><span data-hist="max">최고 7.2x</span></div>
       </div>
 
       <div class="val-item" data-metric="psr" onclick="selectMultiple('psr')">
@@ -1462,7 +1462,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py UNH
 const UNH_SCORES = {
   fundamental: 42.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 65.4,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 64.1,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 65.3,   // 자기 5년 배수 분포 백분위 (2021-10-28 ~ 2026-10-28)
   asOf: "2026-10-28",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1796,7 +1796,7 @@ const UNH_FUNDAMENTAL = {"ticker": "UNH", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py UNH --self v2/UNH_multiples.json --card
 /* VALUATION:BEGIN */
-const UNH_VALUATION = {"peer": {"score": 65.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 60.0, "rank": 21, "peers": 50}, {"metric": "pbr", "score": 51.9, "rank": 26, "peers": 52}, {"metric": "psr", "score": 84.2, "rank": 10, "peers": 57}]}, "self": {"score": 65.3, "window": ["2021-10-28", "2026-10-28"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 46.9, "percentile": 53.1, "current": 26.13, "min": 9.95, "median": 25.49, "max": 40.68, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 74.5, "percentile": 25.5, "current": 3.5, "min": 2.14, "median": 5.27, "max": 6.85, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 74.6, "percentile": 25.4, "current": 0.81, "min": 0.53, "median": 1.33, "max": 1.79, "days": 1255, "currentNote": null}]}};
+const UNH_VALUATION = {"peer": {"score": 64.1, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 60.0, "rank": 21, "peers": 50}, {"metric": "pbr", "score": 48.1, "rank": 28, "peers": 52}, {"metric": "psr", "score": 84.2, "rank": 10, "peers": 57}]}, "self": {"score": 65.3, "window": ["2021-10-28", "2026-10-28"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 46.9, "percentile": 53.1, "current": 26.13, "min": 9.95, "median": 25.49, "max": 40.68, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 74.5, "percentile": 25.5, "current": 3.71, "min": 2.27, "median": 5.56, "max": 7.16, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 74.6, "percentile": 25.4, "current": 0.81, "min": 0.53, "median": 1.33, "max": 1.79, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

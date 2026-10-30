@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="bmyPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="bmyPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="bmyPeerScore">76.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="bmyPeerScore">75.9<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="bmySelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="bmySelfVerdict">중간</span></div>
@@ -932,9 +932,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.58 ~ 21.95(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">76.3</div><div class="sc-tile" data-vc="peer" data-m="per">94</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">39</div><div class="sc-tile lost" data-vc="peer" data-m="psr">67</div><div class="sc-tile" data-vc="peer" data-m="pcr">90</div><div class="sc-tile" data-vc="peer" data-m="evebitda">92</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">75.9</div><div class="sc-tile" data-vc="peer" data-m="per">94</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">37</div><div class="sc-tile lost" data-vc="peer" data-m="psr">67</div><div class="sc-tile" data-vc="peer" data-m="pcr">90</div><div class="sc-tile" data-vc="peer" data-m="evebitda">92</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 13.3배(3.7년 중앙값 18.5배)로 자기 이력 49.9점(중간), 동종업 76.3점(싸다)이다. <strong>현금흐름 내재가치(기본 $22.47)는 현재가의 37%다</strong>.</div>
+    <div class="vs-premise">PER 13.3배(3.7년 중앙값 18.5배)로 자기 이력 49.9점(중간), 동종업 75.9점(싸다)이다. <strong>현금흐름 내재가치(기본 $22.47)는 현재가의 37%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $22.47)는 현재가의 37%다. 현재가를 정당화하려면 영업이익률이 33.2%까지 올라야 한다(최근 4분기 23.8%, 4.5년 중앙값 17.0%). 내재가치에서 차입금 $43.1B를 빼고 현금·단기투자 $11.1B를 더한다.</div>
   </div>
 
@@ -958,12 +958,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">5.5x</span>
+            <span class="val-number" data-hist="cur">5.6x</span>
             <span class="hist-badge mid" data-hist="badge">5년 중 상위 36%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 64.4%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 3.2x</span><span data-hist="median">중앙 5.1x</span><span data-hist="max">최고 7.8x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 64.1%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 3.2x</span><span data-hist="median">중앙 5.1x</span><span data-hist="max">최고 7.9x</span></div>
       </div>
 
       <div class="val-item" data-metric="psr" onclick="selectMultiple('psr')">
@@ -1493,7 +1493,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py BMY
 const BMY_SCORES = {
   fundamental: 56.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 76.3,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 75.9,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 49.9,   // 자기 5년 배수 분포 백분위 (2021-10-28 ~ 2026-10-28)
   asOf: "2026-10-28",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1824,7 +1824,7 @@ const BMY_FUNDAMENTAL = {"ticker": "BMY", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py BMY --self v2/BMY_multiples.json --card
 /* VALUATION:BEGIN */
-const BMY_VALUATION = {"peer": {"score": 76.3, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 94.0, "rank": 4, "peers": 50}, {"metric": "pbr", "score": 38.5, "rank": 33, "peers": 52}, {"metric": "psr", "score": 66.7, "rank": 20, "peers": 57}, {"metric": "pcr", "score": 90.4, "rank": 6, "peers": 52}, {"metric": "evebitda", "score": 92.0, "rank": 5, "peers": 50}]}, "self": {"score": 49.9, "window": ["2021-10-28", "2026-10-28"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 88.7, "percentile": 11.3, "current": 13.31, "min": 12.18, "median": 18.49, "max": 28.36, "days": 935, "currentNote": null}, {"metric": "pbr", "score": 35.6, "percentile": 64.4, "current": 5.54, "min": 3.2, "median": 5.12, "max": 7.84, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 50.0, "percentile": 50.0, "current": 2.52, "min": 1.77, "median": 2.52, "max": 3.69, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 28.3, "percentile": 71.7, "current": 10.82, "min": 5.95, "median": 9.27, "max": 13.56, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 46.7, "percentile": 53.3, "current": 10.59, "min": 7.39, "median": 10.38, "max": 49.59, "days": 825, "currentNote": null}]}};
+const BMY_VALUATION = {"peer": {"score": 75.9, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 94.0, "rank": 4, "peers": 50}, {"metric": "pbr", "score": 36.5, "rank": 34, "peers": 52}, {"metric": "psr", "score": 66.7, "rank": 20, "peers": 57}, {"metric": "pcr", "score": 90.4, "rank": 6, "peers": 52}, {"metric": "evebitda", "score": 92.0, "rank": 5, "peers": 50}]}, "self": {"score": 49.9, "window": ["2021-10-28", "2026-10-28"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 88.7, "percentile": 11.3, "current": 13.31, "min": 12.18, "median": 18.49, "max": 28.36, "days": 935, "currentNote": null}, {"metric": "pbr", "score": 35.9, "percentile": 64.1, "current": 5.56, "min": 3.2, "median": 5.13, "max": 7.86, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 50.0, "percentile": 50.0, "current": 2.52, "min": 1.77, "median": 2.52, "max": 3.69, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 28.3, "percentile": 71.7, "current": 10.82, "min": 5.95, "median": 9.27, "max": 13.56, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 46.7, "percentile": 53.3, "current": 10.59, "min": 7.39, "median": 10.38, "max": 49.59, "days": 825, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
