@@ -100,6 +100,7 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
 DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+                    "0000922224": ["Depreciation", "AdjustmentForAmortization"],   # PPL: 손익계산서 감가상각 + 현금흐름표 상각(규제자산·무형, 상반기 $65M) — 감가상각만 읽으면 EBITDA에서 상각이 빠진다(2026-10-30)
                     # GRMN: 합산 태그 없음 — 감가상각 + 상각(AdjustmentForAmortization, 분기 약 $10M; AmortizationOfIntangibleAssets는 연간만, Fable·Codex r1 2026-10-28)
                     "0001121788": ["Depreciation", "AdjustmentForAmortization"],
                     # AEP: 분기 감가상각은 손익계산서·현금흐름표가 함께 쓰는 유틸리티 비용 태그뿐 — 합산 태그 분기 행이 2011년에 멈춰 TTM이 2025 연간값에 묶였다(2026-10-28)
@@ -1116,7 +1117,8 @@ EXCLUDE_TAGS = {# MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0001130310": ("Revenues",),   # CNP: 손익계산서 총매출(Q3 2026 $2,191M) — 계약 매출(2,201)이 골라져 성장률·마진이 보도자료·부문표와 어긋났다(Codex·Fable r1, 2026-10-29)
+PREFER_TAGS = {"0000922224": ("Revenues",),   # PPL: 손익계산서 총매출(Q2 2026 $2,111M) — 계약 매출이 골라져 $2.14B로 나왔다(CNP·AEP와 같음, 2026-10-30)
+               "0001130310": ("Revenues",),   # CNP: 손익계산서 총매출(Q3 2026 $2,191M) — 계약 매출(2,201)이 골라져 성장률·마진이 보도자료·부문표와 어긋났다(Codex·Fable r1, 2026-10-29)
                "0000004904": ("Revenues",),   # AEP: 손익계산서 총매출(Q3 2026 $6,832M) — 계약 매출(6,793)과 섞이면 성장률·마진이 어긋났다(Codex·Fable r1, 2026-10-28)
                "0000078003": ("Revenues",),
                # COP: 손익계산서 "Sales and other operating revenues"는 Revenues(Q2 2026 $19,161M)이고 RevenueFromContract…는 그중 고객 계약분
@@ -1750,7 +1752,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000352541": [("CommercialPaper", "ShortTermBorrowings"), "OtherShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # LNT: CP $708M + 기타 단기(텀론) $400M + 1년 안 장기부채 $374M + 장기 $10,636M = $12,118M(Q2 2026 10-Q MD&A "Total debt"와 같다, 2026-10-30)
+DEBT_TOTAL_TAG = {"0000922224": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # PPL: 단기 $65M + 1년 안 장기부채 $469M + 장기 $19,789M = $20,323M(Q2 2026 10-Q, 자회사 값은 LegalEntityAxis라 제외, 2026-10-30)
+                  "0000352541": [("CommercialPaper", "ShortTermBorrowings"), "OtherShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # LNT: CP $708M + 기타 단기(텀론) $400M + 1년 안 장기부채 $374M + 장기 $10,636M = $12,118M(Q2 2026 10-Q MD&A "Total debt"와 같다, 2026-10-30)
                   "0001711269": [("ShortTermBankLoansAndNotesPayable", "CommercialPaper"), "TransfersAccountedForAsSecuredBorrowingsAssociatedLiabilitiesCarryingAmount", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # EVRG: 어음·CP $2,331.0M + 매출채권 담보차입 $356.0M + 1년 안 장기부채 $1,495.3M(전환사채 포함) + 장기 $12,315.7M = $16,498.0M(Q2 2026 10-Q, 증권화 채권 $288.1M은 장기부채 안, 2026-10-30). 어음·CP 줄이 없는 분기는 CommercialPaper(튜플 — 이력 2025-12가 $13,487.9M으로 덜 잡혔다, Codex r1)
                   "0001442145": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # VRSK: 1년 안 $257.7M(364일 텀론 $249.4M + 금융리스) + 장기 $4,215.8M(선순위채 8건 + 금융리스) = $4,473.5M(Q2 2026 10-Q, 2026-10-30)
                   "0001065088": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EBAY: 1년 안 $1,599M(CP $750M·장기 유동 $850M 포함) + 장기 $5,134M = $6,733M(Q3 2026 10-Q) — 기본은 $5,989M(2026-10-30)
@@ -2069,7 +2072,8 @@ DEBT_TOTAL_TAG = {"0000352541": [("CommercialPaper", "ShortTermBorrowings"), "Ot
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000352541": {"sti": [], "preferred": [], "nci": []},   # LNT: 단기투자 $250M은 2025-09 한 번뿐, 우선주 $200M(2014)·비지배지분 $29M(2022)은 사라진 항목 — 낡은 값이 EV에 더해졌다(Codex r1, 2026-10-30)
+EV_TAGS_BY_CIK = {"0000922224": {"sti": [], "preferred": [], "nci": []},   # PPL: 단기투자(2015)·우선주(2010)·비지배지분(2023)은 지금 재무상태표에 없는 낡은 값(2026-10-30)
+                  "0000352541": {"sti": [], "preferred": [], "nci": []},   # LNT: 단기투자 $250M은 2025-09 한 번뿐, 우선주 $200M(2014)·비지배지분 $29M(2022)은 사라진 항목 — 낡은 값이 EV에 더해졌다(Codex r1, 2026-10-30)
                   "0001065088": {"sti": ["AvailableForSaleSecuritiesDebtMaturitiesWithinOneYearFairValue"]},   # EBAY: 단기투자 $809M(재무상태표 "Short-term investments"는 회사 고유 태그, 같은 금액이 매도가능 채권 만기 1년 안 태그에 있다) — 기본은 2025-06에 멈춘 ShortTermInvestments $26M(Fable r1, 2026-10-30)
                   "0000927066": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # DVA: 상환 가능 비지배지분 $1,484M(임시자본, 투석 합작 파트너 풋) + 자본 내 $233M(Q3 2026 10-Q, 2026-10-30)
                   "0001014473": {"nci": []},   # VRSN: 비지배지분 없음 — MinorityInterest 마지막 값이 2010-06($0.05B)이라 낡은 값으로 DCF가 보류됐다(Q3 2026 10-Q, 2026-10-29)
@@ -2652,6 +2656,8 @@ HISTORY_START = {"GE": "2024-07-23",
                  "VRSK": "2023-02-28",
                  # EVRG: 2021년 1~3분기 장기부채가 SEC 요약 자료에 없다(차원·고유 태그) — 차입금이 $1.0~1.7B로만 잡혀 EV/EBITDA가 6.6배로 낮게 나왔다. 장기부채가 다시 잡히는 FY2021 10-K(2022-02-25)부터(Codex r1, 2026-10-30).
                  "EVRG": "2022-02-25",
+                 # PPL: EPS 이력에 2021 Q1~2022 Q3 행이 없다(2021 영국 사업 중단사업) — 옛 TTM이 재사용됐다. 2022-05 로드아일랜드 인수가 최근 4분기에 온전히 들어간 Q2 2023 10-Q(2023-08-04)부터(Codex r1, 2026-10-30).
+                 "PPL": "2023-08-04",
                  # NWSA: Foxtel 매각(DAZN, 2025-04-02 완료). 계속사업 기준 분기·연간 재작성 값이 처음 함께 나온 것은 FY2025 10-K(2025-08-06) — 그날부터(AMT 방식, 2026-10-30).
                  # 그 전 최근 4분기 합은 Foxtel 포함 원공시(FY2022 매출 $10,385M 대 재작성 FY2023 $8,012M)와 섞여 PSR이 싸게 나왔다.
                  "NWSA": "2025-08-06"}

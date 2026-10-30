@@ -46,7 +46,7 @@ ALLOW_LAGGED = {"SO", "DUK", "ED", "BIIB"}
 
 
 # 인라인 XBRL 보충으로 만들 수 있게 허용한 종목 — 시험 3장(2026-10-25 사용자 결정). 넓힐 때 여기에 더한다.
-OVERLAY_OK = {"PPG", "MDLZ", "GD", "CDNS", "ETR", "EXC", "VMC", "AEP", "CNP", "VRSK", "EVRG", "LNT"}   # JCI는 시험 중 보류(이자 정의 — skipped_cards E)
+OVERLAY_OK = {"PPG", "MDLZ", "GD", "CDNS", "ETR", "EXC", "VMC", "AEP", "CNP", "VRSK", "EVRG", "LNT", "PPL"}   # JCI는 시험 중 보류(이자 정의 — skipped_cards E)
 
 
 def overlay_has(T, cik, accn, form=None, filed=None):
