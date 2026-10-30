@@ -30,7 +30,9 @@ TAX_BASES = {"disclosed", "implied_from_eps", "equity_method", "nontaxable", "di
 STATUTORY = 0.21
 REPEAT_WINDOW = 8      # 반복 창: E로 끝나는 연속 8개 분기
 REPEAT_MIN = 3         # 창 안에서 같은 범주가 문턱을 넘는 분기 수가 이 이상이면 반복(r15)
-REPEAT_PRESENT = 6     # 또는 크기와 상관없이 같은 범주가 있는 분기 수가 이 이상이면 반복 — 매 분기 소액으로 나오는 만성 항목(구조조정 등)은 GAAP에 남긴다(r16)
+REPEAT_PRESENT = 6     # 또는 같은 범주가 '있는' 분기 수가 이 이상이면 반복 — 매 분기 소액으로 나오는 만성 항목(구조조정 등)은 GAAP에 남긴다(r16)
+PRESENT_MIN = 0.01     # '있다'로 세는 최소 크기: 그 분기 범주 합 |Σ adj_eps_gaap| ≥ 1% × |G|(r17) — $4M·$24M 조정이 존재 수를 채워 큰 매각 차익을
+                       # 한 분기만 GAAP로 남기던 것(CARR 2024-12-31 1.99 → 6.15 → 2.71, Fable r16). JBL 구조조정(분기당 G의 약 5%)은 그대로 셈
 QUARTER_GAP_MAX = 160  # 창 안 이웃 결산일 간격이 이보다 길면 분기가 빠진 것 — 정상은 84~98일, 16주 4분기(COST·PEP) 112~130일, 한 분기 결손은 168일 이상
 THRESHOLD = 0.10       # |A| ≥ 10% × max(|G|, |G + A|)
 REV_FLOOR = 0.01       # 그리고 |Σ adj_pretax| ≥ 1% × 최근 4분기 매출 — 이익이 0 근처면 10% 문턱이 거의 0이 돼 작은 항목도 넘었다(CRWD $38M = 10.3%, r15)
@@ -424,7 +426,8 @@ def _judge(ticker, rec, eps_rows, E, cap):
                 s_[1] += it["adj_pretax"]
     counts, present = {}, {}
     for (c, q), (e_, u_) in sums.items():
-        present.setdefault(c, set()).add(q)
+        if abs(e_) + EPS_TOL >= PRESENT_MIN * abs(G) and (e_ or u_):
+            present.setdefault(c, set()).add(q)
         if abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and (e_ or u_):
             counts.setdefault(c, set()).add(q)
     repeat = ({c for c, qset in counts.items() if len(qset) >= REPEAT_MIN}

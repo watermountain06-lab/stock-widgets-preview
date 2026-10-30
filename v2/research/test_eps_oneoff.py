@@ -149,11 +149,13 @@ def run():
         check("r16 순이익 없으면 바닥 없이 판정", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
     finally:
         eo.revenue_ttm, eo.net_income_ttm = _rev, _ni
-    # r16 만성 항목: 크기와 상관없이 8분기 중 6번 이상이면 반복
-    setup([item(E, eps=0.30)] + [item(w[k], eps=0.0001, id=f"c{k}") for k in range(1, 6)])
-    check("r16 소액 항목 E 포함 6번 → 반복 → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
-    setup([item(E, eps=0.30)] + [item(w[k], eps=0.0001, id=f"c{k}") for k in range(0, 4)])   # 구성 4분기(w4~w7) 밖 4번 + E
-    check("r16 소액 항목 E 포함 5번 → 반복 아님 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+    # r16·r17 만성 항목: 이익의 1% 이상(|G| 2.00 → 0.02)인 분기가 8분기 중 6번 이상이면 반복
+    setup([item(E, eps=0.30)] + [item(w[k], eps=0.03, id=f"c{k}") for k in range(0, 5)])   # 앞 0~4(4는 구성 분기) + E = 6번
+    check("r16 만성(0.03, 1% 이상) E 포함 6번 → 반복 → 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
+    setup([item(E, eps=0.30)] + [item(w[k], eps=0.03, id=f"c{k}") for k in range(0, 4)])   # 구성 4분기(w4~w7) 밖 4번 + E = 5번
+    check("r16 만성 E 포함 5번 → 반복 아님 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
+    setup([item(E, eps=0.30)] + [item(w[k], eps=0.0001, id=f"c{k}") for k in range(0, 4)] + [item(w[5], eps=0.0001, id="c5")])
+    check("r17 1% 미만 소액은 '있다'로 안 셈 → 적용(0.30 + 소액 0.0001)", approx(eo.eps_adjust(T, R, E, CAP), 0.3001))
     # r15 실제 매출 경로(revenue_ttm): cap 뒤 재작성은 분기화 전에 버린다(Codex r15 필수)
     import fetch_eps_history as _feh
     _pt, _ck, _rl = bmh.concept, dict(_feh.CIKS), set(_feh.RESTATED_LATEST)
@@ -468,6 +470,8 @@ MUTANTS = [
     ("r15 반복 셈 크기 무시", "        if abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and (e_ or u_):", "        if True:"),
     ("r15 반복 셈 매출 바닥 제거", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and"),
     ("r15 매출 cap 선필터 제거", "[e for e in _concept(c, tag, taxonomy) if e.get(\"filed\", \"\") <= cap]", "_concept(c, tag, taxonomy)"),
+    ("r17 존재 최소 크기 제거", "        if abs(e_) + EPS_TOL >= PRESENT_MIN * abs(G) and (e_ or u_):\n            present", "        if True:\n            present"),
+    ("r17 존재 최소 1% → 10%", "PRESENT_MIN = 0.01", "PRESENT_MIN = 0.10"),
     ("r16 만성 6번 규칙 제거", "REPEAT_PRESENT = 6", "REPEAT_PRESENT = 99"),
     ("r16 만성 문턱 6 → 5", "REPEAT_PRESENT = 6", "REPEAT_PRESENT = 5"),
     ("r16 저마진 조건 제거(항상 바닥)", "        elif rev > 0 and ni / rev < LOW_MARGIN:", "        elif True:"),
