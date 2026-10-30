@@ -541,7 +541,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 4.2%)</span>
-      <span class="meta-value" id="clDcfReq" style="font-size: 22px; color: var(--red);">34.7%</span>
+      <span class="meta-value" id="clDcfReq" style="font-size: 22px; color: var(--red);">34.5%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="clConfidenceLabel">밴드 적중률 (409/1172일, 상단우세)</span>
@@ -549,7 +549,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="clFairBand" title="최근 1년 PER 25~75% 구간(25.0~35.7배) × 최근 4분기 희석 EPS $2.52(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에는 스킨케어 손상차손이 들어 있다." style="font-size:22px;color:var(--green);">$60 ~ $90</span>
+      <span class="meta-value" id="clFairBand" title="최근 1년 PER 25~75% 구간(22.7~24.3배) × 최근 4분기 희석 EPS $3.82(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에는 스킨케어 손상차손이 들어 있다." style="font-size:22px;color:var(--green);">$90 ~ $90</span>
     </div>
   </div>
   </div>
@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="clLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="clDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="clDcfBox">$50<span class="logic-denom"> · 보수 $41 · 낙관 $32</span></div>
+      <div class="logic-score" id="clDcfBox">$50<span class="logic-denom"> · 보수 $41 · 낙관 $33</span></div>
     </div>
     <div class="logic-box logic-neutral" id="clFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="clFundVerdict">보통</span></div>
@@ -571,11 +571,11 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="clPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="clPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="clPeerScore">23.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="clPeerScore">29.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="clSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="clSelfVerdict">중간</span></div>
-      <div class="logic-score" id="clSelfScore">39.1<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="clSelfScore">50.7<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -680,22 +680,22 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$40.90</td><td style="color: var(--red);" data-dcf-upside="low">−56.1%</td>
+          <td class="big scn-low" data-dcf-value="low">$41.23</td><td style="color: var(--red);" data-dcf-upside="low">−55.7%</td>
           <td class="story">5년 성장률의 절반(연 2.1%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 18.7%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$49.65</td><td style="color: var(--red);" data-dcf-upside="base">−46.7%</td>
+          <td class="big scn-base" data-dcf-value="base">$50.01</td><td style="color: var(--red);" data-dcf-upside="base">−46.3%</td>
           <td class="story">매출이 5년 성장률(연 4.2%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 21.2%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$32.28</td><td style="color: var(--red);" data-dcf-upside="high">−65.3%</td>
+          <td class="big scn-high" data-dcf-value="high">$32.59</td><td style="color: var(--red);" data-dcf-upside="high">−65.0%</td>
           <td class="story">매출이 3년 성장률(연 4.1%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 14.9%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $32.28~$49.65다. 영업이익률은 최근 4분기 14.9%, 2년 중앙값 21.2%, 5년 중앙값 18.7%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 2.5%·이익률 18.7%), 기본(4.2%·21.2%), 낙관(4.1%·14.9%). 최근 4분기 영업이익에는 스킨케어 사업의 영업권·무형자산 손상차손(현금 지출 없음)과 구조조정·소송 관련 비용이 들어 있어, 최근 이익률이 평소 수준보다 낮게 나오고 이 이익률에서 출발하는 시나리오도 그만큼 낮다. 자사주 매입을 오래 해 장부상 자본이 매우 작아 PBR과 부채비율은 회사 비교에 쓰기 어렵다. 단기 증권과 운용리스는 직전 연차 보고서(2025년 말) 값을 쓴다(운용리스는 분기 보고서에 없다).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $32.59~$50.01다. 영업이익률은 최근 4분기 14.9%, 2년 중앙값 21.2%, 5년 중앙값 18.7%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 2.5%·이익률 18.7%), 기본(4.2%·21.2%), 낙관(4.1%·14.9%). 최근 4분기 영업이익에는 스킨케어 사업의 영업권·무형자산 손상차손(현금 지출 없음)과 구조조정·소송 관련 비용이 들어 있어, 최근 이익률이 평소 수준보다 낮게 나오고 이 이익률에서 출발하는 시나리오도 그만큼 낮다. 자사주 매입을 오래 해 장부상 자본이 매우 작아 PBR과 부채비율은 회사 비교에 쓰기 어렵다. 단기 증권과 운용리스는 직전 연차 보고서(2025년 말) 값을 쓴다(운용리스는 분기 보고서에 없다).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $50</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −46.7%</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $50</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −46.3%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -930,15 +930,15 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.10.29</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 CL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">39.1</div><div class="sc-tile low" data-vc="self" data-m="per">17</div><div class="sc-tile lost" data-vc="self" data-m="pbr">34</div><div class="sc-tile lost" data-vc="self" data-m="psr">57</div><div class="sc-tile" data-vc="self" data-m="pcr">85</div><div class="sc-tile low" data-vc="self" data-m="evebitda">3</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$50</div><div class="vs-note">현재가 <span data-vs="price">$93.16</span> 대비 <strong data-vs="upside">−46.7%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.88
-시나리오 범위: 1.88 ~ 2.89(세 시나리오 최대·최소 기준)
+      <div class="vs-name" title="지난 5년 CL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">50.7</div><div class="sc-tile" data-vc="self" data-m="per">75</div><div class="sc-tile lost" data-vc="self" data-m="pbr">34</div><div class="sc-tile lost" data-vc="self" data-m="psr">57</div><div class="sc-tile" data-vc="self" data-m="pcr">85</div><div class="sc-tile low" data-vc="self" data-m="evebitda">3</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$50</div><div class="vs-note">현재가 <span data-vs="price">$93.16</span> 대비 <strong data-vs="upside">−46.3%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.86
+시나리오 범위: 1.86 ~ 2.86(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">23.4</div><div class="sc-tile low" data-vc="peer" data-m="per">16</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">56</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">19</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">29.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">44</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">56</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">19</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 37.0배(5년 중앙값 31.6배)로 자기 이력 39.1점(중간), 동종업 23.4점(비싸다)이다. <strong>현금흐름 내재가치(기본 $49.65)는 현재가의 53%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $49.65)는 현재가의 53%다. 현재가를 정당화하려면 영업이익률이 34.7%까지 올라야 한다(최근 4분기 14.9%, 5년 중앙값 18.7%). 내재가치에서 차입금 $7.9B를 빼고 현금·단기투자 $1.5B를 더한다. 최근 4분기 영업이익에는 스킨케어 사업의 영업권·무형자산 손상차손(현금 지출 없음)과 구조조정·소송 관련 비용이 들어 있어, 최근 이익률이 평소 수준보다 낮게 나오고 이 이익률에서 출발하는 시나리오도 그만큼 낮다. 자사주 매입을 오래 해 장부상 자본이 매우 작아 PBR과 부채비율은 회사 비교에 쓰기 어렵다. 단기 증권과 운용리스는 직전 연차 보고서(2025년 말) 값을 쓴다(운용리스는 분기 보고서에 없다).</div>
+    <div class="vs-premise">PER 24.4배(5년 중앙값 25.6배)로 자기 이력 50.7점(중간), 동종업 29.0점(비싸다)이다. <strong>현금흐름 내재가치(기본 $50.01)는 현재가의 54%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $50.01)는 현재가의 54%다. 현재가를 정당화하려면 영업이익률이 34.5%까지 올라야 한다(최근 4분기 14.9%, 5년 중앙값 18.7%). 내재가치에서 차입금 $7.9B를 빼고 현금·단기투자 $1.5B를 더한다. 최근 4분기 영업이익에는 스킨케어 사업의 영업권·무형자산 손상차손(현금 지출 없음)과 구조조정·소송 관련 비용이 들어 있어, 최근 이익률이 평소 수준보다 낮게 나오고 이 이익률에서 출발하는 시나리오도 그만큼 낮다. 자사주 매입을 오래 해 장부상 자본이 매우 작아 PBR과 부채비율은 회사 비교에 쓰기 어렵다. 단기 증권과 운용리스는 직전 연차 보고서(2025년 말) 값을 쓴다(운용리스는 분기 보고서에 없다).</div>
   </div>
 
   <div class="grid-2">
@@ -949,12 +949,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">37.0x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 17%</span>
+            <span class="val-number" data-hist="cur">24.4x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 25%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 82.7%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 21.0x</span><span data-hist="median">중앙 31.6x</span><span data-hist="max">최고 44.9x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 25.1%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 21.0x</span><span data-hist="median">중앙 25.6x</span><span data-hist="max">최고 32.4x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -1022,7 +1022,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 $5.4B(+4.9%), 영업이익률 19.0%(1년 전 21.1%). 주가는 1년 새 +21%<span class="tag">배수 비싼 쪽·매출 성장 비슷</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $49.65)는 현재가의 53%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $50.01)는 현재가의 54%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적 공시.</div>
   </div>
 
@@ -1087,7 +1087,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 14.9%(5년 중앙값 18.7%) — 2025년 4분기 스킨케어 손상차손 $919M(현금 지출 없음)이 들어 있다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $49.65)는 현재가의 53%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $50.01)는 현재가의 54%.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">부채비율(총부채 ÷ 자본) 6875%, 자본 $236M — 오랜 자사주 매입으로 자본이 작아 비율이 크게 나온다.</span></div>
     </div>
   </div>
@@ -1307,7 +1307,7 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '생활용품·식음료 6곳 PER 비교 (점수는 S&P500 필수소비재 기준) · 10/23 종가(CL 막대는 10/29)',
-    unit: 'PER', max: 45, clValue: null,
+    unit: 'PER', max: 40, clValue: null,
     peers: [
       { name:'PG', value:24.2, status:'reference' },
       { name:'KO', value:27.8, status:'reference' },
@@ -1438,7 +1438,7 @@ const CL_MA120 = [79.739,79.689,79.63,79.578,79.526,79.482,79.436,79.386,79.338,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let CL_VERDICT = '계산 중';
 
-const CL_DCF = {"low": 40.9, "base": 49.65, "high": 32.28, "requiredGrowth": 0.1826, "baseEquivGrowth": 0.0338, "reqMode": "margin", "requiredMargin": 0.3473, "marginNow": 0.148769, "growth5y": 0.0416, "nonopPerShare": 0.0, "s2cFallback": false, "asOf": "2026-10-29", "hard": [], "hardDetail": {"roic": 0.534, "tax": 0.2655, "nonopShare": 0.0}, "tvShare": 0.737};   // build_dcf_block.py
+const CL_DCF = {"low": 41.23, "base": 50.01, "high": 32.59, "requiredGrowth": 0.1813, "baseEquivGrowth": 0.0339, "reqMode": "margin", "requiredMargin": 0.345, "marginNow": 0.148769, "growth5y": 0.0416, "nonopPerShare": 0.0, "s2cFallback": false, "asOf": "2026-10-29", "hard": [], "hardDetail": {"roic": 0.534, "tax": 0.2319, "nonopShare": 0.0}, "tvShare": 0.7324};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1491,8 +1491,8 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py CL
 const CL_SCORES = {
   fundamental: 47.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 23.4,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
-  selfHistory: 39.1,   // 자기 5년 배수 분포 백분위 (2021-10-29 ~ 2026-10-29)
+  peer: 29.0,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
+  selfHistory: 50.7,   // 자기 5년 배수 분포 백분위 (2021-10-29 ~ 2026-10-29)
   asOf: "2026-10-29",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
 };
@@ -1592,7 +1592,7 @@ const CL_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py CL
 /* DCF_GRID:BEGIN */
-const CL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[50.29, 42.5, 36.55, 31.84, 28.04], [53.83, 45.02, 38.41, 33.26, 29.14], [58.58, 48.38, 40.9, 35.17, 30.64], [64.37, 52.38, 43.81, 37.37, 32.36], [71.42, 57.08, 47.15, 39.86, 34.27]], "기본": [[61.18, 51.81, 44.65, 39.0, 34.43], [65.6, 54.97, 47.0, 40.8, 35.84], [70.81, 58.61, 49.65, 42.8, 37.4], [77.04, 62.82, 52.67, 45.04, 39.11], [84.63, 67.79, 56.13, 47.57, 41.02]], "낙관": [[40.64, 34.22, 29.3, 25.41, 22.26], [43.37, 36.13, 30.7, 26.47, 23.08], [46.57, 38.33, 32.28, 27.64, 23.97], [50.4, 40.88, 34.07, 28.95, 24.95], [55.06, 43.88, 36.13, 30.42, 26.05]]}};
+const CL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[50.62, 42.83, 36.87, 32.17, 28.36], [54.17, 45.35, 38.73, 33.58, 29.46], [58.92, 48.72, 41.23, 35.5, 30.97], [64.71, 52.72, 44.14, 37.7, 32.69], [71.76, 57.43, 47.49, 40.19, 34.6]], "기본": [[61.55, 52.18, 45.01, 39.36, 34.78], [65.97, 55.34, 47.36, 41.16, 36.19], [71.18, 58.97, 50.01, 43.16, 37.75], [77.41, 63.19, 53.03, 45.4, 39.46], [85.0, 68.16, 56.49, 47.93, 41.37]], "낙관": [[40.96, 34.53, 29.61, 25.72, 22.56], [43.68, 36.45, 31.01, 26.77, 23.38], [46.89, 38.64, 32.59, 27.94, 24.27], [50.72, 41.19, 34.38, 29.25, 25.25], [55.37, 44.2, 36.44, 30.73, 26.35]]}};
 /* DCF_GRID:END */
 (function(){
   const D = CL_DCF, G = (typeof CL_DCF_GRID !== 'undefined') ? CL_DCF_GRID : null;
@@ -1822,7 +1822,7 @@ const CL_FUNDAMENTAL = {"ticker": "CL", "basis": "quarter", "asOf": "2026-06-30"
 //
 // 갱신: python3 v2/build_peer_score.py CL --self v2/CL_multiples.json --card
 /* VALUATION:BEGIN */
-const CL_VALUATION = {"peer": {"score": 23.4, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 16.0, "rank": 22, "peers": 25}, {"metric": "pbr", "score": 0.0, "rank": 26, "peers": 25}, {"metric": "psr", "score": 25.9, "rank": 21, "peers": 27}, {"metric": "pcr", "score": 56.0, "rank": 12, "peers": 25}, {"metric": "evebitda", "score": 19.0, "rank": 18, "peers": 21}]}, "self": {"score": 39.1, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 17.3, "percentile": 82.7, "current": 36.97, "min": 21.0, "median": 31.58, "max": 44.85, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 34.0, "percentile": 66.0, "current": 314.68, "min": 70.61, "median": 195.99, "max": 1471.58, "days": 1054, "currentNote": null}, {"metric": "psr", "score": 57.4, "percentile": 42.6, "current": 3.53, "min": 3.01, "median": 3.59, "max": 4.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 84.5, "percentile": 15.5, "current": 19.25, "min": 17.41, "median": 24.38, "max": 34.79, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 2.5, "percentile": 97.5, "current": 21.61, "min": 14.0, "median": 18.98, "max": 22.51, "days": 1255, "currentNote": null}]}};
+const CL_VALUATION = {"peer": {"score": 29.0, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 44.0, "rank": 15, "peers": 25}, {"metric": "pbr", "score": 0.0, "rank": 26, "peers": 25}, {"metric": "psr", "score": 25.9, "rank": 21, "peers": 27}, {"metric": "pcr", "score": 56.0, "rank": 12, "peers": 25}, {"metric": "evebitda", "score": 19.0, "rank": 18, "peers": 21}]}, "self": {"score": 50.7, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 74.9, "percentile": 25.1, "current": 24.37, "min": 21.0, "median": 25.64, "max": 32.39, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 34.0, "percentile": 66.0, "current": 314.68, "min": 70.61, "median": 195.99, "max": 1471.58, "days": 1054, "currentNote": null}, {"metric": "psr", "score": 57.4, "percentile": 42.6, "current": 3.53, "min": 3.01, "median": 3.59, "max": 4.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 84.5, "percentile": 15.5, "current": 19.25, "min": 17.41, "median": 24.38, "max": 34.79, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 2.5, "percentile": 97.5, "current": 21.61, "min": 14.0, "median": 18.98, "max": 22.51, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2176,7 +2176,7 @@ const CL_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 �
       + `\n유통·담배·식품·음료가 섞여 있다. 차트에는 생활용품·식음료 6곳만 보인다.`);
   put('clSelfBox', 'clSelfScore', 'clSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 37.0배는 5년 분포의 하위 82.7%다(중앙값 31.6배).`
+      + `\nPER 24.4배는 5년 분포의 하위 25.1%다(중앙값 25.6배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

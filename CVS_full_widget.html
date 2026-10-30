@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="cvsLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="cvsDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="cvsDcfBox">0 이하<span class="logic-denom"> · 보수 $12 · 낙관 0 이하</span></div>
+      <div class="logic-score" id="cvsDcfBox">0 이하<span class="logic-denom"> · 보수 $13 · 낙관 0 이하</span></div>
     </div>
     <div class="logic-box logic-neutral" id="cvsFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="cvsFundVerdict">미흡</span></div>
@@ -680,7 +680,7 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$11.98</td><td style="color: var(--red);" data-dcf-upside="low">−86.7%</td>
+          <td class="big scn-low" data-dcf-value="low">$13.14</td><td style="color: var(--red);" data-dcf-upside="low">−85.5%</td>
           <td class="story">매출이 5년 성장률의 절반(연 4.1%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 2.5%로 간다.</td>
         </tr>
         <tr>
@@ -695,7 +695,7 @@ Chart.overrides.doughnut.animation = false;
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 2개는 이 가정에서 0 이하로 나온다(나머지 $11.98). 영업이익률은 최근 4분기 2.0%, 2년 중앙값 2.1%, 5년 중앙값 2.5%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 4.1%·이익률 2.5%), 기본(8.2%·2.1%), 낙관(7.0%·2.0%).</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 2개는 이 가정에서 0 이하로 나온다(나머지 $13.14). 영업이익률은 최근 4분기 2.0%, 2년 중앙값 2.1%, 5년 중앙값 2.5%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 4.1%·이익률 2.5%), 기본(8.2%·2.1%), 낙관(7.0%·2.0%).</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -930,9 +930,10 @@ Chart.overrides.doughnut.animation = false;
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 CVS 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">37.5</div><div class="sc-tile none" data-vc="self" data-m="per">—</div><div class="sc-tile lost" data-vc="self" data-m="pbr">35</div><div class="sc-tile lost" data-vc="self" data-m="psr">42</div><div class="sc-tile lost" data-vc="self" data-m="pcr">43</div><div class="sc-tile low" data-vc="self" data-m="evebitda">30</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">0 이하</div><div class="vs-note">현재가 <span data-vs="price">$90.33</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 5.5% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다
+· 실효세율 8.6% &lt; 10% — 세금 가정에 따라 값이 크게 바뀐다
 · 어떤 일정 성장률로도 현재가에 닿지 않는다
-· 잔존가치(5년 뒤)가 내재가치의 109%
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="기본 내재가치가 0 이하다
+· 잔존가치(5년 뒤)가 내재가치의 105%
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 3/5</span><div class="vs-pill high" data-vs-pill="dcf" title="기본 내재가치가 0 이하다
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">91.2</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">98</div><div class="sc-tile" data-vc="peer" data-m="psr">95</div><div class="sc-tile" data-vc="peer" data-m="pcr">96</div><div class="sc-tile" data-vc="peer" data-m="evebitda">76</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
@@ -948,12 +949,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">23.9x</span>
+            <span class="val-number" data-hist="cur">11.1x</span>
             <span class="hist-badge mid" data-hist="badge">해당 없음 · 평균 제외(순이익률 2% 미만)</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 0%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 9.4x</span><span data-hist="median">중앙 17.9x</span><span data-hist="max">최고 220.7x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 8.4x</span><span data-hist="median">중앙 12.4x</span><span data-hist="max">최고 23.2x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -1439,7 +1440,7 @@ const CVS_MA120 = [84.626,84.687,84.744,84.844,84.927,84.97,85.008,85.038,85.065
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let CVS_VERDICT = '계산 중';
 
-const CVS_DCF = {"low": 11.98, "base": -5.4, "high": -8.53, "requiredGrowth": null, "baseEquivGrowth": 0.0554, "reqMode": "margin", "requiredMargin": 0.0444, "marginNow": 0.019967, "growth5y": 0.0824, "nonopPerShare": 0.0, "s2cFallback": true, "asOf": "2026-10-29", "hard": ["roic", "nosol"], "hardDetail": {"roic": 0.0552, "tax": 0.1559, "nonopShare": null}, "tvShare": 1.0884};   // build_dcf_block.py
+const CVS_DCF = {"low": 13.14, "base": -4.24, "high": -7.43, "requiredGrowth": null, "baseEquivGrowth": 0.0553, "reqMode": "margin", "requiredMargin": 0.0437, "marginNow": 0.019967, "growth5y": 0.0824, "nonopPerShare": 0.0, "s2cFallback": true, "asOf": "2026-10-29", "hard": ["roic", "tax", "nosol"], "hardDetail": {"roic": 0.0552, "tax": 0.0863, "nonopShare": null}, "tvShare": 1.0504};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1593,7 +1594,7 @@ const CVS_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py CVS
 /* DCF_GRID:BEGIN */
-const CVS_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[36.73, 25.94, 17.7, 11.19, 5.93], [34.6, 23.41, 15.02, 8.5, 3.29], [32.08, 20.48, 11.98, 5.49, 0.36], [29.06, 17.07, 8.52, 2.1, -2.89], [25.36, 13.05, 4.52, -1.73, -6.51]], "기본": [[19.62, 9.83, 2.36, -3.53, -8.29], [16.05, 6.14, -1.28, -7.04, -11.63], [11.83, 1.89, -5.4, -10.95, -15.33], [6.77, -3.08, -10.1, -15.36, -19.44], [0.58, -8.95, -15.53, -20.35, -24.04]], "낙관": [[14.86, 6.22, -0.38, -5.58, -9.79], [10.88, 2.26, -4.2, -9.22, -13.23], [6.17, -2.31, -8.53, -13.28, -17.02], [0.52, -7.65, -13.48, -17.85, -21.24], [-6.38, -13.95, -19.18, -23.02, -25.96]]}};
+const CVS_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[37.91, 27.1, 18.84, 12.32, 7.05], [35.78, 24.57, 16.17, 9.63, 4.41], [33.26, 21.65, 13.14, 6.62, 1.48], [30.24, 18.24, 9.67, 3.24, -1.76], [26.55, 14.22, 5.67, -0.59, -5.39]], "기본": [[20.8, 11.0, 3.51, -2.39, -7.16], [17.23, 7.31, -0.12, -5.9, -10.51], [13.02, 3.06, -4.24, -9.81, -14.21], [7.96, -1.91, -8.95, -14.22, -18.32], [1.77, -7.77, -14.37, -19.21, -22.91]], "낙관": [[15.99, 7.33, 0.72, -4.5, -8.72], [12.01, 3.37, -3.1, -8.13, -12.16], [7.3, -1.2, -7.43, -12.19, -15.95], [1.66, -6.53, -12.37, -16.76, -20.17], [-5.24, -12.83, -18.08, -21.93, -24.88]]}};
 /* DCF_GRID:END */
 (function(){
   const D = CVS_DCF, G = (typeof CVS_DCF_GRID !== 'undefined') ? CVS_DCF_GRID : null;
@@ -1823,7 +1824,7 @@ const CVS_FUNDAMENTAL = {"ticker": "CVS", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py CVS --self v2/CVS_multiples.json --card
 /* VALUATION:BEGIN */
-const CVS_VALUATION = {"peer": {"score": 91.2, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 98.1, "rank": 2, "peers": 52}, {"metric": "psr", "score": 94.7, "rank": 4, "peers": 57}, {"metric": "pcr", "score": 96.2, "rank": 3, "peers": 52}, {"metric": "evebitda", "score": 76.0, "rank": 13, "peers": 50}]}, "self": {"score": 37.5, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 67.5, "current": 23.9, "min": 9.41, "median": 17.94, "max": 220.71, "days": 1255, "currentNote": "per_na"}, {"metric": "pbr", "score": 35.1, "percentile": 64.9, "current": 1.45, "min": 0.74, "median": 1.32, "max": 1.97, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 41.7, "percentile": 58.3, "current": 0.28, "min": 0.15, "median": 0.27, "max": 0.51, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 43.3, "percentile": 56.7, "current": 9.83, "min": 4.74, "median": 9.19, "max": 45.96, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 29.7, "percentile": 70.3, "current": 13.9, "min": 7.98, "median": 11.46, "max": 19.73, "days": 1255, "currentNote": null}]}, "perNA": {"netMargin": 0.0118, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const CVS_VALUATION = {"peer": {"score": 91.2, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 98.1, "rank": 2, "peers": 52}, {"metric": "psr", "score": 94.7, "rank": 4, "peers": 57}, {"metric": "pcr", "score": 96.2, "rank": 3, "peers": 52}, {"metric": "evebitda", "score": 76.0, "rank": 13, "peers": 50}]}, "self": {"score": 37.5, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 27.6, "current": 11.07, "min": 8.36, "median": 12.42, "max": 23.2, "days": 1255, "currentNote": "per_na"}, {"metric": "pbr", "score": 35.1, "percentile": 64.9, "current": 1.45, "min": 0.74, "median": 1.32, "max": 1.97, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 41.7, "percentile": 58.3, "current": 0.28, "min": 0.15, "median": 0.27, "max": 0.51, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 43.3, "percentile": 56.7, "current": 9.83, "min": 4.74, "median": 9.19, "max": 45.96, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 29.7, "percentile": 70.3, "current": 13.9, "min": 7.98, "median": 11.46, "max": 19.73, "days": 1255, "currentNote": null}]}, "perNA": {"netMargin": 0.0118, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

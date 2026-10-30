@@ -541,7 +541,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 7.9%)</span>
-      <span class="meta-value" id="aonDcfReq" style="font-size: 22px; color: var(--red);">42.8%</span>
+      <span class="meta-value" id="aonDcfReq" style="font-size: 22px; color: var(--red);">42.9%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="aonConfidenceLabel">밴드 적중률 (747/1233일, 하단우세)</span>
@@ -549,7 +549,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="aonFairBand" title="최근 1년 PER 25~75% 구간(17.8~27.2배) × 최근 4분기 희석 EPS $18.26(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$320 ~ $500</span>
+      <span class="meta-value" id="aonFairBand" title="최근 1년 PER 25~75% 구간(24.0~27.5배) × 최근 4분기 희석 EPS $13.81(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$330 ~ $380</span>
     </div>
   </div>
   </div>
@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="aonLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="aonDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="aonDcfBox">$141<span class="logic-denom"> · 보수 $136 · 낙관 $158</span></div>
+      <div class="logic-score" id="aonDcfBox">$141<span class="logic-denom"> · 보수 $136 · 낙관 $157</span></div>
     </div>
     <div class="logic-box logic-neutral" id="aonFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="aonFundVerdict">보통</span></div>
@@ -571,11 +571,11 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="aonPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="aonPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="aonPeerScore">23.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="aonPeerScore">18.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="aonSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="aonSelfVerdict">싼 편</span></div>
-      <div class="logic-score" id="aonSelfScore">92.8<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="aonSelfScore">91.3<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -680,23 +680,23 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$136.23</td><td style="color: var(--red);" data-dcf-upside="low">−57.6%</td>
+          <td class="big scn-low" data-dcf-value="low">$136.13</td><td style="color: var(--red);" data-dcf-upside="low">−57.7%</td>
           <td class="story">매출이 5년 성장률의 절반(연 4.0%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 25.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$141.19</td><td style="color: var(--red);" data-dcf-upside="base">−56.1%</td>
+          <td class="big scn-base" data-dcf-value="base">$141.08</td><td style="color: var(--red);" data-dcf-upside="base">−56.1%</td>
           <td class="story">매출이 5년 성장률(연 7.9%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 25.1%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$157.54</td><td style="color: var(--red);" data-dcf-upside="high">−51.0%</td>
+          <td class="big scn-high" data-dcf-value="high">$157.42</td><td style="color: var(--red);" data-dcf-upside="high">−51.1%</td>
           <td class="story">매출이 3년 성장률(연 10.4%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 26.3%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $136.23~$157.54다. 영업이익률은 최근 4분기 26.3%, 2년 중앙값 25.1%, 5년 중앙값 25.4%를 쓴다. 배수가 5년 중 가장 낮은 쪽이라 자기 이력 점수가 높다. 다만 최근 4분기 이익에는 자산관리 사업 매각 이익이 들어 있어 PER이 실제 영업 수준보다 낮게 보인다. 8월에 합의한 대형 인수(USI)는 아직 마무리되지 않았고, 카드 숫자는 6월 말 기준이라 9월에 이미 발행한 대규모 회사채와 그 조달 현금도 들어 있지 않다 — 회사채 발행으로 차입금과 현금이 먼저 늘고, 인수가 끝나면 그 현금이 지급되고 무형자산 상각이 더해진다. 영업이익은 인수 고객 목록 상각·손상을 비용으로 뺀 GAAP 값이고, 감가상각 칸의 상각에는 손상이 섞여 있을 수 있다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $141.19 = 사업 가치 $140.26 + 비영업 자산 $0.93(주당, 투자)</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $136.13~$157.42다. 영업이익률은 최근 4분기 26.3%, 2년 중앙값 25.1%, 5년 중앙값 25.4%를 쓴다. 배수가 5년 중 가장 낮은 쪽이라 자기 이력 점수가 높다. 다만 최근 4분기 이익에는 자산관리 사업 매각 이익이 들어 있어 PER이 실제 영업 수준보다 낮게 보인다. 8월에 합의한 대형 인수(USI)는 아직 마무리되지 않았고, 카드 숫자는 6월 말 기준이라 9월에 이미 발행한 대규모 회사채와 그 조달 현금도 들어 있지 않다 — 회사채 발행으로 차입금과 현금이 먼저 늘고, 인수가 끝나면 그 현금이 지급되고 무형자산 상각이 더해진다. 영업이익은 인수 고객 목록 상각·손상을 비용으로 뺀 GAAP 값이고, 감가상각 칸의 상각에는 손상이 섞여 있을 수 있다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $141.08 = 사업 가치 $140.15 + 비영업 자산 $0.93(주당, 투자)</div>
     <div class="reverse">—</div>
   </div>
 
@@ -897,14 +897,14 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.10.29</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 AON 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">92.8</div><div class="sc-tile" data-vc="self" data-m="per">95</div><div class="sc-tile" data-vc="self" data-m="pbr">96</div><div class="sc-tile" data-vc="self" data-m="psr">96</div><div class="sc-tile" data-vc="self" data-m="pcr">81</div><div class="sc-tile" data-vc="self" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="self">싸다</div>
+      <div class="vs-name" title="지난 5년 AON 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">91.3</div><div class="sc-tile" data-vc="self" data-m="per">88</div><div class="sc-tile" data-vc="self" data-m="pbr">96</div><div class="sc-tile" data-vc="self" data-m="psr">96</div><div class="sc-tile" data-vc="self" data-m="pcr">81</div><div class="sc-tile" data-vc="self" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="self">싸다</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$141</div><div class="vs-note">현재가 <span data-vs="price">$321.64</span> 대비 <strong data-vs="upside">−56.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.28
 시나리오 범위: 2.04 ~ 2.36(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 보험 중개사와 결제·거래소·금융 데이터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">23.2</div><div class="sc-tile lost" data-vc="peer" data-m="per">36</div><div class="sc-tile low" data-vc="peer" data-m="pbr">10</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 보험 중개사와 결제·거래소·금융 데이터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">18.6</div><div class="sc-tile low" data-vc="peer" data-m="per">27</div><div class="sc-tile low" data-vc="peer" data-m="pbr">10</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 17.6배(5년 중앙값 27.1배)로 자기 이력 92.8점(싸다), 동종업 23.2점(비싸다)이다. <strong>현금흐름 내재가치(기본 $141.19)는 현재가의 44%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 기권 · 현금흐름 −2, 합계 −1(4표 기준 −1.3) “적정~고평가”이다. 현금흐름 내재가치(기본 $141.19)는 현재가의 44%다. 현재가를 정당화하려면 영업이익률이 42.8%까지 올라야 한다(최근 4분기 26.3%, 5년 중앙값 25.4%). 내재가치에서 차입금·금융리스 $28.1B를 빼고 현금·단기투자 $15.3B를 더한다. 배수가 5년 중 가장 낮은 쪽이라 자기 이력 점수가 높다. 다만 최근 4분기 이익에는 자산관리 사업 매각 이익이 들어 있어 PER이 실제 영업 수준보다 낮게 보인다. 8월에 합의한 대형 인수(USI)는 아직 마무리되지 않았고, 카드 숫자는 6월 말 기준이라 9월에 이미 발행한 대규모 회사채와 그 조달 현금도 들어 있지 않다 — 회사채 발행으로 차입금과 현금이 먼저 늘고, 인수가 끝나면 그 현금이 지급되고 무형자산 상각이 더해진다. 영업이익은 인수 고객 목록 상각·손상을 비용으로 뺀 GAAP 값이고, 감가상각 칸의 상각에는 손상이 섞여 있을 수 있다.</div>
+    <div class="vs-premise">PER 23.3배(5년 중앙값 26.6배)로 자기 이력 91.3점(싸다), 동종업 18.6점(비싸다)이다. <strong>현금흐름 내재가치(기본 $141.08)는 현재가의 44%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 기권 · 현금흐름 −2, 합계 −1(4표 기준 −1.3) “적정~고평가”이다. 현금흐름 내재가치(기본 $141.08)는 현재가의 44%다. 현재가를 정당화하려면 영업이익률이 42.9%까지 올라야 한다(최근 4분기 26.3%, 5년 중앙값 25.4%). 내재가치에서 차입금·금융리스 $28.1B를 빼고 현금·단기투자 $15.3B를 더한다. 배수가 5년 중 가장 낮은 쪽이라 자기 이력 점수가 높다. 다만 최근 4분기 이익에는 자산관리 사업 매각 이익이 들어 있어 PER이 실제 영업 수준보다 낮게 보인다. 8월에 합의한 대형 인수(USI)는 아직 마무리되지 않았고, 카드 숫자는 6월 말 기준이라 9월에 이미 발행한 대규모 회사채와 그 조달 현금도 들어 있지 않다 — 회사채 발행으로 차입금과 현금이 먼저 늘고, 인수가 끝나면 그 현금이 지급되고 무형자산 상각이 더해진다. 영업이익은 인수 고객 목록 상각·손상을 비용으로 뺀 GAAP 값이고, 감가상각 칸의 상각에는 손상이 섞여 있을 수 있다.</div>
   </div>
 
   <div class="grid-2">
@@ -915,12 +915,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">17.6x</span>
-            <span class="hist-badge good" data-hist="badge">5년 중 하위 5%</span>
+            <span class="val-number" data-hist="cur">23.3x</span>
+            <span class="hist-badge good" data-hist="badge">5년 중 하위 12%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 4.7%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 14.8x</span><span data-hist="median">중앙 27.1x</span><span data-hist="max">최고 81.0x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 12.1%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 19.4x</span><span data-hist="median">중앙 26.6x</span><span data-hist="max">최고 38.2x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -988,7 +988,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.1B(+2.6%), 영업이익률 19.7%(1년 전 20.4%). 주가는 1년 새 −3%<span class="tag">배수 5년 최저권·매출 성장 비슷</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 기권 · 현금흐름 −2, 합계 −1(4표 기준 −1.3) “적정~고평가”이다. 현금흐름 내재가치(기본 $141.19)는 현재가의 44%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 기권 · 현금흐름 −2, 합계 −1(4표 기준 −1.3) “적정~고평가”이다. 현금흐름 내재가치(기본 $141.08)는 현재가의 44%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 1월 29일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1078,14 +1078,14 @@ Chart.overrides.doughnut.animation = false;
   <div class="bull-bear">
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 93점(배수 5개) · PER 17.6배(5년 중앙값 27.1배).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 91점(배수 5개) · PER 23.3배(5년 중앙값 26.6배).</span></div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $3.3B, 매출의 18.5%.</span></div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">환원</span><span class="bb-text">분기 주당 배당 $0.82(1년 전보다 +10.1%).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">매출</span><span class="bb-text">Q3 2026 매출 +2.6%(보고 기준, 3년 연평균 10.4%).</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $141.19)는 현재가의 44%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $141.08)는 현재가의 44%.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">부채비율(총부채 ÷ 자본) 544%, 자본 $10.1B.</span></div>
     </div>
   </div>
@@ -1433,7 +1433,7 @@ const AON_MA120 = [268.933,269.409,269.848,270.187,270.476,270.762,271.132,271.4
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let AON_VERDICT = '계산 중';
 
-const AON_DCF = {"low": 136.23, "base": 141.19, "high": 157.54, "requiredGrowth": 0.3489, "baseEquivGrowth": 0.054, "reqMode": "margin", "requiredMargin": 0.4284, "marginNow": 0.262825, "growth5y": 0.0792, "nonopPerShare": 0.93, "s2cFallback": true, "asOf": "2026-10-29", "hard": [], "hardDetail": {"roic": 0.1546, "tax": 0.2166, "nonopShare": 0.0066}, "tvShare": 0.7565};   // build_dcf_block.py
+const AON_DCF = {"low": 136.13, "base": 141.08, "high": 157.42, "requiredGrowth": 0.3491, "baseEquivGrowth": 0.054, "reqMode": "margin", "requiredMargin": 0.4286, "marginNow": 0.262825, "growth5y": 0.0792, "nonopPerShare": 0.93, "s2cFallback": true, "asOf": "2026-10-29", "hard": [], "hardDetail": {"roic": 0.1546, "tax": 0.2186, "nonopShare": 0.0066}, "tvShare": 0.757};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1483,8 +1483,8 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py AON
 const AON_SCORES = {
   fundamental: 51.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 23.2,          // S&P500 보험 중개 + 결제·거래소·금융 데이터 대비 배수 순위 (v2/peer_universe/brokers_fees.json)
-  selfHistory: 92.8,   // 자기 5년 배수 분포 백분위 (2021-10-29 ~ 2026-10-29)
+  peer: 18.6,          // S&P500 보험 중개 + 결제·거래소·금융 데이터 대비 배수 순위 (v2/peer_universe/brokers_fees.json)
+  selfHistory: 91.3,   // 자기 5년 배수 분포 백분위 (2021-10-29 ~ 2026-10-29)
   asOf: "2026-10-29",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
 };
@@ -1584,7 +1584,7 @@ const AON_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py AON
 /* DCF_GRID:BEGIN */
-const AON_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[185.67, 154.04, 129.72, 110.42, 94.71], [193.29, 158.83, 132.79, 112.39, 95.95], [202.21, 164.3, 136.23, 114.56, 97.3], [212.8, 170.6, 140.11, 116.98, 98.78], [225.63, 177.97, 144.53, 119.67, 100.41]], "기본": [[194.85, 160.63, 134.32, 113.45, 96.47], [202.97, 165.71, 137.56, 115.51, 97.75], [212.48, 171.51, 141.19, 117.79, 99.15], [223.77, 178.2, 145.28, 120.31, 100.68], [237.44, 186.02, 149.95, 123.14, 102.37]], "낙관": [[216.77, 178.53, 149.16, 125.87, 106.95], [226.37, 184.62, 153.11, 128.46, 108.62], [237.59, 191.57, 157.54, 131.31, 110.44], [250.94, 199.59, 162.54, 134.48, 112.44], [267.11, 208.98, 168.25, 138.03, 114.65]]}};
+const AON_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[185.56, 153.94, 129.62, 110.32, 94.61], [193.19, 158.73, 132.69, 112.29, 95.85], [202.1, 164.19, 136.13, 114.46, 97.2], [212.69, 170.5, 140.0, 116.87, 98.68], [225.52, 177.87, 144.43, 119.57, 100.31]], "기본": [[194.73, 160.52, 134.21, 113.34, 96.37], [202.86, 165.6, 137.45, 115.4, 97.65], [212.36, 171.4, 141.08, 117.68, 99.04], [223.65, 178.09, 145.17, 120.21, 100.57], [237.32, 185.91, 149.84, 123.03, 102.26]], "낙관": [[216.65, 178.41, 149.04, 125.76, 106.84], [226.25, 184.5, 153.0, 128.34, 108.51], [237.48, 191.45, 157.42, 131.2, 110.33], [250.82, 199.47, 162.43, 134.37, 112.33], [266.99, 208.86, 168.13, 137.91, 114.53]]}};
 /* DCF_GRID:END */
 (function(){
   const D = AON_DCF, G = (typeof AON_DCF_GRID !== 'undefined') ? AON_DCF_GRID : null;
@@ -1814,7 +1814,7 @@ const AON_FUNDAMENTAL = {"ticker": "AON", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py AON --self v2/AON_multiples.json --card
 /* VALUATION:BEGIN */
-const AON_VALUATION = {"peer": {"score": 23.2, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-10-29", "metrics": [{"metric": "per", "score": 36.4, "rank": 8, "peers": 11}, {"metric": "pbr", "score": 10.0, "rank": 10, "peers": 10}]}, "self": {"score": 92.8, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 95.3, "percentile": 4.7, "current": 17.61, "min": 14.85, "median": 27.08, "max": 80.99, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 96.0, "percentile": 4.0, "current": 6.76, "min": 5.96, "median": 12.75, "max": 1067.45, "days": 883, "currentNote": null}, {"metric": "psr", "score": 96.1, "percentile": 3.9, "current": 3.86, "min": 3.25, "median": 4.83, "max": 5.85, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 80.6, "percentile": 19.4, "current": 20.89, "min": 17.6, "median": 24.04, "max": 37.35, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.9, "percentile": 4.1, "current": 14.81, "min": 12.92, "median": 19.04, "max": 36.42, "days": 1255, "currentNote": null}]}};
+const AON_VALUATION = {"peer": {"score": 18.6, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-10-29", "metrics": [{"metric": "per", "score": 27.3, "rank": 9, "peers": 11}, {"metric": "pbr", "score": 10.0, "rank": 10, "peers": 10}]}, "self": {"score": 91.3, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.9, "percentile": 12.1, "current": 23.29, "min": 19.4, "median": 26.65, "max": 38.2, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 96.0, "percentile": 4.0, "current": 6.76, "min": 5.96, "median": 12.75, "max": 1067.45, "days": 883, "currentNote": null}, {"metric": "psr", "score": 96.1, "percentile": 3.9, "current": 3.86, "min": 3.25, "median": 4.83, "max": 5.85, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 80.6, "percentile": 19.4, "current": 20.89, "min": 17.6, "median": 24.04, "max": 37.35, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.9, "percentile": 4.1, "current": 14.81, "min": 12.92, "median": 19.04, "max": 36.42, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2167,7 +2167,7 @@ const AON_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 
       + `\n카드 네트워크·결제 처리·거래소·신용평가 회사가 섞여 있어 성장·마진 구조가 다르다 — 차트의 중개사 4곳과 직접 비교할 것(차트에는 중개사 4곳과 신용평가 2곳만 보인다).`);
   put('aonSelfBox', 'aonSelfScore', 'aonSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 17.6배는 5년 분포의 하위 4.7%다(중앙값 27.1배).`
+      + `\nPER 23.3배는 5년 분포의 하위 12.1%다(중앙값 26.6배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

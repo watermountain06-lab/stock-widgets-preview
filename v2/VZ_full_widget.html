@@ -541,7 +541,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 영업이익률 (최근 4분기 20.9%)</span>
-      <span class="meta-value" id="vzDcfReq" style="font-size: 22px; color: var(--red);">연 -47.9%</span>
+      <span class="meta-value" id="vzDcfReq" style="font-size: 22px; color: var(--red);">연 -47.6%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="vzConfidenceLabel">밴드 적중률 (577/1235일, 하단우세)</span>
@@ -549,7 +549,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="vzFairBand" title="최근 1년 PER 25~75% 구간(9.4~12.2배) × 최근 4분기 희석 EPS $3.93(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에는 4분기 퇴직 비용·2분기 국제 유선 처분 손실 같은 특별 항목이 들어 있다." style="font-size:22px;color:var(--green);">$40 ~ $50</span>
+      <span class="meta-value" id="vzFairBand" title="최근 1년 PER 25~75% 구간(9.1~11.5배) × 최근 4분기 희석 EPS $4.66(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다. 최근 4분기 EPS에는 4분기 퇴직 비용·2분기 국제 유선 처분 손실 같은 특별 항목이 들어 있다." style="font-size:22px;color:var(--green);">$40 ~ $50</span>
     </div>
   </div>
   </div>
@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="vzLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="vzDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="vzDcfBox">$15<span class="logic-denom"> · 보수 $7.31 · 낙관 $15</span></div>
+      <div class="logic-score" id="vzDcfBox">$15<span class="logic-denom"> · 보수 $7.45 · 낙관 $15</span></div>
     </div>
     <div class="logic-box logic-neutral" id="vzFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="vzFundVerdict">보통</span></div>
@@ -575,7 +575,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="vzSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="vzSelfVerdict">중간</span></div>
-      <div class="logic-score" id="vzSelfScore">61.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="vzSelfScore">66.2<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -680,24 +680,24 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$7.31</td><td style="color: var(--red);" data-dcf-upside="low">−83.3%</td>
+          <td class="big scn-low" data-dcf-value="low">$7.45</td><td style="color: var(--red);" data-dcf-upside="low">−82.9%</td>
           <td class="story">5년 성장률의 절반(연 0.4%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 21.5%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$14.89</td><td style="color: var(--red);" data-dcf-upside="base">−65.9%</td>
+          <td class="big scn-base" data-dcf-value="base">$15.03</td><td style="color: var(--red);" data-dcf-upside="base">−65.6%</td>
           <td class="story">5년 성장률(연 0.8%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 2년 중앙값 21.2%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$15.14</td><td style="color: var(--red);" data-dcf-upside="high">−65.3%</td>
+          <td class="big scn-high" data-dcf-value="high">$15.28</td><td style="color: var(--red);" data-dcf-upside="high">−65.0%</td>
           <td class="story">3년 성장률(연 1.3%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 4분기 20.9%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $7.31~$15.14다. 영업이익률은 최근 4분기 20.9%, 2년 중앙값 21.2%, 5년 중앙값 21.5%를 쓴다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $7.45~$15.28다. 영업이익률은 최근 4분기 20.9%, 2년 중앙값 21.2%, 5년 중앙값 21.5%를 쓴다.</div>
     <div class="note" data-dcf-nonop hidden></div>
-    <div class="reverse">지금 가격(<span data-dcf-price>$43.66</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>-47.9%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$15</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>2.5%</span>다.</div>
+    <div class="reverse">지금 가격(<span data-dcf-price>$43.66</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>-47.6%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$15</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>2.5%</span>다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $15</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −65.9%</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $15</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −65.6%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -896,17 +896,17 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.10.29</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 VZ 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">61.4</div><div class="sc-tile lost" data-vc="self" data-m="per">32</div><div class="sc-tile" data-vc="self" data-m="pbr">78</div><div class="sc-tile lost" data-vc="self" data-m="psr">50</div><div class="sc-tile" data-vc="self" data-m="pcr">97</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$15</div><div class="vs-note">현재가 <span data-vs="price">$43.66</span> 대비 <strong data-vs="upside">−65.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 8.8% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다
+      <div class="vs-name" title="지난 5년 VZ 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">66.2</div><div class="sc-tile lost" data-vc="self" data-m="per">56</div><div class="sc-tile" data-vc="self" data-m="pbr">78</div><div class="sc-tile lost" data-vc="self" data-m="psr">50</div><div class="sc-tile" data-vc="self" data-m="pcr">97</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$15</div><div class="vs-note">현재가 <span data-vs="price">$43.66</span> 대비 <strong data-vs="upside">−65.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 8.8% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다
 · 잔존가치(5년 뒤)가 내재가치의 75%
-판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.93
-시나리오 범위: 2.88 ~ 5.97(세 시나리오 최대·최소 기준)
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.90
+시나리오 범위: 2.86 ~ 5.86(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 커뮤니케이션 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">78.1</div><div class="sc-tile" data-vc="peer" data-m="per">88</div><div class="sc-tile" data-vc="peer" data-m="pbr">82</div><div class="sc-tile" data-vc="peer" data-m="psr">71</div><div class="sc-tile" data-vc="peer" data-m="pcr">75</div><div class="sc-tile" data-vc="peer" data-m="evebitda">75</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 11.1배(5년 중앙값 10.0배)로 자기 이력 61.4점(중간), 동종업 78.1점(싸다)이다. <strong>현금흐름 내재가치(기본 $14.89)는 현재가의 34%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $14.89)는 현재가의 34%다. 현재가를 정당화하려면 매출이 5년간 연 −47.9% 커야 한다. 내재가치에서 차입금 $166.2B를 빼고 현금·단기투자 $4.5B를 더한다.</div>
+    <div class="vs-premise">PER 9.4배(5년 중앙값 9.5배)로 자기 이력 66.2점(중간), 동종업 78.1점(싸다)이다. <strong>현금흐름 내재가치(기본 $15.03)는 현재가의 34%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $15.03)는 현재가의 34%다. 현재가를 정당화하려면 매출이 5년간 연 −47.6% 커야 한다. 내재가치에서 차입금 $166.2B를 빼고 현금·단기투자 $4.5B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -917,12 +917,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">11.1x</span>
-            <span class="hist-badge mid" data-hist="badge">5년 중 상위 32%</span>
+            <span class="val-number" data-hist="cur">9.4x</span>
+            <span class="hist-badge mid" data-hist="badge">5년 중 하위 44%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 67.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 6.1x</span><span data-hist="median">중앙 10.0x</span><span data-hist="max">최고 19.2x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 44%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 6.1x</span><span data-hist="median">중앙 9.5x</span><span data-hist="max">최고 12.7x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -990,7 +990,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $34.3B(+1.5%), 영업이익률 25.2%(1년 전 24.0%). 주가는 1년 새 +11%<span class="tag">배수 싼 쪽·매출 성장(인수 포함)</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $14.89)는 현재가의 34%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $15.03)는 현재가의 34%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 1월 29일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1081,10 +1081,11 @@ Chart.overrides.doughnut.animation = false;
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">현금</span><span class="bb-text">최근 4분기 FCF $22.4B, 매출의 16.1%.</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 66점(배수 5개) · PER 9.4배(5년 중앙값 9.5배).</span></div>
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $14.89)는 현재가의 34%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $15.03)는 현재가의 34%.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">순차입금(리스 포함) $184.5B, 최근 4분기 영업이익의 6.3배.</span></div>
     </div>
   </div>
@@ -1436,7 +1437,7 @@ const VZ_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,nu
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let VZ_VERDICT = '계산 중';
 
-const VZ_DCF = {"low": 7.31, "base": 14.89, "high": 15.14, "requiredGrowth": -0.4785, "baseEquivGrowth": 0.025, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.208592, "growth5y": 0.0076, "nonopPerShare": 0.17, "s2cFallback": false, "asOf": "2026-10-29", "hard": ["roic"], "hardDetail": {"roic": 0.0876, "tax": 0.2313, "nonopShare": 0.0111}, "tvShare": 0.7515};   // build_dcf_block.py
+const VZ_DCF = {"low": 7.45, "base": 15.03, "high": 15.28, "requiredGrowth": -0.4764, "baseEquivGrowth": 0.025, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.208592, "growth5y": 0.0076, "nonopPerShare": 0.17, "s2cFallback": false, "asOf": "2026-10-29", "hard": ["roic"], "hardDetail": {"roic": 0.0876, "tax": 0.2228, "nonopShare": 0.011}, "tvShare": 0.7496};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1490,7 +1491,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 const VZ_SCORES = {
   fundamental: 45.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 78.1,          // S&P500 커뮤니케이션 대비 배수 순위 (v2/peer_universe/communication_services.json)
-  selfHistory: 61.4,   // 자기 5년 배수 분포 백분위 (2021-10-29 ~ 2026-10-29)
+  selfHistory: 66.2,   // 자기 5년 배수 분포 백분위 (2021-10-29 ~ 2026-10-29)
   asOf: "2026-10-29",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
 };
@@ -1585,7 +1586,7 @@ const VZ_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py VZ
 /* DCF_GRID:BEGIN */
-const VZ_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[29.53, 20.38, 13.38, 7.85, 3.37], [27.32, 17.73, 10.53, 4.94, 0.46], [24.71, 14.68, 7.31, 1.68, -2.77], [21.58, 11.11, 3.63, -1.98, -6.35], [17.76, 6.9, -0.62, -6.13, -10.35]], "기본": [[33.77, 24.48, 16.97, 11.05, 6.26], [33.9, 23.99, 15.98, 9.75, 4.77], [34.09, 23.47, 14.89, 8.33, 3.15], [34.37, 22.92, 13.69, 6.76, 1.38], [34.76, 22.33, 12.35, 5.03, -0.56]], "낙관": [[33.31, 24.13, 16.78, 10.98, 6.29], [33.66, 23.84, 16.01, 9.92, 5.05], [34.07, 23.52, 15.14, 8.74, 3.68], [34.54, 23.14, 14.15, 7.41, 2.16], [35.11, 22.7, 13.01, 5.9, 0.46]]}};
+const VZ_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[29.67, 20.52, 13.51, 7.98, 3.51], [27.46, 17.87, 10.67, 5.07, 0.59], [24.86, 14.82, 7.45, 1.82, -2.63], [21.73, 11.25, 3.77, -1.84, -6.21], [17.9, 7.05, -0.47, -5.99, -10.21]], "기본": [[33.91, 24.61, 17.11, 11.19, 6.39], [34.04, 24.13, 16.12, 9.88, 4.9], [34.23, 23.61, 15.03, 8.46, 3.28], [34.51, 23.06, 13.83, 6.9, 1.52], [34.91, 22.47, 12.49, 5.17, -0.42]], "낙관": [[33.45, 24.26, 16.92, 11.11, 6.42], [33.8, 23.98, 16.15, 10.06, 5.18], [34.21, 23.66, 15.28, 8.87, 3.81], [34.69, 23.28, 14.29, 7.54, 2.29], [35.26, 22.84, 13.15, 6.03, 0.59]]}};
 /* DCF_GRID:END */
 (function(){
   const D = VZ_DCF, G = (typeof VZ_DCF_GRID !== 'undefined') ? VZ_DCF_GRID : null;
@@ -1815,7 +1816,7 @@ const VZ_FUNDAMENTAL = {"ticker": "VZ", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py VZ --self v2/VZ_multiples.json --card
 /* VALUATION:BEGIN */
-const VZ_VALUATION = {"peer": {"score": 78.1, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 87.5, "rank": 3, "peers": 16}, {"metric": "pbr", "score": 82.4, "rank": 4, "peers": 17}, {"metric": "psr", "score": 70.6, "rank": 6, "peers": 17}, {"metric": "pcr", "score": 75.0, "rank": 5, "peers": 16}, {"metric": "evebitda", "score": 75.0, "rank": 4, "peers": 12}]}, "self": {"score": 61.4, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 32.4, "percentile": 67.6, "current": 11.11, "min": 6.12, "median": 10.0, "max": 19.21, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 77.8, "percentile": 22.2, "current": 1.71, "min": 1.35, "median": 1.82, "max": 2.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 50.2, "percentile": 49.8, "current": 1.3, "min": 0.96, "median": 1.3, "max": 1.73, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.9, "percentile": 3.1, "current": 8.09, "min": 7.77, "median": 9.53, "max": 14.53, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 49.9, "percentile": 50.1, "current": 7.55, "min": 6.43, "median": 7.55, "max": 8.99, "days": 1255, "currentNote": null}]}};
+const VZ_VALUATION = {"peer": {"score": 78.1, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 87.5, "rank": 3, "peers": 16}, {"metric": "pbr", "score": 82.4, "rank": 4, "peers": 17}, {"metric": "psr", "score": 70.6, "rank": 6, "peers": 17}, {"metric": "pcr", "score": 75.0, "rank": 5, "peers": 16}, {"metric": "evebitda", "score": 75.0, "rank": 4, "peers": 12}]}, "self": {"score": 66.2, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 56.0, "percentile": 44.0, "current": 9.37, "min": 6.12, "median": 9.54, "max": 12.66, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 77.8, "percentile": 22.2, "current": 1.71, "min": 1.35, "median": 1.82, "max": 2.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 50.2, "percentile": 49.8, "current": 1.3, "min": 0.96, "median": 1.3, "max": 1.73, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.9, "percentile": 3.1, "current": 8.09, "min": 7.77, "median": 9.53, "max": 14.53, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 49.9, "percentile": 50.1, "current": 7.55, "min": 6.43, "median": 7.55, "max": 8.99, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2169,7 +2170,7 @@ const VZ_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 �
       + `\n통신·케이블 외에 인터넷 플랫폼(GOOGL·META)·미디어·광고가 섞여 있다. 이 카드만 S&P500 커뮤니케이션 전용 비교군을 쓴다. FOX·FOXA는 PSR·PBR·PCR 값이 0으로 잘못 계산돼 그 세 배수에서 뺐다. 통신사는 성장이 높은 플랫폼 기업보다 배수가 낮은 업종이라, 동종업 표(+1)는 이 섞인 구성의 영향이 크다(비교군 설계는 v2.1에서 따로).`);
   put('vzSelfBox', 'vzSelfScore', 'vzSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 11.1배는 5년 분포의 하위 67.6%다(중앙값 10.0배).`
+      + `\nPER 9.4배는 5년 분포의 하위 44.0%다(중앙값 9.5배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
