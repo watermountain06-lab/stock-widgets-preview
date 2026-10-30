@@ -136,6 +136,30 @@ def run():
         check("r15 매출 바닥 아래 분기 빼면 2번 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
     finally:
         eo.revenue_ttm = _rev
+    # r15 실제 매출 경로(revenue_ttm): cap 뒤 재작성은 분기화 전에 버린다(Codex r15 필수)
+    import fetch_eps_history as _feh
+    _pt, _ck, _rl = bmh.pick_tag, dict(_feh.CIKS), set(_feh.RESTATED_LATEST)
+    try:
+        _feh.CIKS[T] = "0000000000"
+        _feh.RESTATED_LATEST.add(T)
+        _qs = [("2024-01-01", "2024-03-31"), ("2024-04-01", "2024-06-30"), ("2024-07-01", "2024-09-30"), ("2024-10-01", "2024-12-31")]
+        _rv = [{"start": a_, "end": b_, "val": 100.0, "filed": "2025-02-01", "form": "10-K"} for a_, b_ in _qs] + \
+              [{"start": a_, "end": b_, "val": 200.0, "filed": "2026-02-01", "form": "10-K"} for a_, b_ in _qs]
+        bmh.pick_tag = lambda cik, names, taxonomy="us-gaap": ("Revenues", [dict(x) for x in _rv])
+        eo.reset()
+        check("r15 매출 TTM은 cap 당시 값(재작성 전 400)", approx(eo.revenue_ttm(T, "2024-12-31", "2025-03-01"), 400.0))
+        eo.reset()
+        check("r15 매출 TTM cap 뒤면 재작성 값(800)", approx(eo.revenue_ttm(T, "2024-12-31", "2026-03-01"), 800.0))
+        _feh.CIKS.pop(T, None)
+        eo.reset()
+        check("r15 CIK 없으면 매출 None(바닥 없이 판정)", eo.revenue_ttm(T, "2024-12-31", "2026-03-01") is None)
+    finally:
+        bmh.pick_tag = _pt
+        _feh.CIKS.clear(); _feh.CIKS.update(_ck)
+        _feh.RESTATED_LATEST.clear(); _feh.RESTATED_LATEST.update(_rl)
+        eo.reset()
+    setup([item(E, eps=0.30), item(w[1], eps=0.30, id="o1"), item(w[1], eps=-0.25, id="o1b", desc="o1b"), item(w[2], eps=0.25, id="o2")])
+    check("r15 같은 분기 상쇄(+0.30 −0.25 = 0.05)는 안 셈 → E·w2 2번 → 적용", approx(eo.eps_adjust(T, R, E, CAP), 0.30))
     setup([item(E, eps=0.30, out_of_scope_mixed=True)])
     check("out_of_scope_mixed는 적용 안 함", approx(eo.eps_adjust(T, R, E, CAP), 0.0))
     setup([item(E, eps=0.30)], scan_q=[q for q in QS if q != w[3]])
@@ -424,6 +448,7 @@ def run():
 MUTANTS = [
     ("r15 반복 셈 크기 무시", "        if abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and (e_ or u_):", "        if True:"),
     ("r15 반복 셈 매출 바닥 제거", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and abs(u_) >= floor_usd and", "abs(e_) + EPS_TOL >= THRESHOLD * abs(G) and"),
+    ("r15 매출 cap 선필터 제거", "            rows = [e for e in rows if e.get(\"filed\", \"\") <= cap]\n", ""),
     ("r15 적용 매출 바닥 제거", "    if abs(sum(it[\"adj_pretax\"] for it in cand)) < floor_usd:", "    if False:"),
     ("r15 반복 셈 분기 합 대신 항목별", "                s_[0] += adj_eps_gaap(it, cap) / _split_ratio(it[\"filed\"], sp)", "                s_[0] = max(s_[0], adj_eps_gaap(it, cap) / _split_ratio(it[\"filed\"], sp))"),
     ("반복 셈 3 → 4", "REPEAT_MIN = 3", "REPEAT_MIN = 4"),

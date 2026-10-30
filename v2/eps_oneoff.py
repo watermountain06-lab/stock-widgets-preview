@@ -439,6 +439,9 @@ def revenue_ttm(ticker, E, cap):
         v = None
         if cik:
             _, rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
+            # cap 뒤 공시(재작성)를 분기화 **전에** 버린다 — 재작성 종목(RESTATED_LATEST)은 quarterly_flow가 최신 값에 최초 공시일을
+            # 붙여, 계산 뒤 공개일 검사로는 cap 뒤 재작성 값이 통과했다(Codex r15)
+            rows = [e for e in rows if e.get("filed", "") <= cap]
             if rows:
                 ok = [e for e in bmh.ttm_series(bmh.quarterly_flow(rows, ticker)) if e["end"] == E and e["available"] <= cap]
                 v = ok[-1]["val"] if ok else None
