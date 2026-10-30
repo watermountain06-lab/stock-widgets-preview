@@ -1714,11 +1714,13 @@ def component_sum(cik, tags):
     # 예전과 같은 완전한 합·최대 공시일이다. 예전에는 슬롯 공개일 = 구성요소 공시일 최대라, 1년 뒤 비교 열로 처음 태깅된
     # 구성요소 하나가 분기말 총계 전체를 1년 "미공개"로 만들었다(META 차입 2026-01-29~04-29에 2025-09-30 $28.8B — 12-31 $58.7B는
     # 10-K 2026-01-29 공시, 54종목 5,247거래일 — Fable 2026-10-29). 결산일별로 한 줄을 기대하는 호출부({end: 행})는 마지막 행 = 예전 값을 받는다.
-    # 부분 합은 그날까지 모인 태그가 **직전 결산일의 태그를 모두 포함할 때만** 낸다(Fable·Codex E65 r1). 큰 구성요소가 늦게 오는 회사
+    # 부분 합은 그날까지 모인 태그가 **직전 4개 결산일 태그의 합집합을 모두 포함할 때만** 낸다(Fable·Codex E65 r1·r2).
+    # 직전 하나만 보면 연말에만 태깅되는 구성요소(GS 단기차입 $61B는 10-K에만)·성긴 비교열(TDG 리스)을 뚫었다(r2). 큰 구성요소가 늦게 오는 회사
     # (EXC: 10-K에는 단기 + 1년 안 만기만, 장기 비유동분 $47B는 다음 10-Q 비교 열에서 처음)는 부분 합이 완전한 합의 5%라, 직전 분기
     # 완전한 합을 쓰던 예전보다 훨씬 틀렸다. 직전 결산일이 없으면 부분 합을 내지 않는다.
     out = []
     prev_tags = None
+    recent = []                          # 직전 결산일들의 태그 집합(최근 4개)
     for k in sorted(per_date):
         v = per_date[k]
         acc, parts, i, seen = 0.0, sorted(v["parts"]), 0, set()
@@ -1730,7 +1732,8 @@ def component_sum(cik, tags):
                 i += 1
             if i == len(parts) or (prev_tags is not None and seen >= prev_tags):
                 out.append({"end": k, "val": acc, "available": f})
-        prev_tags = {t for _, _, t in parts}
+        recent = (recent + [{t for _, _, t in parts}])[-4:]
+        prev_tags = set().union(*recent)
     return sorted(out, key=lambda e: (e["available"], e["end"]))
 
 
