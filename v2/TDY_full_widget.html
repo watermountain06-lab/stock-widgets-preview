@@ -1312,34 +1312,34 @@ const MULTIPLE_DATA = {
     title: '하드웨어·부품 6곳 PER 비교 (점수는 카드 유니버스 IT 기준) · 09/04~09/11 카드 기준(TDY 막대는 10/29)',
     unit: 'PER', max: 55, tdyValue: null,
     peers: [
-      { name:'APH', value:40.6, status:'reference' },
-      { name:'TXN', value:47.1, status:'reference' },
-      { name:'CSCO', value:36.3, status:'reference' },
-      { name:'QCOM', value:21.2, status:'reference' },
-      { name:'DELL', value:28.7, status:'reference' },
-      { name:'IBM', value:26.3, status:'reference' }
+      { name:'APH', value:41.1, status:'reference' },
+      { name:'TXN', value:47.6, status:'reference' },
+      { name:'CSCO', value:35.7, status:'reference' },
+      { name:'QCOM', value:21.5, status:'reference' },
+      { name:'DELL', value:27.7, status:'reference' },
+      { name:'IBM', value:26.9, status:'reference' }
     ]
   },
   pbr: {
     title: 'PBR 비교 (DELL 값 없음) · 09/04~09/11 카드 기준(TDY 막대는 10/29)',
     unit: 'PBR', max: 20, tdyValue: null,
     peers: [
-      { name:'APH', value:12.9, status:'reference' },
-      { name:'TXN', value:15.7, status:'reference' },
-      { name:'CSCO', value:8.6, status:'reference' },
-      { name:'QCOM', value:6.9, status:'reference' },
-      { name:'IBM', value:6.9, status:'reference' }
+      { name:'APH', value:13.1, status:'reference' },
+      { name:'TXN', value:15.9, status:'reference' },
+      { name:'CSCO', value:8.5, status:'reference' },
+      { name:'QCOM', value:7.0, status:'reference' },
+      { name:'IBM', value:7.1, status:'reference' }
     ]
   },
   psr: {
     title: 'PSR 비교 · 09/04~09/11 카드 기준(TDY 막대는 10/29)',
     unit: 'PSR(TTM)', max: 20, tdyValue: null,
     peers: [
-      { name:'APH', value:6.9, status:'reference' },
-      { name:'TXN', value:14.5, status:'reference' },
-      { name:'CSCO', value:6.9, status:'reference' },
+      { name:'APH', value:7.0, status:'reference' },
+      { name:'TXN', value:14.7, status:'reference' },
+      { name:'CSCO', value:6.8, status:'reference' },
       { name:'QCOM', value:4.4, status:'reference' },
-      { name:'DELL', value:2.1, status:'reference' },
+      { name:'DELL', value:2.0, status:'reference' },
       { name:'IBM', value:3.5, status:'reference' }
     ]
   },
@@ -1347,24 +1347,24 @@ const MULTIPLE_DATA = {
     title: 'PCR(FCF) 비교 · 09/04~09/11 카드 기준(TDY 막대는 10/29)',
     unit: 'PCR(FCF)', max: 40, tdyValue: null,
     peers: [
-      { name:'APH', value:34.0, status:'reference' },
-      { name:'TXN', value:32.6, status:'reference' },
-      { name:'CSCO', value:34.1, status:'reference' },
-      { name:'QCOM', value:15.5, status:'reference' },
-      { name:'DELL', value:25.8, status:'reference' },
-      { name:'IBM', value:16.0, status:'reference' }
+      { name:'APH', value:34.5, status:'reference' },
+      { name:'TXN', value:33.0, status:'reference' },
+      { name:'CSCO', value:33.5, status:'reference' },
+      { name:'QCOM', value:15.7, status:'reference' },
+      { name:'DELL', value:24.9, status:'reference' },
+      { name:'IBM', value:16.3, status:'reference' }
     ]
   },
   evebitda: {
     title: 'EV/EBITDA 비교 · 09/04~09/11 카드 기준(TDY 막대는 10/29)',
     unit: 'EV/EBITDA', max: 40, tdyValue: null,
     peers: [
-      { name:'APH', value:23.3, status:'reference' },
-      { name:'TXN', value:30.7, status:'reference' },
-      { name:'CSCO', value:25.0, status:'reference' },
-      { name:'QCOM', value:16.9, status:'reference' },
-      { name:'DELL', value:19.5, status:'reference' },
-      { name:'IBM', value:16.7, status:'reference' }
+      { name:'APH', value:23.6, status:'reference' },
+      { name:'TXN', value:31.0, status:'reference' },
+      { name:'CSCO', value:24.7, status:'reference' },
+      { name:'QCOM', value:17.1, status:'reference' },
+      { name:'DELL', value:18.8, status:'reference' },
+      { name:'IBM', value:17.0, status:'reference' }
     ]
   }
 };
@@ -1825,7 +1825,7 @@ const TDY_FUNDAMENTAL = {"ticker": "TDY", "basis": "quarter", "asOf": "2026-09-2
 //
 // 갱신: python3 v2/build_peer_score.py TDY --self v2/TDY_multiples.json --card
 /* VALUATION:BEGIN */
-const TDY_VALUATION = {"peer": {"score": 80.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-10-28", "metrics": [{"metric": "per", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 24}, {"metric": "psr", "score": 85.7, "rank": 5, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 68.0, "rank": 9, "peers": 25}]}, "self": {"score": 24.5, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 27.7, "percentile": 72.3, "current": 30.96, "min": 19.61, "median": 27.47, "max": 48.62, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 7.4, "percentile": 92.6, "current": 2.8, "min": 1.86, "median": 2.37, "max": 3.03, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 13.6, "percentile": 86.4, "current": 4.78, "min": 2.89, "median": 3.8, "max": 5.21, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 43.9, "percentile": 56.1, "current": 27.17, "min": 18.41, "median": 26.18, "max": 53.33, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 30.0, "percentile": 70.0, "current": 19.94, "min": 14.75, "median": 18.55, "max": 29.9, "days": 1255, "currentNote": null}]}};
+const TDY_VALUATION = {"peer": {"score": 80.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-10-29", "metrics": [{"metric": "per", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 24}, {"metric": "psr", "score": 85.7, "rank": 5, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 68.0, "rank": 9, "peers": 25}]}, "self": {"score": 24.5, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 27.7, "percentile": 72.3, "current": 30.96, "min": 19.61, "median": 27.47, "max": 48.62, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 7.4, "percentile": 92.6, "current": 2.8, "min": 1.86, "median": 2.37, "max": 3.03, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 13.6, "percentile": 86.4, "current": 4.78, "min": 2.89, "median": 3.8, "max": 5.21, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 43.9, "percentile": 56.1, "current": 27.17, "min": 18.41, "median": 26.18, "max": 53.33, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 30.0, "percentile": 70.0, "current": 19.94, "min": 14.75, "median": 18.55, "max": 29.9, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

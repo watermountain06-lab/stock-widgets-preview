@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="vrsnPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="vrsnPeerVerdict">중간</span></div>
-      <div class="logic-score" id="vrsnPeerScore">58.8<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="vrsnPeerScore">58.7<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="vrsnSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="vrsnSelfVerdict">비싼 편</span></div>
@@ -935,9 +935,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.14 ~ 2.32(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">58.8</div><div class="sc-tile lost" data-vc="peer" data-m="per">64</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile lost" data-vc="peer" data-m="psr">32</div><div class="sc-tile" data-vc="peer" data-m="pcr">79</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">60</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">58.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">60</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile lost" data-vc="peer" data-m="psr">36</div><div class="sc-tile" data-vc="peer" data-m="pcr">79</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">60</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 32.9배(5년 중앙값 29.1배)로 자기 이력 24.8점(비싸다), 동종업 58.8점(중간)이다. <strong>현금흐름 내재가치(기본 $142.84)는 현재가의 47%다</strong>.</div>
+    <div class="vs-premise">PER 32.9배(5년 중앙값 29.1배)로 자기 이력 24.8점(비싸다), 동종업 58.7점(중간)이다. <strong>현금흐름 내재가치(기본 $142.84)는 현재가의 47%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $142.84)는 현재가의 47%다. 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 67.6%). 내재가치에서 차입금 $1.8B를 빼고 현금·단기투자 $476M를 더한다. 자사주 매입과 배당으로 이익보다 많이 돌려줘서(9개월 $620M + $221M = $841M, 순이익 $644M) 자기자본이 음수(−$2.3B)라 PBR은 뜻이 없다. 지역 매출은 등록 대행사(레지스트라) 청구지 기준이다. .com 가격은 ICANN 협약으로 인상 상한이 있고, 2026-09 가격 독점을 문제 삼은 집단소송(Kessler)이 제기됐다(손실 추정 불가). 동종업 점수는 카드 유니버스 IT(반도체·소프트웨어·하드웨어) 기준이다.</div>
   </div>
 
@@ -1308,13 +1308,13 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '소프트웨어·인터넷 기반 6곳 PER 비교 (점수는 카드 유니버스 IT 기준) (CRWD 값 없음) · 09/01~09/11 카드 기준(VRSN 막대는 10/29)',
-    unit: 'PER', max: 110, vrsnValue: null,
+    unit: 'PER', max: 105, vrsnValue: null,
     peers: [
       { name:'MSFT', value:30.7, status:'reference' },
-      { name:'ORCL', value:24.8, status:'reference' },
-      { name:'CRM', value:33.8, status:'reference' },
-      { name:'PANW', value:94.2, status:'reference' },
-      { name:'CSCO', value:36.3, status:'reference' }
+      { name:'ORCL', value:23.9, status:'reference' },
+      { name:'CRM', value:32.2, status:'reference' },
+      { name:'PANW', value:90.8, status:'reference' },
+      { name:'CSCO', value:35.7, status:'reference' }
     ]
   },
   pbr: {
@@ -1322,9 +1322,9 @@ const MULTIPLE_DATA = {
     unit: 'PBR', max: 15, vrsnValue: null,
     peers: [
       { name:'MSFT', value:8.9, status:'reference' },
-      { name:'ORCL', value:9.8, status:'reference' },
-      { name:'CRM', value:5.2, status:'reference' },
-      { name:'CSCO', value:8.6, status:'reference' }
+      { name:'ORCL', value:9.5, status:'reference' },
+      { name:'CRM', value:4.9, status:'reference' },
+      { name:'CSCO', value:8.5, status:'reference' }
     ]
   },
   psr: {
@@ -1332,32 +1332,32 @@ const MULTIPLE_DATA = {
     unit: 'PSR(TTM)', max: 60, vrsnValue: null,
     peers: [
       { name:'MSFT', value:11.9, status:'reference' },
-      { name:'ORCL', value:6.2, status:'reference' },
-      { name:'CRM', value:4.5, status:'reference' },
-      { name:'PANW', value:28.0, status:'reference' },
-      { name:'CRWD', value:50.6, status:'reference' },
-      { name:'CSCO', value:6.9, status:'reference' }
+      { name:'ORCL', value:6.0, status:'reference' },
+      { name:'CRM', value:4.3, status:'reference' },
+      { name:'PANW', value:27.0, status:'reference' },
+      { name:'CRWD', value:49.6, status:'reference' },
+      { name:'CSCO', value:6.8, status:'reference' }
     ]
   },
   pcr: {
     title: 'PCR(FCF) 비교 (ORCL 값 없음) · 09/01~09/11 카드 기준(VRSN 막대는 10/29)',
-    unit: 'PCR(FCF)', max: 160, vrsnValue: null,
+    unit: 'PCR(FCF)', max: 155, vrsnValue: null,
     peers: [
-      { name:'MSFT', value:58.8, status:'reference' },
-      { name:'CRM', value:12.6, status:'reference' },
-      { name:'PANW', value:70.6, status:'reference' },
-      { name:'CRWD', value:135.4, status:'reference' },
-      { name:'CSCO', value:34.1, status:'reference' }
+      { name:'MSFT', value:58.7, status:'reference' },
+      { name:'CRM', value:12.1, status:'reference' },
+      { name:'PANW', value:68.1, status:'reference' },
+      { name:'CRWD', value:132.6, status:'reference' },
+      { name:'CSCO', value:33.5, status:'reference' }
     ]
   },
   evebitda: {
     title: 'EV/EBITDA 비교 (PANW 값 없음·CRWD 값 없음) · 09/01~09/11 카드 기준(VRSN 막대는 10/29)',
     unit: 'EV/EBITDA', max: 30, vrsnValue: null,
     peers: [
-      { name:'MSFT', value:20.2, status:'reference' },
-      { name:'ORCL', value:17.2, status:'reference' },
-      { name:'CRM', value:17.9, status:'reference' },
-      { name:'CSCO', value:25.0, status:'reference' }
+      { name:'MSFT', value:20.1, status:'reference' },
+      { name:'ORCL', value:16.7, status:'reference' },
+      { name:'CRM', value:17.2, status:'reference' },
+      { name:'CSCO', value:24.7, status:'reference' }
     ]
   }
 };
@@ -1487,7 +1487,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py VRSN
 const VRSN_SCORES = {
   fundamental: 53.8,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 58.8,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 58.7,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 24.8,   // 자기 5년 배수 분포 백분위 (2021-10-29 ~ 2026-10-29)
   asOf: "2026-10-29",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1818,7 +1818,7 @@ const VRSN_FUNDAMENTAL = {"ticker": "VRSN", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py VRSN --self v2/VRSN_multiples.json --card
 /* VALUATION:BEGIN */
-const VRSN_VALUATION = {"peer": {"score": 58.8, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-10-28", "metrics": [{"metric": "per", "score": 64.0, "rank": 10, "peers": 25}, {"metric": "psr", "score": 32.1, "rank": 20, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 60.0, "rank": 11, "peers": 25}]}, "self": {"score": 24.8, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 22.2, "percentile": 77.8, "current": 32.9, "min": 20.59, "median": 29.05, "max": 47.05, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 26.5, "percentile": 73.5, "current": 15.85, "min": 11.01, "median": 14.6, "max": 21.74, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 29.0, "percentile": 71.0, "current": 26.81, "min": 18.15, "median": 25.19, "max": 37.9, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 21.4, "percentile": 78.6, "current": 24.01, "min": 16.63, "median": 21.86, "max": 32.36, "days": 1255, "currentNote": null}]}};
+const VRSN_VALUATION = {"peer": {"score": 58.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-10-29", "metrics": [{"metric": "per", "score": 60.0, "rank": 11, "peers": 25}, {"metric": "psr", "score": 35.7, "rank": 19, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 60.0, "rank": 11, "peers": 25}]}, "self": {"score": 24.8, "window": ["2021-10-29", "2026-10-29"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 22.2, "percentile": 77.8, "current": 32.9, "min": 20.59, "median": 29.05, "max": 47.05, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 26.5, "percentile": 73.5, "current": 15.85, "min": 11.01, "median": 14.6, "max": 21.74, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 29.0, "percentile": 71.0, "current": 26.81, "min": 18.15, "median": 25.19, "max": 37.9, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 21.4, "percentile": 78.6, "current": 24.01, "min": 16.63, "median": 21.86, "max": 32.36, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
