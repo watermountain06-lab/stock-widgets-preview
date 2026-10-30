@@ -375,6 +375,9 @@ def _fingerprint(eps_rows):
 
 def _judge(ticker, rec, eps_rows, E, cap):
     items = [it for it in rec["items"] if it["filed"] <= cap]
+    if _disc_active(ticker):
+        # E62가 카드 EPS에서 중단영업 손익을 이미 뺀다 — 중단영업 항목(discontinued: true)은 판정·적용에서 뺀다(두 번 빠지지 않게)
+        items = [it for it in items if not it.get("discontinued")]
     near = [it for it in items if 0 <= _days(E, it["quarter_end"]) <= PROOF_RANGE_DAYS]
     if not near:
         return None
@@ -405,7 +408,7 @@ def _judge(ticker, rec, eps_rows, E, cap):
         return None                      # 안 훑은 분기가 창에 있으면 판정하지 않는다(0번으로 세지 않음)
     bmh = _bmh()
     sp = _splits(ticker)
-    G = row["ttm_eps"] + bmh.oneoff_in_ttm(ticker, E, "eps")
+    G = row["ttm_eps"] + bmh.oneoff_in_ttm(ticker, E, "eps") + bmh.disc_in_ttm(ticker, eps_rows, E, row["available_date"])   # E62 계속영업 기준
     rev = revenue_ttm(ticker, E, cap)
     floor_usd = 0.0
     if rev is None or rev == 0:
@@ -489,6 +492,13 @@ def net_income_ttm(ticker, E, cap):
         if v is not None:
             return v
     return None
+
+
+def _disc_active(ticker):
+    """E62(카드 PER의 중단영업 손익 빼기)가 그 종목에 걸리는가 — 카드 모드·재작성 종목 아님·중단영업 주당 사실 있음."""
+    bmh = _bmh()
+    import fetch_eps_history as feh
+    return bmh.ASOF_REF is None and ticker not in feh.RESTATED_LATEST and bool(bmh._disc_facts(ticker))
 
 
 def _tax_oneoff_items(ticker, E, q):

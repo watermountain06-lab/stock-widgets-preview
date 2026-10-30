@@ -140,6 +140,33 @@ def run():
         check("E66 제한현금은 뺀다(6.0 − 0.5)", bmh.as_of(f3, "2025-06-01") == 5.5)
     finally:
         bmh.pick_instant = keep_pi
+    # E62 중단영업 주당 손익 빼기(카드 모드)
+    import fetch_eps_history as _feh
+    keep_df, keep_rl, keep_ar = bmh._disc_facts, set(_feh.RESTATED_LATEST), bmh.ASOF_REF
+    try:
+        facts62 = [("2024-01-01", "2024-03-31", 0.10, "2024-05-01"), ("2024-04-01", "2024-06-30", 2.10, "2024-08-01"),
+                   ("2024-01-01", "2024-09-30", 2.00, "2024-11-01"), ("2024-01-01", "2024-06-30", 2.20, "2024-08-01"),
+                   ("2024-01-01", "2024-12-31", 4.90, "2025-02-10"), ("2024-07-01", "2024-09-30", -0.10, "2025-01-15")]
+        bmh._disc_facts = lambda t: facts62
+        bmh.ASOF_REF = None
+        _feh.RESTATED_LATEST.discard("ZZZ")
+        rows62 = [{"quarter_end": q} for q in ("2024-03-31", "2024-06-30", "2024-09-30", "2024-12-31")]
+        check("E62 3개월 값", abs(bmh.disc_eps_quarter("ZZZ", "2024-06-30", "2024-09-01") - 2.10) < 1e-9)
+        check("E62 3개월 값이 아직 없으면 누계 차(9월 2.00 − 6월 2.20)", abs(bmh.disc_eps_quarter("ZZZ", "2024-09-30", "2024-12-01") + 0.20) < 1e-9)
+        check("E62 4분기 = 연간 − 9개월", abs(bmh.disc_eps_quarter("ZZZ", "2024-12-31", "2025-03-01") - 2.90) < 1e-9)
+        check("E62 공시 전 사실은 안 씀", bmh.disc_eps_quarter("ZZZ", "2024-12-31", "2025-01-01") == 0.0)
+        check("E62 TTM 합의 음수(0.10 + 2.10 − 0.10(3개월 값 공시 뒤) + 2.90)", abs(bmh.disc_in_ttm("ZZZ", rows62, "2024-12-31", "2025-03-01") + 5.00) < 1e-9)
+        check("E62 같은 TTM도 3개월 값 공시 전이면 누계 차(−0.20)", abs(bmh.disc_in_ttm("ZZZ", rows62, "2024-12-31", "2025-01-01") + 2.00) < 1e-9)
+        _feh.RESTATED_LATEST.add("ZZZ")
+        check("E62 재작성 종목은 0", bmh.disc_in_ttm("ZZZ", rows62, "2024-12-31", "2025-03-01") == 0.0)
+        _feh.RESTATED_LATEST.discard("ZZZ")
+        bmh.ASOF_REF = "2025-03-01"
+        check("E62 연구 모드는 0", bmh.disc_in_ttm("ZZZ", rows62, "2024-12-31", "2025-03-01") == 0.0)
+        bmh.ASOF_REF = None
+        check("E62 구성 4분기가 310일 넘으면 0", bmh.disc_in_ttm("ZZZ", rows62[:3] + [{"quarter_end": "2025-06-30"}], "2025-06-30", "2025-09-01") == 0.0)
+    finally:
+        bmh._disc_facts, bmh.ASOF_REF = keep_df, keep_ar
+        _feh.RESTATED_LATEST.clear(); _feh.RESTATED_LATEST.update(keep_rl)
     check("newest_row 모든 행 오태깅 → None", bmh.newest_row([row("2025-01-01", "2024-05-01", 1)]) is None)
 
     # 결산일 ±7일 가드
@@ -176,6 +203,9 @@ MUTANTS = [
     ("E66 현금 대체 간격 문턱 200 → 60", "        if (date.fromisoformat(e[\"end\"]) - date.fromisoformat(max(prev))).days > 200:", "        if (date.fromisoformat(e[\"end\"]) - date.fromisoformat(max(prev))).days > 60:"),
     ("E66 같은 결산일도 합계로", "        if any(b[\"end\"] == e[\"end\"] for b in known):\n            continue", "        if False:\n            continue"),
     ("E66 제한현금 안 뺌", "            fill.append(dict(e, val=e[\"val\"] - _rc(e[\"end\"], e[\"available\"]), _note=\"cash_total_tag\"))", "            fill.append(dict(e, _note=\"cash_total_tag\"))"),
+    ("E62 재작성 예외 제거", "    if ASOF_REF is not None or ticker in feh.RESTATED_LATEST or not _disc_facts(ticker):", "    if ASOF_REF is not None or not _disc_facts(ticker):"),
+    ("E62 공시일 무시", "    rows = [r for r in _disc_facts(ticker) if r[1] == q_end and r[3] <= upto]", "    rows = [r for r in _disc_facts(ticker) if r[1] == q_end]"),
+    ("E62 누계 차 제거", "            return y[2] - min(prev, key=lambda r: r[3])[2]", "            return y[2]"),
     ("근거 없을 때 막음", "        return True                      # 결산일 근거가 없으면 거르지 않는다", "        return False"),
 ]
 
