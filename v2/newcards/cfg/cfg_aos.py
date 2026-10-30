@@ -35,7 +35,7 @@ PEER_TIP = ('S&P500 산업재(AOS 제외)와 배수 순위를 매긴 값이다.'
 # 매출(Q2 2026 10-Q 부문, 외부 매출) — 북미 816.3 + 해외 188.0 = 1,004.3.
 SEG = [('북미', 816.3, '#00539b'), ('해외(중국·인도 등)', 188.0, '#c8102e')]
 SEG_ADJ = 0
-SEG_TITLE = '매출 구성 — 부문별(Q2 2026, 외부 매출)'
+SEG_TITLE = '매출 구성 — 부문별(외부 매출)'   # 분기는 fill.py가 실제 값으로 붙인다 — 손으로 적으면 분기를 넘길 때 두 번 나온다(2026-10-30)
 # 손 뉴스: 실적 4건(EPS는 GAAP 희석). 반응일: 장 전 발표(06:57~06:58 동부 접수) → 같은 날. 넣지 않은 8-K: 기간 대출(1/6), 주총.
 NEWS_RANGE = '2025.10 ~ 2026.07'
 NEWS = [
@@ -52,12 +52,18 @@ ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 8, 'mean': 64.38, 'median': 67, 'low
 ANALYST_ASOF = '2026-10-25'
 
 
-# ── 자동 카드 — 부문 2개(수동 지도, 외부 매출 — 영업 부문 차원 없는 값). 원문 대조: Q2 2026 816.3/188.0(2026-10-25) ──
+# ── 자동 카드 — 부문 2개(수동 지도, 외부 매출). 2026 Q3 10-Q부터 외부 매출은 ConsolidationItems 축의 Geo 멤버에 붙는다 —
+#    그 전 공시는 부문 축만 붙은 값이었다. 원문 대조: Q2 2026 816.3/188.0(2026-10-25), Q3 2026 756.8/183.7(2026-10-30) ──
 AUTO = True
 SEG_MAP = {
  "concepts": ["us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"],
  "axis": "us-gaap:StatementBusinessSegmentsAxis",
- "extra": {},
+ # 2026 Q3 10-Q부터 부문 매출에 이 축이 붙어, 부문 축만 붙은 값이 없어졌다(2026-10-30). 외부 매출 멤버를 쓴다 —
+ # us-gaap:OperatingSegmentsMember는 내부거래가 포함된 총액이라(Q3 북미 761.6 대 756.8) 합계가 회사 매출과 안 맞고,
+ # 지난 분기까지 카드가 쓰던 값(SEG 북미 816.3)은 외부 매출이다.
+ "extra": {"srt:ConsolidationItemsAxis": "srt:ReportableGeographicalComponentsMember"},
  "members": {"aos:NorthAmericaSegmentMember": ["북미", "#00539b"], "aos:RestOfWorldMember": ["해외(중국·인도 등)", "#c8102e"]},
- "ignore": ["aos:ReportableSegmentsMember"]
+ # 부문 합계 멤버 이름도 같은 공시에서 바뀌었다(aos:ReportableSegmentsMember → us-gaap:ReportableSegment...). 무시 목록에 없으면
+ # seg_xbrl.table이 "지도에 없는 부문"으로 멈춘다. 옛 이름은 10-K가 새 축에 옛 합계 이름을 쓸 경우의 보험으로 남긴다
+ "ignore": ["aos:ReportableSegmentsMember", "us-gaap:ReportableSegmentAggregationBeforeOtherOperatingSegmentMember"]
 }

@@ -1,33 +1,33 @@
 {
  "status": "ok",
- "S": "2026-10-28",
- "builtFor": "2026-10-28",
- "close": 524.68,
- "prevSession": "2026-10-27",
- "chg": 0.0026753617576182886,
+ "S": "2026-10-29",
+ "builtFor": "2026-10-29",
+ "close": 522.73,
+ "prevSession": "2026-10-28",
+ "chg": -0.00371657435818451,
  "hi1y": {
   "date": "2026-08-05",
   "close": 542.81,
-  "from": -0.03340027811638724
+  "from": -0.03699271785736813
  },
  "lo1y": {
   "date": "2026-03-27",
   "close": 451.39,
-  "from": 0.16236508484669354
+  "from": 0.15804506857750322
  },
  "rangeHigh": {
   "date": "2026-08-05",
   "close": 542.81,
-  "from": -0.03340027811638724
+  "from": -0.03699271785736813
  },
  "since": "2003-12-01",
  "returns": [
   {
    "label": "1개월",
    "months": 1,
-   "base": "2026-09-28",
-   "baseClose": 514.02,
-   "ret": 0.020738439631694527,
+   "base": "2026-09-29",
+   "baseClose": 512.88,
+   "ret": 0.019205224403685106,
    "stats": {
     "hi": [
      "2026-10-22",
@@ -44,15 +44,15 @@
     },
     "upDays": 14,
     "days": 22,
-    "vol": 0.0921711583989888
+    "vol": 0.09292567615086407
    }
   },
   {
    "label": "6개월",
    "months": 6,
-   "base": "2026-04-28",
-   "baseClose": 491.42,
-   "ret": 0.06768136897000421,
+   "base": "2026-04-29",
+   "baseClose": 488.67,
+   "ret": 0.06969931877363389,
    "stats": {
     "hi": [
      "2026-08-05",
@@ -69,15 +69,15 @@
     },
     "upDays": 70,
     "days": 127,
-    "vol": 0.11729229212128427
+    "vol": 0.11712531614911702
    }
   },
   {
    "label": "1년",
    "months": 12,
-   "base": "2025-10-28",
-   "baseClose": 477.15,
-   "ret": 0.09961227996915434,
+   "base": "2025-10-29",
+   "baseClose": 476.37,
+   "ret": 0.09731928086729713,
    "stats": {
     "hi": [
      "2026-08-05",
@@ -94,7 +94,7 @@
     },
     "upDays": 135,
     "days": 251,
-    "vol": 0.1257531614954038
+    "vol": 0.1258045672691091
    }
   },
   {
@@ -102,7 +102,7 @@
    "months": 36,
    "base": "2023-10-27",
    "baseClose": 324.19,
-   "ret": 0.61843359981655,
+   "ret": 0.6124185709990475,
    "stats": {
     "hi": [
      "2026-08-05",
@@ -118,17 +118,17 @@
      "trough": "2025-04-08"
     },
     "upDays": 416,
-    "days": 752,
-    "vol": 0.13678335145088946
+    "days": 753,
+    "vol": 0.1367160073018565
    },
-   "annual": 0.174081636368828
+   "annual": 0.1726253101263313
   },
   {
    "label": "5년",
    "months": 60,
-   "base": "2021-10-28",
-   "baseClose": 357.3,
-   "ret": 0.4684579082040101,
+   "base": "2021-10-29",
+   "baseClose": 358.23,
+   "ret": 0.45920208926521244,
    "stats": {
     "hi": [
      "2026-08-05",
@@ -143,18 +143,18 @@
      "peak": "2022-01-04",
      "trough": "2022-09-30"
     },
-    "upDays": 667,
+    "upDays": 666,
     "days": 1254,
-    "vol": 0.1483066901678242
+    "vol": 0.1483144396729291
    },
-   "annual": 0.07987204970740747
+   "annual": 0.07850729885749441
   },
   {
    "label": "YTD",
    "months": null,
    "base": "2025-12-31",
    "baseClose": 480.57,
-   "ret": 0.09178680458475541,
+   "ret": 0.08772909774223137,
    "stats": {
     "hi": [
      "2026-08-05",
@@ -170,8 +170,8 @@
      "trough": "2026-03-27"
     },
     "upDays": 112,
-    "days": 207,
-    "vol": 0.12870457804750535
+    "days": 208,
+    "vol": 0.12847547703603343
    }
   }
  ],
@@ -730,14 +730,14 @@
       "partial": false
      },
      {
-      "ret": 0.03171763891454282,
+      "ret": 0.027883183592866345,
       "partial": true
      },
      null,
      null
     ],
     "annual": {
-     "ret": 0.09178680458475541,
+     "ret": 0.08772909774223137,
      "partial": true
     }
    }
@@ -1049,10 +1049,10 @@
    },
    {
     "ym": "2026-10",
-    "ret": 0.03171763891454282,
+    "ret": 0.027883183592866345,
     "partial": true,
-    "close": 524.68,
-    "chg": 16.13,
+    "close": 522.73,
+    "chg": 14.18,
     "hi": [
      "2026-10-22",
      527.89
@@ -1061,7 +1061,7 @@
      "2026-10-01",
      508.62
     ],
-    "days": 20,
+    "days": 21,
     "upDays": 14,
     "same": {
      "mean": 0.016884103118771025,
@@ -3533,11 +3533,11 @@
  ],
  "crossCheck": {
   "status": "ok",
-  "text": "State Street DIA NAV 이력과 5764일(2003-12-01~2026-10-28) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.81%(2008-10-27), 최근 250세션 최대 0.18%"
+  "text": "State Street DIA NAV 이력과 5765일(2003-12-01~2026-10-29) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.81%(2008-10-27), 최근 250세션 최대 0.18%"
  },
  "constituents": {
   "holdings": {
-   "S": "2026-10-28",
+   "S": "2026-10-29",
    "held": true,
    "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
@@ -3545,71 +3545,71 @@
     {
      "company": "GS",
      "name": "GOLDMAN SACHS GROUP INC",
-     "weight": 0.10478952786892036,
+     "weight": 0.10534557464432909,
      "card": "GS",
      "verdict": "고평가"
     },
     {
      "company": "CAT",
      "name": "CATERPILLAR INC",
-     "weight": 0.08080110135853329,
+     "weight": 0.07351241093788094,
      "card": "CAT",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.06014493576534167,
+     "weight": 0.06019843889236361,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMGN",
      "name": "AMGEN INC",
-     "weight": 0.05117660192431577,
+     "weight": 0.05231679948711417,
      "card": "AMGN",
      "verdict": "고평가"
     },
     {
      "company": "UNH",
      "name": "UNITEDHEALTH GROUP INC",
-     "weight": 0.04611024861460961,
+     "weight": 0.04665964506313425,
      "card": "UNH",
      "verdict": "적정~고평가"
     },
     {
      "company": "V",
      "name": "VISA INC CLASS A SHARES",
-     "weight": 0.04537402851579691,
+     "weight": 0.04661763230524343,
      "card": "V",
      "verdict": "고평가"
     },
     {
      "company": "TRV",
      "name": "TRAVELERS COS INC/THE",
-     "weight": 0.044627602870780124,
+     "weight": 0.0452243475768389,
      "card": "TRV",
      "verdict": "판정 보류"
     },
     {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.03894396409728867,
+     "weight": 0.03961942144440222,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
      "company": "JPM",
      "name": "JPMORGAN CHASE + CO",
-     "weight": 0.038430865253722135,
+     "weight": 0.039014183593110555,
      "card": "JPM",
      "verdict": "고평가"
     },
     {
-     "company": "GOOGL",
-     "name": "ALPHABET INC CL A",
-     "weight": 0.036798718263440264,
-     "card": "GOOGL",
+     "company": "SHW",
+     "name": "SHERWIN WILLIAMS CO/THE",
+     "weight": 0.037483504439519845,
+     "card": "SHW",
      "verdict": "적정~고평가"
     }
    ],
@@ -3733,49 +3733,49 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-10-28",
+   "asOf": "2026-10-29",
    "rows": [
     [
      "Financials",
-     26.92
+     27.3
     ],
     [
      "Information Technology",
-     19.21
-    ],
-    [
-     "Industrials",
-     14.41
+     19.2
     ],
     [
      "Health Care",
-     14.39
+     14.68
+    ],
+    [
+     "Industrials",
+     13.85
     ],
     [
      "Consumer Discretionary",
-     9.74
+     9.86
     ],
     [
      "Communication Services",
-     4.91
+     4.48
     ],
     [
      "Consumer Staples",
-     4.18
+     4.25
     ],
     [
      "Materials",
-     3.63
+     3.75
     ],
     [
      "Energy",
-     2.6
+     2.63
     ]
    ]
   },
   "chars": {
-   "pe": 21.18,
-   "peAsOf": "2026-10-28"
+   "pe": 21.02,
+   "peAsOf": "2026-10-29"
   },
   "dgs10": {
    "date": "2026-10-28",
@@ -3784,7 +3784,7 @@
  },
  "index": "DIA",
  "name": "DIA",
- "runId": "40991120284.1",
- "runAt": "2026-10-30T02:21:06Z",
+ "runId": "41117742458.1",
+ "runAt": "2026-10-30T19:45:17Z",
  "source": "Yahoo Finance DIA 일봉 종가"
 }
