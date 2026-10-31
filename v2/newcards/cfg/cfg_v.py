@@ -101,20 +101,6 @@ BEAR = [('밸류', '기본 내재가치가 현재가의 {DCF[\'base\'] / px * 10
 ANALYST = {'rating': 'Strong Buy', 'n': 40, 'nt': 28, 'mean': 424, 'median': 427, 'low': 355, 'high': 475, 'sb': 27, 'b': 9, 'h': 3, 's': 1, 'ss': 0}
 ANALYST_ASOF = '2026-10-24'
 
-# 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
-POST = [r'''
-# YoY·QoQ 각주: 3분기 일회성 비용·FCF 정의(옛 카드는 두 각주 모두)
-_fx = " · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a"
-assert h.count(_fx) == 2, h.count(_fx)
-h = h.replace(_fx, " · GAAP 기준 · 3분기 영업비용에 감원 비용 $563M·MDL 소송 충당금 $237M이 들어 있다 · FCF는 영업현금흐름 − 설비·기술 투자 · <a")
-# 총자산증가율 메모: 회계연도 표기(FY25 말 → FY25, 전년 → 전기, 마감 전까지 동일)
-sub(r'<span class="diag-note">FY25 말 (\$[0-9.]+B)\(전년 (\$[0-9.]+B)\) · 연간 지표</span>',
-    lambda m_: f'<span class="diag-note">FY25 {m_.group(1)}(전기 {m_.group(2)}) · 연간 지표, FY26 마감 전까지 동일</span>')
-# 재무 메모: 옛 카드는 링크가 없었다
-one(f' <a href="{TENQ}" target="_blank" rel="noopener">{C.TENQ_NAME} (SEC) →</a></div>', '</div>')
-# 역산 문장: 성장 모드 카드는 틀의 정적 문장을 JS가 숫자만 바꾼다 — fill.py가 '—'로 비운 것을 되살린다(공통 후보)
-one('<div class="reverse">—</div>', f'<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.</div>')
-''']
 
 
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
@@ -145,5 +131,7 @@ SEG_MAP = {
  },
  "ignore": []
 }
-# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+# 이 파일에 POST 대입이 두 번 있어, 앞 블록의 치환은 뒤 대입에 가려 돌지 않았다(파이썬은 마지막 대입만 남기고 fill.py는 C.POST를 돈다).
+# 그 앞 블록(분기 문장·날짜 박힌 치환·손 데이터)을 2026-10-31에 지웠다 — 옛 내용은 git 이력에 있다.
+# 아래 블록은 자동 카드 전환 때 화면 구조 고침만 남긴 것이다(못 찾으면 건너뜀).
 POST = ['# 역산 문장: 성장 모드 카드는 틀의 정적 문장을 JS가 숫자만 바꾼다 — fill.py가 \'—\'로 비운 것을 되살린다(공통 후보)\none(\'<div class="reverse">—</div>\', f\'<div class="reverse">지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF["requiredGrowth"])}</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>${DCF["base"]:.0f}</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>{pct(DCF["baseEquivGrowth"])}</span>다.</div>\')']

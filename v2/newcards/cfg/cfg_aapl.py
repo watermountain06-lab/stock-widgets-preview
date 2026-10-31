@@ -104,17 +104,6 @@ FR = {r_['metric']: r_['value'] for r_ in FUND['axes']['health']['rows']}
 _s2 = {s_: bd.s2c_path_for(b, s_)[0] for s_ in ('보수', '기본', '낙관')}
 INV = {'보수': 1 / _s2['보수'][0], 'avg': 1 / _s2['낙관'][0], 'recent': 1 / (b.get('_s2c_marginal') or _s2['낙관'][0])}
 ''']
-POST = [r'''
-# 총자산증가율 메모: 옛 카드 표기(회계연도 라벨, 전기, 마감 전까지 동일)
-sub(r'(<span class="diag-label">총자산증가율</span><span class="diag-value">)([+-])([\d.]+%</span><span class="diag-note">)FY25 말 (\$[\d.]+B)\(전년 (\$[\d.]+B)\) · 연간 지표(</span>)',
-    lambda m_: m_.group(1) + m_.group(2).replace('-', '−') + m_.group(3) + 'FY25 ' + m_.group(4) + '(전기 ' + m_.group(5) + ') · 연간 지표, FY26 마감 전까지 동일' + m_.group(6))
-# 이자보상배율 줄 메모(이자비용 미공시)
-sub(r'(<div class="diag-row" data-fund-metric="interestCoverage">\n\s*<div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">[^<]*</span>)(</div>)',
-    lambda m_: m_.group(1) + '<span class="diag-note">이자비용을 따로 공시하지 않아 계산할 수 없다 · 점수는 결측 규칙대로 0점</span>' + m_.group(2))
-# 자본배분: 배당 칸 꼬리표 없음, 출처 각주
-one('            <span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n', '')
-sub(r'(<div class="card-title">자본배분 · 주주환원 [^<]*</div>\n      <div class="zone-list">.*?\n      </div>\n)', lambda m_: m_.group(1) + '      <div class="yoy-footnote" style="margin-top:14px;">' + F(C.CAPITAL_FOOT) + '</div>\n')
-''']
 
 
 # ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──
@@ -151,6 +140,9 @@ SEG_MAP = {
   "us-gaap:ProductMember"
  ]
 }
+# 이 파일에 POST 대입이 두 번 있어, 앞 블록의 치환은 뒤 대입에 가려 돌지 않았다(파이썬은 마지막 대입만 남기고 fill.py는 C.POST를 돈다).
+# 그 앞 블록(분기 문장·날짜 박힌 치환·손 데이터)을 2026-10-31에 지웠다 — 옛 내용은 git 이력에 있다.
+# 그 블록에서만 쓰던 칸은 글로 남겨 뒀지만 화면에 나오지 않는다: CAPITAL_FOOT.
 POST = [r'''
 # 이자보상배율 줄 메모(이자비용 미공시 — 회사 사정, 분기와 무관)
 sub(r'(<div class="diag-row" data-fund-metric="interestCoverage">\n\s*<div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">[^<]*</span>)(</div>)',

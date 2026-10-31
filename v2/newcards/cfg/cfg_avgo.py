@@ -102,20 +102,6 @@ BEAR = [('밸류', '현재가가 기본 내재가치의 약 {ratio:.1f}배이고
 ANALYST = {'rating': 'Strong Buy', 'n': 51, 'nt': 30, 'mean': 521.77, 'median': 530, 'low': 350, 'high': 630, 'sb': 40, 'b': 8, 'h': 3, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-10-24'
 
-# 카드 한정 패치(fill.py 끝에서 exec) — 틀 시절 카드에 있던 내용을 같은 자리에 되살린다.
-POST = [r'''
-# 역산 문장: 성장 모드는 틀이 빈칸(—)으로 둔다 — 옛 카드의 문장 틀(값은 카드 JS가 data-dcf-* 칸에 채운다)
-one('<div class="reverse">—</div>', '<div class="reverse">지금 가격(<span data-dcf-price>$' + f'{px:.2f}' + '</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>' + pct(DCF['requiredGrowth']) + '</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$' + f"{DCF['base']:.0f}" + '</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>' + pct(DCF['baseEquivGrowth']) + '</span>다.</div>')
-# 자본배분: 옛 카드는 네 줄(배당·누계 매입·잔여 한도·회사채 상환)과 출처 각주
-_z = ''.join(f'\n        <div class="zone-item">\n          <span class="zone-label">{l_}</span>\n          <span class="zone-val">{v_}</span>\n        </div>' for l_, v_ in C.CAPITAL4)
-sub(r'(<div class="card-title">자본배분 · 주주환원 \([^)]*\)</div>\n      <div class="zone-list">).*?(\n      </div>)(\n    </div>)',
-    lambda m: m.group(1) + _z + m.group(2) + '\n      <div class="yoy-footnote" style="margin-top:14px;">' + F(C.CAPITAL_NOTE) + '</div>' + m.group(3))
-# 각주 링크 이름(옛 카드: 실적발표 원문)
-assert h.count(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)') == 2
-h = h.replace(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)', f'{C.CO} {QL} 실적발표 원문 (SEC 8-K)')
-# 총자산증가율 메모(옛 카드 표기)
-one(f'<span class="diag-note">{C.FY_LABEL} 말 ${a1 / 1000:.1f}B(전년 ${a0 / 1000:.1f}B) · 연간 지표</span>', f'<span class="diag-note">FY25 ${a1 / 1000:.1f}B(전기 ${a0 / 1000:.1f}B) · 연간 지표, FY26 마감 전까지 동일</span>')
-''']
 
 
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄), AVGO·UNH·PG·ABBV·COST는 공시 항목에 맞춰 직접 연결 ──
@@ -138,5 +124,8 @@ SEG_MAP = {
  },
  "ignore": []
 }
-# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+# 이 파일에 POST 대입이 두 번 있어, 앞 블록의 치환은 뒤 대입에 가려 돌지 않았다(파이썬은 마지막 대입만 남기고 fill.py는 C.POST를 돈다).
+# 그 앞 블록(분기 문장·날짜 박힌 치환·손 데이터)을 2026-10-31에 지웠다 — 옛 내용은 git 이력에 있다.
+# 아래 블록은 자동 카드 전환 때 화면 구조 고침만 남긴 것이다(못 찾으면 건너뜀).
+# 그 블록에서만 쓰던 칸은 글로 남겨 뒀지만 화면에 나오지 않는다: CAPITAL4·CAPITAL_NOTE.
 POST = ['\n# 역산 문장: 성장 모드는 틀이 빈칸(—)으로 둔다 — 옛 카드의 문장 틀(값은 카드 JS가 data-dcf-* 칸에 채운다)\none(\'<div class="reverse">—</div>\', \'<div class="reverse">지금 가격(<span data-dcf-price>$\' + f\'{px:.2f}\' + \'</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>\' + pct(DCF[\'requiredGrowth\']) + \'</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$\' + f"{DCF[\'base\']:.0f}" + \'</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>\' + pct(DCF[\'baseEquivGrowth\']) + \'</span>다.</div>\')', "# 각주 링크 이름(옛 카드: 실적발표 원문)\nassert h.count(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)') == 2\nh = h.replace(f'{C.CO} {QL} 실적 보도자료 (SEC 8-K)', f'{C.CO} {QL} 실적발표 원문 (SEC 8-K)')"]

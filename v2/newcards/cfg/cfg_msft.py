@@ -110,15 +110,6 @@ FR = {r_['metric']: r_['value'] for r_ in FUND['axes']['health']['rows']}
 _s2 = {s_: bd.s2c_path_for(b, s_)[0] for s_ in ('보수', '기본', '낙관')}
 INV = {'보수': 1 / _s2['보수'][0], 'avg': 1 / _s2['낙관'][0], 'recent': 1 / (b.get('_s2c_marginal') or _s2['낙관'][0])}
 ''']
-POST = [r'''
-sub(r'(<span class="diag-label">총자산증가율</span><span class="diag-value">)([+-])([\d.]+%</span><span class="diag-note">)' + C.FY_LABEL + r' 말 (\$[\d.]+B)\(전년 (\$[\d.]+B)\) · 연간 지표(</span>)',
-    lambda m_: m_.group(1) + m_.group(2).replace('-', '−') + m_.group(3) + C.FY_LABEL + ' ' + m_.group(4) + '(전기 ' + m_.group(5) + ') · 연간 지표, ' + C.ASSET_NEXT_FY + ' 마감 전까지 동일' + m_.group(6))
-# 분기 차트 아래 설명, 성장 모드 역산 문장(fill.py는 '—'만 남긴다 — 마진 모드만 JS가 문장을 쓴다)
-one(f'<canvas id="{t}RevChart"></canvas>\n    </div>\n', f'<canvas id="{t}RevChart"></canvas>\n    </div>\n    <div class="yoy-footnote" style="margin-top:8px;">' + F(C.REV_FOOT) + '</div>\n')
-one('<div class="reverse">—</div>', '<div class="reverse">' + F(C.REVERSE) + '</div>')
-one('            <span class="zone-tag" style="background:rgba(240,192,64,0.18);color:var(--gold);"></span>\n', '')
-sub(r'(<div class="card-title">자본배분 · 주주환원 [^<]*</div>\n      <div class="zone-list">.*?\n      </div>\n)', lambda m_: m_.group(1) + '      <div class="yoy-footnote" style="margin-top:14px;">' + F(C.CAPITAL_FOOT) + '</div>\n')
-''']
 
 
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
@@ -141,5 +132,8 @@ SEG_MAP = {
  },
  "ignore": []
 }
-# 손 문구 블록 정리: 화면 구조 고침만 남기고 분기 문장·날짜 박힌 치환·손 데이터 블록은 뺐다(자동 카드는 못 찾으면 건너뜀)
+# 이 파일에 POST 대입이 두 번 있어, 앞 블록의 치환은 뒤 대입에 가려 돌지 않았다(파이썬은 마지막 대입만 남기고 fill.py는 C.POST를 돈다).
+# 그 앞 블록(분기 문장·날짜 박힌 치환·손 데이터)을 2026-10-31에 지웠다 — 옛 내용은 git 이력에 있다.
+# 아래 블록은 자동 카드 전환 때 화면 구조 고침만 남긴 것이다(못 찾으면 건너뜀).
+# 그 블록에서만 쓰던 칸은 글로 남겨 뒀지만 화면에 나오지 않는다: ASSET_NEXT_FY·CAPITAL_FOOT·REV_FOOT.
 POST = ['one(\'<div class="reverse">—</div>\', \'<div class="reverse">\' + F(C.REVERSE) + \'</div>\')']
