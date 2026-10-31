@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-31T15:24:28Z",
+  "generatedAt": "2026-10-31T17:07:20Z",
   "priceSession": "2026-10-30",
   "scoreVersion": "v2",
   "tickers": [
@@ -11427,9 +11427,11 @@
         "type": "common"
       },
       "price": {
-        "close": null,
-        "status": "unavailable",
-        "statusReason": "새 종목 — 카드 마지막 봉 2026-10-30 ≠ 홈 가격 세션 2026-10-29, 다음 매일 실행이 채운다"
+        "close": 111.1,
+        "prevClose": 104.06,
+        "session": "2026-10-30",
+        "prevSession": "2026-10-29",
+        "status": "fresh"
       },
       "shares": {
         "usEquivalent": 243141824,
