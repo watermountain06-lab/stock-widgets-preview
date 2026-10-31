@@ -13,22 +13,22 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 254장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP"
+   "detail": "승인 목록에 없는 판정 코드 해시 255장: A, AAPL, ABBV, ABT, ACN, ADBE, ADI, ADP"
   }
  ],
  "detail": "보유 파일 기준일 2026-10-29 ≠ 허용 ['2026-10-30'] (P=2026-10-30, 규칙 same)",
  "verdict": null,
  "nbar": null,
- "coverage": 0.872025895413846,
+ "coverage": 0.8724072914082583,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.002211169975424795,
   "적정~저평가": 0.10883093215094669,
   "적정": 0.016481517412192895,
-  "적정~고평가": 0.37149199907128627,
+  "적정~고평가": 0.37187339506569855,
   "고평가": 0.37301027680399534,
-  "카드 없음": 0.10664519391304524,
+  "카드 없음": 0.10626379791863298,
   "판정 보류": 0.021328910673108735,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
@@ -160,8 +160,8 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 266,
-  "cardsUsed": 261,
+  "cardsMatched": 267,
+  "cardsUsed": 262,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -1910,6 +1910,13 @@
    "excluded": []
   },
   {
+   "card": "VLTO",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-10-30",
+   "excluded": []
+  },
+  {
    "card": "VMC",
    "verdict": "고평가",
    "n": -3.0,
@@ -2054,8 +2061,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-10-31T03:10:10Z",
- "fetchedAt": "2026-10-31T03:10:11Z",
+ "runAt": "2026-10-31T16:55:30Z",
+ "fetchedAt": "2026-10-31T16:55:30Z",
  "inputHash": {
   "xlsx": "4c09450c981128bf4e77508cbd7fedfcdc14fad422062eb16ebddb2d10ba76dd",
   "alias": "cd884e524b4f6045",
@@ -2071,7 +2078,7 @@
   ],
   "S": "2026-10-29"
  },
- "runId": "41163150149.1",
+ "runId": "41221978109.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -2324,6 +2331,7 @@
     "V",
     "VEEV",
     "VLO",
+    "VLTO",
     "VMC",
     "VRSK",
     "VRSN",
