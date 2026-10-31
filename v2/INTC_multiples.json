@@ -1,75 +1,75 @@
 {
  "ticker": "INTC",
  "window": [
-  "2021-10-29",
-  "2026-10-29"
+  "2021-11-01",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
-   "days": 621,
+   "days": 620,
    "current": null,
    "min": 5.36,
    "p10": 6.56,
-   "median": 10.82,
+   "median": 10.84,
    "p90": 110.08,
    "max": 5432.0,
-   "mean": 362.41,
+   "mean": 362.98,
    "percentile": 100.0,
    "score": null,
    "currentNote": "per_na"
   },
   "PSR": {
    "days": 1255,
-   "current": 8.14,
+   "current": 5.84,
    "min": 1.4,
    "p10": 1.64,
    "median": 2.41,
-   "p90": 7.72,
+   "p90": 7.94,
    "max": 13.18,
-   "mean": 3.22,
-   "percentile": 91.5,
-   "score": 8.5
+   "mean": 3.24,
+   "percentile": 88.7,
+   "score": 11.3
   },
   "PBR": {
    "days": 1255,
-   "current": 5.3,
+   "current": 3.04,
    "min": 0.7,
    "p10": 0.89,
    "median": 1.45,
-   "p90": 4.28,
-   "max": 7.34,
-   "mean": 1.86,
-   "percentile": 94.3,
-   "score": 5.7
+   "p90": 4.18,
+   "max": 6.36,
+   "mean": 1.82,
+   "percentile": 89.5,
+   "score": 10.5
   },
   "PCR": {
    "days": 256,
-   "current": 164.04,
+   "current": 92.76,
    "min": 10.61,
-   "p10": 11.04,
-   "median": 16.67,
-   "p90": 180.32,
-   "max": 226.97,
-   "mean": 58.72,
-   "percentile": 81.2,
-   "score": 18.8
+   "p10": 11.05,
+   "median": 16.74,
+   "p90": 188.55,
+   "max": 237.82,
+   "mean": 60.93,
+   "percentile": 72.7,
+   "score": 27.3
   },
   "EV/EBITDA": {
    "days": 1123,
-   "current": 40.71,
-   "min": 4.08,
-   "p10": 5.68,
-   "median": 19.28,
-   "p90": 79.8,
-   "max": 237.74,
-   "mean": 35.08,
-   "percentile": 79.4,
-   "score": 20.6
+   "current": 25.19,
+   "min": 4.21,
+   "p10": 5.82,
+   "median": 19.27,
+   "p90": 79.7,
+   "max": 235.92,
+   "mean": 34.97,
+   "percentile": 65.1,
+   "score": 34.9
   }
  },
  "perBasis": "diluted",
  "perNA": {
-  "netMargin": -0.1979,
+  "netMargin": -0.2009,
   "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

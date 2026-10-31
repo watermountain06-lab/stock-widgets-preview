@@ -1,32 +1,32 @@
 {
  "ticker": "RSG",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 36.4,
+  "dio": 4.1,
+  "dpo": 48.9,
+  "op": 40.5,
+  "ccc": -8.4
+ },
+ "prev": {
   "dso": 36.2,
   "dio": 4.0,
   "dpo": 47.8,
   "op": 40.2,
   "ccc": -7.6
  },
- "prev": {
-  "dso": 36.1,
-  "dio": 4.0,
-  "dpo": 47.1,
-  "op": 40.0,
-  "ccc": -7.0
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 35.6,
   "max": 41.0,
-  "longer": 6,
-  "dsoLonger": 6,
-  "dioLonger": 3
+  "longer": 5,
+  "dsoLonger": 5,
+  "dioLonger": 2
  },
- "score": 30.0,
+ "score": 25.0,
  "tone": "red"
 }

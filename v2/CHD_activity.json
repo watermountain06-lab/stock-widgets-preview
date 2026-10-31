@@ -1,32 +1,32 @@
 {
  "ticker": "CHD",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 34.9,
+  "dio": 63.8,
+  "dpo": 82.0,
+  "op": 98.7,
+  "ccc": 16.6
+ },
+ "prev": {
   "dso": 34.9,
   "dio": 64.0,
   "dpo": 80.2,
   "op": 98.8,
   "ccc": 18.6
  },
- "prev": {
-  "dso": 35.2,
-  "dio": 64.5,
-  "dpo": 78.3,
-  "op": 99.8,
-  "ccc": 21.5
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
-  "min": 93.9,
+  "from": "2021-09-30",
+  "to": "2026-06-30",
+  "min": 95.4,
   "max": 104.1,
-  "longer": 15,
+  "longer": 16,
   "dsoLonger": 4,
   "dioLonger": 20
  },
- "score": 75.0,
+ "score": 80.0,
  "tone": "green"
 }

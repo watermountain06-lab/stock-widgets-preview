@@ -1,79 +1,79 @@
 {
  "ticker": "UBER",
  "window": [
-  "2021-10-29",
-  "2026-10-29"
+  "2021-11-01",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
-   "days": 747,
-   "current": 29.35,
+   "days": 748,
+   "current": 29.13,
    "min": 28.63,
-   "p10": 30.87,
-   "median": 37.4,
-   "p90": 108.98,
+   "p10": 30.85,
+   "median": 37.36,
+   "p90": 108.96,
    "max": 149.34,
-   "mean": 56.41,
-   "percentile": 0.8,
-   "score": 99.2
+   "mean": 56.37,
+   "percentile": 0.5,
+   "score": 99.5
   },
   "PSR": {
    "days": 1255,
-   "current": 2.43,
+   "current": 2.41,
    "min": 1.68,
    "p10": 2.07,
-   "median": 3.33,
+   "median": 3.32,
    "p90": 4.31,
    "max": 7.3,
    "mean": 3.29,
-   "percentile": 20.4,
-   "score": 79.6
+   "percentile": 20.1,
+   "score": 79.9
   },
   "PBR": {
    "days": 1255,
-   "current": 4.92,
+   "current": 4.88,
    "min": 3.8,
    "p10": 5.17,
    "median": 8.61,
    "p90": 13.17,
    "max": 17.41,
    "mean": 8.73,
-   "percentile": 6.1,
-   "score": 93.9
+   "percentile": 5.8,
+   "score": 94.2
   },
   "PCR": {
-   "days": 1064,
-   "current": 13.27,
-   "min": 13.18,
-   "p10": 15.32,
-   "median": 32.13,
-   "p90": 104.53,
+   "days": 1065,
+   "current": 13.17,
+   "min": 13.17,
+   "p10": 15.31,
+   "median": 32.11,
+   "p90": 104.49,
    "max": 188.21,
-   "mean": 48.46,
-   "percentile": 0.1,
-   "score": 99.9
+   "mean": 48.42,
+   "percentile": 0.0,
+   "score": 100.0
   },
   "EV/EBITDA": {
-   "days": 588,
-   "current": 19.29,
+   "days": 589,
+   "current": 19.16,
    "min": 19.16,
-   "p10": 21.61,
-   "median": 64.26,
-   "p90": 322.22,
+   "p10": 21.55,
+   "median": 64.17,
+   "p90": 322.08,
    "max": 361.41,
-   "mean": 89.35,
-   "percentile": 0.2,
-   "score": 99.8
+   "mean": 89.23,
+   "percentile": 0.0,
+   "score": 100.0
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 31.12,
+  "per_p25": 31.11,
   "per_p75": 38.0,
   "low": 70,
   "high": 90,
-  "asOf": "2026-10-29",
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }

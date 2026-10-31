@@ -34,7 +34,7 @@ PEER_TIP = ('S&P500 산업재(HII 제외)와 배수 순위를 매긴 값이다.'
 # 매출(Q2 2026 10-Q 부문, 부문 간 거래 제거 전) — Newport News 1,849 + Ingalls 845 + Mission Technologies 760 = 3,454(제거 후 3,418).
 SEG = [('Newport News(항모·잠수함)', 1849, '#002f6c'), ('Ingalls(구축함·상륙함)', 845, '#5a7fb5'), ('Mission Technologies', 760, '#a7a9ac')]
 SEG_ADJ = 0
-SEG_TITLE = '매출 구성 — 부문별(Q2 2026)'
+SEG_TITLE = '매출 구성 — 부문별'   # 분기는 fill.py가 실제 값으로 붙인다 — 손으로 적으면 분기를 넘길 때 두 번 나온다(2026-10-30)
 # 손 뉴스: 실적 4건(EPS는 GAAP 희석). 반응일: 장 전 발표(07:13~07:23 동부 접수) → 같은 날.
 NEWS_RANGE = '2025.10 ~ 2026.07'
 NEWS = [

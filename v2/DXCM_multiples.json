@@ -1,79 +1,79 @@
 {
  "ticker": "DXCM",
  "window": [
-  "2021-10-29",
-  "2026-10-29"
+  "2021-11-01",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 31.59,
+   "current": 32.27,
    "min": 24.71,
-   "p10": 33.21,
-   "median": 81.17,
+   "p10": 33.18,
+   "median": 81.03,
    "p90": 186.5,
    "max": 310.85,
-   "mean": 98.63,
-   "percentile": 6.6,
-   "score": 93.4
+   "mean": 98.57,
+   "percentile": 8.3,
+   "score": 91.7
   },
   "PSR": {
    "days": 1255,
-   "current": 6.07,
+   "current": 6.01,
    "min": 4.63,
    "p10": 5.84,
-   "median": 11.48,
-   "p90": 16.55,
+   "median": 11.47,
+   "p90": 16.54,
    "max": 27.22,
-   "mean": 11.2,
-   "percentile": 14.8,
-   "score": 85.2
+   "mean": 11.19,
+   "percentile": 12.9,
+   "score": 87.1
   },
   "PBR": {
    "days": 1255,
-   "current": 11.51,
+   "current": 12.1,
    "min": 7.55,
    "p10": 9.67,
-   "median": 15.65,
-   "p90": 23.7,
+   "median": 15.63,
+   "p90": 23.66,
    "max": 29.55,
-   "mean": 16.53,
-   "percentile": 21.1,
-   "score": 78.9
+   "mean": 16.51,
+   "percentile": 25.1,
+   "score": 74.9
   },
   "PCR": {
    "days": 1255,
-   "current": 21.47,
+   "current": 27.94,
    "min": 15.61,
-   "p10": 22.99,
-   "median": 78.11,
-   "p90": 327.77,
+   "p10": 23.05,
+   "median": 78.06,
+   "p90": 327.23,
    "max": 968.03,
-   "mean": 135.62,
-   "percentile": 6.1,
-   "score": 93.9
+   "mean": 135.3,
+   "percentile": 20.0,
+   "score": 80.0
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 21.17,
+   "current": 20.25,
    "min": 16.59,
-   "p10": 22.24,
+   "p10": 22.22,
    "median": 54.56,
-   "p90": 104.26,
+   "p90": 104.12,
    "max": 138.68,
-   "mean": 58.97,
-   "percentile": 5.8,
-   "score": 94.2
+   "mean": 58.88,
+   "percentile": 2.9,
+   "score": 97.1
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 31.01,
-  "per_p75": 35.43,
+  "per_p75": 35.42,
   "low": 80,
   "high": 90,
-  "asOf": "2026-10-29",
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }

@@ -2412,6 +2412,10 @@ def _debt_total_fallback(cik, out):
 # 원문으로 **그 시점에 없어진 것**을 확인한 EV 구성요소 — 그 결산일에 0 관측 하나를 끼운다(공개일 = 그 공시). EV_ZERO_FROM_BY_CIK와 달리
 # 그 뒤 실제 값은 지우지 않는다(ULTA는 2020-09 차입금 $800M을 다 갚고 2023-10 다시 $195M을 빌렸다). 확인 출처는 Codex r3(2026-10-25).
 EV_ZERO_AT_BY_CIK = {"0000879169": {"debt": [("2020-12-31", "2021-02-09")]},    # INCY: 남은 2020 전환사채를 만기 전 주식으로 전환(10-K 2020)
+                     # HOOD: 2021-02 전환사채 $3.55B(공정가치 $5.19B)가 상장 완료(2021-08-02) 때 보통주로 전환 — 10-Q 2021-09-30 자본변동표 "Conversion of
+                     # convertible notes to common stock … 5,217,597"(천 달러). 신용한도는 같은 분기 전액 상환. 표지가 없어 2021-06 $5.19B가
+                     # 2025-12까지 차입금으로 남았다(안건 E66, 2026-10-30)
+                     "0001783879": {"debt": [("2021-09-30", "2021-10-29")]},
                      "0001001250": {"sti": [("2019-03-31", "2019-05-01")]},     # EL: 단기투자 2019-03-31 재무상태표 '—'(10-Q)
                      "0001513761": {"sti": [("2022-03-31", "2022-05-10")]},     # NCLH: 1분기 만기 회수 $240M·신규 매입 0, 재무상태표 0(10-Q)
                      "0001524472": {"sti": [("2020-12-31", "2021-02-26")]},     # XYL: 단기투자 $200M 연간 매입·회수 같고 연말 재무상태표에 없음(10-K 2020)
@@ -2423,6 +2427,43 @@ EV_ZERO_AT_BY_CIK = {"0000879169": {"debt": [("2020-12-31", "2021-02-09")]},    
                      # dr r2에서 2027년 가짜 관측으로 확인). 2015~2017에 쓴 AvailableForSaleSecuritiesCurrent로만 다시 내면
                      # 수집 단계에서 못 읽고 0이 최신으로 남는다(1% 문턱도 못 넘어 표식 없음) — MSI 전용 태그 지정은 백로그(dr r2).
                      "0000068505": {"sti": [("2017-09-30", "2017-11-03")]}}
+
+
+EV_TAGS_NO_DEFAULT_CASH_FILL = set()   # 현금 합계 대체를 쓰지 않을 회사(필요하면 원문 확인 뒤 추가)
+CASH_TOTAL_TAGS = ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+                   "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations"]
+
+
+def _cash_total_fill(cik, out):
+    """배수 엔진 현금: 기본 태그의 직전 결산일보다 200일 넘게 뒤의 결산일을 현금 + 제한현금 합계 태그(재무상태표·현금흐름표 기말 현금)
+    − 같은 결산일 제한현금으로 채운다 — DCF base_inputs의 현금 대체(2026-10-25)와 같은 값. 배수 엔진에는 없어 INTC는 2021-09 현금
+    $7.9B가 2023-01~2025-07 EV에 쓰였다(안건 E66, 2026-10-30). 시점 규칙: '직전' 기본 결산일은 그 합계 행 공개일까지 공개된 기본 행에서만
+    고르고(뒤에 나온 기본 행이 앞 계산을 바꾸지 않게, Codex E66 r1), 같은 결산일 기본 행이 나중에 나오면 그날부터 기본 행이 이긴다(newest_row).
+    배수 엔진 시리즈에서만 쓴다 — DCF는 자체 대체(제한현금·dq 표식)를 쓰므로 ev_component에 넣지 않는다(Codex E66 r1)."""
+    if not out:
+        return out
+    rc_tot = pick_instant(cik, ["RestrictedCashAndCashEquivalents", "RestrictedCash", "RestrictedCashAndCashEquivalentsAtCarryingValue"])
+    rc_cur = pick_instant(cik, ["RestrictedCashCurrent", "RestrictedCashAndCashEquivalentsCurrent"])
+    rc_non = pick_instant(cik, ["RestrictedCashNoncurrent", "RestrictedCashAndCashEquivalentsNoncurrent"])
+
+    def _rc(end, avail):
+        at = lambda rows: next((r["val"] for r in rows if r["end"] == end and r["available"] <= avail), None)
+        v = at(rc_tot)
+        if v is None:
+            c, n = at(rc_cur), at(rc_non)
+            v = None if c is None and n is None else (c or 0) + (n or 0)
+        return max(v or 0, 0)
+    fill = []
+    for e in pick_instant(cik, CASH_TOTAL_TAGS):
+        known = [b for b in out if b["available"] <= e["available"]]
+        if any(b["end"] == e["end"] for b in known):
+            continue                     # 같은 결산일 기본 행이 이미 공개됨 — 기본 행
+        prev = [b["end"] for b in known if b["end"] < e["end"]]
+        if not prev:
+            continue
+        if (date.fromisoformat(e["end"]) - date.fromisoformat(max(prev))).days > 200:
+            fill.append(dict(e, val=e["val"] - _rc(e["end"], e["available"]), _note="cash_total_tag"))
+    return sorted(out + fill, key=lambda e: (e["available"], e["end"])) if fill else out
 
 
 def ev_component(cik, name, tags):
@@ -2821,6 +2862,10 @@ def main():
     # EV 구성요소(시점)와 EBITDA(기간)
     for name, tags in EV_COMPONENTS.items():
         series[name] = ev_component(cik, name, tags)
+        # 현금 합계 대체(E66) — 배수 엔진에서만. 금융회사(은행 카드는 따로 정한 현금 정의)·현금 태그를 회사별로 지정한 회사는 그 결정을 따른다
+        if (name == "cash" and cik not in EV_TAGS_NO_DEFAULT_CASH_FILL and cik not in _financial_ciks()
+                and "cash" not in EV_TAGS_BY_CIK.get(cik, {})):
+            series[name] = _cash_total_fill(cik, series[name])
         if series[name]:
             print(f"  {name}: {len(series[name])}개 · 최신 {series[name][-1]['end']}"
                   f"{check_fresh(series[name], daily[-1][0])}")

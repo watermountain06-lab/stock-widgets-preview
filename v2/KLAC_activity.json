@@ -1,32 +1,32 @@
 {
  "ticker": "KLAC",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 62.5,
+  "dio": 229.6,
+  "dpo": 35.1,
+  "op": 292.1,
+  "ccc": 257.0
+ },
+ "prev": {
   "dso": 62.0,
   "dio": 233.5,
   "dpo": 33.2,
   "op": 295.5,
   "ccc": 262.4
  },
- "prev": {
-  "dso": 61.6,
-  "dio": 236.5,
-  "dpo": 32.3,
-  "op": 298.2,
-  "ccc": 265.9
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 242.2,
   "max": 344.2,
-  "longer": 11,
-  "dsoLonger": 16,
-  "dioLonger": 11
+  "longer": 12,
+  "dsoLonger": 15,
+  "dioLonger": 12
  },
- "score": 55.0,
+ "score": 60.0,
  "tone": "yellow"
 }

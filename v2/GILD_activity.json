@@ -1,31 +1,31 @@
 {
  "ticker": "GILD",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 58.2,
+  "dio": 109.8,
+  "dpo": 42.6,
+  "op": 168.0,
+  "ccc": 125.3
+ },
+ "prev": {
   "dso": 58.9,
   "dio": 108.1,
   "dpo": 41.0,
   "op": 167.0,
   "ccc": 125.9
  },
- "prev": {
-  "dso": 59.4,
-  "dio": 107.3,
-  "dpo": 41.6,
-  "op": 166.7,
-  "ccc": 125.2
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 138.3,
   "max": 168.8,
   "longer": 2,
-  "dsoLonger": 6,
-  "dioLonger": 3
+  "dsoLonger": 10,
+  "dioLonger": 1
  },
  "score": 10.0,
  "tone": "red"
