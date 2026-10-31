@@ -4,42 +4,22 @@
  "horizon": 126,
  "points": [
   {
-   "date": "2021-04-29",
-   "price": null,
-   "window": "last13",
-   "low": -11.026863219406591,
-   "base": -5.83660269955564,
-   "high": 1.80801508157459,
-   "forward_price": null,
-   "forward_return": null
-  },
-  {
-   "date": "2021-07-29",
-   "price": null,
-   "window": "last13",
-   "low": 1.1060194287914822,
-   "base": 5.612369785576919,
-   "high": 6.310998507052919,
-   "forward_price": null,
-   "forward_return": null
-  },
-  {
    "date": "2021-10-28",
-   "price": 142.58,
+   "price": null,
    "window": "last13",
    "low": 10.856955783635904,
    "base": 17.17308281143821,
    "high": 17.70728272926555,
-   "forward_price": 102.14,
-   "forward_return": -0.2836302426707814
+   "forward_price": null,
+   "forward_return": null
   },
   {
    "date": "2022-02-14",
    "price": 101.75,
    "window": "last13",
-   "low": 10.831686090975609,
-   "base": 16.902826572053954,
-   "high": 11.52798136495474,
+   "low": 10.83548101042689,
+   "base": 16.90830500673065,
+   "high": 11.533245853587317,
    "forward_price": 90.79,
    "forward_return": -0.10771498771498766
   },
@@ -157,9 +137,9 @@
    "date": "2025-02-18",
    "price": 90.53,
    "window": "fixed",
-   "low": 16.351242995355634,
-   "base": 19.977929387466542,
-   "high": 19.140484419854758,
+   "low": 16.681750875938775,
+   "base": 20.384990750321126,
+   "high": 19.542265204225217,
    "forward_price": 80.9,
    "forward_return": -0.10637357781950729
   },
@@ -197,8 +177,8 @@
    "date": "2026-02-12",
    "price": 65.08,
    "window": "fixed",
-   "low": 16.54509438145035,
-   "base": 26.279287400355017,
+   "low": 15.612486280733844,
+   "base": 26.071975090000073,
    "high": 33.648660375059556,
    "forward_price": 89.75,
    "forward_return": 0.37907191149354635
@@ -210,8 +190,8 @@
    "low": 18.146548423354766,
    "base": 28.16959647032375,
    "high": 38.80689269520047,
-   "forward_price": null,
-   "forward_return": null
+   "forward_price": 79.93,
+   "forward_return": 0.3422334172963897
   },
   {
    "date": "2026-07-30",
@@ -222,7 +202,26 @@
    "high": 42.06867918208387,
    "forward_price": null,
    "forward_return": null
+  },
+  {
+   "date": "2026-10-29",
+   "price": 79.93,
+   "window": "fixed",
+   "low": 12.43804332002541,
+   "base": 31.974380537528667,
+   "high": 44.52059056073412,
+   "forward_price": null,
+   "forward_return": null
   }
  ],
- "skipped": []
+ "skipped": [
+  {
+   "date": "2021-04-29",
+   "why": "계산 보류 — 단기투자(마지막 값 2018-12-31)"
+  },
+  {
+   "date": "2021-07-29",
+   "why": "계산 보류 — 단기투자(마지막 값 2018-12-31)"
+  }
+ ]
 }

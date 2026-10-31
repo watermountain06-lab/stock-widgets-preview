@@ -1,79 +1,79 @@
 {
  "ticker": "IQV",
  "window": [
-  "2021-10-29",
-  "2026-10-29"
+  "2021-11-01",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 33.42,
+   "current": 32.48,
    "min": 18.69,
    "p10": 22.13,
    "median": 32.48,
-   "p90": 41.55,
+   "p90": 41.35,
    "max": 71.73,
-   "mean": 33.61,
-   "percentile": 56.1,
-   "score": 43.9
+   "mean": 33.59,
+   "percentile": 50.1,
+   "score": 49.9
   },
   "PSR": {
    "days": 1255,
-   "current": 2.62,
+   "current": 2.54,
    "min": 1.53,
    "p10": 1.8,
    "median": 2.6,
-   "p90": 3.1,
+   "p90": 3.09,
    "max": 3.99,
    "mean": 2.56,
-   "percentile": 52.7,
-   "score": 47.3
+   "percentile": 44.8,
+   "score": 55.2
   },
   "PBR": {
    "days": 1255,
-   "current": 6.81,
+   "current": 6.62,
    "min": 3.97,
    "p10": 4.64,
    "median": 6.47,
    "p90": 7.7,
    "max": 9.26,
    "mean": 6.38,
-   "percentile": 63.5,
-   "score": 36.5
+   "percentile": 55.1,
+   "score": 44.9
   },
   "PCR": {
    "days": 1255,
-   "current": 21.8,
+   "current": 21.19,
    "min": 10.96,
    "p10": 14.06,
    "median": 20.92,
    "p90": 27.57,
    "max": 33.64,
    "mean": 20.9,
-   "percentile": 56.0,
-   "score": 44.0
+   "percentile": 51.7,
+   "score": 48.3
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 17.27,
+   "current": 16.9,
    "min": 10.99,
    "p10": 12.93,
    "median": 16.86,
-   "p90": 19.75,
+   "p90": 19.74,
    "max": 25.31,
    "mean": 16.67,
-   "percentile": 60.4,
-   "score": 39.6
+   "percentile": 51.7,
+   "score": 48.3
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 22.17,
-  "per_p75": 32.04,
+  "per_p75": 32.07,
   "low": 180,
   "high": 260,
-  "asOf": "2026-10-29",
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }
