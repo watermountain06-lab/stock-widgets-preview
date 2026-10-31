@@ -178,6 +178,14 @@ def run():
         q4rows = rows62[:3] + [{"quarter_end": "2024-12-31", "quarter_eps": 3.90, "fp": "Q4-derived", "available_date": "2025-02-10"}]
         st = bmh._quarter_status("ZZZ", q4rows, q4rows[-1], "2025-03-01")
         check("E62 4분기 역산 행은 연간으로 판정(4.90 − (0.10 + 2.10 − 0.10) = 2.80)", st[1] == "removed" and abs(st[0] + 2.80) < 1e-9)
+        # 분기 간 상쇄: 연간 중단영업 0인데 앞 분기에 있으면 4분기에 되돌린다
+        F["disc"].append(("2023-01-01", "2023-03-31", 1.00, "2023-05-01")); F["disc"].append(("2023-01-01", "2023-12-31", 0.00, "2024-02-10"))
+        F["tot"].append(("2023-01-01", "2023-12-31", 4.00, "2024-02-10"))
+        off = [{"quarter_end": "2023-03-31", "quarter_eps": 2.00, "available_date": "2023-05-01"},
+               {"quarter_end": "2023-06-30", "quarter_eps": 1.00, "available_date": "2023-08-01"},
+               {"quarter_end": "2023-09-30", "quarter_eps": 1.00, "available_date": "2023-11-01"},
+               {"quarter_end": "2023-12-31", "quarter_eps": 0.00, "fp": "Q4-derived", "available_date": "2024-02-10"}]
+        check("E62 연간 0이어도 분기 상쇄는 4분기에 되돌림(+1.00)", bmh._quarter_status("ZZZ", off, off[-1], "2024-03-01") == (1.0, "removed"))
         q4c = rows62[:3] + [{"quarter_end": "2024-12-31", "quarter_eps": 1.00 - 0.10 - 0.90 + 3.00 - 1.10 + 0.0, "fp": "Q4-derived", "available_date": "2025-02-10"}]
         q4c[-1]["quarter_eps"] = 4.00 - (1.10 + 3.10 + 0.90)   # 파일 연간 = 계속영업 연간 4.00
         check("E62 4분기 역산 행 파일 연간 = 계속영업이면 already", bmh._quarter_status("ZZZ", q4c, q4c[-1], "2025-03-01")[1] == "already")
@@ -247,6 +255,7 @@ MUTANTS = [
     ("E62 판정 불가도 뺌", "        return -disc, \"removed\"\n    return 0.0, \"unknown\"", "        return -disc, \"removed\"\n    return -disc, \"unknown\""),
     ("E62 공시일 무시", "    rows = [r for r in facts if r[1] == q_end and r[3] <= upto]", "    rows = [r for r in facts if r[1] == q_end]"),
     ("E62 누계 차 제거", "            return y[2] - min(prev, key=lambda r: r[3])[2]", "            return y[2]"),
+    ("E62 연간 0 조기 반환", "    if a_disc is None or (abs(a_disc) < 0.005 and abs(three()) < 0.005):", "    if a_disc is None or abs(a_disc) < 0.005:"),
     ("E62 4분기 연간 판정 제거", "    if str(r.get(\"fp\", \"\")).startswith(\"Q4\"):", "    if False:"),
     ("E62 재작성 시점 제한 유지", "    return \"9999-12-31\" if ticker in feh.RESTATED_LATEST else upto", "    return upto"),
     ("E62 손 보정 기준표 무시", "        basis = Q4_OVERRIDE_BASIS.get((ticker, fy_end))", "        basis = None"),

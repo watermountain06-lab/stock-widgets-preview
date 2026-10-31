@@ -309,9 +309,10 @@ def disc_q4_status(ticker, file_rows, upto):
     q4 = file_rows[-1]
     fy_end = q4["quarter_end"]
     a_disc = _annual_ps(ticker, DISC_EPS_TAGS, fy_end, upto)
-    if not a_disc or abs(a_disc) < 0.005:
-        return 0.0, "none"
     three = lambda: sum(ps_quarter(ticker, DISC_EPS_TAGS, r["quarter_end"], upto) or 0.0 for r in file_rows[:-1])
+    # 연간 0이어도 앞 세 분기에 중단영업이 있으면(분기 간 상쇄 — 1분기 +1·4분기 −1) 4분기에 되돌려야 연말 TTM이 맞다(Codex E62 r2)
+    if a_disc is None or (abs(a_disc) < 0.005 and abs(three()) < 0.005):
+        return 0.0, "none"
     if fy_end in feh.Q4_EPS_OVERRIDE.get(ticker, {}):
         basis = Q4_OVERRIDE_BASIS.get((ticker, fy_end))
         if basis == "continuing":
