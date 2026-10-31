@@ -173,6 +173,32 @@ def run():
         F["disc"].append(("2025-01-01", "2025-03-31", 0.015, "2025-05-01"))
         F["cont"].append(("2025-01-01", "2025-03-31", 1.00, "2025-05-01"))
         check("E62 파일 = 계속영업이면 작은 중단영업(0.015)도 안 뺌", bmh.disc_quarter_status("ZZZ", 1.00, "2025-03-31", "2025-06-01") == (0.0, "already"))
+        # 4분기 역산 행: 연간 판정 — 파일 연간(네 분기 합)이 연간 총 EPS(F tot 연간)면 '연간 중단영업 − 세 분기'를 뺀다
+        F["tot"].append(("2024-01-01", "2024-12-31", 9.00, "2025-02-10"))
+        q4rows = rows62[:3] + [{"quarter_end": "2024-12-31", "quarter_eps": 3.90, "fp": "Q4-derived", "available_date": "2025-02-10"}]
+        st = bmh._quarter_status("ZZZ", q4rows, q4rows[-1], "2025-03-01")
+        check("E62 4분기 역산 행은 연간으로 판정(4.90 − (0.10 + 2.10 − 0.10) = 2.80)", st[1] == "removed" and abs(st[0] + 2.80) < 1e-9)
+        q4c = rows62[:3] + [{"quarter_end": "2024-12-31", "quarter_eps": 1.00 - 0.10 - 0.90 + 3.00 - 1.10 + 0.0, "fp": "Q4-derived", "available_date": "2025-02-10"}]
+        q4c[-1]["quarter_eps"] = 4.00 - (1.10 + 3.10 + 0.90)   # 파일 연간 = 계속영업 연간 4.00
+        check("E62 4분기 역산 행 파일 연간 = 계속영업이면 already", bmh._quarter_status("ZZZ", q4c, q4c[-1], "2025-03-01")[1] == "already")
+        import fetch_eps_history as _feh
+        keep_ov, keep_basis, keep_rl = dict(_feh.Q4_EPS_OVERRIDE), dict(bmh.Q4_OVERRIDE_BASIS), set(_feh.RESTATED_LATEST)
+        try:
+            _feh.Q4_EPS_OVERRIDE["ZZZ"] = {"2024-12-31": 3.90}
+            bmh.Q4_OVERRIDE_BASIS[("ZZZ", "2024-12-31")] = ("total", 2.50)
+            check("E62 손 보정 4분기 'total'은 보도자료 중단영업 값", bmh._quarter_status("ZZZ", q4rows, q4rows[-1], "2025-03-01") == (-2.50, "removed"))
+            bmh.Q4_OVERRIDE_BASIS[("ZZZ", "2024-12-31")] = "continuing"
+            check("E62 손 보정 4분기 'continuing'은 already", bmh._quarter_status("ZZZ", q4rows, q4rows[-1], "2025-03-01")[1] == "already")
+            del _feh.Q4_EPS_OVERRIDE["ZZZ"]
+            # 재작성 종목은 시점 제한 없이 판정(나중 공시된 중단영업 사실도) — 공개 전 upto여도 뺀다
+            early = rows62[:3] + [dict(rows62[3], available_date="2025-01-20")]   # 4분기 행이 연간 중단영업 사실(2025-02-10)보다 먼저
+            check("E62 보통 종목은 그 행 공개일 뒤 사실을 안 씀(4분기 0)", abs(bmh.disc_in_ttm("ZZZ", early, "2024-12-31", "2025-01-20") + 2.10) < 1e-9)
+            _feh.RESTATED_LATEST.add("ZZZ")
+            check("E62 재작성 종목은 나중 공시 사실로도 판정", abs(bmh.disc_in_ttm("ZZZ", early, "2024-12-31", "2025-01-20") + 5.00) < 1e-9)
+        finally:
+            _feh.Q4_EPS_OVERRIDE.clear(); _feh.Q4_EPS_OVERRIDE.update(keep_ov)
+            bmh.Q4_OVERRIDE_BASIS.clear(); bmh.Q4_OVERRIDE_BASIS.update(keep_basis)
+            _feh.RESTATED_LATEST.clear(); _feh.RESTATED_LATEST.update(keep_rl)
         bmh.ASOF_REF = "2025-03-01"
         check("E62 연구 모드는 0", bmh.disc_in_ttm("ZZZ", rows62, "2024-12-31", "2025-03-01") == 0.0)
         bmh.ASOF_REF = None
@@ -217,10 +243,13 @@ MUTANTS = [
     ("E66 현금 대체 간격 문턱 200 → 60", "        if (date.fromisoformat(e[\"end\"]) - date.fromisoformat(max(prev))).days > 200:", "        if (date.fromisoformat(e[\"end\"]) - date.fromisoformat(max(prev))).days > 60:"),
     ("E66 같은 결산일도 합계로", "        if any(b[\"end\"] == e[\"end\"] for b in known):\n            continue", "        if False:\n            continue"),
     ("E66 제한현금 안 뺌", "            fill.append(dict(e, val=e[\"val\"] - _rc(e[\"end\"], e[\"available\"]), _note=\"cash_total_tag\"))", "            fill.append(dict(e, _note=\"cash_total_tag\"))"),
-    ("E62 이미 계속영업 판정 제거", "    if cont is not None and abs(file_q - cont) <= 0.011:\n        return 0.0, \"already\"", "    if False:\n        return 0.0, \"already\""),
-    ("E62 판정 불가도 뺌", "    return 0.0, \"unknown\"", "    return -disc, \"unknown\""),
+    ("E62 이미 계속영업 판정 제거", "    if d_cont is not None and d_cont <= 0.011 and (d_tot is None or d_cont < d_tot):   # 가까운 쪽(1센트 안 동률 — Fable)\n        return 0.0, \"already\"", "    if False:\n        return 0.0, \"already\""),
+    ("E62 판정 불가도 뺌", "        return -disc, \"removed\"\n    return 0.0, \"unknown\"", "        return -disc, \"removed\"\n    return -disc, \"unknown\""),
     ("E62 공시일 무시", "    rows = [r for r in facts if r[1] == q_end and r[3] <= upto]", "    rows = [r for r in facts if r[1] == q_end]"),
     ("E62 누계 차 제거", "            return y[2] - min(prev, key=lambda r: r[3])[2]", "            return y[2]"),
+    ("E62 4분기 연간 판정 제거", "    if str(r.get(\"fp\", \"\")).startswith(\"Q4\"):", "    if False:"),
+    ("E62 재작성 시점 제한 유지", "    return \"9999-12-31\" if ticker in feh.RESTATED_LATEST else upto", "    return upto"),
+    ("E62 손 보정 기준표 무시", "        basis = Q4_OVERRIDE_BASIS.get((ticker, fy_end))", "        basis = None"),
     ("E62 간격 검사 제거", "    if any((date.fromisoformat(b) - date.fromisoformat(a)).days > 120 for a, b in zip(qs, qs[1:])):\n        return None", "    if False:\n        return None"),
     ("근거 없을 때 막음", "        return True                      # 결산일 근거가 없으면 거르지 않는다", "        return False"),
 ]

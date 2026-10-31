@@ -250,7 +250,9 @@ def _ps_facts(ticker, tags):
             got = [e for tg in tags for e in concept(cik, tg) if "start" in e and "filed" in e]
             for e in sorted(got, key=lambda e: e["filed"]):   # 정렬은 안정적 — 같은 공시일이면 태그 목록 순서
                 seen.setdefault((e["start"], e["end"]), e)
-        _PS_CACHE[key] = [(e["start"], e["end"], e["val"] / (feh.split_ratio(e["filed"], sp) if sp else 1), e["filed"]) for e in seen.values()]
+        # 주당 값이 1,000달러를 넘는 사실은 단위 오태깅(DELL 2020~2022 ×1e6) — 버린다(Fable E62 r1)
+        _PS_CACHE[key] = [(e["start"], e["end"], e["val"] / (feh.split_ratio(e["filed"], sp) if sp else 1), e["filed"]) for e in seen.values()
+                          if abs(e["val"]) <= 1000]
     return _PS_CACHE[key]
 
 
@@ -279,6 +281,64 @@ def disc_eps_quarter(ticker, q_end, upto):
     return v or 0.0
 
 
+# E62: 4분기를 보도자료 값으로 손 보정한 행(fetch_eps_history.Q4_EPS_OVERRIDE) 가운데 그 해 중단영업이 큰(|연간| ≥ 0.10) 것의 기준 —
+# 'continuing'(보정 값이 계속사업 EPS — 수집기 주석 "계속사업 희석 EPS") 또는 'total'(총 EPS). 없으면 4분기 총·계속영업 역산 중 가까운 쪽.
+# 'total'은 보도자료 4분기 중단영업 희석 EPS를 함께 적는다(연간 − 9개월 역산은 주식 수가 급변한 해에 틀림).
+# COF 2025: 3.26은 총 EPS, 4분기 중단영업 0.60·계속영업 2.66(8-K 2026-01-22 ex99.2 'Income (loss) from discontinued operations 0.60';
+# 역산은 0.70, Discover 합병 주식 수 급변)
+Q4_OVERRIDE_BASIS = {
+    ("PPL", "2021-12-31"): "continuing", ("VRSK", "2021-12-31"): "continuing", ("VRSK", "2022-12-31"): "continuing",
+    ("VRSK", "2023-12-31"): "continuing", ("EBAY", "2021-12-31"): "continuing", ("DVA", "2022-12-31"): "continuing",
+    ("DVA", "2025-12-31"): "continuing", ("VMC", "2022-12-31"): "continuing", ("EXC", "2022-12-31"): "continuing",
+    ("PPG", "2024-12-31"): "continuing", ("IR", "2021-12-31"): "continuing", ("SNPS", "2024-10-31"): "continuing",
+    ("EMR", "2024-09-30"): "continuing", ("COF", "2025-12-31"): ("total", 0.60),
+}
+
+
+def _annual_ps(ticker, tags, fy_end, upto):
+    rows = [r for r in _ps_facts(ticker, tags) if r[1] == fy_end and r[3] <= upto
+            and 350 <= (date.fromisoformat(r[1]) - date.fromisoformat(r[0])).days <= 380]
+    return min(rows, key=lambda r: r[3])[2] if rows else None
+
+
+def disc_q4_status(ticker, file_rows, upto):
+    """4분기 역산 행(fp Q4-derived — 파일 4분기 = 연간 − 앞 세 분기, 또는 보도자료 4분기 값): 분기 비교 대신 **연간**으로 판정한다 —
+    파일 네 분기 합(= 그 해 연간)이 연간 총 EPS면 뺄 값 = 연간 중단영업 − 앞 세 분기 중단영업(연말 TTM이 연간 계속영업 EPS와 정확히
+    맞는다 — ALL 2021 4.96 + 12.02 = 16.98, MPC 2021 15.24 − 13.22 = 2.02, Fable E62 r1), 연간 계속영업 EPS면 'already'.
+    file_rows = 그 회계연도 네 분기 행(마지막이 4분기)."""
+    q4 = file_rows[-1]
+    fy_end = q4["quarter_end"]
+    a_disc = _annual_ps(ticker, DISC_EPS_TAGS, fy_end, upto)
+    if not a_disc or abs(a_disc) < 0.005:
+        return 0.0, "none"
+    three = lambda: sum(ps_quarter(ticker, DISC_EPS_TAGS, r["quarter_end"], upto) or 0.0 for r in file_rows[:-1])
+    if fy_end in feh.Q4_EPS_OVERRIDE.get(ticker, {}):
+        basis = Q4_OVERRIDE_BASIS.get((ticker, fy_end))
+        if basis == "continuing":
+            return 0.0, "already"
+        if isinstance(basis, tuple) and basis[0] == "total":
+            return -basis[1], "removed"
+        # 4분기를 보도자료 값으로 손 보정한 행(COF 2025 총 EPS 3.26, SNPS FY24 계속영업 1.79) — 파일 네 분기 합이 연간과 안 맞을 수 있어
+        # (합병으로 주식 수 급변 — COF 2.96 대 연간 4.03) 4분기 값을 4분기 총·계속영업 역산과 비교해 가까운 쪽(Fable E62 r1)
+        q_tot = ps_quarter(ticker, TOTAL_EPS_TAGS, fy_end, upto)
+        q_cont = ps_quarter(ticker, CONT_EPS_TAGS, fy_end, upto)
+        if q_tot is not None and q_cont is not None:
+            if abs(q4["quarter_eps"] - q_cont) < abs(q4["quarter_eps"] - q_tot):
+                return 0.0, "already"
+            return -(a_disc - three()), "removed"
+        return 0.0, "unknown"
+    total = sum(r.get("quarter_eps") or 0 for r in file_rows)
+    a_tot = _annual_ps(ticker, TOTAL_EPS_TAGS, fy_end, upto)
+    a_cont = _annual_ps(ticker, CONT_EPS_TAGS, fy_end, upto)
+    d_tot = abs(total - a_tot) if a_tot is not None else None
+    d_cont = abs(total - a_cont) if a_cont is not None else None
+    if d_cont is not None and d_cont <= 0.03 and (d_tot is None or d_cont < d_tot):
+        return 0.0, "already"
+    if d_tot is not None and d_tot <= 0.03:
+        return -(a_disc - three()), "removed"
+    return 0.0, "unknown"
+
+
 def disc_quarter_status(ticker, file_q, q_end, upto):
     """(뺄 값, 판정) — EPS 파일의 그 분기 값(file_q)이 총 EPS인지 계속영업 EPS인지 **분기마다** 확인한다(Codex E62 r1 — SNPS는 재작성 목록
     밖인데 FY24 4분기를 계속영업 1.79로 손 보정해 둬서 종목 단위 판정이면 5.35를 두 번 뺐다). 판정: 'none'(중단영업 없음),
@@ -288,11 +348,34 @@ def disc_quarter_status(ticker, file_q, q_end, upto):
         return 0.0, "none"
     cont = ps_quarter(ticker, CONT_EPS_TAGS, q_end, upto)
     tot = ps_quarter(ticker, TOTAL_EPS_TAGS, q_end, upto)
-    if cont is not None and abs(file_q - cont) <= 0.011:
+    d_cont = abs(file_q - cont) if cont is not None else None
+    d_tot = abs(file_q - tot) if tot is not None else (abs(file_q - cont - disc) if cont is not None else None)
+    if d_cont is not None and d_cont <= 0.011 and (d_tot is None or d_cont < d_tot):   # 가까운 쪽(1센트 안 동률 — Fable)
         return 0.0, "already"
-    if (tot is not None and abs(file_q - tot) <= 0.011) or (cont is not None and abs(file_q - cont - disc) <= 0.02):
+    if d_tot is not None and d_tot <= (0.011 if tot is not None else 0.02):
         return -disc, "removed"
     return 0.0, "unknown"
+
+
+def _quarter_status(ticker, rows, r, upto):
+    """EPS 파일 행 r(그 분기)의 E62 판정 — 4분기 역산 행은 그 회계연도 네 분기로 연간 판정(disc_q4_status)."""
+    if str(r.get("fp", "")).startswith("Q4"):
+        prev = sorted({x["quarter_end"] for x in rows if x.get("quarter_end") and x["quarter_end"] < r["quarter_end"]
+                       and x.get("available_date", "") <= upto})[-3:]
+        if len(prev) == 3 and (date.fromisoformat(r["quarter_end"]) - date.fromisoformat(prev[0])).days <= 310:
+            by = {}
+            for x in sorted(rows, key=lambda x: x.get("available_date", "")):
+                if x.get("quarter_end") in prev and x.get("available_date", "") <= upto:
+                    by[x["quarter_end"]] = x
+            if len(by) == 3:
+                return disc_q4_status(ticker, [by[q] for q in prev] + [r], upto)
+    return disc_quarter_status(ticker, r.get("quarter_eps"), r["quarter_end"], upto)
+
+
+def _disc_upto(ticker, upto):
+    """재작성 종목(RESTATED_LATEST)은 EPS 파일 값이 이미 나중 공시 기준이라 판정도 같은 기준(시점 제한 없음) — 아니면 분사 재작성 뒤에야 나온
+    중단영업 사실이 시점 필터에 걸려 DHR·MMM·T(파일 = 총 EPS)에서 아무것도 못 뺐다(Fable E62 r1)."""
+    return "9999-12-31" if ticker in feh.RESTATED_LATEST else upto
 
 
 def _ttm_quarter_rows(rows, ttm_end, upto):
@@ -318,7 +401,8 @@ def disc_in_ttm(ticker, rows, ttm_end, upto):
     qr = _ttm_quarter_rows(rows, ttm_end, upto)
     if qr is None:
         return 0.0
-    return sum(disc_quarter_status(ticker, r.get("quarter_eps"), r["quarter_end"], upto)[0] for r in qr)
+    u = _disc_upto(ticker, upto)
+    return sum(_quarter_status(ticker, rows, r, u)[0] for r in qr)
 
 
 def disc_removed(ticker, rows, q_end, upto):
@@ -328,7 +412,8 @@ def disc_removed(ticker, rows, q_end, upto):
     r = [x for x in rows if x.get("quarter_end") == q_end and x.get("available_date", "") <= upto]
     if not r:
         return False
-    return disc_quarter_status(ticker, r[-1].get("quarter_eps"), q_end, upto)[1] == "removed"
+    last = max(r, key=lambda x: x.get("available_date", ""))   # 파일 순서가 아니라 공개일 최댓값(GS·MS 파일은 정렬 안 됨 — Fable)
+    return _quarter_status(ticker, rows, last, _disc_upto(ticker, upto))[1] == "removed"
 
 
 def oneoff_in_ttm(ticker, ttm_end, field, asof=None):
