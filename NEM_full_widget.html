@@ -926,7 +926,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~저평가</span><span class="vs-asof"><span data-vs="asof">2026.10.30</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 NEM 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">66.4</div><div class="sc-tile" data-vc="self" data-m="per">94</div><div class="sc-tile low" data-vc="self" data-m="pbr">15</div><div class="sc-tile low" data-vc="self" data-m="psr">28</div><div class="sc-tile" data-vc="self" data-m="pcr">98</div><div class="sc-tile" data-vc="self" data-m="evebitda">96</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="지난 5년 NEM 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">66.4</div><div class="sc-tile" data-vc="self" data-m="per">95</div><div class="sc-tile low" data-vc="self" data-m="pbr">15</div><div class="sc-tile low" data-vc="self" data-m="psr">28</div><div class="sc-tile" data-vc="self" data-m="pcr">98</div><div class="sc-tile" data-vc="self" data-m="evebitda">96</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$173</div><div class="vs-note">현재가 <span data-vs="price">$106.61</span> 대비 <strong data-vs="upside">+62.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 0.62
 시나리오 범위: 0.45 ~ 3.03(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
@@ -947,11 +947,11 @@ Chart.overrides.doughnut.animation = false;
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note">유효 이력 3.0년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">11.7x</span>
-            <span class="hist-badge good" data-hist="badge">3.0년 중 하위 6%</span>
+            <span class="hist-badge good" data-hist="badge">3.0년 중 하위 5%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 5.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 10.8x</span><span data-hist="median">중앙 17.2x</span><span data-hist="max">최고 58.5x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 5.3%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 10.8x</span><span data-hist="median">중앙 17.2x</span><span data-hist="max">최고 61.5x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -1831,7 +1831,7 @@ const NEM_FUNDAMENTAL = {"ticker": "NEM", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py NEM --self v2/NEM_multiples.json --card
 /* VALUATION:BEGIN */
-const NEM_VALUATION = {"peer": {"score": 68.3, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 94.1, "rank": 2, "peers": 17}, {"metric": "pbr", "score": 41.7, "rank": 15, "peers": 24}, {"metric": "psr", "score": 20.8, "rank": 20, "peers": 24}, {"metric": "pcr", "score": 90.9, "rank": 3, "peers": 22}, {"metric": "evebitda", "score": 94.1, "rank": 2, "peers": 17}]}, "self": {"score": 66.4, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.4, "percentile": 5.6, "current": 11.72, "min": 10.85, "median": 17.2, "max": 58.51, "days": 755, "currentNote": null}, {"metric": "pbr", "score": 15.1, "percentile": 84.9, "current": 3.11, "min": 1.24, "median": 1.95, "max": 4.33, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 28.4, "percentile": 71.6, "current": 4.16, "min": 2.15, "median": 3.55, "max": 6.7, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 98.2, "percentile": 1.8, "current": 11.0, "min": 9.89, "median": 22.25, "max": 944.4, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.8, "percentile": 4.2, "current": 6.6, "min": 5.86, "median": 14.03, "max": 139.03, "days": 1003, "currentNote": null}]}};
+const NEM_VALUATION = {"peer": {"score": 68.3, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 94.1, "rank": 2, "peers": 17}, {"metric": "pbr", "score": 41.7, "rank": 15, "peers": 24}, {"metric": "psr", "score": 20.8, "rank": 20, "peers": 24}, {"metric": "pcr", "score": 90.9, "rank": 3, "peers": 22}, {"metric": "evebitda", "score": 94.1, "rank": 2, "peers": 17}]}, "self": {"score": 66.4, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.7, "percentile": 5.3, "current": 11.72, "min": 10.85, "median": 17.22, "max": 61.45, "days": 755, "currentNote": null}, {"metric": "pbr", "score": 15.1, "percentile": 84.9, "current": 3.11, "min": 1.24, "median": 1.95, "max": 4.33, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 28.4, "percentile": 71.6, "current": 4.16, "min": 2.15, "median": 3.55, "max": 6.7, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 98.2, "percentile": 1.8, "current": 11.0, "min": 9.89, "median": 22.25, "max": 944.4, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.8, "percentile": 4.2, "current": 6.6, "min": 5.86, "median": 14.03, "max": 139.03, "days": 1003, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2185,7 +2185,7 @@ const NEM_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 
       + `\n화학·건자재·포장·철강이 대부분이고 광산은 FCX(구리)와 NEM뿐이다. 차트에는 6곳만 보인다.`);
   put('nemSelfBox', 'nemSelfScore', 'nemSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 11.7배는 3.0년 분포의 하위 5.6%다(중앙값 17.2배).`
+      + `\nPER 11.7배는 3.0년 분포의 하위 5.3%다(중앙값 17.2배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

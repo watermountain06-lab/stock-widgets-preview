@@ -934,7 +934,7 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="같은 헬스케어 섹터(S&amp;P500 59종목)보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">29.8</div><div class="sc-tile lost" data-vc="peer" data-m="per">46</div><div class="sc-tile low" data-vc="peer" data-m="pbr">23</div><div class="sc-tile low" data-vc="peer" data-m="psr">23</div><div class="sc-tile low" data-vc="peer" data-m="pcr">25</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">32</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 28.8배(5년 중앙값 22.1배)로 자기 이력 4.2점(비싸다), 동종업 29.8점(비싸다)이다. <strong>현금흐름 내재가치(기본 $91.06)는 현재가의 33%다</strong>.</div>
+    <div class="vs-premise">PER 28.8배(5년 중앙값 22.4배)로 자기 이력 4.2점(비싸다), 동종업 29.8점(비싸다)이다. <strong>현금흐름 내재가치(기본 $91.06)는 현재가의 33%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $91.06)는 현재가의 33%다. 현재가를 정당화하려면 영업이익률이 64.4%까지 올라야 한다(최근 4분기 24.9%, 5년 중앙값 24.9%). 내재가치에서 차입금 $44.7B를 빼고 현금·단기투자 $17.2B를 더한다.</div>
   </div>
 
@@ -951,7 +951,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 83.4%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 16.3x</span><span data-hist="median">중앙 22.1x</span><span data-hist="max">최고 36.6x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 16.3x</span><span data-hist="median">중앙 22.4x</span><span data-hist="max">최고 36.6x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -1109,7 +1109,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 4점(배수 5개) · PER 28.8배(5년 중앙값 22.1배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 4점(배수 5개) · PER 28.8배(5년 중앙값 22.4배).</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $91.06)는 현재가의 33%.</span></div>
     </div>
   </div>
@@ -1844,7 +1844,7 @@ const JNJ_FUNDAMENTAL = {"ticker": "JNJ", "basis": "quarter", "asOf": "2026-09-2
 //
 // 갱신: python3 v2/build_peer_score.py JNJ --self v2/JNJ_multiples.json --card
 /* VALUATION:BEGIN */
-const JNJ_VALUATION = {"peer": {"score": 29.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 46.0, "rank": 28, "peers": 50}, {"metric": "pbr", "score": 23.1, "rank": 41, "peers": 52}, {"metric": "psr", "score": 22.8, "rank": 45, "peers": 57}, {"metric": "pcr", "score": 25.0, "rank": 40, "peers": 52}, {"metric": "evebitda", "score": 32.0, "rank": 35, "peers": 50}]}, "self": {"score": 4.2, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 16.6, "percentile": 83.4, "current": 28.78, "min": 16.28, "median": 22.06, "max": 36.58, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 8.07, "min": 4.51, "median": 5.71, "max": 8.13, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 1.8, "percentile": 98.2, "current": 6.62, "min": 3.65, "median": 4.56, "max": 6.85, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 2.2, "percentile": 97.8, "current": 31.94, "min": 16.49, "median": 23.32, "max": 36.17, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.2, "percentile": 99.8, "current": 20.91, "min": 11.4, "median": 14.39, "max": 21.06, "days": 1069, "currentNote": null}]}};
+const JNJ_VALUATION = {"peer": {"score": 29.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 46.0, "rank": 28, "peers": 50}, {"metric": "pbr", "score": 23.1, "rank": 41, "peers": 52}, {"metric": "psr", "score": 22.8, "rank": 45, "peers": 57}, {"metric": "pcr", "score": 25.0, "rank": 40, "peers": 52}, {"metric": "evebitda", "score": 32.0, "rank": 35, "peers": 50}]}, "self": {"score": 4.2, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 16.6, "percentile": 83.4, "current": 28.78, "min": 16.28, "median": 22.35, "max": 36.58, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 8.07, "min": 4.51, "median": 5.71, "max": 8.13, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 1.8, "percentile": 98.2, "current": 6.62, "min": 3.65, "median": 4.56, "max": 6.85, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 2.2, "percentile": 97.8, "current": 31.94, "min": 16.49, "median": 23.32, "max": 36.17, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.2, "percentile": 99.8, "current": 20.91, "min": 11.4, "median": 14.39, "max": 21.06, "days": 1069, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2198,7 +2198,7 @@ const JNJ_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 
       + `\n제약·바이오·의료기기·유통·관리의료가 섞여 있다. 매출 배수는 마진이 얇은 유통·보험사가 크게 낮다.`);
   put('jnjSelfBox', 'jnjSelfScore', 'jnjSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 28.8배는 5년 분포의 하위 83.4%다(중앙값 22.1배).`
+      + `\nPER 28.8배는 5년 분포의 하위 83.4%다(중앙값 22.4배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

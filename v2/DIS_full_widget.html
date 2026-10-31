@@ -904,7 +904,7 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 커뮤니케이션 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">51.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">38</div><div class="sc-tile" data-vc="peer" data-m="pbr">82</div><div class="sc-tile lost" data-vc="peer" data-m="psr">41</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">44</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 22.9배(5년 중앙값 50.4배)로 자기 이력 73.1점(싸다), 동종업 51.0점(중간)이다. <strong>현금흐름 내재가치(기본 $28.82)는 현재가의 26%다</strong>.</div>
+    <div class="vs-premise">PER 22.9배(5년 중앙값 49.6배)로 자기 이력 73.1점(싸다), 동종업 51.0점(중간)이다. <strong>현금흐름 내재가치(기본 $28.82)는 현재가의 26%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $28.82)는 현재가의 26%다. 현재가를 정당화하려면 영업이익률이 25.0%까지 올라야 한다(최근 4분기 14.0%, 5년 중앙값 8.1%). 내재가치에서 차입금·금융리스 $46.2B를 빼고 현금·단기투자 $5.2B를 더한다.</div>
   </div>
 
@@ -921,7 +921,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 15.3%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 19.8x</span><span data-hist="median">중앙 50.4x</span><span data-hist="max">최고 285.3x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 19.8x</span><span data-hist="median">중앙 49.6x</span><span data-hist="max">최고 276.4x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -1074,7 +1074,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="bb-box">
       <div class="bb-title bb-bull">🐂 Bull 요인</div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 14.0%(5년 중앙값 8.1%).</span></div>
-      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 73점(배수 5개) · PER 22.9배(5년 중앙값 50.4배).</span></div>
+      <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 73점(배수 5개) · PER 22.9배(5년 중앙값 49.6배).</span></div>
       <div class="bb-row bull"><span class="bb-icon">▲</span><span class="bb-head">매출</span><span class="bb-text">Q3 FY26 매출 +6.8%(보고 기준, 3년 연평균 4.0%).</span></div>
     </div>
     <div class="bb-box">
@@ -1816,7 +1816,7 @@ const DIS_FUNDAMENTAL = {"ticker": "DIS", "basis": "quarter", "asOf": "2026-06-2
 //
 // 갱신: python3 v2/build_peer_score.py DIS --self v2/DIS_multiples.json --card
 /* VALUATION:BEGIN */
-const DIS_VALUATION = {"peer": {"score": 51.0, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 37.5, "rank": 11, "peers": 16}, {"metric": "pbr", "score": 82.4, "rank": 4, "peers": 17}, {"metric": "psr", "score": 41.2, "rank": 11, "peers": 17}, {"metric": "pcr", "score": 43.8, "rank": 10, "peers": 16}, {"metric": "evebitda", "score": 50.0, "rank": 7, "peers": 12}]}, "self": {"score": 73.1, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 84.7, "percentile": 15.3, "current": 22.92, "min": 19.79, "median": 50.44, "max": 285.27, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 62.5, "percentile": 37.5, "current": 1.74, "min": 1.45, "median": 1.85, "max": 3.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 65.8, "percentile": 34.2, "current": 1.94, "min": 1.6, "median": 2.11, "max": 5.05, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 66.0, "percentile": 34.0, "current": 23.1, "min": 16.84, "median": 26.02, "max": 2172.35, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 86.7, "percentile": 13.3, "current": 12.52, "min": 11.27, "median": 17.99, "max": 48.72, "days": 1255, "currentNote": null}]}};
+const DIS_VALUATION = {"peer": {"score": 51.0, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 37.5, "rank": 11, "peers": 16}, {"metric": "pbr", "score": 82.4, "rank": 4, "peers": 17}, {"metric": "psr", "score": 41.2, "rank": 11, "peers": 17}, {"metric": "pcr", "score": 43.8, "rank": 10, "peers": 16}, {"metric": "evebitda", "score": 50.0, "rank": 7, "peers": 12}]}, "self": {"score": 73.1, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 84.7, "percentile": 15.3, "current": 22.92, "min": 19.79, "median": 49.57, "max": 276.36, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 62.5, "percentile": 37.5, "current": 1.74, "min": 1.45, "median": 1.85, "max": 3.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 65.8, "percentile": 34.2, "current": 1.94, "min": 1.6, "median": 2.11, "max": 5.05, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 66.0, "percentile": 34.0, "current": 23.1, "min": 16.84, "median": 26.02, "max": 2172.35, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 86.7, "percentile": 13.3, "current": 12.52, "min": 11.27, "median": 17.99, "max": 48.72, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2170,7 +2170,7 @@ const DIS_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 
       + `\n미디어 외에 통신·인터넷 플랫폼이 섞여 있다. VZ·TMUS 카드와 같은 비교군이다. FOX·FOXA는 PSR·PBR·PCR 값이 0으로 잘못 계산돼 그 세 배수에서 뺐다.`);
   put('disSelfBox', 'disSelfScore', 'disSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 22.9배는 5년 분포의 하위 15.3%다(중앙값 50.4배).`
+      + `\nPER 22.9배는 5년 분포의 하위 15.3%다(중앙값 49.6배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

@@ -549,7 +549,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="ebayFairBand" title="최근 1년 PER 25~75% 구간(20.2~25.1배) × 최근 4분기 희석 EPS $4.58(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$90 ~ $120</span>
+      <span class="meta-value" id="ebayFairBand" title="최근 1년 PER 25~75% 구간(20.2~25.2배) × 최근 4분기 희석 EPS $4.57(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$90 ~ $120</span>
     </div>
   </div>
   </div>
@@ -949,7 +949,7 @@ Chart.overrides.doughnut.animation = false;
             <span class="hist-badge bad" data-hist="badge">4.0년 중 상위 13%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 86.7%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 86.8%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 7.7x</span><span data-hist="median">중앙 18.4x</span><span data-hist="max">최고 286.7x</span></div>
       </div>
 
@@ -1820,7 +1820,7 @@ const EBAY_FUNDAMENTAL = {"ticker": "EBAY", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py EBAY --self v2/EBAY_multiples.json --card
 /* VALUATION:BEGIN */
-const EBAY_VALUATION = {"peer": {"score": 28.5, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 27.9, "rank": 32, "peers": 43}, {"metric": "pbr", "score": 25.8, "rank": 24, "peers": 31}, {"metric": "psr", "score": 14.6, "rank": 36, "peers": 41}, {"metric": "pcr", "score": 52.5, "rank": 20, "peers": 40}, {"metric": "evebitda", "score": 21.6, "rank": 30, "peers": 37}]}, "self": {"score": 9.2, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 13.3, "percentile": 86.7, "current": 26.56, "min": 7.65, "median": 18.4, "max": 286.71, "days": 1010, "currentNote": null}, {"metric": "pbr", "score": 0.1, "percentile": 99.9, "current": 12.1, "min": 3.01, "median": 4.88, "max": 12.1, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 5.3, "percentile": 94.7, "current": 4.31, "min": 2.0, "median": 2.95, "max": 4.64, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 24.5, "percentile": 75.5, "current": 21.79, "min": 8.01, "median": 14.99, "max": 32.68, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 2.9, "percentile": 97.1, "current": 19.27, "min": 8.39, "median": 12.68, "max": 20.5, "days": 1255, "currentNote": null}]}};
+const EBAY_VALUATION = {"peer": {"score": 28.5, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 27.9, "rank": 32, "peers": 43}, {"metric": "pbr", "score": 25.8, "rank": 24, "peers": 31}, {"metric": "psr", "score": 14.6, "rank": 36, "peers": 41}, {"metric": "pcr", "score": 52.5, "rank": 20, "peers": 40}, {"metric": "evebitda", "score": 21.6, "rank": 30, "peers": 37}]}, "self": {"score": 9.2, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 13.2, "percentile": 86.8, "current": 26.62, "min": 7.65, "median": 18.4, "max": 286.71, "days": 1010, "currentNote": null}, {"metric": "pbr", "score": 0.1, "percentile": 99.9, "current": 12.1, "min": 3.01, "median": 4.88, "max": 12.1, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 5.3, "percentile": 94.7, "current": 4.31, "min": 2.0, "median": 2.95, "max": 4.64, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 24.5, "percentile": 75.5, "current": 21.79, "min": 8.01, "median": 14.99, "max": 32.68, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 2.9, "percentile": 97.1, "current": 19.27, "min": 8.39, "median": 12.68, "max": 20.5, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2174,7 +2174,7 @@ const EBAY_ANALYST = { asOf: '2026-10-30', source: 'StockAnalysis (의견 집계
       + `\n자동차·주택·외식·호텔·소매가 섞여 있다. 차트에는 인터넷 상거래·플랫폼 6곳만 보인다.`);
   put('ebaySelfBox', 'ebaySelfScore', 'ebaySelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 26.6배는 4.0년 분포의 하위 86.7%다(중앙값 18.4배).`
+      + `\nPER 26.6배는 4.0년 분포의 하위 86.8%다(중앙값 18.4배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
