@@ -60,7 +60,7 @@ BB_TAGS = ['PaymentsForRepurchaseOfEquity']   # 자사주 매입 현금 지급 �
 # 다음 실적일: 10/13 회사 보도자료 — 11/5 장 전 발표, 오전 11시(동부) 웹캐스트(Codex r1 필수)
 NEXT_CONFIRMED = {'quarter_end': '2026-09-30', 'date': '2026-11-05', 'src': '10/13 회사 보도자료 — 장 시작 전 발표, 웹캐스트 오전 11시(동부)'}
 ANALYST = {'rating': 'Strong Buy', 'n': 22, 'nt': 17, 'mean': 330.53, 'median': 328, 'low': 294, 'high': 359, 'sb': 15, 'b': 6, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST_ASOF = '2026-10-31'
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(부문 3개, 외부 매출). 원문 대조: Q2 2026 3,460.3/876.7/103.1(2026-10-22) ──
 AUTO = True

@@ -933,7 +933,7 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.78 ~ 3.04(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">8.5</div><div class="sc-tile low" data-vc="peer" data-m="per">10</div><div class="sc-tile low" data-vc="peer" data-m="pbr">14</div><div class="sc-tile low" data-vc="peer" data-m="psr">9</div><div class="sc-tile low" data-vc="peer" data-m="pcr">4</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">6</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">8.5</div><div class="sc-tile low" data-vc="peer" data-m="per">11</div><div class="sc-tile low" data-vc="peer" data-m="pbr">15</div><div class="sc-tile low" data-vc="peer" data-m="psr">9</div><div class="sc-tile low" data-vc="peer" data-m="pcr">3</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">5</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">PER 41.9배(5년 중앙값 35.7배)로 자기 이력 12.4점(비싸다), 동종업 8.5점(비싸다)이다. <strong>현금흐름 내재가치(기본 $18.68)는 현재가의 36%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $18.68)는 현재가의 36%다. 현재가를 정당화하려면 영업이익률이 52.6%까지 올라야 한다(최근 4분기 20.5%, 5년 중앙값 20.5%). 내재가치에서 차입금 $100M를 빼고 현금·단기투자 $212M를 더한다. 차입금이 거의 없고 매출이 꾸준히 늘어 온 회사로, 지금 배수는 최근 5년 범위에서도 높은 쪽이다. 최근 분기 매출 성장은 빨라졌지만 매출총이익률은 1년 전보다 조금 낮다. 현금흐름 내재가치는 이익률·재투자 효율이 과거 수준으로 돌아간다고 본 값이고, 매장·자판기 임차료는 이미 영업비용이라 운용리스는 순부채에서 빼지 않는다. EPS·주가는 분할(최근 2025년 5월) 뒤 기준이다.</div>
@@ -1005,7 +1005,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">산업재 유통·서비스 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) (MSM 값 없음·WSO 값 없음) · 10/23 종가(FAST 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">산업재 유통·서비스 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) (MSM 값 없음·WSO 값 없음) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1119,8 +1119,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 33.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 38.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 27.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
-        <span class="op-val"><span data-an="mean">$51.64</span> <span class="op-sub op-down" data-an="upside">−0.5%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$52</span> <span class="op-sub op-up" data-an="upside">+0.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1324,52 +1324,52 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '산업재 유통·서비스 6곳 PER 비교 (점수는 S&P500 산업재 기준) (MSM 값 없음·WSO 값 없음) · 10/23 종가(FAST 막대는 10/30)',
-    unit: 'PER', max: 55, fastValue: null,
+    title: '산업재 유통·서비스 6곳 PER 비교 (점수는 S&P500 산업재 기준) (MSM 값 없음·WSO 값 없음) · 10/30 종가',
+    unit: 'PER', max: 50, fastValue: null,
     peers: [
-      { name:'GWW', value:34.4, status:'reference' },
-      { name:'URI', value:24.2, status:'reference' },
-      { name:'CTAS', value:44.2, status:'reference' },
-      { name:'PH', value:30.9, status:'reference' }
+      { name:'GWW', value:34.6, status:'reference' },
+      { name:'URI', value:25.8, status:'reference' },
+      { name:'CTAS', value:43.4, status:'reference' },
+      { name:'PH', value:31.6, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (MSM 값 없음·WSO 값 없음) · 10/23 종가(FAST 막대는 10/30)',
+    title: 'PBR 비교 (MSM 값 없음·WSO 값 없음) · 10/30 종가',
     unit: 'PBR', max: 20, fastValue: null,
     peers: [
-      { name:'GWW', value:15.4, status:'reference' },
-      { name:'URI', value:7.0, status:'reference' },
-      { name:'CTAS', value:17.1, status:'reference' },
-      { name:'PH', value:7.2, status:'reference' }
+      { name:'GWW', value:15.5, status:'reference' },
+      { name:'URI', value:7.5, status:'reference' },
+      { name:'CTAS', value:16.8, status:'reference' },
+      { name:'PH', value:7.4, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 (MSM 값 없음·WSO 값 없음) · 10/23 종가(FAST 막대는 10/30)',
+    title: 'PSR 비교 (MSM 값 없음·WSO 값 없음) · 10/30 종가',
     unit: 'PSR(TTM)', max: 10, fastValue: null,
     peers: [
       { name:'GWW', value:3.4, status:'reference' },
-      { name:'URI', value:3.9, status:'reference' },
-      { name:'CTAS', value:7.7, status:'reference' },
-      { name:'PH', value:5.2, status:'reference' }
+      { name:'URI', value:4.1, status:'reference' },
+      { name:'CTAS', value:7.5, status:'reference' },
+      { name:'PH', value:5.3, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (MSM 값 없음·WSO 값 없음·URI 값 없음) · 10/23 종가(FAST 막대는 10/30)',
+    title: 'PCR(FCF) 비교 (MSM 값 없음·WSO 값 없음·URI 값 없음) · 10/30 종가',
     unit: 'PCR(FCF)', max: 60, fastValue: null,
     peers: [
-      { name:'GWW', value:42.1, status:'reference' },
-      { name:'CTAS', value:43.8, status:'reference' },
-      { name:'PH', value:28.4, status:'reference' }
+      { name:'GWW', value:42.4, status:'reference' },
+      { name:'CTAS', value:42.9, status:'reference' },
+      { name:'PH', value:29.0, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (MSM 값 없음·WSO 값 없음) · 10/23 종가(FAST 막대는 10/30)',
+    title: 'EV/EBITDA 비교 (MSM 값 없음·WSO 값 없음) · 10/30 종가',
     unit: 'EV/EBITDA', max: 35, fastValue: null,
     peers: [
-      { name:'GWW', value:22.0, status:'reference' },
-      { name:'URI', value:17.0, status:'reference' },
-      { name:'CTAS', value:28.4, status:'reference' },
-      { name:'PH', value:19.9, status:'reference' }
+      { name:'GWW', value:22.2, status:'reference' },
+      { name:'URI', value:17.9, status:'reference' },
+      { name:'CTAS', value:27.9, status:'reference' },
+      { name:'PH', value:20.3, status:'reference' }
     ]
   }
 };
@@ -1830,7 +1830,7 @@ const FAST_FUNDAMENTAL = {"ticker": "FAST", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py FAST --self v2/FAST_multiples.json --card
 /* VALUATION:BEGIN */
-const FAST_VALUATION = {"peer": {"score": 8.5, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 10.4, "rank": 70, "peers": 77}, {"metric": "pbr", "score": 13.5, "rank": 65, "peers": 74}, {"metric": "psr", "score": 9.0, "rank": 72, "peers": 78}, {"metric": "pcr", "score": 4.1, "rank": 72, "peers": 74}, {"metric": "evebitda", "score": 5.6, "rank": 69, "peers": 72}]}, "self": {"score": 12.4, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 12.4, "percentile": 87.6, "current": 41.86, "min": 24.38, "median": 35.72, "max": 48.45, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 4.7, "percentile": 95.3, "current": 14.35, "min": 7.93, "median": 11.46, "max": 15.19, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 9.1, "percentile": 90.9, "current": 6.56, "min": 3.81, "median": 5.51, "max": 7.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 25.9, "percentile": 74.1, "current": 50.61, "min": 27.15, "median": 45.29, "max": 66.02, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 10.1, "percentile": 89.9, "current": 29.24, "min": 16.61, "median": 24.26, "max": 33.37, "days": 1255, "currentNote": null}]}};
+const FAST_VALUATION = {"peer": {"score": 8.5, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 10.7, "rank": 68, "peers": 75}, {"metric": "pbr", "score": 14.9, "rank": 64, "peers": 74}, {"metric": "psr", "score": 9.0, "rank": 72, "peers": 78}, {"metric": "pcr", "score": 2.6, "rank": 75, "peers": 76}, {"metric": "evebitda", "score": 5.3, "rank": 72, "peers": 75}]}, "self": {"score": 12.4, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 12.4, "percentile": 87.6, "current": 41.86, "min": 24.38, "median": 35.72, "max": 48.45, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 4.7, "percentile": 95.3, "current": 14.35, "min": 7.93, "median": 11.46, "max": 15.19, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 9.1, "percentile": 90.9, "current": 6.56, "min": 3.81, "median": 5.51, "max": 7.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 25.9, "percentile": 74.1, "current": 50.61, "min": 27.15, "median": 45.29, "max": 66.02, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 10.1, "percentile": 89.9, "current": 29.24, "min": 16.61, "median": 24.26, "max": 33.37, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2119,7 +2119,7 @@ const FAST_ACTIVITY = {"ticker": "FAST", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/fast/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const FAST_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 18, nTargets: 11, mean: 51.64, median: 51,
+const FAST_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 18, nTargets: 11, mean: 52, median: 52,
   low: 46, high: 60, strongBuy: 6, buy: 0, hold: 7, sell: 3, strongSell: 2 };
 (function(){
   const A = FAST_ANALYST, last = (typeof FAST_DAILY !== 'undefined' && FAST_DAILY.length) ? FAST_DAILY[FAST_DAILY.length - 1] : null;

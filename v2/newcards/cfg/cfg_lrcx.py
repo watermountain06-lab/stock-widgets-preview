@@ -93,8 +93,8 @@ BULL = [('성장', '4분기 매출 +30%, 1분기 가이던스는 1년 전보다 
 BEAR = [('밸류', '다섯 배수 모두 5년 상위 {100 - min(v_[\'percentile\'] for v_ in SM.values()):.0f}% 안이고, 기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%다.'),
         ('집중', '4분기 매출의 73%가 대만·중국·한국 세 곳이고 중국이 26%다.'),
         ('변동성', '주가가 6월 말 고점에서 {(1 - px / 433.33) * 100:.0f}% 내려왔다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 35, 'nt': 25, 'mean': 375.04, 'median': 375, 'low': 290, 'high': 500, 'sb': 25, 'b': 4, 'h': 6, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Strong Buy', 'n': 34, 'nt': 25, 'mean': 373.64, 'median': 360, 'low': 290, 'high': 500, 'sb': 25, 'b': 5, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 PRE = [r'''
 FR = {r_['metric']: r_['value'] for ax_ in FUND['axes'].values() for r_ in ax_.get('rows', [])}   # 기본적 분석 지표 값
 ''']

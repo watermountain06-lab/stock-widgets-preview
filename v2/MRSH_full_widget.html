@@ -1085,7 +1085,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 30.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 65.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
         <span class="op-val"><span data-an="mean">$203.31</span> <span class="op-sub op-up" data-an="upside">+1.3%</span></span>
       </div>
       <div class="op-cell">
@@ -2083,8 +2083,8 @@ const MRSH_ACTIVITY = {"ticker": "MRSH", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mrsh/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MRSH_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 23, nTargets: 16, mean: 203.31, median: 201,
-  low: 180, high: 234, strongBuy: 5, buy: 2, hold: 15, sell: 1, strongSell: 0 };
+const MRSH_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 23, nTargets: 16, mean: 203.31, median: 201,
+  low: 180, high: 228, strongBuy: 5, buy: 2, hold: 15, sell: 1, strongSell: 0 };
 (function(){
   const A = MRSH_ANALYST, last = (typeof MRSH_DAILY !== 'undefined' && MRSH_DAILY.length) ? MRSH_DAILY[MRSH_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

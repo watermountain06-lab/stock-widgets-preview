@@ -98,8 +98,8 @@ BEAR = [('금값', '영업이익률 {HIST[\'margin_now\'] * 100:.0f}%는 최근 
         ('Cadia', '4월 지진 활동으로 차질, 6월 중순 정상화. 2분기 구리 생산 −43%.'),
         ('NGM 지급', 'Barrick에 현금 $1.95B 지급 예정.')]
 MISS_WHY = {('APD', 'per'): ' 적자'}   # C9 뒤 동종 파일은 perNA로 옮겨 'negative'가 빠졌다 — 카드 표기 그대로
-ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 14, 'mean': 139.46, 'median': 144, 'low': 110, 'high': 165, 'sb': 14, 'b': 5, 'h': 3, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 15, 'mean': 138.51, 'median': 140, 'low': 110, 'high': 165, 'sb': 14, 'b': 5, 'h': 3, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──

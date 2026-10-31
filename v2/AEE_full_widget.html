@@ -572,7 +572,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="aeePeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="aeePeerVerdict">중간</span></div>
-      <div class="logic-score" id="aeePeerScore">44.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="aeePeerScore">48.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="aeeSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="aeeSelfVerdict">중간</span></div>
@@ -904,9 +904,9 @@ Chart.overrides.doughnut.animation = false;
 · 잔존가치 비중 — 내재가치가 0 이하라 의미 없음
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="기본 내재가치가 0 이하다
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 유틸리티 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">44.4</div><div class="sc-tile" data-vc="peer" data-m="per">70</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">37</div><div class="sc-tile low" data-vc="peer" data-m="psr">27</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">44</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 유틸리티 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">48.0</div><div class="sc-tile" data-vc="peer" data-m="per">73</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">40</div><div class="sc-tile low" data-vc="peer" data-m="psr">27</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">52</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 19.5배(5년 중앙값 20.8배)로 자기 이력 42.3점(중간), 동종업 44.4점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
+    <div class="vs-premise">PER 19.5배(5년 중앙값 20.8배)로 자기 이력 42.3점(중간), 동종업 48.0점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다. 현금흐름 값이 0 이하라 현재가 요구 성장률은 해석할 수 없다. 내재가치에서 차입금 $21.8B를 빼고 현금·단기투자 $12M를 더한다. 송배전 설비투자가 감가상각보다 훨씬 커서 큰 차입금을 뺀 현금흐름 모델의 값이 낮게 나온다 — 규제 유틸리티는 그 투자가 요금 기준 자산이 되어 이익으로 돌아오는 구조라 현금흐름 모델과 PCR은 의미가 약하다. 최근 4분기 GAAP 이익에는 이월결손금 관련 세금 이익(일회성)이 조금 들어 있다. 신주 발행(ATM)과 후순위 사채로 자금을 조달한다.</div>
   </div>
 
@@ -976,7 +976,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">유틸리티 6곳 PER 비교 (점수는 S&amp;P500 유틸리티 기준) · 10/23 종가(AEE 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">유틸리티 6곳 PER 비교 (점수는 S&amp;P500 유틸리티 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1071,8 +1071,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 57.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 42.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-25</span></span>
-        <span class="op-val"><span data-an="mean">$115.51</span> <span class="op-sub op-up" data-an="upside">+4.5%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$116.01</span> <span class="op-sub op-up" data-an="upside">+4.9%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1276,57 +1276,58 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '유틸리티 6곳 PER 비교 (점수는 S&P500 유틸리티 기준) · 10/23 종가(AEE 막대는 10/30)',
+    title: '유틸리티 6곳 PER 비교 (점수는 S&P500 유틸리티 기준) · 10/30 종가',
     unit: 'PER', max: 30, aeeValue: null,
     peers: [
-      { name:'NEE', value:18.4, status:'reference' },
-      { name:'SO', value:22.4, status:'reference' },
-      { name:'DUK', value:18.8, status:'reference' },
-      { name:'ED', value:19.0, status:'reference' },
-      { name:'XEL', value:21.4, status:'reference' },
-      { name:'PEG', value:17.9, status:'reference' }
+      { name:'NEE', value:18.8, status:'reference' },
+      { name:'SO', value:24.0, status:'reference' },
+      { name:'DUK', value:19.6, status:'reference' },
+      { name:'ED', value:19.6, status:'reference' },
+      { name:'XEL', value:18.6, status:'reference' },
+      { name:'PEG', value:18.5, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/23 종가(AEE 막대는 10/30)',
+    title: 'PBR 비교 · 10/30 종가',
     unit: 'PBR', max: 5, aeeValue: null,
     peers: [
-      { name:'NEE', value:3.0, status:'reference' },
-      { name:'SO', value:2.5, status:'reference' },
-      { name:'DUK', value:1.8, status:'reference' },
+      { name:'NEE', value:3.1, status:'reference' },
+      { name:'SO', value:2.9, status:'reference' },
+      { name:'DUK', value:1.9, status:'reference' },
       { name:'ED', value:1.7, status:'reference' },
       { name:'XEL', value:2.0, status:'reference' },
       { name:'PEG', value:2.1, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/23 종가(AEE 막대는 10/30)',
+    title: 'PSR 비교 · 10/30 종가',
     unit: 'PSR(TTM)', max: 10, aeeValue: null,
     peers: [
-      { name:'NEE', value:6.0, status:'reference' },
+      { name:'NEE', value:6.1, status:'reference' },
       { name:'SO', value:3.5, status:'reference' },
       { name:'DUK', value:3.0, status:'reference' },
-      { name:'ED', value:2.4, status:'reference' },
-      { name:'XEL', value:3.3, status:'reference' },
-      { name:'PEG', value:2.9, status:'reference' }
+      { name:'ED', value:2.5, status:'reference' },
+      { name:'XEL', value:3.4, status:'reference' },
+      { name:'PEG', value:3.0, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (NEE 값 없음·SO 값 없음·DUK 값 없음·ED 값 없음·XEL 값 없음) · 10/23 종가(AEE 막대는 10/30)',
-    unit: 'PCR(FCF)', max: 150, aeeValue: null,
+    title: 'PCR(FCF) 비교 (NEE 값 없음·SO 값 없음·DUK 값 없음·ED 적자·XEL 값 없음) · 10/30 종가',
+    unit: 'PCR(FCF)', max: 155, aeeValue: null,
     peers: [
-      { name:'PEG', value:130.1, status:'reference' }
+      { name:'PEG', value:134.2, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (PEG 값 없음) · 10/23 종가(AEE 막대는 10/30)',
+    title: 'EV/EBITDA 비교 · 10/30 종가',
     unit: 'EV/EBITDA', max: 25, aeeValue: null,
     peers: [
-      { name:'NEE', value:18.8, status:'reference' },
-      { name:'SO', value:13.2, status:'reference' },
+      { name:'NEE', value:19.0, status:'reference' },
+      { name:'SO', value:13.7, status:'reference' },
       { name:'DUK', value:11.3, status:'reference' },
-      { name:'ED', value:7.8, status:'reference' },
-      { name:'XEL', value:15.2, status:'reference' }
+      { name:'ED', value:13.2, status:'reference' },
+      { name:'XEL', value:14.5, status:'reference' },
+      { name:'PEG', value:14.7, status:'reference' }
     ]
   }
 };
@@ -1456,7 +1457,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py AEE
 const AEE_SCORES = {
   fundamental: 44.2,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 44.4,          // S&P500 유틸리티 대비 배수 순위 (v2/peer_universe/utilities.json)
+  peer: 48.0,          // S&P500 유틸리티 대비 배수 순위 (v2/peer_universe/utilities.json)
   selfHistory: 42.3,   // 자기 5년 배수 분포 백분위 (2021-11-01 ~ 2026-10-30)
   asOf: "2026-10-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1784,7 +1785,7 @@ const AEE_FUNDAMENTAL = {"ticker": "AEE", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py AEE --self v2/AEE_multiples.json --card
 /* VALUATION:BEGIN */
-const AEE_VALUATION = {"peer": {"score": 44.4, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 70.0, "rank": 10, "peers": 30}, {"metric": "pbr", "score": 36.7, "rank": 20, "peers": 30}, {"metric": "psr", "score": 26.7, "rank": 23, "peers": 30}, {"metric": "evebitda", "score": 44.0, "rank": 15, "peers": 25}]}, "self": {"score": 42.3, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 68.3, "percentile": 31.7, "current": 19.46, "min": 15.44, "median": 20.77, "max": 25.65, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 31.0, "percentile": 69.0, "current": 2.24, "min": 1.62, "median": 2.17, "max": 2.62, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 19.7, "percentile": 80.3, "current": 3.5, "min": 2.25, "median": 3.23, "max": 3.97, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 50.2, "percentile": 49.8, "current": 13.75, "min": 11.19, "median": 13.75, "max": 15.47, "days": 1255, "currentNote": null}]}};
+const AEE_VALUATION = {"peer": {"score": 48.0, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 73.3, "rank": 9, "peers": 30}, {"metric": "pbr", "score": 40.0, "rank": 19, "peers": 30}, {"metric": "psr", "score": 26.7, "rank": 23, "peers": 30}, {"metric": "evebitda", "score": 51.9, "rank": 14, "peers": 27}]}, "self": {"score": 42.3, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 68.3, "percentile": 31.7, "current": 19.46, "min": 15.44, "median": 20.77, "max": 25.65, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 31.0, "percentile": 69.0, "current": 2.24, "min": 1.62, "median": 2.17, "max": 2.62, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 19.7, "percentile": 80.3, "current": 3.5, "min": 2.25, "median": 3.23, "max": 3.97, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 50.2, "percentile": 49.8, "current": 13.75, "min": 11.19, "median": 13.75, "max": 15.47, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2083,7 +2084,7 @@ const AEE_ACTIVITY = {"ticker": "AEE", "status": "N/A", "reason": "유틸리티�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/aee/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const AEE_ANALYST = { asOf: '2026-10-25', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 16, mean: 115.51, median: 115,
+const AEE_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 16, mean: 116.01, median: 115,
   low: 104, high: 137, strongBuy: 10, buy: 1, hold: 8, sell: 0, strongSell: 0 };
 (function(){
   const A = AEE_ANALYST, last = (typeof AEE_DAILY !== 'undefined' && AEE_DAILY.length) ? AEE_DAILY[AEE_DAILY.length - 1] : null;

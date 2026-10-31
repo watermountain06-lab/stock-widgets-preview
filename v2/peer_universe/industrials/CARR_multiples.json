@@ -1,79 +1,75 @@
 {
  "ticker": "CARR",
  "window": [
-  "2025-10-24",
-  "2026-10-23"
+  "2025-10-31",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
-   "days": 251,
-   "current": 38.79,
-   "min": 11.27,
-   "p10": 12.03,
-   "median": 37.59,
-   "p90": 44.93,
-   "max": 49.67,
-   "mean": 32.31,
-   "percentile": 60.6,
-   "score": 39.4
+   "days": 249,
+   "current": null,
+   "min": 32.1,
+   "p10": 35.66,
+   "median": 40.19,
+   "p90": 45.96,
+   "max": 50.67,
+   "mean": 40.75,
+   "percentile": 100.0,
+   "score": null,
+   "currentNote": "per_na"
   },
   "PSR": {
    "days": 251,
-   "current": 2.1,
+   "current": 1.93,
    "min": 1.92,
    "p10": 2.04,
-   "median": 2.25,
+   "median": 2.24,
    "p90": 2.61,
    "max": 2.89,
    "mean": 2.29,
-   "percentile": 25.5,
-   "score": 74.5
+   "percentile": 0.4,
+   "score": 99.6
   },
   "PBR": {
    "days": 251,
-   "current": 3.44,
-   "min": 2.86,
-   "p10": 3.05,
-   "median": 3.52,
-   "p90": 4.13,
-   "max": 4.57,
-   "mean": 3.58,
-   "percentile": 42.2,
-   "score": 57.8
+   "current": 4.36,
+   "min": 2.92,
+   "p10": 3.12,
+   "median": 3.63,
+   "p90": 4.24,
+   "max": 4.69,
+   "mean": 3.68,
+   "percentile": 94.4,
+   "score": 5.6
   },
   "PCR": {
    "days": 251,
-   "current": 25.32,
-   "min": 24.26,
-   "p10": 25.32,
-   "median": 42.22,
-   "p90": 49.24,
+   "current": 19.61,
+   "min": 19.61,
+   "p10": 25.26,
+   "median": 33.04,
+   "p90": 49.03,
    "max": 55.69,
-   "mean": 37.8,
-   "percentile": 10.0,
-   "score": 90.0
+   "mean": 37.31,
+   "percentile": 0.0,
+   "score": 100.0
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 19.2,
+   "current": 282.3,
    "min": 13.06,
    "p10": 13.77,
-   "median": 18.84,
-   "p90": 22.21,
-   "max": 24.18,
-   "mean": 18.29,
-   "percentile": 59.8,
-   "score": 40.2
+   "median": 18.86,
+   "p90": 22.23,
+   "max": 290.36,
+   "mean": 20.52,
+   "percentile": 99.2,
+   "score": 0.8
   }
  },
  "perBasis": "diluted",
- "perNA": null,
- "fairBand": {
-  "per_p25": 13.24,
-  "per_p75": 42.39,
-  "low": 20,
-  "high": 60,
-  "asOf": "2026-10-23",
-  "basis": "diluted"
+ "perNA": {
+  "netMargin": -0.079,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

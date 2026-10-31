@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="ndsnPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ndsnPeerVerdict">중간</span></div>
-      <div class="logic-score" id="ndsnPeerScore">35.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="ndsnPeerScore">34.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="ndsnSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="ndsnSelfVerdict">비싼 편</span></div>
@@ -933,9 +933,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 3.24 ~ 3.52(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">35.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">33</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">55</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">51</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">24</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">34.0</div><div class="sc-tile low" data-vc="peer" data-m="per">29</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">54</div><div class="sc-tile low" data-vc="peer" data-m="psr">15</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">50</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">21</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 32.6배(5년 중앙값 28.2배)로 자기 이력 23.4점(비싸다), 동종업 35.7점(중간)이다. <strong>현금흐름 내재가치(기본 $91.63)는 현재가의 28%다</strong>.</div>
+    <div class="vs-premise">PER 32.6배(5년 중앙값 28.2배)로 자기 이력 23.4점(비싸다), 동종업 34.0점(중간)이다. <strong>현금흐름 내재가치(기본 $91.63)는 현재가의 28%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $91.63)는 현재가의 28%다. 현재가를 정당화하려면 영업이익률이 62.7%까지 올라야 한다(최근 4분기 26.9%, 5년 중앙값 25.9%). 내재가치에서 차입금·금융리스 $1.7B를 빼고 현금·단기투자 $113M를 더한다. 반도체·전자 장비(ATS) 매출이 업황에 따라 크게 오르내린다 — Q3 FY26에 1년 전보다 28% 늘었다. 소수 지분 기술 투자의 평가손익이 분기 이익을 흔든다 — 최근 4분기 순 일회성(세후 약 −$21M)을 빼도 자기 이력 점수는 약 28로 30에 못 미친다. 10월 23일 스위스 센서 회사 Contrinex(기업가치 약 $168M) 인수를 끝냈는데, 7월 말 재무상태표 뒤라 카드에 없다.</div>
   </div>
 
@@ -1005,7 +1005,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">산업 기계 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/23 종가(NDSN 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">산업 기계 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1100,7 +1100,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 57.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 28.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 14.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-25</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
         <span class="op-val"><span data-an="mean">$364</span> <span class="op-sub op-up" data-an="upside">+12.8%</span></span>
       </div>
       <div class="op-cell">
@@ -1305,63 +1305,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '산업 기계 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/23 종가(NDSN 막대는 10/30)',
+    title: '산업 기계 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/30 종가',
     unit: 'PER', max: 40, ndsnValue: null,
     peers: [
-      { name:'ITW', value:25.0, status:'reference' },
-      { name:'DOV', value:23.2, status:'reference' },
-      { name:'IEX', value:33.0, status:'reference' },
-      { name:'IR', value:30.2, status:'reference' },
-      { name:'PH', value:30.9, status:'reference' },
-      { name:'GWW', value:34.4, status:'reference' }
+      { name:'ITW', value:24.8, status:'reference' },
+      { name:'DOV', value:24.2, status:'reference' },
+      { name:'IEX', value:32.5, status:'reference' },
+      { name:'IR', value:32.9, status:'reference' },
+      { name:'PH', value:31.6, status:'reference' },
+      { name:'GWW', value:34.6, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/23 종가(NDSN 막대는 10/30)',
-    unit: 'PBR', max: 35, ndsnValue: null,
+    title: 'PBR 비교 · 10/30 종가',
+    unit: 'PBR', max: 30, ndsnValue: null,
     peers: [
-      { name:'ITW', value:27.1, status:'reference' },
-      { name:'DOV', value:3.5, status:'reference' },
-      { name:'IEX', value:4.2, status:'reference' },
-      { name:'IR', value:2.8, status:'reference' },
-      { name:'PH', value:7.2, status:'reference' },
-      { name:'GWW', value:15.4, status:'reference' }
+      { name:'ITW', value:25.2, status:'reference' },
+      { name:'DOV', value:3.6, status:'reference' },
+      { name:'IEX', value:4.3, status:'reference' },
+      { name:'IR', value:3.0, status:'reference' },
+      { name:'PH', value:7.4, status:'reference' },
+      { name:'GWW', value:15.5, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/23 종가(NDSN 막대는 10/30)',
+    title: 'PSR 비교 · 10/30 종가',
     unit: 'PSR(TTM)', max: 10, ndsnValue: null,
     peers: [
       { name:'ITW', value:4.8, status:'reference' },
-      { name:'DOV', value:3.1, status:'reference' },
+      { name:'DOV', value:3.2, status:'reference' },
       { name:'IEX', value:4.7, status:'reference' },
-      { name:'IR', value:3.6, status:'reference' },
-      { name:'PH', value:5.2, status:'reference' },
+      { name:'IR', value:3.9, status:'reference' },
+      { name:'PH', value:5.3, status:'reference' },
       { name:'GWW', value:3.4, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/23 종가(NDSN 막대는 10/30)',
+    title: 'PCR(FCF) 비교 · 10/30 종가',
     unit: 'PCR(FCF)', max: 50, ndsnValue: null,
     peers: [
-      { name:'ITW', value:26.9, status:'reference' },
-      { name:'DOV', value:22.3, status:'reference' },
-      { name:'IEX', value:26.3, status:'reference' },
-      { name:'IR', value:23.4, status:'reference' },
-      { name:'PH', value:28.4, status:'reference' },
-      { name:'GWW', value:42.1, status:'reference' }
+      { name:'ITW', value:27.6, status:'reference' },
+      { name:'DOV', value:23.2, status:'reference' },
+      { name:'IEX', value:25.8, status:'reference' },
+      { name:'IR', value:25.5, status:'reference' },
+      { name:'PH', value:29.0, status:'reference' },
+      { name:'GWW', value:42.4, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/23 종가(NDSN 막대는 10/30)',
+    title: 'EV/EBITDA 비교 · 10/30 종가',
     unit: 'EV/EBITDA', max: 30, ndsnValue: null,
     peers: [
-      { name:'ITW', value:18.4, status:'reference' },
-      { name:'DOV', value:16.2, status:'reference' },
-      { name:'IEX', value:19.0, status:'reference' },
-      { name:'IR', value:16.0, status:'reference' },
-      { name:'PH', value:19.9, status:'reference' },
-      { name:'GWW', value:22.0, status:'reference' }
+      { name:'ITW', value:18.2, status:'reference' },
+      { name:'DOV', value:15.9, status:'reference' },
+      { name:'IEX', value:18.8, status:'reference' },
+      { name:'IR', value:17.6, status:'reference' },
+      { name:'PH', value:20.3, status:'reference' },
+      { name:'GWW', value:22.2, status:'reference' }
     ]
   }
 };
@@ -1491,7 +1491,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py NDSN
 const NDSN_SCORES = {
   fundamental: 62.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 35.7,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 34.0,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 23.4,   // 자기 5년 배수 분포 백분위 (2021-11-01 ~ 2026-10-30)
   asOf: "2026-10-30",
   fundamentalAsOf: "2026-07-31",   // Q3 FY26 10-Q
@@ -1822,7 +1822,7 @@ const NDSN_FUNDAMENTAL = {"ticker": "NDSN", "basis": "quarter", "asOf": "2026-07
 //
 // 갱신: python3 v2/build_peer_score.py NDSN --self v2/NDSN_multiples.json --card
 /* VALUATION:BEGIN */
-const NDSN_VALUATION = {"peer": {"score": 35.7, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 32.5, "rank": 53, "peers": 77}, {"metric": "pbr", "score": 55.4, "rank": 34, "peers": 74}, {"metric": "psr", "score": 15.4, "rank": 67, "peers": 78}, {"metric": "pcr", "score": 51.4, "rank": 37, "peers": 74}, {"metric": "evebitda", "score": 23.6, "rank": 56, "peers": 72}]}, "self": {"score": 23.4, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 7.2, "percentile": 92.8, "current": 32.63, "min": 21.31, "median": 28.2, "max": 43.87, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 35.9, "percentile": 64.1, "current": 5.5, "min": 3.31, "median": 5.17, "max": 7.62, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 6.0, "percentile": 94.0, "current": 6.03, "min": 3.57, "median": 5.24, "max": 6.78, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 52.4, "percentile": 47.6, "current": 24.82, "min": 19.53, "median": 24.95, "max": 31.07, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 15.5, "percentile": 84.5, "current": 20.73, "min": 14.69, "median": 18.4, "max": 27.11, "days": 1255, "currentNote": null}]}};
+const NDSN_VALUATION = {"peer": {"score": 34.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 29.3, "rank": 54, "peers": 75}, {"metric": "pbr", "score": 54.1, "rank": 35, "peers": 74}, {"metric": "psr", "score": 15.4, "rank": 67, "peers": 78}, {"metric": "pcr", "score": 50.0, "rank": 39, "peers": 76}, {"metric": "evebitda", "score": 21.3, "rank": 60, "peers": 75}]}, "self": {"score": 23.4, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 7.2, "percentile": 92.8, "current": 32.63, "min": 21.31, "median": 28.2, "max": 43.87, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 35.9, "percentile": 64.1, "current": 5.5, "min": 3.31, "median": 5.17, "max": 7.62, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 6.0, "percentile": 94.0, "current": 6.03, "min": 3.57, "median": 5.24, "max": 6.78, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 52.4, "percentile": 47.6, "current": 24.82, "min": 19.53, "median": 24.95, "max": 31.07, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 15.5, "percentile": 84.5, "current": 20.73, "min": 14.69, "median": 18.4, "max": 27.11, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2111,7 +2111,7 @@ const NDSN_ACTIVITY = {"ticker": "NDSN", "status": "ok", "asOf": "2026-07-31", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ndsn/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const NDSN_ANALYST = { asOf: '2026-10-25', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 7, nTargets: 4, mean: 364, median: 370,
+const NDSN_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 7, nTargets: 4, mean: 364, median: 370,
   low: 351, high: 375, strongBuy: 4, buy: 0, hold: 2, sell: 1, strongSell: 0 };
 (function(){
   const A = NDSN_ANALYST, last = (typeof NDSN_DAILY !== 'undefined' && NDSN_DAILY.length) ? NDSN_DAILY[NDSN_DAILY.length - 1] : null;

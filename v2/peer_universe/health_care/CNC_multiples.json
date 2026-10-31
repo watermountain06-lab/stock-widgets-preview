@@ -1,20 +1,20 @@
 {
  "ticker": "CNC",
  "window": [
-  "2025-10-24",
-  "2026-10-23"
+  "2025-10-31",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
-   "days": 3,
-   "current": null,
-   "min": 8.07,
-   "p10": 8.07,
-   "median": 8.08,
-   "p90": 8.25,
-   "max": 8.29,
-   "mean": 8.14,
-   "percentile": 100.0,
+   "days": 4,
+   "current": 22.74,
+   "min": 22.28,
+   "p10": 22.42,
+   "median": 22.77,
+   "p90": 22.82,
+   "max": 22.83,
+   "mean": 22.66,
+   "percentile": 25.0,
    "score": null,
    "currentNote": "per_na"
   },
@@ -23,54 +23,53 @@
    "current": 0.17,
    "min": 0.08,
    "p10": 0.09,
-   "median": 0.12,
-   "p90": 0.16,
+   "median": 0.13,
+   "p90": 0.17,
    "max": 0.17,
    "mean": 0.13,
-   "percentile": 97.6,
-   "score": 2.4
+   "percentile": 91.6,
+   "score": 8.4
   },
   "PBR": {
    "days": 251,
-   "current": 1.54,
-   "min": 0.59,
-   "p10": 0.86,
-   "median": 1.11,
+   "current": 1.53,
+   "min": 0.78,
+   "p10": 0.87,
+   "median": 1.24,
    "p90": 1.51,
    "max": 1.58,
-   "mean": 1.18,
-   "percentile": 94.8,
-   "score": 5.2
+   "mean": 1.2,
+   "percentile": 92.4,
+   "score": 7.6
   },
   "PCR": {
    "days": 251,
-   "current": 3.87,
+   "current": 8.59,
    "min": 3.36,
    "p10": 3.57,
    "median": 4.4,
-   "p90": 6.04,
-   "max": 15.49,
-   "mean": 4.74,
-   "percentile": 29.5,
-   "score": 70.5
+   "p90": 6.08,
+   "max": 8.63,
+   "mean": 4.67,
+   "percentile": 98.8,
+   "score": 1.2
   },
   "EV/EBITDA": {
-   "days": 3,
-   "current": null,
-   "min": 5.54,
-   "p10": 5.54,
-   "median": 5.54,
-   "p90": 5.65,
-   "max": 5.68,
-   "mean": 5.59,
-   "percentile": 100.0,
-   "score": 0.0,
-   "currentNote": "negative"
+   "days": 4,
+   "current": 11.94,
+   "min": 11.63,
+   "p10": 11.72,
+   "median": 11.96,
+   "p90": 11.99,
+   "max": 12.0,
+   "mean": 11.88,
+   "percentile": 25.0,
+   "score": 75.0
   }
  },
  "perBasis": "diluted",
  "perNA": {
-  "netMargin": -0.0251,
+  "netMargin": 0.0072,
   "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

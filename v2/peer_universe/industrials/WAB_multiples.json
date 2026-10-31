@@ -1,79 +1,79 @@
 {
  "ticker": "WAB",
  "window": [
-  "2025-10-24",
-  "2026-10-23"
+  "2025-10-31",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 36.61,
+   "current": 37.58,
    "min": 28.47,
-   "p10": 30.42,
-   "median": 37.15,
+   "p10": 30.98,
+   "median": 37.22,
    "p90": 39.3,
    "max": 41.1,
-   "mean": 35.99,
-   "percentile": 39.0,
-   "score": 61.0
-  },
-  "PSR": {
-   "days": 251,
-   "current": 3.74,
-   "min": 3.11,
-   "p10": 3.32,
-   "median": 3.88,
-   "p90": 4.12,
-   "max": 4.31,
-   "mean": 3.81,
-   "percentile": 31.5,
-   "score": 68.5
-  },
-  "PBR": {
-   "days": 251,
-   "current": 4.03,
-   "min": 3.04,
-   "p10": 3.24,
-   "median": 3.99,
-   "p90": 4.4,
-   "max": 4.61,
-   "mean": 3.89,
+   "mean": 36.17,
    "percentile": 57.8,
    "score": 42.2
   },
+  "PSR": {
+   "days": 251,
+   "current": 3.84,
+   "min": 3.11,
+   "p10": 3.38,
+   "median": 3.88,
+   "p90": 4.12,
+   "max": 4.31,
+   "mean": 3.82,
+   "percentile": 40.6,
+   "score": 59.4
+  },
+  "PBR": {
+   "days": 251,
+   "current": 4.14,
+   "min": 3.04,
+   "p10": 3.3,
+   "median": 4.0,
+   "p90": 4.4,
+   "max": 4.61,
+   "mean": 3.91,
+   "percentile": 70.1,
+   "score": 29.9
+  },
   "PCR": {
    "days": 251,
-   "current": 25.63,
+   "current": 26.31,
    "min": 25.63,
    "p10": 27.44,
    "median": 29.21,
    "p90": 30.68,
    "max": 34.3,
-   "mean": 29.14,
-   "percentile": 0.0,
-   "score": 100.0
+   "mean": 29.12,
+   "percentile": 1.6,
+   "score": 98.4
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 19.42,
+   "current": 19.88,
    "min": 16.93,
-   "p10": 17.95,
+   "p10": 18.24,
    "median": 21.27,
    "p90": 22.16,
    "max": 22.94,
-   "mean": 20.61,
-   "percentile": 23.5,
-   "score": 76.5
+   "mean": 20.67,
+   "percentile": 29.5,
+   "score": 70.5
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 33.63,
+  "per_p25": 34.11,
   "per_p75": 38.48,
   "low": 250,
   "high": 290,
-  "asOf": "2026-10-23",
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }

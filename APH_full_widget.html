@@ -1118,13 +1118,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">19명 · 목표가 12</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">19명 · 목표가 11</span>명</span>
         <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">17</span> · 유지 <span data-an="hold">2</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 89.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 10.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
-        <span class="op-val"><span data-an="mean">$102.88</span> <span class="op-sub op-up" data-an="upside">+29.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$108.09</span> <span class="op-sub op-up" data-an="upside">+36.3%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2127,8 +2127,8 @@ const APH_ACTIVITY = {"ticker": "APH", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/aph/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const APH_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 19, nTargets: 12, mean: 102.88, median: 105,
-  low: 88.5, high: 116, strongBuy: 13, buy: 4, hold: 2, sell: 0, strongSell: 0 };
+const APH_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 19, nTargets: 11, mean: 108.09, median: 111,
+  low: 90, high: 122, strongBuy: 13, buy: 4, hold: 2, sell: 0, strongSell: 0 };
 (function(){
   const A = APH_ANALYST, last = (typeof APH_DAILY !== 'undefined' && APH_DAILY.length) ? APH_DAILY[APH_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

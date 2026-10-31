@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="stldPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="stldPeerVerdict">중간</span></div>
-      <div class="logic-score" id="stldPeerScore">53.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="stldPeerScore">51.4<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="stldSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="stldSelfVerdict">비싼 편</span></div>
@@ -901,9 +901,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.15 ~ 2.17(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">53.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">65</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">33</div><div class="sc-tile lost" data-vc="peer" data-m="psr">58</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">46</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">65</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">51.4</div><div class="sc-tile" data-vc="peer" data-m="per">72</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">33</div><div class="sc-tile lost" data-vc="peer" data-m="psr">58</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">46</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">48</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 18.5배(5년 중앙값 8.9배)로 자기 이력 19.0점(비싸다), 동종업 53.3점(중간)이다. <strong>현금흐름 내재가치(기본 $115.84)는 현재가의 46%다</strong>.</div>
+    <div class="vs-premise">PER 18.5배(5년 중앙값 8.9배)로 자기 이력 19.0점(비싸다), 동종업 51.4점(중간)이다. <strong>현금흐름 내재가치(기본 $115.84)는 현재가의 46%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $115.84)는 현재가의 46%다. 현재가를 정당화하려면 영업이익률이 16.4%까지 올라야 한다(최근 4분기 11.5%, 5년 중앙값 16.5%). 내재가치에서 차입금 $4.2B를 빼고 현금·단기투자 $929M를 더한다. 철강은 경기에 따라 이익이 크게 오르내린다 — 2022년 EPS $21.0에서 2025년 $7.99까지 내려왔다가 2026년 가격 강세로 다시 올랐다(최근 4분기 $13.55). 5년 이력 배수와 마진 중앙값에 호황기(2021~2022)가 섞여 있다. 2025-12 New Process Steel 나머지 지분(55%)을 사들여 연결해 1년 전과의 매출 비교(+34.8%)에 인수 효과가 섞여 있다. 알루미늄 압연 공장이 2025년 가동을 시작해 초기 비용과 이전 손상이 이익을 눌렀다. 상환가능 비지배지분 $143M은 엔진이 읽지 않아 기업가치에서 빠진다(주당 약 $1).</div>
   </div>
 
@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) · 10/23 종가(STLD 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1068,7 +1068,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 64.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 28.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 7.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-27</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
         <span class="op-val"><span data-an="mean">$274.60</span> <span class="op-sub op-up" data-an="upside">+9.5%</span></span>
       </div>
       <div class="op-cell">
@@ -1273,63 +1273,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '소재 6곳 PER 비교 (점수는 S&P500 소재 기준) · 10/23 종가(STLD 막대는 10/30)',
-    unit: 'PER', max: 40, stldValue: null,
+    title: '소재 6곳 PER 비교 (점수는 S&P500 소재 기준) · 10/30 종가',
+    unit: 'PER', max: 45, stldValue: null,
     peers: [
-      { name:'NUE', value:20.6, status:'reference' },
-      { name:'FCX', value:32.1, status:'reference' },
-      { name:'VMC', value:30.9, status:'reference' },
-      { name:'MLM', value:12.5, status:'reference' },
-      { name:'CF', value:9.0, status:'reference' },
-      { name:'LIN', value:32.8, status:'reference' }
+      { name:'NUE', value:21.9, status:'reference' },
+      { name:'FCX', value:27.4, status:'reference' },
+      { name:'VMC', value:33.2, status:'reference' },
+      { name:'MLM', value:35.2, status:'reference' },
+      { name:'CF', value:9.2, status:'reference' },
+      { name:'LIN', value:33.2, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/23 종가(STLD 막대는 10/30)',
+    title: 'PBR 비교 · 10/30 종가',
     unit: 'PBR', max: 10, stldValue: null,
     peers: [
-      { name:'NUE', value:2.6, status:'reference' },
-      { name:'FCX', value:4.7, status:'reference' },
-      { name:'VMC', value:4.0, status:'reference' },
-      { name:'MLM', value:2.6, status:'reference' },
+      { name:'NUE', value:2.8, status:'reference' },
+      { name:'FCX', value:4.5, status:'reference' },
+      { name:'VMC', value:4.3, status:'reference' },
+      { name:'MLM', value:2.8, status:'reference' },
       { name:'CF', value:3.2, status:'reference' },
       { name:'LIN', value:6.0, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/23 종가(STLD 막대는 10/30)',
+    title: 'PSR 비교 · 10/30 종가',
     unit: 'PSR(TTM)', max: 10, stldValue: null,
     peers: [
-      { name:'NUE', value:1.6, status:'reference' },
-      { name:'FCX', value:3.6, status:'reference' },
-      { name:'VMC', value:4.2, status:'reference' },
-      { name:'MLM', value:4.5, status:'reference' },
+      { name:'NUE', value:1.7, status:'reference' },
+      { name:'FCX', value:3.5, status:'reference' },
+      { name:'VMC', value:4.5, status:'reference' },
+      { name:'MLM', value:4.8, status:'reference' },
       { name:'CF', value:2.4, status:'reference' },
-      { name:'LIN', value:6.6, status:'reference' }
+      { name:'LIN', value:6.5, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/23 종가(STLD 막대는 10/30)',
-    unit: 'PCR(FCF)', max: 65, stldValue: null,
+    title: 'PCR(FCF) 비교 · 10/30 종가',
+    unit: 'PCR(FCF)', max: 60, stldValue: null,
     peers: [
-      { name:'NUE', value:37.0, status:'reference' },
-      { name:'FCX', value:53.1, status:'reference' },
-      { name:'VMC', value:33.0, status:'reference' },
-      { name:'MLM', value:44.1, status:'reference' },
-      { name:'CF', value:9.6, status:'reference' },
-      { name:'LIN', value:47.1, status:'reference' }
+      { name:'NUE', value:39.2, status:'reference' },
+      { name:'FCX', value:50.9, status:'reference' },
+      { name:'VMC', value:46.2, status:'reference' },
+      { name:'MLM', value:47.0, status:'reference' },
+      { name:'CF', value:9.8, status:'reference' },
+      { name:'LIN', value:46.5, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/23 종가(STLD 막대는 10/30)',
+    title: 'EV/EBITDA 비교 · 10/30 종가',
     unit: 'EV/EBITDA', max: 25, stldValue: null,
     peers: [
-      { name:'NUE', value:11.3, status:'reference' },
-      { name:'FCX', value:12.3, status:'reference' },
-      { name:'VMC', value:16.3, status:'reference' },
-      { name:'MLM', value:17.8, status:'reference' },
-      { name:'CF', value:6.1, status:'reference' },
-      { name:'LIN', value:19.7, status:'reference' }
+      { name:'NUE', value:11.9, status:'reference' },
+      { name:'FCX', value:11.9, status:'reference' },
+      { name:'VMC', value:17.7, status:'reference' },
+      { name:'MLM', value:18.7, status:'reference' },
+      { name:'CF', value:5.6, status:'reference' },
+      { name:'LIN', value:20.1, status:'reference' }
     ]
   }
 };
@@ -1459,7 +1459,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py STLD
 const STLD_SCORES = {
   fundamental: 55.8,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 53.3,          // S&P500 소재 대비 배수 순위 (v2/peer_universe/materials.json)
+  peer: 51.4,          // S&P500 소재 대비 배수 순위 (v2/peer_universe/materials.json)
   selfHistory: 19.0,   // 자기 5년 배수 분포 백분위 (2021-11-01 ~ 2026-10-30)
   asOf: "2026-10-30",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1790,7 +1790,7 @@ const STLD_FUNDAMENTAL = {"ticker": "STLD", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py STLD --self v2/STLD_multiples.json --card
 /* VALUATION:BEGIN */
-const STLD_VALUATION = {"peer": {"score": 53.3, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 64.7, "rank": 7, "peers": 17}, {"metric": "pbr", "score": 33.3, "rank": 17, "peers": 24}, {"metric": "psr", "score": 58.3, "rank": 11, "peers": 24}, {"metric": "pcr", "score": 45.5, "rank": 13, "peers": 22}, {"metric": "evebitda", "score": 64.7, "rank": 7, "peers": 17}]}, "self": {"score": 19.0, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 23.8, "percentile": 76.2, "current": 18.51, "min": 3.1, "median": 8.9, "max": 30.24, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 6.9, "percentile": 93.1, "current": 3.62, "min": 1.68, "median": 2.22, "max": 4.45, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 10.6, "percentile": 89.4, "current": 1.61, "min": 0.57, "median": 1.03, "max": 2.14, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 29.9, "percentile": 70.1, "current": 32.58, "min": 4.57, "median": 14.1, "max": 96.63, "days": 1089, "currentNote": null}, {"metric": "evebitda", "score": 23.8, "percentile": 76.2, "current": 12.12, "min": 2.3, "median": 6.1, "max": 19.18, "days": 1255, "currentNote": null}]}};
+const STLD_VALUATION = {"peer": {"score": 51.4, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 72.2, "rank": 6, "peers": 18}, {"metric": "pbr", "score": 33.3, "rank": 17, "peers": 24}, {"metric": "psr", "score": 58.3, "rank": 11, "peers": 24}, {"metric": "pcr", "score": 45.5, "rank": 13, "peers": 22}, {"metric": "evebitda", "score": 47.6, "rank": 12, "peers": 21}]}, "self": {"score": 19.0, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 23.8, "percentile": 76.2, "current": 18.51, "min": 3.1, "median": 8.9, "max": 30.24, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 6.9, "percentile": 93.1, "current": 3.62, "min": 1.68, "median": 2.22, "max": 4.45, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 10.6, "percentile": 89.4, "current": 1.61, "min": 0.57, "median": 1.03, "max": 2.14, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 29.9, "percentile": 70.1, "current": 32.58, "min": 4.57, "median": 14.1, "max": 96.63, "days": 1089, "currentNote": null}, {"metric": "evebitda", "score": 23.8, "percentile": 76.2, "current": 12.12, "min": 2.3, "median": 6.1, "max": 19.18, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2079,7 +2079,7 @@ const STLD_ACTIVITY = {"ticker": "STLD", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/stld/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const STLD_ANALYST = { asOf: '2026-10-27', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 14, nTargets: 10, mean: 274.6, median: 275,
+const STLD_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 14, nTargets: 10, mean: 274.6, median: 275,
   low: 260, high: 299, strongBuy: 7, buy: 2, hold: 4, sell: 0, strongSell: 1 };
 (function(){
   const A = STLD_ANALYST, last = (typeof STLD_DAILY !== 'undefined' && STLD_DAILY.length) ? STLD_DAILY[STLD_DAILY.length - 1] : null;

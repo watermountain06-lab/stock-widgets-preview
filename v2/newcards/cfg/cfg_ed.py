@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-03-31', '2025-03-31', '2025-12-31'
 QLABEL, YL, QQL = 'Q1 2026', 'Q1 2025', 'Q4 2025'
 L8 = ['Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, 1, -2), '적정~고평가'
 CO = 'Con Edison'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1047862/'
 SEC = S_
@@ -92,8 +92,8 @@ NEWS = [
     ('green', '2025년 11월 6일 — Q3 2025 실적', '2025-11-07',
      '매출 $4.53B · 순이익 $688M · 희석 EPS $1.90(1년 전 $1.69)', 'q3', 'Con Edison 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 19, 'nt': 14, 'mean': 108.07, 'median': 110, 'low': 87, 'high': 130, 'sb': 3, 'b': 0, 'h': 9, 's': 4, 'ss': 3}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Hold', 'n': 19, 'nt': 14, 'mean': 108, 'median': 109, 'low': 87, 'high': 130, 'sb': 3, 'b': 0, 'h': 9, 's': 4, 'ss': 3}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 자회사 2개(수동 지도, 법인 축). 원문 대조: Q1 2026 4,654/441(2026-10-24) ──

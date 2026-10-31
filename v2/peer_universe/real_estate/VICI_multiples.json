@@ -1,55 +1,55 @@
 {
  "ticker": "VICI",
  "window": [
-  "2025-10-24",
-  "2026-10-23"
+  "2025-10-31",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 9.21,
+   "current": 11.22,
    "min": 8.73,
    "p10": 9.04,
-   "median": 10.37,
-   "p90": 11.38,
-   "max": 11.95,
-   "mean": 10.25,
-   "percentile": 17.5,
-   "score": 82.5
+   "median": 10.36,
+   "p90": 11.34,
+   "max": 11.69,
+   "mean": 10.23,
+   "percentile": 87.6,
+   "score": 12.4
   },
   "PSR": {
    "days": 251,
-   "current": 6.38,
+   "current": 6.48,
    "min": 6.05,
-   "p10": 6.46,
-   "median": 7.48,
-   "p90": 8.0,
-   "max": 8.47,
-   "mean": 7.34,
-   "percentile": 8.8,
-   "score": 91.2
+   "p10": 6.44,
+   "median": 7.47,
+   "p90": 7.92,
+   "max": 8.25,
+   "mean": 7.31,
+   "percentile": 12.0,
+   "score": 88.0
   },
   "PBR": {
    "days": 251,
-   "current": 0.9,
+   "current": 0.93,
    "min": 0.85,
    "p10": 0.91,
    "median": 1.07,
-   "p90": 1.15,
-   "max": 1.23,
-   "mean": 1.05,
-   "percentile": 8.8,
-   "score": 91.2
+   "p90": 1.14,
+   "max": 1.18,
+   "mean": 1.04,
+   "percentile": 12.4,
+   "score": 87.6
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 9.55,
+  "per_p25": 9.53,
   "per_p75": 10.89,
   "low": 20,
-  "high": 30,
-  "asOf": "2026-10-23",
+  "high": 20,
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }

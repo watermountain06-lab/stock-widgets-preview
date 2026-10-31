@@ -46,8 +46,8 @@ NEWS = [
     ('red', '2026년 2월 5일 장 전 — Q4 2025 실적', '2026-02-05',
      '매출 $4.36B · 순이익 $514M · 희석 EPS $2.99(1년 전 $2.42) · 2025년 EPS $7.84 — 당일 주가 −10.7%', 'q4', 'IQVIA 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Strong Buy', 'n': 20, 'nt': 15, 'mean': 305.93, 'median': 305, 'low': 240, 'high': 346, 'sb': 16, 'b': 2, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-28'
+ANALYST = {'rating': 'Strong Buy', 'n': 20, 'nt': 15, 'mean': 309.2, 'median': 310, 'low': 240, 'high': 346, 'sb': 16, 'b': 2, 'h': 2, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 2개(누계는 커머셜을 TechnologyAndAnalyticsSolutionsMember로 태그해 ignore — 분기 값만 쓴다). 원문 대조: Q3 2026 2,639/1,789(2026-10-28) ──

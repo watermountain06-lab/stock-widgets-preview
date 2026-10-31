@@ -1006,7 +1006,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">미드스트림 3곳·대형 에너지 3곳 PER 비교 (점수는 S&amp;P500 에너지 기준) · 10/23 종가(TRGP 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">미드스트림 3곳·대형 에너지 3곳 PER 비교 (점수는 S&amp;P500 에너지 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1108,7 +1108,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 95.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 4.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
         <span class="op-val"><span data-an="mean">$330.53</span> <span class="op-sub op-up" data-an="upside">+4.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1313,62 +1313,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '미드스트림 3곳·대형 에너지 3곳 PER 비교 (점수는 S&P500 에너지 기준) · 10/23 종가(TRGP 막대는 10/30)',
+    title: '미드스트림 3곳·대형 에너지 3곳 PER 비교 (점수는 S&P500 에너지 기준) · 10/30 종가',
     unit: 'PER', max: 35, trgpValue: null,
     peers: [
-      { name:'OKE', value:16.5, status:'reference' },
-      { name:'WMB', value:28.6, status:'reference' },
-      { name:'KMI', value:21.2, status:'reference' },
-      { name:'XOM', value:23.6, status:'reference' },
-      { name:'CVX', value:22.4, status:'reference' },
-      { name:'COP', value:19.9, status:'reference' }
+      { name:'OKE', value:16.7, status:'reference' },
+      { name:'WMB', value:29.6, status:'reference' },
+      { name:'KMI', value:20.9, status:'reference' },
+      { name:'XOM', value:24.1, status:'reference' },
+      { name:'CVX', value:22.6, status:'reference' },
+      { name:'COP', value:20.4, status:'reference' }
     ]
   },
   pbr: {
-    title: '미드스트림 PBR 비교 · 10/23 종가(TRGP 막대는 10/30)',
+    title: '미드스트림 PBR 비교 · 10/30 종가',
     unit: 'PBR', max: 25, trgpValue: null,
     peers: [
       { name:'OKE', value:2.6, status:'reference' },
-      { name:'WMB', value:6.7, status:'reference' },
+      { name:'WMB', value:6.9, status:'reference' },
       { name:'KMI', value:2.4, status:'reference' },
-      { name:'XOM', value:2.9, status:'reference' },
-      { name:'CVX', value:2.4, status:'reference' },
+      { name:'XOM', value:3.0, status:'reference' },
+      { name:'CVX', value:2.5, status:'reference' },
       { name:'COP', value:2.8, status:'reference' }
     ]
   },
   psr: {
-    title: '미드스트림 PSR 비교 · 10/23 종가(TRGP 막대는 10/30)',
+    title: '미드스트림 PSR 비교 · 10/30 종가',
     unit: 'PSR(TTM)', max: 10, trgpValue: null,
     peers: [
-      { name:'OKE', value:1.5, status:'reference' },
-      { name:'WMB', value:7.2, status:'reference' },
-      { name:'KMI', value:4.2, status:'reference' },
-      { name:'XOM', value:2.0, status:'reference' },
-      { name:'CVX', value:2.1, status:'reference' },
+      { name:'OKE', value:1.4, status:'reference' },
+      { name:'WMB', value:7.5, status:'reference' },
+      { name:'KMI', value:4.1, status:'reference' },
+      { name:'XOM', value:2.1, status:'reference' },
+      { name:'CVX', value:2.2, status:'reference' },
       { name:'COP', value:2.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '미드스트림 PCR(FCF) 비교 (WMB 적자) · 10/23 종가(TRGP 막대는 10/30)',
+    title: '미드스트림 PCR(FCF) 비교 (WMB 적자) · 10/30 종가',
     unit: 'PCR(FCF)', max: 105, trgpValue: null,
     peers: [
-      { name:'OKE', value:20.8, status:'reference' },
-      { name:'KMI', value:24.9, status:'reference' },
-      { name:'XOM', value:24.7, status:'reference' },
-      { name:'CVX', value:17.1, status:'reference' },
-      { name:'COP', value:18.0, status:'reference' }
+      { name:'OKE', value:24.2, status:'reference' },
+      { name:'KMI', value:24.5, status:'reference' },
+      { name:'XOM', value:25.2, status:'reference' },
+      { name:'CVX', value:17.2, status:'reference' },
+      { name:'COP', value:18.4, status:'reference' }
     ]
   },
   evebitda: {
-    title: '미드스트림 EV/EBITDA 비교 · 10/23 종가(TRGP 막대는 10/30)',
-    unit: 'EV/EBITDA', max: 20, trgpValue: null,
+    title: '미드스트림 EV/EBITDA 비교 · 10/30 종가',
+    unit: 'EV/EBITDA', max: 25, trgpValue: null,
     peers: [
-      { name:'OKE', value:12.2, status:'reference' },
-      { name:'WMB', value:17.3, status:'reference' },
-      { name:'KMI', value:13.9, status:'reference' },
-      { name:'XOM', value:10.5, status:'reference' },
-      { name:'CVX', value:9.0, status:'reference' },
-      { name:'COP', value:7.2, status:'reference' }
+      { name:'OKE', value:12.9, status:'reference' },
+      { name:'WMB', value:17.7, status:'reference' },
+      { name:'KMI', value:14.0, status:'reference' },
+      { name:'XOM', value:10.8, status:'reference' },
+      { name:'CVX', value:9.1, status:'reference' },
+      { name:'COP', value:7.4, status:'reference' }
     ]
   }
 };
@@ -1829,7 +1829,7 @@ const TRGP_FUNDAMENTAL = {"ticker": "TRGP", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py TRGP --self v2/TRGP_multiples.json --card
 /* VALUATION:BEGIN */
-const TRGP_VALUATION = {"peer": {"score": 8.9, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 10.5, "rank": 18, "peers": 19}, {"metric": "pbr", "score": 0.0, "rank": 21, "peers": 20}, {"metric": "psr", "score": 15.8, "rank": 17, "peers": 19}, {"metric": "pcr", "score": 5.9, "rank": 17, "peers": 17}, {"metric": "evebitda", "score": 12.5, "rank": 15, "peers": 16}]}, "self": {"score": 11.0, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 40.2, "percentile": 59.8, "current": 30.11, "min": 17.23, "median": 28.19, "max": 79.04, "days": 1144, "currentNote": null}, {"metric": "pbr", "score": 2.2, "percentile": 97.8, "current": 18.47, "min": 5.13, "median": 9.55, "max": 19.54, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.1, "percentile": 99.9, "current": 4.03, "min": 0.62, "median": 1.59, "max": 4.03, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 11.6, "percentile": 88.4, "current": 91.16, "min": 5.67, "median": 33.22, "max": 234.05, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.9, "percentile": 99.1, "current": 15.89, "min": 8.4, "median": 12.69, "max": 16.55, "days": 1255, "currentNote": null}]}};
+const TRGP_VALUATION = {"peer": {"score": 8.9, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 10.5, "rank": 18, "peers": 19}, {"metric": "pbr", "score": 0.0, "rank": 21, "peers": 20}, {"metric": "psr", "score": 15.8, "rank": 17, "peers": 19}, {"metric": "pcr", "score": 5.9, "rank": 17, "peers": 17}, {"metric": "evebitda", "score": 12.5, "rank": 15, "peers": 16}]}, "self": {"score": 11.0, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 40.2, "percentile": 59.8, "current": 30.11, "min": 17.23, "median": 28.19, "max": 79.04, "days": 1144, "currentNote": null}, {"metric": "pbr", "score": 2.2, "percentile": 97.8, "current": 18.47, "min": 5.13, "median": 9.55, "max": 19.54, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.1, "percentile": 99.9, "current": 4.03, "min": 0.62, "median": 1.59, "max": 4.03, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 11.6, "percentile": 88.4, "current": 91.16, "min": 5.67, "median": 33.22, "max": 234.05, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.9, "percentile": 99.1, "current": 15.89, "min": 8.4, "median": 12.69, "max": 16.55, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2118,7 +2118,7 @@ const TRGP_ACTIVITY = {"ticker": "TRGP", "status": "ok", "asOf": "2026-06-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/trgp/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TRGP_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 22, nTargets: 17, mean: 330.53, median: 328,
+const TRGP_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 22, nTargets: 17, mean: 330.53, median: 328,
   low: 294, high: 359, strongBuy: 15, buy: 6, hold: 1, sell: 0, strongSell: 0 };
 (function(){
   const A = TRGP_ANALYST, last = (typeof TRGP_DAILY !== 'undefined' && TRGP_DAILY.length) ? TRGP_DAILY[TRGP_DAILY.length - 1] : null;

@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="expdPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="expdPeerVerdict">중간</span></div>
-      <div class="logic-score" id="expdPeerScore">38.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="expdPeerScore">38.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="expdSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="expdSelfVerdict">비싼 편</span></div>
@@ -899,9 +899,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.87 ~ 1.90(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">47</div><div class="sc-tile low" data-vc="peer" data-m="pbr">19</div><div class="sc-tile lost" data-vc="peer" data-m="psr">67</div><div class="sc-tile low" data-vc="peer" data-m="pcr">30</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">28</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.6</div><div class="sc-tile lost" data-vc="peer" data-m="per">44</div><div class="sc-tile low" data-vc="peer" data-m="pbr">20</div><div class="sc-tile lost" data-vc="peer" data-m="psr">69</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">36</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">24</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 28.9배(5년 중앙값 19.8배)로 자기 이력 1.7점(비싸다), 동종업 38.0점(중간)이다. <strong>현금흐름 내재가치(기본 $104.81)는 현재가의 53%다</strong>.</div>
+    <div class="vs-premise">PER 28.9배(5년 중앙값 19.8배)로 자기 이력 1.7점(비싸다), 동종업 38.6점(중간)이다. <strong>현금흐름 내재가치(기본 $104.81)는 현재가의 53%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $104.81)는 현재가의 53%다. 현재가를 정당화하려면 영업이익률이 18.9%까지 올라야 한다(최근 4분기 9.8%, 5년 중앙값 10.0%). 내재가치에서 차입금 $0M를 빼고 현금·단기투자 $1.0B를 더한다. 운임과 물동량에 따라 매출·이익이 크게 오르내린다 — 2021~2022년 코로나 물류 대란 때 이익이 최고였고 2023년에 절반 가까이 줄었다. 5년 이력 배수와 성장률에 그 고점이 섞여 있다. Q2 2026 매출은 항공 화물 운임(+44%)과 물동량(+14%)이 함께 늘어 1년 전보다 30% 넘게 늘었다 — 운임 급등이 계속될지는 알 수 없다. 같은 분기 이익에는 구조조정 비용(−$25M)과 부동산 매각 이익(+$16M)이 함께 들어 있다. 현금흐름 모델은 운용리스를 차입금으로 빼지 않는다(순현금·EV/EBITDA 칸은 리스 포함).</div>
   </div>
 
@@ -971,7 +971,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">운송·물류 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/23 종가(EXPD 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">운송·물류 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) (FDX 값 없음) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1065,7 +1065,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 16.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 55.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 27.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-25</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
         <span class="op-val"><span data-an="mean">$181.08</span> <span class="op-sub op-down" data-an="upside">−8.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1270,63 +1270,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '운송·물류 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/23 종가(EXPD 막대는 10/30)',
-    unit: 'PER', max: 45, expdValue: null,
+    title: '운송·물류 6곳 PER 비교 (점수는 S&P500 산업재 기준) (FDX 값 없음) · 10/30 종가',
+    unit: 'PER', max: 40, expdValue: null,
     peers: [
-      { name:'CHRW', value:26.9, status:'reference' },
-      { name:'UPS', value:18.8, status:'reference' },
-      { name:'FDX', value:16.1, status:'reference' },
-      { name:'JBHT', value:31.8, status:'reference' },
-      { name:'ODFL', value:35.1, status:'reference' },
-      { name:'UNP', value:22.8, status:'reference' }
+      { name:'CHRW', value:22.4, status:'reference' },
+      { name:'UPS', value:20.1, status:'reference' },
+      { name:'JBHT', value:31.1, status:'reference' },
+      { name:'ODFL', value:33.2, status:'reference' },
+      { name:'UNP', value:23.7, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/23 종가(EXPD 막대는 10/30)',
+    title: 'PBR 비교 · 10/30 종가',
     unit: 'PBR', max: 15, expdValue: null,
     peers: [
-      { name:'CHRW', value:10.1, status:'reference' },
-      { name:'UPS', value:5.7, status:'reference' },
-      { name:'FDX', value:2.2, status:'reference' },
-      { name:'JBHT', value:5.8, status:'reference' },
-      { name:'ODFL', value:8.3, status:'reference' },
-      { name:'UNP', value:7.9, status:'reference' }
+      { name:'CHRW', value:9.2, status:'reference' },
+      { name:'UPS', value:6.1, status:'reference' },
+      { name:'FDX', value:2.1, status:'reference' },
+      { name:'JBHT', value:5.7, status:'reference' },
+      { name:'ODFL', value:7.9, status:'reference' },
+      { name:'UNP', value:8.2, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/23 종가(EXPD 막대는 10/30)',
+    title: 'PSR 비교 · 10/30 종가',
     unit: 'PSR(TTM)', max: 10, expdValue: null,
     peers: [
-      { name:'CHRW', value:1.0, status:'reference' },
+      { name:'CHRW', value:0.8, status:'reference' },
       { name:'UPS', value:1.0, status:'reference' },
       { name:'FDX', value:0.8, status:'reference' },
       { name:'JBHT', value:1.6, status:'reference' },
-      { name:'ODFL', value:6.8, status:'reference' },
-      { name:'UNP', value:6.6, status:'reference' }
+      { name:'ODFL', value:6.4, status:'reference' },
+      { name:'UNP', value:6.8, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/23 종가(EXPD 막대는 10/30)',
+    title: 'PCR(FCF) 비교 · 10/30 종가',
     unit: 'PCR(FCF)', max: 40, expdValue: null,
     peers: [
-      { name:'CHRW', value:24.7, status:'reference' },
-      { name:'UPS', value:15.8, status:'reference' },
-      { name:'FDX', value:13.8, status:'reference' },
-      { name:'JBHT', value:21.8, status:'reference' },
-      { name:'ODFL', value:34.0, status:'reference' },
-      { name:'UNP', value:26.0, status:'reference' }
+      { name:'CHRW', value:27.8, status:'reference' },
+      { name:'UPS', value:16.9, status:'reference' },
+      { name:'FDX', value:20.1, status:'reference' },
+      { name:'JBHT', value:21.3, status:'reference' },
+      { name:'ODFL', value:32.1, status:'reference' },
+      { name:'UNP', value:27.0, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/23 종가(EXPD 막대는 10/30)',
+    title: 'EV/EBITDA 비교 · 10/30 종가',
     unit: 'EV/EBITDA', max: 25, expdValue: null,
     peers: [
-      { name:'CHRW', value:19.6, status:'reference' },
-      { name:'UPS', value:10.5, status:'reference' },
-      { name:'FDX', value:10.1, status:'reference' },
-      { name:'JBHT', value:13.3, status:'reference' },
-      { name:'ODFL', value:20.8, status:'reference' },
-      { name:'UNP', value:15.4, status:'reference' }
+      { name:'CHRW', value:16.7, status:'reference' },
+      { name:'UPS', value:11.1, status:'reference' },
+      { name:'FDX', value:10.0, status:'reference' },
+      { name:'JBHT', value:13.1, status:'reference' },
+      { name:'ODFL', value:19.6, status:'reference' },
+      { name:'UNP', value:15.9, status:'reference' }
     ]
   }
 };
@@ -1456,7 +1455,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py EXPD
 const EXPD_SCORES = {
   fundamental: 44.8,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 38.0,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 38.6,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 1.7,   // 자기 5년 배수 분포 백분위 (2021-11-01 ~ 2026-10-30)
   asOf: "2026-10-30",
   fundamentalAsOf: "2026-06-30",   // Q2 2026 10-Q
@@ -1787,7 +1786,7 @@ const EXPD_FUNDAMENTAL = {"ticker": "EXPD", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py EXPD --self v2/EXPD_multiples.json --card
 /* VALUATION:BEGIN */
-const EXPD_VALUATION = {"peer": {"score": 38.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 46.8, "rank": 42, "peers": 77}, {"metric": "pbr", "score": 18.9, "rank": 61, "peers": 74}, {"metric": "psr", "score": 66.7, "rank": 27, "peers": 78}, {"metric": "pcr", "score": 29.7, "rank": 53, "peers": 74}, {"metric": "evebitda", "score": 27.8, "rank": 53, "peers": 72}]}, "self": {"score": 1.7, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 0.4, "percentile": 99.6, "current": 28.94, "min": 9.57, "median": 19.84, "max": 29.58, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 12.2, "min": 4.03, "median": 6.9, "max": 12.25, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.2, "percentile": 99.8, "current": 2.15, "min": 0.75, "median": 1.5, "max": 2.16, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 7.6, "percentile": 92.4, "current": 27.98, "min": 7.73, "median": 20.45, "max": 34.27, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.2, "percentile": 99.8, "current": 20.5, "min": 5.97, "median": 13.52, "max": 20.58, "days": 1255, "currentNote": null}]}};
+const EXPD_VALUATION = {"peer": {"score": 38.6, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 44.0, "rank": 43, "peers": 75}, {"metric": "pbr", "score": 20.3, "rank": 60, "peers": 74}, {"metric": "psr", "score": 69.2, "rank": 25, "peers": 78}, {"metric": "pcr", "score": 35.5, "rank": 50, "peers": 76}, {"metric": "evebitda", "score": 24.0, "rank": 58, "peers": 75}]}, "self": {"score": 1.7, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 0.4, "percentile": 99.6, "current": 28.94, "min": 9.57, "median": 19.84, "max": 29.58, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 12.2, "min": 4.03, "median": 6.9, "max": 12.25, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.2, "percentile": 99.8, "current": 2.15, "min": 0.75, "median": 1.5, "max": 2.16, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 7.6, "percentile": 92.4, "current": 27.98, "min": 7.73, "median": 20.45, "max": 34.27, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.2, "percentile": 99.8, "current": 20.5, "min": 5.97, "median": 13.52, "max": 20.58, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2076,7 +2075,7 @@ const EXPD_ACTIVITY = {"ticker": "EXPD", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/expd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const EXPD_ANALYST = { asOf: '2026-10-25', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 18, nTargets: 13, mean: 181.08, median: 180,
+const EXPD_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 18, nTargets: 13, mean: 181.08, median: 180,
   low: 100, high: 220, strongBuy: 3, buy: 0, hold: 10, sell: 1, strongSell: 4 };
 (function(){
   const A = EXPD_ANALYST, last = (typeof EXPD_DAILY !== 'undefined' && EXPD_DAILY.length) ? EXPD_DAILY[EXPD_DAILY.length - 1] : null;

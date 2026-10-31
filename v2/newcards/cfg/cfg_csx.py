@@ -65,8 +65,8 @@ NEWS = [
      '이사회가 Stephen Angel을 사장·CEO로 선임(Joseph Hinrichs 후임)', 'ceo', 'CSX 공시 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 20, 'mean': 53.65, 'median': 54, 'low': 32, 'high': 60, 'sb': 13, 'b': 4, 'h': 6, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 20, 'mean': 53.9, 'median': 54, 'low': 32, 'high': 60, 'sb': 13, 'b': 4, 'h': 6, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 일반 화물 소계 아래 7품목은 ignore(소계에 포함).

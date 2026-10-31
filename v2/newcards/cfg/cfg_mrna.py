@@ -77,8 +77,8 @@ NEWS = [
      '매출 $1.02B(−45%) · 희석 EPS −$0.51(1년 전 $0.03)', 'q3', 'Moderna 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Hold', 'n': 23, 'nt': 16, 'mean': 123.75, 'median': 130, 'low': 45, 'high': 220, 'sb': 4, 'b': 1, 'h': 14, 's': 2, 'ss': 2}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Hold', 'n': 23, 'nt': 16, 'mean': 127.69, 'median': 130, 'low': 45, 'high': 230, 'sb': 3, 'b': 1, 'h': 15, 's': 2, 'ss': 2}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 제품 축(srt:ProductOrServiceAxis)에서 COVID·RSV·기타 매출(ProductAndServiceOther) 세 멤버. 순매출 소계와 기타 매출의 세부 4개는 ignore.

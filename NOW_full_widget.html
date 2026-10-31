@@ -1111,13 +1111,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">49명 · 목표가 31</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">49명 · 목표가 33</span>명</span>
         <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">44</span> · 유지 <span data-an="hold">3</span> · 매도 <span data-an="sell">2</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 89.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 6.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
-        <span class="op-val"><span data-an="mean">$161.42</span> <span class="op-sub op-up" data-an="upside">+53.6%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$159.91</span> <span class="op-sub op-up" data-an="upside">+52.1%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2121,7 +2121,7 @@ const NOW_ACTIVITY = {"ticker": "NOW", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/now/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const NOW_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 49, nTargets: 31, mean: 161.42, median: 165,
+const NOW_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 49, nTargets: 33, mean: 159.91, median: 160,
   low: 72, high: 266, strongBuy: 35, buy: 9, hold: 3, sell: 1, strongSell: 1 };
 (function(){
   const A = NOW_ANALYST, last = (typeof NOW_DAILY !== 'undefined' && NOW_DAILY.length) ? NOW_DAILY[NOW_DAILY.length - 1] : null;

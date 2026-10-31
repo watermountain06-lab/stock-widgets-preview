@@ -52,8 +52,8 @@ NEWS = [
      '현금 $8.8B · 3년 만기 기간대출 $2.0B 전액 인출로 일부 조달', 'fbm', "Lowe’s 공시 (SEC 8-K)"),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 35, 'nt': 22, 'mean': 252.45, 'median': 258, 'low': 200, 'high': 275, 'sb': 20, 'b': 5, 'h': 9, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 35, 'nt': 23, 'mean': 249.96, 'median': 254, 'low': 195, 'high': 275, 'sb': 20, 'b': 5, 'h': 9, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(소매 부문 상품군 4개, 손 표와 일치). 원문 대조: 10-Q 매출 세분 표 Q2 FY2026 7,952/7,817/7,554/692,

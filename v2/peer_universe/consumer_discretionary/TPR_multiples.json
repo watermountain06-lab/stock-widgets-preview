@@ -1,79 +1,79 @@
 {
  "ticker": "TPR",
  "window": [
-  "2025-10-24",
-  "2026-10-23"
+  "2025-10-31",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 15.18,
+   "current": 16.0,
    "min": 15.18,
-   "p10": 16.17,
-   "median": 54.1,
-   "p90": 98.88,
-   "max": 140.21,
-   "mean": 56.4,
-   "percentile": 0.0,
-   "score": 100.0
+   "p10": 16.09,
+   "median": 53.54,
+   "p90": 98.45,
+   "max": 133.93,
+   "mean": 53.96,
+   "percentile": 9.2,
+   "score": 90.8
   },
   "PSR": {
    "days": 251,
-   "current": 2.75,
+   "current": 2.9,
    "min": 2.75,
-   "p10": 2.9,
+   "p10": 2.89,
    "median": 3.63,
    "p90": 4.1,
    "max": 4.32,
-   "mean": 3.55,
-   "percentile": 0.0,
-   "score": 100.0
+   "mean": 3.53,
+   "percentile": 10.8,
+   "score": 89.2
   },
   "PBR": {
    "days": 251,
-   "current": 31.8,
+   "current": 33.5,
    "min": 25.8,
-   "p10": 33.37,
+   "p10": 33.43,
    "median": 48.07,
    "p90": 65.23,
    "max": 68.84,
-   "mean": 48.0,
-   "percentile": 3.6,
-   "score": 96.4
+   "mean": 48.1,
+   "percentile": 10.8,
+   "score": 89.2
   },
   "PCR": {
    "days": 251,
-   "current": 12.14,
+   "current": 12.79,
    "min": 12.14,
-   "p10": 12.93,
-   "median": 17.6,
+   "p10": 12.87,
+   "median": 17.52,
    "p90": 24.12,
    "max": 25.46,
-   "mean": 17.98,
-   "percentile": 0.0,
-   "score": 100.0
+   "mean": 17.8,
+   "percentile": 9.2,
+   "score": 90.8
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 11.87,
+   "current": 12.44,
    "min": 11.87,
-   "p10": 12.56,
-   "median": 35.86,
-   "p90": 45.31,
+   "p10": 12.5,
+   "median": 35.53,
+   "p90": 45.17,
    "max": 47.38,
-   "mean": 32.16,
-   "percentile": 0.0,
-   "score": 100.0
+   "mean": 31.5,
+   "percentile": 9.2,
+   "score": 90.8
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 41.48,
-  "per_p75": 78.99,
-  "low": 300,
-  "high": 570,
-  "asOf": "2026-10-23",
+  "per_p25": 40.19,
+  "per_p75": 77.16,
+  "low": 290,
+  "high": 560,
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }

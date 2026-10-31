@@ -1,79 +1,79 @@
 {
  "ticker": "GRMN",
  "window": [
-  "2025-10-24",
-  "2026-10-23"
+  "2025-10-31",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 30.31,
+   "current": 28.14,
    "min": 23.07,
    "p10": 24.93,
    "median": 27.06,
-   "p90": 30.45,
+   "p90": 30.43,
    "max": 32.32,
-   "mean": 27.45,
-   "percentile": 86.5,
-   "score": 13.5
+   "mean": 27.44,
+   "percentile": 63.7,
+   "score": 36.3
   },
   "PSR": {
    "days": 251,
-   "current": 7.38,
+   "current": 6.66,
    "min": 5.18,
    "p10": 5.6,
    "median": 6.25,
-   "p90": 7.3,
+   "p90": 7.32,
    "max": 7.87,
-   "mean": 6.37,
-   "percentile": 91.2,
-   "score": 8.8
+   "mean": 6.38,
+   "percentile": 65.7,
+   "score": 34.3
   },
   "PBR": {
    "days": 251,
-   "current": 6.27,
+   "current": 5.5,
    "min": 4.24,
    "p10": 4.59,
-   "median": 5.03,
-   "p90": 6.2,
+   "median": 5.04,
+   "p90": 6.22,
    "max": 6.69,
-   "mean": 5.24,
-   "percentile": 91.2,
-   "score": 8.8
+   "mean": 5.25,
+   "percentile": 68.5,
+   "score": 31.5
   },
   "PCR": {
    "days": 251,
-   "current": 35.41,
+   "current": 35.79,
    "min": 27.01,
    "p10": 29.19,
-   "median": 32.26,
-   "p90": 36.28,
-   "max": 42.95,
-   "mean": 32.56,
-   "percentile": 82.1,
-   "score": 17.9
+   "median": 32.3,
+   "p90": 36.04,
+   "max": 37.78,
+   "mean": 32.51,
+   "percentile": 88.0,
+   "score": 12.0
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 23.8,
-   "min": 17.39,
-   "p10": 18.9,
-   "median": 20.76,
-   "p90": 23.83,
-   "max": 25.44,
-   "mean": 21.14,
-   "percentile": 87.6,
-   "score": 12.4
+   "current": 20.41,
+   "min": 17.08,
+   "p10": 18.56,
+   "median": 20.41,
+   "p90": 23.43,
+   "max": 25.05,
+   "mean": 20.77,
+   "percentile": 49.4,
+   "score": 50.6
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 25.87,
-  "per_p75": 29.18,
+  "per_p75": 29.16,
   "low": 250,
   "high": 280,
-  "asOf": "2026-10-23",
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }

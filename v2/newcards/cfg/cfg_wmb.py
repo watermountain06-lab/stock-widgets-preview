@@ -81,7 +81,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Strong Buy', 'n': 25, 'nt': 22, 'mean': 86.59, 'median': 85, 'low': 82, 'high': 103, 'sb': 17, 'b': 6, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(보고 부문 축 4개)에 기타 부문을 더하고 연결 항목 축을 free_axes로(부문은 OperatingSegments, 기타는 CorporateNonSegment가 붙는다).

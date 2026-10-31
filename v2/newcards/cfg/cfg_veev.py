@@ -62,8 +62,8 @@ h = _re.sub(r'<strong style="color:var\(--gold\);">([0-9.]+)일은 회사가 직
 _js = '<strong style="color:var(--gold);">${d1(A.now.ccc)}일은 회사가 직접 현금으로 메워야</strong> 하는 기간이다. '
 h = h.replace(_js, '${d1(A.now.ccc)}' + _tail)
 ''']
-ANALYST = {'rating': 'Buy', 'n': 29, 'nt': 21, 'mean': 295.71, 'median': 300, 'low': 180, 'high': 360, 'sb': 13, 'b': 7, 'h': 8, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 29, 'nt': 21, 'mean': 301.9, 'median': 310, 'low': 180, 'high': 375, 'sb': 13, 'b': 7, 'h': 8, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 구독·서비스 2개(수동 지도, 제품 축). 원문 대조: Q2 FY27 766.8/161.2(2026-10-23) ──

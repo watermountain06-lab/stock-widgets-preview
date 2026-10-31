@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="dvaPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="dvaPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="dvaPeerScore">92.1<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="dvaPeerScore">91.2<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="dvaSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="dvaSelfVerdict">중간</span></div>
@@ -899,9 +899,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.26 ~ 1.51(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">92.1</div><div class="sc-tile" data-vc="peer" data-m="per">90</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile" data-vc="peer" data-m="psr">84</div><div class="sc-tile" data-vc="peer" data-m="pcr">98</div><div class="sc-tile" data-vc="peer" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">91.2</div><div class="sc-tile" data-vc="peer" data-m="per">88</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile" data-vc="peer" data-m="psr">83</div><div class="sc-tile" data-vc="peer" data-m="pcr">98</div><div class="sc-tile" data-vc="peer" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 14.2배(5년 중앙값 14.8배)로 자기 이력 44.3점(중간), 동종업 92.1점(싸다)이다. <strong>현금흐름 내재가치(기본 $148.76)는 현재가의 79%다</strong>.</div>
+    <div class="vs-premise">PER 14.2배(5년 중앙값 14.8배)로 자기 이력 44.3점(중간), 동종업 91.2점(싸다)이다. <strong>현금흐름 내재가치(기본 $148.76)는 현재가의 79%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −1, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $148.76)는 현재가의 79%다. 현재가를 정당화하려면 매출이 5년간 연 6.8% 커야 한다. 내재가치에서 차입금 $10.8B를 빼고 현금·단기투자 $566M를 더한다. 자사주를 많이 사서(올해 9개월 $0.86B, 희석 주식 수 1년 새 −11%) 지배주주 자본이 음수(−$0.6B)라 PBR은 뜻이 없다. 비지배지분 $1.7B(투석 센터 합작 파트너가 되팔 수 있는 상환 가능 지분 $1.5B 포함)를 EV에 더하고 내재가치에서 뺀다. 자본배분 칸의 자사주 매입($451M)은 일반 매입만이고, 버크셔에서 산 $419M(회사 고유 태그)을 더하면 9개월 $870M이다. 3분기 영업이익에 중국 사업 손상 $62M이 들어 있다. 가격은 10/30 장중 값이다(Q3 10-Q가 10/29 장 마감 뒤 접수). 동종업 점수는 S&P500 헬스케어 기준이다.</div>
   </div>
 
@@ -971,7 +971,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">헬스케어 서비스 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/23 종가(DVA 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">헬스케어 서비스 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1063,7 +1063,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 37.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 50%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 12.5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-30</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
         <span class="op-val"><span data-an="mean">$229</span> <span class="op-sub op-up" data-an="upside">+22.1%</span></span>
       </div>
       <div class="op-cell">
@@ -1268,56 +1268,57 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '헬스케어 서비스 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/23 종가(DVA 막대는 10/30)',
+    title: '헬스케어 서비스 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/30 종가',
     unit: 'PER', max: 35, dvaValue: null,
     peers: [
       { name:'HCA', value:15.7, status:'reference' },
-      { name:'UHS', value:7.6, status:'reference' },
-      { name:'DGX', value:24.1, status:'reference' },
-      { name:'LH', value:27.2, status:'reference' },
-      { name:'CVS', value:24.7, status:'reference' },
-      { name:'CI', value:12.7, status:'reference' }
+      { name:'UHS', value:7.2, status:'reference' },
+      { name:'DGX', value:25.1, status:'reference' },
+      { name:'LH', value:29.6, status:'reference' },
+      { name:'CVS', value:11.1, status:'reference' },
+      { name:'CI', value:12.3, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (HCA 값 없음·UHS 값 없음) · 10/23 종가(DVA 막대는 10/30)',
+    title: 'PBR 비교 (HCA 값 없음·UHS 값 없음) · 10/30 종가',
     unit: 'PBR', max: 5, dvaValue: null,
     peers: [
-      { name:'DGX', value:3.5, status:'reference' },
-      { name:'LH', value:3.1, status:'reference' },
-      { name:'CVS', value:1.5, status:'reference' },
+      { name:'DGX', value:3.6, status:'reference' },
+      { name:'LH', value:3.3, status:'reference' },
+      { name:'CVS', value:1.4, status:'reference' },
       { name:'CI', value:1.9, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 (UHS 값 없음) · 10/23 종가(DVA 막대는 10/30)',
+    title: 'PSR 비교 (UHS 값 없음) · 10/30 종가',
     unit: 'PSR(TTM)', max: 5, dvaValue: null,
     peers: [
       { name:'HCA', value:1.3, status:'reference' },
-      { name:'DGX', value:2.2, status:'reference' },
-      { name:'LH', value:1.9, status:'reference' },
+      { name:'DGX', value:2.3, status:'reference' },
+      { name:'LH', value:2.0, status:'reference' },
       { name:'CVS', value:0.3, status:'reference' },
       { name:'CI', value:0.3, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (UHS 값 없음·CI 값 없음) · 10/23 종가(DVA 막대는 10/30)',
+    title: 'PCR(FCF) 비교 (UHS 값 없음·CI 값 없음) · 10/30 종가',
     unit: 'PCR(FCF)', max: 30, dvaValue: null,
     peers: [
-      { name:'HCA', value:16.9, status:'reference' },
-      { name:'DGX', value:19.4, status:'reference' },
-      { name:'LH', value:23.1, status:'reference' },
-      { name:'CVS', value:10.2, status:'reference' }
+      { name:'HCA', value:16.6, status:'reference' },
+      { name:'DGX', value:20.1, status:'reference' },
+      { name:'LH', value:22.8, status:'reference' },
+      { name:'CVS', value:9.8, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (HCA 값 없음·UHS 값 없음) · 10/23 종가(DVA 막대는 10/30)',
+    title: 'EV/EBITDA 비교 (UHS 값 없음) · 10/30 종가',
     unit: 'EV/EBITDA', max: 20, dvaValue: null,
     peers: [
-      { name:'DGX', value:14.1, status:'reference' },
-      { name:'LH', value:15.2, status:'reference' },
-      { name:'CVS', value:14.2, status:'reference' },
-      { name:'CI', value:8.2, status:'reference' }
+      { name:'HCA', value:9.7, status:'reference' },
+      { name:'DGX', value:14.6, status:'reference' },
+      { name:'LH', value:16.2, status:'reference' },
+      { name:'CVS', value:13.9, status:'reference' },
+      { name:'CI', value:8.1, status:'reference' }
     ]
   }
 };
@@ -1447,7 +1448,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py DVA
 const DVA_SCORES = {
   fundamental: 43.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 92.1,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 91.2,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 44.3,   // 자기 5년 배수 분포 백분위 (2021-11-01 ~ 2026-10-30)
   asOf: "2026-10-30",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1773,7 +1774,7 @@ const DVA_FUNDAMENTAL = {"ticker": "DVA", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py DVA --self v2/DVA_multiples.json --card
 /* VALUATION:BEGIN */
-const DVA_VALUATION = {"peer": {"score": 92.1, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 90.0, "rank": 6, "peers": 50}, {"metric": "psr", "score": 84.2, "rank": 10, "peers": 57}, {"metric": "pcr", "score": 98.1, "rank": 2, "peers": 52}, {"metric": "evebitda", "score": 96.0, "rank": 3, "peers": 50}]}, "self": {"score": 44.3, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 54.9, "percentile": 45.1, "current": 14.17, "min": 8.75, "median": 14.83, "max": 23.1, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": null, "percentile": 100.0, "current": null, "min": 6.1, "median": 11.98, "max": 116.95, "days": 884, "currentNote": "pbr_na"}, {"metric": "psr", "score": 44.9, "percentile": 55.1, "current": 0.83, "min": 0.51, "median": 0.81, "max": 1.15, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 18.5, "percentile": 81.5, "current": 9.12, "min": 4.86, "median": 7.77, "max": 14.02, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 58.9, "percentile": 41.1, "current": 9.37, "min": 7.76, "median": 9.58, "max": 11.38, "days": 1255, "currentNote": null}]}};
+const DVA_VALUATION = {"peer": {"score": 91.2, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 88.0, "rank": 7, "peers": 50}, {"metric": "psr", "score": 82.5, "rank": 11, "peers": 57}, {"metric": "pcr", "score": 98.1, "rank": 2, "peers": 52}, {"metric": "evebitda", "score": 96.3, "rank": 3, "peers": 54}]}, "self": {"score": 44.3, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 54.9, "percentile": 45.1, "current": 14.17, "min": 8.75, "median": 14.83, "max": 23.1, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": null, "percentile": 100.0, "current": null, "min": 6.1, "median": 11.98, "max": 116.95, "days": 884, "currentNote": "pbr_na"}, {"metric": "psr", "score": 44.9, "percentile": 55.1, "current": 0.83, "min": 0.51, "median": 0.81, "max": 1.15, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 18.5, "percentile": 81.5, "current": 9.12, "min": 4.86, "median": 7.77, "max": 14.02, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 58.9, "percentile": 41.1, "current": 9.37, "min": 7.76, "median": 9.58, "max": 11.38, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2062,7 +2063,7 @@ const DVA_ACTIVITY = {"ticker": "DVA", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/dva/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const DVA_ANALYST = { asOf: '2026-10-30', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 8, nTargets: 6, mean: 229, median: 224,
+const DVA_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 8, nTargets: 6, mean: 229, median: 224,
   low: 180, high: 270, strongBuy: 3, buy: 0, hold: 4, sell: 1, strongSell: 0 };
 (function(){
   const A = DVA_ANALYST, last = (typeof DVA_DAILY !== 'undefined' && DVA_DAILY.length) ? DVA_DAILY[DVA_DAILY.length - 1] : null;

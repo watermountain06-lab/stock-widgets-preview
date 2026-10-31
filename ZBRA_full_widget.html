@@ -1101,7 +1101,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 62.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 37.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-25</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
         <span class="op-val"><span data-an="mean">$408.27</span> <span class="op-sub op-up" data-an="upside">+13.0%</span></span>
       </div>
       <div class="op-cell">
@@ -2110,7 +2110,7 @@ const ZBRA_ACTIVITY = {"ticker": "ZBRA", "status": "ok", "asOf": "2026-07-04", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/zbra/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ZBRA_ANALYST = { asOf: '2026-10-25', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 16, nTargets: 11, mean: 408.27, median: 420,
+const ZBRA_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 16, nTargets: 11, mean: 408.27, median: 420,
   low: 317, high: 450, strongBuy: 7, buy: 3, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = ZBRA_ANALYST, last = (typeof ZBRA_DAILY !== 'undefined' && ZBRA_DAILY.length) ? ZBRA_DAILY[ZBRA_DAILY.length - 1] : null;

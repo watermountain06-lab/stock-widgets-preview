@@ -65,8 +65,8 @@ NEWS = [
      '매출 $6.44B(+15% — 2024년 11월 Stericycle 인수 효과 포함) · 희석 EPS $1.49(1년 전 $1.88) · 자산 손상·특별 항목 손실 $213M 포함(보도자료)', 'q3', 'WM 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 19, 'mean': 255.16, 'median': 261, 'low': 220, 'high': 277, 'sb': 16, 'b': 3, 'h': 9, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 20, 'mean': 258.85, 'median': 261, 'low': 220, 'high': 283, 'sb': 16, 'b': 3, 'h': 9, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(보고 부문 축 6개, 순매출). 소계 Collection and Disposal은 ignore, 본사·기타는 adjust(합계 대조에만).

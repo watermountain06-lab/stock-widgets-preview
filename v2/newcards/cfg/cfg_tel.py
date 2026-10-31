@@ -60,8 +60,8 @@ NEWS = [
 POST = [r'''
 h = h.replace('1년 전 배당 없음', '1년 전 $0.71(지급 기준)')
 ''']
-ANALYST = {'rating': 'Buy', 'n': 19, 'nt': 11, 'mean': 247.09, 'median': 235, 'low': 215, 'high': 290, 'sb': 12, 'b': 1, 'h': 6, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 19, 'nt': 11, 'mean': 261.73, 'median': 263, 'low': 225, 'high': 300, 'sb': 12, 'b': 1, 'h': 6, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 
 # ── 자동 카드 — 부문 2개(손으로 — seg_map_propose가 두 부문 값이 같아 판정 못 함). 원문 대조: Q3 FY26 2,580/2,580, 1년 전 2,418/2,116(2026-10-23) ──
 AUTO = True

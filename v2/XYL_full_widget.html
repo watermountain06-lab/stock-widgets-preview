@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="xylPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="xylPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="xylPeerScore">75.9<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="xylPeerScore">75.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="xylSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="xylSelfVerdict">싼 편</span></div>
@@ -936,9 +936,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.47 ~ 4.22(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">75.9</div><div class="sc-tile" data-vc="peer" data-m="per">77</div><div class="sc-tile" data-vc="peer" data-m="pbr">93</div><div class="sc-tile lost" data-vc="peer" data-m="psr">64</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">60</div><div class="sc-tile" data-vc="peer" data-m="evebitda">86</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">75.6</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile" data-vc="peer" data-m="pbr">95</div><div class="sc-tile lost" data-vc="peer" data-m="psr">64</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">58</div><div class="sc-tile" data-vc="peer" data-m="evebitda">87</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 20.4배(5년 중앙값 38.8배)로 자기 이력 99.8점(싸다), 동종업 75.9점(싸다)이다. <strong>현금흐름 내재가치(기본 $27.82)는 현재가의 30%다</strong>.</div>
+    <div class="vs-premise">PER 20.4배(5년 중앙값 38.8배)로 자기 이력 99.8점(싸다), 동종업 75.6점(싸다)이다. <strong>현금흐름 내재가치(기본 $27.82)는 현재가의 30%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $27.82)는 현재가의 30%다. 현재가를 정당화하려면 영업이익률이 25.8%까지 올라야 한다(최근 4분기 15.1%, 5년 중앙값 11.3%). 내재가치에서 차입금·금융리스 $2.5B를 빼고 현금·단기투자 $708M를 더한다. 2023년 Evoqua 주식 인수로 매출·주식 수·무형자산 상각이 한꺼번에 커져 5년 이력이 그 전후로 다르다 — GAAP 이익은 인수 상각만큼 회사 조정 이익보다 낮다. Cornell·Roper 펌프 인수(약 $1.46B, 4분기 종결 예정)와 9월 사채 $1.5B는 6월 말 재무상태표 뒤라 차입금·현금에 아직 없다. 현금흐름 모델 값이 낮은 것은 Evoqua 영업권으로 투하자본이 커서(매출/자본 약 0.75배) 인수 포함 성장률을 따라가는 재투자가 세후 영업이익보다 크게 잡히기 때문이다. 10-Q는 리스 부채를 1년 안 분만 태깅해 순차입금의 리스가 실제(2025년 말 운용 $408M·금융 $125M)보다 작다.</div>
   </div>
 
@@ -1008,7 +1008,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">산업 기계 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/23 종가(XYL 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">산업 기계 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1106,12 +1106,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">21명 · 목표가 12</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">14</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 66.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 33.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">13</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 61.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 33.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-25</span></span>
-        <span class="op-val"><span data-an="mean">$138.58</span> <span class="op-sub op-up" data-an="upside">+50.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$118.08</span> <span class="op-sub op-up" data-an="upside">+27.8%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1315,63 +1315,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '산업 기계 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/23 종가(XYL 막대는 10/30)',
+    title: '산업 기계 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/30 종가',
     unit: 'PER', max: 45, xylValue: null,
     peers: [
-      { name:'DOV', value:23.2, status:'reference' },
-      { name:'IR', value:30.2, status:'reference' },
-      { name:'IEX', value:33.0, status:'reference' },
-      { name:'ITW', value:25.0, status:'reference' },
-      { name:'PH', value:30.9, status:'reference' },
-      { name:'EMR', value:35.4, status:'reference' }
+      { name:'DOV', value:24.2, status:'reference' },
+      { name:'IR', value:32.9, status:'reference' },
+      { name:'IEX', value:32.5, status:'reference' },
+      { name:'ITW', value:24.8, status:'reference' },
+      { name:'PH', value:31.6, status:'reference' },
+      { name:'EMR', value:36.1, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/23 종가(XYL 막대는 10/30)',
-    unit: 'PBR', max: 35, xylValue: null,
+    title: 'PBR 비교 · 10/30 종가',
+    unit: 'PBR', max: 30, xylValue: null,
     peers: [
-      { name:'DOV', value:3.5, status:'reference' },
-      { name:'IR', value:2.8, status:'reference' },
-      { name:'IEX', value:4.2, status:'reference' },
-      { name:'ITW', value:27.1, status:'reference' },
-      { name:'PH', value:7.2, status:'reference' },
-      { name:'EMR', value:4.4, status:'reference' }
+      { name:'DOV', value:3.6, status:'reference' },
+      { name:'IR', value:3.0, status:'reference' },
+      { name:'IEX', value:4.3, status:'reference' },
+      { name:'ITW', value:25.2, status:'reference' },
+      { name:'PH', value:7.4, status:'reference' },
+      { name:'EMR', value:4.5, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/23 종가(XYL 막대는 10/30)',
+    title: 'PSR 비교 · 10/30 종가',
     unit: 'PSR(TTM)', max: 10, xylValue: null,
     peers: [
-      { name:'DOV', value:3.1, status:'reference' },
-      { name:'IR', value:3.6, status:'reference' },
+      { name:'DOV', value:3.2, status:'reference' },
+      { name:'IR', value:3.9, status:'reference' },
       { name:'IEX', value:4.7, status:'reference' },
       { name:'ITW', value:4.8, status:'reference' },
-      { name:'PH', value:5.2, status:'reference' },
-      { name:'EMR', value:4.8, status:'reference' }
+      { name:'PH', value:5.3, status:'reference' },
+      { name:'EMR', value:4.9, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/23 종가(XYL 막대는 10/30)',
+    title: 'PCR(FCF) 비교 · 10/30 종가',
     unit: 'PCR(FCF)', max: 35, xylValue: null,
     peers: [
-      { name:'DOV', value:22.3, status:'reference' },
-      { name:'IR', value:23.4, status:'reference' },
-      { name:'IEX', value:26.3, status:'reference' },
-      { name:'ITW', value:26.9, status:'reference' },
-      { name:'PH', value:28.4, status:'reference' },
-      { name:'EMR', value:26.0, status:'reference' }
+      { name:'DOV', value:23.2, status:'reference' },
+      { name:'IR', value:25.5, status:'reference' },
+      { name:'IEX', value:25.8, status:'reference' },
+      { name:'ITW', value:27.6, status:'reference' },
+      { name:'PH', value:29.0, status:'reference' },
+      { name:'EMR', value:26.6, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/23 종가(XYL 막대는 10/30)',
+    title: 'EV/EBITDA 비교 · 10/30 종가',
     unit: 'EV/EBITDA', max: 25, xylValue: null,
     peers: [
-      { name:'DOV', value:16.2, status:'reference' },
-      { name:'IR', value:16.0, status:'reference' },
-      { name:'IEX', value:19.0, status:'reference' },
-      { name:'ITW', value:18.4, status:'reference' },
-      { name:'PH', value:19.9, status:'reference' },
-      { name:'EMR', value:19.9, status:'reference' }
+      { name:'DOV', value:15.9, status:'reference' },
+      { name:'IR', value:17.6, status:'reference' },
+      { name:'IEX', value:18.8, status:'reference' },
+      { name:'ITW', value:18.2, status:'reference' },
+      { name:'PH', value:20.3, status:'reference' },
+      { name:'EMR', value:20.3, status:'reference' }
     ]
   }
 };
@@ -1501,7 +1501,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py XYL
 const XYL_SCORES = {
   fundamental: 67.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 75.9,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 75.6,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 99.8,   // 자기 5년 배수 분포 백분위 (2021-11-01 ~ 2026-10-30)
   asOf: "2026-10-30",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1832,7 +1832,7 @@ const XYL_FUNDAMENTAL = {"ticker": "XYL", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py XYL --self v2/XYL_multiples.json --card
 /* VALUATION:BEGIN */
-const XYL_VALUATION = {"peer": {"score": 75.9, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 76.6, "rank": 19, "peers": 77}, {"metric": "pbr", "score": 93.2, "rank": 6, "peers": 74}, {"metric": "psr", "score": 64.1, "rank": 29, "peers": 78}, {"metric": "pcr", "score": 59.5, "rank": 31, "peers": 74}, {"metric": "evebitda", "score": 86.3, "rank": 11, "peers": 73}]}, "self": {"score": 99.8, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.8, "percentile": 0.2, "current": 20.44, "min": 19.52, "median": 38.78, "max": 66.44, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 99.8, "percentile": 0.2, "current": 2.06, "min": 1.97, "median": 3.09, "max": 7.78, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 99.8, "percentile": 0.2, "current": 2.34, "min": 2.23, "median": 3.59, "max": 4.59, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 99.8, "percentile": 0.2, "current": 23.01, "min": 21.97, "median": 41.92, "max": 132.85, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 99.8, "percentile": 0.2, "current": 12.02, "min": 11.52, "median": 22.28, "max": 32.08, "days": 1255, "currentNote": null}]}};
+const XYL_VALUATION = {"peer": {"score": 75.6, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 74.7, "rank": 20, "peers": 75}, {"metric": "pbr", "score": 94.6, "rank": 5, "peers": 74}, {"metric": "psr", "score": 64.1, "rank": 29, "peers": 78}, {"metric": "pcr", "score": 57.9, "rank": 33, "peers": 76}, {"metric": "evebitda", "score": 86.7, "rank": 11, "peers": 75}]}, "self": {"score": 99.8, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.8, "percentile": 0.2, "current": 20.44, "min": 19.52, "median": 38.78, "max": 66.44, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 99.8, "percentile": 0.2, "current": 2.06, "min": 1.97, "median": 3.09, "max": 7.78, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 99.8, "percentile": 0.2, "current": 2.34, "min": 2.23, "median": 3.59, "max": 4.59, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 99.8, "percentile": 0.2, "current": 23.01, "min": 21.97, "median": 41.92, "max": 132.85, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 99.8, "percentile": 0.2, "current": 12.02, "min": 11.52, "median": 22.28, "max": 32.08, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2121,8 +2121,8 @@ const XYL_ACTIVITY = {"ticker": "XYL", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/xyl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const XYL_ANALYST = { asOf: '2026-10-25', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 21, nTargets: 12, mean: 138.58, median: 141,
-  low: 110, high: 165, strongBuy: 10, buy: 4, hold: 7, sell: 0, strongSell: 0 };
+const XYL_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 21, nTargets: 12, mean: 118.08, median: 123,
+  low: 90, high: 150, strongBuy: 10, buy: 3, hold: 7, sell: 1, strongSell: 0 };
 (function(){
   const A = XYL_ANALYST, last = (typeof XYL_DAILY !== 'undefined' && XYL_DAILY.length) ? XYL_DAILY[XYL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

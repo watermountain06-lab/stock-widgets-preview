@@ -1106,8 +1106,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 52.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 47.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
-        <span class="op-val"><span data-an="mean">$165.77</span> <span class="op-sub op-up" data-an="upside">+12.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$166.19</span> <span class="op-sub op-up" data-an="upside">+13.0%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2156,7 +2156,7 @@ const BNY_ACTIVITY = {"ticker": "BNY", "status": "na", "reason": "은행이라 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/bny/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const BNY_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 17, nTargets: 13, mean: 165.77, median: 162,
+const BNY_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 17, nTargets: 13, mean: 166.19, median: 165,
   low: 150, high: 182, strongBuy: 6, buy: 3, hold: 8, sell: 0, strongSell: 0 };
 (function(){
   const A = BNY_ANALYST, last = (typeof BNY_DAILY !== 'undefined' && BNY_DAILY.length) ? BNY_DAILY[BNY_DAILY.length - 1] : null;

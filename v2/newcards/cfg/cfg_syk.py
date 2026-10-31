@@ -61,8 +61,8 @@ NEWS = [
      '매출 $6.06B(+10.3%) · 희석 EPS $2.22(1년 전 $2.16)', 'q3', 'Stryker 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 29, 'nt': 24, 'mean': 364.83, 'median': 370, 'low': 298, 'high': 420, 'sb': 15, 'b': 8, 'h': 6, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 30, 'nt': 24, 'mean': 345.75, 'median': 348, 'low': 290, 'high': 410, 'sb': 15, 'b': 8, 'h': 7, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 부문 주석 Q2 2026 3,625/2,964, 1년 전 3,305/2,717, 합 = 연결 매출(6,589·6,022)(2026-10-16) ──

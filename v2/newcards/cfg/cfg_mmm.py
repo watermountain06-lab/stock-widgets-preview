@@ -67,7 +67,7 @@ NEWS = [
      '매출 $6.52B(+3.5%) · 희석 EPS $1.55(1년 전 $2.48 — 1년 전 분기에 Solventum 지분 평가이익 주당 $1.05)', 'q3p', '3M 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 19, 'nt': 12, 'mean': 191.92, 'median': 197, 'low': 135, 'high': 230, 'sb': 8, 'b': 1, 'h': 8, 's': 2, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(사업 부문 3개). 본사·기타는 SEG_ADJ(분기마다 다시 정함).

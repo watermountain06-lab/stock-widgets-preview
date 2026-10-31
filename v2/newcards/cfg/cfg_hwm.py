@@ -67,8 +67,8 @@ NEWS = [
      'Ken Giacobbe CFO가 10월 20일 은퇴 결정, 12월 말 은퇴 · Hexcel CFO Patrick Winterlich가 12월 1일부터 CFO', 'cfo', 'Howmet 공시 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Strong Buy', 'n': 22, 'nt': 17, 'mean': 323.41, 'median': 335, 'low': 255, 'high': 375, 'sb': 15, 'b': 4, 'h': 3, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Strong Buy', 'n': 22, 'nt': 16, 'mean': 317.19, 'median': 329, 'low': 230, 'high': 375, 'sb': 15, 'b': 4, 'h': 3, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(보고 부문 축 4개, 외부 매출). 원문 대조: Q2 2026 1,373/589/269/316(합 2,547 = 연결), 1년 전 1,038/431/308/276(재편 기준, 2026-10-19) ──

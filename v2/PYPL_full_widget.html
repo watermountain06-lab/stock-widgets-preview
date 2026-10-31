@@ -969,7 +969,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">결제 6곳 PER 비교 (점수는 결제·거래소 비교군 기준) · 10/23 종가(PYPL 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">결제 6곳 PER 비교 (점수는 결제·거래소 비교군 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1060,12 +1060,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">43명 · 목표가 27</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">7</span> · 유지 <span data-an="hold">32</span> · 매도 <span data-an="sell">4</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 16.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 74.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 9.3%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">7</span> · 유지 <span data-an="hold">31</span> · 매도 <span data-an="sell">5</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 16.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 72.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 11.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-28</span></span>
-        <span class="op-val"><span data-an="mean">$57.78</span> <span class="op-sub op-up" data-an="upside">+1.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$57.67</span> <span class="op-sub op-up" data-an="upside">+1.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1269,63 +1269,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '결제 6곳 PER 비교 (점수는 결제·거래소 비교군 기준) · 10/23 종가(PYPL 막대는 10/30)',
-    unit: 'PER', max: 40, pyplValue: null,
+    title: '결제 6곳 PER 비교 (점수는 결제·거래소 비교군 기준) · 10/30 종가',
+    unit: 'PER', max: 45, pyplValue: null,
     peers: [
-      { name:'V', value:34.7, status:'reference' },
-      { name:'MA', value:34.3, status:'reference' },
-      { name:'FIS', value:5.8, status:'reference' },
+      { name:'V', value:35.2, status:'reference' },
+      { name:'MA', value:35.1, status:'reference' },
+      { name:'FIS', value:5.9, status:'reference' },
       { name:'FISV', value:9.6, status:'reference' },
-      { name:'CPAY', value:24.9, status:'reference' },
-      { name:'JKHY', value:23.3, status:'reference' }
+      { name:'CPAY', value:24.4, status:'reference' },
+      { name:'JKHY', value:23.1, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/23 종가(PYPL 막대는 10/30)',
-    unit: 'PBR', max: 115, pyplValue: null,
+    title: 'PBR 비교 · 10/30 종가',
+    unit: 'PBR', max: 100, pyplValue: null,
     peers: [
-      { name:'V', value:21.8, status:'reference' },
-      { name:'MA', value:97.4, status:'reference' },
+      { name:'V', value:22.1, status:'reference' },
+      { name:'MA', value:82.8, status:'reference' },
       { name:'FIS', value:1.2, status:'reference' },
       { name:'FISV', value:1.0, status:'reference' },
-      { name:'CPAY', value:7.6, status:'reference' },
+      { name:'CPAY', value:7.4, status:'reference' },
       { name:'JKHY', value:5.5, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/23 종가(PYPL 막대는 10/30)',
-    unit: 'PSR(TTM)', max: 20, pyplValue: null,
+    title: 'PSR 비교 · 10/30 종가',
+    unit: 'PSR(TTM)', max: 25, pyplValue: null,
     peers: [
-      { name:'V', value:17.2, status:'reference' },
-      { name:'MA', value:15.6, status:'reference' },
+      { name:'V', value:17.5, status:'reference' },
+      { name:'MA', value:15.4, status:'reference' },
       { name:'FIS', value:1.6, status:'reference' },
       { name:'FISV', value:1.3, status:'reference' },
-      { name:'CPAY', value:5.3, status:'reference' },
+      { name:'CPAY', value:5.2, status:'reference' },
       { name:'JKHY', value:4.5, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/23 종가(PYPL 막대는 10/30)',
+    title: 'PCR(FCF) 비교 · 10/30 종가',
     unit: 'PCR(FCF)', max: 45, pyplValue: null,
     peers: [
-      { name:'V', value:36.5, status:'reference' },
-      { name:'MA', value:32.7, status:'reference' },
-      { name:'FIS', value:6.9, status:'reference' },
+      { name:'V', value:37.0, status:'reference' },
+      { name:'MA', value:34.8, status:'reference' },
+      { name:'FIS', value:7.0, status:'reference' },
       { name:'FISV', value:6.8, status:'reference' },
-      { name:'CPAY', value:16.4, status:'reference' },
-      { name:'JKHY', value:16.4, status:'reference' }
+      { name:'CPAY', value:16.1, status:'reference' },
+      { name:'JKHY', value:16.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/23 종가(PYPL 막대는 10/30)',
+    title: 'EV/EBITDA 비교 · 10/30 종가',
     unit: 'EV/EBITDA', max: 35, pyplValue: null,
     peers: [
-      { name:'V', value:27.4, status:'reference' },
-      { name:'MA', value:25.9, status:'reference' },
-      { name:'FIS', value:9.6, status:'reference' },
-      { name:'FISV', value:7.5, status:'reference' },
-      { name:'CPAY', value:10.7, status:'reference' },
-      { name:'JKHY', value:16.9, status:'reference' }
+      { name:'V', value:27.8, status:'reference' },
+      { name:'MA', value:25.5, status:'reference' },
+      { name:'FIS', value:9.7, status:'reference' },
+      { name:'FISV', value:7.6, status:'reference' },
+      { name:'CPAY', value:10.6, status:'reference' },
+      { name:'JKHY', value:16.8, status:'reference' }
     ]
   }
 };
@@ -1778,7 +1778,7 @@ const PYPL_FUNDAMENTAL = {"ticker": "PYPL", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py PYPL --self v2/PYPL_multiples.json --card
 /* VALUATION:BEGIN */
-const PYPL_VALUATION = {"peer": {"score": 89.2, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.7, "rank": 3, "peers": 14}, {"metric": "pbr", "score": 80.0, "rank": 4, "peers": 15}, {"metric": "psr", "score": 93.8, "rank": 2, "peers": 16}, {"metric": "pcr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 15}]}, "self": {"score": 88.2, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 86.5, "percentile": 13.5, "current": 10.88, "min": 7.22, "median": 17.45, "max": 58.67, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 88.2, "percentile": 11.8, "current": 2.43, "min": 1.78, "median": 3.45, "max": 13.0, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 89.5, "percentile": 10.5, "current": 1.38, "min": 1.06, "median": 2.32, "max": 11.4, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 90.1, "percentile": 9.9, "current": 7.52, "min": 6.47, "median": 13.68, "max": 66.35, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 86.6, "percentile": 13.4, "current": 7.55, "min": 5.16, "median": 11.4, "max": 49.5, "days": 1255, "currentNote": null}]}};
+const PYPL_VALUATION = {"peer": {"score": 89.2, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.7, "rank": 3, "peers": 14}, {"metric": "pbr", "score": 80.0, "rank": 4, "peers": 15}, {"metric": "psr", "score": 93.8, "rank": 2, "peers": 16}, {"metric": "pcr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 15}]}, "self": {"score": 88.2, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 86.5, "percentile": 13.5, "current": 10.88, "min": 7.22, "median": 17.45, "max": 58.67, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 88.2, "percentile": 11.8, "current": 2.43, "min": 1.78, "median": 3.45, "max": 13.0, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 89.5, "percentile": 10.5, "current": 1.38, "min": 1.06, "median": 2.32, "max": 11.4, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 90.1, "percentile": 9.9, "current": 7.52, "min": 6.47, "median": 13.68, "max": 66.35, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 86.6, "percentile": 13.4, "current": 7.55, "min": 5.16, "median": 11.4, "max": 49.5, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2066,8 +2066,8 @@ const PYPL_ACTIVITY = {"ticker": "PYPL", "status": "N/A", "reason": "결제 회�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/pypl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const PYPL_ANALYST = { asOf: '2026-10-28', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 43, nTargets: 27, mean: 57.78, median: 58,
-  low: 45, high: 70, strongBuy: 4, buy: 3, hold: 32, sell: 1, strongSell: 3 };
+const PYPL_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 43, nTargets: 27, mean: 57.67, median: 58,
+  low: 45, high: 70, strongBuy: 4, buy: 3, hold: 31, sell: 2, strongSell: 3 };
 (function(){
   const A = PYPL_ANALYST, last = (typeof PYPL_DAILY !== 'undefined' && PYPL_DAILY.length) ? PYPL_DAILY[PYPL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

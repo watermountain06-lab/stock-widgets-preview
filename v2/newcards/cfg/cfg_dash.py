@@ -57,8 +57,8 @@ NEWS = [
     ('neutral', '2025년 10월 2일 — Deliveroo 인수 완료', '2025-10-02',
      '영국 배달 회사 Deliveroo 인수를 마쳤다(현금 지출 약 $2.95B, 취득 현금 차감 — 10-Q 현금흐름표) · 4분기부터 실적에 반영', 'roo', 'DoorDash 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 45, 'nt': 32, 'mean': 253.59, 'median': 260, 'low': 185, 'high': 350, 'sb': 27, 'b': 9, 'h': 9, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 42, 'nt': 31, 'mean': 247.58, 'median': 250, 'low': 185, 'high': 350, 'sb': 25, 'b': 9, 'h': 8, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 손으로(지역 축: 미국 country:US + 해외 NonUs). 원문 대조: Q2 2026 3,457/997, 1년 전 2,829/455(2026-10-22) ──

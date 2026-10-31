@@ -66,8 +66,8 @@ NEWS = [
      '총수익 $4.0B(+7%) · 희석 EPS $2.11(1년 전 $1.57) · 10월 30일 NFP 자산관리 사업(Wealthspire 등)을 Madison Dearborn에 매각 완료', 'q3', 'Aon 실적 보도자료·공시 (SEC 8-K)'),
 ]
 BB_TAGS = ['PaymentsForRepurchaseOfEquity']   # 자사주 매입 현금 지급(상반기 $1,100M) — 기본 태그가 없다(Codex r1)
-ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 15, 'mean': 369.67, 'median': 362, 'low': 317, 'high': 436, 'sb': 9, 'b': 4, 'h': 5, 's': 2, 'ss': 1}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 15, 'mean': 369.53, 'median': 363, 'low': 317, 'high': 436, 'sb': 9, 'b': 4, 'h': 5, 's': 2, 'ss': 1}
+ANALYST_ASOF = '2026-10-31'
 
 # ── 자동 카드 — 지역 축 6개 멤버(영국·아일랜드는 같은 이름 → 합산). 원문 대조: Q2 2026 2,020/718/632+47/421/408, 1년 전 2,040/634/610+46/430/395(2026-10-22) ──
 AUTO = True

@@ -1,79 +1,79 @@
 {
  "ticker": "TSLA",
  "window": [
-  "2025-10-24",
-  "2026-10-23"
+  "2025-10-31",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 409.03,
+   "current": 439.35,
    "min": 260.73,
    "p10": 288.64,
-   "median": 342.02,
-   "p90": 385.87,
-   "max": 411.63,
-   "mean": 338.6,
-   "percentile": 99.2,
-   "score": 0.8
+   "median": 344.21,
+   "p90": 387.38,
+   "max": 447.76,
+   "mean": 341.42,
+   "percentile": 98.4,
+   "score": 1.6
   },
   "PSR": {
    "days": 251,
-   "current": 12.68,
+   "current": 13.62,
    "min": 10.15,
    "p10": 11.87,
    "median": 13.38,
-   "p90": 15.16,
+   "p90": 15.09,
    "max": 16.54,
-   "mean": 13.43,
-   "percentile": 30.7,
-   "score": 69.3
+   "mean": 13.4,
+   "percentile": 58.2,
+   "score": 41.8
   },
   "PBR": {
    "days": 251,
-   "current": 14.71,
+   "current": 15.8,
    "min": 12.11,
    "p10": 13.98,
    "median": 15.57,
-   "p90": 18.13,
+   "p90": 18.04,
    "max": 19.79,
-   "mean": 15.81,
-   "percentile": 25.9,
-   "score": 74.1
+   "mean": 15.77,
+   "percentile": 56.6,
+   "score": 43.4
   },
   "PCR": {
    "days": 251,
-   "current": 397.69,
+   "current": 427.17,
    "min": 170.85,
    "p10": 182.17,
-   "median": 205.72,
-   "p90": 225.22,
-   "max": 400.22,
-   "mean": 205.76,
-   "percentile": 99.2,
-   "score": 0.8
+   "median": 205.77,
+   "p90": 228.55,
+   "max": 435.35,
+   "mean": 210.06,
+   "percentile": 98.4,
+   "score": 1.6
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 140.64,
+   "current": 151.3,
    "min": 104.43,
    "p10": 117.46,
    "median": 132.1,
    "p90": 152.33,
    "max": 166.49,
-   "mean": 133.43,
-   "percentile": 72.9,
-   "score": 27.1
+   "mean": 133.42,
+   "percentile": 88.0,
+   "score": 12.0
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 305.17,
-  "per_p75": 367.6,
+  "per_p25": 307.24,
+  "per_p75": 369.95,
   "low": 280,
-  "high": 330,
-  "asOf": "2026-10-23",
+  "high": 340,
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }

@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="dxcmPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="dxcmPeerVerdict">중간</span></div>
-      <div class="logic-score" id="dxcmPeerScore">30.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="dxcmPeerScore">32.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="dxcmSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="dxcmSelfVerdict">싼 편</span></div>
@@ -931,9 +931,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.85 ~ 6.61(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">30.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">42</div><div class="sc-tile low" data-vc="peer" data-m="pbr">12</div><div class="sc-tile lost" data-vc="peer" data-m="psr">33</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">33</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">34</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">32.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">44</div><div class="sc-tile low" data-vc="peer" data-m="pbr">14</div><div class="sc-tile lost" data-vc="peer" data-m="psr">32</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">35</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">37</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 32.3배(5년 중앙값 81.0배)로 자기 이력 86.2점(싸다), 동종업 30.7점(중간)이다. <strong>현금흐름 내재가치(기본 $31.97)는 현재가의 39%다</strong>.</div>
+    <div class="vs-premise">PER 32.3배(5년 중앙값 81.0배)로 자기 이력 86.2점(싸다), 동종업 32.1점(중간)이다. <strong>현금흐름 내재가치(기본 $31.97)는 현재가의 39%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $31.97)는 현재가의 39%다. 현재가를 정당화하려면 매출이 5년간 연 42.8% 커야 한다. 내재가치에서 차입금·금융리스 $1.3B를 빼고 현금·단기투자 $1.7B를 더한다. 최근 4분기 GAAP 이익에는 Q3 2025 지분 투자 이익(일회성, 영업 밖)이 들어 있어 PER이 그만큼 낮게 나온다 — 다음 분기 실적이 나오면 빠진다. 전환사채가 있어 희석 EPS는 전환을 가정해 계산된다. 2022년 4:1 분할 이전 주당 값은 분할을 반영해 비교한다.</div>
   </div>
 
@@ -1003,7 +1003,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">의료기기 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/23 종가(DXCM 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">의료기기 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1105,8 +1105,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 89.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 10.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-25</span></span>
-        <span class="op-val"><span data-an="mean">$95.43</span> <span class="op-sub op-up" data-an="upside">+16.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$96.71</span> <span class="op-sub op-up" data-an="upside">+17.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1310,63 +1310,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/23 종가(DXCM 막대는 10/30)',
+    title: '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/30 종가',
     unit: 'PER', max: 65, dxcmValue: null,
     peers: [
-      { name:'ABT', value:33.6, status:'reference' },
-      { name:'MDT', value:23.5, status:'reference' },
-      { name:'ISRG', value:54.8, status:'reference' },
-      { name:'BSX', value:18.5, status:'reference' },
-      { name:'SYK', value:31.8, status:'reference' },
+      { name:'ABT', value:34.4, status:'reference' },
+      { name:'MDT', value:23.8, status:'reference' },
+      { name:'ISRG', value:52.4, status:'reference' },
+      { name:'BSX', value:17.0, status:'reference' },
+      { name:'SYK', value:31.1, status:'reference' },
       { name:'PODD', value:28.0, status:'reference' }
     ]
   },
   pbr: {
-    title: '의료기기 PBR 비교 · 10/23 종가(DXCM 막대는 10/30)',
+    title: '의료기기 PBR 비교 · 10/30 종가',
     unit: 'PBR', max: 15, dxcmValue: null,
     peers: [
-      { name:'ABT', value:3.5, status:'reference' },
-      { name:'MDT', value:2.4, status:'reference' },
-      { name:'ISRG', value:9.8, status:'reference' },
-      { name:'BSX', value:2.7, status:'reference' },
-      { name:'SYK', value:4.9, status:'reference' },
+      { name:'ABT', value:3.6, status:'reference' },
+      { name:'MDT', value:2.5, status:'reference' },
+      { name:'ISRG', value:9.4, status:'reference' },
+      { name:'BSX', value:2.4, status:'reference' },
+      { name:'SYK', value:4.7, status:'reference' },
       { name:'PODD', value:7.3, status:'reference' }
     ]
   },
   psr: {
-    title: '의료기기 PSR 비교 · 10/23 종가(DXCM 막대는 10/30)',
-    unit: 'PSR(TTM)', max: 20, dxcmValue: null,
+    title: '의료기기 PSR 비교 · 10/30 종가',
+    unit: 'PSR(TTM)', max: 15, dxcmValue: null,
     peers: [
       { name:'ABT', value:3.9, status:'reference' },
-      { name:'MDT', value:3.2, status:'reference' },
-      { name:'ISRG', value:13.5, status:'reference' },
-      { name:'BSX', value:3.1, status:'reference' },
-      { name:'SYK', value:4.6, status:'reference' },
+      { name:'MDT', value:3.3, status:'reference' },
+      { name:'ISRG', value:12.9, status:'reference' },
+      { name:'BSX', value:2.9, status:'reference' },
+      { name:'SYK', value:4.2, status:'reference' },
       { name:'PODD', value:3.4, status:'reference' }
     ]
   },
   pcr: {
-    title: '의료기기 PCR(FCF) 비교 · 10/23 종가(DXCM 막대는 10/30)',
-    unit: 'PCR(FCF)', max: 55, dxcmValue: null,
+    title: '의료기기 PCR(FCF) 비교 · 10/30 종가',
+    unit: 'PCR(FCF)', max: 50, dxcmValue: null,
     peers: [
-      { name:'ABT', value:22.9, status:'reference' },
-      { name:'MDT', value:19.9, status:'reference' },
-      { name:'ISRG', value:43.6, status:'reference' },
-      { name:'BSX', value:18.3, status:'reference' },
-      { name:'SYK', value:25.1, status:'reference' },
-      { name:'PODD', value:35.2, status:'reference' }
+      { name:'ABT', value:23.5, status:'reference' },
+      { name:'MDT', value:20.1, status:'reference' },
+      { name:'ISRG', value:41.6, status:'reference' },
+      { name:'BSX', value:16.8, status:'reference' },
+      { name:'SYK', value:24.3, status:'reference' },
+      { name:'PODD', value:35.4, status:'reference' }
     ]
   },
   evebitda: {
-    title: '의료기기 EV/EBITDA 비교 · 10/23 종가(DXCM 막대는 10/30)',
+    title: '의료기기 EV/EBITDA 비교 · 10/30 종가',
     unit: 'EV/EBITDA', max: 55, dxcmValue: null,
     peers: [
-      { name:'ABT', value:19.3, status:'reference' },
-      { name:'MDT', value:14.5, status:'reference' },
-      { name:'ISRG', value:46.0, status:'reference' },
-      { name:'BSX', value:14.2, status:'reference' },
-      { name:'SYK', value:19.2, status:'reference' },
-      { name:'PODD', value:17.0, status:'reference' }
+      { name:'ABT', value:19.7, status:'reference' },
+      { name:'MDT', value:14.6, status:'reference' },
+      { name:'ISRG', value:43.9, status:'reference' },
+      { name:'BSX', value:13.2, status:'reference' },
+      { name:'SYK', value:18.6, status:'reference' },
+      { name:'PODD', value:17.6, status:'reference' }
     ]
   }
 };
@@ -1496,7 +1496,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py DXCM
 const DXCM_SCORES = {
   fundamental: 69.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 30.7,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 32.1,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 86.2,   // 자기 5년 배수 분포 백분위 (2021-11-01 ~ 2026-10-30)
   asOf: "2026-10-30",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1822,7 +1822,7 @@ const DXCM_FUNDAMENTAL = {"ticker": "DXCM", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py DXCM --self v2/DXCM_multiples.json --card
 /* VALUATION:BEGIN */
-const DXCM_VALUATION = {"peer": {"score": 30.7, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "per", "score": 42.0, "rank": 30, "peers": 50}, {"metric": "pbr", "score": 11.5, "rank": 47, "peers": 52}, {"metric": "psr", "score": 33.3, "rank": 39, "peers": 57}, {"metric": "pcr", "score": 32.7, "rank": 36, "peers": 52}, {"metric": "evebitda", "score": 34.0, "rank": 34, "peers": 50}]}, "self": {"score": 86.2, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.7, "percentile": 8.3, "current": 32.27, "min": 24.71, "median": 81.03, "max": 310.85, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 74.9, "percentile": 25.1, "current": 12.1, "min": 7.55, "median": 15.63, "max": 29.55, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 87.1, "percentile": 12.9, "current": 6.01, "min": 4.63, "median": 11.47, "max": 27.22, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 80.0, "percentile": 20.0, "current": 27.94, "min": 15.61, "median": 78.06, "max": 968.03, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.1, "percentile": 2.9, "current": 20.25, "min": 16.59, "median": 54.56, "max": 138.68, "days": 1255, "currentNote": null}]}};
+const DXCM_VALUATION = {"peer": {"score": 32.1, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 44.0, "rank": 29, "peers": 50}, {"metric": "pbr", "score": 13.5, "rank": 46, "peers": 52}, {"metric": "psr", "score": 31.6, "rank": 40, "peers": 57}, {"metric": "pcr", "score": 34.6, "rank": 35, "peers": 52}, {"metric": "evebitda", "score": 37.0, "rank": 35, "peers": 54}]}, "self": {"score": 86.2, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.7, "percentile": 8.3, "current": 32.27, "min": 24.71, "median": 81.03, "max": 310.85, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 74.9, "percentile": 25.1, "current": 12.1, "min": 7.55, "median": 15.63, "max": 29.55, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 87.1, "percentile": 12.9, "current": 6.01, "min": 4.63, "median": 11.47, "max": 27.22, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 80.0, "percentile": 20.0, "current": 27.94, "min": 15.61, "median": 78.06, "max": 968.03, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.1, "percentile": 2.9, "current": 20.25, "min": 16.59, "median": 54.56, "max": 138.68, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2111,8 +2111,8 @@ const DXCM_ACTIVITY = {"ticker": "DXCM", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/dxcm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const DXCM_ANALYST = { asOf: '2026-10-25', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 29, nTargets: 21, mean: 95.43, median: 95,
-  low: 77, high: 115, strongBuy: 22, buy: 4, hold: 3, sell: 0, strongSell: 0 };
+const DXCM_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 29, nTargets: 21, mean: 96.71, median: 96,
+  low: 77, high: 120, strongBuy: 22, buy: 4, hold: 3, sell: 0, strongSell: 0 };
 (function(){
   const A = DXCM_ANALYST, last = (typeof DXCM_DAILY !== 'undefined' && DXCM_DAILY.length) ? DXCM_DAILY[DXCM_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

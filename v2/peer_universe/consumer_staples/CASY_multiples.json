@@ -1,57 +1,69 @@
 {
  "ticker": "CASY",
  "window": [
-  "2025-10-24",
-  "2026-10-23"
+  "2025-10-31",
+  "2026-10-30"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 33.68,
+   "current": 32.76,
    "min": 28.17,
    "p10": 31.48,
    "median": 40.2,
    "p90": 46.18,
    "max": 52.6,
-   "mean": 39.59,
-   "percentile": 16.3,
-   "score": 83.7
+   "mean": 39.57,
+   "percentile": 11.6,
+   "score": 88.4
   },
   "PSR": {
    "days": 251,
-   "current": 1.38,
+   "current": 1.35,
    "min": 1.16,
    "p10": 1.21,
    "median": 1.47,
    "p90": 1.83,
    "max": 1.99,
-   "mean": 1.5,
-   "percentile": 38.2,
-   "score": 61.8
+   "mean": 1.51,
+   "percentile": 33.1,
+   "score": 66.9
   },
   "PBR": {
    "days": 251,
-   "current": 6.31,
+   "current": 6.14,
    "min": 5.19,
-   "p10": 5.42,
+   "p10": 5.45,
    "median": 6.57,
    "p90": 8.08,
    "max": 8.79,
-   "mean": 6.7,
-   "percentile": 40.6,
-   "score": 59.4
+   "mean": 6.71,
+   "percentile": 35.5,
+   "score": 64.5
   },
   "PCR": {
    "days": 251,
-   "current": 39.83,
+   "current": 38.74,
    "min": 28.64,
-   "p10": 30.18,
-   "median": 37.94,
+   "p10": 30.6,
+   "median": 38.37,
    "p90": 44.83,
    "max": 50.75,
-   "mean": 38.11,
-   "percentile": 57.8,
-   "score": 42.2
+   "mean": 38.3,
+   "percentile": 51.8,
+   "score": 48.2
+  },
+  "EV/EBITDA": {
+   "days": 251,
+   "current": 17.69,
+   "min": 15.43,
+   "p10": 16.88,
+   "median": 20.35,
+   "p90": 23.33,
+   "max": 25.99,
+   "mean": 20.19,
+   "percentile": 23.1,
+   "score": 76.9
   }
  },
  "perBasis": "diluted",
@@ -61,7 +73,7 @@
   "per_p75": 43.71,
   "low": 720,
   "high": 910,
-  "asOf": "2026-10-23",
+  "asOf": "2026-10-30",
   "basis": "diluted"
  }
 }

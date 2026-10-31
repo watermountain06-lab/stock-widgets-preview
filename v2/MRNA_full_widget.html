@@ -971,7 +971,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">제약·바이오 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/23 종가(MRNA 막대는 10/30)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">제약·바이오 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/30 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1104,12 +1104,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">23명 · 목표가 16</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">5</span> · 유지 <span data-an="hold">14</span> · 매도 <span data-an="sell">4</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 21.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 60.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 17.4%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">4</span> · 유지 <span data-an="hold">15</span> · 매도 <span data-an="sell">4</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 17.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 65.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 17.4%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-24</span></span>
-        <span class="op-val"><span data-an="mean">$123.75</span> <span class="op-sub op-down" data-an="upside">−44.2%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-val"><span data-an="mean">$127.69</span> <span class="op-sub op-down" data-an="upside">−42.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1313,62 +1313,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '제약·바이오 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/23 종가(MRNA 막대는 10/30)',
-    unit: 'PER', max: 135, mrnaValue: null,
+    title: '제약·바이오 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/30 종가',
+    unit: 'PER', max: 140, mrnaValue: null,
     peers: [
-      { name:'PFE', value:39.5, status:'reference' },
-      { name:'MRK', value:116.2, status:'reference' },
-      { name:'REGN', value:19.9, status:'reference' },
-      { name:'VRTX', value:30.5, status:'reference' },
-      { name:'AMGN', value:27.3, status:'reference' },
-      { name:'BIIB', value:44.5, status:'reference' }
+      { name:'PFE', value:40.2, status:'reference' },
+      { name:'MRK', value:119.6, status:'reference' },
+      { name:'REGN', value:23.0, status:'reference' },
+      { name:'VRTX', value:32.5, status:'reference' },
+      { name:'AMGN', value:29.0, status:'reference' },
+      { name:'BIIB', value:45.0, status:'reference' }
     ]
   },
   pbr: {
-    title: '제약·바이오 PBR 비교 · 10/23 종가(MRNA 막대는 10/30)',
+    title: '제약·바이오 PBR 비교 · 10/30 종가',
     unit: 'PBR', max: 25, mrnaValue: null,
     peers: [
       { name:'PFE', value:2.0, status:'reference' },
-      { name:'MRK', value:8.6, status:'reference' },
-      { name:'REGN', value:2.6, status:'reference' },
-      { name:'VRTX', value:6.6, status:'reference' },
-      { name:'AMGN', value:20.3, status:'reference' },
+      { name:'MRK', value:8.8, status:'reference' },
+      { name:'REGN', value:2.9, status:'reference' },
+      { name:'VRTX', value:7.0, status:'reference' },
+      { name:'AMGN', value:21.6, status:'reference' },
       { name:'BIIB', value:2.0, status:'reference' }
     ]
   },
   psr: {
-    title: '제약·바이오 PSR 비교 · 10/23 종가(MRNA 막대는 10/30)',
+    title: '제약·바이오 PSR 비교 · 10/30 종가',
     unit: 'PSR(TTM)', max: 50, mrnaValue: null,
     peers: [
       { name:'PFE', value:2.7, status:'reference' },
-      { name:'MRK', value:5.4, status:'reference' },
-      { name:'REGN', value:5.3, status:'reference' },
-      { name:'VRTX', value:10.6, status:'reference' },
-      { name:'AMGN', value:6.2, status:'reference' },
-      { name:'BIIB', value:3.7, status:'reference' }
+      { name:'MRK', value:5.5, status:'reference' },
+      { name:'REGN', value:5.7, status:'reference' },
+      { name:'VRTX', value:11.2, status:'reference' },
+      { name:'AMGN', value:6.6, status:'reference' },
+      { name:'BIIB', value:3.6, status:'reference' }
     ]
   },
   pcr: {
-    title: '제약·바이오 PCR(FCF) 비교 · 10/23 종가(MRNA 막대는 10/30)',
+    title: '제약·바이오 PCR(FCF) 비교 · 10/30 종가',
     unit: 'PCR(FCF)', max: 45, mrnaValue: null,
     peers: [
-      { name:'PFE', value:15.6, status:'reference' },
-      { name:'MRK', value:22.3, status:'reference' },
-      { name:'REGN', value:22.0, status:'reference' },
-      { name:'VRTX', value:35.0, status:'reference' },
-      { name:'AMGN', value:23.3, status:'reference' },
-      { name:'BIIB', value:13.7, status:'reference' }
+      { name:'PFE', value:15.8, status:'reference' },
+      { name:'MRK', value:23.0, status:'reference' },
+      { name:'REGN', value:25.1, status:'reference' },
+      { name:'VRTX', value:37.3, status:'reference' },
+      { name:'AMGN', value:24.8, status:'reference' },
+      { name:'BIIB', value:18.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '제약·바이오 EV/EBITDA 비교 (BIIB 값 없음) · 10/23 종가(MRNA 막대는 10/30)',
+    title: '제약·바이오 EV/EBITDA 비교 · 10/30 종가',
     unit: 'EV/EBITDA', max: 40, mrnaValue: null,
     peers: [
-      { name:'PFE', value:11.1, status:'reference' },
-      { name:'MRK', value:31.0, status:'reference' },
-      { name:'REGN', value:17.6, status:'reference' },
-      { name:'VRTX', value:25.4, status:'reference' },
-      { name:'AMGN', value:17.5, status:'reference' }
+      { name:'PFE', value:11.2, status:'reference' },
+      { name:'MRK', value:31.8, status:'reference' },
+      { name:'REGN', value:16.5, status:'reference' },
+      { name:'VRTX', value:27.2, status:'reference' },
+      { name:'AMGN', value:18.4, status:'reference' },
+      { name:'BIIB', value:26.3, status:'reference' }
     ]
   }
 };
@@ -1829,7 +1830,7 @@ const MRNA_FUNDAMENTAL = {"ticker": "MRNA", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py MRNA --self v2/MRNA_multiples.json --card
 /* VALUATION:BEGIN */
-const MRNA_VALUATION = {"peer": {"score": 3.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-23", "2026-10-23"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 11.5, "rank": 47, "peers": 52}, {"metric": "psr", "score": 0.0, "rank": 58, "peers": 57}, {"metric": "pcr", "score": 1.9, "rank": 53, "peers": 53}, {"metric": "evebitda", "score": 0.0, "rank": 52, "peers": 51}]}, "self": {"score": 0.4, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 3.44, "median": 6.99, "max": 43.58, "days": 505, "currentNote": "per_na"}, {"metric": "pbr", "score": 1.1, "percentile": 98.9, "current": 13.09, "min": 0.87, "median": 2.66, "max": 20.99, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.6, "percentile": 99.4, "current": 39.73, "min": 2.01, "median": 3.7, "max": 44.05, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 3.58, "median": 8.67, "max": 85.8, "days": 440, "currentNote": "negative"}, {"metric": "evebitda", "score": 0.0, "percentile": 100.0, "current": null, "min": 2.21, "median": 4.71, "max": 41.26, "days": 505, "currentNote": "negative"}]}, "perNA": {"netMargin": -1.4143, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const MRNA_VALUATION = {"peer": {"score": 3.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 11.5, "rank": 47, "peers": 52}, {"metric": "psr", "score": 0.0, "rank": 58, "peers": 57}, {"metric": "pcr", "score": 1.9, "rank": 53, "peers": 53}, {"metric": "evebitda", "score": 0.0, "rank": 56, "peers": 55}]}, "self": {"score": 0.4, "window": ["2021-11-01", "2026-10-30"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 3.44, "median": 6.99, "max": 43.58, "days": 505, "currentNote": "per_na"}, {"metric": "pbr", "score": 1.1, "percentile": 98.9, "current": 13.09, "min": 0.87, "median": 2.66, "max": 20.99, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.6, "percentile": 99.4, "current": 39.73, "min": 2.01, "median": 3.7, "max": 44.05, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 3.58, "median": 8.67, "max": 85.8, "days": 440, "currentNote": "negative"}, {"metric": "evebitda", "score": 0.0, "percentile": 100.0, "current": null, "min": 2.21, "median": 4.71, "max": 41.26, "days": 505, "currentNote": "negative"}]}, "perNA": {"netMargin": -1.4143, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2118,8 +2119,8 @@ const MRNA_ACTIVITY = {"ticker": "MRNA", "status": "N/A", "reason": "매출원�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mrna/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MRNA_ANALYST = { asOf: '2026-10-24', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 23, nTargets: 16, mean: 123.75, median: 130,
-  low: 45, high: 220, strongBuy: 4, buy: 1, hold: 14, sell: 2, strongSell: 2 };
+const MRNA_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 23, nTargets: 16, mean: 127.69, median: 130,
+  low: 45, high: 230, strongBuy: 3, buy: 1, hold: 15, sell: 2, strongSell: 2 };
 (function(){
   const A = MRNA_ANALYST, last = (typeof MRNA_DAILY !== 'undefined' && MRNA_DAILY.length) ? MRNA_DAILY[MRNA_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

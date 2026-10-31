@@ -70,8 +70,8 @@ NEWS = [
      'Ansys 인수 뒤 효율화 · 세전 비용 $300M~$350M 예상(2026년 8월 $425M~$500M으로 상향) · 인력 감축 대부분은 FY2026에', 'restr', 'Synopsys 공시 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Strong Buy', 'n': 25, 'nt': 18, 'mean': 588.44, 'median': 600, 'low': 420, 'high': 700, 'sb': 20, 'b': 4, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-24'
+ANALYST = {'rating': 'Strong Buy', 'n': 25, 'nt': 18, 'mean': 588.44, 'median': 600, 'low': 420, 'high': 700, 'sb': 20, 'b': 3, 'h': 2, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-10-31'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(보고 부문 축 2개). 원문 대조: Q3 FY26 2,003.0/473.8, 1년 전 1,312.1/427.6(2026-10-21) ──
