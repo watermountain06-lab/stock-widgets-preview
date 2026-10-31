@@ -231,58 +231,104 @@ TAX_ONEOFF = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tax_oneof
 
 
 DISC_EPS_TAGS = ["IncomeLossFromDiscontinuedOperationsNetOfTaxPerDilutedShare",
-                 "DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTaxPerDilutedShare"]
-_DISC_CACHE = {}
+                 "DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTaxPerDilutedShare",
+                 "IncomeLossFromDiscontinuedOperationsNetOfTaxPerBasicAndDilutedShare"]
+CONT_EPS_TAGS = ["IncomeLossFromContinuingOperationsPerDilutedShare", "IncomeLossFromContinuingOperationsPerBasicAndDilutedShare"]
+TOTAL_EPS_TAGS = ["EarningsPerShareDiluted", "EarningsPerShareBasicAndDiluted"]
+_PS_CACHE = {}
 
 
-def _disc_facts(ticker):
-    """그 종목 중단영업 희석 주당 손익 사실(기간 행) — (start, end, val(오늘 주식 기준, 분할 보정), filed)."""
-    if ticker not in _DISC_CACHE:
+def _ps_facts(ticker, tags):
+    """그 종목 주당 값 기간 사실 — (start, end, val(오늘 주식 기준, 분할 보정), filed). 같은 기간은 먼저 공시된 것(같은 날이면 앞 태그)."""
+    key = (ticker, tuple(tags))
+    if key not in _PS_CACHE:
         cik = feh.CIKS.get(ticker)
         import splits as _splits
         sp = _splits.for_ticker(ticker)
-        rows = []
+        seen = {}
         if cik:
-            tag, got = None, []
-            for tg in DISC_EPS_TAGS:       # 앞 태그 우선 — 회사가 태그를 옮겼으면 둘 다(같은 기간은 먼저 공시된 것)
-                got += [e for e in concept(cik, tg) if "start" in e and "filed" in e]
-            seen = {}
-            for e in sorted(got, key=lambda e: e["filed"]):
-                k = (e["start"], e["end"])
-                if k not in seen:
-                    seen[k] = e
-            for e in seen.values():
-                rows.append((e["start"], e["end"], e["val"] / (feh.split_ratio(e["filed"], sp) if sp else 1), e["filed"]))
-        _DISC_CACHE[ticker] = rows
-    return _DISC_CACHE[ticker]
+            got = [e for tg in tags for e in concept(cik, tg) if "start" in e and "filed" in e]
+            for e in sorted(got, key=lambda e: e["filed"]):   # 정렬은 안정적 — 같은 공시일이면 태그 목록 순서
+                seen.setdefault((e["start"], e["end"]), e)
+        _PS_CACHE[key] = [(e["start"], e["end"], e["val"] / (feh.split_ratio(e["filed"], sp) if sp else 1), e["filed"]) for e in seen.values()]
+    return _PS_CACHE[key]
 
 
-def disc_eps_quarter(ticker, q_end, upto):
-    """결산일 q_end 분기의 중단영업 희석 주당 손익(upto까지 공시된 사실만) — 3개월 값, 없으면 회계연도 누계 − 직전 누계(4분기 등). 없으면 0."""
-    rows = [r for r in _disc_facts(ticker) if r[1] == q_end and r[3] <= upto]
+def _disc_facts(ticker):
+    return _ps_facts(ticker, DISC_EPS_TAGS)
+
+
+def ps_quarter(ticker, tags, q_end, upto):
+    """결산일 q_end 분기의 주당 값(upto까지 공시된 사실만) — 3개월 값, 없으면 회계연도 누계 − 직전 누계(4분기 = 연간 − 9개월 — 기간별 가중평균
+    주식 수가 달라 근사, Codex E62 r1: MPC 2021 4분기 중단영업 0.20 대 회사 분기표 0). 없으면 None."""
+    facts = _ps_facts(ticker, tags)
+    rows = [r for r in facts if r[1] == q_end and r[3] <= upto]
     days = lambda r: (date.fromisoformat(r[1]) - date.fromisoformat(r[0])).days
     q = [r for r in rows if 80 <= days(r) <= 100]
     if q:
         return min(q, key=lambda r: r[3])[2]
-    longer = sorted((r for r in rows if days(r) > 100), key=lambda r: days(r))
-    for y in longer:                     # 누계 y − 같은 시작일의 직전 누계(결산일이 약 3개월 앞)
-        prev = [r for r in _disc_facts(ticker) if r[0] == y[0] and r[3] <= upto and 80 <= (date.fromisoformat(y[1]) - date.fromisoformat(r[1])).days <= 100]
+    for y in sorted((r for r in rows if days(r) > 100), key=days):
+        prev = [r for r in facts if r[0] == y[0] and r[3] <= upto and 80 <= (date.fromisoformat(y[1]) - date.fromisoformat(r[1])).days <= 100]
         if prev:
             return y[2] - min(prev, key=lambda r: r[3])[2]
-    return 0.0
+    return None
+
+
+def disc_eps_quarter(ticker, q_end, upto):
+    v = ps_quarter(ticker, DISC_EPS_TAGS, q_end, upto)
+    return v or 0.0
+
+
+def disc_quarter_status(ticker, file_q, q_end, upto):
+    """(뺄 값, 판정) — EPS 파일의 그 분기 값(file_q)이 총 EPS인지 계속영업 EPS인지 **분기마다** 확인한다(Codex E62 r1 — SNPS는 재작성 목록
+    밖인데 FY24 4분기를 계속영업 1.79로 손 보정해 둬서 종목 단위 판정이면 5.35를 두 번 뺐다). 판정: 'none'(중단영업 없음),
+    'already'(파일이 이미 계속영업 값), 'removed'(파일이 총 EPS — 중단영업을 뺀다), 'unknown'(가를 수 없음 — 빼지 않음)."""
+    disc = ps_quarter(ticker, DISC_EPS_TAGS, q_end, upto)
+    if not disc or abs(disc) < 0.005 or file_q is None:
+        return 0.0, "none"
+    cont = ps_quarter(ticker, CONT_EPS_TAGS, q_end, upto)
+    tot = ps_quarter(ticker, TOTAL_EPS_TAGS, q_end, upto)
+    if cont is not None and abs(file_q - cont) <= 0.011:
+        return 0.0, "already"
+    if (tot is not None and abs(file_q - tot) <= 0.011) or (cont is not None and abs(file_q - cont - disc) <= 0.02):
+        return -disc, "removed"
+    return 0.0, "unknown"
+
+
+def _ttm_quarter_rows(rows, ttm_end, upto):
+    """그 TTM의 구성 4분기(EPS 파일, 공개일 ≤ upto인 행 중 결산일마다 마지막) — 마지막이 ttm_end이고 이웃 간격 120일 안일 때만."""
+    by_q = {}
+    for r in sorted((r for r in rows if r.get("quarter_end") and r["quarter_end"] <= ttm_end
+                     and r.get("available_date", "") <= upto), key=lambda r: r.get("available_date", "")):
+        by_q[r["quarter_end"]] = r
+    qs = sorted(by_q)[-4:]
+    if len(qs) < 4 or qs[-1] != ttm_end:
+        return None
+    if any((date.fromisoformat(b) - date.fromisoformat(a)).days > 120 for a, b in zip(qs, qs[1:])):
+        return None
+    return [by_q[q] for q in qs]
 
 
 def disc_in_ttm(ticker, rows, ttm_end, upto):
-    """E62: 카드 PER EPS에서 뺄 중단영업 주당 손익(그 TTM 구성 4분기 합의 음수) — 엔진 EPS(EarningsPerShareDiluted)는 중단영업 손익을
-    담는다(CARR 2024 Access·Industrial Fire 매각 차익, MPC 2021 Speedway 12.55, ALL 2021 생명보험 매각). 카드 모드에서만(연구 모드·12-01
-    봉인 자료는 그대로), 재작성 종목(RESTATED_LATEST — EPS 파일이 이미 계속영업 값)은 0. 구성 분기는 EPS 파일에서 그 결산일 이하 연속
-    4개(첫~끝 310일 안), 사실은 그 TTM 행 공개일까지 공시된 것만."""
-    if ASOF_REF is not None or ticker in feh.RESTATED_LATEST or not _disc_facts(ticker):
+    """E62: 카드 PER EPS에서 뺄 중단영업 주당 손익(그 TTM 구성 4분기 중 '총 EPS'로 확인된 분기의 합의 음수) — 엔진 EPS
+    (EarningsPerShareDiluted)는 중단영업 손익을 담는다(CARR 2024 Access·Industrial Fire 매각 차익, MPC 2021 Speedway 12.55, ALL 2021
+    생명보험 매각). 카드 모드에서만(연구 모드·12-01 봉인 자료는 그대로). 사실은 그 TTM 행 공개일까지 공시된 것만."""
+    if ASOF_REF is not None or not _disc_facts(ticker):
         return 0.0
-    qs = sorted({r["quarter_end"] for r in rows if r.get("quarter_end") and r["quarter_end"] <= ttm_end})[-4:]
-    if len(qs) < 4 or (date.fromisoformat(qs[-1]) - date.fromisoformat(qs[0])).days > 310:
+    qr = _ttm_quarter_rows(rows, ttm_end, upto)
+    if qr is None:
         return 0.0
-    return -sum(disc_eps_quarter(ticker, q, upto) for q in qs)
+    return sum(disc_quarter_status(ticker, r.get("quarter_eps"), r["quarter_end"], upto)[0] for r in qr)
+
+
+def disc_removed(ticker, rows, q_end, upto):
+    """그 분기 중단영업을 E62가 실제로 뺐는가(E54 중단영업 항목을 건너뛸지 — Codex E62 r1: 태그 존재가 아니라 그 분기 제거 확인)."""
+    if ASOF_REF is not None or not _disc_facts(ticker):
+        return False
+    r = [x for x in rows if x.get("quarter_end") == q_end and x.get("available_date", "") <= upto]
+    if not r:
+        return False
+    return disc_quarter_status(ticker, r[-1].get("quarter_eps"), q_end, upto)[1] == "removed"
 
 
 def oneoff_in_ttm(ticker, ttm_end, field, asof=None):

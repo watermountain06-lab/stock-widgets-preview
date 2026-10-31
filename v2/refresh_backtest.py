@@ -227,6 +227,7 @@ def main():
         _eo_on = _eo.has(t)
         _cap = bmh2._approved().get(str(bmh2.feh.CIKS[t]).zfill(10)) if _eo_on else None
         adj = [{**e, "ttm_eps": round(e["ttm_eps"] + bmh2.oneoff_in_ttm(t, e.get("quarter_end"), "eps")
+                                      + bmh2.disc_in_ttm(t, eps_rows, e.get("quarter_end"), e["available_date"])   # E62 — 카드 PER과 같게
                                       + (_eo.eps_adjust(t, eps_rows, e.get("quarter_end"), _cap, row=e) if _eo_on else 0.0), 6)}
                if e.get("ttm_eps") is not None else e for e in eps_rows]
         # 늦게 실린 옛 분기 행(그 공시일에 이미 더 최근 분기가 나와 있던 행 — ADI 2022-11-22의 2020·2021 분기, 10-K 비교 열)은 빼고 넘긴다.
