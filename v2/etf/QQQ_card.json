@@ -4623,80 +4623,80 @@
  },
  "constituents": {
   "holdings": {
-   "S": "2026-10-29",
+   "S": "2026-11-01",
    "held": true,
    "reasonText": "보유 파일 날짜",
    "bar": null,
    "top10": [
     {
-     "company": "NVDA",
-     "name": "NVIDIA Corp",
-     "weight": 0.08087618060643029,
-     "card": "NVDA",
-     "verdict": "적정~저평가"
-    },
-    {
      "company": "AAPL",
      "name": "Apple Inc",
-     "weight": 0.07997852517365647,
+     "weight": 0.08182212537197514,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
+     "company": "NVDA",
+     "name": "NVIDIA Corp",
+     "weight": 0.0802316488168313,
+     "card": "NVDA",
+     "verdict": "적정~저평가"
+    },
+    {
      "company": "MSFT",
      "name": "Microsoft Corp",
-     "weight": 0.06182830889157702,
+     "weight": 0.06304492098201626,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "GOOGL",
      "name": "Alphabet Inc",
-     "weight": 0.05066312980611334,
+     "weight": 0.05172614401099262,
      "card": "GOOGL",
      "verdict": "적정~고평가"
     },
     {
      "company": "MU",
      "name": "Micron Technology Inc",
-     "weight": 0.04574921994964737,
+     "weight": 0.044872946615573,
      "card": "MU",
      "verdict": "적정~저평가"
     },
     {
      "company": "AMZN",
      "name": "Amazon.com Inc",
-     "weight": 0.04129889008506174,
+     "weight": 0.042172016993354294,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMD",
      "name": "Advanced Micro Devices Inc",
-     "weight": 0.04009149695766116,
+     "weight": 0.03700758042892348,
      "card": "AMD",
      "verdict": "고평가"
     },
     {
      "company": "TSLA",
      "name": "Tesla Inc",
-     "weight": 0.033274213063499494,
+     "weight": 0.03416574963554542,
      "card": "TSLA",
      "verdict": "고평가"
     },
     {
      "company": "META",
      "name": "Meta Platforms Inc",
-     "weight": 0.029165749406631532,
+     "weight": 0.029747644580221128,
      "card": "META",
      "verdict": "적정~고평가"
     },
     {
-     "company": "SPCX",
-     "name": "Space Exploration Technologies Corp",
-     "weight": 0.026763391918895776,
-     "card": "SPCX",
-     "verdict": "판정 보류"
+     "company": "WMT",
+     "name": "Walmart Inc",
+     "weight": 0.02697485215568025,
+     "card": "WMT",
+     "verdict": "고평가"
     }
    ],
    "cards": [
@@ -4999,43 +4999,43 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-09-30",
+   "asOf": "2026-10-31",
    "rows": [
     [
      "Technology",
-     68.008948
+     64.404276
     ],
     [
      "Consumer Discretionary",
-     15.137549
+     16.621898
     ],
     [
      "Telecommunications",
-     5.913605
+     5.907334
     ],
     [
      "Health Care",
-     3.780792
+     4.811736
     ],
     [
      "Industrials",
-     2.817221
+     3.165665
     ],
     [
      "Consumer Staples",
-     1.73441
+     2.070054
     ],
     [
      "Basic Materials",
-     1.155693
+     1.332315
     ],
     [
      "Utilities",
-     1.007469
+     1.173778
     ],
     [
      "Energy",
-     0.444312
+     0.512944
     ]
    ],
    "kind": "icb"
@@ -5045,13 +5045,13 @@
    "peAsOf": "2026-09-30"
   },
   "dgs10": {
-   "date": "2026-10-29",
-   "value": 0.0498
+   "date": "2026-10-30",
+   "value": 0.0494
   }
  },
  "index": "QQQ",
  "name": "QQQ",
- "runId": "41254565947.1",
- "runAt": "2026-10-31T23:56:48Z",
+ "runId": "41541161676.1",
+ "runAt": "2026-11-02T22:55:03Z",
  "source": "Yahoo Finance QQQ 일봉 종가"
 }
