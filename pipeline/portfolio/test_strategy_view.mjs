@@ -627,13 +627,13 @@ import { weeklySells, monthRounds } from '../../preview-only-portfolio-home.js';
 test('매주 판정 매도(카드, 2026-10-28): 고평가는 남은 회차에 나눠, 초고평가는 전부, 같은 회차에 판 것은 빼고, 계좌 따로', () => {
   assert.deepEqual(monthRounds('2026-11'), ['2026-11-02', '2026-11-09', '2026-11-16', '2026-11-23']);
   const card = (tier, d = '2026-11-06') => ({ tier, tierStatus: 'valid', verdictAsOf: d, priceStale: false, close: 10 });
-  const rec = { session: '2026-11-06', ruleVersion: 'r', cards: { DDD: card('고평가'), EEE: card('초고평가'), AAA: card('고평가~적정'), FFF: card('고평가') } };
+  const rec = { session: '2026-11-06', ruleVersion: 'r', cards: { DDD: card('고평가'), EEE: card('초고평가'), AAA: card('적정'), FFF: card('고평가') } };
   const recAt = (d) => ({ session: d, ruleVersion: 'r', cards: { DDD: card('고평가', d) } });   // 원칙 6에 안 걸리게 그날 기록
   const rounds = monthRounds('2026-11');
   const base = { rec, today: '2026-11-07', rounds, lastSession: '2026-11-06' };
   const r = weeklySells({ ...base, holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }, { ticker: 'DDD', qty: 2.5, account: 'kw' }, { ticker: 'EEE', qty: 4, account: 'rh' }, { ticker: 'AAA', qty: 5, account: 'rh' }], trades: {} });
   assert.deepEqual(r.map((x) => [x.ticker, x.account, x.shares, x.remaining, x.round]), [
-    ['DDD', 'kw', 0.833334, 3, '2026-11-09'], ['DDD', 'rh', 3, 3, '2026-11-09'], ['EEE', 'rh', 4, 3, '2026-11-09']]);   // 고평가~적정(AAA)은 보유
+    ['DDD', 'kw', 0.833334, 3, '2026-11-09'], ['DDD', 'rh', 3, 3, '2026-11-09'], ['EEE', 'rh', 4, 3, '2026-11-09']]);   // 적정(AAA)은 보유(고평가~적정부터 판다, 2026-11-03)
   // 회차 당일 3주를 팔아 기록하면(기록은 아직 전날) 그 회차 몫은 0, 다음 회차는 남은 6주 ÷ 2회
   const sold = { t1: { date: '2026-11-09', ticker: 'DDD', side: 'sell', qty: 3, price: 10 } };
   const a = weeklySells({ ...base, today: '2026-11-09', holdings: [{ ticker: 'DDD', qty: 6, account: 'rh' }], trades: sold });
@@ -653,6 +653,8 @@ test('매주 판정 매도(카드, 2026-10-28): 고평가는 남은 회차에 �
   // 회차가 끝난 뒤(11/23 뒤)는 수량 없이 '다음 점검일'
   const end = weeklySells({ ...base, today: '2026-11-27', lastSession: '2026-11-25', rec: recAt('2026-11-25'), holdings: [{ ticker: 'DDD', qty: 5, account: 'rh' }], trades: {} });
   assert.deepEqual([end[0].shares, end[0].round], [null, null]);
+  // 고평가~적정도 판다(2026-11-03)
+  assert.equal(weeklySells({ ...base, rec: { ...rec, cards: { DDD: card('고평가~적정') } }, holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }], trades: {} })[0].shares, 3);
   // 원칙 6(묵은 판정)이면 빠진다
   assert.deepEqual(weeklySells({ ...base, rec: { ...rec, cards: { DDD: { ...card('고평가'), priceStale: true } } }, holdings: [{ ticker: 'DDD', qty: 9, account: 'rh' }], trades: {} }), []);
 });
@@ -689,4 +691,18 @@ test('환전 몫 달(2026-11-03): 반영일 달에 남은 회차가 있으면 �
   assert.equal(ledgerMonth('2026-11-24', '2026-12', null), '2026-12');
   assert.equal(ledgerMonth('2026-11-24', '2026-10', []), '2026-11');           // 11월 결정이 4회차 날짜 뒤로 밀려도 결정 대기 달이면 11월(입금 칸과 같게)
   assert.equal(ledgerMonth('2027-12-29', null, null), '2028-01');              // 달력 끝에서도 다음 달
+});
+
+import { cashLeft } from '../../preview-only-portfolio-home.js';
+test('현금 10% 목표(카드, 2026-11-03): 남은 한도 = 현금 − 총자산 10% − 이번 달 판 돈 − 다음 달 몫, 모자라면 0', () => {
+  assert.deepEqual(cashLeft({ cash: 3000, total: 11000 }), { target: 1100, left: 1900, short: 0, unknown: false });
+  assert.deepEqual(cashLeft({ cash: 3000, total: 11000, soldNow: 500, laterIn: 400 }), { target: 1100, left: 1000, short: 0, unknown: false });
+  assert.equal(cashLeft({ cash: 3000, total: 11000, laterOut: 300 }).left, 1600);                    // 출금 예정은 미리 뺀다
+  assert.deepEqual(cashLeft({ cash: 1014.1, total: 11755.37 }), { target: 1175.54, left: 0, short: 161.44, unknown: false });   // 새 돈이 먼저 현금을 채운다
+  // 가격 없는 보유가 있거나 현금·총자산을 모르면 한도를 막는다(예전 식으로 돌아가지 않음)
+  assert.deepEqual(cashLeft({ cash: 3000, total: 11000, missing: 1 }), { target: null, left: 0, short: 0, unknown: true });
+  assert.equal(cashLeft({ cash: null, total: 11000 }).unknown, true);
+  assert.equal(cashLeft({ cash: NaN, total: 11000 }).unknown, true);
+  assert.equal(cashLeft({ cash: 3000, total: Infinity }).unknown, true);
+  assert.equal(cashLeft({ cash: 3000, total: 11000, laterOut: -300 }).left, 1600);   // 음수로 넘겨도 한도를 줄인다
 });

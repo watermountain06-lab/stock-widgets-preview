@@ -7,7 +7,7 @@
 //   시간: 기록 시각(카드 계좌 현금 칸) · 반영일(= root 기록 시각 다음 장 시작 — 엔진·실제 계좌·한도 몫) · 환전일(date, 보여 주기만)
 //   환전 달러는 보통 입금과 같은 길로 엔진·실제 계좌·카드 한도에 한 번씩 들어간다(id 접두어 L:). 배당은 수익(외부 흐름 아님).
 // 설계: pipeline/portfolio/STRATEGY_DESIGN.md '한국 계좌'.
-import { depositTiming, twr, _internal } from './preview-only-portfolio-engine.js?v=8';
+import { depositTiming, twr, _internal } from './preview-only-portfolio-engine.js?v=9';
 
 export const KW = 'kw', RH = 'rh';
 export const acctOf = (x) => (x && x.account === KW ? KW : RH);   // 계좌 칸이 없는 옛 매매는 Robinhood

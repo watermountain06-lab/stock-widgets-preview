@@ -51,7 +51,7 @@ const SNAP = { date: '2026-10-16', holdings: { AAA: 10, DDD: 100 }, cash: 1000 }
 const run = (o = {}) => replay({
   records: o.records || world(o.world), snapshot: o.snapshot || SNAP, deposits: o.deposits || [],
   // 기존 시험은 11월·12월 날짜로 옛 매도 규칙(점검일 한 번 관측, 대금은 그달 매수)을 시험한다 — 매주 매도 규칙은 weekly 시험이 따로 본다
-  settings: { ruleFrom: '9999-12', ...(o.settings || {}) }, scenarios: o.scenarios || [],
+  settings: { ruleFrom: '9999-12', cashFrom: '9999-12', ...(o.settings || {}) }, scenarios: o.scenarios || [],
 });
 const OLD_RULE = { ruleFrom: '9999-12' };
 const S = (strategy, params, extra = {}) => ({ id: extra.id || strategy, name: 'x', strategy, params, createdAt: extra.createdAt || '2026-10-16T22:00:00Z', engineVersion: ENGINE_VERSION });
@@ -302,7 +302,7 @@ test('deposits: 반영일은 기록 시각 뒤 첫 09:30 ET, A·기준선은 반
   assert.equal(day(a, '2026-11-17').deposits, 1500);
   assert.equal(day(b, '2026-11-17').deposits, 1500);
   assert.equal(nov(trades(b)).length, 8);
-  assert.equal(b.months[1].budget, 1350);                    // 11월에 1000을 다 쓰고, 12월 예산은 입금 1500 − 남길 10% 150(현금 10%, 2026-11-03)
+  assert.equal(b.months[1].budget, 1500);                    // 11월에 1000을 다 쓰고, 12월 예산은 입금 1500
   near(pick(res, 'A').baselines.SPY.find((x) => x.date === '2026-11-09').value, 4000, 0.01);
 });
 
@@ -1251,7 +1251,7 @@ test('매주 매도(원칙): 고평가면 전부를 그달 남은 회차에 나�
 test('매주 매도(원칙): 나눠 팔던 중 초고평가면 남은 것 전부를 그 회차에, 내려오면 멈추고 다시 고평가면 남은 회차로 새로', () => {
   const up = run({ settings: NEW_RULE, world: { tier: (t, d) => (t === 'DDD' ? (d >= '2026-11-05' ? '초고평가' : '고평가') : undefined) }, scenarios: [S('B')] });
   assert.deepEqual(sells(pick(up, 'B'), 'DDD'), [['2026-11-02', 25], ['2026-11-09', 75]]);
-  const tier = (t, d) => (t === 'DDD' ? (d >= '2026-11-12' ? '고평가' : d >= '2026-11-05' ? '고평가~적정' : '고평가') : undefined);
+  const tier = (t, d) => (t === 'DDD' ? (d >= '2026-11-12' ? '고평가' : d >= '2026-11-05' ? '적정' : '고평가') : undefined);   // 원칙 매도는 고평가~적정부터라 '내려옴'은 적정(2026-11-03)
   const down = pick(run({ settings: NEW_RULE, world: { tier }, scenarios: [S('B')] }), 'B');
   assert.deepEqual(sells(down, 'DDD'), [['2026-11-02', 25], ['2026-11-16', 37.5], ['2026-11-23', 37.5]]);
   // 원칙 매도는 회차마다 다시 계산(dr d1): 11/09에 원칙 6으로 못 팔면 그 회차는 0, 다음 회차가 남은 보유 ÷ 남은 회차로 메운다
@@ -1283,18 +1283,33 @@ test('매주 매도: 10월 계획은 옛 규칙(점검일 관측), 11월 계획�
   assert.equal(trades(b, { side: 'sell' }).filter((x) => x.date.slice(0, 7) === '2026-11').length, 4);
 });
 
-test('현금 10%(2026-11-03): 원칙 전략은 11월 몫부터 입금의 10%를 남기고 나머지만 나눈다, 직접 고른 전략·10월 몫·출금', () => {
-  const dep = (id, amount, at, extra = {}) => ({ id, amount, recordedAt: at, ...extra });
-  const res = run({ deposits: [dep('d1', 1000, '2026-11-10T15:00:00Z')], scenarios: [S('B'), S('custom', { buyTiers: ['저평가'] }, { id: 'own' })] });
-  const dec = (s) => s.months.find((m) => m.decisionDate.slice(0, 7) === '2026-12');
-  assert.equal(dec(pick(res, 'B')).budget, 900);                 // 1000 − 100
-  assert.equal(dec(pick(res, 'own')).budget, 1000);              // 원칙을 따르지 않는 전략은 그대로
-  // 10월 몫(10월 반영) 입금은 남기지 않는다, 10월에 넣고 11월 몫(forMonth)이면 남긴다
-  const oct = run({ deposits: [dep('o1', 1000, '2026-10-20T15:00:00Z')], scenarios: [S('B')] });
-  assert.equal(pick(oct, 'B').months[0].budget, 2000);           // 시작 현금 1000 + 10월 입금 1000
-  const pre = run({ deposits: [dep('p1', 1000, '2026-10-20T15:00:00Z', { forMonth: '2026-11' })], scenarios: [S('B')] });
-  assert.equal(pick(pre, 'B').months[0].budget, 1900);
-  // 출금은 쓸 돈에서 먼저 빠지고 남긴 10%는 그대로(카드와 같게, dr): 1000(남김 100) → 전부 출금 → 500(남김 50) → 12월 예산 500 − 150 = 350
-  const wd = run({ deposits: [dep('d2', 1000, '2026-11-10T15:00:00Z'), { id: 'w', amount: 50000, kind: 'withdraw', recordedAt: '2026-11-20T15:00:00Z' }, dep('d3', 500, '2026-11-24T15:00:00Z')], scenarios: [S('B')] });
-  assert.equal(dec(pick(wd, 'B')).budget, 350);
+test('현금 10%(2026-11-03): 원칙 전략은 점검일 예산 = 현금 − 그날 평가액의 10%, 원칙 아닌 전략은 그대로, 평가액을 모르면 그달 안 삼', () => {
+  const CASH = { cashFrom: '2026-11' };
+  const dec = (s, m) => s.months.find((x) => x.decisionDate.slice(0, 7) === m);
+  // 11/02: 현금 1000, 주식 AAA 10주 + DDD 100주 — 평가액 v, 목표 = round(v/10)
+  const res = run({ settings: CASH, scenarios: [S('B'), S('custom', { buyTiers: ['저평가'] }, { id: 'own' })] });
+  const b = dec(pick(res, 'B'), '2026-11'), own = dec(pick(res, 'own'), '2026-11');
+  assert.equal(own.budget, 1000);
+  const v = pick(res, 'B').days.find((x) => x.date === '2026-11-02').value;   // 점검일 장 마감 평가(매매 전과 같음 — 그날 체결은 회차 뒤)
+  assert.ok(b.budget < 1000 && b.budget >= 0, String(b.budget));
+  assert.ok(Math.abs(b.budget - Math.max(0, 1000 - Math.round(v * 10) / 100)) <= 1, `${b.budget} vs ${v}`);
+  // 현금이 목표보다 적으면 예산 0(입금이 먼저 현금을 채운다)
+  const poor = run({ settings: CASH, snapshot: { date: '2026-10-16', holdings: { AAA: 10, DDD: 100 }, cash: 50 }, scenarios: [S('B')] });
+  assert.equal(dec(pick(poor, 'B'), '2026-11').budget, 0);
+  // 그날 평가액을 모르면(가격 없음) 목표를 몰라 사지 않는다
+  const miss = run({ settings: CASH, world: { close: (t, d) => (t === 'AAA' && d === '2026-11-02' ? null : undefined) }, scenarios: [S('B')] });
+  assert.equal(dec(pick(miss, 'B'), '2026-11').budget, 0);
+  assert.ok(pick(miss, 'B').events.some((e) => e.kind === 'cashTargetUnknown'));
+});
+
+test('원칙 매도(2026-11-03): 원칙 전략은 매주 고평가~적정부터 나눠 판다, 비율 전략은 고평가부터 그대로', () => {
+  const NEW = { ruleFrom: '2026-11' };
+  const tier = (t) => (t === 'DDD' ? '고평가~적정' : undefined);
+  const b = pick(run({ settings: NEW, world: { tier }, scenarios: [S('B')] }), 'B');
+  assert.deepEqual(sells(b, 'DDD'), [['2026-11-02', 25], ['2026-11-09', 25], ['2026-11-16', 25], ['2026-11-23', 25]]);
+  const q = pick(run({ settings: NEW, world: { tier }, scenarios: [S('custom', { buyTiers: ['저평가'], sellFraction: 0.5 }, { id: 'q' })] }), 'q');
+  assert.deepEqual(sells(q, 'DDD'), []);
+  // 적정으로 내려오면 멈춘다
+  const down = (t, d) => (t === 'DDD' ? (d >= '2026-11-05' ? '적정' : '고평가~적정') : undefined);
+  assert.deepEqual(sells(pick(run({ settings: NEW, world: { tier: down }, scenarios: [S('B')] }), 'B'), 'DDD'), [['2026-11-02', 25]]);
 });

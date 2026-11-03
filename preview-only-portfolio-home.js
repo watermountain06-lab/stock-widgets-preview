@@ -4,13 +4,13 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=24';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=17';
-import { renderManage } from './preview-only-portfolio-records.js?v=13';
-import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, keepOf, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=8';
-import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=15';
-import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=4';
-import { renderAccounts } from './preview-only-portfolio-acctview.js?v=4';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=25';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=18';
+import { renderManage } from './preview-only-portfolio-records.js?v=14';
+import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=9';
+import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=16';
+import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=5';
+import { renderAccounts } from './preview-only-portfolio-acctview.js?v=5';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -105,7 +105,7 @@ export function weeklySells({ holdings, rec, today, rounds, lastSession, trades,
     if (!(h.qty > 1e-9) || holdOnly.includes(h.ticker)) continue;
     const card = rec.cards?.[h.ticker];
     if (!card || holdReason(card, rec, today)) continue;
-    if (card.tier !== '고평가' && card.tier !== '초고평가') continue;
+    if (!PRINCIPLE_SELL.includes(card.tier)) continue;   // 고평가~적정부터 판다(원칙 4, 2026-11-03)
     const base = { ticker: h.ticker, account: h.account, tier: card.tier, round: nextDate };
     if (!nextDate) { out.push({ ...base, shares: null, remaining: 0 }); continue; }   // 이번 달 회차 끝 — 다음 점검일에 다시
     const soldSince = real.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.side === 'sell' && x.ticker === h.ticker
@@ -143,6 +143,15 @@ export function sellRounds(month, ref) {
 // 그 달 계획(planM)이 있으면 계획의 회차(밀린 회차 제외)로, 아직 없으면(점검 전·첫 달 시연) 원칙 2 회차 날짜로 본다.
 // 예전에는 계획이 없으면 무조건 반영일 달 몫이라, 10/27 환전(10/29 반영)이 회차가 이미 끝난 10월 몫이 되어 11월 한도에서 빠졌다
 // 계획이 지난달 것이면(이번 달 점검 결정 대기) 입금 칸처럼 그 달 몫 — 결정이 늦어져 원칙 2 회차 날짜가 다 지나도 결정 뒤 회차에서 쓴다(dr Fable)
+// 현금 10% 목표(원칙 3·5, 2026-11-03): 목표 = 총자산의 10%(센트 반올림, 엔진 cashTarget과 같은 셈), 남은 한도 = max(0, 현금 − 목표 − 이번 달 판 돈 − 다음 달 몫 미리 넣은 돈)
+// 현금·총자산을 모르거나 가격 없는 보유가 있으면(missing > 0) 목표를 몰라 한도를 막는다(dr — 엔진의 '평가액 모름 → 그달 안 삼'과 같게). laterOut = 아직 안 나간 출금 예정
+export function cashLeft({ cash, total, soldNow = 0, laterIn = 0, laterOut = 0, missing = 0 }) {
+  if (!Number.isFinite(cash) || !Number.isFinite(total) || missing > 0) return { target: null, left: 0, short: 0, unknown: true };
+  const c = (v) => Math.round((v || 0) * 100);
+  const target = cashTarget(c(total));
+  const left = Math.max(0, c(cash) - target - c(soldNow) - c(laterIn) - Math.abs(c(laterOut)));   // 출금 예정은 부호와 상관없이 뺀다(dr)
+  return { target: target / 100, left: left / 100, short: Math.max(0, target - c(cash)) / 100, unknown: false };
+}
 export function ledgerMonth(dEff, planM, planRounds) {
   const m = dEff.slice(0, 7);
   if (planM && planM < m) return m;
@@ -594,7 +603,7 @@ export function renderHome(root, model, handlers) {
   for (const s0 of staleH) arow('check', '확인', s0.ticker, [acct(s0.account), HOLD_TEXT[s0.why] || '데이터 문제'].filter(Boolean).join(' · '), '보류', 'pf-aval-muted', null);
   if (alist.children.length) {
     alerts.appendChild(alist);
-    const kinds = [wSells.length && '팔기는 고평가가 내려오면 멈춤', losses.length && '검토는 직접 판단', staleH.length && '확인은 카드 갱신 전까지 사고팔지 않음'].filter(Boolean);
+    const kinds = [wSells.length && '팔기는 적정 이하로 내려오면 멈춤', losses.length && '검토는 직접 판단', staleH.length && '확인은 카드 갱신 전까지 사고팔지 않음'].filter(Boolean);
     alerts.appendChild(el('p', 'pf-afoot', kinds.join(' · ')));
   }
   // 예전 점검일 알림(모의 계산의 발동)은 실제 보유 기준 안내(wSells)로 바꿈(2026-10-29)
@@ -648,7 +657,9 @@ export function renderHome(root, model, handlers) {
     const target = firstMonth && checkDay ? checkDay.slice(0, 7) : month;
     const preview = !live && !!lastFull && !recStale;
     buySlot.appendChild(buyBox({ model: { ...model, lastCards: lastFull?.cards }, handlers, mv: live ? mv : null, dlg, close, tierOf, planTier, hasRec: !!rec, nowBuyable, nowHold,
-      waiting, preview, checkDay, month: target, today, cash: cur.hasCash ? cur.cash : null, cashBy: cur.kwUsed ? cur.cashBy : null, income: inc, depMap, startMonth: startMonth0, deps: target === month ? deps : monthDeposits(depMap, target) }));
+      waiting, preview, checkDay, month: target, today, cash: cur.hasCash ? cur.cash : null, cashBy: cur.kwUsed ? cur.cashBy : null,
+      // 총자산(두 계좌 주식 + 현금, 현금 10% 목표용) — 가격 없는 종목은 빼고 개수를 알린다
+      total: cur.hasCash ? Math.round(([...myVal.values()].reduce((a, v) => a + v, 0) + cur.cash) * 100) / 100 : null, totalMissing: cur.holdings.filter((x) => closeNow(x.ticker) == null).length, income: inc, depMap, startMonth: startMonth0, deps: target === month ? deps : monthDeposits(depMap, target) }));
   } else buySlot.remove();
   left.appendChild(next);
 
@@ -749,16 +760,19 @@ function buyBox(args) {
   // 쓸 돈 = 반영일이 그달인 입금 + 그 전달에 판 돈(원칙 3·4). 그달에 판 돈은 다음 달 몫
   const soldPrev = monthSells(model.trades, prevMonth(month), today, args.income), soldNow = monthSells(model.trades, month, today, args.income);
   const deposited = Math.round(deps.now.reduce((a, d) => a + d.amount, 0) * 100) / 100;   // 그달 입금 − 그달 출금(음수일 수 있음)
-  // 현금 10%(원칙 3·5, 2026-11-03 사용자 결정): 11월 몫부터 넣은 돈마다 10%는 현금으로 남기고 매수 한도에 넣지 않는다(엔진 keepOf와 같은 셈)
-  const keepIn = (list, m) => list.reduce((a, d) => a + keepOf(Math.round(d.amount * 100), m), 0) / 100;
-  const kept = keepIn(deps.now, month);
-  // 지난달 잔금(원칙 3): 4회가 끝나고 쓰지 못한 돈은 다음 달 쓸 돈에 더한다(남긴 10%는 잔금이 아니다)
-  const netOf = (m) => { const now = monthDeposits(args.depMap || {}, m).now; return now.reduce((a, d) => a + d.amount, 0) - keepIn(now, m); };
+  // 지난달 잔금(원칙 3): 4회가 끝나고 쓰지 못한 돈은 다음 달 쓸 돈에 더한다
+  const netOf = (m) => monthDeposits(args.depMap || {}, m).now.reduce((a, d) => a + d.amount, 0);
   const spentOf = (m) => [...monthBuys(model.trades, m, today).values()].reduce((a, b) => a + b.amount, 0);
-  const carry = carryIn(month, args.startMonth, { net: netOf, sold: (m) => monthSells(model.trades, m, today, args.income), spent: spentOf });
-  const budget = Math.max(0, Math.round((deposited - kept + soldPrev + carry) * 100) / 100);   // 쓸 돈 = 입금 − 출금 − 남길 10% + 지난달 판 돈 + 잔금, 0 아래로 안 감
   const bought = monthBuys(model.trades, month, today);
   const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
+  // 현금 10%(원칙 3·5, 2026-11-03 사용자 결정): 11월부터 남은 한도 = 지금 현금(두 계좌) − 총자산의 10% − 이번 달 판 돈 − 다음 달 이후 몫으로 미리 넣은 돈.
+  // 현금이 10%보다 많으면 넘는 만큼 사고, 적으면 새 돈이 먼저 현금을 채운다. 잔금은 현금으로 남아 다음 달 계산에 저절로 들어간다
+  const laterIn0 = Math.round(deps.later.filter((d) => d.amount > 0 && (d.rec || d.day) <= today).reduce((a, d) => a + d.amount, 0) * 100) / 100;
+  const laterOut0 = -Math.round([...deps.now, ...deps.later].filter((d) => d.amount < 0 && d.day > today).reduce((a, d) => a + d.amount, 0) * 100) / 100;   // 아직 안 나간 출금 예정(dr)
+  const ct = month >= CASH_FROM ? cashLeft({ cash: args.cash, total: args.total, soldNow, laterIn: laterIn0, laterOut: laterOut0, missing: args.totalMissing || 0 }) : null;
+  const carry = ct ? 0 : carryIn(month, args.startMonth, { net: netOf, sold: (m) => monthSells(model.trades, m, today, args.income), spent: spentOf });
+  const budget = ct ? Math.round((spent + ct.left) * 100) / 100
+    : Math.max(0, Math.round((deposited + soldPrev + carry) * 100) / 100);   // (10월까지) 쓸 돈 = 입금 − 출금 + 지난달 판 돈 + 잔금, 0 아래로 안 감
   const leftUsd = Math.round((budget - spent) * 100) / 100;
 
   // 1) 돈 세 칸(사용자 결정 2026-10-23 dr 최적안): 이번 달 입금 · 이번 주 매수(체크·방법에 따라 바뀜) · 계좌 현금, 그 아래 4회 띠.
@@ -805,8 +819,7 @@ function buyBox(args) {
     const p1 = deps.now.filter((d) => d.amount > 0).map((d) => (d.forMonth ? `${md(d.rec)} ${usd(d.amount)} 미리` : `${md(d.day)} ${usd(d.amount)}` + (d.day > today ? ' 예정' : '')));
     if (!p1.length) p1.push('입금 없음');
     if (X > 0) p1.push(`출금 −${usd(X)}`);
-    if (kept > 0) p1.push(`현금 10% 남김 −${usd(kept)}`);
-    if (soldPrev > 0) p1.push(`판 돈 +${usd(soldPrev)}`);
+    if (!ct && soldPrev > 0) p1.push(`판 돈 +${usd(soldPrev)}`);
     if (carry > 0) p1.push(`잔금 +${usd(carry)}`);
     if (deps.later.length) p1.push(`다음 달 ${laterSum < 0 ? '출금 ' + usd0(-laterSum) : usd0(laterSum)}`);
     if (soldNow > 0) p1.push(`판 돈 ${usd0(soldNow)} 다음 달로`);
@@ -818,13 +831,16 @@ function buyBox(args) {
     const c3 = cell('계좌 현금' + (ahead ? ` (${md(today)} 기준)` : ''), C == null ? '—' : usd(C),
       over > 0 ? `한도 초과 ${usd(over)}(원칙 5)`
         : C == null ? '현금 모름'
+        : ct ? (ct.unknown ? '한도 확인 불가 — 오른쪽 현금 목표 칸' : `쓸 수 있음 ${usd(R)} · 총자산의 10%는 현금으로(원칙 5)` + (laterIn > 0 ? ` · 다음 달 몫 ${usd0(laterIn)} 제외` : '') + (laterOut0 > 0 ? ` · 출금 예정 ${usd0(laterOut0)} 제외` : ''))
         : ahead ? (budget > 0 ? `${mLabel}엔 한도 ${usd(budget)}만 씀 · 나머지는 안 쓰는 돈(원칙 5)` : '안 쓰는 돈(원칙 5)')   // 미래 입금을 지금 현금에서 빼지 않는다(dr)
         : ended ? `${usd(R)} 다음 달로 · 나머지는 안 쓰는 돈(원칙 5)`
         : `쓸 수 있음 ${usd(Math.min(R, Math.max(0, C - laterIn)))}` + (laterIn > 0 ? ` · 다음 달 몫 ${usd0(laterIn)} 제외` : '') + ' · 나머지는 안 쓰는 돈(원칙 5)', 'pf-receiptleft');
     if (over > 0) c3.classList.add('pf-over');
     if (args.cashBy) c3.appendChild(el('span', 'pf-s', `미국 ${usd(args.cashBy.rh)} · 한국 ${usd(args.cashBy.kw)}`));   // 계좌별 현금(한국 계좌, 2026-10-28) — 한도는 하나지만 산 계좌에 돈이 있어야 한다
     // 잔금 칸: 지난달에서 넘어온 돈, 회차가 끝났으면 이번 달 남은 돈이 다음 달로 간다
-    cell(ended ? '다음 달로 넘길 잔금' : ahead ? `${mLabel}로 넘어올 잔금(예상)` : '지난달 잔금', usd(ended ? R : carry),
+    if (ct && ct.unknown) cell('현금 목표(10%)', '—', args.totalMissing ? `가격 없는 보유 ${args.totalMissing}종목이 있어 총자산을 몰라 이번 달 한도를 막음(원칙 6)` : '현금·총자산을 몰라 한도를 막음 — 보유 파일·현금을 확인하세요');
+    else if (ct) cell('현금 목표(10%)', usd(ct.target), `총자산 ${usd0(args.total)}의 10% · 지금 현금 ${usd(C)}` + (ct.short > 0 ? ` · ${usd(ct.short)} 모자람` : ''));
+    else cell(ended ? '다음 달로 넘길 잔금' : ahead ? `${mLabel}로 넘어올 잔금(예상)` : '지난달 잔금', usd(ended ? R : carry),
       ended ? '다음 달 한도에 더함(원칙 3)' : carry > 0 ? '한도에 포함' + (ahead ? ' · 이번 달 매매로 바뀜' : '') : '4회 뒤 남은 돈은 다음 달로(원칙 3)');
     // 4회 띠
     strip.textContent = '';
