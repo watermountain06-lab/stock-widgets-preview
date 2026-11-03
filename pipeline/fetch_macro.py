@@ -16,6 +16,11 @@ to the same US session as the stock prices (stocks.json priceSession):
     asOf is the observation month;
   - nextFomc: from the Fed's published schedule below; fomcScheduleThrough
     says how far it reaches, and an exhausted schedule is reported.
+history (2026-11-03, for the home cards' small charts): the same responses already
+fetched, kept as short series ending on the same session/observation as the shown value -
+sp500·vix daily closes and usdkrw 16:00 ET closes over the fetched month, fedTarget's range
+changes over the last two years, unemployment and CPI YoY for the last 13 and 12 months. A source
+that fails keeps its previous series (dates stay as they were); nothing is ever filled in.
 A failed source keeps its previous value marked stale (unavailable if there
 was none) - never a substituted value from another date. A value that is
 already stale keeps its first failure reason, so a repeat failure worded
@@ -172,6 +177,60 @@ def target_range(lower, upper):
     return lo[day], hi[day], day
 
 
+def daily_history(chart, session, now_et):
+    """[[date, close]] of the completed bars up to and including session."""
+    bars, _ = completed_bars(chart, now_et)
+    return [[d, round(c, 2)] for d, c, _v in bars if d <= session]
+
+
+def fx_history(chart, session):
+    """[[date, close]] of each day's hourly bar starting 15:00 ET (the US close), up to session."""
+    r = chart["chart"]["result"][0]
+    out = {}
+    for ts, close in zip(r["timestamp"], r["indicators"]["quote"][0]["close"]):
+        t = datetime.fromtimestamp(ts, ET)
+        if close is not None and (t.hour, t.minute) == (15, 0) and t.date().isoformat() <= session:
+            out[t.date().isoformat()] = round(close, 2)
+    return [[d, out[d]] for d in sorted(out)]
+
+
+def target_history(lower, upper, upto, years=2):
+    """[[date, lower, upper]] at each change of the range over the last `years`, starting with the
+    range in force at the window's first day, ending with the range on `upto`."""
+    lo, hi = dict(lower), dict(upper)
+    days = sorted(d for d in set(lo) & set(hi) if d <= upto)
+    since = (date.fromisoformat(upto) - timedelta(days=365 * years)).isoformat()
+    out, last = [], None
+    for d in days:
+        pair = (lo[d], hi[d])
+        if d < since:
+            last = [since, *pair]
+            continue
+        if last is not None and not out:
+            out.append(last)
+        if not out or (out[-1][1], out[-1][2]) != pair:
+            out.append([d, *pair])
+    if not out and last is not None:
+        out.append(last)
+    return out
+
+
+def monthly_tail(series, n):
+    """[[YYYY-MM, value]] of the last n observations."""
+    return [[d[:7], v] for d, v in series[-n:]]
+
+
+def cpi_yoy_history(series, n=12):
+    """[[YYYY-MM, YoY %]] for the last n months that have a same-month value a year earlier."""
+    by_month = {d[:7]: v for d, v in series}
+    out = []
+    for d, v in series:
+        ago = f"{int(d[:4]) - 1}-{d[5:7]}"
+        if ago in by_month:
+            out.append([d[:7], round((v / by_month[ago] - 1) * 100, 1)])
+    return out[-n:]
+
+
 def next_fomc(today):
     for start, end in FOMC:
         if date.fromisoformat(end) >= today:
@@ -206,15 +265,24 @@ def main():
     fx = args.fixtures
     via = "FRED API" if fred_key() else "FRED CSV"
     ind, prev_session = {}, None
+    hist = {}
+    prev_hist = (prev or {}).get("history") or {}
+
+    def keep_hist(key):
+        if key in prev_hist:
+            hist[key] = prev_hist[key]
 
     for key, symbol in (("sp500", "^GSPC"), ("vix", "^VIX")):
         try:
-            value, change, before = daily_on_session(yahoo(symbol, "1d", fx), session, now_et)
+            chart = yahoo(symbol, "1d", fx)
+            value, change, before = daily_on_session(chart, session, now_et)
             ind[key] = {"value": value, "changePct": change, "asOf": session, "status": "fresh",
                         "source": f"Yahoo {symbol} daily close"}
+            hist[key] = daily_history(chart, session, now_et)
             prev_session = prev_session or before
         except Exception as e:
             ind[key] = keep_previous(prev, key, f"fetch-failed: {str(e)[:160]}")
+            keep_hist(key)
 
     try:
         if not prev_session:
@@ -223,32 +291,42 @@ def main():
         rate, before = fx_at_us_close(hourly, session), fx_at_us_close(hourly, prev_session)
         ind["usdkrw"] = {"value": round(rate, 2), "changePct": round((rate / before - 1) * 100, 2),
                          "asOf": session, "status": "fresh", "source": "Yahoo KRW=X hourly bar ending 16:00 ET"}
+        hist["usdkrw"] = fx_history(hourly, session)
     except Exception as e:
         ind["usdkrw"] = keep_previous(prev, "usdkrw", f"fetch-failed: {str(e)[:160]}")
+        keep_hist("usdkrw")
 
     try:
-        lower, upper, day = target_range(fred("DFEDTARL", fx), fred("DFEDTARU", fx))
+        lo_s, hi_s = fred("DFEDTARL", fx), fred("DFEDTARU", fx)
+        lower, upper, day = target_range(lo_s, hi_s)
         ind["fedTarget"] = {"lower": lower, "upper": upper, "asOf": day,
                             "status": "fresh", "source": f"{via} DFEDTARL/DFEDTARU"}
+        hist["fedTarget"] = target_history(lo_s, hi_s, day)
     except Exception as e:
         ind["fedTarget"] = keep_previous(prev, "fedTarget", f"fetch-failed: {str(e)[:160]}")
+        keep_hist("fedTarget")
 
     try:
         u = fred("UNRATE", fx)
         ind["unemployment"] = {"value": u[-1][1], "asOf": u[-1][0][:7], "status": "fresh", "source": f"{via} UNRATE"}
+        hist["unemployment"] = monthly_tail(u, 13)
     except Exception as e:
         ind["unemployment"] = keep_previous(prev, "unemployment", f"fetch-failed: {str(e)[:160]}")
+        keep_hist("unemployment")
 
     try:
-        value, when = cpi_yoy(fred("CPIAUCSL", fx))
+        cpi = fred("CPIAUCSL", fx)
+        value, when = cpi_yoy(cpi)
         ind["cpiYoy"] = {"value": value, "asOf": when[:7], "status": "fresh", "source": f"{via} CPIAUCSL, YoY computed"}
+        hist["cpiYoy"] = cpi_yoy_history(cpi)
     except Exception as e:
         ind["cpiYoy"] = keep_previous(prev, "cpiYoy", f"fetch-failed: {str(e)[:160]}")
+        keep_hist("cpiYoy")
 
     fomc = next_fomc(now_et.date())
     macro = {"generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
              "priceSession": session, "indicators": ind,
-             "nextFomc": fomc, "fomcScheduleThrough": FOMC_THROUGH}
+             "nextFomc": fomc, "fomcScheduleThrough": FOMC_THROUGH, "history": hist}
 
     for key, v in ind.items():
         shown = v.get("value", f"{v.get('lower')}-{v.get('upper')}" if "upper" in v else None)

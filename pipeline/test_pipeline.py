@@ -212,6 +212,27 @@ def test_macro_rules():
     check("next FOMC after 09-11", fm.next_fomc(date(2026, 9, 11)) == {"start": "2026-09-15", "end": "2026-09-16"})
     check("meeting's last day still counts", fm.next_fomc(date(2026, 9, 16)) == {"start": "2026-09-15", "end": "2026-09-16"})
     check("exhausted schedule gives None", fm.next_fomc(date(2027, 12, 9)) is None)
+    # history for the home cards (2026-11-03)
+    check("FX history keeps only the 16:00 ET close of each day up to the session",
+          fm.fx_history(hourly, "2026-09-10") == [["2026-09-09", 1300.15], ["2026-09-10", 1310.15]], fm.fx_history(hourly, "2026-09-10"))
+    check("FX history stops at the session", fm.fx_history(hourly, "2026-09-09") == [["2026-09-09", 1300.15]])
+    days3 = [datetime.combine(date.fromisoformat(d), dtime(9, 30), ET) for d in ("2026-09-08", "2026-09-09", "2026-09-10")]
+    daily = {"chart": {"result": [{"meta": {}, "timestamp": [int(x.timestamp()) for x in days3],
+                                   "indicators": {"quote": [{"close": [10.0, 11.0, 12.0], "volume": [100] * 3}]}}]}}
+    late = datetime.combine(date(2026, 9, 11), dtime(9, 0), ET)
+    check("daily history leaves out a completed bar after the session",
+          fm.daily_history(daily, "2026-09-09", late) == [["2026-09-08", 10.0], ["2026-09-09", 11.0]], fm.daily_history(daily, "2026-09-09", late))
+    lo = [("2024-01-02", 5.25), ("2024-09-19", 4.75), ("2024-12-19", 4.25), ("2026-09-17", 3.75), ("2026-09-18", 3.75)]
+    hi = [(d, v + 0.25) for d, v in lo]
+    check("target history starts with the range in force two years back, then each change",
+          fm.target_history(lo, hi, "2026-09-18") == [["2024-09-18", 5.25, 5.5], ["2024-09-19", 4.75, 5.0], ["2024-12-19", 4.25, 4.5], ["2026-09-17", 3.75, 4.0]],
+          fm.target_history(lo, hi, "2026-09-18"))
+    check("target history ignores dates after the shown value", fm.target_history(lo, hi, "2024-12-01")[-1][1:] == [4.75, 5.0])
+    gap = [(f"2025-{m:02d}-01", 100.0) for m in range(1, 13) if m != 10] + [(f"2026-{m:02d}-01", 103.0) for m in range(1, 10)]
+    cpi_h = fm.cpi_yoy_history(gap)
+    check("CPI YoY history skips a month without a year-earlier value and keeps the last 12",
+          len(cpi_h) == 9 and cpi_h[-1] == ["2026-09", 3.0] and all(m[0] != "2025-10" for m in cpi_h), cpi_h)
+    check("monthly tail keeps the last n observations as months", fm.monthly_tail(gap, 2) == [["2026-08", 103.0], ["2026-09", 103.0]])
 
 
 def run(script, *args, env=None):
@@ -501,6 +522,10 @@ def test_end_to_end_with_failures():
     m = json.loads(macro.read_text(encoding="utf-8"))
     ind = m["indicators"]
     check("sp500 fresh on the price session", (ind["sp500"]["status"], ind["sp500"]["asOf"]) == ("fresh", "2026-09-10"), ind["sp500"])
+    sp_hist = m["history"]["sp500"]
+    check("sp500 history ends on the shown value's session and has no later bar",
+          sp_hist[-1] == ["2026-09-10", ind["sp500"]["value"]] and all(d <= "2026-09-10" for d, _ in sp_hist), sp_hist[-3:])
+    check("no history for a source that never answered", "vix" not in m["history"], list(m["history"]))
     check("missing sources are unavailable with a reason, not substituted",
           all(ind[k]["status"] == "unavailable" and ind[k]["statusReason"] for k in ("vix", "usdkrw", "fedTarget", "unemployment", "cpiYoy")),
           {k: ind[k]["status"] for k in ind})
@@ -513,6 +538,8 @@ def test_end_to_end_with_failures():
               "--now", AFTER.isoformat(), "--write")
     m2 = json.loads(macro.read_text(encoding="utf-8"))["indicators"]["sp500"]
     check("failed source keeps its previous value as stale", m2["status"] == "stale" and m2["value"] == ind["sp500"]["value"], m2)
+    check("failed source keeps its previous history unchanged",
+          json.loads(macro.read_text(encoding="utf-8"))["history"].get("sp500") == sp_hist)
 
 
 def test_no_change_and_health():

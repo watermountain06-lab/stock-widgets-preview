@@ -39,6 +39,7 @@ portfolio의 내 데이터는 preview 저장소에 두지 않는다(저장소에
 |---|---|
 | 탭 4개 | `#tab-bar` 버튼 HTML(라이브의 `<h2>매력도별 종목</h2>` 자리), 탭 클릭 처리, 기본 `view = 'rank'`, 순위별 보기를 표로(`function card()` 삭제, `panel.classList.add('table-view')`, 카드 분기 삭제, caption의 `rank:` 항목) — 라이브 render()의 sector·change 분기는 이미 있다 |
 | 숫자 칸 오른쪽 정렬 (2026-10-28) | index.html `<style>`의 `#data-panel .stock-table th/td:nth-child(n+5){text-align:right}` 두 줄(주가·등락률·시가총액/평가) |
+| Home 시장 지표 카드 (2026-11-03) | `macro-cards.js`·`macro-cards.css`(새 파일), index.html의 `#macro-cards` 상자와 그 두 파일 싣는 줄, 옛 시장 지표 채우기 스크립트 삭제. 데이터는 `site_data/macro.json`의 `history`(fetch_macro.py) — 라이브로 옮기기 전에 라이브 홈이 MACRO의 history를 그대로 받는지 확인 |
 | 즐겨찾기 | `.fav-toggle`·`.fav-btn` CSS, `#data-panel` 7열 너비 CSS(즐겨찾기 열과 반드시 함께), "즐겨찾기만 보기" 체크박스, `FAV_KEY`·`favorites`·`saveFavorites`·`STAR`·`favCell`, 필터의 `(!favOnly || favorites.has(d.ticker))`, ★ 머리칸과 칸, 빈 목록 문구, ★ 클릭 처리 |
 
 ## 3. 라이브로 옮길 때 되돌리거나 빼는 것

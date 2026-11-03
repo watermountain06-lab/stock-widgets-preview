@@ -69,6 +69,7 @@
 <script src="preview-only.js?v=6"></script><!-- preview-only:range -->
 <script>window.ETF_FILES = {page: 'preview-only-etf-', data: 'preview-only-etf-data.js'};</script><!-- preview-only:etf-files -->
 <link rel="stylesheet" href="etf.css?v=7">
+<link rel="stylesheet" href="macro-cards.css?v=1">
 <script src="etf.js?v=19" defer></script>
 </head>
 <body class="home-page">
@@ -83,41 +84,10 @@
   </section>
   <details class="market-demo" open><summary>시장 지표 <span class="market-note" id="macro-note">불러오는 중</span></summary>
   <!-- 매크로 지표 스트립. 값은 preview의 MACRO에서 stock-data.js의 meta.macro로 실려 오고,
-       아래 JS가 채운다. 채우지 못하면 대시가 남는다 - 틀린 숫자를 보여주느니 빈칸이 낫다. -->
+       macro-cards.js가 카드로 채운다. 채우지 못하면 대시가 남는다 - 틀린 숫자를 보여주느니 빈칸이 낫다. -->
   <div style="border-bottom:1px solid var(--border);background:var(--panel);">
     <div class="wrap">
-      <div class="box-w macro-grid" style="display:grid;grid-template-columns:repeat(6,1fr);padding:14px 0;text-align:center;">
-        <div style="padding-right:16px;">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">S&amp;P 500</div>
-          <div class="num" style="font-size:15px;font-weight:700;" id="m-sp500">&mdash;</div>
-          <div class="num" style="font-size:11.5px;font-weight:600;" id="m-sp500-chg">&mdash;</div>
-        </div>
-        <div style="padding:0 16px;border-left:1px solid var(--border2);">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">VIX</div>
-          <div class="num" style="font-size:15px;font-weight:700;" id="m-vix">&mdash;</div>
-          <div class="num" style="font-size:11.5px;font-weight:600;" id="m-vix-chg">&mdash;</div>
-        </div>
-        <div style="padding:0 16px;border-left:1px solid var(--border2);">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">원/달러</div>
-          <div class="num" style="font-size:15px;font-weight:700;" id="m-usdkrw">&mdash;</div>
-          <div class="num" style="font-size:11.5px;font-weight:600;" id="m-usdkrw-chg">&mdash;</div>
-        </div>
-        <div style="padding:0 16px;border-left:1px solid var(--border2);">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">기준금리</div>
-          <div class="num" style="font-size:15px;font-weight:700;" id="m-fed">&mdash;</div>
-          <div style="font-size:11.5px;color:var(--text3);" id="m-fomc">&mdash;</div>
-        </div>
-        <div style="padding:0 16px;border-left:1px solid var(--border2);">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">실업률</div>
-          <div class="num" style="font-size:15px;font-weight:700;" id="m-unemp">&mdash;</div>
-          <div style="font-size:11.5px;color:var(--text3);" id="m-unemp-asof">&mdash;</div>
-        </div>
-        <div style="padding-left:16px;border-left:1px solid var(--border2);">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">물가상승률</div>
-          <div class="num" style="font-size:15px;font-weight:700;" id="m-cpi">&mdash;</div>
-          <div style="font-size:11.5px;color:var(--text3);" id="m-cpi-asof">&mdash;</div>
-        </div>
-      </div>
+      <div class="box-w macro-cards" id="macro-cards" tabindex="0" role="region" aria-roledescription="회전 카드" aria-label="시장 지표 · 좌우 방향키로 넘기기"></div>
     </div>
   </div>
 
@@ -450,6 +420,7 @@
 </script>
 <script src="stock-data.js?v=preview-1"></script>
 <script src="reading.js?v=resume-only"></script>
+<script src="macro-cards.js?v=1"></script>
 <script src="navigation.js?v=local-20260913-2"></script>
 <script>
 (function(){
@@ -522,39 +493,7 @@
   if(window.PreviewOnly) window.PreviewOnly.init(render); /* preview-only:range */
   render();
 
-  // 시장 지표. meta.macro는 preview의 MACRO를 그대로 옮긴 것이고, 지표 하나가
-  // 빠지거나 status가 fresh가 아니면 그 칸만 대시로 남긴다. 값을 지어내지 않는다.
-  (function(){
-    var macro = (window.StockData.meta || {}).macro;
-    var note = document.getElementById('macro-note');
-    function set(id, text){var el=document.getElementById(id); if(el) el.innerHTML=text;}
-    function live(ind){return ind && ind.status === 'fresh' ? ind : null;}
-    function num(v, digits){return v.toLocaleString('en-US',{minimumFractionDigits:digits,maximumFractionDigits:digits});}
-    function pct(v){
-      if(!Number.isFinite(v)) return '&mdash;';
-      var color = v >= 0 ? 'var(--up)' : 'var(--down)';
-      return '<span style="color:'+color+';">'+(v>=0?'+':'&minus;')+Math.abs(v).toFixed(2)+'%</span>';
-    }
-    if(!macro){ note.textContent = '불러오지 못함'; return; }
-    var ind = macro.indicators || {};
-    var sp = live(ind.sp500), vx = live(ind.vix), fx = live(ind.usdkrw),
-        fed = live(ind.fedTarget), un = live(ind.unemployment), cpi = live(ind.cpiYoy);
-    if(sp){ set('m-sp500', num(sp.value,2)); set('m-sp500-chg', pct(sp.changePct)); }
-    if(vx){ set('m-vix', num(vx.value,2)); set('m-vix-chg', pct(vx.changePct)); }
-    if(fx){ set('m-usdkrw', '&#8361;'+num(fx.value,2)); set('m-usdkrw-chg', pct(fx.changePct)); }
-    if(fed){ set('m-fed', fed.lower.toFixed(2)+'~'+fed.upper.toFixed(2)+'%'); }
-    if(un){ set('m-unemp', un.value.toFixed(1)+'%'); set('m-unemp-asof', un.asOf.replace('-','.')); }
-    if(cpi){ set('m-cpi', cpi.value.toFixed(1)+'%'); set('m-cpi-asof', cpi.asOf.replace('-','.')); }
-    var fomc = macro.nextFomc;
-    if(fomc && fomc.start){
-      var p = fomc.start.split('-');
-      set('m-fomc', '다음 FOMC ' + Number(p[1]) + '/' + Number(p[2]));
-    }
-    // The strip says which session it speaks for, so a figure that stops updating
-    // is visible as a date rather than as a number that merely looks current.
-    var asOf = (sp && sp.asOf) || macro.priceSession || (window.StockData.meta || {}).asOf;
-    note.textContent = asOf ? asOf.replace(/-/g,'.') + ' 기준' : '기준일 미상';
-  })();
+  // 시장 지표는 macro-cards.js가 채운다(2026-11-03, 겹친 카드 넘김 + 지표별 그림).
 
   var category='up';
   var discoveryIndex=0, discoveryElapsed=0;
