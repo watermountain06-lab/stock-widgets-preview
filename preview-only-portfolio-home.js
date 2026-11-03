@@ -139,6 +139,17 @@ export function sellRounds(month, ref) {
   const cur = monthRounds(month);
   return cur.some((d) => d > ref) ? cur : monthRounds(nm(month));
 }
+// 환전 기록의 몫 달(2026-11-03 고침 — 입금 칸과 같은 규칙): 반영일 달에 남은 회차가 있으면 그 달, 없으면 다음 달.
+// 그 달 계획(planM)이 있으면 계획의 회차(밀린 회차 제외)로, 아직 없으면(점검 전·첫 달 시연) 원칙 2 회차 날짜로 본다.
+// 예전에는 계획이 없으면 무조건 반영일 달 몫이라, 10/27 환전(10/29 반영)이 회차가 이미 끝난 10월 몫이 되어 11월 한도에서 빠졌다
+// 계획이 지난달 것이면(이번 달 점검 결정 대기) 입금 칸처럼 그 달 몫 — 결정이 늦어져 원칙 2 회차 날짜가 다 지나도 결정 뒤 회차에서 쓴다(dr Fable)
+export function ledgerMonth(dEff, planM, planRounds) {
+  const m = dEff.slice(0, 7);
+  if (planM && planM < m) return m;
+  const left = planM === m ? (planRounds || []).some((r) => !r.dropped && r.date >= dEff) : monthRounds(m).some((d) => d >= dEff);
+  const [y, n] = m.split('-').map(Number);
+  return left ? m : nextMonthOf(m) || (n === 12 ? `${y + 1}-01` : `${y}-${String(n + 1).padStart(2, '0')}`);   // 달력 끝이어도 다음 달(dr Codex)
+}
 // 그달 회차 날짜(원칙 2): 첫 거래일부터 매주 같은 요일, 휴장이면 다음 거래일, 4회
 export function monthRounds(month) {
   const S = cal().sessions;
@@ -1209,9 +1220,8 @@ export function accountsState(model) {
     events, conflicts,
     autoMonth: (dEff) => {   // 환전 기록의 몫 달(카드의 몫 자동 규칙과 같음): 반영일 달에 남은 회차가 있으면 그 달, 없으면 다음 달
       const mv = monthView(model.result, lastS || '', today);
-      const m = dEff.slice(0, 7), planM = mv?.plan && !mv.demo ? mv.plan.decisionDate?.slice(0, 7) : null;
-      if (!planM || m > planM) return m;   // 아직 시작 안 한 달(점검 전)이면 그 달 몫(dr — 월말 주말 기록이 두 달 밀리지 않게)
-      return (mv.plan.rounds || []).some((r) => !r.dropped && r.date >= dEff) ? m : nextMonthOf(m) || m;
+      const planM = mv?.plan && !mv.demo ? mv.plan.decisionDate?.slice(0, 7) : null;
+      return ledgerMonth(dEff, planM, mv?.plan?.rounds);
     },
   };
 }

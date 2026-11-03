@@ -671,3 +671,22 @@ test('알림 칸(2026-10-29): 10월에도 다음 달 첫 회차부터 팔 양, �
   // 기록 자체가 묵었으면 줄마다 띄우지 않는다(칸 위 경고 한 줄)
   assert.deepEqual(staleHoldings({ holdings: hold, rec, today: '2026-11-20' }), []);
 });
+
+import { ledgerMonth } from '../../preview-only-portfolio-home.js';
+test('환전 몫 달(2026-11-03): 반영일 달에 남은 회차가 있으면 그 달, 없으면 다음 달 — 계획이 없는 달도 원칙 2 회차로', () => {
+  assert.equal(ledgerMonth('2026-10-29', null, null), '2026-11');   // 10월 회차(10/01~10/22)가 다 지남 → 11월 몫(예전엔 10월)
+  assert.equal(ledgerMonth('2026-11-02', '2026-10', []), '2026-11');  // 월말 주말 기록 → 11/02 반영, 11월 첫 회차 당일 → 11월
+  assert.equal(ledgerMonth('2026-11-03', '2026-10', []), '2026-11');  // 11월 결정이 밀려도 11월 회차가 남았으면 11월
+  const rounds = ['2026-11-02', '2026-11-09', '2026-11-16', '2026-11-23'].map((date) => ({ date, dropped: false }));
+  assert.equal(ledgerMonth('2026-11-20', '2026-11', rounds), '2026-11');
+  assert.equal(ledgerMonth('2026-11-24', '2026-11', rounds), '2026-12');   // 4회 끝난 뒤 → 다음 달
+  // 다음 점검일 뒤로 밀린 회차(dropped)는 남은 회차로 치지 않는다(dr): 남은 것이 모두 밀렸으면 다음 달, 하나라도 남으면 그 달, 회차 당일은 포함
+  const dr = rounds.map((r, i) => ({ ...r, dropped: i >= 2 }));
+  assert.equal(ledgerMonth('2026-11-10', '2026-11', dr), '2026-12');
+  assert.equal(ledgerMonth('2026-11-09', '2026-11', dr), '2026-11');
+  assert.equal(ledgerMonth('2026-11-09', '2026-11', []), '2026-12');            // 계획은 있는데 회차가 없으면 다음 달
+  assert.equal(ledgerMonth('2026-11-20', '2026-12', null), '2026-11');          // 계획 달이 반영일보다 뒤면 반영일 달의 원칙 2 회차로
+  assert.equal(ledgerMonth('2026-11-24', '2026-12', null), '2026-12');
+  assert.equal(ledgerMonth('2026-11-24', '2026-10', []), '2026-11');           // 11월 결정이 4회차 날짜 뒤로 밀려도 결정 대기 달이면 11월(입금 칸과 같게)
+  assert.equal(ledgerMonth('2027-12-29', null, null), '2028-01');              // 달력 끝에서도 다음 달
+});
