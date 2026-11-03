@@ -302,7 +302,7 @@ test('deposits: 반영일은 기록 시각 뒤 첫 09:30 ET, A·기준선은 반
   assert.equal(day(a, '2026-11-17').deposits, 1500);
   assert.equal(day(b, '2026-11-17').deposits, 1500);
   assert.equal(nov(trades(b)).length, 8);
-  assert.equal(b.months[1].budget, 1500);                    // 11월에 1000을 다 쓰고, 12월 예산은 입금 1500
+  assert.equal(b.months[1].budget, 1350);                    // 11월에 1000을 다 쓰고, 12월 예산은 입금 1500 − 남길 10% 150(현금 10%, 2026-11-03)
   near(pick(res, 'A').baselines.SPY.find((x) => x.date === '2026-11-09').value, 4000, 0.01);
 });
 
@@ -1281,4 +1281,20 @@ test('매주 매도: 10월 계획은 옛 규칙(점검일 관측), 11월 계획�
   const b = pick(res, 'B');
   assert.deepEqual(trades(b, { side: 'sell' }).filter((x) => x.date < '2026-11-01'), []);    // 10월: 원칙 비율 0%라 알림만
   assert.equal(trades(b, { side: 'sell' }).filter((x) => x.date.slice(0, 7) === '2026-11').length, 4);
+});
+
+test('현금 10%(2026-11-03): 원칙 전략은 11월 몫부터 입금의 10%를 남기고 나머지만 나눈다, 직접 고른 전략·10월 몫·출금', () => {
+  const dep = (id, amount, at, extra = {}) => ({ id, amount, recordedAt: at, ...extra });
+  const res = run({ deposits: [dep('d1', 1000, '2026-11-10T15:00:00Z')], scenarios: [S('B'), S('custom', { buyTiers: ['저평가'] }, { id: 'own' })] });
+  const dec = (s) => s.months.find((m) => m.decisionDate.slice(0, 7) === '2026-12');
+  assert.equal(dec(pick(res, 'B')).budget, 900);                 // 1000 − 100
+  assert.equal(dec(pick(res, 'own')).budget, 1000);              // 원칙을 따르지 않는 전략은 그대로
+  // 10월 몫(10월 반영) 입금은 남기지 않는다, 10월에 넣고 11월 몫(forMonth)이면 남긴다
+  const oct = run({ deposits: [dep('o1', 1000, '2026-10-20T15:00:00Z')], scenarios: [S('B')] });
+  assert.equal(pick(oct, 'B').months[0].budget, 2000);           // 시작 현금 1000 + 10월 입금 1000
+  const pre = run({ deposits: [dep('p1', 1000, '2026-10-20T15:00:00Z', { forMonth: '2026-11' })], scenarios: [S('B')] });
+  assert.equal(pick(pre, 'B').months[0].budget, 1900);
+  // 출금은 쓸 돈에서 먼저 빠지고 남긴 10%는 그대로(카드와 같게, dr): 1000(남김 100) → 전부 출금 → 500(남김 50) → 12월 예산 500 − 150 = 350
+  const wd = run({ deposits: [dep('d2', 1000, '2026-11-10T15:00:00Z'), { id: 'w', amount: 50000, kind: 'withdraw', recordedAt: '2026-11-20T15:00:00Z' }, dep('d3', 500, '2026-11-24T15:00:00Z')], scenarios: [S('B')] });
+  assert.equal(dec(pick(wd, 'B')).budget, 350);
 });

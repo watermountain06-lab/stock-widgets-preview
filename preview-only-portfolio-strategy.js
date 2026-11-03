@@ -6,8 +6,8 @@
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { isTradingDay, ENGINE_VERSION, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=7';
-import { ledgerActive, ledgerDeposits, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=3';
+import { isTradingDay, ENGINE_VERSION, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=8';
+import { ledgerActive, ledgerDeposits, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=4';
 
 export const MAX_SCENARIOS = 20;
 export const ETF_ORDER = ['SPY', 'QQQ', 'RSP'];   // ETF 섞기(E)에서 고르는 ETF의 화면 순서(엔진 BASELINES와 같은 세 개)
@@ -55,7 +55,7 @@ export function toEngineInput(bundle, records, opts = {}) {
   }
   const deposits = Object.entries(depMap).map(([id, d]) => (d.cancels
     ? { id, cancels: d.cancels, recordedAt: d.recordedAt }
-    : { id, amount: d.amount, ...(d.kind === 'withdraw' ? { kind: 'withdraw' } : {}), recordedAt: d.recordedAt }));
+    : { id, amount: d.amount, ...(d.kind === 'withdraw' ? { kind: 'withdraw' } : {}), ...(typeof d.forMonth === 'string' ? { forMonth: d.forMonth } : {}), recordedAt: d.recordedAt }));
   const scenarios = Object.entries(bundle.scenarios || {})
     .sort(([, a], [, b]) => (a.createdAt < b.createdAt ? -1 : a.createdAt > b.createdAt ? 1 : 0))
     .map(([id, s]) => ({ id, name: s.name, strategy: s.strategy, params: s.params || undefined, createdAt: scenarioStartAt(snap.date) || s.createdAt, engineVersion: s.engineVersion }));

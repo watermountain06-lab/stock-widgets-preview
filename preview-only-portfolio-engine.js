@@ -15,6 +15,9 @@ export const ENGINE_VERSION = 'strategy-engine-1';
 export const BUY_PRINCIPLE_OLD = ['초저평가', '저평가', '적정~저평가', '적정'];
 export const BUY_PRINCIPLE = ['초저평가', '저평가', '적정~저평가'];
 export const PRINCIPLE_FROM = '2026-11';
+// 현금 10%(원칙 3·5 개정, 2026-11-03 사용자 결정): 11월 몫부터 넣은 돈의 10%는 현금으로 남기고 90%만 매수에 쓴다(두 계좌 합계, 판 돈·잔금은 전부)
+export const KEEP_FROM = '2026-11', KEEP_TENTHS = 1;
+export const keepOf = (cents, month) => (month >= KEEP_FROM && cents > 0 ? Math.round((cents * KEEP_TENTHS) / 10) : 0);
 export const principleFor = (month) => (month < PRINCIPLE_FROM ? BUY_PRINCIPLE_OLD : BUY_PRINCIPLE);
 // 판정 무게(판정 가중·순위 1주씩): 옛 판 4:3:2:1, 11월부터 3:2:1(적정은 무게 없음 → 판정 가중에서 사지 않음)
 const W_OLD = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 }, W_NEW = { '초저평가': 3, '저평가': 2, '적정~저평가': 1 };
@@ -280,7 +283,7 @@ function scenarioParams(sc) {
 function runScenario(ctx, prm, init, keepStates) {
   const { cal, mk, holdOnly, depositsBy, fallbackShares, ruleFrom } = ctx;
   const last = cal.index(mk.lastSession);
-  const st = { shares: new Map(init.shares), cash: init.cash };
+  const st = { shares: new Map(init.shares), cash: init.cash, kept: 0 };   // kept: 원칙 전략이 남겨 둔 입금 10%(센트)
   const seen = new Set(init.seen);
   const valued = new Map();     // T → 그 종목을 보유한 채 시나리오 평가가 나온 session 위치들(늦은 분할 판단용)
   const own = new Map();        // T → 장 마감 때 보유했던 session 위치들(출발 전 포함, 파생은 A의 기록을 물려받는다)
@@ -344,6 +347,7 @@ function runScenario(ctx, prm, init, keepStates) {
       for (const dep of depositsBy.get(d) || []) {
         if (dep.amount < 0) { flow -= withdraw(-dep.amount, d, started); continue; }   // 출금(2026-10-22 사용자 결정): 현금에서만
         st.cash += dep.amount; flow += dep.amount;
+        if (prm.principle) st.kept += keepOf(dep.amount, dep.month || d.slice(0, 7));
         if (!started) preDep += dep.amount;
         else if (prm.hold) addPendingA(dep.amount);
       }
@@ -418,6 +422,7 @@ function runScenario(ctx, prm, init, keepStates) {
   function withdraw(want, d, started) {
     const w = Math.min(want, Math.max(0, st.cash));
     st.cash -= w;
+    // 남긴 10%(st.kept)는 출금으로 줄이지 않는다 — 출금은 쓸 돈에서 먼저 빠진다(카드 쓸 돈 = 입금 − 출금 − 남길 10%와 같게, dr)
     if (!started) preDep = Math.max(0, preDep - w);
     if (w < want) out.events.push({ date: d, kind: 'withdrawShort', amount: (want - w) / 100 });
     // 두 예약(A 입금 몫·E ETF 몫)을 합쳐 같은 비율로 줄인다(dr — 따로 비교하면 합이 현금을 넘을 수 있다). 정수 내림은 BigInt로
@@ -555,13 +560,14 @@ function runScenario(ctx, prm, init, keepStates) {
       const cands = Object.keys(R.cards || {}).sort().filter((t) =>
         !holdOnly.has(t) && !blocked(R.cards[t], R, cal) && plan.buyTiers.includes(R.cards[t].tier));
       plan.candidates = cands;
-      plan.budget = st.cash;
+      const bud = Math.max(0, st.cash - st.kept);   // 원칙 전략은 남긴 입금 10%를 빼고 나눈다(KEEP_FROM부터)
+      plan.budget = bud;
       if (prm.buyMode === 'rank1') {
         // 순위 1주씩: 점검일 현금을 회차로 나누고(다른 전략과 같은 돈), 회차마다 순위대로 1주씩 사며 멈춘 자리부터 이어 간다
         const w = (t) => RANK_W[R.cards[t].tier] || 0, sc = (t) => (typeof R.cards[t].score === 'number' ? R.cards[t].score : -1);
         const order = [...cands].sort((a, b) => w(b) - w(a) || sc(b) - sc(a) || (a < b ? -1 : 1));
-        plan.rank = { order, amt: split(order.length ? st.cash : 0, N), carry: 0, cursor: 0, notUsed: 0, spent: 0, shares: 0 };
-        if (!order.length) plan.unallocated = st.cash;   // 후보가 없으면 예산 전부가 현금으로 남는다(나눠 사기와 같은 집계, dr)
+        plan.rank = { order, amt: split(order.length ? bud : 0, N), carry: 0, cursor: 0, notUsed: 0, spent: 0, shares: 0 };
+        if (!order.length) plan.unallocated = bud;   // 후보가 없으면 예산 전부가 현금으로 남는다(나눠 사기와 같은 집계, dr)
       } else if (prm.buyMode === 'cap' || prm.buyMode === 'tier') {
         // 시총 비중·판정 가중(2026-10-25 사용자 결정 — 카드의 나누는 방법과 같은 무게): 점검일 현금을 무게대로 나눈다(BigInt 내림).
         // 시총 = 그날 기록의 주식 수(없으면 오늘 카드 주식 수) × 그 기록 종가(달러 정수), 판정 무게는 결정 기록 판정(tierWeights — 옛 판 4:3:2:1, 11월부터 3:2:1).
@@ -584,14 +590,14 @@ function runScenario(ctx, prm, init, keepStates) {
         plan.weights = ws;   // 매도 대금도 같은 무게로 나눈다(dr)
         let used = 0;
         for (const [t, w] of ws) {
-          const each = Number((BigInt(st.cash) * BigInt(w)) / tot);
+          const each = Number((BigInt(bud) * BigInt(w)) / tot);
           used += each;
           plan.legs.push({ ticker: t, side: 'buy', amt: split(each, N), done: 0, notUsed: 0 });
         }
-        plan.unallocated = st.cash - used;
+        plan.unallocated = bud - used;
       } else {
-        const each = cands.length ? Math.floor(st.cash / cands.length) : 0;
-        plan.unallocated = st.cash - each * cands.length;   // 후보 수로 나눈 잔돈(현금으로 남음)
+        const each = cands.length ? Math.floor(bud / cands.length) : 0;
+        plan.unallocated = bud - each * cands.length;   // 후보 수로 나눈 잔돈(현금으로 남음)
         for (const t of cands) plan.legs.push({ ticker: t, side: 'buy', amt: split(each, N), done: 0, notUsed: 0 });
       }
     }
@@ -748,7 +754,7 @@ function runScenario(ctx, prm, init, keepStates) {
       reserve = mulFloor(pre.v, prm.reservePpm);
     }
     // 매수 한도 = max(0, 현금 − 당일 매도 대금 − 유보액). 넘치면 그날 회차들을 같은 비율로 줄인다(순서와 무관).
-    const limit = Math.max(0, st.cash - (plan.weekly ? plan.held || 0 : proceeds) - reserve);   // 11월 계획부터는 그달 판 돈 전부를 뺀다(dr d1)
+    const limit = Math.max(0, st.cash - (plan.weekly ? plan.held || 0 : proceeds) - reserve - st.kept);   // 11월 계획부터는 그달 판 돈 전부와 남긴 입금 10%를 뺀다(dr d1·현금 10%)
     const want = ready.reduce((a, l) => a + l.amt[k], 0);
     for (const leg of ready) {
       const a = leg.amt[k], spend = want > limit ? Number((BigInt(a) * BigInt(limit)) / BigInt(want)) : a;   // 정수로 내림
@@ -783,7 +789,7 @@ function runScenario(ctx, prm, init, keepStates) {
       if (pre.v === null) return pass('reserveUnknown', false);
       reserve = mulFloor(pre.v, prm.reservePpm);
     }
-    let cap = Math.min(pool, Math.max(0, st.cash - (plan.weekly ? plan.held || 0 : proceeds) - reserve));
+    let cap = Math.min(pool, Math.max(0, st.cash - (plan.weekly ? plan.held || 0 : proceeds) - reserve - st.kept));
     let monthLeft = pool + plan.rounds.reduce((a, r, j) => a + (j > k && !r.dropped ? rk.amt[j] : 0), 0);
     const n = rk.order.length;
     let i = rk.cursor, misses = 0, spent = 0, limited = false;
@@ -1002,7 +1008,12 @@ export function replay(input) {
     const ms = toMs(x?.recordedAt);
     if (!Number.isFinite(ms)) fail('deposits: recordedAt 형식 오류');
     if (x.cancels) cancels.push({ ...x, ms });
-    else deps.push({ id: x.id, amount: (x.kind === 'withdraw' ? -1 : 1) * cents(x.amount, 'deposits.amount'), ms, day: effective(ms) });   // 출금은 음수
+    else {
+      const day = effective(ms);
+      // 몫 달: 반영일 달보다 뒤로 미리 넣은 돈만 forMonth(카드 monthDeposits와 같게), 아니면 반영일 달
+      const fm = typeof x.forMonth === 'string' && /^\d{4}-\d{2}$/.test(x.forMonth) && x.forMonth > day.slice(0, 7) ? x.forMonth : day.slice(0, 7);
+      deps.push({ id: x.id, amount: (x.kind === 'withdraw' ? -1 : 1) * cents(x.amount, 'deposits.amount'), ms, day, month: fm });   // 출금은 음수
+    }
   }
   const gone = new Set();
   for (const c of cancels) {

@@ -4,13 +4,13 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=23';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=16';
-import { renderManage } from './preview-only-portfolio-records.js?v=12';
-import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=7';
-import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=14';
-import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=3';
-import { renderAccounts } from './preview-only-portfolio-acctview.js?v=3';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=24';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=17';
+import { renderManage } from './preview-only-portfolio-records.js?v=13';
+import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, keepOf, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=8';
+import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=15';
+import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=4';
+import { renderAccounts } from './preview-only-portfolio-acctview.js?v=4';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -749,11 +749,14 @@ function buyBox(args) {
   // 쓸 돈 = 반영일이 그달인 입금 + 그 전달에 판 돈(원칙 3·4). 그달에 판 돈은 다음 달 몫
   const soldPrev = monthSells(model.trades, prevMonth(month), today, args.income), soldNow = monthSells(model.trades, month, today, args.income);
   const deposited = Math.round(deps.now.reduce((a, d) => a + d.amount, 0) * 100) / 100;   // 그달 입금 − 그달 출금(음수일 수 있음)
-  // 지난달 잔금(원칙 3): 4회가 끝나고 쓰지 못한 돈은 다음 달 쓸 돈에 더한다
-  const netOf = (m) => monthDeposits(args.depMap || {}, m).now.reduce((a, d) => a + d.amount, 0);
+  // 현금 10%(원칙 3·5, 2026-11-03 사용자 결정): 11월 몫부터 넣은 돈마다 10%는 현금으로 남기고 매수 한도에 넣지 않는다(엔진 keepOf와 같은 셈)
+  const keepIn = (list, m) => list.reduce((a, d) => a + keepOf(Math.round(d.amount * 100), m), 0) / 100;
+  const kept = keepIn(deps.now, month);
+  // 지난달 잔금(원칙 3): 4회가 끝나고 쓰지 못한 돈은 다음 달 쓸 돈에 더한다(남긴 10%는 잔금이 아니다)
+  const netOf = (m) => { const now = monthDeposits(args.depMap || {}, m).now; return now.reduce((a, d) => a + d.amount, 0) - keepIn(now, m); };
   const spentOf = (m) => [...monthBuys(model.trades, m, today).values()].reduce((a, b) => a + b.amount, 0);
   const carry = carryIn(month, args.startMonth, { net: netOf, sold: (m) => monthSells(model.trades, m, today, args.income), spent: spentOf });
-  const budget = Math.max(0, Math.round((deposited + soldPrev + carry) * 100) / 100);   // 쓸 돈 = 입금 − 출금 + 지난달 판 돈 + 잔금, 0 아래로 안 감
+  const budget = Math.max(0, Math.round((deposited - kept + soldPrev + carry) * 100) / 100);   // 쓸 돈 = 입금 − 출금 − 남길 10% + 지난달 판 돈 + 잔금, 0 아래로 안 감
   const bought = monthBuys(model.trades, month, today);
   const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
   const leftUsd = Math.round((budget - spent) * 100) / 100;
@@ -802,6 +805,7 @@ function buyBox(args) {
     const p1 = deps.now.filter((d) => d.amount > 0).map((d) => (d.forMonth ? `${md(d.rec)} ${usd(d.amount)} 미리` : `${md(d.day)} ${usd(d.amount)}` + (d.day > today ? ' 예정' : '')));
     if (!p1.length) p1.push('입금 없음');
     if (X > 0) p1.push(`출금 −${usd(X)}`);
+    if (kept > 0) p1.push(`현금 10% 남김 −${usd(kept)}`);
     if (soldPrev > 0) p1.push(`판 돈 +${usd(soldPrev)}`);
     if (carry > 0) p1.push(`잔금 +${usd(carry)}`);
     if (deps.later.length) p1.push(`다음 달 ${laterSum < 0 ? '출금 ' + usd0(-laterSum) : usd0(laterSum)}`);

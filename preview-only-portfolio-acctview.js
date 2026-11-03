@@ -1,8 +1,8 @@
 // preview 전용 Portfolio 탭 — "내 계좌" 하위 탭(2026-10-28 사용자 결정 C안: 위는 합계·비중 막대, 아래는 미국·한국 칸 나란히,
 // 한국 칸은 단순하게 — 주식 수익률·환율 수익률 두 칸과 평균/오늘 환율·원화로 보면 한 상자, 환전 기록은 버튼 안). 라이브로 옮기지 않는다.
 // 숫자는 home.js accountsState가 만든다(한눈에 탭과 같은 계산). 장부 쓰기는 handlers.ledgerAdd·ledgerCancel·ledgerCorrect.
-import { el, usd, pct, twoStep, msgLine } from './preview-only-portfolio-strategy.js?v=23';
-import { depositTiming } from './preview-only-portfolio-engine.js?v=7';
+import { el, usd, pct, twoStep, msgLine } from './preview-only-portfolio-strategy.js?v=24';
+import { depositTiming } from './preview-only-portfolio-engine.js?v=8';
 
 const won = (v) => (v == null ? '—' : '₩' + Math.round(v).toLocaleString('en-US'));
 const rate = (v) => (v == null ? '—' : '₩' + v.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
