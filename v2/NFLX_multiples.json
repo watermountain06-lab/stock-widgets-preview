@@ -1,79 +1,79 @@
 {
  "ticker": "NFLX",
  "window": [
-  "2021-11-01",
-  "2026-10-30"
+  "2021-11-02",
+  "2026-11-02"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 21.06,
+   "current": 21.14,
    "min": 15.1,
-   "p10": 21.79,
-   "median": 42.01,
-   "p90": 52.41,
+   "p10": 21.73,
+   "median": 42.0,
+   "p90": 52.36,
    "max": 63.28,
-   "mean": 39.54,
-   "percentile": 8.6,
-   "score": 91.4
+   "mean": 39.5,
+   "percentile": 8.8,
+   "score": 91.2
   },
   "PSR": {
    "days": 1255,
-   "current": 5.13,
+   "current": 5.15,
    "min": 2.43,
    "p10": 3.58,
-   "median": 7.24,
+   "median": 7.23,
    "p90": 11.55,
    "max": 14.19,
    "mean": 7.39,
-   "percentile": 22.5,
-   "score": 77.5
+   "percentile": 23.0,
+   "score": 77.0
   },
   "PBR": {
    "days": 1255,
-   "current": 8.7,
+   "current": 8.74,
    "min": 4.21,
    "p10": 5.72,
-   "median": 11.74,
-   "p90": 19.67,
+   "median": 11.72,
+   "p90": 19.66,
    "max": 23.72,
-   "mean": 12.07,
-   "percentile": 29.7,
-   "score": 70.3
+   "mean": 12.06,
+   "percentile": 30.0,
+   "score": 70.0
   },
   "PCR": {
    "days": 1135,
-   "current": 22.41,
+   "current": 22.5,
    "min": 22.38,
-   "p10": 30.93,
-   "median": 49.17,
-   "p90": 620.32,
+   "p10": 30.9,
+   "median": 49.13,
+   "p90": 617.71,
    "max": 2025.72,
-   "mean": 180.34,
-   "percentile": 0.2,
-   "score": 99.8
+   "mean": 178.6,
+   "percentile": 0.3,
+   "score": 99.7
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 16.55,
+   "current": 16.62,
    "min": 13.2,
-   "p10": 19.14,
-   "median": 31.94,
-   "p90": 41.6,
+   "p10": 19.11,
+   "median": 31.77,
+   "p90": 41.59,
    "max": 50.56,
-   "mean": 31.17,
-   "percentile": 4.9,
-   "score": 95.1
+   "mean": 31.15,
+   "percentile": 5.0,
+   "score": 95.0
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 27.37,
-  "per_p75": 38.0,
+  "per_p75": 37.93,
   "low": 80,
   "high": 110,
-  "asOf": "2026-10-30",
+  "asOf": "2026-11-02",
   "basis": "diluted"
  }
 }

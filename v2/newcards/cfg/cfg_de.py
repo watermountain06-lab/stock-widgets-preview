@@ -7,7 +7,7 @@ CUR, YO, QO = '2026-08-02', '2025-07-27', '2026-05-03'
 QLABEL, YL, QQL = 'Q3 FY26', 'Q3 FY25', 'Q2 FY26'
 L8 = ['Q4 FY24', 'Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26']
 RELEASE = {'rev': 12608, 'op': 1882, 'ni': 1379}   # 10-Q 손익계산서(영업이익 = 연결 세전이익)
-VOTES, VERDICT = (-1, -1, -2), '고평가'
+VOTES, VERDICT = (-1, 0, -2), '고평가'
 CO = 'Deere'
 S_ = 'https://www.sec.gov/Archives/edgar/data/315189/'
 SEC = S_

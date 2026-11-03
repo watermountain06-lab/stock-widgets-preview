@@ -1,79 +1,79 @@
 {
  "ticker": "PSX",
  "window": [
-  "2021-11-01",
-  "2026-10-30"
+  "2021-11-02",
+  "2026-11-02"
  ],
  "multiples": {
   "PER": {
-   "days": 1179,
-   "current": 9.03,
+   "days": 1180,
+   "current": 8.78,
    "min": 3.47,
    "p10": 4.57,
-   "median": 13.9,
+   "median": 13.89,
    "p90": 31.15,
    "max": 44.13,
-   "mean": 15.48,
-   "percentile": 33.2,
-   "score": 66.8
+   "mean": 15.47,
+   "percentile": 32.5,
+   "score": 67.5
   },
   "PSR": {
    "days": 1255,
-   "current": 0.66,
+   "current": 0.64,
    "min": 0.24,
    "p10": 0.28,
    "median": 0.36,
    "p90": 0.52,
    "max": 0.78,
    "mean": 0.38,
-   "percentile": 96.7,
-   "score": 3.3
+   "percentile": 96.4,
+   "score": 3.6
   },
   "PBR": {
    "days": 1255,
-   "current": 3.21,
+   "current": 3.13,
    "min": 1.38,
    "p10": 1.61,
    "median": 1.89,
    "p90": 2.43,
    "max": 3.77,
-   "mean": 1.97,
-   "percentile": 97.0,
-   "score": 3.0
+   "mean": 1.98,
+   "percentile": 96.7,
+   "score": 3.3
   },
   "PCR": {
    "days": 1255,
-   "current": 8.93,
+   "current": 8.68,
    "min": 4.8,
    "p10": 6.5,
    "median": 13.26,
    "p90": 40.39,
    "max": 715.18,
    "mean": 47.68,
-   "percentile": 33.6,
-   "score": 66.4
+   "percentile": 29.4,
+   "score": 70.6
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 6.47,
+   "current": 6.31,
    "min": 3.11,
    "p10": 3.98,
    "median": 9.19,
-   "p90": 13.9,
+   "p90": 13.86,
    "max": 39.25,
-   "mean": 10.09,
-   "percentile": 30.2,
-   "score": 69.8
+   "mean": 10.07,
+   "percentile": 29.0,
+   "score": 71.0
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 15.09,
-  "per_p75": 36.15,
+  "per_p25": 15.08,
+  "per_p75": 36.06,
   "low": 470,
   "high": 1130,
-  "asOf": "2026-10-30",
+  "asOf": "2026-11-02",
   "basis": "diluted"
  }
 }
