@@ -396,7 +396,7 @@ def base_inputs(ticker, asof=None):
     fin_lease = fin_lease or 0
     # GWW: FinanceLeaseLiability가 2019-01-01(ASC 842 도입일) 한 번뿐 — 10-Q 재무상태표에 금융리스 줄이 없다. 낡은 $205M을 쓰지 않는다(Codex·Fable r1, 2026-10-23).
     # 금융리스에 낡음 필터가 없는 것은 전 카드 공통(안건 E49)
-    if cik in ("0000277135", "0001393052", "0001564708"):   # VEEV: FinanceLeaseLiability가 2020-10($0.6M)에 멈춤(Codex r1, 2026-10-23)
+    if cik in ("0000277135", "0001393052", "0001564708", "0001058090"):   # CMG: FinanceLeaseLiability가 2021-12($1.5M)에 멈춤 — 10-Q에 금융리스 없음(Fable r1, 2026-11-03)   # VEEV: FinanceLeaseLiability가 2020-10($0.6M)에 멈춤(Codex r1, 2026-10-23)
         # NWSA: 2026-06-30 금융리스 0(nil)인데 2024-09 10-Q의 FinanceLeaseLiabilityCurrent $16M을 집어 리스가 $942M(원문 운용 $926M)이 됐다(Fable r1, 2026-10-30)
         fin_lease = 0
     # 총차입금 태그를 지정한 회사(bmh.DEBT_TOTAL_TAG, MU = DebtAndCapitalLeaseObligations)는 금융리스가

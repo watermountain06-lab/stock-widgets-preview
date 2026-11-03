@@ -11538,6 +11538,88 @@
         "valuationAsOf": "2026-11-02",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "CMG",
+      "name": "치폴레",
+      "sector": "경기소비재 — 패스트 캐주얼 멕시칸 레스토랑(직영 약 4,270곳)",
+      "href": "CMG_full_widget.html",
+      "cardRank": 274,
+      "cardAsOf": "2026-11-02",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 32.91,
+        "prevClose": 31.89,
+        "session": "2026-11-02",
+        "prevSession": "2026-10-30",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1264975000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-26",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001058090-26-000104 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 52.6,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-02",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "WSM",
+      "name": "윌리엄스소노마",
+      "sector": "경기소비재 — 가정용 가구·주방용품(Pottery Barn·West Elm·Williams Sonoma)",
+      "href": "WSM_full_widget.html",
+      "cardRank": 275,
+      "cardAsOf": "2026-11-02",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 259.45,
+        "prevClose": 252.72,
+        "session": "2026-11-02",
+        "prevSession": "2026-10-30",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 117779173,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-23",
+        "filedAt": "2026-08-28",
+        "filing": "10-Q 0000719955-26-000208 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 49.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-08-02",
+        "valuationAsOf": "2026-11-02",
+        "qualityFlags": []
+      }
     }
   ]
 }
