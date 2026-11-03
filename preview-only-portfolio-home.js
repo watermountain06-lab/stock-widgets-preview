@@ -444,6 +444,15 @@ export function monthBuyList(trades, month, today) {
   return real.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.side === 'buy' && x.date.slice(0, 7) === month && x.date <= today)
     .map(([, x]) => ({ date: x.date, amount: Math.round(x.qty * x.price * 100) / 100 })).sort((a, b) => (a.date < b.date ? -1 : 1));
 }
+// 이번 달 판 기록(매도 탭, 2026-11-03): 취소 안 된 매도, 받은 돈 = 수량 × 체결가 − 수수료(monthSells와 같은 센트 셈, 배당은 뺌)
+export function monthSellList(trades, month, today) {
+  const real = Object.entries(trades || {});
+  const cancelled = new Set(real.filter(([, x]) => x.cancels).map(([, x]) => x.cancels));
+  return real.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.side === 'sell' && x.date.slice(0, 7) === month && x.date <= today)
+    .map(([, x]) => ({ date: x.date, ticker: x.ticker, account: acctOf(x), qty: x.qty,
+      amount: (Math.round(x.qty * x.price * 100) - Math.round((Number(x.fee) || 0) * 100)) / 100 }))
+    .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.ticker < b.ticker ? -1 : 1));
+}
 
 // ---- 그리기 ----
 // model = { main(올린 데이터), trades(실제 매매 지도), result|null, bundle|null, byId, records, now }
@@ -560,8 +569,12 @@ export function renderHome(root, model, handlers) {
   buyBtn.addEventListener('click', () => dlg.open(cands[0]));
   if (!cands.length && !mv?.demo) nh.appendChild(buyBtn);   // 후보가 있으면 아래 줄마다 "기록" 버튼, 시연 달은 매매 기록 버튼 없음
   next.appendChild(nh);
+  // 매수 | 매도 탭(사용자 결정 2026-11-03): 처음엔 늘 매수, 기록 뒤 다시 그려도 이 페이지에서 고른 탭은 유지. 팔기 줄은 알림 칸에서 매도 탭으로 옮김
+  const tabs = el('div', 'pf-segbox pf-dotabs'); tabs.setAttribute('role', 'tablist'); tabs.setAttribute('aria-label', '다음 할 일');
+  const buyPane = el('div', 'pf-dopane'), sellPane = el('div', 'pf-dopane');
+  next.appendChild(tabs); next.appendChild(buyPane); next.appendChild(sellPane);
   // 회차 진행은 돈 칸 아래 4회 띠(실제 매매 기록)가 보여 준다 — 모의 계산 기준 진행 막대는 뺐다(사용자 결정 2026-10-23, 둘이 달라 보임)
-  const buySlot = el('div', 'pf-buyslot'); next.appendChild(buySlot);
+  const buySlot = el('div', 'pf-buyslot'); buyPane.appendChild(buySlot);
   // 알림 칸(사용자 결정 2026-10-28): 매도 안내·20% 하락 검토·기록 묵음 경고를 '다음 할 일'에서 옮겨 보유 자산 위 칸에 모은다. 없으면 '알림 없음 · 다음 판정 확인'
   // 알림 칸(2026-10-29 사용자 결정 B안): 한 줄 목록 — 배지(팔기·검토·확인) · 종목(계좌 · 이유) · 숫자, 팔기는 아래 작은 설명 한 줄
   const alerts = el('section', 'pf-panel pf-side pf-alerts');
@@ -589,6 +602,8 @@ export function renderHome(root, model, handlers) {
     alist.appendChild(r);
     if (detail) alist.appendChild(el('p', 'pf-adetail', detail));
   };
+  const sellList = el('div', 'pf-selllist');
+  let sellNow = 0;
   for (const w0 of wSells) {
     const sub = [acct(w0.account), w0.tier].filter(Boolean).join(' · ');
     const val = !w0.round ? '다음 달' : w0.shares > 0 ? qty(w0.shares) + '주' : '팔았음';
@@ -597,13 +612,24 @@ export function renderHome(root, model, handlers) {
       : w0.tier === '초고평가' ? `${md(w0.round)} 회차에 남은 것 전부`
       : w0.all ? `${md(w0.round)} 마지막 회차라 전부`
       : `${md(w0.round)} 회차 · 전부 팔 때까지 남은 ${w0.remaining}회에 나눠서`) + (!weekly && w0.round ? ' · 11월부터' : '');
-    arow('sell', '팔기', w0.ticker, sub, val, 'pf-aval-sell', detail);
+    const r = el('div', 'pf-sellrow');
+    const nm = el('span', 'pf-aname'); nm.appendChild(el('strong', null, w0.ticker)); nm.appendChild(el('small', null, ' ' + sub)); r.appendChild(nm);
+    r.appendChild(el('strong', 'pf-aval pf-aval-sell', val));
+    const can = weekly && !!w0.round && w0.shares > 0;
+    if (can) {
+      sellNow++;
+      const go = el('button', 'pf-btn pf-btn-quiet', '매도 기록'); go.type = 'button';
+      go.addEventListener('click', () => dlg.open(w0.ticker, { side: 'sell', account: w0.account, qty: w0.shares }));
+      r.appendChild(go);
+    } else r.appendChild(el('span'));
+    sellList.appendChild(r);
+    sellList.appendChild(el('p', 'pf-adetail', detail));
   }
   for (const l of losses) arow('review', '검토', l.ticker, [acct(l.account), '20% 하락'].filter(Boolean).join(' · '), dropText(l.drop), 'pf-aval-down', null);
   for (const s0 of staleH) arow('check', '확인', s0.ticker, [acct(s0.account), HOLD_TEXT[s0.why] || '데이터 문제'].filter(Boolean).join(' · '), '보류', 'pf-aval-muted', null);
   if (alist.children.length) {
     alerts.appendChild(alist);
-    const kinds = [wSells.length && '팔기는 적정 이하로 내려오면 멈춤', losses.length && '검토는 직접 판단', staleH.length && '확인은 카드 갱신 전까지 사고팔지 않음'].filter(Boolean);
+    const kinds = [losses.length && '검토는 직접 판단', staleH.length && '확인은 카드 갱신 전까지 사고팔지 않음'].filter(Boolean);
     alerts.appendChild(el('p', 'pf-afoot', kinds.join(' · ')));
   }
   // 예전 점검일 알림(모의 계산의 발동)은 실제 보유 기준 안내(wSells)로 바꿈(2026-10-29)
@@ -623,7 +649,7 @@ export function renderHome(root, model, handlers) {
   const stats = el('div', 'pf-nextstats');
   const stat = (k, v) => { const s = el('span', null, k + ' '); s.appendChild(el('strong', null, v)); stats.appendChild(s); };
   // 매도 검토 = 판정(고평가·초고평가) 알림 + 20% 하락(원칙 4), 종목 기준 — 알림 칸 제목에 센다
-  const sellN = new Set([...wSells.map((f) => f.ticker), ...losses.map((l) => l.ticker), ...staleH.map((f) => f.ticker)]).size;
+  const sellN = new Set([...losses.map((l) => l.ticker), ...staleH.map((f) => f.ticker)]).size;   // 팔기는 매도 탭에서 센다(2026-11-03)
   if (sellN) ah.appendChild(el('small', null, String(sellN)));
   // 머리 오른쪽: 다음 회차(판정 확인) 날짜. 알림이 없으면 초록 한 줄(B안 공통)
   const nextCheck = sRounds.find((d) => d > (lastFull ? lastFull.session : today)) || null;
@@ -631,9 +657,41 @@ export function renderHome(root, model, handlers) {
   if (!alist.children.length && !recStale) {
     const ok = el('div', 'pf-alertok');
     ok.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l4 4 10-10"></path></svg>';
-    const t = el('div'); t.appendChild(el('strong', null, '지금 할 매도·검토 없음')); if (nextCheck) t.appendChild(el('small', null, `다음 판정 확인 ${md(nextCheck)}`)); ok.appendChild(t);
+    const t = el('div'); t.appendChild(el('strong', null, '지금 할 검토·확인 없음')); if (nextCheck) t.appendChild(el('small', null, `다음 판정 확인 ${md(nextCheck)}`)); ok.appendChild(t);
     alerts.appendChild(ok);
   }
+  if (sellNow) alerts.appendChild(el('p', 'pf-afoot', `팔기 ${sellNow}건은 '이번 달, 다음 할 일'의 매도 탭에`));
+  // 매도 탭 내용: 이번 회차에 팔 것(줄마다 매도 기록) → 이번 달 판 기록과 판 돈(다음 달 매수로, 원칙 3)
+  sellPane.appendChild(el('h3', 'pf-doh', nextCheck ? `${md(nextCheck)} 회차에 팔 것` : '이번 회차에 팔 것'));
+  if (recStale) sellPane.appendChild(el('p', 'pf-note', '기록이 묵어 이번에는 팔지 않습니다(원칙 6). 새 기록이 오면 다시 계산합니다.'));
+  else if (sellList.children.length) { sellPane.appendChild(sellList); sellPane.appendChild(el('p', 'pf-afoot', '고평가~적정부터 남은 회차에 나눠 팔고, 초고평가는 한 번에 · 적정 이하로 내려오면 멈춤')); }
+  else sellPane.appendChild(el('p', 'pf-note', '지금 팔 종목이 없습니다. 보유 종목의 판정이 고평가~적정 이상이 되면 여기에 나옵니다.'));
+  const soldList = monthSellList(model.trades, today.slice(0, 7), today);
+  sellPane.appendChild(el('h3', 'pf-doh', '이번 달 판 것'));
+  if (soldList.length) {
+    const sd = el('div', 'pf-soldlist');
+    for (const x of soldList) {
+      const r = el('div', 'pf-soldrow');
+      r.appendChild(el('span', null, md(x.date)));
+      const nm = el('span', 'pf-aname'); nm.appendChild(el('strong', null, x.ticker)); nm.appendChild(el('small', null, ' ' + [acct(x.account), qty(x.qty) + '주'].filter(Boolean).join(' · '))); r.appendChild(nm);
+      r.appendChild(el('strong', 'pf-aval', usd(x.amount)));
+      sd.appendChild(r);
+    }
+    sellPane.appendChild(sd);
+    const sum = Math.round(soldList.reduce((a, x) => a + x.amount * 100, 0)) / 100;
+    sellPane.appendChild(el('p', 'pf-afoot', `판 돈 ${usd(sum)} · 다음 달 매수에 씀(원칙 3)`));
+  } else sellPane.appendChild(el('p', 'pf-note', '아직 없음 · 판 돈은 다음 달 매수에 씁니다(원칙 3)'));
+  const panes = { buy: buyPane, sell: sellPane };
+  const tabBtns = {};
+  const pick = (k) => { doTab = k; for (const [t, b] of Object.entries(tabBtns)) { b.setAttribute('aria-selected', String(t === k)); b.tabIndex = t === k ? 0 : -1; panes[t].hidden = t !== k; } };
+  for (const [k, t] of [['buy', '매수'], ['sell', '매도' + (sellNow ? ` ${sellNow}` : '')]]) {
+    const b = el('button', 'pf-segbtn', t); b.type = 'button'; b.setAttribute('role', 'tab'); b.id = 'pf-dotab-' + k;
+    panes[k].setAttribute('role', 'tabpanel'); panes[k].setAttribute('aria-labelledby', b.id);
+    b.addEventListener('click', () => pick(k));
+    b.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const o = k === 'buy' ? 'sell' : 'buy'; pick(o); tabBtns[o].focus(); e.preventDefault(); } });
+    tabBtns[k] = b; tabs.appendChild(b);
+  }
+  pick(doTab);
   if (!live && !canDeposit) stat('이번 달 넣은 돈', deps.now.length ? usd0(deps.now.reduce((a, d) => a + d.amount, 0)) : '없음');
   stat('마지막 기록', last ? md(last.session) : '없음');
   next.appendChild(stats);
@@ -661,6 +719,7 @@ export function renderHome(root, model, handlers) {
       // 총자산(두 계좌 주식 + 현금, 현금 10% 목표용) — 가격 없는 종목은 빼고 개수를 알린다
       total: cur.hasCash ? Math.round(([...myVal.values()].reduce((a, v) => a + v, 0) + cur.cash) * 100) / 100 : null, totalMissing: cur.holdings.filter((x) => closeNow(x.ticker) == null).length, income: inc, depMap, startMonth: startMonth0, deps: target === month ? deps : monthDeposits(depMap, target) }));
   } else buySlot.remove();
+  if (!buyPane.children.length) buyPane.appendChild(el('p', 'pf-note', '이번 달 살 계획이 아직 없습니다.'));
   left.appendChild(next);
 
   // 3) 보유 자산(비중 막대 + 접는 목록)
@@ -744,6 +803,7 @@ export function nextAction(mv) {
 // 나누는 방법: 원칙으로 정하기 전이라 이 탭에서만 기억한다(sessionStorage). 저장소가 막혀도 메모리 값으로 동작한다(dr r1)
 let buyMethod;
 let pickSaving = false;   // 체크 저장 중이면 다시 그린 목록·방법 버튼도 잠근다(dr r2)
+let doTab = 'buy';   // 다음 할 일 탭(매수|매도) — 페이지를 열 때마다 매수, 다시 그릴 때는 유지(sessionStorage 안 씀, 사용자 결정 '항상 매수')
 let demoPicks = [];   // 시연 달 체크(저장하지 않음, 이 탭에서만)
 try { buyMethod = sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }
 if (!BUY_METHODS.some(([k]) => k === buyMethod)) buyMethod = null;
@@ -1165,7 +1225,13 @@ function tradeForm(model, handlers, recs, mv, today, done) {
     done?.();
   }, f);
   box.appendChild(f);
-  box.fill = (t, pre) => { if (t) { tick.value = t; side.value = 'buy'; } if (pre) { qty.value = String(pre.qty); price.value = String(pre.price); } };
+  // pre = { qty, price, side, account } — 매도 탭은 매도·계좌·수량만 채우고 체결가는 비운다(2026-11-03)
+  box.fill = (t, pre) => {
+    if (t) { tick.value = t; side.value = pre?.side || 'buy'; }
+    if (pre?.account) { acct.value = pre.account; syncFee(); }
+    if (pre?.qty != null) qty.value = String(pre.qty);
+    price.value = pre?.price != null ? String(pre.price) : '';
+  };
   return box;
 }
 

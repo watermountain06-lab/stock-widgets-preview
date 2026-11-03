@@ -706,3 +706,22 @@ test('현금 10% 목표(카드, 2026-11-03): 남은 한도 = 현금 − 총자�
   assert.equal(cashLeft({ cash: 3000, total: Infinity }).unknown, true);
   assert.equal(cashLeft({ cash: 3000, total: 11000, laterOut: -300 }).left, 1600);   // 음수로 넘겨도 한도를 줄인다
 });
+
+// 매도 탭의 이번 달 판 기록(2026-11-03): 취소·다른 달·미래·매수는 빼고, 받은 돈은 수수료를 뺀 센트 셈, 계좌는 acctOf
+import { monthSellList } from '../../preview-only-portfolio-home.js';
+test('monthSellList: 이번 달 취소 안 된 매도만, 수수료 뺀 받은 돈', () => {
+  const trades = {
+    a: { date: '2026-11-09', ticker: 'BBB', side: 'sell', qty: 2, price: 10.005 },
+    b: { date: '2026-11-09', ticker: 'AAA', side: 'sell', qty: 1, price: 50, account: 'kw', fee: 0.5 },
+    c: { date: '2026-11-10', ticker: 'CCC', side: 'sell', qty: 1, price: 5 },
+    d: { cancels: 'c' },
+    e: { date: '2026-10-30', ticker: 'DDD', side: 'sell', qty: 1, price: 5 },
+    f: { date: '2026-11-12', ticker: 'EEE', side: 'sell', qty: 1, price: 5 },
+    g: { date: '2026-11-09', ticker: 'FFF', side: 'buy', qty: 1, price: 5 },
+  };
+  assert.deepEqual(monthSellList(trades, '2026-11', '2026-11-11'), [
+    { date: '2026-11-09', ticker: 'AAA', account: 'kw', qty: 1, amount: 49.5 },
+    { date: '2026-11-09', ticker: 'BBB', account: 'rh', qty: 2, amount: 20.01 },
+  ]);
+  assert.deepEqual(monthSellList(undefined, '2026-11', '2026-11-11'), []);
+});
