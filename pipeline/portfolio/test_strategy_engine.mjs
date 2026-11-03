@@ -1251,7 +1251,7 @@ test('매주 매도(원칙): 고평가면 전부를 그달 남은 회차에 나�
 test('매주 매도(원칙): 나눠 팔던 중 초고평가면 남은 것 전부를 그 회차에, 내려오면 멈추고 다시 고평가면 남은 회차로 새로', () => {
   const up = run({ settings: NEW_RULE, world: { tier: (t, d) => (t === 'DDD' ? (d >= '2026-11-05' ? '초고평가' : '고평가') : undefined) }, scenarios: [S('B')] });
   assert.deepEqual(sells(pick(up, 'B'), 'DDD'), [['2026-11-02', 25], ['2026-11-09', 75]]);
-  const tier = (t, d) => (t === 'DDD' ? (d >= '2026-11-12' ? '고평가' : d >= '2026-11-05' ? '적정' : '고평가') : undefined);   // 원칙 매도는 고평가~적정부터라 '내려옴'은 적정(2026-11-03)
+  const tier = (t, d) => (t === 'DDD' ? (d >= '2026-11-12' ? '고평가' : d >= '2026-11-05' ? '고평가~적정' : '고평가') : undefined);   // 원칙 매도는 고평가부터라 고평가~적정이면 내려옴(2026-11-03 되돌림)
   const down = pick(run({ settings: NEW_RULE, world: { tier }, scenarios: [S('B')] }), 'B');
   assert.deepEqual(sells(down, 'DDD'), [['2026-11-02', 25], ['2026-11-16', 37.5], ['2026-11-23', 37.5]]);
   // 원칙 매도는 회차마다 다시 계산(dr d1): 11/09에 원칙 6으로 못 팔면 그 회차는 0, 다음 회차가 남은 보유 ÷ 남은 회차로 메운다
@@ -1302,14 +1302,15 @@ test('현금 10%(2026-11-03): 원칙 전략은 점검일 예산 = 현금 − 그
   assert.ok(pick(miss, 'B').events.some((e) => e.kind === 'cashTargetUnknown'));
 });
 
-test('원칙 매도(2026-11-03): 원칙 전략은 매주 고평가~적정부터 나눠 판다, 비율 전략은 고평가부터 그대로', () => {
+test('원칙 매도(2026-11-03 되돌림): 원칙 전략은 고평가~적정이면 팔지 않고 고평가부터 나눠 판다', () => {
   const NEW = { ruleFrom: '2026-11' };
-  const tier = (t) => (t === 'DDD' ? '고평가~적정' : undefined);
-  const b = pick(run({ settings: NEW, world: { tier }, scenarios: [S('B')] }), 'B');
-  assert.deepEqual(sells(b, 'DDD'), [['2026-11-02', 25], ['2026-11-09', 25], ['2026-11-16', 25], ['2026-11-23', 25]]);
-  const q = pick(run({ settings: NEW, world: { tier }, scenarios: [S('custom', { buyTiers: ['저평가'], sellFraction: 0.5 }, { id: 'q' })] }), 'q');
+  const mid = (t) => (t === 'DDD' ? '고평가~적정' : undefined);
+  assert.deepEqual(sells(pick(run({ settings: NEW, world: { tier: mid }, scenarios: [S('B')] }), 'B'), 'DDD'), []);
+  const q = pick(run({ settings: NEW, world: { tier: mid }, scenarios: [S('custom', { buyTiers: ['저평가'], sellFraction: 0.5 }, { id: 'q' })] }), 'q');
   assert.deepEqual(sells(q, 'DDD'), []);
-  // 적정으로 내려오면 멈춘다
-  const down = (t, d) => (t === 'DDD' ? (d >= '2026-11-05' ? '적정' : '고평가~적정') : undefined);
+  const high = (t) => (t === 'DDD' ? '고평가' : undefined);
+  assert.deepEqual(sells(pick(run({ settings: NEW, world: { tier: high }, scenarios: [S('B')] }), 'B'), 'DDD'), [['2026-11-02', 25], ['2026-11-09', 25], ['2026-11-16', 25], ['2026-11-23', 25]]);
+  // 고평가~적정으로 내려오면 멈춘다
+  const down = (t, d) => (t === 'DDD' ? (d >= '2026-11-05' ? '고평가~적정' : '고평가') : undefined);
   assert.deepEqual(sells(pick(run({ settings: NEW, world: { tier: down }, scenarios: [S('B')] }), 'B'), 'DDD'), [['2026-11-02', 25]]);
 });

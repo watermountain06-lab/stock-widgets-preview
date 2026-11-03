@@ -6,8 +6,8 @@
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { isTradingDay, ENGINE_VERSION, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=10';
-import { ledgerActive, ledgerDeposits, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=6';
+import { isTradingDay, ENGINE_VERSION, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=11';
+import { ledgerActive, ledgerDeposits, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=7';
 
 export const MAX_SCENARIOS = 20;
 export const ETF_ORDER = ['SPY', 'QQQ', 'RSP'];   // ETF 섞기(E)에서 고르는 ETF의 화면 순서(엔진 BASELINES와 같은 세 개)

@@ -20,8 +20,9 @@ export const PRINCIPLE_FROM = '2026-11';
 // 철회(2026-11-03 사용자 결정): 현금 비율을 맞추지 않고 그달 입금 전부를 산다(카드·전략 비교 모두). 코드는 남겨 두고 시작 달을 끝없이 미룬다
 export const CASH_FROM = '9999-12';
 export const cashTarget = (valueCents) => Math.round(valueCents / 10);
-// 매도(원칙 4, 2026-11-03 사용자 결정): 원칙 전략은 매주 판정이 고평가~적정부터 판다(고평가~적정·고평가 = 보유 전부를 남은 회차에 나눠, 초고평가 = 한 번에)
-export const PRINCIPLE_SELL = ['고평가~적정', '고평가', '초고평가'];
+// 매도(원칙 4): 원칙 전략은 매주 판정이 고평가부터 판다(고평가 = 보유 전부를 남은 회차에 나눠, 초고평가 = 한 번에).
+// 2026-11-03 같은 날 '고평가~적정부터'로 넓혔다가 사용자 결정으로 되돌림 — 고평가~적정·적정은 그대로 보유(사는 구간과 두 칸 간격)
+export const PRINCIPLE_SELL = ['고평가', '초고평가'];
 export const principleFor = (month) => (month < PRINCIPLE_FROM ? BUY_PRINCIPLE_OLD : BUY_PRINCIPLE);
 // 판정 무게(판정 가중·순위 1주씩): 옛 판 4:3:2:1, 11월부터 3:2:1(적정은 무게 없음 → 판정 가중에서 사지 않음)
 const W_OLD = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 }, W_NEW = { '초저평가': 3, '저평가': 2, '적정~저평가': 1 };

@@ -4,13 +4,13 @@
 // 전략 비교 도넛(전략마다 지금 들고 있는 종목·현금 비중, 가운데 수익률)을 그린다. 계산은 엔진 결과(replay)를 받아 쓰고,
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
-import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=26';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=19';
-import { renderManage } from './preview-only-portfolio-records.js?v=15';
-import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=10';
-import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=17';
-import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=6';
-import { renderAccounts } from './preview-only-portfolio-acctview.js?v=6';
+import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=27';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=20';
+import { renderManage } from './preview-only-portfolio-records.js?v=16';
+import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=11';
+import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
+import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
+import { renderAccounts } from './preview-only-portfolio-acctview.js?v=7';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -105,7 +105,7 @@ export function weeklySells({ holdings, rec, today, rounds, lastSession, trades,
     if (!(h.qty > 1e-9) || holdOnly.includes(h.ticker)) continue;
     const card = rec.cards?.[h.ticker];
     if (!card || holdReason(card, rec, today)) continue;
-    if (!PRINCIPLE_SELL.includes(card.tier)) continue;   // 고평가~적정부터 판다(원칙 4, 2026-11-03)
+    if (!PRINCIPLE_SELL.includes(card.tier)) continue;   // 고평가부터 판다(원칙 4, 2026-11-03 되돌림 — 고평가~적정은 보유)
     const base = { ticker: h.ticker, account: h.account, tier: card.tier, round: nextDate };
     if (!nextDate) { out.push({ ...base, shares: null, remaining: 0 }); continue; }   // 이번 달 회차 끝 — 다음 점검일에 다시
     const soldSince = real.filter(([id, x]) => !x.cancels && !cancelled.has(id) && x.side === 'sell' && x.ticker === h.ticker
@@ -665,8 +665,8 @@ export function renderHome(root, model, handlers) {
   // 매도 탭 내용: 이번 회차에 팔 것(줄마다 매도 기록) → 이번 달 판 기록과 판 돈(다음 달 매수로, 원칙 3)
   sellPane.appendChild(el('h3', 'pf-doh', nextCheck ? `${md(nextCheck)} 회차에 팔 것` : '이번 회차에 팔 것'));
   if (recStale) sellPane.appendChild(el('p', 'pf-note', '기록이 묵어 이번에는 팔지 않습니다(원칙 6). 새 기록이 오면 다시 계산합니다.'));
-  else if (sellList.children.length) { sellPane.appendChild(sellList); sellPane.appendChild(el('p', 'pf-afoot', '고평가~적정부터 남은 회차에 나눠 팔고, 초고평가는 한 번에 · 적정 이하로 내려오면 멈춤')); }
-  else sellPane.appendChild(el('p', 'pf-note', '지금 팔 종목이 없습니다. 보유 종목의 판정이 고평가~적정 이상이 되면 여기에 나옵니다.'));
+  else if (sellList.children.length) { sellPane.appendChild(sellList); sellPane.appendChild(el('p', 'pf-afoot', '고평가는 남은 회차에 나눠 팔고, 초고평가는 한 번에 · 고평가~적정 이하로 내려오면 멈춤')); }
+  else sellPane.appendChild(el('p', 'pf-note', '지금 팔 종목이 없습니다. 보유 종목의 판정이 고평가 이상이 되면 여기에 나옵니다.'));
   const soldList = monthSellList(model.trades, today.slice(0, 7), today);
   sellPane.appendChild(el('h3', 'pf-doh', '이번 달 판 것'));
   if (soldList.length) {
@@ -990,20 +990,25 @@ function buyBox(args) {
   box.appendChild(seg);
 
   // 3) 내 기준대로 살 후보
+  // 점검일 뒤 판정이 바뀌어 지금 살 단계가 아닌 후보(예: 적정)는 숨긴다(사용자 결정 2026-11-03). 판정이 돌아오면 다시 보이고,
+  // 이번 달 이미 산 종목과 회차가 끝난 달은 그대로 둔다. 숨긴 종목의 체크는 저장할 때 지우지 않는다
+  const shownCands = byCap(plan.candidates, model.caps || {}).filter((t) => !mv.next || nowBuyable(t) || bought.has(t));
+  const hiddenN = plan.candidates.length - shownCands.length;
+  const hiddenPicked = picked.filter((t) => !shownCands.includes(t));
   const lh = el('div', 'pf-buysechead');
-  lh.appendChild(el('span', 'pf-buylabel', `내 기준대로 살 후보 ${plan.candidates.length}`));
+  lh.appendChild(el('span', 'pf-buylabel', `내 기준대로 살 후보 ${shownCands.length}` + (hiddenN ? ` · 지금 살 단계 아닌 ${hiddenN}개 숨김` : '')));
   lh.appendChild(el('span', 'pf-note', mv.demo ? `시연 · ${md(plan.decisionDate)} 점검으로 보고 ${md(plan.record)} 첫 기록 판정 · 체크는 저장하지 않음` : `원칙 1·6 통과 · ${md(plan.decisionDate)} 점검 · 체크한 종목만 삽니다`));
   box.appendChild(lh);
   const list = el('div', 'pf-buylist');
   const pickMsg = msgLine();
-  for (const t of byCap(plan.candidates, model.caps || {})) {
+  for (const t of shownCands) {
     const on = picked.includes(t);
     const row = el('label', 'pf-buyrow' + (on ? ' pf-on' : ''));
     const cb = el('input'); cb.type = 'checkbox'; cb.checked = on; cb.value = t; cb.disabled = pickSaving;
     // 저장하는 동안 목록 전체를 잠그고, 보낼 목록은 지금 화면의 체크 상태로 만든다(dr r1 — 연달아 누르면 앞 체크가 지워지던 문제)
     cb.addEventListener('change', async () => {
       const boxes = [...list.querySelectorAll('input[type=checkbox]')];
-      const nx = boxes.filter((c) => c.checked).map((c) => c.value);
+      const nx = [...hiddenPicked, ...boxes.filter((c) => c.checked).map((c) => c.value)];
       if (mv.demo) { demoPicks = nx; box.replaceWith(buyBox(args)); return; }   // 시연 달 체크는 저장하지 않고 화면에서만(dr)
       const segBtns = [...seg.querySelectorAll('button')];
       pickSaving = true; [...boxes, ...segBtns].forEach((c) => { c.disabled = true; });
