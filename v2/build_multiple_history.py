@@ -1965,7 +1965,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001967680": ["LongTermDebt"],   # VLTO: 총차입 $2,920M = CP $249M(DebtCurrent) + 장기 $2,671M(Q3 2026 10-Q) — 기본은 장기만 $2,671M(2026-10-30)
+DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
+                  "0001967680": ["LongTermDebt"],   # VLTO: 총차입 $2,920M = CP $249M(DebtCurrent) + 장기 $2,671M(Q3 2026 10-Q) — 기본은 장기만 $2,671M(2026-10-30)
                   "0000922224": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # PPL: 단기 $65M + 1년 안 장기부채 $469M + 장기 $19,789M = $20,323M(Q2 2026 10-Q, 자회사 값은 LegalEntityAxis라 제외, 2026-10-30)
                   "0000352541": [("CommercialPaper", "ShortTermBorrowings"), "OtherShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # LNT: CP $708M + 기타 단기(텀론) $400M + 1년 안 장기부채 $374M + 장기 $10,636M = $12,118M(Q2 2026 10-Q MD&A "Total debt"와 같다, 2026-10-30)
                   "0001711269": [("ShortTermBankLoansAndNotesPayable", "CommercialPaper"), "TransfersAccountedForAsSecuredBorrowingsAssociatedLiabilitiesCarryingAmount", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # EVRG: 어음·CP $2,331.0M + 매출채권 담보차입 $356.0M + 1년 안 장기부채 $1,495.3M(전환사채 포함) + 장기 $12,315.7M = $16,498.0M(Q2 2026 10-Q, 증권화 채권 $288.1M은 장기부채 안, 2026-10-30). 어음·CP 줄이 없는 분기는 CommercialPaper(튜플 — 이력 2025-12가 $13,487.9M으로 덜 잡혔다, Codex r1)
@@ -2286,7 +2287,8 @@ DEBT_TOTAL_TAG = {"0001967680": ["LongTermDebt"],   # VLTO: 총차입 $2,920M = 
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001967680": {"lease": ["OperatingLeaseLiability"]},   # VLTO: 최신 운용리스 합계 $196M(Q3 2026) — 유동·비유동 태그는 연간(2025-12 $206M)뿐(Codex r1, 2026-10-30)
+EV_TAGS_BY_CIK = {"0000783325": {"nci": ["OtherMinorityInterests"]},   # WEC: 비지배지분 $404.3M은 OtherMinorityInterests 태그(MinorityInterest 아님, Q3 2026 10-Q, 2026-11-03)
+                  "0001967680": {"lease": ["OperatingLeaseLiability"]},   # VLTO: 최신 운용리스 합계 $196M(Q3 2026) — 유동·비유동 태그는 연간(2025-12 $206M)뿐(Codex r1, 2026-10-30)
                   "0000922224": {"sti": [], "preferred": [], "nci": []},   # PPL: 단기투자(2015)·우선주(2010)·비지배지분(2023)은 지금 재무상태표에 없는 낡은 값(2026-10-30)
                   "0000352541": {"sti": [], "preferred": [], "nci": []},   # LNT: 단기투자 $250M은 2025-09 한 번뿐, 우선주 $200M(2014)·비지배지분 $29M(2022)은 사라진 항목 — 낡은 값이 EV에 더해졌다(Codex r1, 2026-10-30)
                   "0001065088": {"sti": ["AvailableForSaleSecuritiesDebtMaturitiesWithinOneYearFairValue"]},   # EBAY: 단기투자 $809M(재무상태표 "Short-term investments"는 회사 고유 태그, 같은 금액이 매도가능 채권 만기 1년 안 태그에 있다) — 기본은 2025-06에 멈춘 ShortTermInvestments $26M(Fable r1, 2026-10-30)
