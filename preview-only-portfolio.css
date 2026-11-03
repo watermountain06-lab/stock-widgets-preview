@@ -433,7 +433,8 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 :root[data-theme="dark"] .pf-aval-sell{color:#c9bcff}:root[data-theme="dark"] .pf-aval-down{color:#ff8799}:root[data-theme="dark"] .pf-alertok{background:#1f3329;color:#7cddb6}
 
 /* 다음 할 일 매수|매도 탭(2026-11-03) — 팔 줄은 알림 줄과 같은 모양 + 매도 기록 버튼 */
-.pf-dotabs{margin:2px 0 12px}
+.pf-dotabs{display:flex;width:100%;box-sizing:border-box;margin:4px 0 14px}
+.pf-dotabs .pf-segbtn{flex:1 1 0;min-height:44px;font-size:15px}
 .pf-dotabs .pf-segbtn[aria-selected=true]{background:#fff;font-weight:700;box-shadow:0 1px 4px #20202a22}
 .pf-dopane[hidden]{display:none}
 .pf-doh{margin:4px 0 6px;font-size:13px;font-weight:700;color:var(--muted)}
@@ -446,3 +447,5 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-dopane .pf-afoot{margin:0 0 12px;padding-top:8px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
 .pf-sellrow .pf-aname small,.pf-soldrow .pf-aname small{color:var(--muted)}
 :root[data-theme="dark"] .pf-dotabs .pf-segbtn[aria-selected=true]{background:var(--panel)}
+.pf-tlink{font-weight:700;color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}.pf-tlink:hover,.pf-tlink:focus-visible{color:#4f3aa8;border-bottom-style:solid}
+:root[data-theme="dark"] .pf-tlink:hover,:root[data-theme="dark"] .pf-tlink:focus-visible{color:#c9bcff}

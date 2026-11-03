@@ -475,6 +475,7 @@ export function renderHome(root, model, handlers) {
     return null;
   };
   const tierOf = (t) => (lastFull && lastFull.cards?.[t] ? lastFull.cards[t].tier : null);
+  CARDS = { ...(lastFull?.cards || {}), ...(last?.cards || {}) };   // 카드 링크는 카드가 있는 종목만(tickName)
   const h = model.main?.holdings || {};
   const now = model.now ?? Date.now(), today = etDate(now);
   // 한국 계좌(2026-10-28): 올린 보유표와 그 뒤 매매는 Robinhood만, 키움은 장부·키움 매매로(카드 표시라 기록일 기준)
@@ -597,7 +598,7 @@ export function renderHome(root, model, handlers) {
   const arow = (kind, badge, ticker, sub, val, valCls, detail) => {
     const r = el('div', 'pf-alertrow');
     r.appendChild(el('span', 'pf-abadge pf-ab-' + kind, badge));
-    const nm = el('span', 'pf-aname'); nm.appendChild(el('strong', null, ticker)); nm.appendChild(el('small', null, ' ' + sub)); r.appendChild(nm);
+    const nm = el('span', 'pf-aname'); nm.appendChild(tickName(ticker)); nm.appendChild(el('small', null, ' ' + sub)); r.appendChild(nm);
     r.appendChild(el('strong', 'pf-aval' + (valCls ? ' ' + valCls : ''), val));
     alist.appendChild(r);
     if (detail) alist.appendChild(el('p', 'pf-adetail', detail));
@@ -613,7 +614,7 @@ export function renderHome(root, model, handlers) {
       : w0.all ? `${md(w0.round)} 마지막 회차라 전부`
       : `${md(w0.round)} 회차 · 전부 팔 때까지 남은 ${w0.remaining}회에 나눠서`) + (!weekly && w0.round ? ' · 11월부터' : '');
     const r = el('div', 'pf-sellrow');
-    const nm = el('span', 'pf-aname'); nm.appendChild(el('strong', null, w0.ticker)); nm.appendChild(el('small', null, ' ' + sub)); r.appendChild(nm);
+    const nm = el('span', 'pf-aname'); nm.appendChild(tickName(w0.ticker)); nm.appendChild(el('small', null, ' ' + sub)); r.appendChild(nm);
     r.appendChild(el('strong', 'pf-aval pf-aval-sell', val));
     const can = weekly && !!w0.round && w0.shares > 0;
     if (can) {
@@ -673,7 +674,7 @@ export function renderHome(root, model, handlers) {
     for (const x of soldList) {
       const r = el('div', 'pf-soldrow');
       r.appendChild(el('span', null, md(x.date)));
-      const nm = el('span', 'pf-aname'); nm.appendChild(el('strong', null, x.ticker)); nm.appendChild(el('small', null, ' ' + [acct(x.account), qty(x.qty) + '주'].filter(Boolean).join(' · '))); r.appendChild(nm);
+      const nm = el('span', 'pf-aname'); nm.appendChild(tickName(x.ticker)); nm.appendChild(el('small', null, ' ' + [acct(x.account), qty(x.qty) + '주'].filter(Boolean).join(' · '))); r.appendChild(nm);
       r.appendChild(el('strong', 'pf-aval', usd(x.amount)));
       sd.appendChild(r);
     }
@@ -684,7 +685,7 @@ export function renderHome(root, model, handlers) {
   const panes = { buy: buyPane, sell: sellPane };
   const tabBtns = {};
   const pick = (k) => { doTab = k; for (const [t, b] of Object.entries(tabBtns)) { b.setAttribute('aria-selected', String(t === k)); b.tabIndex = t === k ? 0 : -1; panes[t].hidden = t !== k; } };
-  for (const [k, t] of [['buy', '매수'], ['sell', '매도' + (sellNow ? ` ${sellNow}` : '')]]) {
+  for (const [k, t] of [['buy', '매수'], ['sell', '매도']]) {
     const b = el('button', 'pf-segbtn', t); b.type = 'button'; b.setAttribute('role', 'tab'); b.id = 'pf-dotab-' + k;
     panes[k].setAttribute('role', 'tabpanel'); panes[k].setAttribute('aria-labelledby', b.id);
     b.addEventListener('click', () => pick(k));
@@ -763,7 +764,7 @@ export function renderHome(root, model, handlers) {
     const row = el('div', 'pf-hold');
     const nm = el('div');
     const dot = el('i', 'pf-dot'); dot.style.background = color(x.ticker); nm.appendChild(dot);
-    nm.appendChild(el('strong', null, x.ticker));
+    nm.appendChild(tickName(x.ticker));
     nm.appendChild(el('small', null, [x.name, shares(x.qty) + '주', x.avgPrice ? '평균 ' + usd(x.avgPrice) : ''].filter(Boolean).join(' · ')));
     const loss = lossOf.get(x.ticker);
     if (loss) { const w = el('span', 'pf-loss', `⚠ 평균 대비 ${dropText(loss.drop)}`); w.title = `원칙 4 매도 검토(20% 하락): 평균 ${usd(loss.avgPrice)} → 종가 ${usd(loss.close)}`; nm.appendChild(w); }
@@ -803,6 +804,14 @@ export function nextAction(mv) {
 // 나누는 방법: 원칙으로 정하기 전이라 이 탭에서만 기억한다(sessionStorage). 저장소가 막혀도 메모리 값으로 동작한다(dr r1)
 let buyMethod;
 let pickSaving = false;   // 체크 저장 중이면 다시 그린 목록·방법 버튼도 잠근다(dr r2)
+// 종목 이름 → 그 종목 카드(사용자 결정 2026-11-03). 카드가 있는 종목만 링크, 새 탭으로 열어 이 화면(로그인)은 그대로 둔다
+let CARDS = {};
+function tickName(t) {
+  if (!CARDS[t]) return el('strong', null, t);
+  const a = el('a', 'pf-tlink', t); a.href = `${t.replace(/[^A-Za-z0-9]/g, '').toUpperCase()}_full_widget.html`;
+  a.target = '_blank'; a.rel = 'noopener'; a.title = `${t} 카드 열기(새 탭)`;
+  return a;
+}
 let doTab = 'buy';   // 다음 할 일 탭(매수|매도) — 페이지를 열 때마다 매수, 다시 그릴 때는 유지(sessionStorage 안 씀, 사용자 결정 '항상 매수')
 let demoPicks = [];   // 시연 달 체크(저장하지 않음, 이 탭에서만)
 try { buyMethod = sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }
@@ -1011,7 +1020,7 @@ function buyBox(args) {
     });
     row.appendChild(cb);
     const nm = el('span', 'pf-buyname');
-    nm.appendChild(el('strong', null, t));
+    nm.appendChild(tickName(t));
     nm.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tiers[t]] || 'pf-t-none'), tiers[t] || '판정 없음'));
     const now = tierOf(t);
     if (now && now !== tiers[t]) nm.appendChild(el('span', 'pf-note', `지금 ${now}`));
@@ -1118,7 +1127,7 @@ function previewSection(args, box, month, budget) {
       }
     });
     row.appendChild(cb);
-    const nm = el('span', 'pf-buyname'); nm.appendChild(el('strong', null, t));
+    const nm = el('span', 'pf-buyname'); nm.appendChild(tickName(t));
     nm.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tiers[t]] || 'pf-t-none'), tiers[t]));
     row.appendChild(nm);
     const act = el('span', 'pf-buyact');
@@ -1156,7 +1165,7 @@ function freshSection({ model, mv, dlg, tierOf, nowBuyable }, box, plan, bought)
   for (const t of fresh) {
     const row = el('div', 'pf-buyrow pf-freshrow');
     row.appendChild(el('span'));
-    const nm = el('span', 'pf-buyname'); nm.appendChild(el('strong', null, t));
+    const nm = el('span', 'pf-buyname'); nm.appendChild(tickName(t));
     nm.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tierOf(t)] || 'pf-t-none'), tierOf(t)));
     const b = bought.get(t);
     if (b) nm.appendChild(el('span', 'pf-note', `이번 달 ${usd0(b.amount)}(${shares(b.qty)}주) 삼`));
