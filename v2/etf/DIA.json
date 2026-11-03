@@ -2,34 +2,29 @@
  "etf": "DIA",
  "name": "SPDR Dow Jones Industrial Average ETF Trust",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-10-30 ≠ 허용 ['2026-11-02'] (P=2026-11-02, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
    "detail": "승인 목록에 없는 판정 코드 해시 26장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX"
   }
  ],
- "detail": "보유 파일 기준일 2026-10-30 ≠ 허용 ['2026-11-02'] (P=2026-11-02, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 26장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX",
  "verdict": null,
  "nbar": null,
- "coverage": 0.9294452818549148,
+ "coverage": 0.9288183113070517,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0,
-  "적정~저평가": 0.023494132952785268,
-  "적정": 0.03074994459990445,
-  "적정~고평가": 0.34638575059515325,
-  "고평가": 0.5288154537070717,
-  "카드 없음": 0.025065836765164305,
-  "판정 보류": 0.045488881379920826,
+  "적정~저평가": 0.023102577336782344,
+  "적정": 0.030333142985428226,
+  "적정~고평가": 0.3456948812795574,
+  "고평가": 0.5296877097052839,
+  "카드 없음": 0.025584797530414528,
+  "판정 보류": 0.0455968911625337,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
@@ -40,7 +35,7 @@
    "lines": [
     "GS"
    ],
-   "weight": 0.10270072113975195,
+   "weight": 0.1027553614665496,
    "card": "GS",
    "verdict": "고평가",
    "n": -3.0,
@@ -52,7 +47,7 @@
    "lines": [
     "CAT"
    ],
-   "weight": 0.07149613956285612,
+   "weight": 0.07015839444366881,
    "card": "CAT",
    "verdict": "고평가",
    "n": -3.0,
@@ -64,7 +59,7 @@
    "lines": [
     "MSFT"
    ],
-   "weight": 0.05991899039234073,
+   "weight": 0.05798168814065449,
    "card": "MSFT",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -76,7 +71,7 @@
    "lines": [
     "AMGN"
    ],
-   "weight": 0.0535012740321052,
+   "weight": 0.05321733417135237,
    "card": "AMGN",
    "verdict": "고평가",
    "n": -3.0,
@@ -88,7 +83,7 @@
    "lines": [
     "V"
    ],
-   "weight": 0.047483084710938366,
+   "weight": 0.048650785406726425,
    "card": "V",
    "verdict": "고평가",
    "n": -4.0,
@@ -100,7 +95,7 @@
    "lines": [
     "UNH"
    ],
-   "weight": 0.04672306183611185,
+   "weight": 0.04578440089145813,
    "card": "UNH",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -112,7 +107,7 @@
    "lines": [
     "TRV"
    ],
-   "weight": 0.045488881379920826,
+   "weight": 0.0455968911625337,
    "card": "TRV",
    "verdict": "판정 보류",
    "n": null,
@@ -121,15 +116,27 @@
    ]
   },
   {
-   "company": "AAPL",
-   "name": "APPLE INC",
+   "company": "SHW",
+   "name": "SHERWIN WILLIAMS CO/THE",
    "lines": [
-    "AAPL"
+    "SHW"
    ],
-   "weight": 0.039565983825053115,
-   "card": "AAPL",
+   "weight": 0.040288307739354254,
+   "card": "SHW",
    "verdict": "고평가",
    "n": -3.0,
+   "excluded": []
+  },
+  {
+   "company": "HD",
+   "name": "HOME DEPOT INC",
+   "lines": [
+    "HD"
+   ],
+   "weight": 0.03900546544685256,
+   "card": "HD",
+   "verdict": "적정~고평가",
+   "n": -2.0,
    "excluded": []
   },
   {
@@ -138,20 +145,8 @@
    "lines": [
     "JPM"
    ],
-   "weight": 0.03869460045475104,
+   "weight": 0.03894029078305587,
    "card": "JPM",
-   "verdict": "고평가",
-   "n": -3.0,
-   "excluded": []
-  },
-  {
-   "company": "SHW",
-   "name": "SHERWIN WILLIAMS CO/THE",
-   "lines": [
-    "SHW"
-   ],
-   "weight": 0.03818600416490254,
-   "card": "SHW",
    "verdict": "고평가",
    "n": -3.0,
    "excluded": []
@@ -377,7 +372,7 @@
    "excluded": []
   }
  ],
- "S": "2026-10-30",
+ "S": "2026-11-02",
  "builtFor": "2026-11-02",
  "expense": {
   "pct": 0.16,
@@ -388,10 +383,10 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-03T04:50:42Z",
- "fetchedAt": "2026-11-03T04:50:42Z",
+ "runAt": "2026-11-03T18:28:52Z",
+ "fetchedAt": "2026-11-03T18:28:53Z",
  "inputHash": {
-  "xlsx": "8cad506504493fd28b1613ac1c2f7c4edbe57f51e4b9cf49fe85bd0faf7ec4bf",
+  "xlsx": "4a62354b4f912c427c48330440ff5e1bdf6c0f69069647bde0913b451fcaae83",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -400,16 +395,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
    "code_sig"
   ],
-  "S": "2026-10-30"
+  "S": "2026-11-02"
  },
- "runId": "41580406360.1",
+ "runId": "41694073363.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",
