@@ -1,4 +1,4 @@
-BUILD = {'eps_tag': 'IncomeLossFromContinuingOperationsPerDilutedShare,EarningsPerShareDiluted'}   # 2023-06 Fortrea 분사 — 계속사업 EPS 우선
+BUILD = {'eps_tag': 'IncomeLossFromContinuingOperationsPerDilutedShare,EarningsPerShareDiluted', 'no_dcf': '미완성 — 일회성 비용 처리 대기'}   # 2023-06 Fortrea 분사 — 계속사업 EPS 우선
 # LH(랩코프) v2 카드 설정 — 자동 카드(AUTO). 회계연도 12월 31일. 진단(미국 임상 검사) + 바이오제약 실험실 서비스(중앙 검사실·초기 개발), 부문 2개.
 # 출처: SEC XBRL, Q3 2026 10-Q(2026-10-30 16:11 장 마감 뒤 접수 — 첫 세션 11/2), 실적 보도자료(Q4 2025~Q3 2026, 8-K 2.02항 — 장 전 06:5x 동부 → 같은 날 반응), StockAnalysis. 사전 조사 scratchpad pre/LH.md(Q2 기준 + Q3 보도자료).
 # 2023-06-30 Fortrea(임상 개발 사업) 분사 — RESTATED_LATEST, 자기 이력 2024-04-30부터(HISTORY_START — 그날 최근 4분기 합이 모두 계속사업), 현금흐름 성장 이력 2023-06 최근 4분기 합부터(HISTORY_WINDOW), Yahoo 1.164는 분사 가격 조정이라 분할 목록 비움(KNOWN_SPLITS []).
@@ -9,7 +9,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, 0, 0), '판정 보류'
 CO = 'Labcorp'
 S_ = 'https://www.sec.gov/Archives/edgar/data/920148/'
 SEC = S_
@@ -21,8 +21,8 @@ HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (�
 Y2 = (0, 20)
 ACT_REASON = ''
 NONOP_WHAT = '투자'
-MODEL_NOTE = ('회사 조정 EPS(최근 4분기 18.09)는 GAAP(12.19)보다 훨씬 높다 — 인수 무형자산 상각과 매 분기 반복되는 인수·비용 절감(LaunchPad) 비용을 빼서다. 카드는 GAAP 기준이라 영업이익률이 낮게 나오고 현금흐름 가치도 낮다. '
-              '2023년 Fortrea 분사로 과거 실적이 재작성돼 자기 이력은 2024-04-30부터 비교한다. 3분기 뒤 인수 4건(MLM Medical Labs 완료 등)과 9월 메디케어 검사 수가(PAMA) 인하 예비안이 있다. '
+MODEL_NOTE = ('회사 조정 EPS(최근 4분기 18.09)는 GAAP(12.19)보다 훨씬 높다 — 인수 무형자산 상각과 매 분기 반복되는 인수·비용 절감(LaunchPad) 비용을 빼서다. 카드는 GAAP 기준이라 영업이익률이 낮게 나온다. '
+              '2023년 Fortrea 분사로 과거 실적이 재작성돼 자기 이력은 2024-04-30부터 비교한다. 3분기에 MLM Medical Labs 인수를 마쳤고 분기 뒤 3건을 계약했으며, 9월 메디케어 검사 수가(PAMA) 인하 예비안이 있다. '
               '동종업 점수는 S&P500 헬스케어 기준이다.')
 PH = ['DGX', 'HCA', 'UHS', 'IQV', 'CRL', 'DVA']
 PEER_FILE = 'peer_universe/health_care.json'
@@ -51,6 +51,25 @@ NEWS = [
 ]
 ANALYST = {'rating': 'Buy', 'n': 17, 'nt': 11, 'mean': 374, 'median': 380, 'low': 310, 'high': 420, 'sb': 10, 'b': 2, 'h': 5, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-11-03'
+
+# 미완성 카드 표시(2026-11-03 사용자 결정 — C·D·E 보류 카드는 있는 자료로 만들고 판정 보류 + 이유를 잘 보이게, SPCX 방식). BUILD no_dcf가 판정을 보류로 만들고, 보험사용 문구를 미완성 사유로 바꾼다.
+INCOMPLETE_SHORT = '일회성 비용 처리 대기'
+INCOMPLETE_WHY = '최근 4분기 EPS에 일회성 구조조정(세전 $138M)이 들어 있어, 빼고 계산하면 판정이 바뀐다 — 일회성 처리 규칙(안건 E54)이 정해질 때까지 보류'
+POST = [r"""
+_w = '최근 4분기 EPS에 일회성 구조조정(세전 $138M)이 들어 있어, 빼고 계산하면 판정이 바뀐다 — 일회성 처리 규칙(안건 E54)이 정해질 때까지 보류'
+_hv = '<span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">판정 보류</span>'
+if _hv in h and 'data-incomplete' not in h:
+    h = h.replace(_hv, _hv + '<span data-incomplete style="display:block;font-size:12px;line-height:1.35;color:var(--text3);margin-top:2px;">미완성 — 일회성 비용 처리 대기</span>', 1)
+h = h.replace('이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다).', '미완성 카드다 — ' + _w + '. 그래서 현금흐름 내재가치 칸을 비우고 종합 판정을 보류한다(자기 이력·동종업 점수는 참고로 둔다).')
+h = h.replace('이 종목은 현금흐름 내재가치를 계산하지 않는다.', '미완성 — 일회성 비용 처리 대기. 현금흐름 내재가치는 계산하지 않았다.')
+import re as _re3
+h = _re3.sub(r'<div class="note">미완성 카드다 — .*?</div>', '', h, count=1, flags=_re3.S)
+h = h.replace("if (r) r.textContent = '내재가치를 계산하지 못했다 — ' + (D.unavailable || '입력 부족');", "if (r) r.textContent = '';")
+h = h.replace('현금흐름 미적용', '현금흐름 보류(미완성)')
+h = h.replace('내재가치를 계산하지 못했다 — 판정 보류 — ', '미완성 카드 — ')
+h = h.replace('계산 불가 — 판정 보류 — ', '미완성 — ')
+h = h.replace('계산 불가 — 미완성 — ', '미완성 — ')
+"""]
 
 
 # ── 자동 카드 — 부문(축 하나만 붙은 값). 원문 대조: Q3 2026 2,948.9/866.7(2026-11-03) ──
