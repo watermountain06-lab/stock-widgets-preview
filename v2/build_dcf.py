@@ -697,7 +697,8 @@ PRETAX_TAG_BY_CIK = {"0001633917": "IncomeLossAttributableToParent",   # PYPL: �
                      "0000764622": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest",
                      # NI: 손익계산서 "Income before income taxes"(상반기 2026 $689.1M, 비지배지분 몫 포함)를 이 태그로만 낸다 — 표준 세전 태그가 없어 세율이 21%로 떨어졌다(2026-10-25)
                      "0001111711": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic",
-                     "0000822416": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic",   # PHM: 표준 세전 태그는 2022-03에 멈춤(Q3 2026 $625.2M, 2026-11-03)
+                     "0000822416": "IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic",
+                     "0000910521": "IncomeLossAttributableToParent",   # DECK: 손익계산서 "Income before income taxes"(Q2 FY27 $403.5M)를 이 태그로 낸다 — 표준 세전 태그는 10-K 연간 국내·해외 분리뿐(2026-11-03)   # PHM: 표준 세전 태그는 2022-03에 멈춤(Q3 2026 $625.2M, 2026-11-03)
                      # ITW: 손익계산서 "Income Before Taxes"(Q2 2026 $1,080M)를 이 태그로 낸다 — 표준 세전 태그는 2021-06에 멈춰 세율이 법정 21%로 떨어졌다(2026-10-22)
                      "0000049826": "IncomeLossIncludingPortionAttributableToNoncontrollingInterest"}
 
