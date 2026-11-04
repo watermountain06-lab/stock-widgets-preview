@@ -238,5 +238,15 @@
    "desc": "Q3 2026 이자비용 — 10-Q 손익계산서 'Debt expense $150,016'(천 달러). 회사는 분기 이자를 InterestAndDebtExpense 태그로만 내 엔진이 읽는 이자비용 태그 목록에 없다(TXN과 같음, 2026-10-30 Codex·Fable r1).",
    "source": "https://www.sec.gov/Archives/edgar/data/927066/000092706626000134/dva-20260930.htm"
   }
+ ],
+ "GPC": [
+  {
+   "end": "2026-09-30",
+   "value": 45970000,
+   "filed": "2026-10-20",
+   "net": true,
+   "desc": "Q3 2026 순이자비용 — 10-Q 손익계산서 'Interest expense, net $45,970'(천 달러). 2026년 10-Q는 InterestIncomeExpenseNonoperatingNet(음수)로만 내 엔진 이자 태그(InterestExpenseNonoperating)가 Q1 2026에서 끊겼다(Fable r1, 2026-11-03).",
+   "source": "https://www.sec.gov/Archives/edgar/data/40987/000004098726000041/gpc-20260930.htm"
+  }
  ]
 }
