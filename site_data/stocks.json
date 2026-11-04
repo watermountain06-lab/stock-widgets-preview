@@ -11743,6 +11743,90 @@
         "valuationAsOf": "2026-11-02",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "RL",
+      "name": "랄프 로렌",
+      "sector": "경기소비재 — 의류·잡화 브랜드(폴로 랄프 로렌 등, 북미·유럽·아시아)",
+      "href": "RL_full_widget.html",
+      "cardRank": 279,
+      "cardAsOf": "2026-11-02",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 397.53,
+        "prevClose": 392.87,
+        "session": "2026-11-02",
+        "prevSession": "2026-10-30",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 59582239,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-06",
+        "filing": "10-Q 0001628280-26-053992 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 64.5,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-27",
+        "valuationAsOf": "2026-11-02",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "PHM",
+      "name": "펄트그룹",
+      "sector": "경기소비재 — 주택 건설(펄트·센텍스·델웹, 모기지 금융)",
+      "href": "PHM_full_widget.html",
+      "cardRank": 280,
+      "cardAsOf": "2026-11-02",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 131.29,
+        "prevClose": 124.74,
+        "session": "2026-11-02",
+        "prevSession": "2026-10-30",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 184086754,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-15",
+        "filedAt": "2026-10-22",
+        "filing": "10-Q 0000822416-26-000043 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 65.5,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-02",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }
