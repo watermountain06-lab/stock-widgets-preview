@@ -3956,82 +3956,82 @@
  ],
  "crossCheck": {
   "status": "ok",
-  "text": "State Street SPY NAV 이력과 5767일(2003-12-01~2026-11-02) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.61%(2008-10-10), 최근 250세션 최대 0.49% · 마지막 2026-11-03 종가는 NAV 게시 전이라 대조 전(Yahoo 값)"
+  "text": "State Street SPY NAV 이력과 5768일(2003-12-01~2026-11-03) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.61%(2008-10-10), 최근 250세션 최대 0.49%"
  },
  "constituents": {
   "holdings": {
-   "S": "2026-11-02",
+   "S": "2026-11-03",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
-     "company": "AAPL",
-     "name": "APPLE INC",
-     "weight": 0.07603890574932291,
-     "card": "AAPL",
-     "verdict": "고평가"
-    },
-    {
      "company": "NVDA",
      "name": "NVIDIA CORP",
-     "weight": 0.07530487674865564,
+     "weight": 0.07670844137542869,
      "card": "NVDA",
      "verdict": "적정~저평가"
     },
     {
+     "company": "AAPL",
+     "name": "APPLE INC",
+     "weight": 0.07428402650130943,
+     "card": "AAPL",
+     "verdict": "고평가"
+    },
+    {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.0579878906386782,
+     "weight": 0.05932840010578551,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "GOOGL",
      "name": "ALPHABET INC CL A",
-     "weight": 0.04556334340835111,
+     "weight": 0.045481786019988944,
      "card": "GOOGL",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMZN",
      "name": "AMAZON.COM INC",
-     "weight": 0.03712805114744749,
+     "weight": 0.03773530515900167,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "AVGO",
      "name": "BROADCOM INC",
-     "weight": 0.023608521683591267,
+     "weight": 0.024231336931009744,
      "card": "AVGO",
      "verdict": "적정~고평가"
     },
     {
      "company": "META",
      "name": "META PLATFORMS INC CLASS A",
-     "weight": 0.02060378472548184,
+     "weight": 0.02100021842134516,
      "card": "META",
      "verdict": "적정~고평가"
     },
     {
-     "company": "TSLA",
-     "name": "TESLA INC",
-     "weight": 0.017527003271923233,
-     "card": "TSLA",
+     "company": "LLY",
+     "name": "ELI LILLY + CO",
+     "weight": 0.017293051080346886,
+     "card": "LLY",
      "verdict": "고평가"
     },
     {
-     "company": "LLY",
-     "name": "ELI LILLY + CO",
-     "weight": 0.017388009549634514,
-     "card": "LLY",
+     "company": "TSLA",
+     "name": "TESLA INC",
+     "weight": 0.017221815413884827,
+     "card": "TSLA",
      "verdict": "고평가"
     },
     {
      "company": "BRKB",
      "name": "BERKSHIRE HATHAWAY INC CL B",
-     "weight": 0.015950843491186757,
+     "weight": 0.015909335543690884,
      "card": "BRKB",
      "verdict": "판정 보류"
     }
@@ -4243,7 +4243,7 @@
     ],
     [
      "CHD",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "CIEN",
@@ -4338,6 +4338,10 @@
      "고평가"
     ],
     [
+     "DECK",
+     "저평가"
+    ],
+    [
      "DELL",
      "적정~고평가"
     ],
@@ -4363,6 +4367,10 @@
     ],
     [
      "DOV",
+     "적정~고평가"
+    ],
+    [
+     "DPZ",
      "적정~고평가"
     ],
     [
@@ -4403,7 +4411,7 @@
     ],
     [
      "EME",
-     "적정"
+     "적정~고평가"
     ],
     [
      "EMR",
@@ -4498,6 +4506,10 @@
      "적정~고평가"
     ],
     [
+     "GPC",
+     "판정 보류"
+    ],
+    [
      "GRMN",
      "고평가"
     ],
@@ -4508,6 +4520,10 @@
     [
      "GWW",
      "고평가"
+    ],
+    [
+     "HAS",
+     "적정~고평가"
     ],
     [
      "HD",
@@ -4639,11 +4655,15 @@
     ],
     [
      "LOW",
-     "적정~고평가"
+     "적정"
     ],
     [
      "LRCX",
      "고평가"
+    ],
+    [
+     "LULU",
+     "저평가"
     ],
     [
      "LVS",
@@ -4699,7 +4719,7 @@
     ],
     [
      "MPC",
-     "고평가"
+     "적정"
     ],
     [
      "MRK",
@@ -4715,7 +4735,7 @@
     ],
     [
      "MRVL",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "MS",
@@ -4742,8 +4762,12 @@
      "적정~저평가"
     ],
     [
+     "NCLH",
+     "적정~고평가"
+    ],
+    [
      "NDAQ",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "NDSN",
@@ -4799,7 +4823,7 @@
     ],
     [
      "ORCL",
-     "적정"
+     "적정~고평가"
     ],
     [
      "ORLY",
@@ -4835,7 +4859,7 @@
     ],
     [
      "PFE",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "PG",
@@ -4895,7 +4919,7 @@
     ],
     [
      "QCOM",
-     "적정"
+     "적정~고평가"
     ],
     [
      "RCL",
@@ -4939,11 +4963,11 @@
     ],
     [
      "SHW",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "SNDK",
-     "적정~저평가"
+     "적정"
     ],
     [
      "SNPS",
@@ -5015,7 +5039,7 @@
     ],
     [
      "TSCO",
-     "판정 보류"
+     "적정"
     ],
     [
      "TSLA",
@@ -5043,7 +5067,7 @@
     ],
     [
      "ULTA",
-     "판정 보류"
+     "적정~고평가"
     ],
     [
      "UNH",
@@ -5051,7 +5075,7 @@
     ],
     [
      "UNP",
-     "고평가"
+     "적정~고평가"
     ],
     [
      "UPS",
@@ -5164,66 +5188,66 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-11-02",
+   "asOf": "2026-11-03",
    "rows": [
     [
      "Information Technology",
-     36.64
+     36.98
     ],
     [
      "Financials",
-     12.46
+     12.34
     ],
     [
      "Health Care",
-     10.29
+     10.22
     ],
     [
      "Consumer Discretionary",
-     9.28
+     9.24
     ],
     [
      "Communication Services",
-     8.44
+     8.49
     ],
     [
      "Industrials",
-     8.3
+     8.35
     ],
     [
      "Consumer Staples",
-     5.11
+     5.0
     ],
     [
      "Energy",
-     3.77
+     3.73
     ],
     [
      "Utilities",
-     2.11
+     2.09
     ],
     [
      "Real Estate",
-     1.83
+     1.82
     ],
     [
      "Materials",
-     1.78
+     1.74
     ]
    ]
   },
   "chars": {
-   "pe": 23.55,
-   "peAsOf": "2026-11-02"
+   "pe": 23.5,
+   "peAsOf": "2026-11-03"
   },
   "dgs10": {
-   "date": "2026-11-02",
-   "value": 0.0491
+   "date": "2026-11-03",
+   "value": 0.0495
   }
  },
  "index": "SPY",
  "name": "SPY",
- "runId": "41769521215.1",
- "runAt": "2026-11-04T03:50:35Z",
+ "runId": "41922738426.1",
+ "runAt": "2026-11-04T22:10:04Z",
  "source": "Yahoo Finance SPY 일봉 종가"
 }
