@@ -511,9 +511,9 @@ Chart.overrides.doughnut.animation = false;
 <div class="back-bar">
   <a class="back-bar-left" href="index.html"><span class="back-bar-logo"></span><span>US stock 가치를 말하다 · 전체 종목 목록</span></a>
   <div class="back-bar-right"><button id="theme-toggle" type="button" role="switch" aria-label="다크 모드" aria-checked="false"><span aria-hidden="true">☀</span><span aria-hidden="true">☾</span><span class="theme-knob"></span></button>
-    
+    <a class="back-bar-nav" href="HAS_full_widget.html">◀ HAS</a>
     <span class="back-bar-current">LULU · 시총 약 $11B</span>
-    <span class="back-bar-nav disabled">다음 ▶</span>
+    <a class="back-bar-nav" href="DECK_full_widget.html">다음 DECK ▶</a>
   </div>
 </div>
 
@@ -1062,13 +1062,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">1</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">0</span> · 유지 <span data-an="hold">1</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 0%; background: var(--green);"></div><div data-an-bar="hold" style="width: 100%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">36명 · 목표가 22</span>명</span>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">1</span> · 유지 <span data-an="hold">29</span> · 매도 <span data-an="sell">6</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 2.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 80.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 16.7%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-03</span></span>
-        <span class="op-val"><span data-an="mean">$0</span> <span class="op-sub op-down" data-an="upside">−100.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-04</span></span>
+        <span class="op-val"><span data-an="mean">$101.36</span> <span class="op-sub op-down" data-an="upside">−5.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2069,8 +2069,8 @@ const LULU_ACTIVITY = {"ticker": "LULU", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/lulu/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const LULU_ANALYST = { asOf: '2026-11-03', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 1, nTargets: 1, mean: 0, median: 0,
-  low: 0, high: 0, strongBuy: 0, buy: 0, hold: 1, sell: 0, strongSell: 0 };
+const LULU_ANALYST = { asOf: '2026-11-04', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 36, nTargets: 22, mean: 101.36, median: 100,
+  low: 44, high: 169, strongBuy: 1, buy: 0, hold: 29, sell: 1, strongSell: 5 };
 (function(){
   const A = LULU_ANALYST, last = (typeof LULU_DAILY !== 'undefined' && LULU_DAILY.length) ? LULU_DAILY[LULU_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

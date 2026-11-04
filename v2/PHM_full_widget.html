@@ -511,7 +511,7 @@ Chart.overrides.doughnut.animation = false;
 <div class="back-bar">
   <a class="back-bar-left" href="index.html"><span class="back-bar-logo"></span><span>US stock 가치를 말하다 · 전체 종목 목록</span></a>
   <div class="back-bar-right"><button id="theme-toggle" type="button" role="switch" aria-label="다크 모드" aria-checked="false"><span aria-hidden="true">☀</span><span aria-hidden="true">☾</span><span class="theme-knob"></span></button>
-    
+    <a class="back-bar-nav" href="RL_full_widget.html">◀ RL</a>
     <span class="back-bar-current">PHM · 시총 약 $24B</span>
     <a class="back-bar-nav" href="LVS_full_widget.html">다음 LVS ▶</a>
   </div>
@@ -1067,13 +1067,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">1</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">0</span> · 유지 <span data-an="hold">1</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 0%; background: var(--green);"></div><div data-an-bar="hold" style="width: 100%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">18명 · 목표가 13</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">10</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 55.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 38.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-03</span></span>
-        <span class="op-val"><span data-an="mean">$0</span> <span class="op-sub op-down" data-an="upside">−100.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-04</span></span>
+        <span class="op-val"><span data-an="mean">$135.54</span> <span class="op-sub op-up" data-an="upside">+3.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2072,8 +2072,8 @@ const PHM_ACTIVITY = {"ticker": "PHM", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/phm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const PHM_ANALYST = { asOf: '2026-11-03', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 1, nTargets: 1, mean: 0, median: 0,
-  low: 0, high: 0, strongBuy: 0, buy: 0, hold: 1, sell: 0, strongSell: 0 };
+const PHM_ANALYST = { asOf: '2026-11-04', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 18, nTargets: 13, mean: 135.54, median: 136,
+  low: 109, high: 162, strongBuy: 8, buy: 2, hold: 7, sell: 0, strongSell: 1 };
 (function(){
   const A = PHM_ANALYST, last = (typeof PHM_DAILY !== 'undefined' && PHM_DAILY.length) ? PHM_DAILY[PHM_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });
