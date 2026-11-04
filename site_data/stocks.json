@@ -12198,6 +12198,49 @@
         "valuationAsOf": "2026-11-03",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "DPZ",
+      "name": "도미노피자",
+      "sector": "경기소비재 — 피자 배달 프랜차이즈(미국 매장·공급망·해외 로열티)",
+      "href": "DPZ_full_widget.html",
+      "cardRank": 290,
+      "cardAsOf": "2026-11-03",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 323.09,
+        "prevClose": 322.35,
+        "session": "2026-11-03",
+        "prevSession": "2026-11-02",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 32896056,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-06",
+        "filedAt": "2026-10-13",
+        "filing": "10-Q 0001286681-26-000040 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 39.2,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-06",
+        "valuationAsOf": "2026-11-03",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }
