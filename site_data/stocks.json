@@ -12282,6 +12282,49 @@
         "valuationAsOf": "2026-11-03",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "TROW",
+      "name": "T. 로 프라이스",
+      "sector": "금융 — 자산운용(뮤추얼펀드·퇴직연금·OHA 대체투자)",
+      "href": "TROW_full_widget.html",
+      "cardRank": 292,
+      "cardAsOf": "2026-11-03",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 106.23,
+        "prevClose": 105.85,
+        "session": "2026-11-03",
+        "prevSession": "2026-11-02",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 213325929,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-27",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001113169-26-000005 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "저평가",
+        "raw": "저평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 72.4,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-03",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }
