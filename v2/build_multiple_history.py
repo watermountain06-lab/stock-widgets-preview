@@ -1979,6 +1979,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
                   "0000940944": ["ShortTermBorrowings", ("LongTermDebt", "LongTermDebtNoncurrent")],   # DRI: 단기(CP + 1년 안 채권 $500M) $979.7M + 장기 $1,636.1M = $2,615.8M(Q1 FY27 10-Q). 기본은 단기만 잡혔다. 2023-05 전 장기는 LongTermDebtNoncurrent. 2026-05 LongTermDebtCurrent $693.6M은 단기 줄과 같은 값이라 빼다(2026-11-03)
+                  "0001513761": ["LongTermDebtAndCapitalLeaseObligations", "LongTermDebtAndCapitalLeaseObligationsCurrent"],   # NCLH: 대차대조표 비유동 $13,951.5M + 유동 $1,135.0M = $15,086.5M(Q3 2026 10-Q). ...IncludingCurrentMaturities $15,498M은 원금 상환표 합계라 쓰지 않는다(2026-11-04)
                   "0001286681": ["LongTermDebtAndCapitalLeaseObligations", "LongTermDebtAndCapitalLeaseObligationsCurrent"],   # DPZ: 증권화 채권 비유동 $3,559M + 1년 안 $1,327M(2027-07 ARD 재분류) = $4,886M(금융리스 포함, Q3 2026 10-Q). 기본은 비유동만(2026-11-03)
                   "0000040987": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # GPC: 단기 $388M(CP 포함) + 1년 안 $250M + 장기 $4,472M = $5,110M(Q3 2026 10-Q). 기본은 CP를 단기 차입과 또 더해 $5,499M(2026-11-03)
                   "0000764478": [("DebtAndCapitalLeaseObligations", "LongTermDebt")],   # BBY: 총차입(유동 포함, 금융리스 $32M 포함) $1,169M(Q2 FY27 10-Q) — FY26 10-K부터 새 태그, 그 전은 LongTermDebt(겹치는 날 값 같음). 기본은 비유동 $1,158M만(2026-11-03)
@@ -2309,6 +2310,7 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 EV_TAGS_BY_CIK = {"0001324424": {"nci": ["NonredeemableNoncontrollingInterest", "MinorityInterest"]},   # EXPE: 비지배지분 $1,262M(trivago 소수지분)은 NonredeemableNoncontrollingInterest 태그(Q2 2026 10-Q, 2026-11-03)
                   "0000783325": {"nci": ["OtherMinorityInterests"]},   # WEC: 비지배지분 $404.3M은 OtherMinorityInterests 태그(MinorityInterest 아님, Q3 2026 10-Q, 2026-11-03)
                   "0001967680": {"lease": ["OperatingLeaseLiability"]},   # VLTO: 최신 운용리스 합계 $196M(Q3 2026) — 유동·비유동 태그는 연간(2025-12 $206M)뿐(Codex r1, 2026-10-30)
+                  "0001513761": {"sti": [], "nci": []},   # NCLH: 단기투자(2022)·비지배지분(2014)은 사라진 항목(2026-11-04)
                   "0001286681": {"preferred": []},   # DPZ: 우선주 태그 2025-12 멈춤(발행 없음, 2026-11-03)
                   "0000910521": {"sti": [], "nci": []},   # DECK: 단기투자(2009)·비지배지분(2012)은 사라진 항목, 차입금 0(2026-11-03)
                   "0001397187": {"nci": []},   # LULU: 비지배지분 $0.01B(2012-07)은 사라진 항목(2026-11-03)
@@ -2939,6 +2941,7 @@ HISTORY_START = {"GE": "2024-07-23",
                  # LVS: 마카오 봉쇄 해(2020~2022) 매출·EBITDA가 바닥이라 PSR·EV/EBITDA 이력이 수십~수백 배로 튀어 오늘이 싸 보였다.
                  # 재개장 뒤 첫 최근 4분기 합(FY2023 10-K, 2024-02-07)부터 비교한다(2026-11-03).
                  "LVS": "2024-02-07",
+                 "NCLH": "2024-02-28",   # NCLH: 코로나 적자(FY20~FY22) 뒤 첫 흑자 해 FY2023 10-K 공시일(2024-02-28, 실적 발표는 02-27)부터 — 그 전 PER·EV/EBITDA는 음수·수백 배(2026-11-04)
                  # EXC: Constellation 분사(2022-02-01). 최근 4분기가 모두 분사 뒤인 첫 시점(FY2022 10-K, 2023-02-14 — T 방식). 그 전은 재작성 연간 − 원공시 9개월로
                  # 2020년 4분기 매출이 −$8,262M이 되어 PSR이 8배로 튀었다(2026-10-28, Fable r1 후속).
                  "EXC": "2023-02-14",

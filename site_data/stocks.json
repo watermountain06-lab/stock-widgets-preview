@@ -12241,6 +12241,47 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "NCLH",
+      "name": "노르웨이전 크루즈",
+      "sector": "경기소비재 — 크루즈(Norwegian·Oceania·Regent Seven Seas)",
+      "href": "NCLH_full_widget.html",
+      "cardRank": 291,
+      "cardAsOf": "2026-11-03",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 17.42,
+        "prevClose": 17.94,
+        "session": "2026-11-03",
+        "prevSession": "2026-11-02",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 459275445,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-22",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001104659-26-120217 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 58.3,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-03",
+        "qualityFlags": []
+      }
     }
   ]
 }

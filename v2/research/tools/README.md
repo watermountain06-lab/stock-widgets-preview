@@ -14,3 +14,5 @@ v2 새 카드를 만들 때 쓰는 손 도구다. 실행 절차의 기준은 `v2
 | `badge.py` | `python3 v2/research/tools/badge.py T "#hex"` | 로고를 못 찾을 때 티커 글자 원형 배지 |
 
 `finish.sh`는 `/opt/miniconda3/bin/python3`이 있으면 그것을 먼저 쓴다(셸에 따라 인증서 없는 다른 python3가 잡혀 SEC 요청이 실패했다, 2026-11-03).
+
+생성 스크립트(gen_*.py)로 cfg를 다시 만들면 `fetch_analyst.py`가 넣은 애널리스트 줄이 자리표시(1명 Hold·$0)로 돌아간다. cfg를 다시 만들었으면 빌드 직전에 `python3 v2/newcards/fetch_analyst.py T`를 다시 돌리고, 등록 전에 `grep "'n': 1, 'nt': 1, 'mean': 0" v2/newcards/cfg/cfg_t.py`가 0인지 확인한다(2026-11-03 — 10장이 자리표시로 등록·푸시됐다).
