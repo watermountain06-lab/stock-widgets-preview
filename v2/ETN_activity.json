@@ -1,32 +1,32 @@
 {
  "ticker": "ETN",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 70.7,
+  "dio": 90.3,
+  "dpo": 85.1,
+  "op": 161.0,
+  "ccc": 75.9
+ },
+ "prev": {
   "dso": 71.1,
   "dio": 92.4,
   "dpo": 83.0,
   "op": 163.4,
   "ccc": 80.5
  },
- "prev": {
-  "dso": 70.9,
-  "dio": 94.7,
-  "dpo": 81.3,
-  "op": 165.6,
-  "ccc": 84.3
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
-  "min": 119.9,
+  "from": "2021-09-30",
+  "to": "2026-06-30",
+  "min": 124.5,
   "max": 167.4,
-  "longer": 6,
-  "dsoLonger": 0,
-  "dioLonger": 7
+  "longer": 8,
+  "dsoLonger": 2,
+  "dioLonger": 10
  },
- "score": 30.0,
- "tone": "red"
+ "score": 40.0,
+ "tone": "yellow"
 }
