@@ -1,32 +1,32 @@
 {
  "ticker": "AME",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 52.2,
+  "dio": 82.4,
+  "dpo": 44.5,
+  "op": 134.6,
+  "ccc": 90.1
+ },
+ "prev": {
   "dso": 52.3,
   "dio": 83.1,
   "dpo": 44.1,
   "op": 135.3,
   "ccc": 91.3
  },
- "prev": {
-  "dso": 52.3,
-  "dio": 84.4,
-  "dpo": 43.9,
-  "op": 136.7,
-  "ccc": 92.8
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 115.0,
   "max": 147.1,
-  "longer": 14,
-  "dsoLonger": 0,
-  "dioLonger": 14
+  "longer": 15,
+  "dsoLonger": 2,
+  "dioLonger": 15
  },
- "score": 70.0,
+ "score": 75.0,
  "tone": "green"
 }
