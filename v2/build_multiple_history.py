@@ -1974,6 +1974,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
                   "0000940944": ["ShortTermBorrowings", ("LongTermDebt", "LongTermDebtNoncurrent")],   # DRI: 단기(CP + 1년 안 채권 $500M) $979.7M + 장기 $1,636.1M = $2,615.8M(Q1 FY27 10-Q). 기본은 단기만 잡혔다. 2023-05 전 장기는 LongTermDebtNoncurrent. 2026-05 LongTermDebtCurrent $693.6M은 단기 줄과 같은 값이라 빼다(2026-11-03)
+                  "0000764478": [("DebtAndCapitalLeaseObligations", "LongTermDebt")],   # BBY: 총차입(유동 포함, 금융리스 $32M 포함) $1,169M(Q2 FY27 10-Q) — FY26 10-K부터 새 태그, 그 전은 LongTermDebt(겹치는 날 값 같음). 기본은 비유동 $1,158M만(2026-11-03)
                   "0000822416": "NotesPayable",   # PHM: 주택건설 차입금 $1,808.9M(선순위채 $1,783.5M + 토지 어음 $25.4M, Q3 2026 10-Q). 기본은 LongTermDebt $43.9M(2025-12, 의미 불명). 모기지 자회사 환매 차입 $383.2M(회사 태그)은 매각 예정 대출 $433.9M로 담보된 운전자본성이라 넣지 않는다(2026-11-03)
                   "0001300514": "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities",   # LVS: 유동 $1,566M + 비유동 $13,878M = $15,444M(금융리스 $147M 포함, Q3 2026 10-Q). 기본은 2025-12 10-K 값에 멈춰 $15,770M(2026-11-03)
                   "0001116132": ["LongTermDebt", "LongTermDebtCurrent"],   # TPR: 장기 순액(할인·발행비 차감) $2,379.0M + 1년 안 $0(FY26 10-K). 기본은 채권 액면 합 LongTermDebtNoncurrent $2,396.6M이 잡혔다(2026-11-03)
@@ -2301,6 +2302,7 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 EV_TAGS_BY_CIK = {"0001324424": {"nci": ["NonredeemableNoncontrollingInterest", "MinorityInterest"]},   # EXPE: 비지배지분 $1,262M(trivago 소수지분)은 NonredeemableNoncontrollingInterest 태그(Q2 2026 10-Q, 2026-11-03)
                   "0000783325": {"nci": ["OtherMinorityInterests"]},   # WEC: 비지배지분 $404.3M은 OtherMinorityInterests 태그(MinorityInterest 아님, Q3 2026 10-Q, 2026-11-03)
                   "0001967680": {"lease": ["OperatingLeaseLiability"]},   # VLTO: 최신 운용리스 합계 $196M(Q3 2026) — 유동·비유동 태그는 연간(2025-12 $206M)뿐(Codex r1, 2026-10-30)
+                  "0000764478": {"sti": [], "nci": []},   # BBY: 단기투자 $0.06B(2021-05)·비지배지분(2016-01)은 지금 재무상태표에 없는 낡은 값(2026-11-03)
                   "0000822416": {"lease": ["OperatingLeaseLiability"], "preferred": []},   # PHM: 운용리스는 합계 태그 하나($123.2M), 우선주 $0(2024-12에 멈춘 태그) — 2026-11-03
                   "0001116132": {"sti": ["ShortTermInvestments"]},   # TPR: 단기투자 $177.3M = 매도가능 채권 $149.4M + 기타 $27.9M(FY26 10-K) — 기본 목록이 합계와 구성을 함께 더해 $326.7M(2026-11-03)
                   "0000922224": {"sti": [], "preferred": [], "nci": []},   # PPL: 단기투자(2015)·우선주(2010)·비지배지분(2023)은 지금 재무상태표에 없는 낡은 값(2026-10-30)
