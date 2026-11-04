@@ -2308,7 +2308,7 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 EV_TAGS_BY_CIK = {"0001324424": {"nci": ["NonredeemableNoncontrollingInterest", "MinorityInterest"]},   # EXPE: 비지배지분 $1,262M(trivago 소수지분)은 NonredeemableNoncontrollingInterest 태그(Q2 2026 10-Q, 2026-11-03)
                   "0000783325": {"nci": ["OtherMinorityInterests"]},   # WEC: 비지배지분 $404.3M은 OtherMinorityInterests 태그(MinorityInterest 아님, Q3 2026 10-Q, 2026-11-03)
                   "0001967680": {"lease": ["OperatingLeaseLiability"]},   # VLTO: 최신 운용리스 합계 $196M(Q3 2026) — 유동·비유동 태그는 연간(2025-12 $206M)뿐(Codex r1, 2026-10-30)
-                  "0000046080": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"]},   # HAS: 단기 국채 $576.2M(채권 상환 적립, Q3 2026 10-Q) — 기본 목록에 없는 태그(2026-11-03)
+                  "0000046080": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent"], "lease": ["OperatingLeaseLiability"]},   # HAS: 단기 국채 $576.2M(채권 상환 적립, Q3 2026 10-Q) — 기본 목록에 없는 태그(2026-11-03)
                   "0000040987": {"lease": ["OperatingLeaseLiability"]},   # GPC: 10-Q는 비유동 운용리스($1,714M)만 태그 — 유동분 포함 총액은 10-K OperatingLeaseLiability($2,134M, 2025-12, Codex r1)
                   "0000916365": {"preferred": []},   # TSCO: 우선주 태그가 2024-09에 멈춤(발행 없음, 2026-11-03)
                   "0000764478": {"sti": [], "nci": []},   # BBY: 단기투자 $0.06B(2021-05)·비지배지분(2016-01)은 지금 재무상태표에 없는 낡은 값(2026-11-03)
