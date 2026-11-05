@@ -12481,6 +12481,49 @@
         "status": "excluded",
         "reason": "v2 기본적 분석 점수 없음(financial)"
       }
+    },
+    {
+      "ticker": "RJF",
+      "name": "레이먼드 제임스",
+      "sector": "자산관리·증권 — 재무설계사 네트워크(PCG), 자본시장, 은행(Raymond James Bank·TriState)",
+      "href": "RJF_full_widget.html",
+      "cardRank": 297,
+      "cardAsOf": "2026-11-03",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 161.67,
+        "prevClose": 162.3,
+        "session": "2026-11-03",
+        "prevSession": "2026-11-02",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 192361711,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-03",
+        "filedAt": "2026-08-05",
+        "filing": "10-Q 0000720005-26-000070 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 62.5,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-11-03",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

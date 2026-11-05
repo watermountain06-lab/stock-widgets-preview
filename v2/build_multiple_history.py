@@ -951,6 +951,9 @@ EXTRA_TAGS = {
     # ADP: 현금흐름표 "Capital expenditures"(FY2026 $196.6M)를 PaymentsToAcquireOtherPropertyPlantAndEquipment로 낸다 — 기본 목록 태그가 없어 PCR 계산 불가였다.
     # 자본화 소프트웨어 "Additions to intangibles"($468.5M, PaymentsToAcquireIntangibleAssets)는 넣지 않는다(공통 안건 — MCK와 같은 정의, 2026-10-16).
     "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
+    # RJF: 손익계산서 헤드라인은 순매출 "Net revenues"(RevenuesNetOfInterestExpense, Q3 FY26 $3,928M) — Revenues($4,362M)는 이자수익을 더한 총수익이라
+    # 부문 순매출 합과 $194M(= 이자비용 434 − Other·제거 240) 어긋났다. 이자비용이 순매출 계산 안에서 빠지는 증권·은행 구조(2026-11-04)
+    "0000720005": {"Revenues": ["RevenuesNetOfInterestExpense"]},
     # IVZ: NetIncomeLoss는 2025-03에 멈췄고 그 뒤 "Net income attributable to Invesco Ltd."(우선주 배당·재매입 비용 차감 뒤 보통주 몫, Q3 2026 $294.5M)를
     # NetIncomeLossAvailableToCommonStockholdersBasic로 낸다 — 기본 대체 ProfitLoss는 CIP 비지배·우선주 배당 차감 전이라 순이익률이 −1.15%로 나왔다(2026-11-04)
     "0000914208": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
@@ -985,7 +988,9 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# HCA: 손익계산서에 영업이익 줄이 없다(이자·상각·시설 매각 손익이 비용 합계 안) — 영업이익 = 세전이익 + 이자비용(2026-10-25).
+DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매출(이자비용 차감 뒤) − 비이자비용 = 세전이익(Q3 FY26 3,928 − 3,178 = 750, 10-Q). 세전 태그는 2025-06 뒤 회사 고유 태그라 companyfacts에 없다(2026-11-04)
+                 "0000720005": (["RevenuesNetOfInterestExpense"], [(["NoninterestExpense"], 1)]),
+                 # HCA: 손익계산서에 영업이익 줄이 없다(이자·상각·시설 매각 손익이 비용 합계 안) — 영업이익 = 세전이익 + 이자비용(2026-10-25).
                  # PHM: 손익계산서에 영업이익 줄이 없다(주택건설 매출총이익 − 판관비 + 금융 부문 이익 + 기타). 영업이익 = 세전이익(Domestic 태그) − 이자수익 − 기타 영업외(제조 자산 매각 이익 등)
                  # − 지분법 이익. 보증금·사전취득비 상각과 무형 상각은 영업으로 둔다. 이자는 대부분 재고에 자본화돼 이자비용은 거의 0(2026-11-03).
                  # GPC: 영업이익 태그가 2016에 멈춤. 영업이익 = 세전이익 − 영업외 손익 합계(이자·연금 정산 등, 음수라 더해짐) — GrossProfit − OperatingExpenses와 80개 기간 일치(Codex r1).
@@ -1224,7 +1229,8 @@ def _derived_opinc(cik, taxonomy):
 # 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
-EXCLUDE_TAGS = {"0000046080": ("Revenues",),   # HAS: Revenues는 2024-12~2026-06 내부거래 제거 전 부문 합(Q2 2026 $1,290.5M 대 순매출 $1,139.6M) — 계약 매출 태그만(2026-11-03)
+EXCLUDE_TAGS = {"0000720005": ("Revenues",),   # RJF: 총수익(이자수익 포함) 대신 순매출 — EXTRA_TAGS(2026-11-04)
+                "0000046080": ("Revenues",),   # HAS: Revenues는 2024-12~2026-06 내부거래 제거 전 부문 합(Q2 2026 $1,290.5M 대 순매출 $1,139.6M) — 계약 매출 태그만(2026-11-03)
                 # MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 빼지 않은 낡은 값이 분기마다 반복된다 — 표지 dei 주식 수(20.04M)만 쓴다(Fable r1 2026-10-25)
                 "0001037646": ("CommonStockSharesOutstanding",),
                 # BE: 손익계산서 매출은 Revenues(Q3 2026 $1,235.8M) — 고객 계약 매출 태그($1,231.0M)는 전력 판매·리스 일부가 빠진다(2026-10-24)
@@ -2312,7 +2318,8 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001521332": {"sti": []},   # APTV: 단기투자 태그는 2024-09($0.79B)에 멈춤 — 지금 재무상태표에 단기투자 줄 없음(Q3 2026 10-Q 현금 $670M, Codex r1 2026-11-04)
+EV_TAGS_BY_CIK = {"0000720005": {"debt": ["SeniorNotes", "OtherBorrowings"], "lease": ["OperatingLeaseLiability"]},   # RJF: 차입 = 선순위채 $3,522M + 기타 차입 $950M(FHLB·신용한도) — 기본 태그는 2022-12에 멈춤. 예금 $63B는 차입 아님. 운용리스 $568M(Q3 FY26 10-Q, 2026-11-04)
+                  "0001521332": {"sti": []},   # APTV: 단기투자 태그는 2024-09($0.79B)에 멈춤 — 지금 재무상태표에 단기투자 줄 없음(Q3 2026 10-Q 현금 $670M, Codex r1 2026-11-04)
                   "0000914208": {"sti": [], "lease": ["OperatingLeaseLiability"], "nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"]},   # IVZ: 단기투자 태그는 2018-09에 멈춤(지금 재무상태표에 없는 줄), 운용리스는 10-K 총액만(2025-12 $406.7M), 비지배 = 비상환 $701.6M + 상환가능 $297.0M(모두 CIP 몫, BEN과 같이 둘 다 — Fable r1). 차입 $1,281.3M = 회사 차입(CIP 차입 $7,919.6M은 차원 값), 현금 $965.5M = 회사 몫(Q3 2026 10-Q, 2026-11-04)
                   "0000038777": {"cash": ("CashCompanyBen", "CashAndCashEquivalentsAtCarryingValue"), "sti": [], "lease": ["OperatingLeaseLiability"],
                                  "nci": ["MinorityInterest", "TemporaryEquityMinorityInterestsBen"]},   # BEN: 현금은 회사 몫 $2,670.3M(dei:LegalEntityAxis 차원, BUILD dim_facts — 축 없는 태그는 2021-12 멈춤, 합계 태그 $3,760.9M에는 CIP 현금 $1,090.6M), 비지배 = 비상환 $1,181.7M(CIP 몫 $757.4M 포함 — 빼는 장치가 없어 TROW처럼 둔다, 주당 약 $1.49 보수적) + 상환가능 자회사 몫 $1,137.3M(차원), 운용리스 $974.6M(Q3 FY26 10-Q, 2026-11-04)
