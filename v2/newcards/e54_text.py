@@ -96,9 +96,9 @@ def sentences(f, tax_on, basis="diluted"):
         more = f" 외 {len(its) - 4}묶음" if len(its) > 4 else ""
         pre = []   # 조정 전 값이 공시 희석 EPS와 다르면 그 단계를 밝힌다(SBUX 일회성 세금, Fable r1)
         if abs(c["tx"]) >= 0.005:   # tx > 0: 일회성 세금 비용을 되돌림, tx < 0: 일회성 세금 이익을 뺌
-            pre.append(f"일회성 세금 {'비용' if c['tx'] > 0 else '이익'} ${abs(c['tx']):.2f}")
+            pre.append(f"일회성 세금 {'비용' if c['tx'] > 0 else '이익'}(${abs(c['tx']):.2f})")
         if abs(c["dc"]) >= 0.005:
-            pre.append(f"중단영업 {'손실' if c['dc'] > 0 else '이익'} ${abs(c['dc']):.2f}")
+            pre.append(f"중단영업 {'손실' if c['dc'] > 0 else '이익'}(${abs(c['dc']):.2f})")
         b0 = (f"공시 희석 EPS {_usd(c['raw'])}에서 {'·'.join(pre)}을 덜어 낸 {_usd(c['before'])}" if pre else f"조정 전 {_usd(c['before'])}")
         s.append(f"PER은 최근 4분기 희석 EPS에서 일회성 손익을 뺀 값으로 계산했다({b0} → 조정 뒤 {_usd(c['after'])} — {lst}{more}).")
     if f["hist"]:
