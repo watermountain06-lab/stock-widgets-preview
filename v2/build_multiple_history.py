@@ -2298,6 +2298,9 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
                   # CSCO: DebtCurrent($10,161M — 기업어음 + 1년 안 만기 장기) + LongTermDebtNoncurrent($19,372M) = $29,533M(FY2026 10-K "Total debt").
                   # 기본 조합은 LongTermDebtCurrent + Noncurrent($22,872M)라 기업어음 $6.7B가 빠졌다.
                   "0000858877": ["DebtCurrent", "LongTermDebtNoncurrent"],
+                  # FISV: "Short-term and current maturities of long-term debt"(DebtCurrent $1,254M) + "Long-term debt"(LongTermDebtAndCapitalLeaseObligations $25,809M) = $27,063M(Q3 2026 10-Q,
+                  # 기업어음 $1,610M·금융리스 $2,421M 포함). 기본 경로는 유동분을 빠뜨렸다(Codex 2026-11-05).
+                  "0000798354": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # ORCL: 유동 NotesPayableCurrent($7,625M) + 비유동 LongTermNotesAndLoans($117,712M) = $125,337M(2026-08-31 10-Q).
                   # 기본 태그가 하나도 없어 차입금 0으로 계산됐다(이자비용 $5.1B와 모순, debt_suspect). 연간 전용 태그는 뒤 순위로 둔다.
                   "0001341439": [("NotesPayableCurrent", "DebtCurrent"), ("LongTermNotesAndLoans", "LongTermNotesPayable")],
@@ -2318,7 +2321,8 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000720005": {"debt": ["SeniorNotes", "OtherBorrowings"], "lease": ["OperatingLeaseLiability"]},   # RJF: 차입 = 선순위채 $3,522M + 기타 차입 $950M(FHLB·신용한도) — 기본 태그는 2022-12에 멈춤. 예금 $63B는 차입 아님. 운용리스 $568M(Q3 FY26 10-Q, 2026-11-04)
+EV_TAGS_BY_CIK = {"0000798354": {"lease": ["OperatingLeaseLiability"]},   # FISV: 금융리스($2,421M)는 차입금 두 줄 안에 있어 리스에는 운용리스만 — 10-Q에 유동분만 있어 총액은 FY2025 10-K $763M(2026-11-05, Codex r1)
+                  "0000720005": {"debt": ["SeniorNotes", "OtherBorrowings"], "lease": ["OperatingLeaseLiability"]},   # RJF: 차입 = 선순위채 $3,522M + 기타 차입 $950M(FHLB·신용한도) — 기본 태그는 2022-12에 멈춤. 예금 $63B는 차입 아님. 운용리스 $568M(Q3 FY26 10-Q, 2026-11-04)
                   "0001521332": {"sti": []},   # APTV: 단기투자 태그는 2024-09($0.79B)에 멈춤 — 지금 재무상태표에 단기투자 줄 없음(Q3 2026 10-Q 현금 $670M, Codex r1 2026-11-04)
                   "0000914208": {"sti": [], "lease": ["OperatingLeaseLiability"], "nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"]},   # IVZ: 단기투자 태그는 2018-09에 멈춤(지금 재무상태표에 없는 줄), 운용리스는 10-K 총액만(2025-12 $406.7M), 비지배 = 비상환 $701.6M + 상환가능 $297.0M(모두 CIP 몫, BEN과 같이 둘 다 — Fable r1). 차입 $1,281.3M = 회사 차입(CIP 차입 $7,919.6M은 차원 값), 현금 $965.5M = 회사 몫(Q3 2026 10-Q, 2026-11-04)
                   "0000038777": {"cash": ("CashCompanyBen", "CashAndCashEquivalentsAtCarryingValue"), "sti": [], "lease": ["OperatingLeaseLiability"],

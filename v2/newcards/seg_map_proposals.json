@@ -3052,5 +3052,45 @@
     "#f7b3bd"
    ]
   }
+ },
+ "FDS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "fds:AmericasSegmentMember": [
+    "미주",
+    "#00629b"
+   ],
+   "fds:EMEASegmentMember": [
+    "유럽·중동·아프리카",
+    "#3e8ed0"
+   ],
+   "fds:AsiaPacificSegmentMember": [
+    "아시아태평양",
+    "#a9cbe8"
+   ]
+  }
+ },
+ "FISV": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "fisv:MerchantSegmentMember": [
+    "가맹점 솔루션",
+    "#ff6600"
+   ],
+   "fisv:FinancialSegmentMember": [
+    "금융기관 솔루션",
+    "#1f2a44"
+   ]
+  }
  }
 }

@@ -12518,6 +12518,84 @@
         "status": "excluded",
         "reason": "v2 기본적 분석 점수 없음(financial)"
       }
+    },
+    {
+      "ticker": "FDS",
+      "name": "팩트셋",
+      "sector": "분석 구독 플랫폼 (투자·자산운용·은행 고객)",
+      "href": "FDS_full_widget.html",
+      "cardRank": 298,
+      "cardAsOf": "2026-11-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-04 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 35255660,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-15",
+        "filedAt": "2026-10-20",
+        "filing": "10-K 0001628280-26-066391 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 54.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-08-31",
+        "valuationAsOf": "2026-11-04",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "FISV",
+      "name": "파이서브",
+      "sector": "은행 코어 처리 소프트웨어",
+      "href": "FISV_full_widget.html",
+      "cardRank": 299,
+      "cardAsOf": "2026-11-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-04 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 532047720,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-04",
+        "filing": "10-Q 0000798354-26-000042 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 38.0,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-04",
+        "qualityFlags": []
+      }
     }
   ]
 }

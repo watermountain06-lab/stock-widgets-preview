@@ -68,7 +68,8 @@ CONCEPTS = {
 # 종목별로 후보 태그를 바꾸는 개념(CIK). LOW: 이자비용 후보 중 InterestExpenseOther는 순이자 표의 "Other" 한 줄(Q2 2026 $0)이라
 # 이자보상배율이 "이자비용 0" 만점이 됐다 — 손익계산서 "Interest – net"(InterestIncomeExpenseNonoperatingNet, 음수로 실림, 소비처는 절댓값)을 쓴다
 # (MO·PM 순이자 전례, 2026-10-16). 같은 태그를 쓰는 ANET은 공통 안건으로 남겼다.
-CONCEPTS_BY_CIK = {# RJF: 매출은 순매출(RevenuesNetOfInterestExpense) — Revenues는 이자수익을 더한 총수익. 이자비용은 순매출 안에서 빠지는 영업 비용(Q3 FY26 $434M, 예금 이자 포함)이라 비운다 — 기본은 InterestExpenseOther $13M만 잡아 이자보상배율 58배였다(Fable r1·Codex r2, 2026-11-04)
+CONCEPTS_BY_CIK = {"0000798354": {"revenue": ["Revenues"]},   # FISV: 위 LATEST_Q_BY_CIK와 짝(2026-11-05)
+                   # RJF: 매출은 순매출(RevenuesNetOfInterestExpense) — Revenues는 이자수익을 더한 총수익. 이자비용은 순매출 안에서 빠지는 영업 비용(Q3 FY26 $434M, 예금 이자 포함)이라 비운다 — 기본은 InterestExpenseOther $13M만 잡아 이자보상배율 58배였다(Fable r1·Codex r2, 2026-11-04)
                    "0000720005": {"revenue": ["RevenuesNetOfInterestExpense"], "interestExpense": []},   # 이자비용은 예금 이자가 든 영업 비용이라 이자보상배율을 채점하지 않는다(Codex r2)
                    # RSG: 손익계산서 매출 RevenueFromContractWithCustomerExcludingAssessedTax — Revenues는 부문 간 상계 전 합계(2026-10-23)
                    "0001060391": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"]},
@@ -124,7 +125,8 @@ CONCEPTS_BY_CIK = {# RJF: 매출은 순매출(RevenuesNetOfInterestExpense) — 
 # 최신 분기가 멈춘 옛 태그 값이 됐다 — CMI: 2026년부터 매출을 RevenueFromContractWithCustomerExcludingAssessedTax, 이자비용을
 # InterestExpenseNonoperating으로 내 Revenues·InterestExpense는 2025-09에 멈췄다(카드 재무 기준이 10-K로 잡혀 preflight가 멈춤, 2026-10-22).
 # 연간 이력은 옛 태그 그대로 두고, 새 태그의 최신 분기가 더 새로울 때만 바꾼다.
-LATEST_Q_BY_CIK = {"0000026172": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"],
+LATEST_Q_BY_CIK = {"0000798354": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"]},   # FISV: 연간은 Revenues(FY2025까지), 분기는 2026년부터 이 태그 — 연간 이력이 2021에서 끊겨 매출 CAGR 40.7%가 나왔다(Codex 2026-11-05)
+                   "0000026172": {"revenue": ["RevenueFromContractWithCustomerExcludingAssessedTax"],
                                   "interestExpense": ["InterestExpenseNonoperating"]},
                    # ECL: 이자비용 총액이 2025-06부터 InterestExpenseNonoperating(Q2 2026 $95.0M) — InterestExpense는 2026-03에 멈춤(2026-10-22)
                    "0000031462": {"interestExpense": ["InterestExpenseNonoperating"]},
