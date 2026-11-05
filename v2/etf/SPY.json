@@ -8,23 +8,23 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 291장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
+   "detail": "승인 목록에 없는 판정 코드 해시 293장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
   }
  ],
- "detail": "승인 목록에 없는 판정 코드 해시 291장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
+ "detail": "승인 목록에 없는 판정 코드 해시 293장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8651023387267753,
+ "coverage": 0.8652949757177899,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0029878251539949873,
   "적정~저평가": 0.10118280473733657,
   "적정": 0.019176679149268766,
-  "적정~고평가": 0.37886156042448677,
+  "적정~고평가": 0.3790541974155014,
   "고평가": 0.3628934692616884,
-  "카드 없음": 0.09693619303543709,
-  "판정 보류": 0.02660211148799294,
+  "카드 없음": 0.09632933546684022,
+  "판정 보류": 0.02701633206557521,
   "그 밖 제외": 0.011359356749794576,
   "분류 안 됨": 0
  },
@@ -157,13 +157,13 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 303,
-  "cardsUsed": 281,
+  "cardsMatched": 305,
+  "cardsUsed": 282,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
    "날짜 불일치": 5,
-   "판정 보류": 17
+   "판정 보류": 18
   }
  },
  "cards": [
@@ -658,6 +658,15 @@
    "n": -3.0,
    "date": "2026-11-04",
    "excluded": []
+  },
+  {
+   "card": "CPAY",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-04",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "CRH",
@@ -1247,6 +1256,13 @@
    "card": "JBHT",
    "verdict": "적정~고평가",
    "n": -2.0,
+   "date": "2026-11-04",
+   "excluded": []
+  },
+  {
+   "card": "JKHY",
+   "verdict": "적정~고평가",
+   "n": -1.0,
    "date": "2026-11-04",
    "excluded": []
   },
@@ -2345,8 +2361,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-05T21:15:09Z",
- "fetchedAt": "2026-11-05T21:15:09Z",
+ "runAt": "2026-11-05T22:23:29Z",
+ "fetchedAt": "2026-11-05T22:23:29Z",
  "inputHash": {
   "xlsx": "a2722374f1344d7066d0df707f1c17217cfb253379f49d8627106d0f8678559a",
   "alias": "cd884e524b4f6045",
@@ -2361,7 +2377,7 @@
   ],
   "S": "2026-11-04"
  },
- "runId": "42110867757.1",
+ "runId": "42121037578.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -2445,6 +2461,7 @@
     "COP",
     "COR",
     "COST",
+    "CPAY",
     "CRH",
     "CRM",
     "CRWD",
@@ -2526,6 +2543,7 @@
     "ITW",
     "IVZ",
     "JBHT",
+    "JKHY",
     "JNJ",
     "KEYS",
     "KLAC",
