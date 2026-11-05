@@ -457,7 +457,15 @@ def base_inputs(ticker, asof=None):
     se_last, incl_last = _last(se_rows), _last(incl_rows)
     if incl_last and (not se_last or (date.fromisoformat(incl_last["end"])
                                       - date.fromisoformat(se_last["end"])).days > 200):
-        out["equity"] = incl_last["val"] - (out.get("nci") or 0)
+        # 포함 총계에서는 **자본 안** 비지배지분만 뺀다 — 상환 가능(임시자본) 비지배지분은 원래 그 총계 밖이라 빼면 두 번 빠진다
+        # (TEL $147M: 13,246 → 13,099, 안건 E48 2026-11-05). nci를 지정한 회사는 그 목록에서 임시자본 태그를 빼고 다시 합한다.
+        _nci_tags = bmh.EV_TAGS_BY_CIK.get(cik, {}).get("nci")
+        if _nci_tags:
+            _inside = [tg for tg in _nci_tags if not (("Redeemable" in tg and "Nonredeemable" not in tg) or tg.startswith("TemporaryEquity"))]
+            _nci_in = (latest(bmh.component_sum(cik, _inside), asof) or 0) if _inside else 0
+        else:
+            _nci_in = out.get("nci")
+        out["equity"] = incl_last["val"] - (_nci_in or 0)
         eq_rows = incl_rows
     else:
         out["equity"] = se_last["val"] if se_last else None
