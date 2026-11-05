@@ -3200,5 +3200,28 @@
     "#8a96a3"
    ]
   }
+ },
+ "FIS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "fis:BankingSolutionsMember": [
+    "Banking(은행 솔루션)",
+    "#4bcd3e"
+   ],
+   "fis:CapitalMarketSolutionsMember": [
+    "Capital Markets(자본시장)",
+    "#015b7e"
+   ],
+   "us-gaap:CorporateAndOtherMember": [
+    "기타",
+    "#a5d6e3"
+   ]
+  }
  }
 }

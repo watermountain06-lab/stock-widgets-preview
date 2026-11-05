@@ -12842,6 +12842,87 @@
           "operating_income_estimated"
         ]
       }
+    },
+    {
+      "ticker": "FIS",
+      "name": "피델리티 내셔널 인포메이션",
+      "sector": "자본시장 금융 소프트웨어·결제 처리",
+      "href": "FIS_full_widget.html",
+      "cardRank": 306,
+      "cardAsOf": "2026-11-05",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-05 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 515470244,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-11-02",
+        "filedAt": "2026-11-04",
+        "filing": "10-Q 0001136893-26-000063 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 45.6,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-05",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "ACGL",
+      "name": "아치 캐피털",
+      "sector": "재보험·모기지 보험 (버뮤다)",
+      "href": "ACGL_full_widget.html",
+      "cardRank": 307,
+      "cardAsOf": "2026-11-05",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-05 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 325525336,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-29",
+        "filedAt": "2026-11-04",
+        "filing": "10-Q 0000947484-26-000152 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 72.0,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-05",
+        "qualityFlags": [
+          "health_ratios_below_gate",
+          "operating_income_estimated"
+        ]
+      }
     }
   ]
 }

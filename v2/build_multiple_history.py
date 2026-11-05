@@ -2320,6 +2320,8 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
                   "0000060086": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   # CINF: 어음 $17M + 장기 $791M(2028·2034 만기) = $808M(2026-11-05)
                   "0000020286": ["NotesPayable", "LongTermDebt"],
+                  # ACGL: 선순위채 SeniorLongTermNotes $4,286M(Q3 2026, 6월 $2,000M 발행) — 기본 차입 태그가 하나도 없다(2026-11-05)
+                  "0000947484": ["SeniorLongTermNotes"],
                   # ORCL: 유동 NotesPayableCurrent($7,625M) + 비유동 LongTermNotesAndLoans($117,712M) = $125,337M(2026-08-31 10-Q).
                   # 기본 태그가 하나도 없어 차입금 0으로 계산됐다(이자비용 $5.1B와 모순, debt_suspect). 연간 전용 태그는 뒤 순위로 둔다.
                   "0001341439": [("NotesPayableCurrent", "DebtCurrent"), ("LongTermNotesAndLoans", "LongTermNotesPayable")],
@@ -2340,7 +2342,8 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000060086": {"sti": []},   # L: 단기투자 $5,715M은 CNA 보험 운용자산(TRV·ALL 선례) — 현금은 Cash $505M(2026-11-05)
+EV_TAGS_BY_CIK = {"0000947484": {"sti": []},   # ACGL: 단기투자 $3,253M은 보험 운용자산(축 값, OtherShortTermInvestments는 2021 멈춤) — 현금은 CashAndCashEquivalentsAtCarryingValue $1,152M(2026-11-05)
+                  "0000060086": {"sti": []},   # L: 단기투자 $5,715M은 CNA 보험 운용자산(TRV·ALL 선례) — 현금은 Cash $505M(2026-11-05)
                   "0000020286": {"sti": []},   # CINF: 단기투자 $141M은 보험 운용자산(같은 원칙, 2026-11-05)
                   "0001095073": {"cash": ["Cash"], "sti": []},   # EG: 현금 태그가 2018에 멈춤 — Cash $987M(Q3 2026), 단기투자 $3,055M은 보험 운용자산(TRV·ALL·PGR 선례, 2026-11-05)
                   "0000079282": {"sti": []},   # BRO: ShortTermInvestments는 2024-12 $10M이 마지막 — 2025부터 기타 유동자산에 합쳤다(재표시). 수탁 현금 $2,442M은 엔진 현금 밖(2026-11-05)
