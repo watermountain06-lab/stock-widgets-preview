@@ -1,32 +1,32 @@
 {
  "ticker": "ANET",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 61.3,
+  "dio": 203.6,
+  "dpo": 52.4,
+  "op": 264.8,
+  "ccc": 212.4
+ },
+ "prev": {
   "dso": 62.7,
   "dio": 212.5,
   "dpo": 55.2,
   "op": 275.2,
   "ccc": 220.0
  },
- "prev": {
-  "dso": 62.8,
-  "dio": 222.4,
-  "dpo": 56.1,
-  "op": 285.2,
-  "ccc": 229.1
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
-  "min": 226.5,
+  "from": "2021-09-30",
+  "to": "2026-06-30",
+  "min": 232.6,
   "max": 367.5,
-  "longer": 12,
-  "dsoLonger": 1,
-  "dioLonger": 12
+  "longer": 13,
+  "dsoLonger": 3,
+  "dioLonger": 14
  },
- "score": 60.0,
+ "score": 65.0,
  "tone": "yellow"
 }
