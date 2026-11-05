@@ -3077,6 +3077,7 @@ def main():
     # EPS는 기존 스크립트가 이미 만든 형식을 그대로 쓴다
     eps_path = os.environ.get("EPS_HISTORY", "")
     eps = []
+    _a3_rows = _a3_cap = None   # A3 순이익률 조정(_eo_ni)이 PER과 같은 EPS 행·cap을 쓰게(Codex A3 r1)
     if eps_path and os.path.exists(eps_path):
         # 일회성 세금을 뺀 EPS — 항목은 그 분기 실적과 같은 공시에서 밝혀지므로 같은 시점에 반영한다
         cap = _approved().get(str(cik).zfill(10))   # 카드 공시 기준표 — 그 뒤에 알려진 EPS는 쓰지 않는다(비교군으로 쓰일 때도, Codex 2026-10-08)
@@ -3084,6 +3085,7 @@ def main():
         # 조정 뒤 값으로 0·음수를 가른다(설계 e54_v2_design §6). 연구 모드(ASOF_REF)에서는 eps_oneoff가 빈 목록을 돌려준다.
         _rows = json.load(open(eps_path))
         _eo_on = _eo.has(t)
+        _a3_rows, _a3_cap = _rows, cap
         eps = [{"available": e["available_date"], **({"end": e["quarter_end"]} if e.get("quarter_end") else {}),   # 결산일(E63 newest_row)
                 "val": e["ttm_eps"] + oneoff_in_ttm(t, e.get("quarter_end"), "eps")
                        + disc_in_ttm(t, _rows, e.get("quarter_end"), e["available_date"])   # E62 계속영업 EPS
@@ -3386,16 +3388,35 @@ def main():
         if rv is None:
             return None
         rv_end = date.fromisoformat(rv["end"])
-        for tags in (["NetIncomeLoss"], ["ProfitLoss"], ["NetIncomeLossAvailableToCommonStockholdersBasic"]):
+        for tags in (["NetIncomeLoss"], ["ProfitLoss"], ["NetIncomeLossAvailableToCommonStockholdersBasic"]):   # ProfitLoss는 비지배 포함
             _, nr = pick_tag(cik, tags)
             ni_s = [e for e in (ttm_series(quarterly_flow(nr, t)) if nr else []) if e["available"] <= day]
             ni = newest_row(ni_s) if ni_s else None
             if ni and abs((rv_end - date.fromisoformat(ni["end"])).days) <= 120 and rv["val"]:
-                return ni["val"] / rv["val"]
+                _adj = _eo_ni(ni["end"], consolidated=tags == ["ProfitLoss"])
+                _eo_ni_hit[0] = bool(_adj)
+                return (ni["val"] + _adj) / rv["val"]
         return None
+
+    _eo_ni_hit = [False]
+
+    def _eo_ni(end, consolidated=False):
+        """일회성 손익 장치(E54)가 그 결산일 PER EPS에서 뺀 항목의 세후 지배주주 몫(손실 +, 이익 −) — A3 순이익률도 같은 기준으로
+        본다(2026-11-05 사용자 결정: 손상으로 적자가 된 카드가 장치로 EPS를 고쳐도 GAAP 순이익률 때문에 PER이 빠지던 문제, FISV·IVZ).
+        장치 판정(judge)이 그 결산일에 적용한 항목만, 세금은 같은 cap의 item_tax. EPS 행·cap은 PER 경로가 읽은 것(_a3_rows·_a3_cap)과
+        같아야 한다 — 비교군 갱신은 EPS_HISTORY가 다른 파일이다(Codex A3 r1). 순이익이 비지배 포함(ProfitLoss)이면 항목도 연결 전액으로
+        더한다(parent_share 미적용 — 지배 몫만 더하면 기준이 섞인다). EPS 파일이 없거나 연구 모드·장치 없는 종목은 0."""
+        if not _eo.has(t) or _a3_rows is None:
+            return 0.0
+        j = _eo.judge(t, _a3_rows, end, _a3_cap)
+        if not j:
+            return 0.0
+        cap_ = _eo._cap(t, _a3_cap)
+        return sum((it["adj_pretax"] - _eo.item_tax(it, cap_)) * (1 if consolidated else it.get("parent_share", 1)) for it in j["applied"])
     per_margin = _net_margin_now()
+    _eo_ni_used = _eo_ni_hit[0]
     per_na = per_margin is not None and per_margin < PER_NA_MARGIN
-    out["perNA"] = {"netMargin": round(per_margin, 4), "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"} if per_na else None
+    out["perNA"] = {"netMargin": round(per_margin, 4), "rule": ("최근 4분기 순이익률(일회성 장치 E54 항목을 뺀 값) < 2% 또는 적자" if _eo_ni_used else "최근 4분기 GAAP 순이익률 < 2% 또는 적자")} if per_na else None
     if per_na:
         print(f"  PER 해당 없음: 최근 4분기 순이익률 {per_margin:.2%} (< 2%) — 자기 이력·동종업 점수에서 PER을 뺀다(A3)")
     elif per_margin is None and eps and (as_of(eps, daily[-1][0]) or 0) <= 0 and as_of(eps, daily[-1][0]) is not None:
