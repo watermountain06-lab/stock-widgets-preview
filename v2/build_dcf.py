@@ -705,6 +705,7 @@ PRETAX_TAG_BY_CIK = {"0001633917": "IncomeLossAttributableToParent",   # PYPL: �
 
 
 S2C_MAX = 10.0   # 매출/자본 상한 — 자본을 거의 안 쓰는 회사의 발산 방지
+S2C_MIN_GROWTH = 0.02   # 한계 매출/자본을 재는 최소 1년 매출 증가율(2026-11-05 사용자 결정)
 
 
 IFRS_LEASE = {"TSM", "SKHY"}     # IFRS 16 — 리스 비용이 영업이익 밖이라 리스부채는 빚(B16)
@@ -1032,9 +1033,16 @@ def marginal_s2c(base):
     (AI 데이터센터)의 효율을 따로 잰다(Fable 권고). 투하자본 증가(대차대조표)로 재면
     지분 평가이익과 태그 공백에 흔들렸다 — AMZN은 1년 전 공시에 Anthropic 전환사채
     태그가 없어 1년 전 투하자본이 약 $20B 부풀고 효율이 1.65로 나왔다(현금흐름 기준 1.38).
-    순투자나 매출 증가가 0 이하면 정의하지 않는다(None → 평균 비율, 결과에 기록).
+    매출 증가가 작으면(아래 2% 문턱) 정의하지 않는다(None → 평균 비율, 결과에 기록).
+
+    2026-11-05 사용자 결정(Codex·Fable 검토 — 수정 채택):
+      · 매출 증가가 1년 전 매출의 2% 미만이면 None(평균) — 작은 수끼리 나눈 비율은 잡음이다(QCOM 1.8% 성장에서 10, DAL 순투자 양수 쪽에서 0.5).
+      · 매출이 2% 이상 늘었는데 순투자가 0 이하면 S2C_MAX — 순투자 +ε에서 상한, −ε에서 평균으로 뒤집히던 경계를 잇는다(FDS 순투자 −$123M에 평균 0.80).
+      · 인수 대금이 음수면(CPAY −$2,088M — 매각 상계·부호 문제, 원문 미검증) 정의하지 않는다(neg_acquisitions → 평균, Codex 2차).
+      · 사유를 base["_s2c_reason"]에 남긴다: measured · capped · nonpos_structural(설비 + 인수 ≤ 감가상각) · nonpos_nwc(운전자본 감소가 밀어냄) · low_growth · neg_acquisitions · missing.
     """
     t, asof = base.get("ticker"), base.get("asof")
+    base["_s2c_reason"] = "missing"
     if not t:
         return None
     # 기준일이 없으면 실행일이 아니라 카드 일봉의 마지막 날(종가일)이다(Codex).
@@ -1073,10 +1081,19 @@ def marginal_s2c(base):
     e0, e1 = base.get("nwc_end"), b1.get("nwc_end")
     if not (e0 and e1) or abs((date.fromisoformat(e0) - date.fromisoformat(e1)).days - 365) > 20:
         d_nwc = 0.0
-    net_inv = base["capex"] - base["dda"] + d_nwc + (base.get("acquisitions") or 0)
-    if d_rev <= 0 or net_inv <= 0:
+    if (base.get("acquisitions") or 0) < 0:
+        base["_s2c_reason"] = "neg_acquisitions"
         return None
+    struct_inv = base["capex"] - base["dda"] + (base.get("acquisitions") or 0)
+    net_inv = struct_inv + d_nwc
+    if d_rev <= 0 or prior[-1]["val"] <= 0 or d_rev < S2C_MIN_GROWTH * prior[-1]["val"]:
+        base["_s2c_reason"] = "low_growth"
+        return None
+    if net_inv <= 0:
+        base["_s2c_reason"] = "nonpos_nwc" if struct_inv > 0 else "nonpos_structural"
+        return S2C_MAX
     # 평균 비율과 같은 상한 — 순투자가 작은 해에 비율이 발산한다(Codex: NVDA 2025-05 시점 14.4).
+    base["_s2c_reason"] = "capped" if d_rev / net_inv >= S2C_MAX else "measured"
     return min(d_rev / net_inv, S2C_MAX)
 
 
@@ -1087,6 +1104,7 @@ def s2c_path_for(base, scenario="기본", years=5):
     # 1년 전 입력을 다시 모으는 계산이라 무겁다. 격자(25칸 × 3 시나리오)가 매번 부르므로 base에 캐시한다.
     if "_s2c_marginal" not in base:
         base["_s2c_marginal"] = marginal_s2c(base)
+        base["_s2c_marginal_reason"] = base.get("_s2c_reason")   # 캐시 값과 사유를 함께 둔다(Codex 2차)
     m = base["_s2c_marginal"]
     if m is None or scenario == "낙관":
         return [avg] * years, (m is None)
@@ -1144,7 +1162,7 @@ def scenarios(base, hist, wacc, terminal, years=5, path=None):
         out.append({"name": name, "desc": desc, "growth0": max(g0, terminal),
                     "margin_end": m_path[-1], "per_share": r["per_share"], "roic": r["roic"],
                     "tv_share": ((r["ev"] - r["pv_sum"]) / r["ev"]) if r["ev"] and r["ev"] > 0 else None,
-                    "s2c_path": s_path, "s2c_fallback": fell_back,
+                    "s2c_path": s_path, "s2c_fallback": fell_back, "s2c_reason": base.get("_s2c_marginal_reason", base.get("_s2c_reason")),
                     "nonop_per_share": ((base.get("nonop_assets") or 0) / base["shares"]) if base.get("shares") else 0.0})
     return out
 

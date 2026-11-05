@@ -101,6 +101,7 @@ def compute(t):
         "growth5y": round(g5, 4) if g5 else None,
         "nonopPerShare": round(s[1]["nonop_per_share"] / r, 2),
         "s2cFallback": any(x["s2c_fallback"] for x in s),
+        "s2cReason": s[1].get("s2c_reason"),   # 한계 매출/자본 사유(measured·capped·nonpos_structural·nonpos_nwc·low_growth·missing, 2026-11-05)
         "asOf": asof,
         **hard_signals(base, s, req),
     }, price, (base.get("dq") or []) + (["growth_base_effect"] if hist.get("growth_base_effect") else [])
