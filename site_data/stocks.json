@@ -12366,6 +12366,45 @@
         "valuationAsOf": "2026-11-03",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "IVZ",
+      "name": "인베스코",
+      "sector": "자산운용 — ETF(QQQ 등)·뮤추얼펀드·대체투자, 단일 보고 부문",
+      "href": "IVZ_full_widget.html",
+      "cardRank": 294,
+      "cardAsOf": "2026-11-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-04 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 439528938,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-30",
+        "filedAt": "2026-11-03",
+        "filing": "10-Q 0000914208-26-000376 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 56.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-04",
+        "qualityFlags": []
+      }
     }
   ]
 }

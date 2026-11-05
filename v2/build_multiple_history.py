@@ -951,6 +951,9 @@ EXTRA_TAGS = {
     # ADP: 현금흐름표 "Capital expenditures"(FY2026 $196.6M)를 PaymentsToAcquireOtherPropertyPlantAndEquipment로 낸다 — 기본 목록 태그가 없어 PCR 계산 불가였다.
     # 자본화 소프트웨어 "Additions to intangibles"($468.5M, PaymentsToAcquireIntangibleAssets)는 넣지 않는다(공통 안건 — MCK와 같은 정의, 2026-10-16).
     "0000008670": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherPropertyPlantAndEquipment"]},
+    # IVZ: NetIncomeLoss는 2025-03에 멈췄고 그 뒤 "Net income attributable to Invesco Ltd."(우선주 배당·재매입 비용 차감 뒤 보통주 몫, Q3 2026 $294.5M)를
+    # NetIncomeLossAvailableToCommonStockholdersBasic로 낸다 — 기본 대체 ProfitLoss는 CIP 비지배·우선주 배당 차감 전이라 순이익률이 −1.15%로 나왔다(2026-11-04)
+    "0000914208": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # CF: 순이익은 보통주 귀속 태그만 낸다(NetIncomeLoss 2012 멈춤, Q2 2026 $727M)(2026-10-25)
     "0001324404": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # AEP: 지배 순이익은 NetIncomeLoss가 없고 보통주 귀속 순이익뿐 — ProfitLoss는 비지배 포함(2026-10-28)
@@ -2309,7 +2312,8 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000038777": {"cash": ("CashCompanyBen", "CashAndCashEquivalentsAtCarryingValue"), "sti": [], "lease": ["OperatingLeaseLiability"],
+EV_TAGS_BY_CIK = {"0000914208": {"sti": [], "lease": ["OperatingLeaseLiability"], "nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"]},   # IVZ: 단기투자 태그는 2018-09에 멈춤(지금 재무상태표에 없는 줄), 운용리스는 10-K 총액만(2025-12 $406.7M), 비지배 = 비상환 $701.6M + 상환가능 $297.0M(모두 CIP 몫, BEN과 같이 둘 다 — Fable r1). 차입 $1,281.3M = 회사 차입(CIP 차입 $7,919.6M은 차원 값), 현금 $965.5M = 회사 몫(Q3 2026 10-Q, 2026-11-04)
+                  "0000038777": {"cash": ("CashCompanyBen", "CashAndCashEquivalentsAtCarryingValue"), "sti": [], "lease": ["OperatingLeaseLiability"],
                                  "nci": ["MinorityInterest", "TemporaryEquityMinorityInterestsBen"]},   # BEN: 현금은 회사 몫 $2,670.3M(dei:LegalEntityAxis 차원, BUILD dim_facts — 축 없는 태그는 2021-12 멈춤, 합계 태그 $3,760.9M에는 CIP 현금 $1,090.6M), 비지배 = 비상환 $1,181.7M(CIP 몫 $757.4M 포함 — 빼는 장치가 없어 TROW처럼 둔다, 주당 약 $1.49 보수적) + 상환가능 자회사 몫 $1,137.3M(차원), 운용리스 $974.6M(Q3 FY26 10-Q, 2026-11-04)
                   "0001324424": {"nci": ["NonredeemableNoncontrollingInterest", "MinorityInterest"]},   # EXPE: 비지배지분 $1,262M(trivago 소수지분)은 NonredeemableNoncontrollingInterest 태그(Q2 2026 10-Q, 2026-11-03)
                   "0000783325": {"nci": ["OtherMinorityInterests"]},   # WEC: 비지배지분 $404.3M은 OtherMinorityInterests 태그(MinorityInterest 아님, Q3 2026 10-Q, 2026-11-03)
