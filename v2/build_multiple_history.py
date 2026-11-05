@@ -1004,8 +1004,10 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                  "0000822416": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic"],
                                 [(["InterestIncomeOther"], 1, True), (["OtherNonoperatingIncomeExpense", "OtherNonoperatingIncome"], 1, True), (["IncomeLossFromEquityMethodInvestments"], 1, True)]),   # 부호 1 = 뺀다(처음에 −1로 넣어 더해졌다 — Codex·Fable r1). 10-K 연간 기타는 OtherNonoperatingIncome
                  # BRO: 손익계산서에 영업이익 줄이 없다(비용 합계 안에 이자·상각·earn-out 변동) — 영업이익 = 세전이익 + 이자비용(HCA 규칙). 이자 태그는 2024-06에 InterestExpense → InterestExpenseNonoperating(Q3 2026 320 + 100 = 420, 2026-11-05)
+                 # 에스크로 주식 평가손익(bro:MarkToMarketOfEscrowLiability — 비용 줄, 이익이면 음수)은 자기 주가에 연동된 Accession 에스크로 부채의 재측정이라 영업 밖 —
+                 # 회사 고유 태그라 cfg BUILD company_tags가 빌린 이름으로 싣고, 2025 Q3 전 공시엔 없어 선택 항목(0). Q3 2026: 320 + 100 − 14 = 406(2026-11-05 사용자 결정)
                  "0000079282": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
-                                [(["InterestExpense", "InterestExpenseNonoperating"], -1)]),
+                                [(["InterestExpense", "InterestExpenseNonoperating"], -1), (["MarkToMarketOfEscrowLiabilityBro"], -1, True)]),
                  "0000860730": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpense"], -1)]),
                  # PPG: 손익계산서에 영업이익 줄이 없다 — OperatingIncomeLoss 태그(Q2 2026 $743M)는 4분기 행이 없고 세전이익($569M)보다 커서 부문 이익 합계로 보인다(ROK와 같은 경우).
