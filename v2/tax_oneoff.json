@@ -351,12 +351,31 @@
  ],
  "WDAY": [
   {
+   "quarter_end": "2024-01-31",
+   "filed": "2024-02-26",
+   "tax": -1100000000,
+   "eps": -4.09,
+   "desc": "미국 연방·주 이연법인세자산 평가충당금 환입(일회성) — 보도자료 2024-02-26 'benefited from the $1.1 billion release of our valuation allowance ... in the fourth quarter of fiscal 2024'(금액은 회사 반올림 값). 주당 영향은 미공시라 $1.1B ÷ 4분기 희석 주식 268.843M = 4.09로 추정(derived_eps). 10-K FY2024 세율표 평가충당금 변동 −315.5% × 세전 $356M ≈ $1,123M은 연간 변동 전체라 이 항목 금액으로 쓰지 않음(안건 E68, Codex 2026-11-05)",
+   "source": "https://www.sec.gov/Archives/edgar/data/1327811/000132781124000031/wday-1312024x991.htm",
+   "derived_eps": true
+  },
+  {
    "quarter_end": "2026-07-31",
    "filed": "2026-08-27",
    "tax": -374000000,
    "eps": -1.52,
    "desc": "회사 내 지식재산 이전에 따른 이연법인세자산 인식 세금 혜택(일회성) — 보도자료가 금액·주당 영향을 밝힘",
    "source": "https://www.sec.gov/Archives/edgar/data/1327811/000132781126000042/wday-07312026x991.htm"
+  }
+ ],
+ "CVS": [
+  {
+   "quarter_end": "2025-12-31",
+   "filed": "2026-02-10",
+   "tax": -1928000000,
+   "eps": -1.51,
+   "desc": "자회사(Omnicare) 파산에 따른 무가치 주식 공제 세금 혜택(일회성) — 보도자료 조정표 'Tax benefit from worthless stock deduction (1,928) (1.51)'(안건 E68, 2026-11-05)",
+   "source": "https://www.sec.gov/Archives/edgar/data/64803/000006480326000009/cvs_ex99x1q4-25.htm"
   }
  ]
 }
