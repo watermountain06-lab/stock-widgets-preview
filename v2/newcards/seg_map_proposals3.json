@@ -2184,5 +2184,51 @@
     }
    }
   ]
+ },
+ "EG": {
+  "concepts": [],
+  "axis": null,
+  "extra": {},
+  "members": {
+   "us-gaap:PremiumsEarnedNet": [
+    "순보험료 수익",
+    "#002f6c"
+   ],
+   "us-gaap:NetInvestmentIncome": [
+    "투자 수익",
+    "#5b8cc2"
+   ]
+  }
+ },
+ "WRB": {
+  "parts": [
+   {
+    "concepts": [
+     "us-gaap:Revenues"
+    ],
+    "axis": "us-gaap:StatementBusinessSegmentsAxis",
+    "extra": {
+     "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+     "srt:StatementGeographicalAxis": "us-gaap:NonUsMember"
+    },
+    "members": {
+     "wrb:InsuranceSegmentMember": [
+      "투자 수익",
+      "#6d8fbf"
+     ]
+    }
+   },
+   {
+    "concepts": [],
+    "axis": null,
+    "extra": {},
+    "members": {
+     "us-gaap:PremiumsEarnedNet": [
+      "순보험료 수익",
+      "#00205b"
+     ]
+    }
+   }
+  ]
  }
 }

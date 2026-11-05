@@ -958,5 +958,22 @@
    "fcx:CerroVerdeMember",
    "fcx:RodAndRefiningSegmentMember"
   ]
+ },
+ "WRB": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "us-gaap:StatementBusinessSegmentsAxis": "wrb:InsuranceSegmentMember"
+  },
+  "members": {
+   "us-gaap:NonUsMember": [
+    "투자 수익",
+    "#6d8fbf"
+   ]
+  },
+  "ignore": []
  }
 }

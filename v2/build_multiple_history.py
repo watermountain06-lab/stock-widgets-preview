@@ -2311,6 +2311,15 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
                   # FISV: "Short-term and current maturities of long-term debt"(DebtCurrent $1,254M) + "Long-term debt"(LongTermDebtAndCapitalLeaseObligations $25,809M) = $27,063M(Q3 2026 10-Q,
                   # 기업어음 $1,610M·금융리스 $2,421M 포함). 기본 경로는 유동분을 빠뜨렸다(Codex 2026-11-05).
                   "0000798354": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # EG: 선순위채 $2,353M + 후순위채 $218M + FHLB 차입 $1,019M = $3,590M(Q3 2026 10-Q). 기본 경로는 2011년 단기차입 $40M만 잡았다(2026-11-05)
+                  "0001095073": ["SeniorNotes", "SubordinatedDebt", "AdvancesFromFederalHomeLoanBanks"],
+                  # WRB: 선순위채는 회사 고유 태그(wrb:SeniorNotesAndOtherDebt $1,827.9M, cfg company_tags가 빌린 이름으로 싣는다). 후순위채 $1,011.1M은 2025-03부터 OtherLiabilities로
+                  # 잘못 붙어(기타부채와 태그가 뒤바뀜) 아래 튜플로 날짜를 가른다
+                  "0000011544": ["SeniorNotesWrb", ("SubDebtWrb", "JuniorSubordinatedNotes")],   # 후순위채: 2025-03 공시부터 OtherLiabilities로 붙어 cfg company_tags(시작일 2025-04-01)가 SubDebtWrb로 싣고, 그 전 날짜는 JuniorSubordinatedNotes(날짜마다 앞 태그 우선, Codex r1 2026-11-05)
+                  # L: 장기 $8,417M + 유동 $521M = $8,938M(Q3 2026, CNA·Boardwalk·호텔 포함 연결). 기본 경로는 유동분을 빠뜨렸다(2026-11-05)
+                  "0000060086": ["LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  # CINF: 어음 $17M + 장기 $791M(2028·2034 만기) = $808M(2026-11-05)
+                  "0000020286": ["NotesPayable", "LongTermDebt"],
                   # ORCL: 유동 NotesPayableCurrent($7,625M) + 비유동 LongTermNotesAndLoans($117,712M) = $125,337M(2026-08-31 10-Q).
                   # 기본 태그가 하나도 없어 차입금 0으로 계산됐다(이자비용 $5.1B와 모순, debt_suspect). 연간 전용 태그는 뒤 순위로 둔다.
                   "0001341439": [("NotesPayableCurrent", "DebtCurrent"), ("LongTermNotesAndLoans", "LongTermNotesPayable")],
@@ -2331,7 +2340,10 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000079282": {"sti": []},   # BRO: ShortTermInvestments는 2024-12 $10M이 마지막 — 2025부터 기타 유동자산에 합쳤다(재표시). 수탁 현금 $2,442M은 엔진 현금 밖(2026-11-05)
+EV_TAGS_BY_CIK = {"0000060086": {"sti": []},   # L: 단기투자 $5,715M은 CNA 보험 운용자산(TRV·ALL 선례) — 현금은 Cash $505M(2026-11-05)
+                  "0000020286": {"sti": []},   # CINF: 단기투자 $141M은 보험 운용자산(같은 원칙, 2026-11-05)
+                  "0001095073": {"cash": ["Cash"], "sti": []},   # EG: 현금 태그가 2018에 멈춤 — Cash $987M(Q3 2026), 단기투자 $3,055M은 보험 운용자산(TRV·ALL·PGR 선례, 2026-11-05)
+                  "0000079282": {"sti": []},   # BRO: ShortTermInvestments는 2024-12 $10M이 마지막 — 2025부터 기타 유동자산에 합쳤다(재표시). 수탁 현금 $2,442M은 엔진 현금 밖(2026-11-05)
                   "0000798354": {"lease": ["OperatingLeaseLiability"]},   # FISV: 금융리스($2,421M)는 차입금 두 줄 안에 있어 리스에는 운용리스만 — 10-Q에 유동분만 있어 총액은 FY2025 10-K $763M(2026-11-05, Codex r1)
                   "0000720005": {"debt": ["SeniorNotes", "OtherBorrowings"], "lease": ["OperatingLeaseLiability"]},   # RJF: 차입 = 선순위채 $3,522M + 기타 차입 $950M(FHLB·신용한도) — 기본 태그는 2022-12에 멈춤. 예금 $63B는 차입 아님. 운용리스 $568M(Q3 FY26 10-Q, 2026-11-04)
                   "0001521332": {"sti": []},   # APTV: 단기투자 태그는 2024-09($0.79B)에 멈춤 — 지금 재무상태표에 단기투자 줄 없음(Q3 2026 10-Q 현금 $670M, Codex r1 2026-11-04)

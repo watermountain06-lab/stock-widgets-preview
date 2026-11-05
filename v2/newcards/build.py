@@ -8,7 +8,7 @@
   eps_tag  : EPS 태그(분사 종목은 계속사업 EPS — WDC)
   bt_start : 백테스트에 쓸 일봉 시작일(분사 종목 — 재작성 숫자가 처음 나온 날)
   short_listing : 상장이 짧아 일봉 1,375개 미만(사용자 승인 뒤) — 이동평균 앞부분 null, 일봉은 최근 1,255봉까지(CEG)
-  company_tags : [(회사 고유 태그, 표준 태그)] — 설비투자 등을 회사 고유 태그로만 내는 종목(COP)
+  company_tags : [(회사 고유 태그, 표준 태그[, 시작일])] — 설비투자 등을 회사 고유 태그로만 내는 종목(COP). 시작일을 주면 그 뒤 공시만(WRB — 태그 뜻이 바뀐 날부터)
   no_dcf   : 현금흐름 모델 미적용 사유(보험사 — CB). DCF 칸은 '계산 불가 · 사유', 종합 판정은 '판정 보류'(남은 두 판정으로 내지 않는다 — CB, 사용자 결정 B 2026-10-26). 엔진 r7의 낡은 재무상태표 '계산 보류'(MSI)도 같다
   feed     : 외국 기업(IFRS·현지 통화 — ASML·TSM·SKHY) — EPS·재무를 v2/adapters/{t}_feed.py(eps|financials)로, 활동성은 그 캐시 facts로
   eps_cmd  : EPS 단계를 다른 명령으로(주식 종류별 EPS만 내는 V — ['v2/adapters/visa_classA.py', 'eps'])
@@ -124,10 +124,10 @@ def main():
         print(f"· 차원 값 {member} → {stag}"); run([PY, "v2/adapters/dim_fact_feed.py", cik, concept, axis, member, stag], show=r"저장|멈춤")
     # 회사 고유 태그도 같은 이유로 승인 공시보다 낡았으면 다시 돈다 — 행이 있다는 것만 보면 새 분기 다음 날 복원된 옛 overlay로
     # 건너뛰어 GE 영업이익 합성이 빠진다(2026-10-20 GE Q3: auto_card KeyError, Codex 2026-10-21)
-    _ct_stale = lambda ctag, stag: (not _has_ct(ctag, stag)
+    _ct_stale = lambda ctag, stag, *_: (not _has_ct(ctag, stag)
                                     or max([r["filed"] for r in _ov["us-gaap"][stag]] + [_marks.get(f"company:{ctag}", "")]) < _appr)
-    for ctag, stag in [x for x in B.get("company_tags", []) if net or _ct_stale(*x)]:   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
-        print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag], show=r"저장")
+    for ctag, stag, *since in [x for x in B.get("company_tags", []) if net or _ct_stale(*x)]:   # 회사 고유 태그 → 표준 태그(adapters/company_tag_feed.py, COP 설비투자)
+        print(f"· 회사 고유 태그 {ctag} → {stag}"); run([PY, "v2/adapters/company_tag_feed.py", cik, ctag, stag] + (["--since", since[0]] if since else []), show=r"저장")
     print("· EPS")
     eps = [PY, "scripts/fetch_eps_history.py", T, "--cik", cik, "--out", f"scripts/{T}_eps_history.json"]
     if B.get("eps_tag"):

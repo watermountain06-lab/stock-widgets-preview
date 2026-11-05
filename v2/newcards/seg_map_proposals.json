@@ -3130,5 +3130,75 @@
     "#2c1b4f"
    ]
   }
+ },
+ "WRB": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:ConsolidationItemsAxis",
+  "extra": {
+   "srt:StatementGeographicalAxis": "us-gaap:NonUsMember",
+   "us-gaap:StatementBusinessSegmentsAxis": "wrb:InsuranceSegmentMember"
+  },
+  "members": {
+   "us-gaap:OperatingSegmentsMember": [
+    "투자 수익",
+    "#6d8fbf"
+   ]
+  }
+ },
+ "L": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "l:CnaFinancialCorporationMember": [
+    "CNA 손해보험",
+    "#0c2340"
+   ],
+   "l:BoardwalkPipelinePartnersLpMember": [
+    "Boardwalk 파이프라인",
+    "#4f6d8f"
+   ],
+   "l:LoewsHotelsHoldingCorporationMember": [
+    "Loews 호텔",
+    "#a9bacd"
+   ]
+  }
+ },
+ "CINF": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "cinf:CommercialLinesInsuranceMember": [
+    "상업 손해보험",
+    "#c8102e"
+   ],
+   "cinf:PersonalLinesInsuranceMember": [
+    "개인 손해보험",
+    "#e9a0aa"
+   ],
+   "cinf:ExcessandSurplusLinesInsuranceMember": [
+    "E&S(초과·잉여)",
+    "#7a0019"
+   ],
+   "cinf:LifeInsuranceMember": [
+    "생명보험",
+    "#1d1d1d"
+   ],
+   "cinf:InvestmentSegmentOfCINFMember": [
+    "투자",
+    "#8a96a3"
+   ]
+  }
  }
 }
