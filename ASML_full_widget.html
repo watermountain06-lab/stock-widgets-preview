@@ -541,7 +541,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +11.0%)</span>
-      <span class="meta-value" id="asmlDcfReq" style="font-size: 22px; color: var(--red);">연 39.1%</span>
+      <span class="meta-value" id="asmlDcfReq" style="font-size: 22px; color: var(--red);">연 39.3%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="asmlConfidenceLabel">밴드 적중률 (567/1106일, 하단우세)</span>
@@ -549,7 +549,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
-      <span class="meta-value" id="asmlFairBand" title="최근 1년 PER 25~75% 구간(46.6~54.6배) × 최근 4분기 희석 EPS(달러 환산) $31.03(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$1,450 ~ $1,690</span>
+      <span class="meta-value" id="asmlFairBand" title="최근 1년 PER 25~75% 구간(46.6~54.6배) × 최근 4분기 희석 EPS(달러 환산) $30.77(10달러 단위 반올림). PER만으로 낸 범위라 판정과 따로 읽는다." style="font-size:22px;color:var(--green);">$1,430 ~ $1,680</span>
     </div>
   </div>
   </div>
@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="asmlLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="asmlDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="asmlDcfBox">$537<span class="logic-denom"> · 보수 $431 · 낙관 $481</span></div>
+      <div class="logic-score" id="asmlDcfBox">$532<span class="logic-denom"> · 보수 $428 · 낙관 $477</span></div>
     </div>
     <div class="logic-box logic-positive" id="asmlFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="asmlFundVerdict">양호</span></div>
@@ -575,7 +575,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="asmlSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="asmlSelfVerdict">비싼 편</span></div>
-      <div class="logic-score" id="asmlSelfScore">27.3<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="asmlSelfScore">26.5<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -680,24 +680,24 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$431.37</td><td style="color: var(--red);" data-dcf-upside="low">−71.2%</td>
+          <td class="big scn-low" data-dcf-value="low">$427.74</td><td style="color: var(--red);" data-dcf-upside="low">−71.4%</td>
           <td class="story">매출이 5년 성장률의 절반(연 8.2%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 33.3%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$536.91</td><td style="color: var(--red);" data-dcf-upside="base">−64.1%</td>
+          <td class="big scn-base" data-dcf-value="base">$532.38</td><td style="color: var(--red);" data-dcf-upside="base">−64.4%</td>
           <td class="story">매출이 5년 성장률(연 16.4%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 34.7%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">$481.09</td><td style="color: var(--red);" data-dcf-upside="high">−67.8%</td>
+          <td class="big scn-high" data-dcf-value="high">$477.04</td><td style="color: var(--red);" data-dcf-upside="high">−68.1%</td>
           <td class="story">매출이 3년 성장률(연 11.0%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 35.4%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $431.37~$536.91다. 영업이익률은 최근 4분기 35.4%, 2년 중앙값 34.7%, 5년 중앙값 33.3%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 8.2%·이익률 33.3%), 기본(16.4%·34.7%), 낙관(11.0%·35.4%).</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $536.91 = 사업 가치 $530.14 + 비영업 자산 $6.77(주당, 지분·장기투자)</div>
-    <div class="reverse">지금 가격(<span data-dcf-price>$1496.30</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>39.1%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$537</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>9.9%</span>다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $427.74~$532.38다. 영업이익률은 최근 4분기 35.4%, 2년 중앙값 34.7%, 5년 중앙값 33.3%를 쓴다. 시나리오 순서가 이름과 다르다 — 가정이 서로 엇갈린다: 보수(성장 연 8.2%·이익률 33.3%), 기본(16.4%·34.7%), 낙관(11.0%·35.4%).</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $532.38 = 사업 가치 $525.67 + 비영업 자산 $6.71(주당, 지분·장기투자)</div>
+    <div class="reverse">지금 가격(<span data-dcf-price>$1496.30</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>39.3%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$532</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>9.9%</span>다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $537</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −64.1%</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $532</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −64.4%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -795,7 +795,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$11.32</span><span class="diag-note" id="fundNetCashNote">순현금 $4.4B ÷ 0.38B주 · 현금·단기투자 $8.5B − 차입금·리스 $4.2B</span></div>
+        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">$11.22</span><span class="diag-note" id="fundNetCashNote">순현금 $4.3B ÷ 0.38B주 · 현금·단기투자 $8.5B − 차입금·리스 $4.2B</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
     </div>
@@ -927,15 +927,15 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.04</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 ASML 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">27.3</div><div class="sc-tile low" data-vc="self" data-m="per">20</div><div class="sc-tile lost" data-vc="self" data-m="pbr">48</div><div class="sc-tile low" data-vc="self" data-m="psr">17</div><div class="sc-tile lost" data-vc="self" data-m="pcr">32</div><div class="sc-tile low" data-vc="self" data-m="evebitda">20</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$537</div><div class="vs-note">현재가 <span data-vs="price">$1496.30</span> 대비 <strong data-vs="upside">−64.1%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.79
-시나리오 범위: 2.79 ~ 3.47(세 시나리오 최대·최소 기준)
+      <div class="vs-name" title="지난 5년 ASML 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">26.5</div><div class="sc-tile low" data-vc="self" data-m="per">20</div><div class="sc-tile lost" data-vc="self" data-m="pbr">46</div><div class="sc-tile low" data-vc="self" data-m="psr">16</div><div class="sc-tile lost" data-vc="self" data-m="pcr">32</div><div class="sc-tile low" data-vc="self" data-m="evebitda">19</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$532</div><div class="vs-note">현재가 <span data-vs="price">$1496.30</span> 대비 <strong data-vs="upside">−64.4%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.81
+시나리오 범위: 2.81 ~ 3.50(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">22.8</div><div class="sc-tile low" data-vc="peer" data-m="per">21</div><div class="sc-tile low" data-vc="peer" data-m="pbr">13</div><div class="sc-tile lost" data-vc="peer" data-m="psr">33</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">30</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">17</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 48.2배(5년 중앙값 39.8배)로 자기 이력 27.3점(비싸다), 동종업 22.8점(비싸다)이다. <strong>현금흐름 내재가치(기본 $536.91)는 현재가의 36%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $536.91)는 현재가의 36%다. 현재가를 정당화하려면 매출이 5년간 연 39.1% 커야 한다. 내재가치에서 차입금 €3.7B를 빼고 현금·단기투자 €7.6B를 더한다.</div>
+    <div class="vs-premise">PER 48.6배(5년 중앙값 39.8배)로 자기 이력 26.5점(비싸다), 동종업 22.8점(비싸다)이다. <strong>현금흐름 내재가치(기본 $532.38)는 현재가의 36%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $532.38)는 현재가의 36%다. 현재가를 정당화하려면 매출이 5년간 연 39.3% 커야 한다. 내재가치에서 차입금 €3.7B를 빼고 현금·단기투자 €7.6B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -946,11 +946,11 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PER (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">48.2x</span>
+            <span class="val-number" data-hist="cur">48.6x</span>
             <span class="hist-badge bad" data-hist="badge">5년 중 상위 20%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 79.6%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 80.5%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 24.8x</span><span data-hist="median">중앙 39.8x</span><span data-hist="max">최고 67.5x</span></div>
       </div>
 
@@ -958,11 +958,11 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PBR <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">23.4x</span>
-            <span class="hist-badge mid" data-hist="badge">5년 중 상위 48%</span>
+            <span class="val-number" data-hist="cur">23.6x</span>
+            <span class="hist-badge mid" data-hist="badge">5년 중 상위 46%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 52.4%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 53.7%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 11.6x</span><span data-hist="median">중앙 23.2x</span><span data-hist="max">최고 32.3x</span></div>
       </div>
 
@@ -970,11 +970,11 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PSR (TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">14.4x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 17%</span>
+            <span class="val-number" data-hist="cur">14.6x</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 16%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 83.2%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 83.7%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 7.0x</span><span data-hist="median">중앙 11.2x</span><span data-hist="max">최고 20.0x</span></div>
       </div>
 
@@ -982,11 +982,11 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">PCR (FCF, TTM) <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">50.9x</span>
+            <span class="val-number" data-hist="cur">51.3x</span>
             <span class="hist-badge mid" data-hist="badge">5년 중 상위 32%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 68.1%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 68.4%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 16.4x</span><span data-hist="median">중앙 38.0x</span><span data-hist="max">최고 165.2x</span></div>
       </div>
 
@@ -994,11 +994,11 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">37.4x</span>
-            <span class="hist-badge bad" data-hist="badge">5년 중 상위 20%</span>
+            <span class="val-number" data-hist="cur">37.7x</span>
+            <span class="hist-badge bad" data-hist="badge">5년 중 상위 19%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 80.3%;"></div></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 81.3%;"></div></div>
         <div class="hist-labels"><span data-hist="min">최저 18.6x</span><span data-hist="median">중앙 31.4x</span><span data-hist="max">최고 52.3x</span></div>
       </div>
     </div>
@@ -1019,7 +1019,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q2 2026 매출 €9.3B(+21.3%), 영업이익률 37.1%(1년 전 34.6%). 주가는 1년 새 +40%<span class="tag">배수 비싼 쪽·매출 성장 빨라짐</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $536.91)는 현재가의 36%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $532.38)는 현재가의 36%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · Q3 2026 실적 공시.</div>
   </div>
 
@@ -1097,8 +1097,8 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $536.91)는 현재가의 36%.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 27점(배수 5개) · PER 48.2배(5년 중앙값 39.8배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $532.38)는 현재가의 36%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 26점(배수 5개) · PER 48.6배(5년 중앙값 39.8배).</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">3년 매출 성장률 연 11.0%, 5년 연 16.4%보다 낮다.</span></div>
     </div>
   </div>
@@ -1449,7 +1449,7 @@ const ASML_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let ASML_VERDICT = '계산 중';
 
-const ASML_DCF = {"low": 431.37, "base": 536.91, "high": 481.09, "requiredGrowth": 0.3909, "baseEquivGrowth": 0.0987, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.354211, "growth5y": 0.1637, "nonopPerShare": 6.77, "s2cFallback": false, "asOf": "2026-11-04", "hard": [], "hardDetail": {"roic": 0.6186, "tax": 0.1758, "nonopShare": 0.0126}, "tvShare": 0.7072};   // build_dcf_block.py
+const ASML_DCF = {"low": 427.74, "base": 532.38, "high": 477.04, "requiredGrowth": 0.3934, "baseEquivGrowth": 0.0987, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.354211, "growth5y": 0.1637, "nonopPerShare": 6.71, "s2cFallback": false, "asOf": "2026-11-04", "hard": [], "hardDetail": {"roic": 0.6186, "tax": 0.1758, "nonopShare": 0.0126}, "tvShare": 0.7072};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1503,7 +1503,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 const ASML_SCORES = {
   fundamental: 70.3,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 22.8,          // GICS Information Technology 28종목 대비 배수 순위 (나스닥 가격 × 그날 환율 ÷ 유로 재무)
-  selfHistory: 27.3,   // 자기 5년 배수 분포 백분위 (2021-11-04 ~ 2026-11-04)
+  selfHistory: 26.5,   // 자기 5년 배수 분포 백분위 (2021-11-04 ~ 2026-11-04)
   asOf: "2026-11-04",
   fundamentalAsOf: "2026-06-28",   // Q2 2026 US GAAP 요약 재무제표 (2026-07-15 공시)
 };
@@ -1598,7 +1598,7 @@ const ASML_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py ASML
 /* DCF_GRID:BEGIN */
-const ASML_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[509.46, 445.54, 396.63, 357.97, 326.65], [540.07, 467.46, 412.95, 370.5, 336.5], [576.13, 492.66, 431.37, 384.44, 347.34], [619.28, 521.96, 452.36, 400.07, 359.33], [671.88, 556.49, 476.48, 417.71, 372.68]], "기본": [[634.14, 553.68, 492.11, 443.47, 404.08], [673.29, 581.83, 513.17, 459.73, 416.93], [719.36, 614.14, 536.91, 477.78, 431.05], [774.42, 651.68, 563.9, 497.98, 446.64], [841.47, 695.84, 594.88, 520.74, 463.95]], "낙관": [[569.38, 496.58, 440.88, 396.89, 361.26], [604.69, 521.9, 459.77, 411.41, 372.69], [646.29, 551.02, 481.09, 427.57, 385.28], [696.09, 584.89, 505.38, 445.69, 399.21], [756.8, 624.81, 533.32, 466.15, 414.71]]}};
+const ASML_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[505.16, 441.79, 393.28, 354.95, 323.89], [535.51, 463.52, 409.46, 367.37, 333.66], [571.27, 488.51, 427.74, 381.2, 344.41], [614.06, 517.56, 448.54, 396.69, 356.3], [666.21, 551.8, 472.46, 414.19, 369.54]], "기본": [[628.8, 549.01, 487.96, 439.74, 400.67], [667.61, 576.92, 508.84, 455.85, 413.42], [713.29, 608.97, 532.38, 473.75, 427.41], [767.89, 646.18, 559.14, 493.78, 442.87], [834.37, 689.97, 589.87, 516.35, 460.04]], "낙관": [[564.58, 492.39, 437.17, 393.54, 358.21], [599.59, 517.5, 455.89, 407.94, 369.55], [640.84, 546.37, 477.04, 423.97, 382.03], [690.22, 579.96, 501.12, 441.93, 395.84], [750.42, 619.54, 528.83, 462.22, 411.21]]}};
 /* DCF_GRID:END */
 (function(){
   const D = ASML_DCF, G = (typeof ASML_DCF_GRID !== 'undefined') ? ASML_DCF_GRID : null;
@@ -1708,7 +1708,7 @@ const ASML_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 
 //
 // 갱신: python3 v2/build_fundamental_score.py ASML --card
 /* FUNDAMENTAL:BEGIN */
-const ASML_FUNDAMENTAL = {"ticker": "ASML", "basis": "quarter", "asOf": "2026-06-28", "filedAt": "2026-07-15", "periodSource": "10-Q", "score": 70.3, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 133.3772670235527, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 80.38827151020556, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 7.407577048997507, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": "분기 이자비용 미공시", "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 130.0750501709018, "points": 2, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 16.5, "points": 16.5, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 15.54732453968879, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 20.23762617084779, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 37.0567737093229, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 31.282903554388035, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 30.6, "points": 30.6, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 7517229730.000001, "sti": 1024846320.0000001, "lt_marketable": 0.0, "debt": 4190985990.0000005, "lease": 0.0, "shares": 384500000.0, "net": 4351090060.0, "perShare": 11.316229024707413}};
+const ASML_FUNDAMENTAL = {"ticker": "ASML", "basis": "quarter", "asOf": "2026-06-28", "filedAt": "2026-07-15", "periodSource": "10-Q", "score": 70.3, "grade": "양호", "qualityFlags": [], "axes": {"health": {"rows": [{"metric": "currentRatio", "value": 133.3772670235527, "points": 2, "note": null, "label": "유동비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 100, "points": 1}, {"upper_exclusive": 150, "points": 2}, {"upper_exclusive": 200, "points": 3}, {"upper_exclusive": 300, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "quickRatio", "value": 80.38827151020556, "points": 2, "note": null, "label": "당좌비율", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 50, "points": 1}, {"upper_exclusive": 100, "points": 2}, {"upper_exclusive": 150, "points": 3}, {"upper_exclusive": 250, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtDependency", "value": 7.407577048997507, "points": 4, "note": null, "label": "차입금의존도", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 5, "points": 5}, {"upper_exclusive": 15, "points": 4}, {"upper_exclusive": 30, "points": 3}, {"upper_exclusive": 50, "points": 2}, {"upper_exclusive": null, "points": 1}]}, {"metric": "interestCoverage", "value": null, "points": null, "note": "분기 이자비용 미공시", "label": "이자보상배율", "unit": "x", "higherIsBetter": true, "buckets": [{"upper_exclusive": 1, "points": 1}, {"upper_exclusive": 4, "points": 2}, {"upper_exclusive": 10, "points": 3}, {"upper_exclusive": 30, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "debtToEquity", "value": 130.0750501709018, "points": 2, "note": null, "label": "부채비율", "unit": "%", "higherIsBetter": false, "buckets": [{"upper_exclusive": 25, "points": 5}, {"upper_exclusive": 50, "points": 4}, {"upper_exclusive": 100, "points": 3}, {"upper_exclusive": 200, "points": 2}, {"upper_exclusive": null, "points": 1}]}], "used": 4, "pointsRaw": 16.5, "points": 16.5, "max": 33}, "growthProfit": {"rows": [{"metric": "revenueCagr", "value": 15.54732453968879, "points": 4, "note": null, "label": "매출 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 5, "points": 2}, {"upper_exclusive": 12, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opIncomeCagr", "value": 20.23762617084779, "points": 4, "note": null, "label": "영업이익 CAGR", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 0, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 18, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "opMargin", "value": 37.0567737093229, "points": 5, "note": null, "label": "영업이익률(OPM)", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 5, "points": 1}, {"upper_exclusive": 15, "points": 2}, {"upper_exclusive": 25, "points": 3}, {"upper_exclusive": 35, "points": 4}, {"upper_exclusive": null, "points": 5}]}, {"metric": "netMargin", "value": 31.282903554388035, "points": 5, "note": null, "label": "순이익률", "unit": "%", "higherIsBetter": true, "buckets": [{"upper_exclusive": 3, "points": 1}, {"upper_exclusive": 8, "points": 2}, {"upper_exclusive": 15, "points": 3}, {"upper_exclusive": 25, "points": 4}, {"upper_exclusive": null, "points": 5}]}], "used": 4, "pointsRaw": 30.6, "points": 30.6, "max": 34}}, "axisMaxTotal": 67, "note": "밸류에이션 축은 제외한다 — 이 점수는 재무제표에서 나온 것만 본다", "configVersion": "1.0.1", "netCash": {"cash": 7453846680.0, "sti": 1016205120.0, "lt_marketable": 0.0, "debt": 4155648840.0, "lease": 0.0, "shares": 384500000.0, "net": 4314402960.0, "perShare": 11.220813940182055}};
 /* FUNDAMENTAL:END */
 (function(){
   const F = (typeof ASML_FUNDAMENTAL !== 'undefined') ? ASML_FUNDAMENTAL : null;
@@ -1828,7 +1828,7 @@ const ASML_FUNDAMENTAL = {"ticker": "ASML", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py ASML --self v2/ASML_multiples.json --card
 /* VALUATION:BEGIN */
-const ASML_VALUATION = {"peer": {"score": 22.8, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-04", "metrics": [{"metric": "per", "score": 20.8, "rank": 20, "peers": 24}, {"metric": "pbr", "score": 13.0, "rank": 21, "peers": 23}, {"metric": "psr", "score": 33.3, "rank": 19, "peers": 27}, {"metric": "pcr", "score": 30.4, "rank": 17, "peers": 23}, {"metric": "evebitda", "score": 16.7, "rank": 21, "peers": 24}]}, "self": {"score": 27.3, "window": ["2021-11-04", "2026-11-04"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 20.4, "percentile": 79.6, "current": 48.22, "min": 24.79, "median": 39.79, "max": 67.52, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 47.6, "percentile": 52.4, "current": 23.4, "min": 11.57, "median": 23.17, "max": 32.31, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.8, "percentile": 83.2, "current": 14.45, "min": 7.02, "median": 11.19, "max": 19.97, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 31.9, "percentile": 68.1, "current": 50.85, "min": 16.44, "median": 38.01, "max": 165.24, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.7, "percentile": 80.3, "current": 37.4, "min": 18.59, "median": 31.4, "max": 52.27, "days": 1255, "currentNote": null}]}};
+const ASML_VALUATION = {"peer": {"score": 22.8, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-04", "metrics": [{"metric": "per", "score": 20.8, "rank": 20, "peers": 24}, {"metric": "pbr", "score": 13.0, "rank": 21, "peers": 23}, {"metric": "psr", "score": 33.3, "rank": 19, "peers": 27}, {"metric": "pcr", "score": 30.4, "rank": 17, "peers": 23}, {"metric": "evebitda", "score": 16.7, "rank": 21, "peers": 24}]}, "self": {"score": 26.5, "window": ["2021-11-04", "2026-11-04"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 19.5, "percentile": 80.5, "current": 48.63, "min": 24.79, "median": 39.79, "max": 67.52, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 46.3, "percentile": 53.7, "current": 23.6, "min": 11.57, "median": 23.17, "max": 32.31, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.3, "percentile": 83.7, "current": 14.58, "min": 7.02, "median": 11.19, "max": 19.97, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 31.6, "percentile": 68.4, "current": 51.29, "min": 16.44, "median": 38.01, "max": 165.24, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 18.7, "percentile": 81.3, "current": 37.72, "min": 18.59, "median": 31.4, "max": 52.27, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2191,7 +2191,7 @@ const ASML_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계
       + `\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다. ASML은 나스닥 가격을 그날 환율로 유로로 바꿔 유로 재무로 나눴다.`);
   put('asmlSelfBox', 'asmlSelfScore', 'asmlSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 48.2배는 5년 분포의 하위 79.6%다(중앙값 39.8배).`
+      + `\nPER 48.6배는 5년 분포의 하위 80.5%다(중앙값 39.8배).`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);
