@@ -124,7 +124,8 @@
 
 1. 위 1~4(순위·등록·meta·일봉·공시 기준).
 2. 기반 HTML: `newcards/cfg/cfg_{t}.py`에 `CIK`와 `BUILD = {'no_dcf': '은행 — RIM으로 따로 계산'}`만 두고(일반 현금흐름 계산을 건너뛰게 — COF 선례 `cfg/cfg_cof.py`) `build.py T --data --asof <세션>` → 결과 카드를 `bank/base/{t}_base.html`로 복사.
-3. `bank/cfg/cfg_{t}.py`(CIK·CO·REV_TAG·PB·COLOR·BV_NOTE·ANALYST·NEWS=[] — 기존 은행 cfg 참고), `daily_price.BANKS`(순서 유지 — COF 먼저), `v2/adapters/bank_sec_values.py` `CARDS`, 우선주가 있으면 `v2/research/bank_sec_tags.json`(무형자산 태그에 MSR이 섞였으면 같은 파일 `ia_minus`), `v2/bank_items.json`(특별 항목), `fundamental_score_config_v1.json` `bank_exclude_tickers`, `sec_approved.json`.
+3. 결산월은 `bank_rim.fy_end`가 평가일까지의 10-K에서 읽는다 — 3·6·9·12월 말이면 그대로 돌고(9월 결산 RJF, 분기 이름은 회계 분기 'Q3 FY26'), 52·53주 결산 등 그 밖은 멈춘다(2026-11-05). 우선주를 전액 상환한 회사는 `bank_sec_tags.json` 우선주 표에 넣지 않는다 — N3(1년 전 대비 0.5~2배)가 상환을 막아 최신 분기가 동결된다(RJF).
+   3. `bank/cfg/cfg_{t}.py`(CIK·CO·REV_TAG·PB·COLOR·BV_NOTE·ANALYST·NEWS=[] — 기존 은행 cfg 참고), `daily_price.BANKS`(순서 유지 — COF 먼저), `v2/adapters/bank_sec_values.py` `CARDS`, 우선주가 있으면 `v2/research/bank_sec_tags.json`(무형자산 태그에 MSR이 섞였으면 같은 파일 `ia_minus`), `v2/bank_items.json`(특별 항목), `fundamental_score_config_v1.json` `bank_exclude_tickers`, `sec_approved.json`.
 4. `bash v2/newcards/bank/rebuild.sh T` → 현행 백테스트(`build_backtest_pre.py T` → `refresh_backtest.py T`) → 카드의 `BACKTEST`를 `bank/base/{t}_base.html`에도 옮기고(`daily_price.py`의 은행 백테스트 처리와 같은 방식) `rebuild.sh T`를 다시 돌려 남는지 확인.
 5. `peer_universe/banks.json`은 `bank_card.py`가 S&P500 Diversified·Regional Banks에서 만드는 **산출물**이다 — 손으로 고치지 않는다. 기준일은 마지막으로 돌린 은행의 것이라 여러 장을 돌리면 최신 기준일 은행을 마지막에 돌린다.
 6. 홈 등록·기록은 위 11~13과 같다.

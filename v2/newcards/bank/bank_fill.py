@@ -54,6 +54,7 @@ px, asof = D[-1][4], D[-1][0]
 assert abs(px - J['price']) < 1e-6 and asof == J['asOf'], (px, J['price'], asof, J['asOf'])
 cut = (R.get('frozen') or {}).get('asof_cut')
 bank = br.Bank(T, CIK, cut or asof, edition=7)   # 카드 판정 JSON과 같은 7판(Fable — 기본값이 6이던 때 4장이 섞였다)
+FYE = br.fy_end(CIK, cut or asof)   # 회계연도 말 'MM-DD' — 9월 결산(RJF)도 읽는다(2026-11-05)
 L = R.get('L') or max(e for e in bank.se if bank.se[e][1] <= (cut or asof))   # 재무 기준 분기(관문을 통과한 최신 분기)
 S_, CE = (R.get('shares'), R.get('ce')) if R.get('L') else ((bank.shares(L) or (None,))[0], (bank.ce(L) or (None,))[0])
 f1 = lambda v: f'{v * 100:.1f}%'
@@ -83,7 +84,9 @@ ks = sorted(k for k in rev if k <= L and k in ni and k in nie and k in nii)[-8:]
 assert ks[-1] == L, (ks[-1], L)
 cur, qo = ks[-1], ks[-2]
 yo = [k for k in ks if 350 <= (dt.date.fromisoformat(cur) - dt.date.fromisoformat(k)).days <= 380][-1]
-qlab = lambda e: f'Q{(int(e[5:7]) - 1) // 3 + 1} {e[:4]}'
+_fm = int(FYE[:2])   # 12월 결산은 달력 분기('Q3 2026'), 그 밖은 회사 회계 분기('Q3 FY26' — 일반 카드와 같은 표기)
+qlab = ((lambda e: f'Q{(int(e[5:7]) - 1) // 3 + 1} {e[:4]}') if FYE == '12-31'
+        else (lambda e: f'Q{(int(e[5:7]) - _fm - 1) % 12 // 3 + 1} FY{(int(e[:4]) + (int(e[5:7]) > _fm)) % 100:02d}'))
 L8 = [qlab(k) for k in ks]; QL, YL, QQL = qlab(cur), qlab(yo), qlab(qo)
 roe_q = [round(bank.roe(k)[0] * 100, 1) if bank.roe(k) else None for k in ks]
 filed = bank.se[L][1]
@@ -147,7 +150,7 @@ _nq_end = f'{_ny}-{_nm:02d}-{ {3: 31, 6: 30, 9: 30, 12: 31}[_nm] }'
 _nr = first_rel(_nq_end)
 if _nr and _nr[0] <= asof:
     _d = dt.date.fromisoformat(_nr[0])
-    _rq, _rn = ('10-K' if cur.endswith('12-31') else '10-Q'), ('10-K' if _nq_end.endswith('12-31') else '10-Q')   # 4분기는 10-K(Codex 2차)
+    _rq, _rn = ('10-K' if cur.endswith(FYE) else '10-Q'), ('10-K' if _nq_end.endswith(FYE) else '10-Q')   # 4분기는 10-K(Codex 2차)
     NEXT = (f'{_d.month}월 {_d.day}일 발표됨', f'{_nl} 실적 · 재무·내재가치는 {QL} {_rq} 기준({_nl} {_rn} 반영 전)')
     NEXT_OP = (f'{_d.month}월 {_d.day}일 발표됨', f'{_nl} {_rn} 반영 전')
     CHECK_WHEN = f'{_nl} {_rn}(실적은 {_d.month}월 {_d.day}일 발표됨)'
@@ -243,7 +246,7 @@ sub(rf'const {T}_SCORES = \{{.*?\n\}};', f'''const {T}_SCORES = {{
   peer: {json.dumps(peerscore)},          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
   selfHistory: {json.dumps(selfscore)},   // P/TBV·PER 자기 5년 백분위 평균(표시용)
   asOf: "{asof}",
-  fundamentalAsOf: "{L}",   // {QL} {"10-K" if L.endswith("12-31") else "10-Q"} ({filed} 공시)
+  fundamentalAsOf: "{L}",   // {QL} {"10-K" if L.endswith(FYE) else "10-Q"} ({filed} 공시)
 }};''')
 sub(r'// 기본적 분석이 98\.1이 아니라 96\.1인 이유\..*?// `--basis annual`로 돌리면 98\.1이 그대로 나온다 — 배점을 안 건드렸다는 확인이다\.\n', '')
 F_ = bmh._facts(CIK)['facts']['us-gaap']
@@ -252,7 +255,7 @@ F_ = bmh._facts(CIK)['facts']['us-gaap']
 def _ann(tag):
     out = {}
     for x in F_.get(tag, {}).get('units', {}).get('USD', []):
-        if x.get('form') == '10-K' and 'start' in x and x['end'].endswith('12-31') and x['filed'] <= (cut or asof) and 350 <= (dt.date.fromisoformat(x['end']) - dt.date.fromisoformat(x['start'])).days <= 380:
+        if x.get('form') == '10-K' and 'start' in x and x['end'].endswith(FYE) and x['filed'] <= (cut or asof) and 350 <= (dt.date.fromisoformat(x['end']) - dt.date.fromisoformat(x['start'])).days <= 380:
             if x['end'] not in out or x['filed'] < out[x['end']][1]:
                 out[x['end']] = (x['val'], x['filed'])
     return {k: v[0] for k, v in out.items()}
@@ -261,7 +264,7 @@ def _ann(tag):
 _ra = ((lambda ds: {k: sum(d_[k] for d_ in ds) for k in set.intersection(*(set(d_) for d_ in ds))})([_ann(t_) for t_ in K.REV_TAG])
        if isinstance(K.REV_TAG, tuple) else _ann(K.REV_TAG))
 _na = _ann('NetIncomeLossAvailableToCommonStockholdersBasic')
-FY1 = max(k for k in _ra if k in _na); FY0 = f'{int(FY1[:4]) - 5}-12-31'
+FY1 = max(k for k in _ra if k in _na); FY0 = f'{int(FY1[:4]) - 5}-{FYE}'
 cagr = lambda d_: ((d_[FY1] / d_[FY0]) ** (1 / 5) - 1) * 100 if FY0 in d_ and d_[FY0] > 0 and d_[FY1] > 0 else None
 CAGR_REV, CAGR_NI = cagr(_ra), cagr(_na)
 NM_TTM = sum(ni[k] for k in ks[-4:]) / sum(rev[k] for k in ks[-4:]) * 100
@@ -316,7 +319,7 @@ sub(r'<span id="fundHealthAxis">[^<]*</span>', '<span id="fundHealthAxis">점수
 sub(r'<div class="title" id="fundHealthTitle">[^<]*</div>', '<div class="title" id="fundHealthTitle">종합 진단: 판정하지 않음 — 은행이라 점수를 매기지 않는다</div>')
 one('<div class="diag-summary" id="fundHealthSummary">', '<div class="diag-summary watch" id="fundHealthSummary">')
 one('<span>안정성 상세 — 개별 비율 7개</span>', '<span>안정성 상세 — 개별 비율 7개 · 은행 자본 지표</span>')
-_fya = sorted(k for k in A_ if k.endswith('12-31') and k <= L)
+_fya = sorted(k for k in A_ if k.endswith(FYE) and k <= L)
 a1, a0 = A_[_fya[-1]], A_[_fya[-2]]
 sub(r'<span class="diag-label">총자산증가율</span><span class="diag-value">[^<]*</span><span class="diag-note">[^<]*</span>',
     f'<span class="diag-label">총자산증가율</span><span class="diag-value">{(a1 / a0 - 1) * 100:+.1f}%</span><span class="diag-note">FY{_fya[-1][2:4]} ${a1 / 1e12:.2f}T(전기 ${a0 / 1e12:.2f}T) · 연간 지표, 다음 10-K 전까지 동일</span>'.replace('+-', '−'))
@@ -378,13 +381,14 @@ CAPA = (f'<div class="card-title">자본배분 · 주주환원 ({QL} · {qd_(cur
         + zone(f'자사주 매입 ({QL})', B(_buy[0]) if _buy else '공시 없음')
         + zone(f'보통주 배당 ({QL})', B(_div[0]) if _div else '공시 없음')
         + (zone(f'최근 분기 주당 배당 ({_dlab}, {_dend[5:7].lstrip("0")}/{_dend[8:].lstrip("0")} 분기)', f'${_dps:.2f}', (f'1년 전 ${_dps_yo:.2f} · {pc(chg(_dps, _dps_yo))}' if _dps_yo else None)) if _dps else '')
-        + zone('최근 4분기 순환원율 (배당 + 매입 − 발행 ÷ 순이익)', f'{PAY * 100:.0f}%' if PAY is not None else '—')
-        + f'      </div>\n      <div class="yoy-footnote" style="margin-top:14px;">현금흐름표 기준(SEC {"10-K" if cur.endswith("12-31") else "10-Q"}) · <a href="{PRU}" target="_blank" rel="noopener">{K.CO} {QL} 실적 보도자료 (SEC 8-K) →</a></div>\n    </div>')
+        + zone('최근 4분기 순환원율 ((배당 + 매입 − 발행) ÷ 순이익)', f'{PAY * 100:.0f}%' if PAY is not None else '—')
+        + f'      </div>\n      <div class="yoy-footnote" style="margin-top:14px;">{"현금흐름표·자본변동표(자사주 매입) 기준" if T in br.BUY_TAGS else "현금흐름표 기준"}(SEC {"10-K" if cur.endswith(FYE) else "10-Q"}) · <a href="{PRU}" target="_blank" rel="noopener">{K.CO} {QL} 실적 보도자료 (SEC 8-K) →</a></div>\n    </div>')
 sub(r'<div class="card-title">자본배분 · 주주환원 \([^)]*\)</div>\n      <div class="zone-list">.*?\n      </div>\n    </div>', CAPA)
 # 체크포인트 — 규칙(숫자는 SEC, 원인은 쓰지 않는다)
 _roe_yo = bank.roe(yo)
 _eff, _eff_yo = nie[cur] / rev[cur] * 100, nie[yo] / rev[yo] * 100
-CHKS = [f'최근 4분기 ROE({f1(_roe_now[0]) if _roe_now else "—"})가 1년 전({f1(_roe_yo[0]) if _roe_yo else "—"})보다 높은 수준을 지키는지',
+CHKS = [f'최근 4분기 ROE({f1(_roe_now[0]) if _roe_now else "—"})가 1년 전({f1(_roe_yo[0]) if _roe_yo else "—"})보다 높은 수준을 지키는지' if not (_roe_now and _roe_yo and _roe_now[0] < _roe_yo[0]) else
+        f'최근 4분기 ROE({f1(_roe_now[0])})가 1년 전 수준({f1(_roe_yo[0])})을 되찾는지',
         f'순이자이익이 1년 전 같은 분기보다 늘어나는지({QL} {pc(chg(nii[cur], nii[yo]))})',
         f'효율성 비율(비이자비용 ÷ 순영업수익, {QL} {_eff:.1f}%, 1년 전 {_eff_yo:.1f}%)이 낮아지는지',
         (f'최근 4분기 순환원율 {PAY * 100:.0f}%가 이익 안에서 유지되는지' if PAY is not None and PAY <= 1 else
@@ -546,15 +550,15 @@ for e in sorted(_na, key=lambda e: e['accepted'], reverse=True)[:6]:
     rx = min((x for x in days if x >= r0), default=None)
     if rx is None:   # 마지막 종가 뒤(장 마감 후)에 나온 발표 — 다음 종가가 생기면 넣는다(Codex)
         continue
-    sh_ = dt.date.fromisoformat(rx)
     body = '실적 보도자료 공시(8-K 2.02항)'
     _qe = [k for k in ks if 0 < (d0 - dt.date.fromisoformat(k)).days <= 80]
     if _qe:
         k = _qe[-1]; ky = [x for x in sorted(ni) if 350 <= (dt.date.fromisoformat(k) - dt.date.fromisoformat(x)).days <= 380]
         body = f'{qlab(k)} 순영업수익 {B(rev[k])}, 보통주 귀속 순이익 {B(ni[k])}' + (f'(1년 전 {B(ni[ky[-1]])})' if ky else '') + ' · SEC 10-Q·10-K 기준'
-    items.append(('neutral', f'{sh_.year}년 {sh_.month}월 {sh_.day}일 — 실적 발표', rx, body, e['url'], f'{K.CO} 실적 보도자료 (SEC 8-K)'))
+    items.append(('neutral', f'{d0.year}년 {d0.month}월 {d0.day}일' + (' 장 마감 후' if e.get('after_close') else '') + ' — 실적 발표', rx,   # 제목은 발표일, 반응일은 rx(Codex 2026-11-05)
+                  body, e['url'], f'{K.CO} 실적 보도자료 (SEC 8-K)'))
 if not items:
-    items.append(('neutral', f'{qd_(filed)} — {QL} 보고서', None, f'{QL} {"10-K" if L.endswith("12-31") else "10-Q"} 공시', PRU, f'{K.CO} (SEC)'))
+    items.append(('neutral', f'{qd_(filed)} — {QL} 보고서', None, f'{QL} {"10-K" if L.endswith(FYE) else "10-Q"} 공시', PRU, f'{K.CO} (SEC)'))
 for it in items:
     assert it[2] is None or it[2] in days, it[2]
 tl = '    <div class="timeline" id="newsTimeline">\n' + '\n'.join(item(*i) for i in items) + '\n    </div>'

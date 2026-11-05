@@ -30,7 +30,7 @@ UA = "kim research gptjhss@gmail.com"
 EXTRACT_VERSION = 2   # 8판 §1-3: 캐시에 단위(measure)도 저장 — 1판 캐시(판 키 없는 목록)는 단위가 없다
 SINCE = "2020-06-30"   # 5년 자기 이력 + 출발 TTM·기초 자본
 CARDS = {"JPM": "0000019617", "BAC": "0000070858", "WFC": "0000072971", "GS": "0000886982", "MS": "0000895421",
-         "C": "0000831001", "AXP": "0000004962", "SCHW": "0000316709", "COF": "0000927628", "BNY": "0001390777", "USB": "0000036104", "SYF": "0001601712"}
+         "C": "0000831001", "AXP": "0000004962", "SCHW": "0000316709", "COF": "0000927628", "BNY": "0001390777", "USB": "0000036104", "SYF": "0001601712", "RJF": "0000720005"}
 IA_STD = ["us-gaap:IntangibleAssetsNetExcludingGoodwill", "us-gaap:FiniteLivedIntangibleAssetsNet",
           "us-gaap:IndefiniteLivedIntangibleAssetsExcludingGoodwill", "us-gaap:OtherIntangibleAssetsNet"]
 IA_CUSTOM = re.compile(r"^(?!us-gaap:)\w+:\w*Intangible\w*$", re.I)

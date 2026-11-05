@@ -7,11 +7,12 @@
 정의는 사전 등록 문서가 원본이다. 모든 값은 평가 시점까지 접수된 SEC 사실만 쓴다(같은 기간은 가장 먼저 접수된 값,
 그 값 자신의 접수일이 가용일). 회사 공시 대조값(관문)은 실적 보도자료에서 옮긴 v2/research/bank_gate_JPM.json을 읽는다.
 """
+import functools
 import json
 import os
 import statistics
 import sys
-from datetime import date
+from datetime import date, timedelta
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
@@ -40,14 +41,16 @@ def ack_map(ticker, edition):
             if isinstance(v, str) or edition >= v.get("edition_min", 0)}
 # 자사주 매입 현금 태그가 다른 은행. MS는 현금흐름표 "Repurchases of common stock"을 StockRepurchasedDuringPeriodValue로 낸다
 # (PaymentsForRepurchaseOfCommonStock은 2013년에 멈춤, 2026-10-01). 우선주 잔액은 회사 고유 태그라 adapters/ms_preferred.py가 overlay에 싣는다.
-BUY_TAGS = {"MS": ["StockRepurchasedDuringPeriodValue"]}
+BUY_TAGS = {"MS": ["StockRepurchasedDuringPeriodValue"],
+            "RJF": ["StockRepurchasedDuringPeriodValue"]}   # RJF: 현금 태그가 2023-06 뒤 회사 고유(rjf:…AndTaxWithholding — 원천징수 포함)라 자본변동표 매입액(2026-11-05)
 # 보통주 배당 현금을 PaymentsOfDividendsCommonStock 대신 다른 태그로 내는 은행(BAC: DividendsCommonStockCash, 2026-10-01)
 # 보통주 배당 현금 태그가 중간에 끊기고 배당 합계(보통주 + 우선주)만 남은 은행 — 빈 분기를 합계 − 우선주 배당으로 메운다.
 # BNY: PaymentsOfDividendsCommonStock은 2025-12까지, 2026년부터 "Cash dividends paid"(PaymentsOfDividends, 우선주 포함)만 — 2025년 비교 수치
 # 6개월 792 = 보통주 689 + 우선주 103으로 정의 확인(2026-10-17).
 DIV_COM_FILL = {"BNY"}
 DIV_COM_TAGS = {"BAC": ["DividendsCommonStockCash"],
-                "SCHW": ["DividendsCommonStockCash"]}   # SCHW: PaymentsOfDividends − DividendsPreferredStock 폴백의 우선주 태그가 없다(…Cash로만), BAC와 같은 선언 기준(2026-10-01)
+                "SCHW": ["DividendsCommonStockCash"],   # SCHW: PaymentsOfDividends − DividendsPreferredStock 폴백의 우선주 태그가 없다(…Cash로만), BAC와 같은 선언 기준(2026-10-01)
+                "RJF": ["PaymentsOfOrdinaryDividends"]}   # RJF: 현금흐름표 "보통주·우선주 배당" 한 줄(9M FY26 $326M, 그중 우선주 $4M — 2026-01 상환 뒤 0). 보통주 태그가 없어 합계를 쓴다(2026-11-05)
 
 
 # ── 사실 읽기 ────────────────────────────────────────────────────────────
@@ -82,12 +85,40 @@ def flow_q(cik, tags, ticker, asof=None):
          if e["end"][5:] in ("03-31", "06-30", "09-30", "12-31")}
     # 누적 차분으로 만든 분기값의 가용일은 두 누적값 접수일 중 늦은 날이다(7-2, Codex). 같은 회계연도의
     # 직전 분기 사실 접수일까지 포함해 늦은 쪽으로 잡는다(보수적).
-    out = {}
+    out, fye = {}, fy_end(cik, asof)
     for e, (v, f) in q.items():
         prev = qends_before(e, 1)[0]
-        pf = q.get(prev, (None, f))[1] if not e.endswith("03-31") else f
+        pf = q.get(prev, (None, f))[1] if not fy_first_q(e, fye) else f
         out[e] = (v, max(f, pf))
     return out
+
+
+@functools.lru_cache(maxsize=None)
+def fy_end(cik, asof=None):
+    """회계연도 말 'MM-DD' — 평가일(asof)까지 접수된 10-K·10-K/A 연간(350~380일) 순이익 사실 가운데 가장 나중에 끝난 것의 날짜.
+    없으면 12월 말. 9월 결산 은행(RJF)을 읽으려고 넣었다(2026-11-05). 12월 결산 은행은 '12-31'이라 전과 같다.
+    지원 범위는 3·6·9·12월 말에 끝나는 고정 회계연도뿐 — 52·53주 결산이나 그 밖의 날짜면 분기 계산(flow_q·qends_before)이
+    맞지 않으므로 멈춘다(Codex 2026-11-05). 결산월을 바꾼 회사는 평가일 기준 결산월을 쓴다(과거 평가에 새 결산월이 섞이지 않게)."""
+    g = bmh._facts(cik).get("facts", {}).get("us-gaap", {})
+    rows = [f for tag in ("NetIncomeLossAvailableToCommonStockholdersBasic", "NetIncomeLoss")
+            for f in g.get(tag, {}).get("units", {}).get("USD", [])
+            if f.get("form") in ("10-K", "10-K/A") and f.get("start") and (not asof or f["filed"] <= asof)
+            and 350 <= (date.fromisoformat(f["end"]) - date.fromisoformat(f["start"])).days <= 380]
+    fye = max(rows, key=lambda f: f["end"])["end"][5:] if rows else "12-31"
+    if fye not in ("03-31", "06-30", "09-30", "12-31"):
+        raise ValueError(f"CIK {cik}: 회계연도 말 {fye} — 3·6·9·12월 말이 아닌 결산은 은행 엔진이 지원하지 않는다")
+    return fye
+
+
+def fy_start(end, fye):
+    """분기말 end가 속한 회계연도의 첫날 — 12월 결산이면 그해 1월 1일."""
+    y = int(end[:4]) if end[5:] > fye else int(end[:4]) - 1
+    return (date(y, int(fye[:2]), int(fye[3:])) + timedelta(days=1)).isoformat()
+
+
+def fy_first_q(end, fye):
+    """회계연도 첫 분기인가 — 12월 결산이면 3월 말."""
+    return qends_before(end, 1)[0][5:] == fye
 
 
 def qends_before(end, n):
@@ -543,17 +574,17 @@ GATE_Y = ["2021", "2022", "2023", "2024", "2025"]
 
 def ytd_diff_q(bank, tag, end):
     """G5용 — 3개월 직접 공시값을 쓰지 않고 연초 누적(10-Q·10-K)끼리 뺀 분기값. 7판은 평가일까지 접수된 것만(11-0)."""
-    y = end[:4]
-    start = f"{y}-01-01"
+    fye = fy_end(bank.cik, bank.asof)
+    start = fy_start(end, fye)   # 회계연도 첫날(12월 결산이면 1월 1일, 9월 결산이면 전년 10월 1일 — 2026-11-05)
     cum = {}
     for f in _facts(bank.cik, tag):
         if bank.ed >= 7 and bank.asof and f["filed"] > bank.asof:
             continue
-        if f.get("start") == start and f["end"].startswith(y) and (f["end"] not in cum or f["filed"] < cum[f["end"]]["filed"]):
+        if f.get("start") == start and start < f["end"] <= end and (f["end"] not in cum or f["filed"] < cum[f["end"]]["filed"]):
             cum[f["end"]] = f
     if end not in cum:
         return None
-    if end.endswith("03-31"):
+    if fy_first_q(end, fye):
         return cum[end]["val"]
     prev = qends_before(end, 1)[0]
     return None if prev not in cum else cum[end]["val"] - cum[prev]["val"]
@@ -696,7 +727,7 @@ def checks7(bank, end):
     d3 = _q3m(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic", end, asof=bank.asof)
     nq = bank.ni.get(end)
     yd = ytd_diff_q(bank, "NetIncomeLossAvailableToCommonStockholdersBasic", end)   # 누적끼리 뺀 값 — bank.ni는 직접값을 먼저 쓰므로 그것과 견주면 같은 값끼리 비교한다(Codex)
-    if d3 and yd is not None and not end.endswith("03-31"):
+    if d3 and yd is not None and not fy_first_q(end, fy_end(bank.cik, bank.asof)):
         diff = abs(yd - d3[0])
         res["N2"] = {"pass": diff <= 5e6 or (diff <= 50e6 and diff <= 0.10 * abs(d3[0])), "diff_m": round(diff / 1e6, 1)}
     else:
@@ -782,7 +813,7 @@ def checks7(bank, end):
     pend = {e: j for e, j in pend.items() if j and e not in ackd}
     res["N4"] = {"pass": not pend, "jumps": jumps, "unacked": pend, "ack": ackd.get(end)}
     # N5-1 EPS 대조
-    if d3 is not None or end.endswith("12-31"):
+    if d3 is not None or end[5:] == fy_end(bank.cik, bank.asof):   # 4분기(회계연도 말)는 연간 값으로 대조
         ni_ = d3[0] if d3 else _fy(bank.cik, "NetIncomeLossAvailableToCommonStockholdersBasic", end, asof=bank.asof)
         wa = (_q3m(bank.cik, "WeightedAverageNumberOfSharesOutstandingBasic", end, "shares", bank.asof) or (None,))[0] if d3 else _fy(bank.cik, "WeightedAverageNumberOfSharesOutstandingBasic", end, "shares", bank.asof)
         eps = (_q3m(bank.cik, "EarningsPerShareBasic", end, "USD/shares", bank.asof) or (None,))[0] if d3 else _fy(bank.cik, "EarningsPerShareBasic", end, "USD/shares", bank.asof)
