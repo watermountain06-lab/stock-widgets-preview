@@ -462,7 +462,15 @@ def base_inputs(ticker, asof=None):
         _nci_tags = bmh.EV_TAGS_BY_CIK.get(cik, {}).get("nci")
         if _nci_tags:
             _inside = [tg for tg in _nci_tags if not (("Redeemable" in tg and "Nonredeemable" not in tg) or tg.startswith("TemporaryEquity"))]
-            _nci_in = (latest(bmh.component_sum(cik, _inside), asof) or 0) if _inside else 0
+            _nci_in = 0
+            if _inside:
+                # 지정이 튜플이면 날짜마다 앞 태그(대체 태그), 리스트면 합 — _ev_component와 같게. 낡은 값은 EV 구성요소와 같은 기준(_fresh)으로
+                # 버리고, 그 시점 관측이 없으면 기본 태그(MinorityInterest)로(Codex E48 r1)
+                _ser = (bmh.pick_instant(cik, list(_inside)) if isinstance(_nci_tags, tuple) else bmh.component_sum(cik, _inside))
+                if newest(_ser, asof) is None:
+                    _ser = bmh.component_sum(cik, ["MinorityInterest"])
+                _row, _st = _fresh(_ser, "nci")
+                _nci_in = (_row["val"] if _row and _st != "stale" else 0) or 0
         else:
             _nci_in = out.get("nci")
         out["equity"] = incl_last["val"] - (_nci_in or 0)
