@@ -1013,10 +1013,20 @@ function buyBox(args) {
   const hiddenN = plan.candidates.length - shownCands.length;
   const hiddenPicked = picked.filter((t) => !shownCands.includes(t));
   const lh = el('div', 'pf-buysechead');
-  lh.appendChild(el('span', 'pf-buylabel', `내 기준대로 살 후보 ${shownCands.length}` + (hiddenN ? ` · 지금 살 단계 아닌 ${hiddenN}개 숨김` : '')));
-  lh.appendChild(el('span', 'pf-note', mv.demo ? `시연 · ${md(plan.decisionDate)} 점검으로 보고 ${md(plan.record)} 첫 기록 판정 · 체크는 저장하지 않음`
-    : plan.passed != null ? `원칙 1·6 통과 ${plan.passed}개 중 200위 안·판정→점수 순 ${plan.candidates.length}개(원칙 3) · ${md(plan.pickRecord || plan.record)} 기록${plan.pickProvisional ? ' · 2회차 전 미리 보기' : ''} · 체크한 종목만 삽니다`
-    : `원칙 1·6 통과 · ${md(plan.decisionDate)} 점검 · 체크한 종목만 삽니다`));
+  const hidTxt = hiddenN ? ` · 지금 살 단계 아닌 ${hiddenN}개 숨김` : '';
+  if (plan.passed != null && !mv.demo) {
+    // 원칙 3 상한(2026-11-04): 제목에 고른 수 / 원칙 1·6 통과 수, 기준·기록 날짜는 꼬리표로(사용자 결정 2026-11-05 — 긴 설명 줄 대신)
+    lh.appendChild(el('span', 'pf-buylabel', `살 후보 ${shownCands.length} / ${plan.passed}` + hidTxt));
+    const tags = el('span', 'pf-buytags');
+    tags.title = `원칙 1·6 통과 ${plan.passed}개 중 시총 200위 안에서 판정이 싼 순서 → 카드 점수 순으로 ${plan.candidates.length}개(원칙 3) · 체크한 종목만 삽니다`;
+    tags.appendChild(el('span', 'pf-badge', '200위 안 · 판정→점수'));
+    tags.appendChild(el('span', 'pf-badge', `${md(plan.pickRecord || plan.record)} 기록${plan.pickProvisional ? ' · 미리 보기' : ''}`));
+    lh.appendChild(tags);
+  } else {
+    lh.appendChild(el('span', 'pf-buylabel', `내 기준대로 살 후보 ${shownCands.length}` + hidTxt));
+    lh.appendChild(el('span', 'pf-note', mv.demo ? `시연 · ${md(plan.decisionDate)} 점검으로 보고 ${md(plan.record)} 첫 기록 판정 · 체크는 저장하지 않음`
+      : `원칙 1·6 통과 · ${md(plan.decisionDate)} 점검 · 체크한 종목만 삽니다`));
+  }
   box.appendChild(lh);
   const list = el('div', 'pf-buylist');
   const pickMsg = msgLine();
