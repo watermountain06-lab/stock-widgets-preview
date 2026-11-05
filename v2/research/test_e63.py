@@ -215,6 +215,22 @@ def run():
         check("E62 이웃 분기 간격 120일 넘으면 0", bmh.disc_in_ttm("ZZZ", gap, "2025-03-31", "2025-06-01") == 0.0)
     finally:
         bmh._ps_facts, bmh.ASOF_REF = keep_ps, keep_ar
+    # E67 pick_instant 시점 규칙: 그때까지 공개된 태그 중 앞 태그
+    keep_c, keep_pe = bmh.concept, bmh._period_ends
+    try:
+        F67 = {"NEW": [{"end": "2024-12-31", "filed": "2025-07-30", "val": 1730.0}],
+               "OLD": [{"end": "2024-12-31", "filed": "2025-02-18", "val": 1730.0}, {"end": "2024-09-30", "filed": "2024-11-01", "val": 1500.0}]}
+        bmh.concept = lambda cik, tag, taxonomy="us-gaap": F67.get(tag, [])
+        bmh._period_ends = lambda cik: []
+        pk = bmh.pick_instant("0", ["NEW", "OLD"])
+        check("E67 앞 태그가 늦게 공개되면 그 전엔 옛 태그(2025-03 → 2024-12 1730, 2024-09 아님)", bmh.as_of(pk, "2025-03-01") == 1730.0)
+        check("E67 같은 결산일 두 태그는 더하지 않음", max(e["val"] for e in pk) == 1730.0 and bmh.as_of(pk, "2025-08-01") == 1730.0)
+        F67["NEW"] = [{"end": "2024-12-31", "filed": "2025-07-30", "val": 1800.0}]
+        pk = bmh.pick_instant("0", ["NEW", "OLD"])
+        check("E67 앞 태그 공개 뒤에는 앞 태그 값", bmh.as_of(pk, "2025-08-01") == 1800.0 and bmh.as_of(pk, "2025-03-01") == 1730.0)
+    finally:
+        bmh.concept, bmh._period_ends = keep_c, keep_pe
+    check("E67 KO만 단기투자 지정 목록을 더함", bmh.STI_SUM_CIKS == {"0000021344"})
     check("newest_row 모든 행 오태깅 → None", bmh.newest_row([row("2025-01-01", "2024-05-01", 1)]) is None)
 
     # 결산일 ±7일 가드
@@ -260,6 +276,7 @@ MUTANTS = [
     ("E62 재작성 시점 제한 유지", "    return \"9999-12-31\" if ticker in feh.RESTATED_LATEST else upto", "    return upto"),
     ("E62 손 보정 기준표 무시", "        basis = Q4_OVERRIDE_BASIS.get((ticker, fy_end))", "        basis = None"),
     ("E62 간격 검사 제거", "    if any((date.fromisoformat(b) - date.fromisoformat(a)).days > 120 for a, b in zip(qs, qs[1:])):\n        return None", "    if False:\n        return None"),
+    ("E67 pick 시점 무시(앞 태그만)", "            if best is None or rank < best:   # 더 앞 태그가 공개된 날부터 그 값으로", "            if best is None and rank == min(r for _, r, _ in lst):"),
     ("근거 없을 때 막음", "        return True                      # 결산일 근거가 없으면 거르지 않는다", "        return False"),
 ]
 
