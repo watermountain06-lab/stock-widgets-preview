@@ -12444,6 +12444,43 @@
         "valuationAsOf": "2026-11-04",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "SYF",
+      "name": "싱크로니 파이낸셜",
+      "sector": "소비자 금융 — 제휴 신용카드(Amazon·PayPal·Lowe's·CareCredit), 저축은행 지주",
+      "href": "SYF_full_widget.html",
+      "cardRank": 296,
+      "cardAsOf": "2026-11-03",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 75.18,
+        "prevClose": 76.82,
+        "session": "2026-11-03",
+        "prevSession": "2026-11-02",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 311404854,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-16",
+        "filedAt": "2026-10-22",
+        "filing": "10-Q 0001601712-26-000043 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "excluded",
+        "reason": "v2 기본적 분석 점수 없음(financial)"
+      }
     }
   ]
 }
