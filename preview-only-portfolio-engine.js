@@ -579,7 +579,7 @@ function runScenario(ctx, prm, init, keepStates) {
       // 원칙 전략은 12월 계획부터 5개까지(pickTop) — 이 아래 매수 배분은 모두 고른 목록으로 한다
       const cands = prm.principle && pm >= pickFrom ? pickTop(passed, R).sort() : passed;
       plan.candidates = cands;
-      if (cands !== passed) plan.passed = passed.length;
+      if (cands !== passed) { plan.passed = passed.length; plan.passedList = passed; }   // 밀린 후보는 주간 확인의 '새로 든 종목'이 아니다
       // 원칙 전략(cashFrom 계획부터): 현금 목표 = 그날 평가액의 10%, 예산 = 현금 − 목표. 평가액을 모르면 그달은 사지 않는다
       if (prm.principle && pm >= cashFrom) {
         const pv = value(d).v;

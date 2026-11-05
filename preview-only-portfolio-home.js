@@ -7,7 +7,7 @@
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=27';
 import { renderStrategy } from './preview-only-portfolio-rank.js?v=20';
 import { renderManage } from './preview-only-portfolio-records.js?v=16';
-import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, PICK_FROM, PICK_FROM_ROUND, pickTop, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=12';
+import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, PICK_FROM, PICK_FROM_ROUND, pickTop, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=13';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
 import { renderAccounts } from './preview-only-portfolio-acctview.js?v=7';
@@ -345,7 +345,7 @@ export function pickMonth(mv, recs, today) {
   const rec = today >= PICK_FROM_ROUND ? before[before.length - 1] : full[full.length - 1];
   if (!rec) return mv;
   const candidates = pickTop(p.candidates, rec).sort();
-  return { ...mv, plan: { ...p, candidates, passed: p.candidates.length, pickRecord: rec.session, pickProvisional: today < PICK_FROM_ROUND } };
+  return { ...mv, plan: { ...p, candidates, passed: p.candidates.length, passedList: p.candidates, pickRecord: rec.session, pickProvisional: today < PICK_FROM_ROUND } };
 }
 
 // 시작 전 실제 계좌 흐름을 이어 붙인 수익률(사용자 결정 2026-10-22 A안): pre = {from, base, end, endHoldings, endCash, days:[{d, v, f}], spy:{base, end}}
@@ -1016,7 +1016,7 @@ function buyBox(args) {
   const hidTxt = hiddenN ? ` · 지금 살 단계 아닌 ${hiddenN}개 숨김` : '';
   if (plan.passed != null && !mv.demo) {
     // 원칙 3 상한(2026-11-04): 제목에 고른 수 / 원칙 1·6 통과 수, 기준·기록 날짜는 꼬리표로(사용자 결정 2026-11-05 — 긴 설명 줄 대신)
-    lh.appendChild(el('span', 'pf-buylabel', `살 후보 ${shownCands.length} / ${plan.passed}` + hidTxt));
+    lh.appendChild(el('span', 'pf-buylabel', `구매 후보 ${shownCands.length} / ${plan.passed}` + hidTxt));
     const tags = el('span', 'pf-buytags');
     tags.title = `원칙 1·6 통과 ${plan.passed}개 중 시총 200위 안에서 판정이 싼 순서 → 카드 점수 순으로 ${plan.candidates.length}개(원칙 3) · 체크한 종목만 삽니다`;
     tags.appendChild(el('span', 'pf-badge', '200위 안 · 판정→점수'));
@@ -1189,7 +1189,9 @@ function previewSection(args, box, month, budget) {
 
 // 주간 확인(원칙 2·6): 점검일 뒤 살 단계에 든 종목 — 보여 주기만, 살지는 사용자가 판단(사면 그달 남은 돈에서). 회차가 남았을 때만
 function freshSection({ model, mv, dlg, tierOf, nowBuyable }, box, plan, bought) {
-  const fresh = Object.keys(model.lastCards || {}).sort().filter((t) => !plan.candidates.includes(t) && nowBuyable(t));
+  // 원칙 3 상한에서 밀린 점검일 후보(passedList)는 새로 든 종목이 아니라 빼고 센다(2026-11-05)
+  const known = plan.passedList || plan.candidates;
+  const fresh = Object.keys(model.lastCards || {}).sort().filter((t) => !known.includes(t) && nowBuyable(t));
   if (!fresh.length || !mv.next) return;
   const fh = el('div', 'pf-buysechead');
   fh.appendChild(el('span', 'pf-buylabel', `주간 확인 · 점검일 뒤 살 단계에 든 종목 ${fresh.length}`));
