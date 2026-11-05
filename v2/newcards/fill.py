@@ -181,6 +181,8 @@ if AUTO:
     _ac.texts(C, globals())
 for _code in getattr(C, 'PRE', []):
     exec(_code, globals())
+import e54_text as _e54   # 일회성 손익 장치(안건 E54)가 이 카드에서 뺀 것을 자기 이력·현금흐름 설명에 적는다(설계 §12 카드 문장, 2026-11-05)
+E54 = _e54.apply(C, T, CIK, MUL, bmh, bd)
 
 # ── 1. 헤더 ──
 if FB:
