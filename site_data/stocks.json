@@ -12923,6 +12923,84 @@
           "operating_income_estimated"
         ]
       }
+    },
+    {
+      "ticker": "JKHY",
+      "name": "잭 헨리",
+      "sector": "신협용 코어 뱅킹·결제 처리 소프트웨어",
+      "href": "JKHY_full_widget.html",
+      "cardRank": 308,
+      "cardAsOf": "2026-11-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-04 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 70112608,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-12",
+        "filedAt": "2026-08-28",
+        "filing": "10-K 0000779152-26-000067 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 71.0,
+        "grade": "양호",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-11-04",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "CPAY",
+      "name": "코페이",
+      "sector": "법인 결제·숙박 결제 네트워크",
+      "href": "CPAY_full_widget.html",
+      "cardRank": 309,
+      "cardAsOf": "2026-11-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-04 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 65659599,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-31",
+        "filedAt": "2026-08-10",
+        "filing": "10-Q 0001175454-26-000050 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 55.8,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-11-04",
+        "qualityFlags": []
+      }
     }
   ]
 }

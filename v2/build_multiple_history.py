@@ -178,7 +178,9 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     # 현금흐름표 "Amortization of acquired intangible assets"(AdjustmentForAmortization, FY26 $659M = 174 + 485)로(MRK와 같은 구성, 2026-10-18).
                     "0000896878": ["Depreciation", "AdjustmentForAmortization"],
                     # BRO: 감가상각 + 무형자산 상각(현금흐름표 두 줄, Q3 2026 18 + 110) — 합산 태그 없음(2026-11-05)
-                    "0000079282": ["Depreciation", "AdjustmentForAmortization"]}
+                    "0000079282": ["Depreciation", "AdjustmentForAmortization"],
+                    # JKHY: 감가상각 42.1 + 상각 171.1(소프트웨어·고객관계) = FY26 213.2 — 합산 태그 없음(2026-11-05)
+                    "0000779152": ["Depreciation", "AdjustmentForAmortization"]}
 # 태그 의미가 도중에 바뀐 회사의 합산 감가상각(CIK). AMD의 OtherDepreciationAndAmortization(현금흐름표
 # "Depreciation and amortization")은 FY2024 10-K(2025-02-05) 전까지 인수 무형자산 상각을 **포함한** 합계였고,
 # 그 뒤로는 상각을 AmortizationOfIntangibleAssets 줄로 떼어 낸다(Fable, 2026-09-27). 분할 뒤 공시의 행에만
@@ -2322,6 +2324,8 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
                   "0000020286": ["NotesPayable", "LongTermDebt"],
                   # ACGL: 선순위채 SeniorLongTermNotes $4,286M(Q3 2026, 6월 $2,000M 발행) — 기본 차입 태그가 하나도 없다(2026-11-05)
                   "0000947484": ["SeniorLongTermNotes"],
+                  # CPAY: LongTermDebt $10,623.5M = 유동 포함 총계(매출채권 유동화 $2,300M 포함). 기본 경로는 유동분 $4,525M만 잡았다(Codex r1 2026-11-05)
+                  "0001175454": ["LongTermDebt"],
                   # ORCL: 유동 NotesPayableCurrent($7,625M) + 비유동 LongTermNotesAndLoans($117,712M) = $125,337M(2026-08-31 10-Q).
                   # 기본 태그가 하나도 없어 차입금 0으로 계산됐다(이자비용 $5.1B와 모순, debt_suspect). 연간 전용 태그는 뒤 순위로 둔다.
                   "0001341439": [("NotesPayableCurrent", "DebtCurrent"), ("LongTermNotesAndLoans", "LongTermNotesPayable")],
@@ -2342,7 +2346,9 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000947484": {"sti": []},   # ACGL: 단기투자 $3,253M은 보험 운용자산(축 값, OtherShortTermInvestments는 2021 멈춤) — 현금은 CashAndCashEquivalentsAtCarryingValue $1,152M(2026-11-05)
+EV_TAGS_BY_CIK = {"0001175454": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CPAY: 비지배 $46M + 상환가능 $314M(Mastercard, 2026-11-05 Codex r1)
+                  "0000779152": {"cash": ("CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents")},   # JKHY: 10-K(6월 말)는 현금을 제한 현금 포함 합계 태그로만 낸다(제한 현금 0 — 같은 값). 날짜마다 앞 태그 우선(2026-11-05)
+                  "0000947484": {"sti": []},   # ACGL: 단기투자 $3,253M은 보험 운용자산(축 값, OtherShortTermInvestments는 2021 멈춤) — 현금은 CashAndCashEquivalentsAtCarryingValue $1,152M(2026-11-05)
                   "0000060086": {"sti": []},   # L: 단기투자 $5,715M은 CNA 보험 운용자산(TRV·ALL 선례) — 현금은 Cash $505M(2026-11-05)
                   "0000020286": {"sti": []},   # CINF: 단기투자 $141M은 보험 운용자산(같은 원칙, 2026-11-05)
                   "0001095073": {"cash": ["Cash"], "sti": []},   # EG: 현금 태그가 2018에 멈춤 — Cash $987M(Q3 2026), 단기투자 $3,055M은 보험 운용자산(TRV·ALL·PGR 선례, 2026-11-05)
