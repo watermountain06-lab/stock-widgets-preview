@@ -12596,6 +12596,84 @@
         "valuationAsOf": "2026-11-04",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "BRO",
+      "name": "브라운 앤 브라운",
+      "sector": "프로그램·도매 중개 (수수료 사업)",
+      "href": "BRO_full_widget.html",
+      "cardRank": 300,
+      "cardAsOf": "2026-11-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-04 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 331691829,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-23",
+        "filedAt": "2026-10-26",
+        "filing": "10-Q 0001193125-26-432146 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 58.6,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-04",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "WTW",
+      "name": "윌리스 타워스 왓슨",
+      "sector": "위험 자문 + 보건·퇴직 컨설팅",
+      "href": "WTW_full_widget.html",
+      "cardRank": 301,
+      "cardAsOf": "2026-11-04",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-04 ≠ 홈 가격 세션 2026-11-03, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 92216232,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-26",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001193125-26-437327 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 54.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-04",
+        "qualityFlags": []
+      }
     }
   ]
 }

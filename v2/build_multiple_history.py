@@ -176,7 +176,9 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     "0001868275": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization", "AmortizationOfNuclearFuelLease"],
                     # INTU: 기본 선택 AmortizationOfIntangibleAssets는 "기타 인수 무형자산 상각"($485M)뿐 — 매출원가 안 "인수 기술 상각"($174M)이 빠졌다.
                     # 현금흐름표 "Amortization of acquired intangible assets"(AdjustmentForAmortization, FY26 $659M = 174 + 485)로(MRK와 같은 구성, 2026-10-18).
-                    "0000896878": ["Depreciation", "AdjustmentForAmortization"]}
+                    "0000896878": ["Depreciation", "AdjustmentForAmortization"],
+                    # BRO: 감가상각 + 무형자산 상각(현금흐름표 두 줄, Q3 2026 18 + 110) — 합산 태그 없음(2026-11-05)
+                    "0000079282": ["Depreciation", "AdjustmentForAmortization"]}
 # 태그 의미가 도중에 바뀐 회사의 합산 감가상각(CIK). AMD의 OtherDepreciationAndAmortization(현금흐름표
 # "Depreciation and amortization")은 FY2024 10-K(2025-02-05) 전까지 인수 무형자산 상각을 **포함한** 합계였고,
 # 그 뒤로는 상각을 AmortizationOfIntangibleAssets 줄로 떼어 낸다(Fable, 2026-09-27). 분할 뒤 공시의 행에만
@@ -294,6 +296,8 @@ Q4_OVERRIDE_BASIS = {
     ("DVA", "2025-12-31"): "continuing", ("VMC", "2022-12-31"): "continuing", ("EXC", "2022-12-31"): "continuing",
     ("PPG", "2024-12-31"): "continuing", ("IR", "2021-12-31"): "continuing", ("SNPS", "2024-10-31"): "continuing",
     ("EMR", "2024-09-30"): "continuing", ("COF", "2025-12-31"): ("total", 0.60),
+    # WTW: 중단영업 없음 — 10-K가 연간 총 EPS를 IncomeLossFromDiscontinuedOperationsNetOfTaxPerDilutedShare에도 붙였다(2023 9.95·2024 −0.96·2025 16.26, 2026-11-05)
+    ("WTW", "2023-12-31"): "continuing", ("WTW", "2024-12-31"): "continuing", ("WTW", "2025-12-31"): "continuing",
 }
 
 
@@ -999,6 +1003,9 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                                 [(["NonoperatingIncomeExpense"], 1)]),
                  "0000822416": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesDomestic"],
                                 [(["InterestIncomeOther"], 1, True), (["OtherNonoperatingIncomeExpense", "OtherNonoperatingIncome"], 1, True), (["IncomeLossFromEquityMethodInvestments"], 1, True)]),   # 부호 1 = 뺀다(처음에 −1로 넣어 더해졌다 — Codex·Fable r1). 10-K 연간 기타는 OtherNonoperatingIncome
+                 # BRO: 손익계산서에 영업이익 줄이 없다(비용 합계 안에 이자·상각·earn-out 변동) — 영업이익 = 세전이익 + 이자비용(HCA 규칙). 이자 태그는 2024-06에 InterestExpense → InterestExpenseNonoperating(Q3 2026 320 + 100 = 420, 2026-11-05)
+                 "0000079282": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestExpense", "InterestExpenseNonoperating"], -1)]),
                  "0000860730": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpense"], -1)]),
                  # PPG: 손익계산서에 영업이익 줄이 없다 — OperatingIncomeLoss 태그(Q2 2026 $743M)는 4분기 행이 없고 세전이익($569M)보다 커서 부문 이익 합계로 보인다(ROK와 같은 경우).
@@ -1229,7 +1236,8 @@ def _derived_opinc(cik, taxonomy):
 # 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
-EXCLUDE_TAGS = {"0000720005": ("Revenues",),   # RJF: 총수익(이자수익 포함) 대신 순매출 — EXTRA_TAGS(2026-11-04)
+EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # WTW: 계약 매출(이자·기타 제외)과 총매출 Revenues가 섞여 Q4 2025가 $2,744M(총 $2,936M)으로 역산됐다 — 총매출만(Codex r1 2026-11-05)
+                "0000720005": ("Revenues",),   # RJF: 총수익(이자수익 포함) 대신 순매출 — EXTRA_TAGS(2026-11-04)
                 "0000046080": ("Revenues",),   # HAS: Revenues는 2024-12~2026-06 내부거래 제거 전 부문 합(Q2 2026 $1,290.5M 대 순매출 $1,139.6M) — 계약 매출 태그만(2026-11-03)
                 # MTD: CommonStockSharesOutstanding(21,683,802)은 자사주를 빼지 않은 낡은 값이 분기마다 반복된다 — 표지 dei 주식 수(20.04M)만 쓴다(Fable r1 2026-10-25)
                 "0001037646": ("CommonStockSharesOutstanding",),
@@ -2321,7 +2329,8 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000798354": {"lease": ["OperatingLeaseLiability"]},   # FISV: 금융리스($2,421M)는 차입금 두 줄 안에 있어 리스에는 운용리스만 — 10-Q에 유동분만 있어 총액은 FY2025 10-K $763M(2026-11-05, Codex r1)
+EV_TAGS_BY_CIK = {"0000079282": {"sti": []},   # BRO: ShortTermInvestments는 2024-12 $10M이 마지막 — 2025부터 기타 유동자산에 합쳤다(재표시). 수탁 현금 $2,442M은 엔진 현금 밖(2026-11-05)
+                  "0000798354": {"lease": ["OperatingLeaseLiability"]},   # FISV: 금융리스($2,421M)는 차입금 두 줄 안에 있어 리스에는 운용리스만 — 10-Q에 유동분만 있어 총액은 FY2025 10-K $763M(2026-11-05, Codex r1)
                   "0000720005": {"debt": ["SeniorNotes", "OtherBorrowings"], "lease": ["OperatingLeaseLiability"]},   # RJF: 차입 = 선순위채 $3,522M + 기타 차입 $950M(FHLB·신용한도) — 기본 태그는 2022-12에 멈춤. 예금 $63B는 차입 아님. 운용리스 $568M(Q3 FY26 10-Q, 2026-11-04)
                   "0001521332": {"sti": []},   # APTV: 단기투자 태그는 2024-09($0.79B)에 멈춤 — 지금 재무상태표에 단기투자 줄 없음(Q3 2026 10-Q 현금 $670M, Codex r1 2026-11-04)
                   "0000914208": {"sti": [], "lease": ["OperatingLeaseLiability"], "nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"]},   # IVZ: 단기투자 태그는 2018-09에 멈춤(지금 재무상태표에 없는 줄), 운용리스는 10-K 총액만(2025-12 $406.7M), 비지배 = 비상환 $701.6M + 상환가능 $297.0M(모두 CIP 몫, BEN과 같이 둘 다 — Fable r1). 차입 $1,281.3M = 회사 차입(CIP 차입 $7,919.6M은 차원 값), 현금 $965.5M = 회사 몫(Q3 2026 10-Q, 2026-11-04)

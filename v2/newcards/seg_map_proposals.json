@@ -3092,5 +3092,43 @@
     "#1f2a44"
    ]
   }
+ },
+ "BRO": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "bro:RetailSegmentMember": [
+    "리테일",
+    "#003a70"
+   ],
+   "bro:SpecialtyDistributionMember": [
+    "전문 유통(프로그램·도매)",
+    "#5b8db8"
+   ]
+  }
+ },
+ "WTW": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "wtw:HealthWealthAndCareerMember": [
+    "보건·퇴직·인재 컨설팅(HWC)",
+    "#702082"
+   ],
+   "wtw:RiskAndBrokingMember": [
+    "위험 자문·보험 중개(R&B)",
+    "#2c1b4f"
+   ]
+  }
  }
 }

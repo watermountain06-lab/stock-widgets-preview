@@ -68,7 +68,8 @@ CONCEPTS = {
 # 종목별로 후보 태그를 바꾸는 개념(CIK). LOW: 이자비용 후보 중 InterestExpenseOther는 순이자 표의 "Other" 한 줄(Q2 2026 $0)이라
 # 이자보상배율이 "이자비용 0" 만점이 됐다 — 손익계산서 "Interest – net"(InterestIncomeExpenseNonoperatingNet, 음수로 실림, 소비처는 절댓값)을 쓴다
 # (MO·PM 순이자 전례, 2026-10-16). 같은 태그를 쓰는 ANET은 공통 안건으로 남겼다.
-CONCEPTS_BY_CIK = {"0000798354": {"revenue": ["Revenues"]},   # FISV: 위 LATEST_Q_BY_CIK와 짝(2026-11-05)
+CONCEPTS_BY_CIK = {"0001140536": {"revenue": ["Revenues"]},   # WTW: 총매출(이자·기타 포함) — 계약 매출 태그와 섞이지 않게(2026-11-05)
+                   "0000798354": {"revenue": ["Revenues"]},   # FISV: 위 LATEST_Q_BY_CIK와 짝(2026-11-05)
                    # RJF: 매출은 순매출(RevenuesNetOfInterestExpense) — Revenues는 이자수익을 더한 총수익. 이자비용은 순매출 안에서 빠지는 영업 비용(Q3 FY26 $434M, 예금 이자 포함)이라 비운다 — 기본은 InterestExpenseOther $13M만 잡아 이자보상배율 58배였다(Fable r1·Codex r2, 2026-11-04)
                    "0000720005": {"revenue": ["RevenuesNetOfInterestExpense"], "interestExpense": []},   # 이자비용은 예금 이자가 든 영업 비용이라 이자보상배율을 채점하지 않는다(Codex r2)
                    # RSG: 손익계산서 매출 RevenueFromContractWithCustomerExcludingAssessedTax — Revenues는 부문 간 상계 전 합계(2026-10-23)

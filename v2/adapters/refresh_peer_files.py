@@ -31,6 +31,8 @@ FILES = {
     "asset_managers": ("Financials", "Asset Management & Custody Banks"),
     "insurers": ("Financials", "Property & Casualty Insurance,Multi-line Insurance,Life & Health Insurance"),
     "payments_exchanges": ("Financials", "Transaction & Payment Processing Services,Financial Exchanges & Data"),
+    # 보험 중개 + 결제·거래소·금융 데이터(2026-10-18 사용자 결정, MRSH·BRO·WTW) — 목록에 없어 10-16 뒤 갱신되지 않았다(2026-11-05)
+    "brokers_fees": ("Financials", "Insurance Brokers,Transaction & Payment Processing Services,Financial Exchanges & Data"),
 }
 # 행 전체를 빼는 종목 — 분사 직후라 가격(분사 뒤)과 재무(분사 전)가 섞인다
 ROW_SKIP = {"materials": {"CTVA": "10/1 사업 분리(분사) — 주가 $77.65 → $12.57, 분할 기록 없음. 분사 뒤 가격과 분사 전 재무가 섞여 배수가 의미 없음(2026-10-06)"}}
