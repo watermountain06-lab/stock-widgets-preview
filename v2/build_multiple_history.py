@@ -1967,22 +1967,42 @@ def component_sum(cik, tags):
 # 같은 항목의 **대체 태그**라 더하면 안 되는 EV 구성요소. 날짜마다 앞 태그 우선으로 하나만 쓴다.
 # 우선주 총계(PreferredStockValue)와 전환우선주(ConvertiblePreferredStock…)를 함께 내는 회사는
 # component_sum으로 더하면 두 배가 된다(Codex 지적, 2026-09-24).
-PICK_COMPONENTS = {"preferred"}
+# 단기투자(sti) 네 태그는 기본으로 더하지 않는다 — 같은 날 같은 값을 두 태그로 낸 회사(META 2021-12-31 MarketableSecuritiesCurrent·
+# AvailableForSaleSecuritiesDebtSecuritiesCurrent 둘 다 $31,397M → 합 $62,794M), 매도가능 채권(부분)과 단기투자 총계를 함께 낸 회사(PYPL
+# ShortTermInvestments 6.65 ⊃ AFS 5.51, QCOM·UPS)가 있어 더하면 이중이 된다. 앞 태그(총계 쪽)가 이긴다(안건 E67, 2026-11-05 — 2021-06 이후
+# 같은 날 두 태그 48건 전부 앞 태그가 총계거나 같은 값)
+PICK_COMPONENTS = {"preferred", "sti"}
+# 단기투자 지정 태그가 재무상태표의 서로 다른 줄이라 더해야 하는 회사 — KO: OtherShortTermInvestments(정기예금)와 MarketableSecurities.
+# DXCM·INTU·NKE의 지정 목록(AFS 두 이름)은 태그 이름 변경이라 하나만(같은 결산일 같은 값 — DXCM 2024-12 $1,730M 둘, Codex E67 r1)
+STI_SUM_CIKS = {"0000021344"}
 
 
 def pick_instant(cik, tags):
-    """시점값을 태그 목록 순서대로 골라 하나의 시리즈로 — 날짜마다 앞 태그가 우선."""
-    per_date = {}
-    for tag in tags:
+    """시점값을 태그 목록 순서대로 골라 하나의 시리즈로 — 날짜마다 앞 태그가 우선.
+    시점 규칙(E67 Codex r1): 결산일마다 **그때까지 공개된 태그 중** 가장 앞 태그를 쓴다 — 앞 태그가 나중에 처음 공개되면(태그 이름 변경:
+    DXCM 새 AFS 태그 2025-07-30 대 옛 태그 2025-02-18) 그 전에는 옛 태그 행, 앞 태그가 공개된 날부터 앞 태그 행(같은 결산일·늦은 공개 →
+    newest_row가 고른다). 결산일 ±7일 밖 날짜(분기 중간 단독 행)는 component_sum과 같게 버린다."""
+    cands = {}
+    for rank, tag in enumerate(tags):
         for e in concept(cik, tag):
             if "end" not in e or "filed" not in e or "start" in e or e["end"] > e["filed"]:   # 미래 날짜 행 — component_sum과 같게(2026-10-25)
                 continue
-            cur = per_date.get(e["end"])
-            if cur is None or (cur["tag"] == tag and e["filed"] < cur["filed"]):
-                if cur is None or cur["tag"] == tag:
-                    per_date[e["end"]] = {"val": e["val"], "filed": e["filed"], "tag": tag}
-    return sorted(({"end": k, "val": v["val"], "available": v["filed"]} for k, v in per_date.items()),
-                  key=lambda e: e["available"])
+            if not _near_period_end(cik, e["end"]):
+                continue
+            k = (e["end"], rank)
+            if k not in cands or e["filed"] < cands[k]["filed"]:
+                cands[k] = {"val": e["val"], "filed": e["filed"]}
+    by_end = {}
+    for (end, rank), c in cands.items():
+        by_end.setdefault(end, []).append((c["filed"], rank, c["val"]))
+    out = []
+    for end, lst in by_end.items():
+        best = None
+        for filed, rank, val in sorted(lst):
+            if best is None or rank < best:   # 더 앞 태그가 공개된 날부터 그 값으로
+                best = rank
+                out.append({"end": end, "val": val, "available": filed})
+    return sorted(out, key=lambda e: (e["available"], e["end"]))
 
 
 # LongTermDebt를 비유동분으로만 태깅한다고 10-Q로 확인한 회사(CIK). TSLA 2026-06 LongTermDebt $7,721M =
@@ -2789,7 +2809,9 @@ def _ev_component(cik, name, tags, _no_total=False):
         return sorted(old + des, key=lambda e: e["available"])
     if isinstance(tags, tuple):   # EV_TAGS_BY_CIK 값이 튜플이면 날짜마다 앞 태그 우선(AJG 현금 — 표시 변경 전 태그를 옛 날짜에, 2026-10-22 Fable)
         return pick_instant(cik, list(tags))
-    out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
+    # 단기투자를 회사별로 지정한 목록(EV_TAGS_BY_CIK)은 그 결정대로 더한다 — KO는 단기투자(정기예금)와 시장성 증권이 재무상태표 다른 줄(E67)
+    pick = name in PICK_COMPONENTS and not (name == "sti" and cik in STI_SUM_CIKS)
+    out = pick_instant(cik, tags) if pick else component_sum(cik, tags)
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
     # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다
     # (둘 다 내는 회사에서 더하면 이중 계산).
