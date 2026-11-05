@@ -1967,7 +1967,11 @@ def component_sum(cik, tags):
 # 같은 항목의 **대체 태그**라 더하면 안 되는 EV 구성요소. 날짜마다 앞 태그 우선으로 하나만 쓴다.
 # 우선주 총계(PreferredStockValue)와 전환우선주(ConvertiblePreferredStock…)를 함께 내는 회사는
 # component_sum으로 더하면 두 배가 된다(Codex 지적, 2026-09-24).
-PICK_COMPONENTS = {"preferred"}
+# 단기투자(sti) 네 태그도 같은 항목의 대체 태그다 — 같은 날 같은 값을 두 태그로 낸 회사(META 2021-12-31 MarketableSecuritiesCurrent·
+# AvailableForSaleSecuritiesDebtSecuritiesCurrent 둘 다 $31,397M → 합 $62,794M), 매도가능 채권(부분)과 단기투자 총계를 함께 낸 회사(PYPL
+# ShortTermInvestments 6.65 ⊃ AFS 5.51, QCOM·UPS)가 있어 더하면 이중이 된다. 앞 태그(총계 쪽)가 이긴다(안건 E67, 2026-11-05 — 2021-06 이후
+# 같은 날 두 태그 48건 전부 앞 태그가 총계거나 같은 값)
+PICK_COMPONENTS = {"preferred", "sti"}
 
 
 def pick_instant(cik, tags):
@@ -2786,7 +2790,9 @@ def _ev_component(cik, name, tags, _no_total=False):
         return sorted(old + des, key=lambda e: e["available"])
     if isinstance(tags, tuple):   # EV_TAGS_BY_CIK 값이 튜플이면 날짜마다 앞 태그 우선(AJG 현금 — 표시 변경 전 태그를 옛 날짜에, 2026-10-22 Fable)
         return pick_instant(cik, list(tags))
-    out = pick_instant(cik, tags) if name in PICK_COMPONENTS else component_sum(cik, tags)
+    # 단기투자를 회사별로 지정한 목록(EV_TAGS_BY_CIK)은 그 결정대로 더한다 — KO는 단기투자(정기예금)와 시장성 증권이 재무상태표 다른 줄(E67)
+    pick = name in PICK_COMPONENTS and not (name == "sti" and "sti" in EV_TAGS_BY_CIK.get(cik, {}))
+    out = pick_instant(cik, tags) if pick else component_sum(cik, tags)
     # 차입금을 유동·비유동으로 나누지 않고 총계(LongTermDebt)로만 내는 회사가 있다 — SPCX $38.3B가
     # 통째로 빠져 순현금이 $98.6B로 부풀었다(Fable, 2026-09-25). 세부 태그가 **하나도 없을 때만** 쓴다
     # (둘 다 내는 회사에서 더하면 이중 계산).
