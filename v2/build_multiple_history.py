@@ -188,7 +188,9 @@ DDA_SPLIT_BY_CIK = {"0000002488": {"total": "OtherDepreciationAndAmortization", 
                     # 합계 태그로 오인해 EBITDA에서 상각이 빠졌다(EV/EBITDA 17.64 → 16.98배, Codex r1 2026-10-30). 전 기간 같은 구조라 처음부터 더한다.
                     "0001442145": {"total": "DepreciationAndAmortization", "add": "AmortizationOfIntangibleAssets", "split_from": "2000-01-01"},
                     # VLTO: DepreciationDepletionAndAmortization은 부문표 분기 값뿐이라 EV/EBITDA 이력이 253일만 잡혔다 — 감가상각 + 무형 상각(Codex r1, 2026-10-30)
-                    "0001967680": {"total": "Depreciation", "add": "AmortizationOfIntangibleAssets", "split_from": "2000-01-01"}}
+                    "0001967680": {"total": "Depreciation", "add": "AmortizationOfIntangibleAssets", "split_from": "2000-01-01"},
+                    # BEN: DepreciationDepletionAndAmortization(현금흐름표 "Depreciation and other amortization", FY25 $125.3M)은 무형자산 상각($406.5M)을 뺀 값 — 2018년부터 늘 따로 낸다(Codex r1, 2026-11-04)
+                    "0000038777": {"total": "DepreciationDepletionAndAmortization", "add": "AmortizationOfIntangibleAssets", "split_from": "2000-01-01"}}
 
 
 def split_era_dda(cik):
@@ -2307,7 +2309,9 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001324424": {"nci": ["NonredeemableNoncontrollingInterest", "MinorityInterest"]},   # EXPE: 비지배지분 $1,262M(trivago 소수지분)은 NonredeemableNoncontrollingInterest 태그(Q2 2026 10-Q, 2026-11-03)
+EV_TAGS_BY_CIK = {"0000038777": {"cash": ("CashCompanyBen", "CashAndCashEquivalentsAtCarryingValue"), "sti": [], "lease": ["OperatingLeaseLiability"],
+                                 "nci": ["MinorityInterest", "TemporaryEquityMinorityInterestsBen"]},   # BEN: 현금은 회사 몫 $2,670.3M(dei:LegalEntityAxis 차원, BUILD dim_facts — 축 없는 태그는 2021-12 멈춤, 합계 태그 $3,760.9M에는 CIP 현금 $1,090.6M), 비지배 = 비상환 $1,181.7M(CIP 몫 $757.4M 포함 — 빼는 장치가 없어 TROW처럼 둔다, 주당 약 $1.49 보수적) + 상환가능 자회사 몫 $1,137.3M(차원), 운용리스 $974.6M(Q3 FY26 10-Q, 2026-11-04)
+                  "0001324424": {"nci": ["NonredeemableNoncontrollingInterest", "MinorityInterest"]},   # EXPE: 비지배지분 $1,262M(trivago 소수지분)은 NonredeemableNoncontrollingInterest 태그(Q2 2026 10-Q, 2026-11-03)
                   "0000783325": {"nci": ["OtherMinorityInterests"]},   # WEC: 비지배지분 $404.3M은 OtherMinorityInterests 태그(MinorityInterest 아님, Q3 2026 10-Q, 2026-11-03)
                   "0001967680": {"lease": ["OperatingLeaseLiability"]},   # VLTO: 최신 운용리스 합계 $196M(Q3 2026) — 유동·비유동 태그는 연간(2025-12 $206M)뿐(Codex r1, 2026-10-30)
                   "0001513761": {"sti": [], "nci": []},   # NCLH: 단기투자(2022)·비지배지분(2014)은 사라진 항목(2026-11-04)

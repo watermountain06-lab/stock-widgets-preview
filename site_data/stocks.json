@@ -12325,6 +12325,47 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "BEN",
+      "name": "프랭클린 템플턴",
+      "sector": "자산운용 — 뮤추얼펀드·ETF·대체투자(Western Asset·Putnam·Clarion), 단일 보고 부문",
+      "href": "BEN_full_widget.html",
+      "cardRank": 293,
+      "cardAsOf": "2026-11-03",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 32.36,
+        "prevClose": 31.97,
+        "session": "2026-11-03",
+        "prevSession": "2026-11-02",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 508076910,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-07-22",
+        "filedAt": "2026-07-31",
+        "filing": "10-Q 0000038777-26-000217 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 55.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-06-30",
+        "valuationAsOf": "2026-11-03",
+        "qualityFlags": []
+      }
     }
   ]
 }
