@@ -3543,84 +3543,84 @@
  ],
  "crossCheck": {
   "status": "ok",
-  "text": "State Street DIA NAV 이력과 5768일(2003-12-01~2026-11-03) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.81%(2008-10-27), 최근 250세션 최대 0.18% · 마지막 2026-11-04 종가는 NAV 게시 전이라 대조 전(Yahoo 값)"
+  "text": "State Street DIA NAV 이력과 5769일(2003-12-01~2026-11-04) 대조: 거래일마다 NAV 있음(장이 쉰 날 NAV만 3일), 종가와 NAV 차이 최대 -1.81%(2008-10-27), 최근 250세션 최대 0.18%"
  },
  "constituents": {
   "holdings": {
-   "S": "2026-11-03",
+   "S": "2026-11-04",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "GS",
      "name": "GOLDMAN SACHS GROUP INC",
-     "weight": 0.10284494289654347,
+     "weight": 0.10337448738362283,
      "card": "GS",
      "verdict": "고평가"
     },
     {
      "company": "CAT",
      "name": "CATERPILLAR INC",
-     "weight": 0.07161007561543137,
+     "weight": 0.0658678146225302,
      "card": "CAT",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.05979442469501839,
+     "weight": 0.06191329790302089,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMGN",
      "name": "AMGEN INC",
-     "weight": 0.05293916640378548,
+     "weight": 0.05330024721044695,
      "card": "AMGN",
      "verdict": "고평가"
     },
     {
      "company": "V",
      "name": "VISA INC CLASS A SHARES",
-     "weight": 0.04825192874614344,
+     "weight": 0.048631678145074714,
      "card": "V",
      "verdict": "고평가"
     },
     {
      "company": "UNH",
      "name": "UNITEDHEALTH GROUP INC",
-     "weight": 0.046417885364299395,
+     "weight": 0.04560285116682461,
      "card": "UNH",
      "verdict": "적정~고평가"
     },
     {
      "company": "TRV",
      "name": "TRAVELERS COS INC/THE",
-     "weight": 0.04538150532632184,
+     "weight": 0.045588373820295104,
      "card": "TRV",
      "verdict": "판정 보류"
     },
     {
      "company": "SHW",
      "name": "SHERWIN WILLIAMS CO/THE",
-     "weight": 0.03912191317297829,
+     "weight": 0.04049205769467717,
      "card": "SHW",
-     "verdict": "고평가"
-    },
-    {
-     "company": "JPM",
-     "name": "JPMORGAN CHASE + CO",
-     "weight": 0.03879022713724855,
-     "card": "JPM",
      "verdict": "고평가"
     },
     {
      "company": "HD",
      "name": "HOME DEPOT INC",
-     "weight": 0.038294413994339215,
+     "weight": 0.039594212082921486,
      "card": "HD",
      "verdict": "적정~고평가"
+    },
+    {
+     "company": "JPM",
+     "name": "JPMORGAN CHASE + CO",
+     "weight": 0.03922326384523827,
+     "card": "JPM",
+     "verdict": "고평가"
     }
    ],
    "cards": [
@@ -3743,49 +3743,49 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-11-03",
+   "asOf": "2026-11-04",
    "rows": [
     [
      "Financials",
-     27.26
+     27.39
     ],
     [
      "Information Technology",
-     18.76
+     18.83
     ],
     [
      "Health Care",
-     14.65
+     14.64
     ],
     [
      "Industrials",
-     13.75
+     13.26
     ],
     [
      "Consumer Discretionary",
-     10.17
+     10.5
     ],
     [
      "Communication Services",
-     4.52
+     4.54
     ],
     [
      "Consumer Staples",
-     4.38
+     4.37
     ],
     [
      "Materials",
-     3.91
+     4.05
     ],
     [
      "Energy",
-     2.59
+     2.42
     ]
    ]
   },
   "chars": {
-   "pe": 20.55,
-   "peAsOf": "2026-11-03"
+   "pe": 21.16,
+   "peAsOf": "2026-11-04"
   },
   "dgs10": {
    "date": "2026-11-03",
@@ -3794,7 +3794,7 @@
  },
  "index": "DIA",
  "name": "DIA",
- "runId": "41964878670.1",
- "runAt": "2026-11-05T03:59:05Z",
+ "runId": "42084410741.1",
+ "runAt": "2026-11-05T18:28:10Z",
  "source": "Yahoo Finance DIA 일봉 종가"
 }
