@@ -3,7 +3,7 @@
 // (v2 cards가 다음 날 동부 오전에 끝나는 실제 일정과 같은 모양 — 그래서 D의 결정에는 보통 D−2 기록이 쓰인다).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { replay, twr, openUtcMs, depositTiming, isTradingDay, ENGINE_VERSION, principleFor, tierWeights, _internal } from '../../preview-only-portfolio-engine.js';
+import { replay, twr, openUtcMs, depositTiming, isTradingDay, ENGINE_VERSION, principleFor, tierWeights, pickTop, _internal } from '../../preview-only-portfolio-engine.js';
 
 const cal = _internal.makeCalendar();
 const next = (d) => cal.sessions[cal.index(d) + 1];
@@ -51,7 +51,7 @@ const SNAP = { date: '2026-10-16', holdings: { AAA: 10, DDD: 100 }, cash: 1000 }
 const run = (o = {}) => replay({
   records: o.records || world(o.world), snapshot: o.snapshot || SNAP, deposits: o.deposits || [],
   // 기존 시험은 11월·12월 날짜로 옛 매도 규칙(점검일 한 번 관측, 대금은 그달 매수)을 시험한다 — 매주 매도 규칙은 weekly 시험이 따로 본다
-  settings: { ruleFrom: '9999-12', cashFrom: '9999-12', ...(o.settings || {}) }, scenarios: o.scenarios || [],
+  settings: { ruleFrom: '9999-12', cashFrom: '9999-12', pickFrom: '9999-12', ...(o.settings || {}) }, scenarios: o.scenarios || [],
 });
 const OLD_RULE = { ruleFrom: '9999-12' };
 const S = (strategy, params, extra = {}) => ({ id: extra.id || strategy, name: 'x', strategy, params, createdAt: extra.createdAt || '2026-10-16T22:00:00Z', engineVersion: ENGINE_VERSION });
@@ -1313,4 +1313,29 @@ test('원칙 매도(2026-11-03 되돌림): 원칙 전략은 고평가~적정이�
   // 고평가~적정으로 내려오면 멈춘다
   const down = (t, d) => (t === 'DDD' ? (d >= '2026-11-05' ? '고평가~적정' : '고평가') : undefined);
   assert.deepEqual(sells(pick(run({ settings: NEW, world: { tier: down }, scenarios: [S('B')] }), 'B'), 'DDD'), [['2026-11-02', 25]]);
+});
+
+test('pickTop: 시총 200위 안에서 판정이 싼 순서 → 점수 높은 순서로 5개, 시총 모르면 뺀다(원칙 3, 2026-11-04)', () => {
+  const cards = {};
+  // T000이 시총 1위 … T249가 250위(종가 1 × 주식 수)
+  for (let i = 0; i < 250; i++) cards['T' + String(i).padStart(3, '0')] = { close: 1, shares: 1e6 * (300 - i), tier: '고평가', score: 50 };
+  const set = (t, tier, score) => Object.assign(cards[t], { tier, score });
+  set('T000', '적정~저평가', 96); set('T011', '적정~저평가', 95); set('T014', '적정~저평가', 92); set('T099', '적정~저평가', 85);
+  set('T118', '저평가', 63); set('T128', '적정~저평가', 74);
+  set('T240', '저평가', 90);   // 241위 — 200위 밖
+  cards.NOCAP = { close: 1, tier: '초저평가', score: 99 };   // 주식 수 없음 — 순위 모름
+  const rec = { cards };
+  assert.deepEqual(pickTop(['T000', 'T011', 'T014', 'T099', 'T118', 'T128', 'T240', 'NOCAP'], rec), ['T118', 'T000', 'T011', 'T014', 'T099']);
+  assert.deepEqual(pickTop(['T000', 'T240'], rec), ['T000']);
+  assert.deepEqual(pickTop([], rec), []);
+});
+
+test('pickFrom: 원칙을 따르는 전략은 그달 계획부터 후보를 5개 이하로 줄이고, 그전 달은 그대로', () => {
+  const d1 = pick(run({ settings: { pickFrom: '2026-12' }, scenarios: [S('D')] }), 'D');
+  const d0 = pick(run({ scenarios: [S('D')] }), 'D');
+  assert.deepEqual(d1.months[0].candidates, d0.months[0].candidates);
+  assert.equal(d1.months[0].passed, undefined);
+  const later = d1.months.filter((m) => (m.checkDate || m.decisionDate) >= '2026-12' && !m.ruleChanged);
+  assert.ok(later.length > 0);
+  for (const m of later) { assert.ok(m.candidates.length <= 5); assert.equal(typeof m.passed, 'number'); }
 });

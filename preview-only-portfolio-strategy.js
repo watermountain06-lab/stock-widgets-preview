@@ -6,7 +6,7 @@
 // (pipeline/portfolio/test_strategy_view.mjs).
 //
 // 개인 값(보유·현금·입금·시나리오 이름)은 콘솔·URL에 넣지 않는다. 모든 글자는 textContent로 넣는다.
-import { isTradingDay, ENGINE_VERSION, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=11';
+import { isTradingDay, ENGINE_VERSION, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=12';
 import { ledgerActive, ledgerDeposits, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=7';
 
 export const MAX_SCENARIOS = 20;

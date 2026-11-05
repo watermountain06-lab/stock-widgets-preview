@@ -24,6 +24,20 @@ export const cashTarget = (valueCents) => Math.round(valueCents / 10);
 // 2026-11-03 같은 날 '고평가~적정부터'로 넓혔다가 사용자 결정으로 되돌림 — 고평가~적정·적정은 그대로 보유(사는 구간과 두 칸 간격)
 export const PRINCIPLE_SELL = ['고평가', '초고평가'];
 export const principleFor = (month) => (month < PRINCIPLE_FROM ? BUY_PRINCIPLE_OLD : BUY_PRINCIPLE);
+// 살 종목 상한(원칙 3, 2026-11-04 사용자 결정): 후보가 많으면 시총 200위 안에서 판정이 더 싼 순서, 같은 판정은 카드 점수 높은 순서로
+// 5개까지. 고르는 날 한 번 고르고 그달 고정한다. 순위는 그 기록의 시총(종가 × 주식 수, 기록에 든 카드끼리)이고, 시총을 모르는 종목은
+// 순위를 매길 수 없어 뺀다. 원칙 전략은 12월 계획부터, 실제 계좌 화면은 11월 2회차(PICK_FROM_ROUND)부터
+export const PICK_MAX = 5, PICK_RANK = 200, PICK_FROM = '2026-12', PICK_FROM_ROUND = '2026-11-09';
+const TIER_ORDER = ['초저평가', '저평가', '적정~저평가', '적정'];
+export function pickTop(cands, rec, { max = PICK_MAX, rankMax = PICK_RANK } = {}) {
+  const C = rec?.cards || {};
+  const cap = (t) => { const c = C[t]; const v = c && c.close * c.shares; return Number.isFinite(v) && v > 0 ? v : null; };
+  const rank = new Map(Object.keys(C).filter((t) => cap(t) != null).sort((a, b) => cap(b) - cap(a) || (a < b ? -1 : 1)).map((t, i) => [t, i + 1]));
+  const score = (t) => (Number.isFinite(C[t]?.score) ? C[t].score : -Infinity);
+  const tierIx = (t) => { const i = TIER_ORDER.indexOf(C[t]?.tier); return i < 0 ? TIER_ORDER.length : i; };
+  return cands.filter((t) => rank.has(t) && rank.get(t) <= rankMax)
+    .sort((a, b) => tierIx(a) - tierIx(b) || score(b) - score(a) || (a < b ? -1 : 1)).slice(0, max);
+}
 // 판정 무게(판정 가중·순위 1주씩): 옛 판 4:3:2:1, 11월부터 3:2:1(적정은 무게 없음 → 판정 가중에서 사지 않음)
 const W_OLD = { '초저평가': 4, '저평가': 3, '적정~저평가': 2, '적정': 1 }, W_NEW = { '초저평가': 3, '저평가': 2, '적정~저평가': 1 };
 export const tierWeights = (month) => (month < PRINCIPLE_FROM ? W_OLD : W_NEW);
@@ -286,7 +300,7 @@ function scenarioParams(sc) {
 //         splitBase, noDecisionBefore(이 날짜 전 점검일에는 결정하지 않음), depositsFrom(기준선이 입금을 받기 시작하는 위치 —
 //         시나리오 자신은 init.idx 다음 날부터 받는다), log·own·preEvents(파생이 A에서 물려받는 것) }
 function runScenario(ctx, prm, init, keepStates) {
-  const { cal, mk, holdOnly, depositsBy, fallbackShares, ruleFrom, cashFrom } = ctx;
+  const { cal, mk, holdOnly, depositsBy, fallbackShares, ruleFrom, cashFrom, pickFrom } = ctx;
   const last = cal.index(mk.lastSession);
   const st = { shares: new Map(init.shares), cash: init.cash };
   const seen = new Set(init.seen);
@@ -560,9 +574,12 @@ function runScenario(ctx, prm, init, keepStates) {
     }
     // 매수 예산: 그날 쓸 수 있는 현금만(아직 체결 안 된 매도 대금 제외). 새 돈만 후보에 같은 금액.
     if (!changed) {
-      const cands = Object.keys(R.cards || {}).sort().filter((t) =>
+      const passed = Object.keys(R.cards || {}).sort().filter((t) =>
         !holdOnly.has(t) && !blocked(R.cards[t], R, cal) && plan.buyTiers.includes(R.cards[t].tier));
+      // 원칙 전략은 12월 계획부터 5개까지(pickTop) — 이 아래 매수 배분은 모두 고른 목록으로 한다
+      const cands = prm.principle && pm >= pickFrom ? pickTop(passed, R).sort() : passed;
       plan.candidates = cands;
+      if (cands !== passed) plan.passed = passed.length;
       // 원칙 전략(cashFrom 계획부터): 현금 목표 = 그날 평가액의 10%, 예산 = 현금 − 목표. 평가액을 모르면 그달은 사지 않는다
       if (prm.principle && pm >= cashFrom) {
         const pv = value(d).v;
@@ -990,7 +1007,7 @@ function finish(res, ctx, depositsFrom) {
 //   snapshot: { date: 'YYYY-MM-DD'(시작일, 장 마감 뒤 수량), holdings: {T: 주식 수}, cash: 달러 },
 //   deposits: [{ id, amount(달러), kind?('withdraw'면 출금), recordedAt(ISO, 서버 시각) } | { id, cancels: 입금 id, recordedAt }],
 //   settings: { holdOnly: [T], cashFrom('YYYY-MM' — 현금 10% 목표가 시작하는 계획 달, 기본 CASH_FROM, 시험용), ruleFrom('YYYY-MM' — 매주 매도 규칙이 시작하는 계획 달, 기본 PRINCIPLE_FROM. 옛 매도 규칙을 11월 이후 날짜로
-//     시험할 때만 늦춘다) },
+//     시험할 때만 늦춘다), pickFrom('YYYY-MM' — 살 종목 상한이 시작하는 계획 달, 기본 PICK_FROM, 시험용) },
 //   scenarios: [{ id, name, strategy: 'B'|'C'|'D'|'custom', params?, createdAt(ISO), engineVersion }],
 // }
 // A(그대로 보유 + 입금 적립)는 늘 계산해 맨 앞에 둔다 — 파생 시나리오의 출발점이기 때문이다.
@@ -1041,7 +1058,8 @@ export function replay(input) {
   for (const list of depositsBy.values()) list.sort((a, b) => a.ms - b.ms || (a.amount < 0) - (b.amount < 0) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   const ruleFrom = typeof settings.ruleFrom === 'string' ? settings.ruleFrom : PRINCIPLE_FROM;
   const cashFrom = typeof settings.cashFrom === 'string' ? settings.cashFrom : CASH_FROM;
-  const ctx = { cal, mk, holdOnly, depositsBy, fallbackShares, ruleFrom, cashFrom };
+  const pickFrom = typeof settings.pickFrom === 'string' ? settings.pickFrom : PICK_FROM;
+  const ctx = { cal, mk, holdOnly, depositsBy, fallbackShares, ruleFrom, cashFrom, pickFrom };
 
   const aInit = {
     idx: snapIdx, shares: shares0, cash: cash0, seen: new Set(), splitBase: snapshot.date,

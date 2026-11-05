@@ -6,7 +6,7 @@
 // 순수 함수(draftOf·shapeOf·sentenceOf·rankRows)는 node 시험이 부른다(pipeline/portfolio/test_strategy_view.mjs).
 import { el, msgLine, twoStep, usd, pct, pp, label, summarize, paramsText, checkScenario, MAX_SCENARIOS, NAME_MAX, ETF_ORDER,
   compareSection, chartSection, detailSection } from './preview-only-portfolio-strategy.js?v=27';
-import { BUY_PRINCIPLE, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=11';
+import { BUY_PRINCIPLE, BASELINES, followsPrinciple } from './preview-only-portfolio-engine.js?v=12';
 
 export const ALL_TIERS = ['초저평가', '저평가', '적정~저평가', '적정', '고평가~적정', '고평가', '초고평가'];
 const C_TIERS = ['초저평가', '저평가'];

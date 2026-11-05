@@ -7,7 +7,7 @@
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=27';
 import { renderStrategy } from './preview-only-portfolio-rank.js?v=20';
 import { renderManage } from './preview-only-portfolio-records.js?v=16';
-import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=11';
+import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, PICK_FROM, PICK_FROM_ROUND, pickTop, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=12';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
 import { renderAccounts } from './preview-only-portfolio-acctview.js?v=7';
@@ -332,6 +332,22 @@ export function demoMonth(firstRec, month, lastSession) {
   return { plan, steps, next, stale: false, alerts: [], demo: true };
 }
 
+// 살 종목 상한의 실제 계좌 예외(원칙 3, 2026-11-04 사용자 결정): 엔진은 12월 계획부터 5개만 고르지만, 실제 계좌 화면은 11월 2회차부터
+// 쓴다. 11월 계획이면 2회차 전 마지막 완전한 기록으로 한 번 골라 그달 고정한다. 그 기록이 아직 없으면(2회차 전) 마지막 기록으로 미리 보기.
+// 엔진이 이미 고른 달(12월 이후)·시연 달·지난달 계획은 그대로 둔다. 순수 함수 — 시험이 부른다
+export function pickMonth(mv, recs, today) {
+  const p = mv?.plan;
+  if (!p || mv.demo || mv.stale || p.passed != null) return mv;
+  const m = (p.checkDate || p.decisionDate).slice(0, 7);
+  if (m >= PICK_FROM || m !== PICK_FROM_ROUND.slice(0, 7)) return mv;
+  const full = recs.filter((r) => r.pipelineFull);
+  const before = full.filter((r) => r.session < PICK_FROM_ROUND);
+  const rec = today >= PICK_FROM_ROUND ? before[before.length - 1] : full[full.length - 1];
+  if (!rec) return mv;
+  const candidates = pickTop(p.candidates, rec).sort();
+  return { ...mv, plan: { ...p, candidates, passed: p.candidates.length, pickRecord: rec.session, pickProvisional: today < PICK_FROM_ROUND } };
+}
+
 // 시작 전 실제 계좌 흐름을 이어 붙인 수익률(사용자 결정 2026-10-22 A안): pre = {from, base, end, endHoldings, endCash, days:[{d, v, f}], spy:{base, end}}
 // (볼트 portfolio_site.json의 preStart — Robinhood CSV와 종가로 만든 base(9/30) 장 마감~end(시작 스냅샷일) 일별 평가액·입출금 f).
 // 시작 스냅샷과 같은 날·같은 보유일 때만 잇는다: 전체 = (1 + 시작 전 TWR) × (1 + 실제 계좌 TWR) − 1, SPY도 base 종가부터 같은 방식.
@@ -504,6 +520,7 @@ export function renderHome(root, model, handlers) {
   let mv = monthView(model.result, last ? last.session : '', today);
   // 첫 달 시연: 전략 비교가 출발했고 이번 달 점검 결정이 아직 없으며 일별 기록이 이번 달에 시작했으면(사용자 결정 10-22)
   if (mv && !mv.plan && model.bundle && !model.bundle.closed) mv = demoMonth(recs.find((r) => r.pipelineFull) || null, today.slice(0, 7), last ? last.session : '') || mv;
+  mv = pickMonth(mv, recs, today);
   // 20% 하락 매도 검토(원칙 4). 원칙 6에 걸리면 뺀다 — 카드 없는 종목은 지수 ETF만 본다(사용자 결정 10-22)
   const recStale = !!lastFull && recordGap(lastFull, today) > RECORD_STALE;   // 기록 자체가 묵었으면 사지도 팔지도 않는다(원칙 6)
   // 원칙 4 매도 검토는 계좌별(사용자 결정 2026-10-28 — 매도는 계좌 단위)
@@ -997,7 +1014,9 @@ function buyBox(args) {
   const hiddenPicked = picked.filter((t) => !shownCands.includes(t));
   const lh = el('div', 'pf-buysechead');
   lh.appendChild(el('span', 'pf-buylabel', `내 기준대로 살 후보 ${shownCands.length}` + (hiddenN ? ` · 지금 살 단계 아닌 ${hiddenN}개 숨김` : '')));
-  lh.appendChild(el('span', 'pf-note', mv.demo ? `시연 · ${md(plan.decisionDate)} 점검으로 보고 ${md(plan.record)} 첫 기록 판정 · 체크는 저장하지 않음` : `원칙 1·6 통과 · ${md(plan.decisionDate)} 점검 · 체크한 종목만 삽니다`));
+  lh.appendChild(el('span', 'pf-note', mv.demo ? `시연 · ${md(plan.decisionDate)} 점검으로 보고 ${md(plan.record)} 첫 기록 판정 · 체크는 저장하지 않음`
+    : plan.passed != null ? `원칙 1·6 통과 ${plan.passed}개 중 200위 안·판정→점수 순 ${plan.candidates.length}개(원칙 3) · ${md(plan.pickRecord || plan.record)} 기록${plan.pickProvisional ? ' · 2회차 전 미리 보기' : ''} · 체크한 종목만 삽니다`
+    : `원칙 1·6 통과 · ${md(plan.decisionDate)} 점검 · 체크한 종목만 삽니다`));
   box.appendChild(lh);
   const list = el('div', 'pf-buylist');
   const pickMsg = msgLine();
