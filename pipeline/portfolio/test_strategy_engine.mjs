@@ -1337,5 +1337,5 @@ test('pickFrom: 원칙을 따르는 전략은 그달 계획부터 후보를 5개
   assert.equal(d1.months[0].passed, undefined);
   const later = d1.months.filter((m) => (m.checkDate || m.decisionDate) >= '2026-12' && !m.ruleChanged);
   assert.ok(later.length > 0);
-  for (const m of later) { assert.ok(m.candidates.length <= 5); assert.equal(typeof m.passed, 'number'); }
+  for (const m of later) { assert.ok(m.candidates.length <= 5); assert.equal(typeof m.passed, 'number'); assert.equal(m.passedList.length, m.passed); assert.ok(m.candidates.every((t) => m.passedList.includes(t))); }
 });
