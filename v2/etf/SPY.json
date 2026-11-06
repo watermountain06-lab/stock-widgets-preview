@@ -8,10 +8,10 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 293장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
+   "detail": "승인 목록에 없는 판정 코드 해시 296장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
   }
  ],
- "detail": "승인 목록에 없는 판정 코드 해시 293장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
+ "detail": "승인 목록에 없는 판정 코드 해시 296장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
  "verdict": null,
  "nbar": null,
  "coverage": 0.8605839446966196,
@@ -23,9 +23,9 @@
   "적정": 0.011946526067200357,
   "적정~고평가": 0.4055989848646139,
   "고평가": 0.33802881799354106,
-  "카드 없음": 0.09829094364692659,
-  "판정 보류": 0.028195271034795567,
-  "그 밖 제외": 0.012929840621658209,
+  "카드 없음": 0.09762744907313019,
+  "판정 보류": 0.02773277384406909,
+  "그 밖 제외": 0.01405583238618109,
   "분류 안 됨": 0
  },
  "top10": [
@@ -157,13 +157,13 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 305,
+  "cardsMatched": 308,
   "cardsUsed": 283,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
-   "날짜 불일치": 4,
-   "판정 보류": 18
+   "날짜 불일치": 8,
+   "판정 보류": 17
   }
  },
  "cards": [
@@ -252,6 +252,16 @@
    "n": -3.0,
    "date": "2026-11-05",
    "excluded": []
+  },
+  {
+   "card": "AIZ",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "날짜 불일치",
+    "판정 보류"
+   ]
   },
   {
    "card": "AJG",
@@ -658,11 +668,11 @@
   },
   {
    "card": "CPAY",
-   "verdict": "판정 보류",
+   "verdict": "고평가",
    "n": null,
-   "date": "2026-11-05",
+   "date": "2026-11-06",
    "excluded": [
-    "판정 보류"
+    "날짜 불일치"
    ]
   },
   {
@@ -1088,6 +1098,16 @@
    "n": null,
    "date": "2026-11-05",
    "excluded": [
+    "판정 보류"
+   ]
+  },
+  {
+   "card": "GPN",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "날짜 불일치",
     "판정 보류"
    ]
   },
@@ -2319,6 +2339,15 @@
    "excluded": []
   },
   {
+   "card": "WYNN",
+   "verdict": "적정~고평가",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "날짜 불일치"
+   ]
+  },
+  {
    "card": "XEL",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -2358,8 +2387,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-06T19:25:24Z",
- "fetchedAt": "2026-11-06T19:25:24Z",
+ "runAt": "2026-11-06T20:38:32Z",
+ "fetchedAt": "2026-11-06T20:38:32Z",
  "inputHash": {
   "xlsx": "4f8e0f465e23dfa74c4cf40c409a01f104345d9ecaefeb49c17efb6c53f1d11e",
   "alias": "cd884e524b4f6045",
@@ -2374,7 +2403,7 @@
   ],
   "S": "2026-11-05"
  },
- "runId": "42279435407.1",
+ "runId": "42290028500.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -2409,6 +2438,7 @@
     "ADSK",
     "AEE",
     "AEP",
+    "AIZ",
     "AJG",
     "ALL",
     "ALLE",
@@ -2518,6 +2548,7 @@
     "GM",
     "GOOGL",
     "GPC",
+    "GPN",
     "GRMN",
     "GWW",
     "HAS",
@@ -2682,6 +2713,7 @@
     "WSM",
     "WST",
     "WTW",
+    "WYNN",
     "XEL",
     "XOM",
     "XYL",
