@@ -4313,6 +4313,14 @@
      "note": "10-Q 희석 표 \"Subco Units 7,606,927\"(3개월, 6개월 7,624,315), 2026-07-31 표지 \"162,476,186 on a fully diluted basis, including 7,606,927 Class B-2 common units\". 10-Q \"7.6 million Subco Units outstanding\"(6-30). 설계 §3.1 검산: (57,613 + 2,828)M ÷ (154,996,807 + 7,606,927) ≈ $371.70 = 회사 BVPS"
     },
     {
+     "end": "2026-09-30",
+     "filed": "2026-11-04",
+     "wa_shares": 7606927,
+     "units": 7606927,
+     "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526447043/blk-20260930.htm",
+     "note": "10-Q \"7.6 million Subco Units outstanding\"(9-30), 2026-10-31 표지 \"162,030,348 on a fully diluted basis, including 7,606,927 Class B-2 common units\", 3분기 Item 2 매입표에 Subco 열 없음·자본변동표 Subco 열에 매입 줄 없음 → 6-30 7,606,927에서 불변. wa_shares: 희석 표 \"Subco Units 7.6\"(백만, 3개월) — 분기 중 불변이라 결산일 수와 같음. 조건부 대가로 자본에 옮겨진 몫($2.6B)은 아직 발행되지 않은 단위라 넣지 않음(설계 §7, 2026-11-06)"
+    },
+    {
      "end": "2025-07-01",
      "filed": "2025-07-01",
      "wa_shares": 0,
@@ -4353,6 +4361,14 @@
      "ce_add": 2828000000,
      "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526337177/blk-20260630.htm",
      "note": "\"Redeemable NCI - BlackRock Saturn Subco, LLC (\\\"Subco\\\") 2,828\"(백만, XBRL TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests 차원 값). MinorityInterest 227M = CIPs"
+    },
+    {
+     "end": "2026-09-30",
+     "filed": "2026-11-04",
+     "nci_remove": 0,
+     "ce_add": 2860000000,
+     "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526447043/blk-20260930.htm",
+     "note": "3분기에 Subco가 임시자본에서 영구 비지배지분으로 옮겨짐(2026-07-01 현금 결제 조항 만료). 재무상태표 \"Nonredeemable NCI - Subco 5,440\"(백만) = 발행 단위 몫 + 조건부 대가 재분류 몫. 자본변동표 Subco 열: 6-30 임시자본 2,828 → 재분류 5,408(= 2,828 + 조건부 대가 2,580) + 순이익 80 − 분배 43(주당 $5.73 × 7.6M) − 지분 변동 5 = 5,440. ce_add = 발행 단위 몫 2,828 + 80 − 43 − 5 = 2,860(조건부 몫 2,580은 S에 넣지 않은 단위라 제외). 순이익 80은 Note 2(조건부 몫에는 순이익을 배분하지 않음)·EPS 표 'Incremental net income … NCI - Subco 80'으로 발행 단위 몫, 분배 43은 발행 단위 배당($5.73 × 7.6M); 지분 변동 −5의 귀속은 원문에 없어 발행 단위 몫으로 본 추론(Codex 2026-11-06). 엔진 nci(MinorityInterest)는 이 10-Q에서 차원 값만(CIPs 354·Subco 5,440) 있어 9-30 행이 없고 6-30 $227M(CIPs)에 머묾 → nci_remove 0. 엔진 EV에 Subco·상환가능 CIPs $3,850M이 없는 것은 기존 공백(설계 §7). 2026-11-06"
     }
    ]
   }
