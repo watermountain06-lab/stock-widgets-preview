@@ -491,19 +491,27 @@ def base_inputs(ticker, asof=None):
             return series
         return [e for e in series if e.get("available", e.get("end")) <= asof]
 
-    def fresh_latest(series):
+    def fresh_latest(series, annual_ok=False):
         s, eq = newest(series, asof), newest(eq_rows, asof)
         if not s:
             return None
-        if eq and (date.fromisoformat(eq["end"]) - date.fromisoformat(s["end"])).days > 200:
+        limit = 200
+        # 최근 관측 결산일 간격이 모두 1년(330~400일)인 태그는 최신 자기자본 결산일과 380일까지 허용한다 — COP 장기 매도가능 채권
+        # (2025-12 $1,148M)이 해마다 3분기부터 0이 됐다(안건 D53, 2026-11-06). 장기 시장성 증권(lt_marketable)에만 쓴다 —
+        # 다른 태그에 일괄로 붙이면 끊긴 값을 되살린다(Codex D14).
+        if annual_ok:
+            ends = sorted({e["end"] for e in as_of_rows(series) if e.get("end", "") <= e.get("available", e.get("end", ""))})[-3:]
+            if len(ends) >= 2 and all(330 <= (date.fromisoformat(y) - date.fromisoformat(x)).days <= 400 for x, y in zip(ends, ends[1:])):
+                limit = 380
+        if eq and (date.fromisoformat(eq["end"]) - date.fromisoformat(s["end"])).days > limit:
             return None
         return s["val"]
 
     # 순현금 표시(build_fundamental_score.net_cash)가 채권성 장기투자만 따로 쓰므로 분리해 둔다.
     # MU는 같은 자산(10-Q "Long-term marketable investments", 2026-05 $4,106M)을 매도가능 채권 태그로만 낸다.
     # 앞 태그가 없거나 낡았을 때만 쓴다(AAPL은 앞 태그가 있어 불변 — Codex 지적, 2026-09-26).
-    out["lt_marketable"] = (fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"]))
-                            or fresh_latest(bmh.component_sum(cik, ["AvailableForSaleSecuritiesDebtSecuritiesNoncurrent"])) or 0)
+    out["lt_marketable"] = (fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"]), annual_ok=True)
+                            or fresh_latest(bmh.component_sum(cik, ["AvailableForSaleSecuritiesDebtSecuritiesNoncurrent"]), annual_ok=True) or 0)
     # Alphabet은 비상장 지분을 OtherLongTermInvestments("Non-marketable securities",
     # 2026-06-30 $131.5B)로 보고한다. 모든 태그에 같은 신선도 필터를 건다 — 필터가 없던
     # 동안 GOOGL은 2025-09-30에 끊긴 EquitySecuritiesFvNi $7.1B를 계속 쓰고 있었다(2026-09-24).
@@ -528,7 +536,7 @@ def base_inputs(ticker, asof=None):
         return newest(bmh.component_sum(cik, [tag]), asof)
     _lm = out["lt_marketable"]
     # 비교 날짜는 lt_marketable이 실제로 고른 태그의 행에서(앞 태그가 낡아 버려졌으면 대체 태그 — Codex 2차)
-    _lm_row = (_last("MarketableSecuritiesNoncurrent") if fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"]))
+    _lm_row = (_last("MarketableSecuritiesNoncurrent") if fresh_latest(bmh.component_sum(cik, ["MarketableSecuritiesNoncurrent"]), annual_ok=True)
                else _last("AvailableForSaleSecuritiesDebtSecuritiesNoncurrent"))
     _dup = bool(_lm) and has_lti and _lm_row is not None and any(
         r and r["end"] == _lm_row["end"] and abs(r["val"] - _lm) < 0.005 * abs(_lm)
