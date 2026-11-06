@@ -72,7 +72,7 @@ def sentences(f, tax_on, basis="diluted"):
     s = []
     c = f["cur"]
     tail = ("반복 기준(최근 8분기 중 문턱을 넘은 분기가 3번 이상이거나 6번 이상 나온 범주)에 걸린 항목과 인수 통합 비용은 빼지 않는다. "
-            "이익률·EV/EBITDA는 GAAP 그대로다.")
+            "영업이익률·EV/EBITDA는 GAAP 그대로다.")
     opin = c and any(it.get("line") == "opinc" for it, _ in c["items"])
     if basis != "diluted":
         # 본업 PER 카드(core 등)는 희석 EPS 조정이 PER에 쓰이지 않는다 — 장치는 본업 이익의 세율에만 닿는다(Codex r1, SNPS)
