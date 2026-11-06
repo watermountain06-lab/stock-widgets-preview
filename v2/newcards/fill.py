@@ -481,7 +481,7 @@ if _auto:
             _e = {x['quarter_end']: x['quarter_eps'] for x in _eps}
             _rc = _ac.chg(rev[C.CUR], rev.get(C.YO))
             _sym, _ac.SYM = _ac.SYM, ('$' if _out else _ac.SYM)   # 외국 발행사: 여기 매출·이익은 PRE가 달러로 바꾼 값(증감률은 달러 기준)
-            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + (', 영업이익 ' if _out else ', 합성 영업이익(세전이익 기준) ' if str(C.CIK).zfill(10) in bmh.DERIVED_OPINC else ', GAAP 영업이익 ') + _ac.B(op[C.CUR]))
+            _body = (f'{C.QLABEL} 매출 {_ac.B(rev[C.CUR])}' + (f'({_rc})' if _rc else '') + (', 영업이익 ' if _out else ', 합성 영업이익(세전이익 기준) ' if str(C.CIK).zfill(10) in bmh.DERIVED_OPINC else ', 추정 영업이익(세전이익 + 이자비용) ' if getattr(C, 'OP_DISPLAY', None) else ', GAAP 영업이익 ') + _ac.B(op[C.CUR]))
             _ac.SYM = _sym
             _body += ((f', 희석 EPS {_ac.money(_e[C.CUR])}(1년 전 {_ac.money(_e[C.YO])})' if C.CUR in _e and C.YO in _e else '')
                       + (f' · {C.TENQ_NAME} 기준, 매출·이익은 분기 평균 환율로 달러 환산' if _out else ' · SEC 10-K 기준' if C.TENQ_NAME.endswith('10-K') else ' · SEC 10-Q 기준'))   # 실제 문서만(Fable)
