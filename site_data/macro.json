@@ -1,25 +1,25 @@
 {
-  "generatedAt": "2026-11-05T17:29:27Z",
-  "priceSession": "2026-11-04",
+  "generatedAt": "2026-11-06T02:26:42Z",
+  "priceSession": "2026-11-05",
   "indicators": {
     "sp500": {
-      "value": 7688.62,
-      "changePct": 1.58,
-      "asOf": "2026-11-04",
+      "value": 7353.73,
+      "changePct": -4.36,
+      "asOf": "2026-11-05",
       "status": "fresh",
       "source": "Yahoo ^GSPC daily close"
     },
     "vix": {
-      "value": 16.61,
-      "changePct": -20.26,
-      "asOf": "2026-11-04",
+      "value": 28.18,
+      "changePct": 69.66,
+      "asOf": "2026-11-05",
       "status": "fresh",
       "source": "Yahoo ^VIX daily close"
     },
     "usdkrw": {
-      "value": 1340.95,
-      "changePct": -0.24,
-      "asOf": "2026-11-04",
+      "value": 1356.26,
+      "changePct": 1.14,
+      "asOf": "2026-11-05",
       "status": "fresh",
       "source": "Yahoo KRW=X hourly bar ending 16:00 ET"
     },
@@ -50,10 +50,6 @@
   "fomcScheduleThrough": "2027-12",
   "history": {
     "sp500": [
-      [
-        "2026-10-05",
-        7773.95
-      ],
       [
         "2026-10-06",
         7818.93
@@ -141,6 +137,10 @@
       [
         "2026-11-04",
         7688.62
+      ],
+      [
+        "2026-11-05",
+        7353.73
       ]
     ],
     "vix": [
@@ -235,13 +235,13 @@
       [
         "2026-11-04",
         16.61
+      ],
+      [
+        "2026-11-05",
+        28.18
       ]
     ],
     "usdkrw": [
-      [
-        "2026-10-05",
-        1341.52
-      ],
       [
         "2026-10-06",
         1337.36
@@ -329,6 +329,10 @@
       [
         "2026-11-04",
         1340.95
+      ],
+      [
+        "2026-11-05",
+        1356.26
       ]
     ],
     "fedTarget": [
