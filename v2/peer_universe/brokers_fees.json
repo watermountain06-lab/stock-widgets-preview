@@ -13,14 +13,14 @@
    "psr": 3.86,
    "pbr": 6.76,
    "pcr": 20.9,
-   "evebitda": 14.81
+   "evebitda": 14.68
   },
   "AJG": {
    "per": 45.78,
    "psr": 4.49,
    "pbr": 2.98,
    "pcr": 30.94,
-   "evebitda": 21.06
+   "evebitda": 20.89
   },
   "XYZ": {},
   "BRO": {
@@ -35,19 +35,19 @@
    "psr": 6.92,
    "pbr": 6.23,
    "pcr": 36.56,
-   "evebitda": 18.25
+   "evebitda": 18.18
   },
   "CME": {
    "per": 25.71,
    "psr": 15.63,
    "pbr": 4.1,
    "pcr": 25.16,
-   "evebitda": 22.5
+   "evebitda": 22.42
   },
   "COIN": {
    "psr": 6.03,
    "pbr": 2.89,
-   "evebitda": 40.94
+   "evebitda": 40.73
   },
   "CPAY": {
    "per": 24.42,
@@ -62,34 +62,34 @@
    "psr": 4.69,
    "pbr": 5.8,
    "pcr": 16.42,
-   "evebitda": 14.64
+   "evebitda": 14.45
   },
   "FIS": {
    "per": 5.92,
    "psr": 1.63,
    "pbr": 1.24,
    "pcr": 7.04,
-   "evebitda": 9.72
+   "evebitda": 9.7
   },
   "FISV": {
    "per": 9.6,
    "psr": 1.27,
    "pbr": 0.99,
    "pcr": 6.78,
-   "evebitda": 7.83
+   "evebitda": 7.72
   },
   "GPN": {
    "psr": 2.5,
    "pbr": 1.11,
    "pcr": 31.15,
-   "evebitda": 11.95
+   "evebitda": 11.85
   },
   "ICE": {
    "per": 23.85,
    "psr": 6.72,
    "pbr": 3.16,
    "pcr": 17.88,
-   "evebitda": 16.17
+   "evebitda": 16.08
   },
   "JKHY": {
    "per": 23.11,
@@ -103,41 +103,41 @@
    "psr": 3.35,
    "pbr": 6.5,
    "pcr": 22.97,
-   "evebitda": 16.59
+   "evebitda": 16.33
   },
   "MA": {
    "per": 35.09,
    "psr": 15.4,
    "pbr": 82.76,
    "pcr": 34.75,
-   "evebitda": 25.48
+   "evebitda": 25.44
   },
   "MCO": {
    "per": 31.34,
    "psr": 10.41,
    "pbr": 26.06,
    "pcr": 28.6,
-   "evebitda": 22.02
+   "evebitda": 21.88
   },
   "MSCI": {
    "per": 35.44,
    "psr": 12.99,
    "pcr": 30.64,
-   "evebitda": 24.29
+   "evebitda": 24.21
   },
   "NDAQ": {
    "per": 29.02,
    "psr": 6.42,
    "pbr": 4.91,
    "pcr": 26.11,
-   "evebitda": 20.0
+   "evebitda": 19.84
   },
   "PYPL": {
    "per": 10.78,
    "psr": 1.38,
    "pbr": 2.43,
    "pcr": 7.52,
-   "evebitda": 7.55
+   "evebitda": 7.44
   },
   "SPGI": {
    "per": 28.4,
@@ -150,14 +150,14 @@
    "psr": 17.48,
    "pbr": 22.1,
    "pcr": 37.0,
-   "evebitda": 27.83
+   "evebitda": 27.79
   },
   "WTW": {
    "per": 20.1,
    "psr": 2.91,
    "pbr": 3.85,
    "pcr": 17.16,
-   "evebitda": 13.04
+   "evebitda": 12.83
   }
  },
  "skipped": {},
@@ -177,5 +177,6 @@
     "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
    }
   }
- }
+ },
+ "leaseNote": "EV/EBITDA의 EV에 운용리스를 넣지 않는다(E61, 2026-11-06 — 같은 기준일을 두 엔진으로 다시 계산해 EV/EBITDA가 달라진 칸 가운데 파일 값이 기준 재계산과 같은 칸만 새 엔진 값으로 바꿨다; 나머지는 주간 재생성 몫)"
 }

@@ -13,7 +13,7 @@
    "psr": 7.91,
    "pbr": 24.76,
    "pcr": 21.99,
-   "evebitda": 19.52
+   "evebitda": 18.42
   },
   "BXP": {
    "per": 33.76,
@@ -29,20 +29,20 @@
    "psr": 0.84,
    "pbr": 4.28,
    "pcr": 39.59,
-   "evebitda": 16.5
+   "evebitda": 15.59
   },
   "CSGP": {
    "per": 67.04,
    "psr": 3.3,
    "pbr": 1.52,
    "pcr": 28.74,
-   "evebitda": 22.97
+   "evebitda": 22.66
   },
   "CCI": {
    "per": 36.2,
    "psr": 9.07,
    "pcr": 22.27,
-   "evebitda": 21.72
+   "evebitda": 19.78
   },
   "DLR": {
    "per": 88.58,
@@ -54,7 +54,7 @@
    "per": 60.88,
    "psr": 9.97,
    "pbr": 6.9,
-   "evebitda": 27.77
+   "evebitda": 27.46
   },
   "ESS": {
    "per": 41.15,
@@ -84,7 +84,7 @@
    "per": 16.87,
    "psr": 2.79,
    "pbr": 2.71,
-   "evebitda": 10.24
+   "evebitda": 9.9
   },
   "INVH": {
    "per": 23.3,
@@ -94,7 +94,7 @@
   "IRM": {
    "per": 82.66,
    "psr": 4.59,
-   "evebitda": 21.82
+   "evebitda": 20.79
   },
   "KIM": {
    "per": 28.51,
@@ -134,7 +134,7 @@
    "per": 20.17,
    "psr": 6.92,
    "pcr": 19.16,
-   "evebitda": 20.52
+   "evebitda": 19.1
   },
   "SPG": {
    "per": 15.36,
@@ -190,5 +190,6 @@
   "AMT": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)",
   "EQIX": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)",
   "WELL": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)"
- }
+ },
+ "leaseNote": "EV/EBITDA의 EV에 운용리스를 넣지 않는다(E61, 2026-11-06 — 같은 기준일을 두 엔진으로 다시 계산해 EV/EBITDA가 달라진 칸 가운데 파일 값이 기준 재계산과 같은 칸만 새 엔진 값으로 바꿨다; 나머지는 주간 재생성 몫)"
 }

@@ -7,49 +7,49 @@
   "APD": {
    "psr": 5.59,
    "pbr": 5.08,
-   "evebitda": 95.03
+   "evebitda": 94.51
   },
   "ALB": {
    "per": 350.0,
    "psr": 1.82,
    "pbr": 1.34,
    "pcr": 8.0,
-   "evebitda": 15.21
+   "evebitda": 15.08
   },
   "AMCR": {
    "per": 19.91,
    "psr": 0.93,
    "pbr": 1.86,
    "pcr": 17.83,
-   "evebitda": 10.71
+   "evebitda": 10.4
   },
   "AVY": {
    "per": 19.96,
    "psr": 1.49,
    "pbr": 5.95,
    "pcr": 12.99,
-   "evebitda": 12.46
+   "evebitda": 12.3
   },
   "BALL": {
    "per": 18.88,
    "psr": 1.23,
    "pbr": 3.06,
    "pcr": 21.28,
-   "evebitda": 11.61
+   "evebitda": 11.44
   },
   "CF": {
    "per": 9.14,
    "psr": 2.41,
    "pbr": 3.25,
    "pcr": 9.77,
-   "evebitda": 5.64
+   "evebitda": 5.55
   },
   "CRH": {
    "per": 17.07,
    "psr": 1.55,
    "pbr": 2.42,
    "pcr": 23.78,
-   "evebitda": 10.2
+   "evebitda": 10.03
   },
   "DOW": {
    "psr": 0.59,
@@ -65,21 +65,21 @@
    "psr": 4.89,
    "pbr": 8.15,
    "pcr": 47.34,
-   "evebitda": 24.7
+   "evebitda": 24.51
   },
   "FCX": {
    "per": 30.77,
    "psr": 3.47,
    "pbr": 4.46,
    "pcr": 50.91,
-   "evebitda": 11.92
+   "evebitda": 11.81
   },
   "IFF": {
    "per": 94.92,
    "psr": 2.38,
    "pbr": 1.7,
    "pcr": 43.95,
-   "evebitda": 17.06
+   "evebitda": 17.01
   },
   "IP": {
    "psr": 0.8,
@@ -91,7 +91,7 @@
    "psr": 6.51,
    "pbr": 5.99,
    "pcr": 46.47,
-   "evebitda": 20.11
+   "evebitda": 20.05
   },
   "LYB": {
    "per": 16.66,
@@ -105,13 +105,13 @@
    "psr": 4.85,
    "pbr": 2.81,
    "pcr": 47.04,
-   "evebitda": 18.72
+   "evebitda": 18.53
   },
   "MOS": {
    "psr": 0.48,
    "pbr": 0.51,
    "pcr": "negative",
-   "evebitda": 11.93
+   "evebitda": 11.7
   },
   "NEM": {
    "per": 11.72,
@@ -125,48 +125,48 @@
    "psr": 1.72,
    "pbr": 2.81,
    "pcr": 39.25,
-   "evebitda": 11.95
+   "evebitda": 11.93
   },
   "PKG": {
    "per": 33.31,
    "psr": 2.4,
    "pbr": 4.91,
    "pcr": 30.82,
-   "evebitda": 14.73
+   "evebitda": 14.5
   },
   "PPG": {
    "per": 16.76,
    "psr": 1.58,
    "pbr": 3.11,
    "pcr": 20.56,
-   "evebitda": 11.77
+   "evebitda": 11.55
   },
   "SHW": {
    "per": 30.57,
    "psr": 3.23,
    "pbr": 20.21,
    "pcr": 26.11,
-   "evebitda": 19.75
+   "evebitda": 19.29
   },
   "SW": {
    "psr": 0.72,
    "pbr": 1.25,
    "pcr": 22.27,
-   "evebitda": 8.6
+   "evebitda": 8.34
   },
   "STLD": {
    "per": 18.51,
    "psr": 1.61,
    "pbr": 3.62,
    "pcr": 32.58,
-   "evebitda": 12.12
+   "evebitda": 12.07
   },
   "VMC": {
    "per": 33.24,
    "psr": 4.51,
    "pbr": 4.29,
    "pcr": 46.21,
-   "evebitda": 17.67
+   "evebitda": 17.4
   }
  },
  "skipped": {
@@ -215,5 +215,6 @@
   "SHW": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)",
   "STLD": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)",
   "VMC": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)"
- }
+ },
+ "leaseNote": "EV/EBITDA의 EV에 운용리스를 넣지 않는다(E61, 2026-11-06 — 같은 기준일을 두 엔진으로 다시 계산해 EV/EBITDA가 달라진 칸 가운데 파일 값이 기준 재계산과 같은 칸만 새 엔진 값으로 바꿨다; 나머지는 주간 재생성 몫)"
 }

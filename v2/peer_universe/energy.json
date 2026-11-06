@@ -7,7 +7,7 @@
   "APA": {
    "per": 11.17,
    "pbr": 2.64,
-   "evebitda": 3.8
+   "evebitda": 3.78
   },
   "BKR": {
    "psr": 1.91,
@@ -19,7 +19,7 @@
    "psr": 2.16,
    "pbr": 2.45,
    "pcr": 17.23,
-   "evebitda": 9.09
+   "evebitda": 8.98
   },
   "COP": {
    "per": 20.35,
@@ -45,7 +45,7 @@
    "psr": 3.21,
    "pbr": 2.73,
    "pcr": 13.13,
-   "evebitda": 6.62
+   "evebitda": 6.53
   },
   "EQT": {
    "per": 13.12,
@@ -66,28 +66,28 @@
    "psr": 2.09,
    "pbr": 2.97,
    "pcr": 25.2,
-   "evebitda": 10.76
+   "evebitda": 10.67
   },
   "HAL": {
    "per": 15.2,
    "psr": 1.33,
    "pbr": 2.69,
    "pcr": 18.7,
-   "evebitda": 9.05
+   "evebitda": 8.79
   },
   "KMI": {
    "per": 20.91,
    "psr": 4.11,
    "pbr": 2.39,
    "pcr": 24.48,
-   "evebitda": 13.96
+   "evebitda": 13.93
   },
   "MPC": {
    "per": 15.36,
    "psr": 0.81,
    "pbr": 6.55,
    "pcr": 9.68,
-   "evebitda": 9.06
+   "evebitda": 8.97
   },
   "OXY": {
    "per": 20.45,
@@ -100,14 +100,14 @@
    "psr": 1.42,
    "pbr": 2.62,
    "pcr": 24.21,
-   "evebitda": 12.9
+   "evebitda": 12.87
   },
   "PSX": {
    "per": 9.03,
    "psr": 0.66,
    "pbr": 3.21,
    "pcr": 8.93,
-   "evebitda": 6.47
+   "evebitda": 6.37
   },
   "SLB": {
    "per": 26.34,
@@ -120,27 +120,27 @@
    "psr": 4.03,
    "pbr": 18.47,
    "pcr": 91.16,
-   "evebitda": 15.89
+   "evebitda": 15.87
   },
   "TPL": {
    "per": 42.31,
    "psr": 25.49,
    "pbr": 13.68,
-   "evebitda": 30.6
+   "evebitda": 30.58
   },
   "VLO": {
    "per": 8.99,
    "psr": 0.73,
    "pbr": 3.98,
    "pcr": 7.78,
-   "evebitda": 5.66
+   "evebitda": 5.6
   },
   "WMB": {
    "per": 29.62,
    "psr": 7.45,
    "pbr": 6.91,
    "pcr": "negative",
-   "evebitda": 17.72
+   "evebitda": 17.7
   }
  },
  "skipped": {
@@ -151,5 +151,6 @@
   "OKE": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)",
   "PSX": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)",
   "VLO": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)"
- }
+ },
+ "leaseNote": "EV/EBITDA의 EV에 운용리스를 넣지 않는다(E61, 2026-11-06 — 같은 기준일을 두 엔진으로 다시 계산해 EV/EBITDA가 달라진 칸 가운데 파일 값이 기준 재계산과 같은 칸만 새 엔진 값으로 바꿨다; 나머지는 주간 재생성 몫)"
 }
