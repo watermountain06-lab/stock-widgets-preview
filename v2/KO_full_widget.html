@@ -997,12 +997,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">26.9x</span>
+            <span class="val-number" data-hist="cur">26.8x</span>
             <span class="hist-badge bad" data-hist="badge">5년 중 상위 21%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 78.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 20.5x</span><span data-hist="median">중앙 24.7x</span><span data-hist="max">최고 31.7x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 20.4x</span><span data-hist="median">중앙 24.6x</span><span data-hist="max">최고 31.6x</span></div>
       </div>
     </div>
 
@@ -1377,12 +1377,12 @@ const MULTIPLE_DATA = {
     title: '음료·식품 대형주 EV/EBITDA 비교 · 10/30 종가(KO 막대는 11/5)',
     unit: 'EV/EBITDA', max: 40, koValue: null,
     peers: [
-      { name:'PEP', value:12.4, status:'reference' },
-      { name:'MDLZ', value:15.0, status:'reference' },
+      { name:'PEP', value:12.2, status:'reference' },
+      { name:'MDLZ', value:14.9, status:'reference' },
       { name:'PG', value:16.6, status:'reference' },
-      { name:'KDP', value:18.6, status:'reference' },
+      { name:'KDP', value:18.3, status:'reference' },
       { name:'MNST', value:31.8, status:'reference' },
-      { name:'WMT', value:22.0, status:'reference' }
+      { name:'WMT', value:21.6, status:'reference' }
     ]
   }
 };
@@ -1843,7 +1843,7 @@ const KO_FUNDAMENTAL = {"ticker": "KO", "basis": "quarter", "asOf": "2026-10-02"
 //
 // 갱신: python3 v2/build_peer_score.py KO --self v2/KO_multiples.json --card
 /* VALUATION:BEGIN */
-const KO_VALUATION = {"peer": {"score": 17.7, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 40.0, "rank": 16, "peers": 25}, {"metric": "pbr", "score": 16.0, "rank": 22, "peers": 25}, {"metric": "psr", "score": 3.7, "rank": 27, "peers": 27}, {"metric": "pcr", "score": 15.4, "rank": 23, "peers": 26}, {"metric": "evebitda", "score": 13.6, "rank": 20, "peers": 22}]}, "self": {"score": 22.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 20.2, "percentile": 79.8, "current": 28.16, "min": 21.64, "median": 26.3, "max": 30.66, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 35.6, "percentile": 64.4, "current": 11.02, "min": 8.71, "median": 10.57, "max": 12.79, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.3, "percentile": 99.7, "current": 8.07, "min": 5.13, "median": 6.36, "max": 8.18, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 34.0, "percentile": 66.0, "current": 28.83, "min": 19.29, "median": 27.24, "max": 88.47, "days": 1134, "currentNote": null}, {"metric": "evebitda", "score": 21.4, "percentile": 78.6, "current": 26.95, "min": 20.46, "median": 24.74, "max": 31.67, "days": 1255, "currentNote": null}]}};
+const KO_VALUATION = {"peer": {"score": 17.7, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 40.0, "rank": 16, "peers": 25}, {"metric": "pbr", "score": 16.0, "rank": 22, "peers": 25}, {"metric": "psr", "score": 3.7, "rank": 27, "peers": 27}, {"metric": "pcr", "score": 15.4, "rank": 23, "peers": 26}, {"metric": "evebitda", "score": 13.6, "rank": 20, "peers": 22}]}, "self": {"score": 22.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 20.2, "percentile": 79.8, "current": 28.16, "min": 21.64, "median": 26.3, "max": 30.66, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 35.6, "percentile": 64.4, "current": 11.02, "min": 8.71, "median": 10.57, "max": 12.79, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.3, "percentile": 99.7, "current": 8.07, "min": 5.13, "median": 6.36, "max": 8.18, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 34.0, "percentile": 66.0, "current": 28.83, "min": 19.29, "median": 27.24, "max": 88.47, "days": 1134, "currentNote": null}, {"metric": "evebitda", "score": 21.4, "percentile": 78.6, "current": 26.84, "min": 20.35, "median": 24.62, "max": 31.56, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

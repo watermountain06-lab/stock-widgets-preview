@@ -962,12 +962,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">28.7x</span>
+            <span class="val-number" data-hist="cur">28.6x</span>
             <span class="hist-badge mid" data-hist="badge">5년 중 상위 31%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 69.4%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 19.9x</span><span data-hist="median">중앙 26.3x</span><span data-hist="max">최고 36.5x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 19.8x</span><span data-hist="median">중앙 26.2x</span><span data-hist="max">최고 36.4x</span></div>
       </div>
     </div>
 
@@ -1347,12 +1347,12 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 · 10/30 종가(CTAS 막대는 11/5)',
     unit: 'EV/EBITDA', max: 35, ctasValue: null,
     peers: [
-      { name:'ADP', value:18.2, status:'reference' },
+      { name:'ADP', value:18.1, status:'reference' },
       { name:'PAYX', value:14.4, status:'reference' },
-      { name:'WM', value:14.8, status:'reference' },
+      { name:'WM', value:14.7, status:'reference' },
       { name:'RSG', value:16.5, status:'reference' },
-      { name:'ROL', value:20.4, status:'reference' },
-      { name:'FAST', value:29.2, status:'reference' }
+      { name:'ROL', value:19.9, status:'reference' },
+      { name:'FAST', value:29.1, status:'reference' }
     ]
   }
 };
@@ -1813,7 +1813,7 @@ const CTAS_FUNDAMENTAL = {"ticker": "CTAS", "basis": "quarter", "asOf": "2026-08
 //
 // 갱신: python3 v2/build_peer_score.py CTAS --self v2/CTAS_multiples.json --card
 /* VALUATION:BEGIN */
-const CTAS_VALUATION = {"peer": {"score": 6.6, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 6.7, "rank": 71, "peers": 75}, {"metric": "pbr", "score": 8.1, "rank": 69, "peers": 74}, {"metric": "psr", "score": 3.8, "rank": 76, "peers": 78}, {"metric": "pcr", "score": 6.6, "rank": 72, "peers": 76}, {"metric": "evebitda", "score": 8.0, "rank": 70, "peers": 75}]}, "self": {"score": 30.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 33.6, "percentile": 66.4, "current": 44.66, "min": 30.71, "median": 41.15, "max": 57.15, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 27.3, "percentile": 72.7, "current": 17.27, "min": 10.59, "median": 15.19, "max": 22.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 23.0, "percentile": 77.0, "current": 7.78, "min": 4.67, "median": 6.66, "max": 9.36, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 37.6, "percentile": 62.4, "current": 44.21, "min": 28.8, "median": 42.06, "max": 52.64, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 30.6, "percentile": 69.4, "current": 28.73, "min": 19.89, "median": 26.3, "max": 36.46, "days": 1255, "currentNote": null}]}};
+const CTAS_VALUATION = {"peer": {"score": 6.6, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 6.7, "rank": 71, "peers": 75}, {"metric": "pbr", "score": 8.1, "rank": 69, "peers": 74}, {"metric": "psr", "score": 3.8, "rank": 76, "peers": 78}, {"metric": "pcr", "score": 6.6, "rank": 72, "peers": 76}, {"metric": "evebitda", "score": 8.0, "rank": 70, "peers": 75}]}, "self": {"score": 30.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 33.6, "percentile": 66.4, "current": 44.66, "min": 30.71, "median": 41.15, "max": 57.15, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 27.3, "percentile": 72.7, "current": 17.27, "min": 10.59, "median": 15.19, "max": 22.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 23.0, "percentile": 77.0, "current": 7.78, "min": 4.67, "median": 6.66, "max": 9.36, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 37.6, "percentile": 62.4, "current": 44.21, "min": 28.8, "median": 42.06, "max": 52.64, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 30.6, "percentile": 69.4, "current": 28.64, "min": 19.8, "median": 26.22, "max": 36.39, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

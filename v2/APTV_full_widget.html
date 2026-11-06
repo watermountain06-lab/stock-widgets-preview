@@ -992,12 +992,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">5.6x</span>
+            <span class="val-number" data-hist="cur">5.4x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 0%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 5.6x</span><span data-hist="median">중앙 11.0x</span><span data-hist="max">최고 22.9x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 5.4x</span><span data-hist="median">중앙 10.8x</span><span data-hist="max">최고 22.7x</span></div>
       </div>
     </div>
 
@@ -1346,10 +1346,10 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 (GPC 값 없음·AZO 값 없음) · 10/30 종가(APTV 막대는 11/5)',
     unit: 'EV/EBITDA', max: 175, aptvValue: null,
     peers: [
-      { name:'GM', value:4.0, status:'reference' },
+      { name:'GM', value:3.9, status:'reference' },
       { name:'F', value:1.6, status:'reference' },
-      { name:'TSLA', value:151.3, status:'reference' },
-      { name:'ORLY', value:19.3, status:'reference' }
+      { name:'TSLA', value:150.5, status:'reference' },
+      { name:'ORLY', value:18.7, status:'reference' }
     ]
   }
 };
@@ -1805,7 +1805,7 @@ const APTV_FUNDAMENTAL = {"ticker": "APTV", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py APTV --self v2/APTV_multiples.json --card
 /* VALUATION:BEGIN */
-const APTV_VALUATION = {"peer": {"score": 90.1, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 95.5, "rank": 3, "peers": 44}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 32}, {"metric": "psr", "score": 90.5, "rank": 5, "peers": 42}, {"metric": "pcr", "score": 72.5, "rank": 12, "peers": 40}, {"metric": "evebitda", "score": 92.1, "rank": 4, "peers": 38}]}, "self": {"score": 85.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 69.5, "percentile": 30.5, "current": 10.58, "min": 4.93, "median": 29.47, "max": 271.78, "days": 1195, "currentNote": null}, {"metric": "pbr", "score": 100.0, "percentile": 0.0, "current": 0.94, "min": 0.94, "median": 1.92, "max": 5.76, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 97.6, "percentile": 2.4, "current": 0.49, "min": 0.47, "median": 1.07, "max": 3.04, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 59.5, "percentile": 40.5, "current": 12.74, "min": 6.8, "median": 15.8, "max": 682.81, "days": 1191, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 5.56, "min": 5.56, "median": 10.99, "max": 22.91, "days": 1255, "currentNote": null}]}};
+const APTV_VALUATION = {"peer": {"score": 90.1, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 95.5, "rank": 3, "peers": 44}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 32}, {"metric": "psr", "score": 90.5, "rank": 5, "peers": 42}, {"metric": "pcr", "score": 72.5, "rank": 12, "peers": 40}, {"metric": "evebitda", "score": 92.1, "rank": 4, "peers": 38}]}, "self": {"score": 85.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 69.5, "percentile": 30.5, "current": 10.58, "min": 4.93, "median": 29.47, "max": 271.78, "days": 1195, "currentNote": null}, {"metric": "pbr", "score": 100.0, "percentile": 0.0, "current": 0.94, "min": 0.94, "median": 1.92, "max": 5.76, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 97.6, "percentile": 2.4, "current": 0.49, "min": 0.47, "median": 1.07, "max": 3.04, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 59.5, "percentile": 40.5, "current": 12.74, "min": 6.8, "median": 15.8, "max": 682.81, "days": 1191, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 5.41, "min": 5.41, "median": 10.75, "max": 22.72, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

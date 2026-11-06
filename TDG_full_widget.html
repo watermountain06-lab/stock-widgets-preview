@@ -1001,7 +1001,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 5.1%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 18.0x</span><span data-hist="median">중앙 22.6x</span><span data-hist="max">최고 30.9x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 18.0x</span><span data-hist="median">중앙 22.6x</span><span data-hist="max">최고 30.8x</span></div>
       </div>
     </div>
 
@@ -1378,10 +1378,10 @@ const MULTIPLE_DATA = {
     title: '항공·방산 EV/EBITDA 비교 (HEI 값 없음) · 10/30 종가(TDG 막대는 11/5)',
     unit: 'EV/EBITDA', max: 40, tdgValue: null,
     peers: [
-      { name:'GE', value:31.1, status:'reference' },
-      { name:'HWM', value:27.3, status:'reference' },
-      { name:'RTX', value:19.2, status:'reference' },
-      { name:'GD', value:15.6, status:'reference' },
+      { name:'GE', value:30.9, status:'reference' },
+      { name:'HWM', value:27.2, status:'reference' },
+      { name:'RTX', value:19.1, status:'reference' },
+      { name:'GD', value:15.4, status:'reference' },
       { name:'LHX', value:16.1, status:'reference' }
     ]
   }
@@ -1838,7 +1838,7 @@ const TDG_FUNDAMENTAL = {"ticker": "TDG", "basis": "quarter", "asOf": "2026-06-2
 //
 // 갱신: python3 v2/build_peer_score.py TDG --self v2/TDG_multiples.json --card
 /* VALUATION:BEGIN */
-const TDG_VALUATION = {"peer": {"score": 18.9, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 18.7, "rank": 62, "peers": 75}, {"metric": "psr", "score": 9.0, "rank": 72, "peers": 78}, {"metric": "pcr", "score": 14.5, "rank": 66, "peers": 76}, {"metric": "evebitda", "score": 33.3, "rank": 51, "peers": 75}]}, "self": {"score": 92.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 95.2, "percentile": 4.8, "current": 36.08, "min": 32.65, "median": 47.27, "max": 55.22, "days": 1000, "currentNote": null}, {"metric": "psr", "score": 85.0, "percentile": 15.0, "current": 6.57, "min": 5.32, "median": 7.86, "max": 10.85, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.2, "percentile": 4.8, "current": 34.11, "min": 30.87, "median": 41.88, "max": 52.25, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 94.9, "percentile": 5.1, "current": 19.22, "min": 17.98, "median": 22.58, "max": 30.87, "days": 1255, "currentNote": null}]}};
+const TDG_VALUATION = {"peer": {"score": 18.9, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 18.7, "rank": 62, "peers": 75}, {"metric": "psr", "score": 9.0, "rank": 72, "peers": 78}, {"metric": "pcr", "score": 14.5, "rank": 66, "peers": 76}, {"metric": "evebitda", "score": 33.3, "rank": 51, "peers": 75}]}, "self": {"score": 92.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 95.2, "percentile": 4.8, "current": 36.08, "min": 32.65, "median": 47.27, "max": 55.22, "days": 1000, "currentNote": null}, {"metric": "psr", "score": 85.0, "percentile": 15.0, "current": 6.57, "min": 5.32, "median": 7.86, "max": 10.85, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.2, "percentile": 4.8, "current": 34.11, "min": 30.87, "median": 41.88, "max": 52.25, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 94.9, "percentile": 5.1, "current": 19.21, "min": 17.97, "median": 22.56, "max": 30.81, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

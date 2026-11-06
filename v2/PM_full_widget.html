@@ -1001,7 +1001,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 85.4%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.2x</span><span data-hist="median">중앙 13.9x</span><span data-hist="max">최고 20.4x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.1x</span><span data-hist="median">중앙 13.8x</span><span data-hist="max">최고 20.4x</span></div>
       </div>
     </div>
 
@@ -1388,11 +1388,11 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 35, pmValue: null,
     peers: [
       { name:'MO', value:13.4, status:'reference' },
-      { name:'KO', value:26.5, status:'reference' },
-      { name:'PEP', value:12.4, status:'reference' },
+      { name:'KO', value:26.4, status:'reference' },
+      { name:'PEP', value:12.2, status:'reference' },
       { name:'PG', value:16.6, status:'reference' },
-      { name:'MDLZ', value:15.0, status:'reference' },
-      { name:'KMB', value:12.9, status:'reference' }
+      { name:'MDLZ', value:14.9, status:'reference' },
+      { name:'KMB', value:12.8, status:'reference' }
     ]
   }
 };
@@ -1853,7 +1853,7 @@ const PM_FUNDAMENTAL = {"ticker": "PM", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py PM --self v2/PM_multiples.json --card
 /* VALUATION:BEGIN */
-const PM_VALUATION = {"peer": {"score": 27.4, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 36.0, "rank": 17, "peers": 25}, {"metric": "psr", "score": 7.4, "rank": 26, "peers": 27}, {"metric": "pcr", "score": 34.6, "rank": 18, "peers": 26}, {"metric": "evebitda", "score": 31.8, "rank": 16, "peers": 22}]}, "self": {"score": 15.7, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 16.3, "percentile": 83.7, "current": 29.46, "min": 14.26, "median": 19.14, "max": 38.06, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 3.8, "percentile": 96.2, "current": 7.28, "min": 3.91, "median": 5.03, "max": 7.63, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 28.2, "percentile": 71.8, "current": 23.1, "min": 11.07, "median": 19.12, "max": 30.22, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 14.6, "percentile": 85.4, "current": 19.11, "min": 11.15, "median": 13.88, "max": 20.39, "days": 628, "currentNote": null}]}};
+const PM_VALUATION = {"peer": {"score": 27.4, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 36.0, "rank": 17, "peers": 25}, {"metric": "psr", "score": 7.4, "rank": 26, "peers": 27}, {"metric": "pcr", "score": 34.6, "rank": 18, "peers": 26}, {"metric": "evebitda", "score": 31.8, "rank": 16, "peers": 22}]}, "self": {"score": 15.7, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 16.3, "percentile": 83.7, "current": 29.46, "min": 14.26, "median": 19.14, "max": 38.06, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 3.8, "percentile": 96.2, "current": 7.28, "min": 3.91, "median": 5.03, "max": 7.63, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 28.2, "percentile": 71.8, "current": 23.1, "min": 11.07, "median": 19.12, "max": 30.22, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 14.6, "percentile": 85.4, "current": 19.07, "min": 11.11, "median": 13.84, "max": 20.35, "days": 628, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

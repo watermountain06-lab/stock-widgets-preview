@@ -926,7 +926,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.05</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 MSFT 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">61.8</div><div class="sc-tile" data-vc="self" data-m="per">74</div><div class="sc-tile" data-vc="self" data-m="pbr">87</div><div class="sc-tile lost" data-vc="self" data-m="psr">57</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile" data-vc="self" data-m="evebitda">90</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="지난 5년 MSFT 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">61.8</div><div class="sc-tile" data-vc="self" data-m="per">74</div><div class="sc-tile" data-vc="self" data-m="pbr">87</div><div class="sc-tile lost" data-vc="self" data-m="psr">57</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile" data-vc="self" data-m="evebitda">91</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$247</div><div class="vs-note">현재가 <span data-vs="price">$535.93</span> 대비 <strong data-vs="upside">−54.0%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.17
 시나리오 범위: 1.98 ~ 2.71(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
@@ -993,12 +993,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.7년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">18.8x</span>
+            <span class="val-number" data-hist="cur">18.7x</span>
             <span class="hist-badge good" data-hist="badge">4.7년 중 하위 10%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 9.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 13.7x</span><span data-hist="median">중앙 26.0x</span><span data-hist="max">최고 32.6x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 9.5%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 13.6x</span><span data-hist="median">중앙 25.9x</span><span data-hist="max">최고 32.5x</span></div>
       </div>
     </div>
 
@@ -1829,7 +1829,7 @@ const MSFT_FUNDAMENTAL = {"ticker": "MSFT", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py MSFT --self v2/MSFT_multiples.json --card
 /* VALUATION:BEGIN */
-const MSFT_VALUATION = {"peer": {"score": 49.5, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 62.5, "rank": 10, "peers": 24}, {"metric": "pbr", "score": 56.5, "rank": 11, "peers": 23}, {"metric": "psr", "score": 44.4, "rank": 16, "peers": 27}, {"metric": "pcr", "score": 17.4, "rank": 20, "peers": 23}, {"metric": "evebitda", "score": 66.7, "rank": 9, "peers": 24}]}, "self": {"score": 61.8, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 74.3, "percentile": 25.7, "current": 27.99, "min": 21.0, "median": 33.53, "max": 40.52, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 86.9, "percentile": 13.1, "current": 8.46, "min": 6.33, "median": 11.37, "max": 16.95, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 57.1, "percentile": 42.9, "current": 11.49, "min": 7.86, "median": 11.87, "max": 14.69, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.2, "percentile": 99.8, "current": 66.38, "min": 25.22, "median": 41.98, "max": 68.84, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 90.4, "percentile": 9.6, "current": 18.76, "min": 13.73, "median": 26.0, "max": 32.65, "days": 1192, "currentNote": null}]}};
+const MSFT_VALUATION = {"peer": {"score": 49.5, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 62.5, "rank": 10, "peers": 24}, {"metric": "pbr", "score": 56.5, "rank": 11, "peers": 23}, {"metric": "psr", "score": 44.4, "rank": 16, "peers": 27}, {"metric": "pcr", "score": 17.4, "rank": 20, "peers": 23}, {"metric": "evebitda", "score": 66.7, "rank": 9, "peers": 24}]}, "self": {"score": 61.8, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 74.3, "percentile": 25.7, "current": 27.99, "min": 21.0, "median": 33.53, "max": 40.52, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 86.9, "percentile": 13.1, "current": 8.46, "min": 6.33, "median": 11.37, "max": 16.95, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 57.1, "percentile": 42.9, "current": 11.49, "min": 7.86, "median": 11.87, "max": 14.69, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.2, "percentile": 99.8, "current": 66.38, "min": 25.22, "median": 41.98, "max": 68.84, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 90.5, "percentile": 9.5, "current": 18.66, "min": 13.64, "median": 25.86, "max": 32.52, "days": 1192, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

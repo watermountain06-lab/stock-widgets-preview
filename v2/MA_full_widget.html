@@ -960,12 +960,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">26.2x</span>
+            <span class="val-number" data-hist="cur">26.1x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 21%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 21.3%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 20.6x</span><span data-hist="median">중앙 28.1x</span><span data-hist="max">최고 39.8x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 21.4%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 20.5x</span><span data-hist="median">중앙 28.1x</span><span data-hist="max">최고 39.7x</span></div>
       </div>
     </div>
 
@@ -1339,10 +1339,10 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 35, maValue: null,
     peers: [
       { name:'V', value:27.8, status:'reference' },
-      { name:'PYPL', value:7.5, status:'reference' },
+      { name:'PYPL', value:7.4, status:'reference' },
       { name:'FISV', value:7.6, status:'reference' },
-      { name:'MCO', value:22.0, status:'reference' },
-      { name:'CME', value:22.5, status:'reference' }
+      { name:'MCO', value:21.9, status:'reference' },
+      { name:'CME', value:22.4, status:'reference' }
     ]
   }
 };
@@ -1795,7 +1795,7 @@ const MA_FUNDAMENTAL = {"ticker": "MA", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py MA --self v2/MA_multiples.json --card
 /* VALUATION:BEGIN */
-const MA_VALUATION = {"peer": {"score": 8.0, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 7.1, "rank": 14, "peers": 14}, {"metric": "pbr", "score": 0.0, "rank": 16, "peers": 15}, {"metric": "psr", "score": 6.2, "rank": 16, "peers": 16}, {"metric": "pcr", "score": 13.3, "rank": 14, "peers": 15}, {"metric": "evebitda", "score": 13.3, "rank": 14, "peers": 15}]}, "self": {"score": 51.2, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 75.9, "percentile": 24.1, "current": 34.31, "min": 27.29, "median": 36.94, "max": 48.86, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 5.3, "percentile": 94.7, "current": 85.09, "min": 41.83, "median": 62.38, "max": 98.86, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 62.8, "percentile": 37.2, "current": 15.83, "min": 12.28, "median": 16.32, "max": 21.92, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 33.4, "percentile": 66.6, "current": 35.73, "min": 23.43, "median": 33.92, "max": 47.64, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 78.7, "percentile": 21.3, "current": 26.18, "min": 20.57, "median": 28.15, "max": 39.77, "days": 1255, "currentNote": null}]}};
+const MA_VALUATION = {"peer": {"score": 8.0, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 7.1, "rank": 14, "peers": 14}, {"metric": "pbr", "score": 0.0, "rank": 16, "peers": 15}, {"metric": "psr", "score": 6.2, "rank": 16, "peers": 16}, {"metric": "pcr", "score": 13.3, "rank": 14, "peers": 15}, {"metric": "evebitda", "score": 13.3, "rank": 14, "peers": 15}]}, "self": {"score": 51.2, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 75.9, "percentile": 24.1, "current": 34.31, "min": 27.29, "median": 36.94, "max": 48.86, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 5.3, "percentile": 94.7, "current": 85.09, "min": 41.83, "median": 62.38, "max": 98.86, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 62.8, "percentile": 37.2, "current": 15.83, "min": 12.28, "median": 16.32, "max": 21.92, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 33.4, "percentile": 66.6, "current": 35.73, "min": 23.43, "median": 33.92, "max": 47.64, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 78.6, "percentile": 21.4, "current": 26.14, "min": 20.53, "median": 28.09, "max": 39.68, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

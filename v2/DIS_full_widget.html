@@ -964,12 +964,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">13.1x</span>
+            <span class="val-number" data-hist="cur">12.9x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 18%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 17.7%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.3x</span><span data-hist="median">중앙 18.0x</span><span data-hist="max">최고 48.7x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.1x</span><span data-hist="median">중앙 17.7x</span><span data-hist="max">최고 48.2x</span></div>
       </div>
     </div>
 
@@ -1350,12 +1350,12 @@ const MULTIPLE_DATA = {
     title: '미디어·통신·플랫폼 EV/EBITDA 비교 · 10/30 종가(DIS 막대는 11/5)',
     unit: 'EV/EBITDA', max: 25, disValue: null,
     peers: [
-      { name:'NFLX', value:16.6, status:'reference' },
+      { name:'NFLX', value:16.4, status:'reference' },
       { name:'CMCSA', value:5.3, status:'reference' },
-      { name:'GOOGL', value:17.9, status:'reference' },
-      { name:'META', value:15.3, status:'reference' },
-      { name:'VZ', value:7.6, status:'reference' },
-      { name:'TMUS', value:5.7, status:'reference' }
+      { name:'GOOGL', value:17.7, status:'reference' },
+      { name:'META', value:15.0, status:'reference' },
+      { name:'VZ', value:7.2, status:'reference' },
+      { name:'TMUS', value:4.8, status:'reference' }
     ]
   }
 };
@@ -1816,7 +1816,7 @@ const DIS_FUNDAMENTAL = {"ticker": "DIS", "basis": "quarter", "asOf": "2026-06-2
 //
 // 갱신: python3 v2/build_peer_score.py DIS --self v2/DIS_multiples.json --card
 /* VALUATION:BEGIN */
-const DIS_VALUATION = {"peer": {"score": 41.1, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 31.2, "rank": 12, "peers": 16}, {"metric": "pbr", "score": 70.6, "rank": 6, "peers": 17}, {"metric": "psr", "score": 29.4, "rank": 13, "peers": 17}, {"metric": "pcr", "score": 31.2, "rank": 12, "peers": 16}, {"metric": "evebitda", "score": 42.9, "rank": 9, "peers": 14}]}, "self": {"score": 65.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 80.8, "percentile": 19.2, "current": 24.22, "min": 19.79, "median": 48.1, "max": 276.36, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 50.8, "percentile": 49.2, "current": 1.84, "min": 1.45, "median": 1.84, "max": 3.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 55.1, "percentile": 44.9, "current": 2.05, "min": 1.6, "median": 2.1, "max": 5.05, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 57.5, "percentile": 42.5, "current": 24.41, "min": 16.84, "median": 25.99, "max": 2172.35, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 82.3, "percentile": 17.7, "current": 13.08, "min": 11.27, "median": 17.96, "max": 48.72, "days": 1255, "currentNote": null}]}};
+const DIS_VALUATION = {"peer": {"score": 41.1, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 31.2, "rank": 12, "peers": 16}, {"metric": "pbr", "score": 70.6, "rank": 6, "peers": 17}, {"metric": "psr", "score": 29.4, "rank": 13, "peers": 17}, {"metric": "pcr", "score": 31.2, "rank": 12, "peers": 16}, {"metric": "evebitda", "score": 42.9, "rank": 9, "peers": 14}]}, "self": {"score": 65.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 80.8, "percentile": 19.2, "current": 24.22, "min": 19.79, "median": 48.1, "max": 276.36, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 50.8, "percentile": 49.2, "current": 1.84, "min": 1.45, "median": 1.84, "max": 3.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 55.1, "percentile": 44.9, "current": 2.05, "min": 1.6, "median": 2.1, "max": 5.05, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 57.5, "percentile": 42.5, "current": 24.41, "min": 16.84, "median": 25.99, "max": 2172.35, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 82.3, "percentile": 17.7, "current": 12.92, "min": 11.1, "median": 17.67, "max": 48.24, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

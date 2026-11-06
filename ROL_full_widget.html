@@ -964,12 +964,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.0년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">22.7x</span>
+            <span class="val-number" data-hist="cur">22.2x</span>
             <span class="hist-badge good" data-hist="badge">4.0년 중 하위 7%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 6.8%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 17.7x</span><span data-hist="median">중앙 33.0x</span><span data-hist="max">최고 38.8x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 6.9%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 17.3x</span><span data-hist="median">중앙 32.5x</span><span data-hist="max">최고 38.3x</span></div>
       </div>
     </div>
 
@@ -1325,10 +1325,10 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 · 10/30 종가(ROL 막대는 11/5)',
     unit: 'EV/EBITDA', max: 35, rolValue: null,
     peers: [
-      { name:'CTAS', value:27.9, status:'reference' },
+      { name:'CTAS', value:27.8, status:'reference' },
       { name:'RSG', value:16.5, status:'reference' },
-      { name:'WM', value:14.8, status:'reference' },
-      { name:'ADP', value:18.2, status:'reference' },
+      { name:'WM', value:14.7, status:'reference' },
+      { name:'ADP', value:18.1, status:'reference' },
       { name:'PAYX', value:14.4, status:'reference' },
       { name:'CPRT', value:14.2, status:'reference' }
     ]
@@ -1786,7 +1786,7 @@ const ROL_FUNDAMENTAL = {"ticker": "ROL", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py ROL --self v2/ROL_multiples.json --card
 /* VALUATION:BEGIN */
-const ROL_VALUATION = {"peer": {"score": 25.6, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 18.7, "rank": 62, "peers": 75}, {"metric": "pbr", "score": 18.9, "rank": 61, "peers": 74}, {"metric": "psr", "score": 32.1, "rank": 54, "peers": 78}, {"metric": "pcr", "score": 40.8, "rank": 46, "peers": 76}, {"metric": "evebitda", "score": 17.3, "rank": 63, "peers": 75}]}, "self": {"score": 93.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 92.2, "percentile": 7.8, "current": 35.56, "min": 26.99, "median": 52.19, "max": 61.31, "days": 934, "currentNote": null}, {"metric": "pbr", "score": 92.7, "percentile": 7.3, "current": 13.33, "min": 9.99, "median": 17.22, "max": 21.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 94.7, "percentile": 5.3, "current": 4.65, "min": 3.64, "median": 7.09, "max": 8.64, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.7, "percentile": 3.3, "current": 27.58, "min": 23.07, "median": 43.98, "max": 53.13, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 93.2, "percentile": 6.8, "current": 22.69, "min": 17.74, "median": 32.99, "max": 38.77, "days": 1010, "currentNote": null}]}};
+const ROL_VALUATION = {"peer": {"score": 25.6, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 18.7, "rank": 62, "peers": 75}, {"metric": "pbr", "score": 18.9, "rank": 61, "peers": 74}, {"metric": "psr", "score": 32.1, "rank": 54, "peers": 78}, {"metric": "pcr", "score": 40.8, "rank": 46, "peers": 76}, {"metric": "evebitda", "score": 17.3, "rank": 63, "peers": 75}]}, "self": {"score": 93.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 92.2, "percentile": 7.8, "current": 35.56, "min": 26.99, "median": 52.19, "max": 61.31, "days": 934, "currentNote": null}, {"metric": "pbr", "score": 92.7, "percentile": 7.3, "current": 13.33, "min": 9.99, "median": 17.22, "max": 21.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 94.7, "percentile": 5.3, "current": 4.65, "min": 3.64, "median": 7.09, "max": 8.64, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.7, "percentile": 3.3, "current": 27.58, "min": 23.07, "median": 43.98, "max": 53.13, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 93.1, "percentile": 6.9, "current": 22.22, "min": 17.26, "median": 32.5, "max": 38.26, "days": 1010, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

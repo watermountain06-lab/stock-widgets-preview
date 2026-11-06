@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="orclPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="orclPeerVerdict">중간</span></div>
-      <div class="logic-score" id="orclPeerScore">68.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="orclPeerScore">69.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="orclSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="orclSelfVerdict">싼 편</span></div>
@@ -903,9 +903,9 @@ Chart.overrides.doughnut.animation = false;
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 1/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 6.22
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">68.7</div><div class="sc-tile" data-vc="peer" data-m="per">92</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">82</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile" data-vc="peer" data-m="evebitda">83</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.5</div><div class="sc-tile" data-vc="peer" data-m="per">92</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">82</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile" data-vc="peer" data-m="evebitda">88</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 18.1배(5년 중앙값 32.4배)로 자기 이력 77.2점(싸다), 동종업 68.7점(중간)이다. <strong>현금흐름 내재가치(기본 $18.51)는 현재가의 16%다</strong>.</div>
+    <div class="vs-premise">PER 18.1배(5년 중앙값 32.4배)로 자기 이력 77.2점(싸다), 동종업 69.5점(중간)이다. <strong>현금흐름 내재가치(기본 $18.51)는 현재가의 16%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $18.51)는 현재가의 16%다. 현재가를 정당화하려면 영업이익률이 61.5%까지 올라야 한다(최근 4분기 32.1%, 5년 중앙값 29.8%). 내재가치에서 차입금·금융리스 $134.5B를 빼고 현금·단기투자 $37.1B를 더한다.</div>
   </div>
 
@@ -965,12 +965,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.7년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">13.8x</span>
+            <span class="val-number" data-hist="cur">12.8x</span>
             <span class="hist-badge good" data-hist="badge">4.7년 중 하위 0%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 13.8x</span><span data-hist="median">중앙 20.1x</span><span data-hist="max">최고 44.2x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 12.8x</span><span data-hist="median">중앙 19.8x</span><span data-hist="max">최고 43.5x</span></div>
       </div>
     </div>
 
@@ -1479,7 +1479,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ORCL
 const ORCL_SCORES = {
   fundamental: 57.2,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 68.7,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 69.5,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 77.2,   // 자기 5년 배수 분포 백분위 (2021-11-05 ~ 2026-11-05)
   asOf: "2026-11-05",
   fundamentalAsOf: "2026-08-31",   // Q1 FY2027 10-Q
@@ -1810,7 +1810,7 @@ const ORCL_FUNDAMENTAL = {"ticker": "ORCL", "basis": "quarter", "asOf": "2026-08
 //
 // 갱신: python3 v2/build_peer_score.py ORCL --self v2/ORCL_multiples.json --card
 /* VALUATION:BEGIN */
-const ORCL_VALUATION = {"peer": {"score": 68.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 91.7, "rank": 3, "peers": 24}, {"metric": "pbr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "psr", "score": 81.5, "rank": 6, "peers": 27}, {"metric": "pcr", "score": 0.0, "rank": 25, "peers": 24}, {"metric": "evebitda", "score": 83.3, "rank": 5, "peers": 24}]}, "self": {"score": 77.2, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 18.05, "min": 18.05, "median": 32.36, "max": 76.0, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 100.0, "percentile": 0.0, "current": 5.27, "min": 5.27, "median": 34.44, "max": 320.53, "days": 850, "currentNote": null}, {"metric": "psr", "score": 86.1, "percentile": 13.9, "current": 4.9, "min": 3.73, "median": 6.3, "max": 15.81, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 19.23, "median": 33.33, "max": 103.84, "days": 906, "currentNote": "negative"}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 13.82, "min": 13.82, "median": 20.07, "max": 44.24, "days": 1195, "currentNote": null}]}};
+const ORCL_VALUATION = {"peer": {"score": 69.5, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 91.7, "rank": 3, "peers": 24}, {"metric": "pbr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "psr", "score": 81.5, "rank": 6, "peers": 27}, {"metric": "pcr", "score": 0.0, "rank": 25, "peers": 24}, {"metric": "evebitda", "score": 87.5, "rank": 4, "peers": 24}]}, "self": {"score": 77.2, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 18.05, "min": 18.05, "median": 32.36, "max": 76.0, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 100.0, "percentile": 0.0, "current": 5.27, "min": 5.27, "median": 34.44, "max": 320.53, "days": 850, "currentNote": null}, {"metric": "psr", "score": 86.1, "percentile": 13.9, "current": 4.9, "min": 3.73, "median": 6.3, "max": 15.81, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 19.23, "median": 33.33, "max": 103.84, "days": 906, "currentNote": "negative"}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 12.81, "min": 12.81, "median": 19.75, "max": 43.54, "days": 1195, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

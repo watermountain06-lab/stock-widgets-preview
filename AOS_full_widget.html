@@ -997,8 +997,8 @@ Chart.overrides.doughnut.animation = false;
             <span class="hist-badge mid" data-hist="badge">5년 중 상위 46%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 54.3%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 9.2x</span><span data-hist="median">중앙 11.9x</span><span data-hist="max">최고 25.1x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 54%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 9.1x</span><span data-hist="median">중앙 11.8x</span><span data-hist="max">최고 25.0x</span></div>
       </div>
     </div>
 
@@ -1360,10 +1360,10 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 325, aosValue: null,
     peers: [
       { name:'CARR', value:282.3, status:'reference' },
-      { name:'TT', value:20.5, status:'reference' },
-      { name:'LII', value:11.9, status:'reference' },
-      { name:'MAS', value:12.3, status:'reference' },
-      { name:'ALLE', value:16.2, status:'reference' }
+      { name:'TT', value:20.3, status:'reference' },
+      { name:'LII', value:11.6, status:'reference' },
+      { name:'MAS', value:12.1, status:'reference' },
+      { name:'ALLE', value:16.0, status:'reference' }
     ]
   }
 };
@@ -1824,7 +1824,7 @@ const AOS_FUNDAMENTAL = {"ticker": "AOS", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py AOS --self v2/AOS_multiples.json --card
 /* VALUATION:BEGIN */
-const AOS_VALUATION = {"peer": {"score": 77.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.3, "rank": 12, "peers": 75}, {"metric": "pbr", "score": 59.5, "rank": 31, "peers": 74}, {"metric": "psr", "score": 64.1, "rank": 29, "peers": 78}, {"metric": "pcr", "score": 90.8, "rank": 8, "peers": 76}, {"metric": "evebitda", "score": 85.3, "rank": 12, "peers": 75}]}, "self": {"score": 72.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 66.4, "percentile": 33.6, "current": 18.54, "min": 14.84, "median": 19.86, "max": 48.2, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.7, "percentile": 20.3, "current": 4.9, "min": 4.08, "median": 5.45, "max": 7.2, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 78.5, "percentile": 21.5, "current": 2.35, "min": 1.95, "median": 2.63, "max": 4.05, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.6, "percentile": 10.4, "current": 15.92, "min": 11.76, "median": 20.5, "max": 32.49, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 45.7, "percentile": 54.3, "current": 12.42, "min": 9.16, "median": 11.87, "max": 25.11, "days": 1255, "currentNote": null}]}};
+const AOS_VALUATION = {"peer": {"score": 77.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.3, "rank": 12, "peers": 75}, {"metric": "pbr", "score": 59.5, "rank": 31, "peers": 74}, {"metric": "psr", "score": 64.1, "rank": 29, "peers": 78}, {"metric": "pcr", "score": 90.8, "rank": 8, "peers": 76}, {"metric": "evebitda", "score": 85.3, "rank": 12, "peers": 75}]}, "self": {"score": 72.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 66.4, "percentile": 33.6, "current": 18.54, "min": 14.84, "median": 19.86, "max": 48.2, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.7, "percentile": 20.3, "current": 4.9, "min": 4.08, "median": 5.45, "max": 7.2, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 78.5, "percentile": 21.5, "current": 2.35, "min": 1.95, "median": 2.63, "max": 4.05, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.6, "percentile": 10.4, "current": 15.92, "min": 11.76, "median": 20.5, "max": 32.49, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 46.0, "percentile": 54.0, "current": 12.37, "min": 9.12, "median": 11.82, "max": 25.03, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

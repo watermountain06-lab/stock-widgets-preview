@@ -1000,7 +1000,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 30.7%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 26.0x</span><span data-hist="median">중앙 39.6x</span><span data-hist="max">최고 97.4x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 26.0x</span><span data-hist="median">중앙 39.5x</span><span data-hist="max">최고 97.3x</span></div>
       </div>
     </div>
 
@@ -1366,11 +1366,11 @@ const MULTIPLE_DATA = {
     title: '대형 제약 EV/EBITDA 비교 · 10/30 종가(LLY 막대는 11/5)',
     unit: 'EV/EBITDA', max: 40, llyValue: null,
     peers: [
-      { name:'ABBV', value:23.7, status:'reference' },
+      { name:'ABBV', value:23.6, status:'reference' },
       { name:'JNJ', value:20.9, status:'reference' },
       { name:'MRK', value:31.8, status:'reference' },
-      { name:'PFE', value:11.2, status:'reference' },
-      { name:'BMY', value:11.2, status:'reference' },
+      { name:'PFE', value:11.1, status:'reference' },
+      { name:'BMY', value:11.0, status:'reference' },
       { name:'AMGN', value:18.4, status:'reference' }
     ]
   }
@@ -1827,7 +1827,7 @@ const LLY_FUNDAMENTAL = {"ticker": "LLY", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py LLY --self v2/LLY_multiples.json --card
 /* VALUATION:BEGIN */
-const LLY_VALUATION = {"peer": {"score": 7.3, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 20.0, "rank": 41, "peers": 50}, {"metric": "pbr", "score": 1.9, "rank": 52, "peers": 52}, {"metric": "psr", "score": 3.5, "rank": 56, "peers": 57}, {"metric": "pcr", "score": 3.8, "rank": 51, "peers": 52}, {"metric": "evebitda", "score": 7.4, "rank": 51, "peers": 54}]}, "self": {"score": 69.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 77.4, "percentile": 22.6, "current": 44.3, "min": 33.2, "median": 54.22, "max": 141.68, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 85.6, "percentile": 14.4, "current": 30.19, "min": 23.95, "median": 36.4, "max": 66.8, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 51.6, "percentile": 48.4, "current": 14.06, "min": 7.59, "median": 14.16, "max": 23.82, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 65.8, "percentile": 34.2, "current": 61.83, "min": 36.14, "median": 97.83, "max": 3353.09, "days": 1186, "currentNote": null}, {"metric": "evebitda", "score": 69.3, "percentile": 30.7, "current": 34.05, "min": 26.0, "median": 39.59, "max": 97.36, "days": 1255, "currentNote": null}]}};
+const LLY_VALUATION = {"peer": {"score": 7.3, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 20.0, "rank": 41, "peers": 50}, {"metric": "pbr", "score": 1.9, "rank": 52, "peers": 52}, {"metric": "psr", "score": 3.5, "rank": 56, "peers": 57}, {"metric": "pcr", "score": 3.8, "rank": 51, "peers": 52}, {"metric": "evebitda", "score": 7.4, "rank": 51, "peers": 54}]}, "self": {"score": 69.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 77.4, "percentile": 22.6, "current": 44.3, "min": 33.2, "median": 54.22, "max": 141.68, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 85.6, "percentile": 14.4, "current": 30.19, "min": 23.95, "median": 36.4, "max": 66.8, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 51.6, "percentile": 48.4, "current": 14.06, "min": 7.59, "median": 14.16, "max": 23.82, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 65.8, "percentile": 34.2, "current": 61.83, "min": 36.14, "median": 97.83, "max": 3353.09, "days": 1186, "currentNote": null}, {"metric": "evebitda", "score": 69.3, "percentile": 30.7, "current": 34.01, "min": 25.96, "median": 39.53, "max": 97.31, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

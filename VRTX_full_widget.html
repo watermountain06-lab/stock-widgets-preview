@@ -994,12 +994,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.0년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">30.1x</span>
+            <span class="val-number" data-hist="cur">29.7x</span>
             <span class="hist-badge bad" data-hist="badge">4.0년 중 상위 0%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 99.8%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 14.1x</span><span data-hist="median">중앙 21.3x</span><span data-hist="max">최고 30.5x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 14.0x</span><span data-hist="median">중앙 21.1x</span><span data-hist="max">최고 30.0x</span></div>
       </div>
     </div>
 
@@ -1380,7 +1380,7 @@ const MULTIPLE_DATA = {
     peers: [
       { name:'REGN', value:16.5, status:'reference' },
       { name:'AMGN', value:18.4, status:'reference' },
-      { name:'BIIB', value:26.3, status:'reference' },
+      { name:'BIIB', value:26.2, status:'reference' },
       { name:'INCY', value:28.7, status:'reference' },
       { name:'LLY', value:35.3, status:'reference' }
     ]
@@ -1843,7 +1843,7 @@ const VRTX_FUNDAMENTAL = {"ticker": "VRTX", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py VRTX --self v2/VRTX_multiples.json --card
 /* VALUATION:BEGIN */
-const VRTX_VALUATION = {"peer": {"score": 20.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 36.0, "rank": 33, "peers": 50}, {"metric": "pbr", "score": 32.7, "rank": 36, "peers": 52}, {"metric": "psr", "score": 7.0, "rank": 54, "peers": 57}, {"metric": "pcr", "score": 9.6, "rank": 48, "peers": 52}, {"metric": "evebitda", "score": 14.8, "rank": 47, "peers": 54}]}, "self": {"score": 12.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 0.2, "percentile": 99.8, "current": 34.93, "min": 21.81, "median": 28.07, "max": 35.35, "days": 1004, "currentNote": null}, {"metric": "pbr", "score": 34.1, "percentile": 65.9, "current": 6.58, "min": 4.84, "median": 6.29, "max": 8.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 27.9, "percentile": 72.1, "current": 10.62, "min": 6.47, "median": 9.7, "max": 12.81, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.2, "percentile": 99.8, "current": 42.95, "min": 18.68, "median": 28.43, "max": 43.47, "days": 1004, "currentNote": null}, {"metric": "evebitda", "score": 0.2, "percentile": 99.8, "current": 30.11, "min": 14.13, "median": 21.26, "max": 30.47, "days": 1004, "currentNote": null}]}};
+const VRTX_VALUATION = {"peer": {"score": 20.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 36.0, "rank": 33, "peers": 50}, {"metric": "pbr", "score": 32.7, "rank": 36, "peers": 52}, {"metric": "psr", "score": 7.0, "rank": 54, "peers": 57}, {"metric": "pcr", "score": 9.6, "rank": 48, "peers": 52}, {"metric": "evebitda", "score": 14.8, "rank": 47, "peers": 54}]}, "self": {"score": 12.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 0.2, "percentile": 99.8, "current": 34.93, "min": 21.81, "median": 28.07, "max": 35.35, "days": 1004, "currentNote": null}, {"metric": "pbr", "score": 34.1, "percentile": 65.9, "current": 6.58, "min": 4.84, "median": 6.29, "max": 8.71, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 27.9, "percentile": 72.1, "current": 10.62, "min": 6.47, "median": 9.7, "max": 12.81, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.2, "percentile": 99.8, "current": 42.95, "min": 18.68, "median": 28.43, "max": 43.47, "days": 1004, "currentNote": null}, {"metric": "evebitda", "score": 0.2, "percentile": 99.8, "current": 29.67, "min": 14.04, "median": 21.06, "max": 30.04, "days": 1004, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

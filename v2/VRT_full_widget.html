@@ -537,7 +537,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 21.8%)</span>
@@ -573,9 +573,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="vrtPeerVerdict">비싼 편</span></div>
       <div class="logic-score" id="vrtPeerScore">29.3<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-positive" id="vrtSelfBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="vrtSelfVerdict">싼 편</span></div>
-      <div class="logic-score" id="vrtSelfScore">70.1<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-neutral" id="vrtSelfBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="vrtSelfVerdict">중간</span></div>
+      <div class="logic-score" id="vrtSelfScore">69.9<span class="logic-denom">/100</span></div>
     </div>
   </div>
 
@@ -924,18 +924,18 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$176.73</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.05</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.05</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 VRT 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">70.1</div><div class="sc-tile" data-vc="self" data-m="per">95</div><div class="sc-tile lost" data-vc="self" data-m="pbr">54</div><div class="sc-tile lost" data-vc="self" data-m="psr">37</div><div class="sc-tile" data-vc="self" data-m="pcr">99</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">66</div><div class="vs-pill" data-vs-pill="self">싸다</div>
+      <div class="vs-name" title="지난 5년 VRT 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">69.9</div><div class="sc-tile" data-vc="self" data-m="per">95</div><div class="sc-tile lost" data-vc="self" data-m="pbr">54</div><div class="sc-tile lost" data-vc="self" data-m="psr">37</div><div class="sc-tile" data-vc="self" data-m="pcr">99</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">65</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$96</div><div class="vs-note">현재가 <span data-vs="price">$176.73</span> 대비 <strong data-vs="upside">−45.5%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.84
 시나리오 범위: 1.61 ~ 3.01(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">29.3</div><div class="sc-tile low" data-vc="peer" data-m="per">27</div><div class="sc-tile low" data-vc="peer" data-m="pbr">19</div><div class="sc-tile low" data-vc="peer" data-m="psr">23</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">61</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">17</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 33.0배(4.5년 중앙값 72.4배)로 자기 이력 70.1점(싸다), 동종업 29.3점(비싸다)이다. <strong>현금흐름 내재가치(기본 $96.27)는 현재가의 54%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $96.27)는 현재가의 54%다. 현재가를 정당화하려면 매출이 5년간 연 30.3% 커야 한다. 내재가치에서 차입금 $2.9B를 빼고 현금·단기투자 $3.7B를 더한다. 매출은 AI 데이터센터 투자 주기를 따라 빠르게 늘었고, 인수가 잦아 성장률에 인수분이 섞여 있다. 이 모델은 과거 성장이 점차 식는다고 가정한다 — 실제 성장과 이익률이 그 가정을 웃돌면 가치가 높아지고, 데이터센터 투자가 꺾이면 이익률과 성장이 함께 내려갈 수 있다.</div>
+    <div class="vs-premise">PER 33.0배(4.5년 중앙값 72.4배)로 자기 이력 69.9점(중간), 동종업 29.3점(비싸다)이다. <strong>현금흐름 내재가치(기본 $96.27)는 현재가의 54%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $96.27)는 현재가의 54%다. 현재가를 정당화하려면 매출이 5년간 연 30.3% 커야 한다. 내재가치에서 차입금 $2.9B를 빼고 현금·단기투자 $3.7B를 더한다. 매출은 AI 데이터센터 투자 주기를 따라 빠르게 늘었고, 인수가 잦아 성장률에 인수분이 섞여 있다. 이 모델은 과거 성장이 점차 식는다고 가정한다 — 실제 성장과 이익률이 그 가정을 웃돌면 가치가 높아지고, 데이터센터 투자가 꺾이면 이익률과 성장이 함께 내려갈 수 있다.</div>
   </div>
 
   <div class="grid-2">
@@ -994,12 +994,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.7년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">22.1x</span>
+            <span class="val-number" data-hist="cur">22.0x</span>
             <span class="hist-badge mid" data-hist="badge">4.7년 중 하위 35%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 34.5%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 12.4x</span><span data-hist="median">중앙 25.2x</span><span data-hist="max">최고 62.5x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 35.2%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 12.1x</span><span data-hist="median">중앙 24.9x</span><span data-hist="max">최고 62.4x</span></div>
       </div>
     </div>
 
@@ -1018,8 +1018,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.3B, 영업이익률 22.8%(1년 전 19.3%). 주가는 1년 새 −2%<span class="tag">배수 싼 쪽·매출 성장(인수 포함)</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $96.27)는 현재가의 54%다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.3B, 영업이익률 22.8%(1년 전 19.3%). 주가는 1년 새 −2%<span class="tag">배수 비싼 쪽·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $96.27)는 현재가의 54%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 10일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1390,11 +1390,11 @@ const MULTIPLE_DATA = {
     title: '전력·설비 EV/EBITDA 비교 (JCI 값 없음) · 10/30 종가(VRT 막대는 11/5)',
     unit: 'EV/EBITDA', max: 60, vrtValue: null,
     peers: [
-      { name:'ETN', value:25.3, status:'reference' },
-      { name:'GEV', value:50.5, status:'reference' },
-      { name:'PWR', value:26.9, status:'reference' },
-      { name:'HUBB', value:16.9, status:'reference' },
-      { name:'EMR', value:20.3, status:'reference' }
+      { name:'ETN', value:25.2, status:'reference' },
+      { name:'GEV', value:50.4, status:'reference' },
+      { name:'PWR', value:26.8, status:'reference' },
+      { name:'HUBB', value:16.8, status:'reference' },
+      { name:'EMR', value:20.1, status:'reference' }
     ]
   }
 };
@@ -1525,7 +1525,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 const VRT_SCORES = {
   fundamental: 68.2,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
   peer: 29.3,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
-  selfHistory: 70.1,   // 자기 5년 배수 분포 백분위 (2021-11-05 ~ 2026-11-05)
+  selfHistory: 69.9,   // 자기 5년 배수 분포 백분위 (2021-11-05 ~ 2026-11-05)
   asOf: "2026-11-05",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
 };
@@ -1850,7 +1850,7 @@ const VRT_FUNDAMENTAL = {"ticker": "VRT", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py VRT --self v2/VRT_multiples.json --card
 /* VALUATION:BEGIN */
-const VRT_VALUATION = {"peer": {"score": 29.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 26.7, "rank": 56, "peers": 75}, {"metric": "pbr", "score": 18.9, "rank": 61, "peers": 74}, {"metric": "psr", "score": 23.1, "rank": 61, "peers": 78}, {"metric": "pcr", "score": 60.5, "rank": 31, "peers": 76}, {"metric": "evebitda", "score": 17.3, "rank": 63, "peers": 75}]}, "self": {"score": 70.1, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 95.1, "percentile": 4.9, "current": 33.03, "min": 16.29, "median": 72.37, "max": 1329.0, "days": 1132, "currentNote": null}, {"metric": "pbr", "score": 53.5, "percentile": 46.5, "current": 12.37, "min": 2.13, "median": 13.86, "max": 34.04, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 37.0, "percentile": 63.0, "current": 5.19, "min": 0.61, "median": 3.95, "max": 13.33, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 99.3, "percentile": 0.7, "current": 21.8, "min": 14.43, "median": 38.14, "max": 69.22, "days": 941, "currentNote": null}, {"metric": "evebitda", "score": 65.5, "percentile": 34.5, "current": 22.08, "min": 12.36, "median": 25.23, "max": 62.51, "days": 1177, "currentNote": null}]}};
+const VRT_VALUATION = {"peer": {"score": 29.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 26.7, "rank": 56, "peers": 75}, {"metric": "pbr", "score": 18.9, "rank": 61, "peers": 74}, {"metric": "psr", "score": 23.1, "rank": 61, "peers": 78}, {"metric": "pcr", "score": 60.5, "rank": 31, "peers": 76}, {"metric": "evebitda", "score": 17.3, "rank": 63, "peers": 75}]}, "self": {"score": 69.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 95.1, "percentile": 4.9, "current": 33.03, "min": 16.29, "median": 72.37, "max": 1329.0, "days": 1132, "currentNote": null}, {"metric": "pbr", "score": 53.5, "percentile": 46.5, "current": 12.37, "min": 2.13, "median": 13.86, "max": 34.04, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 37.0, "percentile": 63.0, "current": 5.19, "min": 0.61, "median": 3.95, "max": 13.33, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 99.3, "percentile": 0.7, "current": 21.8, "min": 14.43, "median": 38.14, "max": 69.22, "days": 941, "currentNote": null}, {"metric": "evebitda", "score": 64.8, "percentile": 35.2, "current": 21.97, "min": 12.1, "median": 24.95, "max": 62.37, "days": 1177, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -963,12 +963,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 2.5년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">37.1x</span>
+            <span class="val-number" data-hist="cur">36.9x</span>
             <span class="hist-badge good" data-hist="badge">2.5년 중 하위 0%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 37.0x</span><span data-hist="median">중앙 102.0x</span><span data-hist="max">최고 816.6x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 36.7x</span><span data-hist="median">중앙 101.6x</span><span data-hist="max">최고 807.3x</span></div>
       </div>
     </div>
 
@@ -1332,11 +1332,11 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 (ABNB 값 없음) · 10/30 종가(DASH 막대는 11/5)',
     unit: 'EV/EBITDA', max: 45, dashValue: null,
     peers: [
-      { name:'BKNG', value:11.7, status:'reference' },
-      { name:'AMZN', value:15.1, status:'reference' },
+      { name:'BKNG', value:11.6, status:'reference' },
+      { name:'AMZN', value:14.5, status:'reference' },
       { name:'EXPE', value:9.2, status:'reference' },
-      { name:'CMG', value:20.6, status:'reference' },
-      { name:'MCD', value:15.7, status:'reference' }
+      { name:'CMG', value:18.1, status:'reference' },
+      { name:'MCD', value:14.9, status:'reference' }
     ]
   }
 };
@@ -1797,7 +1797,7 @@ const DASH_FUNDAMENTAL = {"ticker": "DASH", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py DASH --self v2/DASH_multiples.json --card
 /* VALUATION:BEGIN */
-const DASH_VALUATION = {"peer": {"score": 51.4, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 17.9, "rank": 24, "peers": 28}, {"metric": "pbr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "psr", "score": 80.6, "rank": 7, "peers": 31}, {"metric": "pcr", "score": 66.7, "rank": 10, "peers": 27}, {"metric": "evebitda", "score": 17.9, "rank": 24, "peers": 28}]}, "self": {"score": 81.7, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.2, "percentile": 5.8, "current": 74.35, "min": 69.15, "median": 113.25, "max": 790.3, "days": 434, "currentNote": null}, {"metric": "pbr", "score": 50.4, "percentile": 49.6, "current": 7.32, "min": 2.24, "median": 7.33, "max": 18.08, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 72.0, "percentile": 28.0, "current": 4.6, "min": 2.95, "median": 5.43, "max": 18.51, "days": 1252, "currentNote": null}, {"metric": "pcr", "score": 92.0, "percentile": 8.0, "current": 29.15, "min": 23.73, "median": 40.04, "max": 242.48, "days": 1252, "currentNote": null}, {"metric": "evebitda", "score": 99.8, "percentile": 0.2, "current": 37.15, "min": 36.96, "median": 102.04, "max": 816.56, "days": 632, "currentNote": null}]}};
+const DASH_VALUATION = {"peer": {"score": 51.4, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 17.9, "rank": 24, "peers": 28}, {"metric": "pbr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "psr", "score": 80.6, "rank": 7, "peers": 31}, {"metric": "pcr", "score": 66.7, "rank": 10, "peers": 27}, {"metric": "evebitda", "score": 17.9, "rank": 24, "peers": 28}]}, "self": {"score": 81.7, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.2, "percentile": 5.8, "current": 74.35, "min": 69.15, "median": 113.25, "max": 790.3, "days": 434, "currentNote": null}, {"metric": "pbr", "score": 50.4, "percentile": 49.6, "current": 7.32, "min": 2.24, "median": 7.33, "max": 18.08, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 72.0, "percentile": 28.0, "current": 4.6, "min": 2.95, "median": 5.43, "max": 18.51, "days": 1252, "currentNote": null}, {"metric": "pcr", "score": 92.0, "percentile": 8.0, "current": 29.15, "min": 23.73, "median": 40.04, "max": 242.48, "days": 1252, "currentNote": null}, {"metric": "evebitda", "score": 99.8, "percentile": 0.2, "current": 36.87, "min": 36.68, "median": 101.57, "max": 807.29, "days": 632, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

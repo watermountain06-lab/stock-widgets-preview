@@ -997,12 +997,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">17.5x</span>
+            <span class="val-number" data-hist="cur">17.4x</span>
             <span class="hist-badge mid" data-hist="badge">5년 중 하위 35%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 34.9%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 14.8x</span><span data-hist="median">중앙 18.5x</span><span data-hist="max">최고 29.9x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 35%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 14.6x</span><span data-hist="median">중앙 18.4x</span><span data-hist="max">최고 29.7x</span></div>
       </div>
     </div>
 
@@ -1823,7 +1823,7 @@ const TDY_FUNDAMENTAL = {"ticker": "TDY", "basis": "quarter", "asOf": "2026-09-2
 //
 // 갱신: python3 v2/build_peer_score.py TDY --self v2/TDY_multiples.json --card
 /* VALUATION:BEGIN */
-const TDY_VALUATION = {"peer": {"score": 80.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 24}, {"metric": "psr", "score": 85.7, "rank": 5, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 68.0, "rank": 9, "peers": 25}]}, "self": {"score": 52.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 52.1, "percentile": 47.9, "current": 27.04, "min": 19.61, "median": 27.46, "max": 48.62, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 41.5, "percentile": 58.5, "current": 2.45, "min": 1.86, "median": 2.37, "max": 3.03, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 34.5, "percentile": 65.5, "current": 4.18, "min": 2.89, "median": 3.8, "max": 5.21, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.8, "percentile": 30.2, "current": 23.74, "min": 18.41, "median": 26.05, "max": 53.33, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 65.1, "percentile": 34.9, "current": 17.54, "min": 14.75, "median": 18.54, "max": 29.9, "days": 1255, "currentNote": null}]}};
+const TDY_VALUATION = {"peer": {"score": 80.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 24}, {"metric": "psr", "score": 85.7, "rank": 5, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 68.0, "rank": 9, "peers": 25}]}, "self": {"score": 52.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 52.1, "percentile": 47.9, "current": 27.04, "min": 19.61, "median": 27.46, "max": 48.62, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 41.5, "percentile": 58.5, "current": 2.45, "min": 1.86, "median": 2.37, "max": 3.03, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 34.5, "percentile": 65.5, "current": 4.18, "min": 2.89, "median": 3.8, "max": 5.21, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.8, "percentile": 30.2, "current": 23.74, "min": 18.41, "median": 26.05, "max": 53.33, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 65.0, "percentile": 35.0, "current": 17.44, "min": 14.64, "median": 18.43, "max": 29.71, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

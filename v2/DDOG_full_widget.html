@@ -545,7 +545,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label" id="ddogConfidenceLabel">밴드 적중률 (152/307일, 이탈 전부 상단)</span>
-      <span class="meta-value" id="ddogConfidence" style="font-size: 22px; color: var(--gold);">49.5%</span>
+      <span class="meta-value" id="ddogConfidence" style="font-size:22px;color:var(--gold);">49.5%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -996,12 +996,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 3.7년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">344.3x</span>
+            <span class="val-number" data-hist="cur">342.4x</span>
             <span class="hist-badge good" data-hist="badge">3.7년 중 하위 7%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 6.5%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 251.6x</span><span data-hist="median">중앙 1056.9x</span><span data-hist="max">최고 13454.6x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 249.4x</span><span data-hist="median">중앙 1054.5x</span><span data-hist="max">최고 13435.5x</span></div>
       </div>
     </div>
 
@@ -1363,7 +1363,7 @@ const MULTIPLE_DATA = {
   },
   evebitda: {
     title: '소프트웨어 EV/EBITDA 비교 (CRWD 값 없음·PANW 값 없음) · 09/01~09/11 카드 기준(DDOG 막대는 11/5)',
-    unit: 'EV/EBITDA', max: 400, ddogValue: null,
+    unit: 'EV/EBITDA', max: 395, ddogValue: null,
     peers: [
       { name:'CRM', value:16.7, status:'reference' },
       { name:'MSFT', value:20.3, status:'reference' },
@@ -1829,7 +1829,7 @@ const DDOG_FUNDAMENTAL = {"ticker": "DDOG", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py DDOG --self v2/DDOG_multiples.json --card
 /* VALUATION:BEGIN */
-const DDOG_VALUATION = {"peer": {"score": 16.8, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 0.0, "rank": 26, "peers": 25}, {"metric": "pbr", "score": 37.5, "rank": 16, "peers": 24}, {"metric": "psr", "score": 21.4, "rank": 23, "peers": 28}, {"metric": "pcr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "evebitda", "score": 0.0, "rank": 26, "peers": 25}]}, "self": {"score": 88.2, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.2, "percentile": 8.8, "current": 242.5, "min": 170.59, "median": 397.19, "max": 11776.0, "days": 742, "currentNote": null}, {"metric": "pbr", "score": 90.9, "percentile": 9.1, "current": 13.37, "min": 9.69, "median": 18.75, "max": 64.06, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 81.4, "percentile": 18.6, "current": 14.73, "min": 10.56, "median": 18.05, "max": 69.68, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 83.8, "percentile": 16.2, "current": 51.4, "min": 35.68, "median": 64.37, "max": 329.82, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 93.5, "percentile": 6.5, "current": 344.32, "min": 251.55, "median": 1056.9, "max": 13454.57, "days": 929, "currentNote": null}]}};
+const DDOG_VALUATION = {"peer": {"score": 16.8, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 0.0, "rank": 26, "peers": 25}, {"metric": "pbr", "score": 37.5, "rank": 16, "peers": 24}, {"metric": "psr", "score": 21.4, "rank": 23, "peers": 28}, {"metric": "pcr", "score": 25.0, "rank": 19, "peers": 24}, {"metric": "evebitda", "score": 0.0, "rank": 26, "peers": 25}]}, "self": {"score": 88.2, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.2, "percentile": 8.8, "current": 242.5, "min": 170.59, "median": 397.19, "max": 11776.0, "days": 742, "currentNote": null}, {"metric": "pbr", "score": 90.9, "percentile": 9.1, "current": 13.37, "min": 9.69, "median": 18.75, "max": 64.06, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 81.4, "percentile": 18.6, "current": 14.73, "min": 10.56, "median": 18.05, "max": 69.68, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 83.8, "percentile": 16.2, "current": 51.4, "min": 35.68, "median": 64.37, "max": 329.82, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 93.5, "percentile": 6.5, "current": 342.45, "min": 249.45, "median": 1054.5, "max": 13435.46, "days": 929, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

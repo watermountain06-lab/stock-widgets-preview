@@ -992,12 +992,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">22.9x</span>
+            <span class="val-number" data-hist="cur">22.8x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 26%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 26.4%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 18.3x</span><span data-hist="median">중앙 26.9x</span><span data-hist="max">최고 34.4x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 18.1x</span><span data-hist="median">중앙 26.8x</span><span data-hist="max">최고 34.2x</span></div>
       </div>
     </div>
 
@@ -1361,10 +1361,10 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 (SPGI 값 없음·VRSK 값 없음) · 10/30 종가(MCO 막대는 11/5)',
     unit: 'EV/EBITDA', max: 30, mcoValue: null,
     peers: [
-      { name:'MSCI', value:24.3, status:'reference' },
-      { name:'ICE', value:16.2, status:'reference' },
-      { name:'CME', value:22.5, status:'reference' },
-      { name:'FDS', value:14.6, status:'reference' }
+      { name:'MSCI', value:24.2, status:'reference' },
+      { name:'ICE', value:16.1, status:'reference' },
+      { name:'CME', value:22.4, status:'reference' },
+      { name:'FDS', value:14.4, status:'reference' }
     ]
   }
 };
@@ -1822,7 +1822,7 @@ const MCO_FUNDAMENTAL = {"ticker": "MCO", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py MCO --self v2/MCO_multiples.json --card
 /* VALUATION:BEGIN */
-const MCO_VALUATION = {"peer": {"score": 9.1, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 18.2, "rank": 10, "peers": 11}, {"metric": "pbr", "score": 0.0, "rank": 11, "peers": 10}]}, "self": {"score": 60.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 80.5, "percentile": 19.5, "current": 31.4, "min": 24.02, "median": 40.23, "max": 49.79, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 8.1, "percentile": 91.9, "current": 27.19, "min": 17.32, "median": 22.36, "max": 30.73, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 55.3, "percentile": 44.7, "current": 10.87, "min": 7.23, "median": 11.26, "max": 13.86, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 87.2, "percentile": 12.8, "current": 29.84, "min": 25.76, "median": 36.44, "max": 53.42, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 73.6, "percentile": 26.4, "current": 22.91, "min": 18.29, "median": 26.89, "max": 34.42, "days": 1255, "currentNote": null}]}};
+const MCO_VALUATION = {"peer": {"score": 9.1, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 18.2, "rank": 10, "peers": 11}, {"metric": "pbr", "score": 0.0, "rank": 11, "peers": 10}]}, "self": {"score": 60.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 80.5, "percentile": 19.5, "current": 31.4, "min": 24.02, "median": 40.23, "max": 49.79, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 8.1, "percentile": 91.9, "current": 27.19, "min": 17.32, "median": 22.36, "max": 30.73, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 55.3, "percentile": 44.7, "current": 10.87, "min": 7.23, "median": 11.26, "max": 13.86, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 87.2, "percentile": 12.8, "current": 29.84, "min": 25.76, "median": 36.44, "max": 53.42, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 73.6, "percentile": 26.4, "current": 22.77, "min": 18.1, "median": 26.75, "max": 34.23, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

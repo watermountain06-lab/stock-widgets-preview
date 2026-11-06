@@ -958,12 +958,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">919.5x</span>
+            <span class="val-number" data-hist="cur">907.9x</span>
             <span class="hist-badge bad" data-hist="badge">5년 중 상위 0%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 99.9%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 7.1x</span><span data-hist="median">중앙 15.3x</span><span data-hist="max">최고 919.5x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 7.0x</span><span data-hist="median">중앙 15.2x</span><span data-hist="max">최고 907.9x</span></div>
       </div>
     </div>
 
@@ -1334,14 +1334,14 @@ const MULTIPLE_DATA = {
   },
   evebitda: {
     title: 'EV/EBITDA 비교 · 10/30 종가(FISV 막대는 11/5)',
-    unit: 'EV/EBITDA', max: 1060, fisvValue: null,
+    unit: 'EV/EBITDA', max: 1045, fisvValue: null,
     peers: [
       { name:'FIS', value:9.7, status:'reference' },
-      { name:'GPN', value:11.9, status:'reference' },
+      { name:'GPN', value:11.8, status:'reference' },
       { name:'JKHY', value:16.8, status:'reference' },
-      { name:'PYPL', value:7.5, status:'reference' },
+      { name:'PYPL', value:7.4, status:'reference' },
       { name:'V', value:27.8, status:'reference' },
-      { name:'MA', value:25.5, status:'reference' }
+      { name:'MA', value:25.4, status:'reference' }
     ]
   }
 };
@@ -1794,7 +1794,7 @@ const FISV_FUNDAMENTAL = {"ticker": "FISV", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py FISV --self v2/FISV_multiples.json --card
 /* VALUATION:BEGIN */
-const FISV_VALUATION = {"peer": {"score": 70.6, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.7, "rank": 3, "peers": 14}, {"metric": "pbr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "psr", "score": 93.8, "rank": 2, "peers": 16}, {"metric": "pcr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "evebitda", "score": 0.0, "rank": 16, "peers": 15}]}, "self": {"score": 64.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.6, "percentile": 20.4, "current": 13.35, "min": 8.0, "median": 30.05, "max": 56.72, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.6, "percentile": 20.4, "current": 1.59, "min": 0.88, "median": 2.34, "max": 4.93, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 84.1, "percentile": 15.9, "current": 1.6, "min": 1.13, "median": 4.01, "max": 6.68, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 79.6, "percentile": 20.4, "current": 10.57, "min": 6.01, "median": 22.44, "max": 30.01, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.1, "percentile": 99.9, "current": 919.48, "min": 7.09, "median": 15.26, "max": 919.48, "days": 1255, "currentNote": null}]}};
+const FISV_VALUATION = {"peer": {"score": 70.6, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.7, "rank": 3, "peers": 14}, {"metric": "pbr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "psr", "score": 93.8, "rank": 2, "peers": 16}, {"metric": "pcr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "evebitda", "score": 0.0, "rank": 16, "peers": 15}]}, "self": {"score": 64.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.6, "percentile": 20.4, "current": 13.35, "min": 8.0, "median": 30.05, "max": 56.72, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.6, "percentile": 20.4, "current": 1.59, "min": 0.88, "median": 2.34, "max": 4.93, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 84.1, "percentile": 15.9, "current": 1.6, "min": 1.13, "median": 4.01, "max": 6.68, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 79.6, "percentile": 20.4, "current": 10.57, "min": 6.01, "median": 22.44, "max": 30.01, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.1, "percentile": 99.9, "current": 907.92, "min": 6.99, "median": 15.15, "max": 907.92, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

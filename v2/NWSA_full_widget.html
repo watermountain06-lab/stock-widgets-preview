@@ -964,12 +964,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 1.3년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">10.3x</span>
+            <span class="val-number" data-hist="cur">9.7x</span>
             <span class="hist-badge good" data-hist="badge">1.3년 중 하위 0%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 10.3x</span><span data-hist="median">중앙 12.1x</span><span data-hist="max">최고 14.7x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 9.7x</span><span data-hist="median">중앙 11.4x</span><span data-hist="max">최고 14.0x</span></div>
       </div>
     </div>
 
@@ -1331,11 +1331,11 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 (FOXA 값 없음) · 10/30 종가(NWSA 막대는 11/5)',
     unit: 'EV/EBITDA', max: 25, nwsaValue: null,
     peers: [
-      { name:'DIS', value:12.5, status:'reference' },
+      { name:'DIS', value:12.4, status:'reference' },
       { name:'CMCSA', value:5.3, status:'reference' },
       { name:'OMC', value:9.2, status:'reference' },
-      { name:'NFLX', value:16.6, status:'reference' },
-      { name:'GOOGL', value:17.9, status:'reference' }
+      { name:'NFLX', value:16.4, status:'reference' },
+      { name:'GOOGL', value:17.7, status:'reference' }
     ]
   }
 };
@@ -1796,7 +1796,7 @@ const NWSA_FUNDAMENTAL = {"ticker": "NWSA", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py NWSA --self v2/NWSA_multiples.json --card
 /* VALUATION:BEGIN */
-const NWSA_VALUATION = {"peer": {"score": 55.9, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 31.2, "rank": 12, "peers": 16}, {"metric": "pbr", "score": 82.4, "rank": 4, "peers": 17}, {"metric": "psr", "score": 58.8, "rank": 8, "peers": 17}, {"metric": "pcr", "score": 50.0, "rank": 9, "peers": 16}, {"metric": "evebitda", "score": 57.1, "rank": 7, "peers": 14}]}, "self": {"score": 89.2, "window": ["2025-08-06", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 23.64, "min": 23.64, "median": 31.7, "max": 37.56, "days": 316, "currentNote": null}, {"metric": "pbr", "score": 64.9, "percentile": 35.1, "current": 1.68, "min": 1.41, "median": 1.71, "max": 2.0, "days": 316, "currentNote": null}, {"metric": "psr", "score": 92.1, "percentile": 7.9, "current": 1.55, "min": 1.44, "median": 1.73, "max": 2.07, "days": 316, "currentNote": null}, {"metric": "pcr", "score": 88.9, "percentile": 11.1, "current": 19.81, "min": 18.76, "median": 23.95, "max": 30.7, "days": 316, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 10.28, "min": 10.28, "median": 12.05, "max": 14.73, "days": 316, "currentNote": null}]}};
+const NWSA_VALUATION = {"peer": {"score": 55.9, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 31.2, "rank": 12, "peers": 16}, {"metric": "pbr", "score": 82.4, "rank": 4, "peers": 17}, {"metric": "psr", "score": 58.8, "rank": 8, "peers": 17}, {"metric": "pcr", "score": 50.0, "rank": 9, "peers": 16}, {"metric": "evebitda", "score": 57.1, "rank": 7, "peers": 14}]}, "self": {"score": 89.2, "window": ["2025-08-06", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 23.64, "min": 23.64, "median": 31.7, "max": 37.56, "days": 316, "currentNote": null}, {"metric": "pbr", "score": 64.9, "percentile": 35.1, "current": 1.68, "min": 1.41, "median": 1.71, "max": 2.0, "days": 316, "currentNote": null}, {"metric": "psr", "score": 92.1, "percentile": 7.9, "current": 1.55, "min": 1.44, "median": 1.73, "max": 2.07, "days": 316, "currentNote": null}, {"metric": "pcr", "score": 88.9, "percentile": 11.1, "current": 19.81, "min": 18.76, "median": 23.95, "max": 30.7, "days": 316, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 9.69, "min": 9.69, "median": 11.37, "max": 13.96, "days": 316, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -893,7 +893,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.05</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="HOOD 자신의 배수 이력(상장 뒤, 2021-10 이후)보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">60.0</div><div class="sc-tile" data-vc="self" data-m="per">77</div><div class="sc-tile low" data-vc="self" data-m="pbr">28</div><div class="sc-tile lost" data-vc="self" data-m="psr">39</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile" data-vc="self" data-m="evebitda">96</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="HOOD 자신의 배수 이력(상장 뒤, 2021-10 이후)보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">60.0</div><div class="sc-tile" data-vc="self" data-m="per">77</div><div class="sc-tile low" data-vc="self" data-m="pbr">28</div><div class="sc-tile lost" data-vc="self" data-m="psr">39</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile" data-vc="self" data-m="evebitda">95</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$37</div><div class="vs-note">현재가 <span data-vs="price">$78.39</span> 대비 <strong data-vs="upside">−52.3%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.10
 시나리오 범위: 1.50 ~ 22.21(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
@@ -959,12 +959,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 2.5년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">27.8x</span>
+            <span class="val-number" data-hist="cur">27.7x</span>
             <span class="hist-badge good" data-hist="badge">2.5년 중 하위 5%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 4.5%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 23.0x</span><span data-hist="median">중앙 43.8x</span><span data-hist="max">최고 89.3x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 4.6%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 22.9x</span><span data-hist="median">중앙 43.7x</span><span data-hist="max">최고 89.1x</span></div>
       </div>
     </div>
 
@@ -1340,10 +1340,10 @@ const MULTIPLE_DATA = {
     title: '증권·거래소 EV/EBITDA 비교 (SCHW 값 없음·IBKR 값 없음) · 10/30 종가(HOOD 막대는 11/5)',
     unit: 'EV/EBITDA', max: 50, hoodValue: null,
     peers: [
-      { name:'COIN', value:40.9, status:'reference' },
-      { name:'ICE', value:16.2, status:'reference' },
-      { name:'CME', value:22.5, status:'reference' },
-      { name:'NDAQ', value:20.0, status:'reference' }
+      { name:'COIN', value:40.7, status:'reference' },
+      { name:'ICE', value:16.1, status:'reference' },
+      { name:'CME', value:22.4, status:'reference' },
+      { name:'NDAQ', value:19.8, status:'reference' }
     ]
   }
 };
@@ -1796,7 +1796,7 @@ const HOOD_FUNDAMENTAL = {"ticker": "HOOD", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py HOOD --self v2/HOOD_multiples.json --card
 /* VALUATION:BEGIN */
-const HOOD_VALUATION = {"peer": {"score": 9.6, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 9.1, "rank": 11, "peers": 11}, {"metric": "pbr", "score": 10.0, "rank": 10, "peers": 10}]}, "self": {"score": 60.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 77.4, "percentile": 22.6, "current": 36.12, "min": 3.85, "median": 51.14, "max": 175.93, "days": 769, "currentNote": null}, {"metric": "pbr", "score": 28.4, "percentile": 71.6, "current": 7.05, "min": 0.84, "median": 2.51, "max": 16.78, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 38.8, "percentile": 61.2, "current": 13.87, "min": 3.77, "median": 9.07, "max": 37.98, "days": 1130, "currentNote": null}, {"metric": "evebitda", "score": 95.5, "percentile": 4.5, "current": 27.79, "min": 23.04, "median": 43.84, "max": 89.25, "days": 627, "currentNote": null}]}};
+const HOOD_VALUATION = {"peer": {"score": 9.6, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 9.1, "rank": 11, "peers": 11}, {"metric": "pbr", "score": 10.0, "rank": 10, "peers": 10}]}, "self": {"score": 60.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 77.4, "percentile": 22.6, "current": 36.12, "min": 3.85, "median": 51.14, "max": 175.93, "days": 769, "currentNote": null}, {"metric": "pbr", "score": 28.4, "percentile": 71.6, "current": 7.05, "min": 0.84, "median": 2.51, "max": 16.78, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 38.8, "percentile": 61.2, "current": 13.87, "min": 3.77, "median": 9.07, "max": 37.98, "days": 1130, "currentNote": null}, {"metric": "evebitda", "score": 95.4, "percentile": 4.6, "current": 27.7, "min": 22.92, "median": 43.74, "max": 89.09, "days": 627, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -1362,12 +1362,12 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 · 10/30 종가(IR 막대는 11/5)',
     unit: 'EV/EBITDA', max: 30, irValue: null,
     peers: [
-      { name:'DOV', value:15.9, status:'reference' },
-      { name:'XYL', value:12.0, status:'reference' },
+      { name:'DOV', value:15.8, status:'reference' },
+      { name:'XYL', value:11.9, status:'reference' },
       { name:'ITW', value:18.2, status:'reference' },
-      { name:'PH', value:20.3, status:'reference' },
-      { name:'IEX', value:18.8, status:'reference' },
-      { name:'GWW', value:22.2, status:'reference' }
+      { name:'PH', value:20.2, status:'reference' },
+      { name:'IEX', value:18.7, status:'reference' },
+      { name:'GWW', value:22.1, status:'reference' }
     ]
   }
 };
@@ -1828,7 +1828,7 @@ const IR_FUNDAMENTAL = {"ticker": "IR", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py IR --self v2/IR_multiples.json --card
 /* VALUATION:BEGIN */
-const IR_VALUATION = {"peer": {"score": 64.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 65.3, "rank": 27, "peers": 75}, {"metric": "pbr", "score": 83.8, "rank": 13, "peers": 74}, {"metric": "psr", "score": 37.2, "rank": 50, "peers": 78}, {"metric": "pcr", "score": 63.2, "rank": 29, "peers": 76}, {"metric": "evebitda", "score": 70.7, "rank": 23, "peers": 75}]}, "self": {"score": 84.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.9, "percentile": 0.1, "current": 23.06, "min": 22.55, "median": 42.47, "max": 72.98, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 51.0, "percentile": 49.0, "current": 2.99, "min": 1.8, "median": 3.0, "max": 4.15, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 71.2, "percentile": 28.8, "current": 3.9, "min": 3.02, "median": 4.24, "max": 5.93, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 99.9, "percentile": 0.1, "current": 20.72, "min": 20.26, "median": 29.09, "max": 41.9, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 99.9, "percentile": 0.1, "current": 14.62, "min": 14.33, "median": 21.13, "max": 26.8, "days": 1255, "currentNote": null}]}};
+const IR_VALUATION = {"peer": {"score": 64.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 65.3, "rank": 27, "peers": 75}, {"metric": "pbr", "score": 83.8, "rank": 13, "peers": 74}, {"metric": "psr", "score": 37.2, "rank": 50, "peers": 78}, {"metric": "pcr", "score": 63.2, "rank": 29, "peers": 76}, {"metric": "evebitda", "score": 70.7, "rank": 23, "peers": 75}]}, "self": {"score": 84.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.9, "percentile": 0.1, "current": 23.06, "min": 22.55, "median": 42.47, "max": 72.98, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 51.0, "percentile": 49.0, "current": 2.99, "min": 1.8, "median": 3.0, "max": 4.15, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 71.2, "percentile": 28.8, "current": 3.9, "min": 3.02, "median": 4.24, "max": 5.93, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 99.9, "percentile": 0.1, "current": 20.72, "min": 20.26, "median": 29.09, "max": 41.9, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 99.9, "percentile": 0.1, "current": 14.59, "min": 14.3, "median": 21.08, "max": 26.78, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

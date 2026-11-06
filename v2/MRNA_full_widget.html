@@ -966,7 +966,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 100%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 2.2x</span><span data-hist="median">중앙 4.7x</span><span data-hist="max">최고 41.3x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 2.2x</span><span data-hist="median">중앙 4.7x</span><span data-hist="max">최고 41.1x</span></div>
       </div>
     </div>
 
@@ -1364,12 +1364,12 @@ const MULTIPLE_DATA = {
     title: '제약·바이오 EV/EBITDA 비교 · 10/30 종가(MRNA 막대는 11/5)',
     unit: 'EV/EBITDA', max: 40, mrnaValue: null,
     peers: [
-      { name:'PFE', value:11.2, status:'reference' },
+      { name:'PFE', value:11.1, status:'reference' },
       { name:'MRK', value:31.8, status:'reference' },
       { name:'REGN', value:16.5, status:'reference' },
-      { name:'VRTX', value:27.2, status:'reference' },
+      { name:'VRTX', value:26.8, status:'reference' },
       { name:'AMGN', value:18.4, status:'reference' },
-      { name:'BIIB', value:26.3, status:'reference' }
+      { name:'BIIB', value:26.2, status:'reference' }
     ]
   }
 };
@@ -1830,7 +1830,7 @@ const MRNA_FUNDAMENTAL = {"ticker": "MRNA", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py MRNA --self v2/MRNA_multiples.json --card
 /* VALUATION:BEGIN */
-const MRNA_VALUATION = {"peer": {"score": 3.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 11.5, "rank": 47, "peers": 52}, {"metric": "psr", "score": 0.0, "rank": 58, "peers": 57}, {"metric": "pcr", "score": 1.9, "rank": 53, "peers": 53}, {"metric": "evebitda", "score": 0.0, "rank": 56, "peers": 55}]}, "self": {"score": 0.2, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 3.44, "median": 6.98, "max": 43.03, "days": 501, "currentNote": "per_na"}, {"metric": "pbr", "score": 0.4, "percentile": 99.6, "current": 14.26, "min": 0.87, "median": 2.66, "max": 15.26, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.3, "percentile": 99.7, "current": 43.27, "min": 2.01, "median": 3.7, "max": 46.3, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 3.58, "median": 8.52, "max": 85.8, "days": 436, "currentNote": "negative"}, {"metric": "evebitda", "score": 0.0, "percentile": 100.0, "current": null, "min": 2.21, "median": 4.69, "max": 41.26, "days": 501, "currentNote": "negative"}]}, "perNA": {"netMargin": -1.4143, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const MRNA_VALUATION = {"peer": {"score": 3.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 11.5, "rank": 47, "peers": 52}, {"metric": "psr", "score": 0.0, "rank": 58, "peers": 57}, {"metric": "pcr", "score": 1.9, "rank": 53, "peers": 53}, {"metric": "evebitda", "score": 0.0, "rank": 56, "peers": 55}]}, "self": {"score": 0.2, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 3.44, "median": 6.98, "max": 43.03, "days": 501, "currentNote": "per_na"}, {"metric": "pbr", "score": 0.4, "percentile": 99.6, "current": 14.26, "min": 0.87, "median": 2.66, "max": 15.26, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.3, "percentile": 99.7, "current": 43.27, "min": 2.01, "median": 3.7, "max": 46.3, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 3.58, "median": 8.52, "max": 85.8, "days": 436, "currentNote": "negative"}, {"metric": "evebitda", "score": 0.0, "percentile": 100.0, "current": null, "min": 2.2, "median": 4.68, "max": 41.1, "days": 501, "currentNote": "negative"}]}, "perNA": {"netMargin": -1.4143, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

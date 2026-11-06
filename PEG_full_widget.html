@@ -964,12 +964,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.4년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">14.6x</span>
+            <span class="val-number" data-hist="cur">14.5x</span>
             <span class="hist-badge mid" data-hist="badge">4.4년 중 하위 32%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 31.8%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 9.5x</span><span data-hist="median">중앙 15.8x</span><span data-hist="max">최고 1164.7x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 9.5x</span><span data-hist="median">중앙 15.8x</span><span data-hist="max">최고 1160.8x</span></div>
       </div>
     </div>
 
@@ -1327,11 +1327,11 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 25, pegValue: null,
     peers: [
       { name:'NEE', value:19.0, status:'reference' },
-      { name:'CEG', value:17.0, status:'reference' },
+      { name:'CEG', value:16.9, status:'reference' },
       { name:'DUK', value:11.3, status:'reference' },
-      { name:'SO', value:13.7, status:'reference' },
-      { name:'AEP', value:13.8, status:'reference' },
-      { name:'XEL', value:14.5, status:'reference' }
+      { name:'SO', value:13.5, status:'reference' },
+      { name:'AEP', value:13.7, status:'reference' },
+      { name:'XEL', value:14.3, status:'reference' }
     ]
   }
 };
@@ -1793,7 +1793,7 @@ const PEG_FUNDAMENTAL = {"ticker": "PEG", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py PEG --self v2/PEG_multiples.json --card
 /* VALUATION:BEGIN */
-const PEG_VALUATION = {"peer": {"score": 56.5, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 83.3, "rank": 6, "peers": 30}, {"metric": "pbr", "score": 60.0, "rank": 13, "peers": 30}, {"metric": "psr", "score": 53.3, "rank": 15, "peers": 30}, {"metric": "evebitda", "score": 29.6, "rank": 20, "peers": 27}]}, "self": {"score": 66.1, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 65.6, "percentile": 34.4, "current": 18.18, "min": 9.84, "median": 20.18, "max": 47.04, "days": 1008, "currentNote": null}, {"metric": "pbr", "score": 80.9, "percentile": 19.1, "current": 2.1, "min": 1.81, "median": 2.33, "max": 2.93, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 77.8, "percentile": 22.2, "current": 2.9, "min": 2.36, "median": 3.42, "max": 4.51, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 37.9, "percentile": 62.1, "current": 132.01, "min": 38.47, "median": 69.23, "max": 1651.02, "days": 364, "currentNote": null}, {"metric": "evebitda", "score": 68.2, "percentile": 31.8, "current": 14.57, "min": 9.5, "median": 15.82, "max": 1164.72, "days": 1118, "currentNote": null}]}};
+const PEG_VALUATION = {"peer": {"score": 56.5, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 83.3, "rank": 6, "peers": 30}, {"metric": "pbr", "score": 60.0, "rank": 13, "peers": 30}, {"metric": "psr", "score": 53.3, "rank": 15, "peers": 30}, {"metric": "evebitda", "score": 29.6, "rank": 20, "peers": 27}]}, "self": {"score": 66.1, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 65.6, "percentile": 34.4, "current": 18.18, "min": 9.84, "median": 20.18, "max": 47.04, "days": 1008, "currentNote": null}, {"metric": "pbr", "score": 80.9, "percentile": 19.1, "current": 2.1, "min": 1.81, "median": 2.33, "max": 2.93, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 77.8, "percentile": 22.2, "current": 2.9, "min": 2.36, "median": 3.42, "max": 4.51, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 37.9, "percentile": 62.1, "current": 132.01, "min": 38.47, "median": 69.23, "max": 1651.02, "days": 364, "currentNote": null}, {"metric": "evebitda", "score": 68.2, "percentile": 31.8, "current": 14.54, "min": 9.47, "median": 15.79, "max": 1160.82, "days": 1118, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -545,7 +545,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label" id="ajgConfidenceLabel">밴드 적중률 (625/1235일, 상단우세)</span>
-      <span class="meta-value" id="ajgConfidence" style="font-size: 22px; color: var(--gold);">50.6%</span>
+      <span class="meta-value" id="ajgConfidence" style="font-size:22px;color:var(--gold);">50.6%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -961,12 +961,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">20.4x</span>
+            <span class="val-number" data-hist="cur">20.3x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 19%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 19.1%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 15.8x</span><span data-hist="median">중앙 22.2x</span><span data-hist="max">최고 29.8x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 15.6x</span><span data-hist="median">중앙 22.0x</span><span data-hist="max">최고 29.6x</span></div>
       </div>
     </div>
 
@@ -1334,11 +1334,11 @@ const MULTIPLE_DATA = {
     title: '보험 중개·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/30 종가(AJG 막대는 11/5)',
     unit: 'EV/EBITDA', max: 30, ajgValue: null,
     peers: [
-      { name:'MRSH', value:16.6, status:'reference' },
-      { name:'AON', value:14.8, status:'reference' },
+      { name:'MRSH', value:16.3, status:'reference' },
+      { name:'AON', value:14.7, status:'reference' },
       { name:'BRO', value:12.2, status:'reference' },
-      { name:'WTW', value:13.0, status:'reference' },
-      { name:'MCO', value:22.0, status:'reference' }
+      { name:'WTW', value:12.8, status:'reference' },
+      { name:'MCO', value:21.9, status:'reference' }
     ]
   }
 };
@@ -1791,7 +1791,7 @@ const AJG_FUNDAMENTAL = {"ticker": "AJG", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py AJG --self v2/AJG_multiples.json --card
 /* VALUATION:BEGIN */
-const AJG_VALUATION = {"peer": {"score": 15.0, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 0.0, "rank": 12, "peers": 11}, {"metric": "pbr", "score": 30.0, "rank": 8, "peers": 10}]}, "self": {"score": 66.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 41.4, "percentile": 58.6, "current": 44.05, "min": 31.07, "median": 41.2, "max": 62.82, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.6, "percentile": 20.4, "current": 3.07, "min": 2.07, "median": 4.28, "max": 5.92, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 68.3, "percentile": 31.7, "current": 4.51, "min": 3.29, "median": 5.04, "max": 7.61, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 62.3, "percentile": 37.7, "current": 25.58, "min": 16.8, "median": 27.37, "max": 40.49, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 80.9, "percentile": 19.1, "current": 20.42, "min": 15.77, "median": 22.17, "max": 29.79, "days": 1255, "currentNote": null}]}};
+const AJG_VALUATION = {"peer": {"score": 15.0, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 0.0, "rank": 12, "peers": 11}, {"metric": "pbr", "score": 30.0, "rank": 8, "peers": 10}]}, "self": {"score": 66.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 41.4, "percentile": 58.6, "current": 44.05, "min": 31.07, "median": 41.2, "max": 62.82, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.6, "percentile": 20.4, "current": 3.07, "min": 2.07, "median": 4.28, "max": 5.92, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 68.3, "percentile": 31.7, "current": 4.51, "min": 3.29, "median": 5.04, "max": 7.61, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 62.3, "percentile": 37.7, "current": 25.58, "min": 16.8, "median": 27.37, "max": 40.49, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 80.9, "percentile": 19.1, "current": 20.27, "min": 15.6, "median": 21.99, "max": 29.62, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

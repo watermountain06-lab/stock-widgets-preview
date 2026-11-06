@@ -966,7 +966,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 15.5x</span><span data-hist="median">중앙 51.8x</span><span data-hist="max">최고 257.4x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 15.4x</span><span data-hist="median">중앙 51.7x</span><span data-hist="max">최고 257.0x</span></div>
       </div>
     </div>
 
@@ -1328,11 +1328,11 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 55, poddValue: null,
     peers: [
       { name:'DXCM', value:20.2, status:'reference' },
-      { name:'ABT', value:19.7, status:'reference' },
-      { name:'MDT', value:14.6, status:'reference' },
+      { name:'ABT', value:19.6, status:'reference' },
+      { name:'MDT', value:14.5, status:'reference' },
       { name:'BSX', value:13.2, status:'reference' },
-      { name:'SYK', value:18.6, status:'reference' },
-      { name:'ISRG', value:43.9, status:'reference' }
+      { name:'SYK', value:18.5, status:'reference' },
+      { name:'ISRG', value:43.8, status:'reference' }
     ]
   }
 };
@@ -1788,7 +1788,7 @@ const PODD_FUNDAMENTAL = {"ticker": "PODD", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py PODD --self v2/PODD_multiples.json --card
 /* VALUATION:BEGIN */
-const PODD_VALUATION = {"peer": {"score": 41.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 62.0, "rank": 20, "peers": 50}, {"metric": "pbr", "score": 26.9, "rank": 39, "peers": 52}, {"metric": "psr", "score": 52.6, "rank": 28, "peers": 57}, {"metric": "pcr", "score": 9.6, "rank": 48, "peers": 52}, {"metric": "evebitda", "score": 53.7, "rank": 26, "peers": 54}]}, "self": {"score": 94.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 98.7, "percentile": 1.3, "current": 25.43, "min": 24.39, "median": 85.69, "max": 33023.0, "days": 1180, "currentNote": null}, {"metric": "pbr", "score": 97.7, "percentile": 2.3, "current": 6.86, "min": 6.36, "median": 17.28, "max": 50.79, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 95.4, "percentile": 4.6, "current": 3.4, "min": 2.96, "median": 9.3, "max": 21.16, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 81.6, "percentile": 18.4, "current": 41.65, "min": 23.16, "median": 78.1, "max": 1826.64, "days": 880, "currentNote": null}, {"metric": "evebitda", "score": 98.6, "percentile": 1.4, "current": 16.24, "min": 15.47, "median": 51.75, "max": 257.38, "days": 1255, "currentNote": null}]}};
+const PODD_VALUATION = {"peer": {"score": 41.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 62.0, "rank": 20, "peers": 50}, {"metric": "pbr", "score": 26.9, "rank": 39, "peers": 52}, {"metric": "psr", "score": 52.6, "rank": 28, "peers": 57}, {"metric": "pcr", "score": 9.6, "rank": 48, "peers": 52}, {"metric": "evebitda", "score": 53.7, "rank": 26, "peers": 54}]}, "self": {"score": 94.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 98.7, "percentile": 1.3, "current": 25.43, "min": 24.39, "median": 85.69, "max": 33023.0, "days": 1180, "currentNote": null}, {"metric": "pbr", "score": 97.7, "percentile": 2.3, "current": 6.86, "min": 6.36, "median": 17.28, "max": 50.79, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 95.4, "percentile": 4.6, "current": 3.4, "min": 2.96, "median": 9.3, "max": 21.16, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 81.6, "percentile": 18.4, "current": 41.65, "min": 23.16, "median": 78.1, "max": 1826.64, "days": 880, "currentNote": null}, {"metric": "evebitda", "score": 98.6, "percentile": 1.4, "current": 16.16, "min": 15.38, "median": 51.66, "max": 257.04, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

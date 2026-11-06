@@ -963,12 +963,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">15.7x</span>
+            <span class="val-number" data-hist="cur">15.6x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 10%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 9.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 12.9x</span><span data-hist="median">중앙 19.0x</span><span data-hist="max">최고 34.7x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 9.8%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 12.8x</span><span data-hist="median">중앙 18.9x</span><span data-hist="max">최고 34.3x</span></div>
       </div>
     </div>
 
@@ -1355,11 +1355,11 @@ const MULTIPLE_DATA = {
     title: '보험 중개·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/30 종가(AON 막대는 11/5)',
     unit: 'EV/EBITDA', max: 30, aonValue: null,
     peers: [
-      { name:'MRSH', value:16.6, status:'reference' },
-      { name:'AJG', value:21.1, status:'reference' },
+      { name:'MRSH', value:16.3, status:'reference' },
+      { name:'AJG', value:20.9, status:'reference' },
       { name:'BRO', value:12.2, status:'reference' },
-      { name:'WTW', value:13.0, status:'reference' },
-      { name:'MCO', value:22.0, status:'reference' }
+      { name:'WTW', value:12.8, status:'reference' },
+      { name:'MCO', value:21.9, status:'reference' }
     ]
   }
 };
@@ -1812,7 +1812,7 @@ const AON_FUNDAMENTAL = {"ticker": "AON", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py AON --self v2/AON_multiples.json --card
 /* VALUATION:BEGIN */
-const AON_VALUATION = {"peer": {"score": 18.6, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 27.3, "rank": 9, "peers": 11}, {"metric": "pbr", "score": 10.0, "rank": 10, "peers": 10}]}, "self": {"score": 81.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 73.2, "percentile": 26.8, "current": 24.94, "min": 19.4, "median": 26.64, "max": 36.17, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 90.1, "percentile": 9.9, "current": 7.23, "min": 5.96, "median": 12.71, "max": 1067.45, "days": 883, "currentNote": null}, {"metric": "psr", "score": 89.4, "percentile": 10.6, "current": 4.13, "min": 3.25, "median": 4.83, "max": 5.85, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 61.9, "percentile": 38.1, "current": 22.37, "min": 17.6, "median": 23.94, "max": 35.37, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 90.4, "percentile": 9.6, "current": 15.68, "min": 12.92, "median": 19.01, "max": 34.69, "days": 1255, "currentNote": null}]}};
+const AON_VALUATION = {"peer": {"score": 18.6, "sector": "Financials", "asOf": ["2026-09-03", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 27.3, "rank": 9, "peers": 11}, {"metric": "pbr", "score": 10.0, "rank": 10, "peers": 10}]}, "self": {"score": 81.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 73.2, "percentile": 26.8, "current": 24.94, "min": 19.4, "median": 26.64, "max": 36.17, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 90.1, "percentile": 9.9, "current": 7.23, "min": 5.96, "median": 12.71, "max": 1067.45, "days": 883, "currentNote": null}, {"metric": "psr", "score": 89.4, "percentile": 10.6, "current": 4.13, "min": 3.25, "median": 4.83, "max": 5.85, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 61.9, "percentile": 38.1, "current": 22.37, "min": 17.6, "median": 23.94, "max": 35.37, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 90.2, "percentile": 9.8, "current": 15.55, "min": 12.79, "median": 18.85, "max": 34.31, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

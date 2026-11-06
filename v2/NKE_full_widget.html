@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="nkePeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="nkePeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="nkePeerScore">88.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="nkePeerScore">89.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="nkeSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="nkeSelfVerdict">싼 편</span></div>
@@ -934,9 +934,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.15 ~ 1.65(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">88.4</div><div class="sc-tile" data-vc="peer" data-m="per">86</div><div class="sc-tile" data-vc="peer" data-m="pbr">96</div><div class="sc-tile" data-vc="peer" data-m="psr">100</div><div class="sc-tile" data-vc="peer" data-m="pcr">74</div><div class="sc-tile" data-vc="peer" data-m="evebitda">86</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">89.1</div><div class="sc-tile" data-vc="peer" data-m="per">86</div><div class="sc-tile" data-vc="peer" data-m="pbr">96</div><div class="sc-tile" data-vc="peer" data-m="psr">100</div><div class="sc-tile" data-vc="peer" data-m="pcr">74</div><div class="sc-tile" data-vc="peer" data-m="evebitda">89</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 19.0배(5년 중앙값 29.9배)로 자기 이력 89.5점(싸다), 동종업 88.4점(싸다)이다. <strong>현금흐름 내재가치(기본 $24.04)는 현재가의 61%다</strong>.</div>
+    <div class="vs-premise">PER 19.0배(5년 중앙값 29.9배)로 자기 이력 89.5점(싸다), 동종업 89.1점(싸다)이다. <strong>현금흐름 내재가치(기본 $24.04)는 현재가의 61%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $24.04)는 현재가의 61%다. 현재가를 정당화하려면 영업이익률이 12.7%까지 올라야 한다(최근 4분기 8.2%, 5년 중앙값 11.6%). 내재가치에서 차입금 $7.9B를 빼고 현금·단기투자 $8.4B를 더한다.</div>
   </div>
 
@@ -996,12 +996,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">13.6x</span>
+            <span class="val-number" data-hist="cur">12.9x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 4%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 4.2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.8x</span><span data-hist="median">중앙 22.7x</span><span data-hist="max">최고 34.8x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.1x</span><span data-hist="median">중앙 22.1x</span><span data-hist="max">최고 34.4x</span></div>
       </div>
     </div>
 
@@ -1378,11 +1378,11 @@ const MULTIPLE_DATA = {
     title: '의류·신발 EV/EBITDA 비교 (RL 값 없음) · 10/30 종가(NKE 막대는 11/5)',
     unit: 'EV/EBITDA', max: 25, nkeValue: null,
     peers: [
-      { name:'LULU', value:4.8, status:'reference' },
+      { name:'LULU', value:3.9, status:'reference' },
       { name:'DECK', value:7.4, status:'reference' },
       { name:'TPR', value:12.4, status:'reference' },
-      { name:'TJX', value:17.6, status:'reference' },
-      { name:'ROST', value:18.8, status:'reference' }
+      { name:'TJX', value:16.4, status:'reference' },
+      { name:'ROST', value:17.8, status:'reference' }
     ]
   }
 };
@@ -1512,7 +1512,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py NKE
 const NKE_SCORES = {
   fundamental: 44.8,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 88.4,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
+  peer: 89.1,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 89.5,   // 자기 5년 배수 분포 백분위 (2021-11-05 ~ 2026-11-05)
   asOf: "2026-11-05",
   fundamentalAsOf: "2026-08-31",   // Q1 FY27 10-Q
@@ -1843,7 +1843,7 @@ const NKE_FUNDAMENTAL = {"ticker": "NKE", "basis": "quarter", "asOf": "2026-08-3
 //
 // 갱신: python3 v2/build_peer_score.py NKE --self v2/NKE_multiples.json --card
 /* VALUATION:BEGIN */
-const NKE_VALUATION = {"peer": {"score": 88.4, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 85.7, "rank": 5, "peers": 28}, {"metric": "pbr", "score": 96.3, "rank": 2, "peers": 27}, {"metric": "psr", "score": 100.0, "rank": 1, "peers": 31}, {"metric": "pcr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "evebitda", "score": 85.7, "rank": 5, "peers": 28}]}, "self": {"score": 89.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.8, "percentile": 5.2, "current": 19.02, "min": 16.28, "median": 29.9, "max": 47.08, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 96.3, "percentile": 3.7, "current": 3.86, "min": 3.31, "median": 9.65, "max": 19.59, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 95.9, "percentile": 4.1, "current": 1.28, "min": 1.1, "median": 2.73, "max": 6.08, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 64.9, "percentile": 35.1, "current": 27.91, "min": 14.8, "median": 33.01, "max": 112.68, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.8, "percentile": 4.2, "current": 13.63, "min": 11.76, "median": 22.66, "max": 34.83, "days": 1255, "currentNote": null}]}};
+const NKE_VALUATION = {"peer": {"score": 89.1, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 85.7, "rank": 5, "peers": 28}, {"metric": "pbr", "score": 96.3, "rank": 2, "peers": 27}, {"metric": "psr", "score": 100.0, "rank": 1, "peers": 31}, {"metric": "pcr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "evebitda", "score": 89.3, "rank": 4, "peers": 28}]}, "self": {"score": 89.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.8, "percentile": 5.2, "current": 19.02, "min": 16.28, "median": 29.9, "max": 47.08, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 96.3, "percentile": 3.7, "current": 3.86, "min": 3.31, "median": 9.65, "max": 19.59, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 95.9, "percentile": 4.1, "current": 1.28, "min": 1.1, "median": 2.73, "max": 6.08, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 64.9, "percentile": 35.1, "current": 27.91, "min": 14.8, "median": 33.01, "max": 112.68, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.8, "percentile": 4.2, "current": 12.93, "min": 11.05, "median": 22.11, "max": 34.42, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

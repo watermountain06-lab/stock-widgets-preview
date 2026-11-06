@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="acnPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="acnPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="acnPeerScore">87.9<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="acnPeerScore">88.7<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="acnSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="acnSelfVerdict">싼 편</span></div>
@@ -931,9 +931,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.28 ~ 1.41(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">비싸다</div></div>
-      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">87.9</div><div class="sc-tile" data-vc="peer" data-m="per">84</div><div class="sc-tile" data-vc="peer" data-m="pbr">88</div><div class="sc-tile" data-vc="peer" data-m="psr">96</div><div class="sc-tile" data-vc="peer" data-m="pcr">88</div><div class="sc-tile" data-vc="peer" data-m="evebitda">84</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">88.7</div><div class="sc-tile" data-vc="peer" data-m="per">84</div><div class="sc-tile" data-vc="peer" data-m="pbr">88</div><div class="sc-tile" data-vc="peer" data-m="psr">96</div><div class="sc-tile" data-vc="peer" data-m="pcr">88</div><div class="sc-tile" data-vc="peer" data-m="evebitda">88</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 19.6배(5년 중앙값 27.3배)로 자기 이력 82.6점(싸다), 동종업 87.9점(싸다)이다. <strong>현금흐름 내재가치(기본 $207.26)는 현재가의 78%다</strong>.</div>
+    <div class="vs-premise">PER 19.6배(5년 중앙값 27.3배)로 자기 이력 82.6점(싸다), 동종업 88.7점(싸다)이다. <strong>현금흐름 내재가치(기본 $207.26)는 현재가의 78%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −1, 합계 +1 “적정~저평가”이다. 현금흐름 내재가치(기본 $207.26)는 현재가의 78%다. 현재가를 정당화하려면 매출이 5년간 연 12.3% 커야 한다. 내재가치에서 차입금 $10.1B를 빼고 현금·단기투자 $12.8B를 더한다.</div>
   </div>
 
@@ -993,12 +993,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">13.0x</span>
+            <span class="val-number" data-hist="cur">12.8x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 17%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 17.3%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 6.3x</span><span data-hist="median">중앙 18.3x</span><span data-hist="max">최고 29.5x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 6.0x</span><span data-hist="median">중앙 18.0x</span><span data-hist="max">최고 29.1x</span></div>
       </div>
     </div>
 
@@ -1504,7 +1504,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ACN
 const ACN_SCORES = {
   fundamental: 62.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 87.9,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 88.7,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 82.6,   // 자기 5년 배수 분포 백분위 (2021-11-05 ~ 2026-11-05)
   asOf: "2026-11-05",
   fundamentalAsOf: "2026-08-31",   // FY26 10-K
@@ -1830,7 +1830,7 @@ const ACN_FUNDAMENTAL = {"ticker": "ACN", "basis": "quarter", "asOf": "2026-08-3
 //
 // 갱신: python3 v2/build_peer_score.py ACN --self v2/ACN_multiples.json --card
 /* VALUATION:BEGIN */
-const ACN_VALUATION = {"peer": {"score": 87.9, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 84.0, "rank": 5, "peers": 25}, {"metric": "pbr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "psr", "score": 96.4, "rank": 2, "peers": 28}, {"metric": "pcr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "evebitda", "score": 84.0, "rank": 5, "peers": 25}]}, "self": {"score": 82.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 83.4, "percentile": 16.6, "current": 19.55, "min": 9.94, "median": 27.28, "max": 43.18, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.7, "percentile": 20.3, "current": 5.17, "min": 2.4, "median": 7.64, "max": 13.16, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 83.1, "percentile": 16.9, "current": 2.2, "min": 1.05, "median": 3.02, "max": 4.99, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 83.9, "percentile": 16.1, "current": 14.05, "min": 6.09, "median": 21.38, "max": 37.03, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 82.7, "percentile": 17.3, "current": 13.04, "min": 6.32, "median": 18.29, "max": 29.49, "days": 1255, "currentNote": null}]}};
+const ACN_VALUATION = {"peer": {"score": 88.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 84.0, "rank": 5, "peers": 25}, {"metric": "pbr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "psr", "score": 96.4, "rank": 2, "peers": 28}, {"metric": "pcr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "evebitda", "score": 88.0, "rank": 4, "peers": 25}]}, "self": {"score": 82.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 83.4, "percentile": 16.6, "current": 19.55, "min": 9.94, "median": 27.28, "max": 43.18, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.7, "percentile": 20.3, "current": 5.17, "min": 2.4, "median": 7.64, "max": 13.16, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 83.1, "percentile": 16.9, "current": 2.2, "min": 1.05, "median": 3.02, "max": 4.99, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 83.9, "percentile": 16.1, "current": 14.05, "min": 6.09, "median": 21.38, "max": 37.03, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 82.7, "percentile": 17.3, "current": 12.78, "min": 6.05, "median": 17.97, "max": 29.12, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -997,12 +997,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">21.5x</span>
+            <span class="val-number" data-hist="cur">21.4x</span>
             <span class="hist-badge bad" data-hist="badge">5년 중 상위 26%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 74.3%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 10.6x</span><span data-hist="median">중앙 18.9x</span><span data-hist="max">최고 25.1x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 10.5x</span><span data-hist="median">중앙 18.9x</span><span data-hist="max">최고 25.0x</span></div>
       </div>
     </div>
 
@@ -1360,11 +1360,11 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 175, grmnValue: null,
     peers: [
       { name:'DECK', value:7.4, status:'reference' },
-      { name:'LULU', value:4.8, status:'reference' },
-      { name:'NKE', value:13.3, status:'reference' },
+      { name:'LULU', value:3.9, status:'reference' },
+      { name:'NKE', value:12.6, status:'reference' },
       { name:'HAS', value:13.5, status:'reference' },
       { name:'BBY', value:8.7, status:'reference' },
-      { name:'TSLA', value:151.3, status:'reference' }
+      { name:'TSLA', value:150.5, status:'reference' }
     ]
   }
 };
@@ -1825,7 +1825,7 @@ const GRMN_FUNDAMENTAL = {"ticker": "GRMN", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py GRMN --self v2/GRMN_multiples.json --card
 /* VALUATION:BEGIN */
-const GRMN_VALUATION = {"peer": {"score": 23.5, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 25.6, "rank": 33, "peers": 43}, {"metric": "pbr", "score": 56.2, "rank": 15, "peers": 32}, {"metric": "psr", "score": 4.8, "rank": 41, "peers": 42}, {"metric": "pcr", "score": 15.0, "rank": 35, "peers": 40}, {"metric": "evebitda", "score": 15.8, "rank": 33, "peers": 38}]}, "self": {"score": 16.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 18.7, "percentile": 81.3, "current": 27.51, "min": 14.95, "median": 23.16, "max": 33.14, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 6.9, "percentile": 93.1, "current": 5.78, "min": 2.58, "median": 4.37, "max": 6.69, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 7.4, "percentile": 92.6, "current": 7.0, "min": 3.03, "median": 5.5, "max": 7.87, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 21.5, "percentile": 78.5, "current": 37.59, "min": 20.21, "median": 31.7, "max": 69.51, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 25.7, "percentile": 74.3, "current": 21.48, "min": 10.63, "median": 18.94, "max": 25.1, "days": 1255, "currentNote": null}]}};
+const GRMN_VALUATION = {"peer": {"score": 23.5, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 25.6, "rank": 33, "peers": 43}, {"metric": "pbr", "score": 56.2, "rank": 15, "peers": 32}, {"metric": "psr", "score": 4.8, "rank": 41, "peers": 42}, {"metric": "pcr", "score": 15.0, "rank": 35, "peers": 40}, {"metric": "evebitda", "score": 15.8, "rank": 33, "peers": 38}]}, "self": {"score": 16.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 18.7, "percentile": 81.3, "current": 27.51, "min": 14.95, "median": 23.16, "max": 33.14, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 6.9, "percentile": 93.1, "current": 5.78, "min": 2.58, "median": 4.37, "max": 6.69, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 7.4, "percentile": 92.6, "current": 7.0, "min": 3.03, "median": 5.5, "max": 7.87, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 21.5, "percentile": 78.5, "current": 37.59, "min": 20.21, "median": 31.7, "max": 69.51, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 25.7, "percentile": 74.3, "current": 21.41, "min": 10.54, "median": 18.86, "max": 25.03, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

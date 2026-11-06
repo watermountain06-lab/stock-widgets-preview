@@ -998,8 +998,8 @@ Chart.overrides.doughnut.animation = false;
             <span class="hist-badge good" data-hist="badge">4.0년 중 하위 15%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 14.9%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 5.9x</span><span data-hist="median">중앙 14.0x</span><span data-hist="max">최고 139.0x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 15%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 5.9x</span><span data-hist="median">중앙 13.9x</span><span data-hist="max">최고 138.8x</span></div>
       </div>
     </div>
 
@@ -1370,12 +1370,12 @@ const MULTIPLE_DATA = {
     title: '소재 EV/EBITDA 비교 · 10/30 종가(NEM 막대는 11/5)',
     unit: 'EV/EBITDA', max: 110, nemValue: null,
     peers: [
-      { name:'FCX', value:11.9, status:'reference' },
+      { name:'FCX', value:11.8, status:'reference' },
       { name:'NUE', value:11.9, status:'reference' },
       { name:'LIN', value:20.1, status:'reference' },
-      { name:'APD', value:95.0, status:'reference' },
-      { name:'SHW', value:19.8, status:'reference' },
-      { name:'ECL', value:24.7, status:'reference' }
+      { name:'APD', value:94.5, status:'reference' },
+      { name:'SHW', value:19.3, status:'reference' },
+      { name:'ECL', value:24.5, status:'reference' }
     ]
   }
 };
@@ -1831,7 +1831,7 @@ const NEM_FUNDAMENTAL = {"ticker": "NEM", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py NEM --self v2/NEM_multiples.json --card
 /* VALUATION:BEGIN */
-const NEM_VALUATION = {"peer": {"score": 65.1, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 94.4, "rank": 2, "peers": 18}, {"metric": "pbr", "score": 37.5, "rank": 16, "peers": 24}, {"metric": "psr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "pcr", "score": 86.4, "rank": 4, "peers": 22}, {"metric": "evebitda", "score": 90.5, "rank": 3, "peers": 21}]}, "self": {"score": 57.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 82.3, "percentile": 17.7, "current": 13.15, "min": 10.85, "median": 17.04, "max": 61.45, "days": 755, "currentNote": null}, {"metric": "pbr", "score": 8.9, "percentile": 91.1, "current": 3.49, "min": 1.24, "median": 1.96, "max": 4.33, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.2, "percentile": 83.8, "current": 4.68, "min": 2.15, "median": 3.55, "max": 6.7, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.5, "percentile": 4.5, "current": 12.35, "min": 9.89, "median": 22.25, "max": 944.4, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 85.1, "percentile": 14.9, "current": 7.44, "min": 5.86, "median": 13.98, "max": 139.03, "days": 1007, "currentNote": null}]}};
+const NEM_VALUATION = {"peer": {"score": 65.1, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 94.4, "rank": 2, "peers": 18}, {"metric": "pbr", "score": 37.5, "rank": 16, "peers": 24}, {"metric": "psr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "pcr", "score": 86.4, "rank": 4, "peers": 22}, {"metric": "evebitda", "score": 90.5, "rank": 3, "peers": 21}]}, "self": {"score": 57.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 82.3, "percentile": 17.7, "current": 13.15, "min": 10.85, "median": 17.04, "max": 61.45, "days": 755, "currentNote": null}, {"metric": "pbr", "score": 8.9, "percentile": 91.1, "current": 3.49, "min": 1.24, "median": 1.96, "max": 4.33, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.2, "percentile": 83.8, "current": 4.68, "min": 2.15, "median": 3.55, "max": 6.7, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.5, "percentile": 4.5, "current": 12.35, "min": 9.89, "median": 22.25, "max": 944.4, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 85.0, "percentile": 15.0, "current": 7.43, "min": 5.86, "median": 13.94, "max": 138.78, "days": 1007, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

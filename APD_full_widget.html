@@ -997,12 +997,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">93.4x</span>
+            <span class="val-number" data-hist="cur">92.9x</span>
             <span class="hist-badge bad" data-hist="badge">5년 중 상위 9%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 90.8%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.9x</span><span data-hist="median">중앙 18.9x</span><span data-hist="max">최고 114.1x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.8x</span><span data-hist="median">중앙 18.7x</span><span data-hist="max">최고 113.1x</span></div>
       </div>
     </div>
 
@@ -1369,10 +1369,10 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 110, apdValue: null,
     peers: [
       { name:'LIN', value:20.1, status:'reference' },
-      { name:'ECL', value:24.7, status:'reference' },
-      { name:'SHW', value:19.8, status:'reference' },
-      { name:'PPG', value:11.8, status:'reference' },
-      { name:'IFF', value:17.1, status:'reference' }
+      { name:'ECL', value:24.5, status:'reference' },
+      { name:'SHW', value:19.3, status:'reference' },
+      { name:'PPG', value:11.6, status:'reference' },
+      { name:'IFF', value:17.0, status:'reference' }
     ]
   }
 };
@@ -1833,7 +1833,7 @@ const APD_FUNDAMENTAL = {"ticker": "APD", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py APD --self v2/APD_multiples.json --card
 /* VALUATION:BEGIN */
-const APD_VALUATION = {"peer": {"score": 6.3, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "psr", "score": 4.2, "rank": 24, "peers": 24}, {"metric": "pcr", "score": 4.3, "rank": 23, "peers": 23}, {"metric": "evebitda", "score": 0.0, "rank": 22, "peers": 21}]}, "self": {"score": 7.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 14.39, "median": 27.22, "max": 43.12, "days": 1076, "currentNote": "per_na"}, {"metric": "pbr", "score": 5.5, "percentile": 94.5, "current": 4.96, "min": 3.22, "median": 4.18, "max": 5.49, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 15.6, "percentile": 84.4, "current": 5.47, "min": 3.85, "median": 5.02, "max": 7.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 45.76, "median": 180.57, "max": 8447.69, "days": 377, "currentNote": "negative"}, {"metric": "evebitda", "score": 9.2, "percentile": 90.8, "current": 93.4, "min": 11.93, "median": 18.9, "max": 114.12, "days": 1255, "currentNote": null}]}, "perNA": {"netMargin": -0.0038, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const APD_VALUATION = {"peer": {"score": 6.3, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "psr", "score": 4.2, "rank": 24, "peers": 24}, {"metric": "pcr", "score": 4.3, "rank": 23, "peers": 23}, {"metric": "evebitda", "score": 0.0, "rank": 22, "peers": 21}]}, "self": {"score": 7.6, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 14.39, "median": 27.22, "max": 43.12, "days": 1076, "currentNote": "per_na"}, {"metric": "pbr", "score": 5.5, "percentile": 94.5, "current": 4.96, "min": 3.22, "median": 4.18, "max": 5.49, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 15.6, "percentile": 84.4, "current": 5.47, "min": 3.85, "median": 5.02, "max": 7.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 45.76, "median": 180.57, "max": 8447.69, "days": 377, "currentNote": "negative"}, {"metric": "evebitda", "score": 9.2, "percentile": 90.8, "current": 92.89, "min": 11.82, "median": 18.74, "max": 113.09, "days": 1255, "currentNote": null}]}, "perNA": {"netMargin": -0.0038, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

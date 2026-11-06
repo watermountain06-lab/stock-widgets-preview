@@ -964,7 +964,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.3년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">15.2x</span>
+            <span class="val-number" data-hist="cur">15.1x</span>
             <span class="hist-badge bad" data-hist="badge">4.3년 중 상위 4%</span>
           </div>
         </div>
@@ -1328,11 +1328,11 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 25, etrValue: null,
     peers: [
       { name:'NEE', value:19.0, status:'reference' },
-      { name:'SO', value:13.7, status:'reference' },
+      { name:'SO', value:13.5, status:'reference' },
       { name:'DUK', value:11.3, status:'reference' },
-      { name:'ED', value:13.2, status:'reference' },
-      { name:'AEE', value:13.8, status:'reference' },
-      { name:'XEL', value:14.5, status:'reference' }
+      { name:'ED', value:13.1, status:'reference' },
+      { name:'AEE', value:13.7, status:'reference' },
+      { name:'XEL', value:14.3, status:'reference' }
     ]
   }
 };
@@ -1795,7 +1795,7 @@ const ETR_FUNDAMENTAL = {"ticker": "ETR", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py ETR --self v2/ETR_multiples.json --card
 /* VALUATION:BEGIN */
-const ETR_VALUATION = {"peer": {"score": 13.0, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 0.0, "rank": 31, "peers": 30}, {"metric": "pbr", "score": 16.7, "rank": 26, "peers": 30}, {"metric": "psr", "score": 16.7, "rank": 26, "peers": 30}, {"metric": "evebitda", "score": 18.5, "rank": 23, "peers": 27}]}, "self": {"score": 5.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 10.1, "percentile": 89.9, "current": 28.28, "min": 9.01, "median": 19.24, "max": 36.09, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 7.6, "percentile": 92.4, "current": 2.82, "min": 1.42, "median": 1.98, "max": 3.16, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 5.7, "percentile": 94.3, "current": 3.82, "min": 1.41, "median": 2.01, "max": 4.13, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 6.13, "median": 7.21, "max": 39.72, "days": 198, "currentNote": "negative"}, {"metric": "evebitda", "score": 3.9, "percentile": 96.1, "current": 15.16, "min": 9.29, "median": 12.02, "max": 15.64, "days": 1077, "currentNote": null}]}};
+const ETR_VALUATION = {"peer": {"score": 13.0, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 0.0, "rank": 31, "peers": 30}, {"metric": "pbr", "score": 16.7, "rank": 26, "peers": 30}, {"metric": "psr", "score": 16.7, "rank": 26, "peers": 30}, {"metric": "evebitda", "score": 18.5, "rank": 23, "peers": 27}]}, "self": {"score": 5.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 10.1, "percentile": 89.9, "current": 28.28, "min": 9.01, "median": 19.24, "max": 36.09, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 7.6, "percentile": 92.4, "current": 2.82, "min": 1.42, "median": 1.98, "max": 3.16, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 5.7, "percentile": 94.3, "current": 3.82, "min": 1.41, "median": 2.01, "max": 4.13, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 6.13, "median": 7.21, "max": 39.72, "days": 198, "currentNote": "negative"}, {"metric": "evebitda", "score": 3.9, "percentile": 96.1, "current": 15.11, "min": 9.25, "median": 11.97, "max": 15.59, "days": 1077, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

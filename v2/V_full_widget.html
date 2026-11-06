@@ -966,7 +966,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 96.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 20.3x</span><span data-hist="median">중앙 24.5x</span><span data-hist="max">최고 31.2x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 20.2x</span><span data-hist="median">중앙 24.5x</span><span data-hist="max">최고 31.2x</span></div>
       </div>
     </div>
 
@@ -1347,11 +1347,11 @@ const MULTIPLE_DATA = {
     title: '결제·금융 인프라 EV/EBITDA 비교 (SPGI 값 없음) · 10/30 종가(V 막대는 11/5)',
     unit: 'EV/EBITDA', max: 35, vValue: null,
     peers: [
-      { name:'MA', value:25.5, status:'reference' },
-      { name:'PYPL', value:7.5, status:'reference' },
+      { name:'MA', value:25.4, status:'reference' },
+      { name:'PYPL', value:7.4, status:'reference' },
       { name:'FISV', value:7.6, status:'reference' },
-      { name:'MCO', value:22.0, status:'reference' },
-      { name:'CME', value:22.5, status:'reference' }
+      { name:'MCO', value:21.9, status:'reference' },
+      { name:'CME', value:22.4, status:'reference' }
     ]
   }
 };
@@ -1804,7 +1804,7 @@ const V_FUNDAMENTAL = {"ticker": "V", "basis": "quarter", "asOf": "2026-06-30", 
 //
 // 갱신: python3 v2/build_peer_score.py V --self v2/V_multiples.json --card
 /* VALUATION:BEGIN */
-const V_VALUATION = {"peer": {"score": 4.0, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 0.0, "rank": 15, "peers": 14}, {"metric": "pbr", "score": 13.3, "rank": 14, "peers": 15}, {"metric": "psr", "score": 0.0, "rank": 17, "peers": 16}, {"metric": "pcr", "score": 0.0, "rank": 16, "peers": 15}, {"metric": "evebitda", "score": 6.7, "rank": 15, "peers": 15}]}, "self": {"score": 5.8, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 8.2, "percentile": 91.8, "current": 35.97, "min": 26.2, "median": 31.57, "max": 44.45, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 22.58, "min": 10.58, "median": 13.86, "max": 23.33, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 17.1, "percentile": 82.9, "current": 17.86, "min": 13.37, "median": 16.11, "max": 21.17, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.2, "percentile": 99.8, "current": 37.81, "min": 23.38, "median": 29.18, "max": 39.06, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 3.4, "percentile": 96.6, "current": 28.42, "min": 20.27, "median": 24.52, "max": 31.18, "days": 1255, "currentNote": null}]}};
+const V_VALUATION = {"peer": {"score": 4.0, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 0.0, "rank": 15, "peers": 14}, {"metric": "pbr", "score": 13.3, "rank": 14, "peers": 15}, {"metric": "psr", "score": 0.0, "rank": 17, "peers": 16}, {"metric": "pcr", "score": 0.0, "rank": 16, "peers": 15}, {"metric": "evebitda", "score": 6.7, "rank": 15, "peers": 15}]}, "self": {"score": 5.8, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 8.2, "percentile": 91.8, "current": 35.97, "min": 26.2, "median": 31.57, "max": 44.45, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 22.58, "min": 10.58, "median": 13.86, "max": 23.33, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 17.1, "percentile": 82.9, "current": 17.86, "min": 13.37, "median": 16.11, "max": 21.17, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.2, "percentile": 99.8, "current": 37.81, "min": 23.38, "median": 29.18, "max": 39.06, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 3.4, "percentile": 96.6, "current": 28.39, "min": 20.23, "median": 24.49, "max": 31.18, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

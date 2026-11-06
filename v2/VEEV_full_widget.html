@@ -993,12 +993,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">40.1x</span>
+            <span class="val-number" data-hist="cur">40.0x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 18%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 18.2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 17.8x</span><span data-hist="median">중앙 49.5x</span><span data-hist="max">최고 103.9x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 17.6x</span><span data-hist="median">중앙 49.4x</span><span data-hist="max">최고 103.7x</span></div>
       </div>
     </div>
 
@@ -1814,7 +1814,7 @@ const VEEV_FUNDAMENTAL = {"ticker": "VEEV", "basis": "quarter", "asOf": "2026-07
 //
 // 갱신: python3 v2/build_peer_score.py VEEV --self v2/VEEV_multiples.json --card
 /* VALUATION:BEGIN */
-const VEEV_VALUATION = {"peer": {"score": 37.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 16.0, "rank": 22, "peers": 25}, {"metric": "pbr", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "psr", "score": 25.0, "rank": 22, "peers": 28}, {"metric": "pcr", "score": 54.2, "rank": 12, "peers": 24}, {"metric": "evebitda", "score": 16.0, "rank": 22, "peers": 25}]}, "self": {"score": 67.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 80.5, "percentile": 19.5, "current": 51.0, "min": 27.3, "median": 59.61, "max": 122.31, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 65.8, "percentile": 34.2, "current": 6.76, "min": 3.41, "median": 7.33, "max": 19.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 39.3, "percentile": 60.7, "current": 14.52, "min": 7.5, "median": 13.96, "max": 31.36, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.5, "percentile": 30.5, "current": 30.64, "min": 15.17, "median": 35.22, "max": 96.13, "days": 1001, "currentNote": null}, {"metric": "evebitda", "score": 81.8, "percentile": 18.2, "current": 40.1, "min": 17.75, "median": 49.49, "max": 103.86, "days": 1255, "currentNote": null}]}};
+const VEEV_VALUATION = {"peer": {"score": 37.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 16.0, "rank": 22, "peers": 25}, {"metric": "pbr", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "psr", "score": 25.0, "rank": 22, "peers": 28}, {"metric": "pcr", "score": 54.2, "rank": 12, "peers": 24}, {"metric": "evebitda", "score": 16.0, "rank": 22, "peers": 25}]}, "self": {"score": 67.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 80.5, "percentile": 19.5, "current": 51.0, "min": 27.3, "median": 59.61, "max": 122.31, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 65.8, "percentile": 34.2, "current": 6.76, "min": 3.41, "median": 7.33, "max": 19.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 39.3, "percentile": 60.7, "current": 14.52, "min": 7.5, "median": 13.96, "max": 31.36, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.5, "percentile": 30.5, "current": 30.64, "min": 15.17, "median": 35.22, "max": 96.13, "days": 1001, "currentNote": null}, {"metric": "evebitda", "score": 81.8, "percentile": 18.2, "current": 39.95, "min": 17.65, "median": 49.39, "max": 103.73, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

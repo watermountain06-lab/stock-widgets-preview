@@ -959,12 +959,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">17.9x</span>
+            <span class="val-number" data-hist="cur">17.6x</span>
             <span class="hist-badge bad" data-hist="badge">5년 중 상위 21%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 79.2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 9.4x</span><span data-hist="median">중앙 13.3x</span><span data-hist="max">최고 26.0x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 79.5%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 9.4x</span><span data-hist="median">중앙 13.3x</span><span data-hist="max">최고 25.7x</span></div>
       </div>
     </div>
 
@@ -1318,11 +1318,11 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 (KR 값 없음) · 10/30 종가(CASY 막대는 11/5)',
     unit: 'EV/EBITDA', max: 35, casyValue: null,
     peers: [
-      { name:'WMT', value:22.0, status:'reference' },
-      { name:'COST', value:30.4, status:'reference' },
-      { name:'DG', value:12.3, status:'reference' },
-      { name:'DLTR', value:13.8, status:'reference' },
-      { name:'TGT', value:9.1, status:'reference' }
+      { name:'WMT', value:21.6, status:'reference' },
+      { name:'COST', value:30.2, status:'reference' },
+      { name:'DG', value:9.1, status:'reference' },
+      { name:'DLTR', value:11.7, status:'reference' },
+      { name:'TGT', value:8.7, status:'reference' }
     ]
   }
 };
@@ -1783,7 +1783,7 @@ const CASY_FUNDAMENTAL = {"ticker": "CASY", "basis": "quarter", "asOf": "2026-07
 //
 // 갱신: python3 v2/build_peer_score.py CASY --self v2/CASY_multiples.json --card
 /* VALUATION:BEGIN */
-const CASY_VALUATION = {"peer": {"score": 38.3, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 28.0, "rank": 19, "peers": 25}, {"metric": "pbr", "score": 48.0, "rank": 14, "peers": 25}, {"metric": "psr", "score": 63.0, "rank": 11, "peers": 27}, {"metric": "pcr", "score": 11.5, "rank": 24, "peers": 26}, {"metric": "evebitda", "score": 40.9, "rank": 14, "peers": 22}]}, "self": {"score": 16.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 25.3, "percentile": 74.7, "current": 33.21, "min": 17.1, "median": 25.7, "max": 52.6, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 12.6, "percentile": 87.4, "current": 6.23, "min": 2.92, "median": 4.06, "max": 8.79, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 12.9, "percentile": 87.1, "current": 1.36, "min": 0.5, "median": 0.82, "max": 1.99, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 11.0, "percentile": 89.0, "current": 39.27, "min": 14.88, "median": 30.11, "max": 50.75, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 20.8, "percentile": 79.2, "current": 17.92, "min": 9.37, "median": 13.34, "max": 25.99, "days": 1255, "currentNote": null}]}};
+const CASY_VALUATION = {"peer": {"score": 38.3, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 28.0, "rank": 19, "peers": 25}, {"metric": "pbr", "score": 48.0, "rank": 14, "peers": 25}, {"metric": "psr", "score": 63.0, "rank": 11, "peers": 27}, {"metric": "pcr", "score": 11.5, "rank": 24, "peers": 26}, {"metric": "evebitda", "score": 40.9, "rank": 14, "peers": 22}]}, "self": {"score": 16.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 25.3, "percentile": 74.7, "current": 33.21, "min": 17.1, "median": 25.7, "max": 52.6, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 12.6, "percentile": 87.4, "current": 6.23, "min": 2.92, "median": 4.06, "max": 8.79, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 12.9, "percentile": 87.1, "current": 1.36, "min": 0.5, "median": 0.82, "max": 1.99, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 11.0, "percentile": 89.0, "current": 39.27, "min": 14.88, "median": 30.11, "max": 50.75, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 20.5, "percentile": 79.5, "current": 17.62, "min": 9.37, "median": 13.34, "max": 25.66, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

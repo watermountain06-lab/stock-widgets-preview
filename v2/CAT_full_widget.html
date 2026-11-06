@@ -1000,7 +1000,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 77.1%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 8.8x</span><span data-hist="median">중앙 12.2x</span><span data-hist="max">최고 35.6x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 8.7x</span><span data-hist="median">중앙 12.2x</span><span data-hist="max">최고 35.6x</span></div>
       </div>
     </div>
 
@@ -1377,10 +1377,10 @@ const MULTIPLE_DATA = {
     peers: [
       { name:'DE', value:20.8, status:'reference' },
       { name:'PCAR', value:10.9, status:'reference' },
-      { name:'CMI', value:14.8, status:'reference' },
-      { name:'ETN', value:25.3, status:'reference' },
-      { name:'GE', value:31.1, status:'reference' },
-      { name:'PH', value:20.3, status:'reference' }
+      { name:'CMI', value:14.7, status:'reference' },
+      { name:'ETN', value:25.2, status:'reference' },
+      { name:'GE', value:30.9, status:'reference' },
+      { name:'PH', value:20.2, status:'reference' }
     ]
   }
 };
@@ -1836,7 +1836,7 @@ const CAT_FUNDAMENTAL = {"ticker": "CAT", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py CAT --self v2/CAT_multiples.json --card
 /* VALUATION:BEGIN */
-const CAT_VALUATION = {"peer": {"score": 53.6, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 70.7, "rank": 23, "peers": 75}, {"metric": "pbr", "score": 21.6, "rank": 59, "peers": 74}, {"metric": "psr", "score": 53.8, "rank": 37, "peers": 78}, {"metric": "pcr", "score": 57.9, "rank": 33, "peers": 76}, {"metric": "evebitda", "score": 64.0, "rank": 28, "peers": 75}]}, "self": {"score": 26.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 27.1, "percentile": 72.9, "current": 21.73, "min": 12.42, "median": 17.79, "max": 53.03, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 22.5, "percentile": 77.5, "current": 11.79, "min": 5.31, "median": 8.54, "max": 26.28, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 23.0, "percentile": 77.0, "current": 3.26, "min": 1.59, "median": 2.44, "max": 6.93, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 34.7, "percentile": 65.3, "current": 22.47, "min": 11.65, "median": 18.13, "max": 51.73, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 22.9, "percentile": 77.1, "current": 15.4, "min": 8.75, "median": 12.23, "max": 35.63, "days": 1255, "currentNote": null}]}};
+const CAT_VALUATION = {"peer": {"score": 53.6, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 70.7, "rank": 23, "peers": 75}, {"metric": "pbr", "score": 21.6, "rank": 59, "peers": 74}, {"metric": "psr", "score": 53.8, "rank": 37, "peers": 78}, {"metric": "pcr", "score": 57.9, "rank": 33, "peers": 76}, {"metric": "evebitda", "score": 64.0, "rank": 28, "peers": 75}]}, "self": {"score": 26.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 27.1, "percentile": 72.9, "current": 21.73, "min": 12.42, "median": 17.79, "max": 53.03, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 22.5, "percentile": 77.5, "current": 11.79, "min": 5.31, "median": 8.54, "max": 26.28, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 23.0, "percentile": 77.0, "current": 3.26, "min": 1.59, "median": 2.44, "max": 6.93, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 34.7, "percentile": 65.3, "current": 22.47, "min": 11.65, "median": 18.13, "max": 51.73, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 22.9, "percentile": 77.1, "current": 15.36, "min": 8.71, "median": 12.2, "max": 35.58, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -999,7 +999,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 6.9%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 17.1x</span><span data-hist="median">중앙 28.5x</span><span data-hist="max">최고 36.6x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 17.0x</span><span data-hist="median">중앙 28.4x</span><span data-hist="max">최고 36.5x</span></div>
       </div>
     </div>
 
@@ -1380,11 +1380,11 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 55, sykValue: null,
     peers: [
       { name:'BSX', value:13.2, status:'reference' },
-      { name:'MDT', value:14.6, status:'reference' },
-      { name:'ABT', value:19.7, status:'reference' },
-      { name:'ISRG', value:43.9, status:'reference' },
-      { name:'ZBH', value:10.9, status:'reference' },
-      { name:'BDX', value:15.4, status:'reference' }
+      { name:'MDT', value:14.5, status:'reference' },
+      { name:'ABT', value:19.6, status:'reference' },
+      { name:'ISRG', value:43.8, status:'reference' },
+      { name:'ZBH', value:10.8, status:'reference' },
+      { name:'BDX', value:15.2, status:'reference' }
     ]
   }
 };
@@ -1845,7 +1845,7 @@ const SYK_FUNDAMENTAL = {"ticker": "SYK", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py SYK --self v2/SYK_multiples.json --card
 /* VALUATION:BEGIN */
-const SYK_VALUATION = {"peer": {"score": 37.7, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 36.0, "rank": 33, "peers": 50}, {"metric": "pbr", "score": 40.4, "rank": 32, "peers": 52}, {"metric": "psr", "score": 40.4, "rank": 35, "peers": 57}, {"metric": "pcr", "score": 36.5, "rank": 34, "peers": 52}, {"metric": "evebitda", "score": 35.2, "rank": 36, "peers": 54}]}, "self": {"score": 88.1, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.3, "percentile": 8.7, "current": 35.68, "min": 27.95, "median": 41.97, "max": 55.89, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 82.2, "percentile": 17.8, "current": 5.44, "min": 4.31, "median": 6.43, "max": 7.57, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 83.7, "percentile": 16.3, "current": 4.85, "min": 4.0, "median": 5.72, "max": 6.94, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 90.4, "percentile": 9.6, "current": 27.89, "min": 22.01, "median": 40.86, "max": 56.48, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 93.1, "percentile": 6.9, "current": 21.04, "min": 17.09, "median": 28.52, "max": 36.65, "days": 1255, "currentNote": null}]}};
+const SYK_VALUATION = {"peer": {"score": 37.7, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 36.0, "rank": 33, "peers": 50}, {"metric": "pbr", "score": 40.4, "rank": 32, "peers": 52}, {"metric": "psr", "score": 40.4, "rank": 35, "peers": 57}, {"metric": "pcr", "score": 36.5, "rank": 34, "peers": 52}, {"metric": "evebitda", "score": 35.2, "rank": 36, "peers": 54}]}, "self": {"score": 88.1, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.3, "percentile": 8.7, "current": 35.68, "min": 27.95, "median": 41.97, "max": 55.89, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 82.2, "percentile": 17.8, "current": 5.44, "min": 4.31, "median": 6.43, "max": 7.57, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 83.7, "percentile": 16.3, "current": 4.85, "min": 4.0, "median": 5.72, "max": 6.94, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 90.4, "percentile": 9.6, "current": 27.89, "min": 22.01, "median": 40.86, "max": 56.48, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 93.1, "percentile": 6.9, "current": 20.97, "min": 17.01, "median": 28.42, "max": 36.52, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

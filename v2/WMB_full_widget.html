@@ -969,12 +969,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">16.0x</span>
+            <span class="val-number" data-hist="cur">15.9x</span>
             <span class="hist-badge mid" data-hist="badge">5년 중 상위 40%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 60.2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 10.5x</span><span data-hist="median">중앙 15.0x</span><span data-hist="max">최고 19.1x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 10.4x</span><span data-hist="median">중앙 14.9x</span><span data-hist="max">최고 19.1x</span></div>
       </div>
     </div>
 
@@ -1373,11 +1373,11 @@ const MULTIPLE_DATA = {
     title: '가스관·석유 EV/EBITDA 비교 · 10/30 종가(WMB 막대는 11/5)',
     unit: 'EV/EBITDA', max: 20, wmbValue: null,
     peers: [
-      { name:'KMI', value:14.0, status:'reference' },
+      { name:'KMI', value:13.9, status:'reference' },
       { name:'OKE', value:12.9, status:'reference' },
       { name:'TRGP', value:15.9, status:'reference' },
-      { name:'XOM', value:10.8, status:'reference' },
-      { name:'CVX', value:9.1, status:'reference' },
+      { name:'XOM', value:10.7, status:'reference' },
+      { name:'CVX', value:9.0, status:'reference' },
       { name:'COP', value:7.4, status:'reference' }
     ]
   }
@@ -1839,7 +1839,7 @@ const WMB_FUNDAMENTAL = {"ticker": "WMB", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py WMB --self v2/WMB_multiples.json --card
 /* VALUATION:BEGIN */
-const WMB_VALUATION = {"peer": {"score": 9.5, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 21.1, "rank": 16, "peers": 19}, {"metric": "pbr", "score": 15.0, "rank": 18, "peers": 20}, {"metric": "psr", "score": 5.3, "rank": 19, "peers": 19}, {"metric": "pcr", "score": 0.0, "rank": 18, "peers": 17}, {"metric": "evebitda", "score": 6.2, "rank": 16, "peers": 16}]}, "self": {"score": 28.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 49.7, "percentile": 50.3, "current": 25.6, "min": 12.89, "median": 25.49, "max": 37.62, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 19.3, "percentile": 80.7, "current": 5.97, "min": 2.76, "median": 3.98, "max": 7.49, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 31.1, "percentile": 68.9, "current": 6.44, "min": 3.02, "median": 4.5, "max": 8.14, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 11.57, "median": 15.81, "max": 117.28, "days": 1187, "currentNote": "negative"}, {"metric": "evebitda", "score": 39.8, "percentile": 60.2, "current": 15.96, "min": 10.49, "median": 15.0, "max": 19.1, "days": 1255, "currentNote": null}]}};
+const WMB_VALUATION = {"peer": {"score": 9.5, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 21.1, "rank": 16, "peers": 19}, {"metric": "pbr", "score": 15.0, "rank": 18, "peers": 20}, {"metric": "psr", "score": 5.3, "rank": 19, "peers": 19}, {"metric": "pcr", "score": 0.0, "rank": 18, "peers": 17}, {"metric": "evebitda", "score": 6.2, "rank": 16, "peers": 16}]}, "self": {"score": 28.0, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 49.7, "percentile": 50.3, "current": 25.6, "min": 12.89, "median": 25.49, "max": 37.62, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 19.3, "percentile": 80.7, "current": 5.97, "min": 2.76, "median": 3.98, "max": 7.49, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 31.1, "percentile": 68.9, "current": 6.44, "min": 3.02, "median": 4.5, "max": 8.14, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 11.57, "median": 15.81, "max": 117.28, "days": 1187, "currentNote": "negative"}, {"metric": "evebitda", "score": 39.8, "percentile": 60.2, "current": 15.93, "min": 10.45, "median": 14.95, "max": 19.08, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

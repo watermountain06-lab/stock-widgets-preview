@@ -996,12 +996,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">17.0x</span>
+            <span class="val-number" data-hist="cur">16.9x</span>
             <span class="hist-badge bad" data-hist="badge">5년 중 상위 20%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 80.1%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.6x</span><span data-hist="median">중앙 15.1x</span><span data-hist="max">최고 20.9x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 80.2%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.6x</span><span data-hist="median">중앙 15.1x</span><span data-hist="max">최고 20.8x</span></div>
       </div>
     </div>
 
@@ -1383,10 +1383,10 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 45, amgnValue: null,
     peers: [
       { name:'REGN', value:16.5, status:'reference' },
-      { name:'VRTX', value:27.2, status:'reference' },
-      { name:'BIIB', value:26.3, status:'reference' },
-      { name:'BMY', value:11.2, status:'reference' },
-      { name:'PFE', value:11.2, status:'reference' },
+      { name:'VRTX', value:26.8, status:'reference' },
+      { name:'BIIB', value:26.2, status:'reference' },
+      { name:'BMY', value:11.0, status:'reference' },
+      { name:'PFE', value:11.1, status:'reference' },
       { name:'LLY', value:35.3, status:'reference' }
     ]
   }
@@ -1848,7 +1848,7 @@ const AMGN_FUNDAMENTAL = {"ticker": "AMGN", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py AMGN --self v2/AMGN_multiples.json --card
 /* VALUATION:BEGIN */
-const AMGN_VALUATION = {"peer": {"score": 35.3, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 56.0, "rank": 23, "peers": 50}, {"metric": "pbr", "score": 7.7, "rank": 49, "peers": 52}, {"metric": "psr", "score": 26.3, "rank": 43, "peers": 57}, {"metric": "pcr", "score": 36.5, "rank": 34, "peers": 52}, {"metric": "evebitda", "score": 50.0, "rank": 28, "peers": 54}]}, "self": {"score": 29.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 25.7, "percentile": 74.3, "current": 26.7, "min": 14.57, "median": 23.86, "max": 58.07, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 94.4, "percentile": 5.6, "current": 17.35, "min": 13.63, "median": 22.48, "max": 149.73, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.8, "percentile": 99.2, "current": 6.4, "min": 4.13, "median": 5.06, "max": 6.65, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 5.7, "percentile": 94.3, "current": 25.99, "min": 12.92, "median": 16.11, "max": 33.08, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.9, "percentile": 80.1, "current": 17.0, "min": 11.62, "median": 15.11, "max": 20.9, "days": 1255, "currentNote": null}]}};
+const AMGN_VALUATION = {"peer": {"score": 35.3, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 56.0, "rank": 23, "peers": 50}, {"metric": "pbr", "score": 7.7, "rank": 49, "peers": 52}, {"metric": "psr", "score": 26.3, "rank": 43, "peers": 57}, {"metric": "pcr", "score": 36.5, "rank": 34, "peers": 52}, {"metric": "evebitda", "score": 50.0, "rank": 28, "peers": 54}]}, "self": {"score": 29.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 25.7, "percentile": 74.3, "current": 26.7, "min": 14.57, "median": 23.86, "max": 58.07, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 94.4, "percentile": 5.6, "current": 17.35, "min": 13.63, "median": 22.48, "max": 149.73, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.8, "percentile": 99.2, "current": 6.4, "min": 4.13, "median": 5.06, "max": 6.65, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 5.7, "percentile": 94.3, "current": 25.99, "min": 12.92, "median": 16.11, "max": 33.08, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.8, "percentile": 80.2, "current": 16.95, "min": 11.57, "median": 15.05, "max": 20.83, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -959,12 +959,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">7.8x</span>
+            <span class="val-number" data-hist="cur">7.7x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 15%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 15%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 5.2x</span><span data-hist="median">중앙 11.3x</span><span data-hist="max">최고 50.1x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 5.1x</span><span data-hist="median">중앙 11.2x</span><span data-hist="max">최고 50.0x</span></div>
       </div>
     </div>
 
@@ -1321,7 +1321,7 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 35, pyplValue: null,
     peers: [
       { name:'V', value:27.8, status:'reference' },
-      { name:'MA', value:25.5, status:'reference' },
+      { name:'MA', value:25.4, status:'reference' },
       { name:'FIS', value:9.7, status:'reference' },
       { name:'FISV', value:7.6, status:'reference' },
       { name:'CPAY', value:10.6, status:'reference' },
@@ -1778,7 +1778,7 @@ const PYPL_FUNDAMENTAL = {"ticker": "PYPL", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py PYPL --self v2/PYPL_multiples.json --card
 /* VALUATION:BEGIN */
-const PYPL_VALUATION = {"peer": {"score": 87.9, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.7, "rank": 3, "peers": 14}, {"metric": "pbr", "score": 80.0, "rank": 4, "peers": 15}, {"metric": "psr", "score": 93.8, "rank": 2, "peers": 16}, {"metric": "pcr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "evebitda", "score": 93.3, "rank": 2, "peers": 15}]}, "self": {"score": 86.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 85.3, "percentile": 14.7, "current": 11.25, "min": 7.22, "median": 17.43, "max": 58.67, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 86.1, "percentile": 13.9, "current": 2.51, "min": 1.78, "median": 3.44, "max": 12.9, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 87.9, "percentile": 12.1, "current": 1.43, "min": 1.06, "median": 2.32, "max": 11.3, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 88.0, "percentile": 12.0, "current": 7.78, "min": 6.47, "median": 13.6, "max": 65.81, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 85.0, "percentile": 15.0, "current": 7.79, "min": 5.16, "median": 11.32, "max": 50.13, "days": 1255, "currentNote": null}]}};
+const PYPL_VALUATION = {"peer": {"score": 87.9, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.7, "rank": 3, "peers": 14}, {"metric": "pbr", "score": 80.0, "rank": 4, "peers": 15}, {"metric": "psr", "score": 93.8, "rank": 2, "peers": 16}, {"metric": "pcr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "evebitda", "score": 93.3, "rank": 2, "peers": 15}]}, "self": {"score": 86.5, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 85.3, "percentile": 14.7, "current": 11.25, "min": 7.22, "median": 17.43, "max": 58.67, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 86.1, "percentile": 13.9, "current": 2.51, "min": 1.78, "median": 3.44, "max": 12.9, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 87.9, "percentile": 12.1, "current": 1.43, "min": 1.06, "median": 2.32, "max": 11.3, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 88.0, "percentile": 12.0, "current": 7.78, "min": 6.47, "median": 13.6, "max": 65.81, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 85.0, "percentile": 15.0, "current": 7.68, "min": 5.06, "median": 11.21, "max": 49.99, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

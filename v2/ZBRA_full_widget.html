@@ -994,12 +994,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">15.6x</span>
+            <span class="val-number" data-hist="cur">15.4x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 19%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 18.8%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.7x</span><span data-hist="median">중앙 19.4x</span><span data-hist="max">최고 38.2x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 19%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.5x</span><span data-hist="median">중앙 19.2x</span><span data-hist="max">최고 37.9x</span></div>
       </div>
     </div>
 
@@ -1824,7 +1824,7 @@ const ZBRA_FUNDAMENTAL = {"ticker": "ZBRA", "basis": "quarter", "asOf": "2026-10
 //
 // 갱신: python3 v2/build_peer_score.py ZBRA --self v2/ZBRA_multiples.json --card
 /* VALUATION:BEGIN */
-const ZBRA_VALUATION = {"peer": {"score": 84.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "pbr", "score": 95.8, "rank": 2, "peers": 24}, {"metric": "psr", "score": 96.4, "rank": 2, "peers": 28}, {"metric": "pcr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "evebitda", "score": 76.0, "rank": 7, "peers": 25}]}, "self": {"score": 77.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.4, "percentile": 20.6, "current": 25.96, "min": 15.9, "median": 30.61, "max": 85.26, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 71.9, "percentile": 28.1, "current": 4.24, "min": 2.73, "median": 4.96, "max": 11.66, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 72.2, "percentile": 27.8, "current": 2.47, "min": 1.82, "median": 2.86, "max": 6.01, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 85.0, "percentile": 15.0, "current": 15.33, "min": 11.5, "median": 23.76, "max": 283.29, "days": 1204, "currentNote": null}, {"metric": "evebitda", "score": 81.2, "percentile": 18.8, "current": 15.55, "min": 11.73, "median": 19.36, "max": 38.19, "days": 1255, "currentNote": null}]}};
+const ZBRA_VALUATION = {"peer": {"score": 84.7, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-05", "metrics": [{"metric": "per", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "pbr", "score": 95.8, "rank": 2, "peers": 24}, {"metric": "psr", "score": 96.4, "rank": 2, "peers": 28}, {"metric": "pcr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "evebitda", "score": 76.0, "rank": 7, "peers": 25}]}, "self": {"score": 77.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.4, "percentile": 20.6, "current": 25.96, "min": 15.9, "median": 30.61, "max": 85.26, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 71.9, "percentile": 28.1, "current": 4.24, "min": 2.73, "median": 4.96, "max": 11.66, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 72.2, "percentile": 27.8, "current": 2.47, "min": 1.82, "median": 2.86, "max": 6.01, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 85.0, "percentile": 15.0, "current": 15.33, "min": 11.5, "median": 23.76, "max": 283.29, "days": 1204, "currentNote": null}, {"metric": "evebitda", "score": 81.0, "percentile": 19.0, "current": 15.37, "min": 11.54, "median": 19.17, "max": 37.86, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -964,12 +964,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 3.0년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">23.1x</span>
+            <span class="val-number" data-hist="cur">22.9x</span>
             <span class="hist-badge mid" data-hist="badge">3.0년 중 하위 44%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 44%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 17.8x</span><span data-hist="median">중앙 23.6x</span><span data-hist="max">최고 30.1x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 44.2%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 17.6x</span><span data-hist="median">중앙 23.4x</span><span data-hist="max">최고 29.9x</span></div>
       </div>
     </div>
 
@@ -1353,12 +1353,12 @@ const MULTIPLE_DATA = {
     title: '생명과학 도구 EV/EBITDA 비교 · 10/30 종가(DHR 막대는 11/5)',
     unit: 'EV/EBITDA', max: 65, dhrValue: null,
     peers: [
-      { name:'TMO', value:25.5, status:'reference' },
-      { name:'A', value:27.1, status:'reference' },
-      { name:'MTD', value:27.5, status:'reference' },
-      { name:'WAT', value:53.2, status:'reference' },
-      { name:'IQV', value:16.9, status:'reference' },
-      { name:'RVTY', value:25.7, status:'reference' }
+      { name:'TMO', value:25.4, status:'reference' },
+      { name:'A', value:27.0, status:'reference' },
+      { name:'MTD', value:27.4, status:'reference' },
+      { name:'WAT', value:52.8, status:'reference' },
+      { name:'IQV', value:16.8, status:'reference' },
+      { name:'RVTY', value:25.6, status:'reference' }
     ]
   }
 };
@@ -1819,7 +1819,7 @@ const DHR_FUNDAMENTAL = {"ticker": "DHR", "basis": "quarter", "asOf": "2026-09-2
 //
 // 갱신: python3 v2/build_peer_score.py DHR --self v2/DHR_multiples.json --card
 /* VALUATION:BEGIN */
-const DHR_VALUATION = {"peer": {"score": 38.3, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 30.0, "rank": 36, "peers": 50}, {"metric": "pbr", "score": 65.4, "rank": 19, "peers": 52}, {"metric": "psr", "score": 28.1, "rank": 42, "peers": 57}, {"metric": "pcr", "score": 34.6, "rank": 35, "peers": 52}, {"metric": "evebitda", "score": 33.3, "rank": 37, "peers": 54}]}, "self": {"score": 63.5, "window": ["2023-10-24", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 75.1, "percentile": 24.9, "current": 37.41, "min": 27.02, "median": 41.04, "max": 51.61, "days": 762, "currentNote": null}, {"metric": "pbr", "score": 54.7, "percentile": 45.3, "current": 2.97, "min": 2.16, "median": 3.03, "max": 4.06, "days": 762, "currentNote": null}, {"metric": "psr", "score": 57.9, "percentile": 42.1, "current": 6.22, "min": 4.62, "median": 6.35, "max": 8.6, "days": 762, "currentNote": null}, {"metric": "pcr", "score": 74.0, "percentile": 26.0, "current": 27.8, "min": 21.66, "median": 30.52, "max": 42.0, "days": 762, "currentNote": null}, {"metric": "evebitda", "score": 56.0, "percentile": 44.0, "current": 23.11, "min": 17.75, "median": 23.62, "max": 30.12, "days": 762, "currentNote": null}]}};
+const DHR_VALUATION = {"peer": {"score": 38.3, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 30.0, "rank": 36, "peers": 50}, {"metric": "pbr", "score": 65.4, "rank": 19, "peers": 52}, {"metric": "psr", "score": 28.1, "rank": 42, "peers": 57}, {"metric": "pcr", "score": 34.6, "rank": 35, "peers": 52}, {"metric": "evebitda", "score": 33.3, "rank": 37, "peers": 54}]}, "self": {"score": 63.5, "window": ["2023-10-24", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 75.1, "percentile": 24.9, "current": 37.41, "min": 27.02, "median": 41.04, "max": 51.61, "days": 762, "currentNote": null}, {"metric": "pbr", "score": 54.7, "percentile": 45.3, "current": 2.97, "min": 2.16, "median": 3.03, "max": 4.06, "days": 762, "currentNote": null}, {"metric": "psr", "score": 57.9, "percentile": 42.1, "current": 6.22, "min": 4.62, "median": 6.35, "max": 8.6, "days": 762, "currentNote": null}, {"metric": "pcr", "score": 74.0, "percentile": 26.0, "current": 27.8, "min": 21.66, "median": 30.52, "max": 42.0, "days": 762, "currentNote": null}, {"metric": "evebitda", "score": 55.8, "percentile": 44.2, "current": 22.94, "min": 17.59, "median": 23.45, "max": 29.95, "days": 762, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

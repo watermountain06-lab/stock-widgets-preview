@@ -961,12 +961,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">15.4x</span>
+            <span class="val-number" data-hist="cur">15.2x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 13%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 12.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 13.3x</span><span data-hist="median">중앙 18.3x</span><span data-hist="max">최고 22.8x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 13.1x</span><span data-hist="median">중앙 18.1x</span><span data-hist="max">최고 22.6x</span></div>
       </div>
     </div>
 
@@ -1333,11 +1333,11 @@ const MULTIPLE_DATA = {
     title: 'EV/EBITDA 비교 (JCI 값 없음) · 10/30 종가(OTIS 막대는 11/5)',
     unit: 'EV/EBITDA', max: 325, otisValue: null,
     peers: [
-      { name:'TT', value:20.5, status:'reference' },
+      { name:'TT', value:20.3, status:'reference' },
       { name:'CARR', value:282.3, status:'reference' },
       { name:'HON', value:10.0, status:'reference' },
-      { name:'ETN', value:25.3, status:'reference' },
-      { name:'GE', value:31.1, status:'reference' }
+      { name:'ETN', value:25.2, status:'reference' },
+      { name:'GE', value:30.9, status:'reference' }
     ]
   }
 };
@@ -1798,7 +1798,7 @@ const OTIS_FUNDAMENTAL = {"ticker": "OTIS", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py OTIS --self v2/OTIS_multiples.json --card
 /* VALUATION:BEGIN */
-const OTIS_VALUATION = {"peer": {"score": 73.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 77.3, "rank": 18, "peers": 75}, {"metric": "psr", "score": 73.1, "rank": 22, "peers": 78}, {"metric": "pcr", "score": 76.3, "rank": 19, "peers": 76}, {"metric": "evebitda", "score": 65.3, "rank": 27, "peers": 75}]}, "self": {"score": 88.8, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 90.3, "percentile": 9.7, "current": 19.77, "min": 16.47, "median": 25.94, "max": 30.99, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 88.3, "percentile": 11.7, "current": 2.0, "min": 1.64, "median": 2.48, "max": 2.99, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.3, "percentile": 10.7, "current": 18.09, "min": 14.24, "median": 25.7, "max": 33.94, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 87.4, "percentile": 12.6, "current": 15.39, "min": 13.29, "median": 18.28, "max": 22.8, "days": 1255, "currentNote": null}]}};
+const OTIS_VALUATION = {"peer": {"score": 73.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 77.3, "rank": 18, "peers": 75}, {"metric": "psr", "score": 73.1, "rank": 22, "peers": 78}, {"metric": "pcr", "score": 76.3, "rank": 19, "peers": 76}, {"metric": "evebitda", "score": 65.3, "rank": 27, "peers": 75}]}, "self": {"score": 88.8, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 90.3, "percentile": 9.7, "current": 19.77, "min": 16.47, "median": 25.94, "max": 30.99, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 88.3, "percentile": 11.7, "current": 2.0, "min": 1.64, "median": 2.48, "max": 2.99, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.3, "percentile": 10.7, "current": 18.09, "min": 14.24, "median": 25.7, "max": 33.94, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 87.4, "percentile": 12.6, "current": 15.23, "min": 13.12, "median": 18.12, "max": 22.65, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

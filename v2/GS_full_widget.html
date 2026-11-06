@@ -526,7 +526,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 ROE (5년 · 최근 4분기 19.5%)</span>
@@ -558,9 +558,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="gsFundVerdict">판정 안 함</span></div>
       <div class="logic-score" id="gsFundScore">—</div>
     </div>
-    <div class="logic-box logic-neutral" id="gsPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="gsPeerVerdict">중간</span></div>
-      <div class="logic-score" id="gsPeerScore">19.6<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-negative" id="gsPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="gsPeerVerdict">비싼 편</span></div>
+      <div class="logic-score" id="gsPeerScore">15.7<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="gsSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="gsSelfVerdict">중간</span></div>
@@ -925,17 +925,17 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$868.95</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.05</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.05</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">P/TBV</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 GS 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다. 은행 규칙에 따라 P/TBV·PER 두 배수가 모두 70 이상이면 +1, 모두 30 미만이면 −1이다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">39.0</div><div class="sc-tile lost" data-vc="self" data-m="per">62</div><div class="sc-tile low" data-vc="self" data-m="pbr">17</div><div class="sc-tile none" data-vc="self" data-m="psr">—</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$545</div><div class="vs-note">현재가 <span data-vs="price">$868.95</span> 대비 <strong data-vs="upside">−37.3%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.60
 시나리오 범위: 1.35 ~ 1.68(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(증권·투자은행) 카드: MS P/TBV 3.65배·PER 15.7배, SCHW P/TBV 6.62배·PER 17.0배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">19.6</div><div class="sc-tile lost" data-vc="peer" data-m="per">31</div><div class="sc-tile low" data-vc="peer" data-m="pbr">8</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(증권·투자은행) 카드: MS P/TBV 3.43배·PER 14.7배, SCHW P/TBV 6.57배·PER 16.9배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">15.7</div><div class="sc-tile low" data-vc="peer" data-m="per">23</div><div class="sc-tile low" data-vc="peer" data-m="pbr">8</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">P/TBV 2.48배는 자기 5년 이력의 위쪽(상위 16%)이고 비교군 S&P500 대형·지역 은행 12곳과 견주면 비싼 쪽부터 2번째다. <strong>초과이익모형 기본 가치 $545은 현재가의 63%</strong>로, 지금 가격은 ROE 27.2%가 5년 이어진다는 값이다(최근 4분기 19.5%, GAAP).</div>
-    <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 1.60로 "매우 비싸다"다. 세 칸이 자기 이력 0 · 동종업 0 · 초과이익 −2로 종합 평가는 적정~고평가다.</div>
+    <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 1.60로 "매우 비싸다"다. 세 칸이 자기 이력 0 · 동종업 −1 · 초과이익 −2로 종합 평가는 고평가다.</div>
   </div>
 
   <div class="grid-2">
@@ -1005,7 +1005,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 11/4 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 11/5 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1019,8 +1019,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 순이익(보통주 귀속) $5.1B(+32.7%), 최근 4분기 ROE 19.5%. 주가는 1년 새 +10%<span class="tag">수익성 높음 · 밸류 부담</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 초과이익 −2, 종합 "적정~고평가"이다. 초과이익모형 기본 가치($545)는 현재가의 63%다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 순이익(보통주 귀속) $5.1B(+32.7%), 최근 4분기 ROE 19.5%. 주가는 1년 새 +10%<span class="tag">수익성 높음 · 고평가</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 초과이익 −2, 종합 "고평가"이다. 초과이익모형 기본 가치($545)는 현재가의 63%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 1월 14일 무렵 (예상) · Q4 2026 실적 공시.</div>
   </div>
 
@@ -1305,57 +1305,57 @@ function renderSegmentChart() {
 // 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3)에서 고른 6곳. 값이 없는 은행은 뺀다.
 const MULTIPLE_DATA = {
   "per": {
-    "title": "S&P500 은행 PER 비교 · 11/4 종가",
+    "title": "S&P500 은행 PER 비교 · 11/5 종가",
     "unit": "PER(TTM)",
     "max": 25,
     "gsValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 15.08,
+        "value": 14.45,
         "status": "reference"
       },
       {
         "name": "BAC",
-        "value": 11.9,
+        "value": 11.47,
         "status": "reference"
       },
       {
         "name": "USB",
-        "value": 12.18,
+        "value": 11.93,
         "status": "reference"
       },
       {
         "name": "FITB",
-        "value": 18.74,
+        "value": 18.3,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 11.8,
+        "value": 11.55,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 11.89,
+        "value": 11.63,
         "status": "reference"
       }
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 11/4 종가 (PNC는 유형자본을 만들 수 없음)",
+    "title": "S&P500 은행 P/TBV 비교 · 11/5 종가 (PNC는 유형자본을 만들 수 없음)",
     "unit": "P/TBV",
     "max": 4,
     "gsValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 3.16,
+        "value": 3.03,
         "status": "reference"
       },
       {
         "name": "BAC",
-        "value": 1.78,
+        "value": 1.71,
         "status": "reference"
       },
       {
@@ -1365,17 +1365,17 @@ const MULTIPLE_DATA = {
       },
       {
         "name": "FITB",
-        "value": 2.36,
+        "value": 2.3,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 2.13,
+        "value": 2.09,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 1.92,
+        "value": 1.87,
         "status": "reference"
       }
     ]
@@ -1524,7 +1524,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py GS
 const GS_SCORES = {
   fundamental: null,   // 은행 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
-  peer: 19.6,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
+  peer: 15.7,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
   selfHistory: 39.0,   // P/TBV·PER 자기 5년 백분위 평균(표시용)
   asOf: "2026-11-05",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q (2026-11-02 공시)
@@ -1838,7 +1838,7 @@ const GS_FUNDAMENTAL = {"ticker": "GS", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py GS --self v2/GS_multiples.json --card
 /* VALUATION:BEGIN */
-const GS_VALUATION = {"peer": {"score": 19.6, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-05", "2026-11-05"], "metrics": [{"metric": "per", "score": 30.8, "rank": 10, "peers": 13}, {"metric": "pbr", "score": 8.3, "rank": 12, "peers": 12}]}, "self": {"score": 39.0, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-05", "2026-11-05"], "metrics": [{"metric": "per", "score": 61.5, "percentile": 38.5, "current": 13.41, "min": 5.14, "median": 15.25, "max": 21.04, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 16.5, "percentile": 83.5, "current": 2.48, "min": 0.98, "median": 1.46, "max": 3.34, "days": 1255, "gapDays": 0}]}};
+const GS_VALUATION = {"peer": {"score": 15.7, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-05", "2026-11-05"], "metrics": [{"metric": "per", "score": 23.1, "rank": 11, "peers": 13}, {"metric": "pbr", "score": 8.3, "rank": 12, "peers": 12}]}, "self": {"score": 39.0, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-05", "2026-11-05"], "metrics": [{"metric": "per", "score": 61.5, "percentile": 38.5, "current": 13.41, "min": 5.14, "median": 15.25, "max": 21.04, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 16.5, "percentile": 83.5, "current": 2.48, "min": 0.98, "median": 1.46, "max": 3.34, "days": 1255, "gapDays": 0}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -962,12 +962,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 4.5년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">13.6x</span>
+            <span class="val-number" data-hist="cur">13.4x</span>
             <span class="hist-badge good" data-hist="badge">4.5년 중 하위 10%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 9.7%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.7x</span><span data-hist="median">중앙 18.1x</span><span data-hist="max">최고 22.8x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 9.6%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.6x</span><span data-hist="median">중앙 17.9x</span><span data-hist="max">최고 22.6x</span></div>
       </div>
     </div>
 
@@ -1324,11 +1324,11 @@ const MULTIPLE_DATA = {
     title: '보험 중개·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/30 종가(BRO 막대는 11/5)',
     unit: 'EV/EBITDA', max: 30, broValue: null,
     peers: [
-      { name:'AJG', value:21.1, status:'reference' },
-      { name:'AON', value:14.8, status:'reference' },
-      { name:'MRSH', value:16.6, status:'reference' },
-      { name:'WTW', value:13.0, status:'reference' },
-      { name:'MCO', value:22.0, status:'reference' }
+      { name:'AJG', value:20.9, status:'reference' },
+      { name:'AON', value:14.7, status:'reference' },
+      { name:'MRSH', value:16.3, status:'reference' },
+      { name:'WTW', value:12.8, status:'reference' },
+      { name:'MCO', value:21.9, status:'reference' }
     ]
   }
 };
@@ -1781,7 +1781,7 @@ const BRO_FUNDAMENTAL = {"ticker": "BRO", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py BRO --self v2/BRO_multiples.json --card
 /* VALUATION:BEGIN */
-const BRO_VALUATION = {"peer": {"score": 73.0, "sector": "Financials (S&P500 24종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 68.4, "rank": 7, "peers": 19}, {"metric": "pbr", "score": 85.0, "rank": 4, "peers": 20}, {"metric": "psr", "score": 71.4, "rank": 7, "peers": 21}, {"metric": "pcr", "score": 70.0, "rank": 7, "peers": 20}, {"metric": "evebitda", "score": 70.0, "rank": 7, "peers": 20}]}, "self": {"score": 87.8, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 82.7, "percentile": 17.3, "current": 23.54, "min": 17.49, "median": 27.6, "max": 35.96, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 85.6, "percentile": 14.4, "current": 1.96, "min": 1.46, "median": 4.01, "max": 5.54, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 91.1, "percentile": 8.9, "current": 3.57, "min": 2.88, "median": 5.34, "max": 7.4, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.2, "percentile": 10.8, "current": 16.59, "min": 12.92, "median": 23.11, "max": 33.49, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 90.3, "percentile": 9.7, "current": 13.58, "min": 11.7, "median": 18.1, "max": 22.77, "days": 1128, "currentNote": null}]}};
+const BRO_VALUATION = {"peer": {"score": 73.0, "sector": "Financials (S&P500 24종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 68.4, "rank": 7, "peers": 19}, {"metric": "pbr", "score": 85.0, "rank": 4, "peers": 20}, {"metric": "psr", "score": 71.4, "rank": 7, "peers": 21}, {"metric": "pcr", "score": 70.0, "rank": 7, "peers": 20}, {"metric": "evebitda", "score": 70.0, "rank": 7, "peers": 20}]}, "self": {"score": 87.8, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 82.7, "percentile": 17.3, "current": 23.54, "min": 17.49, "median": 27.6, "max": 35.96, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 85.6, "percentile": 14.4, "current": 1.96, "min": 1.46, "median": 4.01, "max": 5.54, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 91.1, "percentile": 8.9, "current": 3.57, "min": 2.88, "median": 5.34, "max": 7.4, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 89.2, "percentile": 10.8, "current": 16.59, "min": 12.92, "median": 23.11, "max": 33.49, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 90.4, "percentile": 9.6, "current": 13.43, "min": 11.57, "median": 17.94, "max": 22.63, "days": 1128, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

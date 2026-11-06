@@ -898,7 +898,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.05</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
-      <div class="vs-name" title="지난 5년 AEE 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">33.9</div><div class="sc-tile lost" data-vc="self" data-m="per">62</div><div class="sc-tile low" data-vc="self" data-m="pbr">21</div><div class="sc-tile low" data-vc="self" data-m="psr">10</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">42</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
+      <div class="vs-name" title="지난 5년 AEE 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">33.9</div><div class="sc-tile lost" data-vc="self" data-m="per">62</div><div class="sc-tile low" data-vc="self" data-m="pbr">21</div><div class="sc-tile low" data-vc="self" data-m="psr">10</div><div class="sc-tile none" data-vc="self" data-m="pcr">—</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">43</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">0 이하</div><div class="vs-note">현재가 <span data-vs="price">$112.81</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 4.1% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다
 · 실효세율 9.0% &lt; 10% — 세금 가정에 따라 값이 크게 바뀐다
 · 잔존가치 비중 — 내재가치가 0 이하라 의미 없음
@@ -967,11 +967,11 @@ Chart.overrides.doughnut.animation = false;
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">13.9x</span>
-            <span class="hist-badge mid" data-hist="badge">5년 중 상위 42%</span>
+            <span class="hist-badge mid" data-hist="badge">5년 중 상위 43%</span>
           </div>
         </div>
-        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 57.6%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 11.2x</span><span data-hist="median">중앙 13.8x</span><span data-hist="max">최고 15.5x</span></div>
+        <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 57.5%;"></div></div>
+        <div class="hist-labels"><span data-hist="min">최저 11.2x</span><span data-hist="median">중앙 13.7x</span><span data-hist="max">최고 15.4x</span></div>
       </div>
     </div>
 
@@ -1329,10 +1329,10 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 25, aeeValue: null,
     peers: [
       { name:'NEE', value:19.0, status:'reference' },
-      { name:'SO', value:13.7, status:'reference' },
+      { name:'SO', value:13.5, status:'reference' },
       { name:'DUK', value:11.3, status:'reference' },
-      { name:'ED', value:13.2, status:'reference' },
-      { name:'XEL', value:14.5, status:'reference' },
+      { name:'ED', value:13.1, status:'reference' },
+      { name:'XEL', value:14.3, status:'reference' },
       { name:'PEG', value:14.7, status:'reference' }
     ]
   }
@@ -1791,7 +1791,7 @@ const AEE_FUNDAMENTAL = {"ticker": "AEE", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py AEE --self v2/AEE_multiples.json --card
 /* VALUATION:BEGIN */
-const AEE_VALUATION = {"peer": {"score": 42.7, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 66.7, "rank": 11, "peers": 30}, {"metric": "pbr", "score": 40.0, "rank": 19, "peers": 30}, {"metric": "psr", "score": 23.3, "rank": 24, "peers": 30}, {"metric": "evebitda", "score": 40.7, "rank": 17, "peers": 27}]}, "self": {"score": 33.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 62.2, "percentile": 37.8, "current": 19.86, "min": 15.44, "median": 20.7, "max": 25.65, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 20.9, "percentile": 79.1, "current": 2.28, "min": 1.62, "median": 2.17, "max": 2.62, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 9.9, "percentile": 90.1, "current": 3.57, "min": 2.25, "median": 3.23, "max": 3.97, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 42.4, "percentile": 57.6, "current": 13.91, "min": 11.19, "median": 13.75, "max": 15.47, "days": 1255, "currentNote": null}]}};
+const AEE_VALUATION = {"peer": {"score": 42.7, "sector": "Utilities (S&P500 31종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 66.7, "rank": 11, "peers": 30}, {"metric": "pbr", "score": 40.0, "rank": 19, "peers": 30}, {"metric": "psr", "score": 23.3, "rank": 24, "peers": 30}, {"metric": "evebitda", "score": 40.7, "rank": 17, "peers": 27}]}, "self": {"score": 33.9, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 62.2, "percentile": 37.8, "current": 19.86, "min": 15.44, "median": 20.7, "max": 25.65, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 20.9, "percentile": 79.1, "current": 2.28, "min": 1.62, "median": 2.17, "max": 2.62, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 9.9, "percentile": 90.1, "current": 3.57, "min": 2.25, "median": 3.23, "max": 3.97, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 42.5, "percentile": 57.5, "current": 13.89, "min": 11.18, "median": 13.73, "max": 15.45, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

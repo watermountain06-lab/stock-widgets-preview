@@ -963,12 +963,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 1.7년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">54.4x</span>
+            <span class="val-number" data-hist="cur">53.8x</span>
             <span class="hist-badge mid" data-hist="badge">1.7년 중 상위 42%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill mid" data-hist="fill" style="width: 57.9%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 14.8x</span><span data-hist="median">중앙 51.8x</span><span data-hist="max">최고 278.3x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 14.4x</span><span data-hist="median">중앙 51.2x</span><span data-hist="max">최고 273.3x</span></div>
       </div>
     </div>
 
@@ -1325,11 +1325,11 @@ const MULTIPLE_DATA = {
     title: '미디어·플랫폼 EV/EBITDA 비교 (TTD 값 없음) · 10/30 종가(TTWO 막대는 11/5)',
     unit: 'EV/EBITDA', max: 65, ttwoValue: null,
     peers: [
-      { name:'NFLX', value:16.6, status:'reference' },
-      { name:'DIS', value:12.5, status:'reference' },
-      { name:'META', value:15.3, status:'reference' },
-      { name:'GOOGL', value:17.9, status:'reference' },
-      { name:'LYV', value:30.1, status:'reference' }
+      { name:'NFLX', value:16.4, status:'reference' },
+      { name:'DIS', value:12.4, status:'reference' },
+      { name:'META', value:15.0, status:'reference' },
+      { name:'GOOGL', value:17.7, status:'reference' },
+      { name:'LYV', value:28.7, status:'reference' }
     ]
   }
 };
@@ -1792,7 +1792,7 @@ const TTWO_FUNDAMENTAL = {"ticker": "TTWO", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py TTWO --self v2/TTWO_multiples.json --card
 /* VALUATION:BEGIN */
-const TTWO_VALUATION = {"peer": {"score": 9.0, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 5.9, "rank": 17, "peers": 17}, {"metric": "psr", "score": 17.6, "rank": 15, "peers": 17}, {"metric": "pcr", "score": 12.5, "rank": 15, "peers": 16}, {"metric": "evebitda", "score": 0.0, "rank": 15, "peers": 14}]}, "self": {"score": 38.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 22.92, "median": 35.47, "max": 89.86, "days": 253, "currentNote": "per_na"}, {"metric": "pbr", "score": 23.5, "percentile": 76.5, "current": 11.06, "min": 1.66, "median": 4.73, "max": 20.17, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 32.7, "percentile": 67.3, "current": 5.97, "min": 3.5, "median": 5.3, "max": 8.34, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 55.2, "percentile": 44.8, "current": 118.2, "min": 39.81, "median": 139.61, "max": 237.58, "days": 511, "currentNote": null}, {"metric": "evebitda", "score": 42.1, "percentile": 57.9, "current": 54.38, "min": 14.75, "median": 51.78, "max": 278.29, "days": 430, "currentNote": null}]}, "perNA": {"netMargin": -0.0479, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const TTWO_VALUATION = {"peer": {"score": 9.0, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 5.9, "rank": 17, "peers": 17}, {"metric": "psr", "score": 17.6, "rank": 15, "peers": 17}, {"metric": "pcr", "score": 12.5, "rank": 15, "peers": 16}, {"metric": "evebitda", "score": 0.0, "rank": 15, "peers": 14}]}, "self": {"score": 38.4, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 22.92, "median": 35.47, "max": 89.86, "days": 253, "currentNote": "per_na"}, {"metric": "pbr", "score": 23.5, "percentile": 76.5, "current": 11.06, "min": 1.66, "median": 4.73, "max": 20.17, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 32.7, "percentile": 67.3, "current": 5.97, "min": 3.5, "median": 5.3, "max": 8.34, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 55.2, "percentile": 44.8, "current": 118.2, "min": 39.81, "median": 139.61, "max": 237.58, "days": 511, "currentNote": null}, {"metric": "evebitda", "score": 42.1, "percentile": 57.9, "current": 53.82, "min": 14.38, "median": 51.22, "max": 273.33, "days": 430, "currentNote": null}]}, "perNA": {"netMargin": -0.0479, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

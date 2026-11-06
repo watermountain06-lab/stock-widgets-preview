@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="phPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="phPeerVerdict">중간</span></div>
-      <div class="logic-score" id="phPeerScore">30.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="phPeerScore">30.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="phSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="phSelfVerdict">비싼 편</span></div>
@@ -899,9 +899,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.57 ~ 3.49(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">30.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">35</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">38</div><div class="sc-tile low" data-vc="peer" data-m="psr">22</div><div class="sc-tile low" data-vc="peer" data-m="pcr">29</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">29</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">30.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">35</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">38</div><div class="sc-tile low" data-vc="peer" data-m="psr">22</div><div class="sc-tile low" data-vc="peer" data-m="pcr">29</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">27</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 31.3배(5년 중앙값 27.7배)로 자기 이력 22.3점(비싸다), 동종업 30.5점(중간)이다. <strong>현금흐름 내재가치(기본 $347.68)는 현재가의 39%다</strong>.</div>
+    <div class="vs-premise">PER 31.3배(5년 중앙값 27.7배)로 자기 이력 22.3점(비싸다), 동종업 30.0점(중간)이다. <strong>현금흐름 내재가치(기본 $347.68)는 현재가의 39%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $347.68)는 현재가의 39%다. 현재가를 정당화하려면 영업이익률이 47.9%까지 올라야 한다(최근 4분기 23.6%, 5년 중앙값 20.0%). 내재가치에서 차입금 $8.5B를 빼고 현금·단기투자 $501M를 더한다.</div>
   </div>
 
@@ -966,7 +966,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 83%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 10.3x</span><span data-hist="median">중앙 15.5x</span><span data-hist="max">최고 25.3x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 10.2x</span><span data-hist="median">중앙 15.5x</span><span data-hist="max">최고 25.3x</span></div>
       </div>
     </div>
 
@@ -1347,12 +1347,12 @@ const MULTIPLE_DATA = {
     title: '산업 기계·부품 EV/EBITDA 비교 · 10/30 종가(PH 막대는 11/5)',
     unit: 'EV/EBITDA', max: 30, phValue: null,
     peers: [
-      { name:'ETN', value:25.3, status:'reference' },
-      { name:'EMR', value:20.3, status:'reference' },
+      { name:'ETN', value:25.2, status:'reference' },
+      { name:'EMR', value:20.1, status:'reference' },
       { name:'ITW', value:18.2, status:'reference' },
-      { name:'DOV', value:15.9, status:'reference' },
-      { name:'ROK', value:21.9, status:'reference' },
-      { name:'AME', value:23.2, status:'reference' }
+      { name:'DOV', value:15.8, status:'reference' },
+      { name:'ROK', value:21.7, status:'reference' },
+      { name:'AME', value:23.1, status:'reference' }
     ]
   }
 };
@@ -1482,7 +1482,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py PH
 const PH_SCORES = {
   fundamental: 56.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 30.5,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 30.0,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 22.3,   // 자기 5년 배수 분포 백분위 (2021-11-05 ~ 2026-11-05)
   asOf: "2026-11-05",
   fundamentalAsOf: "2026-06-30",   // FY26 10-K
@@ -1813,7 +1813,7 @@ const PH_FUNDAMENTAL = {"ticker": "PH", "basis": "quarter", "asOf": "2026-06-30"
 //
 // 갱신: python3 v2/build_peer_score.py PH --self v2/PH_multiples.json --card
 /* VALUATION:BEGIN */
-const PH_VALUATION = {"peer": {"score": 30.5, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 34.7, "rank": 50, "peers": 75}, {"metric": "pbr", "score": 37.8, "rank": 47, "peers": 74}, {"metric": "psr", "score": 21.8, "rank": 62, "peers": 78}, {"metric": "pcr", "score": 28.9, "rank": 55, "peers": 76}, {"metric": "evebitda", "score": 29.3, "rank": 54, "peers": 75}]}, "self": {"score": 22.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 30.4, "percentile": 69.6, "current": 31.33, "min": 18.22, "median": 27.73, "max": 39.61, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 19.7, "percentile": 80.3, "current": 7.3, "min": 3.39, "median": 5.92, "max": 9.27, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 18.5, "percentile": 81.5, "current": 5.23, "min": 1.93, "median": 3.47, "max": 6.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 26.1, "percentile": 73.9, "current": 28.8, "min": 13.83, "median": 23.44, "max": 38.66, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 17.0, "percentile": 83.0, "current": 20.1, "min": 10.27, "median": 15.53, "max": 25.33, "days": 1136, "currentNote": null}]}};
+const PH_VALUATION = {"peer": {"score": 30.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 34.7, "rank": 50, "peers": 75}, {"metric": "pbr", "score": 37.8, "rank": 47, "peers": 74}, {"metric": "psr", "score": 21.8, "rank": 62, "peers": 78}, {"metric": "pcr", "score": 28.9, "rank": 55, "peers": 76}, {"metric": "evebitda", "score": 26.7, "rank": 56, "peers": 75}]}, "self": {"score": 22.3, "window": ["2021-11-05", "2026-11-05"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 30.4, "percentile": 69.6, "current": 31.33, "min": 18.22, "median": 27.73, "max": 39.61, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 19.7, "percentile": 80.3, "current": 7.3, "min": 3.39, "median": 5.92, "max": 9.27, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 18.5, "percentile": 81.5, "current": 5.23, "min": 1.93, "median": 3.47, "max": 6.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 26.1, "percentile": 73.9, "current": 28.8, "min": 13.83, "median": 23.44, "max": 38.66, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 17.0, "percentile": 83.0, "current": 20.06, "min": 10.23, "median": 15.48, "max": 25.3, "days": 1136, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
