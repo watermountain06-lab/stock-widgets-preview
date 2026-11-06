@@ -967,7 +967,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 74.7%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 7.8x</span><span data-hist="median">중앙 12.8x</span><span data-hist="max">최고 15.8x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 7.8x</span><span data-hist="median">중앙 12.7x</span><span data-hist="max">최고 15.8x</span></div>
       </div>
     </div>
 
@@ -1324,10 +1324,10 @@ const MULTIPLE_DATA = {
     peers: [
       { name:'FISV', value:7.6, status:'reference' },
       { name:'FIS', value:9.7, status:'reference' },
-      { name:'GPN', value:11.9, status:'reference' },
-      { name:'PYPL', value:7.5, status:'reference' },
+      { name:'GPN', value:11.8, status:'reference' },
+      { name:'PYPL', value:7.4, status:'reference' },
       { name:'V', value:27.8, status:'reference' },
-      { name:'MA', value:25.5, status:'reference' }
+      { name:'MA', value:25.4, status:'reference' }
     ]
   }
 };
@@ -1780,7 +1780,7 @@ const CPAY_FUNDAMENTAL = {"ticker": "CPAY", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py CPAY --self v2/CPAY_multiples.json --card
 /* VALUATION:BEGIN */
-const CPAY_VALUATION = {"peer": {"score": 54.6, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 57.1, "rank": 7, "peers": 14}, {"metric": "pbr", "score": 20.0, "rank": 13, "peers": 15}, {"metric": "psr", "score": 62.5, "rank": 7, "peers": 16}, {"metric": "pcr", "score": 60.0, "rank": 7, "peers": 15}, {"metric": "evebitda", "score": 73.3, "rank": 5, "peers": 15}]}, "self": {"score": 18.7, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 14.1, "percentile": 85.9, "current": 24.63, "min": 14.09, "median": 21.58, "max": 27.79, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 1.0, "percentile": 99.0, "current": 8.68, "min": 4.58, "median": 6.27, "max": 8.95, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 40.9, "percentile": 59.1, "current": 5.47, "min": 3.83, "median": 5.34, "max": 8.24, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 12.3, "percentile": 87.7, "current": 21.47, "min": 8.93, "median": 16.71, "max": 28.16, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 25.3, "percentile": 74.7, "current": 13.5, "min": 7.83, "median": 12.79, "max": 15.83, "days": 1255, "currentNote": null}]}};
+const CPAY_VALUATION = {"peer": {"score": 54.6, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 57.1, "rank": 7, "peers": 14}, {"metric": "pbr", "score": 20.0, "rank": 13, "peers": 15}, {"metric": "psr", "score": 62.5, "rank": 7, "peers": 16}, {"metric": "pcr", "score": 60.0, "rank": 7, "peers": 15}, {"metric": "evebitda", "score": 73.3, "rank": 5, "peers": 15}]}, "self": {"score": 18.7, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 14.1, "percentile": 85.9, "current": 24.63, "min": 14.09, "median": 21.58, "max": 27.79, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 1.0, "percentile": 99.0, "current": 8.68, "min": 4.58, "median": 6.27, "max": 8.95, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 40.9, "percentile": 59.1, "current": 5.47, "min": 3.83, "median": 5.34, "max": 8.24, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 12.3, "percentile": 87.7, "current": 21.47, "min": 8.93, "median": 16.71, "max": 28.16, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 25.3, "percentile": 74.7, "current": 13.46, "min": 7.77, "median": 12.73, "max": 15.78, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
