@@ -2,40 +2,30 @@
  "etf": "SPY",
  "name": "SPDR S&P 500 ETF Trust",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-11-04 ≠ 허용 ['2026-11-05'] (P=2026-11-05, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
    "detail": "승인 목록에 없는 판정 코드 해시 293장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
-  },
-  {
-   "key": "date_mismatch",
-   "text": "카드 날짜 불일치",
-   "detail": "덮은 비중 0.06% < 70%"
   }
  ],
- "detail": "보유 파일 기준일 2026-11-04 ≠ 허용 ['2026-11-05'] (P=2026-11-05, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 293장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
  "verdict": null,
  "nbar": null,
- "coverage": 0.0005537687916904294,
+ "coverage": 0.8605839446966196,
  "range": null,
  "edgeNear": false,
  "bar": {
-  "저평가": 0.0,
-  "적정~저평가": 0.0,
-  "적정": 0.0005537687916904294,
-  "적정~고평가": 0.0,
-  "고평가": 0.0,
-  "카드 없음": 0.09632933546684022,
-  "판정 보류": 0.0005655295972833921,
-  "그 밖 제외": 0.9025513661441856,
+  "저평가": 0.003078175969620175,
+  "적정~저평가": 0.10193143980164414,
+  "적정": 0.011946526067200357,
+  "적정~고평가": 0.4055989848646139,
+  "고평가": 0.33802881799354106,
+  "카드 없음": 0.09829094364692659,
+  "판정 보류": 0.028195271034795567,
+  "그 밖 제외": 0.012929840621658209,
   "분류 안 됨": 0
  },
  "top10": [
@@ -45,13 +35,11 @@
    "lines": [
     "AAPL"
    ],
-   "weight": 0.07697368187943719,
+   "weight": 0.07925568363670585,
    "card": "AAPL",
    "verdict": "고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "excluded": []
   },
   {
    "company": "NVDA",
@@ -59,13 +47,11 @@
    "lines": [
     "NVDA"
    ],
-   "weight": 0.07308544944924497,
+   "weight": 0.0693440671281408,
    "card": "NVDA",
    "verdict": "적정~저평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "excluded": []
   },
   {
    "company": "MSFT",
@@ -73,13 +59,11 @@
    "lines": [
     "MSFT"
    ],
-   "weight": 0.06227974138078583,
+   "weight": 0.06279295789016233,
    "card": "MSFT",
    "verdict": "적정~고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "excluded": []
   },
   {
    "company": "GOOGL",
@@ -88,13 +72,11 @@
     "GOOGL",
     "GOOG"
    ],
-   "weight": 0.04618974821686669,
+   "weight": 0.04729116360387157,
    "card": "GOOGL",
    "verdict": "적정~고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "excluded": []
   },
   {
    "company": "AMZN",
@@ -102,13 +84,11 @@
    "lines": [
     "AMZN"
    ],
-   "weight": 0.03940368331615722,
+   "weight": 0.04029998031068515,
    "card": "AMZN",
    "verdict": "적정~고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "excluded": []
   },
   {
    "company": "AVGO",
@@ -116,13 +96,11 @@
    "lines": [
     "AVGO"
    ],
-   "weight": 0.023366268460135804,
+   "weight": 0.02188381906799979,
    "card": "AVGO",
    "verdict": "적정~고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "excluded": []
   },
   {
    "company": "META",
@@ -130,13 +108,11 @@
    "lines": [
     "META"
    ],
-   "weight": 0.020962690100410453,
+   "weight": 0.021052040864202457,
    "card": "META",
    "verdict": "적정~고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "excluded": []
   },
   {
    "company": "LLY",
@@ -144,12 +120,24 @@
    "lines": [
     "LLY"
    ],
-   "weight": 0.017120169669488934,
+   "weight": 0.01722888624796406,
    "card": "LLY",
    "verdict": "고평가",
+   "n": -3.0,
+   "excluded": []
+  },
+  {
+   "company": "BRKB",
+   "name": "BERKSHIRE HATHAWAY INC CL B",
+   "lines": [
+    "BRK.B"
+   ],
+   "weight": 0.016817331618243756,
+   "card": "BRKB",
+   "verdict": "판정 보류",
    "n": null,
    "excluded": [
-    "날짜 불일치"
+    "판정 보류"
    ]
   },
   {
@@ -158,28 +146,11 @@
    "lines": [
     "TSLA"
    ],
-   "weight": 0.016380219818364718,
+   "weight": 0.01528222774411955,
    "card": "TSLA",
    "verdict": "고평가",
-   "n": null,
-   "excluded": [
-    "날짜 불일치"
-   ]
-  },
-  {
-   "company": "BRKB",
-   "name": "BERKSHIRE HATHAWAY INC CL B",
-   "lines": [
-    "BRK.B"
-   ],
-   "weight": 0.016273531795543108,
-   "card": "BRKB",
-   "verdict": "판정 보류",
-   "n": null,
-   "excluded": [
-    "날짜 불일치",
-    "판정 보류"
-   ]
+   "n": -4.0,
+   "excluded": []
   }
  ],
  "counts": {
@@ -187,50 +158,42 @@
   "nonEquity": 2,
   "companies": 500,
   "cardsMatched": 305,
-  "cardsUsed": 2,
+  "cardsUsed": 283,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
-   "날짜 불일치": 302,
-   "판정 보류": 1
+   "날짜 불일치": 4,
+   "판정 보류": 18
   }
  },
  "cards": [
   {
    "card": "A",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AAPL",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ABBV",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ABT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ACGL",
@@ -244,302 +207,239 @@
   {
    "card": "ACN",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ADBE",
    "verdict": "저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ADI",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ADP",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ADSK",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AEE",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AEP",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AJG",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.6666666666666665,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ALL",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "ALLE",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AMAT",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AMD",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AME",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AMGN",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AMT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AMZN",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ANET",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AON",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.3333333333333333,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AOS",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "APD",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "APH",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "APTV",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "ATO",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AVGO",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AVY",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "AXP",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BA",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BAC",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BALL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BBY",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "BE",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BEN",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BIIB",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BKNG",
@@ -562,28 +462,23 @@
   {
    "card": "BMY",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BNY",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BRKB",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
@@ -597,55 +492,44 @@
   {
    "card": "BSX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "BX",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "C",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CASY",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CAT",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CB",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
@@ -653,590 +537,464 @@
    "card": "CCL",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "CDNS",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CDW",
-   "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CEG",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CF",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CHD",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CIEN",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CINF",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "CL",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CME",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CMG",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CMI",
-   "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CNP",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "COF",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "COP",
-   "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~저평가",
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "COR",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "COST",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CPAY",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "CRH",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CRM",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CRWD",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CSCO",
-   "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "고평가",
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CSX",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CTAS",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CTSH",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CVS",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "CVX",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DAL",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DASH",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DDOG",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DE",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DECK",
    "verdict": "저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DELL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DG",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DGX",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DHI",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DHR",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DIS",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DOV",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DPZ",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DRI",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DUK",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DVA",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "DXCM",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EBAY",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ECL",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ED",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EFX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EG",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "ELV",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EME",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EMR",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EOG",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EQIX",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ETN",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ETR",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EVRG",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EXC",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EXPD",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "EXPE",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "FAST",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "FCX",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "FDS",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "FFIV",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "FICO",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "FIS",
@@ -1249,979 +1007,769 @@
    "card": "FISV",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "FIX",
-   "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~저평가",
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "FTNT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GD",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GE",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GEHC",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GEV",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GILD",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GLW",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GM",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GOOGL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GPC",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "GRMN",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GS",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "GWW",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "HAS",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "HD",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "HII",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "HLT",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "HOOD",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.6666666666666665,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "HPE",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "HUBB",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "HWM",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "IBM",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ICE",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.6666666666666665,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "IDXX",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "IEX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "INTC",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "INTU",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "IQV",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "IR",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ISRG",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ITW",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "IVZ",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "JBHT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "JKHY",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "JNJ",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "JPM",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "KEYS",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "KLAC",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "KMI",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "KO",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "L",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "LDOS",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LH",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "LII",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LIN",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LITE",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LLY",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LMT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LNT",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LOW",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LRCX",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LULU",
    "verdict": "저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "LVS",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MA",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MAR",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MAS",
-   "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MCD",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MCHP",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MCK",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MCO",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.6666666666666665,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MDLZ",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "META",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MMM",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MNST",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MO",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MPC",
-   "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~저평가",
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MRK",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MRNA",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MRSH",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MRVL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MS",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MSCI",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.3333333333333333,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MSFT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MSI",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MTD",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "MU",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NCLH",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NDAQ",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.6666666666666665,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NDSN",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NEE",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NEM",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NFLX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NKE",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NOC",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NOW",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NTAP",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NUE",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NVDA",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "NWSA",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ODFL",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "OKE",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ORCL",
-   "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ORLY",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "OTIS",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "P",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PANW",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PAYX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PCAR",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PEG",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PEP",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PFE",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PG",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PGR",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "PH",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PHM",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PLD",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PLTR",
@@ -2235,74 +1783,58 @@
   {
    "card": "PM",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PNW",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PODD",
-   "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PPG",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PPL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PSX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PWR",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "PYPL",
    "verdict": "저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "QCOM",
@@ -2316,646 +1848,506 @@
   {
    "card": "RCL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "REGN",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "RJF",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "RL",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "RMD",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ROL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ROST",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "RSG",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "RTX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "SBUX",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "SCHW",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "SHW",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "SNDK",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "SNPS",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "SO",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "STLD",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "STX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "SYF",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "SYK",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "T",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TDG",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TDY",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TEL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TER",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TGT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TJX",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TMO",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TMUS",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TPR",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TRGP",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TROW",
    "verdict": "저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TRV",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "TSCO",
-   "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정",
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TSLA",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TT",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TTWO",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "TXN",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "UAL",
    "verdict": "적정~저평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "UBER",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ULTA",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "UNH",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "UNP",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "UPS",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "USB",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "V",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VEEV",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VLO",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VLTO",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VMC",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VRSK",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VRSN",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VRT",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VRTX",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "VZ",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WAB",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WDAY",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WDC",
-   "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~저평가",
+   "n": 1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WEC",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WELL",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WFC",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WM",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WMB",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WMT",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WRB",
    "verdict": "판정 보류",
    "n": null,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "excluded": [
-    "날짜 불일치",
     "판정 보류"
    ]
   },
   {
    "card": "WSM",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WST",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "WTW",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -1.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "XEL",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "XOM",
    "verdict": "적정~고평가",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -2.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "XYL",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   },
   {
    "card": "ZBRA",
    "verdict": "적정",
-   "n": null,
-   "date": "2026-11-04",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": 0.0,
+   "date": "2026-11-05",
+   "excluded": []
   }
  ],
- "S": "2026-11-04",
+ "S": "2026-11-05",
  "builtFor": "2026-11-05",
  "expense": {
   "pct": 0.0945,
@@ -2966,10 +2358,10 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-06T03:20:15Z",
- "fetchedAt": "2026-11-06T03:20:15Z",
+ "runAt": "2026-11-06T19:25:24Z",
+ "fetchedAt": "2026-11-06T19:25:24Z",
  "inputHash": {
-  "xlsx": "a2722374f1344d7066d0df707f1c17217cfb253379f49d8627106d0f8678559a",
+  "xlsx": "4f8e0f465e23dfa74c4cf40c409a01f104345d9ecaefeb49c17efb6c53f1d11e",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -2978,17 +2370,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
-   "code_sig",
-   "date_mismatch"
+   "code_sig"
   ],
-  "S": "2026-11-04"
+  "S": "2026-11-05"
  },
- "runId": "42155885418.1",
+ "runId": "42279435407.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",
