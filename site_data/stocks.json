@@ -13068,6 +13068,50 @@
         "valuationAsOf": "2026-11-06",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "AIZ",
+      "name": "어슈어런트",
+      "sector": "기기 보호·주택 특종 보험",
+      "href": "AIZ_full_widget.html",
+      "cardRank": 311,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 306.87,
+        "prevClose": 308.52,
+        "session": "2026-11-05",
+        "prevSession": "2026-11-04",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 49066851,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-05",
+        "filing": "10-Q 0001267238-26-000046 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 60.0,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": [
+          "health_ratios_below_gate",
+          "operating_income_estimated"
+        ]
+      }
     }
   ]
 }
