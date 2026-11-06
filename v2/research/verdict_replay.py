@@ -125,10 +125,18 @@ def multiple_series(t, cik, daily, eps):
         if not common:
             return None
         end = max(common)
-        lead = max(x[-1]["end"] for x in parts.values())
+        # 목록 마지막이 아니라 결산일이 가장 늦은 행 — 엔진 core_earnings와 같은 **행 선택** 규칙(E63 newest_row, 2026-11-06).
+        # 산식 전체는 같지 않다: 엔진의 eps_oneoff 세율 조정·oneoff_in_ttm·rate_addback·순이자 가산은 연구에 없다(기존부터).
+        _nw = [bmh.newest_row(v) for v in parts.values()]
+        if None in _nw:
+            return None
+        lead = max(x["end"] for x in _nw)
         if (date.fromisoformat(lead) - date.fromisoformat(end)).days > bmh.MAX_PAIR_LAG_DAYS:
             return None
-        o, tx, pt = ([e for e in parts[n] if e["end"] == end][-1]["val"] for n in ("opinc", "tax", "pretax"))
+        _at = [bmh.newest_row([e for e in parts[n] if e["end"] == end]) for n in ("opinc", "tax", "pretax")]
+        if None in _at:
+            return None
+        o, tx, pt = (x["val"] for x in _at)
         if pt <= 0 or o <= 0:
             return None
         r = tx / pt
@@ -154,17 +162,22 @@ def multiple_series(t, cik, daily, eps):
         eb = [e for e in series.get(b, []) if e["available"] <= dd]
         if not ea or not eb:
             return None, None
-        if ea[-1]["end"] != eb[-1]["end"]:
+        na, nb = bmh.newest_row(ea), bmh.newest_row(eb)    # 엔진 paired와 같은 규칙(E63 newest_row, 2026-11-06)
+        if na is None or nb is None:
+            return None, None
+        if na["end"] != nb["end"]:
             common = {x["end"] for x in ea} & {x["end"] for x in eb}
             if not common:
                 return None, None
             end = max(common)
-            lead = max(ea[-1]["end"], eb[-1]["end"])
+            lead = max(na["end"], nb["end"])
             if (date.fromisoformat(lead) - date.fromisoformat(end)).days > bmh.MAX_PAIR_LAG_DAYS:
                 return None, None
-            ea = [x for x in ea if x["end"] == end]
-            eb = [x for x in eb if x["end"] == end]
-        return ea[-1]["val"], eb[-1]["val"]
+            na = bmh.newest_row([x for x in ea if x["end"] == end])
+            nb = bmh.newest_row([x for x in eb if x["end"] == end])
+            if na is None or nb is None:
+                return None, None
+        return na["val"], nb["val"]
 
     def ebitda(dd):
         o, a = paired("opinc", "dda", dd)
@@ -325,11 +338,13 @@ def build(panel_path=PANEL):
             분할 목록은 진짜 분할 + 되돌리지 않는 분사 사건(F1)."""
             if restore not in eps_cache:
                 sp = [{"date": d0, "ratio": r0} for d0, r0 in sorted(keep_sp + [x for x in ign_sp if x not in restore])]
-                e1 = [{"available": e["available"], "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"]),
+                # 결산일을 남긴다 — bmh.as_of(newest_row)가 늦게 공개된 옛 분기로 최신 EPS를 덮지 않게(엔진 E63, Codex 2026-11-06)
+                e1 = [{"available": e["available"], **({"end": e["quarter_end"]} if e.get("quarter_end") else {}),
+                       "val": e["val"] + bmh.oneoff_in_ttm(t, e["quarter_end"], "eps", asof=e["available"]),
                        **({"replaced": True} if e.get("replaced") else {})}
                       for e in pit.eps_ttm(data, sp) if e["val"]]
                 if not e1 and os.path.exists(ep):
-                    e1 = sorted(({"available": e["available_date"],
+                    e1 = sorted(({"available": e["available_date"], **({"end": e["quarter_end"]} if e.get("quarter_end") else {}),
                                   "val": e["ttm_eps"] + bmh.oneoff_in_ttm(t, e.get("quarter_end"), "eps", asof=e["available_date"])}
                                  for e in json.load(open(ep)) if e.get("ttm_eps")), key=lambda e: e["available"])
                 eps_cache[restore] = e1
@@ -423,8 +438,8 @@ def build(panel_path=PANEL):
                     pit.reset(bmh)
             mv_day, core_day, den_day, pdil_day, sdq_all = mcache[key]
             sdq = [x for x in sdq_all if x.split(":")[1] <= day]   # F3 표식 — 그날까지의 점만(필터에는 쓰지 않는다)
-            _e_now = [e for e in eps if e["available"] <= day]
-            if _e_now and max(_e_now, key=lambda e: e["available"]).get("replaced"):
+            _e_now = bmh.as_of_entry(eps, day)    # 분모와 같은 행(newest_row)의 표식
+            if _e_now and _e_now.get("replaced"):
                 sdq = sdq + ["eps_replaced"]
             y, m_, dd_ = day.split("-")
             # 분사 종목의 자기 이력 시작일은 그 날짜가 지난 평가일에만 적용한다(그 전 평가일에 쓰면 미래 정보 — Codex)

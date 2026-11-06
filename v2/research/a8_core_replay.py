@@ -6,6 +6,7 @@
     python3 a8_core_replay.py            # PER 시리즈 계산 + 분석
     python3 a8_core_replay.py --analyze  # 저장된 PER 결과로 분석만
 """
+# 2026-11-06: 10-04 A8 결정 기록을 그대로 재현하도록 '목록 마지막 행' 선택을 남겨 둔다 — 엔진·verdict_replay는 E63 newest_row(결산일이 가장 늦은 행).
 import contextlib
 import io
 import json
