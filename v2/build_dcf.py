@@ -430,7 +430,7 @@ def base_inputs(ticker, asof=None):
     # MCD는 운용리스 태그가 금융리스 합계라 금융리스분을 뺀다. IFRS 16 회사(TSM·SKHY)는 리스 비용이 감가상각 + 이자라
     # 영업이익이 임차료를 빼지 않았으므로 리스를 빚으로 두는 지금 처리가 맞다 — 0.
     op_lease = out.get("lease") or 0
-    if cik == "0000063908":
+    if cik in bmh.LEASE_INCLUDES_FINANCE:   # MCD·GD: 리스 태그가 운용 + 금융 합계 — 금융리스분은 빚으로 남긴다(GD는 E61에서 추가)
         op_lease = max(op_lease - fin_lease, 0)
     out["op_lease"] = 0 if ticker in IFRS_LEASE else op_lease
     if not fl_in_debt:

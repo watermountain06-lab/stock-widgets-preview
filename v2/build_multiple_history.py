@@ -1976,8 +1976,22 @@ def component_sum(cik, tags):
 # ShortTermInvestments 6.65 ⊃ AFS 5.51, QCOM·UPS)가 있어 더하면 이중이 된다. 앞 태그(총계 쪽)가 이긴다(안건 E67, 2026-11-05 — 2021-06 이후
 # 같은 날 두 태그 48건 전부 앞 태그가 총계거나 같은 값)
 PICK_COMPONENTS = {"preferred", "sti"}
-# IFRS 16 회사 — 리스 비용이 영업이익 밖이라 리스부채는 빚(B16). DCF(build_dcf.IFRS_LEASE)도 이 목록을 쓴다
+# IFRS 16 회사 — 임차료 대신 사용권자산 감가상각과 리스 이자를 인식하므로 리스부채를 빚으로 둔다(B16). DCF(build_dcf.IFRS_LEASE)도 이 목록을 쓴다
 IFRS_LEASE = {"TSM", "SKHY"}
+# 리스 태그(OperatingLeaseLiability…)가 운용 + 금융리스 합계인 회사(CIK) — 운용리스를 뺄 때 금융리스(빚)는 남긴다(B16). DCF도 이 목록을 쓴다.
+# MCD: 10-K 리스 주석 표 2025-12 $694M·$14,147M이 합계(금융 약 $2.4B), GD: 리스 태그 330·1,633이 합계(금융 $392M, Fable r1 2026-10-25)
+LEASE_INCLUDES_FINANCE = {"0000063908", "0000040533"}
+
+
+def finance_lease_series(cik):
+    """금융리스 부채 시리즈 — 합계 태그(FinanceLeaseLiability), 유동 + 비유동이 더 최근이면 그쪽(DCF base_inputs와 같은 고르기)."""
+    tot = component_sum(cik, ["FinanceLeaseLiability"])
+    parts = component_sum(cik, ["FinanceLeaseLiabilityCurrent", "FinanceLeaseLiabilityNoncurrent"])
+    if not tot:
+        return parts
+    if parts and max(e["end"] for e in parts) > max(e["end"] for e in tot):
+        return parts
+    return tot
 # 단기투자 지정 태그가 재무상태표의 서로 다른 줄이라 더해야 하는 회사 — KO: OtherShortTermInvestments(정기예금)와 MarketableSecurities.
 # DXCM·INTU·NKE의 지정 목록(AFS 두 이름)은 태그 이름 변경이라 하나만(같은 결산일 같은 값 — DXCM 2024-12 $1,730M 둘, Codex E67 r1)
 STI_SUM_CIKS = {"0000021344"}
@@ -3333,6 +3347,8 @@ def main():
             raise _sc.ClaimHold(f"{t} {e['end']}: 표 pref_in_p {c['pref_in_p']:,.0f} > 엔진 P {e.get('pref') or 0:,.0f}")
         return v + _sc.ce_extra(c)
 
+    _fin_lease = finance_lease_series(cik) if cik in LEASE_INCLUDES_FINANCE else []
+
     def ev(d, px):
         m = mcap(d, px)
         if not m:
@@ -3340,7 +3356,14 @@ def main():
         cash = (as_of(series.get("cash", []), d) or 0) + (as_of(series.get("sti", []), d) or 0)
         # 운용리스는 EV에 더하지 않는다 — EBITDA(영업이익)가 임차료를 이미 뺐으므로 부채로 또 더하면 이중(B16 — DCF와 같은 기준, 안건 E61
         # 2026-11-05 사용자 결정). IFRS 16 회사(TSM·SKHY)는 리스 비용이 영업이익 밖이라 리스부채를 빚으로 둔다.
-        debt = (as_of(series.get("debt", []), d) or 0) + ((as_of(series.get("lease", []), d) or 0) if t in IFRS_LEASE else 0)
+        lease = as_of(series.get("lease", []), d) or 0
+        if t in IFRS_LEASE:
+            lease_ev = lease
+        elif cik in LEASE_INCLUDES_FINANCE:
+            lease_ev = min(lease, as_of(_fin_lease, d) or 0)   # 리스 태그 안 금융리스분만(빚)
+        else:
+            lease_ev = 0
+        debt = (as_of(series.get("debt", []), d) or 0) + lease_ev
         extra = (as_of(series.get("nci", []), d) or 0) + (as_of(series.get("preferred", []), d) or 0)
         if _sc_on:
             # 보통주로 본 증권은 EV 청구권에서 뺀다(주식 수에 더했으므로 — 한 증권은 한쪽으로만, E44 §1)
