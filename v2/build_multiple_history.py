@@ -3415,14 +3415,69 @@ def main():
             ni_s = [e for e in (ttm_series(quarterly_flow(nr, t)) if nr else []) if e["available"] <= day]
             ni = newest_row(ni_s) if ni_s else None
             if ni and abs((rv_end - date.fromisoformat(ni["end"])).days) <= 120 and rv["val"]:
-                _adj = _eo_ni(ni["end"], consolidated=tags == ["ProfitLoss"])
+                _dq = set()   # 중단영업 금액을 뺀 분기 — 그 분기의 E54 중단영업 항목은 다시 빼지 않는다(Codex r2)
+                _dc = _disc_ni(ni["end"], day, consolidated=tags == ["ProfitLoss"], used=_dq)
+                _disc_ni_hit[0] = bool(_dc)
+                _adj = _eo_ni(ni["end"], consolidated=tags == ["ProfitLoss"], skip_disc=_dq)
                 _eo_ni_hit[0] = bool(_adj)
-                return (ni["val"] + _adj) / rv["val"]
+                return (ni["val"] + _adj + _dc) / rv["val"]
         return None
 
     _eo_ni_hit = [False]
+    _disc_ni_hit = [False]
 
-    def _eo_ni(end, consolidated=False):
+    def _disc_ni(end, day, consolidated=False, used=None):
+        """E62 기준(계속영업)으로 맞출 중단영업 손익 금액(손실 +, 이익 −) — A3 순이익률도 PER EPS처럼 계속영업으로 본다(2026-11-05 사용자
+        결정: GPN은 Issuer 매각 쪽 중단영업 손실로 GAAP 순이익률 −9.1%인데 PER은 계속영업 EPS라 기준이 갈렸다). EPS 행은 PER 경로와 같은
+        목록(_a3_rows·_a3_cap, ttm_eps 있음)에서 그 결산일·기준일까지 공개된 마지막 행. 그 TTM 네 분기의 E62 판정이 모두 'removed'(총 EPS에서
+        뺐다)·'already'(파일이 이미 계속영업)·'none'이고 하나라도 중단영업이 있을 때만, 순이익과 같은 기준의 금액 태그(지배 순이익이면 지배 몫
+        태그, ProfitLoss면 연결 태그 — 비지배 몫 중단영업이 0이 아니면 서로 대신 쓰지 않는다) 그 결산일 TTM을 뺀다. 'unknown' 분기·태그 없음은 0 + 경고(Codex r1)."""
+        if _a3_rows is None or ASOF_REF is not None or not _disc_facts(t):
+            return 0.0
+        r = sorted((x for x in _a3_rows if x.get("quarter_end") == end and x.get("ttm_eps") is not None
+                    and x["available_date"] <= day and (not _a3_cap or x["available_date"] <= _a3_cap)), key=lambda x: x["available_date"])
+        if not r:   # 순이익 결산일이 PER EPS 행(cap)보다 뒤 — COF(Fable r1)
+            print(f"  ⚠ A3 계속영업: 순이익 결산일 {end}의 PER EPS 행이 없다 — 중단영업 조정 미적용")
+            return 0.0
+        row = r[-1]   # as_of_entry처럼 공개일 동률이면 뒤 행
+        qr = _ttm_quarter_rows(_a3_rows, end, row["available_date"])
+        if qr is None:
+            print(f"  ⚠ A3 계속영업: {end}로 끝나는 네 분기 EPS 행이 없다 — 중단영업 조정 미적용")
+            return 0.0
+        u = _disc_upto(t, row["available_date"])
+        st = [_quarter_status(t, _a3_rows, q, u)[1] for q in qr]
+        if all(x == "none" for x in st):
+            return 0.0
+        def _q_at(tags_):
+            """{분기 결산일: 3개월 금액} — 중단영업은 있는 분기에만 공시돼 TTM 창이 안 생기는 회사가 많아(APD·SNPS·T) 분기별로 더한다(Fable r1)."""
+            _, dr = pick_tag(cik, tags_)
+            out_ = {}
+            for e in (quarterly_flow(dr, t) if dr else []):
+                if e["filed"] <= day:
+                    out_.setdefault(e["end"], e["val"])
+            return out_
+        tot = ["IncomeLossFromDiscontinuedOperationsNetOfTax", "DiscontinuedOperationIncomeLossFromDiscontinuedOperationNetOfTax"]
+        par = ["IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToReportingEntity"]
+        ends = [q["quarter_end"] for q, x in zip(qr, st) if x != "none"]   # 'none' 분기는 중단영업 0
+        # 연결·지배 몫은 비지배 몫 중단영업 태그가 그 분기들에 없을 때만 서로 대신한다(APD 등은 연결 태그만 쓴다 — 11-05 전수 비교)
+        # 분기로 환산되지 않는 연간·누계 공시만 있어도 그 분기를 덮는 비지배 값이 0이 아니면 대체 금지(Codex r2)
+        _, nr_ = pick_tag(cik, ["IncomeLossFromDiscontinuedOperationsNetOfTaxAttributableToNoncontrollingInterest"])
+        nci = any(e.get("val") and "start" in e and e.get("filed", "") <= day and e["start"] < e_ <= e["end"] for e in (nr_ or []) for e_ in ends)
+        order = (tot + ([] if nci else par)) if consolidated else (par + ([] if nci else tot))
+        tg, got = order[0], None
+        for tg in order:
+            qv = _q_at([tg])
+            if all(e_ in qv for e_ in ends):
+                got = sum(qv[e_] for e_ in ends)
+                break
+        if "unknown" in st or got is None:
+            print(f"  ⚠ A3 계속영업: {end} 분기 판정 {st}, 분기 금액 태그 {'있음' if got is not None else '없음'} — 중단영업 조정 미적용")
+            return 0.0
+        if used is not None:
+            used.update(ends)
+        return -got
+
+    def _eo_ni(end, consolidated=False, skip_disc=()):
         """일회성 손익 장치(E54)가 그 결산일 PER EPS에서 뺀 항목의 세후 지배주주 몫(손실 +, 이익 −) — A3 순이익률도 같은 기준으로
         본다(2026-11-05 사용자 결정: 손상으로 적자가 된 카드가 장치로 EPS를 고쳐도 GAAP 순이익률 때문에 PER이 빠지던 문제, FISV·IVZ).
         장치 판정(judge)이 그 결산일에 적용한 항목만, 세금은 같은 cap의 item_tax. EPS 행·cap은 PER 경로가 읽은 것(_a3_rows·_a3_cap)과
@@ -3434,11 +3489,13 @@ def main():
         if not j:
             return 0.0
         cap_ = _eo._cap(t, _a3_cap)
-        return sum((it["adj_pretax"] - _eo.item_tax(it, cap_)) * (1 if consolidated else it.get("parent_share", 1)) for it in j["applied"])
+        return sum((it["adj_pretax"] - _eo.item_tax(it, cap_)) * (1 if consolidated else it.get("parent_share", 1)) for it in j["applied"]
+                   if not (it.get("discontinued") and it["quarter_end"] in skip_disc))
     per_margin = _net_margin_now()
     _eo_ni_used = _eo_ni_hit[0]
     per_na = per_margin is not None and per_margin < PER_NA_MARGIN
-    out["perNA"] = {"netMargin": round(per_margin, 4), "rule": ("최근 4분기 순이익률(일회성 장치 E54 항목을 뺀 값) < 2% 또는 적자" if _eo_ni_used else "최근 4분기 GAAP 순이익률 < 2% 또는 적자")} if per_na else None
+    out["perNA"] = {"netMargin": round(per_margin, 4), "rule": ("최근 4분기 순이익률(" + "·".join(x for x, on in (("일회성 장치 E54 항목", _eo_ni_used), ("중단영업", _disc_ni_hit[0])) if on) + "을 뺀 값) < 2% 또는 적자"
+                                                          if (_eo_ni_used or _disc_ni_hit[0]) else "최근 4분기 GAAP 순이익률 < 2% 또는 적자")} if per_na else None
     if per_na:
         print(f"  PER 해당 없음: 최근 4분기 순이익률 {per_margin:.2%} (< 2%) — 자기 이력·동종업 점수에서 PER을 뺀다(A3)")
     elif per_margin is None and eps and (as_of(eps, daily[-1][0]) or 0) <= 0 and as_of(eps, daily[-1][0]) is not None:
