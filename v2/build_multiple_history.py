@@ -1976,6 +1976,8 @@ def component_sum(cik, tags):
 # ShortTermInvestments 6.65 ⊃ AFS 5.51, QCOM·UPS)가 있어 더하면 이중이 된다. 앞 태그(총계 쪽)가 이긴다(안건 E67, 2026-11-05 — 2021-06 이후
 # 같은 날 두 태그 48건 전부 앞 태그가 총계거나 같은 값)
 PICK_COMPONENTS = {"preferred", "sti"}
+# IFRS 16 회사 — 리스 비용이 영업이익 밖이라 리스부채는 빚(B16). DCF(build_dcf.IFRS_LEASE)도 이 목록을 쓴다
+IFRS_LEASE = {"TSM", "SKHY"}
 # 단기투자 지정 태그가 재무상태표의 서로 다른 줄이라 더해야 하는 회사 — KO: OtherShortTermInvestments(정기예금)와 MarketableSecurities.
 # DXCM·INTU·NKE의 지정 목록(AFS 두 이름)은 태그 이름 변경이라 하나만(같은 결산일 같은 값 — DXCM 2024-12 $1,730M 둘, Codex E67 r1)
 STI_SUM_CIKS = {"0000021344"}
@@ -3336,7 +3338,9 @@ def main():
         if not m:
             return None
         cash = (as_of(series.get("cash", []), d) or 0) + (as_of(series.get("sti", []), d) or 0)
-        debt = (as_of(series.get("debt", []), d) or 0) + (as_of(series.get("lease", []), d) or 0)
+        # 운용리스는 EV에 더하지 않는다 — EBITDA(영업이익)가 임차료를 이미 뺐으므로 부채로 또 더하면 이중(B16 — DCF와 같은 기준, 안건 E61
+        # 2026-11-05 사용자 결정). IFRS 16 회사(TSM·SKHY)는 리스 비용이 영업이익 밖이라 리스부채를 빚으로 둔다.
+        debt = (as_of(series.get("debt", []), d) or 0) + ((as_of(series.get("lease", []), d) or 0) if t in IFRS_LEASE else 0)
         extra = (as_of(series.get("nci", []), d) or 0) + (as_of(series.get("preferred", []), d) or 0)
         if _sc_on:
             # 보통주로 본 증권은 EV 청구권에서 뺀다(주식 수에 더했으므로 — 한 증권은 한쪽으로만, E44 §1)

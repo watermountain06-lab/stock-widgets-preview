@@ -725,7 +725,7 @@ S2C_MAX = 10.0   # 매출/자본 상한 — 자본을 거의 안 쓰는 회사�
 S2C_MIN_GROWTH = 0.02   # 한계 매출/자본을 재는 최소 1년 매출 증가율(2026-11-05 사용자 결정)
 
 
-IFRS_LEASE = {"TSM", "SKHY"}     # IFRS 16 — 리스 비용이 영업이익 밖이라 리스부채는 빚(B16)
+IFRS_LEASE = bmh.IFRS_LEASE     # IFRS 16 — 리스 비용이 영업이익 밖이라 리스부채는 빚(B16) — 목록은 배수 엔진과 하나(E61)
 
 
 CURRENT_DEBT_FRESH_DAYS = 200
