@@ -12993,7 +12993,7 @@
       "sector": "법인 결제·숙박 결제 네트워크",
       "href": "CPAY_full_widget.html",
       "cardRank": 309,
-      "cardAsOf": "2026-11-04",
+      "cardAsOf": "2026-11-06",
       "listing": {
         "type": "common"
       },
@@ -13014,6 +13014,45 @@
         "status": "ok"
       },
       "tier": {
+        "value": "고평가",
+        "raw": "고평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 58.3,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "GPN",
+      "name": "글로벌 페이먼츠",
+      "sector": "가맹점 결제 처리 (Worldpay 인수 뒤)",
+      "href": "GPN_full_widget.html",
+      "cardRank": 310,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-06 ≠ 홈 가격 세션 2026-11-05, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 264635810,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-05",
+        "filing": "10-Q 0001123360-26-000093 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
         "value": null,
         "raw": "판정 보류",
         "status": "missing",
@@ -13021,10 +13060,10 @@
       },
       "score": {
         "status": "available",
-        "total": 55.8,
+        "total": 43.7,
         "grade": "보통",
-        "financialsAsOf": "2026-06-30",
-        "valuationAsOf": "2026-11-04",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
         "qualityFlags": []
       }
     }
