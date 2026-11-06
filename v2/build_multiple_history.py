@@ -2038,7 +2038,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
+DEBT_TOTAL_TAG = {"0001267238": ["UnsecuredDebt"],   # AIZ: 무담보 선순위·후순위채 $2,208.7M(Q3 2026 10-Q 재무상태표 "Debt") — 2008~ 분기마다 이 태그. 기본은 LongTermDebt가 2020-03에 멈춰 낡은 값이 잡혔다(2026-11-06)
+                  "0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
                   "0000940944": ["ShortTermBorrowings", ("LongTermDebt", "LongTermDebtNoncurrent")],   # DRI: 단기(CP + 1년 안 채권 $500M) $979.7M + 장기 $1,636.1M = $2,615.8M(Q1 FY27 10-Q). 기본은 단기만 잡혔다. 2023-05 전 장기는 LongTermDebtNoncurrent. 2026-05 LongTermDebtCurrent $693.6M은 단기 줄과 같은 값이라 빼다(2026-11-03)
                   "0001513761": ["LongTermDebtAndCapitalLeaseObligations", "LongTermDebtAndCapitalLeaseObligationsCurrent"],   # NCLH: 대차대조표 비유동 $13,951.5M + 유동 $1,135.0M = $15,086.5M(Q3 2026 10-Q). ...IncludingCurrentMaturities $15,498M은 원금 상환표 합계라 쓰지 않는다(2026-11-04)
                   "0001286681": ["LongTermDebtAndCapitalLeaseObligations", "LongTermDebtAndCapitalLeaseObligationsCurrent"],   # DPZ: 증권화 채권 비유동 $3,559M + 1년 안 $1,327M(2027-07 ARD 재분류) = $4,886M(금융리스 포함, Q3 2026 10-Q). 기본은 비유동만(2026-11-03)
@@ -2384,8 +2385,10 @@ DEBT_TOTAL_TAG = {"0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001175454": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CPAY: 비지배 $46M + 상환가능 $314M(Mastercard, 2026-11-05 Codex r1)
+EV_TAGS_BY_CIK = {"0001174922": {"sti": ["Investments", "ShortTermInvestments"]},   # WYNN: 유동자산 "Investments"(정기예금 등) $150.2M(Q3 2026 10-Q, 2022-12~ 이 태그) — 기본 단기투자 태그는 2018 멈춤(2026-11-06)
+                  "0001175454": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CPAY: 비지배 $46M + 상환가능 $314M(Mastercard, 2026-11-05 Codex r1)
                   "0000779152": {"cash": ("CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents")},   # JKHY: 10-K(6월 말)는 현금을 제한 현금 포함 합계 태그로만 낸다(제한 현금 0 — 같은 값). 날짜마다 앞 태그 우선(2026-11-05)
+                  "0001267238": {"sti": []},   # AIZ: 단기투자 OtherShortTermInvestments $300.8M은 보험 운용자산이고 기본 태그는 2019 멈춤(DCF 입력 보류로 순현금 칸이 비었다) — ACGL과 같게 뺀다(2026-11-06)
                   "0000947484": {"sti": []},   # ACGL: 단기투자 $3,253M은 보험 운용자산(축 값, OtherShortTermInvestments는 2021 멈춤) — 현금은 CashAndCashEquivalentsAtCarryingValue $1,152M(2026-11-05)
                   "0000060086": {"sti": []},   # L: 단기투자 $5,715M은 CNA 보험 운용자산(TRV·ALL 선례) — 현금은 Cash $505M(2026-11-05)
                   "0000020286": {"sti": []},   # CINF: 단기투자 $141M은 보험 운용자산(같은 원칙, 2026-11-05)
@@ -3033,6 +3036,7 @@ HISTORY_START = {"GE": "2024-07-23",
                  # LVS: 마카오 봉쇄 해(2020~2022) 매출·EBITDA가 바닥이라 PSR·EV/EBITDA 이력이 수십~수백 배로 튀어 오늘이 싸 보였다.
                  # 재개장 뒤 첫 최근 4분기 합(FY2023 10-K, 2024-02-07)부터 비교한다(2026-11-03).
                  "LVS": "2024-02-07",
+                 "WYNN": "2024-02-23",   # WYNN: 마카오 봉쇄(2020~2022) 기저 — 자기 이력 PER 최고 1,768배·적자 구간. 재개장 뒤 첫 최근 4분기 합(FY2023 10-K, EPS 파일 공개일 2024-02-23)부터(LVS 방식, 2026-11-06)
                  "NCLH": "2024-02-28",   # NCLH: 코로나 적자(FY20~FY22) 뒤 첫 흑자 해 FY2023 10-K 공시일(2024-02-28, 실적 발표는 02-27)부터 — 그 전 PER·EV/EBITDA는 음수·수백 배(2026-11-04)
                  # EXC: Constellation 분사(2022-02-01). 최근 4분기가 모두 분사 뒤인 첫 시점(FY2022 10-K, 2023-02-14 — T 방식). 그 전은 재작성 연간 − 원공시 9개월로
                  # 2020년 4분기 매출이 −$8,262M이 되어 PSR이 8배로 튀었다(2026-10-28, Fable r1 후속).

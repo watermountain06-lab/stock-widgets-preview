@@ -3297,5 +3297,25 @@
     "#b3b9e6"
    ]
   }
+ },
+ "WYNN": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax"
+  ],
+  "axis": "dei:LegalEntityAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "us-gaap:StatementBusinessSegmentsAxis": "wynn:MacauOperationsMember"
+  },
+  "members": {
+   "wynn:WynnPalaceMember": [
+    "윈 팰리스(마카오)",
+    "#8c6d3f"
+   ],
+   "wynn:WynnMacauMember": [
+    "윈 마카오",
+    "#cdb88f"
+   ]
+  }
  }
 }
