@@ -1,32 +1,32 @@
 {
  "ticker": "ABT",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 63.0,
+  "dio": 122.2,
+  "dpo": 79.5,
+  "op": 185.3,
+  "ccc": 105.7
+ },
+ "prev": {
   "dso": 63.8,
   "dio": 123.3,
   "dpo": 79.4,
   "op": 187.1,
   "ccc": 107.7
  },
- "prev": {
-  "dso": 64.3,
-  "dio": 124.6,
-  "dpo": 79.1,
-  "op": 188.9,
-  "ccc": 109.8
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 154.7,
   "max": 193.5,
-  "longer": 11,
-  "dsoLonger": 1,
-  "dioLonger": 12
+  "longer": 12,
+  "dsoLonger": 3,
+  "dioLonger": 13
  },
- "score": 55.0,
+ "score": 60.0,
  "tone": "yellow"
 }

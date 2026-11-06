@@ -1,79 +1,79 @@
 {
  "ticker": "UBER",
  "window": [
-  "2021-11-04",
-  "2026-11-04"
+  "2021-11-05",
+  "2026-11-05"
  ],
  "multiples": {
   "PER": {
-   "days": 751,
-   "current": 31.19,
+   "days": 752,
+   "current": 40.7,
    "min": 28.63,
-   "p10": 30.83,
-   "median": 37.15,
+   "p10": 30.84,
+   "median": 37.36,
    "p90": 108.92,
    "max": 149.34,
-   "mean": 56.27,
-   "percentile": 12.9,
-   "score": 87.1
+   "mean": 56.26,
+   "percentile": 51.9,
+   "score": 48.1
   },
   "PSR": {
    "days": 1255,
-   "current": 2.58,
+   "current": 2.48,
    "min": 1.68,
    "p10": 2.07,
    "median": 3.32,
    "p90": 4.3,
    "max": 7.3,
-   "mean": 3.28,
-   "percentile": 26.3,
-   "score": 73.7
+   "mean": 3.27,
+   "percentile": 22.0,
+   "score": 78.0
   },
   "PBR": {
    "days": 1255,
-   "current": 5.22,
+   "current": 5.08,
    "min": 3.8,
    "p10": 5.16,
    "median": 8.61,
    "p90": 13.17,
    "max": 17.41,
    "mean": 8.72,
-   "percentile": 11.3,
-   "score": 88.7
+   "percentile": 8.5,
+   "score": 91.5
   },
   "PCR": {
-   "days": 1068,
-   "current": 14.11,
+   "days": 1069,
+   "current": 13.48,
    "min": 13.17,
-   "p10": 15.28,
-   "median": 32.08,
-   "p90": 104.37,
+   "p10": 15.27,
+   "median": 32.07,
+   "p90": 104.33,
    "max": 188.21,
-   "mean": 48.33,
-   "percentile": 2.3,
-   "score": 97.7
+   "mean": 48.29,
+   "percentile": 0.7,
+   "score": 99.3
   },
   "EV/EBITDA": {
-   "days": 592,
-   "current": 20.42,
-   "min": 19.16,
-   "p10": 21.5,
-   "median": 64.1,
-   "p90": 321.64,
+   "days": 593,
+   "current": 18.98,
+   "min": 18.98,
+   "p10": 21.49,
+   "median": 64.08,
+   "p90": 321.47,
    "max": 361.41,
-   "mean": 88.88,
-   "percentile": 4.2,
-   "score": 95.8
+   "mean": 88.76,
+   "percentile": 0.0,
+   "score": 100.0
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 31.09,
-  "per_p75": 38.0,
-  "low": 70,
-  "high": 90,
-  "asOf": "2026-11-04",
+  "per_p75": 39.12,
+  "low": 50,
+  "high": 70,
+  "asOf": "2026-11-05",
   "basis": "diluted"
  }
 }

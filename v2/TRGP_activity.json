@@ -1,32 +1,32 @@
 {
  "ticker": "TRGP",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 34.7,
+  "dio": 12.9,
+  "dpo": 69.4,
+  "op": 47.5,
+  "ccc": -21.9
+ },
+ "prev": {
   "dso": 34.1,
   "dio": 15.7,
   "dpo": 70.6,
   "op": 49.7,
   "ccc": -20.9
  },
- "prev": {
-  "dso": 32.2,
-  "dio": 15.7,
-  "dpo": 67.4,
-  "op": 47.9,
-  "ccc": -19.5
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 27.1,
-  "max": 47.9,
-  "longer": 0,
+  "max": 49.7,
+  "longer": 2,
   "dsoLonger": 0,
-  "dioLonger": 1
+  "dioLonger": 3
  },
- "score": 0.0,
+ "score": 10.0,
  "tone": "red"
 }

@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 67199, 'op': 17036, 'ni': 12072, 'ocf': 22633, 'cap': 4538}   # 10-Q(판매 매출, 영업이익 = 세전 16,684 + 이자 352, 순이익은 Chevron 귀속)
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (0, 0, -1), '적정~고평가'
 CO = 'Chevron'
 S_ = 'https://www.sec.gov/Archives/edgar/data/93410/'
 SEC = S_
