@@ -2369,7 +2369,8 @@ DEBT_TOTAL_TAG = {"0001267238": ["UnsecuredDebt"],   # AIZ: 무담보 선순위�
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001175454": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CPAY: 비지배 $46M + 상환가능 $314M(Mastercard, 2026-11-05 Codex r1)
+EV_TAGS_BY_CIK = {"0001174922": {"sti": ["Investments", "ShortTermInvestments"]},   # WYNN: 유동자산 "Investments"(정기예금 등) $150.2M(Q3 2026 10-Q, 2022-12~ 이 태그) — 기본 단기투자 태그는 2018 멈춤(2026-11-06)
+                  "0001175454": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CPAY: 비지배 $46M + 상환가능 $314M(Mastercard, 2026-11-05 Codex r1)
                   "0000779152": {"cash": ("CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents")},   # JKHY: 10-K(6월 말)는 현금을 제한 현금 포함 합계 태그로만 낸다(제한 현금 0 — 같은 값). 날짜마다 앞 태그 우선(2026-11-05)
                   "0001267238": {"sti": []},   # AIZ: 단기투자 OtherShortTermInvestments $300.8M은 보험 운용자산이고 기본 태그는 2019 멈춤(DCF 입력 보류로 순현금 칸이 비었다) — ACGL과 같게 뺀다(2026-11-06)
                   "0000947484": {"sti": []},   # ACGL: 단기투자 $3,253M은 보험 운용자산(축 값, OtherShortTermInvestments는 2021 멈춤) — 현금은 CashAndCashEquivalentsAtCarryingValue $1,152M(2026-11-05)
