@@ -1553,7 +1553,9 @@ def quarterly_flow(entries, ticker):
             q[a["end"]] = {
                 "end": a["end"],
                 "val": a["val"] - (nine[0]["val"] if nine else sum(p["val"] for p in parts)),   # 재작성 종목은 연간 − 9개월 누계
-                "filed": a["filed"],
+                # 공개일은 역산에 쓴 자료 중 가장 늦은 날 — 연간 공시일만 쓰면 앞 분기 3개월 값이 연간보다 늦게 처음 실린 경우(다음 해 10-Q 비교
+                # 수치) 그날 몰랐던 값이 섞였다(PEP 2024 4분기 감가상각 2025-02-04 → 2025-10-09, CBOE 2021 4분기 순이익 — Codex A3 r2, 2026-11-06)
+                "filed": max([a["filed"]] + ([nine[0]["filed"]] if nine else [p["filed"] for p in parts])),
                 "start": a["start"],
             }
         elif ok and a["end"] in q and q[a["end"]]["filed"] > a["filed"]:
