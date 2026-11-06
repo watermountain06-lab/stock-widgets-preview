@@ -115,7 +115,7 @@
       "debtDependency": {
         "label": "차입금의존도",
         "unit": "%",
-        "formula": "(엔진 차입금 + 금융리스(차입금 태그에 없을 때)) / assets * 100 — v2.1 B-1, 2026-10-05; 엔진 차입금이 없으면 (shortTermDebt + longTermDebt)",
+        "formula": "(엔진 차입금 + 금융리스(차입금 태그에 없을 때)) / assets * 100 — v2.1 B-1, 2026-10-05; 엔진 차입금이 없으면 (shortTermDebt + longTermDebt); DCF 계산 보류면 결측(2026-10-26)",
         "higher_is_better": false,
         "buckets": [
           {
