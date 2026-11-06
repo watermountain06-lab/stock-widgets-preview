@@ -574,8 +574,10 @@ def base_inputs(ticker, asof=None):
         # 유동자산에는 상장주식 같은 투자자산도 들어 있다. 영업에 묶인 돈이
         # 아니므로 운전자본에서 뺀다. NVDA는 EquitySecuritiesFvNi $42.8B가
         # 섞여 운전자본이 매출의 32.6%로 잡혔다(실제 18.5% 수준).
+        # 비영업 자산 쪽과 같은 신선도 확인 — 지분증권 태그가 끊긴 회사는 몇 년 전 값이 운전자본에서 빠지고 있었다
+        # (AMAT 2022-10 $771M·KO 2024-03 $2,106M, 안건 D14 2026-11-06)
         invest_assets = 0 if "EquitySecuritiesFvNi" in excluded else (
-            latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) or 0)
+            fresh_latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"])) or 0)
         # 10-Q 값으로 적은 자산 중 유동자산 안에 든 것("current": true — MMM Solventum 지분, 기타 유동자산)도 운전자본에서 뺀다.
         # 표준 태그가 3월에 멈춰 1년 전 시점에는 0으로 잡혀 운전자본 변화가 왜곡됐다(Codex 2026-10-21, 해당 종목 MMM뿐).
         invest_assets += sum(x["value"] for x in fixed.values() if x.get("current"))
