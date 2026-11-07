@@ -482,7 +482,18 @@ def attempt(T, work):
     if rc:
         tail = [l for l in out.strip().splitlines() if l.strip()][-6:]
         say(f"{T}: 실패 — {tail[-1][:200] if tail else ''}")
-        return {"status": "failed", "seconds": round(time.time() - t0), "why": tail}
+        res = {"status": "failed", "seconds": round(time.time() - t0), "why": tail}
+        # 카드별 증권 표 짝 금액 결측(ClaimHold)은 그 카드만 보류 — 되돌린 카드 맨 위에 '새 분기 자료 확인 대기' 띠(안건 E71, 2026-11-07).
+        # 상태는 failed 그대로(알림·실패 목록 유지), held 표시만 더한다. 다음 성공 빌드가 카드를 다시 만들면 띠는 사라진다.
+        _ch = [l for l in out.splitlines() if "ClaimHold" in l]
+        if _ch:
+            try:
+                import held_banner
+                held_banner.mark(T, _ch[-1].split("ClaimHold:", 1)[-1].strip())
+                res["held"] = True
+            except Exception as e:   # 띠를 못 붙여도 실패 기록은 그대로
+                res["why"] = tail + [f"보류 띠 실패: {type(e).__name__}: {e}"[:200]]
+        return res
     say(f"{T}: ok ({round(time.time() - t0)}초)")
     return {"status": "ok", "seconds": round(time.time() - t0)}
 
