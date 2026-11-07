@@ -13313,6 +13313,47 @@
         "status": "excluded",
         "reason": "v2 기본적 분석 점수 없음(financial)"
       }
+    },
+    {
+      "ticker": "NSC",
+      "name": "노퍽 서던",
+      "sector": "산업재 — 철도(미국 동부)",
+      "href": "NSC_full_widget.html",
+      "cardRank": 316,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 319.94,
+        "prevClose": 329.25,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 224616686,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-30",
+        "filedAt": "2026-10-22",
+        "filing": "10-Q 0001628280-26-066836 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 45.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
     }
   ]
 }
