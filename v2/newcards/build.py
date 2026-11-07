@@ -189,7 +189,8 @@ def main():
     if r.returncode != 0:   # 실패하면 예전 배수 파일로 이어 가지 않는다(Codex 2026-10-06)
         sys.exit(f"build_multiple_history 실패({r.returncode}):\n{(r.stdout + r.stderr)[-1500:]}")
     run([PY, "v2/build_peer_score.py", T, "--self", f"v2/{T}_multiples.json", "--card"]
-        + (["--drop", ",".join(B["drop_multiples"])] if B.get("drop_multiples") else []), show=r"대비 =|^  (PER|PBR|PSR|PCR|EV)")
+        + (["--drop", ",".join(B["drop_multiples"])] if B.get("drop_multiples") else [])
+        + (["--drop-self", ",".join(B["drop_self_multiples"])] if B.get("drop_self_multiples") else []), show=r"대비 =|^  (PER|PBR|PSR|PCR|EV)")
     if B.get("sum_tags") and net:
         run([PY, "v2/adapters/financials_sum_tags.py", T], show=r".")
     run([PY, "v2/build_fundamental_score.py", T, "--card"], show=r"기본적 분석 =|^    ")
