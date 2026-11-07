@@ -13,23 +13,23 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 308장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
+   "detail": "승인 목록에 없는 판정 코드 해시 311장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
   }
  ],
  "detail": "보유 파일 기준일 2026-11-05 ≠ 허용 ['2026-11-06'] (P=2026-11-06, 규칙 same)",
  "verdict": null,
  "nbar": null,
- "coverage": 0.874913399398097,
+ "coverage": 0.8750754265728751,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.004277673575264751,
-  "적정~저평가": 0.10243537975176649,
+  "적정~저평가": 0.10259740692654461,
   "적정": 0.025258701170106274,
   "적정~고평가": 0.41759058744040345,
   "고평가": 0.3253510574605559,
-  "카드 없음": 0.09046637048707745,
-  "판정 보류": 0.034620230114825574,
+  "카드 없음": 0.08990188807105508,
+  "판정 보류": 0.03502268535606983,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
@@ -162,13 +162,13 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 320,
-  "cardsUsed": 291,
+  "cardsMatched": 323,
+  "cardsUsed": 292,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
    "날짜 불일치": 0,
-   "판정 보류": 29
+   "판정 보류": 31
   }
  },
  "cards": [
@@ -607,6 +607,15 @@
   },
   {
    "card": "CHRW",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
+  },
+  {
+   "card": "CHTR",
    "verdict": "판정 보류",
    "n": null,
    "date": "2026-11-06",
@@ -2117,6 +2126,15 @@
    "excluded": []
   },
   {
+   "card": "TECH",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
+  },
+  {
    "card": "TEL",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -2234,6 +2252,13 @@
    "card": "UBER",
    "verdict": "적정~고평가",
    "n": -1.0,
+   "date": "2026-11-06",
+   "excluded": []
+  },
+  {
+   "card": "UHS",
+   "verdict": "적정~저평가",
+   "n": 2.0,
    "date": "2026-11-06",
    "excluded": []
   },
@@ -2482,8 +2507,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-07T19:19:11Z",
- "fetchedAt": "2026-11-07T19:19:11Z",
+ "runAt": "2026-11-07T22:13:41Z",
+ "fetchedAt": "2026-11-07T22:13:42Z",
  "inputHash": {
   "xlsx": "4f8e0f465e23dfa74c4cf40c409a01f104345d9ecaefeb49c17efb6c53f1d11e",
   "alias": "cd884e524b4f6045",
@@ -2499,7 +2524,7 @@
   ],
   "S": "2026-11-05"
  },
- "runId": "42405594782.1",
+ "runId": "42419587102.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -2520,6 +2545,7 @@
     "BBY",
     "CCL",
     "CHRW",
+    "CHTR",
     "D",
     "FISV",
     "GPC",
@@ -2531,7 +2557,8 @@
     "NSC",
     "PTC",
     "SRE",
-    "SYY"
+    "SYY",
+    "TECH"
    ],
    "409848507062": [
     "MTB",
@@ -2798,6 +2825,7 @@
     "TXN",
     "UAL",
     "UBER",
+    "UHS",
     "ULTA",
     "UNP",
     "UPS",
