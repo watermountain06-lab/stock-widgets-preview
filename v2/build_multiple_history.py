@@ -369,8 +369,51 @@ def disc_quarter_status(ticker, file_q, q_end, upto):
     return 0.0, "unknown"
 
 
+def _restated_even_split(ticker, rows, q_end, upto):
+    """E72(2026-11-07): 재작성 종목(RESTATED_LATEST)에서 그 회계연도 앞 세 분기의 중단영업 주당 사실이 **하나도 없고**(0이 아니라 없음 —
+    나중 분사로 과거를 다시 쓰며 연간 값만 냈다) 4분기 판정이 'removed'(연간 전액을 4분기에서 뺌)이면, 그 금액을 네 분기에 고르게 나눈 값.
+    MMM 2022(Solventum 분사 2024 재작성): 연간 3.11을 4분기 행 하나에 몰아 2023-03·06·09 TTM에서 주당 약 2.3을 더 뺐다(Fable E54 MMM).
+    연중 매각으로 4분기에 몰린 경우(WTW 2021 등)는 재작성 종목이 아니라 해당 없음. 4분기 3개월 중단영업 사실이 따로 있거나 4분기를 손 보정한
+    해(Q4_EPS_OVERRIDE)는 실제 4분기 몫을 아니까 나누지 않는다(Codex E72 r1). 나눈 분기는 'removed'로 두어 E54 중단영업 항목이 같은 금액을
+    한 번 더 빼지 않게 한다(추정 배분과 E54 항목 금액이 다를 수 있지만 이중 차감이 더 나쁘다). 해당 없으면 None."""
+    q4s = {}
+    for x in sorted(rows, key=lambda x: x.get("available_date", "")):   # 같은 결산일 4분기 행이 여럿이면 공개일이 가장 늦은 행(Codex E72 r1)
+        if str(x.get("fp", "")).startswith("Q4") and x.get("quarter_end") and x.get("available_date", "") <= upto:
+            q4s[x["quarter_end"]] = x
+    for r4 in q4s.values():
+        if not 0 <= (date.fromisoformat(r4["quarter_end"]) - date.fromisoformat(q_end)).days <= 300:
+            continue
+        if r4["quarter_end"] in feh.Q4_EPS_OVERRIDE.get(ticker, {}):
+            return None
+        if any(f[1] == r4["quarter_end"] and f[3] <= upto and 80 <= (date.fromisoformat(f[1]) - date.fromisoformat(f[0])).days <= 100
+               for f in _ps_facts(ticker, DISC_EPS_TAGS)):
+            return None
+        prev = sorted({x["quarter_end"] for x in rows if x.get("quarter_end") and x["quarter_end"] < r4["quarter_end"]
+                       and x.get("available_date", "") <= upto})[-3:]
+        if len(prev) < 3 or (q_end not in prev and q_end != r4["quarter_end"]):
+            continue
+        if (date.fromisoformat(r4["quarter_end"]) - date.fromisoformat(prev[0])).days > 310:
+            return None
+        if any(ps_quarter(ticker, DISC_EPS_TAGS, q, upto) is not None for q in prev):
+            return None
+        by = {}
+        for x in sorted(rows, key=lambda x: x.get("available_date", "")):
+            if x.get("quarter_end") in prev and x.get("available_date", "") <= upto:
+                by[x["quarter_end"]] = x
+        if len(by) < 3:
+            return None
+        v, st = disc_q4_status(ticker, [by[q] for q in prev] + [r4], upto)
+        return v / 4 if st == "removed" else None
+    return None
+
+
 def _quarter_status(ticker, rows, r, upto):
-    """EPS 파일 행 r(그 분기)의 E62 판정 — 4분기 역산 행은 그 회계연도 네 분기로 연간 판정(disc_q4_status)."""
+    """EPS 파일 행 r(그 분기)의 E62 판정 — 4분기 역산 행은 그 회계연도 네 분기로 연간 판정(disc_q4_status).
+    재작성 종목의 '앞 세 분기 사실 없음' 해는 연간 제거액을 네 분기에 고르게(E72, _restated_even_split)."""
+    if ticker in feh.RESTATED_LATEST and r.get("quarter_end"):
+        v = _restated_even_split(ticker, rows, r["quarter_end"], upto)
+        if v is not None:
+            return v, "removed"
     if str(r.get("fp", "")).startswith("Q4"):
         prev = sorted({x["quarter_end"] for x in rows if x.get("quarter_end") and x["quarter_end"] < r["quarter_end"]
                        and x.get("available_date", "") <= upto})[-3:]

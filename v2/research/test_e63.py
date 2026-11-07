@@ -203,6 +203,35 @@ def run():
             check("E62 보통 종목은 그 행 공개일 뒤 사실을 안 씀(4분기 0)", abs(bmh.disc_in_ttm("ZZZ", early, "2024-12-31", "2025-01-20") + 2.10) < 1e-9)
             _feh.RESTATED_LATEST.add("ZZZ")
             check("E62 재작성 종목은 나중 공시 사실로도 판정", abs(bmh.disc_in_ttm("ZZZ", early, "2024-12-31", "2025-01-20") + 5.00) < 1e-9)
+            # E72: 재작성 종목에서 그 해 앞 세 분기 중단영업 사실이 없고(연간만) 4분기 판정이 removed면 네 분기에 고르게
+            F["disc"].append(("2021-01-01", "2021-12-31", 3.00, "2024-02-10")); F["tot"].append(("2021-01-01", "2021-12-31", 10.00, "2022-02-10"))
+            y21 = [{"quarter_end": "2021-03-31", "quarter_eps": 2.00, "available_date": "2021-05-01"},
+                   {"quarter_end": "2021-06-30", "quarter_eps": 3.00, "available_date": "2021-08-01"},
+                   {"quarter_end": "2021-09-30", "quarter_eps": 2.50, "available_date": "2021-11-01"},
+                   {"quarter_end": "2021-12-31", "quarter_eps": 2.50, "fp": "Q4-derived", "available_date": "2022-02-10"},
+                   {"quarter_end": "2022-03-31", "quarter_eps": 2.00, "available_date": "2022-05-01"}]
+            check("E72 재작성·앞 세 분기 사실 없음 → 분기마다 −0.75", all(abs(bmh._quarter_status("ZZZ", y21, r, "9999-12-31")[0] + 0.75) < 1e-9 for r in y21[:4]))
+            check("E72 다음 해 TTM은 세 분기 몫만(−2.25)", abs(bmh.disc_in_ttm("ZZZ", y21, "2022-03-31", "2022-05-01") + 2.25) < 1e-9)
+            _feh.RESTATED_LATEST.discard("ZZZ")
+            check("E72 보통 종목은 4분기에 연간 전액(지금 규칙)", abs(bmh._quarter_status("ZZZ", y21, y21[3], "9999-12-31")[0] + 3.00) < 1e-9
+                  and bmh._quarter_status("ZZZ", y21, y21[0], "9999-12-31")[0] == 0.0)
+            _feh.RESTATED_LATEST.add("ZZZ")
+            F["disc"].append(("2021-10-01", "2021-12-31", 3.00, "2024-02-10"))   # 4분기 3개월 사실이 있으면 실제 몫을 안다 → 나누지 않음
+            check("E72 4분기 3개월 사실이 있으면 지금 규칙(4분기 −3.00, 1분기 0)", abs(bmh._quarter_status("ZZZ", y21, y21[3], "9999-12-31")[0] + 3.00) < 1e-9
+                  and bmh._quarter_status("ZZZ", y21, y21[0], "9999-12-31")[0] == 0.0)
+            F["disc"].pop()
+            y21d = y21[:3] + [dict(y21[3], quarter_eps=-0.50, available_date="2022-03-15"), y21[3]]   # 같은 결산일 4분기 둘 — 나중 공개 행(계속영업 정정) 기준
+            F["cont"].append(("2021-01-01", "2021-12-31", 7.00, "2024-02-10"))
+            check("E72 같은 결산일 4분기가 여럿이면 공개일 늦은 행으로 판정(already → 나누지 않음)",
+                  bmh._quarter_status("ZZZ", y21d, y21d[0], "9999-12-31")[0] == 0.0)
+            F["cont"].pop()
+            F["cont"].append(("2021-01-01", "2021-12-31", 7.00, "2024-02-10"))
+            y21c = y21[:3] + [dict(y21[3], quarter_eps=7.00 - 7.50)]   # 파일 연간 7.00 = 계속영업 연간 → already
+            check("E72 4분기 판정이 already면 나누지 않음(값 0·제거 표시 없음 — E54 건너뛰기 조건)",
+                  all(bmh._quarter_status("ZZZ", y21c, r, "9999-12-31")[0] == 0.0 for r in y21c)
+                  and not any(bmh.disc_removed("ZZZ", y21c, r["quarter_end"], "9999-12-31") for r in y21c))
+            F["disc"].append(("2021-04-01", "2021-06-30", 1.00, "2024-02-10"))   # 한 분기라도 사실이 있으면 나누지 않음
+            check("E72 앞 분기 사실이 하나라도 있으면 지금 규칙", abs(bmh._quarter_status("ZZZ", y21, y21[3], "9999-12-31")[0] + 2.00) < 1e-9)
         finally:
             _feh.Q4_EPS_OVERRIDE.clear(); _feh.Q4_EPS_OVERRIDE.update(keep_ov)
             bmh.Q4_OVERRIDE_BASIS.clear(); bmh.Q4_OVERRIDE_BASIS.update(keep_basis)
@@ -271,6 +300,11 @@ MUTANTS = [
     ("E62 판정 불가도 뺌", "        return -disc, \"removed\"\n    return 0.0, \"unknown\"", "        return -disc, \"removed\"\n    return -disc, \"unknown\""),
     ("E62 공시일 무시", "    rows = [r for r in facts if r[1] == q_end and r[3] <= upto]", "    rows = [r for r in facts if r[1] == q_end]"),
     ("E62 누계 차 제거", "            return y[2] - min(prev, key=lambda r: r[3])[2]", "            return y[2]"),
+    ("E72 고르게 나누기 끔", "    if ticker in feh.RESTATED_LATEST and r.get(\"quarter_end\"):\n        v = _restated_even_split", "    if False and r.get(\"quarter_end\"):\n        v = _restated_even_split"),
+    ("E72 앞 분기 사실 검사 끔", "        if any(ps_quarter(ticker, DISC_EPS_TAGS, q, upto) is not None for q in prev):\n            return None", "        if False:\n            return None"),
+    ("E72 4분기 3개월 사실 검사 끔", "        if any(f[1] == r4[\"quarter_end\"] and f[3] <= upto and 80", "        if False and any(f[1] == r4[\"quarter_end\"] and f[3] <= upto and 80"),
+    ("E72 4분기 대표 행 공개일 무시", "            q4s[x[\"quarter_end\"]] = x", "            q4s.setdefault(x[\"quarter_end\"], x)"),
+    ("E72 removed 판정 검사 끔", "        return v / 4 if st == \"removed\" else None", "        return v / 4"),
     ("E62 연간 0 조기 반환", "    if a_disc is None or (abs(a_disc) < 0.005 and abs(three()) < 0.005):", "    if a_disc is None or abs(a_disc) < 0.005:"),
     ("E62 4분기 연간 판정 제거", "    if str(r.get(\"fp\", \"\")).startswith(\"Q4\"):", "    if False:"),
     ("E62 재작성 시점 제한 유지", "    return \"9999-12-31\" if ticker in feh.RESTATED_LATEST else upto", "    return upto"),
