@@ -646,6 +646,19 @@ try:
 finally:
     if AUTO:
         one, sub = _one_hard, _sub_hard
+# 미완성 카드(cfg INCOMPLETE_SHORT, 2026-11-03 사용자 결정): 화면 JS가 현금흐름 칸에 다시 쓰는 '계산 불가'와 판정 말풍선의 '심판·합계'를
+# '보류(미완성)'·참고 문구로(2026-11-07 사용자 승인 — POST 정적 치환은 JS가 덮어써 FISV·MLM·NSC·PTC·CHRW·SYY·KMB·AWK에 남았다)
+if getattr(C, 'INCOMPLETE_SHORT', None):
+    for _a in ("box.textContent = '계산 불가'", "dv0.textContent = '계산 불가'", "pv.textContent = '계산 불가'"):
+        h = h.replace(_a, _a.replace('계산 불가', '보류(미완성)'))
+    h = h.replace("return { label: '계산 불가', cls: 'mid'", "return { label: '보류(미완성)', cls: 'mid'")
+    h = re.sub(r"\+ `\\n심판 \$\{seated\.length\}/3 · 합계 \$\{sgn\(total\)\}`[^\n]*\n", "+ '\\\\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'\n", h, count=1)
+    h = h.replace("    + '\\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'\n", "", 1)
+    h = re.sub(r'(<div class="vs-pill[^"]*"[^>]*>)계산 불가(</div>)', r'\1보류(미완성)\2', h)
+    h = h.replace('은 참고로만 두고 합산하지 않는다. 미완성 카드다. ', '은 참고로만 두고 합산하지 않는다. ')   # cfg 설명 첫 문장과 겹침
+    h = h.replace('id="dcfPickValue">계산 불가<', 'id="dcfPickValue">보류(미완성)<')   # 정적 칸(cfg POST가 이 id를 빠뜨린 MLM·NSC)
+    h = re.sub(r'(id="[a-z]+Dcf(?:Verdict|Box)">)계산 불가<', r'\1보류(미완성)<', h)
+
 # 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
 h = re.sub(r'(<div class="card" hidden>\n    <div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">)(.*?)(\n    </div>\n  </div>)',
            lambda m: m.group(1) + '\n      기술적 분석(추세 상태)은 이 사이트의 판단(내재가치 대비)에서 뺐다. 이 칸은 화면에 보이지 않는다.' + m.group(3), h, count=1, flags=re.S)

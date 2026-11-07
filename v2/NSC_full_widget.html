@@ -562,8 +562,8 @@ Chart.overrides.doughnut.animation = false;
        스크립트가 꺼졌을 때를 위한 대비용이다. -->
   <div class="logic-grid" id="nscLogicGrid">
     <div class="logic-box logic-info">
-      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="nscDcfVerdict">계산 불가</span></div>
-      <div class="logic-score" id="nscDcfBox">계산 불가</div>
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="nscDcfVerdict">보류(미완성)</span></div>
+      <div class="logic-score" id="nscDcfBox">보류(미완성)</div>
     </div>
     <div class="logic-box logic-neutral" id="nscFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="nscFundVerdict">보통</span></div>
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: var(--text3);" id="dcfPickValue">계산 불가</span><span id="dcfPickUpside"></span></div>
+    <div class="pick-result"><span style="color: var(--text3);" id="dcfPickValue">보류(미완성)</span><span id="dcfPickUpside"></span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -898,11 +898,11 @@ Chart.overrides.doughnut.animation = false;
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 NSC 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">28.4</div><div class="sc-tile low" data-vc="self" data-m="per">21</div><div class="sc-tile lost" data-vc="self" data-m="pbr">45</div><div class="sc-tile low" data-vc="self" data-m="psr">22</div><div class="sc-tile lost" data-vc="self" data-m="pcr">31</div><div class="sc-tile low" data-vc="self" data-m="evebitda">23</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">현재가 <span data-vs="price">$319.94</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">계산 불가</div></div>
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">보류(미완성)</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">40.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">49</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">66</div><div class="sc-tile low" data-vc="peer" data-m="psr">19</div><div class="sc-tile low" data-vc="peer" data-m="pcr">5</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">63</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">PER 26.8배(5년 중앙값 22.0배)로 자기 이력 28.4점(비싸다), 동종업 40.5점(중간)이다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 보류(미완성), 합계 −1 “판정 보류”이다. 미완성 카드다. 2025년 7월 Union Pacific과 합병 계약을 맺었고(NSC 1주당 UNP 1주 + 현금 $88.82), 2025년 11월 주주가 승인해 미 육상교통위원회(STB) 승인을 기다린다(회사 예상 종결 2027년 초). 주가가 인수 조건(UNP 주가)에 묶여 움직이므로 — 자기 이력 대비 비싸 보이는 것도 인수 프리미엄 때문이라 — 배수와 현금흐름으로 단독 가치를 판정하지 않는다 — 자기 이력·동종업 점수는 참고값이다. 계약에 정한 특정 사유로 해지되면 NSC나 UNP 중 한쪽이 $2.5B 파기 수수료를 낸다. 최근 4분기 이익에는 합병 관련 비용(2026년 9개월만 $145M, 2025년 4분기에도 있음)과 2023년 오하이오 탈선 사고 관련 비용·회수가 섞여 있다.</div>
+    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(UNP 인수 종결 대기) — 자기 이력 −1 · 동종업 0은 참고로만 두고 합산하지 않는다. 2025년 7월 Union Pacific과 합병 계약을 맺었고(NSC 1주당 UNP 1주 + 현금 $88.82), 2025년 11월 주주가 승인해 미 육상교통위원회(STB) 승인을 기다린다(회사 예상 종결 2027년 초). 주가가 인수 조건(UNP 주가)에 묶여 움직이므로 — 자기 이력 대비 비싸 보이는 것도 인수 프리미엄 때문이라 — 배수와 현금흐름으로 단독 가치를 판정하지 않는다 — 자기 이력·동종업 점수는 참고값이다. 계약에 정한 특정 사유로 해지되면 NSC나 UNP 중 한쪽이 $2.5B 파기 수수료를 낸다. 최근 4분기 이익에는 합병 관련 비용(2026년 9개월만 $145M, 2025년 4분기에도 있음)과 2023년 오하이오 탈선 사고 관련 비용·회수가 섞여 있다.</div>
   </div>
 
   <div class="grid-2">
@@ -986,7 +986,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $3.5B(+13.6%), 영업이익률 32.6%(1년 전 35.4%). 주가는 1년 새 +14%<span class="tag">배수 비싼 쪽·매출 성장 빨라짐</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 보류(미완성), 합계 −1 “판정 보류”이다.</div>
+    <div class="verdict-summary-counter">⚠️ 미완성 카드라 종합 판정을 보류한다(UNP 인수 종결 대기) — 자기 이력 −1 · 동종업 0은 참고로만 두고 합산하지 않는다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 1월 28일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1415,7 +1415,7 @@ const NSC_DCF = {"low": null, "base": null, "high": null, "requiredGrowth": null
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
 function dcfLevel(price, D) {
   if (!D || price == null || typeof D.base !== 'number' || !isFinite(D.base))
-    return { label: '계산 불가', cls: 'mid', color: 'var(--gold)', split: false, ratio: null, range: '' };
+    return { label: '보류(미완성)', cls: 'mid', color: 'var(--gold)', split: false, ratio: null, range: '' };
   if (D.base <= 0)
     return { label: '매우 비싸다', cls: 'high', color: 'var(--red)', split: false, ratio: null, range: '기본 내재가치가 0 이하다' };
   const r = price / D.base;
@@ -1498,8 +1498,8 @@ const NSC_SCORES = {
   if (d.base == null) {
     const why = d.unavailable || '입력 부족';
     if (req) { req.textContent = '—'; req.style.color = 'var(--text3)'; const c = req.closest('.meta-item'); if (c) c.title = why; }
-    if (box) { box.textContent = '계산 불가'; box.title = why; }
-    const dv0 = $('nscDcfVerdict'); if (dv0) { dv0.textContent = '계산 불가'; dv0.title = why; }
+    if (box) { box.textContent = '보류(미완성)'; box.title = why; }
+    const dv0 = $('nscDcfVerdict'); if (dv0) { dv0.textContent = '보류(미완성)'; dv0.title = why; }
     return;
   }
   if (base) base.style.color = '#0ea5e9';
@@ -1611,7 +1611,7 @@ const NSC_DCF_GRID = null;
 
   if (!G) {   // 직접 바꿔보기 표가 없는 카드(보험사 등) — 틀의 대체값(NVDA $297)이 남지 않게(2026-10-06)
     const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
-    if (pv) { pv.textContent = '계산 불가'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
+    if (pv) { pv.textContent = '보류(미완성)'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
     return;
   }
   const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#0ea5e9'], ['낙관', 'high', 'var(--green)']];
@@ -1829,9 +1829,8 @@ const NSC_VALUATION = {"peer": {"score": 40.5, "sector": "Industrials (S&P500 81
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
       + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
-    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 && dcfIn ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
+    + '\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'
     + ` → ${NSC_VERDICT}`
-    + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
   document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = NSC_VERDICT; el.title = tip; });
   // A7(2026-10-04 사용자 결정 — 표시만, 판정 규칙은 그대로): 자기 이력·동종업 점수가 문턱(30·70) ±2점 안이고 그 칸 표가
