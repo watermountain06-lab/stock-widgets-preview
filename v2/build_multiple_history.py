@@ -1571,7 +1571,11 @@ def quarterly_flow(entries, ticker):
                 # 같은 값(±0.5%)을 알 수 있었으면 누계 차이와 그 공개일로(아래 4분기 규칙과 같은 조건, MRSH 2021 3분기 무형자산 상각 — Codex 2026-10-18)
                 _d = cur["val"] - prev["val"]
                 _qv = q[cur["end"]]["val"]
-                if abs(_d - _qv) <= 0.005 * max(abs(_qv), 1):
+                # E70(2026-11-07): 같은 값이 아니어도(±5%) 3개월 직접값이 누계 차이보다 120일 넘게 늦게 처음 실렸으면 먼저 공개된 누계 차이로 —
+                # 다른 태그·정의의 비교 열이 1년 뒤에야 실린 경우(PEP 2024 감가상각 DDA 누계 738·739 대 D&A 3개월 719·722, 2.6%: 분기 공개일 1년 밀림).
+                # 5%를 넘는 차이(분사·매각 재작성 FIS·GE·DHR, 태그 섞인 누계 사다리)와 재작성 종목(나중 값을 일부러 씀)은 그대로.
+                _late = (date.fromisoformat(q[cur["end"]]["filed"]) - date.fromisoformat(max(cur["filed"], prev["filed"]))).days
+                if abs(_d - _qv) <= 0.005 * max(abs(_qv), 1) or (_late > 120 and abs(_d - _qv) <= 0.05 * max(abs(_qv), 1) and ticker not in feh.RESTATED_LATEST):
                     q[cur["end"]] = {**q[cur["end"]], "val": _d, "filed": max(cur["filed"], prev["filed"])}
 
     ann = [e for e in rows if feh.days_between(e) > 350]

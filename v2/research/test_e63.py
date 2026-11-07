@@ -244,6 +244,24 @@ def run():
         check("E62 이웃 분기 간격 120일 넘으면 0", bmh.disc_in_ttm("ZZZ", gap, "2025-03-31", "2025-06-01") == 0.0)
     finally:
         bmh._ps_facts, bmh.ASOF_REF = keep_ps, keep_ar
+    # E70 누계 차이가 먼저 공개됐으면 ±5% 안의 늦은 3개월 직접값 대신 그것(PEP 2024 감가상각)
+    import fetch_eps_history as _feh70
+    def _qf(late_val, ticker="ZZZ"):
+        rows = [{"start": "2024-01-01", "end": "2024-03-31", "val": 641.0, "filed": "2024-04-23"},
+                {"start": "2024-01-01", "end": "2024-06-30", "val": 1379.0, "filed": "2024-07-11"},
+                {"start": "2024-04-01", "end": "2024-06-30", "val": late_val, "filed": "2025-07-17"}]
+        return {e["end"]: e for e in bmh.quarterly_flow(rows, ticker)}["2024-06-30"]
+    q = _qf(719.0)
+    check("E70 2.6% 차이·1년 늦은 3개월값 → 누계 차이 738·2024-07-11", q["val"] == 738.0 and q["filed"] == "2024-07-11")
+    q = _qf(660.0)
+    check("E70 10% 넘는 차이는 그대로(늦은 값)", q["val"] == 660.0 and q["filed"] == "2025-07-17")
+    _keep70 = set(_feh70.RESTATED_LATEST)
+    try:
+        _feh70.RESTATED_LATEST.add("ZZZ")
+        q = _qf(719.0)
+        check("E70 재작성 종목은 그대로(나중 값)", q["val"] == 719.0 and q["filed"] == "2025-07-17")
+    finally:
+        _feh70.RESTATED_LATEST.clear(); _feh70.RESTATED_LATEST.update(_keep70)
     # E67 pick_instant 시점 규칙: 그때까지 공개된 태그 중 앞 태그
     keep_c, keep_pe = bmh.concept, bmh._period_ends
     try:
@@ -279,6 +297,9 @@ def run():
 
 
 MUTANTS = [
+    ("E70 늦은 값 대체 끔", "or (_late > 120 and abs(_d - _qv) <= 0.05", "or (False and abs(_d - _qv) <= 0.05"),
+    ("E70 5% 상한 제거", "or (_late > 120 and abs(_d - _qv) <= 0.05 * max(abs(_qv), 1) and ticker", "or (_late > 120 and ticker"),
+    ("E70 재작성 종목 제외 제거", "abs(_d - _qv) <= 0.05 * max(abs(_qv), 1) and ticker not in feh.RESTATED_LATEST)", "abs(_d - _qv) <= 0.05 * max(abs(_qv), 1))"),
     ("결산일 대신 공개 순서", "        k = (e.get(\"end\") or \"\", e[\"available\"], i)", "        k = (\"\", e[\"available\"], i)"),
     ("오태깅 필터 제거", "        if e.get(\"end\") and e[\"end\"] > e[\"available\"]:\n            continue", "        if False:\n            continue"),
     ("정정 공개일 무시", "        k = (e.get(\"end\") or \"\", e[\"available\"], i)", "        k = (e.get(\"end\") or \"\", \"\", -i)"),
