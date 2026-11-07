@@ -1,5 +1,32 @@
 {
  "ticker": "PLTR",
- "status": "N/A",
- "reason": "5년 비교 이력 부족"
+ "status": "ok",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
+ "now": {
+  "dso": 67.3,
+  "dio": 0.0,
+  "dpo": 13.1,
+  "op": 67.3,
+  "ccc": 54.3
+ },
+ "prev": {
+  "dso": 67.7,
+  "dio": 0.0,
+  "dpo": 14.8,
+  "op": 67.7,
+  "ccc": 52.9
+ },
+ "history": {
+  "n": 20,
+  "from": "2021-09-30",
+  "to": "2026-06-30",
+  "min": 44.0,
+  "max": 73.5,
+  "longer": 7,
+  "dsoLonger": 7,
+  "dioLonger": 0
+ },
+ "score": 35.0,
+ "tone": "yellow"
 }

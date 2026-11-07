@@ -4278,7 +4278,7 @@
    "backfill_first": false,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312525267043/blk-20250930.htm",
-   "note": "BlackRock Saturn Subco, LLC Class B-2 common units(HPS 거래 대가, 2025-07-01 마감 때 8,448,427 발행 — 10-K Note 23 자본 표 \"Issuance of Subco Units/common shares in connection with acquisitions ... 8,448,427\"). 원문: \"Subco Units that were issued to former equityholders of HPS and will be exchangeable on a one-for-one basis into BlackRock common stock at the option of the holders when exchange rights begin\"(Q3 2025 10-Q), 교환권은 1주년부터. 회사가 Subco 단위를 자사주 매입 프로그램으로 사들임(분기 Item 2 표) — 단위 수가 분기마다 줄어듦. 바탕 주식 수는 us-gaap CommonStockSharesOutstanding(2026-06-30 154,996,807) — dei 표지 FullyDilutedSharesMember(162,476,186)는 단위를 이미 담아 쓰면 이중 계산. HPS 조건부 대가 2.8M~4.4M Subco 단위(부채)는 제외 — 3분기 일부 자본 재분류 예고. Q2 2026 10-Q: \"On July 1, 2026, a contractual provision that could have required cash settlement of the Subco Units expired. As a result, in the third quarter, the Company will reclassify a portion of NCI, which represents Subco Units, from temporary equity (redeemable NCI) to permanent equity (nonredeemable NCI).\" → 2026-09-30부터 엔진 MinorityInterest(nci)에 Subco가 들어갈 수 있음 — nci_remove·ce_add 3분기 값은 10-Q 확인 뒤. 2026-09-30 행 미확인: Q3 2026 10-Q 미공시(2026-10-29 기준). 실적 보도자료(2026-10-14, https://www.sec.gov/Archives/edgar/data/2012383/000119312526420979/blk-ex99_1.htm) \"As of September 30, 2026, there were 154.6 million shares of common stock and 7.6 million Class B-2 common units\" — 정확 수·장부가 없음, 희석 가중평균(Subco 포함) 164.5M만.",
+   "note": "BlackRock Saturn Subco, LLC Class B-2 common units(HPS 거래 대가, 2025-07-01 마감 때 8,448,427 발행 — 10-K Note 23 자본 표 \"Issuance of Subco Units/common shares in connection with acquisitions ... 8,448,427\"). 원문: \"Subco Units that were issued to former equityholders of HPS and will be exchangeable on a one-for-one basis into BlackRock common stock at the option of the holders when exchange rights begin\"(Q3 2025 10-Q), 교환권은 1주년부터. 회사가 Subco 단위를 자사주 매입 프로그램으로 사들임(분기 Item 2 표) — 단위 수가 분기마다 줄어듦. 바탕 주식 수는 us-gaap CommonStockSharesOutstanding(2026-06-30 154,996,807) — dei 표지 FullyDilutedSharesMember(162,476,186)는 단위를 이미 담아 쓰면 이중 계산. HPS 조건부 대가 2.8M~4.4M Subco 단위(부채)는 제외 — 3분기 일부 자본 재분류 예고. Q2 2026 10-Q: \"On July 1, 2026, a contractual provision that could have required cash settlement of the Subco Units expired. As a result, in the third quarter, the Company will reclassify a portion of NCI, which represents Subco Units, from temporary equity (redeemable NCI) to permanent equity (nonredeemable NCI).\" → 2026-09-30부터 엔진 MinorityInterest(nci)에 Subco가 들어갈 수 있음 — nci_remove·ce_add 3분기 값은 10-Q 확인 뒤. 2026-09-30 행: Q3 2026 10-Q(2026-11-04)로 채움 — Subco가 영구 비지배지분으로 옮겨져 nci_remove가 0이 아니게 됨(짝 행 설명 참고). 실적 보도자료(2026-10-14, https://www.sec.gov/Archives/edgar/data/2012383/000119312526420979/blk-ex99_1.htm) \"As of September 30, 2026, there were 154.6 million shares of common stock and 7.6 million Class B-2 common units\" — 정확 수·장부가 없음, 희석 가중평균(Subco 포함) 164.5M만.",
    "rows": [
     {
      "end": "2025-09-30",
@@ -4311,6 +4311,14 @@
      "units": 7606927,
      "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526337177/blk-20260630.htm",
      "note": "10-Q 희석 표 \"Subco Units 7,606,927\"(3개월, 6개월 7,624,315), 2026-07-31 표지 \"162,476,186 on a fully diluted basis, including 7,606,927 Class B-2 common units\". 10-Q \"7.6 million Subco Units outstanding\"(6-30). 설계 §3.1 검산: (57,613 + 2,828)M ÷ (154,996,807 + 7,606,927) ≈ $371.70 = 회사 BVPS"
+    },
+    {
+     "end": "2026-09-30",
+     "filed": "2026-11-04",
+     "wa_shares": 7606927,
+     "units": 7606927,
+     "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526447043/blk-20260930.htm",
+     "note": "10-Q 표지 \"162,030,348 on a fully diluted basis, including 7,606,927 Class B-2 common units\"(2026-10-31), 본문 \"As of September 30, 2026, there were 154.6 million shares of common stock and 7.6 million Subco Units outstanding\". 3분기 자본변동표 Subco 열에 단위 매입 없음(Shares/Subco Units repurchased —) → 6-30 7,606,927 그대로. wa_shares: 희석 표 \"Subco Units 7.6\"(백만, 반올림) — 분기 중 변동이 없어 7,606,927"
     },
     {
      "end": "2025-07-01",
@@ -4353,6 +4361,14 @@
      "ce_add": 2828000000,
      "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526337177/blk-20260630.htm",
      "note": "\"Redeemable NCI - BlackRock Saturn Subco, LLC (\\\"Subco\\\") 2,828\"(백만, XBRL TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests 차원 값). MinorityInterest 227M = CIPs"
+    },
+    {
+     "end": "2026-09-30",
+     "filed": "2026-11-04",
+     "nci_remove": 5440000000,
+     "ce_add": 2860000000,
+     "source": "https://www.sec.gov/Archives/edgar/data/2012383/000119312526447043/blk-20260930.htm",
+     "note": "7-1 현금 정산 조항 소멸로 Subco가 임시자본에서 영구 비지배지분으로(재무상태표 \"Redeemable NCI - Subco —\", \"Nonredeemable NCI - Subco 5,440\", XBRL MinorityInterest SubcoMember 5,440). 3분기 자본변동표 Subco(영구) 열: 재분류 +5,408 = 임시자본 Subco 2,828 + 조건부 대가 부채에서 옮긴 고정 2.8M 단위 약 $2.6B(주석 15·각주 2), 순이익 +80, 분배 −43, 지분 변동 −5. nci_remove 5,440 = Subco 영구 비지배지분 전체(남는 비지배 = CIPs 354, 앞 분기들과 같은 범위). ce_add 2,860 = 5,408 − 2,580(조건부 몫 = 5,408 − 2,828) + 80 − 43 − 5 — 발행된 7,606,927 단위 몫만(분배 43 ≈ 7.6M × 분기 배당 $5.73라 순이익·분배는 발행 단위 몫). 조건부 2.8M 단위는 아직 발행 전이라 주식 수에 없고(희석 표 Subco 7.6M), 전에는 부채(조건부 대가)로 자본·비지배지분 어디에도 안 들던 것과 같게 뺀다. 2,860은 원문 합계를 나눈 산술(원문에 이 분할 숫자는 없음)"
     }
    ]
   }

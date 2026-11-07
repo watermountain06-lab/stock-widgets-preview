@@ -10,7 +10,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 7084, 'op': 2461, 'ni': 1914}   # 보도자료 GAAP 손익(순이익은 BlackRock 귀속)
-VOTES, VERDICT = (-1, -1, -2), '고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'BlackRock'
 S_ = 'https://www.sec.gov/Archives/edgar/data/2012383/'
 SEC = S_
@@ -150,7 +150,8 @@ SEG_MAP = {
      "자문·기타",
      "#94a3b8"
     ]
-   }
+   },
+   "ignore": ["us-gaap:InvestmentAdviceMember", "blk:RevenueByClientTypeMember", "blk:RevenueByInvestmentStyleMember"]   # 투자자문은 첫 묶음(기본 보수·증권대여)에서 — Q3 2026 10-Q부터 이 세 소계에 합계·현금관리 뺀 소계 두 값이 실림(6,036·5,682)
   }
  ]
 }
