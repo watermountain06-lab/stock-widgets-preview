@@ -1,32 +1,32 @@
 {
  "ticker": "FICO",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 81.8,
+  "dio": 0.0,
+  "dpo": 32.0,
+  "op": 81.8,
+  "ccc": 49.8
+ },
+ "prev": {
   "dso": 82.6,
   "dio": 0.0,
   "dpo": 31.6,
   "op": 82.6,
   "ccc": 51.1
  },
- "prev": {
-  "dso": 82.3,
-  "dio": 0.0,
-  "dpo": 30.2,
-  "op": 82.3,
-  "ccc": 52.1
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 75.3,
   "max": 90.2,
-  "longer": 8,
-  "dsoLonger": 8,
+  "longer": 10,
+  "dsoLonger": 10,
   "dioLonger": 0
  },
- "score": 40.0,
+ "score": 50.0,
  "tone": "yellow"
 }

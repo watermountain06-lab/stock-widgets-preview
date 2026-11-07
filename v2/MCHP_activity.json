@@ -1,32 +1,32 @@
 {
  "ticker": "MCHP",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 56.2,
+  "dio": 185.4,
+  "dpo": 35.4,
+  "op": 241.6,
+  "ccc": 206.1
+ },
+ "prev": {
   "dso": 57.7,
   "dio": 192.3,
   "dpo": 32.7,
   "op": 250.0,
   "ccc": 217.2
  },
- "prev": {
-  "dso": 58.8,
-  "dio": 205.5,
-  "dpo": 30.9,
-  "op": 264.3,
-  "ccc": 233.3
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
+  "from": "2021-09-30",
+  "to": "2026-06-30",
   "min": 165.4,
   "max": 331.7,
-  "longer": 9,
+  "longer": 10,
   "dsoLonger": 12,
-  "dioLonger": 8
+  "dioLonger": 9
  },
- "score": 45.0,
+ "score": 50.0,
  "tone": "yellow"
 }

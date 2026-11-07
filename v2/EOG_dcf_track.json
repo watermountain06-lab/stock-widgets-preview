@@ -25,20 +25,20 @@
   },
   {
    "date": "2021-11-04",
-   "price": 90.9,
+   "price": null,
    "window": "last13",
    "low": 48.85466994472768,
-   "base": 20.661930161917144,
+   "base": 24.482673654136143,
    "high": 60.52342930470447,
-   "forward_price": 132.22,
-   "forward_return": 0.4545654565456545
+   "forward_price": null,
+   "forward_return": null
   },
   {
    "date": "2022-02-24",
    "price": 110.1,
    "window": "last13",
    "low": 65.94342876374039,
-   "base": 32.95407849664126,
+   "base": 36.632105499334244,
    "high": 100.16980178985703,
    "forward_price": 125.22,
    "forward_return": 0.1373297002724796
@@ -58,7 +58,7 @@
    "price": 99.82,
    "window": "last13",
    "low": 76.94428064838024,
-   "base": 92.92689206800881,
+   "base": 92.83948393639898,
    "high": 128.39628265416297,
    "forward_price": 124.62,
    "forward_return": 0.24844720496894412
@@ -68,7 +68,7 @@
    "price": 138.38,
    "window": "last13",
    "low": 99.26603727982928,
-   "base": 152.49465756255688,
+   "base": 152.33655913653814,
    "high": 194.81556186074184,
    "forward_price": 114.36,
    "forward_return": -0.17357999710940886
@@ -210,8 +210,8 @@
    "low": 94.24928533989848,
    "base": 122.21188174194012,
    "high": 114.3909542026269,
-   "forward_price": null,
-   "forward_return": null
+   "forward_price": 155.17,
+   "forward_return": 0.10190313875869905
   },
   {
    "date": "2026-08-04",
@@ -220,6 +220,16 @@
    "low": 163.01415531641743,
    "base": 171.99760538332444,
    "high": 154.97674608666156,
+   "forward_price": null,
+   "forward_return": null
+  },
+  {
+   "date": "2026-11-05",
+   "price": 144.89,
+   "window": "fixed",
+   "low": 197.48583602223803,
+   "base": 207.2554340849782,
+   "high": 206.99677600882427,
    "forward_price": null,
    "forward_return": null
   }

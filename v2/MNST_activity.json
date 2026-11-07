@@ -1,32 +1,32 @@
 {
  "ticker": "MNST",
  "status": "ok",
- "asOf": "2026-06-30",
- "prevAsOf": "2026-03-31",
+ "asOf": "2026-09-30",
+ "prevAsOf": "2026-06-30",
  "now": {
+  "dso": 68.4,
+  "dio": 70.4,
+  "dpo": 59.3,
+  "op": 138.8,
+  "ccc": 79.4
+ },
+ "prev": {
   "dso": 67.5,
   "dio": 68.9,
   "dpo": 59.1,
   "op": 136.4,
   "ccc": 77.3
  },
- "prev": {
-  "dso": 66.0,
-  "dio": 68.5,
-  "dpo": 55.3,
-  "op": 134.5,
-  "ccc": 79.2
- },
  "history": {
   "n": 20,
-  "from": "2021-06-30",
-  "to": "2026-03-31",
-  "min": 112.1,
+  "from": "2021-09-30",
+  "to": "2026-06-30",
+  "min": 113.7,
   "max": 163.4,
-  "longer": 14,
+  "longer": 12,
   "dsoLonger": 0,
   "dioLonger": 16
  },
- "score": 70.0,
- "tone": "green"
+ "score": 60.0,
+ "tone": "yellow"
 }
