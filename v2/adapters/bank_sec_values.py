@@ -224,12 +224,15 @@ def peers():
 
 
 def main():
-    want = [a.upper() for a in sys.argv[1:] if not a.startswith("--")]
+    args = sys.argv[1:]
+    stamp = args[args.index("--stamp") + 1] if "--stamp" in args else None   # 실패가 없을 때만 남기는 완료 표식(rebuild.sh 하루 한 번 전체 수집, Codex r2)
+    want = [a.upper() for a in args if not a.startswith("--") and a != stamp]
     banks = {**peers(), **CARDS}
     if want:
         banks = {t: banks[t] for t in want}
     tags = json.load(open(TAGS))
     data = json.load(open(OUT)) if os.path.exists(OUT) else {}
+    fails = []   # 목록·원문 실패 요약(마지막 줄 — rebuild.sh의 tail -1이 보여 준다, Codex 2026-11-06)
     for T, cik in sorted(banks.items()):
         have = data.setdefault(T, {})
         em = tags["preferred"].get(T, {}).get("equity_member")
@@ -237,6 +240,7 @@ def main():
             fl = filings(cik)
         except Exception as e:
             print(f"{T}: 목록 실패 {type(e).__name__}")
+            fails.append(f"{T} 목록")
             continue
         added = 0
         for end, filed, accn, primary, form in fl:
@@ -248,6 +252,8 @@ def main():
                 fs6 = facts6(cik, accn, primary, end, refetch)
             except Exception as e:
                 print(f"  {T} {end}: 받기 실패 {type(e).__name__}")
+                if end >= max(have or [""]):   # 저장된 최신 분기보다 새 분기 실패만 요약에 — 옛 분기 반복 실패(TFC 2021~2025 SE 없음)는 로그에만
+                    fails.append(f"{T} {end}")
                 continue
             have[end] = {"form": form, "accn": accn, "filed": filed, **values(T, cik, [x[:5] for x in fs6], end, tags)}
             if em:
@@ -255,6 +261,9 @@ def main():
             added += 1
         print(f"{T}: 분기 {len(have)}개(새로 {added})", flush=True)
         json.dump(data, open(OUT, "w"), ensure_ascii=False, indent=0, sort_keys=True)
+    print(f"원문 값 수집: 은행 {len(banks)}곳 — " + (f"새 분기 실패 {len(fails)}건: {', '.join(fails)}(완료 표식 안 남김 — 다음 카드가 다시 받는다)" if fails else "새 분기 실패 없음"), flush=True)
+    if stamp and not fails:
+        open(stamp, "w").close()
 
 
 if __name__ == "__main__":

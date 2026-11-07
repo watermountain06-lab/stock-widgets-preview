@@ -143,7 +143,7 @@ def run(args):
                 out = os.path.join(ROOT, "work", f"{label}_{T}_bank.json")
                 os.makedirs(os.path.dirname(out), exist_ok=True)
                 p = sh([PY, "v2/adapters/bank_card.py", T, "--json", out, "--reuse-peers"], cwd=TREE,
-                       env=dict(env0, BANK_EDITION="7"), check=False)   # 은행 7판(2026-10-11부터 기본, rebuild.sh와 같게 못박는다)
+                       env=dict(env0, BANK_EDITION="8"), check=False)   # 은행 8판(2026-11-06부터 기본, rebuild.sh와 같게 못박는다)
                 if p.returncode:
                     r["error"] = (p.stdout + p.stderr)[-400:]
                 else:

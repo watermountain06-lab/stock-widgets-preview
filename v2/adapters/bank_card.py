@@ -128,7 +128,7 @@ def peers(asof, self_ticker):
             if bank.ed >= 7 and "ptbv" in m:   # 7판 11-6: 그 분기 CE·TCE·S와 N5-1·N5-2를 통과해야 동종업 P/TBV에 든다
                 ok7, why7 = br.peer_ok7(bank, m["ptbv_end"])
                 if not ok7:
-                    m.pop("ptbv"); m["ptbv_missing"] = f"7판 동종업 관문: {why7}"
+                    m.pop("ptbv"); m["ptbv_missing"] = f"동종업 관문(11-6): {why7}"
             if "ptbv" not in m:
                 out["skipped"][t + ":ptbv"] = m.get("ptbv_missing", "분기말 자본 자료 없음")
             m["tags"] = {"equity": "StockholdersEquity", "preferred": ("8판 표: 자본변동표 차원 값(" + bank.eq_mem["member"].split(":")[1] + ")") if bank.eq_mem else ("7판 표: " + (bank.pref_tbl.get("path") or "·".join(bank.pref_tbl.get("tags") or ["분리 불가"]))) if bank.pref_tbl is not None else "PreferredStockLiquidationPreferenceValue" if bank.pref_liq else ("PreferredStockValue" if bank.pref_val else "없음(우선주 이력 없음)" if not bank.pref_ever else "결측"),

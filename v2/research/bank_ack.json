@@ -23,5 +23,13 @@
    "edition_min": 8,
    "source": "HBAN 8-K 0001140361-26-003083(2026-02-02, Item 2.01)"
   }
+ },
+ "RJF": {
+  "2026-03-31": {
+   "reason": "Series B 우선주 전액 상환(2026-01-02, 80,500주, 상환가 $81M = 장부가 $79M + 초과분 $2M — 초과분은 우선주 배당으로 처리). 8판 r7 ④: 현금흐름표 상환 $81M이 6개월 누계 행에만 있고 2025-12 누계 행이 없어 사람 확인으로 이 분기 몫을 받는다. N4·N3에는 쓰지 않는 항목(pref_redeemed).",
+   "edition_min": 8,
+   "pref_redeemed": true,
+   "source": "RJF 10-Q 0000720005-26-000051(2026-05-06) Note 18 'On January 2, 2026, we redeemed all 80,500 outstanding shares of our Series B Preferred Stock … aggregate redemption value of $81 million', 자본변동표 3개월 'Redemption of preferred stock (79)'"
+  }
  }
 }

@@ -347,6 +347,191 @@ def n52_q4_from_annual_minus_ytd_real_pnc():
     assert all(q) and fy and abs(sum(x[0] for x in q) - fy) < 1, (q, fy)
 
 
+# §3-2 r7 전액 상환 분기(RJF 2026-03형): 직전 분기 차감 > 0 → 그 분기 0·배당 > 0 → 다음 분기도 0·배당 0이면 정지에서 뺀다
+ACK_R = {"FAKE": {e: {"reason": "우선주 전액 상환(시험)", "edition_min": 8, "pref_redeemed": True, "source": "x"} for e in Q[:4]}}   # 직전 누계 없는 누계 행의 사람 확인
+
+
+def redeemed_bank(pref, divs, paid=None, ytd_prev=None, div_tag_rows=False):
+    """pref: {분기: 우선주 장부가} — 없는 분기는 0. divs: {분기: 배당}. paid: {결산일: 상환 지출(누계 행)} — r7 ④."""
+    b = FB(em=False, pdq=pdq({e: (v, F) for e, v in divs.items()}))
+    b.pref_val = {e: (pref.get(e, 0.0), F) for e in Q}
+    FAKE_FACTS.clear()
+    st = lambda e: (__import__("datetime").date.fromisoformat(br.qends_before(e, 2)[1]) + __import__("datetime").timedelta(days=1)).isoformat()   # 6개월 누계 행 시작일(두 분기 전 분기말 다음 날)
+    rows = [{"start": st(e), "end": e, "val": v, "filed": F, "form": "10-Q"} for e, v in (paid or {}).items()]
+    for e, v in (ytd_prev or {}).items():   # {직전 분기: 누계} — 시작일을 바로 다음 분기(상환 분기) 행과 같게(r7 ④ 누계 차감)
+        rows.append({"start": st(Q[Q.index(e) - 1]), "end": e, "val": v, "filed": F, "form": "10-Q"})
+    FAKE_FACTS["PaymentsForRepurchaseOfPreferredStockAndPreferenceStock"] = rows
+    if div_tag_rows:   # 배당 태그를 낸 적 있는 은행(③ '없음'을 확인으로 받지 않음)
+        FAKE_FACTS["DividendsPreferredStock"] = [{"start": "2020-01-01", "end": "2020-03-31", "val": 1e6, "filed": F, "form": "10-Q"}]
+    return b
+
+
+@case
+def n52_redeemed_quarter_confirmed_by_next_passes():
+    b = redeemed_bank({Q[3]: 79e6, Q[4]: 79e6}, {Q[3]: 1e6, Q[2]: 2e6, Q[1]: 0.0}, {Q[2]: 81e6})
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is True and r.get("redeemed") == [Q[2]], r
+
+
+@case
+def n52_redeemed_ytd_from_earlier_quarter_stops():
+    # 같은 회계연도 앞 분기 누계 900이 그대로 e 누계 900 — 이 분기 상환 지출은 0(Fable r1 반례)
+    b = redeemed_bank({Q[3]: 100e6, Q[4]: 1000e6}, {Q[2]: 2e6, Q[1]: 0.0}, {Q[2]: 900e6}, ytd_prev={Q[3]: 900e6})
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False, r
+
+
+@case
+def n52_ytd_without_prior_too_large_stops():
+    b = redeemed_bank({Q[3]: 100e6, Q[4]: 100e6}, {Q[2]: 2e6, Q[1]: 0.0}, {Q[2]: 900e6})   # 직전 누계 없음 + 누계 900 > 1.1 × 100(Codex r2 반례)
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False, r
+
+
+@case
+def n52_ytd_without_prior_earlier_redemption_stops():
+    # 직전 누계 행 없음 + 누계 100 = 직전 차감 100이지만, 누계 시작 직전 분기말 차감 200 → 그 해 앞 분기에 100 상환(Codex r3 반례) → 정지
+    b = redeemed_bank({Q[4]: 200e6, Q[3]: 100e6}, {Q[2]: 2e6, Q[1]: 0.0}, {Q[2]: 100e6})
+    try:
+        with acks({}):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False, r
+
+
+@case
+def n52_ytd_without_prior_no_ack_stops():
+    # 직전 누계 없음 + 사람 확인 없음 → 차감이 일정해도(같은 해 앞 분기 상환·재발행 가능, Codex r4) 정지
+    b = redeemed_bank({Q[3]: 79e6, Q[4]: 79e6}, {Q[2]: 2e6, Q[1]: 0.0}, {Q[2]: 81e6})
+    try:
+        with acks({}):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False, r
+
+
+@case
+def n52_pref_redeemed_ack_is_not_n4_ack():
+    with acks(ACK_R):
+        assert Q[2] not in br.ack_map("FAKE", 8)
+
+
+@case
+def n52_quarter_only_row_passes():
+    b = redeemed_bank({Q[3]: 79e6}, {Q[2]: 2e6, Q[1]: 0.0})
+    FAKE_FACTS["PaymentsForRepurchaseOfPreferredStockAndPreferenceStock"] = [
+        {"start": (__import__("datetime").date.fromisoformat(br.qends_before(Q[2], 1)[0]) + __import__("datetime").timedelta(days=1)).isoformat(), "end": Q[2], "val": 300e6, "filed": F, "form": "10-Q"}]   # 3개월 행은 상한 없이
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is True and r.get("redeemed") == [Q[2]], r
+
+
+@case
+def n52_no_prior_deduction_with_quarter_payment_stops():
+    b = redeemed_bank({}, {Q[2]: 2e6, Q[1]: 0.0})   # 직전 차감 0 — 3개월 상환 행이 있어도 ①에서 정지
+    FAKE_FACTS["PaymentsForRepurchaseOfPreferredStockAndPreferenceStock"] = [
+        {"start": (__import__("datetime").date.fromisoformat(br.qends_before(Q[2], 1)[0]) + __import__("datetime").timedelta(days=1)).isoformat(), "end": Q[2], "val": 300e6, "filed": F, "form": "10-Q"}]
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False, r
+
+
+@case
+def n52_next_quarter_dividend_missing_with_tag_history_stops():
+    b = redeemed_bank({Q[3]: 79e6, Q[4]: 79e6}, {Q[2]: 2e6}, {Q[2]: 81e6}, div_tag_rows=True)   # 다음 분기 배당 태그 없음 + 과거에 태그 있음
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False, r
+
+
+@case
+def n52_redeemed_without_payment_stops():
+    b = redeemed_bank({Q[3]: 79e6}, {Q[2]: 2e6, Q[1]: 0.0}, {})   # 차감·배당 태그가 두 분기 빠진 것과 구별 못 함 → 상환 지출 없으면 정지(Codex r1)
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False and r["quarters"] == [Q[2]], r
+
+
+@case
+def n52_redeemed_payment_too_small_stops():
+    b = redeemed_bank({Q[3]: 79e6}, {Q[2]: 2e6, Q[1]: 0.0}, {Q[2]: 70e6})   # 70 < 0.9 × 79
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False, r
+
+
+@case
+def n52_next_quarter_negative_dividend_stops():
+    b = redeemed_bank({Q[3]: 79e6, Q[4]: 79e6}, {Q[2]: 2e6, Q[1]: -1e6}, {Q[2]: 81e6})   # 음수는 '0 또는 없음'이 아니다(Codex r1)
+    try:
+        with acks(ACK_R):
+            r = br.checks7(b, END)["N5_2"]
+    finally:
+        FAKE_FACTS.clear()
+    assert r["pass"] is False, r
+
+
+@case
+def n52_deduction_back_next_quarter_still_stops():
+    b = redeemed_bank({Q[3]: 79e6, Q[1]: 79e6, END: 79e6}, {Q[2]: 2e6}, {Q[2]: 81e6})   # 한 분기만 차감 태그가 빠진 경우
+    with acks(ACK_R):
+        r = br.checks7(b, END)["N5_2"]
+    assert r["pass"] is False and r["quarters"] == [Q[2]], r
+
+
+@case
+def n52_redemption_latest_quarter_waits():
+    b = redeemed_bank({Q[1]: 79e6, Q[2]: 79e6}, {END: 2e6}, {END: 81e6})   # 상환 분기가 최신 — 다음 분기 공시 전이라 정지
+    with acks(ACK_R):
+        r = br.checks7(b, END)["N5_2"]
+    assert r["pass"] is False and r["quarters"] == [END], r
+
+
+@case
+def n52_next_quarter_dividend_still_stops():
+    b = redeemed_bank({Q[3]: 79e6, Q[4]: 79e6}, {Q[2]: 2e6, Q[1]: 1e6}, {Q[2]: 81e6})   # 다음 분기에도 배당 — 상환이 아니라 차감 누락 의심
+    with acks(ACK_R):
+        r = br.checks7(b, END)["N5_2"]
+    assert r["pass"] is False and Q[2] in r["quarters"], r
+
+
+@case
+def n52_no_prior_deduction_still_stops():
+    b = redeemed_bank({}, {Q[2]: 2e6, Q[1]: 0.0}, {Q[2]: 81e6})   # 직전에도 차감 0 — 상환 근거 없음
+    with acks(ACK_R):
+        r = br.checks7(b, END)["N5_2"]
+    assert r["pass"] is False and r["quarters"] == [Q[2]], r
+
+
 # §4 N4 승인
 def n4(ack, ed=8, end="2026-03-31"):
     b = FB(ed=ed, em=False, sh={e: (1.3e9 if e >= "2026-03-31" else 1e9) for e in Q})
@@ -494,9 +679,21 @@ RIM_MUTANTS = {
                           "        p = p or self.pref_liq.get(end) or self.pref_val.get(end)\n        if p is None:   # 1-1 청산가·액면 경로로 떨어지지 않는다"),
     "N3에서 차원 값 경로 제외": ("    if bank.eq_mem:   # 8판 §1-7", "    if False:   # 8판 §1-7"),
     "N5-2를 TTM 합으로 되돌림": ("    if bank.ed >= 8:   # 8판 §3", "    if False:   # 8판 §3"),
-    "ack 판 무시": ('if isinstance(v, str) or edition >= v.get("edition_min", 0)', "if True"),
+    "ack 판 무시": ('if isinstance(v, str) or (edition >= v.get("edition_min", 0) and not v.get("pref_redeemed"))', 'if isinstance(v, str) or not v.get("pref_redeemed")'),
     "차원 값 경로 판 관문 제거": ('.get("equity_member") if self.ed >= 8 else None', '.get("equity_member")'),
     "N5-2 판 관문 제거": ("    if bank.ed >= 8:   # 8판 §3", "    if True:   # 8판 §3"),
+    "상환 분기 다음 분기 확인 제거": ("    if not (cn and bank.se.get(n) and abs(bank.se[n][0] - cn[0]) < 1):\n        return False", "    if False:\n        return False"),
+    "상환 분기 직전 차감 확인 제거": ("    if not (cp and bank.se.get(p) and bank.se[p][0] - cp[0] >= 1):\n        return False", "    if False:\n        return False"),
+    "상환 분기 다음 분기 배당 확인 제거": ("    return dn[0] == 0", "    return True"),
+    "상환 분기 음수 배당 허용": ("    return dn[0] == 0", "    return not dn[0] > 0"),
+    "상환 분기 배당 없음 무조건 허용": ("        return not any(not (bank.asof", "        return True or not any(not (bank.asof"),
+    "상환 지출 누계 차감 제거": ("                paid.append(f[\"val\"] - prev[0])", "                paid.append(f[\"val\"])"),
+    "상환 지출 확인 제거": ("    if not paid or max(paid) < need:\n        return False", "    if False:\n        return False"),
+    "상환 지출 비율 제거": ("    if not paid or max(paid) < need:", "    if not paid:"),
+    "직전 누계 없는 누계 행 상한 제거": ("            elif f[\"val\"] <= ded * PREF_REDEEM_MAX and _ack_pref_redeemed(bank, e):", "            elif _ack_pref_redeemed(bank, e):"),
+    "직전 누계 없는 누계 행 사람 확인 제거": ("            elif f[\"val\"] <= ded * PREF_REDEEM_MAX and _ack_pref_redeemed(bank, e):", "            elif f[\"val\"] <= ded * PREF_REDEEM_MAX:"),
+    "상환 확인을 N4 승인으로도 씀": (" and not v.get(\"pref_redeemed\"))}", ")}"),
+    "상환 분기 예외 제거": ("                if _pref_redeemed_q8(bank, e):", "                if False:"),
 }
 SV_MUTANTS = {
     "멤버를 '포함'으로 느슨하게": ('d == ((em["axis"], em["member"]),)', '(em["axis"], em["member"]) in d'),

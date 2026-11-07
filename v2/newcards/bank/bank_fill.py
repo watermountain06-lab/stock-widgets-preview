@@ -1,4 +1,4 @@
-"""은행 카드 공통 채우기 — 사전 등록 7판(research/bank_rim_prereg.md 11절, 2026-10-11). 분기마다 손으로 고치는 값이 없다.
+"""은행 카드 공통 채우기 — 사전 등록 8판(research/bank_v8_design.md, 2026-11-06; 7판 research/bank_rim_prereg.md 11절, 2026-10-11). 분기마다 손으로 고치는 값이 없다.
 
 은행 9장은 종목별 채우기 스크립트({t}_fill.py)로 만들었고, 보도자료에서 옮긴 숫자(사업부 순이익·자본비율·대손 내역·자본배분·뉴스)와
 문장이 분기마다 손으로 들어갔다. 이 스크립트는 SEC 자료(companyfacts + 원문 인라인 XBRL, adapters/bank_sec_values.py)와 규칙 문장만 쓴다.
@@ -47,13 +47,13 @@ def sub(pat, new, flags=re.S):
 
 
 J = json.load(open(f'{T}_bank.json'))
-assert J.get('edition', 6) >= 7, f'{T}_bank.json은 7판이 아니다 — BANK_EDITION=7로 bank_card.py를 돌릴 것'
+assert J.get('edition', 6) >= 8, f'{T}_bank.json은 8판이 아니다 — BANK_EDITION=8로 bank_card.py를 돌릴 것'
 R = J['rim']; SH = J['self']; PEER = J['peer']; FB = SH.get('fairBand') or {}
 D = json.loads(re.search(rf'const {T}_DAILY\s*=\s*(\[.*?\]);', h, re.S).group(1)); days = {r[0] for r in D}
 px, asof = D[-1][4], D[-1][0]
 assert abs(px - J['price']) < 1e-6 and asof == J['asOf'], (px, J['price'], asof, J['asOf'])
 cut = (R.get('frozen') or {}).get('asof_cut')
-bank = br.Bank(T, CIK, cut or asof, edition=7)   # 카드 판정 JSON과 같은 7판(Fable — 기본값이 6이던 때 4장이 섞였다)
+bank = br.Bank(T, CIK, cut or asof, edition=8)   # 카드 판정 JSON과 같은 8판(2026-11-06 rebuild.sh·bank_rim 기본값과 함께 바꿈, 설계 §8 — 기본값이 6이던 때 4장이 섞였다)
 FYE = br.fy_end(CIK, cut or asof)   # 회계연도 말 'MM-DD' — 9월 결산(RJF)도 읽는다(2026-11-05)
 L = R.get('L') or max(e for e in bank.se if bank.se[e][1] <= (cut or asof))   # 재무 기준 분기(관문을 통과한 최신 분기)
 S_, CE = (R.get('shares'), R.get('ce')) if R.get('L') else ((bank.shares(L) or (None,))[0], (bank.ce(L) or (None,))[0])
@@ -522,12 +522,17 @@ one("""    const WHY = { negative_equity:""", """    const WHY = { financial: '�
 one("if (vd) vd.textContent = F.qualityFlags.length ? '해석 제한' : (F.grade || '—');",
     "if (vd) vd.textContent = F.qualityFlags.includes('financial') ? '판정 안 함' : F.qualityFlags.length ? '해석 제한' : (F.grade || '—');")
 _why = {k: (UB.get('skipped', {}).get(k + ':ptbv') or '값 없음') for k in NOTB}
+# 8판 §2: 무형자산 줄이 없는 비교 은행(PNC — 0 규칙으로 P/TBV가 싼 쪽)의 방향·참고 규모, 이 카드 P/TBV가 그 은행과 2% 안이면
+# 순위가 그 편향으로 갈렸을 수 있다는 문장(2%는 표시 문턱일 뿐 누락 폭의 증명이 아님)
+_ia = {k: v['ia_note'] for k, v in UB.get('tickers', {}).items() if v.get('ia_note') and k != T}
+_nb = (PEER.get('ptbv') or {}).get('near_biased') or []
+_ia_txt = ''.join('\\n' + k + ': ' + n for k, n in sorted(_ia.items())) + (('\\n이 카드의 P/TBV가 ' + '·'.join(_nb) + '와 2% 안이라 순위가 그 편향으로 갈렸을 수 있다.') if _nb else '')
 one("""      `같은 GICS 섹터(Information Technology) 안에서 배수 순위를 매긴 값이다.`
       + `\\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
       + `\\n회계 기준이 다른 종목(IFRS)과 사업모델이 다른 종목(파운드리)이 섞여 있다.`);""",
     f"""      `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
       + `\\nP/TBV는 유형자본을 만들 수 있는 {PEER['ptbv'].get('peers')}곳, PER은 {PEER['per'].get('peers')}곳과 비교했다.`
-      + `{('\\n' + '·'.join(NOTB) + '는 P/TBV에서 빠졌다(' + '; '.join(f'{k}: {_why[k]}' for k in NOTB) + ').') if NOTB else ''}`);""")
+      + `{('\\n' + '·'.join(NOTB) + '는 P/TBV에서 빠졌다(' + '; '.join(f'{k}: {_why[k]}' for k in NOTB) + ').') if NOTB else ''}{_ia_txt}`);""")
 _sp_ = SH.get('ptbv') or {}
 one("""      + `\\n(확인 필요 — NVDA 문장 자리)`
       + ``);""",

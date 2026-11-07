@@ -23,8 +23,8 @@ import build_multiple_history as bmh  # noqa: E402
 
 R, G_CAP, FADE = 0.10, 0.025, 0.5
 ITEMS = os.path.join(V2, "bank_items.json")
-# 사전 등록 판 — 7판(11절, 10-Q 정의로 통일·보도자료 손입력 없음)이 기본(2026-10-11 적용)
-EDITION = int(os.environ.get("BANK_EDITION", "7"))   # 2026-10-11 사용자 결정(3차 검토 뒤 적용) — 6판은 BANK_EDITION=6으로 재현
+# 사전 등록 판 — 8판(research/bank_v8_design.md, 2026-11-06 적용)이 기본. 7판(11절, 10-Q 정의로 통일·보도자료 손입력 없음)은 2026-10-11~11-06 기본
+EDITION = int(os.environ.get("BANK_EDITION", "8"))   # 8판 2026-11-06 사용자 결정(research/bank_v8_design.md §8) — 7판(2026-10-11)은 BANK_EDITION=7, 6판은 =6으로 재현
 _ST = os.path.join(V2, "research", "bank_sec_tags.json")
 _SV = os.path.join(V2, "research", "bank_sec_values.json")
 SEC_TAGS = json.load(open(_ST)) if os.path.exists(_ST) else {"preferred": {}, "cet1": {"_default": {"tag": ""}}}
@@ -32,13 +32,16 @@ SEC_VALUES = json.load(open(_SV)) if os.path.exists(_SV) else {}
 ACK = os.path.join(V2, "research", "bank_ack.json")   # 7판 N4 — 사람이 확인한 급변 분기 {은행: {분기말: 사유 또는 {reason, edition_min, source}}}
 # 8판 §3(research/bank_v8_design.md): 우선주 배당 분기 값은 그 분기에 값이 있는 첫 태그(DividendsPreferredStock은 일부 은행에서 2024년에 끊긴다 — PNC)
 PREF_DIV_TAGS8 = ["DividendsPreferredStock", "DividendsPreferredStockCash", "PreferredStockDividendsIncomeStatementImpact"]
+PREF_REDEEM_TAGS8 = ["PaymentsForRepurchaseOfPreferredStockAndPreferenceStock", "PaymentsForRepurchaseOfRedeemablePreferredStock"]   # 8판 r7 ④ 상환 현금 지출(현금흐름표)
+PREF_REDEEM_MIN = 0.9   # r7 ④: 상환 지출 ≥ 직전 분기 우선주 차감 × 이 비율
+PREF_REDEEM_MAX = 1.1   # r7 ④: 직전 누계가 없는 누계 행은 직전 차감 × 이 배 이하일 때만(상환 프리미엄 허용, Codex r2)
 
 
 def ack_map(ticker, edition):
     """N4 승인 {분기말: 사유}. 값이 문자열이면 그대로, 객체면 edition ≥ edition_min일 때만 — 7판도 이 함수로 읽어야 8판 항목이 7판 재현에 새지 않는다(8판 §4)."""
     raw = json.load(open(ACK)).get(ticker, {}) if os.path.exists(ACK) else {}
     return {e: (v if isinstance(v, str) else v.get("reason", "")) for e, v in raw.items()
-            if isinstance(v, str) or edition >= v.get("edition_min", 0)}
+            if isinstance(v, str) or (edition >= v.get("edition_min", 0) and not v.get("pref_redeemed"))}   # 우선주 상환 확인(r7 ④)은 N4·N3 승인이 아니다
 # 자사주 매입 현금 태그가 다른 은행. MS는 현금흐름표 "Repurchases of common stock"을 StockRepurchasedDuringPeriodValue로 낸다
 # (PaymentsForRepurchaseOfCommonStock은 2013년에 멈춤, 2026-10-01). 우선주 잔액은 회사 고유 태그라 adapters/ms_preferred.py가 overlay에 싣는다.
 BUY_TAGS = {"MS": ["StockRepurchasedDuringPeriodValue"],
@@ -712,6 +715,60 @@ def peer_ok7(bank, end):
     return core and not bad, ("CE·TCE·주식 수 중 결측" if not core else "") + ("·".join(bad) + " 미통과" if bad else "")
 
 
+def _ack_pref_redeemed(bank, e):
+    """사람이 원문으로 확인한 우선주 전액 상환 분기(research/bank_ack.json의 {"pref_redeemed": true} 항목, edition_min 이상) — r7 ④에서
+    직전 누계 행이 없는 누계 상환액을 이 분기 몫으로 받는 유일한 길(Codex r3·r4: 재무상태표만으로는 같은 해 앞 분기 상환·재발행을 못 가른다)."""
+    raw = json.load(open(ACK)).get(bank.t, {}) if os.path.exists(ACK) else {}
+    v = raw.get(e)
+    return isinstance(v, dict) and v.get("pref_redeemed") is True and bank.ed >= v.get("edition_min", 0)
+
+
+def _pref_redeemed_q8(bank, e):
+    """8판 r7(2026-11-06, bank_v8_design §3-2): e가 우선주 '전액 상환 분기'인가 — 그 분기 배당은 상환 전 마지막 배당이고 분기말 잔액은 0이라
+    N5-2('배당 > 0인데 차감 0')가 거짓으로 걸린다(RJF 2026-03: 차감 $79M → 0, 배당 $2M). 세 조건을 모두 볼 때만 참:
+    ① 직전 분기 CE가 있고 SE − CE ≥ $1(우선주를 빼고 있었다) ② e는 |SE − CE| < $1(호출부가 이미 확인)
+    ③ 다음 분기가 평가일까지 공시돼 있고 |SE − CE| < $1이며 우선주 배당이 정확히 0 또는 없음(음수는 아님 — Codex r1) — 한 분기만 차감 태그가 빠진 경우와 가른다
+    ④ 상환 현금 지출(PREF_REDEEM_TAGS8)이 결산일 e인 행(분기 또는 회계연도 누계, 평가일까지 접수)에서 직전 분기 차감 × 0.9 이상 — 차감 0과 배당 결측만으로는
+       상환과 '두 분기 연속 차감·배당 태그 누락'을 가를 수 없다(Codex r1). RJF: 누계 2025-10~2026-03 $81M ≥ 0.9 × $79M.
+    다음 분기가 아직 없으면 거짓(그 분기는 정지 그대로 — 한 분기 늦게 풀린다)."""
+    p = qends_before(e, 1)[0]
+    cp = bank.ce(p)
+    if not (cp and bank.se.get(p) and bank.se[p][0] - cp[0] >= 1):
+        return False
+    ded = bank.se[p][0] - cp[0]
+    need = ded * PREF_REDEEM_MIN
+    paid = []
+    for t in PREF_REDEEM_TAGS8:
+        rows = [f for f in _facts(bank.cik, t) if "start" in f and not (bank.asof and f["filed"] > bank.asof)]
+        for f in rows:
+            if f.get("end") != e:
+                continue
+            if (date.fromisoformat(e) - date.fromisoformat(f["start"])).days <= 100:   # 분기 단독 행
+                paid.append(f["val"])
+                continue
+            # 누계 행: 같은 시작일의 직전 분기 누계를 빼 그 분기 몫만(앞 분기 부분 상환이 이 분기 '차감 0'을 증명하지 않게 — Fable r1).
+            # 직전 누계가 없으면(회사가 0인 분기 줄을 안 냄 — RJF 2025-12) 사람이 원문으로 상환 분기를 확인해 bank_ack.json에 적은 경우만 전액을 쓴다
+            # (Codex r3·r4: 재무상태표 차감이 일정해도 같은 해 앞 분기의 상환·재발행을 못 가른다). 그때도 누계 ≤ 직전 차감 × PREF_REDEEM_MAX
+            prev = [g["val"] for g in rows if g.get("start") == f["start"] and g.get("end") == p]
+            if prev:
+                paid.append(f["val"] - prev[0])
+            elif f["val"] <= ded * PREF_REDEEM_MAX and _ack_pref_redeemed(bank, e):
+                paid.append(f["val"])
+    if not paid or max(paid) < need:
+        return False
+    y, m = int(e[:4]), int(e[5:7]) + 3
+    if m > 12:
+        y, m = y + 1, m - 12
+    n = f"{y}-{m:02d}-" + str({3: 31, 6: 30, 9: 30, 12: 31}[m])
+    cn = bank.ce(n)
+    if not (cn and bank.se.get(n) and abs(bank.se[n][0] - cn[0]) < 1):
+        return False
+    dn = bank.pref_div_q8(n)
+    if dn is None:   # 배당 태그를 낸 적이 있는 은행이면 다음 분기 '없음'은 확인이 아니다 — 원문 값만 먼저 들어온 분기(토요일 캐시 전)에 ③이 비지 않게(Fable r1)
+        return not any(not (bank.asof and f["filed"] > bank.asof) for t in PREF_DIV_TAGS8 for f in _facts(bank.cik, t))
+    return dn[0] == 0
+
+
 def checks7(bank, end):
     """{N1.., ok, stop_reasons, flags} — 최신 분기 end에 대해. 하나라도 미통과면 ok False(그 분기를 카드에 반영하지 않는다)."""
     res, stop, flags = {}, [], []
@@ -825,12 +882,15 @@ def checks7(bank, end):
             flags.append(f"분기말 주식 수가 기본 가중평균과 {abs(s[0] - wa) / s[0] * 100:.1f}% 다르다")
     # N5-2 우선주 배당이 있는데 우선주 차감 0
     if bank.ed >= 8:   # 8판 §3: 최근 4분기 각 분기 — 배당이 양수이고 그 분기 CE가 있으면서 |SE − CE| < $1이면 정지(CE 없는 분기는 대상 아님)
-        hit = []
+        hit, redeemed = [], []
         for e in [end] + qends_before(end, 3):
             d, c_ = bank.pref_div_q8(e), bank.ce(e)
             if d and d[0] > 0 and c_ and bank.se.get(e) and abs(bank.se[e][0] - c_[0]) < 1:
-                hit.append(e)
-        res["N5_2"] = {"pass": not hit, **({"quarters": hit} if hit else {})}
+                if _pref_redeemed_q8(bank, e):
+                    redeemed.append(e)
+                else:
+                    hit.append(e)
+        res["N5_2"] = {"pass": not hit, **({"quarters": hit} if hit else {}), **({"redeemed": redeemed} if redeemed else {})}
     else:
         pd = bank.ttm(bank.div_pref, end)
         pz = bank.pref_tbl is not None and not bank.pref_tbl.get("path") and bank.pref_tbl.get("tags") and bank._pref7(end) is None and ce
