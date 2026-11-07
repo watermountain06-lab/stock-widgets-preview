@@ -27,6 +27,17 @@
     "shares": "Issued−Treasury"
    }
   },
+  "CFG": {
+   "ptbv": 1.6975,
+   "ptbv_end": "2026-06-30",
+   "per": 13.7478,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "7판 표: us-gaap:PreferredStockValue",
+    "intangibles": "Finite+Indefinite",
+    "shares": "Issued−Treasury"
+   }
+  },
   "FITB": {
    "ptbv": 2.2835,
    "ptbv_end": "2026-06-30",
@@ -72,8 +83,8 @@
    }
   },
   "MTB": {
-   "ptbv": 1.8565,
-   "ptbv_end": "2026-06-30",
+   "ptbv": 1.881,
+   "ptbv_end": "2026-09-30",
    "per": 11.5273,
    "tags": {
     "equity": "StockholdersEquity",
@@ -138,7 +149,6 @@
   }
  },
  "skipped": {
-  "CFG": "기준일 종가 없음",
   "PNC:ptbv": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)"
  }
 }
