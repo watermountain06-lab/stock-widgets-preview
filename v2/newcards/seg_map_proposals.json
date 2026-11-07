@@ -3401,5 +3401,33 @@
     "#8dc63f"
    ]
   }
+ },
+ "FE": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:ConsolidationItemsAxis",
+  "extra": {
+   "us-gaap:StatementBusinessSegmentsAxis": "fe:RegulatedDistributionMember"
+  },
+  "members": {
+   "us-gaap:OperatingSegmentsMember": [
+    "배전(오하이오·펜실베이니아·뉴저지 등)",
+    "#e31837"
+   ]
+  }
+ },
+ "EIX": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "dei:LegalEntityAxis",
+  "extra": {},
+  "members": {
+   "eix:SouthernCaliforniaEdisonCompanyMember": [
+    "SCE(남부 캘리포니아 전력)",
+    "#00664f"
+   ]
+  }
  }
 }
