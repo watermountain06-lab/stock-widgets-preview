@@ -424,7 +424,8 @@ def base_inputs(ticker, asof=None):
     # EOG: 10-K 차입금 표 "Finance Leases (see Note 17) 117"이 Total Long-Term Debt 안 — 10-Q 1년 안 만기 $27M = 금융리스 1년 안 분(Codex 2026-10-21).
     # TRGP: 10-Q 차입금 주석 Total debt obligations $19,578M에 금융리스(유동 107.0 + 비유동 687.1)가 이미 들어 있다(Codex 2026-10-22).
     # CASY: 재무상태표 "Long-term debt and finance lease obligations"(1년 안·장기 모두 LongTermDebtCurrent·Noncurrent 태그)에 금융리스 $113.8M이 이미 들어 있다(Fable r1, 2026-10-25).
-    FL_IN_DEBT = ("0000315189", "0000063908", "0000927653", "0001053507", "0000821189", "0001389170", "0000726958", "0000040533")   # GD: 리스 태그(330·1,633)가 운용 + 금융 합계(10-K 주석 합 = 10-Q 비교값, Fable r1 2026-10-25)
+    FL_IN_DEBT = ("0000315189", "0000063908", "0000927653", "0001053507", "0000821189", "0001389170", "0000726958", "0000040533", "0000874761")   # AES: 비소구 차입금에 금융리스 포함(2026-11-07)
+      # GD: 리스 태그(330·1,633)가 운용 + 금융 합계(10-K 주석 합 = 10-Q 비교값, Fable r1 2026-10-25)
     fl_in_debt = any("CapitalLease" in t or "FinanceLease" in t for t in _flat) or cik in FL_IN_DEBT   # DE(장비 부문 차입금에 금융리스 포함)·MCD(리스 태그가 운용 + 금융 합계)·MCK
     if out.get("_debt_fallback"):
         # F4로 총계(합계 태그 또는 LongTermDebt + 단기 차입)를 쓴 시점에는 회사별 목록의 리스 포함 태그가 아니므로 금융리스를 따로 더한다(Codex 2026-10-10)

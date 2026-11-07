@@ -1211,6 +1211,9 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                  # 없다. 영업이익 = 매출총이익 − 판관비 − R&D(표준 태그만). 지식재산 수익(Q2 2026 $166M)은 빠져 조금 보수적이다.
                  # Q2 2026: 9,907 − 4,981 − 2,311 = 2,615(10-Q 대조, 2026-10-01).
                  "0000051143": ("GrossProfit", [(["SellingGeneralAndAdministrativeExpense"], 1), (["ResearchAndDevelopmentExpense"], 1)]),
+                 # AES: 손익계산서에 영업이익 줄이 없다 — 합성 값 "Operating margin"(GrossProfit) − 일반관리비(회사 보고 지표 아님). 자산 손상·사업 매각 손익·환차손은 합성 값에서 뺀다.
+                 # Q3 2026: 982 − 68 = 914(10-Q 대조, 2026-11-07)
+                 "0000874761": ("GrossProfit", [(["GeneralAndAdministrativeExpense"], 1)]),
                  # ETN: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그 없음). 영업이익 = 세전이익 + 순이자비용("Interest expense - net")
                  # − "Other expense (income) - net"(OtherNonoperatingIncomeExpense, 비용이면 음수). 순이자비용 태그가 공시마다 바뀌었다 —
                  # 2024-09부터 InterestExpenseNonoperating(양수), 일부 재작성 공시는 InterestExpenseOperating(양수), 그 전은
@@ -2094,7 +2097,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001410636": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AWK: CP $1,449M + 1년 안 장기부채 $898M + 장기 $13,987M = $16,334M(Q3 2026 10-Q 재무상태표, XEL과 같은 구성). 기본 LongTermDebt는 2020에 멈췄다(2026-11-07)
+DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurrentAes", "ShortTermBorrowingsNonrecourseAes"), ("NonRecourseDebtNonCurrentAes", "LongTermDebtNonrecourseAes")],   # AES: 재무상태표 차입금이 차원(RecourseStatusAxis)으로만 — 모회사 보증 차입 총액 $6,361M(공정가치 주석 장부가, 1년 안 몫 포함 — 2025-12 879 + 5,105 = 5,984) + 비소구 1년 안 $2,950M + 비소구 장기 $23,953M = $33,264M(Q3 2026 10-Q). BUILD dim_facts — 옛 공시는 비소구를 회사 고유 태그(aes:NonRecourseDebtCurrent·NonCurrent, BUILD company_tags)로 냈다 — 튜플은 회사 태그 먼저: 10-K는 회사 태그, 10-Q는 차원 값이라 차원을 앞에 두면 연말이 두 행(10-K·다음 10-Q)이 되고 합계 경로가 둘을 더해 두 배가 됐다. 빠지면 2021-12 등이 모회사 몫만 남았다(Codex r1). 비소구 차입에 금융리스 포함(10-K 주석 12·15)(2026-11-07)
+                  "0001410636": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AWK: CP $1,449M + 1년 안 장기부채 $898M + 장기 $13,987M = $16,334M(Q3 2026 10-Q 재무상태표, XEL과 같은 구성). 기본 LongTermDebt는 2020에 멈췄다(2026-11-07)
                   "0001267238": ["UnsecuredDebt"],   # AIZ: 무담보 선순위·후순위채 $2,208.7M(Q3 2026 10-Q 재무상태표 "Debt") — 2008~ 분기마다 이 태그. 기본은 LongTermDebt가 2020-03에 멈춰 낡은 값이 잡혔다(2026-11-06)
                   "0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
                   "0000940944": ["ShortTermBorrowings", ("LongTermDebt", "LongTermDebtNoncurrent")],   # DRI: 단기(CP + 1년 안 채권 $500M) $979.7M + 장기 $1,636.1M = $2,615.8M(Q1 FY27 10-Q). 기본은 단기만 잡혔다. 2023-05 전 장기는 LongTermDebtNoncurrent. 2026-05 LongTermDebtCurrent $693.6M은 단기 줄과 같은 값이라 빼다(2026-11-03)
@@ -2442,7 +2446,8 @@ DEBT_TOTAL_TAG = {"0001410636": ["ShortTermBorrowings", "LongTermDebtAndCapitalL
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001174922": {"sti": ["Investments", "ShortTermInvestments"]},   # WYNN: 유동자산 "Investments"(정기예금 등) $150.2M(Q3 2026 10-Q, 2022-12~ 이 태그) — 기본 단기투자 태그는 2018 멈춤(2026-11-06)
+EV_TAGS_BY_CIK = {"0000874761": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # AES: 비지배 $5,071M + 상환가능 자회사 주식 $3,100M(Q3 2026 10-Q, CPAY와 같은 처리, 2026-11-07)
+                  "0001174922": {"sti": ["Investments", "ShortTermInvestments"]},   # WYNN: 유동자산 "Investments"(정기예금 등) $150.2M(Q3 2026 10-Q, 2022-12~ 이 태그) — 기본 단기투자 태그는 2018 멈춤(2026-11-06)
                   "0001175454": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CPAY: 비지배 $46M + 상환가능 $314M(Mastercard, 2026-11-05 Codex r1)
                   "0000779152": {"cash": ("CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents")},   # JKHY: 10-K(6월 말)는 현금을 제한 현금 포함 합계 태그로만 낸다(제한 현금 0 — 같은 값). 날짜마다 앞 태그 우선(2026-11-05)
                   "0001267238": {"sti": []},   # AIZ: 단기투자 OtherShortTermInvestments $300.8M은 보험 운용자산이고 기본 태그는 2019 멈춤(DCF 입력 보류로 순현금 칸이 비었다) — ACGL과 같게 뺀다(2026-11-06)
@@ -2858,16 +2863,35 @@ def _debt_total_tag_rows(cik):
     if not any(isinstance(t, tuple) for t in tags):
         return component_sum(cik, tags)
     # 튜플 항목은 날짜마다 앞 태그 우선(pick_instant), 문자열 항목은 그대로 더한다(KO).
-    by_end = {}
-    for t in tags:
+    # 같은 결산일에 한 항목이 행을 둘 이상 낼 수 있다(나중 공시가 같은 날짜를 다시 싣거나 튜플의 앞 태그가 늦게 공개 — pick_instant는 공개 시점마다
+    # 행을 낸다). 전에는 그 행들을 다 더해 그 날짜 차입금이 두 배였다(AES 2024-06·09, BBY·ED·KO 등 13곳의 과거 날짜 — 2026-11-07 사용자 승인,
+    # AES Codex r1). 이제 공개일마다 "그날까지 공개된 항목별 가장 새 행"을 더한 합계 행을 낸다 — 모든 항목이 처음 공개된 날부터(전과 같은 시작),
+    # 뒤에 고쳐 실린 날마다 새 행. 먼저 공개된 정상 값을 늦추지 않는다(Codex r2: 가장 늦은 행 하나만 쓰면 AES 2024-06이 2025-03-11로 밀렸다).
+    per_end = {}
+    for k, t in enumerate(tags):
         for e in (pick_instant(cik, list(t)) if isinstance(t, tuple) else component_sum(cik, [t])):
-            slot = by_end.setdefault(e["end"], {"end": e["end"], "val": 0.0, "available": e["available"]})
-            slot["val"] += e["val"]
-            slot["available"] = max(slot["available"], e["available"])
-    for end, av in DEBT_AVAILABLE_FIX.get(cik, {}).items():
-        if end in by_end:
-            by_end[end]["available"] = av
-    return sorted(by_end.values(), key=lambda e: e["available"])
+            per_end.setdefault(e["end"], {}).setdefault(k, []).append(e)
+    rows = []
+    for end, items in per_end.items():
+        for k in items:
+            items[k].sort(key=lambda e: e["available"])
+        start = max(r[0]["available"] for r in items.values())
+        dates = sorted({e["available"] for r in items.values() for e in r if e["available"] >= start})
+        prev = None
+        for d in dates:
+            val = sum([e for e in r if e["available"] <= d][-1]["val"] for r in items.values())
+            if prev is None or val != prev:
+                rows.append({"end": end, "val": val, "available": d})
+                prev = val
+    fix = DEBT_AVAILABLE_FIX.get(cik, {})
+    if fix:   # 공개일을 손으로 고친 결산일은 전처럼 한 행(마지막 값)으로
+        keep = [r for r in rows if r["end"] not in fix]
+        for end, av in fix.items():
+            last = [r for r in rows if r["end"] == end]
+            if last:
+                keep.append({"end": end, "val": last[-1]["val"], "available": av})
+        rows = keep
+    return sorted(rows, key=lambda e: e["available"])
 
 
 def _ev_component(cik, name, tags, _no_total=False):
