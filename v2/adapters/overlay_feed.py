@@ -34,6 +34,9 @@ ALIAS = {"0000766704": {"InterestExpense": "InterestExpenseBorrowings"},
 # ACN: 총부채 태그가 없어 부채비율이 자산 − 지배기업 자본(비지배지분·상환가능 비지배지분 포함)으로 115.8%가 나왔다 —
 # 유동 21,609.1 + 비유동 13,689.7 = 10-Q 총부채 35,298.8(백만 달러, 2026-05-31; Codex 2026-10-02).
 SUM = {"0001467373": {"Liabilities": ("LiabilitiesCurrent", "LiabilitiesNoncurrent")},
+       # SRE: 총부채 태그가 없다 — 유동 23,209 + 장기차입·금융리스 31,508 + 기타 비유동("Total deferred credits and other liabilities") 19,131 = 73,848
+       # (Q3 2026 10-Q). 없으면 부채비율이 자산 − 지배기업 자본(비지배·상환가능 비지배 포함)으로 계산된다(ACN과 같은 경우, 2026-11-07)
+       "0001032208": {"Liabilities": ("LiabilitiesCurrent", "LongTermDebtAndCapitalLeaseObligations", "LiabilitiesOtherThanLongtermDebtNoncurrent")},
        # NEM: 당좌비율의 재고 = 재고 1,478 + 유동 광석 비축분 1,321(둘 다 회사 고유 태그, cfg_nem company_tags; Codex 2026-10-02).
        # InventoryNet은 2015년에 멈춘 옛 행이 있어 덮어쓴다(REPLACE).
        "0001164727": {"InventoryNet": ("InventoryNet", "InventoryOreStockpilesCurrentNem")},
