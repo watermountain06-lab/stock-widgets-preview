@@ -31,7 +31,8 @@ SEC_TAGS = json.load(open(_ST)) if os.path.exists(_ST) else {"preferred": {}, "c
 SEC_VALUES = json.load(open(_SV)) if os.path.exists(_SV) else {}
 ACK = os.path.join(V2, "research", "bank_ack.json")   # 7판 N4 — 사람이 확인한 급변 분기 {은행: {분기말: 사유 또는 {reason, edition_min, source}}}
 # 8판 §3(research/bank_v8_design.md): 우선주 배당 분기 값은 그 분기에 값이 있는 첫 태그(DividendsPreferredStock은 일부 은행에서 2024년에 끊긴다 — PNC)
-PREF_DIV_TAGS8 = ["DividendsPreferredStock", "DividendsPreferredStockCash", "PreferredStockDividendsIncomeStatementImpact"]
+PREF_DIV_TAGS8 = ["DividendsPreferredStock", "DividendsPreferredStockCash", "PreferredStockDividendsIncomeStatementImpact",
+                  "PaymentsOfDividendsPreferredStockAndPreferenceStock"]   # 넷째(현금흐름표 지급액)는 앞 셋이 그 분기에 없을 때만 — WFC는 2024-12부터 이 태그뿐이라 N5-2가 비어 있었다(안건 E73, 2026-11-07). '…AndOtherAdjustments'는 조정 항목이 섞여 넣지 않음
 PREF_REDEEM_TAGS8 = ["PaymentsForRepurchaseOfPreferredStockAndPreferenceStock", "PaymentsForRepurchaseOfRedeemablePreferredStock"]   # 8판 r7 ④ 상환 현금 지출(현금흐름표)
 PREF_REDEEM_MIN = 0.9   # r7 ④: 상환 지출 ≥ 직전 분기 우선주 차감 × 이 비율
 PREF_REDEEM_MAX = 1.1   # r7 ④: 직전 누계가 없는 누계 행은 직전 차감 × 이 배 이하일 때만(상환 프리미엄 허용, Codex r2)

@@ -347,6 +347,20 @@ def n52_q4_from_annual_minus_ytd_real_pnc():
     assert all(q) and fy and abs(sum(x[0] for x in q) - fy) < 1, (q, fy)
 
 
+@case
+def n52_cash_paid_tag_is_last_fallback():
+    # E73: 현금흐름표 지급액 태그는 앞 세 태그가 그 분기에 없을 때만(WFC 2024-12~) — 앞 태그가 있으면 그 값
+    b = FB(pdq=pdq({}, {END: (5e6, F)}, {}, {END: (9e6, F), Q[1]: (7e6, F)}))
+    assert b.pref_div_q8(END)[0] == 5e6 and b.pref_div_q8(Q[1])[0] == 7e6 and b.pref_div_q8(Q[1])[2] == br.PREF_DIV_TAGS8[3], (b.pref_div_q8(END), b.pref_div_q8(Q[1]))
+
+
+@case
+def n52_wfc_cash_tag_real():
+    b = br.Bank("WFC", "0000072971", "2026-11-07", edition=8)
+    d = b.pref_div_q8("2025-06-30")
+    assert d and d[2] == "PaymentsOfDividendsPreferredStockAndPreferenceStock" and 200e6 < d[0] < 400e6, d
+
+
 # §3-2 r7 전액 상환 분기(RJF 2026-03형): 직전 분기 차감 > 0 → 그 분기 0·배당 > 0 → 다음 분기도 0·배당 0이면 정지에서 뺀다
 ACK_R = {"FAKE": {e: {"reason": "우선주 전액 상환(시험)", "edition_min": 8, "pref_redeemed": True, "source": "x"} for e in Q[:4]}}   # 직전 누계 없는 누계 행의 사람 확인
 
@@ -692,6 +706,7 @@ RIM_MUTANTS = {
     "상환 지출 비율 제거": ("    if not paid or max(paid) < need:", "    if not paid:"),
     "직전 누계 없는 누계 행 상한 제거": ("            elif f[\"val\"] <= ded * PREF_REDEEM_MAX and _ack_pref_redeemed(bank, e):", "            elif _ack_pref_redeemed(bank, e):"),
     "직전 누계 없는 누계 행 사람 확인 제거": ("            elif f[\"val\"] <= ded * PREF_REDEEM_MAX and _ack_pref_redeemed(bank, e):", "            elif f[\"val\"] <= ded * PREF_REDEEM_MAX:"),
+    "현금 지급 태그 빼기(E73)": (',\n                  "PaymentsOfDividendsPreferredStockAndPreferenceStock"]', ']'),
     "상환 확인을 N4 승인으로도 씀": (" and not v.get(\"pref_redeemed\"))}", ")}"),
     "상환 분기 예외 제거": ("                if _pref_redeemed_q8(bank, e):", "                if False:"),
 }
