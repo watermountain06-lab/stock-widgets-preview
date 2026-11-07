@@ -2532,7 +2532,7 @@
    "backfill_first": true,
    "carry_paired": false,
    "source": "https://www.sec.gov/Archives/edgar/data/1403161/000140316126000104/v-20260630.htm (Note 11 Stockholders' Equity 'As-converted class A common stock' 표) ; https://www.sec.gov/Archives/edgar/data/1403161/000140316121000060/v-20210930.htm",
-   "note": "Series A·B·C convertible participating preferred(B = UK&I, C = Europe — 2016-06-21 Visa Europe 인수 대가, A = 2020-09 '4주년 해제'부터 B·C 일부를 바꿔 발행, 클래스 A 100주로 전환). B·C 전환 비율은 VE 지역 손실 회수 때마다 낮아지고(예 2026-06-30 B 0.5830·C 0.7140) 해제 때 일부가 A로 바뀐다. **표지가 이미 담음 — 이중 계산 주의**: 엔진의 V 주식 수는 us-gaap/dei 표지(클래스 A만)가 아니라 adapters/visa_classA.py가 overlay에 dei EntityCommonStockSharesOutstanding로 넣은 v:SharesOutstandingAsConvertedBasis(차원 없음 = 클래스 A + B-1·B-2·B-3·C 보통주 + Series A·B·C 우선주를 A로 환산한 합계, 2026-06-30 1,880M)다. 그래서 이 항목의 conv_shares는 0(더하면 우선주가 두 번 들어감)이고 wa_shares도 0(엔진 WA도 클래스 A 환산 희석 가중평균이라 우선주를 이미 담음). 참고로 표지 안의 우선주 환산 몫을 `as_converted_in_cover`(백만 반올림 XBRL 값 합)와 `as_converted_by_series`에 적었다(엔진 계산에 쓰지 않는 칸). 클래스 B/C 보통주도 같은 표지 합계에 이미 들어 있어 별도 항목을 만들지 않았다. 금액 쪽: EV_TAGS_BY_CIK V = {'preferred': []} → pref_ev 0, DCF도 같은 ev_component라 dcf_pref 0(우선주를 보통주로 보는 처리와 이미 맞음). CE P = CE_PREF_TAGS의 `PreferredStockValueOutstanding`(차원 없는 합계, 자본 안) — 2022-09-30부터 태그가 생겨 그 값, 2021-09~2022-06은 회사가 시리즈 차원 값만 내 엔진 P가 0(pref_est0)이었으므로 pref_in_p 0. 2021-09-30 합계 $3,080M은 2022-11-16 10-K 비교값으로만 나옴(엔진은 2021-11-18 관측을 씀). 자본 안이라 ce_add 0. 분기마다 금액이 바뀌어 carry_paired false. 2026-09-30(FY26 10-K) 아직 미제출 — 행 없음. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
+   "note": "Series A·B·C convertible participating preferred(B = UK&I, C = Europe — 2016-06-21 Visa Europe 인수 대가, A = 2020-09 '4주년 해제'부터 B·C 일부를 바꿔 발행, 클래스 A 100주로 전환). B·C 전환 비율은 VE 지역 손실 회수 때마다 낮아지고(예 2026-06-30 B 0.5830·C 0.7140) 해제 때 일부가 A로 바뀐다. **표지가 이미 담음 — 이중 계산 주의**: 엔진의 V 주식 수는 us-gaap/dei 표지(클래스 A만)가 아니라 adapters/visa_classA.py가 overlay에 dei EntityCommonStockSharesOutstanding로 넣은 v:SharesOutstandingAsConvertedBasis(차원 없음 = 클래스 A + B-1·B-2·B-3·C 보통주 + Series A·B·C 우선주를 A로 환산한 합계, 2026-06-30 1,880M)다. 그래서 이 항목의 conv_shares는 0(더하면 우선주가 두 번 들어감)이고 wa_shares도 0(엔진 WA도 클래스 A 환산 희석 가중평균이라 우선주를 이미 담음). 참고로 표지 안의 우선주 환산 몫을 `as_converted_in_cover`(백만 반올림 XBRL 값 합)와 `as_converted_by_series`에 적었다(엔진 계산에 쓰지 않는 칸). 클래스 B/C 보통주도 같은 표지 합계에 이미 들어 있어 별도 항목을 만들지 않았다. 금액 쪽: EV_TAGS_BY_CIK V = {'preferred': []} → pref_ev 0, DCF도 같은 ev_component라 dcf_pref 0(우선주를 보통주로 보는 처리와 이미 맞음). CE P = CE_PREF_TAGS의 `PreferredStockValueOutstanding`(차원 없는 합계, 자본 안) — 2022-09-30부터 태그가 생겨 그 값, 2021-09~2022-06은 회사가 시리즈 차원 값만 내 엔진 P가 0(pref_est0)이었으므로 pref_in_p 0. 2021-09-30 합계 $3,080M은 2022-11-16 10-K 비교값으로만 나옴(엔진은 2021-11-18 관측을 씀). 자본 안이라 ce_add 0. 분기마다 금액이 바뀌어 carry_paired false. 2026-09-30(FY26 10-K, 2026-11-05) 행 추가 — 그 결산일 P 태그는 PreferredStockIncludingAdditionalPaidInCapital. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",
@@ -2813,6 +2813,21 @@
      },
      "cover_total_as_converted": 1880000000,
      "src": "https://www.sec.gov/Archives/edgar/data/1403161/000140316126000104/v-20260630.htm"
+    },
+    {
+     "end": "2026-09-30",
+     "filed": "2026-11-05",
+     "wa_shares": 0,
+     "conv_shares": 0,
+     "as_converted_in_cover": 9000000,
+     "as_converted_by_series": {
+      "A": 6000000,
+      "B": 1000000,
+      "C": 2000000
+     },
+     "cover_total_as_converted": 1867000000,
+     "src": "https://www.sec.gov/Archives/edgar/data/1403161/000140316126000134/v-20260930.htm",
+     "note": "FY26 10-K XBRL v:SharesOutstandingAsConvertedBasis(백만 반올림) Series A 6M·B 1M·C 2M, 차원 없는 합계 1,867M(엔진 주식 수 표지). 전환 비율 B 0.583·C 0.714. conv·wa 0 이유는 항목 설명과 같다(표지가 이미 담음)"
     }
    ],
    "paired": [
@@ -3002,6 +3017,16 @@
      "pref_in_p": 0,
      "ce_add": 0,
      "note": "DCF 추세 시작(2021-04-01) 때 자본 관측 결산일 — 2021-06-30 행과 같은 이유로 0(엔진 P 0, 우선주는 시리즈별 차원 값만 공시). 2026-10-29 보충(Fable r2)"
+    },
+    {
+     "end": "2026-09-30",
+     "filed": "2026-11-05",
+     "pref_ev": 0,
+     "dcf_pref": 0,
+     "pref_in_p": 507000000,
+     "ce_add": 0,
+     "src": "https://www.sec.gov/Archives/edgar/data/1403161/000140316126000134/v-20260930.htm",
+     "note": "FY26 10-K는 차원 없는 PreferredStockValueOutstanding을 내지 않고(시리즈 A 395M만 차원 값) PreferredStockIncludingAdditionalPaidInCapital 507M을 낸다 — 엔진 CE P는 CE_PREF_TAGS 순서상 이 태그(0보다 큰 첫 태그)를 쓰므로 pref_in_p 507M(6-30 514M에서 손실 회수로 감소)"
     }
    ]
   }
