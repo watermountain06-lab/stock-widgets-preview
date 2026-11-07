@@ -13766,6 +13766,88 @@
         "valuationAsOf": "2026-11-06",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "FE",
+      "name": "퍼스트에너지",
+      "sector": "전력 — 오하이오·펜실베이니아·뉴저지 등 규제 배전·송전",
+      "href": "FE_full_widget.html",
+      "cardRank": 328,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 46.43,
+        "prevClose": 47.1,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 578893330,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-30",
+        "filedAt": "2026-10-28",
+        "filing": "10-Q 0001031296-26-000144 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 39.7,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "EIX",
+      "name": "에디슨 인터내셔널",
+      "sector": "전력 — 남부 캘리포니아 규제 전력(SCE)",
+      "href": "EIX_full_widget.html",
+      "cardRank": 329,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 59.37,
+        "prevClose": 60.88,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 384787221,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-22",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0000827052-26-000073 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 48.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
     }
   ]
 }

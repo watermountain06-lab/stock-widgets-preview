@@ -2117,6 +2117,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurrentAes", "ShortTermBorrowingsNonrecourseAes"), ("NonRecourseDebtNonCurrentAes", "LongTermDebtNonrecourseAes")],   # AES: 재무상태표 차입금이 차원(RecourseStatusAxis)으로만 — 모회사 보증 차입 총액 $6,361M(공정가치 주석 장부가, 1년 안 몫 포함 — 2025-12 879 + 5,105 = 5,984) + 비소구 1년 안 $2,950M + 비소구 장기 $23,953M = $33,264M(Q3 2026 10-Q). BUILD dim_facts — 옛 공시는 비소구를 회사 고유 태그(aes:NonRecourseDebtCurrent·NonCurrent, BUILD company_tags)로 냈다 — 튜플은 회사 태그 먼저: 10-K는 회사 태그, 10-Q는 차원 값이라 차원을 앞에 두면 연말이 두 행(10-K·다음 10-Q)이 되고 합계 경로가 둘을 더해 두 배가 됐다. 빠지면 2021-12 등이 모회사 몫만 남았다(Codex r1). 비소구 차입에 금융리스 포함(10-K 주석 12·15)(2026-11-07)
                   "0001032208": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # SRE: 단기 $4,438M + 1년 안 장기·금융리스 $1,528M + 장기·금융리스 $31,508M = $37,474M(Q3 2026 10-Q). SI Partners 차입은 "매각 예정 부채"에 묶여 빠진다(2026-11-07)
+                  "0001031296": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # FE: 1년 안 만기 포함 총차입금(기본은 1년 안을 빼 $27,896M — 사전 조사 2026-10-29)
                   "0000715957": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # D: 단기 $3,308M + 1년 안 만기 $2,399M + 장기 $48,939M(후순위채 $7,461M·증권화 채권 포함) = $54,646M(Q3 2026 10-Q). 기본 경로는 1년 안 몫을 빠뜨려 $52,247M이었다(2026-11-07)
                   "0001410636": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AWK: CP $1,449M + 1년 안 장기부채 $898M + 장기 $13,987M = $16,334M(Q3 2026 10-Q 재무상태표, XEL과 같은 구성). 기본 LongTermDebt는 2020에 멈췄다(2026-11-07)
                   "0001267238": ["UnsecuredDebt"],   # AIZ: 무담보 선순위·후순위채 $2,208.7M(Q3 2026 10-Q 재무상태표 "Debt") — 2008~ 분기마다 이 태그. 기본은 LongTermDebt가 2020-03에 멈춰 낡은 값이 잡혔다(2026-11-06)
@@ -2466,7 +2467,8 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000842023": {"sti": [], "nci": []},   # TECH: 단기투자(2025-03)·비지배지분(2022-06)은 지금 재무상태표에 없는 낡은 값(Q1 FY27 10-Q, 2026-11-07)
+EV_TAGS_BY_CIK = {"0000827052": {"nci": ["MinorityInterestAmountRepresentedByPreferredStock"], "sti": [], "preferred": ["PreferredStockValueOutstanding"]},   # EIX: 비지배지분 = SCE 우선주 $1,564M(이 태그뿐 — 없으면 0), EIX 우선주 Series B $83M, 단기투자는 2010년 낡은 값(사전 조사 2026-10-29, 2026-11-07)
+                  "0000842023": {"sti": [], "nci": []},   # TECH: 단기투자(2025-03)·비지배지분(2022-06)은 지금 재무상태표에 없는 낡은 값(Q1 FY27 10-Q, 2026-11-07)
                   "0000352915": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # UHS: 비지배지분 $71.0M + 상환 가능 $74.2M(임시자본, DVA와 같은 처리 — Codex r1, 2026-11-07)
                   "0001032208": {"nci": ["OtherMinorityInterests", "MinorityInterestAmountRepresentedByPreferredStock", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"],
                                  "preferred": []},   # SRE: 기타 비지배 $7,457M + 자회사 우선주($0, 2025-12 $20M) + 상환가능 비지배 $3,392M. 보통주 앞 우선주는 Q3 2026 재무상태표 "—" — 기본 태그는 2018-06에 멈춰 계산 보류로 걸렸다(Q3 2026 10-Q, 2026-11-07)
