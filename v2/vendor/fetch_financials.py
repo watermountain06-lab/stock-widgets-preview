@@ -113,6 +113,8 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    # SRE: 총매출 RegulatedAndUnregulatedOperatingRevenue(Q3 2026 $3,191M), 이자비용 InterestExpenseNonoperating($298M — InterestExpense는 2024-06에 멈춤),
                    # 설비투자 PaymentsToAcquireProductiveAssets(9개월 $7,327M — 기본 첫 태그는 2023-09에 멈춤)(2026-11-07)
                    "0001032208": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"], "interestExpense": ["InterestExpenseNonoperating", "InterestExpense"], "capex": ["PaymentsToAcquireProductiveAssets"]},
+                   # D: 총매출 Revenues(Q3 2026 $5,617M — 고객 계약 매출 $5,592M은 기타 매출 빠짐), 이자비용 InterestAndDebtExpense($623M — SO와 같음), 설비투자 PaymentsForProceedsFromProductiveAssets(Q3 2026부터 company_tags)(2026-11-07)
+                   "0000715957": {"revenue": ["Revenues"], "interestExpense": ["InterestAndDebtExpense"], "capex": ["PaymentsForProceedsFromProductiveAssets"]},
                    "0001410636": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"], "interestExpense": ["InterestExpenseNonoperating"], "inventory": ["InventoryRawMaterialsAndSupplies"]},
                    # ED: 총매출 Revenues(Q1 2026 $5,095M — 고객 계약 매출 태그 $5,231M은 대체 수익 조정 전)(2026-10-24)
                    "0001047862": {"revenue": ["Revenues"]},
