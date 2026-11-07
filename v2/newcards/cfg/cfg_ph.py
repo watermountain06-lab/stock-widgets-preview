@@ -10,7 +10,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 L8 = ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26']
 RELEASE = {'rev': 5755, 'ni': 1092}   # 매출(보도자료 $5.8B, +9.8%), 순이익(연간 − 9개월, 보도자료 $1.1B)
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, -1, -2), '고평가'
 CO = 'Parker'
 S_ = 'https://www.sec.gov/Archives/edgar/data/76334/'
 SEC = S_
@@ -103,49 +103,25 @@ ANALYST_ASOF = '2026-10-31'
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
 AUTO = True
 SEG_MAP = {
+ # Q1 FY27(2026-09) 10-Q부터 산업재를 지역(북미·해외) 대신 기술 묶음 셋으로 공시 — 10-10 자동 전환 때 지도는 항공우주 제품 셋을
+ # "산업재 — 해외"로 잘못 묶었다(그 분기 합이 해외 1,634와 우연히 비슷). 새 공시의 묶음으로 다시 짰다(2026-11-07)
  "parts": [
   {
-   "concepts": [
-    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
-   ],
+   "concepts": ["us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"],
    "axis": "srt:ProductOrServiceAxis",
-   "extra": {
-    "us-gaap:StatementBusinessSegmentsAxis": "ph:AerospaceSystemsSegmentMember"
-   },
+   "extra": {"us-gaap:StatementBusinessSegmentsAxis": "ph:DiversifiedIndustrialSegmentMember",
+             "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"},
    "members": {
-    "ph:CommercialOriginalEquipmentManufacturerMember": [
-     "산업재 — 해외",
-     "#5a7fbf"
-    ],
-    "ph:CommercialAftermarketMember": [
-     "산업재 — 해외",
-     "#5a7fbf"
-    ],
-    "ph:DefenseOriginalEquipmentManufacturerMember": [
-     "산업재 — 해외",
-     "#5a7fbf"
-    ]
+    "ph:MotionSystemsMember": ["산업재 — 모션 시스템", "#1f3f7a"],
+    "ph:FlowAndProcessControlMember": ["산업재 — 유체·공정 제어", "#3b5f9e"],
+    "ph:FiltrationAndEngineeredMaterialsMember": ["산업재 — 여과·엔지니어드 소재", "#5a7fbf"]
    }
   },
   {
-   "concepts": [
-    "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
-   ],
+   "concepts": ["us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"],
    "axis": "us-gaap:StatementBusinessSegmentsAxis",
-   "extra": {
-    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
-   },
-   "members": {
-    "ph:AerospaceSystemsSegmentMember": [
-     "항공우주",
-     "#f59e0b"
-    ]
-   }
+   "extra": {"srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"},
+   "members": {"ph:AerospaceSystemsSegmentMember": ["항공우주", "#f59e0b"]}
   }
- ],
- "remainder": [
-  "산업재 — 북미",
-  "#1f3f7a",
-  0.3859
  ]
 }
