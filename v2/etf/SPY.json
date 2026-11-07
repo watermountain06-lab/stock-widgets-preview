@@ -13,24 +13,24 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 296장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
+   "detail": "승인 목록에 없는 판정 코드 해시 306장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
   }
  ],
  "detail": "보유 파일 기준일 2026-11-05 ≠ 허용 ['2026-11-06'] (P=2026-11-06, 규칙 same)",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8589082157297435,
+ "coverage": 0.874913399398097,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.004277673575264751,
   "적정~저평가": 0.10243537975176649,
   "적정": 0.025258701170106274,
-  "적정~고평가": 0.4163830315204319,
-  "고평가": 0.31055342971217414,
-  "카드 없음": 0.09762744907313019,
-  "판정 보류": 0.028306756061701778,
-  "그 밖 제외": 0.015157579135424558,
+  "적정~고평가": 0.41759058744040345,
+  "고평가": 0.3253510574605559,
+  "카드 없음": 0.09226174289847036,
+  "판정 보류": 0.032824857703432665,
+  "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
  "top10": [
@@ -162,13 +162,13 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 308,
-  "cardsUsed": 285,
+  "cardsMatched": 318,
+  "cardsUsed": 291,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
-   "날짜 불일치": 4,
-   "판정 보류": 19
+   "날짜 불일치": 0,
+   "판정 보류": 27
   }
  },
  "cards": [
@@ -257,6 +257,15 @@
    "n": -3.0,
    "date": "2026-11-06",
    "excluded": []
+  },
+  {
+   "card": "AES",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "AIZ",
@@ -396,6 +405,15 @@
    "n": -1.0,
    "date": "2026-11-06",
    "excluded": []
+  },
+  {
+   "card": "AWK",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "AXP",
@@ -586,6 +604,15 @@
    "n": -2.0,
    "date": "2026-11-06",
    "excluded": []
+  },
+  {
+   "card": "CHRW",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "CIEN",
@@ -871,12 +898,10 @@
   },
   {
    "card": "ED",
-   "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-05",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-06",
+   "excluded": []
   },
   {
    "card": "EFX",
@@ -1155,11 +1180,9 @@
   {
    "card": "HLT",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-05",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -3.0,
+   "date": "2026-11-06",
+   "excluded": []
   },
   {
    "card": "HOOD",
@@ -1309,6 +1332,15 @@
    "n": -3.0,
    "date": "2026-11-06",
    "excluded": []
+  },
+  {
+   "card": "KMB",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "KMI",
@@ -1483,6 +1515,15 @@
    "excluded": []
   },
   {
+   "card": "MLM",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
+  },
+  {
    "card": "MMM",
    "verdict": "고평가",
    "n": -3.0,
@@ -1567,6 +1608,13 @@
    "excluded": []
   },
   {
+   "card": "MTB",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-11-06",
+   "excluded": []
+  },
+  {
    "card": "MTD",
    "verdict": "고평가",
    "n": -3.0,
@@ -1642,6 +1690,15 @@
    "n": -1.0,
    "date": "2026-11-06",
    "excluded": []
+  },
+  {
+   "card": "NSC",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "NTAP",
@@ -1774,16 +1831,21 @@
   {
    "card": "PH",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-05",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-06",
+   "excluded": []
   },
   {
    "card": "PHM",
    "verdict": "적정",
    "n": 0.0,
+   "date": "2026-11-06",
+   "excluded": []
+  },
+  {
+   "card": "PKG",
+   "verdict": "고평가",
+   "n": -3.0,
    "date": "2026-11-06",
    "excluded": []
   },
@@ -1842,6 +1904,15 @@
    "n": -1.0,
    "date": "2026-11-06",
    "excluded": []
+  },
+  {
+   "card": "PTC",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "PWR",
@@ -1996,6 +2067,15 @@
    "n": -1.0,
    "date": "2026-11-06",
    "excluded": []
+  },
+  {
+   "card": "SYY",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-06",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "T",
@@ -2177,11 +2257,9 @@
   {
    "card": "V",
    "verdict": "고평가",
-   "n": null,
-   "date": "2026-11-05",
-   "excluded": [
-    "날짜 불일치"
-   ]
+   "n": -4.0,
+   "date": "2026-11-06",
+   "excluded": []
   },
   {
    "card": "VEEV",
@@ -2386,8 +2464,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-07T03:34:50Z",
- "fetchedAt": "2026-11-07T03:34:51Z",
+ "runAt": "2026-11-07T17:37:27Z",
+ "fetchedAt": "2026-11-07T17:37:27Z",
  "inputHash": {
   "xlsx": "4f8e0f465e23dfa74c4cf40c409a01f104345d9ecaefeb49c17efb6c53f1d11e",
   "alias": "cd884e524b4f6045",
@@ -2403,7 +2481,7 @@
   ],
   "S": "2026-11-05"
  },
- "runId": "42334633210.1",
+ "runId": "42397203349.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -2417,7 +2495,26 @@
  },
  "checkDetail": {
   "code_sig": {
+   "0d6635e381f7": [
+    "AES",
+    "APTV",
+    "AWK",
+    "BBY",
+    "CCL",
+    "CHRW",
+    "FISV",
+    "GPC",
+    "GPN",
+    "IVZ",
+    "KMB",
+    "LH",
+    "MLM",
+    "NSC",
+    "PTC",
+    "SYY"
+   ],
    "409848507062": [
+    "MTB",
     "RJF",
     "SYF"
    ],
@@ -2453,13 +2550,11 @@
     "AOS",
     "APD",
     "APH",
-    "APTV",
     "ATO",
     "AVGO",
     "AVY",
     "BA",
     "BALL",
-    "BBY",
     "BE",
     "BEN",
     "BIIB",
@@ -2472,7 +2567,6 @@
     "CASY",
     "CAT",
     "CB",
-    "CCL",
     "CDNS",
     "CDW",
     "CEG",
@@ -2536,7 +2630,6 @@
     "FFIV",
     "FICO",
     "FIS",
-    "FISV",
     "FIX",
     "FTNT",
     "GD",
@@ -2547,8 +2640,6 @@
     "GLW",
     "GM",
     "GOOGL",
-    "GPC",
-    "GPN",
     "GRMN",
     "GWW",
     "HAS",
@@ -2569,7 +2660,6 @@
     "IR",
     "ISRG",
     "ITW",
-    "IVZ",
     "JBHT",
     "JKHY",
     "JNJ",
@@ -2579,7 +2669,6 @@
     "KO",
     "L",
     "LDOS",
-    "LH",
     "LII",
     "LIN",
     "LITE",
@@ -2641,6 +2730,7 @@
     "PGR",
     "PH",
     "PHM",
+    "PKG",
     "PLD",
     "PLTR",
     "PM",
