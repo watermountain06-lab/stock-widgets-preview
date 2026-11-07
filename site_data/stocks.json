@@ -13276,6 +13276,43 @@
         "valuationAsOf": "2026-11-06",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "MTB",
+      "name": "엠앤티 뱅크",
+      "sector": "금융 — 지역 은행(미국 북동부)",
+      "href": "MTB_full_widget.html",
+      "cardRank": 315,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 217.75,
+        "prevClose": 219.78,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 143434433,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-05",
+        "filing": "10-Q 0000036270-26-000060 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "excluded",
+        "reason": "v2 기본적 분석 점수 없음(financial)"
+      }
     }
   ]
 }

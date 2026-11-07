@@ -1,0 +1,55 @@
+{
+ "ticker": "MTB",
+ "window": [
+  "2021-11-08",
+  "2026-11-06"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 1255,
+   "current": 11.39,
+   "min": 6.45,
+   "p10": 8.17,
+   "median": 12.27,
+   "p90": 14.86,
+   "max": 17.79,
+   "mean": 11.99,
+   "percentile": 31.9,
+   "score": 68.1
+  },
+  "PSR": {
+   "days": 381,
+   "current": 18.18,
+   "min": 17.07,
+   "p10": 17.88,
+   "median": 19.31,
+   "p90": 21.12,
+   "max": 22.46,
+   "mean": 19.35,
+   "percentile": 15.7,
+   "score": 84.3
+  },
+  "PBR": {
+   "days": 1255,
+   "current": 1.24,
+   "min": 0.76,
+   "p10": 0.89,
+   "median": 1.17,
+   "p90": 1.41,
+   "max": 2.01,
+   "mean": 1.17,
+   "percentile": 66.7,
+   "score": 33.3
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 11.81,
+  "per_p75": 13.1,
+  "low": 230,
+  "high": 250,
+  "asOf": "2026-11-06",
+  "basis": "diluted"
+ }
+}
