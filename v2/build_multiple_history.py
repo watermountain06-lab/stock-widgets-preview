@@ -989,6 +989,8 @@ EXTRA_TAGS = {
     "0001326160": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # AWK: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q3 2026 $1,510M) — Revenues 태그는 2015-06에 멈췄다(DUK과 같은 경우, 2026-11-07)
     "0001410636": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
+    # SRE: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q3 2026 $3,191M) — Revenues 태그는 2025-12에 멈췄다(AWK와 같은 경우, 2026-11-07)
+    "0001032208": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # PEG: 감가상각은 손익계산서 "Depreciation and Amortization" 줄(CostOfGoodsAndServicesSoldDepreciationAndAmortization, Q2 2026 $321M)뿐 — 기본 D&A 태그가 없어 0이었다(2026-10-24)
     "0000788784": {"DepreciationDepletionAndAmortization": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
@@ -1214,6 +1216,12 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                  # AES: 손익계산서에 영업이익 줄이 없다 — 합성 값 "Operating margin"(GrossProfit) − 일반관리비(회사 보고 지표 아님). 자산 손상·사업 매각 손익·환차손은 합성 값에서 뺀다.
                  # Q3 2026: 982 − 68 = 914(10-Q 대조, 2026-11-07)
                  "0000874761": ("GrossProfit", [(["GeneralAndAdministrativeExpense"], 1)]),
+                 # SRE: 손익계산서에 영업이익 줄이 없다(비용 합계 안에 기타 수익·이자·매각 이익). 영업이익 = 세전·지분법 전 이익 + 이자비용 − 이자수익 − "Other income, net"
+                 # − 매각 이익("Gain on sales", Ecogas). 규제 불인정 비용은 영업으로 둔다. 지분법 이익(Oncor·Cameron LNG)은 세전 줄 아래라 들어가지 않는다.
+                 # Q3 2026: 460 + 298 − 35 − 58 − 214 = 451 = 매출 3,191 − 비용 줄 합 2,740(10-Q 대조, 2026-11-07)
+                 "0001032208": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
+                                [(["InterestExpenseNonoperating", "InterestExpense"], -1), (["InvestmentIncomeInterest"], 1, True),
+                                 (["OtherNonoperatingIncomeExpense"], 1, True), (["DisposalGroupNotDiscontinuedOperationGainLossOnDisposal"], 1, True)]),
                  # ETN: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그 없음). 영업이익 = 세전이익 + 순이자비용("Interest expense - net")
                  # − "Other expense (income) - net"(OtherNonoperatingIncomeExpense, 비용이면 음수). 순이자비용 태그가 공시마다 바뀌었다 —
                  # 2024-09부터 InterestExpenseNonoperating(양수), 일부 재작성 공시는 InterestExpenseOperating(양수), 그 전은
@@ -1308,6 +1316,8 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
                 # AWK: 고객 계약 매출 태그 두 개(Q3 2026 $1,502M, Q1 2025 $1,134M — 대체 매출 빠짐)를 빼야 RegulatedAndUnregulatedOperatingRevenue($1,510M·$1,142M)가 쓰인다.
                 # IncludingAssessedTax는 2018~2025-03에 있어 Q1 2025가 $1,134M으로 섞였다(Codex r1, 2026-11-07)
                 "0001410636": ("RevenueFromContractWithCustomerIncludingAssessedTax", "RevenueFromContractWithCustomerExcludingAssessedTax"),
+                # SRE: 고객 계약 매출 태그는 주석 값(대체 매출 빠짐) — 빼야 RegulatedAndUnregulatedOperatingRevenue가 쓰인다(AWK와 같음, 2026-11-07)
+                "0001032208": ("RevenueFromContractWithCustomerIncludingAssessedTax", "RevenueFromContractWithCustomerExcludingAssessedTax"),
                 # FIX: 한 해짜리 DDA 합계 태그를 빼야 DDA_PARTS가 쓰인다(2026-10-24)
                 "0001035983": ("DepreciationAndAmortization",),
                 # MSCI: 감가상각만인 DDA 합계 태그를 빼야 DDA_PARTS(감가상각 + 무형자산 상각)가 쓰인다(2026-10-23)
@@ -2098,6 +2108,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurrentAes", "ShortTermBorrowingsNonrecourseAes"), ("NonRecourseDebtNonCurrentAes", "LongTermDebtNonrecourseAes")],   # AES: 재무상태표 차입금이 차원(RecourseStatusAxis)으로만 — 모회사 보증 차입 총액 $6,361M(공정가치 주석 장부가, 1년 안 몫 포함 — 2025-12 879 + 5,105 = 5,984) + 비소구 1년 안 $2,950M + 비소구 장기 $23,953M = $33,264M(Q3 2026 10-Q). BUILD dim_facts — 옛 공시는 비소구를 회사 고유 태그(aes:NonRecourseDebtCurrent·NonCurrent, BUILD company_tags)로 냈다 — 튜플은 회사 태그 먼저: 10-K는 회사 태그, 10-Q는 차원 값이라 차원을 앞에 두면 연말이 두 행(10-K·다음 10-Q)이 되고 합계 경로가 둘을 더해 두 배가 됐다. 빠지면 2021-12 등이 모회사 몫만 남았다(Codex r1). 비소구 차입에 금융리스 포함(10-K 주석 12·15)(2026-11-07)
+                  "0001032208": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # SRE: 단기 $4,438M + 1년 안 장기·금융리스 $1,528M + 장기·금융리스 $31,508M = $37,474M(Q3 2026 10-Q). SI Partners 차입은 "매각 예정 부채"에 묶여 빠진다(2026-11-07)
                   "0001410636": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AWK: CP $1,449M + 1년 안 장기부채 $898M + 장기 $13,987M = $16,334M(Q3 2026 10-Q 재무상태표, XEL과 같은 구성). 기본 LongTermDebt는 2020에 멈췄다(2026-11-07)
                   "0001267238": ["UnsecuredDebt"],   # AIZ: 무담보 선순위·후순위채 $2,208.7M(Q3 2026 10-Q 재무상태표 "Debt") — 2008~ 분기마다 이 태그. 기본은 LongTermDebt가 2020-03에 멈춰 낡은 값이 잡혔다(2026-11-06)
                   "0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
@@ -2446,7 +2457,9 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000874761": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # AES: 비지배 $5,071M + 상환가능 자회사 주식 $3,100M(Q3 2026 10-Q, CPAY와 같은 처리, 2026-11-07)
+EV_TAGS_BY_CIK = {"0001032208": {"nci": ["OtherMinorityInterests", "MinorityInterestAmountRepresentedByPreferredStock", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"],
+                                 "preferred": []},   # SRE: 기타 비지배 $7,457M + 자회사 우선주($0, 2025-12 $20M) + 상환가능 비지배 $3,392M. 보통주 앞 우선주는 Q3 2026 재무상태표 "—" — 기본 태그는 2018-06에 멈춰 계산 보류로 걸렸다(Q3 2026 10-Q, 2026-11-07)
+                  "0000874761": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # AES: 비지배 $5,071M + 상환가능 자회사 주식 $3,100M(Q3 2026 10-Q, CPAY와 같은 처리, 2026-11-07)
                   "0001174922": {"sti": ["Investments", "ShortTermInvestments"]},   # WYNN: 유동자산 "Investments"(정기예금 등) $150.2M(Q3 2026 10-Q, 2022-12~ 이 태그) — 기본 단기투자 태그는 2018 멈춤(2026-11-06)
                   "0001175454": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CPAY: 비지배 $46M + 상환가능 $314M(Mastercard, 2026-11-05 Codex r1)
                   "0000779152": {"cash": ("CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents")},   # JKHY: 10-K(6월 말)는 현금을 제한 현금 포함 합계 태그로만 낸다(제한 현금 0 — 같은 값). 날짜마다 앞 태그 우선(2026-11-05)
