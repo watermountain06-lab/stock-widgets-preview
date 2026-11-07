@@ -90,6 +90,8 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    "0001389170": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # PKG: 이자 후보 중 InterestExpenseOther($9.3M)는 "Other expense, net" 표의 기타 영업비용 — 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q3 2026 $32.3M)을 쓴다(Codex, 2026-11-07, LOW·TRGP 선례)
                    "0000075677": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # SYY: InventoryNet·InterestExpense가 몇 년 전에 멈춰(재고 $2,047M·이자 $30.5M) 당좌비율·이자보상배율이 틀렸다 — 재고 InventoryFinishedGoodsNetOfReserves(Q1 FY27 $5,455M), 이자 손익계산서 InterestIncomeExpenseNonoperatingNet($261M)(Codex·Fable, 2026-11-07)
+                   "0000096021": {"inventory": ["InventoryFinishedGoodsNetOfReserves", "InventoryNet"], "interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # MCO: "Interest expense, net"(InterestIncomeExpenseNonoperatingNet)만 분기로 — InterestExpense 태그는 2024년 이후 없음(2026-10-23, Fable)
                    "0001059556": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # OKE: InterestExpense 태그가 2024-03에 멈춤 — 손익계산서 "Interest expense (net of capitalized interest)"(InterestExpenseNonoperating, 2022년부터)(2026-10-23, Codex·Fable r1)
