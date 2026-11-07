@@ -987,6 +987,8 @@ EXTRA_TAGS = {
     "0001374310": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireProductiveAssets"]},
     # DUK: 총매출은 RegulatedAndUnregulatedOperatingRevenue — Revenues 태그는 2017년에 멈췄다(XEL과 같은 경우, 2026-10-24)
     "0001326160": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
+    # AWK: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q3 2026 $1,510M) — Revenues 태그는 2015-06에 멈췄다(DUK과 같은 경우, 2026-11-07)
+    "0001410636": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # PEG: 감가상각은 손익계산서 "Depreciation and Amortization" 줄(CostOfGoodsAndServicesSoldDepreciationAndAmortization, Q2 2026 $321M)뿐 — 기본 D&A 태그가 없어 0이었다(2026-10-24)
     "0000788784": {"DepreciationDepletionAndAmortization": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
@@ -1300,6 +1302,9 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0001047862": ("RevenueFromContractWithCustomerExcludingAssessedTax", "PaymentsToAcquirePropertyPlantAndEquipment"),   # 설비투자 옛 태그(10-K 연간만, 비유틸리티·철거비 포함)가 섞이면 4분기 역산이 틀어진다(Fable r1)
                 # DUK: 고객 계약 매출 태그(Q1 2026 $8,995M — 대체 매출 빠짐)를 빼야 RegulatedAndUnregulatedOperatingRevenue($9,178M)가 쓰인다(2026-10-24)
                 "0001326160": ("RevenueFromContractWithCustomerIncludingAssessedTax", "RevenueFromContractWithCustomerExcludingAssessedTax", "SalesRevenueNet"),
+                # AWK: 고객 계약 매출 태그 두 개(Q3 2026 $1,502M, Q1 2025 $1,134M — 대체 매출 빠짐)를 빼야 RegulatedAndUnregulatedOperatingRevenue($1,510M·$1,142M)가 쓰인다.
+                # IncludingAssessedTax는 2018~2025-03에 있어 Q1 2025가 $1,134M으로 섞였다(Codex r1, 2026-11-07)
+                "0001410636": ("RevenueFromContractWithCustomerIncludingAssessedTax", "RevenueFromContractWithCustomerExcludingAssessedTax"),
                 # FIX: 한 해짜리 DDA 합계 태그를 빼야 DDA_PARTS가 쓰인다(2026-10-24)
                 "0001035983": ("DepreciationAndAmortization",),
                 # MSCI: 감가상각만인 DDA 합계 태그를 빼야 DDA_PARTS(감가상각 + 무형자산 상각)가 쓰인다(2026-10-23)
@@ -2089,7 +2094,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # CRWD: SEC 요약 데이터(companyfacts)에 기말 주식 수가 2025-05부터만 있다(그 전 표지 주식 수는 A·B 종류별 보고라 빠짐).
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 SHARES_WA_FALLBACK = {"0001535527"}
-DEBT_TOTAL_TAG = {"0001267238": ["UnsecuredDebt"],   # AIZ: 무담보 선순위·후순위채 $2,208.7M(Q3 2026 10-Q 재무상태표 "Debt") — 2008~ 분기마다 이 태그. 기본은 LongTermDebt가 2020-03에 멈춰 낡은 값이 잡혔다(2026-11-06)
+DEBT_TOTAL_TAG = {"0001410636": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AWK: CP $1,449M + 1년 안 장기부채 $898M + 장기 $13,987M = $16,334M(Q3 2026 10-Q 재무상태표, XEL과 같은 구성). 기본 LongTermDebt는 2020에 멈췄다(2026-11-07)
+                  "0001267238": ["UnsecuredDebt"],   # AIZ: 무담보 선순위·후순위채 $2,208.7M(Q3 2026 10-Q 재무상태표 "Debt") — 2008~ 분기마다 이 태그. 기본은 LongTermDebt가 2020-03에 멈춰 낡은 값이 잡혔다(2026-11-06)
                   "0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
                   "0000940944": ["ShortTermBorrowings", ("LongTermDebt", "LongTermDebtNoncurrent")],   # DRI: 단기(CP + 1년 안 채권 $500M) $979.7M + 장기 $1,636.1M = $2,615.8M(Q1 FY27 10-Q). 기본은 단기만 잡혔다. 2023-05 전 장기는 LongTermDebtNoncurrent. 2026-05 LongTermDebtCurrent $693.6M은 단기 줄과 같은 값이라 빼다(2026-11-03)
                   "0001513761": ["LongTermDebtAndCapitalLeaseObligations", "LongTermDebtAndCapitalLeaseObligationsCurrent"],   # NCLH: 대차대조표 비유동 $13,951.5M + 유동 $1,135.0M = $15,086.5M(Q3 2026 10-Q). ...IncludingCurrentMaturities $15,498M은 원금 상환표 합계라 쓰지 않는다(2026-11-04)
