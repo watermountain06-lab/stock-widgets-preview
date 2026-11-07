@@ -24,3 +24,18 @@
 | 18 | E28③ | 인수형 회사 현금흐름 칸에 "모델 1년차 FCF 대 실제 FCF"를 cfg 숫자로 써야 함 | 자동 문장(모델 1년차 FCF·최근 4분기 실제 FCF를 계산값으로) | 숫자는 생성기가 |
 
 검증: 전 카드 재빌드 뒤 판정·점수·배수·내재가치 숫자 diff 0, 글자 diff는 위 문구 자리만, 대표 카드(NVDA·RSG·LITE·HPE·WM·CEG·MRNA·INTU·ICE) compare_render 눈으로 확인, 은행 기반 카드(별도 스크립트)는 같은 문구가 있는 곳만.
+
+## cfg와 얽힌 항목(2026-11-07 착수 조사 — 카드 세션이 작업 중이라 미룸)
+템플릿 문구를 여러 파일이 **같은 글자를 찾아 바꾸는** 방식으로 다시 고친다. 템플릿만 바꾸면 그 줄들이 조용히 안 바뀌거나(h.replace) 개수 검사에서 멈춘다(one()). 아래는 함께 고쳐야 하는 곳이고, 카드 세션이 쉬는 때 한꺼번에 한다.
+
+| # | 같은 글자를 찾는 곳 |
+|---|---|
+| 1 | `newcards/rim_card.py`(nosol 줄), `newcards/bank/unify_js.py`·은행 종목별 fill 6개(axp·bac·c·cof·wfc·schw — nosol 줄), `cfg_rsg.py`(문구 치환), `cfg_pltr.py`(GEN_TIP·GEN_REV 전체 문자열) |
+| 2 | 유틸리티 cfg 17개(ATO·AEE·AEP·CNP·DUK·EXC·EVRG·ED·ETR·LNT·PEG·PNW·PPL·SO·TTWO·XEL·WEC — `const tv = …내재가치의…` 줄 통째 치환), `cfg_rsg.py` |
+| 3 | `cfg_adi.py`(POST·h.replace), `cfg_lite.py`·`cfg_sndk.py`(roic 정규식 치환) |
+| 5 | `fill.py` 443줄(비영업 자산 JS 문자열 h.replace) |
+| 6 | 모든 cfg의 `HEADER_REQ_LABEL`, `fill.py` 200줄 |
+| 15·16·18 | cfg별 손값(Y2 축, 고점 가격·하락률 리터럴, MODEL_NOTE 숫자) |
+
+나머지(5 제외 7·8·9·10·11·12·13·14·17)는 cfg를 건드리지 않아 따로 먼저 할 수 있다.
+
