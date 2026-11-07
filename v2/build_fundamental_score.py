@@ -415,11 +415,16 @@ def score_items(fin, config, basis):
                 items["interestCoverage"] = {"value": None, "points": None, "note": "그 분기 이자비용 미공시"}
 
     # 부채비율 — 총부채 결측이면 자산 − 자본, 음수 자본은 1점 + 표시(v1)
+    # 총부채 대체 계산은 비지배지분을 포함한 총자본을 뺀다 — 지배주주 자본만 빼면 비지배지분이 부채로 섞인다
+    # (CHTR 1,525% → 1,353%, 2026-11-07 사용자 결정). 총자본이 같은 결산일에 없으면 예전대로 지배주주 자본을 뺀다.
     tl, eq, _ = instant_pair(S("totalLiabilities"), S("equityAttributableToParent"))
     if tl is None:
-        a, e2, _ = instant_pair(S("assets"), S("equityAttributableToParent"))
+        a, e2, end = instant_pair(S("assets"), S("equityAttributableToParent"))
         if a is not None and e2 is not None:
             tl, eq = a - e2, e2
+            te = value_at(S("totalEquity"), end)
+            if te is not None:
+                tl = a - te
     if tl is not None and eq is not None:
         if eq <= 0:
             items["debtToEquity"] = {"value": None, "points": 1, "note": "자본 음수"}

@@ -51,6 +51,8 @@ CONCEPTS = {
     "longTermDebt": ["LongTermDebtNoncurrent", "LongTermDebt"],
     "equityAttributableToParent": ["StockholdersEquity",
                                     "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
+    # 비지배지분 포함 총자본 — 총부채 태그(Liabilities)가 없는 회사의 부채비율 대체 계산(자산 − 총자본)에 쓴다(2026-11-07 사용자 결정, CHTR)
+    "totalEquity": ["StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
     "cash": ["CashAndCashEquivalentsAtCarryingValue",
              "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"],
     "dividendPerShare": ["CommonStockDividendsPerShareDeclared", "CommonStockDividendsPerShareCashPaid"],
@@ -156,7 +158,7 @@ LATEST_Q_BY_CIK = {"0000798354": {"revenue": ["RevenueFromContractWithCustomerEx
 INSTANT_CONCEPTS = {"assets", "currentAssets", "currentLiabilities", "inventory",
                      "accountsReceivable", "accountsPayable", "totalLiabilities",
                      "shortTermDebt", "longTermDebt",
-                     "equityAttributableToParent", "cash", "sharesOutstanding"}
+                     "equityAttributableToParent", "totalEquity", "cash", "sharesOutstanding"}
 
 
 def fetch_json(url, user_agent):
