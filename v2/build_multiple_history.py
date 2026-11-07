@@ -301,6 +301,10 @@ Q4_OVERRIDE_BASIS = {
     ("DVA", "2025-12-31"): "continuing", ("VMC", "2022-12-31"): "continuing", ("EXC", "2022-12-31"): "continuing",
     ("PPG", "2024-12-31"): "continuing", ("IR", "2021-12-31"): "continuing", ("SNPS", "2024-10-31"): "continuing",
     ("EMR", "2024-09-30"): "continuing", ("COF", "2025-12-31"): ("total", 0.60),
+    # D: 2025 4분기 보도자료 EPS 0.65는 총 EPS — 중단영업 −0.01(보도자료 손익계산서, 계속영업 0.66). 자동 역산은 −0.02였다(Codex r1, 2026-11-07)
+    ("D", "2025-12-31"): ("total", -0.01),
+    # D 2024: 4분기 중단영업 직접값 0(10-K 2025-02-27 CY2024Q4) — 자동 역산은 연간 0.24 − 9개월 당시값 0.22 = 0.02(Codex r2, 2026-11-07)
+    ("D", "2024-12-31"): ("total", 0.0),
     # WTW: 중단영업 없음 — 10-K가 연간 총 EPS를 IncomeLossFromDiscontinuedOperationsNetOfTaxPerDilutedShare에도 붙였다(2023 9.95·2024 −0.96·2025 16.26, 2026-11-05)
     ("WTW", "2023-12-31"): "continuing", ("WTW", "2024-12-31"): "continuing", ("WTW", "2025-12-31"): "continuing",
 }
@@ -991,6 +995,8 @@ EXTRA_TAGS = {
     "0001410636": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # SRE: 총매출은 RegulatedAndUnregulatedOperatingRevenue(Q3 2026 $3,191M) — Revenues 태그는 2025-12에 멈췄다(AWK와 같은 경우, 2026-11-07)
     "0001032208": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
+    # D: 설비투자는 PaymentsForProceedsFromProductiveAssets(2026 Q1 $3,030M) — Q3 2026 10-Q부터 회사 고유 태그(d:PaymentsToAcquirePropertyPlantAndEquipmentIncludingNuclearFuel, 9개월 $8,576M)라 BUILD company_tags가 같은 이름으로 싣는다. 기본 태그는 2020-03에 멈췄다(2026-11-07)
+    "0000715957": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForProceedsFromProductiveAssets"]},
     # PEG: 감가상각은 손익계산서 "Depreciation and Amortization" 줄(CostOfGoodsAndServicesSoldDepreciationAndAmortization, Q2 2026 $321M)뿐 — 기본 D&A 태그가 없어 0이었다(2026-10-24)
     "0000788784": {"DepreciationDepletionAndAmortization": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
@@ -1318,6 +1324,8 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0001410636": ("RevenueFromContractWithCustomerIncludingAssessedTax", "RevenueFromContractWithCustomerExcludingAssessedTax"),
                 # SRE: 고객 계약 매출 태그는 주석 값(대체 매출 빠짐) — 빼야 RegulatedAndUnregulatedOperatingRevenue가 쓰인다(AWK와 같음, 2026-11-07)
                 "0001032208": ("RevenueFromContractWithCustomerIncludingAssessedTax", "RevenueFromContractWithCustomerExcludingAssessedTax"),
+                # D: 고객 계약 매출 태그(Q3 2026 $5,592M — 기타 매출 $25M 빠짐)를 빼야 손익계산서 총매출 Revenues($5,617M)가 쓰인다(2026-11-07)
+                "0000715957": ("RevenueFromContractWithCustomerIncludingAssessedTax", "RevenueFromContractWithCustomerExcludingAssessedTax"),
                 # FIX: 한 해짜리 DDA 합계 태그를 빼야 DDA_PARTS가 쓰인다(2026-10-24)
                 "0001035983": ("DepreciationAndAmortization",),
                 # MSCI: 감가상각만인 DDA 합계 태그를 빼야 DDA_PARTS(감가상각 + 무형자산 상각)가 쓰인다(2026-10-23)
@@ -2109,6 +2117,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurrentAes", "ShortTermBorrowingsNonrecourseAes"), ("NonRecourseDebtNonCurrentAes", "LongTermDebtNonrecourseAes")],   # AES: 재무상태표 차입금이 차원(RecourseStatusAxis)으로만 — 모회사 보증 차입 총액 $6,361M(공정가치 주석 장부가, 1년 안 몫 포함 — 2025-12 879 + 5,105 = 5,984) + 비소구 1년 안 $2,950M + 비소구 장기 $23,953M = $33,264M(Q3 2026 10-Q). BUILD dim_facts — 옛 공시는 비소구를 회사 고유 태그(aes:NonRecourseDebtCurrent·NonCurrent, BUILD company_tags)로 냈다 — 튜플은 회사 태그 먼저: 10-K는 회사 태그, 10-Q는 차원 값이라 차원을 앞에 두면 연말이 두 행(10-K·다음 10-Q)이 되고 합계 경로가 둘을 더해 두 배가 됐다. 빠지면 2021-12 등이 모회사 몫만 남았다(Codex r1). 비소구 차입에 금융리스 포함(10-K 주석 12·15)(2026-11-07)
                   "0001032208": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # SRE: 단기 $4,438M + 1년 안 장기·금융리스 $1,528M + 장기·금융리스 $31,508M = $37,474M(Q3 2026 10-Q). SI Partners 차입은 "매각 예정 부채"에 묶여 빠진다(2026-11-07)
+                  "0000715957": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # D: 단기 $3,308M + 1년 안 만기 $2,399M + 장기 $48,939M(후순위채 $7,461M·증권화 채권 포함) = $54,646M(Q3 2026 10-Q). 기본 경로는 1년 안 몫을 빠뜨려 $52,247M이었다(2026-11-07)
                   "0001410636": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AWK: CP $1,449M + 1년 안 장기부채 $898M + 장기 $13,987M = $16,334M(Q3 2026 10-Q 재무상태표, XEL과 같은 구성). 기본 LongTermDebt는 2020에 멈췄다(2026-11-07)
                   "0001267238": ["UnsecuredDebt"],   # AIZ: 무담보 선순위·후순위채 $2,208.7M(Q3 2026 10-Q 재무상태표 "Debt") — 2008~ 분기마다 이 태그. 기본은 LongTermDebt가 2020-03에 멈춰 낡은 값이 잡혔다(2026-11-06)
                   "0000783325": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # WEC: 단기(CP) $1,904.3M + 1년 안 장기부채 $1,134.5M + 장기 $19,717.2M = $22,756.0M(Q3 2026 10-Q MD&A "Total debt"와 같다, 전환사채·후순위채 포함, 2026-11-03)
