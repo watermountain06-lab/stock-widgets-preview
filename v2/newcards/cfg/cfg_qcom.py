@@ -154,16 +154,17 @@ SEG_MAP = {
    "concepts": [
     "us-gaap:Revenues"
    ],
-   "axis": "us-gaap:StatementBusinessSegmentsAxis",
+   "axis": "srt:ProductOrServiceAxis",
    "extra": {
-    "srt:ProductOrServiceAxis": "qcom:HandsetsMember"
+    "us-gaap:StatementBusinessSegmentsAxis": "qcom:QctMember"
    },
    "members": {
-    "qcom:QctMember": [
+    "qcom:MobileHandsetsMember": [
      "QCT 휴대폰",
      "#3253dc"
     ]
-   }
+   },
+   "alias": {"qcom:HandsetsMember": "qcom:MobileHandsetsMember"}   # FY26 10-K부터 휴대폰 이름이 바뀌었다 — 보조 차원에는 별칭이 안 들어 축을 제품으로 돌림(값은 같은 칸)
   },
   {
    "concepts": [

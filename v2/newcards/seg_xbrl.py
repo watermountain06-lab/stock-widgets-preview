@@ -97,6 +97,8 @@ def by_member(fs, M, start_ok, end):
             rest = {(d_, m) for d_, m in dims if d_ != M["axis"] and d_ not in free}
             if len(ax) == 1 and rest == want_extra:
                 ax = [M.get("alias", {}).get(ax[0], ax[0])]
+                if ax[0] in M.get("ignore", []):
+                    continue   # 지도에서 뺀 멤버는 값이 둘이어도 보지 않는다(BLK Q3 2026 투자자문 합계 6,036·소계 5,682 — 둘 다 차원 없이 실림)
                 if ax[0] in got and got[ax[0]] != v:
                     raise ValueError(f"{concept} {ax[0]} {end}: 값이 둘({got[ax[0]]}, {v})")
                 got[ax[0]] = v
