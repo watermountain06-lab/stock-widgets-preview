@@ -141,6 +141,9 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     # VRT: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 듬성듬성해(2021-12부터 13개) EV/EBITDA 이력이 250일뿐이었다 —
                     # 현금흐름표 구성요소 Depreciation + AmortizationOfIntangibleAssets(2021~ 22개; 2026 상반기 66.9 + 156.6 = 223.5 = 합산 태그, 2026-10-21).
                     "0001674101": ["Depreciation", "AmortizationOfIntangibleAssets"],
+                    # PKG: 합산 태그 DepreciationDepletionAndAmortization가 2015~2023년에 없어(분기 33개) EV/EBITDA 이력이 252일뿐이었다 —
+                    # 현금흐름표 구성요소 Depreciation + AmortizationOfIntangibleAssets(2013~ 55개; 2026-09 분기 162.4 + 18.4 = 180.8 ≈ 합산 181.3, 2026-11-07).
+                    "0000075677": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # CTAS: 합산 태그 DepreciationDepletionAndAmortization는 분기 행이 듬성듬성해(24개) EV/EBITDA 이력이 138일뿐이었다 —
                     # 현금흐름표 Depreciation + "Amortization"(AdjustmentForAmortization — 계약 비용 상각 포함; AmortizationOfIntangibleAssets는 Q1 FY27에 무형자산만 14.9로 좁아짐) = 78.9 + 48.4 = 127.3 = 합산 태그(2026-10-22).
                     "0000723254": ["Depreciation", "AdjustmentForAmortization"],
@@ -1306,6 +1309,7 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0000815556": ("DepreciationDepletionAndAmortization",),   # FAST — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-22)
                 "0001674101": ("DepreciationDepletionAndAmortization",),   # VRT — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-21)
                 "0000097210": ("DepreciationDepletionAndAmortization",),   # TER — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-23)
+                "0000075677": ("DepreciationDepletionAndAmortization",),   # PKG — 구성요소 경로로(DDA_PARTS_BY_CIK, 합산 태그 2015~2023 공백, 2026-11-07)
                 "0000040545": ("RevenueFromContractWithCustomerExcludingAssessedTax",),
                 # AMGN: DepreciationAndAmortization(분기 약 $220M)이 현금흐름표 "Depreciation, amortization and other"
                 # (DepreciationDepletionAndAmortization, 분기 약 $1.1B)와 같은 기간에 함께 있어 먼저 공시된 작은 값이 섞였다 — EBITDA가 낮아

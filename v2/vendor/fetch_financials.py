@@ -88,6 +88,8 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    "0000354190": {"capex": ["PaymentsForCapitalImprovements"]},
                    # TRGP: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet)만 분기로 낸다 — InterestExpense는 2014년에 멈춤(2026-10-22, WM 선례)
                    "0001389170": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   # PKG: 이자 후보 중 InterestExpenseOther($9.3M)는 "Other expense, net" 표의 기타 영업비용 — 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q3 2026 $32.3M)을 쓴다(Codex, 2026-11-07, LOW·TRGP 선례)
+                   "0000075677": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # MCO: "Interest expense, net"(InterestIncomeExpenseNonoperatingNet)만 분기로 — InterestExpense 태그는 2024년 이후 없음(2026-10-23, Fable)
                    "0001059556": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # OKE: InterestExpense 태그가 2024-03에 멈춤 — 손익계산서 "Interest expense (net of capitalized interest)"(InterestExpenseNonoperating, 2022년부터)(2026-10-23, Codex·Fable r1)
