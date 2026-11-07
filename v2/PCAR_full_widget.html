@@ -902,7 +902,7 @@ Chart.overrides.doughnut.animation = false;
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">83.1</div><div class="sc-tile" data-vc="peer" data-m="per">80</div><div class="sc-tile" data-vc="peer" data-m="pbr">88</div><div class="sc-tile" data-vc="peer" data-m="psr">78</div><div class="sc-tile" data-vc="peer" data-m="pcr">79</div><div class="sc-tile" data-vc="peer" data-m="evebitda">91</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 19.4배(5년 중앙값 14.0배)로 자기 이력 33.9점(중간), 동종업 83.1점(싸다)이다. <strong>현금흐름 내재가치(기본 $77.08)는 현재가의 76%다</strong>.</div>
+    <div class="vs-premise">PER 19.4배(5년 중앙값 13.9배)로 자기 이력 33.9점(중간), 동종업 83.1점(싸다)이다. <strong>현금흐름 내재가치(기본 $77.08)는 현재가의 76%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −1, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $77.08)는 현재가의 76%다. 현재가를 정당화하려면 영업이익률이 14.6%까지 올라야 한다(최근 4분기 11.0%, 5년 중앙값 12.0%). 내재가치에서 차입금·금융리스 $1M를 빼고 현금·단기투자 $9.4B를 더한다. 트럭 수요는 운송 경기에 따라 크게 오르내리는 순환 업종이라, 이익이 낮은 해에는 PER이 높게 보인다 — 2025년 1분기 유럽 소송 비용은 이미 최근 4분기 밖이라 지금 PER과는 무관하다. 주가는 8월부터 10월까지 큰 하루 하락 없이 꾸준히 내려왔다(회사 공시로 확인한 원인 없음). 금융 자회사(PACCAR Financial)의 차입금은 대출·리스 자산을 위한 것이라 순차입금·EV에서 뺐다(CAT·DE와 같은 처리) — 금융 서비스 이익(이자비용 차감 뒤)은 영업이익에 들어 있다. 다만 FCF의 설비투자에는 금융 부문의 리스 장비 취득이 빠져 있어, 일반 제조업처럼 FCF를 배당 여력으로 그대로 읽으면 후하다. 영업이익은 세전이익에서 투자수익을 뺀 값이다.</div>
   </div>
 
@@ -919,7 +919,7 @@ Chart.overrides.doughnut.animation = false;
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill bad" data-hist="fill" style="width: 80.8%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 9.7x</span><span data-hist="median">중앙 14.0x</span><span data-hist="max">최고 29.4x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 9.7x</span><span data-hist="median">중앙 13.9x</span><span data-hist="max">최고 29.4x</span></div>
       </div>
 
       <div class="val-item" data-metric="pbr" onclick="selectMultiple('pbr')">
@@ -1054,7 +1054,7 @@ Chart.overrides.doughnut.animation = false;
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">성장</span><span class="bb-text">3년 매출 성장률 연 −5.2%, 5년 연 5.4%보다 낮다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 34점(배수 5개) · PER 19.4배(5년 중앙값 14.0배).</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 34점(배수 5개) · PER 19.4배(5년 중앙값 13.9배).</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">마진</span><span class="bb-text">최근 4분기 영업이익률 11.0%(5년 중앙값 12.0%).</span></div>
     </div>
   </div>
@@ -1790,7 +1790,7 @@ const PCAR_FUNDAMENTAL = {"ticker": "PCAR", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py PCAR --self v2/PCAR_multiples.json --card
 /* VALUATION:BEGIN */
-const PCAR_VALUATION = {"peer": {"score": 83.1, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 80.0, "rank": 16, "peers": 75}, {"metric": "pbr", "score": 87.8, "rank": 10, "peers": 74}, {"metric": "psr", "score": 78.2, "rank": 18, "peers": 78}, {"metric": "pcr", "score": 78.9, "rank": 17, "peers": 76}, {"metric": "evebitda", "score": 90.7, "rank": 8, "peers": 75}]}, "self": {"score": 33.9, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 19.2, "percentile": 80.8, "current": 19.42, "min": 9.72, "median": 14.04, "max": 29.41, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 89.5, "percentile": 10.5, "current": 2.57, "min": 2.26, "median": 2.91, "max": 4.11, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 19.2, "percentile": 80.8, "current": 1.85, "min": 1.13, "median": 1.49, "max": 2.62, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 22.2, "percentile": 77.8, "current": 17.63, "min": 11.93, "median": 15.66, "max": 23.27, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.2, "percentile": 80.8, "current": 10.95, "min": 5.88, "median": 7.72, "max": 17.57, "days": 1255, "currentNote": null}]}};
+const PCAR_VALUATION = {"peer": {"score": 83.1, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 80.0, "rank": 16, "peers": 75}, {"metric": "pbr", "score": 87.8, "rank": 10, "peers": 74}, {"metric": "psr", "score": 78.2, "rank": 18, "peers": 78}, {"metric": "pcr", "score": 78.9, "rank": 17, "peers": 76}, {"metric": "evebitda", "score": 90.7, "rank": 8, "peers": 75}]}, "self": {"score": 33.9, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 19.2, "percentile": 80.8, "current": 19.42, "min": 9.72, "median": 13.93, "max": 29.41, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 89.5, "percentile": 10.5, "current": 2.57, "min": 2.26, "median": 2.91, "max": 4.11, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 19.2, "percentile": 80.8, "current": 1.85, "min": 1.13, "median": 1.49, "max": 2.62, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 22.2, "percentile": 77.8, "current": 17.63, "min": 11.93, "median": 15.66, "max": 23.27, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.2, "percentile": 80.8, "current": 10.95, "min": 5.88, "median": 7.72, "max": 17.57, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2144,7 +2144,7 @@ const PCAR_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계
       + `\n항공·방산·기계·운송·건설이 섞여 있다. 차트에는 기계·장비 6곳만 보인다.`);
   put('pcarSelfBox', 'pcarSelfScore', 'pcarSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
-      + `\nPER 19.4배는 5년 분포의 하위 80.8%다(중앙값 14.0배).`
+      + `\nPER 19.4배는 5년 분포의 하위 80.8%다(중앙값 13.9배). 지금 PER의 최근 4분기에는 뺀 일회성 손익이 없고, 자기 이력 PER의 지난 구간 중 2개 결산일(2023.03~2023.06)은 일회성 손익(손상·매각·소송·계약 해지·IPR&D·구조조정)을 뺀 EPS로 계산했다. 반복 기준(최근 8분기 중 문턱을 넘은 분기가 3번 이상이거나 6번 이상 나온 범주)에 걸린 항목과 인수 통합 비용은 빼지 않는다. 영업이익률·EV/EBITDA는 GAAP 그대로다.`
       + ``);
   // 두 밸류에이션 점수가 크게 갈리면 그 사실 자체가 정보다.
   const gap = (S.peer == null || S.selfHistory == null) ? 0 : Math.abs(S.peer - S.selfHistory);

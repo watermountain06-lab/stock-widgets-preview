@@ -959,14 +959,14 @@ Chart.overrides.doughnut.animation = false;
 
       <div class="val-item" data-metric="evebitda" onclick="selectMultiple('evebitda')">
         <div class="val-header">
-          <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 2.4년(적자·결측 구간 제외)</span></span>
+          <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note">유효 이력 2.8년(적자·결측 구간 제외)</span></span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="val-number" data-hist="cur">18.7x</span>
-            <span class="hist-badge good" data-hist="badge">2.4년 중 하위 0%</span>
+            <span class="hist-badge good" data-hist="badge">2.8년 중 하위 0%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 2%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 18.7x</span><span data-hist="median">중앙 63.3x</span><span data-hist="max">최고 355.3x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 18.7x</span><span data-hist="median">중앙 53.0x</span><span data-hist="max">최고 355.3x</span></div>
       </div>
     </div>
 
@@ -1801,7 +1801,7 @@ const UBER_FUNDAMENTAL = {"ticker": "UBER", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py UBER --self v2/UBER_multiples.json --card
 /* VALUATION:BEGIN */
-const UBER_VALUATION = {"peer": {"score": 53.8, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 13.3, "rank": 66, "peers": 75}, {"metric": "pbr", "score": 58.1, "rank": 32, "peers": 74}, {"metric": "psr", "score": 62.8, "rank": 30, "peers": 78}, {"metric": "pcr", "score": 96.1, "rank": 4, "peers": 76}, {"metric": "evebitda", "score": 38.7, "rank": 47, "peers": 75}]}, "self": {"score": 83.5, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 48.2, "percentile": 51.8, "current": 40.59, "min": 28.63, "median": 37.4, "max": 149.34, "days": 753, "currentNote": null}, {"metric": "pbr", "score": 91.7, "percentile": 8.3, "current": 5.06, "min": 3.8, "median": 8.61, "max": 17.41, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 78.1, "percentile": 21.9, "current": 2.48, "min": 1.68, "median": 3.31, "max": 7.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 99.5, "percentile": 0.5, "current": 13.44, "min": 13.17, "median": 32.06, "max": 188.21, "days": 1070, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 18.67, "min": 18.67, "median": 63.34, "max": 355.33, "days": 594, "currentNote": null}]}};
+const UBER_VALUATION = {"peer": {"score": 53.8, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 13.3, "rank": 66, "peers": 75}, {"metric": "pbr", "score": 58.1, "rank": 32, "peers": 74}, {"metric": "psr", "score": 62.8, "rank": 30, "peers": 78}, {"metric": "pcr", "score": 96.1, "rank": 4, "peers": 76}, {"metric": "evebitda", "score": 38.7, "rank": 47, "peers": 75}]}, "self": {"score": 83.5, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 48.2, "percentile": 51.8, "current": 40.59, "min": 28.63, "median": 37.4, "max": 149.34, "days": 753, "currentNote": null}, {"metric": "pbr", "score": 91.7, "percentile": 8.3, "current": 5.06, "min": 3.8, "median": 8.61, "max": 17.41, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 78.1, "percentile": 21.9, "current": 2.48, "min": 1.68, "median": 3.31, "max": 7.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 99.5, "percentile": 0.5, "current": 13.44, "min": 13.17, "median": 32.06, "max": 188.21, "days": 1070, "currentNote": null}, {"metric": "evebitda", "score": 100.0, "percentile": 0.0, "current": 18.67, "min": 18.67, "median": 52.97, "max": 355.33, "days": 712, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

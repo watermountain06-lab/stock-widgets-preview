@@ -541,7 +541,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 영업이익률 (최근 4분기 23.1%)</span>
-      <span class="meta-value" id="bmyDcfReq" style="font-size: 22px; color: var(--red);">32.6%</span>
+      <span class="meta-value" id="bmyDcfReq" style="font-size: 22px; color: var(--red);">32.5%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="bmyConfidenceLabel">밴드 적중률 (272/670일, 하단우세)</span>
@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="bmyLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="bmyDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="bmyDcfBox">$29<span class="logic-denom"> · 보수 $9.22 · 낙관 $39</span></div>
+      <div class="logic-score" id="bmyDcfBox">$29<span class="logic-denom"> · 보수 $9.82 · 낙관 $39</span></div>
     </div>
     <div class="logic-box logic-neutral" id="bmyFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="bmyFundVerdict">보통</span></div>
@@ -680,12 +680,12 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$9.22</td><td style="color: var(--red);" data-dcf-upside="low">−85.2%</td>
+          <td class="big scn-low" data-dcf-value="low">$9.82</td><td style="color: var(--red);" data-dcf-upside="low">−84.2%</td>
           <td class="story">5년 성장률의 절반(연 1.0%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 5년 중앙값 17.1%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$29.02</td><td style="color: var(--red);" data-dcf-upside="base">−53.3%</td>
+          <td class="big scn-base" data-dcf-value="base">$29.07</td><td style="color: var(--red);" data-dcf-upside="base">−53.2%</td>
           <td class="story">5년 성장률(연 1.9%)이 영구성장률 2.5%보다 낮아 5년 내내 2.5%로 두고, 영업이익률이 최근 2년 중앙값 19.7%로 간다.</td>
         </tr>
         <tr>
@@ -695,8 +695,8 @@ Chart.overrides.doughnut.animation = false;
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $9.22~$39.37다. 영업이익률은 최근 4분기 23.1%, 2년 중앙값 19.7%, 5년 중앙값 17.1%를 쓴다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $29.02 = 사업 가치 $28.30 + 비영업 자산 $0.72(주당, 지분증권·장기 시장성 증권)</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $9.82~$39.37다. 영업이익률은 최근 4분기 23.1%, 2년 중앙값 19.7%, 5년 중앙값 17.1%를 쓴다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $29.07 = 사업 가치 $28.35 + 비영업 자산 $0.72(주당, 지분증권·장기 시장성 증권)</div>
     <div class="reverse">—</div>
   </div>
 
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $29</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −53.3%</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $29</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −53.2%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -929,14 +929,14 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 BMY 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">42.5</div><div class="sc-tile" data-vc="self" data-m="per">85</div><div class="sc-tile lost" data-vc="self" data-m="pbr">41</div><div class="sc-tile lost" data-vc="self" data-m="psr">47</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">39</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$29</div><div class="vs-note">현재가 <span data-vs="price">$62.14</span> 대비 <strong data-vs="upside">−53.3%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.14
-시나리오 범위: 1.58 ~ 6.74(세 시나리오 최대·최소 기준)
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$29</div><div class="vs-note">현재가 <span data-vs="price">$62.14</span> 대비 <strong data-vs="upside">−53.2%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 2.14
+시나리오 범위: 1.58 ~ 6.33(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">74.5</div><div class="sc-tile" data-vc="peer" data-m="per">90</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">39</div><div class="sc-tile lost" data-vc="peer" data-m="psr">67</div><div class="sc-tile" data-vc="peer" data-m="pcr">89</div><div class="sc-tile" data-vc="peer" data-m="evebitda">89</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 13.8배(3.7년 중앙값 18.4배)로 자기 이력 42.5점(중간), 동종업 74.5점(싸다)이다. <strong>현금흐름 내재가치(기본 $29.02)는 현재가의 47%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $29.02)는 현재가의 47%다. 현재가를 정당화하려면 영업이익률이 32.6%까지 올라야 한다(최근 4분기 23.1%, 5년 중앙값 17.1%). 내재가치에서 차입금 $42.9B를 빼고 현금·단기투자 $12.6B를 더한다.</div>
+    <div class="vs-premise">PER 13.8배(3.7년 중앙값 18.4배)로 자기 이력 42.5점(중간), 동종업 74.5점(싸다)이다. <strong>현금흐름 내재가치(기본 $29.07)는 현재가의 47%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $29.07)는 현재가의 47%다. 현재가를 정당화하려면 영업이익률이 32.5%까지 올라야 한다(최근 4분기 23.1%, 5년 중앙값 17.1%). 내재가치에서 차입금 $42.9B를 빼고 현금·단기투자 $12.6B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1020,7 +1020,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $13.1B(+6.9%), 영업이익률 21.8%(1년 전 24.6%). 주가는 1년 새 +34%<span class="tag">배수 싼 쪽·매출 성장 빨라짐</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $29.02)는 현재가의 47%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $29.07)는 현재가의 47%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 4일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1098,7 +1098,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $29.02)는 현재가의 47%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $29.07)는 현재가의 47%.</span></div>
     </div>
   </div>
 
@@ -1446,7 +1446,7 @@ const BMY_MA120 = [64.209,64.146,64.082,64.015,63.954,63.899,63.844,63.792,63.74
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let BMY_VERDICT = '계산 중';
 
-const BMY_DCF = {"low": 9.22, "base": 29.02, "high": 39.37, "requiredGrowth": 0.63, "baseEquivGrowth": 0.025, "reqMode": "margin", "requiredMargin": 0.3256, "marginNow": 0.231028, "growth5y": 0.0193, "nonopPerShare": 0.72, "s2cFallback": false, "s2cReason": "measured", "asOf": "2026-11-06", "hard": [], "hardDetail": {"roic": 0.1492, "tax": 0.1843, "nonopShare": 0.0249}, "tvShare": 0.7114};   // build_dcf_block.py
+const BMY_DCF = {"low": 9.82, "base": 29.07, "high": 39.37, "requiredGrowth": 0.6166, "baseEquivGrowth": 0.025, "reqMode": "margin", "requiredMargin": 0.3254, "marginNow": 0.231028, "growth5y": 0.0193, "nonopPerShare": 0.72, "s2cFallback": false, "s2cReason": "measured", "asOf": "2026-11-06", "hard": [], "hardDetail": {"roic": 0.1492, "tax": 0.1843, "nonopShare": 0.0248}, "tvShare": 0.7106};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1600,7 +1600,7 @@ const BMY_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py BMY
 /* DCF_GRID:BEGIN */
-const BMY_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[24.17, 19.36, 15.67, 12.76, 10.39], [21.01, 16.24, 12.65, 9.85, 7.6], [17.27, 12.63, 9.22, 6.6, 4.52], [12.78, 8.42, 5.29, 2.93, 1.09], [7.29, 3.44, 0.76, -1.22, -2.74]], "기본": [[40.16, 33.32, 28.05, 23.87, 20.46], [41.61, 34.17, 28.54, 24.12, 20.56], [43.41, 35.15, 29.02, 24.29, 20.51], [45.6, 36.32, 29.61, 24.51, 20.5], [48.3, 37.74, 30.32, 24.8, 20.51]], "낙관": [[52.33, 43.8, 37.25, 32.06, 27.84], [54.64, 45.3, 38.25, 32.73, 28.29], [57.35, 47.01, 39.37, 33.48, 28.79], [60.57, 48.98, 40.63, 34.3, 29.33], [64.47, 51.29, 42.07, 35.23, 29.94]]}};
+const BMY_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[24.58, 19.72, 16.0, 13.05, 10.65], [21.6, 16.75, 13.1, 10.26, 7.97], [18.08, 13.32, 9.82, 7.14, 5.01], [13.85, 9.32, 6.07, 3.63, 1.72], [8.67, 4.58, 1.74, -0.36, -1.97]], "기본": [[40.2, 33.36, 28.09, 23.9, 20.5], [41.65, 34.21, 28.58, 24.16, 20.59], [43.46, 35.19, 29.07, 24.34, 20.56], [45.65, 36.38, 29.67, 24.57, 20.55], [48.37, 37.81, 30.39, 24.86, 20.58]], "낙관": [[52.33, 43.8, 37.25, 32.06, 27.84], [54.64, 45.3, 38.25, 32.73, 28.29], [57.35, 47.01, 39.37, 33.48, 28.79], [60.57, 48.98, 40.63, 34.3, 29.33], [64.47, 51.29, 42.07, 35.23, 29.94]]}};
 /* DCF_GRID:END */
 (function(){
   const D = BMY_DCF, G = (typeof BMY_DCF_GRID !== 'undefined') ? BMY_DCF_GRID : null;

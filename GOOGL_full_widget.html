@@ -541,7 +541,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 3년 +16.6%)</span>
-      <span class="meta-value" id="googlDcfReq" style="font-size: 22px; color: var(--red);">연 28.7%</span>
+      <span class="meta-value" id="googlDcfReq" style="font-size: 22px; color: var(--red);">연 28.5%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="googlConfidenceLabel">밴드 적중률 (662/1229일, 하단우세)</span>
@@ -563,7 +563,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="logic-grid" id="googlLogicGrid">
     <div class="logic-box logic-info">
       <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="googlDcfVerdict">매우 비싸다</span></div>
-      <div class="logic-score" id="googlDcfBox">$168<span class="logic-denom"> · 보수 $134 · 낙관 $183</span></div>
+      <div class="logic-score" id="googlDcfBox">$168<span class="logic-denom"> · 보수 $136 · 낙관 $183</span></div>
     </div>
     <div class="logic-box logic-positive" id="googlFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="googlFundVerdict">우수</span></div>
@@ -680,12 +680,12 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">$134.07</td><td style="color: var(--red);" data-dcf-upside="low">−52.9%</td>
+          <td class="big scn-low" data-dcf-value="low">$135.56</td><td style="color: var(--red);" data-dcf-upside="low">−52.4%</td>
           <td class="story">매출이 5년 성장률의 절반(연 7.3%)로 시작해 2.5%로 식고, 영업이익률이 5년 중앙값 30.5%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">$167.55</td><td style="color: var(--red);" data-dcf-upside="base">−41.2%</td>
+          <td class="big scn-base" data-dcf-value="base">$168.21</td><td style="color: var(--red);" data-dcf-upside="base">−40.9%</td>
           <td class="story">매출이 5년 성장률(연 14.5%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 32.7%로 간다.</td>
         </tr>
         <tr>
@@ -695,9 +695,9 @@ Chart.overrides.doughnut.animation = false;
         </tr>
       </tbody>
     </table></div>
-    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $134.07~$183.14다. 영업이익률은 최근 4분기 33.3%, 2년 중앙값 32.7%, 5년 중앙값 30.5%를 쓴다.</div>
-    <div class="note" data-dcf-nonop>기본 시나리오 $167.55 = 사업 가치 $156.60 + 비영업 자산 $10.95(주당, 지분·장기투자)</div>
-    <div class="reverse">지금 가격(<span data-dcf-price>$284.78</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>28.7%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$168</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>8.5%</span>다.</div>
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오는 $135.56~$183.14다. 영업이익률은 최근 4분기 33.3%, 2년 중앙값 32.7%, 5년 중앙값 30.5%를 쓴다.</div>
+    <div class="note" data-dcf-nonop>기본 시나리오 $168.21 = 사업 가치 $157.26 + 비영업 자산 $10.95(주당, 지분·장기투자)</div>
+    <div class="reverse">지금 가격(<span data-dcf-price>$284.78</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>28.5%</b>씩 커야 한다. 기본 시나리오(<span data-dcf-basev>$168</span>)를 같은 방식으로 환산하면 연 <span data-dcf-baseeq>8.5%</span>다.</div>
   </div>
 
   <!-- ── 2. 직접 바꿔보기 ── -->
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $168</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −41.2%</span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $168</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −40.9%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -899,14 +899,14 @@ Chart.overrides.doughnut.animation = false;
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 GOOGL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">44.0</div><div class="sc-tile lost" data-vc="self" data-m="per">34</div><div class="sc-tile" data-vc="self" data-m="pbr">90</div><div class="sc-tile low" data-vc="self" data-m="psr">28</div><div class="sc-tile low" data-vc="self" data-m="pcr">0</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">69</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$168</div><div class="vs-note">현재가 <span data-vs="price">$284.78</span> 대비 <strong data-vs="upside">−41.2%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.70
-시나리오 범위: 1.55 ~ 2.12(세 시나리오 최대·최소 기준)
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$168</div><div class="vs-note">현재가 <span data-vs="price">$284.78</span> 대비 <strong data-vs="upside">−40.9%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.69
+시나리오 범위: 1.55 ~ 2.10(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="커뮤니케이션 서비스와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">49.0</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">79</div><div class="sc-tile lost" data-vc="peer" data-m="psr">55</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">62</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 26.9배(5년 중앙값 25.1배)로 자기 이력 44.0점(중간), 동종업 49.0점(중간)이다. <strong>현금흐름 내재가치(기본 $167.55)는 현재가의 59%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $167.55)는 현재가의 59%다. 현재가를 정당화하려면 매출이 5년간 연 28.7% 커야 한다. 내재가치에서 차입금·금융리스 $129.8B를 빼고 현금·단기투자 $265.1B를 더한다.</div>
+    <div class="vs-premise">PER 26.9배(5년 중앙값 25.1배)로 자기 이력 44.0점(중간), 동종업 49.0점(중간)이다. <strong>현금흐름 내재가치(기본 $168.21)는 현재가의 59%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $168.21)는 현재가의 59%다. 현재가를 정당화하려면 매출이 5년간 연 28.5% 커야 한다. 내재가치에서 차입금·금융리스 $129.8B를 빼고 현금·단기투자 $265.1B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -990,7 +990,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $127.6B(+24.7%), 영업이익률 31.8%(1년 전 30.5%). 주가는 1년 새 제자리(+0.2%)<span class="tag">배수 중간·매출 성장(인수 포함)</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $167.55)는 현재가의 59%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $168.21)는 현재가의 59%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 3일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1080,7 +1080,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $167.55)는 현재가의 59%.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $168.21)는 현재가의 59%.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">투자</span><span class="bb-text">Q3 2026 FCF −$9.1B(설비투자 $51.4B).</span></div>
     </div>
   </div>
@@ -1422,7 +1422,7 @@ const GOOGL_MA120 = [null,null,null,null,null,null,null,null,null,null,null,null
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let GOOGL_VERDICT = '계산 중';
 
-const GOOGL_DCF = {"low": 134.07, "base": 167.55, "high": 183.14, "requiredGrowth": 0.2874, "baseEquivGrowth": 0.085, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.333213, "growth5y": 0.1452, "nonopPerShare": 10.95, "s2cFallback": false, "s2cReason": "measured", "asOf": "2026-11-06", "hard": [], "hardDetail": {"roic": 0.2988, "tax": 0.1806, "nonopShare": 0.0654}, "tvShare": 0.7887};   // build_dcf_block.py
+const GOOGL_DCF = {"low": 135.56, "base": 168.21, "high": 183.14, "requiredGrowth": 0.2847, "baseEquivGrowth": 0.0854, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.333213, "growth5y": 0.1452, "nonopPerShare": 10.95, "s2cFallback": false, "s2cReason": "measured", "asOf": "2026-11-06", "hard": [], "hardDetail": {"roic": 0.2988, "tax": 0.1806, "nonopShare": 0.0651}, "tvShare": 0.7851};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
@@ -1571,7 +1571,7 @@ const GOOGL_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py GOOGL
 /* DCF_GRID:BEGIN */
-const GOOGL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[163.64, 144.93, 130.54, 119.11, 109.8], [167.92, 147.58, 132.21, 120.15, 110.43], [172.93, 150.61, 134.07, 121.3, 111.12], [178.88, 154.1, 136.18, 122.58, 111.87], [186.07, 158.18, 138.58, 124.0, 112.69]], "기본": [[202.37, 176.85, 157.3, 141.86, 129.34], [212.13, 183.58, 162.12, 145.4, 132.0], [223.62, 191.31, 167.55, 149.34, 134.93], [237.36, 200.29, 173.73, 153.75, 138.16], [254.09, 210.86, 180.83, 158.73, 141.77]], "낙관": [[220.06, 192.74, 171.82, 155.29, 141.89], [230.71, 200.13, 177.15, 159.24, 144.9], [243.23, 208.6, 183.14, 163.63, 148.19], [258.18, 218.43, 189.95, 168.53, 151.82], [276.35, 229.98, 197.76, 174.05, 155.84]]}};
+const GOOGL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[164.95, 146.1, 131.6, 120.1, 110.74], [169.55, 149.0, 133.47, 121.31, 111.51], [174.93, 152.31, 135.56, 122.64, 112.34], [181.32, 156.13, 137.92, 124.12, 113.26], [189.06, 160.59, 140.62, 125.77, 114.27]], "기본": [[203.02, 177.49, 157.95, 142.5, 129.98], [212.79, 184.23, 162.77, 146.05, 132.65], [224.29, 191.97, 168.21, 150.0, 135.59], [238.04, 200.96, 174.4, 154.42, 138.83], [254.77, 211.55, 181.51, 159.41, 142.44]], "낙관": [[220.06, 192.74, 171.82, 155.29, 141.89], [230.71, 200.13, 177.15, 159.24, 144.9], [243.23, 208.6, 183.14, 163.63, 148.19], [258.18, 218.43, 189.95, 168.53, 151.82], [276.35, 229.98, 197.76, 174.05, 155.84]]}};
 /* DCF_GRID:END */
 (function(){
   const D = GOOGL_DCF, G = (typeof GOOGL_DCF_GRID !== 'undefined') ? GOOGL_DCF_GRID : null;

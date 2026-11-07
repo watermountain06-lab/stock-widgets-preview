@@ -560,7 +560,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="msPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="msPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="msPeerScore">4.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="msPeerScore">3.9<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="msSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="msSelfVerdict">중간</span></div>
@@ -936,9 +936,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="은행은 초과이익모형(장부가치 + 자기자본비용 10%를 넘는 이익의 현재가치)으로 계산한다. 기본 시나리오.">초과이익 (내재가치)</div><div class="vs-val" data-vs="dcf">$119</div><div class="vs-note">현재가 <span data-vs="price">$181.44</span> 대비 <strong data-vs="upside">−34.4%</strong> · 초과이익모형 기본</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.52
 시나리오 범위: 1.32 ~ 1.80(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(증권·투자은행) 카드: GS P/TBV 2.48배·PER 13.4배, SCHW P/TBV 6.57배·PER 16.9배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">4.2</div><div class="sc-tile low" data-vc="peer" data-m="per">8</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(증권·투자은행) 카드: GS P/TBV 2.48배·PER 13.4배, SCHW P/TBV 6.49배·PER 16.7배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">3.9</div><div class="sc-tile low" data-vc="peer" data-m="per">8</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">P/TBV 3.36배는 자기 5년 이력의 위쪽(상위 19%)이고 비교군 S&P500 대형·지역 은행 11곳과 견주면 가장 비싸다. <strong>초과이익모형 기본 가치 $119은 현재가의 66%</strong>로, 지금 가격은 ROE 25.1%가 5년 이어진다는 값이다(최근 4분기 19.8%, GAAP).</div>
+    <div class="vs-premise">P/TBV 3.36배는 자기 5년 이력의 위쪽(상위 19%)이고 비교군 S&P500 대형·지역 은행 12곳과 견주면 가장 비싸다. <strong>초과이익모형 기본 가치 $119은 현재가의 66%</strong>로, 지금 가격은 ROE 25.1%가 5년 이어진다는 값이다(최근 4분기 19.8%, GAAP).</div>
     <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 1.52로 "매우 비싸다"다 — 경계 가까이라 작은 주가 움직임으로 칸이 바뀔 수 있다. 세 칸이 자기 이력 0 · 동종업 −1 · 초과이익 −2로 종합 평가는 고평가다.</div>
   </div>
 
@@ -1379,7 +1379,7 @@ const MULTIPLE_DATA = {
       },
       {
         "name": "MTB",
-        "value": 1.86,
+        "value": 1.88,
         "status": "reference"
       }
     ]
@@ -1528,7 +1528,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py MS
 const MS_SCORES = {
   fundamental: null,   // 은행 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
-  peer: 4.2,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
+  peer: 3.9,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
   selfHistory: 40.3,   // P/TBV·PER 자기 5년 백분위 평균(표시용)
   asOf: "2026-11-06",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q (2026-11-05 공시)
@@ -1842,7 +1842,7 @@ const MS_FUNDAMENTAL = {"ticker": "MS", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py MS --self v2/MS_multiples.json --card
 /* VALUATION:BEGIN */
-const MS_VALUATION = {"peer": {"score": 4.2, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-06", "2026-11-06"], "metrics": [{"metric": "per", "score": 8.3, "rank": 12, "peers": 12}, {"metric": "pbr", "score": 0.0, "rank": 12, "peers": 11}]}, "self": {"score": 40.3, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-08", "2026-11-06"], "metrics": [{"metric": "per", "score": 61.6, "percentile": 38.4, "current": 14.67, "min": 9.27, "median": 15.54, "max": 21.44, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 19.0, "percentile": 81.0, "current": 3.36, "min": 1.73, "median": 2.43, "max": 4.43, "days": 1255, "gapDays": 0}]}};
+const MS_VALUATION = {"peer": {"score": 3.9, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-06", "2026-11-06"], "metrics": [{"metric": "per", "score": 7.7, "rank": 13, "peers": 13}, {"metric": "pbr", "score": 0.0, "rank": 13, "peers": 12}]}, "self": {"score": 40.3, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-08", "2026-11-06"], "metrics": [{"metric": "per", "score": 61.6, "percentile": 38.4, "current": 14.67, "min": 9.27, "median": 15.54, "max": 21.44, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 19.0, "percentile": 81.0, "current": 3.36, "min": 1.73, "median": 2.43, "max": 4.43, "days": 1255, "gapDays": 0}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2215,7 +2215,7 @@ const MS_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 �
   }
   put('msPeerBox', 'msPeerScore', 'msPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
-      + `\nP/TBV는 유형자본을 만들 수 있는 11곳, PER은 12곳과 비교했다.`
+      + `\nP/TBV는 유형자본을 만들 수 있는 12곳, PER은 13곳과 비교했다.`
       + `\nPNC는 P/TBV에서 빠졌다(PNC: 분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)).`);
   put('msSelfBox', 'msSelfScore', 'msSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`

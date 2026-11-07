@@ -1404,7 +1404,7 @@ const DAL_MA120 = [42.229,42.222,42.209,42.187,42.15,42.107,42.049,41.99,41.927,
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let DAL_VERDICT = '계산 중';
 
-const DAL_DCF = {"low": 85.43, "base": 99.25, "high": 66.39, "requiredGrowth": 0.031, "baseEquivGrowth": 0.0652, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.073621, "growth5y": 0.098, "nonopPerShare": 5.19, "s2cFallback": false, "s2cReason": "nonpos_nwc", "asOf": "2026-11-06", "hard": [], "hardDetail": {"roic": 0.1862, "tax": 0.2492, "nonopShare": 0.0523}, "tvShare": 0.7315};   // build_dcf_block.py
+const DAL_DCF = {"low": 85.43, "base": 99.25, "high": 66.39, "requiredGrowth": 0.031, "baseEquivGrowth": 0.0652, "reqMode": "growth", "requiredMargin": null, "marginNow": 0.073621, "growth5y": 0.098, "nonopPerShare": 5.19, "s2cFallback": false, "s2cReason": "capped", "asOf": "2026-11-06", "hard": [], "hardDetail": {"roic": 0.1862, "tax": 0.2492, "nonopShare": 0.0523}, "tvShare": 0.7315};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).

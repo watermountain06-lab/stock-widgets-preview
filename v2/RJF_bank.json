@@ -2,7 +2,7 @@
  "ticker": "RJF",
  "asOf": "2026-11-06",
  "price": 162.81,
- "edition": 7,
+ "edition": 8,
  "gates": {
   "N": true
  },
@@ -38,7 +38,10 @@
     "ratio": 1.0023
    },
    "N5_2": {
-    "pass": true
+    "pass": true,
+    "redeemed": [
+     "2026-03-31"
+    ]
    },
    "ok": true,
    "stop": [],
@@ -117,16 +120,16 @@
  },
  "peer": {
   "ptbv": {
-   "score": 9.1,
-   "rank": 11,
-   "peers": 11,
-   "median": 1.8565,
+   "score": 8.3,
+   "rank": 12,
+   "peers": 12,
+   "median": 1.881,
    "value": 2.882401112371913
   },
   "per": {
-   "score": 16.7,
-   "rank": 11,
-   "peers": 12,
+   "score": 15.4,
+   "rank": 12,
+   "peers": 13,
    "median": 12.1221,
    "value": 14.182055749128919
   }
