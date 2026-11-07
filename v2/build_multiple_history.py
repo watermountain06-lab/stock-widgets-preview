@@ -2466,7 +2466,9 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001032208": {"nci": ["OtherMinorityInterests", "MinorityInterestAmountRepresentedByPreferredStock", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"],
+EV_TAGS_BY_CIK = {"0000842023": {"sti": [], "nci": []},   # TECH: 단기투자(2025-03)·비지배지분(2022-06)은 지금 재무상태표에 없는 낡은 값(Q1 FY27 10-Q, 2026-11-07)
+                  "0000352915": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # UHS: 비지배지분 $71.0M + 상환 가능 $74.2M(임시자본, DVA와 같은 처리 — Codex r1, 2026-11-07)
+                  "0001032208": {"nci": ["OtherMinorityInterests", "MinorityInterestAmountRepresentedByPreferredStock", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"],
                                  "preferred": []},   # SRE: 기타 비지배 $7,457M + 자회사 우선주($0, 2025-12 $20M) + 상환가능 비지배 $3,392M. 보통주 앞 우선주는 Q3 2026 재무상태표 "—" — 기본 태그는 2018-06에 멈춰 계산 보류로 걸렸다(Q3 2026 10-Q, 2026-11-07)
                   "0000874761": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # AES: 비지배 $5,071M + 상환가능 자회사 주식 $3,100M(Q3 2026 10-Q, CPAY와 같은 처리, 2026-11-07)
                   "0001174922": {"sti": ["Investments", "ShortTermInvestments"]},   # WYNN: 유동자산 "Investments"(정기예금 등) $150.2M(Q3 2026 10-Q, 2022-12~ 이 태그) — 기본 단기투자 태그는 2018 멈춤(2026-11-06)

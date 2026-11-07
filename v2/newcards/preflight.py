@@ -80,6 +80,10 @@ def overlay_has(T, cik, accn, form=None, filed=None):
     return len(tags) >= 30 and bool(tags & {"EarningsPerShareDiluted", "IncomeLossFromContinuingOperationsPerDilutedShare"})
 
 
+# 접수 뒤 첫 세션보다 앞선 --asof를 허용하는 카드: (기준 공시 접수일, asof). 10-Q가 금요일 장 마감 뒤 접수돼 첫 세션이 월요일인데,
+# 주말에 금요일 종가로 만들고 매일 실행에 붙인다 — 판정 추적 출발점이 하루 앞서는 것만 감수(2026-11-07 사용자 결정)
+EARLY_ASOF = {"UHS": ("2026-11-06", "2026-11-06"), "TECH": ("2026-11-06", "2026-11-06")}
+
 def before(T, asof):
     import daily_price as dp
     import fetch_eps_history as feh
@@ -124,7 +128,9 @@ def before(T, asof):
     if table.get(cik) != filed:
         bad.append(f'{T}: v2/sec_approved.json에 "{cik}": "{filed}"를 넣을 것(지금 {table.get(cik)!r})')
     first = dp.first_session_after(accepted)
-    if asof and asof < first:
+    if asof and asof < first and EARLY_ASOF.get(T) == (filed, asof):
+        print(f"{T}: --asof {asof}가 접수 뒤 첫 세션 {first}보다 앞이지만 EARLY_ASOF 예외(사용자 결정) — 다음 매일 실행이 {first} 종가로 다시 계산")
+    elif asof and asof < first:
         bad.append(f"{T}: --asof {asof}가 {form} 접수({accepted}) 뒤 첫 세션 {first}보다 앞이다")
     print(f"{T}: 기준 공시 {form} {filed} (접수 {accepted}, 첫 세션 {first}), CIK {cik}")
     return bad

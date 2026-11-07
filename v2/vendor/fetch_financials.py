@@ -103,6 +103,9 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                                   "accountsPayable": ["AccountsPayableTradeCurrentAndNoncurrent", "AccountsPayableCurrent"]},   # 매입채무 $1,280M(Codex r1)
                    # WM: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q2 2026 −$233M)만 분기로 낸다 — InterestExpense는 2013년에 멈춤(2026-10-21)
                    "0000823768": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "inventory": ["Supplies"]},   # 재고 = "Parts and supplies"(Supplies)
+                   "0000352915": {"inventory": ["Supplies"]},   # UHS: 재고 = 병원 소모품 "Supplies"($235.6M, Q3 2026 10-Q) — 없으면 당좌비율 = 유동비율(Codex r1, 2026-11-07)
+                   "0001091667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},   # CHTR: 손익계산서 "Interest expense, net"(Q3 2026 −$1,341M) — InterestExpense는 2015-03에 멈춤(2026-11-07)
+                   "0000842023": {"netIncome": ["ProfitLoss", "NetIncomeLoss"], "shortTermDebt": ["ShortTermBorrowings"]},   # TECH: FY26 10-K 연간 순이익은 ProfitLoss로만, 단기차입금 $200M은 ShortTermBorrowings(LongTermDebtCurrent는 2022-06에 멈춤) — Codex r1, 2026-11-07
                    # CME: 이자비용을 "Interest and other borrowing costs"(InterestAndDebtExpense, Q2 2026 $43.6M)로만 낸다(2026-10-16)
                    "0001156375": {"interestExpense": ["InterestAndDebtExpense"]},
                    # SO: 이자비용을 InterestAndDebtExpense(Q1 2026 $778M)로만 낸다 — CME와 같은 경우(Fable r1, 2026-10-24)

@@ -3317,5 +3317,89 @@
     "#cdb88f"
    ]
   }
+ },
+ "UHS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "uhs:AcuteCareHospitalServicesMember": [
+    "급성기 병원",
+    "#003d79"
+   ],
+   "uhs:BehavioralHealthServicesMember": [
+    "행동건강(정신과·중독)",
+    "#e87722"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타",
+    "#c9c9c9"
+   ]
+  }
+ },
+ "CHTR": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "chtr:ResidentialInternetProductLineMember": [
+    "인터넷",
+    "#0099d8"
+   ],
+   "chtr:MobileServiceMember": [
+    "모바일",
+    "#1a2a5a"
+   ],
+   "chtr:ResidentialVideoProductLineMember": [
+    "유료 방송",
+    "#7fc8ec"
+   ],
+   "chtr:ResidentialVoiceProductLineMember": [
+    "유선 전화",
+    "#9aa5c4"
+   ],
+   "chtr:CommercialProductLineMember": [
+    "기업 고객",
+    "#f2a900"
+   ],
+   "chtr:AdvertisingsalesMember": [
+    "광고",
+    "#c9c9c9"
+   ],
+   "chtr:OtherServicesMember": [
+    "기타",
+    "#e5e5e5"
+   ]
+  },
+  "ignore_candidates": [
+   "chtr:ConnectivityMember",
+   "chtr:ResidentialProductLineMember",
+   "chtr:CommercialSmallandMediumBusinessProductLineMember",
+   "chtr:CommercialEnterpriseProductLineMember",
+   "chtr:CoxCommunicationsBusinessMember"
+  ]
+ },
+ "TECH": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "tech:ProteinSciencesMember": [
+    "단백질 과학(시약·분석 장비)",
+    "#00558f"
+   ],
+   "tech:DiagnosticsAndSpatialBiologyMember": [
+    "진단·공간생물학",
+    "#8dc63f"
+   ]
+  }
  }
 }
