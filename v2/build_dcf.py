@@ -167,6 +167,10 @@ NONOP_FROM_EXTRA = {"0001050915": "PWR — 비통합 지분법 투자(차원 값
                     "0001868275": "CEG — 투자 합계(Investments: 지분법·직원복지 신탁·상장·비상장 지분·채권)"}
 
 
+_ic_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "invest_current.json")
+INVEST_CURRENT = {k: v for k, v in json.load(open(_ic_path)).items() if not k.startswith("_")}   # 없으면 멈춘다 — 조용히 전 종목 0이 되지 않게(Codex E69)
+
+
 def base_inputs(ticker, asof=None):
     """기초 연도 수치를 SEC에서 모은다. 전부 최근 12개월(TTM) 기준이다."""
     cik = feh.CIKS[ticker]
@@ -585,8 +589,14 @@ def base_inputs(ticker, asof=None):
         # 섞여 운전자본이 매출의 32.6%로 잡혔다(실제 18.5% 수준).
         # 비영업 자산 쪽과 같은 신선도 확인 — 지분증권 태그가 끊긴 회사는 몇 년 전 값이 운전자본에서 빠지고 있었다
         # (AMAT 2022-10 $771M·KO 2024-03 $2,106M, 안건 D14 2026-11-06)
-        invest_assets = 0 if "EquitySecuritiesFvNi" in excluded else (
+        # 태그는 유·비유동을 가르지 않는다 — 원문으로 '유동자산 안·단기투자 줄 밖'이 확인된 종목(v2/invest_current.json)의 그 결산일부터만 뺀다.
+        # 아니면 비유동 투자(DAL·JNJ·ABT)를 유동자산에서 빼거나, 단기투자·현금 줄에 이미 든 금액(PFE·CSCO·FTNT·VRTX·WDAY)을 두 번 뺐다(안건 E69, 2026-11-07)
+        _ic = INVEST_CURRENT.get(ticker)
+        _fv = newest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"]), asof) if _ic and _ic.get("class") == "current" else None
+        invest_assets = 0 if ("EquitySecuritiesFvNi" in excluded or not _ic or _ic.get("class") != "current" or not _fv or _fv["end"] < _ic["from"]) else (
             fresh_latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"])) or 0)
+        if (not _ic or _ic.get("class") == "unresolved") and "EquitySecuritiesFvNi" not in excluded and (fresh_latest(bmh.component_sum(cik, ["EquitySecuritiesFvNi"])) or 0) > 0:
+            out["_ic_unclassified"] = True   # 신선한 지분증권이 있는데 위치 미확인 — dq로 드러내 조사 목록에(Codex E69)
         # 10-Q 값으로 적은 자산 중 유동자산 안에 든 것("current": true — MMM Solventum 지분, 기타 유동자산)도 운전자본에서 뺀다.
         # 표준 태그가 3월에 멈춰 1년 전 시점에는 0으로 잡혀 운전자본 변화가 왜곡됐다(Codex 2026-10-21, 해당 종목 MMM뿐).
         invest_assets += sum(x["value"] for x in fixed.values() if x.get("current"))
@@ -598,6 +608,8 @@ def base_inputs(ticker, asof=None):
 
     # ── 데이터 품질(2026-09-25 사용자 결정) — 유니버스 427종목 중 34%가 아래 신호 하나 이상 ──
     out["dq"] = []
+    if out.pop("_ic_unclassified", False):
+        out["dq"].append("invest_unclassified")   # 운전자본 지분증권 위치 미확인(invest_current.json에 없음) — 차감 0으로 계산
     if out.pop("_debt_fallback", False):
         out["dq"].append("debt_total_fallback")
     # 주식 수: 표지·재무상태표 값이 없거나 희석 가중평균(분할 보정)의 0.5~2배 밖이면 희석 가중평균으로.

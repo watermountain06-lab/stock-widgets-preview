@@ -1,0 +1,126 @@
+{
+ "_note": "안건 E69(2026-11-07): DCF 운전자본에서 빼는 지분증권(EquitySecuritiesFvNi)은 이 표에 적힌 종목·결산일부터만 뺀다. 태그는 유·비유동을 가르지 않아(유·비유동 태그를 쓰는 회사 거의 없음) 비유동 투자(DAL·JNJ·ABT 등)를 유동자산에서 빼거나, 이미 단기투자·현금 줄에 든 금액(PFE·CSCO·FTNT·VRTX·WDAY)을 두 번 뺐다. class: current(유동자산 안·엔진 sti 줄 밖 — 'from' 결산일부터 뺀다) · noncurrent(비유동 — 안 뺌) · in_cash_or_sti(현금·단기투자 줄 안 — 안 뺌, 빼면 이중) · unresolved(원문끼리 어긋남 — 안 뺌, dq). 표에 없는데 신선한 FvNi가 있으면 dq invest_unclassified(조사 대상). 근거는 10-Q/10-K 원문. 10-Q 값 표로 따로 적는 종목(MMM Solventum)은 nonop_extra.json 'current' 항목이 맡는다. current_via_nonop_extra = 10-Q 값 표로 따로 적는 종목(MMM Solventum — nonop_extra.json 'current' 항목, FvNi 태그는 exclude).",
+ "NVDA": {
+  "from": "2026-01-25",
+  "line": "유동자산 별도 줄 'Marketable equity securities'(단기투자 줄은 'Marketable debt securities')",
+  "source": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+  "note": "공정가치 표 열 'Marketable Debt / Marketable Equity / Other Assets' 합계 34,143 / 42,783 / 4,957(Other Assets 4,957은 비유동). 2025-07 이전에는 'Marketable securities' 한 줄(지분 포함)이고 EquitySecuritiesFvNi 태그도 없어 엔진이 빼지 않았다(2021년 $128M 행 등 옛 값만). 최근 계열은 2026-01-25(2026-05-20 공시)부터.",
+  "class": "current"
+ },
+ "ELV": {
+  "from": "2024-12-31",
+  "line": "유동자산 별도 줄 'Equity securities'(단기투자 줄은 'Fixed maturity securities')",
+  "source": "https://www.sec.gov/Archives/edgar/data/1156039/000115603926000071/elv-20260930.htm",
+  "note": "2026-09-30 2,151, 2025-09-30 1,220(같은 줄, https://www.sec.gov/Archives/edgar/data/1156039/000115603925000136/elv-20250930.htm); 2025-09-30 10-Q 비교 열 2024-12-31 같은 줄 확인(Codex E69 권장으로 시작일 확장)",
+  "class": "current"
+ },
+ "CDNS": {
+  "from": "2024-12-31",
+  "line": "'Prepaid expenses and other' 안(단기투자 81은 같은 줄의 매도가능 채권뿐)",
+  "source": "https://www.sec.gov/Archives/edgar/data/813672/000081367226000121/cdns-20260930.htm",
+  "note": "'investments in marketable equity securities ... are included in prepaid expenses and other' — 2026-09-30 $10.5M, 2025-09-30 $104.0M; 2025-09-30 10-Q 비교 열 2024-12-31도 같은 줄(Codex E69 권장으로 시작일 확장)",
+  "class": "current"
+ },
+ "DAL": {
+  "class": "noncurrent",
+  "line": "Noncurrent Assets: Equity investments 3,824 (fair-value stakes LATAM, Hanjin KAL, WestJet etc. + equity-method)",
+  "source": "https://www.sec.gov/Archives/edgar/data/27904/000002790426000038/dal-20260930.htm",
+  "note": "Our long-term investments measured at fair value primarily consist of equity investments ... and are recorded in equity investments on our balance sheet."
+ },
+ "MMM": {
+  "class": "current_via_nonop_extra",
+  "line": "Current assets: Other current assets 2,890 (includes Solventum common stock 2,254)",
+  "source": "https://www.sec.gov/Archives/edgar/data/66740/000006674026000311/mmm-20260930.htm",
+  "note": "(a) Solventum common stock is reflected within other current assets on 3M's Consolidated Balance Sheet."
+ },
+ "MRK": {
+  "class": "in_cash_or_sti",
+  "line": "Short-term investments 100 (current; = MarketableSecuritiesCurrent) + Investments 1,603 (noncurrent; = MarketableSecuritiesNoncurrent)",
+  "source": "https://www.sec.gov/Archives/edgar/data/310158/000031015826000248/mrk-20260930.htm",
+  "note": "최신: 단기투자 100 안 몫 + 비유동 Investments 1,603 안 나머지(주석에 유·비유동 금액 없음 — 산술), 1년 전: 비유동. 유동 몫도 sti 안이라 운전자본 차감 0. Fair value table 'Assets | Investments | Foreign government bonds 33 | Commercial paper 15 | Publicly traded equity securities 1,655 | ... total 1,703' (1,703 = ST investments 100 + Investments 1,603)"
+ },
+ "PFE": {
+  "class": "in_cash_or_sti",
+  "line": "Short-term investments 12,448 (includes equity securities 1,650); separate 484 in Long-term investments (not in the undimensioned 1,650 fact)",
+  "source": "https://www.sec.gov/Archives/edgar/data/78003/000007800326000127/pfe-20260927.htm",
+  "note": "Short-term investments | Equity securities with readily determinable fair values | $ 1,650 | ... Total Short-term investments | $ 12,448 | Long-term investments | Equity securities with readily determinable fair values(a) | $ 484"
+ },
+ "NWSA": {
+  "class": "noncurrent",
+  "line": "Non-current assets: Investments 1,048 (Equity and other securities 953 + equity method 95)",
+  "source": "https://www.sec.gov/Archives/edgar/data/1564708/000156470826000250/nws-20260930.htm",
+  "note": "NOTE 4. INVESTMENTS ... Equity and other securities(b) | various | 953 | 907 | Total Investments | $ 1,048"
+ },
+ "JNJ": {
+  "class": "noncurrent",
+  "line": "Other assets 15,096 (noncurrent)",
+  "source": "https://www.sec.gov/Archives/edgar/data/200406/000020040626000197/jnj-20260927.htm",
+  "note": "Other Investments: | Equity investments(3) | 824 ... (3)Classified as non-current other assets."
+ },
+ "ABT": {
+  "class": "noncurrent",
+  "line": "Investments 1,099 (noncurrent long-term investments; Equity securities 811)",
+  "source": "https://www.sec.gov/Archives/edgar/data/1800/000162828026070154/abt-20260930.htm",
+  "note": "Long-term Investments: | Equity securities | $ 811 ... equity method ... $173 million and other equity investments with a carrying value of $238 million that do not have a readily determinable fair value (400+173+238=811); includes $318 million mutual funds in a rabbi trust"
+ },
+ "WDAY": {
+  "class": "in_cash_or_sti",
+  "line": "Cash and cash equivalents 661 (money market funds 382) — not the marketable securities line",
+  "source": "https://www.sec.gov/Archives/edgar/data/1327811/000132781126000044/wday-20260731.htm",
+  "note": "Condensed Consolidated Balance Sheets Location | ... Money market funds | Cash and cash equivalents | $ 382 | $ 694"
+ },
+ "CSCO": {
+  "class": "in_cash_or_sti",
+  "line": "Investments (current) $8,700M",
+  "source": "https://www.sec.gov/Archives/edgar/data/858877/000085887726000132/csco-20260725.htm",
+  "note": "Fair value table 'Reported as ... Investments': Marketable equity securities | Level 1 | 361 | — | 361; Total ... Investments 8,700"
+ },
+ "BMY": {
+  "class": "noncurrent",
+  "line": "Other non-current assets $6,099M (Equity investments 1,942 incl. RDFV 315)",
+  "source": "https://www.sec.gov/Archives/edgar/data/14272/000001427226000024/bmy-20260930.htm",
+  "note": "Other non-current assets detail: 'Equity investments (Note 9) | $ 1,942'; Note 9: 'Equity investments with RDFV | $ 315'. Other current assets detail has no equity line."
+ },
+ "BIIB": {
+  "class": "unresolved",
+  "line": "Conflict: AFS table labels it 'Marketable equity securities, current' but BS 'Current portion of marketable securities' = — and Strategic Investments note says portfolio is in 'Investments and other assets'",
+  "source": "https://www.sec.gov/Archives/edgar/data/875045/000087504526000096/biib-20260930.htm",
+  "note": "'Marketable equity securities, current | $ 149.5 | ... | $ 97.1'; 'our strategic investment portfolio was comprised of investments totaling $166.1 million ... which are included in investments and other assets'; Other current assets note mentions only prepaid taxes"
+ },
+ "DELL": {
+  "class": "noncurrent",
+  "line": "Long-term investments $2,679M",
+  "source": "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000046/dell-20260731.htm",
+  "note": "'strategic investments in equity and other securities ... that are recorded as long-term investments'; Marketable | $ 82"
+ },
+ "FTNT": {
+  "class": "in_cash_or_sti",
+  "line": "Short-term investments $1,048.4M",
+  "source": "https://www.sec.gov/Archives/edgar/data/1262039/000126203926000027/ftnt-20260930.htm",
+  "note": "Short-term investments: ... 'Marketable equity securities | 31.1 | 31.1' ... 'Total short-term investments | 1,048.4'"
+ },
+ "VRTX": {
+  "class": "in_cash_or_sti",
+  "line": "Marketable securities (current) $1,324.0M",
+  "source": "https://www.sec.gov/Archives/edgar/data/875320/000087532026000291/vrtx-20260930.htm",
+  "note": "'We classify our investments in publicly traded corporate equity securities as “Marketable securities” on our condensed consolidated balance sheets.' Corporate equity securities 29.2 within Total marketable securities"
+ },
+ "MSI": {
+  "class": "noncurrent",
+  "line": "Investments $292M (non-current)",
+  "source": "https://www.sec.gov/Archives/edgar/data/68505/000006850526000044/msi-20261003.htm",
+  "note": "'Investments consist of the following: Common stock | $ 28'"
+ },
+ "MRSH": {
+  "class": "noncurrent",
+  "line": "Other assets $1,857M",
+  "source": "https://www.sec.gov/Archives/edgar/data/62709/000006270926000258/mrsh-20260930.htm",
+  "note": "'Exchange traded equity securities (a) | $ 15' ... '(a) Included in other assets in the consolidated balance sheets.'"
+ },
+ "BSX": {
+  "class": "noncurrent",
+  "line": "Other investments $2,292M",
+  "source": "https://www.sec.gov/Archives/edgar/data/885725/000088572526000070/bsx-20260930.htm",
+  "note": "strategic investments 'classified as Other investments' ... '(2) Includes publicly-held equity securities'"
+ }
+}
