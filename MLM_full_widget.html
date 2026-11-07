@@ -562,8 +562,8 @@ Chart.overrides.doughnut.animation = false;
        스크립트가 꺼졌을 때를 위한 대비용이다. -->
   <div class="logic-grid" id="mlmLogicGrid">
     <div class="logic-box logic-info">
-      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="mlmDcfVerdict">계산 불가</span></div>
-      <div class="logic-score" id="mlmDcfBox">계산 불가</div>
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="mlmDcfVerdict">보류(미완성)</span></div>
+      <div class="logic-score" id="mlmDcfBox">보류(미완성)</div>
     </div>
     <div class="logic-box logic-neutral" id="mlmFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="mlmFundVerdict">보통</span></div>
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: var(--text3);" id="dcfPickValue">계산 불가</span><span id="dcfPickUpside"></span></div>
+    <div class="pick-result"><span style="color: var(--text3);" id="dcfPickValue">보류(미완성)</span><span id="dcfPickUpside"></span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -930,11 +930,11 @@ Chart.overrides.doughnut.animation = false;
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 MLM 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">39.2</div><div class="sc-tile low" data-vc="self" data-m="per">5</div><div class="sc-tile" data-vc="self" data-m="pbr">100</div><div class="sc-tile lost" data-vc="self" data-m="psr">36</div><div class="sc-tile lost" data-vc="self" data-m="pcr">55</div><div class="sc-tile low" data-vc="self" data-m="evebitda">0</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">현재가 <span data-vs="price">$518.15</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">계산 불가</div></div>
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">보류(미완성)</div></div>
       <div class="vs-name" title="S&amp;P500 소재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">25.8</div><div class="sc-tile low" data-vc="peer" data-m="per">17</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">63</div><div class="sc-tile low" data-vc="peer" data-m="psr">8</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">32</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">10</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
     <div class="vs-premise">PER 38.8배(5년 중앙값 27.7배)로 자기 이력 39.2점(중간), 동종업 25.8점(비싸다)이다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 보류(미완성), 합계 −1 “판정 보류”이다. 미완성 카드다. 2026년 8월 21일 Lhoist North America(석회·석회석, 총 $12.9B — 현금 $7.0B는 차입, 나머지는 신주 약 1,095만 주) 인수로 차입금·투하자본·주식 수는 이미 크게 늘었는데, 최근 4분기 손익에는 인수한 회사가 40일치만 들어 있다(회사가 낸 프로포마로는 Q3 매출이 $2.65B로 실적 $2.37B보다 크다). 그래서 현금흐름 모형이 이 회사를 투자 대비 이익이 아주 낮은 회사로 읽어 내재가치가 음수로 나오고, PBR을 뺀 PER·PSR·PCR·EV/EBITDA도 부풀려진다 — 자기 이력·동종업 점수는 이 배수로 매긴 참고값이다. 인수 손익이 최근 4분기에 다 들어가는 2027년 3분기 보고서 뒤에 다시 본다. PER은 계속사업 EPS로 쓴다 — 2026년 2월 Quikrete와 사업 교환(시멘트·레미콘을 넘기고 골재 사업을 받음)의 처분이익은 중단사업이라 빠진다. 계속사업 EPS에는 인수·처분·통합 비용, 인수 재고 평가 상향분, 자산 정리 비용(합계 Q3 주당 약 $1.53)이 그대로 들어 있다.</div>
+    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(LNA 인수 손익 누적 대기) — 자기 이력 0 · 동종업 −1은 참고로만 두고 합산하지 않는다. 2026년 8월 21일 Lhoist North America(석회·석회석, 총 $12.9B — 현금 $7.0B는 차입, 나머지는 신주 약 1,095만 주) 인수로 차입금·투하자본·주식 수는 이미 크게 늘었는데, 최근 4분기 손익에는 인수한 회사가 40일치만 들어 있다(회사가 낸 프로포마로는 Q3 매출이 $2.65B로 실적 $2.37B보다 크다). 그래서 현금흐름 모형이 이 회사를 투자 대비 이익이 아주 낮은 회사로 읽어 내재가치가 음수로 나오고, PBR을 뺀 PER·PSR·PCR·EV/EBITDA도 부풀려진다 — 자기 이력·동종업 점수는 이 배수로 매긴 참고값이다. 인수 손익이 최근 4분기에 다 들어가는 2027년 3분기 보고서 뒤에 다시 본다. PER은 계속사업 EPS로 쓴다 — 2026년 2월 Quikrete와 사업 교환(시멘트·레미콘을 넘기고 골재 사업을 받음)의 처분이익은 중단사업이라 빠진다. 계속사업 EPS에는 인수·처분·통합 비용, 인수 재고 평가 상향분, 자산 정리 비용(합계 Q3 주당 약 $1.53)이 그대로 들어 있다.</div>
   </div>
 
   <div class="grid-2">
@@ -1018,7 +1018,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $2.4B(+28.3%), 영업이익률 18.5%(1년 전 27.4%). 주가는 1년 새 −15%<span class="tag">배수 비싼 쪽·매출 성장(인수 포함)</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 보류(미완성), 합계 −1 “판정 보류”이다.</div>
+    <div class="verdict-summary-counter">⚠️ 미완성 카드라 종합 판정을 보류한다(LNA 인수 손익 누적 대기) — 자기 이력 0 · 동종업 −1은 참고로만 두고 합산하지 않는다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 10일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1454,7 +1454,7 @@ const MLM_DCF = {"low": null, "base": null, "high": null, "requiredGrowth": null
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
 function dcfLevel(price, D) {
   if (!D || price == null || typeof D.base !== 'number' || !isFinite(D.base))
-    return { label: '계산 불가', cls: 'mid', color: 'var(--gold)', split: false, ratio: null, range: '' };
+    return { label: '보류(미완성)', cls: 'mid', color: 'var(--gold)', split: false, ratio: null, range: '' };
   if (D.base <= 0)
     return { label: '매우 비싸다', cls: 'high', color: 'var(--red)', split: false, ratio: null, range: '기본 내재가치가 0 이하다' };
   const r = price / D.base;
@@ -1537,8 +1537,8 @@ const MLM_SCORES = {
   if (d.base == null) {
     const why = d.unavailable || '입력 부족';
     if (req) { req.textContent = '—'; req.style.color = 'var(--text3)'; const c = req.closest('.meta-item'); if (c) c.title = why; }
-    if (box) { box.textContent = '계산 불가'; box.title = why; }
-    const dv0 = $('mlmDcfVerdict'); if (dv0) { dv0.textContent = '계산 불가'; dv0.title = why; }
+    if (box) { box.textContent = '보류(미완성)'; box.title = why; }
+    const dv0 = $('mlmDcfVerdict'); if (dv0) { dv0.textContent = '보류(미완성)'; dv0.title = why; }
     return;
   }
   if (base) base.style.color = '#0ea5e9';
@@ -1650,7 +1650,7 @@ const MLM_DCF_GRID = null;
 
   if (!G) {   // 직접 바꿔보기 표가 없는 카드(보험사 등) — 틀의 대체값(NVDA $297)이 남지 않게(2026-10-06)
     const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
-    if (pv) { pv.textContent = '계산 불가'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
+    if (pv) { pv.textContent = '보류(미완성)'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
     return;
   }
   const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#0ea5e9'], ['낙관', 'high', 'var(--green)']];
@@ -1868,9 +1868,8 @@ const MLM_VALUATION = {"peer": {"score": 25.8, "sector": "Materials (S&P500 25�
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
       + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
-    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 && dcfIn ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
+    + '\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'
     + ` → ${MLM_VERDICT}`
-    + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
   document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = MLM_VERDICT; el.title = tip; });
   // A7(2026-10-04 사용자 결정 — 표시만, 판정 규칙은 그대로): 자기 이력·동종업 점수가 문턱(30·70) ±2점 안이고 그 칸 표가
