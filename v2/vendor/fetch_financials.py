@@ -109,6 +109,8 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    "0000092122": {"interestExpense": ["InterestAndDebtExpense"]},
                    # DUK: 총매출 RegulatedAndUnregulatedOperatingRevenue(Q1 2026 $9,178M — 고객 계약 매출 $8,995M은 대체 매출 빠짐), 이자비용 InterestExpenseNonoperating($968M — InterestExpense는 연간만)(Codex·Fable r1, 2026-10-24)
                    "0001326160": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"], "interestExpense": ["InterestExpenseNonoperating"]},
+                   # AWK: 총매출 RegulatedAndUnregulatedOperatingRevenue(Q3 2026 $1,510M — 고객 계약 매출 $1,502M은 대체 매출 빠짐), 이자비용 InterestExpenseNonoperating($167M — InterestExpense는 2015-09에 멈춤), 재고 = 재료·소모품 InventoryRawMaterialsAndSupplies($110M — 없으면 당좌비율이 유동비율과 같아짐, Codex r1)(2026-11-07)
+                   "0001410636": {"revenue": ["RegulatedAndUnregulatedOperatingRevenue"], "interestExpense": ["InterestExpenseNonoperating"], "inventory": ["InventoryRawMaterialsAndSupplies"]},
                    # ED: 총매출 Revenues(Q1 2026 $5,095M — 고객 계약 매출 태그 $5,231M은 대체 수익 조정 전)(2026-10-24)
                    "0001047862": {"revenue": ["Revenues"]},
                    # BE: 매출은 Revenues(전력 판매·리스 포함, 고객 계약 매출 태그보다 약간 크다, 2026-10-24)
