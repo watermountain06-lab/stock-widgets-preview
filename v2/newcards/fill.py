@@ -655,7 +655,7 @@ if getattr(C, 'INCOMPLETE_SHORT', None):
     h = re.sub(r"\+ `\\n심판 \$\{seated\.length\}/3 · 합계 \$\{sgn\(total\)\}`[^\n]*\n", "+ '\\\\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'\n", h, count=1)
     h = h.replace("    + '\\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'\n", "", 1)
     h = re.sub(r'(<div class="vs-pill[^"]*"[^>]*>)계산 불가(</div>)', r'\1보류(미완성)\2', h)
-    h = h.replace('은 참고로만 두고 합산하지 않는다. 미완성 카드다. ', '은 참고로만 두고 합산하지 않는다. ')   # cfg 설명 첫 문장과 겹침
+    h = h.replace('판정 표에는 넣지 않는다. 미완성 카드다. ', '판정 표에는 넣지 않는다. ')   # cfg 설명 첫 문장과 겹침
     h = h.replace('id="dcfPickValue">계산 불가<', 'id="dcfPickValue">보류(미완성)<')   # 정적 칸(cfg POST가 이 id를 빠뜨린 MLM·NSC)
     h = re.sub(r'(id="[a-z]+Dcf(?:Verdict|Box)">)계산 불가<', r'\1보류(미완성)<', h)
 

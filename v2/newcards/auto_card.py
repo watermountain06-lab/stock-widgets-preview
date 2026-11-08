@@ -664,7 +664,8 @@ def texts(C, ns):
                f"{jw} 내재가치(기본 ${DCF['base']:.2f})는 현재가의 {pct_txt(ratio)}다" if ratio else "")
     risk = f"세 칸이 {ns['VOTES_TXT']}, 합계 {ns['TOTAL_TXT']} “{ns['VERDICT']}”이다." + (f" {dcf_txt}." if dcf_txt else "")
     if getattr(C, "INCOMPLETE_SHORT", None):   # 미완성 카드: 참고 점수를 합산해 판정처럼 쓰지 않는다(2026-11-07 사용자 승인 — AWK 합계 −1이 판정으로 읽혔다, Codex r1)
-        risk = f"미완성 카드라 종합 판정을 보류한다({C.INCOMPLETE_SHORT}) — {ns['VOTES_TXT'].split(' · 현금흐름')[0].split(' · 초과이익')[0]}은 참고로만 두고 합산하지 않는다."
+        # "자기 이력 0 · 동종업 0"이 바로 앞 점수(예: 56.6·61.0)와 충돌해 점수가 0점으로 읽혔다 — 표(票) 숫자를 빼고 평어로(2026-11-07 사용자 승인, Codex·Fable MOS·HRL)
+        risk = f"미완성 카드라 종합 판정을 보류한다({C.INCOMPLETE_SHORT}) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다."
     _w = C.CHECK_WHEN.split(' · ')[0]
     _ev = A.get("next_event") or "실적 공시"
     nxt = f"{_w} {_ev}." if _w == A['next_label'] else f"{_w} {A['next_label']} {_ev}."   # 일정 추정이 없으면 CHECK_WHEN이 분기 이름뿐 — "Q4 FY26 Q4 FY26" 겹침(ADBE 2026-10-17)
