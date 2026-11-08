@@ -168,6 +168,15 @@ def run():
         check("E62 파일이 이미 계속영업인 분기는 안 뺌(SNPS형)", abs(bmh.disc_in_ttm("ZZZ", rows_c, "2024-12-31", "2025-03-01") + 2.10) < 1e-9)
         check("E62 그 분기 제거 확인(E54 건너뛰기 조건)", bmh.disc_removed("ZZZ", rows62, "2024-06-30", "2025-03-01")
               and not bmh.disc_removed("ZZZ", rows_c, "2024-12-31", "2025-03-01"))
+        # 4분기를 손으로 계속영업 EPS로 보정(Q4_OVERRIDE_BASIS "continuing")했으면 E54 중단영업 항목을 건너뛴다(CARR, 2026-11-07) — 자동 already는 위처럼 그대로 False
+        feh = bmh.feh
+        feh.Q4_EPS_OVERRIDE.setdefault("ZZZ", {})["2024-12-31"] = 1.00
+        bmh.Q4_OVERRIDE_BASIS[("ZZZ", "2024-12-31")] = "continuing"
+        try:
+            check("E62 손 보정 계속영업 4분기는 제거 확인으로 봄(E54 이중 제거 방지)", bmh.disc_removed("ZZZ", rows_c, "2024-12-31", "2025-03-01"))
+        finally:
+            feh.Q4_EPS_OVERRIDE["ZZZ"].pop("2024-12-31", None)
+            bmh.Q4_OVERRIDE_BASIS.pop(("ZZZ", "2024-12-31"), None)
         rows_u = rows62[:3] + [{"quarter_end": "2024-12-31", "quarter_eps": 7.77, "available_date": "2025-02-10"}]
         check("E62 가를 수 없는 분기(파일 값이 총·계속 어느 쪽도 아님)는 안 뺌", abs(bmh.disc_in_ttm("ZZZ", rows_u, "2024-12-31", "2025-03-01") + 2.10) < 1e-9)
         F["disc"].append(("2025-01-01", "2025-03-31", 0.015, "2025-05-01"))

@@ -476,7 +476,13 @@ def disc_removed(ticker, rows, q_end, upto):
     if not r:
         return False
     last = max(r, key=lambda x: x.get("available_date", ""))   # 파일 순서가 아니라 공개일 최댓값(GS·MS 파일은 정렬 안 됨 — Fable)
-    return _quarter_status(ticker, rows, last, _disc_upto(ticker, upto))[1] == "removed"
+    st = _quarter_status(ticker, rows, last, _disc_upto(ticker, upto))[1]
+    # 4분기를 손으로 계속영업 EPS로 보정한 행(Q4_OVERRIDE_BASIS "continuing")은 카드 EPS에 그 분기 중단영업이 없다 — E54가 다시 빼면 안 된다.
+    # 예전엔 "removed"만 봐서 CARR Q4 2024(계속영업 −0.05로 보정)에 중단영업 매각 이익 $1,332M이 한 번 더 빠져 PER 최고 1,510배가 됐다.
+    # 자동 판정 "already"(역산·연간 합 근사)는 그 분기 중단영업 부재를 보장하지 않아 넣지 않는다(Codex 엔진 검토, 2026-11-07 사용자 결정).
+    if st == "already" and q_end in feh.Q4_EPS_OVERRIDE.get(ticker, {}) and Q4_OVERRIDE_BASIS.get((ticker, q_end)) == "continuing":
+        return True
+    return st == "removed"
 
 
 def oneoff_in_ttm(ticker, ttm_end, field, asof=None):
