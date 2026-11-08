@@ -3627,5 +3627,24 @@
    "hsic:GlobalDentalEquipmentMember",
    "hsic:GlobalValueAddedServicesMember"
   ]
+ },
+ "ALGN": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "algn:ClearAlignerSegmentMember": [
+    "투명 교정장치(Invisalign)",
+    "#0072ce"
+   ],
+   "algn:SystemsAndServicesSegmentMember": [
+    "스캐너·CAD/CAM(iTero·exocad)",
+    "#00b2a9"
+   ]
+  }
  }
 }
