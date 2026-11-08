@@ -3429,5 +3429,60 @@
     "#00664f"
    ]
   }
+ },
+ "INCY": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "incy:JAKAFIMember": [
+    "Jakafi(골수섬유증·진성 적혈구 증가증)",
+    "#003b71"
+   ],
+   "incy:OPZELURAMember": [
+    "Opzelura(피부 크림)",
+    "#d94f2b"
+   ],
+   "us-gaap:RoyaltyMember": [
+    "로열티(Jakavi·Olumiant 등)",
+    "#f2b8a8"
+   ],
+   "incy:MilestoneAndContractRevenuesMember": [
+    "마일스톤·계약",
+    "#c9c9c9"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:ProductMember",
+   "incy:ICLUSIGMember",
+   "incy:PEMAZYREMember",
+   "incy:MINJUVIMONJUVIMember",
+   "incy:NIKTIMVOMember",
+   "incy:ZYNYZMember",
+   "incy:JAKAVIRoyaltyRevenuesMember",
+   "incy:OLUMIANTRoyaltyRevenuesMember",
+   "incy:TABRECTARoyaltyRevenuesMember",
+   "incy:OtherProductRoyaltyRevenuesMember"
+  ]
+ },
+ "BAX": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "bax:HealthcareSystemsAndTechnologiesMember": [
+    "헬스케어 시스템·기술(병상·환자 감시)",
+    "#00a9e0"
+   ]
+  },
+  "ignore_candidates": [
+   "bax:MedicalProductsAndTherapiesMember"
+  ]
  }
 }

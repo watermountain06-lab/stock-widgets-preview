@@ -108,6 +108,8 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    "0000352915": {"inventory": ["Supplies"]},   # UHS: 재고 = 병원 소모품 "Supplies"($235.6M, Q3 2026 10-Q) — 없으면 당좌비율 = 유동비율(Codex r1, 2026-11-07)
                    "0001091667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},   # CHTR: 손익계산서 "Interest expense, net"(Q3 2026 −$1,341M) — InterestExpense는 2015-03에 멈춤(2026-11-07)
                    "0000842023": {"netIncome": ["ProfitLoss", "NetIncomeLoss"], "shortTermDebt": ["ShortTermBorrowings"]},   # TECH: FY26 10-K 연간 순이익은 ProfitLoss로만, 단기차입금 $200M은 ShortTermBorrowings(LongTermDebtCurrent는 2022-06에 멈춤) — Codex r1, 2026-11-07
+                   "0000879169": {"capex": ["PaymentsToAcquireOtherProductiveAssets", "PaymentsToAcquireProductiveAssets"]},   # INCY: 설비투자 태그가 2021-12부터 바뀜(2026-11-07)
+                   "0000010456": {"capex": ["PaymentsToAcquireOtherProductiveAssets"], "interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "netIncome": ["IncomeLossFromContinuingOperations", "NetIncomeLoss"]},   # BAX: 설비투자 2026년부터 새 태그(옛 태그를 잡지 않게 하나만), 이자비용은 순이자 InterestIncomeExpenseNonoperatingNet(Q3 2026 −$61M — InterestExpenseNonoperating은 이자수익 −$13M이라 안 됨, 총이자 $74M은 표준 태그 없음, SYY와 같은 방식), 순이익은 계속사업(Vantive 중단사업) — Codex r1, 2026-11-07
                    # CME: 이자비용을 "Interest and other borrowing costs"(InterestAndDebtExpense, Q2 2026 $43.6M)로만 낸다(2026-10-16)
                    "0001156375": {"interestExpense": ["InterestAndDebtExpense"]},
                    # SO: 이자비용을 InterestAndDebtExpense(Q1 2026 $778M)로만 낸다 — CME와 같은 경우(Fable r1, 2026-10-24)

@@ -303,6 +303,8 @@ Q4_OVERRIDE_BASIS = {
     ("EMR", "2024-09-30"): "continuing", ("COF", "2025-12-31"): ("total", 0.60),
     # D: 2025 4분기 보도자료 EPS 0.65는 총 EPS — 중단영업 −0.01(보도자료 손익계산서, 계속영업 0.66). 자동 역산은 −0.02였다(Codex r1, 2026-11-07)
     ("D", "2025-12-31"): ("total", -0.01),
+    # BAX: Q4 2025 덮어쓴 값 −2.01은 계속사업 희석 EPS(보도자료) — 중단사업을 다시 빼지 않는다(2026-11-07)
+    ("BAX", "2025-12-31"): "continuing",
     # D 2024: 4분기 중단영업 직접값 0(10-K 2025-02-27 CY2024Q4) — 자동 역산은 연간 0.24 − 9개월 당시값 0.22 = 0.02(Codex r2, 2026-11-07)
     ("D", "2024-12-31"): ("total", 0.0),
     # WTW: 중단영업 없음 — 10-K가 연간 총 EPS를 IncomeLossFromDiscontinuedOperationsNetOfTaxPerDilutedShare에도 붙였다(2023 9.95·2024 −0.96·2025 16.26, 2026-11-05)
@@ -997,6 +999,10 @@ EXTRA_TAGS = {
     "0001032208": {"Revenues": ["RegulatedAndUnregulatedOperatingRevenue"]},
     # D: 설비투자는 PaymentsForProceedsFromProductiveAssets(2026 Q1 $3,030M) — Q3 2026 10-Q부터 회사 고유 태그(d:PaymentsToAcquirePropertyPlantAndEquipmentIncludingNuclearFuel, 9개월 $8,576M)라 BUILD company_tags가 같은 이름으로 싣는다. 기본 태그는 2020-03에 멈췄다(2026-11-07)
     "0000715957": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForProceedsFromProductiveAssets"]},
+    # INCY: 설비투자("Capital expenditures", 9개월 2026 $38.2M)를 2021-12부터 PaymentsToAcquireOtherProductiveAssets로 — 기본 태그는 2022-12에 멈춰 PCR이 빠졌다(2026-11-07)
+    "0000879169": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets", "PaymentsToAcquireProductiveAssets"]},
+    # BAX: 설비투자를 2026년부터 PaymentsToAcquireOtherProductiveAssets로(9개월 $363M) — 기본은 2025-12에 멈춘 PaymentsToAcquireProductiveAssets(2026-11-07)
+    "0000010456": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets", "PaymentsToAcquireProductiveAssets"]},
     # PEG: 감가상각은 손익계산서 "Depreciation and Amortization" 줄(CostOfGoodsAndServicesSoldDepreciationAndAmortization, Q2 2026 $321M)뿐 — 기본 D&A 태그가 없어 0이었다(2026-10-24)
     "0000788784": {"DepreciationDepletionAndAmortization": ["CostOfGoodsAndServicesSoldDepreciationAndAmortization"]},
     # GLW: 설비투자("Capital expenditures", 상반기 2026 $754M)를 2020년부터 PaymentsForCapitalImprovements로만 낸다 — 기본 목록은
@@ -2117,6 +2123,7 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 SHARES_WA_FALLBACK = {"0001535527"}
 DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurrentAes", "ShortTermBorrowingsNonrecourseAes"), ("NonRecourseDebtNonCurrentAes", "LongTermDebtNonrecourseAes")],   # AES: 재무상태표 차입금이 차원(RecourseStatusAxis)으로만 — 모회사 보증 차입 총액 $6,361M(공정가치 주석 장부가, 1년 안 몫 포함 — 2025-12 879 + 5,105 = 5,984) + 비소구 1년 안 $2,950M + 비소구 장기 $23,953M = $33,264M(Q3 2026 10-Q). BUILD dim_facts — 옛 공시는 비소구를 회사 고유 태그(aes:NonRecourseDebtCurrent·NonCurrent, BUILD company_tags)로 냈다 — 튜플은 회사 태그 먼저: 10-K는 회사 태그, 10-Q는 차원 값이라 차원을 앞에 두면 연말이 두 행(10-K·다음 10-Q)이 되고 합계 경로가 둘을 더해 두 배가 됐다. 빠지면 2021-12 등이 모회사 몫만 남았다(Codex r1). 비소구 차입에 금융리스 포함(10-K 주석 12·15)(2026-11-07)
                   "0001032208": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # SRE: 단기 $4,438M + 1년 안 장기·금융리스 $1,528M + 장기·금융리스 $31,508M = $37,474M(Q3 2026 10-Q). SI Partners 차입은 "매각 예정 부채"에 묶여 빠진다(2026-11-07)
+                  "0000010456": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # BAX: 1년 안 $844M + 장기 $7,757M(2026년부터 회사 고유 태그 — BUILD company_tags로 표준 이름에) — 없으면 차입금 0(2026-11-07)
                   "0001031296": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # FE: 1년 안 만기 포함 총차입금(기본은 1년 안을 빼 $27,896M — 사전 조사 2026-10-29)
                   "0000715957": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # D: 단기 $3,308M + 1년 안 만기 $2,399M + 장기 $48,939M(후순위채 $7,461M·증권화 채권 포함) = $54,646M(Q3 2026 10-Q). 기본 경로는 1년 안 몫을 빠뜨려 $52,247M이었다(2026-11-07)
                   "0001410636": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # AWK: CP $1,449M + 1년 안 장기부채 $898M + 장기 $13,987M = $16,334M(Q3 2026 10-Q 재무상태표, XEL과 같은 구성). 기본 LongTermDebt는 2020에 멈췄다(2026-11-07)
@@ -2467,7 +2474,9 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000827052": {"nci": ["MinorityInterestAmountRepresentedByPreferredStock"], "sti": [], "preferred": ["PreferredStockValueOutstanding"]},   # EIX: 비지배지분 = SCE 우선주 $1,564M(이 태그뿐 — 없으면 0), EIX 우선주 Series B $83M, 단기투자는 2010년 낡은 값(사전 조사 2026-10-29, 2026-11-07)
+EV_TAGS_BY_CIK = {"0000010456": {"sti": []},   # BAX: 단기투자는 2016-03의 낡은 값(2026-11-07)
+                  "0000879169": {"sti": ("DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent")},   # INCY: 시장성 증권(유동, Q3 2026 $578.7M)은 2023-12부터 새 태그 — 옛 태그는 2024-09에 멈춤, 날짜마다 앞 태그 우선(2026-11-07)
+                  "0000827052": {"nci": ["MinorityInterestAmountRepresentedByPreferredStock"], "sti": [], "preferred": ["PreferredStockValueOutstanding"]},   # EIX: 비지배지분 = SCE 우선주 $1,564M(이 태그뿐 — 없으면 0), EIX 우선주 Series B $83M, 단기투자는 2010년 낡은 값(사전 조사 2026-10-29, 2026-11-07)
                   "0000842023": {"sti": [], "nci": []},   # TECH: 단기투자(2025-03)·비지배지분(2022-06)은 지금 재무상태표에 없는 낡은 값(Q1 FY27 10-Q, 2026-11-07)
                   "0000352915": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # UHS: 비지배지분 $71.0M + 상환 가능 $74.2M(임시자본, DVA와 같은 처리 — Codex r1, 2026-11-07)
                   "0001032208": {"nci": ["OtherMinorityInterests", "MinorityInterestAmountRepresentedByPreferredStock", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"],
