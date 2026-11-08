@@ -3579,5 +3579,28 @@
   "ignore_candidates": [
    "mos:CorporateEliminationsAndOtherSegmentMember"
   ]
+ },
+ "HRL": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "hrl:RetailSegmentMember": [
+    "리테일(SPAM·Planters·Skippy 등)",
+    "#c8102e"
+   ],
+   "hrl:FoodserviceSegmentMember": [
+    "외식(Foodservice)",
+    "#1f3a68"
+   ],
+   "hrl:InternationalSegmentMember": [
+    "해외",
+    "#f3d0d6"
+   ]
+  }
  }
 }
