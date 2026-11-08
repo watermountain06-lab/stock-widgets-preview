@@ -2493,6 +2493,7 @@ EV_TAGS_BY_CIK = {"0000010456": {"sti": []},   # BAX: 단기투자는 2016-03의
                   "0000879169": {"sti": ("DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent")},   # INCY: 시장성 증권(유동, Q3 2026 $578.7M)은 2023-12부터 새 태그 — 옛 태그는 2024-09에 멈춤, 날짜마다 앞 태그 우선(2026-11-07)
                   "0000827052": {"nci": ["MinorityInterestAmountRepresentedByPreferredStock"], "sti": [], "preferred": ["PreferredStockValueOutstanding"]},   # EIX: 비지배지분 = SCE 우선주 $1,564M(이 태그뿐 — 없으면 0), EIX 우선주 Series B $83M, 단기투자는 2010년 낡은 값(사전 조사 2026-10-29, 2026-11-07)
                   "0000842023": {"sti": [], "nci": []},   # TECH: 단기투자(2025-03)·비지배지분(2022-06)은 지금 재무상태표에 없는 낡은 값(Q1 FY27 10-Q, 2026-11-07)
+                  "0000849399": {"sti": [], "nci": [], "preferred": []},   # GEN: 단기투자(2023)·비지배지분(2012)·우선주(2020) 태그가 오래전에 멈춤 — 2026-10 재무상태표에 셋 다 없음(2026-11-08)
                   "0001097149": {"sti": []},   # ALGN: 단기투자 태그가 2024-12에 멈춤 — 2026-09 재무상태표에 단기 시장성 증권 없음(현금 $1,145M뿐, 2026-11-08)
                   "0001000228": {"nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"], "sti": []},   # HSIC: 비지배지분 $658M + 상환 가능 $914M(임시자본, UHS·DVA와 같은 처리), 단기투자는 2010년 낡은 값(2026-11-07)
                   "0000352915": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # UHS: 비지배지분 $71.0M + 상환 가능 $74.2M(임시자본, DVA와 같은 처리 — Codex r1, 2026-11-07)

@@ -87,6 +87,7 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    "0001037868": {"interestExpense": ["InterestExpenseNonoperating", "InterestExpense"]},
                    "0000060667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # AJG: 설비투자 "Capital expenditures"(상반기 2026 $87M)는 PaymentsForCapitalImprovements(2026-10-22)
+                   "0000849399": {"interestExpense": ["InterestAndDebtExpense"]},   # GEN: 이자비용은 InterestAndDebtExpense(Q2 FY27 $123M) — 기본 태그는 2018년에 멈춰 이자보상배율이 비었다(Codex r1, 2026-11-08)
                    "0000063754": {"inventory": ["InventoryGross"]},   # MKC: 10-Q 재고 합계(완제품 + 원재료·재공품 $1,446.1M)는 InventoryGross로만 — InventoryNet은 연간뿐이라 당좌비율이 유동비율과 같아졌다(Codex r1, 2026-11-08)
                    "0000749251": {"capex": ["PaymentsForCapitalImprovements"], "interestExpense": ["InterestExpenseNonoperating", "InterestExpense"]},   # IT: 설비투자 PaymentsForCapitalImprovements(2026-11-08)
                    "0000354190": {"capex": ["PaymentsForCapitalImprovements"]},
