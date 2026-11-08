@@ -14358,6 +14358,47 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "MKC",
+      "name": "맥코믹",
+      "sector": "식품 — 향신료·조미료(소비자), 식품회사용 향미료(Flavor Solutions)",
+      "href": "MKC_full_widget.html",
+      "cardRank": 342,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 48.4,
+        "prevClose": 50.06,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 269064479,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-31",
+        "filedAt": "2026-10-01",
+        "filing": "10-Q 0000063754-26-000329 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 36.1,
+        "grade": "미흡",
+        "financialsAsOf": "2026-08-31",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
     }
   ]
 }

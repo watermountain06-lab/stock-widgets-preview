@@ -3709,5 +3709,24 @@
   "ignore_candidates": [
    "us-gaap:ProductAndServiceOtherMember"
   ]
+ },
+ "MKC": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "mkc:ConsumerMember": [
+    "소비자(향신료·조미료)",
+    "#d52b1e"
+   ],
+   "mkc:FlavorSolutionsMember": [
+    "향미료 솔루션(식품회사용)",
+    "#1f1f1f"
+   ]
+  }
  }
 }
