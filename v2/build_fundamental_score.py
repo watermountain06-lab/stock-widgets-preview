@@ -290,7 +290,7 @@ def _finance_lease_extra(cik, end):
     tt = bmh.DEBT_TOTAL_TAG.get(cik)
     flat = [x for t in ([tt] if isinstance(tt, str) else (tt or [])) for x in (t if isinstance(t, tuple) else (t,))]
     # TRGP: 차입금 주석 합계에 금융리스 포함(build_dcf FL_IN_DEBT와 같은 이유, 2026-10-22). MCK·AMT·EOG도 build_dcf에는 있는데 여기는 빠져 있다 — 안건 E47.
-    if any("CapitalLease" in t or "FinanceLease" in t for t in flat) or cik in ("0000315189", "0000063908", "0001389170", "0000874761", "0000915913", "0000063754"):   # AES: 비소구 차입금에 금융리스 포함(FY2025 10-K 주석 12·15, Codex r1 2026-11-07)   # ALB: 장기차입 합계에 금융리스 $103.8M 포함(Codex r1, 2026-11-08)   # MKC: 차입금에 금융리스 $73.1M 포함(Codex r1, 2026-11-08)
+    if any("CapitalLease" in t or "FinanceLease" in t for t in flat) or cik in ("0000315189", "0000063908", "0001389170", "0000874761", "0000915913", "0000063754", "0001100682"):   # AES: 비소구 차입금에 금융리스 포함(FY2025 10-K 주석 12·15, Codex r1 2026-11-07)   # ALB: 장기차입 합계에 금융리스 $103.8M 포함(Codex r1, 2026-11-08)   # MKC: 차입금에 금융리스 $73.1M 포함(Codex r1, 2026-11-08)   # CRL: 차입금에 금융리스 $9.7M 포함(2026-11-08)
         return 0
     def last(rows):
         ok = [e for e in rows if e["end"] <= end]

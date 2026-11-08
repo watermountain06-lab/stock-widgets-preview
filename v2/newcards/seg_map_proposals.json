@@ -3747,5 +3747,26 @@
     "#ffb800"
    ]
   }
+ },
+ "CRL": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "crl:DiscoveryAndSafetyAssessmentSegmentMember": [
+    "비임상 시험·신약 탐색(DSA)",
+    "#00558c"
+   ],
+   "crl:ResearchModelsAndServicesSegmentMember": [
+    "연구용 동물 모델(RMS)",
+    "#78be20"
+   ],
+   "crl:ManufacturingSupportSegmentMember": [
+    "제조 지원(미생물·생물의약품 시험)",
+    "#cfdde9"
+   ]
+  }
  }
 }
