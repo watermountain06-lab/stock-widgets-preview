@@ -26,7 +26,7 @@ REPO = os.path.dirname(HERE)
 OUT = os.path.join(HERE, "backtest_pre")
 PRE_START = "2019-01-01"     # 차트 첫날(2021-10) 직전 체크포인트의 2년 표본까지 덮는다(Codex 2026-10-08)
 RESEARCH = os.path.join(HERE, "research", ".prices10y")
-RESEARCH_NAME = {"BRKB": "BRK.B"}
+RESEARCH_NAME = {"BRKB": "BRK.B", "BFB": "BF.B"}   # BFB: Yahoo BF-B(2026-11-07)
 YAHOO_ONLY = {"ASML": "ASML", "TSM": "TSM"}
 # 앞쪽 가격을 만들 수 없는 카드: SKHY는 2026-07 상장 ADR(그 전 가격은 한국 보통주 환산이 필요 — 이번 범위 밖), BRKB·SPCX는 EPS 이력이 없어 밴드가 없다.
 SKIP = {"SKHY": "2026-07 상장 ADR — 앞쪽 가격 없음", "BRKB": "EPS 이력 없음", "SPCX": "EPS 이력 없음"}

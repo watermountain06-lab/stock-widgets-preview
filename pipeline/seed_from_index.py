@@ -41,7 +41,7 @@ LISTING = {
     "ASML": {"type": "ny-registry", "adrRatio": 1},
 }
 MULTI_CLASS = {"BRKB", "MA", "V", "GOOGL", "META", "PLTR", "DELL", "SPCX"}
-YAHOO_OVERRIDE = {"BRKB": "BRK-B"}
+YAHOO_OVERRIDE = {"BRKB": "BRK-B", "BFB": "BF-B"}
 
 
 def parse_legacy_rows(index_html):

@@ -43,7 +43,7 @@ def main():
     print("LAST", last_q)
     # Yahoo
     yp = f"{REPO}/v2/newcards/yahoo/{t}.json"
-    open(yp, "wb").write(subprocess.run(["curl", "-s", "-A", "Mozilla/5.0", f"https://query1.finance.yahoo.com/v8/finance/chart/{T}?period1=1577836800&period2={int(time.time())}&interval=1d&events=div%2Csplits"], capture_output=True).stdout)
+    open(yp, "wb").write(subprocess.run(["curl", "-s", "-A", "Mozilla/5.0", f"https://query1.finance.yahoo.com/v8/finance/chart/{ {'BFB': 'BF-B'}.get(T, T)}?period1=1577836800&period2={int(time.time())}&interval=1d&events=div%2Csplits"], capture_output=True).stdout)
     yd = json.load(open(yp))["chart"]["result"][0]
     splits = sorted((dt.datetime.fromtimestamp(int(k), dt.UTC).date().isoformat(), v["numerator"] / v["denominator"]) for k, v in yd.get("events", {}).get("splits", {}).items())
     print("yahoo", len(yd["timestamp"]), yd["indicators"]["quote"][0]["close"][-3:], "splits", splits)

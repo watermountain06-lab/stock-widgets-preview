@@ -3511,5 +3511,73 @@
     "#c9c9c9"
    ]
   }
+ },
+ "COO": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ConsolidationItemsAxis",
+  "extra": {
+   "us-gaap:StatementBusinessSegmentsAxis": "coo:CoopervisionSegmentMember"
+  },
+  "members": {
+   "us-gaap:OperatingSegmentsMember": [
+    "CooperVision(콘택트렌즈)",
+    "#00205b"
+   ]
+  }
+ },
+ "BFB": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "bfb:WhiskeyMember": [
+    "위스키(Jack Daniel’s 등)",
+    "#5a1f1f"
+   ],
+   "bfb:ReadyToDrinkMember": [
+    "즉석 음료(RTD)",
+    "#c8a24a"
+   ],
+   "bfb:TequilaMember": [
+    "데킬라",
+    "#a46a5b"
+   ],
+   "bfb:RestofportfolioMember": [
+    "기타 브랜드",
+    "#ead9d0"
+   ],
+   "bfb:NonbrandedandbulkMember": [
+    "비브랜드·벌크(통 판매 등)",
+    "#c9c9c9"
+   ]
+  }
+ },
+ "MOS": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "mos:PhosphatesSegmentMember": [
+    "인산 비료(미국)",
+    "#006a4e"
+   ],
+   "mos:PotashSegmentMember": [
+    "칼륨(캐나다)",
+    "#f2a900"
+   ],
+   "mos:MosaicFertilizantesMember": [
+    "Mosaic Fertilizantes(브라질)",
+    "#cfe5dc"
+   ]
+  },
+  "ignore_candidates": [
+   "mos:CorporateEliminationsAndOtherSegmentMember"
+  ]
  }
 }

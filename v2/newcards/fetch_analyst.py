@@ -18,7 +18,7 @@ import sys
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SLUG = {"BRKB": "brk.b"}
+SLUG = {"BRKB": "brk.b", "BFB": "bf.b"}
 
 
 def fetch(T):

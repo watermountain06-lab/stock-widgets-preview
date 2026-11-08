@@ -26,7 +26,7 @@ sys.path.insert(0, os.path.join(REPO, "pipeline"))
 import update_cards as uc   # noqa: E402
 import fetch_prices as fp   # noqa: E402
 
-SYMBOL = {"BRKB": "BRK-B"}   # 홈페이지에 없는 종목의 Yahoo 기호(있는 종목은 stocks.json의 yahooSymbol)
+SYMBOL = {"BRKB": "BRK-B", "BFB": "BF-B"}   # 홈페이지에 없는 종목의 Yahoo 기호(있는 종목은 stocks.json의 yahooSymbol)
 
 
 def fix_header(html, T):

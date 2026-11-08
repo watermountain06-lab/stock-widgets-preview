@@ -295,6 +295,9 @@ def peer_per_na(t, mp):
     return os.path.exists(mp) and bool(json.load(open(mp)).get("perNA"))
 
 
+UNIVERSE_NAME = {"BFB": "BF.B"}   # 사이트 티커 → 비교군(S&P500) 파일 표기
+
+
 def peer_score(ticker, sectors, prices, self_path=None):
     sector = sectors.get(ticker)
     if not sector:
@@ -308,7 +311,8 @@ def peer_score(ticker, sectors, prices, self_path=None):
     uni = TICKER_UNIVERSE.get(ticker) or (None if ticker in TICKER_BORROW else SECTOR_UNIVERSE.get(sector))
     if uni and os.path.exists(uni):
         u = json.load(open(uni))
-        data = {t: dict(m) for t, m in u["tickers"].items() if t != ticker}
+        # 비교군 파일이 S&P 표기(점 — BF.B)로 담은 같은 회사도 뺀다(사이트 티커 BFB, 2026-11-07)
+        data = {t: dict(m) for t, m in u["tickers"].items() if t != ticker and t != UNIVERSE_NAME.get(ticker)}
         asof = {t: u["asOf"] for t in data}
         group = list(data) + [ticker]
         sector = f"{sector} (S&P500 {len(u['tickers'])}종목)"

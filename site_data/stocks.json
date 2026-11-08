@@ -13971,6 +13971,143 @@
         "valuationAsOf": "2026-11-06",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "COO",
+      "name": "쿠퍼 컴퍼니즈",
+      "sector": "의료기기 — 콘택트렌즈(CooperVision), 여성 건강·불임 치료(CooperSurgical)",
+      "href": "COO_full_widget.html",
+      "cardRank": 333,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 62.36,
+        "prevClose": 63.51,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 190155294,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-03",
+        "filedAt": "2026-09-09",
+        "filing": "10-Q 0001628280-26-061160 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정",
+        "raw": "적정",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 63.1,
+        "grade": "양호",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "BFB",
+      "yahooSymbol": "BF-B",
+      "name": "브라운포맨",
+      "sector": "주류 — 위스키(Jack Daniel’s)·즉석 음료(RTD)·데킬라",
+      "href": "BFB_full_widget.html",
+      "cardRank": 334,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 30.58,
+        "prevClose": 30.96,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 458864265,
+        "method": "sec-cover",
+        "basis": "sum-of-classes",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 168480849,
+            "factor": 1
+          },
+          {
+            "class": "B",
+            "shares": 290383416,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-08-31",
+        "filedAt": "2026-09-02",
+        "filing": "10-Q 0000014693-26-000052 cover",
+        "approximate": true,
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 58.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "MOS",
+      "name": "모자이크",
+      "sector": "비료 — 인산·칼륨 비료(북미·브라질)",
+      "href": "MOS_full_widget.html",
+      "cardRank": 335,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 22.36,
+        "prevClose": 22.33,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 317903655,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-04",
+        "filing": "10-Q 0001285785-26-000147 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 29.9,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
     }
   ]
 }

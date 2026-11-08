@@ -94,8 +94,13 @@ def _submissions(cik):
     return json.load(open(p))
 
 
+DPS_SCALE_FIX = {"0001285785": 1e-6}   # MOS: 2026년 10-Q 주당 배당(CashPaid)이 220000으로 태깅 — 10-Q 자본변동표 $0.22, 회사 XBRL 배율 오류(Codex r1, 2026-11-07)
+
+
 def _flow_rows(cik, tag, unit="USD"):
-    return bmh._facts(cik).get("facts", {}).get("us-gaap", {}).get(tag, {}).get("units", {}).get(unit, [])
+    rows = bmh._facts(cik).get("facts", {}).get("us-gaap", {}).get(tag, {}).get("units", {}).get(unit, [])
+    f = DPS_SCALE_FIX.get(str(cik).zfill(10)) if unit == "USD/shares" else None
+    return [dict(r, val=r["val"] * f) if f and r.get("val", 0) > 1000 else r for r in rows] if f else rows
 
 
 def ytd(cik, tags, end, fy_start):

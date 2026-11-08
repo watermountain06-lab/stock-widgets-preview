@@ -39,7 +39,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 UA = os.environ.get("SEC_USER_AGENT", "second-brain-stock-widgets gptjhss@gmail.com")
-SEC_TICKER = {"BRKB": "BRK-B"}
+SEC_TICKER = {"BRKB": "BRK-B", "BFB": "BF-B"}
 FILING_FORMS = ("10-Q", "10-K")
 FLAG_GAP = 0.05
 
