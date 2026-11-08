@@ -3685,5 +3685,29 @@
     "#a6c63a"
    ]
   }
+ },
+ "IT": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "it:InsightsMember": [
+    "구독 리서치(Insights)",
+    "#002856"
+   ],
+   "it:ConsultingMember": [
+    "컨설팅",
+    "#00a3e0"
+   ],
+   "it:ConferencesMember": [
+    "콘퍼런스",
+    "#cfdce9"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:ProductAndServiceOtherMember"
+  ]
  }
 }

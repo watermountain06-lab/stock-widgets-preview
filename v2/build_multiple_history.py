@@ -998,6 +998,8 @@ EXTRA_TAGS = {
     # ED: 설비투자는 "Utility construction expenditures"(PaymentsForConstructionInProcess, Q1 2026 $1,172M) — 기본 태그는 2019년에 멈췄다(2026-10-24)
     "0001047862": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForConstructionInProcess"]},
     # SNA: 설비투자는 PaymentsForCapitalImprovements(9개월 $69.0M), D&A는 감가상각(Depreciation)만 분기로 — 합산 태그는 연간만, 무형자산 상각(연 약 $22M)은 2026년 분기에 표준 태그가 없다(2026-10-25)
+    # IT(가트너): 설비투자("Additions to property, equipment and leasehold improvements")를 PaymentsForCapitalImprovements로만 낸다(2008~, 9개월 2026 $59.6M) — PCR·현금흐름 칸이 비었다(2026-11-08)
+    "0000749251": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},
     "0000091440": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"], "DepreciationDepletionAndAmortization": ["Depreciation"]},
     # CBOE: 설비투자를 2026 2분기부터 PaymentsToAcquireProductiveAssets(유형자산 + 소프트웨어 개발비 합)로 낸다 — EQIX와 같은 경우(2026-10-24)
     "0001374310": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireProductiveAssets"]},

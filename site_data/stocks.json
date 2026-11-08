@@ -14315,6 +14315,49 @@
         "valuationAsOf": "2026-11-06",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "IT",
+      "name": "가트너",
+      "sector": "IT 리서치·자문 — 기업 대상 구독형 리서치(Insights), 콘퍼런스, 컨설팅",
+      "href": "IT_full_widget.html",
+      "cardRank": 341,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 190.1,
+        "prevClose": 198.07,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 63081351,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-03",
+        "filing": "10-Q 0000749251-26-000307 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 45.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }
