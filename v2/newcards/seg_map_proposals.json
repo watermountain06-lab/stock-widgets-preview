@@ -3484,5 +3484,32 @@
   "ignore_candidates": [
    "bax:MedicalProductsAndTherapiesMember"
   ]
+ },
+ "CARR": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "carr:ClimateSolutionsAmericasSegmentMember": [
+    "냉난방 미주",
+    "#0033a0"
+   ],
+   "carr:ClimateSolutionsEuropeSegmentMember": [
+    "냉난방 유럽",
+    "#00a0df"
+   ],
+   "carr:ClimateSolutionsCSAMESegmentMember": [
+    "냉난방 아태·중동·아프리카",
+    "#7fb9e6"
+   ],
+   "carr:ClimateSolutionsTransportationSegmentMember": [
+    "운송 냉장",
+    "#c9c9c9"
+   ]
+  }
  }
 }
