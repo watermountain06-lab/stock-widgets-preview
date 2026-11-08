@@ -970,7 +970,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">보험 6곳 PER 비교 (점수는 S&amp;P500 보험사 기준) · 10/30 종가(AIZ 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">보험 6곳 PER 비교 (점수는 S&amp;P500 보험사 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1064,7 +1064,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 100%; background: var(--green);"></div><div data-an-bar="hold" style="width: 0%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-06</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$330</span> <span class="op-sub op-up" data-an="upside">+7.5%</span></span>
       </div>
       <div class="op-cell">
@@ -1269,52 +1269,52 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '보험 6곳 PER 비교 (점수는 S&P500 보험사 기준) · 10/30 종가(AIZ 막대는 11/6)',
+    title: '보험 6곳 PER 비교 (점수는 S&P500 보험사 기준) · 11/6 종가',
     unit: 'PER', max: 20, aizValue: null,
     peers: [
-      { name:'ALL', value:5.2, status:'reference' },
-      { name:'HIG', value:8.8, status:'reference' },
+      { name:'ALL', value:5.8, status:'reference' },
+      { name:'HIG', value:8.9, status:'reference' },
       { name:'TRV', value:10.4, status:'reference' },
-      { name:'CINF', value:10.6, status:'reference' },
-      { name:'AIG', value:14.9, status:'reference' },
-      { name:'GL', value:10.6, status:'reference' }
+      { name:'CINF', value:10.9, status:'reference' },
+      { name:'AIG', value:12.6, status:'reference' },
+      { name:'GL', value:10.5, status:'reference' }
     ]
   },
   pbr: {
-    title: '보험 PBR 비교 · 10/30 종가(AIZ 막대는 11/6)',
+    title: '보험 PBR 비교 · 11/6 종가',
     unit: 'PBR', max: 5, aizValue: null,
     peers: [
       { name:'ALL', value:2.1, status:'reference' },
       { name:'HIG', value:1.9, status:'reference' },
       { name:'TRV', value:2.8, status:'reference' },
-      { name:'CINF', value:1.7, status:'reference' },
-      { name:'AIG', value:1.1, status:'reference' },
-      { name:'GL', value:2.0, status:'reference' }
+      { name:'CINF', value:1.8, status:'reference' },
+      { name:'AIG', value:1.0, status:'reference' },
+      { name:'GL', value:1.8, status:'reference' }
     ]
   },
   psr: {
-    title: '보험 PSR 비교 (HIG 값 없음) · 10/30 종가(AIZ 막대는 11/6)',
+    title: '보험 PSR 비교 (HIG 값 없음) · 11/6 종가',
     unit: 'PSR(TTM)', max: 5, aizValue: null,
     peers: [
       { name:'ALL', value:0.9, status:'reference' },
       { name:'TRV', value:1.7, status:'reference' },
       { name:'CINF', value:2.1, status:'reference' },
-      { name:'AIG', value:1.6, status:'reference' },
-      { name:'GL', value:2.0, status:'reference' }
+      { name:'AIG', value:1.4, status:'reference' },
+      { name:'GL', value:1.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '보험 PCR(FCF) 비교 (TRV 값 없음·AIG 값 없음) · 10/30 종가(AIZ 막대는 11/6)',
+    title: '보험 PCR(FCF) 비교 (TRV 값 없음·AIG 값 없음) · 11/6 종가',
     unit: 'PCR(FCF)', max: 15, aizValue: null,
     peers: [
-      { name:'ALL', value:5.4, status:'reference' },
-      { name:'HIG', value:6.0, status:'reference' },
-      { name:'CINF', value:9.0, status:'reference' },
-      { name:'GL', value:9.9, status:'reference' }
+      { name:'ALL', value:5.0, status:'reference' },
+      { name:'HIG', value:6.1, status:'reference' },
+      { name:'CINF', value:9.2, status:'reference' },
+      { name:'GL', value:8.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: '보험 EV/EBITDA 비교 (ALL 값 없음·HIG 값 없음·TRV 값 없음·CINF 값 없음·AIG 값 없음·GL 값 없음) · 10/30 종가(AIZ 막대는 11/6)',
+    title: '보험 EV/EBITDA 비교 (ALL 값 없음·HIG 값 없음·TRV 값 없음·CINF 값 없음·AIG 값 없음·GL 값 없음) · 11/6 종가',
     unit: 'EV/EBITDA', max: 5, aizValue: null,
     peers: [
 
@@ -1770,7 +1770,7 @@ const AIZ_FUNDAMENTAL = {"ticker": "AIZ", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py AIZ --self v2/AIZ_multiples.json --card
 /* VALUATION:BEGIN */
-const AIZ_VALUATION = {"peer": {"score": 43.8, "sector": "Financials (S&P500 16종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 20.0, "rank": 13, "peers": 15}, {"metric": "pbr", "score": 26.7, "rank": 12, "peers": 15}, {"metric": "psr", "score": 84.6, "rank": 3, "peers": 13}]}, "self": {"score": 33.9, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 67.3, "percentile": 32.7, "current": 14.47, "min": 11.28, "median": 15.33, "max": 31.17, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 2.51, "min": 1.31, "median": 1.9, "max": 2.55, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.2, "percentile": 99.8, "current": 1.1, "min": 0.54, "median": 0.85, "max": 1.14, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 67.8, "percentile": 32.2, "current": 8.21, "min": 5.48, "median": 9.96, "max": 25.97, "days": 1191, "currentNote": null}]}};
+const AIZ_VALUATION = {"peer": {"score": 43.8, "sector": "Financials (S&P500 16종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 20.0, "rank": 13, "peers": 15}, {"metric": "pbr", "score": 26.7, "rank": 12, "peers": 15}, {"metric": "psr", "score": 84.6, "rank": 3, "peers": 13}]}, "self": {"score": 33.9, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 67.3, "percentile": 32.7, "current": 14.47, "min": 11.28, "median": 15.33, "max": 31.17, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 2.51, "min": 1.31, "median": 1.9, "max": 2.55, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.2, "percentile": 99.8, "current": 1.1, "min": 0.54, "median": 0.85, "max": 1.14, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 67.8, "percentile": 32.2, "current": 8.21, "min": 5.48, "median": 9.96, "max": 25.97, "days": 1191, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2068,7 +2068,7 @@ const AIZ_ACTIVITY = {"ticker": "AIZ", "status": "N/A", "reason": "보험사라 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/aiz/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const AIZ_ANALYST = { asOf: '2026-11-06', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 7, nTargets: 6, mean: 330, median: 331,
+const AIZ_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 7, nTargets: 6, mean: 330, median: 331,
   low: 300, high: 355, strongBuy: 4, buy: 3, hold: 0, sell: 0, strongSell: 0 };
 (function(){
   const A = AIZ_ANALYST, last = (typeof AIZ_DAILY !== 'undefined' && AIZ_DAILY.length) ? AIZ_DAILY[AIZ_DAILY.length - 1] : null;

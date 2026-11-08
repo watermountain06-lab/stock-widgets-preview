@@ -24,7 +24,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (0, 0, 0), '판정 보류'
+VOTES, VERDICT = (0, -1, 0), '판정 보류'
 CO = 'Dominion Energy'
 S_ = 'https://www.sec.gov/Archives/edgar/data/715957/'
 SEC = S_
@@ -86,7 +86,7 @@ NEWS = [
      '매출 $4.53B(+14.9%) · 순이익 $1.0B · EPS $1.16(1년 전 $1.09) · 영업 EPS(비GAAP) $1.06 · 2025 영업 EPS 전망 $3.33~3.48로 좁힘 — 당일 주가 −1.4%', 'q3y', 'Dominion Energy 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 16, 'nt': 10, 'mean': 71.3, 'median': 70, 'low': 62, 'high': 87, 'sb': 3, 'b': 1, 'h': 12, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-07'
+ANALYST_ASOF = '2026-11-08'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, AES·SRE 방식 — 합병 대상).

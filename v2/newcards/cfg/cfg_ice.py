@@ -66,8 +66,8 @@ NEWS = [
      '예측 시장 Polymarket에 최대 $2B 투자 · ICE가 Polymarket 데이터를 전 세계에 배포', 'poly', 'Intercontinental Exchange 공시 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 15, 'mean': 188.53, 'median': 189, 'low': 167, 'high': 243, 'sb': 8, 'b': 5, 'h': 2, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 15, 'mean': 188.67, 'median': 189, 'low': 167, 'high': 245, 'sb': 8, 'b': 5, 'h': 2, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도: seg_map_propose 1판은 매출 종류 축(ProductOrServiceAxis — 채권·데이터가 us-gaap:TechnologyServiceMember)을 골랐지만,

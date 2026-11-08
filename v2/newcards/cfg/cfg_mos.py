@@ -72,7 +72,7 @@ NEWS = [
      '북미 비료 수요가 계절 둔화보다 크게 줄어 4분기 인산 판매 약 130만 톤 · 칼륨 약 220만 톤 — 그날 주가 −4.5%', 'prelim', 'Mosaic 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 15, 'mean': 24.07, 'median': 23, 'low': 17, 'high': 30, 'sb': 5, 'b': 3, 'h': 11, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-07'
+ANALYST_ASOF = '2026-11-08'
 
 # 미완성 카드 표시(2026-11-07 사용자 규칙, D·SRE 방식).
 INCOMPLETE_SHORT = '일회성 손실로 GAAP 적자'

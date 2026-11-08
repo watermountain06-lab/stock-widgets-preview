@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="acglFundVerdict">해석 제한</span></div>
       <div class="logic-score" id="acglFundScore">72.0<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral" id="acglPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="acglPeerVerdict">중간</span></div>
-      <div class="logic-score" id="acglPeerScore">65.8<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-positive" id="acglPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="acglPeerVerdict">싼 편</span></div>
+      <div class="logic-score" id="acglPeerScore">70.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="acglSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="acglSelfVerdict">중간</span></div>
@@ -897,10 +897,10 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="지난 5년 ACGL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">50.7</div><div class="sc-tile lost" data-vc="self" data-m="per">56</div><div class="sc-tile lost" data-vc="self" data-m="pbr">55</div><div class="sc-tile lost" data-vc="self" data-m="psr">68</div><div class="sc-tile low" data-vc="self" data-m="pcr">24</div><div class="sc-tile none" data-vc="self" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">현재가 <span data-vs="price">$107.28</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">계산 불가</div></div>
-      <div class="vs-name" title="S&amp;P500 보험사(손해·종합·생명)보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">65.8</div><div class="sc-tile" data-vc="peer" data-m="per">87</div><div class="sc-tile" data-vc="peer" data-m="pbr">80</div><div class="sc-tile lost" data-vc="peer" data-m="psr">31</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 보험사(손해·종합·생명)보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">70.6</div><div class="sc-tile" data-vc="peer" data-m="per">93</div><div class="sc-tile" data-vc="peer" data-m="pbr">80</div><div class="sc-tile lost" data-vc="peer" data-m="psr">39</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 8.8배(5년 중앙값 9.1배)로 자기 이력 50.7점(중간), 동종업 65.8점(중간)이다.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 미적용, 합계 0 “판정 보류”이다. 보험사라 현금흐름 내재가치는 계산하지 않아 판정 보류다(자기 이력·동종업 점수는 참고). 3분기 합산비율은 82.5%(재해·전기 준비금 제외 81.2%)이고 부문별로 보험 94.4%, 재보험 78.3%, 모기지 25.5%다. PBR은 우선주 $830M을 뺀 보통주 자본 기준이다. 2026년 1분기 실효세율은 버뮤다·영국 세법 변경으로 8.6%에 그쳤다. 3분기 손해에는 이란 분쟁 관련 손실이 들어 있다.</div>
+    <div class="vs-premise">PER 8.8배(5년 중앙값 9.1배)로 자기 이력 50.7점(중간), 동종업 70.6점(싸다)이다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 미적용, 합계 +1 “판정 보류”이다. 보험사라 현금흐름 내재가치는 계산하지 않아 판정 보류다(자기 이력·동종업 점수는 참고). 3분기 합산비율은 82.5%(재해·전기 준비금 제외 81.2%)이고 부문별로 보험 94.4%, 재보험 78.3%, 모기지 25.5%다. PBR은 우선주 $830M을 뺀 보통주 자본 기준이다. 2026년 1분기 실효세율은 버뮤다·영국 세법 변경으로 8.6%에 그쳤다. 3분기 손해에는 이란 분쟁 관련 손실이 들어 있다.</div>
   </div>
 
   <div class="grid-2">
@@ -969,7 +969,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">보험 6곳 PER 비교 (점수는 S&amp;P500 보험사 기준) (EG 값 없음) · 10/30 종가(ACGL 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">보험 6곳 PER 비교 (점수는 S&amp;P500 보험사 기준) (EG 값 없음) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -983,8 +983,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.7B(−8.9%), 영업이익률 26.8%(1년 전 30.1%). 주가는 1년 새 +23%<span class="tag">배수 중간·매출 성장 비슷</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 미적용, 합계 0 “판정 보류”이다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.7B(−8.9%), 영업이익률 26.8%(1년 전 30.1%). 주가는 1년 새 +23%<span class="tag">배수 싼 쪽·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 미적용, 합계 +1 “판정 보류”이다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 8일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1062,7 +1062,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 45%; background: var(--green);"></div><div data-an-bar="hold" style="width: 50%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-05</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$111</span> <span class="op-sub op-up" data-an="upside">+3.5%</span></span>
       </div>
       <div class="op-cell">
@@ -1267,47 +1267,47 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '보험 6곳 PER 비교 (점수는 S&P500 보험사 기준) (EG 값 없음) · 10/30 종가(ACGL 막대는 11/6)',
+    title: '보험 6곳 PER 비교 (점수는 S&P500 보험사 기준) (EG 값 없음) · 11/6 종가',
     unit: 'PER', max: 20, acglValue: null,
     peers: [
-      { name:'CB', value:12.8, status:'reference' },
+      { name:'CB', value:12.9, status:'reference' },
       { name:'TRV', value:10.4, status:'reference' },
-      { name:'WRB', value:15.2, status:'reference' },
-      { name:'CINF', value:10.6, status:'reference' },
-      { name:'HIG', value:8.8, status:'reference' }
+      { name:'WRB', value:15.9, status:'reference' },
+      { name:'CINF', value:10.9, status:'reference' },
+      { name:'HIG', value:8.9, status:'reference' }
     ]
   },
   pbr: {
-    title: '보험 PBR 비교 (EG 값 없음) · 10/30 종가(ACGL 막대는 11/6)',
+    title: '보험 PBR 비교 (EG 값 없음) · 11/6 종가',
     unit: 'PBR', max: 5, acglValue: null,
     peers: [
       { name:'CB', value:1.9, status:'reference' },
       { name:'TRV', value:2.8, status:'reference' },
-      { name:'WRB', value:2.8, status:'reference' },
-      { name:'CINF', value:1.7, status:'reference' },
+      { name:'WRB', value:2.9, status:'reference' },
+      { name:'CINF', value:1.8, status:'reference' },
       { name:'HIG', value:1.9, status:'reference' }
     ]
   },
   psr: {
-    title: '보험 PSR 비교 (EG 값 없음·HIG 값 없음) · 10/30 종가(ACGL 막대는 11/6)',
+    title: '보험 PSR 비교 (EG 값 없음·HIG 값 없음) · 11/6 종가',
     unit: 'PSR(TTM)', max: 5, acglValue: null,
     peers: [
       { name:'CB', value:2.2, status:'reference' },
       { name:'TRV', value:1.7, status:'reference' },
-      { name:'WRB', value:1.8, status:'reference' },
+      { name:'WRB', value:1.9, status:'reference' },
       { name:'CINF', value:2.1, status:'reference' }
     ]
   },
   pcr: {
-    title: '보험 PCR(FCF) 비교 (CB 값 없음·TRV 값 없음·WRB 값 없음·EG 값 없음) · 10/30 종가(ACGL 막대는 11/6)',
+    title: '보험 PCR(FCF) 비교 (CB 값 없음·TRV 값 없음·WRB 값 없음·EG 값 없음) · 11/6 종가',
     unit: 'PCR(FCF)', max: 15, acglValue: null,
     peers: [
-      { name:'CINF', value:9.0, status:'reference' },
-      { name:'HIG', value:6.0, status:'reference' }
+      { name:'CINF', value:9.2, status:'reference' },
+      { name:'HIG', value:6.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '보험 EV/EBITDA 비교 (CB 값 없음·TRV 값 없음·WRB 값 없음·EG 값 없음·CINF 값 없음·HIG 값 없음) · 10/30 종가(ACGL 막대는 11/6)',
+    title: '보험 EV/EBITDA 비교 (CB 값 없음·TRV 값 없음·WRB 값 없음·EG 값 없음·CINF 값 없음·HIG 값 없음) · 11/6 종가',
     unit: 'EV/EBITDA', max: 5, acglValue: null,
     peers: [
 
@@ -1437,7 +1437,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py ACGL
 const ACGL_SCORES = {
   fundamental: 72.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 65.8,          // S&P500 보험사 대비 배수 순위 (v2/peer_universe/insurers.json)
+  peer: 70.6,          // S&P500 보험사 대비 배수 순위 (v2/peer_universe/insurers.json)
   selfHistory: 50.7,   // 자기 5년 배수 분포 백분위 (2021-11-08 ~ 2026-11-06)
   asOf: "2026-11-06",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1763,7 +1763,7 @@ const ACGL_FUNDAMENTAL = {"ticker": "ACGL", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py ACGL --self v2/ACGL_multiples.json --card
 /* VALUATION:BEGIN */
-const ACGL_VALUATION = {"peer": {"score": 65.8, "sector": "Financials (S&P500 16종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "pbr", "score": 80.0, "rank": 4, "peers": 15}, {"metric": "psr", "score": 30.8, "rank": 10, "peers": 13}]}, "self": {"score": 50.7, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 56.3, "percentile": 43.7, "current": 8.79, "min": 5.91, "median": 9.06, "max": 21.99, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 54.9, "percentile": 45.1, "current": 1.58, "min": 1.24, "median": 1.63, "max": 2.43, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 67.9, "percentile": 32.1, "current": 1.86, "min": 1.55, "median": 2.0, "max": 2.94, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 23.8, "percentile": 76.2, "current": 6.2, "min": 4.77, "median": 5.62, "max": 7.59, "days": 1255, "currentNote": null}]}};
+const ACGL_VALUATION = {"peer": {"score": 70.6, "sector": "Financials (S&P500 16종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 93.3, "rank": 2, "peers": 15}, {"metric": "pbr", "score": 80.0, "rank": 4, "peers": 15}, {"metric": "psr", "score": 38.5, "rank": 9, "peers": 13}]}, "self": {"score": 50.7, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 56.3, "percentile": 43.7, "current": 8.79, "min": 5.91, "median": 9.06, "max": 21.99, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 54.9, "percentile": 45.1, "current": 1.58, "min": 1.24, "median": 1.63, "max": 2.43, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 67.9, "percentile": 32.1, "current": 1.86, "min": 1.55, "median": 2.0, "max": 2.94, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 23.8, "percentile": 76.2, "current": 6.2, "min": 4.77, "median": 5.62, "max": 7.59, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2061,7 +2061,7 @@ const ACGL_ACTIVITY = {"ticker": "ACGL", "status": "N/A", "reason": "보험사�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/acgl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ACGL_ANALYST = { asOf: '2026-11-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 15, mean: 111, median: 110,
+const ACGL_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 15, mean: 111, median: 110,
   low: 95, high: 125, strongBuy: 7, buy: 2, hold: 10, sell: 0, strongSell: 1 };
 (function(){
   const A = ACGL_ANALYST, last = (typeof ACGL_DAILY !== 'undefined' && ACGL_DAILY.length) ? ACGL_DAILY[ACGL_DAILY.length - 1] : null;

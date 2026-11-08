@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="gdPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="gdPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="gdPeerScore">77.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="gdPeerScore">76.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="gdSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="gdSelfVerdict">중간</span></div>
@@ -900,9 +900,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.64 ~ 1.87(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">77.5</div><div class="sc-tile" data-vc="peer" data-m="per">73</div><div class="sc-tile" data-vc="peer" data-m="pbr">76</div><div class="sc-tile" data-vc="peer" data-m="psr">81</div><div class="sc-tile" data-vc="peer" data-m="pcr">87</div><div class="sc-tile" data-vc="peer" data-m="evebitda">71</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">76.0</div><div class="sc-tile" data-vc="peer" data-m="per">73</div><div class="sc-tile" data-vc="peer" data-m="pbr">74</div><div class="sc-tile" data-vc="peer" data-m="psr">80</div><div class="sc-tile" data-vc="peer" data-m="pcr">84</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">69</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 20.8배(5년 중앙값 20.7배)로 자기 이력 58.1점(중간), 동종업 77.5점(싸다)이다. <strong>현금흐름 내재가치(기본 $216.01)는 현재가의 61%다</strong>.</div>
+    <div class="vs-premise">PER 20.8배(5년 중앙값 20.7배)로 자기 이력 58.1점(중간), 동종업 76.0점(싸다)이다. <strong>현금흐름 내재가치(기본 $216.01)는 현재가의 61%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $216.01)는 현재가의 61%다. 현재가를 정당화하려면 매출이 5년간 연 19.8% 커야 한다. 내재가치에서 차입금·금융리스 $7.4B를 빼고 현금·단기투자 $4.4B를 더한다. 정부 계약은 고객 선수금이 커서(약 $11B) 분기 현금흐름과 현금 잔액이 크게 흔들린다. 1~3분기는 일요일에 끝나 분기 길이가 달력 분기와 조금 다르다. 감가상각은 감가상각 + 무형자산 상각으로 이어 붙여 금융리스 상각이 빠진다 — 회사 합계보다 7~11% 작아 EV/EBITDA가 1% 남짓 높게 나온다. SEC 요약 자료에 최신 10-Q가 아직 없어 원문 인라인 XBRL로 채웠다.</div>
   </div>
 
@@ -972,7 +972,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">방산 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/30 종가(GD 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">방산 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1072,8 +1072,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 58.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 37.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 4.2%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$403.07</span> <span class="op-sub op-up" data-an="upside">+13.8%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$413.80</span> <span class="op-sub op-up" data-an="upside">+16.9%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1277,62 +1277,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '방산 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/30 종가(GD 막대는 11/6)',
+    title: '방산 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 11/6 종가',
     unit: 'PER', max: 45, gdValue: null,
     peers: [
-      { name:'LMT', value:22.6, status:'reference' },
-      { name:'NOC', value:17.6, status:'reference' },
-      { name:'RTX', value:32.4, status:'reference' },
-      { name:'HII', value:17.1, status:'reference' },
-      { name:'LDOS', value:13.3, status:'reference' },
-      { name:'TDG', value:34.8, status:'reference' }
+      { name:'LMT', value:20.1, status:'reference' },
+      { name:'NOC', value:16.6, status:'reference' },
+      { name:'RTX', value:30.8, status:'reference' },
+      { name:'HII', value:15.5, status:'reference' },
+      { name:'LDOS', value:11.9, status:'reference' },
+      { name:'TDG', value:36.3, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (TDG 값 없음) · 10/30 종가(GD 막대는 11/6)',
-    unit: 'PBR', max: 20, gdValue: null,
+    title: 'PBR 비교 (TDG 값 없음) · 11/6 종가',
+    unit: 'PBR', max: 15, gdValue: null,
     peers: [
-      { name:'LMT', value:14.6, status:'reference' },
-      { name:'NOC', value:4.2, status:'reference' },
-      { name:'RTX', value:3.9, status:'reference' },
-      { name:'HII', value:2.3, status:'reference' },
-      { name:'LDOS', value:3.4, status:'reference' }
+      { name:'LMT', value:13.0, status:'reference' },
+      { name:'NOC', value:4.0, status:'reference' },
+      { name:'RTX', value:3.7, status:'reference' },
+      { name:'HII', value:2.1, status:'reference' },
+      { name:'LDOS', value:3.1, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/30 종가(GD 막대는 11/6)',
+    title: 'PSR 비교 · 11/6 종가',
     unit: 'PSR(TTM)', max: 10, gdValue: null,
     peers: [
-      { name:'LMT', value:1.9, status:'reference' },
-      { name:'NOC', value:1.8, status:'reference' },
-      { name:'RTX', value:2.8, status:'reference' },
-      { name:'HII', value:0.9, status:'reference' },
-      { name:'LDOS', value:1.0, status:'reference' },
-      { name:'TDG', value:6.3, status:'reference' }
+      { name:'LMT', value:1.7, status:'reference' },
+      { name:'NOC', value:1.7, status:'reference' },
+      { name:'RTX', value:2.7, status:'reference' },
+      { name:'HII', value:0.8, status:'reference' },
+      { name:'LDOS', value:0.9, status:'reference' },
+      { name:'TDG', value:6.6, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/30 종가(GD 막대는 11/6)',
+    title: 'PCR(FCF) 비교 · 11/6 종가',
     unit: 'PCR(FCF)', max: 45, gdValue: null,
     peers: [
-      { name:'LMT', value:17.6, status:'reference' },
-      { name:'NOC', value:20.7, status:'reference' },
-      { name:'RTX', value:28.4, status:'reference' },
-      { name:'HII', value:38.2, status:'reference' },
+      { name:'LMT', value:15.6, status:'reference' },
+      { name:'NOC', value:19.5, status:'reference' },
+      { name:'RTX', value:26.9, status:'reference' },
+      { name:'HII', value:34.8, status:'reference' },
       { name:'LDOS', value:8.3, status:'reference' },
-      { name:'TDG', value:32.9, status:'reference' }
+      { name:'TDG', value:34.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/30 종가(GD 막대는 11/6)',
+    title: 'EV/EBITDA 비교 · 11/6 종가',
     unit: 'EV/EBITDA', max: 25, gdValue: null,
     peers: [
-      { name:'LMT', value:14.7, status:'reference' },
-      { name:'NOC', value:14.7, status:'reference' },
-      { name:'RTX', value:19.1, status:'reference' },
-      { name:'HII', value:13.5, status:'reference' },
-      { name:'LDOS', value:10.0, status:'reference' },
-      { name:'TDG', value:18.8, status:'reference' }
+      { name:'LMT', value:13.2, status:'reference' },
+      { name:'NOC', value:13.9, status:'reference' },
+      { name:'RTX', value:18.2, status:'reference' },
+      { name:'HII', value:12.4, status:'reference' },
+      { name:'LDOS', value:9.2, status:'reference' },
+      { name:'TDG', value:19.3, status:'reference' }
     ]
   }
 };
@@ -1462,7 +1462,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py GD
 const GD_SCORES = {
   fundamental: 52.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 77.5,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 76.0,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 58.1,   // 자기 5년 배수 분포 백분위 (2021-11-08 ~ 2026-11-06)
   asOf: "2026-11-06",
   fundamentalAsOf: "2026-10-04",   // Q3 2026 10-Q
@@ -1788,7 +1788,7 @@ const GD_FUNDAMENTAL = {"ticker": "GD", "basis": "quarter", "asOf": "2026-10-04"
 //
 // 갱신: python3 v2/build_peer_score.py GD --self v2/GD_multiples.json --card
 /* VALUATION:BEGIN */
-const GD_VALUATION = {"peer": {"score": 77.5, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 73.3, "rank": 21, "peers": 75}, {"metric": "pbr", "score": 75.7, "rank": 19, "peers": 74}, {"metric": "psr", "score": 80.8, "rank": 16, "peers": 78}, {"metric": "pcr", "score": 86.8, "rank": 11, "peers": 76}, {"metric": "evebitda", "score": 70.7, "rank": 23, "peers": 75}]}, "self": {"score": 58.1, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 47.7, "percentile": 52.3, "current": 20.83, "min": 16.22, "median": 20.68, "max": 24.74, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 59.9, "percentile": 40.1, "current": 3.51, "min": 2.93, "median": 3.58, "max": 4.08, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 48.5, "percentile": 51.5, "current": 1.69, "min": 1.36, "median": 1.68, "max": 1.98, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.6, "percentile": 30.4, "current": 16.56, "min": 10.91, "median": 20.0, "max": 39.83, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 64.9, "percentile": 35.1, "current": 14.63, "min": 12.64, "median": 15.26, "max": 17.71, "days": 1255, "currentNote": null}]}};
+const GD_VALUATION = {"peer": {"score": 76.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 73.3, "rank": 21, "peers": 75}, {"metric": "pbr", "score": 74.3, "rank": 20, "peers": 74}, {"metric": "psr", "score": 79.5, "rank": 17, "peers": 78}, {"metric": "pcr", "score": 84.2, "rank": 13, "peers": 76}, {"metric": "evebitda", "score": 68.9, "rank": 24, "peers": 74}]}, "self": {"score": 58.1, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 47.7, "percentile": 52.3, "current": 20.83, "min": 16.22, "median": 20.68, "max": 24.74, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 59.9, "percentile": 40.1, "current": 3.51, "min": 2.93, "median": 3.58, "max": 4.08, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 48.5, "percentile": 51.5, "current": 1.69, "min": 1.36, "median": 1.68, "max": 1.98, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.6, "percentile": 30.4, "current": 16.56, "min": 10.91, "median": 20.0, "max": 39.83, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 64.9, "percentile": 35.1, "current": 14.63, "min": 12.64, "median": 15.26, "max": 17.71, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2077,8 +2077,8 @@ const GD_ACTIVITY = {"ticker": "GD", "status": "stale", "asOf": "2019-12-31", "r
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/gd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GD_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 15, mean: 403.07, median: 395,
-  low: 309, high: 465, strongBuy: 10, buy: 4, hold: 9, sell: 0, strongSell: 1 };
+const GD_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 15, mean: 413.8, median: 415,
+  low: 309, high: 480, strongBuy: 10, buy: 4, hold: 9, sell: 0, strongSell: 1 };
 (function(){
   const A = GD_ANALYST, last = (typeof GD_DAILY !== 'undefined' && GD_DAILY.length) ? GD_DAILY[GD_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

@@ -13,6 +13,6 @@ COLOR = '#003c71'
 BV_NOTE = "10-Q는 영업권·무형자산을 합친 한 줄로만 내서 카드는 FY2025 10-K 값($1,847M)을 이어 쓴다. 2026-06-30 10-Q 합계는 $2,608M(2026년 GreensLedge·Clark Capital 인수)이라 이 TBVPS는 약 $3.96 높고 P/TBV는 낮게 나온다(10-Q 합계로 계산하면 TBVPS $52.52, P/TBV 3.21배). 바로잡아도 표는 같다 — 자기 이력은 P/TBV 점수 13.6과 PER 52가 방향이 갈려 0, 동종업은 P/TBV가 비싼 쪽 2번째에서 가장 비싼 쪽으로(점수 8.3 → 0) 가도 PER 15.4와 함께 −1"   # 2026-11-05 계산
 PEER_NOTE = '증권·자산관리 회사 SCHW·MS·GS는 들어 있지 않다'
 ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 11, 'mean': 181.91, 'median': 179, 'low': 160, 'high': 205, 'sb': 3, 'b': 3, 'h': 10, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-04'
+ANALYST_ASOF = '2026-11-08'
 NEWS = []   # 손 뉴스 없음 — 실적 보도자료 8-K는 news_auto.py가 넣는다
 NEWS_DAYS = 400

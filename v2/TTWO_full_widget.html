@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">미디어·플랫폼 6곳 PER 비교 (점수는 S&amp;P500 커뮤니케이션 기준) (LYV 값 없음) · 10/30 종가(TTWO 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">미디어·플랫폼 6곳 PER 비교 (점수는 S&amp;P500 커뮤니케이션 기준) (LYV 값 없음) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1068,13 +1068,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">29명 · 목표가 20</span>명</span>
-        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">28</span> · 유지 <span data-an="hold">0</span> · 매도 <span data-an="sell">1</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 96.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 0%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.4%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">28명 · 목표가 19</span>명</span>
+        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">27</span> · 유지 <span data-an="hold">0</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 96.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 0%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$294.30</span> <span class="op-sub op-up" data-an="upside">+37.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$289.84</span> <span class="op-sub op-up" data-an="upside">+34.9%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1278,58 +1278,58 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '미디어·플랫폼 6곳 PER 비교 (점수는 S&P500 커뮤니케이션 기준) (LYV 값 없음) · 10/30 종가(TTWO 막대는 11/6)',
+    title: '미디어·플랫폼 6곳 PER 비교 (점수는 S&P500 커뮤니케이션 기준) (LYV 값 없음) · 11/6 종가',
     unit: 'PER', max: 35, ttwoValue: null,
     peers: [
-      { name:'NFLX', value:21.1, status:'reference' },
-      { name:'DIS', value:22.9, status:'reference' },
-      { name:'META', value:24.1, status:'reference' },
-      { name:'GOOGL', value:26.4, status:'reference' },
-      { name:'TTD', value:14.6, status:'reference' }
+      { name:'NFLX', value:21.5, status:'reference' },
+      { name:'DIS', value:24.1, status:'reference' },
+      { name:'META', value:21.1, status:'reference' },
+      { name:'GOOGL', value:26.9, status:'reference' },
+      { name:'TTD', value:15.4, status:'reference' }
     ]
   },
   pbr: {
-    title: '미디어·플랫폼 PBR 비교 (TTD 값 없음) · 10/30 종가(TTWO 막대는 11/6)',
-    unit: 'PBR', max: 590, ttwoValue: null,
+    title: '미디어·플랫폼 PBR 비교 (TTD 값 없음) · 11/6 종가',
+    unit: 'PBR', max: 105, ttwoValue: null,
     peers: [
-      { name:'NFLX', value:8.7, status:'reference' },
-      { name:'DIS', value:1.7, status:'reference' },
-      { name:'META', value:5.8, status:'reference' },
-      { name:'GOOGL', value:5.1, status:'reference' },
-      { name:'LYV', value:509.1, status:'reference' }
+      { name:'NFLX', value:8.9, status:'reference' },
+      { name:'DIS', value:1.8, status:'reference' },
+      { name:'META', value:5.7, status:'reference' },
+      { name:'GOOGL', value:5.2, status:'reference' },
+      { name:'LYV', value:90.4, status:'reference' }
     ]
   },
   psr: {
-    title: '미디어·플랫폼 PSR 비교 (TTD 값 없음) · 10/30 종가(TTWO 막대는 11/6)',
+    title: '미디어·플랫폼 PSR 비교 (TTD 값 없음) · 11/6 종가',
     unit: 'PSR(TTM)', max: 10, ttwoValue: null,
     peers: [
-      { name:'NFLX', value:5.1, status:'reference' },
-      { name:'DIS', value:1.9, status:'reference' },
-      { name:'META', value:6.5, status:'reference' },
-      { name:'GOOGL', value:7.3, status:'reference' },
-      { name:'LYV', value:1.6, status:'reference' }
+      { name:'NFLX', value:5.2, status:'reference' },
+      { name:'DIS', value:2.0, status:'reference' },
+      { name:'META', value:6.4, status:'reference' },
+      { name:'GOOGL', value:7.5, status:'reference' },
+      { name:'LYV', value:1.5, status:'reference' }
     ]
   },
   pcr: {
-    title: '미디어·플랫폼 PCR(FCF) 비교 (TTD 값 없음) · 10/30 종가(TTWO 막대는 11/6)',
+    title: '미디어·플랫폼 PCR(FCF) 비교 (TTD 값 없음) · 11/6 종가',
     unit: 'PCR(FCF)', max: 205, ttwoValue: null,
     peers: [
-      { name:'NFLX', value:22.4, status:'reference' },
-      { name:'DIS', value:23.1, status:'reference' },
-      { name:'META', value:54.7, status:'reference' },
-      { name:'GOOGL', value:175.0, status:'reference' },
-      { name:'LYV', value:30.3, status:'reference' }
+      { name:'NFLX', value:22.9, status:'reference' },
+      { name:'DIS', value:24.3, status:'reference' },
+      { name:'META', value:54.3, status:'reference' },
+      { name:'GOOGL', value:178.1, status:'reference' },
+      { name:'LYV', value:46.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: '미디어·플랫폼 EV/EBITDA 비교 (TTD 값 없음) · 10/30 종가(TTWO 막대는 11/6)',
+    title: '미디어·플랫폼 EV/EBITDA 비교 (TTD 값 없음) · 11/6 종가',
     unit: 'EV/EBITDA', max: 65, ttwoValue: null,
     peers: [
-      { name:'NFLX', value:16.4, status:'reference' },
-      { name:'DIS', value:12.4, status:'reference' },
-      { name:'META', value:15.0, status:'reference' },
-      { name:'GOOGL', value:17.7, status:'reference' },
-      { name:'LYV', value:28.7, status:'reference' }
+      { name:'NFLX', value:16.8, status:'reference' },
+      { name:'DIS', value:12.9, status:'reference' },
+      { name:'META', value:14.9, status:'reference' },
+      { name:'GOOGL', value:18.1, status:'reference' },
+      { name:'LYV', value:27.1, status:'reference' }
     ]
   }
 };
@@ -1792,7 +1792,7 @@ const TTWO_FUNDAMENTAL = {"ticker": "TTWO", "basis": "quarter", "asOf": "2026-06
 //
 // 갱신: python3 v2/build_peer_score.py TTWO --self v2/TTWO_multiples.json --card
 /* VALUATION:BEGIN */
-const TTWO_VALUATION = {"peer": {"score": 9.0, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 5.9, "rank": 17, "peers": 17}, {"metric": "psr", "score": 17.6, "rank": 15, "peers": 17}, {"metric": "pcr", "score": 12.5, "rank": 15, "peers": 16}, {"metric": "evebitda", "score": 0.0, "rank": 15, "peers": 14}]}, "self": {"score": 37.2, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 22.92, "median": 35.45, "max": 89.86, "days": 252, "currentNote": "per_na"}, {"metric": "pbr", "score": 22.9, "percentile": 77.1, "current": 11.13, "min": 1.66, "median": 4.73, "max": 20.17, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 30.8, "percentile": 69.2, "current": 6.01, "min": 3.5, "median": 5.3, "max": 8.34, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 54.6, "percentile": 45.4, "current": 119.04, "min": 39.81, "median": 139.61, "max": 237.58, "days": 511, "currentNote": null}, {"metric": "evebitda", "score": 40.7, "percentile": 59.3, "current": 54.19, "min": 14.38, "median": 51.29, "max": 273.33, "days": 430, "currentNote": null}]}, "perNA": {"netMargin": -0.0479, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const TTWO_VALUATION = {"peer": {"score": 9.0, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 5.9, "rank": 17, "peers": 17}, {"metric": "psr", "score": 17.6, "rank": 15, "peers": 17}, {"metric": "pcr", "score": 12.5, "rank": 15, "peers": 16}, {"metric": "evebitda", "score": 0.0, "rank": 16, "peers": 15}]}, "self": {"score": 37.2, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 22.92, "median": 35.45, "max": 89.86, "days": 252, "currentNote": "per_na"}, {"metric": "pbr", "score": 22.9, "percentile": 77.1, "current": 11.13, "min": 1.66, "median": 4.73, "max": 20.17, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 30.8, "percentile": 69.2, "current": 6.01, "min": 3.5, "median": 5.3, "max": 8.34, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 54.6, "percentile": 45.4, "current": 119.04, "min": 39.81, "median": 139.61, "max": 237.58, "days": 511, "currentNote": null}, {"metric": "evebitda", "score": 40.7, "percentile": 59.3, "current": 54.19, "min": 14.38, "median": 51.29, "max": 273.33, "days": 430, "currentNote": null}]}, "perNA": {"netMargin": -0.0479, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2081,8 +2081,8 @@ const TTWO_ACTIVITY = {"ticker": "TTWO", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ttwo/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TTWO_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 29, nTargets: 20, mean: 294.3, median: 300,
-  low: 270, high: 330, strongBuy: 25, buy: 3, hold: 0, sell: 1, strongSell: 0 };
+const TTWO_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 28, nTargets: 19, mean: 289.84, median: 289,
+  low: 262, high: 330, strongBuy: 24, buy: 3, hold: 0, sell: 1, strongSell: 0 };
 (function(){
   const A = TTWO_ANALYST, last = (typeof TTWO_DAILY !== 'undefined' && TTWO_DAILY.length) ? TTWO_DAILY[TTWO_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

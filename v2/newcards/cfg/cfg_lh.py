@@ -49,8 +49,8 @@ NEWS = [
     ('neutral', '2026년 2월 17일 장 전 — Q4 2025 실적', '2026-02-17',
      '매출 $3.52B(+5.6%) · 순이익 $165M · 희석 EPS $1.98(1년 전 $1.70) · Early Development 구조조정 $111M 포함 · 2025년 EPS $10.46 — 당일 주가 −2.1%', 'q4', 'Labcorp 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 17, 'nt': 11, 'mean': 374, 'median': 380, 'low': 310, 'high': 420, 'sb': 10, 'b': 2, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-03'
+ANALYST = {'rating': 'Buy', 'n': 17, 'nt': 11, 'mean': 378.09, 'median': 388, 'low': 310, 'high': 420, 'sb': 11, 'b': 2, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 # 미완성 카드 표시(2026-11-03 사용자 결정 — C·D·E 보류 카드는 있는 자료로 만들고 판정 보류 + 이유를 잘 보이게, SPCX 방식). BUILD no_dcf가 판정을 보류로 만들고, 보험사용 문구를 미완성 사유로 바꾼다.
 INCOMPLETE_SHORT = '일회성 비용 처리 대기'

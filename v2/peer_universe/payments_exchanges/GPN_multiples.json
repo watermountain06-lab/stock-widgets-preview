@@ -1,75 +1,76 @@
 {
  "ticker": "GPN",
  "window": [
-  "2025-10-31",
-  "2026-10-30"
+  "2025-11-07",
+  "2026-11-06"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 42.85,
+   "current": 43.1,
    "min": 11.96,
    "p10": 13.19,
-   "median": 17.67,
-   "p90": 38.71,
-   "max": 42.85,
-   "mean": 23.53,
-   "percentile": 99.6,
+   "median": 23.72,
+   "p90": 39.37,
+   "max": 44.08,
+   "mean": 24.11,
+   "percentile": 98.8,
    "score": null,
    "currentNote": "per_na"
   },
   "PSR": {
    "days": 251,
-   "current": 2.5,
+   "current": 2.24,
    "min": 1.79,
    "p10": 1.97,
    "median": 2.19,
-   "p90": 2.45,
+   "p90": 2.48,
    "max": 2.78,
    "mean": 2.22,
-   "percentile": 91.6,
-   "score": 8.4
+   "percentile": 55.8,
+   "score": 44.2
   },
   "PBR": {
    "days": 251,
    "current": 1.11,
    "min": 0.7,
    "p10": 0.76,
-   "median": 0.85,
-   "p90": 1.01,
-   "max": 1.11,
-   "mean": 0.87,
-   "percentile": 99.6,
-   "score": 0.4
+   "median": 0.86,
+   "p90": 1.02,
+   "max": 1.14,
+   "mean": 0.88,
+   "percentile": 98.8,
+   "score": 1.2
   },
   "PCR": {
-   "days": 251,
-   "current": 31.15,
-   "min": 5.99,
-   "p10": 8.08,
-   "median": 10.75,
-   "p90": 28.14,
-   "max": 31.15,
-   "mean": 16.01,
-   "percentile": 99.6,
-   "score": 0.4
+   "days": 249,
+   "current": null,
+   "min": 7.36,
+   "p10": 8.12,
+   "median": 16.1,
+   "p90": 28.48,
+   "max": 32.04,
+   "mean": 16.36,
+   "percentile": 100.0,
+   "score": 0.0,
+   "currentNote": "negative"
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 11.95,
-   "min": 7.39,
-   "p10": 7.8,
-   "median": 10.86,
-   "p90": 12.05,
-   "max": 13.28,
-   "mean": 10.28,
-   "percentile": 87.3,
-   "score": 12.7
+   "current": 11.71,
+   "min": 7.28,
+   "p10": 7.69,
+   "median": 10.83,
+   "p90": 11.96,
+   "max": 13.16,
+   "mean": 10.25,
+   "percentile": 84.9,
+   "score": 15.1
   }
  },
  "perBasis": "diluted",
  "perNA": {
-  "netMargin": -0.0913,
+  "netMargin": -0.1118,
   "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

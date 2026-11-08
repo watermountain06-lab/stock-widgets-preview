@@ -59,7 +59,7 @@ NEWS = [
      '매출 $1.07B(+5%) · GAAP 희석 EPS $0.43 · 조정 EPS $1.15(+11%) · 새 이사회 의장(Colleen Jay, 2026년 1월 2일부터)·공식 전략 검토 시작 — 다음 날 주가 +5.7%', 'q4', 'CooperCompanies 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 17, 'nt': 13, 'mean': 64.54, 'median': 61, 'low': 58, 'high': 75, 'sb': 3, 'b': 3, 'h': 11, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-07'
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도(손 작성 — 10-Q에 같은 부문 멤버가 대소문자 두 표기로 있고 매출은 소문자 표기(Coopervision·Coopersurgical)에 붙는다).

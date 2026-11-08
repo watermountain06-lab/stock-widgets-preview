@@ -1,79 +1,79 @@
 {
  "ticker": "PAYX",
  "window": [
-  "2025-10-31",
-  "2026-10-30"
+  "2025-11-07",
+  "2026-11-06"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 22.25,
+   "current": 23.23,
    "min": 18.81,
    "p10": 20.13,
    "median": 22.51,
-   "p90": 25.56,
-   "max": 26.24,
-   "mean": 22.78,
-   "percentile": 47.0,
-   "score": 53.0
+   "p90": 25.42,
+   "max": 26.17,
+   "mean": 22.73,
+   "percentile": 55.4,
+   "score": 44.6
   },
   "PSR": {
    "days": 251,
-   "current": 6.05,
+   "current": 6.31,
    "min": 4.84,
    "p10": 5.25,
    "median": 6.01,
-   "p90": 6.94,
-   "max": 7.27,
-   "mean": 6.04,
-   "percentile": 51.8,
-   "score": 48.2
+   "p90": 6.9,
+   "max": 7.25,
+   "mean": 6.03,
+   "percentile": 62.2,
+   "score": 37.8
   },
   "PBR": {
    "days": 251,
-   "current": 10.77,
+   "current": 11.25,
    "min": 7.64,
    "p10": 8.27,
    "median": 9.82,
-   "p90": 11.3,
+   "p90": 11.34,
    "max": 12.13,
-   "mean": 9.72,
-   "percentile": 80.1,
-   "score": 19.9
+   "mean": 9.73,
+   "percentile": 86.9,
+   "score": 13.1
   },
   "PCR": {
    "days": 251,
-   "current": 19.79,
+   "current": 20.66,
    "min": 14.67,
    "p10": 15.91,
    "median": 17.88,
-   "p90": 21.55,
-   "max": 22.63,
-   "mean": 18.25,
-   "percentile": 77.7,
-   "score": 22.3
+   "p90": 21.36,
+   "max": 22.57,
+   "mean": 18.22,
+   "percentile": 86.1,
+   "score": 13.9
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 14.39,
-   "min": 12.32,
-   "p10": 13.12,
-   "median": 14.9,
-   "p90": 17.51,
-   "max": 18.31,
-   "mean": 15.05,
-   "percentile": 41.8,
-   "score": 58.2
+   "current": 14.95,
+   "min": 12.29,
+   "p10": 13.1,
+   "median": 14.83,
+   "p90": 17.34,
+   "max": 18.25,
+   "mean": 14.96,
+   "percentile": 51.4,
+   "score": 48.6
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 20.88,
-  "per_p75": 24.8,
+  "per_p75": 24.65,
   "low": 110,
   "high": 120,
-  "asOf": "2026-10-30",
+  "asOf": "2026-11-06",
   "basis": "diluted"
  }
 }

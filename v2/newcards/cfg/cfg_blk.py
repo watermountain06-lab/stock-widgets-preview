@@ -10,7 +10,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 7084, 'op': 2461, 'ni': 1914}   # 보도자료 GAAP 손익(순이익은 BlackRock 귀속)
-VOTES, VERDICT = (0, -1, -2), '고평가'
+VOTES, VERDICT = (0, None, -2), '적정~고평가'
 CO = 'BlackRock'
 S_ = 'https://www.sec.gov/Archives/edgar/data/2012383/'
 SEC = S_
@@ -100,8 +100,8 @@ BULL = [('순유입', '최근 1년 순유입 $868B, 유기적 기본 보수 성�
 BEAR = [('시장 의존', '보수가 운용자산에 비례해 주가지수 하락에 그대로 노출.'),
         ('인수 비용', '영업권·무형자산 $62.6B, 조건부 대가 $7.9B로 GAAP 이익 변동.'),
         ('희석', 'Subco 760만 단위가 보통주로 교환되면 주식 수가 약 5% 늘어남.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 18, 'nt': 14, 'mean': 1348.57, 'median': 1330, 'low': 1250, 'high': 1531, 'sb': 12, 'b': 5, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Strong Buy', 'n': 18, 'nt': 15, 'mean': 1352, 'median': 1330, 'low': 1250, 'high': 1531, 'sb': 12, 'b': 5, 'h': 1, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──

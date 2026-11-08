@@ -54,8 +54,8 @@ NEWS = [
      '매출 $5.18B(+7%) · 희석 EPS $2.49(1년 전 $2.34)', 'q1', 'ADP 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Hold', 'n': 18, 'nt': 16, 'mean': 292.63, 'median': 303, 'low': 240, 'high': 340, 'sb': 4, 'b': 0, 'h': 11, 's': 2, 'ss': 1}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Hold', 'n': 18, 'nt': 16, 'mean': 300, 'median': 305, 'low': 250, 'high': 340, 'sb': 4, 'b': 0, 'h': 11, 's': 2, 'ss': 1}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-K 부문 주석 Total segment revenues FY26 14,831.4/7,128.1, FY25 13,883.1/6,690.4,

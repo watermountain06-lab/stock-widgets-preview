@@ -1002,7 +1002,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">금융 데이터·거래소 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) (VRSK 값 없음) · 10/30 종가(MCO 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">금융 데이터·거래소 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) (VRSK 값 없음) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1106,11 +1106,11 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">24명 · 목표가 17</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">18</span> · 유지 <span data-an="hold">6</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 75%; background: var(--green);"></div><div data-an-bar="hold" style="width: 25%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">17</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">0</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 70.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 29.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$556.06</span> <span class="op-sub op-up" data-an="upside">+10.0%</span></span>
       </div>
       <div class="op-cell">
@@ -1315,55 +1315,55 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '금융 데이터·거래소 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) (VRSK 값 없음) · 10/30 종가(MCO 막대는 11/6)',
+    title: '금융 데이터·거래소 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) (VRSK 값 없음) · 11/6 종가',
     unit: 'PER', max: 45, mcoValue: null,
     peers: [
-      { name:'SPGI', value:28.4, status:'reference' },
-      { name:'MSCI', value:35.4, status:'reference' },
-      { name:'ICE', value:23.9, status:'reference' },
-      { name:'CME', value:25.7, status:'reference' },
-      { name:'FDS', value:21.7, status:'reference' }
+      { name:'SPGI', value:27.5, status:'reference' },
+      { name:'MSCI', value:36.4, status:'reference' },
+      { name:'ICE', value:24.3, status:'reference' },
+      { name:'CME', value:25.9, status:'reference' },
+      { name:'FDS', value:21.6, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (MSCI 값 없음·VRSK 값 없음) · 10/30 종가(MCO 막대는 11/6)',
+    title: 'PBR 비교 (MSCI 값 없음·VRSK 값 없음) · 11/6 종가',
     unit: 'PBR', max: 35, mcoValue: null,
     peers: [
-      { name:'SPGI', value:4.4, status:'reference' },
+      { name:'SPGI', value:6.9, status:'reference' },
       { name:'ICE', value:3.2, status:'reference' },
       { name:'CME', value:4.1, status:'reference' },
       { name:'FDS', value:5.8, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 (VRSK 값 없음) · 10/30 종가(MCO 막대는 11/6)',
+    title: 'PSR 비교 (VRSK 값 없음) · 11/6 종가',
     unit: 'PSR(TTM)', max: 20, mcoValue: null,
     peers: [
       { name:'SPGI', value:8.5, status:'reference' },
-      { name:'MSCI', value:13.0, status:'reference' },
-      { name:'ICE', value:6.7, status:'reference' },
-      { name:'CME', value:15.6, status:'reference' },
+      { name:'MSCI', value:13.3, status:'reference' },
+      { name:'ICE', value:6.8, status:'reference' },
+      { name:'CME', value:15.8, status:'reference' },
       { name:'FDS', value:4.7, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (VRSK 값 없음) · 10/30 종가(MCO 막대는 11/6)',
+    title: 'PCR(FCF) 비교 (VRSK 값 없음) · 11/6 종가',
     unit: 'PCR(FCF)', max: 40, mcoValue: null,
     peers: [
-      { name:'SPGI', value:24.7, status:'reference' },
-      { name:'MSCI', value:30.6, status:'reference' },
-      { name:'ICE', value:17.9, status:'reference' },
-      { name:'CME', value:25.2, status:'reference' },
-      { name:'FDS', value:16.4, status:'reference' }
+      { name:'SPGI', value:25.7, status:'reference' },
+      { name:'MSCI', value:31.5, status:'reference' },
+      { name:'ICE', value:18.2, status:'reference' },
+      { name:'CME', value:25.4, status:'reference' },
+      { name:'FDS', value:16.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (SPGI 값 없음·VRSK 값 없음) · 10/30 종가(MCO 막대는 11/6)',
+    title: 'EV/EBITDA 비교 (SPGI 값 없음·VRSK 값 없음) · 11/6 종가',
     unit: 'EV/EBITDA', max: 30, mcoValue: null,
     peers: [
-      { name:'MSCI', value:24.2, status:'reference' },
-      { name:'ICE', value:16.1, status:'reference' },
-      { name:'CME', value:22.4, status:'reference' },
+      { name:'MSCI', value:24.8, status:'reference' },
+      { name:'ICE', value:16.3, status:'reference' },
+      { name:'CME', value:22.6, status:'reference' },
       { name:'FDS', value:14.4, status:'reference' }
     ]
   }
@@ -2110,8 +2110,8 @@ const MCO_ACTIVITY = {"ticker": "MCO", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mco/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MCO_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 17, mean: 556.06, median: 572,
-  low: 480, high: 610, strongBuy: 13, buy: 5, hold: 6, sell: 0, strongSell: 0 };
+const MCO_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 17, mean: 556.06, median: 572,
+  low: 480, high: 610, strongBuy: 13, buy: 4, hold: 7, sell: 0, strongSell: 0 };
 (function(){
   const A = MCO_ANALYST, last = (typeof MCO_DAILY !== 'undefined' && MCO_DAILY.length) ? MCO_DAILY[MCO_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

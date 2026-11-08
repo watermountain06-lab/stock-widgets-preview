@@ -65,8 +65,8 @@ NEWS = [
     ('green', '2025년 11월 4일 장 마감 뒤 — Q1 FY26 실적', '2025-11-05',
      '매출 $534M(1년 전 $337M) · 희석 EPS $0.05(1년 전 −$1.21)', 'q1', 'Lumentum 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 24, 'mean': 1123.42, 'median': 1140, 'low': 820, 'high': 1400, 'sb': 18, 'b': 5, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 21, 'mean': 1070.62, 'median': 1070, 'low': 685, 'high': 1400, 'sb': 17, 'b': 3, 'h': 6, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 손으로(지역 축 3개, 나라별 소계는 ignore). 10-K는 ExcludingAssessedTax, 10-Q는 IncludingAssessedTax로 실어 둘 다 둔다.

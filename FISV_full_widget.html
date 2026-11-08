@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="fisvFundVerdict">미흡</span></div>
       <div class="logic-score" id="fisvFundScore">38.0<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-positive" id="fisvPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="fisvPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="fisvPeerScore">70.6<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-neutral" id="fisvPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="fisvPeerVerdict">중간</span></div>
+      <div class="logic-score" id="fisvPeerScore">69.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="fisvSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="fisvSelfVerdict">중간</span></div>
@@ -896,10 +896,10 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="지난 5년 FISV 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">64.5</div><div class="sc-tile" data-vc="self" data-m="per">80</div><div class="sc-tile" data-vc="self" data-m="pbr">80</div><div class="sc-tile" data-vc="self" data-m="psr">84</div><div class="sc-tile" data-vc="self" data-m="pcr">80</div><div class="sc-tile low" data-vc="self" data-m="evebitda">0</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">현재가 <span data-vs="price">$62.88</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">보류(미완성)</div></div>
-      <div class="vs-name" title="S&amp;P500 결제·거래소·금융 데이터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">70.6</div><div class="sc-tile" data-vc="peer" data-m="per">86</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">94</div><div class="sc-tile" data-vc="peer" data-m="pcr">87</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 결제·거래소·금융 데이터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.5</div><div class="sc-tile" data-vc="peer" data-m="per">87</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">88</div><div class="sc-tile" data-vc="peer" data-m="pcr">87</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">0</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 13.4배(5년 중앙값 30.0배)로 자기 이력 64.5점(중간), 동종업 70.6점(싸다)이다.</div>
-    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(이익률 조정 대기) — 자기 이력 0 · 동종업 +1은 참고로만 두고 합산하지 않는다. 2026년 3분기 영업권 손상($6.5B)이 영업이익 안에 있어 현금흐름 모형이 최근 4분기 영업이익률을 −10.9%로 읽고, 그래서 현금흐름 가치가 크게 낮게 나온다. PER은 손상과 그 밖의 일회성 손익을 뺀 EPS로 계산했지만, 영업이익률과 EV/EBITDA는 아직 손상을 그대로 담고 있다. 이익률에서 일회성을 빼는 규칙은 12월 1일 검정 뒤에 정해지므로 그때까지 판정을 보류한다. 손상은 보고상 Corporate and Other 영업손실에 들어가 부문 영업이익에는 없다(귀속은 가맹점 $3.7B, 금융기관 $2.8B). 매출의 Corporate and Other는 우편료 대납이다. EV/EBITDA의 감가상각은 SEC 요약 자료에 있는 값만 읽어 최근 4분기 약 $2.3B로, 현금흐름표 합계(약 $3.4B)보다 작다 — 인수 무형자산 상각이 회사 고유 태그로만 공시돼서다. 그래서 EV/EBITDA는 실제보다 높게 나온다. 2025년 11월 11일 티커가 FI(뉴욕증권거래소)에서 FISV(나스닥)로 바뀌었다. 비교 종목은 S&P500 결제·거래소·금융 데이터 18곳 중 FISV를 뺀 17곳이다.</div>
+    <div class="vs-premise">PER 13.4배(5년 중앙값 30.0배)로 자기 이력 64.5점(중간), 동종업 69.5점(중간)이다.</div>
+    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(이익률 조정 대기) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다. 2026년 3분기 영업권 손상($6.5B)이 영업이익 안에 있어 현금흐름 모형이 최근 4분기 영업이익률을 −10.9%로 읽고, 그래서 현금흐름 가치가 크게 낮게 나온다. PER은 손상과 그 밖의 일회성 손익을 뺀 EPS로 계산했지만, 영업이익률과 EV/EBITDA는 아직 손상을 그대로 담고 있다. 이익률에서 일회성을 빼는 규칙은 12월 1일 검정 뒤에 정해지므로 그때까지 판정을 보류한다. 손상은 보고상 Corporate and Other 영업손실에 들어가 부문 영업이익에는 없다(귀속은 가맹점 $3.7B, 금융기관 $2.8B). 매출의 Corporate and Other는 우편료 대납이다. EV/EBITDA의 감가상각은 SEC 요약 자료에 있는 값만 읽어 최근 4분기 약 $2.3B로, 현금흐름표 합계(약 $3.4B)보다 작다 — 인수 무형자산 상각이 회사 고유 태그로만 공시돼서다. 그래서 EV/EBITDA는 실제보다 높게 나온다. 2025년 11월 11일 티커가 FI(뉴욕증권거래소)에서 FISV(나스닥)로 바뀌었다. 비교 종목은 S&P500 결제·거래소·금융 데이터 18곳 중 FISV를 뺀 17곳이다.</div>
   </div>
 
   <div class="grid-2">
@@ -968,7 +968,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">결제 처리 6곳 PER 비교 (점수는 S&amp;P500 결제·거래소·금융 데이터 기준) (GPN 값 없음) · 10/30 종가(FISV 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">결제 처리 6곳 PER 비교 (점수는 S&amp;P500 결제·거래소·금융 데이터 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -982,8 +982,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $5.2B(−1.3%), 영업이익률 −105.7%(1년 전 27.3%). 주가는 1년 새 −2%<span class="tag">배수 싼 쪽·매출 성장 비슷</span></div>
-    <div class="verdict-summary-counter">⚠️ 미완성 카드라 종합 판정을 보류한다(이익률 조정 대기) — 자기 이력 0 · 동종업 +1은 참고로만 두고 합산하지 않는다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $5.2B(−1.3%), 영업이익률 −105.7%(1년 전 27.3%). 주가는 1년 새 −2%<span class="tag">배수 중간·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 미완성 카드라 종합 판정을 보류한다(이익률 조정 대기) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 9일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1077,11 +1077,11 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">37명 · 목표가 21</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">6</span> · 유지 <span data-an="hold">27</span> · 매도 <span data-an="sell">4</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 16.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 73%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 10.8%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">7</span> · 유지 <span data-an="hold">26</span> · 매도 <span data-an="sell">4</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 18.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 70.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 10.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-05</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$61.33</span> <span class="op-sub op-down" data-an="upside">−2.5%</span></span>
       </div>
       <div class="op-cell">
@@ -1286,62 +1286,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '결제 처리 6곳 PER 비교 (점수는 S&P500 결제·거래소·금융 데이터 기준) (GPN 값 없음) · 10/30 종가(FISV 막대는 11/6)',
-    unit: 'PER', max: 45, fisvValue: null,
+    title: '결제 처리 6곳 PER 비교 (점수는 S&P500 결제·거래소·금융 데이터 기준) · 11/6 종가',
+    unit: 'PER', max: 155, fisvValue: null,
     peers: [
-      { name:'FIS', value:5.9, status:'reference' },
-      { name:'JKHY', value:23.1, status:'reference' },
-      { name:'PYPL', value:10.9, status:'reference' },
-      { name:'V', value:35.2, status:'reference' },
-      { name:'MA', value:33.4, status:'reference' }
+      { name:'FIS', value:4.3, status:'reference' },
+      { name:'GPN', value:133.4, status:'reference' },
+      { name:'JKHY', value:23.8, status:'reference' },
+      { name:'PYPL', value:11.3, status:'reference' },
+      { name:'V', value:34.3, status:'reference' },
+      { name:'MA', value:34.1, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/30 종가(FISV 막대는 11/6)',
+    title: 'PBR 비교 · 11/6 종가',
     unit: 'PBR', max: 100, fisvValue: null,
     peers: [
-      { name:'FIS', value:1.2, status:'reference' },
+      { name:'FIS', value:0.9, status:'reference' },
       { name:'GPN', value:1.1, status:'reference' },
-      { name:'JKHY', value:5.5, status:'reference' },
-      { name:'PYPL', value:2.4, status:'reference' },
-      { name:'V', value:22.1, status:'reference' },
-      { name:'MA', value:82.8, status:'reference' }
+      { name:'JKHY', value:5.7, status:'reference' },
+      { name:'PYPL', value:2.5, status:'reference' },
+      { name:'V', value:21.9, status:'reference' },
+      { name:'MA', value:84.7, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/30 종가(FISV 막대는 11/6)',
-    unit: 'PSR(TTM)', max: 25, fisvValue: null,
+    title: 'PSR 비교 · 11/6 종가',
+    unit: 'PSR(TTM)', max: 20, fisvValue: null,
     peers: [
-      { name:'FIS', value:1.6, status:'reference' },
-      { name:'GPN', value:2.5, status:'reference' },
-      { name:'JKHY', value:4.5, status:'reference' },
+      { name:'FIS', value:1.1, status:'reference' },
+      { name:'GPN', value:2.2, status:'reference' },
+      { name:'JKHY', value:4.6, status:'reference' },
       { name:'PYPL', value:1.4, status:'reference' },
-      { name:'V', value:17.5, status:'reference' },
-      { name:'MA', value:15.4, status:'reference' }
+      { name:'V', value:17.2, status:'reference' },
+      { name:'MA', value:15.8, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/30 종가(FISV 막대는 11/6)',
+    title: 'PCR(FCF) 비교 (GPN 적자) · 11/6 종가',
     unit: 'PCR(FCF)', max: 45, fisvValue: null,
     peers: [
-      { name:'FIS', value:7.0, status:'reference' },
-      { name:'GPN', value:31.1, status:'reference' },
-      { name:'JKHY', value:16.3, status:'reference' },
-      { name:'PYPL', value:7.5, status:'reference' },
-      { name:'V', value:37.0, status:'reference' },
-      { name:'MA', value:34.8, status:'reference' }
+      { name:'FIS', value:5.3, status:'reference' },
+      { name:'JKHY', value:16.8, status:'reference' },
+      { name:'PYPL', value:7.8, status:'reference' },
+      { name:'V', value:35.8, status:'reference' },
+      { name:'MA', value:35.5, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/30 종가(FISV 막대는 11/6)',
+    title: 'EV/EBITDA 비교 · 11/6 종가',
     unit: 'EV/EBITDA', max: 1050, fisvValue: null,
     peers: [
-      { name:'FIS', value:9.7, status:'reference' },
-      { name:'GPN', value:11.8, status:'reference' },
-      { name:'JKHY', value:16.8, status:'reference' },
-      { name:'PYPL', value:7.4, status:'reference' },
-      { name:'V', value:27.8, status:'reference' },
-      { name:'MA', value:25.4, status:'reference' }
+      { name:'FIS', value:7.7, status:'reference' },
+      { name:'GPN', value:11.7, status:'reference' },
+      { name:'JKHY', value:13.8, status:'reference' },
+      { name:'PYPL', value:7.7, status:'reference' },
+      { name:'V', value:27.0, status:'reference' },
+      { name:'MA', value:26.0, status:'reference' }
     ]
   }
 };
@@ -1468,7 +1468,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py FISV
 const FISV_SCORES = {
   fundamental: 38.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 70.6,          // S&P500 결제·거래소·금융 데이터 대비 배수 순위 (v2/peer_universe/payments_exchanges.json)
+  peer: 69.5,          // S&P500 결제·거래소·금융 데이터 대비 배수 순위 (v2/peer_universe/payments_exchanges.json)
   selfHistory: 64.5,   // 자기 5년 배수 분포 백분위 (2021-11-08 ~ 2026-11-06)
   asOf: "2026-11-06",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1794,7 +1794,7 @@ const FISV_FUNDAMENTAL = {"ticker": "FISV", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py FISV --self v2/FISV_multiples.json --card
 /* VALUATION:BEGIN */
-const FISV_VALUATION = {"peer": {"score": 70.6, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 85.7, "rank": 3, "peers": 14}, {"metric": "pbr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "psr", "score": 93.8, "rank": 2, "peers": 16}, {"metric": "pcr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "evebitda", "score": 0.0, "rank": 16, "peers": 15}]}, "self": {"score": 64.5, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.5, "percentile": 20.5, "current": 13.38, "min": 8.0, "median": 30.03, "max": 56.72, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.5, "percentile": 20.5, "current": 1.59, "min": 0.88, "median": 2.34, "max": 4.93, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 84.0, "percentile": 16.0, "current": 1.61, "min": 1.13, "median": 4.01, "max": 6.68, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 79.5, "percentile": 20.5, "current": 10.59, "min": 6.01, "median": 22.44, "max": 30.01, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.1, "percentile": 99.9, "current": 909.05, "min": 6.99, "median": 15.15, "max": 909.05, "days": 1255, "currentNote": null}]}};
+const FISV_VALUATION = {"peer": {"score": 69.5, "sector": "Financials (S&P500 18종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "pbr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "psr", "score": 87.5, "rank": 3, "peers": 16}, {"metric": "pcr", "score": 86.7, "rank": 3, "peers": 15}, {"metric": "evebitda", "score": 0.0, "rank": 16, "peers": 15}]}, "self": {"score": 64.5, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.5, "percentile": 20.5, "current": 13.38, "min": 8.0, "median": 30.03, "max": 56.72, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 79.5, "percentile": 20.5, "current": 1.59, "min": 0.88, "median": 2.34, "max": 4.93, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 84.0, "percentile": 16.0, "current": 1.61, "min": 1.13, "median": 4.01, "max": 6.68, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 79.5, "percentile": 20.5, "current": 10.59, "min": 6.01, "median": 22.44, "max": 30.01, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.1, "percentile": 99.9, "current": 909.05, "min": 6.99, "median": 15.15, "max": 909.05, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2081,8 +2081,8 @@ const FISV_ACTIVITY = {"ticker": "FISV", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/fisv/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const FISV_ANALYST = { asOf: '2026-11-05', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 37, nTargets: 21, mean: 61.33, median: 60,
-  low: 46, high: 85, strongBuy: 4, buy: 2, hold: 27, sell: 2, strongSell: 2 };
+const FISV_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 37, nTargets: 21, mean: 61.33, median: 60,
+  low: 46, high: 85, strongBuy: 5, buy: 2, hold: 26, sell: 2, strongSell: 2 };
 (function(){
   const A = FISV_ANALYST, last = (typeof FISV_DAILY !== 'undefined' && FISV_DAILY.length) ? FISV_DAILY[FISV_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

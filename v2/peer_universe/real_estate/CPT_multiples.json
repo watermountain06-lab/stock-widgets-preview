@@ -1,43 +1,43 @@
 {
  "ticker": "CPT",
  "window": [
-  "2025-10-31",
-  "2026-10-30"
+  "2025-11-07",
+  "2026-11-06"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 33.34,
-   "min": 27.39,
-   "p10": 28.75,
+   "current": 9.27,
+   "min": 9.27,
+   "p10": 28.74,
    "median": 32.49,
-   "p90": 43.82,
-   "max": 71.2,
-   "mean": 35.32,
-   "percentile": 56.2,
-   "score": 43.8
+   "p90": 43.66,
+   "max": 45.09,
+   "mean": 34.5,
+   "percentile": 0.0,
+   "score": 100.0
   },
   "PBR": {
    "days": 251,
-   "current": 2.66,
-   "min": 2.3,
-   "p10": 2.39,
+   "current": 2.19,
+   "min": 2.19,
+   "p10": 2.4,
    "median": 2.58,
    "p90": 2.86,
    "max": 2.96,
    "mean": 2.61,
-   "percentile": 66.5,
-   "score": 33.5
+   "percentile": 0.0,
+   "score": 100.0
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 30.39,
-  "per_p75": 41.51,
-  "low": 90,
-  "high": 130,
-  "asOf": "2026-10-30",
+  "per_p25": 30.32,
+  "per_p75": 41.2,
+  "low": 330,
+  "high": 440,
+  "asOf": "2026-11-06",
   "basis": "diluted"
  }
 }

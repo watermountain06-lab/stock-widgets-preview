@@ -94,8 +94,8 @@ BULL = [('성장', '매출 +55%, 유기적 +30%, 수주/매출 1.23.'),
 BEAR = [('밸류', 'PER {SM[\'PER\'][\'current\']:.0f}배·PBR {SM[\'PBR\'][\'current\']:.1f}배로 5년 중 비싼 쪽이다.'),
         ('부채', 'CommScope 사업 인수 뒤 차입금 $18.8B, 현금·단기투자 $5.4B.'),
         ('일회성', '2분기 이익에 IEEPA 관세 환급 순효과 $80M(분할 전 주당 $0.04)이 들어 있다.')]
-ANALYST = {'rating': 'Strong Buy', 'n': 19, 'nt': 11, 'mean': 108.09, 'median': 111, 'low': 90, 'high': 122, 'sb': 13, 'b': 4, 'h': 2, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Strong Buy', 'n': 19, 'nt': 11, 'mean': 109.09, 'median': 111, 'low': 90, 'high': 122, 'sb': 13, 'b': 4, 'h': 2, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 MISS_WHY = {('DELL', 'pbr'): ' 자본 음수'}
 PRE = [r'''
 _G = json.loads(re.search(r'^const APH_DCF_GRID = (\{.*?\});', h, re.M).group(1))

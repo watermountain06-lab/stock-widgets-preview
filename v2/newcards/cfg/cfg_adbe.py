@@ -54,8 +54,8 @@ NEWS = [
      '매출 $6.19B(+10.5%) · 희석 EPS $4.45(1년 전 $3.79)', 'q4', 'Adobe 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Hold', 'n': 39, 'nt': 26, 'mean': 259.56, 'median': 250, 'low': 187.5, 'high': 373, 'sb': 5, 'b': 4, 'h': 24, 's': 1, 'ss': 5}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Hold', 'n': 39, 'nt': 26, 'mean': 257.9, 'median': 250, 'low': 187.5, 'high': 373, 'sb': 5, 'b': 4, 'h': 23, 's': 1, 'ss': 6}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 지역별 매출 Q3 FY26 3,974/1,852/934, 1년 전 3,555/1,586/847 = 연결 매출(2026-10-17) ──

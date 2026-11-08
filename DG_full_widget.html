@@ -900,7 +900,7 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.33 ~ 1.71(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">79.6</div><div class="sc-tile" data-vc="peer" data-m="per">80</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">68</div><div class="sc-tile" data-vc="peer" data-m="psr">82</div><div class="sc-tile" data-vc="peer" data-m="pcr">73</div><div class="sc-tile" data-vc="peer" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">79.6</div><div class="sc-tile" data-vc="peer" data-m="per">80</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">64</div><div class="sc-tile" data-vc="peer" data-m="psr">82</div><div class="sc-tile" data-vc="peer" data-m="pcr">77</div><div class="sc-tile" data-vc="peer" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
     <div class="vs-premise">PER 17.4배(5년 중앙값 18.7배)로 자기 이력 63.3점(중간), 동종업 79.6점(싸다)이다. <strong>현금흐름 내재가치(기본 $78.07)는 현재가의 58%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $78.07)는 현재가의 58%다. 현재가를 정당화하려면 영업이익률이 7.3%까지 올라야 한다(최근 4분기 5.6%, 5년 중앙값 6.3%). 내재가치에서 차입금 $4.6B를 빼고 현금·단기투자 $1.6B를 더한다. 회계연도가 1월 말에 끝나 FY2025는 2025년 2월~2026년 1월이다. 매장 운용리스가 커서 차입금과 따로 본다. 2024년 매장 정리 비용으로 이익이 크게 줄었다가 회복하는 중이라 전년 대비 증가율이 크게 나온다. Q2 FY26 이익에는 관세 환급(일회성)이 조금 들어 있다.</div>
@@ -972,7 +972,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">유통 6곳 PER 비교 (점수는 S&amp;P500 필수소비재 기준) · 10/30 종가(DG 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">유통 6곳 PER 비교 (점수는 S&amp;P500 필수소비재 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1071,7 +1071,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 41.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 54.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.2%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$144</span> <span class="op-sub op-up" data-an="upside">+7.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1276,60 +1276,60 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '유통 6곳 PER 비교 (점수는 S&P500 필수소비재 기준) · 10/30 종가(DG 막대는 11/6)',
-    unit: 'PER', max: 60, dgValue: null,
+    title: '유통 6곳 PER 비교 (점수는 S&P500 필수소비재 기준) · 11/6 종가',
+    unit: 'PER', max: 65, dgValue: null,
     peers: [
-      { name:'WMT', value:44.8, status:'reference' },
-      { name:'COST', value:48.8, status:'reference' },
-      { name:'TGT', value:16.0, status:'reference' },
-      { name:'KR', value:36.1, status:'reference' },
-      { name:'DLTR', value:16.4, status:'reference' },
-      { name:'PG', value:24.3, status:'reference' }
+      { name:'WMT', value:45.5, status:'reference' },
+      { name:'COST', value:53.0, status:'reference' },
+      { name:'TGT', value:16.4, status:'reference' },
+      { name:'KR', value:36.6, status:'reference' },
+      { name:'DLTR', value:16.0, status:'reference' },
+      { name:'PG', value:25.0, status:'reference' }
     ]
   },
   pbr: {
-    title: '유통 PBR 비교 · 10/30 종가(DG 막대는 11/6)',
+    title: '유통 PBR 비교 · 11/6 종가',
     unit: 'PBR', max: 15, dgValue: null,
     peers: [
-      { name:'WMT', value:10.0, status:'reference' },
-      { name:'COST', value:12.5, status:'reference' },
-      { name:'TGT', value:3.9, status:'reference' },
+      { name:'WMT', value:10.1, status:'reference' },
+      { name:'COST', value:13.0, status:'reference' },
+      { name:'TGT', value:4.0, status:'reference' },
       { name:'KR', value:6.8, status:'reference' },
-      { name:'DLTR', value:7.3, status:'reference' },
-      { name:'PG', value:6.9, status:'reference' }
+      { name:'DLTR', value:7.2, status:'reference' },
+      { name:'PG', value:7.0, status:'reference' }
     ]
   },
   psr: {
-    title: '유통 PSR 비교 (KR 값 없음) · 10/30 종가(DG 막대는 11/6)',
-    unit: 'PSR(TTM)', max: 5, dgValue: null,
+    title: '유통 PSR 비교 (KR 값 없음) · 11/6 종가',
+    unit: 'PSR(TTM)', max: 10, dgValue: null,
     peers: [
       { name:'WMT', value:1.4, status:'reference' },
       { name:'COST', value:1.5, status:'reference' },
       { name:'TGT', value:0.7, status:'reference' },
       { name:'DLTR', value:1.2, status:'reference' },
-      { name:'PG', value:4.3, status:'reference' }
+      { name:'PG', value:4.4, status:'reference' }
     ]
   },
   pcr: {
-    title: '유통 PCR(FCF) 비교 (KR 값 없음) · 10/30 종가(DG 막대는 11/6)',
+    title: '유통 PCR(FCF) 비교 (KR 값 없음) · 11/6 종가',
     unit: 'PCR(FCF)', max: 85, dgValue: null,
     peers: [
-      { name:'WMT', value:72.5, status:'reference' },
-      { name:'COST', value:47.8, status:'reference' },
-      { name:'TGT', value:15.7, status:'reference' },
-      { name:'DLTR', value:12.7, status:'reference' },
-      { name:'PG', value:24.4, status:'reference' }
+      { name:'WMT', value:73.7, status:'reference' },
+      { name:'COST', value:49.8, status:'reference' },
+      { name:'TGT', value:16.1, status:'reference' },
+      { name:'DLTR', value:12.4, status:'reference' },
+      { name:'PG', value:25.0, status:'reference' }
     ]
   },
   evebitda: {
-    title: '유통 EV/EBITDA 비교 (KR 값 없음) · 10/30 종가(DG 막대는 11/6)',
-    unit: 'EV/EBITDA', max: 35, dgValue: null,
+    title: '유통 EV/EBITDA 비교 (KR 값 없음) · 11/6 종가',
+    unit: 'EV/EBITDA', max: 40, dgValue: null,
     peers: [
-      { name:'WMT', value:21.6, status:'reference' },
-      { name:'COST', value:30.2, status:'reference' },
-      { name:'TGT', value:8.7, status:'reference' },
-      { name:'DLTR', value:11.7, status:'reference' },
-      { name:'PG', value:16.6, status:'reference' }
+      { name:'WMT', value:22.0, status:'reference' },
+      { name:'COST', value:31.5, status:'reference' },
+      { name:'TGT', value:8.9, status:'reference' },
+      { name:'DLTR', value:11.5, status:'reference' },
+      { name:'PG', value:17.0, status:'reference' }
     ]
   }
 };
@@ -1790,7 +1790,7 @@ const DG_FUNDAMENTAL = {"ticker": "DG", "basis": "quarter", "asOf": "2026-07-31"
 //
 // 갱신: python3 v2/build_peer_score.py DG --self v2/DG_multiples.json --card
 /* VALUATION:BEGIN */
-const DG_VALUATION = {"peer": {"score": 79.6, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 80.0, "rank": 6, "peers": 25}, {"metric": "pbr", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "psr", "score": 81.5, "rank": 6, "peers": 27}, {"metric": "pcr", "score": 73.1, "rank": 8, "peers": 26}, {"metric": "evebitda", "score": 95.5, "rank": 2, "peers": 22}]}, "self": {"score": 63.3, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 62.5, "percentile": 37.5, "current": 17.39, "min": 10.43, "median": 18.71, "max": 26.98, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 67.1, "percentile": 32.9, "current": 3.18, "min": 2.05, "median": 4.1, "max": 9.81, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 57.7, "percentile": 42.3, "current": 0.68, "min": 0.37, "median": 0.73, "max": 1.73, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 56.9, "percentile": 43.1, "current": 14.68, "min": 9.13, "median": 28.41, "max": 449.64, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 72.5, "percentile": 27.5, "current": 9.22, "min": 7.06, "median": 10.68, "max": 16.95, "days": 1255, "currentNote": null}]}};
+const DG_VALUATION = {"peer": {"score": 79.6, "sector": "Consumer Staples (S&P500 33종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 80.0, "rank": 6, "peers": 25}, {"metric": "pbr", "score": 64.0, "rank": 10, "peers": 25}, {"metric": "psr", "score": 81.5, "rank": 6, "peers": 27}, {"metric": "pcr", "score": 76.9, "rank": 7, "peers": 26}, {"metric": "evebitda", "score": 95.5, "rank": 2, "peers": 22}]}, "self": {"score": 63.3, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 62.5, "percentile": 37.5, "current": 17.39, "min": 10.43, "median": 18.71, "max": 26.98, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 67.1, "percentile": 32.9, "current": 3.18, "min": 2.05, "median": 4.1, "max": 9.81, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 57.7, "percentile": 42.3, "current": 0.68, "min": 0.37, "median": 0.73, "max": 1.73, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 56.9, "percentile": 43.1, "current": 14.68, "min": 9.13, "median": 28.41, "max": 449.64, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 72.5, "percentile": 27.5, "current": 9.22, "min": 7.06, "median": 10.68, "max": 16.95, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2079,7 +2079,7 @@ const DG_ACTIVITY = {"ticker": "DG", "status": "N/A", "reason": "5년 비교 이
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/dg/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const DG_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 31, nTargets: 23, mean: 144, median: 140,
+const DG_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 31, nTargets: 23, mean: 144, median: 140,
   low: 110, high: 178, strongBuy: 10, buy: 3, hold: 17, sell: 0, strongSell: 1 };
 (function(){
   const A = DG_ANALYST, last = (typeof DG_DAILY !== 'undefined' && DG_DAILY.length) ? DG_DAILY[DG_DAILY.length - 1] : null;

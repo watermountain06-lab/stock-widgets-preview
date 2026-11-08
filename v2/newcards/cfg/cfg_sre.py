@@ -76,8 +76,8 @@ NEWS = [
     ('green', '2025년 9월 23일 — SI Partners 지분 45% KKR 매각 계약', '2025-09-23',
      '기본가 $9.99B(조정 대상, 종결 때 현금 $4.65B) · 매각 뒤 Sempra 지분 25% · 텍사스·캘리포니아 유틸리티 투자 자금 — 당일 주가 +4.5%', 'deal', 'Sempra 공시 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 15, 'mean': 99.03, 'median': 99, 'low': 83, 'high': 118, 'sb': 13, 'b': 3, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-07'
+ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 15, 'mean': 99.03, 'median': 99, 'low': 83, 'high': 118, 'sb': 13, 'b': 4, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, AWK·AES 방식 — 대형 지분 매각 종결 대기).

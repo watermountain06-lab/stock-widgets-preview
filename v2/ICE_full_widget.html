@@ -974,7 +974,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">거래소·금융 데이터 6곳 PER 비교 · 10/30 종가(ICE 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">거래소·금융 데이터 6곳 PER 비교 · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1093,8 +1093,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 81.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 12.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 6.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$188.53</span> <span class="op-sub op-up" data-an="upside">+9.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$188.67</span> <span class="op-sub op-up" data-an="upside">+9.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1298,61 +1298,61 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '거래소·금융 데이터 6곳 PER 비교 · 10/30 종가(ICE 막대는 11/6)',
-    unit: 'PER', max: 40, iceValue: null,
+    title: '거래소·금융 데이터 6곳 PER 비교 · 11/6 종가',
+    unit: 'PER', max: 45, iceValue: null,
     peers: [
-      { name:'CME', value:24.9, status:'reference' },
-      { name:'NDAQ', value:29.0, status:'reference' },
-      { name:'CBOE', value:26.1, status:'reference' },
-      { name:'SPGI', value:27.4, status:'reference' },
-      { name:'MCO', value:30.1, status:'reference' },
-      { name:'MSCI', value:34.2, status:'reference' }
+      { name:'CME', value:25.9, status:'reference' },
+      { name:'NDAQ', value:29.3, status:'reference' },
+      { name:'CBOE', value:27.5, status:'reference' },
+      { name:'SPGI', value:27.5, status:'reference' },
+      { name:'MCO', value:32.1, status:'reference' },
+      { name:'MSCI', value:36.4, status:'reference' }
     ]
   },
   pbr: {
-    title: '거래소·금융 데이터 PBR 비교 (MSCI 값 없음) · 10/30 종가(ICE 막대는 11/6)',
+    title: '거래소·금융 데이터 PBR 비교 (MSCI 값 없음) · 11/6 종가',
     unit: 'PBR', max: 35, iceValue: null,
     peers: [
       { name:'CME', value:4.1, status:'reference' },
-      { name:'NDAQ', value:4.9, status:'reference' },
-      { name:'CBOE', value:6.2, status:'reference' },
+      { name:'NDAQ', value:5.0, status:'reference' },
+      { name:'CBOE', value:6.6, status:'reference' },
       { name:'SPGI', value:6.9, status:'reference' },
-      { name:'MCO', value:26.1, status:'reference' }
+      { name:'MCO', value:26.7, status:'reference' }
     ]
   },
   psr: {
-    title: '거래소·금융 데이터 PSR 비교 · 10/30 종가(ICE 막대는 11/6)',
+    title: '거래소·금융 데이터 PSR 비교 · 11/6 종가',
     unit: 'PSR(TTM)', max: 20, iceValue: null,
     peers: [
-      { name:'CME', value:15.6, status:'reference' },
-      { name:'NDAQ', value:6.4, status:'reference' },
-      { name:'CBOE', value:6.9, status:'reference' },
+      { name:'CME', value:15.8, status:'reference' },
+      { name:'NDAQ', value:6.5, status:'reference' },
+      { name:'CBOE', value:7.3, status:'reference' },
       { name:'SPGI', value:8.5, status:'reference' },
-      { name:'MCO', value:10.4, status:'reference' },
-      { name:'MSCI', value:13.0, status:'reference' }
+      { name:'MCO', value:10.7, status:'reference' },
+      { name:'MSCI', value:13.3, status:'reference' }
     ]
   },
   pcr: {
-    title: '거래소·금융 데이터 PCR(FCF) 비교 · 10/30 종가(ICE 막대는 11/6)',
+    title: '거래소·금융 데이터 PCR(FCF) 비교 · 11/6 종가',
     unit: 'PCR(FCF)', max: 45, iceValue: null,
     peers: [
-      { name:'CME', value:25.2, status:'reference' },
-      { name:'NDAQ', value:26.1, status:'reference' },
-      { name:'CBOE', value:36.6, status:'reference' },
+      { name:'CME', value:25.4, status:'reference' },
+      { name:'NDAQ', value:26.3, status:'reference' },
+      { name:'CBOE', value:38.5, status:'reference' },
       { name:'SPGI', value:25.7, status:'reference' },
-      { name:'MCO', value:28.6, status:'reference' },
-      { name:'MSCI', value:30.6, status:'reference' }
+      { name:'MCO', value:29.3, status:'reference' },
+      { name:'MSCI', value:31.5, status:'reference' }
     ]
   },
   evebitda: {
-    title: '거래소·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/30 종가(ICE 막대는 11/6)',
+    title: '거래소·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 11/6 종가',
     unit: 'EV/EBITDA', max: 30, iceValue: null,
     peers: [
-      { name:'CME', value:22.4, status:'reference' },
-      { name:'NDAQ', value:19.8, status:'reference' },
-      { name:'CBOE', value:18.2, status:'reference' },
-      { name:'MCO', value:21.9, status:'reference' },
-      { name:'MSCI', value:24.2, status:'reference' }
+      { name:'CME', value:22.6, status:'reference' },
+      { name:'NDAQ', value:20.0, status:'reference' },
+      { name:'CBOE', value:19.2, status:'reference' },
+      { name:'MCO', value:22.4, status:'reference' },
+      { name:'MSCI', value:24.8, status:'reference' }
     ]
   }
 };
@@ -2098,8 +2098,8 @@ const ICE_ACTIVITY = {"ticker": "ICE", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ice/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ICE_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 16, nTargets: 15, mean: 188.53, median: 189,
-  low: 167, high: 243, strongBuy: 8, buy: 5, hold: 2, sell: 0, strongSell: 1 };
+const ICE_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 16, nTargets: 15, mean: 188.67, median: 189,
+  low: 167, high: 245, strongBuy: 8, buy: 5, hold: 2, sell: 0, strongSell: 1 };
 (function(){
   const A = ICE_ANALYST, last = (typeof ICE_DAILY !== 'undefined' && ICE_DAILY.length) ? ICE_DAILY[ICE_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

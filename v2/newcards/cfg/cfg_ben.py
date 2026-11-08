@@ -13,7 +13,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q3 FY26', 'Q3 FY25', 'Q2 FY26'
 L8 = ['Q4 FY24', 'Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26']
 FY_ENDS, FY_LABEL = ('2025-09-30', '2024-09-30'), 'FY2025'
-VOTES, VERDICT = (-1, 1, -2), '적정~고평가'
+VOTES, VERDICT = (-1, None, -2), '고평가'
 CO = 'Franklin Templeton'
 S_ = 'https://www.sec.gov/Archives/edgar/data/38777/'
 SEC = S_
@@ -53,7 +53,7 @@ NEWS = [
      '매출 $2.34B(+6.0%) · 순이익 $118M · 희석 EPS $0.21(1년 전 −$0.19, Western Asset 운용계약 손상 $200M 포함) · 조정 EPS $0.67 — 당일 주가 −4.4%', 'q4', 'Franklin Templeton 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 11, 'mean': 35.73, 'median': 35, 'low': 26, 'high': 40, 'sb': 4, 'b': 0, 'h': 7, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-11-04'
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문(축 하나만 붙은 값). 원문 대조: Q3 FY26 1,866.2/404.5/74.3/13.4(2026-11-04) ──

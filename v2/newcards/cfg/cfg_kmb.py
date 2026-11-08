@@ -54,8 +54,8 @@ NEWS = [
     ('neutral', '2026년 1월 27일 장 전 — Q4 2025 실적', '2026-01-27',
      '매출 $4.1B(−0.6%) · 계속사업 희석 EPS $1.14(조정 $1.43; 중단사업 포함 $1.50·조정 $1.86) — 당일 주가 −0.5%', 'q4', 'Kimberly-Clark 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 17, 'nt': 13, 'mean': 116.46, 'median': 115, 'low': 90, 'high': 162, 'sb': 4, 'b': 3, 'h': 9, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-07'
+ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 12, 'mean': 116.17, 'median': 115, 'low': 90, 'high': 162, 'sb': 4, 'b': 3, 'h': 8, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-11-08'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, FISV·MLM·NSC·PTC·CHRW·SYY 방식).

@@ -48,8 +48,8 @@ NEWS = [
     ('neutral', '2025년 10월 28일 — Q3 2025 실적', '2025-10-28',
      '매출 $943M · 순이익 $132M · 희석 EPS $0.94(1년 전 $0.82)', 'q3', 'A. O. Smith 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 8, 'mean': 64.88, 'median': 67, 'low': 58, 'high': 72, 'sb': 2, 'b': 1, 'h': 8, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 8, 'mean': 65.13, 'median': 67, 'low': 58, 'high': 72, 'sb': 2, 'b': 0, 'h': 9, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 2개(수동 지도, 외부 매출). 2026 Q3 10-Q부터 외부 매출은 ConsolidationItems 축의 Geo 멤버에 붙는다 —

@@ -73,7 +73,7 @@ NEWS = [
      '4분기 매출 $3.2B · 희석 EPS −$0.10(비현금 손상 $234M) · 조정 EPS $0.32 · 연간 희석 EPS $0.87 · 조정 $1.37 — 그날 주가 +3.8%', 'q4', 'Hormel Foods 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 10, 'nt': 7, 'mean': 25.14, 'median': 24, 'low': 23, 'high': 29, 'sb': 1, 'b': 2, 'h': 7, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-07'
+ANALYST_ASOF = '2026-11-08'
 
 # 미완성 카드 표시(2026-11-07 사용자 규칙, D·SRE 방식).
 INCOMPLETE_SHORT = '일회성 손실로 이익 왜곡'

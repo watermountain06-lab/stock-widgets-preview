@@ -969,7 +969,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">증권·거래소 PER 비교 (점수는 결제·거래소·중개 비교군 기준) (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 10/30 종가(HOOD 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">증권·거래소 PER 비교 (점수는 결제·거래소·중개 비교군 기준) (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1094,8 +1094,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 81.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 12.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 6.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$134.43</span> <span class="op-sub op-up" data-an="upside">+66.1%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$133.03</span> <span class="op-sub op-up" data-an="upside">+64.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1299,51 +1299,51 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '증권·거래소 PER 비교 (점수는 결제·거래소·중개 비교군 기준) (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 10/30 종가(HOOD 막대는 11/6)',
+    title: '증권·거래소 PER 비교 (점수는 결제·거래소·중개 비교군 기준) (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/6 종가',
     unit: 'PER', max: 45, hoodValue: null,
     peers: [
-      { name:'ICE', value:23.9, status:'reference' },
-      { name:'CME', value:25.7, status:'reference' },
-      { name:'NDAQ', value:29.0, status:'reference' }
+      { name:'ICE', value:24.3, status:'reference' },
+      { name:'CME', value:25.9, status:'reference' },
+      { name:'NDAQ', value:29.3, status:'reference' }
     ]
   },
   pbr: {
-    title: '증권·거래소 PBR 비교 (SCHW 값 없음·IBKR 값 없음) · 10/30 종가(HOOD 막대는 11/6)',
+    title: '증권·거래소 PBR 비교 (SCHW 값 없음·IBKR 값 없음) · 11/6 종가',
     unit: 'PBR', max: 10, hoodValue: null,
     peers: [
-      { name:'COIN', value:2.9, status:'reference' },
+      { name:'COIN', value:2.6, status:'reference' },
       { name:'ICE', value:3.2, status:'reference' },
       { name:'CME', value:4.1, status:'reference' },
-      { name:'NDAQ', value:4.9, status:'reference' }
+      { name:'NDAQ', value:5.0, status:'reference' }
     ]
   },
   psr: {
-    title: '증권·거래소 PSR 비교 (SCHW 값 없음·IBKR 값 없음) · 10/30 종가(HOOD 막대는 11/6)',
+    title: '증권·거래소 PSR 비교 (SCHW 값 없음·IBKR 값 없음) · 11/6 종가',
     unit: 'PSR(TTM)', max: 20, hoodValue: null,
     peers: [
-      { name:'COIN', value:6.0, status:'reference' },
-      { name:'ICE', value:6.7, status:'reference' },
-      { name:'CME', value:15.6, status:'reference' },
-      { name:'NDAQ', value:6.4, status:'reference' }
+      { name:'COIN', value:6.3, status:'reference' },
+      { name:'ICE', value:6.8, status:'reference' },
+      { name:'CME', value:15.8, status:'reference' },
+      { name:'NDAQ', value:6.5, status:'reference' }
     ]
   },
   pcr: {
-    title: '증권·거래소 PCR(FCF) 비교 (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 10/30 종가(HOOD 막대는 11/6)',
+    title: '증권·거래소 PCR(FCF) 비교 (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/6 종가',
     unit: 'PCR(FCF)', max: 35, hoodValue: null,
     peers: [
-      { name:'ICE', value:17.9, status:'reference' },
-      { name:'CME', value:25.2, status:'reference' },
-      { name:'NDAQ', value:26.1, status:'reference' }
+      { name:'ICE', value:18.2, status:'reference' },
+      { name:'CME', value:25.4, status:'reference' },
+      { name:'NDAQ', value:26.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: '증권·거래소 EV/EBITDA 비교 (SCHW 값 없음·IBKR 값 없음) · 10/30 종가(HOOD 막대는 11/6)',
-    unit: 'EV/EBITDA', max: 50, hoodValue: null,
+    title: '증권·거래소 EV/EBITDA 비교 (SCHW 값 없음·IBKR 값 없음) · 11/6 종가',
+    unit: 'EV/EBITDA', max: 85, hoodValue: null,
     peers: [
-      { name:'COIN', value:40.7, status:'reference' },
-      { name:'ICE', value:16.1, status:'reference' },
-      { name:'CME', value:22.4, status:'reference' },
-      { name:'NDAQ', value:19.8, status:'reference' }
+      { name:'COIN', value:72.1, status:'reference' },
+      { name:'ICE', value:16.3, status:'reference' },
+      { name:'CME', value:22.6, status:'reference' },
+      { name:'NDAQ', value:20.0, status:'reference' }
     ]
   }
 };
@@ -2094,7 +2094,7 @@ const HOOD_ACTIVITY = {"ticker": "HOOD", "status": "N/A", "reason": "증권사�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/hood/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const HOOD_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 32, nTargets: 25, mean: 134.43, median: 134,
+const HOOD_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 32, nTargets: 25, mean: 133.03, median: 130,
   low: 100, high: 170, strongBuy: 20, buy: 6, hold: 4, sell: 1, strongSell: 1 };
 (function(){
   const A = HOOD_ANALYST, last = (typeof HOOD_DAILY !== 'undefined' && HOOD_DAILY.length) ? HOOD_DAILY[HOOD_DAILY.length - 1] : null;

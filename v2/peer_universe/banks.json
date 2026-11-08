@@ -28,8 +28,8 @@
    }
   },
   "CFG": {
-   "ptbv": 1.6975,
-   "ptbv_end": "2026-06-30",
+   "ptbv": 1.8205,
+   "ptbv_end": "2026-09-30",
    "per": 13.7478,
    "tags": {
     "equity": "StockholdersEquity",
@@ -39,8 +39,8 @@
    }
   },
   "FITB": {
-   "ptbv": 2.2835,
-   "ptbv_end": "2026-06-30",
+   "ptbv": 2.4136,
+   "ptbv_end": "2026-09-30",
    "per": 18.1644,
    "tags": {
     "equity": "StockholdersEquity",
@@ -50,8 +50,8 @@
    }
   },
   "HBAN": {
-   "ptbv": 1.6137,
-   "ptbv_end": "2026-06-30",
+   "ptbv": 1.6435,
+   "ptbv_end": "2026-09-30",
    "per": 11.9,
    "tags": {
     "equity": "StockholdersEquity",
@@ -72,8 +72,8 @@
    }
   },
   "KEY": {
-   "ptbv": 1.537,
-   "ptbv_end": "2026-06-30",
+   "ptbv": 1.6945,
+   "ptbv_end": "2026-09-30",
    "per": 12.1221,
    "tags": {
     "equity": "StockholdersEquity",
@@ -94,14 +94,16 @@
    }
   },
   "PNC": {
-   "ptbv_missing": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)",
+   "ptbv": 2.0747,
+   "ptbv_end": "2026-09-30",
    "per": 12.404,
    "tags": {
     "equity": "StockholdersEquity",
-    "preferred": "7판 표: 분리 불가",
+    "preferred": "8판 표: 자본변동표 차원 값(PreferredStockIncludingAdditionalPaidInCapitalMember)",
     "intangibles": "IntangibleAssetsNetExcludingGoodwill",
     "shares": "Issued−Treasury"
-   }
+   },
+   "ia_note": "무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모: 규제자본 차감 무형자산 $666M(2026-06, TCE 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(약 1.7%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단)."
   },
   "RF": {
    "ptbv": 2.0789,
@@ -112,11 +114,14 @@
     "preferred": "7판 표: us-gaap:PreferredStockValueOutstanding",
     "intangibles": "IntangibleAssetsNetExcludingGoodwill",
     "shares": "Issued−Treasury"
-   }
+   },
+   "near_biased": [
+    "PNC"
+   ]
   },
   "TFC": {
-   "ptbv": 1.4921,
-   "ptbv_end": "2026-06-30",
+   "ptbv": 1.5628,
+   "ptbv_end": "2026-09-30",
    "per": 11.2998,
    "tags": {
     "equity": "StockholdersEquity",
@@ -134,7 +139,10 @@
     "preferred": "7판 표: us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount",
     "intangibles": "IntangibleAssetsNetExcludingGoodwill",
     "shares": "Issued−Treasury"
-   }
+   },
+   "near_biased": [
+    "PNC"
+   ]
   },
   "WFC": {
    "ptbv": 1.8845,
@@ -148,7 +156,5 @@
    }
   }
  },
- "skipped": {
-  "PNC:ptbv": "분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)"
- }
+ "skipped": {}
 }

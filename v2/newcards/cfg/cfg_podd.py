@@ -47,8 +47,8 @@ NEWS = [
     ('neutral', '2025년 11월 6일 — Q3 2025 실적', '2025-11-06',
      '매출 $706M · 순이익 $88M · 희석 EPS $1.24(1년 전 $1.08)', 'q3', 'Insulet 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 21, 'mean': 172.81, 'median': 175, 'low': 143, 'high': 216, 'sb': 11, 'b': 4, 'h': 11, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 21, 'mean': 182.14, 'median': 180, 'low': 144, 'high': 216, 'sb': 11, 'b': 4, 'h': 11, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 제품·지역 3개(수동 지도, ProductOmnipodMember는 미국+해외 합계라 뺌). 원문 대조: Q2 2026 544.1/251.8/5.8(2026-10-25) ──

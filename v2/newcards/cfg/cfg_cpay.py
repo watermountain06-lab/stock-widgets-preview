@@ -53,8 +53,8 @@ NEWS = [
     ('green', '2026년 2월 4일 장 마감 뒤 — Q4 2025 실적', '2026-02-05',
      '매출 $1.25B(+20.7%) · 희석 EPS $3.75(1년 전 $3.44) · 조정 EPS $6.04 · PayByPhone 매각 발표 — 다음 날 주가 +11.6%', 'q4', 'Corpay 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 12, 'mean': 480.58, 'median': 481, 'low': 390, 'high': 539, 'sb': 8, 'b': 5, 'h': 3, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-05'
+ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 12, 'mean': 486.42, 'median': 481, 'low': 406, 'high': 539, 'sb': 8, 'b': 5, 'h': 3, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 

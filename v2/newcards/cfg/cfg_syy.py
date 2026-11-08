@@ -53,8 +53,8 @@ NEWS = [
     ('green', '2026년 1월 27일 장 전 — Q2 FY26 실적', '2026-01-27',
      '매출 $20.8B(+3.0%) · 순이익 $389M · 희석 EPS $0.81(1년 전 $0.82) — 당일 주가 +11.0%', 'q2', 'Sysco 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 13, 'nt': 11, 'mean': 91.82, 'median': 91, 'low': 84, 'high': 102, 'sb': 5, 'b': 1, 'h': 6, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-07'
+ANALYST = {'rating': 'Buy', 'n': 14, 'nt': 11, 'mean': 91.82, 'median': 91, 'low': 84, 'high': 102, 'sb': 5, 'b': 2, 'h': 6, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-11-08'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, FISV·MLM·NSC·PTC·CHRW 방식).

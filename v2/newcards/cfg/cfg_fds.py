@@ -54,8 +54,8 @@ NEWS = [
      '매출 $607.6M(+6.8%) · 희석 EPS $4.06(1년 전 $3.89)', 'q1', 'FactSet 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Hold', 'n': 18, 'nt': 13, 'mean': 274.54, 'median': 290, 'low': 212, 'high': 340, 'sb': 3, 'b': 0, 'h': 9, 's': 2, 'ss': 4}
-ANALYST_ASOF = '2026-11-05'
+ANALYST = {'rating': 'Hold', 'n': 18, 'nt': 13, 'mean': 278.77, 'median': 292, 'low': 212, 'high': 340, 'sb': 3, 'b': 0, 'h': 9, 's': 2, 'ss': 4}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-K 부문 주석 FY26 1,617.4/605.3/253.5, 4분기 = 연간 − Q3 10-Q 9개월(414.3/154.8/65.6)(2026-11-05) ──

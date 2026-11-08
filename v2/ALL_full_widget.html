@@ -967,7 +967,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">손해보험 6곳 PER 비교 (점수는 S&amp;P500 보험사 기준) · 10/30 종가(ALL 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">손해보험 6곳 PER 비교 (점수는 S&amp;P500 보험사 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1075,12 +1075,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">25명 · 목표가 19</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">11</span> · 유지 <span data-an="hold">10</span> · 매도 <span data-an="sell">4</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 44%; background: var(--green);"></div><div data-an-bar="hold" style="width: 40%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 16%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">10</span> · 유지 <span data-an="hold">11</span> · 매도 <span data-an="sell">4</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 40%; background: var(--green);"></div><div data-an-bar="hold" style="width: 44%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 16%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$263.68</span> <span class="op-sub op-up" data-an="upside">+3.5%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$274.53</span> <span class="op-sub op-up" data-an="upside">+7.7%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1284,50 +1284,50 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '손해보험 6곳 PER 비교 (점수는 S&P500 보험사 기준) · 10/30 종가(ALL 막대는 11/6)',
+    title: '손해보험 6곳 PER 비교 (점수는 S&P500 보험사 기준) · 11/6 종가',
     unit: 'PER', max: 20, allValue: null,
     peers: [
-      { name:'PGR', value:11.6, status:'reference' },
+      { name:'PGR', value:11.4, status:'reference' },
       { name:'TRV', value:10.4, status:'reference' },
-      { name:'CB', value:12.8, status:'reference' },
-      { name:'AIG', value:14.9, status:'reference' },
-      { name:'HIG', value:8.8, status:'reference' },
-      { name:'WRB', value:15.2, status:'reference' }
+      { name:'CB', value:12.9, status:'reference' },
+      { name:'AIG', value:12.6, status:'reference' },
+      { name:'HIG', value:8.9, status:'reference' },
+      { name:'WRB', value:15.9, status:'reference' }
     ]
   },
   pbr: {
-    title: '손해보험 PBR 비교 · 10/30 종가(ALL 막대는 11/6)',
+    title: '손해보험 PBR 비교 · 11/6 종가',
     unit: 'PBR', max: 5, allValue: null,
     peers: [
-      { name:'PGR', value:3.9, status:'reference' },
+      { name:'PGR', value:3.8, status:'reference' },
       { name:'TRV', value:2.8, status:'reference' },
       { name:'CB', value:1.9, status:'reference' },
-      { name:'AIG', value:1.1, status:'reference' },
+      { name:'AIG', value:1.0, status:'reference' },
       { name:'HIG', value:1.9, status:'reference' },
-      { name:'WRB', value:2.8, status:'reference' }
+      { name:'WRB', value:2.9, status:'reference' }
     ]
   },
   psr: {
-    title: '손해보험 PSR 비교 (HIG 값 없음) · 10/30 종가(ALL 막대는 11/6)',
+    title: '손해보험 PSR 비교 (HIG 값 없음) · 11/6 종가',
     unit: 'PSR(TTM)', max: 5, allValue: null,
     peers: [
-      { name:'PGR', value:1.5, status:'reference' },
+      { name:'PGR', value:1.4, status:'reference' },
       { name:'TRV', value:1.7, status:'reference' },
       { name:'CB', value:2.2, status:'reference' },
-      { name:'AIG', value:1.6, status:'reference' },
-      { name:'WRB', value:1.8, status:'reference' }
+      { name:'AIG', value:1.4, status:'reference' },
+      { name:'WRB', value:1.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '손해보험 PCR(FCF) 비교 (TRV 값 없음·CB 값 없음·AIG 값 없음·WRB 값 없음) · 10/30 종가(ALL 막대는 11/6)',
-    unit: 'PCR(FCF)', max: 10, allValue: null,
+    title: '손해보험 PCR(FCF) 비교 (TRV 값 없음·CB 값 없음·AIG 값 없음·WRB 값 없음) · 11/6 종가',
+    unit: 'PCR(FCF)', max: 15, allValue: null,
     peers: [
-      { name:'PGR', value:8.4, status:'reference' },
-      { name:'HIG', value:6.0, status:'reference' }
+      { name:'PGR', value:8.7, status:'reference' },
+      { name:'HIG', value:6.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '손해보험 EV/EBITDA 비교 (PGR 값 없음·TRV 값 없음·CB 값 없음·AIG 값 없음·HIG 값 없음·WRB 값 없음) · 10/30 종가(ALL 막대는 11/6)',
+    title: '손해보험 EV/EBITDA 비교 (PGR 값 없음·TRV 값 없음·CB 값 없음·AIG 값 없음·HIG 값 없음·WRB 값 없음) · 11/6 종가',
     unit: 'EV/EBITDA', max: 5, allValue: null,
     peers: [
 
@@ -2081,8 +2081,8 @@ const ALL_ACTIVITY = {"ticker": "ALL", "status": "N/A", "reason": "보험사라 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/all/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ALL_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 19, mean: 263.68, median: 262,
-  low: 215, high: 315, strongBuy: 9, buy: 2, hold: 10, sell: 2, strongSell: 2 };
+const ALL_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 25, nTargets: 19, mean: 274.53, median: 275,
+  low: 225, high: 370, strongBuy: 8, buy: 2, hold: 11, sell: 2, strongSell: 2 };
 (function(){
   const A = ALL_ANALYST, last = (typeof ALL_DAILY !== 'undefined' && ALL_DAILY.length) ? ALL_DAILY[ALL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

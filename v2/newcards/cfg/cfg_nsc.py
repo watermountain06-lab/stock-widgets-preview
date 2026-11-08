@@ -50,7 +50,7 @@ NEWS = [
      '찬성 약 99% · NSC 1주당 UNP 1주 + 현금 $88.82 · STB 승인 대기, 회사 예상 종결 2027년 초 — 발표일 주가 +0.2%', 'vote', 'Norfolk Southern 공시 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 21, 'nt': 13, 'mean': 362, 'median': 355, 'low': 323, 'high': 400, 'sb': 4, 'b': 1, 'h': 16, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-07'
+ANALYST_ASOF = '2026-11-08'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, FISV·MLM 방식).

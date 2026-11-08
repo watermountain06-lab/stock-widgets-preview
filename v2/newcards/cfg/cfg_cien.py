@@ -57,8 +57,8 @@ NEWS = [
 POST = [r'''
 h = h.replace('<span class="meta-label">적정주가 (배수 기준)</span>', '<span class="meta-label">과거 PER 적용 참고범위</span>', 1)
 ''']
-ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 17, 'mean': 512.82, 'median': 548, 'low': 347, 'high': 658, 'sb': 11, 'b': 5, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 16, 'mean': 518.88, 'median': 550, 'low': 347, 'high': 658, 'sb': 11, 'b': 6, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 4개(수동 지도). 원문 대조: Q3 FY26 1,355.7/193.6/98.7/23.2(2026-10-23) ──

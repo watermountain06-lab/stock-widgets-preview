@@ -1,20 +1,20 @@
 {
  "ticker": "HUM",
  "window": [
-  "2025-10-31",
-  "2026-10-30"
+  "2025-11-07",
+  "2026-11-06"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 39.14,
+   "current": 42.11,
    "min": 16.39,
    "p10": 17.89,
-   "median": 26.15,
-   "p90": 40.58,
+   "median": 29.34,
+   "p90": 40.68,
    "max": 43.69,
-   "mean": 29.29,
-   "percentile": 83.7,
+   "mean": 29.63,
+   "percentile": 94.4,
    "score": null,
    "currentNote": "per_na"
   },
@@ -27,49 +27,49 @@
    "p90": 0.34,
    "max": 0.36,
    "mean": 0.26,
-   "percentile": 88.0,
-   "score": 12.0
+   "percentile": 83.7,
+   "score": 16.3
   },
   "PBR": {
    "days": 251,
-   "current": 2.59,
+   "current": 2.77,
    "min": 1.12,
    "p10": 1.22,
-   "median": 1.8,
+   "median": 1.84,
    "p90": 2.57,
-   "max": 2.71,
-   "mean": 1.92,
-   "percentile": 92.4,
-   "score": 7.6
+   "max": 2.77,
+   "mean": 1.93,
+   "percentile": 99.6,
+   "score": 0.4
   },
   "PCR": {
    "days": 251,
-   "current": 25.54,
+   "current": 16.6,
    "min": 13.64,
-   "p10": 18.41,
-   "median": 24.74,
+   "p10": 18.49,
+   "median": 25.05,
    "p90": 58.13,
    "max": 73.88,
-   "mean": 31.46,
-   "percentile": 53.4,
-   "score": 46.6
+   "mean": 31.61,
+   "percentile": 6.4,
+   "score": 93.6
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 11.44,
-   "min": 3.28,
-   "p10": 4.03,
-   "median": 6.59,
-   "p90": 11.85,
-   "max": 12.84,
-   "mean": 7.9,
-   "percentile": 84.5,
-   "score": 15.5
+   "current": 12.76,
+   "min": 3.14,
+   "p10": 3.87,
+   "median": 7.49,
+   "p90": 11.74,
+   "max": 12.76,
+   "mean": 7.85,
+   "percentile": 99.6,
+   "score": 0.4
   }
  },
  "perBasis": "diluted",
  "perNA": {
-  "netMargin": 0.0088,
+  "netMargin": 0.0081,
   "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
  }
 }

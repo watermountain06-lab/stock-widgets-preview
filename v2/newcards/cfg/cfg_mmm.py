@@ -11,7 +11,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, -1, -2), '고평가'
 CO = '3M'
 S_ = 'https://www.sec.gov/Archives/edgar/data/66740/'
 SEC = S_
@@ -66,8 +66,8 @@ NEWS = [
     ('neutral', '2025년 10월 21일 — Q3 2025 실적', '2025-10-21',
      '매출 $6.52B(+3.5%) · 희석 EPS $1.55(1년 전 $2.48 — 1년 전 분기에 Solventum 지분 평가이익 주당 $1.05)', 'q3p', '3M 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 19, 'nt': 12, 'mean': 191.92, 'median': 197, 'low': 135, 'high': 230, 'sb': 8, 'b': 1, 'h': 8, 's': 2, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 19, 'nt': 12, 'mean': 195.58, 'median': 197, 'low': 135, 'high': 230, 'sb': 8, 'b': 1, 'h': 8, 's': 2, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(사업 부문 3개). 본사·기타는 SEG_ADJ(분기마다 다시 정함).

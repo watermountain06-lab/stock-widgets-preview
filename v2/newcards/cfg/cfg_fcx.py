@@ -67,8 +67,8 @@ NEWS = [
      '9월 8일 Grasberg Block Cave 광산 이류(mud rush) 사고로 실종된 5명이 숨진 채 발견 — 9월 20일 2명 포함 7명 사망', 'mud', 'Freeport 공시 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 14, 'mean': 81.57, 'median': 84, 'low': 72, 'high': 90, 'sb': 12, 'b': 6, 'h': 4, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 14, 'mean': 81.07, 'median': 84, 'low': 68, 'high': 90, 'sb': 12, 'b': 6, 'h': 4, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 손으로(제안기가 남미·인도네시아 같은 금액 1,482를 엇갈려 짝지음). 원문 대조: 10-Q 부문 표 외부 고객 Q2 2026 Morenci 17·Cerro Verde 1,159·

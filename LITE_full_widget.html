@@ -1081,13 +1081,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">28명 · 목표가 24</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">23</span> · 유지 <span data-an="hold">5</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 82.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 17.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">26명 · 목표가 21</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">20</span> · 유지 <span data-an="hold">6</span> · 매도 <span data-an="sell">0</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 76.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 23.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$1123.42</span> <span class="op-sub op-up" data-an="upside">+108.6%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$1070.62</span> <span class="op-sub op-up" data-an="upside">+98.8%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2097,8 +2097,8 @@ const LITE_ACTIVITY = {"ticker": "LITE", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/lite/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const LITE_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 28, nTargets: 24, mean: 1123.42, median: 1140,
-  low: 820, high: 1400, strongBuy: 18, buy: 5, hold: 5, sell: 0, strongSell: 0 };
+const LITE_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 21, mean: 1070.62, median: 1070,
+  low: 685, high: 1400, strongBuy: 17, buy: 3, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = LITE_ANALYST, last = (typeof LITE_DAILY !== 'undefined' && LITE_DAILY.length) ? LITE_DAILY[LITE_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

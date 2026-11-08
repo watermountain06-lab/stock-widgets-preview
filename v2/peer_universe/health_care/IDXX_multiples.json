@@ -1,79 +1,79 @@
 {
  "ticker": "IDXX",
  "window": [
-  "2025-10-31",
-  "2026-10-30"
+  "2025-11-07",
+  "2026-11-06"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 38.74,
+   "current": 47.51,
    "min": 35.47,
    "p10": 37.18,
    "median": 42.6,
-   "p90": 56.18,
+   "p90": 55.84,
    "max": 60.8,
-   "mean": 45.22,
-   "percentile": 14.7,
-   "score": 85.3
+   "mean": 45.05,
+   "percentile": 67.7,
+   "score": 32.3
   },
   "PSR": {
    "days": 251,
-   "current": 9.54,
+   "current": 11.42,
    "min": 8.73,
    "p10": 9.15,
    "median": 10.31,
-   "p90": 13.57,
+   "p90": 13.49,
    "max": 14.69,
-   "mean": 10.97,
-   "percentile": 17.5,
-   "score": 82.5
+   "mean": 10.93,
+   "percentile": 67.3,
+   "score": 32.7
   },
   "PBR": {
    "days": 251,
-   "current": 26.93,
+   "current": 28.5,
    "min": 24.66,
    "p10": 25.85,
-   "median": 28.57,
-   "p90": 36.24,
+   "median": 28.54,
+   "p90": 36.02,
    "max": 39.21,
-   "mean": 30.12,
-   "percentile": 15.9,
-   "score": 84.1
+   "mean": 29.97,
+   "percentile": 48.2,
+   "score": 51.8
   },
   "PCR": {
    "days": 251,
-   "current": 34.62,
+   "current": 40.85,
    "min": 31.7,
    "p10": 33.23,
-   "median": 42.05,
-   "p90": 58.8,
-   "max": 64.21,
-   "mean": 44.73,
-   "percentile": 14.7,
-   "score": 85.3
+   "median": 41.7,
+   "p90": 58.36,
+   "max": 63.53,
+   "mean": 44.34,
+   "percentile": 41.8,
+   "score": 58.2
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 27.48,
-   "min": 25.21,
-   "p10": 26.4,
-   "median": 29.97,
-   "p90": 39.74,
-   "max": 42.96,
-   "mean": 31.94,
-   "percentile": 15.9,
-   "score": 84.1
+   "current": 32.4,
+   "min": 25.13,
+   "p10": 26.32,
+   "median": 29.89,
+   "p90": 39.41,
+   "max": 42.86,
+   "mean": 31.71,
+   "percentile": 66.5,
+   "score": 33.5
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 39.83,
-  "per_p75": 51.36,
+  "per_p75": 50.73,
   "low": 570,
-  "high": 730,
-  "asOf": "2026-10-30",
+  "high": 720,
+  "asOf": "2026-11-06",
   "basis": "diluted"
  }
 }

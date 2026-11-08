@@ -69,7 +69,7 @@ NEWS = [
      '매출 $1.51B(+28%) · 순이익 $299M · 희석 EPS $1.46(1년 전 $1.02) — 그날 주가 −8.2%', 'q4', 'Incyte 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 21, 'mean': 133.71, 'median': 130, 'low': 108, 'high': 157, 'sb': 11, 'b': 2, 'h': 14, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-07'
+ANALYST_ASOF = '2026-11-08'
 
 # 미완성 카드 표시(2026-11-07 사용자 결정, D·SRE 방식).
 INCOMPLETE_SHORT = 'Vega 인수 IPR&D 비용 반영 중'

@@ -3,77 +3,76 @@
  "subIndustries": [
   "Asset Management & Custody Banks"
  ],
- "asOf": "2026-10-30",
+ "asOf": "2026-11-06",
  "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
  "tickers": {
   "AMP": {
-   "per": 11.06,
-   "psr": 2.12,
-   "pbr": 8.34,
-   "pcr": 5.81
+   "per": 11.3,
+   "psr": 2.16,
+   "pbr": 8.52,
+   "pcr": 5.94
   },
   "APO": {
-   "per": 42.12,
-   "psr": 1.91,
-   "pbr": 3.49
+   "psr": 2.24,
+   "pbr": 4.32
   },
   "ARES": {
-   "psr": 6.7,
-   "pbr": 10.11
+   "psr": 7.28,
+   "pbr": 10.95
   },
   "BLK": {
-   "per": 27.5,
-   "psr": 6.84,
-   "pbr": 3.09,
-   "pcr": 53.09,
-   "evebitda": 19.81
+   "per": 26.87,
+   "psr": 6.7,
+   "pbr": 3.14,
+   "pcr": 39.97,
+   "evebitda": 19.22
   },
   "BX": {
-   "per": 26.57,
-   "psr": 9.15,
-   "pbr": 10.56,
-   "pcr": 26.86,
-   "evebitda": 19.35
+   "per": 26.79,
+   "psr": 9.22,
+   "pbr": 10.65,
+   "pcr": 27.08,
+   "evebitda": 19.5
   },
   "BNY": {
-   "per": 17.15,
-   "psr": 6.59,
-   "pbr": 5.0,
-   "pcr": 13.86
+   "per": 17.22,
+   "psr": 6.62,
+   "pbr": 5.02,
+   "pcr": 13.91
   },
   "BEN": {
-   "per": 21.52,
-   "psr": 1.72,
-   "pbr": 1.37,
-   "evebitda": 14.66
+   "per": 22.95,
+   "psr": 1.84,
+   "pbr": 1.46,
+   "evebitda": 15.32
   },
   "IVZ": {
-   "psr": 1.78,
-   "pbr": 1.23,
-   "pcr": 6.38,
+   "psr": 1.67,
+   "pbr": 1.18,
+   "pcr": 6.7,
    "evebitda": "negative"
   },
   "KKR": {
-   "per": 30.06,
-   "psr": 3.98,
-   "pbr": 2.73
+   "per": 30.73,
+   "psr": 4.06,
+   "pbr": 2.79
   },
   "NTRS": {
-   "psr": 3.63,
-   "pbr": 2.29,
-   "pcr": 17.62
+   "psr": 3.71,
+   "pbr": 2.34,
+   "pcr": 18.0
   },
   "STT": {
-   "per": 13.87,
-   "psr": 2.98,
-   "pbr": 1.61,
+   "per": 13.53,
+   "psr": 2.9,
+   "pbr": 1.57,
    "pcr": "negative"
   },
   "TROW": {
-   "per": 10.52,
-   "psr": 2.88,
-   "pbr": 1.95,
-   "pcr": 13.87
+   "per": 10.97,
+   "psr": 3.0,
+   "pbr": 2.03,
+   "pcr": 14.47
   }
  },
  "skipped": {
@@ -83,14 +82,18 @@
  "perNA": {
   "rule": "기준일 최근 4분기 GAAP 순이익률 < 2% 또는 적자면 PER 비교에서 뺀다(A3·C9)",
   "tickers": {
+   "APO": {
+    "netMargin": -0.0298,
+    "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+   },
    "IVZ": {
-    "netMargin": -0.0118,
+    "netMargin": -0.0443,
     "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
    }
   }
  },
  "cardRows": {
-  "BNY": "카드 엔진 값으로 바꿨다(같은 기준일 2026-10-30, sync_peer_rows.py)"
- },
- "leaseNote": "EV/EBITDA의 EV에 운용리스를 넣지 않는다(E61, 2026-11-06 — 같은 기준일을 두 엔진으로 다시 계산해 EV/EBITDA가 달라진 칸 가운데 파일 값이 기준 재계산과 같은 칸만 새 엔진 값으로 바꿨다; 나머지는 주간 재생성 몫)"
+  "BLK": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-06, sync_peer_rows.py)",
+  "BNY": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-06, sync_peer_rows.py)"
+ }
 }

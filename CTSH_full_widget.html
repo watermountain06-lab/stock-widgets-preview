@@ -1067,8 +1067,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 44.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 55.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$68.06</span> <span class="op-sub op-up" data-an="upside">+5.2%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$69.67</span> <span class="op-sub op-up" data-an="upside">+7.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2071,8 +2071,8 @@ const CTSH_ACTIVITY = {"ticker": "CTSH", "status": "N/A", "reason": "IT 서비�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ctsh/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CTSH_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 18, mean: 68.06, median: 68,
-  low: 53, high: 82, strongBuy: 10, buy: 3, hold: 16, sell: 0, strongSell: 0 };
+const CTSH_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 18, mean: 69.67, median: 70,
+  low: 55, high: 82, strongBuy: 10, buy: 3, hold: 16, sell: 0, strongSell: 0 };
 (function(){
   const A = CTSH_ANALYST, last = (typeof CTSH_DAILY !== 'undefined' && CTSH_DAILY.length) ? CTSH_DAILY[CTSH_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

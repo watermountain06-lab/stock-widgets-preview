@@ -537,7 +537,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 3.2%)</span>
@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="itwFundVerdict">보통</span></div>
       <div class="logic-score" id="itwFundScore">50.1<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral" id="itwPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="itwPeerVerdict">중간</span></div>
-      <div class="logic-score" id="itwPeerScore">32.7<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-negative" id="itwPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="itwPeerVerdict">비싼 편</span></div>
+      <div class="logic-score" id="itwPeerScore">27.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="itwSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="itwSelfVerdict">중간</span></div>
@@ -929,7 +929,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$280.95</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.06</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.06</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 ITW 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">33.5</div><div class="sc-tile lost" data-vc="self" data-m="per">30</div><div class="sc-tile low" data-vc="self" data-m="pbr">16</div><div class="sc-tile low" data-vc="self" data-m="psr">27</div><div class="sc-tile lost" data-vc="self" data-m="pcr">49</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">45</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
@@ -937,10 +937,10 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.24 ~ 2.33(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">32.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">60</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">27</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">37</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">40</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">27.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">51</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">26</div><div class="sc-tile low" data-vc="peer" data-m="pcr">26</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">34</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 25.0배(5년 중앙값 24.2배)로 자기 이력 33.5점(중간), 동종업 32.7점(중간)이다. <strong>현금흐름 내재가치(기본 $125.24)는 현재가의 45%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $125.24)는 현재가의 45%다. 현재가를 정당화하려면 영업이익률이 49.9%까지 올라야 한다(최근 4분기 26.6%, 5년 중앙값 25.9%). 내재가치에서 차입금 $9.4B를 빼고 현금·단기투자 $809M를 더한다. 자사주 매입을 오래 해 장부상 자본이 작아 PBR과 부채비율이 높게 나온다. 2024년 3분기 EPS에는 사업 매각 차익이 들어 있어, 그 분기와 비교하면 EPS가 줄어든 것처럼 보인다.</div>
+    <div class="vs-premise">PER 25.0배(5년 중앙값 24.2배)로 자기 이력 33.5점(중간), 동종업 27.3점(비싸다)이다. <strong>현금흐름 내재가치(기본 $125.24)는 현재가의 45%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $125.24)는 현재가의 45%다. 현재가를 정당화하려면 영업이익률이 49.9%까지 올라야 한다(최근 4분기 26.6%, 5년 중앙값 25.9%). 내재가치에서 차입금 $9.4B를 빼고 현금·단기투자 $809M를 더한다. 자사주 매입을 오래 해 장부상 자본이 작아 PBR과 부채비율이 높게 나온다. 2024년 3분기 EPS에는 사업 매각 차익이 들어 있어, 그 분기와 비교하면 EPS가 줄어든 것처럼 보인다.</div>
   </div>
 
   <div class="grid-2">
@@ -1009,7 +1009,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">산업재 다각화 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/30 종가(ITW 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">산업재 다각화 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1023,8 +1023,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.2B(+4.4%), 영업이익률 27.8%(1년 전 27.4%). 주가는 1년 새 +15%<span class="tag">배수 중간·매출 성장 비슷</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $125.24)는 현재가의 45%다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.2B(+4.4%), 영업이익률 27.8%(1년 전 27.4%). 주가는 1년 새 +15%<span class="tag">배수 비싼 쪽·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $125.24)는 현재가의 45%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 2일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1113,11 +1113,11 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">16명 · 목표가 10</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">1</span> · 유지 <span data-an="hold">12</span> · 매도 <span data-an="sell">3</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 6.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 75%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 18.8%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">1</span> · 유지 <span data-an="hold">11</span> · 매도 <span data-an="sell">4</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 6.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 68.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 25%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$286</span> <span class="op-sub op-up" data-an="upside">+1.8%</span></span>
       </div>
       <div class="op-cell">
@@ -1322,63 +1322,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '산업재 다각화 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/30 종가(ITW 막대는 11/6)',
+    title: '산업재 다각화 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 11/6 종가',
     unit: 'PER', max: 45, itwValue: null,
     peers: [
-      { name:'EMR', value:36.1, status:'reference' },
-      { name:'ETN', value:37.7, status:'reference' },
-      { name:'PH', value:31.6, status:'reference' },
-      { name:'DOV', value:24.2, status:'reference' },
-      { name:'GWW', value:34.6, status:'reference' },
-      { name:'MMM', value:26.0, status:'reference' }
+      { name:'EMR', value:35.5, status:'reference' },
+      { name:'ETN', value:34.2, status:'reference' },
+      { name:'PH', value:31.5, status:'reference' },
+      { name:'DOV', value:23.8, status:'reference' },
+      { name:'GWW', value:31.6, status:'reference' },
+      { name:'MMM', value:24.4, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/30 종가(ITW 막대는 11/6)',
+    title: 'PBR 비교 · 11/6 종가',
     unit: 'PBR', max: 30, itwValue: null,
     peers: [
-      { name:'EMR', value:4.5, status:'reference' },
-      { name:'ETN', value:7.1, status:'reference' },
-      { name:'PH', value:7.4, status:'reference' },
-      { name:'DOV', value:3.6, status:'reference' },
+      { name:'EMR', value:4.4, status:'reference' },
+      { name:'ETN', value:6.3, status:'reference' },
+      { name:'PH', value:7.2, status:'reference' },
+      { name:'DOV', value:3.5, status:'reference' },
       { name:'GWW', value:15.5, status:'reference' },
-      { name:'MMM', value:21.8, status:'reference' }
+      { name:'MMM', value:23.2, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/30 종가(ITW 막대는 11/6)',
+    title: 'PSR 비교 · 11/6 종가',
     unit: 'PSR(TTM)', max: 10, itwValue: null,
     peers: [
       { name:'EMR', value:4.9, status:'reference' },
-      { name:'ETN', value:4.8, status:'reference' },
-      { name:'PH', value:5.3, status:'reference' },
+      { name:'ETN', value:4.2, status:'reference' },
+      { name:'PH', value:5.2, status:'reference' },
       { name:'DOV', value:3.2, status:'reference' },
-      { name:'GWW', value:3.4, status:'reference' },
-      { name:'MMM', value:3.6, status:'reference' }
+      { name:'GWW', value:3.5, status:'reference' },
+      { name:'MMM', value:3.8, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/30 종가(ITW 막대는 11/6)',
+    title: 'PCR(FCF) 비교 · 11/6 종가',
     unit: 'PCR(FCF)', max: 50, itwValue: null,
     peers: [
-      { name:'EMR', value:26.6, status:'reference' },
-      { name:'ETN', value:36.5, status:'reference' },
-      { name:'PH', value:29.0, status:'reference' },
-      { name:'DOV', value:23.2, status:'reference' },
-      { name:'GWW', value:42.4, status:'reference' },
-      { name:'MMM', value:33.6, status:'reference' }
+      { name:'EMR', value:26.2, status:'reference' },
+      { name:'ETN', value:35.0, status:'reference' },
+      { name:'PH', value:30.0, status:'reference' },
+      { name:'DOV', value:22.8, status:'reference' },
+      { name:'GWW', value:39.3, status:'reference' },
+      { name:'MMM', value:35.7, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/30 종가(ITW 막대는 11/6)',
+    title: 'EV/EBITDA 비교 · 11/6 종가',
     unit: 'EV/EBITDA', max: 30, itwValue: null,
     peers: [
-      { name:'EMR', value:20.1, status:'reference' },
-      { name:'ETN', value:25.2, status:'reference' },
-      { name:'PH', value:20.2, status:'reference' },
-      { name:'DOV', value:15.8, status:'reference' },
-      { name:'GWW', value:22.1, status:'reference' },
-      { name:'MMM', value:16.4, status:'reference' }
+      { name:'EMR', value:19.8, status:'reference' },
+      { name:'ETN', value:21.9, status:'reference' },
+      { name:'PH', value:21.1, status:'reference' },
+      { name:'DOV', value:15.5, status:'reference' },
+      { name:'GWW', value:21.1, status:'reference' },
+      { name:'MMM', value:17.3, status:'reference' }
     ]
   }
 };
@@ -1508,7 +1508,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ITW
 const ITW_SCORES = {
   fundamental: 50.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 32.7,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 27.3,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 33.5,   // 자기 5년 배수 분포 백분위 (2021-11-08 ~ 2026-11-06)
   asOf: "2026-11-06",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1839,7 +1839,7 @@ const ITW_FUNDAMENTAL = {"ticker": "ITW", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py ITW --self v2/ITW_multiples.json --card
 /* VALUATION:BEGIN */
-const ITW_VALUATION = {"peer": {"score": 32.7, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 60.0, "rank": 31, "peers": 75}, {"metric": "pbr", "score": 0.0, "rank": 75, "peers": 74}, {"metric": "psr", "score": 26.9, "rank": 58, "peers": 78}, {"metric": "pcr", "score": 36.8, "rank": 49, "peers": 76}, {"metric": "evebitda", "score": 40.0, "rank": 46, "peers": 75}]}, "self": {"score": 33.5, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 30.0, "percentile": 70.0, "current": 25.04, "min": 18.64, "median": 24.19, "max": 28.95, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 15.6, "percentile": 84.4, "current": 25.42, "min": 15.3, "median": 23.2, "max": 29.19, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 27.1, "percentile": 72.9, "current": 4.8, "min": 3.68, "median": 4.62, "max": 5.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 49.4, "percentile": 50.6, "current": 27.84, "min": 22.54, "median": 27.81, "max": 38.95, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 45.3, "percentile": 54.7, "current": 18.31, "min": 15.22, "median": 18.2, "max": 21.3, "days": 1255, "currentNote": null}]}};
+const ITW_VALUATION = {"peer": {"score": 27.3, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 50.7, "rank": 38, "peers": 75}, {"metric": "pbr", "score": 0.0, "rank": 75, "peers": 74}, {"metric": "psr", "score": 25.6, "rank": 59, "peers": 78}, {"metric": "pcr", "score": 26.3, "rank": 57, "peers": 76}, {"metric": "evebitda", "score": 33.8, "rank": 50, "peers": 74}]}, "self": {"score": 33.5, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 30.0, "percentile": 70.0, "current": 25.04, "min": 18.64, "median": 24.19, "max": 28.95, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 15.6, "percentile": 84.4, "current": 25.42, "min": 15.3, "median": 23.2, "max": 29.19, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 27.1, "percentile": 72.9, "current": 4.8, "min": 3.68, "median": 4.62, "max": 5.45, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 49.4, "percentile": 50.6, "current": 27.84, "min": 22.54, "median": 27.81, "max": 38.95, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 45.3, "percentile": 54.7, "current": 18.31, "min": 15.22, "median": 18.2, "max": 21.3, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2128,8 +2128,8 @@ const ITW_ACTIVITY = {"ticker": "ITW", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/itw/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ITW_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 16, nTargets: 10, mean: 286, median: 293,
-  low: 255, high: 310, strongBuy: 1, buy: 0, hold: 12, sell: 0, strongSell: 3 };
+const ITW_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 16, nTargets: 10, mean: 286, median: 293,
+  low: 255, high: 310, strongBuy: 1, buy: 0, hold: 11, sell: 1, strongSell: 3 };
 (function(){
   const A = ITW_ANALYST, last = (typeof ITW_DAILY !== 'undefined' && ITW_DAILY.length) ? ITW_DAILY[ITW_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

@@ -511,7 +511,7 @@ Chart.overrides.doughnut.animation = false;
 <div class="back-bar">
   <a class="back-bar-left" href="index.html"><span class="back-bar-logo"></span><span>US stock 가치를 말하다 · 전체 종목 목록</span></a>
   <div class="back-bar-right"><button id="theme-toggle" type="button" role="switch" aria-label="다크 모드" aria-checked="false"><span aria-hidden="true">☀</span><span aria-hidden="true">☾</span><span class="theme-knob"></span></button>
-    
+    <a class="back-bar-nav" href="MOS_full_widget.html">◀ MOS</a>
     <span class="back-bar-current">HRL · 시총 순</span>
     <a class="back-bar-nav" href="HSIC_full_widget.html">다음 HSIC ▶</a>
   </div>
@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="hrlPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="hrlPeerVerdict">중간</span></div>
-      <div class="logic-score" id="hrlPeerScore">61.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="hrlPeerScore">61.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="hrlSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="hrlSelfVerdict">중간</span></div>
@@ -899,10 +899,10 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="지난 5년 HRL 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">56.6</div><div class="sc-tile low" data-vc="self" data-m="per">0</div><div class="sc-tile" data-vc="self" data-m="pbr">92</div><div class="sc-tile" data-vc="self" data-m="psr">93</div><div class="sc-tile" data-vc="self" data-m="pcr">96</div><div class="sc-tile low" data-vc="self" data-m="evebitda">2</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">현재가 <span data-vs="price">$21.95</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">보류(미완성)</div></div>
-      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">61.0</div><div class="sc-tile low" data-vc="peer" data-m="per">24</div><div class="sc-tile" data-vc="peer" data-m="pbr">89</div><div class="sc-tile" data-vc="peer" data-m="psr">79</div><div class="sc-tile" data-vc="peer" data-m="pcr">70</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">44</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">61.8</div><div class="sc-tile low" data-vc="peer" data-m="per">28</div><div class="sc-tile" data-vc="peer" data-m="pbr">84</div><div class="sc-tile" data-vc="peer" data-m="psr">78</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">69</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">50</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 34.8배(5년 중앙값 23.6배)로 자기 이력 56.6점(중간), 동종업 61.0점(중간)이다.</div>
-    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(일회성 손실로 이익 왜곡) — 자기 이력 0 · 동종업 0은 참고로만 두고 합산하지 않는다. 최근 4분기 GAAP 희석 EPS 합계는 약 $0.63인데, 회사가 핵심 이익에서 빼는 항목을 빼면 조정 EPS는 약 $1.43이라 차이가 GAAP 이익보다 크다. 회사 조정 EPS로 보면 PER은 5년 최저 수준이지만, GAAP로는 5년 최고 수준이라 어느 쪽으로도 판정하지 않는다. 차이의 대부분은 사업 정리에서 나왔다 — 2025 회계연도 4분기에 인도네시아 Garudafood 지분 투자와 리테일 무형자산 손상 $234M(비현금)이 잡혀 분기 희석 EPS가 −$0.10이었고, 2026 회계연도에는 2분기 통칠면조 사업 매각 손실 $61M, 3분기 브라질 Ceratti 사업 매각 손실 $57M(7월 말 매각 완료)과 Garudafood 추가 손상 $48M, 칠면조 가격 담합 소송의 직접 구매자 집단과 맺은 합의 $37.5M(법원 승인 대기)이 이어졌다. 1분기에는 Justin’s 지분 51% 매각 이익 $22M이 구조조정(약 250명)·전 CEO 자문 계약·사업 혁신 비용과 거의 상쇄됐고, 사업 혁신(Transform and Modernize) 비용은 분기마다 들어간다(2025 회계연도 4분기 $19M, 2026 회계연도 1~3분기 $11~16M). Garudafood 남은 장부가 $184M은 인도네시아 상장 주가 그대로라 주가가 더 빠지면 또 손상될 수 있고, 칠면조 소송은 간접 구매자 집단·개별 원고 소송이 남아 있다(충당금 없음). 아래 약세 요인의 영업이익률·차입 배수도 이 일회성을 포함한 GAAP 기준이다 — 조정 영업이익으로 보면 최근 4분기 영업이익률은 약 8.7%로 5년 중앙값과 비슷하다. 본업은 엇갈린다 — 외식 부문은 3분기에도 매출·이익이 늘었지만, 리테일은 칠면조 시세 하락과 비핵심 자체상표 견과 철수로 물량이 9% 줄었다. 회사는 3분기 실적과 함께 2026 회계연도 매출 전망을 $12.1~12.2B로 낮추고 조정 EPS 전망은 $1.45~1.51로 올렸다(GAAP EPS 전망 $1.06~1.12). 9월에 가공 닭고기 회사 Brakebush(최근 1년 매출 약 $1.2B)를 약 $1.055B 현금에 사기로 했다 — 2027 회계연도 1분기 마감 예정, 조정 EPS에는 2028 회계연도부터 보탬이 된다고 봤다. 1년 안 만기 채권 $500M도 있어 차입금은 당분간 늘 가능성이 크다. 경영진도 바뀌었다 — 2025년 6월부터 임시 CEO였던 Jeff Ettinger에 이어 John Ghingo 사장이 2026년 10월 26일 CEO가 됐고, 9월에 Tyson 닭고기 부문 CFO 출신 Ash Bhumbla가 CFO로 왔다. 분기 배당은 주당 $0.2925다. 자기 이력·동종업 점수는 참고값이고 판정 표에는 넣지 않는다. 12월 초 4분기 실적으로는 보류가 풀리지 않을 가능성이 크다 — 회사 2026 회계연도 전망대로면 GAAP와 조정 EPS 차이가 여전히 GAAP의 약 36%다. 2026년 2·3분기 손실이 최근 4분기에서 빠지는 2027년 5~8월 실적 뒤, 일회성 차이가 GAAP 이익의 30% 아래면 정식 판정으로 다시 본다(그 전에 Brakebush 인수 비용이 새 일회성으로 들어올 수 있다).</div>
+    <div class="vs-premise">PER 34.8배(5년 중앙값 23.6배)로 자기 이력 56.6점(중간), 동종업 61.8점(중간)이다.</div>
+    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(일회성 손실로 이익 왜곡) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다. 최근 4분기 GAAP 희석 EPS 합계는 약 $0.63인데, 회사가 핵심 이익에서 빼는 항목을 빼면 조정 EPS는 약 $1.43이라 차이가 GAAP 이익보다 크다. 회사 조정 EPS로 보면 PER은 5년 최저 수준이지만, GAAP로는 5년 최고 수준이라 어느 쪽으로도 판정하지 않는다. 차이의 대부분은 사업 정리에서 나왔다 — 2025 회계연도 4분기에 인도네시아 Garudafood 지분 투자와 리테일 무형자산 손상 $234M(비현금)이 잡혀 분기 희석 EPS가 −$0.10이었고, 2026 회계연도에는 2분기 통칠면조 사업 매각 손실 $61M, 3분기 브라질 Ceratti 사업 매각 손실 $57M(7월 말 매각 완료)과 Garudafood 추가 손상 $48M, 칠면조 가격 담합 소송의 직접 구매자 집단과 맺은 합의 $37.5M(법원 승인 대기)이 이어졌다. 1분기에는 Justin’s 지분 51% 매각 이익 $22M이 구조조정(약 250명)·전 CEO 자문 계약·사업 혁신 비용과 거의 상쇄됐고, 사업 혁신(Transform and Modernize) 비용은 분기마다 들어간다(2025 회계연도 4분기 $19M, 2026 회계연도 1~3분기 $11~16M). Garudafood 남은 장부가 $184M은 인도네시아 상장 주가 그대로라 주가가 더 빠지면 또 손상될 수 있고, 칠면조 소송은 간접 구매자 집단·개별 원고 소송이 남아 있다(충당금 없음). 아래 약세 요인의 영업이익률·차입 배수도 이 일회성을 포함한 GAAP 기준이다 — 조정 영업이익으로 보면 최근 4분기 영업이익률은 약 8.7%로 5년 중앙값과 비슷하다. 본업은 엇갈린다 — 외식 부문은 3분기에도 매출·이익이 늘었지만, 리테일은 칠면조 시세 하락과 비핵심 자체상표 견과 철수로 물량이 9% 줄었다. 회사는 3분기 실적과 함께 2026 회계연도 매출 전망을 $12.1~12.2B로 낮추고 조정 EPS 전망은 $1.45~1.51로 올렸다(GAAP EPS 전망 $1.06~1.12). 9월에 가공 닭고기 회사 Brakebush(최근 1년 매출 약 $1.2B)를 약 $1.055B 현금에 사기로 했다 — 2027 회계연도 1분기 마감 예정, 조정 EPS에는 2028 회계연도부터 보탬이 된다고 봤다. 1년 안 만기 채권 $500M도 있어 차입금은 당분간 늘 가능성이 크다. 경영진도 바뀌었다 — 2025년 6월부터 임시 CEO였던 Jeff Ettinger에 이어 John Ghingo 사장이 2026년 10월 26일 CEO가 됐고, 9월에 Tyson 닭고기 부문 CFO 출신 Ash Bhumbla가 CFO로 왔다. 분기 배당은 주당 $0.2925다. 12월 초 4분기 실적으로는 보류가 풀리지 않을 가능성이 크다 — 회사 2026 회계연도 전망대로면 GAAP와 조정 EPS 차이가 여전히 GAAP의 약 36%다. 2026년 2·3분기 손실이 최근 4분기에서 빠지는 2027년 5~8월 실적 뒤, 일회성 차이가 GAAP 이익의 30% 아래면 정식 판정으로 다시 본다(그 전에 Brakebush 인수 비용이 새 일회성으로 들어올 수 있다).</div>
   </div>
 
   <div class="grid-2">
@@ -971,7 +971,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">포장식품 6곳 PER 비교 (점수는 S&amp;P500 필수소비재 기준) (TSN 값 없음·GIS 값 없음·KHC 값 없음) · 10/30 종가(HRL 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">포장식품 6곳 PER 비교 (점수는 S&amp;P500 필수소비재 기준) (TSN 값 없음·GIS 값 없음·KHC 값 없음) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -986,7 +986,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 FY26 매출 $3.0B(−2.4%), 영업이익률 3.7%(1년 전 7.9%). 주가는 1년 새 +2%<span class="tag">일회성 손실로 이익 왜곡</span></div>
-    <div class="verdict-summary-counter">⚠️ 미완성 카드라 종합 판정을 보류한다(일회성 손실로 이익 왜곡) — 자기 이력 0 · 동종업 0은 참고로만 두고 합산하지 않는다.</div>
+    <div class="verdict-summary-counter">⚠️ 미완성 카드라 종합 판정을 보류한다(일회성 손실로 이익 왜곡) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2026년 12월 3일 무렵 (예상) Q4 FY26 실적 공시.</div>
   </div>
 
@@ -1083,7 +1083,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 30%; background: var(--green);"></div><div data-an-bar="hold" style="width: 70%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-07</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$25.14</span> <span class="op-sub op-up" data-an="upside">+14.5%</span></span>
       </div>
       <div class="op-cell">
@@ -1288,16 +1288,16 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '포장식품 6곳 PER 비교 (점수는 S&P500 필수소비재 기준) (TSN 값 없음·GIS 값 없음·KHC 값 없음) · 10/30 종가(HRL 막대는 11/6)',
-    unit: 'PER', max: 70, hrlValue: null,
+    title: '포장식품 6곳 PER 비교 (점수는 S&P500 필수소비재 기준) (TSN 값 없음·GIS 값 없음·KHC 값 없음) · 11/6 종가',
+    unit: 'PER', max: 75, hrlValue: null,
     peers: [
-      { name:'SJM', value:60.7, status:'reference' },
-      { name:'MKC', value:8.6, status:'reference' },
-      { name:'MDLZ', value:20.5, status:'reference' }
+      { name:'SJM', value:61.0, status:'reference' },
+      { name:'MKC', value:8.8, status:'reference' },
+      { name:'MDLZ', value:20.8, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (TSN 값 없음·MKC 값 없음) · 10/30 종가(HRL 막대는 11/6)',
+    title: 'PBR 비교 (TSN 값 없음·MKC 값 없음) · 11/6 종가',
     unit: 'PBR', max: 5, hrlValue: null,
     peers: [
       { name:'GIS', value:2.5, status:'reference' },
@@ -1307,7 +1307,7 @@ const MULTIPLE_DATA = {
     ]
   },
   psr: {
-    title: 'PSR 비교 (TSN 값 없음·MKC 값 없음) · 10/30 종가(HRL 막대는 11/6)',
+    title: 'PSR 비교 (TSN 값 없음·MKC 값 없음) · 11/6 종가',
     unit: 'PSR(TTM)', max: 5, hrlValue: null,
     peers: [
       { name:'GIS', value:1.0, status:'reference' },
@@ -1317,22 +1317,22 @@ const MULTIPLE_DATA = {
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (TSN 값 없음·MKC 값 없음) · 10/30 종가(HRL 막대는 11/6)',
+    title: 'PCR(FCF) 비교 (TSN 값 없음·MKC 값 없음) · 11/6 종가',
     unit: 'PCR(FCF)', max: 30, hrlValue: null,
     peers: [
-      { name:'GIS', value:11.9, status:'reference' },
-      { name:'SJM', value:8.7, status:'reference' },
-      { name:'KHC', value:7.6, status:'reference' },
-      { name:'MDLZ', value:22.5, status:'reference' }
+      { name:'GIS', value:12.3, status:'reference' },
+      { name:'SJM', value:8.8, status:'reference' },
+      { name:'KHC', value:8.2, status:'reference' },
+      { name:'MDLZ', value:22.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (TSN 값 없음·KHC 값 없음·MKC 값 없음) · 10/30 종가(HRL 막대는 11/6)',
+    title: 'EV/EBITDA 비교 (TSN 값 없음·KHC 값 없음·MKC 값 없음) · 11/6 종가',
     unit: 'EV/EBITDA', max: 105, hrlValue: null,
     peers: [
-      { name:'GIS', value:87.1, status:'reference' },
+      { name:'GIS', value:89.0, status:'reference' },
       { name:'SJM', value:14.9, status:'reference' },
-      { name:'MDLZ', value:14.9, status:'reference' }
+      { name:'MDLZ', value:15.1, status:'reference' }
     ]
   }
 };
@@ -1462,7 +1462,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py HRL
 const HRL_SCORES = {
   fundamental: 37.7,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 61.0,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
+  peer: 61.8,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
   selfHistory: 56.6,   // 자기 5년 배수 분포 백분위 (2021-11-08 ~ 2026-11-06)
   asOf: "2026-11-06",
   fundamentalAsOf: "2026-07-26",   // Q3 FY26 10-Q
@@ -1788,7 +1788,7 @@ const HRL_FUNDAMENTAL = {"ticker": "HRL", "basis": "quarter", "asOf": "2026-07-2
 //
 // 갱신: python3 v2/build_peer_score.py HRL --self v2/HRL_multiples.json --card
 /* VALUATION:BEGIN */
-const HRL_VALUATION = {"peer": {"score": 61.0, "sector": "Consumer Staples (S&P500 34종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 24.0, "rank": 20, "peers": 25}, {"metric": "pbr", "score": 88.5, "rank": 4, "peers": 26}, {"metric": "psr", "score": 78.6, "rank": 7, "peers": 28}, {"metric": "pcr", "score": 70.4, "rank": 9, "peers": 27}, {"metric": "evebitda", "score": 43.5, "rank": 14, "peers": 23}]}, "self": {"score": 56.6, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 0.4, "percentile": 99.6, "current": 34.84, "min": 15.54, "median": 23.62, "max": 36.13, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 91.9, "percentile": 8.1, "current": 1.54, "min": 1.35, "median": 2.24, "max": 4.21, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 92.8, "percentile": 7.2, "current": 0.99, "min": 0.87, "median": 1.45, "max": 2.5, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.2, "percentile": 3.8, "current": 15.47, "min": 13.52, "median": 22.33, "max": 59.62, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 1.7, "percentile": 98.3, "current": 16.65, "min": 10.96, "median": 15.23, "max": 17.18, "days": 926, "currentNote": null}]}};
+const HRL_VALUATION = {"peer": {"score": 61.8, "sector": "Consumer Staples (S&P500 33종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 28.0, "rank": 19, "peers": 25}, {"metric": "pbr", "score": 84.0, "rank": 5, "peers": 25}, {"metric": "psr", "score": 77.8, "rank": 7, "peers": 27}, {"metric": "pcr", "score": 69.2, "rank": 9, "peers": 26}, {"metric": "evebitda", "score": 50.0, "rank": 12, "peers": 22}]}, "self": {"score": 56.6, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 0.4, "percentile": 99.6, "current": 34.84, "min": 15.54, "median": 23.62, "max": 36.13, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 91.9, "percentile": 8.1, "current": 1.54, "min": 1.35, "median": 2.24, "max": 4.21, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 92.8, "percentile": 7.2, "current": 0.99, "min": 0.87, "median": 1.45, "max": 2.5, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.2, "percentile": 3.8, "current": 15.47, "min": 13.52, "median": 22.33, "max": 59.62, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 1.7, "percentile": 98.3, "current": 16.65, "min": 10.96, "median": 15.23, "max": 17.18, "days": 926, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2076,7 +2076,7 @@ const HRL_ACTIVITY = {"ticker": "HRL", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/hrl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const HRL_ANALYST = { asOf: '2026-11-07', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 10, nTargets: 7, mean: 25.14, median: 24,
+const HRL_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 10, nTargets: 7, mean: 25.14, median: 24,
   low: 23, high: 29, strongBuy: 1, buy: 2, hold: 7, sell: 0, strongSell: 0 };
 (function(){
   const A = HRL_ANALYST, last = (typeof HRL_DAILY !== 'undefined' && HRL_DAILY.length) ? HRL_DAILY[HRL_DAILY.length - 1] : null;

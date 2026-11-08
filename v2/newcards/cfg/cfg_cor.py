@@ -68,8 +68,8 @@ NEWS = [
 BB_TAGS = ['PaymentsForRepurchaseOfEquity']   # 자사주 매입 현금 지급(9개월 $1,000.1M) — 기본 태그가 없다(Codex r1)
 # 다음 실적일: 10/21 보도자료 — 11/4 FY26 4분기 실적 콜(Codex r1 필수)
 NEXT_CONFIRMED = {'quarter_end': '2026-09-30', 'date': '2026-11-04', 'src': '10/21 회사 보도자료 — FY26 4분기 실적 콜 11월 4일'}
-ANALYST = {'rating': 'Buy', 'n': 14, 'nt': 13, 'mean': 373.08, 'median': 377, 'low': 330, 'high': 400, 'sb': 7, 'b': 3, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 14, 'nt': 13, 'mean': 380.15, 'median': 380, 'low': 330, 'high': 405, 'sb': 7, 'b': 3, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 # ── 자동 카드 — 보고 부문 2개(동물 의약품·기타는 본사 소관 축이라 SEG_ADJ). 원문 대조: Q3 FY26 74,860.8/7,680.5, 1년 전 71,342.9/7,253.4(2026-10-22) ──
 AUTO = True

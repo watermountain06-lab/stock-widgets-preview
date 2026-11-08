@@ -1109,8 +1109,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 68.4%; background: var(--green);"></div><div data-an-bar="hold" style="width: 31.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$261.73</span> <span class="op-sub op-up" data-an="upside">+26.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$262.09</span> <span class="op-sub op-up" data-an="upside">+26.6%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2119,8 +2119,8 @@ const TEL_ACTIVITY = {"ticker": "TEL", "status": "ok", "asOf": "2026-06-26", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/tel/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TEL_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 11, mean: 261.73, median: 263,
-  low: 225, high: 300, strongBuy: 12, buy: 1, hold: 6, sell: 0, strongSell: 0 };
+const TEL_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 11, mean: 262.09, median: 263,
+  low: 225, high: 304, strongBuy: 12, buy: 1, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = TEL_ANALYST, last = (typeof TEL_DAILY !== 'undefined' && TEL_DAILY.length) ? TEL_DAILY[TEL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

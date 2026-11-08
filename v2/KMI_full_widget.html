@@ -537,7 +537,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 3.7%)</span>
@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="kmiFundVerdict">보통</span></div>
       <div class="logic-score" id="kmiFundScore">45.1<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral" id="kmiPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="kmiPeerVerdict">중간</span></div>
-      <div class="logic-score" id="kmiPeerScore">38.4<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-negative" id="kmiPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="kmiPeerVerdict">비싼 편</span></div>
+      <div class="logic-score" id="kmiPeerScore">29.7<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="kmiSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="kmiSelfVerdict">중간</span></div>
@@ -894,7 +894,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$29.96</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.06</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.06</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 KMI 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">39.5</div><div class="sc-tile lost" data-vc="self" data-m="per">60</div><div class="sc-tile low" data-vc="self" data-m="pbr">17</div><div class="sc-tile lost" data-vc="self" data-m="psr">38</div><div class="sc-tile low" data-vc="self" data-m="pcr">26</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">56</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
@@ -905,10 +905,10 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 3.76 ~ 6.24(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 에너지 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.4</div><div class="sc-tile lost" data-vc="peer" data-m="per">47</div><div class="sc-tile" data-vc="peer" data-m="pbr">75</div><div class="sc-tile low" data-vc="peer" data-m="psr">21</div><div class="sc-tile low" data-vc="peer" data-m="pcr">24</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">25</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 에너지 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">29.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">32</div><div class="sc-tile" data-vc="peer" data-m="pbr">70</div><div class="sc-tile low" data-vc="peer" data-m="psr">11</div><div class="sc-tile low" data-vc="peer" data-m="pcr">18</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">19</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 18.5배(5년 중앙값 20.7배)로 자기 이력 39.5점(중간), 동종업 38.4점(중간)이다. <strong>현금흐름 내재가치(기본 $7.96)는 현재가의 27%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $7.96)는 현재가의 27%다. 현재가를 정당화하려면 영업이익률이 52.4%까지 올라야 한다(최근 4분기 29.0%, 5년 중앙값 27.7%). 내재가치에서 차입금·금융리스 $33.1B를 빼고 현금·단기투자 $918M를 더한다. 수송관 설비 투자가 크고 사업 가치의 상당 부분이 차입금으로 빠져 주당 값이 작게 나올 수 있다 — 장기 수송 계약·규제 요금 자산에도 일반 할인율을 쓴다. 지분법 투자(합작 파이프라인)의 이익은 영업이익 아래에 있어 투자 장부가를 비영업 자산으로 더한다. Q3 2026 이익은 석유제품 파이프라인의 법률·환경 충당금으로 낮아졌고 소규모 매각 이익으로 일부 메워졌다.</div>
+    <div class="vs-premise">PER 18.5배(5년 중앙값 20.7배)로 자기 이력 39.5점(중간), 동종업 29.7점(비싸다)이다. <strong>현금흐름 내재가치(기본 $7.96)는 현재가의 27%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $7.96)는 현재가의 27%다. 현재가를 정당화하려면 영업이익률이 52.4%까지 올라야 한다(최근 4분기 29.0%, 5년 중앙값 27.7%). 내재가치에서 차입금·금융리스 $33.1B를 빼고 현금·단기투자 $918M를 더한다. 수송관 설비 투자가 크고 사업 가치의 상당 부분이 차입금으로 빠져 주당 값이 작게 나올 수 있다 — 장기 수송 계약·규제 요금 자산에도 일반 할인율을 쓴다. 지분법 투자(합작 파이프라인)의 이익은 영업이익 아래에 있어 투자 장부가를 비영업 자산으로 더한다. Q3 2026 이익은 석유제품 파이프라인의 법률·환경 충당금으로 낮아졌고 소규모 매각 이익으로 일부 메워졌다.</div>
   </div>
 
   <div class="grid-2">
@@ -977,7 +977,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">가스관·석유 6곳 PER 비교 (점수는 S&amp;P500 에너지 기준) · 10/30 종가(KMI 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">가스관·석유 6곳 PER 비교 (점수는 S&amp;P500 에너지 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -991,8 +991,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.5B(+9.3%), 영업이익률 25.6%(1년 전 25.6%). 주가는 1년 새 +16%<span class="tag">배수 중간·매출 성장 느려짐</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $7.96)는 현재가의 27%다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $4.5B(+9.3%), 영업이익률 25.6%(1년 전 25.6%). 주가는 1년 새 +16%<span class="tag">배수 비싼 쪽·매출 성장 느려짐</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $7.96)는 현재가의 27%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 1월 20일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1072,7 +1072,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 54.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 45.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$37.44</span> <span class="op-sub op-up" data-an="upside">+25.0%</span></span>
       </div>
       <div class="op-cell">
@@ -1277,62 +1277,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '가스관·석유 6곳 PER 비교 (점수는 S&P500 에너지 기준) · 10/30 종가(KMI 막대는 11/6)',
-    unit: 'PER', max: 35, kmiValue: null,
+    title: '가스관·석유 6곳 PER 비교 (점수는 S&P500 에너지 기준) · 11/6 종가',
+    unit: 'PER', max: 30, kmiValue: null,
     peers: [
-      { name:'WMB', value:29.6, status:'reference' },
-      { name:'OKE', value:15.1, status:'reference' },
-      { name:'TRGP', value:30.1, status:'reference' },
-      { name:'XOM', value:24.1, status:'reference' },
-      { name:'CVX', value:22.6, status:'reference' },
-      { name:'COP', value:20.4, status:'reference' }
+      { name:'WMB', value:25.5, status:'reference' },
+      { name:'OKE', value:13.2, status:'reference' },
+      { name:'TRGP', value:23.4, status:'reference' },
+      { name:'XOM', value:21.3, status:'reference' },
+      { name:'CVX', value:15.6, status:'reference' },
+      { name:'COP', value:14.3, status:'reference' }
     ]
   },
   pbr: {
-    title: '가스관·석유 PBR 비교 · 10/30 종가(KMI 막대는 11/6)',
-    unit: 'PBR', max: 25, kmiValue: null,
+    title: '가스관·석유 PBR 비교 · 11/6 종가',
+    unit: 'PBR', max: 20, kmiValue: null,
     peers: [
-      { name:'WMB', value:6.9, status:'reference' },
-      { name:'OKE', value:2.6, status:'reference' },
-      { name:'TRGP', value:18.5, status:'reference' },
-      { name:'XOM', value:3.0, status:'reference' },
-      { name:'CVX', value:2.5, status:'reference' },
-      { name:'COP', value:2.8, status:'reference' }
+      { name:'WMB', value:6.0, status:'reference' },
+      { name:'OKE', value:2.3, status:'reference' },
+      { name:'TRGP', value:14.9, status:'reference' },
+      { name:'XOM', value:2.6, status:'reference' },
+      { name:'CVX', value:2.1, status:'reference' },
+      { name:'COP', value:2.4, status:'reference' }
     ]
   },
   psr: {
-    title: '가스관·석유 PSR 비교 · 10/30 종가(KMI 막대는 11/6)',
+    title: '가스관·석유 PSR 비교 · 11/6 종가',
     unit: 'PSR(TTM)', max: 10, kmiValue: null,
     peers: [
-      { name:'WMB', value:7.5, status:'reference' },
-      { name:'OKE', value:1.4, status:'reference' },
-      { name:'TRGP', value:4.0, status:'reference' },
-      { name:'XOM', value:2.1, status:'reference' },
-      { name:'CVX', value:2.2, status:'reference' },
-      { name:'COP', value:2.9, status:'reference' }
+      { name:'WMB', value:6.4, status:'reference' },
+      { name:'OKE', value:1.2, status:'reference' },
+      { name:'TRGP', value:3.1, status:'reference' },
+      { name:'XOM', value:1.9, status:'reference' },
+      { name:'CVX', value:1.8, status:'reference' },
+      { name:'COP', value:2.4, status:'reference' }
     ]
   },
   pcr: {
-    title: '가스관·석유 PCR(FCF) 비교 (WMB 적자) · 10/30 종가(KMI 막대는 11/6)',
-    unit: 'PCR(FCF)', max: 105, kmiValue: null,
+    title: '가스관·석유 PCR(FCF) 비교 (WMB 적자) · 11/6 종가',
+    unit: 'PCR(FCF)', max: 70, kmiValue: null,
     peers: [
-      { name:'OKE', value:24.2, status:'reference' },
-      { name:'TRGP', value:91.2, status:'reference' },
-      { name:'XOM', value:25.2, status:'reference' },
-      { name:'CVX', value:17.2, status:'reference' },
-      { name:'COP', value:18.4, status:'reference' }
+      { name:'OKE', value:21.2, status:'reference' },
+      { name:'TRGP', value:60.8, status:'reference' },
+      { name:'XOM', value:22.3, status:'reference' },
+      { name:'CVX', value:12.3, status:'reference' },
+      { name:'COP', value:14.5, status:'reference' }
     ]
   },
   evebitda: {
-    title: '가스관·석유 EV/EBITDA 비교 · 10/30 종가(KMI 막대는 11/6)',
-    unit: 'EV/EBITDA', max: 25, kmiValue: null,
+    title: '가스관·석유 EV/EBITDA 비교 · 11/6 종가',
+    unit: 'EV/EBITDA', max: 20, kmiValue: null,
     peers: [
-      { name:'WMB', value:17.7, status:'reference' },
-      { name:'OKE', value:12.9, status:'reference' },
-      { name:'TRGP', value:15.9, status:'reference' },
-      { name:'XOM', value:10.7, status:'reference' },
-      { name:'CVX', value:9.0, status:'reference' },
-      { name:'COP', value:7.4, status:'reference' }
+      { name:'WMB', value:15.9, status:'reference' },
+      { name:'OKE', value:11.9, status:'reference' },
+      { name:'TRGP', value:13.2, status:'reference' },
+      { name:'XOM', value:9.5, status:'reference' },
+      { name:'CVX', value:6.9, status:'reference' },
+      { name:'COP', value:5.8, status:'reference' }
     ]
   }
 };
@@ -1462,7 +1462,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py KMI
 const KMI_SCORES = {
   fundamental: 45.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 38.4,          // S&P500 에너지 대비 배수 순위 (v2/peer_universe/energy.json)
+  peer: 29.7,          // S&P500 에너지 대비 배수 순위 (v2/peer_universe/energy.json)
   selfHistory: 39.5,   // 자기 5년 배수 분포 백분위 (2021-11-08 ~ 2026-11-06)
   asOf: "2026-11-06",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1793,7 +1793,7 @@ const KMI_FUNDAMENTAL = {"ticker": "KMI", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py KMI --self v2/KMI_multiples.json --card
 /* VALUATION:BEGIN */
-const KMI_VALUATION = {"peer": {"score": 38.4, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 47.4, "rank": 11, "peers": 19}, {"metric": "pbr", "score": 75.0, "rank": 6, "peers": 20}, {"metric": "psr", "score": 21.1, "rank": 16, "peers": 19}, {"metric": "pcr", "score": 23.5, "rank": 14, "peers": 17}, {"metric": "evebitda", "score": 25.0, "rank": 13, "peers": 16}]}, "self": {"score": 39.5, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 60.2, "percentile": 39.8, "current": 18.49, "min": 14.26, "median": 20.72, "max": 44.76, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 16.7, "percentile": 83.3, "current": 2.11, "min": 1.13, "median": 1.43, "max": 2.44, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 38.4, "percentile": 61.6, "current": 3.64, "min": 1.91, "median": 2.81, "max": 4.58, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 26.2, "percentile": 73.8, "current": 21.66, "min": 7.75, "median": 12.14, "max": 26.22, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 55.9, "percentile": 44.1, "current": 12.82, "min": 10.47, "median": 13.45, "max": 18.81, "days": 1255, "currentNote": null}]}};
+const KMI_VALUATION = {"peer": {"score": 29.7, "sector": "Energy (S&P500 21종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 31.6, "rank": 14, "peers": 19}, {"metric": "pbr", "score": 70.0, "rank": 7, "peers": 20}, {"metric": "psr", "score": 10.5, "rank": 18, "peers": 19}, {"metric": "pcr", "score": 17.6, "rank": 15, "peers": 17}, {"metric": "evebitda", "score": 18.8, "rank": 14, "peers": 16}]}, "self": {"score": 39.5, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 60.2, "percentile": 39.8, "current": 18.49, "min": 14.26, "median": 20.72, "max": 44.76, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 16.7, "percentile": 83.3, "current": 2.11, "min": 1.13, "median": 1.43, "max": 2.44, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 38.4, "percentile": 61.6, "current": 3.64, "min": 1.91, "median": 2.81, "max": 4.58, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 26.2, "percentile": 73.8, "current": 21.66, "min": 7.75, "median": 12.14, "max": 26.22, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 55.9, "percentile": 44.1, "current": 12.82, "min": 10.47, "median": 13.45, "max": 18.81, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2082,7 +2082,7 @@ const KMI_ACTIVITY = {"ticker": "KMI", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/kmi/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const KMI_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 18, mean: 37.44, median: 38,
+const KMI_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 18, mean: 37.44, median: 38,
   low: 34, high: 43, strongBuy: 11, buy: 2, hold: 11, sell: 0, strongSell: 0 };
 (function(){
   const A = KMI_ANALYST, last = (typeof KMI_DAILY !== 'undefined' && KMI_DAILY.length) ? KMI_DAILY[KMI_DAILY.length - 1] : null;

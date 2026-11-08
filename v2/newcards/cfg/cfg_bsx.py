@@ -9,7 +9,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (1, 0, -2), '적정~고평가'
+VOTES, VERDICT = (1, 1, -2), '적정'
 CO = 'Boston Scientific'
 S_ = 'https://www.sec.gov/Archives/edgar/data/885725/'
 SEC = S_
@@ -77,8 +77,8 @@ NEWS = [
 ]
 # 다음 실적일: 9/8 8-K(1.05항) — 10/28(수) 3분기 실적 콜에서 연간 전망 갱신(Codex r1 필수)
 NEXT_CONFIRMED = {'quarter_end': '2026-09-30', 'date': '2026-10-28', 'src': '9/8 회사 공시(8-K) — 3분기 실적 콜 10월 28일'}
-ANALYST = {'rating': 'Buy', 'n': 31, 'nt': 22, 'mean': 50.41, 'median': 50, 'low': 44, 'high': 60, 'sb': 14, 'b': 6, 'h': 11, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 31, 'nt': 21, 'mean': 50.62, 'median': 50, 'low': 44, 'high': 60, 'sb': 14, 'b': 5, 'h': 12, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 # ── 자동 카드 — 부문 2개. 원문 대조: Q2 2026 3,624/1,818, 1년 전 3,345/1,716(2026-10-22) ──
 AUTO = True

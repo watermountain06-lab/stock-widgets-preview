@@ -55,8 +55,8 @@ NEWS = [
      '매출 $7.63B(+17.5%) · 희석 EPS $2.24(1년 전 $1.95)', 'q3', 'Quanta Services 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Strong Buy', 'n': 30, 'nt': 23, 'mean': 803.87, 'median': 800, 'low': 684, 'high': 960, 'sb': 24, 'b': 1, 'h': 4, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Strong Buy', 'n': 30, 'nt': 21, 'mean': 811.76, 'median': 800, 'low': 690, 'high': 960, 'sb': 24, 'b': 1, 'h': 5, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 부문 표 Q2 2026 7,837.8/1,719.2, 1년 전 5,458.1/1,314.9 = 연결 매출(2026-10-17) ──

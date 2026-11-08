@@ -12,7 +12,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 RELEASE = {'rev': 112032}   # Q2 2026 보도자료 매출(백만 달러, 투자·기타 수익 포함)
-VOTES, VERDICT = (1, 1, -2), '적정'
+VOTES, VERDICT = (1, 0, -2), '적정~고평가'
 CO = 'UnitedHealth Group'
 S_ = 'https://www.sec.gov/Archives/edgar/data/731766/'
 SEC = S_
@@ -110,7 +110,7 @@ BEAR = [('성장', '2026년 매출 전망이 2025년보다 낮고, 메디케어 
         ('규제·소송', '법무부 위험조정 소송, IRS 이전가격 조정 통지, 신용등급 전망 "부정적".'),
         ('밸류', '기본 내재가치는 현재가의 {DCF[\'base\'] / px * 100:.0f}%이고, 현재가는 연 {pct(DCF[\'requiredGrowth\'])} 성장을 요구한다.')]
 ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 21, 'mean': 478.48, 'median': 490, 'low': 380, 'high': 531, 'sb': 15, 'b': 6, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST_ASOF = '2026-11-08'
 
 # 현재가 역산 문장(성장 모드) — 생성기는 틀 문장을 지우고 '—'만 남긴다(JS는 마진 모드만 문장을 쓴다). 옛 카드 문장을 되살린다(JS가 data-dcf-* 칸을 채운다).
 REVERSE = ('지금 가격(<span data-dcf-price>${px:.2f}</span>)이 정당하려면 5년간 매출이 매년 <b data-dcf-req>{pct(DCF[\'requiredGrowth\'])}</b>씩 커야 한다(마진은 기본 시나리오 경로). '

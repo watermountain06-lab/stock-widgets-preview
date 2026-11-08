@@ -53,7 +53,7 @@ NEWS = [
      '매출 $3.91B(−6.5%) · 순이익 $136M · 희석 EPS $1.12(1년 전 $1.22) — 다음 날 주가 +5.1%', 'q4', 'C.H. Robinson 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 23, 'mean': 180.35, 'median': 183, 'low': 91, 'high': 235, 'sb': 14, 'b': 4, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-07'
+ANALYST_ASOF = '2026-11-08'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, FISV·MLM·NSC·PTC 방식).

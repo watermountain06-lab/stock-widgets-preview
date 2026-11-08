@@ -537,7 +537,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 12.9%)</span>
@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="bsxFundVerdict">양호</span></div>
       <div class="logic-score" id="bsxFundScore">61.1<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral" id="bsxPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="bsxPeerVerdict">중간</span></div>
-      <div class="logic-score" id="bsxPeerScore">69.4<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-positive" id="bsxPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="bsxPeerVerdict">싼 편</span></div>
+      <div class="logic-score" id="bsxPeerScore">70.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="bsxSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="bsxSelfVerdict">싼 편</span></div>
@@ -787,7 +787,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-left"><span class="diag-label">이자보상배율</span><span class="diag-value">8x</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row" data-fund-metric="debtToEquity">
-        <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">77.4%</span></div>
+        <div class="diag-left"><span class="diag-label">부채비율</span><span class="diag-value">76.4%</span></div>
       <div class="diag-badge watch" title="구성표 배점 3/5점">보통</div></div>
       <div class="diag-row">
         <div class="diag-left"><span class="diag-label">총자산증가율</span><span class="diag-value">+10.9%</span><span class="diag-note">FY2025 말 $43.7B(전년 $39.4B) · 연간 지표</span></div>
@@ -891,7 +891,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$42.75</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.06</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정</span><span class="vs-asof"><span data-vs="asof">2026.11.06</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 BSX 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">98.2</div><div class="sc-tile" data-vc="self" data-m="per">97</div><div class="sc-tile" data-vc="self" data-m="pbr">100</div><div class="sc-tile" data-vc="self" data-m="psr">99</div><div class="sc-tile" data-vc="self" data-m="pcr">96</div><div class="sc-tile" data-vc="self" data-m="evebitda">98</div><div class="vs-pill" data-vs-pill="self">싸다</div>
@@ -902,10 +902,10 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.38 ~ 3.80(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.4</div><div class="sc-tile" data-vc="peer" data-m="per">80</div><div class="sc-tile" data-vc="peer" data-m="pbr">79</div><div class="sc-tile lost" data-vc="peer" data-m="psr">56</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">62</div><div class="sc-tile" data-vc="peer" data-m="evebitda">70</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">70.1</div><div class="sc-tile" data-vc="peer" data-m="per">84</div><div class="sc-tile" data-vc="peer" data-m="pbr">76</div><div class="sc-tile lost" data-vc="peer" data-m="psr">55</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">62</div><div class="sc-tile" data-vc="peer" data-m="evebitda">75</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 18.1배(5년 중앙값 67.9배)로 자기 이력 98.2점(싸다), 동종업 69.4점(중간)이다. <strong>현금흐름 내재가치(기본 $17.95)는 현재가의 42%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $17.95)는 현재가의 42%다. 현재가를 정당화하려면 영업이익률이 30.3%까지 올라야 한다(최근 4분기 18.7%, 5년 중앙값 15.8%). 내재가치에서 차입금 $12.0B를 빼고 현금·단기투자 $609M를 더한다. 주가가 1년 사이 크게 떨어지는 동안 매출·이익은 늘어 배수가 5년 중 가장 낮은 쪽에 있다 — 자기 이력 점수가 높은 이유다. 다만 회사는 올해 연간 성장 전망을 두 번 낮췄고, 8월 사이버 공격으로 제조·출하에 차질이 생겨 3분기·연간 실적이 기존 전망에 못 미칠 것이라고 밝혔다(9월 9일 운영은 복구). 사이버 사고의 영향은 아직 이 카드의 숫자(2분기까지)에 없다. 회사는 전기생리 경쟁 심화와 일부 Watchman 시술 둔화가 이미 2분기 매출에 영향을 줬다고 10-Q에 적었다. 발표만 된 Penumbra 인수도 숫자에 들어 있지 않다. 현금흐름 내재가치가 낮은 것은 최근 인수로 투하자본이 커져 매출 대비 자본 효율이 낮게 잡히고, 모델이 그만큼 큰 재투자를 요구하기 때문이다(낙관 시나리오는 처음부터 이 낮은 효율을 쓴다).</div>
+    <div class="vs-premise">PER 18.1배(5년 중앙값 67.9배)로 자기 이력 98.2점(싸다), 동종업 70.1점(싸다)이다. <strong>현금흐름 내재가치(기본 $17.95)는 현재가의 42%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $17.95)는 현재가의 42%다. 현재가를 정당화하려면 영업이익률이 30.3%까지 올라야 한다(최근 4분기 18.7%, 5년 중앙값 15.8%). 내재가치에서 차입금 $12.0B를 빼고 현금·단기투자 $609M를 더한다. 주가가 1년 사이 크게 떨어지는 동안 매출·이익은 늘어 배수가 5년 중 가장 낮은 쪽에 있다 — 자기 이력 점수가 높은 이유다. 다만 회사는 올해 연간 성장 전망을 두 번 낮췄고, 8월 사이버 공격으로 제조·출하에 차질이 생겨 3분기·연간 실적이 기존 전망에 못 미칠 것이라고 밝혔다(9월 9일 운영은 복구). 사이버 사고의 영향은 아직 이 카드의 숫자(2분기까지)에 없다. 회사는 전기생리 경쟁 심화와 일부 Watchman 시술 둔화가 이미 2분기 매출에 영향을 줬다고 10-Q에 적었다. 발표만 된 Penumbra 인수도 숫자에 들어 있지 않다. 현금흐름 내재가치가 낮은 것은 최근 인수로 투하자본이 커져 매출 대비 자본 효율이 낮게 잡히고, 모델이 그만큼 큰 재투자를 요구하기 때문이다(낙관 시나리오는 처음부터 이 낮은 효율을 쓴다).</div>
   </div>
 
   <div class="grid-2">
@@ -974,7 +974,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">의료기기 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 10/30 종가(BSX 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">의료기기 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -989,7 +989,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $5.1B(+1.4%), 영업이익률 16.1%(1년 전 20.7%). 주가는 1년 새 −57%<span class="tag">배수 5년 최저권·매출 성장 느려짐</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $17.95)는 현재가의 42%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $17.95)는 현재가의 42%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 3일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1119,13 +1119,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">31명 · 목표가 22</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">20</span> · 유지 <span data-an="hold">11</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 64.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 35.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">31명 · 목표가 21</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">19</span> · 유지 <span data-an="hold">12</span> · 매도 <span data-an="sell">0</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 61.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 38.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$50.41</span> <span class="op-sub op-up" data-an="upside">+17.9%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$50.62</span> <span class="op-sub op-up" data-an="upside">+18.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1329,63 +1329,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 10/30 종가(BSX 막대는 11/6)',
-    unit: 'PER', max: 65, bsxValue: null,
+    title: '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 11/6 종가',
+    unit: 'PER', max: 70, bsxValue: null,
     peers: [
-      { name:'MDT', value:23.8, status:'reference' },
-      { name:'SYK', value:31.1, status:'reference' },
-      { name:'ABT', value:34.4, status:'reference' },
-      { name:'EW', value:54.1, status:'reference' },
-      { name:'ISRG', value:52.4, status:'reference' },
-      { name:'BDX', value:35.9, status:'reference' }
+      { name:'MDT', value:25.1, status:'reference' },
+      { name:'SYK', value:34.7, status:'reference' },
+      { name:'ABT', value:41.0, status:'reference' },
+      { name:'EW', value:59.0, status:'reference' },
+      { name:'ISRG', value:54.9, status:'reference' },
+      { name:'BDX', value:38.5, status:'reference' }
     ]
   },
   pbr: {
-    title: '의료기기 PBR 비교 · 10/30 종가(BSX 막대는 11/6)',
+    title: '의료기기 PBR 비교 · 11/6 종가',
     unit: 'PBR', max: 15, bsxValue: null,
     peers: [
-      { name:'MDT', value:2.5, status:'reference' },
-      { name:'SYK', value:4.7, status:'reference' },
-      { name:'ABT', value:3.6, status:'reference' },
-      { name:'EW', value:5.0, status:'reference' },
-      { name:'ISRG', value:9.4, status:'reference' },
-      { name:'BDX', value:2.2, status:'reference' }
+      { name:'MDT', value:2.6, status:'reference' },
+      { name:'SYK', value:5.3, status:'reference' },
+      { name:'ABT', value:3.7, status:'reference' },
+      { name:'EW', value:5.4, status:'reference' },
+      { name:'ISRG', value:9.8, status:'reference' },
+      { name:'BDX', value:2.4, status:'reference' }
     ]
   },
   psr: {
-    title: '의료기기 PSR 비교 · 10/30 종가(BSX 막대는 11/6)',
-    unit: 'PSR(TTM)', max: 15, bsxValue: null,
+    title: '의료기기 PSR 비교 · 11/6 종가',
+    unit: 'PSR(TTM)', max: 20, bsxValue: null,
     peers: [
-      { name:'MDT', value:3.3, status:'reference' },
-      { name:'SYK', value:4.2, status:'reference' },
-      { name:'ABT', value:3.9, status:'reference' },
-      { name:'EW', value:8.1, status:'reference' },
-      { name:'ISRG', value:12.9, status:'reference' },
-      { name:'BDX', value:2.6, status:'reference' }
+      { name:'MDT', value:3.5, status:'reference' },
+      { name:'SYK', value:4.7, status:'reference' },
+      { name:'ABT', value:4.0, status:'reference' },
+      { name:'EW', value:8.8, status:'reference' },
+      { name:'ISRG', value:13.6, status:'reference' },
+      { name:'BDX', value:2.8, status:'reference' }
     ]
   },
   pcr: {
-    title: '의료기기 PCR(FCF) 비교 · 10/30 종가(BSX 막대는 11/6)',
-    unit: 'PCR(FCF)', max: 50, bsxValue: null,
+    title: '의료기기 PCR(FCF) 비교 · 11/6 종가',
+    unit: 'PCR(FCF)', max: 55, bsxValue: null,
     peers: [
-      { name:'MDT', value:20.1, status:'reference' },
-      { name:'SYK', value:24.3, status:'reference' },
-      { name:'ABT', value:23.5, status:'reference' },
-      { name:'EW', value:37.0, status:'reference' },
-      { name:'ISRG', value:41.6, status:'reference' },
-      { name:'BDX', value:19.7, status:'reference' }
+      { name:'MDT', value:21.2, status:'reference' },
+      { name:'SYK', value:27.1, status:'reference' },
+      { name:'ABT', value:28.2, status:'reference' },
+      { name:'EW', value:41.2, status:'reference' },
+      { name:'ISRG', value:43.6, status:'reference' },
+      { name:'BDX', value:21.1, status:'reference' }
     ]
   },
   evebitda: {
-    title: '의료기기 EV/EBITDA 비교 · 10/30 종가(BSX 막대는 11/6)',
+    title: '의료기기 EV/EBITDA 비교 · 11/6 종가',
     unit: 'EV/EBITDA', max: 55, bsxValue: null,
     peers: [
-      { name:'MDT', value:14.5, status:'reference' },
-      { name:'SYK', value:18.5, status:'reference' },
-      { name:'ABT', value:19.6, status:'reference' },
-      { name:'EW', value:30.6, status:'reference' },
-      { name:'ISRG', value:43.8, status:'reference' },
-      { name:'BDX', value:15.2, status:'reference' }
+      { name:'MDT', value:15.2, status:'reference' },
+      { name:'SYK', value:20.4, status:'reference' },
+      { name:'ABT', value:20.6, status:'reference' },
+      { name:'EW', value:34.0, status:'reference' },
+      { name:'ISRG', value:46.0, status:'reference' },
+      { name:'BDX', value:16.1, status:'reference' }
     ]
   }
 };
@@ -1515,7 +1515,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py BSX
 const BSX_SCORES = {
   fundamental: 61.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 69.4,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 70.1,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 98.2,   // 자기 5년 배수 분포 백분위 (2021-11-08 ~ 2026-11-06)
   asOf: "2026-11-06",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1846,7 +1846,7 @@ const BSX_FUNDAMENTAL = {"ticker": "BSX", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py BSX --self v2/BSX_multiples.json --card
 /* VALUATION:BEGIN */
-const BSX_VALUATION = {"peer": {"score": 69.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 80.0, "rank": 11, "peers": 50}, {"metric": "pbr", "score": 78.8, "rank": 12, "peers": 52}, {"metric": "psr", "score": 56.1, "rank": 26, "peers": 57}, {"metric": "pcr", "score": 61.5, "rank": 21, "peers": 52}, {"metric": "evebitda", "score": 70.4, "rank": 17, "peers": 54}]}, "self": {"score": 98.2, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.2, "percentile": 2.8, "current": 18.11, "min": 16.83, "median": 67.94, "max": 117.56, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 99.9, "percentile": 0.1, "current": 2.42, "min": 2.42, "median": 4.26, "max": 7.56, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 99.4, "percentile": 0.6, "current": 2.94, "min": 2.87, "median": 5.78, "max": 9.84, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.3, "percentile": 3.7, "current": 18.6, "min": 16.62, "median": 52.6, "max": 125.17, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 98.0, "percentile": 2.0, "current": 13.71, "min": 13.04, "median": 29.77, "max": 44.08, "days": 1255, "currentNote": null}]}};
+const BSX_VALUATION = {"peer": {"score": 70.1, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 83.7, "rank": 9, "peers": 49}, {"metric": "pbr", "score": 75.5, "rank": 14, "peers": 53}, {"metric": "psr", "score": 55.2, "rank": 27, "peers": 58}, {"metric": "pcr", "score": 61.8, "rank": 22, "peers": 55}, {"metric": "evebitda", "score": 74.5, "rank": 15, "peers": 55}]}, "self": {"score": 98.2, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.2, "percentile": 2.8, "current": 18.11, "min": 16.83, "median": 67.94, "max": 117.56, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 99.9, "percentile": 0.1, "current": 2.42, "min": 2.42, "median": 4.26, "max": 7.56, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 99.4, "percentile": 0.6, "current": 2.94, "min": 2.87, "median": 5.78, "max": 9.84, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.3, "percentile": 3.7, "current": 18.6, "min": 16.62, "median": 52.6, "max": 125.17, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 98.0, "percentile": 2.0, "current": 13.71, "min": 13.04, "median": 29.77, "max": 44.08, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2135,8 +2135,8 @@ const BSX_ACTIVITY = {"ticker": "BSX", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/bsx/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const BSX_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 31, nTargets: 22, mean: 50.41, median: 50,
-  low: 44, high: 60, strongBuy: 14, buy: 6, hold: 11, sell: 0, strongSell: 0 };
+const BSX_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 31, nTargets: 21, mean: 50.62, median: 50,
+  low: 44, high: 60, strongBuy: 14, buy: 5, hold: 12, sell: 0, strongSell: 0 };
 (function(){
   const A = BSX_ANALYST, last = (typeof BSX_DAILY !== 'undefined' && BSX_DAILY.length) ? BSX_DAILY[BSX_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

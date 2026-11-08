@@ -52,8 +52,8 @@ NEWS = [
     ('green', '2026년 2월 19일 — Q4 2025 실적', '2026-02-20',
      '매출 $2.65B · 순이익 $331M · 희석 EPS $9.37(1년 전 $4.09) · 2025년 희석 EPS $28.88', 'q4', 'Comfort Systems 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Strong Buy', 'n': 10, 'nt': 7, 'mean': 2026, 'median': 1979, 'low': 1808, 'high': 2500, 'sb': 9, 'b': 0, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Strong Buy', 'n': 11, 'nt': 7, 'mean': 2026, 'median': 1979, 'low': 1808, 'high': 2500, 'sb': 9, 'b': 0, 'h': 2, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 2개(수동 지도). 원문 대조: Q3 2026 2,582.9/1,183.4(2026-10-24) ──

@@ -938,7 +938,7 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(증권·투자은행) 카드: GS P/TBV 2.48배·PER 13.4배, SCHW P/TBV 6.49배·PER 16.7배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">3.9</div><div class="sc-tile low" data-vc="peer" data-m="per">8</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">P/TBV 3.36배는 자기 5년 이력의 위쪽(상위 19%)이고 비교군 S&P500 대형·지역 은행 12곳과 견주면 가장 비싸다. <strong>초과이익모형 기본 가치 $119은 현재가의 66%</strong>로, 지금 가격은 ROE 25.1%가 5년 이어진다는 값이다(최근 4분기 19.8%, GAAP).</div>
+    <div class="vs-premise">P/TBV 3.36배는 자기 5년 이력의 위쪽(상위 19%)이고 비교군 S&P500 대형·지역 은행 13곳과 견주면 가장 비싸다. <strong>초과이익모형 기본 가치 $119은 현재가의 66%</strong>로, 지금 가격은 ROE 25.1%가 5년 이어진다는 값이다(최근 4분기 19.8%, GAAP).</div>
     <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 1.52로 "매우 비싸다"다 — 경계 가까이라 작은 주가 움직임으로 칸이 바뀔 수 있다. 세 칸이 자기 이력 0 · 동종업 −1 · 초과이익 −2로 종합 평가는 고평가다.</div>
   </div>
 
@@ -1104,8 +1104,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 42.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 53.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$219.25</span> <span class="op-sub op-up" data-an="upside">+20.8%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$219.50</span> <span class="op-sub op-up" data-an="upside">+21.0%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1347,7 +1347,7 @@ const MULTIPLE_DATA = {
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 11/6 종가 (PNC는 유형자본을 만들 수 없음)",
+    "title": "S&P500 은행 P/TBV 비교 · 11/6 종가",
     "unit": "P/TBV",
     "max": 4,
     "msValue": null,
@@ -1369,7 +1369,7 @@ const MULTIPLE_DATA = {
       },
       {
         "name": "FITB",
-        "value": 2.28,
+        "value": 2.41,
         "status": "reference"
       },
       {
@@ -1842,7 +1842,7 @@ const MS_FUNDAMENTAL = {"ticker": "MS", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py MS --self v2/MS_multiples.json --card
 /* VALUATION:BEGIN */
-const MS_VALUATION = {"peer": {"score": 3.9, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-06", "2026-11-06"], "metrics": [{"metric": "per", "score": 7.7, "rank": 13, "peers": 13}, {"metric": "pbr", "score": 0.0, "rank": 13, "peers": 12}]}, "self": {"score": 40.3, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-08", "2026-11-06"], "metrics": [{"metric": "per", "score": 61.6, "percentile": 38.4, "current": 14.67, "min": 9.27, "median": 15.54, "max": 21.44, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 19.0, "percentile": 81.0, "current": 3.36, "min": 1.73, "median": 2.43, "max": 4.43, "days": 1255, "gapDays": 0}]}};
+const MS_VALUATION = {"peer": {"score": 3.9, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-06", "2026-11-06"], "metrics": [{"metric": "per", "score": 7.7, "rank": 13, "peers": 13}, {"metric": "pbr", "score": 0.0, "rank": 14, "peers": 13}]}, "self": {"score": 40.3, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-08", "2026-11-06"], "metrics": [{"metric": "per", "score": 61.6, "percentile": 38.4, "current": 14.67, "min": 9.27, "median": 15.54, "max": 21.44, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 19.0, "percentile": 81.0, "current": 3.36, "min": 1.73, "median": 2.43, "max": 4.43, "days": 1255, "gapDays": 0}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2154,7 +2154,7 @@ const MS_ACTIVITY = {"ticker": "MS", "status": "na", "reason": "은행이라 매
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ms/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MS_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 16, mean: 219.25, median: 217,
+const MS_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 16, mean: 219.5, median: 217,
   low: 190, high: 262, strongBuy: 9, buy: 2, hold: 14, sell: 0, strongSell: 1 };
 (function(){
   const A = MS_ANALYST, last = (typeof MS_DAILY !== 'undefined' && MS_DAILY.length) ? MS_DAILY[MS_DAILY.length - 1] : null;
@@ -2215,8 +2215,8 @@ const MS_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 �
   }
   put('msPeerBox', 'msPeerScore', 'msPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
-      + `\nP/TBV는 유형자본을 만들 수 있는 12곳, PER은 13곳과 비교했다.`
-      + `\nPNC는 P/TBV에서 빠졌다(PNC: 분기말 2026-06-30의 유형자본을 만들 수 없음(우선주·무형자산 태그, 1-1·1-2·8-1)).`);
+      + `\nP/TBV는 유형자본을 만들 수 있는 13곳, PER은 13곳과 비교했다.`
+      + `\nPNC: 무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모: 규제자본 차감 무형자산 $666M(2026-06, TCE 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(약 1.7%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).`);
   put('msSelfBox', 'msSelfScore', 'msSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nP/TBV 3.36배(5년 중 상위 19%)·PER 14.7배(상위 62%).`

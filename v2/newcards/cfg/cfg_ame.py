@@ -7,7 +7,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q2 2026', 'Q2 2025', 'Q1 2026'
 L8 = ['Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'AMETEK'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1037868/'
 SEC = S_
@@ -66,8 +66,8 @@ assert _n == 1, _n
 h, _n = _re.subn(r'(Q2 2026 매출 \+15\.0%\(보고 기준)', r'\1 — 유기 +10%·인수 +5%', h)
 assert _n == 1, _n
 ''']
-ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 14, 'mean': 280.14, 'median': 285, 'low': 230, 'high': 316, 'sb': 12, 'b': 2, 'h': 5, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 13, 'mean': 286, 'median': 285, 'low': 255, 'high': 316, 'sb': 12, 'b': 2, 'h': 6, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 2개(수동 지도). 원문 대조: Q2 2026 1,321.2/723.2(2026-10-23) ──

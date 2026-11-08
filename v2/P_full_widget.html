@@ -1101,7 +1101,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 90%; background: var(--green);"></div><div data-an-bar="hold" style="width: 5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$151.11</span> <span class="op-sub op-up" data-an="upside">+56.2%</span></span>
       </div>
       <div class="op-cell">
@@ -2110,7 +2110,7 @@ const P_ACTIVITY = {"ticker": "P", "status": "ok", "asOf": "2026-08-02", "prevAs
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/p/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const P_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 18, mean: 151.11, median: 155,
+const P_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 18, mean: 151.11, median: 155,
   low: 80, high: 215, strongBuy: 13, buy: 5, hold: 1, sell: 0, strongSell: 1 };
 (function(){
   const A = P_ANALYST, last = (typeof P_DAILY !== 'undefined' && P_DAILY.length) ? P_DAILY[P_DAILY.length - 1] : null;

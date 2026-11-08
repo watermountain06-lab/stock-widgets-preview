@@ -66,7 +66,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 20, 'mean': 53.9, 'median': 54, 'low': 32, 'high': 60, 'sb': 13, 'b': 4, 'h': 6, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-10-31'
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 일반 화물 소계 아래 7품목은 ignore(소계에 포함).

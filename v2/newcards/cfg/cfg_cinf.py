@@ -47,7 +47,7 @@ NEWS = [
      '순이익 $676M · 희석 EPS $4.29(1년 전 $2.56) · 영업 EPS $3.37 — 다음 날 주가 −3.3%', 'q4', 'Cincinnati Financial 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 8, 'nt': 4, 'mean': 193, 'median': 200, 'low': 171, 'high': 204, 'sb': 2, 'b': 0, 'h': 6, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-05'
+ANALYST_ASOF = '2026-11-08'
 
 
 POST = [r"""

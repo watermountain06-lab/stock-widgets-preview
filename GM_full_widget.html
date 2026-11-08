@@ -976,7 +976,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">자동차·부품 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) (F 값 없음·APTV 값 없음·BWA 값 없음·LKQ 값 없음·GPC 값 없음) · 10/30 종가(GM 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">자동차·부품 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) (F 값 없음·BWA 값 없음·LKQ 값 없음·GPC 값 없음) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1084,13 +1084,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">24명 · 목표가 20</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">24명 · 목표가 18</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">20</span> · 유지 <span data-an="hold">4</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 83.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$105.25</span> <span class="op-sub op-up" data-an="upside">+22.2%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$107.06</span> <span class="op-sub op-up" data-an="upside">+24.3%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1294,49 +1294,51 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '자동차·부품 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) (F 값 없음·APTV 값 없음·BWA 값 없음·LKQ 값 없음·GPC 값 없음) · 10/30 종가(GM 막대는 11/6)',
-    unit: 'PER', max: 510, gmValue: null,
+    title: '자동차·부품 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) (F 값 없음·BWA 값 없음·LKQ 값 없음·GPC 값 없음) · 11/6 종가',
+    unit: 'PER', max: 455, gmValue: null,
     peers: [
-      { name:'TSLA', value:439.4, status:'reference' }
+      { name:'TSLA', value:393.6, status:'reference' },
+      { name:'APTV', value:30.8, status:'reference' }
     ]
   },
   pbr: {
-    title: '자동차 PBR 비교 (BWA 값 없음·LKQ 값 없음) · 10/30 종가(GM 막대는 11/6)',
+    title: '자동차 PBR 비교 (BWA 값 없음·LKQ 값 없음) · 11/6 종가',
     unit: 'PBR', max: 20, gmValue: null,
     peers: [
-      { name:'F', value:1.2, status:'reference' },
-      { name:'TSLA', value:15.8, status:'reference' },
-      { name:'APTV', value:1.0, status:'reference' },
+      { name:'F', value:1.3, status:'reference' },
+      { name:'TSLA', value:14.2, status:'reference' },
+      { name:'APTV', value:0.9, status:'reference' },
       { name:'GPC', value:3.6, status:'reference' }
     ]
   },
   psr: {
-    title: '자동차 PSR 비교 (BWA 값 없음·LKQ 값 없음) · 10/30 종가(GM 막대는 11/6)',
-    unit: 'PSR(TTM)', max: 20, gmValue: null,
+    title: '자동차 PSR 비교 (BWA 값 없음·LKQ 값 없음) · 11/6 종가',
+    unit: 'PSR(TTM)', max: 15, gmValue: null,
     peers: [
       { name:'F', value:0.2, status:'reference' },
-      { name:'TSLA', value:13.6, status:'reference' },
+      { name:'TSLA', value:12.2, status:'reference' },
       { name:'APTV', value:0.5, status:'reference' },
       { name:'GPC', value:0.7, status:'reference' }
     ]
   },
   pcr: {
-    title: '자동차 PCR(FCF) 비교 (BWA 값 없음·LKQ 값 없음) · 10/30 종가(GM 막대는 11/6)',
-    unit: 'PCR(FCF)', max: 495, gmValue: null,
+    title: '자동차 PCR(FCF) 비교 (BWA 값 없음·LKQ 값 없음) · 11/6 종가',
+    unit: 'PCR(FCF)', max: 445, gmValue: null,
     peers: [
-      { name:'F', value:8.9, status:'reference' },
-      { name:'TSLA', value:427.2, status:'reference' },
-      { name:'APTV', value:10.2, status:'reference' },
-      { name:'GPC', value:21.9, status:'reference' }
+      { name:'F', value:9.0, status:'reference' },
+      { name:'TSLA', value:382.7, status:'reference' },
+      { name:'APTV', value:12.3, status:'reference' },
+      { name:'GPC', value:22.2, status:'reference' }
     ]
   },
   evebitda: {
-    title: '자동차 EV/EBITDA 비교 (BWA 값 없음·LKQ 값 없음·GPC 값 없음) · 10/30 종가(GM 막대는 11/6)',
-    unit: 'EV/EBITDA', max: 175, gmValue: null,
+    title: '자동차 EV/EBITDA 비교 (BWA 값 없음·LKQ 값 없음) · 11/6 종가',
+    unit: 'EV/EBITDA', max: 155, gmValue: null,
     peers: [
-      { name:'F', value:1.6, status:'reference' },
-      { name:'TSLA', value:150.5, status:'reference' },
-      { name:'APTV', value:6.8, status:'reference' }
+      { name:'F', value:1.4, status:'reference' },
+      { name:'TSLA', value:134.5, status:'reference' },
+      { name:'APTV', value:5.3, status:'reference' },
+      { name:'GPC', value:14.3, status:'reference' }
     ]
   }
 };
@@ -2086,8 +2088,8 @@ const GM_ACTIVITY = {"ticker": "GM", "status": "N/A", "reason": "5년 비교 이
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/gm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GM_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 20, mean: 105.25, median: 105,
-  low: 76, high: 132, strongBuy: 13, buy: 7, hold: 4, sell: 0, strongSell: 0 };
+const GM_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 18, mean: 107.06, median: 105,
+  low: 95, high: 132, strongBuy: 13, buy: 7, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = GM_ANALYST, last = (typeof GM_DAILY !== 'undefined' && GM_DAILY.length) ? GM_DAILY[GM_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

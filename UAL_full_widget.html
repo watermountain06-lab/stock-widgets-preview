@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">항공·운송·항공우주 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 10/30 종가(UAL 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">항공·운송·항공우주 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1068,7 +1068,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 92%; background: var(--green);"></div><div data-an-bar="hold" style="width: 8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
         <span class="op-val"><span data-an="mean">$155.25</span> <span class="op-sub op-up" data-an="upside">+37.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1273,63 +1273,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '항공·운송·항공우주 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 10/30 종가(UAL 막대는 11/6)',
-    unit: 'PER', max: 40, ualValue: null,
+    title: '항공·운송·항공우주 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 11/6 종가',
+    unit: 'PER', max: 75, ualValue: null,
     peers: [
-      { name:'DAL', value:16.0, status:'reference' },
-      { name:'UNP', value:23.7, status:'reference' },
-      { name:'CSX', value:26.9, status:'reference' },
+      { name:'DAL', value:17.4, status:'reference' },
+      { name:'UNP', value:23.5, status:'reference' },
+      { name:'CSX', value:28.4, status:'reference' },
       { name:'UPS', value:20.1, status:'reference' },
-      { name:'GE', value:34.4, status:'reference' },
-      { name:'BA', value:18.7, status:'reference' }
+      { name:'GE', value:38.1, status:'reference' },
+      { name:'BA', value:62.4, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 10/30 종가(UAL 막대는 11/6)',
+    title: 'PBR 비교 · 11/6 종가',
     unit: 'PBR', max: 25, ualValue: null,
     peers: [
-      { name:'DAL', value:2.3, status:'reference' },
-      { name:'UNP', value:8.2, status:'reference' },
-      { name:'CSX', value:6.7, status:'reference' },
-      { name:'UPS', value:6.1, status:'reference' },
-      { name:'GE', value:17.8, status:'reference' },
-      { name:'BA', value:20.8, status:'reference' }
+      { name:'DAL', value:2.5, status:'reference' },
+      { name:'UNP', value:7.8, status:'reference' },
+      { name:'CSX', value:6.3, status:'reference' },
+      { name:'UPS', value:6.2, status:'reference' },
+      { name:'GE', value:19.1, status:'reference' },
+      { name:'BA', value:21.0, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 10/30 종가(UAL 막대는 11/6)',
+    title: 'PSR 비교 · 11/6 종가',
     unit: 'PSR(TTM)', max: 10, ualValue: null,
     peers: [
-      { name:'DAL', value:0.7, status:'reference' },
-      { name:'UNP', value:6.8, status:'reference' },
-      { name:'CSX', value:6.4, status:'reference' },
+      { name:'DAL', value:0.8, status:'reference' },
+      { name:'UNP', value:6.5, status:'reference' },
+      { name:'CSX', value:6.1, status:'reference' },
       { name:'UPS', value:1.0, status:'reference' },
-      { name:'GE', value:5.9, status:'reference' },
+      { name:'GE', value:6.3, status:'reference' },
       { name:'BA', value:1.4, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 10/30 종가(UAL 막대는 11/6)',
-    unit: 'PCR(FCF)', max: 9775, ualValue: null,
+    title: 'PCR(FCF) 비교 · 11/6 종가',
+    unit: 'PCR(FCF)', max: 9880, ualValue: null,
     peers: [
-      { name:'DAL', value:17.4, status:'reference' },
-      { name:'UNP', value:27.0, status:'reference' },
-      { name:'CSX', value:29.8, status:'reference' },
-      { name:'UPS', value:16.9, status:'reference' },
-      { name:'GE', value:39.0, status:'reference' },
-      { name:'BA', value:8496.5, status:'reference' }
+      { name:'DAL', value:19.0, status:'reference' },
+      { name:'UNP', value:25.8, status:'reference' },
+      { name:'CSX', value:28.2, status:'reference' },
+      { name:'UPS', value:14.5, status:'reference' },
+      { name:'GE', value:41.8, status:'reference' },
+      { name:'BA', value:8588.2, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 10/30 종가(UAL 막대는 11/6)',
+    title: 'EV/EBITDA 비교 · 11/6 종가',
     unit: 'EV/EBITDA', max: 40, ualValue: null,
     peers: [
-      { name:'DAL', value:7.8, status:'reference' },
-      { name:'UNP', value:15.9, status:'reference' },
-      { name:'CSX', value:16.0, status:'reference' },
+      { name:'DAL', value:8.3, status:'reference' },
+      { name:'UNP', value:15.2, status:'reference' },
+      { name:'CSX', value:15.2, status:'reference' },
       { name:'UPS', value:10.7, status:'reference' },
-      { name:'GE', value:30.9, status:'reference' },
-      { name:'BA', value:13.4, status:'reference' }
+      { name:'GE', value:33.1, status:'reference' },
+      { name:'BA', value:13.5, status:'reference' }
     ]
   }
 };
@@ -1785,7 +1785,7 @@ const UAL_FUNDAMENTAL = {"ticker": "UAL", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py UAL --self v2/UAL_multiples.json --card
 /* VALUATION:BEGIN */
-const UAL_VALUATION = {"peer": {"score": 82.1, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-10-30", "2026-10-30"], "priceSession": null, "metrics": [{"metric": "per", "score": 98.7, "rank": 2, "peers": 75}, {"metric": "pbr", "score": 95.9, "rank": 4, "peers": 74}, {"metric": "psr", "score": 98.7, "rank": 2, "peers": 78}, {"metric": "pcr", "score": 17.1, "rank": 64, "peers": 76}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 75}]}, "self": {"score": 32.4, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 28.4, "percentile": 71.6, "current": 10.31, "min": 3.93, "median": 8.82, "max": 25.0, "days": 935, "currentNote": null}, {"metric": "pbr", "score": 64.5, "percentile": 35.5, "current": 2.06, "min": 1.18, "median": 2.27, "max": 4.68, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 27.6, "percentile": 72.4, "current": 0.56, "min": 0.21, "median": 0.43, "max": 0.87, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 9.4, "percentile": 90.6, "current": 32.82, "min": 4.42, "median": 9.98, "max": 119.17, "days": 983, "currentNote": null}, {"metric": "evebitda", "score": 32.1, "percentile": 67.9, "current": 6.07, "min": 3.14, "median": 5.56, "max": 21.25, "days": 1184, "currentNote": null}]}};
+const UAL_VALUATION = {"peer": {"score": 82.1, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 98.7, "rank": 2, "peers": 75}, {"metric": "pbr", "score": 95.9, "rank": 4, "peers": 74}, {"metric": "psr", "score": 98.7, "rank": 2, "peers": 78}, {"metric": "pcr", "score": 17.1, "rank": 64, "peers": 76}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 74}]}, "self": {"score": 32.4, "window": ["2021-11-08", "2026-11-06"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 28.4, "percentile": 71.6, "current": 10.31, "min": 3.93, "median": 8.82, "max": 25.0, "days": 935, "currentNote": null}, {"metric": "pbr", "score": 64.5, "percentile": 35.5, "current": 2.06, "min": 1.18, "median": 2.27, "max": 4.68, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 27.6, "percentile": 72.4, "current": 0.56, "min": 0.21, "median": 0.43, "max": 0.87, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 9.4, "percentile": 90.6, "current": 32.82, "min": 4.42, "median": 9.98, "max": 119.17, "days": 983, "currentNote": null}, {"metric": "evebitda", "score": 32.1, "percentile": 67.9, "current": 6.07, "min": 3.14, "median": 5.56, "max": 21.25, "days": 1184, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2074,7 +2074,7 @@ const UAL_ACTIVITY = {"ticker": "UAL", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ual/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const UAL_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 25, nTargets: 16, mean: 155.25, median: 152,
+const UAL_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 25, nTargets: 16, mean: 155.25, median: 152,
   low: 125, high: 203, strongBuy: 19, buy: 4, hold: 2, sell: 0, strongSell: 0 };
 (function(){
   const A = UAL_ANALYST, last = (typeof UAL_DAILY !== 'undefined' && UAL_DAILY.length) ? UAL_DAILY[UAL_DAILY.length - 1] : null;

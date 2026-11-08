@@ -10,7 +10,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (0, 0, 0), '판정 보류'
+VOTES, VERDICT = (0, 1, 0), '판정 보류'
 CO = 'Arch Capital'
 S_ = 'https://www.sec.gov/Archives/edgar/data/947484/'
 SEC = S_
@@ -48,7 +48,7 @@ NEWS = [
      '보통주 순이익 $1,228M · 희석 EPS $3.35(1년 전 $2.42) · 영업 EPS $2.98 — 다음 날 주가 +1.9%', 'q4', 'Arch Capital 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 15, 'mean': 111, 'median': 110, 'low': 95, 'high': 125, 'sb': 7, 'b': 2, 'h': 10, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-05'
+ANALYST_ASOF = '2026-11-08'
 
 
 POST = [r"""

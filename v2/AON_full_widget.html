@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">보험 중개·금융 데이터 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) · 10/30 종가(AON 막대는 11/6)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">보험 중개·금융 데이터 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) · 11/6 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1095,12 +1095,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">21명 · 목표가 15</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">13</span> · 유지 <span data-an="hold">5</span> · 매도 <span data-an="sell">3</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 61.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 23.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 14.3%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">13</span> · 유지 <span data-an="hold">6</span> · 매도 <span data-an="sell">2</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 61.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 28.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 9.5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-10-31</span></span>
-        <span class="op-val"><span data-an="mean">$369.53</span> <span class="op-sub op-up" data-an="upside">+10.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-val"><span data-an="mean">$374.93</span> <span class="op-sub op-up" data-an="upside">+12.0%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1304,62 +1304,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '보험 중개·금융 데이터 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) · 10/30 종가(AON 막대는 11/6)',
+    title: '보험 중개·금융 데이터 6곳 PER 비교 (점수는 중개사 + 결제·거래소·데이터 기준) · 11/6 종가',
     unit: 'PER', max: 55, aonValue: null,
     peers: [
-      { name:'MRSH', value:24.0, status:'reference' },
-      { name:'AJG', value:45.8, status:'reference' },
-      { name:'BRO', value:22.3, status:'reference' },
-      { name:'WTW', value:20.1, status:'reference' },
-      { name:'SPGI', value:28.4, status:'reference' },
-      { name:'MCO', value:31.3, status:'reference' }
+      { name:'MRSH', value:24.5, status:'reference' },
+      { name:'AJG', value:46.7, status:'reference' },
+      { name:'BRO', value:23.0, status:'reference' },
+      { name:'WTW', value:20.4, status:'reference' },
+      { name:'SPGI', value:27.5, status:'reference' },
+      { name:'MCO', value:32.1, status:'reference' }
     ]
   },
   pbr: {
-    title: '보험 중개·금융 데이터 PBR 비교 · 10/30 종가(AON 막대는 11/6)',
+    title: '보험 중개·금융 데이터 PBR 비교 · 11/6 종가',
     unit: 'PBR', max: 35, aonValue: null,
     peers: [
-      { name:'MRSH', value:6.5, status:'reference' },
+      { name:'MRSH', value:6.6, status:'reference' },
       { name:'AJG', value:3.0, status:'reference' },
-      { name:'BRO', value:1.8, status:'reference' },
+      { name:'BRO', value:1.9, status:'reference' },
       { name:'WTW', value:3.9, status:'reference' },
-      { name:'SPGI', value:4.4, status:'reference' },
-      { name:'MCO', value:26.1, status:'reference' }
+      { name:'SPGI', value:6.9, status:'reference' },
+      { name:'MCO', value:26.7, status:'reference' }
     ]
   },
   psr: {
-    title: '보험 중개·금융 데이터 PSR 비교 · 10/30 종가(AON 막대는 11/6)',
+    title: '보험 중개·금융 데이터 PSR 비교 · 11/6 종가',
     unit: 'PSR(TTM)', max: 15, aonValue: null,
     peers: [
       { name:'MRSH', value:3.4, status:'reference' },
-      { name:'AJG', value:4.5, status:'reference' },
-      { name:'BRO', value:3.4, status:'reference' },
-      { name:'WTW', value:2.9, status:'reference' },
+      { name:'AJG', value:4.4, status:'reference' },
+      { name:'BRO', value:3.5, status:'reference' },
+      { name:'WTW', value:3.0, status:'reference' },
       { name:'SPGI', value:8.5, status:'reference' },
-      { name:'MCO', value:10.4, status:'reference' }
+      { name:'MCO', value:10.7, status:'reference' }
     ]
   },
   pcr: {
-    title: '보험 중개·금융 데이터 PCR(FCF) 비교 · 10/30 종가(AON 막대는 11/6)',
-    unit: 'PCR(FCF)', max: 40, aonValue: null,
+    title: '보험 중개·금융 데이터 PCR(FCF) 비교 · 11/6 종가',
+    unit: 'PCR(FCF)', max: 35, aonValue: null,
     peers: [
-      { name:'MRSH', value:23.0, status:'reference' },
-      { name:'AJG', value:30.9, status:'reference' },
-      { name:'BRO', value:15.6, status:'reference' },
-      { name:'WTW', value:17.2, status:'reference' },
-      { name:'SPGI', value:24.7, status:'reference' },
-      { name:'MCO', value:28.6, status:'reference' }
+      { name:'MRSH', value:23.4, status:'reference' },
+      { name:'AJG', value:25.0, status:'reference' },
+      { name:'BRO', value:16.1, status:'reference' },
+      { name:'WTW', value:17.4, status:'reference' },
+      { name:'SPGI', value:25.7, status:'reference' },
+      { name:'MCO', value:29.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: '보험 중개·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 10/30 종가(AON 막대는 11/6)',
+    title: '보험 중개·금융 데이터 EV/EBITDA 비교 (SPGI 값 없음) · 11/6 종가',
     unit: 'EV/EBITDA', max: 30, aonValue: null,
     peers: [
-      { name:'MRSH', value:16.3, status:'reference' },
-      { name:'AJG', value:20.9, status:'reference' },
-      { name:'BRO', value:12.2, status:'reference' },
-      { name:'WTW', value:12.8, status:'reference' },
-      { name:'MCO', value:21.9, status:'reference' }
+      { name:'MRSH', value:16.6, status:'reference' },
+      { name:'AJG', value:19.9, status:'reference' },
+      { name:'BRO', value:13.1, status:'reference' },
+      { name:'WTW', value:13.0, status:'reference' },
+      { name:'MCO', value:22.4, status:'reference' }
     ]
   }
 };
@@ -2100,8 +2100,8 @@ const AON_ACTIVITY = {"ticker": "AON", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/aon/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const AON_ANALYST = { asOf: '2026-10-31', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 21, nTargets: 15, mean: 369.53, median: 363,
-  low: 317, high: 436, strongBuy: 9, buy: 4, hold: 5, sell: 2, strongSell: 1 };
+const AON_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 21, nTargets: 15, mean: 374.93, median: 364,
+  low: 317, high: 436, strongBuy: 10, buy: 3, hold: 6, sell: 1, strongSell: 1 };
 (function(){
   const A = AON_ANALYST, last = (typeof AON_DAILY !== 'undefined' && AON_DAILY.length) ? AON_DAILY[AON_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

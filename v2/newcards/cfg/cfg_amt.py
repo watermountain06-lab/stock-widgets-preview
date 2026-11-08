@@ -68,8 +68,8 @@ NEWS = [
      '매출 $2.72B(+8%) · 계속사업 희석 EPS $1.82(1년 전 $0.89)', 'q3', 'American Tower 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 16, 'mean': 214.56, 'median': 215, 'low': 188, 'high': 249, 'sb': 15, 'b': 7, 'h': 3, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-10-31'
+ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 17, 'mean': 214.29, 'median': 212, 'low': 188, 'high': 249, 'sb': 15, 'b': 7, 'h': 3, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-08'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(보고 부문 축 6개, 부문 매출). 부동산 소계(PropertyMember)는 ignore.
