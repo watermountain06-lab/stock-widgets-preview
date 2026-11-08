@@ -3646,5 +3646,25 @@
     "#00b2a9"
    ]
   }
+ },
+ "GNRC": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "srt:ProductOrServiceAxis": "gnrc:ExternalNetSalesMember"
+  },
+  "members": {
+   "gnrc:ResidentialSegmentMember": [
+    "가정용(비상 발전기·에너지 저장)",
+    "#e4002b"
+   ],
+   "gnrc:CommercialAndIndustrialSegmentMember": [
+    "상업·산업(데이터센터 발전기 등)",
+    "#1d1d1b"
+   ]
+  }
  }
 }
