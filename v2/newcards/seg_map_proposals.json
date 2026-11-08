@@ -3602,5 +3602,30 @@
     "#f3d0d6"
    ]
   }
+ },
+ "HSIC": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:SubsegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember",
+   "us-gaap:StatementBusinessSegmentsAxis": "hsic:GlobalDistributionAndValueAddedServicesMember"
+  },
+  "members": {
+   "hsic:GlobalDentalMember": [
+    "치과 유통(소모품·장비·서비스)",
+    "#004b87"
+   ],
+   "hsic:GlobalMedicalMember": [
+    "의료 유통",
+    "#e4002b"
+   ]
+  },
+  "ignore_candidates": [
+   "hsic:GlobalDentalMerchandiseMember",
+   "hsic:GlobalDentalEquipmentMember",
+   "hsic:GlobalValueAddedServicesMember"
+  ]
  }
 }
