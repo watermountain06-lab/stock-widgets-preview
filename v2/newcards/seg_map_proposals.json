@@ -3666,5 +3666,24 @@
     "#1d1d1b"
    ]
   }
+ },
+ "ALB": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "alb:EnergyStorageMember": [
+    "에너지 저장(리튬)",
+    "#00205b"
+   ],
+   "alb:SpecialtiesMember": [
+    "특수화학(브로민 등)",
+    "#a6c63a"
+   ]
+  }
  }
 }
