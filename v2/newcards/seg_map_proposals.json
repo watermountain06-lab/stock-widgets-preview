@@ -3935,5 +3935,27 @@
     "#e7a1a8"
    ]
   }
+ },
+ "NI": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "nix:NIPSCOOperationsMember": [
+    "NIPSCO(인디애나 전력·가스)",
+    "#00467f"
+   ],
+   "nix:ColumbiaOperationsMember": [
+    "Columbia(가스 배전)",
+    "#4f8fc6"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:CorporateAndOtherMember",
+   "us-gaap:CorporateMember",
+   "nix:NIPSCOMember"
+  ]
  }
 }

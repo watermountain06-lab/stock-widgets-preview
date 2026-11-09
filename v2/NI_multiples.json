@@ -1,0 +1,67 @@
+{
+ "ticker": "NI",
+ "window": [
+  "2021-11-08",
+  "2026-11-06"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 1255,
+   "current": 22.64,
+   "min": 15.28,
+   "p10": 17.4,
+   "median": 21.07,
+   "p90": 24.04,
+   "max": 26.09,
+   "mean": 20.68,
+   "percentile": 70.9,
+   "score": 29.1
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 3.04,
+   "min": 1.64,
+   "p10": 1.88,
+   "median": 2.48,
+   "p90": 3.35,
+   "max": 3.55,
+   "mean": 2.6,
+   "percentile": 64.7,
+   "score": 35.3
+  },
+  "PBR": {
+   "days": 1255,
+   "current": 2.21,
+   "min": 1.48,
+   "p10": 1.72,
+   "median": 2.06,
+   "p90": 2.32,
+   "max": 2.46,
+   "mean": 2.03,
+   "percentile": 74.4,
+   "score": 25.6
+  },
+  "EV/EBITDA": {
+   "days": 1255,
+   "current": 13.02,
+   "min": 10.32,
+   "p10": 11.17,
+   "median": 12.37,
+   "p90": 13.62,
+   "max": 14.07,
+   "mean": 12.35,
+   "percentile": 63.7,
+   "score": 36.3
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": null,
+ "fairBand": {
+  "per_p25": 22.16,
+  "per_p75": 23.62,
+  "low": 40,
+  "high": 50,
+  "asOf": "2026-11-06",
+  "basis": "diluted"
+ }
+}
