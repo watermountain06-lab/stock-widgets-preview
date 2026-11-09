@@ -27,7 +27,8 @@ export const principleFor = (month) => (month < PRINCIPLE_FROM ? BUY_PRINCIPLE_O
 // 살 종목 상한(원칙 3, 2026-11-04 사용자 결정): 후보가 많으면 시총 200위 안에서 판정이 더 싼 순서, 같은 판정은 카드 점수 높은 순서로
 // 5개까지. 고르는 날 한 번 고르고 그달 고정한다. 순위는 그 기록의 시총(종가 × 주식 수, 기록에 든 카드끼리)이고, 시총을 모르는 종목은
 // 순위를 매길 수 없어 뺀다. 원칙 전략은 12월 계획부터, 실제 계좌 화면은 11월 2회차(PICK_FROM_ROUND)부터
-export const PICK_MAX = 5, PICK_RANK = 200, PICK_FROM = '2026-12', PICK_FROM_ROUND = '2026-11-09';
+// 2026-11-09 사용자 결정: 5개 상한을 없애고 시총 200위 안 전부(PICK_MAX = Infinity). 순서(판정 → 점수)는 그대로
+export const PICK_MAX = Infinity, PICK_RANK = 200, PICK_FROM = '2026-12', PICK_FROM_ROUND = '2026-11-09';
 const TIER_ORDER = ['초저평가', '저평가', '적정~저평가', '적정'];
 export function pickTop(cands, rec, { max = PICK_MAX, rankMax = PICK_RANK } = {}) {
   const C = rec?.cards || {};

@@ -1325,7 +1325,9 @@ test('pickTop: 시총 200위 안에서 판정이 싼 순서 → 점수 높은 �
   set('T240', '저평가', 90);   // 241위 — 200위 밖
   cards.NOCAP = { close: 1, tier: '초저평가', score: 99 };   // 주식 수 없음 — 순위 모름
   const rec = { cards };
-  assert.deepEqual(pickTop(['T000', 'T011', 'T014', 'T099', 'T118', 'T128', 'T240', 'NOCAP'], rec), ['T118', 'T000', 'T011', 'T014', 'T099']);
+  assert.deepEqual(pickTop(['T000', 'T011', 'T014', 'T099', 'T118', 'T128', 'T240', 'NOCAP'], rec, { max: 5 }), ['T118', 'T000', 'T011', 'T014', 'T099']);
+  // 2026-11-09: 기본은 상한 없음 — 200위 안 전부(T240·NOCAP만 빠짐)
+  assert.equal(pickTop(['T000', 'T011', 'T014', 'T099', 'T118', 'T128', 'T240', 'NOCAP'], rec).length, 6);
   assert.deepEqual(pickTop(['T000', 'T240'], rec), ['T000']);
   assert.deepEqual(pickTop([], rec), []);
 });

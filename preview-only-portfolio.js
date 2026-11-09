@@ -13,9 +13,9 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=27';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=76';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=78';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
-import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=13';
+import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=14';
 import { attachActual } from './preview-only-portfolio-actual.js?v=18';
 import { firebaseConfig } from './preview-only-portfolio-config.js?v=2';
 
@@ -290,7 +290,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     let records = [], recordsError = false;
     try { records = await loadLedger(); } catch (_) { recordsError = true; }
     const capsP = loadCaps();
-    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false, picks = {}, promoted = {}, ledger = {};   // ledger: 한국 계좌 장부(2026-10-28)
+    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false, picks = {}, promoted = {}, demoted = {}, ledger = {};   // ledger: 한국 계좌 장부(2026-10-28)
     const allDeposits = {}, pastBundles = [];   // pastBundles: 끝낸 묶음(시작 뒤 수익률을 10/01부터 잇는 데 씀, 10-25)
     try {
       for (; n < 100; n++) {
@@ -311,6 +311,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
         const e = td.entries || {};
         picks = td.picks || {};
         promoted = td.promoted || {};
+        demoted = td.demoted || {};   // 구매 후보에서 ↓로 그달 내린 점검일 후보(2026-11-09)
         trades = Object.fromEntries(Object.entries(e).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }]));
         ledger = Object.fromEntries(Object.entries(td.ledger || {}).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }]));
       }
@@ -381,15 +382,17 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
         if (g === gen && auth.currentUser === user) draw();
       },
       // 주간 확인 종목을 그달 구매 후보로 올리고 내리기 — 체크와 같은 방식(merge 저장 후 다시 그리기만)
-      promote: async (month, list) => {
-        try { await setDoc(tref(user), { promoted: { [month]: list } }, { merge: true }); } catch (e) { throw new Error(why(e)); }
+      // field: 'promoted'(주간 확인에서 올린 종목) 또는 'demoted'(점검일 후보에서 내린 종목)
+      promote: async (month, list, field = 'promoted') => {
+        if (field !== 'promoted' && field !== 'demoted') throw new Error('알 수 없는 목록');
+        try { await setDoc(tref(user), { [field]: { [month]: list } }, { merge: true }); } catch (e) { throw new Error(why(e)); }
         tradesExist = true;
-        promoted[month] = list;
+        (field === 'promoted' ? promoted : demoted)[month] = list;
         if (g === gen && auth.currentUser === user) draw();
       },
       goto: (tab) => selectTab(tab),
     };
-    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, pastBundles, picks, promoted, caps: await capsP, ledger, fxHistory: await loadFx() };
+    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, pastBundles, picks, promoted, demoted, caps: await capsP, ledger, fxHistory: await loadFx() };
     // 다시 불러오지 않고 다시 그리기(picks처럼 계산과 무관한 값만 바뀐 때)
     function draw() {
       renderTabs({ home: $('pf-home'), accounts: $('pf-accounts'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,

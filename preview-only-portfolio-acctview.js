@@ -2,7 +2,7 @@
 // 한국 칸은 단순하게 — 주식 수익률·환율 수익률 두 칸과 평균/오늘 환율·원화로 보면 한 상자, 환전 기록은 버튼 안). 라이브로 옮기지 않는다.
 // 숫자는 home.js accountsState가 만든다(한눈에 탭과 같은 계산). 장부 쓰기는 handlers.ledgerAdd·ledgerCancel·ledgerCorrect.
 import { el, usd, pct, twoStep, msgLine } from './preview-only-portfolio-strategy.js?v=27';
-import { depositTiming } from './preview-only-portfolio-engine.js?v=13';
+import { depositTiming } from './preview-only-portfolio-engine.js?v=14';
 
 const won = (v) => (v == null ? '—' : '₩' + Math.round(v).toLocaleString('en-US'));
 const rate = (v) => (v == null ? '—' : '₩' + v.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 }));

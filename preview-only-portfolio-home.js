@@ -7,7 +7,7 @@
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=27';
 import { renderStrategy } from './preview-only-portfolio-rank.js?v=20';
 import { renderManage } from './preview-only-portfolio-records.js?v=16';
-import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, PICK_FROM, PICK_FROM_ROUND, PICK_MAX, pickTop, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=13';
+import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, PICK_FROM, PICK_FROM_ROUND, PICK_MAX, pickTop, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=14';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
 import { renderAccounts } from './preview-only-portfolio-acctview.js?v=7';
@@ -977,8 +977,11 @@ function buyBox(args) {
   const { plan } = mv;
   const nowBought = mv.next && !mv.demo ? Object.fromEntries([...monthBuys(model.trades, month, today, mv.next.date)].map(([t, b]) => [t, b.amount])) : {};   // 이번 회차에 산 돈(회차 금액 고정용)
   // 주간 확인에서 ↑로 올린 종목(사용자 결정 2026-11-09): 그달만 구매 후보 뒤에 더한다. 상한(원칙 3)은 막지 않고 체크가 넘으면 알린다(원칙 7)
+  // ↓로 내린 점검일 후보(사용자 결정 2026-11-09): 그달만 구매 후보에서 빼고 주간 확인으로 보낸다(↑로 되돌림)
+  const demoted = (mv.demo ? [] : model.demoted?.[month] || []).filter((t) => plan.candidates.includes(t));
+  const base = plan.candidates.filter((t) => !demoted.includes(t));
   const promoted = (mv.demo ? [] : model.promoted?.[month] || []).filter((t) => !plan.candidates.includes(t));
-  const cands = [...plan.candidates, ...promoted];
+  const cands = [...base, ...promoted];
   if (!cands.length) { const act0 = plan.rounds.filter((r) => !r.dropped); fillCells({ week: null, weekLabel: '이번 주 매수', weekNote: '후보 없음', future: null, dates: act0.map((r) => r.date), next: mv.next ? mv.next.date : null }); box.appendChild(el('p', 'pf-note', '이번 달 원칙 1·6을 통과한 구매 후보가 없습니다.')); freshSection(args, box, plan, bought); return box; }
 
   // 2) 나누는 방법(기본값 없음 — 다시 누르면 끈다)
@@ -1024,7 +1027,7 @@ function buyBox(args) {
   // 3) 내 기준대로 구매 후보
   // 점검일 뒤 판정이 바뀌어 지금 살 단계가 아닌 후보(예: 적정)는 숨긴다(사용자 결정 2026-11-03). 판정이 돌아오면 다시 보이고,
   // 이번 달 이미 산 종목과 회차가 끝난 달은 그대로 둔다. 숨긴 종목의 체크는 저장할 때 지우지 않는다
-  const shownCands = [...byCap(plan.candidates, model.caps || {}), ...promoted].filter((t) => !mv.next || nowBuyable(t) || bought.has(t));
+  const shownCands = [...byCap(base, model.caps || {}), ...promoted].filter((t) => !mv.next || nowBuyable(t) || bought.has(t));
   const hiddenN = cands.length - shownCands.length;
   const hiddenPicked = picked.filter((t) => !shownCands.includes(t));
   const lh = el('div', 'pf-buysechead');
@@ -1034,9 +1037,9 @@ function buyBox(args) {
     // 2026-11-09: 통과 수(18)를 200위 안 수로 오해해 '5 / 18' 대신 '5 · 200위 안 N'으로 — 200위 안 수는 고른 그 기록으로 센다
     const pRec = (model.records || []).find((r) => r.session === (plan.pickRecord || plan.record));
     const inRange = pRec && plan.passedList ? pickTop(plan.passedList, pRec, { max: Infinity }).length : null;
-    lh.appendChild(el('span', 'pf-buylabel', `구매 후보 ${shownCands.length}` + (inRange != null ? ` · 200위 안 ${inRange}` : '') + (promoted.length ? ` · 올림 ${promoted.length}` : '') + hidTxt));
+    lh.appendChild(el('span', 'pf-buylabel', `구매 후보 ${shownCands.length}` + (promoted.length ? ` · 올림 ${promoted.length}` : '') + hidTxt));
     const tags = el('span', 'pf-buytags');
-    tags.title = `원칙 1·6 통과 ${plan.passed}개 → 시총 200위 안 ${inRange ?? '?'}개 → 판정이 싼 순서·카드 점수 순으로 최대 5개(원칙 3) · 체크한 종목만 삽니다`;
+    tags.title = `원칙 1·6 통과 ${plan.passed}개 → 시총 200위 안 ${inRange ?? '?'}개 전부(원칙 3, 2026-11-09 상한 없앰) · 체크한 종목만 삽니다`;
     tags.appendChild(el('span', 'pf-badge', '200위 안 · 판정→점수'));
     tags.appendChild(el('span', 'pf-badge', `${md(plan.pickRecord || plan.record)} 기록${plan.pickProvisional ? ' · 미리 보기' : ''}`));
     lh.appendChild(tags);
@@ -1077,11 +1080,10 @@ function buyBox(args) {
     const now = tierOf(t);
     if (now && now !== tiers[t]) nm.appendChild(el('span', 'pf-note', `지금 ${now}`));
     if (promoted.includes(t)) nm.appendChild(el('span', 'pf-badge', '올림'));
-    const b = bought.get(t);
-    if (b) nm.appendChild(el('span', 'pf-note', `이번 달 ${usd0(b.amount)}(${shares(b.qty)}주) 삼`));
     row.appendChild(nm);
     const act = el('span', 'pf-buyact');
-    if (promoted.includes(t)) act.appendChild(moveBtn('↓', `${t} 주간 확인으로 내리기`, promoted.filter((x) => x !== t), args, month, pickMsg));
+    if (!mv.demo) act.appendChild(promoted.includes(t) ? moveBtn('↓', `${t} 주간 확인으로 내리기`, promoted.filter((x) => x !== t), args, month, pickMsg)
+      : moveBtn('↓', `${t} 이번 달 구매 후보에서 빼기(주간 확인으로)`, [...demoted, t], args, month, pickMsg, 'demoted'));
     const note = (x) => act.appendChild(el('span', 'pf-note', x));
     const c = close(t);
     if (!on) note(hint(t, c) || '고르지 않음');
@@ -1099,7 +1101,6 @@ function buyBox(args) {
       else {
         const amtBox = el('span', 'pf-buyamt');
         amtBox.appendChild(el('strong', null, shareTxt(r, c) + usd(r)));
-        amtBox.appendChild(el('span', 'pf-s', `${nextIdx}회차` + (got > 0 ? ` 몫 ${usd(fix)} 중 ${usd(got)} 삼` : '') + ` · 달 몫 ${usd0(bp.by[method][t])}` + (bp.missed[method].includes(t) ? ' · 놓친 몫 포함' : '')));
         act.appendChild(amtBox);
         if (!mv.demo) {   // 시연 달은 보여 주기만
           const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button';
@@ -1114,7 +1115,6 @@ function buyBox(args) {
   }
   box.appendChild(list);
   box.appendChild(pickMsg);
-  if (plan.passed != null && !mv.demo && picked.length > PICK_MAX) box.appendChild(el('p', 'pf-warn', `체크 ${picked.length}개 — 원칙 3 상한 ${PICK_MAX}개 넘음 · 이유를 기록하세요(원칙 7)`));
   // 칸 2: 체크한 종목 가운데 이번 회차에 살 수 있는 종목의 회차 금액 합(체크·방법을 바꾸면 바로 바뀜), 앞으로 = 남은 몫 합
   const ok = bp && bp.round[method] && mv.next ? picked.filter((t) => nowBuyable(t)) : [];
   const week = ok.length ? Math.round(ok.reduce((a, t) => a + (bp.round[method][t] || 0), 0) * 100) / 100 : null;
@@ -1211,14 +1211,14 @@ function previewSection(args, box, month, budget) {
 }
 
 // 주간 확인 ↔ 구매 후보 옮기기 버튼(2026-11-09). list = 저장할 그달 올린 종목 전체. 저장 중에는 같은 버튼들을 잠근다
-function moveBtn(sym, label, list, args, month, msg) {
+function moveBtn(sym, label, list, args, month, msg, field = 'promoted') {
   const b = el('button', 'pf-btn pf-btn-quiet pf-movebtn', sym); b.type = 'button'; b.title = label; b.setAttribute('aria-label', label);
   b.disabled = pickSaving;
   b.addEventListener('click', async (e) => {
     e.preventDefault(); e.stopPropagation();
     const all = [...document.querySelectorAll('.pf-movebtn')];
     pickSaving = true; all.forEach((x) => { x.disabled = true; });
-    try { await args.handlers.promote?.(month, list); } catch (err) {
+    try { await args.handlers.promote?.(month, list, field); } catch (err) {
       if (msg) msg.textContent = err.message || '저장하지 못했습니다.';
     } finally {
       pickSaving = false;
@@ -1234,8 +1234,9 @@ function freshSection(args, box, plan, bought) {
   // 원칙 3 상한에서 밀린 점검일 후보(passedList)는 새로 든 종목이 아니라 빼고 센다(2026-11-05)
   const month = args.month || args.today.slice(0, 7);
   const promoted = (mv.demo ? [] : model.promoted?.[month] || []);
-  const known = [...(plan.passedList || plan.candidates), ...promoted];
-  const all = Object.keys(model.lastCards || {}).sort().filter((t) => !known.includes(t) && nowBuyable(t));
+  const demoted = (mv.demo ? [] : model.demoted?.[month] || []).filter((t) => plan.candidates.includes(t));   // 구매 후보에서 내린 종목은 여기로
+  const known = [...(plan.passedList || plan.candidates), ...promoted].filter((t) => !demoted.includes(t));
+  const all = Object.keys(model.lastCards || {}).sort().filter((t) => !known.includes(t) && (nowBuyable(t) || demoted.includes(t)));
   if (!all.length || !mv.next) return;
   // 순서(사용자 결정 2026-11-09): 구매 후보와 같은 기준 — 200위 안을 위에, 밖을 아래에, 각각 판정이 싼 순서 → 카드 점수 순.
   // 순위는 마지막 기록의 시총, 시총을 모르는 종목은 맨 뒤 티커순
@@ -1251,14 +1252,13 @@ function freshSection(args, box, plan, bought) {
   for (const t of fresh) {
     if (t === fresh[inRange.length] && inRange.length) fl.appendChild(el('div', 'pf-note pf-freshcut', '시총 200위 밖'));
     const row = el('div', 'pf-buyrow pf-freshrow');
-    // ↑ 그달 구매 후보로 올리기(사용자 결정 2026-11-09) — 올리면 구매 후보 목록 끝에 체크칸과 함께 나온다
-    row.appendChild(mv.demo ? el('span') : moveBtn('↑', `${t} 구매 후보로 올리기`, [...promoted, t], args, month, null));
     const nm = el('span', 'pf-buyname'); nm.appendChild(tickName(t));
     nm.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tierOf(t)] || 'pf-t-none'), tierOf(t)));
-    const b = bought.get(t);
-    if (b) nm.appendChild(el('span', 'pf-note', `이번 달 ${usd0(b.amount)}(${shares(b.qty)}주) 삼`));
     row.appendChild(nm);
     const act = el('span', 'pf-buyact');
+    // ↑ 그달 구매 후보로 올리기(사용자 결정 2026-11-09) — 기록 버튼 왼쪽. 내렸던 점검일 후보면 내린 것을 되돌린다
+    if (!mv.demo) act.appendChild(demoted.includes(t) ? moveBtn('↑', `${t} 구매 후보로 되돌리기`, demoted.filter((x) => x !== t), args, month, null, 'demoted')
+      : moveBtn('↑', `${t} 구매 후보로 올리기`, [...promoted, t], args, month, null));
     if (!mv.demo) { const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button'; go.addEventListener('click', () => dlg.open(t)); act.appendChild(go); }
     row.appendChild(act);
     fl.appendChild(row);
