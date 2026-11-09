@@ -14973,6 +14973,101 @@
         "valuationAsOf": "2026-11-06",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "CNC",
+      "name": "센틴",
+      "sector": "건강보험 — 메디케이드·ACA 마켓플레이스·메디케어 관리형 의료",
+      "href": "CNC_full_widget.html",
+      "cardRank": 358,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 69.74,
+        "prevClose": 74.17,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 495068000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-23",
+        "filedAt": "2026-10-27",
+        "filing": "10-Q 0001071739-26-000192 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 34.9,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "EL",
+      "name": "에스티 로더",
+      "sector": "화장품 — 스킨케어·메이크업·향수 명품 브랜드",
+      "href": "EL_full_widget.html",
+      "cardRank": 357,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 110.06,
+        "prevClose": 107.65,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 362330460,
+        "method": "sec-cover",
+        "basis": "sum-of-classes",
+        "classes": [
+          {
+            "class": "A",
+            "shares": 247823116,
+            "factor": 1
+          },
+          {
+            "class": "B",
+            "shares": 114507344,
+            "factor": 1
+          }
+        ],
+        "asOf": "2026-10-26",
+        "filedAt": "2026-11-02",
+        "filing": "10-Q 0001001250-26-000060 cover",
+        "approximate": false,
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 34.9,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
     }
   ]
 }
