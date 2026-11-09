@@ -3887,5 +3887,32 @@
     "#e9d8da"
    ]
   }
+ },
+ "GIS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "gis:NorthAmericaRetailSegmentMember": [
+    "북미 소매(시리얼·스낵·냉장)",
+    "#0b3d91"
+   ],
+   "gis:InternationalSegmentMember": [
+    "해외",
+    "#f5b335"
+   ],
+   "gis:NorthAmericaPetSegmentMember": [
+    "북미 반려동물(Blue Buffalo)",
+    "#6d8fc7"
+   ],
+   "gis:NorthAmericaFoodserviceMember": [
+    "북미 외식",
+    "#d7dfee"
+   ]
+  }
  }
 }
