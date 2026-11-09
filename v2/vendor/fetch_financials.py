@@ -146,6 +146,8 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    # ROST: 이자비용을 장기차입 이자(InterestExpenseLongTermDebt, Q2 FY26 $9.2M)와 기타(InterestExpenseOther, $0.35M)로 나눠 낸다 —
                    # 기본 후보에선 기타 한 줄만 잡혀 이자보상배율이 3,153배였다. 장기차입 이자를 쓴다(자본화 차감 전, 기타 $0.35M은 빠짐; Codex 2026-10-22)
                    "0000745732": {"interestExpense": ["InterestExpenseLongTermDebt"]},
+                   # SJM: 이자비용은 순이자(InterestIncomeExpenseNonoperatingNet, Q1 FY27 −$82.3M) — InterestExpense는 2013에 멈춤(2026-11-08)
+                   "0000091419": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # TRMB: 자본 StockholdersEquity — 비지배 포함 태그는 2022-09에 멈춤(2026-11-08)
                    "0000864749": {"totalEquity": ["StockholdersEquity"]},
                    # VTRS: 보통주 귀속 순이익은 NetIncomeLossAvailableToCommonStockholdersBasic(Q3 2026 −$325.3M) — NetIncomeLoss는 2020에 멈춤(2026-11-08)

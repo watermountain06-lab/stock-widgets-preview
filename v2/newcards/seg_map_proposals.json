@@ -3854,5 +3854,38 @@
     "#a9c6e0"
    ]
   }
+ },
+ "SJM": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "sjm:U.S.RetailCoffeeMember": [
+    "미국 커피(Folgers·Dunkin’·Café Bustelo)",
+    "#c8102e"
+   ],
+   "sjm:U.S.RetailFrozenHandheldAndSpreadsMember": [
+    "냉동 샌드위치·스프레드(Uncrustables·Jif)",
+    "#f2a900"
+   ],
+   "sjm:U.S.RetailPetFoodsMember": [
+    "반려동물 간식·사료(Milk-Bone·Meow Mix)",
+    "#7a1f2b"
+   ],
+   "sjm:SweetBakedSnacksMember": [
+    "Sweet Baked Snacks(Hostess)",
+    "#e57f84"
+   ],
+   "sjm:AwayFromHomeMember": [
+    "외식(Away From Home)",
+    "#c9b38a"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타(해외 등)",
+    "#e9d8da"
+   ]
+  }
  }
 }
