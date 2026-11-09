@@ -146,6 +146,8 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    # ROST: 이자비용을 장기차입 이자(InterestExpenseLongTermDebt, Q2 FY26 $9.2M)와 기타(InterestExpenseOther, $0.35M)로 나눠 낸다 —
                    # 기본 후보에선 기타 한 줄만 잡혀 이자보상배율이 3,153배였다. 장기차입 이자를 쓴다(자본화 차감 전, 기타 $0.35M은 빠짐; Codex 2026-10-22)
                    "0000745732": {"interestExpense": ["InterestExpenseLongTermDebt"]},
+                   # KHC: 차입은 금융리스 포함 태그(1년 안 $918M·장기 $17,085M) — ShortTermBorrowings는 2024, LongTermDebt는 2015에 멈춤(Codex r1, 2026-11-08)
+                   "0001637459": {"shortTermDebt": ["LongTermDebtAndCapitalLeaseObligationsCurrent"], "longTermDebt": ["LongTermDebtAndCapitalLeaseObligations"]},
                    # GIS: 이자는 순이자(InterestIncomeExpenseNonoperatingNet, Q1 FY27 −$142.2M — InterestExpense는 2026-02에 멈춤), 장기차입 LongTermDebtAndCapitalLeaseObligations(2026-11-08)
                    "0000040704": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "longTermDebt": ["LongTermDebtAndCapitalLeaseObligations"]},
                    # SJM: 이자비용은 순이자(InterestIncomeExpenseNonoperatingNet, Q1 FY27 −$82.3M) — InterestExpense는 2013에 멈춤(2026-11-08)

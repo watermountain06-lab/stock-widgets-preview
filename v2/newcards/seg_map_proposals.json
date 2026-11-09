@@ -3914,5 +3914,26 @@
     "#d7dfee"
    ]
   }
+ },
+ "KHC": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerIncludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "khc:NorthAmericaSegmentMember": [
+    "북미",
+    "#ce1126"
+   ],
+   "khc:EuropeAndPacificDevelopedMarketsSegmentMember": [
+    "유럽·태평양 선진국",
+    "#0a2a66"
+   ],
+   "khc:EmergingMarketsSegmentMember": [
+    "신흥국",
+    "#e7a1a8"
+   ]
+  }
  }
 }
