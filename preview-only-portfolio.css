@@ -452,3 +452,10 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 :root[data-theme="dark"] .pf-dotabs .pf-segbtn[aria-selected=true]{background:var(--panel)}
 .pf-tlink{font-weight:700;color:inherit;text-decoration:none;border-bottom:1px dotted currentColor}.pf-tlink:hover,.pf-tlink:focus-visible{color:#4f3aa8;border-bottom-style:solid}
 :root[data-theme="dark"] .pf-tlink:hover,:root[data-theme="dark"] .pf-tlink:focus-visible{color:#c9bcff}
+/* 2026-11-09 시안: 주간 확인 접기, 꺾쇠 버튼, 보유 주식 수 */
+.pf-buylist[hidden]{display:none}
+.pf-freshtoggle{display:flex;align-items:center;gap:8px;min-height:44px;padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;text-align:left}
+.pf-freshicon{flex:none;color:var(--muted);transition:transform .15s}
+.pf-freshtoggle[aria-expanded="true"] .pf-freshicon{transform:rotate(90deg)}
+.pf-movebtn{display:inline-flex;align-items:center;justify-content:center;color:var(--muted)}
+.pf-held{font-size:14px;white-space:nowrap}

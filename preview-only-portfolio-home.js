@@ -740,7 +740,9 @@ export function renderHome(root, model, handlers) {
     const checkDay = live ? null : firstMonth ? nextCheckAfter(month) : thisCheck;
     const target = firstMonth && checkDay ? checkDay.slice(0, 7) : month;
     const preview = !live && !!lastFull && !recStale;
-    buySlot.appendChild(buyBox({ model: { ...model, lastCards: lastFull?.cards }, handlers, mv: live ? mv : null, dlg, close, tierOf, planTier, hasRec: !!rec, nowBuyable, nowHold,
+    // 종목별 지금 보유 주식 수(두 계좌 합, 2026-11-09 사용자 결정 — 구매 후보 줄에 '샀음' 대신 보유 주식 수)
+    const held = new Map(); for (const x of allHold) held.set(x.ticker, (held.get(x.ticker) || 0) + (Number(x.qty) || 0));
+    buySlot.appendChild(buyBox({ model: { ...model, lastCards: lastFull?.cards }, handlers, held, mv: live ? mv : null, dlg, close, tierOf, planTier, hasRec: !!rec, nowBuyable, nowHold,
       waiting, preview, checkDay, month: target, today, cash: cur.hasCash ? cur.cash : null, cashBy: cur.kwUsed ? cur.cashBy : null,
       // 총자산(두 계좌 주식 + 현금, 현금 10% 목표용) — 가격 없는 종목은 빼고 개수를 알린다
       total: cur.hasCash ? Math.round(([...myVal.values()].reduce((a, v) => a + v, 0) + cur.cash) * 100) / 100 : null, totalMissing: cur.holdings.filter((x) => closeNow(x.ticker) == null).length, income: inc, depMap, startMonth: startMonth0, deps: target === month ? deps : monthDeposits(depMap, target) }));
@@ -1082,8 +1084,7 @@ function buyBox(args) {
     if (promoted.includes(t)) nm.appendChild(el('span', 'pf-badge', '올림'));
     row.appendChild(nm);
     const act = el('span', 'pf-buyact');
-    if (!mv.demo) act.appendChild(promoted.includes(t) ? moveBtn('↓', `${t} 주간 확인으로 내리기`, promoted.filter((x) => x !== t), args, month, pickMsg)
-      : moveBtn('↓', `${t} 이번 달 구매 후보에서 빼기(주간 확인으로)`, [...demoted, t], args, month, pickMsg, 'demoted'));
+    const hq = args.held?.get(t) || 0, heldTxt = hq > 0 ? qty2(hq) + '주' : null;   // 보유 주식 수(소수 둘째 자리)
     const note = (x) => act.appendChild(el('span', 'pf-note', x));
     const c = close(t);
     if (!on) note(hint(t, c) || '고르지 않음');
@@ -1094,13 +1095,13 @@ function buyBox(args) {
     else if (!bp.by[method]) note(method === 'cap' ? '시총 없는 종목이 있음' : !hasRec ? '점검일 기록이 없어 판정 가중을 못 씀' : '무게 밖 판정이 있음(초저평가~적정만)');
     else {
       const r = bp.todo[method][t], fix = bp.round[method][t], got = nowBought[t] || 0;
-      if (!(r > 0) && got > 0 && fix > 0) note(`${nextIdx}회차 몫 ${usd(fix)} 샀음`);
+      if (!(r > 0) && got > 0 && fix > 0) { if (heldTxt) act.appendChild(el('strong', 'pf-held', heldTxt)); }   // 이번 회차 몫을 다 삼 — 보유 주식 수만
       else if (!(r > 0)) note(bp.rest[method][t] > 0 ? '회차 몫 1센트 미만' : leftUsd <= 0 || bp.capped[method] ? '남은 돈 없음' : '달 몫을 다 샀음');
       else if (c == null) note(`${usd(r)} · 가격 없음`);
       else if (Math.floor((r / c) * 1e4) <= 0) note(`${usd(r)} · 0.0001주 미만`);
       else {
         const amtBox = el('span', 'pf-buyamt');
-        amtBox.appendChild(el('strong', null, shareTxt(r, c) + usd(r)));
+        amtBox.appendChild(el('strong', null, (heldTxt ? heldTxt + ' · ' : '') + usd(r) + (got > 0 ? ' 남음' : '')));
         act.appendChild(amtBox);
         if (!mv.demo) {   // 시연 달은 보여 주기만
           const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button';
@@ -1110,6 +1111,10 @@ function buyBox(args) {
         }
       }
     }
+    if (heldTxt && !act.querySelector('.pf-held, .pf-buyamt')) act.insertBefore(el('strong', 'pf-held', heldTxt), act.firstChild);
+    // ↓ 그달 구매 후보에서 내리기 — 줄 맨 오른쪽(시안 2026-11-09)
+    if (!mv.demo) act.appendChild(promoted.includes(t) ? moveBtn('down', `${t} 주간 확인으로 내리기`, promoted.filter((x) => x !== t), args, month, pickMsg)
+      : moveBtn('down', `${t} 이번 달 구매 후보에서 빼기(주간 확인으로)`, [...demoted, t], args, month, pickMsg, 'demoted'));
     row.appendChild(act);
     list.appendChild(row);
   }
@@ -1210,9 +1215,18 @@ function previewSection(args, box, month, budget) {
   return { week: picked.length ? wk : null, future: fu, note: !method || !picked.length ? '종목·방법을 고르세요' : !(budget > 0) ? `${+month.slice(5)}월 입금이 아직 없음` : null };
 }
 
+// 끝이 둥근 꺾쇠 아이콘(14px). d = 선 모양
+function chevron(d) {
+  const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg');
+  for (const [k, v] of [['width', '14'], ['height', '14'], ['viewBox', '0 0 14 14'], ['fill', 'none'], ['stroke', 'currentColor'], ['stroke-width', '1.6'], ['stroke-linecap', 'round'], ['stroke-linejoin', 'round'], ['aria-hidden', 'true']]) svg.setAttribute(k, v);
+  const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); svg.appendChild(p);
+  return svg;
+}
+const qty2 = (v) => (Math.round(v * 100) / 100).toFixed(2);   // 주식 수 표시: 소수 둘째 자리(셋째에서 반올림)
 // 주간 확인 ↔ 구매 후보 옮기기 버튼(2026-11-09). list = 저장할 그달 올린 종목 전체. 저장 중에는 같은 버튼들을 잠근다
 function moveBtn(sym, label, list, args, month, msg, field = 'promoted') {
-  const b = el('button', 'pf-btn pf-btn-quiet pf-movebtn', sym); b.type = 'button'; b.title = label; b.setAttribute('aria-label', label);
+  const b = el('button', 'pf-btn pf-btn-quiet pf-movebtn'); b.type = 'button';
+  b.appendChild(chevron(sym === 'down' ? 'M3.5 5.5L7 9l3.5-3.5' : 'M3.5 8.5L7 5l3.5 3.5'));   // 끝이 둥근 얇은 꺾쇠(사용자 결정 2026-11-09 — ↑↓ 글자가 날카로워 보임) b.title = label; b.setAttribute('aria-label', label);
   b.disabled = pickSaving;
   b.addEventListener('click', async (e) => {
     e.preventDefault(); e.stopPropagation();
@@ -1244,11 +1258,22 @@ function freshSection(args, box, plan, bought) {
   const inRange = pickTop(all, lastRec, { max: Infinity });
   const outRange = pickTop(all, lastRec, { max: Infinity, rankMax: Infinity }).filter((t) => !inRange.includes(t));
   const fresh = [...inRange, ...outRange, ...all.filter((t) => !inRange.includes(t) && !outRange.includes(t))];
+  // 접었다 폈다(사용자 결정 2026-11-09): 처음엔 접힘, 연 상태는 이 브라우저에 기억
+  let open = false; try { open = localStorage.getItem('pf-fresh-open') === '1'; } catch (e) { /* 저장소 없음 — 접힘 */ }
   const fh = el('div', 'pf-buysechead');
-  fh.appendChild(el('span', 'pf-buylabel', `주간 확인 · 점검일 뒤 살 단계에 든 종목 ${fresh.length}` + (inRange.length ? ` · 200위 안 ${inRange.length}` : '')));
-  fh.appendChild(el('span', 'pf-note', '살지는 직접 판단 · 사면 그달 남은 돈에서(원칙 2·6)'));
+  const tg = el('button', 'pf-freshtoggle'); tg.type = 'button'; tg.setAttribute('aria-expanded', String(open));
+  const ic = chevron('M5.5 3.5L9 7l-3.5 3.5'); ic.classList.add('pf-freshicon'); tg.appendChild(ic);
+  tg.appendChild(el('span', 'pf-buylabel', `주간 확인 · 점검일 뒤 살 단계 ${fresh.length}` + (inRange.length ? ` · 200위 안 ${inRange.length}` : '')));
+  tg.title = '살지는 직접 판단 · 사면 그달 남은 돈에서(원칙 2·6)';
+  fh.appendChild(tg);
   box.appendChild(fh);
   const fl = el('div', 'pf-buylist');
+  fl.hidden = !open;
+  tg.addEventListener('click', () => {
+    const o = tg.getAttribute('aria-expanded') !== 'true';
+    tg.setAttribute('aria-expanded', String(o)); fl.hidden = !o;
+    try { localStorage.setItem('pf-fresh-open', o ? '1' : '0'); } catch (e) { /* 기억 못 함 */ }
+  });
   for (const t of fresh) {
     if (t === fresh[inRange.length] && inRange.length) fl.appendChild(el('div', 'pf-note pf-freshcut', '시총 200위 밖'));
     const row = el('div', 'pf-buyrow pf-freshrow');
@@ -1257,8 +1282,8 @@ function freshSection(args, box, plan, bought) {
     row.appendChild(nm);
     const act = el('span', 'pf-buyact');
     // ↑ 그달 구매 후보로 올리기(사용자 결정 2026-11-09) — 기록 버튼 왼쪽. 내렸던 점검일 후보면 내린 것을 되돌린다
-    if (!mv.demo) act.appendChild(demoted.includes(t) ? moveBtn('↑', `${t} 구매 후보로 되돌리기`, demoted.filter((x) => x !== t), args, month, null, 'demoted')
-      : moveBtn('↑', `${t} 구매 후보로 올리기`, [...promoted, t], args, month, null));
+    if (!mv.demo) act.appendChild(demoted.includes(t) ? moveBtn('up', `${t} 구매 후보로 되돌리기`, demoted.filter((x) => x !== t), args, month, null, 'demoted')
+      : moveBtn('up', `${t} 구매 후보로 올리기`, [...promoted, t], args, month, null));
     if (!mv.demo) { const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button'; go.addEventListener('click', () => dlg.open(t)); act.appendChild(go); }
     row.appendChild(act);
     fl.appendChild(row);
