@@ -971,6 +971,8 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
+    # DLTR: 순이익은 계속사업(2025-07 Family Dollar 매각 — 합계 태그는 중단사업 손실 −$3.70B 등이 섞여 8분기 차트·전년 비교가 어긋났다, Codex r1 2026-11-09). PREFER_TAGS로 앞세운다.
+    "0000935703": {"NetIncomeLoss": ["IncomeLossFromContinuingOperations"]},
     # RL: 10-K는 현금흐름표 설비투자를 PaymentsToAcquireMachineryAndEquipment(FY26 $408.1M·FY25 $216.2M)로, 10-Q는 PaymentsToAcquireProductiveAssets로 낸다 —
     # 10-K 태그가 기본 목록에 없어 4분기가 비고 TTM이 2025-12에 멈췄다($439M, 실제 $274.2M). 겹치는 연간 값은 같다(Fable r1, 2026-11-03).
     "0001037038": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireMachineryAndEquipment"]},
@@ -1438,7 +1440,8 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0001111711": ("Revenues", "RegulatedOperatingRevenue"),   # NI: 총영업수익 — 고객 계약 매출(1,299.1)과 섞이면 성장률·마진이 어긋났다(Codex r1, 2026-11-09)
+PREFER_TAGS = {"0000935703": ("IncomeLossFromContinuingOperations",),   # DLTR: 계속사업 순이익(EXTRA_TAGS, 2026-11-09)
+               "0001111711": ("Revenues", "RegulatedOperatingRevenue"),   # NI: 총영업수익 — 고객 계약 매출(1,299.1)과 섞이면 성장률·마진이 어긋났다(Codex r1, 2026-11-09)
                "0001792044": ("Revenues",),   # VTRS: 손익계산서 총매출(순매출 + 기타매출, Q3 2026 $3,749.5M) — 계약 매출 태그는 순매출 $3,734.7M(Codex r1, 2026-11-08)
                "0000922224": ("Revenues",),   # PPL: 손익계산서 총매출(Q2 2026 $2,111M) — 계약 매출이 골라져 $2.14B로 나왔다(CNP·AEP와 같음, 2026-10-30)
                "0001130310": ("Revenues",),   # CNP: 손익계산서 총매출(Q3 2026 $2,191M) — 계약 매출(2,201)이 골라져 성장률·마진이 보도자료·부문표와 어긋났다(Codex·Fable r1, 2026-10-29)

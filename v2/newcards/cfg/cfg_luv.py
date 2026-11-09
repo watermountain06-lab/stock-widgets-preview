@@ -67,12 +67,13 @@ SEG_MAP = {
  "ignore": ["luv:PassengerAncillarySoldSeparatelyMember", "luv:PassengerLoyaltyAirTransportationMember", "luv:PassengerRevenueNonLoyaltyMember", "luv:ProductAndServiceOtherLoyaltyProgramMember", "luv:ProductAndServiceOtherOtherMiscellaneousMember"]
 }
 # Fable r1: 5년 성장 기준점이 코로나 저점(2021)이라 부풀려졌다 — 2019 $22,428M → 2025 $28,063M은 연 약 3.8%(XBRL 연간 매출).
+#   DCF 이력 창은 2022-12-31 합부터(build_dcf HISTORY_WINDOW, DAL 방식).
 # 체크포인트 ①은 회사 4분기 가이던스(좌석 마일당 매출 +19~21%)로, 자사주 칸은 실제 지급액 $1,250M(Q3 10-Q 현금흐름표)로 맞춘다.
 POST = [r"""
 _c1 = h[h.index('<strong style="color:var(--accent2);">①</strong>'):]; _c1 = _c1[:_c1.index('</div>')]
 h = h.replace(_c1, '<strong style="color:var(--accent2);">①</strong> 4분기 좌석 마일당 매출이 회사 전망(1년 전 대비 +19~21%) 안에 드는지, 연료비(가정 갤런당 약 $4.55)가 그보다 오르지 않는지 — 헤지 없이 그대로 노출된다', 1)
 _n = '<div class="note">세 값은 확률이 아니라'
 assert h.count(_n) == 1
-h = h.replace(_n, '<div class="note">5년 성장률은 코로나로 매출이 꺼졌던 시기에서 출발해 크게 부풀려져 있다 — 코로나 전 2019년($22.4B)에서 2025년($28.1B)까지는 연 약 3.8%다. 기본 시나리오의 성장 가정은 그만큼 낙관적으로 읽어야 한다.</div>\n    ' + _n, 1)
+h = h.replace(_n, '<div class="note">코로나로 매출이 꺼졌던 2021년을 기준점으로 쓰지 않으려고 성장률은 2022년 말 이후 이력만 쓴다. 이 기간에도 회복과 사업 모델 전환 효과가 섞여 있다 — 코로나 전 2019년($22.4B)에서 2025년($28.1B)까지는 연 약 3.8%였다. 기본 시나리오의 성장 가정은 그만큼 낙관적으로 읽어야 한다.</div>\n    ' + _n, 1)
 h = h.replace('<span class="zone-val">$1.2B</span>', '<span class="zone-val">$1.25B</span>', 1)
 """]

@@ -147,6 +147,11 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    # ROST: 이자비용을 장기차입 이자(InterestExpenseLongTermDebt, Q2 FY26 $9.2M)와 기타(InterestExpenseOther, $0.35M)로 나눠 낸다 —
                    # 기본 후보에선 기타 한 줄만 잡혀 이자보상배율이 3,153배였다. 장기차입 이자를 쓴다(자본화 차감 전, 기타 $0.35M은 빠짐; Codex 2026-10-22)
                    "0000745732": {"interestExpense": ["InterestExpenseLongTermDebt"]},
+                   # DLTR: 자본 StockholdersEquity($3,425M) — 비지배 포함 태그는 2019에 멈춤(2026-11-09)
+                   # DLTR: 재고 RetailRelatedInventoryMerchandise($2,452.2M) — 없으면 당좌비율이 113%로 부풀었다. 순이익·EPS는 계속사업(2025-07 Family Dollar 매각 — 합계로 비교하면 전년에 중단사업 이익이 섞인다)(Codex r1, 2026-11-09)
+                   "0000935703": {"totalEquity": ["StockholdersEquity"], "inventory": ["RetailRelatedInventoryMerchandise"],
+                                  "netIncome": ["IncomeLossFromContinuingOperations"], "netIncomeAttributableToParent": ["IncomeLossFromContinuingOperations"],
+                                  "epsDiluted": ["IncomeLossFromContinuingOperationsPerDilutedShare"], "epsBasic": ["IncomeLossFromContinuingOperationsPerBasicShare"]},
                    # BR: 세전이익을 IncomeLossAttributableToParent로 낸다(Q1 FY27 $109.7M) — 표준 세전 태그는 2020-03에 멈춤(2026-11-09)
                    "0001383312": {"pretaxIncome": ["IncomeLossAttributableToParent"]},
                    # KHC: 차입은 금융리스 포함 태그(1년 안 $918M·장기 $17,085M) — ShortTermBorrowings는 2024, LongTermDebt는 2015에 멈춤(Codex r1, 2026-11-08)
