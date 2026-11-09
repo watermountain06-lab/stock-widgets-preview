@@ -353,6 +353,16 @@ test('원칙 3 매수 금액: 체크한 종목만, 균등·시총 비중·판정
   const q = buyPlan({ cands: ['A', 'B', 'C'], picked: ['A', 'B', 'C'], budget: 200, rounds: 4 });
   assert.deepEqual(q.by.equal, { A: 66.66, B: 66.66, C: 66.66 });
   assert.deepEqual(q.round.equal, { A: 16.66, B: 16.66, C: 16.66 });
+  // 회차 금액은 회차 안에서 고정(2026-11-09): 1회차 놓치고 2회차에 $1000을 3회로 → $333.33, 그 회차에 다 사도 금액은 그대로, 더 살 돈(todo)만 0
+  const f0 = buyPlan({ cands: ['A'], picked: ['A'], budget: 1000, rounds: 4, roundsLeft: 3 });
+  assert.equal(f0.round.equal.A, 333.33);
+  const f1 = buyPlan({ cands: ['A'], picked: ['A'], budget: 1000, spent: 333.33, bought: { A: 333.33 }, boughtNow: { A: 333.33 }, rounds: 4, roundsLeft: 3 });
+  assert.equal(f1.round.equal.A, 333.33);
+  assert.equal(f1.todo.equal.A, 0);
+  assert.equal(f1.rest.equal.A, 666.67);
+  const f2 = buyPlan({ cands: ['A'], picked: ['A'], budget: 1000, spent: 100, bought: { A: 100 }, boughtNow: { A: 100 }, rounds: 4, roundsLeft: 3 });
+  assert.equal(f2.round.equal.A, 333.33);
+  assert.equal(f2.todo.equal.A, 233.33);
   // 달러 실수 오차로 1센트 빠지지 않게(1.16 × 100 = 115.999…)
   assert.equal(buyPlan({ cands: ['A'], picked: ['A'], budget: 1.16, rounds: 4 }).round.equal.A, 0.29);
   // 무게가 없는 종목이 하나라도 있으면 그 방법은 계산하지 않는다
