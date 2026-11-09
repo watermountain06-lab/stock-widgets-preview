@@ -1000,6 +1000,7 @@ EXTRA_TAGS = {
     # SNA: 설비투자는 PaymentsForCapitalImprovements(9개월 $69.0M), D&A는 감가상각(Depreciation)만 분기로 — 합산 태그는 연간만, 무형자산 상각(연 약 $22M)은 2026년 분기에 표준 태그가 없다(2026-10-25)
     # IT(가트너): 설비투자("Additions to property, equipment and leasehold improvements")를 PaymentsForCapitalImprovements로만 낸다(2008~, 9개월 2026 $59.6M) — PCR·현금흐름 칸이 비었다(2026-11-08)
     "0000749251": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},
+    "0001792044": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic", "ProfitLoss"]},   # VTRS: 분기 순이익은 보통주 귀속 태그(Q3 2026 −$325.3M), 10-K 연간은 ProfitLoss(FY2024 −$634.2M)로만 낸다 — NetIncomeLoss는 2020에 멈춤(2026-11-08)
     "0000091440": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"], "DepreciationDepletionAndAmortization": ["Depreciation"]},
     # CBOE: 설비투자를 2026 2분기부터 PaymentsToAcquireProductiveAssets(유형자산 + 소프트웨어 개발비 합)로 낸다 — EQIX와 같은 경우(2026-10-24)
     "0001374310": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireProductiveAssets"]},
@@ -1436,7 +1437,8 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0000922224": ("Revenues",),   # PPL: 손익계산서 총매출(Q2 2026 $2,111M) — 계약 매출이 골라져 $2.14B로 나왔다(CNP·AEP와 같음, 2026-10-30)
+PREFER_TAGS = {"0001792044": ("Revenues",),   # VTRS: 손익계산서 총매출(순매출 + 기타매출, Q3 2026 $3,749.5M) — 계약 매출 태그는 순매출 $3,734.7M(Codex r1, 2026-11-08)
+               "0000922224": ("Revenues",),   # PPL: 손익계산서 총매출(Q2 2026 $2,111M) — 계약 매출이 골라져 $2.14B로 나왔다(CNP·AEP와 같음, 2026-10-30)
                "0001130310": ("Revenues",),   # CNP: 손익계산서 총매출(Q3 2026 $2,191M) — 계약 매출(2,201)이 골라져 성장률·마진이 보도자료·부문표와 어긋났다(Codex·Fable r1, 2026-10-29)
                "0000004904": ("Revenues",),   # AEP: 손익계산서 총매출(Q3 2026 $6,832M) — 계약 매출(6,793)과 섞이면 성장률·마진이 어긋났다(Codex·Fable r1, 2026-10-28)
                "0000078003": ("Revenues",),
@@ -2501,6 +2503,7 @@ EV_TAGS_BY_CIK = {"0000010456": {"sti": []},   # BAX: 단기투자는 2016-03의
                   "0000842023": {"sti": [], "nci": []},   # TECH: 단기투자(2025-03)·비지배지분(2022-06)은 지금 재무상태표에 없는 낡은 값(Q1 FY27 10-Q, 2026-11-07)
                   "0000849399": {"sti": [], "nci": [], "preferred": []},   # GEN: 단기투자(2023)·비지배지분(2012)·우선주(2020) 태그가 오래전에 멈춤 — 2026-10 재무상태표에 셋 다 없음(2026-11-08)
                   "0001097149": {"sti": []},   # ALGN: 단기투자 태그가 2024-12에 멈춤 — 2026-09 재무상태표에 단기 시장성 증권 없음(현금 $1,145M뿐, 2026-11-08)
+                  "0001792044": {"sti": []},   # VTRS: 단기투자 태그가 연간(2025-12, $41M)만이라 EV에서 뺐다(2026-11-08)
                   "0000051434": {"nci": []},   # IP: 비지배지분 태그가 2021-12(값 0)에 멈춤(2026-11-08)
                   "0001100682": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CRL: 비지배지분 $5.1M + 상환 가능 $43.2M(임시자본)(Codex r1, 2026-11-08)
                   "0001000228": {"nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"], "sti": []},   # HSIC: 비지배지분 $658M + 상환 가능 $914M(임시자본, UHS·DVA와 같은 처리), 단기투자는 2010년 낡은 값(2026-11-07)

@@ -3806,5 +3806,53 @@
     "#6cace4"
    ]
   }
+ },
+ "VTRS": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "vtrs:DevelopedMarketsSegmentMember": [
+    "선진국(북미·유럽)",
+    "#0f2d69"
+   ],
+   "vtrs:GreaterChinaSegmentMember": [
+    "중국(Greater China)",
+    "#8dc63f"
+   ],
+   "vtrs:EmergingMarketsSegmentMember": [
+    "신흥국",
+    "#4f7fc4"
+   ],
+   "vtrs:JapanAustraliaAndNewZealandSegmentMember": [
+    "일본·호주·뉴질랜드(JANZ)",
+    "#c9d3e6"
+   ]
+  }
+ },
+ "TRMB": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "trmb:FieldSystemsMember": [
+    "측위 장비(Field Systems)",
+    "#0063a3"
+   ],
+   "trmb:ArchitectsEngineersConstructionAndOwnersMember": [
+    "건설 소프트웨어(AECO)",
+    "#ffbe00"
+   ],
+   "trmb:TransportationAndLogisticsMember": [
+    "운송·물류(T&L)",
+    "#a9c6e0"
+   ]
+  }
  }
 }
