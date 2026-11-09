@@ -198,6 +198,7 @@ jobs:
           # 가격 작업과 push가 겹치면 거절된다 — 받아서 다시(경로는 겹치지 않는다, Codex)
           # 실행 중에 사람이 같은 카드 파일을 고친 커밋을 올리면 rebase가 충돌한다(2026-10-09 02:53 UTC, 9dcdf6a). 충돌한 rebase는
           # 되돌리고 다시 — 그래도 안 되면 실패로 끝낸다(메일). 감시 작업이 v2 재빌드를 다시 시작한다.
+          # (생성물만 충돌한 경우는 아래에서 양보하고 이어간다 — 2026-11-08부터)
           # tier_history.json은 양쪽이 끝에 한 줄씩 더하는 목록이라, 실행 중 사람이 카드를 더하면 줄 단위 병합이 늘 충돌한다
           # (2026-10-23: TRGP·TDG push와 겹쳐 세 번 다 실패, 10-22 카드를 날림). 항목 키(종목·날짜·규칙)로 합친다 — 같은
           # 항목을 양쪽이 다르게 고쳤을 때만 충돌로 남긴다. 이 실행에만 건다(.git/info, 사람의 저장소 설정은 그대로).
@@ -206,12 +207,107 @@ jobs:
           git config merge.tierhistory.driver "python3 $RUNNER_TEMP/merge_tier_history.py %O %A %B"
           mkdir -p .git/info
           echo 'site_data/tier_history.json merge=tierhistory' >> .git/info/attributes
+          # 생성물만 충돌했으면 받은 main 쪽을 두고 rebase를 이어간다 — 카드 한 장 때문에 2시간 50분치 338장을 버렸다
+          # (2026-11-07: 실행 시작 4분 뒤에 사람이 같은 카드 D의 cfg를 고쳐 올려 D_full_widget.html이 충돌 — 사람 커밋은
+          # main에 남으니 세 번 다 같은 충돌이고 재시도는 소용이 없었다). 카드 HTML과 종목 배수·은행·RIM JSON은 cfg와
+          # 자료로 다시 만드는 산출물이라 사람이 올린 판을 두어도 된다.
+          # 양보는 거의 다 다음 재빌드가 되돌린다 — 카드를 만드는 재료가 모두 생성물 밖에 따로 커밋되기 때문이다.
+          # (같은 가격 세션에 또 돌면 --skip-if-current가 실행을 건너뛸 수 있어 늦어도 다음 세션이다 — 586~597행, Codex)
+          #   · 생성기 카드: 애널리스트는 cfg에 있고 fill.py가 --price에서도 카드에 다시 그린다(build.py 265행, fill.py 511행).
+          #     새 분기는 auto_quarter_due가 카드 재무를 보고 판정하므로, 양보된 카드는 다음 매일 실행에서 다시 --weekly로 돈다.
+          #   · 은행 카드: 원문 값(v2/research/bank_sec_values.json)과 비교 은행(v2/peer_universe)이 따로 커밋되고,
+          #     매일 실행도 base와 그 둘로 카드와 {T}_bank.json을 통째로 다시 만든다(bank/rebuild.sh 24·26행).
+          #   · DCF 추적선: --price는 어차피 지금 카드의 사본을 쓴다(build.py 87·252~253행).
+          # 스스로 돌아오지 않는 것은 손 카드(daily_price.py의 HAND = BRKB·SPCX)의 애널리스트뿐이다 — cfg가 없어
+          # fetch_analyst.py가 카드 HTML의 상수를 직접 고치고(77행), 그 단계는 토요일에만 돈다(weekly_pre).
+          # 양보하면 다음 토요일까지 지난주 값이다. 감시 작업은 실행 결과가 아니라 상태 파일만 보므로(토요일은
+          # weekly_status의 finished) 양보 실행도 정상으로 보여 다시 돌려 주지 않는다. 그래서 메일은 "토요일 + 손 카드
+          # 양보"에만 보내고, 나머지 양보는 경고·요약에만 남긴다.
+          # (처음에는 토요일 양보 전부를 메일로 보냈다 — 토요일도 생성기 카드는 --price로 만든다는 것을 놓쳤다.
+          # daily_price.py 333행, 주석 45~46행. Fable 2026-11-08)
+          # _activity.json·_dcf_track.json은 일부러 뺐다 — 누적 이력(history·points)이라 한쪽을 통째로 버리면 점이 사라진다.
+          # 경로는 루트와 v2 바로 아래로 못 박는다 — 깊이를 안 묶으면 pipeline/fixtures/legacy_cards와
+          # v2/newcards/cfg_hold의 카드까지 걸린다(Codex 2026-11-08, 실제 파일 12개 확인).
+          # 판정은 파이프 없이 한다 — grep -q가 먼저 끝나면 printf가 SIGPIPE로 죽고 pipefail이 그 실패를 받아
+          # "생성물 밖이 섞였으니 멈춘다"가 거꾸로 뒤집힌다(충돌 목록이 길 때 재현됨, Codex 2026-11-08).
+          # 양보 목록은 "rebase가 끝나 HEAD에 박혔는가"로 센다(baked). rebase가 끝난 뒤 push만 거절되면 그 양보는 로컬에
+          # 남아 다음 시도가 그대로 올리므로, 시도마다 비우면 양보가 조용히 사라진다(첫 push를 일부러 거절해 재현 —
+          # 원격 D는 사람 판인데 경고·출력·메일이 모두 없었다, Codex·Fable 2026-11-08). 보고는 push가 성공했을 때만 한다 —
+          # 세 번 다 실패한 실행에 "사람이 올린 판을 두었다"는 거짓이다(Codex r1).
+          GEN='^(v2/)?[A-Z0-9]+_full_widget\.html$|^v2/[A-Z0-9]+_(multiples|bank|rim)\.json$'
+          GD=$(git rev-parse --git-dir)   # linked worktree에서는 .git이 파일이다(Codex)
           pushed=false
+          baked=""
           for i in 1 2 3; do
             if git pull --rebase && git push; then pushed=true; break; fi
-            git rebase --abort 2>/dev/null || true
+            cand=""
+            k=0
+            while { [ -d "$GD/rebase-merge" ] || [ -d "$GD/rebase-apply" ]; } && [ "$k" -lt 20 ]; do
+              k=$((k + 1))
+              u=$(git diff --name-only --diff-filter=U)
+              if [ -z "$u" ] || grep -qvE "$GEN" <<< "$u"; then break; fi
+              cand="$cand $(sed -E 's#^v2/##; s#_full_widget\.html$##; s#_(multiples|bank|rim)\.json$##' <<< "$u" | sort -u | tr '\n' ' ')"
+              while IFS= read -r f; do git checkout --ours -- "$f" && git add -- "$f"; done <<< "$u" || true
+              GIT_EDITOR=true git rebase --continue || break
+            done
+            if [ ! -d "$GD/rebase-merge" ] && [ ! -d "$GD/rebase-apply" ]; then
+              baked="$baked $cand"   # 여기 왔으면 rebase가 끝났다 — 이 양보는 abort로 되돌아가지 않는다
+              if git push; then pushed=true; break; fi
+            fi
+            git rebase --abort 2>/dev/null || true   # 멈춘 rebase만 되돌린다(끝난 뒤면 "No rebase in progress"로 실패하고 넘어간다)
             sleep $((i * 20))
           done
+          yielded=""
+          [ "$pushed" = true ] && yielded="$baked"
+          # xargs는 쓰지 않는다 — GNU xargs는 입력이 공백뿐이어도 한 번 돌아 빈 양보 경고가 매 실행 찍힌다(맥의 BSD
+          # xargs는 안 돌아서 내 시험이 못 잡았다 — Codex·Fable 2026-11-08)
+          yielded=$(printf '%s\n' $yielded | grep . | sort -u | tr '\n' ' ' || true)
+          # 손 카드 명단은 daily_price.py 한 곳에서 읽는다 — 여기 베껴 두면 명단이 바뀔 때 조용히 어긋난다.
+          # ast로 HAND 대입문의 우변 전체를 읽고 "빈 곳 없는 종목 문자열 목록"인지 확인한다. 줄을 sed로 긁던 방식은
+          # HAND = [홑따옴표 BRKB, SPCX]를 따옴표째로, HAND = ["BRKB"] + ["SPCX"]를 BRKB 하나로 내놓았다 — 둘 다
+          # 비지 않은 값이라 아래 실패 안전이 안 걸려 알림이 조용히 빠졌다(Codex 2026-11-08, 셋 다 종료코드 0으로 재현).
+          # 목록 꼴이 아니거나(덧셈·컴프리헨션) HAND 대입이 두 번이면 빈 값으로 둬 실패 안전으로 보낸다. import는 하지 않는다.
+          # python3 -c를 감싼 바깥 따옴표를 겹따옴표로 두어 안에서 홑따옴표를 쓴다 — 안에는 겹따옴표·$·백틱·역슬래시를 쓰지 않는다.
+          # || true가 없으면 파일이 없을 때 set -e가 커밋 단계를 죽인다 — push가 끝난 뒤라 Pages 요청까지 건너뛴다(확인함)
+          hand=$(python3 -c "import ast,re,sys; s=open('v2/newcards/daily_price.py',encoding='utf-8').read(); v=[n.value for n in ast.walk(ast.parse(s)) if isinstance(n,ast.Assign) and any(getattr(t,'id',None)=='HAND' for t in n.targets)]; L=ast.literal_eval(v[0]) if len(v)==1 else None; print(' '.join(L) if isinstance(L,list) and L and all(isinstance(x,str) and re.fullmatch('[A-Z0-9]{1,6}',x) for x in L) else '')" 2>/dev/null || true)
+          hy=""
+          hunk=""
+          if [ -n "$yielded" ] && [ "${{ steps.mode.outputs.mode }}" = "weekly" ]; then
+            if [ -z "$hand" ]; then
+              hunk=1
+              hy="$yielded"
+            else
+              for t in $yielded; do
+                for h in $hand; do [ "$t" = "$h" ] && hy="$hy $t"; done
+              done
+              hy=$(printf '%s\n' $hy | grep . | sort -u | tr '\n' ' ' || true)
+            fi
+          fi
+          if [ -n "$yielded" ]; then
+            { echo "### 충돌로 양보한 카드(사람이 올린 판 유지)"; echo '```'; echo "$yielded"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+            if [ -n "$hy" ]; then
+              if [ -n "$hunk" ]; then
+                echo "::warning::토요일에 양보한 카드: ${hy}— daily_price.py의 HAND 목록을 읽지 못해 손 카드인지 가리지 못했다(요약 참고)"
+              else
+                echo "::warning::충돌로 토요일 애널리스트를 양보한 손 카드: ${hy}— 별도 복구 없이는 다음 주간 수집까지 기존 값이다(복구 방법은 요약 참고)"
+              fi
+              { [ -n "$hunk" ] && echo "**daily_price.py의 HAND 목록을 읽지 못해 토요일 양보 전부를 적었다** — 아래는 HAND에 적힌 손 카드에만 해당한다. HAND 한 줄의 꼴이 바뀌었는지 확인해라."
+                echo "손 카드는 cfg가 없어 애널리스트가 카드 안에만 있다. 그 값을 다시 채우려면 카드만 고치면 된다 — 전체 재실행은 필요 없다."
+                echo '```'
+                echo "python3 v2/newcards/fetch_analyst.py ${hy}"
+                echo '```'
+                echo "- 이 명령은 토요일 값을 되돌리는 것이 아니라 **지금 값을 새로 받는 것**이다. 출력에 \`(FAIL)\`이 없는지 보고 판단해라 — 종목이 실패해도 종료 코드는 0이다."
+                echo "- 고치는 것은 \`v2/{종목}_full_widget.html\`뿐이다. 홈이 쓰는 루트 사본은 다음 카드 실행의 Publish 단계가 복사한다(\`pipeline/sync_v2_home.py\`) — 바로 반영하려면 루트 사본까지 같이 커밋해라."
+                echo "- 이 실행은 실패로 끝나 \`Site UI data\`가 건너뛰어진다 — 홈·Tracking은 다음 site_ui 실행(가격 작업이 성공으로 끝난 뒤, 또는 12:00 UTC 예약)까지 전 실행 것이다."
+              } >> "$GITHUB_STEP_SUMMARY"
+            fi
+            if [ "$yielded" != "$hy" ]; then
+              echo "::warning::충돌로 이번 실행 결과를 양보한 카드: ${yielded}— 사람이 올린 판을 두었다. 손 카드 애널리스트 밖의 양보는 다음 재빌드가 재료(cfg·원문 값·비교 은행)로 다시 만든다 — 손댈 일 없다"
+              { echo "손 카드 애널리스트 밖의 양보는 다음 재빌드가 되돌린다 — 손댈 일 없다. 같은 가격 세션에 또 돌면 --skip-if-current가 실행을 건너뛸 수 있어 늦어도 다음 세션이다."; } >> "$GITHUB_STEP_SUMMARY"
+            fi
+          fi
+          echo "yielded=${yielded}" >> "$GITHUB_OUTPUT"
+          echo "yieldedHand=${hy}" >> "$GITHUB_OUTPUT"
           # 성공 판정은 원격과 같아졌는지로 한다 — 충돌로 멈춘 rebase에서는 "ahead"가 안 보여 성공으로 잘못 넘어갔다
           git fetch -q origin main
           if [ "$pushed" != true ] || [ -n "$(git rev-list origin/main..HEAD)" ]; then echo "push 실패 — 같은 파일을 고친 커밋과 충돌"; exit 1; fi
@@ -247,10 +343,28 @@ jobs:
                   print(f"   {t_}| {l_}")
           print("판정·표 변경:", d.get("verdictChanges"))
           print("새 분기 보고서(확인 대기):", d.get("newFilings"))
+          print("문제:", d.get("problems"))
           ' 2>/dev/null || true
+            # 토요일 결과는 weekly_status.json에만 있다 — 커밋 단계가 먼저 죽으면 알림 단계가 건너뛰어져 애널리스트
+            # 문제가 하루 늦게 드러났다(2026-11-07 L). 요약에는 늘 적는다(2026-11-08)
+            if [ "${{ steps.mode.outputs.mode }}" = "weekly" ] && [ -f v2/weekly_status.json ]; then
+              python3 -c '
+          import json
+          w = json.load(open("v2/weekly_status.json"))
+          # 이 블록 안에서는 홑따옴표를 쓰지 않는다(주석에도) — python3 -c 를 감싼 셸 따옴표가 먼저 먹어 NameError로
+          # 블록이 통째로 사라졌다. 요약은 오류를 숨기므로 겉으로는 성공으로 보인다(2026-11-08)
+          # 세션·끝 시각을 함께 찍는다 — weekly_status.json은 커밋된 파일이라 이번 실행이 거기까지 못 갔으면 지난주 것이다(Fable)
+          print("토요일 문제:", w.get("problems"), "(세션 {}, 끝 {})".format(w.get("session"), w.get("finished")))
+          print("애널리스트 — 실패:", w.get("analystFailed"), "· 자료 없음:", w.get("analystNoCoverage"))
+          ' 2>/dev/null || true
+            fi
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Fail if any card failed (emails the owner)
-        if: steps.run.outcome == 'failure'
+      # if:를 쓴 단계에도 암묵적 success()가 걸려, 커밋 단계가 먼저 죽은 토요일에는 이 단계가 건너뛰어졌다(2026-11-07).
+      # 메일은 토요일에 손 카드를 양보했을 때만 — 그때만 다음 토요일까지 돌아오지 않는 값(애널리스트)을 잃고, 감시
+      # 작업이 다시 돌려 주지 않는다. 다른 양보는 다음 매일 실행이 재료로 다시 만들므로 경고만 남긴다(Fable 2026-11-08).
+      # yieldedHand는 커밋 단계에서 토요일에만 채워진다 — 여기서 모드를 다시 보지 않는다.
+      - name: Fail if a card failed or a hand card was yielded (emails the owner)
+        if: ${{ !cancelled() && (steps.run.outcome == 'failure' || steps.commit.outputs.yieldedHand != '') }}
         run: exit 1

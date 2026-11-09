@@ -347,7 +347,7 @@ PEER_SEC_FROM = "2026-10-16"   # 이 세션(금요일 종가) 뒤 토요일 실�
 
 WEEKLY_STATUS = os.path.join(V2, "weekly_status.json")
 WEEKLY_KEYS = ("session", "started", "finished", "newFilings", "filingChecksMissed", "peerDrift", "peerFiles", "peerFilesKept",
-               "peerSecRefresh", "analystFailed", "verdictChanges", "failed", "problems")
+               "peerSecRefresh", "analystFailed", "analystNoCoverage", "verdictChanges", "failed", "problems")
 OUTSIDE_CAL = os.path.join(HERE, "outside_calendar.json")
 
 
@@ -402,7 +402,11 @@ def weekly_pre(status):
     if kept:
         print("\n".join(kept), flush=True)
     rc, out = run([PY, "v2/newcards/fetch_analyst.py"] + gen_tickers() + BANKS + HAND, timeout=3600)   # 은행·손 카드도(2026-10-11)   # 은행 카드도(bank/cfg, 2026-10-11)
-    status["analystFailed"] = [l for l in out.splitlines() if "실패" in l]
+    # fetch_analyst.py가 종목마다 찍는 표식으로 센다 — 사람 문구를 찾으면 예외 메시지에 그 낱말이 섞여 양쪽에 들어갔다(2026-11-08)
+    status["analystFailed"] = [l for l in out.splitlines() if "(FAIL)" in l]
+    # NO_FORECAST에 적어 둔, 예측 페이지가 없는 것을 확인한 종목 — 받을 자료가 없으니 실패가 아니다. 기록만 남긴다.
+    # 목록에 없는 종목의 404는 fetch_analyst가 실패로 내므로 여기 집계에 들어가지 않는다(2026-11-08)
+    status["analystNoCoverage"] = [l for l in out.splitlines() if "(NO_COVERAGE)" in l]
     if rc or status["analystFailed"]:   # 실패한 종목은 지난주 값 그대로 — 알림에 넣는다(Codex)
         status["problems"].append(f"애널리스트 받기 실패 {len(status['analystFailed'])}종목(rc {rc})")
 

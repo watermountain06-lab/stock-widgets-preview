@@ -21,10 +21,41 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SLUG = {"BRKB": "brk.b", "BFB": "bf.b"}
 
 
+# 회사 페이지는 200인데 예측 페이지가 없는 것을 사람이 확인한 종목. 여기 없는 종목의 404는 슬러그 오류나 사이트 개편이므로
+# 실패로 남겨 메일이 가게 한다 — 슬러그 오류도 404다(bfb 404 / bf.b 200으로 확인, Fable 2026-11-08).
+NO_FORECAST = {"L"}   # Loews: 2026-11-08 확인 — /stocks/l/ 200, Price Target n/a, /stocks/l/forecast/ 404
+
+
+class NoCoverage(Exception):
+    """StockAnalysis가 그 종목의 예측을 아예 안 싣는다 — 받을 애널리스트 자료가 없다(L, 2026-11-08)."""
+
+
 def fetch(T):
     url = f"https://stockanalysis.com/stocks/{SLUG.get(T, T.lower())}/forecast/"
     # 짧은 브라우저 UA는 403 — curl UA(README)
-    h = subprocess.run(["curl", "-s", "-A", "curl/8.4.0", url], capture_output=True, text=True, timeout=60).stdout
+    # 상태 코드를 같이 받는다 — 안 보면 404 안내 페이지를 정상 페이지로 알고 파싱하다 "의견·목표가를 못 찾음"으로 보고한다.
+    # L(Loews)은 예측 페이지가 아예 없어(회사 페이지는 200, Price Target n/a) 매주 토요일 실패로 떴다(2026-11-08).
+    p = subprocess.run(["curl", "-sS", "-A", "curl/8.4.0", "-w", "\n%{http_code}", url], capture_output=True, text=True, timeout=60)
+    # 종료코드를 먼저 본다 — 200 헤더와 본문 앞부분까지 받고 연결이 끊겨도(부분 전송) 정규식이 맞으면 정상으로 저장됐다(Codex)
+    if p.returncode != 0:
+        raise ValueError(f"{T}: curl 실패(exit {p.returncode}) {p.stderr.strip()[:120]}")
+    h, _, code = p.stdout.rpartition("\n")
+    if code == "404":
+        if T in NO_FORECAST:
+            # 목록에 적어 둔 종목도 주소가 바뀌면 404다 — 회사 페이지가 살아 있는지 한 번 더 본다. 주 1회·한 종목이라
+            # 비용이 없다(Fable). 잡아내는 범위는 "회사 주소까지 같이 깨진 경우"뿐이다 — 회사 페이지는 그대로 200인데
+            # 예측 경로만 바뀌면 이 확인은 통과하므로 여전히 조용하다(Codex). 본문은 받지도 보지도 않는다.
+            q = subprocess.run(["curl", "-sS", "-o", "/dev/null", "-w", "%{http_code}", "-A", "curl/8.4.0",
+                                f"https://stockanalysis.com/stocks/{SLUG.get(T, T.lower())}/"],
+                               capture_output=True, text=True, timeout=60)
+            # 종료코드를 먼저 본다 — 전송이 끊기면 exit 56에 http_code는 200이라(직접 확인) 확인 실패가 조용히
+            # "자료 없음"으로 넘어간다(Codex 2026-11-08)
+            if q.returncode != 0 or q.stdout.strip() != "200":
+                raise ValueError(f"{T}: 예측 페이지 404, 회사 페이지 확인 실패(exit {q.returncode}, HTTP {q.stdout.strip()}) — 주소가 바뀌었는지 확인해라")
+            raise NoCoverage("예측 페이지 없음(404), 회사 페이지는 200 — StockAnalysis에 애널리스트 자료가 없다")
+        raise ValueError(f"{T}: 예측 페이지 404 — 주소가 바뀐 것이면 SLUG에, 자료가 정말 없는 것이면 NO_FORECAST에 넣어라")
+    if code != "200":
+        raise ValueError(f"{T}: 예측 페이지 받기 실패(HTTP {code})")
     # score는 매도 의견이 많으면 음수다(ITW −1.39 — 음수를 못 받아 수집이 실패했다, 2026-10-22)
     rec = re.findall(r"\{buy:(\d+),date:\"([\d-]+)\",hold:(\d+),sell:(\d+),month:\"[^\"]*\",score:-?[\d.]+,total:(\d+),updated:\"[\d-]+\",consensus:\"([^\"]+)\",strongBuy:(\d+),strongSell:(\d+)\}", h)
     tg = re.search(r"targets:\{low:([\d.]+),high:([\d.]+),count:(\d+),median:([\d.]+),average:([\d.]+),updated:\"([\d-]+)\"", h)
@@ -72,8 +103,15 @@ def main():
     for T in tickers:
         try:
             A, upd = fetch(T)
+        # 집계는 사람 문구가 아니라 괄호 안 표식으로 한다 — "실패"·"자료 없음"을 찾던 방식은 예외 메시지에 그 낱말이
+        # 섞이거나 문구를 다듬으면 조용히 틀렸다(daily_price.py가 이 표식을 센다, Codex·Fable 2026-11-08)
+        except NoCoverage as e:
+            print(f"{T}: 자료 없음(NO_COVERAGE) — {e}")
+            time.sleep(1.0)   # 404·403은 빨리 돌아와 간격 없이 다음 요청이 몰린다(Codex)
+            continue
         except Exception as e:
-            print(f"{T}: 실패 — {e}")
+            print(f"{T}: 실패(FAIL) — {e}")
+            time.sleep(1.0)
             continue
         asof = datetime.date.today().isoformat()
         print(f"{T}: {A} (목표가 갱신 {upd})")
