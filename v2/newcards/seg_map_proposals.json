@@ -4021,5 +4021,31 @@
     "#a3b8c9"
    ]
   }
+ },
+ "AXON": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "axon:TASERDevicesProfessionalMember": [
+    "테이저(TASER)",
+    "#ffd200"
+   ],
+   "axon:PlatformSolutionsMember": [
+    "플랫폼 솔루션(차량 영상·드론 대응)",
+    "#8a8a8a"
+   ],
+   "axon:PersonalSensorsMember": [
+    "개인 센서(바디캠)",
+    "#d9c36a"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:ProductMember",
+   "us-gaap:ServiceMember",
+   "axon:SoftwareAndServicesMember"
+  ]
  }
 }
