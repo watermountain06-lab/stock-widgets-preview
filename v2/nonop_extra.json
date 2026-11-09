@@ -252,5 +252,25 @@
    "tag": "EquityMethodInvestments",
    "reason": "비통합 지분법 투자 — 대부분 UAE Wynn Al Marjan(지분 40%, 2027-09 개장 전이라 이익 없음. 지분법 손실(2026년 9개월 $16.5M)은 영업비용인 Pre-opening expenses 안에 있어 영업이익에 남는다 — 작고 가치를 낮추는 쪽이라 그대로 둔다, Codex r2). 2026-09-30 $1,199.5M(10-Q 재무상태표 \"Investments in unconsolidated affiliates\", 표준 태그 연속). 장부가(Fable r1 2026-11-06, PWR 방식)."
   }
+ ],
+ "BR": [
+  {
+   "tag": "CryptoAssetFairValueNoncurrent",
+   "reason": "Canton Coin 공정가치(2026-09-30 $185M, 10-Q 주석 10 디지털 자산) — 영업에 쓰지 않는 보유 자산. 표준 태그라 과거 시점도 그때 값(2026-11-09, Codex r1)."
+  },
+  {
+   "name": "CNTN 워런트",
+   "value": 25900000,
+   "end": "2026-09-30",
+   "filed": "2026-11-03",
+   "reason": "Canton 디지털 자산 트레저리(CNTN) 선지급 워런트 공정가치 $25.9M(10-Q 주석 10). 표준 태그 없음(2026-11-09, Codex r1)."
+  },
+  {
+   "name": "장기투자 안 시장성 증권 중복 제거",
+   "value": -234000000,
+   "end": "2026-09-30",
+   "filed": "2026-11-03",
+   "reason": "MarketableSecuritiesNoncurrent $234M(연금·퇴직저축 관련 증권과 CNTN 주식)은 LongTermInvestments $392.9M 안에 들어 있다(10-Q 주석 8·10) — 엔진은 두 값이 같을 때만 중복을 지워 두 번 더해졌다(2026-11-09, Codex r1)."
+  }
  ]
 }

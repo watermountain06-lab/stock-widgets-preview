@@ -3957,5 +3957,27 @@
    "us-gaap:CorporateMember",
    "nix:NIPSCOMember"
   ]
+ },
+ "BR": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "br:InvestorCommunicationSolutionsMember": [
+    "투자자 소통(ICS — 주총·공시 배포)",
+    "#002f6c"
+   ],
+   "br:GlobalTechnologyAndOperationsMember": [
+    "거래 처리 기술(GTO)",
+    "#00a9e0"
+   ]
+  },
+  "ignore_candidates": [
+   "br:ReportableSegmentsMember"
+  ]
  }
 }
