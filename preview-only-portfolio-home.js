@@ -907,7 +907,7 @@ function buyBox(args) {
   const laterIn = Math.round(deps.later.filter((d) => d.amount > 0 && (d.rec || d.day) <= today).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const mLabel = ahead ? `${+month.slice(5)}월` : '이번 달';
   const strip = el('div', 'pf-strip');
-  const fillCells = ({ week, weekLabel, weekNote, future, dates, next, preview, pending }) => {
+  const fillCells = ({ week, weekLeft = null, weekLabel, weekNote, future, dates, next, preview, pending }) => {   // weekLeft: 이번 회차에 더 살 돈(고정 몫 − 산 돈, 2026-11-09)
     const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); d.appendChild(el('span', 'pf-s', sub)); cells.appendChild(d); return d; };
     const laterSum = deps.later.reduce((a, d) => a + d.amount, 0);
     const p1 = deps.now.filter((d) => d.amount > 0).map((d) => (d.forMonth ? `${md(d.rec)} ${usd(d.amount)} 미리` : `${md(d.day)} ${usd(d.amount)}` + (d.day > today ? ' 예정' : '')));
@@ -920,7 +920,8 @@ function buyBox(args) {
     p1.push(`한도 ${usd(budget)}`);
     cell(`${mLabel} 입금` + (ahead ? '(예상)' : ''), usd(D), p1.join(' · '));
     // 매수 완료 A와 앞으로 P는 늘 보이고(P를 모르면 —), 상태 안내는 앞에 붙인다(dr)
-    cell(weekLabel, week == null ? '—' : usd(week), (weekNote ? weekNote + ' · ' : '') + `산 돈 ${usd(spent)} · 남음 ${future == null ? '—' : usd(future)}`);
+    const wl = weekLeft != null && week != null && weekLeft !== week;
+    cell(weekLabel + (wl ? ' 남음' : ''), week == null ? '—' : usd(wl ? weekLeft : week), (wl ? `회차 몫 ${usd(week)} · ` : '') + (weekNote ? weekNote + ' · ' : '') + `산 돈 ${usd(spent)} · 남음 ${future == null ? '—' : usd(future)}`);
     const ended = !preview && dates && dates.length && !next;
     const c3 = cell('계좌 현금' + (ahead ? ` (${md(today)} 기준)` : ''), C == null ? '—' : usd(C),
       over > 0 ? `한도 초과 ${usd(over)}(원칙 5)`
@@ -951,9 +952,11 @@ function buyBox(args) {
     rs.rounds.forEach((r, i) => {
       const c = el('div', 'pf-stripcell pf-strip-' + r.state);
       c.appendChild(el('span', 'pf-s', `${i + 1}회 · ${md(r.date)}`));
-      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.amount == null ? '—' : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
+      const nowLeft = r.state === 'now' && weekLeft != null && r.amount != null && est == null;   // 이번 회차: 남은 금액을 크게, 고정 몫은 아래에
+      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.amount == null ? '—' : nowLeft ? usd(weekLeft) : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
       if (r.state === 'first') c.classList.add('pf-strip-now');
-      c.appendChild(el('span', 'pf-s', TXT[r.state] + (r.state === 'now' && r.done > 0 ? ` · 오늘까지 ${usd(r.done)} 삼` : '')));
+      c.appendChild(el('span', 'pf-s', nowLeft ? (weekLeft > 0 ? '이번 주 남음' : '이번 주 다 샀음') + ` · 몫 ${usd(r.amount)}` + (r.done > 0 ? ` 중 ${usd(r.done)} 삼` : '')
+        : TXT[r.state] + (r.state === 'now' && r.done > 0 ? ` · 오늘까지 ${usd(r.done)} 삼` : '')));
       row.appendChild(c);
     });
     strip.appendChild(row);
@@ -1115,8 +1118,9 @@ function buyBox(args) {
   // 칸 2: 체크한 종목 가운데 이번 회차에 살 수 있는 종목의 회차 금액 합(체크·방법을 바꾸면 바로 바뀜), 앞으로 = 남은 몫 합
   const ok = bp && bp.round[method] && mv.next ? picked.filter((t) => nowBuyable(t)) : [];
   const week = ok.length ? Math.round(ok.reduce((a, t) => a + (bp.round[method][t] || 0), 0) * 100) / 100 : null;
+  const weekLeft = ok.length ? Math.round(ok.reduce((a, t) => a + (bp.todo[method][t] || 0), 0) * 100) / 100 : null;
   const future = bp && bp.rest[method] ? Math.round(picked.reduce((a, t) => a + (bp.rest[method][t] || 0), 0) * 100) / 100 : null;
-  fillCells({ week, pending: !!mv.next && (!method || !picked.length), weekLabel: mv.next ? `이번 주 매수(${nextIdx}/${rounds}회)` : '이번 주 매수',
+  fillCells({ week, weekLeft, pending: !!mv.next && (!method || !picked.length), weekLabel: mv.next ? `이번 주 매수(${nextIdx}/${rounds}회)` : '이번 주 매수',
     weekNote: !mv.next ? '회차 끝' : !method || !picked.length ? '종목·방법을 고르세요'
       : bp && !bp.by[method] ? (method === 'cap' ? '시총 없는 종목이 있음' : '무게 밖 판정이 있음') : null,
     future, dates: active.map((r) => r.date), next: mv.next ? mv.next.date : null });
