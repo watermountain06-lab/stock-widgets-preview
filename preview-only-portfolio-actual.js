@@ -9,7 +9,7 @@
 //   · 매매 대금은 체결마다 센트로 맞춘다(증권사와 같음). 보유보다 많이 판 기록은 가진 만큼만 반영하고 그 수량으로 기록한다
 //   · 평가 = 일별 기록 종가(엔진과 같은 사용 가능 판정) · TWR·기준선 대비 = 엔진 twr과 A의 기준선(같은 출발).
 // 결과는 엔진 시나리오와 같은 모양이라 비교 표·그래프·도넛·매매 기록이 그대로 그린다. 배당·세금은 다른 전략처럼 뺀다.
-// 이번 달 운용(살 후보·매도 검토)은 화면에 보이지 않는 원칙 시나리오 '__plan'(B, 매도 0%)이 계산한다(attachActual).
+// 이번 달 운용(구매 후보·매도 검토)은 화면에 보이지 않는 원칙 시나리오 '__plan'(B, 매도 0%)이 계산한다(attachActual).
 import { twr, depositTiming, BASELINES, _internal } from './preview-only-portfolio-engine.js?v=13';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, mergeStart } from './preview-only-portfolio-accounts.js?v=7';
 

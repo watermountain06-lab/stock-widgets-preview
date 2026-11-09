@@ -41,7 +41,7 @@ export const FIXED_NOTICE = '모의 운용입니다. 판정은 수익 예측이 
 // Firestore 묶음 문서(시각은 ISO 문자열로 바꾼 뒤) + 일별 기록 → 엔진 입력.
 // 모든 시나리오는 A와 같이 시작일의 스냅샷에서 출발한다(사용자 결정 10-20): 엔진에 넘기는 만든 시각을 시작일 장 마감 뒤
 // (그날 23:00 UTC = 동부 18~19시)로 맞춘다. 실제 만든 시각은 저장된 그대로이고 순서를 정하는 데만 쓴다.
-// opts.plan이면 화면에 보이지 않는 원칙 시나리오 '__plan'(B, 매도 0%, 4회)을 맨 뒤에 더한다 — 이번 달 살 후보·매도 검토를 계산한다.
+// opts.plan이면 화면에 보이지 않는 원칙 시나리오 '__plan'(B, 매도 0%, 4회)을 맨 뒤에 더한다 — 이번 달 구매 후보·매도 검토를 계산한다.
 export const scenarioStartAt = (date) => (date ? date + 'T23:00:00Z' : null);
 // opts.ledger·opts.trades(2026-10-28 한국 계좌): 환전·역환전을 같은 달러 입출금으로 모든 전략에 넣고(id L:…), 시작 상태에 키움의 반영일 ≤ 시작일 상태를 합친다
 export function toEngineInput(bundle, records, opts = {}) {

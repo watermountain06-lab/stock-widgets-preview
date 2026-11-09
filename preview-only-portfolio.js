@@ -13,7 +13,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteField, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { toEngineInput } from './preview-only-portfolio-strategy.js?v=27';
-import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=70';
+import { renderTabs, etDate } from './preview-only-portfolio-home.js?v=74';
 import { parseCSV, importTable } from './preview-only-portfolio-import.js?v=1';
 import { replay, ENGINE_VERSION } from './preview-only-portfolio-engine.js?v=13';
 import { attachActual } from './preview-only-portfolio-actual.js?v=18';
@@ -282,6 +282,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
 
   // 실제 매매 기록: users/{uid}/portfolio/trades 문서 하나(고치기·지우기 가능, 규칙 firestore.rules). 모의 운용 계산과는 따로다.
   // 같은 문서의 picks: {'YYYY-MM': [티커…]}는 다음 할 일 카드에서 그달 살 종목으로 체크한 것(원칙 3, 2026-10-22).
+  // promoted: {'YYYY-MM': [티커…]}는 주간 확인에서 ↑로 그달 구매 후보에 올린 종목(원칙 2, 2026-11-09).
   const tref = (user) => doc(db, 'users', user.uid, 'portfolio', 'trades');
 
   async function loadAll(user, g, main) {
@@ -289,7 +290,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
     let records = [], recordsError = false;
     try { records = await loadLedger(); } catch (_) { recordsError = true; }
     const capsP = loadCaps();
-    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false, picks = {}, ledger = {};   // ledger: 한국 계좌 장부(2026-10-28)
+    let n = 1, cur = null, closedCount = 0, trades = {}, tradesExist = false, picks = {}, promoted = {}, ledger = {};   // ledger: 한국 계좌 장부(2026-10-28)
     const allDeposits = {}, pastBundles = [];   // pastBundles: 끝낸 묶음(시작 뒤 수익률을 10/01부터 잇는 데 씀, 10-25)
     try {
       for (; n < 100; n++) {
@@ -309,6 +310,7 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
         const td = ts.data({ serverTimestamps: 'estimate' });
         const e = td.entries || {};
         picks = td.picks || {};
+        promoted = td.promoted || {};
         trades = Object.fromEntries(Object.entries(e).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }]));
         ledger = Object.fromEntries(Object.entries(td.ledger || {}).map(([k, v]) => [k, { ...v, recordedAt: iso(v.recordedAt) }]));
       }
@@ -378,9 +380,16 @@ if (!firebaseConfig.apiKey || !firebaseConfig.projectId || !firebaseConfig.authD
         picks[month] = list;
         if (g === gen && auth.currentUser === user) draw();
       },
+      // 주간 확인 종목을 그달 구매 후보로 올리고 내리기 — 체크와 같은 방식(merge 저장 후 다시 그리기만)
+      promote: async (month, list) => {
+        try { await setDoc(tref(user), { promoted: { [month]: list } }, { merge: true }); } catch (e) { throw new Error(why(e)); }
+        tradesExist = true;
+        promoted[month] = list;
+        if (g === gen && auth.currentUser === user) draw();
+      },
       goto: (tab) => selectTab(tab),
     };
-    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, pastBundles, picks, caps: await capsP, ledger, fxHistory: await loadFx() };
+    const model = { main, trades, result, bundle, byId, records, now: Date.now(), allDeposits, pastBundles, picks, promoted, caps: await capsP, ledger, fxHistory: await loadFx() };
     // 다시 불러오지 않고 다시 그리기(picks처럼 계산과 무관한 값만 바뀐 때)
     function draw() {
       renderTabs({ home: $('pf-home'), accounts: $('pf-accounts'), strategy: $('pf-strategy'), manage: $('pf-manage') }, model,

@@ -328,10 +328,10 @@ test('다음 할 일: 다음 회차·결정 대기·회차 끝·첫 점검 대�
   const steps = [{ state: 'done' }, { state: 'done' }, { state: 'skip' }, { state: 'todo' }, { state: 'todo' }];
   const a = nextAction({ plan, steps, next: rounds[2], stale: false });
   assert.equal(a.title, '12월 15일, 3번째 나눠 사기');
-  assert.equal(a.sub, '살 후보 BBB · EEE · 4회 중 2회 진행');
+  assert.equal(a.sub, '구매 후보 BBB · EEE · 4회 중 2회 진행');
   assert.deepEqual([a.done, a.total], [2, 4]);
   assert.equal(nextAction({ plan, steps, next: null, stale: true }).title, '이번 달 결정 대기');
-  assert.match(nextAction({ plan: { rounds, candidates: [] }, steps, next: null, stale: false }).sub, /살 후보 없음 · 다음 점검/);
+  assert.match(nextAction({ plan: { rounds, candidates: [] }, steps, next: null, stale: false }).sub, /구매 후보 없음 · 다음 점검/);
 });
 
 import { buyPlan, monthDeposits, monthBuys } from '../../preview-only-portfolio-home.js';
