@@ -3979,5 +3979,22 @@
   "ignore_candidates": [
    "br:ReportableSegmentsMember"
   ]
+ },
+ "ZBH": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:StatementGeographicalAxis",
+  "extra": {},
+  "members": {
+   "country:US": [
+    "미국",
+    "#0033a0"
+   ],
+   "zbh:OthersCountriesMember": [
+    "해외",
+    "#00b5e2"
+   ]
+  }
  }
 }
