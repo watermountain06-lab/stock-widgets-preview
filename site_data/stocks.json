@@ -14891,6 +14891,47 @@
         "valuationAsOf": "2026-11-06",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "LUV",
+      "name": "사우스웨스트 항공",
+      "sector": "항공 — 미국 국내선 중심 저비용 항공사",
+      "href": "LUV_full_widget.html",
+      "cardRank": 355,
+      "cardAsOf": "2026-11-06",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 44.45,
+        "prevClose": 44.44,
+        "session": "2026-11-06",
+        "prevSession": "2026-11-05",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 489602380,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-21",
+        "filedAt": "2026-10-22",
+        "filing": "10-Q 0000092380-26-000107 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 35.5,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-06",
+        "qualityFlags": []
+      }
     }
   ]
 }
