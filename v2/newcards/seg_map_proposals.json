@@ -3768,5 +3768,24 @@
     "#cfdde9"
    ]
   }
+ },
+ "AMCR": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "amcr:FlexiblesSegmentMember": [
+    "연포장(Flexibles)",
+    "#0a3d62"
+   ],
+   "amcr:RigidPackagingSegmentMember": [
+    "경질 포장(Rigid — 병·용기·캡)",
+    "#2bb3c0"
+   ]
+  }
  }
 }
