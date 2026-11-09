@@ -146,6 +146,8 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    # ROST: 이자비용을 장기차입 이자(InterestExpenseLongTermDebt, Q2 FY26 $9.2M)와 기타(InterestExpenseOther, $0.35M)로 나눠 낸다 —
                    # 기본 후보에선 기타 한 줄만 잡혀 이자보상배율이 3,153배였다. 장기차입 이자를 쓴다(자본화 차감 전, 기타 $0.35M은 빠짐; Codex 2026-10-22)
                    "0000745732": {"interestExpense": ["InterestExpenseLongTermDebt"]},
+                   # IP: 자본 StockholdersEquity($13,146M — 비지배 포함 태그는 2025-03에 멈춤), 장기차입 LongTermDebtAndCapitalLeaseObligations($7,488M — LongTermDebtNoncurrent는 2025-12에 멈춤), 주당 배당 선언 기준(지급 태그는 2019에 멈춤)(2026-11-08)
+                   "0000051434": {"totalEquity": ["StockholdersEquity"], "longTermDebt": ["LongTermDebtAndCapitalLeaseObligations"], "dividendPerShare": ["CommonStockDividendsPerShareDeclared"]},
                    # CRL: 세전이익은 IncomeLossIncludingPortionAttributableToNoncontrollingInterest(Q3 2026 $170.7M), 장기차입은 금융리스 포함 순액(LongTermDebtAndCapitalLeaseObligations $2,443M) — 기본 후보는 2019·2018년에 멈춘 값(Codex r1, 2026-11-08)
                    "0001100682": {"pretaxIncome": ["IncomeLossIncludingPortionAttributableToNoncontrollingInterest"], "longTermDebt": ["LongTermDebtAndCapitalLeaseObligations"]},
                    # ITW: 세전이익을 IncomeLossIncludingPortionAttributableToNoncontrollingInterest로 낸다(2026-10-22)

@@ -3787,5 +3787,24 @@
     "#2bb3c0"
    ]
   }
+ },
+ "IP": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "ip:PackagingSolutionsNorthAmericaSegmentMember": [
+    "포장 북미(PS NA — 골판지 상자·원지)",
+    "#003a70"
+   ],
+   "ip:PackagingSolutionsEMEASegmentMember": [
+    "포장 EMEA(PS EMEA — DS Smith)",
+    "#6cace4"
+   ]
+  }
  }
 }
