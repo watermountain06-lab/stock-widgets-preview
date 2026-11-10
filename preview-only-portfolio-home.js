@@ -1094,7 +1094,7 @@ function buyBox(args) {
     const hq = args.held?.get(t) || 0, heldTxt = hq > 0 ? qty2(hq) + '주' : null;   // 보유 주식 수(소수 둘째 자리)
     const note = (x) => act.appendChild(el('span', 'pf-note', x));
     const c = close(t);
-    if (!on) note(hint(t, c) || '고르지 않음');
+    if (!on) { /* 체크 안 한 줄: '체크하면 …' 금액을 빼고 보유 주식 수만(사용자 결정 2026-11-10) */ }
     else if (!mv.next) note('이번 달 회차 끝');
     else if (!nowBuyable(t)) note(nowHold(t) ? `${HOLD_TEXT[nowHold(t)] || '데이터 문제'} — 보류(원칙 6)` : '살 단계 벗어남 — 이번 회차 건너뜀(원칙 2)');
     else if (!bp) note('방법을 고르면 금액');
@@ -1102,7 +1102,7 @@ function buyBox(args) {
     else if (!bp.by[method]) note(method === 'cap' ? '시총 없는 종목이 있음' : !hasRec ? '점검일 기록이 없어 판정 가중을 못 씀' : '무게 밖 판정이 있음(초저평가~적정만)');
     else {
       const r = bp.todo[method][t], fix = bp.round[method][t], got = nowBought[t] || 0;
-      if (!(r > 0) && got > 0 && fix > 0) { if (heldTxt) act.appendChild(el('strong', 'pf-held', heldTxt)); }   // 이번 회차 몫을 다 삼 — 보유 주식 수만
+      if (got > 0 && fix > 0) { if (heldTxt) act.appendChild(el('strong', 'pf-held', heldTxt)); }   // 이번 회차에 이미 삼 — 남은 몇 센트는 살 수 없던 몫이라 보유 주식 수만(사용자 결정 2026-11-10)
       else if (!(r > 0)) note(bp.rest[method][t] > 0 ? '회차 몫 1센트 미만' : leftUsd <= 0 || bp.capped[method] ? '남은 돈 없음' : '달 몫을 다 샀음');
       else if (c == null) note(`${usd(r)} · 가격 없음`);
       else if (Math.floor((r / c) * 1e4) <= 0) note(`${usd(r)} · 0.0001주 미만`);
@@ -1201,7 +1201,7 @@ function previewSection(args, box, month, budget) {
     row.appendChild(nm);
     const act = el('span', 'pf-buyact');
     const note = (x) => act.appendChild(el('span', 'pf-note', x));
-    if (!on) note(hint(t, close(t)) || '고르지 않음');
+    if (!on) { /* '체크하면 …' 금액은 뺐다(사용자 결정 2026-11-10) */ }
     else if (!bp) note('방법을 고르면 금액');
     else if (!(budget > 0)) note(`${+month.slice(5)}월 쓸 돈 없음`);
     else if (!bp.by[method]) note(method === 'cap' ? '시총 없는 종목이 있음' : '무게 밖 판정이 있음(초저평가~적정만)');
