@@ -560,7 +560,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="cofPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="cofPeerVerdict">중간</span></div>
-      <div class="logic-score" id="cofPeerScore">38.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="cofPeerScore">46.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="cofSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="cofSelfVerdict">중간</span></div>
@@ -934,7 +934,7 @@ Chart.overrides.doughnut.animation = false;
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 모형 신호 2/3</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 1.59
 시나리오 범위: 1.17 ~ 1.59(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(카드·소비자금융) 카드: AXP P/TBV 7.37배·PER 19.5배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">38.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">39</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">39</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(카드·소비자금융) 카드: AXP P/TBV 7.44배·PER 19.7배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">46.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">54</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">39</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">P/TBV 2.07배는 자기 5년 이력의 위쪽(상위 15%)이고 비교군 S&P500 대형·지역 은행 13곳과 견주면 비싼 쪽부터 6번째다. <strong>초과이익모형 기본 가치 $125은 현재가의 63%</strong>로, 지금 가격은 ROE 12.0%가 5년 이어진다는 값이다(최근 4분기 9.7%, GAAP).</div>
     <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 1.59로 "매우 비싸다"다. 세 칸이 자기 이력 0 · 동종업 0 · 초과이익 −2로 종합 평가는 적정~고평가다.</div>
@@ -1007,7 +1007,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 11/6 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 11/9 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1312,77 +1312,77 @@ function renderSegmentChart() {
 // 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3)에서 고른 6곳. 값이 없는 은행은 뺀다.
 const MULTIPLE_DATA = {
   "per": {
-    "title": "S&P500 은행 PER 비교 · 11/6 종가",
+    "title": "S&P500 은행 PER 비교 · 11/9 종가",
     "unit": "PER(TTM)",
     "max": 25,
     "cofValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 14.33,
+        "value": 14.65,
         "status": "reference"
       },
       {
         "name": "USB",
-        "value": 11.87,
+        "value": 12.17,
         "status": "reference"
       },
       {
         "name": "FITB",
-        "value": 18.16,
+        "value": 18.62,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 11.51,
+        "value": 11.76,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 11.53,
+        "value": 11.79,
         "status": "reference"
       },
       {
         "name": "HBAN",
-        "value": 11.9,
+        "value": 12.25,
         "status": "reference"
       }
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 11/6 종가",
+    "title": "S&P500 은행 P/TBV 비교 · 11/9 종가",
     "unit": "P/TBV",
     "max": 4,
     "cofValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 3.0,
+        "value": 3.07,
         "status": "reference"
       },
       {
         "name": "USB",
-        "value": 2.08,
+        "value": 2.13,
         "status": "reference"
       },
       {
         "name": "FITB",
-        "value": 2.41,
+        "value": 2.47,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 2.08,
+        "value": 2.32,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 1.88,
+        "value": 1.92,
         "status": "reference"
       },
       {
         "name": "HBAN",
-        "value": 1.64,
+        "value": 1.69,
         "status": "reference"
       }
     ]
@@ -1531,7 +1531,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py COF
 const COF_SCORES = {
   fundamental: null,   // 은행 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
-  peer: 38.5,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
+  peer: 46.1,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
   selfHistory: 29.7,   // P/TBV·PER 자기 5년 백분위 평균(표시용)
   asOf: "2026-11-09",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q (2026-11-03 공시)
@@ -1845,7 +1845,7 @@ const COF_FUNDAMENTAL = {"ticker": "COF", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py COF --self v2/COF_multiples.json --card
 /* VALUATION:BEGIN */
-const COF_VALUATION = {"peer": {"score": 38.5, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-09", "2026-11-09"], "metrics": [{"metric": "per", "score": 38.5, "rank": 9, "peers": 13}, {"metric": "pbr", "score": 38.5, "rank": 9, "peers": 13}]}, "self": {"score": 29.7, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-09", "2026-11-09"], "metrics": [{"metric": "per", "score": 44.9, "percentile": 55.1, "current": 12.29, "min": 3.99, "median": 11.36, "max": 117.82, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 14.5, "percentile": 85.5, "current": 2.07, "min": 0.95, "median": 1.48, "max": 2.62, "days": 1255, "gapDays": 0}]}};
+const COF_VALUATION = {"peer": {"score": 46.1, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-09", "2026-11-09"], "metrics": [{"metric": "per", "score": 53.8, "rank": 7, "peers": 13}, {"metric": "pbr", "score": 38.5, "rank": 9, "peers": 13}]}, "self": {"score": 29.7, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-09", "2026-11-09"], "metrics": [{"metric": "per", "score": 44.9, "percentile": 55.1, "current": 12.29, "min": 3.99, "median": 11.36, "max": 117.82, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 14.5, "percentile": 85.5, "current": 2.07, "min": 0.95, "median": 1.48, "max": 2.62, "days": 1255, "gapDays": 0}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2219,7 +2219,7 @@ const COF_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 
   put('cofPeerBox', 'cofPeerScore', 'cofPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
       + `\nP/TBV는 유형자본을 만들 수 있는 13곳, PER은 13곳과 비교했다.`
-      + `\nPNC: 무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모: 규제자본 차감 무형자산 $666M(2026-06, TCE 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(약 1.7%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).\n이 카드의 P/TBV가 PNC와 2% 안이라 순위가 그 편향으로 갈렸을 수 있다.`);
+      + `\nPNC: 무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모: 규제자본 차감 무형자산 $666M(2026-06, TCE 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(약 1.7%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).`);
   put('cofSelfBox', 'cofSelfScore', 'cofSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nP/TBV 2.07배(5년 중 상위 15%)·PER 12.3배(상위 45%).`
