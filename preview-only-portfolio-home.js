@@ -910,7 +910,8 @@ function buyBox(args) {
   const mLabel = ahead ? `${+month.slice(5)}월` : '이번 달';
   const strip = el('div', 'pf-strip');
   const fillCells = ({ week, weekLeft = null, weekLabel, weekNote, future, dates, next, preview, pending }) => {   // weekLeft: 이번 회차에 더 살 돈(고정 몫 − 산 돈, 2026-11-09)
-    const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); d.appendChild(el('span', 'pf-s', sub)); cells.appendChild(d); return d; };
+    // 돈 칸 아래 문장은 뺐다(사용자 결정 2026-11-10) — 제목과 금액만, 설명은 마우스를 올리면
+    const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); if (sub) d.title = sub; cells.appendChild(d); return d; };
     const laterSum = deps.later.reduce((a, d) => a + d.amount, 0);
     const p1 = deps.now.filter((d) => d.amount > 0).map((d) => (d.forMonth ? `${md(d.rec)} ${usd(d.amount)} 미리` : `${md(d.day)} ${usd(d.amount)}` + (d.day > today ? ' 예정' : '')));
     if (!p1.length) p1.push('입금 없음');
@@ -933,7 +934,7 @@ function buyBox(args) {
         : ended ? `${usd(R)} 다음 달로 · 나머지는 안 쓰는 돈(원칙 5)`
         : `쓸 수 있음 ${usd(Math.min(R, Math.max(0, C - laterIn)))}` + (laterIn > 0 ? ` · 다음 달 몫 ${usd0(laterIn)} 제외` : '') + ' · 나머지는 안 쓰는 돈(원칙 5)', 'pf-receiptleft');
     if (over > 0) c3.classList.add('pf-over');
-    if (args.cashBy) c3.appendChild(el('span', 'pf-s', `미국 ${usd(args.cashBy.rh)} · 한국 ${usd(args.cashBy.kw)}`));   // 계좌별 현금(한국 계좌, 2026-10-28) — 한도는 하나지만 산 계좌에 돈이 있어야 한다
+    if (args.cashBy) c3.title += ` · 미국 ${usd(args.cashBy.rh)} · 한국 ${usd(args.cashBy.kw)}`;   // 계좌별 현금(한국 계좌, 2026-10-28) — 한도는 하나지만 산 계좌에 돈이 있어야 한다
     // 잔금 칸: 지난달에서 넘어온 돈, 회차가 끝났으면 이번 달 남은 돈이 다음 달로 간다
     if (ct && ct.unknown) cell('현금 목표(10%)', '—', args.totalMissing ? `가격 없는 보유 ${args.totalMissing}종목이 있어 총자산을 몰라 이번 달 한도를 막음(원칙 6)` : '현금·총자산을 몰라 한도를 막음 — 보유 파일·현금을 확인하세요');
     else if (ct) cell('현금 목표(10%)', usd(ct.target), `총자산 ${usd0(args.total)}의 10% · 지금 현금 ${usd(C)}` + (ct.short > 0 ? ` · ${usd(ct.short)} 모자람` : ''));
