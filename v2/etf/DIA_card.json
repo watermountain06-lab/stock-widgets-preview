@@ -3554,78 +3554,78 @@
  },
  "constituents": {
   "holdings": {
-   "S": "2026-11-06",
+   "S": "2026-11-09",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "GS",
      "name": "GOLDMAN SACHS GROUP INC",
-     "weight": 0.10034153423780208,
+     "weight": 0.10283919491877391,
      "card": "GS",
      "verdict": "고평가"
     },
     {
      "company": "CAT",
      "name": "CATERPILLAR INC",
-     "weight": 0.0647406978046366,
+     "weight": 0.06796178912543481,
      "card": "CAT",
      "verdict": "고평가"
     },
     {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.06149340164945232,
+     "weight": 0.061867836561873946,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMGN",
      "name": "AMGEN INC",
-     "weight": 0.053358957947733404,
+     "weight": 0.052794990589691955,
      "card": "AMGN",
      "verdict": "고평가"
     },
     {
      "company": "V",
      "name": "VISA INC CLASS A SHARES",
-     "weight": 0.04898171202662374,
+     "weight": 0.04781882610034953,
      "card": "V",
      "verdict": "고평가"
     },
     {
-     "company": "TRV",
-     "name": "TRAVELERS COS INC/THE",
-     "weight": 0.045800479768164246,
-     "card": "TRV",
-     "verdict": "판정 보류"
-    },
-    {
      "company": "UNH",
      "name": "UNITEDHEALTH GROUP INC",
-     "weight": 0.045678797334124166,
+     "weight": 0.04512251214293019,
      "card": "UNH",
      "verdict": "적정~고평가"
     },
     {
+     "company": "TRV",
+     "name": "TRAVELERS COS INC/THE",
+     "weight": 0.04484787886272479,
+     "card": "TRV",
+     "verdict": "판정 보류"
+    },
+    {
      "company": "SHW",
      "name": "SHERWIN WILLIAMS CO/THE",
-     "weight": 0.039878401208876264,
+     "weight": 0.04061842426828675,
      "card": "SHW",
      "verdict": "고평가"
     },
     {
      "company": "HD",
      "name": "HOME DEPOT INC",
-     "weight": 0.03980539374947892,
+     "weight": 0.04010662680637783,
      "card": "HD",
      "verdict": "적정~고평가"
     },
     {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.03967790833798914,
+     "weight": 0.03979682621523875,
      "card": "AAPL",
      "verdict": "고평가"
     }
@@ -3750,7 +3750,7 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-11-06",
+   "asOf": "2026-11-09",
    "rows": [
     [
      "Financials",
@@ -3758,41 +3758,41 @@
     ],
     [
      "Information Technology",
-     18.68
+     18.54
     ],
     [
      "Health Care",
-     14.81
+     14.68
     ],
     [
      "Industrials",
-     13.18
+     13.49
     ],
     [
      "Consumer Discretionary",
-     10.64
+     10.68
     ],
     [
      "Communication Services",
-     4.65
+     4.62
     ],
     [
      "Consumer Staples",
-     4.48
+     4.42
     ],
     [
      "Materials",
-     3.99
+     4.06
     ],
     [
      "Energy",
-     2.46
+     2.39
     ]
    ]
   },
   "chars": {
-   "pe": 20.34,
-   "peAsOf": "2026-11-06"
+   "pe": 20.76,
+   "peAsOf": "2026-11-09"
   },
   "dgs10": {
    "date": "2026-11-06",
@@ -3801,7 +3801,7 @@
  },
  "index": "DIA",
  "name": "DIA",
- "runId": "42766679651.1",
- "runAt": "2026-11-10T06:10:40Z",
+ "runId": "42884520224.1",
+ "runAt": "2026-11-10T19:22:36Z",
  "source": "Yahoo Finance DIA 일봉 종가"
 }
