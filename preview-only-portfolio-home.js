@@ -961,13 +961,11 @@ function buyBox(args) {
       const nowLeft = r.state === 'now' && leftNow != null && r.amount != null;   // 이번 회차: 남은 금액을 크게, 고정 몫은 아래에
       c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.amount == null ? '—' : nowLeft ? (est != null ? '약 ' : '') + usd(leftNow) : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
       if (r.state === 'first') c.classList.add('pf-strip-now');
-      c.appendChild(el('span', 'pf-s', nowLeft ? (leftNow > 0 ? '이번 주 남음' : '이번 주 다 샀음') + ` · 몫 ${usd(r.amount)}` + (r.done > 0 ? ` 중 ${usd(r.done)} 삼` : '')
-        : TXT[r.state] + (r.state === 'now' && r.done > 0 ? ` · 오늘까지 ${usd(r.done)} 삼` : '')));
+      c.title = TXT[r.state] + (nowLeft ? ` · 몫 ${usd(r.amount)}` + (r.done > 0 ? ` 중 ${usd(r.done)} 삼` : '') : '');   // 띠 아래 문장은 뺐다(사용자 결정 2026-11-10) — 상태는 색, 자세한 건 마우스를 올리면
       row.appendChild(c);
     });
     strip.appendChild(row);
-    if (rs.outside > 0) strip.appendChild(el('p', 'pf-note', `회차 외 매수 ${usd(rs.outside)}(첫 회차 전)`));
-    if (est != null) strip.appendChild(el('p', 'pf-note', '남은 한도 ÷ 남은 회차 · 방법·종목을 고르면 종목별로 나뉨'));
+    // 띠 아래 안내 문장(회차 외 매수·어림값 설명)도 뺐다(사용자 결정 2026-11-10)
   };
   money.after(strip);
 
