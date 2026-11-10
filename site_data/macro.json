@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T04:12:29Z",
+  "generatedAt": "2026-11-10T17:10:58Z",
   "priceSession": "2026-11-09",
   "indicators": {
     "sp500": {
@@ -26,7 +26,7 @@
     "fedTarget": {
       "lower": 3.75,
       "upper": 4.0,
-      "asOf": "2026-11-09",
+      "asOf": "2026-11-10",
       "status": "fresh",
       "source": "FRED API DFEDTARL/DFEDTARU"
     },
@@ -39,8 +39,9 @@
     "cpiYoy": {
       "value": 3.7,
       "asOf": "2026-09",
-      "status": "fresh",
-      "source": "FRED API CPIAUCSL, YoY computed"
+      "status": "stale",
+      "source": "FRED API CPIAUCSL, YoY computed",
+      "statusReason": "fetch-failed: no CPI observation for 2025-10"
     }
   },
   "nextFomc": {
@@ -136,10 +137,6 @@
       ]
     ],
     "vix": [
-      [
-        "2026-10-09",
-        14.84
-      ],
       [
         "2026-10-12",
         15.21
@@ -313,7 +310,7 @@
     ],
     "fedTarget": [
       [
-        "2024-11-09",
+        "2024-11-10",
         4.5,
         4.75
       ],
