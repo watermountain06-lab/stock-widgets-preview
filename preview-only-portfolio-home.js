@@ -841,7 +841,7 @@ function tickName(t) {
 }
 let doTab = 'buy';   // 다음 할 일 탭(매수|매도) — 페이지를 열 때마다 매수, 다시 그릴 때는 유지(sessionStorage 안 씀, 사용자 결정 '항상 매수')
 let demoPicks = [];   // 시연 달 체크(저장하지 않음, 이 탭에서만)
-try { buyMethod = sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }
+try { buyMethod = localStorage.getItem('pf-buy-method') || sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }   // 고른 방법은 새 탭·새로고침에도 유지(2026-11-10)
 if (!BUY_METHODS.some(([k]) => k === buyMethod)) buyMethod = null;
 
 // 다음 할 일 카드 안의 "무엇을·얼마나"(2026-10-22 사용자 결정, 디자인 캔버스 최종안, dr r1 반영): 돈(쓸 돈 = 넣은 돈 + 지난달 판 돈, − 이번 달 산 돈 = 남은 돈, 더 넣을 돈),
@@ -944,9 +944,13 @@ function buyBox(args) {
     if (!dates || !dates.length) return;
     // 방법·종목을 고르기 전에는 남은 한도 ÷ 남은 회차를 '약'으로 보인다(사용자 요청 2026-10-25)
     const nLeft = preview ? dates.length : next ? dates.filter((d) => d >= next).length : 0;
-    const est = pending && week == null && nLeft && R > 0 ? Math.floor((R * 100) / nLeft) / 100 : null;   // 고르기 전일 때만 — 고른 종목을 지금 못 사거나 후보가 없으면 띄우지 않는다(cr)
+    // 어림값도 회차 안에서 고정(2026-11-10): 이번 회차에 산 돈을 되돌려 놓고 나눈다 — 예전에는 산 뒤 남은 한도를 다시 나눠 2·3·4회가 함께 줄었다
+    const mbl = monthBuyList(model.trades, month, today);
+    const doneNow = !preview && next ? Math.round(mbl.filter((x) => x.date >= next).reduce((a, x) => a + x.amount, 0) * 100) / 100 : 0;
+    const est = pending && week == null && nLeft && R + doneNow > 0 ? Math.floor(((R + doneNow) * 100) / nLeft) / 100 : null;   // 고르기 전일 때만 — 고른 종목을 지금 못 사거나 후보가 없으면 띄우지 않는다(cr)
     const each = week ?? est;
-    const rs = roundStrip(dates, preview ? null : next, monthBuyList(model.trades, month, today), each);
+    const leftNow = weekLeft ?? (est != null ? Math.max(0, Math.round((est - doneNow) * 100) / 100) : null);   // 이번 회차에 더 살 돈
+    const rs = roundStrip(dates, preview ? null : next, mbl, each);
     if (preview) rs.rounds = rs.rounds.map((r, i) => (r.amount > 0 ? r : { ...r, state: i === 0 ? 'first' : 'plan', amount: each }));   // 점검 전: 모두 예정(첫 회차만 표시)
     strip.appendChild(el('div', 'pf-k', `${mLabel} ${dates.length}회 매수`));
     const row = el('div', 'pf-striprow');
@@ -954,10 +958,10 @@ function buyBox(args) {
     rs.rounds.forEach((r, i) => {
       const c = el('div', 'pf-stripcell pf-strip-' + r.state);
       c.appendChild(el('span', 'pf-s', `${i + 1}회 · ${md(r.date)}`));
-      const nowLeft = r.state === 'now' && weekLeft != null && r.amount != null && est == null;   // 이번 회차: 남은 금액을 크게, 고정 몫은 아래에
-      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.amount == null ? '—' : nowLeft ? usd(weekLeft) : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
+      const nowLeft = r.state === 'now' && leftNow != null && r.amount != null;   // 이번 회차: 남은 금액을 크게, 고정 몫은 아래에
+      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.amount == null ? '—' : nowLeft ? (est != null ? '약 ' : '') + usd(leftNow) : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
       if (r.state === 'first') c.classList.add('pf-strip-now');
-      c.appendChild(el('span', 'pf-s', nowLeft ? (weekLeft > 0 ? '이번 주 남음' : '이번 주 다 샀음') + ` · 몫 ${usd(r.amount)}` + (r.done > 0 ? ` 중 ${usd(r.done)} 삼` : '')
+      c.appendChild(el('span', 'pf-s', nowLeft ? (leftNow > 0 ? '이번 주 남음' : '이번 주 다 샀음') + ` · 몫 ${usd(r.amount)}` + (r.done > 0 ? ` 중 ${usd(r.done)} 삼` : '')
         : TXT[r.state] + (r.state === 'now' && r.done > 0 ? ` · 오늘까지 ${usd(r.done)} 삼` : '')));
       row.appendChild(c);
     });
@@ -1018,7 +1022,7 @@ function buyBox(args) {
     const btn = el('button', null, t); btn.type = 'button'; btn.setAttribute('aria-pressed', String(k === method)); btn.disabled = pickSaving;
     btn.addEventListener('click', () => {
       buyMethod = k === method ? null : k;
-      try { if (buyMethod) sessionStorage.setItem('pf-buy-method', buyMethod); else sessionStorage.removeItem('pf-buy-method'); } catch (_) { /* 메모리 값으로 */ }
+      try { if (buyMethod) localStorage.setItem('pf-buy-method', buyMethod); else localStorage.removeItem('pf-buy-method'); } catch (_) { /* 메모리 값으로 */ }
       const typed = amt.value; const nb = buyBox(args); box.replaceWith(nb);
       const ni = nb.querySelector('.pf-receiptadd input'); if (ni) ni.value = typed;   // 적던 입금액은 그대로
     });
@@ -1029,7 +1033,10 @@ function buyBox(args) {
   // 3) 내 기준대로 구매 후보
   // 점검일 뒤 판정이 바뀌어 지금 살 단계가 아닌 후보(예: 적정)는 숨긴다(사용자 결정 2026-11-03). 판정이 돌아오면 다시 보이고,
   // 이번 달 이미 산 종목과 회차가 끝난 달은 그대로 둔다. 숨긴 종목의 체크는 저장할 때 지우지 않는다
-  const shownCands = [...byCap(base, model.caps || {}), ...promoted].filter((t) => !mv.next || nowBuyable(t) || bought.has(t));
+  // 순서(2026-11-10 사용자 지적): 원칙 순서 — 고른 기록에서 판정이 싼 순서 → 카드 점수 순. 예전에는 시총 순이라 저평가 종목이 아래로 갔다
+  const ordRec = (model.records || []).find((r) => r.session === (plan.pickRecord || plan.record));
+  const ordered = ordRec ? pickTop(base, ordRec, { max: Infinity, rankMax: Infinity }) : [];
+  const shownCands = [...ordered, ...byCap(base.filter((t) => !ordered.includes(t)), model.caps || {}), ...promoted].filter((t) => !mv.next || nowBuyable(t) || bought.has(t));
   const hiddenN = cands.length - shownCands.length;
   const hiddenPicked = picked.filter((t) => !shownCands.includes(t));
   const lh = el('div', 'pf-buysechead');
@@ -1149,7 +1156,7 @@ function previewSection(args, box, month, budget) {
     const btn = el('button', null, t); btn.type = 'button'; btn.setAttribute('aria-pressed', String(k === method)); btn.disabled = pickSaving;
     btn.addEventListener('click', () => {
       buyMethod = k === method ? null : k;
-      try { if (buyMethod) sessionStorage.setItem('pf-buy-method', buyMethod); else sessionStorage.removeItem('pf-buy-method'); } catch (_) { /* 메모리 값으로 */ }
+      try { if (buyMethod) localStorage.setItem('pf-buy-method', buyMethod); else localStorage.removeItem('pf-buy-method'); } catch (_) { /* 메모리 값으로 */ }
       const typed = box.querySelector('.pf-receiptadd input')?.value || ''; const nb = buyBox(args); box.replaceWith(nb);
       const ni = nb.querySelector('.pf-receiptadd input'); if (ni) ni.value = typed;
     });
