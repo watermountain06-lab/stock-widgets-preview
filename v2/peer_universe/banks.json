@@ -1,14 +1,14 @@
 {
- "asOf": "2026-11-09",
+ "asOf": "2026-11-10",
  "subIndustries": [
   "Diversified Banks",
   "Regional Banks"
  ],
  "tickers": {
   "BAC": {
-   "ptbv": 1.7416,
+   "ptbv": 1.7461,
    "ptbv_end": "2026-09-30",
-   "per": 11.6475,
+   "per": 11.6774,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockIncludingAdditionalPaidInCapital·bac:PreferredStockRedeemableAndNonRedeemableValue",
@@ -17,9 +17,9 @@
    }
   },
   "C": {
-   "ptbv": 1.2146,
+   "ptbv": 1.2176,
    "ptbv_end": "2026-06-30",
-   "per": 13.1433,
+   "per": 13.1756,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockValue",
@@ -27,21 +27,10 @@
     "shares": "Issued−Treasury"
    }
   },
-  "CFG": {
-   "ptbv": 1.8741,
-   "ptbv_end": "2026-09-30",
-   "per": 14.1522,
-   "tags": {
-    "equity": "StockholdersEquity",
-    "preferred": "7판 표: us-gaap:PreferredStockValue",
-    "intangibles": "Finite+Indefinite",
-    "shares": "Issued−Treasury"
-   }
-  },
   "FITB": {
-   "ptbv": 2.4736,
+   "ptbv": 2.4659,
    "ptbv_end": "2026-09-30",
-   "per": 18.6164,
+   "per": 18.5582,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockValue",
@@ -50,9 +39,9 @@
    }
   },
   "HBAN": {
-   "ptbv": 1.6913,
+   "ptbv": 1.6828,
    "ptbv_end": "2026-09-30",
-   "per": 12.2462,
+   "per": 12.1846,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockValue",
@@ -61,9 +50,9 @@
    }
   },
   "JPM": {
-   "ptbv": 3.0706,
+   "ptbv": 3.0705,
    "ptbv_end": "2026-09-30",
-   "per": 14.6501,
+   "per": 14.6497,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockLiquidationPreferenceValue·us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount",
@@ -72,9 +61,9 @@
    }
   },
   "KEY": {
-   "ptbv": 1.7401,
+   "ptbv": 1.7344,
    "ptbv_end": "2026-09-30",
-   "per": 12.4477,
+   "per": 12.407,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockValue",
@@ -83,9 +72,9 @@
    }
   },
   "MTB": {
-   "ptbv": 1.924,
+   "ptbv": 1.9057,
    "ptbv_end": "2026-09-30",
-   "per": 11.7909,
+   "per": 11.6787,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockValue",
@@ -106,9 +95,9 @@
    "ia_note": "무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모: 규제자본 차감 무형자산 $666M(2026-06, TCE 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(약 1.7%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단)."
   },
   "RF": {
-   "ptbv": 2.317,
+   "ptbv": 2.2986,
    "ptbv_end": "2026-09-30",
-   "per": 11.7602,
+   "per": 11.6667,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockValueOutstanding",
@@ -117,9 +106,9 @@
    }
   },
   "TFC": {
-   "ptbv": 1.5929,
+   "ptbv": 1.5906,
    "ptbv_end": "2026-09-30",
-   "per": 11.5172,
+   "per": 11.5011,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount",
@@ -128,9 +117,9 @@
    }
   },
   "USB": {
-   "ptbv": 2.1345,
+   "ptbv": 2.1275,
    "ptbv_end": "2026-09-30",
-   "per": 12.1657,
+   "per": 12.1257,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockIncludingAdditionalPaidInCapitalNetOfDiscount",
@@ -142,9 +131,9 @@
    ]
   },
   "WFC": {
-   "ptbv": 1.9193,
+   "ptbv": 1.9254,
    "ptbv_end": "2026-09-30",
-   "per": 12.444,
+   "per": 12.4833,
    "tags": {
     "equity": "StockholdersEquity",
     "preferred": "7판 표: us-gaap:PreferredStockValue",
@@ -153,5 +142,7 @@
    }
   }
  },
- "skipped": {}
+ "skipped": {
+  "CFG": "기준일 종가 없음"
+ }
 }

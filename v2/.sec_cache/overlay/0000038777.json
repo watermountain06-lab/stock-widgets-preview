@@ -240,6 +240,16 @@
     "filed": "2026-07-31",
     "unit": "USD",
     "src": "dim:us-gaap:CashAndCashEquivalentsAtCarryingValue|dei:LegalEntityAxis=ben:FranklinResourcesInc.Member"
+   },
+   {
+    "end": "2026-09-30",
+    "val": 3227800000.0,
+    "accn": "0000038777-26-000289",
+    "fp": "FY",
+    "form": "10-K",
+    "filed": "2026-11-09",
+    "unit": "USD",
+    "src": "dim:us-gaap:CashAndCashEquivalentsAtCarryingValue|dei:LegalEntityAxis=ben:FranklinResourcesInc.Member"
    }
   ],
   "TemporaryEquityMinorityInterestsBen": [
@@ -490,6 +500,16 @@
     "fp": "Q",
     "form": "10-Q",
     "filed": "2026-07-31",
+    "unit": "USD",
+    "src": "dim:us-gaap:TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests|us-gaap:StatementEquityComponentsAxis=ben:MinorityInterestsMember"
+   },
+   {
+    "end": "2026-09-30",
+    "val": 1114800000.0,
+    "accn": "0000038777-26-000289",
+    "fp": "FY",
+    "form": "10-K",
+    "filed": "2026-11-09",
     "unit": "USD",
     "src": "dim:us-gaap:TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests|us-gaap:StatementEquityComponentsAxis=ben:MinorityInterestsMember"
    }
