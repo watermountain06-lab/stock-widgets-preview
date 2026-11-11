@@ -27,6 +27,17 @@
     "shares": "Issued−Treasury"
    }
   },
+  "CFG": {
+   "ptbv": 1.866,
+   "ptbv_end": "2026-09-30",
+   "per": 14.0913,
+   "tags": {
+    "equity": "StockholdersEquity",
+    "preferred": "7판 표: us-gaap:PreferredStockValue",
+    "intangibles": "Finite+Indefinite",
+    "shares": "Issued−Treasury"
+   }
+  },
   "FITB": {
    "ptbv": 2.4659,
    "ptbv_end": "2026-09-30",
@@ -142,7 +153,5 @@
    }
   }
  },
- "skipped": {
-  "CFG": "기준일 종가 없음"
- }
+ "skipped": {}
 }
