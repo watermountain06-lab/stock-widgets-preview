@@ -100,45 +100,13 @@ ANALYST_ASOF = '2026-11-08'
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──
 AUTO = True
 SEG_MAP = {
+ # 손익계산서의 매출 줄 그대로(SEG_TITLE도 "매출 종류별(GAAP)") — 합이 매출과 0.1백만 달러 안에서 맞는다.
+ # 예전에는 성과보수를 "나머지"(매출 − 다른 줄)로 두고 비중이 손 표 때의 0.5~2배를 벗어나면 멈췄는데,
+ # 성과보수는 미실현이 음수가 되면 분기마다 몇 배로 흔들린다 — 2026 3분기에 실현 832 + 미실현 −627 = 205로
+ # 비중이 38.7%에서 7.5%로 떨어져 지도가 멀쩡한데도 카드가 멈췄다. 그래서 실현·미실현 두 줄을 직접 더한다.
+ # 인센티브·자기자본도 부문(분배가능이익) 태그에서 손익계산서 태그로 옮겼다 — 부문 태그는 매출과 10~25백만 달러
+ # 어긋나 fill.py의 1.5백만 달러 검사를 넘지 못한다. 2026 2분기로 맞춰 보면 예전 카드 값과 같다(2026-11-12).
  "parts": [
-  {
-   "concepts": [
-    "bx:FeeRelatedPerformanceRevenues"
-   ],
-   "axis": "us-gaap:StatementBusinessSegmentsAxis",
-   "extra": {
-    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
-   },
-   "members": {
-    "bx:CreditAndInsuranceMember": [
-     "인센티브 수수료",
-     "#a78bfa"
-    ]
-   }
-  },
-  {
-   "concepts": [
-    "bx:PerformanceRevenueRealized"
-   ],
-   "axis": "us-gaap:StatementBusinessSegmentsAxis",
-   "extra": {
-    "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
-   },
-   "members": {
-    "bx:PrivateEquitySegmentMember": [
-     "자기자본 투자 이익",
-     "#f59e0b"
-    ],
-    "bx:CreditAndInsuranceMember": [
-     "자기자본 투자 이익",
-     "#f59e0b"
-    ],
-    "bx:MultiAssetsInvestingMember": [
-     "자기자본 투자 이익",
-     "#f59e0b"
-    ]
-   }
-  },
   {
    "concepts": [
     "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
@@ -149,6 +117,10 @@ SEG_MAP = {
     "us-gaap:InvestmentAdviceMember": [
      "운용·자문 수수료",
      "#0072c6"
+    ],
+    "us-gaap:InvestmentPerformanceMember": [
+     "인센티브 수수료",
+     "#a78bfa"
     ]
    }
   },
@@ -157,16 +129,27 @@ SEG_MAP = {
    "axis": None,
    "extra": {},
    "members": {
+    "bx:PerformanceAllocationsRealized": [
+     "성과보수(성과 배분)",
+     "#22c55e"
+    ],
+    "bx:PerformanceAllocationsUnrealized": [
+     "성과보수(성과 배분)",
+     "#22c55e"
+    ],
+    "bx:PrincipalInvestmentsRealized": [
+     "자기자본 투자 이익",
+     "#f59e0b"
+    ],
+    "bx:PrincipalInvestmentsUnrealized": [
+     "자기자본 투자 이익",
+     "#f59e0b"
+    ],
     "us-gaap:InvestmentIncomeInterestAndDividend": [
      "이자·배당",
      "#5aa9e6"
     ]
    }
   }
- ],
- "remainder": [
-  "성과보수(성과 배분)",
-  "#22c55e",
-  0.387
  ]
 }
