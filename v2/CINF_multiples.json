@@ -1,25 +1,25 @@
 {
  "ticker": "CINF",
  "window": [
-  "2021-11-10",
-  "2026-11-10"
+  "2021-11-11",
+  "2026-11-11"
  ],
  "multiples": {
   "PER": {
    "days": 1133,
-   "current": 11.14,
+   "current": 11.13,
    "min": 6.59,
    "p10": 7.55,
    "median": 10.08,
    "p90": 29.94,
    "max": 1774.0,
    "mean": 102.86,
-   "percentile": 64.5,
-   "score": 35.5
+   "percentile": 64.4,
+   "score": 35.6
   },
   "PSR": {
    "days": 1255,
-   "current": 2.2,
+   "current": 2.19,
    "min": 1.57,
    "p10": 1.74,
    "median": 2.04,
@@ -38,30 +38,30 @@
    "p90": 1.73,
    "max": 2.13,
    "mean": 1.61,
-   "percentile": 95.8,
-   "score": 4.2
+   "percentile": 95.6,
+   "score": 4.4
   },
   "PCR": {
    "days": 1255,
-   "current": 9.47,
+   "current": 9.46,
    "min": 7.05,
    "p10": 7.61,
    "median": 8.75,
-   "p90": 10.17,
+   "p90": 10.16,
    "max": 12.04,
    "mean": 8.8,
-   "percentile": 81.9,
-   "score": 18.1
+   "percentile": 81.8,
+   "score": 18.2
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 8.67,
-  "per_p75": 11.96,
+  "per_p75": 11.82,
   "low": 150,
   "high": 200,
-  "asOf": "2026-11-10",
+  "asOf": "2026-11-11",
   "basis": "diluted"
  }
 }

@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-08-01', '2025-08-02', '2026-05-02'
 QLABEL, YL, QQL = 'Q2 FY27', 'Q2 FY26', 'Q1 FY27'
 L8 = ['Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26', 'Q1 FY27', 'Q2 FY27']
 RELEASE = {'rev': 15180, 'op': 1987, 'ni': 1520, 'ocf': 2226, 'cap': 497}   # 영업이익 = 세전 2,018 − 순이자수익 31, 현금흐름은 상반기 − 1분기
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (1, 0, -2), '적정~고평가'
 CO = 'TJX'
 S_ = 'https://www.sec.gov/Archives/edgar/data/109198/'
 SEC = S_

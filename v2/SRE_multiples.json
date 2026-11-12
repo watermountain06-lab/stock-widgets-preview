@@ -1,33 +1,33 @@
 {
  "ticker": "SRE",
  "window": [
-  "2021-11-10",
-  "2026-11-10"
+  "2021-11-11",
+  "2026-11-11"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 16.78,
+   "current": 16.75,
    "min": 13.86,
    "p10": 16.47,
    "median": 21.97,
    "p90": 42.08,
    "max": 54.31,
-   "mean": 25.39,
-   "percentile": 15.0,
-   "score": 85.0
+   "mean": 25.38,
+   "percentile": 14.4,
+   "score": 85.6
   },
   "PSR": {
    "days": 1255,
-   "current": 3.77,
+   "current": 3.76,
    "min": 2.42,
    "p10": 2.68,
-   "median": 3.63,
+   "median": 3.64,
    "p90": 4.42,
    "max": 4.76,
    "mean": 3.61,
-   "percentile": 57.5,
-   "score": 42.5
+   "percentile": 57.1,
+   "score": 42.9
   },
   "PBR": {
    "days": 1255,
@@ -38,18 +38,18 @@
    "p90": 1.95,
    "max": 2.1,
    "mean": 1.75,
-   "percentile": 5.7,
-   "score": 94.3
+   "percentile": 5.1,
+   "score": 94.9
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 24.94,
+  "per_p25": 24.92,
   "per_p75": 31.52,
   "low": 120,
   "high": 150,
-  "asOf": "2026-11-10",
+  "asOf": "2026-11-11",
   "basis": "diluted"
  }
 }
