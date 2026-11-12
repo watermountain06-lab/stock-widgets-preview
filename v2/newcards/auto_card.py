@@ -323,8 +323,11 @@ def apply(C, T):
         orig = getattr(C, "_SEG_ADJ_HAND", 0)
         near_ref = orig and resid * orig > 0 and 0.5 * abs(orig) <= abs(resid) <= 1.5 * abs(orig)
         rem = getattr(C, "SEG_MAP", {}).get("remainder")
-        if not rem and abs(resid) > 0.03 * _rev[C.CUR] / 1e6 and not near_ref:   # 나머지 줄이 있으면 그 검사(비중)를 아래에서
-            raise SystemExit(f"{T}: 부문 합이 매출과 {resid:,.0f}백만 달러 다르다 — SEG_MAP 확인")
+        # 한도는 카드마다 올릴 수 있다(cfg SEG_RESID_PCT) — 조정 줄이 분기마다 부호까지 바뀌는 카드는 3%로는 1년에 한 번 멈춘다
+        # (BX 기타 매출: 최근 11분기 −225 ~ +156, 매출의 6.1%까지. 멈춰도 카드는 이전 분기로 돌아가 갱신을 이어 가지만 매일 메일이 왔다, 2026-11-12)
+        _lim = getattr(C, "SEG_RESID_PCT", 0.03)
+        if not rem and abs(resid) > _lim * _rev[C.CUR] / 1e6 and not near_ref:   # 나머지 줄이 있으면 그 검사(비중)를 아래에서
+            raise SystemExit(f"{T}: 부문 합이 매출과 {resid:,.0f}백만 달러 다르다(한도 매출의 {_lim:.0%}) — SEG_MAP 확인")
         if rem:   # 손 표의 "기타" 줄 = 매출 − 나머지 부문(AMAT·HD·META 등) — 비중이 손 표 때의 절반~2배를 벗어나면 멈춘다
             share = resid / (_rev[C.CUR] / 1e6)
             if resid < 0 or not (0.5 * rem[2] <= share <= 2 * rem[2] or abs(resid) < 0.005 * _rev[C.CUR] / 1e6):

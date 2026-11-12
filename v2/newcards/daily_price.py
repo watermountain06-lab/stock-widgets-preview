@@ -16,13 +16,16 @@
     python3 v2/newcards/daily_price.py                 # 전부
     python3 v2/newcards/daily_price.py KO GILD JPM     # 일부
     python3 v2/newcards/daily_price.py --weekly        # 토요일: 비교군 파일·애널리스트를 새로 받고 → 103장 → 비교군 어긋남 점검 → 새 분기 보고서 점검
-결과: v2/daily_status.json(카드별 상태·마지막 봉·판정 전후) — 종료 코드 0 = 실패 없음, 1 = 실패 있음.
+결과: v2/daily_status.json(카드별 상태·마지막 봉·판정 전후) — 종료 코드 0 = 처음 보는 문제 없음, 1 = 처음 보는 문제 있음(메일).
+같은 원인으로 매일 메일이 오지 않게 아는 문제 원장(v2/known_problems.json)을 쓴다 — alert_new 주석 참고(2026-11-12).
 
 AUTO 카드·은행의 새 10-Q·10-K는 auto_approve가 스스로 승인하고 그 카드를 --weekly로 다시 만든다(2026-10-10). 손 카드와 자동 반영이
 멈춘 카드만 `newFilings`에 "확인 대기"로 남는다 (2026-10-13 고침).
 """
+import datetime as dt
 import json
 import os
+import re
 import shutil
 import signal
 import subprocess
@@ -347,8 +350,66 @@ PEER_SEC_FROM = "2026-10-16"   # 이 세션(금요일 종가) 뒤 토요일 실�
 
 WEEKLY_STATUS = os.path.join(V2, "weekly_status.json")
 WEEKLY_KEYS = ("session", "started", "finished", "newFilings", "filingChecksMissed", "peerDrift", "peerFiles", "peerFilesKept",
-               "peerSecRefresh", "analystFailed", "analystNoCoverage", "verdictChanges", "failed", "problems")
+               "peerSecRefresh", "analystFailed", "analystNoCoverage", "verdictChanges", "failed", "problems", "knownProblems")
 OUTSIDE_CAL = os.path.join(HERE, "outside_calendar.json")
+
+# 아는 문제 원장(2026-11-12) — 같은 원인으로 메일이 매일 오던 것을 막는다.
+# 카드는 실패해도 attempt()가 이전 분기로 되돌려 그날 갱신을 끝까지 마치므로, 실패가 남아 있어도 사이트는 멀쩡하다.
+# 그런데 종료 코드가 1이면 워크플로가 실패로 끝나 (1) 메일이 오고 (2) Site UI data가 건너뛰어진다(홈·Tracking이 하루 묵는다).
+# 9/20~11/11 실측: 기록된 실행 71회 중 30회가 메일을 보냈고, 원인 52가지 가운데 51건이 이미 보고한 원인의 반복이었다(BX 6번·PLTR 6번).
+# 그래서 메일은 처음 보는 원인, 사흘 넘게 끊겼다 다시 생긴 원인, 안 고쳐진 채 REMIND_DAYS 지난 원인에만 보낸다.
+KNOWN = os.path.join(V2, "known_problems.json")
+REMIND_DAYS = 7    # 안 고쳐진 원인을 다시 알리는 간격
+REGAP_DAYS = 3     # 이만큼 끊겼다 다시 생기면 새 원인으로 본다(고쳐졌다가 돌아온 것)
+FORGET_DAYS = 14   # 이만큼 안 보이면 원장에서 지운다
+
+
+def _norm(s):
+    """날짜·숫자·줄번호를 지운 원인 서명 — 같은 원인이 날마다 다른 서명이 되지 않게(실패 기록에는 그날의 DCF 값이 섞여 있다)."""
+    return re.sub(r"[0-9][0-9.,:\-]*", "#", str(s))[:200]
+
+
+def _why(card):
+    """실패 기록에서 원인 줄과 서명 — 마지막 두 줄(오류 줄 + 실패한 스크립트)로 만든다."""
+    ls = [l.strip() for l in (card.get("why") or []) if l.strip()]
+    txt = next((l for l in reversed(ls) if not l.startswith("실패:")), ls[-1] if ls else "")
+    return txt[:200], _norm(" / ".join(ls[-2:]))
+
+
+def alert_new(status, today=None):
+    """메일로 알릴 원인만 돌려준다. 보류한 원인은 status["knownProblems"]에 남겨 요약·토요일 보고에 싣는다."""
+    today = today or dt.date.today().isoformat()
+    cur = {}
+    for T in status.get("failed") or []:
+        txt, sig = _why(status.get("cards", {}).get(T, {}))
+        cur["fail:" + T + ":" + sig] = f"{T} 실패 — {txt}"
+    for p in status.get("problems") or []:
+        cur["prob:" + _norm(p)] = str(p)[:200]
+    led = {}
+    if os.path.exists(KNOWN):
+        try:
+            led = json.load(open(KNOWN))
+        except Exception as e:   # 원장이 깨졌으면 새로 시작한다 — 알림이 한 번 더 오는 쪽으로 틀린다
+            print(f"아는 문제 원장을 읽지 못했다({e}) — 새로 만든다")
+    days = lambda a: (dt.date.fromisoformat(today) - dt.date.fromisoformat(a)).days
+    fresh, known = [], []
+    for sig, txt in sorted(cur.items()):
+        e = led.get(sig)
+        if not e or days(e.get("last", today)) >= REGAP_DAYS:
+            led[sig] = {"text": txt, "first": today, "last": today, "alerted": today}
+            fresh.append(txt + ("" if not e else f" (전에 본 날 {e.get('first')}~{e.get('last')})"))
+        elif days(e.get("alerted", today)) >= REMIND_DAYS:
+            led[sig] = {**e, "text": txt, "last": today, "alerted": today}
+            fresh.append(f"{txt} (처음 본 날 {e.get('first')} — 아직 안 고쳐졌다)")
+        else:
+            led[sig] = {**e, "text": txt, "last": today}
+            known.append(f"{txt} (처음 본 날 {e.get('first')})")
+    for sig in [s for s, e in led.items() if s not in cur and days(e.get("last", today)) >= FORGET_DAYS]:
+        del led[sig]
+    if led or os.path.exists(KNOWN):
+        json.dump(led, open(KNOWN, "w", encoding="utf-8"), ensure_ascii=False, indent=1, sort_keys=True)
+    status["knownProblems"] = known
+    return fresh
 
 
 def outside_due():
@@ -659,6 +720,7 @@ def main():
     status["finished"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
     status["verdictChanges"] = changes
     status["failed"] = [T for T, v in status["cards"].items() if v["status"] == "failed"]
+    fresh = alert_new(status)   # 처음 보는 원인만 메일로 — 아는 원인은 요약·토요일 보고에만(2026-11-12)
     if weekly:   # 토요일 결과는 따로 남긴다 — daily_status.json은 매일 덮이므로 새 공시 대기 목록이 다음 날 사라졌다(Codex 2026-10-08)
         json.dump({k: status.get(k) for k in WEEKLY_KEYS}, open(WEEKLY_STATUS, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     elif os.path.exists(WEEKLY_STATUS):   # 매일 결과에도 지난 토요일의 대기 목록을 싣는다(어느 토요일 점검인지와 함께)
@@ -671,7 +733,11 @@ def main():
         print("  ", c)
     for p in status["problems"]:
         print("문제:", p)
-    sys.exit(1 if status["failed"] or status["problems"] else 0)
+    for p in status["knownProblems"]:
+        print("아는 문제(메일 보류):", p)
+    for p in fresh:
+        print("새 문제(메일):", p)
+    sys.exit(1 if fresh else 0)
 
 
 if __name__ == "__main__":

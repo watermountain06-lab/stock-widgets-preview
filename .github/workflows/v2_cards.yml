@@ -176,6 +176,7 @@ jobs:
           if [ -f v2/weekly_status.json ]; then git add v2/weekly_status.json; fi
           if [ -f v2/news_auto.json ]; then git add v2/news_auto.json; fi
           git add v2/sec_approved.json v2/fundamental_data v2/*_activity.json v2/*_dcf_track.json 2>/dev/null || true   # 자동 반영한 공시 날짜·새 분기 재무(2026-10-10)
+          git add v2/known_problems.json 2>/dev/null || true   # 아는 문제 원장 — 커밋되지 않으면 매 실행이 전부 "처음 보는 원인"이 되어 메일이 그대로 온다(2026-11-12)
           git add v2/.sec_cache/overlay   # 이 실행이 원문에서 보충한 행(adapters/ixbrl_supplement 등) — 저장소가 기준이라 캐시에만 두면 다음 실행의 복구 단계가 지운다. 디렉터리 단위라 이 실행이 새로 만든 종목 파일도 들어간다(2026-10-29)
           git add v2/adapters/asml_manifest.json v2/adapters/tsm_manifest.json v2/adapters/skhy_manifest.json 2>/dev/null || true   # 6-K 자동 카드가 받은 재무제표 목록(2026-10-11) — 원문·재무는 캐시라 이 목록으로 다시 만든다
           if git diff --cached --quiet; then
@@ -344,6 +345,7 @@ jobs:
           print("판정·표 변경:", d.get("verdictChanges"))
           print("새 분기 보고서(확인 대기):", d.get("newFilings"))
           print("문제:", d.get("problems"))
+          print("아는 문제(메일 보류):", d.get("knownProblems"))
           ' 2>/dev/null || true
             # 토요일 결과는 weekly_status.json에만 있다 — 커밋 단계가 먼저 죽으면 알림 단계가 건너뛰어져 애널리스트
             # 문제가 하루 늦게 드러났다(2026-11-07 L). 요약에는 늘 적는다(2026-11-08)
