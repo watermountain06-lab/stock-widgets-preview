@@ -2,34 +2,29 @@
  "etf": "DIA",
  "name": "SPDR Dow Jones Industrial Average ETF Trust",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-11-10 ≠ 허용 ['2026-11-11'] (P=2026-11-11, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
    "detail": "승인 목록에 없는 판정 코드 해시 26장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX"
   }
  ],
- "detail": "보유 파일 기준일 2026-11-10 ≠ 허용 ['2026-11-11'] (P=2026-11-11, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 26장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX",
  "verdict": null,
  "nbar": null,
- "coverage": 0.9284244747556982,
+ "coverage": 0.928984644444041,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0,
-  "적정~저평가": 0.019218424669906843,
-  "적정": 0.028692792567843795,
-  "적정~고평가": 0.35786057301379914,
-  "고평가": 0.5226526845041484,
-  "카드 없음": 0.02596974356639217,
-  "판정 보류": 0.04560578167790954,
+  "적정~저평가": 0.019673891367538533,
+  "적정": 0.029027852818030858,
+  "적정~고평가": 0.35489725496221264,
+  "고평가": 0.525385645296259,
+  "카드 없음": 0.025778878128706512,
+  "판정 보류": 0.04523647742725248,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
@@ -40,7 +35,7 @@
    "lines": [
     "GS"
    ],
-   "weight": 0.10357285717788427,
+   "weight": 0.10495573648660456,
    "card": "GS",
    "verdict": "고평가",
    "n": -3.0,
@@ -52,7 +47,7 @@
    "lines": [
     "CAT"
    ],
-   "weight": 0.06651971952277039,
+   "weight": 0.06812875915305662,
    "card": "CAT",
    "verdict": "고평가",
    "n": -3.0,
@@ -64,7 +59,7 @@
    "lines": [
     "MSFT"
    ],
-   "weight": 0.060669648642873907,
+   "weight": 0.059014318250741195,
    "card": "MSFT",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -76,7 +71,7 @@
    "lines": [
     "AMGN"
    ],
-   "weight": 0.052939721814545364,
+   "weight": 0.053010682118052196,
    "card": "AMGN",
    "verdict": "고평가",
    "n": -3.0,
@@ -88,7 +83,7 @@
    "lines": [
     "V"
    ],
-   "weight": 0.048134259984357886,
+   "weight": 0.04819100787440441,
    "card": "V",
    "verdict": "고평가",
    "n": -4.0,
@@ -100,7 +95,7 @@
    "lines": [
     "UNH"
    ],
-   "weight": 0.04609964417441308,
+   "weight": 0.045630560936447385,
    "card": "UNH",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -112,7 +107,7 @@
    "lines": [
     "TRV"
    ],
-   "weight": 0.04560578167790954,
+   "weight": 0.04523647742725248,
    "card": "TRV",
    "verdict": "판정 보류",
    "n": null,
@@ -126,8 +121,20 @@
    "lines": [
     "SHW"
    ],
-   "weight": 0.040435046943858015,
+   "weight": 0.0402877104851994,
    "card": "SHW",
+   "verdict": "고평가",
+   "n": -3.0,
+   "excluded": []
+  },
+  {
+   "company": "AAPL",
+   "name": "APPLE INC",
+   "lines": [
+    "AAPL"
+   ],
+   "weight": 0.04024241445039187,
+   "card": "AAPL",
    "verdict": "고평가",
    "n": -3.0,
    "excluded": []
@@ -138,22 +145,10 @@
    "lines": [
     "HD"
    ],
-   "weight": 0.03994119445510548,
+   "weight": 0.03978376958005171,
    "card": "HD",
    "verdict": "적정~고평가",
    "n": -2.0,
-   "excluded": []
-  },
-  {
-   "company": "AAPL",
-   "name": "APPLE INC",
-   "lines": [
-    "AAPL"
-   ],
-   "weight": 0.039657845000953235,
-   "card": "AAPL",
-   "verdict": "고평가",
-   "n": -3.0,
    "excluded": []
   }
  ],
@@ -377,7 +372,7 @@
    "excluded": []
   }
  ],
- "S": "2026-11-10",
+ "S": "2026-11-11",
  "builtFor": "2026-11-11",
  "expense": {
   "pct": 0.16,
@@ -388,10 +383,10 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-12T05:25:41Z",
- "fetchedAt": "2026-11-12T05:25:41Z",
+ "runAt": "2026-11-12T15:28:38Z",
+ "fetchedAt": "2026-11-12T15:28:39Z",
  "inputHash": {
-  "xlsx": "f37856ae7980c768c62cbf979b8d90fcc687a18a77723eb4b23689bf93360f28",
+  "xlsx": "e5f7df9c2e5bab9973535a5b8cedc1b54fd0cff7b395ad3eea2977f444e1e38a",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -400,16 +395,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
    "code_sig"
   ],
-  "S": "2026-11-10"
+  "S": "2026-11-11"
  },
- "runId": "43161273499.1",
+ "runId": "43248118567.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",
