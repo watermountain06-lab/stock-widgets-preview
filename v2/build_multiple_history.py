@@ -109,6 +109,7 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     "0000040533": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # COHR: 합산 태그 DepreciationAndAmortization는 FY2026 10-K 연간만 — 감가상각 + 무형자산 상각. 상각은 FY27 1분기부터 OtherAmortizationOfDeferredCharges로만 실려(Q1 $69.5M) 같은 줄의 두 이름으로 잇는다 — 현금흐름표 정밀값(FY26 $280.334M 대 $280.000M)이라 앞에 둔다(Codex r1, 2026-11-13)
                     "0000820318": ["Depreciation", ("OtherAmortizationOfDeferredCharges", "AmortizationOfIntangibleAssets")],
+                    "0001110803": ["Depreciation", "AmortizationOfIntangibleAssets"],   # ILMN: 합산 태그 DepreciationDepletionAndAmortization는 2025-12에 멈춤 — 감가상각 + 무형자산 상각(Q3 2026 9개월 154 + 57)(2026-11-13)   # ROP: 합산 태그 DepreciationDepletionAndAmortization는 연간만 — 감가상각 + 무형자산 상각(Q3 2026 분기 D&A $235.7M, 엔진 EBITDA $858.9M ≈ 회사 조정 $864M, Codex r1 2026-11-13)
                     "0000882835": ["Depreciation", "AmortizationOfIntangibleAssets"],   # ROP: 합산 태그 DepreciationDepletionAndAmortization는 연간만 — 감가상각 + 무형자산 상각(Q3 2026 분기 D&A $235.7M, 엔진 EBITDA $858.9M ≈ 회사 조정 $864M, Codex r1 2026-11-13)
                     # HII: 합산 태그는 분기 행이 2024년부터 — 감가상각 + 무형자산 상각(FY20~25 연간 합 일치, 2026-10-25)
                     "0001501585": ["Depreciation", "AmortizationOfIntangibleAssets"],
@@ -1396,6 +1397,7 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0000008818": ("DepreciationDepletionAndAmortization",),   # AVY — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000882835": ("DepreciationDepletionAndAmortization",),   # ROP — 합산 태그는 연간만이라 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
                 "0000820318": ("DepreciationAndAmortization",),   # COHR — 합산 태그는 연간만이라 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
+                "0001110803": ("DepreciationDepletionAndAmortization",),   # ILMN — 합산 태그가 2025-12에 멈춰 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
                 "0000004904": ("DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "PaymentsToAcquireProductiveAssets"),   # AEP — 감가상각은 구성요소 경로, 발전소 인수는 설비투자에서 뺌(2026-10-28)   # AEP — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-28)
                 "0000040533": ("DepreciationAndAmortization",),   # GD — 합산 태그가 2019~2023 분기에 없다 → 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0001501585": ("DepreciationDepletionAndAmortization", "PaymentsToAcquireProductiveAssets"),   # HII — 구성요소 경로로(DDA_PARTS_BY_CIK), 설비투자는 PP&E 태그만(ProductiveAssets가 Q3 2025에 섞여 TTM $429M — 원문 $432M, Codex r1, 2026-10-25)
@@ -2162,6 +2164,7 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
                   "0001474735": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # GNRC: 단기 $53.1M + 1년 안 만기(금융리스 포함) $36.7M + 장기(금융리스 포함) $1,243.7M = $1,333.6M(금융리스 $91.0M 포함 — EV에 금융리스가 들어간다). 기본은 텀론 원금에 1년 안 만기를 다시 더해 $1,268.7M(Codex r1, 2026-11-08)
                   "0000092380": [("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # LUV: 1년 안 $2,153M + 장기 $3,734M(금융리스 포함) — 기본은 1년 안 몫이 빠졌다(2026-11-09)
                   "0001001250": ["NotesAndLoansPayableCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EL: 1년 안 차입(어음·만기 도래분) $503M + 장기 $6,748M(Q1 FY27 10-Q) — 기본 태그는 2012·2019에 멈췄다(2026-11-09)
+                  "0001110803": [("NotesPayableCurrent", "LongTermDebtCurrent"), ("LongTermNotesPayable", "LongTermDebtNoncurrent")],   # ILMN: 1년 안 차입 $0 + 장기 채권 $1,789M(Q3 2026 10-Q) — 기본 태그는 2022-04에 멈춰 차입금이 비었다(옛 이름은 튜플 뒤, 2026-11-13)
                   "0001637459": [("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # KHC: 1년 안 $918M + 장기 $17,085M(금융리스 포함) — 기본은 1년 안 몫이 빠졌다, 단기차입 태그는 2024-09에 멈춤(2026-11-08)
                   "0000040704": ["ShortTermBorrowings", ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # GIS: 단기 $201.6M + 1년 안 $1,046.8M + 장기 $12,367.2M = $13,615.6M — 기본은 1년 안 몫이 빠졌다(2026-11-08)
                   "0000051434": ["DebtCurrent", ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # IP: 1년 안 차입 $2,203M + 장기 $7,488M = $9,700M(DebtAndCapitalLeaseObligations와 같음) — 기본은 1년 안 몫이 빠졌다. 장기 태그는 2025-12 뒤 금융리스 포함 이름으로(2026-11-08)

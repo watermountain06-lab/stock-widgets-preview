@@ -4132,5 +4132,29 @@
     "#f0a35e"
    ]
   }
+ },
+ "ILMN": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "ilmn:ConsumablesMember": [
+    "소모품(시약)",
+    "#e08e0b"
+   ],
+   "us-gaap:ServiceMember": [
+    "서비스·기타",
+    "#5b7fa6"
+   ],
+   "ilmn:InstrumentsMember": [
+    "장비(시퀀서)",
+    "#b9c4cf"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:ProductMember"
+  ]
  }
 }
