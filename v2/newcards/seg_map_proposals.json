@@ -4047,5 +4047,22 @@
    "us-gaap:ServiceMember",
    "axon:SoftwareAndServicesMember"
   ]
+ },
+ "RVTY": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "revv:LifeSciencesMember": [
+    "생명과학(실험 장비·시약·소프트웨어)",
+    "#2f6f8f"
+   ],
+   "revv:DiagnosticsMember": [
+    "진단(면역·신생아·감염병)",
+    "#8fc7cc"
+   ]
+  }
  }
 }
