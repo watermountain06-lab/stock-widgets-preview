@@ -4087,5 +4087,33 @@
     "#a8b3bf"
    ]
   }
+ },
+ "FANG": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "fang:OilExplorationandProductionMember": [
+    "원유",
+    "#3b3b38"
+   ],
+   "fang:NaturalGasLiquidsProductionMember": [
+    "천연가스액(NGL)",
+    "#8c7b6b"
+   ],
+   "us-gaap:NaturalGasProductionMember": [
+    "천연가스",
+    "#b5a999"
+   ],
+   "fang:OilPurchasedMember": [
+    "구매 원유 판매",
+    "#d97a6c"
+   ]
+  },
+  "ignore_candidates": [
+   "fang:OilNaturalGasAndNaturalGasLiquidMember"
+  ]
  }
 }

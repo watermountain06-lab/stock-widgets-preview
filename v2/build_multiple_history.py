@@ -984,6 +984,8 @@ EXTRA_TAGS = {
     # VZ: 설비투자가 2019-09 뒤 PaymentsToAcquireOtherProductiveAssets(분기 약 $4B, "Capital expenditures (including capitalized
     # software)")로 옮겨 가 기본 목록이 2019년 값에 멈췄다 — PCR 계산 불가(2026-10-01).
     "0000732712": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets"]},
+    # FANG: 설비투자 = "Additions to oil and natural gas properties"(PaymentsToExploreAndDevelopOilAndGasProperties, 2026년 9개월 $2,955M) — 기본 태그가 없어 PCR이 비었다. 매장지 인수(Property acquisitions, $1,909M)는 넣지 않는다(2026-11-13).
+    "0001539838": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToExploreAndDevelopOilAndGasProperties"]},
     # HOOD: 현금흐름표 "Purchases of property, software, and equipment"(상반기 2026 $21M)를 PaymentsToAcquireOtherProductiveAssets로 낸다 —
     # 기본 목록의 PaymentsToAcquireProductiveAssets는 2023-09에 멈췄다(2026-10-21). 자본화 소프트웨어(PaymentsToDevelopSoftware)는 넣지 않는다(공통 안건 E30①).
     "0001783879": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets"]},

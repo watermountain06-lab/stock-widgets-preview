@@ -93,6 +93,7 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    "0000354190": {"capex": ["PaymentsForCapitalImprovements"]},
                    # TRGP: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet)만 분기로 낸다 — InterestExpense는 2014년에 멈춤(2026-10-22, WM 선례)
                    "0001389170": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
+                   "0001539838": {"capex": ["PaymentsToExploreAndDevelopOilAndGasProperties"], "interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},   # FANG: 설비투자는 유정 개발 지출(Q3 2026 누계 $2,955M — 매장지 인수 제외), 이자는 순이자(Q3 −$55M; InterestExpense는 2025 연간에 멈춤)(2026-11-13)
                    # PKG: 이자 후보 중 InterestExpenseOther($9.3M)는 "Other expense, net" 표의 기타 영업비용 — 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q3 2026 $32.3M)을 쓴다(Codex, 2026-11-07, LOW·TRGP 선례)
                    "0000075677": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},
                    # SYY: InventoryNet·InterestExpense가 몇 년 전에 멈춰(재고 $2,047M·이자 $30.5M) 당좌비율·이자보상배율이 틀렸다 — 재고 InventoryFinishedGoodsNetOfReserves(Q1 FY27 $5,455M), 이자 손익계산서 InterestIncomeExpenseNonoperatingNet($261M)(Codex·Fable, 2026-11-07)
