@@ -8,22 +8,22 @@
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 346장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
+   "detail": "승인 목록에 없는 판정 코드 해시 348장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
   }
  ],
- "detail": "승인 목록에 없는 판정 코드 해시 346장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
+ "detail": "승인 목록에 없는 판정 코드 해시 348장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
  "verdict": null,
  "nbar": null,
- "coverage": 0.8802847363845429,
+ "coverage": 0.8812927834891546,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0025496407502353653,
   "적정~저평가": 0.09245346449543951,
   "적정": 0.030538425318778935,
-  "적정~고평가": 0.35714169207227375,
-  "고평가": 0.3976015137478149,
-  "카드 없음": 0.07794200187090738,
+  "적정~고평가": 0.35766603677281716,
+  "고평가": 0.3980852161518833,
+  "카드 없음": 0.07693395476629553,
   "판정 보류": 0.0417732617445498,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
@@ -157,8 +157,8 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 358,
-  "cardsUsed": 304,
+  "cardsMatched": 360,
+  "cardsUsed": 306,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
@@ -222,6 +222,13 @@
    "card": "ADI",
    "verdict": "고평가",
    "n": -3.0,
+   "date": "2026-11-12",
+   "excluded": []
+  },
+  {
+   "card": "ADM",
+   "verdict": "적정~고평가",
+   "n": -1.0,
    "date": "2026-11-12",
    "excluded": []
   },
@@ -1421,6 +1428,13 @@
    "card": "IEX",
    "verdict": "적정~고평가",
    "n": -2.0,
+   "date": "2026-11-12",
+   "excluded": []
+  },
+  {
+   "card": "ILMN",
+   "verdict": "고평가",
+   "n": -3.0,
    "date": "2026-11-12",
    "excluded": []
   },
@@ -2793,8 +2807,8 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-13T17:22:59Z",
- "fetchedAt": "2026-11-13T17:22:59Z",
+ "runAt": "2026-11-13T20:45:10Z",
+ "fetchedAt": "2026-11-13T20:45:10Z",
  "inputHash": {
   "xlsx": "ed54e8453c6fd9f6efdda93394e2e569adfb5303b03884a45006a5b7f4175c10",
   "alias": "cd884e524b4f6045",
@@ -2809,7 +2823,7 @@
   ],
   "S": "2026-11-12"
  },
- "runId": "43472192221.1",
+ "runId": "43504376200.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
@@ -2886,6 +2900,7 @@
     "ACN",
     "ADBE",
     "ADI",
+    "ADM",
     "ADP",
     "ADSK",
     "AEE",
@@ -3018,6 +3033,7 @@
     "ICE",
     "IDXX",
     "IEX",
+    "ILMN",
     "INTC",
     "INTU",
     "IQV",
