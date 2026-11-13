@@ -2,34 +2,29 @@
  "etf": "QQQ",
  "name": "Invesco QQQ Trust, Series 1",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-11-11 ≠ 허용 ['2026-11-12'] (P=2026-11-12, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 74장: AAPL, ADBE, ADI, ADP, ADSK, AEP, AMAT, AMD"
+   "detail": "승인 목록에 없는 판정 코드 해시 76장: AAPL, ADBE, ADI, ADP, ADSK, AEP, AMAT, AMD"
   }
  ],
- "detail": "보유 파일 기준일 2026-11-11 ≠ 허용 ['2026-11-12'] (P=2026-11-12, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 76장: AAPL, ADBE, ADI, ADP, ADSK, AEP, AMAT, AMD",
  "verdict": null,
  "nbar": null,
- "coverage": 0.9031950475216985,
+ "coverage": 0.904414759852614,
  "range": null,
  "edgeNear": false,
  "bar": {
-  "저평가": 0.006528898934970136,
-  "적정~저평가": 0.1336495604069356,
-  "적정": 0.019713115254063527,
-  "적정~고평가": 0.28796327899610247,
-  "고평가": 0.45534019392962677,
-  "카드 없음": 0.06872107697220943,
-  "판정 보류": 0.02808387550609195,
+  "저평가": 0.006519352293614406,
+  "적정~저평가": 0.13010379086167112,
+  "적정": 0.019346875101597116,
+  "적정~고평가": 0.2894244932443565,
+  "고평가": 0.45902024835137495,
+  "카드 없음": 0.06296984941161661,
+  "판정 보류": 0.032615390735769335,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
@@ -40,7 +35,7 @@
    "lines": [
     "AAPL"
    ],
-   "weight": 0.08446401992920445,
+   "weight": 0.08459701698951154,
    "card": "AAPL",
    "verdict": "고평가",
    "n": -3.0,
@@ -52,7 +47,7 @@
    "lines": [
     "NVDA"
    ],
-   "weight": 0.06813770120059065,
+   "weight": 0.06537135231677078,
    "card": "NVDA",
    "verdict": "적정~저평가",
    "n": 2.0,
@@ -64,7 +59,7 @@
    "lines": [
     "MSFT"
    ],
-   "weight": 0.06297355462658172,
+   "weight": 0.06338520195538402,
    "card": "MSFT",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -77,7 +72,7 @@
     "GOOGL",
     "GOOG"
    ],
-   "weight": 0.05416195234955929,
+   "weight": 0.05524909965049691,
    "card": "GOOGL",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -89,22 +84,10 @@
    "lines": [
     "AMZN"
    ],
-   "weight": 0.046723104995760247,
+   "weight": 0.047083501005089054,
    "card": "AMZN",
    "verdict": "적정~고평가",
    "n": -2.0,
-   "excluded": []
-  },
-  {
-   "company": "MU",
-   "name": "Micron Technology Inc",
-   "lines": [
-    "MU"
-   ],
-   "weight": 0.041165871361545925,
-   "card": "MU",
-   "verdict": "적정~저평가",
-   "n": 1.0,
    "excluded": []
   },
   {
@@ -113,10 +96,22 @@
    "lines": [
     "AMD"
    ],
-   "weight": 0.040548982982506275,
+   "weight": 0.04305089553994699,
    "card": "AMD",
    "verdict": "고평가",
    "n": -4.0,
+   "excluded": []
+  },
+  {
+   "company": "MU",
+   "name": "Micron Technology Inc",
+   "lines": [
+    "MU"
+   ],
+   "weight": 0.040632015334010646,
+   "card": "MU",
+   "verdict": "적정~저평가",
+   "n": 1.0,
    "excluded": []
   },
   {
@@ -125,7 +120,7 @@
    "lines": [
     "TSLA"
    ],
-   "weight": 0.03341166896971528,
+   "weight": 0.034076195748091995,
    "card": "TSLA",
    "verdict": "고평가",
    "n": -4.0,
@@ -137,22 +132,22 @@
    "lines": [
     "META"
    ],
-   "weight": 0.03042578178372846,
+   "weight": 0.03026447730972221,
    "card": "META",
    "verdict": "적정~고평가",
    "n": -1.0,
    "excluded": []
   },
   {
-   "company": "WMT",
-   "name": "Walmart Inc",
+   "company": "AVGO",
+   "name": "Broadcom Inc",
    "lines": [
-    "WMT"
+    "AVGO"
    ],
-   "weight": 0.0274571116246862,
-   "card": "WMT",
+   "weight": 0.02829208856866669,
+   "card": "AVGO",
    "verdict": "고평가",
-   "n": -4.0,
+   "n": -3.0,
    "excluded": []
   }
  ],
@@ -160,13 +155,13 @@
   "lines": 106,
   "nonEquity": 5,
   "companies": 100,
-  "cardsMatched": 75,
+  "cardsMatched": 77,
   "cardsUsed": 73,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
    "날짜 불일치": 0,
-   "판정 보류": 2
+   "판정 보류": 4
   }
  },
  "cards": [
@@ -346,6 +341,15 @@
    "n": -1.0,
    "date": "2026-11-12",
    "excluded": []
+  },
+  {
+   "card": "FANG",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-12",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "FAST",
@@ -586,6 +590,15 @@
    "excluded": []
   },
   {
+   "card": "ROP",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-12",
+   "excluded": [
+    "판정 보류"
+   ]
+  },
+  {
    "card": "ROST",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -700,7 +713,7 @@
    "excluded": []
   }
  ],
- "S": "2026-11-11",
+ "S": "2026-11-12",
  "builtFor": "2026-11-12",
  "expense": {
   "pct": 0.18,
@@ -711,10 +724,10 @@
  "inputFormat": "invesco_json",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-13T04:53:21Z",
- "fetchedAt": "2026-11-13T04:53:22Z",
+ "runAt": "2026-11-13T17:23:02Z",
+ "fetchedAt": "2026-11-13T17:23:02Z",
  "inputHash": {
-  "json": "425d36279197656184ab75a97f09415eca3708f484fdaf808a8af07d846c57ad",
+  "json": "659633d9a3c253ec977820582781978742ba2e82abd550c56f7c5f16de729fb0",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -723,16 +736,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
    "code_sig"
   ],
-  "S": "2026-11-11"
+  "S": "2026-11-12"
  },
- "runId": "43368353811.1",
+ "runId": "43472192221.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",
@@ -743,7 +755,9 @@
  "checkDetail": {
   "code_sig": {
    "0d6635e381f7": [
-    "AXON"
+    "AXON",
+    "FANG",
+    "ROP"
    ],
    "9bc4a13021b1": [
     "AAPL",
