@@ -4156,5 +4156,28 @@
   "ignore_candidates": [
    "us-gaap:ProductMember"
   ]
+ },
+ "ADM": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "adm:AgServicesandOilseedsMember": [
+    "농업 서비스·유지(곡물 유통·대두 압착·정제)",
+    "#2b6e3f"
+   ],
+   "adm:CarbohydrateSolutionsMember": [
+    "탄수화물(전분·감미료·에탄올)",
+    "#8fbf6a"
+   ],
+   "adm:NutritionMember": [
+    "영양(식품·사료 원료)",
+    "#c9a227"
+   ]
+  }
  }
 }

@@ -1115,6 +1115,13 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                  # − 기타 수익(OtherOperatingIncomeExpenseNet, $27.2M — 이익이 양수). 사업 매각 이익·손상·구조조정은 영업 안에 둔다(IP 방식, 2026-11-13).
                  "0000820318": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpenseOperating", "InterestExpense"], -1), (["OtherOperatingIncomeExpenseNet"], 1, True)]),
+                 # ADM: OperatingIncomeLoss 태그가 없다 — 손익계산서는 매출총이익 − 판관비 − 손상·구조조정 − 지분법 이익 − 이자·투자 수익 + 이자비용 + 기타 = 세전이익.
+                 # 영업이익 = 세전 + 이자비용 − 이자·투자 수익 − 기타 영업외(Q3 2026: 997 + 165 − 99 + 29 = 1,092 = 매출총이익 1,886 − 판관비 946 − 손상 5 + 지분법 이익 157).
+                 # 지분법 이익(Wilmar 지분 등, 연 약 $0.4~0.5B)은 영업에 둔다 — 회사 부문 영업이익도 포함하고, 빼면 그 투자자산 가치가 DCF 어디에도 들어가지 않아 기본 이익률이 1.2%로 내려가 내재가치가 0 이하였다(2026-11-13).
+                 # 이자·투자 수익 태그는 시기마다 이름이 달라(2019~2022 InvestmentIncomeNonoperating, ~2025-03 InvestmentIncomeInterestAndDividend, 2023-12~ InvestmentIncomeNet) 셋을 잇는다. 선택 항목(없으면 0)이라 원래 공시에 태그가 없는 2024년 분기는 이자수익 $120~140M만큼 영업이익이 크게 나온다(Codex r1) — 필수로 두면 옛 분기가 빠져 5년 이력이 사라져 DCF가 멈춘다. 같은 공시 안 태그만 쓰는 합성 방식의 한계(2026-11-13)
+                 "0000007084": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestExpense"], -1), (["InvestmentIncomeNet", "InvestmentIncomeInterestAndDividend", "InvestmentIncomeNonoperating"], 1, True),
+                                 (["OtherNonoperatingIncomeExpense"], 1, True)]),
                  # BALL: OperatingIncomeLoss 태그가 2024-03에 멈췄다 — 영업이익 = 세전이익 + 부채 이자비용(InterestExpenseDebt)(MTD 방식, 2026-10-25).
                  "0000009389": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                                 [(["InterestExpenseDebt"], -1)]),
@@ -2164,6 +2171,7 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
                   "0001474735": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # GNRC: 단기 $53.1M + 1년 안 만기(금융리스 포함) $36.7M + 장기(금융리스 포함) $1,243.7M = $1,333.6M(금융리스 $91.0M 포함 — EV에 금융리스가 들어간다). 기본은 텀론 원금에 1년 안 만기를 다시 더해 $1,268.7M(Codex r1, 2026-11-08)
                   "0000092380": [("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # LUV: 1년 안 $2,153M + 장기 $3,734M(금융리스 포함) — 기본은 1년 안 몫이 빠졌다(2026-11-09)
                   "0001001250": ["NotesAndLoansPayableCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EL: 1년 안 차입(어음·만기 도래분) $503M + 장기 $6,748M(Q1 FY27 10-Q) — 기본 태그는 2012·2019에 멈췄다(2026-11-09)
+                  "0000007084": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # ADM: 단기차입 $1,156M(CP $690M + 기타 $466M) + 1년 안 장기 $153M + 장기 $7,429M = $8,738M — 기본 합산은 OtherShortTermBorrowings $466M를 한 번 더 더했다(Codex r1, 2026-11-13)
                   "0001110803": [("NotesPayableCurrent", "LongTermDebtCurrent"), ("LongTermNotesPayable", "LongTermDebtNoncurrent")],   # ILMN: 1년 안 차입 $0 + 장기 채권 $1,789M(Q3 2026 10-Q) — 기본 태그는 2022-04에 멈춰 차입금이 비었다(옛 이름은 튜플 뒤, 2026-11-13)
                   "0001637459": [("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # KHC: 1년 안 $918M + 장기 $17,085M(금융리스 포함) — 기본은 1년 안 몫이 빠졌다, 단기차입 태그는 2024-09에 멈춤(2026-11-08)
                   "0000040704": ["ShortTermBorrowings", ("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # GIS: 단기 $201.6M + 1년 안 $1,046.8M + 장기 $12,367.2M = $13,615.6M — 기본은 1년 안 몫이 빠졌다(2026-11-08)

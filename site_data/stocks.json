@@ -15314,6 +15314,47 @@
         "valuationAsOf": "2026-11-12",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "ADM",
+      "name": "아처 대니얼스 미들랜드",
+      "sector": "곡물 가공·유통 — 대두·옥수수 압착·정제, 곡물 거래, 식품 원료",
+      "href": "ADM_full_widget.html",
+      "cardRank": 365,
+      "cardAsOf": "2026-11-12",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 70.97,
+        "prevClose": 70.92,
+        "session": "2026-11-12",
+        "prevSession": "2026-11-11",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 475919192,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-03",
+        "filing": "10-Q 0000007084-26-000057 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 36.3,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-12",
+        "qualityFlags": []
+      }
     }
   ]
 }
