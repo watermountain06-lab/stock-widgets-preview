@@ -107,6 +107,8 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     "0000004904": ["UtilitiesOperatingExpenseDepreciationAndAmortization"],
                     # GD: 합산 태그 DepreciationAndAmortization이 2019~2023 분기에 없어 EV/EBITDA 이력이 251일뿐이었다 — 감가상각 + 무형자산 상각. 금융리스 사용권 상각은 연간 태그뿐이라 빠져 회사 합계보다 7~11% 작다(FY21~25, Fable r1 2026-10-25)
                     "0000040533": ["Depreciation", "AmortizationOfIntangibleAssets"],
+                    # COHR: 합산 태그 DepreciationAndAmortization는 FY2026 10-K 연간만 — 감가상각 + 무형자산 상각. 상각은 FY27 1분기부터 OtherAmortizationOfDeferredCharges로만 실려(Q1 $69.5M) 같은 줄의 두 이름으로 잇는다 — 현금흐름표 정밀값(FY26 $280.334M 대 $280.000M)이라 앞에 둔다(Codex r1, 2026-11-13)
+                    "0000820318": ["Depreciation", ("OtherAmortizationOfDeferredCharges", "AmortizationOfIntangibleAssets")],
                     "0000882835": ["Depreciation", "AmortizationOfIntangibleAssets"],   # ROP: 합산 태그 DepreciationDepletionAndAmortization는 연간만 — 감가상각 + 무형자산 상각(Q3 2026 분기 D&A $235.7M, 엔진 EBITDA $858.9M ≈ 회사 조정 $864M, Codex r1 2026-11-13)
                     # HII: 합산 태그는 분기 행이 2024년부터 — 감가상각 + 무형자산 상각(FY20~25 연간 합 일치, 2026-10-25)
                     "0001501585": ["Depreciation", "AmortizationOfIntangibleAssets"],
@@ -1108,6 +1110,10 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                  # 영업권 손상·구조조정·비영업 연금은 세전 안에 그대로 둔다(2026-11-08).
                  "0000051434": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                                 [(["InterestIncomeExpenseNet"], 1)]),
+                 # COHR: OperatingIncomeLoss 태그가 2024-06에 멈췄다 — 손익계산서가 이자비용·기타 수익·사업 매각 이익·자산 손상을 비용 합계 안에 둔다. 영업이익 = 세전이익 + 이자비용(InterestExpenseOperating, Q1 FY27 $46.3M; 옛 이름 InterestExpense)
+                 # − 기타 수익(OtherOperatingIncomeExpenseNet, $27.2M — 이익이 양수). 사업 매각 이익·손상·구조조정은 영업 안에 둔다(IP 방식, 2026-11-13).
+                 "0000820318": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestExpenseOperating", "InterestExpense"], -1), (["OtherOperatingIncomeExpenseNet"], 1, True)]),
                  # BALL: OperatingIncomeLoss 태그가 2024-03에 멈췄다 — 영업이익 = 세전이익 + 부채 이자비용(InterestExpenseDebt)(MTD 방식, 2026-10-25).
                  "0000009389": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"],
                                 [(["InterestExpenseDebt"], -1)]),
@@ -1389,6 +1395,7 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0001336920": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # LDOS — 총매출(Revenues, Q2 FY26 $4,558M)로 통일: 고객 계약 매출($4,548M)과 섞여 YoY·TTM 정의가 달랐다(Codex r1, 2026-10-25)
                 "0000008818": ("DepreciationDepletionAndAmortization",),   # AVY — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000882835": ("DepreciationDepletionAndAmortization",),   # ROP — 합산 태그는 연간만이라 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
+                "0000820318": ("DepreciationAndAmortization",),   # COHR — 합산 태그는 연간만이라 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
                 "0000004904": ("DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "PaymentsToAcquireProductiveAssets"),   # AEP — 감가상각은 구성요소 경로, 발전소 인수는 설비투자에서 뺌(2026-10-28)   # AEP — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-28)
                 "0000040533": ("DepreciationAndAmortization",),   # GD — 합산 태그가 2019~2023 분기에 없다 → 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0001501585": ("DepreciationDepletionAndAmortization", "PaymentsToAcquireProductiveAssets"),   # HII — 구성요소 경로로(DDA_PARTS_BY_CIK), 설비투자는 PP&E 태그만(ProductiveAssets가 Q3 2025에 섞여 TTM $429M — 원문 $432M, Codex r1, 2026-10-25)
@@ -2522,6 +2529,7 @@ EV_TAGS_BY_CIK = {"0001001250": {"cash": ["CashCashEquivalentsRestrictedCashAndR
                   "0001637459": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # KHC: 비지배지분 $102M + 상환 가능 $13M(2026-11-08)
                   "0001792044": {"sti": []},   # VTRS: 단기투자 태그가 연간(2025-12, $41M)만이라 EV에서 뺐다(2026-11-08)
                   "0000051434": {"nci": []},   # IP: 비지배지분 태그가 2021-12(값 0)에 멈춤(2026-11-08)
+                  "0000820318": {"preferred": ["TemporaryEquityCarryingAmountAttributableToParent", "PreferredStockValue"]},   # COHR: Series B 우선주는 임시자본 태그(2025-09 $2.505B) — 2025년 10~12월 보통주로 전환돼 2025-12부터 0(Codex r2, 2026-11-13)
                   "0001100682": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # CRL: 비지배지분 $5.1M + 상환 가능 $43.2M(임시자본)(Codex r1, 2026-11-08)
                   "0001000228": {"nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"], "sti": []},   # HSIC: 비지배지분 $658M + 상환 가능 $914M(임시자본, UHS·DVA와 같은 처리), 단기투자는 2010년 낡은 값(2026-11-07)
                   "0000352915": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # UHS: 비지배지분 $71.0M + 상환 가능 $74.2M(임시자본, DVA와 같은 처리 — Codex r1, 2026-11-07)

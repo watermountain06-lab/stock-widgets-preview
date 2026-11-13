@@ -4115,5 +4115,22 @@
   "ignore_candidates": [
    "fang:OilNaturalGasAndNaturalGasLiquidMember"
   ]
+ },
+ "COHR": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "iivi:DatacenterAndCommunicationsSegmentMember": [
+    "데이터센터·통신(광 트랜시버·레이저)",
+    "#1f5aa6"
+   ],
+   "iivi:IndustrialSegmentMember": [
+    "산업(레이저·소재)",
+    "#f0a35e"
+   ]
+  }
  }
 }
