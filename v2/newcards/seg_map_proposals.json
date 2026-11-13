@@ -4064,5 +4064,28 @@
     "#8fc7cc"
    ]
   }
+ },
+ "ROP": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "rop:ApplicationSoftwareSegmentMember": [
+    "응용 소프트웨어(정부·보험·의료·건설)",
+    "#1f4e8c"
+   ],
+   "rop:NetworkSoftwareSegmentMember": [
+    "네트워크 소프트웨어(운송·식품 공급망 등)",
+    "#7fa7d8"
+   ],
+   "rop:TechnologyEnabledProductsSegmentMember": [
+    "기술 기반 제품(계측·의료 장비)",
+    "#a8b3bf"
+   ]
+  }
  }
 }

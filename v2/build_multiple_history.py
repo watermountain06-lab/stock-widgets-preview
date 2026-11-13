@@ -107,6 +107,7 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     "0000004904": ["UtilitiesOperatingExpenseDepreciationAndAmortization"],
                     # GD: 합산 태그 DepreciationAndAmortization이 2019~2023 분기에 없어 EV/EBITDA 이력이 251일뿐이었다 — 감가상각 + 무형자산 상각. 금융리스 사용권 상각은 연간 태그뿐이라 빠져 회사 합계보다 7~11% 작다(FY21~25, Fable r1 2026-10-25)
                     "0000040533": ["Depreciation", "AmortizationOfIntangibleAssets"],
+                    "0000882835": ["Depreciation", "AmortizationOfIntangibleAssets"],   # ROP: 합산 태그 DepreciationDepletionAndAmortization는 연간만 — 감가상각 + 무형자산 상각(Q3 2026 분기 D&A $235.7M, 엔진 EBITDA $858.9M ≈ 회사 조정 $864M, Codex r1 2026-11-13)
                     # HII: 합산 태그는 분기 행이 2024년부터 — 감가상각 + 무형자산 상각(FY20~25 연간 합 일치, 2026-10-25)
                     "0001501585": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # AVY: 합산 태그는 분기 행이 2024년부터라 EV/EBITDA 이력이 249일뿐이었다 — 감가상각 + 무형자산 상각(5년 전 구간). 소프트웨어 상각(연 약 $30M, 합산의 약 9%)은 표준 태그가 없어 빠진다(2026-10-25)
@@ -966,6 +967,7 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000004904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForConstructionInProcess"]},
                    # MSCI: 설비투자 = 유형자산(PaymentsToAcquirePropertyPlantAndEquipment) + 자본화 소프트웨어(PaymentsForSoftware) — D&A에 소프트웨어 상각이 들어가므로 맞춘다(TTM 약 $40M + $106M, 2026-10-23)
                    "0001408198": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsForSoftware"]},
+                   "0000882835": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets", "PaymentsToDevelopSoftware"]},   # ROP: 설비투자 = 유형자산(PaymentsToAcquireOtherProductiveAssets) + 자본화 소프트웨어(PaymentsToDevelopSoftware) — 기본 태그는 2019-09에 멈춰 PCR이 비었다(MSCI 방식, 2026-11-13). 합산 행이 2019년 1분기부터라 그 전 옛 태그 이력은 쓰지 않는다 — 5년 창(2021~)에는 영향 없음(Codex r1)
 # DAL: 설비투자 = 항공기(PaymentsForFlightEquipment) + 지상 설비·기타(PaymentsToAcquireOtherProductiveAssets) — 합계 태그는 2026년 1분기에 멈췄다(겹치는 기간 합 = 합계, FY2025 4,499, 2026-10-23)
                    "0000027904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForFlightEquipment", "PaymentsToAcquireOtherProductiveAssets"]},
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
@@ -1384,6 +1386,7 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0001579241": ("DepreciationDepletionAndAmortization",),   # ALLE — 합산 태그는 연간만이라 분기 DepreciationAmortizationAndAccretionNet과 섞여 4분기가 작아졌다 → 현금흐름 줄만(2026-10-25) [엔진수정대기]
                 "0001336920": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # LDOS — 총매출(Revenues, Q2 FY26 $4,558M)로 통일: 고객 계약 매출($4,548M)과 섞여 YoY·TTM 정의가 달랐다(Codex r1, 2026-10-25)
                 "0000008818": ("DepreciationDepletionAndAmortization",),   # AVY — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
+                "0000882835": ("DepreciationDepletionAndAmortization",),   # ROP — 합산 태그는 연간만이라 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
                 "0000004904": ("DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "PaymentsToAcquireProductiveAssets"),   # AEP — 감가상각은 구성요소 경로, 발전소 인수는 설비투자에서 뺌(2026-10-28)   # AEP — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-28)
                 "0000040533": ("DepreciationAndAmortization",),   # GD — 합산 태그가 2019~2023 분기에 없다 → 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0001501585": ("DepreciationDepletionAndAmortization", "PaymentsToAcquireProductiveAssets"),   # HII — 구성요소 경로로(DDA_PARTS_BY_CIK), 설비투자는 PP&E 태그만(ProductiveAssets가 Q3 2025에 섞여 TTM $429M — 원문 $432M, Codex r1, 2026-10-25)

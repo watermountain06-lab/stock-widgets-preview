@@ -109,6 +109,7 @@ CONCEPTS_BY_CIK = {"0000779152": {"interestExpense": ["InterestExpenseOperating"
                    # WM: 손익계산서 "Interest expense, net"(InterestIncomeExpenseNonoperatingNet, Q2 2026 −$233M)만 분기로 낸다 — InterestExpense는 2013년에 멈춤(2026-10-21)
                    "0000823768": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "inventory": ["Supplies"]},   # 재고 = "Parts and supplies"(Supplies)
                    "0001001250": {"totalEquity": ["StockholdersEquity"], "shortTermDebt": ["NotesAndLoansPayableCurrent"], "longTermDebt": ["LongTermDebtAndCapitalLeaseObligations"], "totalLiabilities": []},   # EL: 자본 $4,038M·1년 안 차입 $503M·장기 $6,748M — 기본 태그는 2012~2023에 멈춤. 총부채 태그는 2019에 멈춰 부채비율이 2019년 값(199%)이었다 — 비워서 자산 − 자본(15,925 = 6,255 + 9,670)으로(Codex r1, 2026-11-09)
+                   "0000882835": {"totalEquity": ["StockholdersEquity"], "capex": ["PaymentsToAcquireOtherProductiveAssets"]},   # ROP: 자본은 StockholdersEquity(기본 첫 태그는 2016에 멈춤), 설비투자는 유형자산분(자본화 소프트웨어는 따로 — 배수 엔진은 합산)(2026-11-13)
                    "0000092380": {"inventory": ["AirlineRelatedInventory"]},   # LUV: 재고 = 항공기 부품·소모품($997M, Q3 2026 10-Q) — 없으면 당좌비율에서 빠짐(Codex r1, 2026-11-09)
                    "0000352915": {"inventory": ["Supplies"]},   # UHS: 재고 = 병원 소모품 "Supplies"($235.6M, Q3 2026 10-Q) — 없으면 당좌비율 = 유동비율(Codex r1, 2026-11-07)
                    "0001091667": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"]},   # CHTR: 손익계산서 "Interest expense, net"(Q3 2026 −$1,341M) — InterestExpense는 2015-03에 멈춤(2026-11-07)
