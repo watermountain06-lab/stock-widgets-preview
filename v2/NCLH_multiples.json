@@ -2,44 +2,44 @@
  "ticker": "NCLH",
  "window": [
   "2024-02-28",
-  "2026-11-11"
+  "2026-11-12"
  ],
  "multiples": {
   "PER": {
-   "days": 680,
-   "current": 10.4,
+   "days": 681,
+   "current": 9.98,
    "min": 8.33,
    "p10": 9.98,
    "median": 17.24,
-   "p90": 27.91,
+   "p90": 27.9,
    "max": 76.21,
-   "mean": 21.19,
-   "percentile": 13.8,
-   "score": 86.2
+   "mean": 21.18,
+   "percentile": 10.0,
+   "score": 90.0
   },
   "PSR": {
-   "days": 680,
-   "current": 0.85,
+   "days": 681,
+   "current": 0.82,
    "min": 0.64,
    "p10": 0.75,
    "median": 0.93,
    "p90": 1.21,
    "max": 1.37,
    "mean": 0.96,
-   "percentile": 27.8,
-   "score": 72.2
+   "percentile": 19.2,
+   "score": 80.8
   },
   "PBR": {
-   "days": 680,
-   "current": 2.74,
+   "days": 681,
+   "current": 2.63,
    "min": 2.52,
-   "p10": 3.11,
-   "median": 6.42,
-   "p90": 21.76,
+   "p10": 3.09,
+   "median": 6.4,
+   "p90": 21.75,
    "max": 30.2,
-   "mean": 9.23,
-   "percentile": 5.3,
-   "score": 94.7
+   "mean": 9.22,
+   "percentile": 2.8,
+   "score": 97.2
   },
   "PCR": {
    "days": 120,
@@ -55,26 +55,26 @@
    "currentNote": "negative"
   },
   "EV/EBITDA": {
-   "days": 680,
-   "current": 8.95,
+   "days": 681,
+   "current": 8.82,
    "min": 7.86,
    "p10": 8.37,
    "median": 9.64,
    "p90": 11.03,
    "max": 12.8,
    "mean": 9.69,
-   "percentile": 32.5,
-   "score": 67.5
+   "percentile": 27.0,
+   "score": 73.0
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 11.66,
+  "per_p25": 11.54,
   "per_p75": 17.5,
   "low": 20,
   "high": 30,
-  "asOf": "2026-11-11",
+  "asOf": "2026-11-12",
   "basis": "diluted"
  }
 }
