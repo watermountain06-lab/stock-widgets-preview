@@ -1,33 +1,33 @@
 {
  "ticker": "EIX",
  "window": [
-  "2021-11-12",
-  "2026-11-12"
+  "2021-11-15",
+  "2026-11-13"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 6.38,
+   "current": 6.4,
    "min": 5.31,
-   "p10": 7.22,
-   "median": 24.81,
+   "p10": 7.21,
+   "median": 24.73,
    "p90": 42.12,
    "max": 54.18,
-   "mean": 24.0,
-   "percentile": 6.7,
-   "score": 93.3
+   "mean": 23.98,
+   "percentile": 7.1,
+   "score": 92.9
   },
   "PSR": {
    "days": 1255,
-   "current": 1.24,
+   "current": 1.25,
    "min": 1.02,
    "p10": 1.2,
    "median": 1.52,
    "p90": 1.79,
    "max": 2.01,
    "mean": 1.5,
-   "percentile": 17.2,
-   "score": 82.8
+   "percentile": 18.2,
+   "score": 81.8
   },
   "PBR": {
    "days": 1255,
@@ -38,20 +38,20 @@
    "p90": 2.14,
    "max": 2.46,
    "mean": 1.78,
-   "percentile": 4.5,
-   "score": 95.5
+   "percentile": 4.9,
+   "score": 95.1
   },
   "EV/EBITDA": {
    "days": 1149,
-   "current": 7.17,
+   "current": 7.18,
    "min": 6.57,
-   "p10": 7.39,
+   "p10": 7.38,
    "median": 13.7,
    "p90": 15.31,
    "max": 16.5,
-   "mean": 11.83,
-   "percentile": 8.4,
-   "score": 91.6
+   "mean": 11.82,
+   "percentile": 8.5,
+   "score": 91.5
   }
  },
  "perBasis": "diluted",
@@ -61,7 +61,7 @@
   "per_p75": 7.85,
   "low": 60,
   "high": 70,
-  "asOf": "2026-11-12",
+  "asOf": "2026-11-13",
   "basis": "diluted"
  }
 }
