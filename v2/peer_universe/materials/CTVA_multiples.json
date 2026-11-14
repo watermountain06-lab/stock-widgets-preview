@@ -1,67 +1,61 @@
 {
  "ticker": "CTVA",
  "window": [
-  "2025-11-07",
-  "2026-11-06"
+  "2025-11-14",
+  "2026-11-13"
  ],
  "multiples": {
   "PER": {
-   "days": 251,
-   "current": 48.65,
+   "days": 249,
+   "current": null,
    "min": 26.18,
-   "p10": 27.25,
-   "median": 45.89,
-   "p90": 50.94,
+   "p10": 27.49,
+   "median": 46.12,
+   "p90": 50.98,
    "max": 59.08,
-   "mean": 42.3,
-   "percentile": 78.1,
-   "score": 21.9
+   "mean": 42.7,
+   "percentile": 100.0,
+   "score": 0.0,
+   "currentNote": "negative"
   },
   "PSR": {
    "days": 251,
-   "current": 2.97,
-   "min": 2.47,
-   "p10": 2.57,
-   "median": 2.98,
+   "current": 0.36,
+   "min": 0.35,
+   "p10": 2.59,
+   "median": 2.99,
    "p90": 3.24,
    "max": 3.61,
-   "mean": 2.96,
-   "percentile": 47.4,
-   "score": 52.6
+   "mean": 2.95,
+   "percentile": 0.4,
+   "score": 99.6
   },
   "PBR": {
    "days": 251,
-   "current": 2.1,
-   "min": 1.71,
-   "p10": 1.78,
+   "current": 0.26,
+   "min": 0.25,
+   "p10": 1.79,
    "median": 2.16,
    "p90": 2.35,
    "max": 2.55,
-   "mean": 2.12,
-   "percentile": 38.6,
-   "score": 61.4
+   "mean": 2.11,
+   "percentile": 0.4,
+   "score": 99.6
   },
   "PCR": {
-   "days": 251,
-   "current": 79.1,
+   "days": 249,
+   "current": null,
    "min": 16.13,
-   "p10": 16.79,
-   "median": 24.17,
-   "p90": 82.83,
+   "p10": 16.94,
+   "median": 24.59,
+   "p90": 82.89,
    "max": 96.05,
-   "mean": 37.68,
-   "percentile": 81.7,
-   "score": 18.3
+   "mean": 38.62,
+   "percentile": 100.0,
+   "score": 0.0,
+   "currentNote": "negative"
   }
  },
  "perBasis": "diluted",
- "perNA": null,
- "fairBand": {
-  "per_p25": 30.77,
-  "per_p75": 48.27,
-  "low": 10,
-  "high": 10,
-  "asOf": "2026-11-06",
-  "basis": "diluted"
- }
+ "perNA": null
 }

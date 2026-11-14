@@ -61,7 +61,7 @@ NEWS = [
      '계속사업 손실 $426M(공장 폐쇄 가속 감가상각 $675M) · GCF를 중단사업으로 분류 — 그날 주가 −12.7%', 'q3p', 'International Paper 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 11, 'nt': 8, 'mean': 43.5, 'median': 45, 'low': 35, 'high': 51, 'sb': 6, 'b': 4, 'h': 1, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-08'
+ANALYST_ASOF = '2026-11-14'
 
 # 파이프라인 자동 재판정용 — 일회성이 든 분기(결산일: 항목).
 ONEOFF_QUARTERS = {'2025-12-31': 'PS EMEA 영업권 손상 $2,467M(세후 $2,196M) · 구조조정 $162M',

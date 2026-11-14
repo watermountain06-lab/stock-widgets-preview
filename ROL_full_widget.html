@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="rolPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="rolPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="rolPeerScore">20.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="rolPeerScore">24.2<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="rolSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="rolSelfVerdict">싼 편</span></div>
@@ -902,9 +902,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.25 ~ 2.57(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">20.0</div><div class="sc-tile low" data-vc="peer" data-m="per">16</div><div class="sc-tile low" data-vc="peer" data-m="pbr">14</div><div class="sc-tile low" data-vc="peer" data-m="psr">27</div><div class="sc-tile low" data-vc="peer" data-m="pcr">29</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">15</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 산업재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">24.2</div><div class="sc-tile low" data-vc="peer" data-m="per">24</div><div class="sc-tile low" data-vc="peer" data-m="pbr">16</div><div class="sc-tile lost" data-vc="peer" data-m="psr">31</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">34</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">16</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 35.7배(3.7년 중앙값 52.2배)로 자기 이력 93.3점(싸다), 동종업 20.0점(비싸다)이다. <strong>현금흐름 내재가치(기본 $17.27)는 현재가의 44%다</strong>.</div>
+    <div class="vs-premise">PER 35.7배(3.7년 중앙값 52.2배)로 자기 이력 93.3점(싸다), 동종업 24.2점(비싸다)이다. <strong>현금흐름 내재가치(기본 $17.27)는 현재가의 44%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 −1 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $17.27)는 현재가의 44%다. 현재가를 정당화하려면 매출이 5년간 연 30.4% 커야 한다. 내재가치에서 차입금 $727M를 빼고 현금·단기투자 $129M를 더한다. 경기와 덜 연동되는 반복 서비스라 오래 높은 배수를 받아 왔는데, 주가가 2026년 2월 고점에서 절반 가까이 내렸다(성장 둔화). EPS 이력은 2022년부터만 쓴다(요약 자료에 2015~2021 분기 EPS가 거의 없다). 작은 해충 방제 회사를 해마다 여러 곳 인수해 성장률에 인수 효과가 섞인다. 매출은 주거·상업·흰개미 서비스로 나뉜다(보고 부문은 하나).</div>
   </div>
 
@@ -974,7 +974,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">반복 서비스 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 11/6 종가(ROL 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">반복 서비스 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1069,8 +1069,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 42.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 47.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 10.5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$37.17</span> <span class="op-sub op-down" data-an="upside">−4.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$37.50</span> <span class="op-sub op-down" data-an="upside">−3.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1274,63 +1274,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '반복 서비스 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 11/6 종가(ROL 막대는 11/13)',
+    title: '반복 서비스 6곳 PER 비교 (점수는 S&P500 산업재 기준) · 11/13 종가',
     unit: 'PER', max: 55, rolValue: null,
     peers: [
-      { name:'CTAS', value:43.9, status:'reference' },
-      { name:'RSG', value:34.1, status:'reference' },
-      { name:'WM', value:31.0, status:'reference' },
-      { name:'ADP', value:26.9, status:'reference' },
-      { name:'PAYX', value:23.2, status:'reference' },
-      { name:'CPRT', value:20.6, status:'reference' }
+      { name:'CTAS', value:44.6, status:'reference' },
+      { name:'RSG', value:35.8, status:'reference' },
+      { name:'WM', value:34.5, status:'reference' },
+      { name:'ADP', value:28.3, status:'reference' },
+      { name:'PAYX', value:22.9, status:'reference' },
+      { name:'CPRT', value:20.5, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 11/6 종가(ROL 막대는 11/13)',
+    title: 'PBR 비교 · 11/13 종가',
     unit: 'PBR', max: 30, rolValue: null,
     peers: [
-      { name:'CTAS', value:17.0, status:'reference' },
-      { name:'RSG', value:6.1, status:'reference' },
-      { name:'WM', value:9.5, status:'reference' },
-      { name:'ADP', value:23.5, status:'reference' },
-      { name:'PAYX', value:11.2, status:'reference' },
+      { name:'CTAS', value:17.3, status:'reference' },
+      { name:'RSG', value:6.3, status:'reference' },
+      { name:'WM', value:9.8, status:'reference' },
+      { name:'ADP', value:24.0, status:'reference' },
+      { name:'PAYX', value:11.1, status:'reference' },
       { name:'CPRT', value:3.2, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/6 종가(ROL 막대는 11/13)',
+    title: 'PSR 비교 · 11/13 종가',
     unit: 'PSR(TTM)', max: 10, rolValue: null,
     peers: [
-      { name:'CTAS', value:7.6, status:'reference' },
-      { name:'RSG', value:4.4, status:'reference' },
-      { name:'WM', value:3.6, status:'reference' },
-      { name:'ADP', value:5.4, status:'reference' },
-      { name:'PAYX', value:6.3, status:'reference' },
+      { name:'CTAS', value:7.8, status:'reference' },
+      { name:'RSG', value:4.5, status:'reference' },
+      { name:'WM', value:3.7, status:'reference' },
+      { name:'ADP', value:5.5, status:'reference' },
+      { name:'PAYX', value:6.2, status:'reference' },
       { name:'CPRT', value:6.3, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 11/6 종가(ROL 막대는 11/13)',
-    unit: 'PCR(FCF)', max: 50, rolValue: null,
+    title: 'PCR(FCF) 비교 · 11/13 종가',
+    unit: 'PCR(FCF)', max: 55, rolValue: null,
     peers: [
-      { name:'CTAS', value:43.4, status:'reference' },
-      { name:'RSG', value:29.4, status:'reference' },
-      { name:'WM', value:25.1, status:'reference' },
-      { name:'ADP', value:22.8, status:'reference' },
-      { name:'PAYX', value:20.7, status:'reference' },
-      { name:'CPRT', value:23.4, status:'reference' }
+      { name:'CTAS', value:44.2, status:'reference' },
+      { name:'RSG', value:30.1, status:'reference' },
+      { name:'WM', value:25.9, status:'reference' },
+      { name:'ADP', value:23.3, status:'reference' },
+      { name:'PAYX', value:20.4, status:'reference' },
+      { name:'CPRT', value:23.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 11/6 종가(ROL 막대는 11/13)',
+    title: 'EV/EBITDA 비교 · 11/13 종가',
     unit: 'EV/EBITDA', max: 35, rolValue: null,
     peers: [
-      { name:'CTAS', value:28.1, status:'reference' },
-      { name:'RSG', value:16.7, status:'reference' },
-      { name:'WM', value:14.9, status:'reference' },
-      { name:'ADP', value:18.7, status:'reference' },
-      { name:'PAYX', value:14.9, status:'reference' },
-      { name:'CPRT', value:15.1, status:'reference' }
+      { name:'CTAS', value:28.6, status:'reference' },
+      { name:'RSG', value:17.0, status:'reference' },
+      { name:'WM', value:15.2, status:'reference' },
+      { name:'ADP', value:19.1, status:'reference' },
+      { name:'PAYX', value:14.8, status:'reference' },
+      { name:'CPRT', value:15.0, status:'reference' }
     ]
   }
 };
@@ -1460,7 +1460,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ROL
 const ROL_SCORES = {
   fundamental: 54.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 20.0,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
+  peer: 24.2,          // S&P500 산업재 대비 배수 순위 (v2/peer_universe/industrials.json)
   selfHistory: 93.3,   // 자기 5년 배수 분포 백분위 (2021-11-15 ~ 2026-11-13)
   asOf: "2026-11-13",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1786,7 +1786,7 @@ const ROL_FUNDAMENTAL = {"ticker": "ROL", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py ROL --self v2/ROL_multiples.json --card
 /* VALUATION:BEGIN */
-const ROL_VALUATION = {"peer": {"score": 20.0, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 16.0, "rank": 64, "peers": 75}, {"metric": "pbr", "score": 13.5, "rank": 65, "peers": 74}, {"metric": "psr", "score": 26.9, "rank": 58, "peers": 78}, {"metric": "pcr", "score": 28.9, "rank": 55, "peers": 76}, {"metric": "evebitda", "score": 14.9, "rank": 64, "peers": 74}]}, "self": {"score": 93.3, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.6, "percentile": 8.4, "current": 35.67, "min": 26.99, "median": 52.17, "max": 61.31, "days": 940, "currentNote": null}, {"metric": "pbr", "score": 92.0, "percentile": 8.0, "current": 13.37, "min": 9.99, "median": 17.22, "max": 21.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 94.2, "percentile": 5.8, "current": 4.66, "min": 3.64, "median": 7.08, "max": 8.64, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.2, "percentile": 3.8, "current": 27.67, "min": 23.07, "median": 43.93, "max": 53.13, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 92.5, "percentile": 7.5, "current": 22.29, "min": 17.26, "median": 32.49, "max": 38.26, "days": 1016, "currentNote": null}]}};
+const ROL_VALUATION = {"peer": {"score": 24.2, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 24.0, "rank": 58, "peers": 75}, {"metric": "pbr", "score": 16.2, "rank": 63, "peers": 74}, {"metric": "psr", "score": 30.8, "rank": 55, "peers": 78}, {"metric": "pcr", "score": 34.2, "rank": 51, "peers": 76}, {"metric": "evebitda", "score": 16.0, "rank": 64, "peers": 75}]}, "self": {"score": 93.3, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.6, "percentile": 8.4, "current": 35.67, "min": 26.99, "median": 52.17, "max": 61.31, "days": 940, "currentNote": null}, {"metric": "pbr", "score": 92.0, "percentile": 8.0, "current": 13.37, "min": 9.99, "median": 17.22, "max": 21.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 94.2, "percentile": 5.8, "current": 4.66, "min": 3.64, "median": 7.08, "max": 8.64, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 96.2, "percentile": 3.8, "current": 27.67, "min": 23.07, "median": 43.93, "max": 53.13, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 92.5, "percentile": 7.5, "current": 22.29, "min": 17.26, "median": 32.49, "max": 38.26, "days": 1016, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2075,8 +2075,8 @@ const ROL_ACTIVITY = {"ticker": "ROL", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/rol/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ROL_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 12, mean: 37.17, median: 37,
-  low: 26, high: 49, strongBuy: 5, buy: 3, hold: 9, sell: 1, strongSell: 1 };
+const ROL_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 12, mean: 37.5, median: 37,
+  low: 28, high: 49, strongBuy: 5, buy: 3, hold: 9, sell: 1, strongSell: 1 };
 (function(){
   const A = ROL_ANALYST, last = (typeof ROL_DAILY !== 'undefined' && ROL_DAILY.length) ? ROL_DAILY[ROL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

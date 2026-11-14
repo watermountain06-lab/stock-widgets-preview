@@ -61,8 +61,8 @@ NEWS = [
     ('neutral', '2025년 12월 17일 장 전 — Q2 FY26 실적', '2025-12-17',
      '매출 $4.9B(−7%, 유기 −1%) · GAAP 희석 EPS $0.78(−45%) · 조정 EPS $1.10(−21%) · 연간 전망 유지 — 그날 주가 +3.4%', 'q2', 'General Mills 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 19, 'nt': 16, 'mean': 36.13, 'median': 35, 'low': 30, 'high': 45, 'sb': 1, 'b': 3, 'h': 11, 's': 2, 'ss': 2}
-ANALYST_ASOF = '2026-11-08'
+ANALYST = {'rating': 'Hold', 'n': 19, 'nt': 16, 'mean': 35.75, 'median': 35, 'low': 30, 'high': 45, 'sb': 1, 'b': 2, 'h': 12, 's': 2, 'ss': 2}
+ANALYST_ASOF = '2026-11-14'
 
 # 파이프라인 자동 재판정용 — 일회성이 든 분기(결산일: 항목).
 ONEOFF_QUARTERS = {'2025-11-23': 'Uncle Toby’s 상표 손상 $53M(세전)',

@@ -970,7 +970,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">자산운용 6곳 PER 비교 (점수는 S&amp;P500 자산운용·수탁은행 기준) (NTRS 값 없음) · 11/6 종가(IVZ 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">자산운용 6곳 PER 비교 (점수는 S&amp;P500 자산운용·수탁은행 기준) (NTRS 값 없음) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1065,8 +1065,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 40%; background: var(--green);"></div><div data-an-bar="hold" style="width: 60%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$35.68</span> <span class="op-sub op-up" data-an="upside">+23.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$35.59</span> <span class="op-sub op-up" data-an="upside">+23.1%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1270,56 +1270,56 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '자산운용 6곳 PER 비교 (점수는 S&P500 자산운용·수탁은행 기준) (NTRS 값 없음) · 11/6 종가(IVZ 막대는 11/13)',
+    title: '자산운용 6곳 PER 비교 (점수는 S&P500 자산운용·수탁은행 기준) (NTRS 값 없음) · 11/13 종가',
     unit: 'PER', max: 35, ivzValue: null,
     peers: [
-      { name:'BLK', value:26.9, status:'reference' },
+      { name:'BLK', value:29.3, status:'reference' },
       { name:'TROW', value:11.0, status:'reference' },
-      { name:'BEN', value:22.9, status:'reference' },
-      { name:'AMP', value:11.3, status:'reference' },
-      { name:'STT', value:13.5, status:'reference' }
+      { name:'BEN', value:24.5, status:'reference' },
+      { name:'AMP', value:11.7, status:'reference' },
+      { name:'STT', value:14.2, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 11/6 종가(IVZ 막대는 11/13)',
-    unit: 'PBR', max: 10, ivzValue: null,
+    title: 'PBR 비교 · 11/13 종가',
+    unit: 'PBR', max: 15, ivzValue: null,
     peers: [
-      { name:'BLK', value:3.1, status:'reference' },
+      { name:'BLK', value:3.2, status:'reference' },
       { name:'TROW', value:2.0, status:'reference' },
-      { name:'BEN', value:1.5, status:'reference' },
-      { name:'AMP', value:8.5, status:'reference' },
-      { name:'NTRS', value:2.3, status:'reference' },
+      { name:'BEN', value:1.6, status:'reference' },
+      { name:'AMP', value:8.8, status:'reference' },
+      { name:'NTRS', value:2.4, status:'reference' },
       { name:'STT', value:1.6, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/6 종가(IVZ 막대는 11/13)',
+    title: 'PSR 비교 · 11/13 종가',
     unit: 'PSR(TTM)', max: 10, ivzValue: null,
     peers: [
-      { name:'BLK', value:6.7, status:'reference' },
+      { name:'BLK', value:7.0, status:'reference' },
       { name:'TROW', value:3.0, status:'reference' },
-      { name:'BEN', value:1.8, status:'reference' },
+      { name:'BEN', value:2.0, status:'reference' },
       { name:'AMP', value:2.2, status:'reference' },
-      { name:'NTRS', value:3.7, status:'reference' },
-      { name:'STT', value:2.9, status:'reference' }
+      { name:'NTRS', value:3.8, status:'reference' },
+      { name:'STT', value:3.0, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (BEN 값 없음·STT 적자) · 11/6 종가(IVZ 막대는 11/13)',
+    title: 'PCR(FCF) 비교 (BEN 값 없음·STT 적자) · 11/13 종가',
     unit: 'PCR(FCF)', max: 50, ivzValue: null,
     peers: [
-      { name:'BLK', value:40.0, status:'reference' },
+      { name:'BLK', value:41.5, status:'reference' },
       { name:'TROW', value:14.5, status:'reference' },
-      { name:'AMP', value:5.9, status:'reference' },
-      { name:'NTRS', value:18.0, status:'reference' }
+      { name:'AMP', value:6.2, status:'reference' },
+      { name:'NTRS', value:18.6, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (TROW 값 없음·AMP 값 없음·NTRS 값 없음·STT 값 없음) · 11/6 종가(IVZ 막대는 11/13)',
+    title: 'EV/EBITDA 비교 (TROW 값 없음·AMP 값 없음·NTRS 값 없음·STT 값 없음) · 11/13 종가',
     unit: 'EV/EBITDA', max: 25, ivzValue: null,
     peers: [
-      { name:'BLK', value:19.2, status:'reference' },
-      { name:'BEN', value:15.3, status:'reference' }
+      { name:'BLK', value:19.9, status:'reference' },
+      { name:'BEN', value:13.7, status:'reference' }
     ]
   }
 };
@@ -1772,7 +1772,7 @@ const IVZ_FUNDAMENTAL = {"ticker": "IVZ", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py IVZ --self v2/IVZ_multiples.json --card
 /* VALUATION:BEGIN */
-const IVZ_VALUATION = {"peer": {"score": 100.0, "sector": "Financials (S&P500 12종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 100.0, "rank": 1, "peers": 11}, {"metric": "psr", "score": 100.0, "rank": 1, "peers": 11}]}, "self": {"score": 19.9, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 5.51, "median": 10.86, "max": 25.95, "days": 818, "currentNote": "per_na"}, {"metric": "pbr", "score": 7.7, "percentile": 92.3, "current": 1.26, "min": 0.5, "median": 0.74, "max": 1.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 14.7, "percentile": 85.3, "current": 1.78, "min": 0.9, "median": 1.33, "max": 2.13, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 57.3, "percentile": 42.7, "current": 7.15, "min": 4.85, "median": 7.48, "max": 114.04, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.0, "percentile": 100.0, "current": null, "min": 6.59, "median": 10.04, "max": 14.74, "days": 818, "currentNote": "negative"}]}, "perNA": {"netMargin": -0.0443, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const IVZ_VALUATION = {"peer": {"score": 100.0, "sector": "Financials (S&P500 12종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 100.0, "rank": 1, "peers": 11}, {"metric": "psr", "score": 100.0, "rank": 1, "peers": 11}]}, "self": {"score": 19.9, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 5.51, "median": 10.86, "max": 25.95, "days": 818, "currentNote": "per_na"}, {"metric": "pbr", "score": 7.7, "percentile": 92.3, "current": 1.26, "min": 0.5, "median": 0.74, "max": 1.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 14.7, "percentile": 85.3, "current": 1.78, "min": 0.9, "median": 1.33, "max": 2.13, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 57.3, "percentile": 42.7, "current": 7.15, "min": 4.85, "median": 7.48, "max": 114.04, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 0.0, "percentile": 100.0, "current": null, "min": 6.59, "median": 10.04, "max": 14.74, "days": 818, "currentNote": "negative"}]}, "perNA": {"netMargin": -0.0443, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2059,7 +2059,7 @@ const IVZ_ACTIVITY = {"ticker": "IVZ", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ivz/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const IVZ_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 15, nTargets: 11, mean: 35.68, median: 36,
+const IVZ_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 15, nTargets: 11, mean: 35.59, median: 36,
   low: 29.5, high: 41, strongBuy: 4, buy: 2, hold: 9, sell: 0, strongSell: 0 };
 (function(){
   const A = IVZ_ANALYST, last = (typeof IVZ_DAILY !== 'undefined' && IVZ_DAILY.length) ? IVZ_DAILY[IVZ_DAILY.length - 1] : null;

@@ -975,7 +975,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">통신탑·데이터센터·리츠 6곳 PER 비교 (점수는 S&amp;P500 부동산 기준) · 11/6 종가(AMT 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">통신탑·데이터센터·리츠 6곳 PER 비교 (점수는 S&amp;P500 부동산 기준) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1094,7 +1094,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 88%; background: var(--green);"></div><div data-an-bar="hold" style="width: 12%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
         <span class="op-val"><span data-an="mean">$214.29</span> <span class="op-sub op-up" data-an="upside">+11.8%</span></span>
       </div>
       <div class="op-cell">
@@ -1299,58 +1299,58 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '통신탑·데이터센터·리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) · 11/6 종가(AMT 막대는 11/13)',
-    unit: 'PER', max: 125, amtValue: null,
+    title: '통신탑·데이터센터·리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) · 11/13 종가',
+    unit: 'PER', max: 130, amtValue: null,
     peers: [
-      { name:'CCI', value:35.7, status:'reference' },
+      { name:'CCI', value:36.6, status:'reference' },
       { name:'SBAC', value:20.4, status:'reference' },
-      { name:'EQIX', value:60.8, status:'reference' },
-      { name:'DLR', value:85.4, status:'reference' },
-      { name:'PLD', value:28.2, status:'reference' },
-      { name:'WELL', value:106.5, status:'reference' }
+      { name:'EQIX', value:67.8, status:'reference' },
+      { name:'DLR', value:88.2, status:'reference' },
+      { name:'PLD', value:28.6, status:'reference' },
+      { name:'WELL', value:112.7, status:'reference' }
     ]
   },
   pbr: {
-    title: '통신탑·리츠 PBR 비교 (CCI 값 없음·SBAC 값 없음) · 11/6 종가(AMT 막대는 11/13)',
+    title: '통신탑·리츠 PBR 비교 (CCI 값 없음·SBAC 값 없음) · 11/13 종가',
     unit: 'PBR', max: 30, amtValue: null,
     peers: [
-      { name:'EQIX', value:6.9, status:'reference' },
-      { name:'DLR', value:2.4, status:'reference' },
+      { name:'EQIX', value:7.2, status:'reference' },
+      { name:'DLR', value:2.5, status:'reference' },
       { name:'PLD', value:2.2, status:'reference' },
       { name:'WELL', value:3.7, status:'reference' }
     ]
   },
   psr: {
-    title: '통신탑·리츠 PSR 비교 · 11/6 종가(AMT 막대는 11/13)',
-    unit: 'PSR(TTM)', max: 15, amtValue: null,
+    title: '통신탑·리츠 PSR 비교 · 11/13 종가',
+    unit: 'PSR(TTM)', max: 20, amtValue: null,
     peers: [
-      { name:'CCI', value:9.2, status:'reference' },
+      { name:'CCI', value:9.5, status:'reference' },
       { name:'SBAC', value:6.9, status:'reference' },
-      { name:'EQIX', value:10.0, status:'reference' },
-      { name:'DLR', value:9.5, status:'reference' },
-      { name:'PLD', value:12.9, status:'reference' },
+      { name:'EQIX', value:10.4, status:'reference' },
+      { name:'DLR', value:9.8, status:'reference' },
+      { name:'PLD', value:13.1, status:'reference' },
       { name:'WELL', value:13.0, status:'reference' }
     ]
   },
   pcr: {
-    title: '통신탑·리츠 PCR(FCF) 비교 (EQIX 값 없음·DLR 값 없음·PLD 값 없음) · 11/6 종가(AMT 막대는 11/13)',
+    title: '통신탑·리츠 PCR(FCF) 비교 (EQIX 값 없음·DLR 값 없음·PLD 값 없음) · 11/13 종가',
     unit: 'PCR(FCF)', max: 100, amtValue: null,
     peers: [
-      { name:'CCI', value:28.4, status:'reference' },
+      { name:'CCI', value:29.1, status:'reference' },
       { name:'SBAC', value:18.8, status:'reference' },
-      { name:'WELL', value:86.4, status:'reference' }
+      { name:'WELL', value:86.2, status:'reference' }
     ]
   },
   evebitda: {
-    title: '통신탑·리츠 EV/EBITDA 비교 · 11/6 종가(AMT 막대는 11/13)',
+    title: '통신탑·리츠 EV/EBITDA 비교 · 11/13 종가',
     unit: 'EV/EBITDA', max: 75, amtValue: null,
     peers: [
-      { name:'CCI', value:20.3, status:'reference' },
+      { name:'CCI', value:20.7, status:'reference' },
       { name:'SBAC', value:19.1, status:'reference' },
-      { name:'EQIX', value:27.4, status:'reference' },
-      { name:'DLR', value:22.5, status:'reference' },
-      { name:'PLD', value:20.3, status:'reference' },
-      { name:'WELL', value:62.1, status:'reference' }
+      { name:'EQIX', value:28.4, status:'reference' },
+      { name:'DLR', value:23.2, status:'reference' },
+      { name:'PLD', value:20.5, status:'reference' },
+      { name:'WELL', value:62.0, status:'reference' }
     ]
   }
 };
@@ -1811,7 +1811,7 @@ const AMT_FUNDAMENTAL = {"ticker": "AMT", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py AMT --self v2/AMT_multiples.json --card
 /* VALUATION:BEGIN */
-const AMT_VALUATION = {"peer": {"score": 40.1, "sector": "Real Estate (S&P500 28종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 69.2, "rank": 9, "peers": 26}, {"metric": "pbr", "score": 0.0, "rank": 25, "peers": 24}, {"metric": "psr", "score": 38.5, "rank": 17, "peers": 26}, {"metric": "evebitda", "score": 52.9, "rank": 9, "peers": 17}]}, "self": {"score": 54.3, "window": ["2025-02-25", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.5, "percentile": 20.5, "current": 27.03, "min": 22.15, "median": 30.11, "max": 40.28, "days": 434, "currentNote": null}, {"metric": "pbr", "score": 31.6, "percentile": 68.4, "current": 25.27, "min": 19.96, "median": 23.6, "max": 31.54, "days": 434, "currentNote": null}, {"metric": "psr", "score": 50.2, "percentile": 49.8, "current": 8.07, "min": 6.86, "median": 8.07, "max": 10.69, "days": 434, "currentNote": null}, {"metric": "pcr", "score": 60.8, "percentile": 39.2, "current": 22.44, "min": 18.95, "median": 22.86, "max": 28.83, "days": 434, "currentNote": null}, {"metric": "evebitda", "score": 49.5, "percentile": 50.5, "current": 18.68, "min": 16.78, "median": 18.66, "max": 22.57, "days": 434, "currentNote": null}]}};
+const AMT_VALUATION = {"peer": {"score": 40.1, "sector": "Real Estate (S&P500 28종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 69.2, "rank": 9, "peers": 26}, {"metric": "pbr", "score": 0.0, "rank": 25, "peers": 24}, {"metric": "psr", "score": 38.5, "rank": 17, "peers": 26}, {"metric": "evebitda", "score": 52.9, "rank": 9, "peers": 17}]}, "self": {"score": 54.3, "window": ["2025-02-25", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 79.5, "percentile": 20.5, "current": 27.03, "min": 22.15, "median": 30.11, "max": 40.28, "days": 434, "currentNote": null}, {"metric": "pbr", "score": 31.6, "percentile": 68.4, "current": 25.27, "min": 19.96, "median": 23.6, "max": 31.54, "days": 434, "currentNote": null}, {"metric": "psr", "score": 50.2, "percentile": 49.8, "current": 8.07, "min": 6.86, "median": 8.07, "max": 10.69, "days": 434, "currentNote": null}, {"metric": "pcr", "score": 60.8, "percentile": 39.2, "current": 22.44, "min": 18.95, "median": 22.86, "max": 28.83, "days": 434, "currentNote": null}, {"metric": "evebitda", "score": 49.5, "percentile": 50.5, "current": 18.68, "min": 16.78, "median": 18.66, "max": 22.57, "days": 434, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2100,7 +2100,7 @@ const AMT_ACTIVITY = {"ticker": "AMT", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/amt/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const AMT_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 17, mean: 214.29, median: 212,
+const AMT_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 17, mean: 214.29, median: 212,
   low: 188, high: 249, strongBuy: 15, buy: 7, hold: 3, sell: 0, strongSell: 0 };
 (function(){
   const A = AMT_ANALYST, last = (typeof AMT_DAILY !== 'undefined' && AMT_DAILY.length) ? AMT_DAILY[AMT_DAILY.length - 1] : null;

@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">화학·비료 등 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (MOS 값 없음·DOW 값 없음·APD 값 없음) · 11/6 종가(CF 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">화학·비료 등 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (MOS 값 없음·DOW 값 없음·APD 값 없음) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1069,12 +1069,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">22명 · 목표가 15</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">6</span> · 유지 <span data-an="hold">13</span> · 매도 <span data-an="sell">3</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 27.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 59.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 13.6%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">5</span> · 유지 <span data-an="hold">14</span> · 매도 <span data-an="sell">3</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 22.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 63.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 13.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$127.20</span> <span class="op-sub op-up" data-an="upside">+1.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$128.80</span> <span class="op-sub op-up" data-an="upside">+3.0%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1278,56 +1278,56 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '화학·비료 등 6곳 PER 비교 (점수는 S&P500 소재 기준) (MOS 값 없음·DOW 값 없음·APD 값 없음) · 11/6 종가(CF 막대는 11/13)',
+    title: '화학·비료 등 6곳 PER 비교 (점수는 S&P500 소재 기준) (MOS 값 없음·DOW 값 없음·APD 값 없음) · 11/13 종가',
     unit: 'PER', max: 40, cfValue: null,
     peers: [
-      { name:'NUE', value:19.5, status:'reference' },
-      { name:'LYB', value:14.7, status:'reference' },
-      { name:'LIN', value:34.2, status:'reference' }
+      { name:'NUE', value:20.1, status:'reference' },
+      { name:'LYB', value:15.6, status:'reference' },
+      { name:'LIN', value:33.9, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 11/6 종가(CF 막대는 11/13)',
+    title: 'PBR 비교 · 11/13 종가',
     unit: 'PBR', max: 10, cfValue: null,
     peers: [
       { name:'MOS', value:0.6, status:'reference' },
       { name:'NUE', value:2.5, status:'reference' },
-      { name:'DOW', value:1.4, status:'reference' },
-      { name:'LYB', value:1.7, status:'reference' },
-      { name:'APD', value:4.9, status:'reference' },
-      { name:'LIN', value:6.0, status:'reference' }
+      { name:'DOW', value:1.5, status:'reference' },
+      { name:'LYB', value:1.9, status:'reference' },
+      { name:'APD', value:5.1, status:'reference' },
+      { name:'LIN', value:6.1, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/6 종가(CF 막대는 11/13)',
+    title: 'PSR 비교 · 11/13 종가',
     unit: 'PSR(TTM)', max: 10, cfValue: null,
     peers: [
       { name:'MOS', value:0.6, status:'reference' },
       { name:'NUE', value:1.5, status:'reference' },
-      { name:'DOW', value:0.5, status:'reference' },
-      { name:'LYB', value:0.6, status:'reference' },
-      { name:'APD', value:5.4, status:'reference' },
-      { name:'LIN', value:6.5, status:'reference' }
+      { name:'DOW', value:0.6, status:'reference' },
+      { name:'LYB', value:0.7, status:'reference' },
+      { name:'APD', value:5.6, status:'reference' },
+      { name:'LIN', value:6.7, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (MOS 값 없음·DOW 값 없음·APD 값 없음) · 11/6 종가(CF 막대는 11/13)',
+    title: 'PCR(FCF) 비교 (MOS 값 없음·DOW 값 없음·APD 값 없음) · 11/13 종가',
     unit: 'PCR(FCF)', max: 55, cfValue: null,
     peers: [
-      { name:'NUE', value:35.1, status:'reference' },
-      { name:'LYB', value:8.1, status:'reference' },
-      { name:'LIN', value:46.6, status:'reference' }
+      { name:'NUE', value:21.3, status:'reference' },
+      { name:'LYB', value:8.6, status:'reference' },
+      { name:'LIN', value:47.5, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (DOW 값 없음) · 11/6 종가(CF 막대는 11/13)',
+    title: 'EV/EBITDA 비교 (DOW 값 없음) · 11/13 종가',
     unit: 'EV/EBITDA', max: 110, cfValue: null,
     peers: [
-      { name:'MOS', value:23.0, status:'reference' },
-      { name:'NUE', value:10.8, status:'reference' },
-      { name:'LYB', value:6.1, status:'reference' },
-      { name:'APD', value:91.8, status:'reference' },
-      { name:'LIN', value:20.1, status:'reference' }
+      { name:'MOS', value:22.7, status:'reference' },
+      { name:'NUE', value:9.2, status:'reference' },
+      { name:'LYB', value:6.4, status:'reference' },
+      { name:'APD', value:94.5, status:'reference' },
+      { name:'LIN', value:20.5, status:'reference' }
     ]
   }
 };
@@ -1783,7 +1783,7 @@ const CF_FUNDAMENTAL = {"ticker": "CF", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py CF --self v2/CF_multiples.json --card
 /* VALUATION:BEGIN */
-const CF_VALUATION = {"peer": {"score": 74.8, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 19}, {"metric": "pbr", "score": 45.8, "rank": 14, "peers": 24}, {"metric": "psr", "score": 37.5, "rank": 16, "peers": 24}, {"metric": "pcr", "score": 90.5, "rank": 3, "peers": 21}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 21}]}, "self": {"score": 48.0, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 66.7, "percentile": 33.3, "current": 8.83, "min": 4.03, "median": 10.9, "max": 55.61, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 37.2, "percentile": 62.8, "current": 3.19, "min": 2.15, "median": 2.96, "max": 7.11, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 41.0, "percentile": 59.0, "current": 2.3, "min": 1.14, "median": 2.22, "max": 3.49, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 27.2, "percentile": 72.8, "current": 8.79, "min": 3.74, "median": 7.65, "max": 13.74, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 68.0, "percentile": 32.0, "current": 5.2, "min": 2.68, "median": 6.08, "max": 13.35, "days": 1255, "currentNote": null}]}};
+const CF_VALUATION = {"peer": {"score": 74.8, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 19}, {"metric": "pbr", "score": 45.8, "rank": 14, "peers": 24}, {"metric": "psr", "score": 37.5, "rank": 16, "peers": 24}, {"metric": "pcr", "score": 90.5, "rank": 3, "peers": 21}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 21}]}, "self": {"score": 48.0, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 66.7, "percentile": 33.3, "current": 8.83, "min": 4.03, "median": 10.9, "max": 55.61, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 37.2, "percentile": 62.8, "current": 3.19, "min": 2.15, "median": 2.96, "max": 7.11, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 41.0, "percentile": 59.0, "current": 2.3, "min": 1.14, "median": 2.22, "max": 3.49, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 27.2, "percentile": 72.8, "current": 8.79, "min": 3.74, "median": 7.65, "max": 13.74, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 68.0, "percentile": 32.0, "current": 5.2, "min": 2.68, "median": 6.08, "max": 13.35, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2072,8 +2072,8 @@ const CF_ACTIVITY = {"ticker": "CF", "status": "N/A", "reason": "5년 비교 이
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/cf/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CF_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 22, nTargets: 15, mean: 127.2, median: 129,
-  low: 110, high: 162, strongBuy: 3, buy: 3, hold: 13, sell: 1, strongSell: 2 };
+const CF_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 22, nTargets: 15, mean: 128.8, median: 130,
+  low: 110, high: 162, strongBuy: 3, buy: 2, hold: 14, sell: 1, strongSell: 2 };
 (function(){
   const A = CF_ANALYST, last = (typeof CF_DAILY !== 'undefined' && CF_DAILY.length) ? CF_DAILY[CF_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

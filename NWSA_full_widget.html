@@ -974,7 +974,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">미디어·플랫폼 6곳 PER 비교 (점수는 S&amp;P500 커뮤니케이션 기준) · 11/6 종가(NWSA 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">미디어·플랫폼 6곳 PER 비교 (점수는 S&amp;P500 커뮤니케이션 기준) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1070,13 +1070,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">9명 · 목표가 4</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">9명 · 목표가 5</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">8</span> · 유지 <span data-an="hold">1</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 88.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 11.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$33.53</span> <span class="op-sub op-up" data-an="upside">+24.3%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$35.43</span> <span class="op-sub op-up" data-an="upside">+31.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1280,62 +1280,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '미디어·플랫폼 6곳 PER 비교 (점수는 S&P500 커뮤니케이션 기준) · 11/6 종가(NWSA 막대는 11/13)',
+    title: '미디어·플랫폼 6곳 PER 비교 (점수는 S&P500 커뮤니케이션 기준) · 11/13 종가',
     unit: 'PER', max: 100, nwsaValue: null,
     peers: [
-      { name:'FOXA', value:14.1, status:'reference' },
-      { name:'DIS', value:24.1, status:'reference' },
-      { name:'CMCSA', value:7.7, status:'reference' },
-      { name:'OMC', value:83.8, status:'reference' },
-      { name:'NFLX', value:21.5, status:'reference' },
-      { name:'GOOGL', value:26.9, status:'reference' }
+      { name:'FOXA', value:14.5, status:'reference' },
+      { name:'DIS', value:24.6, status:'reference' },
+      { name:'CMCSA', value:7.9, status:'reference' },
+      { name:'OMC', value:85.4, status:'reference' },
+      { name:'NFLX', value:21.1, status:'reference' },
+      { name:'GOOGL', value:27.9, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 11/6 종가(NWSA 막대는 11/13)',
+    title: 'PBR 비교 · 11/13 종가',
     unit: 'PBR', max: 15, nwsaValue: null,
     peers: [
-      { name:'FOXA', value:2.3, status:'reference' },
-      { name:'DIS', value:1.8, status:'reference' },
+      { name:'FOXA', value:2.4, status:'reference' },
+      { name:'DIS', value:1.9, status:'reference' },
       { name:'CMCSA', value:1.1, status:'reference' },
       { name:'OMC', value:2.4, status:'reference' },
-      { name:'NFLX', value:8.9, status:'reference' },
-      { name:'GOOGL', value:5.2, status:'reference' }
+      { name:'NFLX', value:8.7, status:'reference' },
+      { name:'GOOGL', value:5.4, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/6 종가(NWSA 막대는 11/13)',
+    title: 'PSR 비교 · 11/13 종가',
     unit: 'PSR(TTM)', max: 10, nwsaValue: null,
     peers: [
       { name:'FOXA', value:1.6, status:'reference' },
-      { name:'DIS', value:2.0, status:'reference' },
+      { name:'DIS', value:2.1, status:'reference' },
       { name:'CMCSA', value:0.8, status:'reference' },
-      { name:'OMC', value:0.9, status:'reference' },
-      { name:'NFLX', value:5.2, status:'reference' },
-      { name:'GOOGL', value:7.5, status:'reference' }
+      { name:'OMC', value:1.0, status:'reference' },
+      { name:'NFLX', value:5.1, status:'reference' },
+      { name:'GOOGL', value:7.8, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 11/6 종가(NWSA 막대는 11/13)',
-    unit: 'PCR(FCF)', max: 205, nwsaValue: null,
+    title: 'PCR(FCF) 비교 · 11/13 종가',
+    unit: 'PCR(FCF)', max: 215, nwsaValue: null,
     peers: [
-      { name:'FOXA', value:12.9, status:'reference' },
-      { name:'DIS', value:24.3, status:'reference' },
-      { name:'CMCSA', value:5.1, status:'reference' },
-      { name:'OMC', value:8.2, status:'reference' },
-      { name:'NFLX', value:22.9, status:'reference' },
-      { name:'GOOGL', value:178.1, status:'reference' }
+      { name:'FOXA', value:13.3, status:'reference' },
+      { name:'DIS', value:24.8, status:'reference' },
+      { name:'CMCSA', value:5.3, status:'reference' },
+      { name:'OMC', value:8.4, status:'reference' },
+      { name:'NFLX', value:22.4, status:'reference' },
+      { name:'GOOGL', value:184.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (FOXA 값 없음) · 11/6 종가(NWSA 막대는 11/13)',
+    title: 'EV/EBITDA 비교 (FOXA 값 없음) · 11/13 종가',
     unit: 'EV/EBITDA', max: 25, nwsaValue: null,
     peers: [
-      { name:'DIS', value:12.9, status:'reference' },
-      { name:'CMCSA', value:5.3, status:'reference' },
-      { name:'OMC', value:9.3, status:'reference' },
-      { name:'NFLX', value:16.8, status:'reference' },
-      { name:'GOOGL', value:18.1, status:'reference' }
+      { name:'DIS', value:13.1, status:'reference' },
+      { name:'CMCSA', value:5.4, status:'reference' },
+      { name:'OMC', value:9.5, status:'reference' },
+      { name:'NFLX', value:16.4, status:'reference' },
+      { name:'GOOGL', value:18.8, status:'reference' }
     ]
   }
 };
@@ -1796,7 +1796,7 @@ const NWSA_FUNDAMENTAL = {"ticker": "NWSA", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py NWSA --self v2/NWSA_multiples.json --card
 /* VALUATION:BEGIN */
-const NWSA_VALUATION = {"peer": {"score": 52.4, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 29.4, "rank": 13, "peers": 17}, {"metric": "pbr", "score": 76.5, "rank": 5, "peers": 17}, {"metric": "psr", "score": 52.9, "rank": 9, "peers": 17}, {"metric": "pcr", "score": 50.0, "rank": 9, "peers": 16}, {"metric": "evebitda", "score": 53.3, "rank": 8, "peers": 15}]}, "self": {"score": 82.8, "window": ["2025-08-06", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 98.1, "percentile": 1.9, "current": 24.08, "min": 23.46, "median": 31.65, "max": 37.56, "days": 322, "currentNote": null}, {"metric": "pbr", "score": 49.7, "percentile": 50.3, "current": 1.71, "min": 1.41, "median": 1.71, "max": 2.0, "days": 322, "currentNote": null}, {"metric": "psr", "score": 83.9, "percentile": 16.1, "current": 1.58, "min": 1.44, "median": 1.72, "max": 2.07, "days": 322, "currentNote": null}, {"metric": "pcr", "score": 84.5, "percentile": 15.5, "current": 20.18, "min": 18.76, "median": 23.81, "max": 30.7, "days": 322, "currentNote": null}, {"metric": "evebitda", "score": 97.8, "percentile": 2.2, "current": 9.86, "min": 9.62, "median": 11.36, "max": 13.96, "days": 322, "currentNote": null}]}};
+const NWSA_VALUATION = {"peer": {"score": 52.4, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 29.4, "rank": 13, "peers": 17}, {"metric": "pbr", "score": 76.5, "rank": 5, "peers": 17}, {"metric": "psr", "score": 52.9, "rank": 9, "peers": 17}, {"metric": "pcr", "score": 50.0, "rank": 9, "peers": 16}, {"metric": "evebitda", "score": 53.3, "rank": 8, "peers": 15}]}, "self": {"score": 82.8, "window": ["2025-08-06", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 98.1, "percentile": 1.9, "current": 24.08, "min": 23.46, "median": 31.65, "max": 37.56, "days": 322, "currentNote": null}, {"metric": "pbr", "score": 49.7, "percentile": 50.3, "current": 1.71, "min": 1.41, "median": 1.71, "max": 2.0, "days": 322, "currentNote": null}, {"metric": "psr", "score": 83.9, "percentile": 16.1, "current": 1.58, "min": 1.44, "median": 1.72, "max": 2.07, "days": 322, "currentNote": null}, {"metric": "pcr", "score": 84.5, "percentile": 15.5, "current": 20.18, "min": 18.76, "median": 23.81, "max": 30.7, "days": 322, "currentNote": null}, {"metric": "evebitda", "score": 97.8, "percentile": 2.2, "current": 9.86, "min": 9.62, "median": 11.36, "max": 13.96, "days": 322, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2085,8 +2085,8 @@ const NWSA_ACTIVITY = {"ticker": "NWSA", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/nwsa/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const NWSA_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 9, nTargets: 4, mean: 33.53, median: 35,
-  low: 26.12, high: 38, strongBuy: 5, buy: 3, hold: 1, sell: 0, strongSell: 0 };
+const NWSA_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 9, nTargets: 5, mean: 35.43, median: 35,
+  low: 26.16, high: 43, strongBuy: 5, buy: 3, hold: 1, sell: 0, strongSell: 0 };
 (function(){
   const A = NWSA_ANALYST, last = (typeof NWSA_DAILY !== 'undefined' && NWSA_DAILY.length) ? NWSA_DAILY[NWSA_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

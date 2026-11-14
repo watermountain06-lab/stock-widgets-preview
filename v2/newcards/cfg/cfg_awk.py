@@ -58,8 +58,8 @@ NEWS = [
     ('neutral', '2026년 2월 18일 장 마감 뒤 — Q4 2025 실적', '2026-02-19',
      '매출 $1.27B(+5.8%) · 순이익 $238M · 희석 EPS $1.22(1년 전 $1.22) — 다음 날 주가 +0.2%', 'q4', 'American Water 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 7, 'mean': 142, 'median': 140, 'low': 127, 'high': 162, 'sb': 3, 'b': 0, 'h': 9, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-08'
+ANALYST = {'rating': 'Hold', 'n': 12, 'nt': 8, 'mean': 144.88, 'median': 147, 'low': 127, 'high': 165, 'sb': 2, 'b': 0, 'h': 8, 's': 2, 'ss': 0}
+ANALYST_ASOF = '2026-11-14'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, FISV·MLM·NSC·PTC·CHRW 방식).

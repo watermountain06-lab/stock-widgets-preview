@@ -1006,7 +1006,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">화학·소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (APD 값 없음) · 11/6 종가(ECL 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">화학·소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) (APD 값 없음) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1114,8 +1114,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 83.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$330</span> <span class="op-sub op-up" data-an="upside">+6.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$335.31</span> <span class="op-sub op-up" data-an="upside">+8.4%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1319,60 +1319,60 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '화학·소재 6곳 PER 비교 (점수는 S&P500 소재 기준) (APD 값 없음) · 11/6 종가(ECL 막대는 11/13)',
-    unit: 'PER', max: 300, eclValue: null,
+    title: '화학·소재 6곳 PER 비교 (점수는 S&P500 소재 기준) (APD 값 없음) · 11/13 종가',
+    unit: 'PER', max: 295, eclValue: null,
     peers: [
-      { name:'LIN', value:34.2, status:'reference' },
-      { name:'SHW', value:31.6, status:'reference' },
-      { name:'PPG', value:17.2, status:'reference' },
-      { name:'DD', value:27.0, status:'reference' },
-      { name:'IFF', value:258.2, status:'reference' }
+      { name:'LIN', value:33.9, status:'reference' },
+      { name:'SHW', value:32.3, status:'reference' },
+      { name:'PPG', value:17.6, status:'reference' },
+      { name:'DD', value:28.3, status:'reference' },
+      { name:'IFF', value:253.6, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 11/6 종가(ECL 막대는 11/13)',
+    title: 'PBR 비교 · 11/13 종가',
     unit: 'PBR', max: 25, eclValue: null,
     peers: [
-      { name:'LIN', value:6.0, status:'reference' },
-      { name:'APD', value:4.9, status:'reference' },
-      { name:'SHW', value:20.9, status:'reference' },
+      { name:'LIN', value:6.1, status:'reference' },
+      { name:'APD', value:5.1, status:'reference' },
+      { name:'SHW', value:21.3, status:'reference' },
       { name:'PPG', value:3.2, status:'reference' },
-      { name:'DD', value:1.4, status:'reference' },
-      { name:'IFF', value:1.6, status:'reference' }
+      { name:'DD', value:1.5, status:'reference' },
+      { name:'IFF', value:1.5, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/6 종가(ECL 막대는 11/13)',
+    title: 'PSR 비교 · 11/13 종가',
     unit: 'PSR(TTM)', max: 10, eclValue: null,
     peers: [
-      { name:'LIN', value:6.5, status:'reference' },
-      { name:'APD', value:5.4, status:'reference' },
-      { name:'SHW', value:3.3, status:'reference' },
+      { name:'LIN', value:6.7, status:'reference' },
+      { name:'APD', value:5.6, status:'reference' },
+      { name:'SHW', value:3.4, status:'reference' },
       { name:'PPG', value:1.6, status:'reference' },
-      { name:'DD', value:2.8, status:'reference' },
+      { name:'DD', value:2.9, status:'reference' },
       { name:'IFF', value:2.2, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (APD 값 없음) · 11/6 종가(ECL 막대는 11/13)',
-    unit: 'PCR(FCF)', max: 95, eclValue: null,
+    title: 'PCR(FCF) 비교 (APD 값 없음) · 11/13 종가',
+    unit: 'PCR(FCF)', max: 100, eclValue: null,
     peers: [
-      { name:'LIN', value:46.6, status:'reference' },
-      { name:'SHW', value:27.0, status:'reference' },
+      { name:'LIN', value:47.5, status:'reference' },
+      { name:'SHW', value:27.5, status:'reference' },
       { name:'PPG', value:21.1, status:'reference' },
-      { name:'DD', value:79.9, status:'reference' },
-      { name:'IFF', value:41.3, status:'reference' }
+      { name:'DD', value:83.9, status:'reference' },
+      { name:'IFF', value:40.6, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (DD 값 없음) · 11/6 종가(ECL 막대는 11/13)',
+    title: 'EV/EBITDA 비교 (DD 값 없음) · 11/13 종가',
     unit: 'EV/EBITDA', max: 110, eclValue: null,
     peers: [
-      { name:'LIN', value:20.1, status:'reference' },
-      { name:'APD', value:91.8, status:'reference' },
-      { name:'SHW', value:19.9, status:'reference' },
+      { name:'LIN', value:20.5, status:'reference' },
+      { name:'APD', value:94.5, status:'reference' },
+      { name:'SHW', value:20.2, status:'reference' },
       { name:'PPG', value:11.8, status:'reference' },
-      { name:'IFF', value:17.7, status:'reference' }
+      { name:'IFF', value:17.5, status:'reference' }
     ]
   }
 };
@@ -1833,7 +1833,7 @@ const ECL_FUNDAMENTAL = {"ticker": "ECL", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py ECL --self v2/ECL_multiples.json --card
 /* VALUATION:BEGIN */
-const ECL_VALUATION = {"peer": {"score": 7.3, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 5.3, "rank": 19, "peers": 19}, {"metric": "pbr", "score": 4.2, "rank": 24, "peers": 24}, {"metric": "psr", "score": 12.5, "rank": 22, "peers": 24}, {"metric": "pcr", "score": 9.5, "rank": 20, "peers": 21}, {"metric": "evebitda", "score": 4.8, "rank": 21, "peers": 21}]}, "self": {"score": 18.9, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 40.4, "percentile": 59.6, "current": 42.08, "min": 30.58, "median": 40.64, "max": 60.73, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 20.5, "percentile": 79.5, "current": 8.32, "min": 5.28, "median": 7.7, "max": 9.74, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 7.5, "percentile": 92.5, "current": 4.99, "min": 2.76, "median": 4.32, "max": 5.43, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 19.7, "percentile": 80.3, "current": 48.33, "min": 28.64, "median": 39.94, "max": 55.53, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 6.5, "percentile": 93.5, "current": 24.95, "min": 18.78, "median": 22.41, "max": 29.49, "days": 1255, "currentNote": null}]}};
+const ECL_VALUATION = {"peer": {"score": 7.3, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 5.3, "rank": 19, "peers": 19}, {"metric": "pbr", "score": 4.2, "rank": 24, "peers": 24}, {"metric": "psr", "score": 12.5, "rank": 22, "peers": 24}, {"metric": "pcr", "score": 9.5, "rank": 20, "peers": 21}, {"metric": "evebitda", "score": 4.8, "rank": 21, "peers": 21}]}, "self": {"score": 18.9, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 40.4, "percentile": 59.6, "current": 42.08, "min": 30.58, "median": 40.64, "max": 60.73, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 20.5, "percentile": 79.5, "current": 8.32, "min": 5.28, "median": 7.7, "max": 9.74, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 7.5, "percentile": 92.5, "current": 4.99, "min": 2.76, "median": 4.32, "max": 5.43, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 19.7, "percentile": 80.3, "current": 48.33, "min": 28.64, "median": 39.94, "max": 55.53, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 6.5, "percentile": 93.5, "current": 24.95, "min": 18.78, "median": 22.41, "max": 29.49, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2122,8 +2122,8 @@ const ECL_ACTIVITY = {"ticker": "ECL", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ecl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ECL_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 16, mean: 330, median: 335,
-  low: 295, high: 360, strongBuy: 15, buy: 5, hold: 4, sell: 0, strongSell: 0 };
+const ECL_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 16, mean: 335.31, median: 337,
+  low: 300, high: 380, strongBuy: 15, buy: 5, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = ECL_ANALYST, last = (typeof ECL_DAILY !== 'undefined' && ECL_DAILY.length) ? ECL_DAILY[ECL_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

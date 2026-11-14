@@ -1007,7 +1007,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">화학·소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) · 11/6 종가(APD 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">화학·소재 6곳 PER 비교 (점수는 S&amp;P500 소재 기준) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1113,8 +1113,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 62.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 37.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$340.47</span> <span class="op-sub op-up" data-an="upside">+7.6%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$343.40</span> <span class="op-sub op-up" data-an="upside">+8.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1318,62 +1318,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '화학·소재 6곳 PER 비교 (점수는 S&P500 소재 기준) · 11/6 종가(APD 막대는 11/13)',
-    unit: 'PER', max: 300, apdValue: null,
+    title: '화학·소재 6곳 PER 비교 (점수는 S&P500 소재 기준) · 11/13 종가',
+    unit: 'PER', max: 295, apdValue: null,
     peers: [
-      { name:'LIN', value:34.2, status:'reference' },
-      { name:'ECL', value:40.9, status:'reference' },
-      { name:'SHW', value:31.6, status:'reference' },
-      { name:'DD', value:27.0, status:'reference' },
-      { name:'PPG', value:17.2, status:'reference' },
-      { name:'IFF', value:258.2, status:'reference' }
+      { name:'LIN', value:33.9, status:'reference' },
+      { name:'ECL', value:41.5, status:'reference' },
+      { name:'SHW', value:32.3, status:'reference' },
+      { name:'DD', value:28.3, status:'reference' },
+      { name:'PPG', value:17.6, status:'reference' },
+      { name:'IFF', value:253.6, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 11/6 종가(APD 막대는 11/13)',
+    title: 'PBR 비교 · 11/13 종가',
     unit: 'PBR', max: 25, apdValue: null,
     peers: [
-      { name:'LIN', value:6.0, status:'reference' },
-      { name:'ECL', value:8.1, status:'reference' },
-      { name:'SHW', value:20.9, status:'reference' },
-      { name:'DD', value:1.4, status:'reference' },
+      { name:'LIN', value:6.1, status:'reference' },
+      { name:'ECL', value:8.3, status:'reference' },
+      { name:'SHW', value:21.3, status:'reference' },
+      { name:'DD', value:1.5, status:'reference' },
       { name:'PPG', value:3.2, status:'reference' },
-      { name:'IFF', value:1.6, status:'reference' }
+      { name:'IFF', value:1.5, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/6 종가(APD 막대는 11/13)',
+    title: 'PSR 비교 · 11/13 종가',
     unit: 'PSR(TTM)', max: 10, apdValue: null,
     peers: [
-      { name:'LIN', value:6.5, status:'reference' },
-      { name:'ECL', value:4.8, status:'reference' },
-      { name:'SHW', value:3.3, status:'reference' },
-      { name:'DD', value:2.8, status:'reference' },
+      { name:'LIN', value:6.7, status:'reference' },
+      { name:'ECL', value:5.0, status:'reference' },
+      { name:'SHW', value:3.4, status:'reference' },
+      { name:'DD', value:2.9, status:'reference' },
       { name:'PPG', value:1.6, status:'reference' },
       { name:'IFF', value:2.2, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 11/6 종가(APD 막대는 11/13)',
-    unit: 'PCR(FCF)', max: 95, apdValue: null,
+    title: 'PCR(FCF) 비교 · 11/13 종가',
+    unit: 'PCR(FCF)', max: 100, apdValue: null,
     peers: [
-      { name:'LIN', value:46.6, status:'reference' },
-      { name:'ECL', value:47.0, status:'reference' },
-      { name:'SHW', value:27.0, status:'reference' },
-      { name:'DD', value:79.9, status:'reference' },
+      { name:'LIN', value:47.5, status:'reference' },
+      { name:'ECL', value:48.3, status:'reference' },
+      { name:'SHW', value:27.5, status:'reference' },
+      { name:'DD', value:83.9, status:'reference' },
       { name:'PPG', value:21.1, status:'reference' },
-      { name:'IFF', value:41.3, status:'reference' }
+      { name:'IFF', value:40.6, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (DD 값 없음) · 11/6 종가(APD 막대는 11/13)',
+    title: 'EV/EBITDA 비교 (DD 값 없음) · 11/13 종가',
     unit: 'EV/EBITDA', max: 110, apdValue: null,
     peers: [
-      { name:'LIN', value:20.1, status:'reference' },
-      { name:'ECL', value:24.3, status:'reference' },
-      { name:'SHW', value:19.9, status:'reference' },
+      { name:'LIN', value:20.5, status:'reference' },
+      { name:'ECL', value:24.9, status:'reference' },
+      { name:'SHW', value:20.2, status:'reference' },
       { name:'PPG', value:11.8, status:'reference' },
-      { name:'IFF', value:17.7, status:'reference' }
+      { name:'IFF', value:17.5, status:'reference' }
     ]
   }
 };
@@ -1834,7 +1834,7 @@ const APD_FUNDAMENTAL = {"ticker": "APD", "basis": "quarter", "asOf": "2026-06-3
 //
 // 갱신: python3 v2/build_peer_score.py APD --self v2/APD_multiples.json --card
 /* VALUATION:BEGIN */
-const APD_VALUATION = {"peer": {"score": 5.2, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "psr", "score": 4.2, "rank": 24, "peers": 24}, {"metric": "pcr", "score": 0.0, "rank": 23, "peers": 22}, {"metric": "evebitda", "score": 0.0, "rank": 22, "peers": 21}]}, "self": {"score": 6.2, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 14.39, "median": 27.16, "max": 43.12, "days": 1070, "currentNote": "per_na"}, {"metric": "pbr", "score": 4.1, "percentile": 95.9, "current": 5.08, "min": 3.22, "median": 4.18, "max": 5.49, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 12.0, "percentile": 88.0, "current": 5.59, "min": 3.85, "median": 5.02, "max": 6.86, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 45.76, "median": 181.0, "max": 8447.69, "days": 371, "currentNote": "negative"}, {"metric": "evebitda", "score": 8.8, "percentile": 91.2, "current": 94.54, "min": 11.82, "median": 18.74, "max": 113.09, "days": 1255, "currentNote": null}]}, "perNA": {"netMargin": -0.0038, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const APD_VALUATION = {"peer": {"score": 5.2, "sector": "Materials (S&P500 25종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 16.7, "rank": 21, "peers": 24}, {"metric": "psr", "score": 4.2, "rank": 24, "peers": 24}, {"metric": "pcr", "score": 0.0, "rank": 23, "peers": 22}, {"metric": "evebitda", "score": 0.0, "rank": 22, "peers": 21}]}, "self": {"score": 6.2, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 14.39, "median": 27.16, "max": 43.12, "days": 1070, "currentNote": "per_na"}, {"metric": "pbr", "score": 4.1, "percentile": 95.9, "current": 5.08, "min": 3.22, "median": 4.18, "max": 5.49, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 12.0, "percentile": 88.0, "current": 5.59, "min": 3.85, "median": 5.02, "max": 6.86, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 45.76, "median": 181.0, "max": 8447.69, "days": 371, "currentNote": "negative"}, {"metric": "evebitda", "score": 8.8, "percentile": 91.2, "current": 94.54, "min": 11.82, "median": 18.74, "max": 113.09, "days": 1255, "currentNote": null}]}, "perNA": {"netMargin": -0.0038, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2132,8 +2132,8 @@ const APD_ACTIVITY = {"ticker": "APD", "status": "ok", "asOf": "2026-06-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/apd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const APD_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 15, mean: 340.47, median: 342,
-  low: 312, high: 373, strongBuy: 11, buy: 4, hold: 9, sell: 0, strongSell: 0 };
+const APD_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 15, mean: 343.4, median: 342,
+  low: 320, high: 373, strongBuy: 11, buy: 4, hold: 9, sell: 0, strongSell: 0 };
 (function(){
   const A = APD_ANALYST, last = (typeof APD_DAILY !== 'undefined' && APD_DAILY.length) ? APD_DAILY[APD_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

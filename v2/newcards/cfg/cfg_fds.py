@@ -9,7 +9,7 @@ CUR, YO, QO = '2026-08-31', '2025-08-31', '2026-05-31'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 L8 = ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26']
 FY_ENDS, FY_LABEL = ('2026-08-31', '2025-08-31'), 'FY2026'
-VOTES, VERDICT = (1, 0, -2), '적정~고평가'
+VOTES, VERDICT = (1, 1, -2), '적정'
 CO = 'FactSet'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1013237/'
 SEC = S_
@@ -54,8 +54,8 @@ NEWS = [
      '매출 $607.6M(+6.8%) · 희석 EPS $4.06(1년 전 $3.89)', 'q1', 'FactSet 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Hold', 'n': 18, 'nt': 13, 'mean': 278.77, 'median': 292, 'low': 212, 'high': 340, 'sb': 3, 'b': 0, 'h': 9, 's': 2, 'ss': 4}
-ANALYST_ASOF = '2026-11-08'
+ANALYST = {'rating': 'Hold', 'n': 18, 'nt': 13, 'mean': 290.54, 'median': 301, 'low': 212, 'high': 375, 'sb': 3, 'b': 0, 'h': 9, 's': 2, 'ss': 4}
+ANALYST_ASOF = '2026-11-14'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-K 부문 주석 FY26 1,617.4/605.3/253.5, 4분기 = 연간 − Q3 10-Q 9개월(414.3/154.8/65.6)(2026-11-05) ──

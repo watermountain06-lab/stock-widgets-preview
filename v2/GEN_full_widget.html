@@ -1073,8 +1073,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 45.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 54.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$33.57</span> <span class="op-sub op-up" data-an="upside">+10.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$34</span> <span class="op-sub op-up" data-an="upside">+11.8%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2077,7 +2077,7 @@ const GEN_ACTIVITY = {"ticker": "GEN", "status": "N/A", "reason": "구독형 소
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/gen/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GEN_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 11, nTargets: 7, mean: 33.57, median: 32,
+const GEN_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 11, nTargets: 7, mean: 34, median: 34,
   low: 27, high: 46, strongBuy: 5, buy: 0, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = GEN_ANALYST, last = (typeof GEN_DAILY !== 'undefined' && GEN_DAILY.length) ? GEN_DAILY[GEN_DAILY.length - 1] : null;

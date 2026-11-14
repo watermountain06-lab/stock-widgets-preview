@@ -970,7 +970,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">제약 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) (GILD 값 없음) · 11/6 종가(VTRS 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">제약 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) (GILD 값 없음) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1082,8 +1082,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 58.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 33.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 8.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$20.67</span> <span class="op-sub op-down" data-an="upside">−0.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$21</span> <span class="op-sub op-up" data-an="upside">+0.9%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1287,61 +1287,61 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '제약 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (GILD 값 없음) · 11/6 종가(VTRS 막대는 11/13)',
-    unit: 'PER', max: 175, vtrsValue: null,
+    title: '제약 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (GILD 값 없음) · 11/13 종가',
+    unit: 'PER', max: 140, vtrsValue: null,
     peers: [
-      { name:'PFE', value:42.0, status:'reference' },
-      { name:'BMY', value:13.8, status:'reference' },
-      { name:'MRK', value:151.3, status:'reference' },
-      { name:'AMGN', value:26.7, status:'reference' },
-      { name:'JNJ', value:29.1, status:'reference' }
+      { name:'PFE', value:38.0, status:'reference' },
+      { name:'BMY', value:13.9, status:'reference' },
+      { name:'MRK', value:118.2, status:'reference' },
+      { name:'AMGN', value:28.9, status:'reference' },
+      { name:'JNJ', value:33.2, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 11/6 종가(VTRS 막대는 11/13)',
+    title: 'PBR 비교 · 11/13 종가',
     unit: 'PBR', max: 25, vtrsValue: null,
     peers: [
       { name:'PFE', value:1.9, status:'reference' },
-      { name:'BMY', value:5.4, status:'reference' },
+      { name:'BMY', value:5.5, status:'reference' },
       { name:'MRK', value:8.1, status:'reference' },
-      { name:'GILD', value:15.9, status:'reference' },
-      { name:'AMGN', value:17.4, status:'reference' },
-      { name:'JNJ', value:8.2, status:'reference' }
+      { name:'GILD', value:16.0, status:'reference' },
+      { name:'AMGN', value:17.6, status:'reference' },
+      { name:'JNJ', value:8.4, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/6 종가(VTRS 막대는 11/13)',
+    title: 'PSR 비교 · 11/13 종가',
     unit: 'PSR(TTM)', max: 10, vtrsValue: null,
     peers: [
       { name:'PFE', value:2.6, status:'reference' },
-      { name:'BMY', value:2.5, status:'reference' },
+      { name:'BMY', value:2.6, status:'reference' },
       { name:'MRK', value:5.4, status:'reference' },
       { name:'GILD', value:6.7, status:'reference' },
-      { name:'AMGN', value:6.4, status:'reference' },
-      { name:'JNJ', value:6.7, status:'reference' }
+      { name:'AMGN', value:6.5, status:'reference' },
+      { name:'JNJ', value:6.9, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 11/6 종가(VTRS 막대는 11/13)',
+    title: 'PCR(FCF) 비교 · 11/13 종가',
     unit: 'PCR(FCF)', max: 40, vtrsValue: null,
     peers: [
-      { name:'PFE', value:14.2, status:'reference' },
-      { name:'BMY', value:13.7, status:'reference' },
-      { name:'MRK', value:24.5, status:'reference' },
-      { name:'GILD', value:15.0, status:'reference' },
-      { name:'AMGN', value:26.0, status:'reference' },
-      { name:'JNJ', value:32.3, status:'reference' }
+      { name:'PFE', value:14.0, status:'reference' },
+      { name:'BMY', value:14.0, status:'reference' },
+      { name:'MRK', value:24.7, status:'reference' },
+      { name:'GILD', value:15.1, status:'reference' },
+      { name:'AMGN', value:26.3, status:'reference' },
+      { name:'JNJ', value:33.4, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (GILD 적자) · 11/6 종가(VTRS 막대는 11/13)',
+    title: 'EV/EBITDA 비교 (GILD 적자) · 11/13 종가',
     unit: 'EV/EBITDA', max: 40, vtrsValue: null,
     peers: [
-      { name:'PFE', value:10.7, status:'reference' },
-      { name:'BMY', value:11.0, status:'reference' },
-      { name:'MRK', value:31.7, status:'reference' },
-      { name:'AMGN', value:17.0, status:'reference' },
-      { name:'JNJ', value:21.1, status:'reference' }
+      { name:'PFE', value:10.6, status:'reference' },
+      { name:'BMY', value:11.2, status:'reference' },
+      { name:'MRK', value:31.9, status:'reference' },
+      { name:'AMGN', value:17.1, status:'reference' },
+      { name:'JNJ', value:21.8, status:'reference' }
     ]
   }
 };
@@ -1797,7 +1797,7 @@ const VTRS_FUNDAMENTAL = {"ticker": "VTRS", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py VTRS --self v2/VTRS_multiples.json --card
 /* VALUATION:BEGIN */
-const VTRS_VALUATION = {"peer": {"score": 84.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 90.6, "rank": 6, "peers": 53}, {"metric": "psr", "score": 75.9, "rank": 15, "peers": 58}, {"metric": "pcr", "score": 92.7, "rank": 5, "peers": 55}, {"metric": "evebitda", "score": 80.0, "rank": 12, "peers": 55}]}, "self": {"score": 4.4, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 5.27, "median": 8.96, "max": 314.75, "days": 503, "currentNote": "per_na"}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 1.74, "min": 0.47, "median": 0.69, "max": 1.76, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.2, "percentile": 99.8, "current": 1.62, "min": 0.59, "median": 0.85, "max": 1.64, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 1.0, "percentile": 99.0, "current": 11.31, "min": 3.34, "median": 6.12, "max": 11.6, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 16.3, "percentile": 83.7, "current": 12.61, "min": 6.21, "median": 8.95, "max": 251.31, "days": 1193, "currentNote": null}]}, "perNA": {"netMargin": -0.0413, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
+const VTRS_VALUATION = {"peer": {"score": 84.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "pbr", "score": 90.6, "rank": 6, "peers": 53}, {"metric": "psr", "score": 75.9, "rank": 15, "peers": 58}, {"metric": "pcr", "score": 92.9, "rank": 5, "peers": 56}, {"metric": "evebitda", "score": 80.0, "rank": 12, "peers": 55}]}, "self": {"score": 4.4, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": null, "percentile": 100.0, "current": null, "min": 5.27, "median": 8.96, "max": 314.75, "days": 503, "currentNote": "per_na"}, {"metric": "pbr", "score": 0.2, "percentile": 99.8, "current": 1.74, "min": 0.47, "median": 0.69, "max": 1.76, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 0.2, "percentile": 99.8, "current": 1.62, "min": 0.59, "median": 0.85, "max": 1.64, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 1.0, "percentile": 99.0, "current": 11.31, "min": 3.34, "median": 6.12, "max": 11.6, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 16.3, "percentile": 83.7, "current": 12.61, "min": 6.21, "median": 8.95, "max": 251.31, "days": 1193, "currentNote": null}]}, "perNA": {"netMargin": -0.0413, "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2085,7 +2085,7 @@ const VTRS_ACTIVITY = {"ticker": "VTRS", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/vtrs/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const VTRS_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 12, nTargets: 9, mean: 20.67, median: 20,
+const VTRS_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 12, nTargets: 9, mean: 21, median: 20,
   low: 14, high: 28, strongBuy: 6, buy: 1, hold: 4, sell: 1, strongSell: 0 };
 (function(){
   const A = VTRS_ANALYST, last = (typeof VTRS_DAILY !== 'undefined' && VTRS_DAILY.length) ? VTRS_DAILY[VTRS_DAILY.length - 1] : null;

@@ -975,7 +975,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">헬스케어 서비스 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 11/6 종가(UHS 막대는 11/13)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">헬스케어 서비스 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1080,8 +1080,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 35%; background: var(--green);"></div><div data-an-bar="hold" style="width: 60%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-08</span></span>
-        <span class="op-val"><span data-an="mean">$192.69</span> <span class="op-sub op-down" data-an="upside">−0.7%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-val"><span data-an="mean">$196.46</span> <span class="op-sub op-up" data-an="upside">+1.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1285,59 +1285,59 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '헬스케어 서비스 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 11/6 종가(UHS 막대는 11/13)',
+    title: '헬스케어 서비스 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 11/13 종가',
     unit: 'PER', max: 35, uhsValue: null,
     peers: [
-      { name:'HCA', value:16.4, status:'reference' },
-      { name:'DVA', value:14.5, status:'reference' },
-      { name:'DGX', value:25.5, status:'reference' },
-      { name:'LH', value:30.1, status:'reference' },
-      { name:'CVS', value:11.8, status:'reference' },
-      { name:'CI', value:13.0, status:'reference' }
+      { name:'HCA', value:16.5, status:'reference' },
+      { name:'DVA', value:14.4, status:'reference' },
+      { name:'DGX', value:25.9, status:'reference' },
+      { name:'LH', value:30.4, status:'reference' },
+      { name:'CVS', value:13.4, status:'reference' },
+      { name:'CI', value:13.1, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (HCA 값 없음·DVA 값 없음) · 11/6 종가(UHS 막대는 11/13)',
+    title: 'PBR 비교 (HCA 값 없음·DVA 값 없음) · 11/13 종가',
     unit: 'PBR', max: 5, uhsValue: null,
     peers: [
       { name:'DGX', value:3.7, status:'reference' },
       { name:'LH', value:3.4, status:'reference' },
-      { name:'CVS', value:1.3, status:'reference' },
+      { name:'CVS', value:1.4, status:'reference' },
       { name:'CI', value:1.8, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/6 종가(UHS 막대는 11/13)',
+    title: 'PSR 비교 · 11/13 종가',
     unit: 'PSR(TTM)', max: 5, uhsValue: null,
     peers: [
       { name:'HCA', value:1.3, status:'reference' },
       { name:'DVA', value:0.8, status:'reference' },
       { name:'DGX', value:2.4, status:'reference' },
-      { name:'LH', value:2.0, status:'reference' },
+      { name:'LH', value:2.1, status:'reference' },
       { name:'CVS', value:0.3, status:'reference' },
       { name:'CI', value:0.3, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (CI 값 없음) · 11/6 종가(UHS 막대는 11/13)',
+    title: 'PCR(FCF) 비교 (CI 값 없음) · 11/13 종가',
     unit: 'PCR(FCF)', max: 30, uhsValue: null,
     peers: [
-      { name:'HCA', value:17.3, status:'reference' },
-      { name:'DVA', value:9.3, status:'reference' },
-      { name:'DGX', value:20.4, status:'reference' },
-      { name:'LH', value:23.1, status:'reference' },
-      { name:'CVS', value:6.9, status:'reference' }
+      { name:'HCA', value:17.4, status:'reference' },
+      { name:'DVA', value:8.5, status:'reference' },
+      { name:'DGX', value:20.8, status:'reference' },
+      { name:'LH', value:23.4, status:'reference' },
+      { name:'CVS', value:7.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 11/6 종가(UHS 막대는 11/13)',
+    title: 'EV/EBITDA 비교 · 11/13 종가',
     unit: 'EV/EBITDA', max: 20, uhsValue: null,
     peers: [
-      { name:'HCA', value:9.8, status:'reference' },
-      { name:'DVA', value:8.5, status:'reference' },
-      { name:'DGX', value:14.4, status:'reference' },
-      { name:'LH', value:16.0, status:'reference' },
-      { name:'CVS', value:7.8, status:'reference' },
+      { name:'HCA', value:9.9, status:'reference' },
+      { name:'DVA', value:8.1, status:'reference' },
+      { name:'DGX', value:14.6, status:'reference' },
+      { name:'LH', value:16.1, status:'reference' },
+      { name:'CVS', value:8.2, status:'reference' },
       { name:'CI', value:7.9, status:'reference' }
     ]
   }
@@ -1799,7 +1799,7 @@ const UHS_FUNDAMENTAL = {"ticker": "UHS", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py UHS --self v2/UHS_multiples.json --card
 /* VALUATION:BEGIN */
-const UHS_VALUATION = {"peer": {"score": 95.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-06", "2026-11-06"], "priceSession": null, "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 49}, {"metric": "pbr", "score": 96.2, "rank": 3, "peers": 53}, {"metric": "psr", "score": 86.2, "rank": 9, "peers": 58}, {"metric": "pcr", "score": 94.5, "rank": 4, "peers": 55}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 55}]}, "self": {"score": 85.8, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.0, "percentile": 13.0, "current": 8.12, "min": 5.88, "median": 11.52, "max": 18.43, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 76.1, "percentile": 23.9, "current": 1.47, "min": 1.1, "median": 1.69, "max": 2.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 84.0, "percentile": 16.0, "current": 0.61, "min": 0.48, "median": 0.74, "max": 1.07, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.6, "percentile": 4.4, "current": 10.03, "min": 9.09, "median": 17.15, "max": 415.04, "days": 1186, "currentNote": null}, {"metric": "evebitda", "score": 86.1, "percentile": 13.9, "current": 6.36, "min": 4.98, "median": 7.73, "max": 10.45, "days": 1255, "currentNote": null}]}};
+const UHS_VALUATION = {"peer": {"score": 95.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 46}, {"metric": "pbr", "score": 96.2, "rank": 3, "peers": 53}, {"metric": "psr", "score": 86.2, "rank": 9, "peers": 58}, {"metric": "pcr", "score": 94.6, "rank": 4, "peers": 56}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 55}]}, "self": {"score": 85.8, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.0, "percentile": 13.0, "current": 8.12, "min": 5.88, "median": 11.52, "max": 18.43, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 76.1, "percentile": 23.9, "current": 1.47, "min": 1.1, "median": 1.69, "max": 2.48, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 84.0, "percentile": 16.0, "current": 0.61, "min": 0.48, "median": 0.74, "max": 1.07, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.6, "percentile": 4.4, "current": 10.03, "min": 9.09, "median": 17.15, "max": 415.04, "days": 1186, "currentNote": null}, {"metric": "evebitda", "score": 86.1, "percentile": 13.9, "current": 6.36, "min": 4.98, "median": 7.73, "max": 10.45, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2088,7 +2088,7 @@ const UHS_ACTIVITY = {"ticker": "UHS", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/uhs/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const UHS_ANALYST = { asOf: '2026-11-08', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 13, mean: 192.69, median: 194,
+const UHS_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 13, mean: 196.46, median: 197,
   low: 156, high: 250, strongBuy: 6, buy: 1, hold: 12, sell: 1, strongSell: 0 };
 (function(){
   const A = UHS_ANALYST, last = (typeof UHS_DAILY !== 'undefined' && UHS_DAILY.length) ? UHS_DAILY[UHS_DAILY.length - 1] : null;

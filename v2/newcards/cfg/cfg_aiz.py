@@ -50,8 +50,8 @@ NEWS = [
     ('red', '2026년 2월 10일 장 마감 뒤 — Q4 2025 실적', '2026-02-11',
      '매출 $3.35B(+7.9%) · 순이익 $225.2M · 희석 EPS $4.41(1년 전 $3.87) · 조정 EPS $5.61 — 다음 날 주가 −8.6%', 'q4', 'Assurant 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Strong Buy', 'n': 7, 'nt': 6, 'mean': 330, 'median': 331, 'low': 300, 'high': 355, 'sb': 4, 'b': 3, 'h': 0, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-08'
+ANALYST = {'rating': 'Strong Buy', 'n': 7, 'nt': 6, 'mean': 347.17, 'median': 355, 'low': 320, 'high': 377, 'sb': 4, 'b': 3, 'h': 0, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-14'
 
 
 POST = [r"""

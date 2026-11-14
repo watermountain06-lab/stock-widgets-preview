@@ -60,8 +60,8 @@ NEWS = [
     ('green', '2025년 10월 30일 장 마감 뒤 — Q3 2025 실적', '2025-10-31',
      '매출 $1.08B(보합) · GAAP 희석 EPS $0.98 · 조정 EPS $1.34 · 2025년 전망 상향 — 다음 날 주가 +24.8%', 'q3p', 'Illumina 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 20, 'mean': 250.05, 'median': 270, 'low': 150, 'high': 310, 'sb': 6, 'b': 4, 'h': 7, 's': 3, 'ss': 1}
-ANALYST_ASOF = '2026-11-13'
+ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 19, 'mean': 251.89, 'median': 270, 'low': 150, 'high': 310, 'sb': 6, 'b': 4, 'h': 7, 's': 3, 'ss': 1}
+ANALYST_ASOF = '2026-11-14'
 
 AUTO = True
 SEG_MAP = {

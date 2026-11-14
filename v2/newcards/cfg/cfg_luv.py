@@ -55,8 +55,8 @@ NEWS = [
     ('green', '2026년 1월 28일 장 마감 뒤 — 2025년 연간 실적 · 2026년 전망', '2026-01-29',
      '4분기 GAAP 희석 EPS $0.61 · 2025년 조정 EPS $0.93 · 2026년 조정 EPS $4.00 이상(300% 넘는 증가) 전망 — 다음 날 주가 +18.7%', 'q4', 'Southwest 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 17, 'mean': 50.06, 'median': 50, 'low': 34, 'high': 65, 'sb': 7, 'b': 5, 'h': 11, 's': 2, 'ss': 1}
-ANALYST_ASOF = '2026-11-09'
+ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 16, 'mean': 50.5, 'median': 50, 'low': 34, 'high': 65, 'sb': 7, 'b': 5, 'h': 10, 's': 3, 'ss': 1}
+ANALYST_ASOF = '2026-11-14'
 
 AUTO = True
 SEG_MAP = {
