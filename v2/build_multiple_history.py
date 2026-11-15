@@ -109,6 +109,7 @@ DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     "0000040533": ["Depreciation", "AmortizationOfIntangibleAssets"],
                     # COHR: 합산 태그 DepreciationAndAmortization는 FY2026 10-K 연간만 — 감가상각 + 무형자산 상각. 상각은 FY27 1분기부터 OtherAmortizationOfDeferredCharges로만 실려(Q1 $69.5M) 같은 줄의 두 이름으로 잇는다 — 현금흐름표 정밀값(FY26 $280.334M 대 $280.000M)이라 앞에 둔다(Codex r1, 2026-11-13)
                     "0000820318": ["Depreciation", ("OtherAmortizationOfDeferredCharges", "AmortizationOfIntangibleAssets")],
+                    "0001447669": ["Depreciation", "AmortizationOfIntangibleAssets"],   # TWLO: 합산 태그 DepreciationDepletionAndAmortization는 누계로만(2026 9개월 91.4) — 감가상각 + 무형자산 상각(Q3 2026 분기 18.4 + 8.8)(2026-11-14)
                     "0001110803": ["Depreciation", "AmortizationOfIntangibleAssets"],   # ILMN: 합산 태그 DepreciationDepletionAndAmortization는 2025-12에 멈춤 — 감가상각 + 무형자산 상각(Q3 2026 9개월 154 + 57)(2026-11-13)   # ROP: 합산 태그 DepreciationDepletionAndAmortization는 연간만 — 감가상각 + 무형자산 상각(Q3 2026 분기 D&A $235.7M, 엔진 EBITDA $858.9M ≈ 회사 조정 $864M, Codex r1 2026-11-13)
                     "0000882835": ["Depreciation", "AmortizationOfIntangibleAssets"],   # ROP: 합산 태그 DepreciationDepletionAndAmortization는 연간만 — 감가상각 + 무형자산 상각(Q3 2026 분기 D&A $235.7M, 엔진 EBITDA $858.9M ≈ 회사 조정 $864M, Codex r1 2026-11-13)
                     # HII: 합산 태그는 분기 행이 2024년부터 — 감가상각 + 무형자산 상각(FY20~25 연간 합 일치, 2026-10-25)
@@ -970,6 +971,7 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000004904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForConstructionInProcess"]},
                    # MSCI: 설비투자 = 유형자산(PaymentsToAcquirePropertyPlantAndEquipment) + 자본화 소프트웨어(PaymentsForSoftware) — D&A에 소프트웨어 상각이 들어가므로 맞춘다(TTM 약 $40M + $106M, 2026-10-23)
                    "0001408198": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsForSoftware"]},
+                   "0001447669": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToDevelopSoftware", "PaymentsToAcquireOtherProductiveAssets"]},   # TWLO: 설비투자 = 자본화 소프트웨어 + 장기 자산 구입(회사 FCF 표 "Capitalized software development costs"·"Purchase of long-lived assets", Q3 2026 14.6 + 5.0) — 기본 태그는 2022-09에 멈춰 PCR이 비었다. 장기 자산 태그는 2020-12부터라 그 전 이력은 쓰지 않는다(2026-11-14)
                    "0000882835": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets", "PaymentsToDevelopSoftware"]},   # ROP: 설비투자 = 유형자산(PaymentsToAcquireOtherProductiveAssets) + 자본화 소프트웨어(PaymentsToDevelopSoftware) — 기본 태그는 2019-09에 멈춰 PCR이 비었다(MSCI 방식, 2026-11-13). 합산 행이 2019년 1분기부터라 그 전 옛 태그 이력은 쓰지 않는다 — 5년 창(2021~)에는 영향 없음(Codex r1)
 # DAL: 설비투자 = 항공기(PaymentsForFlightEquipment) + 지상 설비·기타(PaymentsToAcquireOtherProductiveAssets) — 합계 태그는 2026년 1분기에 멈췄다(겹치는 기간 합 = 합계, FY2025 4,499, 2026-10-23)
                    "0000027904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForFlightEquipment", "PaymentsToAcquireOtherProductiveAssets"]},
@@ -1404,6 +1406,7 @@ EXCLUDE_TAGS = {"0001140536": ("RevenueFromContractWithCustomerExcludingAssessed
                 "0000008818": ("DepreciationDepletionAndAmortization",),   # AVY — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
                 "0000882835": ("DepreciationDepletionAndAmortization",),   # ROP — 합산 태그는 연간만이라 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
                 "0000820318": ("DepreciationAndAmortization",),   # COHR — 합산 태그는 연간만이라 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
+                "0001447669": ("DepreciationDepletionAndAmortization",),   # TWLO — 합산 태그는 누계뿐이라 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-14)
                 "0001110803": ("DepreciationDepletionAndAmortization",),   # ILMN — 합산 태그가 2025-12에 멈춰 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-11-13)
                 "0000004904": ("DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "PaymentsToAcquireProductiveAssets"),   # AEP — 감가상각은 구성요소 경로, 발전소 인수는 설비투자에서 뺌(2026-10-28)   # AEP — 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-28)
                 "0000040533": ("DepreciationAndAmortization",),   # GD — 합산 태그가 2019~2023 분기에 없다 → 구성요소 경로로(DDA_PARTS_BY_CIK, 2026-10-25)
