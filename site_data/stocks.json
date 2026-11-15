@@ -15396,6 +15396,45 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "LYB",
+      "name": "라이온델바젤",
+      "sector": "석유화학 — 폴리에틸렌·폴리프로필렌, 프로필렌옥사이드·중간재, 정제",
+      "href": "LYB_full_widget.html",
+      "cardRank": 367,
+      "cardAsOf": "2026-11-12",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-12 ≠ 홈 가격 세션 2026-11-13, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 323242496,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-28",
+        "filedAt": "2026-10-30",
+        "filing": "10-Q 0001489393-26-000070 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 41.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-12",
+        "qualityFlags": []
+      }
     }
   ]
 }

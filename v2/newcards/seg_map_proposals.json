@@ -4201,5 +4201,39 @@
   "ignore_candidates": [
    "hpq:CorporateInvestmentsMember"
   ]
+ },
+ "LYB": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "lyb:OlefinsAndPolyolefinsAmericasMember": [
+    "올레핀·폴리올레핀 — 미주",
+    "#00247d"
+   ],
+   "lyb:OlefinsAndPolyolefinsEuropeAsiaInternationalMember": [
+    "올레핀·폴리올레핀 — 유럽·아시아·기타",
+    "#4a6fb5"
+   ],
+   "lyb:IntermediatesAndDerivativesMember": [
+    "중간재·파생품(PO·옥시연료)",
+    "#e4002b"
+   ],
+   "lyb:AdvancedPolymerSolutionsMember": [
+    "고급 폴리머",
+    "#f08a8a"
+   ],
+   "lyb:TechnologyMember": [
+    "기술(라이선스·촉매)",
+    "#9fb3d9"
+   ]
+  },
+  "ignore_candidates": [
+   "lyb:CorporateNonSegmentAndEliminationsMember"
+  ]
  }
 }

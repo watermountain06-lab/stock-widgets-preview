@@ -2171,6 +2171,7 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
                   "0001474735": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # GNRC: 단기 $53.1M + 1년 안 만기(금융리스 포함) $36.7M + 장기(금융리스 포함) $1,243.7M = $1,333.6M(금융리스 $91.0M 포함 — EV에 금융리스가 들어간다). 기본은 텀론 원금에 1년 안 만기를 다시 더해 $1,268.7M(Codex r1, 2026-11-08)
                   "0000092380": [("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # LUV: 1년 안 $2,153M + 장기 $3,734M(금융리스 포함) — 기본은 1년 안 몫이 빠졌다(2026-11-09)
                   "0001001250": ["NotesAndLoansPayableCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EL: 1년 안 차입(어음·만기 도래분) $503M + 장기 $6,748M(Q1 FY27 10-Q) — 기본 태그는 2012·2019에 멈췄다(2026-11-09)
+                  "0001489393": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LYB: 단기차입 $247M + 1년 안 장기 $891M + 장기 $11,193M = $12,331M(Q3 2026 10-Q 주석 7) — 기본 합산은 1년 안 몫을 빠뜨려 $11.4B(Codex r1, 2026-11-14)
                   "0000007084": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # ADM: 단기차입 $1,156M(CP $690M + 기타 $466M) + 1년 안 장기 $153M + 장기 $7,429M = $8,738M — 기본 합산은 OtherShortTermBorrowings $466M를 한 번 더 더했다(Codex r1, 2026-11-13)
                   "0001110803": [("NotesPayableCurrent", "LongTermDebtCurrent"), ("LongTermNotesPayable", "LongTermDebtNoncurrent")],   # ILMN: 1년 안 차입 $0 + 장기 채권 $1,789M(Q3 2026 10-Q) — 기본 태그는 2022-04에 멈춰 차입금이 비었다(옛 이름은 튜플 뒤, 2026-11-13)
                   "0001637459": [("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # KHC: 1년 안 $918M + 장기 $17,085M(금융리스 포함) — 기본은 1년 안 몫이 빠졌다, 단기차입 태그는 2024-09에 멈춤(2026-11-08)
@@ -2531,6 +2532,7 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
 EV_TAGS_BY_CIK = {"0001001250": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": [], "nci": []},   # EL: 현금은 제한 현금 포함 합계 태그로만($3,198M, 제한 현금 미미) — 현금 태그 2018, 단기투자 2019, 비지배 2022(0)에 멈춤(2026-11-09)
+                  "0001489393": {"sti": []},   # LYB: 시장성 증권 $2,094M(MarketableSecuritiesCurrent)은 이미 현금및현금성자산 $3,227M 안에 있다(10-Q 주석 8) — 더하면 두 번(Codex r1, 2026-11-14)
                   "0000010456": {"sti": []},   # BAX: 단기투자는 2016-03의 낡은 값(2026-11-07)
                   "0000879169": {"sti": ("DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent")},   # INCY: 시장성 증권(유동, Q3 2026 $578.7M)은 2023-12부터 새 태그 — 옛 태그는 2024-09에 멈춤, 날짜마다 앞 태그 우선(2026-11-07)
                   "0000827052": {"nci": ["MinorityInterestAmountRepresentedByPreferredStock"], "sti": [], "preferred": ["PreferredStockValueOutstanding"]},   # EIX: 비지배지분 = SCE 우선주 $1,564M(이 태그뿐 — 없으면 0), EIX 우선주 Series B $83M, 단기투자는 2010년 낡은 값(사전 조사 2026-10-29, 2026-11-07)
