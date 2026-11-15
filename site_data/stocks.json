@@ -15355,6 +15355,47 @@
         "valuationAsOf": "2026-11-13",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "HPQ",
+      "name": "HP",
+      "sector": "PC·프린터 — 개인용·업무용 컴퓨터, 프린터·잉크 소모품",
+      "href": "HPQ_full_widget.html",
+      "cardRank": 366,
+      "cardAsOf": "2026-11-12",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-12 ≠ 홈 가격 세션 2026-11-13, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 901790969,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-08-19",
+        "filedAt": "2026-08-27",
+        "filing": "10-Q 0000047217-26-000051 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "적정~저평가",
+        "raw": "적정~저평가",
+        "status": "valid",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 33.0,
+        "grade": "미흡",
+        "financialsAsOf": "2026-07-31",
+        "valuationAsOf": "2026-11-12",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }

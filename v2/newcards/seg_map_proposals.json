@@ -4179,5 +4179,27 @@
     "#c9a227"
    ]
   }
+ },
+ "HPQ": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "hpq:PersonalSystemsMember": [
+    "PC(Personal Systems — 업무용·소비자용)",
+    "#0096d6"
+   ],
+   "hpq:PrintingMember": [
+    "프린팅(잉크·토너 소모품, 프린터)",
+    "#7fc6ea"
+   ]
+  },
+  "ignore_candidates": [
+   "hpq:CorporateInvestmentsMember"
+  ]
  }
 }

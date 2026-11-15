@@ -802,7 +802,9 @@ def texts(C, ns):
                  if lead else f"자기 이력 {selfsc:.1f}점({word(selfsc)}), 동종업 {peersc:.1f}점({word(peersc)})이다. ") + \
         (f"<strong>{dcf_txt}</strong>." if dcf_txt else "")
     if req is not None:
-        tail = f" 현재가를 정당화하려면 영업이익률이 {req * 100:.1f}%까지 올라야 한다(최근 4분기 {mn:.1f}%, {hy} 중앙값 {m5:.1f}%)."
+        tail = (f" 현재가를 정당화하려면 영업이익률이 {req * 100:.1f}%까지 올라야 한다(최근 4분기 {mn:.1f}%, {hy} 중앙값 {m5:.1f}%)." if round(req * 100, 1) > round(mn, 1) else
+                f" 현재가를 정당화하는 영업이익률은 {req * 100:.1f}%로, 최근 4분기 {mn:.1f}%보다 낮다({hy} 중앙값 {m5:.1f}%)." if round(req * 100, 1) < round(mn, 1) else
+                f" 현재가를 정당화하는 영업이익률은 {req * 100:.1f}%로, 최근 4분기와 비슷하다({hy} 중앙값 {m5:.1f}%).")   # 요구 < 현재인데 '올라야 한다'로 나오던 것(HPQ Codex 2026-11-14)
     elif DCF.get("reqMode") == "margin":
         tail = f" 영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다(최근 4분기 {mn:.1f}%)."   # TXN(Fable)
     elif DCF.get("requiredGrowth"):
