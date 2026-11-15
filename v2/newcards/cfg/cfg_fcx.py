@@ -68,7 +68,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 15, 'mean': 80.2, 'median': 80, 'low': 68, 'high': 90, 'sb': 12, 'b': 6, 'h': 4, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 
 # ── 자동 카드 — 부문 지도는 손으로(제안기가 남미·인도네시아 같은 금액 1,482를 엇갈려 짝지음). 원문 대조: 10-Q 부문 표 외부 고객 Q2 2026 Morenci 17·Cerro Verde 1,159·

@@ -1008,7 +1008,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">헬스케어 6곳 PER 비교 — HUM·CNC·MCK는 순이익률 2% 미만이라 PER 없음 (HUM 값 없음·CNC 값 없음·MCK 값 없음) · 11/13 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">헬스케어 6곳 PER 비교 — HUM·CNC·MCK는 순이익률 2% 미만이라 PER 없음 (HUM 값 없음) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1114,7 +1114,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 89.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 10.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
         <span class="op-val"><span data-an="mean">$110.81</span> <span class="op-sub op-up" data-an="upside">+24.0%</span></span>
       </div>
       <div class="op-cell">
@@ -1319,12 +1319,14 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '헬스케어 6곳 PER 비교 — HUM·CNC·MCK는 순이익률 2% 미만이라 PER 없음 (HUM 값 없음·CNC 값 없음·MCK 값 없음) · 11/13 종가',
+    title: '헬스케어 6곳 PER 비교 — HUM·CNC·MCK는 순이익률 2% 미만이라 PER 없음 (HUM 값 없음) · 11/13 종가',
     unit: 'PER', max: 35, cvsValue: null,
     peers: [
-      { name:'UNH', value:26.1, status:'reference' },
-      { name:'ELV', value:19.0, status:'reference' },
-      { name:'CI', value:13.1, status:'reference' }
+      { name:'UNH', value:23.2, status:'reference' },
+      { name:'ELV', value:18.3, status:'reference' },
+      { name:'CI', value:13.1, status:'reference' },
+      { name:'CNC', value:24.4, status:'reference' },
+      { name:'MCK', value:28.4, status:'reference' }
     ]
   },
   pbr: {
@@ -1831,7 +1833,7 @@ const CVS_FUNDAMENTAL = {"ticker": "CVS", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py CVS --self v2/CVS_multiples.json --card
 /* VALUATION:BEGIN */
-const CVS_VALUATION = {"peer": {"score": 97.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 97.8, "rank": 2, "peers": 46}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 53}, {"metric": "psr", "score": 96.6, "rank": 3, "peers": 58}, {"metric": "pcr", "score": 100.0, "rank": 1, "peers": 56}, {"metric": "evebitda", "score": 94.5, "rank": 4, "peers": 55}]}, "self": {"score": 59.6, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 57.1, "percentile": 42.9, "current": 12.62, "min": 8.36, "median": 13.14, "max": 23.2, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 35.5, "percentile": 64.5, "current": 1.42, "min": 0.74, "median": 1.32, "max": 1.97, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 45.3, "percentile": 54.7, "current": 0.27, "min": 0.15, "median": 0.27, "max": 0.51, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 81.0, "percentile": 19.0, "current": 7.34, "min": 4.74, "median": 9.19, "max": 45.96, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 79.0, "percentile": 21.0, "current": 8.19, "min": 6.95, "median": 10.33, "max": 18.29, "days": 1255, "currentNote": null}]}};
+const CVS_VALUATION = {"peer": {"score": 97.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 98.0, "rank": 2, "peers": 50}, {"metric": "pbr", "score": 100.0, "rank": 1, "peers": 53}, {"metric": "psr", "score": 96.6, "rank": 3, "peers": 58}, {"metric": "pcr", "score": 100.0, "rank": 1, "peers": 56}, {"metric": "evebitda", "score": 94.5, "rank": 4, "peers": 55}]}, "self": {"score": 59.6, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 57.1, "percentile": 42.9, "current": 12.62, "min": 8.36, "median": 13.14, "max": 23.2, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 35.5, "percentile": 64.5, "current": 1.42, "min": 0.74, "median": 1.32, "max": 1.97, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 45.3, "percentile": 54.7, "current": 0.27, "min": 0.15, "median": 0.27, "max": 0.51, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 81.0, "percentile": 19.0, "current": 7.34, "min": 4.74, "median": 9.19, "max": 45.96, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 79.0, "percentile": 21.0, "current": 8.19, "min": 6.95, "median": 10.33, "max": 18.29, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2120,7 +2122,7 @@ const CVS_ACTIVITY = {"ticker": "CVS", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/cvs/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CVS_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 28, nTargets: 21, mean: 110.81, median: 111,
+const CVS_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 28, nTargets: 21, mean: 110.81, median: 111,
   low: 100, high: 120, strongBuy: 18, buy: 7, hold: 3, sell: 0, strongSell: 0 };
 (function(){
   const A = CVS_ANALYST, last = (typeof CVS_DAILY !== 'undefined' && CVS_DAILY.length) ? CVS_DAILY[CVS_DAILY.length - 1] : null;

@@ -61,7 +61,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Strong Buy', 'n': 49, 'nt': 36, 'mean': 281.43, 'median': 280, 'low': 171, 'high': 335, 'sb': 35, 'b': 10, 'h': 3, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(지역 축 2개). 미국(country:US)은 북미 안이라 ignore. 원문 대조: Q2 2026 824.7/296.8, 1년 전 586.7/240.1(2026-10-21) ──

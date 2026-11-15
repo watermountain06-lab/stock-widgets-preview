@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="phmPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="phmPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="phmPeerScore">75.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="phmPeerScore">74.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="phmSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="phmSelfVerdict">비싼 편</span></div>
@@ -905,9 +905,9 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.
 보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">적정 · 갈림</div></div>
-      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">75.2</div><div class="sc-tile" data-vc="peer" data-m="per">86</div><div class="sc-tile" data-vc="peer" data-m="pbr">88</div><div class="sc-tile lost" data-vc="peer" data-m="psr">68</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">60</div><div class="sc-tile" data-vc="peer" data-m="evebitda">74</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">74.8</div><div class="sc-tile" data-vc="peer" data-m="per">84</div><div class="sc-tile" data-vc="peer" data-m="pbr">88</div><div class="sc-tile lost" data-vc="peer" data-m="psr">68</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">60</div><div class="sc-tile" data-vc="peer" data-m="evebitda">74</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 13.6배(5년 중앙값 8.2배)로 자기 이력 19.5점(비싸다), 동종업 75.2점(싸다)이다. <strong>현금흐름 내재가치(기본 $137.15)는 현재가의 108%다</strong>.</div>
+    <div class="vs-premise">PER 13.6배(5년 중앙값 8.2배)로 자기 이력 19.5점(비싸다), 동종업 74.8점(싸다)이다. <strong>현금흐름 내재가치(기본 $137.15)는 현재가의 108%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 +1 · 현금흐름 0, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $137.15)는 현재가의 108%다. 현재가를 정당화하려면 매출이 5년간 연 −0.4% 커야 한다. 내재가치에서 차입금 $1.8B를 빼고 현금·단기투자 $1.4B를 더한다. 2025년 4분기 이익에 제조 자산 매각 비용·토지 손상(보험 환입 차감, 세전 순 $82M)이 들어 있다. 되돌려도 판정은 같다. 이자 대부분이 재고(토지·주택)에 자본화돼 손익계산서 이자비용이 거의 0이다. 모기지 자회사 차입($0.4B)은 대출 자산으로 담보돼 차입금에 넣지 않는다. 동종업 점수는 S&P500 경기소비재 기준이다.</div>
   </div>
 
@@ -1072,7 +1072,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 55.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 38.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5.6%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
         <span class="op-val"><span data-an="mean">$135.54</span> <span class="op-sub op-up" data-an="upside">+6.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1280,7 +1280,7 @@ const MULTIPLE_DATA = {
     title: '주택 건설·주택 소매 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 11/13 종가',
     unit: 'PER', max: 30, phmValue: null,
     peers: [
-      { name:'DHI', value:13.9, status:'reference' },
+      { name:'DHI', value:13.8, status:'reference' },
       { name:'LEN', value:15.8, status:'reference' },
       { name:'NVR', value:16.2, status:'reference' },
       { name:'HD', value:24.4, status:'reference' },
@@ -1457,7 +1457,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py PHM
 const PHM_SCORES = {
   fundamental: 65.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 75.2,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
+  peer: 74.8,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 19.5,   // 자기 5년 배수 분포 백분위 (2021-11-15 ~ 2026-11-13)
   asOf: "2026-11-13",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1783,7 +1783,7 @@ const PHM_FUNDAMENTAL = {"ticker": "PHM", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py PHM --self v2/PHM_multiples.json --card
 /* VALUATION:BEGIN */
-const PHM_VALUATION = {"peer": {"score": 75.2, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 86.4, "rank": 7, "peers": 44}, {"metric": "pbr", "score": 87.9, "rank": 5, "peers": 33}, {"metric": "psr", "score": 68.2, "rank": 15, "peers": 44}, {"metric": "pcr", "score": 59.5, "rank": 18, "peers": 42}, {"metric": "evebitda", "score": 73.8, "rank": 12, "peers": 42}]}, "self": {"score": 19.5, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 0.9, "percentile": 99.1, "current": 13.57, "min": 3.77, "median": 8.21, "max": 14.53, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 52.4, "percentile": 47.6, "current": 1.79, "min": 1.04, "median": 1.81, "max": 2.76, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 19.1, "percentile": 80.9, "current": 1.46, "min": 0.55, "median": 1.26, "max": 1.84, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 24.1, "percentile": 75.9, "current": 18.01, "min": 5.49, "median": 14.57, "max": 322.02, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 1.0, "percentile": 99.0, "current": 9.98, "min": 3.71, "median": 6.41, "max": 10.67, "days": 1131, "currentNote": null}]}};
+const PHM_VALUATION = {"peer": {"score": 74.8, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 84.4, "rank": 8, "peers": 45}, {"metric": "pbr", "score": 87.9, "rank": 5, "peers": 33}, {"metric": "psr", "score": 68.2, "rank": 15, "peers": 44}, {"metric": "pcr", "score": 59.5, "rank": 18, "peers": 42}, {"metric": "evebitda", "score": 73.8, "rank": 12, "peers": 42}]}, "self": {"score": 19.5, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 0.9, "percentile": 99.1, "current": 13.57, "min": 3.77, "median": 8.21, "max": 14.53, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 52.4, "percentile": 47.6, "current": 1.79, "min": 1.04, "median": 1.81, "max": 2.76, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 19.1, "percentile": 80.9, "current": 1.46, "min": 0.55, "median": 1.26, "max": 1.84, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 24.1, "percentile": 75.9, "current": 18.01, "min": 5.49, "median": 14.57, "max": 322.02, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 1.0, "percentile": 99.0, "current": 9.98, "min": 3.71, "median": 6.41, "max": 10.67, "days": 1131, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2072,7 +2072,7 @@ const PHM_ACTIVITY = {"ticker": "PHM", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/phm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const PHM_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 18, nTargets: 13, mean: 135.54, median: 136,
+const PHM_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 18, nTargets: 13, mean: 135.54, median: 136,
   low: 109, high: 162, strongBuy: 8, buy: 2, hold: 7, sell: 0, strongSell: 1 };
 (function(){
   const A = PHM_ANALYST, last = (typeof PHM_DAILY !== 'undefined' && PHM_DAILY.length) ? PHM_DAILY[PHM_DAILY.length - 1] : null;

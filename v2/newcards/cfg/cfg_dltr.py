@@ -59,7 +59,7 @@ NEWS = [
      '기존점 +4.2% · 계속사업 희석 EPS $1.20 · 연간 조정 EPS 전망 $5.60~5.80으로 상향 · 연초 이후 자사주 $1.5B — 그날 주가 +3.6%', 'q3', 'Dollar Tree 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 29, 'nt': 21, 'mean': 134.24, 'median': 135, 'low': 98, 'high': 160, 'sb': 7, 'b': 3, 'h': 14, 's': 4, 'ss': 1}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 AUTO = True
 SEG_MAP = {

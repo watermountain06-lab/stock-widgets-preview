@@ -84,7 +84,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 20, 'mean': 343.15, 'median': 346, 'low': 290, 'high': 391, 'sb': 14, 'b': 6, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치, 보고 부문 축 6개). Calpine은 2026년 1월 인수라 1년 전 값이 없다.

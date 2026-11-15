@@ -1,17 +1,10 @@
 {
- "session": "2026-11-06",
- "started": "2026-11-08T10:43:40+0000",
- "finished": "2026-11-08T14:23:40+0000",
+ "session": "2026-11-13",
+ "started": "2026-11-15T11:27:14+0000",
+ "finished": "2026-11-15T13:53:17+0000",
  "newFilings": [
   {
    "ticker": "AEE",
-   "form": "10-Q",
-   "period": "2026-09-30",
-   "filed": "2026-11-06",
-   "cardAsOf": "2026-06-30"
-  },
-  {
-   "ticker": "BX",
    "form": "10-Q",
    "period": "2026-09-30",
    "filed": "2026-11-06",
@@ -22,6 +15,13 @@
    "form": "10-Q",
    "period": "2026-09-30",
    "filed": "2026-11-05",
+   "cardAsOf": "2026-06-30"
+  },
+  {
+   "ticker": "CEG",
+   "form": "10-Q",
+   "period": "2026-09-30",
+   "filed": "2026-11-09",
    "cardAsOf": "2026-06-30"
   },
   {
@@ -53,24 +53,10 @@
    "cardAsOf": "2026-06-30"
   },
   {
-   "ticker": "MRNA",
-   "form": "10-Q",
-   "period": "2026-09-30",
-   "filed": "2026-11-06",
-   "cardAsOf": "2026-06-30"
-  },
-  {
    "ticker": "NEE",
    "form": "10-Q",
    "period": "2026-09-30",
    "filed": "2026-10-21",
-   "cardAsOf": "2026-06-30"
-  },
-  {
-   "ticker": "ORLY",
-   "form": "10-Q",
-   "period": "2026-09-30",
-   "filed": "2026-11-06",
    "cardAsOf": "2026-06-30"
   },
   {
@@ -116,6 +102,13 @@
    "cardAsOf": "2026-06-30"
   },
   {
+   "ticker": "TECH",
+   "form": "10-Q/A",
+   "period": "2026-09-30",
+   "filed": "2026-11-12",
+   "cardAsOf": "2026-09-30"
+  },
+  {
    "ticker": "WMB",
    "form": "10-Q",
    "period": "2026-09-30",
@@ -131,6 +124,7 @@
   "AEE",
   "AEP",
   "AIZ",
+  "ALB",
   "ALGN",
   "ALLE",
   "AME",
@@ -140,8 +134,8 @@
   "ATO",
   "AVY",
   "BA",
-  "BALL",
   "BBY",
+  "BE",
   "BIIB",
   "BKNG",
   "BLK",
@@ -150,7 +144,6 @@
   "BSX",
   "CAT",
   "CCL",
-  "CEG",
   "CHRW",
   "CMG",
   "CMI",
@@ -158,17 +151,18 @@
   "COO",
   "COP",
   "CPAY",
+  "CRH",
   "CSX",
   "CTAS",
   "CVS",
   "CVX",
   "D",
+  "DAL",
   "DE",
   "DECK",
   "DGX",
   "DHI",
   "DHR",
-  "DIS",
   "DOV",
   "DPZ",
   "DRI",
@@ -178,8 +172,8 @@
   "EBAY",
   "ED",
   "EFX",
-  "EG",
   "ELV",
+  "EME",
   "EMR",
   "EOG",
   "ETN",
@@ -196,17 +190,18 @@
   "GD",
   "GE",
   "GEHC",
+  "GNRC",
   "GRMN",
   "GWW",
   "HAS",
   "HD",
-  "HII",
   "HRL",
   "HSIC",
   "HUBB",
   "HWM",
   "IDXX",
   "IEX",
+  "ILMN",
   "INCY",
   "IQV",
   "IR",
@@ -218,17 +213,16 @@
   "KMB",
   "KMI",
   "LH",
-  "LII",
   "LIN",
   "LLY",
   "LMT",
   "LNT",
   "LULU",
+  "LUV",
   "LVS",
+  "LYB",
   "MA",
-  "MAS",
   "MCD",
-  "MDLZ",
   "MMM",
   "MRK",
   "MRSH",
@@ -236,9 +230,9 @@
   "NCLH",
   "NDSN",
   "NEE",
+  "NI",
   "NOC",
   "NSC",
-  "NUE",
   "NWSA",
   "ODFL",
   "OKE",
@@ -246,13 +240,11 @@
   "PAYX",
   "PCAR",
   "PFE",
-  "PG",
   "PH",
   "PHM",
   "PKG",
   "PNW",
   "PODD",
-  "PPG",
   "PPL",
   "PSX",
   "PWR",
@@ -263,6 +255,7 @@
   "ROL",
   "RSG",
   "RTX",
+  "RVTY",
   "SO",
   "SPCX",
   "SYK",
@@ -275,6 +268,7 @@
   "TPR",
   "TSCO",
   "TT",
+  "TWLO",
   "UBER",
   "UHS",
   "ULTA",
@@ -292,186 +286,56 @@
   "WAB",
   "WEC",
   "WM",
+  "WMB",
   "WSM",
   "WST",
   "WTW",
   "WYNN",
-  "XYL"
+  "XYL",
+  "ZBH"
  ],
  "peerFiles": [
-  "communication_services: 20종목 · 제외 3 · 기준일 2026-11-06",
-  "consumer_discretionary: 47종목 · 제외 0 · 기준일 2026-11-06",
-  "consumer_staples: 33종목 · 제외 2 · 기준일 2026-11-06",
-  "energy: 21종목 · 제외 1 · 기준일 2026-11-06",
-  "health_care: 59종목 · 제외 0 · 기준일 2026-11-06",
-  "industrials: 81종목 · 제외 1 · 기준일 2026-11-06",
-  "materials: 25종목 · 제외 1 · 기준일 2026-11-06",
-  "real_estate: 28종목 · 제외 3 · 기준일 2026-11-06",
-  "utilities: 31종목 · 제외 0 · 기준일 2026-11-06",
-  "asset_managers: 12종목 · 제외 2 · 기준일 2026-11-06",
-  "insurers: 16종목 · 제외 2 · 기준일 2026-11-06",
-  "payments_exchanges: 18종목 · 제외 0 · 기준일 2026-11-06",
-  "brokers_fees: 24종목 · 제외 0 · 기준일 2026-11-06"
+  "communication_services: 20종목 · 제외 3 · 기준일 2026-11-13",
+  "consumer_discretionary: 47종목 · 제외 0 · 기준일 2026-11-13",
+  "consumer_staples: 33종목 · 제외 2 · 기준일 2026-11-13",
+  "energy: 21종목 · 제외 1 · 기준일 2026-11-13",
+  "health_care: 59종목 · 제외 0 · 기준일 2026-11-13",
+  "industrials: 81종목 · 제외 1 · 기준일 2026-11-13",
+  "materials: 25종목 · 제외 1 · 기준일 2026-11-13",
+  "real_estate: 28종목 · 제외 3 · 기준일 2026-11-13",
+  "utilities: 31종목 · 제외 0 · 기준일 2026-11-13",
+  "asset_managers: 12종목 · 제외 2 · 기준일 2026-11-13",
+  "insurers: 16종목 · 제외 2 · 기준일 2026-11-13",
+  "payments_exchanges: 18종목 · 제외 0 · 기준일 2026-11-13",
+  "brokers_fees: 24종목 · 제외 0 · 기준일 2026-11-13"
  ],
  "peerFilesKept": [],
  "peerSecRefresh": {
   "on": true,
   "failed": []
  },
- "analystFailed": [
-  "L: 실패 — L: 페이지에서 의견·목표가를 못 찾음(56602자)"
+ "analystFailed": [],
+ "analystNoCoverage": [
+  "L: 자료 없음(NO_COVERAGE) — 예측 페이지 없음(404), 회사 페이지는 200 — StockAnalysis에 애널리스트 자료가 없다"
  ],
  "verdictChanges": [
   {
-   "ticker": "ABBV",
-   "old": [
-    [
-     -1,
-     -1,
-     -2
-    ],
-    "고평가"
-   ],
-   "new": [
-    [
-     -1,
-     0,
-     -2
-    ],
-    "고평가"
-   ]
-  },
-  {
-   "ticker": "ACGL",
-   "old": [
-    [
-     0,
-     0,
-     null
-    ],
-    "판정 보류"
-   ],
-   "new": [
-    [
-     0,
-     1,
-     null
-    ],
-    "판정 보류"
-   ]
-  },
-  {
-   "ticker": "AME",
-   "old": [
-    [
-     0,
-     0,
-     -2
-    ],
-    "적정~고평가"
-   ],
-   "new": [
-    [
-     0,
-     -1,
-     -2
-    ],
-    "고평가"
-   ]
-  },
-  {
-   "ticker": "BEN",
-   "old": [
-    [
-     -1,
-     1,
-     -2
-    ],
-    "적정~고평가"
-   ],
-   "new": [
-    [
-     -1,
-     null,
-     -2
-    ],
-    "고평가"
-   ]
-  },
-  {
-   "ticker": "BLK",
-   "old": [
-    [
-     0,
-     -1,
-     -2
-    ],
-    "고평가"
-   ],
-   "new": [
-    [
-     0,
-     null,
-     -2
-    ],
-    "적정~고평가"
-   ]
-  },
-  {
    "ticker": "BSX",
    "old": [
-    [
-     1,
-     0,
-     -2
-    ],
-    "적정~고평가"
-   ],
-   "new": [
     [
      1,
      1,
      -2
     ],
     "적정"
-   ]
-  },
-  {
-   "ticker": "BX",
-   "old": [
-    [
-     1,
-     -1,
-     -2
-    ],
-    "적정~고평가"
    ],
    "new": [
     [
      1,
-     null,
+     0,
      -2
     ],
     "적정~고평가"
-   ]
-  },
-  {
-   "ticker": "D",
-   "old": [
-    [
-     0,
-     0,
-     null
-    ],
-    "판정 보류"
-   ],
-   "new": [
-    [
-     0,
-     -1,
-     null
-    ],
-    "판정 보류"
    ]
   },
   {
@@ -479,127 +343,32 @@
    "old": [
     [
      -1,
-     -1,
-     -2
-    ],
-    "고평가"
-   ],
-   "new": [
-    [
-     -1,
      0,
      -2
     ],
     "고평가"
-   ]
-  },
-  {
-   "ticker": "EOG",
-   "old": [
-    [
-     1,
-     1,
-     1
-    ],
-    "저평가"
    ],
    "new": [
     [
-     1,
-     0,
-     1
+     -1,
+     -1,
+     -2
     ],
-    "적정~저평가"
+    "고평가"
    ]
   },
   {
-   "ticker": "FISV",
+   "ticker": "ED",
    "old": [
     [
-     0,
+     -1,
      1,
-     null
-    ],
-    "판정 보류"
-   ],
-   "new": [
-    [
-     0,
-     0,
-     null
-    ],
-    "판정 보류"
-   ]
-  },
-  {
-   "ticker": "ITW",
-   "old": [
-    [
-     0,
-     0,
      -2
     ],
     "적정~고평가"
    ],
    "new": [
     [
-     0,
-     -1,
-     -2
-    ],
-    "고평가"
-   ]
-  },
-  {
-   "ticker": "KMI",
-   "old": [
-    [
-     0,
-     0,
-     -2
-    ],
-    "적정~고평가"
-   ],
-   "new": [
-    [
-     0,
-     -1,
-     -2
-    ],
-    "고평가"
-   ]
-  },
-  {
-   "ticker": "MMM",
-   "old": [
-    [
-     -1,
-     0,
-     -2
-    ],
-    "고평가"
-   ],
-   "new": [
-    [
-     -1,
-     -1,
-     -2
-    ],
-    "고평가"
-   ]
-  },
-  {
-   "ticker": "PM",
-   "old": [
-    [
-     -1,
-     -1,
-     -2
-    ],
-    "고평가"
-   ],
-   "new": [
-    [
      -1,
      0,
      -2
@@ -608,26 +377,7 @@
    ]
   },
   {
-   "ticker": "TROW",
-   "old": [
-    [
-     1,
-     1,
-     1
-    ],
-    "저평가"
-   ],
-   "new": [
-    [
-     1,
-     null,
-     1
-    ],
-    "적정~저평가"
-   ]
-  },
-  {
-   "ticker": "UNH",
+   "ticker": "FDS",
    "old": [
     [
      1,
@@ -646,8 +396,11 @@
    ]
   }
  ],
- "failed": [],
- "problems": [
-  "애널리스트 받기 실패 1종목(rc 0)"
- ]
+ "failed": [
+  "HPQ",
+  "LYB",
+  "TWLO"
+ ],
+ "problems": [],
+ "knownProblems": []
 }

@@ -970,7 +970,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">관리형 의료보험 PER 비교 (HUM 값 없음·CNC 값 없음) · 11/13 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">관리형 의료보험 PER 비교 (HUM 값 없음) · 11/13 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1083,7 +1083,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 80.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 19.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
         <span class="op-val"><span data-an="mean">$478.48</span> <span class="op-sub op-up" data-an="upside">+17.4%</span></span>
       </div>
       <div class="op-cell">
@@ -1288,12 +1288,13 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '관리형 의료보험 PER 비교 (HUM 값 없음·CNC 값 없음) · 11/13 종가',
+    title: '관리형 의료보험 PER 비교 (HUM 값 없음) · 11/13 종가',
     unit: 'PER', max: 30, unhValue: null,
     peers: [
-      { name:'ELV', value:19.0, status:'reference' },
+      { name:'ELV', value:18.3, status:'reference' },
       { name:'CI', value:13.1, status:'reference' },
-      { name:'CVS', value:13.4, status:'reference' }
+      { name:'CVS', value:12.6, status:'reference' },
+      { name:'CNC', value:24.4, status:'reference' }
     ]
   },
   pbr: {
@@ -1797,7 +1798,7 @@ const UNH_FUNDAMENTAL = {"ticker": "UNH", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py UNH --self v2/UNH_multiples.json --card
 /* VALUATION:BEGIN */
-const UNH_VALUATION = {"peer": {"score": 68.6, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 73.9, "rank": 13, "peers": 46}, {"metric": "pbr", "score": 50.9, "rank": 27, "peers": 53}, {"metric": "psr", "score": 81.0, "rank": 12, "peers": 58}]}, "self": {"score": 70.0, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 62.5, "percentile": 37.5, "current": 23.22, "min": 9.95, "median": 25.39, "max": 40.68, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 73.6, "percentile": 26.4, "current": 3.72, "min": 2.27, "median": 5.53, "max": 7.16, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 73.8, "percentile": 26.2, "current": 0.81, "min": 0.53, "median": 1.32, "max": 1.79, "days": 1255, "currentNote": null}]}};
+const UNH_VALUATION = {"peer": {"score": 68.6, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 74.0, "rank": 14, "peers": 50}, {"metric": "pbr", "score": 50.9, "rank": 27, "peers": 53}, {"metric": "psr", "score": 81.0, "rank": 12, "peers": 58}]}, "self": {"score": 70.0, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 62.5, "percentile": 37.5, "current": 23.22, "min": 9.95, "median": 25.39, "max": 40.68, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 73.6, "percentile": 26.4, "current": 3.72, "min": 2.27, "median": 5.53, "max": 7.16, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 73.8, "percentile": 26.2, "current": 0.81, "min": 0.53, "median": 1.32, "max": 1.79, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2099,7 +2100,7 @@ const UNH_ACTIVITY = {"ticker": "UNH", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/unh/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const UNH_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 21, mean: 478.48, median: 490,
+const UNH_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 21, mean: 478.48, median: 490,
   low: 380, high: 531, strongBuy: 15, buy: 6, hold: 5, sell: 0, strongSell: 0 };
 (function(){
   const A = UNH_ANALYST, last = (typeof UNH_DAILY !== 'undefined' && UNH_DAILY.length) ? UNH_DAILY[UNH_DAILY.length - 1] : null;

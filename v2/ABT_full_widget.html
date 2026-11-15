@@ -1135,7 +1135,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 82.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 17.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
         <span class="op-val"><span data-an="mean">$122.17</span> <span class="op-sub op-up" data-an="upside">+12.6%</span></span>
       </div>
       <div class="op-cell">
@@ -1344,10 +1344,10 @@ const MULTIPLE_DATA = {
     unit: 'PER', max: 50, abtValue: null,
     peers: [
       { name:'MDT', value:25.3, status:'reference' },
-      { name:'BSX', value:17.9, status:'reference' },
-      { name:'SYK', value:32.1, status:'reference' },
-      { name:'TMO', value:37.7, status:'reference' },
-      { name:'DHR', value:41.5, status:'reference' },
+      { name:'BSX', value:18.8, status:'reference' },
+      { name:'SYK', value:33.0, status:'reference' },
+      { name:'TMO', value:36.9, status:'reference' },
+      { name:'DHR', value:38.5, status:'reference' },
       { name:'BDX', value:39.6, status:'reference' }
     ]
   },
@@ -1857,7 +1857,7 @@ const ABT_FUNDAMENTAL = {"ticker": "ABT", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py ABT --self v2/ABT_multiples.json --card
 /* VALUATION:BEGIN */
-const ABT_VALUATION = {"peer": {"score": 40.2, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 26.1, "rank": 35, "peers": 46}, {"metric": "pbr", "score": 52.8, "rank": 26, "peers": 53}, {"metric": "psr", "score": 46.6, "rank": 32, "peers": 58}, {"metric": "pcr", "score": 35.7, "rank": 37, "peers": 56}, {"metric": "evebitda", "score": 40.0, "rank": 34, "peers": 55}]}, "self": {"score": 53.9, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 1.4, "percentile": 98.6, "current": 40.49, "min": 19.85, "median": 33.01, "max": 43.1, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 88.0, "percentile": 12.0, "current": 3.68, "min": 2.76, "median": 4.85, "max": 7.27, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 88.8, "percentile": 11.2, "current": 3.9, "min": 3.19, "median": 4.56, "max": 5.91, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 52.0, "percentile": 48.0, "current": 27.82, "min": 19.49, "median": 28.52, "max": 44.33, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 39.2, "percentile": 60.8, "current": 20.4, "min": 12.82, "median": 19.69, "max": 24.85, "days": 1255, "currentNote": null}]}};
+const ABT_VALUATION = {"peer": {"score": 40.2, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 26.0, "rank": 38, "peers": 50}, {"metric": "pbr", "score": 52.8, "rank": 26, "peers": 53}, {"metric": "psr", "score": 46.6, "rank": 32, "peers": 58}, {"metric": "pcr", "score": 35.7, "rank": 37, "peers": 56}, {"metric": "evebitda", "score": 40.0, "rank": 34, "peers": 55}]}, "self": {"score": 53.9, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 1.4, "percentile": 98.6, "current": 40.49, "min": 19.85, "median": 33.01, "max": 43.1, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 88.0, "percentile": 12.0, "current": 3.68, "min": 2.76, "median": 4.85, "max": 7.27, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 88.8, "percentile": 11.2, "current": 3.9, "min": 3.19, "median": 4.56, "max": 5.91, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 52.0, "percentile": 48.0, "current": 27.82, "min": 19.49, "median": 28.52, "max": 44.33, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 39.2, "percentile": 60.8, "current": 20.4, "min": 12.82, "median": 19.69, "max": 24.85, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2146,7 +2146,7 @@ const ABT_ACTIVITY = {"ticker": "ABT", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/abt/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ABT_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 28, nTargets: 18, mean: 122.17, median: 122,
+const ABT_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 28, nTargets: 18, mean: 122.17, median: 122,
   low: 113, high: 135, strongBuy: 18, buy: 5, hold: 5, sell: 0, strongSell: 0 };
 (function(){
   const A = ABT_ANALYST, last = (typeof ABT_DAILY !== 'undefined' && ABT_DAILY.length) ? ABT_DAILY[ABT_DAILY.length - 1] : null;

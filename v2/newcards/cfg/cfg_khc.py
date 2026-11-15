@@ -63,7 +63,7 @@ NEWS = [
      'Kellanova CEO 출신 Steve Cahillane을 2026년 1월 1일부터 CEO로 — 그날 주가 +0.7%', 'ceo', 'Kraft Heinz 공시 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 19, 'nt': 14, 'mean': 24.64, 'median': 25, 'low': 21, 'high': 32, 'sb': 1, 'b': 1, 'h': 13, 's': 4, 'ss': 0}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 # 파이프라인 자동 재판정용 — 일회성이 든 분기(결산일: 항목).
 ONEOFF_QUARTERS = {'2026-03-28': '원자재 헤지 미실현 이익 $178M(세전)',

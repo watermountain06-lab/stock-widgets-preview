@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="deckPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="deckPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="deckPeerScore">76.4<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="deckPeerScore">76.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="deckSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="deckSelfVerdict">싼 편</span></div>
@@ -932,9 +932,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 0.60 ~ 0.74(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">76.4</div><div class="sc-tile" data-vc="peer" data-m="per">96</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">61</div><div class="sc-tile lost" data-vc="peer" data-m="psr">52</div><div class="sc-tile" data-vc="peer" data-m="pcr">86</div><div class="sc-tile" data-vc="peer" data-m="evebitda">88</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">76.0</div><div class="sc-tile" data-vc="peer" data-m="per">93</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">61</div><div class="sc-tile lost" data-vc="peer" data-m="psr">52</div><div class="sc-tile" data-vc="peer" data-m="pcr">86</div><div class="sc-tile" data-vc="peer" data-m="evebitda">88</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 11.5배(5년 중앙값 21.5배)로 자기 이력 95.1점(싸다), 동종업 76.4점(싸다)이다. <strong>현금흐름 내재가치(기본 $144.60)는 현재가의 167%다</strong>.</div>
+    <div class="vs-premise">PER 11.5배(5년 중앙값 21.5배)로 자기 이력 95.1점(싸다), 동종업 76.0점(싸다)이다. <strong>현금흐름 내재가치(기본 $144.60)는 현재가의 167%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 +1, 합계 +3 “저평가”이다. 현금흐름 내재가치(기본 $144.60)는 현재가의 167%다. 현재가를 정당화하려면 매출이 5년간 연 −5.3% 커야 한다. 내재가치에서 차입금 $0M를 빼고 현금·단기투자 $1.2B를 더한다. 2분기 이익에 관세 환급(주당 $0.28)이 들어 있고 3분기에도 비슷한 환급이 예정돼 있다. 환급을 빼면 회사의 연간 이익 전망은 사실상 낮아졌다. UGG 매출이 연말 분기(10~12월)에 몰려 분기 값만으로 연환산하면 틀린다. 동종업 점수는 S&P500 경기소비재 기준이다.</div>
   </div>
 
@@ -1100,7 +1100,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 42.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 42.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 14.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
         <span class="op-val"><span data-an="mean">$103.25</span> <span class="op-sub op-up" data-an="upside">+18.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1308,10 +1308,10 @@ const MULTIPLE_DATA = {
     title: '의류·신발 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 11/13 종가',
     unit: 'PER', max: 35, deckValue: null,
     peers: [
-      { name:'NKE', value:18.1, status:'reference' },
+      { name:'NKE', value:18.3, status:'reference' },
       { name:'LULU', value:8.7, status:'reference' },
-      { name:'RL', value:24.3, status:'reference' },
-      { name:'TPR', value:18.2, status:'reference' },
+      { name:'RL', value:22.2, status:'reference' },
+      { name:'TPR', value:17.0, status:'reference' },
       { name:'TJX', value:24.9, status:'reference' },
       { name:'ROST', value:28.1, status:'reference' }
     ]
@@ -1491,7 +1491,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py DECK
 const DECK_SCORES = {
   fundamental: 82.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 76.4,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
+  peer: 76.0,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 95.1,   // 자기 5년 배수 분포 백분위 (2021-11-15 ~ 2026-11-13)
   asOf: "2026-11-13",
   fundamentalAsOf: "2026-09-30",   // Q2 FY27 10-Q
@@ -1817,7 +1817,7 @@ const DECK_FUNDAMENTAL = {"ticker": "DECK", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py DECK --self v2/DECK_multiples.json --card
 /* VALUATION:BEGIN */
-const DECK_VALUATION = {"peer": {"score": 76.4, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 95.5, "rank": 3, "peers": 44}, {"metric": "pbr", "score": 60.6, "rank": 14, "peers": 33}, {"metric": "psr", "score": 52.3, "rank": 22, "peers": 44}, {"metric": "pcr", "score": 85.7, "rank": 7, "peers": 42}, {"metric": "evebitda", "score": 88.1, "rank": 6, "peers": 42}]}, "self": {"score": 95.1, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.7, "percentile": 2.3, "current": 11.51, "min": 10.87, "median": 21.54, "max": 39.23, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 88.1, "percentile": 11.9, "current": 4.99, "min": 3.95, "median": 6.58, "max": 15.25, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 96.9, "percentile": 3.1, "current": 2.08, "min": 1.91, "median": 3.23, "max": 7.28, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.6, "percentile": 4.4, "current": 11.01, "min": 9.46, "median": 23.54, "max": 190.15, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.0, "percentile": 3.0, "current": 7.48, "min": 6.76, "median": 14.18, "max": 28.75, "days": 1255, "currentNote": null}]}};
+const DECK_VALUATION = {"peer": {"score": 76.0, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 93.3, "rank": 4, "peers": 45}, {"metric": "pbr", "score": 60.6, "rank": 14, "peers": 33}, {"metric": "psr", "score": 52.3, "rank": 22, "peers": 44}, {"metric": "pcr", "score": 85.7, "rank": 7, "peers": 42}, {"metric": "evebitda", "score": 88.1, "rank": 6, "peers": 42}]}, "self": {"score": 95.1, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 97.7, "percentile": 2.3, "current": 11.51, "min": 10.87, "median": 21.54, "max": 39.23, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 88.1, "percentile": 11.9, "current": 4.99, "min": 3.95, "median": 6.58, "max": 15.25, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 96.9, "percentile": 3.1, "current": 2.08, "min": 1.91, "median": 3.23, "max": 7.28, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.6, "percentile": 4.4, "current": 11.01, "min": 9.46, "median": 23.54, "max": 190.15, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 97.0, "percentile": 3.0, "current": 7.48, "min": 6.76, "median": 14.18, "max": 28.75, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2106,7 +2106,7 @@ const DECK_ACTIVITY = {"ticker": "DECK", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/deck/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const DECK_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 28, nTargets: 20, mean: 103.25, median: 102,
+const DECK_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 28, nTargets: 20, mean: 103.25, median: 102,
   low: 70, high: 137, strongBuy: 7, buy: 5, hold: 12, sell: 1, strongSell: 3 };
 (function(){
   const A = DECK_ANALYST, last = (typeof DECK_DAILY !== 'undefined' && DECK_DAILY.length) ? DECK_DAILY[DECK_DAILY.length - 1] : null;

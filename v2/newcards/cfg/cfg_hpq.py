@@ -63,7 +63,7 @@ NEWS = [
      '4분기 GAAP 희석 EPS $0.84 · 조정 EPS $0.93 · 분기 배당 $0.30으로 인상 · 2028 회계연도까지 연 약 $1B 비용 절감 계획(구조조정 비용 약 $650M) — 다음 거래일 주가 −1.4%', 'q4', 'HP 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 18, 'nt': 13, 'mean': 26.77, 'median': 28, 'low': 19, 'high': 34, 'sb': 2, 'b': 0, 'h': 10, 's': 2, 'ss': 4}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 AUTO = True
 SEG_MAP = {

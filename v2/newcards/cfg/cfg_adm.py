@@ -58,7 +58,7 @@ NEWS = [
      'GAAP 희석 EPS $0.22(손상·Wilmar 과징금 몫 포함) · 조정 EPS $0.92 · 2025년 조정 EPS 전망 약 $4.00 → $3.25~3.50 하향(압착 마진 하락·바이오연료 정책 시점) — 그날 주가 0.0%, 다음 날 −6.4%', 'q3p', 'ADM 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 11, 'nt': 6, 'mean': 82.67, 'median': 82, 'low': 75, 'high': 95, 'sb': 1, 'b': 0, 'h': 10, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 AUTO = True
 SEG_MAP = {

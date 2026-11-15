@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-negative" id="mtdPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="mtdPeerVerdict">비싼 편</span></div>
-      <div class="logic-score" id="mtdPeerScore">17.1<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="mtdPeerScore">17.4<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="mtdSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="mtdSelfVerdict">비싼 편</span></div>
@@ -901,9 +901,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 3.24 ~ 3.38(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">17.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">30</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">16</div><div class="sc-tile low" data-vc="peer" data-m="pcr">18</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">22</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">17.4</div><div class="sc-tile lost" data-vc="peer" data-m="per">32</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile low" data-vc="peer" data-m="psr">16</div><div class="sc-tile low" data-vc="peer" data-m="pcr">18</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">22</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 37.7배(5년 중앙값 34.4배)로 자기 이력 29.4점(비싸다), 동종업 17.1점(비싸다)이다. <strong>현금흐름 내재가치(기본 $536.43)는 현재가의 31%다</strong>.</div>
+    <div class="vs-premise">PER 37.7배(5년 중앙값 34.4배)로 자기 이력 29.4점(비싸다), 동종업 17.4점(비싸다)이다. <strong>현금흐름 내재가치(기본 $536.43)는 현재가의 31%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $536.43)는 현재가의 31%다. 현재가를 정당화하려면 영업이익률이 77.9%까지 올라야 한다(최근 4분기 28.5%, 5년 중앙값 27.8%). 내재가치에서 차입금·금융리스 $2.0B를 빼고 현금·단기투자 $52M를 더한다. 손익계산서에 영업이익 줄이 없어 세전이익에 이자비용을 더한 값을 영업이익으로 쓴다 — 구조조정과 연금·이자수익 같은 기타 손익도 들어 있어 회사의 영업이익 정의와 조금 다르다. 자사주를 꾸준히 사들여 장부 자본이 사실상 0이라 PBR·ROE는 의미가 없다. Q2 2026에는 관세 환급(일회성)이 원가를 낮추고 고객 환급분이 매출을 줄였다.</div>
   </div>
 
@@ -1074,7 +1074,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 38.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 46.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 15.4%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
         <span class="op-val"><span data-an="mean">$1612.86</span> <span class="op-sub op-down" data-an="upside">−7.2%</span></span>
       </div>
       <div class="op-cell">
@@ -1280,13 +1280,13 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '생명과학 도구 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (WAT 값 없음) · 11/13 종가',
-    unit: 'PER', max: 90, mtdValue: null,
+    unit: 'PER', max: 80, mtdValue: null,
     peers: [
-      { name:'TMO', value:37.7, status:'reference' },
+      { name:'TMO', value:36.9, status:'reference' },
       { name:'A', value:34.2, status:'reference' },
-      { name:'DHR', value:41.5, status:'reference' },
-      { name:'IQV', value:33.0, status:'reference' },
-      { name:'RVTY', value:74.2, status:'reference' }
+      { name:'DHR', value:38.5, status:'reference' },
+      { name:'IQV', value:32.2, status:'reference' },
+      { name:'RVTY', value:68.9, status:'reference' }
     ]
   },
   pbr: {
@@ -1464,7 +1464,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py MTD
 const MTD_SCORES = {
   fundamental: 47.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 17.1,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 17.4,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 29.4,   // 자기 5년 배수 분포 백분위 (2021-11-15 ~ 2026-11-13)
   asOf: "2026-11-13",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1795,7 +1795,7 @@ const MTD_FUNDAMENTAL = {"ticker": "MTD", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py MTD --self v2/MTD_multiples.json --card
 /* VALUATION:BEGIN */
-const MTD_VALUATION = {"peer": {"score": 17.1, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 30.4, "rank": 33, "peers": 46}, {"metric": "pbr", "score": 0.0, "rank": 54, "peers": 53}, {"metric": "psr", "score": 15.5, "rank": 50, "peers": 58}, {"metric": "pcr", "score": 17.9, "rank": 47, "peers": 56}, {"metric": "evebitda", "score": 21.8, "rank": 44, "peers": 55}]}, "self": {"score": 29.4, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 30.2, "percentile": 69.8, "current": 37.68, "min": 23.94, "median": 34.42, "max": 53.44, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 52.9, "percentile": 47.1, "current": 445.37, "min": 166.94, "median": 1288.7, "max": 4234.76, "days": 378, "currentNote": null}, {"metric": "psr", "score": 17.8, "percentile": 82.2, "current": 8.24, "min": 5.07, "median": 7.22, "max": 10.81, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 20.0, "percentile": 80.0, "current": 39.73, "min": 23.47, "median": 32.98, "max": 53.0, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 26.1, "percentile": 73.9, "current": 27.56, "min": 18.0, "median": 24.93, "max": 37.66, "days": 1255, "currentNote": null}]}};
+const MTD_VALUATION = {"peer": {"score": 17.4, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 32.0, "rank": 35, "peers": 50}, {"metric": "pbr", "score": 0.0, "rank": 54, "peers": 53}, {"metric": "psr", "score": 15.5, "rank": 50, "peers": 58}, {"metric": "pcr", "score": 17.9, "rank": 47, "peers": 56}, {"metric": "evebitda", "score": 21.8, "rank": 44, "peers": 55}]}, "self": {"score": 29.4, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 30.2, "percentile": 69.8, "current": 37.68, "min": 23.94, "median": 34.42, "max": 53.44, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 52.9, "percentile": 47.1, "current": 445.37, "min": 166.94, "median": 1288.7, "max": 4234.76, "days": 378, "currentNote": null}, {"metric": "psr", "score": 17.8, "percentile": 82.2, "current": 8.24, "min": 5.07, "median": 7.22, "max": 10.81, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 20.0, "percentile": 80.0, "current": 39.73, "min": 23.47, "median": 32.98, "max": 53.0, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 26.1, "percentile": 73.9, "current": 27.56, "min": 18.0, "median": 24.93, "max": 37.66, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2084,7 +2084,7 @@ const MTD_ACTIVITY = {"ticker": "MTD", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mtd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MTD_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 13, nTargets: 14, mean: 1612.86, median: 1640,
+const MTD_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 13, nTargets: 14, mean: 1612.86, median: 1640,
   low: 1180, high: 1930, strongBuy: 4, buy: 1, hold: 6, sell: 0, strongSell: 2 };
 (function(){
   const A = MTD_ANALYST, last = (typeof MTD_DAILY !== 'undefined' && MTD_DAILY.length) ? MTD_DAILY[MTD_DAILY.length - 1] : null;

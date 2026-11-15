@@ -1111,7 +1111,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 45%; background: var(--green);"></div><div data-an-bar="hold" style="width: 50%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
         <span class="op-val"><span data-an="mean">$258.67</span> <span class="op-sub op-up" data-an="upside">+8.0%</span></span>
       </div>
       <div class="op-cell">
@@ -1317,14 +1317,14 @@ function renderSegmentChart() {
 const MULTIPLE_DATA = {
   per: {
     title: '의료기기 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) · 11/13 종가',
-    unit: 'PER', max: 60, rmdValue: null,
+    unit: 'PER', max: 65, rmdValue: null,
     peers: [
-      { name:'ISRG', value:50.9, status:'reference' },
-      { name:'SYK', value:32.1, status:'reference' },
-      { name:'BSX', value:17.9, status:'reference' },
-      { name:'ABT', value:35.1, status:'reference' },
-      { name:'IDXX', value:49.5, status:'reference' },
-      { name:'DHR', value:41.5, status:'reference' }
+      { name:'ISRG', value:53.8, status:'reference' },
+      { name:'SYK', value:33.0, status:'reference' },
+      { name:'BSX', value:18.8, status:'reference' },
+      { name:'ABT', value:40.5, status:'reference' },
+      { name:'IDXX', value:47.5, status:'reference' },
+      { name:'DHR', value:38.5, status:'reference' }
     ]
   },
   pbr: {
@@ -1828,7 +1828,7 @@ const RMD_FUNDAMENTAL = {"ticker": "RMD", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py RMD --self v2/RMD_multiples.json --card
 /* VALUATION:BEGIN */
-const RMD_VALUATION = {"peer": {"score": 52.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 76.1, "rank": 12, "peers": 46}, {"metric": "pbr", "score": 35.8, "rank": 35, "peers": 53}, {"metric": "psr", "score": 31.0, "rank": 41, "peers": 58}, {"metric": "pcr", "score": 55.4, "rank": 26, "peers": 56}, {"metric": "evebitda", "score": 61.8, "rank": 22, "peers": 55}]}, "self": {"score": 85.2, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.2, "percentile": 8.8, "current": 21.82, "min": 17.63, "median": 31.14, "max": 78.6, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 80.9, "percentile": 19.1, "current": 5.66, "min": 4.08, "median": 6.7, "max": 12.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 82.1, "percentile": 17.9, "current": 5.88, "min": 4.53, "median": 7.24, "max": 11.66, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 82.5, "percentile": 17.5, "current": 20.94, "min": 15.12, "median": 27.98, "max": 162.45, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 89.4, "percentile": 10.6, "current": 15.84, "min": 12.08, "median": 21.94, "max": 35.82, "days": 1255, "currentNote": null}]}};
+const RMD_VALUATION = {"peer": {"score": 52.0, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 76.0, "rank": 13, "peers": 50}, {"metric": "pbr", "score": 35.8, "rank": 35, "peers": 53}, {"metric": "psr", "score": 31.0, "rank": 41, "peers": 58}, {"metric": "pcr", "score": 55.4, "rank": 26, "peers": 56}, {"metric": "evebitda", "score": 61.8, "rank": 22, "peers": 55}]}, "self": {"score": 85.2, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 91.2, "percentile": 8.8, "current": 21.82, "min": 17.63, "median": 31.14, "max": 78.6, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 80.9, "percentile": 19.1, "current": 5.66, "min": 4.08, "median": 6.7, "max": 12.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 82.1, "percentile": 17.9, "current": 5.88, "min": 4.53, "median": 7.24, "max": 11.66, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 82.5, "percentile": 17.5, "current": 20.94, "min": 15.12, "median": 27.98, "max": 162.45, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 89.4, "percentile": 10.6, "current": 15.84, "min": 12.08, "median": 21.94, "max": 35.82, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2117,7 +2117,7 @@ const RMD_ACTIVITY = {"ticker": "RMD", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/rmd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const RMD_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 12, mean: 258.67, median: 260,
+const RMD_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 12, mean: 258.67, median: 260,
   low: 225, high: 320, strongBuy: 7, buy: 2, hold: 10, sell: 0, strongSell: 1 };
 (function(){
   const A = RMD_ANALYST, last = (typeof RMD_DAILY !== 'undefined' && RMD_DAILY.length) ? RMD_DAILY[RMD_DAILY.length - 1] : null;

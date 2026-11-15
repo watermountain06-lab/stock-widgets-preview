@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="tscoPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="tscoPeerVerdict">중간</span></div>
-      <div class="logic-score" id="tscoPeerScore">51.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="tscoPeerScore">51.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="tscoSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="tscoSelfVerdict">싼 편</span></div>
@@ -898,9 +898,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.44 ~ 1.81(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">51.7</div><div class="sc-tile lost" data-vc="peer" data-m="per">57</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">49</div><div class="sc-tile" data-vc="peer" data-m="psr">82</div><div class="sc-tile low" data-vc="peer" data-m="pcr">5</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">67</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">51.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">53</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">49</div><div class="sc-tile" data-vc="peer" data-m="psr">82</div><div class="sc-tile low" data-vc="peer" data-m="pcr">5</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">67</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 19.6배(5년 중앙값 24.5배)로 자기 이력 73.5점(싸다), 동종업 51.7점(중간)이다. <strong>현금흐름 내재가치(기본 $25.36)는 현재가의 70%다</strong>.</div>
+    <div class="vs-premise">PER 19.6배(5년 중앙값 24.5배)로 자기 이력 73.5점(싸다), 동종업 51.0점(중간)이다. <strong>현금흐름 내재가치(기본 $25.36)는 현재가의 70%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −1, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $25.36)는 현재가의 70%다. 현재가를 정당화하려면 매출이 5년간 연 14.8% 커야 한다. 내재가치에서 차입금·금융리스 $2.3B를 빼고 현금·단기투자 $199M를 더한다. 품목별 매출을 금액 없이 비중(%)으로만 공시한다(농·축산 32%·계절·레저 26%·반려동물 21%·트럭·공구 14%·의류·선물 7%, Q2 2026). 그래서 매출 구성은 전체 한 줄로만 보인다. 2026년 2분기 이익에 Petsense 손상·구조조정과 VIP Petcare 인수 비용(세전 $81M)이 들어 있다. 동종업 점수는 S&P500 경기소비재 기준이다.</div>
   </div>
 
@@ -1066,7 +1066,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 50%; background: var(--green);"></div><div data-an-bar="hold" style="width: 50%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-14</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
         <span class="op-val"><span data-an="mean">$37.65</span> <span class="op-sub op-up" data-an="upside">+3.3%</span></span>
       </div>
       <div class="op-cell">
@@ -1456,7 +1456,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py TSCO
 const TSCO_SCORES = {
   fundamental: 42.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 51.7,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
+  peer: 51.0,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 73.5,   // 자기 5년 배수 분포 백분위 (2021-11-15 ~ 2026-11-13)
   asOf: "2026-11-13",
   fundamentalAsOf: "2026-09-26",   // Q3 2026 10-Q
@@ -1782,7 +1782,7 @@ const TSCO_FUNDAMENTAL = {"ticker": "TSCO", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py TSCO --self v2/TSCO_multiples.json --card
 /* VALUATION:BEGIN */
-const TSCO_VALUATION = {"peer": {"score": 51.7, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 56.8, "rank": 20, "peers": 44}, {"metric": "pbr", "score": 48.5, "rank": 18, "peers": 33}, {"metric": "psr", "score": 81.8, "rank": 9, "peers": 44}, {"metric": "pcr", "score": 4.8, "rank": 41, "peers": 42}, {"metric": "evebitda", "score": 66.7, "rank": 15, "peers": 42}]}, "self": {"score": 73.5, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.6, "percentile": 12.4, "current": 19.6, "min": 14.28, "median": 24.5, "max": 30.74, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 89.8, "percentile": 10.2, "current": 7.1, "min": 6.08, "median": 12.24, "max": 14.72, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 89.8, "percentile": 10.2, "current": 1.19, "min": 0.98, "median": 1.81, "max": 2.23, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 11.6, "percentile": 88.4, "current": 65.12, "min": 22.97, "median": 45.5, "max": 135.05, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 88.9, "percentile": 11.1, "current": 11.47, "min": 8.79, "median": 14.89, "max": 18.61, "days": 1255, "currentNote": null}]}};
+const TSCO_VALUATION = {"peer": {"score": 51.0, "sector": "Consumer Discretionary (S&P500 47종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 53.3, "rank": 22, "peers": 45}, {"metric": "pbr", "score": 48.5, "rank": 18, "peers": 33}, {"metric": "psr", "score": 81.8, "rank": 9, "peers": 44}, {"metric": "pcr", "score": 4.8, "rank": 41, "peers": 42}, {"metric": "evebitda", "score": 66.7, "rank": 15, "peers": 42}]}, "self": {"score": 73.5, "window": ["2021-11-15", "2026-11-13"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 87.6, "percentile": 12.4, "current": 19.6, "min": 14.28, "median": 24.5, "max": 30.74, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 89.8, "percentile": 10.2, "current": 7.1, "min": 6.08, "median": 12.24, "max": 14.72, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 89.8, "percentile": 10.2, "current": 1.19, "min": 0.98, "median": 1.81, "max": 2.23, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 11.6, "percentile": 88.4, "current": 65.12, "min": 22.97, "median": 45.5, "max": 135.05, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 88.9, "percentile": 11.1, "current": 11.47, "min": 8.79, "median": 14.89, "max": 18.61, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2071,7 +2071,7 @@ const TSCO_ACTIVITY = {"ticker": "TSCO", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/tsco/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TSCO_ANALYST = { asOf: '2026-11-14', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 30, nTargets: 20, mean: 37.65, median: 38,
+const TSCO_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 30, nTargets: 20, mean: 37.65, median: 38,
   low: 31, high: 51, strongBuy: 12, buy: 3, hold: 15, sell: 0, strongSell: 0 };
 (function(){
   const A = TSCO_ANALYST, last = (typeof TSCO_DAILY !== 'undefined' && TSCO_DAILY.length) ? TSCO_DAILY[TSCO_DAILY.length - 1] : null;

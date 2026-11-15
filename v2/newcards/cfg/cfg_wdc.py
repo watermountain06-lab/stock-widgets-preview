@@ -106,7 +106,7 @@ BEAR = [('일회성 이익', 'FY26 순이익의 69%가 SanDisk 지분 평가이�
         ('고객 집중', '상위 10개 고객이 매출의 73%.'),
         ('주가 급등', '1년 새 약 {ch / 100 + 1:.1f}배, 4분기 실적 다음 날 −13%.')]
 ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 18, 'mean': 605.44, 'median': 620, 'low': 405, 'high': 1050, 'sb': 17, 'b': 5, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)
 POST = [r'''
 h = re.sub(r'(selfHistory: [\d.]+,   // )[^\n]*', lambda m: m.group(1) + '자기 배수 분포 백분위 (2025-08-14 ~ ' + D[-1][0] + ')', h, count=1)   # D38 주석(18cf363)

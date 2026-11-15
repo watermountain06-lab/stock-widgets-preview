@@ -71,7 +71,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 30, 'nt': 15, 'mean': 181.33, 'median': 181, 'low': 140, 'high': 205, 'sb': 16, 'b': 4, 'h': 8, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 
 # ── 자동 카드 — 부문 지도: 부문마다 그룹 축(ProductOrServiceAxis — Software & Systems·Intelligent Devices, 안전·생산성은 없음)이 붙어 seg_map_propose는 2/5만 맞췄다.

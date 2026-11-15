@@ -94,7 +94,7 @@ BEAR = [('밸류에이션', 'PSR {SM[\'PSR\'][\'current\']:.1f}배(5년 중앙�
         ('실적 날 하락', '네 번 모두 하락, 2분기 −12.1%.'),
         ('희석', '최대 $2.0B 주식 수시 발행, NVIDIA 행사가 $180 워런트 1,500만 주.')]
 ANALYST = {'rating': 'Strong Buy', 'n': 19, 'nt': 12, 'mean': 172.75, 'median': 180, 'low': 120, 'high': 220, 'sb': 14, 'b': 1, 'h': 4, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 
 # ── 자동 카드(설계 D, 2026-10-10) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose.py 제안(손 표와 숫자 일치) ──

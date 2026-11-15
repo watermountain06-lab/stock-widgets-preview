@@ -67,7 +67,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Hold', 'n': 44, 'nt': 31, 'mean': 36.66, 'median': 34, 'low': 19, 'high': 62, 'sb': 8, 'b': 2, 'h': 25, 's': 3, 'ss': 6}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(나이키 브랜드 지역 4개, 손 표와 일치). 원문 대조: 10-Q 매출 세분 표 Q1 FY27 5,127/3,176/1,180/1,463,

@@ -50,7 +50,7 @@ NEWS = [
      '매출 $2.94B · 희석 EPS $7.62(1년 전 $12.25) · 조정 EPS $8.12 — 당일 주가 +5.8%', 'q4', 'WTW 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 17, 'mean': 374.88, 'median': 371, 'low': 325, 'high': 455, 'sb': 12, 'b': 2, 'h': 7, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-14'
+ANALYST_ASOF = '2026-11-15'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(영업 부문 Revenues, 손 표와 일치, 2026-11-05) ──
