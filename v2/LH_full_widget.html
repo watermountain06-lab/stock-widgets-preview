@@ -537,11 +537,11 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">판정 보류</span><span data-incomplete style="display:block;font-size:12px;line-height:1.35;color:var(--text3);margin-top:2px;">미완성 — 일회성 비용 처리 대기</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 영업이익률 (최근 4분기 10.3%)</span>
-      <span class="meta-value" id="lhDcfReq" style="font-size: 22px; color: var(--text3);">—</span>
+      <span class="meta-value" id="lhDcfReq" style="font-size: 22px; color: var(--red);">25.3%</span>
     </div>
     <div class="meta-item">
       <span class="meta-label" id="lhConfidenceLabel">밴드 적중률</span>
@@ -562,8 +562,8 @@ Chart.overrides.doughnut.animation = false;
        스크립트가 꺼졌을 때를 위한 대비용이다. -->
   <div class="logic-grid" id="lhLogicGrid">
     <div class="logic-box logic-info">
-      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="lhDcfVerdict">보류(미완성)</span></div>
-      <div class="logic-score" id="lhDcfBox">보류(미완성)</div>
+      <div class="logic-head"><span class="logic-tag">내재가치 <span class="logic-denom">현금흐름</span></span><span class="logic-verdict" id="lhDcfVerdict">매우 비싸다</span></div>
+      <div class="logic-score" id="lhDcfBox">$42<span class="logic-denom"> · 보수 0 이하 · 낙관 $67</span></div>
     </div>
     <div class="logic-box logic-neutral" id="lhFundBox">
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="lhFundVerdict">보통</span></div>
@@ -669,7 +669,7 @@ Chart.overrides.doughnut.animation = false;
 
 <div id="dcf" class="section">
   <div class="section-title">내재가치 (DCF) — 현금흐름이 말하는 가격</div>
-  <div class="lede">미완성 — 일회성 비용 처리 대기. 현금흐름 내재가치는 계산하지 않았다.</div>
+  <div class="lede">회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치다.</div>
   <div class="note" id="dcfHardNote" hidden></div>
 
   <!-- ── 1. 세 시나리오 ── -->
@@ -680,22 +680,22 @@ Chart.overrides.doughnut.animation = false;
       <tbody>
         <tr>
           <td class="scn-name scn-low">보수</td>
-          <td class="big scn-low" data-dcf-value="low">—</td><td style="" data-dcf-upside="low">—</td>
-          <td class="story">계산하지 않음.</td>
+          <td class="big scn-low" data-dcf-value="low">0 이하</td><td style="color: var(--red);" data-dcf-upside="low">—</td>
+          <td class="story">매출이 3년 성장률의 절반(연 3.3%)로 시작해 2.5%로 식고, 영업이익률이 3년 중앙값 8.4%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-base">기본</td>
-          <td class="big scn-base" data-dcf-value="base">—</td><td style="" data-dcf-upside="base">—</td>
-          <td class="story">계산하지 않음.</td>
+          <td class="big scn-base" data-dcf-value="base">$42.20</td><td style="color: var(--red);" data-dcf-upside="base">−88.6%</td>
+          <td class="story">매출이 3년 성장률(연 6.6%)로 시작해 2.5%로 식고, 영업이익률이 최근 2년 중앙값 9.8%로 간다.</td>
         </tr>
         <tr>
           <td class="scn-name scn-high">낙관</td>
-          <td class="big scn-high" data-dcf-value="high">—</td><td style="" data-dcf-upside="high">—</td>
-          <td class="story">계산하지 않음.</td>
+          <td class="big scn-high" data-dcf-value="high">$66.66</td><td style="color: var(--red);" data-dcf-upside="high">−82.0%</td>
+          <td class="story">매출이 3년 성장률(연 6.6%)로 시작해 2.5%로 식고, 영업이익률이 최근 4분기 10.3%로 간다.</td>
         </tr>
       </tbody>
     </table></div>
-    
+    <div class="note">세 값은 확률이 아니라, 과거 실적에서 서로 다른 가정을 뽑아 계산한 결과다. 세 시나리오 중 1개는 이 가정에서 0 이하로 나온다(나머지 $42.20~$66.66). 영업이익률은 최근 4분기 10.3%, 2년 중앙값 9.8%, 3년 중앙값 8.4%를 쓴다. 회사 조정 EPS(최근 4분기 $18.09)는 GAAP($12.19)보다 훨씬 높다 — 인수 무형자산 상각과 매 분기 나오는 비용 절감(LaunchPad)·기타 비용·SYNLAB 지분법 손실까지 빼서다. 카드는 이런 매 분기 비용을 반복 비용으로 보고, 일회성은 구조조정(2025년 4분기 Early Development 조치를 포함한 구조조정·기타 비용 $111M 등)·인수 비용·투자 손실·연금 정산뿐이라(세전 약 $216M, 세율 25%를 가정한 세후 추정 약 $162M — GAAP 이익의 약 16%) GAAP 숫자를 그대로 쓴다. 그래서 영업이익률이 회사 발표보다 낮게 나오고(최근 4분기 GAAP 약 10% 대 회사 조정 약 15%), 인수로 쌓인 영업권·무형자산 때문에 모델의 투하자본 수익률도 약 8%(기본 시나리오 마지막 해)로 낮고, 성장에 필요한 재투자와 순차입금 약 $5.7B를 빼야 해 현금흐름 내재가치가 현재가보다 크게 낮게 나온다. 회사 조정 이익률(약 15%)로 바꿔도 현재가가 요구하는 이익률에는 한참 못 미친다. 판정 “고평가”는 이 현금흐름 −2표에 기대는데, 이 칸은 잔존가치 비중이 커서(약 94%) 가정에 민감하다 — 배수 기준 적정주가·애널리스트 목표가와 차이가 큰 이유다. 2023년 Fortrea 분사로 과거 실적이 재작성돼 자기 이력은 2024-04-30부터 비교한다. 3분기에 MLM Medical Labs 인수를 마쳤고 분기 뒤 3건을 계약했으며, 9월 메디케어 검사 수가(PAMA) 인하 예비안이 있다. 동종업 점수는 S&P500 헬스케어 기준이다.</div>
     <div class="note" data-dcf-nonop hidden></div>
     <div class="reverse">—</div>
   </div>
@@ -708,7 +708,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="knob"><span class="knob-l">할인율 <span class="knob-d" data-knob-default="wacc">(10%)</span></span><span class="knob-btns" data-knob="wacc"></span></div>
       <div class="knob"><span class="knob-l">영구성장 <span class="knob-d" data-knob-default="term">(2.5%)</span></span><span class="knob-btns" data-knob="term"></span></div>
     </div>
-    <div class="pick-result"><span style="color: var(--text3);" id="dcfPickValue">보류(미완성)</span><span id="dcfPickUpside"></span></div>
+    <div class="pick-result"><span style="color: rgb(14, 165, 233);" id="dcfPickValue">주당 $42</span><span style="color: var(--red);" id="dcfPickUpside">현재가 대비 −88.6%</span></div>
     <div class="ruler" id="dcfRuler"></div>
   </div>
 </div>
@@ -924,16 +924,20 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$370.48</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>판정 보류</span><span class="vs-asof"><span data-vs="asof">2026.11.13</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.13</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 LH 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">18.7</div><div class="sc-tile lost" data-vc="self" data-m="per">40</div><div class="sc-tile low" data-vc="self" data-m="pbr">1</div><div class="sc-tile low" data-vc="self" data-m="psr">1</div><div class="sc-tile lost" data-vc="self" data-m="pcr">34</div><div class="sc-tile low" data-vc="self" data-m="evebitda">17</div><div class="vs-pill high" data-vs-pill="self">비싸다</div>
-      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">—</div><div class="vs-note">현재가 <span data-vs="price">$370.48</span> 대비 <strong data-vs="upside">—</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill mid" data-vs-pill="dcf" title="
-0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">보류(미완성)</div></div>
+      <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$42</div><div class="vs-note">현재가 <span data-vs="price">$370.48</span> 대비 <strong data-vs="upside">−88.6%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><span class="vs-hard" title="· 자본수익률 7.8% &lt; 할인율 10% — 평균 투하자본 기준이라, 추가 투자의 수익률이 할인율보다 높지 않으면 성장이 가치를 만들지 못한다
+· 어떤 일정 성장률로도 현재가에 닿지 않는다
+· 잔존가치(5년 뒤)가 내재가치의 94%
+판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 8.78
+0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
+이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">57.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">50</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">57</div><div class="sc-tile" data-vc="peer" data-m="psr">71</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">48</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">60</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 30.4배(2.5년 중앙값 28.8배)로 자기 이력 18.7점(비싸다), 동종업 57.1점(중간)이다.</div>
-    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(일회성 비용 처리 대기) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다. 회사 조정 EPS(최근 4분기 18.09)는 GAAP(12.19)보다 훨씬 높다 — 인수 무형자산 상각과 매 분기 반복되는 인수·비용 절감(LaunchPad) 비용을 빼서다. 카드는 GAAP 기준이라 영업이익률이 낮게 나온다. 2023년 Fortrea 분사로 과거 실적이 재작성돼 자기 이력은 2024-04-30부터 비교한다. 3분기에 MLM Medical Labs 인수를 마쳤고 분기 뒤 3건을 계약했으며, 9월 메디케어 검사 수가(PAMA) 인하 예비안이 있다. 동종업 점수는 S&P500 헬스케어 기준이다.</div>
+    <div class="vs-premise">PER 30.4배(2.5년 중앙값 28.8배)로 자기 이력 18.7점(비싸다), 동종업 57.1점(중간)이다. <strong>현금흐름 내재가치(기본 $42.20)는 현재가의 11%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $42.20)는 현재가의 11%다. 현재가를 정당화하려면 영업이익률이 25.3%까지 올라야 한다(최근 4분기 10.3%, 3년 중앙값 8.4%). 내재가치에서 차입금·금융리스 $5.9B를 빼고 현금·단기투자 $262M를 더한다. 회사 조정 EPS(최근 4분기 $18.09)는 GAAP($12.19)보다 훨씬 높다 — 인수 무형자산 상각과 매 분기 나오는 비용 절감(LaunchPad)·기타 비용·SYNLAB 지분법 손실까지 빼서다. 카드는 이런 매 분기 비용을 반복 비용으로 보고, 일회성은 구조조정(2025년 4분기 Early Development 조치를 포함한 구조조정·기타 비용 $111M 등)·인수 비용·투자 손실·연금 정산뿐이라(세전 약 $216M, 세율 25%를 가정한 세후 추정 약 $162M — GAAP 이익의 약 16%) GAAP 숫자를 그대로 쓴다. 그래서 영업이익률이 회사 발표보다 낮게 나오고(최근 4분기 GAAP 약 10% 대 회사 조정 약 15%), 인수로 쌓인 영업권·무형자산 때문에 모델의 투하자본 수익률도 약 8%(기본 시나리오 마지막 해)로 낮고, 성장에 필요한 재투자와 순차입금 약 $5.7B를 빼야 해 현금흐름 내재가치가 현재가보다 크게 낮게 나온다. 회사 조정 이익률(약 15%)로 바꿔도 현재가가 요구하는 이익률에는 한참 못 미친다. 판정 “고평가”는 이 현금흐름 −2표에 기대는데, 이 칸은 잔존가치 비중이 커서(약 94%) 가정에 민감하다 — 배수 기준 적정주가·애널리스트 목표가와 차이가 큰 이유다. 2023년 Fortrea 분사로 과거 실적이 재작성돼 자기 이력은 2024-04-30부터 비교한다. 3분기에 MLM Medical Labs 인수를 마쳤고 분기 뒤 3건을 계약했으며, 9월 메디케어 검사 수가(PAMA) 인하 예비안이 있다. 동종업 점수는 S&P500 헬스케어 기준이다.</div>
   </div>
 
   <div class="grid-2">
@@ -1017,7 +1021,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $3.8B(+6.9%), 영업이익률 10.6%(1년 전 11.1%). 주가는 1년 새 +39%<span class="tag">배수 2.5년 고점권·매출 성장 빨라짐</span></div>
-    <div class="verdict-summary-counter">⚠️ 미완성 카드라 종합 판정을 보류한다(일회성 비용 처리 대기) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $42.20)는 현재가의 11%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 16일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1081,6 +1085,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="bb-box">
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본 $42.20)는 현재가의 11%.</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">밸류</span><span class="bb-text">자기 이력 19점(배수 5개) · PER 30.4배(2.5년 중앙값 28.8배).</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">순차입금(리스 포함) $6.5B, 최근 4분기 영업이익의 4.3배.</span></div>
     </div>
@@ -1431,13 +1436,13 @@ const LH_MA120 = [244.198,244.29,244.399,244.569,244.711,244.844,244.984,245.125
 // 종합 평가는 시스템이 정한다 — 아래 VALUATION 블록 뒤의 자동 판정이 채운다(2026-09-25).
 let LH_VERDICT = '계산 중';
 
-const LH_DCF = {"low": null, "base": null, "high": null, "requiredGrowth": null, "baseEquivGrowth": null, "reqMode": "growth", "requiredMargin": null, "marginNow": null, "growth5y": null, "nonopPerShare": 0, "s2cFallback": false, "asOf": "2026-11-13", "unavailable": "미완성 — 일회성 비용 처리 대기", "hard": [], "hardDetail": {}};   // no_dcf
+const LH_DCF = {"low": -15.16, "base": 42.2, "high": 66.66, "requiredGrowth": null, "baseEquivGrowth": 0.0501, "reqMode": "margin", "requiredMargin": 0.2534, "marginNow": 0.102922, "growth5y": 0.0656, "nonopPerShare": 0.0, "s2cFallback": false, "s2cReason": "measured", "asOf": "2026-11-13", "hard": ["roic", "nosol"], "hardDetail": {"roic": 0.078, "tax": 0.21, "nonopShare": 0.0}, "tvShare": 0.9389};   // build_dcf_block.py
 // 현금흐름 판정 5단계 — 헤더 색·요약 칸·밸류에이션 알약이 모두 이 함수 하나를 쓴다(2026-09-25).
 // 현재가 ÷ 기본 내재가치: ≤0.7 매우 싸다 · ≤0.9 싸다 · ≤1.1 적정 · ≤1.5 비싸다 · 초과 매우 비싸다.
 // 보수~낙관이 현재가를 사이에 두면 '시나리오별 갈림'을 붙인다(Fable: NVDA 0.38~1.46).
 function dcfLevel(price, D) {
   if (!D || price == null || typeof D.base !== 'number' || !isFinite(D.base))
-    return { label: '보류(미완성)', cls: 'mid', color: 'var(--gold)', split: false, ratio: null, range: '' };
+    return { label: '계산 불가', cls: 'mid', color: 'var(--gold)', split: false, ratio: null, range: '' };
   if (D.base <= 0)
     return { label: '매우 비싸다', cls: 'high', color: 'var(--red)', split: false, ratio: null, range: '기본 내재가치가 0 이하다' };
   const r = price / D.base;
@@ -1519,9 +1524,9 @@ const LH_SCORES = {
   // 내재가치를 계산할 수 없는 카드(신규 상장 등, d.base == null)는 칸마다 사유만 적는다(2026-09-25, SPCX).
   if (d.base == null) {
     const why = d.unavailable || '입력 부족';
-    if (req) { req.textContent = '—'; req.style.color = 'var(--text3)'; const c = req.closest('.meta-item'); if (c) c.title = why; }
-    if (box) { box.textContent = '보류(미완성)'; box.title = why; }
-    const dv0 = $('lhDcfVerdict'); if (dv0) { dv0.textContent = '보류(미완성)'; dv0.title = why; }
+    if (req) { req.textContent = '—'; req.style.color = 'var(--text3)'; const c = req.closest('.meta-item'); if (c) c.title = '계산 불가 — ' + why; }
+    if (box) { box.textContent = '계산 불가'; box.title = why; }
+    const dv0 = $('lhDcfVerdict'); if (dv0) { dv0.textContent = '계산 불가'; dv0.title = why; }
     return;
   }
   if (base) base.style.color = '#0ea5e9';
@@ -1532,11 +1537,16 @@ const LH_SCORES = {
   // 마진 모드인데 영업이익률 100%로도 닿지 않으면(해 없음) 요구 성장률을 대신 보인다(2026-09-30 사용자 결정, LRCX·PLTR).
   const noSol = mMode && d.requiredMargin == null && d.requiredGrowth != null;
   if (req) req.textContent = noSol ? '연 ' + f1(d.requiredGrowth)
-                           : mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '—')
+                           : mMode ? (d.requiredMargin != null ? f1(d.requiredMargin) : '100%로도 불가')   // 해 없음(카드 한정)
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
+    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : d.requiredMargin == null ? '현재가 요구 영업이익률' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
+    if (d.requiredMargin == null) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)
+      const _ps = 2.06;   // 생성 때 PSR(이 줄 위에서 LH_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)
+      req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'
+        + (_ps ? (_ps > 10 ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델 상한(세후 이익률 100% ÷ (할인율 − 영구성장) ≈ 매출의 10배)을 넘는 성장·마진 기대가 들어 있다.` : ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로 모델 상한(≈ 매출의 10배)보다 낮다. 해가 없는 것은 순부채·재투자 가정이 사업 가치를 깎기 때문이다.`) : '.');
+    }
   }
   if (req && price != null) {
     const lv = dcfLevel(price, d);
@@ -1544,7 +1554,7 @@ const LH_SCORES = {
     const cell = req.closest('.meta-item');
     if (cell) cell.title = (mMode
         ? `현재가 $${price.toFixed(2)} 가 정당화되려면 매출이 ` + (d.growth5y < 0.0245 ? `연 2.5%(지난 5년 연 ${f1(d.growth5y)}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${f1(d.growth5y)})로 크다가 식는 동안`)
-          + ` 영업이익률이 ${d.requiredMargin != null ? f1(d.requiredMargin) : '(범위 밖)'}여야 한다(현재 ${f1(d.marginNow)}).`
+          + (d.requiredMargin != null ? ` 영업이익률이 ${f1(d.requiredMargin)}여야 한다(현재 ${f1(d.marginNow)}).` : ` 영업이익률을 100%로 올려도 모자란다(현재 ${f1(d.marginNow)}).`)
           + `\n성장만으로는 설명되지 않는다. ` + (d.requiredGrowth != null
             ? `일정 성장이라면 연 ${f1(d.requiredGrowth)}` + (d.growth5y <= 0 ? `가 필요하다(지난 5년 실제는 연 ${f1(d.growth5y)}로 줄었다).` : `가 필요해 지난 5년의 3배를 넘는다.`)
             : `어떤 일정 성장률로도 현재가에 닿지 않는다.`)
@@ -1580,7 +1590,7 @@ const LH_SCORES = {
 //
 // 갱신: python3 v2/build_dcf_grid.py LH
 /* DCF_GRID:BEGIN */
-const LH_DCF_GRID = null;
+const LH_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0.02, 0.025, 0.03, 0.035], "default": [0.1, 0.025], "values": {"보수": [[41.86, 25.68, 13.31, 3.53, -4.4], [25.99, 11.13, -0.04, -8.73, -15.7], [7.25, -5.67, -15.16, -22.43, -28.19], [-15.25, -25.26, -32.44, -37.84, -42.07], [-44.21, -49.9, -53.87, -56.81, -59.09]], "기본": [[96.5, 69.96, 49.69, 33.71, 20.79], [95.53, 67.3, 46.15, 29.72, 16.6], [94.46, 64.3, 42.2, 25.32, 12.01], [93.27, 60.86, 37.74, 20.42, 6.96], [91.92, 56.89, 32.67, 14.92, 1.37]], "낙관": [[121.47, 93.66, 72.1, 55.1, 41.34], [121.73, 92.16, 69.55, 51.98, 37.93], [122.04, 90.43, 66.66, 48.5, 34.16], [122.4, 88.41, 63.36, 44.58, 29.97], [122.83, 86.03, 59.55, 40.14, 25.3]]}};
 /* DCF_GRID:END */
 (function(){
   const D = LH_DCF, G = (typeof LH_DCF_GRID !== 'undefined') ? LH_DCF_GRID : null;
@@ -1592,7 +1602,7 @@ const LH_DCF_GRID = null;
     document.querySelectorAll('#dcf [data-dcf-value], #dcf [data-dcf-upside], #dcf [data-dcf-req], #dcf [data-dcf-basev], #dcf [data-dcf-baseeq]')
       .forEach(el => { el.textContent = '—'; el.style.color = ''; });
     const r = document.querySelector('#dcf .reverse');
-    if (r) r.textContent = '';
+    if (r) r.textContent = '내재가치를 계산하지 못했다 — ' + (D.unavailable || '입력 부족');
     // 비영업 자산 줄과 "직접 바꿔보기" 카드는 값이 없으면 틀(NVDA) 숫자가 남으므로 숨긴다(Fable)
     document.querySelectorAll('#dcf [data-dcf-nonop]').forEach(el => { el.textContent = ''; el.hidden = true; });
     const pick = document.getElementById('dcfPickValue');
@@ -1617,7 +1627,7 @@ const LH_DCF_GRID = null;
   const pc = v => (v * 100).toFixed(1) + '%';
   if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 ` + (D.growth5y < 0.0245 ? `연 2.5%(지난 5년 연 ${pc(D.growth5y)}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`)
-      + ` 영업이익률이 <b>${D.requiredMargin != null ? pc(D.requiredMargin) : '범위 밖'}</b>여야 한다(지금 ${pc(D.marginNow)}).`
+      + (D.requiredMargin != null ? ` 영업이익률이 <b>${pc(D.requiredMargin)}</b>여야 한다(지금 ${pc(D.marginNow)}).` : ` 영업이익률을 <b>100%</b>로 올려도 모자란다(지금 ${pc(D.marginNow)}).`)
       + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
         ? `일정 성장으로 맞추려면 연 ${pc(D.requiredGrowth)}` + (D.growth5y <= 0 ? `가 필요하다(지난 5년 실제는 연 ${pc(D.growth5y)}로 줄었다).` : `가 필요해 지난 5년 실제의 3배를 넘는다.`)
         : `어떤 일정 성장률로도 현재가에 닿지 않는다.`);
@@ -1633,7 +1643,7 @@ const LH_DCF_GRID = null;
 
   if (!G) {   // 직접 바꿔보기 표가 없는 카드(보험사 등) — 틀의 대체값(NVDA $297)이 남지 않게(2026-10-06)
     const pv = document.getElementById('dcfPickValue'), pu = document.getElementById('dcfPickUpside');
-    if (pv) { pv.textContent = '보류(미완성)'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
+    if (pv) { pv.textContent = '계산 불가'; pv.style.color = 'var(--text3)'; } if (pu) pu.textContent = '';
     return;
   }
   const SCN = [['보수', 'low', 'var(--red)'], ['기본', 'base', '#0ea5e9'], ['낙관', 'high', 'var(--green)']];
@@ -1851,8 +1861,9 @@ const LH_VALUATION = {"peer": {"score": 57.1, "sector": "Health Care (S&P500 59�
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
       + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
-    + '\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'
+    + `\n심판 ${seated.length}/3 · 합계 ${sgn(total)}` + (maxW && maxW < 4 && dcfIn ? ` (4표 기준 ${(n < 0 ? '−' : n > 0 ? '+' : '') + Math.abs(n).toFixed(1)})` : '')
     + ` → ${LH_VERDICT}`
+    + '\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
   document.querySelectorAll('[data-verdict]').forEach(el => { el.textContent = LH_VERDICT; el.title = tip; });
   // A7(2026-10-04 사용자 결정 — 표시만, 판정 규칙은 그대로): 자기 이력·동종업 점수가 문턱(30·70) ±2점 안이고 그 칸 표가
@@ -2175,7 +2186,7 @@ const LH_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 �
 // **그날까지 공시된 것만으로** 다시 계산한 값이다. 백테스트가 체크포인트마다
 // PER 밴드를 다시 만드는 것과 같은 규칙. 오늘 값 하나를 과거에 가로줄로
 // 긋는 것은 "2024년에도 내재가치가 $315였다"고 말하는 셈이라 틀렸다.
-const LH_DCF_TRACK = [];
+const LH_DCF_TRACK = [{d:"2026-08-05",low:-26.5,base:26.0,high:65.1},{d:"2026-10-30",low:-15.2,base:42.2,high:66.7}];
 const LH_BACKTEST = [{"checkpoint_date": "2026-05-04", "quarter_end": "2026-03-31", "ttm_eps": 11.29, "trailing_sample_size": 499, "per_low": 25.0, "per_high": 43.28, "band_width_ratio": 1.73, "predicted_low": 282.21, "predicted_high": 488.62, "realized_per_high": 27.95, "realized_per_low": 22.18, "realized_price_high": 315.53, "realized_price_low": 250.4, "period_end_date": "2026-08-04", "is_open": false, "zone": "breached_bottom", "spans_earnings": 0}, {"checkpoint_date": "2026-08-05", "quarter_end": "2026-06-30", "ttm_eps": 12.09, "trailing_sample_size": 501, "per_low": 22.99, "per_high": 30.87, "band_width_ratio": 1.34, "predicted_low": 277.95, "predicted_high": 373.27, "realized_per_high": 30.45, "realized_per_low": 25.14, "realized_price_high": 368.16, "realized_price_low": 303.98, "period_end_date": "2026-10-29", "is_open": false, "zone": "full_hit", "spans_earnings": 0}, {"checkpoint_date": "2026-10-30", "quarter_end": "2026-09-30", "ttm_eps": 12.19, "trailing_sample_size": 501, "per_low": 23.49, "per_high": 30.39, "band_width_ratio": 1.29, "predicted_low": 286.29, "predicted_high": 370.4, "realized_per_high": 29.65, "realized_per_low": 29.17, "realized_price_high": 361.39, "realized_price_low": 355.59, "period_end_date": "2026-11-02", "is_open": true, "zone": "full_hit", "spans_earnings": 0}];
 // ─── 일봉 기준 밴드 적중률 ───
 // 체크포인트 판정(full_hit/breached_*)은 하루만 벗어나도 그 구간 전체를 실패로 보기 때문에,
@@ -2556,7 +2567,7 @@ function lhBandTone(cp){
             + ` · 기본 ${usd(e.v.base)} · 낙관 ${usd(e.v.high)}`
             + (e.v.high > DCF_CAP_HI ? ' · 낙관은 화면 밖이라 잘라서 표시' : '')
             // 계산 오류가 아니라 모델 구조다(AVGO 인수 직후 — 마진이 이력 최저인데 높은 성장은 현재 마진을 고정).
-            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다.' : '');
+            + (e.v.high < e.v.low && e.v.high < e.v.base ? '\n⚠ 이 시점엔 낙관이 가장 낮다. 현재 영업이익률이 과거보다 낮아, 그 마진을 이어 가는 낙관이 작게 나온다. 투하자본 수익률이 할인율보다 낮아 빨리 클수록 가치가 더 줄어든다.' : '');
           if (overlapOnly) {
             // 그 시점 밴드와 견줘 안/밖을 읽어준다 — 이 화면이 답하는 질문이다.
             const cp = visibleCheckpoints.filter(c => c.checkpoint_date <= e.v.d).slice(-1)[0];

@@ -1,15 +1,19 @@
-BUILD = {'eps_tag': 'IncomeLossFromContinuingOperationsPerDilutedShare,EarningsPerShareDiluted', 'no_dcf': '미완성 — 일회성 비용 처리 대기'}   # 2023-06 Fortrea 분사 — 계속사업 EPS 우선
+BUILD = {'eps_tag': 'IncomeLossFromContinuingOperationsPerDilutedShare,EarningsPerShareDiluted'}   # 2023-06 Fortrea 분사 — 계속사업 EPS 우선. 2026-11-16 정식 전환(아래 일회성)
 # LH(랩코프) v2 카드 설정 — 자동 카드(AUTO). 회계연도 12월 31일. 진단(미국 임상 검사) + 바이오제약 실험실 서비스(중앙 검사실·초기 개발), 부문 2개.
+# 세율: 분기 세전이익 태그가 요약 자료에 없어 현금흐름은 대체세율 21%(원문 실효세율 17.9%면 기본 $43.55 — 판정 불변, Codex 2026-11-16).
 # 출처: SEC XBRL, Q3 2026 10-Q(2026-10-30 16:11 장 마감 뒤 접수 — 첫 세션 11/2), 실적 보도자료(Q4 2025~Q3 2026, 8-K 2.02항 — 장 전 06:5x 동부 → 같은 날 반응), StockAnalysis. 사전 조사 scratchpad pre/LH.md(Q2 기준 + Q3 보도자료).
 # 2023-06-30 Fortrea(임상 개발 사업) 분사 — RESTATED_LATEST, 자기 이력 2024-04-30부터(HISTORY_START — 그날 최근 4분기 합이 모두 계속사업), 현금흐름 성장 이력 2023-06 최근 4분기 합부터(HISTORY_WINDOW), Yahoo 1.164는 분사 가격 조정이라 분할 목록 비움(KNOWN_SPLITS []).
 # 희석 EPS는 계속사업 우선, Q4 2022~2024는 보도자료 값(Q4_EPS_OVERRIDE). 비지배지분 2010년 낡은 값 제외(EV_TAGS_BY_CIK). E54 시험: 일회성(구조조정 등)을 빼도 투표 불변.
 # 일회성: 최근 4분기 GAAP 12.19 중 Q4 2025 Early Development 구조조정 $110.8M(세전) 등 — 회사 조정에는 매 분기 반복되는 인수 비용·LaunchPad 비용도 섞여 있다.
+# 일회성(E54 30% 규칙, 2026-11-16 재측정 — 사용자 결정 "정식, 반복분 제외"): 최근 4분기 GAAP 순이익 $1,004M(희석 EPS 12.19) 대 조정 18.09.
+#   회사 조정 중 상각($305M)은 반복. 매 분기 나오는 LaunchPad 개선 비용($66M)·영업 'Other'($87M)·SYNLAB 지분법 손실($28M)도 반복으로 본다(사용자 결정 — 경계선 27~30%라 물음).
+#   나머지 일회성(세전): 구조조정 $138M(Q4 2025 Early Development 포함 구조조정·기타 $111M), 인수·처분 $52M, 벤처 투자 손실 $19M, 연금 정산 $11M, 손상 $4M, 사이버 사건 $0.3M, 기타 −$8M → 약 $216M, 세후 약 $162M(약 16%) → 정식.
 CIK = '0000920148'
 CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (-1, 0, 0), '판정 보류'
+VOTES, VERDICT = (-1, 0, -2), '고평가'
 CO = 'Labcorp'
 S_ = 'https://www.sec.gov/Archives/edgar/data/920148/'
 SEC = S_
@@ -21,8 +25,8 @@ HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (�
 Y2 = (0, 20)
 ACT_REASON = ''
 NONOP_WHAT = '투자'
-MODEL_NOTE = ('회사 조정 EPS(최근 4분기 18.09)는 GAAP(12.19)보다 훨씬 높다 — 인수 무형자산 상각과 매 분기 반복되는 인수·비용 절감(LaunchPad) 비용을 빼서다. 카드는 GAAP 기준이라 영업이익률이 낮게 나온다. '
-              '2023년 Fortrea 분사로 과거 실적이 재작성돼 자기 이력은 2024-04-30부터 비교한다. 3분기에 MLM Medical Labs 인수를 마쳤고 분기 뒤 3건을 계약했으며, 9월 메디케어 검사 수가(PAMA) 인하 예비안이 있다. '
+MODEL_NOTE = ('회사 조정 EPS(최근 4분기 $18.09)는 GAAP($12.19)보다 훨씬 높다 — 인수 무형자산 상각과 매 분기 나오는 비용 절감(LaunchPad)·기타 비용·SYNLAB 지분법 손실까지 빼서다. 카드는 이런 매 분기 비용을 반복 비용으로 보고, 일회성은 구조조정(2025년 4분기 Early Development 조치를 포함한 구조조정·기타 비용 $111M 등)·인수 비용·투자 손실·연금 정산뿐이라(세전 약 $216M, 세율 25%를 가정한 세후 추정 약 $162M — GAAP 이익의 약 16%) GAAP 숫자를 그대로 쓴다. '
+              '그래서 영업이익률이 회사 발표보다 낮게 나오고(최근 4분기 GAAP 약 10% 대 회사 조정 약 15%), 인수로 쌓인 영업권·무형자산 때문에 모델의 투하자본 수익률도 약 8%(기본 시나리오 마지막 해)로 낮고, 성장에 필요한 재투자와 순차입금 약 $5.7B를 빼야 해 현금흐름 내재가치가 현재가보다 크게 낮게 나온다. 회사 조정 이익률(약 15%)로 바꿔도 현재가가 요구하는 이익률에는 한참 못 미친다. 판정 “고평가”는 이 현금흐름 −2표에 기대는데, 이 칸은 잔존가치 비중이 커서(약 94%) 가정에 민감하다 — 배수 기준 적정주가·애널리스트 목표가와 차이가 큰 이유다. 2023년 Fortrea 분사로 과거 실적이 재작성돼 자기 이력은 2024-04-30부터 비교한다. 3분기에 MLM Medical Labs 인수를 마쳤고 분기 뒤 3건을 계약했으며, 9월 메디케어 검사 수가(PAMA) 인하 예비안이 있다. '
               '동종업 점수는 S&P500 헬스케어 기준이다.')
 PH = ['DGX', 'HCA', 'UHS', 'IQV', 'CRL', 'DVA']
 PEER_FILE = 'peer_universe/health_care.json'
@@ -51,27 +55,6 @@ NEWS = [
 ]
 ANALYST = {'rating': 'Buy', 'n': 17, 'nt': 12, 'mean': 380.75, 'median': 395, 'low': 310, 'high': 420, 'sb': 11, 'b': 2, 'h': 4, 's': 0, 'ss': 0}
 ANALYST_ASOF = '2026-11-15'
-
-# 미완성 카드 표시(2026-11-03 사용자 결정 — C·D·E 보류 카드는 있는 자료로 만들고 판정 보류 + 이유를 잘 보이게, SPCX 방식). BUILD no_dcf가 판정을 보류로 만들고, 보험사용 문구를 미완성 사유로 바꾼다.
-INCOMPLETE_SHORT = '일회성 비용 처리 대기'
-INCOMPLETE_WHY = '최근 4분기 EPS에 일회성 구조조정(세전 $138M)이 들어 있어, 빼고 계산하면 판정이 바뀐다 — 일회성 처리 규칙(안건 E54)이 정해질 때까지 보류'
-POST = [r"""
-_w = '최근 4분기 EPS에 일회성 구조조정(세전 $138M)이 들어 있어, 빼고 계산하면 판정이 바뀐다 — 일회성 처리 규칙(안건 E54)이 정해질 때까지 보류'
-_hv = '<span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">판정 보류</span>'
-if _hv in h and 'data-incomplete' not in h:
-    h = h.replace(_hv, _hv + '<span data-incomplete style="display:block;font-size:12px;line-height:1.35;color:var(--text3);margin-top:2px;">미완성 — 일회성 비용 처리 대기</span>', 1)
-h = h.replace('이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다).', '미완성 카드다 — ' + _w + '. 그래서 현금흐름 내재가치 칸을 비우고 종합 판정을 보류한다(자기 이력·동종업 점수는 참고로 둔다).')
-h = h.replace('이 종목은 현금흐름 내재가치를 계산하지 않는다.', '미완성 — 일회성 비용 처리 대기. 현금흐름 내재가치는 계산하지 않았다.')
-import re as _re3
-h = _re3.sub(r'<div class="note">미완성 카드다 — .*?</div>', '', h, count=1, flags=_re3.S)
-h = h.replace("if (r) r.textContent = '내재가치를 계산하지 못했다 — ' + (D.unavailable || '입력 부족');", "if (r) r.textContent = '';")
-h = h.replace('현금흐름 미적용', '현금흐름 보류(미완성)')
-h = h.replace('내재가치를 계산하지 못했다 — 판정 보류 — ', '미완성 카드 — ')
-h = h.replace('계산 불가 — 판정 보류 — ', '미완성 — ')
-h = h.replace('계산 불가 — 미완성 — ', '미완성 — ')
-h = h.replace("c.title = '계산 불가 — ' + why;", "c.title = why;")   # 툴팁이 '계산 불가 — 미완성 — …'로 겹쳤다(Codex 2026-11-03)
-"""]
-
 
 # ── 자동 카드 — 부문(축 하나만 붙은 값). 원문 대조: Q3 2026 2,948.9/866.7(2026-11-03) ──
 AUTO = True

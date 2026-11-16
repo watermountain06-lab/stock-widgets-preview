@@ -1,4 +1,4 @@
-BUILD = {'no_dcf': '미완성 — 일회성 비용 처리 대기'}   # 2026-11-03 사용자 결정 — 미완성 카드(판정 보류)
+BUILD = {'no_dcf': '미완성 — 무형자산 손상으로 최근 4분기 GAAP가 적자'}   # 2026-11-03 사용자 결정 — 미완성 카드. 11-16 사유를 30% 규칙(2026-11-07) 표현으로
 # IVZ(인베스코) v2 카드 설정 — 자동 카드(AUTO), 미완성(판정 보류). 회계연도 12월 31일. 자산운용 — ETF(QQQ 등)·뮤추얼펀드·대체투자, 단일 보고 부문. 버뮤다 법인.
 # 출처: SEC XBRL, Q3 2026 10-Q(2026-11-03 장중 접수 → 기준일 11-04 종가), 실적 보도자료(Q4 2025~Q3 2026, 8-K 2.02항 — 장 전 07시 동부 → 같은 날 반응), StockAnalysis. 사전 조사 scratchpad pre/IVZ.md. 비교군 asset_managers(2026-10-25 등록).
 # 엔진 입력(2026-11-04): 순이익은 NetIncomeLossAvailableToCommonStockholdersBasic("Net income attributable to Invesco Ltd." = 우선주 배당·재매입 비용 뒤 보통주 몫, EXTRA_TAGS — NetIncomeLoss는 2025-03 멈춤, 기본 대체 ProfitLoss는 순이익률 −1.15%로 틀렸다).
@@ -24,7 +24,7 @@ HEADER_REQ_LABEL = '<span class="meta-label">현재가 요구 영업이익률 (�
 Y2 = (0, 20)
 ACT_REASON = ''
 NONOP_WHAT = '투자'
-MODEL_NOTE = ('미완성 카드다. 2025년 4분기 무형자산 손상($1.8B)으로 최근 4분기 이익이 적자라 PER을 쓸 수 없고, 손상을 빼면 PER이 돌아와 동종업 칸이 기권에서 표를 던지는 쪽으로 바뀌고, 자기 이력 칸도 계산 방식에 따라 바뀐다. '
+MODEL_NOTE = ('미완성 카드다. 이 카드는 최근 4분기 GAAP 이익 대비 일회성이 순액이나 비용만으로(세후) 30% 이상이거나 GAAP가 적자면 판정을 보류하는데, IVZ는 2025년 4분기 무형자산 손상($1.8B)으로 최근 4분기 GAAP EPS가 적자(−$0.69)라 PER을 쓸 수 없다. 손상을 빼면 PER이 돌아와 동종업 칸이 기권에서 표를 던지는 쪽으로 바뀐다. 이 분기가 최근 4분기에서 빠지는 2026년 4분기 실적(2027년 1월 말 예상)이 주요 확인 시점이다. '
               '연결 재무제표에 회사가 운용하는 펀드(CIP — 자산 $10.7B, 차입 $7.9B)가 섞여 있어 현금·차입은 회사 몫만 썼다. 2026년 10월 26일 우선주 $1.5B를 프리미엄 12.5%에 사들이고 같은 금액을 5년 대출로 빌렸다 — 9월 말 숫자에는 아직 없다. '
               '2025년 12월 QQQ가 개방형 ETF로 바뀌어 운용보수가 늘고 판매 수수료가 줄었으므로 1년 전 매출과 성격이 다르다. 비교 종목은 S&P500 자산운용·수탁은행 12곳 중 IVZ를 뺀 11곳이다.')
 PH = ['BLK', 'TROW', 'BEN', 'AMP', 'NTRS', 'STT']
@@ -57,15 +57,15 @@ ANALYST_ASOF = '2026-11-15'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정 — C·D·E 보류 카드는 있는 자료로 만들고 판정 보류 + 이유를 잘 보이게, SPCX 방식). BUILD no_dcf가 판정을 보류로 만들고, 보험사용 문구를 미완성 사유로 바꾼다.
-INCOMPLETE_SHORT = '일회성 비용 처리 대기'
-INCOMPLETE_WHY = '2025년 4분기 무형자산 손상($1.8B)으로 최근 4분기 EPS가 적자라 PER을 쓸 수 없고, 손상을 빼면 동종업 칸이 기권에서 표를 던지는 쪽으로 바뀌고 자기 이력 표도 계산 방식에 따라 갈린다 — 일회성 처리 규칙(안건 E54)이 정해질 때까지 보류'
+INCOMPLETE_SHORT = '무형자산 손상으로 GAAP 적자'
+INCOMPLETE_WHY = '2025년 4분기 무형자산 손상($1.8B, 세후 주당 $3.01)으로 최근 4분기 GAAP EPS가 적자(−$0.69)라 배수 판정이 왜곡돼 보류한다. 분기마다 다시 세고, 주요 확인은 2027년 1월 말(4분기가 빠질 때)'
 POST = [r"""
-_w = '2025년 4분기 무형자산 손상($1.8B)으로 최근 4분기 EPS가 적자라 PER을 쓸 수 없고, 손상을 빼면 동종업 칸이 기권에서 표를 던지는 쪽으로 바뀌고 자기 이력 표도 계산 방식에 따라 갈린다 — 일회성 처리 규칙(안건 E54)이 정해질 때까지 보류'
+_w = '2025년 4분기 무형자산 손상($1.8B, 세후 주당 $3.01)으로 최근 4분기 GAAP EPS가 적자(−$0.69)라 배수 판정이 왜곡돼 보류한다. 분기마다 다시 세고, 주요 확인은 2027년 1월 말(4분기가 빠질 때)'
 _hv = '<span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">판정 보류</span>'
 if _hv in h and 'data-incomplete' not in h:
-    h = h.replace(_hv, _hv + '<span data-incomplete style="display:block;font-size:12px;line-height:1.35;color:var(--text3);margin-top:2px;">미완성 — 일회성 비용 처리 대기</span>', 1)
+    h = h.replace(_hv, _hv + '<span data-incomplete style="display:block;font-size:12px;line-height:1.35;color:var(--text3);margin-top:2px;">미완성 — 무형자산 손상으로 GAAP 적자 · 매 분기 재검토, 주요 확인 2027년 1월 말</span>', 1)
 h = h.replace('이 종목은 현금흐름 내재가치를 계산하지 않는다(보험사 등 — 영업이익·설비투자 구조가 맞지 않는다).', '미완성 카드다 — ' + _w + '. 그래서 현금흐름 내재가치 칸을 비우고 종합 판정을 보류한다(자기 이력·동종업 점수는 참고로 둔다).')
-h = h.replace('이 종목은 현금흐름 내재가치를 계산하지 않는다.', '미완성 — 일회성 비용 처리 대기. 현금흐름 내재가치는 계산하지 않았다.')
+h = h.replace('이 종목은 현금흐름 내재가치를 계산하지 않는다.', '미완성 — 무형자산 손상으로 GAAP 적자. 미완성 카드 규칙에 따라 종합 판정과 함께 현금흐름 내재가치도 보류했다.')
 import re as _re3
 h = _re3.sub(r'<div class="note">미완성 카드다 — .*?</div>', '', h, count=1, flags=_re3.S)
 h = h.replace("if (r) r.textContent = '내재가치를 계산하지 못했다 — ' + (D.unavailable || '입력 부족');", "if (r) r.textContent = '';")
