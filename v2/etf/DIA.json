@@ -2,34 +2,29 @@
  "etf": "DIA",
  "name": "SPDR Dow Jones Industrial Average ETF Trust",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-11-12 ≠ 허용 ['2026-11-13'] (P=2026-11-13, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
    "detail": "승인 목록에 없는 판정 코드 해시 26장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX"
   }
  ],
- "detail": "보유 파일 기준일 2026-11-12 ≠ 허용 ['2026-11-13'] (P=2026-11-13, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 26장: AAPL, AMGN, AMZN, BA, CAT, CRM, CSCO, CVX",
  "verdict": null,
  "nbar": null,
- "coverage": 0.9288441792484022,
+ "coverage": 0.9289584483214904,
  "range": null,
  "edgeNear": false,
  "bar": {
   "저평가": 0.0,
-  "적정~저평가": 0.01889250681945336,
-  "적정": 0.02902595358952694,
-  "적정~고평가": 0.37769778602049875,
-  "고평가": 0.5032279328189232,
-  "카드 없음": 0.025322254965244064,
-  "판정 보류": 0.04583356578635369,
+  "적정~저평가": 0.018490170748009856,
+  "적정": 0.029047233518702822,
+  "적정~고평가": 0.3770724133061495,
+  "고평가": 0.5043486307486282,
+  "카드 없음": 0.0252583590377756,
+  "판정 보류": 0.04578319264073392,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
@@ -40,7 +35,7 @@
    "lines": [
     "GS"
    ],
-   "weight": 0.10385819425101443,
+   "weight": 0.10406726657162597,
    "card": "GS",
    "verdict": "고평가",
    "n": -3.0,
@@ -52,7 +47,7 @@
    "lines": [
     "CAT"
    ],
-   "weight": 0.06880831970156745,
+   "weight": 0.06814739630074057,
    "card": "CAT",
    "verdict": "고평가",
    "n": -3.0,
@@ -64,7 +59,7 @@
    "lines": [
     "MSFT"
    ],
-   "weight": 0.05945472382594089,
+   "weight": 0.059481937828699455,
    "card": "MSFT",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -76,7 +71,7 @@
    "lines": [
     "AMGN"
    ],
-   "weight": 0.0530954498633897,
+   "weight": 0.05287270460264052,
    "card": "AMGN",
    "verdict": "고평가",
    "n": -3.0,
@@ -88,7 +83,7 @@
    "lines": [
     "V"
    ],
-   "weight": 0.047780905614677176,
+   "weight": 0.048341279034387674,
    "card": "V",
    "verdict": "고평가",
    "n": -4.0,
@@ -100,7 +95,7 @@
    "lines": [
     "UNH"
    ],
-   "weight": 0.04605523912636158,
+   "weight": 0.04626347137658158,
    "card": "UNH",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -112,7 +107,7 @@
    "lines": [
     "TRV"
    ],
-   "weight": 0.04583356578635369,
+   "weight": 0.04578319264073392,
    "card": "TRV",
    "verdict": "판정 보류",
    "n": null,
@@ -126,7 +121,7 @@
    "lines": [
     "AAPL"
    ],
-   "weight": 0.04034281605846762,
+   "weight": 0.04045130584953333,
    "card": "AAPL",
    "verdict": "고평가",
    "n": -3.0,
@@ -138,7 +133,7 @@
    "lines": [
     "SHW"
    ],
-   "weight": 0.03985512269780539,
+   "weight": 0.03972691361890928,
    "card": "SHW",
    "verdict": "고평가",
    "n": -3.0,
@@ -150,7 +145,7 @@
    "lines": [
     "HD"
    ],
-   "weight": 0.03959025388895113,
+   "weight": 0.03959066213127698,
    "card": "HD",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -377,7 +372,7 @@
    "excluded": []
   }
  ],
- "S": "2026-11-12",
+ "S": "2026-11-13",
  "builtFor": "2026-11-13",
  "expense": {
   "pct": 0.16,
@@ -388,10 +383,10 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-14T23:36:59Z",
- "fetchedAt": "2026-11-14T23:36:59Z",
+ "runAt": "2026-11-16T23:33:30Z",
+ "fetchedAt": "2026-11-16T23:33:30Z",
  "inputHash": {
-  "xlsx": "d2ec4fe951eb198fce5e46876df1d8ec62db88ef327ef73bf7304482d3879d51",
+  "xlsx": "698a7e608fde34e011c153c6335e57139009fb7f0aac5dbc1ffb5a9add39fc9c",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -400,16 +395,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
    "code_sig"
   ],
-  "S": "2026-11-12"
+  "S": "2026-11-13"
  },
- "runId": "43654091913.1",
+ "runId": "43980257039.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",
