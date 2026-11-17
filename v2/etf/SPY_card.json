@@ -3967,78 +3967,78 @@
  },
  "constituents": {
   "holdings": {
-   "S": "2026-11-13",
+   "S": "2026-11-16",
    "held": true,
-   "reasonText": "보유 파일 날짜",
+   "reasonText": "카드 판정 코드 변경 — 승인 필요",
    "bar": null,
    "top10": [
     {
      "company": "AAPL",
      "name": "APPLE INC",
-     "weight": 0.07978055274206926,
+     "weight": 0.08053364693153946,
      "card": "AAPL",
      "verdict": "고평가"
     },
     {
-     "company": "NVDA",
-     "name": "NVIDIA CORP",
-     "weight": 0.060469891045475926,
-     "card": "NVDA",
-     "verdict": "적정~저평가"
-    },
-    {
      "company": "MSFT",
      "name": "MICROSOFT CORP",
-     "weight": 0.05968914943207412,
+     "weight": 0.06016450526101411,
      "card": "MSFT",
      "verdict": "적정~고평가"
     },
     {
+     "company": "NVDA",
+     "name": "NVIDIA CORP",
+     "weight": 0.05910459307764529,
+     "card": "NVDA",
+     "verdict": "적정~저평가"
+    },
+    {
      "company": "GOOGL",
      "name": "ALPHABET INC CL A",
-     "weight": 0.04796851156371243,
+     "weight": 0.04695691886357465,
      "card": "GOOGL",
      "verdict": "적정~고평가"
     },
     {
      "company": "AMZN",
      "name": "AMAZON.COM INC",
-     "weight": 0.04016057468158757,
+     "weight": 0.03957276550762638,
      "card": "AMZN",
      "verdict": "적정~고평가"
     },
     {
      "company": "AVGO",
      "name": "BROADCOM INC",
-     "weight": 0.02533375447167401,
+     "weight": 0.024812971342201846,
      "card": "AVGO",
      "verdict": "고평가"
     },
     {
      "company": "META",
      "name": "META PLATFORMS INC CLASS A",
-     "weight": 0.021713213202086117,
+     "weight": 0.02160791747741161,
      "card": "META",
      "verdict": "적정~고평가"
     },
     {
      "company": "LLY",
      "name": "ELI LILLY + CO",
-     "weight": 0.017723271251479877,
+     "weight": 0.01791938101729377,
      "card": "LLY",
      "verdict": "고평가"
     },
     {
      "company": "BRKB",
      "name": "BERKSHIRE HATHAWAY INC CL B",
-     "weight": 0.016944893033331684,
+     "weight": 0.017271426009366687,
      "card": "BRKB",
      "verdict": "판정 보류"
     },
     {
      "company": "TSLA",
      "name": "TESLA INC",
-     "weight": 0.016875112787029845,
+     "weight": 0.016740874039429237,
      "card": "TSLA",
      "verdict": "고평가"
     }
@@ -4206,7 +4206,7 @@
     ],
     [
      "BAC",
-     "적정"
+     "적정~고평가"
     ],
     [
      "BALL",
@@ -5499,27 +5499,27 @@
    ]
   },
   "sectors": {
-   "asOf": "2026-11-13",
+   "asOf": "2026-11-16",
    "rows": [
     [
      "Information Technology",
-     35.68
+     35.3
     ],
     [
      "Financials",
-     12.65
+     12.79
     ],
     [
      "Health Care",
-     10.48
+     10.63
     ],
     [
      "Consumer Discretionary",
-     9.53
+     9.51
     ],
     [
      "Communication Services",
-     8.94
+     8.86
     ],
     [
      "Industrials",
@@ -5527,7 +5527,7 @@
     ],
     [
      "Consumer Staples",
-     5.17
+     5.29
     ],
     [
      "Energy",
@@ -5535,21 +5535,21 @@
     ],
     [
      "Utilities",
-     2.12
+     2.16
     ],
     [
      "Real Estate",
-     1.85
+     1.88
     ],
     [
      "Materials",
-     1.74
+     1.75
     ]
    ]
   },
   "chars": {
-   "pe": 23.44,
-   "peAsOf": "2026-11-13"
+   "pe": 23.0,
+   "peAsOf": "2026-11-16"
   },
   "dgs10": {
    "date": "2026-11-13",
@@ -5558,7 +5558,7 @@
  },
  "index": "SPY",
  "name": "SPY",
- "runId": "44030070759.1",
- "runAt": "2026-11-17T06:17:42Z",
+ "runId": "44168636006.1",
+ "runAt": "2026-11-17T20:23:11Z",
  "source": "Yahoo Finance SPY 일봉 종가"
 }

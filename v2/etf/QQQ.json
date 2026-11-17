@@ -2,34 +2,29 @@
  "etf": "QQQ",
  "name": "Invesco QQQ Trust, Series 1",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-11-15 ≠ 허용 ['2026-11-16'] (P=2026-11-16, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
    "detail": "승인 목록에 없는 판정 코드 해시 76장: AAPL, ADBE, ADI, ADP, ADSK, AEP, AMAT, AMD"
   }
  ],
- "detail": "보유 파일 기준일 2026-11-15 ≠ 허용 ['2026-11-16'] (P=2026-11-16, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 76장: AAPL, ADBE, ADI, ADP, ADSK, AEP, AMAT, AMD",
  "verdict": null,
  "nbar": null,
- "coverage": 0.9033891266832209,
+ "coverage": 0.90254753311251,
  "range": null,
  "edgeNear": false,
  "bar": {
-  "저평가": 0.006719858397006609,
-  "적정~저평가": 0.133759244163335,
-  "적정": 0.014372590051960645,
-  "적정~고평가": 0.30993140043353734,
-  "고평가": 0.4386060336373813,
-  "카드 없음": 0.06368068367945637,
-  "판정 보류": 0.03293018963732271,
+  "저평가": 0.00694146582782279,
+  "적정~저평가": 0.13076161940420244,
+  "적정": 0.014466965031282072,
+  "적정~고평가": 0.31090750135043693,
+  "고평가": 0.43946998149876587,
+  "카드 없음": 0.06408396154830501,
+  "판정 보류": 0.033368505339185006,
   "그 밖 제외": 0.0,
   "분류 안 됨": 0
  },
@@ -40,22 +35,10 @@
    "lines": [
     "AAPL"
    ],
-   "weight": 0.08597199976038672,
+   "weight": 0.08740232937693589,
    "card": "AAPL",
    "verdict": "고평가",
    "n": -3.0,
-   "excluded": []
-  },
-  {
-   "company": "NVDA",
-   "name": "NVIDIA Corp",
-   "lines": [
-    "NVDA"
-   ],
-   "weight": 0.06484513770086454,
-   "card": "NVDA",
-   "verdict": "적정~저평가",
-   "n": 2.0,
    "excluded": []
   },
   {
@@ -64,10 +47,22 @@
    "lines": [
     "MSFT"
    ],
-   "weight": 0.06427361736934649,
+   "weight": 0.0652963776579831,
    "card": "MSFT",
    "verdict": "적정~고평가",
    "n": -2.0,
+   "excluded": []
+  },
+  {
+   "company": "NVDA",
+   "name": "NVIDIA Corp",
+   "lines": [
+    "NVDA"
+   ],
+   "weight": 0.0638808338749053,
+   "card": "NVDA",
+   "verdict": "적정~저평가",
+   "n": 2.0,
    "excluded": []
   },
   {
@@ -77,7 +72,7 @@
     "GOOGL",
     "GOOG"
    ],
-   "weight": 0.05538851589171158,
+   "weight": 0.05465291223597496,
    "card": "GOOGL",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -89,22 +84,10 @@
    "lines": [
     "AMZN"
    ],
-   "weight": 0.04752295268137563,
+   "weight": 0.04719663128363078,
    "card": "AMZN",
    "verdict": "적정~고평가",
    "n": -2.0,
-   "excluded": []
-  },
-  {
-   "company": "MU",
-   "name": "Micron Technology Inc",
-   "lines": [
-    "MU"
-   ],
-   "weight": 0.040094820914865804,
-   "card": "MU",
-   "verdict": "적정~저평가",
-   "n": 2.0,
    "excluded": []
   },
   {
@@ -113,10 +96,22 @@
    "lines": [
     "AMD"
    ],
-   "weight": 0.03976737080325844,
+   "weight": 0.03858114744229648,
    "card": "AMD",
    "verdict": "고평가",
    "n": -4.0,
+   "excluded": []
+  },
+  {
+   "company": "MU",
+   "name": "Micron Technology Inc",
+   "lines": [
+    "MU"
+   ],
+   "weight": 0.03805773887840933,
+   "card": "MU",
+   "verdict": "적정~저평가",
+   "n": 2.0,
    "excluded": []
   },
   {
@@ -125,7 +120,7 @@
    "lines": [
     "TSLA"
    ],
-   "weight": 0.033869693224195446,
+   "weight": 0.03386536237887795,
    "card": "TSLA",
    "verdict": "고평가",
    "n": -4.0,
@@ -137,7 +132,7 @@
    "lines": [
     "META"
    ],
-   "weight": 0.031526532978870474,
+   "weight": 0.03162104246452069,
    "card": "META",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -149,7 +144,7 @@
    "lines": [
     "WMT"
    ],
-   "weight": 0.028414034234952236,
+   "weight": 0.029267371535017326,
    "card": "WMT",
    "verdict": "고평가",
    "n": -4.0,
@@ -718,7 +713,7 @@
    "excluded": []
   }
  ],
- "S": "2026-11-15",
+ "S": "2026-11-16",
  "builtFor": "2026-11-16",
  "expense": {
   "pct": 0.18,
@@ -729,10 +724,10 @@
  "inputFormat": "invesco_json",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-17T06:17:34Z",
- "fetchedAt": "2026-11-17T06:17:35Z",
+ "runAt": "2026-11-17T20:23:04Z",
+ "fetchedAt": "2026-11-17T20:23:04Z",
  "inputHash": {
-  "json": "6467f0f63a2c9504213c19bf7b27919d84fb177577c641bb9b6b6e353fa88bf9",
+  "json": "9920ce79cc4e394425b5d98093b964a6fd4669b26ad0d3c8c659dade60583ad1",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -741,16 +736,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
    "code_sig"
   ],
-  "S": "2026-11-15"
+  "S": "2026-11-16"
  },
- "runId": "44030070759.1",
+ "runId": "44168636006.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",
