@@ -113,6 +113,11 @@ test('monthView: 내 원칙(B) 우선, 회차 상태(완료·건너뜀·넘김·
   assert.equal(m.scenario.id, 's1');
   assert.deepEqual(m.steps.map((s) => s.state), ['done', 'done', 'carry', 'skip', 'todo', 'dropped']);
   assert.equal(m.next.date, '2026-12-22');
+  // 2026-11-17: 회차는 그 주 금요일까지 — 12/15(화) 회차는 12/16 기록이 있어도 12/18(금)까지 이번 회차, 토요일부터 다음 회차
+  assert.equal(monthView(r, '2026-12-16', '2026-12-17').next.date, '2026-12-15');
+  assert.equal(monthView(r, '2026-12-16', '2026-12-18').next.date, '2026-12-15');
+  assert.equal(monthView(r, '2026-12-18', '2026-12-19').next.date, '2026-12-22');
+  assert.equal(monthView(r, '2026-12-29', '2026-12-28').next, null);
   assert.equal(m.spent, 100);
   assert.deepEqual(m.alerts.map((f) => f.ticker), ['AAA']);
   assert.equal(monthView({ scenarios: [mk('A', 'A')] }, '2026-12-16'), null);
@@ -327,7 +332,7 @@ test('다음 할 일: 다음 회차·결정 대기·회차 끝·첫 점검 대�
   const plan = { rounds, candidates: ['BBB', 'EEE'] };
   const steps = [{ state: 'done' }, { state: 'done' }, { state: 'skip' }, { state: 'todo' }, { state: 'todo' }];
   const a = nextAction({ plan, steps, next: rounds[2], stale: false });
-  assert.equal(a.title, '12월 15일, 3번째 나눠 사기');
+  assert.equal(a.title, '12월 15일 주, 3번째 나눠 사기');
   assert.equal(a.sub, '구매 후보 BBB · EEE · 4회 중 2회 진행');
   assert.deepEqual([a.done, a.total], [2, 4]);
   assert.equal(nextAction({ plan, steps, next: null, stale: true }).title, '이번 달 결정 대기');

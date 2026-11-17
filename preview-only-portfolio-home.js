@@ -170,6 +170,11 @@ export function monthRounds(month) {
 
 // 다음 할 일 카드에 쓸 시나리오(숨은 원칙 시나리오, 없으면 B나 처음 만든 시나리오)와 그달 계획
 // today(미국 동부 날짜)를 주면 '이번 달'은 그 달이다(없으면 lastSession의 달).
+// 그 날짜가 든 주의 금요일(YYYY-MM-DD). 토·일이면 그날 그대로(회차 날짜는 늘 거래일이라 생기지 않음)
+export function weekEnd(d) {
+  const t = Date.parse(d + 'T12:00:00Z'), dow = new Date(t).getUTCDay();
+  return dow >= 1 && dow <= 5 ? new Date(t + (5 - dow) * 864e5).toISOString().slice(0, 10) : d;
+}
 export function monthView(result, lastSession, today) {
   if (!result) return null;
   // 원칙 시나리오(attachActual이 떼어 둔 result.plan)가 있으면 그것, 없으면 예전처럼 B나 처음 만든 시나리오
@@ -186,7 +191,11 @@ export function monthView(result, lastSession, today) {
         : skips.some((x) => x.date === r.date) ? 'carry' : 'done' };
   })];
   const spent = trades.filter((t) => t.side === 'buy').reduce((a, t) => a + t.amount, 0);
-  const next = plan.rounds.find((r) => !r.dropped && r.date > lastSession) || null;
+  // 회차 기간(사용자 결정 2026-11-17): 회차 날짜가 든 주의 금요일까지가 그 회차 — 그 주 안에만 사면 된다.
+  // 예전에는 회차 날 장 마감 기록이 나오면 바로 지난 회차로 쳐서, 월요일에 못 사면 화요일에 벌써 '놓침'이 되었다
+  const next = today
+    ? plan.rounds.find((r) => !r.dropped && weekEnd(r.date) >= today) || null
+    : plan.rounds.find((r) => !r.dropped && r.date > lastSession) || null;   // 오늘을 모를 때(시험)는 예전 기준
   // 마지막 결정이 지난달이면(이번 달 점검일 결정이 아직 없음) stale — 화면은 '지난달 계획 · 이번 달 결정 대기'로 보여 준다
   const nowMonth = (today || lastSession || '').slice(0, 7);
   const stale = !!nowMonth && plan.decisionDate.slice(0, 7) !== nowMonth;
@@ -824,7 +833,7 @@ export function nextAction(mv) {
   const done = mv.steps.slice(1).filter((s) => s.state !== 'todo').length;
   const cands = mv.plan.candidates.length ? mv.plan.candidates.join(' · ') : '없음';
   if (mv.stale) return { title: '이번 달 결정 대기', sub: '점검일 정보가 오면 구매 후보를 정합니다. 회차 막대는 지난달 계획입니다.', done, total };
-  if (mv.next) return { title: `${kday(mv.next.date)}, ${rounds.indexOf(mv.next) + 1}번째 나눠 사기`, sub: `구매 후보 ${cands} · ${total}회 중 ${done}회 진행`, done, total };
+  if (mv.next) return { title: `${kday(mv.next.date)} 주, ${rounds.indexOf(mv.next) + 1}번째 나눠 사기`, sub: `구매 후보 ${cands} · ${total}회 중 ${done}회 진행`, done, total };
   return { title: '이번 달 회차 끝', sub: `구매 후보 ${cands} · 다음 점검은 다음 달 1일(휴장이면 다음 거래일)`, done, total };
 }
 
