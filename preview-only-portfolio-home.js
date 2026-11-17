@@ -459,14 +459,23 @@ export function carryIn(month, startMonth, { net, sold, spent }) {
 // 그달 실제 매수 목록 buys [{date, amount}], 이번·남은 회차 하나당 계획 금액(planEach, 달러|null)으로
 // 회차마다 {date, state: 'done'|'missed'|'now'|'plan', amount}과 첫 회차 전 매수(outside)를 낸다.
 // 회차 k의 매수 = [dates[k], dates[k+1]) 안의 매수(마지막 회차는 그달 끝까지).
-export function roundStrip(dates, next, buys, planEach) {
+// budget(그달 한도, 달러)을 주면 지난 회차마다 그때 고정 몫 share = (한도 − 그 전까지 산 돈) ÷ 남은 회차와
+// 다 못 쓴 돈 left = max(0, share − 산 돈)을 붙인다(사용자 요청 2026-11-17: 지난 회차 칸은 산 돈이 아니라 남은 돈).
+export function roundStrip(dates, next, buys, planEach, budget = null) {
   const sum = (a, b) => Math.round(buys.filter((x) => x.date >= a && (!b || x.date < b)).reduce((t, x) => t + x.amount, 0) * 100) / 100;
   const outside = dates.length ? Math.round(buys.filter((x) => x.date < dates[0]).reduce((t, x) => t + x.amount, 0) * 100) / 100 : 0;
+  let remC = budget == null ? 0 : Math.max(0, Math.round(budget * 100) - Math.round(outside * 100));
   const out = dates.map((d, k) => {
     const got = sum(d, dates[k + 1]);
     if (next && d > next) return { date: d, state: 'plan', amount: planEach };
     if (next && d === next) return { date: d, state: 'now', amount: planEach, done: got };
-    return { date: d, state: got > 0 ? 'done' : 'missed', amount: got };
+    const r = { date: d, state: got > 0 ? 'done' : 'missed', amount: got };
+    if (budget != null) {
+      const shareC = Math.floor(remC / (dates.length - k));
+      r.share = shareC / 100; r.left = Math.max(0, shareC - Math.round(got * 100)) / 100;
+      remC = Math.max(0, remC - Math.round(got * 100));
+    }
+    return r;
   });
   return { rounds: out, outside };
 }
@@ -960,7 +969,7 @@ function buyBox(args) {
     const est = pending && week == null && nLeft && R + doneNow > 0 ? Math.floor(((R + doneNow) * 100) / nLeft) / 100 : null;   // 고르기 전일 때만 — 고른 종목을 지금 못 사거나 후보가 없으면 띄우지 않는다(cr)
     const each = week ?? est;
     const leftNow = weekLeft ?? (est != null ? Math.max(0, Math.round((est - doneNow) * 100) / 100) : null);   // 이번 회차에 더 살 돈
-    const rs = roundStrip(dates, preview ? null : next, mbl, each);
+    const rs = roundStrip(dates, preview ? null : next, mbl, each, preview ? null : budget);
     if (preview) rs.rounds = rs.rounds.map((r, i) => (r.amount > 0 ? r : { ...r, state: i === 0 ? 'first' : 'plan', amount: each }));   // 점검 전: 모두 예정(첫 회차만 표시)
     strip.appendChild(el('div', 'pf-k', `${mLabel} ${dates.length}회 매수`));
     const row = el('div', 'pf-striprow');
@@ -969,9 +978,9 @@ function buyBox(args) {
       const c = el('div', 'pf-stripcell pf-strip-' + r.state);
       c.appendChild(el('span', 'pf-s', `${i + 1}회 · ${md(r.date)}`));
       const nowLeft = r.state === 'now' && leftNow != null && r.amount != null;   // 이번 회차: 남은 금액을 크게, 고정 몫은 아래에
-      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.amount == null ? '—' : nowLeft ? (est != null ? '약 ' : '') + usd(leftNow) : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
+      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.state === 'done' && r.left != null ? usd(r.left) : r.amount == null ? '—' : nowLeft ? (est != null ? '약 ' : '') + usd(leftNow) : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
       if (r.state === 'first') c.classList.add('pf-strip-now');
-      c.title = TXT[r.state] + (nowLeft ? ` · 몫 ${usd(r.amount)}` + (r.done > 0 ? ` 중 ${usd(r.done)} 삼` : '') : '');   // 띠 아래 문장은 뺐다(사용자 결정 2026-11-10) — 상태는 색, 자세한 건 마우스를 올리면
+      c.title = TXT[r.state] + (r.state === 'done' && r.left != null ? ` · 몫 ${usd(r.share)} 중 ${usd(r.amount)} 삼 · 남은 ${usd(r.left)}는 다음 회차로` : '') + (nowLeft ? ` · 몫 ${usd(r.amount)}` + (r.done > 0 ? ` 중 ${usd(r.done)} 삼` : '') : '');   // 띠 아래 문장은 뺐다(사용자 결정 2026-11-10) — 상태는 색, 자세한 건 마우스를 올리면
       row.appendChild(c);
     });
     strip.appendChild(row);

@@ -552,6 +552,17 @@ test('4회 띠: 지난 회차는 산 돈(없으면 놓침), 이번 회차·남�
   assert.deepEqual(monthBuyList(trades, '2026-11', '2026-11-30'), [{ date: '2026-11-03', amount: 0.01 }]);
 });
 
+test('4회 띠: 한도를 주면 지난 회차는 그때 고정 몫과 다 못 쓴 돈(남은 돈)을 보인다', () => {
+  const dates = ['2026-11-02', '2026-11-09', '2026-11-16', '2026-11-23'];
+  const r = roundStrip(dates, '2026-11-16', [{ date: '2026-11-10', amount: 332.95 }], 333.5, 999.98).rounds;
+  assert.equal(r[0].state, 'missed');
+  assert.deepEqual([r[1].state, r[1].share, r[1].left], ['done', 333.32, 0.37]);
+  const over = roundStrip(dates, '2026-11-16', [{ date: '2026-11-03', amount: 300 }], 0, 999.98).rounds[0];
+  assert.deepEqual([over.share, over.left], [249.99, 0]);
+  const big = roundStrip(dates, '2026-11-16', [{ date: '2026-11-03', amount: 400 }], 0, 999.98).rounds[0];
+  assert.equal(big.left, 0);   // 몫보다 많이 사면 0
+});
+
 import { carryIn } from '../../preview-only-portfolio-home.js';
 
 test('잔금(원칙 3): 4회가 끝나고 못 쓴 돈은 다음 달 한도에 더한다, 시작 달은 0, 음수는 0', () => {
