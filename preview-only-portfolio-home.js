@@ -232,14 +232,27 @@ export function depositsSince(all, base, today) {
 // 놓친 회차(사용자 결정 10-22 Q2): 이번 회차 금액 = (그 종목 달 몫 − 이번 달 그 종목에 산 돈) ÷ 남은 회차 수(이번 회차 포함).
 // 모든 종목의 남은 몫 합은 남은 돈(쓸 돈 − 이번 달 산 돈 전부)을 넘지 않게 비례로 줄인다. 계산은 끝까지 센트 정수(내림 — 남는 센트는 쓰지 않는다).
 // budget·spent·bought 값은 달러. 고른 것 가운데 무게가 없는 종목(시총 없음·무게 밖 판정)이 있으면 그 방법은 null.
-// 돌려주는 값(모두 방법별): by(달 몫)·rest(남은 몫)·round(이번 회차 금액, 남은 회차 0이면 null) {티커: 달러}, missed(지난 회차 계획보다 덜 산 종목), capped(남은 돈에 맞춰 줄임).
+// 돌려주는 값(모두 방법별): by(달 몫)·rest(남은 몫)·round(이번 회차 금액, 남은 회차 0이면 null) {티커: 달러}, missed(지난 회차 계획보다 덜 산 종목), capped(남은 돈에 맞춰 줄임),
+// skip {티커: {kind, amt}}·sched {티커: [이번 회차, 다음 회차, …] 달러} — 최소 주문(minOrder, 아래).
+// 최소 주문(사용자 결정 2026-11-18, 키움, dr 3라운드 합의): 이번 회차에 아직 안 산 종목의 todo가 0보다 크고 minOrder 미만이면 이번엔 사지 않는다(todo 0).
+// 돈은 rest에 남아 다음 회차 몫이 저절로 커지고, 그달 회차가 끝나면 잔금(carryIn)으로 다음 달 한도에 더해진다. kind 'month' = 남은 몫 rest 자체가 minOrder 미만
+// (마지막 회차 skip은 늘 이것), 'next' = 그 밖. amt = 'next'면 이번 금액, 'month'면 rest. 이번 회차에 조금이라도 산 종목(0.0001주 내림 잔액 포함)은 그대로 둔다.
+// sched: 회차별 계획 — [0] = 이번 회차 고정 몫(skip이면 0), 뒤는 이번 회차 뒤 남을 몫을 남은 회차로 나누며 minOrder 미만이면 0(뒤로 넘김). 엔진은 최소 주문이 없다(사용자: 비교 안 함).
+export const MIN_ORDER = 10;
 export const BUY_METHODS = [['equal', '균등'], ['cap', '시총 비중'], ['tier', '판정 가중']];
+export const skipTxt = (s) => `${usd(s.amt)} · $${MIN_ORDER} 미만, ${s.kind === 'next' ? '다음 회차로' : '다음 달로'}`;
+// 회차별 합(달러, 센트로 더함): sched[방법]과 더할 종목 → [이번 회차, 다음, …], sched가 없으면 null
+export function roundTotals(sched, tickers) {
+  if (!sched) return null;
+  const n = Math.max(0, ...tickers.map((t) => sched[t]?.length || 0));
+  return Array.from({ length: n }, (_, i) => tickers.reduce((a, t) => a + Math.round((sched[t]?.[i] || 0) * 100), 0) / 100);
+}
 // 후보 줄 순서(사용자 요청 2026-10-25): 시가총액 큰 순, 시총을 모르는 종목은 맨 뒤 티커순 — 보여 주는 순서만, 계산과 무관
 export const byCap = (list, caps = {}) => [...list].sort((a, b) => (caps[b] || 0) - (caps[a] || 0) || (a < b ? -1 : 1));
 const toC = (v) => Math.max(0, Math.round((v || 0) * 100));
 // a × b ÷ c 내림을 정확히(정수만, BigInt — 실수 비율로 하면 3/11 같은 무게에서 1센트가 빠진다, dr r2)
 const mulDiv = (a, b, c) => Number((BigInt(a) * BigInt(b)) / BigInt(c));
-export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, boughtNow = {}, tiers = {}, caps = {}, rounds = 4, roundsLeft = rounds, weights = tierWeights('9999-12') }) {
+export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, boughtNow = {}, tiers = {}, caps = {}, rounds = 4, roundsLeft = rounds, weights = tierWeights('9999-12'), minOrder = 0 }) {
   const sel = cands.filter((t) => picked.includes(t));
   const cents = toC(budget), left = Math.max(0, cents - toC(spent)), passed = Math.max(0, rounds - roundsLeft);
   const plan = (w) => {
@@ -262,13 +275,26 @@ export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, boughtN
     const todo = round ? Object.fromEntries(sel.map((t) => [t, Math.min(rest[t], Math.max(0, round[t] - (nowC[t] || 0)))])) : null;
     // 놓친 몫: 지난 회차까지 계획(달 몫 × 지난 회차 ÷ 회차 수)보다 그 종목에 덜 샀다
     const missed = round && passed > 0 ? sel.filter((t) => toC(bought[t]) < mulDiv(share[t], passed, rounds)) : [];
-    return { share, rest, round, todo, missed, capped };
+    const minC = toC(minOrder);
+    const skip = round ? {} : null, sched = round ? {} : null;
+    if (round) for (const t of sel) {
+      const fresh = !(nowC[t] > 0);
+      if (minC > 0 && fresh && todo[t] > 0 && todo[t] < minC) { skip[t] = rest[t] < minC ? { kind: 'month', amt: rest[t] } : { kind: 'next', amt: todo[t] }; todo[t] = 0; }
+      // 이번 회차에 산 종목의 남은 todo는 화면에 살 금액으로 안 보이므로(보유 수만) 뒤 회차로 간다고 본다(dr r3 Fable)
+      let rem = rest[t] - (fresh ? todo[t] : 0);
+      const a = [skip[t] ? 0 : round[t]];
+      for (let k = roundsLeft - 1; k >= 1; k--) { const x = Math.floor(rem / k); if (x >= minC) { a.push(x); rem -= x; } else a.push(0); }
+      sched[t] = a;
+    }
+    return { share, rest, round, todo, missed, capped, skip, sched };
   };
-  const out = { sel, by: {}, round: {}, todo: {}, rest: {}, missed: {}, capped: {} };
+  const out = { sel, by: {}, round: {}, todo: {}, rest: {}, missed: {}, capped: {}, skip: {}, sched: {} };
   const usdOf = (o) => (o ? Object.fromEntries(Object.entries(o).map(([t, c]) => [t, c / 100])) : null);
   for (const [k, w] of [['equal', () => 1], ['cap', (t) => caps[t]], ['tier', (t) => weights[tiers[t]]]]) {
     const r = plan(w);
     out.by[k] = usdOf(r?.share); out.round[k] = usdOf(r?.round); out.todo[k] = usdOf(r?.todo); out.rest[k] = usdOf(r?.rest); out.missed[k] = r ? r.missed : []; out.capped[k] = !!r?.capped;
+    out.skip[k] = r?.skip ? Object.fromEntries(Object.entries(r.skip).map(([t, x]) => [t, { kind: x.kind, amt: x.amt / 100 }])) : null;
+    out.sched[k] = r?.sched ? Object.fromEntries(Object.entries(r.sched).map(([t, a]) => [t, a.map((c) => c / 100)])) : null;
   }
   return out;
 }
@@ -963,7 +989,7 @@ function buyBox(args) {
   const laterIn = Math.round(deps.later.filter((d) => d.amount > 0 && (d.rec || d.day) <= today).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const mLabel = ahead ? `${+month.slice(5)}월` : '이번 달';
   const strip = el('div', 'pf-strip');
-  const fillCells = ({ week, weekLeft = null, weekLabel, weekNote, future, dates, next, preview, pending }) => {   // weekLeft: 이번 회차에 더 살 돈(고정 몫 − 산 돈, 2026-11-09)
+  const fillCells = ({ week, weekLeft = null, weekLabel, weekNote, future, dates, next, preview, pending, ahead = null, plan = null }) => {   // weekLeft: 이번 회차에 더 살 돈(고정 몫 − 산 돈, 2026-11-09)
     // 돈 칸 아래 문장은 뺐다(사용자 결정 2026-11-10) — 제목과 금액만, 설명은 마우스를 올리면
     const cell = (k, v, sub, cls) => { const d = el('div', 'pf-receiptcell' + (cls ? ' ' + cls : '')); d.appendChild(el('span', 'pf-k', k)); d.appendChild(el('strong', null, v)); if (sub) d.title = sub; cells.appendChild(d); return d; };
     const laterSum = deps.later.reduce((a, d) => a + d.amount, 0);
@@ -1006,7 +1032,8 @@ function buyBox(args) {
     const each = week ?? est;
     const leftNow = weekLeft ?? (est != null ? Math.max(0, Math.round((est - doneNow) * 100) / 100) : null);   // 이번 회차에 더 살 돈
     const rs = roundStrip(dates, preview ? null : next, mbl, each, preview ? null : budget);
-    if (preview) rs.rounds = rs.rounds.map((r, i) => (r.amount > 0 ? r : { ...r, state: i === 0 ? 'first' : 'plan', amount: each }));   // 점검 전: 모두 예정(첫 회차만 표시)
+    if (preview) rs.rounds = rs.rounds.map((r, i) => (r.amount > 0 ? r : { ...r, state: i === 0 ? 'first' : 'plan', amount: plan?.[i] ?? each }));   // 점검 전: 모두 예정(첫 회차만 표시), 금액은 회차별 계획(최소 주문)
+    else if (ahead) { const k0 = rs.rounds.findIndex((r) => r.state === 'now'); if (k0 >= 0) rs.rounds = rs.rounds.map((r, i) => (r.state === 'plan' ? { ...r, amount: ahead[i - k0 - 1] ?? r.amount } : r)); }   // 예정 칸 = 회차별 계획(0도 그대로)
     strip.appendChild(el('div', 'pf-k', `${mLabel} ${dates.length}회 매수`));
     const row = el('div', 'pf-striprow');
     const TXT = { done: '샀음', missed: next ? '놓침 → 남은 회차에' : '놓침', now: '이번 주', plan: preview ? '예정(예상)' : '예정', first: '1회차(예상)' };
@@ -1026,11 +1053,11 @@ function buyBox(args) {
 
   if (!mv) {
     box.appendChild(el('p', 'pf-note', args.waiting ? `이번 달 점검(${md(args.checkDay)}) 결정이 오면 이 돈으로 구매 후보를 확정합니다.` : `${md(args.checkDay)} 점검일에 이 돈으로 구매 후보를 확정합니다.`));
-    const pv = args.preview ? previewSection(args, box, month, budget) : null;
     // 점검 전: 회차는 점검일부터 매주 4회(예정), 이번 주 칸은 1회차 금액(예상)
     const S0 = cal().sessions, plus = (d, n) => new Date(Date.parse(d + 'T12:00:00Z') + n * 864e5).toISOString().slice(0, 10);
     const pdates = args.checkDay ? [0, 1, 2, 3].map((k) => S0.find((d) => d >= plus(args.checkDay, 7 * k))).filter(Boolean) : [];
-    fillCells({ week: pv?.week ?? null, weekLabel: `${pdates[0] ? md(pdates[0]) + ' ' : ''}1회차 매수(예상)`, weekNote: pv ? pv.note : '점검 뒤 확정', future: pv ? pv.future : null, dates: pdates, next: pdates[0] || null, pending: !!pv && pv.note === '종목·방법을 고르세요', preview: true });
+    const pv = args.preview ? previewSection(args, box, month, budget, pdates.length || 4) : null;   // 회차 수를 띠 칸 수와 맞춘다(dr r3)
+    fillCells({ plan: pv?.plan ?? null, week: pv?.week ?? null, weekLabel: `${pdates[0] ? md(pdates[0]) + ' ' : ''}1회차 매수(예상)`, weekNote: pv ? pv.note : '점검 뒤 확정', future: pv ? pv.future : null, dates: pdates, next: pdates[0] || null, pending: !!pv && pv.note === '종목·방법을 고르세요', preview: true });
     return box;
   }
   const { plan } = mv;
@@ -1056,13 +1083,13 @@ function buyBox(args) {
   const wText = Object.values(weights).join(':');
   const picked = ((mv.demo ? demoPicks : model.picks?.[month]) || []).filter((t) => cands.includes(t));
   const bp = method ? buyPlan({ cands, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])), boughtNow: nowBought,
-    tiers, caps: model.caps || {}, rounds, roundsLeft, weights }) : null;
+    tiers, caps: model.caps || {}, rounds, roundsLeft, weights, minOrder: MIN_ORDER }) : null;
   // 체크 안 한 줄에도 '체크하면' 금액을 흐리게(사용자 결정 2026-10-25): 아무것도 안 골랐으면 전부 체크한 것으로, 골랐으면 그 종목을 더한 것으로 계산
   const hintPlans = new Map();
   const hint = (t, c) => {
     if (!method || !mv.next || !(budget > 0)) return null;
     const hp = picked.length ? [...picked, t] : cands, key = picked.length ? t : '*';
-    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), boughtNow: nowBought, tiers, caps: model.caps || {}, rounds, roundsLeft, weights }));
+    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), boughtNow: nowBought, tiers, caps: model.caps || {}, rounds, roundsLeft, weights, minOrder: MIN_ORDER }));
     const r = hintPlans.get(key)?.todo[method]?.[t];
     return r > 0 ? `체크하면 ${shareTxt(r, c)}${usd(r)}` : null;
   };
@@ -1156,6 +1183,7 @@ function buyBox(args) {
     else {
       const r = bp.todo[method][t], fix = bp.round[method][t], got = nowBought[t] || 0;
       if (got > 0 && fix > 0) { if (heldTxt) act.appendChild(el('strong', 'pf-held', heldTxt)); }   // 이번 회차에 이미 삼 — 남은 몇 센트는 살 수 없던 몫이라 보유 주식 수만(사용자 결정 2026-11-10)
+      else if (bp.skip[method]?.[t]) note(skipTxt(bp.skip[method][t]));   // 최소 주문 미만(2026-11-18)
       else if (!(r > 0)) note(bp.rest[method][t] > 0 ? '회차 몫 1센트 미만' : leftUsd <= 0 || bp.capped[method] ? '남은 돈 없음' : '달 몫을 다 샀음');
       else if (c == null) note(`${usd(r)} · 가격 없음`);
       else if (Math.floor((r / c) * 1e4) <= 0) note(`${usd(r)} · 0.0001주 미만`);
@@ -1182,20 +1210,22 @@ function buyBox(args) {
   box.appendChild(pickMsg);
   // 칸 2: 체크한 종목 가운데 이번 회차에 살 수 있는 종목의 회차 금액 합(체크·방법을 바꾸면 바로 바뀜), 앞으로 = 남은 몫 합
   const ok = bp && bp.round[method] && mv.next ? picked.filter((t) => nowBuyable(t)) : [];
-  const week = ok.length ? Math.round(ok.reduce((a, t) => a + (bp.round[method][t] || 0), 0) * 100) / 100 : null;
+  const tot = ok.length ? roundTotals(bp.sched[method], ok) : null;   // [이번 회차, 다음, …] — skip 종목은 0
+  const week = tot ? tot[0] : null;
+  const allSkip = week === 0 && ok.some((t) => bp.skip[method]?.[t]);   // 이번 주 $0인 까닭이 최소 주문일 때
   const weekLeft = ok.length ? Math.round(ok.reduce((a, t) => a + (bp.todo[method][t] || 0), 0) * 100) / 100 : null;
   const future = bp && bp.rest[method] ? Math.round(picked.reduce((a, t) => a + (bp.rest[method][t] || 0), 0) * 100) / 100 : null;
   fillCells({ week, weekLeft, pending: !!mv.next && (!method || !picked.length), weekLabel: mv.next ? `이번 주 매수(${nextIdx}/${rounds}회)` : '이번 주 매수',
     weekNote: !mv.next ? '회차 끝' : !method || !picked.length ? '종목·방법을 고르세요'
-      : bp && !bp.by[method] ? (method === 'cap' ? '시총 없는 종목이 있음' : '무게 밖 판정이 있음') : null,
-    future, dates: active.map((r) => r.date), next: mv.next ? mv.next.date : null });
+      : bp && !bp.by[method] ? (method === 'cap' ? '시총 없는 종목이 있음' : '무게 밖 판정이 있음') : allSkip ? `$${MIN_ORDER} 미만은 건너뜀` : null,
+    future, ahead: tot ? tot.slice(1) : null, dates: active.map((r) => r.date), next: mv.next ? mv.next.date : null });
   freshSection(args, box, plan, bought);
   return box;
 }
 
 // 점검일 전 미리 보기(사용자 결정 2026-10-22 B안): 첫 점검일 전·이번 달 결정 대기 때 지금 판정 기준 후보(원칙 1·6)를 체크 칸과 함께 보여 준다.
 // 확정은 점검일에 한다. 체크는 그 점검 달(month) 몫으로 저장하고, 금액은 그달 쓸 돈을 4회로 나눈 회당 금액(회차 일정은 점검일에 생긴다)
-function previewSection(args, box, month, budget) {
+function previewSection(args, box, month, budget, pn = 4) {
   const { model, handlers, tierOf, nowBuyable, close } = args;
   const cands = Object.keys(model.lastCards || {}).sort().filter((t) => nowBuyable(t));
   const ph = el('div', 'pf-buysechead');
@@ -1220,12 +1250,12 @@ function previewSection(args, box, month, budget) {
   const tiers = Object.fromEntries(cands.map((t) => [t, tierOf(t)]));
   const bought = monthBuys(model.trades, month, args.today);   // 같은 달 결정 대기 중 이미 산 돈은 다시 나누지 않는다(dr)
   const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
-  const bp = method ? buyPlan({ cands, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])), tiers, caps: model.caps || {}, rounds: 4, roundsLeft: 4 }) : null;
+  const bp = method ? buyPlan({ cands, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])), tiers, caps: model.caps || {}, rounds: pn, roundsLeft: pn, minOrder: MIN_ORDER }) : null;
   const hintPlans = new Map();   // 체크 안 한 줄의 '체크하면' 금액(라이브 카드와 같은 규칙)
   const hint = (t, c) => {
     if (!method || !(budget > 0)) return null;
     const hp = picked.length ? [...picked, t] : cands, key = picked.length ? t : '*';
-    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), tiers, caps: model.caps || {}, rounds: 4, roundsLeft: 4 }));
+    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), tiers, caps: model.caps || {}, rounds: pn, roundsLeft: pn, minOrder: MIN_ORDER }));
     const r = hintPlans.get(key)?.todo[method]?.[t];
     return r > 0 ? `체크하면 ${shareTxt(r, c)}${usd(r)}` : null;
   };
@@ -1260,9 +1290,10 @@ function previewSection(args, box, month, budget) {
     else if (!bp.by[method]) note(method === 'cap' ? '시총 없는 종목이 있음' : '무게 밖 판정이 있음(초저평가~적정만)');
     else {
       const amtBox = el('span', 'pf-buyamt');
-      const r = bp.round[method][t], c = close(t);
-      amtBox.appendChild(el('strong', null, shareTxt(r, c) + usd(r)));
-      amtBox.appendChild(el('span', 'pf-s', `회당(4회)` + (c ? '' : ' · 가격 없음') + ` · 달 몫 ${usd0(bp.by[method][t])}`));
+      const r = bp.round[method][t], c = close(t), sk = bp.skip[method]?.[t];
+      if (sk) amtBox.appendChild(el('span', 'pf-note', skipTxt(sk)));   // 최소 주문 미만(2026-11-18)
+      else amtBox.appendChild(el('strong', null, shareTxt(r, c) + usd(r)));
+      amtBox.appendChild(el('span', 'pf-s', `1회차(예상)` + (c ? '' : ' · 가격 없음') + ` · 달 몫 ${usd0(bp.by[method][t])}`));
       act.appendChild(amtBox);
     }
     row.appendChild(act);
@@ -1270,9 +1301,11 @@ function previewSection(args, box, month, budget) {
   }
   box.appendChild(list);
   box.appendChild(pickMsg);
-  const wk = bp && bp.round[method] ? Math.round(picked.reduce((a, t) => a + (bp.round[method][t] || 0), 0) * 100) / 100 : null;
+  const tot = bp && bp.sched[method] && picked.length ? roundTotals(bp.sched[method], picked) : null;
+  const wk = tot ? tot[0] : null;
   const fu = bp && bp.rest[method] ? Math.round(picked.reduce((a, t) => a + (bp.rest[method][t] || 0), 0) * 100) / 100 : null;
-  return { week: picked.length ? wk : null, future: fu, note: !method || !picked.length ? '종목·방법을 고르세요' : !(budget > 0) ? `${+month.slice(5)}월 입금이 아직 없음` : null };
+  const allSkip = wk === 0 && picked.some((t) => bp.skip[method]?.[t]);
+  return { week: picked.length ? wk : null, plan: tot, future: fu, note: !method || !picked.length ? '종목·방법을 고르세요' : !(budget > 0) ? `${+month.slice(5)}월 입금이 아직 없음` : allSkip ? `$${MIN_ORDER} 미만은 건너뜀` : null };
 }
 
 // 끝이 둥근 꺾쇠 아이콘(14px). d = 선 모양

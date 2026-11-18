@@ -751,3 +751,88 @@ test('monthSellList: 이번 달 취소 안 된 매도만, 수수료 뺀 받은 �
   ]);
   assert.deepEqual(monthSellList(undefined, '2026-11', '2026-11-11'), []);
 });
+
+// 최소 주문 $10(사용자 결정 2026-11-18, 키움, dr 3라운드 합의) — 가짜 티커만
+import { MIN_ORDER, roundTotals, skipTxt } from '../../preview-only-portfolio-home.js';
+const M = { minOrder: MIN_ORDER };
+// 한 종목을 회차마다 보인 금액대로 산다고 보고 4회를 돈다(새 회차마다 boughtNow 비움)
+const walk = (budget, method = 'equal') => {
+  let spent = 0; const out = [];
+  for (let k = 0; k < 4; k++) {
+    const p = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget, spent, bought: { AAA: spent }, rounds: 4, roundsLeft: 4 - k, caps: { AAA: 1e12 }, tiers: { AAA: '저평가' }, ...M });
+    out.push({ todo: p.todo[method].AAA, skip: p.skip[method].AAA || null, sched: p.sched[method].AAA });
+    spent = Math.round((spent + p.todo[method].AAA) * 100) / 100;
+  }
+  return out;
+};
+
+test('최소 주문: 달 몫 $25는 1·2회 다음 회차로, 3·4회 $12.50', () => {
+  const w = walk(25);
+  assert.equal(MIN_ORDER, 10);
+  assert.deepEqual(w.map((x) => x.skip), [{ kind: 'next', amt: 6.25 }, { kind: 'next', amt: 8.33 }, null, null]);
+  assert.deepEqual(w.map((x) => x.todo), [0, 0, 12.5, 12.5]);
+  assert.deepEqual(w[0].sched, [0, 0, 12.5, 12.5]);
+  for (const m of ['cap', 'tier']) assert.deepEqual(walk(25, m).map((x) => x.todo), [0, 0, 12.5, 12.5], m);   // 세 방법 모두 같은 규칙
+});
+
+test('최소 주문: 달 몫 $8은 네 회 모두 다음 달로(금액 = 남은 몫)', () => {
+  const w = walk(8);
+  assert.deepEqual(w.map((x) => x.skip), Array(4).fill({ kind: 'month', amt: 8 }));
+  assert.deepEqual(w.map((x) => x.todo), [0, 0, 0, 0]);
+  assert.deepEqual(w[0].sched, [0, 0, 0, 0]);
+});
+
+test('최소 주문 경계: todo 1000센트는 사고 999센트는 건너뜀', () => {
+  assert.deepEqual(walk(40).map((x) => x.todo), [10, 10, 10, 10]);
+  const p = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 39.96, rounds: 4, ...M });
+  assert.equal(p.todo.equal.AAA, 0); assert.deepEqual(p.skip.equal.AAA, { kind: 'next', amt: 9.99 });
+});
+
+test('최소 주문: 이번 회차에 이미 산 종목은 남은 돈이 작아도 건너뜀으로 안 잡는다', () => {
+  // 회차 몫 $30 중 $25 삼 → todo $5, skip 없음 / 0.0001주 내림으로 몇 센트 남음 → skip 없음
+  const a = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 120, spent: 25, bought: { AAA: 25 }, boughtNow: { AAA: 25 }, rounds: 4, ...M });
+  assert.equal(a.todo.equal.AAA, 5); assert.deepEqual(a.skip.equal, {});
+  assert.deepEqual(a.sched.equal.AAA, [30, 31.66, 31.67, 31.67]);   // 남은 $5는 뒤 회차로(rem = rest 95)
+  const b = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 120, spent: 29.97, bought: { AAA: 29.97 }, boughtNow: { AAA: 29.97 }, rounds: 4, ...M });
+  assert.equal(b.todo.equal.AAA, 0.03); assert.deepEqual(b.skip.equal, {});
+});
+
+test('최소 주문: 회차 계획(sched)은 이번 회차를 두 번 세지 않는다', () => {
+  const now = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 100, spent: 25, bought: { AAA: 25 }, boughtNow: { AAA: 25 }, rounds: 4, ...M });
+  assert.deepEqual(now.sched.equal.AAA, [25, 25, 25, 25]);
+  const r2 = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 100, spent: 25, bought: { AAA: 25 }, rounds: 4, roundsLeft: 3, ...M });
+  assert.deepEqual(r2.sched.equal.AAA, [25, 25, 25]);
+});
+
+test('최소 주문: 이번 주 합(roundTotals)은 고른 종목만, 건너뛴 종목은 0, 이미 산 종목은 회차 몫 그대로', () => {
+  // AAA 달 몫 $100(이번 회차 $25 다 삼), BBB 달 몫 $25(1회 건너뜀), CCC는 지금 못 사는 종목이라 ok에서 빠짐
+  const p = buyPlan({ cands: ['AAA', 'BBB', 'CCC'], picked: ['AAA', 'BBB', 'CCC'], budget: 150, spent: 25, bought: { AAA: 25 }, boughtNow: { AAA: 25 }, rounds: 4,
+    caps: { AAA: 4, BBB: 1, CCC: 1 }, ...M });
+  assert.deepEqual(p.by.cap, { AAA: 100, BBB: 25, CCC: 25 });
+  assert.deepEqual(p.todo.cap, { AAA: 0, BBB: 0, CCC: 0 });
+  assert.deepEqual(roundTotals(p.sched.cap, ['AAA', 'BBB']), [25, 25, 37.5, 37.5]);   // 이번 주 $25(산 것 포함), 예정 칸은 회차별
+  assert.deepEqual(roundTotals(p.sched.cap, ['AAA', 'BBB', 'CCC']), [25, 25, 50, 50]);
+  assert.equal(roundTotals(null, ['AAA']), null);
+});
+
+test('최소 주문: 비례 축소·밀린 회차·회차 끝·무게 없음·다 샀음', () => {
+  // 남은 돈 $8에 맞춰 줄어 각 $4 → 다음 달로
+  const c = buyPlan({ cands: ['AAA', 'BBB'], picked: ['AAA', 'BBB'], budget: 80, spent: 72, rounds: 4, ...M });
+  assert.ok(c.capped.equal); assert.deepEqual(c.skip.equal, { AAA: { kind: 'month', amt: 4 }, BBB: { kind: 'month', amt: 4 } });
+  const r3 = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 8, rounds: 3, roundsLeft: 1, ...M });
+  assert.deepEqual(r3.skip.equal.AAA, { kind: 'month', amt: 8 }); assert.deepEqual(r3.sched.equal.AAA, [0]);
+  const end = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 8, rounds: 4, roundsLeft: 0, ...M });
+  assert.equal(end.skip.equal, null); assert.equal(end.sched.equal, null);
+  const nw = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 8, rounds: 4, tiers: { AAA: '적정' }, ...M });
+  assert.equal(nw.skip.tier, null); assert.equal(nw.sched.tier, null);
+  const all = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 40, spent: 40, bought: { AAA: 40 }, rounds: 4, roundsLeft: 2, ...M });
+  assert.equal(all.todo.equal.AAA, 0); assert.deepEqual(all.skip.equal, {});
+});
+
+test('최소 주문 기본값 0이면 예전과 같다', () => {
+  const p = buyPlan({ cands: ['AAA'], picked: ['AAA'], budget: 25, rounds: 4 });
+  assert.equal(p.todo.equal.AAA, 6.25); assert.deepEqual(p.skip.equal, {});
+  assert.deepEqual(p.sched.equal.AAA, [6.25, 6.25, 6.25, 6.25]);
+  assert.equal(skipTxt({ kind: 'next', amt: 6.25 }), '$6.25 · $10 미만, 다음 회차로');
+  assert.equal(skipTxt({ kind: 'month', amt: 8 }), '$8.00 · $10 미만, 다음 달로');
+});
