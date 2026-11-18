@@ -3777,6 +3777,8 @@ def main():
         }
         if stale_note:
             out["multiples"][label]["currentNote"] = stale_note
+        if label == "PER" and cur:   # 카드 문장의 "최근 4분기 EPS"는 반올림 전 PER로 역산한다 — 반올림된 16.54로 역산하면 HCA 30.18이 30.17로 나왔다(Codex 2026-11-16)
+            out["multiples"]["PER"]["eps"] = round(daily[-1][4] / cur, 4)
         if label == "PER" and per_na:
             m_ = out["multiples"]["PER"]
             m_["score"], m_["currentNote"] = None, "per_na"

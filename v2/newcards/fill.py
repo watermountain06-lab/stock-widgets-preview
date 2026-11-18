@@ -135,7 +135,7 @@ VAL = json.loads(re.search(rf'^const {T}_VALUATION = (\{{.*?\}});', h, re.M).gro
 selfsc, peersc = VAL['self']['score'], VAL['peer']['score']
 px = D[-1][4]
 b = bd.base_inputs(T)
-eps_ttm = round(px / SM['PER']['current'], 2) if SM.get('PER') and SM['PER'].get('current') else None
+eps_ttm = (round(SM['PER']['eps'], 2) if SM.get('PER') and SM['PER'].get('eps') else round(px / SM['PER']['current'], 2) if SM.get('PER') and SM['PER'].get('current') else None)   # 엔진이 낸 반올림 전 값 우선(HCA 30.17 → 30.18, 2026-11-16 사용자 승인)
 ratio = px / DCF['base'] if DCF.get('base') else None
 _vote = lambda s: 1 if s >= 70 else -1 if s < 30 else 0
 _dv = (1 if ratio <= 0.9 else 0 if ratio <= 1.1 else -1 if ratio <= 1.5 else -2) if ratio and DCF['base'] > 0 else -2
