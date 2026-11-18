@@ -15480,6 +15480,86 @@
         "valuationAsOf": "2026-11-17",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "JBL",
+      "name": "재빌",
+      "sector": "전자 제조 서비스 — AI 데이터센터·통신 인프라, 의료·자동차, 소비자 기기",
+      "href": "JBL_full_widget.html",
+      "cardRank": 369,
+      "cardAsOf": "2026-11-13",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-13 ≠ 홈 가격 세션 2026-11-17, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 102974470,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-20",
+        "filedAt": "2026-10-23",
+        "filing": "10-K 0001628280-26-067038 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 34.9,
+        "grade": "미흡",
+        "financialsAsOf": "2026-08-31",
+        "valuationAsOf": "2026-11-13",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "HCA",
+      "name": "HCA 헬스케어",
+      "sector": "병원 운영 — 미국 병원 약 190곳, 외과 센터·응급실",
+      "href": "HCA_full_widget.html",
+      "cardRank": 370,
+      "cardAsOf": "2026-11-13",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": null,
+        "status": "unavailable",
+        "statusReason": "새 종목 — 카드 마지막 봉 2026-11-13 ≠ 홈 가격 세션 2026-11-17, 다음 매일 실행이 채운다"
+      },
+      "shares": {
+        "usEquivalent": 208892500,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-26",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001193125-26-437871 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 43.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-13",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }
