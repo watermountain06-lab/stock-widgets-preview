@@ -11,6 +11,7 @@ import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, c
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
 import { renderAccounts } from './preview-only-portfolio-acctview.js?v=7';
+import { sectorGroups } from './preview-only-portfolio-sectors.js?v=1';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -790,6 +791,7 @@ export function renderHome(root, model, handlers) {
       const li = el('li'); const sw = el('i'); sw.style.background = seg.style.background; li.appendChild(sw); li.appendChild(el('span', null, `${t} ${p}`)); leg.appendChild(li);
     }
     hold.appendChild(bar); hold.appendChild(leg);
+    hold.appendChild(sectorBlock(cur.holdings.map((x) => ({ ticker: x.ticker, value: myVal.get(x.ticker) || 0 })), cur.hasCash ? cur.cash : 0, myTot));
   } else if (!has) hold.appendChild(el('p', 'pf-note', '아직 올린 보유가 없습니다. 기록·관리 탭의 "보유 파일 올리기"로 올리세요.'));
   const fold = el('details', 'pf-holdfold');
   try { fold.open = sessionStorage.getItem('pf-holds-open') === '1'; } catch (_) { /* 기억 못 해도 접힌 채로 */ }
@@ -851,6 +853,40 @@ let buyMethod;
 let pickSaving = false;   // 체크 저장 중이면 다시 그린 목록·방법 버튼도 잠근다(dr r2)
 // 종목 이름 → 그 종목 카드(사용자 결정 2026-11-03). 카드가 있는 종목만 링크, 새 탭으로 열어 이 화면(로그인)은 그대로 둔다
 let CARDS = {};
+// 업종별 묶음(보기 전용, 2026-11-18 사용자 결정·dr 합의): 분모는 바로 위 보유 막대와 같은 값(total), 기술은 하위 줄을 늘 펼쳐 보인다
+export function sectorBlock(items, cash, total) {
+  const { main, extra } = sectorGroups(items, cash, total);
+  const p = (s) => (s == null ? '—' : s > 0 && s < 0.01 ? '<1%' : Math.round(s * 100) + '%');
+  const box = el('details', 'pf-secfold');
+  try { box.open = sessionStorage.getItem('pf-sec-open') !== '0'; } catch (_) { box.open = true; }
+  box.addEventListener('toggle', () => { try { sessionStorage.setItem('pf-sec-open', box.open ? '1' : '0'); } catch (_) { /* 무시 */ } });
+  const sum = el('summary', null, '업종별 ');
+  sum.appendChild(el('small', null, `${main.length}묶음`));
+  sum.title = '모든 %는 위 보유 막대와 같은 분모(전체 자산). ETF 속 종목은 세지 않음. 줄 %와 종목 % 합은 반올림 때문에 다를 수 있음. 업종 묶음은 보기 전용이고 매수 원칙과 무관';
+  box.appendChild(sum);
+  const row = (r, cls) => {
+    const d = el('div', 'pf-sec' + (cls ? ' ' + cls : ''));
+    const nm = el('span', 'pf-secname', r.label);
+    if (r.id === 'idx') nm.appendChild(el('small', null, ' 속 안 셈'));
+    d.appendChild(nm);
+    const track = el('span', 'pf-sectrack'); const fill = el('i'); fill.style.width = Math.max(0, Math.min(100, (r.share || 0) * 100)) + '%'; track.appendChild(fill); d.appendChild(track);
+    d.appendChild(el('b', null, p(r.share)));
+    if (r.tickers.length && !r.subs) d.appendChild(el('small', 'pf-sectk', r.tickers.map((x) => `${x.t} ${p(x.share)}`).join(' · ')));
+    d.title = `${r.label} ${usd0(r.value)}` + (r.tickers.length ? ` · ${r.tickers.length}종목` : '');
+    return d;
+  };
+  const list = el('div', 'pf-secs');
+  for (const r of extra.filter((x) => x.id === 'none')) list.appendChild(row(r, 'pf-secwarn'));   // 분류 안 됨은 맨 위 경고색
+  for (const r of main) {
+    list.appendChild(row(r));
+    for (const s of r.subs || []) list.appendChild(row(s, 'pf-secsub'));
+  }
+  const rest = extra.filter((x) => x.id !== 'none');
+  rest.forEach((r, i) => list.appendChild(row(r, i === 0 ? 'pf-secsep' : '')));
+  box.appendChild(list);
+  return box;
+}
+
 function tickName(t) {
   if (!CARDS[t]) return el('strong', null, t);
   const a = el('a', 'pf-tlink', t); a.href = `${t.replace(/[^A-Za-z0-9]/g, '').toUpperCase()}_full_widget.html`;
