@@ -2,35 +2,30 @@
  "etf": "SPY",
  "name": "SPDR S&P 500 ETF Trust",
  "status": "held",
- "reason": "file_date",
- "reasonText": "보유 파일 날짜",
+ "reason": "code_sig",
+ "reasonText": "카드 판정 코드 변경 — 승인 필요",
  "reasons": [
-  {
-   "key": "file_date",
-   "text": "보유 파일 날짜",
-   "detail": "보유 파일 기준일 2026-11-16 ≠ 허용 ['2026-11-17'] (P=2026-11-17, 규칙 same)"
-  },
   {
    "key": "code_sig",
    "text": "카드 판정 코드 변경 — 승인 필요",
-   "detail": "승인 목록에 없는 판정 코드 해시 351장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
+   "detail": "승인 목록에 없는 판정 코드 해시 357장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI"
   }
  ],
- "detail": "보유 파일 기준일 2026-11-16 ≠ 허용 ['2026-11-17'] (P=2026-11-17, 규칙 same)",
+ "detail": "승인 목록에 없는 판정 코드 해시 357장: A, AAPL, ABBV, ABT, ACGL, ACN, ADBE, ADI",
  "verdict": null,
  "nbar": null,
- "coverage": 0.876632300815526,
+ "coverage": 0.8801765424331471,
  "range": null,
  "edgeNear": false,
  "bar": {
-  "저평가": 0.003101721565380784,
-  "적정~저평가": 0.09185704626334665,
-  "적정": 0.024167870541033018,
-  "적정~고평가": 0.3693808230074142,
-  "고평가": 0.38812483943835124,
-  "카드 없음": 0.07723466462750118,
-  "판정 보류": 0.04292867171066092,
-  "그 밖 제외": 0.0032043628463119225,
+  "저평가": 0.0030360714482023455,
+  "적정~저평가": 0.09206009360020913,
+  "적정": 0.023861769423429584,
+  "적정~고평가": 0.3711846713151612,
+  "고평가": 0.39003393664614583,
+  "카드 없음": 0.07320375713303368,
+  "판정 보류": 0.043429896875992066,
+  "그 밖 제외": 0.0031898035578271505,
   "분류 안 됨": 0
  },
  "top10": [
@@ -40,22 +35,10 @@
    "lines": [
     "AAPL"
    ],
-   "weight": 0.08053364693153946,
+   "weight": 0.08117365877172643,
    "card": "AAPL",
    "verdict": "고평가",
    "n": -3.0,
-   "excluded": []
-  },
-  {
-   "company": "MSFT",
-   "name": "MICROSOFT CORP",
-   "lines": [
-    "MSFT"
-   ],
-   "weight": 0.06016450526101411,
-   "card": "MSFT",
-   "verdict": "적정~고평가",
-   "n": -2.0,
    "excluded": []
   },
   {
@@ -64,10 +47,22 @@
    "lines": [
     "NVDA"
    ],
-   "weight": 0.05910459307764529,
+   "weight": 0.05946149471880275,
    "card": "NVDA",
    "verdict": "적정~저평가",
    "n": 2.0,
+   "excluded": []
+  },
+  {
+   "company": "MSFT",
+   "name": "MICROSOFT CORP",
+   "lines": [
+    "MSFT"
+   ],
+   "weight": 0.059413549210380445,
+   "card": "MSFT",
+   "verdict": "적정~고평가",
+   "n": -2.0,
    "excluded": []
   },
   {
@@ -77,7 +72,7 @@
     "GOOGL",
     "GOOG"
    ],
-   "weight": 0.04695691886357465,
+   "weight": 0.04684561622407898,
    "card": "GOOGL",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -89,7 +84,7 @@
    "lines": [
     "AMZN"
    ],
-   "weight": 0.03957276550762638,
+   "weight": 0.04000758714884898,
    "card": "AMZN",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -101,7 +96,7 @@
    "lines": [
     "AVGO"
    ],
-   "weight": 0.024812971342201846,
+   "weight": 0.025688646535656074,
    "card": "AVGO",
    "verdict": "고평가",
    "n": -3.0,
@@ -113,7 +108,7 @@
    "lines": [
     "META"
    ],
-   "weight": 0.02160791747741161,
+   "weight": 0.02157067121868889,
    "card": "META",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -125,7 +120,7 @@
    "lines": [
     "LLY"
    ],
-   "weight": 0.01791938101729377,
+   "weight": 0.01790255437483384,
    "card": "LLY",
    "verdict": "고평가",
    "n": -3.0,
@@ -137,7 +132,7 @@
    "lines": [
     "BRK.B"
    ],
-   "weight": 0.017271426009366687,
+   "weight": 0.017272452039267604,
    "card": "BRKB",
    "verdict": "판정 보류",
    "n": null,
@@ -151,7 +146,7 @@
    "lines": [
     "TSLA"
    ],
-   "weight": 0.016740874039429237,
+   "weight": 0.01693210603515264,
    "card": "TSLA",
    "verdict": "고평가",
    "n": -4.0,
@@ -162,13 +157,13 @@
   "lines": 505,
   "nonEquity": 2,
   "companies": 500,
-  "cardsMatched": 363,
-  "cardsUsed": 308,
+  "cardsMatched": 369,
+  "cardsUsed": 312,
   "cardsExcluded": {
    "추출 오류": 0,
    "규칙 불일치": 0,
    "날짜 불일치": 1,
-   "판정 보류": 54
+   "판정 보류": 56
   }
  },
  "cards": [
@@ -511,6 +506,15 @@
    "n": -4.0,
    "date": "2026-11-17",
    "excluded": []
+  },
+  {
+   "card": "BG",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-17",
+   "excluded": [
+    "판정 보류"
+   ]
   },
   {
    "card": "BIIB",
@@ -969,6 +973,15 @@
    "excluded": []
   },
   {
+   "card": "DOW",
+   "verdict": "판정 보류",
+   "n": null,
+   "date": "2026-11-17",
+   "excluded": [
+    "판정 보류"
+   ]
+  },
+  {
    "card": "DPZ",
    "verdict": "적정~고평가",
    "n": -1.0,
@@ -1344,6 +1357,13 @@
    "excluded": []
   },
   {
+   "card": "HCA",
+   "verdict": "적정~고평가",
+   "n": -1.0,
+   "date": "2026-11-17",
+   "excluded": []
+  },
+  {
    "card": "HD",
    "verdict": "적정~고평가",
    "n": -2.0,
@@ -1530,6 +1550,13 @@
    "card": "JBHT",
    "verdict": "적정~고평가",
    "n": -2.0,
+   "date": "2026-11-17",
+   "excluded": []
+  },
+  {
+   "card": "JBL",
+   "verdict": "적정~고평가",
+   "n": -1.0,
    "date": "2026-11-17",
    "excluded": []
   },
@@ -2330,6 +2357,13 @@
    ]
   },
   {
+   "card": "SLB",
+   "verdict": "적정~고평가",
+   "n": -2.0,
+   "date": "2026-11-17",
+   "excluded": []
+  },
+  {
    "card": "SNDK",
    "verdict": "적정~저평가",
    "n": 2.0,
@@ -2370,6 +2404,13 @@
    "card": "STX",
    "verdict": "적정~고평가",
    "n": -2.0,
+   "date": "2026-11-17",
+   "excluded": []
+  },
+  {
+   "card": "SWK",
+   "verdict": "적정~고평가",
+   "n": -1.0,
    "date": "2026-11-17",
    "excluded": []
   },
@@ -2824,7 +2865,7 @@
    "excluded": []
   }
  ],
- "S": "2026-11-16",
+ "S": "2026-11-17",
  "builtFor": "2026-11-17",
  "expense": {
   "pct": 0.0945,
@@ -2835,10 +2876,10 @@
  "inputFormat": "ssga_xlsx",
  "ruleVersion": "etf-v1",
  "dateRule": "same",
- "runAt": "2026-11-18T05:07:37Z",
- "fetchedAt": "2026-11-18T05:07:37Z",
+ "runAt": "2026-11-18T19:58:39Z",
+ "fetchedAt": "2026-11-18T19:58:40Z",
  "inputHash": {
-  "xlsx": "00cce9e5c6bb00837000a037ec00f529abf27759dae71c1233fb710e8ffe4232",
+  "xlsx": "db017d53d0d63c29c56c564e713d3fa6579ba4f2ae403db9c8f8b116f7ed4461",
   "alias": "cd884e524b4f6045",
   "extractor": "b50460aad021b74b",
   "sigScript": "819ec80766479439",
@@ -2847,16 +2888,15 @@
  "evaluation": {
   "status": "held",
   "holds": [
-   "file_date",
    "code_sig"
   ],
-  "S": "2026-11-16"
+  "S": "2026-11-17"
  },
- "runId": "44241994341.1",
+ "runId": "44386029284.1",
  "checks": {
   "fetch": "ok",
   "input": "ok",
-  "file_date": "bad",
+  "file_date": "ok",
   "tools": "ok",
   "code_sig": "bad",
   "sig_err": "ok",
@@ -2873,6 +2913,7 @@
     "AWK",
     "AXON",
     "BAX",
+    "BG",
     "CARR",
     "CCL",
     "CHRW",
@@ -2880,6 +2921,7 @@
     "CNC",
     "CRL",
     "D",
+    "DOW",
     "EIX",
     "EL",
     "FANG",
@@ -3051,6 +3093,7 @@
     "GRMN",
     "GWW",
     "HAS",
+    "HCA",
     "HD",
     "HII",
     "HLT",
@@ -3073,6 +3116,7 @@
     "IT",
     "ITW",
     "JBHT",
+    "JBL",
     "JKHY",
     "JNJ",
     "KEYS",
@@ -3167,11 +3211,13 @@
     "RTX",
     "SBUX",
     "SHW",
+    "SLB",
     "SNDK",
     "SNPS",
     "SO",
     "STLD",
     "STX",
+    "SWK",
     "SYK",
     "T",
     "TDG",
