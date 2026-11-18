@@ -1,79 +1,79 @@
 {
  "ticker": "PLTR",
  "window": [
-  "2021-11-16",
-  "2026-11-16"
+  "2021-11-17",
+  "2026-11-17"
  ],
  "multiples": {
   "PER": {
-   "days": 761,
-   "current": 112.16,
+   "days": 762,
+   "current": 109.48,
    "min": 108.38,
-   "p10": 151.52,
-   "median": 259.22,
-   "p90": 590.7,
+   "p10": 151.38,
+   "median": 258.11,
+   "p90": 590.69,
    "max": 698.52,
-   "mean": 325.89,
-   "percentile": 0.3,
-   "score": 99.7
+   "mean": 325.61,
+   "percentile": 0.1,
+   "score": 99.9
   },
   "PSR": {
    "days": 1255,
-   "current": 53.02,
+   "current": 51.75,
    "min": 6.82,
    "p10": 9.25,
    "median": 25.28,
    "p90": 105.72,
    "max": 142.82,
-   "mean": 44.73,
-   "percentile": 60.6,
-   "score": 39.4
+   "mean": 44.75,
+   "percentile": 60.1,
+   "score": 39.9
   },
   "PBR": {
    "days": 1255,
-   "current": 34.41,
+   "current": 33.59,
    "min": 5.23,
    "p10": 6.86,
    "median": 16.06,
    "p90": 61.64,
    "max": 82.88,
-   "mean": 27.29,
-   "percentile": 62.0,
-   "score": 38.0
+   "mean": 27.3,
+   "percentile": 61.5,
+   "score": 38.5
   },
   "PCR": {
    "days": 1255,
-   "current": 95.32,
+   "current": 93.04,
    "min": 57.71,
    "p10": 72.02,
-   "median": 103.17,
+   "median": 103.09,
    "p90": 236.33,
    "max": 287.59,
-   "mean": 130.12,
-   "percentile": 42.9,
-   "score": 57.1
+   "mean": 130.02,
+   "percentile": 40.2,
+   "score": 59.8
   },
   "EV/EBITDA": {
-   "days": 761,
-   "current": 112.05,
+   "days": 762,
+   "current": 109.3,
    "min": 108.17,
-   "p10": 156.24,
-   "median": 348.2,
-   "p90": 707.61,
+   "p10": 156.09,
+   "median": 347.38,
+   "p90": 707.47,
    "max": 858.56,
-   "mean": 397.63,
-   "percentile": 0.3,
-   "score": 99.7
+   "mean": 397.26,
+   "percentile": 0.1,
+   "score": 99.9
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 149.67,
-  "per_p75": 250.92,
+  "per_p25": 149.41,
+  "per_p75": 248.59,
   "low": 210,
   "high": 360,
-  "asOf": "2026-11-16",
+  "asOf": "2026-11-17",
   "basis": "diluted"
  }
 }
