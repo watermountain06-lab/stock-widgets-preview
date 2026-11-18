@@ -4313,5 +4313,48 @@
     "#c9a227"
    ]
   }
+ },
+ "SWK": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "swk:ToolsAndOutdoorSegmentMember": [
+    "공구·실외 장비(DeWalt·Craftsman·Stanley)",
+    "#1a1a1a"
+   ],
+   "swk:EngineeredFasteningSegmentMember": [
+    "산업용 체결 부품",
+    "#ffcc00"
+   ]
+  }
+ },
+ "DOW": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {},
+  "members": {
+   "dow:PackagingSpecialtyPlasticsMember": [
+    "포장·특수 플라스틱(폴리에틸렌)",
+    "#e80033"
+   ],
+   "dow:IndustrialIntermediatesInfrastructureMember": [
+    "산업 중간재·인프라",
+    "#2b2b2b"
+   ],
+   "dow:PerformanceMaterialsCoatingsMember": [
+    "성능 소재·코팅(실리콘·아크릴)",
+    "#f28aa0"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:CorporateMember"
+  ]
  }
 }

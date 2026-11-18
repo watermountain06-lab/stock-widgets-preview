@@ -978,6 +978,8 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
+    # DOW: 설비투자를 2026년 2분기부터 PaymentsToAcquireMachineryAndEquipment로만 낸다(9개월 $1,841M) — 옛 태그는 2026-03에 멈춤(2026-11-18).
+    "0001751788": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireMachineryAndEquipment"]},
     # DLTR: 순이익은 계속사업(2025-07 Family Dollar 매각 — 합계 태그는 중단사업 손실 −$3.70B 등이 섞여 8분기 차트·전년 비교가 어긋났다, Codex r1 2026-11-09). PREFER_TAGS로 앞세운다.
     "0000935703": {"NetIncomeLoss": ["IncomeLossFromContinuingOperations"]},
     # RL: 10-K는 현금흐름표 설비투자를 PaymentsToAcquireMachineryAndEquipment(FY26 $408.1M·FY25 $216.2M)로, 10-Q는 PaymentsToAcquireProductiveAssets로 낸다 —
@@ -1097,6 +1099,12 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                  # 회사 고유 태그라 cfg BUILD company_tags가 빌린 이름으로 싣고, 2025 Q3 전 공시엔 없어 선택 항목(0). Q3 2026: 320 + 100 − 14 = 406(2026-11-05 사용자 결정)
                  "0000079282": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpense", "InterestExpenseNonoperating"], -1), (["MarkToMarketOfEscrowLiabilityBro"], -1, True)]),
+                 # DOW: 손익계산서에 영업이익 줄이 없다 — 영업이익 = 세전이익 + 이자비용(InterestExpenseDebt) − 이자수익(InterestIncomeOther, 선택). 지분법 손익·기타(Sundry) 손익은 영업에 남는다(Q3 2026 642 + 211 − 50 = 803, 2026-11-18)
+                 "0001751788": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestExpenseDebt"], -1), (["InterestIncomeOther"], 1, True)]),
+                 # SWK: OperatingIncomeLoss 태그가 2024-09에 멈춤 — 영업이익 = 세전이익 + 이자비용 − 이자수익(InvestmentIncomeInterest) = 손익계산서 "Income from operations"(Q3 2026 358.2 + 92.3 − 35.4 = 415.1, 2026-11-18). 사업 매각 손익·손상·구조조정은 회사 줄처럼 영업에 남는다.
+                 "0000093556": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestExpense"], -1), (["InvestmentIncomeInterest"], 1, True)]),
                  # BG: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그 없음) — 영업이익 = 세전이익 + 이자비용 − 이자·기타 수익(InterestAndOtherIncome, 선택). 지분법 이익·기타 영업외는 영업에 남는다(ADM 방식, 회사 Total EBIT와 비슷 — Q3 2026 703 대 667, 2026-11-18)
                  "0001996862": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpense"], -1), (["InterestAndOtherIncome"], 1, True)]),
@@ -2181,7 +2189,8 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
                   "0001474735": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # GNRC: 단기 $53.1M + 1년 안 만기(금융리스 포함) $36.7M + 장기(금융리스 포함) $1,243.7M = $1,333.6M(금융리스 $91.0M 포함 — EV에 금융리스가 들어간다). 기본은 텀론 원금에 1년 안 만기를 다시 더해 $1,268.7M(Codex r1, 2026-11-08)
                   "0000092380": [("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # LUV: 1년 안 $2,153M + 장기 $3,734M(금융리스 포함) — 기본은 1년 안 몫이 빠졌다(2026-11-09)
                   "0001001250": ["NotesAndLoansPayableCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EL: 1년 안 차입(어음·만기 도래분) $503M + 장기 $6,748M(Q1 FY27 10-Q) — 기본 태그는 2012·2019에 멈췄다(2026-11-09)
-                  "0001489393": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # LYB: 단기차입 $247M + 1년 안 장기 $891M + 장기 $11,193M = $12,331M(Q3 2026 10-Q 주석 7) — 기본 합산은 1년 안 몫을 빠뜨려 $11.4B(Codex r1, 2026-11-14)
+                  "0001489393": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
+                  "0001751788": ["ShortTermBankLoansAndNotesPayable", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # DOW: 어음 $16M + 1년 안 장기 $745M + 장기 $16,778M = 총차입 $17,539M(Q3 2026 10-Q "Gross debt"). 기본 합산은 장기만 잡았다(Codex r1, 2026-11-18)   # LYB: 단기차입 $247M + 1년 안 장기 $891M + 장기 $11,193M = $12,331M(Q3 2026 10-Q 주석 7) — 기본 합산은 1년 안 몫을 빠뜨려 $11.4B(Codex r1, 2026-11-14)
                   "0000007084": ["ShortTermBorrowings", "LongTermDebtCurrent", "LongTermDebtNoncurrent"],   # ADM: 단기차입 $1,156M(CP $690M + 기타 $466M) + 1년 안 장기 $153M + 장기 $7,429M = $8,738M — 기본 합산은 OtherShortTermBorrowings $466M를 한 번 더 더했다(Codex r1, 2026-11-13)
                   "0001110803": [("NotesPayableCurrent", "LongTermDebtCurrent"), ("LongTermNotesPayable", "LongTermDebtNoncurrent")],   # ILMN: 1년 안 차입 $0 + 장기 채권 $1,789M(Q3 2026 10-Q) — 기본 태그는 2022-04에 멈춰 차입금이 비었다(옛 이름은 튜플 뒤, 2026-11-13)
                   "0001637459": [("LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtCurrent"), ("LongTermDebtAndCapitalLeaseObligations", "LongTermDebtNoncurrent")],   # KHC: 1년 안 $918M + 장기 $17,085M(금융리스 포함) — 기본은 1년 안 몫이 빠졌다, 단기차입 태그는 2024-09에 멈춤(2026-11-08)
@@ -2569,6 +2578,8 @@ EV_TAGS_BY_CIK = {"0001001250": {"cash": ["CashCashEquivalentsRestrictedCashAndR
                   "0001095073": {"cash": ["Cash"], "sti": []},   # EG: 현금 태그가 2018에 멈춤 — Cash $987M(Q3 2026), 단기투자 $3,055M은 보험 운용자산(TRV·ALL·PGR 선례, 2026-11-05)
                   "0000079282": {"sti": []},   # BRO: ShortTermInvestments는 2024-12 $10M이 마지막 — 2025부터 기타 유동자산에 합쳤다(재표시). 수탁 현금 $2,442M은 엔진 현금 밖(2026-11-05)
                   "0000798354": {"lease": ["OperatingLeaseLiability"]},   # FISV: 금융리스($2,421M)는 차입금 두 줄 안에 있어 리스에는 운용리스만 — 10-Q에 유동분만 있어 총액은 FY2025 10-K $763M(2026-11-05, Codex r1)
+                  "0000093556": {"lease": ["OperatingLeaseLiability"]},
+                  "0001751788": {"sti": []},   # DOW: 단기투자 태그는 2023-03의 낡은 값($0.62B)이라 DCF·순현금이 "계산 보류"로 막혔다 — 지금 시장성 증권 $558M은 차원 값뿐이라 넣지 못하고 현금 $4,142M만 쓴다(순현금이 그만큼 작게 잡힘, 2026-11-18)   # SWK: 운용리스 총액 $445.4M(Q3 2026) — 기본 유동·비유동 태그는 2026-01 유동분 $133.1M만 남아 리스가 작게 잡혔다(Codex r1, 2026-11-18)
                   "0000720005": {"debt": ["SeniorNotes", "OtherBorrowings"], "lease": ["OperatingLeaseLiability"]},   # RJF: 차입 = 선순위채 $3,522M + 기타 차입 $950M(FHLB·신용한도) — 기본 태그는 2022-12에 멈춤. 예금 $63B는 차입 아님. 운용리스 $568M(Q3 FY26 10-Q, 2026-11-04)
                   "0001521332": {"sti": []},   # APTV: 단기투자 태그는 2024-09($0.79B)에 멈춤 — 지금 재무상태표에 단기투자 줄 없음(Q3 2026 10-Q 현금 $670M, Codex r1 2026-11-04)
                   "0000914208": {"sti": [], "lease": ["OperatingLeaseLiability"], "nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"]},   # IVZ: 단기투자 태그는 2018-09에 멈춤(지금 재무상태표에 없는 줄), 운용리스는 10-K 총액만(2025-12 $406.7M), 비지배 = 비상환 $701.6M + 상환가능 $297.0M(모두 CIP 몫, BEN과 같이 둘 다 — Fable r1). 차입 $1,281.3M = 회사 차입(CIP 차입 $7,919.6M은 차원 값), 현금 $965.5M = 회사 몫(Q3 2026 10-Q, 2026-11-04)

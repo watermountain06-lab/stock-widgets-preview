@@ -15642,6 +15642,88 @@
         "valuationAsOf": "2026-11-17",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "SWK",
+      "name": "스탠리 블랙앤데커",
+      "sector": "공구 — 전동·수공구(DeWalt·Craftsman·Stanley), 산업용 체결 부품",
+      "href": "SWK_full_widget.html",
+      "cardRank": 373,
+      "cardAsOf": "2026-11-17",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 108.81,
+        "prevClose": 112.92,
+        "session": "2026-11-17",
+        "prevSession": "2026-11-16",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 148696226,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-29",
+        "filedAt": "2026-11-04",
+        "filing": "10-Q 0000093556-26-000039 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 46.5,
+        "grade": "보통",
+        "financialsAsOf": "2026-10-03",
+        "valuationAsOf": "2026-11-17",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "DOW",
+      "name": "다우",
+      "sector": "석유화학 — 폴리에틸렌·포장재, 산업용 중간재, 실리콘·코팅",
+      "href": "DOW_full_widget.html",
+      "cardRank": 374,
+      "cardAsOf": "2026-11-17",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 31.37,
+        "prevClose": 31.96,
+        "session": "2026-11-17",
+        "prevSession": "2026-11-16",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 723881907,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-30",
+        "filedAt": "2026-10-23",
+        "filing": "10-Q 0001751788-26-000160 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 38.9,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-17",
+        "qualityFlags": []
+      }
     }
   ]
 }
