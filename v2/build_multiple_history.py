@@ -1097,6 +1097,13 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                  # 회사 고유 태그라 cfg BUILD company_tags가 빌린 이름으로 싣고, 2025 Q3 전 공시엔 없어 선택 항목(0). Q3 2026: 320 + 100 − 14 = 406(2026-11-05 사용자 결정)
                  "0000079282": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpense", "InterestExpenseNonoperating"], -1), (["MarkToMarketOfEscrowLiabilityBro"], -1, True)]),
+                 # BG: 손익계산서에 영업이익 줄이 없다(OperatingIncomeLoss 태그 없음) — 영업이익 = 세전이익 + 이자비용 − 이자·기타 수익(InterestAndOtherIncome, 선택). 지분법 이익·기타 영업외는 영업에 남는다(ADM 방식, 회사 Total EBIT와 비슷 — Q3 2026 703 대 667, 2026-11-18)
+                 "0001996862": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestExpense"], -1), (["InterestAndOtherIncome"], 1, True)]),
+                 # SLB: OperatingIncomeLoss 태그가 2024-03에 멈춤(손익계산서에 영업이익 줄 없음) — 영업이익 = 세전이익 + 이자비용(HCA 방식, 2026-11-18).
+                 # "Interest & other income"(Q3 2026 $68M)은 요약 자료에 태그가 없어 영업에 남는다(2025년 2분기 Palliser 매각 이익 $149M도 — 최근 4분기 밖).
+                 "0000087347": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestExpense"], -1)]),
                  "0000860730": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpense"], -1)]),
                  # PPG: 손익계산서에 영업이익 줄이 없다 — OperatingIncomeLoss 태그(Q2 2026 $743M)는 4분기 행이 없고 세전이익($569M)보다 커서 부문 이익 합계로 보인다(ROK와 같은 경우).

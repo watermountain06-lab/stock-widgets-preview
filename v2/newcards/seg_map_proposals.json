@@ -4252,5 +4252,66 @@
     "#f7838f"
    ]
   }
+ },
+ "SLB": {
+  "concepts": [
+   "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "slb:ProductionSystemsMember": [
+    "생산 시스템",
+    "#0014dc"
+   ],
+   "slb:WellConstructionMember": [
+    "시추(Well Construction)",
+    "#3a5bff"
+   ],
+   "slb:ReservoirPerformanceMember": [
+    "저류층 성능",
+    "#00b4d8"
+   ],
+   "slb:DigitalIntegrationMember": [
+    "디지털",
+    "#7ad7f0"
+   ],
+   "us-gaap:AllOtherSegmentsMember": [
+    "기타",
+    "#c5d0ff"
+   ]
+  },
+  "ignore_candidates": [
+   "slb:EliminationsOtherMember"
+  ]
+ },
+ "BG": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "bg:SoybeanProcessingAndRefiningMember": [
+    "대두 압착·정제",
+    "#00573f"
+   ],
+   "bg:GrainMerchandisingAndMillingMember": [
+    "곡물 유통·제분(Viterra 포함)",
+    "#f2a900"
+   ],
+   "bg:SoftseedProcessingAndRefiningMember": [
+    "연질 유지 작물(카놀라·해바라기) 압착·정제",
+    "#5a9e7c"
+   ],
+   "bg:TropicalOilsAndSpecialtyIngredientsMember": [
+    "열대유·특수 원료",
+    "#c9a227"
+   ]
+  }
  }
 }

@@ -15560,6 +15560,88 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "SLB",
+      "name": "SLB",
+      "sector": "유전 서비스 — 시추·생산 기술, 디지털, 장비·시스템",
+      "href": "SLB_full_widget.html",
+      "cardRank": 371,
+      "cardAsOf": "2026-11-17",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 48.95,
+        "prevClose": 50.08,
+        "session": "2026-11-17",
+        "prevSession": "2026-11-16",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1476029613,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-30",
+        "filedAt": "2026-10-28",
+        "filing": "10-Q 0001193125-26-435577 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 48.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-17",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "BG",
+      "name": "번기",
+      "sector": "농산물 가공·유통 — 대두 압착·식용유 정제, 곡물 거래(Viterra 포함), 제분",
+      "href": "BG_full_widget.html",
+      "cardRank": 372,
+      "cardAsOf": "2026-11-17",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 95.6,
+        "prevClose": 99.02,
+        "session": "2026-11-17",
+        "prevSession": "2026-11-16",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 192143784,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-27",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001628280-26-068130 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 34.4,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-17",
+        "qualityFlags": []
+      }
     }
   ]
 }
