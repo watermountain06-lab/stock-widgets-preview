@@ -4103,6 +4103,458 @@
     "src": "ixbrl",
     "start": "2026-01-01"
    }
+  ],
+  "DebtCurrentAutoF": [
+   {
+    "end": "2024-12-31",
+    "val": 1756000000.0,
+    "accn": "0000037996-25-000186",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2025-10-24",
+    "unit": "USD",
+    "src": "dim:us-gaap:DebtCurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2025-09-30",
+    "val": 3918000000.0,
+    "accn": "0000037996-25-000186",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2025-10-24",
+    "unit": "USD",
+    "src": "dim:us-gaap:DebtCurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2025-12-31",
+    "val": 5550000000.0,
+    "accn": "0000037996-26-000015",
+    "fp": "FY",
+    "form": "10-K",
+    "filed": "2026-02-11",
+    "unit": "USD",
+    "src": "dim:us-gaap:DebtCurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2026-03-31",
+    "val": 3268000000.0,
+    "accn": "0000037996-26-000086",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2026-04-30",
+    "unit": "USD",
+    "src": "dim:us-gaap:DebtCurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2026-06-30",
+    "val": 4381000000.0,
+    "accn": "0000037996-26-000156",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2026-07-29",
+    "unit": "USD",
+    "src": "dim:us-gaap:DebtCurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2026-09-30",
+    "val": 4154000000.0,
+    "accn": "0000037996-26-000191",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2026-10-29",
+    "unit": "USD",
+    "src": "dim:us-gaap:DebtCurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   }
+  ],
+  "LongTermDebtAutoF": [
+   {
+    "end": "2024-12-31",
+    "val": 18898000000.0,
+    "accn": "0000037996-25-000186",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2025-10-24",
+    "unit": "USD",
+    "src": "dim:us-gaap:LongTermDebtNoncurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2025-09-30",
+    "val": 17857000000.0,
+    "accn": "0000037996-25-000186",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2025-10-24",
+    "unit": "USD",
+    "src": "dim:us-gaap:LongTermDebtNoncurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2025-12-31",
+    "val": 16369000000.0,
+    "accn": "0000037996-26-000015",
+    "fp": "FY",
+    "form": "10-K",
+    "filed": "2026-02-11",
+    "unit": "USD",
+    "src": "dim:us-gaap:LongTermDebtNoncurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2026-03-31",
+    "val": 16327000000.0,
+    "accn": "0000037996-26-000086",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2026-04-30",
+    "unit": "USD",
+    "src": "dim:us-gaap:LongTermDebtNoncurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2026-06-30",
+    "val": 19238000000.0,
+    "accn": "0000037996-26-000156",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2026-07-29",
+    "unit": "USD",
+    "src": "dim:us-gaap:LongTermDebtNoncurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   },
+   {
+    "end": "2026-09-30",
+    "val": 19535000000.0,
+    "accn": "0000037996-26-000191",
+    "fp": "Q",
+    "form": "10-Q",
+    "filed": "2026-10-29",
+    "unit": "USD",
+    "src": "dim:us-gaap:LongTermDebtNoncurrent|us-gaap:StatementBusinessSegmentsAxis=f:CompanyExcludingFordCreditMember"
+   }
+  ]
+ },
+ "dei": {
+  "EntityCommonStockSharesOutstanding": [
+   {
+    "end": "2026-10-26",
+    "val": 3993217466.0,
+    "filed": "2026-10-29",
+    "form": "10-Q",
+    "accn": "0000037996-26-000191",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3922365390.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2026-07-24",
+    "val": 3987595667.0,
+    "filed": "2026-07-29",
+    "form": "10-Q",
+    "accn": "0000037996-26-000156",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3916743591.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2026-04-27",
+    "val": 3984692630.0,
+    "filed": "2026-04-30",
+    "form": "10-Q",
+    "accn": "0000037996-26-000086",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3913840554.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2026-02-06",
+    "val": 3989475225.0,
+    "filed": "2026-02-11",
+    "form": "10-K",
+    "accn": "0000037996-26-000015",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3918623149.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2025-10-21",
+    "val": 3984498566.0,
+    "filed": "2025-10-24",
+    "form": "10-Q",
+    "accn": "0000037996-25-000186",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3913646490.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2025-07-28",
+    "val": 3979860297.0,
+    "filed": "2025-07-31",
+    "form": "10-Q",
+    "accn": "0000037996-25-000147",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3909008221.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2025-05-01",
+    "val": 3976548845.0,
+    "filed": "2025-05-06",
+    "form": "10-Q",
+    "accn": "0000037996-25-000072",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3905696769.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2024-10-24",
+    "val": 3974288593.0,
+    "filed": "2024-10-29",
+    "form": "10-Q",
+    "accn": "0000037996-24-000185",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3903436517.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2024-07-19",
+    "val": 3975249685.0,
+    "filed": "2024-07-25",
+    "form": "10-Q",
+    "accn": "0000037996-24-000144",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3904397609.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2024-04-19",
+    "val": 3992337157.0,
+    "filed": "2024-04-25",
+    "form": "10-Q",
+    "accn": "0000037996-24-000075",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3921485081.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2023-10-23",
+    "val": 4002954437.0,
+    "filed": "2023-10-27",
+    "form": "10-Q",
+    "accn": "0000037996-23-000068",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3932102361.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2023-07-24",
+    "val": 4002225602.0,
+    "filed": "2023-07-28",
+    "form": "10-Q",
+    "accn": "0000037996-23-000050",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3931373526.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2023-04-28",
+    "val": 4000770326.0,
+    "filed": "2023-05-03",
+    "form": "10-Q",
+    "accn": "0000037996-23-000029",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3929918250.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2022-10-21",
+    "val": 4020494099.0,
+    "filed": "2022-10-27",
+    "form": "10-Q",
+    "accn": "0000037996-22-000073",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3949642023.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2022-07-22",
+    "val": 4020237518.0,
+    "filed": "2022-07-28",
+    "form": "10-Q",
+    "accn": "0000037996-22-000048",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3949385442.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2022-04-22",
+    "val": 4019765355.0,
+    "filed": "2022-04-28",
+    "form": "10-Q",
+    "accn": "0000037996-22-000024",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3948913279.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2022-01-31",
+    "val": 4004247552.0,
+    "filed": "2022-02-04",
+    "form": "10-K",
+    "accn": "0000037996-22-000013",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3933395476.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2021-10-22",
+    "val": 3996241503.0,
+    "filed": "2021-10-28",
+    "form": "10-Q",
+    "accn": "0000037996-21-000086",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3925389427.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2021-07-23",
+    "val": 3994764392.0,
+    "filed": "2021-07-29",
+    "form": "10-Q",
+    "accn": "0000037996-21-000058",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3923912316.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2021-04-23",
+    "val": 3991644459.0,
+    "filed": "2021-04-29",
+    "form": "10-Q",
+    "accn": "0000037996-21-000026",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3920792383.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2021-01-29",
+    "val": 3978695017.0,
+    "filed": "2021-02-05",
+    "form": "10-K",
+    "accn": "0000037996-21-000012",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3907842941.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2020-10-23",
+    "val": 3978427360.0,
+    "filed": "2020-10-29",
+    "form": "10-Q",
+    "accn": "0000037996-20-000071",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3907575284.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2020-07-24",
+    "val": 3978388996.0,
+    "filed": "2020-07-31",
+    "form": "10-Q",
+    "accn": "0000037996-20-000057",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3907536920.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2020-04-24",
+    "val": 3977039943.0,
+    "filed": "2020-04-29",
+    "form": "10-Q",
+    "accn": "0000037996-20-000041",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3906187867.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2020-01-31",
+    "val": 3964930325.0,
+    "filed": "2020-02-05",
+    "form": "10-K",
+    "accn": "0000037996-20-000010",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3894078249.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2019-10-18",
+    "val": 3964896995.0,
+    "filed": "2019-10-24",
+    "form": "10-Q",
+    "accn": "0000037996-19-000078",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3894044919.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   },
+   {
+    "end": "2019-07-19",
+    "val": 3989843301.0,
+    "filed": "2019-07-25",
+    "form": "10-Q",
+    "accn": "0000037996-19-000067",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonStockMember": 3918991225.0,
+     "us-gaap:CommonClassBMember": 70852076.0
+    }
+   }
   ]
  }
 }

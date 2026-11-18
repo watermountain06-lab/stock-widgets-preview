@@ -4356,5 +4356,60 @@
   "ignore_candidates": [
    "us-gaap:CorporateMember"
   ]
+ },
+ "OMC": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "srt:ProductOrServiceAxis",
+  "extra": {},
+  "members": {
+   "omc:IntegratedMediaMember": [
+    "통합 미디어(미디어 구매·데이터)",
+    "#00205b"
+   ],
+   "us-gaap:AdvertisingMember": [
+    "광고",
+    "#e4002b"
+   ],
+   "omc:ExperientialMember": [
+    "체험 마케팅",
+    "#5b7bb5"
+   ],
+   "omc:PublicrelationsMember": [
+    "홍보(PR)",
+    "#f28a96"
+   ],
+   "us-gaap:HealthCareMember": [
+    "헬스케어 마케팅",
+    "#a9b8d6"
+   ]
+  }
+ },
+ "LYV": {
+  "concepts": [
+   "us-gaap:Revenues"
+  ],
+  "axis": "us-gaap:StatementBusinessSegmentsAxis",
+  "extra": {
+   "srt:ConsolidationItemsAxis": "us-gaap:OperatingSegmentsMember"
+  },
+  "members": {
+   "lyv:ConcertsMember": [
+    "공연(Concerts)",
+    "#d6001c"
+   ],
+   "lyv:TicketingMember": [
+    "티켓(Ticketmaster)",
+    "#1a1a1a"
+   ],
+   "lyv:SponsorshipAndAdvertisingMember": [
+    "스폰서십·광고",
+    "#f08a96"
+   ]
+  },
+  "ignore_candidates": [
+   "us-gaap:CorporateMember"
+  ]
  }
 }
