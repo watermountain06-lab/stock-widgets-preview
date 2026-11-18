@@ -459,3 +459,19 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-freshtoggle[aria-expanded="true"] .pf-freshicon{transform:rotate(90deg)}
 .pf-movebtn{display:inline-flex;align-items:center;justify-content:center;color:var(--muted)}
 .pf-held{font-size:14px;white-space:nowrap}
+/* 업종별 묶음(2026-11-18) — 보유 막대 아래, 보기 전용 */
+.pf-secfold{margin:6px 0 0;border-top:1px solid var(--line);font-size:13px}
+.pf-secfold summary{padding:12px 0;font-size:14px;font-weight:700;cursor:pointer;color:var(--accent,#5b3fd1)}
+.pf-secfold summary small{font-weight:400;color:var(--muted);font-size:12px}
+.pf-secs{display:grid;gap:2px;padding:0 0 8px}
+.pf-sec{display:grid;grid-template-columns:132px 1fr 44px;align-items:center;gap:2px 10px;padding:5px 0}
+.pf-secname{font-weight:700;white-space:nowrap}.pf-secname small{font-weight:400;color:var(--muted);font-size:11px}
+.pf-sectrack{height:8px;border-radius:4px;background:var(--line,#e6e4ee);overflow:hidden}
+.pf-sectrack i{display:block;height:100%;border-radius:4px;background:var(--pf-k1,#2a78d6)}
+.pf-sec>b{text-align:right;font-variant-numeric:tabular-nums}
+.pf-sectk{grid-column:1/-1;color:var(--muted);font-size:11px}
+.pf-secsub{padding:3px 0}.pf-secsub .pf-secname{font-weight:400;padding-left:14px}.pf-secsub .pf-sectk{padding-left:14px}
+.pf-secsub .pf-sectrack i{opacity:.6}
+.pf-secsep{border-top:1px solid var(--line);margin-top:4px;padding-top:10px}
+.pf-secsep .pf-sectrack i,.pf-secsep~.pf-sec .pf-sectrack i{background:var(--pf-cash,#c9c7d3)}
+.pf-secwarn .pf-secname{color:#c0392b}.pf-secwarn .pf-sectrack i{background:#c0392b}
