@@ -11,7 +11,7 @@ import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, c
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
 import { renderAccounts } from './preview-only-portfolio-acctview.js?v=7';
-import { sectorGroups } from './preview-only-portfolio-sectors.js?v=2';
+import { sectorGroups } from './preview-only-portfolio-sectors.js?v=3';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
