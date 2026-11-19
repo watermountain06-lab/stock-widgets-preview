@@ -45,7 +45,12 @@ def facts_cache(cik):
     return d
 
 
-def parse(h, prefixes=("us-gaap:", "dei:")):
+# 태그가 겹친 공시(기본 EPS 태그 안에 희석 EPS 태그, 같은 숫자)를 쓰는 회사 — 여는 태그마다 첫 닫는 태그까지 읽어 안쪽 태그도 잡는다.
+# 예전 정규식은 바깥 태그만 잡아 ES의 희석 EPS가 보충에서 빠졌다(2026-11-19). 겹치지 않은 태그는 같은 결과(26개 공시 비교: 더하기만, 빠짐 0) — 전체 적용은 사용자 확인 뒤
+NESTED_CIKS = {"0000072741"}
+
+
+def parse(h, prefixes=("us-gaap:", "dei:"), nested=False):
     ctx = {}
     for m in re.finditer(r'<xbrli:context id="([^"]+)">(.*?)</xbrli:context>', h, re.S):
         b = m.group(2)
@@ -55,13 +60,19 @@ def parse(h, prefixes=("us-gaap:", "dei:")):
         ctx[m.group(1)] = (s.group(1), e.group(1)) if s and e else (None, i.group(1)) if i else None
     unit = {m.group(1): m.group(2) for m in re.finditer(r'<xbrli:unit id="([^"]+)">(.*?)</xbrli:unit>', h, re.S)}
     out = []
-    for m in re.finditer(r'<ix:nonFraction([^>]*)>(.*?)</ix:nonFraction>', h, re.S):
-        a = m.group(1)
+    if nested:
+        _ms = []
+        for _o in re.finditer(r'<ix:nonFraction([^>]*)>', h):
+            _e = h.find('</ix:nonFraction>', _o.end())
+            _ms.append((_o.group(1), h[_o.end():_e]))
+    else:
+        _ms = [(m.group(1), m.group(2)) for m in re.finditer(r'<ix:nonFraction([^>]*)>(.*?)</ix:nonFraction>', h, re.S)]
+    for a, _body in _ms:
         name = re.search(r'name="([^"]+)"', a).group(1)
         if not name.startswith(prefixes):
             continue
         c = ctx.get(re.search(r'contextRef="([^"]+)"', a).group(1))
-        txt = re.sub(r"<[^>]+>", "", m.group(2)).strip()
+        txt = re.sub(r"<[^>]+>", "", _body).strip()
         if c and "fixed-zero" in a:
             txt = "0"                                   # ixt:fixed-zero("—")는 0이다(Codex)
         if not c or not re.match(r"^[\d,.]+$", txt):
@@ -165,7 +176,7 @@ def main(cik):
             continue
         fp = "FY" if form == "10-K" else "Q"
         seen = set()
-        for name, s, e, v, u in parse(h):
+        for name, s, e, v, u in parse(h, nested=cik in NESTED_CIKS):
             tax, tag = name.split(":")
             key = (tag, s, e)
             if key in seen:

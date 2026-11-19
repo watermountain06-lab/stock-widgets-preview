@@ -15933,6 +15933,172 @@
         "valuationAsOf": "2026-11-17",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "TSN",
+      "name": "타이슨 푸드",
+      "sector": "식품 — 닭고기·쇠고기·돼지고기, 가공식품(Jimmy Dean·Hillshire Farm)",
+      "href": "TSN_full_widget.html",
+      "cardRank": 380,
+      "cardAsOf": "2026-11-18",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 64.25,
+        "prevClose": 63.65,
+        "session": "2026-11-18",
+        "prevSession": "2026-11-17",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 344530166,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-31",
+        "filedAt": "2026-11-16",
+        "filing": "10-K 0000100493-26-000079 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 43.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-10-03",
+        "valuationAsOf": "2026-11-18",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "ES",
+      "name": "에버소스",
+      "sector": "전력·가스 — 코네티컷·매사추세츠·뉴햄프셔 규제 전력·가스 배전",
+      "href": "ES_full_widget.html",
+      "cardRank": 381,
+      "cardAsOf": "2026-11-18",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 71.53,
+        "prevClose": 71.56,
+        "session": "2026-11-18",
+        "prevSession": "2026-11-17",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 377027555,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-31",
+        "filedAt": "2026-11-06",
+        "filing": "10-Q 0001628280-26-071541 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 43.7,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-18",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "O",
+      "name": "리얼티 인컴",
+      "sector": "리츠 — 상업용 부동산 장기 임대(편의점·약국·물류 등), 월 배당",
+      "href": "O_full_widget.html",
+      "cardRank": 382,
+      "cardAsOf": "2026-11-18",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 58.28,
+        "prevClose": 58.04,
+        "session": "2026-11-18",
+        "prevSession": "2026-11-17",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 950997048,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-28",
+        "filedAt": "2026-11-03",
+        "filing": "10-Q 0000726728-26-000059 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 66.1,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-18",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
+    },
+    {
+      "ticker": "XYZ",
+      "name": "블록",
+      "sector": "핀테크 — Square(가맹점 결제)·Cash App(개인 송금), 비트코인",
+      "href": "XYZ_full_widget.html",
+      "cardRank": 383,
+      "cardAsOf": "2026-11-18",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 79.01,
+        "prevClose": 79.31,
+        "session": "2026-11-18",
+        "prevSession": "2026-11-17",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 604522000,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-03",
+        "filing": "10-Q 0001628280-26-069524 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 64.9,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-18",
+        "qualityFlags": []
+      }
     }
   ]
 }
