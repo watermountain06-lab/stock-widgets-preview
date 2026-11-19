@@ -836,3 +836,21 @@ test('최소 주문 기본값 0이면 예전과 같다', () => {
   assert.equal(skipTxt({ kind: 'next', amt: 6.25 }), '$6.25 · $10 미만, 다음 회차로');
   assert.equal(skipTxt({ kind: 'month', amt: 8 }), '$8.00 · $10 미만, 다음 달로');
 });
+
+// 보유 비중 줄(2026-11-19 시안): 종목 | 업종 전환 — 가짜 티커만
+import { mixRows } from '../../preview-only-portfolio-home.js';
+test('보유 비중 줄: 종목 보기는 받은 조각 그대로, 업종 보기는 분류 안 됨 → 업종 → ETF·현금 순, 두 보기 합은 같다', () => {
+  const parts = [{ name: 'ZZ1', value: 600, color: 'c1' }, { name: 'SPY', value: 300, color: 'c2' }, { name: '현금', value: 100, color: 'c3' }];
+  const items = [{ ticker: 'ZZ1', value: 600 }, { ticker: 'SPY', value: 300 }];
+  const tk = mixRows('ticker', parts, items, 100, 1000);
+  assert.deepEqual(tk.map((r) => [r.name, r.pct, r.color]), [['ZZ1', '60%', 'c1'], ['SPY', '30%', 'c2'], ['현금', '10%', 'c3']]);
+  const sc = mixRows('sector', parts, items, 100, 1000);
+  assert.deepEqual(sc.map((r) => [r.name, r.pct, r.cls]), [['분류 안 됨', '60%', 'pf-mxwarn'], ['지수 ETF · 속 안 셈', '30%', 'pf-mxrest pf-mxsep'], ['현금', '10%', 'pf-mxrest']]);
+  assert.equal(sc[0].sub, 'ZZ1 60%');
+  const sum = (rows) => Math.round(rows.filter((r) => !r.cls.includes('pf-mxsub')).reduce((a, r) => a + r.share, 0) * 1e9) / 1e9;
+  assert.equal(sum(tk), 1); assert.equal(sum(sc), 1);
+  assert.deepEqual(mixRows('ticker', [{ name: 'ZZ1', value: 5, color: 'c' }], [], 0, 0).map((r) => r.pct), ['—']);   // 총액 0
+  // 기술은 하위 줄이 따라온다(하위 합 = 상위)
+  const tech = mixRows('sector', [], [{ ticker: 'NVDA', value: 70 }, { ticker: 'MSFT', value: 30 }], 0, 100);
+  assert.deepEqual(tech.map((r) => [r.name, r.pct, r.cls]), [['기술', '100%', ''], ['반도체', '70%', 'pf-mxsub'], ['소프트웨어·서비스', '30%', 'pf-mxsub']]);
+});

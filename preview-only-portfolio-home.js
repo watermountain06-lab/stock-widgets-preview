@@ -614,7 +614,8 @@ export function renderHome(root, model, handlers) {
     : hist ? (() => { const w = withPrefix(rs.twr, rs.vs?.SPY ?? null, hist); return { from: hist.from, twr: w.twr, vsSPY: w.vsSPY }; })() : null;   // SPY 대비도 10/01부터(10-25 이음에서 빠졌던 것)
   const ok = pre && !pre.why;
   cell('시작 뒤 수익률', ok ? pct(pre.twr) : rs?.twr != null ? pct(rs.twr) : '—',
-    ok ? `${md(pre.from)}부터 · 내 실제 계좌` + (hist.n ? `(끝낸 비교 ${hist.n}개를 거쳐 이음)` : `(${md(rs.started)}까지는 Robinhood 기록)`) : rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` + (pre?.why ? ` · ${md(model.main.preStart.from)} 기록 못 이음: ${pre.why}` : '') : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
+    ok ? `${md(pre.from)}부터 · 비교 시작(${md(rs.started)})부터는 ${pct(rs.twr)}` : rs?.started ? `${md(rs.started)}부터 · 내 실제 계좌` + (pre?.why ? ` · ${md(model.main.preStart.from)} 기록 못 이음: ${pre.why}` : '') : '전략 비교를 시작하면 보입니다', 'pf-v-accent');
+  if (ok) band.lastChild.title = '내 실제 계좌' + (hist.n ? ` · 끝낸 비교 ${hist.n}개를 거쳐 이음` : ` · ${md(rs.started)}까지는 Robinhood 기록`);   // 두 기간이 왜 다른지(2026-11-19 시안)
   cell('SPY 대비', ok ? (pre.vsSPY != null ? pp(pre.vsSPY) : '—') : rs?.vs?.SPY != null ? pp(rs.vs.SPY) : '—', rs?.asOf ? (ok ? `${md(pre.from)}부터 · ` : '') + `${md(rs.asOf)} 종가 기준` : lastFull ? `${md(lastFull.session)} 종가 기준` : '');
   root.appendChild(band);
 
@@ -807,17 +808,8 @@ export function renderHome(root, model, handlers) {
   const myTot = myParts.reduce((a, [, v]) => a + v, 0);
   const share = (v, tot) => { const p = (v / tot) * 100; return p > 0 && p < 1 ? '<1%' : Math.round(p) + '%'; };
   if (myTot > 0) {
-    const bar = el('div', 'pf-mix'); bar.setAttribute('role', 'img');
-    bar.setAttribute('aria-label', '보유 비중: ' + myParts.map(([t, v]) => `${t} ${share(v, myTot)}`).join(', '));
-    const leg = el('ul', 'pf-legend pf-mixleg');
-    for (const [t, v] of myParts) {
-      const p = share(v, myTot);
-      const seg = el('i'); seg.style.flexGrow = String(v); seg.style.background = color(t === '기타' ? '__other' : t);
-      seg.title = `${t} ${p} · ${usd0(v)}`; bar.appendChild(seg);
-      const li = el('li'); const sw = el('i'); sw.style.background = seg.style.background; li.appendChild(sw); li.appendChild(el('span', null, `${t} ${p}`)); leg.appendChild(li);
-    }
-    hold.appendChild(bar); hold.appendChild(leg);
-    hold.appendChild(sectorBlock(cur.holdings.map((x) => ({ ticker: x.ticker, value: myVal.get(x.ticker) || 0 })), cur.hasCash ? cur.cash : 0, myTot));
+    hold.appendChild(mixBlock(myParts.map(([t, v]) => ({ name: t, value: v, color: color(t === '기타' ? '__other' : t) })),
+      cur.holdings.map((x) => ({ ticker: x.ticker, value: myVal.get(x.ticker) || 0 })), cur.hasCash ? cur.cash : 0, myTot));
   } else if (!has) hold.appendChild(el('p', 'pf-note', '아직 올린 보유가 없습니다. 기록·관리 탭의 "보유 파일 올리기"로 올리세요.'));
   const fold = el('details', 'pf-holdfold');
   try { fold.open = sessionStorage.getItem('pf-holds-open') === '1'; } catch (_) { /* 기억 못 해도 접힌 채로 */ }
@@ -879,37 +871,50 @@ let buyMethod;
 let pickSaving = false;   // 체크 저장 중이면 다시 그린 목록·방법 버튼도 잠근다(dr r2)
 // 종목 이름 → 그 종목 카드(사용자 결정 2026-11-03). 카드가 있는 종목만 링크, 새 탭으로 열어 이 화면(로그인)은 그대로 둔다
 let CARDS = {};
-// 업종별 묶음(보기 전용, 2026-11-18 사용자 결정·dr 합의): 분모는 바로 위 보유 막대와 같은 값(total), 기술은 하위 줄을 늘 펼쳐 보인다
-export function sectorBlock(items, cash, total) {
+// 보유 비중(2026-11-19 시안): 종목 | 업종 전환 하나, 줄마다 이름·%·칸 폭 전체 막대. 분모는 두 보기 모두 total(주식 + 현금, 음수 현금 제외).
+// 업종 묶음은 보기 전용(2026-11-18 dr 합의) — 기술은 하위 줄을 함께, 분류 안 됨은 맨 위 경고색, 지수 ETF·현금은 구분선 아래
+let mixView = 'ticker';
+try { mixView = sessionStorage.getItem('pf-mix-view') === 'sector' ? 'sector' : 'ticker'; } catch (_) { /* 종목 보기로 */ }
+export function mixRows(view, parts, items, cash, total) {
+  const p = (s0) => (s0 == null ? '—' : s0 > 0 && s0 < 0.01 ? '<1%' : Math.round(s0 * 100) + '%');
+  if (view !== 'sector') return parts.map((x) => ({ name: x.name, share: total > 0 ? x.value / total : null, pct: p(total > 0 ? x.value / total : null), value: x.value, color: x.color, sub: '', cls: '' }));
   const { main, extra } = sectorGroups(items, cash, total);
-  const p = (s) => (s == null ? '—' : s > 0 && s < 0.01 ? '<1%' : Math.round(s * 100) + '%');
-  const box = el('details', 'pf-secfold');
-  try { box.open = sessionStorage.getItem('pf-sec-open') !== '0'; } catch (_) { box.open = true; }
-  box.addEventListener('toggle', () => { try { sessionStorage.setItem('pf-sec-open', box.open ? '1' : '0'); } catch (_) { /* 무시 */ } });
-  const sum = el('summary', null, '업종별 ');
-  sum.appendChild(el('small', null, `${main.length}묶음`));
-  sum.title = '모든 %는 위 보유 막대와 같은 분모(전체 자산). ETF 속 종목은 세지 않음. 줄 %와 종목 % 합은 반올림 때문에 다를 수 있음. 업종 묶음은 보기 전용이고 매수 원칙과 무관';
-  box.appendChild(sum);
-  const row = (r, cls) => {
-    const d = el('div', 'pf-sec' + (cls ? ' ' + cls : ''));
-    const nm = el('span', 'pf-secname', r.label);
-    if (r.id === 'idx') nm.appendChild(el('small', null, ' 속 안 셈'));
-    d.appendChild(nm);
-    const track = el('span', 'pf-sectrack'); const fill = el('i'); fill.style.width = Math.max(0, Math.min(100, (r.share || 0) * 100)) + '%'; track.appendChild(fill); d.appendChild(track);
-    d.appendChild(el('b', null, p(r.share)));
-    if (r.tickers.length && !r.subs) d.appendChild(el('small', 'pf-sectk', r.tickers.map((x) => `${x.t} ${p(x.share)}`).join(' · ')));
-    d.title = `${r.label} ${usd0(r.value)}` + (r.tickers.length ? ` · ${r.tickers.length}종목` : '');
-    return d;
+  const row = (r, cls) => ({ name: r.label + (r.id === 'idx' ? ' · 속 안 셈' : ''), share: r.share, pct: p(r.share), value: r.value, color: null, cls,
+    sub: r.tickers.length && !r.subs ? r.tickers.map((x) => `${x.t} ${p(x.share)}`).join(' · ') : '' });
+  const out = extra.filter((x) => x.id === 'none').map((r) => row(r, 'pf-mxwarn'));
+  for (const r of main) { out.push(row(r, '')); for (const s0 of r.subs || []) out.push(row(s0, 'pf-mxsub')); }
+  extra.filter((x) => x.id !== 'none').forEach((r, k) => out.push(row(r, 'pf-mxrest' + (k === 0 ? ' pf-mxsep' : ''))));
+  return out;
+}
+function mixBlock(parts, items, cash, total) {
+  const box = el('div', 'pf-mx');
+  const seg = el('div', 'pf-mxseg'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', '보유 비중 보기');
+  const list = el('div', 'pf-mxlist');
+  const draw = () => {
+    list.textContent = '';
+    for (const r of mixRows(mixView, parts, items, cash, total)) {
+      const d = el('div', 'pf-mxrow' + (r.cls ? ' ' + r.cls : ''));
+      const hd = el('div', 'pf-mxhead');
+      hd.appendChild(el('span', 'pf-mxname', r.name));
+      if (r.sub) hd.appendChild(el('small', null, r.sub));
+      hd.appendChild(el('b', null, r.pct));
+      d.appendChild(hd);
+      const track = el('span', 'pf-mxtrack'); const fill = el('i'); fill.style.width = Math.max(0, Math.min(100, (r.share || 0) * 100)) + '%';
+      if (r.color) fill.style.background = r.color;
+      track.appendChild(fill); d.appendChild(track);
+      d.title = `${r.name} ${r.pct} · ${usd0(r.value)}`;
+      list.appendChild(d);
+    }
+    seg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === mixView)));
   };
-  const list = el('div', 'pf-secs');
-  for (const r of extra.filter((x) => x.id === 'none')) list.appendChild(row(r, 'pf-secwarn'));   // 분류 안 됨은 맨 위 경고색
-  for (const r of main) {
-    list.appendChild(row(r));
-    for (const s of r.subs || []) list.appendChild(row(s, 'pf-secsub'));
+  for (const [v, t] of [['ticker', '종목'], ['sector', '업종']]) {
+    const b = el('button', null, t); b.type = 'button'; b.dataset.v = v;
+    b.addEventListener('click', () => { mixView = v; try { sessionStorage.setItem('pf-mix-view', v); } catch (_) { /* 무시 */ } draw(); });
+    seg.appendChild(b);
   }
-  const rest = extra.filter((x) => x.id !== 'none');
-  rest.forEach((r, i) => list.appendChild(row(r, i === 0 ? 'pf-secsep' : '')));
-  box.appendChild(list);
+  seg.title = '모든 %는 전체 자산(주식 + 현금) 대비. 업종 보기에서 ETF 속 종목은 세지 않음. 업종 묶음은 보기 전용이고 매수 원칙과 무관';
+  box.appendChild(seg); box.appendChild(list);
+  draw();
   return box;
 }
 
@@ -919,6 +924,7 @@ function tickName(t) {
   a.target = '_blank'; a.rel = 'noopener'; a.title = `${t} 카드 열기(새 탭)`;
   return a;
 }
+let depOpen = false;   // 입금 칸 펼침(이 페이지에서만)
 let doTab = 'buy';   // 다음 할 일 탭(매수|매도) — 페이지를 열 때마다 매수, 다시 그릴 때는 유지(sessionStorage 안 씀, 사용자 결정 '항상 매수')
 let demoPicks = [];   // 시연 달 체크(저장하지 않음, 이 탭에서만)
 try { buyMethod = localStorage.getItem('pf-buy-method') || sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }   // 고른 방법은 새 탭·새로고침에도 유지(2026-11-10)
@@ -970,7 +976,11 @@ function buyBox(args) {
   const autoMonth = autoFor(nowDay);
   const save = el('button', 'pf-btn pf-btn-dark', '입금 기록'); save.type = 'button';
   const msg = msgLine();
-  f.appendChild(save); money.appendChild(f); money.appendChild(msg);
+  // 입금 칸은 한 달에 한두 번 쓰므로 접어 둔다(2026-11-19 시안). 적던 금액이 있거나 열어 둔 상태는 다시 그려도 유지
+  const depFold = el('details', 'pf-depfold'); depFold.open = depOpen;
+  depFold.appendChild(el('summary', null, budget > 0 ? '+ 더 넣기' : '+ 입금 넣기'));
+  depFold.addEventListener('toggle', () => { depOpen = depFold.open; });
+  f.appendChild(save); depFold.appendChild(f); depFold.appendChild(msg); money.appendChild(depFold);
   twoStep(save, msg, '이 금액을 입금으로 기록합니다. 맞으면 한 번 더 누르세요.', async () => {
     const v = Number(amt.value);
     if (!(v > 0) || Math.round(v * 100) / 100 !== v || v > 1e7) throw new Error('0보다 큰 금액을 센트 단위까지 넣으세요.');
@@ -981,7 +991,7 @@ function buyBox(args) {
   if (autoMonth) save.addEventListener('click', () => { if (save.dataset.armed) msg.textContent = `${+autoMonth.slice(5)}월 몫 입금으로 기록합니다. 맞으면 한 번 더 누르세요.`; });   // 어느 달 몫인지 확인 단계에 보인다(dr)
   box.appendChild(money);
   // 몫 안내(짧게)
-  money.appendChild(el('p', 'pf-note pf-depnote', autoMonth ? `지금 넣는 돈은 ${+autoMonth.slice(5)}월 몫` : '지금 넣는 돈은 남은 회차에 나눠 삼'));
+  depFold.appendChild(el('p', 'pf-note pf-depnote', autoMonth ? `지금 넣는 돈은 ${+autoMonth.slice(5)}월 몫` : '지금 넣는 돈은 남은 회차에 나눠 삼'));
   const D = Math.round(deps.now.filter((d) => d.amount > 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const X = Math.round(-deps.now.filter((d) => d.amount < 0).reduce((a, d) => a + d.amount, 0) * 100) / 100;
   const R = Math.max(0, leftUsd), C = typeof args.cash === 'number' ? args.cash : null, over = Math.max(0, -leftUsd);
@@ -1001,10 +1011,10 @@ function buyBox(args) {
     if (deps.later.length) p1.push(`다음 달 ${laterSum < 0 ? '출금 ' + usd0(-laterSum) : usd0(laterSum)}`);
     if (soldNow > 0) p1.push(`판 돈 ${usd0(soldNow)} 다음 달로`);
     p1.push(`한도 ${usd(budget)}`);
-    cell(`${mLabel} 입금` + (ahead ? '(예상)' : ''), usd(D), p1.join(' · '));
-    // 매수 완료 A와 앞으로 P는 늘 보이고(P를 모르면 —), 상태 안내는 앞에 붙인다(dr)
+    // 매수 완료 A와 앞으로 P는 늘 보이고(P를 모르면 —), 상태 안내는 앞에 붙인다(dr). 가장 중요한 칸이라 맨 앞·강조(2026-11-19 시안)
     const wl = weekLeft != null && week != null && weekLeft !== week;
-    cell(weekLabel + (wl ? ' 남음' : ''), week == null ? '—' : usd(wl ? weekLeft : week), (wl ? `회차 몫 ${usd(week)} · ` : '') + (weekNote ? weekNote + ' · ' : '') + `산 돈 ${usd(spent)} · 남음 ${future == null ? '—' : usd(future)}`);
+    cell(weekLabel + (wl ? ' 남음' : ''), week == null ? '—' : usd(wl ? weekLeft : week), (wl ? `회차 몫 ${usd(week)} · ` : '') + (weekNote ? weekNote + ' · ' : '') + `산 돈 ${usd(spent)} · 남음 ${future == null ? '—' : usd(future)}`, 'pf-receiptweek');
+    cell(`${mLabel} 입금` + (ahead ? '(예상)' : ''), usd(D), p1.join(' · '));
     const ended = !preview && dates && dates.length && !next;
     const c3 = cell('계좌 현금' + (ahead ? ` (${md(today)} 기준)` : ''), C == null ? '—' : usd(C),
       over > 0 ? `한도 초과 ${usd(over)}(원칙 5)`
@@ -1012,7 +1022,7 @@ function buyBox(args) {
         : ct ? (ct.unknown ? '한도 확인 불가 — 오른쪽 현금 목표 칸' : `쓸 수 있음 ${usd(R)} · 총자산의 10%는 현금으로(원칙 5)` + (laterIn > 0 ? ` · 다음 달 몫 ${usd0(laterIn)} 제외` : '') + (laterOut0 > 0 ? ` · 출금 예정 ${usd0(laterOut0)} 제외` : ''))
         : ahead ? (budget > 0 ? `${mLabel}엔 한도 ${usd(budget)}만 씀 · 나머지는 안 쓰는 돈(원칙 5)` : '안 쓰는 돈(원칙 5)')   // 미래 입금을 지금 현금에서 빼지 않는다(dr)
         : ended ? `${usd(R)} 다음 달로 · 나머지는 안 쓰는 돈(원칙 5)`
-        : `쓸 수 있음 ${usd(Math.min(R, Math.max(0, C - laterIn)))}` + (laterIn > 0 ? ` · 다음 달 몫 ${usd0(laterIn)} 제외` : '') + ' · 나머지는 안 쓰는 돈(원칙 5)', 'pf-receiptleft');
+        : `쓸 수 있음 ${usd(Math.min(R, Math.max(0, C - laterIn)))}` + (laterIn > 0 ? ` · 다음 달 몫 ${usd0(laterIn)} 제외` : '') + ' · 나머지는 안 쓰는 돈(원칙 5)');
     if (over > 0) c3.classList.add('pf-over');
     if (args.cashBy) c3.title += ` · 미국 ${usd(args.cashBy.rh)} · 한국 ${usd(args.cashBy.kw)}`;   // 계좌별 현금(한국 계좌, 2026-10-28) — 한도는 하나지만 산 계좌에 돈이 있어야 한다
     // 잔금 칸: 지난달에서 넘어온 돈, 회차가 끝났으면 이번 달 남은 돈이 다음 달로 간다
@@ -1039,9 +1049,16 @@ function buyBox(args) {
     const TXT = { done: '샀음', missed: next ? '놓침 → 남은 회차에' : '놓침', now: '이번 주', plan: preview ? '예정(예상)' : '예정', first: '1회차(예상)' };
     rs.rounds.forEach((r, i) => {
       const c = el('div', 'pf-stripcell pf-strip-' + r.state);
-      c.appendChild(el('span', 'pf-s', `${i + 1}회 · ${md(r.date)}`));
       const nowLeft = r.state === 'now' && leftNow != null && r.amount != null;   // 이번 회차: 남은 금액을 크게, 고정 몫은 아래에
-      c.appendChild(el('strong', null, r.state === 'missed' ? '$0' : r.state === 'done' && r.left != null ? usd(r.left) : r.amount == null ? '—' : nowLeft ? (est != null ? '약 ' : '') + usd(leftNow) : (est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '') + usd(r.amount)));
+      // 진행 막대(2026-11-19 시안): 산 회차는 가득, 이번 회차는 산 만큼, 안 산 회차·예정은 빈 막대
+      const bar = el('i', 'pf-stripbar'); const fillB = el('b');
+      fillB.style.width = (r.state === 'done' ? 100 : r.state === 'now' && r.amount > 0 ? Math.max(0, Math.min(100, ((r.done || 0) / r.amount) * 100)) : 0) + '%';
+      bar.appendChild(fillB); c.appendChild(bar);
+      c.appendChild(el('span', 'pf-s', `${i + 1}회 · ${md(r.date)}`));
+      const approx = est != null && (r.state === 'plan' || r.state === 'now' || r.state === 'first') ? '약 ' : '';
+      c.appendChild(el('strong', null, r.state === 'missed' ? '안 삼' : r.state === 'done' ? `${usd(r.amount)} 삼` : r.amount == null ? '—'
+        : nowLeft ? approx + usd(leftNow) + (r.done > 0 ? ' 남음' : '') : approx + usd(r.amount) + (r.state === 'plan' ? ' 예정' : '')));
+      if (r.state === 'done' && r.left > 0) c.appendChild(el('span', 'pf-s', `남음 ${usd(r.left)}`));   // 다 못 쓴 돈(사용자 요청 2026-11-17)은 아래 작은 글씨로
       if (r.state === 'first') c.classList.add('pf-strip-now');
       c.title = TXT[r.state] + (r.state === 'done' && r.left != null ? ` · 몫 ${usd(r.share)} 중 ${usd(r.amount)} 삼 · 남은 ${usd(r.left)}는 다음 회차로` : '') + (nowLeft ? ` · 몫 ${usd(r.amount)}` + (r.done > 0 ? ` 중 ${usd(r.done)} 삼` : '') : '');   // 띠 아래 문장은 뺐다(사용자 결정 2026-11-10) — 상태는 색, 자세한 건 마우스를 올리면
       row.appendChild(c);
@@ -1169,9 +1186,10 @@ function buyBox(args) {
     const now = tierOf(t);
     if (now && now !== tiers[t]) nm.appendChild(el('span', 'pf-note', `지금 ${now}`));
     if (promoted.includes(t)) nm.appendChild(el('span', 'pf-badge', '올림'));
+    const hq = args.held?.get(t) || 0, heldTxt = hq > 0 ? qty2(hq) + '주' : null;   // 보유 주식 수(소수 둘째 자리)
+    if (heldTxt) nm.appendChild(el('span', 'pf-note pf-heldnote', '보유 ' + heldTxt));   // 금액과 붙어 읽히지 않게 이름 옆으로(2026-11-19 시안)
     row.appendChild(nm);
     const act = el('span', 'pf-buyact');
-    const hq = args.held?.get(t) || 0, heldTxt = hq > 0 ? qty2(hq) + '주' : null;   // 보유 주식 수(소수 둘째 자리)
     const note = (x) => act.appendChild(el('span', 'pf-note', x));
     const c = close(t);
     if (!on) { /* 체크 안 한 줄: '체크하면 …' 금액을 빼고 보유 주식 수만(사용자 결정 2026-11-10) */ }
@@ -1182,14 +1200,14 @@ function buyBox(args) {
     else if (!bp.by[method]) note(method === 'cap' ? '시총 없는 종목이 있음' : !hasRec ? '점검일 기록이 없어 판정 가중을 못 씀' : '무게 밖 판정이 있음(초저평가~적정만)');
     else {
       const r = bp.todo[method][t], fix = bp.round[method][t], got = nowBought[t] || 0;
-      if (got > 0 && fix > 0) { if (heldTxt) act.appendChild(el('strong', 'pf-held', heldTxt)); }   // 이번 회차에 이미 삼 — 남은 몇 센트는 살 수 없던 몫이라 보유 주식 수만(사용자 결정 2026-11-10)
-      else if (bp.skip[method]?.[t]) note(skipTxt(bp.skip[method][t]));   // 최소 주문 미만(2026-11-18)
+      if (got > 0 && fix > 0) note(`${usd(got)} 삼`);   // 이번 회차에 이미 삼 — 남은 몇 센트는 살 수 없던 몫(사용자 결정 2026-11-10), 보유 수는 이름 옆
+      else if (bp.skip[method]?.[t]) { const sk = bp.skip[method][t]; const sn = el('span', 'pf-note pf-skipnote', skipTxt(sk)); sn.dataset.amt = usd(sk.amt); act.appendChild(sn); row.dataset.skip = sk.kind; }   // 최소 주문 미만(2026-11-18) — 아래 묶음으로
       else if (!(r > 0)) note(bp.rest[method][t] > 0 ? '회차 몫 1센트 미만' : leftUsd <= 0 || bp.capped[method] ? '남은 돈 없음' : '달 몫을 다 샀음');
       else if (c == null) note(`${usd(r)} · 가격 없음`);
       else if (Math.floor((r / c) * 1e4) <= 0) note(`${usd(r)} · 0.0001주 미만`);
       else {
         const amtBox = el('span', 'pf-buyamt');
-        amtBox.appendChild(el('strong', null, (heldTxt ? heldTxt + ' · ' : '') + usd(r) + (got > 0 ? ' 남음' : '')));
+        amtBox.appendChild(el('strong', null, usd(r) + (got > 0 ? ' 남음' : '')));
         act.appendChild(amtBox);
         if (!mv.demo) {   // 시연 달은 보여 주기만
           const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button';
@@ -1199,12 +1217,22 @@ function buyBox(args) {
         }
       }
     }
-    if (heldTxt && !act.querySelector('.pf-held, .pf-buyamt')) act.insertBefore(el('strong', 'pf-held', heldTxt), act.firstChild);
     // ↓ 그달 구매 후보에서 내리기 — 줄 맨 오른쪽(시안 2026-11-09)
     if (!mv.demo) act.appendChild(promoted.includes(t) ? moveBtn('down', `${t} 주간 확인으로 내리기`, promoted.filter((x) => x !== t), args, month, pickMsg)
       : moveBtn('down', `${t} 이번 달 구매 후보에서 빼기(주간 확인으로)`, [...demoted, t], args, month, pickMsg, 'demoted'));
     row.appendChild(act);
     list.appendChild(row);
+  }
+  // 건너뛰는 종목(최소 주문 미만)은 목록 아래 한 묶음으로 — 같은 문구가 줄마다 섞여 반복되지 않게(2026-11-19 시안). 체크 칸은 그대로 list 안
+  const skipped = [...list.children].filter((r) => r.dataset.skip);
+  if (skipped.length) {
+    const allMonth = skipped.every((r) => r.dataset.skip === 'month');
+    const sh = el('div', 'pf-skiphead');
+    sh.appendChild(el('strong', null, `${allMonth ? '다음 달로' : '다음 회차로'} ${skipped.length}`));
+    sh.appendChild(el('span', 'pf-note', `이번 금액이 $${MIN_ORDER} 미만`));
+    list.appendChild(sh);
+    // 까닭은 묶음 제목에 한 번만 — 줄에는 금액만(묶음 안에 '다음 달로'가 섞였으면 그 줄에만 붙인다)
+    for (const r of skipped) { const sn = r.querySelector('.pf-skipnote'); if (sn) sn.textContent = sn.dataset.amt + (r.dataset.skip === 'month' && !allMonth ? ' · 다음 달로' : ''); list.appendChild(r); }
   }
   box.appendChild(list);
   box.appendChild(pickMsg);
