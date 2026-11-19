@@ -978,6 +978,8 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
+    # FOXA: 연결 NetIncomeLoss가 분기에 없다 — 보통주 귀속 순이익(Q1 FY27 $943M)으로(2026-11-19)
+    "0001754301": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # F: 연결 NetIncomeLoss는 2025-06에 멈췄다 — 보통주 귀속 순이익으로(2026-11-18)
     "0000037996": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},
     # PCG: 연결 NetIncomeLoss는 2025-12에 멈췄다 — 보통주 귀속 순이익(우선주 배당 뒤)으로(2026-11-18)
@@ -1104,6 +1106,10 @@ DERIVED_OPINC = {# RJF: 영업이익 줄이 없다 — 손익계산서는 순매
                  "0000079282": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpense", "InterestExpenseNonoperating"], -1), (["MarkToMarketOfEscrowLiabilityBro"], -1, True)]),
                  # DOW: 손익계산서에 영업이익 줄이 없다 — 영업이익 = 세전이익 + 이자비용(InterestExpenseDebt) − 이자수익(InterestIncomeOther, 선택). 지분법 손익·기타(Sundry) 손익은 영업에 남는다(Q3 2026 642 + 211 − 50 = 803, 2026-11-18)
+                 # FOXA: 손익계산서에 영업이익 줄이 없다 — 영업이익 = 세전이익 − 순이자(InterestIncomeExpenseNonoperatingNet, 비용이면 음수) − 기타 비영업(Flutter 지분 평가 등) − 지분법 손익
+                 # = 매출 − 운영비 − 판관비 − 감가상각 − 구조조정·손상(Q1 FY27 1,283 + 80 + 143 = 1,506, 2026-11-19). 순이자는 2022-06 뒤 InterestIncomeExpenseNonoperatingNet, 그 전 InterestIncomeExpenseNet(겹치는 기간 같은 값 — 2021-09 952 + 97 − 69 = 980, Codex r1).
+                 "0001754301": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+                                [(["InterestIncomeExpenseNonoperatingNet", "InterestIncomeExpenseNet"], 1, True), (["OtherNonoperatingIncomeExpense"], 1, True), (["IncomeLossFromEquityMethodInvestments"], 1, True)]),
                  "0001751788": (["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
                                 [(["InterestExpenseDebt"], -1), (["InterestIncomeOther"], 1, True)]),
                  # SWK: OperatingIncomeLoss 태그가 2024-09에 멈춤 — 영업이익 = 세전이익 + 이자비용 − 이자수익(InvestmentIncomeInterest) = 손익계산서 "Income from operations"(Q3 2026 358.2 + 92.3 − 35.4 = 415.1, 2026-11-18). 사업 매각 손익·손상·구조조정은 회사 줄처럼 영업에 남는다.
@@ -2586,7 +2592,8 @@ EV_TAGS_BY_CIK = {"0001001250": {"cash": ["CashCashEquivalentsRestrictedCashAndR
                   "0000079282": {"sti": []},   # BRO: ShortTermInvestments는 2024-12 $10M이 마지막 — 2025부터 기타 유동자산에 합쳤다(재표시). 수탁 현금 $2,442M은 엔진 현금 밖(2026-11-05)
                   "0000798354": {"lease": ["OperatingLeaseLiability"]},   # FISV: 금융리스($2,421M)는 차입금 두 줄 안에 있어 리스에는 운용리스만 — 10-Q에 유동분만 있어 총액은 FY2025 10-K $763M(2026-11-05, Codex r1)
                   "0000093556": {"lease": ["OperatingLeaseLiability"]},
-                  "0001335258": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # LYV: 비지배지분 = 일반 $730.5M + 상환 가능(임시 자본, OCESA 등) $1,147.0M(Q3 2026) — 기본은 일반만 잡았다(Codex 2026-11-18)
+                  "0001335258": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
+                  "0001754301": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # FOXA: 비지배지분 = 일반 $105M + 상환 가능 $86M(Q1 FY27) — 기본은 일반만(Codex r1, 2026-11-19)   # LYV: 비지배지분 = 일반 $730.5M + 상환 가능(임시 자본, OCESA 등) $1,147.0M(Q3 2026) — 기본은 일반만 잡았다(Codex 2026-11-18)
                   "0000029989": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityFairValue"]},   # OMC: 단기투자 태그가 2023-12의 낡은 값 — 지금 재무상태표 현금 $3,796M만. 비지배지분 = 일반 $375.1M + 상환 가능(임시 자본) $266.9M(Codex r1, 2026-11-18)
                   "0001751788": {"sti": []},   # DOW: 단기투자 태그는 2023-03의 낡은 값($0.62B)이라 DCF·순현금이 "계산 보류"로 막혔다 — 지금 시장성 증권 $558M은 차원 값뿐이라 넣지 못하고 현금 $4,142M만 쓴다(순현금이 그만큼 작게 잡힘, 2026-11-18)   # SWK: 운용리스 총액 $445.4M(Q3 2026) — 기본 유동·비유동 태그는 2026-01 유동분 $133.1M만 남아 리스가 작게 잡혔다(Codex r1, 2026-11-18)
                   "0000720005": {"debt": ["SeniorNotes", "OtherBorrowings"], "lease": ["OperatingLeaseLiability"]},   # RJF: 차입 = 선순위채 $3,522M + 기타 차입 $950M(FHLB·신용한도) — 기본 태그는 2022-12에 멈춤. 예금 $63B는 차입 아님. 운용리스 $568M(Q3 FY26 10-Q, 2026-11-04)

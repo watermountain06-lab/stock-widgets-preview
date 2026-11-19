@@ -649,15 +649,16 @@ finally:
 # 미완성 카드(cfg INCOMPLETE_SHORT, 2026-11-03 사용자 결정): 화면 JS가 현금흐름 칸에 다시 쓰는 '계산 불가'와 판정 말풍선의 '심판·합계'를
 # '보류(미완성)'·참고 문구로(2026-11-07 사용자 승인 — POST 정적 치환은 JS가 덮어써 FISV·MLM·NSC·PTC·CHRW·SYY·KMB·AWK에 남았다)
 if getattr(C, 'INCOMPLETE_SHORT', None):
+    _IL = getattr(C, 'INCOMPLETE_LABEL', '미완성')   # 카드별 표시 이름(FOXA '평가 불가', 2026-11-19 사용자 결정) — 기본은 그대로
     for _a in ("box.textContent = '계산 불가'", "dv0.textContent = '계산 불가'", "pv.textContent = '계산 불가'"):
-        h = h.replace(_a, _a.replace('계산 불가', '보류(미완성)'))
-    h = h.replace("return { label: '계산 불가', cls: 'mid'", "return { label: '보류(미완성)', cls: 'mid'")
-    h = re.sub(r"\+ `\\n심판 \$\{seated\.length\}/3 · 합계 \$\{sgn\(total\)\}`[^\n]*\n", "+ '\\\\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'\n", h, count=1)
+        h = h.replace(_a, _a.replace('계산 불가', '보류(' + _IL + ')'))
+    h = h.replace("return { label: '계산 불가', cls: 'mid'", "return { label: '보류(" + _IL + ")', cls: 'mid'")
+    h = re.sub(r"\+ `\\n심판 \$\{seated\.length\}/3 · 합계 \$\{sgn\(total\)\}`[^\n]*\n", "+ '\\\\n" + _IL + " 카드 — 두 점수는 참고값이라 합산하지 않는다'\n", h, count=1)
     h = h.replace("    + '\\n(+3 이상 저평가 · +1~+2 적정~저평가 · 0 적정 · −1~−2 적정~고평가 · −3 이하 고평가)'\n", "", 1)
-    h = re.sub(r'(<div class="vs-pill[^"]*"[^>]*>)계산 불가(</div>)', r'\1보류(미완성)\2', h)
+    h = re.sub(r'(<div class="vs-pill[^"]*"[^>]*>)계산 불가(</div>)', r'\1보류(' + _IL + r')\2', h)
     h = h.replace('판정 표에는 넣지 않는다. 미완성 카드다. ', '판정 표에는 넣지 않는다. ')   # cfg 설명 첫 문장과 겹침
-    h = h.replace('id="dcfPickValue">계산 불가<', 'id="dcfPickValue">보류(미완성)<')   # 정적 칸(cfg POST가 이 id를 빠뜨린 MLM·NSC)
-    h = re.sub(r'(id="[a-z]+Dcf(?:Verdict|Box)">)계산 불가<', r'\1보류(미완성)<', h)
+    h = h.replace('id="dcfPickValue">계산 불가<', 'id="dcfPickValue">보류(' + _IL + ')<')   # 정적 칸(cfg POST가 이 id를 빠뜨린 MLM·NSC)
+    h = re.sub(r'(id="[a-z]+Dcf(?:Verdict|Box)">)계산 불가<', r'\1보류(' + _IL + r')<', h)
 
 # 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
 h = re.sub(r'(<div class="card" hidden>\n    <div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">)(.*?)(\n    </div>\n  </div>)',
