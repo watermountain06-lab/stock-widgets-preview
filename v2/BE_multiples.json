@@ -1,80 +1,80 @@
 {
  "ticker": "BE",
  "window": [
-  "2021-11-18",
-  "2026-11-18"
+  "2021-11-19",
+  "2026-11-19"
  ],
  "multiples": {
   "PER": {
-   "days": 81,
-   "current": 104.9,
+   "days": 82,
+   "current": 103.13,
    "min": 102.77,
-   "p10": 118.94,
-   "median": 295.08,
-   "p90": 370.11,
+   "p10": 118.62,
+   "median": 293.77,
+   "p90": 370.06,
    "max": 394.37,
-   "mean": 273.02,
+   "mean": 270.95,
    "percentile": 1.2,
    "score": 98.8,
    "eps": 1.63
   },
   "PSR": {
    "days": 1255,
-   "current": 13.25,
+   "current": 13.03,
    "min": 1.45,
    "p10": 1.86,
    "median": 3.94,
    "p90": 23.06,
    "max": 43.1,
-   "mean": 8.23,
-   "percentile": 77.0,
-   "score": 23.0
+   "mean": 8.24,
+   "percentile": 76.7,
+   "score": 23.3
   },
   "PBR": {
    "days": 1222,
-   "current": 25.95,
+   "current": 25.51,
    "min": 3.63,
    "p10": 4.43,
    "median": 9.4,
-   "p90": 29.42,
+   "p90": 29.39,
    "max": 125.17,
-   "mean": 17.28,
-   "percentile": 86.3,
-   "score": 13.7
+   "mean": 17.27,
+   "percentile": 85.4,
+   "score": 14.6
   },
   "PCR": {
-   "days": 435,
-   "current": 116.18,
+   "days": 436,
+   "current": 114.23,
    "min": 50.79,
-   "p10": 87.1,
-   "median": 237.64,
-   "p90": 741.83,
+   "p10": 87.12,
+   "median": 236.62,
+   "p90": 741.57,
    "max": 1255.61,
-   "mean": 316.8,
-   "percentile": 20.0,
-   "score": 80.0
+   "mean": 316.33,
+   "percentile": 19.5,
+   "score": 80.5
   },
   "EV/EBITDA": {
-   "days": 435,
-   "current": 81.5,
+   "days": 436,
+   "current": 80.14,
    "min": 39.18,
-   "p10": 55.31,
-   "median": 191.69,
-   "p90": 387.79,
+   "p10": 55.32,
+   "median": 191.36,
+   "p90": 387.74,
    "max": 559.39,
-   "mean": 206.58,
-   "percentile": 22.3,
-   "score": 77.7
+   "mean": 206.29,
+   "percentile": 21.1,
+   "score": 78.9
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 218.33,
-  "per_p75": 351.27,
-  "low": 360,
+  "per_p25": 159.53,
+  "per_p75": 351.07,
+  "low": 260,
   "high": 570,
-  "asOf": "2026-11-18",
+  "asOf": "2026-11-19",
   "basis": "diluted"
  }
 }
