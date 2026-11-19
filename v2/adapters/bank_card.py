@@ -30,9 +30,11 @@ PEER_DIR = os.path.join(V2, "peer_universe", "banks")
 MIN_PEERS = 8
 
 
-def eps_file(ticker, cik, directory):
+def eps_file(ticker, cik, directory, force=False):
+    """EPS 파일 경로 — 없으면 받는다. force면 있어도 다시 받는다(fetch_eps_history가 카드 기준표 접수일로 자른다).
+    은행 카드 자신의 파일은 처음 만든 뒤로 갱신되지 않아 3분기 승인 뒤에도 2분기 TTM이 쓰였다(안건 E74, 2026-11-19) — 전체 빌드 때 force."""
     path = os.path.join(directory, f"{ticker}_eps_history.json")
-    if not os.path.exists(path):
+    if force or not os.path.exists(path):
         subprocess.run([sys.executable, os.path.join(REPO, "scripts", "fetch_eps_history.py"), ticker,
                         "--cik", cik, "--out", path], capture_output=True, text=True)
         time.sleep(0.6)
@@ -124,7 +126,10 @@ def peers(asof, self_ticker):
                 out["skipped"][t] = "기준일 종가 없음"
                 continue
             bank = br.Bank(t, cik, asof, overrides=True)   # 다른 은행도 회사 정의 보정값으로(5판 9-5, 2026-10-05 사용자 결정 — BAC가 동종업 1.66배·자기 카드 1.85배로 갈리던 것)
-            m = br.multiples_on(bank, asof, bars[-1][4], eps_file(t, cik, PEER_DIR))
+            # 카드 은행(그 카드의 EPS 파일이 있는 은행)은 비교군 사본 대신 카드 자신의 파일 — 사본은 처음 받은 뒤 갱신되지 않았다(E74)
+            _card_eps = os.path.join(REPO, "scripts", f"{t}_eps_history.json")
+            _peer_eps = _card_eps if (os.path.exists(_card_eps) and cik in bmh._approved()) else eps_file(t, cik, PEER_DIR)
+            m = br.multiples_on(bank, asof, bars[-1][4], _peer_eps)
             if bank.ed >= 7 and "ptbv" in m:   # 7판 11-6: 그 분기 CE·TCE·S와 N5-1·N5-2를 통과해야 동종업 P/TBV에 든다
                 ok7, why7 = br.peer_ok7(bank, m["ptbv_end"])
                 if not ok7:
@@ -219,7 +224,7 @@ def main():
     else:
         g = br.gates(bank, os.path.join(V2, "research", f"bank_gate_{t}.json"))
     r = br.rim(bank, price=px)
-    eps_path = eps_file(t, cik, os.path.join(REPO, "scripts"))
+    eps_path = eps_file(t, cik, os.path.join(REPO, "scripts"), force=not a.reuse_peers)   # 전체 빌드면 다시 받는다(E74), 매일 가격 재빌드는 그대로
     hist = self_history(bank, daily, eps_path)
     if bank.ed >= 7:
         if frozen and not frozen.get("used_quarter"):   # 통과한 분기가 없다 — RIM·P/TBV 기권
