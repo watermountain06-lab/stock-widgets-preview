@@ -440,6 +440,15 @@ def weekly_pre(status):
         env = dict(os.environ, SEC_REFRESH_UNLISTED=session)
         open(os.path.join(V2, ".sec_cache", "_refresh_failed.txt"), "w").close()
     rc, out = run([PY, "v2/adapters/refresh_peer_files.py", "--asof", session], timeout=7200, env=env)
+    if env and not rc:
+        # 은행 비교군(카드 아닌 CFG·FITB·HBAN·KEY·PNC·RF·TFC)은 섹터 비교군 목록에 없어 SEC 재무·EPS 파일이 처음 받은 뒤로 갱신되지 않았다
+        # (순이익 관문 N1·N5, 동종업 PER) — 같은 세션 표식으로 함께 새로 받는다(안건 E73, 2026-11-19). 실패는 _refresh_failed.txt로 아래에서 알린다
+        try:
+            rc_b, out_b = run([PY, "v2/adapters/refresh_bank_peers.py"], timeout=1800, env=env)
+        except subprocess.TimeoutExpired:   # 시간 초과도 알리고 옛 자료로 계속(Codex 2026-11-19)
+            rc_b, out_b = 124, "시간 초과(1800초)"
+        if rc_b not in (0, 1):   # 1 = 받기 실패를 실패 파일에 적음(아래 집계가 알린다), 그 밖은 스크립트 자체 실패
+            status["problems"].append("은행 비교군 재무·EPS 새로 받기 중단: " + out_b.strip()[-200:])
     if env:
         failed = sorted(set(l.strip() for l in open(os.path.join(V2, ".sec_cache", "_refresh_failed.txt")) if l.strip()))
         status["peerSecRefresh"] = {"on": True, "failed": failed}
