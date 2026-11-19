@@ -16099,6 +16099,90 @@
         "valuationAsOf": "2026-11-18",
         "qualityFlags": []
       }
+    },
+    {
+      "ticker": "COIN",
+      "name": "코인베이스",
+      "sector": "가상자산 거래소 — 거래 수수료, 스테이블코인(USDC)·스테이킹·보관",
+      "href": "COIN_full_widget.html",
+      "cardRank": 384,
+      "cardAsOf": "2026-11-18",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 110.51,
+        "prevClose": 115.02,
+        "session": "2026-11-18",
+        "prevSession": "2026-11-17",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 264763418,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-22",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001679788-26-000122 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 72.1,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-18",
+        "qualityFlags": []
+      }
+    },
+    {
+      "ticker": "DLR",
+      "name": "디지털 리얼티",
+      "sector": "리츠 — 데이터센터(코로케이션·대형 임대)",
+      "href": "DLR_full_widget.html",
+      "cardRank": 385,
+      "cardAsOf": "2026-11-18",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 178.31,
+        "prevClose": 176.53,
+        "session": "2026-11-18",
+        "prevSession": "2026-11-17",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 378325814,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-27",
+        "filedAt": "2026-10-30",
+        "filing": "10-Q 0001104659-26-120710 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 50.9,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-18",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

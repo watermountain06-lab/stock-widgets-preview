@@ -978,6 +978,8 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
+    # DLR(데이터센터 리츠): 설비투자 = "Improvements to and advances for investment in real estate"(PaymentsToDevelopRealEstateAssets, 9개월 $3.17B) — 개발이 본업이라 개량만이 아니라 개발 지출 전체. 인수($2.9B)·합작 출자는 넣지 않는다(2026-11-19)
+    "0001297996": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToDevelopRealEstateAssets"]},
     # O: 연결 NetIncomeLoss는 FY2025에 멈췄다 — 보통주 귀속 순이익(Q3 2026 $403.9M)으로(2026-11-19)
     "0000726728": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},   # 설비투자 = 기존 자산 개량 지출(9개월 $122M, WELL 선례) — 부동산 인수($5.6B)는 넣지 않는다
     # ES: 연결 NetIncomeLoss는 2023-12에 멈췄다 — 보통주 귀속 순이익으로(2026-11-19)
@@ -1383,7 +1385,8 @@ def _derived_opinc(cik, taxonomy):
 # 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
-EXCLUDE_TAGS = {"0001004980": ("EntityCommonStockSharesOutstanding",),   # PCG: 표지 주식 수 2,680,173,293주에 자회사(Utility)가 가진 지주 주식 477,743,590주가 들어 있다(2021년부터, EPS에서도 제외) — 재무상태표 유통 주식 수(9월 말 2,202,416,553주)만 쓴다(2026-11-18)
+EXCLUDE_TAGS = {"0001297996": ("PaymentsToAcquireProductiveAssets",),   # DLR: 이 태그는 인수 지출(Q3 2026 $802.8M — 10-Q 인수 주석)이라 설비투자에서 뺀다 — 개발·개량 지출(PaymentsToDevelopRealEstateAssets)만(Codex r1 2026-11-19)
+                "0001004980": ("EntityCommonStockSharesOutstanding",),   # PCG: 표지 주식 수 2,680,173,293주에 자회사(Utility)가 가진 지주 주식 477,743,590주가 들어 있다(2021년부터, EPS에서도 제외) — 재무상태표 유통 주식 수(9월 말 2,202,416,553주)만 쓴다(2026-11-18)
                 "0001140536": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # WTW: 계약 매출(이자·기타 제외)과 총매출 Revenues가 섞여 Q4 2025가 $2,744M(총 $2,936M)으로 역산됐다 — 총매출만(Codex r1 2026-11-05)
                 "0000720005": ("Revenues",),   # RJF: 총수익(이자수익 포함) 대신 순매출 — EXTRA_TAGS(2026-11-04)
                 "0000046080": ("Revenues",),   # HAS: Revenues는 2024-12~2026-06 내부거래 제거 전 부문 합(Q2 2026 $1,290.5M 대 순매출 $1,139.6M) — 계약 매출 태그만(2026-11-03)
@@ -2209,6 +2212,7 @@ DEBT_TOTAL_TAG = {"0000874761": ["RecourseDebtTotalAes", ("NonRecourseDebtCurren
                   "0001001250": ["NotesAndLoansPayableCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # EL: 1년 안 차입(어음·만기 도래분) $503M + 장기 $6,748M(Q1 FY27 10-Q) — 기본 태그는 2012·2019에 멈췄다(2026-11-09)
                   "0001489393": ["ShortTermBorrowings", "LongTermDebtAndCapitalLeaseObligationsCurrent", "LongTermDebtAndCapitalLeaseObligations"],
                   "0001512673": ["OtherLongTermDebtCurrent", "SecuredDebtCurrent", "LongTermLineOfCredit", "OtherLongTermDebtNoncurrent"],   # XYZ: 1년 안 0 + 담보 차입(대출 자금) $447M + 장기 신용한도 $1,096M + 장기 채권(전환사채·선순위) $5,723M = $7,266M(Q3 2026, 2021-12부터 같은 태그) — 기본은 LongTermDebt만 채워 차입금의존도가 비었다(2026-11-19)
+                  "0001297996": ["LineOfCredit", "UnsecuredDebt", "SeniorNotes", "SecuredDebt"],   # DLR: 신용한도·CP $1,640M + 기간 대출 $424M + 선순위 채권 $15,809M + 담보 $1,620M = $19,494M(Q3 2026) — 기본 LongTermDebt는 2012에 멈춤(2026-11-19)
                   "0000726728": ["LineOfCredit", "LoansPayable", "SecuredDebt", "NotesPayable"],   # O: 신용한도·CP $2,128M(2020-07부터 회사 고유 태그 — BUILD company_tags가 LineOfCredit 이름으로) + 기간 대출 $2,772M + 담보 $37M + 채권 $26,452M = $31,389M(Q3 2026) — 기본 합산이 차입금을 거의 못 잡았다(차입금의존도 2.1%, 2026-11-19)
                   "0000100493": ["DebtCurrent", "LongTermDebtAndCapitalLeaseObligations"],   # TSN: 1년 안 M + 장기(금융리스 포함) ,902M = ,750M(FY26 10-K "DebtAndCapitalLeaseObligations" 7,750) — 기본 합산이 차입금을 거의 0으로 잡았다(차입금의존도 2.4%, 2026-11-19)
                   "0000029989": ["ShortTermBorrowings", "NotesPayableCurrent", "LongTermNotesPayable"],   # OMC: 단기차입 $60.5M + 1년 안 채권 $568.3M + 장기 채권 $9,389.5M = $10,018M(Q3 2026) — 기본 합산은 단기차입만 잡았다(2026-11-18)
@@ -2604,6 +2608,7 @@ EV_TAGS_BY_CIK = {"0001001250": {"cash": ["CashCashEquivalentsRestrictedCashAndR
                   "0000093556": {"lease": ["OperatingLeaseLiability"]},
                   "0001335258": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},
                   "0001512673": {"sti": ["DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent", "AvailableForSaleSecuritiesDebtSecuritiesCurrent"]},   # XYZ: 단기 채권투자 = 2022-12부터 DebtSecuritiesAvailableForSaleExcludingAccruedInterestCurrent(Q3 2026 $385M, 기타 유동자산 안), 그 전 AvailableForSaleSecuritiesDebtSecuritiesCurrent — 기본 태그는 2023-06에 멈춤(Codex r1 2026-11-19)
+                  "0001297996": {"nci": ["MinorityInterest", "TemporaryEquityCarryingAmountIncludingPortionAttributableToNoncontrollingInterests"]},   # DLR: 비지배지분 = 일반 $532M + 임시 자본(상환 가능 — Teraco 소수 지분 풋 등) $1,596M(2026-11-19)
                   "0000726728": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # O: 단기투자 태그 2020-06 낡음; 비지배지분 = 일반 $3,111M(Core Plus 펀드 등) + 상환 가능 $72M(2026-11-19)
                   "0000072741": {"sti": [], "nci": ["RedeemableNoncontrollingInterestEquityPreferredCarryingAmount"]},   # ES: 단기투자 태그가 2015-09($0.12B)에 멈춤, 비지배지분 태그는 2012에 멈춤 — 지금은 자회사 우선주 $155.6M(임시 자본)뿐(2026-11-19)
                   "0001754301": {"nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # FOXA: 비지배지분 = 일반 $105M + 상환 가능 $86M(Q1 FY27) — 기본은 일반만(Codex r1, 2026-11-19)   # LYV: 비지배지분 = 일반 $730.5M + 상환 가능(임시 자본, OCESA 등) $1,147.0M(Q3 2026) — 기본은 일반만 잡았다(Codex 2026-11-18)

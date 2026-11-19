@@ -46,7 +46,7 @@ ALLOW_LAGGED = {"SO", "DUK", "ED", "BIIB"}
 
 
 # 인라인 XBRL 보충으로 만들 수 있게 허용한 종목 — 시험 3장(2026-10-25 사용자 결정). 넓힐 때 여기에 더한다.
-OVERLAY_OK = {"PPG", "MDLZ", "GD", "CDNS", "ETR", "EXC", "VMC", "AEP", "CNP", "VRSK", "EVRG", "LNT", "PPL", "SRE", "D", "FE", "PCG", "ES"}   # SRE·D: companyfacts가 Q2·Q3 2026 10-Q를 아직 싣지 않음(2026-11-07). PCG: Q3 2026 10-Q(10-22) 미반영(2026-11-18). ES: Q3 2026 10-Q(11-06) 미반영(2026-11-19). JCI는 시험 중 보류(이자 정의 — skipped_cards E)
+OVERLAY_OK = {"PPG", "MDLZ", "GD", "CDNS", "ETR", "EXC", "VMC", "AEP", "CNP", "VRSK", "EVRG", "LNT", "PPL", "SRE", "D", "FE", "PCG", "ES", "DLR"}   # SRE·D: companyfacts가 Q2·Q3 2026 10-Q를 아직 싣지 않음(2026-11-07). PCG: Q3 2026 10-Q(10-22) 미반영(2026-11-18). ES: Q3 2026 10-Q(11-06) 미반영(2026-11-19). DLR: Q2·Q3 2026 10-Q 미반영(2026-11-19). JCI는 시험 중 보류(이자 정의 — skipped_cards E)
 
 
 def overlay_has(T, cik, accn, form=None, filed=None):

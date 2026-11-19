@@ -46,8 +46,8 @@ def facts_cache(cik):
 
 
 # 태그가 겹친 공시(기본 EPS 태그 안에 희석 EPS 태그, 같은 숫자)를 쓰는 회사 — 여는 태그마다 첫 닫는 태그까지 읽어 안쪽 태그도 잡는다.
-# 예전 정규식은 바깥 태그만 잡아 ES의 희석 EPS가 보충에서 빠졌다(2026-11-19). 겹치지 않은 태그는 같은 결과(26개 공시 비교: 더하기만, 빠짐 0) — 전체 적용은 사용자 확인 뒤
-NESTED_CIKS = {"0000072741"}
+# 예전 정규식은 바깥 태그만 잡아 ES의 희석 EPS·PCG의 분기 보통주 순이익이 보충에서 빠졌다. 겹치지 않은 태그는 같은 결과(30개 넘는 공시 비교: 더하기만, 빠짐 0).
+# 2026-11-19 사용자 결정으로 모든 회사에 켠다(처음엔 ES만).
 
 
 def parse(h, prefixes=("us-gaap:", "dei:"), nested=False):
@@ -176,7 +176,7 @@ def main(cik):
             continue
         fp = "FY" if form == "10-K" else "Q"
         seen = set()
-        for name, s, e, v, u in parse(h, nested=cik in NESTED_CIKS):
+        for name, s, e, v, u in parse(h, nested=True):
             tax, tag = name.split(":")
             key = (tag, s, e)
             if key in seen:
