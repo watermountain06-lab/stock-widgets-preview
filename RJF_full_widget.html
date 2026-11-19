@@ -1317,32 +1317,32 @@ const MULTIPLE_DATA = {
     "peers": [
       {
         "name": "JPM",
-        "value": 13.88,
+        "value": 13.59,
         "status": "reference"
       },
       {
         "name": "USB",
-        "value": 11.63,
-        "status": "reference"
-      },
-      {
-        "name": "FITB",
-        "value": 17.8,
-        "status": "reference"
-      },
-      {
-        "name": "RF",
         "value": 11.36,
         "status": "reference"
       },
       {
+        "name": "FITB",
+        "value": 17.86,
+        "status": "reference"
+      },
+      {
+        "name": "RF",
+        "value": 10.92,
+        "status": "reference"
+      },
+      {
         "name": "MTB",
-        "value": 11.34,
+        "value": 11.21,
         "status": "reference"
       },
       {
         "name": "HBAN",
-        "value": 11.49,
+        "value": 12.35,
         "status": "reference"
       }
     ]
@@ -2232,7 +2232,7 @@ const RJF_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 
   put('rjfPeerBox', 'rjfPeerScore', 'rjfPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
       + `\nP/TBV는 유형자본을 만들 수 있는 13곳, PER은 13곳과 비교했다.`
-      + `\nPNC: 무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모: 규제자본 차감 무형자산 $666M(2026-06, TCE 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(약 1.7%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).`);
+      + `\nPNC: 무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모(2026-09-30 분기 기준): 규제자본 차감 무형자산 $666M(2026-06 규제자본 표, 그 분기 TCE의 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(그 분기 TCE의 약 1.8%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).`);
   put('rjfSelfBox', 'rjfSelfScore', 'rjfSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nP/TBV 2.87배(5년 중 상위 51%)·PER 14.1배(상위 64%).`
