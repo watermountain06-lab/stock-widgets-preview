@@ -135,8 +135,12 @@ def peers(asof, self_ticker):
                          "intangibles": "IntangibleAssetsNetExcludingGoodwill" if bank.ia else "Finite+Indefinite" if (bank.fin or bank.ind) else "OtherIntangibleAssetsNet" if bank.oth else "없음",
                          "shares": "Issued−Treasury" if bank.issued else "CommonStockSharesOutstanding"}
             if bank.eq_mem and "ptbv" in m:   # 8판 §2: 차원 값 경로 은행(PNC)은 무형자산 0 규칙으로 TCE가 커 P/TBV가 싼 쪽 — 툴팁용
-                m["ia_note"] = ("무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모: 규제자본 차감 무형자산 $666M(2026-06, TCE 약 1.5%)·"
-                                "2026-01 FirstBank 인수 식별 무형자산 $761M(약 1.7%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).")
+                # 참고 금액은 원문 날짜와 함께 고정, 비율만 그 분기 TCE로 다시 계산(분기마다 'TCE 약 1.5%'가 낡았다 — 안건 E73, 2026-11-19)
+                _tce = (bank.tce(m["ptbv_end"]) or (None,))[0]
+                _pc = lambda v: f", 그 분기 TCE의 약 {v / _tce * 100:.1f}%" if _tce else ""
+                m["ia_note"] = (f"무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모({m['ptbv_end']} 분기 기준): "
+                                f"규제자본 차감 무형자산 $666M(2026-06 규제자본 표{_pc(666e6)})·"
+                                f"2026-01 FirstBank 인수 식별 무형자산 $761M({_pc(761e6).lstrip(', ')}, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).")
             out["tickers"][t] = {k: (round(v, 4) if isinstance(v, float) else v) for k, v in m.items()}
         except Exception as e:
             out["skipped"][t] = f"오류: {type(e).__name__}: {e}"

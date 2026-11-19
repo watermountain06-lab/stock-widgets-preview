@@ -20,6 +20,7 @@ import re
 import sys
 import time
 import urllib.request
+from datetime import date
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.dirname(HERE)
@@ -145,6 +146,12 @@ def facts6(cik, accn, primary, end, refetch=False):
     refetch면 캐시를 무시하고 원문을 다시 받는다(8판 §1-3 — 판단은 main이 한다)."""
     os.makedirs(CACHE, exist_ok=True)
     p = os.path.join(CACHE, f"{accn}.json")
+    # 그 결산일 자본이 인스턴스에 없던 공시 — 결산일이 1년 넘게 지난 옛 분기만 표식으로 다시 받지 않는다(TFC 2021~2025 22건이 수집마다
+    # 다시 받아 실패, 안건 E73). 최근 분기는 일시적 결함일 수 있어 매번 다시 받고, 정상 캐시가 있으면 그쪽이 먼저(Codex 2026-11-19)
+    nose = os.path.join(CACHE, f"{accn}.noSE")
+    _old = (date.today() - date.fromisoformat(end)).days > 365
+    if os.path.exists(nose) and not refetch and _old and not os.path.exists(p):
+        raise ValueError(f"{accn}: {end} 자본이 인스턴스에 없다(표식)")
     if os.path.exists(p) and not refetch:
         raw = json.load(open(p))
         rows = raw["facts"] if isinstance(raw, dict) else raw
@@ -156,8 +163,12 @@ def facts6(cik, accn, primary, end, refetch=False):
         raise ValueError(f"{accn}: XBRL 인스턴스 파일이 없다")
     fs = _parse_instance(_get(base + inst[0]))
     if not any(x[0] == "us-gaap:StockholdersEquity" and x[2] == end and not x[1] and not x[3] for x in fs):
+        if _old:
+            open(nose, "w").write(end + "\n")
         raise ValueError(f"{accn}: {end} 자본이 인스턴스에 없다")
     json.dump({"v": EXTRACT_VERSION, "facts": fs}, open(p, "w"))
+    if os.path.exists(nose):
+        os.remove(nose)
     return fs
 
 
