@@ -11,7 +11,7 @@ import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, c
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
 import { renderAccounts } from './preview-only-portfolio-acctview.js?v=7';
-import { sectorGroups } from './preview-only-portfolio-sectors.js?v=3';
+import { sectorGroups, catOf, TOPS, SUB_LABEL, EXTRA_LABEL } from './preview-only-portfolio-sectors.js?v=3';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.
 export const etDate = (ms) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ms));
@@ -233,7 +233,8 @@ export function depositsSince(all, base, today) {
 // 모든 종목의 남은 몫 합은 남은 돈(쓸 돈 − 이번 달 산 돈 전부)을 넘지 않게 비례로 줄인다. 계산은 끝까지 센트 정수(내림 — 남는 센트는 쓰지 않는다).
 // budget·spent·bought 값은 달러. 고른 것 가운데 무게가 없는 종목(시총 없음·무게 밖 판정)이 있으면 그 방법은 null.
 // 돌려주는 값(모두 방법별): by(달 몫)·rest(남은 몫)·round(이번 회차 금액, 남은 회차 0이면 null) {티커: 달러}, missed(지난 회차 계획보다 덜 산 종목), capped(남은 돈에 맞춰 줄임),
-// skip {티커: {kind, amt}}·sched {티커: [이번 회차, 다음 회차, …] 달러} — 최소 주문(minOrder, 아래).
+// skip {티커: {kind, amt}}·sched {티커: [이번 회차, 다음 회차, …] 달러} — 최소 주문(minOrder, 아래),
+// why {티커: 'done'|'group'|'left'|null}(못 사는 까닭)·groups [{key, tickers, cap, bought, left}](groupOf를 줬을 때만, 아니면 null).
 // 최소 주문(사용자 결정 2026-11-18, 키움, dr 3라운드 합의): 이번 회차에 아직 안 산 종목의 todo가 0보다 크고 minOrder 미만이면 이번엔 사지 않는다(todo 0).
 // 돈은 rest에 남아 다음 회차 몫이 저절로 커지고, 그달 회차가 끝나면 잔금(carryIn)으로 다음 달 한도에 더해진다. kind 'month' = 남은 몫 rest 자체가 minOrder 미만
 // (마지막 회차 skip은 늘 이것), 'next' = 그 밖. amt = 'next'면 이번 금액, 'month'면 rest. 이번 회차에 조금이라도 산 종목(0.0001주 내림 잔액 포함)은 그대로 둔다.
@@ -252,30 +253,81 @@ export const byCap = (list, caps = {}) => [...list].sort((a, b) => (caps[b] || 0
 const toC = (v) => Math.max(0, Math.round((v || 0) * 100));
 // a × b ÷ c 내림을 정확히(정수만, BigInt — 실수 비율로 하면 3/11 같은 무게에서 1센트가 빠진다, dr r2)
 const mulDiv = (a, b, c) => Number((BigInt(a) * BigInt(b)) / BigInt(c));
-export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, boughtNow = {}, tiers = {}, caps = {}, rounds = 4, roundsLeft = rounds, weights = tierWeights('9999-12'), minOrder = 0 }) {
+export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, boughtNow = {}, tiers = {}, caps = {}, rounds = 4, roundsLeft = rounds, weights = tierWeights('9999-12'), minOrder = 0, groupOf = null, order = null }) {
   const sel = cands.filter((t) => picked.includes(t));
   const cents = toC(budget), left = Math.max(0, cents - toC(spent)), passed = Math.max(0, rounds - roundsLeft);
   const plan = (w) => {
     const wt = Object.fromEntries(sel.map((t) => [t, Math.round(w(t))]));   // 시총은 달러 정수로(1e13대까지 안전 정수)
     if (!sel.length || sel.some((t) => !(wt[t] > 0) || !Number.isSafeInteger(wt[t]))) return null;
-    const tot = sel.reduce((a, t) => a + wt[t], 0);
-    const share = Object.fromEntries(sel.map((t) => [t, mulDiv(cents, wt[t], tot)]));
-    let rest = Object.fromEntries(sel.map((t) => [t, Math.max(0, share[t] - toC(bought[t]))]));
+    const minC = toC(minOrder);
+    const boughtC = (t) => toC(bought[t]);
+    const nowC = Object.fromEntries(Object.entries(boughtNow).map(([t, v]) => [t, toC(v)])), nowAll = Object.values(nowC).reduce((a, b) => a + b, 0);
+    let share, rest, rest0, groups = null;
+    const cut = new Set();   // 업종 한도 때문에 줄거나 0이 된 종목(why 'group')
+    if (!groupOf) {
+      const tot = sel.reduce((a, t) => a + wt[t], 0);
+      share = Object.fromEntries(sel.map((t) => [t, mulDiv(cents, wt[t], tot)]));
+      rest = Object.fromEntries(sel.map((t) => [t, Math.max(0, share[t] - boughtC(t))]));
+      // 회차 금액은 회차가 시작될 때 고정(사용자 결정 2026-11-09): 이번 회차에 산 돈(boughtNow)을 빼기 전 남은 몫 ÷ 남은 회차.
+      // 예전에는 산 뒤 남은 몫을 다시 나눠 같은 회차 금액이 줄었다($333.5 사고 나면 $667÷3 = $222.3). todo = 이번 회차에 더 살 돈
+      rest0 = Object.fromEntries(sel.map((t) => [t, Math.max(0, share[t] - boughtC(t) + (nowC[t] || 0))]));
+    } else {
+      // 업종 먼저 나누기(사용자 결정 2026-11-19, dr v8 합의): 체크한 후보가 든 묶음마다 달 몫을 똑같이 → 묶음 안은 방법의 무게로.
+      // 묶음 한도 S = cents ÷ G. 그 묶음에 이번 달 이미 산 돈(체크 안 한 종목·후보 밖 종목 포함)을 빼고 남은 만큼만 나눈다.
+      // 누가 얼마를 받을지는 회차 시작 때 한 번 정하고(fit), 회차 안에서는 각자 산 만큼만 뺀다 — 체크한 종목을 사도 다른 종목 몫은 그대로.
+      const ord = [...new Set([...(order || []).filter((t) => sel.includes(t)), ...sel])];   // order에 없는 종목은 맨 뒤, 중복은 처음 것만
+      const keys = [...new Set(sel.map((t) => groupOf(t)))], G = keys.length, S = Math.floor(cents / G);
+      const W = new Map(); for (const t of sel) W.set(groupOf(t), (W.get(groupOf(t)) || 0n) + BigInt(wt[t]));
+      share = Object.fromEntries(sel.map((t) => [t, Number((BigInt(cents) * BigInt(wt[t])) / (BigInt(G) * W.get(groupOf(t))))]));
+      const sumBy = (obj, keep) => { const m = new Map(); for (const [t, v] of Object.entries(obj)) if (keep(t)) { const g = groupOf(t); m.set(g, (m.get(g) || 0) + toC(v)); } return m; };
+      const B = sumBy(bought, () => true), N = sumBy(boughtNow, () => true), O = sumBy(boughtNow, (t) => !sel.includes(t));
+      const mem = (g, vals) => ord.filter((t) => groupOf(t) === g && vals[t] > 0);
+      // fit: 묶음 값 합이 한도 L을 넘으면 — ① $10 미만 값은 빼고 ② 순위 높은 쪽부터 가능한 한 많은 종목이 각자 $10 이상 받게 비례로 ③ 남은 한도는 다음 순위에. 값을 키우지 않는다
+      const fit = (vals, g, L) => {
+        const m = mem(g, vals);
+        if (m.reduce((a, t) => a + vals[t], 0) <= L) return;
+        const before = Object.fromEntries(m.map((t) => [t, vals[t]])), got = Object.fromEntries(m.map((t) => [t, 0]));
+        const live = m.filter((t) => minC === 0 || before[t] >= minC);
+        for (let k = live.length; k >= 1; k--) {
+          const head = live.slice(0, k), hs = head.reduce((a, t) => a + before[t], 0);
+          const sc = head.map((t) => (hs <= L ? before[t] : mulDiv(before[t], L, hs)));
+          if (minC > 0 && sc.some((v) => v < minC)) continue;
+          head.forEach((t, i) => { got[t] = sc[i]; });
+          let R = L - sc.reduce((a, v) => a + v, 0);
+          for (const t of live.slice(k)) { const x = Math.min(before[t], R); if (x > 0 && (minC === 0 || x >= minC)) { got[t] = x; R -= x; } }
+          break;
+        }
+        for (const t of m) { if (got[t] < before[t]) cut.add(t); vals[t] = got[t]; }
+      };
+      const base0 = Object.fromEntries(sel.map((t) => [t, Math.max(0, share[t] - boughtC(t) + (nowC[t] || 0))]));
+      const B0 = (g) => Math.max(0, (B.get(g) || 0) - (N.get(g) || 0));
+      rest0 = { ...base0 };   // 회차 시작 배정(round용)
+      for (const g of keys) fit(rest0, g, Math.max(0, S - B0(g)));
+      // 지금 배정: 회차 시작 한도에서 '체크 안 한 같은 업종을 이번 회차에 산 돈'만 뺀 한도로 같은 값을 나눈다(체크한 종목 매수에는 안 변한다)
+      const alloc = { ...base0 };
+      for (const g of keys) fit(alloc, g, Math.max(0, S - B0(g) - (O.get(g) || 0)));
+      rest = Object.fromEntries(sel.map((t) => [t, Math.max(0, alloc[t] - (nowC[t] || 0))]));
+      // 넘겨 산 경우: 묶음 합이 지금 한도를 넘으면 뒤 순위부터 깎는다(종목을 다시 고르지 않는다)
+      for (const g of keys) {
+        const m = mem(g, rest);
+        let over = m.reduce((a, t) => a + rest[t], 0) - Math.max(0, S - (B.get(g) || 0));
+        for (let i = m.length - 1; i >= 0 && over > 0; i--) { const d = Math.min(rest[m[i]], over); rest[m[i]] -= d; over -= d; cut.add(m[i]); }
+      }
+      groups = keys.map((g) => ({ key: g, tickers: sel.filter((t) => groupOf(t) === g), cap: S, bought: B.get(g) || 0, left: Math.max(0, S - (B.get(g) || 0)) }));
+    }
+    const pre = { ...rest };
     const sum = sel.reduce((a, t) => a + rest[t], 0);
     const capped = sum > left;   // 남은 돈에 맞춰 비례로 줄였다
     if (capped) rest = Object.fromEntries(sel.map((t) => [t, mulDiv(rest[t], left, sum)]));
-    // 회차 금액은 회차가 시작될 때 고정(사용자 결정 2026-11-09): 이번 회차에 산 돈(boughtNow)을 빼기 전 남은 몫 ÷ 남은 회차.
-    // 예전에는 산 뒤 남은 몫을 다시 나눠 같은 회차 금액이 줄었다($333.5 사고 나면 $667÷3 = $222.3). todo = 이번 회차에 더 살 돈
-    const nowC = Object.fromEntries(Object.entries(boughtNow).map(([t, v]) => [t, toC(v)])), nowAll = Object.values(nowC).reduce((a, b) => a + b, 0);
+    // 못 사는 까닭(화면 문구용): 제 달 몫을 다 삼 → 업종 한도 → 남은 돈
+    const why = Object.fromEntries(sel.map((t) => [t, share[t] <= boughtC(t) ? 'done' : cut.has(t) ? 'group' : rest[t] < pre[t] ? 'left' : null]));
     const left0 = Math.min(cents, left + nowAll);
-    let rest0 = Object.fromEntries(sel.map((t) => [t, Math.max(0, share[t] - toC(bought[t]) + (nowC[t] || 0))]));
     const sum0 = sel.reduce((a, t) => a + rest0[t], 0);
     if (sum0 > left0) rest0 = Object.fromEntries(sel.map((t) => [t, mulDiv(rest0[t], left0, sum0)]));
     const round = roundsLeft > 0 ? Object.fromEntries(sel.map((t) => [t, Math.floor(rest0[t] / roundsLeft)])) : null;
     const todo = round ? Object.fromEntries(sel.map((t) => [t, Math.min(rest[t], Math.max(0, round[t] - (nowC[t] || 0)))])) : null;
     // 놓친 몫: 지난 회차까지 계획(달 몫 × 지난 회차 ÷ 회차 수)보다 그 종목에 덜 샀다
     const missed = round && passed > 0 ? sel.filter((t) => toC(bought[t]) < mulDiv(share[t], passed, rounds)) : [];
-    const minC = toC(minOrder);
     const skip = round ? {} : null, sched = round ? {} : null;
     if (round) for (const t of sel) {
       const fresh = !(nowC[t] > 0);
@@ -286,17 +338,38 @@ export function buyPlan({ cands, picked, budget, spent = 0, bought = {}, boughtN
       for (let k = roundsLeft - 1; k >= 1; k--) { const x = Math.floor(rem / k); if (x >= minC) { a.push(x); rem -= x; } else a.push(0); }
       sched[t] = a;
     }
-    return { share, rest, round, todo, missed, capped, skip, sched };
+    return { share, rest, round, todo, missed, capped, skip, sched, why, groups };
   };
-  const out = { sel, by: {}, round: {}, todo: {}, rest: {}, missed: {}, capped: {}, skip: {}, sched: {} };
+  const out = { sel, by: {}, round: {}, todo: {}, rest: {}, missed: {}, capped: {}, skip: {}, sched: {}, why: {}, groups: {} };
   const usdOf = (o) => (o ? Object.fromEntries(Object.entries(o).map(([t, c]) => [t, c / 100])) : null);
   for (const [k, w] of [['equal', () => 1], ['cap', (t) => caps[t]], ['tier', (t) => weights[tiers[t]]]]) {
     const r = plan(w);
     out.by[k] = usdOf(r?.share); out.round[k] = usdOf(r?.round); out.todo[k] = usdOf(r?.todo); out.rest[k] = usdOf(r?.rest); out.missed[k] = r ? r.missed : []; out.capped[k] = !!r?.capped;
     out.skip[k] = r?.skip ? Object.fromEntries(Object.entries(r.skip).map(([t, x]) => [t, { kind: x.kind, amt: x.amt / 100 }])) : null;
     out.sched[k] = r?.sched ? Object.fromEntries(Object.entries(r.sched).map(([t, a]) => [t, a.map((c) => c / 100)])) : null;
+    out.why[k] = r ? r.why : null;
+    out.groups[k] = r?.groups ? r.groups.map((g) => ({ ...g, cap: g.cap / 100, bought: g.bought / 100, left: g.left / 100 })) : null;
   }
   return out;
+}
+
+// 업종 먼저 나누기(2026-11-19): 화면이 buyPlan에 넘기는 묶음 키. 기술은 아래 갈래(반도체 등)로, 분류 안 된 종목은 각자 한 묶음
+export const buyGroup = (t) => { const c = catOf(t); return c.sub || (c.top === 'none' ? `solo:${t}` : c.top); };
+export const groupLabel = (k) => (k.startsWith('solo:') ? `분류 안 됨 · ${k.slice(5)}` : SUB_LABEL[k] || TOPS.find((d) => d.id === k)?.label || EXTRA_LABEL[k] || k);
+// 업종 탭 줄. shown = 화면에 보이는 후보(순위 순), picked = 체크한 종목(숨겨진 것 포함), ok = 체크 ∩ 지금 살 수 있음,
+// plan = 고른 방법의 { todo, groups }(달러) 또는 null(방법 미선택·무게 오류·회차 끝).
+// 돌려줌: [{ key, shownN, pickedN, hiddenN, amount, cap }] — 순서는 shown에서 처음 나온 묶음 순, 숨김뿐인 묶음은 맨 뒤.
+// amount = 그 묶음 ok 종목의 todo 합(센트로 더한다. plan이 null이면 null) — 모두 더하면 '이번 주 매수' 칸의 남은 금액과 같다
+export function sectorTabs({ shown, picked, ok, groupOf, plan }) {
+  const m = new Map();
+  const get = (g) => { if (!m.has(g)) m.set(g, { key: g, shownN: 0, pickedN: 0, hiddenN: 0, c: 0, cap: null }); return m.get(g); };
+  for (const t of shown) { const r = get(groupOf(t)); r.shownN++; if (picked.includes(t)) r.pickedN++; }
+  for (const t of picked) if (!shown.includes(t)) get(groupOf(t)).hiddenN++;
+  if (plan) {
+    for (const t of ok) get(groupOf(t)).c += Math.round((plan.todo?.[t] || 0) * 100);
+    for (const g of plan.groups || []) if (m.has(g.key)) m.get(g.key).cap = g.cap;
+  }
+  return [...m.values()].map(({ c, ...r }) => ({ ...r, amount: plan ? c / 100 : null }));
 }
 
 // 그달 넣은 돈: 모든 묶음의 입금(키 '묶음:id') 가운데 반영일(엔진과 같은 기준 — 기록 시각 다음 장 시작)이 그달인 것(dr r1 — 점검일
@@ -788,7 +861,7 @@ export function renderHome(root, model, handlers) {
     const preview = !live && !!lastFull && !recStale;
     // 종목별 지금 보유 주식 수(두 계좌 합, 2026-11-09 사용자 결정 — 구매 후보 줄에 '샀음' 대신 보유 주식 수)
     const held = new Map(); for (const x of allHold) held.set(x.ticker, (held.get(x.ticker) || 0) + (Number(x.qty) || 0));
-    buySlot.appendChild(buyBox({ model: { ...model, lastCards: lastFull?.cards }, handlers, held, mv: live ? mv : null, dlg, close, tierOf, planTier, hasRec: !!rec, nowBuyable, nowHold,
+    buySlot.appendChild(buyBox({ model: { ...model, lastCards: lastFull?.cards }, handlers, held, holdVal: myVal, mv: live ? mv : null, dlg, close, tierOf, planTier, hasRec: !!rec, nowBuyable, nowHold,
       waiting, preview, checkDay, month: target, today, cash: cur.hasCash ? cur.cash : null, cashBy: cur.kwUsed ? cur.cashBy : null,
       // 총자산(두 계좌 주식 + 현금, 현금 10% 목표용) — 가격 없는 종목은 빼고 개수를 알린다
       total: cur.hasCash ? Math.round(([...myVal.values()].reduce((a, v) => a + v, 0) + cur.cash) * 100) / 100 : null, totalMissing: cur.holdings.filter((x) => closeNow(x.ticker) == null).length, income: inc, depMap, startMonth: startMonth0, deps: target === month ? deps : monthDeposits(depMap, target) }));
@@ -929,6 +1002,21 @@ let doTab = 'buy';   // 다음 할 일 탭(매수|매도) — 페이지를 열 �
 let demoPicks = [];   // 시연 달 체크(저장하지 않음, 이 탭에서만)
 try { buyMethod = localStorage.getItem('pf-buy-method') || sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }   // 고른 방법은 새 탭·새로고침에도 유지(2026-11-10)
 if (!BUY_METHODS.some(([k]) => k === buyMethod)) buyMethod = null;
+let buySector = false;   // 업종 먼저 나누기(2026-11-19) — 저장값이 없으면 꺼짐
+try { buySector = localStorage.getItem('pf-buy-sector') === '1'; } catch (_) { /* 꺼짐 */ }
+let secTab = 'all', secAll = false;   // 고른 업종 탭·'후보 모두 보기' 펼침(이 페이지에서만)
+// 스위치 한 줄(매수 칸·미리 보기 공용). list 안 checkbox로 만들지 않는다 — 체크 저장이 list 안 checkbox를 모두 읽는다
+function sectorSwitch(rebuild) {
+  const b = el('button', 'pf-sgswitch'); b.type = 'button'; b.setAttribute('aria-pressed', String(buySector)); b.disabled = pickSaving;
+  b.appendChild(el('i')); b.appendChild(el('span', null, '업종 먼저 나누기'));
+  b.title = '새 돈을 업종마다 똑같이 나눈 다음, 업종 안에서 위 방법으로 나눕니다';
+  b.addEventListener('click', () => {
+    buySector = !buySector;
+    try { if (buySector) localStorage.setItem('pf-buy-sector', '1'); else localStorage.removeItem('pf-buy-sector'); } catch (_) { /* 메모리 값으로 */ }
+    rebuild();
+  });
+  return b;
+}
 
 // 다음 할 일 카드 안의 "무엇을·얼마나"(2026-10-22 사용자 결정, 디자인 캔버스 최종안, dr r1 반영): 돈(쓸 돈 = 넣은 돈 + 지난달 판 돈, − 이번 달 산 돈 = 남은 돈, 더 넣을 돈),
 // 나누는 방법(기본값 없음), 원칙 1·6을 통과한 구매 후보(체크). 넣은 돈 = 반영일이 이번 달인 입금 기록(내 자산 현금·전략 비교에도 들어간다).
@@ -1099,19 +1187,28 @@ function buyBox(args) {
   const wMonth = (plan.checkDate || plan.decisionDate || month).slice(0, 7), weights = tierWeights(wMonth);
   const wText = Object.values(weights).join(':');
   const picked = ((mv.demo ? demoPicks : model.picks?.[month]) || []).filter((t) => cands.includes(t));
-  const bp = method ? buyPlan({ cands, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])), boughtNow: nowBought,
-    tiers, caps: model.caps || {}, rounds, roundsLeft, weights, minOrder: MIN_ORDER }) : null;
+  const ordRec = (model.records || []).find((r) => r.session === (plan.pickRecord || plan.record));
+  const ordered = ordRec ? pickTop(base, ordRec, { max: Infinity, rankMax: Infinity }) : [];
+  const shownCands = [...ordered, ...byCap(base.filter((t) => !ordered.includes(t)), model.caps || {}), ...promoted].filter((t) => !mv.next || nowBuyable(t) || bought.has(t));
+  const hiddenN = cands.length - shownCands.length;
+  const hiddenPicked = picked.filter((t) => !shownCands.includes(t));
+  // 업종 먼저 나누기: 묶음 키와 순위(화면에 보이는 순서 + 숨겨진 체크 종목)를 모든 계산에 똑같이 넘긴다
+  const sectorOn = buySector, gOf = sectorOn ? buyGroup : null, gOrder = sectorOn ? byCap([...shownCands, ...hiddenPicked], model.caps || {}) : null;   // 업종 안 순위 = 시총 큰 순(2026-11-19)
+  const planArgs = { cands, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])), boughtNow: nowBought, tiers, caps: model.caps || {}, rounds, roundsLeft, weights, minOrder: MIN_ORDER };
+  const bp = method ? buyPlan({ ...planArgs, picked, groupOf: gOf, order: gOrder }) : null;
   // 체크 안 한 줄에도 '체크하면' 금액을 흐리게(사용자 결정 2026-10-25): 아무것도 안 골랐으면 전부 체크한 것으로, 골랐으면 그 종목을 더한 것으로 계산
   const hintPlans = new Map();
   const hint = (t, c) => {
     if (!method || !mv.next || !(budget > 0)) return null;
     const hp = picked.length ? [...picked, t] : cands, key = picked.length ? t : '*';
-    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), boughtNow: nowBought, tiers, caps: model.caps || {}, rounds, roundsLeft, weights, minOrder: MIN_ORDER }));
+    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ ...planArgs, picked: hp, groupOf: gOf, order: gOrder }));
     const r = hintPlans.get(key)?.todo[method]?.[t];
     return r > 0 ? `체크하면 ${shareTxt(r, c)}${usd(r)}` : null;
   };
+  const nG = new Set(picked.map(buyGroup)).size;
   mh.appendChild(el('span', 'pf-note', !method ? '아직 원칙으로 정하지 않음' : !mv.next ? '이번 달 회차 끝'
-    : `(종목 달 몫 − 지난 회차까지 산 돈) ÷ 남은 회차 ${roundsLeft}회 · 회차 안에서는 고정` + (bp?.capped[method] ? ' · 남은 돈에 맞춰 비례로 줄임' : '')
+    : (sectorOn ? (nG ? `업종 ${nG}개에 똑같이 → ` : '') + `업종 안은 ${BUY_METHODS.find(([k]) => k === method)[1]} · 남은 회차 ${roundsLeft}회에 나눠 · 회차 안에서는 고정`
+      : `(종목 달 몫 − 지난 회차까지 산 돈) ÷ 남은 회차 ${roundsLeft}회 · 회차 안에서는 고정`) + (bp?.capped[method] ? ' · 남은 돈에 맞춰 비례로 줄임' : '')
       + (method === 'cap' ? ' · 시총은 오늘 기준' : method === 'tier' ? ` · 무게는 점검일 판정 ${wText}` : '')));
   box.appendChild(mh);
   const seg = el('div', 'pf-buyseg'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', '나누는 방법');
@@ -1126,16 +1223,15 @@ function buyBox(args) {
     seg.appendChild(btn);
   }
   box.appendChild(seg);
+  const rebuild = () => { const typed = amt.value; const nb = buyBox(args); box.replaceWith(nb); const ni = nb.querySelector('.pf-receiptadd input'); if (ni) ni.value = typed; };
+  const swRow = el('div', 'pf-sgrow');
+  swRow.appendChild(sectorSwitch(rebuild));
+  box.appendChild(swRow);
 
   // 3) 내 기준대로 구매 후보
   // 점검일 뒤 판정이 바뀌어 지금 살 단계가 아닌 후보(예: 적정)는 숨긴다(사용자 결정 2026-11-03). 판정이 돌아오면 다시 보이고,
   // 이번 달 이미 산 종목과 회차가 끝난 달은 그대로 둔다. 숨긴 종목의 체크는 저장할 때 지우지 않는다
   // 순서(2026-11-10 사용자 지적): 원칙 순서 — 고른 기록에서 판정이 싼 순서 → 카드 점수 순. 예전에는 시총 순이라 저평가 종목이 아래로 갔다
-  const ordRec = (model.records || []).find((r) => r.session === (plan.pickRecord || plan.record));
-  const ordered = ordRec ? pickTop(base, ordRec, { max: Infinity, rankMax: Infinity }) : [];
-  const shownCands = [...ordered, ...byCap(base.filter((t) => !ordered.includes(t)), model.caps || {}), ...promoted].filter((t) => !mv.next || nowBuyable(t) || bought.has(t));
-  const hiddenN = cands.length - shownCands.length;
-  const hiddenPicked = picked.filter((t) => !shownCands.includes(t));
   const lh = el('div', 'pf-buysechead');
   const hidTxt = hiddenN ? ` · 지금 살 단계 아닌 ${hiddenN}개 숨김` : '';
   if (plan.passed != null && !mv.demo) {
@@ -1157,16 +1253,18 @@ function buyBox(args) {
   box.appendChild(lh);
   const list = el('div', 'pf-buylist');
   const pickMsg = msgLine();
-  for (const t of shownCands) {
+  const rowOf = new Map();
+  for (const [ri, t] of shownCands.entries()) {
     const on = picked.includes(t);
     const row = el('label', 'pf-buyrow' + (on ? ' pf-on' : ''));
+    rowOf.set(t, row);
     const cb = el('input'); cb.type = 'checkbox'; cb.checked = on; cb.value = t; cb.disabled = pickSaving;
     // 저장하는 동안 목록 전체를 잠그고, 보낼 목록은 지금 화면의 체크 상태로 만든다(dr r1 — 연달아 누르면 앞 체크가 지워지던 문제)
     cb.addEventListener('change', async () => {
       const boxes = [...list.querySelectorAll('input[type=checkbox]')];
       const nx = [...hiddenPicked, ...boxes.filter((c) => c.checked).map((c) => c.value)];
       if (mv.demo) { demoPicks = nx; box.replaceWith(buyBox(args)); return; }   // 시연 달 체크는 저장하지 않고 화면에서만(dr)
-      const segBtns = [...seg.querySelectorAll('button')];
+      const segBtns = [...seg.querySelectorAll('button'), ...box.querySelectorAll('.pf-sgswitch')];
       pickSaving = true; [...boxes, ...segBtns].forEach((c) => { c.disabled = true; });
       pickMsg.textContent = '저장 중…';
       try { await handlers.pick?.(month, nx); pickMsg.textContent = ''; picked.splice(0, picked.length, ...nx); } catch (e) {
@@ -1176,11 +1274,12 @@ function buyBox(args) {
         // 저장 중에 페이지가 다시 그려지면(실제 페이지는 저장 뒤 다시 불러와 그린 다음에야 끝난다) 잠긴 새 목록이 화면에 있다 —
         // 옛 요소와 지금 화면의 요소를 모두 푼다(dr r3)
         pickSaving = false;
-        [...boxes, ...segBtns, ...document.querySelectorAll('.pf-buylist input[type=checkbox], .pf-buyseg button')].forEach((c) => { c.disabled = false; });
+        [...boxes, ...segBtns, ...document.querySelectorAll('.pf-buylist input[type=checkbox], .pf-buyseg button, .pf-sgswitch')].forEach((c) => { c.disabled = false; });
       }
     });
     row.appendChild(cb);
     const nm = el('span', 'pf-buyname');
+    if (sectorOn) nm.appendChild(el('span', 'pf-sgrank', String(ri + 1)));   // 업종 안 시총 순위 — 묶음으로 배열할 때 다시 매긴다
     nm.appendChild(tickName(t));
     nm.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tiers[t]] || 'pf-t-none'), tiers[t] || '판정 없음'));
     const now = tierOf(t);
@@ -1202,6 +1301,8 @@ function buyBox(args) {
       const r = bp.todo[method][t], fix = bp.round[method][t], got = nowBought[t] || 0;
       if (got > 0 && fix > 0) note(`${usd(got)} 삼`);   // 이번 회차에 이미 삼 — 남은 몇 센트는 살 수 없던 몫(사용자 결정 2026-11-10), 보유 수는 이름 옆
       else if (bp.skip[method]?.[t]) { const sk = bp.skip[method][t]; const sn = el('span', 'pf-note pf-skipnote', skipTxt(sk)); sn.dataset.amt = usd(sk.amt); act.appendChild(sn); row.dataset.skip = sk.kind; }   // 최소 주문 미만(2026-11-18) — 아래 묶음으로
+      else if (!(r > 0) && sectorOn && bp.why[method]?.[t] === 'done') note('달 몫을 다 샀음');
+      else if (!(r > 0) && sectorOn && bp.why[method]?.[t] === 'group') { note('업종 몫이 참'); row.dataset.full = '1'; }
       else if (!(r > 0)) note(bp.rest[method][t] > 0 ? '회차 몫 1센트 미만' : leftUsd <= 0 || bp.capped[method] ? '남은 돈 없음' : '달 몫을 다 샀음');
       else if (c == null) note(`${usd(r)} · 가격 없음`);
       else if (Math.floor((r / c) * 1e4) <= 0) note(`${usd(r)} · 0.0001주 미만`);
@@ -1224,7 +1325,7 @@ function buyBox(args) {
     list.appendChild(row);
   }
   // 건너뛰는 종목(최소 주문 미만)은 목록 아래 한 묶음으로 — 같은 문구가 줄마다 섞여 반복되지 않게(2026-11-19 시안). 체크 칸은 그대로 list 안
-  const skipped = [...list.children].filter((r) => r.dataset.skip);
+  const skipped = sectorOn ? [] : [...list.children].filter((r) => r.dataset.skip);   // 켠 상태에서는 묶음 제목이 대신 알린다
   if (skipped.length) {
     const allMonth = skipped.every((r) => r.dataset.skip === 'month');
     const sh = el('div', 'pf-skiphead');
@@ -1234,10 +1335,100 @@ function buyBox(args) {
     // 까닭은 묶음 제목에 한 번만 — 줄에는 금액만(묶음 안에 '다음 달로'가 섞였으면 그 줄에만 붙인다)
     for (const r of skipped) { const sn = r.querySelector('.pf-skipnote'); if (sn) sn.textContent = sn.dataset.amt + (r.dataset.skip === 'month' && !allMonth ? ' · 다음 달로' : ''); list.appendChild(r); }
   }
-  box.appendChild(list);
-  box.appendChild(pickMsg);
   // 칸 2: 체크한 종목 가운데 이번 회차에 살 수 있는 종목의 회차 금액 합(체크·방법을 바꾸면 바로 바뀜), 앞으로 = 남은 몫 합
   const ok = bp && bp.round[method] && mv.next ? picked.filter((t) => nowBuyable(t)) : [];
+  if (sectorOn) {
+    // 업종 탭(2026-11-19): [전체] + 묶음. 줄은 모두 list 안에 두고 묶음 순서로 다시 배열, 탭에 따라 클래스로 감춘다(hidden 속성은 .pf-buyrow의 display에 진다)
+    const sp = bp && bp.todo[method] && mv.next ? { todo: bp.todo[method], groups: bp.groups[method] } : null;
+    const tabsData = sectorTabs({ shown: shownCands, picked: [...new Set([...picked, ...hiddenPicked])], ok, groupOf: buyGroup, plan: sp });
+    const live = tabsData.filter((g) => g.shownN > 0);
+    if (secTab !== 'all' && !live.some((g) => g.key === secTab)) secTab = 'all';
+    if (!picked.length) secAll = true;   // 체크가 하나도 없으면 고를 줄이 보여야 한다
+    const tabs = el('div', 'pf-sgtabs'); tabs.setAttribute('role', 'group'); tabs.setAttribute('aria-label', '업종');
+    const over = el('div', 'pf-sgover');
+    const more = el('button', 'pf-sgmore'); more.type = 'button';
+    const heads = new Map(), tabBtn = new Map(), tops = new Map();
+    // 업종 시총 1위가 후보가 아니면(예: 고평가) 맨 위에 흐린 줄로 보여 주기만 한다(사용자 결정 2026-11-19) — 체크 칸·금액 없음, 계산에 안 들어감
+    const allCards = Object.keys(model.lastCards || {}), capOf = model.caps || {};
+    // 업종별 지금 보유 비율 = 그 업종 보유 금액(후보가 아닌 보유 종목 포함) ÷ 총자산(보유 막대와 같은 분모). 총자산을 모르면 안 보인다
+    const holdBy = new Map(); for (const [t, v] of args.holdVal || []) if (v > 0) holdBy.set(buyGroup(t), (holdBy.get(buyGroup(t)) || 0) + v);
+    const holdTxt = (k) => { if (!(args.total > 0) || !args.holdVal) return null; const x = ((holdBy.get(k) || 0) / args.total) * 100; return `보유 ${x > 0 && x < 1 ? '<1' : Math.round(x)}%`; };
+    const sub = (g) => (g.shownN === 0 ? `숨김 ${g.hiddenN}종목` : `${g.shownN}종목`);   // 탭에는 종목 수만(사용자 결정 2026-11-19) — 금액은 [전체] 줄에
+    const apply = () => {
+      for (const [k, b] of tabBtn) b.setAttribute('aria-pressed', String(k === secTab));
+      const all = secTab === 'all';
+      over.classList.toggle('pf-sghide', !all); more.classList.toggle('pf-sghide', !all);
+      more.setAttribute('aria-expanded', String(secAll)); more.lastChild.textContent = secAll ? '후보 접기' : '후보 모두 보기';
+      for (const m of [heads, tops]) for (const [k, h] of m) h.classList.toggle('pf-sghide', all ? !secAll : k !== secTab);
+      for (const [t, r] of rowOf) r.classList.toggle('pf-sghide', all ? !secAll : buyGroup(t) !== secTab);
+    };
+    const mkTab = (k, name, small, dead) => {
+      const b = el('button', 'pf-sgtab'); b.type = 'button'; b.disabled = !!dead;
+      b.appendChild(el('strong', null, name)); if (small) b.appendChild(el('small', null, small));
+      b.addEventListener('click', () => { secTab = k; apply(); });
+      tabBtn.set(k, b); tabs.appendChild(b);
+    };
+    mkTab('all', '전체', `${shownCands.length}종목`);
+    const maxAmt = Math.max(0, ...tabsData.map((g) => g.amount || 0));
+    for (const g of tabsData) {
+      const name = groupLabel(g.key), mine = byCap(shownCands.filter((t) => buyGroup(t) === g.key), model.caps || {});   // 업종 안은 시총 큰 순
+      mkTab(g.key, name, sub(g), g.shownN === 0);
+      // [전체] 탭의 한 줄: 이름·종목, 막대(금액 ÷ 가장 큰 묶음), 금액, 업종 몫
+      const row = el(g.shownN ? 'button' : 'div', 'pf-sgline'); if (g.shownN) { row.type = 'button'; row.addEventListener('click', () => { secTab = g.key; apply(); }); }
+      const hd = el('span', 'pf-sglinehead');
+      hd.appendChild(el('strong', null, name));
+      if (holdTxt(g.key)) { const hp = el('span', 'pf-sghold', holdTxt(g.key)); hp.title = '지금 내 자산에서 이 업종이 차지하는 비율'; hd.appendChild(hp); }
+      hd.appendChild(el('small', null, !g.shownN ? `숨김 ${g.hiddenN}종목` : g.key.startsWith('solo:') ? '' : mine.join(' · ')));
+      // 금액이 0이면 까닭을 한마디로(건너뜀·업종 몫이 참), 체크가 없으면 —
+      const sk0 = mine.map((t) => rowOf.get(t).dataset.skip).filter(Boolean), full0 = mine.some((t) => rowOf.get(t).dataset.full);
+      if (g.amount > 0) hd.appendChild(el('b', null, usd(g.amount)));
+      else if (g.amount != null) hd.appendChild(el('em', null, !(g.pickedN || g.hiddenN) ? '체크 없음' : sk0.length ? (sk0.every((x) => x === 'month') ? '다음 달로' : '다음 회차로') : full0 ? '업종 몫이 참' : '$0'));
+      row.appendChild(hd);
+      const tr = el('span', 'pf-sgtrack'); const fill = el('i'); fill.style.width = (maxAmt > 0 && g.amount > 0 ? Math.max(2, (g.amount / maxAmt) * 100) : 0) + '%'; tr.appendChild(fill); row.appendChild(tr);
+      if (g.cap != null) row.title = `업종 몫 ${usd(g.cap)}(달 몫 ÷ 업종 수)`;
+      over.appendChild(row);
+      if (!g.shownN) continue;
+      // 묶음 제목 + 그 묶음 줄(순위 순)
+      const h = el('div', 'pf-sghead');
+      h.appendChild(el('strong', null, name));
+      if (holdTxt(g.key)) { const hp = el('span', 'pf-sghold', holdTxt(g.key)); hp.title = '지금 내 자산에서 이 업종이 차지하는 비율'; h.appendChild(hp); }
+      const gi = sp?.groups?.find((x) => x.key === g.key);
+      const sk = mine.map((t) => rowOf.get(t).dataset.skip).filter(Boolean);
+      // 제목 옆 한 줄: 업종 몫과 이번 달 산 돈, 건너뛰는 종목 수(까닭은 여기 한 번만)
+      if (g.cap != null) { const cp = el('span', 'pf-note', `업종 몫 ${usd(g.cap)}` + (gi && gi.bought > 0 ? ` 중 ${usd(gi.bought)} 삼` : '')); if (gi && gi.bought > 0) cp.title = '이번 달 이 업종에 산 돈(체크 안 한 같은 업종 매수 포함)'; h.appendChild(cp); }
+      if (sk.length) h.appendChild(el('span', 'pf-note', `${sk.length}종목 $${MIN_ORDER} 미만 · ${sk.every((x) => x === 'month') ? '다음 달로' : '다음 회차로'}`));
+      heads.set(g.key, h); list.appendChild(h);
+      const top1 = g.key.startsWith('solo:') ? null : byCap(allCards.filter((t) => buyGroup(t) === g.key && capOf[t] > 0), capOf)[0];
+      if (top1 && mine.includes(top1)) rowOf.get(top1).querySelector('.pf-buyname').appendChild(el('span', 'pf-badge', '시총 1위'));
+      if (top1 && !mine.includes(top1)) {
+        const tr = el('div', 'pf-buyrow pf-sgtop');
+        tr.appendChild(el('span'));
+        const tn = el('span', 'pf-buyname');
+        tn.appendChild(tickName(top1));
+        const tt = tierOf(top1);
+        tn.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tt] || 'pf-t-none'), tt || '판정 없음'));
+        tn.appendChild(el('span', 'pf-badge', '시총 1위'));
+        tr.appendChild(tn);
+        const ta = el('span', 'pf-buyact'); ta.appendChild(el('span', 'pf-note', demoted.includes(top1) ? '내린 종목' : '살 단계 아님'));
+        tr.appendChild(ta);
+        tr.title = `${name} 시총 1위 — 구매 후보가 아니라 보여 주기만 합니다`;
+        tops.set(g.key, tr); list.appendChild(tr);
+      }
+      const mixed = sk.length && !sk.every((x) => x === sk[0]);
+      for (const [mi, t] of mine.entries()) {
+        const r = rowOf.get(t), sn = r.querySelector('.pf-skipnote'), rk = r.querySelector('.pf-sgrank');
+        if (rk) { rk.textContent = String(mi + 1); rk.title = `${name} 후보 가운데 시총 ${mi + 1}위`; }
+        if (sn) sn.textContent = sn.dataset.amt + (r.dataset.skip === 'month' && mixed ? ' · 다음 달로' : '');   // 까닭은 묶음 제목에 한 번만
+        list.appendChild(r);
+      }
+    }
+    more.appendChild(chevron('M5 3.5L8.5 7 5 10.5')); more.appendChild(el('span', null, ''));
+    more.addEventListener('click', () => { secAll = !secAll; apply(); });
+    apply();
+    box.appendChild(tabs); box.appendChild(over); box.appendChild(more);
+  }
+  box.appendChild(list);
+  box.appendChild(pickMsg);
   const tot = ok.length ? roundTotals(bp.sched[method], ok) : null;   // [이번 회차, 다음, …] — skip 종목은 0
   const week = tot ? tot[0] : null;
   const allSkip = week === 0 && ok.some((t) => bp.skip[method]?.[t]);   // 이번 주 $0인 까닭이 최소 주문일 때
@@ -1274,16 +1465,21 @@ function previewSection(args, box, month, budget, pn = 4) {
     seg.appendChild(btn);
   }
   box.appendChild(seg);
+  // 업종 먼저 나누기: 미리 보기는 금액만 바뀐다(탭 없음)
+  const swRow = el('div', 'pf-sgrow');
+  swRow.appendChild(sectorSwitch(() => { const typed = box.querySelector('.pf-receiptadd input')?.value || ''; const nb = buyBox(args); box.replaceWith(nb); const ni = nb.querySelector('.pf-receiptadd input'); if (ni) ni.value = typed; }));
+  box.appendChild(swRow);
+  const gOf = buySector ? buyGroup : null, gOrder = buySector ? byCap(cands, model.caps || {}) : null;
   const picked = (model.picks?.[month] || []).filter((t) => cands.includes(t));
   const tiers = Object.fromEntries(cands.map((t) => [t, tierOf(t)]));
   const bought = monthBuys(model.trades, month, args.today);   // 같은 달 결정 대기 중 이미 산 돈은 다시 나누지 않는다(dr)
   const spent = Math.round([...bought.values()].reduce((a, b) => a + b.amount, 0) * 100) / 100;
-  const bp = method ? buyPlan({ cands, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])), tiers, caps: model.caps || {}, rounds: pn, roundsLeft: pn, minOrder: MIN_ORDER }) : null;
+  const bp = method ? buyPlan({ cands, picked, budget, spent, bought: Object.fromEntries([...bought].map(([t, b]) => [t, b.amount])), tiers, caps: model.caps || {}, rounds: pn, roundsLeft: pn, minOrder: MIN_ORDER, groupOf: gOf, order: gOrder }) : null;
   const hintPlans = new Map();   // 체크 안 한 줄의 '체크하면' 금액(라이브 카드와 같은 규칙)
   const hint = (t, c) => {
     if (!method || !(budget > 0)) return null;
     const hp = picked.length ? [...picked, t] : cands, key = picked.length ? t : '*';
-    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), tiers, caps: model.caps || {}, rounds: pn, roundsLeft: pn, minOrder: MIN_ORDER }));
+    if (!hintPlans.has(key)) hintPlans.set(key, buyPlan({ cands, picked: hp, budget, spent, bought: Object.fromEntries([...bought].map(([x, b]) => [x, b.amount])), tiers, caps: model.caps || {}, rounds: pn, roundsLeft: pn, minOrder: MIN_ORDER, groupOf: gOf, order: gOrder }));
     const r = hintPlans.get(key)?.todo[method]?.[t];
     return r > 0 ? `체크하면 ${shareTxt(r, c)}${usd(r)}` : null;
   };
@@ -1294,7 +1490,7 @@ function previewSection(args, box, month, budget, pn = 4) {
     const row = el('label', 'pf-buyrow' + (on ? ' pf-on' : ''));
     const cb = el('input'); cb.type = 'checkbox'; cb.checked = on; cb.value = t; cb.disabled = pickSaving;
     cb.addEventListener('change', async () => {
-      const boxes = [...list.querySelectorAll('input[type=checkbox]')], segBtns = [...seg.querySelectorAll('button')];
+      const boxes = [...list.querySelectorAll('input[type=checkbox]')], segBtns = [...seg.querySelectorAll('button'), ...box.querySelectorAll('.pf-sgswitch')];
       const nx = boxes.filter((c) => c.checked).map((c) => c.value);
       pickSaving = true; [...boxes, ...segBtns].forEach((c) => { c.disabled = true; });
       pickMsg.textContent = '저장 중…';
@@ -1303,7 +1499,7 @@ function previewSection(args, box, month, budget, pn = 4) {
         pickMsg.textContent = e.message || '저장하지 못했습니다.';
       } finally {
         pickSaving = false;
-        [...boxes, ...segBtns, ...document.querySelectorAll('.pf-buylist input[type=checkbox], .pf-buyseg button')].forEach((c) => { c.disabled = false; });
+        [...boxes, ...segBtns, ...document.querySelectorAll('.pf-buylist input[type=checkbox], .pf-buyseg button, .pf-sgswitch')].forEach((c) => { c.disabled = false; });
       }
     });
     row.appendChild(cb);

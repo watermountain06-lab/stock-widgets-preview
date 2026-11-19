@@ -854,3 +854,162 @@ test('보유 비중 줄: 종목 보기는 받은 조각 그대로, 업종 보기
   const tech = mixRows('sector', [], [{ ticker: 'NVDA', value: 70 }, { ticker: 'MSFT', value: 30 }], 0, 100);
   assert.deepEqual(tech.map((r) => [r.name, r.pct, r.cls]), [['기술', '100%', ''], ['반도체', '70%', 'pf-mxsub'], ['소프트웨어·서비스', '30%', 'pf-mxsub']]);
 });
+
+// 업종 먼저 나누기(사용자 결정 2026-11-19, dr v8 합의) — 가짜 티커만, 묶음은 시험이 직접 넘긴다
+const SEMI = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'], NET = ['I1', 'I2', 'I3'], SOLO = ['A', 'B', 'C', 'D', 'E'];
+const ALL14 = [...SEMI, ...NET, ...SOLO];
+const g14 = (t) => (SEMI.includes(t) ? 'semi' : NET.includes(t) ? 'net' : 'solo:' + t);
+const BOUGHT5 = { S1: 61.1, S2: 61.1, A: 61.1, B: 61.1, C: 61.1 };
+const exA = (extra) => buyPlan({ cands: ALL14, picked: ALL14, order: ALL14, groupOf: g14, budget: 1000, spent: 305.5, bought: BOUGHT5, rounds: 4, roundsLeft: 2, minOrder: 10, ...extra });
+const pickT = (o, ts) => ts.map((t) => o[t]);
+
+test('업종 먼저: groupOf가 없으면 예전과 같고 groups는 null', () => {
+  const a = buyPlan({ cands: ['AAA', 'BBB'], picked: ['AAA', 'BBB'], budget: 300, spent: 50, bought: { AAA: 50 }, rounds: 4, roundsLeft: 3, minOrder: 10 });
+  assert.deepEqual(a.by.equal, { AAA: 150, BBB: 150 }); assert.equal(a.groups.equal, null);
+  assert.deepEqual(a.why.equal, { AAA: null, BBB: null });
+});
+
+test('업종 먼저: 묶음마다 똑같이 → 묶음 안은 방법의 무게로, 체크가 바뀌면 묶음 수도 바뀐다', () => {
+  const g = (t) => ({ X1: 'x', X2: 'x', X3: 'x', Y1: 'y', Y2: 'y', Z1: 'z' })[t];
+  const c = ['X1', 'X2', 'X3', 'Y1', 'Y2', 'Z1'];
+  const p = buyPlan({ cands: c, picked: c, groupOf: g, budget: 600, rounds: 4, caps: { X1: 3, X2: 1, X3: 1, Y1: 1, Y2: 3, Z1: 9 } });
+  assert.deepEqual(p.by.equal, { X1: 66.66, X2: 66.66, X3: 66.66, Y1: 100, Y2: 100, Z1: 200 });
+  assert.deepEqual(p.by.cap, { X1: 120, X2: 40, X3: 40, Y1: 50, Y2: 150, Z1: 200 });   // 묶음 사이 똑같이, 안은 시총 비례
+  assert.deepEqual(p.groups.equal.map((x) => [x.key, x.tickers.join(''), x.cap, x.bought, x.left]), [['x', 'X1X2X3', 200, 0, 200], ['y', 'Y1Y2', 200, 0, 200], ['z', 'Z1', 200, 0, 200]]);
+  assert.equal(p.by.tier, null); assert.equal(p.groups.tier, null);   // 판정 무게가 없으면 그 방법은 null
+  const q = buyPlan({ cands: c, picked: ['X1', 'X2', 'X3', 'Y1', 'Y2'], groupOf: g, budget: 600, rounds: 4 });   // 마지막 묶음의 체크를 빼면 G 3 → 2
+  assert.deepEqual(q.by.equal, { X1: 100, X2: 100, X3: 100, Y1: 150, Y2: 150 });
+  // solo: 키가 다르면 다른 묶음, 같으면 한 묶음
+  const s1 = buyPlan({ cands: ['P', 'Q'], picked: ['P', 'Q'], groupOf: (t) => 'solo:' + t, budget: 100, rounds: 1 });
+  const s2 = buyPlan({ cands: ['P', 'Q'], picked: ['P', 'Q'], groupOf: () => 'solo:X', budget: 100, rounds: 1 });
+  assert.deepEqual(s1.groups.equal.map((x) => x.cap), [50, 50]); assert.deepEqual(s2.groups.equal.map((x) => x.cap), [100]);
+});
+
+test('업종 먼저 예 A: 업종 한도가 걸리면 순위 높은 쪽부터 각자 $10 이상이 되게 고르게', () => {
+  const a = exA({ boughtNow: {} });   // (가) 지난 회차에 산 경우
+  assert.deepEqual(pickT(a.by.equal, ['S1', 'I1', 'A']), [23.8, 47.61, 142.85]);
+  assert.deepEqual(pickT(a.rest.equal, ['S1', 'S2', 'S3', 'S4', 'S5', 'S6']), [0, 0, 10.32, 10.32, 0, 0]);
+  assert.deepEqual(pickT(a.round.equal, ['S3', 'S4', 'S5', 'I1', 'A', 'D']), [5.16, 5.16, 0, 23.8, 40.87, 71.42]);
+  assert.deepEqual(pickT(a.todo.equal, ['S3', 'S4', 'S5', 'I1', 'A', 'D']), [0, 0, 0, 23.8, 40.87, 71.42]);
+  assert.deepEqual(a.skip.equal, { S3: { kind: 'next', amt: 5.16 }, S4: { kind: 'next', amt: 5.16 } });
+  assert.deepEqual(pickT(a.why.equal, ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'I1', 'A', 'D']), ['done', 'done', 'group', 'group', 'group', 'group', null, null, null]);
+  assert.equal(a.capped.equal, false);
+  assert.deepEqual(a.groups.equal.slice(0, 2).map((x) => [x.key, x.cap, x.bought, x.left]), [['semi', 142.85, 122.2, 20.65], ['net', 142.85, 0, 142.85]]);
+  // (다) 다음 회차(마지막): 둘 다 사고, S3를 산 뒤에도 S4는 그대로
+  const c1 = exA({ boughtNow: {}, roundsLeft: 1 });
+  assert.deepEqual(pickT(c1.todo.equal, ['S3', 'S4', 'S5']), [10.32, 10.32, 0]);
+  const c2 = exA({ roundsLeft: 1, spent: 315.82, bought: { ...BOUGHT5, S3: 10.32 }, boughtNow: { S3: 10.32 } });
+  assert.deepEqual(pickT(c2.rest.equal, ['S3', 'S4', 'S5']), [0, 10.32, 0]);
+  assert.deepEqual(pickT(c2.todo.equal, ['S3', 'S4', 'S5']), [0, 10.32, 0]);
+});
+
+test('업종 먼저 예 A (나): 이번 회차에 넘겨 산 경우는 뒤 순위부터 깎고, 그 뒤 사도 다른 종목은 그대로', () => {
+  const b = exA({ boughtNow: BOUGHT5 });
+  assert.deepEqual(pickT(b.round.equal, ['S1', 'S3', 'S4', 'S5', 'S6', 'A']), [11.9, 11.9, 11.9, 11.9, 11.9, 71.42]);   // 회차 시작 값(고정)
+  assert.deepEqual(pickT(b.rest.equal, ['S1', 'S3', 'S4', 'S5', 'S6']), [0, 20.65, 0, 0, 0]);
+  assert.deepEqual(pickT(b.todo.equal, ['S3', 'S4', 'A']), [11.9, 0, 10.32]);
+  assert.deepEqual(pickT(b.why.equal, ['S1', 'S3', 'S4', 'S6']), ['done', 'group', 'group', 'group']);
+  const b2 = exA({ spent: 317.4, bought: { ...BOUGHT5, S3: 11.9 }, boughtNow: { ...BOUGHT5, S3: 11.9 } });
+  assert.deepEqual(pickT(b2.rest.equal, ['S3', 'S4', 'S5', 'S6']), [8.75, 0, 0, 0]);
+});
+
+test('업종 먼저 예 B: 체크 안 한 같은 업종 매수도 한도에, 다른 묶음 매수는 제외, 업종 한도 → 전체 한도 순서', () => {
+  const g = (t) => ({ A: 'g1', B: 'g1', U: 'g1', C: 'g2', X: 'g3' })[t];
+  const base = { cands: ['A', 'B', 'C', 'U'], picked: ['A', 'B', 'C'], groupOf: g, budget: 100, spent: 70, bought: { A: 30, U: 10, X: 30 }, rounds: 1 };
+  const p = buyPlan({ ...base, boughtNow: {} });
+  assert.deepEqual(p.by.equal, { A: 25, B: 25, C: 50 });
+  assert.deepEqual(p.groups.equal.map((x) => [x.key, x.bought, x.left]), [['g1', 40, 10], ['g2', 0, 50]]);
+  assert.deepEqual(p.rest.equal, { A: 0, B: 5, C: 25 });   // 순서를 뒤집으면 B 10, C 20
+  assert.deepEqual(p.why.equal, { A: 'done', B: 'group', C: 'left' });
+  const v = buyPlan({ ...base, boughtNow: { U: 10 } });   // 이번 회차의 체크 안 한 매수를 되돌린 회차 시작 값
+  assert.deepEqual(v.round.equal, { A: 0, B: 11.42, C: 28.57 });   // 안 되돌리면 6.66 / 33.33
+  assert.deepEqual(v.todo.equal, { A: 0, B: 5, C: 25 });  // 제 달 몫을 다 산 종목은 업종 한도에 걸려도 'done'이 먼저: 이번 회차에 A를 제 몫 25만큼 삼, 체크 안 한 U는 지난 회차에 40
+  const d = buyPlan({ cands: ['A', 'B', 'C', 'U'], picked: ['A', 'B', 'C'], groupOf: g, budget: 100, spent: 65, bought: { A: 25, U: 40 }, boughtNow: { A: 25 }, rounds: 1 });
+  assert.deepEqual(d.round.equal, { A: 5, B: 5, C: 50 });   // 회차 시작 한도 10을 A·B가 나눔(합 60 = 회차 시작 때 남은 돈)
+  assert.deepEqual(d.why.equal, { A: 'done', B: 'group', C: 'left' });
+});
+
+test('업종 먼저 예 C·D: 순위 순, 값을 키우지 않음, 작은 값이 업종을 막지 않음, 남은 한도는 다음 순위에', () => {
+  const g = (t) => (t === 'Z' ? 'h' : 'g');
+  const c = { cands: ['C1', 'C2', 'C3', 'Z', 'U'], picked: ['C1', 'C2', 'C3', 'Z'], groupOf: g, budget: 120, spent: 35, bought: { U: 35 }, rounds: 1 };
+  assert.deepEqual(buyPlan({ ...c, order: ['C1', 'C2', 'C3', 'Z'], minOrder: 10 }).rest.equal, { C1: 12.5, C2: 12.5, C3: 0, Z: 60 });
+  assert.deepEqual(buyPlan({ ...c, order: ['C3', 'C2', 'C1', 'Z'], minOrder: 10 }).rest.equal, { C1: 0, C2: 12.5, C3: 12.5, Z: 60 });
+  assert.deepEqual(buyPlan({ ...c, order: ['C3', 'C3', 'Z'], minOrder: 10 }).rest.equal, { C1: 12.5, C2: 0, C3: 12.5, Z: 60 });   // order에 없는 종목은 맨 뒤, 중복은 처음 것만
+  assert.deepEqual(buyPlan({ ...c, minOrder: 0 }).rest.equal, { C1: 8.33, C2: 8.33, C3: 8.33, Z: 60 });   // 최소 주문이 없으면 단순 비례
+  assert.deepEqual(buyPlan({ ...c, spent: 55, bought: { U: 55 }, minOrder: 10 }).rest.equal, { C1: 0, C2: 0, C3: 0, Z: 60 });   // 한도 $5
+  // D1: 값 12·12·12, 한도 25.01 → 12·12·0 (비례 식이면 12.50으로 커진다)
+  const d1 = buyPlan({ cands: ['P', 'Q', 'R', 'Z', 'U'], picked: ['P', 'Q', 'R', 'Z'], groupOf: g, budget: 200, spent: 74.99, bought: { P: 21.33, Q: 21.33, R: 21.33, U: 11 }, rounds: 1, minOrder: 10 });
+  assert.deepEqual(d1.rest.equal, { P: 12, Q: 12, R: 0, Z: 100 });
+  assert.deepEqual(d1.why.equal, { P: null, Q: null, R: 'group', Z: null });
+  // D2: 1위 값 3, 2위 값 40, 한도 20 → 0 / 20
+  const d2 = buyPlan({ cands: ['P', 'Q', 'Z', 'U'], picked: ['P', 'Q', 'Z'], groupOf: g, caps: { P: 43, Q: 57, Z: 1 }, budget: 200, spent: 80, bought: { P: 40, Q: 17, U: 23 }, rounds: 1, minOrder: 10 });
+  assert.deepEqual(d2.by.cap, { P: 43, Q: 57, Z: 100 });
+  assert.deepEqual(d2.rest.cap, { P: 0, Q: 20, Z: 100 }); assert.equal(d2.capped.cap, false);
+  // D3: 값 12·12·30, 한도 40 → 12·12·16
+  const d3 = buyPlan({ cands: ['P', 'Q', 'R', 'Z', 'U'], picked: ['P', 'Q', 'R', 'Z'], groupOf: g, caps: { P: 12, Q: 12, R: 30, Z: 1 }, budget: 108, spent: 14, bought: { U: 14 }, rounds: 1, minOrder: 10 });
+  assert.deepEqual(d3.rest.cap, { P: 12, Q: 12, R: 16, Z: 54 });
+  assert.deepEqual(d3.why.cap, { P: null, Q: null, R: 'group', Z: null });
+});
+
+test('업종 먼저 예 E: 회차 안에서 사도 다음 종목 몫은 그대로(무게가 달라도, 체크 안 한 매수 뒤에도)', () => {
+  const g = (t) => (t === 'Z' ? 'h' : 'g');
+  const e = { cands: ['P', 'Q', 'R', 'Z', 'U'], picked: ['P', 'Q', 'R', 'Z'], groupOf: g, caps: { P: 1, Q: 5, R: 5, Z: 1 }, budget: 440, rounds: 1, minOrder: 10 };
+  const sub = (o) => pickT(o, ['P', 'Q', 'R']);
+  const e1 = buyPlan({ ...e, spent: 150, bought: { U: 150 }, boughtNow: {} });
+  assert.deepEqual(sub(e1.by.cap), [20, 100, 100]); assert.deepEqual(sub(e1.todo.cap), [11.66, 58.33, 0]);
+  const e2 = buyPlan({ ...e, spent: 161.66, bought: { U: 150, P: 11.66 }, boughtNow: { P: 11.66 } });
+  assert.deepEqual(sub(e2.todo.cap), [0, 58.33, 0]);   // 다시 고르면 Q 29.17, R 29.17이 된다
+  const e3 = buyPlan({ ...e, spent: 180, bought: { U: 180 }, boughtNow: { U: 30 } });   // 체크 안 한 같은 업종을 이번 회차에 삼
+  assert.deepEqual(sub(e3.round.cap), [11.66, 58.33, 0]); assert.deepEqual(sub(e3.rest.cap), [20, 20, 0]); assert.deepEqual(sub(e3.todo.cap), [11.66, 20, 0]);
+  const e4a = buyPlan({ ...e, spent: 150, bought: { U: 150 }, boughtNow: { U: 150 } });   // 이번 회차에 U를 먼저 삼
+  assert.deepEqual(sub(e4a.round.cap), [20, 100, 100]); assert.deepEqual(sub(e4a.todo.cap), [11.66, 58.33, 0]);
+  const e4b = buyPlan({ ...e, spent: 161.66, bought: { U: 150, P: 11.66 }, boughtNow: { U: 150, P: 11.66 } });   // 이어서 P를 삼
+  assert.deepEqual(sub(e4b.todo.cap), [0, 58.33, 0]);
+});
+
+// ---- 업종 탭(sectorTabs·buyGroup·groupLabel, 2026-11-19) — 가짜 티커, groupOf는 시험이 직접 넘긴다 ----
+import { sectorTabs, buyGroup, groupLabel } from '../../preview-only-portfolio-home.js';
+{
+  const gOf = (t) => ({ S1: 'semi', S2: 'semi', S3: 'semi', N1: 'net', F1: 'fin', H1: 'semi', H2: 'ind' }[t] || `solo:${t}`);
+  const shown = ['N1', 'S1', 'S2', 'F1', 'S3', 'Q'];
+  test('업종 탭: 묶음 순서는 보이는 후보에서 처음 나온 순, 숨김뿐인 묶음은 맨 뒤', () => {
+    const r = sectorTabs({ shown, picked: ['S1', 'N1', 'H1', 'H2'], ok: [], groupOf: gOf, plan: null });
+    assert.deepEqual(r.map((g) => g.key), ['net', 'semi', 'fin', 'solo:Q', 'ind']);
+    assert.deepEqual(r.find((g) => g.key === 'semi'), { key: 'semi', shownN: 3, pickedN: 1, hiddenN: 1, cap: null, amount: null });
+    assert.deepEqual(r.find((g) => g.key === 'ind'), { key: 'ind', shownN: 0, pickedN: 0, hiddenN: 1, cap: null, amount: null });
+    assert.deepEqual(r.find((g) => g.key === 'fin'), { key: 'fin', shownN: 1, pickedN: 0, hiddenN: 0, cap: null, amount: null });
+  });
+  test('업종 탭: 금액은 ok 종목의 todo만 센트로 더하고, 합은 전체 todo 합과 같다', () => {
+    const plan = { todo: { S1: 10.1, S2: 20.2, S3: 5.05, N1: 0.1, Q: 7.07, H1: 99 }, groups: [{ key: 'semi', cap: 33.33 }, { key: 'net', cap: 33.33 }, { key: 'solo:Q', cap: 33.33 }] };
+    const ok = ['S1', 'S2', 'N1', 'Q'];   // S3는 체크했지만 지금 못 삼, H1은 숨겨진 체크
+    const r = sectorTabs({ shown, picked: ['S1', 'S2', 'S3', 'N1', 'Q', 'H1'], ok, groupOf: gOf, plan });
+    const by = Object.fromEntries(r.map((g) => [g.key, g]));
+    assert.equal(by.semi.amount, 30.3);   // 10.1 + 20.2 — 0.1+0.2식 소수 오차 없이
+    assert.equal(by.net.amount, 0.1);
+    assert.equal(by['solo:Q'].amount, 7.07);
+    assert.equal(by.fin.amount, 0);   // 체크 없는 묶음은 0
+    assert.equal(by.fin.cap, null);   // 계획에 없는 묶음의 업종 몫은 null
+    assert.equal(by.semi.cap, 33.33);
+    assert.equal(by.semi.hiddenN, 1);
+    const sum = r.reduce((a, g) => a + Math.round(g.amount * 100), 0);
+    assert.equal(sum, ok.reduce((a, t) => a + Math.round(plan.todo[t] * 100), 0));
+  });
+  test('업종 탭: 계획이 없으면 금액·업종 몫은 null이고 개수는 그대로', () => {
+    const a = sectorTabs({ shown, picked: ['S1'], ok: ['S1'], groupOf: gOf, plan: null });
+    const b = sectorTabs({ shown, picked: ['S1'], ok: ['S1'], groupOf: gOf, plan: { todo: { S1: 5 }, groups: null } });
+    assert.ok(a.every((g) => g.amount === null && g.cap === null));
+    assert.deepEqual(a.map((g) => [g.key, g.shownN, g.pickedN, g.hiddenN]), b.map((g) => [g.key, g.shownN, g.pickedN, g.hiddenN]));
+    assert.equal(b.find((g) => g.key === 'semi').amount, 5);
+    assert.ok(b.every((g) => g.cap === null));
+  });
+  test('묶음 키와 이름: 기술은 아래 갈래로, 분류 안 된 종목은 각자', () => {
+    assert.equal(buyGroup('NVDA'), 'semi');
+    assert.equal(buyGroup('JPM'), 'fin');
+    assert.equal(buyGroup('SPY'), 'idx');
+    assert.equal(buyGroup('ZZZZ'), 'solo:ZZZZ');
+    assert.equal(groupLabel('semi'), '반도체');
+    assert.equal(groupLabel('fin'), '금융');
+    assert.equal(groupLabel('idx'), '지수 ETF');
+    assert.equal(groupLabel('solo:ZZZZ'), '분류 안 됨 · ZZZZ');
+  });
+}

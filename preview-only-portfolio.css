@@ -492,3 +492,36 @@ button.pf-scard{font:inherit;color:var(--ink);text-align:left;cursor:pointer;wid
 .pf-heldnote{white-space:nowrap}
 .pf-skiphead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding:16px 0 8px;border-top:1px solid var(--text,#1c1b22);font-size:14px}.pf-skiphead .pf-note{margin:0}
 .pf-buyrow[data-skip] .pf-buyname strong,.pf-buyrow[data-skip] .pf-buyname a{color:var(--muted)}
+/* 업종 먼저 나누기(2026-11-19): 스위치, 업종 탭, [전체] 줄, 묶음 제목 */
+.pf-sgrow{display:flex;align-items:center;justify-content:space-between;gap:8px 14px;flex-wrap:wrap;margin-top:-6px}
+.pf-sgswitch{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0;border:0;background:none;color:inherit;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.pf-sgswitch i{position:relative;flex:none;width:40px;height:24px;border-radius:12px;background:#cfccdb;transition:background .15s}
+.pf-sgswitch i::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;transition:transform .15s}
+.pf-sgswitch[aria-pressed="true"] i{background:#6851cd}.pf-sgswitch[aria-pressed="true"] i::after{transform:translateX(16px)}
+.pf-sgswitch:disabled{opacity:.5;cursor:default}
+.pf-sghold{flex:none;padding:2px 8px;border-radius:999px;background:#f2f0f7;color:#4f3aa8;font-size:12px;font-weight:700;white-space:nowrap}
+.pf-sgtabs{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:760px){.pf-sgtabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:thin}}
+.pf-sgtab{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:48px;padding:6px 16px;min-width:64px;border:1px solid var(--line);border-radius:12px;background:transparent;color:inherit;font:inherit;cursor:pointer;text-align:center}
+.pf-sgtab strong{font-size:14px;white-space:nowrap}.pf-sgtab small{font-size:11px;color:var(--muted);white-space:nowrap}
+.pf-sgtab[aria-pressed="true"]{background:#5b46c8;border-color:#5b46c8;color:#fff}.pf-sgtab[aria-pressed="true"] small{color:#e4defa}
+.pf-sgtab:disabled{opacity:.55;cursor:default}
+.pf-sgover{display:grid;gap:2px}
+.pf-sgline{display:grid;gap:6px;width:100%;min-height:52px;padding:8px 0;border:0;border-top:1px solid var(--line);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+div.pf-sgline{cursor:default;opacity:.6}
+.pf-sglinehead{display:flex;align-items:baseline;gap:4px 10px;min-width:0}
+.pf-sglinehead strong{font-size:15px;white-space:nowrap}.pf-sglinehead small{flex:1 1 0;min-width:0;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pf-sglinehead b{font-size:16px;color:#4f3aa8;font-variant-numeric:tabular-nums}.pf-sglinehead em{font-style:normal;font-size:13px;color:var(--muted);white-space:nowrap}
+.pf-sgtrack{display:block;height:6px;border-radius:3px;background:var(--line,#e6e4ee);overflow:hidden}.pf-sgtrack i{display:block;height:100%;border-radius:3px;background:#6851cd}
+.pf-sgmore{display:inline-flex;align-items:center;gap:6px;justify-self:start;min-height:44px;padding:0;border:0;background:none;color:var(--accent,#5b3fd1);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.pf-sgmore svg{transition:transform .15s}.pf-sgmore[aria-expanded="true"] svg{transform:rotate(90deg)}
+.pf-sghead{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding:18px 0 8px;font-size:15px}.pf-sghead .pf-note{margin:0}
+.pf-sghead+.pf-buyrow{border-top:1px solid var(--text,#1c1b22)}
+.pf-sgrank{flex:none;min-width:18px;font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.pf-buyrow[data-full] .pf-buyname strong,.pf-buyrow[data-full] .pf-buyname a{color:var(--muted)}
+.pf-sgtop{cursor:default;min-height:52px}.pf-sgtop .pf-buyname strong,.pf-sgtop .pf-buyname a{color:var(--muted)}
+.pf-sghead+.pf-sgtop{border-top:1px solid var(--text,#1c1b22)}
+.pf-sghide{display:none!important}
+:root[data-theme="dark"] .pf-sgswitch i{background:var(--bg3)}:root[data-theme="dark"] .pf-sgswitch[aria-pressed="true"] i{background:#8f7ce0}
+:root[data-theme="dark"] .pf-sglinehead b{color:#c9bcff}:root[data-theme="dark"] .pf-sghold{background:var(--bg3);color:#c9bcff}
+:root[data-theme="dark"] .pf-sgtab[aria-pressed="true"]{background:#51428c;border-color:#51428c}
