@@ -934,7 +934,7 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">비싸다</div></div>
       <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다. 참고 — 같은 사업 모델(카드·소비자금융) 카드: COF P/TBV 1.89배·PER 10.7배(판정에 쓰지 않음, 사전 등록 10-2).">동종업 대비</div><div class="vs-val" data-vc-score="peer">0.0</div><div class="sc-tile low" data-vc="peer" data-m="per">0</div><div class="sc-tile low" data-vc="peer" data-m="pbr">0</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">P/TBV 7.14배는 자기 5년 이력의 아래쪽(상위 60%)이고 비교군 S&P500 대형·지역 은행 13곳과 견주면 가장 비싸다. <strong>초과이익모형 기본 가치 $208은 현재가의 67%</strong>로, 지금 가격은 ROE 51.4%가 5년 이어진다는 값이다(최근 4분기 39.4%, GAAP).</div>
+    <div class="vs-premise">P/TBV 7.14배는 자기 5년 이력의 아래쪽(상위 60%)이고 비교군 S&P500 대형·지역 은행 12곳과 견주면 가장 비싸다. <strong>초과이익모형 기본 가치 $208은 현재가의 67%</strong>로, 지금 가격은 ROE 51.4%가 5년 이어진다는 값이다(최근 4분기 39.4%, GAAP).</div>
     <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 1.50로 "비싸다"다 — 경계 가까이라 작은 주가 움직임으로 칸이 바뀔 수 있다. 세 칸이 자기 이력 0 · 동종업 −1 · 초과이익 −1로 종합 평가는 적정~고평가다.</div>
   </div>
 
@@ -1837,7 +1837,7 @@ const AXP_FUNDAMENTAL = {"ticker": "AXP", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py AXP --self v2/AXP_multiples.json --card
 /* VALUATION:BEGIN */
-const AXP_VALUATION = {"peer": {"score": 0.0, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-19", "2026-11-19"], "metrics": [{"metric": "per", "score": 0.0, "rank": 14, "peers": 13}, {"metric": "pbr", "score": 0.0, "rank": 14, "peers": 13}]}, "self": {"score": 63.4, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-19", "2026-11-19"], "metrics": [{"metric": "per", "score": 67.0, "percentile": 33.0, "current": 17.53, "min": 13.24, "median": 18.88, "max": 25.83, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 59.8, "percentile": 40.2, "current": 7.14, "min": 4.73, "median": 7.42, "max": 10.0, "days": 1255, "gapDays": 0}]}};
+const AXP_VALUATION = {"peer": {"score": 0.0, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-19", "2026-11-19"], "metrics": [{"metric": "per", "score": 0.0, "rank": 13, "peers": 12}, {"metric": "pbr", "score": 0.0, "rank": 13, "peers": 12}]}, "self": {"score": 63.4, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-19", "2026-11-19"], "metrics": [{"metric": "per", "score": 67.0, "percentile": 33.0, "current": 17.53, "min": 13.24, "median": 18.88, "max": 25.83, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 59.8, "percentile": 40.2, "current": 7.14, "min": 4.73, "median": 7.42, "max": 10.0, "days": 1255, "gapDays": 0}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2210,7 +2210,7 @@ const AXP_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 
   }
   put('axpPeerBox', 'axpPeerScore', 'axpPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
-      + `\nP/TBV는 유형자본을 만들 수 있는 13곳, PER은 13곳과 비교했다.`
+      + `\nP/TBV는 유형자본을 만들 수 있는 12곳, PER은 12곳과 비교했다.`
       + `\nPNC: 무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모(2026-09-30 분기 기준): 규제자본 차감 무형자산 $666M(2026-06 규제자본 표, 그 분기 TCE의 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(그 분기 TCE의 약 1.8%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).`);
   put('axpSelfBox', 'axpSelfScore', 'axpSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
