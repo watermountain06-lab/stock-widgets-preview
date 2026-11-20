@@ -525,3 +525,21 @@ div.pf-sgline{cursor:default;opacity:.6}
 :root[data-theme="dark"] .pf-sgswitch i{background:var(--bg3)}:root[data-theme="dark"] .pf-sgswitch[aria-pressed="true"] i{background:#8f7ce0}
 :root[data-theme="dark"] .pf-sglinehead b{color:#c9bcff}:root[data-theme="dark"] .pf-sghold{background:var(--bg3);color:#c9bcff}
 :root[data-theme="dark"] .pf-sgtab[aria-pressed="true"]{background:#51428c;border-color:#51428c}
+/* 한눈에 2단계(2026-11-19): 사이트 공통 CSS(today.css의 details 여백 22px·안쪽 16px·둥근 모서리)가 입금 칸에 먹어 접힌 채로도 빈 공간이 넓던 흠 */
+.pf-depfold{margin:0;padding:0;border-radius:0;font-size:inherit}
+.pf-freshhead{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}.pf-freshhead .pf-note{margin:0}
+.pf-freshhead .pf-freshtoggle{padding:0 14px;border:1px solid #dcd9e6;border-radius:12px;background:var(--panel,#fff);font-size:13px;font-weight:700}
+.pf-freshbox{display:grid;gap:14px;padding:16px;border-radius:14px;background:#f6f5fa}.pf-freshbox[hidden]{display:none}
+.pf-freshgroup{display:grid;gap:6px}.pf-freshgroup>strong{font-size:13px}.pf-freshgroup>.pf-note{margin:0}
+.pf-freshpill{display:flex;align-items:center;gap:8px;min-height:52px;padding:4px 4px 4px 14px;border-radius:12px;background:var(--panel,#fff)}
+.pf-freshpill .pf-buyname{flex:1 1 auto}.pf-freshpill .pf-btn{min-height:44px}
+.pf-freshpill .pf-movebtn{gap:4px;padding:0 12px;font-size:13px;font-weight:700;color:inherit}
+.pf-freshchips{display:flex;flex-wrap:wrap;gap:6px}
+.pf-freshchip{min-height:44px;min-width:52px;padding:0 12px;border:1px solid #dcd9e6;border-radius:10px;background:var(--panel,#fff);color:inherit;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.pf-freshchip[aria-expanded="true"]{border-color:#5b46c8;color:#4f3aa8;background:#f3f0fc}
+.pf-freshslot:empty{display:none}
+.pf-movebtn{min-width:44px}.pf-linkbtn{min-height:44px}
+/* 폰: 알림 칸이 매수 칸 안(회차 띠 아래)으로 들어왔을 때 — 카드 안의 카드로 보이지 않게 얇은 테두리만 */
+.pf-alerts.pf-alerts-in{margin:0;padding:14px;border:1px solid var(--line);border-radius:14px;box-shadow:none;background:transparent}
+:root[data-theme="dark"] .pf-freshbox{background:var(--bg3)}:root[data-theme="dark"] .pf-freshhead .pf-freshtoggle,:root[data-theme="dark"] .pf-freshchip{border-color:var(--line)}
+:root[data-theme="dark"] .pf-freshchip[aria-expanded="true"]{background:#2a2545;color:#c9bcff;border-color:#8f7ce0}
