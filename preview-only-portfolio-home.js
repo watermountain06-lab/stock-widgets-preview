@@ -10,7 +10,7 @@ import { renderManage } from './preview-only-portfolio-records.js?v=16';
 import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, PICK_FROM, PICK_FROM_ROUND, PICK_MAX, pickTop, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=14';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
-import { renderAccounts } from './preview-only-portfolio-acctview.js?v=7';
+import { renderAccounts } from './preview-only-portfolio-acctview.js?v=8';
 import { sectorGroups, catOf, TOPS, SUB_LABEL, EXTRA_LABEL } from './preview-only-portfolio-sectors.js?v=4';
 
 // 미국 동부 날짜(YYYY-MM-DD). 매매 기록 칸의 기본값·미래 날짜 검사와 '이번 달' 판단에 쓴다.

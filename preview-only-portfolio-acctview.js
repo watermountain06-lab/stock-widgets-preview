@@ -1,5 +1,6 @@
 // preview 전용 Portfolio 탭 — "내 계좌" 하위 탭(2026-10-28 사용자 결정 C안: 위는 합계·비중 막대, 아래는 미국·한국 칸 나란히,
 // 한국 칸은 단순하게 — 주식 수익률·환율 수익률 두 칸과 평균/오늘 환율·원화로 보면 한 상자, 환전 기록은 버튼 안). 라이브로 옮기지 않는다.
+// 2026-11-20 화면 정리(사용자: 표가 딱딱함 → 큰 숫자·카드): 칸마다 큰 금액과 수익률, 종목 비중 막대와 한 줄 설명, 종목 줄, 한국 칸 아래 환율 상자. 정보는 그대로.
 // 숫자는 home.js accountsState가 만든다(한눈에 탭과 같은 계산). 장부 쓰기는 handlers.ledgerAdd·ledgerCancel·ledgerCorrect.
 import { el, usd, pct, twoStep, msgLine } from './preview-only-portfolio-strategy.js?v=27';
 import { depositTiming } from './preview-only-portfolio-engine.js?v=14';
@@ -10,32 +11,51 @@ const md = (d) => (d ? `${+d.slice(5, 7)}/${d.slice(8, 10)}` : '');
 const KIND = { fx: '환전', fxOut: '역환전', income: '배당·이자' };
 let showFx = false;   // 환전 기록 펼침(다시 그려도 유지)
 
+// 비중 막대 아래 한 줄(자동 문구, 2026-11-20): 늘 참인 말만 쓴다. parts = [{ label, share(0~1), cash? }] — 현금 포함, 순서 무관.
+// 가장 큰 종목과 그다음 두 종목(1% 이상만)을 적는다. 현금이 가장 큰 종목보다 크면 맨 앞에, 그렇지 않고 10% 이상이면 맨 뒤에 붙인다.
+// 종목이 없으면 현금만, 아무것도 없으면 ''.
+export function mixCaption(parts) {
+  const pc = (x) => (x.share > 0 && x.share < 0.01 ? '<1' : Math.round(x.share * 100)) + '%';
+  const st = parts.filter((x) => !x.cash && x.share > 0).sort((a, b) => b.share - a.share || (a.label < b.label ? -1 : 1));
+  const cash = parts.find((x) => x.cash && x.share > 0);
+  if (!st.length) return cash ? `현금 ${pc(cash)}` : '';
+  const next = st.slice(1, 3).filter((x) => x.share >= 0.01);
+  const stocks = `가장 큰 종목 ${st[0].label} ${pc(st[0])}` + (next.length ? ` · 다음 ${next.map((x) => `${x.label} ${pc(x)}`).join(', ')}` : '');
+  if (cash && cash.share > st[0].share) return `현금 ${pc(cash)} · ${stocks}`;
+  return stocks + (cash && cash.share >= 0.1 ? ` · 현금 ${pc(cash)}` : '');
+}
+
+// 큰 숫자 한 줄: 왼쪽(작은 제목 · 큰 금액 · 설명) + 오른쪽(작은 제목 · 큰 수익률)
+function head(k1, big, sub, k2, ret) {
+  const h = el('div', 'pf-ac2head');
+  const l = el('div', 'pf-ac2main');
+  l.appendChild(el('span', 'pf-ac2k', k1)); l.appendChild(el('strong', 'pf-ac2big', big)); if (sub) l.appendChild(el('span', 'pf-s', sub));
+  h.appendChild(l);
+  const r = el('div', 'pf-ac2ret');
+  r.appendChild(el('span', 'pf-ac2k', k2));
+  r.appendChild(el('strong', 'pf-ac2big' + (ret == null ? '' : ret >= 0 ? ' pf-up' : ' pf-down'), ret == null ? '—' : pct(ret)));
+  h.appendChild(r);
+  return h;
+}
+
 export function renderAccounts(root, a, handlers) {
   root.textContent = '';
-  // 1) 합계·비중
+  const fxDay = a.fx ? md(a.fx.bar || a.fx.from) : '';
+  // 1) 합계: 큰 숫자 + 수익률, 그 아래 두 계좌 비중 막대(2026-11-20 시안 — 표 대신 큰 숫자·카드)
   const top = el('section', 'pf-panel pf-acctop');
-  const row = el('div', 'pf-acctrow');
-  const left = el('div');
-  left.appendChild(el('div', 'pf-eyebrow2', '두 계좌 합계'));
-  const big = el('div', 'pf-acctbig', usd(a.total.value));
-  if (a.fx) big.appendChild(el('small', null, ' ' + won(a.total.value * a.fx.rate)));
-  left.appendChild(big);
-  left.appendChild(el('div', 'pf-s', a.fx ? `환율 ${rate(a.fx.rate)}(${md(a.fx.bar || a.fx.from)} 봉${a.fx.carried ? ', 직전 값' : ''})` : '환율 없음'));
-  row.appendChild(left);
-  const r = el('div', 'pf-acctret');
-  r.appendChild(el('div', 'pf-s', `합계 수익률${a.from ? ' · ' + md(a.from) + '부터' : ''}`));
-  r.appendChild(el('strong', a.total.twr == null ? null : a.total.twr >= 0 ? 'pf-up' : 'pf-down', a.total.twr == null ? '—' : pct(a.total.twr)));
-  row.appendChild(r);
-  top.appendChild(row);
+  const th = head('두 계좌 합계', usd(a.total.value),
+    a.fx ? `${won(a.total.value * a.fx.rate)} · 적용 환율 ${rate(a.fx.rate)} · ${fxDay}${a.fx.carried ? '(직전 값)' : ''}` : '환율 없음',
+    a.from ? md(a.from) + '부터' : '합계 수익률', a.total.twr);
+  top.appendChild(th);
   const tot = a.rh.value + a.kw.value;
   if (tot > 0 && a.kw.used) {
     const bar = el('div', 'pf-acctbar'); bar.setAttribute('role', 'img');
     const p = Math.round((a.rh.value / tot) * 100);
-    bar.setAttribute('aria-label', `미국 ${p}%, 한국 ${100 - p}%`);
+    bar.setAttribute('aria-label', `미국 계좌 ${p}%, 한국 계좌 ${100 - p}%`);
     const b1 = el('span', 'pf-acc-us'); b1.style.width = p + '%'; const b2 = el('span', 'pf-acc-kr'); b2.style.width = 100 - p + '%';
     bar.appendChild(b1); bar.appendChild(b2); top.appendChild(bar);
     const lg = el('div', 'pf-acclegend');
-    lg.appendChild(el('span', 'pf-lg-us', `미국 · Robinhood ${p}%`)); lg.appendChild(el('span', 'pf-lg-kr', `한국 · 키움 ${100 - p}%`));
+    lg.appendChild(el('span', 'pf-lg-us', `미국 계좌 ${p}% · ${usd(a.rh.value)}`)); lg.appendChild(el('span', 'pf-lg-kr', `한국 계좌 ${100 - p}% · ${usd(a.kw.value)}`));
     top.appendChild(lg);
   }
   if (a.conflicts.length) top.appendChild(el('p', 'pf-warn', `⚠ 정정 충돌 ${a.conflicts.length}건 — 같은 환전 기록을 두 번 고쳐 계산에서 뺐습니다. 한국 칸의 환전 기록에서 틀린 쪽을 취소하세요.`));
@@ -43,52 +63,73 @@ export function renderAccounts(root, a, handlers) {
 
   // 2) 두 계좌 칸
   const grid = el('div', 'pf-accgrid');
-  grid.appendChild(card('미국 · Robinhood', 'pf-acc-us', a.rh, [
-    stat('주식 수익률', a.rh.twr == null ? '—' : pct(a.rh.twr), a.rh.twr),
-    stat('보유 종목', `${a.rh.rows.length}개`),
-  ], null, a.hasCash ? `주식 ${usd(a.rh.value - a.rh.cash)} · 현금 ${usd(a.rh.cash)}` : '현금 모름(올린 보유에 현금 줄 없음)'));
+  grid.appendChild(card('미국 계좌', 'us', a.rh, a.hasCash ? `주식 ${usd(a.rh.value - a.rh.cash)} · 현금 ${usd(a.rh.cash)}` : '현금 모름(올린 보유에 현금 줄 없음)', null));
   const k = a.kw.krw;
-  const box = el('div', 'pf-accbox');
-  const line = (l, v, cls) => { const d = el('div', 'pf-accline'); d.appendChild(el('span', null, l)); d.appendChild(el('strong', cls || null, v)); box.appendChild(d); };
-  line('내가 바꾼 평균 환율', rate(k?.avgRate ?? null));
-  line(`오늘 환율${a.fx ? '(' + md(a.fx.bar || a.fx.from) + ' 봉)' : ''}`, rate(a.fx?.rate ?? null));
-  const krwTxt = k?.krwTwr == null && k?.pnlKrw == null ? '—' : [k.krwTwr == null ? null : pct(k.krwTwr), k.pnlKrw == null ? null : (k.pnlKrw >= 0 ? '+' : '−') + won(Math.abs(k.pnlKrw)).slice(0)].filter(Boolean).join(' · ');
-  line('원화로 보면', krwTxt, k?.pnlKrw == null ? null : k.pnlKrw >= 0 ? 'pf-up' : 'pf-down');
   const kwSub = (a.fx ? won(a.kw.value * a.fx.rate) + ' · ' : '') + `주식 ${usd(a.kw.value - a.kw.cash)} · 달러 현금 ${usd(a.kw.cash)}`;
-  const kc = card('한국 · 키움', 'pf-acc-kr', a.kw, [
-    stat('주식 수익률', a.kw.twr == null ? '—' : pct(a.kw.twr), a.kw.twr, a.kw.started ? md(a.kw.started) + '부터' : null),
-    stat('환율 수익률', k?.fxReturn == null ? '—' : pct(k.fxReturn), k?.fxReturn, null, 'pf-accstat-fx'),
-  ], box, kwSub);
-  kc.appendChild(fxSection(a, handlers));
+  const kc = card('한국 계좌', 'kr', a.kw, kwSub, a.kw.started ? md(a.kw.started) + '부터' : null);
+  // 환율 상자: 환율로 생긴 차이(큰 숫자) · 평균 환전 환율 → 적용 환율 · 원화로 보면 · 환전 기록 버튼
+  const fxb = el('div', 'pf-ac2fx');
+  const fh = el('div', 'pf-ac2fxhead');
+  const fl = el('div', 'pf-ac2main');
+  fl.appendChild(el('strong', null, '환율로 생긴 차이'));
+  fl.appendChild(el('span', 'pf-s', `평균 환전 환율 ${rate(k?.avgRate ?? null)} → 적용 환율 ${rate(a.fx?.rate ?? null)}` + (fxDay ? ` (${fxDay})` : '')));
+  fh.appendChild(fl);
+  fh.appendChild(el('strong', 'pf-ac2fxv' + (k?.fxReturn == null ? '' : k.fxReturn >= 0 ? ' pf-up' : ' pf-down'), k?.fxReturn == null ? '—' : pct(k.fxReturn)));
+  fxb.appendChild(fh);
+  const kl = el('div', 'pf-ac2krw');
+  kl.appendChild(el('span', null, '원화로 보면 '));
+  const krwTxt = k?.krwTwr == null && k?.pnlKrw == null ? '—' : [k.krwTwr == null ? null : pct(k.krwTwr), k.pnlKrw == null ? null : (k.pnlKrw >= 0 ? '+' : '−') + won(Math.abs(k.pnlKrw))].filter(Boolean).join(' · ');
+  kl.appendChild(el('strong', k?.pnlKrw == null ? null : k.pnlKrw >= 0 ? 'pf-up' : 'pf-down', krwTxt));
+  kl.appendChild(el('small', null, ' (이 계좌 전체를 원화로 바꿔 본 수익률)'));
+  fxb.appendChild(kl);
+  fxb.appendChild(fxSection(a, handlers));
+  kc.appendChild(fxb);
   grid.appendChild(kc);
   root.appendChild(grid);
-  root.appendChild(el('p', 'pf-note', '환율 수익률 = 오늘 환율 ÷ 내가 바꾼 평균 환율 − 1(매일 환율로 다시 계산, 평균 환율에는 환전 수수료가 들어 있음). 원화로 보면 = 키움 평가액을 그날 환율로 바꾼 원화 수익률과, 지금 원화 가치 + 역환전 받은 원화 − 환전에 쓴 원화. 환율은 Yahoo 원/달러 일봉(평가일 전날까지 완성된 봉).'));
+  // 계산 방법은 접어 둔다(글 최소) — 내용은 예전 안내문 그대로
+  const how = el('details', 'pf-ac2how');
+  how.appendChild(el('summary', null, '계산 방법'));
+  how.appendChild(el('p', 'pf-note', '환율로 생긴 차이 = 오늘 환율 ÷ 내가 바꾼 평균 환율 − 1(매일 환율로 다시 계산, 평균 환율에는 환전 수수료가 들어 있음). 원화로 보면 = 한국 계좌 평가액을 그날 환율로 바꾼 원화 수익률과, 지금 원화 가치 + 역환전 받은 원화 − 환전에 쓴 원화. 환율은 Yahoo 원/달러 일봉(평가일 전날까지 완성된 봉).'));
+  root.appendChild(how);
 }
 
-function stat(label, value, num, sub, cls) {
-  const d = el('div', 'pf-accstat' + (cls ? ' ' + cls : ''));
-  d.appendChild(el('span', null, label));
-  d.appendChild(el('strong', num == null ? null : num >= 0 ? 'pf-up' : 'pf-down', value));
-  if (sub) d.appendChild(el('small', null, sub));
-  return d;
-}
-
-function card(title, dotCls, acct, stats, box, sub) {
-  const c = el('section', 'pf-panel pf-acccard');
-  const h = el('h2', 'pf-h2s'); const dot = el('i', 'pf-accdot ' + dotCls); dot.setAttribute('aria-hidden', 'true'); h.appendChild(dot); h.appendChild(document.createTextNode(title)); c.appendChild(h);
-  c.appendChild(el('div', 'pf-accval', usd(acct.value)));
-  c.appendChild(el('div', 'pf-s', sub));
+// 계좌 칸: 큰 숫자 한 줄 → 비중 막대와 한 줄 설명 → 종목 줄(점 · 티커와 수량·계좌 안 비중 · 평가액 · 평균 단가 대비)
+function card(title, tone, acct, sub, since) {
+  const c = el('section', 'pf-panel pf-acccard pf-ac2-' + tone);
+  c.appendChild(head([title, `${acct.rows.length}종목`, since].filter(Boolean).join(' · '), usd(acct.value), sub, '주식 수익률', acct.twr));
   if (acct.missing?.length) c.appendChild(el('p', 'pf-warn', `가격 없음 ${acct.missing.join(', ')} — 평가액에서 빠진 부분합입니다.`));
-  const st = el('div', 'pf-accstats'); stats.forEach((x) => st.appendChild(x)); c.appendChild(st);
-  if (box) c.appendChild(box);
-  const list = el('div', 'pf-acclist');
+  const known = acct.rows.filter((x) => x.value > 0);
+  const total = acct.value;
+  const SHADE = [1, 0.8, 0.62, 0.46, 0.34, 0.25];   // 큰 종목일수록 진하게, 여섯째부터는 같은 옅은 색
+  const shade = (i) => SHADE[Math.min(i, SHADE.length - 1)];
+  const mixOk = total > 0 && !(acct.cash < 0);   // 현금이 음수면 종목 비중 합이 100%를 넘는다 — 막대와 비중 글을 그리지 않는다
+  if (mixOk && (known.length || acct.cash > 0)) {
+    const mix = el('div', 'pf-ac2mix');
+    const bar = el('div', 'pf-ac2bar'); bar.setAttribute('role', 'img');
+    const parts = known.map((x) => ({ label: x.ticker, share: x.value / total }));
+    if (acct.cash > 0) parts.push({ label: '현금', share: acct.cash / total, cash: true });
+    const pcT = (v) => (v / total < 0.01 ? '<1' : Math.round((v / total) * 100)) + '%';
+    known.forEach((x, i) => { const b = el('span'); b.style.width = (x.value / total) * 100 + '%'; b.style.opacity = shade(i); b.title = `${x.ticker} ${pcT(x.value)}`; bar.appendChild(b); });
+    if (acct.cash > 0) { const b = el('span', 'pf-ac2cash'); b.style.width = (acct.cash / total) * 100 + '%'; b.title = `현금 ${pcT(acct.cash)}`; bar.appendChild(b); }
+    const cap = acct.missing?.length ? '' : mixCaption(parts);   // 가격 없는 종목이 있으면 비중이 부분합 기준이라 문장을 쓰지 않는다
+    // 막대 이름에는 모든 구간을 적는다(한 줄 설명은 큰 것만) — 가격 없는 종목이 있으면 부분합 기준임을 밝힌다
+    bar.setAttribute('aria-label', `${title} 비중` + (acct.missing?.length ? '(가격 있는 종목 기준)' : '') + ': ' + parts.map((x) => `${x.label} ${pcT(x.share * total)}`).join(', '));
+    mix.appendChild(bar);
+    if (cap) mix.appendChild(el('span', 'pf-s', cap));
+    c.appendChild(mix);
+  }
+  const list = el('div', 'pf-ac2list');
   if (!acct.rows.length) list.appendChild(el('p', 'pf-note', '보유 종목 없음'));
+  let ki = 0;
   for (const x of acct.rows) {
-    const r = el('div', 'pf-accitem');
-    const n = el('span'); n.appendChild(el('strong', null, x.ticker)); n.appendChild(el('small', null, ` ${Math.round(x.qty * 1e4) / 1e4}주`)); r.appendChild(n);
-    const v = el('span', null, x.value == null ? '가격 없음' : usd(x.value) + ' ');
-    if (x.vsAvg != null) v.appendChild(el('b', x.vsAvg >= 0 ? 'pf-up' : 'pf-down', pct(x.vsAvg)));
-    r.appendChild(v); list.appendChild(r);
+    const r = el('div', 'pf-ac2row');
+    const dot = el('i', 'pf-ac2dot'); dot.setAttribute('aria-hidden', 'true'); if (x.value > 0) dot.style.opacity = shade(ki++); else dot.classList.add('pf-ac2none'); r.appendChild(dot);
+    const n = el('div', 'pf-ac2name'); n.appendChild(el('strong', null, x.ticker));
+    n.appendChild(el('small', null, `${Math.round(x.qty * 1e4) / 1e4}주` + (x.value > 0 && mixOk ? ` · 계좌의 ${x.value / total < 0.01 ? '<1' : Math.round((x.value / total) * 100)}%` : '')));
+    r.appendChild(n);
+    r.appendChild(el('strong', 'pf-ac2val', x.value == null ? '가격 없음' : usd(x.value)));
+    if (x.vsAvg != null) { const pl = el('span', 'pf-ac2pill ' + (x.vsAvg >= 0 ? 'pf-ac2pos' : 'pf-ac2neg'), pct(x.vsAvg)); pl.title = '평균 단가 대비'; r.appendChild(pl); } else r.appendChild(el('span'));
+    list.appendChild(r);
   }
   c.appendChild(list);
   return c;
@@ -99,13 +140,13 @@ function fxSection(a, handlers) {
   const wrap = el('div', 'pf-accfx');
   const btns = el('div', 'pf-row');
   if (a.conflicts.length) showFx = true;
-  const view = el('button', 'pf-btn pf-btn-quiet', showFx ? '환전 기록 접기' : `환전 기록 ${a.events.length}건 보기`); view.type = 'button';
-  const add = el('button', 'pf-btn pf-btn-dark', '＋ 환전 기록'); add.type = 'button';
+  const view = el('button', 'pf-btn pf-btn-quiet', showFx ? '환전 기록 접기' : `환전 기록 ${a.events.length}건`); view.type = 'button'; view.setAttribute('aria-expanded', String(showFx));
+  const add = el('button', 'pf-btn pf-btn-quiet pf-ac2add', '+ 환전 기록'); add.type = 'button';
   btns.appendChild(view); btns.appendChild(add); wrap.appendChild(btns);
   const formBox = el('div', 'pf-accform'); formBox.hidden = true;
   const listBox = el('div', 'pf-accfxlist'); listBox.hidden = !showFx;
   wrap.appendChild(formBox); wrap.appendChild(listBox);
-  view.addEventListener('click', () => { showFx = !showFx; listBox.hidden = !showFx; view.textContent = showFx ? '환전 기록 접기' : `환전 기록 ${a.events.length}건 보기`; });
+  view.addEventListener('click', () => { showFx = !showFx; listBox.hidden = !showFx; view.setAttribute('aria-expanded', String(showFx)); view.textContent = showFx ? '환전 기록 접기' : `환전 기록 ${a.events.length}건`; });
   let editing = null;   // 고치는 중인 사건 {id, root}
   const f = el('div', 'pf-form');
   const field = (lab, input) => { const l = el('label', 'pf-field'); l.appendChild(el('span', null, lab)); l.appendChild(input); f.appendChild(l); return input; };

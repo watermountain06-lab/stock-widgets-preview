@@ -168,3 +168,18 @@ test('dr r3: 미확정(null)으로 넘긴 평가액·환율은 과거 값으로 
   assert.equal(k.pnlKrw, null); assert.equal(k.valueKrw, null); assert.equal(k.fxReturn, null);
   near(krwPerformance(line, ev, fxSeries(R, null)).pnlKrw, 0);   // 안 넘기면 줄 값(1,000 × 1,300)
 });
+
+// ---- 내 계좌 탭의 비중 한 줄(mixCaption, 2026-11-20) — 가짜 티커 ----
+import { mixCaption } from '../../preview-only-portfolio-acctview.js';
+test('비중 한 줄: 가장 큰 종목과 다음 두 종목, 현금은 조건에 따라', () => {
+  const P = (label, share, cash) => ({ label, share, ...(cash ? { cash: true } : {}) });
+  assert.equal(mixCaption([P('B', 0.19), P('A', 0.51), P('C', 0.12), P('D', 0.07), P('현금', 0.002, true)]), '가장 큰 종목 A 51% · 다음 B 19%, C 12%');
+  assert.equal(mixCaption([P('A', 0.6), P('현금', 0.4, true)]), '가장 큰 종목 A 60% · 현금 40%');   // 현금 10% 이상이면 뒤에
+  assert.equal(mixCaption([P('A', 0.07), P('B', 0.06), P('C', 0.06), P('D', 0.06), P('현금', 0.69, true)]), '현금 69% · 가장 큰 종목 A 7% · 다음 B 6%, C 6%');   // 현금이 더 크면 앞에
+  assert.equal(mixCaption([P('A', 0.995), P('B', 0.005)]), '가장 큰 종목 A 100%');   // 1% 미만 종목은 '다음'에 안 넣는다(반올림 100%는 그대로)
+  assert.equal(mixCaption([P('A', 0.005), P('현금', 0.995, true)]), '현금 100% · 가장 큰 종목 A <1%');
+  assert.equal(mixCaption([P('B', 0.5), P('A', 0.5)]), '가장 큰 종목 A 50% · 다음 B 50%');   // 같으면 티커순
+  assert.equal(mixCaption([P('현금', 1, true)]), '현금 100%');
+  assert.equal(mixCaption([P('A', 0), P('현금', 0, true)]), '');
+  assert.equal(mixCaption([]), '');
+});
