@@ -4410,8 +4410,8 @@
    "converted": null,
    "backfill_first": true,
    "carry_paired": false,
-   "source": "https://www.sec.gov/Archives/edgar/data/1063761/000110465926093360/spg-20260630x10q.htm",
-   "note": "Simon Property Group, L.P.(운영 파트너십) 외부 유한책임 파트너 유닛. 1993 상장 때부터 있던 UPREIT 유닛이라 창(2021-09-30) 전부터 존재 — start null, rows가 창 시작부터 있음(backfill 불필요). 조건 원문(Q2 2026 10-Q): \"Limited partners of the Operating Partnership have the right under the Operating Partnership's partnership agreement to exchange their units for shares of common stock or cash, as selected by Simon as the sole general partner. Accordingly, we classify units held by limited partners in permanent equity\". units = LP 재무상태표 \"Limited Partners, X and Y units outstanding\"의 결산일 값(LTIP 유닛 포함 여부는 원문 미확인). 표지 주식 수(Simon 보통주)는 유닛을 담지 않음 — 이중 계산 없음. nci_remove 0: 엔진 EV nci는 EV_TAGS_BY_CIK SPG {\"nci\": [\"OtherMinorityInterests\"]} + EV_TAGS_NO_DEFAULT {\"nci\"}로 부동산 비지배분만 — 유닛 몫은 이미 EV에 없음(검산: MinorityInterest = MinorityInterestInOperatingPartnerships + OtherMinorityInterests, 예 2021-09-30 496,594 = 479,827 + 16,767천 달러). ce_add = us-gaap MinorityInterestInOperatingPartnerships(Simon 재무상태표 비지배지분 중 운영 파트너십 유한 파트너 몫, 영구 자본이지만 지배주주 자본 StockholdersEquity 밖). 2026-06-30 $758,156천. 엔진 build_dcf SHARES_ADD SPG 55,826,340(filed 2026-08-10) 한 값을 분기별 이력으로 대체. Q3 2026 10-Q 미공시(2026-10-29 기준) — 2026-09-30 행 미확인. | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
+   "source": "https://www.sec.gov/Archives/edgar/data/1063761/000110465926123591/spg-20260930x10q.htm",
+   "note": "Simon Property Group, L.P.(운영 파트너십) 외부 유한책임 파트너 유닛. 1993 상장 때부터 있던 UPREIT 유닛이라 창(2021-09-30) 전부터 존재 — start null, rows가 창 시작부터 있음(backfill 불필요). 조건 원문(Q2 2026 10-Q): \"Limited partners of the Operating Partnership have the right under the Operating Partnership's partnership agreement to exchange their units for shares of common stock or cash, as selected by Simon as the sole general partner. Accordingly, we classify units held by limited partners in permanent equity\". units = LP 재무상태표 \"Limited Partners, X and Y units outstanding\"의 결산일 값(LTIP 유닛 포함 여부는 원문 미확인). 표지 주식 수(Simon 보통주)는 유닛을 담지 않음 — 이중 계산 없음. nci_remove 0: 엔진 EV nci는 EV_TAGS_BY_CIK SPG {\"nci\": [\"OtherMinorityInterests\"]} + EV_TAGS_NO_DEFAULT {\"nci\"}로 부동산 비지배분만 — 유닛 몫은 이미 EV에 없음(검산: MinorityInterest = MinorityInterestInOperatingPartnerships + OtherMinorityInterests, 예 2021-09-30 496,594 = 479,827 + 16,767천 달러). ce_add = us-gaap MinorityInterestInOperatingPartnerships(Simon 재무상태표 비지배지분 중 운영 파트너십 유한 파트너 몫, 영구 자본이지만 지배주주 자본 StockholdersEquity 밖). 2026-06-30 $758,156천. 엔진 build_dcf SHARES_ADD SPG 55,826,340(filed 2026-08-10) 한 값을 분기별 이력으로 대체. 2026-09-30 행은 Q3 2026 10-Q(2026-11-06) 원문(2026-11-20 추가). | backfill_first(2026-10-29): 창 시작(2021-10-28)부터 첫 분기 행 공시 전까지 첫 행 값을 씀 — 증권은 그 전부터 있었고 조건 변동 없음은 원문 미확인",
    "rows": [
     {
      "end": "2021-09-30",
@@ -4572,6 +4572,14 @@
      "units": 55826340,
      "source": "https://www.sec.gov/Archives/edgar/data/1063761/000110465926093360/spg-20260630x10q.htm",
      "note": "운영 파트너십 재무상태표 \"Limited Partners, 55,826,340 ... units outstanding\"(그 결산일 열). 희석 EPS 주석: \"We have not adjusted net income attributable to common stockholders and weighted average shares outstanding for income allocable to limited partners or units, respectively, as doing so would have no dilutive impact.\" → wa_shares 0"
+    },
+    {
+     "end": "2026-09-30",
+     "filed": "2026-11-06",
+     "wa_shares": 0,
+     "units": 55755703,
+     "source": "https://www.sec.gov/Archives/edgar/data/1063761/000110465926123591/spg-20260930x10q.htm",
+     "note": "운영 파트너십 재무상태표 \"Limited Partners, 55,755,703 and 55,689,714 units outstanding\"(그 결산일 열). 희석 EPS 주석: \"We have not adjusted net income attributable to common stockholders and weighted average shares outstanding for income allocable to limited partners or units, respectively, as doing so would have no dilutive impact.\" → wa_shares 0"
     }
    ],
    "paired": [
@@ -4714,6 +4722,13 @@
      "nci_remove": 0,
      "ce_add": 758156000,
      "source": "companyfacts us-gaap:MinorityInterestInOperatingPartnerships 2026-06-30 (accn 0001104659-26-093360)"
+    },
+    {
+     "end": "2026-09-30",
+     "filed": "2026-11-06",
+     "nci_remove": 0,
+     "ce_add": 699380000,
+     "source": "10-Q 인라인 XBRL us-gaap:MinorityInterestInOperatingPartnerships 2026-09-30 699,380천 (accn 0001104659-26-123591)"
     }
    ]
   }

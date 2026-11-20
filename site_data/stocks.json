@@ -16185,6 +16185,49 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "SPG",
+      "name": "사이먼 프로퍼티",
+      "sector": "프리미엄 아웃렛 리츠",
+      "href": "SPG_full_widget.html",
+      "cardRank": 386,
+      "cardAsOf": "2026-11-19",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 225.22,
+        "prevClose": 231.38,
+        "session": "2026-11-19",
+        "prevSession": "2026-11-18",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 322470211,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-09-30",
+        "filedAt": "2026-11-06",
+        "filing": "10-Q 0001104659-26-123591 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 51.2,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-19",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

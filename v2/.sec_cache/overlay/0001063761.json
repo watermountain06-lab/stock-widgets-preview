@@ -2,6 +2,18 @@
  "dei": {
   "EntityCommonStockSharesOutstanding": [
    {
+    "end": "2026-09-30",
+    "val": 322470211.0,
+    "filed": "2026-11-06",
+    "form": "10-Q",
+    "accn": "0001104659-26-123591",
+    "unit": "shares",
+    "classes": {
+     "us-gaap:CommonClassAMember": 322462211.0,
+     "us-gaap:CommonClassBMember": 8000.0
+    }
+   },
+   {
     "end": "2026-06-30",
     "val": 323559515.0,
     "filed": "2026-08-10",
@@ -348,6 +360,20 @@
      "us-gaap:CommonClassAMember": 308013543.0,
      "us-gaap:CommonClassBMember": 8000.0
     }
+   }
+  ]
+ },
+ "us-gaap": {
+  "ShortTermInvestments": [
+   {
+    "end": "2024-12-31",
+    "val": 0.0,
+    "accn": "0001558370-25-001271",
+    "fp": "FY",
+    "form": "10-K",
+    "filed": "2025-02-21",
+    "unit": "USD",
+    "src": "\uc190: FY2024 10-K \uc7ac\ubb34\uc0c1\ud0dc\ud45c\uc5d0 \ub2e8\uae30\ud22c\uc790 \uc904 \uc5c6\uc74c \u2014 \uac19\uc740 10-K\uac00 2023-12-31 \ube44\uad50\uac12($1.0B)\ub9cc \ud0dc\uadf8\ud558\uace0 2024-12-31 \uac12\uc740 \uc5c6\ub2e4(2024-09-30 $300M \uc815\uae30\uc608\uae08 \ub9cc\uae30 \ub4a4). \uc774 0 \ud589\uc774 \uc5c6\uc73c\uba74 \uc5d4\uc9c4\uc774 2024-09-30 $300M\uc744 \uc9c0\uae08\uae4c\uc9c0 \ub04c\uace0 \uc640 EV\uc5d0\uc11c \ube90\ub2e4(Codex\u00b7Fable r1 2026-11-20)"
    }
   ]
  }
