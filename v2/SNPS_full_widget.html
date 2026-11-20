@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="snpsPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="snpsPeerVerdict">중간</span></div>
-      <div class="logic-score" id="snpsPeerScore">60.0<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="snpsPeerScore">58.9<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="snpsSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="snpsSelfVerdict">싼 편</span></div>
@@ -933,9 +933,9 @@ Chart.overrides.doughnut.animation = false;
 · 잔존가치(5년 뒤)가 내재가치의 42%
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 계산 어려움 2/5</span><div class="vs-pill high" data-vs-pill="dcf" title="기본 내재가치가 0 이하다
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">매우 비싸다</div></div>
-      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">60.0</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">100</div><div class="sc-tile lost" data-vc="peer" data-m="psr">57</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">67</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">16</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">58.9</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">96</div><div class="sc-tile lost" data-vc="peer" data-m="psr">57</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">67</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">16</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 379.3배(5년 중앙값 65.9배)로 자기 이력 76.7점(싸다), 동종업 60.0점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
+    <div class="vs-premise">PER 379.3배(5년 중앙값 65.9배)로 자기 이력 76.7점(싸다), 동종업 58.9점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다. 현재가를 정당화하려면 영업이익률이 70.1%까지 올라야 한다(최근 4분기 8.5%, 5년 중앙값 20.7%). 내재가치에서 차입금 $10.0B를 빼고 현금·단기투자 $3.6B를 더한다. Ansys 인수로 투하자본의 큰 몫이 영업권과 인수 무형자산이고, 인수 무형자산 상각(현금이 나가지 않는 비용)이 GAAP 영업이익을 누른다 — 본업 EPS·PER·적정주가는 상각 뒤 영업이익 기준이라 FCF보다 훨씬 작은 이익을 보고, 그래서 PER이 매우 높게 나온다. 현금흐름 내재가치는 그 낮은 이익률에 큰 투하자본에 맞춘 재투자 부담과 순차입금 차감이 더해져 음수다. 과거 매출 성장률과 분기 증가율에는 인수로 더해진 매출이 들어 있고, 인수 뒤 한 해가 온전히 지난 분기부터는 전년 같은 분기에도 Ansys 실적이 온전히 포함되어 보고 증가율이 크게 낮아질 수 있다. 자기 이력의 PBR·PSR·EV/EBITDA 분포에는 인수 전 기간이 섞여 있어, 상각에 눌린 PER과 방향이 다르게 나온다.</div>
   </div>
 
@@ -1516,7 +1516,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py SNPS
 const SNPS_SCORES = {
   fundamental: 51.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 60.0,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 58.9,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 76.7,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-07-31",   // Q3 FY26 10-Q
@@ -1847,7 +1847,7 @@ const SNPS_FUNDAMENTAL = {"ticker": "SNPS", "basis": "quarter", "asOf": "2026-07
 //
 // 갱신: python3 v2/build_peer_score.py SNPS --self v2/SNPS_multiples.json --card
 /* VALUATION:BEGIN */
-const SNPS_VALUATION = {"peer": {"score": 60.0, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "pbr", "score": 100.0, "rank": 1, "peers": 24}, {"metric": "psr", "score": 57.1, "rank": 13, "peers": 28}, {"metric": "pcr", "score": 66.7, "rank": 9, "peers": 24}, {"metric": "evebitda", "score": 16.0, "rank": 22, "peers": 25}]}, "self": {"score": 76.7, "window": ["2021-11-19", "2026-11-19"], "perBasis": "core", "metrics": [{"metric": "per", "score": 8.0, "percentile": 92.0, "current": 379.3, "min": 39.78, "median": 65.92, "max": 606.84, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 93.6, "percentile": 6.4, "current": 2.65, "min": 2.26, "median": 9.09, "max": 14.36, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 96.6, "percentile": 3.4, "current": 8.77, "min": 7.48, "median": 12.06, "max": 17.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 91.4, "percentile": 8.6, "current": 30.05, "min": 25.64, "median": 44.64, "max": 92.25, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 93.9, "percentile": 6.1, "current": 34.06, "min": 29.42, "median": 46.63, "max": 86.68, "days": 1255, "currentNote": null}]}};
+const SNPS_VALUATION = {"peer": {"score": 58.9, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "pbr", "score": 95.8, "rank": 2, "peers": 24}, {"metric": "psr", "score": 57.1, "rank": 13, "peers": 28}, {"metric": "pcr", "score": 66.7, "rank": 9, "peers": 24}, {"metric": "evebitda", "score": 16.0, "rank": 22, "peers": 25}]}, "self": {"score": 76.7, "window": ["2021-11-19", "2026-11-19"], "perBasis": "core", "metrics": [{"metric": "per", "score": 8.0, "percentile": 92.0, "current": 379.3, "min": 39.78, "median": 65.92, "max": 606.84, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 93.6, "percentile": 6.4, "current": 2.65, "min": 2.26, "median": 9.09, "max": 14.36, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 96.6, "percentile": 3.4, "current": 8.77, "min": 7.48, "median": 12.06, "max": 17.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 91.4, "percentile": 8.6, "current": 30.05, "min": 25.64, "median": 44.64, "max": 92.25, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 93.9, "percentile": 6.1, "current": 34.06, "min": 29.42, "median": 46.63, "max": 86.68, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="muPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="muPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="muPeerScore">90.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="muPeerScore">88.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="muSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="muSelfVerdict">중간</span></div>
@@ -934,9 +934,9 @@ Chart.overrides.doughnut.animation = false;
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.
 보수~낙관 시나리오가 현재가를 사이에 둬, 가정에 따라 판정이 갈린다.">싸다 · 갈림</div></div>
-      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">90.5</div><div class="sc-tile" data-vc="peer" data-m="per">100</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">74</div><div class="sc-tile" data-vc="peer" data-m="pcr">91</div><div class="sc-tile" data-vc="peer" data-m="evebitda">100</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">88.8</div><div class="sc-tile" data-vc="peer" data-m="per">100</div><div class="sc-tile" data-vc="peer" data-m="pbr">83</div><div class="sc-tile" data-vc="peer" data-m="psr">74</div><div class="sc-tile" data-vc="peer" data-m="pcr">91</div><div class="sc-tile" data-vc="peer" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 9.3배(3.7년 중앙값 21.2배)로 자기 이력 59.7점(중간), 동종업 90.5점(싸다)이다. <strong>현금흐름 내재가치(기본 $875.76)는 현재가의 127%다</strong>.</div>
+    <div class="vs-premise">PER 9.3배(3.7년 중앙값 21.2배)로 자기 이력 59.7점(중간), 동종업 88.8점(싸다)이다. <strong>현금흐름 내재가치(기본 $875.76)는 현재가의 127%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 +1, 합계 +2 “적정~저평가”이다. 현금흐름 내재가치(기본 $875.76)는 현재가의 127%다. 현재가를 정당화하려면 매출이 5년간 연 13.0% 커야 한다. 내재가치에서 차입금 $5.2B를 빼고 현금·단기투자 $43.4B를 더한다.</div>
   </div>
 
@@ -1492,7 +1492,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py MU
 const MU_SCORES = {
   fundamental: 95.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 90.5,          // GICS Information Technology 28종목 대비 배수 순위
+  peer: 88.8,          // GICS Information Technology 28종목 대비 배수 순위
   selfHistory: 59.7,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-03",   // FY26 10-K
@@ -1818,7 +1818,7 @@ const MU_FUNDAMENTAL = {"ticker": "MU", "basis": "quarter", "asOf": "2026-09-03"
 //
 // 갱신: python3 v2/build_peer_score.py MU --self v2/MU_multiples.json --card
 /* VALUATION:BEGIN */
-const MU_VALUATION = {"peer": {"score": 90.5, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 24}, {"metric": "pbr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "psr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "pcr", "score": 91.3, "rank": 3, "peers": 23}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 24}]}, "self": {"score": 59.7, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 80.2, "percentile": 19.8, "current": 9.29, "min": 5.58, "median": 21.22, "max": 162.01, "days": 936, "currentNote": null}, {"metric": "pbr", "score": 17.3, "percentile": 82.7, "current": 5.65, "min": 1.09, "median": 2.25, "max": 18.85, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 31.5, "percentile": 68.5, "current": 5.87, "min": 1.66, "median": 4.23, "max": 23.51, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.2, "percentile": 4.8, "current": 13.25, "min": 11.19, "median": 65.86, "max": 1039.19, "days": 873, "currentNote": null}, {"metric": "evebitda", "score": 74.5, "percentile": 25.5, "current": 6.83, "min": 2.82, "median": 11.58, "max": 104.72, "days": 1255, "currentNote": null}]}};
+const MU_VALUATION = {"peer": {"score": 88.8, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 24}, {"metric": "pbr", "score": 82.6, "rank": 5, "peers": 23}, {"metric": "psr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "pcr", "score": 91.3, "rank": 3, "peers": 23}, {"metric": "evebitda", "score": 95.8, "rank": 2, "peers": 24}]}, "self": {"score": 59.7, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 80.2, "percentile": 19.8, "current": 9.29, "min": 5.58, "median": 21.22, "max": 162.01, "days": 936, "currentNote": null}, {"metric": "pbr", "score": 17.3, "percentile": 82.7, "current": 5.65, "min": 1.09, "median": 2.25, "max": 18.85, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 31.5, "percentile": 68.5, "current": 5.87, "min": 1.66, "median": 4.23, "max": 23.51, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 95.2, "percentile": 4.8, "current": 13.25, "min": 11.19, "median": 65.86, "max": 1039.19, "days": 873, "currentNote": null}, {"metric": "evebitda", "score": 74.5, "percentile": 25.5, "current": 6.83, "min": 2.82, "median": 11.58, "max": 104.72, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

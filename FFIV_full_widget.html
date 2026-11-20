@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="ffivPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ffivPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="ffivPeerScore">75.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="ffivPeerScore">73.9<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="ffivSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="ffivSelfVerdict">중간</span></div>
@@ -931,9 +931,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.76 ~ 2.19(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">75.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">68</div><div class="sc-tile" data-vc="peer" data-m="pbr">88</div><div class="sc-tile" data-vc="peer" data-m="psr">79</div><div class="sc-tile" data-vc="peer" data-m="pcr">79</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">64</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">73.9</div><div class="sc-tile lost" data-vc="peer" data-m="per">68</div><div class="sc-tile" data-vc="peer" data-m="pbr">83</div><div class="sc-tile" data-vc="peer" data-m="psr">75</div><div class="sc-tile" data-vc="peer" data-m="pcr">79</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">64</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 25.4배(5년 중앙값 27.4배)로 자기 이력 41.4점(중간), 동종업 75.5점(싸다)이다. <strong>현금흐름 내재가치(기본 $179.99)는 현재가의 57%다</strong>.</div>
+    <div class="vs-premise">PER 25.4배(5년 중앙값 27.4배)로 자기 이력 41.4점(중간), 동종업 73.9점(싸다)이다. <strong>현금흐름 내재가치(기본 $179.99)는 현재가의 57%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $179.99)는 현재가의 57%다. 현재가를 정당화하려면 영업이익률이 43.6%까지 올라야 한다(최근 4분기 23.9%, 5년 중앙값 20.8%). 내재가치에서 차입금 $0M를 빼고 현금·단기투자 $1.6B를 더한다. 카드 재무는 6월 분기까지다. 10/27 발표한 4분기(매출 $917M, +13%, 희석 EPS $3.23)는 FY2026 10-K가 나오면 반영된다 — 발표 다음 날 주가는 −20.4%였다. 2025-10 공시한 국가 배후 해킹(BIG-IP 소스코드 유출)으로 FY26 비용 $28M(보험 환급 $10M)이 들었고 증권 집단소송이 진행 중이다(충당금 없음). 동종업 점수는 카드 유니버스 IT(반도체·소프트웨어·하드웨어) 기준이다.</div>
   </div>
 
@@ -1482,7 +1482,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py FFIV
 const FFIV_SCORES = {
   fundamental: 72.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 75.5,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 73.9,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 41.4,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-30",   // FY26 10-K
@@ -1813,7 +1813,7 @@ const FFIV_FUNDAMENTAL = {"ticker": "FFIV", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py FFIV --self v2/FFIV_multiples.json --card
 /* VALUATION:BEGIN */
-const FFIV_VALUATION = {"peer": {"score": 75.5, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "pbr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "psr", "score": 78.6, "rank": 7, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 64.0, "rank": 10, "peers": 25}]}, "self": {"score": 41.4, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 72.3, "percentile": 27.7, "current": 25.41, "min": 19.73, "median": 27.37, "max": 46.4, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 41.9, "percentile": 58.1, "current": 4.52, "min": 2.96, "median": 4.23, "max": 7.05, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 30.8, "percentile": 69.2, "current": 5.3, "min": 2.89, "median": 4.51, "max": 8.21, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 25.7, "percentile": 74.3, "current": 20.84, "min": 13.47, "median": 18.76, "max": 28.02, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 36.4, "percentile": 63.6, "current": 18.06, "min": 12.66, "median": 16.97, "max": 28.72, "days": 1255, "currentNote": null}]}};
+const FFIV_VALUATION = {"peer": {"score": 73.9, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 68.0, "rank": 9, "peers": 25}, {"metric": "pbr", "score": 83.3, "rank": 5, "peers": 24}, {"metric": "psr", "score": 75.0, "rank": 8, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 64.0, "rank": 10, "peers": 25}]}, "self": {"score": 41.4, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 72.3, "percentile": 27.7, "current": 25.41, "min": 19.73, "median": 27.37, "max": 46.4, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 41.9, "percentile": 58.1, "current": 4.52, "min": 2.96, "median": 4.23, "max": 7.05, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 30.8, "percentile": 69.2, "current": 5.3, "min": 2.89, "median": 4.51, "max": 8.21, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 25.7, "percentile": 74.3, "current": 20.84, "min": 13.47, "median": 18.76, "max": 28.02, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 36.4, "percentile": 63.6, "current": 18.06, "min": 12.66, "median": 16.97, "max": 28.72, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

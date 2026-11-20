@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="skhyPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="skhyPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="skhyPeerScore">95.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="skhyPeerScore">92.2<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="skhySelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="skhySelfVerdict">중간</span></div>
@@ -935,9 +935,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 0.08 ~ 0.70(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 싸다</div></div>
-      <div class="vs-name" title="같은 IT 섹터(카드 유니버스 28종목)보다 배수가 얼마나 낮은가. 높을수록 싸다. ADR 가격 기준.">동종업 대비</div><div class="vs-val" data-vc-score="peer">95.2</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">96</div><div class="sc-tile" data-vc="peer" data-m="psr">85</div><div class="sc-tile" data-vc="peer" data-m="pcr">100</div><div class="sc-tile" data-vc="peer" data-m="evebitda">100</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="같은 IT 섹터(카드 유니버스 28종목)보다 배수가 얼마나 낮은가. 높을수록 싸다. ADR 가격 기준.">동종업 대비</div><div class="vs-val" data-vc-score="peer">92.2</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">91</div><div class="sc-tile" data-vc="peer" data-m="psr">82</div><div class="sc-tile" data-vc="peer" data-m="pcr">100</div><div class="sc-tile" data-vc="peer" data-m="evebitda">96</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 7.2배(3.6년 중앙값 10.2배)로 자기 이력 52.9점(중간), 동종업 95.2점(싸다)이다. <strong>현금흐름 내재가치(기본 $370.09)는 현재가의 310%다</strong>.</div>
+    <div class="vs-premise">PER 7.2배(3.6년 중앙값 10.2배)로 자기 이력 52.9점(중간), 동종업 92.2점(싸다)이다. <strong>현금흐름 내재가치(기본 $370.09)는 현재가의 310%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 +1, 합계 +2 “적정~저평가”이다. 현금흐름 내재가치(기본 $370.09)는 현재가의 310%다. 현재가를 정당화하려면 매출이 5년간 연 −8.1% 커야 한다. 내재가치에서 차입금·금융리스 ₩18.1조를 빼고 현금·단기투자 ₩114.5조를 더한다.</div>
   </div>
 
@@ -1344,7 +1344,7 @@ const MULTIPLE_DATA = {
     unit: 'PBR', max: 20, skhyValue: null,
     peers: [
       { name:'MU', value:7.7, status:'reference' },
-      { name:'SNDK', value:7.0, status:'reference' },
+      { name:'SNDK', value:0.9, status:'reference' },
       { name:'NVDA', value:15.5, status:'reference' },
       { name:'TSM', value:8.9, status:'reference' },
       { name:'AVGO', value:17.0, status:'reference' }
@@ -1355,7 +1355,7 @@ const MULTIPLE_DATA = {
     unit: 'PSR(TTM)', max: 25, skhyValue: null,
     peers: [
       { name:'MU', value:8.6, status:'reference' },
-      { name:'SNDK', value:5.5, status:'reference' },
+      { name:'SNDK', value:0.7, status:'reference' },
       { name:'NVDA', value:11.7, status:'reference' },
       { name:'TSM', value:12.8, status:'reference' },
       { name:'AVGO', value:19.0, status:'reference' }
@@ -1375,7 +1375,7 @@ const MULTIPLE_DATA = {
     unit: 'EV/EBITDA', max: 40, skhyValue: null,
     peers: [
       { name:'MU', value:11.2, status:'reference' },
-      { name:'SNDK', value:8.4, status:'reference' },
+      { name:'SNDK', value:0.7, status:'reference' },
       { name:'NVDA', value:17.3, status:'reference' },
       { name:'AVGO', value:33.5, status:'reference' }
     ]
@@ -1507,7 +1507,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py SKHY
 const SKHY_SCORES = {
   fundamental: 98.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 95.2,          // GICS Information Technology 대비 배수 순위 (ADR 가격 × 그날 환율 ÷ 원화 재무)
+  peer: 92.2,          // GICS Information Technology 대비 배수 순위 (ADR 가격 × 그날 환율 ÷ 원화 재무)
   selfHistory: 52.9,   // 자기 5년 배수 분포 백분위 (2026-07-10 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 분기보고서 (2026-11-16 공시)
@@ -1833,7 +1833,7 @@ const SKHY_FUNDAMENTAL = {"ticker": "SKHY", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py SKHY --self v2/SKHY_multiples.json --card
 /* VALUATION:BEGIN */
-const SKHY_VALUATION = {"peer": {"score": 95.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "pbr", "score": 95.7, "rank": 2, "peers": 23}, {"metric": "psr", "score": 85.2, "rank": 5, "peers": 27}, {"metric": "pcr", "score": 100.0, "rank": 1, "peers": 23}, {"metric": "evebitda", "score": 100.0, "rank": 1, "peers": 24}]}, "self": {"score": 52.9, "window": ["2021-11-19", "2026-11-19"], "perBasis": "core", "metrics": [{"metric": "per", "score": 70.3, "percentile": 29.7, "current": 7.24, "min": 4.99, "median": 10.2, "max": 34.51, "days": 898, "currentNote": null}, {"metric": "pbr", "score": 20.2, "percentile": 79.8, "current": 3.67, "min": 0.75, "median": 1.83, "max": 12.58, "days": 1206, "currentNote": null}, {"metric": "psr", "score": 22.0, "percentile": 78.0, "current": 4.21, "min": 1.05, "median": 2.54, "max": 15.65, "days": 1206, "currentNote": null}, {"metric": "pcr", "score": 90.7, "percentile": 9.3, "current": 9.16, "min": 6.32, "median": 15.8, "max": 53.63, "days": 917, "currentNote": null}, {"metric": "evebitda", "score": 61.1, "percentile": 38.9, "current": 4.8, "min": 2.49, "median": 6.54, "max": 35.26, "days": 1206, "currentNote": null}]}};
+const SKHY_VALUATION = {"peer": {"score": 92.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "pbr", "score": 91.3, "rank": 3, "peers": 23}, {"metric": "psr", "score": 81.5, "rank": 6, "peers": 27}, {"metric": "pcr", "score": 100.0, "rank": 1, "peers": 23}, {"metric": "evebitda", "score": 95.8, "rank": 2, "peers": 24}]}, "self": {"score": 52.9, "window": ["2021-11-19", "2026-11-19"], "perBasis": "core", "metrics": [{"metric": "per", "score": 70.3, "percentile": 29.7, "current": 7.24, "min": 4.99, "median": 10.2, "max": 34.51, "days": 898, "currentNote": null}, {"metric": "pbr", "score": 20.2, "percentile": 79.8, "current": 3.67, "min": 0.75, "median": 1.83, "max": 12.58, "days": 1206, "currentNote": null}, {"metric": "psr", "score": 22.0, "percentile": 78.0, "current": 4.21, "min": 1.05, "median": 2.54, "max": 15.65, "days": 1206, "currentNote": null}, {"metric": "pcr", "score": 90.7, "percentile": 9.3, "current": 9.16, "min": 6.32, "median": 15.8, "max": 53.63, "days": 917, "currentNote": null}, {"metric": "evebitda", "score": 61.1, "percentile": 38.9, "current": 4.8, "min": 2.49, "median": 6.54, "max": 35.26, "days": 1206, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

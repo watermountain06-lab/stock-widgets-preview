@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="nflxPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="nflxPeerVerdict">중간</span></div>
-      <div class="logic-score" id="nflxPeerScore">65.7<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="nflxPeerScore">65.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="nflxSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="nflxSelfVerdict">싼 편</span></div>
@@ -900,9 +900,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.26 ~ 2.05(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">비싸다</div></div>
-      <div class="vs-name" title="같은 커뮤니케이션 서비스 섹터와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">65.7</div><div class="sc-tile" data-vc="peer" data-m="per">70</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">48</div><div class="sc-tile" data-vc="peer" data-m="psr">76</div><div class="sc-tile" data-vc="peer" data-m="pcr">72</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">62</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="같은 커뮤니케이션 서비스 섹터와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">65.1</div><div class="sc-tile" data-vc="peer" data-m="per">70</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">48</div><div class="sc-tile" data-vc="peer" data-m="psr">73</div><div class="sc-tile" data-vc="peer" data-m="pcr">72</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">62</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 19.8배(5년 중앙값 41.0배)로 자기 이력 88.8점(싸다), 동종업 65.7점(중간)이다. <strong>현금흐름 내재가치(기본 $42.29)는 현재가의 72%다</strong>.</div>
+    <div class="vs-premise">PER 19.8배(5년 중앙값 41.0배)로 자기 이력 88.8점(싸다), 동종업 65.1점(중간)이다. <strong>현금흐름 내재가치(기본 $42.29)는 현재가의 72%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −1, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $42.29)는 현재가의 72%다. 현재가를 정당화하려면 매출이 5년간 연 16.6% 커야 한다. 내재가치에서 차입금 $15.1B를 빼고 현금·단기투자 $8.2B를 더한다.</div>
   </div>
 
@@ -1482,7 +1482,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py NFLX
 const NFLX_SCORES = {
   fundamental: 70.7,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 65.7,          // Communication Services + Information Technology 카드 유니버스 대비 배수 순위
+  peer: 65.1,          // Communication Services + Information Technology 카드 유니버스 대비 배수 순위
   selfHistory: 88.8,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1808,7 +1808,7 @@ const NFLX_FUNDAMENTAL = {"ticker": "NFLX", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py NFLX --self v2/NFLX_multiples.json --card
 /* VALUATION:BEGIN */
-const NFLX_VALUATION = {"peer": {"score": 65.7, "sector": "Communication Services + Information Technology", "asOf": ["2026-08-27", "2026-09-14"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 70.0, "rank": 10, "peers": 30}, {"metric": "pbr", "score": 48.3, "rank": 16, "peers": 29}, {"metric": "psr", "score": 75.8, "rank": 9, "peers": 33}, {"metric": "pcr", "score": 72.4, "rank": 9, "peers": 29}, {"metric": "evebitda", "score": 62.1, "rank": 12, "peers": 29}]}, "self": {"score": 88.8, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.3, "percentile": 5.7, "current": 19.83, "min": 15.1, "median": 40.98, "max": 63.28, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 73.9, "percentile": 26.1, "current": 8.2, "min": 4.21, "median": 11.49, "max": 23.72, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 80.3, "percentile": 19.7, "current": 4.83, "min": 2.43, "median": 7.13, "max": 14.19, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 100.0, "percentile": 0.0, "current": 21.1, "min": 21.1, "median": 47.7, "max": 1987.94, "days": 1135, "currentNote": null}, {"metric": "evebitda", "score": 95.4, "percentile": 4.6, "current": 15.48, "min": 12.78, "median": 31.12, "max": 50.35, "days": 1255, "currentNote": null}]}};
+const NFLX_VALUATION = {"peer": {"score": 65.1, "sector": "Communication Services + Information Technology", "asOf": ["2026-08-27", "2026-09-14"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 70.0, "rank": 10, "peers": 30}, {"metric": "pbr", "score": 48.3, "rank": 16, "peers": 29}, {"metric": "psr", "score": 72.7, "rank": 10, "peers": 33}, {"metric": "pcr", "score": 72.4, "rank": 9, "peers": 29}, {"metric": "evebitda", "score": 62.1, "rank": 12, "peers": 29}]}, "self": {"score": 88.8, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 94.3, "percentile": 5.7, "current": 19.83, "min": 15.1, "median": 40.98, "max": 63.28, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 73.9, "percentile": 26.1, "current": 8.2, "min": 4.21, "median": 11.49, "max": 23.72, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 80.3, "percentile": 19.7, "current": 4.83, "min": 2.43, "median": 7.13, "max": 14.19, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 100.0, "percentile": 0.0, "current": 21.1, "min": 21.1, "median": 47.7, "max": 1987.94, "days": 1135, "currentNote": null}, {"metric": "evebitda", "score": 95.4, "percentile": 4.6, "current": 15.48, "min": 12.78, "median": 31.12, "max": 50.35, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

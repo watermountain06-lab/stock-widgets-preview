@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="ibmPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ibmPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="ibmPeerScore">83.2<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="ibmPeerScore">81.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="ibmSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="ibmSelfVerdict">중간</span></div>
@@ -938,9 +938,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 4.81 ~ 18.00(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">83.2</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">96</div><div class="sc-tile" data-vc="peer" data-m="pcr">87</div><div class="sc-tile" data-vc="peer" data-m="evebitda">71</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="같은 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">81.6</div><div class="sc-tile" data-vc="peer" data-m="per">75</div><div class="sc-tile" data-vc="peer" data-m="pbr">83</div><div class="sc-tile" data-vc="peer" data-m="psr">93</div><div class="sc-tile" data-vc="peer" data-m="pcr">87</div><div class="sc-tile" data-vc="peer" data-m="evebitda">71</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 22.0배(4.7년 중앙값 29.0배)로 자기 이력 64.3점(중간), 동종업 83.2점(싸다)이다. <strong>현금흐름 내재가치(기본 $40.48)는 현재가의 18%다</strong>.</div>
+    <div class="vs-premise">PER 22.0배(4.7년 중앙값 29.0배)로 자기 이력 64.3점(중간), 동종업 81.6점(싸다)이다. <strong>현금흐름 내재가치(기본 $40.48)는 현재가의 18%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $40.48)는 현재가의 18%다. 현재가를 정당화하려면 영업이익률이 37.5%까지 올라야 한다(최근 4분기 16.2%, 5년 중앙값 13.6%). 내재가치에서 차입금 $63.8B를 빼고 현금·단기투자 $11.1B를 더한다.</div>
   </div>
 
@@ -1506,7 +1506,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py IBM
 const IBM_SCORES = {
   fundamental: 45.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 83.2,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 81.6,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 64.3,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1837,7 +1837,7 @@ const IBM_FUNDAMENTAL = {"ticker": "IBM", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py IBM --self v2/IBM_multiples.json --card
 /* VALUATION:BEGIN */
-const IBM_VALUATION = {"peer": {"score": 83.2, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "pbr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "psr", "score": 96.3, "rank": 2, "peers": 27}, {"metric": "pcr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "evebitda", "score": 70.8, "rank": 8, "peers": 24}]}, "self": {"score": 64.3, "window": ["2022-02-22", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 84.9, "percentile": 15.1, "current": 21.97, "min": 18.64, "median": 29.0, "max": 99.72, "days": 1192, "currentNote": null}, {"metric": "pbr", "score": 82.6, "percentile": 17.4, "current": 5.95, "min": 5.08, "median": 6.7, "max": 10.55, "days": 1192, "currentNote": null}, {"metric": "psr", "score": 44.5, "percentile": 55.5, "current": 3.03, "min": 1.78, "median": 2.82, "max": 4.5, "days": 1192, "currentNote": null}, {"metric": "pcr", "score": 55.5, "percentile": 44.5, "current": 14.44, "min": 10.17, "median": 15.5, "max": 23.96, "days": 1192, "currentNote": null}, {"metric": "evebitda", "score": 54.1, "percentile": 45.9, "current": 15.97, "min": 11.87, "median": 16.39, "max": 24.01, "days": 1192, "currentNote": null}]}};
+const IBM_VALUATION = {"peer": {"score": 81.6, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 75.0, "rank": 7, "peers": 24}, {"metric": "pbr", "score": 82.6, "rank": 5, "peers": 23}, {"metric": "psr", "score": 92.6, "rank": 3, "peers": 27}, {"metric": "pcr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "evebitda", "score": 70.8, "rank": 8, "peers": 24}]}, "self": {"score": 64.3, "window": ["2022-02-22", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 84.9, "percentile": 15.1, "current": 21.97, "min": 18.64, "median": 29.0, "max": 99.72, "days": 1192, "currentNote": null}, {"metric": "pbr", "score": 82.6, "percentile": 17.4, "current": 5.95, "min": 5.08, "median": 6.7, "max": 10.55, "days": 1192, "currentNote": null}, {"metric": "psr", "score": 44.5, "percentile": 55.5, "current": 3.03, "min": 1.78, "median": 2.82, "max": 4.5, "days": 1192, "currentNote": null}, {"metric": "pcr", "score": 55.5, "percentile": 44.5, "current": 14.44, "min": 10.17, "median": 15.5, "max": 23.96, "days": 1192, "currentNote": null}, {"metric": "evebitda", "score": 54.1, "percentile": 45.9, "current": 15.97, "min": 11.87, "median": 16.39, "max": 24.01, "days": 1192, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

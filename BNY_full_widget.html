@@ -1005,7 +1005,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 11/18 종가</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">S&amp;P500 은행 PER 비교 · 11/19 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1015,7 +1015,7 @@ Chart.overrides.doughnut.animation = false;
 </div>
 
 <div id="news" class="section">
-  <div class="section-title">시계열 주요 뉴스 (2025.10 ~ 2026.10)</div>
+  <div class="section-title">시계열 주요 뉴스 (2026.01 ~ 2026.10)</div>
 
   <div class="card">
     <div class="card-title">종합 해석</div>
@@ -1058,12 +1058,6 @@ Chart.overrides.doughnut.animation = false;
         <div class="tl-date">2026년 1월 13일 — 실적 발표<span class="tl-reaction up" data-react="2026-01-13">+1.9%</span></div>
         <div class="tl-title">Q4 2025 순영업수익 $5.2B, 보통주 귀속 순이익 $1.4B(1년 전 $1.1B) · SEC 10-Q·10-K 기준</div>
         <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1390777/000139077726000004/ex991_earningsreleasex4q25.htm" target="_blank" rel="noopener">BNY 실적 보도자료 (SEC 8-K) →</a>
-      </div>
-      <div class="tl-item">
-        <div class="tl-dot neutral"></div>
-        <div class="tl-date">2025년 10월 16일 — 실적 발표<span class="tl-reaction down" data-react="2025-10-16">−2.0%</span></div>
-        <div class="tl-title">Q3 2025 순영업수익 $5.1B, 보통주 귀속 순이익 $1.3B(1년 전 $1.1B) · SEC 10-Q·10-K 기준</div>
-        <a class="tl-source" href="https://www.sec.gov/Archives/edgar/data/1390777/000139077725000144/ex991_earningsreleasex3q25.htm" target="_blank" rel="noopener">BNY 실적 보도자료 (SEC 8-K) →</a>
       </div>
     </div>
     <div class="tl-pager" id="newsPager"></div>
@@ -1311,77 +1305,77 @@ function renderSegmentChart() {
 // 은행 동종업(peer_universe/banks.json, 은행 사전 등록 §3)에서 고른 6곳. 값이 없는 은행은 뺀다.
 const MULTIPLE_DATA = {
   "per": {
-    "title": "S&P500 은행 PER 비교 · 11/18 종가",
+    "title": "S&P500 은행 PER 비교 · 11/19 종가",
     "unit": "PER(TTM)",
     "max": 25,
     "bnyValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 13.59,
+        "value": 13.43,
         "status": "reference"
       },
       {
         "name": "USB",
-        "value": 11.36,
+        "value": 11.16,
         "status": "reference"
       },
       {
         "name": "FITB",
-        "value": 17.86,
+        "value": 17.47,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 10.92,
+        "value": 10.66,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 11.21,
+        "value": 11.03,
         "status": "reference"
       },
       {
         "name": "HBAN",
-        "value": 12.35,
+        "value": 12.16,
         "status": "reference"
       }
     ]
   },
   "pbr": {
-    "title": "S&P500 은행 P/TBV 비교 · 11/18 종가",
+    "title": "S&P500 은행 P/TBV 비교 · 11/19 종가",
     "unit": "P/TBV",
     "max": 4,
     "bnyValue": null,
     "peers": [
       {
         "name": "JPM",
-        "value": 2.91,
+        "value": 2.87,
         "status": "reference"
       },
       {
         "name": "USB",
-        "value": 2.04,
+        "value": 2.01,
         "status": "reference"
       },
       {
         "name": "FITB",
-        "value": 2.36,
+        "value": 2.31,
         "status": "reference"
       },
       {
         "name": "RF",
-        "value": 2.24,
+        "value": 2.19,
         "status": "reference"
       },
       {
         "name": "MTB",
-        "value": 1.85,
+        "value": 1.82,
         "status": "reference"
       },
       {
         "name": "HBAN",
-        "value": 1.59,
+        "value": 1.56,
         "status": "reference"
       }
     ]

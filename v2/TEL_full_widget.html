@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="telPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="telPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="telPeerScore">85.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="telPeerScore">83.9<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="telSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="telSelfVerdict">중간</span></div>
@@ -931,9 +931,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.70 ~ 2.09(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">85.5</div><div class="sc-tile" data-vc="peer" data-m="per">76</div><div class="sc-tile" data-vc="peer" data-m="pbr">92</div><div class="sc-tile" data-vc="peer" data-m="psr">96</div><div class="sc-tile" data-vc="peer" data-m="pcr">79</div><div class="sc-tile" data-vc="peer" data-m="evebitda">84</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">83.9</div><div class="sc-tile" data-vc="peer" data-m="per">76</div><div class="sc-tile" data-vc="peer" data-m="pbr">88</div><div class="sc-tile" data-vc="peer" data-m="psr">93</div><div class="sc-tile" data-vc="peer" data-m="pcr">79</div><div class="sc-tile" data-vc="peer" data-m="evebitda">84</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 19.1배(5년 중앙값 19.6배)로 자기 이력 51.5점(중간), 동종업 85.5점(싸다)이다. <strong>현금흐름 내재가치(기본 $121.79)는 현재가의 58%다</strong>.</div>
+    <div class="vs-premise">PER 19.1배(5년 중앙값 19.6배)로 자기 이력 51.5점(중간), 동종업 83.9점(싸다)이다. <strong>현금흐름 내재가치(기본 $121.79)는 현재가의 58%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $121.79)는 현재가의 58%다. 현재가를 정당화하려면 영업이익률이 29.9%까지 올라야 한다(최근 4분기 20.1%, 5년 중앙값 17.6%). 내재가치에서 차입금 $5.6B를 빼고 현금·단기투자 $1.7B를 더한다. 매출의 절반은 자동차 등 운송, 절반은 데이터센터·에너지·자동화 같은 산업 쪽이다. 운송 쪽은 자동차 생산 경기에, 산업 쪽은 데이터센터 투자에 따라 성장 속도가 갈린다. EPS는 계속사업 기준이다. 7월에 합의한 Astrodyne TDI 인수(현금)는 아직 숫자에 없다.</div>
   </div>
 
@@ -1499,7 +1499,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py TEL
 const TEL_SCORES = {
   fundamental: 69.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 85.5,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 83.9,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 51.5,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-25",   // FY26 10-K
@@ -1830,7 +1830,7 @@ const TEL_FUNDAMENTAL = {"ticker": "TEL", "basis": "quarter", "asOf": "2026-09-2
 //
 // 갱신: python3 v2/build_peer_score.py TEL --self v2/TEL_multiples.json --card
 /* VALUATION:BEGIN */
-const TEL_VALUATION = {"peer": {"score": 85.5, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 76.0, "rank": 7, "peers": 25}, {"metric": "pbr", "score": 91.7, "rank": 3, "peers": 24}, {"metric": "psr", "score": 96.4, "rank": 2, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 84.0, "rank": 5, "peers": 25}]}, "self": {"score": 51.5, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 53.1, "percentile": 46.9, "current": 19.08, "min": 12.76, "median": 19.57, "max": 50.82, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 27.6, "percentile": 72.4, "current": 4.46, "min": 2.93, "median": 3.75, "max": 5.94, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 33.3, "percentile": 66.7, "current": 3.05, "min": 2.18, "median": 2.8, "max": 4.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 63.8, "percentile": 36.2, "current": 17.79, "min": 12.54, "median": 19.06, "max": 29.19, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 79.7, "percentile": 20.3, "current": 12.87, "min": 10.72, "median": 13.77, "max": 20.88, "days": 1255, "currentNote": null}]}};
+const TEL_VALUATION = {"peer": {"score": 83.9, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 76.0, "rank": 7, "peers": 25}, {"metric": "pbr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "psr", "score": 92.9, "rank": 3, "peers": 28}, {"metric": "pcr", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "evebitda", "score": 84.0, "rank": 5, "peers": 25}]}, "self": {"score": 51.5, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 53.1, "percentile": 46.9, "current": 19.08, "min": 12.76, "median": 19.57, "max": 50.82, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 27.6, "percentile": 72.4, "current": 4.46, "min": 2.93, "median": 3.75, "max": 5.94, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 33.3, "percentile": 66.7, "current": 3.05, "min": 2.18, "median": 2.8, "max": 4.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 63.8, "percentile": 36.2, "current": 17.79, "min": 12.54, "median": 19.06, "max": 29.19, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 79.7, "percentile": 20.3, "current": 12.87, "min": 10.72, "median": 13.77, "max": 20.88, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="rostPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="rostPeerVerdict">중간</span></div>
-      <div class="logic-score" id="rostPeerScore">69.6<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="rostPeerScore">69.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="rostSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="rostSelfVerdict">중간</span></div>
@@ -930,9 +930,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.60 ~ 1.98(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.6</div><div class="sc-tile lost" data-vc="peer" data-m="per">64</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">52</div><div class="sc-tile" data-vc="peer" data-m="psr">94</div><div class="sc-tile" data-vc="peer" data-m="pcr">74</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">64</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.0</div><div class="sc-tile lost" data-vc="peer" data-m="per">64</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">52</div><div class="sc-tile" data-vc="peer" data-m="psr">90</div><div class="sc-tile" data-vc="peer" data-m="pcr">74</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">64</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 26.6배(5년 중앙값 24.5배)로 자기 이력 34.3점(중간), 동종업 69.6점(중간)이다. <strong>현금흐름 내재가치(기본 $121.64)는 현재가의 55%다</strong>.</div>
+    <div class="vs-premise">PER 26.6배(5년 중앙값 24.5배)로 자기 이력 34.3점(중간), 동종업 69.0점(중간)이다. <strong>현금흐름 내재가치(기본 $121.64)는 현재가의 55%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $121.64)는 현재가의 55%다. 현재가를 정당화하려면 영업이익률이 22.7%까지 올라야 한다(최근 4분기 13.7%, 5년 중앙값 11.9%). 내재가치에서 차입금 $1.0B를 빼고 현금·단기투자 $4.3B를 더한다. 최근 분기 영업이익에 일회성 관세 환급이 들어 있어, 최근 4분기 이익률에서 출발하는 세 시나리오와 현금흐름이 모두 그만큼 높게 계산된다. 예전 손익계산서에 영업이익 줄이 없어 세전이익에서 순이자수익을 빼 이력을 이었다. 매장 임차료는 영업이익에 이미 비용으로 들어 있어 운용리스 부채는 빼지 않는다.</div>
   </div>
 
@@ -1499,7 +1499,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ROST
 const ROST_SCORES = {
   fundamental: 62.0,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 69.6,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
+  peer: 69.0,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 34.3,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-08-01",   // Q2 FY26 10-Q
@@ -1830,7 +1830,7 @@ const ROST_FUNDAMENTAL = {"ticker": "ROST", "basis": "quarter", "asOf": "2026-08
 //
 // 갱신: python3 v2/build_peer_score.py ROST --self v2/ROST_multiples.json --card
 /* VALUATION:BEGIN */
-const ROST_VALUATION = {"peer": {"score": 69.6, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 64.3, "rank": 11, "peers": 28}, {"metric": "pbr", "score": 51.9, "rank": 14, "peers": 27}, {"metric": "psr", "score": 93.5, "rank": 3, "peers": 31}, {"metric": "pcr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "evebitda", "score": 64.3, "rank": 11, "peers": 28}]}, "self": {"score": 34.3, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 33.9, "percentile": 66.1, "current": 26.62, "min": 14.76, "median": 24.54, "max": 35.65, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 20.3, "percentile": 79.7, "current": 10.42, "min": 6.06, "median": 9.24, "max": 12.99, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 15.2, "percentile": 84.8, "current": 2.87, "min": 1.31, "median": 2.21, "max": 3.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 74.6, "percentile": 25.4, "current": 25.17, "min": 12.38, "median": 28.37, "max": 832.59, "days": 1191, "currentNote": null}, {"metric": "evebitda", "score": 27.4, "percentile": 72.6, "current": 17.13, "min": 8.45, "median": 15.56, "max": 22.96, "days": 1255, "currentNote": null}]}};
+const ROST_VALUATION = {"peer": {"score": 69.0, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 64.3, "rank": 11, "peers": 28}, {"metric": "pbr", "score": 51.9, "rank": 14, "peers": 27}, {"metric": "psr", "score": 90.3, "rank": 4, "peers": 31}, {"metric": "pcr", "score": 74.1, "rank": 8, "peers": 27}, {"metric": "evebitda", "score": 64.3, "rank": 11, "peers": 28}]}, "self": {"score": 34.3, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 33.9, "percentile": 66.1, "current": 26.62, "min": 14.76, "median": 24.54, "max": 35.65, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 20.3, "percentile": 79.7, "current": 10.42, "min": 6.06, "median": 9.24, "max": 12.99, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 15.2, "percentile": 84.8, "current": 2.87, "min": 1.31, "median": 2.21, "max": 3.44, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 74.6, "percentile": 25.4, "current": 25.17, "min": 12.38, "median": 28.37, "max": 832.59, "days": 1191, "currentNote": null}, {"metric": "evebitda", "score": 27.4, "percentile": 72.6, "current": 17.13, "min": 8.45, "median": 15.56, "max": 22.96, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

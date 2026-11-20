@@ -560,7 +560,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="syfPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="syfPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="syfPeerScore">88.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="syfPeerScore">87.5<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="syfSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="syfSelfVerdict">중간</span></div>
@@ -933,9 +933,9 @@ Chart.overrides.doughnut.animation = false;
 판정은 그대로 두고, 이 값을 해석할 때 주의할 점만 보여 준다.">⚠ 모형 신호 1/3</span><div class="vs-pill" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 0.79
 시나리오 범위: 0.78 ~ 0.84(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다">싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">88.5</div><div class="sc-tile" data-vc="peer" data-m="per">100</div><div class="sc-tile" data-vc="peer" data-m="pbr">77</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 은행(대형·지역) 대비 P/TBV·PER 순위. 높을수록 싸다. 두 배수가 같은 방향일 때만 표를 준다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">87.5</div><div class="sc-tile" data-vc="peer" data-m="per">100</div><div class="sc-tile" data-vc="peer" data-m="pbr">75</div><div class="sc-tile none" data-vc="peer" data-m="psr">—</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile none" data-vc="peer" data-m="evebitda">—</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">P/TBV 1.61배는 자기 5년 이력의 아래쪽(상위 55%)이고 비교군 S&P500 대형·지역 은행 13곳(카드 전업사 COF·AXP는 들어 있지 않다)과 견주면 비싼 쪽부터 11번째다. <strong>초과이익모형 기본 가치 $87은 현재가의 126%</strong>로, 지금 가격은 ROE 16.5%가 5년 이어진다는 값이다(최근 4분기 20.5%, GAAP).</div>
+    <div class="vs-premise">P/TBV 1.61배는 자기 5년 이력의 아래쪽(상위 55%)이고 비교군 S&P500 대형·지역 은행 12곳(카드 전업사 COF·AXP는 들어 있지 않다)과 견주면 비싼 쪽부터 10번째다. <strong>초과이익모형 기본 가치 $87은 현재가의 126%</strong>로, 지금 가격은 ROE 16.5%가 5년 이어진다는 값이다(최근 4분기 20.5%, GAAP).</div>
     <div class="verdict-summary-risk">⚠️ 현재가 ÷ 기본 가치가 0.79로 "싸다"다. 세 칸이 자기 이력 0 · 동종업 +1 · 초과이익 +1로 종합 평가는 적정~저평가다.</div>
   </div>
 
@@ -1524,7 +1524,7 @@ const DCF_RULE_TEXT = '0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이�
 //       python3 v2/build_fundamental_score.py SYF
 const SYF_SCORES = {
   fundamental: null,   // 은행 — 일반 재무비율 산식이 맞지 않아 매기지 않는다
-  peer: 88.5,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
+  peer: 87.5,          // S&P500 은행 대비 P/TBV·PER 순위 평균(표시용). 표는 두 배수가 같은 방향일 때만
   selfHistory: 48.2,   // P/TBV·PER 자기 5년 백분위 평균(표시용)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q (2026-10-22 공시)
@@ -1851,7 +1851,7 @@ const SYF_FUNDAMENTAL = {"ticker": "SYF", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py SYF --self v2/SYF_multiples.json --card
 /* VALUATION:BEGIN */
-const SYF_VALUATION = {"peer": {"score": 88.5, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-19", "2026-11-19"], "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 13}, {"metric": "pbr", "score": 76.9, "rank": 4, "peers": 13}]}, "self": {"score": 48.2, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-19", "2026-11-19"], "metrics": [{"metric": "per", "score": 41.2, "percentile": 58.8, "current": 7.2, "min": 3.74, "median": 6.79, "max": 9.75, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 55.1, "percentile": 44.9, "current": 1.61, "min": 1.05, "median": 1.66, "max": 2.47, "days": 1255, "gapDays": 0}]}};
+const SYF_VALUATION = {"peer": {"score": 87.5, "rule": "both", "sector": "Financials (S&P500 은행)", "asOf": ["2026-11-19", "2026-11-19"], "metrics": [{"metric": "per", "score": 100.0, "rank": 1, "peers": 12}, {"metric": "pbr", "score": 75.0, "rank": 4, "peers": 12}]}, "self": {"score": 48.2, "rule": "both", "naNote": "은행에 해당 없음", "window": ["2021-11-19", "2026-11-19"], "metrics": [{"metric": "per", "score": 41.2, "percentile": 58.8, "current": 7.2, "min": 3.74, "median": 6.79, "max": 9.75, "days": 1255, "gapDays": 0}, {"metric": "pbr", "score": 55.1, "percentile": 44.9, "current": 1.61, "min": 1.05, "median": 1.66, "max": 2.47, "days": 1255, "gapDays": 0}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2226,7 +2226,7 @@ const SYF_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 
   }
   put('syfPeerBox', 'syfPeerScore', 'syfPeerVerdict', S.peer, WORDS.val,
       `S&P500 은행(대형 7·지역 6) 안에서 P/TBV·PER 순위를 매긴 값이다(표시 점수는 두 배수 평균).`
-      + `\nP/TBV는 유형자본을 만들 수 있는 13곳, PER은 13곳과 비교했다.`
+      + `\nP/TBV는 유형자본을 만들 수 있는 12곳, PER은 12곳과 비교했다.`
       + `\nPNC: 무형자산 줄 없음(11-3 0 규칙) — TCE가 실제보다 커 P/TBV가 싼 쪽으로 잡힌다. 참고 규모(2026-09-30 분기 기준): 규제자본 차감 무형자산 $666M(2026-06 규제자본 표, 그 분기 TCE의 약 1.5%)·2026-01 FirstBank 인수 식별 무형자산 $761M(그 분기 TCE의 약 1.8%, 겹칠 수 있음). 2026-03부터 누락이 커졌을 수 있다(자기 이력 계단).`);
   put('syfSelfBox', 'syfSelfScore', 'syfSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`

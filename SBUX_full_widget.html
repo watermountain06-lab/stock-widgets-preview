@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="sbuxPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="sbuxPeerVerdict">중간</span></div>
-      <div class="logic-score" id="sbuxPeerScore">56.1<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="sbuxPeerScore">55.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="sbuxSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="sbuxSelfVerdict">중간</span></div>
@@ -901,9 +901,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.41 ~ 4.14(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">56.1</div><div class="sc-tile lost" data-vc="peer" data-m="per">32</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile" data-vc="peer" data-m="psr">90</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">56</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">46</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 경기소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">55.3</div><div class="sc-tile lost" data-vc="peer" data-m="per">32</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile" data-vc="peer" data-m="psr">87</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">56</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">46</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 42.6배(5년 중앙값 31.6배)로 자기 이력 31.6점(중간), 동종업 56.1점(중간)이다. <strong>현금흐름 내재가치(기본 $25.24)는 현재가의 24%다</strong>.</div>
+    <div class="vs-premise">PER 42.6배(5년 중앙값 31.6배)로 자기 이력 31.6점(중간), 동종업 55.3점(중간)이다. <strong>현금흐름 내재가치(기본 $25.24)는 현재가의 24%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $25.24)는 현재가의 24%다. 현재가를 정당화하려면 영업이익률이 28.9%까지 올라야 한다(최근 4분기 9.7%, 5년 중앙값 14.9%). 내재가치에서 차입금 $13.3B를 빼고 현금·단기투자 $3.9B를 더한다.</div>
   </div>
 
@@ -1485,7 +1485,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py SBUX
 const SBUX_SCORES = {
   fundamental: 35.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 56.1,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
+  peer: 55.3,          // S&P500 경기소비재 대비 배수 순위 (v2/peer_universe/consumer_discretionary.json)
   selfHistory: 31.6,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-27",   // FY26 10-K
@@ -1816,7 +1816,7 @@ const SBUX_FUNDAMENTAL = {"ticker": "SBUX", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py SBUX --self v2/SBUX_multiples.json --card
 /* VALUATION:BEGIN */
-const SBUX_VALUATION = {"peer": {"score": 56.1, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 32.1, "rank": 20, "peers": 28}, {"metric": "psr", "score": 90.3, "rank": 4, "peers": 31}, {"metric": "pcr", "score": 55.6, "rank": 13, "peers": 27}, {"metric": "evebitda", "score": 46.4, "rank": 16, "peers": 28}]}, "self": {"score": 31.6, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 14.6, "percentile": 85.4, "current": 42.64, "min": 19.97, "median": 31.64, "max": 52.23, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 33.7, "percentile": 66.3, "current": 3.14, "min": 2.25, "median": 3.02, "max": 4.72, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 60.5, "percentile": 39.5, "current": 31.98, "min": 19.24, "median": 34.28, "max": 60.44, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 17.5, "percentile": 82.5, "current": 24.31, "min": 12.87, "median": 18.89, "max": 29.52, "days": 1255, "currentNote": null}]}};
+const SBUX_VALUATION = {"peer": {"score": 55.3, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 32.1, "rank": 20, "peers": 28}, {"metric": "psr", "score": 87.1, "rank": 5, "peers": 31}, {"metric": "pcr", "score": 55.6, "rank": 13, "peers": 27}, {"metric": "evebitda", "score": 46.4, "rank": 16, "peers": 28}]}, "self": {"score": 31.6, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 14.6, "percentile": 85.4, "current": 42.64, "min": 19.97, "median": 31.64, "max": 52.23, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 33.7, "percentile": 66.3, "current": 3.14, "min": 2.25, "median": 3.02, "max": 4.72, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 60.5, "percentile": 39.5, "current": 31.98, "min": 19.24, "median": 34.28, "max": 60.44, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 17.5, "percentile": 82.5, "current": 24.31, "min": 12.87, "median": 18.89, "max": 29.52, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

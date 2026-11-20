@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-neutral" id="amznPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="amznPeerVerdict">중간</span></div>
-      <div class="logic-score" id="amznPeerScore">60.5<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="amznPeerScore">58.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="amznSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="amznSelfVerdict">중간</span></div>
@@ -932,9 +932,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.07 ~ 4.61(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="같은 경기소비재 섹터와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">60.5</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">89</div><div class="sc-tile" data-vc="peer" data-m="psr">87</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">67</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="같은 경기소비재 섹터와 IT 섹터 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">58.6</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile" data-vc="peer" data-m="pbr">85</div><div class="sc-tile" data-vc="peer" data-m="psr">83</div><div class="sc-tile low" data-vc="peer" data-m="pcr">0</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">67</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 34.2배(4.8년 중앙값 49.2배)로 자기 이력 64.0점(중간), 동종업 60.5점(중간)이다. <strong>현금흐름 내재가치(기본 $98.35)는 현재가의 38%다</strong>.</div>
+    <div class="vs-premise">PER 34.2배(4.8년 중앙값 49.2배)로 자기 이력 64.0점(중간), 동종업 58.6점(중간)이다. <strong>현금흐름 내재가치(기본 $98.35)는 현재가의 38%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $98.35)는 현재가의 38%다. 현재가를 정당화하려면 영업이익률이 27.4%까지 올라야 한다(최근 4분기 13.1%, 5년 중앙값 8.0%). 내재가치에서 차입금·금융리스 $194.8B를 빼고 현금·단기투자 $114.2B를 더한다.</div>
   </div>
 
@@ -1504,7 +1504,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py AMZN
 const AMZN_SCORES = {
   fundamental: 56.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 60.5,          // GICS 경기소비재 + IT 섹터 대비 배수 순위 (본업 기준 PER은 제외, 네 배수)
+  peer: 58.6,          // GICS 경기소비재 + IT 섹터 대비 배수 순위 (본업 기준 PER은 제외, 네 배수)
   selfHistory: 64.0,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1835,7 +1835,7 @@ const AMZN_FUNDAMENTAL = {"ticker": "AMZN", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py AMZN --self v2/AMZN_multiples.json --card
 /* VALUATION:BEGIN */
-const AMZN_VALUATION = {"peer": {"score": 60.5, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "pbr", "score": 88.5, "rank": 4, "peers": 26}, {"metric": "psr", "score": 86.7, "rank": 5, "peers": 30}, {"metric": "pcr", "score": 0.0, "rank": 27, "peers": 26}, {"metric": "evebitda", "score": 66.7, "rank": 10, "peers": 27}]}, "self": {"score": 64.0, "window": ["2021-11-19", "2026-11-19"], "perBasis": "core", "metrics": [{"metric": "per", "score": 93.5, "percentile": 6.5, "current": 34.24, "min": 28.93, "median": 49.19, "max": 104.42, "days": 1197, "currentNote": null}, {"metric": "pbr", "score": 99.8, "percentile": 0.2, "current": 4.54, "min": 4.24, "median": 7.92, "max": 15.47, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 31.2, "percentile": 68.8, "current": 3.49, "min": 1.66, "median": 3.23, "max": 4.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 34.96, "median": 89.91, "max": 465.73, "days": 686, "currentNote": "negative"}, {"metric": "evebitda", "score": 95.5, "percentile": 4.5, "current": 15.51, "min": 14.25, "median": 19.22, "max": 30.41, "days": 1255, "currentNote": null}]}};
+const AMZN_VALUATION = {"peer": {"score": 58.6, "sector": "Consumer Discretionary + Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "pbr", "score": 84.6, "rank": 5, "peers": 26}, {"metric": "psr", "score": 83.3, "rank": 6, "peers": 30}, {"metric": "pcr", "score": 0.0, "rank": 27, "peers": 26}, {"metric": "evebitda", "score": 66.7, "rank": 10, "peers": 27}]}, "self": {"score": 64.0, "window": ["2021-11-19", "2026-11-19"], "perBasis": "core", "metrics": [{"metric": "per", "score": 93.5, "percentile": 6.5, "current": 34.24, "min": 28.93, "median": 49.19, "max": 104.42, "days": 1197, "currentNote": null}, {"metric": "pbr", "score": 99.8, "percentile": 0.2, "current": 4.54, "min": 4.24, "median": 7.92, "max": 15.47, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 31.2, "percentile": 68.8, "current": 3.49, "min": 1.66, "median": 3.23, "max": 4.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 0.0, "percentile": 100.0, "current": null, "min": 34.96, "median": 89.91, "max": 465.73, "days": 686, "currentNote": "negative"}, {"metric": "evebitda", "score": 95.5, "percentile": 4.5, "current": 15.51, "min": 14.25, "median": 19.22, "max": 30.41, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

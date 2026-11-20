@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="zbraPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="zbraPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="zbraPeerScore">83.9<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="zbraPeerScore">82.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="zbraSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="zbraSelfVerdict">싼 편</span></div>
@@ -932,9 +932,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.52 ~ 3.72(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">83.9</div><div class="sc-tile" data-vc="peer" data-m="per">72</div><div class="sc-tile" data-vc="peer" data-m="pbr">92</div><div class="sc-tile" data-vc="peer" data-m="psr">96</div><div class="sc-tile" data-vc="peer" data-m="pcr">83</div><div class="sc-tile" data-vc="peer" data-m="evebitda">76</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">82.3</div><div class="sc-tile" data-vc="peer" data-m="per">72</div><div class="sc-tile" data-vc="peer" data-m="pbr">88</div><div class="sc-tile" data-vc="peer" data-m="psr">93</div><div class="sc-tile" data-vc="peer" data-m="pcr">83</div><div class="sc-tile" data-vc="peer" data-m="evebitda">76</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 25.2배(5년 중앙값 30.5배)로 자기 이력 81.5점(싸다), 동종업 83.9점(싸다)이다. <strong>현금흐름 내재가치(기본 $116.45)는 현재가의 37%다</strong>.</div>
+    <div class="vs-premise">PER 25.2배(5년 중앙값 30.5배)로 자기 이력 81.5점(싸다), 동종업 82.3점(싸다)이다. <strong>현금흐름 내재가치(기본 $116.45)는 현재가의 37%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 +1 · 현금흐름 −2, 합계 0 “적정”이다. 현금흐름 내재가치(기본 $116.45)는 현재가의 37%다. 현재가를 정당화하려면 영업이익률이 28.7%까지 올라야 한다(최근 4분기 14.9%, 5년 중앙값 13.9%). 내재가치에서 차입금 $2.6B를 빼고 현금·단기투자 $182M를 더한다. 유통·물류 기업의 설비투자 주기에 따라 매출이 크게 오르내린다 — 2023년 수요 급감으로 이익이 줄었다가 회복 중이라 5년 이력에 그 저점이 섞여 있다. Elo Touch 인수(약 $1.3B, 2025-09-30)로 매출·상각이 늘었고, 인수 대금이 현금흐름 모델의 최근 투자에 잡혀 기본 가치를 약 15% 낮춘다(빼면 약 $112, 판정은 같다). 최근 4분기 이익에는 Q4 2025 철수·구조조정 비용(세전 $76M — 로봇 사업 철수 $55M + 생산성 개선 $21M)과 Q2 2026 관세 환급 이익(세전 $73M, 영업이익 안)이 함께 들어 있어 서로 거의 상쇄된다 — 각각 빼도 세 표는 같다. 차입금의 대부분($2.3B)이 1년 안 만기다.</div>
   </div>
 
@@ -1493,7 +1493,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ZBRA
 const ZBRA_SCORES = {
   fundamental: 40.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 83.9,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 82.3,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 81.5,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-10-03",   // Q3 2026 10-Q
@@ -1824,7 +1824,7 @@ const ZBRA_FUNDAMENTAL = {"ticker": "ZBRA", "basis": "quarter", "asOf": "2026-10
 //
 // 갱신: python3 v2/build_peer_score.py ZBRA --self v2/ZBRA_multiples.json --card
 /* VALUATION:BEGIN */
-const ZBRA_VALUATION = {"peer": {"score": 83.9, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 72.0, "rank": 8, "peers": 25}, {"metric": "pbr", "score": 91.7, "rank": 3, "peers": 24}, {"metric": "psr", "score": 96.4, "rank": 2, "peers": 28}, {"metric": "pcr", "score": 83.3, "rank": 5, "peers": 24}, {"metric": "evebitda", "score": 76.0, "rank": 7, "peers": 25}]}, "self": {"score": 81.5, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 82.2, "percentile": 17.8, "current": 25.22, "min": 15.9, "median": 30.47, "max": 85.26, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 74.8, "percentile": 25.2, "current": 4.12, "min": 2.73, "median": 4.94, "max": 11.66, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 76.9, "percentile": 23.1, "current": 2.4, "min": 1.82, "median": 2.85, "max": 6.01, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 88.4, "percentile": 11.6, "current": 14.89, "min": 11.5, "median": 23.21, "max": 283.29, "days": 1204, "currentNote": null}, {"metric": "evebitda", "score": 85.4, "percentile": 14.6, "current": 14.99, "min": 11.54, "median": 19.09, "max": 37.86, "days": 1255, "currentNote": null}]}};
+const ZBRA_VALUATION = {"peer": {"score": 82.3, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 72.0, "rank": 8, "peers": 25}, {"metric": "pbr", "score": 87.5, "rank": 4, "peers": 24}, {"metric": "psr", "score": 92.9, "rank": 3, "peers": 28}, {"metric": "pcr", "score": 83.3, "rank": 5, "peers": 24}, {"metric": "evebitda", "score": 76.0, "rank": 7, "peers": 25}]}, "self": {"score": 81.5, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 82.2, "percentile": 17.8, "current": 25.22, "min": 15.9, "median": 30.47, "max": 85.26, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 74.8, "percentile": 25.2, "current": 4.12, "min": 2.73, "median": 4.94, "max": 11.66, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 76.9, "percentile": 23.1, "current": 2.4, "min": 1.82, "median": 2.85, "max": 6.01, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 88.4, "percentile": 11.6, "current": 14.89, "min": 11.5, "median": 23.21, "max": 283.29, "days": 1204, "currentNote": null}, {"metric": "evebitda", "score": 85.4, "percentile": 14.6, "current": 14.99, "min": 11.54, "median": 19.09, "max": 37.86, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──

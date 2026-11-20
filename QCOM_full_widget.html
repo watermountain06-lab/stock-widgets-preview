@@ -571,7 +571,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
     <div class="logic-box logic-positive" id="qcomPeerBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="qcomPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="qcomPeerScore">80.9<span class="logic-denom">/100</span></div>
+      <div class="logic-score" id="qcomPeerScore">79.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="qcomSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="qcomSelfVerdict">중간</span></div>
@@ -934,9 +934,9 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 1.60 ~ 2.16(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">80.9</div><div class="sc-tile" data-vc="peer" data-m="per">79</div><div class="sc-tile" data-vc="peer" data-m="pbr">87</div><div class="sc-tile" data-vc="peer" data-m="psr">89</div><div class="sc-tile" data-vc="peer" data-m="pcr">83</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">67</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="카드 유니버스 IT 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">79.3</div><div class="sc-tile" data-vc="peer" data-m="per">79</div><div class="sc-tile" data-vc="peer" data-m="pbr">83</div><div class="sc-tile" data-vc="peer" data-m="psr">85</div><div class="sc-tile" data-vc="peer" data-m="pcr">83</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">67</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
     </div></div>
-    <div class="vs-premise">PER 22.0배(5년 중앙값 16.6배)로 자기 이력 41.8점(중간), 동종업 80.9점(싸다)이다. <strong>현금흐름 내재가치(기본 $101.05)는 현재가의 62%다</strong>.</div>
+    <div class="vs-premise">PER 22.0배(5년 중앙값 16.6배)로 자기 이력 41.8점(중간), 동종업 79.3점(싸다)이다. <strong>현금흐름 내재가치(기본 $101.05)는 현재가의 62%다</strong>.</div>
     <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $101.05)는 현재가의 62%다. 현재가를 정당화하려면 영업이익률이 38.6%까지 올라야 한다(최근 4분기 20.1%, 5년 중앙값 27.1%). 내재가치에서 차입금 $15.1B를 빼고 현금·단기투자 $7.7B를 더한다.</div>
   </div>
 
@@ -1520,7 +1520,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py QCOM
 const QCOM_SCORES = {
   fundamental: 62.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 80.9,          // 카드 유니버스 IT 종목 대비 배수 순위
+  peer: 79.3,          // 카드 유니버스 IT 종목 대비 배수 순위
   selfHistory: 41.8,   // 자기 5년 배수 분포 백분위 (2021-11-19 ~ 2026-11-19)
   asOf: "2026-11-19",
   fundamentalAsOf: "2026-09-27",   // FY26 10-K
@@ -1851,7 +1851,7 @@ const QCOM_FUNDAMENTAL = {"ticker": "QCOM", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py QCOM --self v2/QCOM_multiples.json --card
 /* VALUATION:BEGIN */
-const QCOM_VALUATION = {"peer": {"score": 80.9, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "pbr", "score": 87.0, "rank": 4, "peers": 23}, {"metric": "psr", "score": 88.9, "rank": 4, "peers": 27}, {"metric": "pcr", "score": 82.6, "rank": 5, "peers": 23}, {"metric": "evebitda", "score": 66.7, "rank": 9, "peers": 24}]}, "self": {"score": 41.8, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 17.6, "percentile": 82.4, "current": 21.98, "min": 9.1, "median": 16.59, "max": 30.24, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 98.8, "percentile": 1.2, "current": 5.7, "min": 5.13, "median": 7.27, "max": 21.31, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 54.1, "percentile": 45.9, "current": 4.02, "min": 2.63, "median": 4.11, "max": 6.96, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 19.1, "percentile": 80.9, "current": 20.04, "min": 10.24, "median": 16.63, "max": 28.6, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.2, "percentile": 80.8, "current": 17.57, "min": 7.12, "median": 13.65, "max": 24.79, "days": 1255, "currentNote": null}]}};
+const QCOM_VALUATION = {"peer": {"score": 79.3, "sector": "Information Technology", "asOf": ["2026-08-27", "2026-09-11"], "priceSession": "2026-11-19", "metrics": [{"metric": "per", "score": 79.2, "rank": 6, "peers": 24}, {"metric": "pbr", "score": 82.6, "rank": 5, "peers": 23}, {"metric": "psr", "score": 85.2, "rank": 5, "peers": 27}, {"metric": "pcr", "score": 82.6, "rank": 5, "peers": 23}, {"metric": "evebitda", "score": 66.7, "rank": 9, "peers": 24}]}, "self": {"score": 41.8, "window": ["2021-11-19", "2026-11-19"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 17.6, "percentile": 82.4, "current": 21.98, "min": 9.1, "median": 16.59, "max": 30.24, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 98.8, "percentile": 1.2, "current": 5.7, "min": 5.13, "median": 7.27, "max": 21.31, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 54.1, "percentile": 45.9, "current": 4.02, "min": 2.63, "median": 4.11, "max": 6.96, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 19.1, "percentile": 80.9, "current": 20.04, "min": 10.24, "median": 16.63, "max": 28.6, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 19.2, "percentile": 80.8, "current": 17.57, "min": 7.12, "median": 13.65, "max": 24.79, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
