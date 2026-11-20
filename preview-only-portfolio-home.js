@@ -918,6 +918,20 @@ export function renderHome(root, model, handlers) {
   if (h.asOf) hold.appendChild(el('p', 'pf-note', `올린 보유 ${h.asOf} + 그 뒤 기록한 매매 ${cur.applied.length}건` + (depIn.length ? ` + 입금 ${depIn.length}건(오늘 반영분 포함)` : '')
     + (cur.future.length ? ` (미래 날짜 ${cur.future.length}건은 그날부터)` : '')));
   right.appendChild(alerts);   // 알림 칸은 보유 자산 위(사용자 결정 2026-10-28)
+  // 폰(760px 이하)에서는 알림을 돈 칸·회차 띠 바로 아래(후보 목록 위)로 옮긴다(사용자 결정 2026-11-19: 이번 주 살 돈 → 알림 → 후보 → 보유).
+  // 매수 칸은 방법·스위치를 누를 때마다 새로 그려지고(replaceWith) 매도 탭에서는 감춰지므로, 그때마다 자리를 다시 잡는다
+  const placeAlerts = () => {
+    const strip = !buyPane.hidden ? buyPane.querySelector('.pf-buy > .pf-strip') : null;
+    const inBuy = !!(PHONE?.matches && strip);
+    if (inBuy) { if (strip.nextSibling !== alerts) strip.after(alerts); } else if (right.firstChild !== alerts) right.insertBefore(alerts, right.firstChild);
+    alerts.classList.toggle('pf-alerts-in', inBuy);
+  };
+  phonePlace = placeAlerts;
+  if (typeof MutationObserver === 'function') {
+    const mo = new MutationObserver(placeAlerts);
+    mo.observe(buySlot, { childList: true }); mo.observe(buyPane, { attributes: true, attributeFilter: ['hidden'] });
+  }
+  placeAlerts();
   right.appendChild(hold);   // 보유 자산은 오른쪽 단(사용자 결정 10-22): 왼쪽은 할 일, 오른쪽은 현황
 
   // 4) 전략과 나란히(내 실제 계좌·1위·A). 예전 '이번 달 운용' 칸은 다음 할 일 카드와 겹쳐 뺐다(사용자 결정 10-22)
@@ -998,6 +1012,10 @@ function tickName(t) {
   return a;
 }
 let depOpen = false;   // 입금 칸 펼침(이 페이지에서만)
+// 폰 폭 판정과 알림 칸 자리 잡기(renderHome이 그릴 때마다 phonePlace를 바꿔 끼운다 — 듣는 쪽은 하나만 둔다)
+const PHONE = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(max-width:760px)') : null;
+let phonePlace = null;
+PHONE?.addEventListener?.('change', () => phonePlace?.());
 let doTab = 'buy';   // 다음 할 일 탭(매수|매도) — 페이지를 열 때마다 매수, 다시 그릴 때는 유지(sessionStorage 안 씀, 사용자 결정 '항상 매수')
 let demoPicks = [];   // 시연 달 체크(저장하지 않음, 이 탭에서만)
 try { buyMethod = localStorage.getItem('pf-buy-method') || sessionStorage.getItem('pf-buy-method'); } catch (_) { /* 정하지 않음 */ }   // 고른 방법은 새 탭·새로고침에도 유지(2026-11-10)
@@ -1543,7 +1561,8 @@ const qty2 = (v) => (Math.round(v * 100) / 100).toFixed(2);   // 주식 수 표�
 // 주간 확인 ↔ 구매 후보 옮기기 버튼(2026-11-09). list = 저장할 그달 올린 종목 전체. 저장 중에는 같은 버튼들을 잠근다
 function moveBtn(sym, label, list, args, month, msg, field = 'promoted') {
   const b = el('button', 'pf-btn pf-btn-quiet pf-movebtn'); b.type = 'button';
-  b.appendChild(chevron(sym === 'down' ? 'M3.5 5.5L7 9l3.5-3.5' : 'M3.5 8.5L7 5l3.5 3.5'));   // 끝이 둥근 얇은 꺾쇠(사용자 결정 2026-11-09 — ↑↓ 글자가 날카로워 보임) b.title = label; b.setAttribute('aria-label', label);
+  b.appendChild(chevron(sym === 'down' ? 'M3.5 5.5L7 9l3.5-3.5' : 'M3.5 8.5L7 5l3.5 3.5'));   // 끝이 둥근 얇은 꺾쇠(사용자 결정 2026-11-09 — ↑↓ 글자가 날카로워 보임)
+  b.title = label; b.setAttribute('aria-label', label);
   b.disabled = pickSaving;
   b.addEventListener('click', async (e) => {
     e.preventDefault(); e.stopPropagation();
@@ -1577,33 +1596,64 @@ function freshSection(args, box, plan, bought) {
   const fresh = [...inRange, ...outRange, ...all.filter((t) => !inRange.includes(t) && !outRange.includes(t))];
   // 접었다 폈다(사용자 결정 2026-11-09): 처음엔 접힘, 연 상태는 이 브라우저에 기억
   let open = false; try { open = localStorage.getItem('pf-fresh-open') === '1'; } catch (e) { /* 저장소 없음 — 접힘 */ }
-  const fh = el('div', 'pf-buysechead');
+  // 모양(2026-11-19 시안): 테두리 버튼 + 한 줄 설명. 펴면 옅은 상자 — 200위 안은 한 줄씩, 200위 밖은 티커 칩(누르면 그 종목 줄이 아래에)
+  const fh = el('div', 'pf-freshhead');
   const tg = el('button', 'pf-freshtoggle'); tg.type = 'button'; tg.setAttribute('aria-expanded', String(open));
   const ic = chevron('M5.5 3.5L9 7l-3.5 3.5'); ic.classList.add('pf-freshicon'); tg.appendChild(ic);
-  tg.appendChild(el('span', 'pf-buylabel', `주간 확인 · 점검일 뒤 살 단계 ${fresh.length}` + (inRange.length ? ` · 200위 안 ${inRange.length}` : '')));
+  tg.appendChild(el('span', null, `주간 확인 ${fresh.length}종목`));
   tg.title = '살지는 직접 판단 · 사면 그달 남은 돈에서(원칙 2·6)';
   fh.appendChild(tg);
+  fh.appendChild(el('span', 'pf-note', '점검일 뒤 살 단계가 된 종목' + (inRange.length ? ` · 200위 안 ${inRange.length}` : '')));
   box.appendChild(fh);
-  const fl = el('div', 'pf-buylist');
+  const fl = el('div', 'pf-freshbox'); fl.id = 'pf-freshbox'; tg.setAttribute('aria-controls', fl.id);
   fl.hidden = !open;
   tg.addEventListener('click', () => {
     const o = tg.getAttribute('aria-expanded') !== 'true';
     tg.setAttribute('aria-expanded', String(o)); fl.hidden = !o;
     try { localStorage.setItem('pf-fresh-open', o ? '1' : '0'); } catch (e) { /* 기억 못 함 */ }
   });
-  for (const t of fresh) {
-    if (t === fresh[inRange.length] && inRange.length) fl.appendChild(el('div', 'pf-note pf-freshcut', '시총 200위 밖'));
-    const row = el('div', 'pf-buyrow pf-freshrow');
+  const tierSum = (list) => { const m = new Map(); for (const t of list) { const k = tierOf(t) || '판정 없음'; m.set(k, (m.get(k) || 0) + 1); } return [...m].map(([k, n]) => (m.size === 1 ? k : `${k} ${n}`)).join(', '); };
+  // 한 종목 줄: 티커·판정 + 후보로 올리기 + 기록
+  const pill = (t) => {
+    const row = el('div', 'pf-freshpill');
     const nm = el('span', 'pf-buyname'); nm.appendChild(tickName(t));
-    nm.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tierOf(t)] || 'pf-t-none'), tierOf(t)));
+    nm.appendChild(el('span', 'pf-chip ' + (TIER_CLS[tierOf(t)] || 'pf-t-none'), tierOf(t) || '판정 없음'));
     row.appendChild(nm);
-    const act = el('span', 'pf-buyact');
-    // ↑ 그달 구매 후보로 올리기(사용자 결정 2026-11-09) — 기록 버튼 왼쪽. 내렸던 점검일 후보면 내린 것을 되돌린다
-    if (!mv.demo) act.appendChild(demoted.includes(t) ? moveBtn('up', `${t} 구매 후보로 되돌리기`, demoted.filter((x) => x !== t), args, month, null, 'demoted')
-      : moveBtn('up', `${t} 구매 후보로 올리기`, [...promoted, t], args, month, null));
-    if (!mv.demo) { const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button'; go.addEventListener('click', () => dlg.open(t)); act.appendChild(go); }
-    row.appendChild(act);
-    fl.appendChild(row);
+    // ↑ 그달 구매 후보로 올리기(사용자 결정 2026-11-09). 내렸던 점검일 후보면 내린 것을 되돌린다
+    if (!mv.demo) {
+      const up = demoted.includes(t) ? moveBtn('up', `${t} 구매 후보로 되돌리기`, demoted.filter((x) => x !== t), args, month, null, 'demoted')
+        : moveBtn('up', `${t} 구매 후보로 올리기`, [...promoted, t], args, month, null);
+      up.appendChild(el('span', null, demoted.includes(t) ? '되돌리기' : '후보로'));
+      row.appendChild(up);
+      const go = el('button', 'pf-btn pf-btn-quiet', '기록'); go.type = 'button'; go.addEventListener('click', () => dlg.open(t)); row.appendChild(go);
+    }
+    return row;
+  };
+  const rest = fresh.slice(inRange.length);
+  if (inRange.length) {
+    const g = el('div', 'pf-freshgroup');
+    g.appendChild(el('strong', null, `200위 안 ${inRange.length} · ${tierSum(inRange)}`));
+    for (const t of inRange) g.appendChild(pill(t));
+    fl.appendChild(g);
+  }
+  if (rest.length) {
+    const g = el('div', 'pf-freshgroup');
+    g.appendChild(el('strong', null, (inRange.length ? `200위 밖 ${rest.length}` : `${rest.length}종목`) + ` · ${tierSum(rest)}`));
+    const chips = el('div', 'pf-freshchips'), slot = el('div', 'pf-freshslot'); slot.id = 'pf-freshslot';
+    let cur = null;
+    for (const t of rest) {
+      const c = el('button', 'pf-freshchip', t); c.type = 'button'; c.setAttribute('aria-expanded', 'false'); c.setAttribute('aria-controls', slot.id); c.title = `${t} · ${tierOf(t) || '판정 없음'}`;
+      c.addEventListener('click', () => {
+        const same = cur === c;
+        if (cur) cur.setAttribute('aria-expanded', 'false');
+        slot.textContent = ''; cur = null;
+        if (!same) { cur = c; c.setAttribute('aria-expanded', 'true'); slot.appendChild(pill(t)); }
+      });
+      chips.appendChild(c);
+    }
+    g.appendChild(chips); g.appendChild(slot);
+    g.appendChild(el('span', 'pf-note', mv.demo ? '티커를 누르면 판정이 보입니다' : '티커를 누르면 후보로 올리기·기록'));
+    fl.appendChild(g);
   }
   box.appendChild(fl);
 }
