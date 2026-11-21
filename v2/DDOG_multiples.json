@@ -1,80 +1,80 @@
 {
  "ticker": "DDOG",
  "window": [
-  "2021-11-19",
-  "2026-11-19"
+  "2021-11-22",
+  "2026-11-20"
  ],
  "multiples": {
   "PER": {
-   "days": 752,
-   "current": 231.19,
+   "days": 753,
+   "current": 218.57,
    "min": 170.59,
-   "p10": 246.48,
-   "median": 395.37,
-   "p90": 1058.07,
+   "p10": 245.01,
+   "median": 395.35,
+   "p90": 1058.05,
    "max": 11776.0,
-   "mean": 1180.49,
-   "percentile": 7.2,
-   "score": 92.8,
+   "mean": 1179.21,
+   "percentile": 5.7,
+   "score": 94.3,
    "eps": 0.72
   },
   "PSR": {
    "days": 1255,
-   "current": 14.05,
+   "current": 13.28,
    "min": 10.56,
    "p10": 13.37,
-   "median": 17.92,
-   "p90": 28.41,
-   "max": 68.28,
-   "mean": 20.95,
-   "percentile": 13.6,
-   "score": 86.4
+   "median": 17.91,
+   "p90": 28.36,
+   "max": 65.04,
+   "mean": 20.91,
+   "percentile": 9.0,
+   "score": 91.0
   },
   "PBR": {
    "days": 1255,
-   "current": 12.74,
+   "current": 12.05,
    "min": 9.69,
-   "p10": 13.58,
-   "median": 18.71,
-   "p90": 30.43,
-   "max": 62.77,
-   "mean": 21.24,
-   "percentile": 6.5,
-   "score": 93.5
+   "p10": 13.56,
+   "median": 18.66,
+   "p90": 30.35,
+   "max": 59.79,
+   "mean": 21.2,
+   "percentile": 4.4,
+   "score": 95.6
   },
   "PCR": {
    "days": 1255,
-   "current": 49.0,
+   "current": 46.32,
    "min": 35.68,
-   "p10": 46.48,
-   "median": 63.96,
-   "p90": 96.81,
-   "max": 323.17,
-   "mean": 78.33,
-   "percentile": 13.4,
-   "score": 86.6
+   "p10": 46.43,
+   "median": 63.94,
+   "p90": 96.48,
+   "max": 307.86,
+   "mean": 78.11,
+   "percentile": 9.8,
+   "score": 90.2
   },
   "EV/EBITDA": {
-   "days": 939,
-   "current": 325.33,
+   "days": 940,
+   "current": 306.22,
    "min": 249.45,
-   "p10": 365.7,
-   "median": 1036.66,
-   "p90": 4165.7,
+   "p10": 365.18,
+   "median": 1034.92,
+   "p90": 4165.26,
    "max": 13435.46,
-   "mean": 1996.8,
-   "percentile": 4.9,
-   "score": 95.1
+   "mean": 1995.01,
+   "percentile": 3.7,
+   "score": 96.3
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 409.75,
-  "per_p75": 551.96,
-  "low": 300,
+  "per_p25": 408.39,
+  "per_p75": 548.69,
+  "low": 290,
   "high": 400,
-  "asOf": "2026-11-19",
+  "asOf": "2026-11-20",
   "basis": "diluted"
  }
 }

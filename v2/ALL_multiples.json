@@ -1,13 +1,13 @@
 {
  "ticker": "ALL",
  "window": [
-  "2021-11-19",
-  "2026-11-19"
+  "2021-11-22",
+  "2026-11-20"
  ],
  "multiples": {
   "PER": {
    "days": 881,
-   "current": 6.04,
+   "current": 6.05,
    "min": 4.43,
    "p10": 5.15,
    "median": 9.98,
@@ -39,14 +39,14 @@
    "p90": 2.86,
    "max": 3.36,
    "mean": 2.24,
-   "percentile": 50.4,
-   "score": 49.6
+   "percentile": 50.6,
+   "score": 49.4
   },
   "PCR": {
    "days": 1255,
-   "current": 5.18,
+   "current": 5.19,
    "min": 4.58,
-   "p10": 5.42,
+   "p10": 5.41,
    "median": 6.46,
    "p90": 9.56,
    "max": 11.65,
@@ -59,10 +59,10 @@
  "perNA": null,
  "fairBand": {
   "per_p25": 5.03,
-  "per_p75": 6.12,
+  "per_p75": 6.1,
   "low": 220,
   "high": 270,
-  "asOf": "2026-11-19",
+  "asOf": "2026-11-20",
   "basis": "diluted"
  }
 }

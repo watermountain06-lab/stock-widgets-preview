@@ -5,7 +5,7 @@ CIK = '0000909832'
 CUR, YO, QO = '2026-08-30', '2025-08-31', '2026-05-10'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 RELEASE = {'rev': 95723, 'op': 3801, 'ni': 2998}   # Q4 FY2026(16주) 보도자료 손익계산서(백만 달러, 매출 = 순매출 + 회원비) — quarterly/COST_Q4FY26.md
-VOTES, VERDICT = (0, -1, -2), '고평가'
+VOTES, VERDICT = (-1, -1, -2), '고평가'
 CO = 'Costco'
 S_ = 'https://www.sec.gov/Archives/edgar/data/909832/'
 SEC = S_
