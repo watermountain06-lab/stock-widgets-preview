@@ -5,8 +5,8 @@
 // 저장은 preview-only-portfolio.js가 넘겨 준 handlers로 한다. 순수 함수(currentHoldings·monthView)는 node 시험이 부른다
 // (pipeline/portfolio/test_strategy_view.mjs). 실제 매매 기록은 모의 전략 계산에는 넣지 않고, 전략 비교의 "내 실제 계좌" 줄만 쓴다(preview-only-portfolio-actual.js).
 import { el, twoStep, msgLine, usd, pct, pp, shares, label, summarize } from './preview-only-portfolio-strategy.js?v=27';
-import { renderStrategy } from './preview-only-portfolio-rank.js?v=20';
-import { renderManage } from './preview-only-portfolio-records.js?v=16';
+import { renderStrategy } from './preview-only-portfolio-rank.js?v=21';
+import { renderManage } from './preview-only-portfolio-records.js?v=17';
 import { ENGINE_VERSION, principleFor, tierWeights, PRINCIPLE_FROM, CASH_FROM, cashTarget, PRINCIPLE_SELL, PICK_FROM, PICK_FROM_ROUND, PICK_MAX, pickTop, _internal, depositTiming, twr as engineTwr } from './preview-only-portfolio-engine.js?v=14';
 import { effectiveDeposits, actualAccount } from './preview-only-portfolio-actual.js?v=18';
 import { ledgerActive, ledgerDeposits, incomeList, kwState, tradesOf, acctOf, RH, KW, fxSeries, krwPerformance } from './preview-only-portfolio-accounts.js?v=7';
@@ -1831,5 +1831,5 @@ export function renderTabs(roots, model, smodel, handlers) {
   const pc = currentHoldings(hh.rows, hh.asOf, model.trades, lastRec || etDate(model.now ?? Date.now()));
   smodel = { ...smodel, prefill: { asOf: hh.asOf || null, upTo: lastRec, holdings: pc.holdings, cash: pc.hasCash ? pc.cash : null, clipped: pc.clipped } };
   // 기록·관리: 모든 기록 한 줄 타임라인(2026-10-21 디자인 시안 선택 — -records.js)
-  renderManage(roots.manage, model, smodel, handlers, { currentHoldings, checkTrade, etDate });
+  renderManage(roots.manage, model, smodel, handlers, { currentHoldings, checkTrade, etDate, acctName: (x) => (acctOf(x) === KW ? '한국 계좌' : '미국 계좌') });
 }

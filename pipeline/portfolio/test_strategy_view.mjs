@@ -1013,3 +1013,82 @@ import { sectorTabs, buyGroup, groupLabel } from '../../preview-only-portfolio-h
     assert.equal(groupLabel('solo:ZZZZ'), '분류 안 됨 · ZZZZ');
   });
 }
+
+// ---- 기록·관리 탭의 날짜별 묶음과 요약 숫자(2026-11-20) — 가짜 티커 ----
+import { dayGroups, recSummary, kdate } from '../../preview-only-portfolio-records.js';
+test('기록 묶음: 날짜별로 매매·입출금과 시작·보유를 나누고, 취소는 합계에서 뺀다', () => {
+  const T = (id, date, value, state = '반영') => ({ kind: 'trade', id, date, value, state });
+  const items = [
+    { kind: 'deposit', id: 'd2', date: '2026-11-09', value: 500, state: '취소됨' },
+    T('t1', '2026-11-09', -61.1), T('t2', '2026-11-09', -38.9), T('t3', '2026-11-09', 20, '기준일 전(반영 안 함)'),
+    { kind: 'deposit', id: 'd1', date: '2026-11-09', value: 1000, state: '2026-11-10 반영' },
+    T('t4', '2026-10-22', -76), T('t5', '2026-10-22', -10, '취소됨'),
+    { kind: 'snap', id: 'snap', date: '2026-10-20' }, { kind: 'upload', id: 'upload', date: '2026-10-20' },
+    T('t0', '2025-12-30', -5),
+  ];
+  const g = dayGroups(items);
+  assert.deepEqual(g.map((x) => [x.date, x.moves.length, x.base.length]), [['2026-11-09', 5, 0], ['2026-10-22', 2, 0], ['2026-10-20', 0, 2], ['2025-12-30', 1, 0]]);
+  assert.deepEqual([g[0].buys, g[0].sells, g[0].deps, g[0].outs], [2, 1, 1, 0]);
+  assert.equal(Math.round(g[0].tradeNet * 100), -8000);
+  assert.equal(g[0].cashNet, 1000);   // 취소된 입금 500은 뺀다
+  assert.deepEqual([g[1].buys, g[1].tradeNet], [1, -76]);   // 취소된 매매는 뺀다
+  const s = recSummary(items, '2026-11-18');
+  assert.deepEqual(s.last, { date: '2026-11-09', buys: 2, sells: 1 });
+  assert.equal(Math.round(s.monthBuy * 100), 10000);
+  assert.equal(s.monthBuys, 2);
+  assert.deepEqual([s.total, s.trades, s.deposits, s.base], [10, 6, 2, 2]);
+  assert.equal(s.snap.id, 'snap');
+  assert.deepEqual(recSummary([], '2026-11-18'), { last: null, monthBuy: 0, monthBuys: 0, total: 0, trades: 0, deposits: 0, base: 0, snap: null });
+  // 이번 달이라도 미래 날짜 매수는 산 돈에 넣지 않는다
+  assert.equal(recSummary([T('f1', '2026-11-25', -40, '미래 날짜(그날부터 반영)'), T('t1', '2026-11-09', -10)], '2026-11-18').monthBuy, 10);
+  assert.equal(kdate('2026-11-09', '2026-11-18'), '11월 9일');
+  assert.equal(kdate('2025-12-30', '2026-11-18'), '2025년 12월 30일');
+  assert.equal(kdate('', '2026-11-18'), '날짜 없음');
+});
+
+// ---- 전략 비교 탭의 판·큰 숫자 칸·점 그래프·공통 설정(2026-11-20) — 가짜 이름 ----
+import { boardOf, heroCards, dotScale, splitParams } from '../../preview-only-portfolio-rank.js';
+test('전략 비교 판: 내 계좌는 맨 앞, 같은 값은 같은 순위, 내 계좌 대비와 딱지', () => {
+  const R = (id, idx, twrSince, extra = {}) => ({ id, idx, name: id, slot: idx + 1, twr: twrSince == null ? null : twrSince - 0.025, twrSince, spy: -0.05, value: 10000 + idx, trades: 3, cashShare: 0.1, ...extra });
+  const rows = [R('REAL', 0, -0.098), R('etf', 1, -0.023), R('w', 2, -0.0965), R('eq', 3, -0.0965), R('cap', 4, -0.0969), R('new', 5, null)];
+  const b = boardOf(rows, 'twr');
+  assert.deepEqual(b.cards.map((c) => [c.id, c.rank, c.tag]), [['REAL', null, '기준'], ['etf', 1, '앞섬'], ['w', 2, '비슷'], ['eq', 2, '비슷'], ['cap', 4, '비슷'], ['new', null, null]]);
+  assert.deepEqual(b.cards.map((c) => c.diff), [null, 7.5, 0.15, 0.15, 0.11, null]);
+  // 평가액으로 정렬하면 순위도 평가액 기준
+  assert.deepEqual(boardOf(rows, 'value').cards.map((c) => c.id), ['REAL', 'new', 'cap', 'eq', 'w', 'etf']);
+  const h = heroCards(b);
+  assert.deepEqual(h.map((c) => [c.k, c.big, c.sub]), [
+    ['내 실제 계좌', '-9.80%', '다른 전략 4개가 모두 앞서 있음'],
+    ['다른 전략 중 수익률 1위 · etf', '-2.30%', '내 계좌보다 7.50%p 앞섬'],
+    ['나머지 전략 3개', '-9.69% ~ -9.65%', '내 계좌보다 0.11~0.15%p 앞섬'],
+  ]);
+  // 갈리는 경우·뒤지는 경우·내 계좌가 없는 경우
+  const mix = heroCards(boardOf([R('REAL', 0, 0.01), R('a', 1, 0.05), R('b', 2, -0.02), R('c', 3, -0.03)], 'twr'));
+  assert.deepEqual(mix.map((c) => c.sub), ['다른 전략 3개 중 1개가 앞서 있음', '내 계좌보다 4.00%p 앞섬', '내 계좌보다 3.00~4.00%p 뒤짐']);
+  const behind = heroCards(boardOf([R('REAL', 0, 0.05), R('a', 1, 0.01)], 'twr'));
+  assert.deepEqual(behind.map((c) => [c.k, c.sub]), [['내 실제 계좌', '다른 전략 1개가 뒤져 있음'], ['a', '내 계좌보다 4.00%p 뒤짐']]);
+  const split = heroCards(boardOf([R('REAL', 0, 0), R('a', 1, 0.05), R('b', 2, 0.01), R('c', 3, -0.03)], 'twr'));
+  assert.equal(split[2].sub, '내 계좌 앞뒤로 갈림');
+  // 0을 낀 범위는 '갈림'이 아니다
+  assert.equal(heroCards(boardOf([R('REAL', 0, 0), R('a', 1, 0.05), R('b', 2, 0.02), R('c', 3, 0)], 'twr'))[2].sub, '내 계좌와 같거나 최대 2.00%p 앞섬');
+  assert.equal(heroCards(boardOf([R('REAL', 0, 0), R('a', 1, 0), R('b', 2, 0), R('c', 3, -0.02)], 'twr'))[2].sub, '내 계좌와 같거나 최대 2.00%p 뒤짐');
+  // 새 비교 시작 뒤 수익률이 없는 줄이 하나라도 있으면 모든 줄을 처음부터의 수익률로 견준다(기간을 섞지 않는다)
+  const mixed = boardOf([R('REAL', 0, 0.05), R('a', 1, 0.01, { twrSince: null, twr: 0.2 })], 'twr');
+  assert.equal(mixed.since, false);
+  assert.deepEqual(mixed.cards.map((c) => Math.round(c.v * 1000)), [25, 200]);
+  assert.equal(b.since, true);
+  assert.deepEqual(heroCards(boardOf([R('a', 1, 0.05)], 'twr')).map((c) => [c.k, c.sub]), [['a', '']]);
+  assert.deepEqual(heroCards(boardOf([R('REAL', 0, null), R('a', 1, null)], 'twr')).map((c) => [c.big, c.sub]), [['미확정', '']]);
+  assert.deepEqual(heroCards(boardOf([], 'twr')), []);
+  // 점 그래프: 0%를 꼭 넣고, 값 없는 줄은 뺀다
+  const d = dotScale(b.cards);
+  assert.equal(d.hi, 0); assert.equal(d.lo, -0.098); assert.equal(d.zero, 100);
+  assert.deepEqual(d.dots.map((x) => [x.id, Math.round(x.pos)]), [['REAL', 0], ['etf', 77], ['w', 2], ['eq', 2], ['cap', 1]]);
+  assert.equal(dotScale([{ id: 'a', v: null }]), null);
+  assert.equal(Math.round(dotScale([{ id: 'a', v: 0 }]).dots[0].pos), 50);
+  // 공통 설정 나누기
+  assert.deepEqual(splitParams({ a: '살 판정 X · 4회 · 유보 0%', b: '살 판정 X · 4회 · 시총 비중 · 유보 0%' }),
+    { common: ['살 판정 X', '4회', '유보 0%'], own: { a: [], b: ['시총 비중'] } });
+  assert.deepEqual(splitParams({ a: 'x · y' }), { common: [], own: { a: ['x', 'y'] } });
+  assert.deepEqual(splitParams({}), { common: [], own: {} });
+});
