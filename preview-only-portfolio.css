@@ -617,3 +617,49 @@ div.pf-sgline{cursor:default;opacity:.6}
 :root[data-theme="dark"] .pf-r2ok{color:#7cddb6}:root[data-theme="dark"] .pf-r2wait{color:#f0c36a}:root[data-theme="dark"] .pf-r2side{background:var(--bg2,#2a2c36);color:var(--text)}:root[data-theme="dark"] .pf-r2sell{background:#40201f;color:#ff8a80}
 :root[data-theme="dark"] .pf-r2danger{border-color:#7a3b37}:root[data-theme="dark"] .pf-r2dk{color:#ff8a80}
 :root[data-theme="dark"] .pf-r2more{background:transparent!important}
+/* 전략 비교 탭 정리(2026-11-20): 큰 숫자 칸, 점 그래프, 전략 카드 */
+.pf-rankpart{display:flex;flex-direction:column;gap:16px}.pf-rankpart>.pf-panel,.pf-rankpart>.pf-foldcard{margin:0}
+.pf-s2hero{display:grid;gap:18px}
+.pf-s2stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.pf-s2stat{display:flex;flex-direction:column;gap:4px;padding:18px 20px;border-radius:18px;background:#f6f5fa;min-width:0}
+.pf-s2stat .pf-s{font-size:13px;color:var(--muted,#5f5f6b)}
+.pf-s2big{font-size:36px;font-weight:800;letter-spacing:-.02em;line-height:1.15;overflow-wrap:anywhere}
+.pf-s2lead{background:#2f6fd0;color:#fff}.pf-s2lead .pf-ac2k,.pf-s2lead .pf-s{color:#fff}
+.pf-s2dots{display:grid;gap:8px}
+.pf-s2track{position:relative;height:44px;margin:0 14px}
+.pf-s2track::before{content:"";position:absolute;left:-14px;right:-14px;top:20px;height:4px;border-radius:2px;background:#dcd9e6}
+.pf-s2zero{position:absolute;top:10px;width:2px;height:24px;margin-left:-1px;background:#8a8996}
+.pf-s2dot{position:absolute;top:12px;width:20px;height:20px;margin-left:-10px;border-radius:50%;background:var(--pf-base);border:3px solid #fff;box-sizing:border-box}
+.pf-s2dot.pf-s2me{top:8px;width:28px;height:28px;margin-left:-14px}
+.pf-s2dot.pf-c1{background:var(--pf-c1)}.pf-s2dot.pf-c2{background:var(--pf-c2)}.pf-s2dot.pf-c3{background:var(--pf-c3)}.pf-s2dot.pf-c4{background:var(--pf-c4)}.pf-s2dot.pf-c5{background:var(--pf-c5)}.pf-s2dot.pf-c6{background:var(--pf-c6)}.pf-s2dot.pf-c7{background:var(--pf-c7)}.pf-s2dot.pf-c8{background:var(--pf-c8)}
+.pf-s2axis{position:relative;display:flex;justify-content:space-between;margin:0 14px;font-size:12px;color:var(--muted,#5f5f6b)}
+.pf-s2axz{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.pf-s2legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px}.pf-s2legend span{display:inline-flex;align-items:center;gap:6px}
+.pf-s2head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}.pf-s2head .pf-h2q{margin:0;flex:1 1 auto}.pf-s2head .pf-h2q small{font-size:13px;font-weight:500;color:var(--muted,#5f5f6b)}
+.pf-s2head .pf-seg{margin:0}.pf-s2head .pf-segbtn{min-height:44px}.pf-s2add{min-height:44px;padding:0 18px;border-radius:12px;font-size:14px}
+.pf-s2cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.pf-s2card{display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:20px;background:#fff;border:2px solid #fff;box-shadow:0 8px 30px #3526470d;min-width:0}
+.pf-s2card.pf-s2mine{border-color:#5b46c8}.pf-s2card.pf-on{border-color:#2f6fd0}
+.pf-s2top{display:flex;align-items:center;gap:8px}
+.pf-s2rank{flex:0 0 auto;min-width:28px;height:28px;padding:0 6px;border-radius:14px;background:#f1f0f6;font-size:13px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pf-s2rank.pf-s2first{background:#2f6fd0;color:#fff}.pf-s2mine .pf-s2rank{background:#5b46c8;color:#fff}
+.pf-s2name{flex:1 1 auto;min-width:0;font-size:16px;display:flex;align-items:center;gap:6px;overflow-wrap:anywhere}
+.pf-s2tag{flex:0 0 auto;padding:4px 8px;border-radius:10px;background:#f1f0f6;color:#5f5d6b;font-size:12px;font-weight:700}
+.pf-s2ahead{background:#e1ecfb;color:#1f55a8}.pf-s2behind{background:#fbe9e7;color:#b42318}
+.pf-s2main{display:flex;flex-direction:column}.pf-s2main .pf-s,.pf-s2grid .pf-s{font-size:12px;color:var(--muted,#5f5f6b)}
+.pf-s2num{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.pf-s2how{margin:0;font-size:13px;line-height:1.5;color:var(--muted,#5f5f6b);flex:1 0 auto}
+.pf-s2grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;padding:12px;border-radius:12px;background:#f6f5fa}
+.pf-s2grid div{display:flex;flex-direction:column;min-width:0}.pf-s2grid strong{font-size:14px;font-variant-numeric:tabular-nums}
+.pf-s2open{justify-self:stretch;min-height:44px;border-radius:12px;border-color:#5b46c8;font-size:13px;font-weight:700}
+.pf-s2common{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;padding:14px 18px;border-radius:16px;background:#fff}
+.pf-s2common strong{font-size:13px}.pf-s2common span{padding:5px 10px;border-radius:10px;background:#f1f0f6;font-size:12px}
+.pf-s2note{margin:0;padding:0 4px}.pf-s2help{margin:0;padding:0 4px}
+.pf-rankpart .pf-stfold summary{min-height:44px;display:flex;align-items:center}
+@media (max-width:520px){.pf-s2big{font-size:28px}.pf-s2num{font-size:28px}.pf-s2stat{padding:14px 16px}.pf-s2card{padding:16px}.pf-s2head .pf-segbox{order:3;width:100%}.pf-s2head .pf-segbtn{flex:1 1 0;padding:0 6px}}
+:root[data-theme="dark"] .pf-s2stat,:root[data-theme="dark"] .pf-s2grid{background:var(--bg3)}:root[data-theme="dark"] .pf-s2lead{background:#2a5cab}
+:root[data-theme="dark"] .pf-s2card,:root[data-theme="dark"] .pf-s2common{background:var(--panel);border-color:var(--panel);box-shadow:none}
+:root[data-theme="dark"] .pf-s2card.pf-s2mine{border-color:#8f7ce0}:root[data-theme="dark"] .pf-s2card.pf-on{border-color:#6ea4f5}
+:root[data-theme="dark"] .pf-s2rank,:root[data-theme="dark"] .pf-s2tag,:root[data-theme="dark"] .pf-s2common span{background:var(--bg3);color:var(--text)}
+:root[data-theme="dark"] .pf-s2track::before{background:#4a4756}:root[data-theme="dark"] .pf-s2dot{border-color:var(--panel)}
+:root[data-theme="dark"] .pf-s2ahead{background:#1d2f4d;color:#9cc3ff}:root[data-theme="dark"] .pf-s2behind{background:#40201f;color:#ff8a80}
