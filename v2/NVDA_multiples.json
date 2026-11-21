@@ -1,68 +1,68 @@
 {
  "ticker": "NVDA",
  "window": [
-  "2021-11-19",
-  "2026-11-19"
+  "2021-11-22",
+  "2026-11-20"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 18.46,
-   "min": 18.46,
-   "p10": 33.87,
-   "median": 55.91,
+   "current": 15.87,
+   "min": 15.87,
+   "p10": 33.67,
+   "median": 55.89,
    "p90": 131.39,
    "max": 247.34,
-   "mean": 71.15,
+   "mean": 71.07,
    "percentile": 0.0,
    "score": 100.0,
    "eps": 7.91
   },
   "PSR": {
    "days": 1255,
-   "current": 11.61,
+   "current": 9.99,
    "min": 9.4,
-   "p10": 14.45,
-   "median": 25.13,
-   "p90": 37.43,
+   "p10": 14.44,
+   "median": 25.12,
+   "p90": 37.39,
    "max": 46.74,
-   "mean": 25.76,
-   "percentile": 3.3,
-   "score": 96.7
+   "mean": 25.74,
+   "percentile": 0.4,
+   "score": 99.6
   },
   "PBR": {
    "days": 1255,
-   "current": 15.36,
+   "current": 13.21,
    "min": 11.72,
-   "p10": 17.15,
-   "median": 36.01,
+   "p10": 17.14,
+   "median": 35.9,
    "p90": 52.97,
    "max": 67.87,
-   "mean": 35.82,
-   "percentile": 5.7,
-   "score": 94.3
+   "mean": 35.8,
+   "percentile": 1.5,
+   "score": 98.5
   },
   "PCR": {
-   "days": 560,
-   "current": 27.7,
-   "min": 27.7,
-   "p10": 41.31,
-   "median": 54.4,
+   "days": 561,
+   "current": 23.82,
+   "min": 23.82,
+   "p10": 41.28,
+   "median": 54.36,
    "p90": 63.65,
    "max": 78.06,
-   "mean": 53.08,
+   "mean": 53.03,
    "percentile": 0.0,
    "score": 100.0
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 17.36,
-   "min": 17.36,
-   "p10": 31.09,
-   "median": 47.37,
+   "current": 14.92,
+   "min": 14.92,
+   "p10": 31.08,
+   "median": 47.34,
    "p90": 98.44,
    "max": 191.89,
-   "mean": 58.4,
+   "mean": 58.34,
    "percentile": 0.0,
    "score": 100.0
   }
@@ -70,11 +70,11 @@
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 29.93,
-  "per_p75": 44.17,
+  "per_p25": 29.87,
+  "per_p75": 44.12,
   "low": 240,
   "high": 350,
-  "asOf": "2026-11-19",
+  "asOf": "2026-11-20",
   "basis": "diluted"
  }
 }

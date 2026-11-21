@@ -1,80 +1,80 @@
 {
  "ticker": "CMG",
  "window": [
-  "2021-11-19",
-  "2026-11-19"
+  "2021-11-22",
+  "2026-11-20"
  ],
  "multiples": {
   "PER": {
    "days": 1255,
-   "current": 33.93,
+   "current": 33.22,
    "min": 25.25,
    "p10": 30.25,
    "median": 52.42,
-   "p90": 65.77,
+   "p90": 65.76,
    "max": 73.47,
-   "mean": 49.45,
-   "percentile": 18.0,
-   "score": 82.0,
+   "mean": 49.43,
+   "percentile": 16.3,
+   "score": 83.7,
    "eps": 1.07
   },
   "PSR": {
    "days": 1255,
-   "current": 3.61,
+   "current": 3.54,
    "min": 2.8,
    "p10": 3.56,
-   "median": 5.61,
+   "median": 5.6,
    "p90": 7.52,
    "max": 9.23,
    "mean": 5.62,
-   "percentile": 11.2,
-   "score": 88.8
+   "percentile": 9.1,
+   "score": 90.9
   },
   "PBR": {
    "days": 1255,
-   "current": 18.7,
+   "current": 18.32,
    "min": 12.23,
    "p10": 15.96,
-   "median": 19.29,
+   "median": 19.28,
    "p90": 23.44,
    "max": 28.01,
-   "mean": 19.57,
-   "percentile": 42.5,
-   "score": 57.5
+   "mean": 19.56,
+   "percentile": 36.1,
+   "score": 63.9
   },
   "PCR": {
    "days": 1255,
-   "current": 30.41,
+   "current": 29.78,
    "min": 22.2,
    "p10": 28.76,
-   "median": 47.38,
-   "p90": 65.34,
+   "median": 47.36,
+   "p90": 65.31,
    "max": 97.12,
-   "mean": 48.36,
-   "percentile": 14.7,
-   "score": 85.3
+   "mean": 48.3,
+   "percentile": 12.7,
+   "score": 87.3
   },
   "EV/EBITDA": {
    "days": 1255,
-   "current": 20.6,
+   "current": 20.17,
    "min": 15.53,
    "p10": 18.88,
    "median": 32.27,
-   "p90": 40.88,
+   "p90": 40.77,
    "max": 48.09,
-   "mean": 31.07,
-   "percentile": 15.9,
-   "score": 84.1
+   "mean": 31.05,
+   "percentile": 14.7,
+   "score": 85.3
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 29.38,
-  "per_p75": 33.15,
+  "per_p25": 29.43,
+  "per_p75": 33.19,
   "low": 30,
   "high": 40,
-  "asOf": "2026-11-19",
+  "asOf": "2026-11-20",
   "basis": "diluted"
  }
 }
