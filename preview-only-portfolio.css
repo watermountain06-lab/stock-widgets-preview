@@ -568,6 +568,8 @@ div.pf-sgline{cursor:default;opacity:.6}
 .pf-ac2krw{font-size:13px}.pf-ac2krw small{color:var(--muted,#5f5f6b)}
 .pf-ac2fx .pf-btn{background:var(--panel,#fff)}.pf-ac2fx .pf-ac2add{color:#4f3aa8;border-color:#5b46c8}
 .pf-ac2how{margin:16px 0 0;padding:0;background:none;border-radius:0;font-size:inherit}
+/* 어두운 화면: theme.css가 모든 details에 배경을 !important로 칠하므로 되돌린다 */
+:root[data-theme="dark"] .pf-ac2how{background:none!important}
 .pf-ac2how summary{display:inline-flex;align-items:center;min-height:44px;font-size:13px;font-weight:700;color:var(--muted,#5f5f6b);cursor:pointer}
 .pf-ac2how .pf-note{margin:0 0 8px}
 @media (max-width:520px){.pf-acctop .pf-ac2big{font-size:28px}.pf-ac2big{font-size:24px}.pf-ac2row{grid-template-columns:10px minmax(0,1fr) auto 64px;gap:8px}}
