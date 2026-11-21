@@ -1013,3 +1013,35 @@ import { sectorTabs, buyGroup, groupLabel } from '../../preview-only-portfolio-h
     assert.equal(groupLabel('solo:ZZZZ'), '분류 안 됨 · ZZZZ');
   });
 }
+
+// ---- 기록·관리 탭의 날짜별 묶음과 요약 숫자(2026-11-20) — 가짜 티커 ----
+import { dayGroups, recSummary, kdate } from '../../preview-only-portfolio-records.js';
+test('기록 묶음: 날짜별로 매매·입출금과 시작·보유를 나누고, 취소는 합계에서 뺀다', () => {
+  const T = (id, date, value, state = '반영') => ({ kind: 'trade', id, date, value, state });
+  const items = [
+    { kind: 'deposit', id: 'd2', date: '2026-11-09', value: 500, state: '취소됨' },
+    T('t1', '2026-11-09', -61.1), T('t2', '2026-11-09', -38.9), T('t3', '2026-11-09', 20, '기준일 전(반영 안 함)'),
+    { kind: 'deposit', id: 'd1', date: '2026-11-09', value: 1000, state: '2026-11-10 반영' },
+    T('t4', '2026-10-22', -76), T('t5', '2026-10-22', -10, '취소됨'),
+    { kind: 'snap', id: 'snap', date: '2026-10-20' }, { kind: 'upload', id: 'upload', date: '2026-10-20' },
+    T('t0', '2025-12-30', -5),
+  ];
+  const g = dayGroups(items);
+  assert.deepEqual(g.map((x) => [x.date, x.moves.length, x.base.length]), [['2026-11-09', 5, 0], ['2026-10-22', 2, 0], ['2026-10-20', 0, 2], ['2025-12-30', 1, 0]]);
+  assert.deepEqual([g[0].buys, g[0].sells, g[0].deps, g[0].outs], [2, 1, 1, 0]);
+  assert.equal(Math.round(g[0].tradeNet * 100), -8000);
+  assert.equal(g[0].cashNet, 1000);   // 취소된 입금 500은 뺀다
+  assert.deepEqual([g[1].buys, g[1].tradeNet], [1, -76]);   // 취소된 매매는 뺀다
+  const s = recSummary(items, '2026-11-18');
+  assert.deepEqual(s.last, { date: '2026-11-09', buys: 2, sells: 1 });
+  assert.equal(Math.round(s.monthBuy * 100), 10000);
+  assert.equal(s.monthBuys, 2);
+  assert.deepEqual([s.total, s.trades, s.deposits, s.base], [10, 6, 2, 2]);
+  assert.equal(s.snap.id, 'snap');
+  assert.deepEqual(recSummary([], '2026-11-18'), { last: null, monthBuy: 0, monthBuys: 0, total: 0, trades: 0, deposits: 0, base: 0, snap: null });
+  // 이번 달이라도 미래 날짜 매수는 산 돈에 넣지 않는다
+  assert.equal(recSummary([T('f1', '2026-11-25', -40, '미래 날짜(그날부터 반영)'), T('t1', '2026-11-09', -10)], '2026-11-18').monthBuy, 10);
+  assert.equal(kdate('2026-11-09', '2026-11-18'), '11월 9일');
+  assert.equal(kdate('2025-12-30', '2026-11-18'), '2025년 12월 30일');
+  assert.equal(kdate('', '2026-11-18'), '날짜 없음');
+});

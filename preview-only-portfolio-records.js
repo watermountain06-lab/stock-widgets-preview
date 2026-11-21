@@ -18,7 +18,7 @@ export function depositState(id, d, cancelAt, now) {
 }
 
 // 기록 → 목록 줄(최신이 위). cur = currentHoldings 결과(매매 상태), bundle = 지금 묶음(없거나 끝났으면 입금·스냅샷 없음)
-// 줄: { kind: 'trade'|'deposit'|'snap'|'upload', id, date, title, detail, amount, raw }
+// 줄: { kind: 'trade'|'deposit'|'snap'|'upload', id, date, title, detail, amount, raw } + 매매·입출금에는 state(상태 글)·value(부호 붙은 현금 흐름)
 export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, etDate }) {
   const out = [];
   const all = Object.entries(trades || {});
@@ -34,7 +34,7 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
     else if (clipped.has(id)) state = `보유 초과 — ${shares(x.qty - clipped.get(id))}주만 반영`;
     const amt = x.qty * x.price;
     out.push({ kind: 'trade', id, date: x.date, title: `${x.ticker} ${x.side === 'buy' ? '매수' : '매도'} ${shares(x.qty)}주`,
-      detail: `${usd(x.price)} · ${state}`, amount: (x.side === 'buy' ? '−' : '+') + usd(amt), raw: x });
+      detail: `${usd(x.price)} · ${state}`, amount: (x.side === 'buy' ? '−' : '+') + usd(amt), raw: x, state, value: x.side === 'buy' ? -amt : amt });
   }
   if (bundle && !bundle.closed) {
     const deps = Object.entries(bundle.deposits || {});
@@ -44,8 +44,9 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
       if (d.cancels) continue;
       const rec = d.recordedAt ? etDate(Date.parse(d.recordedAt)) : null;
       const out_ = d.kind === 'withdraw';   // 출금(2026-10-22) — 같은 입금 지도에 kind:'withdraw'로 둔다
+      const dst = depositState(id, d, cancelAt, now);
       out.push({ kind: 'deposit', id, date: rec || '', title: `${out_ ? '출금' : '입금'} ${usd(d.amount)}`,
-        detail: `${rec ? rec + ' 기록' : '기록 중'}` + (d.forMonth && !out_ ? ` · ${+d.forMonth.slice(5)}월 몫(미리)` : '') + ` · ${depositState(id, d, cancelAt, now)}`, amount: (out_ ? '−' : '+') + usd(d.amount), raw: d });
+        detail: `${rec ? rec + ' 기록' : '기록 중'}` + (d.forMonth && !out_ ? ` · ${+d.forMonth.slice(5)}월 몫(미리)` : '') + ` · ${dst}`, amount: (out_ ? '−' : '+') + usd(d.amount), raw: d, state: dst, value: out_ ? -d.amount : d.amount });
     }
     const s = bundle.snapshot || {};
     if (s.date) {
@@ -65,20 +66,58 @@ export function timelineItems({ trades, cur, bundle, bundleNo, holdings, now, et
   return out.sort((a, b) => (a.date !== b.date ? (a.date < b.date ? 1 : -1) : order[a.kind] - order[b.kind]));
 }
 
+// 날짜별 묶음(2026-11-20 정리, 최신이 위 — items 순서를 그대로 따른다). 한 날짜의 매매·입출금은 한 카드(moves), 시작 스냅샷·올린 보유는 따로(base).
+// 취소된 기록은 줄에는 남기되 건수·합계에서 뺀다. tradeNet·cashNet = 부호 붙은 합(산 돈은 −).
+export function dayGroups(items) {
+  const out = [];
+  for (const it of items) {
+    let g = out.at(-1);
+    if (!g || g.date !== it.date) { g = { date: it.date, moves: [], base: [], buys: 0, sells: 0, deps: 0, outs: 0, tradeNet: 0, cashNet: 0 }; out.push(g); }
+    if (it.kind === 'snap' || it.kind === 'upload') { g.base.push(it); continue; }
+    g.moves.push(it);
+    if (it.state === '취소됨') continue;
+    if (it.kind === 'trade') { if (it.value < 0) g.buys++; else g.sells++; g.tradeNet += it.value; }
+    else { if (it.value < 0) g.outs++; else g.deps++; g.cashNet += it.value; }
+  }
+  return out;
+}
+
+// 맨 위 요약 숫자. today = 미국 동부 날짜(YYYY-MM-DD). 마지막 매매·이번 달 산 돈은 취소된 기록을 빼고, 쌓인 기록 건수는 목록·보기 단추와 같게 취소된 줄도 센다.
+// { last: { date, buys, sells } | null, monthBuy, monthBuys, total, trades, deposits, base, snap: 줄 | null }
+export function recSummary(items, today) {
+  const live = items.filter((x) => x.kind === 'trade' && x.state !== '취소됨');
+  const lastDate = live.map((x) => x.date).sort().at(-1) || null;
+  const on = live.filter((x) => x.date === lastDate);
+  const mb = live.filter((x) => x.value < 0 && x.date.slice(0, 7) === today.slice(0, 7) && x.date <= today);   // 미래 날짜로 적은 매수는 아직 산 돈이 아니다
+  return {
+    last: lastDate ? { date: lastDate, buys: on.filter((x) => x.value < 0).length, sells: on.filter((x) => x.value > 0).length } : null,
+    monthBuy: mb.reduce((a, x) => a - x.value, 0), monthBuys: mb.length,
+    total: items.length, trades: items.filter((x) => x.kind === 'trade').length, deposits: items.filter((x) => x.kind === 'deposit').length,
+    base: items.filter((x) => x.kind === 'snap' || x.kind === 'upload').length,
+    snap: items.find((x) => x.kind === 'snap') || null,
+  };
+}
+
+// '2026-11-09' → '11월 9일'(올해가 아니면 연도를 앞에). 날짜가 없으면 '날짜 없음'
+export const kdate = (d, today) => (!/^\d{4}-\d{2}-\d{2}/.test(d || '') ? '날짜 없음' : (d.slice(0, 4) !== (today || '').slice(0, 4) ? `${d.slice(0, 4)}년 ` : '') + `${+d.slice(5, 7)}월 ${+d.slice(8, 10)}일`);
+
 // ---- 그리기 ----
 
-const KIND = { trade: '매매', deposit: '입출금', snap: '시작 스냅샷', upload: '올린 보유' };
-const ICON = { trade: '↗', deposit: '+', snap: '≡', upload: '≡' };
 const FILTER = { all: ['전체', () => true], trade: ['매매', (x) => x.kind === 'trade'], deposit: ['입출금', (x) => x.kind === 'deposit'], base: ['시작·보유', (x) => x.kind === 'snap' || x.kind === 'upload'] };
 const VIEW_KEY = 'pf-rec-view';
 const view = (() => { try { return { filter: 'all', open: null, ...JSON.parse(sessionStorage.getItem(VIEW_KEY) || '{}') }; } catch (_) { return { filter: 'all', open: null }; } })();
 const keep = () => { try { sessionStorage.setItem(VIEW_KEY, JSON.stringify(view)); } catch (_) { /* 기억 못 해도 화면은 그대로 */ } };
 const btn = (text, cls) => { const b = el('button', cls || 'pf-btn pf-btn-quiet', text); b.type = 'button'; return b; };
+const signed = (v) => (v < 0 ? '−' : '+') + usd(Math.abs(v));
+// 폰에서는 큰 버튼을 기록 목록 아래에 둔다(2026-11-19 사용자 결정) — 폭이 경계를 넘으면 다시 그린다
+const PHONE = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(max-width:760px)') : null;
+let place = null;   // 지금 그려진 화면의 큰 버튼·기록 목록 자리를 폭에 맞게 놓는다(다시 그리지 않고 옮기기만 — 쓰던 양식의 입력을 지우지 않는다)
+PHONE?.addEventListener?.('change', () => place?.());
 
-// mg = #pf-manage, h = { currentHoldings, checkTrade, etDate } (-home.js에서 넘긴다)
-// 2026-10-21 최종 시안: 왼쪽 "자산이 쌓인 기록"(줄마다 ⋯ 하나), 오른쪽 "데이터 관리" 목록(입금 추가·보유 파일 올리기·시작 스냅샷 고치기·
-// 올린 보유 표·모의 운용 메모)과 계산 방식·고급 관리 접기. 파일 올리기·올린 보유 표·메모는 html의 #pf-static에 있는 요소를 옮겨 쓴다
-// (preview-only-portfolio.js가 id로 채우고 이벤트를 단다).
+// mg = #pf-manage, h = { currentHoldings, checkTrade, etDate, acctName } (-home.js에서 넘긴다)
+// 2026-11-20 정리(디자인 시안 Records): 위에 요약 숫자 네 칸, 큰 버튼(입금·출금, 보유 파일, 시작 스냅샷, 올린 보유 표, 메모), 그 아래
+// "자산이 쌓인 기록"을 날짜별 카드로(매매·입출금은 칸, 시작 스냅샷·올린 보유는 따로), 맨 아래 계산 방식·고급 관리 접기.
+// 파일 올리기·올린 보유 표·메모는 html의 #pf-static에 있는 요소를 옮겨 쓴다(preview-only-portfolio.js가 id로 채우고 이벤트를 단다).
 let latest = null;
 export function renderManage(mg, model, smodel, handlers, h) {
   latest = [mg, model, smodel, handlers, h];
@@ -95,12 +134,49 @@ export function renderManage(mg, model, smodel, handlers, h) {
   const hold = model.main?.holdings || {};
   const cur = h.currentHoldings(hold.rows, hold.asOf, model.trades, today);
   const items = timelineItems({ trades: model.trades, cur, bundle: b, bundleNo: smodel.bundleNo, holdings: hold, now, etDate: h.etDate });
-  const grid = el('div', 'pf-recgrid');
+  const sum = recSummary(items, today);
+  const nHold = (hold.rows || []).filter((r) => String(r.ticker || '').trim()).length;
 
-  // 왼쪽: 자산이 쌓인 기록
-  const sec = el('section', 'pf-panel pf-recs');
-  const t = el('div'); t.appendChild(el('h2', 'pf-h2q', '자산이 쌓인 기록')); t.appendChild(el('p', 'pf-sub', '매매·입금·시작 설정을 한곳에서. 새 매매는 위 "＋ 매매 기록"으로 적습니다.'));
-  sec.appendChild(t);
+  // 요약 숫자 네 칸
+  const top = el('section', 'pf-panel pf-r2top');
+  const stat = (k, big, sub) => { const d = el('div', 'pf-r2stat'); d.appendChild(el('span', 'pf-ac2k', k)); d.appendChild(el('strong', 'pf-ac2big', big)); d.appendChild(el('span', 'pf-s', sub)); top.appendChild(d); };
+  stat('마지막 매매 기록', sum.last ? kdate(sum.last.date, today) : '—',
+    sum.last ? [sum.last.buys && `매수 ${sum.last.buys}건`, sum.last.sells && `매도 ${sum.last.sells}건`].filter(Boolean).join(' · ') : '아직 없음');
+  stat('이번 달 산 돈', usd(sum.monthBuy), sum.monthBuys ? `매수 ${sum.monthBuys}건` : '매수 없음');
+  stat('쌓인 기록', `${sum.total}건`, [sum.trades && `매매 ${sum.trades}`, sum.deposits && `입출금 ${sum.deposits}`, sum.base && `시작·보유 ${sum.base}`].filter(Boolean).join(' · ') || '아직 없음');
+  const s0 = b?.snapshot || {};
+  stat('비교 시작', b && s0.date ? kdate(s0.date, today) : '—', b && s0.date ? `묶음 ${smodel.bundleNo} · ${Object.keys(s0.holdings || {}).length}종목 + 현금` : '아직 시작 전');
+
+  // 큰 버튼: 누르면 바로 아래에 그 칸이 열린다
+  const acts = el('section', 'pf-r2actwrap');
+  const actGrid = el('div', 'pf-r2acts'); acts.appendChild(actGrid);
+  const area = el('div', 'pf-panel pf-r2area'); area.id = 'pf-r2area'; area.hidden = true; acts.appendChild(area);
+  if (pendingUpload) view.open = 'upload';
+  const act = (key, verb, name, sub, body) => {
+    const open = view.open === key;
+    const b2 = btn(null, 'pf-r2act'); b2.setAttribute('aria-expanded', String(open)); b2.setAttribute('aria-controls', 'pf-r2area');
+    b2.appendChild(el('span', 'pf-r2verb', verb)); b2.appendChild(el('strong', null, name)); b2.appendChild(el('span', 'pf-s', sub));
+    b2.dataset.key = key;
+    b2.addEventListener('click', () => { view.open = open ? null : key; keep(); draw(); latest[0].querySelector(`.pf-r2act[data-key="${key}"]`)?.focus?.(); });
+    actGrid.appendChild(b2);
+    if (open) { area.hidden = false; area.appendChild(el('h3', 'pf-r2h3', `${name} ${verb}`)); body(area); }
+  };
+  if (b) act('deposit', '추가', '입금·출금', '모든 전략에 같이 반영', (a) => {
+    a.appendChild(el('p', 'pf-note', '기록한 뒤 처음 오는 장 시작부터 반영합니다. 출금은 현금에서만 뺍니다.'));
+    depositForm(a, handlers);
+  });
+  act('upload', '올리기', '보유 파일', 'CSV · Excel · JSON', (a) => {
+    a.appendChild(el('p', 'pf-note', 'JSON은 원칙·올린 보유·관심 종목을 통째로, CSV·Excel은 올린 보유만 바꿉니다(Robinhood 거래 내역 CSV는 보유·평균 단가·현금을 계산, 보유 표는 Ticker·Quantity·Avg Price 열과 현금 CASH 줄). 전략 비교와 실제 매매 기록은 바뀌지 않습니다.'));
+    if (upWrap) a.appendChild(upWrap);
+  });
+  if (b) act('snap', '고치기', '시작 스냅샷', `${s0.date ? md(s0.date) : '—'} · ${Object.keys(s0.holdings || {}).length}종목 + 현금`, (a) => a.appendChild(startForm(smodel, handlers, lastRec, s0)));
+  act('holdings', '보기', '올린 보유 표', hold.asOf ? `${hold.asOf} · ${nHold}종목` : '아직 없음', (a) => { if (holdWrap) a.appendChild(holdWrap); });
+  if (memo && memo.childElementCount) act('memo', '보기', '모의 운용 메모', '손으로 적은 기록', (a) => a.appendChild(memo));
+  if (area.hidden && view.open) { view.open = null; keep(); }   // 열어 둔 칸이 없어졌으면(묶음을 끝냄 등) 기억을 지운다
+
+  // 자산이 쌓인 기록
+  const recs = el('section', 'pf-r2recs');
+  const head = el('div', 'pf-r2head'); head.appendChild(el('h2', 'pf-h2q', '자산이 쌓인 기록'));
   const keys = Object.keys(FILTER).filter((k) => k === 'all' || items.some(FILTER[k][1]));
   if (!keys.includes(view.filter)) view.filter = 'all';
   const filters = el('div', 'pf-seg pf-segbox'); filters.setAttribute('role', 'group'); filters.setAttribute('aria-label', '보기');
@@ -109,99 +185,132 @@ export function renderManage(mg, model, smodel, handlers, h) {
     f.addEventListener('click', () => { view.filter = k; keep(); draw(); });
     filters.appendChild(f);
   }
-  sec.appendChild(filters);
+  head.appendChild(filters); recs.appendChild(head);
   const msg = msgLine();
-  const list = el('div', 'pf-reclist');
+  const list = el('div', 'pf-r2list');
   const shown = items.filter(FILTER[view.filter][1]);
-  if (!shown.length) list.appendChild(el('p', 'pf-empty', '아직 기록이 없습니다. 위 "＋ 매매 기록"이나 오른쪽 "입금 추가"로 적습니다.'));
-  for (const it of shown) {
-    const row = el('div', 'pf-recrow');
-    row.appendChild(el('span', 'pf-recdate', it.date || '—'));
-    const ic = el('span', 'pf-recicon pf-rb-' + it.kind, ICON[it.kind]); ic.setAttribute('aria-hidden', 'true'); row.appendChild(ic);
-    const txt = el('span', 'pf-rectext'); txt.appendChild(el('strong', null, it.title)); txt.appendChild(el('small', null, (it.kind === 'trade' ? '매매 · ' : '') + it.detail)); row.appendChild(txt);   // 아이콘은 꾸밈이라 종류는 제목·설명 글로 읽힌다
-    row.appendChild(el('strong', 'pf-recamt', it.amount));
-    const more = btn('⋯', 'pf-more'); more.setAttribute('aria-label', `${it.title} 고치기·지우기`); more.setAttribute('aria-expanded', 'false');
-    row.appendChild(more);
-    const edit = el('div', 'pf-edit'); edit.hidden = true;
-    // ⋯ → 그 줄에 할 수 있는 일, 고치기를 누르면 그 자리에서 양식
-    const fill = (box) => {
-      const acts = el('div', 'pf-acts pf-edacts');
-      if (it.kind === 'trade') {
-        const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; tradeEdit(box, it.id, it.raw, handlers, h); });
-        const del = btn('지우기'); twoStep(del, msg, `${it.title} 기록을 지웁니다. 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteTrade(it.id));
-        acts.appendChild(fix); acts.appendChild(del);
-      } else if (it.kind === 'deposit') {
-        const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; depositEdit(box, it.id, it.raw, handlers); });
-        const del = btn('지우기'); twoStep(del, msg, `이 ${it.raw.kind === 'withdraw' ? '출금' : '입금'}을 지웁니다(처음부터 다시 계산). 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteDeposit(it.id));
-        acts.appendChild(fix); acts.appendChild(del);
-      } else if (it.kind === 'snap') {
-        const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; box.appendChild(startForm(smodel, handlers, lastRec, it.raw)); });
-        acts.appendChild(fix);
-      } else {
-        const go = btn('다시 올리기'); go.addEventListener('click', () => { view.open = 'upload'; keep(); draw(); document.getElementById('pf-upwrap')?.scrollIntoView?.({ block: 'nearest' }); });
-        acts.appendChild(go);
-      }
-      box.appendChild(acts);
-    };
+  if (!shown.length) { const e = el('section', 'pf-panel'); e.appendChild(el('p', 'pf-empty', '아직 기록이 없습니다. 매매는 위 "＋ 매매 기록"으로 적습니다.')); list.appendChild(e); }
+  // ⋯ → 그 줄에 할 수 있는 일, 고치기를 누르면 그 자리에서 양식
+  const fill = (it, box) => {
+    const row = el('div', 'pf-acts pf-edacts');
+    if (it.kind === 'trade') {
+      const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; tradeEdit(box, it.id, it.raw, handlers, h); });
+      const del = btn('지우기'); twoStep(del, msg, `${it.title} 기록을 지웁니다. 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteTrade(it.id));
+      row.appendChild(fix); row.appendChild(del);
+    } else if (it.kind === 'deposit') {
+      const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; depositEdit(box, it.id, it.raw, handlers); });
+      const del = btn('지우기'); twoStep(del, msg, `이 ${it.raw.kind === 'withdraw' ? '출금' : '입금'}을 지웁니다(처음부터 다시 계산). 맞으면 지우기를 한 번 더 누르세요.`, () => handlers.deleteDeposit(it.id));
+      row.appendChild(fix); row.appendChild(del);
+    } else if (it.kind === 'snap') {
+      const fix = btn('고치기'); fix.addEventListener('click', () => { box.textContent = ''; box.appendChild(startForm(smodel, handlers, lastRec, it.raw)); });
+      row.appendChild(fix);
+    } else {
+      const go = btn('다시 올리기'); go.addEventListener('click', () => { view.open = 'upload'; keep(); draw(); document.getElementById('pf-r2area')?.scrollIntoView?.({ block: 'nearest' }); });
+      row.appendChild(go);
+    }
+    box.appendChild(row);
+  };
+  const moreBtn = (it, edit) => {
+    const more = btn('⋯', 'pf-more pf-r2more'); more.setAttribute('aria-label', `${it.title} ${it.kind === 'snap' ? '고치기' : it.kind === 'upload' ? '다시 올리기' : '고치기·지우기'}`); more.setAttribute('aria-expanded', 'false');
     more.addEventListener('click', () => {
       const was = !edit.hidden;
       list.querySelectorAll('.pf-edit').forEach((e) => { e.hidden = true; e.textContent = ''; });
       list.querySelectorAll('.pf-more').forEach((m) => m.setAttribute('aria-expanded', 'false'));
       if (was) return;
-      edit.hidden = false; more.setAttribute('aria-expanded', 'true'); fill(edit);
+      edit.hidden = false; more.setAttribute('aria-expanded', 'true'); fill(it, edit);
     });
-    list.appendChild(row);
-    list.appendChild(edit);
-  }
-  sec.appendChild(list);
-  sec.appendChild(msg);
-  grid.appendChild(sec);
-
-  // 오른쪽: 데이터 관리
-  const side = el('div', 'pf-homecol pf-recside');
-  const dm = el('section', 'pf-panel pf-side');
-  dm.appendChild(el('div', 'pf-eyebrow2', '데이터 관리'));
-  dm.appendChild(el('h2', 'pf-h2s', '내 기록의 출발점'));
-  const item = (key, title, sub, mark, body) => {
-    const b2 = btn(null, 'pf-dmrow'); b2.setAttribute('aria-expanded', String(view.open === key));
-    const tt = el('span', 'pf-dmtext'); tt.appendChild(el('strong', null, title)); if (sub) tt.appendChild(el('small', null, sub)); b2.appendChild(tt);
-    const mk = el('span', 'pf-dmmark' + (mark === '+' ? ' pf-dmplus' : ''), mark); mk.setAttribute('aria-hidden', 'true'); b2.appendChild(mk);
-    const area = el('div', 'pf-dmarea'); area.hidden = view.open !== key;
-    if (body) body(area);
-    b2.addEventListener('click', () => { view.open = view.open === key ? null : key; keep(); draw(); });
-    dm.appendChild(b2); dm.appendChild(area);
+    return more;
   };
-  if (b) item('deposit', '입금·출금 추가', '반영일 장 시작부터 모든 전략에 같이(출금은 현금에서만)', '+', (a) => depositForm(a, handlers));
-  if (pendingUpload) view.open = 'upload';
-  item('upload', '보유 파일 올리기', 'CSV · Excel · JSON, 올리기 전 확인', '↗', (a) => {
-    a.appendChild(el('p', 'pf-note', 'JSON은 원칙·올린 보유·관심 종목을 통째로, CSV·Excel은 올린 보유만 바꿉니다(Robinhood 거래 내역 CSV는 보유·평균 단가·현금을 계산, 보유 표는 Ticker·Quantity·Avg Price 열과 현금 CASH 줄). 전략 비교와 실제 매매 기록은 바뀌지 않습니다.'));
-    if (upWrap) a.appendChild(upWrap);
-  });
-  if (b) {
-    const s = b.snapshot || {};
-    item('snap', '시작 스냅샷 고치기', `${s.date ? md(s.date) + ' 장 마감' : '—'} · ${Object.keys(s.holdings || {}).length}종목 + 현금`, '→', (a) => a.appendChild(startForm(smodel, handlers, lastRec, s)));
+  const stateCls = (st) => (st === '취소됨' ? 'pf-r2off' : st === '반영' || /^\d{4}-\d\d-\d\d 반영$/.test(st) ? 'pf-r2ok' : 'pf-r2wait');
+  let baseGrid = null;
+  for (const g of dayGroups(shown)) {
+    if (g.moves.length) {
+      baseGrid = null;
+      const card = el('section', 'pf-panel pf-r2day');
+      const dh = el('div', 'pf-r2dayhead');
+      dh.appendChild(el('strong', 'pf-r2date', kdate(g.date, today)));
+      const accts = [...new Set(g.moves.filter((x) => x.kind === 'trade').map((x) => h.acctName?.(x.raw)).filter(Boolean))];
+      const cancelled = g.moves.filter((x) => x.state === '취소됨').length;
+      dh.appendChild(el('span', 'pf-r2daysub', [g.buys && `매수 ${g.buys}건`, g.sells && `매도 ${g.sells}건`, g.deps && `입금 ${g.deps}건`, g.outs && `출금 ${g.outs}건`, cancelled && `취소 ${cancelled}건`,
+        accts.length && accts.map((a) => a.replace(' 계좌', '')).join('·') + ' 계좌'].filter(Boolean).join(' · ')));
+      const hasT = g.buys + g.sells > 0, hasD = g.deps + g.outs > 0;
+      if (hasT || hasD) {
+        const tot = el('strong', 'pf-r2date pf-r2tot');
+        if (hasT && hasD) tot.appendChild(el('small', null, '매매 '));
+        tot.appendChild(document.createTextNode(signed(hasT ? g.tradeNet : g.cashNet)));
+        dh.appendChild(tot);
+      }
+      card.appendChild(dh);
+      const tiles = el('div', 'pf-r2tiles');
+      for (const it of g.moves) {
+        const tile = el('div', 'pf-r2tile' + (it.state === '취소됨' ? ' pf-r2dead' : ''));
+        const main = el('div', 'pf-r2tmain');
+        const x = it.raw;
+        if (it.kind === 'trade') {
+          const nm = el('strong', 'pf-r2tk', x.ticker); nm.appendChild(el('small', x.side === 'buy' ? 'pf-r2side' : 'pf-r2side pf-r2sell', x.side === 'buy' ? '매수' : '매도')); main.appendChild(nm);
+          main.appendChild(el('span', 'pf-s', `${shares(x.qty)}주 × ${usd(x.price)}`));
+        } else {
+          main.appendChild(el('strong', 'pf-r2tk', x.kind === 'withdraw' ? '출금' : '입금'));
+          if (x.forMonth && x.kind !== 'withdraw') main.appendChild(el('span', 'pf-s', `${+x.forMonth.slice(5)}월 몫(미리)`));
+        }
+        const amt = el('span', 'pf-r2amt', usd(Math.abs(it.value)));
+        amt.appendChild(el('small', stateCls(it.state), '· ' + it.state.replace(/^\d{4}-(\d\d)-(\d\d)/, '$1/$2')));
+        main.appendChild(amt);
+        tile.appendChild(main);
+        const edit = el('div', 'pf-edit pf-r2edit'); edit.hidden = true;
+        tile.appendChild(moreBtn(it, edit));
+        tiles.appendChild(tile); tiles.appendChild(edit);
+      }
+      card.appendChild(tiles);
+      list.appendChild(card);
+    }
+    for (const it of g.base) {
+      if (!baseGrid) { baseGrid = el('div', 'pf-r2base'); list.appendChild(baseGrid); }
+      const card = el('section', 'pf-panel pf-r2basecard');
+      const row = el('div', 'pf-r2baserow');
+      const main = el('div', 'pf-r2tmain');
+      main.appendChild(el('span', 'pf-r2verb', `${kdate(it.date, today)} · ${it.kind === 'snap' ? '비교 시작' : '보유 파일'}`));
+      main.appendChild(el('strong', 'pf-r2tk', it.title));
+      main.appendChild(el('span', 'pf-s', it.detail));
+      row.appendChild(main);
+      const edit = el('div', 'pf-edit pf-r2edit'); edit.hidden = true;
+      row.appendChild(moreBtn(it, edit));
+      card.appendChild(row); card.appendChild(edit);
+      baseGrid.appendChild(card);
+    }
   }
-  const n = (hold.rows || []).filter((r) => String(r.ticker || '').trim()).length;
-  item('holdings', '올린 보유 표', hold.asOf ? `${hold.asOf} · ${n}종목` : '아직 없음', '+', (a) => { if (holdWrap) a.appendChild(holdWrap); });
-  if (memo && memo.childElementCount) item('memo', '모의 운용 메모', '올린 데이터의 손으로 적은 기록', '+', (a) => a.appendChild(memo));
-  side.appendChild(dm);
-  const info = el('section', 'pf-panel pf-side');
+  recs.appendChild(list);
+  recs.appendChild(msg);
+
+  // 맨 아래: 계산 방식, 되돌릴 수 없는 작업
+  const foot = el('div', 'pf-r2foot');
+  const info = el('section', 'pf-panel pf-r2info');
   info.appendChild(el('strong', null, '기록이 성과의 기준이 됩니다'));
   info.appendChild(el('p', 'pf-sub', '입금은 수익과 따로 셉니다. 모든 전략은 같은 시작 스냅샷에서 출발합니다.'));
   const how = el('details', 'pf-minifold'); how.appendChild(el('summary', null, '계산 방식'));
-  how.appendChild(el('p', 'pf-note', '기록은 언제든 고치거나 지울 수 있습니다. 올린 보유의 기준일과 그 전 날짜의 매매는 이미 올린 보유에 들어 있다고 보고 반영하지 않습니다. 입금은 기록한 뒤 처음 오는 장 시작(동부 09:30)부터 반영합니다. 입금·스냅샷을 고치면 모든 전략을 처음부터 다시 계산합니다.'));
+  how.appendChild(el('p', 'pf-note', '매매·입출금 기록은 언제든 고치거나 지울 수 있습니다. 올린 보유의 기준일과 그 전 날짜의 매매는 이미 올린 보유에 들어 있다고 보고 반영하지 않습니다. 입금은 기록한 뒤 처음 오는 장 시작(동부 09:30)부터 반영합니다. 입금·스냅샷을 고치면 모든 전략을 처음부터 다시 계산합니다.'));
   info.appendChild(how);
+  foot.appendChild(info);
   if (b) {
+    const dz = el('section', 'pf-r2danger');
+    dz.appendChild(el('span', 'pf-r2dk', '되돌릴 수 없는 작업'));
     const adv = el('details', 'pf-minifold pf-danger'); adv.appendChild(el('summary', null, `고급 관리 · 처음부터 다시 하기 (묶음 ${smodel.bundleNo})`));
     adv.appendChild(el('p', 'pf-note', '이 묶음을 "정정으로 종료"로 남기고 계산에서 뺀 뒤, 새 시작 스냅샷으로 다시 시작합니다.' + (smodel.closedCount ? ` 끝낸 묶음 ${smodel.closedCount}개.` : '')));
     const end = btn('이 묶음 끝내기'); const em = msgLine();
     adv.appendChild(end); adv.appendChild(em);
     twoStep(end, em, '이 묶음을 끝냅니다. 맞으면 한 번 더 누르세요.', () => handlers.close());
-    info.appendChild(adv);
+    dz.appendChild(adv);
+    foot.appendChild(dz);
   }
-  side.appendChild(info);
-  grid.appendChild(side);
-  mg.appendChild(grid);
+
+  mg.appendChild(top); mg.appendChild(acts); mg.appendChild(recs); mg.appendChild(foot);
+  place = () => {
+    if (!acts.isConnected) return;
+    const f = document.activeElement;
+    if (PHONE?.matches) mg.insertBefore(acts, foot); else mg.insertBefore(acts, recs);
+    if (f && f !== document.activeElement && mg.contains(f)) f.focus?.();
+  };
+  place();
   // 닫힌 칸에 들어가지 않은 고정 요소는 숨긴 보관 칸으로 돌려 둔다(id로 계속 찾을 수 있게)
   const holder = document.getElementById('pf-static');
   for (const x of [upWrap, holdWrap, memo]) if (x && !x.isConnected && holder) holder.appendChild(x);
