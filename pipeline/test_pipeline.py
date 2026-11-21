@@ -1019,6 +1019,53 @@ def test_card_units():
     check("a real mismatch is still caught", not uc.close_matches(1530.895, tok(1531.02)))
     check("exactly at the tolerance is a match", uc.close_matches(100.005, tok(100.0)))
     check("a hair past the tolerance is caught", not uc.close_matches(100.0051, tok(100.0)))
+    # 분할 안전장치(2026-11-20 SNDK 8:1): 사람이 확인한 분할(split_acks)이고 카드 가격이 분할 기준일 때만 통과
+    import fetch_prices as fp
+    days = ["2026-11-16", "2026-11-17", "2026-11-18", "2026-11-19", "2026-11-20"]
+    adj = [(d, 100.0, 101.0, 99.0, 100.0, 1000) for d in days]   # Yahoo: 분할 반영 일봉, 11-20이 분할일
+    ack = [("2026-11-20", 8.0)]
+    def split_case(card_close, served, acked=ack, ratio=8.0):
+        _, a = uc.parse_card_arrays("const X_DAILY = [" + ",".join(f'["{d}",{card_close},{card_close},{card_close},{card_close},1000]' for d in days[:4]) + "];")
+        try:
+            notes = []
+            sp = uc.SplitDays(["2026-11-20"]); sp.ratios["2026-11-20"] = ratio
+            uc.sync_bars(a, served, sp, notes, (), acked)
+            return "ok", notes
+        except uc.Hold as e:
+            return "held", str(e)
+    r = split_case(100.0, adj)
+    check("an acknowledged split on a card already in post-split prices is not held", r[0] == "ok" and any("acknowledged" in n for n in r[1]), r)
+    check("the same card without an acknowledgement is held", split_case(100.0, adj, ())[0] == "held")
+    check("an acknowledgement for another day does not lift the hold", split_case(100.0, adj, [("2026-11-13", 8.0)])[0] == "held")
+    check("an acknowledged split on an unadjusted card (8x the post-split prices) is held", split_case(800.0, adj)[0] == "held")
+    unadj = [(d, 800.0, 808.0, 792.0, 800.0, 1000) for d in days[:4]] + [("2026-11-20", 100.0, 101.0, 99.0, 100.0, 8000)]
+    check("Yahoo listing the split before rescaling old bars is held", split_case(800.0, unadj)[0] == "held")
+    partial = adj[:4] + [("2026-11-20", 800.0, 800.0, 99.0, 100.0, 8000)]
+    check("a split-day bar rescaled only in part is held", split_case(100.0, partial)[0] == "held")
+    check("the split session not settled yet is held", split_case(100.0, adj[:4])[0] == "held")
+    check("an acknowledgement with another ratio does not lift the hold", split_case(100.0, adj, [("2026-11-20", 2.0)])[0] == "held")
+    check("a later session does not stand in for the missing split-day bar",
+          split_case(100.0, adj[:4] + [("2026-11-23", 100.0, 101.0, 99.0, 100.0, 1000)])[0] == "held")
+    _, a0 = uc.parse_card_arrays("const X_DAILY = [" + ",".join(f'["{d}",100.0,100.0,100.0,100.0,1000]' for d in days[:4]) + "];")
+    try:
+        uc.sync_bars(a0, adj, ["2026-11-20"], [], (), ack); plain = "ok"
+    except uc.Hold:
+        plain = "held"
+    check("split dates without the provider's ratio never match an acknowledgement", plain == "held")
+    bad = Path(tempfile.mkdtemp()) / "split_acks.json"
+    bad.write_text("{", encoding="utf-8")
+    check("a broken split_acks.json acknowledges nothing instead of failing", fp.split_acks("SNDK", bad) == [])
+    # 홈 가격: 확인한 분할(같은 날·같은 비율)만 split-in-window 표시를 건너뛴다
+    def home_case(acked, num=8):
+        ts = [int(datetime.combine(date.fromisoformat(d), dtime(9, 30), ET).timestamp()) for d in days]
+        ch = {"chart": {"result": [{"timestamp": ts, "indicators": {"quote": [{"open": [100.0] * 5, "high": [101.0] * 5, "low": [99.0] * 5,
+              "close": [100.0] * 5, "volume": [1000] * 5}]}, "meta": {},
+              "events": {"splits": {str(ts[4]): {"date": ts[4], "numerator": num, "denominator": 1}}}}], "error": None}}
+        return fp.resolve_price(ch, datetime.combine(date.fromisoformat(days[4]), dtime(18, 0), ET), acked)["status"]
+    check("home price: an acknowledged split is not flagged", home_case(ack) == "fresh", home_case(ack))
+    check("home price: an unacknowledged split is still flagged", home_case(()) == "suspicious")
+    check("home price: an acknowledged day with another ratio is still flagged", home_case(ack, num=2) == "suspicious")
+    check("split_acks.json carries SNDK 8:1", ("2026-11-20", 8.0) in fp.split_acks("SNDK"))
     def held_by_sync(card_dates, yahoo_dates):
         toks = ",".join(f"['{d}',10.0,11.0,9.0,10.5,100]" for d in card_dates)
         _, a = uc.parse_card_arrays(f"const X_DAILY = [{toks}];")

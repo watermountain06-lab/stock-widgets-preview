@@ -1,0 +1,4 @@
+{
+ "_doc": "주식분할 뒤 카드 가격 이력을 분할 기준으로 다시 만들었다고 사람이 확인한 종목. 여기 있는 분할만 fetch_prices.py의 split-in-window 표시와 update_cards.sync_bars의 분할 멈춤을 건너뛸 수 있다 — 그래도 카드 가격이 Yahoo 분할 반영 가격과 맞고 분할일 봉이 이어질 때만(split_reflected). 비율은 Yahoo 분할 기록(numerator/denominator)과 같아야 한다. 분할이 Yahoo 1개월 창을 벗어나면 지워도 된다.",
+ "SNDK": [{"date": "2026-11-20", "ratio": 8, "rebuilt": "2026-11-20", "source": "8-K 2026-11-19 (0001628280-26-075127), 8:1 forward split"}]
+}

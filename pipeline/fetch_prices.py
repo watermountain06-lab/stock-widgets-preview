@@ -160,7 +160,23 @@ def completed_bars(chart, now_et):
     return [by_date[k] for k in sorted(by_date)], r
 
 
-def resolve_price(chart, now_et):
+SPLIT_ACKS = ROOT / "pipeline" / "split_acks.json"
+
+
+def split_acks(ticker, path=None):
+    """[(date, ratio)] splits a person confirmed the card was rebuilt for (pipeline/split_acks.json).
+    Only these may skip the split-in-window flag here and the split hold in update_cards.sync_bars."""
+    p = Path(path) if path else SPLIT_ACKS
+    if not p.exists():
+        return []
+    try:   # a broken manifest must not stop every ticker's price - it only means no split is acknowledged
+        return [(str(e["date"]), float(e["ratio"])) for e in json.loads(p.read_text(encoding="utf-8")).get(ticker, [])]
+    except Exception as e:
+        print(f"warning: {p.name} unreadable ({type(e).__name__}: {e}) - no split acknowledged for {ticker}", file=sys.stderr)
+        return []
+
+
+def resolve_price(chart, now_et, acked=()):
     """A schema-v1 price block from one daily chart response."""
     bars, r = completed_bars(chart, now_et)
     if len(bars) < 2:
@@ -177,9 +193,17 @@ def resolve_price(chart, now_et):
     if prior and vol < VOLUME_FLOOR * statistics.mean(prior):
         rec.update(status="suspicious", statusReason="volume-anomaly")
     splits = (r.get("events") or {}).get("splits") or {}
-    if splits:
+    # A split a person acknowledged (same day and same ratio as Yahoo's record) is not a reason to
+    # distrust the price - the card history was rebuilt in post-split prices (SNDK 8:1, 2026-11-20).
+    # Anything else in the window keeps the flag, including an acknowledged day with another ratio.
+    def _acked(k, s):
+        day = datetime.fromtimestamp(int(s.get("date", k)), ET).date().isoformat()
+        num, den = float(s.get("numerator") or 0), float(s.get("denominator") or 0)
+        return any(day == d and den > 0 and abs(num / den - ratio) < 1e-9 for d, ratio in acked)
+    open_splits = {k: s for k, s in splits.items() if not _acked(k, s)}
+    if open_splits:
         days = sorted(datetime.fromtimestamp(int(s.get("date", k)), ET).date().isoformat()
-                      for k, s in splits.items())
+                      for k, s in open_splits.items())
         rec.update(status="suspicious", statusReason="split-in-window " + ",".join(days))
     return rec
 
@@ -211,7 +235,7 @@ def main():
             results[tk] = RuntimeError(f"skipped after {MAX_NET_FAILURES} consecutive network failures")
             continue
         try:
-            results[tk] = resolve_price(fetch_chart(t.get("yahooSymbol", tk), args.fixtures), now_et)
+            results[tk] = resolve_price(fetch_chart(t.get("yahooSymbol", tk), args.fixtures), now_et, split_acks(tk))
             net_failures = 0
         except Exception as e:  # one ticker's failure must not stop the rest
             results[tk] = e

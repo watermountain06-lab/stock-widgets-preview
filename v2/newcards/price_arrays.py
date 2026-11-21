@@ -113,7 +113,7 @@ def main():
         if not fetched:
             raise uc.Hold("받은 확정 봉이 없다")
         notes = []
-        changed, replaced, appended, inserted, extra = uc.sync_bars(arrays, fetched, splits, notes, lost)
+        changed, replaced, appended, inserted, extra = uc.sync_bars(arrays, fetched, splits, notes, lost, fp.split_acks(T))   # 사람이 확인한 분할(pipeline/split_acks.json, 2026-11-20 SNDK)
         if [d for d in extra if d not in lost]:
             raise uc.Hold(f"카드에만 있는 세션: {extra[:5]}")
         uc.extend_mas(arrays, changed)

@@ -230,9 +230,21 @@ def fetch_bars(symbol, rng, fixtures, now_et, max_date):
         if now_et < datetime.combine(d, fp.SETTLE, fp.ET) or d.isoformat() > max_date:
             continue  # not a completed session yet, or past the homepage's session
         bars[d.isoformat()] = (round(o, 2), round(h, 2), round(l, 2), round(c, 2), int(v or 0))
-    splits = sorted(datetime.fromtimestamp(int(s.get("date", k)), fp.ET).date().isoformat()
-                    for k, s in ((r.get("events") or {}).get("splits") or {}).items())
+    ev = (r.get("events") or {}).get("splits") or {}
+    splits = SplitDays(sorted(datetime.fromtimestamp(int(s.get("date", k)), fp.ET).date().isoformat() for k, s in ev.items()))
+    for k, s in ev.items():
+        num, den = float(s.get("numerator") or 0), float(s.get("denominator") or 0)
+        if den > 0:
+            splits.ratios[datetime.fromtimestamp(int(s.get("date", k)), fp.ET).date().isoformat()] = num / den
     return [(d,) + bars[d] for d in sorted(bars)], splits
+
+
+class SplitDays(list):
+    """Split dates in the fetched window (a plain list for every existing caller), plus the
+    provider's ratio per date so an acknowledgement must match the day AND the ratio."""
+    def __init__(self, days=()):
+        super().__init__(days)
+        self.ratios = {}
 
 
 def fetch_range(last_card_date, max_date):
@@ -248,7 +260,35 @@ def fetch_range(last_card_date, max_date):
 
 # ---------- the update for one card ----------
 
-def sync_bars(arrays, fetched, splits, notes, insertable=()):
+def split_reflected(split, dates, tokens, fetched):
+    """Data check for an acknowledged split (pipeline/split_acks.json): True only when the card's
+    history is visibly in the same post-split prices Yahoo serves.
+
+    The split hold exists because a split rescales every bar before it, while a daily run only
+    touches the fetched window - an unadjusted card would end up half old scale, half new. A
+    person's acknowledgement (the card was rebuilt from split-adjusted bars, SNDK 8:1 on
+    2026-11-20) is what lifts it; this only refuses the acknowledgement when the data disagrees:
+      1. every fetched pre-split bar the card also has agrees with the card's close within 2%
+         (an unadjusted card is off by the split ratio);
+      2. the split session's own bar is complete in one scale: open, high, low and close all within 25% of
+         the previous close (Yahoo can list a split before it rescales, or rescale only part of
+         a bar - Codex 2026-11-20).
+    It cannot certify history outside the fetched window; that is what the acknowledgement is for.
+    Anything it cannot see - no pre-split overlap, split session not settled yet - stays held.
+    """
+    card = {d: bar_values(t) for d, t in zip(dates, tokens)}
+    before = [b for b in fetched if b[0] < split]
+    after = [b for b in fetched if b[0] == split]   # the split session itself, not a later one (Codex r2)
+    overlap = [b for b in before if b[0] in card]
+    if not overlap or not after:
+        return False
+    if any(abs(card[b[0]][4] - b[4]) > 0.02 * b[4] for b in overlap):
+        return False
+    prev = before[-1][4]
+    return all(abs(x / prev - 1) <= 0.25 for x in after[0][1:5])
+
+
+def sync_bars(arrays, fetched, splits, notes, insertable=(), acked=()):
     """Replace differing bars, append new ones, and insert an allowed one the card never got.
 
     Returns (first changed index or None, replaced, appended, inserted, extra).
@@ -266,8 +306,14 @@ def sync_bars(arrays, fetched, splits, notes, insertable=()):
     tokens = arrays["DAILY"]["tokens"]
     dates = [bar_values(t)[0] for t in tokens]
     first_card_date = dates[0]
-    if any(s >= first_card_date for s in splits):
-        raise Hold(f"split in the fetched window ({', '.join(splits)}) - price history needs a rebuild")
+    ratios = getattr(splits, "ratios", {})   # a plain list carries no ratio, so nothing in it can match an acknowledgement
+    is_acked = lambda s: s in ratios and any(d == s and abs(ratios[s] - r) < 1e-9 for d, r in acked)
+    pending = [s for s in splits if s >= first_card_date
+               and not (is_acked(s) and split_reflected(s, dates, tokens, fetched))]
+    if pending:
+        raise Hold(f"split in the fetched window ({', '.join(pending)}) - price history needs a rebuild")
+    notes.extend(f"split {s} acknowledged in split_acks.json and the card's bars match Yahoo's post-split bars - not held"
+                 for s in splits if s >= first_card_date)
     fetched_dates = {b[0] for b in fetched}
     missing_in_card = [b[0] for b in fetched if b[0] not in set(dates) and b[0] < dates[-1]]
     blocked = [d for d in missing_in_card if d not in insertable]
@@ -819,7 +865,7 @@ def update_card(path, entry, session, fixtures, now_et, state_dir, tech_config, 
     # the price again instead of freezing on the provider's hole for good.
     lost = set(p.get("providerGaps") or [])
     changed, replaced, appended, inserted, extra = sync_bars(
-        arrays, fetched, splits, notes, backfill.sessions(ticker, bf) | lost)
+        arrays, fetched, splits, notes, backfill.sessions(ticker, bf) | lost, fp.split_acks(ticker))
     unexplained = [d for d in extra if d not in lost]
     if unexplained:
         raise Hold(f"card has session(s) Yahoo doesn't: {', '.join(unexplained[:5])}")

@@ -24,6 +24,10 @@ SLUG = {"BRKB": "brk.b", "BFB": "bf.b"}
 # 회사 페이지는 200인데 예측 페이지가 없는 것을 사람이 확인한 종목. 여기 없는 종목의 404는 슬러그 오류나 사이트 개편이므로
 # 실패로 남겨 메일이 가게 한다 — 슬러그 오류도 404다(bfb 404 / bf.b 200으로 확인, Fable 2026-11-08).
 NO_FORECAST = {"L"}   # Loews: 2026-11-08 확인 — /stocks/l/ 200, Price Target n/a, /stocks/l/forecast/ 404
+# 주식분할 직후 StockAnalysis가 분할 전·후 목표가를 섞어 집계하는 동안 받지 않고 cfg 값(손으로 분할 환산)을 그대로 둔다.
+# 날짜가 지나도 저절로 받지 않는다 — 실패(FAIL)로 알려 사람이 StockAnalysis 집계가 다 분할 기준이 됐는지 보고 이 줄을 지운다
+# (기한이 곧 허락이면 덜 고쳐진 집계가 손으로 환산한 값을 덮는다, Codex 2026-11-20).
+SPLIT_HOLD = {"SNDK": "2026-12-21"}   # 8:1 분할 2026-11-20 — 11-20 집계 19명 중 Morgan Stanley만 분할 뒤 목표가($218.75 = $1,750 ÷ 8)
 
 
 class NoCoverage(Exception):
@@ -101,6 +105,12 @@ def main():
     dry = "--dry" in args
     tickers = [a.upper() for a in args if a != "--dry"]
     for T in tickers:
+        if T in SPLIT_HOLD:
+            if datetime.date.today().isoformat() < SPLIT_HOLD[T]:
+                print(f"{T}: 분할 뒤 목표가 정리 대기 — {SPLIT_HOLD[T]}까지 받지 않고 cfg 값 유지(SPLIT_HOLD)")
+            else:
+                print(f"{T}: 실패(FAIL) — 분할 보류 기한 {SPLIT_HOLD[T]}이 지났다. 집계가 모두 분할 기준인지 확인하고 SPLIT_HOLD에서 지워라(cfg 값 유지)")
+            continue
         try:
             A, upd = fetch(T)
         # 집계는 사람 문구가 아니라 괄호 안 표식으로 한다 — "실패"·"자료 없음"을 찾던 방식은 예외 메시지에 그 낱말이
