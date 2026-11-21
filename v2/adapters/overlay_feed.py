@@ -18,7 +18,8 @@ import build_multiple_history as bmh  # noqa: E402
 
 # fetch_financials 태그 목록에 없는 이름으로 낸 항목을 목록 안 이름으로 옮겨 싣는다(목록 이름이 멈췄을 때만 의미가 있다).
 # WELL: 이자비용이 2022-12부터 InterestExpenseBorrowings — 목록의 InterestExpenseDebt는 2024-09에 멈춰 이자보상배율이 비었다(Codex 2026-10-02).
-ALIAS = {"0000766704": {"InterestExpense": "InterestExpenseBorrowings"},
+ALIAS = {"0000879101": {"PaymentsToAcquirePropertyPlantAndEquipment": "PaymentsForCapitalImprovements"},   # KIM: 설비투자 태그는 본문 문장의 작은 금액(9개월 $35.0M) — 현금흐름표 기존 부동산 개량 지출(회사 고유 태그 → cfg company_tags, 9개월 $273.9M)로(엔진 EXTRA_TAGS와 같은 기준, 2026-11-21)
+         "0000766704": {"InterestExpense": "InterestExpenseBorrowings"},
          # NEE: 총매출 RegulatedAndUnregulatedOperatingRevenue를 fetch_financials가 아는 이름으로(엔진 EXTRA_TAGS와 같은 기준, Codex 2026-10-02).
          # 이자비용은 회사 고유 태그라 대신할 표준 태그가 없다(현금 이자 지급액은 다른 항목이라 쓰지 않는다 — Codex).
          "0000753308": {"Revenues": "RegulatedAndUnregulatedOperatingRevenue"},
@@ -33,7 +34,8 @@ ALIAS = {"0000766704": {"InterestExpense": "InterestExpenseBorrowings"},
 # 총계 태그 없이 구성 줄만 낸 항목을 같은 제출·같은 날짜의 구성 줄 합으로 싣는다.
 # ACN: 총부채 태그가 없어 부채비율이 자산 − 지배기업 자본(비지배지분·상환가능 비지배지분 포함)으로 115.8%가 나왔다 —
 # 유동 21,609.1 + 비유동 13,689.7 = 10-Q 총부채 35,298.8(백만 달러, 2026-05-31; Codex 2026-10-02).
-SUM = {"0001467373": {"Liabilities": ("LiabilitiesCurrent", "LiabilitiesNoncurrent")},
+SUM = {"0000879101": {"LongTermDebt": ("NotesPayable", "SecuredDebt")},   # KIM: LongTermDebt 태그는 연말만 — 무담보 채권 $8,043M + 담보 $429M = $8,472M(Q3 2026 10-Q, 엔진 DEBT_TOTAL_TAG와 같은 기준, 2026-11-21)
+       "0001467373": {"Liabilities": ("LiabilitiesCurrent", "LiabilitiesNoncurrent")},
        # SRE: 총부채 태그가 없다 — 유동 23,209 + 장기차입·금융리스 31,508 + 기타 비유동("Total deferred credits and other liabilities") 19,131 = 73,848
        # (Q3 2026 10-Q). 없으면 부채비율이 자산 − 지배기업 자본(비지배·상환가능 비지배 포함)으로 계산된다(ACN과 같은 경우, 2026-11-07)
        "0001032208": {"Liabilities": ("LiabilitiesCurrent", "LongTermDebtAndCapitalLeaseObligations", "LiabilitiesOtherThanLongtermDebtNoncurrent")},
@@ -43,7 +45,7 @@ SUM = {"0001467373": {"Liabilities": ("LiabilitiesCurrent", "LiabilitiesNoncurre
        # FCX: 재고 합계 줄이 없다 — 제품(fcx:Product) + 자재(InventoryRawMaterialsAndSuppliesNetOfReserves) + 유동 광석 비축분(fcx:…Current),
        # 회사 고유 태그 둘은 cfg_fcx company_tags가 빌린 이름으로 싣는다. Q2 2026: 3,363 + 2,924 + 1,577 = 7,864(10-Q 재무상태표, 2026-10-17)
        "0000831259": {"InventoryNet": ("InventoryProductFcx", "InventoryRawMaterialsAndSuppliesNetOfReserves", "InventoryStockpilesCurrentFcx")}}
-REPLACE = {"0001164727": {"InventoryNet"}, "0000831259": {"InventoryNet"}}
+REPLACE = {"0000879101": {"LongTermDebt"}, "0001164727": {"InventoryNet"}, "0000831259": {"InventoryNet"}}
 # 함께 지울 태그(엔진 EXCLUDE_TAGS와 같은 기준) — NEE 주석의 고객 계약 매출(0.1B 반올림)
 DROP = {"0000753308": ("RevenueFromContractWithCustomerIncludingAssessedTax",)}
 
