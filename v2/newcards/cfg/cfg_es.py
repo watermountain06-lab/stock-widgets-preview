@@ -87,7 +87,7 @@ NEWS = [
      '4분기 희석 EPS $1.12(1년 전 $0.20은 Aquarion 손실 $0.81 포함, 비GAAP $1.01) · 2025년 희석 EPS $4.56, 비GAAP $4.76 — 다음 날 주가 +4.3%', 'q4', 'Eversource 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 17, 'nt': 10, 'mean': 72.7, 'median': 74, 'low': 59, 'high': 81, 'sb': 4, 'b': 0, 'h': 10, 's': 2, 'ss': 1}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 AUTO = True

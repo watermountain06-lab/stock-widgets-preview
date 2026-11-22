@@ -64,7 +64,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 16, 'mean': 210.06, 'median': 215, 'low': 180, 'high': 235, 'sb': 7, 'b': 2, 'h': 13, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # ── 자동 카드 — 부문 지도: 사업(SubsegmentsAxis)마다 부문 축(StatementBusinessSegmentsAxis — 보험·재보험은 RIS, 나머지는 Consulting)이 달라 seg_map_propose는 2/4만 맞췄다.

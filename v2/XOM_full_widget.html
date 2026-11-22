@@ -1087,7 +1087,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 34.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 65.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$187.44</span> <span class="op-sub op-up" data-an="upside">+17.2%</span></span>
       </div>
       <div class="op-cell">
@@ -1173,14 +1173,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q2 2026 vs Q2 2025)',
     chart: { cur: [116.02, 19.65, 14.53, 17.03], cmp: [81.51, 10.85, 7.08, 5.27] },
     deltas: ['+42.3%', '+81.1%', '+105.1%', '+223.3%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 13.3%로 5년 중앙값(14.4%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/34088/000003408826000093/xom-20260630.htm" target="_blank" rel="noopener">ExxonMobil Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2025.06.30(Q2 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 13.3%로 5년 중앙값(14.4%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/34088/000003408826000093/xom-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q2 2026', cmpLabel: 'Q1 2026',
     titleSuffix: 'QoQ (Q2 2026 vs Q1 2026)',
     chart: { cur: [116.02, 19.65, 14.53, 17.03], cmp: [85.14, 7.26, 4.18, 2.24] },
     deltas: ['+36.3%', '+170.6%', '+247.2%', '+661.9%'],
-    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/34088/000003408826000093/xom-20260630.htm" target="_blank" rel="noopener">ExxonMobil Q2 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.06.30(Q2 2026) vs 2026.03.31(Q1 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/34088/000003408826000093/xom-20260630.htm" target="_blank" rel="noopener">Q2 2026 10-Q (SEC) →</a>'
   }
 };
 
@@ -2092,7 +2092,7 @@ const XOM_ACTIVITY = {"ticker": "XOM", "status": "N/A", "reason": "매출원가 
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/xom/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const XOM_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 18, mean: 187.44, median: 187,
+const XOM_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 18, mean: 187.44, median: 187,
   low: 162, high: 217, strongBuy: 6, buy: 3, hold: 17, sell: 0, strongSell: 0 };
 (function(){
   const A = XOM_ANALYST, last = (typeof XOM_DAILY !== 'undefined' && XOM_DAILY.length) ? XOM_DAILY[XOM_DAILY.length - 1] : null;

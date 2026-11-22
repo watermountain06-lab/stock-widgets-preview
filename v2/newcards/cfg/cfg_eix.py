@@ -56,7 +56,7 @@ NEWS = [
      '순이익 $1,848M · 주당 $4.80(1년 전 $0.88, Woolsey 합의 비용 회수 등 일회성 이익 포함) · 핵심 EPS $1.87(1년 전 $1.05) — 다음 날 주가 +4.2%', 'q4', 'Edison International 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 16, 'nt': 12, 'mean': 59.08, 'median': 62, 'low': 42, 'high': 67, 'sb': 2, 'b': 1, 'h': 9, 's': 0, 'ss': 4}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 # 미완성 카드 표시(2026-11-07 사용자 결정, D·SRE 방식).
 INCOMPLETE_SHORT = 'Eaton 산불 손실 추정 불가'

@@ -68,7 +68,7 @@ NEWS = [
      'Biocon Biologics 우선주 지분을 $815M(현금 $400M + Biocon 주식 $415M)에 Biocon에 팔기로 · 바이오시밀러 경업 금지 조기 종료 — 다음 거래일(12/8) 주가 +1.5%', 'biocon', 'Viatris 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 12, 'nt': 9, 'mean': 21.56, 'median': 21, 'low': 14, 'high': 28, 'sb': 6, 'b': 1, 'h': 4, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 # 파이프라인 자동 재판정용 — 일회성이 든 분기(결산일: 항목). VTRS는 특별 항목이 매 분기 이어져 분기가 빠져도 바로 풀리지 않는다.
 ONEOFF_QUARTERS = {'2025-12-31': '특별 항목 세전 $419M(원가 특별항목 $193M·인수 비용 $74M 등)',

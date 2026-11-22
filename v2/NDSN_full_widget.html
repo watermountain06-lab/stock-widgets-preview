@@ -1100,7 +1100,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 57.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 28.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 14.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$364</span> <span class="op-sub op-up" data-an="upside">+18.5%</span></span>
       </div>
       <div class="op-cell">
@@ -2111,7 +2111,7 @@ const NDSN_ACTIVITY = {"ticker": "NDSN", "status": "ok", "asOf": "2026-07-31", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ndsn/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const NDSN_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 7, nTargets: 4, mean: 364, median: 370,
+const NDSN_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 7, nTargets: 4, mean: 364, median: 370,
   low: 351, high: 375, strongBuy: 4, buy: 0, hold: 2, sell: 1, strongSell: 0 };
 (function(){
   const A = NDSN_ANALYST, last = (typeof NDSN_DAILY !== 'undefined' && NDSN_DAILY.length) ? NDSN_DAILY[NDSN_DAILY.length - 1] : null;

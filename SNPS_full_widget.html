@@ -1131,7 +1131,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 92.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 7.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$590.67</span> <span class="op-sub op-up" data-an="upside">+49.1%</span></span>
       </div>
       <div class="op-cell">
@@ -1217,14 +1217,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 FY26 vs Q3 FY25)',
     chart: { cur: [2.48, 0.36, 0.19, 0.75], cmp: [1.74, 0.17, 0.12, 0.63] },
     deltas: ['+42.4%', '+116.3%', '+63.3%', '+18.0%'],
-    footnote: '기준일: 2026.07.31(Q3 FY26) vs 2025.07.31(Q3 FY25) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q3 FY26 $0.55B) · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 9.5%로 5년 중앙값(20.7%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/883241/000088324126000025/snps-20260731.htm" target="_blank" rel="noopener">Synopsys Q3 FY26 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.07.31(Q3 FY26) vs 2025.07.31(Q3 FY25) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q3 FY26 $0.55B) · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 9.5%로 5년 중앙값(20.7%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/883241/000088324126000025/snps-20260731.htm" target="_blank" rel="noopener">Q3 FY26 10-Q (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q3 FY26', cmpLabel: 'Q2 FY26',
     titleSuffix: 'QoQ (Q3 FY26 vs Q2 FY26)',
     chart: { cur: [2.48, 0.36, 0.19, 0.75], cmp: [2.28, 0.12, -0.0, 0.57] },
     deltas: ['+8.8%', '+196.9%', '흑자 전환', '+29.8%'],
-    footnote: '기준일: 2026.07.31(Q3 FY26) vs 2026.04.30(Q2 FY26) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q3 FY26 $0.55B) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/883241/000088324126000025/snps-20260731.htm" target="_blank" rel="noopener">Synopsys Q3 FY26 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.07.31(Q3 FY26) vs 2026.04.30(Q2 FY26) · GAAP 기준, 순이익은 본업 기준(공시 순이익 Q3 FY26 $0.55B) · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/883241/000088324126000025/snps-20260731.htm" target="_blank" rel="noopener">Q3 FY26 10-Q (SEC) →</a>'
   }
 };
 
@@ -2136,7 +2136,7 @@ const SNPS_ACTIVITY = {"ticker": "SNPS", "status": "ok", "asOf": "2026-07-31", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/snps/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const SNPS_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 26, nTargets: 18, mean: 590.67, median: 600,
+const SNPS_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 26, nTargets: 18, mean: 590.67, median: 600,
   low: 420, high: 700, strongBuy: 20, buy: 4, hold: 2, sell: 0, strongSell: 0 };
 (function(){
   const A = SNPS_ANALYST, last = (typeof SNPS_DAILY !== 'undefined' && SNPS_DAILY.length) ? SNPS_DAILY[SNPS_DAILY.length - 1] : null;

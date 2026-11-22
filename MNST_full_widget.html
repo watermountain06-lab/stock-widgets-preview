@@ -884,7 +884,7 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 Monster 에너지 음료 +17.1%, 전략 브랜드(Burn·Predator·Fury 등) +19.8%, 주류 −13.6%, 기타 −29.4% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/865752/000110465926123503/mnst-20260930x10q.htm" target="_blank" rel="noopener">Q3 2026 10-Q 부문 표 (SEC) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 Monster 에너지 음료 +17.1%, 전략 브랜드(Burn·Predator·Fury 등) +19.8%, 주류 −13.6%, 기타 −29.5% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/865752/000110465926123503/mnst-20260930x10q.htm" target="_blank" rel="noopener">Q3 2026 10-Q 부문 표 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
@@ -1118,7 +1118,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 57.7%; background: var(--green);"></div><div data-an-bar="hold" style="width: 38.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$51.06</span> <span class="op-sub op-up" data-an="upside">+16.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1204,14 +1204,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 2026 vs Q3 2025)',
     chart: { cur: [2.56, 0.72, 0.57, 0.53], cmp: [2.2, 0.68, 0.52, 0.7] },
     deltas: ['+16.7%', '+6.4%', '+8.4%', '-25.2%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/865752/000110465926123503/mnst-20260930x10q.htm" target="_blank" rel="noopener">Monster Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/865752/000110465926123503/mnst-20260930x10q.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q3 2026', cmpLabel: 'Q2 2026',
     titleSuffix: 'QoQ (Q3 2026 vs Q2 2026)',
     chart: { cur: [2.56, 0.72, 0.57, 0.53], cmp: [2.54, 0.74, 0.58, 0.46] },
     deltas: ['+1.0%', '-2.9%', '-2.8%', '+13.9%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/865752/000110465926123503/mnst-20260930x10q.htm" target="_blank" rel="noopener">Monster Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/865752/000110465926123503/mnst-20260930x10q.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   }
 };
 
@@ -2119,7 +2119,7 @@ const MNST_ACTIVITY = {"ticker": "MNST", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mnst/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MNST_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 17, mean: 51.06, median: 52,
+const MNST_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 26, nTargets: 17, mean: 51.06, median: 52,
   low: 42, high: 57, strongBuy: 12, buy: 3, hold: 10, sell: 1, strongSell: 0 };
 (function(){
   const A = MNST_ANALYST, last = (typeof MNST_DAILY !== 'undefined' && MNST_DAILY.length) ? MNST_DAILY[MNST_DAILY.length - 1] : null;

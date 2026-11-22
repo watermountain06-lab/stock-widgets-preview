@@ -1066,7 +1066,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 25%; background: var(--green);"></div><div data-an-bar="hold" style="width: 75%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$198</span> <span class="op-sub op-up" data-an="upside">+6.1%</span></span>
       </div>
       <div class="op-cell">
@@ -1152,14 +1152,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 2026 vs Q3 2025)',
     chart: { cur: [3.05, 0.57, 0.46, 0.79], cmp: [3.73, 1.43, 1.12, 1.11] },
     deltas: ['-18.2%', '-60.4%', '-59.1%', '-29.0%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/20286/000002028626000060/cinf-20260930.htm" target="_blank" rel="noopener">Cincinnati Financial Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/20286/000002028626000060/cinf-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q3 2026', cmpLabel: 'Q2 2026',
     titleSuffix: 'QoQ (Q3 2026 vs Q2 2026)',
     chart: { cur: [3.05, 0.57, 0.46, 0.79], cmp: [4.27, 1.59, 1.26, 0.7] },
     deltas: ['-28.7%', '-64.5%', '-63.4%', '+12.8%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/20286/000002028626000060/cinf-20260930.htm" target="_blank" rel="noopener">Cincinnati Financial Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/20286/000002028626000060/cinf-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   }
 };
 
@@ -2069,7 +2069,7 @@ const CINF_ACTIVITY = {"ticker": "CINF", "status": "N/A", "reason": "보험사�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/cinf/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CINF_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 8, nTargets: 4, mean: 198, median: 200,
+const CINF_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 8, nTargets: 4, mean: 198, median: 200,
   low: 191, high: 204, strongBuy: 2, buy: 0, hold: 6, sell: 0, strongSell: 0 };
 (function(){
   const A = CINF_ANALYST, last = (typeof CINF_DAILY !== 'undefined' && CINF_DAILY.length) ? CINF_DAILY[CINF_DAILY.length - 1] : null;

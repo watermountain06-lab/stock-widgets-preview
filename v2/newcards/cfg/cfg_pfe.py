@@ -98,7 +98,7 @@ BEAR = [('GAAP 이익', '2분기 무형자산 손상 $4.3B로 순손실.'),
         ('부채', '차입금 $63.2B.'),
         ('코로나 제품', 'Comirnaty·Paxlovid 매출 감소가 이어짐.')]
 ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 19, 'mean': 30.57, 'median': 30, 'low': 25, 'high': 36, 'sb': 8, 'b': 2, 'h': 16, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──

@@ -59,7 +59,7 @@ NEWS = [
      '매출 $1.27B(+5.8%) · 순이익 $238M · 희석 EPS $1.22(1년 전 $1.22) — 다음 날 주가 +0.2%', 'q4', 'American Water 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 12, 'nt': 8, 'mean': 147, 'median': 149, 'low': 127, 'high': 165, 'sb': 2, 'b': 0, 'h': 8, 's': 2, 'ss': 0}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, FISV·MLM·NSC·PTC·CHRW 방식).

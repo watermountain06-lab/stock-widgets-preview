@@ -58,7 +58,7 @@ NEWS = [
      '희석 EPS −$1.38(손상 $324M) · FFO as adjusted $2.22 — 다음 날 주가 −19.2%', 'q3old', 'Alexandria 실적 자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 16, 'nt': 10, 'mean': 50.2, 'median': 52, 'low': 42, 'high': 59, 'sb': 2, 'b': 0, 'h': 9, 's': 3, 'ss': 2}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 INCOMPLETE_SHORT = 'GAAP 적자(부동산 손상)'
 INCOMPLETE_WHY = '최근 4분기 GAAP 순손실이다 — 희석 EPS −6.35 + 2.10 − 0.43 − 3.74 = −$8.42. 개발 계획을 접고 자산을 매각 예정으로 돌리며 부동산 손상을 크게 잡았다(2025년 4분기 $1.72B, 2026년 2분기 $0.22B, 3분기 $0.64B). PER을 쓸 수 없고 EV/EBITDA도 0 이하라 판정을 보류한다. 최근 4분기가 흑자로 돌아서고 일회성이 30% 아래일 때 다시 본다'

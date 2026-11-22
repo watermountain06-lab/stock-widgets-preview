@@ -53,7 +53,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 35, 'nt': 23, 'mean': 246.35, 'median': 250, 'low': 190, 'high': 275, 'sb': 18, 'b': 5, 'h': 10, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(소매 부문 상품군 4개, 손 표와 일치). 원문 대조: 10-Q 매출 세분 표 Q2 FY2026 7,952/7,817/7,554/692,

@@ -64,7 +64,7 @@ NEWS = [
      '매출 $2.3B(+3%) · GAAP 희석 EPS $2.26 · 조정 EPS $2.10(−24%) · 연간 전망 범위 좁힘(중간값 유지) — 그날 주가 −3.7%', 'q2', 'Smucker 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 19, 'nt': 13, 'mean': 142.54, 'median': 150, 'low': 110, 'high': 160, 'sb': 7, 'b': 3, 'h': 9, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 # 파이프라인 자동 재판정용 — 일회성이 든 분기(결산일: 항목).
 ONEOFF_QUARTERS = {'2026-01-31': 'Sweet Baked Snacks 영업권 손상 $507.5M + Hostess 상표 손상 $454.2M = $961.7M(세전)',

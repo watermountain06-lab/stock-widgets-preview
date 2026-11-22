@@ -69,7 +69,7 @@ NEWS = [
      'Michael Casamento CFO가 호주 귀국으로 11월 10일 물러나고 Graphic Packaging CFO 출신 Stephen Scherger가 후임 — 다음 날 주가 +1.4%', 'cfo', 'Amcor 공시 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 13, 'nt': 8, 'mean': 48.24, 'median': 49, 'low': 44, 'high': 56, 'sb': 5, 'b': 1, 'h': 7, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # ── 자동 카드 — 부문 지도(seg_map_propose 뒤 원문 대조). 원문: 2026-09-30 분기 보도자료 3,359 + 2,770 = 6,129 ──

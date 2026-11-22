@@ -86,7 +86,7 @@ NEWS = [
      '매출 $4.53B(+14.9%) · 순이익 $1.0B · EPS $1.16(1년 전 $1.09) · 영업 EPS(비GAAP) $1.06 · 2025 영업 EPS 전망 $3.33~3.48로 좁힘 — 당일 주가 −1.4%', 'q3y', 'Dominion Energy 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 16, 'nt': 15, 'mean': 69.4, 'median': 68, 'low': 62, 'high': 87, 'sb': 3, 'b': 1, 'h': 12, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, AES·SRE 방식 — 합병 대상).

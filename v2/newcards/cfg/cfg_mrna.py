@@ -78,7 +78,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Hold', 'n': 23, 'nt': 18, 'mean': 145, 'median': 145, 'low': 12, 'high': 305, 'sb': 3, 'b': 1, 'h': 16, 's': 1, 'ss': 2}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # ── 자동 카드 — 부문 지도는 제품 축(srt:ProductOrServiceAxis)에서 COVID·RSV·기타 매출(ProductAndServiceOther) 세 멤버. 순매출 소계와 기타 매출의 세부 4개는 ignore.

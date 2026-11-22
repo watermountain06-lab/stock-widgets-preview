@@ -1071,7 +1071,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 22.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 55.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 22.2%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$202.21</span> <span class="op-sub op-up" data-an="upside">+5.0%</span></span>
       </div>
       <div class="op-cell">
@@ -2081,7 +2081,7 @@ const EXPD_ACTIVITY = {"ticker": "EXPD", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/expd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const EXPD_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 18, nTargets: 14, mean: 202.21, median: 200,
+const EXPD_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 18, nTargets: 14, mean: 202.21, median: 200,
   low: 115, high: 252, strongBuy: 3, buy: 1, hold: 10, sell: 2, strongSell: 2 };
 (function(){
   const A = EXPD_ANALYST, last = (typeof EXPD_DAILY !== 'undefined' && EXPD_DAILY.length) ? EXPD_DAILY[EXPD_DAILY.length - 1] : null;

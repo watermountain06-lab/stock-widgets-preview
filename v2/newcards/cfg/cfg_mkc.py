@@ -68,7 +68,7 @@ NEWS = [
      'Grupo Herdez에서 25% 추가 인수(대금 $750M, 보유 현금·기업어음) — 연결 자회사로 — 다음 거래일 주가 −2.4%', 'mexico', 'McCormick 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 15, 'nt': 8, 'mean': 52.63, 'median': 55, 'low': 47, 'high': 59, 'sb': 4, 'b': 3, 'h': 8, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 # 파이프라인 자동 재판정용 — 일회성이 든 분기(결산일: 항목). Unilever 식품 결합 종결 뒤에는 처음부터 다시 본다(2026-11-08).
 ONEOFF_QUARTERS = {'2025-11-30': '특별 비용 주당 0.02',
