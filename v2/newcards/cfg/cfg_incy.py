@@ -11,7 +11,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (-1, 0, 0), '판정 보류'
+VOTES, VERDICT = (-1, -1, 0), '판정 보류'
 CO = 'Incyte'
 S_ = 'https://www.sec.gov/Archives/edgar/data/879169/'
 SEC = S_
@@ -68,8 +68,8 @@ NEWS = [
     ('red', '2026년 2월 10일 장 전 — Q4 2025 실적', '2026-02-10',
      '매출 $1.51B(+28%) · 순이익 $299M · 희석 EPS $1.46(1년 전 $1.02) — 그날 주가 −8.2%', 'q4', 'Incyte 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 21, 'mean': 133.71, 'median': 130, 'low': 108, 'high': 157, 'sb': 11, 'b': 2, 'h': 14, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 28, 'nt': 21, 'mean': 133.62, 'median': 130, 'low': 108, 'high': 157, 'sb': 11, 'b': 2, 'h': 14, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 # 미완성 카드 표시(2026-11-07 사용자 결정, D·SRE 방식).
 INCOMPLETE_SHORT = 'Vega 인수 IPR&D 비용 반영 중'

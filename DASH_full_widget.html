@@ -973,7 +973,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">플랫폼·소비 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 11/13 종가(DASH 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">플랫폼·소비 6곳 PER 비교 (점수는 S&amp;P500 경기소비재 기준) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1075,12 +1075,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">42명 · 목표가 29</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">35</span> · 유지 <span data-an="hold">7</span> · 매도 <span data-an="sell">0</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 83.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">41명 · 목표가 29</span>명</span>
+        <span class="op-val"><span data-an="rating">Strong Buy</span> <span class="op-sub">매수 <span data-an="buy">36</span> · 유지 <span data-an="hold">5</span> · 매도 <span data-an="sell">0</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 87.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 12.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
         <span class="op-val"><span data-an="mean">$250.83</span> <span class="op-sub op-up" data-an="upside">+64.4%</span></span>
       </div>
       <div class="op-cell">
@@ -1285,58 +1285,58 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '플랫폼·소비 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 11/13 종가(DASH 막대는 11/20)',
+    title: '플랫폼·소비 6곳 PER 비교 (점수는 S&P500 경기소비재 기준) · 11/20 종가',
     unit: 'PER', max: 75, dashValue: null,
     peers: [
-      { name:'ABNB', value:35.0, status:'reference' },
-      { name:'BKNG', value:17.3, status:'reference' },
-      { name:'AMZN', value:35.5, status:'reference' },
-      { name:'EXPE', value:15.1, status:'reference' },
-      { name:'CMG', value:33.0, status:'reference' },
-      { name:'MCD', value:21.5, status:'reference' }
+      { name:'ABNB', value:31.9, status:'reference' },
+      { name:'BKNG', value:15.7, status:'reference' },
+      { name:'AMZN', value:32.8, status:'reference' },
+      { name:'EXPE', value:14.7, status:'reference' },
+      { name:'CMG', value:33.2, status:'reference' },
+      { name:'MCD', value:22.2, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (BKNG 값 없음·MCD 값 없음) · 11/13 종가(DASH 막대는 11/20)',
+    title: 'PBR 비교 (BKNG 값 없음·MCD 값 없음) · 11/20 종가',
     unit: 'PBR', max: 25, dashValue: null,
     peers: [
-      { name:'ABNB', value:12.0, status:'reference' },
-      { name:'AMZN', value:4.7, status:'reference' },
-      { name:'EXPE', value:18.5, status:'reference' },
-      { name:'CMG', value:18.2, status:'reference' }
+      { name:'ABNB', value:10.9, status:'reference' },
+      { name:'AMZN', value:4.3, status:'reference' },
+      { name:'EXPE', value:16.9, status:'reference' },
+      { name:'CMG', value:18.3, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/13 종가(DASH 막대는 11/20)',
+    title: 'PSR 비교 · 11/20 종가',
     unit: 'PSR(TTM)', max: 10, dashValue: null,
     peers: [
-      { name:'ABNB', value:8.0, status:'reference' },
-      { name:'BKNG', value:4.2, status:'reference' },
-      { name:'AMZN', value:3.6, status:'reference' },
-      { name:'EXPE', value:1.9, status:'reference' },
+      { name:'ABNB', value:7.3, status:'reference' },
+      { name:'BKNG', value:3.8, status:'reference' },
+      { name:'AMZN', value:3.4, status:'reference' },
+      { name:'EXPE', value:1.7, status:'reference' },
       { name:'CMG', value:3.5, status:'reference' },
       { name:'MCD', value:6.9, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (ABNB 값 없음·AMZN 적자) · 11/13 종가(DASH 막대는 11/20)',
+    title: 'PCR(FCF) 비교 (ABNB 값 없음·AMZN 적자) · 11/20 종가',
     unit: 'PCR(FCF)', max: 35, dashValue: null,
     peers: [
-      { name:'BKNG', value:12.8, status:'reference' },
-      { name:'EXPE', value:8.2, status:'reference' },
-      { name:'CMG', value:29.6, status:'reference' },
-      { name:'MCD', value:25.6, status:'reference' }
+      { name:'BKNG', value:11.7, status:'reference' },
+      { name:'EXPE', value:7.4, status:'reference' },
+      { name:'CMG', value:29.8, status:'reference' },
+      { name:'MCD', value:25.7, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (ABNB 값 없음) · 11/13 종가(DASH 막대는 11/20)',
+    title: 'EV/EBITDA 비교 (ABNB 값 없음) · 11/20 종가',
     unit: 'EV/EBITDA', max: 40, dashValue: null,
     peers: [
-      { name:'BKNG', value:12.5, status:'reference' },
-      { name:'AMZN', value:16.1, status:'reference' },
-      { name:'EXPE', value:8.6, status:'reference' },
-      { name:'CMG', value:20.0, status:'reference' },
-      { name:'MCD', value:15.2, status:'reference' }
+      { name:'BKNG', value:11.4, status:'reference' },
+      { name:'AMZN', value:14.9, status:'reference' },
+      { name:'EXPE', value:7.8, status:'reference' },
+      { name:'CMG', value:20.2, status:'reference' },
+      { name:'MCD', value:15.3, status:'reference' }
     ]
   }
 };
@@ -2081,8 +2081,8 @@ const DASH_ACTIVITY = {"ticker": "DASH", "status": "N/A", "reason": "5년 비교
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/dash/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const DASH_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 42, nTargets: 29, mean: 250.83, median: 255,
-  low: 200, high: 300, strongBuy: 27, buy: 8, hold: 7, sell: 0, strongSell: 0 };
+const DASH_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 41, nTargets: 29, mean: 250.83, median: 255,
+  low: 200, high: 300, strongBuy: 28, buy: 8, hold: 5, sell: 0, strongSell: 0 };
 (function(){
   const A = DASH_ANALYST, last = (typeof DASH_DAILY !== 'undefined' && DASH_DAILY.length) ? DASH_DAILY[DASH_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

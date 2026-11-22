@@ -15,7 +15,7 @@ QLABEL, YL, QQL = 'Q1 FY27', 'Q1 FY26', 'Q4 FY26'
 L8 = ['Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26', 'Q1 FY27']
 FY_NAME_OFFSET = 0   # 6월 결산 이름(끝난 해) — 2026-09-30 분기 10-Q 표지도 2027 회계연도 1분기로 적는다
 FY_ENDS, FY_LABEL = ('2026-06-30', '2025-06-30'), 'FY2026'
-VOTES, VERDICT = (1, 1, -2), '적정'
+VOTES, VERDICT = (1, 0, -2), '적정~고평가'
 CO = 'Amcor'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1748790/'
 SEC = S_
@@ -68,8 +68,8 @@ NEWS = [
     ('neutral', '2025년 10월 9일 장 마감 뒤 — CFO 교체', '2025-10-10',
      'Michael Casamento CFO가 호주 귀국으로 11월 10일 물러나고 Graphic Packaging CFO 출신 Stephen Scherger가 후임 — 다음 날 주가 +1.4%', 'cfo', 'Amcor 공시 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 13, 'nt': 8, 'mean': 48.62, 'median': 49, 'low': 44, 'high': 56, 'sb': 5, 'b': 1, 'h': 7, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 13, 'nt': 8, 'mean': 48.24, 'median': 49, 'low': 44, 'high': 56, 'sb': 5, 'b': 1, 'h': 7, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 
 # ── 자동 카드 — 부문 지도(seg_map_propose 뒤 원문 대조). 원문: 2026-09-30 분기 보도자료 3,359 + 2,770 = 6,129 ──

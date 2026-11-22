@@ -12,7 +12,7 @@ CUR, YO, QO = '2026-09-27', '2025-09-28', '2026-06-28'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-28', '2024-12-29'), 'FY2025'
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'Illumina'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1110803/'
 SEC = S_
@@ -60,8 +60,8 @@ NEWS = [
     ('green', '2025년 10월 30일 장 마감 뒤 — Q3 2025 실적', '2025-10-31',
      '매출 $1.08B(보합) · GAAP 희석 EPS $0.98 · 조정 EPS $1.34 · 2025년 전망 상향 — 다음 날 주가 +24.8%', 'q3p', 'Illumina 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 19, 'mean': 251.89, 'median': 270, 'low': 150, 'high': 310, 'sb': 6, 'b': 4, 'h': 7, 's': 3, 'ss': 1}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 19, 'mean': 256.89, 'median': 270, 'low': 150, 'high': 310, 'sb': 6, 'b': 4, 'h': 7, 's': 3, 'ss': 1}
+ANALYST_ASOF = '2026-11-21'
 
 AUTO = True
 SEG_MAP = {

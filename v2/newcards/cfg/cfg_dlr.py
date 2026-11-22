@@ -57,8 +57,8 @@ NEWS = [
     ('neutral', '2026년 2월 5일 장 마감 뒤 — 2025년 연간 실적', '2026-02-06',
      '4분기 희석 EPS $0.24(손상 $79M) · Core FFO $1.86 — 다음 날 주가 +4.2%', 'q4', 'Digital Realty 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Strong Buy', 'n': 34, 'nt': 26, 'mean': 224, 'median': 225, 'low': 197, 'high': 250, 'sb': 24, 'b': 5, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-19'
+ANALYST = {'rating': 'Strong Buy', 'n': 34, 'nt': 28, 'mean': 224.54, 'median': 225, 'low': 197, 'high': 250, 'sb': 24, 'b': 5, 'h': 5, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 
 INCOMPLETE_SHORT = '성과보수 등 일회성 이익이 큼'

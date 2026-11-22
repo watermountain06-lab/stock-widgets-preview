@@ -11,7 +11,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (0, 1, -2), '적정~고평가'
+VOTES, VERDICT = (0, 0, -2), '적정~고평가'
 CO = 'Southwest Airlines'
 S_ = 'https://www.sec.gov/Archives/edgar/data/92380/'
 SEC = S_
@@ -55,8 +55,8 @@ NEWS = [
     ('green', '2026년 1월 28일 장 마감 뒤 — 2025년 연간 실적 · 2026년 전망', '2026-01-29',
      '4분기 GAAP 희석 EPS $0.61 · 2025년 조정 EPS $0.93 · 2026년 조정 EPS $4.00 이상(300% 넘는 증가) 전망 — 다음 날 주가 +18.7%', 'q4', 'Southwest 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 16, 'mean': 50.5, 'median': 50, 'low': 34, 'high': 65, 'sb': 7, 'b': 5, 'h': 10, 's': 3, 'ss': 1}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 16, 'mean': 50.81, 'median': 50, 'low': 34, 'high': 65, 'sb': 7, 'b': 5, 'h': 10, 's': 3, 'ss': 1}
+ANALYST_ASOF = '2026-11-21'
 
 AUTO = True
 SEG_MAP = {

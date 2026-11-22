@@ -3,76 +3,76 @@
  "subIndustries": [
   "Asset Management & Custody Banks"
  ],
- "asOf": "2026-11-13",
+ "asOf": "2026-11-20",
  "source": "S&P500 현재 구성종목(sp500.json) · 카드와 같은 엔진",
  "tickers": {
   "AMP": {
-   "per": 11.71,
-   "psr": 2.24,
-   "pbr": 8.82,
-   "pcr": 6.15
+   "per": 10.82,
+   "psr": 2.07,
+   "pbr": 8.16,
+   "pcr": 5.69
   },
   "APO": {
-   "psr": 2.37,
-   "pbr": 4.57
+   "psr": 2.13,
+   "pbr": 4.12
   },
   "ARES": {
-   "psr": 7.31,
-   "pbr": 11.01
+   "psr": 6.7,
+   "pbr": 10.08
   },
   "BLK": {
-   "per": 27.88,
-   "psr": 6.95,
-   "pbr": 3.25,
-   "pcr": 41.47,
-   "evebitda": 19.94
+   "per": 25.11,
+   "psr": 6.26,
+   "pbr": 2.93,
+   "pcr": 37.36,
+   "evebitda": 17.96
   },
   "BX": {
-   "per": 26.77,
-   "psr": 9.29,
-   "pbr": 10.93,
-   "pcr": 25.64,
-   "evebitda": 19.31
+   "per": 24.68,
+   "psr": 8.57,
+   "pbr": 10.08,
+   "pcr": 23.63,
+   "evebitda": 17.9
   },
   "BNY": {
-   "per": 17.88,
-   "psr": 6.87,
-   "pbr": 5.21,
-   "pcr": 14.45
+   "per": 15.62,
+   "psr": 6.33,
+   "pbr": 4.8,
+   "pcr": 13.3
   },
   "BEN": {
-   "per": 18.28,
-   "psr": 1.96,
-   "pbr": 1.55,
-   "evebitda": 13.68
+   "per": 16.26,
+   "psr": 1.74,
+   "pbr": 1.38,
+   "evebitda": 12.3
   },
   "IVZ": {
-   "psr": 1.78,
-   "pbr": 1.26,
-   "pcr": 7.15,
+   "psr": 1.63,
+   "pbr": 1.15,
+   "pcr": 6.56,
    "evebitda": "negative"
   },
   "KKR": {
-   "per": 28.59,
-   "psr": 4.3,
-   "pbr": 2.89
+   "per": 25.81,
+   "psr": 3.88,
+   "pbr": 2.61
   },
   "NTRS": {
-   "psr": 3.82,
-   "pbr": 2.42,
-   "pcr": 18.57
+   "psr": 3.48,
+   "pbr": 2.2,
+   "pcr": 16.9
   },
   "STT": {
-   "per": 14.17,
-   "psr": 3.04,
-   "pbr": 1.64,
+   "per": 12.69,
+   "psr": 2.72,
+   "pbr": 1.47,
    "pcr": "negative"
   },
   "TROW": {
-   "per": 11.03,
-   "psr": 3.02,
-   "pbr": 2.04,
-   "pcr": 14.54
+   "per": 10.22,
+   "psr": 2.8,
+   "pbr": 1.89,
+   "pcr": 13.48
   }
  },
  "skipped": {
@@ -93,9 +93,9 @@
   }
  },
  "cardRows": {
-  "BLK": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-13, sync_peer_rows.py)",
-  "BX": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-13, sync_peer_rows.py)",
-  "BNY": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-13, sync_peer_rows.py)",
-  "BEN": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-13, sync_peer_rows.py)"
+  "BLK": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
+  "BX": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
+  "BNY": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)",
+  "BEN": "카드 엔진 값으로 바꿨다(같은 기준일 2026-11-20, sync_peer_rows.py)"
  }
 }

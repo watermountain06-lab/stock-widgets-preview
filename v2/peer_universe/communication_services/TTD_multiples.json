@@ -1,31 +1,32 @@
 {
  "ticker": "TTD",
  "window": [
-  "2025-11-14",
-  "2026-11-13"
+  "2025-11-21",
+  "2026-11-20"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 22.72,
+   "current": 19.39,
    "min": 14.19,
    "p10": 15.25,
-   "median": 23.98,
-   "p90": 43.63,
-   "max": 48.2,
-   "mean": 26.26,
-   "percentile": 45.0,
-   "score": 55.0
+   "median": 23.36,
+   "p90": 42.86,
+   "max": 46.1,
+   "mean": 25.76,
+   "percentile": 26.3,
+   "score": 73.7,
+   "eps": 0.69
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
   "per_p25": 17.84,
-  "per_p75": 30.56,
+  "per_p75": 29.86,
   "low": 10,
   "high": 20,
-  "asOf": "2026-11-13",
+  "asOf": "2026-11-20",
   "basis": "diluted"
  }
 }

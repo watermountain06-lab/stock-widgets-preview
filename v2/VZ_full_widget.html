@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="vzFundVerdict">보통</span></div>
       <div class="logic-score" id="vzFundScore">45.6<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-positive" id="vzPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="vzPeerVerdict">싼 편</span></div>
-      <div class="logic-score" id="vzPeerScore">75.5<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-neutral" id="vzPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="vzPeerVerdict">중간</span></div>
+      <div class="logic-score" id="vzPeerScore">69.9<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="vzSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="vzSelfVerdict">중간</span></div>
@@ -904,10 +904,10 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 2.65 ~ 3.04(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 커뮤니케이션 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">75.5</div><div class="sc-tile" data-vc="peer" data-m="per">88</div><div class="sc-tile" data-vc="peer" data-m="pbr">71</div><div class="sc-tile" data-vc="peer" data-m="psr">71</div><div class="sc-tile" data-vc="peer" data-m="pcr">75</div><div class="sc-tile" data-vc="peer" data-m="evebitda">73</div><div class="vs-pill" data-vs-pill="peer">싸다</div>
+      <div class="vs-name" title="S&amp;P500 커뮤니케이션 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">69.9</div><div class="sc-tile" data-vc="peer" data-m="per">77</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">65</div><div class="sc-tile lost" data-vc="peer" data-m="psr">65</div><div class="sc-tile" data-vc="peer" data-m="pcr">75</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">69</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
-    <div class="vs-premise">PER 10.0배(5년 중앙값 9.6배)로 자기 이력 48.7점(중간), 동종업 75.5점(싸다)이다. <strong>현금흐름 내재가치(기본 $16.58)는 현재가의 36%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $16.58)는 현재가의 36%다. 현재가를 정당화하려면 영업이익률이 29.5%까지 올라야 한다(최근 4분기 20.9%, 5년 중앙값 21.5%). 내재가치에서 차입금 $166.2B를 빼고 현금·단기투자 $4.5B를 더한다.</div>
+    <div class="vs-premise">PER 10.0배(5년 중앙값 9.6배)로 자기 이력 48.7점(중간), 동종업 69.9점(중간)이다. <strong>현금흐름 내재가치(기본 $16.58)는 현재가의 36%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $16.58)는 현재가의 36%다. 현재가를 정당화하려면 영업이익률이 29.5%까지 올라야 한다(최근 4분기 20.9%, 5년 중앙값 21.5%). 내재가치에서 차입금 $166.2B를 빼고 현금·단기투자 $4.5B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -976,7 +976,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">통신·케이블·미디어 6곳 PER 비교 (점수는 S&amp;P500 커뮤니케이션 기준) · 11/13 종가(VZ 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">통신·케이블·미디어 6곳 PER 비교 (점수는 S&amp;P500 커뮤니케이션 기준) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -990,8 +990,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $34.3B(+1.5%), 영업이익률 25.2%(1년 전 24.0%). 주가는 1년 새 +13%<span class="tag">배수 싼 쪽·매출 성장(인수 포함)</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 +1 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본 $16.58)는 현재가의 36%다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $34.3B(+1.5%), 영업이익률 25.2%(1년 전 24.0%). 주가는 1년 새 +13%<span class="tag">배수 중간·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $16.58)는 현재가의 36%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 1월 29일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1099,7 +1099,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 50%; background: var(--green);"></div><div data-an-bar="hold" style="width: 50%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
         <span class="op-val"><span data-an="mean">$49.29</span> <span class="op-sub op-up" data-an="upside">+6.0%</span></span>
       </div>
       <div class="op-cell">
@@ -1304,63 +1304,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '통신·케이블·미디어 6곳 PER 비교 (점수는 S&P500 커뮤니케이션 기준) · 11/13 종가(VZ 막대는 11/20)',
-    unit: 'PER', max: 35, vzValue: null,
+    title: '통신·케이블·미디어 6곳 PER 비교 (점수는 S&P500 커뮤니케이션 기준) · 11/20 종가',
+    unit: 'PER', max: 30, vzValue: null,
     peers: [
-      { name:'T', value:11.9, status:'reference' },
-      { name:'TMUS', value:16.4, status:'reference' },
-      { name:'CMCSA', value:7.9, status:'reference' },
-      { name:'DIS', value:24.6, status:'reference' },
-      { name:'GOOGL', value:27.9, status:'reference' },
-      { name:'META', value:25.1, status:'reference' }
+      { name:'T', value:7.4, status:'reference' },
+      { name:'TMUS', value:17.3, status:'reference' },
+      { name:'CMCSA', value:7.8, status:'reference' },
+      { name:'DIS', value:24.4, status:'reference' },
+      { name:'GOOGL', value:25.0, status:'reference' },
+      { name:'META', value:19.4, status:'reference' }
     ]
   },
   pbr: {
-    title: '통신·케이블·미디어 PBR 비교 · 11/13 종가(VZ 막대는 11/20)',
+    title: '통신·케이블·미디어 PBR 비교 · 11/20 종가',
     unit: 'PBR', max: 10, vzValue: null,
     peers: [
       { name:'T', value:1.4, status:'reference' },
-      { name:'TMUS', value:3.2, status:'reference' },
+      { name:'TMUS', value:3.1, status:'reference' },
       { name:'CMCSA', value:1.1, status:'reference' },
       { name:'DIS', value:1.9, status:'reference' },
-      { name:'GOOGL', value:5.4, status:'reference' },
-      { name:'META', value:6.0, status:'reference' }
+      { name:'GOOGL', value:4.8, status:'reference' },
+      { name:'META', value:5.2, status:'reference' }
     ]
   },
   psr: {
-    title: '통신·케이블·미디어 PSR 비교 · 11/13 종가(VZ 막대는 11/20)',
+    title: '통신·케이블·미디어 PSR 비교 · 11/20 종가',
     unit: 'PSR(TTM)', max: 10, vzValue: null,
     peers: [
       { name:'T', value:1.2, status:'reference' },
       { name:'TMUS', value:1.9, status:'reference' },
       { name:'CMCSA', value:0.8, status:'reference' },
       { name:'DIS', value:2.1, status:'reference' },
-      { name:'GOOGL', value:7.8, status:'reference' },
-      { name:'META', value:6.8, status:'reference' }
+      { name:'GOOGL', value:7.0, status:'reference' },
+      { name:'META', value:5.9, status:'reference' }
     ]
   },
   pcr: {
-    title: '통신·케이블·미디어 PCR(FCF) 비교 · 11/13 종가(VZ 막대는 11/20)',
-    unit: 'PCR(FCF)', max: 215, vzValue: null,
+    title: '통신·케이블·미디어 PCR(FCF) 비교 · 11/20 종가',
+    unit: 'PCR(FCF)', max: 195, vzValue: null,
     peers: [
       { name:'T', value:8.4, status:'reference' },
-      { name:'TMUS', value:9.7, status:'reference' },
-      { name:'CMCSA', value:5.3, status:'reference' },
-      { name:'DIS', value:24.8, status:'reference' },
-      { name:'GOOGL', value:184.9, status:'reference' },
-      { name:'META', value:57.1, status:'reference' }
+      { name:'TMUS', value:9.4, status:'reference' },
+      { name:'CMCSA', value:5.2, status:'reference' },
+      { name:'DIS', value:24.6, status:'reference' },
+      { name:'GOOGL', value:165.9, status:'reference' },
+      { name:'META', value:49.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: '통신·케이블·미디어 EV/EBITDA 비교 · 11/13 종가(VZ 막대는 11/20)',
-    unit: 'EV/EBITDA', max: 25, vzValue: null,
+    title: '통신·케이블·미디어 EV/EBITDA 비교 · 11/20 종가',
+    unit: 'EV/EBITDA', max: 20, vzValue: null,
     peers: [
       { name:'T', value:7.2, status:'reference' },
-      { name:'TMUS', value:5.2, status:'reference' },
-      { name:'CMCSA', value:5.4, status:'reference' },
-      { name:'DIS', value:13.1, status:'reference' },
-      { name:'GOOGL', value:18.8, status:'reference' },
-      { name:'META', value:15.7, status:'reference' }
+      { name:'TMUS', value:5.1, status:'reference' },
+      { name:'CMCSA', value:5.3, status:'reference' },
+      { name:'DIS', value:13.0, status:'reference' },
+      { name:'GOOGL', value:16.8, status:'reference' },
+      { name:'META', value:13.7, status:'reference' }
     ]
   }
 };
@@ -1490,7 +1490,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py VZ
 const VZ_SCORES = {
   fundamental: 45.6,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 75.5,          // S&P500 커뮤니케이션 대비 배수 순위 (v2/peer_universe/communication_services.json)
+  peer: 69.9,          // S&P500 커뮤니케이션 대비 배수 순위 (v2/peer_universe/communication_services.json)
   selfHistory: 48.7,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1821,7 +1821,7 @@ const VZ_FUNDAMENTAL = {"ticker": "VZ", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py VZ --self v2/VZ_multiples.json --card
 /* VALUATION:BEGIN */
-const VZ_VALUATION = {"peer": {"score": 75.5, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 88.2, "rank": 3, "peers": 17}, {"metric": "pbr", "score": 70.6, "rank": 6, "peers": 17}, {"metric": "psr", "score": 70.6, "rank": 6, "peers": 17}, {"metric": "pcr", "score": 75.0, "rank": 5, "peers": 16}, {"metric": "evebitda", "score": 73.3, "rank": 5, "peers": 15}]}, "self": {"score": 48.7, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 33.5, "percentile": 66.5, "current": 9.97, "min": 6.12, "median": 9.55, "max": 12.66, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 49.9, "percentile": 50.1, "current": 1.82, "min": 1.35, "median": 1.82, "max": 2.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 28.5, "percentile": 71.5, "current": 1.38, "min": 0.96, "median": 1.3, "max": 1.73, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 90.1, "percentile": 9.9, "current": 8.61, "min": 7.77, "median": 9.5, "max": 14.53, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 41.6, "percentile": 58.4, "current": 7.32, "min": 5.9, "median": 7.01, "max": 8.39, "days": 1255, "currentNote": null}]}};
+const VZ_VALUATION = {"peer": {"score": 69.9, "sector": "Communication Services (S&P500 20종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 76.5, "rank": 5, "peers": 17}, {"metric": "pbr", "score": 64.7, "rank": 7, "peers": 17}, {"metric": "psr", "score": 64.7, "rank": 7, "peers": 17}, {"metric": "pcr", "score": 75.0, "rank": 5, "peers": 16}, {"metric": "evebitda", "score": 68.8, "rank": 6, "peers": 16}]}, "self": {"score": 48.7, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 33.5, "percentile": 66.5, "current": 9.97, "min": 6.12, "median": 9.55, "max": 12.66, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 49.9, "percentile": 50.1, "current": 1.82, "min": 1.35, "median": 1.82, "max": 2.91, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 28.5, "percentile": 71.5, "current": 1.38, "min": 0.96, "median": 1.3, "max": 1.73, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 90.1, "percentile": 9.9, "current": 8.61, "min": 7.77, "median": 9.5, "max": 14.53, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 41.6, "percentile": 58.4, "current": 7.32, "min": 5.9, "median": 7.01, "max": 8.39, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2110,7 +2110,7 @@ const VZ_ACTIVITY = {"ticker": "VZ", "status": "N/A", "reason": "매출원가·�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/vz/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const VZ_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 14, mean: 49.29, median: 49,
+const VZ_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 14, mean: 49.29, median: 49,
   low: 44, high: 55, strongBuy: 9, buy: 3, hold: 12, sell: 0, strongSell: 0 };
 (function(){
   const A = VZ_ANALYST, last = (typeof VZ_DAILY !== 'undefined' && VZ_DAILY.length) ? VZ_DAILY[VZ_DAILY.length - 1] : null;
@@ -2172,7 +2172,7 @@ const VZ_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 �
   put('vzPeerBox', 'vzPeerScore', 'vzPeerVerdict', S.peer, WORDS.val,
       `S&P500 커뮤니케이션(VZ 제외 21종목, 클래스 중복 GOOG·FOX·NWS 포함)과 배수 순위를 매긴 값이다.`
       + `\n배수마다 "나보다 싼 종목이 몇 %인가"를 뒤집어 점수로 썼고 다섯 개를 평균했다.`
-      + `\n통신·케이블 외에 인터넷 플랫폼(GOOGL·META)·미디어·광고가 섞여 있다. 이 카드만 S&P500 커뮤니케이션 전용 비교군을 쓴다. FOX·FOXA는 PSR·PBR·PCR 값이 0으로 잘못 계산돼 그 세 배수에서 뺐다. 통신사는 성장이 높은 플랫폼 기업보다 배수가 낮은 업종이라, 동종업 표(+1)는 이 섞인 구성의 영향이 크다(비교군 설계는 v2.1에서 따로).`);
+      + `\n통신·케이블 외에 인터넷 플랫폼(GOOGL·META)·미디어·광고가 섞여 있다. 이 카드만 S&P500 커뮤니케이션 전용 비교군을 쓴다. FOX·FOXA는 PSR·PBR·PCR 값이 0으로 잘못 계산돼 그 세 배수에서 뺐다. 통신사는 성장이 높은 플랫폼 기업보다 배수가 낮은 업종이라, 동종업 표(0)는 이 섞인 구성의 영향이 크다(비교군 설계는 v2.1에서 따로).`);
   put('vzSelfBox', 'vzSelfScore', 'vzSelfVerdict', S.selfHistory, WORDS.val,
       `이 종목 자신의 5년 배수 분포에서 지금과 배수가 같거나 높았던 날의 비율을 점수로 쓴 값이다.`
       + `\nPER 10.0배는 5년 분포의 하위 66.5%다(중앙값 9.6배). PER은 최근 4분기 희석 EPS에서 일회성 손익을 뺀 값으로 계산했다(조정 전 $3.93 → 조정 뒤 $4.66 — 2025.12 분기 구조조정 비용 세전 $1.7B, 2026.06 분기 사업 매각 손실 세전 $746M, 2025.12 분기 손상·구조조정 비용 세전 $583M, 2026.06 분기 구조조정 비용 세전 $397M 외 1묶음). 자기 이력 PER의 지난 구간 중 5개 결산일(2023.12~2026.06)도 같은 규칙으로 일회성을 뺐다. 반복 기준(최근 8분기 중 문턱을 넘은 분기가 3번 이상이거나 6번 이상 나온 범주)에 걸린 항목과 인수 통합 비용은 빼지 않는다. 영업이익률·EV/EBITDA는 GAAP 그대로다. 영업이익 안에 있는 항목의 손익은 이익률에 그대로 남아 있다.`

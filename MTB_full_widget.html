@@ -1094,11 +1094,11 @@ Chart.overrides.doughnut.animation = false;
     <div class="op-strip">
       <div class="op-cell">
         <span class="op-label">애널리스트 <span data-an="n">22명 · 목표가 20</span>명</span>
-        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">6</span> · 유지 <span data-an="hold">14</span> · 매도 <span data-an="sell">2</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 27.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 63.6%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 9.1%; background: var(--red);"></div></div>
+        <span class="op-val"><span data-an="rating">Hold</span> <span class="op-sub">매수 <span data-an="buy">7</span> · 유지 <span data-an="hold">13</span> · 매도 <span data-an="sell">2</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 31.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 59.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 9.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
         <span class="op-val"><span data-an="mean">$248.63</span> <span class="op-sub op-up" data-an="upside">+19.4%</span></span>
       </div>
       <div class="op-cell">
@@ -2163,8 +2163,8 @@ const MTB_ACTIVITY = {"ticker": "MTB", "status": "na", "reason": "은행이라 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/mtb/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const MTB_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 22, nTargets: 20, mean: 248.63, median: 248.5,
-  low: 198, high: 300, strongBuy: 3, buy: 3, hold: 14, sell: 0, strongSell: 2 };
+const MTB_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Hold', n: 22, nTargets: 20, mean: 248.63, median: 248.5,
+  low: 198, high: 300, strongBuy: 3, buy: 4, hold: 13, sell: 0, strongSell: 2 };
 (function(){
   const A = MTB_ANALYST, last = (typeof MTB_DAILY !== 'undefined' && MTB_DAILY.length) ? MTB_DAILY[MTB_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

@@ -969,7 +969,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">증권·거래소 PER 비교 (점수는 결제·거래소·중개 비교군 기준) (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/13 종가(HOOD 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">증권·거래소 PER 비교 (점수는 결제·거래소·중개 비교군 기준) (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1089,13 +1089,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">32명 · 목표가 25</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">26</span> · 유지 <span data-an="hold">4</span> · 매도 <span data-an="sell">2</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 81.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 12.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 6.3%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">32명 · 목표가 27</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">25</span> · 유지 <span data-an="hold">6</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 78.1%; background: var(--green);"></div><div data-an-bar="hold" style="width: 18.8%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
-        <span class="op-val"><span data-an="mean">$132.51</span> <span class="op-sub op-up" data-an="upside">+113.1%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-val"><span data-an="mean">$129.03</span> <span class="op-sub op-up" data-an="upside">+107.5%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1299,51 +1299,51 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '증권·거래소 PER 비교 (점수는 결제·거래소·중개 비교군 기준) (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/13 종가(HOOD 막대는 11/20)',
+    title: '증권·거래소 PER 비교 (점수는 결제·거래소·중개 비교군 기준) (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/20 종가',
     unit: 'PER', max: 35, hoodValue: null,
     peers: [
-      { name:'ICE', value:24.4, status:'reference' },
+      { name:'ICE', value:24.0, status:'reference' },
       { name:'CME', value:26.1, status:'reference' },
-      { name:'NDAQ', value:29.6, status:'reference' }
+      { name:'NDAQ', value:28.1, status:'reference' }
     ]
   },
   pbr: {
-    title: '증권·거래소 PBR 비교 (SCHW 값 없음·IBKR 값 없음) · 11/13 종가(HOOD 막대는 11/20)',
+    title: '증권·거래소 PBR 비교 (SCHW 값 없음·IBKR 값 없음) · 11/20 종가',
     unit: 'PBR', max: 10, hoodValue: null,
     peers: [
-      { name:'COIN', value:2.4, status:'reference' },
-      { name:'ICE', value:3.3, status:'reference' },
-      { name:'CME', value:4.3, status:'reference' },
-      { name:'NDAQ', value:5.0, status:'reference' }
+      { name:'COIN', value:1.9, status:'reference' },
+      { name:'ICE', value:3.2, status:'reference' },
+      { name:'CME', value:4.2, status:'reference' },
+      { name:'NDAQ', value:4.8, status:'reference' }
     ]
   },
   psr: {
-    title: '증권·거래소 PSR 비교 (SCHW 값 없음·IBKR 값 없음) · 11/13 종가(HOOD 막대는 11/20)',
+    title: '증권·거래소 PSR 비교 (SCHW 값 없음·IBKR 값 없음) · 11/20 종가',
     unit: 'PSR(TTM)', max: 20, hoodValue: null,
     peers: [
-      { name:'COIN', value:6.0, status:'reference' },
-      { name:'ICE', value:7.1, status:'reference' },
-      { name:'CME', value:16.4, status:'reference' },
-      { name:'NDAQ', value:6.5, status:'reference' }
+      { name:'COIN', value:4.8, status:'reference' },
+      { name:'ICE', value:6.8, status:'reference' },
+      { name:'CME', value:15.9, status:'reference' },
+      { name:'NDAQ', value:6.2, status:'reference' }
     ]
   },
   pcr: {
-    title: '증권·거래소 PCR(FCF) 비교 (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/13 종가(HOOD 막대는 11/20)',
-    unit: 'PCR(FCF)', max: 35, hoodValue: null,
+    title: '증권·거래소 PCR(FCF) 비교 (COIN 값 없음·SCHW 값 없음·IBKR 값 없음) · 11/20 종가',
+    unit: 'PCR(FCF)', max: 30, hoodValue: null,
     peers: [
-      { name:'ICE', value:18.9, status:'reference' },
-      { name:'CME', value:26.4, status:'reference' },
-      { name:'NDAQ', value:26.7, status:'reference' }
+      { name:'ICE', value:18.0, status:'reference' },
+      { name:'CME', value:25.5, status:'reference' },
+      { name:'NDAQ', value:25.3, status:'reference' }
     ]
   },
   evebitda: {
-    title: '증권·거래소 EV/EBITDA 비교 (SCHW 값 없음·IBKR 값 없음) · 11/13 종가(HOOD 막대는 11/20)',
-    unit: 'EV/EBITDA', max: 80, hoodValue: null,
+    title: '증권·거래소 EV/EBITDA 비교 (SCHW 값 없음·IBKR 값 없음) · 11/20 종가',
+    unit: 'EV/EBITDA', max: 65, hoodValue: null,
     peers: [
-      { name:'COIN', value:68.1, status:'reference' },
-      { name:'ICE', value:16.8, status:'reference' },
-      { name:'CME', value:23.5, status:'reference' },
-      { name:'NDAQ', value:20.2, status:'reference' }
+      { name:'COIN', value:53.5, status:'reference' },
+      { name:'ICE', value:16.2, status:'reference' },
+      { name:'CME', value:22.7, status:'reference' },
+      { name:'NDAQ', value:19.3, status:'reference' }
     ]
   }
 };
@@ -2094,8 +2094,8 @@ const HOOD_ACTIVITY = {"ticker": "HOOD", "status": "N/A", "reason": "증권사�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/hood/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const HOOD_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 32, nTargets: 25, mean: 132.51, median: 130,
-  low: 100, high: 170, strongBuy: 20, buy: 6, hold: 4, sell: 1, strongSell: 1 };
+const HOOD_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 32, nTargets: 27, mean: 129.03, median: 124,
+  low: 100, high: 170, strongBuy: 19, buy: 6, hold: 6, sell: 0, strongSell: 1 };
 (function(){
   const A = HOOD_ANALYST, last = (typeof HOOD_DAILY !== 'undefined' && HOOD_DAILY.length) ? HOOD_DAILY[HOOD_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

@@ -1008,7 +1008,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">전력 설비·발전 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/13 종가(BE 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">전력 설비·발전 6곳 PER 비교 (점수는 S&amp;P500 산업재 기준) (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1104,13 +1104,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">29명 · 목표가 21</span>명</span>
-        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">16</span> · 유지 <span data-an="hold">12</span> · 매도 <span data-an="sell">1</span></span></span>
-        <div class="op-dist"><div data-an-bar="buy" style="width: 55.2%; background: var(--green);"></div><div data-an-bar="hold" style="width: 41.4%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.4%; background: var(--red);"></div></div>
+        <span class="op-label">애널리스트 <span data-an="n">29명 · 목표가 20</span>명</span>
+        <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">17</span> · 유지 <span data-an="hold">11</span> · 매도 <span data-an="sell">1</span></span></span>
+        <div class="op-dist"><div data-an-bar="buy" style="width: 58.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 37.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.4%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
-        <span class="op-val"><span data-an="mean">$293.52</span> <span class="op-sub op-up" data-an="upside">+106.1%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-val"><span data-an="mean">$292.10</span> <span class="op-sub op-up" data-an="upside">+105.1%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1314,48 +1314,48 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '전력 설비·발전 6곳 PER 비교 (점수는 S&P500 산업재 기준) (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/13 종가(BE 막대는 11/20)',
-    unit: 'PER', max: 125, beValue: null,
+    title: '전력 설비·발전 6곳 PER 비교 (점수는 S&P500 산업재 기준) (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/20 종가',
+    unit: 'PER', max: 110, beValue: null,
     peers: [
-      { name:'GEV', value:107.0, status:'reference' },
-      { name:'VRT', value:37.8, status:'reference' },
-      { name:'ETN', value:35.3, status:'reference' }
+      { name:'GEV', value:93.2, status:'reference' },
+      { name:'VRT', value:37.6, status:'reference' },
+      { name:'ETN', value:31.7, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/13 종가(BE 막대는 11/20)',
+    title: 'PBR 비교 (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/20 종가',
     unit: 'PBR', max: 25, beValue: null,
     peers: [
-      { name:'GEV', value:18.7, status:'reference' },
-      { name:'VRT', value:14.1, status:'reference' },
-      { name:'ETN', value:6.5, status:'reference' }
+      { name:'GEV', value:16.3, status:'reference' },
+      { name:'VRT', value:11.6, status:'reference' },
+      { name:'ETN', value:5.8, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/13 종가(BE 막대는 11/20)',
+    title: 'PSR 비교 (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/20 종가',
     unit: 'PSR(TTM)', max: 15, beValue: null,
     peers: [
-      { name:'GEV', value:4.8, status:'reference' },
-      { name:'VRT', value:5.9, status:'reference' },
-      { name:'ETN', value:4.3, status:'reference' }
+      { name:'GEV', value:4.2, status:'reference' },
+      { name:'VRT', value:4.9, status:'reference' },
+      { name:'ETN', value:3.8, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/13 종가(BE 막대는 11/20)',
+    title: 'PCR(FCF) 비교 (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/20 종가',
     unit: 'PCR(FCF)', max: 115, beValue: null,
     peers: [
-      { name:'GEV', value:12.4, status:'reference' },
-      { name:'VRT', value:24.9, status:'reference' },
-      { name:'ETN', value:36.1, status:'reference' }
+      { name:'GEV', value:10.8, status:'reference' },
+      { name:'VRT', value:20.5, status:'reference' },
+      { name:'ETN', value:31.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/13 종가(BE 막대는 11/20)',
+    title: 'EV/EBITDA 비교 (CEG 값 없음·VST 값 없음·NEE 값 없음) · 11/20 종가',
     unit: 'EV/EBITDA', max: 80, beValue: null,
     peers: [
-      { name:'GEV', value:46.9, status:'reference' },
-      { name:'VRT', value:25.2, status:'reference' },
-      { name:'ETN', value:22.6, status:'reference' }
+      { name:'GEV', value:40.5, status:'reference' },
+      { name:'VRT', value:20.6, status:'reference' },
+      { name:'ETN', value:20.2, status:'reference' }
     ]
   }
 };
@@ -1816,7 +1816,7 @@ const BE_FUNDAMENTAL = {"ticker": "BE", "basis": "quarter", "asOf": "2026-09-30"
 //
 // 갱신: python3 v2/build_peer_score.py BE --self v2/BE_multiples.json --card
 /* VALUATION:BEGIN */
-const BE_VALUATION = {"peer": {"score": 2.4, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 2.6, "rank": 75, "peers": 76}, {"metric": "pbr", "score": 4.0, "rank": 73, "peers": 75}, {"metric": "psr", "score": 0.0, "rank": 80, "peers": 79}, {"metric": "pcr", "score": 2.6, "rank": 76, "peers": 77}, {"metric": "evebitda", "score": 2.6, "rank": 75, "peers": 76}]}, "self": {"score": 63.9, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 87.36, "min": 87.36, "median": 292.45, "max": 394.37, "days": 83, "currentNote": null}, {"metric": "pbr", "score": 25.7, "percentile": 74.3, "current": 21.61, "min": 3.63, "median": 9.4, "max": 125.17, "days": 1222, "currentNote": null}, {"metric": "psr", "score": 24.1, "percentile": 75.9, "current": 11.03, "min": 1.45, "median": 3.94, "max": 43.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 87.4, "percentile": 12.6, "current": 96.76, "min": 50.79, "median": 235.61, "max": 1255.61, "days": 437, "currentNote": null}, {"metric": "evebitda", "score": 82.4, "percentile": 17.6, "current": 67.87, "min": 39.18, "median": 191.03, "max": 559.39, "days": 437, "currentNote": null}]}};
+const BE_VALUATION = {"peer": {"score": 2.4, "sector": "Industrials (S&P500 81종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 2.6, "rank": 75, "peers": 76}, {"metric": "pbr", "score": 4.0, "rank": 73, "peers": 75}, {"metric": "psr", "score": 0.0, "rank": 80, "peers": 79}, {"metric": "pcr", "score": 2.6, "rank": 76, "peers": 77}, {"metric": "evebitda", "score": 2.6, "rank": 76, "peers": 77}]}, "self": {"score": 63.9, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 100.0, "percentile": 0.0, "current": 87.36, "min": 87.36, "median": 292.45, "max": 394.37, "days": 83, "currentNote": null}, {"metric": "pbr", "score": 25.7, "percentile": 74.3, "current": 21.61, "min": 3.63, "median": 9.4, "max": 125.17, "days": 1222, "currentNote": null}, {"metric": "psr", "score": 24.1, "percentile": 75.9, "current": 11.03, "min": 1.45, "median": 3.94, "max": 43.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 87.4, "percentile": 12.6, "current": 96.76, "min": 50.79, "median": 235.61, "max": 1255.61, "days": 437, "currentNote": null}, {"metric": "evebitda", "score": 82.4, "percentile": 17.6, "current": 67.87, "min": 39.18, "median": 191.03, "max": 559.39, "days": 437, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2105,8 +2105,8 @@ const BE_ACTIVITY = {"ticker": "BE", "status": "ok", "asOf": "2026-09-30", "prev
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/be/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const BE_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 21, mean: 293.52, median: 298,
-  low: 182, high: 351, strongBuy: 10, buy: 6, hold: 12, sell: 0, strongSell: 1 };
+const BE_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 20, mean: 292.1, median: 306,
+  low: 182, high: 351, strongBuy: 11, buy: 6, hold: 11, sell: 0, strongSell: 1 };
 (function(){
   const A = BE_ANALYST, last = (typeof BE_DAILY !== 'undefined' && BE_DAILY.length) ? BE_DAILY[BE_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

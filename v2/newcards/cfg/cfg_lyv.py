@@ -51,8 +51,8 @@ NEWS = [
     ('neutral', '2026년 2월 19일 장 마감 뒤 — 2025년 연간 실적', '2026-02-20',
      '연간 매출 $25.2B(+9%) · 영업이익 $1.3B(+52%) · 연간 희석 EPS −$0.24(상환 가능 비지배지분 조정) — 다음 거래일 주가 +3.3%', 'q4', 'Live Nation 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 20, 'mean': 207.65, 'median': 212, 'low': 167, 'high': 221, 'sb': 17, 'b': 3, 'h': 3, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-11-18'
+ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 22, 'mean': 204.59, 'median': 210, 'low': 155, 'high': 221, 'sb': 17, 'b': 3, 'h': 3, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-11-21'
 
 NI_TAGS = ['NetIncomeLossAvailableToCommonStockholdersBasic']   # 재무 JSON 이익률(엔진 기본 = 보통주 몫)과 맞춤(Codex 2026-11-18)
 

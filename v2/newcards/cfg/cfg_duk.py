@@ -95,8 +95,8 @@ NEWS = [
     ('neutral', '2025년 11월 7일 — Q3 2025 실적', '2025-11-07',
      '매출 $8.54B · 보통주 순이익 $1.41B · 희석 EPS $1.81(1년 전 $1.60)', 'q3', 'Duke 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 15, 'mean': 132.87, 'median': 130, 'low': 123, 'high': 146, 'sb': 9, 'b': 2, 'h': 12, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 16, 'mean': 133.44, 'median': 136, 'low': 123, 'high': 146, 'sb': 9, 'b': 2, 'h': 12, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 
 # ── 자동 카드 — 부문 2개(수동 지도, RegulatedAndUnregulatedOperatingRevenue), 기타·부문 간 거래는 SEG_ADJ. 원문 대조: Q1 2026 7,878/1,333/42/−75(2026-10-24) ──
