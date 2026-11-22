@@ -16359,6 +16359,49 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "MAA",
+      "name": "Mid-America Apartment Communities",
+      "sector": "선벨트 임대 아파트 리츠",
+      "href": "MAA_full_widget.html",
+      "cardRank": 390,
+      "cardAsOf": "2026-11-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 112.91,
+        "prevClose": 113.4,
+        "session": "2026-11-20",
+        "prevSession": "2026-11-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 115993211,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-26",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001193125-26-437813 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 42.5,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-20",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }
