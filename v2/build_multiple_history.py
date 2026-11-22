@@ -978,6 +978,7 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
+    "0000074208": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},   # UDR: 순이익 = 보통주 귀속(PREFER_TAGS), 설비투자 = 기존 부동산 개량 지출(9개월 $171.3M — 인수 $283.7M·개발 $78.1M·비부동산 $10.9M 제외, O·KIM 선례)(2026-11-21)
     "0000879101": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},   # KIM: 순이익 = 보통주 귀속(우선주 배당 뒤, Q3 2026 $272.5M — PREFER_TAGS로 앞세움), 설비투자 = 기존 부동산 개량 지출(9개월 $273.9M, 회사 고유 태그 → cfg company_tags, O·WELL 선례 — 부동산 인수는 제외)(2026-11-21)
     # DLR(데이터센터 리츠): 설비투자 = "Improvements to and advances for investment in real estate"(PaymentsToDevelopRealEstateAssets, 9개월 $3.17B) — 개발이 본업이라 개량만이 아니라 개발 지출 전체. 인수($2.9B)·합작 출자는 넣지 않는다(2026-11-19)
     "0001297996": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToDevelopRealEstateAssets"]},
@@ -1096,7 +1097,9 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# KIM: 영업이익 줄에 부동산 매각 이익(회사 고유 태그 kim:TotalNetGainLossOnSaleOfOperatingProperties — cfg company_tags가 빌린 이름으로 싣는다)이 들어 있다 — 매각 이익을 뺀다(O·WELL처럼 손상은 영업 안, 매각 이익은 밖). Q3 2026 279,984 − 89,382 = 190,602(10-Q, 2026-11-21)
+DERIVED_OPINC = {# UDR: 영업이익 줄에 부동산 매각 이익(GainsLossesOnSalesOfInvestmentRealEstate)이 들어 있다 — 뺀다(KIM·O처럼). Q3 2026 270.189 − 190.084 = 80.105(10-Q, 2026-11-21)
+                 "0000074208": (["OperatingIncomeLoss"], [(["GainsLossesOnSalesOfInvestmentRealEstate"], 1, True)]),
+                 # KIM: 영업이익 줄에 부동산 매각 이익(회사 고유 태그 kim:TotalNetGainLossOnSaleOfOperatingProperties — cfg company_tags가 빌린 이름으로 싣는다)이 들어 있다 — 매각 이익을 뺀다(O·WELL처럼 손상은 영업 안, 매각 이익은 밖). Q3 2026 279,984 − 89,382 = 190,602(10-Q, 2026-11-21)
                  "0000879101": (["OperatingIncomeLoss"], [(["GainOnSaleOfPropertiesKim"], 1, True)]),
                  # RJF: 영업이익 줄이 없다 — 손익계산서는 순매출(이자비용 차감 뒤) − 비이자비용 = 세전이익(Q3 FY26 3,928 − 3,178 = 750, 10-Q). 세전 태그는 2025-06 뒤 회사 고유 태그라 companyfacts에 없다(2026-11-04)
                  "0000720005": (["RevenuesNetOfInterestExpense"], [(["NoninterestExpense"], 1)]),
@@ -1388,7 +1391,8 @@ def _derived_opinc(cik, taxonomy):
 # 이겨 2021~2022 매출이 부풀고 2022 Q4가 −$3.7B가 됐다(5년 성장 4.9% — 실제 순매출 기준 약 14%, 2026-09-29).
 # GE: RevenueFromContractWithCustomerExcludingAssessedTax는 보험 매출을 뺀 값이라(2023 Q2 $7,907M 대 총매출 $8,755M) 총매출
 # Revenues와 섞이면 분기마다 기준이 달라진다(Codex, 2026-09-30). 손익계산서 "Total revenue"인 Revenues만 쓴다.
-EXCLUDE_TAGS = {"0000879101": ("PaymentsToAcquirePropertyPlantAndEquipment",),   # KIM: 이 태그는 10-K·10-Q 본문 문장의 작은 금액(2025년 $18.4M) — 현금흐름표 "Improvements to operating real estate"(회사 고유 태그, cfg company_tags → PaymentsForCapitalImprovements)를 쓴다(2026-11-21)
+EXCLUDE_TAGS = {"0000074208": ("PaymentsToAcquireProductiveAssets", "DepreciationAndAmortization"),   # UDR: 이 설비투자 태그는 2019-03에 멈춤 — 개량 지출(EXTRA_TAGS)만. DepreciationAndAmortization은 손익계산서 "Other depreciation and amortization" 줄(분기 $3~7M)이라 2·3분기마다 전체 감가상각(DepreciationDepletionAndAmortization, 누계만)을 이겨 과거 EBITDA가 약 35% 작았다(Fable r1, 2026-11-21)
+                "0000879101": ("PaymentsToAcquirePropertyPlantAndEquipment",),   # KIM: 이 태그는 10-K·10-Q 본문 문장의 작은 금액(2025년 $18.4M) — 현금흐름표 "Improvements to operating real estate"(회사 고유 태그, cfg company_tags → PaymentsForCapitalImprovements)를 쓴다(2026-11-21)
                 "0001297996": ("PaymentsToAcquireProductiveAssets",),   # DLR: 이 태그는 인수 지출(Q3 2026 $802.8M — 10-Q 인수 주석)이라 설비투자에서 뺀다 — 개발·개량 지출(PaymentsToDevelopRealEstateAssets)만(Codex r1 2026-11-19)
                 "0001004980": ("EntityCommonStockSharesOutstanding",),   # PCG: 표지 주식 수 2,680,173,293주에 자회사(Utility)가 가진 지주 주식 477,743,590주가 들어 있다(2021년부터, EPS에서도 제외) — 재무상태표 유통 주식 수(9월 말 2,202,416,553주)만 쓴다(2026-11-18)
                 "0001140536": ("RevenueFromContractWithCustomerExcludingAssessedTax",),   # WTW: 계약 매출(이자·기타 제외)과 총매출 Revenues가 섞여 Q4 2025가 $2,744M(총 $2,936M)으로 역산됐다 — 총매출만(Codex r1 2026-11-05)
@@ -1504,7 +1508,8 @@ EXCLUDE_TAGS = {"0000879101": ("PaymentsToAcquirePropertyPlantAndEquipment",),  
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0000879101": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # KIM: 보통주 귀속 순이익(EXTRA_TAGS, 2026-11-21)
+PREFER_TAGS = {"0000074208": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # UDR: 보통주 귀속 순이익(EXTRA_TAGS, 2026-11-21)
+               "0000879101": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # KIM: 보통주 귀속 순이익(EXTRA_TAGS, 2026-11-21)
                "0000935703": ("IncomeLossFromContinuingOperations",),   # DLTR: 계속사업 순이익(EXTRA_TAGS, 2026-11-09)
                "0001111711": ("Revenues", "RegulatedOperatingRevenue"),   # NI: 총영업수익 — 고객 계약 매출(1,299.1)과 섞이면 성장률·마진이 어긋났다(Codex r1, 2026-11-09)
                "0001792044": ("Revenues",),   # VTRS: 손익계산서 총매출(순매출 + 기타매출, Q3 2026 $3,749.5M) — 계약 매출 태그는 순매출 $3,734.7M(Codex r1, 2026-11-08)
@@ -2583,7 +2588,8 @@ DEBT_TOTAL_TAG = {"0000879101": ["NotesPayable", "SecuredDebt"],   # KIM: 무담
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000879101": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"], "preferred": ["PreferredStockLiquidationPreferenceValue"]},   # KIM: 단기투자 태그 2010 낡음; 비지배지분 = 일반 $161.5M + 상환 가능(9월 말 0, 전년 말 $24.5M); 우선주 = 청산가치 $483.5M(Class L·M·N — PreferredStockValue는 액면 $19천)(2026-11-21)
+EV_TAGS_BY_CIK = {"0000074208": {"sti": [], "preferred": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # UDR: 비지배지분 = 운영 파트너십 유닛(상환 가능, $799.2M — 7월 청산한 DownREIT 교환분 포함) + 일반 $0.3M; 우선주 태그는 2015에 멈춤 — Series E $43.2M은 nonop_extra 우선주로(2026-11-21)
+                  "0000879101": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"], "preferred": ["PreferredStockLiquidationPreferenceValue"]},   # KIM: 단기투자 태그 2010 낡음; 비지배지분 = 일반 $161.5M + 상환 가능(9월 말 0, 전년 말 $24.5M); 우선주 = 청산가치 $483.5M(Class L·M·N — PreferredStockValue는 액면 $19천)(2026-11-21)
                   "0001001250": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": [], "nci": []},   # EL: 현금은 제한 현금 포함 합계 태그로만($3,198M, 제한 현금 미미) — 현금 태그 2018, 단기투자 2019, 비지배 2022(0)에 멈춤(2026-11-09)
                   "0001489393": {"sti": []},   # LYB: 시장성 증권 $2,094M(MarketableSecuritiesCurrent)은 이미 현금및현금성자산 $3,227M 안에 있다(10-Q 주석 8) — 더하면 두 번(Codex r1, 2026-11-14)
                   "0000010456": {"sti": []},   # BAX: 단기투자는 2016-03의 낡은 값(2026-11-07)

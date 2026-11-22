@@ -514,7 +514,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="back-bar-right"><button id="theme-toggle" type="button" role="switch" aria-label="다크 모드" aria-checked="false"><span aria-hidden="true">☀</span><span aria-hidden="true">☾</span><span class="theme-knob"></span></button>
     <a class="back-bar-nav" href="SPG_full_widget.html">◀ SPG</a>
     <span class="back-bar-current">KIM · 시총 순</span>
-    <span class="back-bar-nav disabled">다음 ▶</span>
+    <a class="back-bar-nav" href="UDR_full_widget.html">다음 UDR ▶</a>
   </div>
 </div>
 
@@ -737,12 +737,12 @@ Chart.overrides.doughnut.animation = false;
     <div class="stat-box">
       <div class="stat-label">FCF (Q3 2026)</div>
       <div class="stat-value">$0.29B</div>
-      <div class="stat-sub">영업현금흐름 − 설비투자</div>
+      <div class="stat-sub">영업현금흐름 − 설비투자(기존 부동산 개량)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Capex (Q3 2026)</div>
       <div class="stat-value">$0.1B</div>
-      <div class="stat-sub">설비투자(현금흐름표)</div>
+      <div class="stat-sub">설비투자(기존 부동산 개량)(현금흐름표)</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">희석 EPS (Q3 2026)</div>
@@ -795,7 +795,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
       <div class="diag-row">
-        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">−$11.93</span><span class="diag-note" id="fundNetCashNote">순현금 −$7.9B ÷ 0.66B주 · 현금·단기투자 $0.5B − 차입금·리스 $8.5B</span></div>
+        <div class="diag-left"><span class="diag-label">Net Cash/주</span><span class="diag-value" id="fundNetCashPs">−$11.93</span><span class="diag-note" id="fundNetCashNote">순현금 −$7.9B ÷ 0.66B주 · 현금·단기투자 $0.5B − 차입금 $8.5B</span></div>
         <div class="diag-badge info">ℹ️ 참고</div>
       </div>
     </div>
@@ -974,7 +974,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">리츠 6곳 PER 비교 (점수는 S&amp;P500 부동산 기준) (SPG 값 없음) · 11/13 종가(KIM 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">리츠 6곳 PER 비교 (점수는 S&amp;P500 부동산 기준) · 11/13 종가(KIM 막대는 11/20)</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1069,7 +1069,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="bb-title bb-bear">🐻 Bear 요인</div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">매출</span><span class="bb-text">Q3 2026 매출 +1.9%(보고 기준, 3년 연평균 7.4%).</span></div>
       <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">내재가치</span><span class="bb-text">현금흐름 내재가치(기본)가 지금 이익률·성장 가정에서 0 이하로 나온다.</span></div>
-      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">순차입금(리스 포함) $7.9B, 최근 4분기 영업이익의 10.5배.</span></div>
+      <div class="bb-row bear"><span class="bb-icon">▼</span><span class="bb-head">부채</span><span class="bb-text">순차입금 $7.9B, 최근 4분기 영업이익의 10.5배.</span></div>
     </div>
   </div>
 
@@ -1168,14 +1168,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 2026 vs Q3 2025)',
     chart: { cur: [0.55, 0.19, 0.27, 0.29], cmp: [0.54, 0.18, 0.13, 0.24] },
     deltas: ['+1.9%', '+3.9%', '+109.2%', '+21.2%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/879101/000119312526436941/kim-ex99_1.htm" target="_blank" rel="noopener">Kimco Realty Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준(영업이익은 부동산 매각 이익 제외) · FCF는 영업현금흐름 − 설비투자(기존 부동산 개량) · <a href="https://www.sec.gov/Archives/edgar/data/879101/000119312526436941/kim-ex99_1.htm" target="_blank" rel="noopener">Kimco Realty Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
   },
   qoq: {
     curLabel: 'Q3 2026', cmpLabel: 'Q2 2026',
     titleSuffix: 'QoQ (Q3 2026 vs Q2 2026)',
     chart: { cur: [0.55, 0.19, 0.27, 0.29], cmp: [0.55, 0.19, 0.15, 0.24] },
     deltas: ['-0.8%', '-2.1%', '+86.9%', '+23.0%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/879101/000119312526436941/kim-ex99_1.htm" target="_blank" rel="noopener">Kimco Realty Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준(영업이익은 부동산 매각 이익 제외) · FCF는 영업현금흐름 − 설비투자(기존 부동산 개량) · <a href="https://www.sec.gov/Archives/edgar/data/879101/000119312526436941/kim-ex99_1.htm" target="_blank" rel="noopener">Kimco Realty Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
   }
 };
 
@@ -1287,54 +1287,56 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) (SPG 값 없음) · 11/13 종가(KIM 막대는 11/20)',
+    title: '리츠 6곳 PER 비교 (점수는 S&P500 부동산 기준) · 11/13 종가(KIM 막대는 11/20)',
     unit: 'PER', max: 125, kimValue: null,
     peers: [
       { name:'O', value:40.6, status:'reference' },
+      { name:'REG', value:25.6, status:'reference' },
+      { name:'FRT', value:22.8, status:'reference' },
       { name:'PLD', value:28.6, status:'reference' },
       { name:'WELL', value:106.3, status:'reference' },
-      { name:'DLR', value:88.2, status:'reference' },
-      { name:'AMT', value:27.0, status:'reference' }
+      { name:'PSA', value:34.9, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (SPG 값 없음) · 11/13 종가(KIM 막대는 11/20)',
-    unit: 'PBR', max: 30, kimValue: null,
+    title: 'PBR 비교 · 11/13 종가(KIM 막대는 11/20)',
+    unit: 'PBR', max: 10, kimValue: null,
     peers: [
       { name:'O', value:1.4, status:'reference' },
+      { name:'REG', value:2.1, status:'reference' },
+      { name:'FRT', value:2.9, status:'reference' },
       { name:'PLD', value:2.2, status:'reference' },
       { name:'WELL', value:3.7, status:'reference' },
-      { name:'DLR', value:2.5, status:'reference' },
-      { name:'AMT', value:25.3, status:'reference' }
+      { name:'PSA', value:6.3, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 (SPG 값 없음) · 11/13 종가(KIM 막대는 11/20)',
+    title: 'PSR 비교 · 11/13 종가(KIM 막대는 11/20)',
     unit: 'PSR(TTM)', max: 20, kimValue: null,
     peers: [
       { name:'O', value:9.0, status:'reference' },
+      { name:'REG', value:8.6, status:'reference' },
+      { name:'FRT', value:7.3, status:'reference' },
       { name:'PLD', value:13.1, status:'reference' },
       { name:'WELL', value:13.0, status:'reference' },
-      { name:'DLR', value:9.8, status:'reference' },
-      { name:'AMT', value:8.1, status:'reference' }
+      { name:'PSA', value:12.3, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (SPG 값 없음·O 값 없음·PLD 값 없음·DLR 값 없음) · 11/13 종가(KIM 막대는 11/20)',
+    title: 'PCR(FCF) 비교 (O 값 없음·REG 값 없음·FRT 값 없음·PLD 값 없음·PSA 값 없음) · 11/13 종가(KIM 막대는 11/20)',
     unit: 'PCR(FCF)', max: 100, kimValue: null,
     peers: [
-      { name:'WELL', value:86.2, status:'reference' },
-      { name:'AMT', value:22.4, status:'reference' }
+      { name:'WELL', value:86.2, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (SPG 값 없음·O 값 없음) · 11/13 종가(KIM 막대는 11/20)',
+    title: 'EV/EBITDA 비교 (O 값 없음·PSA 값 없음) · 11/13 종가(KIM 막대는 11/20)',
     unit: 'EV/EBITDA', max: 75, kimValue: null,
     peers: [
+      { name:'REG', value:12.1, status:'reference' },
+      { name:'FRT', value:14.3, status:'reference' },
       { name:'PLD', value:20.5, status:'reference' },
-      { name:'WELL', value:62.0, status:'reference' },
-      { name:'DLR', value:23.2, status:'reference' },
-      { name:'AMT', value:18.7, status:'reference' }
+      { name:'WELL', value:62.0, status:'reference' }
     ]
   }
 };
@@ -1732,7 +1734,7 @@ const KIM_FUNDAMENTAL = {"ticker": "KIM", "basis": "quarter", "asOf": "2026-09-3
     $('fundNetCashPs').textContent = N.perShare == null ? '—' : (N.perShare < 0 ? '−$' : '$') + Math.abs(N.perShare).toFixed(2);
     $('fundNetCashNote').textContent = `순현금 ${B(N.net)}` + (N.shares ? ` ÷ ${(N.shares / 1e9).toFixed(2)}B주` : ' (주식 수 자료 없음)') + ' · '
       + `현금·단기투자 ${B(N.cash + N.sti)}` + (N.lt_marketable ? ` + 장기 채권 ${B(N.lt_marketable)}` : '')
-      + ` − 차입금·리스 ${B(N.debt + N.lease)}`;
+      + ` − 차입금 ${B(N.debt + N.lease)}`;
   } else if (DCF_HOLD && $('fundNetCashPs')) {
     // 큰 재무상태표 항목이 200일 넘게 멈춰 DCF를 보류한 카드만(엔진 r7, 2026-10-26) — 정적 대체값(옛 순현금)이 남지 않게.
     // netCash null이 다른 뜻인 경우(은행 bank_fill '해당 없음')를 덮지 않도록 DCF의 보류 사유까지 본다(Codex)
