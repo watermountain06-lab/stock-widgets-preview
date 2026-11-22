@@ -968,7 +968,8 @@ def check_ocf_netting(cik):
 # EOG: 현금흐름표 "Additions to Oil and Gas Properties"(PaymentsToAcquireOilAndGasPropertyAndEquipment, 상반기 2026 $3,129M)
 #      + "Additions to Other Property, Plant and Equipment"(PaymentsToAcquireOtherPropertyPlantAndEquipment, $297M) = 설비투자 $3,426M.
 #      기본 목록 태그가 없어 설비투자가 비었다(2026-10-21).
-SUM_TAGS_BY_CIK = {"0000106535": {"PaymentsToAcquirePropertyPlantAndEquipment": ["CapexPpeWy", "PaymentsForCapitalImprovements"]},   # WY: 설비투자 = 설비(회사 고유 태그 wy:PaymentsForCapitalExpendituresOfPropertyPlantAndEquipment → cfg company_tags, 9개월 $350M) + 조림(9개월 $38M). 기본 태그는 2019에 멈춤(2026-11-22)
+SUM_TAGS_BY_CIK = {"0001070750": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets", "PaymentsForCapitalImprovements"]},   # HST: 설비투자 = 교체(renewals and replacements, 9개월 $218M) + 투자형 개보수(return on investment, $174M) — 기본 태그 PaymentsToAcquireProductiveAssets는 2019에 멈춤, 호텔 인수 제외(2026-11-22)
+                   "0000106535": {"PaymentsToAcquirePropertyPlantAndEquipment": ["CapexPpeWy", "PaymentsForCapitalImprovements"]},   # WY: 설비투자 = 설비(회사 고유 태그 wy:PaymentsForCapitalExpendituresOfPropertyPlantAndEquipment → cfg company_tags, 9개월 $350M) + 조림(9개월 $38M). 기본 태그는 2019에 멈춤(2026-11-22)
                    "0001037540": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements", "PaymentsForTenantImprovements"]},   # BXP: 설비투자 = 건물·개발 전 개량 + 임차인 개선(9개월 $84.7M + $289.9M — 공사 중 개발 $574.0M·인수 제외)(2026-11-21)
                    # AEP: 설비투자는 공사 지출(PaymentsForConstructionInProcess)만 — 발전소 인수 태그는 2023-12부터라 함께 합산하면 그 전 이력이 사라졌다(Codex·Fable r1, 2026-10-28)
                    "0000004904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForConstructionInProcess"]},
@@ -2260,7 +2261,8 @@ DEBT_NONCURRENT_ONLY = {"0001318605"}
 # 그 전 구간은 분기 가중평균 기본 주식 수로 채운다 — 기말 수와 1~2% 다를 수 있다(2026-10-01).
 # EL: 표지 주식 수를 A주·B주 종류별로만 내서 요약 데이터에 기말 주식 수가 없다 — 분기 가중평균 기본 주식 수로(CRWD 방식, 2026-11-09).
 SHARES_WA_FALLBACK = {"0001535527", "0001001250"}
-DEBT_TOTAL_TAG = {"0000106535": [("NotesAndLoansPayable", "LongTermDebtNoncurrent")],   # WY: 장기채 합계(유동성 포함, Q3 2026 $5,354M). 기본 경로는 비유동만 잡아 유동성 장기부채(2025-06 $900M 등)가 빠졌다. 2022-03~2023-09 분기는 합계 태그가 없어 비유동으로(2023-03·06은 유동성 $978M 빠짐, Fable r1 2026-11-22)
+DEBT_TOTAL_TAG = {"0001070750": ["DebtAndCapitalLeaseObligations"],   # HST: 선순위채 $3,992M + 신용한도·기간 대출 $999M + 담보·기타 $93M = 총차입금 $5,084M(Q3 2026 10-Q). 기본 경로는 연말 LongTermDebt·이자 대비 의심값 $1.27B를 잡았다(2026-11-22)
+                  "0000106535": [("NotesAndLoansPayable", "LongTermDebtNoncurrent")],   # WY: 장기채 합계(유동성 포함, Q3 2026 $5,354M). 기본 경로는 비유동만 잡아 유동성 장기부채(2025-06 $900M 등)가 빠졌다. 2022-03~2023-09 분기는 합계 태그가 없어 비유동으로(2023-03·06은 유동성 $978M 빠짐, Fable r1 2026-11-22)
                   "0000906345": ["LongTermDebt"],   # CPT: 무담보 $3,921.5M + 담보 $306.8M = LongTermDebt $4,228.3M — 기본 경로가 CommercialPaper 태그 $600M(프로그램 한도 값 — 9월 말 잔액 0)을 더했다(2026-11-21, Codex r1 정정)
                   "0001037540": ["SecuredDebt", "SeniorNotes", "ConvertibleDebt", "LineOfCredit", "OtherBorrowings", "CommercialPaper"],   # BXP: 담보 $4,309.8M + 선순위채 $9,506.1M + 교환사채 $979.9M + 신용한도 $247.0M + 기간 대출 $797.7M + CP $750.0M = $16,590.5M(Q3 2026 10-Q). 기본 태그는 CP $750M만 잡았다(2026-11-21)
                   "0000034903": ["SecuredDebt", "NotesPayable", ("UnsecuredDebt", "SeniorNotes")],   # FRT: 담보 $496.7M + 차입(기간 대출 등) $997.1M + 선순위채 $3,389.8M = $4,883.6M(Q3 2026 10-Q). LongTermDebt는 연말만, 선순위채는 2019 전 SeniorNotes(2026-11-21)
@@ -2638,7 +2640,8 @@ DEBT_TOTAL_TAG = {"0000106535": [("NotesAndLoansPayable", "LongTermDebtNoncurren
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000106535": {"sti": []},   # WY: 단기투자 태그 2023 낡음(2026-11-22)
+EV_TAGS_BY_CIK = {"0001070750": {"sti": [], "lease": ["OperatingLeaseLiability"], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"], "preferred": []},   # HST: 비지배 $4M + 상환 가능 OP 유닛 $211M; 우선주 태그는 2010 낡음; 운용리스 = 분기 합계 태그 $561M(유동·비유동 태그는 연말만 $563M, Codex r1)(2026-11-22)
+                  "0000106535": {"sti": []},   # WY: 단기투자 태그 2023 낡음(2026-11-22)
                   "0000765880": {"sti": [], "preferred": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # DOC: 비지배지분 = Janus Living 공모분 $1,270.5M + 합작 파트너 $1,283.5M + 유닛 $357.9M = $2,912.0M + 상환 가능 $27.4M; 우선주 태그 2011 낡음(2026-11-22)
                   "0001037540": {"sti": [], "nci": ["MinorityInterestInOperatingPartnerships", "MinorityInterestInLimitedPartnerships"]},   # BXP: 비지배지분 = 운영 파트너십 보통 유닛 $555.1M + 부동산 파트너십 $2,057.3M(2026-11-21)
                   "0000034903": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"], "preferred": ["PreferredSeriesCFrt", "PreferredSeries1Frt"]},   # FRT: 비지배 $68.0M + 상환 가능 $188.5M; 우선주 Series C $150M + 전환 Series 1 $9.8M(주식 종류 차원으로만 — cfg dim_facts)(2026-11-21)
