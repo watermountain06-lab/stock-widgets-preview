@@ -16916,6 +16916,49 @@
           "negative_equity"
         ]
       }
+    },
+    {
+      "ticker": "VICI",
+      "name": "VICI Properties",
+      "sector": "체험형 부동산 리츠",
+      "href": "VICI_full_widget.html",
+      "cardRank": 403,
+      "cardAsOf": "2026-11-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 24.2,
+        "prevClose": 24.19,
+        "session": "2026-11-20",
+        "prevSession": "2026-11-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 1101085584,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-27",
+        "filedAt": "2026-10-28",
+        "filing": "10-Q 0001705696-26-000120 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 69.4,
+        "grade": "양호",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-20",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }
