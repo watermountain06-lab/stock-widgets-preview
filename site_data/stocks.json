@@ -16531,6 +16531,49 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "BXP",
+      "name": "BXP",
+      "sector": "도심 프리미엄 오피스 리츠",
+      "href": "BXP_full_widget.html",
+      "cardRank": 394,
+      "cardAsOf": "2026-11-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 61.24,
+        "prevClose": 62.27,
+        "session": "2026-11-20",
+        "prevSession": "2026-11-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 159713264,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-06",
+        "filing": "10-Q 0001037540-26-000043 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 38.5,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-20",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }
