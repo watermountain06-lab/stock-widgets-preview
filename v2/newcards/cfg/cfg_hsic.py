@@ -73,8 +73,8 @@ NEWS = [
     ('neutral', '2026년 1월 12일 장 전 — 새 CEO 선임', '2026-01-12',
      'Thermo Fisher 출신 Fred Lowery를 3월 2일부터 CEO로 — Stanley Bergman 후임 — 그날 주가 −1.9%', 'ceo', 'Henry Schein 공시 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 15, 'mean': 98.2, 'median': 102, 'low': 64, 'high': 112, 'sb': 4, 'b': 4, 'h': 7, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 16, 'nt': 15, 'mean': 98.47, 'median': 102, 'low': 68, 'high': 112, 'sb': 4, 'b': 4, 'h': 7, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-11-21'
 
 
 # ── 자동 카드 — 부문 지도(seg_map_propose 뒤 원문 대조). 원문: Q3 2026 보도자료 1,806 + 1,138 + 391 + 181 − 45 = 3,471 ──

@@ -9,7 +9,7 @@ CUR, YO, QO = '2026-09-30', '2025-09-30', '2026-06-30'
 QLABEL, YL, QQL = 'Q3 2026', 'Q3 2025', 'Q2 2026'
 L8 = ['Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026']
 FY_ENDS, FY_LABEL = ('2025-12-31', '2024-12-31'), 'FY2025'
-VOTES, VERDICT = (1, 1, -2), '적정'
+VOTES, VERDICT = (1, 0, -2), '적정~고평가'
 CO = 'Norwegian Cruise Line'
 S_ = 'https://www.sec.gov/Archives/edgar/data/1513761/'
 SEC = S_
@@ -48,8 +48,8 @@ NEWS = [
     ('red', '2026년 3월 2일 장 전 — Q4 2025 실적', '2026-03-02',
      '매출 $2.24B(+6.4%) · 순이익 $14M · 희석 EPS $0.03(IT 상각 $95M 포함, 1년 전 $0.52) · FY2025 매출 $9.83B — 당일 주가 −10.5%', 'q4', 'Norwegian Cruise Line 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 18, 'mean': 18.78, 'median': 19, 'low': 13, 'high': 24, 'sb': 9, 'b': 1, 'h': 15, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 19, 'mean': 19.42, 'median': 19, 'low': 13, 'high': 32, 'sb': 9, 'b': 1, 'h': 15, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 
 # ── 자동 카드 — 부문(축 하나만 붙은 값). 원문 대조: Q3 2026 1,945.6/1,001.1(2026-11-04) ──

@@ -62,7 +62,7 @@ NEWS = [
      '4분기 매출 $9.75B · GAAP 희석 EPS $0.55(영업권 손상 등) · 조정 EPS $0.78 · 분기 배당 $0.295로 +3.5% · 2026년 주주환원 $4B 이상 약속 — 그날 주가 −0.3%', 'q4', 'SLB 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 30, 'nt': 19, 'mean': 62.05, 'median': 62, 'low': 48, 'high': 71, 'sb': 19, 'b': 7, 'h': 3, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-18'
+ANALYST_ASOF = '2026-11-21'
 
 AUTO = True
 SEG_MAP = {

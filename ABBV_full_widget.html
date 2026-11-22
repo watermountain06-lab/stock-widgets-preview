@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="abbvFundVerdict">해석 제한</span></div>
       <div class="logic-score" id="abbvFundScore">48.7<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral" id="abbvPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="abbvPeerVerdict">중간</span></div>
-      <div class="logic-score" id="abbvPeerScore">32.8<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-negative" id="abbvPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="abbvPeerVerdict">비싼 편</span></div>
+      <div class="logic-score" id="abbvPeerScore">29.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-negative" id="abbvSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="abbvSelfVerdict">비싼 편</span></div>
@@ -936,10 +936,10 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 3.27 ~ 6.58(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">32.8</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile low" data-vc="peer" data-m="psr">19</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">39</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">40</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">29.8</div><div class="sc-tile none" data-vc="peer" data-m="per">—</div><div class="sc-tile none" data-vc="peer" data-m="pbr">—</div><div class="sc-tile low" data-vc="peer" data-m="psr">19</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">34</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">36</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 31.3배(5년 중앙값 30.8배)로 자기 이력 20.3점(비싸다), 동종업 32.8점(중간)이다. <strong>현금흐름 내재가치(기본 $43.50)는 현재가의 15%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $43.50)는 현재가의 15%다. 현재가를 정당화하려면 영업이익률이 79.0%까지 올라야 한다(최근 4분기 32.2%, 5년 중앙값 26.2%). 내재가치에서 차입금 $80.9B를 빼고 현금·단기투자 $10.8B를 더한다.</div>
+    <div class="vs-premise">PER 31.3배(5년 중앙값 30.8배)로 자기 이력 20.3점(비싸다), 동종업 29.8점(비싸다)이다. <strong>현금흐름 내재가치(기본 $43.50)는 현재가의 15%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $43.50)는 현재가의 15%다. 현재가를 정당화하려면 영업이익률이 79.0%까지 올라야 한다(최근 4분기 32.2%, 5년 중앙값 26.2%). 내재가치에서 차입금 $80.9B를 빼고 현금·단기투자 $10.8B를 더한다.</div>
   </div>
 
   <div class="grid-2">
@@ -1008,7 +1008,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">대형 제약 PER 비교(ABBV 본업 기준 · 동종업 공시 EPS) · 11/13 종가(ABBV 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">대형 제약 PER 비교(ABBV 본업 기준 · 동종업 공시 EPS) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1023,7 +1023,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="card">
     <div class="card-title">종합 해석</div>
     <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $17.4B(+10.3%), 영업이익률 36.0%(1년 전 12.1%). 주가는 1년 새 +23%<span class="tag">배수 비싼 쪽·매출 성장 비슷</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 0 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $43.50)는 현재가의 15%다.</div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 −1 · 동종업 −1 · 현금흐름 −2, 합계 −4 “고평가”이다. 현금흐름 내재가치(기본 $43.50)는 현재가의 15%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 3일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1134,8 +1134,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 79.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 17.2%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 3.4%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
-        <span class="op-val"><span data-an="mean">$309.17</span> <span class="op-sub op-up" data-an="upside">+8.0%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-val"><span data-an="mean">$311.61</span> <span class="op-sub op-up" data-an="upside">+8.9%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1339,63 +1339,63 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '대형 제약 PER 비교(ABBV 본업 기준 · 동종업 공시 EPS) · 11/13 종가(ABBV 막대는 11/20)',
-    unit: 'PER', max: 180, abbvValue: null,
+    title: '대형 제약 PER 비교(ABBV 본업 기준 · 동종업 공시 EPS) · 11/20 종가',
+    unit: 'PER', max: 125, abbvValue: null,
     peers: [
-      { name:'LLY', value:46.9, status:'reference' },
-      { name:'JNJ', value:30.1, status:'reference' },
-      { name:'MRK', value:152.3, status:'reference' },
-      { name:'PFE', value:41.3, status:'reference' },
-      { name:'AMGN', value:27.0, status:'reference' },
-      { name:'BMY', value:14.0, status:'reference' }
+      { name:'LLY', value:45.2, status:'reference' },
+      { name:'JNJ', value:31.4, status:'reference' },
+      { name:'MRK', value:107.0, status:'reference' },
+      { name:'PFE', value:36.0, status:'reference' },
+      { name:'AMGN', value:27.1, status:'reference' },
+      { name:'BMY', value:12.9, status:'reference' }
     ]
   },
   pbr: {
-    title: '대형 제약 PBR 비교 · 11/13 종가(ABBV 막대는 11/20)',
-    unit: 'PBR', max: 40, abbvValue: null,
+    title: '대형 제약 PBR 비교 · 11/20 종가',
+    unit: 'PBR', max: 35, abbvValue: null,
     peers: [
-      { name:'LLY', value:31.9, status:'reference' },
-      { name:'JNJ', value:8.4, status:'reference' },
-      { name:'MRK', value:8.1, status:'reference' },
-      { name:'PFE', value:1.9, status:'reference' },
-      { name:'AMGN', value:17.6, status:'reference' },
-      { name:'BMY', value:5.5, status:'reference' }
+      { name:'LLY', value:29.8, status:'reference' },
+      { name:'JNJ', value:8.0, status:'reference' },
+      { name:'MRK', value:7.3, status:'reference' },
+      { name:'PFE', value:1.8, status:'reference' },
+      { name:'AMGN', value:16.4, status:'reference' },
+      { name:'BMY', value:5.2, status:'reference' }
     ]
   },
   psr: {
-    title: '대형 제약 PSR 비교 · 11/13 종가(ABBV 막대는 11/20)',
+    title: '대형 제약 PSR 비교 · 11/20 종가',
     unit: 'PSR(TTM)', max: 20, abbvValue: null,
     peers: [
-      { name:'LLY', value:14.9, status:'reference' },
-      { name:'JNJ', value:6.9, status:'reference' },
-      { name:'MRK', value:5.4, status:'reference' },
-      { name:'PFE', value:2.6, status:'reference' },
-      { name:'AMGN', value:6.5, status:'reference' },
-      { name:'BMY', value:2.6, status:'reference' }
+      { name:'LLY', value:13.9, status:'reference' },
+      { name:'JNJ', value:6.5, status:'reference' },
+      { name:'MRK', value:4.9, status:'reference' },
+      { name:'PFE', value:2.5, status:'reference' },
+      { name:'AMGN', value:6.1, status:'reference' },
+      { name:'BMY', value:2.4, status:'reference' }
     ]
   },
   pcr: {
-    title: '대형 제약 PCR(FCF) 비교 · 11/13 종가(ABBV 막대는 11/20)',
-    unit: 'PCR(FCF)', max: 80, abbvValue: null,
+    title: '대형 제약 PCR(FCF) 비교 · 11/20 종가',
+    unit: 'PCR(FCF)', max: 75, abbvValue: null,
     peers: [
-      { name:'LLY', value:65.4, status:'reference' },
-      { name:'JNJ', value:33.4, status:'reference' },
-      { name:'MRK', value:24.7, status:'reference' },
-      { name:'PFE', value:14.0, status:'reference' },
-      { name:'AMGN', value:26.3, status:'reference' },
-      { name:'BMY', value:14.0, status:'reference' }
+      { name:'LLY', value:61.0, status:'reference' },
+      { name:'JNJ', value:31.6, status:'reference' },
+      { name:'MRK', value:22.4, status:'reference' },
+      { name:'PFE', value:13.2, status:'reference' },
+      { name:'AMGN', value:24.6, status:'reference' },
+      { name:'BMY', value:12.9, status:'reference' }
     ]
   },
   evebitda: {
-    title: '대형 제약 EV/EBITDA 비교 · 11/13 종가(ABBV 막대는 11/20)',
-    unit: 'EV/EBITDA', max: 45, abbvValue: null,
+    title: '대형 제약 EV/EBITDA 비교 · 11/20 종가',
+    unit: 'EV/EBITDA', max: 40, abbvValue: null,
     peers: [
-      { name:'LLY', value:35.9, status:'reference' },
-      { name:'JNJ', value:21.8, status:'reference' },
-      { name:'MRK', value:31.9, status:'reference' },
-      { name:'PFE', value:10.6, status:'reference' },
-      { name:'AMGN', value:17.1, status:'reference' },
-      { name:'BMY', value:11.2, status:'reference' }
+      { name:'LLY', value:33.6, status:'reference' },
+      { name:'JNJ', value:20.7, status:'reference' },
+      { name:'MRK', value:29.2, status:'reference' },
+      { name:'PFE', value:10.2, status:'reference' },
+      { name:'AMGN', value:16.2, status:'reference' },
+      { name:'BMY', value:10.5, status:'reference' }
     ]
   }
 };
@@ -1525,7 +1525,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ABBV
 const ABBV_SCORES = {
   fundamental: 48.7,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 32.8,          // S&P500 헬스케어 대비 배수 순위(v2/peer_universe/health_care.json), 본업 PER은 비교에서 뺌
+  peer: 29.8,          // S&P500 헬스케어 대비 배수 순위(v2/peer_universe/health_care.json), 본업 PER은 비교에서 뺌
   selfHistory: 20.3,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1856,7 +1856,7 @@ const ABBV_FUNDAMENTAL = {"ticker": "ABBV", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py ABBV --self v2/ABBV_multiples.json --card
 /* VALUATION:BEGIN */
-const ABBV_VALUATION = {"peer": {"score": 32.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "psr", "score": 19.0, "rank": 48, "peers": 58}, {"metric": "pcr", "score": 39.3, "rank": 35, "peers": 56}, {"metric": "evebitda", "score": 40.0, "rank": 34, "peers": 55}]}, "self": {"score": 20.3, "window": ["2021-11-22", "2026-11-20"], "perBasis": "core", "metrics": [{"metric": "per", "score": 47.3, "percentile": 52.7, "current": 31.34, "min": 14.06, "median": 30.83, "max": 77.09, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": null, "percentile": 100.0, "current": null, "min": 14.94, "median": 20.26, "max": 242.84, "days": 926, "currentNote": "pbr_na"}, {"metric": "psr", "score": 2.1, "percentile": 97.9, "current": 7.66, "min": 3.69, "median": 5.49, "max": 8.09, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 2.2, "percentile": 97.8, "current": 26.81, "min": 9.4, "median": 13.81, "max": 28.62, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 29.8, "percentile": 70.2, "current": 19.9, "min": 10.8, "median": 16.53, "max": 27.69, "days": 1255, "currentNote": null}]}};
+const ABBV_VALUATION = {"peer": {"score": 29.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "psr", "score": 19.0, "rank": 48, "peers": 58}, {"metric": "pcr", "score": 33.9, "rank": 38, "peers": 56}, {"metric": "evebitda", "score": 36.4, "rank": 36, "peers": 55}]}, "self": {"score": 20.3, "window": ["2021-11-22", "2026-11-20"], "perBasis": "core", "metrics": [{"metric": "per", "score": 47.3, "percentile": 52.7, "current": 31.34, "min": 14.06, "median": 30.83, "max": 77.09, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": null, "percentile": 100.0, "current": null, "min": 14.94, "median": 20.26, "max": 242.84, "days": 926, "currentNote": "pbr_na"}, {"metric": "psr", "score": 2.1, "percentile": 97.9, "current": 7.66, "min": 3.69, "median": 5.49, "max": 8.09, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 2.2, "percentile": 97.8, "current": 26.81, "min": 9.4, "median": 13.81, "max": 28.62, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 29.8, "percentile": 70.2, "current": 19.9, "min": 10.8, "median": 16.53, "max": 27.69, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2154,8 +2154,8 @@ const ABBV_ACTIVITY = {"ticker": "ABBV", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/abbv/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ABBV_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 23, mean: 309.17, median: 315,
-  low: 230, high: 346, strongBuy: 16, buy: 7, hold: 5, sell: 1, strongSell: 0 };
+const ABBV_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 29, nTargets: 23, mean: 311.61, median: 319,
+  low: 230, high: 349, strongBuy: 16, buy: 7, hold: 5, sell: 1, strongSell: 0 };
 (function(){
   const A = ABBV_ANALYST, last = (typeof ABBV_DAILY !== 'undefined' && ABBV_DAILY.length) ? ABBV_DAILY[ABBV_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

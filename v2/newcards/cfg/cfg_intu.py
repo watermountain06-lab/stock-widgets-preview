@@ -66,8 +66,8 @@ NEWS = [
      '매출 $3.89B(+18%) · 희석 EPS $1.59(1년 전 $0.70) · 같은 8-K에 Adena Friedman·Bill McDermott 이사 선임(2026년 8월 1일부터)', 'q1', 'Intuit 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 34, 'nt': 24, 'mean': 385.04, 'median': 400, 'low': 290, 'high': 550, 'sb': 15, 'b': 5, 'h': 12, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 34, 'nt': 27, 'mean': 392.78, 'median': 385, 'low': 270, 'high': 700, 'sb': 15, 'b': 5, 'h': 12, 's': 1, 'ss': 1}
+ANALYST_ASOF = '2026-11-21'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(보고 부문 축 2개, 10-K 연간 − Q3 9개월). 원문 대조: 4분기 3,424/930(합 4,354 = 연결), 1년 전 3,013/818(2026-10-18) ──

@@ -53,8 +53,8 @@ NEWS = [
      '매출 $5.74B(+6%) · 희석 EPS $3.78(1년 전 $3.39)', 'q3', 'Trane Technologies 실적 보도자료 (SEC 8-K)'),
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
-ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 16, 'mean': 526.19, 'median': 540, 'low': 465, 'high': 565, 'sb': 14, 'b': 3, 'h': 9, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 15, 'mean': 524.6, 'median': 536, 'low': 465, 'high': 565, 'sb': 14, 'b': 3, 'h': 9, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 지역 축(StatementGeographicalAxis)이지만 값이 부문 주석과 같다:

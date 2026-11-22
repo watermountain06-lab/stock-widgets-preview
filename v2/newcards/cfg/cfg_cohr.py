@@ -60,8 +60,8 @@ NEWS = [
     ('green', '2025년 11월 5일 장 마감 뒤 — Q1 FY26 실적', '2025-11-06',
      '매출 $1.58B(+17%) · GAAP 희석 EPS $1.19(사업 매각 이익 $115M 포함) · 조정 EPS $1.16 — 다음 날 주가 +18.3%', 'q1p', 'Coherent 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Buy', 'n': 26, 'nt': 18, 'mean': 363.22, 'median': 380, 'low': 228, 'high': 500, 'sb': 17, 'b': 4, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Strong Buy', 'n': 27, 'nt': 18, 'mean': 363.22, 'median': 380, 'low': 228, 'high': 500, 'sb': 18, 'b': 5, 'h': 4, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 AUTO = True
 SEG_MAP = {

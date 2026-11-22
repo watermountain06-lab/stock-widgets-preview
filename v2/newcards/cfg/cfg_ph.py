@@ -10,7 +10,7 @@ CUR, YO, QO = '2026-06-30', '2025-06-30', '2026-03-31'
 QLABEL, YL, QQL = 'Q4 FY26', 'Q4 FY25', 'Q3 FY26'
 L8 = ['Q1 FY25', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26']
 RELEASE = {'rev': 5755, 'ni': 1092}   # 매출(보도자료 $5.8B, +9.8%), 순이익(연간 − 9개월, 보도자료 $1.1B)
-VOTES, VERDICT = (-1, 0, -2), '고평가'
+VOTES, VERDICT = (-1, -1, -2), '고평가'
 CO = 'Parker'
 S_ = 'https://www.sec.gov/Archives/edgar/data/76334/'
 SEC = S_
@@ -96,8 +96,8 @@ BULL = [('수주', '4분기 수주 +19%, 항공우주 수주잔고 $8.5B.'),
 BEAR = [('밸류에이션', '다섯 배수 모두 5년 중 비싼 쪽.'),
         ('인수 차입', 'Filtration Group $9.25B(기간 대출 $7.75B), CIRCOR 항공우주 인수 대기.'),
         ('경기', '산업재 수요 회복에 의존.')]
-ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 18, 'mean': 1150.39, 'median': 1200, 'low': 950, 'high': 1275, 'sb': 16, 'b': 2, 'h': 6, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 25, 'nt': 18, 'mean': 1151.06, 'median': 1200, 'low': 950, 'high': 1275, 'sb': 16, 'b': 2, 'h': 6, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 
 # ── 자동 카드(설계 D, 2026-10-11) — 분기마다 고치던 칸을 auto_card.py가 채운다. 부문 지도는 seg_map_propose2·3 제안(손 표와 숫자 일치 — 여러 축·나머지 줄) ──

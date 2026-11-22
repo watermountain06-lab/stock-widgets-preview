@@ -8,7 +8,7 @@ CUR, YO, QO = '2026-08-01', '2025-08-02', '2026-05-02'
 QLABEL, YL, QQL = 'Q2 FY27', 'Q2 FY26', 'Q1 FY27'
 L8 = ['Q3 FY25', 'Q4 FY25', 'Q1 FY26', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26', 'Q1 FY27', 'Q2 FY27']
 RELEASE = {'rev': 15180, 'op': 1987, 'ni': 1520, 'ocf': 2226, 'cap': 497}   # 영업이익 = 세전 2,018 − 순이자수익 31, 현금흐름은 상반기 − 1분기
-VOTES, VERDICT = (0, 0, -2), '적정~고평가'
+VOTES, VERDICT = (0, -1, -2), '고평가'
 CO = 'TJX'
 S_ = 'https://www.sec.gov/Archives/edgar/data/109198/'
 SEC = S_
@@ -88,8 +88,8 @@ BULL = [('꾸준한 성장', '네 분기 모두 기존점 +4~6%, 회사 계획 �
 BEAR = [('일회성 이익', '2분기 EPS의 $0.14가 관세 환급.'),
         ('주력 둔화', 'Marmaxx 기존점 +1%(1년 전 +3%).'),
         ('밸류에이션', '현금흐름 기본값이 현재가의 절반 정도.')]
-ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 17, 'mean': 166, 'median': 173, 'low': 130, 'high': 190, 'sb': 13, 'b': 5, 'h': 5, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Buy', 'n': 23, 'nt': 18, 'mean': 165.78, 'median': 173, 'low': 130, 'high': 190, 'sb': 13, 'b': 4, 'h': 6, 's': 0, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 PRE = ["FR = {r_['metric']: r_ for ax_ in FUND['axes'].values() for r_ in ax_['rows']}"]   # 기본적 분석 지표 행(값·점수)
 

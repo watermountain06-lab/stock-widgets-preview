@@ -968,7 +968,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">거래소·증권 6곳 PER 비교 (점수는 결제·거래소 기준) (HOOD 값 없음·SCHW 값 없음) · 11/13 종가(COIN 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">거래소·증권 6곳 PER 비교 (점수는 결제·거래소 기준) (HOOD 값 없음·SCHW 값 없음) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1063,13 +1063,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">37명 · 목표가 30</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">37명 · 목표가 31</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">24</span> · 유지 <span data-an="hold">10</span> · 매도 <span data-an="sell">3</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 64.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 27%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 8.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-19</span></span>
-        <span class="op-val"><span data-an="mean">$196.60</span> <span class="op-sub op-up" data-an="upside">+92.8%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-val"><span data-an="mean">$197.03</span> <span class="op-sub op-up" data-an="upside">+93.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1273,53 +1273,53 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '거래소·증권 6곳 PER 비교 (점수는 결제·거래소 기준) (HOOD 값 없음·SCHW 값 없음) · 11/13 종가(COIN 막대는 11/20)',
+    title: '거래소·증권 6곳 PER 비교 (점수는 결제·거래소 기준) (HOOD 값 없음·SCHW 값 없음) · 11/20 종가',
     unit: 'PER', max: 35, coinValue: null,
     peers: [
       { name:'CME', value:26.1, status:'reference' },
-      { name:'ICE', value:24.4, status:'reference' },
-      { name:'NDAQ', value:29.6, status:'reference' },
-      { name:'CBOE', value:29.3, status:'reference' }
+      { name:'ICE', value:24.0, status:'reference' },
+      { name:'NDAQ', value:28.1, status:'reference' },
+      { name:'CBOE', value:27.9, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (HOOD 값 없음·SCHW 값 없음) · 11/13 종가(COIN 막대는 11/20)',
+    title: 'PBR 비교 (HOOD 값 없음·SCHW 값 없음) · 11/20 종가',
     unit: 'PBR', max: 10, coinValue: null,
     peers: [
-      { name:'CME', value:4.3, status:'reference' },
-      { name:'ICE', value:3.3, status:'reference' },
-      { name:'NDAQ', value:5.0, status:'reference' },
-      { name:'CBOE', value:7.0, status:'reference' }
+      { name:'CME', value:4.2, status:'reference' },
+      { name:'ICE', value:3.2, status:'reference' },
+      { name:'NDAQ', value:4.8, status:'reference' },
+      { name:'CBOE', value:6.6, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 (HOOD 값 없음·SCHW 값 없음) · 11/13 종가(COIN 막대는 11/20)',
+    title: 'PSR 비교 (HOOD 값 없음·SCHW 값 없음) · 11/20 종가',
     unit: 'PSR(TTM)', max: 20, coinValue: null,
     peers: [
-      { name:'CME', value:16.4, status:'reference' },
-      { name:'ICE', value:7.1, status:'reference' },
-      { name:'NDAQ', value:6.5, status:'reference' },
-      { name:'CBOE', value:7.8, status:'reference' }
+      { name:'CME', value:15.9, status:'reference' },
+      { name:'ICE', value:6.8, status:'reference' },
+      { name:'NDAQ', value:6.2, status:'reference' },
+      { name:'CBOE', value:7.4, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (HOOD 값 없음·SCHW 값 없음) · 11/13 종가(COIN 막대는 11/20)',
-    unit: 'PCR(FCF)', max: 50, coinValue: null,
+    title: 'PCR(FCF) 비교 (HOOD 값 없음·SCHW 값 없음) · 11/20 종가',
+    unit: 'PCR(FCF)', max: 45, coinValue: null,
     peers: [
-      { name:'CME', value:26.4, status:'reference' },
-      { name:'ICE', value:18.9, status:'reference' },
-      { name:'NDAQ', value:26.7, status:'reference' },
-      { name:'CBOE', value:40.9, status:'reference' }
+      { name:'CME', value:25.5, status:'reference' },
+      { name:'ICE', value:18.0, status:'reference' },
+      { name:'NDAQ', value:25.3, status:'reference' },
+      { name:'CBOE', value:39.0, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (HOOD 값 없음·SCHW 값 없음) · 11/13 종가(COIN 막대는 11/20)',
+    title: 'EV/EBITDA 비교 (HOOD 값 없음·SCHW 값 없음) · 11/20 종가',
     unit: 'EV/EBITDA', max: 65, coinValue: null,
     peers: [
-      { name:'CME', value:23.5, status:'reference' },
-      { name:'ICE', value:16.8, status:'reference' },
-      { name:'NDAQ', value:20.2, status:'reference' },
-      { name:'CBOE', value:20.4, status:'reference' }
+      { name:'CME', value:22.7, status:'reference' },
+      { name:'ICE', value:16.2, status:'reference' },
+      { name:'NDAQ', value:19.3, status:'reference' },
+      { name:'CBOE', value:19.4, status:'reference' }
     ]
   }
 };
@@ -2059,7 +2059,7 @@ const COIN_ACTIVITY = {"ticker": "COIN", "status": "N/A", "reason": "거래소�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/coin/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const COIN_ANALYST = { asOf: '2026-11-19', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 37, nTargets: 30, mean: 196.6, median: 200,
+const COIN_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 37, nTargets: 31, mean: 197.03, median: 197,
   low: 100, high: 330, strongBuy: 19, buy: 5, hold: 10, sell: 1, strongSell: 2 };
 (function(){
   const A = COIN_ANALYST, last = (typeof COIN_DAILY !== 'undefined' && COIN_DAILY.length) ? COIN_DAILY[COIN_DAILY.length - 1] : null;

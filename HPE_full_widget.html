@@ -1076,13 +1076,13 @@ Chart.overrides.doughnut.animation = false;
     <div class="card-title">투자의견 요약</div>
     <div class="op-strip">
       <div class="op-cell">
-        <span class="op-label">애널리스트 <span data-an="n">24명 · 목표가 17</span>명</span>
+        <span class="op-label">애널리스트 <span data-an="n">24명 · 목표가 19</span>명</span>
         <span class="op-val"><span data-an="rating">Buy</span> <span class="op-sub">매수 <span data-an="buy">15</span> · 유지 <span data-an="hold">9</span> · 매도 <span data-an="sell">0</span></span></span>
         <div class="op-dist"><div data-an-bar="buy" style="width: 62.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 37.5%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
-        <span class="op-val"><span data-an="mean">$72.53</span> <span class="op-sub op-up" data-an="upside">+77.3%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-val"><span data-an="mean">$69.21</span> <span class="op-sub op-up" data-an="upside">+69.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -2090,8 +2090,8 @@ const HPE_ACTIVITY = {"ticker": "HPE", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/hpe/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const HPE_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 17, mean: 72.53, median: 70,
-  low: 62, high: 92, strongBuy: 10, buy: 5, hold: 9, sell: 0, strongSell: 0 };
+const HPE_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 19, mean: 69.21, median: 70,
+  low: 28, high: 88, strongBuy: 10, buy: 5, hold: 9, sell: 0, strongSell: 0 };
 (function(){
   const A = HPE_ANALYST, last = (typeof HPE_DAILY !== 'undefined' && HPE_DAILY.length) ? HPE_DAILY[HPE_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

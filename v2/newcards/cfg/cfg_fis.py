@@ -55,7 +55,7 @@ NEWS = [
      '1월 9일 Global Payments의 Issuer Solutions를 $13.5B(현금 $7.7B + Worldpay 지분)에 인수하고 Worldpay 지분 45%를 모두 넘김', 'deal', 'FIS 공시 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 30, 'nt': 21, 'mean': 36.1, 'median': 33, 'low': 30, 'high': 54, 'sb': 5, 'b': 2, 'h': 22, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-15'
+ANALYST_ASOF = '2026-11-21'
 
 
 POST = [r"""

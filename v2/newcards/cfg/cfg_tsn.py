@@ -55,8 +55,8 @@ NEWS = [
     ('neutral', '2026년 5월 28일 장 전 — 새 CEO 선임 발표', '2026-05-28',
      'Jeffrey K. Schomburger를 10월 4일자 CEO로 선임 — 그날 주가 −6.1%', 'ceo', 'Tyson 8-K'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 7, 'mean': 70.57, 'median': 72, 'low': 65, 'high': 75, 'sb': 2, 'b': 2, 'h': 8, 's': 1, 'ss': 0}
-ANALYST_ASOF = '2026-11-19'
+ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 10, 'mean': 69.6, 'median': 72, 'low': 60, 'high': 75, 'sb': 2, 'b': 2, 'h': 8, 's': 1, 'ss': 0}
+ANALYST_ASOF = '2026-11-21'
 
 ONEOFF_QUARTERS = {'2025-12-27': '주당 0.73 — 소송 충당·구조조정 등(조정 0.97 − GAAP 0.24)',
                    '2026-03-28': '주당 0.14(조정 0.87 − GAAP 0.73)',

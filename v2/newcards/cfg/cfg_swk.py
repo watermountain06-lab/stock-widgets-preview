@@ -59,7 +59,7 @@ NEWS = [
      '4분기 GAAP 희석 EPS $1.04 · 조정 EPS $1.41 · 4분기 FCF $883M(연간 $688M) · CAM 매각 계약($1.8B) 발표 뒤 첫 실적 — 그날 주가 +4.5%', 'q4', 'Stanley Black & Decker 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Hold', 'n': 15, 'nt': 8, 'mean': 111.38, 'median': 115, 'low': 96, 'high': 140, 'sb': 3, 'b': 0, 'h': 12, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-18'
+ANALYST_ASOF = '2026-11-21'
 
 AUTO = True
 SEG_MAP = {

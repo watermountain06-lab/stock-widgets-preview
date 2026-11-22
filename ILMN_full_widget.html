@@ -537,7 +537,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 1.2%)</span>
@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="ilmnFundVerdict">양호</span></div>
       <div class="logic-score" id="ilmnFundScore">66.5<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral" id="ilmnPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ilmnPeerVerdict">중간</span></div>
-      <div class="logic-score" id="ilmnPeerScore">31.5<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-negative" id="ilmnPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ilmnPeerVerdict">비싼 편</span></div>
+      <div class="logic-score" id="ilmnPeerScore">27.8<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="ilmnSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="ilmnSelfVerdict">중간</span></div>
@@ -924,17 +924,17 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$192.82</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.20</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.20</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 ILMN 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">47.9</div><div class="sc-tile lost" data-vc="self" data-m="per">57</div><div class="sc-tile low" data-vc="self" data-m="pbr">20</div><div class="sc-tile lost" data-vc="self" data-m="psr">37</div><div class="sc-tile lost" data-vc="self" data-m="pcr">69</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">56</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
       <div class="vs-name" title="회사가 앞으로 벌어들일 현금만으로 계산한 주당 가치(기본 시나리오).">현금흐름 (내재가치)</div><div class="vs-val" data-vs="dcf">$49</div><div class="vs-note">현재가 <span data-vs="price">$192.82</span> 대비 <strong data-vs="upside">−74.4%</strong> · 기본 시나리오</div><div class="vs-pill-wrap"><div class="vs-pill high" data-vs-pill="dcf" title="현재가 ÷ 기본 내재가치 = 3.91
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">31.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">39</div><div class="sc-tile low" data-vc="peer" data-m="pbr">20</div><div class="sc-tile low" data-vc="peer" data-m="psr">27</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">39</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">32</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 헬스케어 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">27.8</div><div class="sc-tile lost" data-vc="peer" data-m="per">38</div><div class="sc-tile low" data-vc="peer" data-m="pbr">17</div><div class="sc-tile low" data-vc="peer" data-m="psr">25</div><div class="sc-tile low" data-vc="peer" data-m="pcr">28</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">30</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 33.2배(2.0년 중앙값 35.6배)로 자기 이력 47.9점(중간), 동종업 31.5점(중간)이다. <strong>현금흐름 내재가치(기본 $49.27)는 현재가의 26%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $49.27)는 현재가의 26%다. 현재가를 정당화하려면 영업이익률이 61.7%까지 올라야 한다(최근 4분기 21.2%, 5년 중앙값 −15.9%). 내재가치에서 차입금 $1.8B를 빼고 현금·단기투자 $1.3B를 더한다. 최근 4분기 GAAP 희석 EPS $5.81에는 일회성이 양쪽으로 섞여 있다. 이익 쪽은 2025년 4분기 전략 투자 이익(주당 $1.25 — 실현·미실현 손익), 2026년 3분기 관세 환급(세후 $0.18), 인수 관련 조건부 대가 이익 등 세전 약 $291M(EPS의 약 32%; 세후는 항목별 세금이 공시되지 않아 추정으로 약 30%)이고, 비용 쪽은 투자 손실·ERP 전환·인수 비용·재고 평가증 상각·법적 합의 등 약 $176M(약 20%)이다. 상계한 순액이 세전 약 13%(세후 추정 13~16%)이고 비용만으로도 30%가 안 돼 정식으로 판정한다(이익만 30% 안팎인 경우는 순액 기준 — 2026-11-13 사용자 결정). 4분기 투자 이익이 최근 4분기에서 빠지는 2026년 4분기 실적(2027년 2월 초 예상, 1월 중순 예비 실적 가능) 전까지는 PER이 낮게(싸게) 나온다 — GAAP 기준 36.1배, 회사 조정 EPS(최근 4분기 $5.25, 관세 환급 제외) 기준으로는 약 40배다. 본업은 다시 자라고 있다 — 3분기 매출 $1.13B(+4.2%, 관세 환급 고객 몫 $37M 차감 전 $1.17B; 회사 기준 유기 성장 4.8%, SomaLogic 인수 기여 약 2.4%p). 소모품 $841M(+3%, 환급 차감 $30M 뒤), 장비 $105M(−5%, 환급 차감 $4M 빼면 보합), 서비스·기타 $183M(+17%, 주로 SomaLogic). 임상 수요와 NovaSeq X 설치가 이끌었고 중화권 매출은 $59M로 작다. 2026년 전망을 올려 왔다(매출 $4.5~4.6B → $4.64~4.66B, 조정 EPS $5.05~5.20 → $5.40~5.45, 관세 환급 제외). 2026년 1월 SomaLogic(단백질 분석)을 인수했고, 4월 자사주 매입 한도 $1.5B를 추가했다. 현금흐름 내재가치는 보수 시나리오가 5년 중앙 영업이익률 −15.9%를 쓰는데, 이는 GRAIL을 연결하던 시기(2021년 인수 비용·영업손실, 2022~2024년 대규모 손상, 2024년 EC 과징금 환입)가 섞인 값이다(GRAIL은 2024년 6월 분사). 현재 최근 4분기에는 GRAIL 영업실적이 없지만, 기본 시나리오가 쓰는 최근 2년 이익률의 초기 값에는 분사 전 분기가 일부 남아 있다. 판정을 가르는 기본 시나리오는 최근 2년 중앙 19.0%를 쓰며, 매출 성장이 지난 5년 연 1.2%로 낮아 영구성장률 2.5%로 두고도 $49에 그친다 — 지금 가격은 이익률이 크게 오르거나 성장이 빨라져야 정당화된다. 차입금은 $1.79B(9월 말), 현금·단기투자 $1.34B. 주가는 2월 12일 종가 $114.44에서 10월 5일 종가 $293.69까지 올랐다가 3분기 실적 다음 날 −18.6%로 떨어져 11월 12일 $209.55다.</div>
+    <div class="vs-premise">PER 33.2배(2.0년 중앙값 35.6배)로 자기 이력 47.9점(중간), 동종업 27.8점(비싸다)이다. <strong>현금흐름 내재가치(기본 $49.27)는 현재가의 26%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $49.27)는 현재가의 26%다. 현재가를 정당화하려면 영업이익률이 61.7%까지 올라야 한다(최근 4분기 21.2%, 5년 중앙값 −15.9%). 내재가치에서 차입금 $1.8B를 빼고 현금·단기투자 $1.3B를 더한다. 최근 4분기 GAAP 희석 EPS $5.81에는 일회성이 양쪽으로 섞여 있다. 이익 쪽은 2025년 4분기 전략 투자 이익(주당 $1.25 — 실현·미실현 손익), 2026년 3분기 관세 환급(세후 $0.18), 인수 관련 조건부 대가 이익 등 세전 약 $291M(EPS의 약 32%; 세후는 항목별 세금이 공시되지 않아 추정으로 약 30%)이고, 비용 쪽은 투자 손실·ERP 전환·인수 비용·재고 평가증 상각·법적 합의 등 약 $176M(약 20%)이다. 상계한 순액이 세전 약 13%(세후 추정 13~16%)이고 비용만으로도 30%가 안 돼 정식으로 판정한다(이익만 30% 안팎인 경우는 순액 기준 — 2026-11-13 사용자 결정). 4분기 투자 이익이 최근 4분기에서 빠지는 2026년 4분기 실적(2027년 2월 초 예상, 1월 중순 예비 실적 가능) 전까지는 PER이 낮게(싸게) 나온다 — GAAP 기준 36.1배, 회사 조정 EPS(최근 4분기 $5.25, 관세 환급 제외) 기준으로는 약 40배다. 본업은 다시 자라고 있다 — 3분기 매출 $1.13B(+4.2%, 관세 환급 고객 몫 $37M 차감 전 $1.17B; 회사 기준 유기 성장 4.8%, SomaLogic 인수 기여 약 2.4%p). 소모품 $841M(+3%, 환급 차감 $30M 뒤), 장비 $105M(−5%, 환급 차감 $4M 빼면 보합), 서비스·기타 $183M(+17%, 주로 SomaLogic). 임상 수요와 NovaSeq X 설치가 이끌었고 중화권 매출은 $59M로 작다. 2026년 전망을 올려 왔다(매출 $4.5~4.6B → $4.64~4.66B, 조정 EPS $5.05~5.20 → $5.40~5.45, 관세 환급 제외). 2026년 1월 SomaLogic(단백질 분석)을 인수했고, 4월 자사주 매입 한도 $1.5B를 추가했다. 현금흐름 내재가치는 보수 시나리오가 5년 중앙 영업이익률 −15.9%를 쓰는데, 이는 GRAIL을 연결하던 시기(2021년 인수 비용·영업손실, 2022~2024년 대규모 손상, 2024년 EC 과징금 환입)가 섞인 값이다(GRAIL은 2024년 6월 분사). 현재 최근 4분기에는 GRAIL 영업실적이 없지만, 기본 시나리오가 쓰는 최근 2년 이익률의 초기 값에는 분사 전 분기가 일부 남아 있다. 판정을 가르는 기본 시나리오는 최근 2년 중앙 19.0%를 쓰며, 매출 성장이 지난 5년 연 1.2%로 낮아 영구성장률 2.5%로 두고도 $49에 그친다 — 지금 가격은 이익률이 크게 오르거나 성장이 빨라져야 정당화된다. 차입금은 $1.79B(9월 말), 현금·단기투자 $1.34B. 주가는 2월 12일 종가 $114.44에서 10월 5일 종가 $293.69까지 올랐다가 3분기 실적 다음 날 −18.6%로 떨어져 11월 12일 $209.55다.</div>
   </div>
 
   <div class="grid-2">
@@ -1003,7 +1003,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">생명과학 도구 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) (WAT 값 없음) · 11/13 종가(ILMN 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">생명과학 도구 6곳 PER 비교 (점수는 S&amp;P500 헬스케어 기준) (WAT 값 없음) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1017,8 +1017,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $1.1B(+4.2%), 영업이익률 27.0%(1년 전 20.9%). 주가는 1년 새 +61%<span class="tag">배수 중간·매출 성장(인수 포함)</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $49.27)는 현재가의 26%다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $1.1B(+4.2%), 영업이익률 27.0%(1년 전 20.9%). 주가는 1년 새 +61%<span class="tag">배수 비싼 쪽·매출 성장(인수 포함)</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $49.27)는 현재가의 26%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 2월 초 무렵 (예상) Q4 2026 실적 공시(1월 중순 예비 실적 가능).</div>
   </div>
 
@@ -1109,8 +1109,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 47.6%; background: var(--green);"></div><div data-an-bar="hold" style="width: 33.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 19%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
-        <span class="op-val"><span data-an="mean">$251.89</span> <span class="op-sub op-up" data-an="upside">+30.6%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-val"><span data-an="mean">$256.89</span> <span class="op-sub op-up" data-an="upside">+33.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1314,62 +1314,62 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '생명과학 도구 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (WAT 값 없음) · 11/13 종가(ILMN 막대는 11/20)',
-    unit: 'PER', max: 80, ilmnValue: null,
+    title: '생명과학 도구 6곳 PER 비교 (점수는 S&P500 헬스케어 기준) (WAT 값 없음) · 11/20 종가',
+    unit: 'PER', max: 85, ilmnValue: null,
     peers: [
-      { name:'TMO', value:36.9, status:'reference' },
-      { name:'DHR', value:38.5, status:'reference' },
-      { name:'A', value:34.2, status:'reference' },
-      { name:'MTD', value:37.7, status:'reference' },
-      { name:'RVTY', value:68.9, status:'reference' }
+      { name:'TMO', value:36.0, status:'reference' },
+      { name:'DHR', value:39.2, status:'reference' },
+      { name:'A', value:33.5, status:'reference' },
+      { name:'MTD', value:37.6, status:'reference' },
+      { name:'RVTY', value:69.8, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 · 11/13 종가(ILMN 막대는 11/20)',
-    unit: 'PBR', max: 515, ilmnValue: null,
+    title: 'PBR 비교 · 11/20 종가',
+    unit: 'PBR', max: 495, ilmnValue: null,
     peers: [
-      { name:'TMO', value:4.7, status:'reference' },
-      { name:'DHR', value:3.1, status:'reference' },
-      { name:'A', value:6.7, status:'reference' },
-      { name:'WAT', value:3.0, status:'reference' },
-      { name:'MTD', value:445.4, status:'reference' },
-      { name:'RVTY', value:2.4, status:'reference' }
+      { name:'TMO', value:4.5, status:'reference' },
+      { name:'DHR', value:2.9, status:'reference' },
+      { name:'A', value:6.5, status:'reference' },
+      { name:'WAT', value:2.8, status:'reference' },
+      { name:'MTD', value:426.9, status:'reference' },
+      { name:'RVTY', value:2.2, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 · 11/13 종가(ILMN 막대는 11/20)',
+    title: 'PSR 비교 · 11/20 종가',
     unit: 'PSR(TTM)', max: 10, ilmnValue: null,
     peers: [
-      { name:'TMO', value:5.5, status:'reference' },
-      { name:'DHR', value:6.4, status:'reference' },
-      { name:'A', value:6.7, status:'reference' },
-      { name:'WAT', value:8.1, status:'reference' },
-      { name:'MTD', value:8.2, status:'reference' },
-      { name:'RVTY', value:5.9, status:'reference' }
+      { name:'TMO', value:5.2, status:'reference' },
+      { name:'DHR', value:6.0, status:'reference' },
+      { name:'A', value:6.5, status:'reference' },
+      { name:'WAT', value:7.7, status:'reference' },
+      { name:'MTD', value:7.9, status:'reference' },
+      { name:'RVTY', value:5.5, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 · 11/13 종가(ILMN 막대는 11/20)',
-    unit: 'PCR(FCF)', max: 180, ilmnValue: null,
+    title: 'PCR(FCF) 비교 · 11/20 종가',
+    unit: 'PCR(FCF)', max: 175, ilmnValue: null,
     peers: [
-      { name:'TMO', value:34.2, status:'reference' },
-      { name:'DHR', value:28.6, status:'reference' },
-      { name:'A', value:38.7, status:'reference' },
-      { name:'WAT', value:155.6, status:'reference' },
-      { name:'MTD', value:39.7, status:'reference' },
-      { name:'RVTY', value:28.7, status:'reference' }
+      { name:'TMO', value:32.7, status:'reference' },
+      { name:'DHR', value:27.1, status:'reference' },
+      { name:'A', value:37.9, status:'reference' },
+      { name:'WAT', value:148.9, status:'reference' },
+      { name:'MTD', value:38.1, status:'reference' },
+      { name:'RVTY', value:27.0, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 · 11/13 종가(ILMN 막대는 11/20)',
-    unit: 'EV/EBITDA', max: 55, ilmnValue: null,
+    title: 'EV/EBITDA 비교 · 11/20 종가',
+    unit: 'EV/EBITDA', max: 50, ilmnValue: null,
     peers: [
-      { name:'TMO', value:25.5, status:'reference' },
-      { name:'DHR', value:23.5, status:'reference' },
-      { name:'A', value:26.8, status:'reference' },
-      { name:'WAT', value:43.6, status:'reference' },
-      { name:'MTD', value:27.6, status:'reference' },
-      { name:'RVTY', value:24.6, status:'reference' }
+      { name:'TMO', value:24.5, status:'reference' },
+      { name:'DHR', value:22.4, status:'reference' },
+      { name:'A', value:26.3, status:'reference' },
+      { name:'WAT', value:41.9, status:'reference' },
+      { name:'MTD', value:26.5, status:'reference' },
+      { name:'RVTY', value:23.2, status:'reference' }
     ]
   }
 };
@@ -1499,7 +1499,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py ILMN
 const ILMN_SCORES = {
   fundamental: 66.5,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 31.5,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
+  peer: 27.8,          // S&P500 헬스케어 대비 배수 순위 (v2/peer_universe/health_care.json)
   selfHistory: 47.9,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-27",   // Q3 2026 10-Q
@@ -1830,7 +1830,7 @@ const ILMN_FUNDAMENTAL = {"ticker": "ILMN", "basis": "quarter", "asOf": "2026-09
 //
 // 갱신: python3 v2/build_peer_score.py ILMN --self v2/ILMN_multiples.json --card
 /* VALUATION:BEGIN */
-const ILMN_VALUATION = {"peer": {"score": 31.5, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 39.2, "rank": 32, "peers": 51}, {"metric": "pbr", "score": 20.4, "rank": 44, "peers": 54}, {"metric": "psr", "score": 27.1, "rank": 44, "peers": 59}, {"metric": "pcr", "score": 38.6, "rank": 36, "peers": 57}, {"metric": "evebitda", "score": 32.1, "rank": 39, "peers": 56}]}, "self": {"score": 47.9, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 56.7, "percentile": 43.3, "current": 33.19, "min": 11.53, "median": 35.62, "max": 71.03, "days": 510, "currentNote": null}, {"metric": "pbr", "score": 20.1, "percentile": 79.9, "current": 9.27, "min": 2.31, "median": 5.16, "max": 17.19, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 37.2, "percentile": 62.8, "current": 6.42, "min": 2.55, "median": 5.16, "max": 15.06, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.4, "percentile": 30.6, "current": 27.58, "min": 13.57, "median": 50.4, "max": 685.23, "days": 1123, "currentNote": null}, {"metric": "evebitda", "score": 56.1, "percentile": 43.9, "current": 23.93, "min": 9.42, "median": 26.4, "max": 441.32, "days": 510, "currentNote": null}]}};
+const ILMN_VALUATION = {"peer": {"score": 27.8, "sector": "Health Care (S&P500 59종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 38.3, "rank": 30, "peers": 47}, {"metric": "pbr", "score": 16.7, "rank": 46, "peers": 54}, {"metric": "psr", "score": 25.4, "rank": 45, "peers": 59}, {"metric": "pcr", "score": 28.1, "rank": 42, "peers": 57}, {"metric": "evebitda", "score": 30.4, "rank": 40, "peers": 56}]}, "self": {"score": 47.9, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 56.7, "percentile": 43.3, "current": 33.19, "min": 11.53, "median": 35.62, "max": 71.03, "days": 510, "currentNote": null}, {"metric": "pbr", "score": 20.1, "percentile": 79.9, "current": 9.27, "min": 2.31, "median": 5.16, "max": 17.19, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 37.2, "percentile": 62.8, "current": 6.42, "min": 2.55, "median": 5.16, "max": 15.06, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 69.4, "percentile": 30.6, "current": 27.58, "min": 13.57, "median": 50.4, "max": 685.23, "days": 1123, "currentNote": null}, {"metric": "evebitda", "score": 56.1, "percentile": 43.9, "current": 23.93, "min": 9.42, "median": 26.4, "max": 441.32, "days": 510, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2119,7 +2119,7 @@ const ILMN_ACTIVITY = {"ticker": "ILMN", "status": "ok", "asOf": "2026-09-27", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ilmn/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ILMN_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 21, nTargets: 19, mean: 251.89, median: 270,
+const ILMN_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 21, nTargets: 19, mean: 256.89, median: 270,
   low: 150, high: 310, strongBuy: 6, buy: 4, hold: 7, sell: 3, strongSell: 1 };
 (function(){
   const A = ILMN_ANALYST, last = (typeof ILMN_DAILY !== 'undefined' && ILMN_DAILY.length) ? ILMN_DAILY[ILMN_DAILY.length - 1] : null;

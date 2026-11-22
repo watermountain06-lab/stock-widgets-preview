@@ -60,8 +60,8 @@ NEWS = [
     ('green', '2026년 2월 4일 장 전 — Q2 FY26 실적', '2026-02-04',
      '매출 $295.9M(0%) · 순이익 $38M · 희석 EPS $0.24(1년 전 $0.22) · 조정 EPS $0.46 — 그날 주가 +6.3%', 'q2', 'Bio-Techne 실적 보도자료 (SEC 8-K)'),
 ]
-ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 9, 'mean': 70.89, 'median': 73, 'low': 62, 'high': 73, 'sb': 0, 'b': 0, 'h': 12, 's': 0, 'ss': 1}
-ANALYST_ASOF = '2026-11-15'
+ANALYST = {'rating': 'Hold', 'n': 13, 'nt': 10, 'mean': 71.1, 'median': 73, 'low': 62, 'high': 73, 'sb': 0, 'b': 0, 'h': 12, 's': 0, 'ss': 1}
+ANALYST_ASOF = '2026-11-21'
 BB_NONE = {'2026-09-30': '없음($0) — 합병 계약상 Merck KGaA 동의 없이 매입 불가(10-Q)'}   # Q1 FY27 10-Q 현금흐름표 매입 줄 —, Part II 매입 표 7~9월 0(Codex r1)
 
 # 미완성 카드 표시(2026-11-03 사용자 결정, D·SRE 방식 — 현금 인수 대상).

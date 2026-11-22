@@ -1,21 +1,22 @@
 {
  "ticker": "GPN",
  "window": [
-  "2025-11-14",
-  "2026-11-13"
+  "2025-11-21",
+  "2026-11-20"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 40.66,
+   "current": 40.63,
    "min": 11.96,
-   "p10": 13.19,
-   "median": 24.65,
+   "p10": 13.44,
+   "median": 25.03,
    "p90": 39.99,
    "max": 44.95,
-   "mean": 24.69,
-   "percentile": 92.0,
+   "mean": 25.2,
+   "percentile": 91.6,
    "score": null,
+   "eps": 2.26,
    "currentNote": "per_na"
   },
   "PSR": {
@@ -27,45 +28,45 @@
    "p90": 2.48,
    "max": 2.78,
    "mean": 2.23,
-   "percentile": 27.9,
-   "score": 72.1
+   "percentile": 27.5,
+   "score": 72.5
   },
   "PBR": {
    "days": 251,
    "current": 1.05,
    "min": 0.7,
-   "p10": 0.76,
-   "median": 0.86,
+   "p10": 0.77,
+   "median": 0.87,
    "p90": 1.03,
    "max": 1.16,
-   "mean": 0.88,
-   "percentile": 91.6,
-   "score": 8.4
+   "mean": 0.89,
+   "percentile": 90.4,
+   "score": 9.6
   },
   "PCR": {
-   "days": 244,
+   "days": 239,
    "current": null,
    "min": 7.36,
-   "p10": 8.11,
-   "median": 16.6,
-   "p90": 28.48,
+   "p10": 8.26,
+   "median": 16.87,
+   "p90": 28.51,
    "max": 32.04,
-   "mean": 16.53,
+   "mean": 16.71,
    "percentile": 100.0,
    "score": 0.0,
    "currentNote": "negative"
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 11.32,
+   "current": 11.31,
    "min": 7.28,
-   "p10": 7.69,
-   "median": 10.89,
+   "p10": 7.77,
+   "median": 10.9,
    "p90": 12.01,
    "max": 13.16,
-   "mean": 10.32,
-   "percentile": 68.1,
-   "score": 31.9
+   "mean": 10.39,
+   "percentile": 67.3,
+   "score": 32.7
   }
  },
  "perBasis": "diluted",

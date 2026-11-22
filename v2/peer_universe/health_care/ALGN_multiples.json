@@ -1,79 +1,80 @@
 {
  "ticker": "ALGN",
  "window": [
-  "2025-11-14",
-  "2026-11-13"
+  "2025-11-21",
+  "2026-11-20"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 29.32,
+   "current": 27.03,
    "min": 24.37,
-   "p10": 26.02,
+   "p10": 26.21,
    "median": 29.86,
    "p90": 33.17,
    "max": 38.2,
-   "mean": 29.73,
-   "percentile": 43.4,
-   "score": 56.6
+   "mean": 29.78,
+   "percentile": 17.9,
+   "score": 82.1,
+   "eps": 5.74
   },
   "PSR": {
    "days": 251,
-   "current": 2.85,
-   "min": 2.38,
-   "p10": 2.56,
+   "current": 2.63,
+   "min": 2.4,
+   "p10": 2.58,
    "median": 2.95,
    "p90": 3.26,
    "max": 3.56,
    "mean": 2.93,
-   "percentile": 35.9,
-   "score": 64.1
+   "percentile": 14.3,
+   "score": 85.7
   },
   "PBR": {
    "days": 251,
-   "current": 2.76,
+   "current": 2.54,
    "min": 2.35,
-   "p10": 2.5,
+   "p10": 2.53,
    "median": 2.93,
    "p90": 3.25,
    "max": 3.58,
-   "mean": 2.9,
-   "percentile": 29.1,
-   "score": 70.9
+   "mean": 2.91,
+   "percentile": 11.2,
+   "score": 88.8
   },
   "PCR": {
    "days": 251,
-   "current": 19.69,
+   "current": 18.15,
    "min": 15.68,
-   "p10": 16.81,
+   "p10": 16.88,
    "median": 20.66,
    "p90": 25.56,
    "max": 28.47,
-   "mean": 20.92,
-   "percentile": 32.3,
-   "score": 67.7
+   "mean": 20.96,
+   "percentile": 21.1,
+   "score": 78.9
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 12.49,
+   "current": 11.41,
    "min": 11.01,
-   "p10": 11.95,
+   "p10": 11.89,
    "median": 14.11,
    "p90": 15.86,
    "max": 18.59,
-   "mean": 14.0,
-   "percentile": 20.7,
-   "score": 79.3
+   "mean": 13.99,
+   "percentile": 3.6,
+   "score": 96.4
   }
  },
  "perBasis": "diluted",
  "perNA": null,
  "fairBand": {
-  "per_p25": 27.68,
+  "per_p25": 27.77,
   "per_p75": 31.34,
   "low": 160,
   "high": 180,
-  "asOf": "2026-11-13",
+  "asOf": "2026-11-20",
   "basis": "diluted"
  }
 }

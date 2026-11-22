@@ -537,7 +537,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="header-meta" style="grid-template-columns:repeat(4,1fr);">
     <div class="meta-item">
       <span class="meta-label">종합 평가 (밸류에이션)</span>
-      <span class="meta-value" data-verdict style="font-size:22px;color:var(--gold);">적정~고평가</span>
+      <span class="meta-value" data-verdict style="font-size:22px;color:var(--red);">고평가</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">현재가 요구 성장 (5년 · 실제 5년 연 4.1%)</span>
@@ -569,9 +569,9 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-head"><span class="logic-tag">기본적 분석 <span class="logic-denom">재무제표</span></span><span class="logic-verdict" id="chdFundVerdict">보통</span></div>
       <div class="logic-score" id="chdFundScore">54.1<span class="logic-denom">/100</span></div>
     </div>
-    <div class="logic-box logic-neutral" id="chdPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="chdPeerVerdict">중간</span></div>
-      <div class="logic-score" id="chdPeerScore">32.2<span class="logic-denom">/100</span></div>
+    <div class="logic-box logic-negative" id="chdPeerBox">
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="chdPeerVerdict">비싼 편</span></div>
+      <div class="logic-score" id="chdPeerScore">29.6<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="chdSelfBox">
       <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="chdSelfVerdict">중간</span></div>
@@ -924,7 +924,7 @@ Chart.overrides.doughnut.animation = false;
   <div class="section-title">밸류에이션 (Valuation Multiples) — 현재가 <span data-vs="price">$110.84</span></div>
 
   <div class="card val-summary">
-    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>적정~고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.20</span> 종가 기준</span></div>
+    <div class="vs-head"><span class="vs-head-l">종합 밸류에이션</span><span class="vs-verdict" data-verdict>고평가</span><span class="vs-asof"><span data-vs="asof">2026.11.20</span> 종가 기준</span></div>
     <div class="vs-table-wrap"><div class="vs-table" id="valComp">
       <div></div><div></div><div class="vc-head">PER</div><div class="vc-head">PBR</div><div class="vc-head">PSR</div><div class="vc-head">PCR</div><div class="vc-head">EV/EBITDA</div><div></div>
       <div class="vs-name" title="지난 5년 CHD 자신의 배수보다 지금이 얼마나 낮은가. 높을수록 싸다.">자기 이력 대비</div><div class="vs-val" data-vc-score="self">52.5</div><div class="sc-tile lost" data-vc="self" data-m="per">44</div><div class="sc-tile lost" data-vc="self" data-m="pbr">52</div><div class="sc-tile lost" data-vc="self" data-m="psr">36</div><div class="sc-tile" data-vc="self" data-m="pcr">75</div><div class="sc-tile lost" data-vc="self" data-m="evebitda">56</div><div class="vs-pill mid" data-vs-pill="self">중간</div>
@@ -932,10 +932,10 @@ Chart.overrides.doughnut.animation = false;
 시나리오 범위: 3.15 ~ 3.30(세 시나리오 최대·최소 기준)
 0.7 이하 매우 싸다 · 0.9 이하 싸다 · 1.1 이하 적정 · 1.5 이하 비싸다 · 초과 매우 비싸다
 이 칸은 보수적으로 잡혀 있다(할인율 10%, 5년 뒤 영구성장 2.5%). S&amp;P500 비금융 종목의 83~91%가 매달 '매우 비싸다'에 들어간다(2024-10~2026-09). 다른 종목과 견주려면 위 비율 숫자를 함께 볼 것.">매우 비싸다</div></div>
-      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">32.2</div><div class="sc-tile lost" data-vc="peer" data-m="per">32</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">52</div><div class="sc-tile low" data-vc="peer" data-m="psr">17</div><div class="sc-tile lost" data-vc="peer" data-m="pcr">32</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">28</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
+      <div class="vs-name" title="S&amp;P500 필수소비재 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">29.6</div><div class="sc-tile low" data-vc="peer" data-m="per">28</div><div class="sc-tile lost" data-vc="peer" data-m="pbr">50</div><div class="sc-tile low" data-vc="peer" data-m="psr">17</div><div class="sc-tile low" data-vc="peer" data-m="pcr">28</div><div class="sc-tile low" data-vc="peer" data-m="evebitda">26</div><div class="vs-pill high" data-vs-pill="peer">비싸다</div>
     </div></div>
-    <div class="vs-premise">PER 34.1배(5년 중앙값 33.1배)로 자기 이력 52.5점(중간), 동종업 32.2점(중간)이다. <strong>현금흐름 내재가치(기본 $33.93)는 현재가의 31%다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $33.93)는 현재가의 31%다. 현재가를 정당화하려면 영업이익률이 43.1%까지 올라야 한다(최근 4분기 18.0%, 5년 중앙값 17.4%). 내재가치에서 차입금 $2.2B를 빼고 현금·단기투자 $447M를 더한다. 최근 4분기 GAAP 이익에는 Q4 2025 비타민 사업 매각 손실(주당 $0.18)과 인수 관련 주식보상 등이 들어 있어 회사 조정 이익보다 약 11% 낮다 — PER이 그만큼 높게 나온다(회사 조정 이익으로 계산해도 세 표는 같다). 브랜드 인수를 자주 해 무형자산 상각이 크고, 과거에도 손상(2022년 Flawless, 2024년 비타민 상표)이 있어 5년 PER 이력에 튀는 구간이 있다. 사업 매각 때문에 매출 성장률이 실제 기존 사업 성장보다 낮게 보인다. 현금흐름 모델 값이 낮은 것은 인수로 쌓인 영업권 때문에 투하자본 대비 이익률이 할인율과 비슷하게 나와 성장이 가치를 거의 더하지 못하기 때문이다.</div>
+    <div class="vs-premise">PER 34.1배(5년 중앙값 33.1배)로 자기 이력 52.5점(중간), 동종업 29.6점(비싸다)이다. <strong>현금흐름 내재가치(기본 $33.93)는 현재가의 31%다</strong>.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $33.93)는 현재가의 31%다. 현재가를 정당화하려면 영업이익률이 43.1%까지 올라야 한다(최근 4분기 18.0%, 5년 중앙값 17.4%). 내재가치에서 차입금 $2.2B를 빼고 현금·단기투자 $447M를 더한다. 최근 4분기 GAAP 이익에는 Q4 2025 비타민 사업 매각 손실(주당 $0.18)과 인수 관련 주식보상 등이 들어 있어 회사 조정 이익보다 약 11% 낮다 — PER이 그만큼 높게 나온다(회사 조정 이익으로 계산해도 세 표는 같다). 브랜드 인수를 자주 해 무형자산 상각이 크고, 과거에도 손상(2022년 Flawless, 2024년 비타민 상표)이 있어 5년 PER 이력에 튀는 구간이 있다. 사업 매각 때문에 매출 성장률이 실제 기존 사업 성장보다 낮게 보인다. 현금흐름 모델 값이 낮은 것은 인수로 쌓인 영업권 때문에 투하자본 대비 이익률이 할인율과 비슷하게 나와 성장이 가치를 거의 더하지 못하기 때문이다.</div>
   </div>
 
   <div class="grid-2">
@@ -1004,7 +1004,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">생활용품 6곳 PER 비교 (점수는 S&amp;P500 필수소비재 기준) (CLX 값 없음·KVUE 값 없음) · 11/13 종가(CHD 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">생활용품 6곳 PER 비교 (점수는 S&amp;P500 필수소비재 기준) (CLX 값 없음·KVUE 값 없음) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1018,8 +1018,8 @@ Chart.overrides.doughnut.animation = false;
 
   <div class="card">
     <div class="card-title">종합 해석</div>
-    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $1.6B(+1.0%), 영업이익률 18.2%(1년 전 16.1%). 주가는 1년 새 +34%<span class="tag">배수 중간·매출 성장 비슷</span></div>
-    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 0 · 현금흐름 −2, 합계 −2 “적정~고평가”이다. 현금흐름 내재가치(기본 $33.93)는 현재가의 31%다.</div>
+    <div class="verdict-summary-head">지배적 내러티브 · Q3 2026 매출 $1.6B(+1.0%), 영업이익률 18.2%(1년 전 16.1%). 주가는 1년 새 +34%<span class="tag">배수 비싼 쪽·매출 성장 비슷</span></div>
+    <div class="verdict-summary-counter">⚠️ 세 칸이 자기 이력 0 · 동종업 −1 · 현금흐름 −2, 합계 −3 “고평가”이다. 현금흐름 내재가치(기본 $33.93)는 현재가의 31%다.</div>
     <div class="verdict-summary-next">🔍 다음 확인 포인트 · 2027년 1월 29일 무렵 (예상) Q4 2026 실적 공시.</div>
   </div>
 
@@ -1104,8 +1104,8 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 50%; background: var(--green);"></div><div data-an-bar="hold" style="width: 40%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 10%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-15</span></span>
-        <span class="op-val"><span data-an="mean">$112.42</span> <span class="op-sub op-up" data-an="upside">+1.4%</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-val"><span data-an="mean">$114.42</span> <span class="op-sub op-up" data-an="upside">+3.2%</span></span>
       </div>
       <div class="op-cell">
         <span class="op-label">다음 실적</span>
@@ -1309,55 +1309,55 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '생활용품 6곳 PER 비교 (점수는 S&P500 필수소비재 기준) (CLX 값 없음·KVUE 값 없음) · 11/13 종가(CHD 막대는 11/20)',
+    title: '생활용품 6곳 PER 비교 (점수는 S&P500 필수소비재 기준) (CLX 값 없음·KVUE 값 없음) · 11/20 종가',
     unit: 'PER', max: 75, chdValue: null,
     peers: [
-      { name:'CL', value:25.7, status:'reference' },
-      { name:'KMB', value:20.9, status:'reference' },
+      { name:'CL', value:25.8, status:'reference' },
+      { name:'KMB', value:19.6, status:'reference' },
       { name:'PG', value:25.6, status:'reference' },
-      { name:'SJM', value:62.0, status:'reference' }
+      { name:'SJM', value:62.5, status:'reference' }
     ]
   },
   pbr: {
-    title: 'PBR 비교 (CLX 값 없음·KVUE 값 없음) · 11/13 종가(CHD 막대는 11/20)',
-    unit: 'PBR', max: 320, chdValue: null,
+    title: 'PBR 비교 (CLX 값 없음·KVUE 값 없음) · 11/20 종가',
+    unit: 'PBR', max: 315, chdValue: null,
     peers: [
-      { name:'CL', value:275.1, status:'reference' },
-      { name:'KMB', value:12.4, status:'reference' },
+      { name:'CL', value:272.4, status:'reference' },
+      { name:'KMB', value:12.1, status:'reference' },
       { name:'PG', value:7.2, status:'reference' },
       { name:'SJM', value:2.5, status:'reference' }
     ]
   },
   psr: {
-    title: 'PSR 비교 (KVUE 값 없음) · 11/13 종가(CHD 막대는 11/20)',
+    title: 'PSR 비교 (KVUE 값 없음) · 11/20 종가',
     unit: 'PSR(TTM)', max: 10, chdValue: null,
     peers: [
       { name:'CL', value:3.7, status:'reference' },
-      { name:'CLX', value:2.0, status:'reference' },
-      { name:'KMB', value:2.2, status:'reference' },
+      { name:'CLX', value:1.9, status:'reference' },
+      { name:'KMB', value:2.1, status:'reference' },
       { name:'PG', value:4.5, status:'reference' },
       { name:'SJM', value:1.6, status:'reference' }
     ]
   },
   pcr: {
-    title: 'PCR(FCF) 비교 (KVUE 값 없음) · 11/13 종가(CHD 막대는 11/20)',
-    unit: 'PCR(FCF)', max: 45, chdValue: null,
+    title: 'PCR(FCF) 비교 (KVUE 값 없음) · 11/20 종가',
+    unit: 'PCR(FCF)', max: 40, chdValue: null,
     peers: [
-      { name:'CL', value:20.9, status:'reference' },
-      { name:'CLX', value:34.9, status:'reference' },
-      { name:'KMB', value:18.7, status:'reference' },
-      { name:'PG', value:25.7, status:'reference' },
-      { name:'SJM', value:8.9, status:'reference' }
+      { name:'CL', value:20.7, status:'reference' },
+      { name:'CLX', value:33.4, status:'reference' },
+      { name:'KMB', value:18.2, status:'reference' },
+      { name:'PG', value:25.6, status:'reference' },
+      { name:'SJM', value:9.0, status:'reference' }
     ]
   },
   evebitda: {
-    title: 'EV/EBITDA 비교 (CLX 값 없음·KVUE 값 없음) · 11/13 종가(CHD 막대는 11/20)',
+    title: 'EV/EBITDA 비교 (CLX 값 없음·KVUE 값 없음) · 11/20 종가',
     unit: 'EV/EBITDA', max: 30, chdValue: null,
     peers: [
-      { name:'CL', value:22.5, status:'reference' },
-      { name:'KMB', value:12.9, status:'reference' },
+      { name:'CL', value:22.3, status:'reference' },
+      { name:'KMB', value:12.6, status:'reference' },
       { name:'PG', value:17.4, status:'reference' },
-      { name:'SJM', value:15.1, status:'reference' }
+      { name:'SJM', value:15.2, status:'reference' }
     ]
   }
 };
@@ -1487,7 +1487,7 @@ const DCF_SKEW_NOTE = "이 칸은 보수적으로 잡혀 있다(할인율 10%, 5
 //       python3 v2/build_fundamental_score.py CHD
 const CHD_SCORES = {
   fundamental: 54.1,   // 재무건전성 + 성장·수익성 (밸류에이션 축 제외)
-  peer: 32.2,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
+  peer: 29.6,          // S&P500 필수소비재 대비 배수 순위 (v2/peer_universe/consumer_staples.json)
   selfHistory: 52.5,   // 자기 5년 배수 분포 백분위 (2021-11-22 ~ 2026-11-20)
   asOf: "2026-11-20",
   fundamentalAsOf: "2026-09-30",   // Q3 2026 10-Q
@@ -1818,7 +1818,7 @@ const CHD_FUNDAMENTAL = {"ticker": "CHD", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py CHD --self v2/CHD_multiples.json --card
 /* VALUATION:BEGIN */
-const CHD_VALUATION = {"peer": {"score": 32.2, "sector": "Consumer Staples (S&P500 33종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 32.0, "rank": 18, "peers": 25}, {"metric": "pbr", "score": 51.9, "rank": 14, "peers": 27}, {"metric": "psr", "score": 17.2, "rank": 25, "peers": 29}, {"metric": "pcr", "score": 32.1, "rank": 20, "peers": 28}, {"metric": "evebitda", "score": 28.0, "rank": 19, "peers": 25}]}, "self": {"score": 52.5, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 44.2, "percentile": 55.8, "current": 34.1, "min": 22.45, "median": 33.14, "max": 60.02, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 52.0, "percentile": 48.0, "current": 5.83, "min": 4.54, "median": 5.86, "max": 7.82, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 36.3, "percentile": 63.7, "current": 4.19, "min": 3.19, "median": 4.04, "max": 4.97, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 74.5, "percentile": 25.5, "current": 24.73, "min": 20.32, "median": 27.4, "max": 34.65, "days": 1005, "currentNote": null}, {"metric": "evebitda", "score": 55.7, "percentile": 44.3, "current": 20.17, "min": 15.63, "median": 20.54, "max": 30.55, "days": 1255, "currentNote": null}]}};
+const CHD_VALUATION = {"peer": {"score": 29.6, "sector": "Consumer Staples (S&P500 33종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 28.0, "rank": 19, "peers": 25}, {"metric": "pbr", "score": 50.0, "rank": 15, "peers": 28}, {"metric": "psr", "score": 16.7, "rank": 26, "peers": 30}, {"metric": "pcr", "score": 27.6, "rank": 22, "peers": 29}, {"metric": "evebitda", "score": 25.9, "rank": 21, "peers": 27}]}, "self": {"score": 52.5, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 44.2, "percentile": 55.8, "current": 34.1, "min": 22.45, "median": 33.14, "max": 60.02, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 52.0, "percentile": 48.0, "current": 5.83, "min": 4.54, "median": 5.86, "max": 7.82, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 36.3, "percentile": 63.7, "current": 4.19, "min": 3.19, "median": 4.04, "max": 4.97, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 74.5, "percentile": 25.5, "current": 24.73, "min": 20.32, "median": 27.4, "max": 34.65, "days": 1005, "currentNote": null}, {"metric": "evebitda", "score": 55.7, "percentile": 44.3, "current": 20.17, "min": 15.63, "median": 20.54, "max": 30.55, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -2107,8 +2107,8 @@ const CHD_ACTIVITY = {"ticker": "CHD", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/chd/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const CHD_ANALYST = { asOf: '2026-11-15', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 12, mean: 112.42, median: 115,
-  low: 89, high: 120, strongBuy: 8, buy: 2, hold: 8, sell: 1, strongSell: 1 };
+const CHD_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 20, nTargets: 12, mean: 114.42, median: 117,
+  low: 89, high: 125, strongBuy: 8, buy: 2, hold: 8, sell: 1, strongSell: 1 };
 (function(){
   const A = CHD_ANALYST, last = (typeof CHD_DAILY !== 'undefined' && CHD_DAILY.length) ? CHD_DAILY[CHD_DAILY.length - 1] : null;
   const put = (k, t) => document.querySelectorAll(`#invest [data-an="${k}"]`).forEach(el => { el.textContent = t; });

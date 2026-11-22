@@ -1,69 +1,70 @@
 {
  "ticker": "ICE",
  "window": [
-  "2025-11-14",
-  "2026-11-13"
+  "2025-11-21",
+  "2026-11-20"
  ],
  "multiples": {
   "PER": {
    "days": 251,
-   "current": 25.21,
+   "current": 24.01,
    "min": 17.89,
    "p10": 20.43,
    "median": 23.14,
    "p90": 29.62,
    "max": 31.89,
-   "mean": 24.86,
-   "percentile": 54.2,
-   "score": 45.8
+   "mean": 24.79,
+   "percentile": 51.0,
+   "score": 49.0,
+   "eps": 7.08
   },
   "PSR": {
    "days": 251,
-   "current": 7.1,
+   "current": 6.76,
    "min": 5.32,
    "p10": 6.07,
-   "median": 6.82,
+   "median": 6.8,
    "p90": 7.47,
    "max": 7.97,
    "mean": 6.81,
-   "percentile": 66.5,
-   "score": 33.5
+   "percentile": 47.4,
+   "score": 52.6
   },
   "PBR": {
    "days": 251,
-   "current": 3.34,
+   "current": 3.18,
    "min": 2.36,
    "p10": 2.69,
-   "median": 3.04,
+   "median": 3.05,
    "p90": 3.3,
    "max": 3.49,
    "mean": 3.03,
-   "percentile": 94.0,
-   "score": 6.0
+   "percentile": 70.5,
+   "score": 29.5
   },
   "PCR": {
    "days": 251,
-   "current": 18.91,
+   "current": 18.0,
    "min": 14.88,
    "p10": 16.73,
-   "median": 18.75,
+   "median": 18.68,
    "p90": 21.76,
    "max": 22.44,
-   "mean": 18.99,
-   "percentile": 53.0,
-   "score": 47.0
+   "mean": 18.97,
+   "percentile": 41.0,
+   "score": 59.0
   },
   "EV/EBITDA": {
    "days": 251,
-   "current": 16.82,
+   "current": 16.17,
    "min": 12.86,
    "p10": 14.28,
    "median": 15.8,
    "p90": 17.59,
    "max": 18.66,
    "mean": 16.0,
-   "percentile": 68.5,
-   "score": 31.5
+   "percentile": 51.4,
+   "score": 48.6
   }
  },
  "perBasis": "diluted",
@@ -73,7 +74,7 @@
   "per_p75": 28.39,
   "low": 150,
   "high": 200,
-  "asOf": "2026-11-13",
+  "asOf": "2026-11-20",
   "basis": "diluted"
  }
 }

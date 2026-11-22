@@ -970,7 +970,7 @@ Chart.overrides.doughnut.animation = false;
     </div>
 
     <div class="card" style="display:flex;flex-direction:column;">
-      <div class="card-title"><span id="multipleCompareTitle">보험 6곳 PER 비교 (점수는 S&amp;P500 보험사 기준) · 11/13 종가(L 막대는 11/20)</span></div>
+      <div class="card-title"><span id="multipleCompareTitle">보험 6곳 PER 비교 (점수는 S&amp;P500 보험사 기준) · 11/20 종가</span></div>
       <div class="chart-wrap" style="flex:1;min-height:230px;">
         <canvas id="multipleChart"></canvas>
       </div>
@@ -1263,23 +1263,23 @@ function renderSegmentChart() {
 // ══════ #valuation ══════
 const MULTIPLE_DATA = {
   per: {
-    title: '보험 6곳 PER 비교 (점수는 S&P500 보험사 기준) · 11/13 종가(L 막대는 11/20)',
+    title: '보험 6곳 PER 비교 (점수는 S&P500 보험사 기준) · 11/20 종가',
     unit: 'PER', max: 20, lValue: null,
     peers: [
       { name:'CB', value:13.2, status:'reference' },
-      { name:'TRV', value:10.6, status:'reference' },
-      { name:'ALL', value:6.1, status:'reference' },
-      { name:'AIG', value:13.5, status:'reference' },
-      { name:'HIG', value:9.1, status:'reference' },
-      { name:'WRB', value:16.4, status:'reference' }
+      { name:'TRV', value:10.3, status:'reference' },
+      { name:'ALL', value:5.3, status:'reference' },
+      { name:'AIG', value:13.0, status:'reference' },
+      { name:'HIG', value:9.0, status:'reference' },
+      { name:'WRB', value:16.6, status:'reference' }
     ]
   },
   pbr: {
-    title: '보험 PBR 비교 · 11/13 종가(L 막대는 11/20)',
+    title: '보험 PBR 비교 · 11/20 종가',
     unit: 'PBR', max: 5, lValue: null,
     peers: [
-      { name:'CB', value:2.0, status:'reference' },
-      { name:'TRV', value:2.9, status:'reference' },
+      { name:'CB', value:1.9, status:'reference' },
+      { name:'TRV', value:2.8, status:'reference' },
       { name:'ALL', value:2.2, status:'reference' },
       { name:'AIG', value:1.1, status:'reference' },
       { name:'HIG', value:2.0, status:'reference' },
@@ -1287,26 +1287,26 @@ const MULTIPLE_DATA = {
     ]
   },
   psr: {
-    title: '보험 PSR 비교 (HIG 값 없음) · 11/13 종가(L 막대는 11/20)',
+    title: '보험 PSR 비교 (HIG 값 없음) · 11/20 종가',
     unit: 'PSR(TTM)', max: 5, lValue: null,
     peers: [
       { name:'CB', value:2.3, status:'reference' },
-      { name:'TRV', value:1.7, status:'reference' },
+      { name:'TRV', value:1.6, status:'reference' },
       { name:'ALL', value:0.9, status:'reference' },
-      { name:'AIG', value:1.6, status:'reference' },
-      { name:'WRB', value:1.9, status:'reference' }
+      { name:'AIG', value:1.5, status:'reference' },
+      { name:'WRB', value:2.0, status:'reference' }
     ]
   },
   pcr: {
-    title: '보험 PCR(FCF) 비교 (CB 값 없음·TRV 값 없음·AIG 값 없음·WRB 값 없음) · 11/13 종가(L 막대는 11/20)',
+    title: '보험 PCR(FCF) 비교 (CB 값 없음·TRV 값 없음·AIG 값 없음·WRB 값 없음) · 11/20 종가',
     unit: 'PCR(FCF)', max: 20, lValue: null,
     peers: [
       { name:'ALL', value:5.2, status:'reference' },
-      { name:'HIG', value:6.3, status:'reference' }
+      { name:'HIG', value:6.2, status:'reference' }
     ]
   },
   evebitda: {
-    title: '보험 EV/EBITDA 비교 (CB 값 없음·TRV 값 없음·ALL 값 없음·AIG 값 없음·HIG 값 없음·WRB 값 없음) · 11/13 종가(L 막대는 11/20)',
+    title: '보험 EV/EBITDA 비교 (CB 값 없음·TRV 값 없음·ALL 값 없음·AIG 값 없음·HIG 값 없음·WRB 값 없음) · 11/20 종가',
     unit: 'EV/EBITDA', max: 5, lValue: null,
     peers: [
 
@@ -1762,7 +1762,7 @@ const L_FUNDAMENTAL = {"ticker": "L", "basis": "quarter", "asOf": "2026-09-30", 
 //
 // 갱신: python3 v2/build_peer_score.py L --self v2/L_multiples.json --card
 /* VALUATION:BEGIN */
-const L_VALUATION = {"peer": {"score": 63.4, "sector": "Financials (S&P500 16종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 20.0, "rank": 13, "peers": 15}, {"metric": "pbr", "score": 93.3, "rank": 2, "peers": 15}, {"metric": "psr", "score": 76.9, "rank": 4, "peers": 13}]}, "self": {"score": 8.8, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 8.5, "percentile": 91.5, "current": 15.15, "min": 8.61, "median": 13.0, "max": 16.36, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 7.8, "percentile": 92.2, "current": 1.21, "min": 0.76, "median": 1.06, "max": 1.31, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.9, "percentile": 83.1, "current": 1.18, "min": 0.87, "median": 1.05, "max": 1.33, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 2.0, "percentile": 98.0, "current": 13.07, "min": 4.1, "median": 6.52, "max": 13.46, "days": 1255, "currentNote": null}]}};
+const L_VALUATION = {"peer": {"score": 63.4, "sector": "Financials (S&P500 16종목)", "asOf": ["2026-11-20", "2026-11-20"], "priceSession": null, "metrics": [{"metric": "per", "score": 20.0, "rank": 13, "peers": 15}, {"metric": "pbr", "score": 93.3, "rank": 2, "peers": 15}, {"metric": "psr", "score": 76.9, "rank": 4, "peers": 13}]}, "self": {"score": 8.8, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 8.5, "percentile": 91.5, "current": 15.15, "min": 8.61, "median": 13.0, "max": 16.36, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 7.8, "percentile": 92.2, "current": 1.21, "min": 0.76, "median": 1.06, "max": 1.31, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 16.9, "percentile": 83.1, "current": 1.18, "min": 0.87, "median": 1.05, "max": 1.33, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 2.0, "percentile": 98.0, "current": 13.07, "min": 4.1, "median": 6.52, "max": 13.46, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
