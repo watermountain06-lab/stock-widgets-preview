@@ -16402,6 +16402,49 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "FRT",
+      "name": "Federal Realty Investment Trust",
+      "sector": "교외 고급 쇼핑센터·복합단지 리츠",
+      "href": "FRT_full_widget.html",
+      "cardRank": 391,
+      "cardAsOf": "2026-11-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 110.27,
+        "prevClose": 110.43,
+        "session": "2026-11-20",
+        "prevSession": "2026-11-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 86021559,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-26",
+        "filedAt": "2026-10-30",
+        "filing": "10-Q 0000034903-26-000056 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 49.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-20",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

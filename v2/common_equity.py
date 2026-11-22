@@ -23,7 +23,8 @@ PAR_RATIO = 10           # 액면 태그 × 10 < 같은 결산일 청산가면 �
 PREF_SHARE_TAGS = ["PreferredStockSharesOutstanding", "PreferredStockSharesIssued"]   # 유통이 앞, 없을 때만 발행
 MATERIAL = 1e7           # 명시적 0을 상환 증거로 볼 직전 금액의 하한($10M — 액면만 태깅하는 회사(MET·BMY)와 가르기)
 # 회사별 CE 우선주 태그(빈 목록 = 우선주 없음). EV 덮어쓰기(EV_TAGS_BY_CIK "preferred")와 따로 둔다(설계 §2.1).
-CE_PREF_OVERRIDE = {"0001101239": []}   # EQIX — 우선주 없음
+CE_PREF_OVERRIDE = {"0001101239": [],   # EQIX — 우선주 없음
+                    "0000034903": ["PreferredSeriesCFrt"]}   # FRT: 비전환 Series C $150M — 주식 종류 차원으로만 공시(cfg dim_facts). 전환 Series 1($9.8M)은 보통주로 보는 규칙대로 두지 않는다(Codex r1 2026-11-21)
 # 표준 태그가 없거나 틀린 비전환 우선주 장부가(손입력, 원문 출처) {cik: [{"from", "until", "value", "filed", "source"}]} — 설계 r9
 import json as _json
 import os as _os
