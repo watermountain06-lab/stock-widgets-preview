@@ -675,6 +675,11 @@ if getattr(C, 'INCOMPLETE_SHORT', None):
     h = h.replace('data-ma="backtest" style="', 'data-ma="backtest" style="display:none;', 1)
     h = h.replace("val:  ['싼 편', '중간', '비싼 편'],", "val:  ['참고·싼 쪽', '참고·중간', '참고·비싼 쪽'],", 1)
     h = re.sub(r'(class="logic-verdict" id="[a-z]+(?:Self|Peer)Verdict">)(싼 편|중간|비싼 편)<', lambda m: m.group(1) + {'싼 편': '참고·싼 쪽', '중간': '참고·중간', '비싼 편': '참고·비싼 쪽'}[m.group(2)] + '<', h)
+    # 2026-11-22(Fable VICI r1): 점수 옆 알약(싸다·중간 등)과 요약 문장 '자기 이력 X점(싸다)'도 참고로 — 위 승인과 같은 미완성 표시
+    _ref = lambda w: '참고·' + {'매우 싸다': '싼 쪽', '싸다': '싼 쪽', '싼 편': '싼 쪽', '중간': '중간', '비싼 편': '비싼 쪽', '비싸다': '비싼 쪽', '매우 비싸다': '비싼 쪽'}.get(w, w)
+    h = re.sub(r'(<div class="vs-pill" data-vs-pill="(?:self|peer)">)([^<·]+)<', lambda m: m.group(1) + _ref(m.group(2)) + '<', h)
+    h = h.replace("const byScore = v => v >= 70 ? ['', '싸다'] : v >= 30 ? ['mid', '중간'] : ['high', '비싸다'];", "const byScore = v => v >= 70 ? ['mid', '참고·싼 쪽'] : v >= 30 ? ['mid', '참고·중간'] : ['mid', '참고·비싼 쪽'];", 1)
+    h = re.sub(r'((?:자기 이력|동종업) [0-9.]+점)\((매우 싸다|싸다|싼 편|중간|비싼 편|비싸다|매우 비싸다)\)', lambda m: m.group(1) + '(' + _ref(m.group(2)) + ')', h)
     h = h.replace("+ (j[1] == null ? '기권' : sgn(j[1]))).join('\\n')", "+ (j[1] == null ? '기권' : '참고')).join('\\n')", 1)
     h = re.sub(r'((?:자기 이력|동종업) [0-9.]+ → )(?:[+−]?[0-9]+)(?=\s|&#10;|"|<|$)', r'\1참고', h)
 
