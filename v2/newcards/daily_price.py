@@ -73,6 +73,14 @@ def run(args, env=None, timeout=900):
     return pr.returncode, out
 
 
+def run_soft(args, env=None, timeout=900):
+    """run()과 같지만 시간 초과를 예외 대신 (124, 사유)로 돌려준다 — 주간 마무리 단계가 한 점검 때문에 죽지 않게(안건 E75, 2026-11-22)."""
+    try:
+        return run(args, env=env, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return 124, f"시간 초과({timeout}초)"
+
+
 def verdicts():
     rc, out = run(["node", os.path.join(V2, "research", "extract_card_verdicts.js")])
     return json.loads(out) if rc == 0 else {}
@@ -483,12 +491,17 @@ def weekly_pre(status):
 
 def weekly_post(status, work, jobs=1):
     """비교군 파일에 카드 값을 넣고(sync_peer_rows), 동종업 칸이 어긋난 카드를 다시 만들고, 새 분기 보고서를 점검한다."""
-    rc, out = run([PY, "v2/adapters/sync_peer_rows.py"])
+    rc, out = run_soft([PY, "v2/adapters/sync_peer_rows.py"])
     if rc:
         status["problems"].append("sync_peer_rows 실패: " + out.strip()[-300:])
-    rc, out = run([PY, "v2/check_peer_drift.py"])
-    if rc == 2:   # 0 = 어긋남 없음, 1 = 어긋남 있음(아래에서 다시 만든다), 2 = 계산 실패
-        status["problems"].append("check_peer_drift 계산 실패: " + out.strip().splitlines()[-1][:300])
+    # 카드 한 장에 약 6초(비교군 다시 계산) — 361장이면 한 줄로 36분이라 기본 900초를 넘겨 2026-11-21 주간 실행이 여기서 죽었다(안건 E75).
+    # 카드 수에 맞춘 제한 + 동시 실행(V2_JOBS). 그래도 시간 초과면 알리고 계속한다 — 주간 상태 파일은 반드시 쓴다.
+    n_cards = len([f for f in os.listdir(V2) if f.endswith("_multiples.json")])
+    rc, out = run_soft([PY, "v2/check_peer_drift.py"], timeout=max(900, 12 * n_cards), env=dict(os.environ, V2_JOBS=str(jobs)))
+    if rc == 124:
+        status["problems"].append("check_peer_drift " + out + " — 동종업 어긋남 점검·다시 만들기를 건너뜀")
+    elif rc == 2:   # 0 = 어긋남 없음, 1 = 어긋남 있음(아래에서 다시 만든다), 2 = 계산 실패
+        status["problems"].append("check_peer_drift 계산 실패: " + (out.strip().splitlines() or [""])[-1][:300])
     drifted = sorted({l.split(":")[0] for l in out.splitlines() if ": 동종업 " in l})
     status["peerDrift"] = drifted
     for T in drifted:
@@ -506,7 +519,7 @@ def weekly_post(status, work, jobs=1):
     else:
         for T in drifted:
             status["cards"][T] = attempt(T, work)
-    rc, out = run([PY, "v2/newcards/new_filings.py"])
+    rc, out = run_soft([PY, "v2/newcards/new_filings.py"])
     try:
         nf = json.loads(out.strip().splitlines()[-1])
         status["newFilings"], status["filingChecksMissed"] = nf["pending"], nf["unchecked"]

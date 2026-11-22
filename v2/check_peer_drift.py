@@ -18,6 +18,7 @@ import os
 import subprocess
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor
 
 _BANK_CFG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "newcards/bank/cfg")
 BANK_TICKERS = {f[4:-3].upper() for f in os.listdir(_BANK_CFG) if f.startswith("cfg_") and f.endswith(".py")}   # 은행 카드(은행 RIM 경로) — 이름 하드코딩 대신 bank/cfg 목록(dr 2026-10-13)
@@ -52,17 +53,28 @@ def vote(s):
 def main():
     tickers = sys.argv[1:] or sorted(f.split("_")[0] for f in os.listdir(V2) if f.endswith("_full_widget.html"))
     drift, failed, nomult = 0, [], []
+    todo = []
     for t in tickers:
         if t in SKIP or t in BANK_TICKERS:
             continue
         if not os.path.exists(os.path.join(V2, f"{t}_multiples.json")):
             nomult.append(t)            # 은행 RIM 카드 등 — 자기 이력 JSON이 없어 이 점검 밖
             continue
+        todo.append(t)
+
+    def both(t):
         try:
-            c, r = card_peer(t), fresh_peer(t)
+            return card_peer(t), fresh_peer(t), None
         except Exception as e:          # 카드 블록이 깨졌거나 JSON을 못 읽음 — 실패로 센다(Codex)
-            print(f"{t}: 읽기 실패 {type(e).__name__}")
-            c = r = None
+            return None, None, type(e).__name__
+
+    # 카드마다 build_peer_score를 따로 띄운다(약 6초) — V2_JOBS만큼 동시에 돌리고 결과는 종목 순서대로 찍는다(안건 E75, 2026-11-22)
+    jobs = max(1, int(os.environ.get("V2_JOBS") or 1))
+    with ThreadPoolExecutor(jobs) as ex:
+        got = list(ex.map(both, todo))
+    for t, (c, r, err) in zip(todo, got):
+        if err:
+            print(f"{t}: 읽기 실패 {err}")
         if c is None or r is None:
             failed.append(t)
             print(f"{t}: 계산 실패")
