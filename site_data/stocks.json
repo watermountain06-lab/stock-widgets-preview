@@ -16744,6 +16744,49 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "ESS",
+      "name": "Essex Property Trust",
+      "sector": "서부 해안 아파트 리츠",
+      "href": "ESS_full_widget.html",
+      "cardRank": 399,
+      "cardAsOf": "2026-11-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 269.65,
+        "prevClose": 269.39,
+        "session": "2026-11-20",
+        "prevSession": "2026-11-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 64337514,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-21",
+        "filedAt": "2026-10-28",
+        "filing": "10-Q 0000920522-26-000030 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 49.4,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-20",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }
