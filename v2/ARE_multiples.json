@@ -1,0 +1,64 @@
+{
+ "ticker": "ARE",
+ "window": [
+  "2021-11-22",
+  "2026-11-20"
+ ],
+ "multiples": {
+  "PER": {
+   "days": 916,
+   "current": null,
+   "min": 24.08,
+   "p10": 30.47,
+   "median": 58.16,
+   "p90": 145.18,
+   "max": 240.0,
+   "mean": 76.62,
+   "percentile": 100.0,
+   "score": null,
+   "currentNote": "per_na"
+  },
+  "PSR": {
+   "days": 1255,
+   "current": 2.54,
+   "min": 2.4,
+   "p10": 2.9,
+   "median": 6.89,
+   "p90": 11.85,
+   "max": 17.31,
+   "mean": 7.09,
+   "percentile": 1.1,
+   "score": 98.9
+  },
+  "PBR": {
+   "days": 1255,
+   "current": 0.47,
+   "min": 0.45,
+   "p10": 0.54,
+   "median": 1.08,
+   "p90": 1.59,
+   "max": 2.35,
+   "mean": 1.07,
+   "percentile": 1.0,
+   "score": 99.0
+  },
+  "EV/EBITDA": {
+   "days": 1046,
+   "current": null,
+   "min": 16.02,
+   "p10": 18.05,
+   "median": 22.98,
+   "p90": 32.75,
+   "max": 40.88,
+   "mean": 23.88,
+   "percentile": 100.0,
+   "score": 0.0,
+   "currentNote": "negative"
+  }
+ },
+ "perBasis": "diluted",
+ "perNA": {
+  "netMargin": -0.5201,
+  "rule": "최근 4분기 GAAP 순이익률 < 2% 또는 적자"
+ }
+}

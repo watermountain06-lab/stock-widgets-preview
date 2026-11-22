@@ -979,6 +979,7 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
+    "0001035443": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToDevelopRealEstateAssets"]},   # ARE: 순이익 = 보통주 귀속, 설비투자 = "Additions to investments in real estate"(개발·재개발·개량이 한 줄, 9개월 $1,328.1M — DLR·REG 선례)(2026-11-21)
     "0001687229": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets"]},   # INVH: 순이익 = 보통주 귀속, 설비투자 = "Other capital expenditures"(기존 주택 개량 — PaymentsForCapitalImprovements는 초기 리노베이션이라 다른 항목; 인수·초기 리노베이션 $197M·택지·합작 투자 제외)(Codex r1, 2026-11-21)
     "0000034903": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},   # FRT: 순이익 = 보통주 귀속(PREFER_TAGS), 설비투자 = "Capital expenditures - other"(기존 부동산 개량, 회사 고유 태그 → cfg company_tags, 9개월 $89.9M — 개발·재개발 $128.1M·인수 $85.4M 제외)(2026-11-21)
     "0000912595": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["CapexImprovementsMaa"]},   # MAA: 순이익 = 보통주 귀속(PREFER_TAGS), 설비투자 = 기존 부동산 개량(9개월 $275.7M — 개발 $213.8M·인수 $59.1M 제외, O·KIM·UDR 선례). 이 태그(PaymentsForCapitalImprovements)는 2021년 3분기 10-Q까지 개발비를 포함했고 FY2021 10-K부터 개량만 — 2022년 이후 공시(재작성 비교 수치 포함)의 값만 cfg company_tags가 CapexImprovementsMaa 이름으로 싣는다(1~9월 2021 처음 388.4 → 재작성 208.6, Fable r1)(2026-11-21)
@@ -1102,7 +1103,10 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# INVH: 손익계산서에 영업이익 줄이 없다(비용 합계 안에 이자비용) — 영업이익 = 매출 − 비용 합계 + 이자비용(O 방식 — 재해·손상은 영업 안, 매각 이익·합작 손익·채무 조정 손실은 밖). 이자 태그는 2023부터 InterestExpenseOperating.
+DERIVED_OPINC = {# ARE: 손익계산서에 영업이익 줄이 없다(비용 합계 안에 이자) — 영업이익 = 매출 − 비용 합계 + 이자비용(O·INVH 방식 — 부동산 손상은 회사 배치대로 영업 안, 투자 손익·채무 조기상환 손익·매각 이익·합작 손익은 밖).
+                 # Q3 2026 671,182 − 1,290,856 + 79,687 = −539,987(손상 637,904 포함, 10-Q 2026-11-21)
+                 "0001035443": (["RevenueFromContractWithCustomerIncludingAssessedTax", "Revenues"], [(["CostsAndExpenses"], 1), (["InterestExpense"], -1)]),
+                 # INVH: 손익계산서에 영업이익 줄이 없다(비용 합계 안에 이자비용) — 영업이익 = 매출 − 비용 합계 + 이자비용(O 방식 — 재해·손상은 영업 안, 매각 이익·합작 손익·채무 조정 손실은 밖). 이자 태그는 2023부터 InterestExpenseOperating.
                  # Q3 2026 731,278 − 664,164 + 92,045 = 159,159(10-Q, 2026-11-21)
                  "0001687229": (["Revenues"], [(["CostsAndExpenses"], 1), (["InterestExpenseOperating", "InterestExpense"], -1)]),
                  # FRT: 영업이익 줄에 부동산 매각 이익과 신시장 세액공제(NMTC) 거래 이익이 들어 있다(둘 다 회사 고유 태그 — cfg company_tags가 빌린 이름으로 싣는다; 2022 전 이름은 frt:GainOnSaleOfRealEstateAndChangeInControlOfInterest) — 뺀다(KIM·UDR 방식).
@@ -1526,7 +1530,8 @@ EXCLUDE_TAGS = {"0000912595": ("DepreciationDepletionAndAmortization", "Payments
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0001687229": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # INVH(2026-11-21)
+PREFER_TAGS = {"0001035443": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # ARE(2026-11-21)
+               "0001687229": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # INVH(2026-11-21)
                "0000034903": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # FRT(2026-11-21)
                "0000912595": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # MAA(2026-11-21)
                "0000910606": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # REG(2026-11-21)
