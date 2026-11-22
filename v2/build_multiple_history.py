@@ -983,7 +983,8 @@ SUM_TAGS_BY_CIK = {"0001289490": {"PaymentsToAcquirePropertyPlantAndEquipment": 
                    "0000027904": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForFlightEquipment", "PaymentsToAcquireOtherProductiveAssets"]},
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
-EXTRA_TAGS = {"0000920522": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["CapexRentalEss", "RedevelopEss"]},   # ESS: 순이익 = 보통주 귀속(PREFER_TAGS, NetIncomeLoss는 2018에 멈춤), 설비투자 = 임대 단지 설비(9개월 $87.1M) + 재개발($49.8M) — 회사 고유 태그 → cfg company_tags; 개발 $65.1M·인수 제외(2026-11-22)
+EXTRA_TAGS = {"0001020569": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"]},   # IRM: NetIncomeLoss 태그가 없다 — 보통주 귀속 순이익(PREFER_TAGS)(2026-11-22)
+              "0000920522": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["CapexRentalEss", "RedevelopEss"]},   # ESS: 순이익 = 보통주 귀속(PREFER_TAGS, NetIncomeLoss는 2018에 멈춤), 설비투자 = 임대 단지 설비(9개월 $87.1M) + 재개발($49.8M) — 회사 고유 태그 → cfg company_tags; 개발 $65.1M·인수 제외(2026-11-22)
               
     "0000765880": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForLeasingCostsCommissionsAndTenantImprovements"]},   # DOC: 순이익 = 보통주 귀속, 설비투자 = 임대 비용·임차인 개선·반복 설비투자(9개월 $103.7M — 개발·재개발 $444.1M·인수 $2,307.3M 제외, O·KIM 선례)(2026-11-22)
     "0000906345": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "Revenues": ["OperatingLeaseLeaseIncome"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToDevelopRealEstateAssets"]},   # CPT: 매출 = 부동산 수익(손익계산서에 매출 합계 줄이 없다 — 관리 수수료 $4.4M은 영업외 "Non-property income"), 설비투자 = 개발·개량(토지 포함, 한 줄 — 인수 제외)(2026-11-21)
@@ -1554,7 +1555,8 @@ EXCLUDE_TAGS = {"0001289490": ("PaymentsToAcquireProductiveAssets",),   # EXR: �
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0000920522": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # ESS(2026-11-22)
+PREFER_TAGS = {"0001020569": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # IRM(2026-11-22)
+               "0000920522": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # ESS(2026-11-22)
                "0000765880": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # DOC(2026-11-22)
                "0000906345": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # CPT(2026-11-21)
                "0001037540": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # BXP(2026-11-21)
@@ -2651,7 +2653,8 @@ DEBT_TOTAL_TAG = {"0001289490": ["OtherNotesPayable", "UnsecuredDebt", ("SeniorN
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0001289490": {"sti": [], "nci": ["MinorityInterestInOperatingPartnerships", "MinorityInterestInPreferredUnitHolders"], "preferred": []},   # EXR: 운영 파트너십 유닛 등 $868.0M + 우선 OP 유닛 $47.8M, 우선주 없음(2026-11-22)
+EV_TAGS_BY_CIK = {"0001020569": {"cash": ("CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"), "sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"], "preferred": []},   # IRM: 현금 $188.2M(Q3 2026 재무상태표 줄 태그 — 기본 태그는 2026-03에 멈춤), 금융리스는 차입금 $17,972.2M(LongTermDebt) 안에 있다(build_dcf FL_IN_DEBT); 운용리스는 기본 유동 + 비유동 태그($2,518.8M — 합계 태그는 2025-12에 멈춤, Codex r1), 비지배 $325.3M + 상환 가능 $62.2M(2026-11-22)
+                  "0001289490": {"sti": [], "nci": ["MinorityInterestInOperatingPartnerships", "MinorityInterestInPreferredUnitHolders"], "preferred": []},   # EXR: 운영 파트너십 유닛 등 $868.0M + 우선 OP 유닛 $47.8M, 우선주 없음(2026-11-22)
                   "0000920522": {"sti": ["EquitySecuritiesFvNiCurrentAndNoncurrent"], "lease": ["OperatingLeaseLiability"], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"], "preferred": []},   # ESS: 비지배 $160.9M(운영 파트너십 유닛 등) + 상환 가능 $26.1M, 운용리스 $31.8M, 시장성 증권 $102.7M(주식·펀드·국채·CD·회사채 — 회사가 유동성 재원으로 설명, Codex r1), 우선주 없음(2026-11-22)
                   "0001070750": {"sti": [], "lease": ["OperatingLeaseLiability"], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"], "preferred": []},   # HST: 비지배 $4M + 상환 가능 OP 유닛 $211M; 우선주 태그는 2010 낡음; 운용리스 = 분기 합계 태그 $561M(유동·비유동 태그는 연말만 $563M, Codex r1)(2026-11-22)
                   "0000106535": {"sti": []},   # WY: 단기투자 태그 2023 낡음(2026-11-22)

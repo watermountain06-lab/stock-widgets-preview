@@ -16830,6 +16830,49 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "IRM",
+      "name": "Iron Mountain",
+      "sector": "데이터센터 리츠",
+      "href": "IRM_full_widget.html",
+      "cardRank": 401,
+      "cardAsOf": "2026-11-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 102.22,
+        "prevClose": 108.78,
+        "session": "2026-11-20",
+        "prevSession": "2026-11-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 297833786,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-30",
+        "filedAt": "2026-11-05",
+        "filing": "10-Q 0001020569-26-000084 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 39.2,
+        "grade": "미흡",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-20",
+        "qualityFlags": [
+          "negative_equity"
+        ]
+      }
     }
   ]
 }
