@@ -16316,6 +16316,49 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "REG",
+      "name": "Regency Centers",
+      "sector": "식료품점 중심 근린 쇼핑센터 리츠",
+      "href": "REG_full_widget.html",
+      "cardRank": 389,
+      "cardAsOf": "2026-11-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 73.64,
+        "prevClose": 74.04,
+        "session": "2026-11-20",
+        "prevSession": "2026-11-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 183125078,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-11-03",
+        "filedAt": "2026-11-06",
+        "filing": "10-Q 0001193125-26-451423 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": "고평가~적정",
+        "raw": "적정~고평가",
+        "status": "normalized",
+        "note": "v2 카드 판정(자기 이력·동종업·현금흐름)"
+      },
+      "score": {
+        "status": "available",
+        "total": 58.5,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-20",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

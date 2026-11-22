@@ -652,6 +652,9 @@ if 'const _XR' in h and DCF.get('base') is not None and DCF['base'] <= 0:
     h = h.replace("if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse')", "if (D.reqMode === 'margin' && D.base > 0) document.querySelectorAll('#dcf .reverse')")
     h = re.sub(r'현재가를 정당화하려면 영업이익률이 [0-9.]+%까지 올라야 한다\([^)]*\)\. ?', '현금흐름 값이 0 이하라 현재가 요구 영업이익률은 해석할 수 없다. ', h)
     h = re.sub(r'현재가를 정당화하는 영업이익률은 [0-9.]+%로, 최근 4분기[^(]*\([^)]*\)\. ?', '현금흐름 값이 0 이하라 현재가 요구 영업이익률은 해석할 수 없다. ', h)
+    h = re.sub(r'영업이익률을 100%로 올려도 이 모델로는 현재가에 닿지 않는다\([^)]*\)\. ?', '현금흐름 값이 0 이하라 현재가 요구 영업이익률은 해석할 수 없다. ', h)
+    h = h.replace("if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)'", "if (lb && d.base > 0) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)'", 1)   # 헤더 라벨도 '해석 부적합'과 맞춘다(Codex REG r1)
+    h = h.replace("    if (d.requiredMargin == null) {   // 해 없음: 모델 범위를 툴팁에", "    if (d.requiredMargin == null && d.base > 0) {   // 해 없음: 모델 범위를 툴팁에", 1)   # 값 툴팁도(Codex REG r2)
 # 미완성 카드(cfg INCOMPLETE_SHORT, 2026-11-03 사용자 결정): 화면 JS가 현금흐름 칸에 다시 쓰는 '계산 불가'와 판정 말풍선의 '심판·합계'를
 # '보류(미완성)'·참고 문구로(2026-11-07 사용자 승인 — POST 정적 치환은 JS가 덮어써 FISV·MLM·NSC·PTC·CHRW·SYY·KMB·AWK에 남았다)
 if getattr(C, 'INCOMPLETE_SHORT', None):

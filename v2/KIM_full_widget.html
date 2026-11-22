@@ -1518,8 +1518,8 @@ const KIM_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : d.requiredMargin == null ? '현재가 요구 영업이익률' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
-    if (d.requiredMargin == null) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)
+    if (lb && d.base > 0) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : d.requiredMargin == null ? '현재가 요구 영업이익률' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
+    if (d.requiredMargin == null && d.base > 0) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)
       const _ps = 7.67;   // 생성 때 PSR(이 줄 위에서 KIM_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)
       req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'
         + (_ps ? (_ps > 10 ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델 상한(세후 이익률 100% ÷ (할인율 − 영구성장) ≈ 매출의 10배)을 넘는 성장·마진 기대가 들어 있다.` : ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로 모델 상한(≈ 매출의 10배)보다 낮다. 해가 없는 것은 순부채·재투자 가정이 사업 가치를 깎기 때문이다.`) : '.');

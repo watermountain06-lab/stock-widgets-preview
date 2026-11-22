@@ -70,7 +70,8 @@ CONCEPTS = {
 # 종목별로 후보 태그를 바꾸는 개념(CIK). LOW: 이자비용 후보 중 InterestExpenseOther는 순이자 표의 "Other" 한 줄(Q2 2026 $0)이라
 # 이자보상배율이 "이자비용 0" 만점이 됐다 — 손익계산서 "Interest – net"(InterestIncomeExpenseNonoperatingNet, 음수로 실림, 소비처는 절댓값)을 쓴다
 # (MO·PM 순이자 전례, 2026-10-16). 같은 태그를 쓰는 ANET은 공통 안건으로 남겼다.
-CONCEPTS_BY_CIK = {"0000726728": {"interestExpense": ["InterestExpenseOperating", "InterestExpense"]},   # O: 이자비용이 2022-12부터 InterestExpenseOperating(Q3 2026 $333.6M) — InterestExpense는 2024-09에 멈춰 이자보상배율이 "미공시"로 나왔다(Codex·Fable r1 2026-11-19)
+CONCEPTS_BY_CIK = {"0000910606": {"interestExpense": ["InterestIncomeExpenseNonoperatingNet"], "capex": ["PaymentsToDevelopRealEstateAssets"]},   # REG: 이자는 손익계산서 "Interest expense, net"(음수로 실림, 소비처 절댓값) — InterestExpense는 2023-09에 멈춤; 설비투자 = 개발·개량 지출(현금흐름표 한 줄)(2026-11-21)
+                   "0000726728": {"interestExpense": ["InterestExpenseOperating", "InterestExpense"]},   # O: 이자비용이 2022-12부터 InterestExpenseOperating(Q3 2026 $333.6M) — InterestExpense는 2024-09에 멈춰 이자보상배율이 "미공시"로 나왔다(Codex·Fable r1 2026-11-19)
                    "0000779152": {"interestExpense": ["InterestExpenseOperating", "InterestExpense"]},   # JKHY: 이자비용이 2024년부터 InterestExpenseOperating(FY26 $5.4M) — InterestExpense는 2023-12에 멈춤(2026-11-05)
                    "0001140536": {"revenue": ["Revenues"]},   # WTW: 총매출(이자·기타 포함) — 계약 매출 태그와 섞이지 않게(2026-11-05)
                    "0000798354": {"revenue": ["Revenues"]},   # FISV: 위 LATEST_Q_BY_CIK와 짝(2026-11-05)
