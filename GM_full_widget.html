@@ -1089,7 +1089,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 83.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 16.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$103.22</span> <span class="op-sub op-up" data-an="upside">+31.1%</span></span>
       </div>
       <div class="op-cell">
@@ -1175,14 +1175,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 2026 vs Q3 2025)',
     chart: { cur: [50.02, 3.6, 3.34, 4.97], cmp: [48.59, 1.08, 1.33, 4.97] },
     deltas: ['+2.9%', '+234.4%', '+151.3%', '-0.1%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 2.2%로 5년 중앙값(6.3%)보다 낮아 영업이익 증감률이 크게 나온다 · 최근 4분기에는 Q4 2025 EV 생산 능력 축소 비용 약 $6.0B(그 밖에 중국 합작 구조조정 등 비EV 비용 약 $1.1B)가 들어 있다 — EV 비용만 빼도 최근 4분기 영업이익률은 2.3%가 아니라 약 5.5%다. 이 비용 때문에 보고 PER이 높아져 있다 · <a href="https://www.sec.gov/Archives/edgar/data/1467858/000146785826000059/gm-20260930.htm" target="_blank" rel="noopener">GM Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 2.2%로 5년 중앙값(6.3%)보다 낮아 영업이익 증감률이 크게 나온다 · 최근 4분기에는 Q4 2025 EV 생산 능력 축소 비용 약 $6.0B(그 밖에 중국 합작 구조조정 등 비EV 비용 약 $1.1B)가 들어 있다 — EV 비용만 빼도 최근 4분기 영업이익률은 2.3%가 아니라 약 5.5%다. 이 비용 때문에 보고 PER이 높아져 있다 · <a href="https://www.sec.gov/Archives/edgar/data/1467858/000146785826000059/gm-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q3 2026', cmpLabel: 'Q2 2026',
     titleSuffix: 'QoQ (Q3 2026 vs Q2 2026)',
     chart: { cur: [50.02, 3.6, 3.34, 4.97], cmp: [48.03, 1.46, 1.31, 4.41] },
     deltas: ['+4.1%', '+146.6%', '+155.6%', '+12.6%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1467858/000146785826000059/gm-20260930.htm" target="_blank" rel="noopener">GM Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1467858/000146785826000059/gm-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   }
 };
 
@@ -2088,7 +2088,7 @@ const GM_ACTIVITY = {"ticker": "GM", "status": "N/A", "reason": "5년 비교 이
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/gm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const GM_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 23, mean: 103.22, median: 100,
+const GM_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 24, nTargets: 23, mean: 103.22, median: 100,
   low: 75, high: 132, strongBuy: 13, buy: 7, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = GM_ANALYST, last = (typeof GM_DAILY !== 'undefined' && GM_DAILY.length) ? GM_DAILY[GM_DAILY.length - 1] : null;

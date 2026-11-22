@@ -1065,7 +1065,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 90%; background: var(--green);"></div><div data-an-bar="hold" style="width: 10%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$437.22</span> <span class="op-sub op-up" data-an="upside">+93.7%</span></span>
       </div>
       <div class="op-cell">
@@ -1151,14 +1151,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q4 FY26 vs Q4 FY25)',
     chart: { cur: [10.62, 0.6, 0.4, 0.49], cmp: [8.25, 0.34, 0.22, 0.42] },
     deltas: ['+28.6%', '+78.6%', '+82.6%', '+16.2%'],
-    footnote: '기준일: 2026.08.31(Q4 FY26) vs 2025.08.31(Q4 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 4.1%로 5년 중앙값(4.2%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/898293/000162828026067038/jbl-20260831.htm" target="_blank" rel="noopener">Jabil Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.08.31(Q4 FY26) vs 2025.08.31(Q4 FY25) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 4.1%로 5년 중앙값(4.2%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/898293/000162828026067038/jbl-20260831.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q4 FY26', cmpLabel: 'Q3 FY26',
     titleSuffix: 'QoQ (Q4 FY26 vs Q3 FY26)',
     chart: { cur: [10.62, 0.6, 0.4, 0.49], cmp: [8.75, 0.45, 0.28, 0.35] },
     deltas: ['+21.3%', '+35.3%', '+44.7%', '+38.7%'],
-    footnote: '기준일: 2026.08.31(Q4 FY26) vs 2026.05.31(Q3 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/898293/000162828026067038/jbl-20260831.htm" target="_blank" rel="noopener">Jabil Q4 FY26 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.08.31(Q4 FY26) vs 2026.05.31(Q3 FY26) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/898293/000162828026067038/jbl-20260831.htm" target="_blank" rel="noopener">FY2026 10-K (SEC) →</a>'
   }
 };
 
@@ -2074,7 +2074,7 @@ const JBL_ACTIVITY = {"ticker": "JBL", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/jbl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const JBL_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 10, nTargets: 9, mean: 437.22, median: 440,
+const JBL_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Strong Buy', n: 10, nTargets: 9, mean: 437.22, median: 440,
   low: 378, high: 475, strongBuy: 7, buy: 2, hold: 1, sell: 0, strongSell: 0 };
 (function(){
   const A = JBL_ANALYST, last = (typeof JBL_DAILY !== 'undefined' && JBL_DAILY.length) ? JBL_DAILY[JBL_DAILY.length - 1] : null;

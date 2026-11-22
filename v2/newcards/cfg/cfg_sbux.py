@@ -65,7 +65,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Buy', 'n': 36, 'nt': 25, 'mean': 110.64, 'median': 115, 'low': 59, 'high': 141, 'sb': 13, 'b': 2, 'h': 18, 's': 2, 'ss': 1}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 부문 주석 Q3 FY26 7,395.1/1,322.6/587.9 + 본사 17.1,

@@ -67,7 +67,7 @@ NEWS = [
 ]
 BB_TAGS = ['PaymentsForRepurchaseOfEquity']   # 자사주 매입 현금 지급(상반기 $1,100M) — 기본 태그가 없다(Codex r1)
 ANALYST = {'rating': 'Buy', 'n': 21, 'nt': 15, 'mean': 380.2, 'median': 380, 'low': 317, 'high': 436, 'sb': 9, 'b': 3, 'h': 7, 's': 1, 'ss': 1}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 # ── 자동 카드 — 지역 축 6개 멤버(영국·아일랜드는 같은 이름 → 합산). 원문 대조: Q2 2026 2,020/718/632+47/421/408, 1년 전 2,040/634/610+46/430/395(2026-10-22) ──
 AUTO = True

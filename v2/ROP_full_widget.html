@@ -544,8 +544,8 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="ropDcfReq" style="font-size: 22px; color: var(--text3);">—</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="ropConfidenceLabel">밴드 적중률 (645/1221일, 하단우세)</span>
-      <span class="meta-value" id="ropConfidence" style="font-size:22px;color:var(--gold);">52.8%</span>
+      <span class="meta-label" id="ropConfidenceLabel">밴드 적중률</span>
+      <span class="meta-value" id="ropConfidence" style="font-size: 22px; color: var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -570,11 +570,11 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-score" id="ropFundScore">59.7<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="ropPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ropPeerVerdict">싼 편</span></div>
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="ropPeerVerdict">참고·싼 쪽</span></div>
       <div class="logic-score" id="ropPeerScore">77.3<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="ropSelfBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="ropSelfVerdict">싼 편</span></div>
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="ropSelfVerdict">참고·싼 쪽</span></div>
       <div class="logic-score" id="ropSelfScore">86.6<span class="logic-denom">/100</span></div>
     </div>
   </div>
@@ -592,7 +592,7 @@ Chart.overrides.doughnut.animation = false;
         <button class="range-btn" data-range="5Y">5년</button>
       </div>
       <div id="ropMaToggle" style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="color:#d4a017;border-color:#d4a017;">◆ 예상밴드 백테스트</button>
+        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="display:none;color:#d4a017;border-color:#d4a017;">◆ 예상밴드 백테스트</button>
         <button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#0ea5e9;border-color:#0ea5e9;">◆ DCF 시나리오</button>
       </div>
     </div>
@@ -1103,7 +1103,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 36.8%; background: var(--green);"></div><div data-an-bar="hold" style="width: 57.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 5.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$462.67</span> <span class="op-sub op-up" data-an="upside">+0.6%</span></span>
       </div>
       <div class="op-cell">
@@ -1852,7 +1852,7 @@ const ROP_VALUATION = {"peer": {"score": 77.3, "sector": "Information Technology
     : n >= 3 ? '저평가' : n >= 1 ? '적정~저평가' : n > -1 ? '적정' : n > -3 ? '적정~고평가' : '고평가';
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
-      + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
+      + (j[1] == null ? '기권' : '참고')).join('\n')
     + '\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'
     + ` → ${ROP_VERDICT}`
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
@@ -2100,7 +2100,7 @@ const ROP_ACTIVITY = {"ticker": "ROP", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/rop/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const ROP_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 15, mean: 462.67, median: 479,
+const ROP_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 15, mean: 462.67, median: 479,
   low: 335, high: 550, strongBuy: 7, buy: 0, hold: 11, sell: 0, strongSell: 1 };
 (function(){
   const A = ROP_ANALYST, last = (typeof ROP_DAILY !== 'undefined' && ROP_DAILY.length) ? ROP_DAILY[ROP_DAILY.length - 1] : null;
@@ -2127,7 +2127,7 @@ const ROP_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 
   // 배지 말은 칸마다 다르다 — 98.1은 "싸다"가 아니라 "재무가 좋다"는 뜻이다.
   const WORDS = {
     fund: ['우수', '보통', '취약'],   // 대체용. 실제 단어는 아래에서 등급으로 덮어쓴다
-    val:  ['싼 편', '중간', '비싼 편'],
+    val:  ['참고·싼 쪽', '참고·중간', '참고·비싼 쪽'],
   };
   const word = (v, set) => v >= GREEN ? set[0] : v >= RED ? set[1] : set[2];
   const put = (boxId, scoreId, verdictId, v, set, title) => {
@@ -2271,6 +2271,7 @@ function ropBandTone(cp){
   const el = document.getElementById('ropConfidence');
   const label = document.getElementById('ropConfidenceLabel');
   const h = ROP_BAND_HIT;
+  if (el) { el.textContent = '해당 없음'; el.style.color = 'var(--text3)'; if (label) { label.textContent = '밴드 적중률'; label.title = '미완성 카드라 PER 밴드 적중률을 쓰지 않는다(Indicor 지분 이익이 큼)'; } const _fb = document.getElementById('ropFairBand'); if (_fb) { _fb.textContent = '해당 없음'; _fb.style.color = 'var(--text3)'; } return; }
   // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
   if (el && typeof ROP_VALUATION !== 'undefined' && ROP_VALUATION.perNA) {
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

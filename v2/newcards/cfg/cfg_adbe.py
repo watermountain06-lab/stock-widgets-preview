@@ -55,7 +55,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Hold', 'n': 39, 'nt': 25, 'mean': 259.94, 'median': 250, 'low': 187.5, 'high': 373, 'sb': 5, 'b': 4, 'h': 23, 's': 1, 'ss': 6}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-Q 지역별 매출 Q3 FY26 3,974/1,852/934, 1년 전 3,555/1,586/847 = 연결 매출(2026-10-17) ──

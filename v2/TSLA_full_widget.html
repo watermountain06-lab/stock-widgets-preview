@@ -1119,7 +1119,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 45.5%; background: var(--green);"></div><div data-an-bar="hold" style="width: 52.3%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 2.3%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$410.19</span> <span class="op-sub op-up" data-an="upside">+18.6%</span></span>
       </div>
       <div class="op-cell">
@@ -1205,14 +1205,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 2026 vs Q3 2025)',
     chart: { cur: [28.05, 0.72, 0.79, 1.53], cmp: [28.1, 1.62, 1.37, 3.99] },
     deltas: ['-0.2%', '-55.8%', '-42.7%', '-61.6%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 5.8%로 5년 중앙값(7.8%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm" target="_blank" rel="noopener">Tesla Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 5.8%로 5년 중앙값(7.8%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q3 2026', cmpLabel: 'Q2 2026',
     titleSuffix: 'QoQ (Q3 2026 vs Q2 2026)',
     chart: { cur: [28.05, 0.72, 0.79, 1.53], cmp: [28.24, 0.4, 1.11, -1.09] },
     deltas: ['-0.7%', '+80.4%', '-29.4%', '흑자 전환'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm" target="_blank" rel="noopener">Tesla Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   }
 };
 
@@ -2130,7 +2130,7 @@ const TSLA_ACTIVITY = {"ticker": "TSLA", "status": "ok", "asOf": "2026-09-30", "
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/tsla/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const TSLA_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 44, nTargets: 26, mean: 410.19, median: 430,
+const TSLA_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 44, nTargets: 26, mean: 410.19, median: 430,
   low: 24.86, high: 550, strongBuy: 15, buy: 5, hold: 23, sell: 0, strongSell: 1 };
 (function(){
   const A = TSLA_ANALYST, last = (typeof TSLA_DAILY !== 'undefined' && TSLA_DAILY.length) ? TSLA_DAILY[TSLA_DAILY.length - 1] : null;

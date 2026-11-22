@@ -57,7 +57,7 @@ NEWS = [
      '희석 EPS $0.58(1년 전 $0.54) · Nareit FFO $1.15 · 2025년 FFO 전망 $4.62~4.64로 상향 — 다음 날 주가 −3.1%', 'q3old', 'Regency 실적 보도자료 (SEC 8-K)'),
 ]
 ANALYST = {'rating': 'Buy', 'n': 20, 'nt': 15, 'mean': 83.93, 'median': 85, 'low': 76, 'high': 88, 'sb': 7, 'b': 5, 'h': 8, 's': 0, 'ss': 0}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 POST = [r'''
 h = h.replace('순차입금(리스 포함)', '순차입금').replace('차입금·리스 $', '차입금 $')
 h = h.replace('· GAAP 기준 · FCF는 영업현금흐름 − 설비투자(개발·개량) ·', '· GAAP 기준(영업이익 = 매출 − 영업비용, 손상·매각 이익 제외) · FCF는 영업현금흐름 − 설비투자(개발·개량) ·')

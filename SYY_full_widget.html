@@ -544,8 +544,8 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="syyDcfReq" style="font-size: 22px; color: var(--text3);">—</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="syyConfidenceLabel">밴드 적중률 (676/1223일, 하단우세)</span>
-      <span class="meta-value" id="syyConfidence" style="font-size:22px;color:var(--gold);">55.3%</span>
+      <span class="meta-label" id="syyConfidenceLabel">밴드 적중률</span>
+      <span class="meta-value" id="syyConfidence" style="font-size: 22px; color: var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -570,11 +570,11 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-score" id="syyFundScore">33.0<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="syyPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="syyPeerVerdict">중간</span></div>
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="syyPeerVerdict">참고·중간</span></div>
       <div class="logic-score" id="syyPeerScore">60.2<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="syySelfBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="syySelfVerdict">싼 편</span></div>
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="syySelfVerdict">참고·싼 쪽</span></div>
       <div class="logic-score" id="syySelfScore">74.0<span class="logic-denom">/100</span></div>
     </div>
   </div>
@@ -592,7 +592,7 @@ Chart.overrides.doughnut.animation = false;
         <button class="range-btn" data-range="5Y">5년</button>
       </div>
       <div id="syyMaToggle" style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="color:#d4a017;border-color:#d4a017;">◆ 예상밴드 백테스트</button>
+        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="display:none;color:#d4a017;border-color:#d4a017;">◆ 예상밴드 백테스트</button>
         <button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#0ea5e9;border-color:#0ea5e9;">◆ DCF 시나리오</button>
       </div>
     </div>
@@ -1071,7 +1071,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 50%; background: var(--green);"></div><div data-an-bar="hold" style="width: 42.9%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 7.1%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$91.62</span> <span class="op-sub op-up" data-an="upside">+17.2%</span></span>
       </div>
       <div class="op-cell">
@@ -1825,7 +1825,7 @@ const SYY_VALUATION = {"peer": {"score": 60.2, "sector": "Consumer Staples (S&P5
     : n >= 3 ? '저평가' : n >= 1 ? '적정~저평가' : n > -1 ? '적정' : n > -3 ? '적정~고평가' : '고평가';
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
-      + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
+      + (j[1] == null ? '기권' : '참고')).join('\n')
     + '\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'
     + ` → ${SYY_VERDICT}`
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
@@ -2073,7 +2073,7 @@ const SYY_ACTIVITY = {"ticker": "SYY", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/syy/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const SYY_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 14, nTargets: 13, mean: 91.62, median: 91,
+const SYY_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 14, nTargets: 13, mean: 91.62, median: 91,
   low: 84, high: 102, strongBuy: 5, buy: 2, hold: 6, sell: 0, strongSell: 1 };
 (function(){
   const A = SYY_ANALYST, last = (typeof SYY_DAILY !== 'undefined' && SYY_DAILY.length) ? SYY_DAILY[SYY_DAILY.length - 1] : null;
@@ -2100,7 +2100,7 @@ const SYY_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 
   // 배지 말은 칸마다 다르다 — 98.1은 "싸다"가 아니라 "재무가 좋다"는 뜻이다.
   const WORDS = {
     fund: ['우수', '보통', '취약'],   // 대체용. 실제 단어는 아래에서 등급으로 덮어쓴다
-    val:  ['싼 편', '중간', '비싼 편'],
+    val:  ['참고·싼 쪽', '참고·중간', '참고·비싼 쪽'],
   };
   const word = (v, set) => v >= GREEN ? set[0] : v >= RED ? set[1] : set[2];
   const put = (boxId, scoreId, verdictId, v, set, title) => {
@@ -2244,6 +2244,7 @@ function syyBandTone(cp){
   const el = document.getElementById('syyConfidence');
   const label = document.getElementById('syyConfidenceLabel');
   const h = SYY_BAND_HIT;
+  if (el) { el.textContent = '해당 없음'; el.style.color = 'var(--text3)'; if (label) { label.textContent = '밴드 적중률'; label.title = '미완성 카드라 PER 밴드 적중률을 쓰지 않는다(Jetro 인수 종결 대기)'; } const _fb = document.getElementById('syyFairBand'); if (_fb) { _fb.textContent = '해당 없음'; _fb.style.color = 'var(--text3)'; } return; }
   // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
   if (el && typeof SYY_VALUATION !== 'undefined' && SYY_VALUATION.perNA) {
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

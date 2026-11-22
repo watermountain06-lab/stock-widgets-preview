@@ -1083,7 +1083,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 33.3%; background: var(--green);"></div><div data-an-bar="hold" style="width: 66.7%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$167.71</span> <span class="op-sub op-up" data-an="upside">+12.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1169,14 +1169,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 2026 vs Q3 2025)',
     chart: { cur: [8.55, 3.59, 2.78, 2.22], cmp: [5.85, 1.84, 1.47, 1.45] },
     deltas: ['+46.2%', '+95.3%', '+89.1%', '+53.0%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 31.4%로 5년 중앙값(34.1%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/821189/000082118926000227/eog-20260930.htm" target="_blank" rel="noopener">EOG Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · 1년 전 분기 영업이익률이 31.4%로 5년 중앙값(34.1%)보다 낮아 영업이익 증감률이 크게 나온다 · <a href="https://www.sec.gov/Archives/edgar/data/821189/000082118926000227/eog-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q3 2026', cmpLabel: 'Q2 2026',
     titleSuffix: 'QoQ (Q3 2026 vs Q2 2026)',
     chart: { cur: [8.55, 3.59, 2.78, 2.22], cmp: [8.62, 3.53, 2.72, 2.89] },
     deltas: ['-0.8%', '+1.6%', '+2.1%', '-23.2%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/821189/000082118926000227/eog-20260930.htm" target="_blank" rel="noopener">EOG Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/821189/000082118926000227/eog-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   }
 };
 
@@ -2087,7 +2087,7 @@ const EOG_ACTIVITY = {"ticker": "EOG", "status": "N/A", "reason": "5년 비교 �
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/eog/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const EOG_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 33, nTargets: 24, mean: 167.71, median: 167,
+const EOG_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 33, nTargets: 24, mean: 167.71, median: 167,
   low: 144, high: 200, strongBuy: 10, buy: 1, hold: 22, sell: 0, strongSell: 0 };
 (function(){
   const A = EOG_ANALYST, last = (typeof EOG_DAILY !== 'undefined' && EOG_DAILY.length) ? EOG_DAILY[EOG_DAILY.length - 1] : null;

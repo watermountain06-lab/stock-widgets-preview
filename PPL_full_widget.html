@@ -906,7 +906,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="S&amp;P500 유틸리티 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">62.5</div><div class="sc-tile lost" data-vc="peer" data-m="per">50</div><div class="sc-tile" data-vc="peer" data-m="pbr">77</div><div class="sc-tile lost" data-vc="peer" data-m="psr">53</div><div class="sc-tile none" data-vc="peer" data-m="pcr">—</div><div class="sc-tile" data-vc="peer" data-m="evebitda">70</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">PER 20.5배(3.3년 중앙값 25.6배)로 자기 이력 70.5점(싸다), 동종업 62.5점(중간)이다. <strong>현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다</strong>.</div>
-    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다. 현재가를 정당화하려면 영업이익률이 56.9%까지 올라야 한다(최근 4분기 24.1%, 5년 중앙값 21.4%). 내재가치에서 차입금 $20.3B를 빼고 현금·단기투자 $332M를 더한다. 전력망·발전 설비 투자(상반기 $2.3B)가 감가상각보다 훨씬 커서, 큰 차입금(약 $20.3B)을 뺀 현금흐름 모델의 값이 0 아래로 나온다 — 규제 유틸리티는 그 투자가 요금 기준 자산이 되어 이익으로 돌아오는 구조라 현금흐름 모델과 PCR은 의미가 약하다. 2025-11 교환사채 $1.15B와 2026-02 지분단위(후순위채 + 주식 매입 계약)를 발행해 주식 수가 늘 수 있다. 2022-05 로드아일랜드 인수로 5년 매출 성장률이 높게 나온다. Q2 10-Q가 SEC 요약 자료에 아직 없어 원문 인라인 XBRL로 채웠다.</div>
+    <div class="verdict-summary-risk">⚠️ 세 칸이 자기 이력 +1 · 동종업 0 · 현금흐름 −2, 합계 −1 “적정~고평가”이다. 현금흐름 내재가치(기본)는 이 가정에서 0 이하로 나와 현재가 대비 비율을 내지 않는다. 현금흐름 값이 0 이하라 현재가 요구 영업이익률은 해석할 수 없다. 내재가치에서 차입금 $20.3B를 빼고 현금·단기투자 $332M를 더한다. 전력망·발전 설비 투자(상반기 $2.3B)가 감가상각보다 훨씬 커서, 큰 차입금(약 $20.3B)을 뺀 현금흐름 모델의 값이 0 아래로 나온다 — 규제 유틸리티는 그 투자가 요금 기준 자산이 되어 이익으로 돌아오는 구조라 현금흐름 모델과 PCR은 의미가 약하다. 2025-11 교환사채 $1.15B와 2026-02 지분단위(후순위채 + 주식 매입 계약)를 발행해 주식 수가 늘 수 있다. 2022-05 로드아일랜드 인수로 5년 매출 성장률이 높게 나온다. Q2 10-Q가 SEC 요약 자료에 아직 없어 원문 인라인 XBRL로 채웠다.</div>
   </div>
 
   <div class="grid-2">
@@ -1077,7 +1077,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 78.9%; background: var(--green);"></div><div data-an-bar="hold" style="width: 21.1%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 0%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$40.22</span> <span class="op-sub op-up" data-an="upside">+16.1%</span></span>
       </div>
       <div class="op-cell">
@@ -1515,8 +1515,8 @@ const PPL_SCORES = {
                                    : '연 ' + f1(d.requiredGrowth);
   if (req && mMode) {
     const lb = req.closest('.meta-item') && req.closest('.meta-item').querySelector('.meta-label');
-    if (lb) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : d.requiredMargin == null ? '현재가 요구 영업이익률' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
-    if (d.requiredMargin == null) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)
+    if (lb && d.base > 0) lb.textContent = noSol ? '현재가 요구 성장 (마진 100%로도 불가)' : d.requiredMargin == null ? '현재가 요구 영업이익률' : `현재가 요구 영업이익률 (최근 4분기 ${f1(d.marginNow)})`;
+    if (d.requiredMargin == null && d.base > 0) {   // 해 없음: 모델 범위를 툴팁에(v2.1 B-4, 2026-10-05)
       const _ps = 2.77;   // 생성 때 PSR(이 줄 위에서 PPL_VALUATION을 부르면 선언 전 접근으로 스크립트가 멈춘다)
       req.title = '영업이익률을 100%로 올려도 이 모델(할인율 10%·영구성장 2.5%, 지난 성장 경로에서 식는 5년)로는 현재가에 닿지 않는다'
         + (_ps ? (_ps > 10 ? ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로, 모델 상한(세후 이익률 100% ÷ (할인율 − 영구성장) ≈ 매출의 10배)을 넘는 성장·마진 기대가 들어 있다.` : ` — 현재가는 매출의 ${_ps.toFixed(1)}배(PSR)로 모델 상한(≈ 매출의 10배)보다 낮다. 해가 없는 것은 순부채·재투자 가정이 사업 가치를 깎기 때문이다.`) : '.');
@@ -1601,7 +1601,7 @@ const PPL_DCF_GRID = {"waccs": [0.08, 0.09, 0.1, 0.11, 0.12], "terms": [0.015, 0
   if (D.base <= 0) { const _rv = document.querySelector('#dcf .reverse'); if (_rv) _rv.textContent = _XR; }
   fill('[data-dcf-baseeq]', D.baseEquivGrowth != null ? (D.baseEquivGrowth * 100).toFixed(1) + '%' : '—');
   const pc = v => (v * 100).toFixed(1) + '%';
-  if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse').forEach(el => {
+  if (D.reqMode === 'margin' && D.base > 0) document.querySelectorAll('#dcf .reverse').forEach(el => {
     el.innerHTML = `지금 가격(${price != null ? '$' + price.toFixed(2) : '현재가'})이 정당하려면, 매출이 ` + (D.growth5y < 0.0245 ? `연 2.5%(지난 5년 연 ${pc(D.growth5y)}가 영구성장률보다 낮아 하한)로 크는 동안` : `지난 5년 속도(연 ${pc(D.growth5y)})로 크다가 식는 동안`)
       + (D.requiredMargin != null ? ` 영업이익률이 <b>${pc(D.requiredMargin)}</b>여야 한다(지금 ${pc(D.marginNow)}).` : ` 영업이익률을 <b>100%</b>로 올려도 모자란다(지금 ${pc(D.marginNow)}).`)
       + ` 성장만으로는 설명되지 않는다. ` + (D.requiredGrowth != null
@@ -2095,7 +2095,7 @@ const PPL_ACTIVITY = {"ticker": "PPL", "status": "N/A", "reason": "유틸리티�
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ppl/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const PPL_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 18, mean: 40.22, median: 41,
+const PPL_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 19, nTargets: 18, mean: 40.22, median: 41,
   low: 36, high: 44, strongBuy: 11, buy: 4, hold: 4, sell: 0, strongSell: 0 };
 (function(){
   const A = PPL_ANALYST, last = (typeof PPL_DAILY !== 'undefined' && PPL_DAILY.length) ? PPL_DAILY[PPL_DAILY.length - 1] : null;

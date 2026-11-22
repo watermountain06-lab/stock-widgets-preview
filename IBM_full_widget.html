@@ -1117,7 +1117,7 @@ Chart.overrides.doughnut.animation = false;
         <div class="op-dist"><div data-an-bar="buy" style="width: 48%; background: var(--green);"></div><div data-an-bar="hold" style="width: 44%; background: var(--gold);"></div><div data-an-bar="sell" style="width: 8%; background: var(--red);"></div></div>
       </div>
       <div class="op-cell">
-        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-21</span></span>
+        <span class="op-label">평균 목표주가 · <span data-an="asof">2026-11-22</span></span>
         <span class="op-val"><span data-an="mean">$275.88</span> <span class="op-sub op-up" data-an="upside">+22.9%</span></span>
       </div>
       <div class="op-cell">
@@ -1203,14 +1203,14 @@ const FUND_COMPARE = {
     titleSuffix: 'YoY (Q3 2026 vs Q3 2025)',
     chart: { cur: [17.1, 2.72, 2.19, 3.69], cmp: [16.33, 2.53, 1.74, 2.83] },
     deltas: ['+4.7%', '+7.4%', '+25.6%', '+30.6%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000095/ibm-20260930.htm" target="_blank" rel="noopener">IBM Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2025.09.30(Q3 2025) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000095/ibm-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   },
   qoq: {
     curLabel: 'Q3 2026', cmpLabel: 'Q2 2026',
     titleSuffix: 'QoQ (Q3 2026 vs Q2 2026)',
     chart: { cur: [17.1, 2.72, 2.19, 3.69], cmp: [17.16, 2.62, 2.17, 2.37] },
     deltas: ['-0.3%', '+3.9%', '+1.2%', '+56.0%'],
-    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000095/ibm-20260930.htm" target="_blank" rel="noopener">IBM Q3 2026 실적 보도자료 (SEC 8-K) →</a>'
+    footnote: '기준일: 2026.09.30(Q3 2026) vs 2026.06.30(Q2 2026) · GAAP 기준 · FCF는 영업현금흐름 − 설비투자 · <a href="https://www.sec.gov/Archives/edgar/data/51143/000005114326000095/ibm-20260930.htm" target="_blank" rel="noopener">Q3 2026 10-Q (SEC) →</a>'
   }
 };
 
@@ -2126,7 +2126,7 @@ const IBM_ACTIVITY = {"ticker": "IBM", "status": "ok", "asOf": "2026-09-30", "pr
 // ── 투자포인트 탭: 애널리스트 목표가 (출처·기준일 포함) ──
 // 갱신: StockAnalysis 예측 페이지(stockanalysis.com/stocks/ibm/forecast/)의 값과 날짜를 옮긴다.
 // 현재가 대비는 마지막 종가에서 계산한다.
-const IBM_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 24, mean: 275.88, median: 275,
+const IBM_ANALYST = { asOf: '2026-11-22', source: 'StockAnalysis (의견 집계 · 개별 목표가)', rating: 'Buy', n: 25, nTargets: 24, mean: 275.88, median: 275,
   low: 191, high: 375, strongBuy: 9, buy: 3, hold: 11, sell: 1, strongSell: 1 };
 (function(){
   const A = IBM_ANALYST, last = (typeof IBM_DAILY !== 'undefined' && IBM_DAILY.length) ? IBM_DAILY[IBM_DAILY.length - 1] : null;

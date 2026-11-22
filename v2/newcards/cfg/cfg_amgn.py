@@ -92,7 +92,7 @@ BEAR = [('특허·가격', 'Prolia −32%는 바이오시밀러 출시, Otezla �
         ('사건', '7월 사이버 침해로 환자 건강 정보 등 데이터가 빠져나갔다(조사 중, 회사는 재무 영향이 중대하지 않을 것으로 본다).'),
         ('부채', '차입금 $57.3B, 자기자본 $11.7B.')]
 ANALYST = {'rating': 'Hold', 'n': 35, 'nt': 26, 'mean': 447.38, 'median': 460, 'low': 230, 'high': 542, 'sb': 8, 'b': 4, 'h': 18, 's': 2, 'ss': 3}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 PRE = [r'''
 NDPS = ((b.get('debt') or 0) - (b.get('cash') or 0) - (b.get('sti') or 0)) / b['shares']
 ''']

@@ -55,7 +55,7 @@ NEWS = [
 ]
 # fetch_analyst.py가 채운다(한 줄 dict, 줄 뒤 주석 금지)
 ANALYST = {'rating': 'Hold', 'n': 19, 'nt': 17, 'mean': 302.94, 'median': 305, 'low': 250, 'high': 345, 'sb': 5, 'b': 0, 'h': 11, 's': 2, 'ss': 1}
-ANALYST_ASOF = '2026-11-21'
+ANALYST_ASOF = '2026-11-22'
 
 
 # ── 자동 카드 — 부문 지도는 seg_map_propose.py 1판(손 표와 일치). 원문 대조: 10-K 부문 주석 Total segment revenues FY26 14,831.4/7,128.1, FY25 13,883.1/6,690.4,
