@@ -646,6 +646,12 @@ try:
 finally:
     if AUTO:
         one, sub = _one_hard, _sub_hard
+# 현금흐름 0 이하 보정(cfg POST의 const _XR — O·유틸리티 등)을 쓴 카드: 헤더는 '해석 부적합'인데 카드 JS의 마진 모드 분기가 역산 문장을
+# 다시 써서 본문·요약에 요구 영업이익률(KIM 98.3%)이 남았다 — 내재가치 0 이하일 때는 분기를 건너뛰고 요약 문장도 바꾼다(Codex·Fable 2026-11-21, 사용자 승인)
+if 'const _XR' in h and DCF.get('base') is not None and DCF['base'] <= 0:
+    h = h.replace("if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse')", "if (D.reqMode === 'margin' && D.base > 0) document.querySelectorAll('#dcf .reverse')")
+    h = re.sub(r'현재가를 정당화하려면 영업이익률이 [0-9.]+%까지 올라야 한다\([^)]*\)\. ?', '현금흐름 값이 0 이하라 현재가 요구 영업이익률은 해석할 수 없다. ', h)
+    h = re.sub(r'현재가를 정당화하는 영업이익률은 [0-9.]+%로, 최근 4분기[^(]*\([^)]*\)\. ?', '현금흐름 값이 0 이하라 현재가 요구 영업이익률은 해석할 수 없다. ', h)
 # 미완성 카드(cfg INCOMPLETE_SHORT, 2026-11-03 사용자 결정): 화면 JS가 현금흐름 칸에 다시 쓰는 '계산 불가'와 판정 말풍선의 '심판·합계'를
 # '보류(미완성)'·참고 문구로(2026-11-07 사용자 승인 — POST 정적 치환은 JS가 덮어써 FISV·MLM·NSC·PTC·CHRW·SYY·KMB·AWK에 남았다)
 if getattr(C, 'INCOMPLETE_SHORT', None):
@@ -659,6 +665,15 @@ if getattr(C, 'INCOMPLETE_SHORT', None):
     h = h.replace('판정 표에는 넣지 않는다. 미완성 카드다. ', '판정 표에는 넣지 않는다. ')   # cfg 설명 첫 문장과 겹침
     h = h.replace('id="dcfPickValue">계산 불가<', 'id="dcfPickValue">보류(' + _IL + ')<')   # 정적 칸(cfg POST가 이 id를 빠뜨린 MLM·NSC)
     h = re.sub(r'(id="[a-z]+Dcf(?:Verdict|Box)">)계산 불가<', r'\1보류(' + _IL + r')<', h)
+    # 2026-11-21 사용자 승인(Fable UDR r1): 미완성 카드의 참고 점수가 판정처럼 읽히지 않게 — 밴드 적중률·예상밴드(일회성이 섞인 EPS로 만든 PER 밴드)를 숨기고,
+    # 자기 이력·동종업 말(싼 편·비싼 편)과 판정 말풍선의 표(+1·−1)를 '참고'로 둔다. 판정은 원래 보류라 바뀌지 않는다.
+    h = h.replace("  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라", "  if (el) { el.textContent = '해당 없음'; el.style.color = 'var(--text3)'; if (label) { label.textContent = '밴드 적중률'; label.title = '" + _IL + " 카드라 PER 밴드 적중률을 쓰지 않는다(" + C.INCOMPLETE_SHORT.replace("'", "’") + ")'; } const _fb = document.getElementById('" + t + "FairBand'); if (_fb) { _fb.textContent = '해당 없음'; _fb.style.color = 'var(--text3)'; } return; }\n  // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라", 1)
+    h = re.sub(r'(id="[a-z]+ConfidenceLabel">)밴드 적중률 \([^)<]*\)', r'\1밴드 적중률', h, count=1)
+    h = h.replace('data-ma="backtest" style="', 'data-ma="backtest" style="display:none;', 1)
+    h = h.replace("val:  ['싼 편', '중간', '비싼 편'],", "val:  ['참고·싼 쪽', '참고·중간', '참고·비싼 쪽'],", 1)
+    h = re.sub(r'(class="logic-verdict" id="[a-z]+(?:Self|Peer)Verdict">)(싼 편|중간|비싼 편)<', lambda m: m.group(1) + {'싼 편': '참고·싼 쪽', '중간': '참고·중간', '비싼 편': '참고·비싼 쪽'}[m.group(2)] + '<', h)
+    h = h.replace("+ (j[1] == null ? '기권' : sgn(j[1]))).join('\\n')", "+ (j[1] == null ? '기권' : '참고')).join('\\n')", 1)
+    h = re.sub(r'((?:자기 이력|동종업) [0-9.]+ → )(?:[+−]?[0-9]+)(?=\s|&#10;|"|<|$)', r'\1참고', h)
 
 # 숨긴 '추세 구조' 칸: 틀(NVDA)·옛 카드의 52주 저·고점 숫자가 정적 글자로 남지 않게 중립 문장으로(안건 E7·D55, 2026-10-05) — POST의 옛 문장 복원보다 뒤에
 h = re.sub(r'(<div class="card" hidden>\n    <div class="card-title">추세 구조</div>\n    <div style="font-size:12\.5px;color:var\(--text2\);line-height:1\.7;">)(.*?)(\n    </div>\n  </div>)',

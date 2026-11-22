@@ -51,11 +51,9 @@ h = _re.sub(r'잔존가치\(5년 뒤\)가 내재가치의 [0-9,]+%', '잔존가�
 h = _re.sub(r'(id="oDcfReq"[^>]*>)연 -[0-9.]+%', lambda m: m.group(1) + '해석 부적합', h)
 h = _re.sub(r'현재가를 정당화하려면 매출이 5년간 연 [−-][0-9.]+% 커야 한다\. ', '현금흐름 값이 0 이하라 현재가 요구 성장률은 해석할 수 없다. ', h)
 ''']
-# 역산 문장(영업이익률·성장)이 음수 보정 문장을 덮어쓰지 않게 — 내재가치 0 이하면 margin 분기를 건너뛴다(Codex r1, 2026-11-21)
+# 역산 문장 덮어쓰기 방지는 fill.py 공통 처리(const _XR 카드)로 옮겼다(2026-11-21). 아래는 KIM 라벨·출처 문구
 POST.append(r'''
 import re as _re3
-h = h.replace("if (D.reqMode === 'margin') document.querySelectorAll('#dcf .reverse')", "if (D.reqMode === 'margin' && D.base > 0) document.querySelectorAll('#dcf .reverse')", 1)
-h = _re3.sub(r'현재가를 정당화하려면 영업이익률이 [0-9.]+%까지 올라야 한다\([^)]*\)\. ', '현금흐름 값이 0 이하라 현재가 요구 영업이익률은 해석할 수 없다. ', h)
 h = h.replace('순차입금(리스 포함)', '순차입금').replace('차입금·리스 $', '차입금 $')
 h = h.replace('10-Q 부문 표 (SEC)', '10-Q 손익계산서 (SEC)')
 h = h.replace('· GAAP 기준 · FCF는 영업현금흐름 − 설비투자(기존 부동산 개량) ·', '· GAAP 기준(영업이익은 부동산 매각 이익 제외) · FCF는 영업현금흐름 − 설비투자(기존 부동산 개량) ·')

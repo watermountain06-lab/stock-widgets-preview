@@ -544,8 +544,8 @@ Chart.overrides.doughnut.animation = false;
       <span class="meta-value" id="udrDcfReq" style="font-size: 22px; color: var(--text3);">—</span>
     </div>
     <div class="meta-item">
-      <span class="meta-label" id="udrConfidenceLabel">밴드 적중률 (746/1222일, 하단우세)</span>
-      <span class="meta-value" id="udrConfidence" style="font-size:22px;color:var(--gold);">61.0%</span>
+      <span class="meta-label" id="udrConfidenceLabel">밴드 적중률</span>
+      <span class="meta-value" id="udrConfidence" style="font-size: 22px; color: var(--text3);">해당 없음</span>
     </div>
     <div class="meta-item">
       <span class="meta-label">적정주가 (배수 기준)</span>
@@ -570,11 +570,11 @@ Chart.overrides.doughnut.animation = false;
       <div class="logic-score" id="udrFundScore">46.1<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-neutral" id="udrPeerBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="udrPeerVerdict">중간</span></div>
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">동종업 대비</span></span><span class="logic-verdict" id="udrPeerVerdict">참고·중간</span></div>
       <div class="logic-score" id="udrPeerScore">64.2<span class="logic-denom">/100</span></div>
     </div>
     <div class="logic-box logic-positive" id="udrSelfBox">
-      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="udrSelfVerdict">싼 편</span></div>
+      <div class="logic-head"><span class="logic-tag">밸류에이션 <span class="logic-denom">자기 이력 대비</span></span><span class="logic-verdict" id="udrSelfVerdict">참고·싼 쪽</span></div>
       <div class="logic-score" id="udrSelfScore">88.7<span class="logic-denom">/100</span></div>
     </div>
   </div>
@@ -592,7 +592,7 @@ Chart.overrides.doughnut.animation = false;
         <button class="range-btn" data-range="5Y">5년</button>
       </div>
       <div id="udrMaToggle" style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="color:#d4a017;border-color:#d4a017;">◆ 예상밴드 백테스트</button>
+        <button class="ma-toggle-btn ma-off" data-ma="backtest" style="display:none;color:#d4a017;border-color:#d4a017;">◆ 예상밴드 백테스트</button>
         <button class="ma-toggle-btn ma-off" data-ma="dcf" style="color:#0ea5e9;border-color:#0ea5e9;">◆ DCF 시나리오</button>
       </div>
     </div>
@@ -849,7 +849,7 @@ Chart.overrides.doughnut.animation = false;
         </div>
       </div>
 
-      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 임대 수익 −1.1%, 합작 관리·기타 수수료 +34.6% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/74208/000007420826000087/udr-20260930x10q.htm" target="_blank" rel="noopener">Q3 2026 10-Q 손익계산서 (SEC) →</a></div>
+      <div class="yoy-footnote" style="margin-top:14px;">1년 전 같은 분기보다 임대 수익 −1.1%, 합작 관리·기타 수수료 +36.2% · 출처: <a href="https://www.sec.gov/Archives/edgar/data/74208/000007420826000087/udr-20260930x10q.htm" target="_blank" rel="noopener">Q3 2026 10-Q 손익계산서 (SEC) →</a></div>
     </div>
 
     <div class="card" style="margin-bottom:0;">
@@ -901,7 +901,7 @@ Chart.overrides.doughnut.animation = false;
       <div class="vs-name" title="S&amp;P500 부동산 종목들보다 배수가 얼마나 낮은가. 높을수록 싸다.">동종업 대비</div><div class="vs-val" data-vc-score="peer">64.2</div><div class="sc-tile" data-vc="peer" data-m="per">92</div><div class="sc-tile low" data-vc="peer" data-m="pbr">21</div><div class="sc-tile lost" data-vc="peer" data-m="psr">62</div><div class="sc-tile" data-vc="peer" data-m="pcr">88</div><div class="sc-tile lost" data-vc="peer" data-m="evebitda">59</div><div class="vs-pill mid" data-vs-pill="peer">중간</div>
     </div></div>
     <div class="vs-premise">PER 16.7배(5년 중앙값 88.3배)로 자기 이력 88.7점(싸다), 동종업 64.2점(중간)이다.</div>
-    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(부동산 매각 이익이 큼) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다. 최근 4분기 EPS($2.12)의 대부분이 아파트 단지 매각 이익이다 — 매각 이익 $578M은 보통주 순이익 $693M의 약 83%(단순 비교)이고, 유닛 보유자 배분율을 적용한 추정으로도 약 78%다(리츠라 법인세는 거의 없다). 이 이익을 빼면 PER이 몇 배로 커져, 지금 PER과 그것이 들어간 자기 이력·동종업 점수는 실제보다 싸게 보인다 — 그래서 판정을 보류한다. 2026년 연간 전망에도 큰 매각 이익이 들어 있어(전망 EPS $1.58~1.60 중 매각 이익 $1.10) 2026년 1~3분기가 차례로 빠지는 2027년 2·3분기 실적 때 다시 잰다(자동으로 정식이 되지는 않는다). 3분기 매각 이익 $190M에는 내슈빌 단지를 LaSalle 합작에 넣으며 남긴 지분을 다시 잰 이익이 섞여 있다. 리츠는 건물 감가상각이 커서 GAAP 순이익이 실제 현금 창출과 다르고, 업계는 FFO(순이익에 부동산 감가상각을 되더하고 매각 이익을 뺀 값)로 본다 — UDR의 2026년 연간 FFO as Adjusted 전망은 주당 $2.54~2.56이다. 사이트에는 리츠 전용 평가가 아직 없다. 영업이익은 매각 이익을 뺀 값(손상은 포함)으로 쓴다. 2026년 10월 Apollo와 아파트 19곳(약 $2.0B)의 합작을 만들어 Apollo가 약 3분의 2 지분에 $1.34B를 넣었다 — UDR은 3분의 1을 갖고 연결한다(10월 30일 완료라 9월 말 재무상태표에는 아직 없다). 현금은 지분율(UDR 33%·Apollo 67%)대로 나누다가 매각·청산 때 Apollo가 원금과 목표 수익률(처음 7.0%, 뒤에 7.3%·7.6%)을 채우면 나머지가 UDR로 가고, UDR은 5~10년차에 조건부로 Apollo 지분을 되살 권리가 있다. 다음 분기부터 Apollo 몫이 비지배지분으로 잡힌다. 운영 파트너십 유닛(2026년 7월 청산한 DownREIT 교환분 포함, 상환 가능 비지배지분 $799M)은 주식 수에 넣지 않고 EV의 비지배지분으로 더했다 — PSR·PCR은 보통주 시가총액을 연결 매출·FCF와 비교한 값이다. Series E 우선주($43M)는 배수에 빠져 있다(PBR 약 1% 낮게 나옴).</div>
+    <div class="verdict-summary-risk">⚠️ 미완성 카드라 종합 판정을 보류한다(부동산 매각 이익이 큼) — 자기 이력·동종업 점수는 참고용이며 판정 표에는 넣지 않는다. 최근 4분기 EPS($2.12)의 대부분이 아파트 단지 매각 이익이다 — 매각 이익 $578M은 보통주 순이익 $693M의 약 83%(단순 비교)이고, 유닛 보유자 배분율을 적용한 추정으로도 약 78%다(리츠라 법인세는 거의 없다). 이 이익을 빼면 PER이 몇 배로 커져, 지금 PER과 그것이 들어간 자기 이력·동종업 점수는 실제보다 싸게 보인다 — 그래서 판정을 보류한다. 2026년 연간 전망에도 큰 매각 이익이 들어 있어(전망 EPS $1.58~1.60 중 매각 이익 $1.10) 2026년 1~3분기가 차례로 빠지는 2027년 2·3분기 실적 때 다시 잰다(자동으로 정식이 되지는 않는다). 3분기 매각 이익 $190M에는 내슈빌 단지를 LaSalle 합작에 넣으며 남긴 지분을 다시 잰 이익이 섞여 있다. 리츠는 건물 감가상각이 커서 GAAP 순이익이 실제 현금 창출과 다르고, 업계는 FFO(순이익에 부동산 감가상각을 되더하고 매각 이익을 뺀 값)로 본다 — UDR의 2026년 연간 FFO as Adjusted 전망은 주당 $2.54~2.56이다. 사이트에는 리츠 전용 평가가 아직 없다. 영업이익은 매각 이익을 뺀 값(손상은 포함)으로 쓴다. 2026년 10월 Apollo와 아파트 19곳(약 $2.0B)의 합작을 만들어 Apollo가 약 3분의 2 지분에 $1.34B를 넣었다 — UDR은 3분의 1을 갖고 연결한다(10월 30일 완료라 9월 말 재무상태표에는 아직 없다). 현금은 지분율(UDR 33%·Apollo 67%)대로 나누다가 매각·청산 때 Apollo가 원금과 목표 수익률(처음 7.0%, 뒤에 7.3%·7.6%)을 채우면 나머지가 UDR로 가고, UDR은 5~10년차에 조건부로 Apollo 지분을 되살 권리가 있다. 다음 분기부터 Apollo 몫이 비지배지분으로 잡힌다. 운영 파트너십 유닛(2026년 7월 청산한 DownREIT 교환분 포함, 상환 가능 비지배지분 $799M)은 주식 수에 넣지 않고 EV의 비지배지분으로 더했다 — PSR·PCR은 보통주 시가총액을 연결 매출·FCF와 비교한 값이다.</div>
   </div>
 
   <div class="grid-2">
@@ -960,12 +960,12 @@ Chart.overrides.doughnut.animation = false;
         <div class="val-header">
           <span class="val-name">EV/EBITDA <span class="hist-note" data-hist="note"></span></span>
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="val-number" data-hist="cur">18.2x</span>
+            <span class="val-number" data-hist="cur">18.3x</span>
             <span class="hist-badge good" data-hist="badge">5년 중 하위 5%</span>
           </div>
         </div>
         <div class="val-track"><div class="val-fill hist-fill good" data-hist="fill" style="width: 4.5%;"></div></div>
-        <div class="hist-labels"><span data-hist="min">최저 17.6x</span><span data-hist="median">중앙 21.0x</span><span data-hist="max">최고 35.3x</span></div>
+        <div class="hist-labels"><span data-hist="min">최저 17.6x</span><span data-hist="median">중앙 21.1x</span><span data-hist="max">최고 35.4x</span></div>
       </div>
     </div>
 
@@ -1783,7 +1783,7 @@ const UDR_FUNDAMENTAL = {"ticker": "UDR", "basis": "quarter", "asOf": "2026-09-3
 //
 // 갱신: python3 v2/build_peer_score.py UDR --self v2/UDR_multiples.json --card
 /* VALUATION:BEGIN */
-const UDR_VALUATION = {"peer": {"score": 64.2, "sector": "Real Estate (S&P500 28종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 92.3, "rank": 3, "peers": 26}, {"metric": "pbr", "score": 20.8, "rank": 20, "peers": 24}, {"metric": "psr", "score": 61.5, "rank": 11, "peers": 26}, {"metric": "pcr", "score": 87.5, "rank": 2, "peers": 8}, {"metric": "evebitda", "score": 58.8, "rank": 8, "peers": 17}]}, "self": {"score": 88.7, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.9, "percentile": 0.1, "current": 16.72, "min": 16.67, "median": 88.31, "max": 303.95, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 59.7, "percentile": 40.3, "current": 3.59, "min": 2.49, "median": 3.71, "max": 6.07, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 96.3, "percentile": 3.7, "current": 6.56, "min": 6.23, "median": 8.19, "max": 15.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 92.0, "percentile": 8.0, "current": 18.31, "min": 16.61, "median": 22.6, "max": 40.77, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.5, "percentile": 4.5, "current": 18.21, "min": 17.56, "median": 21.02, "max": 35.32, "days": 1255, "currentNote": null}]}};
+const UDR_VALUATION = {"peer": {"score": 64.2, "sector": "Real Estate (S&P500 28종목)", "asOf": ["2026-11-13", "2026-11-13"], "priceSession": null, "metrics": [{"metric": "per", "score": 92.3, "rank": 3, "peers": 26}, {"metric": "pbr", "score": 20.8, "rank": 20, "peers": 24}, {"metric": "psr", "score": 61.5, "rank": 11, "peers": 26}, {"metric": "pcr", "score": 87.5, "rank": 2, "peers": 8}, {"metric": "evebitda", "score": 58.8, "rank": 8, "peers": 17}]}, "self": {"score": 88.7, "window": ["2021-11-22", "2026-11-20"], "perBasis": "diluted", "metrics": [{"metric": "per", "score": 99.9, "percentile": 0.1, "current": 16.72, "min": 16.67, "median": 88.31, "max": 303.95, "days": 1255, "currentNote": null}, {"metric": "pbr", "score": 59.7, "percentile": 40.3, "current": 3.59, "min": 2.49, "median": 3.71, "max": 6.07, "days": 1255, "currentNote": null}, {"metric": "psr", "score": 96.3, "percentile": 3.7, "current": 6.56, "min": 6.23, "median": 8.19, "max": 15.1, "days": 1255, "currentNote": null}, {"metric": "pcr", "score": 92.0, "percentile": 8.0, "current": 18.31, "min": 16.61, "median": 22.6, "max": 40.77, "days": 1255, "currentNote": null}, {"metric": "evebitda", "score": 95.5, "percentile": 4.5, "current": 18.26, "min": 17.61, "median": 21.06, "max": 35.38, "days": 1255, "currentNote": null}]}};
 /* VALUATION:END */
 
 // ── 종합 평가 자동 판정 (2026-09-25 사용자 결정 · 방향 합산) ──
@@ -1823,7 +1823,7 @@ const UDR_VALUATION = {"peer": {"score": 64.2, "sector": "Real Estate (S&P500 28
     : n >= 3 ? '저평가' : n >= 1 ? '적정~저평가' : n > -1 ? '적정' : n > -3 ? '적정~고평가' : '고평가';
   const sgn = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
   const tip = judges.map(j => `${j[0]} ${typeof j[2] === 'number' ? j[2].toFixed(1) : (j[2] ?? '—')} → `
-      + (j[1] == null ? '기권' : sgn(j[1]))).join('\n')
+      + (j[1] == null ? '기권' : '참고')).join('\n')
     + '\n미완성 카드 — 두 점수는 참고값이라 합산하지 않는다'
     + ` → ${UDR_VERDICT}`
     + (lv.label === '매우 싸다' ? '\n⚠ 현금흐름이 "매우 싸다"여도 +1만 준다 — 가장 싼 무리에는 가치 함정이 많았다. 왜 싼지 확인할 것.' : '');
@@ -2098,7 +2098,7 @@ const UDR_ANALYST = { asOf: '2026-11-21', source: 'StockAnalysis (의견 집계 
   // 배지 말은 칸마다 다르다 — 98.1은 "싸다"가 아니라 "재무가 좋다"는 뜻이다.
   const WORDS = {
     fund: ['우수', '보통', '취약'],   // 대체용. 실제 단어는 아래에서 등급으로 덮어쓴다
-    val:  ['싼 편', '중간', '비싼 편'],
+    val:  ['참고·싼 쪽', '참고·중간', '참고·비싼 쪽'],
   };
   const word = (v, set) => v >= GREEN ? set[0] : v >= RED ? set[1] : set[2];
   const put = (boxId, scoreId, verdictId, v, set, title) => {
@@ -2242,6 +2242,7 @@ function udrBandTone(cp){
   const el = document.getElementById('udrConfidence');
   const label = document.getElementById('udrConfidenceLabel');
   const h = UDR_BAND_HIT;
+  if (el) { el.textContent = '해당 없음'; el.style.color = 'var(--text3)'; if (label) { label.textContent = '밴드 적중률'; label.title = '미완성 카드라 PER 밴드 적중률을 쓰지 않는다(부동산 매각 이익이 큼)'; } const _fb = document.getElementById('udrFairBand'); if (_fb) { _fb.textContent = '해당 없음'; _fb.style.color = 'var(--text3)'; } return; }
   // PER 해당 없음(A3): PER 구간 × EPS로 만든 밴드라 적중률·적정주가를 같은 자리에 "해당 없음"으로 둔다.
   if (el && typeof UDR_VALUATION !== 'undefined' && UDR_VALUATION.perNA) {
     el.textContent = '해당 없음'; el.style.color = 'var(--text3)';

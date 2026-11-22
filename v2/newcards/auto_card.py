@@ -41,6 +41,23 @@ def B(v):
     return ("−" if v < 0 else "") + s
 
 
+def seg_raw(M, vals):
+    """부문 표 이름별 원 값(백만 달러, 반올림 전) — sx.table과 같은 묶음(같은 이름 합산, 지도에 없는 멤버는 other). 증감률은 이 값으로 잰다
+    (표시용 0.1백만 반올림 값으로 나누면 작은 부문이 1%p쯤 틀렸다 — KIM 수수료 6.4÷4.7 = +36.2%, 원문 6,422÷4,748 = +35.3%, Codex·Fable 2026-11-21)."""
+    skip = set(M.get("ignore", [])) | set(M.get("adjust", []))
+    out = {}
+    for k, v in vals.items():
+        if k in M["members"]:
+            n_ = M["members"][k][0]
+        elif k in skip:
+            continue
+        else:
+            n_ = M.get("other")
+        if n_:
+            out[n_] = out.get(n_, 0.0) + v / 1e6
+    return out
+
+
 def chg(a, b_, unit="%"):
     """증감 문장 조각. 1년 전 0 이하·부호 바뀜·±50% 넘음은 증감률 대신 말로(가드)."""
     if a is None or b_ is None:
@@ -311,6 +328,7 @@ def apply(C, T):
     ref_adj = abs(getattr(C, "SEG_ADJ", 0) or 0)   # 사람이 확인해 둔 본사·상계 조정의 크기(cfg 원래 값) — 허용 범위의 기준
     C._SEG_ADJ_HAND = getattr(C, "SEG_ADJ", 0) or 0
     C.SEG, C.SEG_ADJ = sx.table(M, cur_v)
+    C._AUTO["seg_raw"] = seg_raw(M, cur_v)
     # 부문 합과 매출의 차이(본사·상계 등)는 남은 값으로 넣되, 매출의 3%를 넘으면 지도가 틀린 것으로 보고 멈춘다(2026-10-10)
     _, _rows = bmh.pick_tag(cik, bmh.FLOW_TAGS["revenue"])
     _rev = {e["end"]: e["val"] for e in bmh.quarterly_flow(_rows, T)}
@@ -334,6 +352,8 @@ def apply(C, T):
                 raise SystemExit(f"{T}: 나머지 줄 '{rem[0]}' 비중 {share:.1%}가 손 표 때({rem[2]:.1%})와 너무 다르다 — SEG_MAP 확인")
             C.SEG = sorted(C.SEG + [(rem[0], round(resid), rem[1])], key=lambda r_: -r_[1])
             C._AUTO["rem_name"] = rem[0]
+            _adj_raw = sum(cur_v.get(k_, 0) for k_ in M.get("adjust", [])) / 1e6
+            C._AUTO["seg_raw"][rem[0]] = _rev[C.CUR] / 1e6 - sum(C._AUTO["seg_raw"].values()) - _adj_raw   # 나머지 줄 원 값(Codex 2026-11-21)
         else:
             C.SEG_ADJ = round(C.SEG_ADJ + resid)
     # 1년 전 표는 그때의 멤버로 — 분야 전체 묶음(all_as)은 1년 전 호출에서 그 시점 제품으로 다시 채워졌다(단종 제품, Codex)
@@ -341,11 +361,14 @@ def apply(C, T):
     Myo["members"] = {k_: v_ for k_, v_ in Myo["members"].items() if k_ in yo_v}
     _yt = sx.table(Myo, yo_v) if yo_v else ([], 0)
     yo_tab = {n: v for n, v, _ in _yt[0]}
+    C._AUTO["seg_yo_raw"] = seg_raw(Myo, yo_v) if yo_v else {}
     _rem = getattr(C, "SEG_MAP", {}).get("remainder")
     if _rem and C.YO in _rev:   # 1년 전 나머지 줄도 조정액을 빼고(Codex), 음수면 비교하지 않는다
         _ry = round(_rev[C.YO] / 1e6 - sum(yo_tab.values()) - _yt[1])
         if _ry >= 0:
             yo_tab[_rem[0]] = _ry
+            _adj_ry = sum(yo_v.get(k_, 0) for k_ in Myo.get("adjust", [])) / 1e6
+            C._AUTO["seg_yo_raw"][_rem[0]] = _rev[C.YO] / 1e6 - sum(v_ for k_, v_ in C._AUTO["seg_yo_raw"].items() if k_ != _rem[0]) - _adj_ry
     C._AUTO["seg_yo"] = yo_tab
     C.RELEASE = {}   # 보도자료 숫자는 쓰지 않는다 — 부문 합 = 매출 대조(fill.py)가 원문과 요약 자료를 잇는다
     C.OPM_RANGE = (-1000, 1000)
@@ -522,6 +545,8 @@ def apply_outside(C, T):
     C.SEG_ADJ = round(resid)
     C._SEG_ADJ_HAND = 0
     C._AUTO["seg_yo"] = {k: round(v) for k, v in yo_v.items()}
+    C._AUTO["seg_raw"] = {k: float(v) for k, v in cur_v.items()}
+    C._AUTO["seg_yo_raw"] = {k: float(v) for k, v in yo_v.items()}
     C.RELEASE = {}
     C.OPM_RANGE = (-1000, 1000)
 
@@ -781,7 +806,8 @@ def texts(C, ns):
         if c_ or not (a and b_ and a > 0 and b_ > 0):
             return c_ or "—"
         return f"{a / b_:.1f}배" if a / b_ >= 2 else f"{(a / b_ - 1) * 100:+.0f}%".replace("-", "−")
-    segs = [f"{n} {segchg(v, yo_tab.get(n))}" for n, v, _ in C.SEG if n in yo_tab]
+    _sr, _syr = A.get("seg_raw", {}), A.get("seg_yo_raw", {})   # 증감률은 반올림 전 값으로(나머지 줄 등 원 값이 없는 이름은 표 값)
+    segs = [f"{n} {segchg(_sr.get(n, v) if n in _syr else v, _syr.get(n, yo_tab.get(n)))}" for n, v, _ in C.SEG if n in yo_tab]
     C.SEG_NOTE = adj_note(C) + ("1년 전 같은 분기보다 " + ", ".join(segs) + " · " if segs and same_len else "") + \
         f'출처: <a href="{C.TENQ}" target="_blank" rel="noopener">{C.TENQ_NAME} 부문 표 (SEC) →</a>'
     rows = {r["metric"]: r["value"] for ax in ns["FUND"]["axes"].values() for r in ax.get("rows", [])}

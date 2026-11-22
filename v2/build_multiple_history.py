@@ -2588,7 +2588,7 @@ DEBT_TOTAL_TAG = {"0000879101": ["NotesPayable", "SecuredDebt"],   # KIM: 무담
 # 우선주·비지배지분은 V에선 빈 목록(0)이다 — 우선주는 PreferredStockValue가 2019년($5,462M)에 멈췄고, 분기말 환산
 # 주식 수(v:SharesOutstandingAsConvertedBasis)가 이미 우선주 환산분을 포함해 EV에 또 더하면 이중 계산이다.
 # 비지배지분은 2011년 값($2M)뿐이다(Fable, 2026-09-27).
-EV_TAGS_BY_CIK = {"0000074208": {"sti": [], "preferred": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # UDR: 비지배지분 = 운영 파트너십 유닛(상환 가능, $799.2M — 7월 청산한 DownREIT 교환분 포함) + 일반 $0.3M; 우선주 태그는 2015에 멈춤 — Series E $43.2M은 nonop_extra 우선주로(2026-11-21)
+EV_TAGS_BY_CIK = {"0000074208": {"sti": [], "preferred": ["PreferredStockSeriesEUdr"], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"]},   # UDR: 비지배지분 = 운영 파트너십 유닛(상환 가능, $799.2M — 7월 청산한 DownREIT 교환분 포함) + 일반 $0.3M; 우선주 = Series E $43.2M — 주식 종류 차원으로만 공시돼 cfg BUILD dim_facts가 빌린 이름으로 싣는다(2026-11-21)
                   "0000879101": {"sti": [], "nci": ["MinorityInterest", "RedeemableNoncontrollingInterestEquityCarryingAmount"], "preferred": ["PreferredStockLiquidationPreferenceValue"]},   # KIM: 단기투자 태그 2010 낡음; 비지배지분 = 일반 $161.5M + 상환 가능(9월 말 0, 전년 말 $24.5M); 우선주 = 청산가치 $483.5M(Class L·M·N — PreferredStockValue는 액면 $19천)(2026-11-21)
                   "0001001250": {"cash": ["CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"], "sti": [], "nci": []},   # EL: 현금은 제한 현금 포함 합계 태그로만($3,198M, 제한 현금 미미) — 현금 태그 2018, 단기투자 2019, 비지배 2022(0)에 멈춤(2026-11-09)
                   "0001489393": {"sti": []},   # LYB: 시장성 증권 $2,094M(MarketableSecuritiesCurrent)은 이미 현금및현금성자산 $3,227M 안에 있다(10-Q 주석 8) — 더하면 두 번(Codex r1, 2026-11-14)
