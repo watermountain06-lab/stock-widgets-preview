@@ -16445,6 +16445,49 @@
           "health_ratios_below_gate"
         ]
       }
+    },
+    {
+      "ticker": "INVH",
+      "name": "Invitation Homes",
+      "sector": "단독주택 임대 리츠",
+      "href": "INVH_full_widget.html",
+      "cardRank": 392,
+      "cardAsOf": "2026-11-20",
+      "listing": {
+        "type": "common"
+      },
+      "price": {
+        "close": 26.23,
+        "prevClose": 26.09,
+        "session": "2026-11-20",
+        "prevSession": "2026-11-19",
+        "status": "fresh"
+      },
+      "shares": {
+        "usEquivalent": 576154556,
+        "method": "sec-dei",
+        "basis": "single",
+        "asOf": "2026-10-28",
+        "filedAt": "2026-10-29",
+        "filing": "10-Q 0001687229-26-000056 dei (v2 카드 엔진 facts)",
+        "status": "ok"
+      },
+      "tier": {
+        "value": null,
+        "raw": "판정 보류",
+        "status": "missing",
+        "note": "v2 카드 판정 보류"
+      },
+      "score": {
+        "status": "available",
+        "total": 50.1,
+        "grade": "보통",
+        "financialsAsOf": "2026-09-30",
+        "valuationAsOf": "2026-11-20",
+        "qualityFlags": [
+          "health_ratios_below_gate"
+        ]
+      }
     }
   ]
 }

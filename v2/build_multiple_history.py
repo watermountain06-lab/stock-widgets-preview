@@ -99,7 +99,8 @@ DDA_PARTS = ["Depreciation", "AmortizationOfIntangibleAssets",
 # 구성요소 목록을 종목별로 바꿔야 하는 회사(CIK). MRK: 무형자산 상각을 분기엔 현금흐름표 "Amortization"
 # (AdjustmentForAmortization, 2026 상반기 $1,915M)으로만 내고 AmortizationOfIntangibleAssets는 10-K 연간뿐이라,
 # 분기 EBITDA에서 상각이 빠져 EV/EBITDA가 43배로 부풀었다(Fable, 2026-09-30). 연간 태그는 빼야 두 번 세지 않는다.
-DDA_PARTS_BY_CIK = {"0000310158": ["Depreciation", "AdjustmentForAmortization"],
+DDA_PARTS_BY_CIK = {"0001687229": ["Depreciation"],   # INVH: Depreciation 태그가 감가상각·상각 합계(손익계산서 "Depreciation and amortization" — 인수 사업 무형 상각 포함)라 무형·금융리스 상각을 또 더하면 두 번 센다(Q3 195.8 → 201.7, Codex r1 2026-11-21)
+                    "0000310158": ["Depreciation", "AdjustmentForAmortization"],
                     "0000922224": ["Depreciation", "AdjustmentForAmortization"],   # PPL: 손익계산서 감가상각 + 현금흐름표 상각(규제자산·무형, 상반기 $65M) — 감가상각만 읽으면 EBITDA에서 상각이 빠진다(2026-10-30)
                     # GRMN: 합산 태그 없음 — 감가상각 + 상각(AdjustmentForAmortization, 분기 약 $10M; AmortizationOfIntangibleAssets는 연간만, Fable·Codex r1 2026-10-28)
                     "0001121788": ["Depreciation", "AdjustmentForAmortization"],
@@ -978,6 +979,7 @@ SUM_TAGS_BY_CIK = {# AEP: 설비투자는 공사 지출(PaymentsForConstructionI
                    "0000821189": {"PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOilAndGasPropertyAndEquipment",
                                                                               "PaymentsToAcquireOtherPropertyPlantAndEquipment"]}}
 EXTRA_TAGS = {
+    "0001687229": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToAcquireOtherProductiveAssets"]},   # INVH: 순이익 = 보통주 귀속, 설비투자 = "Other capital expenditures"(기존 주택 개량 — PaymentsForCapitalImprovements는 초기 리노베이션이라 다른 항목; 인수·초기 리노베이션 $197M·택지·합작 투자 제외)(Codex r1, 2026-11-21)
     "0000034903": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsForCapitalImprovements"]},   # FRT: 순이익 = 보통주 귀속(PREFER_TAGS), 설비투자 = "Capital expenditures - other"(기존 부동산 개량, 회사 고유 태그 → cfg company_tags, 9개월 $89.9M — 개발·재개발 $128.1M·인수 $85.4M 제외)(2026-11-21)
     "0000912595": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["CapexImprovementsMaa"]},   # MAA: 순이익 = 보통주 귀속(PREFER_TAGS), 설비투자 = 기존 부동산 개량(9개월 $275.7M — 개발 $213.8M·인수 $59.1M 제외, O·KIM·UDR 선례). 이 태그(PaymentsForCapitalImprovements)는 2021년 3분기 10-Q까지 개발비를 포함했고 FY2021 10-K부터 개량만 — 2022년 이후 공시(재작성 비교 수치 포함)의 값만 cfg company_tags가 CapexImprovementsMaa 이름으로 싣는다(1~9월 2021 처음 388.4 → 재작성 208.6, Fable r1)(2026-11-21)
     "0000910606": {"NetIncomeLoss": ["NetIncomeLossAvailableToCommonStockholdersBasic"], "PaymentsToAcquirePropertyPlantAndEquipment": ["PaymentsToDevelopRealEstateAssets"]},   # REG: 순이익 = 보통주 귀속(우선주 배당 뒤, PREFER_TAGS), 설비투자 = 현금흐름표 "Real estate development and capital improvements"(개발과 개량이 한 줄, 9개월 $317.7M — DLR 선례, 인수 $58.4M 제외)(2026-11-21)
@@ -1100,7 +1102,10 @@ EXTRA_TAGS = {
 # InterestExpenseNonoperating) + "Other (income) expense, net"(탈크 소송·인수 비용·연금·증권 손익 포함 — 2025 Q1 탈크
 # 충당금 환입 $7.2B가 여기 있다). Q2 2026: 세전 6,747 − (219 − 281 − 331) = 7,140 = 매출 25,310 − 매출원가 8,051
 # − 판관비 6,432 − R&D 3,653 − 구조조정 34(10-Q 대조, 2026-09-28). 구조조정·IPR&D 손상은 영업으로 둔다.
-DERIVED_OPINC = {# FRT: 영업이익 줄에 부동산 매각 이익과 신시장 세액공제(NMTC) 거래 이익이 들어 있다(둘 다 회사 고유 태그 — cfg company_tags가 빌린 이름으로 싣는다; 2022 전 이름은 frt:GainOnSaleOfRealEstateAndChangeInControlOfInterest) — 뺀다(KIM·UDR 방식).
+DERIVED_OPINC = {# INVH: 손익계산서에 영업이익 줄이 없다(비용 합계 안에 이자비용) — 영업이익 = 매출 − 비용 합계 + 이자비용(O 방식 — 재해·손상은 영업 안, 매각 이익·합작 손익·채무 조정 손실은 밖). 이자 태그는 2023부터 InterestExpenseOperating.
+                 # Q3 2026 731,278 − 664,164 + 92,045 = 159,159(10-Q, 2026-11-21)
+                 "0001687229": (["Revenues"], [(["CostsAndExpenses"], 1), (["InterestExpenseOperating", "InterestExpense"], -1)]),
+                 # FRT: 영업이익 줄에 부동산 매각 이익과 신시장 세액공제(NMTC) 거래 이익이 들어 있다(둘 다 회사 고유 태그 — cfg company_tags가 빌린 이름으로 싣는다; 2022 전 이름은 frt:GainOnSaleOfRealEstateAndChangeInControlOfInterest) — 뺀다(KIM·UDR 방식).
                  # Q3 2026 116,855 − 473 − 0 = 116,382(10-Q, 2026-11-21)
                  "0000034903": (["OperatingIncomeLoss"], [(["GainOnSaleFrt", "GainLossOnSaleOfProperties"], 1, True), (["NmtcIncomeFrt"], 1, True), (["DeconsolidationGainFrt"], 1, True)]),   # 2021 이전 10-K 연간 매각 이익은 us-gaap 태그, 2022~2023 합작 연결 제외 이익(frt:DeconsolidationOfVIEGainLossAmount)도 영업이익 안
                  # MAA: 손익계산서에 영업이익 줄이 없다(비용 사이에 이자·매각 이익·기타 영업외가 섞임) — 영업이익 = 세전이익 + 이자비용 − 부동산 매각 이익 − 기타 영업외 수익
@@ -1521,7 +1526,8 @@ EXCLUDE_TAGS = {"0000912595": ("DepreciationDepletionAndAmortization", "Payments
 # PFE: 2024년 10-K부터 RevenueFromContractWithCustomerExcludingAssessedTax를 제품 매출만(FY2023 $50.9B)으로 다시 정의했다 —
 # 총매출 Revenues(FY2023 $58.5B)와 같은 날 공시돼 앞 태그가 이겨 2023년 4분기가 $6.7B(실제 $14.2B)로 나왔다. 2021년 분기는
 # Revenues가 없어 옛 태그를 쓴다(그때는 총매출과 같은 값, 2026-10-02).
-PREFER_TAGS = {"0000034903": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # FRT(2026-11-21)
+PREFER_TAGS = {"0001687229": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # INVH(2026-11-21)
+               "0000034903": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # FRT(2026-11-21)
                "0000912595": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # MAA(2026-11-21)
                "0000910606": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # REG(2026-11-21)
                "0000074208": ("NetIncomeLossAvailableToCommonStockholdersBasic",),   # UDR: 보통주 귀속 순이익(EXTRA_TAGS, 2026-11-21)
